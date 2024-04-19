@@ -1,86 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AB4D130E20;
-	Fri, 19 Apr 2024 17:34:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD50225CF;
+	Fri, 19 Apr 2024 18:45:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713548072; cv=none; b=V+QZnKSbI37jhTISW6rTngDXMKXh7d7TZmGz6r6pyIZ3WUVUhrP5qTVfHOFr8MFYeOY6fj2dgg1I4eMcnA+O9A+l2Clf0ykXcj1fpB3CdsXxduhRSZQBnT4us4uLwQ0CvZiOa9Dw5DKuLiZmWglNBT2F4/m/YaKXYqSc9NYpXEA=
+	t=1713552345; cv=none; b=Bqk3fd+PQkfb900tSbCjDE5TdLkkj083tqHd/5e61p1ypxi/tkFoDJxv7E282GcoPozT7VKiKto+3SrktjQCkAHs5od4qHxver/7VTQGkbTGE4yQHestBKDaC1HDSmXGDJDh1ret6sXgZ4Es8QiuWJK0xqjNnuo2a0TrQnPp7m4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713548072; c=relaxed/simple;
-	bh=T5zVCIITP/wX9S8rlRsdZ/1DLYcJwklmwpbYROHRq4E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HCDmPy7G1ymaRkGxYwAMyZL8tyqCRGaAb0IN6ljadk9RJ3aE506nEmBu5ZxZDhuL0UkXlKdQcOkfOS4jx1TbgsGjHF7xsg42EmwUWXflj6wKI7st0i29/yul7Y8zEShnqbOvQ2Yl6o7uGNHtdIurAxikHEKxImmhwEkfm1E6now=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=baibHG+R; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713552345; c=relaxed/simple;
+	bh=TRulkkAOvsGRfjsQewped+Ly0aSe8u9aY8qD+MMGqPI=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=reNkSt69FBGMWu1R0xiTajG18SwZp+SLm7uCnNeV93msOXgx3qe/Nm7IRTo/xy0L+4usZlO3LMaiymgtmlWu6GBZscV92XJKpoAdDTyMBR1WEToM3Ul3Jo1i+lAylHUxoxBlyLfPLCRJbcrFmxux8f2Zcd98oUbzWLgtRGWmOIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=CNTgdd1M; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="baibHG+R"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91CA1C2BD11;
-	Fri, 19 Apr 2024 17:34:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713548072;
-	bh=T5zVCIITP/wX9S8rlRsdZ/1DLYcJwklmwpbYROHRq4E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=baibHG+RzI0GfDlkaJMVUfv2BZtCAK63VLlj1hmQt8DV48IlzX9GerHApxrtwg+at
-	 swp7cwWJU1CXeklWh3K96nry4/R0KNRn64ePRjmca4qLyRvBWpyX1t74pCdmOp3V7V
-	 lGnNwQbZ05qUhP9gUUX1DHof19/Y95HEwOYAOyaF8dZ3Fai3zaBUmGEwANHvEQrtTg
-	 vzf8cQ3eqJlNgMxStBC4kGSns1KfkfCZvcGqfEKd/2mmtRecxoU3qjQk6/T0ZeHM+j
-	 bVZfymhGnzIxRkuK2DuoYkKe0cNSdBQjYD8rUB3GIpLpkV3Ee+dD07Rf9Wp7ga9qj3
-	 DPD0H9T7tML9A==
-Date: Fri, 19 Apr 2024 10:34:29 -0700
-From: Josh Poimboeuf <jpoimboe@kernel.org>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Peter Zijlstra <peterz@infradead.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH 1/2] cpu: Re-enable CPU mitigations by default for !X86
- architectures
-Message-ID: <20240419173429.dj6nzgg3t23f52ol@treble>
-References: <20240417001507.2264512-1-seanjc@google.com>
- <20240417001507.2264512-2-seanjc@google.com>
- <20240419160537.namt5yaxhhvwwa3r@treble>
- <ZiKgAh1aNBGHpOof@google.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CNTgdd1M"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	MIME-Version:Message-ID:References:In-Reply-To:Subject:CC:To:From:Date:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=TRulkkAOvsGRfjsQewped+Ly0aSe8u9aY8qD+MMGqPI=; b=CNTgdd1MuSz3QNZBgNyK++zRA8
+	IJCzl9muTPkk0MydVImRTa0dpivKn7Dbi1kcYJH3iJzoWJZBE0lG6owXlMrn99Ek6WSIT8Vhuxiwn
+	8n3toDSKggCO04GXUpRkuvZRnoKujay3W9tIqazCJTtqsiwCrYwUdEPQW8XRCDw5TTrDYD2cjfhXf
+	QLHOpGNeKBvSxoEK/VM7RHlNPAs2wkvlCCrO6pGiG8fRHUlNcT58B08uI5I6xvr52LVhiJ0ychxPy
+	9kBjqE02y5l4F6PhemUgLGn2HgJWe8BmPp21xtRCiekrbuCg2mGo8DV8OB/s/ZdQMZjYS5Yqu9VVy
+	4AMVwlag==;
+Received: from [154.49.97.68] (helo=[127.0.0.1])
+	by casper.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rxtEg-00000008IaG-2MiK;
+	Fri, 19 Apr 2024 18:45:23 +0000
+Date: Fri, 19 Apr 2024 19:43:43 +0100
+From: David Woodhouse <dwmw2@infradead.org>
+To: "Chen, Zide" <zide.chen@intel.com>, Jack Allister <jalliste@amazon.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Sean Christopherson <seanjc@google.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Shuah Khan <shuah@kernel.org>
+CC: Paul Durrant <paul@xen.org>, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_2/2=5D_KVM=3A_selftests=3A_Add_KVM/PV_c?=
+ =?US-ASCII?Q?lock_selftest_to_prove_timer_drift_correction?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <17F1A2E9-6BAD-40E7-ACDD-B110CFC124B3@infradead.org>
+References: <20240408220705.7637-1-jalliste@amazon.com> <20240408220705.7637-3-jalliste@amazon.com> <3664e8ec-1fa1-48c0-a80d-546b7f6cd671@intel.com> <17F1A2E9-6BAD-40E7-ACDD-B110CFC124B3@infradead.org>
+Message-ID: <65FF4D51-05A8-42E0-9D07-6E42913CC75E@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZiKgAh1aNBGHpOof@google.com>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
-On Fri, Apr 19, 2024 at 09:46:58AM -0700, Sean Christopherson wrote:
-> > It seems confusing to have two config options which have very similar
-> > names and similar purposes (with subtle differences depending on the
-> > arch).
-> > 
-> > How about we instead just get rid of the x86-specific
-> > SPECULATION_MITIGATIONS and replace it with a menu which depends on
-> > CPU_MITIGATIONS:
-> 
-> Huh, didn't realize that was possible.
-> 
-> I agree that having two things for the same thing is confusing, though Boris'
-> idea to do s/SPECULATION_MITIGATIONS/X86_CPU_MITIGATIONS would help a fair bit
-> on that front.
-> 
-> My only hesitation is that x86's menu and the common config knob end up in
-> completely different locations.
+On 19 April 2024 19:40:06 BST, David Woodhouse <dwmw2@infradead=2Eorg> wrot=
+e:
+>On 19 April 2024 18:13:16 BST, "Chen, Zide" <zide=2Echen@intel=2Ecom> wro=
+te:
+>>I'm wondering what's the underling theory that we definitely can achieve
+>>=C2=B11ns accuracy? I tested it on a Sapphire Rapids @2100MHz TSC freque=
+ncy,
+>>and I can see delta_corrected=3D2 in ~2% cases=2E
+>
+>Hm=2E Thanks for testing!
+>
+>So the KVM clock is based on the guest TSC=2E Given a delta between the g=
+uest TSC T and some reference point in time R, the KVM clock is expressed a=
+s a(T-R)+r, where little r is the value of the KVM clock when the guest TSC=
+ was R, and (a) is the rate of the guest TSC=2E
+>
+>When set the clock with KVM_SET_CLOCK_GUEST, we are changing the values o=
+f R and r to a new point in time=2E Call the new ones Q and q respectively=
+=2E
+>
+>But we calculate precisely (within 1ns at least) what the KVM clock would=
+ have been with the *old* formula, and adjust our new offset (q) so that at=
+ our new reference TSC value Q, the formulae give exactly the same result=
+=2E
+>
+>And because the *rates* are the same, they should continue to give the sa=
+me results, =C2=B11ns=2E
+>
+>Or such *was* my theory, at least=2E=20
+>
+>Would be interesting to see it disproven with actual numbers for the old+=
+new pvclock structs, so I can understand where the logic goes wrong=2E
+>
+>Were you using frequency scaling?
+>
 
-I'm thinking this is a minor issue because CPU_MITIGATIONS is enabled by
-default, so it should almost always be enabled unless the user disables
-it, in which case they wouldn't be looking for the x86-specific
-mitigations anyway.
-
-Regardless it seems very common for a menu "depends on" to be in a
-different file.  We could put CPU_MITIGATIONS in arch/Kconfig which is a
-fairly logical place for the dependency.
-
--- 
-Josh
+Oh, also please could you test the updated version I posted yesterday, fro=
+m https://git=2Einfradead=2Eorg/?p=3Dusers/dwmw2/linux=2Egit;a=3Dshortlog;h=
+=3Drefs/heads/clocks
