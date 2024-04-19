@@ -1,103 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 044512B2D7;
-	Fri, 19 Apr 2024 14:38:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79EE512EBFB;
+	Fri, 19 Apr 2024 15:00:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713537534; cv=none; b=phc0w5Rq6WyTvxAVDYsSuErlji0gGQrKTyPAnr8VG9QA+ijXIRsEbO/0I/0XKfvYCfcOjoafeR3Do2lV3wItsyK0CnXZxKqy0MCCQWCQIqUeapBzvf61o30lQxATRo56rc8sGOxJmGMNTeNRp4Ov04ct8Sc+nlPo5EABxMExG6k=
+	t=1713538860; cv=none; b=lUfh5H7/816MiwwwWNK6TI3wtUYeN0q8OrAIcBBSHCJYZ4ofMazP4KN57uQKrYXeGA9I/4lAKaDkBIgOv1IdTfcKiWBVK/UYzsOYQTZkmX6/EPAgzTDkZKqYrlQ8fVPnHUXbIb9fbb0SNxj8xgU6jRJN6hSKMudY2WoMLRHkhRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713537534; c=relaxed/simple;
-	bh=HaHW8LOM7CzKYKcJLEDAbtk0kNe6pNRRkCefhatJTL0=;
+	s=arc-20240116; t=1713538860; c=relaxed/simple;
+	bh=VcV7xfoTJ9227YQD/z0yt9fkY2IHDLlUoTcjM/rtbmw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vBNUouwzbXw5f5+cYvnoSZBP+da+jLT5YG9Kz0ANBp+P/ZbroalnsdYbusUQknvsQTSbEZSCwJcbKyEyqtr6IqXzmHycMB6cIXluZouAYxHkXZP0HZrGE4A14DMIFRGT51rNqr+JCg74k926xN5qRRJYt9hJnGRCq51O2G34yww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SuC/adN8; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SuC/adN8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EAF7C072AA;
-	Fri, 19 Apr 2024 14:38:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713537533;
-	bh=HaHW8LOM7CzKYKcJLEDAbtk0kNe6pNRRkCefhatJTL0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SuC/adN8zf/JDG9shHoubRIOiGr8+e3T+cmz3cSQBxc1sRisROcD1PalPMEM1+H3W
-	 Vd6BevhpgR7mhl7DO2NMfRRSe6BXR/wVujj42nN/4G+fL+JONDvCzJMP3wP579Fpsw
-	 cgyJUtLLAQDxAvH3Ly3pt4v2Y2PgZvmwLa2RzXTuTudFsnoa2zaRHtz2XXKih66UlP
-	 AzYaOEH6gkaaF7QE2I6XX8jPYiaeKRMWv0vdVDNTa9H4OgS/1y5ZwOXm7ndFEtt+2V
-	 KCwi7ssV9O6ndE5yCOD0aFxRcFd2qz0vTgt5OnIE1YtwbPrH2KAMfKevsHFhvkTpH3
-	 dHBYKIhHWK5ZA==
-Date: Fri, 19 Apr 2024 15:38:46 +0100
-From: Will Deacon <will@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=rWTI6C/qpF12tGIAXulgIkybc4t2Z9u0NEFOWd1lh8kn/VCUKgBr+c2f0FKebzLotHMhnySA7Q3bP5ttWvp2e4ngV5oclRrVMW+V7Mmmh+4/sfL85J+f5mGK5zwOYnGOvT2jktugIWa80Rfxc0K1DJ4D7S7o33yWgRIecpOBCco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 0E50E40E0177;
+	Fri, 19 Apr 2024 15:00:56 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id 1MKbSardtkwA; Fri, 19 Apr 2024 15:00:53 +0000 (UTC)
+Received: from zn.tnic (pd953020b.dip0.t-ipconnect.de [217.83.2.11])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id BDE1540E00B2;
+	Fri, 19 Apr 2024 15:00:39 +0000 (UTC)
+Date: Fri, 19 Apr 2024 17:00:33 +0200
+From: Borislav Petkov <bp@alien8.de>
 To: Sean Christopherson <seanjc@google.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
 	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>, linux-doc@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Peter Zijlstra <peterz@infradead.org>, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-	Daniel Sneddon <daniel.sneddon@linux.intel.com>,
-	linuxppc-dev@lists.ozlabs.org, linux-arch@vger.kernel.org,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 1/3] x86/cpu: Actually turn off mitigations by default
- for SPECULATION_MITIGATIONS=n
-Message-ID: <20240419143846.GA3508@willie-the-truck>
-References: <20240409175108.1512861-1-seanjc@google.com>
- <20240409175108.1512861-2-seanjc@google.com>
- <20240413115324.53303a68@canb.auug.org.au>
- <87edb9d33r.fsf@mail.lhotse>
- <87bk6dd2l4.fsf@mail.lhotse>
- <CAMuHMdWD+UKZAkiUQUJOeRkOoyT4cH1o8=Gu465=K-Ub7O4y9A@mail.gmail.com>
- <Zh06O35yKIF2vNdE@google.com>
- <20240419140321.GF3148@willie-the-truck>
- <ZiJ6SDcbTBQjrG3r@google.com>
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH 2/2] cpu: Ignore "mitigations" kernel parameter if
+ CPU_MITIGATIONS=n
+Message-ID: <20240419150033.GBZiKHEUVzwz1LUDS5@fat_crate.local>
+References: <20240417001507.2264512-1-seanjc@google.com>
+ <20240417001507.2264512-3-seanjc@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ZiJ6SDcbTBQjrG3r@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20240417001507.2264512-3-seanjc@google.com>
 
-On Fri, Apr 19, 2024 at 07:06:00AM -0700, Sean Christopherson wrote:
-> On Fri, Apr 19, 2024, Will Deacon wrote:
-> > On Mon, Apr 15, 2024 at 07:31:23AM -0700, Sean Christopherson wrote:
-> > > On Mon, Apr 15, 2024, Geert Uytterhoeven wrote:
-> > > Oof.  I completely missed that "cpu_mitigations" wasn't x86-only.  I can't think
-> > > of better solution than an on-by-default generic Kconfig, though can't that it
-> > > more simply be:
-> > > 
-> > > diff --git a/drivers/base/Kconfig b/drivers/base/Kconfig
-> > > index 2b8fd6bb7da0..5930cb56ee29 100644
-> > > --- a/drivers/base/Kconfig
-> > > +++ b/drivers/base/Kconfig
-> > > @@ -191,6 +191,9 @@ config GENERIC_CPU_AUTOPROBE
-> > >  config GENERIC_CPU_VULNERABILITIES
-> > >         bool
-> > >  
-> > > +config SPECULATION_MITIGATIONS
-> > > +       def_bool !X86
-> > > +
-> > >  config SOC_BUS
-> > >         bool
-> > >         select GLOB
-> > 
-> > I can't see this in -next yet. Do you plan to post it as a proper patch
-> > to collect acks etc?
-> 
-> Sorry, I neglected to Cc everyone.
-> 
-> https://lore.kernel.org/all/20240417001507.2264512-2-seanjc@google.com
+On Tue, Apr 16, 2024 at 05:15:07PM -0700, Sean Christopherson wrote:
+> Explicitly disallow enabling mitigations at runtime for kernels that were
+> built with CONFIG_CPU_MITIGATIONS=n, which currently is possible only on
+> x86 (via x86's SPECULATION_MITIGATIONS menuconfig).
 
-Ah, thanks. I'll go Ack that...
+Hm, so the umbrella term is CPU_MITIGATIONS, the x86-one is
+SPECULATION_MITIGATIONS.
 
-Will
+I wanna streamline our namespacing and say, the arch agnostic term
+should be CPU_MITIGATIONS and the x86 one should be then
+X86_CPU_MITIGATIONS, the Arm one would be ARM_CPU_MITIGATIONS and so on.
+
+This way we can stick all kinds of special mitigations code - not only
+speculative execution ones - under those config items and have it all
+straight from the get-go.
+
+And I think we should do it now, before it all propagates down the tree
+and becomes a lot harder to rename.
+
+Thoughts?
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
