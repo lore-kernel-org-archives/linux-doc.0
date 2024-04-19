@@ -1,182 +1,166 @@
-Received: from zg8tmtyylji0my4xnjeumjiw.icoremail.net (zg8tmtyylji0my4xnjeumjiw.icoremail.net [162.243.161.220])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04AF77F7C3;
-	Fri, 19 Apr 2024 10:58:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.161.220
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713524314; cv=none; b=sfvGX83J1aroVbCy7bkKn2J34Ke4g6qdc0rgcAAo6vESMpLJrtb1XVi84l2wZfJl9aNVBRbf5Av7zrrRq6+F9gA2CkRlhBAO77omhrVmIk7LD/d8D1bw6gI4cBeuvPrd1AWMkBhBgvrRthbbrWvIh87Yja6UwRyywXSg44QLfHA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713524314; c=relaxed/simple;
-	bh=Aq/sQXCxpV3k/sBWHhD3DFX0HiAEwV7Jy1651p9TIuo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=pH7bnhinR9PdNE6+u5MdBsMAtCKy1GAJKN30jz7Pyw0rguJ1mka4LESraOXGtLOSXFNxG11Q0BhJ4UOuI55xRL/uYuvcRK8KQ+f/B40IJjbjAka6GdLAHU6va8EGGKmzX1VELqfh/YMHDb8a1+Rn4Jy3t8Lvb/pu284n102Hsjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=162.243.161.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app1 (Coremail) with SMTP id HgEQrAAH6KgUTiJmkIkwBQ--.51748S2;
-	Fri, 19 Apr 2024 18:57:24 +0800 (CST)
-Received: from pride-poweredge-r740.. (unknown [222.20.126.129])
-	by gateway (Coremail) with SMTP id _____wCXkL8MTiJmjw63AQ--.2983S2;
-	Fri, 19 Apr 2024 18:57:22 +0800 (CST)
-From: Dongliang Mu <dzm91@hust.edu.cn>
-To: Alex Shi <alexs@kernel.org>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] docs/zh_CN: add process/cve Chinese translation
-Date: Fri, 19 Apr 2024 18:56:59 +0800
-Message-Id: <20240419105713.2427146-1-dzm91@hust.edu.cn>
-X-Mailer: git-send-email 2.34.1
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 410CE8004B;
+	Fri, 19 Apr 2024 11:02:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713524569; cv=fail; b=qo3BfVhpthrntBhBdVNWUzQL3ntXvX+w6Hibi8RMuNFpqf9wbz+SbUv2+mdCAm0/lyCuxQ1Y3kPDN6fjMtPPePJw5s3wZ4VfLjPaWFLVwmRSXAxiNHWPmtgzueiSuTBeDz3Ka1YL+lQZ2dwsMX0ndhgaZ8nu6DRq2cVzGkjV1DQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713524569; c=relaxed/simple;
+	bh=21NuqLKztBTqn8wlxcqiwqAQYb7yLyALLYUi47Ae9dM=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=K/+UAbS2D2lF5BAm9uxTS9C5RcztbRWGUWmr8gDR+cNYj77g3NCjwAAYUnxebk9tWmyHCdEJym0VU3HFIm7Id1H+jgBvfNAUBchB3jR1M+sunwEVd0wVvkXaSEIIaNhD4mcUEz+E5wLP3HPzy/PoGP9r1WeTsnDCvAIGk23PWEE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QyxaNGkZ; arc=fail smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QyxaNGkZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713524567; x=1745060567;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=21NuqLKztBTqn8wlxcqiwqAQYb7yLyALLYUi47Ae9dM=;
+  b=QyxaNGkZ/pprgoMzwviLLTx18pc3xru3Fih/hkq/NAFTVfgNVPTmQH6o
+   6mFdmj/ZxeD7qiLnJOKWpmraH71y/J1l8VIu0vchqvwoNPpUnbxZ5liLG
+   vLtyepHvZp5Fn40nn+4C3ojsd5HgeTBl1vBW5Cw378rWqDys8G1P533Jt
+   eV/Kl8pOqgXiJujQXss7VUAiysRROLQloIyzEXMdCGY5dXSyE0D6439Pf
+   cGi6TYEgsdnJxVhMLUOEeoqgHHPX6+hzwvU1cEVzpeZcoL1f1K5UGd/YP
+   xygysBKEYfARS4br+TXqWXxAAjLxXxJMVaQWkRCCKYSmDABXPR0PL5SUO
+   g==;
+X-CSE-ConnectionGUID: SVLiSMcOT8yAcnQfUVZ76A==
+X-CSE-MsgGUID: S4qS9FttTiuVJDuLg7wYng==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="19683809"
+X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
+   d="scan'208";a="19683809"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2024 04:02:46 -0700
+X-CSE-ConnectionGUID: CTt5he5yQQWieW7PRi+daw==
+X-CSE-MsgGUID: nuuYljVYRq60KwtmmK8xSg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
+   d="scan'208";a="54218497"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 19 Apr 2024 04:02:47 -0700
+Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Fri, 19 Apr 2024 04:02:45 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Fri, 19 Apr 2024 04:02:45 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.40) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Fri, 19 Apr 2024 04:02:45 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Cqov/vnB+PiTTYgumVWTN37rDbvA9tpnhYO2erbuqJexUybm8CuizNYYmqSYodBORd16OvkA1Z+Ke8018k/9Ndu4UxKf1ZodAPlBaXPE9cVXIuYk7BhFIVUtizY8py1DdRqM/htquqEwZ8dQ1s7N1z3W/7USB15Oq5YlEhUquzhCdeecWtMNBeinRozc3G9d1HjZMH6y8CJEproLZU25yJxsOi4ntZXT7ZiNZ0poLytJTLd2PjMxK0ppCVULH4os+c5noS/H1z9+pMyfOkvFb6FsXyk/MeezbGuiKrnoyPyhqH7DnIYGPcPoKEGzToTm4l8z8/uNrbKtuSmYQBJRXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=21NuqLKztBTqn8wlxcqiwqAQYb7yLyALLYUi47Ae9dM=;
+ b=PlO2+FGGBZ1oWPxSwDtMq9ZiA278fVupZeujMDQDUrvdy9+uMR1ndBQDGI3E6lxo8ohHwBEegAQWd3b8kG7JyrlA5Wk9wEsoRN4dcdaolXowg/zbujVP9moHsSbfeHCo5PDyVIb2FFUqzrFBfzq3kuJ2pyR6BmtLaY0La5siCuZSDkno9BnxFthr5cG/eEID5kAtOleSb+7BzP69QS5Z60vgaQ/WiAXfI6o1WPDY8/xHoeKCigoTiFRaKLQ24R2ntzP4pYOVvROkpqfZxU/9W7jrpJ0no3W7U/w1sj0Gnv0QJZyZaMXG5KYDxMsUGunZA6YHavZSNcu0Bw3D9dDwAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CH3PR11MB8660.namprd11.prod.outlook.com (2603:10b6:610:1ce::13)
+ by PH8PR11MB6832.namprd11.prod.outlook.com (2603:10b6:510:22c::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.37; Fri, 19 Apr
+ 2024 11:02:43 +0000
+Received: from CH3PR11MB8660.namprd11.prod.outlook.com
+ ([fe80::5135:2255:52ba:c64e]) by CH3PR11MB8660.namprd11.prod.outlook.com
+ ([fe80::5135:2255:52ba:c64e%4]) with mapi id 15.20.7519.010; Fri, 19 Apr 2024
+ 11:02:43 +0000
+Date: Fri, 19 Apr 2024 19:02:32 +0800
+From: Chao Gao <chao.gao@intel.com>
+To: Xin Li <xin3.li@intel.com>
+CC: <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<seanjc@google.com>, <pbonzini@redhat.com>, <corbet@lwn.net>,
+	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
+	<shuah@kernel.org>, <vkuznets@redhat.com>, <peterz@infradead.org>,
+	<ravi.v.shankar@intel.com>, <xin@zytor.com>
+Subject: Re: [PATCH v2 06/25] KVM: VMX: Defer enabling FRED MSRs save/load
+ until after set CPUID
+Message-ID: <ZiJPSCO+U7iLWiuu@chao-email>
+References: <20240207172646.3981-1-xin3.li@intel.com>
+ <20240207172646.3981-7-xin3.li@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240207172646.3981-7-xin3.li@intel.com>
+X-ClientProxiedBy: SG2PR04CA0180.apcprd04.prod.outlook.com
+ (2603:1096:4:14::18) To CH3PR11MB8660.namprd11.prod.outlook.com
+ (2603:10b6:610:1ce::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HgEQrAAH6KgUTiJmkIkwBQ--.51748S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoW3WF1kCF1xZrWkXr47KFWDCFg_yoW3GFy8pF
-	n7Zr97ta1Iya43ArWfKr48XF18AFsrCFW3KF1xG34fJwn5JFyktwnrXF1UWw17Cr1rCa4D
-	XF4vkFZ3ury2k3JanT9S1TB71UUUUj7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQIb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
-	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
-	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
-	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26F4j6r4UJwAm
-	72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42
-	xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s026xCaFVCjc4AY
-	6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
-	xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xII
-	jxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw2
-	0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x02
-	67AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0_uctUUUUU==
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8660:EE_|PH8PR11MB6832:EE_
+X-MS-Office365-Filtering-Correlation-Id: e6cb965b-1408-4685-2054-08dc60603cf0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Rv4Z9HEX9wtmBUiedyPIB8cpZJJS80Yf8nBL6wdph+6Z1rr/ehJrLcW3iZaNDnr3PlBv4dqDsyS8RYi27dgCmw3KiKtOpm3iktLqEO9tIUVUSDa9R6bHpSLB5wV5CA2q/D1pSlrBx/ZJwF/QGrPZtNoKHz/zcnuzG36bsTvGrUgNiynXQ6Qm4UXyX8bXs8TcgmDFOoj8LWgrKLIatn3CdVj8kU7hGgnB6mtSF1jf6fsgvJdNKldiMBziyYrKX+mnNbIKLt1gIVR7cKs/KN675eMWIdN42+LOrKfr470B2oNZZ7hjXgCHtD3xWww43X1DS8+Kgs8SWPPNNHdrp/YN15slRaq61OH44+STxJhVTt/4t2MT7OTF3UoZ9Iqjit6ag5zzEXcahEhqG7wOkN85E/ahnIxR8c0zGXxY2Y/ld6jvc2WXgU6BDZJF9PNaIuhDiQzeRM2p8KBqQh4gT4AggBWFeIYUxJOmIFhH/XHfmXBUjnsRBnH8OsmAgyQbXEp3iipxY3qIqBMJ+bVD7D/pHH9TavV9tcmGx3ev3dRun7T1hlm9Sp9mZ/hJIJRCMgl5TUtPQ6Y9EYR0uha1k6D+9t7sgY2l6ecK/0hzRT/5gNQMYjfTeaaGLa8COWBtJBMED0Qphun8o52WEEX4zVA2OAQOc7w8HkYe5aoDW/XJ7NA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8660.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015)(7416005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2La3TbQyTlfJf1ZK+p/xB4zNJ2LbGluN4sGtYEQhQLWl35CmNhCZ5Bkyqm2t?=
+ =?us-ascii?Q?x63imsgdMXPqccJQf2P65u2vj21+7iONJGuIgi8p5v+R2I/Z+KTq6YsdfHID?=
+ =?us-ascii?Q?f2/zcqgIuiixS++xBhmQaCJELTekEdEBVmtzT3oEDTimbBlpNWxIz4vkcRcr?=
+ =?us-ascii?Q?4Ls3yz/9XMNioFWoaAiVHTOLakcOawb1S2vmZWiTCCamZePca/ukyb6admrr?=
+ =?us-ascii?Q?r3sFlh8cGieAo99qez1xz3+5IuCIfsh3SRIhOW6qMABvrOFq8yEVfhpCXmdm?=
+ =?us-ascii?Q?aCSbE+fBuUSuHHWJEDiIh+y3WAApoYu1EtI9pGnrLNP0GV5v4W1ucjRYi/Uh?=
+ =?us-ascii?Q?2IcfdKbIwtPh2RMl4apM1Eba/0NwaAAaWBAtPVXkD9ijrfSKt+WENLDrxNvm?=
+ =?us-ascii?Q?jA88QOc3LWGxE/5yINHi3h+HNs0whbCq8ivSt2+o/Fxy/rakZ0qISK7yCPAl?=
+ =?us-ascii?Q?13/RnYub234Tvybw1D5K9y947xfSJGNIcSYte6I/h1gyA4LmCZZaOSQ0egG0?=
+ =?us-ascii?Q?2fn1utGI54WfbbFUNy4Zy10gA2sWp/tT0VXbunrtP8whr7TeBtzP5up7HLLu?=
+ =?us-ascii?Q?AofRL/H4OtWmLz2pN4oIVqn9JySNDhwgLhXZbNGd+XY3+SZ5YfXHQho1GmOu?=
+ =?us-ascii?Q?tw4YOecBeJYa6jJASq5lWIUjR/zF/SlnKlNbRAEjkvbCeUSAWZCqNaFY/5sL?=
+ =?us-ascii?Q?QhX4v+nbD8YeA+q4I/1czg6pZiZC2hUMlSvR/ApsX3b8gJyYy4wq0Sjaf2OX?=
+ =?us-ascii?Q?waBBUKWwNdVBnqIEVKA7wZhMm2eVvbvrxMmN9TR7GAi/bcygb69K5TYVLS8Y?=
+ =?us-ascii?Q?SGanN6+10Xdpmco/P7Ai7tGGuJjv/VN/1ar2VM1qsFU+zh+VFF4PdVbx32KC?=
+ =?us-ascii?Q?5yTmZ57hh7e5m72VPEKT85G30JiD7xERu3Kdw5NLgwosNlKhruAp4dlom+SU?=
+ =?us-ascii?Q?k8I2dNlJH13YAppx95aF97WG8XSCenhvOZsYRGIBgpfp/3j+utDw0677FLvx?=
+ =?us-ascii?Q?Ccsq+EwGg5KLtXBbXAXGQPlxuwvE6n0E1pJFSTkspesfS5C6qPR25BOvYq8x?=
+ =?us-ascii?Q?xdcbxFuJ+48MYqCbUcd55CGExMmyLU8f6f7zF3PatpXc/aM5wLoDMEeJfqpq?=
+ =?us-ascii?Q?+F6WhB8tsJTKFflZvQw1Q+ayR7qdP58/QlEcfYmlPY4b8HyvAUPZS7zpayiv?=
+ =?us-ascii?Q?7et8Szm6cClI2RIiH2UbvE1CjgW3Q+7bMvoVCQkfRIy9aFWD1150RmmD4KT1?=
+ =?us-ascii?Q?qpEi/sitXWSvpi5ESMkBZp/4KgwzWkLgjDEHbk39PiU70PkEkBlfuup12o/9?=
+ =?us-ascii?Q?1WWBejPtNhfgmNJ+Zo5KXGXgHWz6AJOTTQyb7ujE+1jL4FeiJSo4s9Y03tod?=
+ =?us-ascii?Q?0Usb0TpCDMVY46VgXuySWaN4O+izikfmvqtV4H1I7n1FKOnJZtrO4pqufzPi?=
+ =?us-ascii?Q?abWZtbHPOX1VRmhYqSuGbhD3eo42xhqitZtfzOZ2ssq9s9pD8fAZjf6dPT0X?=
+ =?us-ascii?Q?Cxo+34nZbkFp45GtGKZpVS7DWTJ685TIzOxSFZaummYKYSqJJzYMAiOLTDo2?=
+ =?us-ascii?Q?1h99DAKqdEepwrueljKsmdW+v3h7yP4+YxyvVFVO?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e6cb965b-1408-4685-2054-08dc60603cf0
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8660.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2024 11:02:43.6402
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mYFInZ43Z8MNq16k+mO1f7FIiSvCEGT4p5UlDe58arXo75tvdblM+EwGDbDzUuxlE6//tPft1P8L2d5z3lmqow==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6832
+X-OriginatorOrg: intel.com
 
-Translate process/cve.rst into Chinese and add it to
-Documentation/translations/zh_CN directory.
+On Wed, Feb 07, 2024 at 09:26:26AM -0800, Xin Li wrote:
+>Clear FRED VM entry/exit controls when initializing a vCPU, and set
+>these controls only if FRED is enumerated after set CPUID.
+>
+>FRED VM entry/exit controls need to be set to establish context
+>sufficient to support FRED event delivery immediately after VM entry
+>and exit. However it is not required to save/load FRED MSRs for
+>a non-FRED guest, which aren't supposed to access FRED MSRs.
+>
+>Signed-off-by: Xin Li <xin3.li@intel.com>
+>Tested-by: Shan Kang <shan.kang@intel.com>
 
-Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
----
-v2->v3: remove a trailing space
-v1->v2: add a newline at then end of cve.rst.  
- .../translations/zh_CN/process/cve.rst        | 89 +++++++++++++++++++
- .../translations/zh_CN/process/index.rst      |  1 +
- 2 files changed, 90 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/process/cve.rst
-
-diff --git a/Documentation/translations/zh_CN/process/cve.rst b/Documentation/translations/zh_CN/process/cve.rst
-new file mode 100644
-index 000000000000..b4e25cd52a3a
---- /dev/null
-+++ b/Documentation/translations/zh_CN/process/cve.rst
-@@ -0,0 +1,89 @@
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/process/cve.rst
-+:Translator: Dongliang Mu <dzm91@hust.edu.cn>
-+
-+====
-+CVEs
-+====
-+
-+Common Vulnerabilities and Exposure (CVE®) 编号是一种明确的方式来
-+识别、定义和登记公开披露的安全漏洞。随着时间的推移，它们在内核项目中的实用性
-+已经下降，CVE编号经常以不适当的方式和不适当的原因被分配。因此，内核开发社区
-+倾向于避免使用它们。然而，分配CVE与其他形式的安全标识符的持续压力，以及内核
-+社区之外的个人和公司的持续滥用，已经清楚地表明内核社区应该控制这些CVE分配。
-+
-+Linux内核开发团队确实有能力为潜在的Linux内核安全问题分配CVE。CVE的分配
-+独立于 :doc:`安全漏洞报送流程</process/security-bugs>`。
-+
-+所有分配给Linux内核的CVE列表都可以在linux-cve邮件列表的存档中找到，如
-+https://lore.kernel.org/linux-cve-announce/ 所示。如果想获得已分配
-+CVE的通知，请“订阅”该邮件列表。要获得分配的CVE通知，请订阅该邮件列表：
-+`subscribe <https://subspace.kernel.org/subscribing.html>`_。
-+
-+过程
-+=======
-+
-+作为正常稳定发布过程的一部分，可能存在安全问题的内核更改由负责CVE编号分配
-+的开发人员识别，并自动为其分配CVE编号。这些CVE分配会作为经常性的通告经常
-+发布在linux-cve-announce邮件列表上。
-+
-+注意，由于Linux内核在系统中的特殊地位，几乎任何漏洞都可能被利用来危害内核
-+的安全性，但是当漏洞被修复后，利用的可能性通常不明显。因此，CVE分配团队过于
-+谨慎，并将CVE编号分配给他们识别的任何漏洞修复。这就解释了为什么Linux内核
-+团队会发布大量的CVE。
-+
-+如果CVE分配团队错过了任何用户认为应该分配CVE的特定修复，请发送电子邮件到
-+<cve@kernel.org>，那里的团队将与您一起工作。请注意，任何潜在的安全问题
-+不应被发送到此邮箱，它仅用于为已发布的内核树中的漏洞修复分配CVE。如果你觉得
-+自己发现了一个未修复的安全问题，请按照 :doc:`安全漏洞报送流程
-+</process/security-bugs>` 发送到Linux内核社区。
-+
-+Linux内核不会给未修复的安全问题自动分配CVE；只有在安全修复可用且应用于
-+稳定内核树后，CVE分配才会自动发生，并且它将通过安全修复的Git提交编号进行
-+跟踪。如果有人希望在提交安全修复之前分配CVE，请联系内核CVE分配团队，从
-+他们的一批保留编号中获得相应的CVE编号。
-+
-+对于目前没有得到稳定与长期维护内核团队积极支持的内核版本中发现的任何问题，
-+都不会分配CVEs。当前支持的内核分支列表可以在 https://kernel.org/releases.html
-+上找到。
-+
-+被分配CVE的争论
-+=========================
-+
-+对于为特定内核修改分配的CVE，其争论或修改的权限仅属于受影响子系统的维护者。
-+这一原则确保了漏洞报告的高度准确性和可问责性。只有那些具有深厚专业知识和
-+对子系统深入了解的维护人员，才能有效评估内核漏洞的有效性和范围，并确定其适当的
-+CVE指定策略。在此指定权限之外，任何争论或修改CVE的尝试都可能导致混乱、
-+不准确的报告，并最终危及系统。
-+
-+无效的CVE
-+============
-+
-+如果发现的安全问题存在于仅由某Linux发行版支持的Linux内核中，即安全问题是
-+由于Linux发行版所做的更改导致，或者Linux的发行版内核版本不再是Linux内核
-+社区支持的内核版本，那么Linux内核CVE团队将不能分配CVE，必须从Linux
-+发行版本身请求。
-+
-+内核CVE分配团队以外的任何团队对Linux内核支持版本分配的CVE都不应被
-+视为有效CVE。请通知内核CVE分配团队，以便他们可以通过CNA修复过程使
-+这些条目失效。
-+
-+特定CVE的适用性
-+==============================
-+
-+由于Linux内核可以以许多不同方式使用，外部用户可以通过许多不同方式访问它，或者
-+根本没有访问，因此任何特定CVE的适用性取决于Linux用户，而不是内核CVE分配团队。
-+请不要与我们联系来尝试确定任何特定CVE的适用性。
-+
-+此外，由于源代码树非常大，而任何一个系统都只使用源代码树的一小部分，因此任何
-+Linux用户都应该意识到，大量分配的CVEs与他们的系统无关。
-+
-+简而言之，我们不知道您的用例，也不知道您使用的是内核的哪个部分，因此我们无法
-+确定特定的CVE是否与您的系统相关。
-+
-+与往常一样，最好采取所有发布的内核更改，因为它们是由许多社区成员在一个统一的
-+整体中一起进行测试的，而不是作为个别的精选更改。还要注意，对于许多安全问题来
-+说，整体问题的解决方案并不是在单个更改中找到的，而是在彼此之上的许多修复的总
-+和。理想情况下，CVE将被分配给所有问题的所有修复，但有时我们将无法注意到一些
-+修复，因此某些修复可能在没有CVE的情况下被采取。
-diff --git a/Documentation/translations/zh_CN/process/index.rst b/Documentation/translations/zh_CN/process/index.rst
-index 3ca02d281be0..5c6c8ccdd50d 100644
---- a/Documentation/translations/zh_CN/process/index.rst
-+++ b/Documentation/translations/zh_CN/process/index.rst
-@@ -48,6 +48,7 @@ TODOLIST:
-    :maxdepth: 1
- 
-    embargoed-hardware-issues
-+   cve
- 
- TODOLIST:
- 
--- 
-2.34.1
-
+Reviewed-by: Chao Gao <chao.gao@intel.com>
