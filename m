@@ -1,110 +1,64 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6623610F9;
-	Fri, 19 Apr 2024 01:50:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F0DB138C;
+	Fri, 19 Apr 2024 01:59:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713491430; cv=none; b=NxGkspXTwgB4jmintODjm7ytYJPxIjRrfLUndQlGwgsTug4Ru+0QA4sPQJejhvH0Hwdeq678+LQVxIcpeTqX90+esHJgWYSW7GksASy/gDzsgzzo5w+XPxpnGfvPSW2GXw5HMbNwT2wiB+mDZgRah47q154R9M1gnnJF4Uu2Zfs=
+	t=1713491978; cv=none; b=sNJ0Ap5OZHoKOfTq8odT4K/Z7a4RrZMqCu3WHZWpsfs5EWbGAqtIjsZIi+5N/SSigssteKmoJ/1M2g6p1b8Z7tATmN3WhRmokFJCVdeuaGc1pmUrMolVNQu2G6o51NZ5kdUcLYjXNniNv6XUhawy+/Fsaca2mha5WEabkMgo3G8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713491430; c=relaxed/simple;
-	bh=8US40FU+8ErHCWlxLWXY/MDdXspdSrhsuMRmA/GFbTY=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=BepgEj4+Y6tZvpwP3uy1ggI43DahQjEcSdKnFp7EJzvUkzKl4xU3ghGY0990ZcDECpgnYd80y4vqButEdi+J+D1ht9SgRJovQfwTMouNnU5zPyirSzbgosBJegU4clWJoOowO1vD/mciBRs8L+WyTiGFuK+gTGIZoweIsh9dspk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BNA5ASjL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713491978; c=relaxed/simple;
+	bh=JZVoM+QdB6JxkGZNBvN6H90f7S3tp6VIhdOo4EXC2Pc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rjaC4lL7J0Ii7UAjU5SvPaBGQcTKCru+z1l2lWWSbBhJw5IASyD+z1TD70prgrA6A3auhhnjyc1qonPzrFJ+2/5IuaAhN8KJXkHFgLVfxAAsimhK71Q1mgsdhoT224IeMk9+ObijgLHzFGIfg8CPycNFl1V0sb/3BQhgrAJI8xI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QDziLBJi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BNA5ASjL"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id EB338C3277B;
-	Fri, 19 Apr 2024 01:50:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QDziLBJi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E96A1C113CC;
+	Fri, 19 Apr 2024 01:59:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713491430;
-	bh=8US40FU+8ErHCWlxLWXY/MDdXspdSrhsuMRmA/GFbTY=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=BNA5ASjLi6k8o2pwe0Zguld5TokTeERFqmSBSQ2dF9GjPpgZkXGdNR2SvcoUE3J9o
-	 ORpI2dsoOMOmBzwuYVX0TZTXCPNPWcNYWusL0udbsdpSf1BaJlqoP0odD7CH8eTDmu
-	 H6XU9OYWCjPxst/7h08r/k3kfLQnAcC2DXMkclpGjRJdNqS7p2Y5tuT/xd9n29ei3X
-	 eaolEkZxEvFg1vJOmg40u2tx8GzKkV+nwVcJnk76qcq6o3WRGhAlIBbTnmGnaIEC9N
-	 eNFnqUzs52QctYDAYTeqWD6/adTP7m+pI7lNJH1SePa3WmC2uGeCQQJn2t/ijEIdLE
-	 LMkwrGWoJRU1Q==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D9623C395C5;
-	Fri, 19 Apr 2024 01:50:29 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1713491977;
+	bh=JZVoM+QdB6JxkGZNBvN6H90f7S3tp6VIhdOo4EXC2Pc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=QDziLBJi1CKzx+8mZrIz1TyoVFnB0J3QJNkCHXrXpzWzx1YBC0zPy4Vs0Y20P2aAS
+	 uwUAkvLbSf9TVuaf7YtRgUXOvmu0T5mE1WHgtCC+TpCnxxTiA8w6TxMysuOwgpPEUv
+	 r2PXulyOxW+4XYp2pOyTJSolpoA4c7NKuGO71+/PgE87bqYcp0mS0uoptiBuwXBV/J
+	 jqOXYgxBZXppgoPu8HYW6XnwI07rEhsrty53y95qOWIg5WsVQp2akvjw0slFcFfv2/
+	 J8Tu4FK/gGUPP3l7EiNugVqZ1vL9evaxdFyjQCEP/ge8WuFLVL5fx4jxxQ2aTnfp3o
+	 r/D+PRyxRwupQ==
+Date: Thu, 18 Apr 2024 18:59:35 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Danielle Ratson <danieller@nvidia.com>
+Cc: <netdev@vger.kernel.org>, <davem@davemloft.net>, <edumazet@google.com>,
+ <pabeni@redhat.com>, <corbet@lwn.net>, <linux@armlinux.org.uk>,
+ <sdf@google.com>, <kory.maincent@bootlin.com>,
+ <maxime.chevallier@bootlin.com>, <vladimir.oltean@nxp.com>,
+ <przemyslaw.kitszel@intel.com>, <ahmed.zaki@intel.com>,
+ <richardcochran@gmail.com>, <shayagr@amazon.com>,
+ <paul.greenwalt@intel.com>, <jiri@resnulli.us>,
+ <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <mlxsw@nvidia.com>, <petrm@nvidia.com>, <idosch@nvidia.com>
+Subject: Re: [PATCH net-next v4 07/10] ethtool: cmis_cdb: Add a layer for
+ supporting CDB commands
+Message-ID: <20240418185935.2b0ec734@kernel.org>
+In-Reply-To: <20240418103455.3297870-8-danieller@nvidia.com>
+References: <20240418103455.3297870-1-danieller@nvidia.com>
+	<20240418103455.3297870-8-danieller@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v9 01/14] ethtool: Expand Ethernet Power Equipment
- with c33 (PoE) alongside PoDL
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <171349142988.11062.4384284372209376821.git-patchwork-notify@kernel.org>
-Date: Fri, 19 Apr 2024 01:50:29 +0000
-References: <20240417-feature_poe-v9-1-242293fd1900@bootlin.com>
-In-Reply-To: <20240417-feature_poe-v9-1-242293fd1900@bootlin.com>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, corbet@lwn.net, mcgrof@kernel.org, russ.weight@linux.dev,
- gregkh@linuxfoundation.org, rafael@kernel.org, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
- o.rempel@pengutronix.de, broonie@kernel.org, frowand.list@gmail.com,
- andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
- thomas.petazzoni@bootlin.com, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- devicetree@vger.kernel.org, dentproject@linuxfoundation.org,
- kernel@pengutronix.de, maxime.chevallier@bootlin.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hello:
+On Thu, 18 Apr 2024 13:34:52 +0300 Danielle Ratson wrote:
+> +static inline u16
+> +cmis_cdb_module_features_completion_time(struct cmis_cdb_module_features_rpl *rpl)
+> +{
+> +	return be16_to_cpu(rpl->max_completion_time);
+> +}
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Wed, 17 Apr 2024 16:39:49 +0200 you wrote:
-> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
-> 
-> In the current PSE interface for Ethernet Power Equipment, support is
-> limited to PoDL. This patch extends the interface to accommodate the
-> objects specified in IEEE 802.3-2022 145.2 for Power sourcing
-> Equipment (PSE).
-> 
-> [...]
-
-Here is the summary with links:
-  - [net-next,v9,01/14] ethtool: Expand Ethernet Power Equipment with c33 (PoE) alongside PoDL
-    https://git.kernel.org/netdev/net-next/c/b58be8db6327
-  - [net-next,v9,02/14] net: pse-pd: Introduce PSE types enumeration
-    https://git.kernel.org/netdev/net-next/c/47e0dd53c5eb
-  - [net-next,v9,03/14] net: ethtool: pse-pd: Expand pse commands with the PSE PoE interface
-    https://git.kernel.org/netdev/net-next/c/4d18e3ddf427
-  - [net-next,v9,04/14] netlink: specs: Modify pse attribute prefix
-    https://git.kernel.org/netdev/net-next/c/57b30d2a5475
-  - [net-next,v9,05/14] netlink: specs: Expand the pse netlink command with PoE interface
-    https://git.kernel.org/netdev/net-next/c/f8586411e40e
-  - [net-next,v9,06/14] MAINTAINERS: Add myself to pse networking maintainer
-    https://git.kernel.org/netdev/net-next/c/edd79f084ad4
-  - [net-next,v9,07/14] net: pse-pd: Add support for PSE PIs
-    https://git.kernel.org/netdev/net-next/c/9be9567a7c59
-  - [net-next,v9,08/14] dt-bindings: net: pse-pd: Add another way of describing several PSE PIs
-    https://git.kernel.org/netdev/net-next/c/b17181a88fb9
-  - [net-next,v9,09/14] net: pse-pd: Add support for setup_pi_matrix callback
-    https://git.kernel.org/netdev/net-next/c/29e28d1d7a16
-  - [net-next,v9,10/14] net: pse-pd: Use regulator framework within PSE framework
-    https://git.kernel.org/netdev/net-next/c/d83e13761d5b
-  - [net-next,v9,11/14] dt-bindings: net: pse-pd: Add bindings for PD692x0 PSE controller
-    https://git.kernel.org/netdev/net-next/c/9c1de033afad
-  - [net-next,v9,12/14] net: pse-pd: Add PD692x0 PSE controller driver
-    https://git.kernel.org/netdev/net-next/c/9a9938451890
-  - [net-next,v9,13/14] dt-bindings: net: pse-pd: Add bindings for TPS23881 PSE controller
-    https://git.kernel.org/netdev/net-next/c/f562202fedad
-  - [net-next,v9,14/14] net: pse-pd: Add TI TPS23881 PSE controller driver
-    https://git.kernel.org/netdev/net-next/c/20e6d190ffe1
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+nit: please drop all the inline in this file, the compiler will 100%
+inline this anyway
