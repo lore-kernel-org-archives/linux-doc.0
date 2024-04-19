@@ -1,30 +1,50 @@
-Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B4664D;
-	Fri, 19 Apr 2024 23:30:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD47813D88F;
+	Fri, 19 Apr 2024 23:53:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713569418; cv=none; b=VchaxWl1QOf8ul7RqeRNRslfbfPUQ3OhzfYTodDUNOB9Wf/g9AuCNnK4MVejr/is80Fb9wIWrli6bAvlKREropYW8GnrPKQ4FXxkeXQZlI3cZwB/p6Cm16Foo1gi/nCuoUChiNkX+gbJEy65CLqXvrR7UZqIGiLLUEfkz8nuWkA=
+	t=1713570815; cv=none; b=Yn71VvVt2pAKcO81EAtPSocnDCVS49OoIG1G/JvhNfYVK5+9Glrmg4dyJ/AYcKAeUzJKXlFhwMZ1NdqV/7D3A8nyFIFjNgnO2QIklbJ7beLv4eOk1k1Xzcw13QXR2YCo4I9jjVusA8mh8xcWiOibM62nU9wfRK5aqceU3CcKiko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713569418; c=relaxed/simple;
-	bh=qZkLWvAWlgCjjdU0qNRhZCkRLi0oUlD656x5rum5Qvs=;
+	s=arc-20240116; t=1713570815; c=relaxed/simple;
+	bh=3gbkhIO45mQhzKLsuGyPxbw/ZYuLJPO+82sN/qnNP8Y=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eZwN8Skbss+GkXy2+jhSECD9w8EZiTVsIhANEIU77atxd5mYNAXxdFVxAPfKYemOAoOhhb6b2TS5Y5Cvqgh9l0vKkGGHwrSZX4VPkL1Ov+uPkJmZN8bXDi3ashebRvd0bQU9zHXRUbbSHwxq2jdMRvte7nBjhkx8slJxDl+6bK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.186.29])
-	by frasgout11.his.huawei.com (SkyGuard) with ESMTP id 4VLr6h0Nn9z9ttCp;
-	Sat, 20 Apr 2024 07:13:32 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.27])
-	by mail.maildlp.com (Postfix) with ESMTP id 2163D140B21;
-	Sat, 20 Apr 2024 07:30:03 +0800 (CST)
-Received: from [10.81.201.160] (unknown [10.81.201.160])
-	by APP2 (Coremail) with SMTP id GxC2BwBHgCRh_iJmFsaOBg--.38143S2;
-	Sat, 20 Apr 2024 00:30:02 +0100 (CET)
-Message-ID: <8a47707d-f1ba-4eb5-b516-d689ad42a168@huaweicloud.com>
-Date: Fri, 19 Apr 2024 16:29:32 -0700
+	 In-Reply-To:Content-Type; b=bd7hBdbwo/UokWgIKe1k2F8loeu6HDwwkMV4cvNbQ4oC1Qk4CM61K2dWva9nWe+6WLIuMRH3MKCUgQxNCCRbX8+ThIMCuqmyTKzxj7UM7G7E1HIgD7FmsL4XZEfmjz/ApLNP/Y0gKclsEcv49KaFNk/RWDR23wvjdxKQpanWYmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GIIIQnKG; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GIIIQnKG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713570814; x=1745106814;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=3gbkhIO45mQhzKLsuGyPxbw/ZYuLJPO+82sN/qnNP8Y=;
+  b=GIIIQnKGbPDTOtSB+drjpBgnkEmAFUZFdBGwMfQpUkSNpBA/OlQOV/Bj
+   NaBXbVhJJIvUPSCfmbWA5VfcXh2r1y2EFewZedDMQyUH8dGTzE+sMVopU
+   vNYynFAZX6VvIBGjss1LL/QrnA6tcEiozTHc6vn0nYPBqiYz7xGGR3ewY
+   KggamjN3X+3/wl6b4yXNcGSWENMErqCq+TMDfsw4AqF5L80jGGYG80wD1
+   hIzd7jZK2emW2g+t9uJZfSoN7KGCSQdETAxOtf43k7359wQdiWsab2XWV
+   YYK+1TNThbsCS4eqTWQ6wqooKFvkAVDCcVT+PwP+ijFA+VV8FERfjafY6
+   g==;
+X-CSE-ConnectionGUID: +z7XL0cMT9+5Kzy26LgolQ==
+X-CSE-MsgGUID: 5X0FIlt9S1q1WE1BgtzIFg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11049"; a="9051093"
+X-IronPort-AV: E=Sophos;i="6.07,215,1708416000"; 
+   d="scan'208";a="9051093"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2024 16:53:33 -0700
+X-CSE-ConnectionGUID: 9EGboRl0SPWKp4IZ7WJR4A==
+X-CSE-MsgGUID: jATii7gCRUWuBg06ojTolg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,215,1708416000"; 
+   d="scan'208";a="23504137"
+Received: from soc-cp83kr3.jf.intel.com (HELO [10.24.10.31]) ([10.24.10.31])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2024 16:53:34 -0700
+Message-ID: <2e908322-faa0-4db7-bc14-f87a9d71f577@intel.com>
+Date: Fri, 19 Apr 2024 16:53:32 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -32,70 +52,54 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 00/14] security: digest_cache LSM
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Roberto Sassu <roberto.sassu@huawei.com>, corbet <corbet@lwn.net>,
- paul <paul@paul-moore.com>, jmorris <jmorris@namei.org>,
- serge <serge@hallyn.com>, akpm <akpm@linux-foundation.org>,
- shuah <shuah@kernel.org>, "mcoquelin.stm32" <mcoquelin.stm32@gmail.com>,
- "alexandre.torgue" <alexandre.torgue@foss.st.com>, mic <mic@digikod.net>
-Cc: linux-security-module <linux-security-module@vger.kernel.org>,
- linux-doc <linux-doc@vger.kernel.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- linux-kselftest <linux-kselftest@vger.kernel.org>, bpf
- <bpf@vger.kernel.org>, zohar <zohar@linux.ibm.com>,
- "dmitry.kasatkin" <dmitry.kasatkin@gmail.com>,
- linux-integrity <linux-integrity@vger.kernel.org>,
- wufan <wufan@linux.microsoft.com>, pbrobinson <pbrobinson@gmail.com>,
- zbyszek <zbyszek@in.waw.pl>, hch <hch@lst.de>, mjg59 <mjg59@srcf.ucam.org>,
- pmatilai <pmatilai@redhat.com>, jannh <jannh@google.com>,
- dhowells <dhowells@redhat.com>, jikos <jikos@kernel.org>,
- mkoutny <mkoutny@suse.com>, ppavlu <ppavlu@suse.com>,
- "petr.vorel" <petr.vorel@gmail.com>, mzerqung <mzerqung@0pointer.de>,
- kgold <kgold@linux.ibm.com>
-References: <20240415142436.2545003-1-roberto.sassu@huaweicloud.com>
- <Zh4DQ7RGxtWCam8K@archie.me>
- <66201cd2.df0a0220.a8ad5.6fbaSMTPIN_ADDED_BROKEN@mx.google.com>
- <fe361a16-1536-4c92-894a-0b24258384bf@gmail.com>
-From: Roberto Sassu <roberto.sassu@huaweicloud.com>
-In-Reply-To: <fe361a16-1536-4c92-894a-0b24258384bf@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:GxC2BwBHgCRh_iJmFsaOBg--.38143S2
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYj7kC6x804xWl14x267AKxVWrJVCq3wAF
-	c2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII
-	0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xv
-	wVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Jr0_Gr1l84ACjc
-	xK6I8E87Iv6xkF7I0E14v26r4j6r4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40E
-	FcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr
-	0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY
-	04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
-	0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWrXVW8Jr1lIxkG
-	c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_
-	Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU1c4S7
-	UUUUU==
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgASBF1jj5iejAAAsv
+Subject: Re: [PATCH 2/2] KVM: selftests: Add KVM/PV clock selftest to prove
+ timer drift correction
+To: David Woodhouse <dwmw2@infradead.org>, Jack Allister
+ <jalliste@amazon.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Shuah Khan <shuah@kernel.org>
+Cc: Paul Durrant <paul@xen.org>, kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+References: <20240408220705.7637-1-jalliste@amazon.com>
+ <20240408220705.7637-3-jalliste@amazon.com>
+ <3664e8ec-1fa1-48c0-a80d-546b7f6cd671@intel.com>
+ <FABCFBD0-4B76-4662-9F7B-7E1A856BBBB6@infradead.org>
+Content-Language: en-US
+From: "Chen, Zide" <zide.chen@intel.com>
+In-Reply-To: <FABCFBD0-4B76-4662-9F7B-7E1A856BBBB6@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 4/19/2024 4:18 AM, Bagas Sanjaya wrote:
-> On 4/18/24 02:02, Roberto Sassu wrote:
->>
->> 72374d71c315
->>
->> Roberto
->>
+
+
+On 4/19/2024 12:34 PM, David Woodhouse wrote:
+> On 19 April 2024 18:13:16 BST, "Chen, Zide" <zide.chen@intel.com> wrote:
+>> I'm wondering what's the underling theory that we definitely can achieve
+>> ±1ns accuracy? I tested it on a Sapphire Rapids @2100MHz TSC frequency,
+>> and I can see delta_corrected=2 in ~2% cases.
 > 
-> Still FTA (fail to apply), unfortunately.
+> Hm. Thanks for testing!
+> 
+> So the KVM clock is based on the guest TSC. Given a delta between the guest TSC T and some reference point in time R, the KVM clock is expressed as a(T-R)+r, where little r is the value of the KVM clock when the guest TSC was R, and (a) is the rate of the guest TSC.
+> 
+> When set the clock with KVM_SET_CLOCK_GUEST, we are changing the values of R and r to a new point in time. Call the new ones Q and q respectively.
+> 
+> But we calculate precisely (within 1ns at least) what the KVM clock would have been with the *old* formula, and adjust our new offset (q) so that at our new reference TSC value Q, the formulae give exactly the same result.
+> 
+> And because the *rates* are the same, they should continue to give the same results, ±1ns.
+> 
+> Or such *was* my theory, at least. 
 
-Sorry, looks like I didn't regenerate the patches after rebasing to the 
-latest kernel. The current ones are still based on 6.8-rc3, but they 
-still require some additional patches that I picked up.
+Thanks for the explanation.
 
-Will send the new version with Jarkko suggestions implemented.
+> 
+> Would be interesting to see it disproven with actual numbers for the old+new pvclock structs, so I can understand where the logic goes wrong.
+> 
+> Were you using frequency scaling?
 
-Thanks
-
-Roberto
-
-
+I can see similar ~2% failure ratio w/ or w/o commenting out
+configure_scaled_tsc().
