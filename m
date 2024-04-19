@@ -1,142 +1,204 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD6B53FBB1;
-	Fri, 19 Apr 2024 07:31:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8DA62AD1A;
+	Fri, 19 Apr 2024 07:37:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713511880; cv=none; b=hkl+HVEn8BrK6zU5TyW/YLiiFrEf8KNr+fF0SxetWE7uK0DZMElVdBWDR/y1k3qTcE3Uebj/pZ1KnuBrx211XzFkjvED1y3XbItv2CTFUxVUM6giIS+Saeg+RnHV36wd0M1Edg/qsMJZk8qHLuKVLMcFjUv3482bfcUnxKOJwXE=
+	t=1713512244; cv=none; b=oNMt2Zyk5tll18s3UrUk6pLI7yR5zkuV2P4/OdOdFOECthpfhTqHWIJ2BGwdDwvdTeETyHesuEvnHApKoGy4fYGvkfJoKVuzmESwy3AgBC4N+0wWQnZ9g7lEz5+uo53RJoqGqGBGElUFfDxgfUKyPeTOtPvg8j6g5RCg9dxqeI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713511880; c=relaxed/simple;
-	bh=1W1wKmyjgUnLlO7H58gYIoT+uueMc19QlOOhLij24FM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=KPdhNgEhvGcGmB8MiBIXVpf1jJipSWbhC/W0zE+U6T4Yd2u4QfHUCLlmA9oQPdRtLRorhC2foDjUPbxuBB7UqUNQxbY7Wa69RqXkAWa/XOt/Q7cKBj+XdBdnsYgJoI7rmpiuoblga5rn8ZDVWiGAx02ultEFCTcPZICKD1mrwFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m4fDgPKa; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1713512244; c=relaxed/simple;
+	bh=WH/TWNwyB1L7t0DkTK1GAarV0p0L0EueWHtAvZAq7rg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LzOL4uJSMa4rRpyO5T7YTKWTT1eOmesuSuWzmcvQd/LsNGQ6AkWDsnRN1YMWNNE43BrUYPMxuo2aAcmsl8+vwEb7oKESuXyx6jx5vzVRD2USdacrBZZO0ENZa4NEvsazQULppVBItxiqW78NXZYBpEdzSgEBx42uktIOTFmUtdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mKMZfcmE; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m4fDgPKa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mKMZfcmE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713511879; x=1745047879;
-  h=message-id:date:mime-version:subject:to:references:from:
-   in-reply-to:content-transfer-encoding;
-  bh=1W1wKmyjgUnLlO7H58gYIoT+uueMc19QlOOhLij24FM=;
-  b=m4fDgPKaVlSlGt5nt/3kxbBsXeqUCa2efoTxvDTe/RhyEcCwv4CxRcCY
-   ytbSlNn48Fu+/DXVdQz9ydoD9QKYSSggLW7sLZ1i+bnYYNWsXdqqkfsKh
-   MV2VstDONq8TPDcCAHhlGdcIrCjeaW89Bu2wVL94Aw7K2WUyeJYblTebl
-   rssGX3stYOa2MLYIr/jCxv7eRYwbZRZQ748DybZwrcMfivOytprnLyI/q
-   baIFI1UqPw8wGI8U4mM+W2grCIZBMh6jIQHiZ+GxpwJzn92D72/zvZVIT
-   rqzXBrdE2atAb9CCIQD4LVXEba/xx3mfg5ckd9NzJv9aRvl3/dp1ZpynI
-   Q==;
-X-CSE-ConnectionGUID: 79EedCTaSjKcdhzRRsQ21g==
-X-CSE-MsgGUID: qiM4vGCcQlOUY4pR1KgNtg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="8972448"
+  t=1713512243; x=1745048243;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WH/TWNwyB1L7t0DkTK1GAarV0p0L0EueWHtAvZAq7rg=;
+  b=mKMZfcmEiZVzsb+MQXHDxkkOducz+2zyhbWIsncm5iKGKFhd4a8nUHsN
+   veln5dTnAVZSLrjEYz9qbTCRqJW3wr860e9FCUrDy5KrvieyWKI4wySIG
+   QVJnoDV23cABB70a8QARP0KtwTNhg7Q4aQHox2bPtcA20kVVEHod+p0jZ
+   AL2oJg5eyjZ8dXiz7nr12XkERanL+EJgCG3oOy98iY1IGv9KuDxbk60+c
+   WvnSkzh6fr0yflLOdqXEQfvp6mSXy5RwN5EdJon3v85czDlzTrVVYMYll
+   4EIGRLh7JzLIcmtRA/lAgbK/xRGB7Xi2eMm74W618MA0g3UqKI7QRKmjT
+   w==;
+X-CSE-ConnectionGUID: /mEfzdxcTjCZGy4zHlGAng==
+X-CSE-MsgGUID: SaCLh30YTvGhejiV2LmGnw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="9217819"
 X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
-   d="scan'208";a="8972448"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2024 00:31:19 -0700
-X-CSE-ConnectionGUID: fCprXCqsQCC9GuV7KLXVkg==
-X-CSE-MsgGUID: 43memXPHTduSJHre2tY33Q==
+   d="scan'208";a="9217819"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2024 00:37:22 -0700
+X-CSE-ConnectionGUID: yDaNp2+dQdWidn2TlCgqcQ==
+X-CSE-MsgGUID: 4DX5CsrsS/6l5cwvv9bu0A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
-   d="scan'208";a="23285237"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.8.107]) ([10.94.8.107])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2024 00:31:10 -0700
-Message-ID: <6bb27015-293d-403d-9144-b44454b6bc20@linux.intel.com>
-Date: Fri, 19 Apr 2024 09:31:07 +0200
+   d="scan'208";a="54179291"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
+  by orviesa002.jf.intel.com with ESMTP; 19 Apr 2024 00:37:19 -0700
+Date: Fri, 19 Apr 2024 15:32:04 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: Marco Pagani <marpagan@redhat.com>
+Cc: Moritz Fischer <mdf@kernel.org>, Wu Hao <hao.wu@intel.com>,
+	Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alan Tull <atull@opensource.altera.com>,
+	Russ Weight <russ.weight@linux.dev>, linux-fpga@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5] fpga: region: add owner module and take its refcount
+Message-ID: <ZiId9CnGEjwMcXeX@yilunxu-OptiPlex-7050>
+References: <20240411144811.121500-1-marpagan@redhat.com>
+ <ZhnviXAgnTdzUyV4@yilunxu-OptiPlex-7050>
+ <669b8b55-df83-4c32-9c8f-41895db18b75@redhat.com>
+ <e5f15ea4-f8e4-4a97-95f6-63a2099d084c@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 19/23] ASoC: Intel: Replace playback/capture_only to
- playback/capture_assertion
-Content-Language: en-US
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Alper Nebi Yasak <alpernebiyasak@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Banajit Goswami <bgoswami@quicinc.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>, Brent Lu <brent.lu@intel.com>,
- Cezary Rojewski <cezary.rojewski@intel.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Daniel Baluta <daniel.baluta@nxp.com>, Hans de Goede <hdegoede@redhat.com>,
- Jaroslav Kysela <perex@perex.cz>, Jerome Brunet <jbrunet@baylibre.com>,
- Jiawei Wang <me@jwang.link>, Jonathan Corbet <corbet@lwn.net>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Maso Huang <maso.huang@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Shengjiu Wang <shengjiu.wang@gmail.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>,
- Vinod Koul <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
- alsa-devel@alsa-project.org, imx@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-sound@vger.kernel.org
-References: <87h6fz8g3u.wl-kuninori.morimoto.gx@renesas.com>
- <87plun71db.wl-kuninori.morimoto.gx@renesas.com>
- <481d5755-ac70-4a01-899d-9d39f5075350@linux.intel.com>
- <aa01d483-3a24-4388-be11-86b92bade374@linux.intel.com>
-From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <aa01d483-3a24-4388-be11-86b92bade374@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e5f15ea4-f8e4-4a97-95f6-63a2099d084c@redhat.com>
 
-On 4/18/2024 6:26 PM, Pierre-Louis Bossart wrote:
+On Mon, Apr 15, 2024 at 07:11:03PM +0200, Marco Pagani wrote:
+> On 2024-04-15 14:19, Marco Pagani wrote:
+> > 
+> > 
+> > On 2024-04-13 04:35, Xu Yilun wrote:
+> >>>  /**
+> >>> - * fpga_region_register_full - create and register an FPGA Region device
+> >>> + * __fpga_region_register_full - create and register an FPGA Region device
+> >>>   * @parent: device parent
+> >>>   * @info: parameters for FPGA Region
+> >>> + * @owner: owner module containing the get_bridges function
+> >>
+> >> This is too specific and easily get unaligned if we add another
+> >> callback. How about "module containing the region ops"?
+> > 
+> > I had some concerns about using the name "region ops" in the kernel-doc
+> > comment since it was not supported by a struct definition nor referenced
+> > in the documentation. However, since the name is now referred to in the
+> > ops_owner pointer, making the change makes sense to me.
+> > 
 > 
+> On second thought, I think it would be better to leave the @owner
+> description to "module containing the get_bridges function" for the
+> moment. Otherwise, it could confuse the user by blurring the connection
+> between the @owner and @get_bridges parameters.
 > 
-> On 4/18/24 06:19, Amadeusz Sławiński wrote:
->> On 4/18/2024 6:15 AM, Kuninori Morimoto wrote:
->>> soc_get_playback_capture() is now handling DPCM and normal
->>> comprehensively for playback/capture stream in same code.
->>> This patch converts xxx_only flag to xxx_assertion.
->>>
->>> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
->>> ---
->>>    sound/soc/intel/boards/bdw-rt5677.c | 2 +-
->>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/sound/soc/intel/boards/bdw-rt5677.c
->>> b/sound/soc/intel/boards/bdw-rt5677.c
->>> index 54e3c5d3c251..9170b1d509e2 100644
->>> --- a/sound/soc/intel/boards/bdw-rt5677.c
->>> +++ b/sound/soc/intel/boards/bdw-rt5677.c
->>> @@ -339,7 +339,7 @@ static struct snd_soc_dai_link bdw_rt5677_dais[] = {
->>>        {
->>>            .name = "Codec DSP",
->>>            .stream_name = "Wake on Voice",
->>> -        .capture_only = 1,
->>> +        .capture_assertion = 1,
->>>            .ops = &bdw_rt5677_dsp_ops,
->>>            SND_SOC_DAILINK_REG(dsp),
->>>        },
->>
->> Should this have been part of patch 8?
+> * __fpga_region_register - create and register an FPGA Region device
+> * [...]
+> * @get_bridges: optional function to get bridges to a list
+> * @owner: owner module containing get_bridges function
 > 
-> Patch 8 deals with the following changes
-> 
-> -		.dpcm_playback = 1,
-> -		.dpcm_capture = 1,
-> +		.playback_assertion = 1,
-> +		.capture_assertion = 1,
-> 
-> This case is about
-> 
->> -        .capture_only = 1,
->> +        .capture_assertion = 1,
-> 
-> I think it's good to make this change separately.
+> We can always modify the @owner description later, together with all the
+> necessary changes to add a new op, like grouping all ops in a structure
+> and changing the registration function signature.
 
-Indeed, missed that.
+OK, it's good to me. I'll apply this patch to for-next.
+
+Acked-by: Xu Yilun <yilun.xu@intel.com>
+
+> 
+> Thanks,
+> Marco
+> 
+> > 
+> >>
+> >>>   *
+> >>>   * Return: struct fpga_region or ERR_PTR()
+> >>>   */
+> >>>  struct fpga_region *
+> >>> -fpga_region_register_full(struct device *parent, const struct fpga_region_info *info)
+> >>> +__fpga_region_register_full(struct device *parent, const struct fpga_region_info *info,
+> >>> +			    struct module *owner)
+> >>>  {
+> >>>  	struct fpga_region *region;
+> >>>  	int id, ret = 0;
+> >>> @@ -213,6 +215,7 @@ fpga_region_register_full(struct device *parent, const struct fpga_region_info *
+> >>>  	region->compat_id = info->compat_id;
+> >>>  	region->priv = info->priv;
+> >>>  	region->get_bridges = info->get_bridges;
+> >>> +	region->ops_owner = owner;
+> >>>  
+> >>>  	mutex_init(&region->mutex);
+> >>>  	INIT_LIST_HEAD(&region->bridge_list);
+> >>> @@ -241,13 +244,14 @@ fpga_region_register_full(struct device *parent, const struct fpga_region_info *
+> >>>  
+> >>>  	return ERR_PTR(ret);
+> >>>  }
+> >>> -EXPORT_SYMBOL_GPL(fpga_region_register_full);
+> >>> +EXPORT_SYMBOL_GPL(__fpga_region_register_full);
+> >>>  
+> >>>  /**
+> >>> - * fpga_region_register - create and register an FPGA Region device
+> >>> + * __fpga_region_register - create and register an FPGA Region device
+> >>>   * @parent: device parent
+> >>>   * @mgr: manager that programs this region
+> >>>   * @get_bridges: optional function to get bridges to a list
+> >>> + * @owner: owner module containing get_bridges function
+> >>
+> >> ditto
+> >>
+> >>>   *
+> >>>   * This simple version of the register function should be sufficient for most users.
+> >>>   * The fpga_region_register_full() function is available for users that need to
+> >>> @@ -256,17 +260,17 @@ EXPORT_SYMBOL_GPL(fpga_region_register_full);
+> >>>   * Return: struct fpga_region or ERR_PTR()
+> >>>   */
+> >>>  struct fpga_region *
+> >>> -fpga_region_register(struct device *parent, struct fpga_manager *mgr,
+> >>> -		     int (*get_bridges)(struct fpga_region *))
+> >>> +__fpga_region_register(struct device *parent, struct fpga_manager *mgr,
+> >>> +		       int (*get_bridges)(struct fpga_region *), struct module *owner)
+> >>>  {
+> >>>  	struct fpga_region_info info = { 0 };
+> >>>  
+> >>>  	info.mgr = mgr;
+> >>>  	info.get_bridges = get_bridges;
+> >>>  
+> >>> -	return fpga_region_register_full(parent, &info);
+> >>> +	return __fpga_region_register_full(parent, &info, owner);
+> >>>  }
+> >>> -EXPORT_SYMBOL_GPL(fpga_region_register);
+> >>> +EXPORT_SYMBOL_GPL(__fpga_region_register);
+> >>>  
+> >>>  /**
+> >>>   * fpga_region_unregister - unregister an FPGA region
+> >>> diff --git a/include/linux/fpga/fpga-region.h b/include/linux/fpga/fpga-region.h
+> >>> index 9d4d32909340..5fbc05fe70a6 100644
+> >>> --- a/include/linux/fpga/fpga-region.h
+> >>> +++ b/include/linux/fpga/fpga-region.h
+> >>> @@ -36,6 +36,7 @@ struct fpga_region_info {
+> >>>   * @mgr: FPGA manager
+> >>>   * @info: FPGA image info
+> >>>   * @compat_id: FPGA region id for compatibility check.
+> >>> + * @ops_owner: module containing the get_bridges function
+> >>
+> >> ditto
+> >>
+> >> Thanks,
+> >> Yilun
+> >>
+> >>>   * @priv: private data
+> >>>   * @get_bridges: optional function to get bridges to a list
+> >>>   */
+> >>> @@ -46,6 +47,7 @@ struct fpga_region {
+> >>>  	struct fpga_manager *mgr;
+> >>>  	struct fpga_image_info *info;
+> >>>  	struct fpga_compat_id *compat_id;
+> >>> +	struct module *ops_owner;
+> >>>  	void *priv;
+> >>>  	int (*get_bridges)(struct fpga_region *region);
+> >>>  };
+> >>
+> 
