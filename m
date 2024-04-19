@@ -1,299 +1,205 @@
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2040.outbound.protection.outlook.com [40.107.113.40])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE50E9473;
-	Fri, 19 Apr 2024 07:00:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.113.40
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713510015; cv=fail; b=WIBgnbzXZI6rGAUIjCrQ/M54zfuvtBtasve/PrUZ2IXT0lpN2Qog4R6inY+pSL5qbRZ6hZNB+pmMRz5elgzlajqhxgHBWmXiPQqqQZPYmfDoUXQrIt6MW+1DpcB1g/eD4F99X/eROeOami28ER0EZsIejYs/D2qY+nMQ2Yhshxs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713510015; c=relaxed/simple;
-	bh=B6n2h8/FmRN26YxZL0Rlc1PUX5rvIS93f3V87DcJvoM=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=QR9v4kNhGeZT+HAZbuYgK2Nwt0VtWRt3oLtA7jcOXD5bupvJd0828Fv5l9t+LkNF13OpaX6UY5H0d9iC44wNGQcWk3I8FJHqZg7vhxy2RYnnzKcmI1yoYam9GRAGUPtICdWejvmbKn7O9M+Fwy0gnUvn0taTp7LMgO3SBNc3YVQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alpsalpine.com; spf=pass smtp.mailfrom=alpsalpine.com; dkim=pass (2048-bit key) header.d=alpsalpine.com header.i=@alpsalpine.com header.b=CbVDsNfP; arc=fail smtp.client-ip=40.107.113.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alpsalpine.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alpsalpine.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D3B13EA8C
+	for <linux-doc@vger.kernel.org>; Fri, 19 Apr 2024 07:16:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713511017; cv=none; b=qTwvmhmV7egDPqoU+npvAZgSPmqy2q8zj7uW3q4SC+UyqsVs1UU7fSRHYi7KuR7+YyPMsKn+ekWFSB+kotRcjqfDyaN0RIGPw/9begRXrpWI6rFIA0Sa81M1hwm6/c/BnuyE5CikkW52k7BzEWAdnnGfVA0VWuw9SwfPnROpe04=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713511017; c=relaxed/simple;
+	bh=xerZNlBWOzwvaD0cTeYN+wpQI1ET37j4sqVZ9UBtwfo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EiI6skqfmrVdBbGc7AxAxZlAZUPvLh/x/tlPdedO46KmuEwtGTXFzGIK4Y1lTApGnOeFJ4akfyvcgJJJDVMpVIeceKDwczVxyxpDPwYopM294zkfd/jStEIVv+9BRyhT9GT/8NOMde+bp07/6Z7lVTA1EtQJhorQyFa/CvEK3+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BzF8YIr3; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alpsalpine.com header.i=@alpsalpine.com header.b="CbVDsNfP"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aE9H+yJM+BoPxgwv/4e4bA0IiXlQ4kqpn0pACC0krCC2RphPsaWYM3FFmbuyxA8SNyI28w+qla78IY4DxiGQYKDjCLFTN/d568cqU6qJ1+i4ax4LHhiXQxwCYqk/L+imJwsvkTD0RMtEfqFeOF+u7ul/mQT57FStLQ0oHpaordvn7FwmvXv1a/sA4Z/81vtIjJFRMveezcMvEHdSj5obRm6/UsJ9tqoXyee06PPgK3Dly+Nye1lfBAVpuZfohyDAE3mBoOFNyiiAilI9Z8e57wVtxVOJ3dUV87WtEaKqe9P9kYkexfqXnq7JDwx7xHmkpQ5ncH7CnRbsmLnRky2s3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+s9wvGmoVt1IQXfVpwtquY3/1bt3RZPJNzVXoh0DTL0=;
- b=cUnqpBMeYrhUHHQQjkCYjFOdfBuzZXuONoYjHCF/6+MeaxUcNNSl5N1FBqiRq9uU8WD464sqKNHOXKbAQwrFyjUToO45d7MoNwGi8my3WHxljFvfIIrt9zXUrBkfsEoDvWCMc5fqvYJd+z9kEsz6+SBRZJ0YNZIfp9KZ6h9DX5an5ZSwA4rMow0ti7RL3aI5HDvSYvE64i1JBiBSgoNF9bKKhP44tHpqj7ye48TwcBiCdHA8yDLFzNdS94czRC9QLDMP06OE9c5BDdDPipNGpfEXM4o4QxMuC4j1GRBRdJnZwBHYKpAOhHyJcHDoHpJDu0uO8brS+Y8qP1ilYjGHIA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=alpsalpine.com; dmarc=pass action=none
- header.from=alpsalpine.com; dkim=pass header.d=alpsalpine.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alpsalpine.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+s9wvGmoVt1IQXfVpwtquY3/1bt3RZPJNzVXoh0DTL0=;
- b=CbVDsNfPOJRPXiFGHV8y1w9f7ujUfL48Tvk8DK+gJsGXg4sd5SmvF2jKBRrc5gSPozIuY93lVzalDc079sxFzl7TJHFgpA9CqwW+IW6ld1qDmuNDMpZRx80Aw/DB554IP22MjY99X9ApCn7JjuSCY7EZlxCU2cikYef9l12gk5AW/ZqkW17vdeWxKZcsJLOePkt67MrOiHxfJRnPKqKqPsUisXLqIjV2yqxaw3o78yWT0Bo7+spxESTyF/2HuYlphIPSLcVx+2BFqKkn5gVGSVhOV4exrjK1eCVAoiUBpK+LOwzaoZJjgZHLf1X0mwUVnbrCCU/tjkPZJVSltIbkyQ==
-Received: from TYVPR01MB10781.jpnprd01.prod.outlook.com
- (2603:1096:400:2ae::14) by OSRPR01MB11567.jpnprd01.prod.outlook.com
- (2603:1096:604:22d::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.39; Fri, 19 Apr
- 2024 07:00:04 +0000
-Received: from TYVPR01MB10781.jpnprd01.prod.outlook.com
- ([fe80::b541:f53c:6306:6e2b]) by TYVPR01MB10781.jpnprd01.prod.outlook.com
- ([fe80::b541:f53c:6306:6e2b%4]) with mapi id 15.20.7472.037; Fri, 19 Apr 2024
- 07:00:04 +0000
-From: Norihiko Hama <norihiko.hama@alpsalpine.com>
-To: Alan Stern <stern@rowland.harvard.edu>
-CC: "mdharm-usb@one-eyed-alien.net" <mdharm-usb@one-eyed-alien.net>,
-	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"usb-storage@lists.one-eyed-alien.net" <usb-storage@lists.one-eyed-alien.net>
-Subject: RE: [PATCH v3] usb-storage: Optimize scan delay more precisely
-Thread-Topic: [PATCH v3] usb-storage: Optimize scan delay more precisely
-Thread-Index: AQHaj9cp7zT/I59KNkaCms5RMPC7hLFrrGQAgAN+dVA=
-Date: Fri, 19 Apr 2024 07:00:04 +0000
-Message-ID:
- <TYVPR01MB10781F18C77919205761743BA900D2@TYVPR01MB10781.jpnprd01.prod.outlook.com>
-References: <20240416082821.10164-1-Norihiko.Hama@alpsalpine.com>
- <4d94b2a8-dd2a-4bae-9a0c-8125747f404a@rowland.harvard.edu>
-In-Reply-To: <4d94b2a8-dd2a-4bae-9a0c-8125747f404a@rowland.harvard.edu>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=alpsalpine.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYVPR01MB10781:EE_|OSRPR01MB11567:EE_
-x-ms-office365-filtering-correlation-id: c2aaf53e-36b6-41de-7a55-08dc603e571a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- =?utf-7?B?UW9rc2lGZnRLRkRRQ3ZDdEN1N2RYRmpRT0VnOU5KRDlHZGIrLTB2YTBkSnBm?=
- =?utf-7?B?UzUxYnRvTTBYOGw0ektDNXVjY0RrVHdSNG9XcjNmVkM5MkpPTnZyZlAvbVNI?=
- =?utf-7?B?aHhraUFqL0d0NVNQUzRvV0tqOHZ4M0ZpYmtIQXRITTdhMzZQaExTNm1uSENX?=
- =?utf-7?B?U1cvSSstMENzM1JuTW5aZUtRNkdZR3prMVNOSkRPZHAvV0grLVZZWlJIWTJp?=
- =?utf-7?B?YkxtZkc5VkZUNmw1VURrRUt4VUR3SDRuSEQ1Y2JjdUM1ak9BTVYrLUhLRGFI?=
- =?utf-7?B?dGtRSWNMWWc4cDZRaVRZUmRxblM0dklkazJSR1VTNlE3WklsOHdFUi8xT0R0?=
- =?utf-7?B?a3NtYnlLSllsVXZ5SE1zbE9weHhnVnAwL3ArLUNtaUkvcENBdFBpaGVjTUhZ?=
- =?utf-7?B?SVJaQy9ZOFpHaGRqL1lRTGxiT3JXNE5udERKZUQ0OXJuREtWT0tNeFM1dHJH?=
- =?utf-7?B?blJ5VmdVRjRjaFBvRmRNZSstTlBrRVpXdjhyYi9WbHNFTnJKQVBvV2RFV1hi?=
- =?utf-7?B?R2puQkMxd3RFdE9EOHJZSGpNQmovZWgzdVpCN0labno0MDQ1TG1RSzJGRlY5?=
- =?utf-7?B?bVR5SFc2UEhoWmpqM3lBL2V1UlVhLzdmbHR2SkRzSnQyNmo1OFFlRk5mWW9X?=
- =?utf-7?B?SkZRVmRkYUpqUnYwTlJhSm52OURIczQ4VUN0YjY2TDgwVlRRRWNDZERsNWNJ?=
- =?utf-7?B?anJJeTZiak0vWkdRMXd0SUlQTkxjRnFMWVVUWVYwUlBCS1dSWWt2c2tBYzFu?=
- =?utf-7?B?dC83UDdRNkpOSjFhSk8vOHJ5N2VtWWRNTDllNTEvVTJVaGNxTW1QOWFKQjNU?=
- =?utf-7?B?c0lFNWJ5dkgzYW5lSDFGNlBwamJNNXFkWFN1SEhnSVdIWmpzSk93YzRudndr?=
- =?utf-7?B?czIzS0txTHI1VFFiVystbEhWZm14MlJQL3EvdHRVVGRwTUdXRWF4SGw5L0Zi?=
- =?utf-7?B?NXBEOUdLcmhIZ04zNndOcnpzOUdQVmc4U0dNTUw4Sm81bThrVG43UEpqKy1C?=
- =?utf-7?B?ZjFDaXd6MFFaeVE2NUlxczJvKy1rUFh4OXRtZE5Kd3R4OXd4REozUWFIQ3Qv?=
- =?utf-7?B?ei9OUlNQSmpKR2hTeXVLemwxYnhNY2hESmdJc25pbno1Yjh1aUoxVkJIdEJQ?=
- =?utf-7?B?Nlo2TmFZRXV4VlJlRzJyMmE2cGtid2VkcTJPUHhIZndIN1ZDQmVRY0J5V1VH?=
- =?utf-7?B?WHBXZEd4RGdta01WZWY0VWpsalkwR3B1WjRoZUxNZTdkNzI3TDZZelFmWml1?=
- =?utf-7?B?OXhLUzZOb1VhQUtVMTBhbmVBWlFQcEkvVFFBZWNQSFBVcFB0R2xIYTVjZjVX?=
- =?utf-7?B?dkN1VDVWbzBNak0rLUk4NVJyVEhRN1MxdWNqMHhpcystaVZ6QS9sd3BqQWNj?=
- =?utf-7?B?YmFxTGpGbnlXZlhYbDdMZGlDcFVhcmYwaGo3b2hYcHVTQUVvKy0rLVo5UmJm?=
- =?utf-7?B?ZHUzQlhhcThxMnZuOWJJNjV6YXFHVjhiZTJHOHZCKy1IcnpUL2J0VW0xanZS?=
- =?utf-7?B?YjBNbDA0SUxBbmFIV29tbDN6eWNjTWE2MUJDeTFzNm14akFSaEpubmxBVVE=?=
- =?utf-7?B?Ky1Fa09ZMEdjSktmOUxuRFlTSGxlKy1kU3lreHBWWXFvYy9GUC9ZRVlvZmZW?=
- =?utf-7?B?MWlFOEozcVlCaWp3blA4MS9ZU3UzcVZ0dExtZ1c5eUpKQ0hJdEhNdXl2alk=?=
- =?utf-7?B?Ky04Nk05Ri9kc2UzUG03bW5NUGR5UUljd2ZUQzNCaTN5Nm5iVUl6bVk5aE1S?=
- =?utf-7?B?UXdYOTNFN3F5NWpsUENWTTM5SjhkNWhNcUc0M3JJVU1HMTc5ejkybzV3ZFVn?=
- =?utf-7?B?WWpIZ2h3VFY5Z1hTYVR2d2VPeHM2elpmZHVPc3grLXE4WHNBK0FEMEFQUS0=?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:ja;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYVPR01MB10781.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(1800799015)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-7?B?VFNJa0Q5V0tRNTlWaERVc3JQb2puWXJ4cDg0RGNBZFdJMFhCZU5Ha09MeSst?=
- =?utf-7?B?NWJKeDdoYlFFMjAwT1VxZHJyYzBaU3NDVWNTLzIvUEViU0F2cm9NWXd6NTUz?=
- =?utf-7?B?cXVTaXlyaTFTd0dNYXZXSnE4bHZFLzN2d3pkMElOMCstbmtpNTB4bnptZzJG?=
- =?utf-7?B?Q1ZzV2hzR2l6Q0Y1cjU3bHFlTWdMZEkrLUZDZ1BYeVR4dVQ5WTdZRnFXVkU4?=
- =?utf-7?B?SktMQWZVQkVDeTJJeEUrLUVoVU1IcjQzSHp2Vy9NcGUrLUNPY0w1RjRFRkh4?=
- =?utf-7?B?OVFyU2J1V1EzbjJ1QVoweXJPMmp1WVV1UGkzQ1c1Vm5QZDdaTncwT3luNFRs?=
- =?utf-7?B?ZXo5UEw2eWNBbnlKYndvMnI0dWljM0FmaUZRZ1lhQ3U0NkQ5NGhlY0xJZFJB?=
- =?utf-7?B?NDhseUlXS3BpZEZKMUI0VnFmRm5CRldqNGxtTk5hWnhNdFBScU1ud0VZVGZn?=
- =?utf-7?B?ajJYNUJ5aXNWVVNmSGorLVpDYzNQMWhNMEhaQnBDV29OckR1eXhva2ViNE12?=
- =?utf-7?B?NUkyYlpzM3NNekZnRGNaMXFQdTlNNDVFVzdvUFZmdUpZQUlVbko1RDFVWUNt?=
- =?utf-7?B?SFpVUmswNHdwOUhha21udjNmd3JpNWpvWFJZY05LSGdkemJiUkxmQlZVcFlO?=
- =?utf-7?B?ckljNUNDS3BDam5SaVFTc0NuT2lidVlxNmRIY2ZiSVdLNVBYbVVLTFEzSDJu?=
- =?utf-7?B?c0UzVDM2Sk1ZOUplNXdaSHJWa2ZGc0orLWdSTGtlNUhYRHAvYnNKMGlVdTJj?=
- =?utf-7?B?V0gyYnpSTDNRbkhyYVJrd3B1VHhjblo4L2N0QnYxM0l6TG9oMEd2ODYweExF?=
- =?utf-7?B?cDhKcTE3c3hRd1NpbystbllLT3djRjJCQTJ1eEs4VXplMUc4SG43Q3VxeUlD?=
- =?utf-7?B?dnFKQ1BuQ0wrLVhyUkR3QUk5TXI4RXZ4bzZnTEV2SG5QcE90dzBENVpmdDdN?=
- =?utf-7?B?Mm9sRVJYc0VFby90OU5zVUtQei9UYUFUUHd5a0VUZ0lTaXRMeDdhN1BmbjBT?=
- =?utf-7?B?VmZTd2lIT1JZUS9Bc2xLdmhmb2w0T2doTGNLaXlLaVVyVTZiVFVkMy9YKy1n?=
- =?utf-7?B?Z2syUkZXdk1taUI2RUpod1ZvcWt0cWtYaTR4R0VCVEgvZkJMcE5Lemp2TkZt?=
- =?utf-7?B?Uk1LR1pUTE40cXVBUHF2SmNQWDRYdnkzalRLQXVZV0FRb0JvWCstTmF1RFpk?=
- =?utf-7?B?WmV3L1NVakJwS1l4dlJJZVU4dExJUGl2bnhyVTRSNzBocUxyUUlkNHZxTFht?=
- =?utf-7?B?WWpTUzBFY216OVVTZU1zN1pVYVJCaTQ2bzBFRVN2emNjWCstZUNWNXlrdXc2?=
- =?utf-7?B?UDIyOU5DZ1VoR0QxOFNTSlBDZmFBbEg5U3ZOYUwyQmVqd2dlWENtcystbVA5?=
- =?utf-7?B?WTd6ckl5WmVIdmhyWGFZS00wZDIwNUpyYWx6MkJwUGhQeWtIQzFTMm9jZ3pT?=
- =?utf-7?B?dFZaV0UrLThLblJxbEdpL2tNMDN2L2w2RGVta3ptM0xDb0pMTndSMGJrR1Nk?=
- =?utf-7?B?SGpQV1lidzZEUzd2NmhPM1JralVPZkMxNTVtMHZScVlFWCstNVhmdkhGRmVF?=
- =?utf-7?B?Sm13aDRlSnlFeDdId281NjlEc3lIR2wvV2EyejBjbFJDbDduNWsvZjlGVWRm?=
- =?utf-7?B?WjZRZSstT25pWk5raFlwYkwxS0FlSUN0RXJ6WW9Oa3dHMGt2R2ZQU09FanhU?=
- =?utf-7?B?MlVkdDEyKy1BNVVsTjNSSFdYMWlUcWxLbWdZTklFZ1hUQzRuRm10dDZaaFVp?=
- =?utf-7?B?ekNNaVp3dE9QS01jSXF3d1lmRE9keXBvdU01YnErLXAzajRzWm1NQ3pTV0xm?=
- =?utf-7?B?a0pxV016T3hZT25RMUg3eWdYcDJESk1ZcllGMjJwS2dpZlpFUWd5aFhZQUQ3?=
- =?utf-7?B?a1AzWUZXcHVJUTlrZUtocUFFSmxPT3N4bFo0Vm40WUh5akdCRHVVM3dvVWpH?=
- =?utf-7?B?QkFtN1E2Q0ZQMGRpMTAybnpiRHFiTzYxemhwV1RITHVLS1Y4eGtJdUFNUEho?=
- =?utf-7?B?bC9YSjJ3YnppY2EwT3dmRVBiLzYzZVluSDJKKy1OTDFMWWVZRVdvWHpIU3lo?=
- =?utf-7?B?anY0YzFqYUc5V005Ky0vaUFzSW52YmcyNGhYTE1sS044dGNEQlBBU3JjT2ds?=
- =?utf-7?B?OUZtWENUN0tjcVhJd05ud1dPenFYam9iUFRhY3hSVVlteDZ3QWY4VG9YdFVO?=
-Content-Type: text/plain; charset="utf-7"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BzF8YIr3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1713511010;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=cNdMyKJtZkJVADCLrbvfI61n/KWQQTgh0VRSN/5FL9U=;
+	b=BzF8YIr3rIrvW2iz/q1Eda/GFGaZKcbn6r9Vdu2kgdQLy+78q8gpw2s2PNgcxGTZT6CMMo
+	eyd/wtu+VmM/j2BqKXeFnOyyGZk9ZhN2YalWaBHOlRdkmAfmh/zJjAm4xcriLL+PLffdfb
+	klbMJKnnEq1Ys9Dwabb1ZCwBGxAiQbo=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-326-a1faKfI-OZefSWlJmtEQ6A-1; Fri, 19 Apr 2024 03:16:48 -0400
+X-MC-Unique: a1faKfI-OZefSWlJmtEQ6A-1
+Received: by mail-lj1-f197.google.com with SMTP id 38308e7fff4ca-2d884b718f1so15397541fa.0
+        for <linux-doc@vger.kernel.org>; Fri, 19 Apr 2024 00:16:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713511004; x=1714115804;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cNdMyKJtZkJVADCLrbvfI61n/KWQQTgh0VRSN/5FL9U=;
+        b=HoD7BzltFfG9xzNoXqnqbRBPEhVEEhM6YHpjGrhSBrYESKjD2I+RhvUC9hI1+QDpSv
+         UYLNIsmSBaEvusJwmmb3DzLHwzFHd4UWUIXGNjm2Bjg2telqDESGLIB5+OPUiDEb4ZQc
+         UL7gwuBGoqYmQ7vNIGIyf9ReYPaWKBkWrvG0cFtrTlkKzRRSYttoqKIShFXEFKGkoNLe
+         mJOzBfJLMw2MAGfM4GmGz68XPXULThV0/M9FHL6RZ5w3Wf+flC3fCxKCxc707s1qD0qi
+         SatA7ovWtILXM/S4b3hIUXsoqGBNOc5TbBnvFeG+wVvYb217MdT88dOXAZHKoNOT01MZ
+         cyFA==
+X-Forwarded-Encrypted: i=1; AJvYcCUibhKy5QH561dOTbJcMP1dpd7y5vbarMIZUxU1cSkDs8GaWmCVmLfruWkKgevbBDrz0QEJbFExRFenZeUEjZt+DhVMNSUs+USO
+X-Gm-Message-State: AOJu0Yw5F+h/H9aDsysebYzZT/1mFIQScCQ9VL4MC4FAmDs4RhXC0A04
+	rtqdbDwgNefnbWWbSORTMxQxp7JPYelub1AAafpamqfQgToxe66pbYuCHzbOUKeMJ8idn6lZ2VN
+	c7UhBLhPiG+BNZU/tF5sOFTtFsV1Bm+O26PaCN1dxv4Njrj5KEK9JkfTIFAdUVrhWMQ==
+X-Received: by 2002:a05:651c:1031:b0:2d8:6104:f95a with SMTP id w17-20020a05651c103100b002d86104f95amr677609ljm.23.1713511004034;
+        Fri, 19 Apr 2024 00:16:44 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEzp6BC6iIIJU1Fu2PqXxEWL3FYmVn1VEc13lIuo690UE73CWmvjK75ugnF+s1hz50brkAD5g==
+X-Received: by 2002:a05:651c:1031:b0:2d8:6104:f95a with SMTP id w17-20020a05651c103100b002d86104f95amr677586ljm.23.1713511003506;
+        Fri, 19 Apr 2024 00:16:43 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c716:f300:c9f0:f643:6aa2:16? (p200300cbc716f300c9f0f6436aa20016.dip0.t-ipconnect.de. [2003:cb:c716:f300:c9f0:f643:6aa2:16])
+        by smtp.gmail.com with ESMTPSA id y18-20020a056000109200b00343300a4eb8sm2732998wrw.49.2024.04.19.00.16.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 19 Apr 2024 00:16:43 -0700 (PDT)
+Message-ID: <10af93f8-83f2-48ce-9bc3-80fe4c60082c@redhat.com>
+Date: Fri, 19 Apr 2024 09:16:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: alpsalpine.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYVPR01MB10781.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c2aaf53e-36b6-41de-7a55-08dc603e571a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Apr 2024 07:00:04.5308
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 57e76998-77bd-4b82-a424-198f46eb2254
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: zGkxW+TgZ4TVI44T6uBiKxzBZPDpYOpdq2COd24tRpiFDR5Qn0lCxQqGDHrB231b4c3upZvy/q00/3eMxjctDw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSRPR01MB11567
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: coding-style: don't encourage WARN*()
+To: Alex Elder <elder@linaro.org>, corbet@lwn.net
+Cc: gregkh@linuxfoundation.org, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240414170850.148122-1-elder@linaro.org>
+Content-Language: en-US
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <20240414170850.148122-1-elder@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-+AD4APg- On Tue, Apr 16, 2024 at 05:28:21PM +-0900, Norihiko Hama wrote:
-+AD4- At this location you're supposed to describe how this version of the =
-patch differs from the previous version.
+On 14.04.24 19:08, Alex Elder wrote:
+> Several times recently Greg KH has admonished that variants of WARN()
+> should not be used, because when the panic_on_warn kernel option is set,
+> their use can lead to a panic. His reasoning was that the majority of
+> Linux instances (including Android and cloud systems) run with this option
+> enabled. And therefore a condition leading to a warning will frequently
+> cause an undesirable panic.
+> 
+> The "coding-style.rst" document says not to worry about this kernel
+> option.  Update it to provide a more nuanced explanation.
+> 
+> Signed-off-by: Alex Elder <elder@linaro.org>
+> ---
+>   Documentation/process/coding-style.rst | 21 +++++++++++----------
+>   1 file changed, 11 insertions(+), 10 deletions(-)
+> 
+> diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+> index 9c7cf73473943..bce43b01721cb 100644
+> --- a/Documentation/process/coding-style.rst
+> +++ b/Documentation/process/coding-style.rst
+> @@ -1235,17 +1235,18 @@ example. Again: WARN*() must not be used for a condition that is expected
+>   to trigger easily, for example, by user space actions. pr_warn_once() is a
+>   possible alternative, if you need to notify the user of a problem.
+>   
+> -Do not worry about panic_on_warn users
+> -**************************************
+> +The panic_on_warn kernel option
+> +********************************
+>   
+> -A few more words about panic_on_warn: Remember that ``panic_on_warn`` is an
+> -available kernel option, and that many users set this option. This is why
+> -there is a "Do not WARN lightly" writeup, above. However, the existence of
+> -panic_on_warn users is not a valid reason to avoid the judicious use
+> -WARN*(). That is because, whoever enables panic_on_warn has explicitly
+> -asked the kernel to crash if a WARN*() fires, and such users must be
+> -prepared to deal with the consequences of a system that is somewhat more
+> -likely to crash.
+> +Note that ``panic_on_warn`` is an available kernel option. If it is enabled,
+> +a WARN*() call whose condition holds leads to a kernel panic.  Many users
+> +(including Android and many cloud providers) set this option, and this is
+> +why there is a "Do not WARN lightly" writeup, above.
+> +
+> +The existence of this option is not a valid reason to avoid the judicious
+> +use of warnings. There are other options: ``dev_warn*()`` and ``pr_warn*()``
+> +issue warnings but do **not** cause the kernel to crash. Use these if you
+> +want to prevent such panics.
+>   
+>   Use BUILD_BUG_ON() for compile-time assertions
+>   **********************************************
 
-Thank you for your support.
-The difference from previous version is parsing parameter by kstrtouint() o=
-nly with padding to 3 digit '0' based on your advice.
-I'll split parser function and simplify get() function on next version.
+Did you even read the history about that? Likely not, otherwise I wouldn't
+have to learn about this patch on lwn.net.
 
-+AD4APg- --- a/Documentation/admin-guide/kernel-parameters.txt
-+AD4APg- +-+-+- b/Documentation/admin-guide/kernel-parameters.txt
-+AD4APg- +AEAAQA- -6190,6 +-6190,16 +AEAAQA-
-+AD4APg-  	usb-storage.delay+AF8-use+AD0-
-+AD4APg-  			+AFs-UMS+AF0- The delay in seconds before a new device is
-+AD4APg-  			scanned for Logical Units (default 1).
-+AD4APg- +-			To specify more precise delay, supports 3 decimal point.
-+AD4APg- +-			The range of decimal point is in milliseconds,
-+AD4APg- +-			hence the minimum value is +ACI-0.001+ACI-.
-+AD4-=20
-+AD4- The text could be better.  For example:
-+AD4-=20
-+AD4-			The delay can have up to 3 decimal places, giving a
-+AD4-			resolution of one millisecond.
+I suggest reading:
 
-Thank you for your adevice.
+commit 1cfd9d7e43d5a1cf739d1420b10b1e65feb02f88
+Author: David Hildenbrand <david@redhat.com>
+Date:   Fri Sep 23 13:34:24 2022 +0200
 
-+AD4APg- +-			Example:
-+AD4APg- +-				delay+AF8-use+AD0-1
-+AD4APg- +-					1 second delay
-+AD4APg- +-				delay+AF8-use+AD0-0.1
-+AD4APg- +-					0.1 second delay
-+AD4APg- +-				delay+AF8-use+AD0-2.55
-+AD4APg- +-					2.55 second elay
-+AD4-=20
-+AD4- This should show all 3 decimal places:
-+AD4-=20
-+AD4-				delay+AF8-use+AD0-2.567
-+AD4-					2.567 second delay
+     coding-style.rst: document BUG() and WARN() rules ("do not crash the kernel")
 
-I see.
 
-+AD4- As I said before, the parsing code should be in a separate function t=
-o make reviewing the code easier.  It also should be written more clearly. =
- Here's my attempt (not tested at all).  You might prefer to remove some of=
- the comments+ADs- I put in a lot of them.
-+AD4-=20
-+AD4- /+ACoAKg-
-+AD4-  +ACo- str+AF8-to+AF8-fixed+AF8-point+AF8-uint - parse an unsigned fi=
-xed-point decimal integer
-+AD4-  +ACo- +AEA-str: String to parse.
-+AD4-  +ACo- +AEA-ndecimals: Number of decimal places in the fixed-point va=
-lue.
-+AD4-  +ACo- +AEA-val: Where to store the parsed value.
-+AD4-  +ACo-
-+AD4-  +ACo- Parse an unsigned fixed-point decimal value in +AEA-str, conta=
-ining at
-+AD4-  +ACo- most ndecimal digits to the right of the decimal point.
-+AD4-  +ACo- Stores the parsed value in +AEA-val, scaled by 10+AF4-(+AEA-nd=
-ecimal).
-+AD4-  +ACo-
-+AD4-  +ACo- As with kstrtouint(), the string must be NUL-terminated and ma=
-y
-+AD4-  +ACo- include a single newline before the terminating NUL.  The firs=
-t
-+AD4-  +ACo- character may be a plus sign but not a minus sign.  The decima=
-l
-+AD4-  +ACo- point and fractional digits are optional.
-+AD4-  +ACo-
-+AD4-  +ACo- Returns 0 on success, a negative error code otherwise.
-+AD4-  +ACo-/
-+AD4- static int str+AF8-to+AF8-fixed+AF8-point+AF8-uint(const char +ACo-st=
-r, int ndecimals,
-+AD4-		unsigned int +ACo-val)
-+AD4- +AHs-
-+AD4-	int n, n1, n2+ADs-
-+AD4-	const char +ACo-p+ADs-
-+AD4-	char +ACo-q+ADs-
-+AD4-	char buf+AFs-16+AF0AOw-
-+AD4-
-+AD4-	n +AD0- strlen(str)+ADs-
-+AD4-	if (n +AD4- 0 +ACYAJg- str+AFs-n - 1+AF0- +AD0APQ- '+AFw-n')+ADs-
-+AD4-		--n+ADs-
-+AD4-
-+AD4-	p +AD0- strchr(str, '.')+ADs-
-+AD4-	if (p) +AHs-
-+AD4-		n1 +AD0- p+-+- - str+ADs-		/+ACo- Length of integral part +ACo-/
-+AD4-		n2 +AD0- n - (n1 +- 1)+ADs-	/+ACo- Length of fractional part +ACo-/
-+AD4-		if (n2 +AD4- ndecimals)
-+AD4-			return -EINVAL+ADs-
-+AD4-	+AH0- else +AHs-
-+AD4-		n1 +AD0- n+ADs-			/+ACo- Length of integral part +ACo-/
-+AD4-		n2 +AD0- 0+ADs-			/+ACo- No fractional part +ACo-/
-+AD4-	+AH0-
-+AD4-	if (n1 +- n2 +AD0APQ- 0 +AHwAfA- n1 +- ndecimals +AD4- sizeof(buf) - =
-1)
-+AD4-		return -EINVAL+ADs-		/+ACo- No digits present or too long +ACo-/
-+AD4-
-+AD4-	memcpy(buf, str, n1)+ADs-		/+ACo- Integer part +ACo-/
-+AD4-	memcpy(buf +- n1, p, n2)+ADs-	/+ACo- Fractional part +ACo-/
-+AD4-	for (q +AD0- buf +- n1 +- n2+ADs- n2 +ADw- ndecimals+ADs- +-+-n2)
-+AD4-		+ACo-q+-+- +AD0- '0'+ADs-		/+ACo- Remaining fractional digits +ACo-/
-+AD4-	+ACo-q +AD0- 0+ADs-
-+AD4-
-+AD4-	return kstrtouint(buf, 10, val)+ADs-
-+AD4- +AH0-
+which includes links to relevant discussions between me and Linus. Most
+relevant to the discussion is [1].
 
-Thank you for your help.
-I'll reconsider the code changes and test it.
+All that's written in the document right now (use WARN_ON_ONCE() *lightly*) is precisely
+what I still think we should do. That's the case *1.5 years* after I documented that.
 
-+AD4APg- +-
-+AD4APg- +-static int delay+AF8-use+AF8-get(char +ACo-s, const struct kerne=
-l+AF8-param +ACo-kp) +AHs-
-+AD4APg- +-	unsigned int delay+AF8-ms +AD0- +ACo-((unsigned int +ACo-)kp-+A=
-D4-arg)+ADs-
-+AD4APg- +-	unsigned int rem +AD0- do+AF8-div(delay+AF8-ms, MSEC+AF8-PER+AF=
-8-SEC)+ADs-
-+AD4APg- +-	int len+ADs-
-+AD4APg- +-	char buf+AFs-16+AF0AOw-
-+AD4APg- +-
-+AD4APg- +-	len +AD0- scnprintf(buf, sizeof(buf), +ACIAJQ-d+ACI-, delay+AF8=
--ms)+ADs-
-+AD4APg- +-	if (rem) +AHs-
-+AD4APg- +-		len +-+AD0- scnprintf(buf +- len, sizeof(buf) - len, +ACI-.+AC=
-U-03d+ACI-, rem)+ADs-
-+AD4APg- +-		while (buf+AFs-len - 1+AF0- +AD0APQ- '0') +AHs-
-+AD4APg- +-			buf+AFs-len - 1+AF0- +AD0- '+AFw-0'+ADs-
-+AD4APg- +-			if (--len +ADwAPQ- 1)
-+AD4APg- +-				break+ADs-
-+AD4APg- +-		+AH0-
-+AD4APg- +-	+AH0-
-+AD4-=20
-+AD4- While this could also go in a separate function, it's short enough to=
- keep here.
+Clear NACK from my side: "If you set 'panic_on_warn' you get to keep both
+pieces when something breaks." [1]
 
-OK, I see.
+[1] https://lore.kernel.org/all/CAHk-=wgF7K2gSSpy=m_=K3Nov4zaceUX9puQf1TjkTJLA2XC_g@mail.gmail.com/
+
+
+-- 
+Cheers,
+
+David / dhildenb
 
