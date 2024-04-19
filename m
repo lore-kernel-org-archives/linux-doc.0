@@ -1,100 +1,93 @@
-Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6802229CE5;
-	Fri, 19 Apr 2024 20:46:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0D9C64D;
+	Fri, 19 Apr 2024 23:27:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713559581; cv=none; b=D4jite2ZiTQdsOGGx7UUM23yZYnjyOC5nLKI9WPMNeQRboxVjyCF7FwA6HbiG2/cCElJNIfuVu+eXvQwEsIF0VCVbEy81bLDXafi+sejbV4G+x3A2RwbFqhcHCxX6T0BEPteG1WmXL0VFG4mg48jd9YjIqeYl4qDoQQZTmRVPbc=
+	t=1713569273; cv=none; b=KMJ/nAYqM3R5uLkAwq2w0IZw5eOdlyZajKGios0i/HM1/GAXNq/gTRgLwkTNxmoyLW0vaqHnTjjk2Xx30TMbj2R37MrP8pMHwIqJqaWDQPxZscjHlRMf11OJOK5CE2ydddg7kZ3ZgIRD3jef6ly0RKOR2JBggheTiQxSiRMPIbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713559581; c=relaxed/simple;
-	bh=Q0n2p3Gl2XGwFRL69wM+4Pn8DrdIQvix54nl3TqcDfI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NYnhi/OzRzzfGL5LxbED5XEctWb/2+xE54e5HaTiGYk+UZBJkZPjjILic0FZSSo/YQEDV0BS3VUkWIbuyrPOenMmO7WQUSmeZJNuDmr6riBjbnMjKLywPQUtQJf9itR8/J9f3Pidz5gcAoakDjem0bFq5XKaUyz9DpwRnXtiOiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=fR9v3p+z; arc=none smtp.client-ip=4.36.192.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
+	s=arc-20240116; t=1713569273; c=relaxed/simple;
+	bh=+Qx+phbbez3nCafVJWvHw2p/4Osq43K/uQphuHmnUwQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=mDLb4QCC1OCpKhSdW8ZmnRBcHAcCMtbFOnhoSI8wul1PvvMKFtgERjRx6owDsHjmJFUGurahqd0X2HAxBbGctE9dOfLmPTn9/KgJsAPs5CVdNkt/DC8/9f6lraX7aVMwBgRB9nrd/kM8lnannijdhQSuTp55OTTpu2vj20QleO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b=jRzCfYod; arc=none smtp.client-ip=150.107.74.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="fR9v3p+z"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
-	bh=5p2yQvQe15hu1/dZghXrbNWOB2J/4kqzCzCcLTivdwE=; b=fR9v3p+zjVf9sCIqkYiQdMIBvS
-	FQWQVZ71cUCDyVhziOVnArmJjPymIm2os81/0UHq/3QVttuvtt4/WXtfa2arno+JquVqpETCQzu8j
-	WEN74vvkg3kh8B+URuhpz+FpbM+nnmYSrkz5OW0/2pXVxXHgAkkcPhbb+T+jF7DkFSdA6NXxkHGb2
-	a8ZtvB9ROZMZAbLXO8w6xshaP/5lW+FZ6GPMvA+V/fP0/CXdGFYcJFAQL2RQdTIJ3p0Fu0lVgABRx
-	GMqAq0xAcPtwtt+QZBQXBARwETz2JXk+TFEI9Ip6q/TsffEH+Wpu2x5I8J6Ka3l5B306VEtmGY9Kw
-	zf83hOmQ==;
-Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.localnet)
-	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <zfigura@codeweavers.com>)
-	id 1rxv7X-001bTU-1M;
-	Fri, 19 Apr 2024 15:46:07 -0500
-From: Elizabeth Figura <zfigura@codeweavers.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: wine-devel@winehq.org, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
- linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- Wolfram Sang <wsa@kernel.org>, Andy Lutomirski <luto@kernel.org>,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
- Boqun Feng <boqun.feng@gmail.com>
-Subject: Re: [PATCH v4 00/30] NT synchronization primitive driver
-Date: Fri, 19 Apr 2024 15:46:07 -0500
-Message-ID: <4560699.LvFx2qVVIh@camazotz>
-In-Reply-To: <20240419161611.GA23130@noisy.programming.kicks-ass.net>
-References:
- <20240416010837.333694-1-zfigura@codeweavers.com>
- <3743440.MHq7AAxBmi@terabithia>
- <20240419161611.GA23130@noisy.programming.kicks-ass.net>
+	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="jRzCfYod"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+	s=201909; t=1713569268;
+	bh=0COLxRjPIo77fJ3J44TSQPzwMK0xvmc5G2PIo/aN2Q8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=jRzCfYodBkOvSSB3DEIlwaJYIHkgEocozaQ66gtnmx5Gcv6SEyXG11mGfxhHYwSke
+	 WWOSHQ4aB+1bBQcWeYCAG4b09buYqx/SU3cEtl4pcEOrjy5qFSbteJsh+mrhevSvxn
+	 eX6sDRRAJTTN2fZJ5Uy9PDZF/YUOPbI4SFIogsdFCK/v4MXX8pdHgeJbEMx5Y0LjnH
+	 fPP/0ocARMSuF7TM+93Ar+IzQiu/3IzaNgE3E3diUMRA9RxmuUv/7ZvjuE8qz7Bo4T
+	 aqvOs5qIPJXQHQXCUrFvX7AAfrZi/wrUZtJbkVKni2l6MslwX2g82hcad7fASbUyd0
+	 wQboUqWmZ1ALQ==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4VLrR66xPqz4wjF;
+	Sat, 20 Apr 2024 09:27:46 +1000 (AEST)
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Josh Poimboeuf <jpoimboe@kernel.org>, Sean Christopherson
+ <seanjc@google.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave
+ Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Peter Zijlstra <peterz@infradead.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Stephen Rothwell
+ <sfr@canb.auug.org.au>, Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH 1/2] cpu: Re-enable CPU mitigations by default for !X86
+ architectures
+In-Reply-To: <20240419160537.namt5yaxhhvwwa3r@treble>
+References: <20240417001507.2264512-1-seanjc@google.com>
+ <20240417001507.2264512-2-seanjc@google.com>
+ <20240419160537.namt5yaxhhvwwa3r@treble>
+Date: Sat, 20 Apr 2024 09:27:45 +1000
+Message-ID: <87mspp9bm6.fsf@mail.lhotse>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-On Friday, 19 April 2024 11:16:11 CDT Peter Zijlstra wrote:
-> On Tue, Apr 16, 2024 at 05:18:56PM -0500, Elizabeth Figura wrote:
-> > On Tuesday, 16 April 2024 16:18:24 CDT Elizabeth Figura wrote:
-> > > On Tuesday, 16 April 2024 03:14:21 CDT Peter Zijlstra wrote:
-> > > > I don't support GE has it in his builds? Last time I tried, building
-> > > > Wine was a bit of a pain.
-> > >=20
-> > > It doesn't seem so. I tried to build a GE-compatible ntsync build, up=
-loaded
-> > > here (thanks Arek for hosting):
-> > >=20
-> > >     https://f002.backblazeb2.com/file/wine-ntsync/ntsync-wine.tar.xz
-> >=20
-> > Oops, the initial version I uploaded had broken paths. Should be fixed =
-now.
-> >=20
-> > (It's also broken on an unpatched kernel unless explicitly disabled wit=
-h=20
-> > WINE_DISABLE_FAST_SYNC=3D1. Not sure what I messed up there=E2=80=94it =
-should fall back=20
-> > cleanly=E2=80=94but hopefully shouldn't be too important for testing.)
->=20
-> So I've tried using that wine build with lutris, and I can't get it to
-> start EGS or anything else.
->=20
-> I even added a printk to the ntsync driver for every open, to see if it
-> gets that far, but I'm not even getting that :/
+Josh Poimboeuf <jpoimboe@kernel.org> writes:
+> On Tue, Apr 16, 2024 at 05:15:06PM -0700, Sean Christopherson wrote:
+>> Add a generic Kconfig, CPU_MITIGATIONS, to control whether or not CPU
+>> mitigations are enabled by default, and force it on for all architectures
+>> except x86.  A recent commit to turn mitigations off by default if
+>> SPECULATION_MITIGATIONS=n kinda sorta missed that "cpu_mitigations" is
+>> completely generic, where as SPECULATION_MITIGATIONS is x86 specific.
+>> 
+>> Alternatively, SPECULATION_MITIGATIONS could simply be defined in common
+>> code, but that creates weirdness for x86 because SPECULATION_MITIGATIONS
+>> ends up being defined twice, and the default behavior would likely depend
+>> on the arbitrary include order (if the two definitions diverged).
+>> 
+>> Ideally, CPU_MITIGATIONS would be unconditionally on by default for all
+>> architectures, and manually turned off, but there is no way to unselect a
+>> Kconfig.
+>> 
+>> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+>> Reported-by: Michael Ellerman <mpe@ellerman.id.au>
+>> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+>> Closes: https://lkml.kernel.org/r/20240413115324.53303a68%40canb.auug.org.au
+>> Fixes: f337a6a21e2f ("x86/cpu: Actually turn off mitigations by default for SPECULATION_MITIGATIONS=n")
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Sean Christopherson <seanjc@google.com>
+>
+> It seems confusing to have two config options which have very similar
+> names and similar purposes (with subtle differences depending on the
+> arch).
 
-That's odd, it works for me, both as a standalone build and with
-lutris...
+I agree.
 
-Does /dev/ntsync exist (module is loaded) and have nonzero permissions?
-I forgot to mention that's necessary, sorry.
+But can we please get Sean's fix into mainline before rc5.
 
-Otherwise I can try to look at an strace, or a Wine debug log. I don't
-think there's an easy way to get the latter with Lutris, but something
-like `WINEDEBUG=3D+all ./wine winecfg 2>log` should work.
-
-
+cheers
