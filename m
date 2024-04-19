@@ -1,110 +1,134 @@
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E9A12DDA7;
-	Fri, 19 Apr 2024 14:28:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02BCE85C6C;
+	Fri, 19 Apr 2024 14:37:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713536897; cv=none; b=DdWnF2J9O+2YlXnNK83YMbYAXO5cRanBq6mDaP/iCKBbXoD0s7FBoi8sPk/qWTbfpbqF2nxCZc+4xKeQI1RVqFI3ELGTUbxNXOrdFYUwXnG8D8dcTJJ5fO7CRjgApiBKwJK7A+naMpiNLwWBZ4h9LQpK3LHyLyz6WugjRlkgWD8=
+	t=1713537439; cv=none; b=YIE/RPCM/QsYx9ReG/baWrsmBPAIRhAymg/e91nVR/JlxnDOfeRrcsvL6gD29vNunml9j2SSTjiGc1btYypbIewjmIcCD+XFu5i5EXqs7e5hRChSi5kaMLqC8WvyF71CEXNBYjCpRoWjvsMzRmmiPE248kjoGk41O3oi7dsF/+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713536897; c=relaxed/simple;
-	bh=G1+0dblF40saoEUI5t9PSHAuASXQQjX35EyPZNEjYoc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QAkmyScVStZS7o9MQdqa0bW/z2APCjnbqL4knD5Bu1GM79orYElXoAXlCnODHmzUVq0Z4GRmxexRFxFy82NI3U68YGP7/WZ8984rElbP71Q9QLO94DKyvAK69Hyv+yX3KfrDEV8e7TpaU3X8MHdZegnPD8UpNvQgNEiWAM6gxUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.219.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dc742543119so2279747276.0;
-        Fri, 19 Apr 2024 07:28:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713536893; x=1714141693;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SUQip6CY7nE7rS4i9PrpmVcAVNKpvKyKHJ16wLW48xo=;
-        b=Aj8ZT1hF1JHdvLU49aZeYQ3N44JCKNqruIaXbjTDLc/Vq0cD5SSKqM3VtR3urBmag2
-         MFX5mIBQpds+WIJNeZioEa1PVWPN49q74Vxqoj+pxZOXmrM4exu2QSoRkqgt+DcQujTo
-         eUSBxc5P7DqazC+nkcwcaS+gEnmrZItR/hDslaU3Yqjr0Nqvvs4oglIoGXQC54pPixC+
-         6pKdF2ca8buLi+D04BKo8/tVWh6BGskZDmLcLFUCq6c2HRTMXhaFf1XwphGDedrSITas
-         kTbLQZdiL/LG1FlpQcvc7g5w3b1kXFNLnnadaX1BWNGtm4aw8kLFjvXEcqV/gzNraL3U
-         uxLw==
-X-Forwarded-Encrypted: i=1; AJvYcCXSi9TXmsHwsbKD5SCLJQ8rssCopgLS2f6LVkYnoXd+3qKn31+/8d4JLdb3JSbBdxjhWmhvCJhQNwsC9kZG9fuNHxj8lludbSQW3hlLBooRoZUvkaiNWyIGFyRYzyMnHFXZVtvBSogU
-X-Gm-Message-State: AOJu0YyzmFd27uZ8KX9aHyUMtBCvM9WG4bf+o2eP2QMaFYMCyWNWpCIx
-	1HSIxg1rlFwvP700yGRD8v9cFDSBk+ELzcIg135esRsTCXNfDMNUAcEHnJyd
-X-Google-Smtp-Source: AGHT+IEXBZ1B4uxtWFhIS3QzFuCVVxW+oRO8VR+gEmxkGxIaerMAXvTTF9v2nCYokVia93g+7Err+g==
-X-Received: by 2002:a25:918c:0:b0:dd0:bb34:1e77 with SMTP id w12-20020a25918c000000b00dd0bb341e77mr1953816ybl.53.1713536893546;
-        Fri, 19 Apr 2024 07:28:13 -0700 (PDT)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com. [209.85.219.174])
-        by smtp.gmail.com with ESMTPSA id ck10-20020a05690218ca00b00de4f0ae2a8asm83939ybb.46.2024.04.19.07.28.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Apr 2024 07:28:12 -0700 (PDT)
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-dc742543119so2279642276.0;
-        Fri, 19 Apr 2024 07:28:11 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXIDHK0q4XJrNexl7v1sbDV2KWeQzh/plKaF1py1BSPjwfGrK03sJH8HlqIcphsRqHpOubURb2UZiU3+jqNPgVE5uIzZ4qVeuJ+wvBTyBrPcgCdRpePXmbOf2UxnqBfLTihVj4L6RXW
-X-Received: by 2002:a25:acdc:0:b0:dc7:4460:878a with SMTP id
- x28-20020a25acdc000000b00dc74460878amr2207906ybd.3.1713536891068; Fri, 19 Apr
- 2024 07:28:11 -0700 (PDT)
+	s=arc-20240116; t=1713537439; c=relaxed/simple;
+	bh=JkAHRjfxu4Qjq8Y/LEAkgUceMDR3NN3t0G4oqLoLsaw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ClVUFrrvZhysOzRbZYeYLHMoVkNUVlvOH1Vrk5qPGWGdafg2obwzyMbBFMiDfDrtEIJzgM16t48/HmjQ9Vp2h1+bw2JwGA+1TKYqx4ssSqrnW+K9JHJsTXHf4CMd4FW/+xKvJwsBmGNBwL2OyNzZP/9Wc03g7fRNtN7gB5mJEjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GdkCOTLd; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GdkCOTLd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EED6CC072AA;
+	Fri, 19 Apr 2024 14:37:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713537438;
+	bh=JkAHRjfxu4Qjq8Y/LEAkgUceMDR3NN3t0G4oqLoLsaw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GdkCOTLdBieuMPvW/9e/28Vn0guU0gGfX2iZVwYnsd2Tw3VBdLm2empa1flGGpEFG
+	 hJmwlZhVBAZHXTC7/tMjg1LMvk7UMozaQQb3YrmWjRs0qLwFlElPxj8KF0SA3/aSYq
+	 DPqlqeNPaApEhZcIdEYGgQl0kPezQ+fLUbuqFEUcZ1BtwLkWN68OyNzZ7ol2YWjHDz
+	 Kh1Z1SRtEWqhTrnJH/pWzt751I/tML/r0FrQgdPBR1YPAwVKjwf9jiw/KcF3IVyA1p
+	 hc2NodWM5G3gQfVfq5h6o0auN2d/whUOYC2SHCzjyM1otSzr8XvUJGaL6u25QP1lZP
+	 Ykqx4YmVXIAyw==
+Date: Fri, 19 Apr 2024 15:37:12 +0100
+From: Will Deacon <will@kernel.org>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Peter Zijlstra <peterz@infradead.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH 1/2] cpu: Re-enable CPU mitigations by default for !X86
+ architectures
+Message-ID: <20240419143712.GA3458@willie-the-truck>
+References: <20240417001507.2264512-1-seanjc@google.com>
+ <20240417001507.2264512-2-seanjc@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240417001507.2264512-1-seanjc@google.com> <20240417001507.2264512-2-seanjc@google.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20240417001507.2264512-2-seanjc@google.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 19 Apr 2024 16:27:58 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWdW8sao4MpKyrJ=mMTNdzNJC+AP_4ewd4OUHLW6VzAZg@mail.gmail.com>
-Message-ID: <CAMuHMdWdW8sao4MpKyrJ=mMTNdzNJC+AP_4ewd4OUHLW6VzAZg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] cpu: Re-enable CPU mitigations by default for !X86 architectures
-To: Sean Christopherson <seanjc@google.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Peter Zijlstra <peterz@infradead.org>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Stephen Rothwell <sfr@canb.auug.org.au>, Michael Ellerman <mpe@ellerman.id.au>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Wed, Apr 17, 2024 at 2:15=E2=80=AFAM Sean Christopherson <seanjc@google.=
-com> wrote:
+On Tue, Apr 16, 2024 at 05:15:06PM -0700, Sean Christopherson wrote:
 > Add a generic Kconfig, CPU_MITIGATIONS, to control whether or not CPU
 > mitigations are enabled by default, and force it on for all architectures
 > except x86.  A recent commit to turn mitigations off by default if
-> SPECULATION_MITIGATIONS=3Dn kinda sorta missed that "cpu_mitigations" is
+> SPECULATION_MITIGATIONS=n kinda sorta missed that "cpu_mitigations" is
 > completely generic, where as SPECULATION_MITIGATIONS is x86 specific.
->
+> 
 > Alternatively, SPECULATION_MITIGATIONS could simply be defined in common
 > code, but that creates weirdness for x86 because SPECULATION_MITIGATIONS
 > ends up being defined twice, and the default behavior would likely depend
 > on the arbitrary include order (if the two definitions diverged).
->
+> 
 > Ideally, CPU_MITIGATIONS would be unconditionally on by default for all
 > architectures, and manually turned off, but there is no way to unselect a
 > Kconfig.
->
+> 
 > Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
 > Reported-by: Michael Ellerman <mpe@ellerman.id.au>
 > Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Closes: https://lkml.kernel.org/r/20240413115324.53303a68%40canb.auug.org=
-.au
-> Fixes: f337a6a21e2f ("x86/cpu: Actually turn off mitigations by default f=
-or SPECULATION_MITIGATIONS=3Dn")
+> Closes: https://lkml.kernel.org/r/20240413115324.53303a68%40canb.auug.org.au
+> Fixes: f337a6a21e2f ("x86/cpu: Actually turn off mitigations by default for SPECULATION_MITIGATIONS=n")
 > Cc: stable@vger.kernel.org
 > Signed-off-by: Sean Christopherson <seanjc@google.com>
+> ---
+>  arch/x86/Kconfig     | 1 +
+>  drivers/base/Kconfig | 3 +++
+>  kernel/cpu.c         | 4 ++--
+>  3 files changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+> index 4474bf32d0a4..a0eca6313276 100644
+> --- a/arch/x86/Kconfig
+> +++ b/arch/x86/Kconfig
+> @@ -2490,6 +2490,7 @@ config PREFIX_SYMBOLS
+>  
+>  menuconfig SPECULATION_MITIGATIONS
+>  	bool "Mitigations for speculative execution vulnerabilities"
+> +	select CPU_MITIGATIONS
+>  	default y
+>  	help
+>  	  Say Y here to enable options which enable mitigations for
+> diff --git a/drivers/base/Kconfig b/drivers/base/Kconfig
+> index 2b8fd6bb7da0..dab19f15fa57 100644
+> --- a/drivers/base/Kconfig
+> +++ b/drivers/base/Kconfig
+> @@ -191,6 +191,9 @@ config GENERIC_CPU_AUTOPROBE
+>  config GENERIC_CPU_VULNERABILITIES
+>  	bool
+>  
+> +config CPU_MITIGATIONS
+> +	def_bool !X86
+> +
+>  config SOC_BUS
+>  	bool
+>  	select GLOB
+> diff --git a/kernel/cpu.c b/kernel/cpu.c
+> index 07ad53b7f119..bb0ff275fb46 100644
+> --- a/kernel/cpu.c
+> +++ b/kernel/cpu.c
+> @@ -3207,8 +3207,8 @@ enum cpu_mitigations {
+>  };
+>  
+>  static enum cpu_mitigations cpu_mitigations __ro_after_init =
+> -	IS_ENABLED(CONFIG_SPECULATION_MITIGATIONS) ? CPU_MITIGATIONS_AUTO :
+> -						     CPU_MITIGATIONS_OFF;
+> +	IS_ENABLED(CONFIG_CPU_MITIGATIONS) ? CPU_MITIGATIONS_AUTO :
+> +					     CPU_MITIGATIONS_OFF;
+>  
+>  static int __init mitigations_parse_cmdline(char *arg)
+>  {
+> -- 
+> 2.44.0.683.g7961c838ac-goog
 
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Thanks, Sean!
 
-Gr{oetje,eeting}s,
+Acked-by: Will Deacon <will@kernel.org>
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Will
