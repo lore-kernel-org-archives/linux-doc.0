@@ -1,111 +1,104 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D98A7641E;
-	Fri, 19 Apr 2024 15:57:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D645130A7A
+	for <linux-doc@vger.kernel.org>; Fri, 19 Apr 2024 16:01:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713542273; cv=none; b=Ngl0NbvpPPczeCwuJF2cMvIHLu1dAjmhrKnatX/HHlERnt9Llfjv9hjScaXXrqjF9oo9/Mezd/vWYi9qU1d4AjpHSHb45XfMx9NlbuDuRGnehMbtpI2PPA8xvQGn/AQZL9HDi80Mb406wpC7d6wEX1KhwandkFMGyzc6aZqWzds=
+	t=1713542465; cv=none; b=HuJuS0NlNZZ8z3P41mePXdcDlUuxmlOaOS4GLrRmY/PpwDct8awkU7JgxwxjgwzTtsGg3LGKZOvHXwu8VBm0Vnhy+vl2+LUJdqKqKuaYvRb7sXJ72T2qIpAJ5oWeTs0ckOapokUDfPqdoUm9XQzYZqhKLVzSqUmRJ7u9u7jJREc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713542273; c=relaxed/simple;
-	bh=p0krAk1jiQxQ123SAtQWQLXKI9LtWzjzx8uLRsGhf5c=;
-	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=qe+z3OHJtgdzahLP4kVcqimmEDlyWvwmS+uHiCuhXGM63AeCe5seiRLqd6KFOGsVElQwInUz9C7y8scTLVkoS4ZqxRiFeZKHI1W3MHNygajXJQKEUI49PlR8AbhZUol3qVgFIvOn054C/dQbViSMQZduFVG71juF1WopLwc301M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NTeGaFvb; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1713542465; c=relaxed/simple;
+	bh=e23FOWubI5VU5i9iHtgcs5Xh6sNhh5JjNy8voR0r/u8=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=Yg7QHJnxeK+N8wiDimpLuasZUzBthbD71wJ1iheiexjg1Bfl5IE1huHsZttu/yqxh+1JJ5gnkyTN3n3fRXWe1aKefJsnET+dUcVbohmfAo+PEGvlqwCRreOz6xJ8p6GBOxc4SfCx6HdY0QgkkcrPZo7zzhPzgHIrwcB6h4w5mDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JYGnh1wf; arc=none smtp.client-ip=209.85.215.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NTeGaFvb"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a523524e5baso226078766b.3;
-        Fri, 19 Apr 2024 08:57:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JYGnh1wf"
+Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-5ca4ee5b97aso1978840a12.1
+        for <linux-doc@vger.kernel.org>; Fri, 19 Apr 2024 09:01:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713542270; x=1714147070; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:content-language
-         :references:cc:to:subject:reply-to:user-agent:mime-version:date
-         :message-id:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HpXOWQj2snTMmKD9LnnQ7qsX6BXZ2LIc/4KRNqoR6Rs=;
-        b=NTeGaFvbNIoAwTqkgy/YOZWRA/SXyy2pmF9PPN1TX2jD5shC43bIrlQt+eVwHDpi5O
-         UUJEBcDHhrveB+19Gd38UXdeo8m7HJkcpiSnZLpBrQGe31HIEOkxGfLjFnordNU7e1K5
-         4DzWl3dqF7VLZ5Vm7XbZzceiSVTB9jQcw25UR6Cg1lxOrOM/Ej7Fp+0kFGv/lHpm4b4Z
-         ognPfXdeaWFE+VAiyeerqg9QcWO1lk7wGHMt65pmMQTAkOE+VYfAI+G8/1tX0DL3et3K
-         Fb+/pOpH+32ZIUEB1t6yvlXwQYDu+xto7WM1mmSWQgfvJk3ZMZz/QjDsL72zPz4K5+IV
-         URFA==
+        d=google.com; s=20230601; t=1713542464; x=1714147264; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/8vJG8lgSojzNhQtI7K3ugH96qXtY3LiyZG0TFCwuLE=;
+        b=JYGnh1wf8L1ryif5v3dkZiZ5K1Ic8SBLT5FC632alZDCMUlNVb76c65cpWPi5oX9rx
+         G8ky+zQZRku9Oa/18G27NnV8Fj2o7BcURP8dmghZvSJ2hH90Se80b7+M8ZoJ6pqLTDE2
+         qCVyTJlvlUskRsbsXaHn4Dckt6xLK+p8n4FPbGqBcFqCA39wUzjYmALsqHApl8ipPIgF
+         IXKkTJxNc50+wwSmHnyjsnXXyr0m2XQ3+KdlE4ng89SR7PlMb9HTKYVO5uwpe4l1jwgm
+         TwUQTnbNNvAVGIiZ1uW2vTFN1s33+92HXyv7x0pOKWw1zJEMU7C69lQhKunQa5JSYWht
+         Hkjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713542270; x=1714147070;
-        h=content-transfer-encoding:in-reply-to:organization:content-language
-         :references:cc:to:subject:reply-to:user-agent:mime-version:date
-         :message-id:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HpXOWQj2snTMmKD9LnnQ7qsX6BXZ2LIc/4KRNqoR6Rs=;
-        b=kq2P3p37wlCHoqnR2CUld1pT4XSjMEOo3s0ypyFSVT21iEdRLO3HY5VhXeRrx1v5cW
-         FDFm5ayaN1/sDMKUfzOuV3tK7N4Ch4y90h40pboFUeWT6PzMUaIGoOs1SlY3wDHnNd7w
-         8PJr0pAHizUV6nmwdyMTpyg3ncQF/m41Gds2jBQLRJ3OPIohXNIzjGaJhcVmlkggdthc
-         vH8LqP1j7Ec1SbHCIGxxrEL0VkCaE8kMP8tpHTPxhZRwuNRZ0uoYWB8uLQAid1Hs0CcE
-         b/FUu8hyUusGePEAP2apPjzQ/EqdR1tCrufymrXA8030Bzlnf3Wa0mjofHZHtQamV+oT
-         easA==
-X-Forwarded-Encrypted: i=1; AJvYcCVFO+UWhTCKtt1dYEOZU+U9jW923awCK1yglnIurIw6Xa81aZ/OIHRsi4JOL4yPbd5OVJhlHsu1OjPiEu3aMOxda3vliLGEsMkXW1/9j1NMwLH0u8kX7lNwGVVX3AdjcFATwYyA0vA2JklZZfGlo/c0Rq4w2NA0jnUPtwXQF4gvyCGZrebVupXsdMGVFeinMICgMaUC6QhLjQHBwIp1
-X-Gm-Message-State: AOJu0YyGDkILZqBUApncfNZ4+9Tj/2x0exgXcCsFjyNwA1EAxs4VW/sg
-	DVnlbdXt0L0X6eq9OkQCy1XCveqUbWzsVfjCA+rtsTTSv7P2Xkgr
-X-Google-Smtp-Source: AGHT+IFMnS2LQ0x5IC0rtaQ7gu7+SOitEiNCtvr3ygRrbIgIDwtV19ryHjjRz4sR35z73ejiJ/snNQ==
-X-Received: by 2002:a17:906:7fd2:b0:a52:27c6:ee67 with SMTP id r18-20020a1709067fd200b00a5227c6ee67mr2202110ejs.43.1713542269690;
-        Fri, 19 Apr 2024 08:57:49 -0700 (PDT)
-Received: from [192.168.18.253] (54-240-197-236.amazon.com. [54.240.197.236])
-        by smtp.gmail.com with ESMTPSA id u18-20020a17090657d200b00a51b26ba6c5sm2344277ejr.219.2024.04.19.08.57.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Apr 2024 08:57:49 -0700 (PDT)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <5c9de76b-6981-416d-a833-50264496236e@xen.org>
-Date: Fri, 19 Apr 2024 16:57:47 +0100
+        d=1e100.net; s=20230601; t=1713542464; x=1714147264;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/8vJG8lgSojzNhQtI7K3ugH96qXtY3LiyZG0TFCwuLE=;
+        b=wbekTgRaZ5IImJXAanfACJq/XW1wcaqV0sk4dqHvKi8HgKQqnKKTJLVrQsNFMkjN2Z
+         iUjzEIK3j8xHyRDJLzxmRJho1OIJDO1XgM7aB+4hvcWcXqg12lKhQ9H7Xgft/Xo5cd5E
+         uceHzs4L7ot3Qr6a5YdP4OvhGODgo23JNSoFn3Q8FsHuysdM+loGqLyLHZv2T2rekS35
+         vAg/9LwCEp6hm2gg2xz4Q1Q3Vyffh76jjNHrVy4qZcsys65hKEKCU6+v+gHKW6QvfSEK
+         yUzoEs8MjqxEx7sZZhNteE9KddtR80nZJf7ixVg/4eCB4dscqtZo3Osy7CJ7MyohLEOg
+         6glA==
+X-Forwarded-Encrypted: i=1; AJvYcCWvp3aIBugthGNZypsNWHyHkWnNxCAFI5j2+frmaL7dRc2cwb2/Tea0QL0iFu+e5572Qxv3L8uawyeNse3Id9Rpa79aQjjMIeii
+X-Gm-Message-State: AOJu0Yz6OVoJN+WPhWTZcYwudEq1mhzDXqBxUKipDQgZa7k77+wniQBw
+	sP4yvKC4HFFwO3XTngdzgJNvlozkYdwYFTVZcrwgggaNJ24st0KzbOXKBN+m+9ND7fNlqNpm1/9
+	2Sg==
+X-Google-Smtp-Source: AGHT+IF5+dQb4qDr3/Xd1+TRPxm8QswBlu4ZGfsESn/lZrXPHoIwliRGaj4WinqR7QHFav5A5iYoifgwSuk=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a17:902:ce87:b0:1e5:e61c:35ca with SMTP id
+ f7-20020a170902ce8700b001e5e61c35camr215219plg.13.1713542463826; Fri, 19 Apr
+ 2024 09:01:03 -0700 (PDT)
+Date: Fri, 19 Apr 2024 09:01:02 -0700
+In-Reply-To: <20240419150033.GBZiKHEUVzwz1LUDS5@fat_crate.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: paul@xen.org
-Subject: Re: [PATCH 09/10] KVM: x86: Kill KVM_REQ_GLOBAL_CLOCK_UPDATE
-To: David Woodhouse <dwmw2@infradead.org>, kvm@vger.kernel.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Sean Christopherson <seanjc@google.com>, Thomas Gleixner
- <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Oliver Upton <oliver.upton@linux.dev>, Marcelo Tosatti
- <mtosatti@redhat.com>, jalliste@amazon.co.uk, sveith@amazon.de
-References: <20240418193528.41780-1-dwmw2@infradead.org>
- <20240418193528.41780-10-dwmw2@infradead.org>
-Content-Language: en-US
-Organization: Xen Project
-In-Reply-To: <20240418193528.41780-10-dwmw2@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <20240417001507.2264512-1-seanjc@google.com> <20240417001507.2264512-3-seanjc@google.com>
+ <20240419150033.GBZiKHEUVzwz1LUDS5@fat_crate.local>
+Message-ID: <ZiKVPoK6qrGRos6M@google.com>
+Subject: Re: [PATCH 2/2] cpu: Ignore "mitigations" kernel parameter if CPU_MITIGATIONS=n
+From: Sean Christopherson <seanjc@google.com>
+To: Borislav Petkov <bp@alien8.de>
+Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Peter Zijlstra <peterz@infradead.org>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Stephen Rothwell <sfr@canb.auug.org.au>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>
+Content-Type: text/plain; charset="us-ascii"
 
-On 18/04/2024 20:34, David Woodhouse wrote:
-> From: David Woodhouse <dwmw@amazon.co.uk>
+On Fri, Apr 19, 2024, Borislav Petkov wrote:
+> On Tue, Apr 16, 2024 at 05:15:07PM -0700, Sean Christopherson wrote:
+> > Explicitly disallow enabling mitigations at runtime for kernels that were
+> > built with CONFIG_CPU_MITIGATIONS=n, which currently is possible only on
+> > x86 (via x86's SPECULATION_MITIGATIONS menuconfig).
 > 
-> This was introduced in commit 0061d53daf26 ("KVM: x86: limit difference
-> between kvmclock updates") to reduce cross-vCPU differences which arose
-> because the KVM clock was based on CLOCK_MONOTONIC and thus subject to
-> NTP frequency corrections.
+> Hm, so the umbrella term is CPU_MITIGATIONS, the x86-one is
+> SPECULATION_MITIGATIONS.
 > 
-> However, commit 53fafdbb8b21 ("KVM: x86: switch KVMCLOCK base to
-> monotonic raw clock") switched to using CLOCK_MONOTONIC_RAW as the basis
-> for the KVM clock, avoiding the NTP frequency skew altogether.
-> 
-> So remove KVM_REQ_GLOBAL_CLOCK_UPDATE. In kvm_write_system_time(), all
-> that's needed is a single KVM_REQ_CLOCK_UPDATE for the vCPU whose KVM
-> clock is being configured.
-> 
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> ---
->   arch/x86/include/asm/kvm_host.h |  2 +-
->   arch/x86/kvm/x86.c              | 57 ++-------------------------------
->   2 files changed, 4 insertions(+), 55 deletions(-)
-> 
+> I wanna streamline our namespacing and say, the arch agnostic term
+> should be CPU_MITIGATIONS and the x86 one should be then
+> X86_CPU_MITIGATIONS, the Arm one would be ARM_CPU_MITIGATIONS and so on.
 
-Reviewed-by: Paul Durrant <paul@xen.org>
++1.  That would help avoid goofs like mine.  Maybe.  :-)
 
+> This way we can stick all kinds of special mitigations code - not only
+> speculative execution ones - under those config items and have it all
+> straight from the get-go.
+> 
+> And I think we should do it now, before it all propagates down the tree
+> and becomes a lot harder to rename.
+> 
+> Thoughts?
+> 
+> Thx.
+> 
+> -- 
+> Regards/Gruss,
+>     Boris.
+> 
+> https://people.kernel.org/tglx/notes-about-netiquette
