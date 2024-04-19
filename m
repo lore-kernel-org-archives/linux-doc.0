@@ -1,168 +1,87 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D5037CF25;
-	Fri, 19 Apr 2024 10:24:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713522270; cv=fail; b=gBuHNQbgmr6WMtMmvt1Z9AqXy4sGQsLeWd5Ga+AqojoiPzdYkyvNbMbNqjUXsTU3qy80o70G0kNxvwoE94aVnoBXKFZNBoa/uuFQrePlDkSK3jMPfzb3KmgRChQosDZc5IWsw05OSj2H5vqnDTNu//IaKppK1xrHFk9EHiMVUmY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713522270; c=relaxed/simple;
-	bh=twQbK3PgLlDj+cu10LWWAzcqNYAsoUtgiKfbPp5pAIk=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=IxM+4Tol1ziotsT8jjNRD4ndvCxB3fFPJ8jboaeg7t73FAj1thZX1FDtf0XRYffQx5zYNWClS7OTqbev1GoKKN7aTWjgc3d+dQKub7KjiSBaqjiH3ZwEvxl0lcAESMsQdWaTOeJIAtPyHssSV2BUuCDlSXfkLUAQyXQYe6KjCHk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZxFLuElN; arc=fail smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZxFLuElN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713522269; x=1745058269;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=twQbK3PgLlDj+cu10LWWAzcqNYAsoUtgiKfbPp5pAIk=;
-  b=ZxFLuElNCfSMUKqgC01HcGoKaNTaXgSYwWumpd41ihYYpUyYyjan26mB
-   uZ3eKB+yVOhnGzB19Zxh4zH0lhRp/Q328tUae+2uvXt5k4EV25fXY4Hrv
-   m7BJAYQwrb4KVXFtE/gAZTnoUgKZ+LhYYf0IY4mJVfvRQIfNzf57EV4wS
-   aekTD9Djl9efdeUzzgznUwK+J2eShKMh3KrWwryz+dDtBOMUi2ZIApwIq
-   1X4V/OUGgkaSZnXasR/+vRPrnLmVEZ4EyuhWGBHTbIXt1Ab2Dy7zwQgJg
-   AD2B+8Wb6yNsYW16Dik2BlRXrOdIP/Qjnr/FaMo4/BfSXMHKStT7ExIVW
-   g==;
-X-CSE-ConnectionGUID: tdAEPQUMQ0axHVjBvfQTOQ==
-X-CSE-MsgGUID: 92YTZRfATOugeKHhCvNakA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11047"; a="19813007"
-X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
-   d="scan'208";a="19813007"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2024 03:24:28 -0700
-X-CSE-ConnectionGUID: ioLPADuISzCmwj+latrVxg==
-X-CSE-MsgGUID: vOCyr2cgQPKSMEUXASFm7g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,213,1708416000"; 
-   d="scan'208";a="23306965"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 19 Apr 2024 03:24:28 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 19 Apr 2024 03:24:27 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Fri, 19 Apr 2024 03:24:27 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.100)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Fri, 19 Apr 2024 03:24:27 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oC8y8ikPMwWg7Y16gJ6U9tgXWW30g8vG7nG5cwUuBDvh7najrz9jS3kZkJK1ulxYXUuK9WzQKWWxKb2U+XO6uK+DiEqRijy5L/+gd3I4O9ZkQBJvEl8PKJJcgzRUx7gGJKbLZ99T9tOTcXTCL8hNXuTC7XYcBCPDbNpCuzq6gBkGUr0T4mmyCFR5iNzvTvt/iR/SSknkjsU7btTEXRluehtiRCnsYP2BWjyxQf7RLgyuYvLYtEQILuKXNQEAofcA5nToR8A6K5FJjdwvBk2ax/xZs8jDrgbg7dceArf9Ym7Gy3O0mOrGdSbToIBMwPaTx1UO6F2Y5OIR6tS9pfxyTw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SPc7SaUgfyAYLNUfISOfcV+GJP7FidTUqps+hj0Rb6I=;
- b=BPgQZnZNyCTdhtbhWkYChRMb+OHeD4FAu4KSJkFXHNm+HqzLKdi0iWX1Sand2d5PUVFSg7rlPlFiYMZt+rKixiV2WUQaTWha407//lp9ekzdc8UyhINSqQ5kpkwDUidlhzhNBWjIG6X761SULVGCcem8hJWRuwI5Pd1RATXvystDR6Ejah/EIQ+J+Nes3rhaPUWMYukSmfs3ZekUNeBvexyv10TiVu6KE3+CyRJcTqFNjppbrjPvPTbxwGLTOLNfdIh8p/YG3ZFq2hWFMftBcjjA0XuZyAgAO38oAQ4hMfuw/a9H71Op/aUA4r2cqGtWAQNhUVZVNxs1KHelHPsW/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CH3PR11MB8660.namprd11.prod.outlook.com (2603:10b6:610:1ce::13)
- by DS0PR11MB7442.namprd11.prod.outlook.com (2603:10b6:8:14d::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.14; Fri, 19 Apr
- 2024 10:24:26 +0000
-Received: from CH3PR11MB8660.namprd11.prod.outlook.com
- ([fe80::5135:2255:52ba:c64e]) by CH3PR11MB8660.namprd11.prod.outlook.com
- ([fe80::5135:2255:52ba:c64e%4]) with mapi id 15.20.7519.010; Fri, 19 Apr 2024
- 10:24:26 +0000
-Date: Fri, 19 Apr 2024 18:24:15 +0800
-From: Chao Gao <chao.gao@intel.com>
-To: Xin Li <xin3.li@intel.com>
-CC: <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<seanjc@google.com>, <pbonzini@redhat.com>, <corbet@lwn.net>,
-	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
-	<shuah@kernel.org>, <vkuznets@redhat.com>, <peterz@infradead.org>,
-	<ravi.v.shankar@intel.com>, <xin@zytor.com>
-Subject: Re: [PATCH v2 05/25] KVM: VMX: Initialize FRED VM entry/exit
- controls in vmcs_config
-Message-ID: <ZiJGT7aH8FfwIj5/@chao-email>
-References: <20240207172646.3981-1-xin3.li@intel.com>
- <20240207172646.3981-6-xin3.li@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240207172646.3981-6-xin3.li@intel.com>
-X-ClientProxiedBy: SI1PR02CA0057.apcprd02.prod.outlook.com
- (2603:1096:4:1f5::10) To CH3PR11MB8660.namprd11.prod.outlook.com
- (2603:10b6:610:1ce::13)
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1C523D55B;
+	Fri, 19 Apr 2024 10:36:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713522998; cv=none; b=U3cmIw64f4HnTpxPVlh8cqgb9aDKzg/3CGjE1GLDvceES+Sd2doud9CCpALnnU57RMb337Yy5K0W0sJgHjaaKACk4nLB3MNuLUeKTTFx3DoT8f+zLcXDgQ48shhHX03m2vuM2GELtSvcMd9X2464F2E9elFSaJRlnqaLZgWBGXY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713522998; c=relaxed/simple;
+	bh=YwuYrJiDpMf0xpFrF+ROIqaQPvA8R9O7wX9L8vXB5qY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AgO86g1tIKmZsddBcAqm8UKja9J8UMPoY/0MTpf5RotdGdakdcAGhblUBNTPqOXtdIwZezlXVdbE8km5LHzAZ/f1vikrBH8JfazG1ilSYvnntLV6Q1W9f5cZvv7ek9FrzxxqKPn0Y7I469RvXL+xeOzGxjxLHvPR+wE5qXtwP3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [112.20.112.218])
+	by gateway (Coremail) with SMTP id _____8DxJ+gxSSJmGcIpAA--.8776S3;
+	Fri, 19 Apr 2024 18:36:33 +0800 (CST)
+Received: from [192.168.100.8] (unknown [112.20.112.218])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8Bx1xEvSSJmEyKAAA--.36198S3;
+	Fri, 19 Apr 2024 18:36:31 +0800 (CST)
+Message-ID: <b5d65679-a789-4cf9-b4ba-0db3c0886688@loongson.cn>
+Date: Fri, 19 Apr 2024 18:36:31 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8660:EE_|DS0PR11MB7442:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8a0dcbb9-cbea-4007-b5e5-08dc605ae396
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|1800799015|376005|7416005;
-X-Microsoft-Antispam-Message-Info: wkJnYiV1isQUhCFYRYZomA4NAtfatBDkr/7/iUGcju+sLaEJSlnylFt0Uk6ELAiUNIEBqoHRVkrrUzvxCX/fenuQ4Y1YzWJzkeFRdSF6sDuJfxmgTRfFuj/I4Z1BLA2o+0jtuYClJ5tjAYrARdTS1xf4V9iK7aVMgruVsBcaw08yHYoQUPTmoGlHhJhNuS9z2bu2hFtTELvWrk02Pu0aBtgdR8zJLwh8axcItE+kJdwnZLuvsm9bVaADYcahFBvkQAAHxwjGWIAV8eJZnMkj6W5AhKLpHavhWjyAPqbLtwTdUeF2/hSBCeCbbPecDPHOIDXkGI+fq7GnMAz3JiXQe3fAag1s9obmTHGY7KjgQDhuc4OdEQmlkLtHA7HWaJJVZx6VAMrq/c0gMJuqEm71YlYq9YWx+IWUbSdE2MAJRUl+UpdzwCLTzVnlXl++hzTjbSsnSt2mMSsKZogTMos9RzxuquiSZgH1vzcthq+t9pkGWQuH0Tmfpg3446Y67ut6PS1pr8YZkYBxoOYmhUyLd3GBLY0vvIlCbe7LIDYZwNfFkRw+YiHMdoGHDDITqjMfu9+xO0+mwjerrGIumRSKv7n2eiRGUCkbR8zqLmugDG+ztpdADkBtnND9dMECMYY+LrdDYVCd+RlP9Hffwk/kq/GX/0bkwfuQMOTePwz5ux4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8660.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(376005)(7416005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?mGQLDy+zhLn8RYfcdYxrdCjcyPmSBjHRkLPTF3xitvKyl79NzyACC69KEEmn?=
- =?us-ascii?Q?sLErRmbz3x4Q/6YeRXR0Vl4TuKcOJXMQlE8PDh0V9zVaq8tCL1Ilh9LClyRr?=
- =?us-ascii?Q?DQYen7yABRHynh0FfTJUPs+6EXXJiW9pcEkesHDbCwBFRVcj3ApLJFU1feYT?=
- =?us-ascii?Q?jj5Cbz9Lzs13e5/XcmjlfH9J+fYB61j+cFgef02SeO/u17E2JVVSZbm/Q/m7?=
- =?us-ascii?Q?upSaeZv8X50tAzJPVAC2MJSgSdR2j6Cg6Cw5aZEd8OrgkqqHajfmG+24NXd1?=
- =?us-ascii?Q?xXmHtfnRig2zhrOPzJnqAGFwQfnYrvhksFQFy7a52HDKxHUOBahfxlZzMXUp?=
- =?us-ascii?Q?WMrriqaaRjxTaOKnoZh1/kbeYst28VlP+ymZZbI2CnFErP/dbpT57PbgXOuX?=
- =?us-ascii?Q?rSPb/mBtP9tRJyy6uikGNCnRQdiZz2PmpUBvwLy6oV13i7O8HNIbBU5Bytth?=
- =?us-ascii?Q?pC/4M4hQZISKDO6Ib48AOleMUaQLZP1s6gQR41M57WvEmAjYT+cukIVRSh/8?=
- =?us-ascii?Q?KQnFfQwGSWCn8xYLSURfdqv+NO9Q+8p4/OnTwjidDd8S9CAb6/+xULk85BuT?=
- =?us-ascii?Q?XTrURHbr4cN2muqns6MVMHMSFt6J910YgJhUTsPUJLUfi3q/9ax6OnHeGLEV?=
- =?us-ascii?Q?hDbnMEXFUDXiaSOYyuvag4U/jNvZpe2B1YjiFluuqLzTFLH52MaPhT94oSgb?=
- =?us-ascii?Q?/Gytd4raTCLwqJtARHFmQHPKf6eQs8EJn12hji+hiPpdQSPhY2X+zR1WXmrG?=
- =?us-ascii?Q?Zni6qRt/Ff6DPg1XGblx/Vy5cF3rOGiV+4S6+QM/O4U4mR8Y9WqyzNIw3HIf?=
- =?us-ascii?Q?qbxi6ecfRy93BFea2bhFI8HarA6Fo7hzffFOne0kBFEWlP1b5fivG6ZbKJIS?=
- =?us-ascii?Q?SKskQzeCeNYNWj0LsAtwhHLQODwHmrXS/ObyW8ExatudS2Kimz8n5xy2oCP/?=
- =?us-ascii?Q?Sq3phqF21YEqR6kNFq/SIOQ9G/iihKComcwR5S9hufQEOVumQCVJdeBelO3g?=
- =?us-ascii?Q?c8Xytj/L7o9GrfhSAo6VvbgBcEFZtW0QrGwMrJWf/Z8lAsqo7mxbaStecKYe?=
- =?us-ascii?Q?u6sh43jJVMYJnu1MlYLb2n4waISXuJ7sIm8HHfXJNRbfBuYaFGLhKu9IZyXd?=
- =?us-ascii?Q?qjov1tpQub/1BleU+4VRzCdomEk9NW5EAK2KIrZ4pXkpl+NFQ7k7suZuOq/Z?=
- =?us-ascii?Q?UUNk6NTGo30pGJcEjKC41ARyvzUOuF8CspE98SPX0dPGzdt50VZ5yuWm/Xil?=
- =?us-ascii?Q?HsdNaMDlv/WEhM/dnRl5Vx2DPls6b8sl/I90yNYYUWUJ1Shhl+HTw7kU72lW?=
- =?us-ascii?Q?358vQY1FYBY/xYGu1RpZMwvN6IxfMphjuZrOEGMhhUY7SQbTuGHmvc8X3adj?=
- =?us-ascii?Q?Hywos6P7EJ2Qr7v6LCFL1NhdIm57kZk1vnKzBcpdp5UfHyctyQa3AWd4fFJf?=
- =?us-ascii?Q?H28jD2RReo0Cc1xM3+AoTC8RN05J9YQb0efVSyCG4jA7a8a/duNL1pZKBwUK?=
- =?us-ascii?Q?IUHgt2g5wa2fMbVaGOgBMITsj5dlDAP+r+emCzyxboN8O6PI8ycQK6UG05YF?=
- =?us-ascii?Q?kIA7XEgm14uelYZ5hy/ruC3T5AaRYNvm4lG7JPI1?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8a0dcbb9-cbea-4007-b5e5-08dc605ae396
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8660.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2024 10:24:26.2389
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: o0mx/+tWK/NU1gpoe0doVw15NPrI0shy6nWtoLIZgOXUKUQyoQJ0rVllJyX1pUcof+sfGeEMuanxH1cJ7WCxag==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7442
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] docs/zh_CN: add process/cve Chinese translation
+To: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240419020114.3391933-1-dzm91@hust.edu.cn>
+Content-Language: en-US
+From: Yanteng Si <siyanteng@loongson.cn>
+In-Reply-To: <20240419020114.3391933-1-dzm91@hust.edu.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:AQAAf8Bx1xEvSSJmEyKAAA--.36198S3
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBj9xXoWrury7JrW5WF47Jw45WrW5CFX_yoWfWFb_A3
+	97JayqkrZ7tF1xtFW8Cr43JrW8ZF4xuw1DtFn0ka98GayI9FWDWa4Uuwn3urn0vFWSvFW5
+	Cr97uryfXFnI9osvyTuYvTs0mTUanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUj1kv1TuYvT
+	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
+	cSsGvfJTRUUUb3xYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
+	vaj40_Wr0E3s1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+	w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+	WUJVW8JwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6F4UJVW0owAaw2AFwI0_Jrv_JF1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0c
+	Ia020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_
+	JF1lYx0Ex4A2jsIE14v26F4j6r4UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
+	1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_
+	JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17
+	CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0
+	I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I
+	8E87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kfnx
+	nUUI43ZEXa7IU8O18PUUUUU==
 
-On Wed, Feb 07, 2024 at 09:26:25AM -0800, Xin Li wrote:
->Setup the global vmcs_config for FRED:
->1) Add VM_ENTRY_LOAD_IA32_FRED to KVM_OPTIONAL_VMX_VM_ENTRY_CONTROLS to
->   have a FRED CPU load guest FRED MSRs from VMCS upon VM entry.
->2) Add SECONDARY_VM_EXIT_SAVE_IA32_FRED to
->   KVM_OPTIONAL_VMX_SECONDARY_VM_EXIT_CONTROLS to have a FRED CPU save
->   guest FRED MSRs to VMCS during VM exit.
->3) add SECONDARY_VM_EXIT_LOAD_IA32_FRED to
->   KVM_OPTIONAL_VMX_SECONDARY_VM_EXIT_CONTROLS to have a FRED CPU load
->   host FRED MSRs from VMCS during VM exit.
+
+在 2024/4/19 10:01, Dongliang Mu 写道:
+> Translate process/cve.rst into Chinese and add it to
+> Documentation/translations/zh_CN directory.
 >
->Signed-off-by: Xin Li <xin3.li@intel.com>
->Tested-by: Shan Kang <shan.kang@intel.com>
+> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+> ---
+> v1 -> v2: add a newline at then end of cve.rst.
+>   .../translations/zh_CN/process/cve.rst        | 89 +++++++++++++++++++
+>   .../translations/zh_CN/process/index.rst      |  1 +
+>   2 files changed, 90 insertions(+)
+>   create mode 100644 Documentation/translations/zh_CN/process/cve.rst
+>
+When I apply your patch, git output:
 
-Reviewed-by: Chao Gao <chao.gao@intel.com>
+Applying: docs/zh_CN: add process/cve Chinese translation
+.git/rebase-apply/patch:32: trailing whitespace.
+所有分配给Linux内核的CVE列表都可以在linux-cve邮件列表的存档中找到，如
+warning: 1 line adds whitespace errors.
+
+checkpatch.pl also outputs associated noise.
+
+
+Thanks,
+
+Yanteng
+
