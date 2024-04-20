@@ -1,219 +1,180 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E49197F;
-	Sat, 20 Apr 2024 16:03:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E14205E00
+	for <linux-doc@vger.kernel.org>; Sat, 20 Apr 2024 18:50:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713629028; cv=none; b=jCK+7JJ/GZwoDw9c6/6ZcEPKN2QVkw+HMkRKDT4RlrzqgPKBYsSpMnpuO8HCxiyQOJ1cZ8VNHRquKi3cUWG0q5iAqS54c5xJZ19eRT+m6F/XFGOvS2XmvR8MLUbuwVOBcC0fAo3gq6xLdZX3xLbeCMJYOxQrkRNZVOYemxfymO8=
+	t=1713639030; cv=none; b=fkw/pTjvpyPGYa1cRPGDgh5cgOjp8QrNvbqLSeR3a+a+VE36CE5+vUiq6kcCI2R0rMaSBA54+c2K3fZYXbXksMsiTu8CAB7NxAY2/KaBDdJrnIbogU9CRtUB3Q++7Z5ja/S7uT4ZeMDKVtg5P3701XMife2T8838SGI6KISWWj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713629028; c=relaxed/simple;
-	bh=kAYYtOrPxsp0lRiIX010tnc7GKOm8SbnjbBQtM3ZorY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=VL4AjhPCdqdQdK49TsIYAWbxHKjUmyonxjRd6GJa0/OwIQkaDUV/2o4de4645GK/43B7nktST3lJFHgNDMRtCJf9mKhfYE1yLQRaA3jb35hHurqmdNZ4U5wgeChASUCImUvnOyK7hmlpWCm5FJQ/NyvawzLEY0dL2zGEc1AbD3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=KqxDmAAH; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
+	s=arc-20240116; t=1713639030; c=relaxed/simple;
+	bh=g28MeYse2mxBCn//Errfp47sv/azT0HsAvDdN8vtTyY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=c8gxwSzyBsJnbDnmnnP52LSJ5bnulk+espTd6cHgYAUL2IZzdmSDCxX1Q0kT2GwQRR53E/o8MmIbfubsWqfPBsX6ybE4Vd3V5ka/pZjOHC98qEpfJkZZlL0M3eDmyPYzGqqxX0eIpeTARWVwBu7THNkhWWHT9X2Nr63NMtGUGNw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=usp.br; spf=pass smtp.mailfrom=usp.br; dkim=pass (2048-bit key) header.d=usp.br header.i=@usp.br header.b=QOBgIMNu; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=usp.br
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=usp.br
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="KqxDmAAH"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=INHOCJSDI9Oh3Mqp0Ovv2eDqUZ6XCEFTGElZV7sQ9Jw=; b=KqxDmAAH/AdWemtmGdGzppmGIi
-	wcCEciSPXQ2EhhDz4vku5/FdPeDqV9/1csIsT2abuAXZSccmCSMq9t6y2D7hI0j3b6fY7g4ZbFa+R
-	KptMX7/Y92X+6sTeY7zMC1f5iiIkiP3y5fWO2dOnuh/VFUqQdUJbqw5ZLl70sVcBThkZ8dCzZfmUN
-	tcGqYBD7eTogEVOPotNxVuCYxMPtwl0zquNvBO50xUV9orgQsyX41P/8XqgYSnqQRn26N56lBVhv8
-	5VP6wCeg047LnTSWlyVRjXUlL61VK0MAtaQ0qvvYcDAot13AxNWTRi6UyflvZpik+okVjWcEHICGT
-	7SNOw9iw==;
-Received: from [54.239.6.190] (helo=edge-cache-113.e-maa3.amazon.com)
-	by casper.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ryDBK-0000000ALzI-3BRQ;
-	Sat, 20 Apr 2024 16:03:15 +0000
-Message-ID: <c863ffcfd4edda9a1a46e3351766a655c5523f7d.camel@infradead.org>
-Subject: Re: [PATCH 2/2] KVM: selftests: Add KVM/PV clock selftest to prove
- timer drift correction
-From: David Woodhouse <dwmw2@infradead.org>
-To: "Chen, Zide" <zide.chen@intel.com>, Jack Allister <jalliste@amazon.com>,
-  Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Sean Christopherson <seanjc@google.com>,  Thomas Gleixner
- <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
- <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>,  Shuah Khan <shuah@kernel.org>
-Cc: Paul Durrant <paul@xen.org>, kvm@vger.kernel.org,
- linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org
-Date: Sat, 20 Apr 2024 17:03:12 +0100
-In-Reply-To: <6dca783b-6532-4fa7-9e04-1c0a382a00b0@intel.com>
-References: <20240408220705.7637-1-jalliste@amazon.com>
-	 <20240408220705.7637-3-jalliste@amazon.com>
-	 <3664e8ec-1fa1-48c0-a80d-546b7f6cd671@intel.com>
-	 <17F1A2E9-6BAD-40E7-ACDD-B110CFC124B3@infradead.org>
-	 <65FF4D51-05A8-42E0-9D07-6E42913CC75E@infradead.org>
-	 <6dca783b-6532-4fa7-9e04-1c0a382a00b0@intel.com>
-Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-4uuXbqzcTeWlXoYZxkEY"
-User-Agent: Evolution 3.44.4-0ubuntu2 
+	dkim=pass (2048-bit key) header.d=usp.br header.i=@usp.br header.b="QOBgIMNu"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1e3f17c6491so25729695ad.2
+        for <linux-doc@vger.kernel.org>; Sat, 20 Apr 2024 11:50:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=usp.br; s=usp-google; t=1713639026; x=1714243826; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=69d0O+5fM8Yt3nBud30EjYozGnnBdHocwTktgDdGO/c=;
+        b=QOBgIMNuGTsxfikqoKYAcQVf4qDLQGHNR6hzeD7PrqUus4/Elg7zSJPhFxC08Kg30M
+         ZXlxinM40IHiKDVn10tkqyKQ3vwAgzvX5CMT+pAtRflzMWpp+dF5nAjDp+6VKhp7HnEI
+         LDfTmCqLAAVrQ8NWkQSuKbA1oKfisygI1KPpoRDt9amE9O183JJ253dCN+uY4bSilJyn
+         mHE/0MU7FeQPTwIX1sB1NRUGRZWBmHmdnZ+rDneLYM53iKWsiBZ3mIL+Mzt2tFAUeOI1
+         J/w0ut3vLYff+uAfrXKnZDCfA3YNSUhuEwGJlS1M6DkEtgN2UF6llKWQudFJ+vKChv39
+         mAzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713639026; x=1714243826;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=69d0O+5fM8Yt3nBud30EjYozGnnBdHocwTktgDdGO/c=;
+        b=TIbn2S5HLEzJwx8RFKIfFaT1k5n44OilIoWc6ZrxkFSGX6W7x5BQXvUx4d5ZGOD0Nf
+         BVjRrltxlkq76Zns8d+zYx8OoXjK03ToJjl0XC2ZR4MluUx+KzmU/1Iaa2b21OKuc6np
+         gViaxhAim7tyQBsZ47pj1gnJB+bZgFouHr3iIDyk456vn6X1CuXnYYVEh9NF8Be4wDWx
+         NYBKgs6lkYKizdT5a087op3579BQdbIFx6d8EHH8CV5SozZzhAFrl7TmSy7Nr86X6eFP
+         gHRfboOXIzSN4G+zNj/CdUUKtuF0cPMx04TXaIT8mCEL1Xwhxli+OGi3WuNNmBGzXsDT
+         DgiA==
+X-Forwarded-Encrypted: i=1; AJvYcCUr5KMDQQ94i3sapnAFg8djntRUqdv1/jNW4N6zmmi7/Rj96QELHnf96rsi0DMuyUohWBMiVSnik+YS21RaUW414xaSfbX02E3J
+X-Gm-Message-State: AOJu0YzwMfW9xvSbE8X7MLfVQu9nNhLucyGhI0/6cZChLGZfFvgXW3xg
+	HHGUkQ6XkGRtBUZy956V6rOJevP/rNxfHw1+UcvMThFAZxf1+Uhk3+ehI0XiTg==
+X-Google-Smtp-Source: AGHT+IG7wdpD31V/mV9SZ9Z9bEhieOqV6SqkRO2QWssC+nP2fRjbcc/5NQPLDZMSiwwhJKYxFzsQ8g==
+X-Received: by 2002:a17:902:c952:b0:1e2:7356:aa36 with SMTP id i18-20020a170902c95200b001e27356aa36mr7754665pla.42.1713639026179;
+        Sat, 20 Apr 2024 11:50:26 -0700 (PDT)
+Received: from fedora.. ([2804:14c:71:5fb7::1001])
+        by smtp.gmail.com with ESMTPSA id l5-20020a170902d34500b001dd578121d4sm5321995plk.204.2024.04.20.11.50.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 20 Apr 2024 11:50:25 -0700 (PDT)
+From: Joao Paulo Pereira da Silva <jppaulo11@usp.br>
+To: rodrigo.siqueira@amd.com,
+	airlied@gmail.com,
+	alexander.deucher@amd.com,
+	christian.koenig@amd.com,
+	corbet@lwn.net,
+	daniel@ffwll.ch,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	Xinhui.Pan@amd.com
+Cc: paulormm@ime.usp.br,
+	airlied@linux.ie,
+	amd-gfx@lists.freedesktop.org,
+	andrealmeid@riseup.net,
+	davidgow@google.com,
+	dlatypov@google.com,
+	dri-devel@lists.freedesktop.org,
+	harry.wentland@amd.com,
+	hersenxs.wu@amd.com,
+	isabbasso@riseup.net,
+	javierm@redhat.com,
+	kunit-dev@googlegroups.com,
+	magalilemes00@gmail.com,
+	mairacanal@riseup.net,
+	mwen@igalia.com,
+	nicholas.choi@amd.com,
+	sunpeng.li@amd.com,
+	tales.aparecida@gmail.com,
+	twoerner@gmail.com,
+	Joao Paulo Pereira da Silva <jppaulo11@usp.br>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH 0/4] drm/amd/display: Update Display Core unit tests
+Date: Sat, 20 Apr 2024 15:48:15 -0300
+Message-ID: <20240420184929.97854-1-jppaulo11@usp.br>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240222155811.44096-1-Rodrigo.Siqueira@amd.com>
+References: <20240222155811.44096-1-Rodrigo.Siqueira@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Transfer-Encoding: 8bit
+
+Hey, I'm interested in contributing for display tests from this patch-set.
+I've noticed potential updates related to both refactoring and optimization.
+This patch-set applies these suggestions.
 
 
---=-4uuXbqzcTeWlXoYZxkEY
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+[WHY]
 
-On Fri, 2024-04-19 at 16:54 -0700, Chen, Zide wrote:
->=20
-> However, the selftest hangs:
->=20
-> [Apr19 16:15] kselftest: Running tests in kvm
-> [Apr19 16:16] rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
-> [=C2=A0 +0.000628] rcu:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 78-...0: (1 GPs beh=
-ind) idle=3D3c8c/1/0x4000000000000000 softirq=3D5908/5913 fqs=3D14025
-> [=C2=A0 +0.000468] rcu:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (detected by 104, t=
-=3D60003 jiffies, g=3D60073, q=3D3100 ncpus=3D128)
-> [=C2=A0 +0.000389] Sending NMI from CPU 104 to CPUs 78:
-> [=C2=A0 +0.000360] NMI backtrace for cpu 78
-> [=C2=A0 +0.000004] CPU: 78 PID: 33515 Comm: pvclock_test Tainted: G O=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 6.9.0-rc1zide-l0+ #194
-> [=C2=A0 +0.000003] Hardware name: Inspur NF5280M7/NF5280M7, BIOS 05.08.01=
- 08/18/2023
-> [=C2=A0 +0.000002] RIP: 0010:pvclock_update_vm_gtod_copy+0xb5/0x200 [kvm]
+1.	The single test suite in the file
+	test/kunit/dc/dml/calcs/bw_fixed_test.c, which tests some static
+	functions defined in the dc/basics/bpw_fixed.c, is not being run.
+	According to kunit documentation
+	(https://www.kernel.org/doc/html/latest/dev-tools/kunit/usage.html#testing-static-functions),
+	there are two strategies for testing
+	static functions, but none of them seem to be configured. Additionally,
+	it appears that the Config DCE_KUNIT_TEST should be associated with this
+	test, since it was introduced in the same patch of the test
+	(https://lore.kernel.org/amd-gfx/20240222155811.44096-3-Rodrigo.Siqueira@amd.com/),
+	but it is not being used anywhere in the display driver.
 
-Ah, kvm_get_time_scale() doesn't much like being asked to scale to zero.
+2.	Also, according to the documentation, "The display/tests folder replicates
+	the folder hierarchy of the display folder". However, note that this test file
+	(test/kunit/dc/dml/calcs/bw_fixed_test.c) has a conflicting path with the file
+	that is being tested (dc/basics/bw_fixed.c).
 
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index a07b60351894..45fb99986cf9 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -3046,7 +3046,8 @@ static void pvclock_update_vm_gtod_copy(struct kvm *k=
-vm)
- 		 * Copy from the field protected solely by ka->tsc_write_lock,
- 		 * to the field protected by the ka->pvclock_sc seqlock.
- 		 */
--		ka->master_tsc_scaling_ratio =3D ka->last_tsc_scaling_ratio;
-+		ka->master_tsc_scaling_ratio =3D ka->last_tsc_scaling_ratio ? :
-+			kvm_caps.default_tsc_scaling_ratio;
-=20
- 		/*
- 		 * Calculate the scaling factors precisely the same way
+3.	Config Names and Helps are a bit misleading and don't follow a strict
+	pattern. For example, the config DML_KUNIT_TEST indicates that it is used
+	to activate tests for the Display Core Engine, but instead activates tests
+	for the Display Core Next. Also, note the different name patterns in
+	DML_KUNIT_TEST and AMD_DC_BASICS_KUNIT_TEST.
+
+4.	The test suite dcn21_update_bw_bounding_box_test_suite configures an init
+	function that doesn't need to be executed before every test, but only once
+	before the suite runs.
+
+5.	There are some not updated info in the Documentation, such as the
+	recommended command to run the tests:
+	$ ./tools/testing/kunit/kunit.py run --arch=x86_64 \
+	--kunitconfig=drivers/gpu/drm/amd/display/tests
+	(it doesn't work since there is no .kunitconfig in
+	drivers/gpu/drm/amd/display/tests)
 
 
---=-4uuXbqzcTeWlXoYZxkEY
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
+[HOW]
 
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
-ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
-EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
-FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
-aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
-EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
-VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
-ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
-QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
-rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
-ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
-U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
-BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
-dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
-BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
-QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
-CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
-xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
-IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
-kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
-eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
-KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
-1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
-OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
-x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
-5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
-DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
-VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
-UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
-MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
-ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
-oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
-SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
-xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
-RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
-bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
-NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
-KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
-5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
-C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
-gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
-b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
-BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
-QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
-c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
-AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
-qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
-v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
-Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
-tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
-Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
-YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
-ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
-IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
-ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
-GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
-h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
-9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
-P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
-2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
-BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
-7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
-lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
-lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
-AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
-Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
-FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
-BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
-cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
-aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
-LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
-BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
-Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
-lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
-WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
-hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
-IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
-dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
-NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
-xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjQwNDIwMTYwMzEyWjAvBgkqhkiG9w0BCQQxIgQgcOt4oKlF
-m1XvFF/stuL2Ha0N7rEOwkLRwZM8CfMtLI4wgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
-A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
-dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
-DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
-MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
-Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgByF2pnLs1tJLPWWGMvaAOIdVAgLbv3xxmf
-VZk7XkxppZHEFBNdjS0LLMyF0aF2v1QHXL1Phrt1bNc41DVtjnOJPHWbJ9yIyx05KjAy/DSXAaKQ
-Zn2k36kKYfCrg2AKuB/a9BEikcLTiJpz2wZ7SYClkzc26WDR2zyZwTtFVRfIVpSAsfquh7tH3lQ6
-5syStO+xUkQEnYz3eSC2c+wduRQjnQNKSJlHlOQIV7tfmWGBQ1eMJjGIPxb+5zXBjQQoqbh2dPu0
-vqYeBr47u8eyUv8VXM1JM+SVkgcksyJh/La5/hJtnsj82qLQG24e9yXnyWWTMMlBNyakDklmX3kM
-F7DPjyZ3yA4/YE99+fGMAZG9UpB9CcYa24KxCR0x393Iz+DOTGlSeL7+hRxcg7ObwmeSrNnAgQGL
-uNmdMsZxlCIT+gHIqL0gre/3GwEakbsC8J2QxDgMDVzW+RFkqRmNwORIbZ7T5FAbJh8YxeDUi1Vg
-sBEoC7qNx47JwjavmctgfWNEaWnCW9V6oCvpiLa3wCQvIUPhQMTZlxjplFq1CE6y7YjZIydu6Wvs
-aZA5KoDisV+I22DjWiecM0wYjHcyRVLsrPyNmhjYHNddMi3LlXMv54v8UnLLjygJ9AP1gt+rbXXf
-H1r8GRZWDbIhDoAd7TnFWY4rvWx/3oRuZew/BI+STgAAAAAAAA==
+1. Revise Config names and Help blocks.
 
+2.	Change the path of the test file bw_fixed_test from
+	test/kunit/dc/dml/calcs/bw_fixed_test.c to test/kunit/dc/basics/bw_fixed_test.c
+	to make it consistent with the Documentation and the other display driver
+	tests. Make this same test file run by importing it conditionally in the file
+	dc/basics/bw_fixed_test.c.
 
---=-4uuXbqzcTeWlXoYZxkEY--
+3.	Turn the test init function of the suite
+	dcn21_update_bw_bounding_box_test_suite into a suite init.
+
+4.	Update Documentation
+
+Joao Paulo Pereira da Silva (4):
+  drm/amd/display: Refactor AMD display KUnit tests configs
+  drm/amd/display/test: Fix kunit test that is not running
+  drm/amd/display/test: Optimize kunit test suite
+    dml_dcn20_fpu_dcn21_update_bw_bounding_box_test
+  Documentation/gpu: Update AMD Display Core Unit Test documentation
+
+ .../gpu/amdgpu/display/display-test.rst       | 20 ++++++------
+ drivers/gpu/drm/amd/display/Kconfig           | 31 ++++++-------------
+ .../gpu/drm/amd/display/dc/basics/bw_fixed.c  |  3 ++
+ drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c  |  2 +-
+ .../dc/dml/dcn20/display_mode_vba_20.c        |  2 +-
+ .../dc/dml/dcn20/display_rq_dlg_calc_20.c     |  2 +-
+ .../drm/amd/display/test/kunit/.kunitconfig   |  7 ++---
+ .../gpu/drm/amd/display/test/kunit/Makefile   |  4 +--
+ .../dc/{dml/calcs => basics}/bw_fixed_test.c  |  0
+ .../test/kunit/dc/dml/dcn20/dcn20_fpu_test.c  |  6 ++--
+ 10 files changed, 32 insertions(+), 45 deletions(-)
+ rename drivers/gpu/drm/amd/display/test/kunit/dc/{dml/calcs => basics}/bw_fixed_test.c (100%)
+
+-- 
+2.44.0
+
