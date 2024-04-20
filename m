@@ -1,134 +1,145 @@
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F9B713D625
-	for <linux-doc@vger.kernel.org>; Fri, 19 Apr 2024 23:57:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B7710799;
+	Sat, 20 Apr 2024 07:29:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713571028; cv=none; b=dHcMsHbaZqflKES7zuB09ZILkPgWpuYUg5D4Fs1/xVvdUBqv42GsljNGMNwLEHcIRN2Hq85bL07RPtwWEDaXNOkLaxoYVh3uXUkrfXQJdDi1J9zbPbLB+kN9jhYYh5dlHXWnOk+P/oFRQjvzequaiaThIBE4ZgCJzgkK9rlziwo=
+	t=1713598195; cv=none; b=k0bK5UYpMtkCcwfAqgTgq+0JNnKDZ8rxWOQVw+ro7X7aoNgiINCWCZpQG48/tJKLBYoXjOfBBq4BWAzu/8AXN2m1N9TkZeZrlyshBmQgNtyZX3heZuZcTrWjIelwwqMGu8p82aev5ske2JwacRRvnCim3yIZm0Fc2vYXjyjOJB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713571028; c=relaxed/simple;
-	bh=0i9fPL4EQ86xqogaOVaFxgyloZ9K0XhVTlDWP/nruPY=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=coNsb2SD2hl9S2F/UvkQXSZe7jUV96kuGRbLwmA3jU7qTpM13+7IaQ18LFxbDYiq4k/+FHtq0qMizMOCKskS/B6WwgcfR9Hv0UK0iiHn2lVP7+Szg/mut/vZFAgvtp0U2Up4mkqmeNJtirUtI2oA4hmxcEa3Nq4IJe/y0SSVrCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RXkBkKRH; arc=none smtp.client-ip=209.85.216.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1713598195; c=relaxed/simple;
+	bh=xboYmwFAY9oYvkuW7reH8ca2FGx3OQYvrAakw41o+I0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BeKjgDpAW1UCUNRl2ma8t2lkhNvOooWQ2/yn115TrYhBf0pWAOidMSBlrFckZl59IcTRZadDZUPDwqpDUqQfQchzWvSVeh3iPCIOwcgF4U3BlV3izKC36pWvn9dkHo1a+H7JbfwWCzuQ0ehOvC1fhdJ+1yFbtXcOWh4Akx+qTck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XpOeeV7x; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RXkBkKRH"
-Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-2a2dbaacff8so2972125a91.2
-        for <linux-doc@vger.kernel.org>; Fri, 19 Apr 2024 16:57:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1713571026; x=1714175826; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BLNaa1mk4sNg08myPy5RMxBhkcXeZh/6vIOkJI8rDE0=;
-        b=RXkBkKRHPqyOAHLW2C+R8m1l+ZGa5AL9WfcNc5QnhbIo97RSLeOIXYxrLhXxMiaKDP
-         ZDvIz1QrhZhYj+rNo5evdvuR7f4iXARYw+8Z4ANFs+VoO0SP1PizEYEjOHgaiDfiFPBK
-         qc/avM8h2t8cHulwf/UWWL8JlWQtjXW2z+sivZ0JkoEPZD8YXTRziD3m74GFW08Ifcd8
-         V1Igsqrv/BptDARRYzfsSgNvxchVOs0ji/8nCISd9RFB+eVWenLnshy72TckExJMHhYZ
-         GLrciMWUdeK0hUOTWBabA9yyafo4oKG+QdljM2mXVO5HamI+yjNTUgM3DCJbBhHWyHHW
-         c+6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713571026; x=1714175826;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BLNaa1mk4sNg08myPy5RMxBhkcXeZh/6vIOkJI8rDE0=;
-        b=BXk72n6W953tNOwYHhKxfoibWQTqGxbRV0hYDnDij+Ri4oP3jp1tNSye1aji3H/L6K
-         T/LuSNf7yBcpFpuWENa1eMtZbgiSzHGOuid1m0AFSYxJKqCxLM67UYdAsovsxHK7W1GI
-         sC41nCX7CuAYHGFdb/j6qVE3QtJ84M8m6mQImti+lJhbMlVu+89RjN0Qb65FDeCoaeZa
-         rm4hmDi+Cx70pkM9QkDyFwuu+k9j4ElguPnzhoc6aeckFpjaIH2ga+D89Vir4TTwQGZC
-         X139+h5rTIDxQlnQywogVkJOmvilYfThKDvh0pIpj/e+r4APxdNSoonSBK65379Fo9Zr
-         YutQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUtb7zgFxthQ3Wjnk3Tf/Yyhkfotpx579rDlgBzMluVte2cssdsLijr+7p/QyW7zVVzdvdKne3FSErLYgVUrjidFDxCOs8AqBob
-X-Gm-Message-State: AOJu0YzO8PLN1JhbD+lSYt2JbmwJZ64le+nwxf7PpOqLN0tD7JrIlOBF
-	pm54E3qDN7VMIDenLeAS+tl/LW/9Dq+4nAXuAiBkmxh0KymiBaQL2HOHTDlZMIFW5aP2CnvQtyy
-	NkQ==
-X-Google-Smtp-Source: AGHT+IGojlfhEsdxzaTztBL3XZjbkG9HPajwqeVsxW/YWoIYkuhKNZv91sHNWj8ENPEn4Tl33sIDqZKF3ic=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a17:90b:1b46:b0:2a2:8f19:f484 with SMTP id
- nv6-20020a17090b1b4600b002a28f19f484mr11473pjb.3.1713571024724; Fri, 19 Apr
- 2024 16:57:04 -0700 (PDT)
-Date: Fri, 19 Apr 2024 16:57:03 -0700
-In-Reply-To: <20240419173429.dj6nzgg3t23f52ol@treble>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XpOeeV7x"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B935EC072AA;
+	Sat, 20 Apr 2024 07:29:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713598194;
+	bh=xboYmwFAY9oYvkuW7reH8ca2FGx3OQYvrAakw41o+I0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=XpOeeV7xdBMOKCGPP7msCiC/F1BCtbAR8WNizkFmiyzExN0V49nAY9+r1ZC9N7nNW
+	 o9uMTbWE4bNbOM1wU8OfWyR0vT0S16wb2+VIOvQRfiwcGnK3gkLst2O3utJfU2suZv
+	 i+/HFYwHK1DF5scwvp/GzGB6qq7FnLD81SSKZaJ02wFSqI9CGcG5scBojjVkQdO1/K
+	 GCQWcYm4KMq5nIwTEm1e+Y0wn1T32aXo5VqoFH8exChN4LvmeII0xJUxRmsd+bw1Np
+	 6w31koO5vPbGGFv4zQKD92GwN69lvuVr4LejeTe2kBRaKjjXHZhtTxYe2AlzVpMFQX
+	 hadiMKBe+qx8g==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5176f217b7bso4651203e87.0;
+        Sat, 20 Apr 2024 00:29:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUmO/wVEwZovGiWVkMaGOYhTtY4TprbAybrjCwuPQzcSRzdpSC65nQ6iHKntc3QrTsBtHsDJxOj8K9xCaYvsnK1SanlCOMvyHZNWGTkgeFcHBx+G0yZ+1JN+iVxC6XE/5x3KL3GpCsB2RXlkrHAObhzw5LSHWYs3IRfDin6QiijMZxREOpl
+X-Gm-Message-State: AOJu0YySQ88IDODuat8awixNP1lvzbzM+gpE66qmv1UayehqXf0EF0cw
+	uf+zWsoLRwrXkDHHgZ7Mn5YbqA4w5myeulObtyY5twiF/wiC2O18YX3mEf7IR2HflLGLkG8muJu
+	xJElJRBgLLKkKFUXPoRc9QIkFy+g=
+X-Google-Smtp-Source: AGHT+IF0Ojfu+/qfawWbrxQ/4x/qrMMM9Bg7P5wu1/XAmxXUdVvWrZIK6YIN9nOEFz0UCjQ6C+orZj9b8gni7o3Bckk=
+X-Received: by 2002:ac2:5188:0:b0:516:d09b:cbe4 with SMTP id
+ u8-20020ac25188000000b00516d09bcbe4mr3647779lfi.53.1713598193465; Sat, 20 Apr
+ 2024 00:29:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240417001507.2264512-1-seanjc@google.com> <20240417001507.2264512-2-seanjc@google.com>
- <20240419160537.namt5yaxhhvwwa3r@treble> <ZiKgAh1aNBGHpOof@google.com> <20240419173429.dj6nzgg3t23f52ol@treble>
-Message-ID: <ZiMEz0ekQ6Tl7qh-@google.com>
-Subject: Re: [PATCH 1/2] cpu: Re-enable CPU mitigations by default for !X86 architectures
-From: Sean Christopherson <seanjc@google.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Peter Zijlstra <peterz@infradead.org>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Stephen Rothwell <sfr@canb.auug.org.au>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+References: <20240417043654.60662-1-prathampatel@thefossguy.com>
+ <20240417144859.GA1471879@dev-arch.thelio-3990X> <D0MHQUIYGONC.3LTT2WN2885D7@thefossguy.com>
+ <20240417154750.GB1517581@dev-arch.thelio-3990X> <D0MIMX0DRNKG.21N7VHAE5MWNX@thefossguy.com>
+In-Reply-To: <D0MIMX0DRNKG.21N7VHAE5MWNX@thefossguy.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sat, 20 Apr 2024 16:29:17 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASgtAvOfgnkq-6CJWP_8Ut195t6Z7sqRe1FHbTxtLKfkg@mail.gmail.com>
+Message-ID: <CAK7LNASgtAvOfgnkq-6CJWP_8Ut195t6Z7sqRe1FHbTxtLKfkg@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Enable building of the devel RPM package from Kbuild
+To: Pratham Patel <prathampatel@thefossguy.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, thefirst1322@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 19, 2024, Josh Poimboeuf wrote:
-> On Fri, Apr 19, 2024 at 09:46:58AM -0700, Sean Christopherson wrote:
-> > > It seems confusing to have two config options which have very similar
-> > > names and similar purposes (with subtle differences depending on the
-> > > arch).
-> > > 
-> > > How about we instead just get rid of the x86-specific
-> > > SPECULATION_MITIGATIONS and replace it with a menu which depends on
-> > > CPU_MITIGATIONS:
-> > 
-> > Huh, didn't realize that was possible.
-> > 
-> > I agree that having two things for the same thing is confusing, though Boris'
-> > idea to do s/SPECULATION_MITIGATIONS/X86_CPU_MITIGATIONS would help a fair bit
-> > on that front.
-> > 
-> > My only hesitation is that x86's menu and the common config knob end up in
-> > completely different locations.
-> 
-> I'm thinking this is a minor issue because CPU_MITIGATIONS is enabled by
-> default, so it should almost always be enabled unless the user disables
-> it, in which case they wouldn't be looking for the x86-specific
-> mitigations anyway.
+On Thu, Apr 18, 2024 at 12:51=E2=80=AFAM Pratham Patel
+<prathampatel@thefossguy.com> wrote:
+>
+> On Wed Apr 17, 2024 at 9:17 PM IST, Nathan Chancellor wrote:
+> > On Wed, Apr 17, 2024 at 03:08:57PM +0000, Pratham Patel wrote:
+> > > On Wed Apr 17, 2024 at 8:18 PM IST, Nathan Chancellor wrote:
+> > > > On Wed, Apr 17, 2024 at 04:37:32AM +0000, Pratham Patel wrote:
+> > > > > This addresses a minor nit where I want a `-devel` RPM package to=
+ be
+> > > > > built when I build a binary RPM package with either `binrpm-pkg`
+> > > > > or `rpm-pkg` target(s).
+> > > > >
+> > > > > Pratham Patel (2):
+> > > > >   kbuild: allow toggling the `with_devel` RPM macro
+> > > > >   docs: kbuild: document KBUILD_RPM_WITH_DEVEL
+> > > > >
+> > > > >  Documentation/kbuild/kbuild.rst | 6 ++++++
+> > > > >  scripts/Makefile.package        | 5 ++++-
+> > > > >  2 files changed, 10 insertions(+), 1 deletion(-)
+> > > > >
+> > > > > --
+> > > > > 2.42.0
+> > > > >
+> > > >
+> > > > Hmmm, when I execute
+> > > >
+> > > >   $ make -skj"$(nproc)" ARCH=3Dx86_64 O=3Dbuild mrproper defconfig =
+binrpm-pkg
+> > > >
+> > > > I end up with
+> > > >
+> > > >   $ ls -1 build/rpmbuild/RPMS/x86_64
+> > > >   kernel-6.9.0_rc4_00031_g96fca68c4fbf-1.x86_64.rpm
+> > > >   kernel-devel-6.9.0_rc4_00031_g96fca68c4fbf-1.x86_64.rpm
+> > > >   kernel-headers-6.9.0_rc4_00031_g96fca68c4fbf-1.x86_64.rpm
+> > > >
+> > > > so it seems like this is already happening?
+> > > >
+> > > > Cheers,
+> > > > Nathan
+> > >
+> > > Ah sorry, that was a typo. I meant to say the following:
+> > > "This addresses a minor nit where I **don't** want a `-devel` RPM
+> > > package to be built when I build a binary RPM package with either
+> > > `binrpm-pkg` or `rpm-pkg` target(s)."
+> > >
+> > > That is because on ARM systems where I just need to quickly test the
+> > > upstream defconfig, I don't really need the `-devel` package.
+> > >
+> > > Also, I see that in a hurry, I did the opposite of what I wanted in t=
+he
+> > > patches. This went unnoticed since I had KBUILD_RPM_WITH_DEVEL=3D0 fo=
+r me
+> > > during testing. Sorry about that!
+> > >
+> > > I'll send a v2 fixing this stupid mistake.
+> >
+> > Ah, understood! I am not sure you actually need a v2 though because I
+> > think you can already accomplish what you are looking for by adding
+> >
+> >   RPMOPTS=3D'--without devel'
+> >
+> > to your make command, at least that works for me. Commit 2a291fc315b6
+> > ("kbuild: rpm-pkg: introduce %{with_devel} switch to select devel
+> > package") introduced this.
+> >
+> > Cheers,
+> > Nathan
+>
+> Oh, didn't know that, thank you. :)
+>
+>  -- Pratham Patel
+>
 
-Yeah, this isn't a sticking point by any means.
 
-Oh, and another hiccup I almost forgot about (I just recalled Geert's report).
-Letting CPU_MITIGATIONS be disabled for every arch at compile time will obsolete
-a small amount of kernel code, e.g. arm64 explicitly says "disabled by command
-line option" in a few places.
-
-Those are easy enough to fixup though, but it's not clear that other architectures
-*want* to allow mitigations to be completely compiled out.  x86 appears to be
-relatively unique in that it has a bajillion different things being mitigated.
-
-Rather than making CPU_MITIGATIONS configured for all architectures, what if
-use another Kconfig to tell common code that arch code has already defined
-CPU_MITIGATIONS?  The big downside is that if another arch does end up letting
-the user disable CPU_MITIGATIONS, then we'll probably end up duplicating the
-help text.  But again, it's not clear that any other arch wants to allow that,
-i.e. we can cross that bridge if we come to it.
-
-config ARCH_CONFIGURES_CPU_MITIGATIONS
-	bool
-
-if !ARCH_CONFIGURES_CPU_MITIGATIONS
-config CPU_MITIGATIONS
-	def_bool y
-endif
+As explained in the commit description of
+a55d4aee76ca72e198a657cb471d2a3b37983072
 
 
-> Regardless it seems very common for a menu "depends on" to be in a
-> different file.  We could put CPU_MITIGATIONS in arch/Kconfig which is a
-> fairly logical place for the dependency.
 
-Yeah, arch/Kconfig is probably better than init/Kconfig.
 
-Given that it's late on Friday, I'll somewhat speculatively (ba-dump ching!) post
-a v2, and Cc Linus to explain the mess so that he can apply it directly if he
-thinks it's urgent enough to squeeze into -rc5, and if if my idea isn't completely
-off the rails.
+
+--=20
+Best Regards
+Masahiro Yamada
