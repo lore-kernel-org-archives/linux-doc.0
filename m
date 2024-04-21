@@ -1,180 +1,231 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E14205E00
-	for <linux-doc@vger.kernel.org>; Sat, 20 Apr 2024 18:50:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAC3E645
+	for <linux-doc@vger.kernel.org>; Sun, 21 Apr 2024 01:04:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713639030; cv=none; b=fkw/pTjvpyPGYa1cRPGDgh5cgOjp8QrNvbqLSeR3a+a+VE36CE5+vUiq6kcCI2R0rMaSBA54+c2K3fZYXbXksMsiTu8CAB7NxAY2/KaBDdJrnIbogU9CRtUB3Q++7Z5ja/S7uT4ZeMDKVtg5P3701XMife2T8838SGI6KISWWj8=
+	t=1713661487; cv=none; b=Fi/dFtaWPcB1jagGBMRE/5hPGt3nfcSH0esJBddUxGl7qYT8x4VUTPkAGENPsSM/oNLaUrRqeQqJ2vDgScb0KvVguN1ciYheVZ0SAChvdYklBIBZ1lMMhA7d5fmclkcvRzr6/7TOOQMOL+hcQipYO3RA/90WnUdzIDQ0SrWPbKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713639030; c=relaxed/simple;
-	bh=g28MeYse2mxBCn//Errfp47sv/azT0HsAvDdN8vtTyY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=c8gxwSzyBsJnbDnmnnP52LSJ5bnulk+espTd6cHgYAUL2IZzdmSDCxX1Q0kT2GwQRR53E/o8MmIbfubsWqfPBsX6ybE4Vd3V5ka/pZjOHC98qEpfJkZZlL0M3eDmyPYzGqqxX0eIpeTARWVwBu7THNkhWWHT9X2Nr63NMtGUGNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=usp.br; spf=pass smtp.mailfrom=usp.br; dkim=pass (2048-bit key) header.d=usp.br header.i=@usp.br header.b=QOBgIMNu; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=usp.br
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=usp.br
+	s=arc-20240116; t=1713661487; c=relaxed/simple;
+	bh=4r72hPtqCnQ2OBKF0h6s+thj4Yk8ClIWBoDHP7/BMnI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=GKwTkrDzB06aTX7D953FIaYkJgrnWoY6JtaloZznjrg6IjkfNiFH1bXnxSVtJKSr1+ZsefEn0Po7y93A6X1gMBCqs5jFSIQfjErvHNfB2R83prHbBGkCSeOA9A30aP8sIHxMSg3lAN1/S93XENcCfIW6XaIcfsdP3pgSiBcRBdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=TUIZCGFX; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=usp.br header.i=@usp.br header.b="QOBgIMNu"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1e3f17c6491so25729695ad.2
-        for <linux-doc@vger.kernel.org>; Sat, 20 Apr 2024 11:50:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="TUIZCGFX"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6ee12766586so2565908b3a.0
+        for <linux-doc@vger.kernel.org>; Sat, 20 Apr 2024 18:04:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=usp.br; s=usp-google; t=1713639026; x=1714243826; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=69d0O+5fM8Yt3nBud30EjYozGnnBdHocwTktgDdGO/c=;
-        b=QOBgIMNuGTsxfikqoKYAcQVf4qDLQGHNR6hzeD7PrqUus4/Elg7zSJPhFxC08Kg30M
-         ZXlxinM40IHiKDVn10tkqyKQ3vwAgzvX5CMT+pAtRflzMWpp+dF5nAjDp+6VKhp7HnEI
-         LDfTmCqLAAVrQ8NWkQSuKbA1oKfisygI1KPpoRDt9amE9O183JJ253dCN+uY4bSilJyn
-         mHE/0MU7FeQPTwIX1sB1NRUGRZWBmHmdnZ+rDneLYM53iKWsiBZ3mIL+Mzt2tFAUeOI1
-         J/w0ut3vLYff+uAfrXKnZDCfA3YNSUhuEwGJlS1M6DkEtgN2UF6llKWQudFJ+vKChv39
-         mAzw==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1713661484; x=1714266284; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5Upik3DOmqgCV0g2RZiBc7+wA1R8hXqbRoYtStXV2EQ=;
+        b=TUIZCGFXJuZmrdqroiX6sTLgpVRAwixV6bweKmiuOXOihhf9XibGD98flCd9JqqjmU
+         W/NEtJyK0k1uM2oNVobFiNTnXCtyvfNIEbI4h7AyFy4GN3fB6M6a59vEBfN1wWWFheK+
+         woH4Tqx3RmGAKTdM1ijG/zEH73B59looYXiETEXhKqWnQouM6vzyGSdtlPP1ZKZBxusQ
+         lAy1Q1ipq2HoWJFxJHF1ACHlP3tWcAtzDExB5HgPzEeNqHiIAInFHashElO+qcIyfji4
+         9o2RJqeLFq1aL2rFmJ8Mi577dRK01GDVXe7A0J8oTkGcAXW9Tszisfp90wCe3mBVgZWU
+         GLnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713639026; x=1714243826;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=69d0O+5fM8Yt3nBud30EjYozGnnBdHocwTktgDdGO/c=;
-        b=TIbn2S5HLEzJwx8RFKIfFaT1k5n44OilIoWc6ZrxkFSGX6W7x5BQXvUx4d5ZGOD0Nf
-         BVjRrltxlkq76Zns8d+zYx8OoXjK03ToJjl0XC2ZR4MluUx+KzmU/1Iaa2b21OKuc6np
-         gViaxhAim7tyQBsZ47pj1gnJB+bZgFouHr3iIDyk456vn6X1CuXnYYVEh9NF8Be4wDWx
-         NYBKgs6lkYKizdT5a087op3579BQdbIFx6d8EHH8CV5SozZzhAFrl7TmSy7Nr86X6eFP
-         gHRfboOXIzSN4G+zNj/CdUUKtuF0cPMx04TXaIT8mCEL1Xwhxli+OGi3WuNNmBGzXsDT
-         DgiA==
-X-Forwarded-Encrypted: i=1; AJvYcCUr5KMDQQ94i3sapnAFg8djntRUqdv1/jNW4N6zmmi7/Rj96QELHnf96rsi0DMuyUohWBMiVSnik+YS21RaUW414xaSfbX02E3J
-X-Gm-Message-State: AOJu0YzwMfW9xvSbE8X7MLfVQu9nNhLucyGhI0/6cZChLGZfFvgXW3xg
-	HHGUkQ6XkGRtBUZy956V6rOJevP/rNxfHw1+UcvMThFAZxf1+Uhk3+ehI0XiTg==
-X-Google-Smtp-Source: AGHT+IG7wdpD31V/mV9SZ9Z9bEhieOqV6SqkRO2QWssC+nP2fRjbcc/5NQPLDZMSiwwhJKYxFzsQ8g==
-X-Received: by 2002:a17:902:c952:b0:1e2:7356:aa36 with SMTP id i18-20020a170902c95200b001e27356aa36mr7754665pla.42.1713639026179;
-        Sat, 20 Apr 2024 11:50:26 -0700 (PDT)
-Received: from fedora.. ([2804:14c:71:5fb7::1001])
-        by smtp.gmail.com with ESMTPSA id l5-20020a170902d34500b001dd578121d4sm5321995plk.204.2024.04.20.11.50.18
+        d=1e100.net; s=20230601; t=1713661484; x=1714266284;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5Upik3DOmqgCV0g2RZiBc7+wA1R8hXqbRoYtStXV2EQ=;
+        b=X4ZXARvXBDgBa4n22NNuONRwFfIhv7vz5jjxSdadH/Frf2Kbx6V0zc+naaC7LFaLhS
+         n+InWMNBd7Y0DS4wUX0uGuY5VAcPfdt86GiJ5kxca9XBn5fyrave6OK7IrNsThCtjhw+
+         duE2fPUu7KNHFxw6rk/5aonsG43ufoYSHar79dtbb773oj7GZQfTk91busfto7lTUymr
+         P5kB4U4IktnTGijqpvicSx/49vq06TH+u0XaixFXheZOYNoNPqwQMlj+ReLg6VNsPHC4
+         /XHMMU3B5SUFIWW2McXkNHe1+3YKAv0nyD7EnqwdSKynFwCY3FE1SQdJ6Yok+bMNoTX7
+         ziQw==
+X-Forwarded-Encrypted: i=1; AJvYcCUFKQlRQKsYbfFv0WhXAfKjOvT+gFSrtDiOaz6stjLGcv82pEKabQzSIzGvQAeJOlZMm/xurj6YQtuLnv/5kVcOvHi6DjczXubV
+X-Gm-Message-State: AOJu0Yy9QWXZxNXGnNitP4yG0qwgzUIPPu+yrF6Tghj0v+vnVpHdXBXZ
+	+TnqPKmCLtuMatb50wlE2+vCCfL1tIktKC+qaBsDRG5dvi2gNHSfN6SEgI8AwDQ=
+X-Google-Smtp-Source: AGHT+IFp16UcT7hc8CV33N22/OwIeh1LGlJ+289qN5tEz3H0Mrd0SvARorkT9oA5JUQzTvfW8kS6cQ==
+X-Received: by 2002:a05:6a00:189b:b0:6ea:f05c:5c16 with SMTP id x27-20020a056a00189b00b006eaf05c5c16mr9608809pfh.5.1713661484094;
+        Sat, 20 Apr 2024 18:04:44 -0700 (PDT)
+Received: from charlie.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id d6-20020a63d646000000b005dc8702f0a9sm5249627pgj.1.2024.04.20.18.04.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Apr 2024 11:50:25 -0700 (PDT)
-From: Joao Paulo Pereira da Silva <jppaulo11@usp.br>
-To: rodrigo.siqueira@amd.com,
-	airlied@gmail.com,
-	alexander.deucher@amd.com,
-	christian.koenig@amd.com,
-	corbet@lwn.net,
-	daniel@ffwll.ch,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	Xinhui.Pan@amd.com
-Cc: paulormm@ime.usp.br,
-	airlied@linux.ie,
-	amd-gfx@lists.freedesktop.org,
-	andrealmeid@riseup.net,
-	davidgow@google.com,
-	dlatypov@google.com,
-	dri-devel@lists.freedesktop.org,
-	harry.wentland@amd.com,
-	hersenxs.wu@amd.com,
-	isabbasso@riseup.net,
-	javierm@redhat.com,
-	kunit-dev@googlegroups.com,
-	magalilemes00@gmail.com,
-	mairacanal@riseup.net,
-	mwen@igalia.com,
-	nicholas.choi@amd.com,
-	sunpeng.li@amd.com,
-	tales.aparecida@gmail.com,
-	twoerner@gmail.com,
-	Joao Paulo Pereira da Silva <jppaulo11@usp.br>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 0/4] drm/amd/display: Update Display Core unit tests
-Date: Sat, 20 Apr 2024 15:48:15 -0300
-Message-ID: <20240420184929.97854-1-jppaulo11@usp.br>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240222155811.44096-1-Rodrigo.Siqueira@amd.com>
-References: <20240222155811.44096-1-Rodrigo.Siqueira@amd.com>
+        Sat, 20 Apr 2024 18:04:43 -0700 (PDT)
+From: Charlie Jenkins <charlie@rivosinc.com>
+Subject: [PATCH v3 00/17] riscv: Support vendor extensions and xtheadvector
+Date: Sat, 20 Apr 2024 18:04:32 -0700
+Message-Id: <20240420-dev-charlie-support_thead_vector_6_9-v3-0-67cff4271d1d@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACBmJGYC/5WNQQ6CMBBFr2K6toaWUsCV9zCmaaaDTKKUtNhoC
+ He3sDKudPlmft6bWcRAGNlxN7OAiSL5IUO53zHo7XBFTi4zk4VUhRKCO0w8f8KNkMfHOPowmal
+ H60xCmHww2rRcVK3oQFpVCseyagzY0XPLnC+Ze4p5+tqqSazXPwNJ8IIr27WNqBBqpU+Bko80w
+ AH8na2NJD+91Y9emb1QO92ALkqpmy/vsixvpCfByTMBAAA=
+To: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Guo Ren <guoren@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Conor Dooley <conor.dooley@microchip.com>, Evan Green <evan@rivosinc.com>, 
+ =?utf-8?q?Cl=C3=A9ment_L=C3=A9ger?= <cleger@rivosinc.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
+Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ Charlie Jenkins <charlie@rivosinc.com>, Heiko Stuebner <heiko@sntech.de>, 
+ Heiko Stuebner <heiko@sntech.de>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1713661481; l=7479;
+ i=charlie@rivosinc.com; s=20231120; h=from:subject:message-id;
+ bh=4r72hPtqCnQ2OBKF0h6s+thj4Yk8ClIWBoDHP7/BMnI=;
+ b=FnjBRE9uGiMYlgt5VfR73mBNRHYkKWfThMDMtxTD3bapbzbzr1XgvphDUly3XfPcAojElsGmf
+ G7GysNzEDccAFfM991f4D5M8oqo9ppGowF9x4RfsHjTBVbBIdTEL4oO
+X-Developer-Key: i=charlie@rivosinc.com; a=ed25519;
+ pk=t4RSWpMV1q5lf/NWIeR9z58bcje60/dbtxxmoSfBEcs=
 
-Hey, I'm interested in contributing for display tests from this patch-set.
-I've noticed potential updates related to both refactoring and optimization.
-This patch-set applies these suggestions.
+This patch series ended up much larger than expected, please bear with
+me! The goal here is to support vendor extensions, starting at probing
+the device tree and ending with reporting to userspace.
 
+The main design objective was to allow vendors to operate independently
+of each other. This has been achieved by delegating vendor extensions to
+a their own files and then accumulating the extensions in
+arch/riscv/kernel/vendor_extensions.c.
 
-[WHY]
+Each vendor will have their own list of extensions they support.
 
-1.	The single test suite in the file
-	test/kunit/dc/dml/calcs/bw_fixed_test.c, which tests some static
-	functions defined in the dc/basics/bpw_fixed.c, is not being run.
-	According to kunit documentation
-	(https://www.kernel.org/doc/html/latest/dev-tools/kunit/usage.html#testing-static-functions),
-	there are two strategies for testing
-	static functions, but none of them seem to be configured. Additionally,
-	it appears that the Config DCE_KUNIT_TEST should be associated with this
-	test, since it was introduced in the same patch of the test
-	(https://lore.kernel.org/amd-gfx/20240222155811.44096-3-Rodrigo.Siqueira@amd.com/),
-	but it is not being used anywhere in the display driver.
+There is a new hwprobe key RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0 that is
+used to request which thead vendor extensions are supported on the
+current platform. This allows future vendors to allocate hwprobe keys
+for their vendor.
 
-2.	Also, according to the documentation, "The display/tests folder replicates
-	the folder hierarchy of the display folder". However, note that this test file
-	(test/kunit/dc/dml/calcs/bw_fixed_test.c) has a conflicting path with the file
-	that is being tested (dc/basics/bw_fixed.c).
+On to the xtheadvector specific code. xtheadvector is a custom extension
+that is based upon riscv vector version 0.7.1 [1]. All of the vector
+routines have been modified to support this alternative vector version
+based upon whether xtheadvector was determined to be supported at boot.
+I have tested this with an Allwinner Nezha board. I ran into issues
+booting the board on 6.9-rc1 so I applied these patches to 6.8. There
+are a couple of minor merge conflicts that do arrise when doing that, so
+please let me know if you have been able to boot this board with a 6.9
+kernel. I used SkiffOS [2] to manage building the image, but upgraded
+the U-Boot version to Samuel Holland's more up-to-date version [3] and
+changed out the device tree used by U-Boot with the device trees that
+are present in upstream linux and this series. Thank you Samuel for all
+of the work you did to make this task possible.
 
-3.	Config Names and Helps are a bit misleading and don't follow a strict
-	pattern. For example, the config DML_KUNIT_TEST indicates that it is used
-	to activate tests for the Display Core Engine, but instead activates tests
-	for the Display Core Next. Also, note the different name patterns in
-	DML_KUNIT_TEST and AMD_DC_BASICS_KUNIT_TEST.
+To test the integration, I used the riscv vector kselftests. I modified
+the test cases to be able to more easily extend them, and then added a
+xtheadvector target that works by calling hwprobe and swapping out the
+vector asm if needed.
 
-4.	The test suite dcn21_update_bw_bounding_box_test_suite configures an init
-	function that doesn't need to be executed before every test, but only once
-	before the suite runs.
+[1] https://github.com/T-head-Semi/thead-extension-spec/blob/95358cb2cca9489361c61d335e03d3134b14133f/xtheadvector.adoc
+[2] https://github.com/skiffos/SkiffOS/tree/master/configs/allwinner/nezha
+[3] https://github.com/smaeul/u-boot/commit/2e89b706f5c956a70c989cd31665f1429e9a0b48
 
-5.	There are some not updated info in the Documentation, such as the
-	recommended command to run the tests:
-	$ ./tools/testing/kunit/kunit.py run --arch=x86_64 \
-	--kunitconfig=drivers/gpu/drm/amd/display/tests
-	(it doesn't work since there is no .kunitconfig in
-	drivers/gpu/drm/amd/display/tests)
+Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+---
+Changes in v3:
+- Allow any hardware to support any vendor extension, rather than
+  restricting the vendor extensions to the same vendor as the hardware
+- Introduce config options to enable/disable a vendor's extensions
+- Link to v2: https://lore.kernel.org/r/20240415-dev-charlie-support_thead_vector_6_9-v2-0-c7d68c603268@rivosinc.com
 
+Changes in v2:
+- Added commit hash to xtheadvector
+- Simplified riscv,isa vector removal fix to not mess with the DT
+  riscv,vendorid
+- Moved riscv,vendorid parsing into a different patch and cache the
+  value to be used by alternative patching
+- Reduce riscv,vendorid missing severity to "info"
+- Separate vendor extension list to vendor files
+- xtheadvector no longer puts v in the elf_hwcap
+- Only patch vendor extension if all harts are associated with the same
+  vendor. This is the best chance the kernel has for working properly if
+  there are multiple vendors.
+- Split hwprobe vendor keys out into vendor file
+- Add attribution for Heiko's patches
+- Link to v1: https://lore.kernel.org/r/20240411-dev-charlie-support_thead_vector_6_9-v1-0-4af9815ec746@rivosinc.com
 
-[HOW]
+---
+Charlie Jenkins (15):
+      riscv: cpufeature: Fix thead vector hwcap removal
+      dt-bindings: riscv: Add xtheadvector ISA extension description
+      riscv: vector: Use vlenb from DT
+      riscv: dts: allwinner: Add xtheadvector to the D1/D1s devicetree
+      riscv: Fix extension subset checking
+      riscv: Extend cpufeature.c to detect vendor extensions
+      riscv: Introduce vendor variants of extension helpers
+      riscv: drivers: Convert xandespmu to use the vendor extension framework
+      riscv: csr: Add CSR encodings for VCSR_VXRM/VCSR_VXSAT
+      riscv: Add xtheadvector instruction definitions
+      riscv: vector: Support xtheadvector save/restore
+      riscv: hwprobe: Add thead vendor extension probing
+      riscv: hwprobe: Document thead vendor extensions and xtheadvector extension
+      selftests: riscv: Fix vector tests
+      selftests: riscv: Support xtheadvector in vector tests
 
-1. Revise Config names and Help blocks.
+Conor Dooley (1):
+      dt-bindings: riscv: cpus: add a vlen register length property
 
-2.	Change the path of the test file bw_fixed_test from
-	test/kunit/dc/dml/calcs/bw_fixed_test.c to test/kunit/dc/basics/bw_fixed_test.c
-	to make it consistent with the Documentation and the other display driver
-	tests. Make this same test file run by importing it conditionally in the file
-	dc/basics/bw_fixed_test.c.
+Heiko Stuebner (1):
+      RISC-V: define the elements of the VCSR vector CSR
 
-3.	Turn the test init function of the suite
-	dcn21_update_bw_bounding_box_test_suite into a suite init.
-
-4.	Update Documentation
-
-Joao Paulo Pereira da Silva (4):
-  drm/amd/display: Refactor AMD display KUnit tests configs
-  drm/amd/display/test: Fix kunit test that is not running
-  drm/amd/display/test: Optimize kunit test suite
-    dml_dcn20_fpu_dcn21_update_bw_bounding_box_test
-  Documentation/gpu: Update AMD Display Core Unit Test documentation
-
- .../gpu/amdgpu/display/display-test.rst       | 20 ++++++------
- drivers/gpu/drm/amd/display/Kconfig           | 31 ++++++-------------
- .../gpu/drm/amd/display/dc/basics/bw_fixed.c  |  3 ++
- drivers/gpu/drm/amd/display/dc/dc_dmub_srv.c  |  2 +-
- .../dc/dml/dcn20/display_mode_vba_20.c        |  2 +-
- .../dc/dml/dcn20/display_rq_dlg_calc_20.c     |  2 +-
- .../drm/amd/display/test/kunit/.kunitconfig   |  7 ++---
- .../gpu/drm/amd/display/test/kunit/Makefile   |  4 +--
- .../dc/{dml/calcs => basics}/bw_fixed_test.c  |  0
- .../test/kunit/dc/dml/dcn20/dcn20_fpu_test.c  |  6 ++--
- 10 files changed, 32 insertions(+), 45 deletions(-)
- rename drivers/gpu/drm/amd/display/test/kunit/dc/{dml/calcs => basics}/bw_fixed_test.c (100%)
-
+ Documentation/arch/riscv/hwprobe.rst               |  10 +
+ Documentation/devicetree/bindings/riscv/cpus.yaml  |   6 +
+ .../devicetree/bindings/riscv/extensions.yaml      |  10 +
+ arch/riscv/Kconfig                                 |   2 +
+ arch/riscv/Kconfig.vendor                          |  32 +++
+ arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi      |   3 +-
+ arch/riscv/errata/sifive/errata.c                  |   3 +
+ arch/riscv/errata/thead/errata.c                   |   3 +
+ arch/riscv/include/asm/cpufeature.h                | 106 +++++---
+ arch/riscv/include/asm/csr.h                       |  13 +
+ arch/riscv/include/asm/hwcap.h                     |   1 -
+ arch/riscv/include/asm/hwprobe.h                   |   4 +-
+ arch/riscv/include/asm/sbi.h                       |   2 +
+ arch/riscv/include/asm/switch_to.h                 |   2 +-
+ arch/riscv/include/asm/vector.h                    | 247 +++++++++++++----
+ arch/riscv/include/asm/vendor_extensions.h         |  82 ++++++
+ arch/riscv/include/asm/vendor_extensions/andes.h   |  19 ++
+ arch/riscv/include/asm/vendor_extensions/thead.h   |  45 ++++
+ .../include/asm/vendor_extensions/thead_hwprobe.h  |  11 +
+ arch/riscv/include/uapi/asm/hwprobe.h              |   3 +-
+ arch/riscv/include/uapi/asm/vendor/thead.h         |   3 +
+ arch/riscv/kernel/Makefile                         |   2 +
+ arch/riscv/kernel/cpu.c                            |  40 ++-
+ arch/riscv/kernel/cpufeature.c                     | 138 +++++++---
+ arch/riscv/kernel/kernel_mode_vector.c             |   8 +-
+ arch/riscv/kernel/process.c                        |   4 +-
+ arch/riscv/kernel/signal.c                         |   6 +-
+ arch/riscv/kernel/sys_hwprobe.c                    |   9 +
+ arch/riscv/kernel/vector.c                         |  26 +-
+ arch/riscv/kernel/vendor_extensions.c              |  69 +++++
+ arch/riscv/kernel/vendor_extensions/Makefile       |   5 +
+ arch/riscv/kernel/vendor_extensions/andes.c        |  35 +++
+ arch/riscv/kernel/vendor_extensions/thead.c        |  36 +++
+ .../riscv/kernel/vendor_extensions/thead_hwprobe.c |  42 +++
+ drivers/perf/riscv_pmu_sbi.c                       |   8 +-
+ tools/testing/selftests/riscv/vector/.gitignore    |   3 +-
+ tools/testing/selftests/riscv/vector/Makefile      |  17 +-
+ .../selftests/riscv/vector/v_exec_initval_nolibc.c |  93 +++++++
+ tools/testing/selftests/riscv/vector/v_helpers.c   |  67 +++++
+ tools/testing/selftests/riscv/vector/v_helpers.h   |   7 +
+ tools/testing/selftests/riscv/vector/v_initval.c   |  22 ++
+ .../selftests/riscv/vector/v_initval_nolibc.c      |  68 -----
+ .../selftests/riscv/vector/vstate_exec_nolibc.c    |  20 +-
+ .../testing/selftests/riscv/vector/vstate_prctl.c  | 295 ++++++++++++---------
+ 44 files changed, 1277 insertions(+), 350 deletions(-)
+---
+base-commit: 4cece764965020c22cff7665b18a012006359095
+change-id: 20240411-dev-charlie-support_thead_vector_6_9-1591fc2a431d
 -- 
-2.44.0
+- Charlie
 
