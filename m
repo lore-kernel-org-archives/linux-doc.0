@@ -1,33 +1,33 @@
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB8221C287;
-	Mon, 22 Apr 2024 23:43:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 448C44594A;
+	Mon, 22 Apr 2024 23:48:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713829408; cv=none; b=BCojFzX4cbI8tVMGGR+CMLwcDhgXOlZjQVQ/Xvxb7k9l/U/tOvf5xlY/TY29duRhpsok++SFXNuRwKacfNeoNUn6hsR2qFN3mSxNN4tzSa7TcAHLg7wHifDh+kwvtJCKsFdQYSCAVG5dA9jMuyzqaX8JUKFolePEAynuQ5ckNcM=
+	t=1713829696; cv=none; b=u86qN63pYzm07tWN7TLeXva83Ql1d36XzdSbIek2aM/NNOtQ/jG4AvUtt16W/nXqccDIrJzz3oiBPznT8uYhhjTdOcceKXSiZIQEyAqgfWJm4BLGMPNqeCG7XWNBIed33/+0GxPGVWxjBFZeZJ05nB/CB1ku8AAJmGJfe04zAJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713829408; c=relaxed/simple;
-	bh=hgTV12rvvAxuPjT7U1DK4mDFOpELr+YjSRDMnEIMAG8=;
+	s=arc-20240116; t=1713829696; c=relaxed/simple;
+	bh=Yc7YfWV2OqvmkQgm70k9rhjjb7dMSGGm3abJbjnnWc4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=losvpZWVLuOM9SpAfCzOUpHzDqYExactE1YE5YOXIzp1CnUCtddq6GKxIE/WJGjf4svOsjJtlCdMQExHZUhjrzYZqp+aTGBXF/5GKg8/3t7H1XiFEyf4uDF9S/DzyPGHlJdkQes9md03HsQQOLUGlNt3dzWuQYVUkp0nv+BqZrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=kp2/rg91; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ghj9A/BVjpLOHggjWe4wncsYAehhdD5Vi8ZwD4brDl34VoUD70X5k7RxRFg6boBo1JP3WBSRQ9KZkrH1QhbExwSgSzXSt2hrOBMBNrv21weR8OOfu6yuXKFyV7qamaAsR7OCopcpeSipz3ndwy6PjCTS84wPaKNz07f0Z/pScL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=UHZDGDqB; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="kp2/rg91"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="UHZDGDqB"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=/5dxVdkbXUlP8Fri7+a5GHxcDX18ViLtZfG+NQBl9ss=; b=kp2/rg917Jfco9rnHzTSnXqdbu
-	HBOdwMobaH9cF0bfrhWjk0Ij6IAeFwcWMSciRqnM12aYP6azsdr4VSL/rwAdMlKz9mN+o41jduG8v
-	QBa7zCxJoD5enoSu9V0+4btsqGCKio7L+6AidJRruoBaVyzI+RPS5gCrl/tkfw8X6awc=;
+	bh=oV2rilDACRGG3Sdf0w7IaYABAzDPmTQsqLTOnBjeGwE=; b=UHZDGDqBNYq7P1mjDd30ejFhUc
+	it+/XVOFbwFOFYcEmqzHgU5B+bQvioDGkQ4IZZk1iWQqglQo2sTpWVQrA7mZWdsC4l3SRu2hwyJkj
+	lcht0YVXUDwGFNXyVsSlNuZjkr477iAxbt8wYUDY2gTQ+SDBZk8KCDDZaCsTXvbfmRic=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1rz3Jb-00Deww-LK; Tue, 23 Apr 2024 01:43:15 +0200
-Date: Tue, 23 Apr 2024 01:43:15 +0200
+	id 1rz3OE-00DezN-Dt; Tue, 23 Apr 2024 01:48:02 +0200
+Date: Tue, 23 Apr 2024 01:48:02 +0200
 From: Andrew Lunn <andrew@lunn.ch>
 To: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>
 Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
@@ -42,10 +42,11 @@ Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
 	Thorsten.Kummermehr@microchip.com, Pier.Beruto@onsemi.com,
 	Selvamani.Rajagopal@onsemi.com, Nicolas.Ferre@microchip.com,
 	benjamin.bigler@bernformulastudent.ch
-Subject: Re: [PATCH net-next v4 00/12] Add support for OPEN Alliance
- 10BASE-T1x MACPHY Serial Interface
-Message-ID: <5201c27d-a534-4d29-8c71-d54a2646edff@lunn.ch>
+Subject: Re: [PATCH net-next v4 02/12] net: ethernet: oa_tc6: implement
+ register write operation
+Message-ID: <358658e7-70b8-41c3-8999-0d6ebbc8c9b8@lunn.ch>
 References: <20240418125648.372526-1-Parthiban.Veerasooran@microchip.com>
+ <20240418125648.372526-3-Parthiban.Veerasooran@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,26 +55,35 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240418125648.372526-1-Parthiban.Veerasooran@microchip.com>
+In-Reply-To: <20240418125648.372526-3-Parthiban.Veerasooran@microchip.com>
 
-On Thu, Apr 18, 2024 at 06:26:36PM +0530, Parthiban Veerasooran wrote:
-> This patch series contain the below updates,
-> - Adds support for OPEN Alliance 10BASE-T1x MACPHY Serial Interface in the
->   net/ethernet/oa_tc6.c.
->   Link to the spec:
->   -----------------
->   https://opensig.org/download/document/OPEN_Alliance_10BASET1x_MAC-PHY_Serial_Interface_V1.1.pdf
-> 
-> - Adds driver support for Microchip LAN8650/1 Rev.B1 10BASE-T1S MACPHY
->   Ethernet driver in the net/ethernet/microchip/lan865x/lan865x.c.
->   Link to the product:
->   --------------------
->   https://www.microchip.com/en-us/product/lan8650
+> +/**
+> + * oa_tc6_write_registers - function for writing multiple consecutive registers.
+> + * @tc6: oa_tc6 struct.
+> + * @address: address of the first register to be written in the MAC-PHY.
+> + * @value: values to be written from the starting register address @address.
+> + * @length: number of consecutive registers to be written from @address.
+> + *
+> + * Maximum of 128 consecutive registers can be written starting at @address.
+> + *
+> + * Returns 0 on success otherwise failed.
+> + */
 
-The patchset did not apply cleanly to net-next:
+I think the static analyser tools are getting more picky, and what
+'Return:' .
 
-https://patchwork.kernel.org/project/netdevbpf/list/?series=&submitter=206056&state=*&q=&archive=&delegate=
+https://elixir.bootlin.com/linux/latest/source/Documentation/doc-guide/kernel-doc.rst#L86
 
-Which means it did not get any of the standard automatic testing :-(
+All the examples use Return:
 
-      Andrew
+That document also says:
+
+The documentation format is verified by the kernel build when it is
+requested to perform extra gcc checks::
+
+	make W=n
+
+And if patchwork can apply your patches, it also checks for problems
+like this.
+
+    Andrew
