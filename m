@@ -1,154 +1,153 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C3FD50280;
-	Mon, 22 Apr 2024 09:35:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8AF4145FF1
+	for <linux-doc@vger.kernel.org>; Mon, 22 Apr 2024 11:14:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713778557; cv=none; b=fmyLY24L4tbxyFkyAaoVa9MMWOuNu3tVSYxgeHWA3vZMHhiLMFrkk2q+Ww6l/rMNx27BsSi6/EEW+ZoY9VUac1b9HG/YyOnYdqHVyIhLTnkLd2+gHr2uNVgFJV9dy0tdnkChoOot0RhH0N9+t6s7HzRScROTMhmoL4PhCJjDSGU=
+	t=1713784471; cv=none; b=fgleT9Ajx6Ad/a/axEZEdTfY9AQ+ixJpkdfiojt+VcaDlaNxj7MBz+4RGeTmXBAvHV1NLys3/i5byN5CJh7Lu/BR00L3piTAZs5/WQ5Qzn2+6GtsRhtpQE/v04lXtUmgJXKpBWkvlXKyGom2LMB/8aIB8C9R9cxs8zQA/1nGCFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713778557; c=relaxed/simple;
-	bh=677JTIwL5UswqAMre8oBa/Ouum0+FEfuPU/W+YYnR/8=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fMPEXpYKD0wH8TvYFKvrzVZL8zCJ00PyUW40VQdzdDOiuZ4jz8znqTQv7YrArNB/vSek7SLsJh9FrRZDNpDedUGsYCDM6LFVA1YE17VYOc4mSKRwf4pSKcG9HwpUoPN7kDP3LP5Wziyp8H9Dn5CJtJSpucU5qi8vtHNCxm2t/uQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=DFrm4TpI; arc=none smtp.client-ip=68.232.154.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1713784471; c=relaxed/simple;
+	bh=zZ5Qg5WxBAkfsgf85z6RtZBesdjrnTKjsOr6tnZ/Cqc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ILBWGd+7x2JCSOwrkiTNbEqovK0YjRTWu5rOSVHT13kGPXgNd2q3kWKGoC92s3zllWMbE+4Mnf5jOxOJ9Ele9biTkHiq/g/a63LQJyE7K54NLY+/JG6NTtGFpziF1opphCCy9pnCtzye0KPHSqcOtMj3BHd1kM4uN8v7aeYsdsc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=pNXhE4qy; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="DFrm4TpI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1713778555; x=1745314555;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=677JTIwL5UswqAMre8oBa/Ouum0+FEfuPU/W+YYnR/8=;
-  b=DFrm4TpIsukX3mCQpWYKeR4jyMEZhmFuFTeJ+S3XNgn6eGhl5CKn4NA9
-   NHkWuL2ymmyvREIkm+Y9HCmjeoEyAzN7MHN9aPch4V37wa6mFvE8LR+YZ
-   cgYeFx5GqZPs7CULtKPxUKpKCFvdnDRqmsr9PGwj7tZf4Q1MYGVKsA9EN
-   cvXGrNWzBRXRIbZ7Gn0pr+aPBLDeh8DSxx8iWYsPtfF4XqF2OZ5fARiDY
-   TfBTk7wHowH+jVaxrO0rjgvU4pgGJg4GWxGzaV7EgB5Dk0gilfWg2z46v
-   9gDDHjXT19XlhdBKVizuioZguS+U8YuEAHGIw/0FxEA+jpKlyJitz1rYV
-   A==;
-X-CSE-ConnectionGUID: pUtzPF9AQeyO8Y9fcaMWRA==
-X-CSE-MsgGUID: RbrRuDOgRGGKP/iBnvhOVQ==
-X-IronPort-AV: E=Sophos;i="6.07,220,1708412400"; 
-   d="asc'?scan'208";a="22042204"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 22 Apr 2024 02:35:47 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 22 Apr 2024 02:35:40 -0700
-Received: from wendy (10.10.85.11) by chn-vm-ex02.mchp-main.com (10.10.85.144)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
- Transport; Mon, 22 Apr 2024 02:35:37 -0700
-Date: Mon, 22 Apr 2024 10:35:21 +0100
-From: Conor Dooley <conor.dooley@microchip.com>
-To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
-CC: Conor Dooley <conor@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Paul
- Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Anup Patel
-	<anup@brainfault.org>, Shuah Khan <shuah@kernel.org>, Atish Patra
-	<atishp@atishpatra.org>, <linux-doc@vger.kernel.org>,
-	<linux-riscv@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <kvm@vger.kernel.org>,
-	<kvm-riscv@lists.infradead.org>, <linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH v2 04/12] riscv: add ISA parsing for Zca, Zcf, Zcd and Zcb
-Message-ID: <20240422-daylight-sassy-ff3b0d867fef@wendy>
-References: <20240418124300.1387978-1-cleger@rivosinc.com>
- <20240418124300.1387978-5-cleger@rivosinc.com>
- <20240419-clinic-amusing-d23b1b6d2af2@spud>
- <6ab9e591-f2f2-4267-8bdd-169ef0243e14@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="pNXhE4qy"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-34a0cc29757so498890f8f.1
+        for <linux-doc@vger.kernel.org>; Mon, 22 Apr 2024 04:14:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1713784468; x=1714389268; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=txTWpp1pw11cuzo3l6Yv3qVL9j61JY83c5SyuufTWno=;
+        b=pNXhE4qyq+5L68XkpJZ9k4DIYLY5EVhHt8ZpX4UksINZRYugQIOX0/CQSHWTTBdJOL
+         NYLxEpKS9Ju3q+ASPY0odC9Jad8Q83Ji//dxiXqvCuZjqngtJWZghJ0bgdtH9vNetCTT
+         lYMRqRVqx20tnMFK2/S86T8Qq+iXx1dEtfFLPdZ89mTISoGQ5achtG5x/0Qs73XKHgli
+         6OI7rEJfRyUxL3rDi7G8zDjCo0TuKbJwgBFkkPSOE13kQvr0222+0MFg9i9EJtziApRD
+         Zlgj8MT9SLGc4t273aKWYLwgmNjOC8QjiEerI4Q/wq4PKn5z0oWF+W+/EJZFxfbqylq7
+         LqHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713784468; x=1714389268;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=txTWpp1pw11cuzo3l6Yv3qVL9j61JY83c5SyuufTWno=;
+        b=fHEDvesCd9yDfxB2laheN/bLwuvjy7VFeI1TkamCyystp4l8FQRGuYjA5Yv63eusli
+         HxLyWhFhPhNKO2ZfsY/sQXoYnP9e1ttXdvGL4/jNDjOxbixM0Mmkp5iTLWjYJo19uhJX
+         1pStRwTN8RC745vdMAZcBDqmSs8oxLaQXZew+wH98LQq6x4DOWcW0W+2cUUtsgmvyN6Q
+         2P/ueRKiabq9hTJzQQ+2seMgSGXSZz90yWYDnGt7oEAo7A/6uiEeHZPZOPRYW/VCpq4F
+         aILaBdPHlxQvtQwFxIxC7r91kegXY7wjk3qbTD/zC5t4OQoOFSPoNtDV8MMZ9UdCgA/k
+         Iadg==
+X-Forwarded-Encrypted: i=1; AJvYcCV21arV9BlhR4BpVxpz8DJb9HGSdgAHQQH8VAAZBnrgnxM8lMF7814pLMrao02EcbsdC9FAu1BMGMZAWnE8jUMoqldaQnUTghZd
+X-Gm-Message-State: AOJu0YwSZuSOUcvlrYkmhTAC7sF4/65AvLzqdAzSFI4RcV3lfU5Tme5c
+	ayuq58ksYqCJRinmn5hOKwb+EjtbGGnUf0aDW3qWJwQM3gyaP+aUR/I47h7cAN4=
+X-Google-Smtp-Source: AGHT+IFg50yN4QrZNx2LlD1EJ2tT/EI9hFZ2bUjcoiDOKnV7sj3JlUWpq/52eyPbnKALbKb6A7dtxw==
+X-Received: by 2002:a5d:6511:0:b0:34a:f759:271d with SMTP id x17-20020a5d6511000000b0034af759271dmr2082090wru.6.1713784467909;
+        Mon, 22 Apr 2024 04:14:27 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:999:a3a0:9f43:3ca4:162c:d540? ([2a01:e0a:999:a3a0:9f43:3ca4:162c:d540])
+        by smtp.gmail.com with ESMTPSA id cg3-20020a5d5cc3000000b00349bd105089sm11706450wrb.47.2024.04.22.04.14.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Apr 2024 04:14:27 -0700 (PDT)
+Message-ID: <032530b8-a26e-494f-bd9c-3e1661add5d4@rivosinc.com>
+Date: Mon, 22 Apr 2024 13:14:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="qeeS7kj0r9HsIAfv"
-Content-Disposition: inline
-In-Reply-To: <6ab9e591-f2f2-4267-8bdd-169ef0243e14@rivosinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 04/12] riscv: add ISA parsing for Zca, Zcf, Zcd and Zcb
+To: Conor Dooley <conor.dooley@microchip.com>
+Cc: Conor Dooley <conor@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Anup Patel <anup@brainfault.org>, Shuah Khan <shuah@kernel.org>,
+ Atish Patra <atishp@atishpatra.org>, linux-doc@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, kvm@vger.kernel.org,
+ kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
+References: <20240418124300.1387978-1-cleger@rivosinc.com>
+ <20240418124300.1387978-5-cleger@rivosinc.com>
+ <20240419-clinic-amusing-d23b1b6d2af2@spud>
+ <6ab9e591-f2f2-4267-8bdd-169ef0243e14@rivosinc.com>
+ <20240422-daylight-sassy-ff3b0d867fef@wendy>
+Content-Language: en-US
+From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
+In-Reply-To: <20240422-daylight-sassy-ff3b0d867fef@wendy>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---qeeS7kj0r9HsIAfv
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 22, 2024 at 10:53:10AM +0200, Cl=E9ment L=E9ger wrote:
-> On 19/04/2024 17:51, Conor Dooley wrote:
-> > On Thu, Apr 18, 2024 at 02:42:27PM +0200, Cl=E9ment L=E9ger wrote:
-> >> The Zc* standard extension for code reduction introduces new extension=
-s.
-> >> This patch adds support for Zca, Zcf, Zcd and Zcb. Zce, Zcmt and Zcmp
-> >> are left out of this patch since they are targeting microcontrollers/
-> >> embedded CPUs instead of application processors.
-> >>
-> >> Signed-off-by: Cl=E9ment L=E9ger <cleger@rivosinc.com>
-> >> ---
-> >>  arch/riscv/include/asm/hwcap.h | 4 ++++
-> >>  arch/riscv/kernel/cpufeature.c | 4 ++++
-> >>  2 files changed, 8 insertions(+)
-> >>
-> >> diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/h=
-wcap.h
-> >> index 543e3ea2da0e..b7551bad341b 100644
-> >> --- a/arch/riscv/include/asm/hwcap.h
-> >> +++ b/arch/riscv/include/asm/hwcap.h
-> >> @@ -82,6 +82,10 @@
-> >>  #define RISCV_ISA_EXT_ZACAS		73
-> >>  #define RISCV_ISA_EXT_XANDESPMU		74
-> >>  #define RISCV_ISA_EXT_ZIMOP		75
-> >> +#define RISCV_ISA_EXT_ZCA		76
-> >> +#define RISCV_ISA_EXT_ZCB		77
-> >> +#define RISCV_ISA_EXT_ZCD		78
-> >> +#define RISCV_ISA_EXT_ZCF		79
-> >> =20
-> >>  #define RISCV_ISA_EXT_XLINUXENVCFG	127
-> >> =20
-> >> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufea=
-ture.c
-> >> index 115ba001f1bc..09dee071274d 100644
-> >> --- a/arch/riscv/kernel/cpufeature.c
-> >> +++ b/arch/riscv/kernel/cpufeature.c
-> >> @@ -261,6 +261,10 @@ const struct riscv_isa_ext_data riscv_isa_ext[] =
-=3D {
-> >>  	__RISCV_ISA_EXT_DATA(zfa, RISCV_ISA_EXT_ZFA),
-> >>  	__RISCV_ISA_EXT_DATA(zfh, RISCV_ISA_EXT_ZFH),
-> >>  	__RISCV_ISA_EXT_DATA(zfhmin, RISCV_ISA_EXT_ZFHMIN),
-> >> +	__RISCV_ISA_EXT_DATA(zca, RISCV_ISA_EXT_ZCA),
-> >> +	__RISCV_ISA_EXT_DATA(zcb, RISCV_ISA_EXT_ZCB),
-> >> +	__RISCV_ISA_EXT_DATA(zcd, RISCV_ISA_EXT_ZCD),
-> >> +	__RISCV_ISA_EXT_DATA(zcf, RISCV_ISA_EXT_ZCF),
-> >>  	__RISCV_ISA_EXT_DATA(zba, RISCV_ISA_EXT_ZBA),
-> >>  	__RISCV_ISA_EXT_DATA(zbb, RISCV_ISA_EXT_ZBB),
-> >>  	__RISCV_ISA_EXT_DATA(zbc, RISCV_ISA_EXT_ZBC),
-> >=20
-> > Ye, this looks exactly like what I "feared".
->=20
-> Ok but for instance, Qemu actually set Zc* based on C/F/D. So the ISA
-> string containing theses dependencies should actually also be allowed.
-> So should we simply ignore them in the ISA string and always do our own
-> "post-processing" based on C/F/D?
 
-I'm not familiar with the contents of all of these extensions, but I
-assume the reasoning for splitting them out is that you can implement
-them but not maybe not implement C (or something similar)? If that's the
-case, you cannot always imply.
+On 22/04/2024 11:35, Conor Dooley wrote:
+> On Mon, Apr 22, 2024 at 10:53:10AM +0200, Clément Léger wrote:
+>> On 19/04/2024 17:51, Conor Dooley wrote:
+>>> On Thu, Apr 18, 2024 at 02:42:27PM +0200, Clément Léger wrote:
+>>>> The Zc* standard extension for code reduction introduces new extensions.
+>>>> This patch adds support for Zca, Zcf, Zcd and Zcb. Zce, Zcmt and Zcmp
+>>>> are left out of this patch since they are targeting microcontrollers/
+>>>> embedded CPUs instead of application processors.
+>>>>
+>>>> Signed-off-by: Clément Léger <cleger@rivosinc.com>
+>>>> ---
+>>>>  arch/riscv/include/asm/hwcap.h | 4 ++++
+>>>>  arch/riscv/kernel/cpufeature.c | 4 ++++
+>>>>  2 files changed, 8 insertions(+)
+>>>>
+>>>> diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
+>>>> index 543e3ea2da0e..b7551bad341b 100644
+>>>> --- a/arch/riscv/include/asm/hwcap.h
+>>>> +++ b/arch/riscv/include/asm/hwcap.h
+>>>> @@ -82,6 +82,10 @@
+>>>>  #define RISCV_ISA_EXT_ZACAS		73
+>>>>  #define RISCV_ISA_EXT_XANDESPMU		74
+>>>>  #define RISCV_ISA_EXT_ZIMOP		75
+>>>> +#define RISCV_ISA_EXT_ZCA		76
+>>>> +#define RISCV_ISA_EXT_ZCB		77
+>>>> +#define RISCV_ISA_EXT_ZCD		78
+>>>> +#define RISCV_ISA_EXT_ZCF		79
+>>>>  
+>>>>  #define RISCV_ISA_EXT_XLINUXENVCFG	127
+>>>>  
+>>>> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
+>>>> index 115ba001f1bc..09dee071274d 100644
+>>>> --- a/arch/riscv/kernel/cpufeature.c
+>>>> +++ b/arch/riscv/kernel/cpufeature.c
+>>>> @@ -261,6 +261,10 @@ const struct riscv_isa_ext_data riscv_isa_ext[] = {
+>>>>  	__RISCV_ISA_EXT_DATA(zfa, RISCV_ISA_EXT_ZFA),
+>>>>  	__RISCV_ISA_EXT_DATA(zfh, RISCV_ISA_EXT_ZFH),
+>>>>  	__RISCV_ISA_EXT_DATA(zfhmin, RISCV_ISA_EXT_ZFHMIN),
+>>>> +	__RISCV_ISA_EXT_DATA(zca, RISCV_ISA_EXT_ZCA),
+>>>> +	__RISCV_ISA_EXT_DATA(zcb, RISCV_ISA_EXT_ZCB),
+>>>> +	__RISCV_ISA_EXT_DATA(zcd, RISCV_ISA_EXT_ZCD),
+>>>> +	__RISCV_ISA_EXT_DATA(zcf, RISCV_ISA_EXT_ZCF),
+>>>>  	__RISCV_ISA_EXT_DATA(zba, RISCV_ISA_EXT_ZBA),
+>>>>  	__RISCV_ISA_EXT_DATA(zbb, RISCV_ISA_EXT_ZBB),
+>>>>  	__RISCV_ISA_EXT_DATA(zbc, RISCV_ISA_EXT_ZBC),
+>>>
+>>> Ye, this looks exactly like what I "feared".
+>>
+>> Ok but for instance, Qemu actually set Zc* based on C/F/D. So the ISA
+>> string containing theses dependencies should actually also be allowed.
+>> So should we simply ignore them in the ISA string and always do our own
+>> "post-processing" based on C/F/D?
+> 
+> I'm not familiar with the contents of all of these extensions, but I
+> assume the reasoning for splitting them out is that you can implement
+> them but not maybe not implement C (or something similar)? If that's the
+> case, you cannot always imply.
 
---qeeS7kj0r9HsIAfv
-Content-Type: application/pgp-signature; name="signature.asc"
+Yeah, they can be implemented independently so we need to be able to
+parse them independently. However, the kernel currently requires C so we
+should always have Zca/Zcf/Zcd. But if that changes in the future, then,
+that won't be true anymore. Better keep it generic probably
 
------BEGIN PGP SIGNATURE-----
+Clément
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZiYvWQAKCRB4tDGHoIJi
-0tQCAP9mC34KZI4RlzykLZZJcqOkhj2mcUcNSSr/RaK9eFBoxQEA2vpvtlw6ZDsy
-MIBjOz/mpW/guSx4/dUBlp9zwuIycAA=
-=vD9i
------END PGP SIGNATURE-----
-
---qeeS7kj0r9HsIAfv--
