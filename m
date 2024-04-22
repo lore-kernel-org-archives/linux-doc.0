@@ -1,148 +1,257 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D8F153513
-	for <linux-doc@vger.kernel.org>; Mon, 22 Apr 2024 15:55:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAA8C6A039;
+	Mon, 22 Apr 2024 16:33:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713801301; cv=none; b=KFwO7A2DFv9ZKE37DhLw3pomU4eaSYvNZJJi9GZ2JELhfzMFHliRpNsgFADlKXg8KbC3CpHdOgDkP8oprQRqtu7NGqLvl1R12xnRntndcIh2w4Xq+Z/A4GHZH3tGGdqjLo1YZhpv12StUEkDmFdga52OaVXPsnfCaybjgTkzgcw=
+	t=1713803626; cv=none; b=AQVGgfEHwBGLHqob+ze9Y6OqXExwarB3+tlNtbsynQ5OHIZdE57NnqjyoELWz/qPGIi2+l5+c/6cTrC1f6Azon59OzONWRxEY8exIvkq3+ozsV2U+4KSfL2njxFO7LgpOSHOetBkhyJRMHVlG+H/rHPQNBdI3cLabFx6pCRwYYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713801301; c=relaxed/simple;
-	bh=S24f1FSrq1sF+m6JW8GkCEgWL3cQbwVEjd5KUt/45t8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I+x1xJLfalxW7vMge87XmzYpWkyOPykjYo7U0Uc0FtV6UsDpbOJE4waxEscWj8CjUPt4DU/Qzv+x4NqQ3fKstJzximmlKvHQHpC79smEv+QPL2WQddIBu7A6nElc96+1dg+k3QzSD1GqVRVgYkdwiYsM6D1Qlqv2jKanr+TI9UM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MAyHFqjR; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MAyHFqjR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1713801299;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vrXScvRqVTWx0cmSFbg2HprZNqV52P7w+MYqkVyqleM=;
-	b=MAyHFqjRT3btFGyAKdg5aXwm1dWDe7vvo3A115VjWSMB6kfBJVbzqNBg85a9PTNMrS6LjH
-	v6Eqh353oyU99f6J/HL574K+y07Mg4aSzQBUPy2NWq1+Z/lql4Du8hvRspQeKRlBDcbNh/
-	eS+/tuPAdhEYiUsLK7daHMzisJ83k9U=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-589-B5845KLgOz6wqcFtApYIdA-1; Mon, 22 Apr 2024 11:54:57 -0400
-X-MC-Unique: B5845KLgOz6wqcFtApYIdA-1
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4183d08093bso27286995e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 22 Apr 2024 08:54:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713801296; x=1714406096;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vrXScvRqVTWx0cmSFbg2HprZNqV52P7w+MYqkVyqleM=;
-        b=KAzMmJXuKBiIRvjfnQfAUhFuli4sBX7vufiZxyTA4zBq27BAfXHjZ8hfclOEFdJGG5
-         C9J8EG37RiI5Jio/NvELWypKiNXRszhaCRkQhHWUGbLI/tebRaXhQegCNLHJw5/k2rM4
-         87uxw65G23bw3uqYwc6FQw2KfoJox9UAiiOwLt9Bt1YisByRKA340vPCqfeITzaZesjM
-         OglmNHNAGTjFGC3Cmy3kdUuIrajAoJhGexfXEMvit7d20rX2Kb5MFdD6q2eySsASuqhb
-         gSqZ3sa3aa99eRKnwcHn6ot/41pMPlCZlMlDOKAOealSkDjW/BX6rSCJYq/MXmpqYSqn
-         yT0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUIQOIawtceXi6TGjdUd4uhTK6ZteF5I72umwO7jYECjXYHYWsXaQfHt6BGUPJCNLTT6mwLiYCIueOHvBJ2KYh75pmy4KDkWidg
-X-Gm-Message-State: AOJu0YwI9cIwbq0P8Bj8WnWNBMIABQj+UJHk9/ClLJPzlwbIGKudjAhO
-	7HwxWUc6ONw1DrVxRWXEMuYKAfkaBIhmCilzXQkRAwGAcLV8SqGKom19ienvdfQHa/VUO3AVs4f
-	ld5u1D2ekv1QtRE3BvL6HQSSCV2e+KnfWH3venk37Fsy+AEBwa9qoUwzz1yCGI0TGtxnZfOwrsf
-	6oot7cV366bIfAWJsYXpgtk8pTXxfoVlQN
-X-Received: by 2002:a05:600c:4e0d:b0:41a:8b39:803b with SMTP id b13-20020a05600c4e0d00b0041a8b39803bmr1369176wmq.1.1713801296721;
-        Mon, 22 Apr 2024 08:54:56 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGkTcPyCSPPQtSYlQR7uDVxnB1gDryj1kgIix0MnGUIXw/SBKRVw/tNcQ3IV5cqzNp+/Ot6ubPK0sZ96Qu3ayI=
-X-Received: by 2002:a05:600c:4e0d:b0:41a:8b39:803b with SMTP id
- b13-20020a05600c4e0d00b0041a8b39803bmr1369141wmq.1.1713801296335; Mon, 22 Apr
- 2024 08:54:56 -0700 (PDT)
+	s=arc-20240116; t=1713803626; c=relaxed/simple;
+	bh=OwBYg8unRhddZSwTi6Si2WuI4k4EEoNCgB/yNTwLNy0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ta+ybohsUnNMkYzK9eLU+QBEKoUqfQwAvjiwNu60peFr2k7whOQqzUSwH9S8nLF92vt1i1xVtEZOGxINBLcuPdFv5A3DigECx4lmRiK+VdpFro+6edZ/FNqL0NQsMN2nNIvarwt20r0G2/rXQB7vu+eWflo2G18TCpU35CVqtvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4C27D339;
+	Mon, 22 Apr 2024 09:34:12 -0700 (PDT)
+Received: from e133380.arm.com (e133380.arm.com [10.1.197.52])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E961C3F7BD;
+	Mon, 22 Apr 2024 09:33:39 -0700 (PDT)
+Date: Mon, 22 Apr 2024 17:33:34 +0100
+From: Dave Martin <Dave.Martin@arm.com>
+To: Babu Moger <babu.moger@amd.com>
+Cc: corbet@lwn.net, fenghua.yu@intel.com, reinette.chatre@intel.com,
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+	paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org,
+	peterz@infradead.org, yanjiewtw@gmail.com, kim.phillips@amd.com,
+	lukas.bulwahn@gmail.com, seanjc@google.com, jmattson@google.com,
+	leitao@debian.org, jpoimboe@kernel.org, rick.p.edgecombe@intel.com,
+	kirill.shutemov@linux.intel.com, jithu.joseph@intel.com,
+	kai.huang@intel.com, kan.liang@linux.intel.com,
+	daniel.sneddon@linux.intel.com, pbonzini@redhat.com,
+	sandipan.das@amd.com, ilpo.jarvinen@linux.intel.com,
+	peternewman@google.com, maciej.wieczor-retman@intel.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	eranian@google.com, james.morse@arm.com
+Subject: Re: [RFC PATCH v3 00/17] x86/resctrl : Support AMD Assignable
+ Bandwidth Monitoring Counters (ABMC)
+Message-ID: <ZiaRXrmDDjc194JI@e133380.arm.com>
+References: <cover.1711674410.git.babu.moger@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240418193528.41780-1-dwmw2@infradead.org> <20240418193528.41780-3-dwmw2@infradead.org>
- <CABgObfa0j34iEh81hhd7-t7ZM1GKAsvJb5xP6EoD2-c-8TnPqQ@mail.gmail.com> <a35e69e07b9cd297dac9993c886667add144e833.camel@infradead.org>
-In-Reply-To: <a35e69e07b9cd297dac9993c886667add144e833.camel@infradead.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Mon, 22 Apr 2024 17:54:44 +0200
-Message-ID: <CABgObfbK0aqqmAz7Z2efX4hNf7WRBYpoJ1a07oKMZdFXS2r0+g@mail.gmail.com>
-Subject: Re: [PATCH 02/10] KVM: x86: Improve accuracy of KVM clock when TSC
- scaling is in force
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: kvm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Paul Durrant <paul@xen.org>, Shuah Khan <shuah@kernel.org>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, Oliver Upton <oliver.upton@linux.dev>, 
-	Marcelo Tosatti <mtosatti@redhat.com>, jalliste@amazon.co.uk, sveith@amazon.de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1711674410.git.babu.moger@amd.com>
 
-On Mon, Apr 22, 2024 at 5:39=E2=80=AFPM David Woodhouse <dwmw2@infradead.or=
-g> wrote:
+Hi Babu,
 
-> > ... especially considering that you did use a 64-bit integer here
-> > (though---please use u64 not uint64_t; and BTW if you want to add a
-> > patch to change kvm_get_time_scale() to u64, please do.
->
-> Meh, I'm used to programming in C. Yes, I *am* old enough to have been
-> doing this since the last decade of the 1900s, but it *has* been a long
-> time since 1999, and my fingers have learned :)
+On Thu, Mar 28, 2024 at 08:06:33PM -0500, Babu Moger wrote:
+> 
+> This series adds the support for Assignable Bandwidth Monitoring Counters
+> (ABMC). It is also called QoS RMID Pinning feature
+> 
+> The feature details are documented in the  APM listed below [1].
+> [1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
+> Publication # 24593 Revision 3.41 section 19.3.3.3 Assignable Bandwidth
+> Monitoring (ABMC). The documentation is available at
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
+> 
+> The patches are based on top of commit
+> cd80c2c94699913f9334414189487ff3f93cf0b5 (tip/master)
 
-Oh, I am on the same page (working on both QEMU and Linux, adapting my
-muscle memory to the context sucks) but u64/s64 is the preferred
-spelling and I have been asked to use them before.
+A few very general comments from me here, since I'm not vary familiar
+with this topic...
 
-> Heh, looks like it was you who made it uint64_t, in 2016. In a commit
-> (3ae13faac) which said "Prepare for improving the precision in the next
-> patch"... which never came, AFAICT?
 
-Yes, it was posted as
-https://lore.kernel.org/lkml/1454944711-33022-5-git-send-email-pbonzini@red=
-hat.com/
-but not committed.
+> # Introduction
+> 
+> AMD hardware can support 256 or more RMIDs. However, bandwidth monitoring
+> feature only guarantees that RMIDs currently assigned to a processor will
+> be tracked by hardware. The counters of any other RMIDs which are no longer
+> being tracked will be reset to zero. The MBM event counters return
+> "Unavailable" for the RMIDs that are not active.
+>     
+> Users can create 256 or more monitor groups. But there can be only limited
+> number of groups that can give guaranteed monitoring numbers. With ever
+> changing configurations there is no way to definitely know which of these
+> groups will be active for certain point of time. Users do not have the
+> option to monitor a group or set of groups for certain period of time
+> without worrying about RMID being reset in between.
+>     
+> The ABMC feature provides an option to the user to assign an RMID to the
+> hardware counter and monitor the bandwidth for a longer duration.
+> The assigned RMID will be active until the user unassigns it manually.
+> There is no need to worry about counters being reset during this period.
+> Additionally, the user can specify a bitmask identifying the specific
+> bandwidth types from the given source to track with the counter.
+> 
+> Without ABMC enabled, monitoring will work in current mode without
+> assignment option.
+> 
+> # Linux Implementation
+> 
+> Linux resctrl subsystem provides the interface to count maximum of two
+> memory bandwidth events per group, from a combination of available total
+> and local events. Keeping the current interface, users can assign a maximum
+> of 2 ABMC counters per group. User will also have the option to assign only
+> one counter to the group. If the system runs out of assignable ABMC
+> counters, kernel will display an error. Users need to unassign an already
+> assigned counter to make space for new assignments.
+> 
+> 
+> # Examples
+> 
+> a. Check if ABMC support is available
+> 	#mount -t resctrl resctrl /sys/fs/resctrl/
+> 
+> 	#cat /sys/fs/resctrl/info/L3_MON/mbm_assign
+> 	[abmc] 
+> 	legacy_mbm
+> 
+> 	Linux kernel detected ABMC feature and it is enabled.
+> 
+> b. Check how many ABMC counters are available. 
+> 
+> 	#cat /sys/fs/resctrl/info/L3_MON/mbm_assign_cntrs 
+> 	32
+> 
+> c. Create few resctrl groups.
+> 
+> 	# mkdir /sys/fs/resctrl/mon_groups/default_mon1
+> 	# mkdir /sys/fs/resctrl/non_defult_group
+> 	# mkdir /sys/fs/resctrl/non_defult_group/mon_groups/non_default_mon1
+> 
+> d. This series adds a new interface file /sys/fs/resctrl/info/L3_MON/mbm_assign_control
+>    to list and modify the group's assignment states.
+> 
+>    The list follows the following format:
 
-As an aside, we discovered later that the patch you list as "Fixes"
-fixed another tricky bug: before, kvmclock could jump if the TSC is
-set within the 250 ppm tolerance that does not activate TSC scaling.
-This is possible after a first live migration, and then the second
-live migration used the guest TSC frequency *that userspace desired*
-instead of the *actual* TSC frequency.
+This section looks possibly inconsistent with (e.)
 
-Before:
+Is (d.) the userspace read format, with (e.) being the format written by
+userspace?
 
-        this_tsc_khz =3D __this_cpu_read(cpu_tsc_khz);
-        if (unlikely(vcpu->hw_tsc_khz !=3D this_tsc_khz)) {
-                tgt_tsc_khz =3D vcpu->virtual_tsc_khz;
-                kvm_get_time_scale(NSEC_PER_SEC / 1000, tgt_tsc_khz,
-                        &vcpu->hv_clock.tsc_shift,
-                        &vcpu->hv_clock.tsc_to_system_mul);
-                vcpu->hw_tsc_khz =3D this_tsc_khz;
 
-After:
+>        * Default CTRL_MON group:
+>                "//<domain_id>=<assignment_flags>"
+> 
+>        * Non-default CTRL_MON group:
+>                "<CTRL_MON group>//<domain_id>=<assignment_flags>"
+> 
+>        * Child MON group of default CTRL_MON group:
+>                "/<MON group>/<domain_id>=<assignment_flags>"
+> 
+>        * Child MON group of non-default CTRL_MON group:
+>                "<CTRL_MON group>/<MON group>/<domain_id>=<assignment_flags>"
+> 
+>        Assignment flags can be one of the following:
+> 
+>         t  MBM total event is assigned
 
-        tgt_tsc_khz =3D __this_cpu_read(cpu_tsc_khz);
+With my MPAM hat on this looks a bit weird, although I suppose it
+follows on from the way "mbm_total_bytes" and "mbm_local_bytes" are
+already exposed in resctrlfs.
 
-        // tgt_tsc_khz unchanged because TSC scaling was not enabled
-        tgt_tsc_khz =3D kvm_scale_tsc(v, tgt_tsc_khz);
+From an abstract point of view, "total" and "local" are just event
+selection criteria, additional to those in mbm_cfg_mask.  The different
+way they are treated in the hardware feels like an x86 implementation
+detail.
 
-        if (unlikely(vcpu->hw_tsc_khz !=3D tgt_tsc_khz)) {
-                kvm_get_time_scale(NSEC_PER_SEC / 1000, tgt_tsc_khz,
-                        &vcpu->hv_clock.tsc_shift,
-                        &vcpu->hv_clock.tsc_to_system_mul);
-                vcpu->hw_tsc_khz =3D tgt_tsc_khz;
+For MPAM we don't currently distinguish local from non-local traffic, so
+I guess this just reduces to a simple on-off (i.e., "t" or nothing),
+which I guess is tolerable.
 
-So in the first case kvm_get_time_scale uses vcpu->virtual_tsc_khz, in
-the second case it uses __this_cpu_read(cpu_tsc_khz).
+This might want more thought if there is an expectation that more
+categories will be added here, though (?)
 
-This then caused a mismatch between the actual guest frequency and
-what is used by kvm_guest_time_update, which only becomes visible when
-migration resets the clock with KVM_GET/SET_CLOCK. KVM_GET_CLOCK
-returns what _should have been_ the same value read by the guest, but
-it's wrong.
+>         l  MBM local event is assigned
+>         tl Both total and local MBM events are assigned
+>         _  None of the MBM events are assigned
 
-Paolo
+This use of '_' seems unusual.  Can we not just have the empty string
+for "nothing assigned"?
 
+Since every assignment is terminated by ';' or end-of-line, I don't
+think that there would be any parsing ambiguity (?)
+
+> 
+> 	Examples:
+> 
+> 	# cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control 
+> 	non_defult_group//0=tl;1=tl;2=tl;3=tl;4=tl;5=tl;6=tl;7=tl;
+> 	non_defult_group/non_default_mon1/0=tl;1=tl;2=tl;3=tl;4=tl;5=tl;6=tl;7=tl;
+> 	//0=tl;1=tl;2=tl;3=tl;4=tl;5=tl;6=tl;7=tl;
+> 	/default_mon1/0=tl;1=tl;2=tl;3=tl;4=tl;5=tl;6=tl;7=tl;
+> 
+> 	There are four groups and all the groups have local and total event assigned.
+> 
+> 	"//" - This is a default CONTROL MON group
+> 
+> 	"non_defult_group//" - This is non default CONTROL MON group
+> 
+> 	"/default_mon1/"  - This is Child MON group of the defult group
+> 
+> 	"non_defult_group/non_default_mon1/" - This is child MON group of the non default group
+> 
+> 	=tl means both total and local events are assigned.
+> 
+> e. Update the group assignment states using the interface file /sys/fs/resctrl/info/L3_MON/mbm_assign_control.
+> 
+> 	The write format is similar to the above list format with addition of
+> 	op-code for the assignment operation.
+
+With by resctrl newbie hat on:
+
+It feels a bit complex (for the kernel) to have userspace needing to
+write a script into a magic file that we need to parse, specifying
+updates to a bunch of controls already visible as objects in resctrlfs
+in their own right.
+
+What's the expected use case here?
+
+If userspace really does need to switch lots of events simultaneously
+then I guess the overhead of enumerating and poking lots of individual
+files might be unacceptable though, and we would still need some global
+interfaces for operations such as "unassign everything"...
+
+
+OTOH, the proposed approach is not so different from the way the
+schemata files already work.
+
+> 
+>         * Default CTRL_MON group:
+>                 "//<domain_id><op-code><assignment_flags>"
+> 
+>         * Non-default CTRL_MON group:
+>                 "<CTRL_MON group>//<domain_id><op-code><assignment_flags>"
+> 
+>         * Child MON group of default CTRL_MON group:
+>                 "/<MON group>/<domain_id><op-code><assignment_flags>"
+> 
+>         * Child MON group of non-default CTRL_MON group:
+>                 "<CTRL_MON group>/<MON group>/<domain_id><op-code><assignment_flags>"
+> 
+>        Op-code can be one of the following:
+> 
+>         = Update the assignment to match the flags
+>         + Assign a new state
+>         - Unassign a new state
+>         _ Unassign all the states
+
+If we adopt "empty string" to mean "no events", then
+
+	<foo>/<bar>/<domain>=
+
+would unassign all events, so '_' would not be needed as a separate
+syntax.
+
+[...]
+
+Cheers
+---Dave
