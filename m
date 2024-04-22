@@ -1,127 +1,105 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D45191DDE9;
-	Mon, 22 Apr 2024 16:34:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B90E1514CA;
+	Mon, 22 Apr 2024 16:41:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713803652; cv=none; b=T71CBdj0kQCBCcBxrmr121dxB9Yt7Nug9wXjIlw2TIDWTvS2yGh6MZt8dbPGmmqydJd1h+YMkltzHYCBr+Wl3KgQlmnXs32U/8KPujuLvACpJuq75yyweOTFPufx0E8H0YgV9oB5rm2juH4DM3xu/xQN6zEbKzlXlhweuGDcnkE=
+	t=1713804103; cv=none; b=cIFEKxZFdZWAgirqgaV747R1gCxvHr73JVzp37BQB59yOdQEHQT2DI68HbxMGPgCpJ6QlumyB3IwEbg7aETEbVfxZCrypD5PqAdFajy5fyIjZMcbFA/+9HE2b5iw7oMJDOY4Dqo/1u65RsrLrKjxDssBXtTwoQQ+osQLrfyrxWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713803652; c=relaxed/simple;
-	bh=d5IIQ+icFprsbUfXtANNO4dU2P3pW3Nchx/JQxVt3b0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eCdezS4XC2U+cdpEj4bpE/kzp/8+iOBm6yLax4cVv6jfUvBLSPu59hPCvuSX5kYE6RGq0McyiFqM7KX87iAEEkFTiUFjhiF+d32KwiTVv3IiCHi4qZ1xvgRZsLvyI4JBNkDbjdG7yhQXcQojP3x4PL8ZOnEp1eFPnbYxG3wGqJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 71E9E1063;
-	Mon, 22 Apr 2024 09:34:38 -0700 (PDT)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.52])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1F77D3F7BD;
-	Mon, 22 Apr 2024 09:34:06 -0700 (PDT)
-Date: Mon, 22 Apr 2024 17:34:03 +0100
-From: Dave Martin <Dave.Martin@arm.com>
-To: "Moger, Babu" <babu.moger@amd.com>
-Cc: Peter Newman <peternewman@google.com>, corbet@lwn.net,
-	fenghua.yu@intel.com, reinette.chatre@intel.com, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, paulmck@kernel.org,
-	rdunlap@infradead.org, tj@kernel.org, peterz@infradead.org,
-	yanjiewtw@gmail.com, kim.phillips@amd.com, lukas.bulwahn@gmail.com,
-	seanjc@google.com, jmattson@google.com, leitao@debian.org,
-	jpoimboe@kernel.org, rick.p.edgecombe@intel.com,
-	kirill.shutemov@linux.intel.com, jithu.joseph@intel.com,
-	kai.huang@intel.com, kan.liang@linux.intel.com,
-	daniel.sneddon@linux.intel.com, pbonzini@redhat.com,
-	sandipan.das@amd.com, ilpo.jarvinen@linux.intel.com,
-	maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, eranian@google.com,
-	james.morse@arm.com
-Subject: Re: [RFC PATCH v3 00/17] x86/resctrl : Support AMD Assignable
- Bandwidth Monitoring Counters (ABMC)
-Message-ID: <ZiaRewZJnLaDSx3m@e133380.arm.com>
-References: <cover.1711674410.git.babu.moger@amd.com>
- <CALPaoCheW=Jz2R3gMKcgwQe6ONDrRqu3tUxeg=A3USg6BC8buA@mail.gmail.com>
- <7ccd59b8-9fe3-4d1f-82f5-f33d96dbf5ac@amd.com>
+	s=arc-20240116; t=1713804103; c=relaxed/simple;
+	bh=l/KYJencBm4IeGc/cTZjFX/c/6NXNc/MSc7Iy1VR6nw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=qMWl5HlgaWvYkK7hAJ00FIGYp1aoBJcdxOIJ622qt1zQOTOAJj2AvHbAkyFXb8Jy0X3ve1FNj659nHJWY1+OmYkUaXQQ8D4WfgX7kXKWpv0SKRA0wuhwikVkMyXuOsIrVBaPM1pEWwWdiQnr1N2st+PPfHx792Hxp5UMxLwrBZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bP8QxXft; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bP8QxXft"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B749C113CC;
+	Mon, 22 Apr 2024 16:41:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713804102;
+	bh=l/KYJencBm4IeGc/cTZjFX/c/6NXNc/MSc7Iy1VR6nw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=bP8QxXftlH5gMk6g0Tpgc587k2Ylr0PCo0igPgoBJmp9iPgSWawPIAPX4foU3dUIA
+	 Hde0LHU28N3JtaGpjR/r1pxu0saXHv/ioyPeVmCMlAb5fk1MojFQGadmz6kR1zYLBn
+	 zQyQMtW1CjP7mDQ4uA6HnO+SalcGkHSvRQSn974Gq1Ek36NX6HoWuzgjlaMNA87LM8
+	 OI4YVjCtjdG4/E6r1CQL05csEqgCkmQ9aBMTdDjqf4OWcr5k4ZesrqnHk/a5TlU/Qk
+	 /pU83/t/zE1bLv3Ev0rewLs0BaV85idXXSCu863CwsRq//7pbOf2J+LGEzyYN0wCgD
+	 moE6sv3feGVww==
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: linux-kbuild@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	linux-sh@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v2 0/2] kconfig: remove unneeded 'optional' property support
+Date: Tue, 23 Apr 2024 01:41:02 +0900
+Message-Id: <20240422164104.2869507-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <7ccd59b8-9fe3-4d1f-82f5-f33d96dbf5ac@amd.com>
 
-Hi Babu,
 
-On Thu, Apr 04, 2024 at 03:02:45PM -0500, Moger, Babu wrote:
-> Hi Peter,
-> 
-> 
-> On 4/4/24 14:08, Peter Newman wrote:
-> > Hi Babu,
-> > 
-> > On Thu, Mar 28, 2024 at 6:07 PM Babu Moger <babu.moger@amd.com> wrote:
-> >>    The list follows the following format:
-> >>
-> >>        * Default CTRL_MON group:
-> >>                "//<domain_id>=<assignment_flags>"
-> >>
-> >>        * Non-default CTRL_MON group:
-> >>                "<CTRL_MON group>//<domain_id>=<assignment_flags>"
-> >>
-> >>        * Child MON group of default CTRL_MON group:
-> >>                "/<MON group>/<domain_id>=<assignment_flags>"
-> >>
-> >>        * Child MON group of non-default CTRL_MON group:
-> >>                "<CTRL_MON group>/<MON group>/<domain_id>=<assignment_flags>"
-> >>
-> >>        Assignment flags can be one of the following:
-> >>
-> >>         t  MBM total event is assigned
-> >>         l  MBM local event is assigned
-> >>         tl Both total and local MBM events are assigned
-> >>         _  None of the MBM events are assigned
-> >>
-> >>         Examples:
-> >>
-> >>         # cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
-> >>         non_defult_group//0=tl;1=tl;2=tl;3=tl;4=tl;5=tl;6=tl;7=tl;
-> >>         non_defult_group/non_default_mon1/0=tl;1=tl;2=tl;3=tl;4=tl;5=tl;6=tl;7=tl;
-> >>         //0=tl;1=tl;2=tl;3=tl;4=tl;5=tl;6=tl;7=tl;
-> >>         /default_mon1/0=tl;1=tl;2=tl;3=tl;4=tl;5=tl;6=tl;7=tl;
-> >>
-> >>         There are four groups and all the groups have local and total event assigned.
-> >>
-> >>         "//" - This is a default CONTROL MON group
-> >>
-> >>         "non_defult_group//" - This is non default CONTROL MON group
-> >>
-> >>         "/default_mon1/"  - This is Child MON group of the defult group
-> >>
-> >>         "non_defult_group/non_default_mon1/" - This is child MON group of the non default group
-> >>
-> >>         =tl means both total and local events are assigned.
-> > 
-> > I recall there was supposed to be a way to perform the same update on
-> > all domains together so that it isn't tedious to not do per-domain
-> 
-> Yes. Correct. Reinette suggested to have "no domains" means ALL the domains.
+Kconfig support 'optional' for choice blocks, but it is unneeded.
 
-Would "*" be more intuitive?
+Currently, it is only used in arch/sh/Kconfig.
 
-Whatever is done here to describe the "wildcard node", would it be worth
-having the node field parse the same way in the "schemata" files?
+Covert it (add a place-holder option, CONFIG_CMDLINE_NO_MODIFY) and
+clean up the Kconfig code.
 
-Is there any merit in having range match expressions, e.g. something like
+(Ack from the sh maintainer is appreciated)
 
-	0-3,8-11=foo;4-7,12-*=bar
 
-(The latter is obvious feature creep though, so a real use case for this
-would be needed to justify it.  I don't have one right now...)
+Masahiro Yamada (2):
+  sh: Convert the last use of 'optional' property in Kconfig
+  kconfig: remove 'optional' property support
 
-[...]
+ Documentation/kbuild/kconfig-language.rst     |  3 ---
+ arch/sh/Kconfig                               |  6 ++++-
+ arch/sh/configs/apsh4a3a_defconfig            |  1 +
+ arch/sh/configs/apsh4ad0a_defconfig           |  1 +
+ arch/sh/configs/edosk7705_defconfig           |  1 +
+ arch/sh/configs/hp6xx_defconfig               |  1 +
+ arch/sh/configs/landisk_defconfig             |  1 +
+ arch/sh/configs/magicpanelr2_defconfig        |  1 +
+ arch/sh/configs/rsk7264_defconfig             |  1 +
+ arch/sh/configs/rsk7269_defconfig             |  1 +
+ arch/sh/configs/se7619_defconfig              |  1 +
+ arch/sh/configs/se7705_defconfig              |  1 +
+ arch/sh/configs/se7722_defconfig              |  1 +
+ arch/sh/configs/se7750_defconfig              |  1 +
+ arch/sh/configs/secureedge5410_defconfig      |  1 +
+ arch/sh/configs/sh7710voipgw_defconfig        |  1 +
+ arch/sh/configs/sh7724_generic_defconfig      |  1 +
+ arch/sh/configs/sh7770_generic_defconfig      |  1 +
+ arch/sh/configs/sh7785lcr_32bit_defconfig     |  1 +
+ arch/sh/configs/sh7785lcr_defconfig           |  1 +
+ arch/sh/configs/urquell_defconfig             |  1 +
+ scripts/kconfig/confdata.c                    |  5 +---
+ scripts/kconfig/expr.h                        |  1 -
+ scripts/kconfig/gconf.c                       |  2 --
+ scripts/kconfig/lexer.l                       |  1 -
+ scripts/kconfig/lkc.h                         |  5 ----
+ scripts/kconfig/menu.c                        | 12 +++------
+ scripts/kconfig/parser.y                      |  9 -------
+ scripts/kconfig/tests/choice/Kconfig          | 26 -------------------
+ .../tests/choice/allmod_expected_config       |  4 ---
+ .../tests/choice/allyes_expected_config       |  4 ---
+ .../tests/choice/oldask0_expected_stdout      |  2 --
+ scripts/kconfig/tests/choice/oldask1_config   |  1 -
+ .../tests/choice/oldask1_expected_stdout      |  6 -----
+ 34 files changed, 29 insertions(+), 77 deletions(-)
 
-Cheers
----Dave
+-- 
+2.40.1
+
