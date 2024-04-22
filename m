@@ -1,270 +1,80 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A6A153505;
-	Mon, 22 Apr 2024 12:50:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D884E14A0A5;
+	Mon, 22 Apr 2024 13:20:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713790257; cv=none; b=OwQfwENF1hRrRalgB4bDz+uZGFfiCSmismI/32zLRpsdUgwvrZq6OoAu/YOMgkgPj/wCbgVnc9OVIA7NklxlH6OTz9RnPXcOO/nx3mWxaxeh4qzQU2U070UE2ZEt6XAF1IQYbuXFU9BBUWpTKs3BOnPa6kllSVH9rWX7pDx6qKk=
+	t=1713792039; cv=none; b=P6ZGkrDcnXws5vWXgic3fBdVXgmG8yjL1UbU0vHy8lEmRkIXD+OaR5G3/NcWYed2kBFP4seXHHXaUz31c4IEJm9Ys9m3xSWnPk28frAOcFUBr+PB2L3yxKz5/p1lqpaU+N7Oal7FBLOgmQQVGku82oDZyuZDgEzZvQPyDOO546o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713790257; c=relaxed/simple;
-	bh=qEI9+iVInmUdwyvWghwzJ9fnt6+ljZGyhGys6iPhASw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RX2nyoIjn/jcOVK2wH5DpaX+q+dhexv5PoaZUyHbe1FPIMMiizCKOLUeQkKiPGQRIiGZZ8DnnWLVhv+gdrmvYK3UXAaKFTO4c91i8gvdo0KeTPxpkNXoxxEYhFm0dDsGQA5BBUJ216022XtRC3ULyqMdAa/xphseOQCodikU1mI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=BGucrOyS; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1713792039; c=relaxed/simple;
+	bh=9PTDdzlg3J4GICnkr5pu6YI2krA76YloflEU0yaageA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=lVXOW1MsX26JKxmYTilfyDOAyUxzP5/ZNAYA1cxGsVTP0d8NK1OxIaM/hiEh9IiyWoGaiShb0aMqfnJeBPDnDLs0FnqFZJOvxEv6keM/H9RAKXrRHKskeh62VwUY+516yLBPYY5CUuuFD9sgkCahNm++O+1NrUksoeFWqiBoenI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=nRVLNgXG; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="BGucrOyS"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id AFB36E0012;
-	Mon, 22 Apr 2024 12:50:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1713790253;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oDau1UUzArQJMoURWAmjHOpV0hahq4KJ+hmHXZTqIiI=;
-	b=BGucrOySF9plLBcf7u4olowRVyxMMaAxZnXimsqlgJ7Sequoh/eDM+jIHibl4AghAKWKDG
-	WIdVVBsfFfABTF1MwobQQwXqSBBbeM2tmEU2w4iKOuJSqmxIgkFtxiopvH4p/x6CYYUQCU
-	bRxGQ1SjV+4p5RNEmhOIdaBqJXzUCFVCFhR3DMOsHh3UF+vRSJ4dOd2XsFzYjEq0K2xhCW
-	8Z9levYQz2x/zQn6r7SPAOQwcmI4CtcQEbbpouvVVzZ2mHJv5dVzY6h6o/ZQBZJ8YNKEPm
-	AvCowSP+OmSlo/aMk/x4KchDHr3yKcVsUnAqlxuRp4sNy6xu1vq2SWPWrslbNg==
-From: Kory Maincent <kory.maincent@bootlin.com>
-Date: Mon, 22 Apr 2024 14:50:28 +0200
-Subject: [PATCH net-next v11 13/13] netlink: specs: tsinfo: Enhance netlink
- attributes and add a set command
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="nRVLNgXG"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8254247C2E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1713792031; bh=d1TbXgvvEeqhBi240obyjEDSrnasnWvPwS8968bPFyw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=nRVLNgXGpHERBp1Vpmhh3lyAjt0KCYz+KNio/hQxfK+dn6PdB+f4ZjEKkYjmknzKr
+	 u9MmU3zcjpWvUwxXV4spd62he3bUuPgxd0mBNj3410B/9uIUc4VbRTWKL9dijuYK7o
+	 2384fli3tvggIn33DTN2CgnQVIesjqplj280MsfOV1k9D43UqGF6XmZw92sJ+KkMhM
+	 eqZTxDKhxtXidU/6oXo6OFh4KW+pTe1zuc7iOWLmfPr03zjwkSp+g9SP2fc4NKwMFb
+	 rc38Xhphmw6EMxpEw63jqvgblp10yylNPmXL2JLoRTzUuWBCnboXyQ23oHNo0NXufU
+	 4SYnvwdTVdWyg==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 8254247C2E;
+	Mon, 22 Apr 2024 13:20:31 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Cheng Ziqiu <chengziqiu@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <siyanteng@loongson.cn>
+Cc: Dongliang Mu <dzm91@hust.edu.cn>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, hust-os-kernel-patches@googlegroups.com,
+ Cheng Ziqiu <chengziqiu@hust.edu.cn>
+Subject: Re: [PATCH] scripts: add `check-trans-update.py`
+In-Reply-To: <20240422065822.1441611-1-chengziqiu@hust.edu.cn>
+References: <20240422065822.1441611-1-chengziqiu@hust.edu.cn>
+Date: Mon, 22 Apr 2024 07:20:30 -0600
+Message-ID: <8734rd4jq9.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240422-feature_ptp_netnext-v11-13-f14441f2a1d8@bootlin.com>
-References: <20240422-feature_ptp_netnext-v11-0-f14441f2a1d8@bootlin.com>
-In-Reply-To: <20240422-feature_ptp_netnext-v11-0-f14441f2a1d8@bootlin.com>
-To: Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
- Russell King <linux@armlinux.org.uk>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Richard Cochran <richardcochran@gmail.com>, 
- Radu Pirea <radu-nicolae.pirea@oss.nxp.com>, 
- Jay Vosburgh <j.vosburgh@gmail.com>, Andy Gospodarek <andy@greyhouse.net>, 
- Nicolas Ferre <nicolas.ferre@microchip.com>, 
- Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Horatiu Vultur <horatiu.vultur@microchip.com>, UNGLinuxDriver@microchip.com, 
- Simon Horman <horms@kernel.org>, Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Maxime Chevallier <maxime.chevallier@bootlin.com>, 
- Rahul Rameshbabu <rrameshbabu@nvidia.com>, 
- Kory Maincent <kory.maincent@bootlin.com>
-X-Mailer: b4 0.13.0
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain
 
-Add new attributed to tsinfo allowing to get the tsinfo and the hwtstamp
-from a phc provider (composed by a phc index and a phc qualifier) on a
-netdevice's link.
-Add simultaneously a set command to be able to set hwtstamp configuration
-for a specified phc provider.
+Cheng Ziqiu <chengziqiu@hust.edu.cn> writes:
 
-Here is few examples:
-./ynl/cli.py --spec netlink/specs/ethtool.yaml --no-schema --dump tsinfo-get
-             --json '{"header":{"dev-name":"eth0"}}'
-[{'header': {'dev-index': 3, 'dev-name': 'eth0'},
-  'hwtst-provider': {'index': 0, 'qualifier': 0},
-  'phc-index': 0,
-  'rx-filters': {'bits': {'bit': [{'index': 0, 'name': 'none'},
-                                  {'index': 2, 'name': 'some'}]},
-                 'nomask': True,
-                 'size': 16},
-  'timestamping': {'bits': {'bit': [{'index': 0, 'name': 'hardware-transmit'},
-                                    {'index': 2, 'name': 'hardware-receive'},
-                                    {'index': 6,
-                                     'name': 'hardware-raw-clock'}]},
-                   'nomask': True,
-                   'size': 17},
-  'tx-types': {'bits': {'bit': [{'index': 0, 'name': 'off'},
-                                {'index': 1, 'name': 'on'}]},
-               'nomask': True,
-               'size': 4}},
- {'header': {'dev-index': 3, 'dev-name': 'eth0'},
-  'hwtst-provider': {'index': 2, 'qualifier': 0},
-  'phc-index': 2,
-  'rx-filters': {'bits': {'bit': [{'index': 0, 'name': 'none'},
-                                  {'index': 1, 'name': 'all'}]},
-                 'nomask': True,
-                 'size': 16},
-  'timestamping': {'bits': {'bit': [{'index': 0, 'name': 'hardware-transmit'},
-                                    {'index': 1, 'name': 'software-transmit'},
-                                    {'index': 2, 'name': 'hardware-receive'},
-                                    {'index': 3, 'name': 'software-receive'},
-                                    {'index': 4,
-                                     'name': 'software-system-clock'},
-                                    {'index': 6,
-                                     'name': 'hardware-raw-clock'}]},
-                   'nomask': True,
-                   'size': 17},
-  'tx-types': {'bits': {'bit': [{'index': 0, 'name': 'off'},
-                                {'index': 1, 'name': 'on'},
-                                {'index': 2, 'name': 'onestep-sync'}]},
-               'nomask': True,
-               'size': 4}}]
+> The `check-trans-update.py` scripts check whether a translated version
+> of a documentation is up-to-date with the english version.
+>
+> The scripts use `git log` commit to find the latest english commit from
+> the translation commit (order by author date) and the latest english
+> commits from HEAD. If differences occurs, report the file and commits
+> need to be updated.
+>
+> Signed-off-by: Cheng Ziqiu <chengziqiu@hust.edu.cn>
+> ---
+>  scripts/check-trans-update.py | 176 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 176 insertions(+)
+>  create mode 100755 scripts/check-trans-update.py
 
-./ynl/cli.py --spec netlink/specs/ethtool.yaml --no-schema --do tsinfo-get
-             --json '{"header":{"dev-name":"eth0"},
-                      "hwtst-provider":{"index":0, "qualifier":0 }
-}'
-{'header': {'dev-index': 3, 'dev-name': 'eth0'},
- 'hwtst-provider': {'index': 0, 'qualifier': 0},
- 'phc-index': 0,
- 'rx-filters': {'bits': {'bit': [{'index': 0, 'name': 'none'},
-                                 {'index': 2, 'name': 'some'}]},
-                'nomask': True,
-                'size': 16},
- 'timestamping': {'bits': {'bit': [{'index': 0, 'name': 'hardware-transmit'},
-                                   {'index': 2, 'name': 'hardware-receive'},
-                                   {'index': 6, 'name': 'hardware-raw-clock'}]},
-                  'nomask': True,
-                  'size': 17},
- 'tx-types': {'bits': {'bit': [{'index': 0, 'name': 'off'},
-                               {'index': 1, 'name': 'on'}]},
-              'nomask': True,
-              'size': 4}}
+From a *quick* look I see how this could be a useful tool.  I think a
+real requirement, though, is that a script like this start with a nice
+comment saying what it does and how to use it.  Most people will simply
+stumble across it while looking at files in scripts/; without such a
+comment, they will be hard put to know what it's for.
 
-./ynl/cli.py --spec netlink/specs/ethtool.yaml --no-schema --do tsinfo-set
-             --json '{"header":{"dev-name":"eth0"},
-                      "hwtst-provider":{"index":2, "qualifier":0}}'
-None
+Scripts for the documentation should be well documented :)
 
-./ynl/cli.py --spec netlink/specs/ethtool.yaml --no-schema --do tsinfo-get
-             --json '{"header":{"dev-name":"eth0"}, "ghwtstamp":1}'
-{'header': {'dev-index': 3, 'dev-name': 'eth0'},
- 'hwtst-flags': 1,
- 'rx-filters': {'bits': {'bit': [{'index': 0, 'name': 'none'}]},
-                'nomask': True,
-                'size': 16},
- 'tx-types': {'bits': {'bit': [{'index': 0, 'name': 'off'}]},
-              'nomask': True,
-              'size': 4}}
+Thanks,
 
-./ynl/cli.py --spec netlink/specs/ethtool.yaml --no-schema --do tsinfo-set
-             --json '{"header":{"dev-name":"eth0"},
-                      "rx-filters":{"bits": {"bit": {"name":"ptpv2-l4-event"}},
-                                    "nomask": 1},
-                      "tx-types":{"bits": {"bit": {"name":"on"}},
-                                  "nomask": 1}}'
-None
-
-Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
----
-
-Changes in v8:
-- New patch
-
-Changes in v10:
-- Add ghwtstamp attributes
-- Add tsinfo ntf command
-
-Changes in v11:
-- Add examples in the commit message.
----
- Documentation/netlink/specs/ethtool.yaml | 43 +++++++++++++++++++++++++++++++-
- 1 file changed, 42 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/netlink/specs/ethtool.yaml b/Documentation/netlink/specs/ethtool.yaml
-index 00dc61358be8..c25f78fd3893 100644
---- a/Documentation/netlink/specs/ethtool.yaml
-+++ b/Documentation/netlink/specs/ethtool.yaml
-@@ -576,6 +576,15 @@ attribute-sets:
-       -
-         name: tx-err
-         type: uint
-+  -
-+    name: tsinfo-hwtst-provider
-+    attributes:
-+      -
-+        name: index
-+        type: u32
-+      -
-+        name: qualifier
-+        type: u32
-   -
-     name: tsinfo
-     attributes:
-@@ -602,6 +611,16 @@ attribute-sets:
-         name: stats
-         type: nest
-         nested-attributes: ts-stat
-+      -
-+        name: ghwtstamp
-+        type: u8
-+      -
-+        name: hwtst-provider
-+        type: nest
-+        nested-attributes: tsinfo-hwtst-provider
-+      -
-+        name: hwtst-flags
-+        type: u32
-   -
-     name: cable-result
-     attributes:
-@@ -1406,7 +1425,7 @@ operations:
-       notify: eee-get
-     -
-       name: tsinfo-get
--      doc: Get tsinfo params.
-+      doc: Get tsinfo params or hwtstamp config.
- 
-       attribute-set: tsinfo
- 
-@@ -1414,6 +1433,8 @@ operations:
-         request:
-           attributes:
-             - header
-+            - ghwtstamp
-+            - hwtst-provider
-         reply:
-           attributes:
-             - header
-@@ -1422,6 +1443,8 @@ operations:
-             - rx-filters
-             - phc-index
-             - stats
-+            - hwtst-provider
-+            - hwtst-flags
-       dump: *tsinfo-get-op
-     -
-       name: cable-test-act
-@@ -1730,3 +1753,21 @@ operations:
-       name: mm-ntf
-       doc: Notification for change in MAC Merge configuration.
-       notify: mm-get
-+    -
-+      name: tsinfo-set
-+      doc: Set hwtstamp.
-+
-+      attribute-set: tsinfo
-+
-+      do:
-+        request:
-+          attributes:
-+            - header
-+            - tx-types
-+            - rx-filters
-+            - hwtst-provider
-+            - hwtst-flags
-+    -
-+      name: tsinfo-ntf
-+      doc: Notification for change in tsinfo configuration.
-+      notify: tsinfo-get
-
--- 
-2.34.1
-
+jon
