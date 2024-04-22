@@ -1,122 +1,79 @@
-Received: from fanzine2.igalia.com (fanzine.igalia.com [178.60.130.6])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0E815099A;
-	Mon, 22 Apr 2024 14:21:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.60.130.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F2D21E49F;
+	Mon, 22 Apr 2024 14:51:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713795665; cv=none; b=bD6jSYtho7n4LQfdCU8fvG/I3mWU7tWvtWq9qrAWU/qnKTE95qN/iycdh+igo5KCjyfVru0cwk/2CZGLmaoOa4G5bJwhxMmv/08HLuTwD747j6LBvAnqCynQrfaLUED9mPNbO7UP51ZS/5dFHitZFuhYt5oWVSISdCEcBxcJNxA=
+	t=1713797515; cv=none; b=TCXtD4e+uZJkxd8xxxr0fTOMqC8sY4JVWbmFOUp2atVaoVFD8kTOEkciEPqjwzkId9BYfhfzIdJ2yg9z3uxW7xOAuSyrN2bNjUMRoYXFRQ60fksq7hc9kKNRr5sqp5w1o7YWg+LVjRs0X82fXM+TJjNtatPpuiQKNukc3FMRIN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713795665; c=relaxed/simple;
-	bh=kRCc2qB+QRN81Y9A6rydtQv4DOylAlEkQPIWVCVxyh0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=omt2vBPGM4NY/OIK4mlDFeY5XcVqGq2Q72wF/tcfcT2FB5dDviMR+1hJMWArD97CHRY/KzyeX3v86OvEqHkl/oMB1O9d6T0ddoNO/ARWdln+Ot0k5Csee2szE/34b6GRCV7EFwGxNkizHy2iaNkQ9OyzChJrpw7nabAmZzkvi7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=ms1kULvc; arc=none smtp.client-ip=178.60.130.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	s=arc-20240116; t=1713797515; c=relaxed/simple;
+	bh=2aqAiggZBYZSF6q+dv7makmdN5JW81N9+n16hV0dMwQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ev/BtXcWOiQ8lEED1idx6Mn0VMyVlaIJHNfxRePTZLM+ati8appzN/6jt64k9nMSfmZRjYNBs7xL3EpPn10jJrYCmT/4oghpzvWdM1jm3Ei9bXyQzx6ZdCA7O8l051pdlrhaNKFKdzg1NvBsMuHNskiJeO0pqzAbqz0XFUPY3ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=i54aG8va; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="ms1kULvc"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
-	Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=gDB1GmbLM1RgLFgDDRHYfTCreFTNn/hu28SEK8oaIj0=; b=ms1kULvct7a4ce6WyMgmW1r7nl
-	cfRnf6+dSPUkoWok5LeTV6xdjjUPDGIGDB65WOhPGGg3lxvqSkuQYCTyvJu8//VZ1Qs2oOHHbm+7O
-	9sYNCsJu1RGwd/R8LJNK+uoGdC+OYuNjgvYWjlEgLW4+rQ/xYbmhnqED72RkJM/pNA2bYrpjMJJ+O
-	HdgrA5HBqJ0w1tctOJsEo1XDl1L8LcrPMWlFT6sbv4lPo6MaYy92wuvSxC1XCqkFYhQAxc5whQHBn
-	Lf+ydJ1HccDQRkx+zjZe0BQpTaPSz2xGS75VAzXB5gk8zW0a3cOeCfB5Gh0p8HCil2iEGY4y82TzM
-	lf52I8CA==;
-Received: from [179.234.232.152] (helo=morissey..)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1ryuWz-007HEu-GN; Mon, 22 Apr 2024 16:20:30 +0200
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Tejun Heo <tj@kernel.org>,
-	David Hildenbrand <david@redhat.com>,
-	Wei Yang <richard.weiyang@linux.alibaba.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Minchan Kim <minchan@kernel.org>,
-	Huang Ying <ying.huang@intel.com>,
-	Mel Gorman <mgorman@techsingularity.net>,
-	Dan Williams <dan.j.williams@intel.com>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	kernel-dev@igalia.com,
-	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-Subject: [PATCH] mm: Update shuffle documentation to match its current state
-Date: Mon, 22 Apr 2024 11:18:40 -0300
-Message-ID: <20240422142007.1062231-1-mcanal@igalia.com>
-X-Mailer: git-send-email 2.44.0
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="i54aG8va"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4123F47C32
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1713797512; bh=zSYiN+wlryW0C+GvuOLiBHEu0XIfQ0lel0K6D2siPGE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=i54aG8va6qXqTA9WtqWbkSFZ9s/7dUB9DoEpasI2CeyXLADo6mzlG/aaB3A4f+jwm
+	 mihPDrV05PEm/dWukuH0JS5ir1ymjW8is8V/reWnnye8RkR2ounY96DE9Tb4lYTaqa
+	 Xn6qrWVkeVPCkjFsu99vrjD1GJQixtZbLVA0Hhrswycs75bQj+BoWtA8oivz+5g2zf
+	 2GX+vQlEDezXZdsfa0wBq2EZCbycr0PjimKWa0v6Pk+4viCSsqX1gNZcZfP+rmOqtE
+	 8VxJI+iiYCbhccadqs0SCQE5EOEH05biNwefA5YDurx7wjHI2FTBQFXlXftssdYbf4
+	 +useFH9UV3byA==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 4123F47C32;
+	Mon, 22 Apr 2024 14:51:52 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Linus Torvalds <torvalds@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [GIT PULL] Documentation fixes for 6.9
+Date: Mon, 22 Apr 2024 08:51:51 -0600
+Message-ID: <87le5530xk.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Commit 839195352d82 ("mm/shuffle: remove dynamic reconfiguration")
-removed the dynamic reconfiguration capabilities from the shuffle page
-allocator. This means that, now, we don't have any perspective of an
-"autodetection of memory-side-cache" that triggers the enablement of the
-shuffle page allocator.
+The following changes since commit e9c44c1beaba623b12201d2028bc20f535464d9b:
 
-Therefore, let the documentation reflect that the only way to enable
-the shuffle page allocator is by setting `page_alloc.shuffle=1`.
+  docs: zswap: fix shell command format (2024-03-29 08:59:01 -0600)
 
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 10 ++++------
- mm/Kconfig                                      |  7 +++----
- 2 files changed, 7 insertions(+), 10 deletions(-)
+are available in the Git repository at:
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 902ecd92a29f..924bb8ddd8a8 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -4170,13 +4170,11 @@
- 
- 	page_alloc.shuffle=
- 			[KNL] Boolean flag to control whether the page allocator
--			should randomize its free lists. The randomization may
--			be automatically enabled if the kernel detects it is
--			running on a platform with a direct-mapped memory-side
--			cache, and this parameter can be used to
--			override/disable that behavior. The state of the flag
--			can be read from sysfs at:
-+			should randomize its free lists. This parameter can be
-+			used to enable/disable page randomization. The state of
-+			the flag can be read from sysfs at:
- 			/sys/module/page_alloc/parameters/shuffle.
-+			This parameter is only available if CONFIG_SHUFFLE_PAGE_ALLOCATOR=y.
- 
- 	page_owner=	[KNL,EARLY] Boot-time page_owner enabling option.
- 			Storage of the information about who allocated
-diff --git a/mm/Kconfig b/mm/Kconfig
-index b1448aa81e15..f30a18a0e37d 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -333,10 +333,9 @@ config SHUFFLE_PAGE_ALLOCATOR
- 
- 	  While the randomization improves cache utilization it may
- 	  negatively impact workloads on platforms without a cache. For
--	  this reason, by default, the randomization is enabled only
--	  after runtime detection of a direct-mapped memory-side-cache.
--	  Otherwise, the randomization may be force enabled with the
--	  'page_alloc.shuffle' kernel command line parameter.
-+	  this reason, by default, the randomization is not enabled even
-+	  if SHUFFLE_PAGE_ALLOCATOR=y. The randomization may be force enabled
-+	  with the 'page_alloc.shuffle' kernel command line parameter.
- 
- 	  Say Y if unsure.
- 
--- 
-2.44.0
+  git://git.lwn.net/linux.git tags/docs-6.9-fixes2
 
+for you to fetch changes up to 8d939ae349343b55984ea821164e2be526d48cd1:
+
+  docs: verify/bisect: stable regressions: first stable, then mainline (2024-04-15 09:41:56 -0600)
+
+----------------------------------------------------------------
+A set of updates from Thorsten to his (new) guide to verifying bugs and
+tracking down regressions.
+
+This is a fairly big set of changes for this late in the cycle, and they
+*can* wait if need be.  But they are limited to Thorsten's document,
+which is new with 6.9, and I don't see a reason to not have it in his
+desired form at release.
+
+----------------------------------------------------------------
+Thorsten Leemhuis (6):
+      docs: verify/bisect: use git switch, tag kernel, and various fixes
+      docs: verify/bisect: add and fetch stable branches ahead of time
+      docs: verify/bisect: proper headlines and more spacing
+      docs: verify/bisect: explain testing reverts, patches and newer code
+      docs: verify/bisect: describe how to use a build host
+      docs: verify/bisect: stable regressions: first stable, then mainline
+
+ .../verify-bugs-and-bisect-regressions.rst         | 597 ++++++++++++++-------
+ 1 file changed, 417 insertions(+), 180 deletions(-)
