@@ -1,130 +1,154 @@
-Received: from out30-101.freemail.mail.aliyun.com (out30-101.freemail.mail.aliyun.com [115.124.30.101])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F62313DDB7;
-	Mon, 22 Apr 2024 09:04:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C3FD50280;
+	Mon, 22 Apr 2024 09:35:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713776679; cv=none; b=SAvAf8d4LMUbkS1gSTRzvZFoEYmDhYSxmztTLd1+MQQN5yYZsDIM75btn9psS9fb8ePSP+4uPKXmKriF0GkredMbvVlmKxP9umZPkEsZYl2kxMXzo+iu+vmR3LKYGDIrRGCMvhNvAbhQ5DadQF06PRlS4lrLoBydqiilQSh4ldg=
+	t=1713778557; cv=none; b=fmyLY24L4tbxyFkyAaoVa9MMWOuNu3tVSYxgeHWA3vZMHhiLMFrkk2q+Ww6l/rMNx27BsSi6/EEW+ZoY9VUac1b9HG/YyOnYdqHVyIhLTnkLd2+gHr2uNVgFJV9dy0tdnkChoOot0RhH0N9+t6s7HzRScROTMhmoL4PhCJjDSGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713776679; c=relaxed/simple;
-	bh=VCDi0b6H9++Q/mdIE6+PmeVSPcSFlEcG/DW7KI2h1Uc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VWhhxSJiWweFqG4oiaLi4aNdBtq8rH1bN9RLh8W67mCboW7kQbhq7I1teRTM31XPzgzOysoMA1kV6+qSE3mXo7EjmDXtaz2GpISzt/4+s26X4YXZmi4FCV5Knnh8S0i8nmfpMT2WwCx4ebXav+SU42pWY2FL2vskMwcBHmh1GGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=g1zr40s7; arc=none smtp.client-ip=115.124.30.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1713778557; c=relaxed/simple;
+	bh=677JTIwL5UswqAMre8oBa/Ouum0+FEfuPU/W+YYnR/8=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fMPEXpYKD0wH8TvYFKvrzVZL8zCJ00PyUW40VQdzdDOiuZ4jz8znqTQv7YrArNB/vSek7SLsJh9FrRZDNpDedUGsYCDM6LFVA1YE17VYOc4mSKRwf4pSKcG9HwpUoPN7kDP3LP5Wziyp8H9Dn5CJtJSpucU5qi8vtHNCxm2t/uQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=DFrm4TpI; arc=none smtp.client-ip=68.232.154.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="g1zr40s7"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1713776650; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=YBdh3d4NG7zhEjgVLeaTSgMeUhDFAFZPUPg3nLFAOF8=;
-	b=g1zr40s7du7qcE1X3YS3A7kFpRjI1q/LkOzcz/hySxUSSuqDQ3OJwiUJUd601kZhJ0lSSFEB6P9NTqVojOUXmonYGPjm8T180KWYWeS2AAl3cSHVE6VCDoEracSPnLHkVpblADfP5KqmbfaARf3cqVy/FhLiO0YkuiMkSIj8cDI=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R911e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018046059;MF=hengqi@linux.alibaba.com;NM=1;PH=DS;RN=23;SR=0;TI=SMTPD_---0W50qzB3_1713776646;
-Received: from 30.221.148.142(mailfrom:hengqi@linux.alibaba.com fp:SMTPD_---0W50qzB3_1713776646)
-          by smtp.aliyun-inc.com;
-          Mon, 22 Apr 2024 17:04:08 +0800
-Message-ID: <6509d9f4-09b1-43ee-ab38-8949f51a806d@linux.alibaba.com>
-Date: Mon, 22 Apr 2024 17:04:06 +0800
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="DFrm4TpI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1713778555; x=1745314555;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=677JTIwL5UswqAMre8oBa/Ouum0+FEfuPU/W+YYnR/8=;
+  b=DFrm4TpIsukX3mCQpWYKeR4jyMEZhmFuFTeJ+S3XNgn6eGhl5CKn4NA9
+   NHkWuL2ymmyvREIkm+Y9HCmjeoEyAzN7MHN9aPch4V37wa6mFvE8LR+YZ
+   cgYeFx5GqZPs7CULtKPxUKpKCFvdnDRqmsr9PGwj7tZf4Q1MYGVKsA9EN
+   cvXGrNWzBRXRIbZ7Gn0pr+aPBLDeh8DSxx8iWYsPtfF4XqF2OZ5fARiDY
+   TfBTk7wHowH+jVaxrO0rjgvU4pgGJg4GWxGzaV7EgB5Dk0gilfWg2z46v
+   9gDDHjXT19XlhdBKVizuioZguS+U8YuEAHGIw/0FxEA+jpKlyJitz1rYV
+   A==;
+X-CSE-ConnectionGUID: pUtzPF9AQeyO8Y9fcaMWRA==
+X-CSE-MsgGUID: RbrRuDOgRGGKP/iBnvhOVQ==
+X-IronPort-AV: E=Sophos;i="6.07,220,1708412400"; 
+   d="asc'?scan'208";a="22042204"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 22 Apr 2024 02:35:47 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 22 Apr 2024 02:35:40 -0700
+Received: from wendy (10.10.85.11) by chn-vm-ex02.mchp-main.com (10.10.85.144)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
+ Transport; Mon, 22 Apr 2024 02:35:37 -0700
+Date: Mon, 22 Apr 2024 10:35:21 +0100
+From: Conor Dooley <conor.dooley@microchip.com>
+To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
+CC: Conor Dooley <conor@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Paul
+ Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Anup Patel
+	<anup@brainfault.org>, Shuah Khan <shuah@kernel.org>, Atish Patra
+	<atishp@atishpatra.org>, <linux-doc@vger.kernel.org>,
+	<linux-riscv@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <kvm@vger.kernel.org>,
+	<kvm-riscv@lists.infradead.org>, <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH v2 04/12] riscv: add ISA parsing for Zca, Zcf, Zcd and Zcb
+Message-ID: <20240422-daylight-sassy-ff3b0d867fef@wendy>
+References: <20240418124300.1387978-1-cleger@rivosinc.com>
+ <20240418124300.1387978-5-cleger@rivosinc.com>
+ <20240419-clinic-amusing-d23b1b6d2af2@spud>
+ <6ab9e591-f2f2-4267-8bdd-169ef0243e14@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v9 2/4] ethtool: provide customized dim profile
- management
-To: Brett Creeley <bcreeley@amd.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, "David S . Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Jason Wang <jasowang@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Ratheesh Kannoth <rkannoth@marvell.com>,
- Alexander Lobakin <aleksander.lobakin@intel.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Tal Gilboa <talgi@nvidia.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- Maxime Chevallier <maxime.chevallier@bootlin.com>,
- Jiri Pirko <jiri@resnulli.us>, Paul Greenwalt <paul.greenwalt@intel.com>,
- Ahmed Zaki <ahmed.zaki@intel.com>, Vladimir Oltean
- <vladimir.oltean@nxp.com>, Kory Maincent <kory.maincent@bootlin.com>,
- Andrew Lunn <andrew@lunn.ch>, "justinstitt@google.com"
- <justinstitt@google.com>,
- "open list:NETWORKING DRIVERS" <netdev@vger.kernel.org>,
- "open list:VIRTIO CORE AND NET DRIVERS" <virtualization@lists.linux.dev>
-References: <20240417155546.25691-1-hengqi@linux.alibaba.com>
- <20240417155546.25691-3-hengqi@linux.alibaba.com>
- <c59ebd40-fe9c-477f-9ed5-958163470f03@amd.com>
-From: Heng Qi <hengqi@linux.alibaba.com>
-In-Reply-To: <c59ebd40-fe9c-477f-9ed5-958163470f03@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="qeeS7kj0r9HsIAfv"
+Content-Disposition: inline
+In-Reply-To: <6ab9e591-f2f2-4267-8bdd-169ef0243e14@rivosinc.com>
 
+--qeeS7kj0r9HsIAfv
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Apr 22, 2024 at 10:53:10AM +0200, Cl=E9ment L=E9ger wrote:
+> On 19/04/2024 17:51, Conor Dooley wrote:
+> > On Thu, Apr 18, 2024 at 02:42:27PM +0200, Cl=E9ment L=E9ger wrote:
+> >> The Zc* standard extension for code reduction introduces new extension=
+s.
+> >> This patch adds support for Zca, Zcf, Zcd and Zcb. Zce, Zcmt and Zcmp
+> >> are left out of this patch since they are targeting microcontrollers/
+> >> embedded CPUs instead of application processors.
+> >>
+> >> Signed-off-by: Cl=E9ment L=E9ger <cleger@rivosinc.com>
+> >> ---
+> >>  arch/riscv/include/asm/hwcap.h | 4 ++++
+> >>  arch/riscv/kernel/cpufeature.c | 4 ++++
+> >>  2 files changed, 8 insertions(+)
+> >>
+> >> diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/h=
+wcap.h
+> >> index 543e3ea2da0e..b7551bad341b 100644
+> >> --- a/arch/riscv/include/asm/hwcap.h
+> >> +++ b/arch/riscv/include/asm/hwcap.h
+> >> @@ -82,6 +82,10 @@
+> >>  #define RISCV_ISA_EXT_ZACAS		73
+> >>  #define RISCV_ISA_EXT_XANDESPMU		74
+> >>  #define RISCV_ISA_EXT_ZIMOP		75
+> >> +#define RISCV_ISA_EXT_ZCA		76
+> >> +#define RISCV_ISA_EXT_ZCB		77
+> >> +#define RISCV_ISA_EXT_ZCD		78
+> >> +#define RISCV_ISA_EXT_ZCF		79
+> >> =20
+> >>  #define RISCV_ISA_EXT_XLINUXENVCFG	127
+> >> =20
+> >> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufea=
+ture.c
+> >> index 115ba001f1bc..09dee071274d 100644
+> >> --- a/arch/riscv/kernel/cpufeature.c
+> >> +++ b/arch/riscv/kernel/cpufeature.c
+> >> @@ -261,6 +261,10 @@ const struct riscv_isa_ext_data riscv_isa_ext[] =
+=3D {
+> >>  	__RISCV_ISA_EXT_DATA(zfa, RISCV_ISA_EXT_ZFA),
+> >>  	__RISCV_ISA_EXT_DATA(zfh, RISCV_ISA_EXT_ZFH),
+> >>  	__RISCV_ISA_EXT_DATA(zfhmin, RISCV_ISA_EXT_ZFHMIN),
+> >> +	__RISCV_ISA_EXT_DATA(zca, RISCV_ISA_EXT_ZCA),
+> >> +	__RISCV_ISA_EXT_DATA(zcb, RISCV_ISA_EXT_ZCB),
+> >> +	__RISCV_ISA_EXT_DATA(zcd, RISCV_ISA_EXT_ZCD),
+> >> +	__RISCV_ISA_EXT_DATA(zcf, RISCV_ISA_EXT_ZCF),
+> >>  	__RISCV_ISA_EXT_DATA(zba, RISCV_ISA_EXT_ZBA),
+> >>  	__RISCV_ISA_EXT_DATA(zbb, RISCV_ISA_EXT_ZBB),
+> >>  	__RISCV_ISA_EXT_DATA(zbc, RISCV_ISA_EXT_ZBC),
+> >=20
+> > Ye, this looks exactly like what I "feared".
+>=20
+> Ok but for instance, Qemu actually set Zc* based on C/F/D. So the ISA
+> string containing theses dependencies should actually also be allowed.
+> So should we simply ignore them in the ISA string and always do our own
+> "post-processing" based on C/F/D?
 
-在 2024/4/21 下午11:53, Brett Creeley 写道:
-> On 4/17/2024 8:55 AM, Heng Qi wrote:
->> Caution: This message originated from an External Source. Use proper 
->> caution when opening attachments, clicking links, or responding.
->>
->>
->> The NetDIM library, currently leveraged by an array of NICs, delivers
->> excellent acceleration benefits. Nevertheless, NICs vary significantly
->> in their dim profile list prerequisites.
->>
->> Specifically, virtio-net backends may present diverse sw or hw device
->> implementation, making a one-size-fits-all parameter list impractical.
->> On Alibaba Cloud, the virtio DPU's performance under the default DIM
->> profile falls short of expectations, partly due to a mismatch in
->> parameter configuration.
->>
->> I also noticed that ice/idpf/ena and other NICs have customized
->> profilelist or placed some restrictions on dim capabilities.
->>
->> Motivated by this, I tried adding new params for "ethtool -C" that 
->> provides
->> a per-device control to modify and access a device's interrupt 
->> parameters.
->>
->> Usage
->> ========
->> The target NIC is named ethx.
->>
->> Assume that ethx only declares support for 
->> ETHTOOL_COALESCE_RX_EQE_PROFILE
->> in ethtool_ops->supported_coalesce_params.
->>
->> 1. Query the currently customized list of the device
->>
->> $ ethtool -c ethx
->> ...
->> rx-eqe-profile:
->> {.usec =   1, .pkts = 256, .comps =   0,},
->> {.usec =   8, .pkts = 256, .comps =   0,},
->> {.usec =  64, .pkts = 256, .comps =   0,},
->> {.usec = 128, .pkts = 256, .comps =   0,},
->> {.usec = 256, .pkts = 256, .comps =   0,}
->> rx-cqe-profile:   n/a
->> tx-eqe-profile:   n/a
->> tx-cqe-profile:   n/a
->>
->> 2. Tune
->> $ ethtool -C ethx rx-eqe-profile 1,1,0_2,2,0_3,3,0_4,4,0_5,5,0
->
-> With all of this work to support custom dim profiles (which I think is 
-> a great idea FWIW), I wonder if it would be worth supporting a dynamic 
-> number of profile entries instead of being hard-coded to 5?
->
+I'm not familiar with the contents of all of these extensions, but I
+assume the reasoning for splitting them out is that you can implement
+them but not maybe not implement C (or something similar)? If that's the
+case, you cannot always imply.
 
-In my practice, I have not found that fewer or more profile entries lead 
-to better performance.
+--qeeS7kj0r9HsIAfv
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thanks.
+-----BEGIN PGP SIGNATURE-----
 
-> Thanks,
->
-> Brett
->
-> <snip>
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZiYvWQAKCRB4tDGHoIJi
+0tQCAP9mC34KZI4RlzykLZZJcqOkhj2mcUcNSSr/RaK9eFBoxQEA2vpvtlw6ZDsy
+MIBjOz/mpW/guSx4/dUBlp9zwuIycAA=
+=vD9i
+-----END PGP SIGNATURE-----
 
+--qeeS7kj0r9HsIAfv--
