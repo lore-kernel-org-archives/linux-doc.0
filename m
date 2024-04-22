@@ -1,267 +1,529 @@
-Received: from localhost.localdomain (unknown [165.204.184.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B637A15099A;
-	Mon, 22 Apr 2024 13:45:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=165.204.184.1
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A8055028B
+	for <linux-doc@vger.kernel.org>; Mon, 22 Apr 2024 14:11:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713793520; cv=none; b=BdK+VNIJ5qKzRmLx4bZspQoNg5JaGvZw9y5CUskoLoJxwO33MHuV+abvAdH4rSzU6EUBxz2mWJnkL2fzM12PxNWh6KKs3ufpSKFb+PChJ93cnkSMex8TPWgH1Eju9SengKFMuMjPNGn+r/ab63YyC3EJmToA5XSvTsqwCzsNfhw=
+	t=1713795110; cv=none; b=DDmx78Ox36th+gibEfBtAgpgfvv6m+hTRs0vF0wZZdZFbba6YppGuDhnY1O0pq503jWBGqE2F9iuN3j4c9KzeerKbtZOgtJRVZkG46T0Uejlm4xYjLoTEqWkZZhBpbaokgcFRwBQxPjCk3LytRnCMPpKUPQhv7srvDj6tnogrBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713793520; c=relaxed/simple;
-	bh=KJtLJ1PiXTSiUhXEI+u8c8gH/+X5sjYmBdrsu7oo7NE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=M1BV4IuUGMrTJR+HTLPA7Q9Pe0kjcsIUpf/8y0o5Ll+GNU5j8zcFw0JRjVDAkpaeCUQFiHpZjEhyDio5490h3hlOte+94Ur+mNkCdlTUz5Pg/MCsMGI6y80/+SRxf1YKCKhcfr6hU7nKfCODO2weIHeb1EHqfml/7nffRR/symI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amd.com; spf=none smtp.mailfrom=localhost.localdomain; arc=none smtp.client-ip=165.204.184.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=localhost.localdomain
-Received: by localhost.localdomain (Postfix, from userid 1000)
-	id 1A8EC137EF; Mon, 22 Apr 2024 08:37:31 -0500 (CDT)
-From: Carlos Bilbao <carlos.bilbao@amd.com>
-To: corbet@lwn.net,
-	elena.reshetova@intel.com
-Cc: cabilbao@amd.com,
-	bilbao@vt.edu,
-	avadhut.naik@amd.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Carlos Bilbao <carlos.bilbao@amd.com>
-Subject: [PATCH] docs/MAINTAINERS: Update my email address
-Date: Mon, 22 Apr 2024 08:37:23 -0500
-Message-ID: <20240422133726.129074-1-carlos.bilbao@amd.com>
-X-Mailer: git-send-email 2.41.0
+	s=arc-20240116; t=1713795110; c=relaxed/simple;
+	bh=+kd1MriQ8OtQgQiJ3BiUIs/SYHWbhVBk6w64kO8ty7U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jqdUXE8wWlvVHe8/SgPI7pa9PeWFTfSG0Ek56xF6d1WavqRdHHsiCktoZclSLDUs4g3SBWG4XS5lmwSPqGCPULH3QEZbEi/a8+aIphoorDg+NvgZrLE9TzxXCEuRFbZDLQ3t8K9covyYForAChCd8f3LWIiF2VrvDXaH00xOhI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TjlSlCF4; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TjlSlCF4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1713795106;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LDPGIY9oq8IOSy73kiJD5rc5ULw/WeV0VOgsrLf59LQ=;
+	b=TjlSlCF4OLl8YtGKe1kewLqgFKg4sonVts2U0qEaUaYF3vMU2+mpKlCA+ppQM9yMLmXrAr
+	LQZXgncVlD2SPYzSi1F+bFBouqnqBbrI4jIHYpL+4OKpJJYl6eLyw13BpaYaCaLPdKFbZy
+	G4GsoJO+P3hiPEzrrdjIXYhw0ZIRFes=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-298-Dgo56g3sM0WOn9X0npNyGw-1; Mon, 22 Apr 2024 10:11:44 -0400
+X-MC-Unique: Dgo56g3sM0WOn9X0npNyGw-1
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-343da0a889dso4149240f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 22 Apr 2024 07:11:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713795103; x=1714399903;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LDPGIY9oq8IOSy73kiJD5rc5ULw/WeV0VOgsrLf59LQ=;
+        b=mhrQZYNaIv/G3Y23BSxOYjd8ZkznEFRhvhkdUiN6STwFxsA3/RMAsh8qwslRsnbxY6
+         1mTkTYX3sSCFEa2vAGAqNL8UyrhO9vT5BzXKTLwlOaVs0asjO4RnClyuhOTJUFG3fAT+
+         hSJMo+CWqP3TgzrAJLLSWOoiM5YpeBuWuVPbthK1I3bFaOWxhGMMnKooEgFpMhBfV2BQ
+         DyivVvUX58Je/oYOyQ4hNwXFxNW/+ulLro7AheOaCdJlty6TTq77TO8mgUjpfwc+4f1k
+         WXRJhk6FdnD4gNUMza+lLSL1e0BhWp9PXwpn8/POffIO6cao1AskDqaP6Y+ukcfpaS4F
+         AqQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWdfwYU8PRCADx51uEunxfGyAxapm6apX3JyeUTiuY4jiXVtKcluCD43d897JMmWqAQo9QuTEXIimtbv04T7lJi9L5V6a49y98C
+X-Gm-Message-State: AOJu0YxIrYp7dJDT9NPEuLXRHJTujhDxloROkuWLQp1gcQ8yCo0US2rU
+	sYccYJGHZilHpszq6/ttHcVfXOaE5NGhXra8kHxRUlv3eqiSGCpVkfpGnt642uHz8AvENByowRe
+	2O7CXwUiBHdEBC57VkJf2Px3tDPqJy8UzNxxNhp7pTFLY+MVtHVP+Fn/IXWw5QiQXFGBh+/+rsn
+	AoLvFmjTCf08hu4WJeEAnVA+jzUJsad0n2
+X-Received: by 2002:adf:e5d1:0:b0:345:be70:191c with SMTP id a17-20020adfe5d1000000b00345be70191cmr8302557wrn.37.1713795103466;
+        Mon, 22 Apr 2024 07:11:43 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHqITR3VTP0tSKrtpHTRHacPYYLdvO/glnUhpUQumOUdaRf6zoVnC9fryb4dsAVOWbjuf3NJX3pNBIh0R73vQo=
+X-Received: by 2002:adf:e5d1:0:b0:345:be70:191c with SMTP id
+ a17-20020adfe5d1000000b00345be70191cmr8302539wrn.37.1713795103035; Mon, 22
+ Apr 2024 07:11:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240418193528.41780-1-dwmw2@infradead.org> <20240418193528.41780-4-dwmw2@infradead.org>
+In-Reply-To: <20240418193528.41780-4-dwmw2@infradead.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Mon, 22 Apr 2024 16:11:30 +0200
+Message-ID: <CABgObfYvwjAz0cbRGbBP1nc9eA47azrGOnKuXqWwpZP=UpV3UQ@mail.gmail.com>
+Subject: Re: [PATCH 03/10] KVM: x86: Add KVM_[GS]ET_CLOCK_GUEST for accurate
+ KVM clock migration
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: kvm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Paul Durrant <paul@xen.org>, Shuah Khan <shuah@kernel.org>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, Oliver Upton <oliver.upton@linux.dev>, 
+	Marcelo Tosatti <mtosatti@redhat.com>, jalliste@amazon.co.uk, sveith@amazon.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-In the near future, I will not have access to the email address I used as
-maintainer of a number of things, mostly in the documentation. Update that
-address to my personal email address (see Link) so I can continue
-contributing.
+On Thu, Apr 18, 2024 at 9:46=E2=80=AFPM David Woodhouse <dwmw2@infradead.or=
+g> wrote:
+> +       curr_tsc_hz =3D get_cpu_tsc_khz() * 1000LL;
+> +       if (unlikely(curr_tsc_hz =3D=3D 0)) {
+> +               rc =3D -EINVAL;
+> +               goto out;
+> +       }
+> +
+> +       if (kvm_caps.has_tsc_control)
+> +               curr_tsc_hz =3D kvm_scale_tsc(curr_tsc_hz,
+> +                                           v->arch.l1_tsc_scaling_ratio)=
+;
+> +
+> +       /*
+> +        * The scaling factors in the hv_clock do not depend solely on th=
+e
+> +        * TSC frequency *requested* by userspace. They actually use the
+> +        * host TSC frequency that was measured/detected by the host kern=
+el,
+> +        * scaled by kvm_scale_tsc() with the vCPU's l1_tsc_scaling_ratio=
+.
+> +        * So a sanity check that they *precisely* match would have false
+> +        * negatives. Allow for a discrepancy of 1 kHz either way.
 
-Link: https://lore.kernel.org/all/BL1PR12MB58749FF2BFEDB817DE1FE6CBF82A2@BL1PR12MB5874.namprd12.prod.outlook.com/
-Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
----
- Documentation/security/snp-tdx-threat-model.rst           | 2 +-
- Documentation/translations/sp_SP/index.rst                | 2 +-
- Documentation/translations/sp_SP/memory-barriers.txt      | 4 ++--
- .../translations/sp_SP/process/code-of-conduct.rst        | 2 +-
- Documentation/translations/sp_SP/process/coding-style.rst | 2 +-
- .../translations/sp_SP/process/email-clients.rst          | 2 +-
- Documentation/translations/sp_SP/process/howto.rst        | 2 +-
- Documentation/translations/sp_SP/process/kernel-docs.rst  | 2 +-
- .../sp_SP/process/kernel-enforcement-statement.rst        | 2 +-
- Documentation/translations/sp_SP/process/magic-number.rst | 2 +-
- .../translations/sp_SP/process/programming-language.rst   | 2 +-
- .../translations/sp_SP/process/submitting-patches.rst     | 2 +-
- MAINTAINERS                                               | 8 ++++----
- 13 files changed, 17 insertions(+), 17 deletions(-)
+This is not very clear - if kvm_caps.has_tsc_control, cur_tsc_hz is
+exactly the "host TSC frequency [...] scaled by kvm_scale_tsc() with
+the vCPU's l1_tsc_scaling_ratio". But even in that case there is a
+double rounding issue, I guess.
 
-diff --git a/Documentation/security/snp-tdx-threat-model.rst b/Documentation/security/snp-tdx-threat-model.rst
-index ec66f2ed80c9..3a2d41d2e645 100644
---- a/Documentation/security/snp-tdx-threat-model.rst
-+++ b/Documentation/security/snp-tdx-threat-model.rst
-@@ -4,7 +4,7 @@ Confidential Computing in Linux for x86 virtualization
- 
- .. contents:: :local:
- 
--By: Elena Reshetova <elena.reshetova@intel.com> and Carlos Bilbao <carlos.bilbao@amd.com>
-+By: Elena Reshetova <elena.reshetova@intel.com> and Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
- 
- Motivation
- ==========
-diff --git a/Documentation/translations/sp_SP/index.rst b/Documentation/translations/sp_SP/index.rst
-index c543b495c042..274ef4ad96b9 100644
---- a/Documentation/translations/sp_SP/index.rst
-+++ b/Documentation/translations/sp_SP/index.rst
-@@ -7,7 +7,7 @@ Traducción al español
- 
- 	\kerneldocCJKoff
- 
--:maintainer: Carlos Bilbao <carlos.bilbao@amd.com>
-+:maintainer: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
- 
- .. _sp_disclaimer:
- 
-diff --git a/Documentation/translations/sp_SP/memory-barriers.txt b/Documentation/translations/sp_SP/memory-barriers.txt
-index 27097a808c88..153e57130775 100644
---- a/Documentation/translations/sp_SP/memory-barriers.txt
-+++ b/Documentation/translations/sp_SP/memory-barriers.txt
-@@ -1,6 +1,6 @@
- NOTE:
- This is a version of Documentation/memory-barriers.txt translated into
--Spanish by Carlos Bilbao <carlos.bilbao@amd.com>. If you find any
-+Spanish by Carlos Bilbao <carlos.bilbao.osdev@gmail.com>. If you find any
- difference between this document and the original file or a problem with
- the translation, please contact the maintainer of this file. Please also
- note that the purpose of this file is to be easier to read for non English
-@@ -18,7 +18,7 @@ Documento original: David Howells <dhowells@redhat.com>
-     Will Deacon <will.deacon@arm.com>
-     Peter Zijlstra <peterz@infradead.org>
- 
--Traducido por: Carlos Bilbao <carlos.bilbao@amd.com>
-+Traducido por: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
- Nota: Si tiene alguna duda sobre la exactitud del contenido de esta
- traducción, la única referencia válida es la documentación oficial en
- inglés.
-diff --git a/Documentation/translations/sp_SP/process/code-of-conduct.rst b/Documentation/translations/sp_SP/process/code-of-conduct.rst
-index adc6c770cc37..a6c08613aefc 100644
---- a/Documentation/translations/sp_SP/process/code-of-conduct.rst
-+++ b/Documentation/translations/sp_SP/process/code-of-conduct.rst
-@@ -1,7 +1,7 @@
- .. include:: ../disclaimer-sp.rst
- 
- :Original: :ref:`Documentation/process/code-of-conduct.rst <code_of_conduct>`
--:Translator: Contributor Covenant and Carlos Bilbao <carlos.bilbao@amd.com>
-+:Translator: Contributor Covenant and Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
- 
- .. _sp_code_of_conduct:
- 
-diff --git a/Documentation/translations/sp_SP/process/coding-style.rst b/Documentation/translations/sp_SP/process/coding-style.rst
-index a37274764371..b5a84df44cea 100644
---- a/Documentation/translations/sp_SP/process/coding-style.rst
-+++ b/Documentation/translations/sp_SP/process/coding-style.rst
-@@ -1,7 +1,7 @@
- .. include:: ../disclaimer-sp.rst
- 
- :Original: :ref:`Documentation/process/coding-style.rst <submittingpatches>`
--:Translator: Carlos Bilbao <carlos.bilbao@amd.com>
-+:Translator: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
- 
- .. _sp_codingstyle:
- 
-diff --git a/Documentation/translations/sp_SP/process/email-clients.rst b/Documentation/translations/sp_SP/process/email-clients.rst
-index fdf1e51b84e4..55d5803daf41 100644
---- a/Documentation/translations/sp_SP/process/email-clients.rst
-+++ b/Documentation/translations/sp_SP/process/email-clients.rst
-@@ -1,7 +1,7 @@
- .. include:: ../disclaimer-sp.rst
- 
- :Original: :ref:`Documentation/process/email-clients.rst <email_clients>`
--:Translator: Carlos Bilbao <carlos.bilbao@amd.com>
-+:Translator: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
- 
- .. _sp_email_clients:
- 
-diff --git a/Documentation/translations/sp_SP/process/howto.rst b/Documentation/translations/sp_SP/process/howto.rst
-index dd793c0f8574..72ea855ac9dc 100644
---- a/Documentation/translations/sp_SP/process/howto.rst
-+++ b/Documentation/translations/sp_SP/process/howto.rst
-@@ -1,7 +1,7 @@
- .. include:: ../disclaimer-sp.rst
- 
- :Original: :ref:`Documentation/process/howto.rst <process_howto>`
--:Translator: Carlos Bilbao <carlos.bilbao@amd.com>
-+:Translator: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
- 
- .. _sp_process_howto:
- 
-diff --git a/Documentation/translations/sp_SP/process/kernel-docs.rst b/Documentation/translations/sp_SP/process/kernel-docs.rst
-index 2f9b3df8f8fa..a62c6854f59b 100644
---- a/Documentation/translations/sp_SP/process/kernel-docs.rst
-+++ b/Documentation/translations/sp_SP/process/kernel-docs.rst
-@@ -1,7 +1,7 @@
- .. include:: ../disclaimer-sp.rst
- 
- :Original: :ref:`Documentation/process/kernel-docs.rst <kernel_docs>`
--:Translator: Carlos Bilbao <carlos.bilbao@amd.com>
-+:Translator: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
- 
- .. _sp_kernel_docs:
- 
-diff --git a/Documentation/translations/sp_SP/process/kernel-enforcement-statement.rst b/Documentation/translations/sp_SP/process/kernel-enforcement-statement.rst
-index d66902694089..d47a1c154610 100644
---- a/Documentation/translations/sp_SP/process/kernel-enforcement-statement.rst
-+++ b/Documentation/translations/sp_SP/process/kernel-enforcement-statement.rst
-@@ -1,7 +1,7 @@
- .. include:: ../disclaimer-sp.rst
- 
- :Original: :ref:`Documentation/process/kernel-enforcement-statement.rst <process_statement_kernel>`
--:Translator: Carlos Bilbao <carlos.bilbao@amd.com>
-+:Translator: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
- 
- .. _sp_process_statement_kernel:
- 
-diff --git a/Documentation/translations/sp_SP/process/magic-number.rst b/Documentation/translations/sp_SP/process/magic-number.rst
-index 7c7dfb4ba80b..32a99aac2f6c 100644
---- a/Documentation/translations/sp_SP/process/magic-number.rst
-+++ b/Documentation/translations/sp_SP/process/magic-number.rst
-@@ -1,7 +1,7 @@
- .. include:: ../disclaimer-sp.rst
- 
- :Original: :ref:`Documentation/process/magic-number.rst <magicnumbers>`
--:Translator: Carlos Bilbao <carlos.bilbao@amd.com>
-+:Translator: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
- 
- .. _sp_magicnumbers:
- 
-diff --git a/Documentation/translations/sp_SP/process/programming-language.rst b/Documentation/translations/sp_SP/process/programming-language.rst
-index 301f525372d8..ba2164057f45 100644
---- a/Documentation/translations/sp_SP/process/programming-language.rst
-+++ b/Documentation/translations/sp_SP/process/programming-language.rst
-@@ -1,7 +1,7 @@
- .. include:: ../disclaimer-sp.rst
- 
- :Original: :ref:`Documentation/process/programming-language.rst <programming_language>`
--:Translator: Carlos Bilbao <carlos.bilbao@amd.com>
-+:Translator: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
- 
- .. _sp_programming_language:
- 
-diff --git a/Documentation/translations/sp_SP/process/submitting-patches.rst b/Documentation/translations/sp_SP/process/submitting-patches.rst
-index c2757d9ab216..18bb3413c3ca 100644
---- a/Documentation/translations/sp_SP/process/submitting-patches.rst
-+++ b/Documentation/translations/sp_SP/process/submitting-patches.rst
-@@ -1,7 +1,7 @@
- .. include:: ../disclaimer-sp.rst
- 
- :Original: :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
--:Translator: Carlos Bilbao <carlos.bilbao@amd.com>
-+:Translator: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
- 
- .. _sp_submittingpatches:
- 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d818866d6d73..8e9c2fd7a8a0 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -987,7 +987,7 @@ F:	drivers/video/fbdev/geode/
- 
- AMD HSMP DRIVER
- M:	Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>
--R:	Carlos Bilbao <carlos.bilbao@amd.com>
-+R:	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
- L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- F:	Documentation/arch/x86/amd_hsmp.rst
-@@ -5325,7 +5325,7 @@ F:	drivers/usb/atm/cxacru.c
- 
- CONFIDENTIAL COMPUTING THREAT MODEL FOR X86 VIRTUALIZATION (SNP/TDX)
- M:	Elena Reshetova <elena.reshetova@intel.com>
--M:	Carlos Bilbao <carlos.bilbao@amd.com>
-+M:	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
- S:	Maintained
- F:	Documentation/security/snp-tdx-threat-model.rst
- 
-@@ -10549,7 +10549,7 @@ S:	Orphan
- F:	drivers/video/fbdev/imsttfb.c
- 
- INDEX OF FURTHER KERNEL DOCUMENTATION
--M:	Carlos Bilbao <carlos.bilbao@amd.com>
-+M:	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
- S:	Maintained
- F:	Documentation/process/kernel-docs.rst
- 
-@@ -20549,7 +20549,7 @@ Q:	http://patchwork.linuxtv.org/project/linux-media/list/
- F:	drivers/media/dvb-frontends/sp2*
- 
- SPANISH DOCUMENTATION
--M:	Carlos Bilbao <carlos.bilbao@amd.com>
-+M:	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
- R:	Avadhut Naik <avadhut.naik@amd.com>
- S:	Maintained
- F:	Documentation/translations/sp_SP/
--- 
-2.41.0
+> +       /*
+> +        * The call to pvclock_update_vm_gtod_copy() has created a new ti=
+me
+> +        * reference point in ka->master_cycle_now and ka->master_kernel_=
+ns.
+> +        *
+> +        * Calculate the guest TSC at that moment, and the corresponding =
+KVM
+> +        * clock value according to user_hv_clock. The value according to=
+ the
+> +        * current hv_clock will of course be ka->master_kernel_ns since =
+no
+> +        * TSC cycles have elapsed.
+> +        *
+> +        * Adjust ka->kvmclock_offset to the delta, so that both definiti=
+ons
+> +        * of the clock give precisely the same reading at the reference =
+time.
+> +        */
+> +       guest_tsc =3D kvm_read_l1_tsc(v, ka->master_cycle_now);
+> +       user_clk_ns =3D __pvclock_read_cycles(&user_hv_clock, guest_tsc);
+> +       ka->kvmclock_offset =3D user_clk_ns - ka->master_kernel_ns;
+> +
+> +out:
+> +       kvm_end_pvclock_update(kvm);
+> +       return rc;
+> +}
+> +#endif
+> +
+>  long kvm_arch_vcpu_ioctl(struct file *filp,
+>                          unsigned int ioctl, unsigned long arg)
+>  {
+> @@ -6256,6 +6404,14 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
+>                 srcu_read_unlock(&vcpu->kvm->srcu, idx);
+>                 break;
+>         }
+> +#ifdef CONFIG_X86_64
+> +       case KVM_SET_CLOCK_GUEST:
+> +               r =3D kvm_vcpu_ioctl_set_clock_guest(vcpu, argp);
+> +               break;
+> +       case KVM_GET_CLOCK_GUEST:
+> +               r =3D kvm_vcpu_ioctl_get_clock_guest(vcpu, argp);
+> +               break;
+> +#endif
+>  #ifdef CONFIG_KVM_HYPERV
+>         case KVM_GET_SUPPORTED_HV_CPUID:
+>                 r =3D kvm_ioctl_get_supported_hv_cpuid(vcpu, argp);
+> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> index 2190adbe3002..0d306311e4d6 100644
+> --- a/include/uapi/linux/kvm.h
+> +++ b/include/uapi/linux/kvm.h
+> @@ -1548,4 +1548,7 @@ struct kvm_create_guest_memfd {
+>         __u64 reserved[6];
+>  };
+>
+> +#define KVM_SET_CLOCK_GUEST       _IOW(KVMIO,  0xd5, struct pvclock_vcpu=
+_time_info)
+> +#define KVM_GET_CLOCK_GUEST       _IOR(KVMIO,  0xd6, struct pvclock_vcpu=
+_time_info)
+> +
+>  #endif /* __LINUX_KVM_H */
+> --
+> 2.44.0
+>
+
+On Thu, Apr 18, 2024 at 9:46=E2=80=AFPM David Woodhouse <dwmw2@infradead.or=
+g> wrote:
+>
+> From: Jack Allister <jalliste@amazon.com>
+>
+> In the common case (where kvm->arch.use_master_clock is true), the KVM
+> clock is defined as a simple arithmetic function of the guest TSC, based =
+on
+> a reference point stored in kvm->arch.master_kernel_ns and
+> kvm->arch.master_cycle_now.
+>
+> The existing KVM_[GS]ET_CLOCK functionality does not allow for this
+> relationship to be precisely saved and restored by userspace. All it can
+> currently do is set the KVM clock at a given UTC reference time, which is
+> necessarily imprecise.
+>
+> So on live update, the guest TSC can remain cycle accurate at precisely t=
+he
+> same offset from the host TSC, but there is no way for userspace to resto=
+re
+> the KVM clock accurately.
+>
+> Even on live migration to a new host, where the accuracy of the guest tim=
+e-
+> keeping is fundamentally limited by the accuracy of wallclock
+> synchronization between the source and destination hosts, the clock jump
+> experienced by the guest's TSC and its KVM clock should at least be
+> *consistent*. Even when the guest TSC suffers a discontinuity, its KVM
+> clock should still remain the *same* arithmetic function of the guest TSC=
+,
+> and not suffer an *additional* discontinuity.
+>
+> To allow for accurate migration of the KVM clock, add per-vCPU ioctls whi=
+ch
+> save and restore the actual PV clock info in pvclock_vcpu_time_info.
+>
+> The restoration in KVM_SET_CLOCK_GUEST works by creating a new reference
+> point in time just as kvm_update_masterclock() does, and calculating the
+> corresponding guest TSC value. This guest TSC value is then passed throug=
+h
+> the user-provided pvclock structure to generate the *intended* KVM clock
+> value at that point in time, and through the *actual* KVM clock calculati=
+on.
+> Then kvm->arch.kvmclock_offset is adjusted to eliminate for the differenc=
+e.
+>
+> Where kvm->arch.use_master_clock is false (because the host TSC is
+> unreliable, or the guest TSCs are configured strangely), the KVM clock
+> is *not* defined as a function of the guest TSC so KVM_GET_CLOCK_GUEST
+> returns an error. In this case, as documented, userspace shall use the
+> legacy KVM_GET_CLOCK ioctl. The loss of precision is acceptable in this
+> case since the clocks are imprecise in this mode anyway.
+>
+> On *restoration*, if kvm->arch.use_master_clock is false, an error is
+> returned for similar reasons and userspace shall fall back to using
+> KVM_SET_CLOCK. This does mean that, as documented, userspace needs to use
+> *both* KVM_GET_CLOCK_GUEST and KVM_GET_CLOCK and send both results with t=
+he
+> migration data (unless the intent is to refuse to resume on a host with b=
+ad
+> TSC).
+>
+> (It may have been possible to make KVM_SET_CLOCK_GUEST "good enough" in t=
+he
+> non-masterclock mode, as that mode is necessarily imprecise anyway. The
+> explicit fallback allows userspace to deliberately fail migration to a ho=
+st
+> with misbehaving TSC where master clock mode wouldn't be active.)
+>
+> Co-developed-by: David Woodhouse <dwmw@amazon.co.uk>
+> Signed-off-by: Jack Allister <jalliste@amazon.com>
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> CC: Paul Durrant <paul@xen.org>
+> CC: Dongli Zhang <dongli.zhang@oracle.com>
+> ---
+>  Documentation/virt/kvm/api.rst |  37 ++++++++
+>  arch/x86/kvm/x86.c             | 156 +++++++++++++++++++++++++++++++++
+>  include/uapi/linux/kvm.h       |   3 +
+>  3 files changed, 196 insertions(+)
+>
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.=
+rst
+> index f0b76ff5030d..758f6fc08fe5 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -6352,6 +6352,43 @@ a single guest_memfd file, but the bound ranges mu=
+st not overlap).
+>
+>  See KVM_SET_USER_MEMORY_REGION2 for additional details.
+>
+> +4.143 KVM_GET_CLOCK_GUEST
+> +----------------------------
+> +
+> +:Capability: none
+> +:Architectures: x86_64
+> +:Type: vcpu ioctl
+> +:Parameters: struct pvclock_vcpu_time_info (out)
+> +:Returns: 0 on success, <0 on error
+> +
+> +Retrieves the current time information structure used for KVM/PV clocks,
+> +in precisely the form advertised to the guest vCPU, which gives paramete=
+rs
+> +for a direct conversion from a guest TSC value to nanoseconds.
+> +
+> +When the KVM clock not is in "master clock" mode, for example because th=
+e
+> +host TSC is unreliable or the guest TSCs are oddly configured, the KVM c=
+lock
+> +is actually defined by the host CLOCK_MONOTONIC_RAW instead of the guest=
+ TSC.
+> +In this case, the KVM_GET_CLOCK_GUEST ioctl returns -EINVAL.
+> +
+> +4.144 KVM_SET_CLOCK_GUEST
+> +----------------------------
+> +
+> +:Capability: none
+> +:Architectures: x86_64
+> +:Type: vcpu ioctl
+> +:Parameters: struct pvclock_vcpu_time_info (in)
+> +:Returns: 0 on success, <0 on error
+> +
+> +Sets the KVM clock (for the whole VM) in terms of the vCPU TSC, using th=
+e
+> +pvclock structure as returned by KVM_GET_CLOCK_GUEST. This allows the pr=
+ecise
+> +arithmetic relationship between guest TSC and KVM clock to be preserved =
+by
+> +userspace across migration.
+> +
+> +When the KVM clock is not in "master clock" mode, and the KVM clock is a=
+ctually
+> +defined by the host CLOCK_MONOTONIC_RAW, this ioctl returns -EINVAL. Use=
+rspace
+> +may choose to set the clock using the less precise KVM_SET_CLOCK ioctl, =
+or may
+> +choose to fail, denying migration to a host whose TSC is misbehaving.
+> +
+>  5. The kvm_run structure
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> index 23281c508c27..42abce7b4fc9 100644
+> --- a/arch/x86/kvm/x86.c
+> +++ b/arch/x86/kvm/x86.c
+> @@ -5868,6 +5868,154 @@ static int kvm_vcpu_ioctl_enable_cap(struct kvm_v=
+cpu *vcpu,
+>         }
+>  }
+>
+> +#ifdef CONFIG_X86_64
+> +static int kvm_vcpu_ioctl_get_clock_guest(struct kvm_vcpu *v, void __use=
+r *argp)
+> +{
+> +       struct pvclock_vcpu_time_info *hv_clock =3D &v->arch.hv_clock;
+> +
+> +       /*
+> +        * If KVM_REQ_CLOCK_UPDATE is already pending, or if the hv_clock=
+ has
+> +        * never been generated at all, call kvm_guest_time_update() to d=
+o so.
+> +        * Might as well use the PVCLOCK_TSC_STABLE_BIT as the check for =
+ever
+> +        * having been written.
+> +        */
+> +       if (kvm_check_request(KVM_REQ_CLOCK_UPDATE, v) ||
+> +           !(hv_clock->flags & PVCLOCK_TSC_STABLE_BIT)) {
+> +               if (kvm_guest_time_update(v))
+> +                       return -EINVAL;
+> +       }
+> +
+> +       /*
+> +        * PVCLOCK_TSC_STABLE_BIT is set in use_master_clock mode where t=
+he
+> +        * KVM clock is defined in terms of the guest TSC. Otherwise, it =
+is
+> +        * is defined by the host CLOCK_MONOTONIC_RAW, and userspace shou=
+ld
+> +        * use the legacy KVM_[GS]ET_CLOCK to migrate it.
+> +        */
+> +       if (!(hv_clock->flags & PVCLOCK_TSC_STABLE_BIT))
+> +               return -EINVAL;
+> +
+> +       if (copy_to_user(argp, hv_clock, sizeof(*hv_clock)))
+> +               return -EFAULT;
+> +
+> +       return 0;
+> +}
+> +
+> +/*
+> + * Reverse the calculation in the hv_clock definition.
+> + *
+> + * time_ns =3D ( (cycles << shift) * mul ) >> 32;
+> + * (although shift can be negative, so that's bad C)
+> + *
+> + * So for a single second,
+> + *  NSEC_PER_SEC =3D ( ( FREQ_HZ << shift) * mul ) >> 32
+> + *  NSEC_PER_SEC << 32 =3D ( FREQ_HZ << shift ) * mul
+> + *  ( NSEC_PER_SEC << 32 ) / mul =3D FREQ_HZ << shift
+> + *  ( NSEC_PER_SEC << 32 ) / mul ) >> shift =3D FREQ_HZ
+> + */
+> +static uint64_t hvclock_to_hz(uint32_t mul, int8_t shift)
+> +{
+> +       uint64_t tm =3D NSEC_PER_SEC << 32;
+> +
+> +       /* Maximise precision. Shift right until the top bit is set */
+> +       tm <<=3D 2;
+> +       shift +=3D 2;
+> +
+> +       /* While 'mul' is even, increase the shift *after* the division *=
+/
+> +       while (!(mul & 1)) {
+> +               shift++;
+> +               mul >>=3D 1;
+> +       }
+> +
+> +       tm /=3D mul;
+> +
+> +       if (shift > 0)
+> +               return tm >> shift;
+> +       else
+> +               return tm << -shift;
+> +}
+> +
+> +static int kvm_vcpu_ioctl_set_clock_guest(struct kvm_vcpu *v, void __use=
+r *argp)
+> +{
+> +       struct pvclock_vcpu_time_info user_hv_clock;
+> +       struct kvm *kvm =3D v->kvm;
+> +       struct kvm_arch *ka =3D &kvm->arch;
+> +       uint64_t curr_tsc_hz, user_tsc_hz;
+> +       uint64_t user_clk_ns;
+> +       uint64_t guest_tsc;
+> +       int rc =3D 0;
+> +
+> +       if (copy_from_user(&user_hv_clock, argp, sizeof(user_hv_clock)))
+> +               return -EFAULT;
+> +
+> +       if (!user_hv_clock.tsc_to_system_mul)
+> +               return -EINVAL;
+> +
+> +       user_tsc_hz =3D hvclock_to_hz(user_hv_clock.tsc_to_system_mul,
+> +                                   user_hv_clock.tsc_shift);
+> +
+> +
+> +       kvm_hv_request_tsc_page_update(kvm);
+> +       kvm_start_pvclock_update(kvm);
+> +       pvclock_update_vm_gtod_copy(kvm);
+> +
+> +       /*
+> +        * If not in use_master_clock mode, do not allow userspace to set
+> +        * the clock in terms of the guest TSC. Userspace should either
+> +        * fail the migration (to a host with suboptimal TSCs), or should
+> +        * knowingly restore the KVM clock using KVM_SET_CLOCK instead.
+> +        */
+> +       if (!ka->use_master_clock) {
+> +               rc =3D -EINVAL;
+> +               goto out;
+> +       }
+> +
+> +       curr_tsc_hz =3D get_cpu_tsc_khz() * 1000LL;
+> +       if (unlikely(curr_tsc_hz =3D=3D 0)) {
+> +               rc =3D -EINVAL;
+> +               goto out;
+> +       }
+> +
+> +       if (kvm_caps.has_tsc_control)
+> +               curr_tsc_hz =3D kvm_scale_tsc(curr_tsc_hz,
+> +                                           v->arch.l1_tsc_scaling_ratio)=
+;
+> +
+> +       /*
+> +        * The scaling factors in the hv_clock do not depend solely on th=
+e
+> +        * TSC frequency *requested* by userspace. They actually use the
+> +        * host TSC frequency that was measured/detected by the host kern=
+el,
+> +        * scaled by kvm_scale_tsc() with the vCPU's l1_tsc_scaling_ratio=
+.
+> +        *
+> +        * So a sanity check that they *precisely* match would have false
+> +        * negatives. Allow for a discrepancy of 1 kHz either way.
+> +        */
+> +       if (user_tsc_hz < curr_tsc_hz - 1000 ||
+> +           user_tsc_hz > curr_tsc_hz + 1000) {
+> +               rc =3D -ERANGE;
+> +               goto out;
+> +       }
+> +
+> +       /*
+> +        * The call to pvclock_update_vm_gtod_copy() has created a new ti=
+me
+> +        * reference point in ka->master_cycle_now and ka->master_kernel_=
+ns.
+> +        *
+> +        * Calculate the guest TSC at that moment, and the corresponding =
+KVM
+> +        * clock value according to user_hv_clock. The value according to=
+ the
+> +        * current hv_clock will of course be ka->master_kernel_ns since =
+no
+> +        * TSC cycles have elapsed.
+> +        *
+> +        * Adjust ka->kvmclock_offset to the delta, so that both definiti=
+ons
+> +        * of the clock give precisely the same reading at the reference =
+time.
+> +        */
+> +       guest_tsc =3D kvm_read_l1_tsc(v, ka->master_cycle_now);
+> +       user_clk_ns =3D __pvclock_read_cycles(&user_hv_clock, guest_tsc);
+> +       ka->kvmclock_offset =3D user_clk_ns - ka->master_kernel_ns;
+> +
+> +out:
+> +       kvm_end_pvclock_update(kvm);
+> +       return rc;
+> +}
+> +#endif
+> +
+>  long kvm_arch_vcpu_ioctl(struct file *filp,
+>                          unsigned int ioctl, unsigned long arg)
+>  {
+> @@ -6256,6 +6404,14 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
+>                 srcu_read_unlock(&vcpu->kvm->srcu, idx);
+>                 break;
+>         }
+> +#ifdef CONFIG_X86_64
+> +       case KVM_SET_CLOCK_GUEST:
+> +               r =3D kvm_vcpu_ioctl_set_clock_guest(vcpu, argp);
+> +               break;
+> +       case KVM_GET_CLOCK_GUEST:
+> +               r =3D kvm_vcpu_ioctl_get_clock_guest(vcpu, argp);
+> +               break;
+> +#endif
+>  #ifdef CONFIG_KVM_HYPERV
+>         case KVM_GET_SUPPORTED_HV_CPUID:
+>                 r =3D kvm_ioctl_get_supported_hv_cpuid(vcpu, argp);
+> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> index 2190adbe3002..0d306311e4d6 100644
+> --- a/include/uapi/linux/kvm.h
+> +++ b/include/uapi/linux/kvm.h
+> @@ -1548,4 +1548,7 @@ struct kvm_create_guest_memfd {
+>         __u64 reserved[6];
+>  };
+>
+> +#define KVM_SET_CLOCK_GUEST       _IOW(KVMIO,  0xd5, struct pvclock_vcpu=
+_time_info)
+> +#define KVM_GET_CLOCK_GUEST       _IOR(KVMIO,  0xd6, struct pvclock_vcpu=
+_time_info)
+> +
+>  #endif /* __LINUX_KVM_H */
+> --
+> 2.44.0
+>
 
