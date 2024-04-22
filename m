@@ -1,37 +1,65 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAFAF152168;
-	Mon, 22 Apr 2024 15:12:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 349B615251B
+	for <linux-doc@vger.kernel.org>; Mon, 22 Apr 2024 15:13:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713798751; cv=none; b=V784d7dNEpzuncGBpKvefv/lBaNIVL7EKK1dC5LTE0xLQOrP/wmlv44+3+Wt2tfncEV1Nn4vc5x0rhmI7IrP5N7qFSUBWm9zLJoluP56YiHvlE28g5ERb0ebpnVG6jI0M8hm8JD3Vilyl23s5SQWWVW+apmDlHIhgxQLLsSRzaA=
+	t=1713798806; cv=none; b=C8tjtK0O4DYkgx5Jwa+qNjh3+1gTinF9Mj6VFRSzSXPvSUV7RTk+DtiGJUnfNFn8YwGlCamV5+NAZPBSHu6xPQeshCmujccG660Mpo+1AeosQKlxSfOBnlDRjQoTE+vrUHzoHSrUUsV8WaHUmw6q174KvQa+QfI4GCogib+8FUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713798751; c=relaxed/simple;
-	bh=n2QljjJIxPxXYwFqyVO0pm8jMVl5uWaqpEKlS07dSKc=;
+	s=arc-20240116; t=1713798806; c=relaxed/simple;
+	bh=9BoJubQ8F3eknto6RlGvOtYlxcacVB0SGhhWSau56Yc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aBDb+bazNnbULdvWqxqZyD0ETl2KIatLnGOWWPX5hzqEvNcgbketnRUox2FyXKKHwPR9K4L60HFJY6bW2tOygLmc+9TTBiGiBDWrr23JkhPhPmO25uUiJ55NU7BsoKb8xdCnW8HEjDnDU0WRJyuiHR2RTRKHZhzECyo+n25jGSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=iiNJ4ti9; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 In-Reply-To:Content-Type; b=ENDa8gEnpomaGV6be1SvCYUMP/wd51ez02i1l6QhN4GYf0S3OYFALQUxVbGpPaStowF+pRv7ja8oeDQBVI4aZwb9BSvfbkjBV0Bop3x/2xuurZ4KDxJGH0hmzjLQ8odRYqRE1UHEsvnvtBf13uClE2guWP9XguCXPScZTvrefKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XVnVALzZ; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iiNJ4ti9"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=55qjHqIZitfTw5V8j2PoWpsRdoXOQTx60fjmhVXBN3o=; b=iiNJ4ti90zPQUh9KK7F1pVBY9W
-	Z4ifwzEOGTd2q+GwBf/Gh4kjLs9PKJ4hBMJb7oiRAJqpAe39gYL7uUkF+50XgrcXeFvYAop0WGspi
-	MrSWkPyI48x4tIVb85jXCNl4DeLYXuSRi7bUnfGvG44t0VMKY7ogFKZ4UFt0fg2mXGWa9SjMIrnId
-	L2CCnpGej3nH0PNiVgXWtzLw39G8huLiE0SzQONbfsA442oq9lrxARCNMDkcDGR/QvQNq1CHnR1pC
-	ZxFvhjd/wbGMoSOQoon6OomaS4pIfLRVVtTMykwkQDo368KUg79gmy357hiFT5p9yA7XKcfrmiJgL
-	Ks+zOQ5g==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1ryvLH-0000000E4Pf-1m44;
-	Mon, 22 Apr 2024 15:12:27 +0000
-Message-ID: <7aa0e3ca-ec2c-4da7-a6f3-94163edb54c9@infradead.org>
-Date: Mon, 22 Apr 2024 08:12:23 -0700
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XVnVALzZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1713798804;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=XggFGBgLkmBxMCKcF+mikPzmX9ukzyj9RvHvAHhy1Mc=;
+	b=XVnVALzZIx6+JnkwRTAsXDZ6fyDWCN5golY2I9GFmzL42tN6JzbmObVOq0W/9KlpYvER6j
+	Owwy6odZDB0Y6u3JHxlQQMAfrl1S9PRG9GWCELQyEXfyenpznAppJ2s2GYnZ/pA6jMh2XV
+	excZ50yOpmkwIf1/AKNHUdoThtpWvmE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-226-N61wLNymPWaDTtG11lyeEA-1; Mon, 22 Apr 2024 11:13:22 -0400
+X-MC-Unique: N61wLNymPWaDTtG11lyeEA-1
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-418f5e7b9b2so17999105e9.3
+        for <linux-doc@vger.kernel.org>; Mon, 22 Apr 2024 08:13:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713798801; x=1714403601;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=XggFGBgLkmBxMCKcF+mikPzmX9ukzyj9RvHvAHhy1Mc=;
+        b=cc2wJRD4JUIimLWj8FIm+6nW4VFJ/GRD9Qj5ZV2aZwWQ9tNJnU3ZT7iTPbnLx+WWy8
+         XQaMtOIyXSPirWfJLSQyXmbrfmp4usrdR/JkDmnyxM9f38eA0NvBVGVwrxYS9HlfLmzP
+         /Ijo36eKLjVsFcZlCStlrvXfi6hAMYv5be2vJ/0QMPeSftII6WnpmPQ/FF89CqCtJzjc
+         xHR2ee3uRaGhYAowEr9kZnzxyL+6gx6BjBl2dIml/t9oNHx4IowGg0XUKFiGS2ATqNtT
+         DON1KQmCU1tBTLrdzmQkE1n2hn9e4NuYvXBbhxa8s4CwowLBX+/v3Ql8Ssdy+ZQ2hDEc
+         +AGg==
+X-Gm-Message-State: AOJu0Yzjk0ppYywD6ouXePPdCNasyUWT59reWhcK3sgCHyZl+lY6jPeM
+	LTySfEpjJq8T8C2a4x21N03/v4IHKrEzBofq6+JPpFBEGc6Qgj9vNbY4SXIwhMDsTgXGZKR/pEU
+	tjmRBGzfQUEW8pw6ejAF30Vd/XkJFhRq6pBqkreCV+5/OJAGARA2YClXSTg==
+X-Received: by 2002:a05:600c:4e4d:b0:41a:7553:81fb with SMTP id e13-20020a05600c4e4d00b0041a755381fbmr1139802wmq.40.1713798800915;
+        Mon, 22 Apr 2024 08:13:20 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGdxzGTLDC9x5rcgtjXwI/A0eNiI8nBUO7Ud4wOjoBerNcw5crG9mEY3bGSCDZW7F7QdfX4tA==
+X-Received: by 2002:a05:600c:4e4d:b0:41a:7553:81fb with SMTP id e13-20020a05600c4e4d00b0041a755381fbmr1139774wmq.40.1713798800426;
+        Mon, 22 Apr 2024 08:13:20 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c739:600:d2fb:3a8a:9944:7910? (p200300cbc7390600d2fb3a8a99447910.dip0.t-ipconnect.de. [2003:cb:c739:600:d2fb:3a8a:9944:7910])
+        by smtp.gmail.com with ESMTPSA id n33-20020a05600c502100b0041a652a501fsm3150991wmr.13.2024.04.22.08.13.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Apr 2024 08:13:20 -0700 (PDT)
+Message-ID: <5d0dd592-3dd6-45ce-ab2a-9e154d36a111@redhat.com>
+Date: Mon, 22 Apr 2024 17:13:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,48 +67,135 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/MAINTAINERS: Update my email address
-To: Carlos Bilbao <carlos.bilbao@amd.com>, corbet@lwn.net,
- elena.reshetova@intel.com
-Cc: cabilbao@amd.com, bilbao@vt.edu, avadhut.naik@amd.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240422133726.129074-1-carlos.bilbao@amd.com>
+Subject: Re: [PATCH] mm: Update shuffle documentation to match its current
+ state
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+ Josh Poimboeuf <jpoimboe@kernel.org>, Tejun Heo <tj@kernel.org>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>, Michal Hocko
+ <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Minchan Kim <minchan@kernel.org>, Huang Ying <ying.huang@intel.com>,
+ Mel Gorman <mgorman@techsingularity.net>,
+ Dan Williams <dan.j.williams@intel.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, kernel-dev@igalia.com
+References: <20240422142007.1062231-1-mcanal@igalia.com>
+From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240422133726.129074-1-carlos.bilbao@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <20240422142007.1062231-1-mcanal@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+On 22.04.24 16:18, Maíra Canal wrote:
+> Commit 839195352d82 ("mm/shuffle: remove dynamic reconfiguration")
+> removed the dynamic reconfiguration capabilities from the shuffle page
+> allocator. This means that, now, we don't have any perspective of an
+> "autodetection of memory-side-cache" that triggers the enablement of the
+> shuffle page allocator.
 
+IIRC (it's been a while), we never had that autodetection upstream; we 
+only had the code in place that would never get called. 839195352d82 
+removed that (dead) code.
 
-On 4/22/24 6:37 AM, Carlos Bilbao wrote:
-> In the near future, I will not have access to the email address I used as
-> maintainer of a number of things, mostly in the documentation. Update that
-> address to my personal email address (see Link) so I can continue
-> contributing.
 > 
-> Link: https://lore.kernel.org/all/BL1PR12MB58749FF2BFEDB817DE1FE6CBF82A2@BL1PR12MB5874.namprd12.prod.outlook.com/
-> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
+> Therefore, let the documentation reflect that the only way to enable
+> the shuffle page allocator is by setting `page_alloc.shuffle=1`.
+> 
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
 > ---
->  Documentation/security/snp-tdx-threat-model.rst           | 2 +-
->  Documentation/translations/sp_SP/index.rst                | 2 +-
->  Documentation/translations/sp_SP/memory-barriers.txt      | 4 ++--
->  .../translations/sp_SP/process/code-of-conduct.rst        | 2 +-
->  Documentation/translations/sp_SP/process/coding-style.rst | 2 +-
->  .../translations/sp_SP/process/email-clients.rst          | 2 +-
->  Documentation/translations/sp_SP/process/howto.rst        | 2 +-
->  Documentation/translations/sp_SP/process/kernel-docs.rst  | 2 +-
->  .../sp_SP/process/kernel-enforcement-statement.rst        | 2 +-
->  Documentation/translations/sp_SP/process/magic-number.rst | 2 +-
->  .../translations/sp_SP/process/programming-language.rst   | 2 +-
->  .../translations/sp_SP/process/submitting-patches.rst     | 2 +-
->  MAINTAINERS                                               | 8 ++++----
->  13 files changed, 17 insertions(+), 17 deletions(-)
+>   Documentation/admin-guide/kernel-parameters.txt | 10 ++++------
+>   mm/Kconfig                                      |  7 +++----
+>   2 files changed, 7 insertions(+), 10 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 902ecd92a29f..924bb8ddd8a8 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -4170,13 +4170,11 @@
+>   
+>   	page_alloc.shuffle=
+>   			[KNL] Boolean flag to control whether the page allocator
+> -			should randomize its free lists. The randomization may
+> -			be automatically enabled if the kernel detects it is
+> -			running on a platform with a direct-mapped memory-side
+> -			cache, and this parameter can be used to
+> -			override/disable that behavior. The state of the flag
+> -			can be read from sysfs at:
+> +			should randomize its free lists. This parameter can be
+> +			used to enable/disable page randomization. The state of
+> +			the flag can be read from sysfs at:
+>   			/sys/module/page_alloc/parameters/shuffle.
+> +			This parameter is only available if CONFIG_SHUFFLE_PAGE_ALLOCATOR=y.
+>   
+>   	page_owner=	[KNL,EARLY] Boot-time page_owner enabling option.
+>   			Storage of the information about who allocated
+> diff --git a/mm/Kconfig b/mm/Kconfig
+> index b1448aa81e15..f30a18a0e37d 100644
+> --- a/mm/Kconfig
+> +++ b/mm/Kconfig
+> @@ -333,10 +333,9 @@ config SHUFFLE_PAGE_ALLOCATOR
+>   
+>   	  While the randomization improves cache utilization it may
+>   	  negatively impact workloads on platforms without a cache. For
+> -	  this reason, by default, the randomization is enabled only
+> -	  after runtime detection of a direct-mapped memory-side-cache.
+> -	  Otherwise, the randomization may be force enabled with the
+> -	  'page_alloc.shuffle' kernel command line parameter.
+> +	  this reason, by default, the randomization is not enabled even
+> +	  if SHUFFLE_PAGE_ALLOCATOR=y. The randomization may be force enabled
+> +	  with the 'page_alloc.shuffle' kernel command line parameter.
+>   
+>   	  Say Y if unsure.
+>   
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
-Maybe also update .mailmap ?
-
-thanks.
 -- 
-#Randy
-https://people.kernel.org/tglx/notes-about-netiquette
-https://subspace.kernel.org/etiquette.html
+Cheers,
+
+David / dhildenb
+
