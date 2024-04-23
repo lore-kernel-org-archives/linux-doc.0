@@ -1,114 +1,89 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E80315FB9C;
-	Tue, 23 Apr 2024 16:17:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44CD01C2A1;
+	Tue, 23 Apr 2024 16:37:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713889056; cv=none; b=BEU07kUc/qHdIxJ/a1upFIDR5PD/X39XIQxiS4BDbyrZ+I+LU7vCSJcxzPM6U5eoPUPonzkkGgjBVy1J4inHIkhnI4M/dzZR9lV+z3kWblw2tSjXEQuuwAJ68jz0fn9ArmXeHl9a+NySvntFdxzcG4N01nhseGAsmT1F5+k76T8=
+	t=1713890261; cv=none; b=n7O6WkfEqZwbc5N5Nmnto1WEq4QBAi/SStKvYpaDf+q4exSSkB0hRW8bcKKB9LLOlK6R2S/ymfit2a+SY46OCqA0yQFtaBo9X20d/eyIp06LQCUVDco477Ye/eP7e5nbQuoevHjVuYjZh/LRTJElTacSDW5h3K2IoENA3EOQctQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713889056; c=relaxed/simple;
-	bh=QncCMJcdoGCaS7NTRKcEK2tYaI7OoWFk7uw3k767ghI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ef6vYua0pR+TxA63d7Ig2Fgx4dM1GqJmziqpjXnDXUDA+Jz8iIoDbiJd4FHx4+vVgr9/Cm1Jsx40QR6ryTIBLSG4Wz5Eznfg3DTdRwlPDGaWE1NH2N9GcHBnLHC243paKY+/mhPVCj5S76upd3k1Dot/tEEzdLNAsqfLAROlsRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 044DA2F;
-	Tue, 23 Apr 2024 09:18:02 -0700 (PDT)
-Received: from e133380.arm.com (e133380.arm.com [10.1.197.52])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EDAD43F7BD;
-	Tue, 23 Apr 2024 09:17:29 -0700 (PDT)
-Date: Tue, 23 Apr 2024 17:17:27 +0100
-From: Dave Martin <Dave.Martin@arm.com>
-To: "Moger, Babu" <babu.moger@amd.com>
-Cc: Peter Newman <peternewman@google.com>, corbet@lwn.net,
-	fenghua.yu@intel.com, reinette.chatre@intel.com, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, paulmck@kernel.org,
-	rdunlap@infradead.org, tj@kernel.org, peterz@infradead.org,
-	yanjiewtw@gmail.com, kim.phillips@amd.com, lukas.bulwahn@gmail.com,
-	seanjc@google.com, jmattson@google.com, leitao@debian.org,
-	jpoimboe@kernel.org, rick.p.edgecombe@intel.com,
-	kirill.shutemov@linux.intel.com, jithu.joseph@intel.com,
-	kai.huang@intel.com, kan.liang@linux.intel.com,
-	daniel.sneddon@linux.intel.com, pbonzini@redhat.com,
-	sandipan.das@amd.com, ilpo.jarvinen@linux.intel.com,
-	maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, eranian@google.com,
-	james.morse@arm.com
-Subject: Re: [RFC PATCH v3 00/17] x86/resctrl : Support AMD Assignable
- Bandwidth Monitoring Counters (ABMC)
-Message-ID: <ZiffF93HM8bE3qo7@e133380.arm.com>
-References: <cover.1711674410.git.babu.moger@amd.com>
- <ZiaRXrmDDjc194JI@e133380.arm.com>
- <CALPaoCh5DDmojnkUZPnACkq_ugwKnqCnwLHj2sV69TSTzpAL9g@mail.gmail.com>
- <ZiervIprcwoApAqw@e133380.arm.com>
- <4cd220cc-2e8e-4193-b01a-d3cd798c7118@amd.com>
+	s=arc-20240116; t=1713890261; c=relaxed/simple;
+	bh=jcoffr9WY3/d3x6oetEKDOZKC0RQWO53Pa9fb8E9jd0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=WV6Us4NWR1RypUJRKe9uKq1wyJFaQkKBKkNH+6RfVd4a/j/P3fWdnJ+Qpro2hoMxbzXbpYylpzHpDZNc26afpZcXQlJ57C2AL4C0im9tUWgGsrbl2OYOEDrX14JdoOUZwOI4MSDFnIJFKGKwZe7M/tWBU8yuTapEjUsC/NT1/oI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M0mj0Msd; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M0mj0Msd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713890260; x=1745426260;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=jcoffr9WY3/d3x6oetEKDOZKC0RQWO53Pa9fb8E9jd0=;
+  b=M0mj0Msd215TpGcm3MniVsag8ltI3EDE/lxUIG0ufCUED6wUo3qEwI+i
+   ipdox0stTzHmzYA3HIZ/zHrmbUFpmrk+3kmn7nJecZfE5bSMp1sc0iciY
+   srMu3caYRWuk09sRrONezRXQUnEU4IRx26lMG0lMG11Xngz9ejb1YINPa
+   yVExJOMb37G1vhEZBOobSuwcQdOIV36D9CtweFg5iGsi+tlYvKiqJGHuq
+   bydbxao2qAivj5AQeYphe6fiIjJRbX/DxRdeQTGG7zXPONDucnDBw+PjP
+   hn1xQ2nxBZYUP4crc553EYU3zDoX4viFYh0zQNX+MOhLo4xxLv4xcqHmI
+   g==;
+X-CSE-ConnectionGUID: UlDGN24ySOieZLlPAfw3LQ==
+X-CSE-MsgGUID: x6A/NDiMTIGDzIx3KgHbiA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="20181915"
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
+   d="scan'208";a="20181915"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 09:37:39 -0700
+X-CSE-ConnectionGUID: IAXcuwD7TyiCFXANqaXGIw==
+X-CSE-MsgGUID: G5sy/S12TEGA8sgl2siN3Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
+   d="scan'208";a="28881762"
+Received: from fpirou-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.46.117])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 09:37:37 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v1 2/2] Documentation: process: Recommend to put Cc:
+ tags after cutter '---' line
+In-Reply-To: <ZifHnw1cxgP77MKx@smile.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240423132024.2368662-1-andriy.shevchenko@linux.intel.com>
+ <20240423132024.2368662-3-andriy.shevchenko@linux.intel.com>
+ <871q6wrw12.fsf@intel.com> <ZifHnw1cxgP77MKx@smile.fi.intel.com>
+Date: Tue, 23 Apr 2024 19:37:34 +0300
+Message-ID: <87ttjsqbld.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4cd220cc-2e8e-4193-b01a-d3cd798c7118@amd.com>
+Content-Type: text/plain
 
-Hi Babu,
+On Tue, 23 Apr 2024, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> On Tue, Apr 23, 2024 at 05:30:49PM +0300, Jani Nikula wrote:
+>> The Cc's on the mailing list archive are harder to dig up, and do not
+>> accurately reflect the same information.
+>
+> How comes? These Cc: are 1:1 mapped to the Cc: email headers.
 
-On Tue, Apr 23, 2024 at 10:43:25AM -0500, Moger, Babu wrote:
-> Hi Dave,
-> 
-> On 4/23/24 07:38, Dave Martin wrote:
-> > Hi Peter,
-> > 
-> > On Mon, Apr 22, 2024 at 11:23:50AM -0700, Peter Newman wrote:
-> >> Hi Dave,
-> >>
-> >> On Mon, Apr 22, 2024 at 9:33 AM Dave Martin <Dave.Martin@arm.com> wrote:
-> >>>
-> >>> Hi Babu,
-> >>>
-> >>> On Thu, Mar 28, 2024 at 08:06:33PM -0500, Babu Moger wrote:
-> >>>>        Assignment flags can be one of the following:
-> >>>>
-> >>>>         t  MBM total event is assigned
-> >>>
-> >>> With my MPAM hat on this looks a bit weird, although I suppose it
-> >>> follows on from the way "mbm_total_bytes" and "mbm_local_bytes" are
-> >>> already exposed in resctrlfs.
-> >>>
-> >>> From an abstract point of view, "total" and "local" are just event
-> >>> selection criteria, additional to those in mbm_cfg_mask.  The different
-> >>> way they are treated in the hardware feels like an x86 implementation
-> >>> detail.
-> >>>
-> >>> For MPAM we don't currently distinguish local from non-local traffic, so
-> >>> I guess this just reduces to a simple on-off (i.e., "t" or nothing),
-> >>> which I guess is tolerable.
-> >>>
-> >>> This might want more thought if there is an expectation that more
-> >>> categories will be added here, though (?)
-> >>
-> >> There should be a path forward whenever we start supporting
-> >> user-configured counter classes. I assume the letters a-z will be
-> >> enough to cover all the counter classes which could be used at once.
-> > 
-> > Ack, though I'd appreciate a response on the point about "_" below in
-> > case people missed it.
-> 
-> It was based on the dynamic debug interface and also Reinette's suggestion
-> as well.
-> https://www.kernel.org/doc/html/v4.10/admin-guide/dynamic-debug-howto.html
-> (Look for "No flags are set").
-> 
-> We tried to use that similar interface.
+Patch Cc's get mapped to email Cc's depending on personal git sendemail
+configuration.
 
-Fair enough; I haven't touched dynamic debug for quite a while and had
-forgotten about this convention being used there.
+People can add more Cc's in the emails when sending.
 
-Apologies for the noise on that!
+Mailing list Cc's actually present in the archives depend on mailing
+list manager configuration, and, in some cases, even the personal list
+preferences of individual subscribers.
 
-Cheers
----Dave
+
+BR,
+Jani.
+
+
+-- 
+Jani Nikula, Intel
