@@ -1,147 +1,136 @@
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 945B2135414;
-	Tue, 23 Apr 2024 14:26:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82ED517BA8;
+	Tue, 23 Apr 2024 14:30:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713882376; cv=none; b=ugtlRuIZ19ppET8GN8tvMFfvXxun70XU0yYkFIJOnGXylYYrHQFkt/olXzWlGyNmmV1QwAK5vL2bfGQ5vn18Iv58ZExNHcCCLCJC2d0TAjpr4TfPrVUO6VBQkqs4bvCdMBAkO30Qyhn1SrqPxMCCv04rHrcpwLQhNRGs8JZ7hT8=
+	t=1713882657; cv=none; b=LWwwdJgUznV7J0R50beaKX7f9rupIH6RxYfae7dcZohp3pYBUeCjhlxNTmk9We49Hgvi6H4RuCk9wmB9ZggU724Pz7J4TF/3eZXkd8g9LrABVvrGH+K4sWa/jAsXeduDWtFv7BcG1VHj4fBl7AXTjpPcw9kcB81R0HZ1bSso0Sc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713882376; c=relaxed/simple;
-	bh=8xXEiKHrq2ZD7ofhnfahTB1IapkO77gIn+LITWkcpPo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CcP5GjPGAC6msOr/rGEu2cDutmRbCgYFiAviIf2jCnncljzaWVZNxcitHQbssa6rOYaSlc9TyztI7UH4qo1DnanJ2nsDCgwkC4d6+jN6vV1mC6pbKR4FGnRuEZWcGThE7PnBKV0XScjNBPglHWy6LmO+TP+xNn0fjWjXApmvfAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZYlC6TLR; arc=none smtp.client-ip=209.85.161.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1713882657; c=relaxed/simple;
+	bh=T41/P40s+6Zoo4IdYAoL4zuwWwRvlo4/hEyC/wAlqtc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=elY5nyGg3Mt/Ahh61neEa8L+tZx/jAxM6sQA4QBIhNTFmnBhmAGMZJjZKlI08OQqK/HZWE2xJ0+AT4AtVESsEoca1crKDDkPOnlY3mSKd/8Hli2XLdGJ0xNgu4z8fh84H0pwQIurKdD4jWEjmlGjPdKjh8B3E/P7dvLj5ktv/oU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZG7vYlho; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZYlC6TLR"
-Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-5af2d0a53f5so520931eaf.0;
-        Tue, 23 Apr 2024 07:26:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713882372; x=1714487172; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KzeFSdYGkB0p4r/XkjUJNTl+/EX4RrPovL9SKlo9gLw=;
-        b=ZYlC6TLRFxQwERYQ0EjsYmkokUh5EqJUn0j7+1CQGwTv/P0pVH5vUxlB/X4Zry4TsX
-         NJYGa/+iwrCkUCdT1fQ+s3cMPzyNEBeYoVWGRasjBqJGkI48VBPcbu1dTnjHqkrCZenS
-         TlMrVFlpC1yr4nZ2YCiDqt9kP+vx0oWriIcmHHW4cFqP5HUk6ZDaZHF61dU7JIkOd8mB
-         kVV7O6UtwgrqASGKDaXQ9oW6G+7DdbO+K/jSk+/8fhRPIQTa2JAymA+H6pcN0BsF66x3
-         krwDZUXmCLUEwocATb+FDEfHoN07f2DMQW/3bPtPdBwD5eCDjMNFDMIWgOuDAHOLkuyl
-         nkaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713882372; x=1714487172;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KzeFSdYGkB0p4r/XkjUJNTl+/EX4RrPovL9SKlo9gLw=;
-        b=IOd/VIUIiK2/5a3SzuPFP6UxNVZB7pAyKDfeDMeaY7BM35bY9zf/JK2YbxtpiSsNh5
-         QGalxJbYhxEI/r8+LA+esJHmLUk/1/AYw62o0z28qDkWLiuhxMIocvUKowb61d9tfGfY
-         0vg9RvZJSoAYJM8Ji4xdMB6SxUoy1Za9hNWJWKvYKjYUDumrNVWJtsF0Q/MnF/HecDBR
-         3Jwt/FvzDdExLY/cx8CxIVO+khPJXEAnYY79AxSzdJ1n4UjQJOJc8AJUjPZxSFysBFwN
-         rG/44TLt5+5eaonoEA+sjlHnqDmqFlRX4qY1u6vIT2R56fITQbuMH89HYlr7MHK3qIim
-         bXHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXIjyZaMmRCtSgbXvRsu2ZdEZhzgrYDfQhvN3NzSdCf0MQ4r+5gLucrOlROe49hv+H/IHFt5HJBQHo/qQs//+gaLXphlf5mRbSYL8fi6yco6YqlvTm7zZ+QaoGsRCR6WxDZJlF0qCxeW8E=
-X-Gm-Message-State: AOJu0YxvL856gq9G2+ZJf3JiqPMYTb4VKgnAa1SvnEkfDo1C/qitNsKg
-	7+Wr8SZjYPA5Kr9CtOhAuN0y55qzClevJudWhdsjAyoeqLCEW2GDRUBNMHmp0fnRQbH4eQYXrK1
-	EWEInmZe+/Mpg2amcHanOD0VNWfNesnaK5XCkARARO/o=
-X-Google-Smtp-Source: AGHT+IGOfTV+X0kR18dZKcS4/xLxByStp+lOjXXuFPTfkZDxusPL533mljZCozFiz2TLWZZffqY7nrW3XobCYrVjvlI=
-X-Received: by 2002:a4a:5104:0:b0:5ac:9e7d:576e with SMTP id
- s4-20020a4a5104000000b005ac9e7d576emr1112421ooa.1.1713882372691; Tue, 23 Apr
- 2024 07:26:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZG7vYlho"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713882655; x=1745418655;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=T41/P40s+6Zoo4IdYAoL4zuwWwRvlo4/hEyC/wAlqtc=;
+  b=ZG7vYlhop1wL1gjnzeFVPl79lzWqRYHVELED0yzEYrkx/LetZpne1RH1
+   ygU1j5vrp7zTfDDBKD70ZXip2ZannLGtq5CeLAj9RkDAaHYTKgtlepE04
+   zGfjNoUSOqKMipKFpeRIEa0OrUn1760Loafcvd0rz6DisUQPSxl3+sxXn
+   OvjKltuMw2qiBpdnj4VPdSc1AJLjEF+Qpvx0F9dT9Edp3WJ9vhwOi/lxA
+   dEgkiBQhSWbGh402PmrNp0k+0mEWcVy6vRYtPq+ezbUnOVsMzMLMmhefy
+   hxZNg2oqoQHg06XTMwWxhrVsARAZivOFvLaVhoYskvRs7iEvtup6stbKc
+   g==;
+X-CSE-ConnectionGUID: cOeyKSduRfuZXlASVQg1eg==
+X-CSE-MsgGUID: JwSRjgK4SsSa3ILybEF7/A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="9300606"
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
+   d="scan'208";a="9300606"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 07:30:54 -0700
+X-CSE-ConnectionGUID: yne6HTRWSk2fp38YKxxq7A==
+X-CSE-MsgGUID: wU3FDOt6RyewayGjLnCbUA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
+   d="scan'208";a="28884464"
+Received: from fpirou-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.46.117])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 07:30:52 -0700
+From: Jani Nikula <jani.nikula@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v1 2/2] Documentation: process: Recommend to put Cc:
+ tags after cutter '---' line
+In-Reply-To: <20240423132024.2368662-3-andriy.shevchenko@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240423132024.2368662-1-andriy.shevchenko@linux.intel.com>
+ <20240423132024.2368662-3-andriy.shevchenko@linux.intel.com>
+Date: Tue, 23 Apr 2024 17:30:49 +0300
+Message-ID: <871q6wrw12.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1713875158.git.siyanteng@loongson.cn> <c1d41290e80fc1e6364682c258445132c42442e4.1713875158.git.siyanteng@loongson.cn>
- <CAD-N9QU7uyJN7g1D1y0jZt9x64uDwvL3ynyXir6othOm=NpH9A@mail.gmail.com>
-In-Reply-To: <CAD-N9QU7uyJN7g1D1y0jZt9x64uDwvL3ynyXir6othOm=NpH9A@mail.gmail.com>
-From: Dongliang Mu <mudongliangabcd@gmail.com>
-Date: Tue, 23 Apr 2024 22:25:46 +0800
-Message-ID: <CAD-N9QXbToYg4VUDmStJ5Nt3Wu4o9UrNCaDQPMcq9tLrd=bdXA@mail.gmail.com>
-Subject: Re: [PATCH v1 2/4] docs/zh_CN/rust: Update the translation of
- coding-guidelines to 6.9-rc4
-To: Yanteng Si <siyanteng@loongson.cn>
-Cc: ojeda@kernel.org, corbet@lwn.net, alex.gaynor@gmail.com, 
-	wedsonaf@gmail.com, boqun.feng@gmail.com, gary@garyguo.net, 
-	bjorn3_gh@protonmail.com, benno.lossin@proton.me, a.hindborg@samsung.com, 
-	aliceryhl@google.com, nathan@kernel.org, ndesaulniers@google.com, 
-	morbo@google.com, justinstitt@google.com, alexs@kernel.org, dzm91@hust.edu.cn, 
-	linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Tue, Apr 23, 2024 at 10:09=E2=80=AFPM Dongliang Mu <mudongliangabcd@gmai=
-l.com> wrote:
+On Tue, 23 Apr 2024, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> The recommendation is based on the following rationale:
 >
-> On Tue, Apr 23, 2024 at 9:08=E2=80=AFPM Yanteng Si <siyanteng@loongson.cn=
-> wrote:
-> >
-> > Update to commit bc2e7d5c298a ("rust: support `srctree`-relative links"=
-)
-> >
-> > Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> > ---
-> >  .../translations/zh_CN/rust/coding-guidelines.rst    | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
-> >
-> > diff --git a/Documentation/translations/zh_CN/rust/coding-guidelines.rs=
-t b/Documentation/translations/zh_CN/rust/coding-guidelines.rst
-> > index 6c0bdbbc5a2a..d02e2dbff509 100644
-> > --- a/Documentation/translations/zh_CN/rust/coding-guidelines.rst
-> > +++ b/Documentation/translations/zh_CN/rust/coding-guidelines.rst
-> > @@ -157,6 +157,18 @@ https://commonmark.org/help/
-> >
-> >         https://doc.rust-lang.org/rustdoc/how-to-write-documentation.ht=
-ml
-> >
-> > +=E6=AD=A4=E5=A4=96=EF=BC=8C=E5=86=85=E6=A0=B8=E6=94=AF=E6=8C=81=E9=80=
-=9A=E8=BF=87=E5=9C=A8=E9=93=BE=E6=8E=A5=E7=9B=AE=E6=A0=87=E5=89=8D=E7=BC=80=
- ``srctree/`` =E6=9D=A5=E5=88=9B=E5=BB=BA=E7=9B=B8=E5=AF=B9=E4=BA=8E=E6=BA=
-=90=E4=BB=A3=E7=A0=81=E6=A0=91=E7=9A=84=E9=93=BE=E6=8E=A5=E3=80=82=E4=BE=8B=
-=E5=A6=82:
+> - it makes the commit messages much cleaner and easy to read, especially
+>   on the screens of the mobile devices;
 >
-> =E5=89=8D=E7=BC=80=E9=80=9A=E5=B8=B8=E8=A2=AB=E7=94=A8=E4=BD=9C=E5=90=8D=
-=E8=AF=8D=E3=80=82=E5=BB=BA=E8=AE=AE=E5=8F=AF=E4=BB=A5=E6=94=B9=E6=88=90=EF=
-=BC=9A
+> - it reduces resources (memory, time, energy) to retrieve all these
+>   headers, which are barely needed by a mere user, as for automation
+>   they will be still available via mail archives, such as
+>   https://lore.kernel.org, assuming the Link: or Message-ID tag is
+>   provided.
+
+I find the information in the commit message useful, and it tells me who
+were explicitly included in the discussion.
+
+For example when fixing a regression I'd like to Cc everyone who was
+Cc'd in the regressing commit. The drm subsystem maintainer tool
+actually has a helper for doing just that. 'dim fixes <sha1>' digs up
+all the relevant info.
+
+The Cc's on the mailing list archive are harder to dig up, and do not
+accurately reflect the same information. A lot of patches get sent with
+more Cc's in the mail message than in the commit message.
+
+BR,
+Jani.
+
+
+> Let's be environment friendly and save the planet!
 >
-> =E6=AD=A4=E5=A4=96=EF=BC=8C=E5=86=85=E6=A0=B8=E6=94=AF=E6=8C=81=E9=80=9A=
-=E8=BF=87=E5=9C=A8=E9=93=BE=E6=8E=A5=E7=9B=AE=E6=A0=87=E5=89=8D=E6=B7=BB=E5=
-=8A=A0 ``srctree/`` =E6=9D=A5=E5=88=9B=E5=BB=BA=E7=9B=B8=E5=AF=B9=E4=BA=8E=
-=E6=BA=90=E4=BB=A3=E7=A0=81=E6=A0=91=E7=9A=84=E9=93=BE=E6=8E=A5=E3=80=82=E4=
-=BE=8B=E5=A6=82:
-
-
-Translate the above comments to English:
-
-=E2=80=9C=E5=89=8D=E7=BC=80=E2=80=9D in Chinese usually means noun other th=
-an verb. So I suggest the
-liberal translation "=E5=9C=A8...=E5=89=8D=E6=B7=BB=E5=8A=A0" other than "=
-=E5=89=8D=E7=BC=80".
-
-Dongliang Mu
-
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  Documentation/process/5.Posting.rst          | 4 ++++
+>  Documentation/process/submitting-patches.rst | 5 +++++
+>  2 files changed, 9 insertions(+)
 >
-> > +
-> > +.. code-block:: rust
-> > +
-> > +       //! C header: [`include/linux/printk.h`](srctree/include/linux/=
-printk.h)
-> > +
-> > +=E6=88=96=E8=80=85:
-> > +
-> > +.. code-block:: rust
-> > +
-> > +       /// [`struct mutex`]: srctree/include/linux/mutex.h
-> > +
-> >
-> >  =E5=91=BD=E5=90=8D
-> >  ----
-> > --
-> > 2.31.4
-> >
-> >
+> diff --git a/Documentation/process/5.Posting.rst b/Documentation/process/5.Posting.rst
+> index 90a7fe2a85f2..157b3fc0087a 100644
+> --- a/Documentation/process/5.Posting.rst
+> +++ b/Documentation/process/5.Posting.rst
+> @@ -276,6 +276,10 @@ for addition without the explicit permission of the person named; using
+>  Reported-by: is fine most of the time as well, but ask for permission if
+>  the bug was reported in private.
+>  
+> +It's recommended to locate the additional Cc: tags after the cutter '---' line
+> +in the patches as it makes sure the commit message won't be polluted with them.
+> +At the same time they will be available via email headers on the mail archives,
+> +such as https://lore.kernel.org.
+>  
+>  Sending the patch
+>  -----------------
+> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> index 6775f0698136..0c898d9e00f5 100644
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -491,6 +491,11 @@ automatically converted to the Cc: email header and you do not need to
+>  have an explicit ``Cc:`` tag, if the person is already mentioned by another
+>  tag.
+>  
+> +It's recommended to locate the additional ``Cc:`` tags after the cutter '---' line
+> +in the patches as it makes sure the commit message won't be polluted with them.
+> +At the same time they will be available via email headers on the mail archives,
+> +such as https://lore.kernel.org.
+> +
+>  Co-developed-by: states that the patch was co-created by multiple developers;
+>  it is used to give attribution to co-authors (in addition to the author
+>  attributed by the From: tag) when several people work on a single patch.  Since
+
+-- 
+Jani Nikula, Intel
