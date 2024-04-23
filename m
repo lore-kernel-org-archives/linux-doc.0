@@ -1,136 +1,119 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80D7013CA8A;
-	Tue, 23 Apr 2024 17:43:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB87143891;
+	Tue, 23 Apr 2024 17:59:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713894218; cv=none; b=averEAQGzgCpzu1vxnSHj/9cqLPtUQsUXjAHgdb55vk0OTUwUIxUvQN5OTx6Qiedi+Gwz7xk+KAI9IB56Ni12JO9HbPeRfdeEYbowBGdvKNru1OVFoFrJmX4LbapR4oZeK9luEZq0iEXKgk7sx2pvIrof0H1rPulufvrIrxQFww=
+	t=1713895172; cv=none; b=VjUdEnxZN0hAiDLL411OEiyJ+T0uTkhr6OrSpF52o1iAU4i/07OBLxEq0ZmAX8OYkmapWOXwDFriYLhu526B4hO27ojEtKX0Rj483Cr99DW63h88hzo9AD0NkdetHDv76naiS4VPawLzGgNid7y3HbQ/9IzhkUBTGKzHj9mp9xI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713894218; c=relaxed/simple;
-	bh=obP4SHgTd6qHA5VLsgw9J61AXXKZ9tt8WZ5YkgveSNE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eNGpoisO5duB9nTuuSJz1qWreuZxSbhMv7mfHtUx++7MuaeapHFD8Gmiv9xj5ralQz6Gfu3AJcH2JHe/e7CFJ2SYdGj7rvNhWVbrPpCvYDP48SAPusfcpvYbIvxSzImkpjWfD4yZNVx1tRnwdV7fY1xMDeC1Y5p+64HSnbyz6Y0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BmpBnoe6; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1713895172; c=relaxed/simple;
+	bh=VBa5Uoa7nnDAfK4MeWFM8DIP6qDVEtvWS57pRdVdN+U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lETkiAob8eUdzExJL2qYu1yFAX+DhitwG3OL1H75TpNI+wDqNCswCAn2fW/i1JtCogRo0XvwgLt0rN+UjQ8WqpCCC48ZnUeqP6TBgC7/oL86S49Io1g0WfP+zir7szuhlBp/8NMNGmiGNU0Q6v8trbqOtqw7R08/bZW0vTE9e/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YIH3ZZDb; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BmpBnoe6"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-346359c8785so4886386f8f.0;
-        Tue, 23 Apr 2024 10:43:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713894215; x=1714499015; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Fvb1vi4MFCayo9L1pNhOnraYfrdeLerBM7wkAW1E4hM=;
-        b=BmpBnoe6emTK39sGPhVHVa7EhjUpCrn7wBZfhw2v3tXPl0UCoO25w6067he0u/TMXy
-         lWas721XoPWO/NG64n1mRP+GtmiKLM/KmzhwpA0p5PYLLLO2vF7yznzAnCIXeRm12OY0
-         roAYZx3YSIuVflZO2VFdxJvXH57jPz2c37eKotk/5JSQ5Ixyr19FF0ZMHXyp7zRwloWb
-         o+8YOB0MZVPlm2wP0T+0oYbg0hhRGQY6wZ3pv0QHCZtw3NUuXbmVj3pC4Yu/4gem6w8T
-         d9VcHLOvO1fyUu0/KCqvEM3mUwUsSSmYAmQshDmFSkrTMjDIYC72YTDXF2Fm+gZ55Ezn
-         Bjdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713894215; x=1714499015;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Fvb1vi4MFCayo9L1pNhOnraYfrdeLerBM7wkAW1E4hM=;
-        b=criPtMMUDDPC7Hq76YYBg+E22qHp+CzUcc0ZDyuhJs5r5QqjGmyZ3dqDrDEyHj9kgU
-         pUndkT3QsGt1EKYxju2ixXS5UNFYQfn/j5ka/9F9p/2BrxHNbzCq9496H3ccYNeCP7iJ
-         DM4HZsLVs+64+aJIPFuVi4cAkbVsWCpnLJ4aLwpeYr5+d3nX4OhLpFpV3kZpZ3zGkjqf
-         kk4qNUjnILoatHix6OMPKiSyAvrnVwSR7sGm0K0kZjld5pJd7VNuf4k2C6msxoc0MPp7
-         uBnEs3fjKnjYSOAcbrcchzD/uXnl6sVxJ6XHpbFX6/APAP3B7aGtzJZ+oNKuzLYc1CQS
-         r+GA==
-X-Forwarded-Encrypted: i=1; AJvYcCXHxOGHmw+7kfzfYwM6XVGyzYZ/mc1TnRPy6vu7xRCT51Dc6jQvJChR78Q3EU9pSuwKE6XYlCcx1SW9D8BJ77rHsK3Q6UL4i70ruaf5Ht1OPep001IYizYrKztxmFBi+o30WI5gZHiC
-X-Gm-Message-State: AOJu0Yz/ovxMPXVAPvt6IC5meT114krwIEKcIe9x+0FxCnWi3ACg499c
-	Y0rtSBPN0pS+iLcF9Tl3Frz2mL2hBC1++ShI2mmpicNaM/Ei3mdGKJA3dXtFhUZIu9ojIHuAggz
-	2UmCo3NrsAlIe8LA5wm6j6HNoTpw=
-X-Google-Smtp-Source: AGHT+IFEvqSu/RTLqD0lu3rECewKObZGjr4kQFG2ub8v9v9bZi5qL9vy+yi3PZhvF6iKZTvGNwmCRJpjIEwfiBeDZRk=
-X-Received: by 2002:adf:f350:0:b0:345:c359:d34a with SMTP id
- e16-20020adff350000000b00345c359d34amr7541863wrp.59.1713894214548; Tue, 23
- Apr 2024 10:43:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YIH3ZZDb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713895171; x=1745431171;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=VBa5Uoa7nnDAfK4MeWFM8DIP6qDVEtvWS57pRdVdN+U=;
+  b=YIH3ZZDbtUqDnTzkpGwzL2jScsL9pFgiXlTui11QQOnXS37gga7Z56D7
+   vQUO3KOZ30ovzgpJejhlJ7nCmR9wND2w5GvXjiLNUjimAQerceqKpxYkT
+   EMfv5vIQWEQBbnu1O+G81Rj+XwVCHJ4fTtM1y7mVjTGynMrRshwbFw44h
+   gSvr56D6vXPcgWNxHqgAnJAZp9WXxwniQzv8z9iO3ENLO/+uCkMsHowMD
+   ASrKfXjSvrNeQnHSTu+mD3JEJA1qk37CJbWc4LANAcAv0yuYHH2LkgeQy
+   npT6bs05PmW8MIbXVcgecTtA1nKQYNHZm7sG+2R9QmCk7PFuq9jptD2Ee
+   A==;
+X-CSE-ConnectionGUID: ztWXMs/FRLS5/mSiksbcqg==
+X-CSE-MsgGUID: /xIv8WtpRoWcM3LfuuKBeg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="9370605"
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
+   d="scan'208";a="9370605"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 10:59:23 -0700
+X-CSE-ConnectionGUID: 88MXJqjRTQSFVr9BMJbdpg==
+X-CSE-MsgGUID: 771S65yCQu2CZpw3IpeGFA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
+   d="scan'208";a="24895532"
+Received: from soc-cp83kr3.jf.intel.com (HELO [10.24.10.60]) ([10.24.10.60])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 10:59:22 -0700
+Message-ID: <cdc6c880-c666-4ff2-99f3-56c6b4f7576d@intel.com>
+Date: Tue, 23 Apr 2024 10:59:21 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAFkJGRc824vYEufG=6ZVPAW2iVpd0NDThJadZVrUk_ZND_qJag@mail.gmail.com>
- <Zh6Xbqijp8rRGo1H@archbtw> <CAFkJGRe+UpNPSnSL623o6G+NCkK_uGPx-NCNLQx0vSGpMo98eg@mail.gmail.com>
- <CAPzh0z8RySn429XYQHoP_c9UA+pb6SLHGhH40vQDhc3P2xiysQ@mail.gmail.com>
- <CAFkJGRfK=1f8tfWO8G0v8SOmCwCgK7P5y7g2My47VG6Obb1DNw@mail.gmail.com>
- <ZiE9ydgMtpKOBLDk@archbtw> <CAFkJGRddGHK0j4CcQUoRKiD3afniLY=rRV5npY5wpauqqY0XZg@mail.gmail.com>
- <CAFkJGRdFuMoO4_mR-cR1NWjKQJnopN0v1R11-jSnLn+FKcOCdg@mail.gmail.com>
- <CAFkJGRcg+ThJ-xUve0=WorChW=-6PreLHXeM8YwtwzwpkHTu8g@mail.gmail.com>
- <CAFkJGRcgJA4qe1AVi23ZQVPr_UEzkTBPH8f30g=OsKmii7QzQw@mail.gmail.com>
- <ZiKYXX-v0Eu-qCBt@archbtw> <CAFkJGRdjvebW6u6pyyA_MeHsoecRgYjiVrxoWYWsREdYH9iOFQ@mail.gmail.com>
- <7ba7cff1-8d9d-4bc3-a74c-6f6828c9195e@amd.com>
-In-Reply-To: <7ba7cff1-8d9d-4bc3-a74c-6f6828c9195e@amd.com>
-From: Josh Marshall <joshua.r.marshall.1991@gmail.com>
-Date: Tue, 23 Apr 2024 13:43:23 -0400
-Message-ID: <CAFkJGRe7DVpcr+VKouTYzBK5r905W4xmxphU11AA6uB8Oj5FJQ@mail.gmail.com>
-Subject: Re: Feedback on my development setup
-To: "Bilbao, Carlos" <carlos.bilbao@amd.com>
-Cc: ngn <ngn@ngn.tf>, linux-newbie@vger.kernel.org, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, pranjal.singh4370@gmail.com, 
-	"bilbao@vt.edu" <bilbao@vt.edu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] KVM: selftests: Add KVM/PV clock selftest to prove
+ timer drift correction
+To: David Woodhouse <dwmw2@infradead.org>, Jack Allister
+ <jalliste@amazon.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Shuah Khan <shuah@kernel.org>
+Cc: Paul Durrant <paul@xen.org>, kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+References: <20240408220705.7637-1-jalliste@amazon.com>
+ <20240408220705.7637-3-jalliste@amazon.com>
+ <3664e8ec-1fa1-48c0-a80d-546b7f6cd671@intel.com>
+ <17F1A2E9-6BAD-40E7-ACDD-B110CFC124B3@infradead.org>
+ <65FF4D51-05A8-42E0-9D07-6E42913CC75E@infradead.org>
+ <6dca783b-6532-4fa7-9e04-1c0a382a00b0@intel.com>
+ <c863ffcfd4edda9a1a46e3351766a655c5523f7d.camel@infradead.org>
+ <71260288-3666-4419-8283-6565e91aaba4@intel.com>
+ <06864883c53cc4042e1939c04ecbd5ef0f8acf3b.camel@infradead.org>
+Content-Language: en-US
+From: "Chen, Zide" <zide.chen@intel.com>
+In-Reply-To: <06864883c53cc4042e1939c04ecbd5ef0f8acf3b.camel@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hello Carlos,
 
-My intention right now is still to gather feedback on the draft!
-Everything, including if it should be sliced and diced into other
-places, is up for consideration.  The final intent is a patch into the
-central doc tree and not remote documentation.  I'll wait longer to
-gather more input before replying to particular points.
 
-On Tue, Apr 23, 2024 at 12:40=E2=80=AFPM Bilbao, Carlos <carlos.bilbao@amd.=
-com> wrote:
->
-> Hello Josh,
->
-> On 4/23/2024 10:34 AM, Josh Marshall wrote:
-> > I have a draft document which I would like broader review on, which
-> > currently lives here:
-> > https://gitlab.com/anadon/getting-started-on-kernel-dev-guide-workspace=
-.
-> > This document is to ease the setup of Kernel Development.  I intend to
-> > send this in as a patch to the mainline doc tree once it gets by a
-> > suitable number of reviewers.
->
-> It's great that you're interested in improving the documentation. I've CC=
-ed
-> linux-doc list for visibility.
->
-> However, please note that we already have existing documentation, and it
-> might be better to extend what's already there rather than creating
-> something entirely new. You can refer to:
->
-> https://www.kernel.org/doc/html/latest/process/development-process.html
->
-> If you still feel the need to start a new document and host it remotely, =
-I
-> suggest updating:
->
-> https://www.kernel.org/doc/html/v6.1/process/kernel-docs.html
->
-> If I may offer a suggestion, focusing on documenting the challenges you'v=
-e
-> encountered with KVM, etc., could be more valuable that trying to cover
-> everything.
->
-> >
-> > On Fri, Apr 19, 2024 at 12:15=E2=80=AFPM ngn <ngn@ngn.tf> wrote:
-> >>
-> >> On Thu, Apr 18, 2024 at 05:40:20PM -0400, Josh Marshall wrote:
-> >>> Looks like breakpoints aren't working?  https://paste.debian.net/1314=
-501/
-> >>>
-> >>
-> >> This maybe caused by Kernel Address Space Randomization (KASLR), try
-> >> disabling it by adding nokaslr option to the boot options.
->
-> Thanks,
-> Carlos
+On 4/23/2024 12:49 AM, David Woodhouse wrote:
+>> If I restored the KVM_REQ_GLOBAL_CLOCK_UPDATE request from
+>> kvm_arch_vcpu_load(), the selftest works for me, and I ran the test for
+>> 1000+ iterations, w/ or w/o TSC scaling, the TEST_ASSERT(delta_corrected
+>>  <= ±1) never got hit. This is awesome!
+>>
+>> However, without KVM_REQ_GLOBAL_CLOCK_UPDATE, it still fails on creating
+>> a VM. Maybe the init sequence sill needs some rework.
+> 
+> That one confuses me. The crash is actually in debugfs, as it's
+> registering the per-vm or per-vcpu stats. I can't imagine *how* that's
+> occurring. Or see why the availability of TSC scaling would cause it to
+> show up for you and not me. Can I have your .config please?
+> 
+> First thought would be that there's some change in the KVM structures
+> and you have some stale object files using the old struct, but then I
+> realise I forgot to actually *remove* the now-unused
+> kvmclock_update_work from x86's struct kvm_arch anyway.
+> 
+> I'll try to reproduce, as I think I want to *know* what's going on
+> here, even if I am going to drop that patch as mentioned in 
+> https://lore.kernel.org/kvm/a6723ac9e0169839cb33e8022a47c2de213866ac.camel@infradead.org
+> 
+> Are you able to load that vmlinux in gdb and
+> (gdb) list *start_creating+0x80
+> (gdb) list *kvm_create_vm_debugfs+0x28b
+> 
+> Thanks again.
+
+My apologies, it turns out the KVM_REQ_GLOBAL_CLOCK_UPDATE is not
+needed. Today I can't reproduce the issue after removing it.  Yesterday
+I thought it may miss something related to pfncache.
+
+To be clear, with the above mentioned change to
+kvm_scale_tsc(master_tsc_scaling_ratio), the selftest runs reliably
+regardless TSC scaling is enabled or not.
