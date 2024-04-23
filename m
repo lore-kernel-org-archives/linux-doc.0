@@ -1,208 +1,697 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mx0a-00823401.pphosted.com (mx0a-00823401.pphosted.com [148.163.148.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C70B013D508;
-	Tue, 23 Apr 2024 17:13:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.16
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713892393; cv=fail; b=AGajTwNAKmjzt5UnG5yVU6OPb6qRCBy3uNbwcrSkvF5FlKviO/5sGTHexh1MPy82QwtgXwELcrrFowwpsDMI4A7jjP5MkkpEy0R+PdS8G+WO6/qS61A8u83t/pz7y2FhyM7p1IQFCV3Y8PgLddRRkH+Au3TYwOXlBvuBNQAyQ4k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713892393; c=relaxed/simple;
-	bh=UbRxHaIK828I3n/+Bz6o+UoA5+G+8GglaQECx1llJr8=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=AIqX2Btu8YOe86KPji66jzonFQ8Zs56cC03dB/VHEXmuWzT1ouC3n2Jk+QzzudtCOiNfns6MJsBEymczB2xx1C+yu6CQdHAPcFsF/HEhV7vlGARQBNt+MkQM2P/G9pSUzPoVBGTXJ+O9MJ1wo6axXXwVm6GJ1Es/UZTOVW3uR4U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KPein4aq; arc=fail smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D249F208A9;
+	Tue, 23 Apr 2024 17:20:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.148.104
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713892824; cv=none; b=sOFZKsjIAzdJbXFI0fZ+2Abeei1pmgi8INo9uKJLPlu5TXSeajRO4FTLb0JwakSj8rrFtbguhItsSrRo6NskonZLDCi8hys5iKNSVDHmecNxHs6pJgvQI2iIeNo7FSUCmOPdYdaSlCUgEyRbAjmbXvRLh2QIbqic1NREimvhqmw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713892824; c=relaxed/simple;
+	bh=bhaoMdqp2VU4qCFjkuQfL4m9NZniKQUzcmP/BVHU0Hw=;
+	h=Message-Id:To:Cc:From:Date:Subject; b=EX4FLA0Wcio9SGxrpQm0knWmYJT8iyGaOkCLa/cSZJXSXcJpXqtNrma4gist8pA+YUp5zh/EL0rhvwKSwDZScSDjK8gW+mgNR18pfQMscbK+5p+lDr2r9OguB7vFwrvmgIpSRkmsz+HTt28ruzam6pLzuUZwuStP2aH2O7PnRfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=motorola.com; spf=pass smtp.mailfrom=motorola.com; dkim=fail (2048-bit key) header.d=motorola.com header.i=@motorola.com header.b=n0FYux0a reason="signature verification failed"; arc=none smtp.client-ip=148.163.148.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=motorola.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=motorola.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KPein4aq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713892392; x=1745428392;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=UbRxHaIK828I3n/+Bz6o+UoA5+G+8GglaQECx1llJr8=;
-  b=KPein4aqha5ArwPcp1+PSpWDgIODdoiMcjBWqmwwyT04Qm1mPdDAVwb5
-   RpMMJRdAFz+EJ53eKD6aq6WbXP0so7H4mfnLRquktix4ApUSChgxZIgAR
-   RFLB0xTBDI1FjTBerLEGxJw9HGPXPm0ze4cBhGY8vMGdm2UhgF1WL+8xf
-   XwbXzDuiol6mJ0TRh4V1iXY0tjwQXWQ29x88IuiNih3McB6Fev+0cvMfc
-   FQOgFP5rhuTyPu+7EhcptaWUZk6kuXhV29Gj/zPHN28w8zqEMs+rh4yv7
-   nHkUr9ovKUlFiHx8ZaMW1cG0BL94IXEmgSlf40RRSWYcHgldH4gMcKN/W
-   Q==;
-X-CSE-ConnectionGUID: QpHxFdb7Rk2sayb3tz+uug==
-X-CSE-MsgGUID: ucNoW7YqQmSh26sUaK8B2w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="10034447"
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="10034447"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 10:13:10 -0700
-X-CSE-ConnectionGUID: ktK+1Aq9Scu3XbsXBV/Kog==
-X-CSE-MsgGUID: yhBkWzDOTTChw0Rgi83MWA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,222,1708416000"; 
-   d="scan'208";a="24950726"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by orviesa007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 23 Apr 2024 10:13:10 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 23 Apr 2024 10:13:10 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Tue, 23 Apr 2024 10:13:10 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.100)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Tue, 23 Apr 2024 10:13:10 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l5T9OBFd2xVDeZo3gHaYpuoVAUtiq+e0uWDgDnZSgaHO/4p6bE++wDb/zd4LLEYIK1rtckqlOBG6te/6aCR5q5/HpDef01D4Cuq1lvQozlvTIpH1SkfYlUN0kFJbGyoDMMtudTBtSzCiqikNn079d+Yh31hp6O7mCOZvq8I9vedo0au7EAkQeJ9ekthPtzXsg9XtigqeBqMuZeRV343GYGUlNRfjWPND968CmYqit5eblGxnOs2c5o8i8BoVJozEHEJ9QB0b29XbIMlRLCYlcWJeGA8ntyrJsOc/Rz8OTp1nIiwYvxXDqprMYdwJHRk0wQ4KVww6/hulz/PzLuRNIg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+wTOnnZAz6H/Fkfe+71qqx+aTGGsIKTUWhe8Gzz2CAM=;
- b=UG5otSj9UiLwTwo0Z4VszBriRfi4b3oEvMQifidDqAudzHox2RTJJaEEd+R/FtaisxsBA78jtyYBy2AoxTxreVSZhXvigAFPK2h5T1XzXNqjpJcrr46qf4ZJVcoqc0/gJq3D87R0+eMZm03Z8Ztt1/BvgzWAcGEzQj9tC2ZdBgYedaEj+lDSyvEyMQXEUH2OIR2sEwpErhAwciPkL7uzAAK1UaINpIPyDvAWNRWywPIL7adKO1+15xhmFI+vOgyu9bzAwEzkHXODC9fxlStOxFnHTO3KulDK0vuXWmnURT24aurcHKhcu7RE/MQztAykd8MWLvo/NrIjhbwTT0Ho/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
- by MW5PR11MB5932.namprd11.prod.outlook.com (2603:10b6:303:1a2::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.21; Tue, 23 Apr
- 2024 17:13:05 +0000
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::82fd:75df:40d7:ed71]) by PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::82fd:75df:40d7:ed71%4]) with mapi id 15.20.7452.046; Tue, 23 Apr 2024
- 17:13:05 +0000
-Date: Tue, 23 Apr 2024 10:13:03 -0700
-From: Dan Williams <dan.j.williams@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	<workflows@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-CC: Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v1 1/2] Documentation: process: Avoid unneeded Cc: tags
-Message-ID: <6627ec1f71a4b_a96f294f1@dwillia2-mobl3.amr.corp.intel.com.notmuch>
-References: <20240423132024.2368662-1-andriy.shevchenko@linux.intel.com>
- <20240423132024.2368662-2-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240423132024.2368662-2-andriy.shevchenko@linux.intel.com>
-X-ClientProxiedBy: MW4P220CA0016.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:303:115::21) To PH8PR11MB8107.namprd11.prod.outlook.com
- (2603:10b6:510:256::6)
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=motorola.com header.i=@motorola.com header.b="n0FYux0a"
+Received: from pps.filterd (m0355088.ppops.net [127.0.0.1])
+	by m0355088.ppops.net (8.18.1.2/8.18.1.2) with ESMTP id 43NFvVqF023694;
+	Tue, 23 Apr 2024 17:19:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=motorola.com; h=
+	message-id:to:cc:from:date:subject; s=DKIM202306; bh=zeEoU7dkwCo
+	IiIBp8pJxTA1FJWukJR0hjPW2h/Mabqc=; b=n0FYux0aPq9+q7qBtfOYgWv3cRc
+	mOiBKGypFk6wxiYV5RgUdw0t6t6pNdsYE7k3WFBmF1pKmAaBaBaiJ6EvR6vq96/w
+	7g4B4vHAELTAdxh4cN67AmZ89bd0evkU4cHbeS2e28J8Wv3LJnSD9WS0ivF9l92d
+	cUVqEr6xa1pKg1SJ14+XONZ/Q4wEe7ye5h96sZkDvVLuFLVLKO1n3UgcjvAGBooP
+	ppcFQrdh2BCdg9jdTqTXBjEJDuCVSPzWtO6MI1IlGvh/kzYNb7Oxy4OZLY4AVi/V
+	n74jJZ4R5/xCK2VCUq/yBhnn1e3pWdlJCqn1ful0dW+SXAdGALVXHJw6saw==
+Received: from ilclpfpp01.lenovo.com ([144.188.128.67])
+	by m0355088.ppops.net (PPS) with ESMTPS id 3xnvc2jksv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 23 Apr 2024 17:19:50 +0000 (GMT)
+Received: from ilclmmrp01.lenovo.com (ilclmmrp01.mot.com [100.65.83.165])
+	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ilclpfpp01.lenovo.com (Postfix) with ESMTPS id 4VP84j6djSzcxpp;
+	Tue, 23 Apr 2024 17:19:49 +0000 (UTC)
+Received: from ilclasset02.mot.com (ilclasset02.mot.com [100.64.49.13])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: mbland)
+	by ilclmmrp01.lenovo.com (Postfix) with ESMTPSA id 4VP84j6MPSz3n3fr;
+	Tue, 23 Apr 2024 17:19:49 +0000 (UTC)
+Message-Id: <20240423121820.874441838-1-mbland@motorola.com>
+To: linux-mm@kvack.org
+Cc: "Maxwell Bland <mbland@motorola.com>
+	Catalin Marinas" <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ard Biesheuvel <ardb@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Maxwell Bland <mbland@motorola.com>,
+        Alexandre Ghiti <alexghiti@rivosinc.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+From: Maxwell Bland <mbland@motorola.com>
+Date: Tue, 23 Apr 2024 12:18:20 -0500
+Subject: [PATCH] ptdump: add non-leaf descriptor support
+X-Proofpoint-GUID: 5dMlSk_-_7UdZApIcbzoFqYjyX64TIwW
+X-Proofpoint-ORIG-GUID: 5dMlSk_-_7UdZApIcbzoFqYjyX64TIwW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-04-23_14,2024-04-23_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 clxscore=1011
+ suspectscore=0 phishscore=0 adultscore=0 lowpriorityscore=0
+ mlxlogscore=999 spamscore=0 malwarescore=0 priorityscore=1501 mlxscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404230039
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|MW5PR11MB5932:EE_
-X-MS-Office365-Filtering-Correlation-Id: ac914cde-805f-4f54-f73d-08dc63b8a3e0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|1800799015|376005;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Uf90zt5xO4xBhYD55GLyEFBTBrxWNhzOS3wGxWfncqB0erIts1iPhVN7kcZQ?=
- =?us-ascii?Q?Ckcul/aiQUZ1Ts4EZ1Y9UeaK5fAywBieCaK8lF060HAcKbxrVMjBgJQwm5Mp?=
- =?us-ascii?Q?uYl10VU+LQwEZnk/htuseO0L9pMcsxxuvTpHkGtS66zIW82Z36psIy4/8220?=
- =?us-ascii?Q?kr938jo1M2dTqTLq4cHQCz+ol7Ci8X63VQpggdOJOCjjfhlME3dS2vyOyJwy?=
- =?us-ascii?Q?YZywC/hiWEy5rv1Gi2F8VE9qxdNH9bTKQPyaU0ji1tGtQFja1SLivSigccy6?=
- =?us-ascii?Q?ZiBvfSpca0uO/tZ13sPtNNRGrOKcVz/JCoSRjf+u4Mfg9holtKOF0cLjayZH?=
- =?us-ascii?Q?5L+MciUbewOsutfh1a/ZdTjzPvtp9csG79qUZpb3Wg0q5xnKTLETE5KwjL2Q?=
- =?us-ascii?Q?viwIME5aEBysAvTywFcxLV/0eE553+x9V9Wv4Eo55omKBZq0pC4EGaYDqY0B?=
- =?us-ascii?Q?JKbJnF3DHiTSRXBowSo1QNOXnTydHXCq12LHPx+AiL8XyL2VhHAkjTKut2Wy?=
- =?us-ascii?Q?00//RcPG1+A8zSbjIGlVAq91rWnZFz2wOMVoi+NTRl4g8Xto7xSCnqx+DWzW?=
- =?us-ascii?Q?iFGywWjnzUnhEGZUdTlYW9dbK4M16tx55AGmaqJ+OFqgLikq5A+/VXzAqbg/?=
- =?us-ascii?Q?y7RK83t8AD0qDnKY0sh2dgj96MSFQrcLZRpVgluCikCvSGMTferyiYFwzKY8?=
- =?us-ascii?Q?NVJYH9ChV6FQ4dQ6JssAeeNtM1N3OMZZmIu/HsOlhd+1O6YulcMGyotsfHnT?=
- =?us-ascii?Q?lLX1Z79YqTA+b5F49yXJWK5AZrRHiz4Dk3/K4U+3FMipfhaU+Pl9wXTkMfTC?=
- =?us-ascii?Q?CP6CLEWTwUNifnvjntTF4aTAx9Uk3I5OowzaddFO6M/J5vpCwuFaEGenGJ18?=
- =?us-ascii?Q?yiD9+2OjJjjWxpWyyzTiUum/5ETD6CrEdc4X03M2okOFVhFbH43JbSADD2h1?=
- =?us-ascii?Q?LiXW7JVU/KqjvGZ0sDl2ltjvesrkn+JxKi5LFpHwj4CEH9JH7qYfSGLLAU32?=
- =?us-ascii?Q?3hKjmY6/sp/d8DYPzW8Ww2b8NAUfR44Jo7ePVIZc1xDzQjXXLrIxXAUOtDFV?=
- =?us-ascii?Q?Mi4tK5OCAh9vppY3ymbK5UhMyDCqAF7pUngcGzDHop1ced4iGcWF9UOcM3Ud?=
- =?us-ascii?Q?5BErpEwYAWTI9NBDJbh8KFAxkwGh6CxtLrUocOXWEQfhVCQMFyxyhlzOYcTy?=
- =?us-ascii?Q?Y0BENa4XrK1rJkcGBRpQ+hxaSd9+Ucqj6hv47doca0j35nE07NQTtHliPu4L?=
- =?us-ascii?Q?al49HDAmYillboBXJkSbGabkB12+uhM0Un0I1v/p6w=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(376005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?PM/Rvq7ESGedqHgSTiMI+W06RJvWZW3irTLY810RkH9WR4aX2p3GKUXDcq3p?=
- =?us-ascii?Q?IrH94Umoocgxi/tS3A1MVjtm8TIkj4472wSHWdtJniiRrNM+PuczX2duzl+l?=
- =?us-ascii?Q?/5YgIfHML+jbO+qjlEBMxG01DwaIY/I9e3uB+xSFB3pEF3gDxJ9YMeXH5PQo?=
- =?us-ascii?Q?OUccgfESPDa4ZJ8V7G41jkSU7w3gMOLIEbkvCQ3TprFbDe6cR1VY684LJVJZ?=
- =?us-ascii?Q?GipTCD6XfGzeKQ+uHbyW9DYZIBBkBWzYpgd71XuEOelYY1we2puX/w+9T0W8?=
- =?us-ascii?Q?ij+SZ2C6jgHhmRoC+VhuDfbQlm3pOxkPqOlfSZArESKh1RirUMUB6X65bFE6?=
- =?us-ascii?Q?Yo4yKLiO1ALrKepKQ2my73DX5bWlIrk4AB45sZjqUWded0wiSldQ/7C5eOjV?=
- =?us-ascii?Q?m9oRYP/cNr/exPiCdz09EoFNGAVz602Mi++nb+dSBC+qJLJUa7o53Yq6PN80?=
- =?us-ascii?Q?f/M7kIjfzjkI5akmXF9brduL7j0vh07wOaIRC1yi3C9bfQCfVUKfBew5IeBG?=
- =?us-ascii?Q?D68oUL7WaaHusjD4B+tWZXrDIfBB66lAEFksPdWTgTywYd/unYSSP6CtaRnE?=
- =?us-ascii?Q?5oqDGnb41+h/+gAFTLM1RyxmZw3ON46EqPIldRvb6XX4MsB1vFp+Lg6dEXOF?=
- =?us-ascii?Q?FDr2Tr8TJ8lDtme/MDcmdpHQVK24zimGhbks0NYRL7Crq27YKbhxCEktgL+n?=
- =?us-ascii?Q?0rw3DqqBcF4krJZ9T0MdByQWMsVhnkVo901GnFuUV16skuPPp7Mh3WR0NMSV?=
- =?us-ascii?Q?Nl5MFlhdWtfLMo8J5xZCPlIDxTdhGj4GHo+KZANWm+nffYIazu3Pc6ETEBVt?=
- =?us-ascii?Q?EZDxvA7KRofggtgilEvMJrrmrq4CNc9yRvo+aNA65THca9kCiQmhMHN2bR77?=
- =?us-ascii?Q?NAvsn9AXnKP5rUV0SKlV71xLrfaY7BWsbV5Q3c1iM3rEfLpN1z5t0crH3Yk0?=
- =?us-ascii?Q?exVE9yKjDKrh3QTtl8WOCEa/04TEH28+OQxReq1L8oUAxF7KGqWqFF9WK6g1?=
- =?us-ascii?Q?4mvF046mHa+lhKFSpJ2dYKY+EUrNJOv9TF4/Hm3bqB/Hf8F4Uhw2hVLYwi98?=
- =?us-ascii?Q?tTTEA5XYYBybbkmFt7yasCfIQWpoD4rAmI/YZlj+YJ6ar5aQbUGISma9PgOo?=
- =?us-ascii?Q?iH4cTMrQkWuXTtT6N0ZCASBpIjTjhId6UdsIOToFqFVtiaADtLoiCZ1HpxwX?=
- =?us-ascii?Q?NTKA+vWvq+qeDw5J163bGKUxBb0iBX5S25VboGsx/+wrxQ4fsS58HfmntPC/?=
- =?us-ascii?Q?Im+MXEAF0cyZJh/EHH6VZV3ZpIQ0xgQqb9VNpX0nNcXqEiB1QJmzwyJ7mkAf?=
- =?us-ascii?Q?xgHgvEAvJKMyE2Aqdd+w1JFMj3LOyFaLb8Zc0qQiEcjnkq/z7aykSKpX93hC?=
- =?us-ascii?Q?ebA55xn2I2TUMTQBXRmxOqxWSTsgbFGf4QnZcfMQwjUfa5OQtw4akXuYiuqt?=
- =?us-ascii?Q?/ql/77ZjQCdLJbnX0QyBB43nDMANiTAb1ET3O0nrBxL7qPpc+LKyYYVXv5gR?=
- =?us-ascii?Q?9c2oxMLczLzG48Ia/DaonAwULJZzTomzKia6SY2MITWwI3ghOlVYUXncSWpQ?=
- =?us-ascii?Q?5kBOsezG6zLyBuyCqw1phR8SPqf3M4cHDvlr97KB36D6Pf6mrgP0xv3I6I9R?=
- =?us-ascii?Q?iQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac914cde-805f-4f54-f73d-08dc63b8a3e0
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2024 17:13:05.5582
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GmtZa3jvXMUoBAURjswCI/ApFIoxnc60wpeu9Hb1VkKDejzoMAcOnEYn3vj/vYFsTttEtGweqWt4XZrbvDuB/ebNp5Cn0eXNBetXml+1gaQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR11MB5932
-X-OriginatorOrg: intel.com
 
-Andy Shevchenko wrote:
-> Add a note that explains that  Cc: email header is implied by other
-> tags, such as Reviewed-by:. In this case an explicit Cc: is _not_
-> needed.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  Documentation/process/5.Posting.rst          | 4 +++-
->  Documentation/process/submitting-patches.rst | 5 ++++-
->  2 files changed, 7 insertions(+), 2 deletions(-)
-[..]
-> 
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index 66029999b587..6775f0698136 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -486,7 +486,10 @@ provided such comments, you may optionally add a ``Cc:`` tag to the patch.
->  This is the only tag which might be added without an explicit action by the
->  person it names - but it should indicate that this person was copied on the
->  patch.  This tag documents that potentially interested parties
-> -have been included in the discussion.
-> +have been included in the discussion. Note that other formal tags are
-> +automatically converted to the Cc: email header and you do not need to
-> +have an explicit ``Cc:`` tag, if the person is already mentioned by another
-> +tag.
+Add an optional note_non_leaf parameter to ptdump, causing note_page to
+be called on non-leaf descriptors. Implement this functionality on arm64
+by printing table descriptors along with table-specific permission sets.
 
-This just looks like a licsense to needle people that happen to ship a
-duplicate tag. It does not feel like a net improvement to community
-discourse.
+For arm64, break (1) the uniform number of columns for each descriptor,
+and (2) the coalescing of large PTE regions, which are now split up by
+PMD. This is a "good" thing since it makes the behavior and protection
+bits set on page tables, such as PXNTable, more explicit.
 
-Instead, one positive contribution in this area might be to patch "b4
-am" to cleanup redundant tags when a Cc: is repeated by another tag.
-For example:
+Examples (spaces condensed and partially truncated)
+Before:
+0xffff008440210000-0xffff008440400000 1984K PTE ro NX SHD AF NG UXN M...
+0xffff008440400000-0xffff008441c00000 24M PMD ro NX SHD AF NG BLK UXN M...
+0xffff008441c00000-0xffff008441dc0000 1792K PTE ro NX SHD AF NG UXN M...
+0xffff008441dc0000-0xffff00844317b000 20204K PTE RW NX SHD AF NG UXN M...
 
-    b4 am 20231018115038.0000433d@Huawei.com
+After:
+0xffff0fb640200000-0xffff0fb640400000 2M PMD TBL RW x NXTbl UXNTbl M...
+0xffff0fb640200000-0xffff0fb640210000 64K PTE RW NX SHD AF NG UXN M...
+0xffff0fb640210000-0xffff0fb640400000 1984K PTE ro NX SHD AF NG UXN M...
+0xffff0fb640400000-0xffff0fb641c00000 24M PMD BLK ro SHD AF NG NX UXN ...
+0xffff0fb641c00000-0xffff0fb641e00000 2M PMD TBL RW x NXTbl UXNTbl M...
+0xffff0fb641c00000-0xffff0fb641dc0000 1792K PTE ro NX SHD AF NG UXN M...
+0xffff0fb641dc0000-0xffff0fb641e00000 256K PTE RW NX SHD AF NG UXN ME...
 
-...could have elided the Cc: for Jonathan after applying his
-Reviewed-by:.
+Full dumps available at
+github.com/maxwell-bland/linux-patch-data/tree/main/ptdump-non-leaf
+
+Signed-off-by: Maxwell Bland <mbland@motorola.com>
+---
+Hi,
+
+Thank you for taking the time to review this patch.
+
+I made these changes in order to compliment testing
+20240220203256.31153-1-mbland@motorola.com
+and
+20240423095843.446565600-1-mbland@motorola.com
+
+and figured they might be useful to others.
+
+BRs,
+Maxwell Bland
+
+ Documentation/arch/arm64/ptdump.rst | 181 ++++++++++++----------
+ arch/arm64/mm/ptdump.c              | 226 +++++++++++++++++++++++++---
+ include/linux/ptdump.h              |   1 +
+ mm/ptdump.c                         |  13 ++
+ 4 files changed, 325 insertions(+), 96 deletions(-)
+
+diff --git a/Documentation/arch/arm64/ptdump.rst b/Documentation/arch/arm64/ptdump.rst
+index 5dcfc5d7cddf..0f38b92fd839 100644
+--- a/Documentation/arch/arm64/ptdump.rst
++++ b/Documentation/arch/arm64/ptdump.rst
+@@ -2,25 +2,24 @@
+ Kernel page table dump
+ ======================
+ 
+-ptdump is a debugfs interface that provides a detailed dump of the
+-kernel page tables. It offers a comprehensive overview of the kernel
+-virtual memory layout as well as the attributes associated with the
+-various regions in a human-readable format. It is useful to dump the
+-kernel page tables to verify permissions and memory types. Examining the
+-page table entries and permissions helps identify potential security
+-vulnerabilities such as mappings with overly permissive access rights or
+-improper memory protections.
++ptdump is a debugfs interface that provides a detailed dump of the kernel page
++tables. It offers a comprehensive overview of the kernel virtual memory layout
++as well as the attributes associated with the various regions in a
++human-readable format. It is useful to dump the kernel page tables to verify
++permissions and memory types. Examining the page table entries and permissions
++helps identify potential security vulnerabilities such as mappings with overly
++permissive access rights or improper memory protections.
+ 
+-Memory hotplug allows dynamic expansion or contraction of available
+-memory without requiring a system reboot. To maintain the consistency
+-and integrity of the memory management data structures, arm64 makes use
+-of the mem_hotplug_lock semaphore in write mode. Additionally, in
+-read mode, mem_hotplug_lock supports an efficient implementation of
+-get_online_mems() and put_online_mems(). These protect the
+-offlining of memory being accessed by the ptdump code.
++Memory hotplug allows dynamic expansion or contraction of available memory
++without requiring a system reboot. To maintain the consistency and integrity of
++the memory management data structures, arm64 makes use of the
++mem_hotplug_lock semaphore in write mode. Additionally, in read mode,
++mem_hotplug_lock supports an efficient implementation of
++get_online_mems() and put_online_mems(). These protect the offlining of
++memory being accessed by the ptdump code.
+ 
+-In order to dump the kernel page tables, enable the following
+-configurations and mount debugfs::
++In order to dump the kernel page tables, enable the following configurations
++and mount debugfs::
+ 
+  CONFIG_GENERIC_PTDUMP=y
+  CONFIG_PTDUMP_CORE=y
+@@ -29,68 +28,98 @@ configurations and mount debugfs::
+  mount -t debugfs nodev /sys/kernel/debug
+  cat /sys/kernel/debug/kernel_page_tables
+ 
+-On analysing the output of cat /sys/kernel/debug/kernel_page_tables
+-one can derive information about the virtual address range of the entry,
+-followed by size of the memory region covered by this entry, the
+-hierarchical structure of the page tables and finally the attributes
+-associated with each page. The page attributes provide information about
+-access permissions, execution capability, type of mapping such as leaf
+-level PTE or block level PGD, PMD and PUD, and access status of a page
+-within the kernel memory. Assessing these attributes can assist in
+-understanding the memory layout, access patterns and security
+-characteristics of the kernel pages.
++On analysing the output of cat /sys/kernel/debug/kernel_page_tables one can
++derive information about the virtual address range of a contiguous group of
++page table entries, followed by size of the memory region covered by this
++group, the hierarchical structure of the page tables and finally the attributes
++associated with each page in the group. Groups are broken up either according
++to a change in attributes or by parent descriptor, such as a PMD. Note that the
++set of attributes, and therefore formatting, is not equivalent between entry
++types. For example, PMD entries have a separate set of attributes from leaf
++level PTE entries, because they support both the UXNTable and PXNTable
++permission bits.
++
++The page attributes provide information about access permissions, execution
++capability, type of mapping such as leaf level PTE or block level PGD, PMD and
++PUD, and access status of a page within the kernel memory. Non-PTE block or
++page level entries are denoted with either "BLK" or "TBL", respectively.
++Assessing these attributes can assist in understanding the memory layout,
++access patterns and security characteristics of the kernel pages.
+ 
+ Kernel virtual memory layout example::
+ 
+- start address        end address         size             attributes
+- +---------------------------------------------------------------------------------------+
+- | ---[ Linear Mapping start ]---------------------------------------------------------- |
+- | ..................                                                                    |
+- | 0xfff0000000000000-0xfff0000000210000  2112K PTE RW NX SHD AF  UXN  MEM/NORMAL-TAGGED |
+- | 0xfff0000000210000-0xfff0000001c00000 26560K PTE ro NX SHD AF  UXN  MEM/NORMAL        |
+- | ..................                                                                    |
+- | ---[ Linear Mapping end ]------------------------------------------------------------ |
+- +---------------------------------------------------------------------------------------+
+- | ---[ Modules start ]----------------------------------------------------------------- |
+- | ..................                                                                    |
+- | 0xffff800000000000-0xffff800008000000   128M PTE                                      |
+- | ..................                                                                    |
+- | ---[ Modules end ]------------------------------------------------------------------- |
+- +---------------------------------------------------------------------------------------+
+- | ---[ vmalloc() area ]---------------------------------------------------------------- |
+- | ..................                                                                    |
+- | 0xffff800008010000-0xffff800008200000  1984K PTE ro x  SHD AF       UXN  MEM/NORMAL   |
+- | 0xffff800008200000-0xffff800008e00000    12M PTE ro x  SHD AF  CON  UXN  MEM/NORMAL   |
+- | ..................                                                                    |
+- | ---[ vmalloc() end ]----------------------------------------------------------------- |
+- +---------------------------------------------------------------------------------------+
+- | ---[ Fixmap start ]------------------------------------------------------------------ |
+- | ..................                                                                    |
+- | 0xfffffbfffdb80000-0xfffffbfffdb90000    64K PTE ro x  SHD AF  UXN  MEM/NORMAL        |
+- | 0xfffffbfffdb90000-0xfffffbfffdba0000    64K PTE ro NX SHD AF  UXN  MEM/NORMAL        |
+- | ..................                                                                    |
+- | ---[ Fixmap end ]-------------------------------------------------------------------- |
+- +---------------------------------------------------------------------------------------+
+- | ---[ PCI I/O start ]----------------------------------------------------------------- |
+- | ..................                                                                    |
+- | 0xfffffbfffe800000-0xfffffbffff800000    16M PTE                                      |
+- | ..................                                                                    |
+- | ---[ PCI I/O end ]------------------------------------------------------------------- |
+- +---------------------------------------------------------------------------------------+
+- | ---[ vmemmap start ]----------------------------------------------------------------- |
+- | ..................                                                                    |
+- | 0xfffffc0002000000-0xfffffc0002200000     2M PTE RW NX SHD AF  UXN  MEM/NORMAL        |
+- | 0xfffffc0002200000-0xfffffc0020000000   478M PTE                                      |
+- | ..................                                                                    |
+- | ---[ vmemmap end ]------------------------------------------------------------------- |
+- +---------------------------------------------------------------------------------------+
++ start address        end address         size type  leaf    attributes
++ +-----------------------------------------------------------------------------------------------------------------+
++ | ---[ Linear Mapping start ]---                                                                                  |
++ | ...                                                                                                             |
++ | 0xffff0d02c3200000-0xffff0d02c3400000    2M PMD   TBL     RW               x      NXTbl UXNTbl    MEM/NORMAL    |
++ | 0xffff0d02c3200000-0xffff0d02c3218000   96K PTE           ro NX SHD AF NG     UXN    MEM/NORMAL-TAGGED          |
++ | 0xffff0d02c3218000-0xffff0d02c3250000  224K PTE           RW NX SHD AF NG     UXN    MEM/NORMAL-TAGGED          |
++ | 0xffff0d02c3250000-0xffff0d02c33b3000 1420K PTE           ro NX SHD AF NG     UXN    MEM/NORMAL-TAGGED          |
++ | 0xffff0d02c33b3000-0xffff0d02c3400000  308K PTE           RW NX SHD AF NG     UXN    MEM/NORMAL-TAGGED          |
++ | 0xffff0d02c3400000-0xffff0d02c3600000    2M PMD   TBL     RW               x      NXTbl UXNTbl    MEM/NORMAL    |
++ | 0xffff0d02c3400000-0xffff0d02c3600000    2M PTE           RW NX SHD AF NG     UXN    MEM/NORMAL-TAGGED          |
++ | ...                                                                                                             |
++ | 0xffff0d02c3200000-0xffff0d02c3400000    2M PMD   TBL     RW               x      NXTbl UXNTbl    MEM/NORMAL    |
++ | ...                                                                                                             |
++ | ---[ Linear Mapping end ]---                                                                                    |
++ +-----------------------------------------------------------------------------------------------------------------+
++ | ---[ Modules start ]---                                                                                         |
++ | ...                                                                                                             |
++ | 0xffff800000000000-0xffff800000000080 128B PGD   TBL     RW               x     UXNTbl    MEM/NORMAL            |
++ | 0xffff800000000000-0xffff800080000000   2G PUD F BLK     RW               x               MEM/NORMAL            |
++ | ...                                                                                                             |
++ | ---[ Modules end ]---                                                                                           |
++ +-----------------------------------------------------------------------------------------------------------------+
++ | ---[ vmalloc() area ]---                                                                                        |
++ | ...                                                                                                             |
++ | 0xffff800080000000-0xffff8000c0000000   1G PUD   TBL     RW               x     UXNTbl    MEM/NORMAL            |
++ | ...                                                                                                             |
++ | 0xffff800080200000-0xffff800080400000   2M PMD   TBL     RW               x      NXTbl UXNTbl    MEM/NORMAL     |
++ | 0xffff800080200000-0xffff80008022f000 188K PTE           RW NX SHD AF NG     UXN    MEM/NORMAL                  |
++ | 0xffff80008022f000-0xffff800080230000   4K PTE F BLK     RW x                       MEM/NORMAL                  |
++ | 0xffff800080230000-0xffff800080233000  12K PTE           RW NX SHD AF NG     UXN    MEM/NORMAL                  |
++ | 0xffff800080233000-0xffff800080234000   4K PTE F BLK     RW x                       MEM/NORMAL                  |
++ | 0xffff800080234000-0xffff800080237000  12K PTE           RW NX SHD AF NG     UXN    MEM/NORMAL                  |
++ | ...                                                                                                             |
++ | 0xffff800080400000-0xffff800084000000  60M PMD F BLK     RW               x      x     x         MEM/NORMAL     |
++ | ...                                                                                                             |
++ | ---[ vmalloc() end ]---                                                                                         |
++ +-----------------------------------------------------------------------------------------------------------------+
++ | ---[ vmemmap start ]---                                                                                         |
++ | ...                                                                                                             |
++ | 0xfffffe33cb000000-0xfffffe33cc000000  16M PMD   BLK     RW SHD AF NG     NX UXN x     x         MEM/NORMAL     |
++ | 0xfffffe33cc000000-0xfffffe3400000000 832M PMD F BLK     RW               x      x     x         MEM/NORMAL     |
++ | ...                                                                                                             |
++ | ---[ vmemmap end ]---                                                                                           |
++ +-----------------------------------------------------------------------------------------------------------------+
++ | ---[ PCI I/O start ]---                                                                                         |
++ | ...                                                                                                             |
++ | 0xffffffffc0800000-0xffffffffc0810000 64K PTE           RW NX SHD AF NG     UXN    DEVICE/nGnRE                 |
++ | ...                                                                                                             |
++ | ---[ PCI I/O end ]---                                                                                           |
++ +-----------------------------------------------------------------------------------------------------------------+
++ | ---[ Fixmap start ]---                                                                                          |
++ | ...                                                                                                             |
++ | 0xffffffffff5f6000-0xffffffffff5f9000 12K PTE           ro x  SHD AF        UXN    MEM/NORMAL                   |
++ | 0xffffffffff5f9000-0xffffffffff5fa000  4K PTE           ro NX SHD AF NG     UXN    MEM/NORMAL                   |
++ | ...                                                                                                             |
++ | ---[ Fixmap end ]---                                                                                            |
++ +-----------------------------------------------------------------------------------------------------------------+
+ 
+ cat /sys/kernel/debug/kernel_page_tables output::
+ 
+- 0xfff0000001c00000-0xfff0000080000000     2020M PTE  RW NX SHD AF   UXN    MEM/NORMAL-TAGGED
+- 0xfff0000080000000-0xfff0000800000000       30G PMD
+- 0xfff0000800000000-0xfff0000800700000        7M PTE  RW NX SHD AF   UXN    MEM/NORMAL-TAGGED
+- 0xfff0000800700000-0xfff0000800710000       64K PTE  ro NX SHD AF   UXN    MEM/NORMAL-TAGGED
+- 0xfff0000800710000-0xfff0000880000000  2089920K PTE  RW NX SHD AF   UXN    MEM/NORMAL-TAGGED
+- 0xfff0000880000000-0xfff0040000000000     4062G PMD
+- 0xfff0040000000000-0xffff800000000000     3964T PGD
++ 0xffff000000000000-0xffff0d0000000000   13T PGD F BLK     RW               x               MEM/NORMAL
++ 0xffff0d0000000000-0xffff0d0000000080  128B PGD   TBL     RW               NXTbl UXNTbl    MEM/NORMAL
++ 0xffff0d0000000000-0xffff0d02c0000000   11G PUD F BLK     RW               x               MEM/NORMAL
++ 0xffff0d02c0000000-0xffff0d0300000000    1G PUD   TBL     RW               NXTbl UXNTbl    MEM/NORMAL
++ 0xffff0d02c0000000-0xffff0d02c0200000    2M PMD   TBL     RW               x      NXTbl UXNTbl    MEM/NORMAL
++ 0xffff0d02c0000000-0xffff0d02c0200000    2M PTE           RW NX SHD AF NG     UXN    MEM/NORMAL-TAGGED
++ 0xffff0d02c0200000-0xffff0d02c0400000    2M PMD   TBL     RW               x      NXTbl UXNTbl    MEM/NORMAL
++ 0xffff0d02c0200000-0xffff0d02c0210000   64K PTE           RW NX SHD AF NG     UXN    MEM/NORMAL-TAGGED
++ 0xffff0d02c0210000-0xffff0d02c0400000 1984K PTE           ro NX SHD AF NG     UXN    MEM/NORMAL
++ 0xffff0d02c0400000-0xffff0d02c1c00000   24M PMD   BLK     ro SHD AF NG     NX UXN x     x         MEM/NORMAL
++ 0xffff0d02c1c00000-0xffff0d02c1e00000    2M PMD   TBL     RW               x      NXTbl UXNTbl    MEM/NORMAL
++ 0xffff0d02c1c00000-0xffff0d02c1dc0000 1792K PTE           ro NX SHD AF NG     UXN    MEM/NORMAL
++ 0xffff0d02c1dc0000-0xffff0d02c1e00000  256K PTE           RW NX SHD AF NG     UXN    MEM/NORMAL-TAGGED
++
+diff --git a/arch/arm64/mm/ptdump.c b/arch/arm64/mm/ptdump.c
+index 6986827e0d64..362f3c95d59b 100644
+--- a/arch/arm64/mm/ptdump.c
++++ b/arch/arm64/mm/ptdump.c
+@@ -24,6 +24,7 @@
+ #include <asm/memory.h>
+ #include <asm/pgtable-hwdef.h>
+ #include <asm/ptdump.h>
++#include <asm/pgalloc.h>
+ 
+ 
+ #define pt_dump_seq_printf(m, fmt, args...)	@@ -70,6 +71,11 @@ static const struct prot_bits pte_bits[] = {
+ 		.val	= PTE_VALID,
+ 		.set	= " ",
+ 		.clear	= "F",
++	}, {
++		.mask	= PTE_TABLE_BIT,
++		.val	= PTE_TABLE_BIT,
++		.set	= "   ",
++		.clear	= "BLK",
+ 	}, {
+ 		.mask	= PTE_USER,
+ 		.val	= PTE_USER,
+@@ -105,11 +111,6 @@ static const struct prot_bits pte_bits[] = {
+ 		.val	= PTE_CONT,
+ 		.set	= "CON",
+ 		.clear	= "   ",
+-	}, {
+-		.mask	= PTE_TABLE_BIT,
+-		.val	= PTE_TABLE_BIT,
+-		.set	= "   ",
+-		.clear	= "BLK",
+ 	}, {
+ 		.mask	= PTE_UXN,
+ 		.val	= PTE_UXN,
+@@ -143,34 +144,208 @@ static const struct prot_bits pte_bits[] = {
+ 	}
+ };
+ 
++static const struct prot_bits pmd_bits[] = {
++	{
++		.mask	= PMD_SECT_VALID,
++		.val	= PMD_SECT_VALID,
++		.set	= " ",
++		.clear	= "F",
++	}, {
++		.mask	= PMD_TABLE_BIT,
++		.val	= PMD_TABLE_BIT,
++		.set	= "TBL",
++		.clear	= "BLK",
++	}, {
++		.mask	= PMD_SECT_USER,
++		.val	= PMD_SECT_USER,
++		.set	= "USR",
++		.clear	= "   ",
++	}, {
++		.mask	= PMD_SECT_RDONLY,
++		.val	= PMD_SECT_RDONLY,
++		.set	= "ro",
++		.clear	= "RW",
++	}, {
++		.mask	= PMD_SECT_S,
++		.val	= PMD_SECT_S,
++		.set	= "SHD",
++		.clear	= "   ",
++	}, {
++		.mask	= PMD_SECT_AF,
++		.val	= PMD_SECT_AF,
++		.set	= "AF",
++		.clear	= "  ",
++	}, {
++		.mask	= PMD_SECT_NG,
++		.val	= PMD_SECT_NG,
++		.set	= "NG",
++		.clear	= "  ",
++	}, {
++		.mask	= PMD_SECT_CONT,
++		.val	= PMD_SECT_CONT,
++		.set	= "CON",
++		.clear	= "   ",
++	}, {
++		.mask	= PMD_SECT_PXN,
++		.val	= PMD_SECT_PXN,
++		.set	= "NX",
++		.clear	= "x ",
++	}, {
++		.mask	= PMD_SECT_UXN,
++		.val	= PMD_SECT_UXN,
++		.set	= "UXN",
++		.clear	= "   ",
++	}, {
++		.mask	= PMD_TABLE_PXN,
++		.val	= PMD_TABLE_PXN,
++		.set	= "NXTbl",
++		.clear	= "x    ",
++	}, {
++		.mask	= PMD_TABLE_UXN,
++		.val	= PMD_TABLE_UXN,
++		.set	= "UXNTbl",
++		.clear	= "x     ",
++	}, {
++		.mask	= PTE_GP,
++		.val	= PTE_GP,
++		.set	= "GP",
++		.clear	= "  ",
++	}, {
++		.mask	= PMD_ATTRINDX_MASK,
++		.val	= PMD_ATTRINDX(MT_DEVICE_nGnRnE),
++		.set	= "DEVICE/nGnRnE",
++	}, {
++		.mask	= PMD_ATTRINDX_MASK,
++		.val	= PMD_ATTRINDX(MT_DEVICE_nGnRE),
++		.set	= "DEVICE/nGnRE",
++	}, {
++		.mask	= PMD_ATTRINDX_MASK,
++		.val	= PMD_ATTRINDX(MT_NORMAL_NC),
++		.set	= "MEM/NORMAL-NC",
++	}, {
++		.mask	= PMD_ATTRINDX_MASK,
++		.val	= PMD_ATTRINDX(MT_NORMAL),
++		.set	= "MEM/NORMAL",
++	}, {
++		.mask	= PMD_ATTRINDX_MASK,
++		.val	= PMD_ATTRINDX(MT_NORMAL_TAGGED),
++		.set	= "MEM/NORMAL-TAGGED",
++	}
++};
++
++static const struct prot_bits pud_bits[] = {
++	{
++		.mask	= PUD_TYPE_SECT,
++		.val	= PUD_TYPE_SECT,
++		.set	= " ",
++		.clear	= "F",
++	}, {
++		.mask	= PUD_TABLE_BIT,
++		.val	= PUD_TABLE_BIT,
++		.set	= "TBL",
++		.clear	= "BLK",
++	}, {
++		.mask	= PTE_USER,
++		.val	= PTE_USER,
++		.set	= "USR",
++		.clear	= "   ",
++	}, {
++		.mask	= PUD_SECT_RDONLY,
++		.val	= PUD_SECT_RDONLY,
++		.set	= "ro",
++		.clear	= "RW",
++	}, {
++		.mask	= PTE_SHARED,
++		.val	= PTE_SHARED,
++		.set	= "SHD",
++		.clear	= "   ",
++	}, {
++		.mask	= PTE_AF,
++		.val	= PTE_AF,
++		.set	= "AF",
++		.clear	= "  ",
++	}, {
++		.mask	= PTE_NG,
++		.val	= PTE_NG,
++		.set	= "NG",
++		.clear	= "  ",
++	}, {
++		.mask	= PTE_CONT,
++		.val	= PTE_CONT,
++		.set	= "CON",
++		.clear	= "   ",
++	}, {
++		.mask	= PUD_TABLE_PXN,
++		.val	= PUD_TABLE_PXN,
++		.set	= "NXTbl",
++		.clear	= "x    ",
++	}, {
++		.mask	= PUD_TABLE_UXN,
++		.val	= PUD_TABLE_UXN,
++		.set	= "UXNTbl",
++		.clear	= "      ",
++	}, {
++		.mask	= PTE_GP,
++		.val	= PTE_GP,
++		.set	= "GP",
++		.clear	= "  ",
++	}, {
++		.mask	= PMD_ATTRINDX_MASK,
++		.val	= PMD_ATTRINDX(MT_DEVICE_nGnRnE),
++		.set	= "DEVICE/nGnRnE",
++	}, {
++		.mask	= PMD_ATTRINDX_MASK,
++		.val	= PMD_ATTRINDX(MT_DEVICE_nGnRE),
++		.set	= "DEVICE/nGnRE",
++	}, {
++		.mask	= PMD_ATTRINDX_MASK,
++		.val	= PMD_ATTRINDX(MT_NORMAL_NC),
++		.set	= "MEM/NORMAL-NC",
++	}, {
++		.mask	= PMD_ATTRINDX_MASK,
++		.val	= PMD_ATTRINDX(MT_NORMAL),
++		.set	= "MEM/NORMAL",
++	}, {
++		.mask	= PMD_ATTRINDX_MASK,
++		.val	= PMD_ATTRINDX(MT_NORMAL_TAGGED),
++		.set	= "MEM/NORMAL-TAGGED",
++	}
++};
++
+ struct pg_level {
+ 	const struct prot_bits *bits;
+ 	char name[4];
+ 	int num;
+ 	u64 mask;
++	unsigned long size;
+ };
+ 
+ static struct pg_level pg_level[] __ro_after_init = {
+ 	{ /* pgd */
+ 		.name	= "PGD",
+-		.bits	= pte_bits,
+-		.num	= ARRAY_SIZE(pte_bits),
++		.bits	= pud_bits,
++		.num	= ARRAY_SIZE(pud_bits),
++		.size	= PGD_SIZE
+ 	}, { /* p4d */
+ 		.name	= "P4D",
+-		.bits	= pte_bits,
+-		.num	= ARRAY_SIZE(pte_bits),
++		.bits	= pud_bits,
++		.num	= ARRAY_SIZE(pud_bits),
++		.size	= P4D_SIZE
+ 	}, { /* pud */
+ 		.name	= "PUD",
+-		.bits	= pte_bits,
+-		.num	= ARRAY_SIZE(pte_bits),
++		.bits	= pud_bits,
++		.num	= ARRAY_SIZE(pud_bits),
++		.size	= PUD_SIZE
+ 	}, { /* pmd */
+ 		.name	= "PMD",
+-		.bits	= pte_bits,
+-		.num	= ARRAY_SIZE(pte_bits),
++		.bits	= pmd_bits,
++		.num	= ARRAY_SIZE(pmd_bits),
++		.size	= PMD_SIZE
+ 	}, { /* pte */
+ 		.name	= "PTE",
+ 		.bits	= pte_bits,
+ 		.num	= ARRAY_SIZE(pte_bits),
++		.size	= PAGE_SIZE
+ 	},
+ };
+ 
+@@ -225,7 +400,7 @@ static void note_page(struct ptdump_state *pt_st, unsigned long addr, int level,
+ 		      u64 val)
+ {
+ 	struct pg_state *st = container_of(pt_st, struct pg_state, ptdump);
+-	static const char units[] = "KMGTPE";
++	static const char units[] = "BKMGTPE";
+ 	u64 prot = 0;
+ 
+ 	/* check if the current level has been folded dynamically */
+@@ -241,8 +416,8 @@ static void note_page(struct ptdump_state *pt_st, unsigned long addr, int level,
+ 		st->current_prot = prot;
+ 		st->start_address = addr;
+ 		pt_dump_seq_printf(st->seq, "---[ %s ]---\n", st->marker->name);
+-	} else if (prot != st->current_prot || level != st->level ||
+-		   addr >= st->marker[1].start_address) {
++	} else if ((prot != st->current_prot || level != st->level ||
++		   addr >= st->marker[1].start_address)) {
+ 		const char *unit = units;
+ 		unsigned long delta;
+ 
+@@ -251,10 +426,20 @@ static void note_page(struct ptdump_state *pt_st, unsigned long addr, int level,
+ 			note_prot_wx(st, addr);
+ 		}
+ 
+-		pt_dump_seq_printf(st->seq, "0x%016lx-0x%016lx   ",
+-				   st->start_address, addr);
++		/*
++		 * Entries are coalesced into a single line, so non-leaf
++		 * entries have no size relative to start_address
++		 */
++		if (st->start_address != addr) {
++			pt_dump_seq_printf(st->seq, "0x%016lx-0x%016lx   ",
++					   st->start_address, addr);
++			delta = (addr - st->start_address);
++		} else {
++			pt_dump_seq_printf(st->seq, "0x%016lx-0x%016lx   ", addr,
++					   addr + pg_level[st->level].size);
++			delta = (pg_level[st->level].size);
++		}
+ 
+-		delta = (addr - st->start_address) >> 10;
+ 		while (!(delta & 1023) && unit[1]) {
+ 			delta >>= 10;
+ 			unit++;
+@@ -301,7 +486,8 @@ void ptdump_walk(struct seq_file *s, struct ptdump_info *info)
+ 			.range = (struct ptdump_range[]){
+ 				{info->base_addr, end},
+ 				{0, 0}
+-			}
++			},
++			.note_non_leaf = true
+ 		}
+ 	};
+ 
+diff --git a/include/linux/ptdump.h b/include/linux/ptdump.h
+index 8dbd51ea8626..b3e793a5c77f 100644
+--- a/include/linux/ptdump.h
++++ b/include/linux/ptdump.h
+@@ -16,6 +16,7 @@ struct ptdump_state {
+ 			  int level, u64 val);
+ 	void (*effective_prot)(struct ptdump_state *st, int level, u64 val);
+ 	const struct ptdump_range *range;
++	bool note_non_leaf;
+ };
+ 
+ bool ptdump_walk_pgd_level_core(struct seq_file *m,
+diff --git a/mm/ptdump.c b/mm/ptdump.c
+index 106e1d66e9f9..97da7a765b22 100644
+--- a/mm/ptdump.c
++++ b/mm/ptdump.c
+@@ -41,6 +41,9 @@ static int ptdump_pgd_entry(pgd_t *pgd, unsigned long addr,
+ 	if (st->effective_prot)
+ 		st->effective_prot(st, 0, pgd_val(val));
+ 
++	if (st->note_non_leaf && !pgd_leaf(val))
++		st->note_page(st, addr, 0, pgd_val(val));
++
+ 	if (pgd_leaf(val)) {
+ 		st->note_page(st, addr, 0, pgd_val(val));
+ 		walk->action = ACTION_CONTINUE;
+@@ -64,6 +67,9 @@ static int ptdump_p4d_entry(p4d_t *p4d, unsigned long addr,
+ 	if (st->effective_prot)
+ 		st->effective_prot(st, 1, p4d_val(val));
+ 
++	if (st->note_non_leaf && !p4d_leaf(val))
++		st->note_page(st, addr, 1, p4d_val(val));
++
+ 	if (p4d_leaf(val)) {
+ 		st->note_page(st, addr, 1, p4d_val(val));
+ 		walk->action = ACTION_CONTINUE;
+@@ -87,6 +93,9 @@ static int ptdump_pud_entry(pud_t *pud, unsigned long addr,
+ 	if (st->effective_prot)
+ 		st->effective_prot(st, 2, pud_val(val));
+ 
++	if (st->note_non_leaf && !pud_leaf(val))
++		st->note_page(st, addr, 2, pud_val(val));
++
+ 	if (pud_leaf(val)) {
+ 		st->note_page(st, addr, 2, pud_val(val));
+ 		walk->action = ACTION_CONTINUE;
+@@ -108,6 +117,10 @@ static int ptdump_pmd_entry(pmd_t *pmd, unsigned long addr,
+ 
+ 	if (st->effective_prot)
+ 		st->effective_prot(st, 3, pmd_val(val));
++
++	if (st->note_non_leaf && !pmd_leaf(val))
++		st->note_page(st, addr, 3, pmd_val(val));
++
+ 	if (pmd_leaf(val)) {
+ 		st->note_page(st, addr, 3, pmd_val(val));
+ 		walk->action = ACTION_CONTINUE;
+
+base-commit: 71b1543c83d65af8215d7558d70fc2ecbee77dcf
+-- 
+2.34.1
+
