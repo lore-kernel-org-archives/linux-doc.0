@@ -1,125 +1,86 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D118A158DA8;
-	Wed, 24 Apr 2024 09:40:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E12158A29;
+	Wed, 24 Apr 2024 09:42:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713951638; cv=none; b=HNDJmORJxP5XQbGldExLXazruI4VJcuUzQjjwaaSTYY0l+FquiXyLY2dlrCl+p8Z3+oWBzZWsy62mL4BR/LJCN8AXnuSi5he3FIgesmKIuMjVsOhFspYR7/05hP7TK0UbY95I85Fz3WHEs0pokt4UsSLqPX1eSzo1v6bZ0Pa4vU=
+	t=1713951747; cv=none; b=mk3T5/4urcqriOfEc/Tnn+FtU51Tl4ssoXz2/C47eWKp4HICq3Jf2UVFbYntALM3uAYjavuWq41wARAA/mvFZYWSNPZb7NMnIimxEIgKZ+y0zI+H/sSYjTIk8N1qis5mHYhxBZt7od648OL97OF9+rcZFbnY0Jc2PZHb8lwgvGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713951638; c=relaxed/simple;
-	bh=mNayW+VecV2dc9vrrmAV27oQDPaUWep+d6YIBhCY27A=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bCP1EvPNqFIxDbfzPOS1BrXcqdLLdD6kWdNTPMSr6NyJ7wQ7hjtus8klbTUyxMvE0aghUAZncmrtSicBFnPUUWvvOz2o5C+YoRsOdD/BGamV1+xriWc36jOIGQUGt9JXd9Dc+h18k3bgSA8PoLDdrWcKC60E6t2O03NG3lwSVwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=pbWQxf3y; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1713951747; c=relaxed/simple;
+	bh=pdUM2PQ6lmcQ67mgawtuU1EkP4dhP3YHKQUjHS9V2qA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=q29T0DFnwUKO+moiOpt+S/kQXmdtZ8mF8q03tNyGYxoF67yZrRr1AALGiOJASLfyqMaIONJfDLtgrVg04BADgNSi7zBFjC+azTl4kxHmQlIBqg7F0HE3OICa2JUSM1SjVAgNW5YiT0uFUh/GxRuANFr2Ds6NddE8km1GWmIG4Pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qk85HtE1; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="pbWQxf3y"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43O7aedI025191;
-	Wed, 24 Apr 2024 09:40:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	date:from:to:cc:subject:message-id:reply-to:references
-	:mime-version:content-type:in-reply-to; s=qcppdkim1; bh=W2zEB8HQ
-	4tTQ0a1nADzmO6g2Mci2r9l3DcHJICevofY=; b=pbWQxf3yYXquwvvyxi2w+bTw
-	PtZW5sWRsQd2RFfedYbVIo/yM3AuLFx4D98oB5+xPLboCBWALmfz0qtNPiMKhXZU
-	lsYp+5xo830zYl17oEMadZeJeSEdZeTfib5GSiqOwp+8ZkaM50CqCgWWf+Z0VGxS
-	0GtPL2MQjkfZX0JBkAdulMKumQYod2VFqWzLWNLWxmwIS3kXxTgVUIOqng4kWxDK
-	ODUSuyyP9IhziqGKGbCnvW0TTJf/SGTB+Tp2mBwyLyjCC3g6dwXcb2XYkYqDj3SW
-	k3zEHcbAVk+D9i9DvxeuA8m7vV2Ra9eLmyZkHY9i5TGKojMDW5q5Sfg353WpNg==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xpv9e0f3q-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 24 Apr 2024 09:40:10 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43O9e97n008033
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 24 Apr 2024 09:40:09 GMT
-Received: from quicinc.com (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 24 Apr
- 2024 02:40:01 -0700
-Date: Wed, 24 Apr 2024 15:09:57 +0530
-From: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-To: Elliot Berman <quic_eberman@quicinc.com>
-CC: Alex Elder <elder@linaro.org>,
-        Srinivas Kandagatla
-	<srinivas.kandagatla@linaro.org>,
-        Murali Nalajal <quic_mnalajal@quicinc.com>,
-        Trilok Soni <quic_tsoni@quicinc.com>,
-        Carl van Schaik
-	<quic_cvanscha@quicinc.com>,
-        Philip Derrin <quic_pderrin@quicinc.com>,
-        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
-        Jonathan Corbet
-	<corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Bjorn Andersson
-	<andersson@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        "Fuad
- Tabba" <tabba@google.com>,
-        Sean Christopherson <seanjc@google.com>,
-        "Andrew
- Morton" <akpm@linux-foundation.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>
-Subject: Re: [PATCH v17 15/35] virt: gunyah: Add proxy-scheduled vCPUs
-Message-ID: <20240424093957.GY440762@quicinc.com>
-Reply-To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
-References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
- <20240222-gunyah-v17-15-1e9da6763d38@quicinc.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qk85HtE1"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-34b66f0500aso1665261f8f.3;
+        Wed, 24 Apr 2024 02:42:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713951743; x=1714556543; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OZ1WcXyOys5YIDWCRIW5mC14e4vDyGa7xvoVt1+JFn8=;
+        b=Qk85HtE1yOgELGZfTIz9Hsze9GS5tcnwo9WATyy4F7pqxNfj8GaHjrCLirKkzz/hKw
+         G3lDsJEekhVc016LGr3xykDoEptG0sUlpgTPYz7BcAObG4J3GoSiDkBvsy6ZtsiZxS8b
+         HMsnK+kRJoF91a+AFZmDsJh50HgfiXbAGEswJ0GZd1ovkPzZNOn7foH9wD8r0wHeMx6M
+         w86dHhY2PbS5w70lZxW0oobQ3OD9AQ/uT+EW+abQVKHfrMLR3n8X7kfE9vbBfCOBRfmW
+         B+6bbgiR/XxHtRKJgMX7YGOqXH5iqRPLjAumtzVS91Tpu3L2STrSPJDwBebuuM45FKnZ
+         ONEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713951743; x=1714556543;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OZ1WcXyOys5YIDWCRIW5mC14e4vDyGa7xvoVt1+JFn8=;
+        b=wA60arQHyvy9YFct1sr+aw2P9eAKHAGfnT/Uww1HBjdiy9sEC6KTycAktcInTznoCW
+         LAButvcgM5oo9GQhQMH2QYmkMD0yWsAt+3hwRcGBbaAxP3rL9SrpyCU6O66nBIvZsQLI
+         /5cdToLPfuir0/d8jHZ+wP/KTauV5bMuqCOc3hNyQT98lKcbQm1GFG2N0rNrlESgpy0Z
+         nvG9TH0iRQZBfKt00UDv17SNStzSY1dTVfbCESBWrXWZTRDjCbAdPVkUbuSRZaFAY7Zb
+         VxFaJdvCt6ww1hCrVn9sZmXRHldy6jfHjAHRFI4TsOHRuO/+55RwQxq4VT4WEPfcjvwr
+         1VHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVnfVJ3nscCkjMPmYOgGDA6Am6bmHKPc810M/9MOUNQeyf+jtcx0ghkIooHbolOSiDeL2Rsq5XGvd4O7NlfWSRqOOivPVZQzHEzKyJQpE8KfD7CgZPC5/+lW5UJCEoeZa3HmD5x
+X-Gm-Message-State: AOJu0YzF3w4+5L8PUzgoowP7JLq1QpmGz/HtyWieXQmplC+BCXBU3HWa
+	aJ36a61WNxB8oUgRUISp3LumK4xlDR3IU3Y9A4x/hYMny5xyfYwUJ0EtqS/H
+X-Google-Smtp-Source: AGHT+IE9NZ/+nqIl5BW8fpYLEBP5nud8cGXZ3FcNjn3Pr4uGBSO+WLjwtOAW5sy6nLi2HbHzKQnTHA==
+X-Received: by 2002:a5d:5449:0:b0:34a:a836:b940 with SMTP id w9-20020a5d5449000000b0034aa836b940mr1088278wrv.18.1713951743201;
+        Wed, 24 Apr 2024 02:42:23 -0700 (PDT)
+Received: from rbolboac.. ([2a02:2f0e:320d:e800:6acb:a317:3d30:4165])
+        by smtp.gmail.com with ESMTPSA id a12-20020adfed0c000000b0034635bd6ba5sm16683339wro.92.2024.04.24.02.42.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Apr 2024 02:42:22 -0700 (PDT)
+From: Ramona Gradinariu <ramona.bolboaca13@gmail.com>
+X-Google-Original-From: Ramona Gradinariu <ramona.gradinariu@analog.com>
+To: linux-kernel@vger.kernel.org,
+	jic23@kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	corbet@lwn.net
+Cc: Ramona Gradinariu <ramona.gradinariu@analog.com>
+Subject: [PATCH 0/1] adis16475 documentation fixes
+Date: Wed, 24 Apr 2024 12:41:51 +0300
+Message-Id: <20240424094152.103667-1-ramona.gradinariu@analog.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-In-Reply-To: <20240222-gunyah-v17-15-1e9da6763d38@quicinc.com>
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: XLbgIb0Y_-CpZ9y5rvGSoXb-QMYlvkEG
-X-Proofpoint-ORIG-GUID: XLbgIb0Y_-CpZ9y5rvGSoXb-QMYlvkEG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-04-24_07,2024-04-23_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 malwarescore=0
- suspectscore=0 phishscore=0 adultscore=0 impostorscore=0 clxscore=1011
- spamscore=0 priorityscore=1501 mlxlogscore=825 lowpriorityscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404240041
+Content-Transfer-Encoding: 8bit
 
-* Elliot Berman <quic_eberman@quicinc.com> [2024-02-22 15:16:38]:
+Remove in_accel_calibbias_x and in_anglvel_calibbias_x device files
+description, as they do not exist and were added by mistake.
+Add correct naming for in_accel_y_calibbias and in_anglvel_y_calibbias
+device files and update their description.
 
-> +/**
-> + * struct gunyah_vm_exit_info - Reason for VM exit as reported by Gunyah
-> + * See Gunyah documentation for values.
-> + * @type: Describes how VM exited
-> + * @padding: padding bytes
-> + * @reason_size: Number of bytes valid for `reason`
-> + * @reason: See Gunyah documentation for interpretation. Note: these values are
-> + *          not interpreted by Linux and need to be converted from little-endian
-> + *          as applicable.
-> + */
-> +struct gunyah_vm_exit_info {
-> +	__u16 type;
+Ramona Gradinariu (1):
+  docs: iio: adis16475: fix device files tables
 
-Pls add an enum to describe the various exit types.
+ Documentation/iio/adis16475.rst | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-> +	__u16 padding;
-> +	__u32 reason_size;
-> +	__u8 reason[GUNYAH_VM_MAX_EXIT_REASON_SIZE];
-> +};
+--
+2.34.1
 
-- vatsa
