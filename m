@@ -1,205 +1,161 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.94])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04A4313DBB6;
-	Wed, 24 Apr 2024 10:57:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49FE915ADAD;
+	Wed, 24 Apr 2024 12:24:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.94
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713956281; cv=none; b=YeSWrLmRjAFVEVbZrKbBkihhSkmTuq8J2Cmoek3XkhOsPWjSF7XVFyuc00cfazLkCtfKliyB0Bn/WfO7j5XjSoTt/CPTqMef7IGeVtzKv6JzqfRogokoVP4G3EjmNrs9pD5XOp1OpzjOZRWLDGgChBwrlS7UpzPUqwL/EoXu0ZI=
+	t=1713961470; cv=none; b=HgqLL3BiTVgG2FGDg4TCJahQazNn9D6gCKhFvaKXwlFcuxiwP3KphkU3HYIKlBsfN2/tQ+7m9y0WtIwCEzDEc6FjvZgBaHoH1vTGJ2ETQQAsxKztj7zp7MCwLS3pz+XSqznVGyHv9LSTlYurydiKtBebVXABUHPg/5wDNzwx6LM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713956281; c=relaxed/simple;
-	bh=tRS2Dc6k4cHvFQvqwEyy6MnuweR/Dsimsz7u5sHttWQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=R6TAr+mpUMTlT+sepVyt2QliRnw4TO9y2xuP3kD7HIvwy25yJFQvPAS0l58NFqWWJbmfXVcJ040Cfa6c7lWAffK3TLs1NY9pqstwtX/PfYknEfBlWghAny/STRVPiObXNcli9rXZjsLN/tMNF2UW163V08SWG/IQAvtah87Ou2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YUy1Mr1J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=J/cQvrL5; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YUy1Mr1J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=J/cQvrL5; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1713961470; c=relaxed/simple;
+	bh=bfQI4Yq0CyiT7iayneJPtPZ0mu3Owe3QmD6Ot4PZCd4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=d1LAI6oBGmkB1bzh5qTozZo1yCPFTzwoPj5jjMteLWw3dpEWmPdjpa5XUQFaNEqyw5S2XOLMjY6j/aRxFguqLbFE0s6PRUSTLfP0QNDsfqLYsf53xfuNDYXXns3FpXXADzjN3dtUnsOc+5j6i9d3N8qn78kPA/Kj3AhcICVRlDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de; spf=pass smtp.mailfrom=avm.de; dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b=sKyi2idq; arc=none smtp.client-ip=212.42.244.94
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YUy1Mr1J";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="J/cQvrL5";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YUy1Mr1J";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="J/cQvrL5"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 286216144C;
-	Wed, 24 Apr 2024 10:57:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1713956278; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zepJMi+/FmAphXDQSDExadHqtRjvIFiQoMCvNpYvve8=;
-	b=YUy1Mr1JRvB2R7AR3ds8ByBJDyF+FV0oRRvwl7d1HhfNOTk7mRICDX83XeVD+0a+7jT3Ka
-	uzvaIZYBtWtu4yjYvhyQ/jfY3D4mlMbZWbfkwi5BElrYbEfa2iWCo5Xy3TE8ovMZkB61e9
-	3tKqjS2MklBlR/Ws/B44uzqq/axYiqU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1713956278;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zepJMi+/FmAphXDQSDExadHqtRjvIFiQoMCvNpYvve8=;
-	b=J/cQvrL5Q5gRvCcb0IN9BRmKlbN9EwB0hEysYf72sKbbHcxMMJVXuWGXk0qzN7pTIgH4xC
-	GwJ1Q8YrxLdlp7Cw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1713956278; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zepJMi+/FmAphXDQSDExadHqtRjvIFiQoMCvNpYvve8=;
-	b=YUy1Mr1JRvB2R7AR3ds8ByBJDyF+FV0oRRvwl7d1HhfNOTk7mRICDX83XeVD+0a+7jT3Ka
-	uzvaIZYBtWtu4yjYvhyQ/jfY3D4mlMbZWbfkwi5BElrYbEfa2iWCo5Xy3TE8ovMZkB61e9
-	3tKqjS2MklBlR/Ws/B44uzqq/axYiqU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1713956278;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zepJMi+/FmAphXDQSDExadHqtRjvIFiQoMCvNpYvve8=;
-	b=J/cQvrL5Q5gRvCcb0IN9BRmKlbN9EwB0hEysYf72sKbbHcxMMJVXuWGXk0qzN7pTIgH4xC
-	GwJ1Q8YrxLdlp7Cw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9AE6D13690;
-	Wed, 24 Apr 2024 10:57:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sWGSIrXlKGYiUwAAD6G6ig
-	(envelope-from <clopez@suse.de>); Wed, 24 Apr 2024 10:57:57 +0000
-From: =?UTF-8?q?Carlos=20L=C3=B3pez?= <clopez@suse.de>
-To: linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: seanjc@google.com,
-	=?UTF-8?q?Carlos=20L=C3=B3pez?= <clopez@suse.de>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v3] KVM: X86: improve documentation for KVM_CAP_X86_BUS_LOCK_EXIT
-Date: Wed, 24 Apr 2024 12:56:18 +0200
-Message-Id: <20240424105616.29596-1-clopez@suse.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20231116133628.5976-1-clopez@suse.de>
-References: <20231116133628.5976-1-clopez@suse.de>
+	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="sKyi2idq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
+	t=1713961443; bh=bfQI4Yq0CyiT7iayneJPtPZ0mu3Owe3QmD6Ot4PZCd4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sKyi2idqZcDH+tgmc9hbaskD5ctWLBkt7vnl7pbMPq181SHLSEWfh50lFb3m8bv0I
+	 hPcJ7413r8l6dYZa2TLhNcZPF4620HYDJbVClbs9OOZgYum7QfQUV6cSw3Yu9Ou85t
+	 v8VF7LBwTbiJDLW4PVyFumgdxgFdnRyOUESnTDco=
+Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Wed, 24 Apr 2024 14:24:03 +0200 (CEST)
+Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
+	by mail-auth.avm.de (Postfix) with ESMTPA id 1BD9780472;
+	Wed, 24 Apr 2024 14:24:03 +0200 (CEST)
+Received: by buildd.core.avm.de (Postfix, from userid 1000)
+	id 101DA18334E; Wed, 24 Apr 2024 14:24:03 +0200 (CEST)
+Date: Wed, 24 Apr 2024 14:24:03 +0200
+From: Nicolas Schier <n.schier@avm.de>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	linux-sh@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] kconfig: remove 'optional' property support
+Message-ID: <Zij545f6JVmmbcoj@buildd.core.avm.de>
+References: <20240422164104.2869507-1-masahiroy@kernel.org>
+ <20240422164104.2869507-3-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email]
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240422164104.2869507-3-masahiroy@kernel.org>
+X-purgate-ID: 149429::1713961443-BD53ED52-146531E8/0/0
+X-purgate-type: clean
+X-purgate-size: 2753
+X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
+X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
+X-purgate: clean
 
-Improve the description for the KVM_CAP_X86_BUS_LOCK_EXIT capability,
-fixing a few typos, grammarm and clarifying the purpose of the ioctl.
+On Tue, Apr 23, 2024 at 01:41:04AM +0900, Masahiro Yamada wrote:
+> The 'choice' statement is primarily used to exclusively select one
+> option, but the 'optional' property allows all entries to be disabled.
+> 
+> In the following example, both A and B can be disabled simultaneously:
+> 
+>     choice
+>             prompt "choose A, B, or nothing"
+>             optional
+> 
+>     config A
+>             bool "A"
+> 
+>     config B
+>             bool "B"
+> 
+>     endchoice
+> 
+> You can achieve the equivalent outcome by other means.
+> 
+> A common solution is to add another option to guard the choice block.
+> In the following example, you can set ENABLE_A_B_CHOICE=n to disable
+> the entire choice block:
+> 
+>     choice
+>             prompt "choose A or B"
+>             depends on ENABLE_A_B_CHOICE
+> 
+>     config A
+>             bool "A"
+> 
+>     config B
+>             bool "B"
+> 
+>     endchoice
+> 
+> Another approach is to insert one more entry as a place-holder:
+> 
+>     choice
+>             prompt "choose A, B, or disable both"
+> 
+>     config A
+>             bool "A"
+> 
+>     config B
+>             bool "B"
+> 
+>     config DISABLE_A_AND_B
+>             bool "choose this to disable both A and B"
+> 
+>     endchoice
+> 
+> Some real examples are DEBUG_INFO_NONE, INITRAMFS_COMPRESSION_NONE,
+> LTO_NONE, etc.
+> 
+> The 'optional' property is even more unnecessary for a tristate choice.
+> 
+> Without the 'optional' property, you can disable A and B; you can set
+> 'm' in the choice prompt, and disable A and B individually:
+> 
+>     choice
+>             prompt "choose one built-in or make them modular"
+> 
+>     config A
+>             tristate "A"
+> 
+>     config B
+>             tristate "B"
+> 
+>     endchoice
+> 
+> In conclusion, the 'optional' property was unneeded.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+> 
+> (no changes since v1)
 
-Signed-off-by: Carlos López <clopez@suse.de>
----
-v3: Added Sean Christopherson's suggestions
-v2: Corrected the name of the KVM_RUN_X86_BUS_LOCK flag
+thanks for the patch!
 
- Documentation/virt/kvm/api.rst | 52 ++++++++++++++++++----------------
- 1 file changed, 27 insertions(+), 25 deletions(-)
+I found just one small remnant that probably should be removed as well:
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 0b5a33ee71ee..a1d78e06a1ad 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -6416,9 +6416,9 @@ More architecture-specific flags detailing state of the VCPU that may
- affect the device's behavior. Current defined flags::
- 
-   /* x86, set if the VCPU is in system management mode */
--  #define KVM_RUN_X86_SMM     (1 << 0)
-+  #define KVM_RUN_X86_SMM          (1 << 0)
-   /* x86, set if bus lock detected in VM */
--  #define KVM_RUN_BUS_LOCK    (1 << 1)
-+  #define KVM_RUN_X86_BUS_LOCK     (1 << 1)
-   /* arm64, set for KVM_EXIT_DEBUG */
-   #define KVM_DEBUG_ARCH_HSR_HIGH_VALID  (1 << 0)
- 
-@@ -7757,29 +7757,31 @@ Valid bits in args[0] are::
-   #define KVM_BUS_LOCK_DETECTION_OFF      (1 << 0)
-   #define KVM_BUS_LOCK_DETECTION_EXIT     (1 << 1)
- 
--Enabling this capability on a VM provides userspace with a way to select
--a policy to handle the bus locks detected in guest. Userspace can obtain
--the supported modes from the result of KVM_CHECK_EXTENSION and define it
--through the KVM_ENABLE_CAP.
--
--KVM_BUS_LOCK_DETECTION_OFF and KVM_BUS_LOCK_DETECTION_EXIT are supported
--currently and mutually exclusive with each other. More bits can be added in
--the future.
--
--With KVM_BUS_LOCK_DETECTION_OFF set, bus locks in guest will not cause vm exits
--so that no additional actions are needed. This is the default mode.
--
--With KVM_BUS_LOCK_DETECTION_EXIT set, vm exits happen when bus lock detected
--in VM. KVM just exits to userspace when handling them. Userspace can enforce
--its own throttling or other policy based mitigations.
--
--This capability is aimed to address the thread that VM can exploit bus locks to
--degree the performance of the whole system. Once the userspace enable this
--capability and select the KVM_BUS_LOCK_DETECTION_EXIT mode, KVM will set the
--KVM_RUN_BUS_LOCK flag in vcpu-run->flags field and exit to userspace. Concerning
--the bus lock vm exit can be preempted by a higher priority VM exit, the exit
--notifications to userspace can be KVM_EXIT_BUS_LOCK or other reasons.
--KVM_RUN_BUS_LOCK flag is used to distinguish between them.
-+Enabling this capability on a VM provides userspace with a way to select a
-+policy to handle the bus locks detected in guest. Userspace can obtain the
-+supported modes from the result of KVM_CHECK_EXTENSION and define it through
-+the KVM_ENABLE_CAP. The supported modes are mutually-exclusive.
-+
-+This capability allows userspace to force VM exits on bus locks detected in the
-+guest, irrespective whether or not the host has enabled split-lock detection
-+(which triggers an #AC exception that KVM intercepts). This capability is
-+intended to mitigate attacks where a malicious/buggy guest can exploit bus
-+locks to degrade the performance of the whole system.
-+
-+If KVM_BUS_LOCK_DETECTION_OFF is set, KVM doesn't force guest bus locks to VM
-+exit, although the host kernel's split-lock #AC detection still applies, if
-+enabled.
-+
-+If KVM_BUS_LOCK_DETECTION_EXIT is set, KVM enables a CPU feature that ensures
-+bus locks in the guest trigger a VM exit, and KVM exits to userspace for all
-+such VM exits, e.g. to allow userspace to throttle the offending guest and/or
-+apply some other policy-based mitigation. When exiting to userspace, KVM sets
-+KVM_RUN_X86_BUS_LOCK in vcpu-run->flags, and conditionally sets the exit_reason
-+to KVM_EXIT_X86_BUS_LOCK.
-+
-+Note! Detected bus locks may be coincident with other exits to userspace, i.e.
-+KVM_RUN_X86_BUS_LOCK should be checked regardless of the primary exit reason if
-+userspace wants to take action on all detected bus locks.
- 
- 7.23 KVM_CAP_PPC_DAWR1
- ----------------------
--- 
-2.35.3
+diff --git a/scripts/kconfig/tests/choice/__init__.py b/scripts/kconfig/tests/choice/__init__.py
+index 4318fce05912f..05e162220085c 100644
+--- a/scripts/kconfig/tests/choice/__init__.py
++++ b/scripts/kconfig/tests/choice/__init__.py
+@@ -8,4 +8,2 @@ The behavior of 'y' choice is intuitive.  If choice values are tristate,
+ the choice can be 'm' where each value can be enabled independently.
+-Also, if a choice is marked as 'optional', the whole choice can be
+-invisible.
+ """
 
+Reviewed-by: Nicolas Schier <n.schier@avm.de>
+
+Kind regards,
+Nicolas
+
+
+PS: For other reviewers, this patch (set) depends on
+https://lore.kernel.org/linux-kbuild/20240422161054.2867285-1-masahiroy@kernel.org/
