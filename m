@@ -1,307 +1,270 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D8915B116
-	for <linux-doc@vger.kernel.org>; Wed, 24 Apr 2024 12:26:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E80142E70;
+	Wed, 24 Apr 2024 12:58:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713961602; cv=none; b=nrFoUCdi4vPZi6Wl0RZ1H3z+Pp0YQEjO8uj1rEVSA4R7Emx23b3W86LkFjTe6z2jTmOwNEgx8FTShO1j+UdwhA7gJlNEgVEAAP/AeHCFpEvVfQQ6NRK4qsparRnxQ2FE3JdHR0cZ5w+nBWGMncVpztITg1TfS/XC2WYIsPZeKro=
+	t=1713963536; cv=none; b=eiIrI3+X7xtP/4VgIGFeBiyQWjamrkoeuzekWsR4slV4J9XEm2QFnPxq/Ec0AMznyOYeW6HrB1CsLXevacSHne1D5mvgTBencnE4fd4CgmchLjTj9hzNVVX0hExjvb7bMbz/vV34j3+ZwD4tSnxIGE2Jfzn/iPk1PQjqFr2DOfQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713961602; c=relaxed/simple;
-	bh=MuZ+eCQWIxMfoH9uM3eWnGzNEQfRPjqnmhBrfa4frX0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=J4hJHPpkjrO5pQSnXlQAdx9yyVp620kbPrRtTLqz+2dDolpE8naGsmdAcP22yR8yBOj8xjHJmXv0BwNTnUqMs0sWTu+NZ4cjlorAqfz9tvOKG/JsWdJ4SD/Y5w0CXlXpJXVxoskHFH2czkVlStVTM5vd9KLKMU9Bd2WoAGNLBYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UKsbiQbw; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1713963536; c=relaxed/simple;
+	bh=c9RreOvvgjKo465NP2jeeUIux9VWDQP4D1wGlxLC+Iw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=POCTSxRp+eQ4jlcE0ixl0R8tX+0OWJCvKG6BfYM4VqKqYVk0cvVNw/FaVwJmV0lCWObaoIelHBvUaYlW4XSLWEl+SArAA/QECcCWXrmyH/wE8meEQXwfZv3CTNl12pftYT6OqAnrISqR5B+6qwYjihQu0fFNtwIIJE0BMJrf9Eg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=QAQnZZZD; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UKsbiQbw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1713961599;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ga3+hfqpq7kefWMT7+hfg1368I6jLzziyLojN0hllE8=;
-	b=UKsbiQbwi3GPnHeXy3IsfoBd/+DG1veii1ST4f+W3/rzrQAxRVQ0lOB5G6KEnP5tFwzAV7
-	94o+Ondd2ZS72Q2kYMlPPNF11Myo03jg3QPkr6M7WjPvbuzWh14Wf4WgnPsHYbahMVHfbE
-	ue0hlAASYJfZeTq0/ULryuN80JOAgYw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-192-UF0W_gDvMVSSUKrV-5iNYQ-1; Wed, 24 Apr 2024 08:26:35 -0400
-X-MC-Unique: UF0W_gDvMVSSUKrV-5iNYQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0E0C88DCFC0;
-	Wed, 24 Apr 2024 12:26:35 +0000 (UTC)
-Received: from t14s.redhat.com (unknown [10.39.193.224])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id EEE052166B34;
-	Wed, 24 Apr 2024 12:26:31 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: linux-kernel@vger.kernel.org
-Cc: linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	David Hildenbrand <david@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
-	Zi Yan <ziy@nvidia.com>,
-	Yang Shi <yang.shi@linux.alibaba.com>,
-	John Hubbard <jhubbard@nvidia.com>,
-	Ryan Roberts <ryan.roberts@arm.com>
-Subject: [PATCH v1] mm/khugepaged: replace page_mapcount() check by folio_likely_mapped_shared()
-Date: Wed, 24 Apr 2024 14:26:30 +0200
-Message-ID: <20240424122630.495788-1-david@redhat.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QAQnZZZD"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=KRH1XQ4li10cH7uqk/vSuNXotg9b5T8OyHlR8OT7SIU=; b=QAQnZZZDTXOBrn6cF4YKUX3ngr
+	6QBUVtemehUj+9x0rl0ZDDI30JQusexfSKR+O70wSbKauZkD3/nK8odgWhhmTIX1hZgrQ3jfmKl/l
+	Wxp1bYc22XGc4fCkafFpPR1ZzJdC6sZrM7bx2tYk3x6XEJRfwvZYJXyJZwJKY7lLQlo25FrS9bZaq
+	9aJ3ER9oNvo5S+7agRI7O3MxfbXhFMeXYgq6a2brjaRjjMBKP1YCajApOc7lrikHuES20rN80oZ0B
+	wMugUvXufaUUJ9zKsevd0O16JZKLb+1hJ2bMKCek3gm/yfebgisNLx5Sc31vxFlQqK8quAGm1158Z
+	9PWNH4gg==;
+Received: from [2001:8b0:10b:5:c773:ea0d:c499:f0f9] (helo=u3832b3a9db3152.ant.amazon.com)
+	by casper.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rzcCf-00000000voV-14iU;
+	Wed, 24 Apr 2024 12:58:25 +0000
+Message-ID: <c8dca08bf848e663f192de6705bf04aa3966e856.camel@infradead.org>
+Subject: Re: [PATCH 2/2] KVM: selftests: Add KVM/PV clock selftest to prove
+ timer drift correction
+From: David Woodhouse <dwmw2@infradead.org>
+To: "Chen, Zide" <zide.chen@intel.com>, Jack Allister <jalliste@amazon.com>,
+  Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Sean Christopherson <seanjc@google.com>,  Thomas Gleixner
+ <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
+ <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>,  Shuah Khan <shuah@kernel.org>
+Cc: Paul Durrant <paul@xen.org>, kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+Date: Wed, 24 Apr 2024 13:58:24 +0100
+In-Reply-To: <71260288-3666-4419-8283-6565e91aaba4@intel.com>
+References: <20240408220705.7637-1-jalliste@amazon.com>
+	 <20240408220705.7637-3-jalliste@amazon.com>
+	 <3664e8ec-1fa1-48c0-a80d-546b7f6cd671@intel.com>
+	 <17F1A2E9-6BAD-40E7-ACDD-B110CFC124B3@infradead.org>
+	 <65FF4D51-05A8-42E0-9D07-6E42913CC75E@infradead.org>
+	 <6dca783b-6532-4fa7-9e04-1c0a382a00b0@intel.com>
+	 <c863ffcfd4edda9a1a46e3351766a655c5523f7d.camel@infradead.org>
+	 <71260288-3666-4419-8283-6565e91aaba4@intel.com>
+Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
+	boundary="=-qp+7JygYuSqAXLWFq+00"
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.6
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
-We want to limit the use of page_mapcount() to places where absolutely
-required, to prepare for kernel configs where we won't keep track of
-per-page mapcounts in large folios.
 
-khugepaged is one of the remaining "more challenging" page_mapcount()
-users, but we might be able to move away from page_mapcount() without
-resulting in a significant behavior change that would warrant
-special-casing based on kernel configs.
+--=-qp+7JygYuSqAXLWFq+00
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-In 2020, we first added support to khugepaged for collapsing COW-shared
-pages via commit 9445689f3b61 ("khugepaged: allow to collapse a page shared
-across fork"), followed by support for collapsing PTE-mapped THP in commit
-5503fbf2b0b8 ("khugepaged: allow to collapse PTE-mapped compound pages")
-and limiting the memory waste via the "page_count() > 1" check in commit
-71a2c112a0f6 ("khugepaged: introduce 'max_ptes_shared' tunable").
+On Mon, 2024-04-22 at 15:02 -0700, Chen, Zide wrote:
+> the selftest works for me, and I ran the test for 1000+ iterations,
+> w/ or w/o TSC scaling, the TEST_ASSERT(delta_corrected=C2=A0<=3D =C2=B11)=
+ never
+> got hit. This is awesome!
 
-As a default, khugepaged will allow up to half of the PTEs to map shared
-pages: where page_mapcount() > 1. MADV_COLLAPSE ignores the khugepaged
-setting.
+I think that with further care we can get even better than that.
 
-khugepaged does currently not care about swapcache page references, and
-does not check under folio lock: so in some corner cases the "shared vs.
-exclusive" detection might be a bit off, making us detect "exclusive" when
-it's actually "shared".
+Let's look at where that =C2=B11ns tolerance comes from.
 
-Most of our anonymous folios in the system are usually exclusive. We
-frequently see sharing of anonymous folios for a short period of time,
-after which our short-lived suprocesses either quit or exec().
+Consider a 3GHz TSC. That gives us three ticks per nanosecond. Each TSC
+value can be seen as (3n) (3n+1) or (3n+2) for a given nanosecond n.
 
-There are some famous examples, though, where child processes exist for a
-long time, and where memory is COW-shared with a lot of processes
-(webservers, webbrowsers, sshd, ...) and COW-sharing is crucial for
-reducing the memory footprint. We don't want to suddenly change the
-behavior to result in a significant increase in memory waste.
+If we take a new reference point at a (3n+2) TSC value and calculate
+the KVM clock from that, we *know* we're going to round down and lose
+two-thirds of a nanosecond.
 
-Interestingly, khugepaged will only collapse an anonymous THP if at least
-one PTE is writable. After fork(), that means that something (usually a
-page fault) populated at least a single exclusive anonymous THP in that PMD
-range.
+So then we set the new KVM clock parameters to use that new reference
+point, and that's why we have to allow a disruption of up to a single
+nanosecond. In fact, I don't think it's =C2=B11 ns, is it? It'll only ever
+be in the same direction (rounding down)?
 
-So ... what happens when we switch to "is this folio mapped shared"
-instead of "is this page mapped shared" by using
-folio_likely_mapped_shared()?
+But if we're careful which *which* TSC value we use as the reference
+point, we can reduce that error.
 
-For "not-COW-shared" folios, small folios and for THPs (large
-folios) that are completely mapped into at least one process,
-switching to folio_likely_mapped_shared() will not result in a change.
+The TSC value we use should be *around* the current time, but what if
+we were to evaluate maybe the previous 100 TSC values. Pass *each* of
+them through the conversion to nanoseconds and use the one that comes
+*closest* to a precise nanosecond (nnnnnnnn.000).
 
-We'll only see a change for COW-shared PTE-mapped THPs that are
-partially mapped into all involved processes.
+It's even fairly easy to calculate those, because of the way the KVM
+clock ABI has us multiply and then shift right by 32 bits. We just need
+to look at those low 32 bits (the fractional nanosecond) *before*
+shifting them out of existence. Something like...
 
-There are two cases to consider:
+   uint64_t tsc_candidate, tsc_candidate_last, best_tsc;
+   uint32_t frac_ns_min =3D 0xffffffff;
+   uint64_t frac_ns;
 
-(A) folio_likely_mapped_shared() returns "false" for a PTE-mapped THP
+   best_tsc =3D tsc_candidate =3D rdtsc();
+   tsc_candidate_last =3D=C2=A0tsc_candidate - 100;
 
-  If the folio is detected as exclusive, and it actually is exclusive,
-  there is no change: page_mapcount() == 1. This is the common case
-  without fork() or with short-lived child processes.
+   while (tsc_candidate-- > tsc_candidate_last) {
+      uint64_t guest_tsc =3D kvm_scale_tsc(tsc_candidate, ...);
+      frac_ns =3D guest_tsc * hvclock->tsc_to_system_mul;
+      /* Shift *after* multiplication, not before as pvclock_scale_cycles()=
+ does. */
+      if (hvclock->tsc_shift < 0)
+          frac_ns >>=3D -hvclock->tsc_shift;
+      else
+          frac_ns <<=3D hvclock->tsc_shift;
 
-  folio_likely_mapped_shared() might currently still detect a folio as
-  exclusive although it is shared (false negatives): if the first page is
-  not mapped multiple times and if the average per-page mapcount is smaller
-  than 1, implying that (1) the folio is partially mapped and (2) if we are
-  responsible for many mapcounts by mapping many pages others can't
-  ("mostly exclusive") (3) if we are not responsible for many mapcounts by
-  mapping little pages ("mostly shared") it won't make a big impact on the
-  end result.
+      if ( (uint32_t)frac_ns <=3D frac_ns_min ) {
+          frac_ns_min =3D frac_ns;
+          best_tsc =3D tsc_candidate;
+      }
+   }
+   printk("Best TSC to use for reference point is %lld", best_tsc);
 
-  So while we might now detect a page as "exclusive" although it isn't,
-  it's not expected to make a big difference in common cases.
+And then you calculate your CLOCK_MONOTONIC_RAW and guest KVM clock
+from *that* host TSC value, and thus minimise the discrepancies due to
+rounding down?
 
-(B) folio_likely_mapped_shared() returns "true" for a PTE-mapped THP
+Aside from the fact that I literally just typed that into email and
+it's barely even thought through let alone entirely untested... I'm
+just not sure it's even worth the runtime cost, for that =C2=B11 ns on a
+rare case.
 
-  folio_likely_mapped_shared() will never detect a large anonymous folio
-  as shared although it is exclusive: there are no false positives.
+A slop of =C2=B11ns is probably sufficient because over the past few years
+we've already shifted the definition of the KVM clock to *not* be NTP-
+corrected, and we leave guests to do fine-grained synchronization
+through other means anyway.
 
-  If we detect a THP as shared, at least one page of the THP is mapped by
-  another process. It could well be that some pages are actually exclusive.
-  For example, our child processes could have unmapped/COW'ed some pages
-  such that they would now be exclusive to out process, which we now
-  would treat as still-shared.
+But I see talk of people offering a PPS signal to *hundreds* of guests
+on the same host simultaneously, just for them all to use it to
+calibrate the same underlying oscillator. Which is a little bit insane.
 
-  Examples:
-  (1) Parent maps all pages of a THP, child maps some pages. We detect
-      all pages in the parent as shared although some are actually
-      exclusive.
-  (2) Parent maps all but some page of a THP, child maps the remainder.
-      We detect all pages of the THP that the parent maps as shared
-      although they are all exclusive.
+We *should* have a way for the host to do that once and then expose the
+precise time to its guests, in a much saner way than the KVM clock
+does. I'll look at adding something along those lines to this series
+too, which can be driven from the host's adjtimex() adjustments (which
+KVM already consumes), and fed into each guest's timekeeping as a
+PTP/PPS device or something.
 
-  In (1) we wouldn't collapse a THP right now already: no PTE
-  is writable, because a write fault would have resulted in COW of a
-  single page and the parent would no longer map all pages of that THP.
 
-  For (2) we would have collapsed a THP in the parent so far, now we
-  wouldn't as long as the child process is still alive: unless the child
-  process unmaps the remaining THP pages or we decide to split that THP.
 
-  Possibly, the child COW'ed many pages, meaning that it's likely that
-  we can populate a THP for our child first, and then for our parent.
+--=-qp+7JygYuSqAXLWFq+00
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
 
-  For (2), we are making really bad use of the THP in the first
-  place (not even mapped completely in at least one process). If the
-  THP would be completely partially mapped, it would be on the deferred
-  split queue where we would split it lazily later.
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjQwNDI0MTI1ODI0WjAvBgkqhkiG9w0BCQQxIgQghevfWqeT
+OJ5b4l9YTMCxE29xDm+k3iOCcgUm3R48DiAwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgB9TabPYtOjHzlcya67H67rlTSLY2pt1GjT
+1R4K2bcrJVn4EnGY7lwWJMyhjhTPtw6bNOGSZCH4dlYMjIIfLNzP/kgSS1ADWCNQBPzzU/Z7csOR
+/Nf/sUV6zugRYlTtdugVYTVSmUBDu2AwqdDCdQVXlKN15IjgwvniVnXRJPt0z3n8rB9cFvj88+0l
+J0G6Fwo7eUEZQGOqstcGnXJWCxFukBCOrzdcuWfQrvxxBVsfw+p9cqnocTO55U9cgbq1s5EDec1d
+iyJLHbusnvdG4yebFwv0lZtWBk7MDWyOAelykdnYzEKsHJMfRgToYP5F06bG9eYCs1knA+4i6k3S
+J+q0J0c36aIztju6mcTa6QATM8aT5X12k82KPmFiQvAD0xmHslDFMfqnSiN64KjqGP2UpFnoWBYz
+oE2xbe4TkxSuzUsvlY8IjXRuuJCEW1zCfeLYQAEGo3SHJXrefAjPg8dArEebDiJlr99aOFUZSBMf
+ymLiJtq4hGgtaTv/otmmWZT6hYV3qQsbUZdHEsnIAKO67N8X+2e8LnUok9GCuUt8XyVlJlEeLOuf
+dcVNBquHsRRch1fZYpzQBGe8CxcC8BxKWZdc9mtt27A+Dzh0LCqqS9NdNJi//CGtO5eg+pA5Tos5
+mofleBBSE1UbrJ2SgY7LkdPvM2c/fuireQe0qBDVMQAAAAAAAA==
 
-  For short-running child processes, we don't particularly care. For
-  long-running processes, the expectation is that such scenarios are
-  rather rare: further, a THP might be best placed if most data in the
-  PMD range is actually written, implying that we'll have to COW more
-  pages first before khugepaged would collapse it.
 
-To summarize, in the common case, this change is not expected to matter
-much. The more common application of khugepaged operates on
-exclusive pages, either before fork() or after a child quit.
-
-Can we improve (A)? Yes, if we implement more precise tracking of "mapped
-shared" vs. "mapped exclusively", we could get rid of the false
-negatives completely.
-
-Can we improve (B)? We could count how many pages of a large folio we map
-inside the current page table and detect that we are responsible for most
-of the folio mapcount and conclude "as good as exclusive", which might help
-in some cases. ... but likely, some other mechanism should detect that
-the THP is not a good use in the scenario (not even mapped completely in
-a single process) and try splitting that folio lazily etc.
-
-We'll move the folio_test_anon() check before our "shared" check, so we
-might get more expressive results for SCAN_EXCEED_SHARED_PTE: this order
-of checks now matches the one in __collapse_huge_page_isolate(). Extend
-documentation.
-
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-Cc: Zi Yan <ziy@nvidia.com>
-Cc: Yang Shi <yang.shi@linux.alibaba.com>
-Cc: John Hubbard <jhubbard@nvidia.com>
-Cc: Ryan Roberts <ryan.roberts@arm.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
-
-How much time can one spend writing a patch description? Unbelievable. But
-it was likely time well spend to have a clear picture of the impact.
-
-This really needs the folio_likely_mapped_shared() optimization [1] that
-resides in mm-unstable, I think, to reduce "false negatives".
-
-The khugepage MM selftests keep working as expected, including:
-
-	Run test: collapse_max_ptes_shared (khugepaged:anon)
-	Allocate huge page... OK
-	Share huge page over fork()... OK
-	Trigger CoW on page 255 of 512... OK
-	Maybe collapse with max_ptes_shared exceeded.... OK
-	Trigger CoW on page 256 of 512... OK
-	Collapse with max_ptes_shared PTEs shared.... OK
-	Check if parent still has huge page... OK
-
-Where we check that collapsing in the parent behaves as expected after
-COWing a lot of pages in the parent: a sane scenario that is essentially
-unchanged and which does not depend on any action in the child process
-(compared to the cases discussed in (B) above).
-
-[1] https://lkml.kernel.org/r/20240409192301.907377-6-david@redhat.com
-
----
- Documentation/admin-guide/mm/transhuge.rst |  3 ++-
- mm/khugepaged.c                            | 22 +++++++++++++++-------
- 2 files changed, 17 insertions(+), 8 deletions(-)
-
-diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
-index f82300b9193fe..076443cc10a6c 100644
---- a/Documentation/admin-guide/mm/transhuge.rst
-+++ b/Documentation/admin-guide/mm/transhuge.rst
-@@ -278,7 +278,8 @@ collapsed, resulting fewer pages being collapsed into
- THPs, and lower memory access performance.
- 
- ``max_ptes_shared`` specifies how many pages can be shared across multiple
--processes. Exceeding the number would block the collapse::
-+processes. khugepaged might treat pages of THPs as shared if any page of
-+that THP is shared. Exceeding the number would block the collapse::
- 
- 	/sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_shared
- 
-diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-index 2f73d2aa9ae84..cf518fc440982 100644
---- a/mm/khugepaged.c
-+++ b/mm/khugepaged.c
-@@ -583,7 +583,8 @@ static int __collapse_huge_page_isolate(struct vm_area_struct *vma,
- 		folio = page_folio(page);
- 		VM_BUG_ON_FOLIO(!folio_test_anon(folio), folio);
- 
--		if (page_mapcount(page) > 1) {
-+		/* See hpage_collapse_scan_pmd(). */
-+		if (folio_likely_mapped_shared(folio)) {
- 			++shared;
- 			if (cc->is_khugepaged &&
- 			    shared > khugepaged_max_ptes_shared) {
-@@ -1317,8 +1318,20 @@ static int hpage_collapse_scan_pmd(struct mm_struct *mm,
- 			result = SCAN_PAGE_NULL;
- 			goto out_unmap;
- 		}
-+		folio = page_folio(page);
- 
--		if (page_mapcount(page) > 1) {
-+		if (!folio_test_anon(folio)) {
-+			result = SCAN_PAGE_ANON;
-+			goto out_unmap;
-+		}
-+
-+		/*
-+		 * We treat a single page as shared if any part of the THP
-+		 * is shared. "False negatives" from
-+		 * folio_likely_mapped_shared() are not expected to matter
-+		 * much in practice.
-+		 */
-+		if (folio_likely_mapped_shared(folio)) {
- 			++shared;
- 			if (cc->is_khugepaged &&
- 			    shared > khugepaged_max_ptes_shared) {
-@@ -1328,7 +1341,6 @@ static int hpage_collapse_scan_pmd(struct mm_struct *mm,
- 			}
- 		}
- 
--		folio = page_folio(page);
- 		/*
- 		 * Record which node the original page is from and save this
- 		 * information to cc->node_load[].
-@@ -1349,10 +1361,6 @@ static int hpage_collapse_scan_pmd(struct mm_struct *mm,
- 			result = SCAN_PAGE_LOCK;
- 			goto out_unmap;
- 		}
--		if (!folio_test_anon(folio)) {
--			result = SCAN_PAGE_ANON;
--			goto out_unmap;
--		}
- 
- 		/*
- 		 * Check if the page has any GUP (or other external) pins.
--- 
-2.44.0
-
+--=-qp+7JygYuSqAXLWFq+00--
