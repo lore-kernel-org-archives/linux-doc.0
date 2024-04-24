@@ -1,61 +1,28 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01F415EFA1;
-	Wed, 24 Apr 2024 14:53:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+	by smtp.subspace.kernel.org (Postfix) with SMTP id 7B2F315EFA1
+	for <linux-doc@vger.kernel.org>; Wed, 24 Apr 2024 14:58:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.131.102.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713970407; cv=none; b=lz+Uuqi9cWcU8UWc9ZEpso/CYmJmdj+sqOL9Wr7tX9le/j4dN2MmZaGVV9CZVA6zGNVy8KvB4jyYeNiqn3hpuoGzTFhSxmU++LCeGoay3kD2BWBdwFUdYLjo+0hxacSuHb9+9x8PDoOmImXXodIrakZZlHzkXdCMiFGNZ2jxgro=
+	t=1713970722; cv=none; b=CHhMNvuQVo502uko6nhgVV2NMwEQ+NFgbZUbJgtoMkGl/gzSObFNDrmHlgWdnu9vPO3IrHqYFn/c7/vgjZiZgbsf5TufUqjzgvk72XH4pQCnAli1l2cc8tmD2bMClHyjuF5hJ3AeDs6dSVP07flgXQQDqD83kaDHKJ9Gouw6PYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713970407; c=relaxed/simple;
-	bh=RqfV+hja3oQylqzeWMZG5N4j93kHJlAuYk8CLvh4giQ=;
+	s=arc-20240116; t=1713970722; c=relaxed/simple;
+	bh=ke0g6uownmljC0XA5VR2r33zqHWAonjQKaaVhUfRp9M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tszk2kG/wGbjzsguMaksGGz9Km/v/jajDe+1rpd/rjLU1xjNk8eruTGY7+8dIA1xlr9qWCdKmgQ8YsiQovKW0pjq2/1stC/NKW9Ngf/5etmfQdEkeNz5i2uq39QhOit3K/xGPkkPB9hhniz9u27/xjJoh9CW7okWFwohXD0dphg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G+8Vet2i; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G+8Vet2i"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713970406; x=1745506406;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RqfV+hja3oQylqzeWMZG5N4j93kHJlAuYk8CLvh4giQ=;
-  b=G+8Vet2ismbiLI44DRMeFLJ8jUSnUrzxvbLQXJtEiih1JT+iCupXnfJM
-   61mj0dGU/uKToD2/Y0yy4GZFiU/+LNXW807/EUJCxc6WMlbm4rPIRiDgG
-   GZCnNVzKaR8FkC9bQRySSbC2hVnCb8GkGXezk5ucNcvWkw2wp2VIVk0np
-   BJ9t3bSuSbzJ2NcNFaDPWiNm1WZ6WnMslc0exrwJnhCyMOcu96b0QFbsW
-   qWROmusPyqVz0HDd7QXTK6AE8zb0N1Na9pehVVqjIkG5R2rRtDz5Z5iL+
-   RgTE7XxEQwjEwE4wOhBUSjqRKkdxD2xxdHD6QuSLajcmqpmWedF997f8C
-   w==;
-X-CSE-ConnectionGUID: jYbM7rmSS6yoD7WQHEOwRg==
-X-CSE-MsgGUID: mvBx9tbVRfSksat+1Djc3A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="9727118"
-X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
-   d="scan'208";a="9727118"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 07:53:26 -0700
-X-CSE-ConnectionGUID: 09S+vG3jRaOAUzAmHorGng==
-X-CSE-MsgGUID: VlkXdLBeS6+qX3IrssO96g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
-   d="scan'208";a="24620041"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 07:53:24 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1rzdzt-00000000gI1-1C9q;
-	Wed, 24 Apr 2024 17:53:21 +0300
-Date: Wed, 24 Apr 2024 17:53:21 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: Re: [PATCH v1 0/2] Documentation: process: Clarify use of Cc:
-Message-ID: <Zikc4fDNDer6hSzJ@smile.fi.intel.com>
-References: <20240423132024.2368662-1-andriy.shevchenko@linux.intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=luNjRnorIwmV2waEnfvHJkdJ9XmSXbEp1KSy5/MCER3bCo799WfSE9iY+Z6wH/yomzbuMPZ/f35K8pRQkBmOB7uvnhxjdsltPOkkER/XME7FXVpq2oramS/TNQ5PaQfGXuVvWxfsC347HgEBYuLUU+f6DfC5yzrVH41rkORHyss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu; spf=pass smtp.mailfrom=netrider.rowland.org; arc=none smtp.client-ip=192.131.102.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netrider.rowland.org
+Received: (qmail 453580 invoked by uid 1000); 24 Apr 2024 10:58:40 -0400
+Date: Wed, 24 Apr 2024 10:58:40 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Norihiko Hama <Norihiko.Hama@alpsalpine.com>
+Cc: gregkh@linuxfoundation.org, corbet@lwn.net, linux-doc@vger.kernel.org,
+  linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+  usb-storage@lists.one-eyed-alien.net
+Subject: Re: [PATCH v4] usb-storage: Optimize scan delay more precisely
+Message-ID: <515c273c-9bb0-4830-a3a5-e9a485356434@rowland.harvard.edu>
+References: <20240424013134.17307-1-Norihiko.Hama@alpsalpine.com>
+ <c06aaaa1-a2af-47c6-a615-602f2c70de86@rowland.harvard.edu>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,24 +31,19 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240423132024.2368662-1-andriy.shevchenko@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <c06aaaa1-a2af-47c6-a615-602f2c70de86@rowland.harvard.edu>
 
-+Cc: Dmitry
-(have been told by colleague of mine that you also has an opinion on this
- topic, sorry if I added you by a mistake).
-
-On Tue, Apr 23, 2024 at 04:19:36PM +0300, Andy Shevchenko wrote:
-> Add a couple of recommendations on how to utilise Cc header in
-> environment friendly way.
+On Wed, Apr 24, 2024 at 10:51:57AM -0400, Alan Stern wrote:
+> On Wed, Apr 24, 2024 at 10:31:34AM +0900, Norihiko Hama wrote:
+> > +			Example:
+> > +				delay_use=2.567
 > 
-> Andy Shevchenko (2):
->   Documentation: process: Avoid unneeded Cc: tags
->   Documentation: process: Recommend to put Cc: tags after cutter '---'
->     line
+> This could go on the previous line.
+> 
+> 			Example:  delay_use = 2.567
 
--- 
-With Best Regards,
-Andy Shevchenko
+Oops, this shouldn't have the extra spaces around the '=' sign.
 
+			Example:  delay_use=2.567
 
+Alan Stern
