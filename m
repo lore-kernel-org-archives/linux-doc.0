@@ -1,50 +1,50 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2054.outbound.protection.outlook.com [40.107.237.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD24B134A8;
-	Wed, 24 Apr 2024 19:38:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C861848;
+	Wed, 24 Apr 2024 19:59:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.54
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713987519; cv=fail; b=pZ4TtO2mobXeuqVqRs6VE+x05wKh6qGKEZWfApUWEC6AFcd2+6hxGQK7bFPqBUSHTTuLb5GyBCYcqcSx42wPeEnOmlESFK1ASbsZ/0vkueWck0qeNgZrcF3BuEwbzpwcfoLP3No+LmNlKEaSSilUhzd28bxZKCYUJYGtf68dzkI=
+	t=1713988774; cv=fail; b=pr5+rBKWeMnpER/k7f+hXWaDYhKuvhp/6vmBWkpwHCVVB3I1DOSTxEwJD2t8gUzmbY0m7cug80fcpIrnL0ltKBnaIkM16Nid5uNCH8+JkGmlBhKdfbD9fMSutQyB7gq3+lA4ikTkO1cGXhm8ZpIHyWySy2yHN8pWkhLTEUDs244=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713987519; c=relaxed/simple;
-	bh=D82kzu3lE2RlRCO10DzY6xQ7bElGL3tpqtxcsBbGYok=;
+	s=arc-20240116; t=1713988774; c=relaxed/simple;
+	bh=T5Pd74YMxkOUe9mrO07o4IJJCoZ3wXkzYuD940S/FK8=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=jvaPZ7sqF9SmEurDVnpr9OeNzOgTWtpMu0fraxSuZYrVx8aYqoOrfLLqBQGGq9mgO0wEaXLtawGe3bwH1uFSvWAtls0srEC1QX8rPfFaYCrC24y6H5B0G5VUMJ/FRht+vOXWasUiAX/fd5oXPriVDUfv9L4q/yZRP2yVqPiFTac=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=FyfuweE7; arc=fail smtp.client-ip=40.107.236.41
+	 Content-Type:MIME-Version; b=a1k6r4ZVbDruxLDfVjErxRne9GaP57ttWrdJsL3Fzrd+fKWViKKcWZdzpt1xEyJJjZawB+aMg7JayNGPdcc29dQv3DfJ3HbJvw1HoKEwm21oKUyVK1OM3bZpQdfa3DFCMwHgYEf1Vm/SIInpYQz05kasxpOl2j6eOgfXdW4gOOI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=tlJhmhtx; arc=fail smtp.client-ip=40.107.237.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="FyfuweE7"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="tlJhmhtx"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JqmiKtY41pooGPZaxtA5mL4Uz2XyFy322ToBwFoWz7gfyfulo0bCIsTwoQxudUi2hf767lt8zSKJHydOU4p/tYbFfebWt365SH0cEzk1DazrhHDNXld/Rdy8q5VSWVOMvRVBiZrJADAXn87s7XCtHpQtGmHUHXZ2dnO8teP7fAHSR4GiGPc+IJ1F1pYntMwSd4jF+qdUuj3MmsV2xPQ4f3llyD6MQANm29+GarDUQSvjqz6pZDK9JshzBh9tJGA7Wwm5lTF8CAFzf9aZuoGrVPanRxUmc4TO7Tx/xEMV7ofaixXnZ7Kuy3ETbue6jfEP/ccmNcT0BdRKJ6o1IE7E6Q==
+ b=Wk/8EDFia9PQx1+NNZpadZUlzRckiWkb7GPhhi1lBmJBO7eGS6iLychwJX3DaUPK5aqaQFxzzIkfiEqaVUewxD78qXSTYgq9gvDmD1WTBASawZC77GfDKa4/w/sz8qPhuU4RgiUlTP+fxxt49k5MjYr6JEQ1rXEj/FJsdOBIL0LWV0djjMFeuQA2Dsh699A8kQXsqMRm7lXoXWZClEXyKE1UBo3DDJB5d9uGMgJGazlOoC/J7eClV4o464XFzFf+/7PbQUCK67ERzFm55yr1pue4NTEMBPqLyJQJu4DXqHptMAo2JVBx6tFpK1YkrYMHhi8eRg63QitMc/mJG0bcpw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KNUPqT2xtADZJbMqIlVavLW70bS+ZDo11mXj+pI/Y8U=;
- b=AbLvk1W/J+4jmQValP8JcByt49Vsi6Y0XfX6TPLgOAgO17l7/XVqfRsZ85Hh4GFIR4AAwmxFAH9rc9WGo0Zgu48Ef1APyENret903C4j02D2j5kjCqjglKSHMJ0YTkn9lzPsI9zlFm/JrG41LxyqcW42X357kw2lNGVMxlE1JBbn1Xq2BOr+GQzYy8da8+LWWxpZCutUPjS9GB/Bdqgu/VWjS9Agm8XNrOdTSzPow6pMNiMGY70n4YMOoaTFP5Eyj337+PqF0J7mjGppPID9cM+UY22kQpkDrPmHLWdUFc1POSBLvUtICN/uZ56QYDrkdjJavZrC59GXd7fV7aSGGQ==
+ bh=Z4S4w9I/wKbSB0+3kPPifeybViJmBy6hRNWIOGafSuI=;
+ b=a+hs2kQDXi3vJ8G7vwCQk5eWGh4IB8pucLME+UDmmNUmq2mhbv+VeF8K5Y2kieikn4qwqcLbxPmrBhH/ynWVExKWo0r3T9ZYr+LXJGTibrG8bR9QI4qmFdwEmI6gFtYTAz42J04Ji6rnudSCsBcMmKYlaQGZW5KSU++oxF53elKF/eImLNO4mekNt9k41gV3IIk/LB5CvIqaKZWY5wCf9SvuG/EzUG1VrwWNJPtCjXH8g0rxiAz0g6jHQLHoEnTgNv5cpCM55rVLylZJ3MUA/TOYxyiigLkt3sdmeSZtB2jc1D1sklqRXzboGAX2iUJcNvYeobVIv8v949bX91pnjg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KNUPqT2xtADZJbMqIlVavLW70bS+ZDo11mXj+pI/Y8U=;
- b=FyfuweE7SAURBr6smfCEmEO4fkZBAYH2B+cmcr+qN6PalcttfMmAdyh/z5hhMi6PNrydNQSZLmGCwFupOX7UbslbiR3vES163RCbuMiggkVA663j8g0DQtT3b9BUoNqHzxNhR2prsoal+TRcKHNIhuLaW9Kh08QzF/w43vZ4/bQ=
+ bh=Z4S4w9I/wKbSB0+3kPPifeybViJmBy6hRNWIOGafSuI=;
+ b=tlJhmhtxAY7kOojs7tAbqNTRHEoH9oh9VqHp0dPWi2nWFb2SWtEFB49PtNg6mYdu5j/0JIKwDmKL6rW0QTJs6PPtPKAUnbfZNhZB77EOewRCOdS9sS/YZAfr5/QN2+dSCgc84lcQS7AZ5aX/LciFmKQcXrfSzuPLRzdLoByUf1Y=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from BL1PR12MB5874.namprd12.prod.outlook.com (2603:10b6:208:396::17)
- by PH7PR12MB6694.namprd12.prod.outlook.com (2603:10b6:510:1b1::8) with
+ by PH0PR12MB7930.namprd12.prod.outlook.com (2603:10b6:510:283::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.45; Wed, 24 Apr
- 2024 19:38:33 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7472.44; Wed, 24 Apr
+ 2024 19:59:23 +0000
 Received: from BL1PR12MB5874.namprd12.prod.outlook.com
  ([fe80::8b3e:57e8:d574:309a]) by BL1PR12MB5874.namprd12.prod.outlook.com
  ([fe80::8b3e:57e8:d574:309a%4]) with mapi id 15.20.7472.044; Wed, 24 Apr 2024
- 19:38:33 +0000
-Message-ID: <ddaf1b59-fd73-4603-b49e-cf21c9971f3f@amd.com>
-Date: Wed, 24 Apr 2024 14:38:28 -0500
+ 19:59:23 +0000
+Message-ID: <139b8cab-009c-4688-be41-c4c526532ea1@amd.com>
+Date: Wed, 24 Apr 2024 14:59:19 -0500
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] docs/MAINTAINERS: Update my email address
+Subject: [PATCH v4] docs/MAINTAINERS: Update my email address
 Content-Language: en-US
 To: Jonathan Corbet <corbet@lwn.net>, elena.reshetova@intel.com,
  Akira Yokosawa <akiyks@gmail.com>
@@ -56,9 +56,9 @@ References: <97731c94-99b0-46be-8b78-5dac8510f690@amd.com>
 From: "Bilbao, Carlos" <carlos.bilbao@amd.com>
 In-Reply-To: <87cyqetwhh.fsf@meer.lwn.net>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA1P222CA0176.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:3c4::12) To BL1PR12MB5874.namprd12.prod.outlook.com
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA9PR13CA0113.namprd13.prod.outlook.com
+ (2603:10b6:806:24::28) To BL1PR12MB5874.namprd12.prod.outlook.com
  (2603:10b6:208:396::17)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -67,123 +67,344 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5874:EE_|PH7PR12MB6694:EE_
-X-MS-Office365-Filtering-Correlation-Id: 02ac78f9-c4c5-4e82-160d-08dc649620aa
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5874:EE_|PH0PR12MB7930:EE_
+X-MS-Office365-Filtering-Correlation-Id: e2bcbae0-cb08-4b42-75ff-08dc649908ff
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?UTEvL3FGZklSK0JDVWpick5sTzhlWm5lc0tLVFNRM0p0SThCeE9PREhqRHpT?=
- =?utf-8?B?SjAwVmliNFJ1YU1vV0FOQllVZExyYXRLeTh3anhiYWJ1cURWTVpsaGlkVTdT?=
- =?utf-8?B?L1QwdmpUdFd4a2ZFMGtPNVRBeHhSZ2RzZWp4U3BtQXgwK3BOL0w3QnNlcjlX?=
- =?utf-8?B?OVM4TW5zbVZhZkx0VmpMZGZIcHFqSTBEd2tvOFhueDNTWExHOTlGN3VXcVd6?=
- =?utf-8?B?RGE2YStDQlVzbDN1Sk5zOFJrOU5kTTY2eHA5aWJON29yWlREU2JpU0NNUm1x?=
- =?utf-8?B?TWFLVzgrQ1NLblZFWm1RMXFiaEtsY3JGdklRWXNsbFk5UjdPb0VLb2F5Zmox?=
- =?utf-8?B?SGxLRUF4NGZQeHUwMXZtbGxqL0VSM0RPcTlONDhPWGxIOEhhVnJXbDNZUXBS?=
- =?utf-8?B?VEQ0L1V5clBCcE1IUHZoNENWTlp0YlRkTHFmeU5KTHY5Ni83OTdnejNsdys2?=
- =?utf-8?B?WC9MVlArMGgwV1A2NHVuZ0VmR2o2dWx4WG1QVGNNdlpVTmRBdmdWemQ2NCt0?=
- =?utf-8?B?VVA5SmtmM2ExTmZzeE1TcWtIUzVyYmRlUWh6QlRKdHhrcGZveHBJS1RNQUlI?=
- =?utf-8?B?VFkrSUZ0dCt1WkU1SDY2ZkRmOHh0L3IvY0pBM3JKTHpFU0VpUnlqbFFtbmxJ?=
- =?utf-8?B?K003SXhKZGtEblR0L0NpUk9hbGsyd05iRm5BSm9VY25FT3pPUngyb2lTSW8x?=
- =?utf-8?B?SjduUG14c3hRWDhiTDJQZ3RiOW9YYTFRME9sTVRsT2o5RHhvYXdCRVdHMnVD?=
- =?utf-8?B?Ulp2QWNTWTBNWk5RcUVqdmF4UjRteHdRVjcyNkM0ZVZCTmsraktEeHkyTXFN?=
- =?utf-8?B?NnM5OE5XdDZOR3REd0hjZ3Z2d0M3cG5mS0VJVDE0UFYzUEkraDg5SXVqRGdD?=
- =?utf-8?B?R3BVOGFzVXBGQWtNdXIzSFhjUGR2b214dEV3OVM1TG04UU1aUFZleUZMLy9N?=
- =?utf-8?B?VjROT2NqYzFBSmNhQXBCTTFHRVlMWEc4Zk5uRVVPdUNZanJPcGtZMTQ5RWhv?=
- =?utf-8?B?RjJCVks0dEh3VHpQNktmei84OWhHZzNseThJMTJiSUI1VXdvaXkzK2pXdXBG?=
- =?utf-8?B?bVZJRFY2dllhNzNrZWdaTkJMY1BaVnlFaGMzcWNwWjVURFhFU0JVUUN3ZjBU?=
- =?utf-8?B?T0JWSnZCcmc1TkhjL2hRcko1bDBENUJ3MEtaUjBIZEZ6V3B3VkdpUncvQUty?=
- =?utf-8?B?bkE5Y2VqajBlU1JXVlZuN1ZjcEd0TDNrVEJ0NTRZMWJ0N3hYRW5USkJvSDlQ?=
- =?utf-8?B?WkRGTGFCZWg4a2JMb3J3eWxvL2djV042dy9HejBsdzl5NTdVN0NYclhBNk5I?=
- =?utf-8?B?VFpMV01Zd0gvdE9rQkNKUS96UDRQWlRMa1ZDS0t2RW5ZeUtJT042TVBTd0NW?=
- =?utf-8?B?L1VGU0hUaUtWZDdodHNWdlpLMndpMGwvaHdWcmJyZlhQZkpUTWNkRzhmeVBt?=
- =?utf-8?B?VWgzRTJWRkRHVGpxR05XRlRrZGJSWG1GWm9HNHdGY2lFZFUzZFZ6L2tNMUNC?=
- =?utf-8?B?SGwxaHVSWElmY2RRa0F2ZjY4WGNHRG16SFBjdENpZDdmTFU5Sk1OMTdINnNy?=
- =?utf-8?B?NlBmUEY4RnNRRWNQV0lpTVNWdTFONjFneEJSNXROTk1SUmpZSVY3d2cxYzRy?=
- =?utf-8?B?eXlmQmFESU9oR3lZbHllaXZyMm1QSHc9PQ==?=
+	=?utf-8?B?TkE4UFZIcmNnSnRFdGpEWGVIN0IrR3VTSG5Ha21lajFEcEUxdldZclBra2Z5?=
+ =?utf-8?B?RkJjV0RObTdkdGNmdG91L3NkSEVnVTN0TVNlUjY5c1phYUV5dnBUdmEwem85?=
+ =?utf-8?B?TnFqUFFMK2h2TjBHMXFQVGZSK2g0YTltL0laR2s2WU5OdnJNbGhZK1E5b1lS?=
+ =?utf-8?B?elRDNTJBUllaWklINUtLc3JjcTZxVWRzRURwdjMyZ3FUdkhJSnlzS0h6cVFY?=
+ =?utf-8?B?cVZ0S1VPRGJKWDZWYkR5Wko1NTgydE1FVmtHeHFkS0lNOEVKZ0NEaFFSb080?=
+ =?utf-8?B?d3VNbDhOOUNVdUYzVkVGWVV1TEFjaENWaWovMHNRTWJTcFozVzdjSzY3TUNh?=
+ =?utf-8?B?VUJCb2hhSFJiekRzQ2tzcURPamE5YWoxbEl1YzFpS2ZLOEFCaURGOU5xSUVs?=
+ =?utf-8?B?U2lHUjYvTHd4S2hjN24rWFZabTFyczdIMzBZcDdlazFQMVE5TklxLzRQQjUy?=
+ =?utf-8?B?NXJkMDJxcFFRVDJncS9DMEl3YmRuZEdJK0ZiTG00WGlidzFVc1drTnVCeXpV?=
+ =?utf-8?B?YUZOdzRqNXJETDBFbkx6OXduYW11NEdXNGRmYSt2ZmxnS0Y1QlN0TnowL3Q5?=
+ =?utf-8?B?YmU1YzJjY2F1VkNSVkZ0UzY2TXFoVGxRZ25VbExUcTJBaHVPU1RNYjJPcG9h?=
+ =?utf-8?B?Z1gxcFhGaUFtT0VQWHdGNW1idXJiWXFjeWJvR21iZFM0aGdCcW43YVNseWJ2?=
+ =?utf-8?B?bkdvR2FYZ1RidWdScmUvRENibndWeE9XVE9KTkpvM2M2ZTVkVzAvTHpyMlhh?=
+ =?utf-8?B?K2hpVmlpNlJSU3MzK3FZZGRuZS9DU0VKMVAxbXBtQjdXbTZWS1VwRnhGNk40?=
+ =?utf-8?B?dUFJSkhCQkliUG0rZXY3QldhN0p6cTRSV3NCd0hacDBKb2lxbWd5T2ZWYWJ3?=
+ =?utf-8?B?RElFT0YvcFRFWWlUUDFLMDM4aSt2TGNHNkxWVUdBT2FHTVVZamlYWUcxclZR?=
+ =?utf-8?B?VzR4UEUvb1hwZFlHYi9RNTA0czJ6V1FXVnVCOGg3VFlicmp5bU4xempTbUdD?=
+ =?utf-8?B?SEtuWDZBS3lQdDRsZFMrVmdkeStaMVMvc01JQ1o2UHZySENqdFBsQUhBWGsw?=
+ =?utf-8?B?SzF2T0NIbmZ3QmlvR1dwRC8xSXJ1VmJtVXIwMDhFNGxDMWt4RXo2bUVhZnQ5?=
+ =?utf-8?B?NHgwYXdqMVZoTHp5K1RxZTNsaXlzcUpvQU1NdnVlanFpUUZmZXpSUFQ2bEtK?=
+ =?utf-8?B?Z2JQNTduQjI5M3JzRW9JbUI3SnJNWTE1UURpV3V3MFAwRzNVY1gxL1YvM09j?=
+ =?utf-8?B?aVlzaWlUbWJneW1BMUdkbDBOYnVja1cvdlZ2Q0NqOERoVnExNWtnZkFGMzls?=
+ =?utf-8?B?RkVFaDdvNi9YcXNDdWJlU2F0cTUzSVVYK3hsOWhjVk9KUzBJdnEvQ0lGYnVq?=
+ =?utf-8?B?cm53NnlJdGh1a013VHNCbHlZODgvY0RSMzQ4Yy9ua0ljR0pPclFQczZyb1or?=
+ =?utf-8?B?dFlHZTc5UnVkVkN6c1dwbW5LMUVRYTNTL3hBcnNiTkVpZi80ckJiSHZWbVN5?=
+ =?utf-8?B?UFVFWXVQTk9BQncrTS9Yemt4SzI4UXNRWWhlZHJ5cU80eWNXNGxCTHdvbmdR?=
+ =?utf-8?B?dDNydDBxVkdlT09ycG5xbUY0UmRDQkc0c3JSSk1XN2tjYkhJQTdwalhhWEd0?=
+ =?utf-8?Q?6ZazlJ9oRJ/JsQf7O2JAVM9QzxEMNBt9dw+1dKZkSd8c=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5874.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(366007)(376005);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL1PR12MB5874.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(376005);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?M1hEMHQyandLdzZ0VW1NNkROMW96c3B6alJTUDkveDZhdUZ4RzNtODlNcmNt?=
- =?utf-8?B?VWpsd21Qa2NTVHhQQjF1V2lXTGNFZXhoUzlnSHlFcGEycGU0RDArYk5xTGU4?=
- =?utf-8?B?YzEwS295SE9CN1ZPNTJHVTNFYklDUU9iMjZrWVIrVm82ZTNTdGZKSXQ5S0Rz?=
- =?utf-8?B?dWw3REdxdXFraS9KV0hvRHBnM0FYS1BCNEp2WGNSTGZ6eDVVMS9nUE1BMUhm?=
- =?utf-8?B?VUtnTDZ2QmJrR0ZpYkVlSnNtbTlvRHlrSTROc2ZWcTNkMUdPTCs3ZUVVZkFi?=
- =?utf-8?B?T3VEZXBwWGlEMkZkNmtiZmhVODdCZGFwaXhQQk1YL0hyUlI2eFExQU9Xc2E0?=
- =?utf-8?B?dTZsaTIwZDlLQWQrYTh4ZFhqMGVUWVA5ZEYwMjVFdDc0WExFMXRvOENrWFNN?=
- =?utf-8?B?ZnluaFVHSmEvRmRMenBBd1NrcXpLMjZpOWpTMmw5ZnAwMjUxRGkwdk51ZUxE?=
- =?utf-8?B?ZkZaQ1duM09EaURhYnphU3hLMlZ4Z21FanRBUWl3eElFRXl4aUV6c3dXRCtL?=
- =?utf-8?B?UmpxcDVrZXlBUVRzcTlWMElqc2NoNDJ1cVpZOEdZd1hWMSs1ZmNONXJJVWhp?=
- =?utf-8?B?ZzRjOVFNMS9tSURGYThHdElEVGtsZGN1dHhLQjNNa1lWUWZYU3AydFIwOCt0?=
- =?utf-8?B?VWRtZldwMzhNckRxVndSOWRxeUZ3RkdnNWh3RGp2QnRrUVVRSjQ4UThWMkFa?=
- =?utf-8?B?RnVaNzhjRXZyL3NYSkg2dzZweXd6NTVVRmpTMzFOc0VxMmdFZmpZbk0wQUlk?=
- =?utf-8?B?WURGR3RiZGlyY1FtdjBXUFBVK2paWnJWQnFwMXRUam9GeWE5QW5ST1hBYVVU?=
- =?utf-8?B?T1NEdDNiT1pMVU5HWnRqbHdhT1M5cmwwS3VpTmpVTzY1ZWZiR0oxYTJEOUdn?=
- =?utf-8?B?OHFFQStZd3pDM0VFWk5tZEZoOUdmR3IvZkxoWXg0Tmw5SzI4QUhFcHRuMWs4?=
- =?utf-8?B?aWRCS051bDNNV2ZmNStCajhHYVo1aUhCenlHYzR2V2ZUNU95dldJRk9NcXVH?=
- =?utf-8?B?WUFVWVdIREM0V0c4YzZzTzZIYTh5Z1lrRnRGaDhDMGtUeGowMXBuM2FaU0NQ?=
- =?utf-8?B?VVBZVm5FTGEzNFhlbS9tU2pvOWNxVXY1RGZtWkFaczF0dWNpQVYyNC8wYVcv?=
- =?utf-8?B?OGhHUWoyOEJXQ0pIL0ZTNDVqdU5SOXh6ZEttcGhXTFNrOU14cmRGVWV6M0pv?=
- =?utf-8?B?czM0WGh6a0dPaHBzdGhBaUZnWVd0ZDBBQ0RXUGlzSWhWNldYa3B1WXI1V2Jk?=
- =?utf-8?B?OUdmY3RvcjhkUThYL3dpRy84YmpoTHVlOUhjRWR4Rmgxd3N2WVIvV21lTTZu?=
- =?utf-8?B?Z0dkSVo3elB2aDhIalJMREhYSUx5ZkJjMlZxd0xTblhJVVdFdUpRUnFnS0pP?=
- =?utf-8?B?aGJrRVRyb1RMK2VpVExrekloVmw5ZlUxQlFQUjFHek5RazlBSEVxQzFjNmFu?=
- =?utf-8?B?WkxiTFdZSE1IZTJUSVZVcmNzS2tjWmkwSFVnaGxPYVI1dzY1N0hmWGRWMVZG?=
- =?utf-8?B?MlZUamlmTWpSTW5FaHlTa2l3VDVJNmJSUE42aTA3cHdQZ2pTMWE1ZE54RzFl?=
- =?utf-8?B?dGVxcUU0VDAxMjcxbTdZbGk1ZE9BVnpiTkUyWHNEMUxPWUJ4dnFuV01yWTR1?=
- =?utf-8?B?QUpKdnhBdFIraUtMRzdCN1FXRTBRS1V4SzluWDJhZGNwOHVPci9Bc01mK0tG?=
- =?utf-8?B?ZHZwMnVucFA4ZlZISVQxblJaRE9UWW1QNGp6SDdyQWJYQ3J2V0pGRDYydzVW?=
- =?utf-8?B?WEJlNXcxM0k5Uy9WaUZJb3ZMbFArekVmRkRXeXA3UEw3WE9XblFnQUxCYm9P?=
- =?utf-8?B?LzRiYXh6eUs5Zmc5QVYzN2JNQ1h4ZTVETGZZWUdwMlRsUEQwUThVUU8zM2dT?=
- =?utf-8?B?akJzbmNYc3BzNjhqdG9RcUlNZUZQTkZTTU50djd3M3dZQXJaaGJtVHNlZjFQ?=
- =?utf-8?B?dWk3ZDE0emJzaHRrRmJ1VHNnMlN0K1MzSGR0bjZWWFJNWDBMNno3eDhpUVhH?=
- =?utf-8?B?WUxaUkpkcFdSTTZYZ2FQazhuQnRJOUhvYSs0eWdSbVhuZ0dua1ZFSzdYMWlj?=
- =?utf-8?B?eWZXeVRSL2E2aUxaaGpzV1ZXTkFiVXZnRmFPY3lCdmhHQ0JZTHo2allKYkRw?=
- =?utf-8?Q?JMOBj8zLLVASxFY+ogb8gc6F3?=
+	=?utf-8?B?K2kzOXozcjJWTWlqN2hWYVZNTE5lbVRLRjVFQzVLekZ1VUxxTEg0ZTFmUzBP?=
+ =?utf-8?B?aW5mTjdPeElNR0RHQ25salR6OEZtVDVqSHpTazZYbEt6TjhrVkZEdEtrY1or?=
+ =?utf-8?B?NVRQSm5rUEVDTWk1N2ZxTWZkbTJRU21mVmRXVFhiYjFIV1Nad0VySUdVaExT?=
+ =?utf-8?B?WHVXWCt6aThIZ1ltUUYwU3lTbXc4c0JiQVZNMEZYd2lsK0Jva04vRUZnRjZn?=
+ =?utf-8?B?NFRiVjRUams3dVZuWHNWc2ZHSHVuUjRUZUN4MkRFMG5ZREZyd29Lb0VBZkZs?=
+ =?utf-8?B?OGtYVXZVSmRYTExoWTVxcWN2WVBtbnYxcWRPZHByT2wvbmRXYjVjMm5FeEds?=
+ =?utf-8?B?TmZaVGU3Yy93ZXJybXlTcFJEaGdPcWJrakh6L0d1Y1phZm5yY2FrTTVHS29i?=
+ =?utf-8?B?bHZpb2Y5ZEF5My9mZzV3L2NoNDFvV3p4OUR6Y2FpaUtqMU81NVNUdjFQYlQz?=
+ =?utf-8?B?ZjUyYnlYWlBXM09kWldoTWZlaFRkajB2d0ZQYVIvNGtIQnpRc1pRNlVzY2M3?=
+ =?utf-8?B?UFlzNTlxR2ViK0JHT0x3UmNSeVRiN1JoMzdlQlFLVndiS05NdmEwMktpNWJD?=
+ =?utf-8?B?aStVTDRUbC9IdGdRbjNnVEV0SFN0ZHB4NGFpc2pqUk16VU5aRTNpN2Jzd0ht?=
+ =?utf-8?B?Q0VPTGUvd1VzUUR0Q3V3S0hMU3gweDdpMm4vOWtKQW4wU1FjWEt3cHNsNXhn?=
+ =?utf-8?B?c3MvRFNZZE5ZRERoM1VYdkdOTWZob2QycVZnMDE4T3duWjhHdGRQU3RkVWtW?=
+ =?utf-8?B?Q0NTU3hZUm9uR0k1TDVBOWE1MjNrRnloNzBXQzJOYXdZUUlTUW9ucGViUEJv?=
+ =?utf-8?B?eUFyeS9XcnVWM05SOUVLa0Zhb2xyRmpNME10WDU1QncxQk9FaVFGN2t3bmtn?=
+ =?utf-8?B?VVhTdzZTZWQ5QjAwVElySWg5Vk4yK3JHYm04NFZiYkorNDBQWUNoYnZVRDho?=
+ =?utf-8?B?NjFtZ0REUnJVbi9MYnVhQ0U5cnMzT0pMd1lMcklqaGJYcDU1ZGpWZHA5OUtJ?=
+ =?utf-8?B?bmlJVGs1b2FtMHFGUGJnNFpuODZwc1NHa2I2R2FlQ0RRa0lnbHU3bzA0cnJK?=
+ =?utf-8?B?dVByb0tDSXVsSUJlVFN1c3h5REhGSlBPaXlkOEN5V29saUE2WXNwS3NIR0dr?=
+ =?utf-8?B?Y2QrQW5kb3hVdm1Zc1ZVVSt0blVqRDdpdWd2UE44SUJxSC9GelZ3SDMrcldk?=
+ =?utf-8?B?NVF4c1ovV2Fvc3VISUp6enRvcnBYNVdhYXgxcXRQYzlQdlRwamlnU0ZRMFZN?=
+ =?utf-8?B?ZXJIZ3ZrMnMybHYyMkRSM2UvK2tWM09DN1NoODBQR1ZLNjJnVm5RREtxK2VF?=
+ =?utf-8?B?Y21KQUtjdVgweGdkTHNjdVI2dGhHcnFZUndqTG1OSE9UNXJTdlIyWTBsb3Z1?=
+ =?utf-8?B?TVIvTllnK08xcjkvaUcrSENoNWRCaXZLejlnNHYzTEc1NnVtZDBFcEEwQnpt?=
+ =?utf-8?B?cGloQVBtNm5CQU5vNjQxdHp4QW44ZGYxOVNLU21FbFJJYVRvcmptUThIRndz?=
+ =?utf-8?B?QXEwTXhUTnpvcnBsNzhaaUVKc2Q3LzIzeXR1M2c4UUR6ZkhPVEE2RzViU1BT?=
+ =?utf-8?B?ekgwSWwrSVJncHNZc3RvYXNua3dFU1JjK3dhcGU5ZmN0ZmZtM1hFRWprYzVQ?=
+ =?utf-8?B?T3BGMGkzY0N0WVh4RzRqVVJ5dUROTHRMdHNuU3czUGhhbWpob1ROWDlRcWtJ?=
+ =?utf-8?B?Y0N4bGFOTjYxL24zTFdjMDRHbmpsRGI1U0tEeS9jWjVkeEx0K0dDMDlsT2x6?=
+ =?utf-8?B?Tm9FcEZvbFY5RTZJOXk3TXRmRHZjUWJSRW10VEpzU1pMaVpMRjlTS2V5K1la?=
+ =?utf-8?B?UXpQVnp1ZEVPd3N0dURQelJGREhGUkVQenA5KzlkRGptUnRwdXcyQmJWOG05?=
+ =?utf-8?B?VW9nOG1jaHFkcXk2cXV6MG5wV1IwYzJFVkR2S1RLZnBXbm1lM0lmZm5IZlQx?=
+ =?utf-8?B?YXVDOXo0bUM0cW5TQW1WbzB2TGVuMkRKa2J0d2NScWU2RTFFWTdtVlM3THJj?=
+ =?utf-8?B?L0hDUURLY1dES2NOckoyR1NhREZOVGN0c1JpVGMxWk9KV2h5S0hxaTc0bVpN?=
+ =?utf-8?B?cmxKTjdzRDlNbUtTaCsxeHBSSGEzT2lNbDNBTlBqMnRrbUV4TTRKcVJEYlNn?=
+ =?utf-8?Q?bLHbxP499B8Qi+pZWWEdvBWu0?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 02ac78f9-c4c5-4e82-160d-08dc649620aa
+X-MS-Exchange-CrossTenant-Network-Message-Id: e2bcbae0-cb08-4b42-75ff-08dc649908ff
 X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5874.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2024 19:38:33.7414
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2024 19:59:22.8971
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7SG1rVsCLUDDbUHF1khx7KClzOuEW8UwBfxu1Ho9FkrykivaGThJHg6Xh5qUHVxoPDsPOJOZcYUeymeqU+ChwQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6694
+X-MS-Exchange-CrossTenant-UserPrincipalName: 85ZvEaKxBswMVnm4eH/A9UCU+v6/aIjWOqbR/2CIgVF2AtwejLnfRYPVe6bWPmNL2c3b70bNFQqnh27s+YHRpA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7930
 
-Hello,
+In the near future, I will not have access to the email address I used as
+maintainer of a number of things, mostly in the documentation. Update that
+address to my personal email address (see Link) so I can continue
+contributing and update .mailmap.
 
-On 4/24/2024 2:02 PM, Jonathan Corbet wrote:
-> "Bilbao, Carlos" <carlos.bilbao@amd.com> writes:
-> 
->> In the near future, I will not have access to the email address I used as
->> maintainer of a number of things, mostly in the documentation. Update that
->> address to my personal email address (see Link) so I can continue
->> contributing and update .mailmap.
->>
->> Link: https://lore.kernel.org/all/BL1PR12MB58749FF2BFEDB817DE1FE6CBF82A2@BL1PR12MB5874.namprd12.prod.outlook.com/
->> Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
->> ---
->>
->> Change since v2:
->> - Fix .mailmap entry from <old-email> <new-email> to <new-email> <old-email>
->>
->> Changes since v1:
->> - Update .mailmap
-> 
-> I went to apply this, but it doesn't apply to docs-next.  Which tree was
-> this patch done against?
+Link: https://lore.kernel.org/all/BL1PR12MB58749FF2BFEDB817DE1FE6CBF82A2@BL1PR12MB5874.namprd12.prod.outlook.com/
+Signed-off-by: Carlos Bilbao <carlos.bilbao@amd.com>
+---
 
-I apologize for the inconvenience. Re-sending now after making sure it
-applies to the latest docs-next.
+Changes since v3:
+- Apply on top of docs-next using as base:
+  commit e88c4cfcb7b888ac374916806f86c17d8ecaeb67
 
-> 
-> Thanks,
-> 
-> jon
-> 
+Change since v2:
+- Fix .mailmap entry from <old-email> <new-email> to <new-email> <old-email>
 
-Thanks,
-Carlos
+Changes since v1:
+- Update .mailmap
+---
+ .mailmap                                                  | 1 +
+ Documentation/security/snp-tdx-threat-model.rst           | 2 +-
+ Documentation/translations/sp_SP/index.rst                | 2 +-
+ Documentation/translations/sp_SP/memory-barriers.txt      | 4 ++--
+ .../translations/sp_SP/process/code-of-conduct.rst        | 2 +-
+ Documentation/translations/sp_SP/process/coding-style.rst | 2 +-
+ .../translations/sp_SP/process/email-clients.rst          | 2 +-
+ Documentation/translations/sp_SP/process/howto.rst        | 2 +-
+ Documentation/translations/sp_SP/process/kernel-docs.rst  | 2 +-
+ .../sp_SP/process/kernel-enforcement-statement.rst        | 2 +-
+ Documentation/translations/sp_SP/process/magic-number.rst | 2 +-
+ .../translations/sp_SP/process/programming-language.rst   | 2 +-
+ .../translations/sp_SP/process/submitting-patches.rst     | 2 +-
+ MAINTAINERS                                               | 8 ++++----
+ 14 files changed, 18 insertions(+), 17 deletions(-)
+
+diff --git a/.mailmap b/.mailmap
+index f877262b0be9..91c7a0f57e99 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -116,6 +116,7 @@ Bryan Tan <bryan-bt.tan@broadcom.com> <bryantan@vmware.com>
+ Cai Huoqing <cai.huoqing@linux.dev> <caihuoqing@baidu.com>
+ Can Guo <quic_cang@quicinc.com> <cang@codeaurora.org>
+ Carl Huang <quic_cjhuang@quicinc.com> <cjhuang@codeaurora.org>
++Carlos Bilbao <carlos.bilbao.osdev@gmail.com> <carlos.bilbao@amd.com>
+ Changbin Du <changbin.du@intel.com> <changbin.du@gmail.com>
+ Changbin Du <changbin.du@intel.com> <changbin.du@intel.com>
+ Chao Yu <chao@kernel.org> <chao2.yu@samsung.com>
+diff --git a/Documentation/security/snp-tdx-threat-model.rst b/Documentation/security/snp-tdx-threat-model.rst
+index ec66f2ed80c9..3a2d41d2e645 100644
+--- a/Documentation/security/snp-tdx-threat-model.rst
++++ b/Documentation/security/snp-tdx-threat-model.rst
+@@ -4,7 +4,7 @@ Confidential Computing in Linux for x86 virtualization
+ 
+ .. contents:: :local:
+ 
+-By: Elena Reshetova <elena.reshetova@intel.com> and Carlos Bilbao <carlos.bilbao@amd.com>
++By: Elena Reshetova <elena.reshetova@intel.com> and Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+ 
+ Motivation
+ ==========
+diff --git a/Documentation/translations/sp_SP/index.rst b/Documentation/translations/sp_SP/index.rst
+index c543b495c042..274ef4ad96b9 100644
+--- a/Documentation/translations/sp_SP/index.rst
++++ b/Documentation/translations/sp_SP/index.rst
+@@ -7,7 +7,7 @@ Traducción al español
+ 
+ 	\kerneldocCJKoff
+ 
+-:maintainer: Carlos Bilbao <carlos.bilbao@amd.com>
++:maintainer: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+ 
+ .. _sp_disclaimer:
+ 
+diff --git a/Documentation/translations/sp_SP/memory-barriers.txt b/Documentation/translations/sp_SP/memory-barriers.txt
+index 27097a808c88..153e57130775 100644
+--- a/Documentation/translations/sp_SP/memory-barriers.txt
++++ b/Documentation/translations/sp_SP/memory-barriers.txt
+@@ -1,6 +1,6 @@
+ NOTE:
+ This is a version of Documentation/memory-barriers.txt translated into
+-Spanish by Carlos Bilbao <carlos.bilbao@amd.com>. If you find any
++Spanish by Carlos Bilbao <carlos.bilbao.osdev@gmail.com>. If you find any
+ difference between this document and the original file or a problem with
+ the translation, please contact the maintainer of this file. Please also
+ note that the purpose of this file is to be easier to read for non English
+@@ -18,7 +18,7 @@ Documento original: David Howells <dhowells@redhat.com>
+     Will Deacon <will.deacon@arm.com>
+     Peter Zijlstra <peterz@infradead.org>
+ 
+-Traducido por: Carlos Bilbao <carlos.bilbao@amd.com>
++Traducido por: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+ Nota: Si tiene alguna duda sobre la exactitud del contenido de esta
+ traducción, la única referencia válida es la documentación oficial en
+ inglés.
+diff --git a/Documentation/translations/sp_SP/process/code-of-conduct.rst b/Documentation/translations/sp_SP/process/code-of-conduct.rst
+index adc6c770cc37..a6c08613aefc 100644
+--- a/Documentation/translations/sp_SP/process/code-of-conduct.rst
++++ b/Documentation/translations/sp_SP/process/code-of-conduct.rst
+@@ -1,7 +1,7 @@
+ .. include:: ../disclaimer-sp.rst
+ 
+ :Original: :ref:`Documentation/process/code-of-conduct.rst <code_of_conduct>`
+-:Translator: Contributor Covenant and Carlos Bilbao <carlos.bilbao@amd.com>
++:Translator: Contributor Covenant and Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+ 
+ .. _sp_code_of_conduct:
+ 
+diff --git a/Documentation/translations/sp_SP/process/coding-style.rst b/Documentation/translations/sp_SP/process/coding-style.rst
+index a37274764371..b5a84df44cea 100644
+--- a/Documentation/translations/sp_SP/process/coding-style.rst
++++ b/Documentation/translations/sp_SP/process/coding-style.rst
+@@ -1,7 +1,7 @@
+ .. include:: ../disclaimer-sp.rst
+ 
+ :Original: :ref:`Documentation/process/coding-style.rst <submittingpatches>`
+-:Translator: Carlos Bilbao <carlos.bilbao@amd.com>
++:Translator: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+ 
+ .. _sp_codingstyle:
+ 
+diff --git a/Documentation/translations/sp_SP/process/email-clients.rst b/Documentation/translations/sp_SP/process/email-clients.rst
+index fdf1e51b84e4..55d5803daf41 100644
+--- a/Documentation/translations/sp_SP/process/email-clients.rst
++++ b/Documentation/translations/sp_SP/process/email-clients.rst
+@@ -1,7 +1,7 @@
+ .. include:: ../disclaimer-sp.rst
+ 
+ :Original: :ref:`Documentation/process/email-clients.rst <email_clients>`
+-:Translator: Carlos Bilbao <carlos.bilbao@amd.com>
++:Translator: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+ 
+ .. _sp_email_clients:
+ 
+diff --git a/Documentation/translations/sp_SP/process/howto.rst b/Documentation/translations/sp_SP/process/howto.rst
+index dd793c0f8574..72ea855ac9dc 100644
+--- a/Documentation/translations/sp_SP/process/howto.rst
++++ b/Documentation/translations/sp_SP/process/howto.rst
+@@ -1,7 +1,7 @@
+ .. include:: ../disclaimer-sp.rst
+ 
+ :Original: :ref:`Documentation/process/howto.rst <process_howto>`
+-:Translator: Carlos Bilbao <carlos.bilbao@amd.com>
++:Translator: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+ 
+ .. _sp_process_howto:
+ 
+diff --git a/Documentation/translations/sp_SP/process/kernel-docs.rst b/Documentation/translations/sp_SP/process/kernel-docs.rst
+index 2f9b3df8f8fa..a62c6854f59b 100644
+--- a/Documentation/translations/sp_SP/process/kernel-docs.rst
++++ b/Documentation/translations/sp_SP/process/kernel-docs.rst
+@@ -1,7 +1,7 @@
+ .. include:: ../disclaimer-sp.rst
+ 
+ :Original: :ref:`Documentation/process/kernel-docs.rst <kernel_docs>`
+-:Translator: Carlos Bilbao <carlos.bilbao@amd.com>
++:Translator: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+ 
+ .. _sp_kernel_docs:
+ 
+diff --git a/Documentation/translations/sp_SP/process/kernel-enforcement-statement.rst b/Documentation/translations/sp_SP/process/kernel-enforcement-statement.rst
+index d66902694089..d47a1c154610 100644
+--- a/Documentation/translations/sp_SP/process/kernel-enforcement-statement.rst
++++ b/Documentation/translations/sp_SP/process/kernel-enforcement-statement.rst
+@@ -1,7 +1,7 @@
+ .. include:: ../disclaimer-sp.rst
+ 
+ :Original: :ref:`Documentation/process/kernel-enforcement-statement.rst <process_statement_kernel>`
+-:Translator: Carlos Bilbao <carlos.bilbao@amd.com>
++:Translator: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+ 
+ .. _sp_process_statement_kernel:
+ 
+diff --git a/Documentation/translations/sp_SP/process/magic-number.rst b/Documentation/translations/sp_SP/process/magic-number.rst
+index 7c7dfb4ba80b..32a99aac2f6c 100644
+--- a/Documentation/translations/sp_SP/process/magic-number.rst
++++ b/Documentation/translations/sp_SP/process/magic-number.rst
+@@ -1,7 +1,7 @@
+ .. include:: ../disclaimer-sp.rst
+ 
+ :Original: :ref:`Documentation/process/magic-number.rst <magicnumbers>`
+-:Translator: Carlos Bilbao <carlos.bilbao@amd.com>
++:Translator: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+ 
+ .. _sp_magicnumbers:
+ 
+diff --git a/Documentation/translations/sp_SP/process/programming-language.rst b/Documentation/translations/sp_SP/process/programming-language.rst
+index 301f525372d8..ba2164057f45 100644
+--- a/Documentation/translations/sp_SP/process/programming-language.rst
++++ b/Documentation/translations/sp_SP/process/programming-language.rst
+@@ -1,7 +1,7 @@
+ .. include:: ../disclaimer-sp.rst
+ 
+ :Original: :ref:`Documentation/process/programming-language.rst <programming_language>`
+-:Translator: Carlos Bilbao <carlos.bilbao@amd.com>
++:Translator: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+ 
+ .. _sp_programming_language:
+ 
+diff --git a/Documentation/translations/sp_SP/process/submitting-patches.rst b/Documentation/translations/sp_SP/process/submitting-patches.rst
+index c2757d9ab216..18bb3413c3ca 100644
+--- a/Documentation/translations/sp_SP/process/submitting-patches.rst
++++ b/Documentation/translations/sp_SP/process/submitting-patches.rst
+@@ -1,7 +1,7 @@
+ .. include:: ../disclaimer-sp.rst
+ 
+ :Original: :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
+-:Translator: Carlos Bilbao <carlos.bilbao@amd.com>
++:Translator: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+ 
+ .. _sp_submittingpatches:
+ 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ebf03f5f0619..ca27f138cf45 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -993,7 +993,7 @@ F:	drivers/video/fbdev/geode/
+ 
+ AMD HSMP DRIVER
+ M:	Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>
+-R:	Carlos Bilbao <carlos.bilbao@amd.com>
++R:	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+ L:	platform-driver-x86@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/arch/x86/amd_hsmp.rst
+@@ -5352,7 +5352,7 @@ F:	drivers/usb/atm/cxacru.c
+ 
+ CONFIDENTIAL COMPUTING THREAT MODEL FOR X86 VIRTUALIZATION (SNP/TDX)
+ M:	Elena Reshetova <elena.reshetova@intel.com>
+-M:	Carlos Bilbao <carlos.bilbao@amd.com>
++M:	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+ S:	Maintained
+ F:	Documentation/security/snp-tdx-threat-model.rst
+ 
+@@ -10603,7 +10603,7 @@ S:	Orphan
+ F:	drivers/video/fbdev/imsttfb.c
+ 
+ INDEX OF FURTHER KERNEL DOCUMENTATION
+-M:	Carlos Bilbao <carlos.bilbao@amd.com>
++M:	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+ S:	Maintained
+ F:	Documentation/process/kernel-docs.rst
+ 
+@@ -20690,7 +20690,7 @@ Q:	http://patchwork.linuxtv.org/project/linux-media/list/
+ F:	drivers/media/dvb-frontends/sp2*
+ 
+ SPANISH DOCUMENTATION
+-M:	Carlos Bilbao <carlos.bilbao@amd.com>
++M:	Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+ R:	Avadhut Naik <avadhut.naik@amd.com>
+ S:	Maintained
+ F:	Documentation/translations/sp_SP/
+-- 
+2.41.0
+
+
