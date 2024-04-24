@@ -1,66 +1,66 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8962D158A39
-	for <linux-doc@vger.kernel.org>; Wed, 24 Apr 2024 09:38:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88194158D74
+	for <linux-doc@vger.kernel.org>; Wed, 24 Apr 2024 09:40:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713951541; cv=none; b=bAHfEjXGY3pIyHhy/Kuovh+BVu/UgOhee+4LPxdka8wrfJCjNTZgR37X4G15BPwqIGgq9StCc7i2dOLQDyQqZqZOaaCSXAQJofzE/gQB/D86AjkV6tmx0kO6ZjGgxEeo2ek84HdkPgs4JPOY96/G1BZJMvMgimlB0O1ELGYeuyk=
+	t=1713951614; cv=none; b=modRyMpBNMtv5UqYIBOTYdsd3Vt+tHVI1OdX9YHF4fgEOipHt2u5I852K0cucFlrf8FGWBoRU04h91waGBlwvNU1fJIYfJa1UmxUz5LkN8w2+nwyOhOBxOaZEYetap+DpLk8EsuqNo/93HcziffVt/oJta6LezzMYKDXECgqKCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713951541; c=relaxed/simple;
-	bh=qc5CL3S71giAfySYaTVkfk5wuylLzDuZV+KpRU+IQUQ=;
+	s=arc-20240116; t=1713951614; c=relaxed/simple;
+	bh=kxAE2HnK94Uoex6jrFCYsczG+PKC6z/6jWCCSXTIVRg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VS9ZDACqzTczcGjaNIrpODKBs7sX66IoRjToNnFOCrby39DL8ailcSz7KQp6YaJ8qN5VJ57JmjnZrJpytBv0cBJW98HMpW9OGcLXZw+l7NlffhZ+pgsFOWlSWRt011ge6zAIL2XjlzQNy/twoF2HK7a/LMeJ/IJcpVZ1ZJjAuEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=e0D+ujJw; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=HYEvf9ZvI9s5QlnGqsU3jsF9GGHvhmM/irWq/WIZv1UJ99C8lC8wHAkx+GichdQ3hkkpwcNkO71EE/HzpwduL+s4L22veSbktvZKv/QqosMVjwtI4ZRS5gCNN+SLZ9OU7BKvuICaIz+nNc8+osRKmOMVv9ZDb3pDRPHdCbshqVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fu32h64z; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="e0D+ujJw"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fu32h64z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1713951538;
+	s=mimecast20190719; t=1713951612;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=ZUMWB0R88eBXuTxuh6JHDZn3KqkUsFmowtEVe2WSZFc=;
-	b=e0D+ujJwdnAwg7Q9eWN6OJFLkoeltVbrRzxVo6AfAiYRdSJqrGHufFktarVqpc0GfSmZYa
-	iunF9ti3VFxP73j4Pyfzb0BoXsJxGCktO4hA1i0NtGK54+hXIPQetnrjR2EJG62EMUWHp1
-	ZGxQwBsVsWDKAAJ20NrmeHZRn1fK034=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=v7ZQm+KUdgib6tZRCwHfwUKJzpflYwxr8pEgfV1EGsA=;
+	b=fu32h64zw50I69hhIVPI1Eb/9bB3pLFhTQfsMvDuypyOsbmWQIfVnWBvPcwtcxxoUyEi5G
+	BEri7xbAaP5BmrBTMEpRd05vFND7rnUzDyWLFDYriaMPCMCCvheQwOHbi6vh4R2s+umOQB
+	V//4/AgXWB8PInYVW4UOFNCPo7nroPM=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-680-9nlez8SnPQGAXFENyJa9Sg-1; Wed, 24 Apr 2024 05:38:55 -0400
-X-MC-Unique: 9nlez8SnPQGAXFENyJa9Sg-1
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-416e58bdc0eso28592435e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 24 Apr 2024 02:38:55 -0700 (PDT)
+ us-mta-133-93EjYxEOM-WLAhlodJcZ7g-1; Wed, 24 Apr 2024 05:40:11 -0400
+X-MC-Unique: 93EjYxEOM-WLAhlodJcZ7g-1
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-349cafdc8f0so3999152f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 24 Apr 2024 02:40:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713951534; x=1714556334;
+        d=1e100.net; s=20230601; t=1713951610; x=1714556410;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=ZUMWB0R88eBXuTxuh6JHDZn3KqkUsFmowtEVe2WSZFc=;
-        b=jKsk4DVCazpUwDNN5fguFm1NHWGTgSZo71r5MCB+EQTawNdcB3MGbHxrvrNCuNP1FV
-         +kFh8fCmdNaWoKz8XEUKtm2+jRB/ntfd8vhnACaeISf1yAd3uvF+d1eNwsrekR308bLo
-         uK3RXt3kVVLpq+5Gmf1HoMS3JcfDYMErMeY47id6f2zgEH5y0BI+acDUpIOkeuZ8kX21
-         0WEjOJkbaG8qwOg23RFNN3fLekkre6NLGZu1UVQjtuMvyZqAMwGQKa5Oxn3BHf0+qTvl
-         TOauZayc0ukVUUqBaUTMVwTKxRNcdGxZovZj1zcrXMNhR+6qsL7HiBKZIaiylNMmS3Ol
-         H3qQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW82RkithCm86kWiS2b0WoTpQGb8okNs0NsFuOdMRc/6iEo5zYiIhfWDVoiAee/59q9zSgr0+m2agsHxWW2AE0NOFeSL78QA7Gc
-X-Gm-Message-State: AOJu0YxboTq7Q5s3jBkUFMH/qdAy77Gd7PGTvAnNP4p89G1R5sV96Eed
-	HCvpE/iz1S8qCscxUaiqAaDbh5Uyn1sdpW2rs/I3F1ubClTwiBsZPABBciW/WIhwoRR9Q13olxC
-	XbljrKU9DNoXFNJnEC9EESk5nucNscZFT/udv8J+VhPtQnNIOuNy8evVY7w==
-X-Received: by 2002:a05:600c:4ed4:b0:419:e25e:ef62 with SMTP id g20-20020a05600c4ed400b00419e25eef62mr1269883wmq.40.1713951534214;
-        Wed, 24 Apr 2024 02:38:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGm4M1VwrMlxKqcBLI0bDh8kyh4Nz7qvnr7GQWuHTSSZ/9CIqCuVx+jkSRRpDzKruNuXlPp3g==
-X-Received: by 2002:a05:600c:4ed4:b0:419:e25e:ef62 with SMTP id g20-20020a05600c4ed400b00419e25eef62mr1269861wmq.40.1713951533808;
-        Wed, 24 Apr 2024 02:38:53 -0700 (PDT)
+        bh=v7ZQm+KUdgib6tZRCwHfwUKJzpflYwxr8pEgfV1EGsA=;
+        b=ZOSeHNNQk6emk4ctVckYyAKZGjAEfeeFJ9V6w7kxEdJdfxDZ4jtQuiVzk380At9Xj8
+         MPxt5/nkQ9UMxER2bN2Mz+xxCHGS//MAR2GecXNVCoVrvC5PeWWjuKBVTmEcg6V2lRae
+         W8m3MYmNx00FcSk19j9Z5qhcG6bCdDryJAVJpP809csbo2ZBlDFX16sD+HouFUs+0sKk
+         SKYBZOno/U/lbO7jjuGCmB7XoLd5vnxDmmBU+fQDPAPLyFmuNdk7MsdcHEvenaW+xAkJ
+         y1sF/p7f/BrVC88FMCYJos2O5TVhvJdAvRz0VuvVl8tkWjbdrZrQwcp9u90e4XzzvuZA
+         fipg==
+X-Forwarded-Encrypted: i=1; AJvYcCUImyk6oNJj56Qj3+N0aKgbL6Z3Uc5fC+4YBpG05vrLlPGgi8w0qdnZWlcoETSx0ebYRmh9Bb8FMYLjZNnell7Thu6ErbPMNQrX
+X-Gm-Message-State: AOJu0Yzj6gyBlhRywhkWvq1PMlVQPLM7I3aNmuUBiLKZT0/zrDeJDWrs
+	mcNsdxQ26LkXAx01rhyiZiLJNH22wTkqJglB8Q+ul+Ae/PmCYPUUYXd18r/ojYzqABeUxqqpNgB
+	T9kKWbV29s/jJ4KUF24DiW0XVBSgS5GJ3Pmo21yUMRpOEAfvbO5tQdPYsTw==
+X-Received: by 2002:a5d:6e84:0:b0:34a:912c:bb7c with SMTP id k4-20020a5d6e84000000b0034a912cbb7cmr1437586wrz.69.1713951610002;
+        Wed, 24 Apr 2024 02:40:10 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFxDdeQxiT5PNnUKKUzFHvU4KlwyItiJYdD491syZ2ofs/FBe7n5BqA/L51mPCutzUm9D5TZw==
+X-Received: by 2002:a5d:6e84:0:b0:34a:912c:bb7c with SMTP id k4-20020a5d6e84000000b0034a912cbb7cmr1437558wrz.69.1713951609547;
+        Wed, 24 Apr 2024 02:40:09 -0700 (PDT)
 Received: from ?IPV6:2003:cb:c70d:1f00:7a4e:8f21:98db:baef? (p200300cbc70d1f007a4e8f2198dbbaef.dip0.t-ipconnect.de. [2003:cb:c70d:1f00:7a4e:8f21:98db:baef])
-        by smtp.gmail.com with ESMTPSA id bi12-20020a05600c3d8c00b0041a959036f2sm7117510wmb.43.2024.04.24.02.38.52
+        by smtp.gmail.com with ESMTPSA id o12-20020a5d684c000000b0034aa1e534c2sm11277902wrw.96.2024.04.24.02.40.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Apr 2024 02:38:53 -0700 (PDT)
-Message-ID: <1af4fd61-7926-47c8-be45-833c0dbec08b@redhat.com>
-Date: Wed, 24 Apr 2024 11:38:51 +0200
+        Wed, 24 Apr 2024 02:40:09 -0700 (PDT)
+Message-ID: <c30fcda1-ed87-46f5-8297-cdedbddac009@redhat.com>
+Date: Wed, 24 Apr 2024 11:40:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,8 +68,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 01/18] mm: allow for detecting underflows with
- page_mapcount() again
+Subject: Re: [PATCH v1 06/18] mm: make folio_mapcount() return 0 for small
+ typed folios
 To: linux-kernel@vger.kernel.org
 Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, cgroups@vger.kernel.org,
  linux-sh@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
@@ -86,7 +86,7 @@ Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, cgroups@vger.kernel.org,
  Naoya Horiguchi <naoya.horiguchi@nec.com>,
  Richard Chang <richardycc@google.com>
 References: <20240409192301.907377-1-david@redhat.com>
- <20240409192301.907377-2-david@redhat.com>
+ <20240409192301.907377-7-david@redhat.com>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -134,79 +134,81 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <20240409192301.907377-2-david@redhat.com>
+In-Reply-To: <20240409192301.907377-7-david@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 09.04.24 21:22, David Hildenbrand wrote:
-> Commit 53277bcf126d ("mm: support page_mapcount() on page_has_type()
-> pages") made it impossible to detect mapcount underflows by treating
-> any negative raw mapcount value as a mapcount of 0.
+> We already handle it properly for large folios. Let's also return "0"
+> for small typed folios, like page_mapcount() currently would.
 > 
-> We perform such underflow checks in zap_present_folio_ptes() and
-> zap_huge_pmd(), which would currently no longer trigger.
+> Consequently, folio_mapcount() will never return negative values for
+> typed folios, but may return negative values for underflows.
 > 
-> Let's check against PAGE_MAPCOUNT_RESERVE instead by using
-> page_type_has_type(), like page_has_type() would, so we can still catch
-> some underflows.
-> 
-> Fixes: 53277bcf126d ("mm: support page_mapcount() on page_has_type() pages")
 > Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->   include/linux/mm.h | 5 ++---
->   1 file changed, 2 insertions(+), 3 deletions(-)
+>   include/linux/mm.h | 11 +++++++++--
+>   1 file changed, 9 insertions(+), 2 deletions(-)
 > 
 > diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index ef34cf54c14f..0fb8a40f82dd 100644
+> index daf687f0e8e5..d453232bba62 100644
 > --- a/include/linux/mm.h
 > +++ b/include/linux/mm.h
-> @@ -1229,11 +1229,10 @@ static inline void page_mapcount_reset(struct page *page)
+> @@ -1260,12 +1260,19 @@ static inline int folio_large_mapcount(const struct folio *folio)
+>    * references the entire folio counts exactly once, even when such special
+>    * page table entries are comprised of multiple ordinary page table entries.
+>    *
+> + * Will report 0 for pages which cannot be mapped into userspace, such as
+> + * slab, page tables and similar.
+> + *
+>    * Return: The number of times this folio is mapped.
 >    */
->   static inline int page_mapcount(struct page *page)
+>   static inline int folio_mapcount(const struct folio *folio)
 >   {
-> -	int mapcount = atomic_read(&page->_mapcount) + 1;
-> +	int mapcount = atomic_read(&page->_mapcount);
->   
->   	/* Handle page_has_type() pages */
-> -	if (mapcount < 0)
-> -		mapcount = 0;
-> +	mapcount = page_type_has_type(mapcount) ? 0 : mapcount + 1;
->   	if (unlikely(PageCompound(page)))
->   		mapcount += folio_entire_mapcount(page_folio(page));
+> -	if (likely(!folio_test_large(folio)))
+> -		return atomic_read(&folio->_mapcount) + 1;
+> +	int mapcount;
+> +
+> +	if (likely(!folio_test_large(folio))) {
+> +		mapcount = atomic_read(&folio->_mapcount);
+> +		return page_type_has_type(mapcount) ? 0 : mapcount + 1;
+> +	}
+>   	return folio_large_mapcount(folio);
+>   }
 >   
 
- From b49849001f3d2aad0af93cf2098065d7cbd9a959 Mon Sep 17 00:00:00 2001
+ From 98acfb7ff35cb65fcfca5e799bf58f8afe84a645 Mon Sep 17 00:00:00 2001
 From: David Hildenbrand <david@redhat.com>
-Date: Wed, 24 Apr 2024 10:50:09 +0200
-Subject: [PATCH] !fixup: mm: allow for detecting underflows with
-  page_mapcount() again
+Date: Wed, 24 Apr 2024 10:56:17 +0200
+Subject: [PATCH] !fixup: mm: make folio_mapcount() return 0 for small typed
+  folios
 
-Let's make page_mapcount() slighly more efficient by inlining the
-page_type_has_type() check.
+Just like page_mapcount(), let's make folio_mapcount() slightly more
+efficient.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
-  include/linux/mm.h | 5 +++--
-  1 file changed, 3 insertions(+), 2 deletions(-)
+  include/linux/mm.h | 7 +++++--
+  1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/include/linux/mm.h b/include/linux/mm.h
-index dc33f8269fb52..cf700c5cdd58b 100644
+index cf700c5cdd58b..78e583b50e421 100644
 --- a/include/linux/mm.h
 +++ b/include/linux/mm.h
-@@ -1229,10 +1229,11 @@ static inline void page_mapcount_reset(struct page *page)
-   */
-  static inline int page_mapcount(struct page *page)
-  {
--	int mapcount = atomic_read(&page->_mapcount);
-+	int mapcount = atomic_read(&page->_mapcount) + 1;
+@@ -1271,8 +1271,11 @@ static inline int folio_mapcount(const struct folio *folio)
+  	int mapcount;
   
-  	/* Handle page_has_type() pages */
--	mapcount = page_type_has_type(mapcount) ? 0 : mapcount + 1;
-+	if (mapcount < PAGE_MAPCOUNT_RESERVE + 1)
-+		mapcount = 0;
-  	if (unlikely(PageCompound(page)))
-  		mapcount += folio_entire_mapcount(page_folio(page));
-  
+  	if (likely(!folio_test_large(folio))) {
+-		mapcount = atomic_read(&folio->_mapcount);
+-		return page_type_has_type(mapcount) ? 0 : mapcount + 1;
++		mapcount = atomic_read(&folio->_mapcount) + 1;
++		/* Handle page_has_type() pages */
++		if (mapcount < PAGE_MAPCOUNT_RESERVE + 1)
++			mapcount = 0;
++		return mapcount;
+  	}
+  	return folio_large_mapcount(folio);
+  }
 -- 
 2.44.0
 
