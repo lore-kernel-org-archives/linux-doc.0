@@ -1,77 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E97C16079C;
-	Wed, 24 Apr 2024 15:52:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64B2D15FCE1
+	for <linux-doc@vger.kernel.org>; Wed, 24 Apr 2024 16:08:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713973971; cv=none; b=CJ9EE+9vU9hXVbMOJ8iCIC8V+Y8o4PPsCJ5I+5Jj4VnYJsvgXEL8OI1G9m3tfHLXFxTLYm935KD4xkwek5aB3YF5iRikbQOfbGdibA+MUSxdUWQZ933FBvPZKdN7IUBfIurDxY000H64Wy3XISZhHBD/jf+fq+erzmRHaCF7B10=
+	t=1713974901; cv=none; b=fM/AiUv70rW28mhHHZ3VLf1ZcQQAsanDZ9daR5jyFBx4ytvNHd/OsIRHRJCzr6VTY+PEEtM+SMZw3Szbt6zan2J3jsRp11XHZba2Cuh++siI3ER2ThQYS1bxHkwEwCsKAe9F3y9YdYroTvHURz5Ay+C4RmR9B/o9HkpZIkiJMHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713973971; c=relaxed/simple;
-	bh=NMNO+e0grFGj/Q+x2O81Y6xcTdzYQaELAi7w0CoWizo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=c4Xbo5FvAOW2Dz/jp7UeYDvUaamqNQhn+TGJiTvA7vUMdLj6oSkFzF0LeVjcRUvZSB8PO7DnXu+zYdoGpKLZIEnt9z//IRKTOSxN+8P9/NUUoh5rFE6pggIpU7J+OAOlnv8ot0Lnizy2keH3IR/gtPhMHYeoYi0h3V4L1Nqien8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kjy12Kar; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1713974901; c=relaxed/simple;
+	bh=UX+RSQsTZIoCgA4sTAjvIrhaan3lVSfzg+9u2yHW7fw=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=g8F25uo5kIl3OqiGzWQ0ujG5nyyLipuQtqXcEJMnJ3EYocsPpeKQIF6+J18tZdyRIHJJwRX3NxDZMP4gIFkKyPT1nCu9Fw145G7VZrsVpjcGEtLpgSLLPYFgDdGfZJVYRCSOKq1EseecivNjC5r8nEKdWgCq6t4Zrpc8oHWxq84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fSQNh+xZ; arc=none smtp.client-ip=209.85.219.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kjy12Kar"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66689C113CD;
-	Wed, 24 Apr 2024 15:52:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713973971;
-	bh=NMNO+e0grFGj/Q+x2O81Y6xcTdzYQaELAi7w0CoWizo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Kjy12Kar1wvr+8bc/ZCUaiX63Vn+sNMs5+IpzzoWHkwAbfzA0J4oR0iip2ldQalsx
-	 ZLiNJONbhjuUuIc1llh195a/twQGCn7IiCDjWK6/u3xkFqkTX9jiDPz4BJcsKYPqs9
-	 CXtNGLhk3JjUWIdOJ8sAIQLZl1WE6ubTN3kBns9JYMsSdW0qpQNurRwgx13LEN7nPx
-	 TyvXwLt8SIcDoJBf4wZJsq54kUAuASXvYKqeLb9AC6BavOJ3okiu/nDCthxHxSQ+Do
-	 XbihOjHmVmlqBrnW411qgZTME3rHvx7Gdy34dX99yL1DvTacCQEWR3erjUkgUpv1Ba
-	 dFV2sk1+amIUg==
-Date: Wed, 24 Apr 2024 08:52:49 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Heng Qi <hengqi@linux.alibaba.com>
-Cc: netdev@vger.kernel.org, virtualization@lists.linux.dev, "David S .
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
- Abeni <pabeni@redhat.com>, Jason Wang <jasowang@redhat.com>, "Michael S .
- Tsirkin" <mst@redhat.com>, Brett Creeley <bcreeley@amd.com>, Ratheesh
- Kannoth <rkannoth@marvell.com>, Alexander Lobakin
- <aleksander.lobakin@intel.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Tal
- Gilboa <talgi@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, Jiri Pirko <jiri@resnulli.us>, Paul
- Greenwalt <paul.greenwalt@intel.com>, Ahmed Zaki <ahmed.zaki@intel.com>,
- Vladimir Oltean <vladimir.oltean@nxp.com>, Kory Maincent
- <kory.maincent@bootlin.com>, Andrew Lunn <andrew@lunn.ch>,
- "justinstitt@google.com" <justinstitt@google.com>
-Subject: Re: [PATCH net-next v9 2/4] ethtool: provide customized dim profile
- management
-Message-ID: <20240424085249.6d67882b@kernel.org>
-In-Reply-To: <76b75fcc-aa2f-4c75-b28f-7f7a513a2cf1@linux.alibaba.com>
-References: <20240417155546.25691-1-hengqi@linux.alibaba.com>
-	<20240417155546.25691-3-hengqi@linux.alibaba.com>
-	<20240418174843.492078d5@kernel.org>
-	<96b59800-85e6-4a9e-ad9b-7ad3fa56fff4@linux.alibaba.com>
-	<20240422113943.736861fc@kernel.org>
-	<76b75fcc-aa2f-4c75-b28f-7f7a513a2cf1@linux.alibaba.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fSQNh+xZ"
+Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-dc647f65573so74561276.2
+        for <linux-doc@vger.kernel.org>; Wed, 24 Apr 2024 09:08:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1713974899; x=1714579699; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bk3EKgsQGWnjS0MB5E+L5+lH/YRrJ8wTPFpK6fCHC/0=;
+        b=fSQNh+xZyICEaLyAYJ9j8B5Dpz9iGvXe9AekGvZfUPSkhGUTKrJ2lWayZW7QAOpQOf
+         Q8M9BTKg6GMvNXkaD9RUJ1roLQLTBheXYP90tNemuaJnFJSGeXEHf5U6w/G8ikG57+hX
+         W/ZzL5/4l3gLhcXPfwq+bEcEFadq6++lmanCmdo/KIZDV3aU2zV7kIT6eEz9zfIpPkXU
+         LjwDPyGXrm6hdmyc3QkSm+PodXwkdjiQ8stX3PaKWkIe2b584IuIkiqHXxhX4rcfzUJe
+         HfikG0tr0eilK8dW+/r2DUtDQCvS/X8YSGThyZQo/jrugYDs0TXEhbrObWtF24v19B28
+         yj8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713974899; x=1714579699;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bk3EKgsQGWnjS0MB5E+L5+lH/YRrJ8wTPFpK6fCHC/0=;
+        b=HxN4ygyFxUhdphwadGTPIMp3qlq5wuLLM4r8viKJb7H7YrWD6jlcPIBFu8UW+sliwR
+         enIZ1xgOc8NmtiivJ+CEcr7FRo+Uf2rv3m7wIPiFxLjCbt4ToaLx6zcZ1Lnt8sRVbMcF
+         7OuzS5L65YHF1I0oaD9hI4TZKg4V+1ZyrCaHsGLK4BUqo04RY/orBnLqUF8ZU+aGHVkJ
+         XFbxZSUZ1Gquwkh04oc5u+RZpf1IwNzMuTv/172Tz28U602cRX0e21Ez7uZn30qLrGTW
+         Rw5ITkh3+twIZ7qOqsKHErKmVgU2bs6sQ2nnbj4Dy4qaoMGu8E0hfdemhoDNsrieacwm
+         CNAw==
+X-Forwarded-Encrypted: i=1; AJvYcCVz4Qm/933h/mOH/wuofQxrvyMk/ER3JbVx9nNFRIfLD1Uc3/rIS6F+JmdGLVO7UFaWl9j/rlHkVPwdSsodUJ4/wo7iIJSVTskJ
+X-Gm-Message-State: AOJu0Yx9ZXB+OmDHQ2WZzvFM4/82+nAzCyKtz9xBpax1lzeJ3FFOd9m3
+	NIe3bf4nYdQDeu49fZ3TlVfK6tXJcWMkzuPYY1PZc4A3k/7va/Ig8NvM3kyl3fJXtoTJoa+bS4F
+	y+A==
+X-Google-Smtp-Source: AGHT+IHUEHWaTgZwPWeVlQZLsmhgBLdJhdqkgpe+SOVJ7NnX/mE1lLDAZaofyhrlTH6Xy2nYNweVj/XvttU=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a05:6902:706:b0:dcd:3172:7265 with SMTP id
+ k6-20020a056902070600b00dcd31727265mr1002573ybt.8.1713974899485; Wed, 24 Apr
+ 2024 09:08:19 -0700 (PDT)
+Date: Wed, 24 Apr 2024 09:08:18 -0700
+In-Reply-To: <20240329201854.f24ZDY24JtVE3gfa0i3m1MOFYfXVhCKdkXd0j5c-B6I@z>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <20240207172646.3981-1-xin3.li@intel.com> <20240207172646.3981-26-xin3.li@intel.com>
+ <20240329201854.f24ZDY24JtVE3gfa0i3m1MOFYfXVhCKdkXd0j5c-B6I@z>
+Message-ID: <Zikucr6zpwBxOUiy@google.com>
+Subject: Re: [PATCH v2 25/25] KVM: selftests: Add fred exception tests
+From: Sean Christopherson <seanjc@google.com>
+To: Muhammad Usama Anjum <usama.anjum@collabora.com>
+Cc: Xin Li <xin3.li@intel.com>, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	pbonzini@redhat.com, corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	shuah@kernel.org, vkuznets@redhat.com, peterz@infradead.org, 
+	ravi.v.shankar@intel.com, xin@zytor.com
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, 24 Apr 2024 21:10:55 +0800 Heng Qi wrote:
-> >> This doesn't work because the first level of sub-nesting of
-> >> ETHTOOL_A_COALESCE_RX_CQE_PROFILE is ETHTOOL_A_PROFILE_IRQ_MODERATION.  
-> > So declare a policy for IRQ_MODERATION which has one entry -> nested
-> > profile policy?  
-> 
-> Still doesn't work because one profile corresponds to 5 IRQ_MODERATION sub-nests.
+On Sat, Mar 30, 2024, Muhammad Usama Anjum wrote:
+> On 2/7/24 10:26 PM, Xin Li wrote:
+> > Add tests for FRED event data and VMX nested-exception.
+> > 
+> > FRED is designed to save a complete event context in its stack frame,
+> > e.g., FRED saves the faulting linear address of a #PF into a 64-bit
+> > event data field defined in FRED stack frame.  As such, FRED VMX adds
+> > event data handling during VMX transitions.
+> > 
+> > Besides, FRED introduces event stack levels to dispatch an event handler
+> > onto a stack baesd on current stack level and stack levels defined in
+> > IA32_FRED_STKLVLS MSR for each exception vector.  VMX nested-exception
+> > support ensures a correct event stack level is chosen when a VM entry
+> > injects a nested exception, which is regarded as occurred in ring 0.
+> > 
+> > To fully test the underlying FRED VMX code, this test should be run one
+> > more round with EPT disabled to inject page faults as nested exceptions.
+> > 
+> > Originally-by: Shan Kang <shan.kang@intel.com>
+> > Signed-off-by: Xin Li <xin3.li@intel.com>
+> Thank you for the new test patch. We have been trying to ensure TAP
+> conformance for tests which cannot be achieved if new tests aren't using
+> TAP already.
 
-I don't get it. Can you show the code you used and the failure / error
-you get?
+Who is "we"?
 
-> In the same example, strset also uses NLA_NESTED.
+> Please make your test TAP compliant.
 
-Likely just because it's older code.
+This isn't entirely reasonable feedback.  I'm all for getting KVM selftests
+TAP-friendly, but the current reality is that the KVM selftests infrastructure
+doesn't make it easy to be TAP compliant.  We're working on improving things,
+i.e. I do hope/want to get to a state where it's a hard requirement for KVM
+selftests to be TAP compliant, but we aren't there yet.
+
+If you have specific feedback on _how_ to make a test TAP compliant, then by all
+means provide that feedback.  But a drive-by "make your test TAP compliant" isn't
+super helpful.
+
+> > ---
+> >  tools/testing/selftests/kvm/Makefile          |   1 +
+> >  .../selftests/kvm/include/x86_64/processor.h  |  32 ++
+> >  .../testing/selftests/kvm/x86_64/fred_test.c  | 297 ++++++++++++++++++
+> Add generated binary object to .gitignore.
+
+This should be unnecessary (though I haven't actually verified by building), as
+KVM selftests ignore most everything by default since commit 43e96957e8b8
+("KVM: selftests: Use pattern matching in .gitignore").
