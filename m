@@ -1,93 +1,100 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E78B15ECCB;
-	Wed, 24 Apr 2024 14:22:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1575015E5D2;
+	Wed, 24 Apr 2024 14:37:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713968532; cv=none; b=VbmSvt8fuAdSwYyS7wC3aKMAbSEIBE1SfB4fWYHYBLMImj9Zjb2Cfrudd4pxA8G9u/+kPnRRLEMslXgOsDj6w7vghDn/pKzmUvafTT7Lb90I7d9nqwgdY/1z0AQuKxIeYRkBo5jbkjpHOjCI1SCdm9hPpiYg5AZ3T78QBggOk2U=
+	t=1713969425; cv=none; b=BdkD0Ki4Sy/7+1DY4Jcus6GMl9c+soIqcITg82zdL8HREA6WquC3Jzx+3q3yu8zeHgVzgBEQeGduqAKzcMbZNzcrks5I9BUF4+KPPMFEq2/asrRBrGhigbUCrdqLkp6JsDiXp5T0iqN7aXPloovqkuxjjGv8T+9Ti5ENGkLSaps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713968532; c=relaxed/simple;
-	bh=bKd7H00rDt0Or6kdVYu+lE7iFOzMdHEuVtRzVbC9rds=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cz842Sd9IiINssqBB0lEvRCLC12pfAhBf8LKf2EFuqw9vrItBcCrsT8jPegCgc/alKVP4KWQlol0GasJWRED9fOZGpEL+6w4RhASbH+Ntten1mwGrf7dMtldjg4MWp/3KNjElw9TmAkYYkM8Qn7wASTO95wnquv9xijmYcIWUCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2E576FF809;
-	Wed, 24 Apr 2024 14:22:02 +0000 (UTC)
-Message-ID: <6c624361-a968-498b-a9fb-ea2aaec70ce8@ghiti.fr>
-Date: Wed, 24 Apr 2024 16:22:02 +0200
+	s=arc-20240116; t=1713969425; c=relaxed/simple;
+	bh=h3kni25RcZfL1isJbSQY1P90CKhCozvYjFrPz4S27pc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=u73O51AXd81HphhfftGrnFziBZamF4rXoG0kk6TuhJh2pUR3qBuY20yW47kvEfiqAUK4qAea8Z57CKsxWoNfMx1RqbUBrOrsSjUiKijJAsuAeljUo7QWMS/o3bzHqtQpulq5KbPAYFYY4Gednz05SAswD95jFo3rsyZSxkRE5QQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mwWXgIMp; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mwWXgIMp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30779C113CD;
+	Wed, 24 Apr 2024 14:37:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713969424;
+	bh=h3kni25RcZfL1isJbSQY1P90CKhCozvYjFrPz4S27pc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=mwWXgIMp7onRxIzQMA/o2hJjg+kLerJWdGA8NmXQBkjR3qi2vj/bQcmimTz0maYi8
+	 z5gMU5Octleth+6gAmoNuyUcD87z8qUeRbudH/zLFzlrnFWKT+4Zn4V3QxR5YagCAU
+	 sQn/rwmF/242nsRJulm6n+rabudxSrtlEkpv+p0INusFS5xIwV5YVCxTxZluFWwR8h
+	 QFdRxUeHDOWyNPlVW+G1pTmms/xmdJBZxRtx4CxNXCe1PPRomABni77Hm7BByEKEBK
+	 hJnZ/FSW076buS4A+GTcc+mjOgB15eg6FUJDRPr0pkANky9aTF5MAkauz8FCAAuMVh
+	 57tz6HVsJ0Bqg==
+From: Daniel Bristot de Oliveira <bristot@kernel.org>
+To: Daniel Bristot de Oliveira <bristot@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-trace-kernel@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/8] rtla usage improvements
+Date: Wed, 24 Apr 2024 16:36:49 +0200
+Message-ID: <cover.1713968967.git.bristot@kernel.org>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 06/17] riscv: Fix extension subset checking
-Content-Language: en-US
-To: Charlie Jenkins <charlie@rivosinc.com>, Conor Dooley <conor@kernel.org>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Guo Ren <guoren@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Conor Dooley <conor.dooley@microchip.com>, Evan Green <evan@rivosinc.com>,
- =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>
-Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20240420-dev-charlie-support_thead_vector_6_9-v3-0-67cff4271d1d@rivosinc.com>
- <20240420-dev-charlie-support_thead_vector_6_9-v3-6-67cff4271d1d@rivosinc.com>
-From: Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <20240420-dev-charlie-support_thead_vector_6_9-v3-6-67cff4271d1d@rivosinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: alex@ghiti.fr
+Content-Transfer-Encoding: 8bit
 
-Hi Charlie,
+Hi
 
-On 21/04/2024 03:04, Charlie Jenkins wrote:
-> This loop is supposed to check if ext->subset_ext_ids[j] is valid, rather
-> than if ext->subset_ext_ids[i] is valid, before setting the extension
-> id ext->subset_ext_ids[j] in isainfo->isa.
->
-> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> Fixes: 0d8295ed975b ("riscv: add ISA extension parsing for scalar crypto")
-> ---
->   arch/riscv/kernel/cpufeature.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-> index 48874aac4871..b537731cadef 100644
-> --- a/arch/riscv/kernel/cpufeature.c
-> +++ b/arch/riscv/kernel/cpufeature.c
-> @@ -609,7 +609,7 @@ static int __init riscv_fill_hwcap_from_ext_list(unsigned long *isa2hwcap)
->   
->   			if (ext->subset_ext_size) {
->   				for (int j = 0; j < ext->subset_ext_size; j++) {
-> -					if (riscv_isa_extension_check(ext->subset_ext_ids[i]))
-> +					if (riscv_isa_extension_check(ext->subset_ext_ids[j]))
->   						set_bit(ext->subset_ext_ids[j], isainfo->isa);
->   				}
->   			}
->
+These are some changes I have accumulated in the last
+weeks. Mostly improving the tool's user experience.
 
-I think this should go into -fixes, let's check with Palmer if he wants 
-to take this patch only or if you should send the patch on its own.
+ - On timerlat top, remove an extra \n that was breaking
+   the output.
 
-You can add:
+ - Replace \t with '       ' on the auto analysis, fixing some
+   copy & paste.
 
-Reviewed-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+ - On timerlat top, do not print TTY formatting characters when
+   the output is not sent to a terminal, because they break the
+   output.
 
-Thanks,
+ - on timerlat top and hist, add a summary with the overall results.
+   For instance, the minimum value for all CPUs, the overall average
+   and the maximum value from all CPUs.
 
-Alex
+ - Add a --warm-up <seconds> option, allowing the workload to run for
+   <seconds> before starting to collect results.
 
+ - Add a --trace-buffer-size option, allowing the user to set the
+   tracing buffer size. This is mainly useful for reducing the trace
+   file.
+
+ - Make the user-space threads the default choice, also adding the
+   a -k option, allowing the user to switch to kerne-threads.
+
+Daniel Bristot de Oliveira (8):
+  rtla/timerlat: Simplify "no value" printing on top
+  rtla/auto-analysis: Replace \t with spaces
+  rtla/timerlat: Use pretty formatting only on interactive tty
+  rtla/timerlat: Add a summary for top mode
+  rtla/timerlat: Add a summary for hist mode
+  rtla: Add the --warm-up option
+  rtla/timerlat: Make user-space threads the default
+  rtla: Add --trace-buffer-size option
+
+ Documentation/tools/rtla/common_options.rst   |   7 +
+ .../tools/rtla/common_timerlat_options.rst    |   6 +-
+ tools/tracing/rtla/src/osnoise_hist.c         |  41 ++-
+ tools/tracing/rtla/src/osnoise_top.c          |  41 ++-
+ tools/tracing/rtla/src/timerlat_aa.c          | 109 ++++----
+ tools/tracing/rtla/src/timerlat_hist.c        | 220 ++++++++++++++--
+ tools/tracing/rtla/src/timerlat_top.c         | 236 +++++++++++++++---
+ tools/tracing/rtla/src/trace.c                |  15 ++
+ tools/tracing/rtla/src/trace.h                |   1 +
+ 9 files changed, 566 insertions(+), 110 deletions(-)
+
+-- 
+2.44.0
 
