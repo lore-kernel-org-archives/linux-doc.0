@@ -1,287 +1,466 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F901F5E6;
-	Wed, 24 Apr 2024 04:15:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713932117; cv=fail; b=lQAVwO+k8k3pevNnbkhnyrM1fyL4INP1xQAiqGVUV3d+dXLxoka6IBJ6QJSeoKdcpIB1jqSPeuHedHHB4hxDczCc/4/vp/yB6ERvxBgTUQXG2wXeWG400vU5xnL1j0qzz1O2Fm2T4A/hCrlNteKX6YycRAzjYVW3UOyu5NHr9dk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713932117; c=relaxed/simple;
-	bh=NHzlg15vF3KCnUd5Lqv8Mxe1uACAOh+wFhpO7fti98E=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=t3Ju6ygtPuGsd9ofHiQvOk56N0GFwnGcm9nxFQD5yz9+6//F0ffVw+8UUVZHlPUdc8bx1qEmltEJeULRT2zAb8Ydy5Hsk5UhIFEb5my5e2dLKUflutAL5RRkYy9CG6oALbQgCWmKMc0+L4huuhqOXFDYByGyYV1ISCeF4wYYqS4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PCduKI22; arc=fail smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PCduKI22"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1713932116; x=1745468116;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=NHzlg15vF3KCnUd5Lqv8Mxe1uACAOh+wFhpO7fti98E=;
-  b=PCduKI22RNtWpBet883fJ55MVwwyu1ZpuDLkfW0L5WMLgaoXPPcubYRu
-   6+8F1XO9ztFDSiL671GFh+RtQVX6IT8CcNA3DqKGSI2ZJKUOfhfI4eQWb
-   2TEl3k8OaV+YtaO0sDw+xuYbYfyAdoC/z/V0k6j/4feISbh5I/PQOt24M
-   4xC3vmCa5+6ZvhZLTw/n+y8eO2JL7nxq1dqril/dkd2WsUVJdbvjNu8g8
-   8hury2g752oz7JtX/sWXKE7GYwfnXjdbBR9JBg/Fu4e0WumlI0ODeMQXd
-   8gvPwsTVSdyWPpR0ZhgKEFsIWyUYY8d7JoIpi+cIh542nW+M+cT4vVVri
-   w==;
-X-CSE-ConnectionGUID: H5d/G+SkQzWPlAqd6qASJg==
-X-CSE-MsgGUID: fsxKewg+Rk63X2CINxVRGw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11053"; a="20950843"
-X-IronPort-AV: E=Sophos;i="6.07,225,1708416000"; 
-   d="scan'208";a="20950843"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2024 21:15:15 -0700
-X-CSE-ConnectionGUID: +DXZFSfSRtiD2Zl/0L6fUQ==
-X-CSE-MsgGUID: lwevOfs7QsCl45pamn+sDw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,225,1708416000"; 
-   d="scan'208";a="29060209"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 23 Apr 2024 21:15:15 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 23 Apr 2024 21:15:14 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 23 Apr 2024 21:15:14 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Tue, 23 Apr 2024 21:15:14 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.168)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Tue, 23 Apr 2024 21:15:14 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QssuWyR8ayCwU9azQ85bubPSXVp7cgng7+V1Y52ApRTL1q6ebriFyo/DmVCrecvQeNasYmJHAdnpYMDb/9zNpk9Y4awBk5D5eM1gG7+csZBP/RLbgO0VJ3/v5YQmdGSNg5lNbiZh9y90il3nbyWmV5XV+XWM2n+fP5m5JbeEsZC7Zh1Jj3kfZWvOqhib/9sfC7DV+Vu9E/6xMNy681dCco74bhH1apqcWc0lxConvgmcRHXbp8HITP9chUuntdCaTcC7euX5QOTd339mRtVNeUDJAK6UPNyylKgEgZUIzYXQ2tB+/g8kBl/lkkUzB8L2jnzKhf/XhhAuyMYlq+qd2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0SBy6kAo3d20cZ3rsmGrIFwftHbbZdDV/c7b6SErXjQ=;
- b=VrdAxKIlarG8vdd7hMQRd6cPdnHJVFjAWk6D4MmryopeeYQ8INsPJTCmbLng3kNkY2AK3Qmkb+YdHQPg8kNiyLgqWfuySNe4Uz4u+XUZgKc9kkrYWKPgEn9EYhz2vOEWye4z8yZKNSyes1mK8WLQ1z899epvCfQN5drXSzhmP9aBblqLM7OpyNs6dfFYtcwlz3rpPW3LUE8sw3B9hA4BeKKNNTq08N8TmJqFCmiGPup9MWO5TZxkX20NIoEP5n0JmIJyf73rfL6/JGDxWY6MNUR7mTjF3qiGvGrpRGXM3kGQaL5x/UoEgd7y040shpvLQi3pICyioFmlNMtr6SSPkg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by DS0PR11MB7927.namprd11.prod.outlook.com (2603:10b6:8:fd::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.21; Wed, 24 Apr
- 2024 04:15:11 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::d610:9c43:6085:9e68]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::d610:9c43:6085:9e68%7]) with mapi id 15.20.7519.020; Wed, 24 Apr 2024
- 04:15:11 +0000
-Message-ID: <a5029ad6-3e5e-46bf-881f-950a8a393956@intel.com>
-Date: Tue, 23 Apr 2024 21:15:07 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v3 00/17] x86/resctrl : Support AMD Assignable
- Bandwidth Monitoring Counters (ABMC)
-To: Dave Martin <Dave.Martin@arm.com>, "Moger, Babu" <babu.moger@amd.com>
-CC: Peter Newman <peternewman@google.com>, <corbet@lwn.net>,
-	<fenghua.yu@intel.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
-	<bp@alien8.de>, <dave.hansen@linux.intel.com>, <x86@kernel.org>,
-	<hpa@zytor.com>, <paulmck@kernel.org>, <rdunlap@infradead.org>,
-	<tj@kernel.org>, <peterz@infradead.org>, <yanjiewtw@gmail.com>,
-	<kim.phillips@amd.com>, <lukas.bulwahn@gmail.com>, <seanjc@google.com>,
-	<jmattson@google.com>, <leitao@debian.org>, <jpoimboe@kernel.org>,
-	<rick.p.edgecombe@intel.com>, <kirill.shutemov@linux.intel.com>,
-	<jithu.joseph@intel.com>, <kai.huang@intel.com>, <kan.liang@linux.intel.com>,
-	<daniel.sneddon@linux.intel.com>, <pbonzini@redhat.com>,
-	<sandipan.das@amd.com>, <ilpo.jarvinen@linux.intel.com>,
-	<maciej.wieczor-retman@intel.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <eranian@google.com>, <james.morse@arm.com>
-References: <cover.1711674410.git.babu.moger@amd.com>
- <CALPaoCheW=Jz2R3gMKcgwQe6ONDrRqu3tUxeg=A3USg6BC8buA@mail.gmail.com>
- <7ccd59b8-9fe3-4d1f-82f5-f33d96dbf5ac@amd.com>
- <ZiaRewZJnLaDSx3m@e133380.arm.com>
- <004dcaeb-30ae-4b27-895a-4025a670fcbf@amd.com>
- <ZierjRNDMfg5swT8@e133380.arm.com>
-Content-Language: en-US
-From: Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <ZierjRNDMfg5swT8@e133380.arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MW4PR03CA0008.namprd03.prod.outlook.com
- (2603:10b6:303:8f::13) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+Received: from zg8tmtu5ljy1ljeznc42.icoremail.net (zg8tmtu5ljy1ljeznc42.icoremail.net [159.65.134.6])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE9CA153823;
+	Wed, 24 Apr 2024 05:20:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.65.134.6
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713936052; cv=none; b=E+N8LofQ/bzIxWcl9GWSyO96Wl5RJHX/s7nGWI60+iSIi0ElcKaRC+kPR9MCAyHHgt+x5POOBxVEi7TMvVAd4CLO55qKC9rx3nDFFVt8n1uyF/Mt0FH31wJE/MxS6jOedDrsDW8GHIgRo03wIdfhon3//gEFr4kHDhhzWIma0y0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713936052; c=relaxed/simple;
+	bh=JGNZ2ekTIeNACeRtb0Wtm4pYUt7vE6jIDYxM29piLDI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=FWTyG6mgfS+TZFDeMEifTB/jSeytqKupLkoyX/8hzjy4RTD9u9ztoEnGh62s5ASzYaYpTpxmBPUDGSo9uhA3jLiNbcqVywA9rNDEc8VAzYro6F2knVEmjNJb3H4jTd3YzLRt5Bs5HiBdtQWGpdIthRiJzhCIyLbAQFK6TaPTT4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=159.65.134.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app1 (Coremail) with SMTP id HgEQrAAHCyqilihmhxFWBQ--.62072S2;
+	Wed, 24 Apr 2024 13:20:34 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.12.177.116])
+	by gateway (Coremail) with SMTP id _____wDHGNiglihmN5nMAQ--.9892S2;
+	Wed, 24 Apr 2024 13:20:33 +0800 (CST)
+From: Haoyang Liu <tttturtleruss@hust.edu.cn>
+To: Alex Shi <alexs@kernel.org>,
+	Yanteng Si <siyanteng@loongson.cn>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>
+Cc: hust-os-kernel-patches@googlegroups.com,
+	Haoyang Liu <tttturtleruss@hust.edu.cn>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH v2] docs/zh_CN: Add dev-tools/kcov Chinese translation
+Date: Wed, 24 Apr 2024 13:20:28 +0800
+Message-Id: <20240424052029.9781-1-tttturtleruss@hust.edu.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|DS0PR11MB7927:EE_
-X-MS-Office365-Filtering-Correlation-Id: adf108e0-4dfc-4795-312f-08dc64152260
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|376005|366007|7416005|1800799015;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?N1QxWFQ4dnJOVGt2UDEweGpFK29jajVzTldMbkthZWpLdHcwZEI3Wk5meUp1?=
- =?utf-8?B?WHJiREExb3dRTlB5cjhGekpzSHNNQi9JUEp3b1Bzc3hsdEIwVTJzZXVwdXNU?=
- =?utf-8?B?NUhMK1NaR242UStaNkhKLzhVM1c0TE5zTHcveGNoZEJBNXRkbGoyWkVEZTV2?=
- =?utf-8?B?WTl6Q25zZnNnbHpsN2ZHMzZDOHAvRURQMnErMklaMW1ZKzJvalVkbVZZWnNE?=
- =?utf-8?B?OWpseEhKM3FyQmhHRGNOaVF2bHRrQjk2YndQOEFXMzA1a1B2UFJJdTRTRXVD?=
- =?utf-8?B?SDI4N3NHMUcvZGE0VzRQdlZWRnlrc3NLem9ubC9vOXo4RHkycXZJREJiN3Qv?=
- =?utf-8?B?Q1JGdldLRVkwT2tKYnZjeUZSWTNDUmtPVk9qOUhoZDJ1YmdpZXZ2MWNhaFo5?=
- =?utf-8?B?Y3FPTDRvRlExWnZ1b0FSallpdXUzOWFHMTVMaFI2cXJCZ3UydG93NG9GUHJZ?=
- =?utf-8?B?N0lkdFBVdXZIQXh2SW5tWTl2QjhXNEljaGVYa1g0YU1XSVlvL0NLSTRWU3hW?=
- =?utf-8?B?RjZjalpkY0YveTlaTUhXNWlWQ1Y1SWdOSHlqaUp6b01IZXhLRGFZNitEZ0RK?=
- =?utf-8?B?TkNlbWNhU1pHR3lRU0V5aUY2TDRENUg4TDBKbEFacHZ1SFplWmc4a1NtbkhU?=
- =?utf-8?B?MXI1UEsrZ3pJVGJoSjZvTEJiVlprOUM1MEJlQklKQklwY3ZVbDh3dWRHK2xI?=
- =?utf-8?B?ZFBkREIvSzJHanVzZjJEL0xiL1lQaS9RZnJON0xHL0hjQXZJckRhbXdieXhK?=
- =?utf-8?B?cDMrT2dzTnAvYzFNaTdTNjZueXM5dzNHaENOdTl4ODN1Ty9DT1dmbHVYSW83?=
- =?utf-8?B?ZkdLSXBVOHFSaVRXNzIxY0YyNUlTOW9uYURWdXROcHo4RGpVVFNQcDlBQ0JF?=
- =?utf-8?B?UFh6VzR0MzZjQjFRcFJtN045STBWWDRxVXJvM3ViUXpXQ2F3czFBbkxDNEY0?=
- =?utf-8?B?T0hBeVgyZWdEMUxrYjVSUkRHSXVKelpQOWVOOHpSbzBTZ1JFeUxSWXVzOGxI?=
- =?utf-8?B?NGVSWEoyMGFOTEx2aE8yampycStaOFVPdjg0cXZaUmZJMlltWUtwUzhkc0Q3?=
- =?utf-8?B?ZzZaVFJ1cGFsaUo3M0VEeWFrM2twRTJpaG9rRVRaeW1YUFFHS3lQVm96V1pZ?=
- =?utf-8?B?L1Y4VktmTUpqMzlMY2Z1RE1QYkFtajRFajlxVmcrQWMzZWI0S3pVRUJ1dXhJ?=
- =?utf-8?B?Z1RNTmFLaW5lcWRtUWJ1ZG5DNDFSYzNnRE5qSTFkUFhrV2grVUxwZEdONys2?=
- =?utf-8?B?TEhxUml3NzVKT09vNGhDeWtGWUpzNEJNWFUxd1QvaW9PUW5kd2pnZk1lOXpN?=
- =?utf-8?B?VzIzK0dscXRoRms4WDR2bmRwMnZnMTFFbUY5UU1FSWxESW5zeHhJYzFDVjNX?=
- =?utf-8?B?ZjVEb1FQaUdnWHFiYzd1c1BhcVdTanR5enhRZXovQllOUXYyNGVucTRrbXBp?=
- =?utf-8?B?MHZva2toQUNSb3pMdWF1emZLMjNJWTQzYUlwcThCSnovR1dqUkhvbUJyQmVI?=
- =?utf-8?B?dnU5SGJnY1pjTGFuanJ3ajI5NXJNeFdSTkkrQkZXR1RZOFg4UDZTbVhwb1hF?=
- =?utf-8?B?bnBCMlpjVjRSMDNQZnVjRldDMklCNUR1RmtLWWJjc2VKa1ArOVJrNzUzNG9H?=
- =?utf-8?B?bkxjTFJiZEhXemlrb3RmemtVaitDbFJNeVF3NDNXV0RjNWRwVnEvb3VJd3VP?=
- =?utf-8?B?ZitWRHJraHVQbkdMK1V0UVEyK3JUN1hFYmxsN3BpbE9oc2REOUZrK3lBPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(7416005)(1800799015);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SHRja3lFWG51alpLUzNLY2t4YWZqZ09SWDZONndvRVlva1d0RXQxeXBqcTRa?=
- =?utf-8?B?RFNsNEJ5MFZ2SWpJOGNZek54TWFLRElQTjlTWXc2MlZvZW1MUlVvM0ozL1ds?=
- =?utf-8?B?TnZZcm9qVGtNYWRtUnl6VU5HdllXTEZDT1YwSDlIODk2MUhzU1BDNmppbU9K?=
- =?utf-8?B?a0s2eG5jbyt6VkZsUFdhd2htQjlTUEZYUVozdDY3WksvWG9QY0plb2o3L0pu?=
- =?utf-8?B?RXQ0b2g0ZXNvZzgraFQyRU5NMk5tQUNkcndQVFNqdU1xZEVaNEUranoxTHdi?=
- =?utf-8?B?dnFpQmU4bVRuTlFFN0ZMYW9GaXVUcE5kazhHUkRDaTdZcnNTdWRYcldUK3Ru?=
- =?utf-8?B?MlNkNG9aT1M4ckpvVkwxd2N2dTYxMlFwOE53MmFnWEtEa0VHcFFQVXBoTTlQ?=
- =?utf-8?B?STZQTjNoZmJHKzM3Zkp4bkVBRy9ZUFdMckFFOHJRWWY4NU1tNW15cGc3WnMw?=
- =?utf-8?B?d0xQaG44eVZOOUxlUEdsYzNUd2ZEa3IxVU8xWi9ZaVVZMDRSZ2dGK25MTm9N?=
- =?utf-8?B?QnI3RU8wayt5STIrWHltUERPd0QvN2hHSUR6NzlzR1pvRmF2b2RxdE9WVjhB?=
- =?utf-8?B?R0ZaNnRWVW1lUlovK20rL1VXOHFhZjBDcmZzcEx6dWNBVE5BdGN4elEvaHdQ?=
- =?utf-8?B?VXdvRFY1cTVlOWtwV01keGh1Y25xdmdjVDBiVFQ3bE1sZ2Qvd1B5WFB3SElJ?=
- =?utf-8?B?czRKdjBxYzdhblJ2UUZPaWdnWmhIK0RPNTBya1BOUTlWemxLMTZDL1FFbGkx?=
- =?utf-8?B?aEJreElqS29UNVBiK1VJUjNCTEM2ak80SVVoWVYraWl2b1lWdFlTdUlFQU43?=
- =?utf-8?B?VWU2WVQybDc3Q3JlT1p3bytSdVUvTGo1WTNqbDMyZ2EwNWVvQzRBZWdMcjVP?=
- =?utf-8?B?NkowQ3VFUEppOGVvTUQ2NFJpZzJZdTUrT3ZNbEFLZm1OcVVkZVcvRHE3bXFm?=
- =?utf-8?B?N0dISTIzMlV6eUpzVGQ4MGtiSnFzb1B2UEwwVkNyaW1mUUMwN3EvU2VIbzdB?=
- =?utf-8?B?MDhlYmxuTm9pZG9hblcyWFVJS3ZxOTA5KzBPOWpyL1loS0M3dlYybzNVc3d4?=
- =?utf-8?B?bVMrbENWcVZSUjErS3VZZkpGK1NwekhoYkEzVFVZUzlaMjFrdWFGK3hmblc3?=
- =?utf-8?B?Qjd0cDNSMk0zV1dkZUk2WW81b3hVYmFYemVZRXJiZmNlSXRZaXRFS3FEWUpa?=
- =?utf-8?B?YVNpbjV6Z1RJZ3ZqMkpvVG5yZkFCZWVraTlqaEc3MkVrTHBERVpTdER3ZDdu?=
- =?utf-8?B?NUpQc1Z2Q1dFTm9GUFdRVVprdng3SkVib3h6TVNxdzBicmFRbTA5bzNhQWpI?=
- =?utf-8?B?QUZ6SEJNUHY2M1dIcmx0MVVwMUFpV2lQUG5DWko3SEJyUVhaRmF5RmxyeUJS?=
- =?utf-8?B?dGtVT053azF5RXVEakF5eGc5ajd2V2ViTGFWUVl4d0lmQXNoSENMaUtrS2Vj?=
- =?utf-8?B?OUdLL1VGWE5wSEVoWGMvRzlVdHpkMkZZRFdEQjFCc2NRL25KSXNpQjNOd2xo?=
- =?utf-8?B?ZlAxaUZlbmhBU1QzaHdxSUE3cVRMTUNiTXBXTGZQNGczWXA1WXdTb2tvd1lp?=
- =?utf-8?B?R0dJbTN4QnVRK0ZTTDZPdFRHeWRaZlgxRnlvemJRSFo4ZDlaMHZiTk9yS0RW?=
- =?utf-8?B?bXMvd0dqUHppbDBzS1VBS054eFdsWlpyU2ZEaTNhR0REdGJHczd2U3g2bWR6?=
- =?utf-8?B?dkoyOWRzSHQzMFNQUjVOWlg2eTUwUjd3Ly85OEtLTmZ1L3VhOUlhaWhuY0lR?=
- =?utf-8?B?NlZYcVlKcFZod0NWQkJsRlBtb1o4d2pOVnFJY2tnMzJieFNjTXNaUmhkd0dT?=
- =?utf-8?B?TFFXQ1A3NlEyYTljSlduUnQ2RitJN2VxZTRXdmFhY2xxbEhoS2VlSUFwdUJH?=
- =?utf-8?B?V1RUdnN0YXBwZlBhQjFFcVZWaytKSWdUYWR0SDI5WDY4SFVlUXNodjZFeWdX?=
- =?utf-8?B?d0FHTWlWZWVXY2UrMEF1ak9RREIvY2FGanlQWGhYbjBkWDFHTzRzOUQ4M3dm?=
- =?utf-8?B?cVpna3dWTXNwdXl1Qkc5WHlyQ1RRamg5RXJpSnRRV1JHeUFLTDR0bFlCY1Vp?=
- =?utf-8?B?MmtaOW5QNEdEQkdGa0dZM0ZFYUk3dHE4Q1RGcHRvZWwxbFRLVTVZTCtadVN1?=
- =?utf-8?B?bnRiWGFyaDlQdXl0ajdBWE5Qd3drcDRDOE50YlQzaHNuZ1kwanVGUGRiUzhv?=
- =?utf-8?B?cHc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: adf108e0-4dfc-4795-312f-08dc64152260
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2024 04:15:11.4927
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JT1DWkQCCl7KqS9ul3bJ7dOFaPIzi2ilyatNMhC1jrun7swyCNPqgbfO5Kr0ycUGRzCLXuzhRVNG43Fvka4vF+pJy/czTGYopt8OyH43Bqw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7927
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HgEQrAAHCyqilihmhxFWBQ--.62072S2
+Authentication-Results: app1; spf=neutral smtp.mail=tttturtleruss@hust
+	.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvAXoW3Kr4xZry7KryxAFykJr1fWFg_yoW8XFWxJo
+	WfuayYk34xAF4rZ3W5Ka1UG3yxJF4kCrn3Ars7ArW3ury8Wa4rWr4fCw4rt34rAr45K3ya
+	9r1xKrWfAa90k3W7n29KB7ZKAUJUUUUf529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+	AaLaJ3UjIYCTnIWjp_UUUOI7k0a2IF6F4UM7kC6x804xWl1xkIjI8I6I8E6xAIw20EY4v2
+	0xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7
+	IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xv
+	wVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2kKe7AKxV
+	WUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02
+	F40EFcxC0VAKzVAqx4xG6I80ewAv7VACjcxG62k0Y48FwI0_Gr1j6F4UJwAv7VCjz48v1s
+	IEY20_GFW3Jr1UJwAv7VCY1x0262k0Y48FwI0_Gr1j6F4UJwAm72CE4IkC6x0Yz7v_Jr0_
+	Gr1lF7xvr2IYc2Ij64vIr41lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l42
+	xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E
+	14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4
+	CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4U
+	MIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF
+	4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsG
+	vfC2KfnxnUUI43ZEXa7IU0k9N3UUUUU==
+X-CM-SenderInfo: rxsqjiqrssiko6kx23oohg3hdfq/1tbiAQkRAmYnvb9J+QACsq
 
+Translate dev-tools/kcov into Chinese and add it in
+dev-tools/zh_CN/index.rst.
 
+Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
+---
+v1 -> v2: Modify the translation according to the review comments.
 
-On 4/23/2024 5:37 AM, Dave Martin wrote:
-> On Mon, Apr 22, 2024 at 03:44:26PM -0500, Moger, Babu wrote:
->> Hi Dave,
->>
->> On 4/22/24 11:34, Dave Martin wrote:
->>> Hi Babu,
->>>
->>> On Thu, Apr 04, 2024 at 03:02:45PM -0500, Moger, Babu wrote:
->>>> Hi Peter,
->>>>
->>>>
->>>> On 4/4/24 14:08, Peter Newman wrote:
->>>>> Hi Babu,
->>>>>
->>>>> On Thu, Mar 28, 2024 at 6:07 PM Babu Moger <babu.moger@amd.com> wrote:
->>>>>>    The list follows the following format:
->>>>>>
->>>>>>        * Default CTRL_MON group:
->>>>>>                "//<domain_id>=<assignment_flags>"
->>>>>>
->>>>>>        * Non-default CTRL_MON group:
->>>>>>                "<CTRL_MON group>//<domain_id>=<assignment_flags>"
->>>>>>
->>>>>>        * Child MON group of default CTRL_MON group:
->>>>>>                "/<MON group>/<domain_id>=<assignment_flags>"
->>>>>>
->>>>>>        * Child MON group of non-default CTRL_MON group:
->>>>>>                "<CTRL_MON group>/<MON group>/<domain_id>=<assignment_flags>"
->>>>>>
->>>>>>        Assignment flags can be one of the following:
->>>>>>
->>>>>>         t  MBM total event is assigned
->>>>>>         l  MBM local event is assigned
->>>>>>         tl Both total and local MBM events are assigned
->>>>>>         _  None of the MBM events are assigned
->>>>>>
->>>>>>         Examples:
->>>>>>
->>>>>>         # cat /sys/fs/resctrl/info/L3_MON/mbm_assign_control
->>>>>>         non_defult_group//0=tl;1=tl;2=tl;3=tl;4=tl;5=tl;6=tl;7=tl;
->>>>>>         non_defult_group/non_default_mon1/0=tl;1=tl;2=tl;3=tl;4=tl;5=tl;6=tl;7=tl;
->>>>>>         //0=tl;1=tl;2=tl;3=tl;4=tl;5=tl;6=tl;7=tl;
->>>>>>         /default_mon1/0=tl;1=tl;2=tl;3=tl;4=tl;5=tl;6=tl;7=tl;
->>>>>>
->>>>>>         There are four groups and all the groups have local and total event assigned.
->>>>>>
->>>>>>         "//" - This is a default CONTROL MON group
->>>>>>
->>>>>>         "non_defult_group//" - This is non default CONTROL MON group
->>>>>>
->>>>>>         "/default_mon1/"  - This is Child MON group of the defult group
->>>>>>
->>>>>>         "non_defult_group/non_default_mon1/" - This is child MON group of the non default group
->>>>>>
->>>>>>         =tl means both total and local events are assigned.
->>>>>
->>>>> I recall there was supposed to be a way to perform the same update on
->>>>> all domains together so that it isn't tedious to not do per-domain
->>>>
->>>> Yes. Correct. Reinette suggested to have "no domains" means ALL the domains.
->>>
->>> Would "*" be more intuitive?
->>
->> We could. But I don't see the need for wildcard ("*") or ranges and
->> complexity that comes with that.
-> 
-> For "*", I mean that this would just stand for "all cpus", not a generic
-> string match; apologies if I didn't make that clear.
+ .../translations/zh_CN/dev-tools/index.rst    |   2 +-
+ .../translations/zh_CN/dev-tools/kcov.rst     | 359 ++++++++++++++++++
+ 2 files changed, 360 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/dev-tools/kcov.rst
 
-(reading this by replacing "all cpus" with "all domains")
+diff --git a/Documentation/translations/zh_CN/dev-tools/index.rst b/Documentation/translations/zh_CN/dev-tools/index.rst
+index 51e5b3e724c1..fa900f5beb68 100644
+--- a/Documentation/translations/zh_CN/dev-tools/index.rst
++++ b/Documentation/translations/zh_CN/dev-tools/index.rst
+@@ -22,6 +22,7 @@ Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+    sparse
+    gcov
+    kasan
++   kcov
+    ubsan
+    kmemleak
+    gdb-kernel-debugging
+@@ -29,7 +30,6 @@ Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+ Todolist:
+ 
+  - coccinelle
+- - kcov
+  - kcsan
+  - kfence
+  - kgdb
+diff --git a/Documentation/translations/zh_CN/dev-tools/kcov.rst b/Documentation/translations/zh_CN/dev-tools/kcov.rst
+new file mode 100644
+index 000000000000..9b9f5ddc371d
+--- /dev/null
++++ b/Documentation/translations/zh_CN/dev-tools/kcov.rst
+@@ -0,0 +1,359 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/dev-tools/kcov.rst
++:Translator: 刘浩阳 Haoyang Liu <tttturtleruss@hust.edu.cn>
++
++KCOV: 用于模糊测试的代码覆盖率
++==============================
++
++KCOV 以一种适用于覆盖率引导的模糊测试的形式收集和暴露内核代码覆盖率信息。
++一个正在运行的内核的覆盖率数据可以通过 ``kcov`` 调试文件导出。覆盖率的收集是基
++于任务启用的，因此 KCOV 可以精确捕获单个系统调用的覆盖率。
++
++要注意的是 KCOV 不是为了收集尽可能多的覆盖率数据。而是为了收集相对稳定的覆盖率
++，这是系统调用输入的函数。为了完成这个目标，它不收集软硬中断的覆盖率（除非移除
++覆盖率收集被启用，见下文）以及内核中固有的不确定部分的覆盖率（如调度器，锁定）
++
++除了收集代码覆盖率，KCOV 还收集比较操作数的覆盖率。见 "比较操作数收集" 一节
++查看详细信息。
++
++除了从系统调用处理器收集覆盖率数据，KCOV 还从后台内核或软中断任务中执行的内核
++被标注的部分收集覆盖率。见 "远程覆盖率收集" 一节查看详细信息。
++
++先决条件
++--------
++
++KCOV 依赖编译器插桩，要求 GCC 6.1.0 及更高版本或者内核支持的任意版本的 Clang。
++
++收集比较操作数的覆盖率需要 GCC 8+ 或者 Clang。
++
++为了启用 KCOV，需要使用如下参数配置内核::
++
++        CONFIG_KCOV=y
++
++为了启用比较操作数覆盖率的收集，使用如下参数::
++
++    CONFIG_KCOV_ENABLE_COMPARISONS=y
++
++覆盖率数据只会在调试文件系统被挂载后才可以获取::
++
++        mount -t debugfs none /sys/kernel/debug
++
++覆盖率收集
++----------
++
++下面的程序演示了如何使用 KCOV 在一个测试程序中收集单个系统调用的覆盖率：
++
++.. code-block:: c
++
++    #include <stdio.h>
++    #include <stddef.h>
++    #include <stdint.h>
++    #include <stdlib.h>
++    #include <sys/types.h>
++    #include <sys/stat.h>
++    #include <sys/ioctl.h>
++    #include <sys/mman.h>
++    #include <unistd.h>
++    #include <fcntl.h>
++    #include <linux/types.h>
++
++    #define KCOV_INIT_TRACE			_IOR('c', 1, unsigned long)
++    #define KCOV_ENABLE			_IO('c', 100)
++    #define KCOV_DISABLE			_IO('c', 101)
++    #define COVER_SIZE			(64<<10)
++
++    #define KCOV_TRACE_PC  0
++    #define KCOV_TRACE_CMP 1
++
++    int main(int argc, char **argv)
++    {
++	int fd;
++	unsigned long *cover, n, i;
++
++	/* 单个文件描述符允许
++	 * 在单线程上收集覆盖率。
++	 */
++	fd = open("/sys/kernel/debug/kcov", O_RDWR);
++	if (fd == -1)
++		perror("open"), exit(1);
++	/* 设置跟踪模式和跟踪大小。 */
++	if (ioctl(fd, KCOV_INIT_TRACE, COVER_SIZE))
++		perror("ioctl"), exit(1);
++	/* 映射内核空间和用户空间共享的缓冲区。 */
++	cover = (unsigned long*)mmap(NULL, COVER_SIZE * sizeof(unsigned long),
++				     PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
++	if ((void*)cover == MAP_FAILED)
++		perror("mmap"), exit(1);
++	/* 在当前线程中启用覆盖率收集。 */
++	if (ioctl(fd, KCOV_ENABLE, KCOV_TRACE_PC))
++		perror("ioctl"), exit(1);
++	/* 在调用 ioctl() 之后重置覆盖率。 */
++	__atomic_store_n(&cover[0], 0, __ATOMIC_RELAXED);
++	/* 调用目标系统调用。 */
++	read(-1, NULL, 0);
++	/* 读取收集到的 PC 的数目。 */
++	n = __atomic_load_n(&cover[0], __ATOMIC_RELAXED);
++	for (i = 0; i < n; i++)
++		printf("0x%lx\n", cover[i + 1]);
++	/* 在当前线程上禁用覆盖率收集。在这之后
++	 * 可以在其他线程上收集覆盖率
++	 */
++	if (ioctl(fd, KCOV_DISABLE, 0))
++		perror("ioctl"), exit(1);
++	/* 释放资源 */
++	if (munmap(cover, COVER_SIZE * sizeof(unsigned long)))
++		perror("munmap"), exit(1);
++	if (close(fd))
++		perror("close"), exit(1);
++	return 0;
++    }
++
++在使用 ``addr2line`` 传输后，程序输出应该如下所示::
++
++    SyS_read
++    fs/read_write.c:562
++    __fdget_pos
++    fs/file.c:774
++    __fget_light
++    fs/file.c:746
++    __fget_light
++    fs/file.c:750
++    __fget_light
++    fs/file.c:760
++    __fdget_pos
++    fs/file.c:784
++    SyS_read
++    fs/read_write.c:562
++
++如果一个程序需要从多个线程收集覆盖率（独立地）。那么每个线程都需要单独打开
++``/sys/kernel/debug/kcov``。
++
++接口的细粒度允许高效的创建测试进程。即，一个父进程打开了
++``/sys/kernel/debug/kcov``，启用了追踪模式，映射了覆盖率缓冲区，然后在一个循
++环中创建了子进程。这个子进程只需要启用覆盖率收集即可（当一个线程退出时将自动禁
++用覆盖率收集）。
++
++比较操作数收集
++--------------
++
++比较操作数收集和覆盖率收集类似：
++
++.. code-block:: c
++
++    /* 包含和上文一样的头文件和宏定义。 */
++
++    /* 每次记录的 64 位字的数量。 */
++    #define KCOV_WORDS_PER_CMP 4
++
++    /*
++     * 收集的比较种类的格式。
++     *
++     * 0 比特表示是否是一个编译时常量。
++     * 1 & 2 比特包含参数大小的 log2 值，最大 8 字节。
++     */
++
++    #define KCOV_CMP_CONST          (1 << 0)
++    #define KCOV_CMP_SIZE(n)        ((n) << 1)
++    #define KCOV_CMP_MASK           KCOV_CMP_SIZE(3)
++
++    int main(int argc, char **argv)
++    {
++	int fd;
++	uint64_t *cover, type, arg1, arg2, is_const, size;
++	unsigned long n, i;
++
++	fd = open("/sys/kernel/debug/kcov", O_RDWR);
++	if (fd == -1)
++		perror("open"), exit(1);
++	if (ioctl(fd, KCOV_INIT_TRACE, COVER_SIZE))
++		perror("ioctl"), exit(1);
++	/*
++	* 注意缓冲区指针的类型是 uint64_t*，因为所有的
++	* 比较操作数都被提升为 uint64_t 类型。
++	*/
++	cover = (uint64_t *)mmap(NULL, COVER_SIZE * sizeof(unsigned long),
++				     PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
++	if ((void*)cover == MAP_FAILED)
++		perror("mmap"), exit(1);
++	/* 注意这里是 KCOV_TRACE_CMP 而不是 KCOV_TRACE_PC。 */
++	if (ioctl(fd, KCOV_ENABLE, KCOV_TRACE_CMP))
++		perror("ioctl"), exit(1);
++	__atomic_store_n(&cover[0], 0, __ATOMIC_RELAXED);
++	read(-1, NULL, 0);
++	/* 读取收集到的比较操作数的数量。 */
++	n = __atomic_load_n(&cover[0], __ATOMIC_RELAXED);
++	for (i = 0; i < n; i++) {
++		uint64_t ip;
++
++		type = cover[i * KCOV_WORDS_PER_CMP + 1];
++		/* arg1 和 arg2 - 比较的两个操作数。 */
++		arg1 = cover[i * KCOV_WORDS_PER_CMP + 2];
++		arg2 = cover[i * KCOV_WORDS_PER_CMP + 3];
++		/* ip - 调用者的地址。 */
++		ip = cover[i * KCOV_WORDS_PER_CMP + 4];
++		/* 操作数的大小。 */
++		size = 1 << ((type & KCOV_CMP_MASK) >> 1);
++		/* is_const - 当操作数是一个编译时常量时为真。*/
++		is_const = type & KCOV_CMP_CONST;
++		printf("ip: 0x%lx type: 0x%lx, arg1: 0x%lx, arg2: 0x%lx, "
++			"size: %lu, %s\n",
++			ip, type, arg1, arg2, size,
++		is_const ? "const" : "non-const");
++	}
++	if (ioctl(fd, KCOV_DISABLE, 0))
++		perror("ioctl"), exit(1);
++	/* 释放资源。 */
++	if (munmap(cover, COVER_SIZE * sizeof(unsigned long)))
++		perror("munmap"), exit(1);
++	if (close(fd))
++		perror("close"), exit(1);
++	return 0;
++    }
++
++注意 KCOV 的模式（代码覆盖率收集或比较操作数收集）是互斥的。
++
++远程覆盖率收集
++--------------
++
++除了从用户空间进程发布的系统调用句柄收集覆盖率数据以外，KCOV 也可以从部分在其
++他上下文中执行的内核中收集覆盖率 - 称为“远程”覆盖率。
++
++使用 KCOV 收集远程覆盖率要求：
++
++1. 修改内核源码并使用 ``kcov_remote_start`` 和 ``kcov_remote_stop`` 来标注要收集
++   覆盖率的代码片段。
++
++2. 在用户空间的收集覆盖率的进程应使用 ``KCOV_REMOTE_ENABLE`` 而不是 ``KCOV_ENABLE``。
++
++``kcov_remote_start`` 和 ``kcov_remote_stop`` 的标注以及 ``KCOV_REMOTE_ENABLE``
++ioctl 都接受可以识别特定覆盖率收集片段的句柄。句柄的使用方式取决于匹配代码片段执
++行的上下文。
++
++KCOV 支持在如下上下文中收集远程覆盖率：
++
++1. 全局内核后台任务。这些任务是内核启动时创建的数量有限的实例（如，每一个
++   USB HCD 产生一个 USB ``hub_event`` 工作器）。
++
++2. 局部内核后台任务。这些任务通常是由于用户空间进程与某些内核接口进行交互时产
++   生的，并且通常在进程退出时会被停止（如，vhost 工作器）。
++
++3. 软中断。
++
++对于 #1 和 #3，必须选择一个独特的全局句柄并将其传递给对应的
++``kcov_remote_start`` 调用。一个用户空间进程必须将该句柄存储在
++``kcov_remote_arg`` 结构体的 ``handle`` 数组字段中并将其传递给
++``KCOV_REMOTE_ENABLE``。这会将使用的 KCOV 设备附加到由此句柄引用的代码片段。多个全局
++句柄标识的不同代码片段可以一次性传递。
++
++对于 #2，用户空间进程必须通过 ``kcov_remote_arg`` 结构体的 ``common_handle`` 字段
++传递一个非零句柄。这个通用句柄将会被保存在当前 ``task_struct`` 结构体的
++``kcov_handle`` 字段中并且需要通过自定义内核代码的修改来传递给新创建的本地任务
++。这些任务需要在 ``kcov_remote_start`` 和 ``kcov_remote_stop`` 标注中依次使用传递过来的
++句柄。
++
++KCOV 对全局句柄和通用句柄均遵循一个预定义的格式。每一个句柄都是一个 ``u64`` 整形
++。当前，只有最高位和低四位字节被使用。第 4-7 字节是保留位并且值必须为 0。
++
++对于全局句柄，最高位的字节表示该句柄属于的子系统的标识。比如，KCOV 使用 ``1``
++表示 USB 子系统类型。全局句柄的低 4 字节表示子系统中任务实例的标识。比如，每一
++个 ``hub_event`` 工作器使用 USB 总线号作为任务实例的标识。
++
++对于通用句柄，使用一个保留值 ``0`` 作为子系统标识，因为这些句柄不属于一个特定
++的子系统。通用句柄的低 4 字节用于识别有用户进程生成的所有本地句柄的集合实例，
++该进程将通用句柄传递给 ``KCOV_REMOTE_ENABLE``。
++
++实际上，如果只从系统中的单个用户空间进程收集覆盖率，那么可以使用任意值作为通用
++句柄的实例标识。然而，如果通用句柄被多个用户空间进程使用，每个进程必须使用唯一
++的实例标识。一个选择是使用进程标识作为通用句柄实例的标识。
++
++下面的程序演示了如何使用 KCOV 从一个由进程产生的本地任务和处理 USB 总线的全局
++任务 #1 收集覆盖率：
++
++.. code-block:: c
++
++    /* 包含和上文一样的头文件和宏定义。 */
++
++    struct kcov_remote_arg {
++	__u32		trace_mode;
++	__u32		area_size;
++	__u32		num_handles;
++	__aligned_u64	common_handle;
++	__aligned_u64	handles[0];
++    };
++
++    #define KCOV_INIT_TRACE			_IOR('c', 1, unsigned long)
++    #define KCOV_DISABLE			_IO('c', 101)
++    #define KCOV_REMOTE_ENABLE		_IOW('c', 102, struct kcov_remote_arg)
++
++    #define COVER_SIZE	(64 << 10)
++
++    #define KCOV_TRACE_PC	0
++
++    #define KCOV_SUBSYSTEM_COMMON	(0x00ull << 56)
++    #define KCOV_SUBSYSTEM_USB	(0x01ull << 56)
++
++    #define KCOV_SUBSYSTEM_MASK	(0xffull << 56)
++    #define KCOV_INSTANCE_MASK	(0xffffffffull)
++
++    static inline __u64 kcov_remote_handle(__u64 subsys, __u64 inst)
++    {
++	if (subsys & ~KCOV_SUBSYSTEM_MASK || inst & ~KCOV_INSTANCE_MASK)
++		return 0;
++	return subsys | inst;
++    }
++
++    #define KCOV_COMMON_ID	0x42
++    #define KCOV_USB_BUS_NUM	1
++
++    int main(int argc, char **argv)
++    {
++	int fd;
++	unsigned long *cover, n, i;
++	struct kcov_remote_arg *arg;
++
++	fd = open("/sys/kernel/debug/kcov", O_RDWR);
++	if (fd == -1)
++		perror("open"), exit(1);
++	if (ioctl(fd, KCOV_INIT_TRACE, COVER_SIZE))
++		perror("ioctl"), exit(1);
++	cover = (unsigned long*)mmap(NULL, COVER_SIZE * sizeof(unsigned long),
++				     PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
++	if ((void*)cover == MAP_FAILED)
++		perror("mmap"), exit(1);
++
++	/* 通过通用句柄和 USB 总线 #1 启用代码覆盖率收集。 */
++	arg = calloc(1, sizeof(*arg) + sizeof(uint64_t));
++	if (!arg)
++		perror("calloc"), exit(1);
++	arg->trace_mode = KCOV_TRACE_PC;
++	arg->area_size = COVER_SIZE;
++	arg->num_handles = 1;
++	arg->common_handle = kcov_remote_handle(KCOV_SUBSYSTEM_COMMON,
++							KCOV_COMMON_ID);
++	arg->handles[0] = kcov_remote_handle(KCOV_SUBSYSTEM_USB,
++						KCOV_USB_BUS_NUM);
++	if (ioctl(fd, KCOV_REMOTE_ENABLE, arg))
++		perror("ioctl"), free(arg), exit(1);
++	free(arg);
++
++	/*
++	 * 在这里用户需要触发执行一个内核代码段
++	 * 该代码段要么使用通用句柄标识
++	 * 要么触发了一些 USB 总线 #1 上的一些活动。
++	 */
++	sleep(2);
++
++	n = __atomic_load_n(&cover[0], __ATOMIC_RELAXED);
++	for (i = 0; i < n; i++)
++		printf("0x%lx\n", cover[i + 1]);
++	if (ioctl(fd, KCOV_DISABLE, 0))
++		perror("ioctl"), exit(1);
++	if (munmap(cover, COVER_SIZE * sizeof(unsigned long)))
++		perror("munmap"), exit(1);
++	if (close(fd))
++		perror("close"), exit(1);
++	return 0;
++    }
+-- 
+2.25.1
 
-This sounds reasonable to me. It may indeed make the parsing simpler by
-not needing the ugly checks Babu mentioned in [1].
-
-Reinette
-
-[1] https://lore.kernel.org/lkml/7ccd59b8-9fe3-4d1f-82f5-f33d96dbf5ac@amd.com/
