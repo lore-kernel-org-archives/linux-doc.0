@@ -1,47 +1,50 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD3372E83C;
-	Wed, 24 Apr 2024 19:15:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C341BF37;
+	Wed, 24 Apr 2024 19:31:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713986154; cv=none; b=XLVnQsH0CNzQMP2dCkcYCh0xQmvSdwZnKCvREdrgHHQsCowXe24E9O0qgI6Oju9jPTtBOR0H8q4KqWcmjGZ2Ftbjojr7IfmyVOa2K0ZVEIZonAjlQ5f6DTwsGZxYrpoesydhq4nt6qFmCP3gU/R8v2lkiHJTYiFOq3ZKa1BcxZc=
+	t=1713987077; cv=none; b=CR5wRtLb4gTcAKMeUKHTH1eMWPCVgPPJZDP6gZPS7W6BPFacBuTEpBsRWqi5kzDuO00qYE/5tqGEHjQuH1CRLB3A+uouKBFiOPE7fUK/UDDO9Zw+JFfiL+1xsQVQcgAKiaMo4Kw9CQCTwNO9seioBW7Xhf8mGf7yDFkwQpqvuKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713986154; c=relaxed/simple;
-	bh=rmwxgcxlUdc52wL5EaUESjL4xF5FuwTjEzqI95uds0M=;
+	s=arc-20240116; t=1713987077; c=relaxed/simple;
+	bh=f5Ao0kXR9wgQ9qndsBddrePDZj2ijjLQhBhAGWqsY9M=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Js4T0XXGvIcX1t33f8/hmP7ThjyDBIvL77vKdujvqsPHxQdoa4Rw96cDNN6VhTXUbTLuWIDiZ2OI6UhQ/O/W+LseYtesdeo7PcHczBM/gapwmq8EjQyjmddRarZAyJ8t3nplfZiKB5jluN4WN3i00DVOefTeYJR2Ae3bQt7cW7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=YY2K3pO5; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=tYCaxgyItm0/ETu2KH+m84XHg6uEFgEQUPCe8m6uGioJnWQ2x3qR3ZxT189YD/3Xlb6YUqoOOQWLrr3u3WF4wMcFs/jmX1n9hBWTjfRK3BFE+zx2txiyp32Q+SAz5gl+ajzQz+4w4b8adhqTPy3jyGSiFwEYhbsG8Ng8hrMBwks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=kEwbpGCb; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="YY2K3pO5"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0BF4447C41
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="kEwbpGCb"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 76D3D47C41
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1713986153; bh=eT4DMkSX1KqZnImT4LXh1T9r6WFTUp9YLsLSh6290ac=;
+	t=1713987075; bh=zV9bgV2MTfwKBqhBOhhlxAkLQT1T0lmWvKHJq+h7QSY=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=YY2K3pO5g02e+5BvRN3Kjp4M+EpSDSd2gwq0efMwYeH0uHua5nPb/Usl7FANLumXR
-	 TBBINjR0+9i/cezi2Rnd6JvTZjF2U2mP32r7+NWuWk1H50e9yVVlOzpZggJH4zOtx2
-	 waIAOxhbjxLvYvVs9kUZL5NpkVslMETBVgYGYcuh4gveOruSPThujsW8drFwI31x+6
-	 7onJaxRH9vbvRgWzV7nZ6kH5HeUuImA4auBOq3TrGqFcAMs71/7QE08BhLrefn3Tun
-	 9d6UbUjGjruClPGO1e58DS/jsLhlwLu3I47yJr/NzZlwQ6ULYezOwRV913LwL3aEeR
-	 mnBXEazeKV7Eg==
+	b=kEwbpGCbXYNEgI2+Z1T9hwKhPOxm/JyjMUI38WtfH5sR3Hn/Q1TsnDkbgvE+ySRvo
+	 sE4JZnmvIMkmEPG8mCrq3jVb9XEss19Atd/OpCGz5rPPJ2DsailCfd3JpwnKGtfWr0
+	 wIFFJeKtu1UGf7w1dBJBBJNDN+DIi5ypndIzUXaiiEUq4DOazkjakK7wWDGPEIWMBb
+	 2agh85P0/pXIeYHekNK/7aLBQ3AB0RQx7Dk/UaH+AlY3a6o7G9juYxnKdfQwBaOXYW
+	 JWdCqD+YB/enk3OvQCkQeWLBIcCuvjO1H6C4xOSQRpMybjBPqnSZxRdfX4IN1lkg4L
+	 vU+cNI6QJ1luA==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 0BF4447C41;
-	Wed, 24 Apr 2024 19:15:52 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 76D3D47C41;
+	Wed, 24 Apr 2024 19:31:15 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Lukas Bulwahn <lbulwahn@redhat.com>, Akira Yokosawa <akiyks@gmail.com>,
- linux-doc@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org, Lukas
- Bulwahn <lukas.bulwahn@redhat.com>
-Subject: Re: [PATCH] MAINTAINERS: repair file entry in DOCUMENTATION
-In-Reply-To: <20240417101429.240495-1-lukas.bulwahn@redhat.com>
-References: <20240417101429.240495-1-lukas.bulwahn@redhat.com>
-Date: Wed, 24 Apr 2024 13:15:52 -0600
-Message-ID: <87v846shav.fsf@meer.lwn.net>
+To: Alexander Lobakin <aleksander.lobakin@intel.com>
+Cc: Kees Cook <keescook@chromium.org>, Alexander Lobakin
+ <aleksander.lobakin@intel.com>, Jakub Kicinski <kuba@kernel.org>, Dan
+ Williams <dan.j.williams@intel.com>, "Gustavo A. R. Silva"
+ <gustavoars@kernel.org>, Keith Packard <keithp@keithp.com>,
+ nex.sw.ncis.osdt.itp.upstreaming@intel.com, linux-doc@vger.kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kernel-doc: fix struct_group_tagged() parsing
+In-Reply-To: <20240411093208.2483580-1-aleksander.lobakin@intel.com>
+References: <20240411093208.2483580-1-aleksander.lobakin@intel.com>
+Date: Wed, 24 Apr 2024 13:31:14 -0600
+Message-ID: <87r0eusgl9.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,37 +53,53 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Lukas Bulwahn <lbulwahn@redhat.com> writes:
+Alexander Lobakin <aleksander.lobakin@intel.com> writes:
 
-> From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+> From: Kees Cook <keescook@chromium.org>
 >
-> Commit 1e596d5eff3d ("docs: Detect variable fonts and suggest denylisting
-> them") adds the new script check-variable-fonts.sh and intends to refer to
-> it in the DOCUMENTATION section in MAINTAINERS. However, the file entry
-> refers to scripts/check-variable-font.sh. Note the missing "s".
+> kernel-doc emits a warning on struct_group_tagged() if you describe your
+> struct group member:
 >
-> Hence, ./scripts/get_maintainer.pl --self-test=patterns complains about a
-> broken reference.
+> include/net/libeth/rx.h:69: warning: Excess struct member 'fp' description in 'libeth_fq'
 >
-> Repair this new file entry in the DOCUMENTATION section.
+> The code:
 >
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+> /**
+>  * struct libeth_fq - structure representing a buffer queue
+>  * @fp: hotpath part of the structure
+>  * @pp: &page_pool for buffer management
+> [...]
+>  */
+> struct libeth_fq {
+> 	struct_group_tagged(libeth_fq_fp, fp,
+> 		struct page_pool	*pp;
+> [...]
+> 	);
+>
+> When a struct_group_tagged() is encountered, we need to build a
+> `struct TAG NAME;` from it, so that it will be treated as a valid
+> embedded struct.
+> Decouple the regex and do the replacement there. As far as I can see,
+> this doesn't produce any new warnings on the current mainline tree.
+>
+> Reported-by: Jakub Kicinski <kuba@kernel.org>
+> Closes: https://lore.kernel.org/netdev/20240405212513.0d189968@kernel.org
+> Fixes: 50d7bd38c3aa ("stddef: Introduce struct_group() helper macro")
+> Signed-off-by: Kees Cook <keescook@chromium.org>
+> Co-developed-by: Alexander Lobakin <aleksander.lobakin@intel.com>
+> Signed-off-by: Alexander Lobakin <aleksander.lobakin@intel.com>
 > ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 4356b28ce625..250c8f8caa08 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -6493,7 +6493,7 @@ S:	Maintained
->  P:	Documentation/doc-guide/maintainer-profile.rst
->  T:	git git://git.lwn.net/linux.git docs-next
->  F:	Documentation/
-> -F:	scripts/check-variable-font.sh
-> +F:	scripts/check-variable-fonts.sh
->  F:	scripts/documentation-file-ref-check
+>  scripts/kernel-doc | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-Applied, thanks.
+So, in docs-next, applying this *adds* two warnings:
+
+> ./include/net/page_pool/types.h:77: warning: Function parameter or struct member 'fast' not described in 'page_pool_params'
+> ./include/net/page_pool/types.h:77: warning: Function parameter or struct member 'slow' not described in 'page_pool_params'
+
+In truth, the warnings look correct.  I guess I'll leave this applied,
+but perhaps a fix for the warnings should go into the net tree?
+
+Thanks,
 
 jon
