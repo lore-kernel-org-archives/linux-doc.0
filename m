@@ -1,257 +1,139 @@
-Received: from out30-132.freemail.mail.aliyun.com (out30-132.freemail.mail.aliyun.com [115.124.30.132])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D53861FDA;
-	Wed, 24 Apr 2024 16:49:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.132
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C6316C87E;
+	Wed, 24 Apr 2024 17:01:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713977375; cv=none; b=Zr/2MQEpSAIpkUPDjbVvcMjIFF49AGZH0Z2cPhVTn/cEJDRVYF2UNE1GFOXnfhJ27E8a1hhXaFlGNItu+WkRW1KEAekTj5s7lYxoWdljl4T3BSBSAo3UaBI6nscyEjLNLsQUClw6FiUOWa0qgQUFTSBIIvP8uIUaRBg/FUq4RNo=
+	t=1713978117; cv=none; b=gzmAhahRR7V59SNGp7TwgR+Ct0IIFMgW5/5BDnX3p8o0hXcfMxV1KWilBAI7+gSQKFLiPm6lC2r35Lq2nTuUZUZSYBrAdqr1TqciTHVybHEja1w/LhzSlYAIClj7m43GtRl8YXJM477SXrMzfzC+AZ+sCE5eOjQXyiR+F+mG3nw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713977375; c=relaxed/simple;
-	bh=BeuHAPFHOzgLj7bcwamrKQ0nWHsiW0duK0tmhO0g0NU=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=KOHpQ6UcXyXMNxDAs7pIuvQUKzYdn7kwtAtFQQoEf9G4S7sjnZ7Zw/erVPAbUM2teVe/ihw3N//JeBoL2CFG25d0PQWQEdJibWMMiOpcp3NX6/e47AKBvtnqADGPygN8p2+qMdUv2IwfFmFXTmMyyPyzYbHpMjerHgr/O37ztzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=pfJA4PKm; arc=none smtp.client-ip=115.124.30.132
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1713978117; c=relaxed/simple;
+	bh=8/c+EErr/LoDQQ0UswBCV688f9Qy+hEYoM2s16h4laE=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fxeIylQzjprmvUQC4Ww+uncFN9spfdFO1xXtt6AIheXGg+xHGBFury06WqO84eXtomaO80E9Q4e+cQmVUUvwctV2HqhceEzKF312j7I2DTTwFT6qhQ33RVLGjS+7H5t3eIEj0ndXUQ5jnxZ1PfYLlwimSx6m7il6QpVcbFk0G64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ckB/6Efj; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="pfJA4PKm"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1713977370; h=Message-ID:Date:MIME-Version:From:Subject:To:Content-Type;
-	bh=8KMQJzU1aMbtALFenO9YraP0j/CgdS9fdFoFzB32RZY=;
-	b=pfJA4PKmrv+Vn+ktQaz173jN7ZpLTxqAYOtxy7CReC3WiTfUFpSASdVhnI5IyqXHxzVt1Z1FV0zwoQUh0WtyflMbaB8TAEjMEh4NX+Uz55QJhAqB6bDcoNJSX973frajERSl39EONm9ZG8r0kgiEipnMQAnKT8HfaQnXVYr0ujA=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R591e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032014016;MF=hengqi@linux.alibaba.com;NM=1;PH=DS;RN=23;SR=0;TI=SMTPD_---0W5Ck5Xj_1713977366;
-Received: from 30.39.150.89(mailfrom:hengqi@linux.alibaba.com fp:SMTPD_---0W5Ck5Xj_1713977366)
-          by smtp.aliyun-inc.com;
-          Thu, 25 Apr 2024 00:49:28 +0800
-Message-ID: <df6163de-d82c-458d-b298-1eaf406e6b3d@linux.alibaba.com>
-Date: Thu, 25 Apr 2024 00:49:26 +0800
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ckB/6Efj"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43OGr3rP025446;
+	Wed, 24 Apr 2024 17:01:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=qcppdkim1; bh=v9LyJsiCVlAgeeEWeNcgp
+	jCdd+MkEQSXTQEg+z9k3H4=; b=ckB/6EfjQU7QYRxLN63Tx+JX+zZrhrWKcyemC
+	+z0P8/A3nyWPcmnf2SPzCY82w2DROkvZXqlYwQK3lyIjMJgB8HDAICO1dFUuZpj3
+	6g0WdGHdEGoKH3N4AcDhntJs47rkIsdcO+Ofp1iMWA3YpqWxHwqHr/31RfonbR6h
+	+Rh87jJR8i+8uaYKFcQcjoRhYwjG13czzU8mvVp8D7X+shaHC3P7qFb6yHGhIQqf
+	sAoPi731+YmyHGcGGu7VsFEtfblpNfm6xAnXZ2NxMaSFJp9u5xAEu0D7Z+hipLxF
+	hdxCVjlSlDgdzCWYc1BY0DbeJljbyL1LoxblhlKbJOfANHT9Q==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xpv9e1kxr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 24 Apr 2024 17:01:11 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43OH1BZa032159
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 24 Apr 2024 17:01:11 GMT
+Received: from hu-eberman-lv.qualcomm.com (10.49.16.6) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Wed, 24 Apr 2024 10:01:10 -0700
+Date: Wed, 24 Apr 2024 10:01:10 -0700
+From: Elliot Berman <quic_eberman@quicinc.com>
+To: Srivatsa Vaddagiri <quic_svaddagi@quicinc.com>
+CC: Alex Elder <elder@linaro.org>,
+        Srinivas Kandagatla
+	<srinivas.kandagatla@linaro.org>,
+        Murali Nalajal <quic_mnalajal@quicinc.com>,
+        Trilok Soni <quic_tsoni@quicinc.com>,
+        Carl van Schaik
+	<quic_cvanscha@quicinc.com>,
+        Philip Derrin <quic_pderrin@quicinc.com>,
+        Prakruthi Deepak Heragu <quic_pheragu@quicinc.com>,
+        Jonathan Corbet
+	<corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Bjorn Andersson
+	<andersson@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        "Fuad
+ Tabba" <tabba@google.com>,
+        Sean Christopherson <seanjc@google.com>,
+        "Andrew
+ Morton" <akpm@linux-foundation.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>
+Subject: Re: [PATCH v17 15/35] virt: gunyah: Add proxy-scheduled vCPUs
+Message-ID: <20240424095405136-0700.eberman@hu-eberman-lv.qualcomm.com>
+References: <20240222-gunyah-v17-0-1e9da6763d38@quicinc.com>
+ <20240222-gunyah-v17-15-1e9da6763d38@quicinc.com>
+ <20240424093957.GY440762@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Heng Qi <hengqi@linux.alibaba.com>
-Subject: Re: [PATCH net-next v9 2/4] ethtool: provide customized dim profile
- management
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, virtualization@lists.linux.dev,
- "David S . Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Jason Wang <jasowang@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Brett Creeley <bcreeley@amd.com>, Ratheesh Kannoth <rkannoth@marvell.com>,
- Alexander Lobakin <aleksander.lobakin@intel.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Tal Gilboa <talgi@nvidia.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- Maxime Chevallier <maxime.chevallier@bootlin.com>,
- Jiri Pirko <jiri@resnulli.us>, Paul Greenwalt <paul.greenwalt@intel.com>,
- Ahmed Zaki <ahmed.zaki@intel.com>, Vladimir Oltean
- <vladimir.oltean@nxp.com>, Kory Maincent <kory.maincent@bootlin.com>,
- Andrew Lunn <andrew@lunn.ch>, "justinstitt@google.com"
- <justinstitt@google.com>
-References: <20240417155546.25691-1-hengqi@linux.alibaba.com>
- <20240417155546.25691-3-hengqi@linux.alibaba.com>
- <20240418174843.492078d5@kernel.org>
- <96b59800-85e6-4a9e-ad9b-7ad3fa56fff4@linux.alibaba.com>
- <640292b7-5fcd-44c2-bdd1-03702b7e60a1@linux.alibaba.com>
- <20240424091823.4e9b008b@kernel.org>
-In-Reply-To: <20240424091823.4e9b008b@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240424093957.GY440762@quicinc.com>
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 89qGz_tE3OgnL4axkC5Pm979HLQTQNiv
+X-Proofpoint-ORIG-GUID: 89qGz_tE3OgnL4axkC5Pm979HLQTQNiv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-04-24_14,2024-04-24_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ bulkscore=0 lowpriorityscore=0 adultscore=0 spamscore=0 impostorscore=0
+ phishscore=0 mlxscore=0 suspectscore=0 clxscore=1011 malwarescore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404240073
 
+On Wed, Apr 24, 2024 at 03:09:57PM +0530, Srivatsa Vaddagiri wrote:
+> * Elliot Berman <quic_eberman@quicinc.com> [2024-02-22 15:16:38]:
+> 
+> > +/**
+> > + * struct gunyah_vm_exit_info - Reason for VM exit as reported by Gunyah
+> > + * See Gunyah documentation for values.
+> > + * @type: Describes how VM exited
+> > + * @padding: padding bytes
+> > + * @reason_size: Number of bytes valid for `reason`
+> > + * @reason: See Gunyah documentation for interpretation. Note: these values are
+> > + *          not interpreted by Linux and need to be converted from little-endian
+> > + *          as applicable.
+> > + */
+> > +struct gunyah_vm_exit_info {
+> > +	__u16 type;
+> 
+> Pls add an enum to describe the various exit types.
+> 
 
-在 2024/4/25 上午12:18, Jakub Kicinski 写道:
-> On Wed, 24 Apr 2024 21:41:55 +0800 Heng Qi wrote:
->> +struct dim_irq_moder {
->> +       /* See DIM_PROFILE_* */
->> +       u8 profile_flags;
->> +
->> +       /* See DIM_COALESCE_* for Rx and Tx */
->> +       u8 coal_flags;
->> +
->> +       /* Rx DIM period count mode: CQE or EQE */
->> +       u8 dim_rx_mode;
->> +
->> +       /* Tx DIM period count mode: CQE or EQE */
->> +       u8 dim_tx_mode;
->> +
->> +       /* DIM profile list for Rx */
->> +       struct dim_cq_moder *rx_profile;
->> +
->> +       /* DIM profile list for Tx */
->> +       struct dim_cq_moder *tx_profile;
->> +
->> +       /* Rx DIM worker function scheduled by net_dim() */
->> +       void (*rx_dim_work)(struct work_struct *work);
->> +
->> +       /* Tx DIM worker function scheduled by net_dim() */
->> +       void (*tx_dim_work)(struct work_struct *work);
->> +};
->> +
->>
->> .....
->>
->>
->> +       .ndo_init_irq_moder     = virtnet_init_irq_moder,
-> The init callback mostly fills in static data, can we not
-> declare the driver information statically and move the init
-> code into the core?
+When I was first added the exit_info, I thought a bunch on whether to
+add the enum. I was thinking that if we add it to the UAPI, kernel need
+to parse and validate the values from RM. In the current scheme, I can
+leave it to userspace to interpret the value from RM. I could be
+convinced to go the other way though. Currently this is less code :) Let
+me know your thoughts! 
 
-Now the init callback is used as following
+> > +	__u16 padding;
+> > +	__u32 reason_size;
+> > +	__u8 reason[GUNYAH_VM_MAX_EXIT_REASON_SIZE];
 
-In dim.c:
+If we start interpreting the @type, then maybe we should also start
+interpreting the @reason, and that will also add debt to the kernel
+driver.
 
-+int net_dim_init_irq_moder(struct net_device *dev)
-+{
-+       if (dev->netdev_ops && dev->netdev_ops->ndo_init_irq_moder)
-+               return dev->netdev_ops->ndo_init_irq_moder(dev);
-+
-+       return 0;
-+}
-+EXPORT_SYMBOL(net_dim_init_irq_moder);
+Thanks,
+Elliot
 
-
-In dev.c
-
-@@ -10258,6 +10259,10 @@ int register_netdevice(struct net_device *dev)
-         if (ret)
-                 return ret;
-
-+       ret = net_dim_init_irq_moder(dev);
-+       if (ret)
-+               return ret;
-+
-         spin_lock_init(&dev->addr_list_lock);
-         netdev_set_addr_lockdep_class(dev);
-
-
-The collected flags, mode, and work must obtain driver-specific
-
-values from the driver. If I'm not wrong, you don't want an interface
-
-like .ndo_init_irq_moder, but instead provide a generic interface in
-
-dim.c (e.g. net_dim_init_irq_moder() with parameters dev and struct
-
-dim_irq_moder or separate flags,mode,work). Then this func is called
-
-by the driver in the probe phase?
-
-
->> ....
->>
->>
->> +static int virtnet_init_irq_moder(struct net_device *dev)
->> +{
->> +        struct virtnet_info *vi = netdev_priv(dev);
->> +        struct dim_irq_moder *moder;
->> +        int len;
->> +
->> +        if (!virtio_has_feature(vi->vdev, VIRTIO_NET_F_VQ_NOTF_COAL))
->> +                return 0;
->> +
->> +        dev->irq_moder = kzalloc(sizeof(*dev->irq_moder), GFP_KERNEL);
->> +        if (!dev->irq_moder)
->> +                goto err_moder;
->> +
->> +        moder = dev->irq_moder;
->> +        len = NET_DIM_PARAMS_NUM_PROFILES * sizeof(*moder->rx_profile);
->> +
->> +        moder->profile_flags |= DIM_PROFILE_RX;
->> +        moder->coal_flags |= DIM_COALESCE_USEC | DIM_COALESCE_PKTS;
->> +        moder->dim_rx_mode = DIM_CQ_PERIOD_MODE_START_FROM_EQE;
->> +
->> +        moder->rx_dim_work = virtnet_rx_dim_work;
->> +
->> +        moder->rx_profile = kmemdup(dim_rx_profile[moder->dim_rx_mode],
->> +                                   len, GFP_KERNEL);
->> +        if (!moder->rx_profile)
->> +                goto err_profile;
->> +
->> +        return 0;
->> +
->> +err_profile:
->> +        kfree(moder);
->> +err_moder:
->> +        return -ENOMEM;
->> +}
->> +
->>
->> ......
->>
->> +void net_dim_setting(struct net_device *dev, struct dim *dim, bool is_tx)
->> +{
->> +       struct dim_irq_moder *irq_moder = dev->irq_moder;
->> +
->> +       if (!irq_moder)
->> +               return;
->> +
->> +       if (is_tx) {
->> +               INIT_WORK(&dim->work, irq_moder->tx_dim_work);
->> +               dim->mode = irq_moder->dim_tx_mode;
->> +               return;
->> +       }
->> +
->> +       INIT_WORK(&dim->work, irq_moder->rx_dim_work);
->> +       dim->mode = irq_moder->dim_rx_mode;
->> +}
->>
->> .....
->>
->> +       for (i = 0; i < vi->max_queue_pairs; i++)
->> +               net_dim_setting(vi->dev, &vi->rq[i].dim, false);
->>
->> .....
->>
->>       ETHTOOL_A_COALESCE_TX_AGGR_MAX_FRAMES,          /* u32 */
->>
->>       ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS,           /* u32 */
->>
->> + /* nest - _A_PROFILE_IRQ_MODERATION */
->>
->> +  ETHTOOL_A_COALESCE_RX_PROFILE,
->>
->> +   /* nest - _A_PROFILE_IRQ_MODERATION */
->> +  ETHTOOL_A_COALESCE_TX_PROFILE,
->>
->> ......
->>
->>
->> Almost clear implementation, but the only problem is when I want to
->> reuse "ethtool -C" and append ETHTOOL_A_COALESCE_RX_PROFILE
->> and ETHTOOL_A_COALESCE_TX_PROFILE, *ethnl_set_coalesce_validate()
->> will report an error because there are no ETHTOOL_COALESCE_RX_PROFILE
->> and ETHTOOL_COALESCE_TX_PROFILE, because they are replaced by
->> DIM_PROFILE_RX and DIM_PROFILE_TX in the field profile_flags.*
-> I see.
->
->> Should I reuse ETHTOOL_COALESCE_RX_PROFILE and
->> ETHTOOL_A_COALESCE_TX_PROFILE in ethtool_ops->.supported_coalesce_params
->> and remove the field profile_flags from struct dim_irq_moder?
->> Or let ethnl_set_coalesce_validate not verify these two flags?
->> Is there a better solution?
-> Maybe create the bits but automatically add them for the driver?
-
-
-Ok. I think it works.
-
-
-Thanks!
-
-
-> diff --git a/net/ethtool/coalesce.c b/net/ethtool/coalesce.c
-> index 83112c1a71ae..56777d36f7f1 100644
-> --- a/net/ethtool/coalesce.c
-> +++ b/net/ethtool/coalesce.c
-> @@ -243,6 +243,8 @@ ethnl_set_coalesce_validate(struct ethnl_req_info *req_info,
->   
->   	/* make sure that only supported parameters are present */
->   	supported_params = ops->supported_coalesce_params;
-> +	if (dev->moder->coal_flags ...)
-> +		supported_params |= ETHTOOL_COALESCE_...;
->   	for (a = ETHTOOL_A_COALESCE_RX_USECS; a < __ETHTOOL_A_COALESCE_CNT; a++)
->   		if (tb[a] && !(supported_params & attr_to_mask(a))) {
->   			NL_SET_ERR_MSG_ATTR(info->extack, tb[a],
