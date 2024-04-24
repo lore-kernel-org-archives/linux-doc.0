@@ -1,162 +1,205 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A8E813D530;
-	Wed, 24 Apr 2024 10:47:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04A4313DBB6;
+	Wed, 24 Apr 2024 10:57:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713955642; cv=none; b=PG8LrD/M2tzuji7dGDuN8VorsjcilUzhav7qNqbATYRzNuLAUpko1M/zqOBcWAtnllRBW+/lcePkdBHvPPH0o+G5m3Kssq/kldM8GD8g/XuOwJ6ks52XKFHNWD76CfTK72Qchjio1XCX3GiuOJvukrQs2dyH7X3doZMhgXh+8xg=
+	t=1713956281; cv=none; b=YeSWrLmRjAFVEVbZrKbBkihhSkmTuq8J2Cmoek3XkhOsPWjSF7XVFyuc00cfazLkCtfKliyB0Bn/WfO7j5XjSoTt/CPTqMef7IGeVtzKv6JzqfRogokoVP4G3EjmNrs9pD5XOp1OpzjOZRWLDGgChBwrlS7UpzPUqwL/EoXu0ZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713955642; c=relaxed/simple;
-	bh=ndNtKsEJHrisTXsm+DPwzCduTCWbdENCeJabFAAgmzU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=M9Ikcv+mgpshkVr+Y3xwd4VKXOziyZrnOF64TZ7Ave51RiH+PHn6pRSolqB/VlDdD0rOlkqSU9E0QLPC5BBfx31FCIKo1uryniGjhhsilYDhGiUfCb5DNdiK57zycz4V2YJo10BZgvZRQ913P4xmgLiky0IWTDFwxAadYkhx1o8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HfveqtrY; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1713956281; c=relaxed/simple;
+	bh=tRS2Dc6k4cHvFQvqwEyy6MnuweR/Dsimsz7u5sHttWQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=R6TAr+mpUMTlT+sepVyt2QliRnw4TO9y2xuP3kD7HIvwy25yJFQvPAS0l58NFqWWJbmfXVcJ040Cfa6c7lWAffK3TLs1NY9pqstwtX/PfYknEfBlWghAny/STRVPiObXNcli9rXZjsLN/tMNF2UW163V08SWG/IQAvtah87Ou2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YUy1Mr1J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=J/cQvrL5; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=YUy1Mr1J; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=J/cQvrL5; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HfveqtrY"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1e8bbcbc2b7so51454355ad.0;
-        Wed, 24 Apr 2024 03:47:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713955641; x=1714560441; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6bdsQTir/3MhHCM4A7qlVF2Qj2jipD2HiwXE+6sUe60=;
-        b=HfveqtrYAc0a5HHWECX+Si9xh3Y4JTCwUy5mnzs4zjH3MjpB53D0BnY0yWouORezTX
-         5crbbW0YiJCP6COBJ8t4xtB9k63QIQc93XCZApuFXOXqa3O3Wgb8qSWdHRKMSvYyyAOf
-         7gmQVEnAPdCvItLyNclFMG1F50KCstoQ66nV33B5hNW5hR9DQco7FATW6arkZkBunffS
-         0lAaYFJbr+b0wmn0LtMwQyc9h0OZSdQrWT1VrZDMs1hF9pS0PqCbNEu1TCuiDc5fbuW9
-         2H1DsQ2n4a3BbcbRDKd4dYpWpKPjztZXuvFcBgLh4I4WVg9BA+vNNOw+CffS3M7WWFGm
-         x+0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713955641; x=1714560441;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6bdsQTir/3MhHCM4A7qlVF2Qj2jipD2HiwXE+6sUe60=;
-        b=R4+G2WDZH9ciXOExb6N2hweO+Yw3eFEpqP0SGwJFzrEGe7lE8kt/xIBSJ9w3zc8geg
-         LPJdBDe5bkDncqaseZvibtuL548VXWVm0XO29PJlmEJ4Iuq+uMzJFx/duNXTDmdDPZe0
-         y44CUzviI9R5ycATUSK/hozsNLMl/NPRcPrrWmjOTZl+7As4RDJrC39cOGt7G5pPXXBq
-         mObnui3DBwR2jbE3UjNb809nQbv6LhzNL6P1xkLC/R0paNBUvlNuwWvkTKr8riJLERYa
-         FMbHOAX8Zym1n+PDUNg5l283Fe/O3QpIX1XFz5wCyyiunpNEn2U6IO5kTmeZbvs0uQhw
-         r05Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXUusLQVkmkvJWSSsV6nCVCay+8tuSRuD+8+50u/jvLFykrDKSBzdFlF9MgdZZeBXgyLTFmzdj9Ns8DQB0ddUog2LpxsmZAhsd+Kdro7w30wJ8oENu+ubT1kMahwndG0W96
-X-Gm-Message-State: AOJu0Yy/S1GrhuD9tdQkRljbF0ocu1sRKwCc1S+SFElNIUzIjlaNvLM2
-	0WxnLB72GKJYY3hztiTb4woQGYY3eV/csVFEKP+/GTRm2Nk886wp
-X-Google-Smtp-Source: AGHT+IHLHh1TLtVl6/+bXuUaYJEj8Pm/FGfne9gHG3Xf03d902lyDFu59iUFDx1ucdKsT/dldtFtkg==
-X-Received: by 2002:a17:903:44d:b0:1e5:a025:12f9 with SMTP id iw13-20020a170903044d00b001e5a02512f9mr2302997plb.28.1713955640728;
-        Wed, 24 Apr 2024 03:47:20 -0700 (PDT)
-Received: from [192.168.0.107] ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id im15-20020a170902bb0f00b001e45572a253sm11845146plb.14.2024.04.24.03.47.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Apr 2024 03:47:20 -0700 (PDT)
-Message-ID: <f759d33f-860c-454b-8553-3b840ed6da8d@gmail.com>
-Date: Wed, 24 Apr 2024 17:47:15 +0700
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YUy1Mr1J";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="J/cQvrL5";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="YUy1Mr1J";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="J/cQvrL5"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 286216144C;
+	Wed, 24 Apr 2024 10:57:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1713956278; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zepJMi+/FmAphXDQSDExadHqtRjvIFiQoMCvNpYvve8=;
+	b=YUy1Mr1JRvB2R7AR3ds8ByBJDyF+FV0oRRvwl7d1HhfNOTk7mRICDX83XeVD+0a+7jT3Ka
+	uzvaIZYBtWtu4yjYvhyQ/jfY3D4mlMbZWbfkwi5BElrYbEfa2iWCo5Xy3TE8ovMZkB61e9
+	3tKqjS2MklBlR/Ws/B44uzqq/axYiqU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1713956278;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zepJMi+/FmAphXDQSDExadHqtRjvIFiQoMCvNpYvve8=;
+	b=J/cQvrL5Q5gRvCcb0IN9BRmKlbN9EwB0hEysYf72sKbbHcxMMJVXuWGXk0qzN7pTIgH4xC
+	GwJ1Q8YrxLdlp7Cw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1713956278; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zepJMi+/FmAphXDQSDExadHqtRjvIFiQoMCvNpYvve8=;
+	b=YUy1Mr1JRvB2R7AR3ds8ByBJDyF+FV0oRRvwl7d1HhfNOTk7mRICDX83XeVD+0a+7jT3Ka
+	uzvaIZYBtWtu4yjYvhyQ/jfY3D4mlMbZWbfkwi5BElrYbEfa2iWCo5Xy3TE8ovMZkB61e9
+	3tKqjS2MklBlR/Ws/B44uzqq/axYiqU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1713956278;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zepJMi+/FmAphXDQSDExadHqtRjvIFiQoMCvNpYvve8=;
+	b=J/cQvrL5Q5gRvCcb0IN9BRmKlbN9EwB0hEysYf72sKbbHcxMMJVXuWGXk0qzN7pTIgH4xC
+	GwJ1Q8YrxLdlp7Cw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9AE6D13690;
+	Wed, 24 Apr 2024 10:57:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id sWGSIrXlKGYiUwAAD6G6ig
+	(envelope-from <clopez@suse.de>); Wed, 24 Apr 2024 10:57:57 +0000
+From: =?UTF-8?q?Carlos=20L=C3=B3pez?= <clopez@suse.de>
+To: linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: seanjc@google.com,
+	=?UTF-8?q?Carlos=20L=C3=B3pez?= <clopez@suse.de>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v3] KVM: X86: improve documentation for KVM_CAP_X86_BUS_LOCK_EXIT
+Date: Wed, 24 Apr 2024 12:56:18 +0200
+Message-Id: <20240424105616.29596-1-clopez@suse.de>
+X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20231116133628.5976-1-clopez@suse.de>
+References: <20231116133628.5976-1-clopez@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 6/6] ice: Document tx_scheduling_layers parameter
-To: Mateusz Polchlopek <mateusz.polchlopek@intel.com>,
- Tony Nguyen <anthony.l.nguyen@intel.com>, davem@davemloft.net,
- kuba@kernel.org, pabeni@redhat.com, edumazet@google.com,
- netdev@vger.kernel.org
-Cc: Michal Wilczynski <michal.wilczynski@intel.com>, corbet@lwn.net,
- linux-doc@vger.kernel.org, Jiri Pirko <jiri@nvidia.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>
-References: <20240422203913.225151-1-anthony.l.nguyen@intel.com>
- <20240422203913.225151-7-anthony.l.nguyen@intel.com>
- <ZierbWCemdgRNIuc@archie.me> <263b96d6-692e-4e2b-87dd-cf70a8818cbb@intel.com>
-Content-Language: en-US
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <263b96d6-692e-4e2b-87dd-cf70a8818cbb@intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email]
+X-Spam-Score: -3.30
+X-Spam-Flag: NO
 
-On 4/24/24 16:54, Mateusz Polchlopek wrote:
-> 
-> 
-> On 4/23/2024 2:37 PM, Bagas Sanjaya wrote:
->> On Mon, Apr 22, 2024 at 01:39:11PM -0700, Tony Nguyen wrote:
->>> +       The default 9-layer tree topology was deemed best for most workloads,
->>> +       as it gives an optimal ratio of performance to configurability. However,
->>> +       for some specific cases, this 9-layer topology might not be desired.
->>> +       One example would be sending traffic to queues that are not a multiple
->>> +       of 8. Because the maximum radix is limited to 8 in 9-layer topology,
->>> +       the 9th queue has a different parent than the rest, and it's given
->>> +       more bandwidth credits. This causes a problem when the system is
->>> +       sending traffic to 9 queues:
->>> +
->>> +       | tx_queue_0_packets: 24163396
->>> +       | tx_queue_1_packets: 24164623
->>> +       | tx_queue_2_packets: 24163188
->>> +       | tx_queue_3_packets: 24163701
->>> +       | tx_queue_4_packets: 24163683
->>> +       | tx_queue_5_packets: 24164668
->>> +       | tx_queue_6_packets: 23327200
->>> +       | tx_queue_7_packets: 24163853
->>> +       | tx_queue_8_packets: 91101417 < Too much traffic is sent from 9th
->>> +
->>> <snipped>...
->>> +       To verify that value has been set:
->>> +       $ devlink dev param show pci/0000:16:00.0 name tx_scheduling_layers
->>>   
->>
->> For consistency with other code blocks, format above as such:
->>
->> ---- >8 ----
->> diff --git a/Documentation/networking/devlink/ice.rst b/Documentation/networking/devlink/ice.rst
->> index 830c04354222f8..0039ca45782400 100644
->> --- a/Documentation/networking/devlink/ice.rst
->> +++ b/Documentation/networking/devlink/ice.rst
->> @@ -41,15 +41,17 @@ Parameters
->>          more bandwidth credits. This causes a problem when the system is
->>          sending traffic to 9 queues:
->>   -       | tx_queue_0_packets: 24163396
->> -       | tx_queue_1_packets: 24164623
->> -       | tx_queue_2_packets: 24163188
->> -       | tx_queue_3_packets: 24163701
->> -       | tx_queue_4_packets: 24163683
->> -       | tx_queue_5_packets: 24164668
->> -       | tx_queue_6_packets: 23327200
->> -       | tx_queue_7_packets: 24163853
->> -       | tx_queue_8_packets: 91101417 < Too much traffic is sent from 9th
->> +       .. code-block:: shell
->> +
->> +         tx_queue_0_packets: 24163396
->> +         tx_queue_1_packets: 24164623
->> +         tx_queue_2_packets: 24163188
->> +         tx_queue_3_packets: 24163701
->> +         tx_queue_4_packets: 24163683
->> +         tx_queue_5_packets: 24164668
->> +         tx_queue_6_packets: 23327200
->> +         tx_queue_7_packets: 24163853
->> +         tx_queue_8_packets: 91101417 < Too much traffic is sent from 9th
->>            To address this need, you can switch to a 5-layer topology, which
->>          changes the maximum topology radix to 512. With this enhancement,
->> @@ -67,7 +69,10 @@ Parameters
->>          You must do PCI slot powercycle for the selected topology to take effect.
->>            To verify that value has been set:
->> -       $ devlink dev param show pci/0000:16:00.0 name tx_scheduling_layers
->> +
->> +       .. code-block:: shell
->> +
->> +         $ devlink dev param show pci/0000:16:00.0 name tx_scheduling_layers
->>     Info versions
->>   =============
->>
->> Thanks.
->>
-> 
-> Thank You for reporting that. I will verify this issue soon.
+Improve the description for the KVM_CAP_X86_BUS_LOCK_EXIT capability,
+fixing a few typos, grammarm and clarifying the purpose of the ioctl.
 
-OK, thanks!
+Signed-off-by: Carlos López <clopez@suse.de>
+---
+v3: Added Sean Christopherson's suggestions
+v2: Corrected the name of the KVM_RUN_X86_BUS_LOCK flag
 
+ Documentation/virt/kvm/api.rst | 52 ++++++++++++++++++----------------
+ 1 file changed, 27 insertions(+), 25 deletions(-)
+
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 0b5a33ee71ee..a1d78e06a1ad 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -6416,9 +6416,9 @@ More architecture-specific flags detailing state of the VCPU that may
+ affect the device's behavior. Current defined flags::
+ 
+   /* x86, set if the VCPU is in system management mode */
+-  #define KVM_RUN_X86_SMM     (1 << 0)
++  #define KVM_RUN_X86_SMM          (1 << 0)
+   /* x86, set if bus lock detected in VM */
+-  #define KVM_RUN_BUS_LOCK    (1 << 1)
++  #define KVM_RUN_X86_BUS_LOCK     (1 << 1)
+   /* arm64, set for KVM_EXIT_DEBUG */
+   #define KVM_DEBUG_ARCH_HSR_HIGH_VALID  (1 << 0)
+ 
+@@ -7757,29 +7757,31 @@ Valid bits in args[0] are::
+   #define KVM_BUS_LOCK_DETECTION_OFF      (1 << 0)
+   #define KVM_BUS_LOCK_DETECTION_EXIT     (1 << 1)
+ 
+-Enabling this capability on a VM provides userspace with a way to select
+-a policy to handle the bus locks detected in guest. Userspace can obtain
+-the supported modes from the result of KVM_CHECK_EXTENSION and define it
+-through the KVM_ENABLE_CAP.
+-
+-KVM_BUS_LOCK_DETECTION_OFF and KVM_BUS_LOCK_DETECTION_EXIT are supported
+-currently and mutually exclusive with each other. More bits can be added in
+-the future.
+-
+-With KVM_BUS_LOCK_DETECTION_OFF set, bus locks in guest will not cause vm exits
+-so that no additional actions are needed. This is the default mode.
+-
+-With KVM_BUS_LOCK_DETECTION_EXIT set, vm exits happen when bus lock detected
+-in VM. KVM just exits to userspace when handling them. Userspace can enforce
+-its own throttling or other policy based mitigations.
+-
+-This capability is aimed to address the thread that VM can exploit bus locks to
+-degree the performance of the whole system. Once the userspace enable this
+-capability and select the KVM_BUS_LOCK_DETECTION_EXIT mode, KVM will set the
+-KVM_RUN_BUS_LOCK flag in vcpu-run->flags field and exit to userspace. Concerning
+-the bus lock vm exit can be preempted by a higher priority VM exit, the exit
+-notifications to userspace can be KVM_EXIT_BUS_LOCK or other reasons.
+-KVM_RUN_BUS_LOCK flag is used to distinguish between them.
++Enabling this capability on a VM provides userspace with a way to select a
++policy to handle the bus locks detected in guest. Userspace can obtain the
++supported modes from the result of KVM_CHECK_EXTENSION and define it through
++the KVM_ENABLE_CAP. The supported modes are mutually-exclusive.
++
++This capability allows userspace to force VM exits on bus locks detected in the
++guest, irrespective whether or not the host has enabled split-lock detection
++(which triggers an #AC exception that KVM intercepts). This capability is
++intended to mitigate attacks where a malicious/buggy guest can exploit bus
++locks to degrade the performance of the whole system.
++
++If KVM_BUS_LOCK_DETECTION_OFF is set, KVM doesn't force guest bus locks to VM
++exit, although the host kernel's split-lock #AC detection still applies, if
++enabled.
++
++If KVM_BUS_LOCK_DETECTION_EXIT is set, KVM enables a CPU feature that ensures
++bus locks in the guest trigger a VM exit, and KVM exits to userspace for all
++such VM exits, e.g. to allow userspace to throttle the offending guest and/or
++apply some other policy-based mitigation. When exiting to userspace, KVM sets
++KVM_RUN_X86_BUS_LOCK in vcpu-run->flags, and conditionally sets the exit_reason
++to KVM_EXIT_X86_BUS_LOCK.
++
++Note! Detected bus locks may be coincident with other exits to userspace, i.e.
++KVM_RUN_X86_BUS_LOCK should be checked regardless of the primary exit reason if
++userspace wants to take action on all detected bus locks.
+ 
+ 7.23 KVM_CAP_PPC_DAWR1
+ ----------------------
 -- 
-An old man doll... just what I always wanted! - Clara
+2.35.3
 
