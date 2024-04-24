@@ -1,333 +1,487 @@
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11011009.outbound.protection.outlook.com [52.101.228.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 394ABBE6C;
-	Wed, 24 Apr 2024 01:25:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713921952; cv=fail; b=szTSMPcdMGlL7rASke74cu9Ymzr0ANbPmAu3UwQSYWDAjre/Wv4/1tUR5SmhOicUNrGQmlFdsmUSVYku+1r2Bxdgs3tPyd0hpsW4w44d5Silogh2qsrv4NofSEZUHrTAcgXctgbcyWCRvD4KheSsjCIh4iA/VCz2Luso6C2gTQ4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713921952; c=relaxed/simple;
-	bh=arqsWWxt+48qzHgdBMKB4b661mmpKKS26piSE2nymMc=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=AHw4aypR+oAzAlw3aTMv/gkxTfIDZTLEcWsx39szksnhp7aaiLBV0Ie312oLfLlAn+YHkCsyASZROiv7Vtx/mZXx8Pk6MsBIf9Mkr9ALilEwQ//bRFKfbijtOXIlpY4A1NDTLVo+oFF5p6at/CmlDlYBrt55HpQb2saXIzoo4h8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alpsalpine.com; spf=pass smtp.mailfrom=alpsalpine.com; dkim=pass (2048-bit key) header.d=alpsalpine.com header.i=@alpsalpine.com header.b=AX2RcKR3; arc=fail smtp.client-ip=52.101.228.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=alpsalpine.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alpsalpine.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08AF013A3E9;
+	Wed, 24 Apr 2024 03:04:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1713927886; cv=none; b=ODpwuv1fuiy3e2qrZo6+B5vSgPFDf1I4OLjUhRpB1GOFk92PMq7LwtAraX0kw989PwEuTxeZEKrGNqIyfW2n+rJ4Ifga6D8OEmNcE28ZJrT8FTzvaUa1KlwRyDrhvdu/fVxGKegBP7069y20lyk3FR7Ui5cHe3yQhN9Szsc9lr8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1713927886; c=relaxed/simple;
+	bh=DLSnqQWFNhsmNhmwIVAHYm2cxdz6iSLfLbXnpiWK8+g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=B/hcCFqlrAViM1Lm4G8Jpi/XmSqvdjhFcdsnDV+syCTojLw91fThkhM0p2HTl3d2EvSWtsvGyycZfXeQSH+RIIALiydbG5CLIx2WEgovS67U7oqfl/hr8m0SyOiQu58s/X/n0Dx/hbIq0G/fg75B9XyjFItLn+2PvfuIdV7Be/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kc1k085e; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=alpsalpine.com header.i=@alpsalpine.com header.b="AX2RcKR3"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=A6vmW8U4uoOs0txvBu2oAuGwmyVLpF9r8VC22ClJP5cFbKiX7Q6N87HJDDMvwZBVN07AnkseZ593aRvL69JB6/lbfBSu3zvCi3WK/V5tf2WM/QnmQMNa1TSmD3iVy4pYl9N6LnB4Jwpx3MEQvOk01nu6LYrYX7o7zjVFc0R6HN8fv1RblDYN20927AxCwlq/Z5+erl3FIMy2ReAYmBSP99IFfxyvlnCVZuqv06Enqv6aQyBT0zXYDrb85vD7yEQYS/p6XsxeCpVRixvZrkPoR81ftFnNOW+G2aw9lJ+mylScJ8ndPcrXIM6NIHiW4M95yipJOlomHl5n2oXl4eQjRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JgHKdiSh8JEccfKjdKbuoV+upcSy5j+J4+/q6x9popE=;
- b=amabBuwh5PtkWp5OhQ/8DfppwzcOPz3000JMDdhjSOM0Qh2CObmHAjuvzIIJMb/dvRcbg65xqfx7OQxSslYSd0sw+2jQVXb3Y2hK3PEZESlbvi7PuP+hzyL7RrI8KSvQM7Vsq9/NxEz/x/gxqUb9w9IMAxEIrkK/sNETC3rhhw2CFThOffdbgodBknXPWMN1WCEaEIKkXX7HoXaK9+PUxzyGz6D1pcRfjri915hhnpHNoYxDHEzS6BzLegETVdbn9j6v2hyaagrkx62/tBxLKzrCZtHtJZz7TzK8eTybj25Xt2Gd0d0GIg32XyzmLoUZS9yS1YKw45n24Dd/fFZvEw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=alpsalpine.com; dmarc=pass action=none
- header.from=alpsalpine.com; dkim=pass header.d=alpsalpine.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alpsalpine.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JgHKdiSh8JEccfKjdKbuoV+upcSy5j+J4+/q6x9popE=;
- b=AX2RcKR3zcyY0OSl5ib1U/RETM5MlIBktX8aVQva+of9xL6IQ0m5WkbwiPf9lSVmZExf22W3jTytxpX/veKNvrXfzUrxVLSlbRcYqsVsVebqe+V92eanzD04JUkEGEqVrq0pA6sdZAQyFrZWf6PIAWkKi3XyfHhvpmiboXyIzCTMmNrhwX/DSkGoN7dcKe3lPbAI85stnAXaRsnxC9J2tfhMzU1+UvZPDA9d1IZSTnRhyBxHKtjW3mUVRmCvc4gCM66bMdasMTT+MJEgjLW/O6C0fIkjOFj5EjliTgEYHWYKLN3W4lyzrrA1kYulhjADOj1vAGs1mkr33NAN7MnoRA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=alpsalpine.com;
-Received: from TYVPR01MB10781.jpnprd01.prod.outlook.com
- (2603:1096:400:2ae::14) by TY1PR01MB10657.jpnprd01.prod.outlook.com
- (2603:1096:400:321::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.22; Wed, 24 Apr
- 2024 01:25:45 +0000
-Received: from TYVPR01MB10781.jpnprd01.prod.outlook.com
- ([fe80::b541:f53c:6306:6e2b]) by TYVPR01MB10781.jpnprd01.prod.outlook.com
- ([fe80::b541:f53c:6306:6e2b%4]) with mapi id 15.20.7472.044; Wed, 24 Apr 2024
- 01:25:45 +0000
-From: Norihiko Hama <Norihiko.Hama@alpsalpine.com>
-To: stern@rowland.harvard.edu,
-	gregkh@linuxfoundation.org,
-	corbet@lwn.net,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	usb-storage@lists.one-eyed-alien.net
-Cc: Norihiko Hama <Norihiko.Hama@alpsalpine.com>
-Subject: [PATCH v4] usb-storage: Optimize scan delay more precisely
-Date: Wed, 24 Apr 2024 10:31:34 +0900
-Message-Id: <20240424013134.17307-1-Norihiko.Hama@alpsalpine.com>
-X-Mailer: git-send-email 2.17.1
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYCP286CA0117.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:29c::15) To TYVPR01MB10781.jpnprd01.prod.outlook.com
- (2603:1096:400:2ae::14)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kc1k085e"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6e46dcd8feaso3042611b3a.2;
+        Tue, 23 Apr 2024 20:04:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1713927884; x=1714532684; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nJK6rlBTwrl5+F7GmNYjslMW26wt9PKz5lFbq7Hde/w=;
+        b=kc1k085evHmNYHOiNAmbr4CEBjPbOMMHbDJslKR3IFpDNyQX7Q201lWSC4H8p7yXij
+         xqj07/vj0W7FLvqFfCRgJBtWvavzhrJaFOzb3FGQUrsZM5/2t2dobJ6vd2V26F/iGIdC
+         t7nqhjNdfENcDOWgIvKccV5CGC6A3NNZaBwQVuyXFHCHinOiJyhkyI1ed6Xzpy606I2W
+         vAzCdJ0mhsmU2gZj7PZCDuVryMP0gH9PoOx85oa6NvZv19zHWZ5Q/jcZ2yZOd23V7n6v
+         +oPyH6XECPtMYm8jOZdvIG1yoIRwGz2qvkhxDrYN2EPLNdmqPmJEpP+xePFZIjrQlxHU
+         btAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1713927884; x=1714532684;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nJK6rlBTwrl5+F7GmNYjslMW26wt9PKz5lFbq7Hde/w=;
+        b=FbF99Jj6bihpVOhoTVVQp9FIxsFcI2Hz8VX6ur7n0OnMsvxptLCXA10aqI3ebH+8Xi
+         BREZUP/AbXvyJs7L2GWal/tAeHyUB1NEtdzVRJrguJtKOjlwg8QFQskuPDGVChW2Wo0w
+         tVTvekIMpTwBR89f1ib4y9CVr9BDWuGD63LnpJxhUpYbSUaBcerRbruCA6yFhShqf96v
+         WYCNEb4FFDDgElxlR8sUfR4o9BmAXozAebryyAM/Y4kjk8xJSUudAXd624FfgdrpjZOl
+         NnKfQ7NFkRKJW/jptwOohfRnu3NaXG4VT0K3SJ2CCpWYccx45woEdRISBxqiEdCb5erq
+         Lo/A==
+X-Forwarded-Encrypted: i=1; AJvYcCVTbKQP2Vztvhg6t+LBX0kMbiPB0S1xELcKqmK+OaDXKqMm9tfDRbuB/hrRKhNdwTLVeko3sOwl6XtAI8V6hvLVU7mPlosX+KpuN0YzgrVLBJRzGWmcyiOoDNiFw7pK4AP0vPRdu3Y6
+X-Gm-Message-State: AOJu0YyoH2OKTl+aP0s742K4gY6djPWMsn09oZvEFdMTmulBmLN7Ci96
+	7sk7h1Gzihla3rYB3htZggdKFhf4+jYg2UylOfsgFBIkRejEvG2T
+X-Google-Smtp-Source: AGHT+IGeRJdowyIH+vkUD5gvL4pos+YYG8nBYcIvrsliVpzZbGk7P4qwgrFJVEJTCKiWzFU7UaiWDA==
+X-Received: by 2002:a05:6a00:2294:b0:6ea:d004:33c9 with SMTP id f20-20020a056a00229400b006ead00433c9mr1725820pfe.30.1713927884203;
+        Tue, 23 Apr 2024 20:04:44 -0700 (PDT)
+Received: from [192.168.255.10] ([43.132.141.20])
+        by smtp.gmail.com with ESMTPSA id fe17-20020a056a002f1100b006ed7684304dsm10396753pfb.61.2024.04.23.20.04.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Apr 2024 20:04:43 -0700 (PDT)
+Message-ID: <9fda900c-4b77-44b1-8185-47754bcda508@gmail.com>
+Date: Wed, 24 Apr 2024 11:04:39 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYVPR01MB10781:EE_|TY1PR01MB10657:EE_
-X-MS-Office365-Filtering-Correlation-Id: c6f422a9-17e0-4a71-b001-08dc63fd770c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230031|52116005|366007|376005|1800799015|38350700005;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?i/pbox18JiQ35ieIZJ++iW7aJOPRysnTCg+7kDgRbO+JOhinWA9DmMJEqvaO?=
- =?us-ascii?Q?89iB+TyARpv59AvrlSADN4XO4yTRPUPm1zsZfu7dwUN06CsUYh79rhV0i1Od?=
- =?us-ascii?Q?1GOIVJSHrPD42TZ4BJmJsqRJyVn6W4EHbjC48fWIT4qPkS1Y+7egUxYieuQH?=
- =?us-ascii?Q?r+O4TMppTFVD5o4EWT7p/1C4Rspk6RXZWOb7dEEMpmAz4iBhJDW6ylJ1vQQa?=
- =?us-ascii?Q?XNrzsznEmm7kEMFYB98H1eJQ3zEMHSVEjs6n8+TADh/9ZW/v2DczyB2MLuE5?=
- =?us-ascii?Q?jPLVyx92hLIJbvn2aJuByAV4CMdLhtnkdXBLBoayA9NzvN0iqKqAyrWhsLrU?=
- =?us-ascii?Q?yn//RDBPycSpxsxtEafCHV0IE7YdnVZGcdh9pLmKZQDAuJMqIKDSpSJA+OxT?=
- =?us-ascii?Q?SGUsli2TPekNHg08ma5dany26b6FQ8svan14BlFpC5qBoQrS5ue75C/mdkPi?=
- =?us-ascii?Q?yeKXADjxy1+RmhKEFIbdbEgMr7/yKxMGkaRPoZDvOa1wQv/SyXNdzUykrZq7?=
- =?us-ascii?Q?5Ls0hDlfzzc/AgCJMXga+JXDRbUpCJwNET7LjFVW1zEE/2RFuZtrme3GCCHY?=
- =?us-ascii?Q?c/iYQwwrXQMEt2fR2oKP2Kuw6ydFuXf9IqebLe8aULu5yjA2i8ErHqFGAXic?=
- =?us-ascii?Q?Cgv0H6glggwSEkbOPlX/43dTLRJo4BsGWFCMWbN4QdNriMMsmE4XFugoXIa1?=
- =?us-ascii?Q?bVM+Ngb1UghflZBzku0SbUDNBWDPFWTy0NZws45JRZvjDkwIWwM9mk+skqP5?=
- =?us-ascii?Q?rtxbCRan51GtBRYNlZctyvsvjiMy2JiKLNXH8HPXKbAWwqAsBw5uWdJFdYta?=
- =?us-ascii?Q?SYrBPTWgmm1/nVTXYwAtTGLw/TBYBVlUkmFNYScaXOmhKfrAJ0hZBnEuJEZ7?=
- =?us-ascii?Q?XQggbBO16E7mFtn4w6TK0gKQPZT4VjHJs1wISugYJUc5v9EdSQHuh1AgTFfb?=
- =?us-ascii?Q?ec6VIlksBO7sI6zFADqiwW1vFW9R2gdrLiixv9l74iFVSjQhaCw+as2DRfbh?=
- =?us-ascii?Q?adiHFl++D/gRFEJEW0azi9nSdnBEuvAlIaYFebDVBGCt/sNU0fS8O0s0lPh0?=
- =?us-ascii?Q?z1IJFB63Fsb/+WfnmMDaye/br6OodSy1C8YuFPLjuovFQrqN+Qz11B8JOjI6?=
- =?us-ascii?Q?wPzQrCs5wmQ8PzbBL/bXJ3p6uFSuyXkuH7tuE69HSwbvrnvxmWWzp3qpCK3J?=
- =?us-ascii?Q?oGCOAPaiI8EQq0suZHDwD2XpbN730kNedWFT30gV1NBmfU80fDx10rLvZL1i?=
- =?us-ascii?Q?sEYM20v0gaedz5lQ3FcIi7IfoAaaK2cxjHlp1O2Hb5jrS833cemg4aymkaGC?=
- =?us-ascii?Q?QYV2OfPR7MXTUPaABMYnsFFnRHKIB+JEKt3Na5kOrO3esA=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYVPR01MB10781.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(52116005)(366007)(376005)(1800799015)(38350700005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?BdLztK+H30dEtBWgmu2444nOEMDQngyaBk+6813hvAIFUfmsfIX3e7qkpq8v?=
- =?us-ascii?Q?ehMwUurgjsMsrDZ82kuYcSc5uroVFNufYMThqg3UZJ5xX+e8gaMlNpTNJeoz?=
- =?us-ascii?Q?5p2KvJyNtPrVvo1n9hZWnzAy4w1K9hXzlUp9nPk9KTFdo7M3cU8wZd6orCBo?=
- =?us-ascii?Q?WY0WnPFRjFn3lUzjbUkg4W74j5fJzstwldXSvkOzZFPSyrw8qLQXOdEuUU4Y?=
- =?us-ascii?Q?3cpMFsy8tQXuDAVrwINZaCI+Mry2iTz6lNLk56J21XXPZe9Jhm0yrw/ywvBN?=
- =?us-ascii?Q?AnHc3TTKao9AVser8hmGUHzEK8PdFgxnP9YZd6QTsy0Tj3M7zAJ2CCGFW4V3?=
- =?us-ascii?Q?QK6PaPXdHxCMdvZCLXdoHHzSIXiM6JgAZ6MHcPv5/AKCwiUnt5wA8q+XUCjO?=
- =?us-ascii?Q?bp09AR1zJxur4hL8TVNVlXLM1lntVM4vr3AfbtvFCYF8xcw2LGn8jC3X21oy?=
- =?us-ascii?Q?0quD0+RL9TGhJa7fQNcywUdH4zMjui7lUc06y/lpXJz/JKrzo9Yu/42qDTT5?=
- =?us-ascii?Q?pLkJzeE8ZDW0Bs/pXbCBX47L4puTeNQu2Dytq0wsk9reo4zT/9PSt4X91xxJ?=
- =?us-ascii?Q?XP9Mxm5dSZG9sY/yn4JAaXyAm/s1vkc0BrRnP8X0H11orVOo4peCOnx06p/S?=
- =?us-ascii?Q?3kvTXxGtyP/LIbC2O1viA0nbd8Zkrm8VNVcZ/xanNskKOSE/7JdgDQE2xl3q?=
- =?us-ascii?Q?xkQuBiIJ0U9isb1w66/KH5pcsx7UK5SFqJ428z6k+eRcgzQXaowxfBa29F8y?=
- =?us-ascii?Q?e+muZFjOjSXauS7GGRGc5Amqhji0t4CxY6PGvwZ0eQHbtYRSgnM0tOxGt/7t?=
- =?us-ascii?Q?lnVpp0qm486ke5b1ZBKb3ccVGBmbmdAAWtjj0T1exTIZi+I5eHho/l+ln24D?=
- =?us-ascii?Q?HWRZA7P/Hp4SARyhOWwujRqy3rs2ZeNE0iRIziibBGwQelOY6s6J03l0PkYP?=
- =?us-ascii?Q?j0hwxckjkDVfjkQhJNChcr8+YJCO0l4pdk9nFauGOTwcz0mQZQUFVGOG61LR?=
- =?us-ascii?Q?xOvgQf3y8jyUCjbVzsVPWy27GbDCzrgdrmwD/1DLJwDD+k1bpp1hs9UcKSyL?=
- =?us-ascii?Q?Q2tJyx4tkAbnGMFqEtpsQtx366PqXUph8mWMffpQmWAqqgqgL4YqeO7W/Lrk?=
- =?us-ascii?Q?Sh4+X+NFzQ9LX/6+zpKCXzB2ZAUoY+L+vJKdf0cuwRapkSfwbg8GKgZzoynC?=
- =?us-ascii?Q?RGz6Llupq8v4LcdzG7CY/YpH57jLqs+yGCMJz9bCGDINYxjgTsU6jhwzxgPs?=
- =?us-ascii?Q?KHmyMN2C1ozvdO0j7itPxfbDk+V208Le79slB2u0+B+4sbTwzo6oFfrOkhsC?=
- =?us-ascii?Q?iHMT3yhiAZB3Ms3kmEGZFANh+KEuLqtpo/vQfAXiIlExIb0nBd9OGGWz9sOL?=
- =?us-ascii?Q?JxvXUh2UYkO5cgtoyhSAK1ghq9jHCzKPI/Mj15Vux49TTpTo25VgbgM0dz6z?=
- =?us-ascii?Q?ABtnJ5KWhUI5O49adCi1SbEQRvF0eyRKuo/EE7GZg6ilyKcT6b28W6zP+RBB?=
- =?us-ascii?Q?nqvd6wUAD59f5eqXyEe38pnQXQf220NywZcQqb3Y1P64MDp8lkDivSw49sYt?=
- =?us-ascii?Q?qyBABgJjt6MNVr+i08XnCMO4URVKPY9Fb2afzqTa?=
-X-OriginatorOrg: alpsalpine.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c6f422a9-17e0-4a71-b001-08dc63fd770c
-X-MS-Exchange-CrossTenant-AuthSource: TYVPR01MB10781.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2024 01:25:45.5973
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 57e76998-77bd-4b82-a424-198f46eb2254
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mJb/fgy934wF0c+ug2EKTGGu1rsHkaX3kY7wGa6ymRkHen/aNh6lWOsfwPnOYazJwgkYma/QvtysQda2pZZEww==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB10657
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs/zh_CN: Add dev-tools/kcov Chinese translation
+To: Haoyang Liu <tttturtleruss@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <siyanteng@loongson.cn>, Jonathan Corbet <corbet@lwn.net>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Cc: hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+References: <20240423142357.3906-1-tttturtleruss@hust.edu.cn>
+Content-Language: en-US
+From: Alex Shi <seakeel@gmail.com>
+In-Reply-To: <20240423142357.3906-1-tttturtleruss@hust.edu.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Current storage scan delay is reduced by the following old commit.
 
-a4a47bc03fe5 ("Lower USB storage settling delay to something more reasonable")
 
-It means that delay is at least 'one second', or zero with delay_use=0.
-'one second' is still long delay especially for embedded system but
-when delay_use is set to 0 (no delay), still error observed on some USB drives.
+On 4/23/24 10:23 PM, Haoyang Liu wrote:
+> Translate dev-tools/kcov into Chinese and add it in
+> dev-tools/zh_CN/index.rst.
+> 
+> Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
+> Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+> ---
+>  .../translations/zh_CN/dev-tools/index.rst    |   2 +-
+>  .../translations/zh_CN/dev-tools/kcov.rst     | 359 ++++++++++++++++++
+>  2 files changed, 360 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/dev-tools/kcov.rst
+> 
+> diff --git a/Documentation/translations/zh_CN/dev-tools/index.rst b/Documentation/translations/zh_CN/dev-tools/index.rst
+> index 51e5b3e724c1..fa900f5beb68 100644
+> --- a/Documentation/translations/zh_CN/dev-tools/index.rst
+> +++ b/Documentation/translations/zh_CN/dev-tools/index.rst
+> @@ -22,6 +22,7 @@ Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+>     sparse
+>     gcov
+>     kasan
+> +   kcov
+>     ubsan
+>     kmemleak
+>     gdb-kernel-debugging
+> @@ -29,7 +30,6 @@ Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+>  Todolist:
+>  
+>   - coccinelle
+> - - kcov
+>   - kcsan
+>   - kfence
+>   - kgdb
+> diff --git a/Documentation/translations/zh_CN/dev-tools/kcov.rst b/Documentation/translations/zh_CN/dev-tools/kcov.rst
+> new file mode 100644
+> index 000000000000..629154df7121
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/dev-tools/kcov.rst
+> @@ -0,0 +1,359 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/dev-tools/kcov.rst
+> +:Translator: 刘浩阳 Haoyang Liu <tttturtleruss@hust.edu.cn>
+> +
+> +KCOV: 用于模糊测试的代码覆盖率
+> +==============================
+> +
+> +KCOV 以一种适用于覆盖率引导的模糊测试的形式收集和暴露内核代码覆盖率信息。
+> +一个正在运行的内核的覆盖率数据可以通过 ``kcov`` 调试文件导出。覆盖率的收集是基
+> +于任务启用的，因此 KCOV 可以精确捕获单个系统调用的覆盖率。
+> +
+> +要注意的是 KCOV 不是为了收集尽可能多的覆盖率数据。而是为了收集相对稳定的覆盖率
+> +，这是系统调用输入的函数。为了完成这个目标，它不收集软硬中断的覆盖率（除非移除
+> +覆盖率收集被启用，见下文）以及内核中固有的不确定部分的覆盖率（如调度器，锁定）
+> +
+> +除了收集代码覆盖率，KCOV 还收集操作数比较的覆盖率。见 "操作数比较收集" 一节
+> +查看详细信息。
+> +
+> +除了从系统调用处理器收集覆盖率数据，KCOV 还从后台内核或软中断任务中执行的内核
+> +被标注的部分收集覆盖率。见 "远程覆盖率收集" 一节查看详细信息。
+> +
+> +先决条件
+> +--------
+> +
+> +KCOV 依赖编译器插桩，要求 GCC 6.1.0 及更高版本或者内核支持的任意版本的 Clang。
+> +
+> +收集操作数比较的覆盖率需要 GCC 8+ 或者 Clang。
+> +
+> +为了启用 KCOV，需要使用如下参数配置内核::
+> +
+> +        CONFIG_KCOV=y
+> +
+> +为了启用操作数比较覆盖率的收集，使用如下参数::
 
-So delay_use should not be set to 0 but 'one second' is quite long.
-Especially for embedded system, it's important for end user
-how quickly access to USB drive when it's connected.
-That's why we have a chance to minimize such a constant long delay.
+“比较操作数” 看起来更好一些， 而不是"操作数比较"
 
-This patch optimizes scan delay more precisely
-to minimize delay time but not to have any problems on USB drives
-by extending module parameter 'delay_use' in milliseconds internally.
-The parameter 'delay_use' is changed to be parsed as 3 decimal point value
-if it has digit values with '.'.
-It makes the range of value to 1 / 1000 in internal 32-bit value
-but it's still enough to set the delay time.
-By default, delay time is 'one second' for backward compatibility.
+> +
+> +    CONFIG_KCOV_ENABLE_COMPARISONS=y
+> +
+> +覆盖率数据只会在调试文件系统被挂载后才可以获取::
+> +
+> +        mount -t debugfs none /sys/kernel/debug
+> +
+> +覆盖率收集
+> +----------
+> +
+> +下面的程序演示了如何使用 KCOV 在一个测试程序中收集单个系统调用的覆盖率：
+> +
+> +.. code-block:: c
+> +
+> +    #include <stdio.h>
+> +    #include <stddef.h>
+> +    #include <stdint.h>
+> +    #include <stdlib.h>
+> +    #include <sys/types.h>
+> +    #include <sys/stat.h>
+> +    #include <sys/ioctl.h>
+> +    #include <sys/mman.h>
+> +    #include <unistd.h>
+> +    #include <fcntl.h>
+> +    #include <linux/types.h>
+> +
+> +    #define KCOV_INIT_TRACE			_IOR('c', 1, unsigned long)
+> +    #define KCOV_ENABLE			_IO('c', 100)
+> +    #define KCOV_DISABLE			_IO('c', 101)
+> +    #define COVER_SIZE			(64<<10)
+> +
+> +    #define KCOV_TRACE_PC  0
+> +    #define KCOV_TRACE_CMP 1
+> +
+> +    int main(int argc, char **argv)
+> +    {
+> +	int fd;
+> +	unsigned long *cover, n, i;
+> +
+> +	/* 单个文件描述符允许
+> +	 * 在单线程上收集覆盖率。
+> +	 */
+> +	fd = open("/sys/kernel/debug/kcov", O_RDWR);
+> +	if (fd == -1)
+> +		perror("open"), exit(1);
+> +	/* 设置跟踪模式和跟踪大小。 */
+> +	if (ioctl(fd, KCOV_INIT_TRACE, COVER_SIZE))
+> +		perror("ioctl"), exit(1);
+> +	/* 映射内核空间和用户空间共享的缓冲区。 */
+> +	cover = (unsigned long*)mmap(NULL, COVER_SIZE * sizeof(unsigned long),
+> +				     PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+> +	if ((void*)cover == MAP_FAILED)
+> +		perror("mmap"), exit(1);
+> +	/* 在当前线程中启用覆盖率收集。 */
+> +	if (ioctl(fd, KCOV_ENABLE, KCOV_TRACE_PC))
+> +		perror("ioctl"), exit(1);
+> +	/* 在调用 ioctl() 之后重置覆盖率。 */
+> +	__atomic_store_n(&cover[0], 0, __ATOMIC_RELAXED);
+> +	/* 调用目标系统调用。 */
+> +	read(-1, NULL, 0);
+> +	/* 读取收集到的 PC 的数目。 */
+> +	n = __atomic_load_n(&cover[0], __ATOMIC_RELAXED);
+> +	for (i = 0; i < n; i++)
+> +		printf("0x%lx\n", cover[i + 1]);
+> +	/* 在当前线程上禁用覆盖率收集。在这之后
+> +	 * 可以在其他线程上收集覆盖率
+> +	 */
+> +	if (ioctl(fd, KCOV_DISABLE, 0))
+> +		perror("ioctl"), exit(1);
+> +	/* 释放资源 */
+> +	if (munmap(cover, COVER_SIZE * sizeof(unsigned long)))
+> +		perror("munmap"), exit(1);
+> +	if (close(fd))
+> +		perror("close"), exit(1);
+> +	return 0;
+> +    }
+> +
+> +在使用 ``addr2line`` 传输后，程序输出应该如下所示::
+> +
+> +    SyS_read
+> +    fs/read_write.c:562
+> +    __fdget_pos
+> +    fs/file.c:774
+> +    __fget_light
+> +    fs/file.c:746
+> +    __fget_light
+> +    fs/file.c:750
+> +    __fget_light
+> +    fs/file.c:760
+> +    __fdget_pos
+> +    fs/file.c:784
+> +    SyS_read
+> +    fs/read_write.c:562
+> +
+> +如果一个程序需要从多个线程收集覆盖率（独立地）。那么每个线程都需要单独打开
+> +``/sys/kernel/debug/kcov``。
+> +
+> +接口的细粒度允许高效的创建测试进程。即，一个父进程打开了
+> +``/sys/kernel/debug/kcov``，启用了追踪模式，映射了覆盖率缓冲区，然后在一个循
+> +环中创建了子进程。这个子进程只需要启用覆盖率收集即可（当一个线程退出时将自动禁
+> +用覆盖率收集）。
+> +
+> +操作数比较收集
 
-For example, it seems to be good by changing delay_use=0.1,
-that is 100 millisecond delay without issues for most USB pen drives.
+ditto 
 
-Signed-off-by: Norihiko Hama <Norihiko.Hama@alpsalpine.com>
----
-V3 -> V4: Separate parser functions from module parameter set/get
-V2 -> V3: Change to use kstrtouint only for parsing decimal point
-V1 -> V2: Extend existing module parameter 'delay_use' to support decimal points
+others LGTM
 
- .../admin-guide/kernel-parameters.txt         |   5 +
- drivers/usb/storage/usb.c                     | 120 +++++++++++++++++-
- 2 files changed, 121 insertions(+), 4 deletions(-)
+Reviewed-by: Alex Shi <alexs@kernel.org>
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 561d0dd776c7..8248426524d5 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -6190,6 +6190,11 @@
- 	usb-storage.delay_use=
- 			[UMS] The delay in seconds before a new device is
- 			scanned for Logical Units (default 1).
-+			The delay can have up to 3 decimal places, giving a
-+			resolution of one millisecond.
-+			Example:
-+				delay_use=2.567
-+					2.567 second delay
- 
- 	usb-storage.quirks=
- 			[UMS] A list of quirks entries to supplement or
-diff --git a/drivers/usb/storage/usb.c b/drivers/usb/storage/usb.c
-index 90aa9c12ffac..c908cf2a8027 100644
---- a/drivers/usb/storage/usb.c
-+++ b/drivers/usb/storage/usb.c
-@@ -67,9 +67,121 @@ MODULE_AUTHOR("Matthew Dharm <mdharm-usb@one-eyed-alien.net>");
- MODULE_DESCRIPTION("USB Mass Storage driver for Linux");
- MODULE_LICENSE("GPL");
- 
--static unsigned int delay_use = 1;
--module_param(delay_use, uint, S_IRUGO | S_IWUSR);
--MODULE_PARM_DESC(delay_use, "seconds to delay before using a new device");
-+static unsigned int delay_use = 1 * MSEC_PER_SEC;
-+
-+/**
-+ * str_to_fixed_point_uint - parse an unsigned fixed-point decimal integer
-+ * @str: String to parse.
-+ * @ndecimals: Number of decimal places in the fixed-point value.
-+ * @val: Where to store the parsed value.
-+ *
-+ * Parse an unsigned fixed-point decimal value in @str, containing at
-+ * most ndecimal digits to the right of the decimal point.
-+ * Stores the parsed value in @val, scaled by 10^(@ndecimal).
-+ *
-+ * As with kstrtouint(), the string must be NUL-terminated and may
-+ * include a single newline before the terminating NUL.  The first
-+ * character may be a plus sign but not a minus sign.  The decimal
-+ * point and fractional digits are optional.
-+ *
-+ * Returns 0 on success, a negative error code otherwise.
-+ */
-+static int str_to_fixed_point_uint(const char *str, int ndecimals,
-+				   unsigned int *val)
-+{
-+	int n, n1, n2;
-+	const char *p;
-+	char *q;
-+	char buf[16];
-+
-+	n = strlen(str);
-+	if (n > 0 && str[n - 1] == '\n')
-+		--n;
-+
-+	p = strnchr(str, n, '.');
-+	if (p) {
-+		n1 = p++ - str;
-+		n2 = n - (n1 + 1);
-+		if (n2 == 0 || n2 > ndecimals)
-+			return -EINVAL;
-+	} else {
-+		n1 = n;
-+		n2 = 0;
-+	}
-+	if (n1 == 0 || n1 + ndecimals > sizeof(buf) - 1)
-+		return -EINVAL;
-+
-+	memcpy(buf, str, n1);
-+	if (p)
-+		memcpy(buf + n1, p, n2);
-+	for (q = buf + n1 + n2; n2 < ndecimals; ++n2)
-+		*q++ = '0';
-+	*q = 0;
-+
-+	return kstrtouint(buf, 10, val);
-+}
-+
-+/**
-+ * fixed_point_uint_to_str - parse into fixed-point decimal integer string
-+ * @val: Integer value to parse.
-+ * @ndecimals: Number of decimal places in the fixed-point value.
-+ * @str: Where to store the parsed string.
-+ * @size: The size of buffer for @str.
-+ *
-+ * Stores the parsed @val scaled by 10^(@ndecimal) into @str.
-+ * The string trailing fractional part '0' is trimmed.
-+ *
-+ * Returns the number of characters written into @str.
-+ */
-+static int fixed_point_uint_to_str(unsigned int val, int ndecimals,
-+				   char *str, int size)
-+{
-+	unsigned int delay_ms = val;
-+	unsigned int rem = do_div(delay_ms, int_pow(10, ndecimals));
-+	int len;
-+	char buf[16];
-+
-+	len = scnprintf(buf, sizeof(buf), "%d", delay_ms);
-+	if (rem) {
-+		char format[8];
-+
-+		snprintf(format, sizeof(format) - 1, ".%%0%dd", ndecimals);
-+		len += scnprintf(buf + len, sizeof(buf) - len, format, rem);
-+		while (buf[len - 1] == '0') {
-+			buf[len - 1] = '\0';
-+			if (--len <= 1)
-+				break;
-+		}
-+	}
-+	return scnprintf(str, size, "%s\n", buf);
-+}
-+
-+static int delay_use_set(const char *s, const struct kernel_param *kp)
-+{
-+	unsigned int delay_ms;
-+	int ret;
-+
-+	ret = str_to_fixed_point_uint(skip_spaces(s), 3, &delay_ms);
-+	if (ret < 0)
-+		return ret;
-+
-+	*((unsigned int *)kp->arg) = delay_ms;
-+	return 0;
-+}
-+
-+static int delay_use_get(char *s, const struct kernel_param *kp)
-+{
-+	unsigned int delay_ms = *((unsigned int *)kp->arg);
-+
-+	return fixed_point_uint_to_str(delay_ms, 3, s, PAGE_SIZE);
-+}
-+
-+static const struct kernel_param_ops delay_use_ops = {
-+	.set = delay_use_set,
-+	.get = delay_use_get,
-+};
-+module_param_cb(delay_use, &delay_use_ops, &delay_use, 0644);
-+MODULE_PARM_DESC(delay_use, "time to delay before using a new device");
- 
- static char quirks[128];
- module_param_string(quirks, quirks, sizeof(quirks), S_IRUGO | S_IWUSR);
-@@ -1066,7 +1178,7 @@ int usb_stor_probe2(struct us_data *us)
- 	if (delay_use > 0)
- 		dev_dbg(dev, "waiting for device to settle before scanning\n");
- 	queue_delayed_work(system_freezable_wq, &us->scan_dwork,
--			delay_use * HZ);
-+			msecs_to_jiffies(delay_use));
- 	return 0;
- 
- 	/* We come here if there are any problems */
--- 
-2.17.1
-
+> +--------------
+> +
+> +操作数比较收集和覆盖率收集类似：
+> +
+> +.. code-block:: c
+> +
+> +    /* 包含和上文一样的头文件和宏定义。 */
+> +
+> +    /* 每次记录的 64 位字的数量。 */
+> +    #define KCOV_WORDS_PER_CMP 4
+> +
+> +    /*
+> +     * 收集的比较种类的格式。
+> +     *
+> +     * 0 比特表示是否是一个编译时常量。
+> +     * 1 & 2 比特包含参数大小的 log2 值，最大 8 字节。
+> +     */
+> +
+> +    #define KCOV_CMP_CONST          (1 << 0)
+> +    #define KCOV_CMP_SIZE(n)        ((n) << 1)
+> +    #define KCOV_CMP_MASK           KCOV_CMP_SIZE(3)
+> +
+> +    int main(int argc, char **argv)
+> +    {
+> +	int fd;
+> +	uint64_t *cover, type, arg1, arg2, is_const, size;
+> +	unsigned long n, i;
+> +
+> +	fd = open("/sys/kernel/debug/kcov", O_RDWR);
+> +	if (fd == -1)
+> +		perror("open"), exit(1);
+> +	if (ioctl(fd, KCOV_INIT_TRACE, COVER_SIZE))
+> +		perror("ioctl"), exit(1);
+> +	/*
+> +	* 注意缓冲区指针的类型是 uint64_t*，因为所有的
+> +	* 比较操作数都被提升为 uint64_t 类型。
+> +	*/
+> +	cover = (uint64_t *)mmap(NULL, COVER_SIZE * sizeof(unsigned long),
+> +				     PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+> +	if ((void*)cover == MAP_FAILED)
+> +		perror("mmap"), exit(1);
+> +	/* 注意这里是 KCOV_TRACE_CMP 而不是 KCOV_TRACE_PC。 */
+> +	if (ioctl(fd, KCOV_ENABLE, KCOV_TRACE_CMP))
+> +		perror("ioctl"), exit(1);
+> +	__atomic_store_n(&cover[0], 0, __ATOMIC_RELAXED);
+> +	read(-1, NULL, 0);
+> +	/* 读取收集到的比较操作数的数量。 */
+> +	n = __atomic_load_n(&cover[0], __ATOMIC_RELAXED);
+> +	for (i = 0; i < n; i++) {
+> +		uint64_t ip;
+> +
+> +		type = cover[i * KCOV_WORDS_PER_CMP + 1];
+> +		/* arg1 和 arg2 - 比较的两个操作数。 */
+> +		arg1 = cover[i * KCOV_WORDS_PER_CMP + 2];
+> +		arg2 = cover[i * KCOV_WORDS_PER_CMP + 3];
+> +		/* ip - 调用者的地址。 */
+> +		ip = cover[i * KCOV_WORDS_PER_CMP + 4];
+> +		/* 操作数的大小。 */
+> +		size = 1 << ((type & KCOV_CMP_MASK) >> 1);
+> +		/* is_const - 当操作数是一个编译时常量时为真。*/
+> +		is_const = type & KCOV_CMP_CONST;
+> +		printf("ip: 0x%lx type: 0x%lx, arg1: 0x%lx, arg2: 0x%lx, "
+> +			"size: %lu, %s\n",
+> +			ip, type, arg1, arg2, size,
+> +		is_const ? "const" : "non-const");
+> +	}
+> +	if (ioctl(fd, KCOV_DISABLE, 0))
+> +		perror("ioctl"), exit(1);
+> +	/* 释放资源。 */
+> +	if (munmap(cover, COVER_SIZE * sizeof(unsigned long)))
+> +		perror("munmap"), exit(1);
+> +	if (close(fd))
+> +		perror("close"), exit(1);
+> +	return 0;
+> +    }
+> +
+> +注意 KCOV 的模式（代码覆盖率收集或操作数比较收集）是互斥的。
+> +
+> +远程覆盖率收集
+> +--------------
+> +
+> +除了从用户空间进程发布的系统调用句柄收集覆盖率数据以外，KCOV 也可以从部分在其
+> +他上下文中执行的内核中收集覆盖率 - 称为“远程”覆盖率。
+> +
+> +使用 KCOV 收集远程覆盖率要求：
+> +
+> +1. 修改内核源码并使用 ``kcov_remote_start`` 和 ``kcov_remote_stop`` 来标注要收集
+> +   覆盖率的代码片段。
+> +
+> +2. 在用户空间的收集覆盖率的进程应使用 ``KCOV_REMOTE_ENABLE`` 而不是 ``KCOV_ENABLE``。
+> +
+> +``kcov_remote_start`` 和 ``kcov_remote_stop`` 的标注以及 ``KCOV_REMOTE_ENABLE``
+> +ioctl 都接受可以识别特定覆盖率收集片段的句柄。句柄的使用方式取决于匹配代码片段执
+> +行的上下文。
+> +
+> +KCOV 支持在如下上下文中收集远程覆盖率：
+> +
+> +1. 全局内核后台任务。这些任务是内核启动时创建的数量有限的实例（如，每一个
+> +   USB HCD 产生一个 USB ``hub_event`` 工作器）。
+> +
+> +2. 局部内核后台任务。这些任务通常是由于用户空间进程与某些内核接口进行交互时产
+> +   生的，并且通常在进程退出时会被停止（如，vhost 工作器）。
+> +
+> +3. 软中断。
+> +
+> +对于 #1 和 #3，必须选择一个独特的全局句柄并将其传递给对应的
+> +``kcov_remote_start`` 调用。一个用户空间进程必须将该句柄存储在
+> +``kcov_remote_arg`` 结构体的 ``handle`` 数组字段中并将其传递给
+> +``KCOV_REMOTE_ENABLE``。这会将使用的 KCOV 设备附加到由此句柄引用的代码片段。多个全局
+> +句柄标识的不同代码片段可以一次性传递。
+> +
+> +对于 #2，用户空间进程必须通过 ``kcov_remote_arg`` 结构体的 ``common_handle`` 字段
+> +传递一个非零句柄。这个通用句柄将会被保存在当前 ``task_struct`` 结构体的
+> +``kcov_handle`` 字段中并且需要通过自定义内核代码的修改来传递给新创建的本地任务
+> +。这些任务需要在 ``kcov_remote_start`` 和 ``kcov_remote_stop`` 标注中依次使用传递过来的
+> +句柄。
+> +
+> +KCOV 对全局句柄和通用句柄均遵循一个预定义的格式。每一个句柄都是一个 ``u64`` 整形
+> +。当前，只有最高位和低四位字节被使用。第 4-7 字节是保留位并且值必须为 0。
+> +
+> +对于全局句柄，最高位的字节表示该句柄属于的子系统的标识。比如，KCOV 使用 ``1``
+> +表示 USB 子系统类型。全局句柄的低 4 字节表示子系统中任务实例的标识。比如，每一
+> +个 ``hub_event`` 工作器使用 USB 总线号作为任务实例的标识。
+> +
+> +对于通用句柄，使用一个保留值 ``0`` 作为子系统标识，因为这些句柄不属于一个特定
+> +的子系统。通用句柄的低 4 字节用于识别有用户进程生成的所有本地句柄的集合实例，
+> +该进程将通用句柄传递给 ``KCOV_REMOTE_ENABLE``。
+> +
+> +实际上，如果只从系统中的单个用户空间进程收集覆盖率，那么可以使用任意值作为通用
+> +句柄的实例标识。然而，如果通用句柄被多个用户空间进程使用，每个进程必须使用唯一
+> +的实例标识。一个选择是使用进程标识作为通用句柄实例的标识。
+> +
+> +下面的程序演示了如何使用 KCOV 从一个由进程产生的本地任务和处理 USB 总线的全局
+> +任务 #1 收集覆盖率：
+> +
+> +.. code-block:: c
+> +
+> +    /* 包含和上文一样的头文件和宏定义。 */
+> +
+> +    struct kcov_remote_arg {
+> +	__u32		trace_mode;
+> +	__u32		area_size;
+> +	__u32		num_handles;
+> +	__aligned_u64	common_handle;
+> +	__aligned_u64	handles[0];
+> +    };
+> +
+> +    #define KCOV_INIT_TRACE			_IOR('c', 1, unsigned long)
+> +    #define KCOV_DISABLE			_IO('c', 101)
+> +    #define KCOV_REMOTE_ENABLE		_IOW('c', 102, struct kcov_remote_arg)
+> +
+> +    #define COVER_SIZE	(64 << 10)
+> +
+> +    #define KCOV_TRACE_PC	0
+> +
+> +    #define KCOV_SUBSYSTEM_COMMON	(0x00ull << 56)
+> +    #define KCOV_SUBSYSTEM_USB	(0x01ull << 56)
+> +
+> +    #define KCOV_SUBSYSTEM_MASK	(0xffull << 56)
+> +    #define KCOV_INSTANCE_MASK	(0xffffffffull)
+> +
+> +    static inline __u64 kcov_remote_handle(__u64 subsys, __u64 inst)
+> +    {
+> +	if (subsys & ~KCOV_SUBSYSTEM_MASK || inst & ~KCOV_INSTANCE_MASK)
+> +		return 0;
+> +	return subsys | inst;
+> +    }
+> +
+> +    #define KCOV_COMMON_ID	0x42
+> +    #define KCOV_USB_BUS_NUM	1
+> +
+> +    int main(int argc, char **argv)
+> +    {
+> +	int fd;
+> +	unsigned long *cover, n, i;
+> +	struct kcov_remote_arg *arg;
+> +
+> +	fd = open("/sys/kernel/debug/kcov", O_RDWR);
+> +	if (fd == -1)
+> +		perror("open"), exit(1);
+> +	if (ioctl(fd, KCOV_INIT_TRACE, COVER_SIZE))
+> +		perror("ioctl"), exit(1);
+> +	cover = (unsigned long*)mmap(NULL, COVER_SIZE * sizeof(unsigned long),
+> +				     PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+> +	if ((void*)cover == MAP_FAILED)
+> +		perror("mmap"), exit(1);
+> +
+> +	/* 通过通用句柄和 USB 总线 #1 启用代码覆盖率收集。 */
+> +	arg = calloc(1, sizeof(*arg) + sizeof(uint64_t));
+> +	if (!arg)
+> +		perror("calloc"), exit(1);
+> +	arg->trace_mode = KCOV_TRACE_PC;
+> +	arg->area_size = COVER_SIZE;
+> +	arg->num_handles = 1;
+> +	arg->common_handle = kcov_remote_handle(KCOV_SUBSYSTEM_COMMON,
+> +							KCOV_COMMON_ID);
+> +	arg->handles[0] = kcov_remote_handle(KCOV_SUBSYSTEM_USB,
+> +						KCOV_USB_BUS_NUM);
+> +	if (ioctl(fd, KCOV_REMOTE_ENABLE, arg))
+> +		perror("ioctl"), free(arg), exit(1);
+> +	free(arg);
+> +
+> +	/*
+> +	 * 在这里用户需要触发执行一个内核代码段
+> +	 * 该代码段要么使用通用句柄标识
+> +	 * 要么触发了一些 USB 总线 #1 上的一些活动。
+> +	 */
+> +	sleep(2);
+> +
+> +	n = __atomic_load_n(&cover[0], __ATOMIC_RELAXED);
+> +	for (i = 0; i < n; i++)
+> +		printf("0x%lx\n", cover[i + 1]);
+> +	if (ioctl(fd, KCOV_DISABLE, 0))
+> +		perror("ioctl"), exit(1);
+> +	if (munmap(cover, COVER_SIZE * sizeof(unsigned long)))
+> +		perror("munmap"), exit(1);
+> +	if (close(fd))
+> +		perror("close"), exit(1);
+> +	return 0;
+> +    }
