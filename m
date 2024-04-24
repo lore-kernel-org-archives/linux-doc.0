@@ -1,354 +1,250 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5480A161338;
-	Wed, 24 Apr 2024 16:28:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05012165FA8
+	for <linux-doc@vger.kernel.org>; Wed, 24 Apr 2024 16:36:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713976109; cv=none; b=INiSFg85k7rtViTcNR4SUebiQLO8ro51YQgi9D2LK3orU3XXBh4PSo0m7wj/JqJwkWb1umSlp2KbAw7uf2+t+HLQTirlwVGcTznvD3qbFcJfav6x2yXlqcB8kcpklikgeynh/rBuptexACS1zu07zKtzMlUsuVaqxSnDFhdeVAM=
+	t=1713976602; cv=none; b=KmoORhfCNykxrxxvj38kO6VL4E0J50LqAk4OViTfQ7oB4Xyufyb9+30HyeifsoX/93Tljw98NvA0up3RjT8N0hVOl9JDoFt/z5kLhC0CsBMt9xPprYQeebrhf4YVf9EsMhOwqMxb5uKzIWqQeLY4iExLQUmvxU58puiZ8xkXCnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713976109; c=relaxed/simple;
-	bh=nXICmLNa5ne/beLDRI7Fc+Ize090vpoxiK3SaiUT+pA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gH0Zgtw45jbaaSBxdr6/I7absz1KQef3QR1gpKCDhVhnB4VIePzdVzrNmUBYn1R7S7TCr9zFhTyxP15nySpF5rx+foUGFYnXmLD9LkUZzeEKUml1XUxSvJDZv5+P0uQzme45pwKcZuPSd5eHU6oG1csV/g91e28laQJaYu+j2Ys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OfvFKDnT; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1713976602; c=relaxed/simple;
+	bh=mlR0fc1EwPI5kZWszxzybpq+nSLIaU1hJmMjqk5+Cek=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QDa1ud/mUToPKN8Ca0l8F5pL7QMbnD3PKthr6DvZCTJ1DcJcv8yUbr7lfOC9aO5tlv1K53Mtksc51YgImz84IhXzQ2qGMaKkFUrmGwdtC2CmckKCOcMiMPL1K0GVFYWPU6jzDm/CvfLWYG0WTuc754hTUsDlHqv4V/94qfncCY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ijjRb6jc; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OfvFKDnT"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-57222fc625aso1990752a12.3;
-        Wed, 24 Apr 2024 09:28:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1713976105; x=1714580905; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/JqRkyrHFPe2Hk6rtj2fC55FVgPhDwmSNOrraGk0QQY=;
-        b=OfvFKDnThEhTB8ovrMAM6neHvZJK3qeXU165Ew+Ur0p3K4xYyD1GGqdg1AAK0ddH1l
-         dxI31RHKo+el8rNOEIqV8njCBEmjczABWVF5EAchD5VI9TyKq7icQTeg1Xs4MbYpbnlv
-         44QC8s+JllITGjCSqysmjfzxEqHIt0ENe1pM9oPownLCNev1AxN5Kt63vCxet4T12fiV
-         JWfpxWIweSnXMUwBzsFpg7jno+rMidDhYXmQsS/5Wu7+Vp/wFHZdLHSwA/8hmf/oqGtw
-         ApeRPyb0Ts5ByfWR1iaPD5TgiPPAr0OOrpKtiykfUXFWn94iys+IUYZp3sPX8QbX985r
-         MnwA==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ijjRb6jc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1713976599;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=4Jrk4gtHl8qK5/GSsCNisBJDr3mbiNNfApp9drceM6U=;
+	b=ijjRb6jcm68tl9d39hIZ+0R13ZrDfu5KR25KWu0ENGtRxfyRsHjNlcFiQo79P7t1VzHJkp
+	UzPM9c3U11/nI4vCkp5KxAinmEjsDC5OeVMZW34Svp3RpEaTbKzqOeWGJrobzX3NHG+yL9
+	AmtgSuNJBl8dqjq/Jqij2dlBh7n7SBQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-93-9mA0MkskNfGLTVXMWXw9fg-1; Wed, 24 Apr 2024 12:36:38 -0400
+X-MC-Unique: 9mA0MkskNfGLTVXMWXw9fg-1
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-417fb8195d7so421395e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 24 Apr 2024 09:36:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713976105; x=1714580905;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/JqRkyrHFPe2Hk6rtj2fC55FVgPhDwmSNOrraGk0QQY=;
-        b=MsBcpW4gONhnysvE+snfHs9VOx5jeoDRJjr7TLFWxFHgk3hMY1jwyBvvwWaF9eMUXL
-         +w67qEg4jey8eNieW2/9DIajHJVZNa4fUdgmfiN1BVCcQqes1vuEO2kLdGDjNBLewjH1
-         BFONl7GkBjYTwIOm2ill/nQT75GCYlbaJ59yh2+427XkfE+mucXMoc66CkLs88olX+oo
-         ocGTWERCcu7b00O9W5pR4Zz0u27ptDKXeB3Dpe4NWt5sZCKTvmjfUZ5Joi7lTmcL1CKl
-         G0Wi+lfPWamIM+j9aI0fyI8CE+vV1qw/MCOJ5CTJnvrL+RstxMba+XvMv6RNK+ne+Yv3
-         zh5w==
-X-Forwarded-Encrypted: i=1; AJvYcCUR/OxsysKCk4T6IEIrUxc0J7WnUvsoH7W6PR6ne3I7DsXlQToBLLCuBh1AxeS4fzzKMifyhHDslDwaRfFVdmmQ1EhVdD8uK23l
-X-Gm-Message-State: AOJu0YyBA64J4KF6E1PdIrdJxsxaZrETWKofB4s5EOrewVVkYNSndlDc
-	5aF9hxdq1f4WRdv8/Q637tZ88w6At37XAUUrPhX1o17SFZsFUQmsaHkGpI8aDqkC/MpR8oldkDY
-	z3uTCiA7TqMdbsQXs7UpyBBKIljxW+Q==
-X-Google-Smtp-Source: AGHT+IH2zGJqGBW8yYoAiv97KOpycs4WS5UjEgOW6mRB5suj5uSecL+wVAVA0XwFMqqzKD/7sl1rggQpu8UvoTv44mM=
-X-Received: by 2002:a17:906:2a1b:b0:a55:b488:27b9 with SMTP id
- j27-20020a1709062a1b00b00a55b48827b9mr2623451eje.38.1713976105203; Wed, 24
- Apr 2024 09:28:25 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1713976594; x=1714581394;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=4Jrk4gtHl8qK5/GSsCNisBJDr3mbiNNfApp9drceM6U=;
+        b=XZ3Klc91uEA2TDESFj9TifVl28YAS0emccKTRF5ySetktOzEOIOnRGHVfOG8uyGd5b
+         ZclW48As1uVZksbfoThvsY9TM1wqKpAT1HhOwzVgScwS+G0FMsssszVbOIv4neCVj/jW
+         MHDmbBehZYVOsDNxHdvrdwci3/xs3qGATm954a1PmTopuPkyDHtGN2LzxvT3FselZ1b2
+         2ZbWvjwb+4X1tlSxmNrefGP5mBQzV0U2A40KtE43or1ZyaX8QDa1s2402DmyagbhM6VE
+         cBzr/nhDLRTJaOcVUm4uyoWPI9t3pLMcd4Okv5JK+goJVjf8VS8hSomMJXbF97ZRp6Dv
+         qkqg==
+X-Forwarded-Encrypted: i=1; AJvYcCUoxdlcN0PPDmjksnFttra/b2/zKpgVi4LTSo2lRHP5gpSjCAFw141mxglBs4IpYS1HbdACWWc7AONB7iL3tYqIwiwu3VMTFgPK
+X-Gm-Message-State: AOJu0YwvmHjIiATIp2YfJexiHLBCjbvrYmIzJawx2ty3VBgcq0Kvek96
+	jvNo/2jlPzMeOvlLDaZSYIouG8pgXxiZUWCnzx1rak+1loBT4afg8srf0Yi9iKtqPSSlZwmYA8g
+	aIfRfaFZcp+jjAfpdUgq1SBI2mRtum536GDAPwZAzlyXgIAKXTrsnJN5B9A==
+X-Received: by 2002:a05:600c:3d8a:b0:41b:144a:f0c3 with SMTP id bi10-20020a05600c3d8a00b0041b144af0c3mr1065277wmb.20.1713976594093;
+        Wed, 24 Apr 2024 09:36:34 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHgmkfHI6kdz/k8WpzKlP6Ihl1I1xBPf6WTZ0J7t762mXEb4w+GJI6DHiNacD+q2oVRiDDNuw==
+X-Received: by 2002:a05:600c:3d8a:b0:41b:144a:f0c3 with SMTP id bi10-20020a05600c3d8a00b0041b144af0c3mr1065264wmb.20.1713976593666;
+        Wed, 24 Apr 2024 09:36:33 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c70d:1f00:7a4e:8f21:98db:baef? (p200300cbc70d1f007a4e8f2198dbbaef.dip0.t-ipconnect.de. [2003:cb:c70d:1f00:7a4e:8f21:98db:baef])
+        by smtp.gmail.com with ESMTPSA id r18-20020a05600c35d200b00418d434ae4esm24396011wmq.10.2024.04.24.09.36.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Apr 2024 09:36:33 -0700 (PDT)
+Message-ID: <2a33880e-4e7a-4de1-846a-e81f8de82088@redhat.com>
+Date: Wed, 24 Apr 2024 18:36:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] mm/khugepaged: replace page_mapcount() check by
+ folio_likely_mapped_shared()
+To: Yang Shi <shy828301@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ Zi Yan <ziy@nvidia.com>, Yang Shi <yang.shi@linux.alibaba.com>,
+ John Hubbard <jhubbard@nvidia.com>, Ryan Roberts <ryan.roberts@arm.com>
 References: <20240424122630.495788-1-david@redhat.com>
-In-Reply-To: <20240424122630.495788-1-david@redhat.com>
-From: Yang Shi <shy828301@gmail.com>
-Date: Wed, 24 Apr 2024 09:28:13 -0700
-Message-ID: <CAHbLzkrAW0RK81ABnveJf98besYHaAaA7nJzrqWYm=hf382s2g@mail.gmail.com>
-Subject: Re: [PATCH v1] mm/khugepaged: replace page_mapcount() check by folio_likely_mapped_shared()
-To: David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, 
-	Zi Yan <ziy@nvidia.com>, Yang Shi <yang.shi@linux.alibaba.com>, 
-	John Hubbard <jhubbard@nvidia.com>, Ryan Roberts <ryan.roberts@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <CAHbLzkrAW0RK81ABnveJf98besYHaAaA7nJzrqWYm=hf382s2g@mail.gmail.com>
+From: David Hildenbrand <david@redhat.com>
+Content-Language: en-US
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <CAHbLzkrAW0RK81ABnveJf98besYHaAaA7nJzrqWYm=hf382s2g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 24, 2024 at 5:26=E2=80=AFAM David Hildenbrand <david@redhat.com=
-> wrote:
->
-> We want to limit the use of page_mapcount() to places where absolutely
-> required, to prepare for kernel configs where we won't keep track of
-> per-page mapcounts in large folios.
->
-> khugepaged is one of the remaining "more challenging" page_mapcount()
-> users, but we might be able to move away from page_mapcount() without
-> resulting in a significant behavior change that would warrant
-> special-casing based on kernel configs.
->
-> In 2020, we first added support to khugepaged for collapsing COW-shared
-> pages via commit 9445689f3b61 ("khugepaged: allow to collapse a page shar=
-ed
-> across fork"), followed by support for collapsing PTE-mapped THP in commi=
-t
-> 5503fbf2b0b8 ("khugepaged: allow to collapse PTE-mapped compound pages")
-> and limiting the memory waste via the "page_count() > 1" check in commit
-> 71a2c112a0f6 ("khugepaged: introduce 'max_ptes_shared' tunable").
->
-> As a default, khugepaged will allow up to half of the PTEs to map shared
-> pages: where page_mapcount() > 1. MADV_COLLAPSE ignores the khugepaged
-> setting.
->
-> khugepaged does currently not care about swapcache page references, and
-> does not check under folio lock: so in some corner cases the "shared vs.
-> exclusive" detection might be a bit off, making us detect "exclusive" whe=
-n
-> it's actually "shared".
->
-> Most of our anonymous folios in the system are usually exclusive. We
-> frequently see sharing of anonymous folios for a short period of time,
-> after which our short-lived suprocesses either quit or exec().
->
-> There are some famous examples, though, where child processes exist for a
-> long time, and where memory is COW-shared with a lot of processes
-> (webservers, webbrowsers, sshd, ...) and COW-sharing is crucial for
-> reducing the memory footprint. We don't want to suddenly change the
-> behavior to result in a significant increase in memory waste.
->
-> Interestingly, khugepaged will only collapse an anonymous THP if at least
-> one PTE is writable. After fork(), that means that something (usually a
-> page fault) populated at least a single exclusive anonymous THP in that P=
-MD
-> range.
->
-> So ... what happens when we switch to "is this folio mapped shared"
-> instead of "is this page mapped shared" by using
-> folio_likely_mapped_shared()?
->
-> For "not-COW-shared" folios, small folios and for THPs (large
-> folios) that are completely mapped into at least one process,
-> switching to folio_likely_mapped_shared() will not result in a change.
->
-> We'll only see a change for COW-shared PTE-mapped THPs that are
-> partially mapped into all involved processes.
->
-> There are two cases to consider:
->
-> (A) folio_likely_mapped_shared() returns "false" for a PTE-mapped THP
->
->   If the folio is detected as exclusive, and it actually is exclusive,
->   there is no change: page_mapcount() =3D=3D 1. This is the common case
->   without fork() or with short-lived child processes.
->
->   folio_likely_mapped_shared() might currently still detect a folio as
->   exclusive although it is shared (false negatives): if the first page is
->   not mapped multiple times and if the average per-page mapcount is small=
-er
->   than 1, implying that (1) the folio is partially mapped and (2) if we a=
-re
->   responsible for many mapcounts by mapping many pages others can't
->   ("mostly exclusive") (3) if we are not responsible for many mapcounts b=
-y
->   mapping little pages ("mostly shared") it won't make a big impact on th=
-e
->   end result.
->
->   So while we might now detect a page as "exclusive" although it isn't,
->   it's not expected to make a big difference in common cases.
->
-> (B) folio_likely_mapped_shared() returns "true" for a PTE-mapped THP
->
->   folio_likely_mapped_shared() will never detect a large anonymous folio
->   as shared although it is exclusive: there are no false positives.
->
->   If we detect a THP as shared, at least one page of the THP is mapped by
->   another process. It could well be that some pages are actually exclusiv=
-e.
->   For example, our child processes could have unmapped/COW'ed some pages
->   such that they would now be exclusive to out process, which we now
->   would treat as still-shared.
+On 24.04.24 18:28, Yang Shi wrote:
+> On Wed, Apr 24, 2024 at 5:26 AM David Hildenbrand <david@redhat.com> wrote:
+>>
+>> We want to limit the use of page_mapcount() to places where absolutely
+>> required, to prepare for kernel configs where we won't keep track of
+>> per-page mapcounts in large folios.
+>>
+>> khugepaged is one of the remaining "more challenging" page_mapcount()
+>> users, but we might be able to move away from page_mapcount() without
+>> resulting in a significant behavior change that would warrant
+>> special-casing based on kernel configs.
+>>
+>> In 2020, we first added support to khugepaged for collapsing COW-shared
+>> pages via commit 9445689f3b61 ("khugepaged: allow to collapse a page shared
+>> across fork"), followed by support for collapsing PTE-mapped THP in commit
+>> 5503fbf2b0b8 ("khugepaged: allow to collapse PTE-mapped compound pages")
+>> and limiting the memory waste via the "page_count() > 1" check in commit
+>> 71a2c112a0f6 ("khugepaged: introduce 'max_ptes_shared' tunable").
+>>
+>> As a default, khugepaged will allow up to half of the PTEs to map shared
+>> pages: where page_mapcount() > 1. MADV_COLLAPSE ignores the khugepaged
+>> setting.
+>>
+>> khugepaged does currently not care about swapcache page references, and
+>> does not check under folio lock: so in some corner cases the "shared vs.
+>> exclusive" detection might be a bit off, making us detect "exclusive" when
+>> it's actually "shared".
+>>
+>> Most of our anonymous folios in the system are usually exclusive. We
+>> frequently see sharing of anonymous folios for a short period of time,
+>> after which our short-lived suprocesses either quit or exec().
+>>
+>> There are some famous examples, though, where child processes exist for a
+>> long time, and where memory is COW-shared with a lot of processes
+>> (webservers, webbrowsers, sshd, ...) and COW-sharing is crucial for
+>> reducing the memory footprint. We don't want to suddenly change the
+>> behavior to result in a significant increase in memory waste.
+>>
+>> Interestingly, khugepaged will only collapse an anonymous THP if at least
+>> one PTE is writable. After fork(), that means that something (usually a
+>> page fault) populated at least a single exclusive anonymous THP in that PMD
+>> range.
+>>
+>> So ... what happens when we switch to "is this folio mapped shared"
+>> instead of "is this page mapped shared" by using
+>> folio_likely_mapped_shared()?
+>>
+>> For "not-COW-shared" folios, small folios and for THPs (large
+>> folios) that are completely mapped into at least one process,
+>> switching to folio_likely_mapped_shared() will not result in a change.
+>>
+>> We'll only see a change for COW-shared PTE-mapped THPs that are
+>> partially mapped into all involved processes.
+>>
+>> There are two cases to consider:
+>>
+>> (A) folio_likely_mapped_shared() returns "false" for a PTE-mapped THP
+>>
+>>    If the folio is detected as exclusive, and it actually is exclusive,
+>>    there is no change: page_mapcount() == 1. This is the common case
+>>    without fork() or with short-lived child processes.
+>>
+>>    folio_likely_mapped_shared() might currently still detect a folio as
+>>    exclusive although it is shared (false negatives): if the first page is
+>>    not mapped multiple times and if the average per-page mapcount is smaller
+>>    than 1, implying that (1) the folio is partially mapped and (2) if we are
+>>    responsible for many mapcounts by mapping many pages others can't
+>>    ("mostly exclusive") (3) if we are not responsible for many mapcounts by
+>>    mapping little pages ("mostly shared") it won't make a big impact on the
+>>    end result.
+>>
+>>    So while we might now detect a page as "exclusive" although it isn't,
+>>    it's not expected to make a big difference in common cases.
+>>
+>> (B) folio_likely_mapped_shared() returns "true" for a PTE-mapped THP
+>>
+>>    folio_likely_mapped_shared() will never detect a large anonymous folio
+>>    as shared although it is exclusive: there are no false positives.
+>>
+>>    If we detect a THP as shared, at least one page of the THP is mapped by
+>>    another process. It could well be that some pages are actually exclusive.
+>>    For example, our child processes could have unmapped/COW'ed some pages
+>>    such that they would now be exclusive to out process, which we now
+>>    would treat as still-shared.
+> 
+> IIUC, case A may under-count shared PTEs, however on the opposite side
+> case B may over-count shared PTEs, right? So the impact may depend on
+> what value is used by max_shared_ptes tunable. It may have a more
+> noticeable impact on a very conservative setting (i.e. max_shared_ptes
+> == 1) if it is under-counted or on a very aggressive setting (i.e.
+> max_shared_ptes == 510) if it is over-counted.
 
-IIUC, case A may under-count shared PTEs, however on the opposite side
-case B may over-count shared PTEs, right? So the impact may depend on
-what value is used by max_shared_ptes tunable. It may have a more
-noticeable impact on a very conservative setting (i.e. max_shared_ptes
-=3D=3D 1) if it is under-counted or on a very aggressive setting (i.e.
-max_shared_ptes =3D=3D 510) if it is over-counted.
+Thanks for reading all of that!
 
-So I agree it should not matter much for common cases. AFAIK, the
-usecase for aggressive setting should be very rare, but conservative
-setting may be more usual, so improving the under-count for
-conservative setting may be worth it.
+Right, and mostly affecting corner cases. I'm not concerned about (B) 
+really. I was more concerned about (A) before I optimized 
+folio_likely_mapped_shared() using the large mapcount.
 
->
->   Examples:
->   (1) Parent maps all pages of a THP, child maps some pages. We detect
->       all pages in the parent as shared although some are actually
->       exclusive.
->   (2) Parent maps all but some page of a THP, child maps the remainder.
->       We detect all pages of the THP that the parent maps as shared
->       although they are all exclusive.
->
->   In (1) we wouldn't collapse a THP right now already: no PTE
->   is writable, because a write fault would have resulted in COW of a
->   single page and the parent would no longer map all pages of that THP.
->
->   For (2) we would have collapsed a THP in the parent so far, now we
->   wouldn't as long as the child process is still alive: unless the child
->   process unmaps the remaining THP pages or we decide to split that THP.
->
->   Possibly, the child COW'ed many pages, meaning that it's likely that
->   we can populate a THP for our child first, and then for our parent.
->
->   For (2), we are making really bad use of the THP in the first
->   place (not even mapped completely in at least one process). If the
->   THP would be completely partially mapped, it would be on the deferred
->   split queue where we would split it lazily later.
->
->   For short-running child processes, we don't particularly care. For
->   long-running processes, the expectation is that such scenarios are
->   rather rare: further, a THP might be best placed if most data in the
->   PMD range is actually written, implying that we'll have to COW more
->   pages first before khugepaged would collapse it.
->
-> To summarize, in the common case, this change is not expected to matter
-> much. The more common application of khugepaged operates on
-> exclusive pages, either before fork() or after a child quit.
->
-> Can we improve (A)? Yes, if we implement more precise tracking of "mapped
-> shared" vs. "mapped exclusively", we could get rid of the false
-> negatives completely.
->
-> Can we improve (B)? We could count how many pages of a large folio we map
-> inside the current page table and detect that we are responsible for most
-> of the folio mapcount and conclude "as good as exclusive", which might he=
-lp
-> in some cases. ... but likely, some other mechanism should detect that
-> the THP is not a good use in the scenario (not even mapped completely in
-> a single process) and try splitting that folio lazily etc.
->
-> We'll move the folio_test_anon() check before our "shared" check, so we
-> might get more expressive results for SCAN_EXCEED_SHARED_PTE: this order
-> of checks now matches the one in __collapse_huge_page_isolate(). Extend
-> documentation.
->
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> Cc: Zi Yan <ziy@nvidia.com>
-> Cc: Yang Shi <yang.shi@linux.alibaba.com>
-> Cc: John Hubbard <jhubbard@nvidia.com>
-> Cc: Ryan Roberts <ryan.roberts@arm.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->
-> How much time can one spend writing a patch description? Unbelievable. Bu=
-t
-> it was likely time well spend to have a clear picture of the impact.
->
-> This really needs the folio_likely_mapped_shared() optimization [1] that
-> resides in mm-unstable, I think, to reduce "false negatives".
->
-> The khugepage MM selftests keep working as expected, including:
->
->         Run test: collapse_max_ptes_shared (khugepaged:anon)
->         Allocate huge page... OK
->         Share huge page over fork()... OK
->         Trigger CoW on page 255 of 512... OK
->         Maybe collapse with max_ptes_shared exceeded.... OK
->         Trigger CoW on page 256 of 512... OK
->         Collapse with max_ptes_shared PTEs shared.... OK
->         Check if parent still has huge page... OK
->
-> Where we check that collapsing in the parent behaves as expected after
-> COWing a lot of pages in the parent: a sane scenario that is essentially
-> unchanged and which does not depend on any action in the child process
-> (compared to the cases discussed in (B) above).
->
-> [1] https://lkml.kernel.org/r/20240409192301.907377-6-david@redhat.com
->
-> ---
->  Documentation/admin-guide/mm/transhuge.rst |  3 ++-
->  mm/khugepaged.c                            | 22 +++++++++++++++-------
->  2 files changed, 17 insertions(+), 8 deletions(-)
->
-> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/a=
-dmin-guide/mm/transhuge.rst
-> index f82300b9193fe..076443cc10a6c 100644
-> --- a/Documentation/admin-guide/mm/transhuge.rst
-> +++ b/Documentation/admin-guide/mm/transhuge.rst
-> @@ -278,7 +278,8 @@ collapsed, resulting fewer pages being collapsed into
->  THPs, and lower memory access performance.
->
->  ``max_ptes_shared`` specifies how many pages can be shared across multip=
-le
-> -processes. Exceeding the number would block the collapse::
-> +processes. khugepaged might treat pages of THPs as shared if any page of
-> +that THP is shared. Exceeding the number would block the collapse::
->
->         /sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_shared
->
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index 2f73d2aa9ae84..cf518fc440982 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -583,7 +583,8 @@ static int __collapse_huge_page_isolate(struct vm_are=
-a_struct *vma,
->                 folio =3D page_folio(page);
->                 VM_BUG_ON_FOLIO(!folio_test_anon(folio), folio);
->
-> -               if (page_mapcount(page) > 1) {
-> +               /* See hpage_collapse_scan_pmd(). */
-> +               if (folio_likely_mapped_shared(folio)) {
->                         ++shared;
->                         if (cc->is_khugepaged &&
->                             shared > khugepaged_max_ptes_shared) {
-> @@ -1317,8 +1318,20 @@ static int hpage_collapse_scan_pmd(struct mm_struc=
-t *mm,
->                         result =3D SCAN_PAGE_NULL;
->                         goto out_unmap;
->                 }
-> +               folio =3D page_folio(page);
->
-> -               if (page_mapcount(page) > 1) {
-> +               if (!folio_test_anon(folio)) {
-> +                       result =3D SCAN_PAGE_ANON;
-> +                       goto out_unmap;
-> +               }
-> +
-> +               /*
-> +                * We treat a single page as shared if any part of the TH=
-P
-> +                * is shared. "False negatives" from
-> +                * folio_likely_mapped_shared() are not expected to matte=
-r
-> +                * much in practice.
-> +                */
-> +               if (folio_likely_mapped_shared(folio)) {
->                         ++shared;
->                         if (cc->is_khugepaged &&
->                             shared > khugepaged_max_ptes_shared) {
-> @@ -1328,7 +1341,6 @@ static int hpage_collapse_scan_pmd(struct mm_struct=
- *mm,
->                         }
->                 }
->
-> -               folio =3D page_folio(page);
->                 /*
->                  * Record which node the original page is from and save t=
-his
->                  * information to cc->node_load[].
-> @@ -1349,10 +1361,6 @@ static int hpage_collapse_scan_pmd(struct mm_struc=
-t *mm,
->                         result =3D SCAN_PAGE_LOCK;
->                         goto out_unmap;
->                 }
-> -               if (!folio_test_anon(folio)) {
-> -                       result =3D SCAN_PAGE_ANON;
-> -                       goto out_unmap;
-> -               }
->
->                 /*
->                  * Check if the page has any GUP (or other external) pins=
-.
-> --
-> 2.44.0
->
->
+> 
+> So I agree it should not matter much for common cases. AFAIK, the
+> usecase for aggressive setting should be very rare, but conservative
+> setting may be more usual, so improving the under-count for
+> conservative setting may be worth it.
+
+Yes, sorting out A completely is what I 'm working on, but it will 
+likely not be available on all kernel configs, at least initially.
+
+And unless there is a good reason, I want to avoid having 
+config-dependent stuff all over the kernel -- and just move 
+page_mapcount() to task_mmu.c where it can no longer be (ab)used.
+
+Thanks!
+
+-- 
+Cheers,
+
+David / dhildenb
+
