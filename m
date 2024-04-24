@@ -1,120 +1,242 @@
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64B2D15FCE1
-	for <linux-doc@vger.kernel.org>; Wed, 24 Apr 2024 16:08:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2169D16130D;
+	Wed, 24 Apr 2024 16:18:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713974901; cv=none; b=fM/AiUv70rW28mhHHZ3VLf1ZcQQAsanDZ9daR5jyFBx4ytvNHd/OsIRHRJCzr6VTY+PEEtM+SMZw3Szbt6zan2J3jsRp11XHZba2Cuh++siI3ER2ThQYS1bxHkwEwCsKAe9F3y9YdYroTvHURz5Ay+C4RmR9B/o9HkpZIkiJMHs=
+	t=1713975505; cv=none; b=uJi9WUdD6e/IPOEyJDGUu3pGLfleDnSCoOONSZqdLe/w3tYZYWXe1AMv1Sl4VnEKvH0dLB9eYb2SxaUHq1Fpr+bsa8K2zYSOBmTQygRYyvhY3iwvRM88NKDtykUCKskdV4Scjm0jjR78/umNOrlAXVOaOyaHcCtPZWUmkv7WGcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713974901; c=relaxed/simple;
-	bh=UX+RSQsTZIoCgA4sTAjvIrhaan3lVSfzg+9u2yHW7fw=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=g8F25uo5kIl3OqiGzWQ0ujG5nyyLipuQtqXcEJMnJ3EYocsPpeKQIF6+J18tZdyRIHJJwRX3NxDZMP4gIFkKyPT1nCu9Fw145G7VZrsVpjcGEtLpgSLLPYFgDdGfZJVYRCSOKq1EseecivNjC5r8nEKdWgCq6t4Zrpc8oHWxq84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fSQNh+xZ; arc=none smtp.client-ip=209.85.219.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1713975505; c=relaxed/simple;
+	bh=WOCA64wLURkzbX3ikbDOkLsxKLSUsfx9997T2RUaXbM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bPzUeDW8P0S3QoXv5pnjsMlIkGI992h93iSO2L6CTYQWeV4xo201Euq/yTCGMCpKjjNnDYMJBHrln8BSiLpRnhxv/T9l5/NVWwPsXaWSoM2f0pYXGcw/TW4wCd6a4z56vGoPAu+2kVGJyKYZTw+Eg/lZUGEVG8AHNWcAaQbSGto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eeyyFl7i; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fSQNh+xZ"
-Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-dc647f65573so74561276.2
-        for <linux-doc@vger.kernel.org>; Wed, 24 Apr 2024 09:08:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1713974899; x=1714579699; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bk3EKgsQGWnjS0MB5E+L5+lH/YRrJ8wTPFpK6fCHC/0=;
-        b=fSQNh+xZyICEaLyAYJ9j8B5Dpz9iGvXe9AekGvZfUPSkhGUTKrJ2lWayZW7QAOpQOf
-         Q8M9BTKg6GMvNXkaD9RUJ1roLQLTBheXYP90tNemuaJnFJSGeXEHf5U6w/G8ikG57+hX
-         W/ZzL5/4l3gLhcXPfwq+bEcEFadq6++lmanCmdo/KIZDV3aU2zV7kIT6eEz9zfIpPkXU
-         LjwDPyGXrm6hdmyc3QkSm+PodXwkdjiQ8stX3PaKWkIe2b584IuIkiqHXxhX4rcfzUJe
-         HfikG0tr0eilK8dW+/r2DUtDQCvS/X8YSGThyZQo/jrugYDs0TXEhbrObWtF24v19B28
-         yj8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713974899; x=1714579699;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bk3EKgsQGWnjS0MB5E+L5+lH/YRrJ8wTPFpK6fCHC/0=;
-        b=HxN4ygyFxUhdphwadGTPIMp3qlq5wuLLM4r8viKJb7H7YrWD6jlcPIBFu8UW+sliwR
-         enIZ1xgOc8NmtiivJ+CEcr7FRo+Uf2rv3m7wIPiFxLjCbt4ToaLx6zcZ1Lnt8sRVbMcF
-         7OuzS5L65YHF1I0oaD9hI4TZKg4V+1ZyrCaHsGLK4BUqo04RY/orBnLqUF8ZU+aGHVkJ
-         XFbxZSUZ1Gquwkh04oc5u+RZpf1IwNzMuTv/172Tz28U602cRX0e21Ez7uZn30qLrGTW
-         Rw5ITkh3+twIZ7qOqsKHErKmVgU2bs6sQ2nnbj4Dy4qaoMGu8E0hfdemhoDNsrieacwm
-         CNAw==
-X-Forwarded-Encrypted: i=1; AJvYcCVz4Qm/933h/mOH/wuofQxrvyMk/ER3JbVx9nNFRIfLD1Uc3/rIS6F+JmdGLVO7UFaWl9j/rlHkVPwdSsodUJ4/wo7iIJSVTskJ
-X-Gm-Message-State: AOJu0Yx9ZXB+OmDHQ2WZzvFM4/82+nAzCyKtz9xBpax1lzeJ3FFOd9m3
-	NIe3bf4nYdQDeu49fZ3TlVfK6tXJcWMkzuPYY1PZc4A3k/7va/Ig8NvM3kyl3fJXtoTJoa+bS4F
-	y+A==
-X-Google-Smtp-Source: AGHT+IHUEHWaTgZwPWeVlQZLsmhgBLdJhdqkgpe+SOVJ7NnX/mE1lLDAZaofyhrlTH6Xy2nYNweVj/XvttU=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:6902:706:b0:dcd:3172:7265 with SMTP id
- k6-20020a056902070600b00dcd31727265mr1002573ybt.8.1713974899485; Wed, 24 Apr
- 2024 09:08:19 -0700 (PDT)
-Date: Wed, 24 Apr 2024 09:08:18 -0700
-In-Reply-To: <20240329201854.f24ZDY24JtVE3gfa0i3m1MOFYfXVhCKdkXd0j5c-B6I@z>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eeyyFl7i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE9F2C113CD;
+	Wed, 24 Apr 2024 16:18:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1713975504;
+	bh=WOCA64wLURkzbX3ikbDOkLsxKLSUsfx9997T2RUaXbM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=eeyyFl7imnDTYm5iLmD+lfkzycscZRdTB3YQ5BjHvvnx/JTn2+ih4dK2Y0nBgNHNk
+	 jXYoIAm0t0G7YJJXE5GeCZrcAuXmW5B4nQsZ8pgxDJwkPceZyEDKhsRL5E6XTsBzsF
+	 xlZ3NlDVSDHJgARljvXjFbfWRv9NWfVwemQ35UbsF2bnnYRNEj4LL3D5cHRKI9TdVO
+	 /SuR/vWxiX+oltGFkUv2KKKaSBJOPHn3auoY2dJzbWwUcaTowfYBac55W07hboInSe
+	 7SVLiIEB/BTW3gh602Uy6/H2YDR4P2bc9MVmNCnq33mQZSp52fnHO9GgsCQLCnSyts
+	 lW0NbiE0kKJ3A==
+Date: Wed, 24 Apr 2024 09:18:23 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Heng Qi <hengqi@linux.alibaba.com>
+Cc: netdev@vger.kernel.org, virtualization@lists.linux.dev, "David S .
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
+ Abeni <pabeni@redhat.com>, Jason Wang <jasowang@redhat.com>, "Michael S .
+ Tsirkin" <mst@redhat.com>, Brett Creeley <bcreeley@amd.com>, Ratheesh
+ Kannoth <rkannoth@marvell.com>, Alexander Lobakin
+ <aleksander.lobakin@intel.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Tal
+ Gilboa <talgi@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, Jiri Pirko <jiri@resnulli.us>, Paul
+ Greenwalt <paul.greenwalt@intel.com>, Ahmed Zaki <ahmed.zaki@intel.com>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>, Kory Maincent
+ <kory.maincent@bootlin.com>, Andrew Lunn <andrew@lunn.ch>,
+ "justinstitt@google.com" <justinstitt@google.com>
+Subject: Re: [PATCH net-next v9 2/4] ethtool: provide customized dim profile
+ management
+Message-ID: <20240424091823.4e9b008b@kernel.org>
+In-Reply-To: <640292b7-5fcd-44c2-bdd1-03702b7e60a1@linux.alibaba.com>
+References: <20240417155546.25691-1-hengqi@linux.alibaba.com>
+	<20240417155546.25691-3-hengqi@linux.alibaba.com>
+	<20240418174843.492078d5@kernel.org>
+	<96b59800-85e6-4a9e-ad9b-7ad3fa56fff4@linux.alibaba.com>
+	<640292b7-5fcd-44c2-bdd1-03702b7e60a1@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240207172646.3981-1-xin3.li@intel.com> <20240207172646.3981-26-xin3.li@intel.com>
- <20240329201854.f24ZDY24JtVE3gfa0i3m1MOFYfXVhCKdkXd0j5c-B6I@z>
-Message-ID: <Zikucr6zpwBxOUiy@google.com>
-Subject: Re: [PATCH v2 25/25] KVM: selftests: Add fred exception tests
-From: Sean Christopherson <seanjc@google.com>
-To: Muhammad Usama Anjum <usama.anjum@collabora.com>
-Cc: Xin Li <xin3.li@intel.com>, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	pbonzini@redhat.com, corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	shuah@kernel.org, vkuznets@redhat.com, peterz@infradead.org, 
-	ravi.v.shankar@intel.com, xin@zytor.com
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Mar 30, 2024, Muhammad Usama Anjum wrote:
-> On 2/7/24 10:26 PM, Xin Li wrote:
-> > Add tests for FRED event data and VMX nested-exception.
-> > 
-> > FRED is designed to save a complete event context in its stack frame,
-> > e.g., FRED saves the faulting linear address of a #PF into a 64-bit
-> > event data field defined in FRED stack frame.  As such, FRED VMX adds
-> > event data handling during VMX transitions.
-> > 
-> > Besides, FRED introduces event stack levels to dispatch an event handler
-> > onto a stack baesd on current stack level and stack levels defined in
-> > IA32_FRED_STKLVLS MSR for each exception vector.  VMX nested-exception
-> > support ensures a correct event stack level is chosen when a VM entry
-> > injects a nested exception, which is regarded as occurred in ring 0.
-> > 
-> > To fully test the underlying FRED VMX code, this test should be run one
-> > more round with EPT disabled to inject page faults as nested exceptions.
-> > 
-> > Originally-by: Shan Kang <shan.kang@intel.com>
-> > Signed-off-by: Xin Li <xin3.li@intel.com>
-> Thank you for the new test patch. We have been trying to ensure TAP
-> conformance for tests which cannot be achieved if new tests aren't using
-> TAP already.
+On Wed, 24 Apr 2024 21:41:55 +0800 Heng Qi wrote:
+> +struct dim_irq_moder {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* See DIM_PROFILE_* */
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u8 profile_flags;
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* See DIM_COALESCE_* for Rx and Tx=
+ */
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u8 coal_flags;
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Rx DIM period count mode: CQE or=
+ EQE */
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u8 dim_rx_mode;
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Tx DIM period count mode: CQE or=
+ EQE */
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u8 dim_tx_mode;
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* DIM profile list for Rx */
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct dim_cq_moder *rx_profile;
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* DIM profile list for Tx */
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct dim_cq_moder *tx_profile;
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Rx DIM worker function scheduled=
+ by net_dim() */
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 void (*rx_dim_work)(struct work_str=
+uct *work);
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Tx DIM worker function scheduled=
+ by net_dim() */
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 void (*tx_dim_work)(struct work_str=
+uct *work);
+> +};
+> +
+>=20
+> .....
+>=20
+>=20
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .ndo_init_irq_moder=C2=A0=C2=A0=C2=
+=A0=C2=A0 =3D virtnet_init_irq_moder,
 
-Who is "we"?
+The init callback mostly fills in static data, can we not
+declare the driver information statically and move the init
+code into the core?
 
-> Please make your test TAP compliant.
+> ....
+>=20
+>=20
+> +static int virtnet_init_irq_moder(struct net_device *dev)
+> +{
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct virtnet_info *vi =3D n=
+etdev_priv(dev);
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct dim_irq_moder *moder;
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int len;
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!virtio_has_feature(vi->v=
+dev, VIRTIO_NET_F_VQ_NOTF_COAL))
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 return 0;
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev->irq_moder =3D kzalloc(si=
+zeof(*dev->irq_moder), GFP_KERNEL);
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!dev->irq_moder)
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 goto err_moder;
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 moder =3D dev->irq_moder;
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 len =3D NET_DIM_PARAMS_NUM_PR=
+OFILES * sizeof(*moder->rx_profile);
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 moder->profile_flags |=3D DIM=
+_PROFILE_RX;
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 moder->coal_flags |=3D DIM_CO=
+ALESCE_USEC | DIM_COALESCE_PKTS;
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 moder->dim_rx_mode =3D DIM_CQ=
+_PERIOD_MODE_START_FROM_EQE;
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 moder->rx_dim_work =3D virtne=
+t_rx_dim_work;
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 moder->rx_profile =3D kmemdup=
+(dim_rx_profile[moder->dim_rx_mode],
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 len, GFP_KERNEL);
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!moder->rx_profile)
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 goto err_profile;
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+> +
+> +err_profile:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kfree(moder);
+> +err_moder:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -ENOMEM;
+> +}
+> +
+>=20
+> ......
+>=20
+> +void net_dim_setting(struct net_device *dev, struct dim *dim, bool is_tx)
+> +{
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct dim_irq_moder *irq_moder =3D=
+ dev->irq_moder;
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!irq_moder)
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 return;
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (is_tx) {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 INIT_WORK(&dim->work, irq_moder->tx_dim_work);
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 dim->mode =3D irq_moder->dim_tx_mode;
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 return;
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 INIT_WORK(&dim->work, irq_moder->rx=
+_dim_work);
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dim->mode =3D irq_moder->dim_rx_mod=
+e;
+> +}
+>=20
+> .....
+>=20
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < vi->max_queue_pai=
+rs; i++)
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 net_dim_setting(vi->dev, &vi->rq[i].dim, false);
+>=20
+> .....
+>=20
+>  =C2=A0=C2=A0=C2=A0 ETHTOOL_A_COALESCE_TX_AGGR_MAX_FRAMES,=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* u32 */
+>=20
+>  =C2=A0=C2=A0=C2=A0 ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS,=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* u32 */
+>=20
+> + /* nest - _A_PROFILE_IRQ_MODERATION */
+>=20
+> +=C2=A0 ETHTOOL_A_COALESCE_RX_PROFILE,
+>=20
+> +=C2=A0=C2=A0 /* nest - _A_PROFILE_IRQ_MODERATION */
+> +=C2=A0 ETHTOOL_A_COALESCE_TX_PROFILE,
+>=20
+> ......
+>=20
+>=20
+> Almost clear implementation, but the only problem is when I want to
+> reuse "ethtool -C" and append ETHTOOL_A_COALESCE_RX_PROFILE
+> and ETHTOOL_A_COALESCE_TX_PROFILE, *ethnl_set_coalesce_validate()
+> will report an error because there are no ETHTOOL_COALESCE_RX_PROFILE
+> and ETHTOOL_COALESCE_TX_PROFILE, because they are replaced by
+> DIM_PROFILE_RX and DIM_PROFILE_TX in the field profile_flags.*
 
-This isn't entirely reasonable feedback.  I'm all for getting KVM selftests
-TAP-friendly, but the current reality is that the KVM selftests infrastructure
-doesn't make it easy to be TAP compliant.  We're working on improving things,
-i.e. I do hope/want to get to a state where it's a hard requirement for KVM
-selftests to be TAP compliant, but we aren't there yet.
+I see.
 
-If you have specific feedback on _how_ to make a test TAP compliant, then by all
-means provide that feedback.  But a drive-by "make your test TAP compliant" isn't
-super helpful.
+> Should I reuse ETHTOOL_COALESCE_RX_PROFILE and
+> ETHTOOL_A_COALESCE_TX_PROFILE in ethtool_ops->.supported_coalesce_params
+> and remove the field profile_flags from struct dim_irq_moder?
+> Or let ethnl_set_coalesce_validate not verify these two flags?
+> Is there a better solution?
 
-> > ---
-> >  tools/testing/selftests/kvm/Makefile          |   1 +
-> >  .../selftests/kvm/include/x86_64/processor.h  |  32 ++
-> >  .../testing/selftests/kvm/x86_64/fred_test.c  | 297 ++++++++++++++++++
-> Add generated binary object to .gitignore.
+Maybe create the bits but automatically add them for the driver?
 
-This should be unnecessary (though I haven't actually verified by building), as
-KVM selftests ignore most everything by default since commit 43e96957e8b8
-("KVM: selftests: Use pattern matching in .gitignore").
+diff --git a/net/ethtool/coalesce.c b/net/ethtool/coalesce.c
+index 83112c1a71ae..56777d36f7f1 100644
+--- a/net/ethtool/coalesce.c
++++ b/net/ethtool/coalesce.c
+@@ -243,6 +243,8 @@ ethnl_set_coalesce_validate(struct ethnl_req_info *req_=
+info,
+=20
+ 	/* make sure that only supported parameters are present */
+ 	supported_params =3D ops->supported_coalesce_params;
++	if (dev->moder->coal_flags ...)
++		supported_params |=3D ETHTOOL_COALESCE_...;
+ 	for (a =3D ETHTOOL_A_COALESCE_RX_USECS; a < __ETHTOOL_A_COALESCE_CNT; a++)
+ 		if (tb[a] && !(supported_params & attr_to_mask(a))) {
+ 			NL_SET_ERR_MSG_ATTR(info->extack, tb[a],
