@@ -1,120 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 760BE15EFB5;
-	Wed, 24 Apr 2024 14:52:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01F415EFA1;
+	Wed, 24 Apr 2024 14:53:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713970321; cv=none; b=RXMBI8p4Ezzz2oxEgXPTDbMDwPPSekb6j/maHc5ecnwgtclLd/TWYFvRXv89x4LXAywkRBzXsBF1oNo31xnY2t4zWEDuF7k30uTkxE83U9R5t7UEnqkowlOrMBB1dSwLttAfzxjqSgiNTz3XCeoS86FJo6sChRlEICQkfLPidLY=
+	t=1713970407; cv=none; b=lz+Uuqi9cWcU8UWc9ZEpso/CYmJmdj+sqOL9Wr7tX9le/j4dN2MmZaGVV9CZVA6zGNVy8KvB4jyYeNiqn3hpuoGzTFhSxmU++LCeGoay3kD2BWBdwFUdYLjo+0hxacSuHb9+9x8PDoOmImXXodIrakZZlHzkXdCMiFGNZ2jxgro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713970321; c=relaxed/simple;
-	bh=xPav91uI1ZNG9OJ6vetVcvDnMQMHSyXYAwBYPIfWJAY=;
+	s=arc-20240116; t=1713970407; c=relaxed/simple;
+	bh=RqfV+hja3oQylqzeWMZG5N4j93kHJlAuYk8CLvh4giQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ws3b4USsO36b7fAOEaymwozxMn7f9kfcjltrqCpuemefG7hXud47ecwLj256cgi72boCkUNwaiL298xeKZsYodwCATG9/Z+bWhS/IHA2BBTz2iFK5oIcEncM2/HKJDjnGr47CPzU332WfnSxptNoQ7YVZbhWNORSthABHUmbzQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=otlWOyP+; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=tszk2kG/wGbjzsguMaksGGz9Km/v/jajDe+1rpd/rjLU1xjNk8eruTGY7+8dIA1xlr9qWCdKmgQ8YsiQovKW0pjq2/1stC/NKW9Ngf/5etmfQdEkeNz5i2uq39QhOit3K/xGPkkPB9hhniz9u27/xjJoh9CW7okWFwohXD0dphg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G+8Vet2i; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="otlWOyP+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CCF5C2BD10;
-	Wed, 24 Apr 2024 14:51:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713970321;
-	bh=xPav91uI1ZNG9OJ6vetVcvDnMQMHSyXYAwBYPIfWJAY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=otlWOyP+tAKLOQY2jJz85UVBDjxfaJSShJb8fCwhde1QoWBVcXV9L8kOXZ7YiktDq
-	 CRFb4dulN7XW95JUfM340CSKNKybZ2dJ/b22SsZmQHhpqofEEHEXAqU2wibXzCVcS4
-	 HMfrS42NqBU81/dRPTkCtrvTtS8gTilQE5Db4nHV+I76fiYJBhDWN3DjU9kCwIeHh6
-	 4jJBSNhlOmgAMqensikb4v8l+gbU3+tw7ozUQMwFHWkUnxOIf1FA6OpSCkGWp9J4rL
-	 qB5hmqfwunYdSCmCdXGDOuwRopsL05J5I6EI7VnQPgdbplKA3I0ae1TvQI8BIOQKJG
-	 eF4loR+GluPmg==
-Date: Wed, 24 Apr 2024 15:51:54 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Alexandre Ghiti <alex@ghiti.fr>
-Cc: Charlie Jenkins <charlie@rivosinc.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Evan Green <evan@rivosinc.com>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v3 06/17] riscv: Fix extension subset checking
-Message-ID: <20240424-wildly-goofy-c81aac6f8cd7@spud>
-References: <20240420-dev-charlie-support_thead_vector_6_9-v3-0-67cff4271d1d@rivosinc.com>
- <20240420-dev-charlie-support_thead_vector_6_9-v3-6-67cff4271d1d@rivosinc.com>
- <6c624361-a968-498b-a9fb-ea2aaec70ce8@ghiti.fr>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G+8Vet2i"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1713970406; x=1745506406;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RqfV+hja3oQylqzeWMZG5N4j93kHJlAuYk8CLvh4giQ=;
+  b=G+8Vet2ismbiLI44DRMeFLJ8jUSnUrzxvbLQXJtEiih1JT+iCupXnfJM
+   61mj0dGU/uKToD2/Y0yy4GZFiU/+LNXW807/EUJCxc6WMlbm4rPIRiDgG
+   GZCnNVzKaR8FkC9bQRySSbC2hVnCb8GkGXezk5ucNcvWkw2wp2VIVk0np
+   BJ9t3bSuSbzJ2NcNFaDPWiNm1WZ6WnMslc0exrwJnhCyMOcu96b0QFbsW
+   qWROmusPyqVz0HDd7QXTK6AE8zb0N1Na9pehVVqjIkG5R2rRtDz5Z5iL+
+   RgTE7XxEQwjEwE4wOhBUSjqRKkdxD2xxdHD6QuSLajcmqpmWedF997f8C
+   w==;
+X-CSE-ConnectionGUID: jYbM7rmSS6yoD7WQHEOwRg==
+X-CSE-MsgGUID: mvBx9tbVRfSksat+1Djc3A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11054"; a="9727118"
+X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
+   d="scan'208";a="9727118"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 07:53:26 -0700
+X-CSE-ConnectionGUID: 09S+vG3jRaOAUzAmHorGng==
+X-CSE-MsgGUID: VlkXdLBeS6+qX3IrssO96g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,226,1708416000"; 
+   d="scan'208";a="24620041"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2024 07:53:24 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1rzdzt-00000000gI1-1C9q;
+	Wed, 24 Apr 2024 17:53:21 +0300
+Date: Wed, 24 Apr 2024 17:53:21 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: Re: [PATCH v1 0/2] Documentation: process: Clarify use of Cc:
+Message-ID: <Zikc4fDNDer6hSzJ@smile.fi.intel.com>
+References: <20240423132024.2368662-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ISCd5ZrJR7K6TsSY"
-Content-Disposition: inline
-In-Reply-To: <6c624361-a968-498b-a9fb-ea2aaec70ce8@ghiti.fr>
-
-
---ISCd5ZrJR7K6TsSY
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240423132024.2368662-1-andriy.shevchenko@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Wed, Apr 24, 2024 at 04:22:02PM +0200, Alexandre Ghiti wrote:
-> Hi Charlie,
->=20
-> On 21/04/2024 03:04, Charlie Jenkins wrote:
-> > This loop is supposed to check if ext->subset_ext_ids[j] is valid, rath=
-er
-> > than if ext->subset_ext_ids[i] is valid, before setting the extension
-> > id ext->subset_ext_ids[j] in isainfo->isa.
-> >=20
-> > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> > Fixes: 0d8295ed975b ("riscv: add ISA extension parsing for scalar crypt=
-o")
-> > ---
-> >   arch/riscv/kernel/cpufeature.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeat=
-ure.c
-> > index 48874aac4871..b537731cadef 100644
-> > --- a/arch/riscv/kernel/cpufeature.c
-> > +++ b/arch/riscv/kernel/cpufeature.c
-> > @@ -609,7 +609,7 @@ static int __init riscv_fill_hwcap_from_ext_list(un=
-signed long *isa2hwcap)
-> >   			if (ext->subset_ext_size) {
-> >   				for (int j =3D 0; j < ext->subset_ext_size; j++) {
-> > -					if (riscv_isa_extension_check(ext->subset_ext_ids[i]))
-> > +					if (riscv_isa_extension_check(ext->subset_ext_ids[j]))
-> >   						set_bit(ext->subset_ext_ids[j], isainfo->isa);
-> >   				}
-> >   			}
-> >=20
->=20
-> I think this should go into -fixes, let's check with Palmer if he wants to
-> take this patch only or if you should send the patch on its own.
++Cc: Dmitry
+(have been told by colleague of mine that you also has an opinion on this
+ topic, sorry if I added you by a mistake).
 
-I think splitting out this and patch 1 into a new series targeting fixes
-would probably make things clearer?
+On Tue, Apr 23, 2024 at 04:19:36PM +0300, Andy Shevchenko wrote:
+> Add a couple of recommendations on how to utilise Cc header in
+> environment friendly way.
+> 
+> Andy Shevchenko (2):
+>   Documentation: process: Avoid unneeded Cc: tags
+>   Documentation: process: Recommend to put Cc: tags after cutter '---'
+>     line
 
---ISCd5ZrJR7K6TsSY
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+With Best Regards,
+Andy Shevchenko
 
------BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZikcigAKCRB4tDGHoIJi
-0lY6AP9fxMZ4oOWAWRpbaYHs+Q77SeZ+QaOXEZh098c2I789WAEAmdgrmjjeEcJ4
-b2LKa6uCXOLW9VEFR/QJlfNVN9MYwgU=
-=Z23p
------END PGP SIGNATURE-----
-
---ISCd5ZrJR7K6TsSY--
