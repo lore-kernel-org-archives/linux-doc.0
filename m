@@ -1,352 +1,262 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C5D8160885;
-	Wed, 24 Apr 2024 14:37:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
+	by smtp.subspace.kernel.org (Postfix) with SMTP id 30AC915EFAF
+	for <linux-doc@vger.kernel.org>; Wed, 24 Apr 2024 14:51:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.131.102.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1713969443; cv=none; b=CLWVj/A5RLL0VwZAV/95wfhOcgJgFb202YjkIDDM0TlvMmPdwJN0BjUGUaN2Qtgz9yOsq4paIBHzITq6HwvvL/pynXg0r0i6cuhfxMQa8j1Z1TWJKOUrpuYM3vAka58g9NS+9RNfkbHec+uUzKnRYbCLtCG3xxBjTDHI/CnMSb8=
+	t=1713970321; cv=none; b=l9HVxHrPU30sM3f8HKWPVWot5gofEaAsHNWV+E5kBSM3zubgFWe7xscv3KxYSrPgAVjQ2JePfHd+N5AF593GN1qmJCyEhP6j4zCKTwJYBF7g/e9esA7RHOVVTh0BlQfdRMaywqTK4k82cBvQkBpTWa12d9NiBTtgtB/UxXvY6RM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1713969443; c=relaxed/simple;
-	bh=PW/mKN9SsKQYfJubvo/JIUYxbAIyYneBGNWi3qCcTow=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EwDGnFp0+MzuTB5jdvqPJkW5BHi8LjcxGIBTapNWhfJH8HVP/0gDmCM4T0SC8pNGI4zfxFMcK0wEOj5z4VAFnbOOJYhuzI/B6gb3mvSJphNDgZ8TuqXFbgJSXP8smQmV2CYjEXJXzn998wLGrsEZRD6apkLuUgHJS2D37aD8TyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BPUDLJT3; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BPUDLJT3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CBF6C2BBFC;
-	Wed, 24 Apr 2024 14:37:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1713969443;
-	bh=PW/mKN9SsKQYfJubvo/JIUYxbAIyYneBGNWi3qCcTow=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=BPUDLJT38CANyl6uS+s1jGahVWM31z9fmKVu4lCJCA+sF8M1qXGO9ur8w+zLEaIAa
-	 i4yIULeptP3FJfyp73jx7z9ysSWOSLdETgP90wMLtdZodb0jrcWwxFgH34qKu1hpy9
-	 idvKtJ9XUFM7CR1qaaukFi/U/P+23VsrrZqk2dWw+sKZxXnzLrXCqdJ2C5Sb14B/Fu
-	 ZUCA0ND/2hPdTkKb64ZzRBhnwrIeX2Bf0fkp0c8yw3ucvMd0YWm8Zw8NL+EMLRXqbk
-	 hlcfJOWgUmjQOoRwDmW9PVe2fqxAY8yhB9GD5GxHuw9dDfPs0S2a+zk8DbkAOTJ/FP
-	 R2sZda5Kiwv5w==
-From: Daniel Bristot de Oliveira <bristot@kernel.org>
-To: Daniel Bristot de Oliveira <bristot@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-trace-kernel@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 8/8] rtla: Add --trace-buffer-size option
-Date: Wed, 24 Apr 2024 16:36:57 +0200
-Message-ID: <0281bfbd3b3fed11a0150a8645a1f9941a423c7a.1713968967.git.bristot@kernel.org>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <cover.1713968967.git.bristot@kernel.org>
-References: <cover.1713968967.git.bristot@kernel.org>
+	s=arc-20240116; t=1713970321; c=relaxed/simple;
+	bh=3Z6uVOtYIw3MLXx0Sb5rRJUYpjtvpVEB1ZfVvMdz0v8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cJvOXdu8JS1I3gS8do+cgoI3KR0aQe6RnZlT2cK09RhrTDlED4CSj6Ej0XFHq9KFgK4HfFFuqTarqHALnY8wNumJ2ablu+hm2jfoQkB02+DMPBy51iSAnifQjZB9j5GoFaF7lahC0tM+ObFExbivGO1+k2eYAm2tSX094kEmJSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu; spf=pass smtp.mailfrom=netrider.rowland.org; arc=none smtp.client-ip=192.131.102.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netrider.rowland.org
+Received: (qmail 453342 invoked by uid 1000); 24 Apr 2024 10:51:57 -0400
+Date: Wed, 24 Apr 2024 10:51:57 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Norihiko Hama <Norihiko.Hama@alpsalpine.com>
+Cc: gregkh@linuxfoundation.org, corbet@lwn.net, linux-doc@vger.kernel.org,
+  linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+  usb-storage@lists.one-eyed-alien.net
+Subject: Re: [PATCH v4] usb-storage: Optimize scan delay more precisely
+Message-ID: <c06aaaa1-a2af-47c6-a615-602f2c70de86@rowland.harvard.edu>
+References: <20240424013134.17307-1-Norihiko.Hama@alpsalpine.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240424013134.17307-1-Norihiko.Hama@alpsalpine.com>
 
-Add the option allow the users to set a different buffer size for the
-trace. For example, in large systems, the user might be interested on
-reducing the trace buffer to avoid large tracing files.
+On Wed, Apr 24, 2024 at 10:31:34AM +0900, Norihiko Hama wrote:
+> Current storage scan delay is reduced by the following old commit.
+> 
+> a4a47bc03fe5 ("Lower USB storage settling delay to something more reasonable")
+> 
+> It means that delay is at least 'one second', or zero with delay_use=0.
+> 'one second' is still long delay especially for embedded system but
+> when delay_use is set to 0 (no delay), still error observed on some USB drives.
+> 
+> So delay_use should not be set to 0 but 'one second' is quite long.
+> Especially for embedded system, it's important for end user
+> how quickly access to USB drive when it's connected.
+> That's why we have a chance to minimize such a constant long delay.
+> 
+> This patch optimizes scan delay more precisely
+> to minimize delay time but not to have any problems on USB drives
+> by extending module parameter 'delay_use' in milliseconds internally.
+> The parameter 'delay_use' is changed to be parsed as 3 decimal point value
+> if it has digit values with '.'.
+> It makes the range of value to 1 / 1000 in internal 32-bit value
+> but it's still enough to set the delay time.
+> By default, delay time is 'one second' for backward compatibility.
+> 
+> For example, it seems to be good by changing delay_use=0.1,
+> that is 100 millisecond delay without issues for most USB pen drives.
+> 
+> Signed-off-by: Norihiko Hama <Norihiko.Hama@alpsalpine.com>
+> ---
+> V3 -> V4: Separate parser functions from module parameter set/get
+> V2 -> V3: Change to use kstrtouint only for parsing decimal point
+> V1 -> V2: Extend existing module parameter 'delay_use' to support decimal points
 
-The buffer size is specified in kB, and it is only affecting
-the tracing instance.
+This is pretty good.  I've got a couple of minor suggestions.
 
-Signed-off-by: Daniel Bristot de Oliveira <bristot@kernel.org>
----
- Documentation/tools/rtla/common_options.rst |  3 +++
- tools/tracing/rtla/src/osnoise_hist.c       | 13 ++++++++++++-
- tools/tracing/rtla/src/osnoise_top.c        | 14 +++++++++++++-
- tools/tracing/rtla/src/timerlat_hist.c      | 14 +++++++++++++-
- tools/tracing/rtla/src/timerlat_top.c       | 14 +++++++++++++-
- tools/tracing/rtla/src/trace.c              | 15 +++++++++++++++
- tools/tracing/rtla/src/trace.h              |  1 +
- 7 files changed, 70 insertions(+), 4 deletions(-)
+>  .../admin-guide/kernel-parameters.txt         |   5 +
+>  drivers/usb/storage/usb.c                     | 120 +++++++++++++++++-
+>  2 files changed, 121 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 561d0dd776c7..8248426524d5 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -6190,6 +6190,11 @@
+>  	usb-storage.delay_use=
+>  			[UMS] The delay in seconds before a new device is
+>  			scanned for Logical Units (default 1).
+> +			The delay can have up to 3 decimal places, giving a
+> +			resolution of one millisecond.
+> +			Example:
+> +				delay_use=2.567
 
-diff --git a/Documentation/tools/rtla/common_options.rst b/Documentation/tools/rtla/common_options.rst
-index a96ea0ed662e..7ac7b7581466 100644
---- a/Documentation/tools/rtla/common_options.rst
-+++ b/Documentation/tools/rtla/common_options.rst
-@@ -54,6 +54,9 @@
- 
-         After starting the workload, let it run for *s* seconds before starting collecting the data, allowing the system to warm-up. Statistical data generated during warm-up is discarded.
- 
-+**--trace-buffer-size** *kB*
-+        Set the per-cpu trace buffer size in kB for the tracing output.
-+
- **-h**, **--help**
- 
-         Print help menu.
-diff --git a/tools/tracing/rtla/src/osnoise_hist.c b/tools/tracing/rtla/src/osnoise_hist.c
-index c6100ff46a7f..198a17a3ea2e 100644
---- a/tools/tracing/rtla/src/osnoise_hist.c
-+++ b/tools/tracing/rtla/src/osnoise_hist.c
-@@ -43,6 +43,7 @@ struct osnoise_hist_params {
- 	int			bucket_size;
- 	int			entries;
- 	int			warmup;
-+	int			buffer_size;
- };
- 
- struct osnoise_hist_cpu {
-@@ -469,6 +470,7 @@ static void osnoise_hist_usage(char *usage)
- 		"		d:runtime[us|ms|s]:period[us|ms|s] - use SCHED_DEADLINE with runtime and period",
- 		"						       in nanoseconds",
- 		"	     --warm-up: let the workload run for s seconds before collecting data",
-+		"	     --trace-buffer-size kB: set the per-cpu trace buffer size in kB",
- 		NULL,
- 	};
- 
-@@ -533,13 +535,14 @@ static struct osnoise_hist_params
- 			{"trigger",		required_argument,	0, '4'},
- 			{"filter",		required_argument,	0, '5'},
- 			{"warm-up",		required_argument,	0, '6'},
-+			{"trace-buffer-size",	required_argument,	0, '7'},
- 			{0, 0, 0, 0}
- 		};
- 
- 		/* getopt_long stores the option index here. */
- 		int option_index = 0;
- 
--		c = getopt_long(argc, argv, "a:c:C::b:d:e:E:DhH:p:P:r:s:S:t::T:01234:5:6:",
-+		c = getopt_long(argc, argv, "a:c:C::b:d:e:E:DhH:p:P:r:s:S:t::T:01234:5:6:7:",
- 				 long_options, &option_index);
- 
- 		/* detect the end of the options. */
-@@ -685,6 +688,9 @@ static struct osnoise_hist_params
- 		case '6':
- 			params->warmup = get_llong_from_str(optarg);
- 			break;
-+		case '7':
-+			params->buffer_size = get_llong_from_str(optarg);
-+			break;
- 		default:
- 			osnoise_hist_usage("Invalid option");
- 		}
-@@ -891,6 +897,11 @@ int osnoise_hist_main(int argc, char *argv[])
- 				goto out_hist;
- 		}
- 
-+		if (params->buffer_size > 0) {
-+			retval = trace_set_buffer_size(&record->trace, params->buffer_size);
-+			if (retval)
-+				goto out_hist;
-+		}
- 	}
- 
- 	/*
-diff --git a/tools/tracing/rtla/src/osnoise_top.c b/tools/tracing/rtla/src/osnoise_top.c
-index 53a074c1222e..7e5aab22727d 100644
---- a/tools/tracing/rtla/src/osnoise_top.c
-+++ b/tools/tracing/rtla/src/osnoise_top.c
-@@ -41,6 +41,7 @@ struct osnoise_top_params {
- 	int			cgroup;
- 	int			hk_cpus;
- 	int			warmup;
-+	int			buffer_size;
- 	cpu_set_t		hk_cpu_set;
- 	struct sched_attr	sched_param;
- 	struct trace_events	*events;
-@@ -309,6 +310,7 @@ static void osnoise_top_usage(struct osnoise_top_params *params, char *usage)
- 		"		d:runtime[us|ms|s]:period[us|ms|s] - use SCHED_DEADLINE with runtime and period",
- 		"						       in nanoseconds",
- 		"	     --warm-up s: let the workload run for s seconds before collecting data",
-+		"	     --trace-buffer-size kB: set the per-cpu trace buffer size in kB",
- 		NULL,
- 	};
- 
-@@ -384,13 +386,14 @@ struct osnoise_top_params *osnoise_top_parse_args(int argc, char **argv)
- 			{"trigger",		required_argument,	0, '0'},
- 			{"filter",		required_argument,	0, '1'},
- 			{"warm-up",		required_argument,	0, '2'},
-+			{"trace-buffer-size",	required_argument,	0, '3'},
- 			{0, 0, 0, 0}
- 		};
- 
- 		/* getopt_long stores the option index here. */
- 		int option_index = 0;
- 
--		c = getopt_long(argc, argv, "a:c:C::d:De:hH:p:P:qr:s:S:t::T:0:1:2:",
-+		c = getopt_long(argc, argv, "a:c:C::d:De:hH:p:P:qr:s:S:t::T:0:1:2:3:",
- 				 long_options, &option_index);
- 
- 		/* Detect the end of the options. */
-@@ -517,6 +520,9 @@ struct osnoise_top_params *osnoise_top_parse_args(int argc, char **argv)
- 		case '2':
- 			params->warmup = get_llong_from_str(optarg);
- 			break;
-+		case '3':
-+			params->buffer_size = get_llong_from_str(optarg);
-+			break;
- 		default:
- 			osnoise_top_usage(params, "Invalid option");
- 		}
-@@ -725,6 +731,12 @@ int osnoise_top_main(int argc, char **argv)
- 			if (retval)
- 				goto out_top;
- 		}
-+
-+		if (params->buffer_size > 0) {
-+			retval = trace_set_buffer_size(&record->trace, params->buffer_size);
-+			if (retval)
-+				goto out_top;
-+		}
- 	}
- 
- 	/*
-diff --git a/tools/tracing/rtla/src/timerlat_hist.c b/tools/tracing/rtla/src/timerlat_hist.c
-index 6eb6e38d4a05..d4bab86ca1b9 100644
---- a/tools/tracing/rtla/src/timerlat_hist.c
-+++ b/tools/tracing/rtla/src/timerlat_hist.c
-@@ -54,6 +54,7 @@ struct timerlat_hist_params {
- 	int			bucket_size;
- 	int			entries;
- 	int			warmup;
-+	int			buffer_size;
- };
- 
- struct timerlat_hist_cpu {
-@@ -669,6 +670,7 @@ static void timerlat_hist_usage(char *usage)
- 		"	  -k/--kernel-threads: use timerlat kernel-space threads instead of rtla user-space threads",
- 		"	  -U/--user-load: enable timerlat for user-defined user-space workload",
- 		"	     --warm-up s: let the workload run for s seconds before collecting data",
-+		"	     --trace-buffer-size kB: set the per-cpu trace buffer size in kB",
- 		NULL,
- 	};
- 
-@@ -745,13 +747,14 @@ static struct timerlat_hist_params
- 			{"no-aa",		no_argument,		0, '9'},
- 			{"dump-task",		no_argument,		0, '\1'},
- 			{"warm-up",		required_argument,	0, '\2'},
-+			{"trace-buffer-size",	required_argument,	0, '\3'},
- 			{0, 0, 0, 0}
- 		};
- 
- 		/* getopt_long stores the option index here. */
- 		int option_index = 0;
- 
--		c = getopt_long(argc, argv, "a:c:C::b:d:e:E:DhH:i:knp:P:s:t::T:uU0123456:7:8:9\1\2:",
-+		c = getopt_long(argc, argv, "a:c:C::b:d:e:E:DhH:i:knp:P:s:t::T:uU0123456:7:8:9\1\2:\3",
- 				 long_options, &option_index);
- 
- 		/* detect the end of the options. */
-@@ -926,6 +929,9 @@ static struct timerlat_hist_params
- 		case '\2':
- 			params->warmup = get_llong_from_str(optarg);
- 			break;
-+		case '\3':
-+			params->buffer_size = get_llong_from_str(optarg);
-+			break;
- 		default:
- 			timerlat_hist_usage("Invalid option");
- 		}
-@@ -1179,6 +1185,12 @@ int timerlat_hist_main(int argc, char *argv[])
- 			if (retval)
- 				goto out_hist;
- 		}
-+
-+		if (params->buffer_size > 0) {
-+			retval = trace_set_buffer_size(&record->trace, params->buffer_size);
-+			if (retval)
-+				goto out_hist;
-+		}
- 	}
- 
- 	if (!params->no_aa) {
-diff --git a/tools/tracing/rtla/src/timerlat_top.c b/tools/tracing/rtla/src/timerlat_top.c
-index 0acfefe151f7..3a23e8d481c6 100644
---- a/tools/tracing/rtla/src/timerlat_top.c
-+++ b/tools/tracing/rtla/src/timerlat_top.c
-@@ -47,6 +47,7 @@ struct timerlat_top_params {
- 	int			kernel_workload;
- 	int			pretty_output;
- 	int			warmup;
-+	int			buffer_size;
- 	cpu_set_t		hk_cpu_set;
- 	struct sched_attr	sched_param;
- 	struct trace_events	*events;
-@@ -479,6 +480,7 @@ static void timerlat_top_usage(char *usage)
- 		"	  -k/--kernel-threads: use timerlat kernel-space threads instead of rtla user-space threads",
- 		"	  -U/--user-load: enable timerlat for user-defined user-space workload",
- 		"	     --warm-up s: let the workload run for s seconds before collecting data",
-+		"	     --trace-buffer-size kB: set the per-cpu trace buffer size in kB",
- 		NULL,
- 	};
- 
-@@ -547,13 +549,14 @@ static struct timerlat_top_params
- 			{"dump-tasks",		no_argument,		0, '4'},
- 			{"aa-only",		required_argument,	0, '5'},
- 			{"warm-up",		required_argument,	0, '6'},
-+			{"trace-buffer-size",	required_argument,	0, '7'},
- 			{0, 0, 0, 0}
- 		};
- 
- 		/* getopt_long stores the option index here. */
- 		int option_index = 0;
- 
--		c = getopt_long(argc, argv, "a:c:C::d:De:hH:i:knp:P:qs:t::T:uU0:1:2:345:6:",
-+		c = getopt_long(argc, argv, "a:c:C::d:De:hH:i:knp:P:qs:t::T:uU0:1:2:345:6:7:",
- 				 long_options, &option_index);
- 
- 		/* detect the end of the options. */
-@@ -716,6 +719,9 @@ static struct timerlat_top_params
- 		case '6':
- 			params->warmup = get_llong_from_str(optarg);
- 			break;
-+		case '7':
-+			params->buffer_size = get_llong_from_str(optarg);
-+			break;
- 		default:
- 			timerlat_top_usage("Invalid option");
- 		}
-@@ -973,6 +979,12 @@ int timerlat_top_main(int argc, char *argv[])
- 			if (retval)
- 				goto out_top;
- 		}
-+
-+		if (params->buffer_size > 0) {
-+			retval = trace_set_buffer_size(&record->trace, params->buffer_size);
-+			if (retval)
-+				goto out_top;
-+		}
- 	}
- 
- 	if (!params->no_aa) {
-diff --git a/tools/tracing/rtla/src/trace.c b/tools/tracing/rtla/src/trace.c
-index e1ba6d9f4265..170a706248ab 100644
---- a/tools/tracing/rtla/src/trace.c
-+++ b/tools/tracing/rtla/src/trace.c
-@@ -540,3 +540,18 @@ int trace_is_off(struct trace_instance *tool, struct trace_instance *trace)
- 
- 	return 0;
- }
-+
-+/*
-+ * trace_set_buffer_size - set the per-cpu tracing buffer size.
-+ */
-+int trace_set_buffer_size(struct trace_instance *trace, int size)
-+{
-+	int retval;
-+
-+	debug_msg("Setting trace buffer size to %d Kb\n", size);
-+	retval = tracefs_instance_set_buffer_size(trace->inst, size, -1);
-+	if (retval)
-+		err_msg("Error setting trace buffer size\n");
-+
-+	return retval;
-+}
-diff --git a/tools/tracing/rtla/src/trace.h b/tools/tracing/rtla/src/trace.h
-index 2e9a89a25615..c7c92dc9a18a 100644
---- a/tools/tracing/rtla/src/trace.h
-+++ b/tools/tracing/rtla/src/trace.h
-@@ -48,3 +48,4 @@ int trace_events_enable(struct trace_instance *instance,
- int trace_event_add_filter(struct trace_events *event, char *filter);
- int trace_event_add_trigger(struct trace_events *event, char *trigger);
- int trace_is_off(struct trace_instance *tool, struct trace_instance *trace);
-+int trace_set_buffer_size(struct trace_instance *trace, int size);
--- 
-2.44.0
+This could go on the previous line.
 
+			Example:  delay_use = 2.567
+
+> +					2.567 second delay
+
+This is obvious; I don't think you need to say it.
+
+>  
+>  	usb-storage.quirks=
+>  			[UMS] A list of quirks entries to supplement or
+> diff --git a/drivers/usb/storage/usb.c b/drivers/usb/storage/usb.c
+> index 90aa9c12ffac..c908cf2a8027 100644
+> --- a/drivers/usb/storage/usb.c
+> +++ b/drivers/usb/storage/usb.c
+> @@ -67,9 +67,121 @@ MODULE_AUTHOR("Matthew Dharm <mdharm-usb@one-eyed-alien.net>");
+>  MODULE_DESCRIPTION("USB Mass Storage driver for Linux");
+>  MODULE_LICENSE("GPL");
+>  
+> -static unsigned int delay_use = 1;
+> -module_param(delay_use, uint, S_IRUGO | S_IWUSR);
+> -MODULE_PARM_DESC(delay_use, "seconds to delay before using a new device");
+> +static unsigned int delay_use = 1 * MSEC_PER_SEC;
+> +
+> +/**
+> + * str_to_fixed_point_uint - parse an unsigned fixed-point decimal integer
+> + * @str: String to parse.
+> + * @ndecimals: Number of decimal places in the fixed-point value.
+> + * @val: Where to store the parsed value.
+> + *
+> + * Parse an unsigned fixed-point decimal value in @str, containing at
+> + * most ndecimal digits to the right of the decimal point.
+> + * Stores the parsed value in @val, scaled by 10^(@ndecimal).
+> + *
+> + * As with kstrtouint(), the string must be NUL-terminated and may
+> + * include a single newline before the terminating NUL.  The first
+> + * character may be a plus sign but not a minus sign.  The decimal
+> + * point and fractional digits are optional.
+> + *
+> + * Returns 0 on success, a negative error code otherwise.
+> + */
+> +static int str_to_fixed_point_uint(const char *str, int ndecimals,
+> +				   unsigned int *val)
+> +{
+> +	int n, n1, n2;
+> +	const char *p;
+> +	char *q;
+> +	char buf[16];
+> +
+> +	n = strlen(str);
+> +	if (n > 0 && str[n - 1] == '\n')
+> +		--n;
+> +
+> +	p = strnchr(str, n, '.');
+> +	if (p) {
+> +		n1 = p++ - str;
+> +		n2 = n - (n1 + 1);
+> +		if (n2 == 0 || n2 > ndecimals)
+> +			return -EINVAL;
+> +	} else {
+> +		n1 = n;
+> +		n2 = 0;
+> +	}
+> +	if (n1 == 0 || n1 + ndecimals > sizeof(buf) - 1)
+> +		return -EINVAL;
+
+There's no reason to rule out strings like ".5" or "2.".  Allow either n1 
+or n2 to be 0, as long as they aren't both 0.  (And even then, the code 
+would accept "+" or "+.", which is bizarre but not terrible.)
+
+> +
+> +	memcpy(buf, str, n1);
+> +	if (p)
+> +		memcpy(buf + n1, p, n2);
+> +	for (q = buf + n1 + n2; n2 < ndecimals; ++n2)
+> +		*q++ = '0';
+> +	*q = 0;
+> +
+> +	return kstrtouint(buf, 10, val);
+> +}
+> +
+> +/**
+> + * fixed_point_uint_to_str - parse into fixed-point decimal integer string
+> + * @val: Integer value to parse.
+> + * @ndecimals: Number of decimal places in the fixed-point value.
+> + * @str: Where to store the parsed string.
+> + * @size: The size of buffer for @str.
+> + *
+> + * Stores the parsed @val scaled by 10^(@ndecimal) into @str.
+> + * The string trailing fractional part '0' is trimmed.
+
+"Parse" is the wrong word here.  You parse a string to understand what it 
+means (so the previous function parses @str).  But here you're converting 
+an integer to a string; that's called "formatting".
+
+So the function's description should be: format a fixed-point decimal value 
+into a string.  @val is the integer value to format, scaled by 
+10^(@ndecimals), and @str is where to store the formatted string.
+
+> + *
+> + * Returns the number of characters written into @str.
+> + */
+> +static int fixed_point_uint_to_str(unsigned int val, int ndecimals,
+> +				   char *str, int size)
+> +{
+> +	unsigned int delay_ms = val;
+> +	unsigned int rem = do_div(delay_ms, int_pow(10, ndecimals));
+> +	int len;
+> +	char buf[16];
+> +
+> +	len = scnprintf(buf, sizeof(buf), "%d", delay_ms);
+> +	if (rem) {
+> +		char format[8];
+> +
+> +		snprintf(format, sizeof(format) - 1, ".%%0%dd", ndecimals);
+> +		len += scnprintf(buf + len, sizeof(buf) - len, format, rem);
+> +		while (buf[len - 1] == '0') {
+> +			buf[len - 1] = '\0';
+> +			if (--len <= 1)
+> +				break;
+> +		}
+
+Small simplification:  You know that len can never reach 0 because rem is 
+nonzero, and in any case buf contains a '.' somewhere.  So this loop 
+can be written as:
+
+		while (buf[--len] == '0')
+			buf[len] = 0;
+
+Alan Stern
+
+> +	}
+> +	return scnprintf(str, size, "%s\n", buf);
+> +}
+> +
+> +static int delay_use_set(const char *s, const struct kernel_param *kp)
+> +{
+> +	unsigned int delay_ms;
+> +	int ret;
+> +
+> +	ret = str_to_fixed_point_uint(skip_spaces(s), 3, &delay_ms);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	*((unsigned int *)kp->arg) = delay_ms;
+> +	return 0;
+> +}
+> +
+> +static int delay_use_get(char *s, const struct kernel_param *kp)
+> +{
+> +	unsigned int delay_ms = *((unsigned int *)kp->arg);
+> +
+> +	return fixed_point_uint_to_str(delay_ms, 3, s, PAGE_SIZE);
+> +}
+> +
+> +static const struct kernel_param_ops delay_use_ops = {
+> +	.set = delay_use_set,
+> +	.get = delay_use_get,
+> +};
+> +module_param_cb(delay_use, &delay_use_ops, &delay_use, 0644);
+> +MODULE_PARM_DESC(delay_use, "time to delay before using a new device");
+>  
+>  static char quirks[128];
+>  module_param_string(quirks, quirks, sizeof(quirks), S_IRUGO | S_IWUSR);
+> @@ -1066,7 +1178,7 @@ int usb_stor_probe2(struct us_data *us)
+>  	if (delay_use > 0)
+>  		dev_dbg(dev, "waiting for device to settle before scanning\n");
+>  	queue_delayed_work(system_freezable_wq, &us->scan_dwork,
+> -			delay_use * HZ);
+> +			msecs_to_jiffies(delay_use));
+>  	return 0;
+>  
+>  	/* We come here if there are any problems */
+> -- 
+> 2.17.1
+> 
+> 
