@@ -1,160 +1,119 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F46015253A
-	for <linux-doc@vger.kernel.org>; Thu, 25 Apr 2024 20:00:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B80A514D6F5
+	for <linux-doc@vger.kernel.org>; Thu, 25 Apr 2024 20:03:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714075257; cv=none; b=cmp5PgQnptdQfgkjiseIJBmxGFM3zqnIyCCdQgLYK2dtUJe03EteFnAaGVPB0HqtViNtnlZHod/uhpeKlxTwHBzyVgVb6U4g/hDXA7EwZc4TIIxNNDDkZCHz/04gn7Llm8A4Q3fdyBZ3RVwmgnVIks5kc23YDBzpx1WZfeJ25l8=
+	t=1714075393; cv=none; b=MYLtaPuAopxZRLZbOobDJTaiOCrWLwJDzN+Dftx0Vf+0VT89h2Z1O5EC7W/Waty/gr+Pcwi5YNN46PMAXFoOuTYluBa7UEREvYTrcwvWbINqS219dFpnV0zQoLI9ay61OjQgPm2NJl4258h6Xm/INUahZKWBA+R7WUddEaGU8zA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714075257; c=relaxed/simple;
-	bh=RsL33zhcB30tglM6Diadti+mLV67sxPKk763/larZbA=;
+	s=arc-20240116; t=1714075393; c=relaxed/simple;
+	bh=WXioVrdtqdg/+f7YVujTUAKyHs8jas6ZFL6qXIXYYN4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jEWI2YAlJ+lunKBZHMnwKxxT44hrR/5QKbxdkhXuHCuAQXcEWkNhkq7dBWEomTh1EF3GjBFqs5pkT+NPFWkSzlg1bRSk2SHWK5pRUheo64oYlETBJ8pA6vL85OshWusyEghtw1GcrlCfT6eWfI5k2/F+5F4uBXiBMoTybvRebOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=H8BEzjvY; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=OMLVYOnvFtAS6EfQoig2Ua4Hcg5KpvHHLGFZwkdjBBUnbBwJw+02VncZHtkrgcUJGfhkScG1yFapAerJ3eDl0JeRciWxcpkwzXS/Mu2w7G4G8D92+aMPqNZzzRZotD21oWPhf2ffPHeYNZ3fzX7IygiCvI4PxkU5qA8qE4t/qYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=eJFLEzEf; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="H8BEzjvY"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1e86d56b3bcso13079325ad.1
-        for <linux-doc@vger.kernel.org>; Thu, 25 Apr 2024 13:00:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1714075256; x=1714680056; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=MPiDO/NuWlBDCPQueU9revoy2ZKV+QsKTFlIIgwR/BM=;
-        b=H8BEzjvYMqd9ukWk6BvhUgQeVYcytWXhHIUNyPbExaAqZYsGAzPqnETc9g/TjD3XVE
-         Bc4cleGI/I5P0Vcg7omNm97w37kns1WF4/Xok9aUm1I4fKHJLZRc1rUPpZ+6ZVF+kGoJ
-         0EtfuNI17tu7FfsLTOP2omZwBxwNGabLaQiLw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714075256; x=1714680056;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MPiDO/NuWlBDCPQueU9revoy2ZKV+QsKTFlIIgwR/BM=;
-        b=LrBFdLqOtfREMuSWS3YYgUpAmfpk59+ZJoBQ58+ttS3wZw9wuBleAU10NPhunnT6nw
-         GmTjPtrtQnZ35NBEkFtOs/UNtJKiloDbyqhvEls7QxnfXCcR2hcLfc0ldP7b+cT92yUG
-         d2tvQDIHSBzko9Sl6SPly74HaGu3ycykbjugYchr8PCjBf2z6HLBlrqehO4eW7fFA0tx
-         b5YTn/glm0gLC2aeJmHkbCk/Z0NEjhIrixQMGGukwWZB2H8MkogcTfdIpH23mcUXoXug
-         v340nBYLOJe6FKjiullpSzyPuL+F3ck8sK6uJ4hnDlW6Rwe418ZbRo212x6ipG1OpUyi
-         4Pog==
-X-Forwarded-Encrypted: i=1; AJvYcCUHNqlwidb3BvJcymFNuD83Oi61r2B9bMtzjjpT//bBxSLcAEYtLuo4MUDK5bEv38SpJe4ggoQQonR0s177P7bqjjoBRj/uhW/h
-X-Gm-Message-State: AOJu0YzfvMSk+rM/TM/+a9uYv5QEdwJT/62I1fCndoRjD8t0TshkWKQK
-	dcqWE9BI94lROe3t7miHfhs1bn4MyUXsOUUuvkWE1/D0l542+pzu33SEX3rurQ==
-X-Google-Smtp-Source: AGHT+IE6JexzSiX4UEJL+PmTLg5gqo1fs/oXapxe/m5ukwMdDHkh0tlGukFG1HB8DiSr+x/ZzZPsrg==
-X-Received: by 2002:a17:902:e5c9:b0:1e3:f27c:457d with SMTP id u9-20020a170902e5c900b001e3f27c457dmr603222plf.65.1714075255870;
-        Thu, 25 Apr 2024 13:00:55 -0700 (PDT)
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id q5-20020a17090311c500b001d8f81ecea1sm14246157plh.172.2024.04.25.13.00.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Apr 2024 13:00:55 -0700 (PDT)
-Date: Thu, 25 Apr 2024 13:00:54 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: Kent Overstreet <kent.overstreet@linux.dev>, akpm@linux-foundation.org,
-	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org,
-	roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net,
-	willy@infradead.org, liam.howlett@oracle.com,
-	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net,
-	void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com,
-	catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
-	tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
-	x86@kernel.org, peterx@redhat.com, david@redhat.com,
-	axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
-	nathan@kernel.org, dennis@kernel.org, jhubbard@nvidia.com,
-	tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org,
-	paulmck@kernel.org, pasha.tatashin@soleen.com,
-	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
-	hughd@google.com, andreyknvl@gmail.com, ndesaulniers@google.com,
-	vvvvvv@google.com, gregkh@linuxfoundation.org, ebiggers@google.com,
-	ytcoode@gmail.com, vincent.guittot@linaro.org,
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-	bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
-	penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
-	glider@google.com, elver@google.com, dvyukov@google.com,
-	songmuchun@bytedance.com, jbaron@akamai.com, aliceryhl@google.com,
-	rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
-	kernel-team@android.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-modules@vger.kernel.org,
-	kasan-dev@googlegroups.com, cgroups@vger.kernel.org
-Subject: Re: [PATCH v6 00/37] Memory allocation profiling
-Message-ID: <202404251254.FE91E2FD8@keescook>
-References: <20240321163705.3067592-1-surenb@google.com>
- <202404241852.DC4067B7@keescook>
- <3eyvxqihylh4st6baagn6o6scw3qhcb6lapgli4wsic2fvbyzu@h66mqxcikmcp>
- <CAJuCfpFtj7MVY+9FaKfq0w7N1qw8=jYifC0sBUAySk=AWBhK6Q@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="eJFLEzEf"
+Received: from cwcc.thunk.org (pool-173-48-113-2.bstnma.fios.verizon.net [173.48.113.2])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 43PK2dnR005391
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 25 Apr 2024 16:02:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1714075362; bh=Bamg4HkyQPSYLLg77yTDxKCM/KPuzg9eu2jBw6RdVcs=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=eJFLEzEf1SyXcvEiSayjxa9Hx02TtusRy2q5hXuWSQ7StYHMiOO82WgV5KJ7rRLF2
+	 NM+izZeevaTc/i7NzhNHbXngrJ848lG+SMfY4nxfOQMdeuBJVKrkqaS1XMsk6RC1zK
+	 DHbXfZs3DpNChxW283xJcU/8oNacLe+UImu2JHjb27LPO7+D6DAJ+YWdNH6o7QtML1
+	 nRQB9rZfyrU0t0sobd9Ppeoxf+0yRz5L54AqS8rAU1AcC10P+zrFeIJGOGh9l9tEDr
+	 ZPMU26HPT1Mc8NMBPVlFVRPTEiXYoIg0lD66djSqgjoduFhsNTB4mUhi1XMT7E6YQk
+	 tUl8LPQRL3P1w==
+Received: by cwcc.thunk.org (Postfix, from userid 15806)
+	id 9B47E15C0CBA; Thu, 25 Apr 2024 16:02:39 -0400 (EDT)
+Date: Thu, 25 Apr 2024 16:02:39 -0400
+From: "Theodore Ts'o" <tytso@mit.edu>
+To: "Bilbao, Carlos" <carlos.bilbao@amd.com>
+Cc: Josh Marshall <joshua.r.marshall.1991@gmail.com>, ngn <ngn@ngn.tf>,
+        linux-newbie@vger.kernel.org,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, pranjal.singh4370@gmail.com,
+        "bilbao@vt.edu" <bilbao@vt.edu>
+Subject: Re: Feedback on my development setup
+Message-ID: <20240425200239.GB3749403@mit.edu>
+References: <CAPzh0z8RySn429XYQHoP_c9UA+pb6SLHGhH40vQDhc3P2xiysQ@mail.gmail.com>
+ <CAFkJGRfK=1f8tfWO8G0v8SOmCwCgK7P5y7g2My47VG6Obb1DNw@mail.gmail.com>
+ <ZiE9ydgMtpKOBLDk@archbtw>
+ <CAFkJGRddGHK0j4CcQUoRKiD3afniLY=rRV5npY5wpauqqY0XZg@mail.gmail.com>
+ <CAFkJGRdFuMoO4_mR-cR1NWjKQJnopN0v1R11-jSnLn+FKcOCdg@mail.gmail.com>
+ <CAFkJGRcg+ThJ-xUve0=WorChW=-6PreLHXeM8YwtwzwpkHTu8g@mail.gmail.com>
+ <CAFkJGRcgJA4qe1AVi23ZQVPr_UEzkTBPH8f30g=OsKmii7QzQw@mail.gmail.com>
+ <ZiKYXX-v0Eu-qCBt@archbtw>
+ <CAFkJGRdjvebW6u6pyyA_MeHsoecRgYjiVrxoWYWsREdYH9iOFQ@mail.gmail.com>
+ <7ba7cff1-8d9d-4bc3-a74c-6f6828c9195e@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJuCfpFtj7MVY+9FaKfq0w7N1qw8=jYifC0sBUAySk=AWBhK6Q@mail.gmail.com>
+In-Reply-To: <7ba7cff1-8d9d-4bc3-a74c-6f6828c9195e@amd.com>
 
-On Thu, Apr 25, 2024 at 08:39:37AM -0700, Suren Baghdasaryan wrote:
-> On Wed, Apr 24, 2024 at 8:26 PM Kent Overstreet
-> <kent.overstreet@linux.dev> wrote:
-> >
-> > On Wed, Apr 24, 2024 at 06:59:01PM -0700, Kees Cook wrote:
-> > > On Thu, Mar 21, 2024 at 09:36:22AM -0700, Suren Baghdasaryan wrote:
-> > > > Low overhead [1] per-callsite memory allocation profiling. Not just for
-> > > > debug kernels, overhead low enough to be deployed in production.
-> > >
-> > > Okay, I think I'm holding it wrong. With next-20240424 if I set:
-> > >
-> > > CONFIG_CODE_TAGGING=y
-> > > CONFIG_MEM_ALLOC_PROFILING=y
-> > > CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT=y
-> > >
-> > > My test system totally freaks out:
-> > >
-> > > ...
-> > > SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=4, Nodes=1
-> > > Oops: general protection fault, probably for non-canonical address 0xc388d881e4808550: 0000 [#1] PREEMPT SMP NOPTI
-> > > CPU: 0 PID: 0 Comm: swapper Not tainted 6.9.0-rc5-next-20240424 #1
-> > > Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 0.0.0 02/06/2015
-> > > RIP: 0010:__kmalloc_node_noprof+0xcd/0x560
-> > >
-> > > Which is:
-> > >
-> > > __kmalloc_node_noprof+0xcd/0x560:
-> > > __slab_alloc_node at mm/slub.c:3780 (discriminator 2)
-> > > (inlined by) slab_alloc_node at mm/slub.c:3982 (discriminator 2)
-> > > (inlined by) __do_kmalloc_node at mm/slub.c:4114 (discriminator 2)
-> > > (inlined by) __kmalloc_node_noprof at mm/slub.c:4122 (discriminator 2)
-> > >
-> > > Which is:
-> > >
-> > >         tid = READ_ONCE(c->tid);
-> > >
-> > > I haven't gotten any further than that; I'm EOD. Anyone seen anything
-> > > like this with this series?
-> >
-> > I certainly haven't. That looks like some real corruption, we're in slub
-> > internal data structures and derefing a garbage address. Check kasan and
-> > all that?
+On Tue, Apr 23, 2024 at 11:39:59AM -0500, Bilbao, Carlos wrote:
 > 
-> Hi Kees,
-> I tested next-20240424 yesterday with defconfig and
-> CONFIG_MEM_ALLOC_PROFILING enabled but didn't see any issue like that.
-> Could you share your config file please?
+> If I may offer a suggestion, focusing on documenting the challenges you've
+> encountered with KVM, etc., could be more valuable that trying to cover
+> everything.
 
-Well *that* took a while to .config bisect. I probably should have found
-it sooner, but CONFIG_DEBUG_KMEMLEAK=y is what broke me. Without that,
-everything is lovely! :)
+Many people have their own scripts for building and testing kernels.
+Very often those scripts tend to be specialized for a particular use
+case, or development workflow, and trying to enshrine it as _the_ way
+to develop kernels may not all that helpful.
 
-I can reproduce it now with:
+For example, my preferred workflow, and the one which I recommend to
+people who want to contribute to my file system, will build kernels
+which can then be used to run tests using either kvm/qemu, Google
+Compute Engine, or on Android devices.  It's also a bit more turn-key
+that the instructions that you've given which is both a plus and a
+minus.  On the plus side, it means much easier to get started, and
+they don't have to cut and paste expect scripts, and manually edit
+kernel config files.  On the minus side, because a lot of the steps
+are automated, people don't have as much of an opportunity to learn
+about what various kernel config options mean.
 
-$ make defconfig kvm_guest.config
-$ ./scripts/config -e CONFIG_MEM_ALLOC_PROFILING -e CONFIG_DEBUG_KMEMLEAK
+If you're interested, documentation for my scripts can be found here:
 
--Kees
+https://github.com/tytso/xfstests-bld/blob/master/Documentation/kvm-quickstart.md
+https://github.com/tytso/xfstests-bld/blob/master/Documentation/kvm-xfstests.md
+https://thunk.org/gce-xfstests
 
--- 
-Kees Cook
+The short version is after you've downloaded the git tree, installed
+the binaries via "make install", and installed some package
+dependencies, setting up a kernel config which is suitable for KVM, a
+GCE VM, or Android, is done via:
+
+	install-kconfig
+
+Then building a kernel is done via:
+
+	kbuild
+
+And then running said kernel under KVM is done via:
+
+	kvm-xfstests shell
+
+Or if you want to run a file system smoke test:
+
+	kvm-xfstests smoke
+
+It was designed so that even graduate students who have no interest in
+kernel development other than getting their FAST academic paper
+published, can use it to test their research file systems, hopefully
+helping them to understand the gulf that can sometimes exist between
+research prototypes and production file systems.  :-)
+
+	       	      	      	    - Ted
