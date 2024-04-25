@@ -1,92 +1,113 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB3F914A4C7;
-	Thu, 25 Apr 2024 15:14:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F3E814B088;
+	Thu, 25 Apr 2024 15:36:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714058058; cv=none; b=CjPFaj16mVTT/fBBi09UCwsmNVpPVS8VTMolaGowWF/2ARtWHyuQHlUvxyrTbusOTARSXO9EN+prp0TPVBDZd5+7epY0gY+V70m0kfEog62Qi7fFoSzluYqy1b/7XNlPHyo2GeGgQS1vrrIIRcFiV9mtq5Z9euzh04gGP24cyCc=
+	t=1714059391; cv=none; b=NtuFkiPtwsst2H/WPeiiPEwhICvcvAdq21ooX1uQNDuoXF+Newg9+1+o8dpzFj35rJDFY5XvDUtK5aEGbKSPMzejL7DeyhkRX4csXMeedK4dAVPRgv2UKu3f+XdN05AXnD8s6Cyq7Xj1fQ//qIVrX0H8LAZkcHGYgDhbTDVJvE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714058058; c=relaxed/simple;
-	bh=FI3RHSIowKSjYMHW9athi9aPj4X022XHsvU7EV9JCVQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=mVVNleHIxE1uNcQy2RMQ6LgDjI55zs3IM3uhOmC7t34tIHBV3X90NiIDS1ytOPT7IZjcfyeZBA7SX/N8JDsC63DPAsWGYiw85dKbnoArxOBKN9Rrm/8n/tOsjuTO9JIdNojZSL1AcALamLQqstaYXg2gfdvGhu/V0ojcWdbVLgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=hxId7Fkg; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1714059391; c=relaxed/simple;
+	bh=+aPFoqgCJiCF8M7Yr4hYUX9uwXga+n9jEz+TsIPCY1w=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=QAOe1Tn2/O6OEx02bkkZhYo974SdAh+lJv0LxBzKxbizQ4VgmOvee60bFahfoYYuKdCQ5TCKnZs6t9Q2u6cXdZbVa8g2ZLgbgA47EkkisB9RNZp9DK0ZHHhQL3YvY+DlD8Q7641WS6WyGD+XF9zHCuVKBUfJNt2c8yDhzuc247Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a7pW6ddM; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="hxId7Fkg"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 647A147C47
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1714058051; bh=zRLn1xnHbzW1iSNGc1RtWHcYvxK+sTgqStID0oZY19Q=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=hxId7FkgqOtzNRRQ6ldPYv69235a/06e/72CfMJOdsWyo9NgTl9GQmMWmoHR77ahG
-	 Aek12K4asZSA0PTTuP31n7IR36wPB83fyUKBPx/+XYc7rWq8px0u0GRr+WoRgefKOs
-	 ouazQsWZQ2bZyT+SVh6473LTXaoPpKn3lq1rDL9wL1xH00dD+8QVAMSKqPdTh/P3he
-	 i5VYGc1bQC6wKTwP04IFYFeho4oXVckzm7WstoJZXh5pAOhIUy6LvPSsoJqyyqa/Ib
-	 F6bQH26qCEOJ5SUKc5bhd8tx6jFc76CDa9awbxMf4+1fJfTUphLPTIkGWauduGutL0
-	 ol8JMC+nQ45BA==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 647A147C47;
-	Thu, 25 Apr 2024 15:14:11 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Josh Marshall <joshua.r.marshall.1991@gmail.com>, "Bilbao, Carlos"
- <carlos.bilbao@amd.com>
-Cc: ngn <ngn@ngn.tf>, linux-newbie@vger.kernel.org,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- pranjal.singh4370@gmail.com, "bilbao@vt.edu" <bilbao@vt.edu>
-Subject: Re: Feedback on my development setup
-In-Reply-To: <CAFkJGRfPinGR30oRJNxiYpib5JCaA3f5D672noR-x_3Gq2UBSA@mail.gmail.com>
-References: <CAFkJGRc824vYEufG=6ZVPAW2iVpd0NDThJadZVrUk_ZND_qJag@mail.gmail.com>
- <Zh6Xbqijp8rRGo1H@archbtw>
- <CAFkJGRe+UpNPSnSL623o6G+NCkK_uGPx-NCNLQx0vSGpMo98eg@mail.gmail.com>
- <CAPzh0z8RySn429XYQHoP_c9UA+pb6SLHGhH40vQDhc3P2xiysQ@mail.gmail.com>
- <CAFkJGRfK=1f8tfWO8G0v8SOmCwCgK7P5y7g2My47VG6Obb1DNw@mail.gmail.com>
- <ZiE9ydgMtpKOBLDk@archbtw>
- <CAFkJGRddGHK0j4CcQUoRKiD3afniLY=rRV5npY5wpauqqY0XZg@mail.gmail.com>
- <CAFkJGRdFuMoO4_mR-cR1NWjKQJnopN0v1R11-jSnLn+FKcOCdg@mail.gmail.com>
- <CAFkJGRcg+ThJ-xUve0=WorChW=-6PreLHXeM8YwtwzwpkHTu8g@mail.gmail.com>
- <CAFkJGRcgJA4qe1AVi23ZQVPr_UEzkTBPH8f30g=OsKmii7QzQw@mail.gmail.com>
- <ZiKYXX-v0Eu-qCBt@archbtw>
- <CAFkJGRdjvebW6u6pyyA_MeHsoecRgYjiVrxoWYWsREdYH9iOFQ@mail.gmail.com>
- <7ba7cff1-8d9d-4bc3-a74c-6f6828c9195e@amd.com>
- <CAFkJGRe7DVpcr+VKouTYzBK5r905W4xmxphU11AA6uB8Oj5FJQ@mail.gmail.com>
- <CAFkJGRdu+Ng3APAQAEQntbspXrVNzg_=b2Cd6n0wsFY5m=vWzw@mail.gmail.com>
- <e47385b9-cbab-465e-8c8d-3bbad57415aa@amd.com>
- <CAFkJGRfPinGR30oRJNxiYpib5JCaA3f5D672noR-x_3Gq2UBSA@mail.gmail.com>
-Date: Thu, 25 Apr 2024 09:14:10 -0600
-Message-ID: <87o79xqxtp.fsf@meer.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a7pW6ddM"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1e65a1370b7so10391945ad.3;
+        Thu, 25 Apr 2024 08:36:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714059390; x=1714664190; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=GS1z28aJanup/6e1AA7r2VX25gfbel/TmqZZU+ll62s=;
+        b=a7pW6ddMPgUsrd98BZr9Mu7Eaa+vHe4YdFFFQ/AI+0g97SLeam5DHbcQgZoiHDEntM
+         UbgZRFK9up+H9rYB9+WuynWR5GjAcyZNVhBcTvE89bonchBRMzZh/a+QIhTmVlKjMqb0
+         AWoA5nWngqrhsVFrqg+VnciGo2CuMHA9iFRVSVOGMjcKe2kfgREmMyQUoD9DVIK9LcUH
+         bO3igtU/IZUjUPT4hgi0mQyJmH8+Ocheyxzen6UIQC3zbQMzzHEf1ClzPodllH+F8+QN
+         5gD8P3o469Hf3FxtX4N7Q0Xdj2ovLxrivaB7do2278y8lUu3nM+Qj4cnT7eQpj4EzE45
+         9X7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714059390; x=1714664190;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GS1z28aJanup/6e1AA7r2VX25gfbel/TmqZZU+ll62s=;
+        b=iPduJjlsr8+iq4OAafeAJXoLN9vThOwZoTnac2uDfvJRn0NwtHbSnlMUIxFlaKhrBc
+         4zwEt42rdgIH17puOfSZfa3ZYnR8xFgzzlR5j/d/5xb0lGtS6rIEKq25XX0PBKBH9V5I
+         yMsHN+VrJuMtXizPGQWr4g9QnE1JXfdK268X2Wiz0+f6G1FTIYs20yAPCtsfCEVB0sCC
+         jkdO9yLLaVg89aLdNJyFCv2soizCuz4IR3Wvd+cNtj6DHEJlApNVvc2cOkUhQk/ebbcD
+         9VR5pYdqggFzRJruS/OPm5rk2o1Puo4dJREX9CGwy6RWE1f6udFBXjCskujRHGpZTx6y
+         ZM1w==
+X-Forwarded-Encrypted: i=1; AJvYcCUbC5jvtw5Fb7SShDo0L4O4/fywZvDnKowp+DZ9AZYg/k/eZBKsTFXFCXllIJKp4xHU/F2DZPTilMTI8OIN05q+inOgbD6qsZSOHyLueTe537oXAJetADcWg0fZTXUROVWu0AaFBxUCoyS98fSE/pFFPEY3FgfYDg6efOHPXusuQ29WDd6J4z2SzA2V72rLoqfJKn62sX6BjNOyONg2Iv9QEJk3ugUtC40MVFPp8WtCA+ieaOCC7+nKLHwX
+X-Gm-Message-State: AOJu0YxwkXrB7HkNxxyU83zULNE4hnbVTdp6wX08QOZSYD71YJcyo8hi
+	TFKBXJRDCY+wSb6R759oxwXBerVixsc35IQS3qzz/geNVPdISN4O
+X-Google-Smtp-Source: AGHT+IEtJbhAjxpnnQqboxzHuIy6txTTUH7xBz9RLkcu4O8HBERS80H4hbPWdi3yLllYxjSYxfHtWQ==
+X-Received: by 2002:a17:902:ec92:b0:1e2:7717:d34e with SMTP id x18-20020a170902ec9200b001e27717d34emr9132797plg.58.1714059389744;
+        Thu, 25 Apr 2024 08:36:29 -0700 (PDT)
+Received: from peter-bmc.dhcpserver.bu9bmc.local (1-34-21-66.hinet-ip.hinet.net. [1.34.21.66])
+        by smtp.gmail.com with ESMTPSA id bi2-20020a170902bf0200b001e27ad5199csm13852586plb.281.2024.04.25.08.36.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Apr 2024 08:36:29 -0700 (PDT)
+From: Peter Yin <peteryin.openbmc@gmail.com>
+To: patrick@stwcx.xyz,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>,
+	Patrick Rudolph <patrick.rudolph@9elements.com>,
+	Andre Werner <andre.werner@systec-electronic.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-i2c@vger.kernel.org
+Subject: [PATCH v2 0/2] hwmon: (pmbus) Add support for Infineon XDP710
+Date: Thu, 25 Apr 2024 23:36:00 +0800
+Message-Id: <20240425153608.4003782-1-peteryin.openbmc@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Josh Marshall <joshua.r.marshall.1991@gmail.com> writes:
+Add support for xdp710 device from Infineon vendor.
+This is a Hot-Swap Controller.
 
-> Hello Carlos,
->
-> This is a generational shift.  For my peers, we understand the benefit
-> of keeping everything in a thread.  But at some point it becomes so
-> verbose and cumbersome as to defeat the purpose.  The size of the text
-> I'm working with and the number of text changes it has seen meets that
-> level.  And so I've kept it in git and referenced that.
+Change log:
+v1 -> v2
+    - Merged patch 3 into patch 1.
+    - Modified comments.
+    - Fixed the microOhmRsense array.
+    - Improved operational accuracy.
 
-Nonetheless, you are trying to engage with the kernel community, and
-will have far better results if you follow that community's norms.
-Those include sending patches by email and not top posting.
+v1
+    - Add support for xdp710 hot-swap device from Infineon vendor
+---
 
-They also include listening to the advice you are being given.  Like
-others, I appreciate your efforts to improve our documentation; it
-certainly needs it!  But please think about improving the *existing*
-documentation, rather than creating yet another file, disconnected from
-the rest.  We already have far too much of that.
+Peter Yin (2):
+  hwmon: (pmbus) Add support for Infineon XDP710
+  dt-bindings: hwmon: Add infineon xdp710 driver bindings
 
-Thanks,
+ .../devicetree/bindings/trivial-devices.yaml  |   2 +
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/xdp710.rst                |  83 +++++++++++
+ drivers/hwmon/pmbus/Kconfig                   |   9 ++
+ drivers/hwmon/pmbus/Makefile                  |   1 +
+ drivers/hwmon/pmbus/xdp710.c                  | 132 ++++++++++++++++++
+ 6 files changed, 228 insertions(+)
+ create mode 100644 Documentation/hwmon/xdp710.rst
+ create mode 100644 drivers/hwmon/pmbus/xdp710.c
 
-jon
+-- 
+2.25.1
+
