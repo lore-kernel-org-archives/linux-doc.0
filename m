@@ -1,109 +1,204 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D556A34F
-	for <linux-doc@vger.kernel.org>; Thu, 25 Apr 2024 20:14:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 971C7153801;
+	Thu, 25 Apr 2024 20:23:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714076086; cv=none; b=OwQcgS6gtDGcTczxssvPiF/LAZPOjPNgII0izSL8ooA0CIqLjeH2epjM97NkSeEn9UGfjx8raOcMZUOG5ZyORWH2dm9yM6UO/fssFfRxqesjuZjiZnc4PFUY3wmujZUQF8jiLIZNSZ6yPeRol5IRPhhvVzEowKSflffzFnG4zmk=
+	t=1714076641; cv=none; b=pqDImpkrU10LEOOWQvYk9uo6AeVgU/uWSy9GXqZ/NTGQ8HVHGLTTudczVzXlFoEG+iQ+d0CJ7vdwh2C0pld4Oq/G9mse8vgskJrXZicMXaUGeGOp7UZ+qjOt1D/aDEKsm00umoyif/CdYA+CL8a99quBf2HchDVdW94dRreI+7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714076086; c=relaxed/simple;
-	bh=qjFKtsoAKCz0ScKoe6yzt15InsGEID68ILFHrtMbLCw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sOi+jbQSmBh3H7H1bGJ2NXOsDV1tRYRthhKSlgmnSbdaDOF3KLUd4Z1mKCeqA5USgVIZuam0S0xL6e2xOjMDneH1OwdFNoBvjTSJbnHqZujfJoS/uaSt3fHKs0kRVpTT/BcaRoVUHPJd6P2AKNdkEpVglAVtVjYkKjguIe1tmxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=hqSDzkI1; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	s=arc-20240116; t=1714076641; c=relaxed/simple;
+	bh=08WPogXj9ccCunrIcH7Gsf5VsfCJT+2vSloyAfgVOpo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=E6vxXiPbziu6LLIrSQOLXQjR7psCrTHUwvCdyOA4VPVg4m6W2ukEofQhfb4Z+abiBZErrbWpJ8E6dmpRkk3h6nLGQMgDMg4DxRWNCjF41lDOxKG0Gm/v1t/bL2KD9F/SnnVo6regPER9wdfvcI29bQB88MTy4x/SoyETGgcDcGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=QzRFHDNM; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="hqSDzkI1"
-Received: from cwcc.thunk.org (pool-173-48-113-2.bstnma.fios.verizon.net [173.48.113.2])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 43PKERbt012079
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 25 Apr 2024 16:14:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1714076069; bh=NABw6fRRVPQSSx2uzfH9QlrfV+blNnHcxwPSqibtEds=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=hqSDzkI1f6rWdtqkz9/qJAnEa48MpHW6FwruYovbhKJ1o6TaA5hLYZU/e4W+BkVLu
-	 nbTxWSN0UqM6JjXrppYmCz1OE+P/51bj50FEkm3U/1E+QAJeqMU07LkrFuKwF9ccgy
-	 VTcvUR88TE9xpLi/VYcEmgnKILxfg1C58V1W1aT2USCNLZNX4rFRDuha7K7HKCqoDp
-	 FUwt7R+1TNG89A0WzHpKyY+QI6PqVP4NKmS+NVJdGlfK8TOqg+l/e7KZAJ3tFJmTF3
-	 NyNIbEWrZSMH+76Afg/8MmcES50AMb4hVDzL5uTt//EeCp8PNlPHOtTjhFyEWHEcFc
-	 Z3QaR0cURfY3A==
-Received: by cwcc.thunk.org (Postfix, from userid 15806)
-	id 52FA515C0CBA; Thu, 25 Apr 2024 16:14:27 -0400 (EDT)
-Date: Thu, 25 Apr 2024 16:14:27 -0400
-From: "Theodore Ts'o" <tytso@mit.edu>
-To: Josh Marshall <joshua.r.marshall.1991@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, "Bilbao, Carlos" <carlos.bilbao@amd.com>,
-        ngn <ngn@ngn.tf>, linux-newbie@vger.kernel.org,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        pranjal.singh4370@gmail.com, "bilbao@vt.edu" <bilbao@vt.edu>
-Subject: Re: Feedback on my development setup
-Message-ID: <20240425201427.GC3749403@mit.edu>
-References: <CAFkJGRcgJA4qe1AVi23ZQVPr_UEzkTBPH8f30g=OsKmii7QzQw@mail.gmail.com>
- <ZiKYXX-v0Eu-qCBt@archbtw>
- <CAFkJGRdjvebW6u6pyyA_MeHsoecRgYjiVrxoWYWsREdYH9iOFQ@mail.gmail.com>
- <7ba7cff1-8d9d-4bc3-a74c-6f6828c9195e@amd.com>
- <CAFkJGRe7DVpcr+VKouTYzBK5r905W4xmxphU11AA6uB8Oj5FJQ@mail.gmail.com>
- <CAFkJGRdu+Ng3APAQAEQntbspXrVNzg_=b2Cd6n0wsFY5m=vWzw@mail.gmail.com>
- <e47385b9-cbab-465e-8c8d-3bbad57415aa@amd.com>
- <CAFkJGRfPinGR30oRJNxiYpib5JCaA3f5D672noR-x_3Gq2UBSA@mail.gmail.com>
- <87o79xqxtp.fsf@meer.lwn.net>
- <CAFkJGRf+K7iGY+TJQu3RDuUv_Xna4BMZmEfeuhHJ0JPg3KQmTg@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="QzRFHDNM"
+Received: from [10.137.106.151] (unknown [167.220.2.23])
+	by linux.microsoft.com (Postfix) with ESMTPSA id E234E20FD4CE;
+	Thu, 25 Apr 2024 13:23:57 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E234E20FD4CE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1714076638;
+	bh=Ut792Bm4cIOYNOqotGiFt26HJ/65wP94SVse6cZs0cU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=QzRFHDNMdopqkGKA5TUBtW0Vrr3/py/nBJLRMF/wnzbWNulqxJ+g+rYqSg6zSRn4u
+	 yqOzz8YbPOQKDxvZ8OnHbTca+U6PA2Jycw+u/5fF4Z6Qg6OF0aUBky68HRJfknZSPc
+	 F2+OF3hzpfon+VEwQmF4/xiOd8H7SpBuHHnSPphQ=
+Message-ID: <6cf278b3-32f2-4665-be8d-ea6605f4318b@linux.microsoft.com>
+Date: Thu, 25 Apr 2024 13:23:57 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFkJGRf+K7iGY+TJQu3RDuUv_Xna4BMZmEfeuhHJ0JPg3KQmTg@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v17 13/21] dm verity: consume root hash digest and expose
+ signature data via LSM hook
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
+ tytso@mit.edu, axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
+ eparis@redhat.com, paul@paul-moore.com, linux-doc@vger.kernel.org,
+ linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
+ fsverity@lists.linux.dev, linux-block@vger.kernel.org,
+ dm-devel@lists.linux.dev, audit@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Deven Bowers <deven.desai@linux.microsoft.com>
+References: <1712969764-31039-1-git-send-email-wufan@linux.microsoft.com>
+ <1712969764-31039-14-git-send-email-wufan@linux.microsoft.com>
+ <20240425035647.GC1401@sol.localdomain>
+Content-Language: en-CA
+From: Fan Wu <wufan@linux.microsoft.com>
+In-Reply-To: <20240425035647.GC1401@sol.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Apr 25, 2024 at 01:08:36PM -0400, Josh Marshall wrote:
+
+
+On 4/24/2024 8:56 PM, Eric Biggers wrote:
+> On Fri, Apr 12, 2024 at 05:55:56PM -0700, Fan Wu wrote:
+>> dm verity: consume root hash digest and expose signature data via LSM hook
 > 
-> I cannot abide by this.  Not out of obstinance.  This document is not
-> written for a veteran.  It probably isn't even written for anyone on
-> this list.  It is meant to be much more approachable than that.
-> Comparing to the closest existing document at
-> https://docs.kernel.org/dev-tools/gdb-kernel-debugging.html , the
-> difference in intended audience and skill level is stark.  Let alone
-> being able to find that document since it is so buried relative to the
-> intent of someone trying to get started.  I have heard several times "
-> you should rather improve existing docs" but without really breaking
-> into all the implications that 'just' doesn't help.  Given the back
-> and forth required to express the finesse here, I am willing to have a
-> phone or video call to get this right.
+> As in the fsverity patch, nothing is being "consumed" here.  This patch adds a
+> supplier, not a consumer.  I think you mean something like: expose root digest
+> and signature to LSMs.
+> 
+Thanks for the suggestion.
 
-Just as there are dozens of git tutorials which are floating around
-the web which are separate from the official git documentation, if
-what you want is to have an unofficial document designed for a
-specific audience which is not the "vetran", that's totally fine.
+>> diff --git a/drivers/md/dm-verity-target.c b/drivers/md/dm-verity-target.c
+>> index bb5da66da4c1..fbb83c6fd99c 100644
+>> --- a/drivers/md/dm-verity-target.c
+>> +++ b/drivers/md/dm-verity-target.c
+>> @@ -22,6 +22,8 @@
+>>   #include <linux/scatterlist.h>
+>>   #include <linux/string.h>
+>>   #include <linux/jump_label.h>
+>> +#include <linux/security.h>
+>> +#include <linux/dm-verity.h>
+>>   
+>>   #define DM_MSG_PREFIX			"verity"
+>>   
+>> @@ -1017,6 +1019,38 @@ static void verity_io_hints(struct dm_target *ti, struct queue_limits *limits)
+>>   	blk_limits_io_min(limits, limits->logical_block_size);
+>>   }
+>>   
+>> +#ifdef CONFIG_SECURITY
+>> +
+>> +static int verity_init_sig(struct dm_verity *v, const void *sig,
+>> +			   size_t sig_size)
+>> +{
+>> +	v->sig_size = sig_size;
+>> +	v->root_digest_sig = kmemdup(sig, v->sig_size, GFP_KERNEL);
+>> +	if (!v->root_digest)
+>> +		return -ENOMEM;
+> 
+> root_digest_sig, not root_digest
+> 
+Thanks for pointing out!
 
-Perhaps you can work with the kernel newbies folks, and look at
-joining forces with their documentation, e.g.:
+>> +#ifdef CONFIG_SECURITY
+>> +
+>> +static int verity_finalize(struct dm_target *ti)
+>> +{
+>> +	struct block_device *bdev;
+>> +	struct dm_verity_digest root_digest;
+>> +	struct dm_verity *v;
+>> +	int r;
+>> +
+>> +	v = ti->private;
+>> +	bdev = dm_disk(dm_table_get_md(ti->table))->part0;
+>> +	root_digest.digest = v->root_digest;
+>> +	root_digest.digest_len = v->digest_size;
+>> +	root_digest.alg = v->alg_name;
+>> +
+>> +	r = security_bdev_setintegrity(bdev, LSM_INT_DMVERITY_ROOTHASH, &root_digest,
+>> +				       sizeof(root_digest));
+>> +	if (r)
+>> +		return r;
+>> +
+>> +	r = security_bdev_setintegrity(bdev,
+>> +				       LSM_INT_DMVERITY_SIG_VALID,
+>> +				       v->root_digest_sig,
+>> +				       v->sig_size);
+> 
+> The signature is only checked if CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG=y, whereas
+> this code is built whenever CONFIG_SECURITY=y.
+> 
+> So this seems like the same issue that has turned up elsewhere in the IPE
+> patchset, where IPE is (apparently) happy with any signature, even one that
+> hasn't been checked...
+> 
 
-	https://kernelnewbies.org/FirstKernelPatch
+Yes I do agree the second hook call should better depend on 
+CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG=y.
 
-The benefit of joining forces with them might be that more people will
-see your document.  A random gitlab page is not going to be as
-discoverable.
+However, the current implementation does not happy with any signature.
 
-So I think there may be some crosstalk because your goals might not be
-what others have been assuming your goals to be.  If you want to have
-your own unofficial kernel tutorial, have at it!  You don't need to
-get permission from anyone else, and you don't need to engage with the
-community on this mailing list or anywhere else.
+In case of CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG=y, any signature 
+provided to dm-verity will be checked against the configured keyring, 
+the hook call won't be reached if the check failed. In case of no 
+signature is provided and !DM_VERITY_IS_SIG_FORCE_ENABLED(), the hook 
+will be called with signature value NULL.
 
-The flip side is if you want to get input from this community, you may
-find that you are more likely to get that help if you are discussing
-things on the mailing list, as opposed to expecting us to go find your
-gitlab site and participating there.  We can't force you to use
-mailing list threads; but at the same time, your expecting to us to
-use gitlab might not be very fruitful.
+In case of CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG=n, signature won't be 
+accepted by dm-verity. In addition, the whole support of dm-verity will 
+be disabled for IPE because CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG=n.
 
-Best regards,
+>> diff --git a/drivers/md/dm-verity.h b/drivers/md/dm-verity.h
+>> index 20b1bcf03474..89e862f0cdf6 100644
+>> --- a/drivers/md/dm-verity.h
+>> +++ b/drivers/md/dm-verity.h
+>> @@ -43,6 +43,9 @@ struct dm_verity {
+>>   	u8 *root_digest;	/* digest of the root block */
+>>   	u8 *salt;		/* salt: its size is salt_size */
+>>   	u8 *zero_digest;	/* digest for a zero block */
+>> +#ifdef CONFIG_SECURITY
+>> +	u8 *root_digest_sig;	/* digest signature of the root block */
+>> +#endif /* CONFIG_SECURITY */
+> 
+> No, it's not a signature of the root block, at least not directly.  It's a
+> signature of the root digest (the digest of the root block).
+> 
+>> diff --git a/include/linux/dm-verity.h b/include/linux/dm-verity.h
+>> new file mode 100644
+>> index 000000000000..a799a8043d85
+>> --- /dev/null
+>> +++ b/include/linux/dm-verity.h
+>> @@ -0,0 +1,12 @@
+>> +/* SPDX-License-Identifier: GPL-2.0 */
+>> +
+>> +#ifndef _LINUX_DM_VERITY_H
+>> +#define _LINUX_DM_VERITY_H
+>> +
+>> +struct dm_verity_digest {
+>> +	const char *alg;
+>> +	const u8 *digest;
+>> +	size_t digest_len;
+>> +};
+>> +
+>> +#endif /* _LINUX_DM_VERITY_H */
+>> diff --git a/include/linux/security.h b/include/linux/security.h
+>> index ac0985641611..9e46b13a356c 100644
+>> --- a/include/linux/security.h
+>> +++ b/include/linux/security.h
+>> @@ -84,7 +84,8 @@ enum lsm_event {
+>>   };
+>>   
+>>   enum lsm_integrity_type {
+>> -	__LSM_INT_MAX
+>> +	LSM_INT_DMVERITY_SIG_VALID,
+>> +	LSM_INT_DMVERITY_ROOTHASH,
+>>   };
+> 
+> Shouldn't struct dm_verity_digest be defined next to LSM_INT_DMVERITY_ROOTHASH?
+> It's the struct that's associated with it.
+> 
+> It seems weird to create a brand new header <linux/dm-verity.h> that just
+> contains this one LSM related definition, when there's already a header for the
+> LSM definitions that even includes the related value LSM_INT_DMVERITY_ROOTHASH.
+> 
+> - Eric
 
-						- Ted
+Yes they can just be in the same header. Thanks for the suggestion.
+
+-Fan
