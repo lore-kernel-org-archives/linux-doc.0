@@ -1,145 +1,71 @@
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA65B14B095
-	for <linux-doc@vger.kernel.org>; Thu, 25 Apr 2024 15:39:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C8A12BF22
+	for <linux-doc@vger.kernel.org>; Thu, 25 Apr 2024 16:15:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714059593; cv=none; b=ciIAXY4LM35bvSEWXRO9FUL797wl5t6zXNkI48gY6GUMg9uClXXWY3xmFXZ6u2yxMLiziuYxnykeJeYjIlABshxfHv3bPNl4B0R1HdPWVoCW2qmvLfwkJrkqkRwz819YSRqJJziiSbVtrdCATR5JOU+wUC1fKdiNcUZdvG6XL6E=
+	t=1714061751; cv=none; b=VOy23pcoLgJZGV2hGND56MVnrtUdIy7rfA6hm3WKP+AigdciGKbyV42+8zvKimR8yWtUQCgOmCSPWNFG0sFX54o0jhxWQpqyVSQl1iwcLGBWhCg4A2fOdEByCAQpcTvoX0vZkjXVnjVPwWSC1IdPJhoOkxDR4anQp/1NIV2bz/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714059593; c=relaxed/simple;
-	bh=WF+dlvX2I/JhfKIJrRxXQkXnpq+LBXuSxxxOJYIm9Ew=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jUzOrR/zsP8f+vz6VR27XAVuIVmsGqfVNp/1wV4gDvuCDNiW8Ahqo56hk9dq4XFCYeMRcFkRbx0xkOMpxehc7rcWtJ1pYX32zbWoK/S/RkrMbPkcHexwWlOddoWF+Y+l8Da9ELWbH4lm9pO7MIr/3Mt0M07dTCi8AhBk/5kQsDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Lu6K1LeB; arc=none smtp.client-ip=209.85.219.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1714061751; c=relaxed/simple;
+	bh=5k8e8x1XIDy/2ppAXH1AcXaoKO5Lj60KVADi3cxp9SI=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pqf9Uk5BrAD8Nbyf/rqDR6GjVvczwvOuwz/6PZ1pYpyuBYOtxJwFeajJWgKsT62LT7EZ0UTDI5e2yjOZ5y3dIczfV7m7IRfLNvJOtKTkG7/cSzDZ9iGJlh6BP9nO1g8vXk/QTs/5Z/2ACnvDAInjv3CetiO6LXfHQwexGhaPS6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pH/OjqqI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Lu6K1LeB"
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-d9b9adaf291so1229691276.1
-        for <linux-doc@vger.kernel.org>; Thu, 25 Apr 2024 08:39:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1714059590; x=1714664390; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=e0BChCss6w1nIzeILAtQLE3LhBpW3YXUB4HhPqTq7zU=;
-        b=Lu6K1LeBSNBNuTVNCNhOq9CVfWCgWKfOOjLOuPvMlbZ4TbQX9Y6s3T3Dfquhqvq1gF
-         mSGKoXEglg6vdgTDr5v9G47Ub46LTi7qUsk9DMx4zz8NmC2nBp58STboK2hpJPK6D8vG
-         o+k4gfJ4LMFLggYdCwnnrRUKnZBBA4vmXiIPPSCwSNsbpdnV+ZvkvC1X8/O9rc+7Ft5w
-         BDqipbhrArlE1vJtRM3CYBzMarSxplWxzeMnYt3vsxsEkfrb0jSHO8Nssq7cY4Ni3EIp
-         ivIsN7Lhc03KWHjEh+harc3wwEVQW9cNDWot+8WGoPk7E/RremVKM910I6z8wswDBghp
-         OxJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714059590; x=1714664390;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=e0BChCss6w1nIzeILAtQLE3LhBpW3YXUB4HhPqTq7zU=;
-        b=w5yh6H8uoFw/rFWh+9OhebWWNxgdjw1q/cSk1znl5cefwEn5yNgaZPnffXMdXbvpww
-         p7sjfVj/3CqJ4ZquNslk1aS6PR4wb9DgxaTJf3pK4uzV8UrQnXxv1DNhMHqLLjsH/bSj
-         qPi/BOctZ0/8/lpkkx7iLxAh0t6xTcJPo7SlBj0eBeE0x8yndQZm6gCnsMEqqFmbrhY/
-         lhTnOUJAxpUh/DrZgOPG6hYRXLUSbj2szBLXhmQ4B3S9LqnpoAgjd3Ndjy7Ctg4Me/nS
-         AwtD5WdJUc8+TnpWbgZ2usc9SL2TABLaHkxiO6rbNltnaCQhbTfLvpr0Ri6u4yMteks6
-         USkw==
-X-Forwarded-Encrypted: i=1; AJvYcCXxHRj/zziqiLWTjNQu8+bFsnyTZE52FnbX3E0664OvVlz6a80Pyxhtwjx3HOxsZGdk+X+Ko1SzyFE3Xy/vf9mgQ69nEEOfZKLs
-X-Gm-Message-State: AOJu0YxA7cX+0medHvAjMaCzBBNiUtc6/L9rbIlLeyqrD2Cx3u4KZqLn
-	ZyeZM9f29rWK6pL94TXWsRnrp3pZtb9x1GQNtpXSURoagUOKLfIc2Ro0Qs2eNPsCIxx8gGxqeFE
-	93GJB7srLtvXlhXlTWFMgoUpEb/F1r2OQRTfM
-X-Google-Smtp-Source: AGHT+IHMmrQCod73kiqRAvCkDsnHTcOLVG7U0Dhn6OWsLE5Eza4GBBk8ZEiq+Ddus8vlXjyfwMqyLLjmcyn5VeI1piA=
-X-Received: by 2002:a05:6902:54b:b0:de1:849:a6f3 with SMTP id
- z11-20020a056902054b00b00de10849a6f3mr5525501ybs.7.1714059589879; Thu, 25 Apr
- 2024 08:39:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pH/OjqqI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B7F0C113CC
+	for <linux-doc@vger.kernel.org>; Thu, 25 Apr 2024 16:15:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714061750;
+	bh=5k8e8x1XIDy/2ppAXH1AcXaoKO5Lj60KVADi3cxp9SI=;
+	h=Date:From:To:Subject:From;
+	b=pH/OjqqIMeKtx9M5oKYjNBUgiohiTuGbO/CSs24FIn1msCdCq3lIbmnMeyHYi7LWn
+	 zqFlVgZfjghHbQoIQbqCjWkEP6BUk8SwKIF34bhpyUDRG5RsXFrP69t7EHJPt0PZ2V
+	 RLAlq0LE7pQaZsLz6niIWBorJqECzilHhDtsNgJodsbXYHt/rPoyl5ky1nzK29fJKS
+	 FYs4ol34L7EF/h/INWqi9F5j5vwxvnfRG1xNeiMYvKpQepgptmULOyErql1UNgP3ma
+	 mgfT8xMeqxFQ38Uf5ozDMcMElbrAfkEWz9IbGDwZb0P1KjwT8BCHSdapnL2lD1BJ37
+	 Yiym4Xt+Piv3w==
+Date: Thu, 25 Apr 2024 17:15:47 +0100
+From: Conor Dooley <conor@kernel.org>
+To: linux-doc@vger.kernel.org
+Subject: Weird document naming in maintainer-entry-profile list
+Message-ID: <20240425-macaroni-retrace-11019fa29f4d@spud>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240321163705.3067592-1-surenb@google.com> <202404241852.DC4067B7@keescook>
- <3eyvxqihylh4st6baagn6o6scw3qhcb6lapgli4wsic2fvbyzu@h66mqxcikmcp>
-In-Reply-To: <3eyvxqihylh4st6baagn6o6scw3qhcb6lapgli4wsic2fvbyzu@h66mqxcikmcp>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Thu, 25 Apr 2024 08:39:37 -0700
-Message-ID: <CAJuCfpFtj7MVY+9FaKfq0w7N1qw8=jYifC0sBUAySk=AWBhK6Q@mail.gmail.com>
-Subject: Re: [PATCH v6 00/37] Memory allocation profiling
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: Kees Cook <keescook@chromium.org>, akpm@linux-foundation.org, mhocko@suse.com, 
-	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
-	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com, 
-	peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com, 
-	will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
-	nathan@kernel.org, dennis@kernel.org, jhubbard@nvidia.com, tj@kernel.org, 
-	muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org, 
-	pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com, 
-	dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com, 
-	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
-	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
-	bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org, 
-	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
-	elver@google.com, dvyukov@google.com, songmuchun@bytedance.com, 
-	jbaron@akamai.com, aliceryhl@google.com, rientjes@google.com, 
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="s8MrmDuR4aR4LAPl"
+Content-Disposition: inline
 
-On Wed, Apr 24, 2024 at 8:26=E2=80=AFPM Kent Overstreet
-<kent.overstreet@linux.dev> wrote:
->
-> On Wed, Apr 24, 2024 at 06:59:01PM -0700, Kees Cook wrote:
-> > On Thu, Mar 21, 2024 at 09:36:22AM -0700, Suren Baghdasaryan wrote:
-> > > Low overhead [1] per-callsite memory allocation profiling. Not just f=
-or
-> > > debug kernels, overhead low enough to be deployed in production.
-> >
-> > Okay, I think I'm holding it wrong. With next-20240424 if I set:
-> >
-> > CONFIG_CODE_TAGGING=3Dy
-> > CONFIG_MEM_ALLOC_PROFILING=3Dy
-> > CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT=3Dy
-> >
-> > My test system totally freaks out:
-> >
-> > ...
-> > SLUB: HWalign=3D64, Order=3D0-3, MinObjects=3D0, CPUs=3D4, Nodes=3D1
-> > Oops: general protection fault, probably for non-canonical address 0xc3=
-88d881e4808550: 0000 [#1] PREEMPT SMP NOPTI
-> > CPU: 0 PID: 0 Comm: swapper Not tainted 6.9.0-rc5-next-20240424 #1
-> > Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 0.0.0 02/06=
-/2015
-> > RIP: 0010:__kmalloc_node_noprof+0xcd/0x560
-> >
-> > Which is:
-> >
-> > __kmalloc_node_noprof+0xcd/0x560:
-> > __slab_alloc_node at mm/slub.c:3780 (discriminator 2)
-> > (inlined by) slab_alloc_node at mm/slub.c:3982 (discriminator 2)
-> > (inlined by) __do_kmalloc_node at mm/slub.c:4114 (discriminator 2)
-> > (inlined by) __kmalloc_node_noprof at mm/slub.c:4122 (discriminator 2)
-> >
-> > Which is:
-> >
-> >         tid =3D READ_ONCE(c->tid);
-> >
-> > I haven't gotten any further than that; I'm EOD. Anyone seen anything
-> > like this with this series?
->
-> I certainly haven't. That looks like some real corruption, we're in slub
-> internal data structures and derefing a garbage address. Check kasan and
-> all that?
 
-Hi Kees,
-I tested next-20240424 yesterday with defconfig and
-CONFIG_MEM_ALLOC_PROFILING enabled but didn't see any issue like that.
-Could you share your config file please?
-Thanks,
-Suren.
+--s8MrmDuR4aR4LAPl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+
+https://docs.kernel.org/maintainer/maintainer-entry-profile.html#existing-profiles
+
+The numbering here looks pretty weird, given there are 2 1s, 2 2s and
+some don't have any numbering! I assume this is due to the directories
+in which these documents lie - netdev and the two soc files are in one
+location and have sequential number, but xfs and media are in
+filesystems/xfs and driver-api/media respectively. I'm not really
+familiar enough with the docs to make any suggestions as to how to change
+that, but figured it was at least worth mentioning..
+
+--s8MrmDuR4aR4LAPl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZiqBswAKCRB4tDGHoIJi
+0uMsAP4/GsghkTWRaZW6MWk52MetonfdBJizET/BUzhStrYa6AEAgFmJimqz4M1k
++SHvQ7fmgQ/wnCVLAPpMJcfzdvrSMgE=
+=m+nB
+-----END PGP SIGNATURE-----
+
+--s8MrmDuR4aR4LAPl--
