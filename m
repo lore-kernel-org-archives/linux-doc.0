@@ -1,753 +1,82 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85C0885277
-	for <linux-doc@vger.kernel.org>; Thu, 25 Apr 2024 10:22:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7023F12BF2E;
+	Thu, 25 Apr 2024 11:38:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714040569; cv=none; b=nmxCS6DQdqOEFxkgR1YuaSx3mab2QzKZvbdPLcISQw9YYUFREladIabcI0IKIMfwv8mhELDFXmekKgXFCLJU6pJy2IQKLXvRQJnUwDjFXa0IvjJNeVpmEUTE98OTJoYTn6hwWTEzKyTmLmIED4X8yZFxbS8oGeCmmHwnAGeq2oY=
+	t=1714045093; cv=none; b=B16dTC5iu0edRQIKS7FZ9mqsnr49i8CMaBKY71WL1pP5HtH7yQOpkzxezuUSk9E1jC30L1CNV4d6Vqzp4MSea0ODWXGjz6Sc5IHZiE/ndoexs58GCLw3V3DDl7TFraZPEFJ0qHWfv5X/82nwoZzDjSP2r3mw7snsiybwqZpKPUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714040569; c=relaxed/simple;
-	bh=SCAVSdTcNSD5Yr1pNlMCWZKWtPeF6oeQXhk0cO+/3/g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=a7Jpq+VsFKh+rOZUgj9/74xJ8d5ZkpDb2a1vJOvoW50hP2tc5XOUdKZyYJGGB2oS7/E1Nfg0qAnyevQXZBgyNOJ6/KWtTn0O9p9gxPj3hkmqamuSGWUVmqDHyiIVSJ1Y/LA08ZDx/PsjOQUJtm2bYa3R6Dzll2KS2tzI9LEDuXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=boDefwJO; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="boDefwJO"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a5872b74c44so90221966b.3
-        for <linux-doc@vger.kernel.org>; Thu, 25 Apr 2024 03:22:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1714040565; x=1714645365; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Tb0RWXYcOUdwAJ2aC7C5cjwImSQlTgJoiKwx4zZtUTU=;
-        b=boDefwJOvTv8QB4t/E7QPSKLlWHC5eHMiDV101U9SOvXHs4z0AjBd/zY/N1rLB0DcH
-         Oxo9jQmfr2fvQv4NZK0nTMD08Pd8OY9mPUAj6msILZEFduY/LI9PrJkPjyYo5L7HiVrp
-         7u1Uct11PF2unz9eSXEpbC0EQzp0yWMBAxhZySbotxCFFNsc/c+C28vvLlFvMrI6UNOh
-         WXyreJiIxszKKpf+5XDiWpu1/1l5pEWh7CBuIAlXC5281InGrAAzZlaJALJ1nsMWfG9u
-         Wj0IWCJml2z3dJ+QHWl57I6jeXBFXa2y1wMgL8m7R9XWBbDmObb0xba6yKxYlMC6mBmn
-         8wFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714040565; x=1714645365;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Tb0RWXYcOUdwAJ2aC7C5cjwImSQlTgJoiKwx4zZtUTU=;
-        b=hJ9Fp7ilXHyw7hmTOxC8jqYIkwXOLTLIzQcj2nbMTVh7IXuJpEnoeifLZXlVhqAhX2
-         5EqoB74dD5Xyt28Z2RlpX4GudHKXtHwDxefNTdv1CkHxEk4UI87jBjAQw3TzJVJx026v
-         GXaPOpJK92kJIVeuyG5aMAnda8w5z1qaRfufFvFkB/dUQaMsmH1WymhB+K8Edy3QyXa5
-         72roT45ifwsIvRKESyXrPY2OwtemQcdbrf/VQwWrFezfXwZ4G2GMom0OEAam6zmdGLfY
-         hhDL1O+RoFJOzd4dnZj+b5W82ND9jkf51yel7I7KmcrIJubRZ/ErJv7Tam5BWvsHCkZP
-         zdkQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW+a9RE19x7dM+qSwgmaNBhOB4og/P0DjbSip7EZEYkGgOSGpI0IhKvGZ2NCEsf+F6dh8fxEOmXXeymh/XHB40ML5LxXUtLG+xr
-X-Gm-Message-State: AOJu0Yx2m/iUlHmII1dYdfKMc1RqU7wI0B+greu7puxFFsVYXL1eyGBY
-	h+5nRj9Fvvbq4ELhxytIxTAUI0WKVLKgklpr7hqDEELkeL5VdAUXBnCS2A8+63OIagvjNNawRmH
-	vTxCvnuttswLc+JZuzY4bDadyrXH5l1e7rZ3YdQ==
-X-Google-Smtp-Source: AGHT+IG8hw9GemhS0Y2zrqPlg61weeOaKBTk8AKOgSpxSoiunT0f7Msptuqm/wIphoBkX2od0EVzqsFkRHMXAD8JMOk=
-X-Received: by 2002:a17:906:7ac6:b0:a55:bfe7:3e62 with SMTP id
- k6-20020a1709067ac600b00a55bfe73e62mr3060024ejo.11.1714040564519; Thu, 25 Apr
- 2024 03:22:44 -0700 (PDT)
+	s=arc-20240116; t=1714045093; c=relaxed/simple;
+	bh=SEEboE4HgIvagkThC673hmqW82GFljpr7iCck/ZAUSA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HLQbROjTbprvuQcre25iZFm+1VEWRYI3gF3G7xMOqtzosh3m6a+aHrlxSirys2IZzCu9yNeyOlvAkUhHPw68QaPGc8Hoo3QQNV9Jt3/Q/vd44py/a4Uf8FZ9c/YizDS42a0kG1VO1E7OXmBWlW+WAoA16siI+ijb7VDxRSXfNaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [112.20.112.218])
+	by gateway (Coremail) with SMTP id _____8DxUuqfQCpmwscCAA--.749S3;
+	Thu, 25 Apr 2024 19:38:07 +0800 (CST)
+Received: from [192.168.100.8] (unknown [112.20.112.218])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8BxlFacQCpmuwUFAA--.1256S3;
+	Thu, 25 Apr 2024 19:38:05 +0800 (CST)
+Message-ID: <df40d243-63b9-4fa5-bc06-de5d67ccb073@loongson.cn>
+Date: Thu, 25 Apr 2024 19:38:03 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240423142307.495726312-1-mbland@motorola.com>
-In-Reply-To: <20240423142307.495726312-1-mbland@motorola.com>
-From: Alexandre Ghiti <alexghiti@rivosinc.com>
-Date: Thu, 25 Apr 2024 12:22:33 +0200
-Message-ID: <CAHVXubjRUYibhLqeY1zCdU1n4dAwuOxcVU5Y0suAM7Pb7iw=Fw@mail.gmail.com>
-Subject: Re: [PATCH v2] ptdump: add non-leaf descriptor support
-To: 20240423110435.c84aa2a0e4cb5a17fb1ab18d@linux-foundation.org
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Maxwell Bland <mbland@motorola.com> Jonathan Corbet" <corbet@lwn.net>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Will Deacon <will@kernel.org>, 
-	Maxwell Bland <mbland@motorola.com>, Ard Biesheuvel <ardb@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/4] docs/zh_CN/rust: Update the translation of
+ arch-support to 6.9-rc4
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: ojeda@kernel.org, corbet@lwn.net, alex.gaynor@gmail.com,
+ wedsonaf@gmail.com, boqun.feng@gmail.com, gary@garyguo.net,
+ bjorn3_gh@protonmail.com, benno.lossin@proton.me, a.hindborg@samsung.com,
+ aliceryhl@google.com, nathan@kernel.org, ndesaulniers@google.com,
+ morbo@google.com, justinstitt@google.com, alexs@kernel.org,
+ dzm91@hust.edu.cn, linux-doc@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, llvm@lists.linux.dev
+References: <cover.1713875158.git.siyanteng@loongson.cn>
+ <81ab8f4ee8eea1d7a67de0595ec964614c5e2e00.1713875158.git.siyanteng@loongson.cn>
+ <CANiq72mdhwadg_PCBkz6fTcYBTr-gHFY9N9JFL2B_uFuMgtzXg@mail.gmail.com>
+Content-Language: en-US
+From: Yanteng Si <siyanteng@loongson.cn>
+In-Reply-To: <CANiq72mdhwadg_PCBkz6fTcYBTr-gHFY9N9JFL2B_uFuMgtzXg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:AQAAf8BxlFacQCpmuwUFAA--.1256S3
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
+	ZEXasCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29K
+	BjDU0xBIdaVrnRJUUUBKb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26c
+	xKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
+	j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxV
+	AFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x02
+	67AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
+	ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q6rW5McIj6I8E
+	87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41l42xK82IYc2
+	Ij64vIr41l4c8EcI0En4kS14v26r1q6r43MxAqzxv26xkF7I0En4kS14v26r1q6r43MxC2
+	0s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r1q6r43MI8I3I0E5I8CrVAFwI0_Jr
+	0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0E
+	wIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JV
+	WxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAI
+	cVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8l38UUUUUU==
 
-Hi Maxwell,
 
-On Tue, Apr 23, 2024 at 9:26=E2=80=AFPM Maxwell Bland <mbland@motorola.com>=
- wrote:
+在 2024/4/25 17:01, Miguel Ojeda 写道:
+> On Tue, Apr 23, 2024 at 3:07 PM Yanteng Si <siyanteng@loongson.cn> wrote:
+>> +``loongarch``  Maintained        -
+> We had a recent rendering fix here that you may want to consider:
 >
-> Add an optional note_non_leaf parameter to ptdump, causing note_page to
-> be called on non-leaf descriptors. Implement this functionality on arm64
-> by printing table descriptors along with table-specific permission sets.
+> https://lore.kernel.org/rust-for-linux/20240324010915.3089934-1-tim.chenbw@gmail.com/
 >
-> For arm64, break (1) the uniform number of columns for each descriptor,
-> and (2) the coalescing of large PTE regions, which are now split up by
-> PMD. This is a "good" thing since it makes the behavior and protection
-> bits set on page tables, such as PXNTable, more explicit.
+> Thanks for this Yanteng!
 >
-> Examples (spaces and last attribute condensed)
-> Before:
-> 0xffff008440210000-0xffff008440400000 1984K PTE ro NX SHD AF NG UXN M...
-> 0xffff008440400000-0xffff008441c00000 24M PMD ro NX SHD AF NG BLK UXN M..=
-.
-> 0xffff008441c00000-0xffff008441dc0000 1792K PTE ro NX SHD AF NG UXN M...
-> 0xffff008441dc0000-0xffff00844317b000 20204K PTE RW NX SHD AF NG UXN M...
->
-> After:
-> 0xffff0fb640200000-0xffff0fb640400000 2M PMD TBL RW x NXTbl UXNTbl M...
-> 0xffff0fb640200000-0xffff0fb640210000 64K PTE RW NX SHD AF NG UXN M...
-> 0xffff0fb640210000-0xffff0fb640400000 1984K PTE ro NX SHD AF NG UXN M...
-> 0xffff0fb640400000-0xffff0fb641c00000 24M PMD BLK ro SHD AF NG NX UXN ...
-> 0xffff0fb641c00000-0xffff0fb641e00000 2M PMD TBL RW x NXTbl UXNTbl M...
-> 0xffff0fb641c00000-0xffff0fb641dc0000 1792K PTE ro NX SHD AF NG UXN M...
-> 0xffff0fb641dc0000-0xffff0fb641e00000 256K PTE RW NX SHD AF NG UXN ME...
+Okay!
 
-I think it would be easier to read if the lower levels were tabulated,
-so that we can quickly see the page table structure.
-
-I'll implement this on riscv once merged, I'm a big user of this dump :)
 
 Thanks,
 
-Alex
+Yanteng
 
->
-> Full dumps available at
-> github.com/maxwell-bland/linux-patch-data/tree/main/ptdump-non-leaf
->
-> Signed-off-by: Maxwell Bland <mbland@motorola.com>
-> ---
->
-> Dear Andrew,
->
-> > I was going to queue this while awaiting acks from arm people, but
-> > there's a large reject in Documentation/arch/arm64/ptdump.rst.
->
-> Ack, thank you and apologies, if I understand correctly, you are seeing
-> this issue on linux-next/akpm, I was not familiar with the submission
-> process. I was not able to reproduce on mm-unstable, linux-next/master,
-> mm/master, ... This reply (v2 commit) is cherry-picked to
-> linux-next/akpm.
->
-> A diff with linux-next/master for my original submission only returns:
->
->   611c611
->   < base-commit: a59668a9397e7245b26e9be85d23f242ff757ae8
->   > base-commit: 7d4768ae56014b3db93423e84f8794f173ec5c91
->
-> Regards,
-> Maxwell Bland
->
->  Documentation/arch/arm64/ptdump.rst | 125 ++++++++++++++++
->  arch/arm64/mm/ptdump.c              | 224 +++++++++++++++++++++++++---
->  include/linux/ptdump.h              |   1 +
->  mm/ptdump.c                         |  13 ++
->  4 files changed, 343 insertions(+), 20 deletions(-)
->  create mode 100644 Documentation/arch/arm64/ptdump.rst
->
-> diff --git a/Documentation/arch/arm64/ptdump.rst b/Documentation/arch/arm=
-64/ptdump.rst
-> new file mode 100644
-> index 000000000000..0f38b92fd839
-> --- /dev/null
-> +++ b/Documentation/arch/arm64/ptdump.rst
-> @@ -0,0 +1,125 @@
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Kernel page table dump
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +ptdump is a debugfs interface that provides a detailed dump of the kerne=
-l page
-> +tables. It offers a comprehensive overview of the kernel virtual memory =
-layout
-> +as well as the attributes associated with the various regions in a
-> +human-readable format. It is useful to dump the kernel page tables to ve=
-rify
-> +permissions and memory types. Examining the page table entries and permi=
-ssions
-> +helps identify potential security vulnerabilities such as mappings with =
-overly
-> +permissive access rights or improper memory protections.
-> +
-> +Memory hotplug allows dynamic expansion or contraction of available memo=
-ry
-> +without requiring a system reboot. To maintain the consistency and integ=
-rity of
-> +the memory management data structures, arm64 makes use of the
-> +mem_hotplug_lock semaphore in write mode. Additionally, in read mode,
-> +mem_hotplug_lock supports an efficient implementation of
-> +get_online_mems() and put_online_mems(). These protect the offlining of
-> +memory being accessed by the ptdump code.
-> +
-> +In order to dump the kernel page tables, enable the following configurat=
-ions
-> +and mount debugfs::
-> +
-> + CONFIG_GENERIC_PTDUMP=3Dy
-> + CONFIG_PTDUMP_CORE=3Dy
-> + CONFIG_PTDUMP_DEBUGFS=3Dy
-> +
-> + mount -t debugfs nodev /sys/kernel/debug
-> + cat /sys/kernel/debug/kernel_page_tables
-> +
-> +On analysing the output of cat /sys/kernel/debug/kernel_page_tables one =
-can
-> +derive information about the virtual address range of a contiguous group=
- of
-> +page table entries, followed by size of the memory region covered by thi=
-s
-> +group, the hierarchical structure of the page tables and finally the att=
-ributes
-> +associated with each page in the group. Groups are broken up either acco=
-rding
-> +to a change in attributes or by parent descriptor, such as a PMD. Note t=
-hat the
-> +set of attributes, and therefore formatting, is not equivalent between e=
-ntry
-> +types. For example, PMD entries have a separate set of attributes from l=
-eaf
-> +level PTE entries, because they support both the UXNTable and PXNTable
-> +permission bits.
-> +
-> +The page attributes provide information about access permissions, execut=
-ion
-> +capability, type of mapping such as leaf level PTE or block level PGD, P=
-MD and
-> +PUD, and access status of a page within the kernel memory. Non-PTE block=
- or
-> +page level entries are denoted with either "BLK" or "TBL", respectively.
-> +Assessing these attributes can assist in understanding the memory layout=
-,
-> +access patterns and security characteristics of the kernel pages.
-> +
-> +Kernel virtual memory layout example::
-> +
-> + start address        end address         size type  leaf    attributes
-> + +----------------------------------------------------------------------=
--------------------------------------------+
-> + | ---[ Linear Mapping start ]---                                       =
-                                           |
-> + | ...                                                                  =
-                                           |
-> + | 0xffff0d02c3200000-0xffff0d02c3400000    2M PMD   TBL     RW         =
-      x      NXTbl UXNTbl    MEM/NORMAL    |
-> + | 0xffff0d02c3200000-0xffff0d02c3218000   96K PTE           ro NX SHD A=
-F NG     UXN    MEM/NORMAL-TAGGED          |
-> + | 0xffff0d02c3218000-0xffff0d02c3250000  224K PTE           RW NX SHD A=
-F NG     UXN    MEM/NORMAL-TAGGED          |
-> + | 0xffff0d02c3250000-0xffff0d02c33b3000 1420K PTE           ro NX SHD A=
-F NG     UXN    MEM/NORMAL-TAGGED          |
-> + | 0xffff0d02c33b3000-0xffff0d02c3400000  308K PTE           RW NX SHD A=
-F NG     UXN    MEM/NORMAL-TAGGED          |
-> + | 0xffff0d02c3400000-0xffff0d02c3600000    2M PMD   TBL     RW         =
-      x      NXTbl UXNTbl    MEM/NORMAL    |
-> + | 0xffff0d02c3400000-0xffff0d02c3600000    2M PTE           RW NX SHD A=
-F NG     UXN    MEM/NORMAL-TAGGED          |
-> + | ...                                                                  =
-                                           |
-> + | 0xffff0d02c3200000-0xffff0d02c3400000    2M PMD   TBL     RW         =
-      x      NXTbl UXNTbl    MEM/NORMAL    |
-> + | ...                                                                  =
-                                           |
-> + | ---[ Linear Mapping end ]---                                         =
-                                           |
-> + +----------------------------------------------------------------------=
--------------------------------------------+
-> + | ---[ Modules start ]---                                              =
-                                           |
-> + | ...                                                                  =
-                                           |
-> + | 0xffff800000000000-0xffff800000000080 128B PGD   TBL     RW          =
-     x     UXNTbl    MEM/NORMAL            |
-> + | 0xffff800000000000-0xffff800080000000   2G PUD F BLK     RW          =
-     x               MEM/NORMAL            |
-> + | ...                                                                  =
-                                           |
-> + | ---[ Modules end ]---                                                =
-                                           |
-> + +----------------------------------------------------------------------=
--------------------------------------------+
-> + | ---[ vmalloc() area ]---                                             =
-                                           |
-> + | ...                                                                  =
-                                           |
-> + | 0xffff800080000000-0xffff8000c0000000   1G PUD   TBL     RW          =
-     x     UXNTbl    MEM/NORMAL            |
-> + | ...                                                                  =
-                                           |
-> + | 0xffff800080200000-0xffff800080400000   2M PMD   TBL     RW          =
-     x      NXTbl UXNTbl    MEM/NORMAL     |
-> + | 0xffff800080200000-0xffff80008022f000 188K PTE           RW NX SHD AF=
- NG     UXN    MEM/NORMAL                  |
-> + | 0xffff80008022f000-0xffff800080230000   4K PTE F BLK     RW x        =
-               MEM/NORMAL                  |
-> + | 0xffff800080230000-0xffff800080233000  12K PTE           RW NX SHD AF=
- NG     UXN    MEM/NORMAL                  |
-> + | 0xffff800080233000-0xffff800080234000   4K PTE F BLK     RW x        =
-               MEM/NORMAL                  |
-> + | 0xffff800080234000-0xffff800080237000  12K PTE           RW NX SHD AF=
- NG     UXN    MEM/NORMAL                  |
-> + | ...                                                                  =
-                                           |
-> + | 0xffff800080400000-0xffff800084000000  60M PMD F BLK     RW          =
-     x      x     x         MEM/NORMAL     |
-> + | ...                                                                  =
-                                           |
-> + | ---[ vmalloc() end ]---                                              =
-                                           |
-> + +----------------------------------------------------------------------=
--------------------------------------------+
-> + | ---[ vmemmap start ]---                                              =
-                                           |
-> + | ...                                                                  =
-                                           |
-> + | 0xfffffe33cb000000-0xfffffe33cc000000  16M PMD   BLK     RW SHD AF NG=
-     NX UXN x     x         MEM/NORMAL     |
-> + | 0xfffffe33cc000000-0xfffffe3400000000 832M PMD F BLK     RW          =
-     x      x     x         MEM/NORMAL     |
-> + | ...                                                                  =
-                                           |
-> + | ---[ vmemmap end ]---                                                =
-                                           |
-> + +----------------------------------------------------------------------=
--------------------------------------------+
-> + | ---[ PCI I/O start ]---                                              =
-                                           |
-> + | ...                                                                  =
-                                           |
-> + | 0xffffffffc0800000-0xffffffffc0810000 64K PTE           RW NX SHD AF =
-NG     UXN    DEVICE/nGnRE                 |
-> + | ...                                                                  =
-                                           |
-> + | ---[ PCI I/O end ]---                                                =
-                                           |
-> + +----------------------------------------------------------------------=
--------------------------------------------+
-> + | ---[ Fixmap start ]---                                               =
-                                           |
-> + | ...                                                                  =
-                                           |
-> + | 0xffffffffff5f6000-0xffffffffff5f9000 12K PTE           ro x  SHD AF =
-       UXN    MEM/NORMAL                   |
-> + | 0xffffffffff5f9000-0xffffffffff5fa000  4K PTE           ro NX SHD AF =
-NG     UXN    MEM/NORMAL                   |
-> + | ...                                                                  =
-                                           |
-> + | ---[ Fixmap end ]---                                                 =
-                                           |
-> + +----------------------------------------------------------------------=
--------------------------------------------+
-> +
-> +cat /sys/kernel/debug/kernel_page_tables output::
-> +
-> + 0xffff000000000000-0xffff0d0000000000   13T PGD F BLK     RW           =
-    x               MEM/NORMAL
-> + 0xffff0d0000000000-0xffff0d0000000080  128B PGD   TBL     RW           =
-    NXTbl UXNTbl    MEM/NORMAL
-> + 0xffff0d0000000000-0xffff0d02c0000000   11G PUD F BLK     RW           =
-    x               MEM/NORMAL
-> + 0xffff0d02c0000000-0xffff0d0300000000    1G PUD   TBL     RW           =
-    NXTbl UXNTbl    MEM/NORMAL
-> + 0xffff0d02c0000000-0xffff0d02c0200000    2M PMD   TBL     RW           =
-    x      NXTbl UXNTbl    MEM/NORMAL
-> + 0xffff0d02c0000000-0xffff0d02c0200000    2M PTE           RW NX SHD AF =
-NG     UXN    MEM/NORMAL-TAGGED
-> + 0xffff0d02c0200000-0xffff0d02c0400000    2M PMD   TBL     RW           =
-    x      NXTbl UXNTbl    MEM/NORMAL
-> + 0xffff0d02c0200000-0xffff0d02c0210000   64K PTE           RW NX SHD AF =
-NG     UXN    MEM/NORMAL-TAGGED
-> + 0xffff0d02c0210000-0xffff0d02c0400000 1984K PTE           ro NX SHD AF =
-NG     UXN    MEM/NORMAL
-> + 0xffff0d02c0400000-0xffff0d02c1c00000   24M PMD   BLK     ro SHD AF NG =
-    NX UXN x     x         MEM/NORMAL
-> + 0xffff0d02c1c00000-0xffff0d02c1e00000    2M PMD   TBL     RW           =
-    x      NXTbl UXNTbl    MEM/NORMAL
-> + 0xffff0d02c1c00000-0xffff0d02c1dc0000 1792K PTE           ro NX SHD AF =
-NG     UXN    MEM/NORMAL
-> + 0xffff0d02c1dc0000-0xffff0d02c1e00000  256K PTE           RW NX SHD AF =
-NG     UXN    MEM/NORMAL-TAGGED
-> +
-> diff --git a/arch/arm64/mm/ptdump.c b/arch/arm64/mm/ptdump.c
-> index 9bc4066c5bf3..6a8b2bcc9ac7 100644
-> --- a/arch/arm64/mm/ptdump.c
-> +++ b/arch/arm64/mm/ptdump.c
-> @@ -24,6 +24,7 @@
->  #include <asm/memory.h>
->  #include <asm/pgtable-hwdef.h>
->  #include <asm/ptdump.h>
-> +#include <asm/pgalloc.h>
->
->
->  enum address_markers_idx {
-> @@ -97,6 +98,11 @@ static const struct prot_bits pte_bits[] =3D {
->                 .val    =3D PTE_VALID,
->                 .set    =3D " ",
->                 .clear  =3D "F",
-> +       }, {
-> +               .mask   =3D PTE_TABLE_BIT,
-> +               .val    =3D PTE_TABLE_BIT,
-> +               .set    =3D "   ",
-> +               .clear  =3D "BLK",
->         }, {
->                 .mask   =3D PTE_USER,
->                 .val    =3D PTE_USER,
-> @@ -132,11 +138,6 @@ static const struct prot_bits pte_bits[] =3D {
->                 .val    =3D PTE_CONT,
->                 .set    =3D "CON",
->                 .clear  =3D "   ",
-> -       }, {
-> -               .mask   =3D PTE_TABLE_BIT,
-> -               .val    =3D PTE_TABLE_BIT,
-> -               .set    =3D "   ",
-> -               .clear  =3D "BLK",
->         }, {
->                 .mask   =3D PTE_UXN,
->                 .val    =3D PTE_UXN,
-> @@ -170,34 +171,206 @@ static const struct prot_bits pte_bits[] =3D {
->         }
->  };
->
-> +static const struct prot_bits pmd_bits[] =3D {
-> +       {
-> +               .mask   =3D PMD_SECT_VALID,
-> +               .val    =3D PMD_SECT_VALID,
-> +               .set    =3D " ",
-> +               .clear  =3D "F",
-> +       }, {
-> +               .mask   =3D PMD_TABLE_BIT,
-> +               .val    =3D PMD_TABLE_BIT,
-> +               .set    =3D "TBL",
-> +               .clear  =3D "BLK",
-> +       }, {
-> +               .mask   =3D PMD_SECT_USER,
-> +               .val    =3D PMD_SECT_USER,
-> +               .set    =3D "USR",
-> +               .clear  =3D "   ",
-> +       }, {
-> +               .mask   =3D PMD_SECT_RDONLY,
-> +               .val    =3D PMD_SECT_RDONLY,
-> +               .set    =3D "ro",
-> +               .clear  =3D "RW",
-> +       }, {
-> +               .mask   =3D PMD_SECT_S,
-> +               .val    =3D PMD_SECT_S,
-> +               .set    =3D "SHD",
-> +               .clear  =3D "   ",
-> +       }, {
-> +               .mask   =3D PMD_SECT_AF,
-> +               .val    =3D PMD_SECT_AF,
-> +               .set    =3D "AF",
-> +               .clear  =3D "  ",
-> +       }, {
-> +               .mask   =3D PMD_SECT_NG,
-> +               .val    =3D PMD_SECT_NG,
-> +               .set    =3D "NG",
-> +               .clear  =3D "  ",
-> +       }, {
-> +               .mask   =3D PMD_SECT_CONT,
-> +               .val    =3D PMD_SECT_CONT,
-> +               .set    =3D "CON",
-> +               .clear  =3D "   ",
-> +       }, {
-> +               .mask   =3D PMD_SECT_PXN,
-> +               .val    =3D PMD_SECT_PXN,
-> +               .set    =3D "NX",
-> +               .clear  =3D "x ",
-> +       }, {
-> +               .mask   =3D PMD_SECT_UXN,
-> +               .val    =3D PMD_SECT_UXN,
-> +               .set    =3D "UXN",
-> +               .clear  =3D "   ",
-> +       }, {
-> +               .mask   =3D PMD_TABLE_PXN,
-> +               .val    =3D PMD_TABLE_PXN,
-> +               .set    =3D "NXTbl",
-> +               .clear  =3D "x    ",
-> +       }, {
-> +               .mask   =3D PMD_TABLE_UXN,
-> +               .val    =3D PMD_TABLE_UXN,
-> +               .set    =3D "UXNTbl",
-> +               .clear  =3D "x     ",
-> +       }, {
-> +               .mask   =3D PTE_GP,
-> +               .val    =3D PTE_GP,
-> +               .set    =3D "GP",
-> +               .clear  =3D "  ",
-> +       }, {
-> +               .mask   =3D PMD_ATTRINDX_MASK,
-> +               .val    =3D PMD_ATTRINDX(MT_DEVICE_nGnRnE),
-> +               .set    =3D "DEVICE/nGnRnE",
-> +       }, {
-> +               .mask   =3D PMD_ATTRINDX_MASK,
-> +               .val    =3D PMD_ATTRINDX(MT_DEVICE_nGnRE),
-> +               .set    =3D "DEVICE/nGnRE",
-> +       }, {
-> +               .mask   =3D PMD_ATTRINDX_MASK,
-> +               .val    =3D PMD_ATTRINDX(MT_NORMAL_NC),
-> +               .set    =3D "MEM/NORMAL-NC",
-> +       }, {
-> +               .mask   =3D PMD_ATTRINDX_MASK,
-> +               .val    =3D PMD_ATTRINDX(MT_NORMAL),
-> +               .set    =3D "MEM/NORMAL",
-> +       }, {
-> +               .mask   =3D PMD_ATTRINDX_MASK,
-> +               .val    =3D PMD_ATTRINDX(MT_NORMAL_TAGGED),
-> +               .set    =3D "MEM/NORMAL-TAGGED",
-> +       }
-> +};
-> +
-> +static const struct prot_bits pud_bits[] =3D {
-> +       {
-> +               .mask   =3D PUD_TYPE_SECT,
-> +               .val    =3D PUD_TYPE_SECT,
-> +               .set    =3D " ",
-> +               .clear  =3D "F",
-> +       }, {
-> +               .mask   =3D PUD_TABLE_BIT,
-> +               .val    =3D PUD_TABLE_BIT,
-> +               .set    =3D "TBL",
-> +               .clear  =3D "BLK",
-> +       }, {
-> +               .mask   =3D PTE_USER,
-> +               .val    =3D PTE_USER,
-> +               .set    =3D "USR",
-> +               .clear  =3D "   ",
-> +       }, {
-> +               .mask   =3D PUD_SECT_RDONLY,
-> +               .val    =3D PUD_SECT_RDONLY,
-> +               .set    =3D "ro",
-> +               .clear  =3D "RW",
-> +       }, {
-> +               .mask   =3D PTE_SHARED,
-> +               .val    =3D PTE_SHARED,
-> +               .set    =3D "SHD",
-> +               .clear  =3D "   ",
-> +       }, {
-> +               .mask   =3D PTE_AF,
-> +               .val    =3D PTE_AF,
-> +               .set    =3D "AF",
-> +               .clear  =3D "  ",
-> +       }, {
-> +               .mask   =3D PTE_NG,
-> +               .val    =3D PTE_NG,
-> +               .set    =3D "NG",
-> +               .clear  =3D "  ",
-> +       }, {
-> +               .mask   =3D PTE_CONT,
-> +               .val    =3D PTE_CONT,
-> +               .set    =3D "CON",
-> +               .clear  =3D "   ",
-> +       }, {
-> +               .mask   =3D PUD_TABLE_PXN,
-> +               .val    =3D PUD_TABLE_PXN,
-> +               .set    =3D "NXTbl",
-> +               .clear  =3D "x    ",
-> +       }, {
-> +               .mask   =3D PUD_TABLE_UXN,
-> +               .val    =3D PUD_TABLE_UXN,
-> +               .set    =3D "UXNTbl",
-> +               .clear  =3D "      ",
-> +       }, {
-> +               .mask   =3D PTE_GP,
-> +               .val    =3D PTE_GP,
-> +               .set    =3D "GP",
-> +               .clear  =3D "  ",
-> +       }, {
-> +               .mask   =3D PMD_ATTRINDX_MASK,
-> +               .val    =3D PMD_ATTRINDX(MT_DEVICE_nGnRnE),
-> +               .set    =3D "DEVICE/nGnRnE",
-> +       }, {
-> +               .mask   =3D PMD_ATTRINDX_MASK,
-> +               .val    =3D PMD_ATTRINDX(MT_DEVICE_nGnRE),
-> +               .set    =3D "DEVICE/nGnRE",
-> +       }, {
-> +               .mask   =3D PMD_ATTRINDX_MASK,
-> +               .val    =3D PMD_ATTRINDX(MT_NORMAL_NC),
-> +               .set    =3D "MEM/NORMAL-NC",
-> +       }, {
-> +               .mask   =3D PMD_ATTRINDX_MASK,
-> +               .val    =3D PMD_ATTRINDX(MT_NORMAL),
-> +               .set    =3D "MEM/NORMAL",
-> +       }, {
-> +               .mask   =3D PMD_ATTRINDX_MASK,
-> +               .val    =3D PMD_ATTRINDX(MT_NORMAL_TAGGED),
-> +               .set    =3D "MEM/NORMAL-TAGGED",
-> +       }
-> +};
-> +
->  struct pg_level {
->         const struct prot_bits *bits;
->         const char *name;
->         size_t num;
->         u64 mask;
-> +       unsigned long size;
->  };
->
->  static struct pg_level pg_level[] =3D {
->         { /* pgd */
->                 .name   =3D "PGD",
-> -               .bits   =3D pte_bits,
-> -               .num    =3D ARRAY_SIZE(pte_bits),
-> +               .bits   =3D pud_bits,
-> +               .num    =3D ARRAY_SIZE(pud_bits),
-> +               .size   =3D PGD_SIZE
->         }, { /* p4d */
->                 .name   =3D "P4D",
-> -               .bits   =3D pte_bits,
-> -               .num    =3D ARRAY_SIZE(pte_bits),
-> +               .bits   =3D pud_bits,
-> +               .num    =3D ARRAY_SIZE(pud_bits),
-> +               .size   =3D P4D_SIZE
->         }, { /* pud */
->                 .name   =3D (CONFIG_PGTABLE_LEVELS > 3) ? "PUD" : "PGD",
-> -               .bits   =3D pte_bits,
-> -               .num    =3D ARRAY_SIZE(pte_bits),
-> +               .bits   =3D pud_bits,
-> +               .num    =3D ARRAY_SIZE(pud_bits),
->         }, { /* pmd */
->                 .name   =3D (CONFIG_PGTABLE_LEVELS > 2) ? "PMD" : "PGD",
-> -               .bits   =3D pte_bits,
-> -               .num    =3D ARRAY_SIZE(pte_bits),
-> +               .bits   =3D pmd_bits,
-> +               .num    =3D ARRAY_SIZE(pmd_bits),
->         }, { /* pte */
->                 .name   =3D "PTE",
->                 .bits   =3D pte_bits,
->                 .num    =3D ARRAY_SIZE(pte_bits),
-> +               .size   =3D PAGE_SIZE
->         },
->  };
->
-> @@ -252,7 +425,7 @@ static void note_page(struct ptdump_state *pt_st, uns=
-igned long addr, int level,
->                       u64 val)
->  {
->         struct pg_state *st =3D container_of(pt_st, struct pg_state, ptdu=
-mp);
-> -       static const char units[] =3D "KMGTPE";
-> +       static const char units[] =3D "BKMGTPE";
->         u64 prot =3D 0;
->
->         if (level >=3D 0)
-> @@ -263,8 +436,8 @@ static void note_page(struct ptdump_state *pt_st, uns=
-igned long addr, int level,
->                 st->current_prot =3D prot;
->                 st->start_address =3D addr;
->                 pt_dump_seq_printf(st->seq, "---[ %s ]---\n", st->marker-=
->name);
-> -       } else if (prot !=3D st->current_prot || level !=3D st->level ||
-> -                  addr >=3D st->marker[1].start_address) {
-> +       } else if ((prot !=3D st->current_prot || level !=3D st->level ||
-> +                  addr >=3D st->marker[1].start_address)) {
->                 const char *unit =3D units;
->                 unsigned long delta;
->
-> @@ -273,10 +446,20 @@ static void note_page(struct ptdump_state *pt_st, u=
-nsigned long addr, int level,
->                         note_prot_wx(st, addr);
->                 }
->
-> -               pt_dump_seq_printf(st->seq, "0x%016lx-0x%016lx   ",
-> -                                  st->start_address, addr);
-> +               /*
-> +                * Entries are coalesced into a single line, so non-leaf
-> +                * entries have no size relative to start_address
-> +                */
-> +               if (st->start_address !=3D addr) {
-> +                       pt_dump_seq_printf(st->seq, "0x%016lx-0x%016lx   =
-",
-> +                                          st->start_address, addr);
-> +                       delta =3D (addr - st->start_address);
-> +               } else {
-> +                       pt_dump_seq_printf(st->seq, "0x%016lx-0x%016lx   =
-", addr,
-> +                                          addr + pg_level[st->level].siz=
-e);
-> +                       delta =3D (pg_level[st->level].size);
-> +               }
->
-> -               delta =3D (addr - st->start_address) >> 10;
->                 while (!(delta & 1023) && unit[1]) {
->                         delta >>=3D 10;
->                         unit++;
-> @@ -322,7 +505,8 @@ void ptdump_walk(struct seq_file *s, struct ptdump_in=
-fo *info)
->                         .range =3D (struct ptdump_range[]){
->                                 {info->base_addr, end},
->                                 {0, 0}
-> -                       }
-> +                       },
-> +                       .note_non_leaf =3D true
->                 }
->         };
->
-> diff --git a/include/linux/ptdump.h b/include/linux/ptdump.h
-> index 2a3a95586425..d32fa8515182 100644
-> --- a/include/linux/ptdump.h
-> +++ b/include/linux/ptdump.h
-> @@ -16,6 +16,7 @@ struct ptdump_state {
->                           int level, u64 val);
->         void (*effective_prot)(struct ptdump_state *st, int level, u64 va=
-l);
->         const struct ptdump_range *range;
-> +       bool note_non_leaf;
->  };
->
->  void ptdump_walk_pgd(struct ptdump_state *st, struct mm_struct *mm, pgd_=
-t *pgd);
-> diff --git a/mm/ptdump.c b/mm/ptdump.c
-> index eea3d28d173c..aacbd499ffcd 100644
-> --- a/mm/ptdump.c
-> +++ b/mm/ptdump.c
-> @@ -40,6 +40,9 @@ static int ptdump_pgd_entry(pgd_t *pgd, unsigned long a=
-ddr,
->         if (st->effective_prot)
->                 st->effective_prot(st, 0, pgd_val(val));
->
-> +       if (st->note_non_leaf && !pgd_leaf(val))
-> +               st->note_page(st, addr, 0, pgd_val(val));
-> +
->         if (pgd_leaf(val)) {
->                 st->note_page(st, addr, 0, pgd_val(val));
->                 walk->action =3D ACTION_CONTINUE;
-> @@ -63,6 +66,9 @@ static int ptdump_p4d_entry(p4d_t *p4d, unsigned long a=
-ddr,
->         if (st->effective_prot)
->                 st->effective_prot(st, 1, p4d_val(val));
->
-> +       if (st->note_non_leaf && !p4d_leaf(val))
-> +               st->note_page(st, addr, 1, p4d_val(val));
-> +
->         if (p4d_leaf(val)) {
->                 st->note_page(st, addr, 1, p4d_val(val));
->                 walk->action =3D ACTION_CONTINUE;
-> @@ -86,6 +92,9 @@ static int ptdump_pud_entry(pud_t *pud, unsigned long a=
-ddr,
->         if (st->effective_prot)
->                 st->effective_prot(st, 2, pud_val(val));
->
-> +       if (st->note_non_leaf && !pud_leaf(val))
-> +               st->note_page(st, addr, 2, pud_val(val));
-> +
->         if (pud_leaf(val)) {
->                 st->note_page(st, addr, 2, pud_val(val));
->                 walk->action =3D ACTION_CONTINUE;
-> @@ -107,6 +116,10 @@ static int ptdump_pmd_entry(pmd_t *pmd, unsigned lon=
-g addr,
->
->         if (st->effective_prot)
->                 st->effective_prot(st, 3, pmd_val(val));
-> +
-> +       if (st->note_non_leaf && !pmd_leaf(val))
-> +               st->note_page(st, addr, 3, pmd_val(val));
-> +
->         if (pmd_leaf(val)) {
->                 st->note_page(st, addr, 3, pmd_val(val));
->                 walk->action =3D ACTION_CONTINUE;
->
-> base-commit: 5f9df76887bf8170e8844f1907c13fbbb30e9c36
-> --
-> 2.34.1
->
