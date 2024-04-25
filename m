@@ -1,127 +1,136 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD7E2B9D9;
-	Thu, 25 Apr 2024 17:08:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1DD514EC56;
+	Thu, 25 Apr 2024 17:52:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714064931; cv=none; b=Wy3v4eKEQc1vDjIz5bw4zxEx/Z9NvePjc9j222jYDzUbZVcUlGoGebC3juh0NuxMQ7xZardxUqv77pzHIGDnPmtqEpE64ZBMGk8M1DPfhOU8yiZxJyOjiZ31JQB+XJ1n867FOI1CS/WUT8fRfYxWHh81MqCGwI7ndXoGFooX0yI=
+	t=1714067528; cv=none; b=JHAIGxy6/wjZsYvaWts8QyNZGqMQegv0soB2kHyRYwYdK+Kw3o5Ddz4eEqFY9woTZeBwTd6EozaU7GNp+y4irOzpJcJ0XNroliKDEDggABCAtLCqU/s/lfwL/uSPfV1JiLv0TtzOscXcUSN+cB3BxA9bLQ+rfSWmaxm8+/GUOkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714064931; c=relaxed/simple;
-	bh=LB6PxUT2FVg9BxOIRwoGod1p+J5wXmryaH+IXVj+ZtI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aT+jnDDIsyxiJnfmQ6LGNkvgo+hIan+P/y1gdAUmgeIiynouV2ZQe1UHrbXNhrQY6EdVRkkq0RpPNSLPnrdGkHb6QR/MxVHfrsSFjzLO6Ry0JSy7TdZbXPT9RwN1n4lOuPlrUbule7JuGwqSQMxULPg+mD/APFi4sHZHFIMIqj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IW7fhOih; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1714067528; c=relaxed/simple;
+	bh=XZZ309lKzz2FgtGq6IxbSpt6n0q8YJjnxq4LkfGBc5I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=b9ioxLRIYPZWwzLOWGKEFfBgjkN4sk5/+KEl2CtV3peg1qg9BW9vrT4ytxYZY3aV0YiKuI8XpVKPKsFwjqCg0AWJIwnLPvwAsxNX50/kBqt0RjbihA+PZ2wZtpGevPQvE3OZG9v4LwR8/yIPGA/9Az/GDQ3Z2tcSRpCl0fO4UzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rds8j4mS; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IW7fhOih"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-34c1fff534fso471422f8f.1;
-        Thu, 25 Apr 2024 10:08:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rds8j4mS"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1e2bbc2048eso11314275ad.3;
+        Thu, 25 Apr 2024 10:52:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714064928; x=1714669728; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=S/YfpLjDg/V9+k2ejtPmLdCvlg7wyMi25Eix385icIM=;
-        b=IW7fhOih3R+JQVOnn8JPL8m/X1P+ls2r4/YbQbxpIX2ZCXR10Q3Xbf06IDzzshcx8O
-         3kjLX9MSL05Xp8m4gQh8GRlT3M4/1mPiNBORgjyJCnYWMF23Hsb8z64W+qAEe/Vz13BY
-         TANz2DlvgTAI0wkviqb5BQpl+nEBLqG+iIGMf7iVp88j4i4r+ww0VqrVSwz+5++3yzFX
-         VEbo/nds5e1kHL6O+2pA/3ztaqOxoq73QuOBYRC9tkP9omh9t4wXZVESzRuStZTxcq8w
-         gHJpljgzZqa3QLvuNRNl9XTDbUAfobojV20GCfR8O3KoaX4ttEUjcki8Q1ZWN1C2SD+y
-         ztjw==
+        d=gmail.com; s=20230601; t=1714067526; x=1714672326; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=nLI14HLDXEzm+5OoTt6qQtArfJ7vcXnK68mQs2aOSF8=;
+        b=Rds8j4mSe8CGgvgHyCoJDycG9ieVE9tjjPReBseA79W9hmEmWuLKCb5qQgLm2FiKsw
+         kJSMxYc9CKv/wQSp39QOrR6g8ZO0QDrV19eqTd+uEqB2abZaAQ5REnl/lHY5GnaB6aot
+         U6og+Y0VT7GP+CnwwE1wLGnbN7JpmuhZttJcuXzcGVXZumyKr/hmY8ki+m81K7bZxuC8
+         WuaVPLROjAgU17pNbPjp5td7AtlaaDSaOQLT8iKTjKqke3DtR37HzbhscaMm1DoV1ogv
+         iQ+MfT0V43jDLE2ChHvYdPm2hE9ZCMNAYehGRO+Um8hvdJnXA8OX+HrX0m4mLnGjDdeW
+         Q24g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714064928; x=1714669728;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=S/YfpLjDg/V9+k2ejtPmLdCvlg7wyMi25Eix385icIM=;
-        b=naVLPV3tvXTO12OSGyR05Oed6SVTu7sDkTKJsqxoW8y/MY1GtynrjUwe3wIyyhSC2o
-         OgfHUJeg/XCXp3aEhMuBqMxA9zgOcMDmBvabhgAYvtS3S1q9pZ6oZqhXBAiancxyu4fg
-         WIUhNbxXZ+qLCqmd21E7G0iGYlXAEhX+Mi7d68Iff54VdyMRGkgRY9uABNyEFKqw2MY3
-         fP4ww0BbqHL1XYUVNvf0ZU+eHoEwx9v+xMHhF9iQQ7bFJHLH8OPvZ6UwrqQYWd4CSOe3
-         jC7gn+aIk0Gf59lohG14eC5aYx7Mk1kCxsGGUEGrJ/uGSUUPh7SkNACPDnzaYyLtx5ie
-         Jl4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXofyXEEx7jb/Vubby7H6B5NGB55Qa4VfyQxCFqfO5Db8rtnAz3e1hKClZgmhBqwDsdlyFZ6bUoKnvHenZ0hiQoC6G+kQjGBrb5KXdURl8tPByEAxqWdpoNu7xqr4QJ4MoA1s63qHaj
-X-Gm-Message-State: AOJu0Yys/3/bog7TZJQYoUYfdM9owEkpRwn58sZeBiLQwOU4N5JB690X
-	4fw7Yd9AGmP0ljOQTOVQ4+J1Ro7V5T/KtU0Jne9ExPnqAcUP9rgiAYfoHu6Q/94KvAwgYyMcSM+
-	QQruomoYk6HCX+3CZJJ1X2NiA4zc=
-X-Google-Smtp-Source: AGHT+IEOkApi/wJwZZIW/sKnNji1+qRr4vvysLSEY7UFpWR3I4ldIZUW7FZruGfdtOWSE4i5rv1bd3JxqQMEplgA1GI=
-X-Received: by 2002:a5d:4707:0:b0:343:eb6c:ae80 with SMTP id
- y7-20020a5d4707000000b00343eb6cae80mr89901wrq.28.1714064927724; Thu, 25 Apr
- 2024 10:08:47 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1714067526; x=1714672326;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nLI14HLDXEzm+5OoTt6qQtArfJ7vcXnK68mQs2aOSF8=;
+        b=BNXwSJjDN5WinjaA4bpDvgO9X5XC4sGcDlFgPaOlyLvgP9p8h7/ReeKaEQFFZijHht
+         EBwYcyHjEOl8iY0nrvH1+CjHmLlACzhe7VCei3EDKfXALoBGBsx3dA8hJPi1h266bS9k
+         VuzIeFot1fblD7uItROW+YH0KgGjxgzW+8ijBHpi3L0L/kHeaCl4zTdl3867kwgnbFTn
+         UYbfwfP3IK7ZX7YrRYj/oe1xOTCsIAeY+tP6pmTf9W2bNFeiWgvuslNJn3H1+M70PL1G
+         tlYjGLe0I9H4wthZ9mGFQOoJWHVahimoVdCjbPzMhKOsCO8c7a+ft4KlEG5DE4uHhrHb
+         WoWw==
+X-Forwarded-Encrypted: i=1; AJvYcCVBLr0gG92XfceTwax7yPo64suxlEpQFnOZyAWKb7/h4YyKpkmpEKqYVD7sFyf1kuRAo7jwkGVt0kcmaaxBhhl+YOUhRXrqF+HXsp6CcQhHG5KCiASLFdDMilzFUBAWyeVaYn/f0ekNFpIl4vpgeMj6GdJ3TMqb1zFelLeZQJ/5iLS+6x8MFUe0Nf57amoVJtO3mjtWuclFN7QZFHdGkkQ3H13TkfAOQomc5OiTmnkf2XmZl4xQzbdTFI1B
+X-Gm-Message-State: AOJu0Yx8YnHQrZHEo0UEsFhrQzkAJlIjBqA450ou1FQKRjKXck32BplD
+	EnU6kWawBjN41iVDI2ymN5kwMdIDVv7HNOdWc6m1u9aTJIblqAAS
+X-Google-Smtp-Source: AGHT+IHdUbinzhAMt6ObMPO37xYdQin9/tenpe3KKQi4zQ5TIaMPGX/V//jDpEDORgnSK59t5Z/MTw==
+X-Received: by 2002:a17:902:b08c:b0:1e6:622c:7bb4 with SMTP id p12-20020a170902b08c00b001e6622c7bb4mr257096plr.19.1714067526217;
+        Thu, 25 Apr 2024 10:52:06 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id kp7-20020a170903280700b001e99fdbc515sm8114611plb.3.2024.04.25.10.52.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Apr 2024 10:52:05 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <1a2e6020-77d8-4299-87b0-e2b16dfb3f86@roeck-us.net>
+Date: Thu, 25 Apr 2024 10:52:03 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAFkJGRc824vYEufG=6ZVPAW2iVpd0NDThJadZVrUk_ZND_qJag@mail.gmail.com>
- <Zh6Xbqijp8rRGo1H@archbtw> <CAFkJGRe+UpNPSnSL623o6G+NCkK_uGPx-NCNLQx0vSGpMo98eg@mail.gmail.com>
- <CAPzh0z8RySn429XYQHoP_c9UA+pb6SLHGhH40vQDhc3P2xiysQ@mail.gmail.com>
- <CAFkJGRfK=1f8tfWO8G0v8SOmCwCgK7P5y7g2My47VG6Obb1DNw@mail.gmail.com>
- <ZiE9ydgMtpKOBLDk@archbtw> <CAFkJGRddGHK0j4CcQUoRKiD3afniLY=rRV5npY5wpauqqY0XZg@mail.gmail.com>
- <CAFkJGRdFuMoO4_mR-cR1NWjKQJnopN0v1R11-jSnLn+FKcOCdg@mail.gmail.com>
- <CAFkJGRcg+ThJ-xUve0=WorChW=-6PreLHXeM8YwtwzwpkHTu8g@mail.gmail.com>
- <CAFkJGRcgJA4qe1AVi23ZQVPr_UEzkTBPH8f30g=OsKmii7QzQw@mail.gmail.com>
- <ZiKYXX-v0Eu-qCBt@archbtw> <CAFkJGRdjvebW6u6pyyA_MeHsoecRgYjiVrxoWYWsREdYH9iOFQ@mail.gmail.com>
- <7ba7cff1-8d9d-4bc3-a74c-6f6828c9195e@amd.com> <CAFkJGRe7DVpcr+VKouTYzBK5r905W4xmxphU11AA6uB8Oj5FJQ@mail.gmail.com>
- <CAFkJGRdu+Ng3APAQAEQntbspXrVNzg_=b2Cd6n0wsFY5m=vWzw@mail.gmail.com>
- <e47385b9-cbab-465e-8c8d-3bbad57415aa@amd.com> <CAFkJGRfPinGR30oRJNxiYpib5JCaA3f5D672noR-x_3Gq2UBSA@mail.gmail.com>
- <87o79xqxtp.fsf@meer.lwn.net>
-In-Reply-To: <87o79xqxtp.fsf@meer.lwn.net>
-From: Josh Marshall <joshua.r.marshall.1991@gmail.com>
-Date: Thu, 25 Apr 2024 13:08:36 -0400
-Message-ID: <CAFkJGRf+K7iGY+TJQu3RDuUv_Xna4BMZmEfeuhHJ0JPg3KQmTg@mail.gmail.com>
-Subject: Re: Feedback on my development setup
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: "Bilbao, Carlos" <carlos.bilbao@amd.com>, ngn <ngn@ngn.tf>, linux-newbie@vger.kernel.org, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, pranjal.singh4370@gmail.com, 
-	"bilbao@vt.edu" <bilbao@vt.edu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] hwmon: pmbus: adm1275: add adm1281 support
+To: Jose Ramon San Buenaventura <jose.sanbuenaventura@analog.com>,
+ linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-i2c@vger.kernel.org
+Cc: Jean Delvare <jdelvare@suse.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
+References: <20240425070948.25788-1-jose.sanbuenaventura@analog.com>
+ <20240425070948.25788-3-jose.sanbuenaventura@analog.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20240425070948.25788-3-jose.sanbuenaventura@analog.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Sorry for the double post to some of you.  Mobile Gmail silently
-converted to HTML and caused some problems.  Content is otherwise
-identical.
+On 4/25/24 00:09, Jose Ramon San Buenaventura wrote:
+> Adding support for adm1281 which is similar to adm1275
+> 
+> Signed-off-by: Jose Ramon San Buenaventura <jose.sanbuenaventura@analog.com>
 
-On Thu, Apr 25, 2024 at 11:14=E2=80=AFAM Jonathan Corbet <corbet@lwn.net> w=
-rote:
->
-> Josh Marshall <joshua.r.marshall.1991@gmail.com> writes:
->
-> > Hello Carlos,
-> >
-> > This is a generational shift.  For my peers, we understand the benefit
-> > of keeping everything in a thread.  But at some point it becomes so
-> > verbose and cumbersome as to defeat the purpose.  The size of the text
-> > I'm working with and the number of text changes it has seen meets that
-> > level.  And so I've kept it in git and referenced that.
->
-> Nonetheless, you are trying to engage with the kernel community, and
-> will have far better results if you follow that community's norms.
-> Those include sending patches by email and not top posting.
->
-> They also include listening to the advice you are being given.  Like
-> others, I appreciate your efforts to improve our documentation; it
-> certainly needs it!  But please think about improving the *existing*
-> documentation, rather than creating yet another file, disconnected from
-> the rest.  We already have far too much of that.
->
+Patch is fine, but we'll need to wait for Conor's feedback
+regarding the compatible fallback before I can apply it.
 
-I cannot abide by this.  Not out of obstinance.  This document is not
-written for a veteran.  It probably isn't even written for anyone on
-this list.  It is meant to be much more approachable than that.
-Comparing to the closest existing document at
-https://docs.kernel.org/dev-tools/gdb-kernel-debugging.html , the
-difference in intended audience and skill level is stark.  Let alone
-being able to find that document since it is so buried relative to the
-intent of someone trying to get started.  I have heard several times "
-you should rather improve existing docs" but without really breaking
-into all the implications that 'just' doesn't help.  Given the back
-and forth required to express the finesse here, I am willing to have a
-phone or video call to get this right.
+Thanks,
+Guenter
 
-> Thanks,
->
-> jon
