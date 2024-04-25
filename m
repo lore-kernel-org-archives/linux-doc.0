@@ -1,259 +1,172 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2048.outbound.protection.outlook.com [40.107.243.48])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C62C1AACB;
-	Thu, 25 Apr 2024 04:01:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714017678; cv=fail; b=W3tLatGVvWuxo/+q6yuAocNKy9XFqeoRA/K0+ucdxlwe1KmYXqjgw1LErZuXaLsvJizx/afrQ7p/H16VOmwcm88WUdKNBF+olp/Nut/t90jOZLaymbwo6LOPpa1XCs0vYJtPYXAYeO90YonYJTtLngDq0ewMabZB7i8VvbwxnWw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714017678; c=relaxed/simple;
-	bh=fK1hrGdYsRFx1aqkdMvXieQC6G86S42RvdAQACk6jxo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=gvJ2TwoVm5soFE1TdbLrDD3XpVMrkTnNb/UU6t/znaWbwAP3gtMVx0y6D5Wv5MMCtGIeECq5twcT7WFXsUiO6qeWC5XwUe2p9Ysako3GkrDdFf4zVJ+FdoAT89Dd7M0wPMX/ne7mJKK3f+mUYrrF1ClX93zIx46zuVWi6d9mLIU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=drfMRwZH; arc=fail smtp.client-ip=40.107.243.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E69252BB01;
+	Thu, 25 Apr 2024 04:13:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1714018434; cv=none; b=K8zWJTAFhVlgQcl5zHChM1MOfZFHleY4msHiovfbKQ9JQ0IA7Tj6iGvOHNEXmh7sC3FSDhcrecEfL0p0rHGi2haMmUfcsbfta0o88+eAA3TbxU3VivgSmytBU3PrhSlZbUAywbgqj32NDS2Vs/MDKTj4wNI/qejJAR635od8STQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1714018434; c=relaxed/simple;
+	bh=J4cDat+gq68hFHW1ovqxOk5nlgVOG8GqMRt7W/o8VEc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hv9uhUvWw/dlBA368uOAFQBvJdnzdw4Z0OyjfMHsjrRQtsUErBW1GnN5HyW+fVwO050p2a4h/AOJIkS8R4+DKQIxBJZXdaijLoTaj/YNqxAd5l6yJjLavmdTu5LWbOY2SDnPd4mnzIHZUeKcPNS5PvWs/bTNzqTVhTaqXRQw2eQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rIt/x2cr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="drfMRwZH"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jdvq482rlxzv1OKgSCNkoz3OmaYHEyDZkdDXaiUkpcnKlouCZRGoh4O6XYVQhRH/XttYyBPM+aHh991Z824xkAiNDiZHPH9kh2jhhDLfjmMKwMUdCbOhAg70NcE3pZx1rg80hXxp9urNsZn6er8vmbEAnQAMMhRnhInkEIzbeITlGRImGESkcPlxPSJ9aLi9CMpuCb/q4RLdfx1ool9OWeKk7eevOJPP4d6MG2zLbX9uXLxQxFdG7w+4lT1aqjvSVOsHBduHu0Of3YuL21ZJN2v4XBnhO7PaAPe+VINppWehg2MEcO1P8I2UKyFYAVXncuQG8twiFrYLyBrfNFvdGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5UMiZ2bSCorAISNz0azH9BZPDLYrtlHBKr3FDAOzCBo=;
- b=ZHZId1EmYBT6XXyi5ASbE8xwlKd7wO8nE9cSwwl0Ql2VJS86nelJLxwv3XDq/GdqFvKln/ajv83bGJEICGFBhEMhKCCDcmcokuyz9D0OPlvwYMBwRU9yBWIA7l7GuPwtS5+qIunYTwzdaX8CNkSqzuFEh7BgqMpwNP+4L+o8n2VAekDzxGEbJDjp+FrvHmVbtq4xyKz0CQKKXCqTt2jXkh1fb93eSw5oBWV0XeDMaWk8ZTuLCx9jcCuOYid7bWloyQ+qUtb3oIFG2kau3VqHkiMe5j3dh2RqrxEU9aztsHfkRWdnBQ/hFjdt0uAwrD2HV9IFCfn/NdcdRcsuCQB31A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5UMiZ2bSCorAISNz0azH9BZPDLYrtlHBKr3FDAOzCBo=;
- b=drfMRwZHUYaQL9wDKOulLKdeR5gDjykFNPtcMGCtk4zWJ1cdV6dFSssY9mUTmtHm+NWL5YoY9zn+GGHv2vdtjBQ8xhlKp5a9EY3c+tT65kSr9L7JP49fpEG+mCkDMQ/9yIkpgExOPFEKCiUT+taxmHdWtW4e4DTTj/5vufUzQ4Yly/jJN2BNMMOvEc2fMuwMxIByCPSuPb28i4m2Ov29F+dfnZIgw/ocPOt03bfDnhFqDIvFbavFLR8bPbdaFEl3dgM98kNj+c0y1wYjI1zJdkSlNJyHY3NuupFvc3SE9TpHgUNgjO8X9VVnrFPOtai/oXy/FpLIgHyywfwYxiLdxQ==
-Received: from CH0PR08CA0004.namprd08.prod.outlook.com (2603:10b6:610:33::9)
- by PH8PR12MB7182.namprd12.prod.outlook.com (2603:10b6:510:229::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.22; Thu, 25 Apr
- 2024 04:01:13 +0000
-Received: from DS3PEPF000099D7.namprd04.prod.outlook.com
- (2603:10b6:610:33:cafe::76) by CH0PR08CA0004.outlook.office365.com
- (2603:10b6:610:33::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.25 via Frontend
- Transport; Thu, 25 Apr 2024 04:01:13 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- DS3PEPF000099D7.mail.protection.outlook.com (10.167.17.8) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7519.19 via Frontend Transport; Thu, 25 Apr 2024 04:01:12 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 24 Apr
- 2024 21:00:56 -0700
-Received: from [10.110.48.28] (10.126.231.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 24 Apr
- 2024 21:00:56 -0700
-Message-ID: <73de5556-e574-4ed7-a7fb-c4648e46206b@nvidia.com>
-Date: Wed, 24 Apr 2024 21:00:50 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rIt/x2cr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF953C113CC;
+	Thu, 25 Apr 2024 04:13:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714018433;
+	bh=J4cDat+gq68hFHW1ovqxOk5nlgVOG8GqMRt7W/o8VEc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rIt/x2crwQB/cp53V1g6Kfzj9H7hyi9yp/MVdDv7qb0i4mLEEtWGY0dCZwTRy/ULd
+	 8t2W6Xi6YcFw9ZjINtWkk8L51Y1xXLDfAk01roM6PLthdnIoQIZr2wnReLJ3C7UfM3
+	 oE2pHsK4gF4NVrA9sYB0hNfum8pWWu7BBBqkr5fiWqr0Kr+RoaKNeC7Dn0Xo5JfiUF
+	 FhwBFtWOeRLA3W/DTHbt074TzsLQ8kEu4YQb722k72l2tCriBZCy+U5ZdJLoTyRwxJ
+	 R7RevDB+0x9A3vbBnxVoJsHWV7UZBt2Hz5VNjJfwjVdUvhgkJc4PSvalXuTKZc1whk
+	 Q8zxMRbAapaSw==
+Date: Wed, 24 Apr 2024 21:13:51 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Fan Wu <wufan@linux.microsoft.com>
+Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
+	serge@hallyn.com, tytso@mit.edu, axboe@kernel.dk, agk@redhat.com,
+	snitzer@kernel.org, eparis@redhat.com, paul@paul-moore.com,
+	linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
+	linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
+	audit@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Deven Bowers <deven.desai@linux.microsoft.com>
+Subject: Re: [PATCH v17 20/21] Documentation: add ipe documentation
+Message-ID: <20240425041351.GD1401@sol.localdomain>
+References: <1712969764-31039-1-git-send-email-wufan@linux.microsoft.com>
+ <1712969764-31039-21-git-send-email-wufan@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] mm/khugepaged: replace page_mapcount() check by
- folio_likely_mapped_shared()
-To: David Hildenbrand <david@redhat.com>, <linux-kernel@vger.kernel.org>
-CC: <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>, Andrew Morton
-	<akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, "Kirill A .
- Shutemov" <kirill.shutemov@linux.intel.com>, Zi Yan <ziy@nvidia.com>, "Yang
- Shi" <yang.shi@linux.alibaba.com>, Ryan Roberts <ryan.roberts@arm.com>
-References: <20240424122630.495788-1-david@redhat.com>
-Content-Language: en-US
-From: John Hubbard <jhubbard@nvidia.com>
-In-Reply-To: <20240424122630.495788-1-david@redhat.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF000099D7:EE_|PH8PR12MB7182:EE_
-X-MS-Office365-Filtering-Correlation-Id: fb108324-d7b5-4f0f-d67f-08dc64dc5927
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230031|1800799015|82310400014|376005|36860700004;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?V0dlajYvY1ZFMlc1RTlPQWFJOGxBUE9nOWlEUHdRSDhzdXZpS0NkMXBIMUN2?=
- =?utf-8?B?Q3JtcVpwUjhsU3FZUkZKZ3U0TEVvcEplUHQrb1VJazFselhEU3FLaWpUSkFi?=
- =?utf-8?B?ZTkySE13Wm4vOC94SkZMQVZNc2p5a0VYWGYrYWt5YnREQjVDNjVrWkN2Vmcy?=
- =?utf-8?B?cW5RcjQ4SmFYUlkwNjlFR2thRERzOXdzc3Nlb3NVSkg5S1VoWVRBM0tCRzRJ?=
- =?utf-8?B?T3dtTXh3ejkwU2lIVy9DU1czYm5kRHBRN2xLYzZzMjNwQVpYZTJsOG54Z2E3?=
- =?utf-8?B?S1VwazdsQXpkRGI4d3dZdm1sbXN6bjBQcTZlS28wNnlTVHFBQkwrSXc3T0Zl?=
- =?utf-8?B?TjJVRDVINTN0dTQwK3VnK0kxVnlTWjhjUjNydEYrcjVIOHV6dS8wd09TbHVu?=
- =?utf-8?B?Z1UrM1BiNko2MW5mbjJSUWo3b0JBNjQ2aWtaUFhQeWYra1hlM01HenFqSjRx?=
- =?utf-8?B?NHNyazdJL0Q4WmdNeVZVWlVDRTU2bGhZRWpEcDVaeHBmZVVsRWdFNFJtdEkv?=
- =?utf-8?B?RUxGMzYyQk1mc1RUUlIvQWtsZjJtMlJTUldObUo3eWZvM2Y5SlZLYmw0bUJW?=
- =?utf-8?B?NnJqVzVmd01zcE0wbnJvd3hYUGZobldXVlFSbUFUTCtzeHFqV2hEZXNxa0ZM?=
- =?utf-8?B?Z1ZhRjhtR1Y4UU9mMmxWQmhLcU9Ub0JWM1NVdmVDOU1IdytDU3ZTU0c5VlBK?=
- =?utf-8?B?S0ZEbS95OFZsc0d6UmVqV3RMd3pQZFJxTWdHYitMTFh2T0J1djM3UTVSUTEz?=
- =?utf-8?B?K2NQdmJuRmo2MjR5c0p6QVdUWXgvNFB6enp0RkthZ0VubXpTaElPV1N6bkJp?=
- =?utf-8?B?c01JQTA2a3ZJZDl0RTI3NGcwUE1WTjRoQlV1SVFtUHg1QVMvSDFELytBVi8v?=
- =?utf-8?B?ZFNJcjRWcWRkMzdPYlEyRGZsb0F4dTc1MjN3aWtQdW12cFRaNUp2S01xRENJ?=
- =?utf-8?B?bThiZ0FLaEt0QldJeHpkVWtLMlQydy9LVThGcjVmcWVobWE4SG1YM2lqd2hz?=
- =?utf-8?B?czFYMW9XdjVGamRZQjhtMHNPV1ErdzhSMGxpY3kyT05tTm1JNENMNXM1eGxu?=
- =?utf-8?B?UkRGNG8vOHV1UG5nVHFtWTR1bFhUcXRyc2EyWlJmYXczbjIwaklkQ2l0MEF1?=
- =?utf-8?B?UmJ1anRzYm5VYXV1K0pqbVE2eWQ2NUd5a09DUXRYdkRNaEU1Yzg0elR3TlBB?=
- =?utf-8?B?a2FBWGp0NlpBUHM4cE1yV09oQWExMzFwSEYwbjJXUy84TzJOVCsyWVJUVEVS?=
- =?utf-8?B?blFLdkQ1eW5SU2VOMTkrNUlyZGwzM1FoTVZKdk10OElUbWZCMlJpVnc3a2tl?=
- =?utf-8?B?Q0VZMXg1NXZOeURtWkw2YVZZVEtzTWNvWXoxY0FkTFo3UTF4K0FSRS9idy93?=
- =?utf-8?B?NHNvc1FRUCtRSGFzalpnL3Zsa25qa3JGY0MrV1U0bWFyVjVWeEtxV2FyU3hU?=
- =?utf-8?B?ZlJoVTdXT2QyL0RqOWJxRkg3eHFwNlRYY0VNektLRk4rQnVyKzNLN29PVThx?=
- =?utf-8?B?dVA3ZFdRS0hFTldkWmY0cW9Xd1ltRTRReHZqQkdsbU5GVHVHV3pyZEk0alVQ?=
- =?utf-8?B?L3RwbDJZemY5a0VWbXZTWVFjNXh4ak5QRXdJT3FCYnBkTW5jaXVlU3lYQmwx?=
- =?utf-8?B?RWZtcmovTnBBNGJrK0Y0RWNpY2NhWjRVVHQwVnUxaHBEbWJxSXhMRWVXZzJX?=
- =?utf-8?B?d0tZM0drTXU4YjVkbmh1QzFTejNNdlZseDBLZkhuMVBIL244d29rd3RLcy9p?=
- =?utf-8?B?RnNtczA4MHYvbTVteWJ5ZUR1UDhUZm5tTExMSFlJK2JZaVg0cjBQWmVXWUJv?=
- =?utf-8?Q?6pD43okSSASO2iLdaqe8kT8Ka2hq9XJrUry5Y=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230031)(1800799015)(82310400014)(376005)(36860700004);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2024 04:01:12.9571
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fb108324-d7b5-4f0f-d67f-08dc64dc5927
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DS3PEPF000099D7.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7182
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1712969764-31039-21-git-send-email-wufan@linux.microsoft.com>
 
-On 4/24/24 5:26 AM, David Hildenbrand wrote:
-
-Hi David,
-
-Overall, I think this looks good, just a few questions, and of course
-some silly documentation nits.
-
-
-> We want to limit the use of page_mapcount() to places where absolutely
-> required, to prepare for kernel configs where we won't keep track of
-> per-page mapcounts in large folios.
-
-
-Just curious, can you elaborate on the motivation? I probably missed
-the discussions that explained why page_mapcount() in large folios
-is not desirable. Are we getting rid of a field in struct page/folio?
-Some other reason?
-
-...
-> To summarize, in the common case, this change is not expected to matter
-> much. The more common application of khugepaged operates on
-
-Based on the diffs (and some quick hacks for testing that I ran), I agree.
-
-...
-> 
-> This really needs the folio_likely_mapped_shared() optimization [1] that
-> resides in mm-unstable, I think, to reduce "false negatives".
-> 
-> The khugepage MM selftests keep working as expected, including:
-> 
-> 	Run test: collapse_max_ptes_shared (khugepaged:anon)
-> 	Allocate huge page... OK
-> 	Share huge page over fork()... OK
-> 	Trigger CoW on page 255 of 512... OK
-> 	Maybe collapse with max_ptes_shared exceeded.... OK
-> 	Trigger CoW on page 256 of 512... OK
-> 	Collapse with max_ptes_shared PTEs shared.... OK
-> 	Check if parent still has huge page... OK
-
-Well, a word of caution! These tests do not (yet) cover either of
-the interesting new cases that folio_likely_mapped_shared() presents:
-KSM or hugetlbfs interactions. In other words, false positives.
-
-
-> 
-> Where we check that collapsing in the parent behaves as expected after
-> COWing a lot of pages in the parent: a sane scenario that is essentially
-> unchanged and which does not depend on any action in the child process
-> (compared to the cases discussed in (B) above).
-> 
-> [1] https://lkml.kernel.org/r/20240409192301.907377-6-david@redhat.com
-> 
-> ---
->   Documentation/admin-guide/mm/transhuge.rst |  3 ++-
->   mm/khugepaged.c                            | 22 +++++++++++++++-------
->   2 files changed, 17 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
-> index f82300b9193fe..076443cc10a6c 100644
-> --- a/Documentation/admin-guide/mm/transhuge.rst
-> +++ b/Documentation/admin-guide/mm/transhuge.rst
-> @@ -278,7 +278,8 @@ collapsed, resulting fewer pages being collapsed into
->   THPs, and lower memory access performance.
->   
->   ``max_ptes_shared`` specifies how many pages can be shared across multiple
-> -processes. Exceeding the number would block the collapse::
-> +processes. khugepaged might treat pages of THPs as shared if any page of
-> +that THP is shared. Exceeding the number would block the collapse::
->   
->   	/sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_shared
->   
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index 2f73d2aa9ae84..cf518fc440982 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -583,7 +583,8 @@ static int __collapse_huge_page_isolate(struct vm_area_struct *vma,
->   		folio = page_folio(page);
->   		VM_BUG_ON_FOLIO(!folio_test_anon(folio), folio);
->   
-> -		if (page_mapcount(page) > 1) {
-> +		/* See hpage_collapse_scan_pmd(). */
-
-Why? Because it has an identical code snippet?
-
-I thought about asking if we should factor that out, just to
-keep the policy the same. Thoughts?
-
-> +		if (folio_likely_mapped_shared(folio)) {
->   			++shared;
->   			if (cc->is_khugepaged &&
->   			    shared > khugepaged_max_ptes_shared) {
-> @@ -1317,8 +1318,20 @@ static int hpage_collapse_scan_pmd(struct mm_struct *mm,
->   			result = SCAN_PAGE_NULL;
->   			goto out_unmap;
->   		}
-> +		folio = page_folio(page);
->   
-> -		if (page_mapcount(page) > 1) {
-> +		if (!folio_test_anon(folio)) {
-> +			result = SCAN_PAGE_ANON;
-> +			goto out_unmap;
-> +		}
+On Fri, Apr 12, 2024 at 05:56:03PM -0700, Fan Wu wrote:
+> +dmverity_roothash
+> +~~~~~~~~~~~~~~~~~
 > +
-> +		/*
-> +		 * We treat a single page as shared if any part of the THP
-> +		 * is shared. "False negatives" from
-> +		 * folio_likely_mapped_shared() are not expected to matter
-> +		 * much in practice.
+> +   This property can be utilized for authorization or revocation of
+> +   specific dm-verity volumes, identified via its root hash. It has a
+> +   dependency on the DM_VERITY module. This property is controlled by
+> +   the ``IPE_PROP_DM_VERITY`` config option, it will be automatically
+> +   selected when ``IPE_SECURITY`` , ``DM_VERITY`` and
+> +   ``DM_VERITY_VERIFY_ROOTHASH_SIG`` are all enabled.
+> +   The format of this property is::
+> +
+> +      dmverity_roothash=DigestName:HexadecimalString
+> +
+> +   The supported DigestNames for dmverity_roothash are [#dmveritydigests]_ [#securedigest]_ :
+> +
+> +      + blake2b-512
+> +      + blake2s-256
+> +      + sha1
+> +      + sha256
+> +      + sha384
+> +      + sha512
+> +      + sha3-224
+> +      + sha3-256
+> +      + sha3-384
+> +      + sha3-512
+> +      + md4
+> +      + md5
+> +      + sm3
+> +      + rmd160
 
-Maybe delete that second sentence? It is not really pulling its
-weight here. :)
+It's not the 90s anymore.  Insecure algorithms like md4, md5, and sha1 should
+not be here.
 
+> +dmverity_signature
+> +~~~~~~~~~~~~~~~~~~
+> +
+> +   This property can be utilized for authorization of all dm-verity
+> +   volumes that have a signed roothash that validated by a keyring
+> +   specified by dm-verity's configuration, either the system trusted
+> +   keyring, or the secondary keyring. It depends on
+> +   ``DM_VERITY_VERIFY_ROOTHASH_SIG`` config option and is controlled by
+> +   the ``IPE_PROP_DM_VERITY`` config option, it will be automatically
+> +   selected when ``IPE_SECURITY``, ``DM_VERITY`` and
+> +   ``DM_VERITY_VERIFY_ROOTHASH_SIG`` are all enabled.
+> +   The format of this property is::
+> +
+> +      dmverity_signature=(TRUE|FALSE)
+> +
+> +fsverity_digest
+> +~~~~~~~~~~~~~~~
+> +
+> +   This property can be utilized for authorization or revocation of
+> +   specific fsverity enabled file, identified via its fsverity digest.
+> +   It depends on ``FS_VERITY`` config option and is controlled by
+> +   ``CONFIG_IPE_PROP_FS_VERITY``. The format of this property is::
+> +
+> +      fsverity_digest=DigestName:HexadecimalString
+> +
+> +   The supported DigestNames for fsverity_roothash are [#fsveritydigest]_ [#securedigest]_ :
 
-thanks,
--- 
-John Hubbard
-NVIDIA
+fsverity_digest, not fsverity_roothash.
 
+> +Allow any signed fs-verity file
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +::
+> +
+> +   policy_name=AllowSignedFSVerity policy_version=0.0.0
+> +   DEFAULT action=DENY
+> +
+> +   op=EXECUTE fsverity_signature=TRUE action=ALLOW
+
+As elsewhere, ideally this would be more specific about what is meant by a
+signed file.  The goal is not to allow *any* signed file, but rather only allow
+files that are signed by a particular someone/something.
+
+> +Prohibit execution of a specific fs-verity file
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +::
+> +
+> +   policy_name=ProhibitSpecificFSVF policy_version=0.0.0
+> +   DEFAULT action=DENY
+> +
+> +   op=EXECUTE fsverity_digest=sha256:fd88f2b8824e197f850bf4c5109bea5cf0ee38104f710843bb72da796ba5af9e action=DENY
+> +   op=EXECUTE boot_verified=TRUE action=ALLOW
+> +   op=EXECUTE dmverity_signature=TRUE action=ALLOW
+
+This example is a bit weird because it's a denylist, not an allowlist.  In
+general this could be trivially circumvented by creating a new binary that has
+fsverity disabled or that doesn't meaningfully differ from the original.
+
+> +.. [#fsveritydigest] These hash algorithms are based on values accepted by fsverity-utils;
+> +                     IPE does not impose any restrictions on the digest algorithm itself;
+> +                     thus, this list may be out of date.
+
+It's the kernel's fsverity support, not fsverity-utils, that matters here.
+fsverity-utils is kept up to date with the kernel, so in practice the list of
+algorithms is the same on both sides, but it's the kernel that matters here.
+
+> +.. [#dmveritydigests] These hash algorithms are based on values accepted by dm-verity,
+> +                      specifically ``crypto_alloc_ahash`` in ``verity_ctr``; ``veritysetup``
+> +                      does support more algorithms than the list above. IPE does not impose
+> +                      any restrictions on the digest algorithm itself; thus, this list
+> +                      may be out of date.
+
+References to specific functions and locations in the code tend to get out of
+date.  I think you mean something like: any hash algorithm that's supported by
+the Linux crypto API is supported.
+
+> +
+> +.. [#securedigest] Please ensure you are using cryptographically secure hash functions;
+> +                   just because something is *supported* does not mean it is *secure*.
+
+Instead of giving insecure algorithms like md4 as examples and then giving this
+disclaimer, how about only giving secure algorithms as examples?
+
+- Eric
