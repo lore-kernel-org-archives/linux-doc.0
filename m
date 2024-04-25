@@ -1,59 +1,47 @@
-Received: from out-184.mta1.migadu.com (out-184.mta1.migadu.com [95.215.58.184])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5944320DCB
-	for <linux-doc@vger.kernel.org>; Thu, 25 Apr 2024 03:26:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C742F1CFAF;
+	Thu, 25 Apr 2024 03:36:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714015574; cv=none; b=rAGKkUSkFaT0HAFnO6UDKtcaVpSGEsAYCCLAHa736575WnjK3ZVWJeE2pvwVEsAW58n+18qR79cFbDw+4ZqRLPrD70gN5KAHUg7vhAAhFM23OKT8G8J0f4HBgQezlHsimKP61eLfiWzs1e5HjtgsyAOeAW67x1fXzP74QE5vL8A=
+	t=1714016186; cv=none; b=PqJOlXlW5JU7LwEdmhnR9XLbGon0cdOXJlzaW9n7RH/R0dHVBUkKJ+f7yzZb7nczEv4SKNJVhfIXxxeC6KKrRo8JyVZXub//1lpNkpK9Qp5j2tHdvQZZWGEK8pSsEsKOEe8iPfAPMUWHOB8RGeQtpWN7U2+++DcTU6QuIwa6HnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714015574; c=relaxed/simple;
-	bh=88mSEe2XHZvT1rBs/fYya7T2WNxPEAzzgRRezEnLHpg=;
+	s=arc-20240116; t=1714016186; c=relaxed/simple;
+	bh=GeWAMnfWagn1Kaadtthqg0oPmCZaNIn9vT7HkPbKuW4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nzr35g+JRr/BwlAc1y+eW+9f9dXunvTvHG5coq4SGetTCnf9teean13EsSPqRj4OCKFtSWeRrjU/9/QlYh/gqBvj2d6YM6HpshlRgiK3GFmwjQe5O4eBFzt3JoxScahDzO4lFNLJ1jeoTkBjp/lKf3lUbCNPn9FEdSdJtmnJ+2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=SB/UBFh9; arc=none smtp.client-ip=95.215.58.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 Content-Type:Content-Disposition:In-Reply-To; b=FgWIAJBlx3pA46NipQ8VHxJWGwJppHS78P2n8gNpjkK5UfxCR6xbvi5uPr4NnFWqmvoTOsrtYGNoRRMzM/thkx/bkip9V8OmyAeManhDtQfg9pGYmr5FQLR4K2m5yqgCa1ks8VWV5/pZA5TAz876SJTN93m1ArtlWLwy4b4wMHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DYJklTY1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="SB/UBFh9"
-Date: Wed, 24 Apr 2024 23:25:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1714015569;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=B4E11bh0mnSYCbs7XlFu6X7DBUDw+NgzQF2QoLRfZq4=;
-	b=SB/UBFh9p4EtaUdmuFy3Y/2llf6hAFYeqTBTCq9EEsoT+vbVj3Dlf1lTZDFcjgmVyftRCV
-	Waevx5gMLX6VuaMH0g7owkCnFmE0q6eqUFo94c3PjotScdKb99fpqHnymmit8v+7TmVjp+
-	fv6zDMYTkmqCw9Lze8Tza4V/pRVw9Ow=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Kees Cook <keescook@chromium.org>
-Cc: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org, 
-	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, 
-	mgorman@suse.de, dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
-	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com, peterz@infradead.org, 
-	juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de, 
-	tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org, 
-	peterx@redhat.com, david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, 
-	masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org, jhubbard@nvidia.com, 
-	tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org, 
-	pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
-	hughd@google.com, andreyknvl@gmail.com, ndesaulniers@google.com, vvvvvv@google.com, 
-	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com, 
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
-	bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, cl@linux.com, 
-	penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
-	elver@google.com, dvyukov@google.com, songmuchun@bytedance.com, jbaron@akamai.com, 
-	aliceryhl@google.com, rientjes@google.com, minchan@google.com, kaleshsingh@google.com, 
-	kernel-team@android.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org
-Subject: Re: [PATCH v6 00/37] Memory allocation profiling
-Message-ID: <3eyvxqihylh4st6baagn6o6scw3qhcb6lapgli4wsic2fvbyzu@h66mqxcikmcp>
-References: <20240321163705.3067592-1-surenb@google.com>
- <202404241852.DC4067B7@keescook>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DYJklTY1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDCF6C113CC;
+	Thu, 25 Apr 2024 03:36:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714016185;
+	bh=GeWAMnfWagn1Kaadtthqg0oPmCZaNIn9vT7HkPbKuW4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DYJklTY1KH83ua4kI6LeO607GfBSbM2ev6VicCnIJrjSZSXEO/cSyCKjoFseMcV/f
+	 XzRcOQDv1baecMnURNXN1yYWL6CAk/7ShUgjgbKo8hlIUqvwDii4EroS3Qpu+/6BLV
+	 eNQBPFefTzuqC/BMjxpkI7w+rGCSbuekxbHMGgjUj5fP1BxuhuykvkoMiwNsg9+Km+
+	 w+iNxj+e3U0TernKO8YnJtbf2/XxFbHw/3FlDaZHWncDGhXwlQ7wqpA9Ps0UZP1FjF
+	 GdICSIxzjpaPOY7bd2GUVfRqfmci/0l7yFzmM+WP++La4EaxXB5+8mnjHQYK1dFZBC
+	 N82rs9fbu01HA==
+Date: Wed, 24 Apr 2024 20:36:23 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Fan Wu <wufan@linux.microsoft.com>
+Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
+	serge@hallyn.com, tytso@mit.edu, axboe@kernel.dk, agk@redhat.com,
+	snitzer@kernel.org, eparis@redhat.com, paul@paul-moore.com,
+	linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
+	linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
+	audit@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Deven Bowers <deven.desai@linux.microsoft.com>
+Subject: Re: [PATCH v17 16/21] fsverity: expose verified fsverity built-in
+ signatures to LSMs
+Message-ID: <20240425033623.GA1401@sol.localdomain>
+References: <1712969764-31039-1-git-send-email-wufan@linux.microsoft.com>
+ <1712969764-31039-17-git-send-email-wufan@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,44 +50,70 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202404241852.DC4067B7@keescook>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <1712969764-31039-17-git-send-email-wufan@linux.microsoft.com>
 
-On Wed, Apr 24, 2024 at 06:59:01PM -0700, Kees Cook wrote:
-> On Thu, Mar 21, 2024 at 09:36:22AM -0700, Suren Baghdasaryan wrote:
-> > Low overhead [1] per-callsite memory allocation profiling. Not just for
-> > debug kernels, overhead low enough to be deployed in production.
-> 
-> Okay, I think I'm holding it wrong. With next-20240424 if I set:
-> 
-> CONFIG_CODE_TAGGING=y
-> CONFIG_MEM_ALLOC_PROFILING=y
-> CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT=y
-> 
-> My test system totally freaks out:
-> 
-> ...
-> SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=4, Nodes=1
-> Oops: general protection fault, probably for non-canonical address 0xc388d881e4808550: 0000 [#1] PREEMPT SMP NOPTI
-> CPU: 0 PID: 0 Comm: swapper Not tainted 6.9.0-rc5-next-20240424 #1
-> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 0.0.0 02/06/2015
-> RIP: 0010:__kmalloc_node_noprof+0xcd/0x560
-> 
-> Which is:
-> 
-> __kmalloc_node_noprof+0xcd/0x560:
-> __slab_alloc_node at mm/slub.c:3780 (discriminator 2)
-> (inlined by) slab_alloc_node at mm/slub.c:3982 (discriminator 2)
-> (inlined by) __do_kmalloc_node at mm/slub.c:4114 (discriminator 2)
-> (inlined by) __kmalloc_node_noprof at mm/slub.c:4122 (discriminator 2)
-> 
-> Which is:
-> 
->         tid = READ_ONCE(c->tid);
-> 
-> I haven't gotten any further than that; I'm EOD. Anyone seen anything
-> like this with this series?
+On Fri, Apr 12, 2024 at 05:55:59PM -0700, Fan Wu wrote:
+> For instance, a policy could be established to permit the execution of all
+> files with verified built-in fsverity signatures while restricting kernel
+> module loading from specified fsverity files via fsverity digets.
 
-I certainly haven't. That looks like some real corruption, we're in slub
-internal data structures and derefing a garbage address. Check kasan and
-all that?
+"digets" => "digests"
+
+> The introduction of a security_inode_setintegrity() hook call within
+> fsverity's workflow ensures that the verified built-in signature of a file
+> is exposed to LSMs, This enables LSMs to recognize and label fsverity files
+
+"LSMs, This" => "LSMs. This"
+
+> +#ifdef CONFIG_FS_VERITY_BUILTIN_SIGNATURES
+> +static int fsverity_inode_setintegrity(struct inode *inode,
+> +				       const struct fsverity_descriptor *desc)
+> +{
+> +	return security_inode_setintegrity(inode,
+> +					   LSM_INT_FSVERITY_BUILTINSIG_VALID,
+> +					   desc->signature,
+> +					   le32_to_cpu(desc->sig_size));
+> +}
+> +#else
+> +static inline int fsverity_inode_setintegrity(struct inode *inode,
+> +					      const struct fsverity_descriptor *desc)
+> +{
+> +	return 0;
+> +}
+> +#endif /* CONFIG_FS_VERITY_BUILTIN_SIGNATURES */
+[...]
+> @@ -241,6 +259,10 @@ struct fsverity_info *fsverity_create_info(const struct inode *inode,
+> 		}
+> 	}
+> 
+> +	err = fsverity_inode_setintegrity(inode, desc);
+> +	if (err)
+> +		goto fail;
+> +
+
+Wouldn't it be much simpler to put the LSM call in fsverity_verify_signature()?
+Then no #ifdef would be needed, and there would be no weird cases where the LSM
+gets passed LSM_INT_FSVERITY_BUILTINSIG_VALID with an empty signature.
+
+> diff --git a/fs/verity/signature.c b/fs/verity/signature.c
+> index 90c07573dd77..fd60e9704e78 100644
+> --- a/fs/verity/signature.c
+> +++ b/fs/verity/signature.c
+> @@ -41,7 +41,11 @@ static struct key *fsverity_keyring;
+>   * @sig_size: size of signature in bytes, or 0 if no signature
+>   *
+>   * If the file includes a signature of its fs-verity file digest, verify it
+> - * against the certificates in the fs-verity keyring.
+> + * against the certificates in the fs-verity keyring. Note that signatures
+> + * are verified regardless of the state of the 'fsverity_require_signatures'
+> + * variable and the LSM subsystem relies on this behavior to help enforce
+> + * file integrity policies. Please discuss changes with the LSM list
+> + * (thank you!).
+>   *
+>   * Return: 0 on success (signature valid or not required); -errno on failure
+>   */
+
+... and it would also make the above easier to understand if the LSM call were
+to happen right in fsverity_verify_signature().
+
+- Eric
