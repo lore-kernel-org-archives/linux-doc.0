@@ -1,204 +1,209 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 971C7153801;
-	Thu, 25 Apr 2024 20:23:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B61E153582
+	for <linux-doc@vger.kernel.org>; Thu, 25 Apr 2024 20:44:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714076641; cv=none; b=pqDImpkrU10LEOOWQvYk9uo6AeVgU/uWSy9GXqZ/NTGQ8HVHGLTTudczVzXlFoEG+iQ+d0CJ7vdwh2C0pld4Oq/G9mse8vgskJrXZicMXaUGeGOp7UZ+qjOt1D/aDEKsm00umoyif/CdYA+CL8a99quBf2HchDVdW94dRreI+7Y=
+	t=1714077881; cv=none; b=OybKzvYM4OrqrRmfYZQQ+7N0/ylyzvw42u3bDZlNy+60KwEcxijBUT5haiRXI6C9f7F9yIK4tJLtm5twDqoIsjAQRnMAJZmrCqryXeV3bkvsDRwZA0YeAAMSgzfY6rHxDjya9FGs3jNyFPxKV4JVRmrY7eR4XQHffNM9KTiOfuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714076641; c=relaxed/simple;
-	bh=08WPogXj9ccCunrIcH7Gsf5VsfCJT+2vSloyAfgVOpo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E6vxXiPbziu6LLIrSQOLXQjR7psCrTHUwvCdyOA4VPVg4m6W2ukEofQhfb4Z+abiBZErrbWpJ8E6dmpRkk3h6nLGQMgDMg4DxRWNCjF41lDOxKG0Gm/v1t/bL2KD9F/SnnVo6regPER9wdfvcI29bQB88MTy4x/SoyETGgcDcGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=QzRFHDNM; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1714077881; c=relaxed/simple;
+	bh=pNAc4xx6x/Pk8Z2YHbQgt41qHlf9rLihZxwdYu91K1A=;
+	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=OeKSQ1c4bz5ifg9equpO/e3DDQa4Y6TN9p+THc9Szb46dqOynAhY5wNbwlC+/pyym+84MUhM/69TOn5+296bW0e9i92G83U9EyDlrlZZ7yuSPd30tA508x0OkrPBbrcCnc9D34r11+9IKiG9zBqm+n3WiiRrgVCQd0Ez8t9g4JI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0r38qx1J; arc=none smtp.client-ip=209.85.219.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="QzRFHDNM"
-Received: from [10.137.106.151] (unknown [167.220.2.23])
-	by linux.microsoft.com (Postfix) with ESMTPSA id E234E20FD4CE;
-	Thu, 25 Apr 2024 13:23:57 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E234E20FD4CE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1714076638;
-	bh=Ut792Bm4cIOYNOqotGiFt26HJ/65wP94SVse6cZs0cU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=QzRFHDNMdopqkGKA5TUBtW0Vrr3/py/nBJLRMF/wnzbWNulqxJ+g+rYqSg6zSRn4u
-	 yqOzz8YbPOQKDxvZ8OnHbTca+U6PA2Jycw+u/5fF4Z6Qg6OF0aUBky68HRJfknZSPc
-	 F2+OF3hzpfon+VEwQmF4/xiOd8H7SpBuHHnSPphQ=
-Message-ID: <6cf278b3-32f2-4665-be8d-ea6605f4318b@linux.microsoft.com>
-Date: Thu, 25 Apr 2024 13:23:57 -0700
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0r38qx1J"
+Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-de5a8638579so6812276.1
+        for <linux-doc@vger.kernel.org>; Thu, 25 Apr 2024 13:44:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1714077879; x=1714682679; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=7EPo+zEkHEFx1G3/t3IphIU996vlKHE8W7j3UdO+nD0=;
+        b=0r38qx1J4EOdXUJ9q7PK2v28aQImNptnjHeuac1bvRHl0J3juashU1Y4sWo1JpAtS1
+         349ydjgZiqFk6FsrZvocXrSdhqlcYiBbAru+FpBBwxxrE8emqz1cM7A8AGMb1Gca2gKg
+         GW2RUNtHG5XtsqCi/YO2+IyRK74qyU89a9gW7fLhidQ/tbWVR8rIRvDMK7V1Kuad31Af
+         spY7GHuqAZFhT6SLC+8xclF3fGd/rvoB8UHStNfS7J0irPuscRFseoaDkYDlmh70tAl8
+         b82Py3/R8hkgjf207I2AfhAblB9CtglfbTp+XOEOSR7UKi9uysais/NNyVWFy6nYLV+G
+         OYbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714077879; x=1714682679;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7EPo+zEkHEFx1G3/t3IphIU996vlKHE8W7j3UdO+nD0=;
+        b=hWaAYzq407WPR7C2CD6jOUAD/YuQTU6Of4NAH13BmTNykKL3cZEjloGek91Bj5KUAK
+         ihdBzcQI0fG6GikovBqJyahOfrjtM8DEu4IOvo7ozitAtVV0S0sH8+pxtPojjmzVYNNl
+         PLrIVxygv2xfn38y1W8jv3lwmFb+yHcjXAnFFbh9g6Y2lG4eb94TGK6IdTSW5Xzbr5dC
+         9Tj0enwGzU0WFR34/8ckrZv58u9nJ5e5x5eKQquPDkiSwxKMu97ncLqa+EU62g+soVtM
+         L+ae300NDgma+meQSCmCDOOYuhNNA1EpgiO6NPHUqEZ4D84p1hLAhwklLGKhEHD2Vqrv
+         adLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV5xvYBjQfesPUnHqlHoD3nQrn4/6AodKhClb3V1PgxCAVQQFXxL0X2UpnTpK2vgdYuAVDjdYPDc4tPIMMmOyB5JURc+DN7IJnx
+X-Gm-Message-State: AOJu0YywuTCoAUOTkhzHxX7WUudauJQGZbOimH2JjN7yTJk9fx7Fi3Om
+	FIFNAK8CXMC9/0jada81mURyRx7HZvCSW/YWeqPp4ZKmxU9X3oDTVW0e0Tsr5UNcVQPwh4f87YX
+	/MNk8LL9MaxpCfH988lPLjA==
+X-Google-Smtp-Source: AGHT+IGAB6QOB7oBGzpObLQHA1ClHYJKANOvXwLDW//pW389wqrc02vbLvB6xtOYSun/X1gLD+tgNqvwAvZ/M4BCYw==
+X-Received: from coltonlewis-kvm.c.googlers.com ([fda3:e722:ac3:cc00:2b:ff92:c0a8:14ce])
+ (user=coltonlewis job=sendgmr) by 2002:a05:6902:10c3:b0:de5:c2b:389b with
+ SMTP id w3-20020a05690210c300b00de50c2b389bmr100094ybu.5.1714077878658; Thu,
+ 25 Apr 2024 13:44:38 -0700 (PDT)
+Date: Thu, 25 Apr 2024 20:44:37 +0000
+In-Reply-To: <ZibaBKCFMz-dJNM4@linux.dev> (message from Oliver Upton on Mon,
+ 22 Apr 2024 14:43:32 -0700)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v17 13/21] dm verity: consume root hash digest and expose
- signature data via LSM hook
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
- tytso@mit.edu, axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
- eparis@redhat.com, paul@paul-moore.com, linux-doc@vger.kernel.org,
- linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
- fsverity@lists.linux.dev, linux-block@vger.kernel.org,
- dm-devel@lists.linux.dev, audit@vger.kernel.org,
- linux-kernel@vger.kernel.org, Deven Bowers <deven.desai@linux.microsoft.com>
-References: <1712969764-31039-1-git-send-email-wufan@linux.microsoft.com>
- <1712969764-31039-14-git-send-email-wufan@linux.microsoft.com>
- <20240425035647.GC1401@sol.localdomain>
-Content-Language: en-CA
-From: Fan Wu <wufan@linux.microsoft.com>
-In-Reply-To: <20240425035647.GC1401@sol.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Message-ID: <gsntedat9npm.fsf@coltonlewis-kvm.c.googlers.com>
+Subject: Re: [PATCH v4] KVM: arm64: Add early_param to control WFx trapping
+From: Colton Lewis <coltonlewis@google.com>
+To: Oliver Upton <oliver.upton@linux.dev>
+Cc: kvm@vger.kernel.org, corbet@lwn.net, maz@kernel.org, james.morse@arm.com, 
+	suzuki.poulose@arm.com, yuzenghui@huawei.com, catalin.marinas@arm.com, 
+	will@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 
+Oliver Upton <oliver.upton@linux.dev> writes:
 
+> Hi Colton,
 
-On 4/24/2024 8:56 PM, Eric Biggers wrote:
-> On Fri, Apr 12, 2024 at 05:55:56PM -0700, Fan Wu wrote:
->> dm verity: consume root hash digest and expose signature data via LSM hook
-> 
-> As in the fsverity patch, nothing is being "consumed" here.  This patch adds a
-> supplier, not a consumer.  I think you mean something like: expose root digest
-> and signature to LSMs.
-> 
-Thanks for the suggestion.
+> On Mon, Apr 22, 2024 at 06:17:16PM +0000, Colton Lewis wrote:
+>> @@ -2653,6 +2653,27 @@
+>>   			[KVM,ARM] Allow use of GICv4 for direct injection of
+>>   			LPIs.
 
->> diff --git a/drivers/md/dm-verity-target.c b/drivers/md/dm-verity-target.c
->> index bb5da66da4c1..fbb83c6fd99c 100644
->> --- a/drivers/md/dm-verity-target.c
->> +++ b/drivers/md/dm-verity-target.c
->> @@ -22,6 +22,8 @@
->>   #include <linux/scatterlist.h>
->>   #include <linux/string.h>
->>   #include <linux/jump_label.h>
->> +#include <linux/security.h>
->> +#include <linux/dm-verity.h>
->>   
->>   #define DM_MSG_PREFIX			"verity"
->>   
->> @@ -1017,6 +1019,38 @@ static void verity_io_hints(struct dm_target *ti, struct queue_limits *limits)
->>   	blk_limits_io_min(limits, limits->logical_block_size);
+>> +	kvm-arm.wfe_trap_policy=
+>> +			[KVM,ARM] Control when to set wfe instruction trap.
+
+> nitpick: when referring to the instruction, please capitalize it.
+
+> Also, it doesn't hurt to be verbose here and say this cmdline option
+> "Controls the WFE instruction trap behavior for KVM VMs"
+
+> I say this because there is a separate set of trap controls that allow
+> WFE or WFI to execute in EL0 (i.e. host userspace).
+
+Will do.
+
+>> +			trap: set wfe instruction trap
+>> +
+>> +			notrap: clear wfe instruction trap
+>> +
+>> +			default: set wfe instruction trap only if multiple
+>> +				 tasks are running on the CPU
+
+> I would strongly prefer we not make any default behavior user-visible.
+> The default KVM behavior can (and will) change in the future.
+
+> Only the absence of an explicit trap / notrap policy should fall back to
+> KVM's default heuristics.
+
+Makes sense to me. Will do.
+
+>> -static inline void vcpu_clear_wfx_traps(struct kvm_vcpu *vcpu)
+>> +static inline void vcpu_clear_wfe_trap(struct kvm_vcpu *vcpu)
+>>   {
+>>   	vcpu->arch.hcr_el2 &= ~HCR_TWE;
+>> +}
+>> +
+>> +static inline void vcpu_clear_wfi_trap(struct kvm_vcpu *vcpu)
+>> +{
+>>   	if (atomic_read(&vcpu->arch.vgic_cpu.vgic_v3.its_vpe.vlpi_count) ||
+>>   	    vcpu->kvm->arch.vgic.nassgireq)
+>>   		vcpu->arch.hcr_el2 &= ~HCR_TWI;
+>> @@ -119,12 +123,28 @@ static inline void vcpu_clear_wfx_traps(struct  
+>> kvm_vcpu *vcpu)
+>>   		vcpu->arch.hcr_el2 |= HCR_TWI;
 >>   }
->>   
->> +#ifdef CONFIG_SECURITY
->> +
->> +static int verity_init_sig(struct dm_verity *v, const void *sig,
->> +			   size_t sig_size)
+
+> This helper definitely does not do as it says on the tin. It ignores the
+> policy requested on the command line and conditionally *sets* TWI. If
+> the operator believes they know best and ask for a particular trap policy
+> KVM should uphold it unconditionally. Even if they've managed to shoot
+> themselves in the foot.
+
+Will do. I was only splitting up what the existing helper did here.
+
+>> @@ -423,6 +425,12 @@ void kvm_arch_vcpu_unblocking(struct kvm_vcpu *vcpu)
+
+>>   }
+
+>> +static bool kvm_should_clear_wfx_trap(enum kvm_wfx_trap_policy p)
 >> +{
->> +	v->sig_size = sig_size;
->> +	v->root_digest_sig = kmemdup(sig, v->sig_size, GFP_KERNEL);
->> +	if (!v->root_digest)
->> +		return -ENOMEM;
-> 
-> root_digest_sig, not root_digest
-> 
-Thanks for pointing out!
+>> +	return (p == KVM_WFX_NOTRAP && kvm_vgic_global_state.has_gicv4)
+>> +		|| (p == KVM_WFX_NOTRAP_SINGLE_TASK && single_task_running());
+>> +}
 
->> +#ifdef CONFIG_SECURITY
+> style nitpick: operators should always go on the preceding line for a
+> multi-line statement.
+
+Will do.
+
+>>   void kvm_arch_vcpu_load(struct kvm_vcpu *vcpu, int cpu)
+>>   {
+>>   	struct kvm_s2_mmu *mmu;
+>> @@ -456,10 +464,15 @@ void kvm_arch_vcpu_load(struct kvm_vcpu *vcpu, int  
+>> cpu)
+>>   	if (kvm_arm_is_pvtime_enabled(&vcpu->arch))
+>>   		kvm_make_request(KVM_REQ_RECORD_STEAL, vcpu);
+
+>> -	if (single_task_running())
+>> -		vcpu_clear_wfx_traps(vcpu);
+>> +	if (kvm_should_clear_wfx_trap(kvm_wfi_trap_policy))
+>> +		vcpu_clear_wfi_trap(vcpu);
+>>   	else
+>> -		vcpu_set_wfx_traps(vcpu);
+>> +		vcpu_set_wfi_trap(vcpu);
 >> +
->> +static int verity_finalize(struct dm_target *ti)
->> +{
->> +	struct block_device *bdev;
->> +	struct dm_verity_digest root_digest;
->> +	struct dm_verity *v;
->> +	int r;
->> +
->> +	v = ti->private;
->> +	bdev = dm_disk(dm_table_get_md(ti->table))->part0;
->> +	root_digest.digest = v->root_digest;
->> +	root_digest.digest_len = v->digest_size;
->> +	root_digest.alg = v->alg_name;
->> +
->> +	r = security_bdev_setintegrity(bdev, LSM_INT_DMVERITY_ROOTHASH, &root_digest,
->> +				       sizeof(root_digest));
->> +	if (r)
->> +		return r;
->> +
->> +	r = security_bdev_setintegrity(bdev,
->> +				       LSM_INT_DMVERITY_SIG_VALID,
->> +				       v->root_digest_sig,
->> +				       v->sig_size);
-> 
-> The signature is only checked if CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG=y, whereas
-> this code is built whenever CONFIG_SECURITY=y.
-> 
-> So this seems like the same issue that has turned up elsewhere in the IPE
-> patchset, where IPE is (apparently) happy with any signature, even one that
-> hasn't been checked...
-> 
+>> +	if (kvm_should_clear_wfx_trap(kvm_wfe_trap_policy))
+>> +		vcpu_clear_wfe_trap(vcpu);
+>> +	else
+>> +		vcpu_set_wfe_trap(vcpu);
 
-Yes I do agree the second hook call should better depend on 
-CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG=y.
+>>   	if (vcpu_has_ptrauth(vcpu))
+>>   		vcpu_ptrauth_disable(vcpu);
 
-However, the current implementation does not happy with any signature.
+> I find all of the layering rather hard to follow; we don't need
+> accessors for doing simple bit manipulation.
 
-In case of CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG=y, any signature 
-provided to dm-verity will be checked against the configured keyring, 
-the hook call won't be reached if the check failed. In case of no 
-signature is provided and !DM_VERITY_IS_SIG_FORCE_ENABLED(), the hook 
-will be called with signature value NULL.
+> Rough sketch:
 
-In case of CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG=n, signature won't be 
-accepted by dm-verity. In addition, the whole support of dm-verity will 
-be disabled for IPE because CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG=n.
+> static bool kvm_vcpu_should_clear_twi(struct kvm_vcpu *vcpu)
+> {
+> 	if (unlikely(kvm_wfi_trap != KVM_WFX_DEFAULT))
+> 		return kvm_wfi_trap == KVM_WFX_NOTRAP;
 
->> diff --git a/drivers/md/dm-verity.h b/drivers/md/dm-verity.h
->> index 20b1bcf03474..89e862f0cdf6 100644
->> --- a/drivers/md/dm-verity.h
->> +++ b/drivers/md/dm-verity.h
->> @@ -43,6 +43,9 @@ struct dm_verity {
->>   	u8 *root_digest;	/* digest of the root block */
->>   	u8 *salt;		/* salt: its size is salt_size */
->>   	u8 *zero_digest;	/* digest for a zero block */
->> +#ifdef CONFIG_SECURITY
->> +	u8 *root_digest_sig;	/* digest signature of the root block */
->> +#endif /* CONFIG_SECURITY */
-> 
-> No, it's not a signature of the root block, at least not directly.  It's a
-> signature of the root digest (the digest of the root block).
-> 
->> diff --git a/include/linux/dm-verity.h b/include/linux/dm-verity.h
->> new file mode 100644
->> index 000000000000..a799a8043d85
->> --- /dev/null
->> +++ b/include/linux/dm-verity.h
->> @@ -0,0 +1,12 @@
->> +/* SPDX-License-Identifier: GPL-2.0 */
->> +
->> +#ifndef _LINUX_DM_VERITY_H
->> +#define _LINUX_DM_VERITY_H
->> +
->> +struct dm_verity_digest {
->> +	const char *alg;
->> +	const u8 *digest;
->> +	size_t digest_len;
->> +};
->> +
->> +#endif /* _LINUX_DM_VERITY_H */
->> diff --git a/include/linux/security.h b/include/linux/security.h
->> index ac0985641611..9e46b13a356c 100644
->> --- a/include/linux/security.h
->> +++ b/include/linux/security.h
->> @@ -84,7 +84,8 @@ enum lsm_event {
->>   };
->>   
->>   enum lsm_integrity_type {
->> -	__LSM_INT_MAX
->> +	LSM_INT_DMVERITY_SIG_VALID,
->> +	LSM_INT_DMVERITY_ROOTHASH,
->>   };
-> 
-> Shouldn't struct dm_verity_digest be defined next to LSM_INT_DMVERITY_ROOTHASH?
-> It's the struct that's associated with it.
-> 
-> It seems weird to create a brand new header <linux/dm-verity.h> that just
-> contains this one LSM related definition, when there's already a header for the
-> LSM definitions that even includes the related value LSM_INT_DMVERITY_ROOTHASH.
-> 
-> - Eric
+> 	return single_task_running() &&
+> 	       (atomic_read(&vcpu->arch.vgic_cpu.vgic_v3.its_vpe.vlpi_count) ||
+> 	        vcpu->kvm->arch.vgic.nassgireq);
+> }
 
-Yes they can just be in the same header. Thanks for the suggestion.
+> static bool kvm_vcpu_should_clear_twe(struct kvm_vcpu *vcpu)
+> {
+> 	if (unlikely(kvm_wfe_trap != KVM_WFX_DEFAULT))
+> 		return kvm_wfe_trap == KVM_WFX_NOTRAP;
 
--Fan
+> 	return single_task_running();
+> }
+
+> static void kvm_vcpu_load_compute_hcr(struct kvm_vcpu *vcpu)
+> {
+> 	vcpu->arch.hcr_el2 |= HCR_TWE | HCR_TWI;
+
+> 	if (kvm_vcpu_should_clear_twe(vcpu))
+> 		vcpu->arch.hcr_el2 &= ~HCR_TWE;
+> 	if (kvm_vcpu_should_clear_twi(vcpu))
+> 		vcpu->arch.hcr_el2 &= ~HCR_TWI;
+> }
+
+Will do.
+
+> And if we really wanted to, the non-default trap configuration could be
+> moved to vcpu_reset_hcr() if we cared.
+
+Might as well.
