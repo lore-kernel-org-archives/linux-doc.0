@@ -1,147 +1,357 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45B3149C41;
-	Thu, 25 Apr 2024 13:34:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C93B149E07
+	for <linux-doc@vger.kernel.org>; Thu, 25 Apr 2024 14:10:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714052100; cv=none; b=cR9BsHWHzrd0kVuUsw5jmsYSLsJyU6W6yEhpbTRFlRveyHXu7YowPlGDsaOv32DzCWIA79UODxir+Y3zXDe1Kx9rC7aKWg3rck3552jBr+GZ8ihU1KNI9vbMkin9YM2w3XJJguyU1ElHCFjvlMQs4y8Bptf6XGPDIJVOhkrQxsY=
+	t=1714054217; cv=none; b=YzW//zbWdctjVvV3gLgAmnsxM8zp1p6fIUSNY8YDiMTtBw2a4sD+nNG1ozdZC/hxyTQyMgd1/cgsRzbdiKhCQPKKAQ7qae2tjLFE1gK7hi/LTmeqVsjm8cC8QJ22+SnrJa/o7o3G0YpLn2zcxAxvQqnCHI8OPYSizI7GbCV3CPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714052100; c=relaxed/simple;
-	bh=CXlvvOw7amn/D3LVjeiitwj3gydb2VmKSTC9JVNzWYw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z+RGGcpIncUeS8cj/0AwGDL/hVE2BF7Y2WD8kGTspXmMhYgUXIaPLMoRqNZgBmeelH6YKe0fA+jYHLkYpBsPdzQpq3OIr9xI8mh/UyMlmHJk5xDgGpQfmgAb940Oi7IYyYjnUezMfHm5BWulpvQlPwlPVaSHuLy2VVWv9PTHzg4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i4oWV0uG; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1714054217; c=relaxed/simple;
+	bh=3eNkbNXTnCYubLcTP1His6I5eWMP+rpNAYz+yS7l0yg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mbIatEfVng309gVTazWWe0MbpwHoWQspEBLJbvDtGE7JsR9kVE6vrS7+bn1B8Iccxfyv0wuUxWHc1jrtBsqWakVcGt0u9y6049IfslbDkO3e/GQ4sYu2f8kcOckRHu61m0e8ebgzcltbhJe/MyLFlMDbCv+zy2oWAhGmoyfm9xM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ATSzA2qR; arc=none smtp.client-ip=209.85.161.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i4oWV0uG"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1e3ff14f249so7701675ad.1;
-        Thu, 25 Apr 2024 06:34:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ATSzA2qR"
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-5ac8e8ce2a7so877177eaf.1
+        for <linux-doc@vger.kernel.org>; Thu, 25 Apr 2024 07:10:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714052098; x=1714656898; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=etQpEKERbtpehlxdQfBjUCZvNiR8yxK2s8OXbhNfsN8=;
-        b=i4oWV0uG8WRK48dY8/cgAMRDNplFUWFkk64B/q9ZFUFLiYYZNc7cZTIb4CJhb7RgBA
-         1CloLWLGDeBWe1f0njVnu3PsOobrUysG99cy7ahhuYvBJPaXmp80GqZkxcfu5s+Jmp6z
-         VlvDY7fKuROgo3ZtMKSdhKgBpbOtgzji2JiHnEvriEquJXAuvBHt+FmVrXGsl5At6GUb
-         /dclwfqpuUHR08zPLbKHCOKtwDXnwzYCCKj08MZ6AFntTcDWXScnBLto3QBsFk/71/k6
-         1QX9y5Zbd2eW/q2B6PG+3j2Lmk9BOONp7PYCsUFwtQtz1w/f6W7nujfcTfHNJj5Te5/2
-         wFyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714052098; x=1714656898;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1714054214; x=1714659014; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=etQpEKERbtpehlxdQfBjUCZvNiR8yxK2s8OXbhNfsN8=;
-        b=wfZh/3lG8GnunazCspj630AQJnBG2pEX6vSLu/PsJ4tHhohh82mcAbSZtZDPLehPtY
-         nCRQYVmJhRkDsACVvI2KJ8T9Vf4zYDztgz1YTzX8s+Y9XinpUmQIbVtKIHJVYmiyAf5X
-         xmv5XTMw6OzQP5xX2HrAcQuuU8T0gtsgql9LUGjzA9eYg7f54L7LggjkSAVl99hX6ZCb
-         wG7ucsGBX9MKzYlNNBHKlqfQROA758IKMlX2pucuOhB3YdjPKeKty+gwyPFoqEhxNJMU
-         kqc1XD9pabDsHwRe18WIvULAaDbdaLBdh1pZSQTz42rBYJ8nlYkyQeyDnm+14MSwDRwY
-         soQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUb8Ln3bMr/k5JWxpTZq4PPHkSytxMsneXJNYnDk19A0dN1Q2MXx1VrP5ygk0rS512SfCD5PaEwATkN8PQzGw6F6tjbuxEnyQc6UJQ4tMipTkrKYw8HMfx+XxI49/pU2kb3rUnCgR42Mdof8Tnkg/p320vn6KwUCMXUO8Jd0UKfvYDztH7UBpgAAp/9Sfhkj8K5+l+8N+0OdI9IoT1VTw==
-X-Gm-Message-State: AOJu0YxdcsNcjtYDeRXnEbua6PRpPK9DIBFg0SbT2oXu83tozeYO2d5B
-	CqYH/zTuqxBbmcMGy4IrHk4brqw40UwhLc9vMauIEbIk3rIlX0At
-X-Google-Smtp-Source: AGHT+IGAGqjOdRbWxSZRzy/APPArvW2TkewoiDKGh4aC1poGNHEUg4f/AScUJv/vthv/M+u2oP0kmQ==
-X-Received: by 2002:a17:902:dac3:b0:1e4:61b:98c6 with SMTP id q3-20020a170902dac300b001e4061b98c6mr4504376plx.4.1714052097949;
-        Thu, 25 Apr 2024 06:34:57 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id mq7-20020a170902fd4700b001e8415d303fsm13820762plb.257.2024.04.25.06.34.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Apr 2024 06:34:56 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <489ccbfd-ccf5-43fa-92a1-3accff9b7c17@roeck-us.net>
-Date: Thu, 25 Apr 2024 06:34:54 -0700
+        bh=iyA9tT6Emg0/KLamT2zhMsMgQpjlgM9I6w/LNXRpVi4=;
+        b=ATSzA2qRBiolETMAZcoELe7C3IvCzqXOCego73gO27+vfIVoKreQLqQGgg0QdW32cx
+         UzUJ5oylceDuxduHJYRODywUY/hhxWKKFwKdYQyGdKN7z9aOwk+cAqtuJFAXo+vwHwZe
+         EkXpCcSi+HoNk9eQbx/Oa5RaBdI/EidIHm59dHruPRCVLHopChWygWJKyylC2Kky4Nwv
+         yNQFyIU1OmTysbau627v05y2bQsIzew1z/7sDU7zl8jG2qcyDM+F4euvLV6q5WVe45rP
+         +IZlX6TNlCRJ+Q53uqd93sErB/LnZPBKVc0VwiN7BCnMtEyb+5FwKHa9c00Zohd0NNV/
+         veMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714054214; x=1714659014;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iyA9tT6Emg0/KLamT2zhMsMgQpjlgM9I6w/LNXRpVi4=;
+        b=L47T+7aa42zsh+a7wtcG7WWrlGa6RsaYtvp8rmJ0UPlYGFEZnw3pf1tfJSgvcGvGE0
+         mB4678AJ9awAjYJ4IsDhjRRAj8va+81muVQKSjQAZydu5GlILPbEaLaRfntwyO0ZJRfa
+         /8MSZvXXHBkxxxvpLMOJY5Zxdo8EjpsQ8yNkmi8g4JoCC/0oUOC4Aamz7pifONbGE/wd
+         GL4skhVwRETyA1H2HWpqrkSZI4v1L7Jo14E3SczCUozBbc7yIRKXmvOBlc+PwXSz8ufk
+         MwZTXUkw9KWt3jXN8K+9HVmjUAOgWYGROKAGMEAHqr66c1CV4Yt9iKqrOucyHac9ZrTq
+         jvMA==
+X-Forwarded-Encrypted: i=1; AJvYcCVETXkZeMUJP8qwL55AXYeXLah762XyRHhmSK8bh/uTDlDRzN90pBtyb03d0mBGC/rQwdA3Uw6pF9nPt1b5Fu9p5lzn5TtR5KT+
+X-Gm-Message-State: AOJu0Yw/wb3jSsx9RV+dTbBhDJE3KbMPh2hccotct3Xg3k0cXIF+0pLN
+	Y1jPx/7TdRqastjzhVcIqIhnQ3havtT7cIQ2ako1ROw0rm/tTRLYYE3Bre4ohr0=
+X-Google-Smtp-Source: AGHT+IFNc7pmimjNp8Z3ThzitEkrCv20VpmevKzr2jH7fy9kzPqXxE/U1EMLxWWxVVykA3XWVBwf/Q==
+X-Received: by 2002:a05:6870:1814:b0:232:fa39:1e2d with SMTP id t20-20020a056870181400b00232fa391e2dmr1529602oaf.7.1714054213677;
+        Thu, 25 Apr 2024 07:10:13 -0700 (PDT)
+Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id pz8-20020a056871e48800b0023b5203fc58sm294786oac.37.2024.04.25.07.10.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Apr 2024 07:10:13 -0700 (PDT)
+From: David Lechner <dlechner@baylibre.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: David Lechner <dlechner@baylibre.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	=?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH 1/2] iio: adc: ad7944: add support for chain mode
+Date: Thu, 25 Apr 2024 09:09:59 -0500
+Message-ID: <20240425-iio-ad7944-chain-mode-v1-1-9d9220ff21e1@baylibre.com>
+X-Mailer: git-send-email 2.43.2
+In-Reply-To: <20240425-iio-ad7944-chain-mode-v1-0-9d9220ff21e1@baylibre.com>
+References: <20240425-iio-ad7944-chain-mode-v1-0-9d9220ff21e1@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] dt-bindings: hwmon: adm1275: add adm1281
-To: Conor Dooley <conor.dooley@microchip.com>,
- Jose Ramon San Buenaventura <jose.sanbuenaventura@analog.com>
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-i2c@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
-References: <20240425070948.25788-1-jose.sanbuenaventura@analog.com>
- <20240425070948.25788-2-jose.sanbuenaventura@analog.com>
- <20240425-jurist-unpadded-b3cccfc23862@wendy>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20240425-jurist-unpadded-b3cccfc23862@wendy>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+X-Mailer: b4 0.12.4
+Content-Transfer-Encoding: 8bit
 
-On 4/25/24 00:19, Conor Dooley wrote:
-> On Thu, Apr 25, 2024 at 03:09:47PM +0800, Jose Ramon San Buenaventura wrote:
->> Add support for the adm1281 Hot-Swap Controller and Digital Power
->> and Energy Monitor
->>
->> Acked-by: Conor Dooley <conor.dooley@microchip.com>
->> Signed-off-by: Jose Ramon San Buenaventura <jose.sanbuenaventura@analog.com>
-> 
-> I acked this, but I'm having second thoughts. The 1281 follows the same
-> codepaths in the driver as the 1278, why is the 1278 not used as a
-> fallback compatible here?
-> 
+This adds support for the chain mode of the AD7944 ADC. This mode allows
+multiple ADCs to be daisy-chained together. Data from all of the ADCs in
+is read by reading multiple words from the first ADC in the chain.
 
-That is rare for those devices es but true in this case. Technically possible,
-though it would result in a "Device mismatch" notification by the driver
-since it compares the configured vs. actual device IDs. I would prefer to
-avoid that, if for nothing else to avoid having to deal with concerned users.
+Each chip in the chain adds an extra IIO input voltage channel to the
+IIO device.
 
-Thanks,
-Guenter
+Only the wiring configuration where the SPI controller CS line is
+connected to the CNV pin of all of the ADCs in the chain is supported
+in this patch.
+
+Signed-off-by: David Lechner <dlechner@baylibre.com>
+---
+ drivers/iio/adc/ad7944.c | 186 ++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 176 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/iio/adc/ad7944.c b/drivers/iio/adc/ad7944.c
+index 4af574ffa864..1a87f70ce57f 100644
+--- a/drivers/iio/adc/ad7944.c
++++ b/drivers/iio/adc/ad7944.c
+@@ -6,6 +6,7 @@
+  * Copyright 2024 BayLibre, SAS
+  */
+ 
++#include <linux/align.h>
+ #include <linux/bitfield.h>
+ #include <linux/bitops.h>
+ #include <linux/delay.h>
+@@ -53,6 +54,7 @@ struct ad7944_adc {
+ 	enum ad7944_spi_mode spi_mode;
+ 	struct spi_transfer xfers[3];
+ 	struct spi_message msg;
++	void *chain_mode_buf;
+ 	/* Chip-specific timing specifications. */
+ 	const struct ad7944_timing_spec *timing_spec;
+ 	/* GPIO connected to CNV pin. */
+@@ -214,6 +216,46 @@ static int ad7944_4wire_mode_init_msg(struct device *dev, struct ad7944_adc *adc
+ 	return devm_add_action_or_reset(dev, ad7944_unoptimize_msg, &adc->msg);
+ }
+ 
++static int ad7944_chain_mode_init_msg(struct device *dev, struct ad7944_adc *adc,
++				      const struct iio_chan_spec *chan,
++				      u32 n_chain_dev)
++{
++	struct spi_transfer *xfers = adc->xfers;
++	int ret;
++
++	/*
++	 * NB: SCLK has to be low before we toggle CS to avoid triggering the
++	 * busy indication.
++	 */
++	if (adc->spi->mode & SPI_CPOL)
++		return dev_err_probe(dev, -EINVAL,
++				     "chain mode requires ~SPI_CPOL\n");
++
++	/*
++	 * We only support CNV connected to CS in chain mode and we need CNV
++	 * to be high during the transfer to trigger the conversion.
++	 */
++	if (!(adc->spi->mode & SPI_CS_HIGH))
++		return dev_err_probe(dev, -EINVAL,
++				     "chain mode requires SPI_CS_HIGH\n");
++
++	/* CNV has to be high for full conversion time before reading data. */
++	xfers[0].delay.value = adc->timing_spec->conv_ns;
++	xfers[0].delay.unit = SPI_DELAY_UNIT_NSECS;
++
++	xfers[1].rx_buf = adc->chain_mode_buf;
++	xfers[1].len = BITS_TO_BYTES(chan->scan_type.storagebits) * n_chain_dev;
++	xfers[1].bits_per_word = chan->scan_type.realbits;
++
++	spi_message_init_with_transfers(&adc->msg, xfers, 2);
++
++	ret = spi_optimize_message(adc->spi, &adc->msg);
++	if (ret)
++		return ret;
++
++	return devm_add_action_or_reset(dev, ad7944_unoptimize_msg, &adc->msg);
++}
++
+ /**
+  * ad7944_convert_and_acquire - Perform a single conversion and acquisition
+  * @adc: The ADC device structure
+@@ -223,7 +265,8 @@ static int ad7944_4wire_mode_init_msg(struct device *dev, struct ad7944_adc *adc
+  * Perform a conversion and acquisition of a single sample using the
+  * pre-optimized adc->msg.
+  *
+- * Upon successful return adc->sample.raw will contain the conversion result.
++ * Upon successful return adc->sample.raw will contain the conversion result
++ * (or adc->chain_mode_buf if the device is using chain mode).
+  */
+ static int ad7944_convert_and_acquire(struct ad7944_adc *adc,
+ 				      const struct iio_chan_spec *chan)
+@@ -252,10 +295,17 @@ static int ad7944_single_conversion(struct ad7944_adc *adc,
+ 	if (ret)
+ 		return ret;
+ 
+-	if (chan->scan_type.storagebits > 16)
+-		*val = adc->sample.raw.u32;
+-	else
+-		*val = adc->sample.raw.u16;
++	if (adc->spi_mode == AD7944_SPI_MODE_CHAIN) {
++		if (chan->scan_type.storagebits > 16)
++			*val = ((u32 *)adc->chain_mode_buf)[chan->scan_index];
++		else
++			*val = ((u16 *)adc->chain_mode_buf)[chan->scan_index];
++	} else {
++		if (chan->scan_type.storagebits > 16)
++			*val = adc->sample.raw.u32;
++		else
++			*val = adc->sample.raw.u16;
++	}
+ 
+ 	if (chan->scan_type.sign == 's')
+ 		*val = sign_extend32(*val, chan->scan_type.realbits - 1);
+@@ -315,8 +365,12 @@ static irqreturn_t ad7944_trigger_handler(int irq, void *p)
+ 	if (ret)
+ 		goto out;
+ 
+-	iio_push_to_buffers_with_timestamp(indio_dev, &adc->sample.raw,
+-					   pf->timestamp);
++	if (adc->spi_mode == AD7944_SPI_MODE_CHAIN)
++		iio_push_to_buffers_with_timestamp(indio_dev, adc->chain_mode_buf,
++						   pf->timestamp);
++	else
++		iio_push_to_buffers_with_timestamp(indio_dev, &adc->sample.raw,
++						   pf->timestamp);
+ 
+ out:
+ 	iio_trigger_notify_done(indio_dev->trig);
+@@ -324,6 +378,90 @@ static irqreturn_t ad7944_trigger_handler(int irq, void *p)
+ 	return IRQ_HANDLED;
+ }
+ 
++/**
++ * ad7944_chain_mode_alloc - allocate and initialize channel specs and buffers
++ *                           for daisy-chained devices
++ * @dev: The device for devm_ functions
++ * @chan_template: The channel template for the devices (array of 2 channels
++ *                 voltage and timestamp)
++ * @n_chain_dev: The number of devices in the chain
++ * @chain_chan: Pointer to receive the allocated channel specs
++ * @chain_mode_buf: Pointer to receive the allocated rx buffer
++ * @chain_scan_masks: Pointer to receive the allocated scan masks
++ * Return: 0 on success, a negative error code on failure
++ */
++static int ad7944_chain_mode_alloc(struct device *dev,
++				   const struct iio_chan_spec *chan_template,
++				   u32 n_chain_dev,
++				   struct iio_chan_spec **chain_chan,
++				   void **chain_mode_buf,
++				   unsigned long **chain_scan_masks)
++{
++	struct iio_chan_spec *chan;
++	size_t chain_mode_buf_size;
++	unsigned long *scan_masks;
++	void *buf;
++	int i;
++
++	/* 1 channel for each device in chain plus 1 for soft timestamp */
++
++	chan = devm_kcalloc(dev, n_chain_dev + 1, sizeof(*chan), GFP_KERNEL);
++	if (!chan)
++		return -ENOMEM;
++
++	for (i = 0; i < n_chain_dev; i++) {
++		chan[i] = chan_template[0];
++
++		if (chan_template[0].differential) {
++			chan[i].channel = 2 * i;
++			chan[i].channel2 = 2 * i + 1;
++		} else {
++			chan[i].channel = i;
++		}
++
++		chan[i].scan_index = i;
++	}
++
++	/* soft timestamp */
++	chan[i] = chan_template[1];
++	chan[i].scan_index = i;
++
++	*chain_chan = chan;
++
++	/* 1 word for each voltage channel + aligned u64 for timestamp */
++
++	chain_mode_buf_size = ALIGN(n_chain_dev *
++		BITS_TO_BYTES(chan[0].scan_type.storagebits), sizeof(u64))
++		+ sizeof(u64);
++	buf = devm_kmalloc(dev, chain_mode_buf_size, GFP_KERNEL);
++	if (!buf)
++		return -ENOMEM;
++
++	*chain_mode_buf = buf;
++
++	/*
++	 * Have to limit n_chain_dev due to current implementation of
++	 * available_scan_masks.
++	 */
++	if (n_chain_dev > BITS_PER_LONG)
++		return dev_err_probe(dev, -EINVAL,
++				     "chain is limited to 32 devices\n");
++
++	scan_masks = devm_kcalloc(dev, 2, sizeof(*scan_masks), GFP_KERNEL);
++	if (!scan_masks)
++		return -ENOMEM;
++
++	/*
++	 * Scan mask is needed since we always have to read all devices in the
++	 * chain in one SPI transfer.
++	 */
++	scan_masks[0] = GENMASK(n_chain_dev - 1, 0);
++
++	*chain_scan_masks = scan_masks;
++
++	return 0;
++}
++
+ static const char * const ad7944_power_supplies[] = {
+ 	"avdd",	"dvdd",	"bvdd", "vio"
+ };
+@@ -341,6 +479,9 @@ static int ad7944_probe(struct spi_device *spi)
+ 	struct ad7944_adc *adc;
+ 	bool have_refin = false;
+ 	struct regulator *ref;
++	struct iio_chan_spec *chain_chan;
++	unsigned long *chain_scan_masks;
++	u32 n_chain_dev;
+ 	int ret;
+ 
+ 	indio_dev = devm_iio_device_alloc(dev, sizeof(*adc));
+@@ -474,14 +615,39 @@ static int ad7944_probe(struct spi_device *spi)
+ 
+ 		break;
+ 	case AD7944_SPI_MODE_CHAIN:
+-		return dev_err_probe(dev, -EINVAL, "chain mode is not implemented\n");
++		ret = device_property_read_u32(dev, "#daisy-chained-devices",
++					       &n_chain_dev);
++		if (ret)
++			return dev_err_probe(dev, ret,
++					"failed to get #daisy-chained-devices\n");
++
++		ret = ad7944_chain_mode_alloc(dev, chip_info->channels,
++					      n_chain_dev, &chain_chan,
++					      &adc->chain_mode_buf,
++					      &chain_scan_masks);
++		if (ret)
++			return ret;
++
++		ret = ad7944_chain_mode_init_msg(dev, adc, &chain_chan[0],
++						 n_chain_dev);
++		if (ret)
++			return ret;
++
++		break;
+ 	}
+ 
+ 	indio_dev->name = chip_info->name;
+ 	indio_dev->modes = INDIO_DIRECT_MODE;
+ 	indio_dev->info = &ad7944_iio_info;
+-	indio_dev->channels = chip_info->channels;
+-	indio_dev->num_channels = ARRAY_SIZE(chip_info->channels);
++
++	if (adc->spi_mode == AD7944_SPI_MODE_CHAIN) {
++		indio_dev->available_scan_masks = chain_scan_masks;
++		indio_dev->channels = chain_chan;
++		indio_dev->num_channels = n_chain_dev + 1;
++	} else {
++		indio_dev->channels = chip_info->channels;
++		indio_dev->num_channels = ARRAY_SIZE(chip_info->channels);
++	}
+ 
+ 	ret = devm_iio_triggered_buffer_setup(dev, indio_dev,
+ 					      iio_pollfunc_store_time,
+
+-- 
+2.43.2
 
