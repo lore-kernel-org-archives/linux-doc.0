@@ -1,154 +1,214 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2045.outbound.protection.outlook.com [40.107.212.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC0CD39FF2;
-	Thu, 25 Apr 2024 05:37:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714023468; cv=none; b=qL7rhuXIbnARZIvUs/3OnDaa/C7qI409pvdgy46x/cSXusapPc45k/lXpGLSnf9HyJmJCNogGIUHojN0NO+/adl4ilQ9lWug01mh0pTiL+/Nb5WvkaM1N1eKbjG842mA9fJ2P5H/R+m7nigSqYNekfRtvJJvxeWsNY0D7DgCNVs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714023468; c=relaxed/simple;
-	bh=7cXGX7nzSc9kgXdFOZd40H6dM1rb/ORldCTv+2OyzqE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Au6OzbWLZQgXcpxHpbPF0X1mof5uY6eWp4uLaVCy+mQH7yq3H+/2FtVhVZ/rTzT8I7XhOG86pP8bLvc98D5s8cJVQLWY85E+IElOr0Mr3fP7N9stH88lY9QkD6t1Xl8s0VYF1g0Up0L5Cj/Gte40lY9ipH7n92XT8qrsxYd4yiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JuapcJvS; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9BE83BBD6;
+	Thu, 25 Apr 2024 05:40:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.212.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1714023633; cv=fail; b=ESjJRW7aThcZpZhmpucA2W8JBcfbPgEhHByGpTindjnEohweG35cLkTQ5/B/B2sk6ai8AIfUJRSKbEIG+v64yAu+Z3z24yHxsMDOhc4/OARhZ/nt8JolgEqhSxFxM8rAOzW5BOBO0i37KfAWObaFeimzVBz54kL1ySOl2P1+/ek=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1714023633; c=relaxed/simple;
+	bh=C+yoa47oWvXUizK/hDakVGTxwfcJn1v58QTyr8ixM2U=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=WD/qRkOoV0bSNFtx21kBzXJWsJMtZmU5C1jSkt0JDsR0H0COZI+6qBQ1DOdE2eU2P0XLiPkFEd6H/xdbpqfkyHLeF07iCCiHg6kG3Ml9YfYTAja354s8DPLiqVAYyRhsNnVSsXr2B6y7ij7COoAOLkfb6geW1/qBHIahW76XrHU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=GLfm3s7L; arc=fail smtp.client-ip=40.107.212.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JuapcJvS"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-34af8b880e8so346421f8f.0;
-        Wed, 24 Apr 2024 22:37:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714023465; x=1714628265; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iPL2nbk+Q/UWy1nHnxkSFv/m9vKVttF+eKGmemIFKnk=;
-        b=JuapcJvSLQy9G8YOBUY1n94aPY5t5/VGaazbDkNMWZmoxIgm7Hrz2bkv//LlMNIgGf
-         UxwH0rqoFYjL6PC4j5M35xdZ9MN4pACIlwLqgnZlEDiZwH8PZGVK6EYrJUB8Y+s4S3jH
-         +IivwstH7gx4FHKlunNZMp5MKgH+wY1j+ZKlRz6pwCvN02ejO0eUQzs/gvEoXwGebOYS
-         8IHLuiNhPySXaN40HzVglnedai6c5Veu8J5TUG6vV4p7K0lAoSlZmAt6eQn7PLmtZHSE
-         GqwFFfjzTMTeNStWFi+zk2MpJoFAmmuoNZECBK6nlHP389+QjHw9oPcQTgAYDrq6BTKw
-         X0nQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714023465; x=1714628265;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iPL2nbk+Q/UWy1nHnxkSFv/m9vKVttF+eKGmemIFKnk=;
-        b=eesBpMR9iyJ/dmrZjrfbpElUvKRmnXgoon09WYu8DNwP3kz4b86XftNZHvX24a8mcf
-         RNdoLHbktPlaj2Hvrxxd6EZg9FzTH29yWSod+MXRJB1ozjFaPvsu8TpDlbDadAx0znqA
-         n8y52SDaHryN4Yq24t8zUc0/hnS4DmWn3K2onzltYyw0xki+lg9UG71TNZEqENPqTuQ9
-         zdS9Jv6h9N8CvK4gkklmCEwJI1ikQ4rdqvh6Qelw4xHJvbnp17AiKFrjiyb87348LdiT
-         ze3DgbCBd+MyYuN6uL5iCeAJdv1CLuhXw1NZTnAdztygXSyLRq1oZtuRMeeHR2BL1Dj9
-         xjFA==
-X-Forwarded-Encrypted: i=1; AJvYcCU06YZcx7eg6glcw4Xf3Caz6k72klVUwiZuywD/hgU15ckp6/IGRsWx/HWEasquR7ywQS1gYPCyYfrLa2DgDtbuMj5GxaA4WC1hzG616Kw89/cNwPlOw+U4GpJfJBochKzCzzG3aBS1
-X-Gm-Message-State: AOJu0Yw7oj8zIfmHko2K1/SpQOGm+zr9gGfSMiyOGQQU14pfDzDKUVJ/
-	NzoZWYTGHYTwByNM5Qdn6lBT9Gi2cwvlCnsEGTc19hVmKfM2OBNZFJtDphRcSLFotW5hRnX6knQ
-	xYmW+31K+sX2Rqfh5m0/G9VNam0Xx0NN0L58=
-X-Google-Smtp-Source: AGHT+IFj6baWkNET9KfwMiptbsOnk2z/vd0k6HOClQOTwPFguXr7r58wwvpO4LFOB8TAv68bGd4sNmkJ5SWeTfOq3hM=
-X-Received: by 2002:a5d:5641:0:b0:34a:70d:1117 with SMTP id
- j1-20020a5d5641000000b0034a070d1117mr938896wrw.18.1714023465069; Wed, 24 Apr
- 2024 22:37:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="GLfm3s7L"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZcmZBXZR0zMwFwGsaHC54YjztmEnOBrs2SaGg5qJ0xsNf4cfYe+UcbxMG23/1o7CbnQR3uIilJek8iKfZf774DThP+cvmkFOv6o0uyNhuZf3zKxVrfhR6Kk2bjty2hq6E30gv3UkcrRY4AGWC9QivCKJqM6P28Y+ZbKAiQxd8vnSuT9+2o8gZjUQuTbZAS14mHw7Xb1lkEgnTbY+XEYJOPcENYP5QjodXeQlxQkCAJ8h8b0lKBX06P3CQcnA14L9/v18WU7FU5vIh9y0n0/BTyiUvbezn7OuV9dwoanpS7/lCI/L2UBxqUnPTFMXOK65XllvSOWuMSHpOVWA2P+EQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DlRh5q/3bIAAeEK7wUFHXDoISd+hHSN1s+6smiK8U4Q=;
+ b=d7DvPkZzCir9PI9YDVVsqi0MhaM+akjvleurrAXTRxHF49dxoa/6QDdSgscv6mmyI6uF6E90qzJfnMC4kP0ZCXBFfwSLiOaEWKwH6J1sce/C25blgMddt42CjnM76x/K/m2T3r6fNfcHaraROWifuqt/aCViYYGfe1S2zKHyjhyDPaV+CoPXOWwOjyvOecqOzZZUETaHNPga54JMP29KFXh69wF+aduBVf963pWVdH45FaPfqSQtoOyYaZambwXwwZfDeq10NZfkC2/OZc4X+atG8NtGV6iVVAirBKYBFzeIWOpKCLcomMt/IAihb/DH0zgheD6wsKFh09M2YbLi2A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DlRh5q/3bIAAeEK7wUFHXDoISd+hHSN1s+6smiK8U4Q=;
+ b=GLfm3s7LNxnAYFUsapZQTBAtR9MTnFxAcMS14gWcELDqTBrhSgByKFz82DNVgSCWeRE5dFWrcUDTnH9ZWr7Jd+kud5LeueADcPQTILoLoXNMHn6I9fpDesJkROORNJ1Kt1viui9uZNt4zGmjtU0ZfXR4N5ic0d8ZAo9hwsUEta61nabg8NHl9EQ4d5LnkJh43TBoQm45i8YgDj6llurNjSFUcztzG9k0oSC1I8H0Oh4om6zQs+ts4q22HA1oROwzdang5MhhDpJSo+EEhPc1bxqebkXDHNGJZBzMNFoWnGxpfygLymPRAex8BPhgguLLTwnb3Ex32N3Z9MFQrcB8ow==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BY5PR12MB4130.namprd12.prod.outlook.com (2603:10b6:a03:20b::16)
+ by SA0PR12MB4430.namprd12.prod.outlook.com (2603:10b6:806:70::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.22; Thu, 25 Apr
+ 2024 05:40:26 +0000
+Received: from BY5PR12MB4130.namprd12.prod.outlook.com
+ ([fe80::2cf4:5198:354a:cd07]) by BY5PR12MB4130.namprd12.prod.outlook.com
+ ([fe80::2cf4:5198:354a:cd07%6]) with mapi id 15.20.7472.044; Thu, 25 Apr 2024
+ 05:40:26 +0000
+Message-ID: <18b9acc9-9dc8-4857-83d1-952c94b69e01@nvidia.com>
+Date: Wed, 24 Apr 2024 22:40:21 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] mm/khugepaged: replace page_mapcount() check by
+ folio_likely_mapped_shared()
+To: Matthew Wilcox <willy@infradead.org>
+Cc: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ Zi Yan <ziy@nvidia.com>, Yang Shi <yang.shi@linux.alibaba.com>,
+ Ryan Roberts <ryan.roberts@arm.com>
+References: <20240424122630.495788-1-david@redhat.com>
+ <73de5556-e574-4ed7-a7fb-c4648e46206b@nvidia.com>
+ <ZinZSDTMXjPjAHLe@casper.infradead.org>
+Content-Language: en-US
+From: John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <ZinZSDTMXjPjAHLe@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BYAPR03CA0021.namprd03.prod.outlook.com
+ (2603:10b6:a02:a8::34) To BY5PR12MB4130.namprd12.prod.outlook.com
+ (2603:10b6:a03:20b::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAFkJGRc824vYEufG=6ZVPAW2iVpd0NDThJadZVrUk_ZND_qJag@mail.gmail.com>
- <Zh6Xbqijp8rRGo1H@archbtw> <CAFkJGRe+UpNPSnSL623o6G+NCkK_uGPx-NCNLQx0vSGpMo98eg@mail.gmail.com>
- <CAPzh0z8RySn429XYQHoP_c9UA+pb6SLHGhH40vQDhc3P2xiysQ@mail.gmail.com>
- <CAFkJGRfK=1f8tfWO8G0v8SOmCwCgK7P5y7g2My47VG6Obb1DNw@mail.gmail.com>
- <ZiE9ydgMtpKOBLDk@archbtw> <CAFkJGRddGHK0j4CcQUoRKiD3afniLY=rRV5npY5wpauqqY0XZg@mail.gmail.com>
- <CAFkJGRdFuMoO4_mR-cR1NWjKQJnopN0v1R11-jSnLn+FKcOCdg@mail.gmail.com>
- <CAFkJGRcg+ThJ-xUve0=WorChW=-6PreLHXeM8YwtwzwpkHTu8g@mail.gmail.com>
- <CAFkJGRcgJA4qe1AVi23ZQVPr_UEzkTBPH8f30g=OsKmii7QzQw@mail.gmail.com>
- <ZiKYXX-v0Eu-qCBt@archbtw> <CAFkJGRdjvebW6u6pyyA_MeHsoecRgYjiVrxoWYWsREdYH9iOFQ@mail.gmail.com>
- <7ba7cff1-8d9d-4bc3-a74c-6f6828c9195e@amd.com> <CAFkJGRe7DVpcr+VKouTYzBK5r905W4xmxphU11AA6uB8Oj5FJQ@mail.gmail.com>
-In-Reply-To: <CAFkJGRe7DVpcr+VKouTYzBK5r905W4xmxphU11AA6uB8Oj5FJQ@mail.gmail.com>
-From: Josh Marshall <joshua.r.marshall.1991@gmail.com>
-Date: Thu, 25 Apr 2024 01:37:33 -0400
-Message-ID: <CAFkJGRdu+Ng3APAQAEQntbspXrVNzg_=b2Cd6n0wsFY5m=vWzw@mail.gmail.com>
-Subject: Re: Feedback on my development setup
-To: "Bilbao, Carlos" <carlos.bilbao@amd.com>
-Cc: ngn <ngn@ngn.tf>, linux-newbie@vger.kernel.org, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, pranjal.singh4370@gmail.com, 
-	"bilbao@vt.edu" <bilbao@vt.edu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY5PR12MB4130:EE_|SA0PR12MB4430:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8c137be5-3c1f-4d67-e846-08dc64ea359d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|376005|1800799015|7416005;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?SENPejRicGxvaHM0UGhMWm42d0dTdFJnTWlLeXkzT0t0d1VLb1lJbFU2K0p2?=
+ =?utf-8?B?SUFTeVIwQ0pIcEpWaFVqVFQrZFNMT1JHTjVJWFpzd2JJZDFieFpjRlRLRnAv?=
+ =?utf-8?B?aUpJcG9BSjZzcExEZHBKUG8xMUJhZkE0WjB0cDdsLzVoQnRuUU5vSmRCdEp6?=
+ =?utf-8?B?QlMrQkRYcWhmZVp0Nzh2aFoyNDlaUHV6WG9rMjAzczBXUHVCVnBUY3YwdUJP?=
+ =?utf-8?B?cFFFbmw4MUErOEdlbGszZ3NSNktpQ1B4QXZaaXpOclczZWNEOTNxdmpUOXB2?=
+ =?utf-8?B?UGVybDBZWnBJSnVySitnMHkzaVhQek1TNS9wUWIza3VDYjlPaWtwZVVEREpW?=
+ =?utf-8?B?OFNOTVl2Wkk0YmZocThzMlpYYTZvQm9BMFRSTURrcy9rYk43ZVBOZEs2Mno4?=
+ =?utf-8?B?S2YxcC9tc3daYWpWdnRaUG15NzlHK29mbG5HWXBFVVJKV2RlS2s3YUR6NWU0?=
+ =?utf-8?B?NXdldkF6dHZlQlJ1ajdhR3p2bTNFb2pSN05XakUyM1hyRFNrN2J1RTJtWjV0?=
+ =?utf-8?B?M05ua2UzR3pEM3V5VEFXNkRBL2FYeWxWVSs0ZWg2VkxhaTZPSzVHWUZBNmt5?=
+ =?utf-8?B?a0c1TEVqZzNJaWtIdDFsZ3J0MXYzSE5YeFhSdWdVMHhxWGZ3WkJUT1c5QkNu?=
+ =?utf-8?B?TExrSVE0MmxWbjNzL1c5OENqakFOUENNZlZwNlZhMEhVaWhKL1ZWSGJrMGlP?=
+ =?utf-8?B?WDZKa3JRWkxRdDRXZFBRVm9EL3dNYUNWeVUvcTBSOWFnN0dRVmtMc2tBRENK?=
+ =?utf-8?B?bThrdDhDQTJXd1A5eDFZUEUwc0RLMlNoUk5WbkR5R1laSkdUWk0wQkY3aS84?=
+ =?utf-8?B?N0RoVnpwKzR3ZGdKZ09NbVFHaDViTkVxNERtRFBySmQ1ZzYvQTFtdUhTRFJR?=
+ =?utf-8?B?RlVlb3hzVEtTTndsNWI4Zlk4cEwxU0ttbVF0WTJIazNIV3dhS09uYzJPOXQw?=
+ =?utf-8?B?VjRWQkhMc1VSNlJla0lBOEIwMWJ6VjNjVFA2Q0dFSU9Dd3d2MDN4dEloOUZa?=
+ =?utf-8?B?SjlYaXZwd0kwRENuMzBqT3YyK1RoQVZjKzFBVmhWcXFTYW9qRklmYWpZaG5S?=
+ =?utf-8?B?R0hXU0xDQ2hzVnlvcnl3L2ZMdzN0cGVVdlF4Z0Nid2huallDS2djb1RUd0hI?=
+ =?utf-8?B?NjhWRXR3ZVJvcEtsRExxYzZaaVhGMGhhSVJRMlF6L1Jxa2g5Ty9PR2NvYnZF?=
+ =?utf-8?B?M2xFQTRHMFdGNGZyeFRMd1dXTHIweWdSb2QvUjhCcktjU1BpcEhFL0ZjYk9N?=
+ =?utf-8?B?dDRnbTF1d2JsL3lTVG5LNDdPN1k3aXB3MFAzT0xlbUNhWFRZQ2I4cWhCTkk0?=
+ =?utf-8?B?U2xudEo0aU1xc3I2TUhXNE5YOVJoUm0yM2E2VHBOMWtNQW9LSjI2bmlkRURE?=
+ =?utf-8?B?aHlqUTE0RTlEZ0hhS1MwVW1uREFzMEc1VllmU0dza2Nob1F4bFFrMnQwUDdJ?=
+ =?utf-8?B?dVlsUWRWd1NpV0Uvd2tqbVFoZXpaTHFXanZjN1BIUlVtZWpqTktNRXhCS1JX?=
+ =?utf-8?B?TG8yVWI4TmllNXB0ZGU1aTYrS2VKdEdXM0p5bG5FYmtDa1RuTmxvQXBsL1hx?=
+ =?utf-8?B?U3QxbVBpcTZROUxtVHFtckxDN2VlNFNkc09hU1Y3a2FaNmhZOVNQRnoweU82?=
+ =?utf-8?B?ckQ1N0lyWmdQNjFodGQ5K2hoOE05dmVSR1N2V05NSzFvMkZscXozSHhWMXB3?=
+ =?utf-8?B?d2tNVXZoVEcySWpsOUxOdyt0T0FYN0VHdUNyRVhmRTdSZ20rR2ZDcXRBPT0=?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR12MB4130.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015)(7416005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?aU5SSUFDQXhPSzA1ZkZtcmVmN2hyM0U3TkF0VzZLWGFaSkJ6V2R6NEtndkJI?=
+ =?utf-8?B?R0hpTzhvTVR1enJpZ0piaEVxUUhIdDBmSU8zMDNScWNxNm1maDVEWGEzMkdZ?=
+ =?utf-8?B?a0FZei9YT2cwbmFEZ25RT2V3M1JoYmIxWm52TlRJRURnQ1VFU1ljVnU2aFlo?=
+ =?utf-8?B?WktRaENzTmdIRnFFYW9iR1JKN3lmbzJwU0I0YWwwcmM2NDdNT0RYR0RWTGph?=
+ =?utf-8?B?TEh0bHZFODc0TFhtYVEzSm52VWM2QkRnTytOT0RUT0d4ZCtycE5uZVVQNVJj?=
+ =?utf-8?B?OEtVU040eExWeXo1SmZ2VnlkWXU3U1IyS3AwcHc3Wi9UMEswNC9ueVdVNzd1?=
+ =?utf-8?B?dEdlSWhiUktzNndmZ1gvcGdhMExmK2lhZ1dJdWk4eVBXOG1BRGJjOHhHNSt1?=
+ =?utf-8?B?c1NjaEVpZ3V5S21oN3JDTUJEdUNla0swanF1TGpUc2ZNTFpQTFVEZm04VXlq?=
+ =?utf-8?B?dGIxNG9YRlZiR1VOQjg0eU5XVFg0c29kVnJ1SW5zRVovRTFObmc0Y1Bla3pZ?=
+ =?utf-8?B?S3ZLUzc2YXdsK01ydXlFWGh3c3o2enNDS05PQ1ozdnhoc1VkSzRxZGlXSmxu?=
+ =?utf-8?B?bmNOMnpsd2t4ckxUNG1aWHBDVDFEVHR0RmRYejFodU5rZTBhS29Vd2lDQ1kr?=
+ =?utf-8?B?d0VVcXhQZHlGT2ZFZjAxWFk5TjdOa2J2YmZRTmJIVWxrYmYrV0ViRmMrT0JP?=
+ =?utf-8?B?RFh6REhQSmJ6QUM1Nnl3Z1BpNjdPdnJVNFY1M1RRRG9vUm9JQlhlaG4zVFdL?=
+ =?utf-8?B?Uitsai9PWVZqKzU1VC9BMXl3Q21kc3ZHc2RUOTV2cHp2ZFE1aDE5Z0Z0TUk0?=
+ =?utf-8?B?N2xtVHA4MDRpOFh3ZEpKUCt4RnVZd0E4MzMvWDU2cEFOamJXNGVGYTFIckZN?=
+ =?utf-8?B?blFOUHhnWEJjRnN4aXRFbTVJeDdjWjhQcUcrQmlZcGVZK3lFMFRweFNVUTBz?=
+ =?utf-8?B?YkprQkVyaGVLSXdvUm9vbkpzam44WDFRalloQ09BcmdJdGErNTQyWjQ1UlZj?=
+ =?utf-8?B?b0hvVzdTNVpEYzZWVlRROHd3akhCN1Q3eThwLzMxcDBSaVNGQmdyMWE2aVRQ?=
+ =?utf-8?B?aW5nSmZZMWNDemwvZG9BM1N5cW9CbU9MVHRoVkFDeWFvQ3Y4UklzL1NpWnJv?=
+ =?utf-8?B?M2VCeE41UUl6am9xTWloM2sycHF3UFNOa0pUYVJoNU5FL2lNWDRGVng3Nitv?=
+ =?utf-8?B?QU9nYnZyWWl0bDViVE5mNys1bnA0VkFmcXNMQ3V4WGZFcGExbE9ISzlzRWp5?=
+ =?utf-8?B?ZFY2NStrT3JmQnROTlpTZzR4QXZaUUZoTmZDczJwZHAreW16UDh1OHc3RVE1?=
+ =?utf-8?B?Y3l1eTBWMzZqeC8rcXlwMUw1QkY4THpVanVKbm1ZVGkvQVdJdTB0aXhEUHc4?=
+ =?utf-8?B?L0w0VUV5K25neEd4OW91VFZMMGxTSno4UnFCd3Jia0FCcXRXWVg4VGRiNURq?=
+ =?utf-8?B?c242Z0RuaFVoY0RucTFLei9iWXhqcFYrZURvQllpL09ES1VFdFZGZ0c2SEJM?=
+ =?utf-8?B?N0dNb3k3L3ZEWXVOMVg5WlcvaXgyVWNaN3NtWEdtKzExWGdJbmtFM2xMNDBI?=
+ =?utf-8?B?MWJPd21WK24vWU5DTy92QUhHTWlGOU1rVFhZYXd3bjE3bXd5NG1NMkh0T3l2?=
+ =?utf-8?B?TkxvcktsTnB4TTErN0l0ZjZ2SzZOK1Nzbk5yNytZZlFFVWdodjJXdzlsWms1?=
+ =?utf-8?B?bnNwYnYwcjNHd21zbVd4bmkwb2FSTjFINVNFZ2xkWW9XOFR3OVNsaDc4bWxU?=
+ =?utf-8?B?NjNiYS9wMHRtbitRT2ZNVzRoK1pHRHpFUG9sTDFkOWdUdlNFQVd2OXF1N3Mx?=
+ =?utf-8?B?Q21FM1E4OWdPa0lkcjFEQnNvaytsbDZ6R2F1clZLS0VvMmEwdkllaS9RREtz?=
+ =?utf-8?B?WUttUVhaRFJlaW56UVRsWFdZSE5KMlczMFhxY05xd05obUM0UWkwWTR0Ynpl?=
+ =?utf-8?B?V2ZNcS9zYlEyQkNKMmEvUEpxcWdZZVFoTzZNMVRxYldOZ3ByS21HSGhWVTBM?=
+ =?utf-8?B?Y0pucndwTmkzakxJeGtYNjg4MTBHWDFWaDRjMnYrOHV1emZzeGV0N2hNaHlC?=
+ =?utf-8?B?UGlKMUF0TFBRNWM4eHVwOVVIZlhkVWcrdkxZa1JGaktReVU1ODllalh2MlBk?=
+ =?utf-8?B?ZCtycytkODRJbW9rd1NxeGdUbkMyQXZUNjV6ZU1VSHpZR1RaTFFQOC9lV0Y3?=
+ =?utf-8?B?UFE9PQ==?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8c137be5-3c1f-4d67-e846-08dc64ea359d
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB4130.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2024 05:40:26.5496
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jdX/mGV4W6D+bVDEj9p92Yqzi2fEqy0vLz+xNxUyNOIpaIAdmzTj7FRmuYISQtFEb8/w/MVSSrWFKdR8CsM6Zg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4430
 
-Hello everyone,
-
-Last draft before I send in a patch.  Big change is an added preamble
-to set tone and intent.  Also some stuff up top setting forth the
-structure of the document.  Carlos, I tried figuring out what you
-meant by troubles with KVM, but all that boiled down to was scant
-documentation on use cases people rarely venture into.  I think that
-is a different document from what I am trying to write, although I
-might now be qualified to write it.  Pranjal, sorry man, more words :)
-
-https://gitlab.com/anadon/getting-started-on-kernel-dev-guide-workspace/-/b=
-lob/main/Linux%20basic%20dev%20setup.rst?ref_type=3Dheads
-
-On Tue, Apr 23, 2024 at 1:43=E2=80=AFPM Josh Marshall
-<joshua.r.marshall.1991@gmail.com> wrote:
+On 4/24/24 9:17 PM, Matthew Wilcox wrote:
+> On Wed, Apr 24, 2024 at 09:00:50PM -0700, John Hubbard wrote:
+>>> We want to limit the use of page_mapcount() to places where absolutely
+>>> required, to prepare for kernel configs where we won't keep track of
+>>> per-page mapcounts in large folios.
+>>
+>>
+>> Just curious, can you elaborate on the motivation? I probably missed
+>> the discussions that explained why page_mapcount() in large folios
+>> is not desirable. Are we getting rid of a field in struct page/folio?
+>> Some other reason?
+> 
+> Two reasons.  One is that, regardless of anything else, folio_mapcount()
+> is expensive on large folios as it has to walk every page in the folio
+> summing the mapcounts.  The more important reason is that when we move
+> to separately allocated folios, we don't want to allocate an array of
+> mapcounts in order to maintain a per-page mapcount.
+> 
+> So we're looking for a more compact scheme to avoid maintaining a
+> per-page mapcount.
 >
-> Hello Carlos,
->
-> My intention right now is still to gather feedback on the draft!
-> Everything, including if it should be sliced and diced into other
-> places, is up for consideration.  The final intent is a patch into the
-> central doc tree and not remote documentation.  I'll wait longer to
-> gather more input before replying to particular points.
->
-> On Tue, Apr 23, 2024 at 12:40=E2=80=AFPM Bilbao, Carlos <carlos.bilbao@am=
-d.com> wrote:
-> >
-> > Hello Josh,
-> >
-> > On 4/23/2024 10:34 AM, Josh Marshall wrote:
-> > > I have a draft document which I would like broader review on, which
-> > > currently lives here:
-> > > https://gitlab.com/anadon/getting-started-on-kernel-dev-guide-workspa=
-ce.
-> > > This document is to ease the setup of Kernel Development.  I intend t=
-o
-> > > send this in as a patch to the mainline doc tree once it gets by a
-> > > suitable number of reviewers.
-> >
-> > It's great that you're interested in improving the documentation. I've =
-CCed
-> > linux-doc list for visibility.
-> >
-> > However, please note that we already have existing documentation, and i=
-t
-> > might be better to extend what's already there rather than creating
-> > something entirely new. You can refer to:
-> >
-> > https://www.kernel.org/doc/html/latest/process/development-process.html
-> >
-> > If you still feel the need to start a new document and host it remotely=
-, I
-> > suggest updating:
-> >
-> > https://www.kernel.org/doc/html/v6.1/process/kernel-docs.html
-> >
-> > If I may offer a suggestion, focusing on documenting the challenges you=
-'ve
-> > encountered with KVM, etc., could be more valuable that trying to cover
-> > everything.
-> >
-> > >
-> > > On Fri, Apr 19, 2024 at 12:15=E2=80=AFPM ngn <ngn@ngn.tf> wrote:
-> > >>
-> > >> On Thu, Apr 18, 2024 at 05:40:20PM -0400, Josh Marshall wrote:
-> > >>> Looks like breakpoints aren't working?  https://paste.debian.net/13=
-14501/
-> > >>>
-> > >>
-> > >> This maybe caused by Kernel Address Space Randomization (KASLR), try
-> > >> disabling it by adding nokaslr option to the boot options.
-> >
-> > Thanks,
-> > Carlos
+
+I see. Thanks for explaining the story.
+
+>>> The khugepage MM selftests keep working as expected, including:
+>>>
+>>> 	Run test: collapse_max_ptes_shared (khugepaged:anon)
+>>> 	Allocate huge page... OK
+>>> 	Share huge page over fork()... OK
+>>> 	Trigger CoW on page 255 of 512... OK
+>>> 	Maybe collapse with max_ptes_shared exceeded.... OK
+>>> 	Trigger CoW on page 256 of 512... OK
+>>> 	Collapse with max_ptes_shared PTEs shared.... OK
+>>> 	Check if parent still has huge page... OK
+>>
+>> Well, a word of caution! These tests do not (yet) cover either of
+>> the interesting new cases that folio_likely_mapped_shared() presents:
+>> KSM or hugetlbfs interactions. In other words, false positives.
+> 
+> Hmm ... KSM never uses large folios and hugetlbfs is disjoint from
+> khugepaged?
+> 
+
+Oh good. I thought we might have had a testing hole, but no.
+
+
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
+
