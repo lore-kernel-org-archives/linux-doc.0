@@ -1,25 +1,59 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CE7613A410;
-	Fri, 26 Apr 2024 06:21:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEE0E282FD;
+	Fri, 26 Apr 2024 06:26:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714112510; cv=none; b=ls4pCgVofPqcy042Ja/2YtC6sE0E8EcGhSeVQwRNtAIVT/PXV8weCKEonUjYUm5Ofqs/aYWKgPoS5l9Mw8zlAwdRfVGyfsnlAw+DptqjPPytVYdAwZmNOwkX4FNvrkQJ+fykVaFXlmTaoiTm7XqpfrPr4vCMFNnSPnaj8UZ6PUM=
+	t=1714112782; cv=none; b=Y0B206reJ9XhT+OMz/xE85RttAlmWbyvIuvqJf3wSykYOmcfDKJm9fbIIBUOHNLVTPprzRSnqBw8dP6b4SimMxHMWWqbhAw3y1D8CA8aUL7ohD2GsZgaKJfHvVr3SlcpjGAXuS5/VHAF0hpaY7Ofr63RW6ko9z00dlDVAAR1l1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714112510; c=relaxed/simple;
-	bh=MFWLCQpaZV6DcDzNu+sVa5KZp27IZ3lkmg1HeGpldtE=;
+	s=arc-20240116; t=1714112782; c=relaxed/simple;
+	bh=K/lLSTmB1r5VdQlAr4SIuQlIKbznnzoX4+gIxqWEcdo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JnuXpeWjXsvvLIPe2ZSULyzJr2ZPVrD26pY/XyjHUNXP6qxCZdGIKAgRJWtYP18x4JpV3gLb0evfoiK3YI5nimgrahwgNdJWzQpMAAMR8G4epV5Pi9ZRmw+86fDrsyqoQc64eyqgAyxYE1Ms9Q/umGHRlpfVz0pxGMAbSxaC8bU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [112.20.112.218])
-	by gateway (Coremail) with SMTP id _____8DxFun4RytmQlYDAA--.1615S3;
-	Fri, 26 Apr 2024 14:21:44 +0800 (CST)
-Received: from [192.168.100.8] (unknown [112.20.112.218])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8AxLN7tRytmivgFAA--.19153S3;
-	Fri, 26 Apr 2024 14:21:34 +0800 (CST)
-Message-ID: <e19151b2-641b-4a0a-a88e-de4d879fbd8a@loongson.cn>
-Date: Fri, 26 Apr 2024 14:21:32 +0800
+	 In-Reply-To:Content-Type; b=GtmmdO6qOab2RqE2nmV6+u/CyJDD62IyHYKiaDAistfqKctoXBjt91C2CnSD36Rz8yB9ly2VEuREndbDC7u5ilc2TVnbr+khMXrC2iBukr6oPKbVVVawdnDBbwt4qR+MOMU++4QbH2m1BgtAAP70w2tSR3LnQpjblAPgVZTJLgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mw8j+EMt; arc=none smtp.client-ip=209.85.215.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mw8j+EMt"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-5ce07cf1e5dso1340197a12.2;
+        Thu, 25 Apr 2024 23:26:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714112780; x=1714717580; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=akq0FDQRGKYwMJs1Hv8SvLZ2QQx9betP7BmyGgdXjV4=;
+        b=mw8j+EMtvSkYd8vFt/k5aFleWg6NVDh9FhimBhl4udQkGErWsmcSIncYPON4R0Pf2f
+         MTEaPFY83a7HmoLQs79n1uUMJZM+KPQUIroiiVcWvFCDXiizwCRHRXd1oiYWgvKjIK5B
+         cteUw+SaEmji1QVEW8KSqDQf5tzwDxMmXxeN1nSrpucvH2PxIw3JBse3ZjEpjdY9cscp
+         FpTip+4kyGSxjoYfYfrZc6ordQCl0x3MY6KGGim3XP3Ve2alFa9SeTI8F8NYl0aeVrhK
+         g+d/vnnNkrTfI1YvC5xFpHc8bENkpJLnMGrx1aOUT/hFNned5IM3pZhpQ4Uhm2DwHukJ
+         3Lpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714112780; x=1714717580;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=akq0FDQRGKYwMJs1Hv8SvLZ2QQx9betP7BmyGgdXjV4=;
+        b=GHxzEaxfDjaxiwNHCgV233I/G9pvNvkjsR3AG+UEKdZut/G3P5rW1dyk1rHtEmN9Be
+         J5e8a5egesCurr/t4JJs9JbBKUhGxg43kPyQsNe7NHRZhELUkg2FmWEehTabJJeDtxGA
+         HBWTaqDEtcION4HUZ41qK3s9etfyrPYFGfPZgdce3ps5XG5VctuyLG0lN8ve/GNcD1Hr
+         2VdwJb8LpY5qiomdIujIT/3gUC0NaXdRS7KzGRThL4NfeYlJYt5+PGtIqM5Si9uQY254
+         NiVScaTSnWLGDTCjee9Rhc40F+jhXEmB7vKPG8fyY5DQw4VzupBdPoai+hApUSSMbGrc
+         IzPA==
+X-Forwarded-Encrypted: i=1; AJvYcCXw/zD/dcS0D50AknmBwBqabEWZA3+cFp00Brbhgjg7ueEAGiht+xke0tUlRBf7215CpmtJxJrExxyZMGcqp/wEXgEW4HBOlARedreq
+X-Gm-Message-State: AOJu0YygUThGSwTtgDWQ/jYMaiOppdcCDMqmrTeE/OwFrmx+Na72CJ1i
+	yqS7ByF8iT1Sw9I3CHCtqfq9lWyV10v8x3tXa6F7iSZba66Mmyfn
+X-Google-Smtp-Source: AGHT+IEtZOi6hhkuI7OrQ4kBPhgfN1vv2fTVRaLhJdr4hhFHGpJmOgnhcutwsZrkdGezK4r1v3/F7A==
+X-Received: by 2002:a05:6a20:8406:b0:1aa:5b05:7925 with SMTP id c6-20020a056a20840600b001aa5b057925mr2228373pzd.4.1714112780100;
+        Thu, 25 Apr 2024 23:26:20 -0700 (PDT)
+Received: from [192.168.255.10] ([43.132.141.20])
+        by smtp.gmail.com with ESMTPSA id n16-20020a170903111000b001e2a479954dsm14791818plh.181.2024.04.25.23.26.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Apr 2024 23:26:19 -0700 (PDT)
+Message-ID: <63596d91-0a34-4311-9067-e2a125514e1a@gmail.com>
+Date: Fri, 26 Apr 2024 14:26:16 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -27,85 +61,36 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/4] docs/zh_CN/rust: Update the translation of
- coding-guidelines to 6.9-rc4
-To: Dongliang Mu <mudongliangabcd@gmail.com>
-Cc: ojeda@kernel.org, corbet@lwn.net, alex.gaynor@gmail.com,
- wedsonaf@gmail.com, boqun.feng@gmail.com, gary@garyguo.net,
- bjorn3_gh@protonmail.com, benno.lossin@proton.me, a.hindborg@samsung.com,
- aliceryhl@google.com, nathan@kernel.org, ndesaulniers@google.com,
- morbo@google.com, justinstitt@google.com, alexs@kernel.org,
- dzm91@hust.edu.cn, linux-doc@vger.kernel.org,
- rust-for-linux@vger.kernel.org, llvm@lists.linux.dev
-References: <cover.1713875158.git.siyanteng@loongson.cn>
- <c1d41290e80fc1e6364682c258445132c42442e4.1713875158.git.siyanteng@loongson.cn>
- <CAD-N9QU7uyJN7g1D1y0jZt9x64uDwvL3ynyXir6othOm=NpH9A@mail.gmail.com>
- <CAD-N9QXbToYg4VUDmStJ5Nt3Wu4o9UrNCaDQPMcq9tLrd=bdXA@mail.gmail.com>
+Subject: Re: [PATCH v4] docs/zh_CN: add process/cve Chinese translation
+To: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <siyanteng@loongson.cn>, Jonathan Corbet <corbet@lwn.net>,
+ Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240422041115.2439166-1-dzm91@hust.edu.cn>
 Content-Language: en-US
-From: Yanteng Si <siyanteng@loongson.cn>
-In-Reply-To: <CAD-N9QXbToYg4VUDmStJ5Nt3Wu4o9UrNCaDQPMcq9tLrd=bdXA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:AQAAf8AxLN7tRytmivgFAA--.19153S3
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7uw4DJF47tw43tFyDCF4UGFX_yoW8Wr48pF
-	yjka4fG3ZxKF1Ika4IkryrXF12gF93Ca1fWwsrJ34vvF4DtFyvvryDGrn0gF92vrW8Ga45
-	Zr4F9F17Cw4FyFgCm3ZEXasCq-sJn29KB7ZKAUJUUUUk529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ36c02F40EFcxC0VAKzVAqx4xG6I80ewCIccxYrVCFb4Uv73VFW2AGmfu7
-	bjvjm3AaLaJ3UjIYCTnIWjp_UUUY_7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4
-	CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUXVWUAwA2ocxC64kIII0Yj41l84x0
-	c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2
-	IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2
-	jsIEc7CjxVAFwI0_Gr1j6F4UJwAaw2AFwI0_Jw0_GFyle2I262IYc4CY6c8Ij28IcVAaY2
-	xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0
-	cI8IcVAFwI0_Jw0_WrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8Jw
-	ACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCF
-	s4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUtVW8ZwC20s026c02F40E14v26r1j6r18MI
-	8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkvb40E47kJMIIY
-	rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14
-	v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWx
-	JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUBjg4UU
-	UUU
+From: Alex Shi <seakeel@gmail.com>
+In-Reply-To: <20240422041115.2439166-1-dzm91@hust.edu.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+Reviewed-by: Alex Shi <alexs@kernel.org>
 
 
-在 2024/4/23 22:25, Dongliang Mu 写道:
-> On Tue, Apr 23, 2024 at 10:09 PM Dongliang Mu <mudongliangabcd@gmail.com> wrote:
->> On Tue, Apr 23, 2024 at 9:08 PM Yanteng Si <siyanteng@loongson.cn> wrote:
->>> Update to commit bc2e7d5c298a ("rust: support `srctree`-relative links")
->>>
->>> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
->>> ---
->>>   .../translations/zh_CN/rust/coding-guidelines.rst    | 12 ++++++++++++
->>>   1 file changed, 12 insertions(+)
->>>
->>> diff --git a/Documentation/translations/zh_CN/rust/coding-guidelines.rst b/Documentation/translations/zh_CN/rust/coding-guidelines.rst
->>> index 6c0bdbbc5a2a..d02e2dbff509 100644
->>> --- a/Documentation/translations/zh_CN/rust/coding-guidelines.rst
->>> +++ b/Documentation/translations/zh_CN/rust/coding-guidelines.rst
->>> @@ -157,6 +157,18 @@ https://commonmark.org/help/
->>>
->>>          https://doc.rust-lang.org/rustdoc/how-to-write-documentation.html
->>>
->>> +此外，内核支持通过在链接目标前缀 ``srctree/`` 来创建相对于源代码树的链接。例如:
->> 前缀通常被用作名词。建议可以改成：
->>
->> 此外，内核支持通过在链接目标前添加 ``srctree/`` 来创建相对于源代码树的链接。例如:
+On 4/22/24 12:11 PM, Dongliang Mu wrote:
+> Translate process/cve.rst into Chinese and add it to
+> Documentation/translations/zh_CN directory.
 >
-> Translate the above comments to English:
+> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+> ---
+> v3->v4: revise sentences suggested by Alex Shi
+> v2->v3: remove a trailing space
+> v1->v2: add a newline at then end of cve.rst.
+>  .../translations/zh_CN/process/cve.rst        | 89 +++++++++++++++++++
+>  .../translations/zh_CN/process/index.rst      |  1 +
+>  2 files changed, 90 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/process/cve.rst
 >
-> “前缀” in Chinese usually means noun other than verb. So I suggest the
-> liberal translation "在...前添加" other than "前缀".
-
-Okay!
-
-
-Thanks,
-
-Yanteng
-
->
->
-> 2.31.4
->
->
-
+> diff --git a/Documentation/translations/zh_CN/process/cve.rst b/Documentation/translations/zh_CN/process/cve.rst
+> new file mode 100644
+> index 000000000000..e39b796efcec
+> --- /dev/null
