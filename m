@@ -1,85 +1,92 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B0F143C5F
-	for <linux-doc@vger.kernel.org>; Fri, 26 Apr 2024 10:46:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02554145B0B;
+	Fri, 26 Apr 2024 12:21:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714128409; cv=none; b=ZJMuZLU125W8h1gvIzaEj2NJV92dhGPJ9q9C2qlMA2bdRoV7p6KxMdtABt2+g8QT7uVW7GIKLL/1lgj1YuBmXcBpyS/TAKvnflYVYSOJsl6bE7YuwYHngmus04B9ZheP09FmN+1B/ZTQkYcJXXsiaYA80bG2+PCOV+I+6rvAUq8=
+	t=1714134070; cv=none; b=CD9PxpjuyLh4ul4+oVifINMbWwHNXHi5yWOFYYgmCGMeyRuShaPzWezyl/Xesu0nHrYumSQoINOGRZ7UA1hCWxOA/BOlvd2C8STnnJexjlMBgH2iu5b69D7/K24kVUuueH5fH7HImY0hIrtyc3Gcw6bZG2+oGcXgXLC+1ngIe6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714128409; c=relaxed/simple;
-	bh=NUOpz5I5zwt+43ehEK1mOWYVfGMo5kprRfpv1uqpwNg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=D7QcWEej9etK9tY5OhUhHJ4NtN4AvFJln6DDuiLRfb8GWgshrK2MinMzZsMQVntYTN9yVZn9lqHuatHMX5JVnstuJbvmX/bPB2L67q2U6fc47RsvjMB4+v0iYpW6tM1REPK8eyvf0gqYsra4hXc955g97BDy9I6KFYMKKdMR0/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SeSWDmVA; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1714134070; c=relaxed/simple;
+	bh=VFUk/8mezBkp2jG4lxOgugvzQyyyqYxEDgBoU4W+9R0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KGqRuRj3H2jcPPMpMYUfAl7tqhFo47V2AWe9XKNwxFZAMq+q612KNmk+GTft3B8B7v/oYh227YaLdrDInvTrAGmRPFbJMhP0D2Dzf61X/2NDErFzqlRTIY5iyLQ4Q7FKwnw3Uxy05ibvO+gHP75X869ZOIGEBha5D3rb2M3QGKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DEqylk0u; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SeSWDmVA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714128408; x=1745664408;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NUOpz5I5zwt+43ehEK1mOWYVfGMo5kprRfpv1uqpwNg=;
-  b=SeSWDmVAgp2+e/Yoz9zUpM1MBZYXUVWSwWuZPVzREfICmqP4XUa6jsrF
-   vSF+mzK4w+c6j0XY4P3VIZ1R+J8rJOp2wI17J13FFEKgzbH9aC/xj1Q44
-   ljI0OpkJzCaIL8kqnX5ndoimeoWFcDcTfN/4vuznFrfI0suifyafm+Nvl
-   ozkbvzDHa7mjjaJ1r21HlK5NSviI6NutgUJ1jars/lyHNHWijtG2M//HG
-   h7qSTjTV5zOyRs1jduJtR5C5wTUnNe9XNcPDDJmHORUB3QgYcyJRvWnGa
-   ECFhQmlCI5F6FvwUGFV1nOOo6Ioy1CSwDLXGz30jOLcO8WZ24ho1OtxoB
-   Q==;
-X-CSE-ConnectionGUID: 7XNSWtMuT0+4BhGOMJDvMw==
-X-CSE-MsgGUID: 5vtNNky3R8+yKiq7w+/y8Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="9721333"
-X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
-   d="scan'208";a="9721333"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 03:46:47 -0700
-X-CSE-ConnectionGUID: I4Pf7qkATb2Gze9qOxgy0A==
-X-CSE-MsgGUID: dneICB5NQgqmxOUjIs6jhg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
-   d="scan'208";a="25376105"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 26 Apr 2024 03:46:46 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s0J6J-0003cH-1m;
-	Fri, 26 Apr 2024 10:46:43 +0000
-Date: Fri, 26 Apr 2024 18:46:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hugues Fruchet <hugues.fruchet@foss.st.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	linux-doc@vger.kernel.org
-Subject: [atorgue-stm32:stm32-dt-for-v6.10 8/21] dtbs_check:
- Documentation/devicetree/bindings/media/st,stm32mp25-video-codec.yaml:
- access-controllers: missing type definition
-Message-ID: <202404261831.rtLHpDon-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DEqylk0u"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2a2d248a2e1so2334588a91.0;
+        Fri, 26 Apr 2024 05:21:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714134068; x=1714738868; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VFUk/8mezBkp2jG4lxOgugvzQyyyqYxEDgBoU4W+9R0=;
+        b=DEqylk0uEUvtFSNqHjqyT4X9HgIoKx6/BAEipxEwiR69CL9ZBiO58G6NeHGG4OzgFC
+         aHLCumcD5JEXzO0qNFBiAXmjtpcb4m9WlNJjiPthUPFYpzjLVE5WCC9Z8rzBeydSlnOQ
+         rfyO+ktnMFs7OmrfoxG39Cm8pxbJsfJjGlNeTn0ZIY74OPAFxGr25cGb8YvS+nWsjjCD
+         A2+ru4bEqLdPcu53q/HL5wCmsvnzZLXkJNWh2mfju1SYWw17nRfxajLdSvEU+id59B3O
+         8g9fPvj3vDMeDu4udfEneA2eulaGkaJcLxKsHYmlZ8h3mRTfu1FWE2RjMF+uWdL8C3x1
+         Z+oQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714134068; x=1714738868;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VFUk/8mezBkp2jG4lxOgugvzQyyyqYxEDgBoU4W+9R0=;
+        b=bUwwjvaiSMYvxZsN0J5zFyFS5LaLm2n0Q71QmVsK2MZxyZV+GEfdhWOSrh6h5coWsl
+         Pf2y7tePDM2+QAcarpDn14kFZtDpRtr4BYYjHpHg7fBv7DTbCwFebR8e7OjUep1Pv1Vk
+         H76yKRW2mn3ybucBDFeLfaTrCTmhYUV56YLv43R+YbRGE+krRRc/dG97P3zzdn5wieW6
+         3kHswQl13kaUBzkIpw5fagXgZO7Veiq/2WRjHESZf/+aLgEEywzdvYlwgHrYftQkq1p3
+         FLXeyikWio+AN0o3D6m1P5mH3Jcf0pgwdTMnNEA0fAWXrF07FooI3YR4iK/sur8uCUcN
+         J88A==
+X-Forwarded-Encrypted: i=1; AJvYcCW5Sy0vAfqHjNemh1se3hZgZG1wRmB1XZTG662IjgXl3aFDNV4Lnph/ncM63mC/dnoxbwAAbuLueBEu2jrKu2tVq8h2a6OII2w/uzr43FVFwiyOz8NC0rPAsLdoONDWaRu9e7/HupF5t6Q=
+X-Gm-Message-State: AOJu0Yz0CU4AzBOmJCJdt1/HFPPK1Ypv2HVIPweR7b0baB9hnRWhhVQp
+	/2gZvlMyidKvWzV9MX0klNotELnX8eCAn+H71WftsaSYb+ug6slUFtE9tepUgoGUfGWipwA6xny
+	XH7IFKoabcyhOSF14gye7IC9UhVw=
+X-Google-Smtp-Source: AGHT+IHQ0i2Z+JiSphGpy0VElFmysG0D6y1RO6zJ2spHmtLaNeadT9T7sGBsWfuOBTgfYf9daaHlhTS+KLOAtOcApTc=
+X-Received: by 2002:a17:90b:28cb:b0:2a5:575:c58d with SMTP id
+ qj11-20020a17090b28cb00b002a50575c58dmr8343368pjb.16.1714134068133; Fri, 26
+ Apr 2024 05:21:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <cover.1714113680.git.siyanteng@loongson.cn> <CANiq72meE9txt5b09Y7cUJd-hEqcZX1ZtRc_0YYDZqWQgyo3wA@mail.gmail.com>
+ <9cae4c4a-55a6-4c6c-9780-866f796a52c0@loongson.cn>
+In-Reply-To: <9cae4c4a-55a6-4c6c-9780-866f796a52c0@loongson.cn>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Fri, 26 Apr 2024 14:20:02 +0200
+Message-ID: <CANiq72=b=G3GPVWQ2XV1MT-wdT0KL4jZVQfD55Mcz_st-G7r=Q@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] rust: docs: Update the translation of rust to 6.9-rc4
+To: Yanteng Si <siyanteng@loongson.cn>
+Cc: ojeda@kernel.org, corbet@lwn.net, alex.gaynor@gmail.com, 
+	wedsonaf@gmail.com, boqun.feng@gmail.com, gary@garyguo.net, 
+	bjorn3_gh@protonmail.com, benno.lossin@proton.me, a.hindborg@samsung.com, 
+	aliceryhl@google.com, nathan@kernel.org, ndesaulniers@google.com, 
+	morbo@google.com, justinstitt@google.com, alexs@kernel.org, dzm91@hust.edu.cn, 
+	linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	llvm@lists.linux.dev, linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/atorgue/stm32.git stm32-dt-for-v6.10
-head:   36cf0d86d760f30b59bc61ffc72c58503c353a17
-commit: 13f2bdd7af142c94e2078e1b9db8408d9c1393ed [8/21] media: dt-bindings: add access-controllers to STM32MP25 video codecs
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
-dtschema version: 2024.4
-reproduce: (https://download.01.org/0day-ci/archive/20240426/202404261831.rtLHpDon-lkp@intel.com/reproduce)
+On Fri, Apr 26, 2024 at 12:35=E2=80=AFPM Yanteng Si <siyanteng@loongson.cn>=
+ wrote:
+>
+> I'm thinking that I'm two commits ahead of the doc tree, it doesn't seem
+> to fit
+>
+> merge into the doc tree in this window, and there might be conflicts on
+>
+> linux-next if I splite the patch out more.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404261831.rtLHpDon-lkp@intel.com/
+Hmm... I am not sure I follow -- conflicts with what? These patches
+only change the translations and they all get applied by the doc tree,
+right?
 
-dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/media/st,stm32mp25-video-codec.yaml: access-controllers: missing type definition
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers,
+Miguel
