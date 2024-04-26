@@ -1,198 +1,96 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B66CF13A3ED;
-	Fri, 26 Apr 2024 07:02:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A8326AE3;
+	Fri, 26 Apr 2024 07:13:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714114967; cv=none; b=UZbM9iDp2VnktQbRoTbZG5anS/HiYxlUrBn0zugezjsScQ8v70j2q5TcMChCvAJg4l05Btl0E6E5v3XvtMfcplWYCn5EMgK64poY3g+FIT5KV4MP3jOGt0A2Ss07BQu7jXqemfFb74DVe4pEmC0aht7A885Kj+3F31KvhN8/xp0=
+	t=1714115592; cv=none; b=LpEBvfhHLyumK3a85MkQE+FjPNZli/pwOegEANpcdY+95rD21JTe6Hzz7iXeClwUMHWg5P5rnuEas+DKn7ulWRKTeMKFlSL96fakTxWAIcUwXUo67Zid9d73NWvTCByK/QuMrpiVXobj1iMW2e4Dj/jdUk18O0aQTVsGSPXehAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714114967; c=relaxed/simple;
-	bh=GaSMvxmMOp8Eji2z5Xo8ZYQH5edYvjro7N4Lgxz2XG8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MhUZXryBmCT2R/FZRIvNALrMbbymQ0SjVGDzKB2De2p5YjpHkQm9dknTSgQSRTztSu6kHkX5o80cXLkjXUoeeHhj6BkqNt909nQYYTX/SdyN3E5lYLD2MiZiAqDbXZzKlgXoswUnKc8udBG1gtZ9s0jHjzXA5IcF05Hr7I/oSBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [112.20.112.218])
-	by gateway (Coremail) with SMTP id _____8CxLOuTUStmJFkDAA--.7347S3;
-	Fri, 26 Apr 2024 15:02:43 +0800 (CST)
-Received: from localhost.localdomain (unknown [112.20.112.218])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8AxKOSMUStmFAMGAA--.19261S2;
-	Fri, 26 Apr 2024 15:02:37 +0800 (CST)
-From: Yanteng Si <siyanteng@loongson.cn>
-To: ojeda@kernel.org,
-	corbet@lwn.net,
-	alex.gaynor@gmail.com,
-	wedsonaf@gmail.com,
-	boqun.feng@gmail.com,
-	gary@garyguo.net,
-	bjorn3_gh@protonmail.com,
-	benno.lossin@proton.me,
-	a.hindborg@samsung.com,
-	aliceryhl@google.com,
-	nathan@kernel.org,
-	ndesaulniers@google.com,
-	morbo@google.com,
-	justinstitt@google.com,
-	alexs@kernel.org,
-	dzm91@hust.edu.cn
-Cc: Yanteng Si <siyanteng@loongson.cn>,
-	linux-doc@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: [PATCH v2 4/4] docs/zh_CN/rust: Update the translation of quick-start to 6.9-rc4
-Date: Fri, 26 Apr 2024 15:02:35 +0800
-Message-Id: <aff560c262f255e873c07cc66891cf8140ad433d.1714113680.git.siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.31.4
-In-Reply-To: <cover.1714113680.git.siyanteng@loongson.cn>
-References: <cover.1714113680.git.siyanteng@loongson.cn>
+	s=arc-20240116; t=1714115592; c=relaxed/simple;
+	bh=sFhaHOLcmDllXTSZg6+C5j785TZxx9YJrqSgUoHLafo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mF2980BAaP33MKNpZ7g4IKgP3GkgCWzFX/DxNylc5XLb4cxlKMj0yYP950PnIvMahBuO3Rqj3gP4Q2VfQtCqLZ29Bcxu1B6kd2ZeFxECwfx1WmhwVGWThXHXpGGSj/mgCQ3jPHzLxXZCYkUUVTdui99HuzMI8dS7D5q4uiDW9IU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lYMhTAqo; arc=none smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lYMhTAqo"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2db7c6b5598so22510531fa.1;
+        Fri, 26 Apr 2024 00:13:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714115589; x=1714720389; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sFhaHOLcmDllXTSZg6+C5j785TZxx9YJrqSgUoHLafo=;
+        b=lYMhTAqooCcBg8P/xeHrppajBIRYTqHghMzO4aA/2ShF84H9MOIuFgQ33EkcZEWMnq
+         dbzRggWL3d9bqMk5fX/2gdjrA+LVsbK8IvPL1EpuWZsMK+6UzAwjNClNW7AkNwBBBEpR
+         HzNjAr3RiXk0ZyodGWm69RqOthK8f+0PuUEwSLzLk3ukqh322DZ7gjOYUseeQU+1fqBX
+         5YeSiN9OEqVAcIeQvc31vUXk4POjBZ1gYywbt/rZKy2OXrx8icmtglSGz77WlqtXgT0q
+         /laJ07g8D8g29S4hnaJEd4pFg8CwCq1rpEuqx39/9h3Aq+wKO4YjlgEMRViJvEvA/0Z7
+         UYWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714115589; x=1714720389;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sFhaHOLcmDllXTSZg6+C5j785TZxx9YJrqSgUoHLafo=;
+        b=mklMjEEJ7lfE4Jbxn7+jscaWGTA1MmQaJjr3fMhe+yH/DhAZ0jHt5NcXKMolKDSOKe
+         BXDBL3rRqeL0s9jbePvbOIO8PEcnpk0PQfEqjqmhONoxsInaIFfeHtg++9kcnXsoK+iC
+         tYwB3TsEIG/LAA3+b6m9KWsTsyJVop/1/tL7edz6oOlq7nrXCBbD66vlITw1apNZeSKr
+         n/ap7JJX9ftdDlJXzFJ0hz3LV6bnzoWLaE1e4qSo9f4N5hjQSmm+NFGaQXwwcMmVYQfx
+         cpB333s8Tu11WZgMB1+fgYhqZZddK1tNt6IPM3Fi0ncCYRZYc9wmNGzSdVWwmeh2vW8J
+         8c9A==
+X-Forwarded-Encrypted: i=1; AJvYcCVGzeiNhDnJCkBT0kho+qjJNHxeeGfJV+1aEby37k4INYLQUwRDJ/yThYXsBuMN6aP0hQv7249cg+329ZbWKTpbXW6H+Syq02hP83OeCB+8gjpucNdhpXW1j82RuIOzHTXJqpek6/oP9Hx5vu06zw3LaOt2Dv6CNxdLSU1EVaql9zjF1hmdGfDAlkgdp9wO/LGbWAS88iUkuoxOlgD6XulJFmmzGP7MiyckEmXZGE8vxfJRl5I60pAoYUxA
+X-Gm-Message-State: AOJu0YzqOCL63nrgk8mJrAPBkdoH6o8vqBEXlxIGB51tqKGVjqgSZeub
+	9xD7HaKEVqg+rrXR+GUvtUp/MT6Ci72hQqbsr4Qw3wMX14U/iwtyBB/2UPXUDtA9cGFv3q5miZm
+	VjXa8wIlf9VfkKF+2D5Ng3UHKzDd2LA==
+X-Google-Smtp-Source: AGHT+IF+jwxiGnk7SLvXkvdKC9ou42iN+pIjSlgZEuLsJB2Hp2M4N+skA+TcxbZh6MZquCN2YFivItkTlGo/yBZAHtU=
+X-Received: by 2002:a2e:86c7:0:b0:2dc:b1c7:514e with SMTP id
+ n7-20020a2e86c7000000b002dcb1c7514emr1088930ljj.8.1714115588956; Fri, 26 Apr
+ 2024 00:13:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:AQAAf8AxKOSMUStmFAMGAA--.19261S2
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBj93XoW3Ar18Kry3Ww18Xw1kKFWfWFX_yoW7ZryDpF
-	yqkr93ur4xAFy8ZryIkFyUuF15Ca95Z342q3WDJa42krs5Jr4kKw4Iyry3Ca17ZayxArW2
-	gF18Zryj9rsakFbCm3ZEXasCq-sJn29KB7ZKAUJUUUUk529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUBlb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E
-	14v26r4UJVWxJr1ln4kS14v26r1q6r43M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6x
-	kI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v2
-	6rWY6Fy7McIj6I8E87Iv67AKxVWxJVW8Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48Icx
-	kI7VAKI48JMxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCj
-	c4AY6r1j6r4UMxCIbckI1I0E14v26r1q6r43MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxV
-	Cjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY
-	6xIIjxv20xvE14v26F1j6w1UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1lIxAIcV
-	CF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26F4j6r4UJwCI42IY6I8E87Iv
-	6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7IUnbAw7UUUUU==
+References: <20240425153608.4003782-1-peteryin.openbmc@gmail.com>
+ <20240425153608.4003782-3-peteryin.openbmc@gmail.com> <4e329d1b-fad5-416f-b0ca-55e8c6c3394c@kernel.org>
+In-Reply-To: <4e329d1b-fad5-416f-b0ca-55e8c6c3394c@kernel.org>
+From: Chia Hsing Yin <peteryin.openbmc@gmail.com>
+Date: Fri, 26 Apr 2024 15:12:57 +0800
+Message-ID: <CAPSyxFQcKvpvO2-U7QPjrVTqam_bQ6OP8VoomnSbmEj4g7uDVw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] dt-bindings: hwmon: Add infineon xdp710 driver bindings
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: patrick@stwcx.xyz, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
+	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, 
+	Patrick Rudolph <patrick.rudolph@9elements.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Charles Hsu <ythsu0511@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Lukas Wunner <lukas@wunner.de>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-i2c@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Update to commit 711cbfc71765 ("docs: rust: Clarify that 'rustup
-override' applies to build directory")
-commit 7583ce66ddf7 ("docs: rust: remove `CC=clang` mentions")
-commit 2285eb2f2429 ("docs: rust: clarify what 'rustup override' does")
-commit 8cb40124cf92 ("docs: rust: update instructions for obtaining
-'core' source")
-commit b603c6cc405a ("docs: rust: add command line to rust-analyzer
-section")
-commit 08ab786556ff ("rust: bindgen: upgrade to 0.65.1")
-commit eae90172c5b8 ("docs: rust: add paragraph about finding a
-suitable `libclang`")
-commit 6883b29c6cae ("docs: rust: point directly to the standalone
-installers")
+I use b4 download and apply it, I think it is a tool issue, I can fix
+in the next version.
+Thank you for your feedback.
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
----
- .../translations/zh_CN/rust/quick-start.rst   | 50 +++++++++++++------
- 1 file changed, 34 insertions(+), 16 deletions(-)
-
-diff --git a/Documentation/translations/zh_CN/rust/quick-start.rst b/Documentation/translations/zh_CN/rust/quick-start.rst
-index a4b8e8a50a89..8616556ae4d7 100644
---- a/Documentation/translations/zh_CN/rust/quick-start.rst
-+++ b/Documentation/translations/zh_CN/rust/quick-start.rst
-@@ -37,13 +37,18 @@ rustc
- 需要一个特定版本的Rust编译器。较新的版本可能会也可能不会工作，因为就目前而言，内核依赖
- 于一些不稳定的Rust特性。
- 
--如果使用的是 ``rustup`` ，请进入检出的源代码目录并运行::
-+如果使用的是 ``rustup`` ，请进入内核编译目录（或者用 ``--path=<build-dir>`` 参数
-+来 ``设置`` sub-command)并运行::
- 
- 	rustup override set $(scripts/min-tool-version.sh rustc)
- 
--或者从以下网址获取一个独立的安装程序或安装 ``rustup`` ：
-++这将配置你的工作目录使用正确版本的 ``rustc``，而不影响你的默认工具链。
- 
--	https://www.rust-lang.org
-+请注意覆盖应用当前的工作目录（和它的子目录）。
-+
-+如果你使用 ``rustup``， 可以从下面的链接拉取一个单独的安装程序:
-+
-+	https://forge.rust-lang.org/infra/other-installation-methods.html#standalone
- 
- 
- Rust标准库源代码
-@@ -57,21 +62,23 @@ Rust标准库的源代码是必需的，因为构建系统会交叉编译 ``core
- 
- 这些组件是按工具链安装的，因此以后升级Rust编译器版本需要重新添加组件。
- 
--否则，如果使用独立的安装程序，可以将Rust仓库克隆到工具链的安装文件夹中::
-+否则，如果使用独立的安装程序，可以将Rust源码树下载到安装工具链的文件夹中::
- 
--	git clone --recurse-submodules \
--		--branch $(scripts/min-tool-version.sh rustc) \
--		https://github.com/rust-lang/rust \
--		$(rustc --print sysroot)/lib/rustlib/src/rust
-+       curl -L "https://static.rust-lang.org/dist/rust-src-$(scripts/min-tool-version.sh rustc).tar.gz" |
-+               tar -xzf - -C "$(rustc --print sysroot)/lib" \
-+               "rust-src-$(scripts/min-tool-version.sh rustc)/rust-src/lib/" \
-+               --strip-components=3
- 
--在这种情况下，以后升级Rust编译器版本需要手动更新这个克隆的仓库。
-+在这种情况下，以后升级Rust编译器版本需要手动更新这个源代码树（这可以通过移除
-+``$(rustc --print sysroot)/lib/rustlib/src/rust`` ，然后重新执行上
-+面的命令做到）。
- 
- 
- libclang
- ********
- 
- ``bindgen`` 使用 ``libclang`` （LLVM的一部分）来理解内核中的C代码，这意味着需要安
--装LLVM；同在开启 ``CC=clang`` 或 ``LLVM=1`` 时编译内核一样。
-+装LLVM；同在开启``LLVM=1`` 时编译内核一样。
- 
- Linux发行版中可能会有合适的包，所以最好先检查一下。
- 
-@@ -94,7 +101,20 @@ bindgen
- 
- 通过以下方式安装它（注意，这将从源码下载并构建该工具）::
- 
--	cargo install --locked --version $(scripts/min-tool-version.sh bindgen) bindgen
-+	cargo install --locked --version $(scripts/min-tool-version.sh bindgen) bindgen-cli
-+
-+``bindgen`` 需要找到合适的 ``libclang`` 才能工作。如果没有找到（或者找到的
-+``libclang`` 与应该使用的 ``libclang`` 不同），则可以使用 ``clang-sys``
-+理解的环境变量（Rust绑定创建的 ``bindgen`` 用来访问 ``libclang``）:
-+
-+
-+* ``LLVM_CONFIG_PATH`` 可以指向一个 ``llvm-config`` 可执行文件。
-+
-+* 或者 ``LIBCLANG_PATH`` 可以指向 ``libclang`` 共享库或包含它的目录。
-+
-+* 或者 ``CLANG_PATH`` 可以指向 ``clang`` 可执行文件。
-+
-+详情请参阅 ``clang-sys`` 的文档:
- 
- 
- 开发依赖
-@@ -163,7 +183,9 @@ rust-analyzer
- 一起使用，以实现语法高亮、补全、转到定义和其他功能。
- 
- ``rust-analyzer`` 需要一个配置文件， ``rust-project.json``, 它可以由 ``rust-analyzer``
--Make 目标生成。
-+Make 目标生成::
-+
-+       make LLVM=1 rust-analyzer
- 
- 
- 配置
-@@ -189,10 +211,6 @@ Rust支持（CONFIG_RUST）需要在 ``General setup`` 菜单中启用。在其
- 
- 	make LLVM=1
- 
--对于不支持完整LLVM工具链的架构，使用::
--
--	make CC=clang
--
- 使用GCC对某些配置也是可行的，但目前它是非常试验性的。
- 
- 
--- 
-2.31.4
-
+On Fri, Apr 26, 2024 at 2:55=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.or=
+g> wrote:
+>
+> On 25/04/2024 17:36, Peter Yin wrote:
+> > Add a device tree bindings for xdp710 device
+> >
+> > Acked-by: "Rob Herring (Arm)" <robh@kernel.org>
+>
+> That's not the tag you received. Please do not modify the tags. Quotes
+> are not needed.
+>
+> Best regards,
+> Krzysztof
+>
