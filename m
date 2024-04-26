@@ -1,149 +1,80 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3435C146A7E;
-	Fri, 26 Apr 2024 12:50:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B7E13E88A;
+	Fri, 26 Apr 2024 12:56:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714135824; cv=none; b=vC/FWVUI8xPXnW1nzjoBfuAzmOmBZX0fynjL9JzO2VDLumxeDToxMm79vQQ4+Pqj6KP1YOowRN257cGiHvfmJQ2vqA25SzmEwvBsPgBKBWF5DOd4FqR0RvJRMRQ/f0rvTLtYntJtSl9yqj0dSqFwTSFz6ViJalzZKSLjOG6TSo0=
+	t=1714136214; cv=none; b=QNYWqRM6UazvD/l3k/koT9KZGPcS2iJ9I0nPJoK17hDmlwIW2298qB5gEZreE3oP5auLpVVdIOSWgKSbFVSpjNVjEUHRt4Ntr34nr9qQXmCTiBPYVVYTOL++tMmsAj6UrNBbqfsj3Wh/UVDXJh+nq+2kmTDqZVcBxdUv8rjoa/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714135824; c=relaxed/simple;
-	bh=zQgcqjDLU4rXiwYQKS1OFiTU6+v3iMUTYfNZyPzyHP4=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sj7OoiNbX4BTPL8NLyqx29wfZ1Vd6P2J/4+34ApSkg73AAdwGTMPzT7bt0kl++hOH16Wk13AZcn8atDVOlsGih5srsWxlIOr6VMBEfMCArdy0UqUDCxN0cPCE+nUKvcQ6B24rXwGHc94emO0ltsDezfDTG8Ld99C/4AooL05pEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PLoiJEXY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=P7ja7n9F; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PLoiJEXY; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=P7ja7n9F; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1714136214; c=relaxed/simple;
+	bh=Vm1MqXYIrKm3uWWE9OUrBXSWg2xXPd6nhFg9uS9/cpM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=aMLQr+cJeanIjXAhUzwBlookTXr0zJePH9xDtYd5RPvf3uWNm5mzWVcX0L2G4m6vt0e1hebQBs6ncSr6sIJ5e7Lm2fvzUEiuxbdkCiNURg31p6FMra9zugCdIohnMlDsomL/PXhFz+HhEGKi6oyRcMJNuhYI3/LhzmbJFBQqahE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=VIrp8gQ3; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PLoiJEXY";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="P7ja7n9F";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PLoiJEXY";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="P7ja7n9F"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="VIrp8gQ3"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 014E647C39
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1714136206; bh=O0KvzxSAUIcHusHXbcj1H/WOMoqxs1lLJ3AgneKmmhU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=VIrp8gQ3zGKC3bogJXtlDT872C3ZWn5cBQvFDniF7CzaqGGCPVqRaj9fFiUpdB98O
+	 ntJfWrbAEHZ9ifvMr6x2IVVCJi9UA+ykHIan7cY5Sagsnkqg1IjalPZB01z6NJJ016
+	 ob4y8BxSpozTC0Hv7xR9Oh5Kph1nLIppJxmm8AQN75KmBTkn8KRAs90dqeRYZeqc0z
+	 vvMF/jklNQgDYofkb4nr6CoErvlGEGqJs+oH0F/l30FK4mdMa3hcigQ0VSR5vLsOgU
+	 QKpj68OJ9/xx3gtnbt1/Z+X36oynzU7Ai5/DK2pCDG3eyoKma7pQfg8IO6v/vrchbj
+	 8E3S7f9QGfYaQ==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B2C9C5D0B6;
-	Fri, 26 Apr 2024 12:43:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714135416; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O7XH3EvW1LrbRnIuU9A2pUcjAGgJdRh2s3ZQN36W5UU=;
-	b=PLoiJEXYkAAu+kmpjrkAiuoP6q/nP7wCfKKBZ8esRlunuBwGHpkwIc+fm/h06mj1yeKa8k
-	hZ+fsXfeOnA4AevG9pGfU38YsCqMNK6WLFmLD5iNsdbva3AZev0RCf9NugScv7keXwielX
-	gwn7wtC1lyhTbx3r/Jir7QZcy/O7xAo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714135416;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O7XH3EvW1LrbRnIuU9A2pUcjAGgJdRh2s3ZQN36W5UU=;
-	b=P7ja7n9FWoBrHTj8A89XPDP00j5HzgT55nzox/OYFvbaiCoSq7xk81QBGdu5LjvkfqDWpH
-	PkHO/LeCj1PberAA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714135416; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O7XH3EvW1LrbRnIuU9A2pUcjAGgJdRh2s3ZQN36W5UU=;
-	b=PLoiJEXYkAAu+kmpjrkAiuoP6q/nP7wCfKKBZ8esRlunuBwGHpkwIc+fm/h06mj1yeKa8k
-	hZ+fsXfeOnA4AevG9pGfU38YsCqMNK6WLFmLD5iNsdbva3AZev0RCf9NugScv7keXwielX
-	gwn7wtC1lyhTbx3r/Jir7QZcy/O7xAo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714135416;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=O7XH3EvW1LrbRnIuU9A2pUcjAGgJdRh2s3ZQN36W5UU=;
-	b=P7ja7n9FWoBrHTj8A89XPDP00j5HzgT55nzox/OYFvbaiCoSq7xk81QBGdu5LjvkfqDWpH
-	PkHO/LeCj1PberAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ECAB01398B;
-	Fri, 26 Apr 2024 12:43:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id BKtNOHehK2ZkVgAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Fri, 26 Apr 2024 12:43:35 +0000
-Date: Fri, 26 Apr 2024 14:43:46 +0200
-Message-ID: <877cgks399.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Rajashekar kuruva <quic_kuruva@quicinc.com>
-Cc: <srinivas.kandagatla@linaro.org>,
-	<mathias.nyman@intel.com>,
-	<perex@perex.cz>,
-	<conor+dt@kernel.org>,
-	<corbet@lwn.net>,
-	<lgirdwood@gmail.com>,
-	<andersson@kernel.org>,
-	<krzysztof.kozlowski+dt@linaro.org>,
-	<gregkh@linuxfoundation.org>,
-	<Thinh.Nguyen@synopsys.com>,
-	<broonie@kernel.org>,
-	<bgoswami@quicinc.com>,
-	<tiwai@suse.com>,
-	<robh@kernel.org>,
-	<konrad.dybcio@linaro.org>,
-	<linux-kernel@vger.kernel.org>,
-	<devicetree@vger.kernel.org>,
-	<linux-sound@vger.kernel.org>,
-	<linux-usb@vger.kernel.org>,
-	<linux-arm-msm@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>,
-	<alsa-devel@alsa-project.org>
-Subject: Re: [PATCH] [RFC PATCH] ALSA: usb-audio: endpoint: Prevent NULL pointer deference in snd_usb_endpoint_close
-In-Reply-To: <20240426122511.547755-1-quic_kuruva@quicinc.com>
-References: <20240426122511.547755-1-quic_kuruva@quicinc.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	by ms.lwn.net (Postfix) with ESMTPSA id 014E647C39;
+	Fri, 26 Apr 2024 12:56:45 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Christoph Hellwig <hch@lst.de>, mhklinux@outlook.com
+Cc: robin.murphy@arm.com, joro@8bytes.org, will@kernel.org, hch@lst.de,
+ m.szyprowski@samsung.com, iommu@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, petr@tesarici.cz,
+ roberto.sassu@huaweicloud.com
+Subject: Re: [PATCH v2 1/1] Documentation/core-api: Add swiotlb documentation
+In-Reply-To: <20240426061852.GA5645@lst.de>
+References: <20240424150253.560999-1-mhklinux@outlook.com>
+ <20240426061852.GA5645@lst.de>
+Date: Fri, 26 Apr 2024 06:56:45 -0600
+Message-ID: <874jbop9iq.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -0.63
-X-Spam-Level: 
-X-Spamd-Result: default: False [-0.63 / 50.00];
-	BAYES_HAM(-1.83)[93.99%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TAGGED_RCPT(0.00)[dt];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linaro.org,intel.com,perex.cz,kernel.org,lwn.net,gmail.com,linuxfoundation.org,synopsys.com,quicinc.com,suse.com,vger.kernel.org,alsa-project.org];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[]
+MIME-Version: 1.0
+Content-Type: text/plain
 
-On Fri, 26 Apr 2024 14:25:11 +0200,
-Rajashekar kuruva wrote:
-> 
-> When multiple plug-in and plug-out events occur,
-> there is a risk of encountering a NULL pointer dereference
-> leading to a kernel panic during a headset use-case.
-> this issue arises in the snd_usb_endpoint_close function
+Christoph Hellwig <hch@lst.de> writes:
 
-Such a scenario can't happen: ep->iface_ref is changed only in
-chip->mutex lock, hence it can't be NULL there.
+> On Wed, Apr 24, 2024 at 08:02:53AM -0700, mhkelley58@gmail.com wrote:
+>> From: Michael Kelley <mhklinux@outlook.com>
+>> 
+>> There's currently no documentation for the swiotlb. Add documentation
+>
+> s/the // ?  (note that this is used in quite a few places)
+>
+> Can you use up the full 80 characters for your text?  As-is it reads a
+> little odd due to the very short lines.
+>
+> The other thing that strikes me as odd is the placement in the core-api
+> directory together with other drivers-facing documentation.  Swiotlb
+> is internal to the dma-mapping subsystem and not really what is a core
+> API.  I don't really know where else it should be placed, though - nor
+> do I really understand the "modern" hierarchy in Documentation, but maybe
+> Jon has a good idea?
 
+I hadn't thought about it, but it seems that putting it with the rest of
+the DMA-API documentation would make sense.  That's core-api, at the
+moment at least...
 
-thanks,
+Thanks,
 
-Takashi
+jon
