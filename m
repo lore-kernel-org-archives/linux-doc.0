@@ -1,68 +1,102 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF40916F839;
-	Fri, 26 Apr 2024 18:14:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 883A1BE4A;
+	Fri, 26 Apr 2024 19:53:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714155291; cv=none; b=qgcKJsIUFrqv7Nc2kRmZAO2ez7yo8tf2gFSnmht3rp3yVIXvyJl1yQTUp9sYmxZd/XzWbbqq8GEOl3W5Sb1PMvXQrruMjWPJ1cgAu+EpEtl5j3xaG3AJ/UuPdAC4IBvpMLVrxH+2fu494GUBgHCTvlK7PCaH6bPg6SEA7J1RYuU=
+	t=1714161180; cv=none; b=fvRfvWaBlEdDwiY5xXC5MeuoBqcfaV0mKZXKyd+Cu/gbgDdbQNeCaDTQh664jYLGngT9XNOQvwXdwgTAQhFv3/l9+gE99zShdPn6q2pVljbdoCakTCWPOPUhSmwFOy5CkJeskUPNXnx5bWjKI2ZFYEfvmw45bziH6iv9lJjhvPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714155291; c=relaxed/simple;
-	bh=aL+AOy98y7p7r4a4ubMyOvDKADw2J3V43gkZpKNu/YU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e7ptNUn7Ab3rdoSuRlpbM+ZUeIN0Kg8pfq4ta5GnD4f9XN/+GSGU8sfrijeTMEp9oNTgWXHZdH8RLPqqZYaOqtBdr1FcehvUkLrHxgFfjGcz1fE8aVt+2G8axokctBM+7vAu6JzNsgsdF/qXDEfrmGNKO+bE4ogL2YVv3kEXe6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=PhFLJSfq; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1714161180; c=relaxed/simple;
+	bh=KDQABXFXICsHnj+v3YhXIoEGy+Tp7EqKpAZ8dhNvvfY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LZHIra1oLEoZc1QKFY1zrrdYAEBGtZbHBtIljPRDVrcpnn/TAe4nxa45rKFMIpkD7+2qHdzhiB83Eec6HwgsaRZS/4ZBOBbcxN21hjuQconFNNvmQye/sg/9rxeexKIlHXAsb0Yh482oZ/C2By/l7YR2+ssccjF1sKNbDc1rCEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BVVGWpEo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="PhFLJSfq"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=9Ns3sujM0QwOg09c35vecWwkpRlwfLNAqtRcHWhWbTM=; b=PhFLJSfqTf0Z0MWkRMYyV+tLm6
-	usldLZoaXjGgadC8qgt5l5vlBisDy2uBuskWtFyN/1C8b7HjC/017h/vCGKfN/O43vrAq6TSUEmsS
-	WVbUR0/Sa87dATDSPUYFVb9GkVslX6LNyWhE+UmeoShNGKsyXSG39pu6p7/7O57jVKVk=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1s0Q5n-00E636-6R; Fri, 26 Apr 2024 20:14:39 +0200
-Date: Fri, 26 Apr 2024 20:14:39 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Parthiban.Veerasooran@microchip.com
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, saeedm@nvidia.com,
-	anthony.l.nguyen@intel.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, corbet@lwn.net,
-	linux-doc@vger.kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	devicetree@vger.kernel.org, Horatiu.Vultur@microchip.com,
-	ruanjinjie@huawei.com, Steen.Hegelund@microchip.com,
-	vladimir.oltean@nxp.com, UNGLinuxDriver@microchip.com,
-	Thorsten.Kummermehr@microchip.com, Pier.Beruto@onsemi.com,
-	Selvamani.Rajagopal@onsemi.com, Nicolas.Ferre@microchip.com,
-	benjamin.bigler@bernformulastudent.ch
-Subject: Re: [PATCH net-next v4 11/12] microchip: lan865x: add driver support
- for Microchip's LAN865X MAC-PHY
-Message-ID: <4f6bac89-d6bb-43d8-8675-58a290fb8d5f@lunn.ch>
-References: <20240418125648.372526-1-Parthiban.Veerasooran@microchip.com>
- <20240418125648.372526-12-Parthiban.Veerasooran@microchip.com>
- <231ce196-6a68-4f09-8f9a-976c5ce1495d@lunn.ch>
- <9909d4c4-b3b9-4c4e-9923-64945b6c7bb3@microchip.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BVVGWpEo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F525C113CD;
+	Fri, 26 Apr 2024 19:52:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714161180;
+	bh=KDQABXFXICsHnj+v3YhXIoEGy+Tp7EqKpAZ8dhNvvfY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BVVGWpEoAs/HVIHW1jVbh/MGwqLjrbJJESwz32Kkj9LuwJ2IL5OXifVSlfWAbA5Ce
+	 eECBaZlWlXZF+bSDyrZlFkjGOW4iDt41a/tmJEaGcI/iDhioMwYsXYr/Owm3d0OTyR
+	 y+m4GRFg5UXOJKz58ElhqUoqEDxSmOFWLDTtSHiPi2pHWM+VTGbmMk6bU19VkD74m3
+	 snsA/YQyeJQLeZIknVZcuxpLWlGx/U6PNcEM4UqVF/jmIGZAJQIOv6US7qQs3TRcDh
+	 xlBqfihJ81nPUHd5Tl8XMItzJDDpmZzyxY27WnknsG1uuK7ipjIezKg9PR6aT9T8Xi
+	 O8hDAE9+BMYzg==
+From: SeongJae Park <sj@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: SeongJae Park <sj@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/7] mm/damon: add a DAMOS filter type for page granularity access recheck
+Date: Fri, 26 Apr 2024 12:52:39 -0700
+Message-Id: <20240426195247.100306-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9909d4c4-b3b9-4c4e-9923-64945b6c7bb3@microchip.com>
+Content-Transfer-Encoding: 8bit
 
-> OK, I will implement this helper function as oa_tc6_enable_zarfe() in 
-> the oa_tc6.c. Also do you want me to move this helper function 
-> implementation to a new patch?
+Changes from RFC v2
+(https://lore.kernel.org/r/20240311204545.47097-1-sj@kernel.org)
+- Add documentation
+- Add Tested-by: Honggyu Kim <honggyu.kim@sk.com>
+- Wordsmith commit messages
 
-Yes please.
+Changes from RFC v1
+(https://lore.kernel.org/r/20240307030013.47041-1-sj@kernel.org)
+- Mark the folio as old if it was young
+- Rename __damon_pa_young() to damon_folio_young_one()
 
-    Andrew
+DAMON provides its best-effort accuracy-overhead tradeoff under the
+user-defined ranges of acceptable level of the monitoring accuracy and
+overhead.  A recent discussion for tiered memory management support from
+DAMON[1] concluded that finding memory regions of specific access
+pattern with low overhead despite of low accuracy via DAMON first, and
+then double checking the access of the region again in a finer (e.g.,
+page) granularity could be a useful strategy for some DAMOS schemes.
+
+Add a new type of DAMOS filter, namely 'young' for such a case.  It
+checks each page of DAMOS target region is accessed since the last
+check, and filters it out or in if 'matching' parameter is 'true' or
+'false', respectively.
+
+Because this is a filter type that applied in page granularity, the
+support depends on DAMON operations set, similar to 'anon' and 'memcg'
+DAMOS filter types.  Implement the support on the DAMON operations set
+for the physical address space, 'paddr', since one of the expected
+usages[1] is based on the physical address space.
+
+[1] https://lore.kernel.org/r/20240227235121.153277-1-sj@kernel.org
+
+SeongJae Park (7):
+  mm/damon/paddr: implement damon_folio_young()
+  mm/damon/paddr: implement damon_folio_mkold()
+  mm/damon: add DAMOS filter type YOUNG
+  mm/damon/paddr: implement DAMOS filter type YOUNG
+  Docs/mm/damon/design: document 'young page' type DAMOS filter
+  Docs/admin-guide/mm/damon/usage: update for young page type DAMOS
+    filter
+  Docs/ABI/damon: update for 'youg page' type DAMOS filter
+
+ .../ABI/testing/sysfs-kernel-mm-damon         |  6 +-
+ Documentation/admin-guide/mm/damon/usage.rst  | 26 ++++----
+ Documentation/mm/damon/design.rst             | 20 +++---
+ include/linux/damon.h                         |  2 +
+ mm/damon/paddr.c                              | 64 ++++++++++++-------
+ mm/damon/sysfs-schemes.c                      |  1 +
+ 6 files changed, 70 insertions(+), 49 deletions(-)
+
+
+base-commit: 4b4dd809460911d6c406bb45d2c627a9e5734468
+-- 
+2.39.2
+
