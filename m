@@ -1,144 +1,438 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D470125AE;
-	Fri, 26 Apr 2024 21:55:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD2253A29F
+	for <linux-doc@vger.kernel.org>; Fri, 26 Apr 2024 23:10:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714168536; cv=none; b=C7aZq+tPx/zjr2ASyFMDBVAZsjRI2YtuLr7q3OsB4XRlbIeGH3P02+TwXh3Lzn6x0CNpZQE7p2wRaTaLZKshavasVSwZwNnNAyeRWMm8VfGI/dBAK5uU1cC7V/HVJcMbv+zO9BuB/2jK+kAwxEMDZGTLXBcX7sHuIviwRGi3GM4=
+	t=1714173053; cv=none; b=egQKVjlRTDnBQktQzz7inTucbVXXSPoJp+YsAJuHU+fsvlBaZHmIt5+myFoPFhWzD9UUS1eAxam7n/5RdOhXd+zemkilHbhCATMvO5e+zKXSlDXYce1xDkLDFIBu0Cu+ir9yACXnnEFCP7TM6EF31NEo4byn7TUzwpa//DIWYDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714168536; c=relaxed/simple;
-	bh=7/12lQ8m5ACp3C54KCnXpyWNuV5AkXC4wJVhYXCnf8Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=HX1VSI8KBPyevNrW23YUZstXijuSaF1qK/9x2YAjEwTgcv8/kcAhXeKpJ0rOnaPoizE3iZBAAYWc6DmsBTVF6Wgqu1J0vB7xzZxLiiX7wKkQFx9mfKbeHQoEHOIBJKgh4K3icm3isOjI9vBHktCOfLDwAWL5vZIYFFhO4Oo/ECI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=UB1c/KyQ; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1714173053; c=relaxed/simple;
+	bh=TCphrKjYXxlWEN2NCob2dqtLGwdv432OtjOv0XccxHE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=shM0CiZnn/Xeee+3bqFtdgloyDnks1nJsp2RvShWZeWJy6lUDGsrpVnr8qP7AuH9ArIfdtH1b24Rn8o3+I7ndHisxloQbWef7HPgm88CFcVqrXf02Qa7CiLLy4lsNh0oQ7yOA6DqRx6dVRsC4+bI0X/qlDq3UW9Z1HkdNZE8w7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=kf2jLahA; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="UB1c/KyQ"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43QLqmWU024490;
-	Fri, 26 Apr 2024 21:55:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=CoaUWkpf4ziyf5/z5HH9Em0tl4jcL6HqmjBiVk7KXP0=; b=UB
-	1c/KyQ8V2QkCCL7+hSWaN1MmFJUooEw7xjJQRzhC+Qia9tFlPoljc5Q45qI97+xe
-	ApPCubZg1MjaYW3I7gUECUXYIJXaOQOt8dmuKb3G9KTmKLJwYVVf4aR+9z2OpahB
-	vU8rZdBpCsv+KdJUXkMj8zX8XnEKsg2tf2RDVxQjp1ikFadKI4YeSHk3S3YXYC4n
-	eemk8dc0DeTuaOlo3MtyQVf7LpZn+IRf7o3bVb8qprvPF6nAK+GZ4QhbdFaNy84+
-	oQZ07TDe/IU6q9FqCH2cQyuN+PvTYvo3gwRD8qoRGNBVh880QEnsTK+RLx4GJ09j
-	m6VX/Pkudy5y7M2cijYw==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xr35eu06j-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 Apr 2024 21:55:14 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43QLtBOi024640
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 Apr 2024 21:55:11 GMT
-Received: from [10.110.6.235] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 26 Apr
- 2024 14:55:10 -0700
-Message-ID: <f128feb6-4be2-2f14-b4cb-8bf1d0908892@quicinc.com>
-Date: Fri, 26 Apr 2024 14:55:09 -0700
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="kf2jLahA"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1e3ff14f249so20457405ad.1
+        for <linux-doc@vger.kernel.org>; Fri, 26 Apr 2024 16:10:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1714173051; x=1714777851; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=CuTV6L1jExGCcwF2zmpAZoA6sTDj9zYxjotoZnSctqo=;
+        b=kf2jLahAR1XsQN6k9Sh/7uL2j5v5uZQZbYdsoAv3JKx+KmQTv6WoMgOZRK5bCRo7Be
+         vv8uFOf/M7/nL6PVxZ4ehFg/YWvHjwWjn01XOJ3gnGgyBEtkESyCJk95Vt4kwL0PnbVL
+         XG5y0u2Q/kQ61S75cwHGn9K7PDgQrLXJ5GObs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714173051; x=1714777851;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CuTV6L1jExGCcwF2zmpAZoA6sTDj9zYxjotoZnSctqo=;
+        b=JrSBsb2hZ/itPQkZPd/A4cpVkT3yyoqunPfO1qgUWKGHqwFr5NZHhQd2oBwuJvFqP7
+         np5b24Hy8VMbiep5QZdz/tJK1zPu4aVFByIJR/NWjbNAMPDBuFYT2gJd3tL3+Pv5x6s+
+         BH15fUhFDnQNnSPMG3rAQgZpiK3gAyG/uQOUabSLEdREXLgP9o87djL2Pyn7uGZGHtqY
+         oLSaCmbzWzpCQQN8nhmekX6h2HyDmTnaHBNy7J9Buc54w+4z2+nA1wWLlA+9sNcPW721
+         2D+ZQ79cNEjlevdMevN2m/dtwvJdwyNOFqZ1qXCczT3J8ktv0/5znm6s7/lxTHtWSvfR
+         D86w==
+X-Forwarded-Encrypted: i=1; AJvYcCU51fc6vmDsWcOur51ZHwuH4GZeYmBSc2BNd1kJlkO01AnigfdXnsgKZ4X5GZdiGYPZ9Zw2yabA4QRD93nlGQ065goA7RmkTEli
+X-Gm-Message-State: AOJu0YxHMJkqBjC4UirUzyhytpNWWD3TkCZ5x7wwk7Mj4YwetqcMH5SD
+	vCodwvLKDsbcemqenUpJ1Jty91DUdLarsRc5tB0Ex/faHUENRbSNLRE+Zku3sA==
+X-Google-Smtp-Source: AGHT+IHvlg5mqByql/F13nvO+nwouYvcS5j7UFiqkzAiirbFHxbFstdLbzBG8pR5gIz6aKQ6TXjGaQ==
+X-Received: by 2002:a17:902:ec8b:b0:1eb:527e:a89e with SMTP id x11-20020a170902ec8b00b001eb527ea89emr670236plg.26.1714173051036;
+        Fri, 26 Apr 2024 16:10:51 -0700 (PDT)
+Received: from www.outflux.net ([198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id k4-20020a170902760400b001e2936705b4sm15998521pll.243.2024.04.26.16.10.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Apr 2024 16:10:50 -0700 (PDT)
+Date: Fri, 26 Apr 2024 16:10:49 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Adrian Ratiu <adrian.ratiu@collabora.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	linux-doc@vger.kernel.org, kernel@collabora.com, gbiv@google.com,
+	ryanbeltran@google.com, inglorion@google.com, ajordanr@google.com,
+	jorgelo@chromium.org, Guenter Roeck <groeck@chromium.org>,
+	Doug Anderson <dianders@chromium.org>, Jann Horn <jannh@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Mike Frysinger <vapier@chromium.org>
+Subject: Re: [PATCH v3 1/2] proc: restrict /proc/pid/mem access via param
+ knobs
+Message-ID: <202404261544.1EAD63D@keescook>
+References: <20240409175750.206445-1-adrian.ratiu@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v20 09/41] ASoC: Add SOC USB APIs for adding an USB
- backend
-Content-Language: en-US
-To: =?UTF-8?Q?Amadeusz_S=c5=82awi=c5=84ski?=
-	<amadeuszx.slawinski@linux.intel.com>,
-        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <lgirdwood@gmail.com>, <andersson@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
-        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
-        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh@kernel.org>,
-        <konrad.dybcio@linaro.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>
-References: <20240425215125.29761-1-quic_wcheng@quicinc.com>
- <20240425215125.29761-10-quic_wcheng@quicinc.com>
- <b8ff8777-6bcb-4fd7-9480-231536d23759@linux.intel.com>
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <b8ff8777-6bcb-4fd7-9480-231536d23759@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: R74DSglKBDCBfnJ5wNDAeCcJ3-qNHc_Q
-X-Proofpoint-ORIG-GUID: R74DSglKBDCBfnJ5wNDAeCcJ3-qNHc_Q
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-04-26_18,2024-04-26_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 mlxlogscore=999
- lowpriorityscore=0 malwarescore=0 spamscore=0 bulkscore=0 impostorscore=0
- phishscore=0 priorityscore=1501 clxscore=1015 suspectscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2404010003
- definitions=main-2404260154
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240409175750.206445-1-adrian.ratiu@collabora.com>
 
-Hi Amadeusz,
+On Tue, Apr 09, 2024 at 08:57:49PM +0300, Adrian Ratiu wrote:
+> Prior to v2.6.39 write access to /proc/<pid>/mem was restricted,
+> after which it got allowed in commit 198214a7ee50 ("proc: enable
+> writing to /proc/pid/mem"). Famous last words from that patch:
+> "no longer a security hazard". :)
+> 
+> Afterwards exploits started causing drama like [1]. The exploits
+> using /proc/*/mem can be rather sophisticated like [2] which
+> installed an arbitrary payload from noexec storage into a running
+> process then exec'd it, which itself could include an ELF loader
+> to run arbitrary code off noexec storage.
+> 
+> One of the well-known problems with /proc/*/mem writes is they
+> ignore page permissions via FOLL_FORCE, as opposed to writes via
+> process_vm_writev which respect page permissions. These writes can
+> also be used to bypass mode bits.
+> 
+> To harden against these types of attacks, distrbutions might want
+> to restrict /proc/pid/mem accesses, either entirely or partially,
+> for eg. to restrict FOLL_FORCE usage.
+> 
+> Known valid use-cases which still need these accesses are:
+> 
+> * Debuggers which also have ptrace permissions, so they can access
+> memory anyway via PTRACE_POKEDATA & co. Some debuggers like GDB
+> are designed to write /proc/pid/mem for basic functionality.
+> 
+> * Container supervisors using the seccomp notifier to intercept
+> syscalls and rewrite memory of calling processes by passing
+> around /proc/pid/mem file descriptors.
+> 
+> There might be more, that's why these params default to disabled.
+> 
+> Regarding other mechanisms which can block these accesses:
+> 
+> * seccomp filters can be used to block mmap/mprotect calls with W|X
+> perms, but they often can't block open calls as daemons want to
+> read/write their runtime state and seccomp filters cannot check
+> file paths, so plain write calls can't be easily blocked.
+> 
+> * Since the mem file is part of the dynamic /proc/<pid>/ space, we
+> can't run chmod once at boot to restrict it (and trying to react
+> to every process and run chmod doesn't scale, and the kernel no
+> longer allows chmod on any of these paths).
+> 
+> * SELinux could be used with a rule to cover all /proc/*/mem files,
+> but even then having multiple ways to deny an attack is useful in
+> case one layer fails.
+> 
+> Thus we introduce three kernel parameters to restrict /proc/*/mem
+> access: read, write and foll_force. All three can be independently
+> set to the following values:
+> 
+> all     => restrict all access unconditionally.
+> ptracer => restrict all access except for ptracer processes.
+> 
+> If left unset, the existing behaviour is preserved, i.e. access
+> is governed by basic file permissions.
+> 
+> Examples which can be passed by bootloaders:
+> 
+> restrict_proc_mem_foll_force=all
+> restrict_proc_mem_write=ptracer
+> restrict_proc_mem_read=ptracer
+> 
+> Each distribution needs to decide what restrictions to apply,
+> depending on its use-cases. Embedded systems might want to do
+> more, while general-purpouse distros might want a more relaxed
+> policy, because for e.g. foll_force=all and write=all both break
+> break GDB, so it might be a bit excessive.
+> 
+> Based on an initial patch by Mike Frysinger <vapier@chromium.org>.
 
-On 4/26/2024 6:25 AM, Amadeusz Sławiński wrote:
-> On 4/25/2024 11:50 PM, Wesley Cheng wrote:
->> Some platforms may have support for offloading USB audio devices to a
->> dedicated audio DSP.  Introduce a set of APIs that allow for 
->> management of
->> USB sound card and PCM devices enumerated by the USB SND class driver.
->> This allows for the ASoC components to be aware of what USB devices are
->> available for offloading.
->>
->> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
->> ---
-> 
-> (...)
-> 
->> +const char *snd_soc_usb_get_components_tag(bool playback)
->> +{
->> +    if (playback)
->> +        return "usbplybkoffld: 1";
->> +    else
->> +        return "usbcapoffld: 1";
->> +}
->> +EXPORT_SYMBOL_GPL(snd_soc_usb_get_components_tag);
-> 
-> Is this used to expose some information to userspace?
-> Can those be some more readable strings if so, like:
-> usbplaybackoffload, usbcaptureoffload
-> 
+Thanks for this new version!
 
-Sure we can make it a bit more complete.  Was trying to keep it short, 
-but if the intention isn't clear on the tag, then we can keep the full form.
-
-> (...)
 > 
->> +
->> +    node = snd_soc_find_phandle(usbdev);
->> +    if (IS_ERR(node))
->> +        return -ENODEV;
->> +
->> +    ctx = snd_soc_find_usb_ctx(node);
->> +    of_node_put(node);
->> +    if (!ctx)
->> +        return -ENODEV;
+> Link: https://lwn.net/Articles/476947/ [1]
+> Link: https://issues.chromium.org/issues/40089045 [2]
+> Cc: Guenter Roeck <groeck@chromium.org>
+> Cc: Doug Anderson <dianders@chromium.org>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Jann Horn <jannh@google.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Christian Brauner <brauner@kernel.org>
+> Co-developed-by: Mike Frysinger <vapier@chromium.org>
+> Signed-off-by: Mike Frysinger <vapier@chromium.org>
+> Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+> ---
+>  .../admin-guide/kernel-parameters.txt         |  27 +++++
+>  fs/proc/base.c                                | 103 +++++++++++++++++-
+>  include/linux/jump_label.h                    |   5 +
+>  3 files changed, 133 insertions(+), 2 deletions(-)
 > 
-> Perhaps introduce some helper function, you do this 
-> snd_soc_find_phandle() followed by snd_soc_find_usb_ctx() in few places...
-> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 6e62b8cb19c8d..d7f7db41369c7 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -5665,6 +5665,33 @@
+>  	reset_devices	[KNL] Force drivers to reset the underlying device
+>  			during initialization.
+>  
+> +	restrict_proc_mem_read= [KNL]
+> +			Format: {all | ptracer}
+> +			Allows restricting read access to /proc/*/mem files.
+> +			Depending on restriction level, open for reads return -EACCESS.
+> +			Can be one of:
+> +			- 'all' restricts all access unconditionally.
+> +			- 'ptracer' allows access only for ptracer processes.
+> +			If not specified, then basic file permissions continue to apply.
+> +
+> +	restrict_proc_mem_write= [KNL]
+> +			Format: {all | ptracer}
+> +			Allows restricting write access to /proc/*/mem files.
+> +			Depending on restriction level, open for writes return -EACCESS.
+> +			Can be one of:
+> +			- 'all' restricts all access unconditionally.
+> +			- 'ptracer' allows access only for ptracer processes.
+> +			If not specified, then basic file permissions continue to apply.
+> +
+> +	restrict_proc_mem_foll_force= [KNL]
+> +			Format: {all | ptracer}
+> +			Restricts the use of the FOLL_FORCE flag for /proc/*/mem access.
+> +			If restricted, the FOLL_FORCE flag will not be added to vm accesses.
+> +			Can be one of:
+> +			- 'all' restricts all access unconditionally.
+> +			- 'ptracer' allows access only for ptracer processes.
+> +			If not specified, FOLL_FORCE is always used.
 
-Will do.  Will make a helper and replace instances with this.
+bike shedding: I wonder if this should be a fake namespace (adding a dot
+just to break it up for reading more easily), and have words reordered
+to the kernel's more common subject-verb-object: proc_mem.restrict_read=...
 
-Thanks
-Wesley Cheng
+> +
+>  	resume=		[SWSUSP]
+>  			Specify the partition device for software suspend
+>  			Format:
+> diff --git a/fs/proc/base.c b/fs/proc/base.c
+> index 18550c071d71c..c733836c42a65 100644
+> --- a/fs/proc/base.c
+> +++ b/fs/proc/base.c
+> @@ -152,6 +152,41 @@ struct pid_entry {
+>  		NULL, &proc_pid_attr_operations,	\
+>  		{ .lsmid = LSMID })
+>  
+> +/*
+> + * each restrict_proc_mem_* param controls the following static branches:
+> + * key[0] = restrict all writes
+> + * key[1] = restrict writes except for ptracers
+> + * key[2] = restrict all reads
+> + * key[3] = restrict reads except for ptracers
+> + * key[4] = restrict all FOLL_FORCE usage
+> + * key[5] = restrict FOLL_FORCE usage except for ptracers
+> + */
+> +DEFINE_STATIC_KEY_ARRAY_FALSE_RO(restrict_proc_mem, 6);
+
+So, I don't like having open-coded numbers. And I'm not sure there's a
+benefit to stuffing these all into an array? So:
+
+DEFINE_STATIC_KEY_FALSE_RO(proc_mem_restrict_read);
+DEFINE_STATIC_KEY_FALSE_RO(proc_mem_restrict_write);
+DEFINE_STATIC_KEY_FALSE_RO(proc_mem_restrict_foll_force);
+
+> +
+> +static int __init early_restrict_proc_mem(char *buf, int offset)
+> +{
+> +	if (!buf)
+> +		return -EINVAL;
+> +
+> +	if (strncmp(buf, "all", 3) == 0)
+
+I'd use strcmp() to get exact matches. That way "allalksdjflas" doesn't
+match. :)
+
+> +		static_branch_enable(&restrict_proc_mem[offset]);
+> +	else if (strncmp(buf, "ptracer", 7) == 0)
+> +		static_branch_enable(&restrict_proc_mem[offset + 1]);
+> +
+> +	return 0;
+> +}
+
+Then don't bother with a common helper since you've got a macro, and
+it'll all get tossed after __init anyway.
+
+> +
+> +#define DEFINE_EARLY_RESTRICT_PROC_MEM(name, offset)			\
+> +static int __init early_restrict_proc_mem_##name(char *buf)		\
+> +{									\
+> +	return early_restrict_proc_mem(buf, offset);			\
+> +}									\
+> +early_param("restrict_proc_mem_" #name, early_restrict_proc_mem_##name)
+> +
+> +DEFINE_EARLY_RESTRICT_PROC_MEM(write, 0);
+> +DEFINE_EARLY_RESTRICT_PROC_MEM(read, 2);
+> +DEFINE_EARLY_RESTRICT_PROC_MEM(foll_force, 4);
+
+#define DEFINE_EARLY_PROC_MEM_RESTRICT(name)				\
+static int __init early_proc_mem_restrict_##name(char *buf)		\
+{									\
+	if (!buf)							\
+		return -EINVAL;						\
+									\
+	if (strcmp(buf, "all") == 0)					\
+		static_branch_enable(&proc_mem_restrict_##name);	\
+	else if (strcmp(buf, "ptracer") == 0)				\
+		static_branch_enable(&proc_mem_restrict_##name);	\
+									\
+	return 0;							\
+}									\
+early_param("proc_mem_restrict_" #name, early_proc_mem_restrict_##name)
+
+
+> +
+>  /*
+>   * Count the number of hardlinks for the pid_entry table, excluding the .
+>   * and .. links.
+> @@ -825,9 +860,58 @@ static int __mem_open(struct inode *inode, struct file *file, unsigned int mode)
+>  	return 0;
+>  }
+>  
+> +static bool __mem_open_current_is_ptracer(struct file *file)
+> +{
+> +	struct inode *inode = file_inode(file);
+> +	struct task_struct *task = get_proc_task(inode);
+> +	int ret = false;
+> +
+> +	if (task) {
+> +		rcu_read_lock();
+> +		if (current == ptrace_parent(task))
+> +			ret = true;
+> +		rcu_read_unlock();
+> +		put_task_struct(task);
+> +	}
+
+This creates a ToCToU race between this check (which releases the task)
+and the later memopen which make get a different task (and mm).
+
+To deal with this, I think you need to add a new mode flag for
+proc_mem_open(), and add the checking there.
+
+> +
+> +	return ret;
+> +}
+> +
+> +static int __mem_open_check_access_restriction(struct file *file)
+> +{
+> +	if (file->f_mode & FMODE_WRITE) {
+> +		/* Deny if writes are unconditionally disabled via param */
+> +		if (static_branch_unlikely(&restrict_proc_mem[0]))
+> +			return -EACCES;
+> +
+> +		/* Deny if writes are allowed only for ptracers via param */
+> +		if (static_branch_unlikely(&restrict_proc_mem[1]) &&
+> +		    !__mem_open_current_is_ptracer(file))
+> +			return -EACCES;
+> +
+> +	} else if (file->f_mode & FMODE_READ) {
+
+I think this "else" means that O_RDWR opens will only check the write
+flag, so drop the "else".
+
+> +		/* Deny if reads are unconditionally disabled via param */
+> +		if (static_branch_unlikely(&restrict_proc_mem[2]))
+> +			return -EACCES;
+> +
+> +		/* Deny if reads are allowed only for ptracers via param */
+> +		if (static_branch_unlikely(&restrict_proc_mem[3]) &&
+> +		    !__mem_open_current_is_ptracer(file))
+> +			return -EACCES;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int mem_open(struct inode *inode, struct file *file)
+>  {
+> -	int ret = __mem_open(inode, file, PTRACE_MODE_ATTACH);
+> +	int ret;
+> +
+> +	ret = __mem_open_check_access_restriction(file);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = __mem_open(inode, file, PTRACE_MODE_ATTACH);
+>  
+>  	/* OK to pass negative loff_t, we can catch out-of-range */
+>  	file->f_mode |= FMODE_UNSIGNED_OFFSET;
+> @@ -835,6 +919,20 @@ static int mem_open(struct inode *inode, struct file *file)
+>  	return ret;
+>  }
+>  
+> +static unsigned int __mem_rw_get_foll_force_flag(struct file *file)
+> +{
+> +	/* Deny if FOLL_FORCE is disabled via param */
+> +	if (static_branch_unlikely(&restrict_proc_mem[4]))
+> +		return 0;
+> +
+> +	/* Deny if FOLL_FORCE is allowed only for ptracers via param */
+> +	if (static_branch_unlikely(&restrict_proc_mem[5]) &&
+> +	    !__mem_open_current_is_ptracer(file))
+
+This is like the ToCToU: the task may have changed out from under us
+between the open the read/write.
+
+I'm not sure how to store this during "open" though... Hmmm
+
+> +		return 0;
+> +
+> +	return FOLL_FORCE;
+> +}
+> +
+>  static ssize_t mem_rw(struct file *file, char __user *buf,
+>  			size_t count, loff_t *ppos, int write)
+>  {
+> @@ -855,7 +953,8 @@ static ssize_t mem_rw(struct file *file, char __user *buf,
+>  	if (!mmget_not_zero(mm))
+>  		goto free;
+>  
+> -	flags = FOLL_FORCE | (write ? FOLL_WRITE : 0);
+> +	flags = (write ? FOLL_WRITE : 0);
+> +	flags |= __mem_rw_get_foll_force_flag(file);
+
+I wonder if we need some way to track openers in the mm? That sounds
+not-fun.
+
+>  
+>  	while (count > 0) {
+>  		size_t this_len = min_t(size_t, count, PAGE_SIZE);
+> diff --git a/include/linux/jump_label.h b/include/linux/jump_label.h
+> index f5a2727ca4a9a..ba2460fe878c5 100644
+> --- a/include/linux/jump_label.h
+> +++ b/include/linux/jump_label.h
+> @@ -398,6 +398,11 @@ struct static_key_false {
+>  		[0 ... (count) - 1] = STATIC_KEY_FALSE_INIT,	\
+>  	}
+>  
+> +#define DEFINE_STATIC_KEY_ARRAY_FALSE_RO(name, count)		\
+> +	struct static_key_false name[count] __ro_after_init = {	\
+> +		[0 ... (count) - 1] = STATIC_KEY_FALSE_INIT,	\
+> +	}
+
+Let's not add this. :)
+
+> +
+>  #define _DEFINE_STATIC_KEY_1(name)	DEFINE_STATIC_KEY_TRUE(name)
+>  #define _DEFINE_STATIC_KEY_0(name)	DEFINE_STATIC_KEY_FALSE(name)
+>  #define DEFINE_STATIC_KEY_MAYBE(cfg, name)			\
+
+So, yes, conceptually, I really like this -- we've got some good
+granularity now, and wow do I love being able to turn off FOLL_FORCE.  :)
+
+Safely checking for ptracer is tricky, though. I wonder how we could
+store the foll_force state in the private_data somehow. Seems a bit
+painful to allocate a struct for it. We could do some really horrid
+hacks like store it in the low bit of the mm address that gets stored to
+private_data and mask it out when used, but that's really ugly too...
+
+-Kees
+
+-- 
+Kees Cook
