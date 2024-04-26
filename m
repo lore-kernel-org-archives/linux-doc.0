@@ -1,105 +1,85 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40AE612C7FB;
-	Fri, 26 Apr 2024 10:35:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B0F143C5F
+	for <linux-doc@vger.kernel.org>; Fri, 26 Apr 2024 10:46:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714127752; cv=none; b=sU49vsvGP0lUbn/79f2upvn5G1QETrWQo6zq/LClko6lFHoLYjp6Rl6eaPmruq/kXrwnJozmDoTVu+63Nnum8Q7SrnhFPLiWOFFDzOLpStB0ILB0/CWYRYqSOQXppU68CIbJeNiZb+0VsOjqyxkfJr7ciboYEsfe/sEpCulQBBg=
+	t=1714128409; cv=none; b=ZJMuZLU125W8h1gvIzaEj2NJV92dhGPJ9q9C2qlMA2bdRoV7p6KxMdtABt2+g8QT7uVW7GIKLL/1lgj1YuBmXcBpyS/TAKvnflYVYSOJsl6bE7YuwYHngmus04B9ZheP09FmN+1B/ZTQkYcJXXsiaYA80bG2+PCOV+I+6rvAUq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714127752; c=relaxed/simple;
-	bh=KbTAaCOP23RX4cDVyVC1f0gyN8yb6XO4hy9Vw4aJ848=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fZ0v91OlB3uEzclNZr5QcnAkjo3TpVYpIk/wm8OUwaeocrB0vQmJJ0CtBGm5mtA+cw0nBbCICUmYjC+s69YOQi/rcewWF4CMkluBqqOLyKrxD6FQk3xHZpI89G0HXmMlZyglafqi8e4zF0xfj2/2pV/KJ4NOno0BmM/sl7Xfvo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [112.20.112.218])
-	by gateway (Coremail) with SMTP id _____8BxtOqDgytmJ2sDAA--.2042S3;
-	Fri, 26 Apr 2024 18:35:47 +0800 (CST)
-Received: from [192.168.100.8] (unknown [112.20.112.218])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8BxlFZ_gytm0zMGAA--.3023S3;
-	Fri, 26 Apr 2024 18:35:45 +0800 (CST)
-Message-ID: <9cae4c4a-55a6-4c6c-9780-866f796a52c0@loongson.cn>
-Date: Fri, 26 Apr 2024 18:35:43 +0800
+	s=arc-20240116; t=1714128409; c=relaxed/simple;
+	bh=NUOpz5I5zwt+43ehEK1mOWYVfGMo5kprRfpv1uqpwNg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=D7QcWEej9etK9tY5OhUhHJ4NtN4AvFJln6DDuiLRfb8GWgshrK2MinMzZsMQVntYTN9yVZn9lqHuatHMX5JVnstuJbvmX/bPB2L67q2U6fc47RsvjMB4+v0iYpW6tM1REPK8eyvf0gqYsra4hXc955g97BDy9I6KFYMKKdMR0/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SeSWDmVA; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SeSWDmVA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714128408; x=1745664408;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NUOpz5I5zwt+43ehEK1mOWYVfGMo5kprRfpv1uqpwNg=;
+  b=SeSWDmVAgp2+e/Yoz9zUpM1MBZYXUVWSwWuZPVzREfICmqP4XUa6jsrF
+   vSF+mzK4w+c6j0XY4P3VIZ1R+J8rJOp2wI17J13FFEKgzbH9aC/xj1Q44
+   ljI0OpkJzCaIL8kqnX5ndoimeoWFcDcTfN/4vuznFrfI0suifyafm+Nvl
+   ozkbvzDHa7mjjaJ1r21HlK5NSviI6NutgUJ1jars/lyHNHWijtG2M//HG
+   h7qSTjTV5zOyRs1jduJtR5C5wTUnNe9XNcPDDJmHORUB3QgYcyJRvWnGa
+   ECFhQmlCI5F6FvwUGFV1nOOo6Ioy1CSwDLXGz30jOLcO8WZ24ho1OtxoB
+   Q==;
+X-CSE-ConnectionGUID: 7XNSWtMuT0+4BhGOMJDvMw==
+X-CSE-MsgGUID: 5vtNNky3R8+yKiq7w+/y8Q==
+X-IronPort-AV: E=McAfee;i="6600,9927,11055"; a="9721333"
+X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
+   d="scan'208";a="9721333"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 03:46:47 -0700
+X-CSE-ConnectionGUID: I4Pf7qkATb2Gze9qOxgy0A==
+X-CSE-MsgGUID: dneICB5NQgqmxOUjIs6jhg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,232,1708416000"; 
+   d="scan'208";a="25376105"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 26 Apr 2024 03:46:46 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s0J6J-0003cH-1m;
+	Fri, 26 Apr 2024 10:46:43 +0000
+Date: Fri, 26 Apr 2024 18:46:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hugues Fruchet <hugues.fruchet@foss.st.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	linux-doc@vger.kernel.org
+Subject: [atorgue-stm32:stm32-dt-for-v6.10 8/21] dtbs_check:
+ Documentation/devicetree/bindings/media/st,stm32mp25-video-codec.yaml:
+ access-controllers: missing type definition
+Message-ID: <202404261831.rtLHpDon-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/4] rust: docs: Update the translation of rust to
- 6.9-rc4
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: ojeda@kernel.org, corbet@lwn.net, alex.gaynor@gmail.com,
- wedsonaf@gmail.com, boqun.feng@gmail.com, gary@garyguo.net,
- bjorn3_gh@protonmail.com, benno.lossin@proton.me, a.hindborg@samsung.com,
- aliceryhl@google.com, nathan@kernel.org, ndesaulniers@google.com,
- morbo@google.com, justinstitt@google.com, alexs@kernel.org,
- dzm91@hust.edu.cn, linux-doc@vger.kernel.org,
- rust-for-linux@vger.kernel.org, llvm@lists.linux.dev,
- linux-riscv@lists.infradead.org
-References: <cover.1714113680.git.siyanteng@loongson.cn>
- <CANiq72meE9txt5b09Y7cUJd-hEqcZX1ZtRc_0YYDZqWQgyo3wA@mail.gmail.com>
-Content-Language: en-US
-From: Yanteng Si <siyanteng@loongson.cn>
-In-Reply-To: <CANiq72meE9txt5b09Y7cUJd-hEqcZX1ZtRc_0YYDZqWQgyo3wA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:AQAAf8BxlFZ_gytm0zMGAA--.3023S3
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBj9xXoW7GF1kCr18AFWfKFyrtr1fuFX_yoWkXrb_Aa
-	sYyay7tw1kJF4kCFWfJr43uFs7X3y8Cw1DJr1Iqw17Xr95AFZ7uFZxK34S9F4Iqw4rCr1D
-	Kr10gayS9343uosvyTuYvTs0mTUanT9S1TB71UUUUbDqnTZGkaVYY2UrUUUUj1kv1TuYvT
-	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
-	cSsGvfJTRUUUbSkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
-	vaj40_Wr0E3s1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
-	w2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
-	W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6F4UJVW0owAaw2AFwI0_Jw0_GFyle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0c
-	Ia020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jw0_
-	WrylYx0Ex4A2jsIE14v26r4UJVWxJr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI4
-	8JMxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j
-	6r4UMxCIbckI1I0E14v26r1q6r43MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
-	AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv2
-	0xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4
-	v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr1j6F4UJwCI42IY6I8E87Iv6xkF7I0E
-	14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7IU0c18DUUUUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/atorgue/stm32.git stm32-dt-for-v6.10
+head:   36cf0d86d760f30b59bc61ffc72c58503c353a17
+commit: 13f2bdd7af142c94e2078e1b9db8408d9c1393ed [8/21] media: dt-bindings: add access-controllers to STM32MP25 video codecs
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 5ef5eb66fb428aaf61fb51b709f065c069c11242)
+dtschema version: 2024.4
+reproduce: (https://download.01.org/0day-ci/archive/20240426/202404261831.rtLHpDon-lkp@intel.com/reproduce)
 
-在 2024/4/26 15:37, Miguel Ojeda 写道:
->> v2:
->> * As Miguel's comments, translate commit 01848eee20c6
->>    into Chinese, as well as commit 81889e8523e6. By the way,
->>    these two patches haven't appeared in the doc development
->>    tree yet, maybe we could consider merging them into the
->>    rust tree?
-> The former is in `rust-fixes`, which will be sent to Linus for this
-> cycle. So the English docs will be updated sooner than these updates,
-> if that is what you are asking.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202404261831.rtLHpDon-lkp@intel.com/
 
-Well, it seems that we will have to wait for the doc tree, because the 
-Chinese
+dtcheck warnings: (new ones prefixed by >>)
+>> Documentation/devicetree/bindings/media/st,stm32mp25-video-codec.yaml: access-controllers: missing type definition
 
-translation is now carried out under the doc tree.
-
->
-> For the other one, it is in the RISC-V tree and I assume it will be
-> sent into the next merge window. I don't know how you normally handle
-> that (i.e. translations being updated at the same time or after a
-> cycle), but either way, I am not sure why you would want them to be
-> merged into the Rust tree?
-
-I'm thinking that I'm two commits ahead of the doc tree, it doesn't seem 
-to fit
-
-merge into the doc tree in this window, and there might be conflicts on
-
-linux-next if I splite the patch out more.
-
-
-Thanks,
-
-Yanteng
-
-
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
