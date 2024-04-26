@@ -1,92 +1,112 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02554145B0B;
-	Fri, 26 Apr 2024 12:21:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5E9114535C;
+	Fri, 26 Apr 2024 12:26:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714134070; cv=none; b=CD9PxpjuyLh4ul4+oVifINMbWwHNXHi5yWOFYYgmCGMeyRuShaPzWezyl/Xesu0nHrYumSQoINOGRZ7UA1hCWxOA/BOlvd2C8STnnJexjlMBgH2iu5b69D7/K24kVUuueH5fH7HImY0hIrtyc3Gcw6bZG2+oGcXgXLC+1ngIe6k=
+	t=1714134367; cv=none; b=EISiH7ahcGl5V2lOvHHOfez7SlP1Zh1wP9hibuStpANSkkXfi9dpUF4Vqi4HgtTc6HlQGO7FEEotPIXHi+TeKTBXSEH7lm3NwkgDTHMTkT27qWcqb8+ZggVUB8BJtcQGC3w8mxtuZsaSoguXDsrbCoTrD5DWCTwWD03/MyaBb2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714134070; c=relaxed/simple;
-	bh=VFUk/8mezBkp2jG4lxOgugvzQyyyqYxEDgBoU4W+9R0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KGqRuRj3H2jcPPMpMYUfAl7tqhFo47V2AWe9XKNwxFZAMq+q612KNmk+GTft3B8B7v/oYh227YaLdrDInvTrAGmRPFbJMhP0D2Dzf61X/2NDErFzqlRTIY5iyLQ4Q7FKwnw3Uxy05ibvO+gHP75X869ZOIGEBha5D3rb2M3QGKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DEqylk0u; arc=none smtp.client-ip=209.85.216.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1714134367; c=relaxed/simple;
+	bh=dYh57E6ZQFNHZXIEQC6AnVwy5RS0Foaz8BUdG7uKogU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=j02TNXSiUSWtH8fwTLATSsaHHuHWJt617A0tQdqjDykN4ygVI5tkROko3bqdmo2BxD2ynhKg3IfcsgJVXc2/oQR4/sU4ls/6yNnQKeANQovdz9yRRQ175kqaSf1SYcJ4fvCvpLoO36YvVs1OEqLSGFD+hWjhF1PsPE4BydseyvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Q/okE3gT; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DEqylk0u"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2a2d248a2e1so2334588a91.0;
-        Fri, 26 Apr 2024 05:21:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714134068; x=1714738868; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VFUk/8mezBkp2jG4lxOgugvzQyyyqYxEDgBoU4W+9R0=;
-        b=DEqylk0uEUvtFSNqHjqyT4X9HgIoKx6/BAEipxEwiR69CL9ZBiO58G6NeHGG4OzgFC
-         aHLCumcD5JEXzO0qNFBiAXmjtpcb4m9WlNJjiPthUPFYpzjLVE5WCC9Z8rzBeydSlnOQ
-         rfyO+ktnMFs7OmrfoxG39Cm8pxbJsfJjGlNeTn0ZIY74OPAFxGr25cGb8YvS+nWsjjCD
-         A2+ru4bEqLdPcu53q/HL5wCmsvnzZLXkJNWh2mfju1SYWw17nRfxajLdSvEU+id59B3O
-         8g9fPvj3vDMeDu4udfEneA2eulaGkaJcLxKsHYmlZ8h3mRTfu1FWE2RjMF+uWdL8C3x1
-         Z+oQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714134068; x=1714738868;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VFUk/8mezBkp2jG4lxOgugvzQyyyqYxEDgBoU4W+9R0=;
-        b=bUwwjvaiSMYvxZsN0J5zFyFS5LaLm2n0Q71QmVsK2MZxyZV+GEfdhWOSrh6h5coWsl
-         Pf2y7tePDM2+QAcarpDn14kFZtDpRtr4BYYjHpHg7fBv7DTbCwFebR8e7OjUep1Pv1Vk
-         H76yKRW2mn3ybucBDFeLfaTrCTmhYUV56YLv43R+YbRGE+krRRc/dG97P3zzdn5wieW6
-         3kHswQl13kaUBzkIpw5fagXgZO7Veiq/2WRjHESZf/+aLgEEywzdvYlwgHrYftQkq1p3
-         FLXeyikWio+AN0o3D6m1P5mH3Jcf0pgwdTMnNEA0fAWXrF07FooI3YR4iK/sur8uCUcN
-         J88A==
-X-Forwarded-Encrypted: i=1; AJvYcCW5Sy0vAfqHjNemh1se3hZgZG1wRmB1XZTG662IjgXl3aFDNV4Lnph/ncM63mC/dnoxbwAAbuLueBEu2jrKu2tVq8h2a6OII2w/uzr43FVFwiyOz8NC0rPAsLdoONDWaRu9e7/HupF5t6Q=
-X-Gm-Message-State: AOJu0Yz0CU4AzBOmJCJdt1/HFPPK1Ypv2HVIPweR7b0baB9hnRWhhVQp
-	/2gZvlMyidKvWzV9MX0klNotELnX8eCAn+H71WftsaSYb+ug6slUFtE9tepUgoGUfGWipwA6xny
-	XH7IFKoabcyhOSF14gye7IC9UhVw=
-X-Google-Smtp-Source: AGHT+IHQ0i2Z+JiSphGpy0VElFmysG0D6y1RO6zJ2spHmtLaNeadT9T7sGBsWfuOBTgfYf9daaHlhTS+KLOAtOcApTc=
-X-Received: by 2002:a17:90b:28cb:b0:2a5:575:c58d with SMTP id
- qj11-20020a17090b28cb00b002a50575c58dmr8343368pjb.16.1714134068133; Fri, 26
- Apr 2024 05:21:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Q/okE3gT"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43QBdJgL011896;
+	Fri, 26 Apr 2024 12:25:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=qcppdkim1; bh=fHEAhtk
+	w2wOoewJBYMs/2MEtu56/1mA6pRiADYx7uCk=; b=Q/okE3gTGMdnRj5Q6etX5yv
+	OWmDLBFHKWmhfBMmRImGE0JvHEPulvsghahGPWjUWsA+D/2OVkjimZk8nQimLnIj
+	r5gCIxXMlYlOWVzZZzPFJxs2a5qkE2DcKPfOAaK/1rvPmfR5SUwg1s4YPbyjpyIF
+	oQGXbtucyrk5EFeCSkvjKD8lBEWoMOVFW4BdQIdM+ErOB8v7M6SH6W79cBZ/2Ybq
+	L5Ot9ZqTtmdm5iFJOuafZNIlznc9IxKE+xkO+akwHdgMtQ8AkQA0UDh8WG420dpL
+	GdtSn/03nM1cSMxqAgSF55Ko92TZR5BjMYhF7TJXnyzRDWC0ckG2b3GYNzHk8yg=
+	=
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xr3591t0v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 26 Apr 2024 12:25:43 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43QCPf37005147
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 26 Apr 2024 12:25:41 GMT
+Received: from hu-kuruva-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Fri, 26 Apr 2024 05:25:35 -0700
+From: Rajashekar kuruva <quic_kuruva@quicinc.com>
+To: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <lgirdwood@gmail.com>, <andersson@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
+        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
+        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh@kernel.org>,
+        <konrad.dybcio@linaro.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>,
+        Rajashekar kuruva <quic_kuruva@quicinc.com>
+Subject: [PATCH] [RFC PATCH] ALSA: usb-audio: endpoint: Prevent NULL pointer deference in snd_usb_endpoint_close
+Date: Fri, 26 Apr 2024 17:55:11 +0530
+Message-ID: <20240426122511.547755-1-quic_kuruva@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1714113680.git.siyanteng@loongson.cn> <CANiq72meE9txt5b09Y7cUJd-hEqcZX1ZtRc_0YYDZqWQgyo3wA@mail.gmail.com>
- <9cae4c4a-55a6-4c6c-9780-866f796a52c0@loongson.cn>
-In-Reply-To: <9cae4c4a-55a6-4c6c-9780-866f796a52c0@loongson.cn>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 26 Apr 2024 14:20:02 +0200
-Message-ID: <CANiq72=b=G3GPVWQ2XV1MT-wdT0KL4jZVQfD55Mcz_st-G7r=Q@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] rust: docs: Update the translation of rust to 6.9-rc4
-To: Yanteng Si <siyanteng@loongson.cn>
-Cc: ojeda@kernel.org, corbet@lwn.net, alex.gaynor@gmail.com, 
-	wedsonaf@gmail.com, boqun.feng@gmail.com, gary@garyguo.net, 
-	bjorn3_gh@protonmail.com, benno.lossin@proton.me, a.hindborg@samsung.com, 
-	aliceryhl@google.com, nathan@kernel.org, ndesaulniers@google.com, 
-	morbo@google.com, justinstitt@google.com, alexs@kernel.org, dzm91@hust.edu.cn, 
-	linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	llvm@lists.linux.dev, linux-riscv@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 3qfEpPMRQq5Ur703ay_jX8btNchQt73f
+X-Proofpoint-ORIG-GUID: 3qfEpPMRQq5Ur703ay_jX8btNchQt73f
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-04-26_12,2024-04-26_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 spamscore=0
+ impostorscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
+ clxscore=1011 mlxscore=0 suspectscore=0 phishscore=0 mlxlogscore=968
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404260082
 
-On Fri, Apr 26, 2024 at 12:35=E2=80=AFPM Yanteng Si <siyanteng@loongson.cn>=
- wrote:
->
-> I'm thinking that I'm two commits ahead of the doc tree, it doesn't seem
-> to fit
->
-> merge into the doc tree in this window, and there might be conflicts on
->
-> linux-next if I splite the patch out more.
+When multiple plug-in and plug-out events occur,
+there is a risk of encountering a NULL pointer dereference
+leading to a kernel panic during a headset use-case.
+this issue arises in the snd_usb_endpoint_close function
 
-Hmm... I am not sure I follow -- conflicts with what? These patches
-only change the translations and they all get applied by the doc tree,
-right?
+To avoid check if ep->iface_ref is not null before decrementing
+its opened count. If ep->iface_ref is null, we skip the decrement
+and the subsequent logic.
 
-Cheers,
-Miguel
+Signed-off-by: Rajashekar kuruva <quic_kuruva@quicinc.com>
+---
+ sound/usb/endpoint.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sound/usb/endpoint.c b/sound/usb/endpoint.c
+index 8f65349a06d3..0e3101b7e392 100644
+--- a/sound/usb/endpoint.c
++++ b/sound/usb/endpoint.c
+@@ -950,7 +950,7 @@ void snd_usb_endpoint_close(struct snd_usb_audio *chip,
+ 	usb_audio_dbg(chip, "Closing EP 0x%x (count %d)\n",
+ 		      ep->ep_num, ep->opened);
+ 
+-	if (!--ep->iface_ref->opened &&
++	if (ep->iface_ref && !--ep->iface_ref->opened &&
+ 		!(chip->quirk_flags & QUIRK_FLAG_IFACE_SKIP_CLOSE))
+ 		endpoint_set_interface(chip, ep, false);
+ 
+-- 
+2.25.1
+
