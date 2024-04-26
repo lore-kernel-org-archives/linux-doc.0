@@ -1,177 +1,105 @@
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399E213F01A;
-	Fri, 26 Apr 2024 09:54:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40AE612C7FB;
+	Fri, 26 Apr 2024 10:35:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714125254; cv=none; b=uy2PPi4JvLssowCqBWmM3NTKVxsigY+rgn8isQXVggl/kMbDwpOidFyjx4cc7sAfgLLGT+pgiw/DcCL/r0LeUxVavP9b2haSyWRSNvptXToviZvKvrcw6CzKF9IBHVPy+AQpso//24h42J/xwOZ5eM4P2baf8+YhYo0iVkemdx0=
+	t=1714127752; cv=none; b=sU49vsvGP0lUbn/79f2upvn5G1QETrWQo6zq/LClko6lFHoLYjp6Rl6eaPmruq/kXrwnJozmDoTVu+63Nnum8Q7SrnhFPLiWOFFDzOLpStB0ILB0/CWYRYqSOQXppU68CIbJeNiZb+0VsOjqyxkfJr7ciboYEsfe/sEpCulQBBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714125254; c=relaxed/simple;
-	bh=B8iZwl1tSPR7hZn9aDmfmPPvd4dqIX6kZXOjez5f1tw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I3caY6ZEdBx5PuJQsJVUNbLa/gD/AaG2mBOnN8KXHFxBYmUZ5lzIjviXoEY0299APXHGflP50KEruMDb35qp72sjmtUpLwh6u+tyIvOBn8nqw1M42iSkC9iJL7sefL8Ph30CFZRXaNYsEvf3iNg7wrAfuXvpXqO1LHbVTDry8qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TmcZtXGo; arc=none smtp.client-ip=209.85.221.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TmcZtXGo"
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-4dac19aa9b5so672809e0c.2;
-        Fri, 26 Apr 2024 02:54:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714125252; x=1714730052; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Jv2AnzM+IRnKHtYwA4l3TTkES9QCslE+SVgv6ZpTagM=;
-        b=TmcZtXGosk7TxCw3njLBi6L1mhWBZJN1Qf15nWmHTj//9Q/s1gGj1XnVBrried4dNF
-         9Zec4gwZQa9Psa8bcf6SmrSYFnvXs076kdxisQYCJOkGkTZYpLWD+ekQEa6riKEb6qtS
-         ojlGjxJHliDvCuhjbCSK6D0eremDEIlwFF0+QKtbcLVmK64CQcQdBrV0iQqOF1tK7rvX
-         apnTGk2w7HJZ0kaDooDRF+ybxvocC3EVfY9b4gAXPNXYFkbHTGtiEw262RJ48K7/s/pu
-         69PtplacUrhLf6JBcH4rzEyQndSSp6fw//EJjARjwzoFbiNqyLnVhZ4iYXHVA/P/hzPx
-         Do3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714125252; x=1714730052;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Jv2AnzM+IRnKHtYwA4l3TTkES9QCslE+SVgv6ZpTagM=;
-        b=lo4J1fFKUOHFk91kpmB5geLpe/Jau10wdj7K9csVv+d5N1drXSxGCGT4N57KXBwqQN
-         OqsZcez16QxX9E9Vs593S+85kIIGier7pigHou8gQ9ErZFidod+/xd8speCsM0BY245M
-         U6TAm1Ee4FNjaXBpj9+qBgNfFm06NhwWpQZsOprGAjJ3Go5BH2GFaPTfH007qeJcHNjO
-         5dq+1te+WR3LHDEcslMscOsyX4hPUrmU2vjR5FI8HfVWod29/PqJiVRZdSsX/Ek5qr9e
-         6pAb/Lm5QtauQLRuFKGiJWC0ttfWGAYOeDCudxwcGfxPClYnB8YcDDuhuLMyUL1rqoe2
-         XfBg==
-X-Forwarded-Encrypted: i=1; AJvYcCW1Rsfy5iRP9s1VcSzcADq3xbPtoxoiZhmOzyEJ/N3Z8z0K1IGp9HRiVbykWddXoBNAjTRZbCqxPvfzSP/KKz2pKuJQwr+4t0wTmtUJxWxqCuil2Gi6vluNPjwPHB+8X054waNw84+7sSdhAruADYw6LELy/h468TgI1OLuKX3dqGMe
-X-Gm-Message-State: AOJu0Yyxelod29ZLCGiEYPBNh+eZbBUBYQXPDL6AuxowwM6V4zFzJzsv
-	BkQOZM30KInDTVVG01vyuZBIA3YmR0d/6BpeH2ata6kg1NdZ0JY8TJzK+vVlizw8W5czn/iIcyQ
-	2Lww7kKgk9ykN28elzVB7gHiSmlw=
-X-Google-Smtp-Source: AGHT+IG0ipQ4rKvgJihRKb06cwykLATWUBuMR/QaDj4gg4w5nDCDHsUTmMk16VSSdjFOGsP5wdS2W4FDOVlkPfeX96Y=
-X-Received: by 2002:a05:6122:1788:b0:4c0:2d32:612f with SMTP id
- o8-20020a056122178800b004c02d32612fmr2060791vkf.15.1714125252037; Fri, 26 Apr
- 2024 02:54:12 -0700 (PDT)
+	s=arc-20240116; t=1714127752; c=relaxed/simple;
+	bh=KbTAaCOP23RX4cDVyVC1f0gyN8yb6XO4hy9Vw4aJ848=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fZ0v91OlB3uEzclNZr5QcnAkjo3TpVYpIk/wm8OUwaeocrB0vQmJJ0CtBGm5mtA+cw0nBbCICUmYjC+s69YOQi/rcewWF4CMkluBqqOLyKrxD6FQk3xHZpI89G0HXmMlZyglafqi8e4zF0xfj2/2pV/KJ4NOno0BmM/sl7Xfvo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [112.20.112.218])
+	by gateway (Coremail) with SMTP id _____8BxtOqDgytmJ2sDAA--.2042S3;
+	Fri, 26 Apr 2024 18:35:47 +0800 (CST)
+Received: from [192.168.100.8] (unknown [112.20.112.218])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8BxlFZ_gytm0zMGAA--.3023S3;
+	Fri, 26 Apr 2024 18:35:45 +0800 (CST)
+Message-ID: <9cae4c4a-55a6-4c6c-9780-866f796a52c0@loongson.cn>
+Date: Fri, 26 Apr 2024 18:35:43 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240403224254.10313-1-21cnbao@gmail.com> <20240403224254.10313-3-21cnbao@gmail.com>
-In-Reply-To: <20240403224254.10313-3-21cnbao@gmail.com>
-From: Barry Song <21cnbao@gmail.com>
-Date: Fri, 26 Apr 2024 17:54:00 +0800
-Message-ID: <CAGsJ_4yjf0=5LbytmseCazr8jg-MWYVzY3d6bJc8VcwJsneUEQ@mail.gmail.com>
-Subject: Re: [PATCH v6 2/2] scripts: checkpatch: check unused parameters for
- function-like macro
-To: akpm@linux-foundation.org, linux-doc@vger.kernel.org, 
-	workflows@vger.kernel.org, joe@perches.com
-Cc: apw@canonical.com, broonie@kernel.org, chenhuacai@loongson.cn, 
-	chris@zankel.net, corbet@lwn.net, dwaipayanray1@gmail.com, 
-	herbert@gondor.apana.org.au, linux-kernel@vger.kernel.org, linux@roeck-us.net, 
-	lukas.bulwahn@gmail.com, mac.xxn@outlook.com, sfr@canb.auug.org.au, 
-	v-songbaohua@oppo.com, Max Filippov <jcmvbkbc@gmail.com>, 
-	Jeff Johnson <quic_jjohnson@quicinc.com>, Charlemagne Lasse <charlemagnelasse@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/4] rust: docs: Update the translation of rust to
+ 6.9-rc4
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: ojeda@kernel.org, corbet@lwn.net, alex.gaynor@gmail.com,
+ wedsonaf@gmail.com, boqun.feng@gmail.com, gary@garyguo.net,
+ bjorn3_gh@protonmail.com, benno.lossin@proton.me, a.hindborg@samsung.com,
+ aliceryhl@google.com, nathan@kernel.org, ndesaulniers@google.com,
+ morbo@google.com, justinstitt@google.com, alexs@kernel.org,
+ dzm91@hust.edu.cn, linux-doc@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, llvm@lists.linux.dev,
+ linux-riscv@lists.infradead.org
+References: <cover.1714113680.git.siyanteng@loongson.cn>
+ <CANiq72meE9txt5b09Y7cUJd-hEqcZX1ZtRc_0YYDZqWQgyo3wA@mail.gmail.com>
+Content-Language: en-US
+From: Yanteng Si <siyanteng@loongson.cn>
+In-Reply-To: <CANiq72meE9txt5b09Y7cUJd-hEqcZX1ZtRc_0YYDZqWQgyo3wA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:AQAAf8BxlFZ_gytm0zMGAA--.3023S3
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBj9xXoW7GF1kCr18AFWfKFyrtr1fuFX_yoWkXrb_Aa
+	sYyay7tw1kJF4kCFWfJr43uFs7X3y8Cw1DJr1Iqw17Xr95AFZ7uFZxK34S9F4Iqw4rCr1D
+	Kr10gayS9343uosvyTuYvTs0mTUanT9S1TB71UUUUbDqnTZGkaVYY2UrUUUUj1kv1TuYvT
+	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
+	cSsGvfJTRUUUbSkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
+	vaj40_Wr0E3s1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+	w2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+	W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6F4UJVW0owAaw2AFwI0_Jw0_GFyle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0c
+	Ia020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jw0_
+	WrylYx0Ex4A2jsIE14v26r4UJVWxJr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI4
+	8JMxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j
+	6r4UMxCIbckI1I0E14v26r1q6r43MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
+	AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv2
+	0xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4
+	v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr1j6F4UJwCI42IY6I8E87Iv6xkF7I0E
+	14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7IU0c18DUUUUU==
 
-Hi Joe,
-any further comment for this ? May this patch get your reviewed / acked?
 
-On Thu, Apr 4, 2024 at 6:43=E2=80=AFAM Barry Song <21cnbao@gmail.com> wrote=
-:
->
-> From: Xining Xu <mac.xxn@outlook.com>
->
-> If function-like macros do not utilize a parameter, it might result in a
-> build warning.  In our coding style guidelines, we advocate for utilizing
-> static inline functions to replace such macros.  This patch verifies
-> compliance with the new rule.
->
-> For a macro such as the one below,
->
->  #define test(a) do { } while (0)
->
-> The test result is as follows.
->
->  WARNING: Argument 'a' is not used in function-like macro
->  #21: FILE: mm/init-mm.c:20:
->  +#define test(a) do { } while (0)
->
->  total: 0 errors, 1 warnings, 8 lines checked
->
-> Signed-off-by: Xining Xu <mac.xxn@outlook.com>
-> Tested-by: Barry Song <v-songbaohua@oppo.com>
-> Signed-off-by: Barry Song <v-songbaohua@oppo.com>
-> Cc: Chris Zankel <chris@zankel.net>
-> Cc: Huacai Chen <chenhuacai@loongson.cn>
-> Cc: Herbert Xu <herbert@gondor.apana.org.au>
-> Cc: Guenter Roeck <linux@roeck-us.net>
-> Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-> Cc: Mark Brown <broonie@kernel.org>
-> Cc: Andy Whitcroft <apw@canonical.com>
-> Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>
-> Cc: Joe Perches <joe@perches.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> Cc: Max Filippov <jcmvbkbc@gmail.com>
-> Cc: Jeff Johnson <quic_jjohnson@quicinc.com>
-> Cc: Charlemagne Lasse <charlemagnelasse@gmail.com>
-> ---
->  Documentation/dev-tools/checkpatch.rst | 14 ++++++++++++++
->  scripts/checkpatch.pl                  |  6 ++++++
->  2 files changed, 20 insertions(+)
->
-> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-t=
-ools/checkpatch.rst
-> index 127968995847..a9fac978a525 100644
-> --- a/Documentation/dev-tools/checkpatch.rst
-> +++ b/Documentation/dev-tools/checkpatch.rst
-> @@ -906,6 +906,20 @@ Macros, Attributes and Symbols
->
->      See: https://lore.kernel.org/lkml/1399671106.2912.21.camel@joe-AO725=
-/
->
-> +  **MACRO_ARG_UNUSED**
-> +    If function-like macros do not utilize a parameter, it might result
-> +    in a build warning. We advocate for utilizing static inline function=
-s
-> +    to replace such macros.
-> +    For example, for a macro such as the one below::
-> +
-> +      #define test(a) do { } while (0)
-> +
-> +    there would be a warning like below::
-> +
-> +      WARNING: Argument 'a' is not used in function-like macro.
-> +
-> +    See: https://www.kernel.org/doc/html/latest/process/coding-style.htm=
-l#macros-enums-and-rtl
-> +
->    **SINGLE_STATEMENT_DO_WHILE_MACRO**
->      For the multi-statement macros, it is necessary to use the do-while
->      loop to avoid unpredictable code paths. The do-while loop helps to
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index 9c4c4a61bc83..9895d7e38a9f 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -6040,6 +6040,12 @@ sub process {
->                                         CHK("MACRO_ARG_PRECEDENCE",
->                                             "Macro argument '$arg' may be=
- better as '($arg)' to avoid precedence issues\n" . "$herectx");
->                                 }
-> +
-> +# check if this is an unused argument
-> +                               if ($define_stmt !~ /\b$arg\b/) {
-> +                                       WARN("MACRO_ARG_UNUSED",
-> +                                               "Argument '$arg' is not u=
-sed in function-like macro\n" . "$herectx");
-> +                               }
->                         }
->
->  # check for macros with flow control, but without ## concatenation
-> --
-> 2.34.1
->
+在 2024/4/26 15:37, Miguel Ojeda 写道:
+>> v2:
+>> * As Miguel's comments, translate commit 01848eee20c6
+>>    into Chinese, as well as commit 81889e8523e6. By the way,
+>>    these two patches haven't appeared in the doc development
+>>    tree yet, maybe we could consider merging them into the
+>>    rust tree?
+> The former is in `rust-fixes`, which will be sent to Linus for this
+> cycle. So the English docs will be updated sooner than these updates,
+> if that is what you are asking.
 
-Thanks
-Barry
+Well, it seems that we will have to wait for the doc tree, because the 
+Chinese
+
+translation is now carried out under the doc tree.
+
+>
+> For the other one, it is in the RISC-V tree and I assume it will be
+> sent into the next merge window. I don't know how you normally handle
+> that (i.e. translations being updated at the same time or after a
+> cycle), but either way, I am not sure why you would want them to be
+> merged into the Rust tree?
+
+I'm thinking that I'm two commits ahead of the doc tree, it doesn't seem 
+to fit
+
+merge into the doc tree in this window, and there might be conflicts on
+
+linux-next if I splite the patch out more.
+
+
+Thanks,
+
+Yanteng
+
+
+
