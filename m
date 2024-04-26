@@ -1,96 +1,99 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A8326AE3;
-	Fri, 26 Apr 2024 07:13:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 542F322338;
+	Fri, 26 Apr 2024 07:39:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714115592; cv=none; b=LpEBvfhHLyumK3a85MkQE+FjPNZli/pwOegEANpcdY+95rD21JTe6Hzz7iXeClwUMHWg5P5rnuEas+DKn7ulWRKTeMKFlSL96fakTxWAIcUwXUo67Zid9d73NWvTCByK/QuMrpiVXobj1iMW2e4Dj/jdUk18O0aQTVsGSPXehAc=
+	t=1714117141; cv=none; b=pv0F/01aLcNxbQ1M3H/E/rQkxR4uIP9c13Pnupa8lu/lKwAH/nPYiNLyQ/50UvCpmFnkk0MhiBz3mscTTPfJwB5n2GpkBPfk0RUcrHcllL5AAFkG1MKr1Pm6DoHTPe/qFj3d2gnn8cpURan5DJoQp+duTGMhee36af+n/xYf2uU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714115592; c=relaxed/simple;
-	bh=sFhaHOLcmDllXTSZg6+C5j785TZxx9YJrqSgUoHLafo=;
+	s=arc-20240116; t=1714117141; c=relaxed/simple;
+	bh=0fY+v8jAh6tWCLz33v0P4ja0L1VLAobur3GCDQhmp5U=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mF2980BAaP33MKNpZ7g4IKgP3GkgCWzFX/DxNylc5XLb4cxlKMj0yYP950PnIvMahBuO3Rqj3gP4Q2VfQtCqLZ29Bcxu1B6kd2ZeFxECwfx1WmhwVGWThXHXpGGSj/mgCQ3jPHzLxXZCYkUUVTdui99HuzMI8dS7D5q4uiDW9IU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lYMhTAqo; arc=none smtp.client-ip=209.85.208.180
+	 To:Cc:Content-Type; b=lycCjTt2zGMhc8lbJdIkTuac/9f9I/xU/Zw1HNDkRlrnndWMN9/omdOyWmNFMz80o3UvQL6/guYqyrVn4x3GxYfA935uGGStATvYjHa/E3ajf4bZrDnhXhdBQjnFdWVbGPtYFPzXBgGh9HI+cflihii6+26Ctnrky/BnpQJfjPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hmVJnuev; arc=none smtp.client-ip=209.85.167.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lYMhTAqo"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2db7c6b5598so22510531fa.1;
-        Fri, 26 Apr 2024 00:13:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hmVJnuev"
+Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3c75139645aso1150397b6e.1;
+        Fri, 26 Apr 2024 00:39:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714115589; x=1714720389; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1714117139; x=1714721939; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sFhaHOLcmDllXTSZg6+C5j785TZxx9YJrqSgUoHLafo=;
-        b=lYMhTAqooCcBg8P/xeHrppajBIRYTqHghMzO4aA/2ShF84H9MOIuFgQ33EkcZEWMnq
-         dbzRggWL3d9bqMk5fX/2gdjrA+LVsbK8IvPL1EpuWZsMK+6UzAwjNClNW7AkNwBBBEpR
-         HzNjAr3RiXk0ZyodGWm69RqOthK8f+0PuUEwSLzLk3ukqh322DZ7gjOYUseeQU+1fqBX
-         5YeSiN9OEqVAcIeQvc31vUXk4POjBZ1gYywbt/rZKy2OXrx8icmtglSGz77WlqtXgT0q
-         /laJ07g8D8g29S4hnaJEd4pFg8CwCq1rpEuqx39/9h3Aq+wKO4YjlgEMRViJvEvA/0Z7
-         UYWg==
+        bh=GGBuvvToC0OqPUpGTpLM7JYQ+5mkS2lL6n9tHklK4Is=;
+        b=hmVJnuevBerPy4VdnpbrjuwNnHRFMZuBQaYVgqzWVr/ra/rU8eLrgDJrRQ6trXIiQm
+         quC7VQbsvi61pBad8fthLlfNZiqJm7VZtd8C52jmGt28EcJ7BchpPf2ohl/BDeByyppG
+         qfRjq3yILeEkZC4AkC3XwzV9qWHCTAp7Ce5VL17p6xOUASBwiewDQ9gVOGHPx30gUsIc
+         TEAyE/Nzf4N8oEcXJHUHRD5r/vmVKR/20ibqFoTIv6U0KrP5ptQrbOFTOsytbms4gWDq
+         KsBSRi0Pe1gFaFmJKbpWfE3lDUbCjJO6zMiBLHhaj5k7+YtRy6ur3UCiE6NQbLdZSHpd
+         WbeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714115589; x=1714720389;
+        d=1e100.net; s=20230601; t=1714117139; x=1714721939;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sFhaHOLcmDllXTSZg6+C5j785TZxx9YJrqSgUoHLafo=;
-        b=mklMjEEJ7lfE4Jbxn7+jscaWGTA1MmQaJjr3fMhe+yH/DhAZ0jHt5NcXKMolKDSOKe
-         BXDBL3rRqeL0s9jbePvbOIO8PEcnpk0PQfEqjqmhONoxsInaIFfeHtg++9kcnXsoK+iC
-         tYwB3TsEIG/LAA3+b6m9KWsTsyJVop/1/tL7edz6oOlq7nrXCBbD66vlITw1apNZeSKr
-         n/ap7JJX9ftdDlJXzFJ0hz3LV6bnzoWLaE1e4qSo9f4N5hjQSmm+NFGaQXwwcMmVYQfx
-         cpB333s8Tu11WZgMB1+fgYhqZZddK1tNt6IPM3Fi0ncCYRZYc9wmNGzSdVWwmeh2vW8J
-         8c9A==
-X-Forwarded-Encrypted: i=1; AJvYcCVGzeiNhDnJCkBT0kho+qjJNHxeeGfJV+1aEby37k4INYLQUwRDJ/yThYXsBuMN6aP0hQv7249cg+329ZbWKTpbXW6H+Syq02hP83OeCB+8gjpucNdhpXW1j82RuIOzHTXJqpek6/oP9Hx5vu06zw3LaOt2Dv6CNxdLSU1EVaql9zjF1hmdGfDAlkgdp9wO/LGbWAS88iUkuoxOlgD6XulJFmmzGP7MiyckEmXZGE8vxfJRl5I60pAoYUxA
-X-Gm-Message-State: AOJu0YzqOCL63nrgk8mJrAPBkdoH6o8vqBEXlxIGB51tqKGVjqgSZeub
-	9xD7HaKEVqg+rrXR+GUvtUp/MT6Ci72hQqbsr4Qw3wMX14U/iwtyBB/2UPXUDtA9cGFv3q5miZm
-	VjXa8wIlf9VfkKF+2D5Ng3UHKzDd2LA==
-X-Google-Smtp-Source: AGHT+IF+jwxiGnk7SLvXkvdKC9ou42iN+pIjSlgZEuLsJB2Hp2M4N+skA+TcxbZh6MZquCN2YFivItkTlGo/yBZAHtU=
-X-Received: by 2002:a2e:86c7:0:b0:2dc:b1c7:514e with SMTP id
- n7-20020a2e86c7000000b002dcb1c7514emr1088930ljj.8.1714115588956; Fri, 26 Apr
- 2024 00:13:08 -0700 (PDT)
+        bh=GGBuvvToC0OqPUpGTpLM7JYQ+5mkS2lL6n9tHklK4Is=;
+        b=jtCWOWTkp9D+mIi9gNHFC2NY7gytMux8kd9uaPNk/vyueafAsx9h1yjagFkIooWWgm
+         w3dQYG7qhfyIuZBtCrTA4kMepQYJoxAT8hn4WPMHYvTWg5GqoSH/phPt7ORsWyHZC1D5
+         Nwl/NLjyDuXJds9n6ucJ3OEb5jlbqBeWf3UIWjLMDFdmzP+YetQZxT7b9JvmQYyt5g1K
+         G9Wfl1atwBriYIjlEAph1gMnDbz2dzpDLRFdvvavbes9MTy9n+HoMh9QmRLscfZTm/E7
+         gPFCJOnXhQFsMxiSLnd5f3aWRYKsqnkz7upyROjBXmxRB88KznFwOjnZKRMAAs5ieKA8
+         BwRA==
+X-Forwarded-Encrypted: i=1; AJvYcCXy3JIEy0ej0HHoGeaacD00Z71lKov7BSrYYaI2lm2+3CvOcoeTCjomMvCG+kVeG0qvBXSUYEQ+APzcC85o0RTc3Wu1sWoGqxT2fwDq1WGuAlr1AwsclM3/0Gq15KQtEmicbcoU2+BosLo=
+X-Gm-Message-State: AOJu0YwfE7j9ZwaK0nWewIazSjDqOpNAHRpArf36R3hO22+RBBg/Vnm6
+	pKCt5c7Cwf1h4x5yIRSdSzpPGZKQIwKJWhu1nzRfi1EEOZKFtshvNG930S2q23uE5EsVR9TkP8c
+	1IsxwcbmtCRJ9B6ck0Mf3xJ64Hog=
+X-Google-Smtp-Source: AGHT+IGIDbfoLyF/vcAyw4u9+mdZJ407ybr2DB4NCliEQjhEnWJKZ1nn71+acLQ5mnPt5EZKBCvLyLs+Ddg52AXhG7k=
+X-Received: by 2002:a05:6870:200d:b0:22a:8e5:940 with SMTP id
+ o13-20020a056870200d00b0022a08e50940mr1651801oab.37.1714117139323; Fri, 26
+ Apr 2024 00:38:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240425153608.4003782-1-peteryin.openbmc@gmail.com>
- <20240425153608.4003782-3-peteryin.openbmc@gmail.com> <4e329d1b-fad5-416f-b0ca-55e8c6c3394c@kernel.org>
-In-Reply-To: <4e329d1b-fad5-416f-b0ca-55e8c6c3394c@kernel.org>
-From: Chia Hsing Yin <peteryin.openbmc@gmail.com>
-Date: Fri, 26 Apr 2024 15:12:57 +0800
-Message-ID: <CAPSyxFQcKvpvO2-U7QPjrVTqam_bQ6OP8VoomnSbmEj4g7uDVw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] dt-bindings: hwmon: Add infineon xdp710 driver bindings
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: patrick@stwcx.xyz, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, 
-	Patrick Rudolph <patrick.rudolph@9elements.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Charles Hsu <ythsu0511@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Lukas Wunner <lukas@wunner.de>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-i2c@vger.kernel.org
+References: <cover.1714113680.git.siyanteng@loongson.cn>
+In-Reply-To: <cover.1714113680.git.siyanteng@loongson.cn>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Fri, 26 Apr 2024 09:37:52 +0200
+Message-ID: <CANiq72meE9txt5b09Y7cUJd-hEqcZX1ZtRc_0YYDZqWQgyo3wA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] rust: docs: Update the translation of rust to 6.9-rc4
+To: Yanteng Si <siyanteng@loongson.cn>
+Cc: ojeda@kernel.org, corbet@lwn.net, alex.gaynor@gmail.com, 
+	wedsonaf@gmail.com, boqun.feng@gmail.com, gary@garyguo.net, 
+	bjorn3_gh@protonmail.com, benno.lossin@proton.me, a.hindborg@samsung.com, 
+	aliceryhl@google.com, nathan@kernel.org, ndesaulniers@google.com, 
+	morbo@google.com, justinstitt@google.com, alexs@kernel.org, dzm91@hust.edu.cn, 
+	linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-I use b4 download and apply it, I think it is a tool issue, I can fix
-in the next version.
-Thank you for your feedback.
+On Fri, Apr 26, 2024 at 9:00=E2=80=AFAM Yanteng Si <siyanteng@loongson.cn> =
+wrote:
+>
+> v2:
+> * As Miguel's comments, translate commit 01848eee20c6
+>   into Chinese, as well as commit 81889e8523e6. By the way,
+>   these two patches haven't appeared in the doc development
+>   tree yet, maybe we could consider merging them into the
+>   rust tree?
 
-On Fri, Apr 26, 2024 at 2:55=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.or=
-g> wrote:
->
-> On 25/04/2024 17:36, Peter Yin wrote:
-> > Add a device tree bindings for xdp710 device
-> >
-> > Acked-by: "Rob Herring (Arm)" <robh@kernel.org>
->
-> That's not the tag you received. Please do not modify the tags. Quotes
-> are not needed.
->
-> Best regards,
-> Krzysztof
->
+The former is in `rust-fixes`, which will be sent to Linus for this
+cycle. So the English docs will be updated sooner than these updates,
+if that is what you are asking.
+
+For the other one, it is in the RISC-V tree and I assume it will be
+sent into the next merge window. I don't know how you normally handle
+that (i.e. translations being updated at the same time or after a
+cycle), but either way, I am not sure why you would want them to be
+merged into the Rust tree?
+
+Thanks!
+
+Cheers,
+Miguel
