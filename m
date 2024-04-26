@@ -1,271 +1,103 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C91313A41D
-	for <linux-doc@vger.kernel.org>; Fri, 26 Apr 2024 06:57:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D1B913AA2F;
+	Fri, 26 Apr 2024 07:00:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714114664; cv=none; b=PXuXinb4aixR9FcDxImyY+CCfBYLwUumaJvV3OpOq9uw83uXJl1dzgtTPo3j+tk55g/nDqOynyAw6t+nGh2l7tEhofzSWhzfKkEigUwoeCAAccs9nyZKX9M4YrJCIt0fx9tqNTbYzX9ihWq+P6bxvbB6eRHI/nElbplr9BsSNsI=
+	t=1714114820; cv=none; b=Uwk3VnKkfB2XG6SQfBRgiMxdf6xuSKp+xT9XYJ8hrihNGSyWa0TqH9bWho3i/mJ2zGgBq34wL4B8PPnLrnjhMVEZE4hjPjTtPCw9TP5kVCoFQSr/k9EQ04dhqJSdpTIvQWm3RzAfLSWDuAz0rWgSSbUbOoBSBgQCb47gjmvmkfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714114664; c=relaxed/simple;
-	bh=s4WFvLqL/FlFXDjXnJP+t8dQbIFZqMAVv435zFp0leY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NTsUWG4o8d+nlcQowp5apmBuQo2FPdYhktdePMGej9RjopBQX8oSCUZne7I5EZFDmeMYE8/7qBpqbtjg7Xpj+fUNVTwZSUkrB5xmTmLrGFUksSvOgw1NnT3sjluJdMW06vpKemNTbgeKDCCd4UQdsuzOENNHUFnb67UDSXzMlPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aqAUpGWz; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aqAUpGWz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1714114661;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=S9YgOSSzhWQrtdlbF1hJCE17T/mb2rDP4iaqnDMJfb0=;
-	b=aqAUpGWztkzeux0sJ5wr5cotkQALl5ZgCcQ0nVOq2SjqqvJpeekFzQGaiWU5zSudzbbk9S
-	KnqmykC63DqGa8NjJxSOilTQnbac1UPp2/KtddE6/jPWRoVoJFG/89940WyURe3SJozUNh
-	G571aCZ+bgItOQmDBhNLE1mVxwa+KTY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-591-U9YjzpQDNg2UNenRqtwDKQ-1; Fri, 26 Apr 2024 02:57:39 -0400
-X-MC-Unique: U9YjzpQDNg2UNenRqtwDKQ-1
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-34c65b59e18so90260f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 25 Apr 2024 23:57:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714114658; x=1714719458;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=S9YgOSSzhWQrtdlbF1hJCE17T/mb2rDP4iaqnDMJfb0=;
-        b=YPTeHt3i77uL+V0Dkg5vuUjUVw8gc5K0egeRVHy4KDBylFNJmdqWnOBzSt6rJtZD93
-         GRcXuZ9IjJQDQxz1D9ARJbgwPeyM1Or39CZNb//QivHFuMxMEaPwHIJJDmbHZM7/4hwa
-         a64onz6CgbbwhbXxMWk3Wk8mg1rmgUygw3OwWeq23UXkhUduUS0DC9jur7ZzZraumwpG
-         lPrD9eTh+J3vN/KzT/JU8qYNqRg3NtKuTRI11l+HvswxRJZnC/6DGiQSdNpYzr9lhDJu
-         PbYGP+55yaAWCvUU8wtHsnLgj98hI5cIwzImdQpR9pQ+/yP1OJiMmtQKcdhbhH5hEbus
-         0iQA==
-X-Forwarded-Encrypted: i=1; AJvYcCU6rWeBp07Gx6xqV6CB2JzPfGRM/0Lw8cT64gyF5Qcm5rXiMpjg6V+nRrLw2Z90IT/9dcdj3AMkCupmF/RSNyUbDxLOoYt0zaIT
-X-Gm-Message-State: AOJu0YzwHL0H45n1dutz0fUPimu4bauR88Rqqg6TtQDo+J5o1PIpA2ET
-	gIeQ38kDnPfRlR7HvtMqakHa7bu7bAEU9HnBDitfZrnMnIYVBDsfeAu6SPJQWSPt6FyESKjMYRU
-	Q+u0J7weLY7DstBTk/T5uJkdfmCzvTC8NvR/2bMeSCXA53E3FTNxQJ8h5og==
-X-Received: by 2002:a5d:4dc1:0:b0:349:ffed:792d with SMTP id f1-20020a5d4dc1000000b00349ffed792dmr1495856wru.30.1714114658404;
-        Thu, 25 Apr 2024 23:57:38 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFiGcMtO3pvrqLzxCKrJCX59NpN1TNY/wPfeqt9MvGmQf29twl4GqizB6+lEhzfbJ8yP/FB2w==
-X-Received: by 2002:a5d:4dc1:0:b0:349:ffed:792d with SMTP id f1-20020a5d4dc1000000b00349ffed792dmr1495838wru.30.1714114657964;
-        Thu, 25 Apr 2024 23:57:37 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c726:6100:20f2:6848:5b74:ca82? (p200300cbc726610020f268485b74ca82.dip0.t-ipconnect.de. [2003:cb:c726:6100:20f2:6848:5b74:ca82])
-        by smtp.gmail.com with ESMTPSA id e24-20020a5d5958000000b0034c0fefd7d2sm3255775wri.23.2024.04.25.23.57.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Apr 2024 23:57:37 -0700 (PDT)
-Message-ID: <c04f5611-162c-441c-b94c-79032f09e015@redhat.com>
-Date: Fri, 26 Apr 2024 08:57:36 +0200
+	s=arc-20240116; t=1714114820; c=relaxed/simple;
+	bh=Kp/6EzHFseCjwd4VVe5bygkVZd/6QTzkT0oK1Qhuexc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=k0Zp12CPxvi2aAX7qeT1KQz5KmsN506/LiTnqDnUKgaWXaEK7Gll8x/I/QbdNiHYqsY0Ra8jegoUVU01UXPonvWGW+4TludxbymYcxgT6Mg8Q5CQBgzHrC8EbsVBaLO+l/bGRD2QL5UW9WNYYtcSE54Zuy8A4PTapZVtfoo0Nas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [112.20.112.218])
+	by gateway (Coremail) with SMTP id _____8DxGuryUCtmplgDAA--.1746S3;
+	Fri, 26 Apr 2024 15:00:02 +0800 (CST)
+Received: from localhost.localdomain (unknown [112.20.112.218])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8AxhFbvUCtmPQIGAA--.2873S2;
+	Fri, 26 Apr 2024 15:00:00 +0800 (CST)
+From: Yanteng Si <siyanteng@loongson.cn>
+To: ojeda@kernel.org,
+	corbet@lwn.net,
+	alex.gaynor@gmail.com,
+	wedsonaf@gmail.com,
+	boqun.feng@gmail.com,
+	gary@garyguo.net,
+	bjorn3_gh@protonmail.com,
+	benno.lossin@proton.me,
+	a.hindborg@samsung.com,
+	aliceryhl@google.com,
+	nathan@kernel.org,
+	ndesaulniers@google.com,
+	morbo@google.com,
+	justinstitt@google.com,
+	alexs@kernel.org,
+	dzm91@hust.edu.cn
+Cc: Yanteng Si <siyanteng@loongson.cn>,
+	linux-doc@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH v2 0/4] rust: docs: Update the translation of rust to 6.9-rc4
+Date: Fri, 26 Apr 2024 14:59:47 +0800
+Message-Id: <cover.1714113680.git.siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.31.4
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] mm/khugepaged: replace page_mapcount() check by
- folio_likely_mapped_shared()
-To: John Hubbard <jhubbard@nvidia.com>, Matthew Wilcox <willy@infradead.org>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- Zi Yan <ziy@nvidia.com>, Yang Shi <yang.shi@linux.alibaba.com>,
- Ryan Roberts <ryan.roberts@arm.com>
-References: <20240424122630.495788-1-david@redhat.com>
- <73de5556-e574-4ed7-a7fb-c4648e46206b@nvidia.com>
- <ZinZSDTMXjPjAHLe@casper.infradead.org>
- <18b9acc9-9dc8-4857-83d1-952c94b69e01@nvidia.com>
- <7273b0d6-06e7-4741-b77b-b49949c46d63@redhat.com>
- <1a406a5f-1336-4051-a722-04b9ea2f54df@nvidia.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <1a406a5f-1336-4051-a722-04b9ea2f54df@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:AQAAf8AxhFbvUCtmPQIGAA--.2873S2
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBj9xXoWrKFyDZw13WFy8GF4DZF18Zwc_yoWkGrX_A3
+	y8ZFWjya1kAF4xKFWxGrW7urW8Cay0v348JFn0q3yDG34DArWDXr1DXF93Wr1fuF45Kry3
+	GrZ7J34fCrs3WosvyTuYvTs0mTUanT9S1TB71UUUUb7qnTZGkaVYY2UrUUUUj1kv1TuYvT
+	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
+	cSsGvfJTRUUUbSxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
+	vaj40_Wr0E3s1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+	w2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+	W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6r4UJVWxJr1ln4kS14v26r1q6r43M2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
+	xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q
+	6rW5McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64
+	vIr41lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_
+	Jr0_Gr1l4IxYO2xFxVAFwI0_Jw0_GFylx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0
+	cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8V
+	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E
+	14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUstxhDUUUU
 
-On 26.04.24 03:23, John Hubbard wrote:
-> On 4/25/24 1:06 AM, David Hildenbrand wrote:
->> On 25.04.24 07:40, John Hubbard wrote:
->>> On 4/24/24 9:17 PM, Matthew Wilcox wrote:
->>>> On Wed, Apr 24, 2024 at 09:00:50PM -0700, John Hubbard wrote:
-> ...
->> We'll talk more about all that at LSF/MM in the mapcount session. A spoiler:
-> 
-> Looking forward to it. And as an aside, this year it feels like the mm
-> code is changing relatively fast. So many large and small improvements
-> have happened or are in progress.
+v2:
+* As Miguel's comments, translate commit 01848eee20c6
+  into Chinese, as well as commit 81889e8523e6. By the way,
+  these two patches haven't appeared in the doc development
+  tree yet, maybe we could consider merging them into the
+  rust tree?
+* As Dongliang's comments, translation "在... 前添加" other
+  than "前缀".
 
-Yes, it's happening on a very fast pace (and it's hard for me to get 
-reasonable work done while still keeping reviewing that much ...).
+v1:
+The Chinese version of rust seems to be way behind,
+even though we did translate to Chinese at the beginning.
+Let's keep them up to date. :)
 
-I'll note, that replacing a page-based interface by a folio-based 
-interface should not be shocking news in 2024, and that the issues with 
-mapcounts for large folios have been a recurring topic at LSF/MM and on 
-the mailing list.
+Yanteng Si (4):
+  docs/zh_CN/rust: Update the translation of arch-support to 6.9-rc4
+  docs/zh_CN/rust: Update the translation of coding-guidelines to
+    6.9-rc4
+  docs/zh_CN/rust: Update the translation of general-information to
+    6.9-rc4
+  docs/zh_CN/rust: Update the translation of quick-start to 6.9-rc4
 
-> 
-> 
->>
->> page_mapcount() in the context of large folios:
->> * Is a misunderstood function (e.g., page_mapcount() vs page_count()
->>     checks, mapped = !page_mapcount() checks).
->> * Is a misleading function (e.g., page_mapped() == folio_mapped() but
->>     page_mapcount() != folio_mapcount())
->>
->> We could just rename it to "folio_precise_page_mapcount()", but then, once we tackle the subpage mapcount optimizations (initially using a separate kernel config toggle), we'll have to teach each caller about an alternative that gets the job done, and it's not that easy to prevent further reuse around the kernel.
->>
->> If you look at linux-next, we're down to 5 page_mapcount() calls in fs/proc/, so I'll relocate it to fs/proc/internal.h to prevent any further use - once the s390x change lands in the next merge window.
->>
->> Regarding the subpage mapcount optimizations, I can further add:
->> * (un)map performance improvements for PTE-mapped THP
->> * Preparation for folio_order() > PMD_ORDER, where the current scheme
->>     won't scale and needs further adjustments/complexity to even keep it
->>     working
->> * Preparation for hugetlb-like vmemmap optimizations until we have
->>     memdescs / dynamically allocated folios
->> * (Paving the way for partially mapping hugetlb folios that faced
->>      similar issues? Not sure if that ever gets real, though)
->>
->> Is this patch ahead of its time? LSF/MM is just around the corner, and I'm planning on posting the other relevant patches in the next months.
-> 
-> I think so, yes. There is a lot of context required to understand the
-> motivation, and more required in order to figure out if it is safe,
-> and if it still provides "good" behavior.
-
-I think the motivation for removing page_mapcount() should be very clear 
-at this point: a single remaining user in mm/ should be warranted, and 
-the faster it is gone the better.
-
-[case in point: I even have another potential user [1] in my mailbox 
-that should be using a folio interface, well, or PG_anon_exclusive :) ]
-
-[1] https://lore.kernel.org/all/Zirw0uINbP6GxFiK@bender.morinfr.org/T/#u
-
-Regarding removing subpage mapcounts I agree: I added too many details 
-that made it look harder to understand :P
-
-> 
-> I still think it's mostly harmless, though, so being ahead of its time
-> is not necessarily an indictment. :)
-
-I didn't express my thought clearly: LSF/MM is just around the corner 
-and the discussion we are having here is the perfect preparation for 
-that session! :)
-
-I don't particularly care if we merge this patch now or after the next 
-merge window along with the remaining page_mapcount() removal.
-
-Discussing the impact of this change is the important piece. :)
-
-[...]
-
->> Thanks for having a look!
->>
->> I'm only a bit concerned about folio_likely_mapped_shared() "false negatives" (detecting exclusive although shared), until we have a more precise folio_likely_mapped_shared() variant to not unexpectedly waste memory.
->>
->> Imagine someone would be setting "khugepaged_max_ptes_shared=0", and then we have an area where (I think this is the extreme case):
->>
->> * We map 256 subpages of a 2M folio that are shared 256 times with a
->>     child process.
->> * We don't map the first subpage.
->> * One PTE maps another page and is pte_write().
->> * 255 PTEs are pte_none().
->>
->> folio_likely_mapped_shared() would return "false".
->>
->> But then my thinking is:
->> * We are already wasting 256 subpages that are free in the 2M folio.
->>     Sure, we might be able to relaim it when deferred splitting.
->> * Why would someone set khugepaged_max_ptes_shared=0 but leave
->>     khugepaged_max_ptes_none set that high that we would allow 255
->>     pte_none?
->> * If the child is a short-living subprocess, we don't really care
->> * Any futher writes to unbacked/R/O PTEs in that PMD area would COW and
->>     consume memory.
->>
->> So I had to use more and more "ifs" to construct a scenario where we might end up wasting 1M of memory, at which point I decided "this is really a corner case" and likely not worth the worry.
->>
->> If we run into real issues, though, it will be easy to just inline page_mapcount() here to resolve it; but the less special-casing the better.
->>
-> 
-> OK. I'll need to think through some more of these cases. And meanwhile, I
-> was poking around from the other direction: just injection test it by
-> pasting in "true" or "false", in place of calling folio_likely_mapped_shared().
-> And see what changes.
-
-Highly appreciated!
-
-> 
-> The "true" test lets me fail several khugepaged selftests, while the "false"
-> test just increases the counter in /proc/vmstat.
-> 
-> That's more of a black box way of poking at it, just to have another facet
-> of testing. Because it is good to ensure that we really do have test
-> coverage if we're changing the code. Anyway, just ideas.
-
-Yes, all makes sense.
-
-I'm very interested if there are valid concerns that the "false 
-negatives" are unacceptable: it would be another case for why we really 
-want to make folio_likely_mapped_shared() precise. For me it's clear 
-that we want to make it precise, but so far I am not convinced that it 
-is absolutely required in the khugepaged context.
-
-Thanks!
+ .../translations/zh_CN/rust/arch-support.rst  | 14 ++++--
+ .../zh_CN/rust/coding-guidelines.rst          | 12 +++++
+ .../zh_CN/rust/general-information.rst        |  2 +-
+ .../translations/zh_CN/rust/quick-start.rst   | 50 +++++++++++++------
+ 4 files changed, 56 insertions(+), 22 deletions(-)
 
 -- 
-Cheers,
-
-David / dhildenb
+2.31.4
 
