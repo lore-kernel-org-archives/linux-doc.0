@@ -1,98 +1,92 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CAEA16FF50;
-	Fri, 26 Apr 2024 16:56:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B57A6149E0B;
+	Fri, 26 Apr 2024 17:01:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714150621; cv=none; b=GkZlafysaXj+nDS56Neroa4ATyS0vKNs2qqrpuYJfE2XYNJkeO38LUHRRNUr88i6aHtDtdJpIKQcKKN8bSMJQrRg8QkNvTgesFAYF/nU6QKLzbWe74mGPe/TVHI/aC+RclpOPneOMYFXEH8r+M1fikogE7GU96xKLlVmk+1sdEo=
+	t=1714150883; cv=none; b=GGbn6dt0TwI9q+E4KJAjs8qiaiizg8aTOqCRoInccpJU+yPS05RJTAIgt95T2/p6ZfMDy3m+fep+v2KSCsDKbtMSsc8H2gpkVl98LS0OJEQwH8wxtFQiprrDzNhZVmYLfZX9MY+Y/A/swGLmTxFX6EANaujI2ta+LCVPmfPFHik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714150621; c=relaxed/simple;
-	bh=wnFgu9dI3D2py+XrxISiUUb14iuf8bUF3qAQUXBua9Q=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eQbmxGz6GKCDMEZyfWHfPW0jRbyL9/RcUlB2881qcBMIThH/Qhzr/gtQXq/eM9fRlR8R9/RyGzQHBt6ydNFKw4+n0q04tpzsVV4W4LWBlX1OlZziExg6cyQ2MwM88CTjM5+N8jTqIb8d2zy+XrYoN1FuqVGNjhCWBWwSxmJwK6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=iF2KkeQB; arc=none smtp.client-ip=217.70.183.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1714150883; c=relaxed/simple;
+	bh=npWhV9eOwBR+K951s9eWxDqGQBWlSRqHsdyuk+LW69g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V181QyD55yYcdY1Tktg6ok+jYSyQRGGa3kxC56A+yPLJb9A1m8UZ8ioo85YUBKbMef3xaP5ieSuqvxmfKHUSnwmeNImEvWuxHjUlOoTI4AkhORyAoLiFgLLab5kjNQGB83EaRgXQD15IcSSzDmSvsBuZNNXGsvhzK7hb4CeuZd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OybWpkgy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="iF2KkeQB"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 139A4FF80C;
-	Fri, 26 Apr 2024 16:56:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1714150618;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=50K17wTh30wqpE0frf03Mw6JWq1YiGmGGG3UJIVv2+c=;
-	b=iF2KkeQBRDLsiVMmuXwQZSZExzcC31z+QcrhaeQ9K6rmeSEdpFAKFgiu5ZoSJeGmk6bD5g
-	KO5C9RUJrb28v3De1uJT0SyYBhHYYiyLWBYAQPX5YPuWmpPi3tbHKzwyxe2wvute8oGuMI
-	2LVucLcjOe7DPfsk+uEBxMw0w42XClDduTxfy3B8v3m7KmBwWuyZTbccsaaikw3OUQ97kR
-	Spu2ksyCasIUr/NmWz9ciC4pwRRWJ00b+kWDS31rp6EEiX7CM07E9U51r4RXaqm1IfDDRE
-	Mzr2FHYIB6qlh6h6g/qwFITJH6eUnFNOWAZSlvAPLZ9r6HXCp66YcovtSpEq+Q==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 26 Apr 2024 18:56:45 +0200
-Subject: [PATCH v2 12/12] ASoC: doc: dapm: update event types
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OybWpkgy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A91A3C113CD;
+	Fri, 26 Apr 2024 17:01:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714150883;
+	bh=npWhV9eOwBR+K951s9eWxDqGQBWlSRqHsdyuk+LW69g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OybWpkgy6DTNUaPgyQHvvfw7nDWrcb4cNlABncNZm4uXsKbQtNJrNx+b1DZz11bZ7
+	 KX5ApdxKh54jlV7b0L5DOHMZYUzMI0QxRLOhb8wFn5rRsvGuFECWyOUux/zk3ewQHO
+	 0vRZKPwDWYjgF79QcZbvji/2WIOhd1RFTlqqxj6IdtYmv6FEvDBP0BI6A/ypfe12ER
+	 4rne2OgiyiHwmayvgoiOSDWZP+nMKUVRelkRZeXgHyuBVwG3vNH+KoGGKxPpUYoEmE
+	 mOjPLeYPlPLVkd3pfs5rnxDKG8OJEs0FX+cfgirNBOdA2Hq/D2lYVqYgdSDJK03rHw
+	 2s/mlz4bx7rfw==
+Date: Fri, 26 Apr 2024 18:01:18 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Jose Ramon San Buenaventura <jose.sanbuenaventura@analog.com>,
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-i2c@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+Subject: Re: [PATCH v3 2/2] hwmon: pmbus: adm1275: add adm1281 support
+Message-ID: <20240426-emoticon-exemplary-a79b0dfad5ce@spud>
+References: <20240425070948.25788-1-jose.sanbuenaventura@analog.com>
+ <20240425070948.25788-3-jose.sanbuenaventura@analog.com>
+ <1a2e6020-77d8-4299-87b0-e2b16dfb3f86@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240426-dapm-docs-v2-12-87b07547eb5b@bootlin.com>
-References: <20240426-dapm-docs-v2-0-87b07547eb5b@bootlin.com>
-In-Reply-To: <20240426-dapm-docs-v2-0-87b07547eb5b@bootlin.com>
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Bagas Sanjaya <bagasdotme@gmail.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- linux-sound@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.13.0
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="9/RvDkW+gaTrqeL4"
+Content-Disposition: inline
+In-Reply-To: <1a2e6020-77d8-4299-87b0-e2b16dfb3f86@roeck-us.net>
 
-Some new event types now exist, so update the code fragment.
 
-Reviewed-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
- Documentation/sound/soc/dapm.rst | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+--9/RvDkW+gaTrqeL4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/sound/soc/dapm.rst b/Documentation/sound/soc/dapm.rst
-index da9313e10fd4..574667f3aabe 100644
---- a/Documentation/sound/soc/dapm.rst
-+++ b/Documentation/sound/soc/dapm.rst
-@@ -405,13 +405,16 @@ See soc-dapm.h for all other widgets that support events.
- Event types
- -----------
- 
--The following event types are supported by event widgets.
--::
-+The following event types are supported by event widgets::
- 
-   /* dapm event types */
--  #define SND_SOC_DAPM_PRE_PMU	0x1 	/* before widget power up */
--  #define SND_SOC_DAPM_POST_PMU	0x2		/* after widget power up */
--  #define SND_SOC_DAPM_PRE_PMD	0x4 	/* before widget power down */
--  #define SND_SOC_DAPM_POST_PMD	0x8		/* after widget power down */
--  #define SND_SOC_DAPM_PRE_REG	0x10	/* before audio path setup */
--  #define SND_SOC_DAPM_POST_REG	0x20	/* after audio path setup */
-+  #define SND_SOC_DAPM_PRE_PMU		0x1	/* before widget power up */
-+  #define SND_SOC_DAPM_POST_PMU		0x2	/* after  widget power up */
-+  #define SND_SOC_DAPM_PRE_PMD		0x4	/* before widget power down */
-+  #define SND_SOC_DAPM_POST_PMD		0x8	/* after  widget power down */
-+  #define SND_SOC_DAPM_PRE_REG		0x10	/* before audio path setup */
-+  #define SND_SOC_DAPM_POST_REG		0x20	/* after  audio path setup */
-+  #define SND_SOC_DAPM_WILL_PMU		0x40	/* called at start of sequence */
-+  #define SND_SOC_DAPM_WILL_PMD		0x80	/* called at start of sequence */
-+  #define SND_SOC_DAPM_PRE_POST_PMD	(SND_SOC_DAPM_PRE_PMD | SND_SOC_DAPM_POST_PMD)
-+  #define SND_SOC_DAPM_PRE_POST_PMU	(SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMU)
+On Thu, Apr 25, 2024 at 10:52:03AM -0700, Guenter Roeck wrote:
+> On 4/25/24 00:09, Jose Ramon San Buenaventura wrote:
+> > Adding support for adm1281 which is similar to adm1275
+> >=20
+> > Signed-off-by: Jose Ramon San Buenaventura <jose.sanbuenaventura@analog=
+=2Ecom>
+>=20
+> Patch is fine, but we'll need to wait for Conor's feedback
+> regarding the compatible fallback before I can apply it.
 
--- 
-2.34.1
+Oh, I didn't realise you were waiting for me. I had deleted the thread
+=66rom my queue given I had already acked the patch.
 
+I'm not really a fan of the warn when IDs don't match thing though,
+seems a bit unhelpful, unless you've running into scenarios where the
+firmware tells you there's a device present but actually there's some
+other incompatible one.
+
+--9/RvDkW+gaTrqeL4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZivd3gAKCRB4tDGHoIJi
+0uOHAQDF/BG9lN3nyIl9W0/P2KzprBUXsidylhLqT8n+BzFF8AEA8vJTMALLy6Z/
+86Tq3mLatq8NbadfKD2NiXTyTe0pDwU=
+=1cJT
+-----END PGP SIGNATURE-----
+
+--9/RvDkW+gaTrqeL4--
