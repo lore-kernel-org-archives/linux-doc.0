@@ -1,59 +1,34 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF7D42C6A3
-	for <linux-doc@vger.kernel.org>; Fri, 26 Apr 2024 20:34:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83FAD11181;
+	Fri, 26 Apr 2024 20:37:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714163665; cv=none; b=pxaj3Vhrl6Bqo7eYFaKhgeoPAViZHBEfyl2NhsPhdUXhwfrsnXgQEGutdYkEapS/2QDOPgKDd2YGMQ7qSMGb3lnC0Q9nBEtnXIBbaVP2xULtLg0DmKbrKejRAuGd7jtbq0OUfd2BC0afG4sbmof/ohb04CbbUAtAx5JsORgq1d0=
+	t=1714163860; cv=none; b=Yudp/IRRWewUMzUeWkB+6U3EL78+kpYZ6QPC/21ZBm0P8AK4X/y3+tIpzUbBzsbPbJNrHIl14TzHUSYWYtEuUGNVYFew11MLBSTyHkul20xz+a/d7nGHgm5oYfCD/hUTQkhQXLgXYK9uTJ0He1Bbj6MT63DEK7XBSEfKtyaLfTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714163665; c=relaxed/simple;
-	bh=kGfuIZLHk+e3pUxdjC/sJns0MXdNPwUjbXYjG5JbMvo=;
+	s=arc-20240116; t=1714163860; c=relaxed/simple;
+	bh=uPLxJVI4MBITKFrKzxGui7Nb96vhOwcYwnCPWnkGezo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mmqc0UHNrf5EFTiWv4AmkoCs9wzFUiva8xcto0n3G3nOXtUd/qut3qtU43H6vDG041dfAhC1J/oi3Y8PO5PQl9/r7KXAZSIjtKs0tbBzmoORuLS6cwryGnxvf9TDL472mMexHCSazIn2/1ASrbhjla856wiw9NkGNSwiO1gmdBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=HMYw0pFh; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=gPh1HlcILifU88NHbUSbrMCzw7+enVLbiyYqDylMTwvLHSurR/ffevo1EbLm5vHt6ZJyIiaBa+D7As1QggVPOuVf1/UtkjeDuL6wgpRkSdQ+789nitWQf/gXYv4mLb58dlmPxRgLQdZXux7GiHm8jfEWZhri9RkMgckNmLJUu4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jdP/+3Ja; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="HMYw0pFh"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6f0b9f943cbso2327333b3a.0
-        for <linux-doc@vger.kernel.org>; Fri, 26 Apr 2024 13:34:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1714163663; x=1714768463; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RkjMMC1FpMNzMmAfWu9fZYy+vsjEC1qcX67/IWoyWAU=;
-        b=HMYw0pFhej/LhXTOuh4XIbN7LuW7qi0Orzyc4KiYDUiPA2iiGAEsHJfI1fNVXDc3jD
-         hkuDQMxZ6xeRltxQo/X7FzsUIFTbDWzIvN5sQPRqZnaEEG4nP6IR/XHvCTcBP47qrZ+F
-         UIONlfZR2k49fE1ahg8WTa7YWZmpCwn6PA+NnWs+8RGPH08DC5Ws982MiottusE5n6pC
-         PzzsNVtkJ5z6OBQYI1nKIn/BToEeje7kdjNUUaKKvIedfs6+hLfCnim9CK6rIHfSAe2P
-         uGwLBFUY7vLqISI7O3VfGzHp/d8HCKl+kHMBGtFMh8+LgeYxo8r6KbBLQocbCtU9n5Ca
-         n7BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714163663; x=1714768463;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RkjMMC1FpMNzMmAfWu9fZYy+vsjEC1qcX67/IWoyWAU=;
-        b=tI6uw4u5vzRy1ya6xOpf4kX9gJPaeUaUS6z1Uoa2D2E5k6lGF0NEQV3jv4s0r95lnH
-         f7hKnihYjrQjitzybO1Qlx8iVkmtj0PnGxSPCs/QLy1G0Ti/QVqK6J1yOlPSkVhzuwY4
-         ZStMozDAJ3M7ePrEKjDxcjq5QBEngGWHgQcjygj7h6P6Q24IiPLPZtX4dpwgaropDcF5
-         kfEToPdJA36UmsYzqpjil+CfTpPIevZz8li6WYH5bDwgkPE4A2qw9lweiYq0zmwRHRQT
-         R4NkxCR+4ndDXmc0gEZV5P2jTtoW10bpiQ3cP6UsqpOa3wdqXqIzj33b11RFR950pf0E
-         DcYw==
-X-Forwarded-Encrypted: i=1; AJvYcCX+fBcOycKlt7rdgLIUjTfe/7WAIi5MF8q3mZay3vQoSyGvuT8jPegA+x9lCm3rG5/egjuHMniW8LaEXdGy6pn+d+JVO4KwXNBc
-X-Gm-Message-State: AOJu0YzI4+NnlhExNLS6PZjIxRej484HUutgJFSVj1l9QBSkr9nbFsXV
-	LyuKbUo1CC7QEl6ep+icoLh6gkE6lSDUvfiJHHQMLxXU42MKFBDs1ItWy1UK3hU=
-X-Google-Smtp-Source: AGHT+IEvgUD/PdkO6EG/DCqCKciIHZlITQ+dtQj+SWgo8Fagf2mpBkl6Knmfmn7mLkCXbfb7r7pDbw==
-X-Received: by 2002:a05:6a20:3ca3:b0:1a9:b3e9:a62c with SMTP id b35-20020a056a203ca300b001a9b3e9a62cmr4797475pzj.48.1714163663081;
-        Fri, 26 Apr 2024 13:34:23 -0700 (PDT)
-Received: from ghost ([2601:647:5700:6860:3b15:3aba:70a1:7ce9])
-        by smtp.gmail.com with ESMTPSA id fv3-20020a056a00618300b006eb3c3db4afsm15223011pfb.186.2024.04.26.13.34.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Apr 2024 13:34:22 -0700 (PDT)
-Date: Fri, 26 Apr 2024 13:34:19 -0700
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Conor Dooley <conor@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jdP/+3Ja"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BE17C113CD;
+	Fri, 26 Apr 2024 20:37:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714163860;
+	bh=uPLxJVI4MBITKFrKzxGui7Nb96vhOwcYwnCPWnkGezo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jdP/+3JaWnyFfeXTcEwDCT/0UVK9xvUpyYRChjz/YP2ukIknpPm5gg8HZI0MciSAb
+	 R3IlpxmFEjp7qVPox5VmAfGLxhU/PgnyWa+j9gpaQ8nhQ/75nh8tiSO6wsIJiwWZfT
+	 OkOAYc5q0dDbk4lpagTHNbYhhkobHUcUPfJhKbJ6Vs8mmIXvvuRWpWDhDRCc18EoZK
+	 WaPaRL/ccOPpewVsXYy2x7uXzPQIY3616TLEOxf3ApHEhH0ZSktfHLBVKADtreRcuJ
+	 MJpw5R8RlpqNhmgxFJOW3kYyo+ATPJ5+TGQSAaAWvTZRbShOWRLntvaCIfnGobUjzt
+	 YY64xdgrPDC0A==
+Date: Fri, 26 Apr 2024 21:37:33 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Charlie Jenkins <charlie@rivosinc.com>
 Cc: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Paul Walmsley <paul.walmsley@sifive.com>,
@@ -70,93 +45,76 @@ Cc: Rob Herring <robh@kernel.org>,
 	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v3 09/17] riscv: drivers: Convert xandespmu to use the
- vendor extension framework
-Message-ID: <ZiwPyyBK2br8yKei@ghost>
+Subject: Re: [PATCH v3 08/17] riscv: Introduce vendor variants of extension
+ helpers
+Message-ID: <20240426-suitable-unsheathe-0c5f5851c891@spud>
 References: <20240420-dev-charlie-support_thead_vector_6_9-v3-0-67cff4271d1d@rivosinc.com>
- <20240420-dev-charlie-support_thead_vector_6_9-v3-9-67cff4271d1d@rivosinc.com>
- <20240426-venue-maximum-f78ac451b146@spud>
+ <20240420-dev-charlie-support_thead_vector_6_9-v3-8-67cff4271d1d@rivosinc.com>
+ <20240426-myself-crowbar-99dc0a080cd9@spud>
+ <ZiwIBmlaDbYdmv8f@ghost>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="X64VCS2z8liAY+RZ"
+Content-Disposition: inline
+In-Reply-To: <ZiwIBmlaDbYdmv8f@ghost>
+
+
+--X64VCS2z8liAY+RZ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240426-venue-maximum-f78ac451b146@spud>
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 26, 2024 at 05:25:20PM +0100, Conor Dooley wrote:
-> On Sat, Apr 20, 2024 at 06:04:41PM -0700, Charlie Jenkins wrote:
-> > Migrate xandespmu out of riscv_isa_ext and into a new Andes-specific
-> > vendor namespace.
-> > diff --git a/drivers/perf/riscv_pmu_sbi.c b/drivers/perf/riscv_pmu_sbi.c
-> > index 8cbe6e5f9c39..84760ce61e03 100644
-> > --- a/drivers/perf/riscv_pmu_sbi.c
-> > +++ b/drivers/perf/riscv_pmu_sbi.c
-> > @@ -24,6 +24,8 @@
-> >  #include <asm/errata_list.h>
-> >  #include <asm/sbi.h>
-> >  #include <asm/cpufeature.h>
-> > +#include <asm/vendorid_list.h>
-> > +#include <asm/vendor_extensions/andes.h>
-> >  
-> >  #define ALT_SBI_PMU_OVERFLOW(__ovl)					\
-> >  asm volatile(ALTERNATIVE_2(						\
-> > @@ -32,7 +34,7 @@ asm volatile(ALTERNATIVE_2(						\
-> >  		THEAD_VENDOR_ID, ERRATA_THEAD_PMU,			\
-> >  		CONFIG_ERRATA_THEAD_PMU,				\
-> >  	"csrr %0, " __stringify(ANDES_CSR_SCOUNTEROF),			\
-> > -		0, RISCV_ISA_EXT_XANDESPMU,				\
-> > +		ANDES_VENDOR_ID, RISCV_ISA_VENDOR_EXT_XANDESPMU,	\
-> >  		CONFIG_ANDES_CUSTOM_PMU)				\
-> >  	: "=r" (__ovl) :						\
-> >  	: "memory")
-> > @@ -41,7 +43,7 @@ asm volatile(ALTERNATIVE_2(						\
-> >  asm volatile(ALTERNATIVE(						\
-> >  	"csrc " __stringify(CSR_IP) ", %0\n\t",				\
-> >  	"csrc " __stringify(ANDES_CSR_SLIP) ", %0\n\t",			\
-> > -		0, RISCV_ISA_EXT_XANDESPMU,				\
-> > +		ANDES_VENDOR_ID, RISCV_ISA_VENDOR_EXT_XANDESPMU,	\
-> >  		CONFIG_ANDES_CUSTOM_PMU)				\
-> >  	: : "r"(__irq_mask)						\
-> >  	: "memory")
-> > @@ -837,7 +839,7 @@ static int pmu_sbi_setup_irqs(struct riscv_pmu *pmu, struct platform_device *pde
-> >  		   riscv_cached_mimpid(0) == 0) {
-> >  		riscv_pmu_irq_num = THEAD_C9XX_RV_IRQ_PMU;
-> >  		riscv_pmu_use_irq = true;
-> > -	} else if (riscv_isa_extension_available(NULL, XANDESPMU) &&
-> > +	} else if (riscv_isa_vendor_extension_available(-1, XANDESPMU) &&
-> 
-> What's the rationale for this not using riscv_has_extension_unlikely()?
-> Happens once in probe so don't bother? I forget if we discussed it when
-> the code was added, but it would save us from the NULL/-1 syntax,
-> neither of which I think is a good interface.
+On Fri, Apr 26, 2024 at 01:01:10PM -0700, Charlie Jenkins wrote:
+> On Fri, Apr 26, 2024 at 05:19:59PM +0100, Conor Dooley wrote:
+> > On Sat, Apr 20, 2024 at 06:04:40PM -0700, Charlie Jenkins wrote:
+> > > @@ -163,6 +164,8 @@ void thead_errata_patch_func(struct alt_entry *be=
+gin, struct alt_entry *end,
+> > >  	for (alt =3D begin; alt < end; alt++) {
+> > >  		if (alt->vendor_id !=3D THEAD_VENDOR_ID)
+> > >  			continue;
+> > > +		if (alt->patch_id >=3D RISCV_VENDOR_EXT_ALTERNATIVES_BASE)
+> > > +			continue;
+> >=20
+> > >  		if (alt->patch_id >=3D ERRATA_THEAD_NUMBER)
+> >=20
+> > This number is 2, how does the patching actually work for vendor stuff
+> > when the base is always greater than 2?
+> >=20
+>=20
+> Patching is handled through the patcher at the end of cpufeature.c. The
+> vendor_id field is set in the alternatives for errata and now also for
+> vendor extensions. The vendor extension patching is all handled
+> generically.
+>=20
+> This is distinguished by the patch_id being greater than
+> RISCV_VENDOR_EXT_ALTERNATIVES_BASE, which should leave way more than
+> enough room for errata ids. Since the code already checks if the
+> patch_id is greater than the errata number, I can drop the
+> "if (alt->patch_id >=3D RISCV_VENDOR_EXT_ALTERNATIVES_BASE)" check.
 
-Doesn't look like something that was ever commented on in the series,
-but I may have missed it. I can change this to use the alternatives.
+Ah, ye, I was being dumb - I was somehow thinking that you were using
+the errata patch function to patch this, which obviously wouldn't be a
+good design. If that had been the case, you'd never patch anything, but
+you patch the extensions using the cpufeature patch function so it all
+works out.
 
-This also wasn't supposed to be -1, it's supposed to be the id of the
-vendor.
+If anything, I guess there could be an assert here somewhere that
+enforces ERRATA_VENDOR_NUMBER < VENDOR_EXT_BASE.
 
-> 
-> Also, I'd prob drop the "drivers" from $subject.
-> 
-> I'll come back and look at the rest of this Monday, it's a sunny Friday
-> here and I've still got my devicetree patch queue to clear..
-> 
+--X64VCS2z8liAY+RZ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-- Charlie
+-----BEGIN PGP SIGNATURE-----
 
-> Cheers,
-> Conor.
-> 
-> >  		   IS_ENABLED(CONFIG_ANDES_CUSTOM_PMU)) {
-> >  		riscv_pmu_irq_num = ANDES_SLI_CAUSE_BASE + ANDES_RV_IRQ_PMOVI;
-> >  		riscv_pmu_use_irq = true;
-> > 
-> > -- 
-> > 2.44.0
-> > 
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZiwQjQAKCRB4tDGHoIJi
+0tMXAQC2Jy5XWBM1FWNAjh7ocF5y/z1Sjb/6AbsEoZ39m4Y8AAEA+Z85d2KbMCvL
+2c+qY4x+XGFCBD5ZSMejeXfez3/DvAs=
+=XikS
+-----END PGP SIGNATURE-----
 
-
+--X64VCS2z8liAY+RZ--
