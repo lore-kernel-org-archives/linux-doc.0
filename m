@@ -1,150 +1,88 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10olkn2018.outbound.protection.outlook.com [40.92.40.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2530118C1F;
-	Fri, 26 Apr 2024 16:29:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.40.18
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714148979; cv=fail; b=AC2WXYnuldkdJGPrHiGc7bFB08PPoftRoRAOEcp6AwLYdK7R87DcTTcn3j5WEm0xwZL1ztp44XyVSuV6yRVIICKx4iNudBK1KyNxAmf2iMhsrnILefWWJl1FbOw/h9txzJeisn0XT28y4vvK13tqgtanbLHB3X7wuEfXNT/A2DM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714148979; c=relaxed/simple;
-	bh=a0lmqdfOZlymevaO+BzDCdhWvc/QFvn7gqQxkXDvaRQ=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=eT+7F0F1fwPv2KF/Eji+Qqd+T4qSmt1rMZMXp1xEBVea+BHkK1VKl8773kx9Gp1dpNiej8uhGhnDoJADUIbzEqGr98V2RvRe/T7jlYmSL7j/ciIdUiVmVSZwGi8iSzZlL+4asIcmNQV0ovzWp8ESxpa5RGjB2TQkPNWuw3IRKyE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=YXfGWECl; arc=fail smtp.client-ip=40.92.40.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C4DE12C493;
+	Fri, 26 Apr 2024 16:48:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1714150118; cv=none; b=PCvgimkLhfMaiFx6pghrN+H77iuCeDfIIbywW46foVlaXro+KZOxvYFxnzqD4ijqRrBVLVLJXYFQPDsILNDVbjH7q4jrHgPGOzDBcEbJwDsqRBdoyuIc+xO34f1cipo3UH3My8+kIt1JyLl4W+o01adL/dLjnbBC8FV/aaQmTQ4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1714150118; c=relaxed/simple;
+	bh=isJanjft6Ijm3USO7GK2BudIrWLYWU6b2nnmV6911CY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qyPYkL1jayWR9EnXY/BagWnlXa0hqAxGC17Ac1zeKPBiroatZUVvVtc7lo0818GGA6nB8vIaSk61Jdlgc+bcS6irIflbPSMbLxxi9c4vIPk1uzQSLhh4njA65NyDplG3kuYMf38KKgVDxkTveCDGORK+EwYB8nrQWUV3h1LFPbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i4GNtGnY; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="YXfGWECl"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XZ4pIzoZioP/7G5XZ27I9q4RMP4kB2JIgBkkdQh3EpOXvdUSEvL3oE3qd6vsNWeFa2/eQKRRhzfnxPBZt7ct92nbiRGe6B5sIvx0cdvxeB462bQ630x6WnkmDlwSTcN1ZepdIv4EpgAq06JinFCNf85LnZ6bbYQawsnkMen0bDRtsvMaUgQM/LUU5Xl3vdpAsdYO60izQd259ua4k4CzXNIaGPTSi2nmYrJQLMtcziBnXZ3RiFlascB/mrsFFQs0g9G/y2EV4/MPb78f82d5fBkHDxT6AY78pdCjLDKRjoAzbJrP8qaU5naLpFe0SYSBPIRxE9iEEkupyOvUi0ZhqQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZliPVJaz4ZJL7xQ9Z58tYJvxc0YUmiET9/Uly9gG1aM=;
- b=SBGAR1J9tV0p/MrTfktmXuxcaXx8qdLLLwNMs/suoiI/273KBC+tjvVAqOkYcgQiAZ2ClAEnAXW3udjvWMV/ramA6Mrw7lr5bcTfJqw0OyXNX2JP4M4KVw+GqjGgU3XzNeWO1GsiKiBPhdexYP7gdp+q0EiHC3hwWMiqNLJY7MQVw+0e1qh3irCHBrIWnfg3XSGf2QyDkqPGUos23qXC9TEJbetdZONXldm8qViDsh6BsH/nB46clse+WtRHYiK3ibM9B4fyqJcmabyXLLk0UxC0mMf0rozLW/GG8yf1iUGBOVdliVzgAa9MVaNXuELmSWy3IjZJrubPR4FWkt1fcw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZliPVJaz4ZJL7xQ9Z58tYJvxc0YUmiET9/Uly9gG1aM=;
- b=YXfGWECldM+O09p37Qv0/Y7HIstBZneRJkqWbGgJuxnyAe55rY7yYKjCugp3G7/dRHV0nWB1G0ae1oAq+QnVI7IrsP5fHSNiz0GpQNttvDeU2e/uwTN7s4RYhLB6TF8bDjYLax9uvYwUYYqGriAP63ws5drBytNwQH5PK6mUs0hzdYeGD8gdhrLUeWnG4Rwq/F44KdKeBMTZ5kFiD/+8mgt6rtecWHFUljycQEZF5IxW+YlwtqSionA6XOSvbGJv9tbYeAyf8HyJgyM6lrmz8JAQ7o/8szgICSO+wxD6oMkZnTih/IeDyUkH+4hyc4M3KDS9YgiTcb8K12yjQMQRNQ==
-Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
- by MN2PR02MB6639.namprd02.prod.outlook.com (2603:10b6:208:15f::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.23; Fri, 26 Apr
- 2024 16:29:35 +0000
-Received: from SN6PR02MB4157.namprd02.prod.outlook.com
- ([fe80::1276:e87b:ae1:a596]) by SN6PR02MB4157.namprd02.prod.outlook.com
- ([fe80::1276:e87b:ae1:a596%5]) with mapi id 15.20.7519.021; Fri, 26 Apr 2024
- 16:29:35 +0000
-From: Michael Kelley <mhklinux@outlook.com>
-To: Christoph Hellwig <hch@lst.de>
-CC: "robin.murphy@arm.com" <robin.murphy@arm.com>, "joro@8bytes.org"
-	<joro@8bytes.org>, "will@kernel.org" <will@kernel.org>,
-	"m.szyprowski@samsung.com" <m.szyprowski@samsung.com>, "corbet@lwn.net"
-	<corbet@lwn.net>, "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "petr@tesarici.cz"
-	<petr@tesarici.cz>, "roberto.sassu@huaweicloud.com"
-	<roberto.sassu@huaweicloud.com>
-Subject: RE: [PATCH v2 1/1] Documentation/core-api: Add swiotlb documentation
-Thread-Topic: [PATCH v2 1/1] Documentation/core-api: Add swiotlb documentation
-Thread-Index: AQHalliRlUgD/49j1UOuP13GtHeQebF6FoYAgACpi6A=
-Date: Fri, 26 Apr 2024 16:29:35 +0000
-Message-ID:
- <SN6PR02MB415775F2F7B865162D7A534DD4162@SN6PR02MB4157.namprd02.prod.outlook.com>
-References: <20240424150253.560999-1-mhklinux@outlook.com>
- <20240426061852.GA5645@lst.de>
-In-Reply-To: <20240426061852.GA5645@lst.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-tmn: [JBeJ6XqPXkusfbEAgovGSHNCziqL7npO]
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|MN2PR02MB6639:EE_
-x-ms-office365-filtering-correlation-id: a14c2a9e-da0c-4f26-e053-08dc660e0f70
-x-microsoft-antispam:
- BCL:0;ARA:14566002|461199019|102099023|440099019|3412199016;
-x-microsoft-antispam-message-info:
- BXKQP6sztaeCIsYiMkkRh4+1tKJRRlW4JYEf0N69T5t5BHthtAp3JYZ01sAhTs8VUyjqQd8Tk0Y7bbu7he2YwfkMbG004IBQwLdtXtOxZ0S8o/EnKPzYAQJceId1gg5GmNHjY9C1EoT7M8zvBL/KGG3OU9rfYeOshdWuYFiY5F0Ig/z2tj6nrGDXhFjvnkpyWEToblmfUEg169vNlV5ior/ZPUZzQ0PQKNBhxEUvAfln0f1pdLg83Y8yCPyfjeh77Ah4pZpYNTjt+K7dLbiC4mAGIfF4teIZAHXoet6S2bI4HUdJSGBz2jvBmQ0z1xXjE2aX+cyznyBT/8ax1qMTJ1srhs9E2rN4+sK6x3Vu5ygJUuH+s9h9PRHDvILc2b8XHsxcGjv4JVscty+OW0jkpWR0Hx7lIWof93R7jW0Cqj7NBdmMi7ziYa/yS9MzmpZ1bK5Fhim2vqKSwtxKuxl7gFY77ZXeFQQDKX9YB7XQIUNJjZfOq5T0SwFVVOK3b3xIPQ4s5trNoiaer0M0qP8QssHehHq25ABhrqs2bbqghqllyjhw8WRECDdxmL0wUUEi
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?3c57xacJzM7lM2ogUW7jCKGQ+AlBxtPPrVedYI3Hr9cOZYs1IwMYY8oV1n0C?=
- =?us-ascii?Q?u5aaNO4MYo0kG+chdfgBA9PSXtUkUYuiEJ2PdckM5JNf+ICVLlww4ceFHT58?=
- =?us-ascii?Q?lRi7SakxWqQiAWWqFq48hDK3YPGJ3Qn5QVV4TwE65iShlkU2/nTT0tI8iFct?=
- =?us-ascii?Q?o1IJjtxrbTz1kObvseCGUJxdaX86v/Qp/4gtShYPirJVen7PSd0j3yJuxuur?=
- =?us-ascii?Q?hPGm+hsZ3tWwKcBIIbE/BerHMuwjaA3brZwi7eLXviHc4KWpDlPXq5cJ97x3?=
- =?us-ascii?Q?zSBQWcHx3P7fkjyPVXMYzgVRqmxCw9ksdPIKfE3ZozvEjQpU49ffW7PYfEDE?=
- =?us-ascii?Q?ac+7DQa9BDP/JB/+aKD2aoVkb9OG/c5VmF6iEIOcVLP2rzvNPV7HyM0RrPuP?=
- =?us-ascii?Q?aCherdgF955awyN8Zu8eEHk+/lh2juy/wIRvLIa5wV89Bd2S1SmOgNERDfoo?=
- =?us-ascii?Q?tSMrW9E8dfE/gLvoSWmbJ6tY4D3RfaFbp4PyJIZKGGZ+9WAoZFN5y43AMViA?=
- =?us-ascii?Q?0Y+oxhvxvs3d/yj6YmcgA5NTiT3QkjCmv9y4Du1fFk2N/VA2CJmo2JUmdbnz?=
- =?us-ascii?Q?e3zjDQ2TKfgNPk0GmIC5oQWkJoXAtk1z/rme8P7wf8QL4x4mKzy0Zpluvyx8?=
- =?us-ascii?Q?UXkJX/MBw+lF7oiw4btzNOWtwLrhhcy5ym34rp2ntGiSCQrYbEVIunuIUmQh?=
- =?us-ascii?Q?WNCskkL3DOa4z/k/bEs1f/lo04VWWiZ1oErEhPG0lO80Ug7ADvCDHVuDS12T?=
- =?us-ascii?Q?rGbWSeH1gQVszR3kNTxWQWIzVtkrEZoQk/Y4LOHkH3i2ZFtmk4A6a1mnVuNS?=
- =?us-ascii?Q?boyNmu18KZn601rHwtgNkQUXf3QJj4qV3TBDw2UMCkus4Z2g0cSwDCxX3NH5?=
- =?us-ascii?Q?K8zK24NIvFOELHQLMIkn7H/uI0Sn9M8kcV6r93SbTRNqUqi+WnC0jxIs7BHY?=
- =?us-ascii?Q?pR2xFrtGu0pktBnvFexJKiYgXViqxw+zm8hC2J+9IwcB4CEbYvWjg1lY/RJH?=
- =?us-ascii?Q?N3kHf/2L4DHlvpecUPSKCu/+YvRMTukNMuZKXoJllYOpueKrSgsXaw/pF+s/?=
- =?us-ascii?Q?LKuQlK0y+iZF7v0rAsLVGU7zj6d9fih7X+FwQNSzLtwrkxAGFlsqOtHNn400?=
- =?us-ascii?Q?ylvRppJsVj5u4de6SmIGmPP/r1uXQeHArwVhLQGJuSY9tMEs5PeGGX58DC7M?=
- =?us-ascii?Q?OGDaEeMAvc174n04occTrS+PozjrQe8hby0YTQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i4GNtGnY"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2a5ef566c7aso2094048a91.1;
+        Fri, 26 Apr 2024 09:48:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714150117; x=1714754917; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JmMXkGy7VPsvwtkKsXV/wpxBJRPdn7aku2j+I7TeRZI=;
+        b=i4GNtGnYY6gYNWxYnMkIMW5cM20mJTmbKrCH42IHcL164NoIIsHwyjlWyQJTGeNLI/
+         A4HjgxdIxAiYSuELIV2QlK8bYhEoD4MrLUDx7ZH2IOmmIoL8lxQogUj+I9CLqIRtaO75
+         gDQNAUJeq1WH/qUFELUdbSr+VtitFBXPOemRWIayRAkjNMqmHdUz50mdqxpdrzb7qYpK
+         gI+iLOGoz+A+Wef4VjfFdqcEbgrjyD5D2svIzhOFJfRYhkNHCj9at31geztNtsypLwb8
+         YZ69pK/g88DMsAYN6nbX68nsW+ZcrLmJ02U0SLiQYljswZWWTakgoNCmHpIhoqwyxz6/
+         tD0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714150117; x=1714754917;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JmMXkGy7VPsvwtkKsXV/wpxBJRPdn7aku2j+I7TeRZI=;
+        b=sQFEc7bvL4GnIo+TuiuQK5szxhL9C5jm0zVXQJt148i7JXGcpnSYOeoO9/iYT3BG+2
+         Ha4Xfvz5aRlaOiipP3Uvo3P8LE/9KBhc4xjBr182prweq1j70YMng2wSNmD+rRCZJbe4
+         tQYKpl9a1rqBk6bUrd+ZML9saUN058sMKS651acjAJ4LqipOUslDFGRPTxdcMn1lqamZ
+         HG/zhvOsB8tNKxkeXwpKiqRlfkbzyIhxzteC5wLpRupN8J12shlKYiiqYOmbMmYZHOiu
+         Vz57G6XxVvNO4yTDAesTgNjBpZX7o7wl0QhAG7sfSx8LNJkYzWVClaDq2ZG8Ab0izkdD
+         Effw==
+X-Forwarded-Encrypted: i=1; AJvYcCVnRa4Zdt8w/exTfUcXx9JIipd79g2CkeWnyzzpB91lJ075fNhjEXWvqxCuv6/UBN+fLXU6Zw4JmT+PjEOg8B4w8SSK16BrnuxhUZmhYALrvLcfhXbe4idD5Wb6AtzQE4M2vmWk3UY1N48=
+X-Gm-Message-State: AOJu0YzmuvUiBKDGszklP8M4QqbAbAzt1TkxmYu4elz64vOmp7UjzFVL
+	19y5yoHO7sCuElzbIcN8Ey293FLRj36Z8v3XOacMLsphslGVDyis/COAZs889S8/9KSISw77lYU
+	b65RZo48gYEe1exCXW2NtEn4YLOeJveZ3
+X-Google-Smtp-Source: AGHT+IGUzYot4aWxYmJQmmtJTaU0cDPgRlNF43MSJ+xR+zOvk17sLDT893O9A18W2SmanyZEbP3mYQ0mJ7tS2z0ZCN8=
+X-Received: by 2002:a17:90a:34c2:b0:2ab:9819:64bc with SMTP id
+ m2-20020a17090a34c200b002ab981964bcmr3011377pjf.32.1714150116642; Fri, 26 Apr
+ 2024 09:48:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: a14c2a9e-da0c-4f26-e053-08dc660e0f70
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Apr 2024 16:29:35.4320
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6639
+References: <cover.1714113680.git.siyanteng@loongson.cn> <CANiq72meE9txt5b09Y7cUJd-hEqcZX1ZtRc_0YYDZqWQgyo3wA@mail.gmail.com>
+ <87zftgnsun.fsf@meer.lwn.net>
+In-Reply-To: <87zftgnsun.fsf@meer.lwn.net>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Fri, 26 Apr 2024 18:47:30 +0200
+Message-ID: <CANiq72mHoh=qgOGPj29hpS7EhVcXi5Q_7GYsycKhYwj3QbsTag@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] rust: docs: Update the translation of rust to 6.9-rc4
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Yanteng Si <siyanteng@loongson.cn>, ojeda@kernel.org, alex.gaynor@gmail.com, 
+	wedsonaf@gmail.com, boqun.feng@gmail.com, gary@garyguo.net, 
+	bjorn3_gh@protonmail.com, benno.lossin@proton.me, a.hindborg@samsung.com, 
+	aliceryhl@google.com, nathan@kernel.org, ndesaulniers@google.com, 
+	morbo@google.com, justinstitt@google.com, alexs@kernel.org, dzm91@hust.edu.cn, 
+	linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Christoph Hellwig <hch@lst.de> Sent: Thursday, April 25, 2024 11:19 P=
-M
->=20
-> On Wed, Apr 24, 2024 at 08:02:53AM -0700, mhkelley58@gmail.com wrote:
-> > From: Michael Kelley <mhklinux@outlook.com>
-> >
-> > There's currently no documentation for the swiotlb. Add documentation
->=20
-> s/the // ?  (note that this is used in quite a few places)
+On Fri, Apr 26, 2024 at 3:42=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> wr=
+ote:
+>
+> I guess I don't see any reason why the translation couldn't go through
+> docs-next as usual?  It will all even out during the merge window,
+> right?  Or am I missing something?
 
-OK.  I'll drop using "the" before "swiotlb".
+Yeah, that is what I am thinking as well, although Yanteng is
+mentioning conflicts somewhere, so I may be missing something too.
 
->=20
-> Can you use up the full 80 characters for your text?  As-is it reads a
-> little odd due to the very short lines.
-
-Will do.
-
->=20
-> The other thing that strikes me as odd is the placement in the core-api
-> directory together with other drivers-facing documentation.  Swiotlb
-> is internal to the dma-mapping subsystem and not really what is a core
-> API.  I don't really know where else it should be placed, though - nor
-> do I really understand the "modern" hierarchy in Documentation, but maybe
-> Jon has a good idea?
-
-I also wasn't happy with it going under "core-api".  But I agree with Jon's
-comments.  The affinity with the DMA documentation is strong, and in
-the absence of a better place, I'll keep it under core-api.
-
-Michael
-
->=20
-> Except for these nitpicks the documentation looks good to me, thanks
-> a lot!
+Cheers,
+Miguel
