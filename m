@@ -1,33 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD47113A88F;
-	Fri, 26 Apr 2024 06:55:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C91313A41D
+	for <linux-doc@vger.kernel.org>; Fri, 26 Apr 2024 06:57:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714114502; cv=none; b=nQPZuFY14A0W4EBIPpsnY8uTWvE+mXzPh2rBFAWPo3nsixAWKU8L13YYN/W04nrMXlidHMKc3ECKNtOYNGA4NN87jyRrMXSji6ogc04vo6GJ4O/+giznOG5UhmZAcNzSUOhzQrhMR9K6sPjHgVQGb8Yh3KPH/HCVxxkYzvqzXMA=
+	t=1714114664; cv=none; b=PXuXinb4aixR9FcDxImyY+CCfBYLwUumaJvV3OpOq9uw83uXJl1dzgtTPo3j+tk55g/nDqOynyAw6t+nGh2l7tEhofzSWhzfKkEigUwoeCAAccs9nyZKX9M4YrJCIt0fx9tqNTbYzX9ihWq+P6bxvbB6eRHI/nElbplr9BsSNsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714114502; c=relaxed/simple;
-	bh=4iDY+/cO9vuxWLs+6fs4Xvs7bYgo+VK3ieBdHNf09Pk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=r7gXP9oAuPznwlMudJLQ5uSPwgQfy+5RA9LYKvIdi8pAvSD1AqbLtBLpF2AjU7GPxaEqOr/UPObuvOACXpS1sWOtcuJ51kE1MEXUTI05btBvR52h+GYaJDUGBrYi+EVv54jRucVmGkU3zQaRkVqKLarOxUl2ZMjV9Kl98iOr9w0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rz0/8hiV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714114664; c=relaxed/simple;
+	bh=s4WFvLqL/FlFXDjXnJP+t8dQbIFZqMAVv435zFp0leY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NTsUWG4o8d+nlcQowp5apmBuQo2FPdYhktdePMGej9RjopBQX8oSCUZne7I5EZFDmeMYE8/7qBpqbtjg7Xpj+fUNVTwZSUkrB5xmTmLrGFUksSvOgw1NnT3sjluJdMW06vpKemNTbgeKDCCd4UQdsuzOENNHUFnb67UDSXzMlPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aqAUpGWz; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rz0/8hiV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 838AFC113CD;
-	Fri, 26 Apr 2024 06:54:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714114502;
-	bh=4iDY+/cO9vuxWLs+6fs4Xvs7bYgo+VK3ieBdHNf09Pk=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=rz0/8hiVQUUYFWPUeXwztOH5w6U8apBN/4Kfv+9IyxT4jH5/rG3iItpk7IV1h+hYr
-	 Qrr2tFiSqie5Cj8Sx9VJfUOHdCqV9J0MWfEmdZH4c79XDzR+lNOB94fuX6Wx9TxX3g
-	 698reVJVZnHV5g7Uk05ZCWAv5eHmyKHjbHu1BmyWFL+31iAc5CSRoZZhYRLv15Nlzg
-	 v5427V4N90U649z4HFVkqpy2Cmz2bCo/cTkREE0LH7lsQwEkuQYvRRXMIqrN2ELGGf
-	 vtlHjenPcnFU35bJ9Ob8YtRC4TfOP4CtSnBaHzDnELmtD/V0ErTC9wUtgeD8xwTCha
-	 KSQyuqu5C5+pw==
-Message-ID: <4e329d1b-fad5-416f-b0ca-55e8c6c3394c@kernel.org>
-Date: Fri, 26 Apr 2024 08:54:53 +0200
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aqAUpGWz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1714114661;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=S9YgOSSzhWQrtdlbF1hJCE17T/mb2rDP4iaqnDMJfb0=;
+	b=aqAUpGWztkzeux0sJ5wr5cotkQALl5ZgCcQ0nVOq2SjqqvJpeekFzQGaiWU5zSudzbbk9S
+	KnqmykC63DqGa8NjJxSOilTQnbac1UPp2/KtddE6/jPWRoVoJFG/89940WyURe3SJozUNh
+	G571aCZ+bgItOQmDBhNLE1mVxwa+KTY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-591-U9YjzpQDNg2UNenRqtwDKQ-1; Fri, 26 Apr 2024 02:57:39 -0400
+X-MC-Unique: U9YjzpQDNg2UNenRqtwDKQ-1
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-34c65b59e18so90260f8f.3
+        for <linux-doc@vger.kernel.org>; Thu, 25 Apr 2024 23:57:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714114658; x=1714719458;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=S9YgOSSzhWQrtdlbF1hJCE17T/mb2rDP4iaqnDMJfb0=;
+        b=YPTeHt3i77uL+V0Dkg5vuUjUVw8gc5K0egeRVHy4KDBylFNJmdqWnOBzSt6rJtZD93
+         GRcXuZ9IjJQDQxz1D9ARJbgwPeyM1Or39CZNb//QivHFuMxMEaPwHIJJDmbHZM7/4hwa
+         a64onz6CgbbwhbXxMWk3Wk8mg1rmgUygw3OwWeq23UXkhUduUS0DC9jur7ZzZraumwpG
+         lPrD9eTh+J3vN/KzT/JU8qYNqRg3NtKuTRI11l+HvswxRJZnC/6DGiQSdNpYzr9lhDJu
+         PbYGP+55yaAWCvUU8wtHsnLgj98hI5cIwzImdQpR9pQ+/yP1OJiMmtQKcdhbhH5hEbus
+         0iQA==
+X-Forwarded-Encrypted: i=1; AJvYcCU6rWeBp07Gx6xqV6CB2JzPfGRM/0Lw8cT64gyF5Qcm5rXiMpjg6V+nRrLw2Z90IT/9dcdj3AMkCupmF/RSNyUbDxLOoYt0zaIT
+X-Gm-Message-State: AOJu0YzwHL0H45n1dutz0fUPimu4bauR88Rqqg6TtQDo+J5o1PIpA2ET
+	gIeQ38kDnPfRlR7HvtMqakHa7bu7bAEU9HnBDitfZrnMnIYVBDsfeAu6SPJQWSPt6FyESKjMYRU
+	Q+u0J7weLY7DstBTk/T5uJkdfmCzvTC8NvR/2bMeSCXA53E3FTNxQJ8h5og==
+X-Received: by 2002:a5d:4dc1:0:b0:349:ffed:792d with SMTP id f1-20020a5d4dc1000000b00349ffed792dmr1495856wru.30.1714114658404;
+        Thu, 25 Apr 2024 23:57:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFiGcMtO3pvrqLzxCKrJCX59NpN1TNY/wPfeqt9MvGmQf29twl4GqizB6+lEhzfbJ8yP/FB2w==
+X-Received: by 2002:a5d:4dc1:0:b0:349:ffed:792d with SMTP id f1-20020a5d4dc1000000b00349ffed792dmr1495838wru.30.1714114657964;
+        Thu, 25 Apr 2024 23:57:37 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c726:6100:20f2:6848:5b74:ca82? (p200300cbc726610020f268485b74ca82.dip0.t-ipconnect.de. [2003:cb:c726:6100:20f2:6848:5b74:ca82])
+        by smtp.gmail.com with ESMTPSA id e24-20020a5d5958000000b0034c0fefd7d2sm3255775wri.23.2024.04.25.23.57.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Apr 2024 23:57:37 -0700 (PDT)
+Message-ID: <c04f5611-162c-441c-b94c-79032f09e015@redhat.com>
+Date: Fri, 26 Apr 2024 08:57:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,78 +68,204 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] dt-bindings: hwmon: Add infineon xdp710 driver
- bindings
-To: Peter Yin <peteryin.openbmc@gmail.com>, patrick@stwcx.xyz,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
- Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
- Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>,
- Patrick Rudolph <patrick.rudolph@9elements.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, Charles Hsu
- <ythsu0511@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Lukas Wunner <lukas@wunner.de>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org
-References: <20240425153608.4003782-1-peteryin.openbmc@gmail.com>
- <20240425153608.4003782-3-peteryin.openbmc@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v1] mm/khugepaged: replace page_mapcount() check by
+ folio_likely_mapped_shared()
+To: John Hubbard <jhubbard@nvidia.com>, Matthew Wilcox <willy@infradead.org>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ Zi Yan <ziy@nvidia.com>, Yang Shi <yang.shi@linux.alibaba.com>,
+ Ryan Roberts <ryan.roberts@arm.com>
+References: <20240424122630.495788-1-david@redhat.com>
+ <73de5556-e574-4ed7-a7fb-c4648e46206b@nvidia.com>
+ <ZinZSDTMXjPjAHLe@casper.infradead.org>
+ <18b9acc9-9dc8-4857-83d1-952c94b69e01@nvidia.com>
+ <7273b0d6-06e7-4741-b77b-b49949c46d63@redhat.com>
+ <1a406a5f-1336-4051-a722-04b9ea2f54df@nvidia.com>
+From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240425153608.4003782-3-peteryin.openbmc@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <1a406a5f-1336-4051-a722-04b9ea2f54df@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 25/04/2024 17:36, Peter Yin wrote:
-> Add a device tree bindings for xdp710 device
+On 26.04.24 03:23, John Hubbard wrote:
+> On 4/25/24 1:06 AM, David Hildenbrand wrote:
+>> On 25.04.24 07:40, John Hubbard wrote:
+>>> On 4/24/24 9:17 PM, Matthew Wilcox wrote:
+>>>> On Wed, Apr 24, 2024 at 09:00:50PM -0700, John Hubbard wrote:
+> ...
+>> We'll talk more about all that at LSF/MM in the mapcount session. A spoiler:
 > 
-> Acked-by: "Rob Herring (Arm)" <robh@kernel.org>
+> Looking forward to it. And as an aside, this year it feels like the mm
+> code is changing relatively fast. So many large and small improvements
+> have happened or are in progress.
 
-That's not the tag you received. Please do not modify the tags. Quotes
-are not needed.
+Yes, it's happening on a very fast pace (and it's hard for me to get 
+reasonable work done while still keeping reviewing that much ...).
 
-Best regards,
-Krzysztof
+I'll note, that replacing a page-based interface by a folio-based 
+interface should not be shocking news in 2024, and that the issues with 
+mapcounts for large folios have been a recurring topic at LSF/MM and on 
+the mailing list.
+
+> 
+> 
+>>
+>> page_mapcount() in the context of large folios:
+>> * Is a misunderstood function (e.g., page_mapcount() vs page_count()
+>>     checks, mapped = !page_mapcount() checks).
+>> * Is a misleading function (e.g., page_mapped() == folio_mapped() but
+>>     page_mapcount() != folio_mapcount())
+>>
+>> We could just rename it to "folio_precise_page_mapcount()", but then, once we tackle the subpage mapcount optimizations (initially using a separate kernel config toggle), we'll have to teach each caller about an alternative that gets the job done, and it's not that easy to prevent further reuse around the kernel.
+>>
+>> If you look at linux-next, we're down to 5 page_mapcount() calls in fs/proc/, so I'll relocate it to fs/proc/internal.h to prevent any further use - once the s390x change lands in the next merge window.
+>>
+>> Regarding the subpage mapcount optimizations, I can further add:
+>> * (un)map performance improvements for PTE-mapped THP
+>> * Preparation for folio_order() > PMD_ORDER, where the current scheme
+>>     won't scale and needs further adjustments/complexity to even keep it
+>>     working
+>> * Preparation for hugetlb-like vmemmap optimizations until we have
+>>     memdescs / dynamically allocated folios
+>> * (Paving the way for partially mapping hugetlb folios that faced
+>>      similar issues? Not sure if that ever gets real, though)
+>>
+>> Is this patch ahead of its time? LSF/MM is just around the corner, and I'm planning on posting the other relevant patches in the next months.
+> 
+> I think so, yes. There is a lot of context required to understand the
+> motivation, and more required in order to figure out if it is safe,
+> and if it still provides "good" behavior.
+
+I think the motivation for removing page_mapcount() should be very clear 
+at this point: a single remaining user in mm/ should be warranted, and 
+the faster it is gone the better.
+
+[case in point: I even have another potential user [1] in my mailbox 
+that should be using a folio interface, well, or PG_anon_exclusive :) ]
+
+[1] https://lore.kernel.org/all/Zirw0uINbP6GxFiK@bender.morinfr.org/T/#u
+
+Regarding removing subpage mapcounts I agree: I added too many details 
+that made it look harder to understand :P
+
+> 
+> I still think it's mostly harmless, though, so being ahead of its time
+> is not necessarily an indictment. :)
+
+I didn't express my thought clearly: LSF/MM is just around the corner 
+and the discussion we are having here is the perfect preparation for 
+that session! :)
+
+I don't particularly care if we merge this patch now or after the next 
+merge window along with the remaining page_mapcount() removal.
+
+Discussing the impact of this change is the important piece. :)
+
+[...]
+
+>> Thanks for having a look!
+>>
+>> I'm only a bit concerned about folio_likely_mapped_shared() "false negatives" (detecting exclusive although shared), until we have a more precise folio_likely_mapped_shared() variant to not unexpectedly waste memory.
+>>
+>> Imagine someone would be setting "khugepaged_max_ptes_shared=0", and then we have an area where (I think this is the extreme case):
+>>
+>> * We map 256 subpages of a 2M folio that are shared 256 times with a
+>>     child process.
+>> * We don't map the first subpage.
+>> * One PTE maps another page and is pte_write().
+>> * 255 PTEs are pte_none().
+>>
+>> folio_likely_mapped_shared() would return "false".
+>>
+>> But then my thinking is:
+>> * We are already wasting 256 subpages that are free in the 2M folio.
+>>     Sure, we might be able to relaim it when deferred splitting.
+>> * Why would someone set khugepaged_max_ptes_shared=0 but leave
+>>     khugepaged_max_ptes_none set that high that we would allow 255
+>>     pte_none?
+>> * If the child is a short-living subprocess, we don't really care
+>> * Any futher writes to unbacked/R/O PTEs in that PMD area would COW and
+>>     consume memory.
+>>
+>> So I had to use more and more "ifs" to construct a scenario where we might end up wasting 1M of memory, at which point I decided "this is really a corner case" and likely not worth the worry.
+>>
+>> If we run into real issues, though, it will be easy to just inline page_mapcount() here to resolve it; but the less special-casing the better.
+>>
+> 
+> OK. I'll need to think through some more of these cases. And meanwhile, I
+> was poking around from the other direction: just injection test it by
+> pasting in "true" or "false", in place of calling folio_likely_mapped_shared().
+> And see what changes.
+
+Highly appreciated!
+
+> 
+> The "true" test lets me fail several khugepaged selftests, while the "false"
+> test just increases the counter in /proc/vmstat.
+> 
+> That's more of a black box way of poking at it, just to have another facet
+> of testing. Because it is good to ensure that we really do have test
+> coverage if we're changing the code. Anyway, just ideas.
+
+Yes, all makes sense.
+
+I'm very interested if there are valid concerns that the "false 
+negatives" are unacceptable: it would be another case for why we really 
+want to make folio_likely_mapped_shared() precise. For me it's clear 
+that we want to make it precise, but so far I am not convinced that it 
+is absolutely required in the khugepaged context.
+
+Thanks!
+
+-- 
+Cheers,
+
+David / dhildenb
 
