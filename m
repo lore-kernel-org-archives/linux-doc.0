@@ -1,225 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A24474C619;
-	Sat, 27 Apr 2024 10:43:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 499C4405FC;
+	Sat, 27 Apr 2024 10:44:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714214593; cv=none; b=V51de9v3AzoYxKk5WBpURHQuR5vF5DvWWxRQLmjhTxtpwmUb7JS14Xdhj7e8pPJQvck86b9hyPw85qdo5YQmm3W+IXmzzZ3XLnuvfLJF/cHo8emeNYWOw5+dvZT3Ron2sdr3DZGkBk3z5joMZIr6/ajCMWVU+6pRSdgzHrxFjL4=
+	t=1714214703; cv=none; b=VMhBj4o5OBOWNIHoCYRepbSGdborZFOjD/Zpim4pZrGYazpbjNjGfV4qzJse/0qtvWp0r1cDpea/yMOb6Eb9RW62DDyeimVmDAlvpH+EOytcFFX77Pg9WeV5w599KC2PWdpKTXSjyxSZcGB8LixyiIuOyfBZZLp5etRDZ9p4ODU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714214593; c=relaxed/simple;
-	bh=OYJqdjW3rXoj3fRazQzcMwYfheGMCtZdq6OYTVY06Y0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=L3hzr9TVUgiD1Ml7tlEk8oaua9mNtX83zAN5DWPyh0bUpDnX5FkVFz5wdhi0R6YpNeC1vnr+Q53UojktKRFUS1mo/rAafaI53mqrClfKz6eb9Xy3iOb/zZjdxEpe8rv9rWTnQ+QfEt0k/45FHrYOCugN1FPJGqaNBhH4aOgBp6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RjxSAXVp; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RjxSAXVp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3726CC113CE;
-	Sat, 27 Apr 2024 10:43:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714214593;
-	bh=OYJqdjW3rXoj3fRazQzcMwYfheGMCtZdq6OYTVY06Y0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RjxSAXVpXQ9JQKFzA8rOsQDV9GWCfacFItigw4e87nQqeK/rMyQcpp7exULz2ud5l
-	 YNedVGRnZBzcVUUHjzfchy0Zr/2xefWpQ/3Hf1i7L9lqrYX7sqWuqWhhDFFhysZX4d
-	 t8qooOW5RxbcnXagWW+LLCqb43Otv82MkgpVaJz0CAB4lAIy8dwV5UJr7eG5zKHZTe
-	 /KD6wRtTvhqbzeu7f2Ta5E75ORA5Qv30I9/UGhWGciaCgwkPJv1fbC8g++7p5KDUIc
-	 Zp/dHgDryJI9NxwxM5vIFlZJrr/djcXds51EGfr7uc8//ElVp5GlCyfExbOhIjaX0r
-	 3QfyWkbwQCqgA==
-From: Masahiro Yamada <masahiroy@kernel.org>
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Matt Porter <mporter@kernel.crashing.org>,
-	Alexandre Bounine <alex.bou9@gmail.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 2/2] kconfig: do not imply the type of choice from the first entry
-Date: Sat, 27 Apr 2024 19:42:31 +0900
-Message-Id: <20240427104231.2728905-3-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240427104231.2728905-1-masahiroy@kernel.org>
-References: <20240427104231.2728905-1-masahiroy@kernel.org>
+	s=arc-20240116; t=1714214703; c=relaxed/simple;
+	bh=MLacY6aG8bo9wwwwbKKlBJEsS83ygocXS1Ntn3xYnC4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uZHyEE6Edk7yUyG9w07mYtlSPrFVdHwshORA8+OqJrD9YO9Hy/kkbKa4RYlZZ2TtjW0yvO+m3SlV7CtAVkEwNTKZWQOPE4iGMZP04ZOeyWfn9GXorEOyjMpBA9HSpE4jHGBW4hRlzKNt43exj74ez1wgW7FVWGYcnAqkSjp1tts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [112.20.112.218])
+	by gateway (Coremail) with SMTP id _____8AxaOkn1yxmme8DAA--.2815S3;
+	Sat, 27 Apr 2024 18:44:55 +0800 (CST)
+Received: from [192.168.100.8] (unknown [112.20.112.218])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8Bxnlcl1yxm4E8HAA--.16414S3;
+	Sat, 27 Apr 2024 18:44:55 +0800 (CST)
+Message-ID: <4ef9835e-b3dd-4b05-b09a-047f941a0870@loongson.cn>
+Date: Sat, 27 Apr 2024 18:44:53 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] scripts: add `check-trans-update.py`
+To: Cheng Ziqiu <chengziqiu@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Dongliang Mu <dzm91@hust.edu.cn>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, hust-os-kernel-patches@googlegroups.com
+References: <20240422065822.1441611-1-chengziqiu@hust.edu.cn>
+Content-Language: en-US
+From: Yanteng Si <siyanteng@loongson.cn>
+In-Reply-To: <20240422065822.1441611-1-chengziqiu@hust.edu.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:AQAAf8Bxnlcl1yxm4E8HAA--.16414S3
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBj93XoW7Ww48Cw17GrW8Ary3XryrGrX_yoW8Kw17pa
+	909rsIya1UGF1xWw13Gr18XFs0kF95J398Wrnrta4Iqrs7tF1kWrsIyFsIy3WUCryrXa43
+	uF4UAry2ka1FkFXCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6r4j6r4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
+	02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAF
+	wI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxAIw28IcxkI7VAKI4
+	8JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAF
+	wI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc4
+	0Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AK
+	xVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr
+	1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8yrW7UU
+	UUU==
 
-The followng two test cases are very similar, but the latter does not
-work.
 
-[test case 1]
+在 2024/4/22 14:58, Cheng Ziqiu 写道:
+> The `check-trans-update.py` scripts check whether a translated version
+> of a documentation is up-to-date with the english version.
+>
+> The scripts use `git log` commit to find the latest english commit from
+> the translation commit (order by author date) and the latest english
+> commits from HEAD. If differences occurs, report the file and commits
+> need to be updated.
+>
+> Signed-off-by: Cheng Ziqiu <chengziqiu@hust.edu.cn>
+> ---
+>   scripts/check-trans-update.py | 176 ++++++++++++++++++++++++++++++++++
 
-    choice
-            prompt "choose"
+Because we'll be typing its name a lot, it's important to consider 
+tabulating the
 
-    config A
-            bool "A"
+name. If it's easy to understand, choose a name that will slow down the tab
 
-    if y
-    config B
-            bool "B"
-    endif
+button's wear.
 
-    endchoice
 
-[test case 2]
+I gave your script a quick test and got the following output:
 
-    choice
-            prompt "choose"
+[siyanteng@kernelserver linux-next]$ ./scripts/check-trans-update.py 
+Documentation/translations/zh_CN/process/1.Intro.rst 
+[siyanteng@kernelserver linux-next]$
 
-    if y
-    config A
-            bool "A"
+It seems that your script can't handle documents that never get updated. 
+You need to print a warning or hint.
 
-    config B
-            bool "B"
-    endif
+[siyanteng@kernelserver linux-next]$ ./scripts/check-trans-update.py 
+Documentation/translations/zh_CN/rust/arch-support.rst 
+Documentation/translations/zh_CN/rust/arch-support.rst (8 commits) 
+2f4fe71fdd25ebb4e41aee3b467b54fbef332643
 
-    endchoice
+This seems to be just a merge, try to drop it?
 
-Since 'if y' is always true, both of them should be equivalent to:
+81889e8523e63395b388f285c77ff0c98ea04556 
+01848eee20c6396e5a96cfbc9061dc37481e06fd 
+724a75ac9542fe1f8aaa587da4d3863d8ea292fc 
+90868ff9cadecd46fa2a4f5501c66bfea8ade9b7 
+e5e86572e3f20222b5d308df9ae986c06f229321 
+04df97e150c83d4640540008e95d0229cb188135 
+0438aadfa69a345136f5ba4f582e0f769450ee0d
 
-    choice
-            prompt "choose"
+Hmmm, How about printing it this way?
 
-    config A
-            bool "A"
+We need to update the following commits.
 
-    config B
-            bool "B"
+commit 81889e8523e6 ("RISC-V: enable building 64-bit kernels with rust support")
+commit 01848eee20c6 ("docs: rust: fix improper rendering in Arch Supportpage")
+commit 724a75ac9542 ("arm64: rust: Enable Rust support for AArch64")
+commit 90868ff9cade ("LoongArch: Enable initial Rust support")
+commit e5e86572e3f2 ("rust: sort uml documentation arch support table")
+commit 04df97e150c8 ("Documentation: rust: Fix arch support table")
+commit 0438aadfa69a ("rust: arch/um: Add support for CONFIG_RUST under x86_64 UML")
 
-    endchoice
 
-However, the test case 2 warns:
-  Kconfig:1:warning: config symbol defined without type
-
-If the type of choice is not specified, it is implied from the first
-entry within the choice block.
-
-When inferring the choice type, menu_finalize() checks only direct
-children of the choice. At this point, the menu entries still exist
-under the 'if' entry:
-
-  choice
-  \-- if y
-      |-- A
-      \-- B
-
-Later, menu_finalize() re-parents the menu, so A and B will be lifted up
-right under the choice:
-
-  choice
-  |-- if y
-  |-- A
-  \-- B
-
-This is complex because menu_finalize() sets attributes, restructures
-the menu tree, and checks the sanity at the same time, leading to some
-bugs.
-
-It would be possible to resolve it by setting the choice type after
-re-parenting, but the current mechanism looks questionable to me.
-
-Let's default all choices to 'bool' unless the type is specified.
-This change makes sense because 99% of choice use cases are bool.
-
-There exists only one 'tristate' choice in drivers/rapidio/Kconfig.
-Another (much cleaner) approach would be to remove the tristate choice
-support entirely, but I have not yet made up my mind.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- Documentation/kbuild/kconfig-language.rst             |  4 +---
- scripts/kconfig/menu.c                                | 11 -----------
- scripts/kconfig/parser.y                              |  3 +++
- scripts/kconfig/tests/choice/Kconfig                  |  2 +-
- scripts/kconfig/tests/choice_value_with_m_dep/Kconfig |  2 +-
- 5 files changed, 6 insertions(+), 16 deletions(-)
-
-diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-index 555c2f839969..42b975b8e0cf 100644
---- a/Documentation/kbuild/kconfig-language.rst
-+++ b/Documentation/kbuild/kconfig-language.rst
-@@ -400,9 +400,7 @@ choices::
- 
- This defines a choice group and accepts any of the above attributes as
- options. A choice can only be of type bool or tristate.  If no type is
--specified for a choice, its type will be determined by the type of
--the first choice element in the group or remain unknown if none of the
--choice elements have a type specified, as well.
-+specified for a choice, its type will be the default 'bool'.
- 
- While a boolean choice only allows a single config entry to be
- selected, a tristate choice also allows any number of config entries
-diff --git a/scripts/kconfig/menu.c b/scripts/kconfig/menu.c
-index e01b9ee87c05..134ef120ad08 100644
---- a/scripts/kconfig/menu.c
-+++ b/scripts/kconfig/menu.c
-@@ -323,17 +323,6 @@ static void _menu_finalize(struct menu *parent, bool inside_choice)
- 			is_choice = true;
- 
- 		if (is_choice) {
--			if (sym->type == S_UNKNOWN) {
--				/* find the first choice value to find out choice type */
--				current_entry = parent;
--				for (menu = parent->list; menu; menu = menu->next) {
--					if (menu->sym && menu->sym->type != S_UNKNOWN) {
--						menu_set_type(menu->sym->type);
--						break;
--					}
--				}
--			}
--
- 			/*
- 			 * Use the choice itself as the parent dependency of
- 			 * the contained items. This turns the mode of the
-diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
-index 613fa8c9c2d0..70ea3152d9b8 100644
---- a/scripts/kconfig/parser.y
-+++ b/scripts/kconfig/parser.y
-@@ -230,6 +230,9 @@ choice: T_CHOICE T_EOL
- 
- choice_entry: choice choice_option_list
- {
-+	if (current_entry->sym->type == S_UNKNOWN)
-+		menu_set_type(S_BOOLEAN);
-+
- 	if (!current_entry->prompt) {
- 		fprintf(stderr, "%s:%d: error: choice must have a prompt\n",
- 			current_entry->filename, current_entry->lineno);
-diff --git a/scripts/kconfig/tests/choice/Kconfig b/scripts/kconfig/tests/choice/Kconfig
-index 8cdda40868a1..4dc0d3a1e089 100644
---- a/scripts/kconfig/tests/choice/Kconfig
-+++ b/scripts/kconfig/tests/choice/Kconfig
-@@ -18,7 +18,7 @@ config BOOL_CHOICE1
- endchoice
- 
- choice
--	prompt "tristate choice"
-+	tristate "tristate choice"
- 	default TRI_CHOICE1
- 
- config TRI_CHOICE0
-diff --git a/scripts/kconfig/tests/choice_value_with_m_dep/Kconfig b/scripts/kconfig/tests/choice_value_with_m_dep/Kconfig
-index bd970cec07d6..3e600c83279a 100644
---- a/scripts/kconfig/tests/choice_value_with_m_dep/Kconfig
-+++ b/scripts/kconfig/tests/choice_value_with_m_dep/Kconfig
-@@ -9,7 +9,7 @@ config DEP
- 	default m
- 
- choice
--	prompt "Tristate Choice"
-+	tristate "Tristate Choice"
- 
- config CHOICE0
- 	tristate "Choice 0"
--- 
-2.40.1
+Thanks,
+Yanteng
 
