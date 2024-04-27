@@ -1,104 +1,127 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D3CA41A89;
-	Sat, 27 Apr 2024 07:07:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50CF739AF9
+	for <linux-doc@vger.kernel.org>; Sat, 27 Apr 2024 08:24:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714201652; cv=none; b=taw67J3UyqTD8ec7CdkLdGG73WNv6DiqoJzxqRVTAd8b5bImKObQgNz7JnYynOg21q6YMw0S1YbEqpOUUbJ3gJNKbekWpEWQ+3h7/jtu/Zl/225JvvwQCgu7ThVMmS4TlXb8fWXmRfmaurb7nIJ8imockg0NFqclNFcaSFX9p6M=
+	t=1714206255; cv=none; b=I+Fg164lQFPwiX0UoLQ6A8EU9lzlwQUZMwUrGiu7Oqh/SiWbTpV7q+l+87MXh68aCZM3jR6LVsibm9GQeYLZD0iHL3aAon86msK20doXP6Q1WA1Q4qeck9v3H1T5Z1M5speho5MNW7+i2hcWpwAsv7i0m1dpSpw2h2sorln9CHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714201652; c=relaxed/simple;
-	bh=/CGA1YZNwX3gAWmnKXT2ml9BQalf1WSTv5fRQB8eosk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gQHa8D/iMvfg2F2tTDpKCQh0s9eRF4E5dqCXGdwMDV0VTO6XuHseGXv2bd13eSYezynYhICIXQBqjLt31klZTes/fO+EQMCwVlWTfWpReFHyrPa4oD30le+OXi1Y2Ka3O+prE8qzcRhBLvd2zudXGqxKZr/xcaChTC9s69lv18E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HdA54LsR; arc=none smtp.client-ip=209.85.216.41
+	s=arc-20240116; t=1714206255; c=relaxed/simple;
+	bh=ACYvUCE/8N6QVZZfvRpS1erlyIA1H0Lx8Mh3GBzc2Cc=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=gAMt+e9w5rU+6M4pGPdij/6c44eVObsqVuNIYhY69r8OCIUWJ1awDj9dhE4l8QnLXSaaC/gsSMoBvDqDWld9G1NNMcNRSrKtCC4ztwTg8PiqEViR7n6X9MPUMwI71/M0oSRNU4cOpmM2LiyZ9yF9fGRW1wPunwqYfyF9zQ27OXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IEtKzh21; arc=none smtp.client-ip=209.85.210.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HdA54LsR"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2b101ac9ab4so59665a91.0;
-        Sat, 27 Apr 2024 00:07:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IEtKzh21"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6ed3cafd766so2740597b3a.0
+        for <linux-doc@vger.kernel.org>; Sat, 27 Apr 2024 01:24:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714201650; x=1714806450; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1714206253; x=1714811053; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/CGA1YZNwX3gAWmnKXT2ml9BQalf1WSTv5fRQB8eosk=;
-        b=HdA54LsR/SmcSqWn2HrkRRBu8vWZxn5P8/7xe0qrQrPHNaClaHKQydw+XMZZaDnuBx
-         rfiVKhYiJw/m7K721CzCbWry39xrNfH87cIjgoyUJ5MNZytg4IaqBq/7gMzkaVpLpp9i
-         i9pYsFNjlkH7uLtidQVqNRYxg5O5wX4tnv1MJ0aPw0KGjeRxfgAdtJI5Wei/dbFh39fR
-         gmwtpyD8FOhV46KRBJNXloIxaeaThvTg3VKSBO3yR/AR+SWB5zJ75gpFtU+0EZhMt/nn
-         T6qoIRMTJvf4/6NwDaD53UdrYM5VTwOee18W5NqIxePSTZXNlp1joIeDSPzonIxqfET5
-         Nt/g==
+        bh=8edj/aAbmjOrsBEFfJajXhtCvHSsapnNpQHoD9da6Qc=;
+        b=IEtKzh21GtN0lyBdUpxUWqpP2fa68LACvAbn1KqVikPpBYgh5TtHPSrLw8faAp78LP
+         Mhzw4mU76XPw4Z6J19q+SR/lkvNSZAGUPSbaaBXG8c/TdkdHkGWtnshHQ9MxilCKYS5h
+         ubbypeduZss4inqWgFmD3RcoRirSfI+DLjkRFYgH6TVAYonH+Jju+uJj31WS650l9xzm
+         8XJsHIX0nT04DwxFbQ9wjxqS21BzKudxt4jyy6/Gp9LtGOGcACcRjkRMG+cAdNx1yhPq
+         lybysXMWK4h+0YtzcmXTyyLGT1yixtThmTnb7srS5f88o1i+P0AJ4yEBAHNatWxpYlyV
+         Su8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714201650; x=1714806450;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/CGA1YZNwX3gAWmnKXT2ml9BQalf1WSTv5fRQB8eosk=;
-        b=dzZjK5Eg07r0/3inuEZUu/H3rSFz2/DIjsACMOa7WLcGIin9i+9fvO19nqR6X+3+k4
-         vzbnddxaesWrEILTXleRtBwurIpIBPFjNykqCjpZjfVR18PkFUY+ZHPQB4RiVqdtZn1M
-         NYvNiXroVcyVOOZYViCE/2V1e/r+W3fcG8g9gpBYGdFdpSf+k+fK6OSVQAz3hHfpVdzk
-         uzy8DHTpjGxElASK9PfX6kURcoEEORrueGSsSPP80tUs9EcM6U4b/Fg+iCGUlWsvq//Z
-         Bw9ikkFiWtK0/6kv6oGWeId6VoVoOfZ5a03xWnAOLaVQfd9vzG5TGjxjSOTShBytEFZa
-         ScHw==
-X-Forwarded-Encrypted: i=1; AJvYcCWx6iXr0rEglg/ss7niWxP7rTYpzPJQT1AQHUSCctXJKw2FlDwkjPlJAp4nITTjB/vmJiDdnCsPNFFIYd4d8bGJXg3ZTkF8NBpo7L/L9Q32Sr3ME3Yx6HHZT3fEAIQ2vsgTRPhGv0sOE+8=
-X-Gm-Message-State: AOJu0YyKc9LRS7VLdKNlZKCw6bnvrh3NAIXq7SMQa3SaakManflUoINL
-	sMWmM68XEki61lhAXRoSmd0lPkKI+SVLO6hc2zHAyaYgW4B0RD5MBL5IULtwaiGPX4/s9oQvtIW
-	jC68N5V6vV8WncqiPjgoJ4aJLdiw=
-X-Google-Smtp-Source: AGHT+IHKofGcLoII2Oid/yXNZTA6rcCBJ0FPtB2YItGOSvF1xcF5lLBmzSBqiKigm0G2dFzG9rGbqfJbPzz3KVR7WaE=
-X-Received: by 2002:a17:90b:4a85:b0:2ae:d03b:9594 with SMTP id
- lp5-20020a17090b4a8500b002aed03b9594mr1594141pjb.39.1714201649876; Sat, 27
- Apr 2024 00:07:29 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1714206253; x=1714811053;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=8edj/aAbmjOrsBEFfJajXhtCvHSsapnNpQHoD9da6Qc=;
+        b=ugQlIyT4g5gXNZUySnYlKRfCBdy5xxv7FzgsLIRiM5p0ngzdr0hDXBHY+ww7QgLQjO
+         S3rtvNKUjn26TAHvl7IQx3mcV8YyZa9vFBrkSPGgfTtRiqXSMzi6xg0fBf9nnZV8c8UD
+         6YdruTeV2K7fylaqC2rNzl58HUtOU32eLbu466LDASxrNLbJYs5HdIpPaPnlRYQICfvi
+         NBk4FwLZIX8jTM747SW6Xa6+7xKb1wvrWVnV5G0DesP3n9PTjz0+pkfXZuaQy2vPvbM8
+         m5nBYGTihbsw1BQ1uuLYMjaAy6UcgqSkWFMOd9Lhi6QaIH9fUOWpNJUQil/pvnJ/tyfq
+         j/Yw==
+X-Gm-Message-State: AOJu0YzOhp7QcVEmYP6Eg20afVc3wlHumdLI2GGW4GJUr/+kDIph4Fwe
+	cFwtzYsChb3yHWCXIymu73261tiNGPJWd1Gfchub7dw1yCUIvFPF7idbzg==
+X-Google-Smtp-Source: AGHT+IFY7U8SUiwJiT018zKwzONRZc7WUkWWlv667hF7wRQjIrsQNamvycwDdy4q/CHAj1e5ykAdIw==
+X-Received: by 2002:a05:6a20:975b:b0:1ac:de56:eed4 with SMTP id hs27-20020a056a20975b00b001acde56eed4mr5260689pzc.53.1714206253499;
+        Sat, 27 Apr 2024 01:24:13 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id fu4-20020a17090ad18400b002acfe00c742sm12188071pjb.21.2024.04.27.01.24.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 27 Apr 2024 01:24:13 -0700 (PDT)
+Message-ID: <c62ba2e6-c124-4e91-8011-cb1da408a3c5@gmail.com>
+Date: Sat, 27 Apr 2024 17:24:11 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1714113680.git.siyanteng@loongson.cn> <CANiq72meE9txt5b09Y7cUJd-hEqcZX1ZtRc_0YYDZqWQgyo3wA@mail.gmail.com>
- <87zftgnsun.fsf@meer.lwn.net> <CANiq72mHoh=qgOGPj29hpS7EhVcXi5Q_7GYsycKhYwj3QbsTag@mail.gmail.com>
- <f49129dd-ed6f-4940-b851-0282fc320234@loongson.cn>
-In-Reply-To: <f49129dd-ed6f-4940-b851-0282fc320234@loongson.cn>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sat, 27 Apr 2024 09:06:23 +0200
-Message-ID: <CANiq72kDEm7prV6ynAf=rZ5VydT=cYD-Ncj=waZEUOeCA1wbGA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] rust: docs: Update the translation of rust to 6.9-rc4
-To: Yanteng Si <siyanteng@loongson.cn>
-Cc: Jonathan Corbet <corbet@lwn.net>, ojeda@kernel.org, alex.gaynor@gmail.com, 
-	wedsonaf@gmail.com, boqun.feng@gmail.com, gary@garyguo.net, 
-	bjorn3_gh@protonmail.com, benno.lossin@proton.me, a.hindborg@samsung.com, 
-	aliceryhl@google.com, nathan@kernel.org, ndesaulniers@google.com, 
-	morbo@google.com, justinstitt@google.com, alexs@kernel.org, dzm91@hust.edu.cn, 
-	linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
+From: Akira Yokosawa <akiyks@gmail.com>
+Subject: [PATCH] docs: scripts/check-variable-fonts.sh: Improve commands for
+ detection
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, Apr 27, 2024 at 6:38=E2=80=AFAM Yanteng Si <siyanteng@loongson.cn> =
-wrote:
->
-> What I mean is that if I translate these two patches as two separate
-> patches,
+As mentioned in "Assumption:", current grep expression can't catch
+font files whose names are changed from upstream "Noto CJK fonts".
 
-Ah, I see. As far as I know and from a quick look at the history, the
-translations try to be in sync with the latest non-translated status
-at their own pace, and they don't mimic the development of the
-non-translated side commit-by-commit.
+To avoid false negatives, use command of the form:
 
-So I don't think particular commits should be translated as separate
-patches. In other words, what you did here in this v2 seems fine,
-since it already contains the "final state".
+    fc-list : file family variable
 
-Of course, there is a small risk of going out of sync with the current
-patch series if e.g. the RISC-V PR does not get eventually merged in
-the next merge window. This is why I mentioned that I am not sure what
-the policy is for translations here (e.g. there may be a requirement
-that patches to be applied to translations have been already applied
-to mainline, in which case you may want to send the RISC-V bit later
--- but I don't know what the actual policy is).
+, where ":" works as a wildcard pattern.
 
-Thanks!
+Variable fonts can be detected by filtering the output with
+"variable=True" and "Noto CJK" font-family variants.
 
-Cheers,
-Miguel
+Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+---
+ scripts/check-variable-fonts.sh | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
+
+diff --git a/scripts/check-variable-fonts.sh b/scripts/check-variable-fonts.sh
+index 12765e54e4f3..ce63f0acea5f 100755
+--- a/scripts/check-variable-fonts.sh
++++ b/scripts/check-variable-fonts.sh
+@@ -20,10 +20,6 @@
+ # suggestions if variable-font files of "Noto CJK" fonts are in the list of
+ # fonts accessible from XeTeX.
+ #
+-# Assumption:
+-# File names are not modified from those of upstream Noto CJK fonts:
+-#     https://github.com/notofonts/noto-cjk/
+-#
+ # References:
+ # [1]: https://lore.kernel.org/r/8734tqsrt7.fsf@meer.lwn.net/
+ # [2]: https://lore.kernel.org/r/1708585803.600323099@f111.i.mail.ru/
+@@ -96,13 +92,15 @@
+ 
+ export XDG_CONFIG_HOME=${FONTS_CONF_DENY_VF}
+ 
+-vffonts=`fc-list -b | grep -iE 'file: .*noto.*cjk.*-vf' | \
+-	 sed -e 's/\tfile:/  file:/' -e 's/(s)$//' | sort | uniq`
++notocjkvffonts=`fc-list : file family variable | \
++		grep 'variable=True' | \
++		grep -E -e 'Noto (Sans|Sans Mono|Serif) CJK' | \
++		sed -e 's/^/    /' -e 's/: Noto S.*$//' | sort | uniq`
+ 
+-if [ "x$vffonts" != "x" ] ; then
++if [ "x$notocjkvffonts" != "x" ] ; then
+ 	echo '============================================================================='
+ 	echo 'XeTeX is confused by "variable font" files listed below:'
+-	echo "$vffonts"
++	echo "$notocjkvffonts"
+ 	echo
+ 	echo 'For CJK pages in PDF, they need to be hidden from XeTeX by denylisting.'
+ 	echo 'Or, CJK pages can be skipped by uninstalling texlive-xecjk.'
+
+base-commit: fcb5bcefdbfbd939bf4edfa71182df0b56d20a49
+-- 
+2.34.1
+
