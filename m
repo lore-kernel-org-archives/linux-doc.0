@@ -1,115 +1,118 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41B5D1DA53;
-	Sat, 27 Apr 2024 10:18:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31F1481BD;
+	Sat, 27 Apr 2024 10:25:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714213107; cv=none; b=TscUhQDLSwQ8yxNVPCSuoAjPkWk2/lxyq47J1C/Lqq+reg3Yx79gGFZxVMS2LCXsbxDMlU36QTqrDQH0Q1VooMIZG2pWhUG2OB7Ug6HAr/Rc6inqYsRbUpDrzLiUBPt4ua6HAlqFXnf8xZHHdLzaMvzDjUP9e1+NN39q/LD6GFE=
+	t=1714213512; cv=none; b=kbhvtx9DZ7P4HclRdnQoYqgULZmoxKjrJ4SLUP6P7DFlqYwyxwTAMVc3YpYbd7t7she+L78nyA5PArIWJXCmOGKMBNPpgYtpPD8GCF9MJXNZDJo3+76ttJGezWxz4wPzOE1oThpq1IKq+amcP02WPiQdfny25qJGWCvp6KmoRdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714213107; c=relaxed/simple;
-	bh=z6mwqFgyxp5ZCOGyEdKLjWCClL2JshaTbUqmbkTSIk4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sOcUVixjOlDHvIFAGYqrGpzk7XRa+dk/3BZqeI83IrpaSdSVodcLwSJnisHP5RkTdp1ZMnzjdv6tVoZGTD433svdO2FHGQ/vl4n+l6Sh4JsGADBeqtXrjaVjlBugBDlpUj6MeYn56tqger8tnTBiWRly+ESrEHviu+VCz2YUsOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [112.20.112.218])
-	by gateway (Coremail) with SMTP id _____8CxCurm0Cxmhe4DAA--.2836S3;
-	Sat, 27 Apr 2024 18:18:14 +0800 (CST)
-Received: from [192.168.100.8] (unknown [112.20.112.218])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8Bxnlfk0Cxm1kwHAA--.16390S3;
-	Sat, 27 Apr 2024 18:18:13 +0800 (CST)
-Message-ID: <4ca4f26c-8def-4409-9c74-f1e3e7237412@loongson.cn>
-Date: Sat, 27 Apr 2024 18:18:12 +0800
+	s=arc-20240116; t=1714213512; c=relaxed/simple;
+	bh=E6nxNxAubOE05wakCf4v1ZumsoMoA2UmJWIHNfoSllc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dVnmD/9fKffqV4T5dL036HhPUjvzkTMAqDK5TVWs0v4ywmg9441Jvj7s1Dm9ghnTZrx+yjdr8tOKyrSfTH0vKIM7ic5ZBtOfJc+YaeiNFC6aUSBKm7fH7H/q1j5y1/t66WErWYGaD+khoj58o/AApyYnqxWeOCyIN2COmadctTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hXbP4+6x; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hXbP4+6x"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1eab16c8d83so23561025ad.3;
+        Sat, 27 Apr 2024 03:25:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714213509; x=1714818309; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=LUJKteoqdO5SeaZqJ7h1IGkjXYQG9ye3U8EDumHvbUU=;
+        b=hXbP4+6xnRUpqphG1c4wciqzLp2whGmbXebHA7oF/pKHKTW/OVaEtQUVWJBuh4OxVv
+         fB+t1JaG+5mMMfl955N4a8PAvEpdLwE0TaJloSbS99W6GhpxQK0n71sIAeprKdbJEpSp
+         VtvtXqCdJAuGr3K94EswSyBiPCKizQS3i8XmV+vTQmrFbV+dpnZT7/LFiqwBgG3dhNk3
+         w3XtZ77MxxmZbSvAs1syN1RP/qNAZmq5Dhy/mm7Wyt3VaSt5J01F13MadYBxHGuA1Fs0
+         KgDUjOc/au5RjB7xgn0HFqyVh8dI1oW0rv50hRCbPnXkDt4mHV7Xq2XfmPYt1peQXfW3
+         qkyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714213509; x=1714818309;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LUJKteoqdO5SeaZqJ7h1IGkjXYQG9ye3U8EDumHvbUU=;
+        b=T49IUIda43HeiHYIov8VFOM6qc14hrhEvu/INlgq+KtA/z9XkdZd5fnz4jgXEMyqUB
+         sPT5Wt9WLueTTYFIxWtJpclEmqs4f9C2UwvzNK7DVP1K+9jkeSNVYoS4sqlIXZsNQvTq
+         DFECY6M4E1MMlwLQQz3pABHVQJ1RMfAR4MG8WIYklh24z2sipROxhuzoJwOpE6gEKORu
+         Wm8xLmX9/cDBbRqagf9QuFhwkDC2q3vt+n5e616hTQE31zRPY7t+cOr6tsNhAhyqKNcU
+         1k+PWy6ewNchVa5C/fo1UHUtLD1RgCwNNUYYDgh1UCr/t1l/o42X35R7IK1U139ucX3m
+         oh3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVp4UxRnSjQgfsTUjZheoHsDVTgN/qAwkgwdNfVyB08jRFv2Gv98ciT2FltS7I5iLLMhFw4DZViUQKvaj+iDvTSB7fViT4YmqquqTgCAK1Z1VNku7NqgZJY4K499LBMRsIqJuVpCaNNu53sx+pD0Rl8cFi6hqSz39kguevvqM9W5yXy
+X-Gm-Message-State: AOJu0Yy18UATGIyjS2Xyt2bisA5RbNnmMu8EPUAKgnJTb5ZvnYDajWo2
+	iBZZCGtpaqSrzGz+2sBsnk3/RAn898ZOwDSkVvLxcYla3klnxISJkK5b/w==
+X-Google-Smtp-Source: AGHT+IHNhgASlzQriqkArHfommJX1rdgRS/zpt5HED9VzsPQ9Sx3R/YbIq8Peic1KbwOOc8vorCNcQ==
+X-Received: by 2002:a17:902:aa84:b0:1e0:b87f:beb4 with SMTP id d4-20020a170902aa8400b001e0b87fbeb4mr4765079plr.30.1714213509107;
+        Sat, 27 Apr 2024 03:25:09 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id kg8-20020a170903060800b001ea699b79cbsm6316530plb.213.2024.04.27.03.25.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Apr 2024 03:25:08 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 026CC18498712; Sat, 27 Apr 2024 17:25:05 +0700 (WIB)
+Date: Sat, 27 Apr 2024 17:25:05 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: "Bird, Tim" <Tim.Bird@sony.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: Linux Stable <stable@vger.kernel.org>,
+	Linux Kernel Workflows <workflows@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Mao Zhu <zhumao001@208suo.com>, Ran Sun <sunran001@208suo.com>,
+	Xiang wangx <wangxiang@cdjrlc.com>,
+	Shaomin Deng <dengshaomin@cdjrlc.com>,
+	Charles Han <hanchunchao@inspur.com>,
+	Attreyee M <tintinm2017@gmail.com>
+Subject: Re: [PATCH] docs: stable-kernel-rules: fix typo sent->send
+Message-ID: <ZizSgfNRtAjZv4-q@archie.me>
+References: <SA3PR13MB63726A746C847D7C0919C25BFD162@SA3PR13MB6372.namprd13.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] scripts: add `check-trans-update.py`
-To: Jonathan Corbet <corbet@lwn.net>, Cheng Ziqiu <chengziqiu@hust.edu.cn>,
- Alex Shi <alexs@kernel.org>
-Cc: Dongliang Mu <dzm91@hust.edu.cn>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, hust-os-kernel-patches@googlegroups.com
-References: <20240422065822.1441611-1-chengziqiu@hust.edu.cn>
- <8734rd4jq9.fsf@meer.lwn.net>
-Content-Language: en-US
-From: Yanteng Si <siyanteng@loongson.cn>
-In-Reply-To: <8734rd4jq9.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:AQAAf8Bxnlfk0Cxm1kwHAA--.16390S3
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7Kr1kuF47JryxAFWxAFy7urX_yoW8Wr1xpa
-	y5Ca4akayDJw47W3W3Gw10qF4rGFs7JFWSgF1xtr1DAwn8tr18GFWayayavrWDJF1rXry2
-	vF1Yk3sIkFn7C3gCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUyEb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6r4j6r4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
-	02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAF
-	wI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxAIw28IcxkI7VAKI4
-	8JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xv
-	wVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjx
-	v20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20E
-	Y4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267
-	AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8yrW7UUUUU==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="N2Pm/WPT0MeZxS0x"
+Content-Disposition: inline
+In-Reply-To: <SA3PR13MB63726A746C847D7C0919C25BFD162@SA3PR13MB6372.namprd13.prod.outlook.com>
 
 
-在 2024/4/22 21:20, Jonathan Corbet 写道:
-> Cheng Ziqiu <chengziqiu@hust.edu.cn> writes:
->
->> The `check-trans-update.py` scripts check whether a translated version
->> of a documentation is up-to-date with the english version.
->>
->> The scripts use `git log` commit to find the latest english commit from
->> the translation commit (order by author date) and the latest english
->> commits from HEAD. If differences occurs, report the file and commits
->> need to be updated.
->>
->> Signed-off-by: Cheng Ziqiu <chengziqiu@hust.edu.cn>
->> ---
->>   scripts/check-trans-update.py | 176 ++++++++++++++++++++++++++++++++++
->>   1 file changed, 176 insertions(+)
->>   create mode 100755 scripts/check-trans-update.py
->  From a *quick* look I see how this could be a useful tool.  I think a
-> real requirement, though, is that a script like this start with a nice
-> comment saying what it does and how to use it.  Most people will simply
-> stumble across it while looking at files in scripts/; without such a
-> comment, they will be hard put to know what it's for.
->
-> Scripts for the documentation should be well documented :)
+--N2Pm/WPT0MeZxS0x
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes, Ziqiu, can you describe the specific function of your script? just 
-like:
+On Fri, Apr 26, 2024 at 11:18:14PM +0000, Bird, Tim wrote:
+> -To sent additional instructions to the stable team, use a shell-style in=
+line
+> +To send additional instructions to the stable team, use a shell-style in=
+line
+>  comment:
+> =20
+>   * To specify any additional patch prerequisites for cherry picking use =
+the
 
+LGTM, thanks!
 
-1. What work does my tool replace?
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-2. How to use it?
+--=20
+An old man doll... just what I always wanted! - Clara
 
-3. What features did I implement?
+--N2Pm/WPT0MeZxS0x
+Content-Type: application/pgp-signature; name="signature.asc"
 
-4. What other features do I plan to add in the future?
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZizSeQAKCRD2uYlJVVFO
+o16hAQC4vFq5JUPRgrcka4ItB6aOJ9kAqfRetDbc1wuJDCLkmAEAp2GOG95bUjr1
+lvh8/S7PZiWSH/I5r9yUoey0fCdwWwc=
+=w/az
+-----END PGP SIGNATURE-----
 
-Finally, it would be great if you could write it up as a
-
-check_trans_update.rst and put it in the patch set,
-
-but of course provide both English and Chinese.
-
-Maybe we can put it here:
-
-  Documentation/doc-guide/ ?
-
-
-Thanks,
-
-Yanteng
-
-
-
+--N2Pm/WPT0MeZxS0x--
