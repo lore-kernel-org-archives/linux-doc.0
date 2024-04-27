@@ -1,113 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9308D3BBEC;
-	Sat, 27 Apr 2024 03:47:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 822313CF73;
+	Sat, 27 Apr 2024 04:25:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714189648; cv=none; b=tE5V94cWNzd+FbwckIXMSwlj5TEKOd8qijIfCsKHVP57O19P2tsU914RoIcoY3Acr8bSCFLEJZuxxBKGVqlKhyeJ6Ph9VW+e3jEIc7+fLAcL2xpqhG7Z+PTDj0bJDh6b2bk0IiWaG6iLqGGjSc6+mZOpzLOvdQsX4yhSZCNvQXM=
+	t=1714191949; cv=none; b=Jr1LXEUAyvXt2zM5vhJ+riY8JvHvONrjgebSdfsoBXHFOZeCS6AnxPJjNnlLMav5JBv8wct7ZpHtoLpHAIyuP8krhB1VUSHHRxidPLGIvNZTh8LEOawBGJ0Hh9OqwYG/RvZ/IHEDDIJRHOeQt3j+I4/v9ghgHPM4YiTG/cPajD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714189648; c=relaxed/simple;
-	bh=Hci8UxeEl1DmkB61E3Z5Yin1Hdth1d+hleZAKN2chrw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fpXoxBToHgUBs32/y05QORtAEAxh49zeKw/IkWjlp7JVzq3UMAyjmeNwH5dAsFfY0VehNwgbwYtYZTUj/5tenmLBPjzDAhZCsaQSop2NmbRG52/bQyuop8BOaoAApfHlIeA5bpBHqZp6X5by5cPHx/V1LinrONX2Xpxg9W8v5yI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EYPzr60M; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EYPzr60M"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714189645; x=1745725645;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Hci8UxeEl1DmkB61E3Z5Yin1Hdth1d+hleZAKN2chrw=;
-  b=EYPzr60MEc3hTXaXXjoYJn+Zoym1BxHy00f4w/OyjzxnTmt+mAwISJoR
-   RLq1fOJgsrvSra9sRg2wy/b+Ni8syZ1E5Uf8PYNX60cDFVIp1zw5ozh8k
-   6wBMQT6bo+x24k8q+YBvmnukTK+cR3ffwliMl+kHodhs37775tWg7Ltaa
-   ePhztoCm2nE6Dpai+ytjKJfCfDOCuaJG19s6Yu4EXw/7H3KqODvf99Qqe
-   GV5M0SKR3GC8Rj9RxviYQ4LQteZRw7eizXUMpLMLjqhJQ7nuNOFexXZfR
-   uGtFofybL9LfpeIo3uMnxwjLzMItQRDuEUZ2dDC5VNIvthOfatxbiPFjx
-   Q==;
-X-CSE-ConnectionGUID: MvEspl0lTzWkAhSR1gnRHg==
-X-CSE-MsgGUID: sI2ztvwfSfuLjvOzyKuHNw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11056"; a="20545857"
-X-IronPort-AV: E=Sophos;i="6.07,234,1708416000"; 
-   d="scan'208";a="20545857"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2024 20:47:25 -0700
-X-CSE-ConnectionGUID: 5T5vv9OpSs2omrdmY/ShbQ==
-X-CSE-MsgGUID: FufmCqDuSHO0QVfWQUyB1A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,234,1708416000"; 
-   d="scan'208";a="25684067"
-Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 26 Apr 2024 20:47:24 -0700
-Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s0Z20-0004d0-0j;
-	Sat, 27 Apr 2024 03:47:20 +0000
-Date: Sat, 27 Apr 2024 11:46:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Perry Yuan <perry.yuan@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	devel@acpica.org, linux-pm@vger.kernel.org,
-	"Rafael J. Wysocki" <rjw@rjwysocki.net>,
-	"Gautham R. Shenoy" <gautham.shenoy@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	linux-doc@vger.kernel.org
-Subject: [rafael-pm:bleeding-edge 183/186] drivers/cpufreq/amd-pstate.c:760:
- warning: This comment starts with '/**', but isn't a kernel-doc comment.
- Refer Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202404271148.HK9yHBlB-lkp@intel.com>
+	s=arc-20240116; t=1714191949; c=relaxed/simple;
+	bh=X2gig5u+4kkxfvwDP2PFggk8gIpIlYRNQFFkvmtEtcg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MX/M+WuaO4ejdSBNinL+dmMrlOc1qd1jy8T8zY5S+OlRdJo9X3c9cE4p45Vnk9czRFec8DvgzIKTuXvsbhwa27hAqc9YgIkUthufgUd8vshOgdLS1BBDz3lBJCjQRbfZUJITn/k3lP4x/fuNy6EU5rPwAVI9UU99v8j4T82n61o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [112.20.112.218])
+	by gateway (Coremail) with SMTP id _____8AxR_BIfixmYN0DAA--.15406S3;
+	Sat, 27 Apr 2024 12:25:44 +0800 (CST)
+Received: from [192.168.100.8] (unknown [112.20.112.218])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8AxP1VFfixmABcHAA--.4027S3;
+	Sat, 27 Apr 2024 12:25:42 +0800 (CST)
+Message-ID: <f402bf42-98c9-4433-9efc-c3e13b0853e9@loongson.cn>
+Date: Sat, 27 Apr 2024 12:25:40 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/4] rust: docs: Update the translation of rust to
+ 6.9-rc4
+To: Jonathan Corbet <corbet@lwn.net>,
+ Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: ojeda@kernel.org, alex.gaynor@gmail.com, wedsonaf@gmail.com,
+ boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
+ benno.lossin@proton.me, a.hindborg@samsung.com, aliceryhl@google.com,
+ nathan@kernel.org, ndesaulniers@google.com, morbo@google.com,
+ justinstitt@google.com, alexs@kernel.org, dzm91@hust.edu.cn,
+ linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ llvm@lists.linux.dev
+References: <cover.1714113680.git.siyanteng@loongson.cn>
+ <CANiq72meE9txt5b09Y7cUJd-hEqcZX1ZtRc_0YYDZqWQgyo3wA@mail.gmail.com>
+ <87zftgnsun.fsf@meer.lwn.net>
+Content-Language: en-US
+From: Yanteng Si <siyanteng@loongson.cn>
+In-Reply-To: <87zftgnsun.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:AQAAf8AxP1VFfixmABcHAA--.4027S3
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBj93XoW7CF15Zw13WryUCF17Jw4xuFX_yoW8XFykpF
+	sxKa43Kw1DGr1IyF4fur4UZa4Ikr13GF4UJr1DW3s8Cw13XF1SkrWSvw4Y9FWxCrn5Ww1j
+	qr40yrZ3u3Z8ZFXCm3ZEXasCq-sJn29KB7ZKAUJUUUUk529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUU9Eb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+	Gr0_Gr1UM2kKe7AKxVWUtVW8ZwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYI
+	kI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUtVWr
+	XwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMx
+	kF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4U
+	MxCIbckI1I0E14v26r1q6r43MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI
+	0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE
+	14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20x
+	vaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8
+	JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0L0ePUUUUU==
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
-head:   d9e98e7641ce1ef34d0c33dae1f27611bd1cbcf9
-commit: 069a2bb8c48c43176f2f0e6cae5efe2f39f6bdf2 [183/186] cpufreq: amd-pstate: get transition delay and latency value from ACPI tables
-config: i386-buildonly-randconfig-002-20240427 (https://download.01.org/0day-ci/archive/20240427/202404271148.HK9yHBlB-lkp@intel.com/config)
-compiler: gcc-13 (Ubuntu 13.2.0-4ubuntu3) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240427/202404271148.HK9yHBlB-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202404271148.HK9yHBlB-lkp@intel.com/
+在 2024/4/26 21:42, Jonathan Corbet 写道:
+> Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> writes:
+>
+>> On Fri, Apr 26, 2024 at 9:00 AM Yanteng Si <siyanteng@loongson.cn> wrote:
+>>> v2:
+>>> * As Miguel's comments, translate commit 01848eee20c6
+>>>    into Chinese, as well as commit 81889e8523e6. By the way,
+>>>    these two patches haven't appeared in the doc development
+>>>    tree yet, maybe we could consider merging them into the
+>>>    rust tree?
+>> The former is in `rust-fixes`, which will be sent to Linus for this
+>> cycle. So the English docs will be updated sooner than these updates,
+>> if that is what you are asking.
+>>
+>> For the other one, it is in the RISC-V tree and I assume it will be
+>> sent into the next merge window. I don't know how you normally handle
+>> that (i.e. translations being updated at the same time or after a
+>> cycle), but either way, I am not sure why you would want them to be
+>> merged into the Rust tree?
+> I guess I don't see any reason why the translation couldn't go through
+> docs-next as usual?  It will all even out during the merge window,
+> right?  Or am I missing something?
 
-All warnings (new ones prefixed by >>):
-
->> drivers/cpufreq/amd-pstate.c:760: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Get pstate transition delay time from ACPI tables that firmware set
-   drivers/cpufreq/amd-pstate.c:775: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Get pstate transition latency value from ACPI tables that firmware
-   drivers/cpufreq/amd-pstate.c:801: warning: Function parameter or struct member 'cpudata' not described in 'amd_pstate_init_freq'
+Yes, you're right.
 
 
-vim +760 drivers/cpufreq/amd-pstate.c
+I mean, in order of order, I should translate these two patches in the 
+next window,
 
-   758	
-   759	/**
- > 760	 * Get pstate transition delay time from ACPI tables that firmware set
-   761	 * instead of using hardcode value directly.
-   762	 */
-   763	static u32 amd_pstate_get_transition_delay_us(unsigned int cpu)
-   764	{
-   765		u32 transition_delay_ns;
-   766	
-   767		transition_delay_ns = cppc_get_transition_latency(cpu);
-   768		if (transition_delay_ns == CPUFREQ_ETERNAL)
-   769			return AMD_PSTATE_TRANSITION_DELAY;
-   770	
-   771		return transition_delay_ns / NSEC_PER_USEC;
-   772	}
-   773	
+because these two patches are not merged into the doc tree yet, and if 
+they are
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+merged into the doc tree, this may cause confusion for readers and 
+reviewers.
+
+
+That's why I mentioned it on the cover letter. Of course, it would be 
+great if the
+
+patch sets were  merged into the doc tree after reviewed.
+
+
+Thanks,
+
+Yanteng
+
+>
+>
+
