@@ -1,64 +1,41 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938768F77
-	for <linux-doc@vger.kernel.org>; Sat, 27 Apr 2024 21:09:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C7533C8;
+	Sat, 27 Apr 2024 21:17:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714252179; cv=none; b=CxJtcRTcgv7EYAAGhInB8I0bQAjVdBL/VRtqvSo41+CUoV4N+Q1tJYUXDcH4fHduYn3/X+MIxl7HurYzXZzxFYQH08YskKATkaoFjX/dvKNUpGPfU59FEslnqUiFUmsADiO8mFyvNRBlDeFyumDXUzL+3z9gGGiZp8k9kPQRBVY=
+	t=1714252673; cv=none; b=irVxm3PDYukU40Cu6O46/ODuv2m12BAskdvZKfPPWzXab1tLDXq47gdd6ZPOzLUOL9EcYKQ+7U6U72vprHx+1tUdXnNpsycJ6ht2qIRIDIMWvhMN5y0bFUVWq9GCoEkP7FpxfSvXNQ1s15eZm8UEJtxg+IJ1aUzGAQ4Kqx7KrXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714252179; c=relaxed/simple;
-	bh=yM5PWgZeiUSTVvfdIQdobAEEnf+XmPghsPqHz0QFhJs=;
+	s=arc-20240116; t=1714252673; c=relaxed/simple;
+	bh=lri6YROTIADX74D4tW59eSZSL8gtWsyE9zcdY7AhXNo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YTkopWTrD5lPUMJb2ACIEeCqy7Kmn243Ry0fefh9TdIgQnRHCSlj9CA1CyEjuetLi/8sCMjYeFg2lWcMJ1+lOIfuhDhKgw8tjrsFrWbxyPSHV8XKAduZnrLnnYB4jqKqE9KxZAA/yXzeohh74l6IlGnoX+MmUMKNgjMLQltJGUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ferroamp.se; spf=pass smtp.mailfrom=ferroamp.se; dkim=pass (2048-bit key) header.d=ferroamp-se.20230601.gappssmtp.com header.i=@ferroamp-se.20230601.gappssmtp.com header.b=3aAgJYC8; arc=none smtp.client-ip=209.85.208.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ferroamp.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ferroamp.se
+	 Content-Type:Content-Disposition:In-Reply-To; b=lFFIz8aLHkGsHeddos3/IVUo4SAPD5X0VU7MC/PIfRZsBj8Y7OmwP6u70oNpAoyFEoaWReiTkRcoVPjWJvYIEoF4lqasyiM6S6Rl3U19b2qqyIkVt9grUP8eWcEjPEZaIBQl6aGEp2CO4Se0CrWtbhCPEYlz+g32osMyvLr6Cy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=4wz3AAVO; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ferroamp-se.20230601.gappssmtp.com header.i=@ferroamp-se.20230601.gappssmtp.com header.b="3aAgJYC8"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2d8b2389e73so39019391fa.3
-        for <linux-doc@vger.kernel.org>; Sat, 27 Apr 2024 14:09:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ferroamp-se.20230601.gappssmtp.com; s=20230601; t=1714252177; x=1714856977; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=c2zTIoadr8RExdz4xMeAhQeS4RkPDjUKmRxEp7ueNe4=;
-        b=3aAgJYC81418Hx2lRVt6IfnEeWBAm9hX6JcTfOTNnrx9SpCM+Z/SkHXEdz/bseDMbZ
-         l8sGzCA6nYB5137zUPXINbZCZ0X+EoxkqxRcuF0YAQBNnXZX1+YXEGju6z75AQNf7o7E
-         q0Ehl89f8dlVy527VquR0WWBBSiKfCJUpB1jwrUFjQdDJscwSUdSEvvPBSV9FtzRrsFo
-         4CyCFyBvMrRlV5xgjNrRALX4NfKEb3gdQBriNh+w/nPylMz2zZcFipKxv2uTZaeFgO7h
-         1qn1sgsV7CEORYdGxze+ScNYq0nDC7Y+eThLttg6y6ZxawR/rKmKObURyATlJq59kklu
-         GeMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714252177; x=1714856977;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c2zTIoadr8RExdz4xMeAhQeS4RkPDjUKmRxEp7ueNe4=;
-        b=c+0C9EpI6l/KoD9IoMt3NO6wtrD3uI57Yl6EXjtlF+hxLHbiX+miA8Y0nDndM/MJhD
-         Rn5q3PQkXZm2UCzHzr+EL97HBWQDxTFrD8HPkkMJuONsTPLq061qdTODLhVqLXMsJZQO
-         7ZSN0ZJgQMKx2a9nfuhLn4wHW6+FNkpf8Dwq14zypHjMO2pYuMDXCxqDPepyxsyb9CpV
-         dmUz5Hjvl0xqLF4cFq2VxYAUx3wmf5RN+KNswd4AcuQRWZHL6XH4hUEBDK2Tycnsrlc4
-         U5vIBBl1F8sZGjlkwClj8qD5/1HscwouJgk/3psQz1Rqo5ZZ8ZiOVn/WwnhOawLOQJRS
-         9EcA==
-X-Forwarded-Encrypted: i=1; AJvYcCU28eu7sFvhaQaOczRfsa6bBIBglsN3JzR6dbEaflJD6ns8OAFOahb/zXLIO3OmCOjSUZuTMpGmKJPQMyynM+KqmUdMf00UEmKt
-X-Gm-Message-State: AOJu0YyXZqw1VqZAHXFgktHe2QE+JxSg4ZKOjr+hBXjlqLKJ/cmDVlPE
-	67w0THHGIcTfDHFVvsL+NOsJnr0pPqRX+TSOHwWYEHJI2wB1ju6A8iTAYqmi7mY=
-X-Google-Smtp-Source: AGHT+IGDtQZoTkTFz5qjYB1+ezyxCNNT2QBqmEwUhpivw7iry0dGY3XBbfNI0/XF2v1BbI18pjRlrQ==
-X-Received: by 2002:ac2:5e21:0:b0:517:87ba:aff3 with SMTP id o1-20020ac25e21000000b0051787baaff3mr3459847lfg.43.1714252176841;
-        Sat, 27 Apr 2024 14:09:36 -0700 (PDT)
-Received: from builder (c188-149-135-220.bredband.tele2.se. [188.149.135.220])
-        by smtp.gmail.com with ESMTPSA id w23-20020a0565120b1700b0051d22e9dfcfsm277139lfu.21.2024.04.27.14.09.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Apr 2024 14:09:36 -0700 (PDT)
-Date: Sat, 27 Apr 2024 23:09:35 +0200
-From: =?iso-8859-1?Q?Ram=F3n?= Nordin Rodriguez <ramon.nordin.rodriguez@ferroamp.se>
-To: Conor Dooley <conor@kernel.org>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="4wz3AAVO"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+	In-Reply-To:References; bh=wlif7CHx7sEisoS17oJIkYIDPayl4RDiml1kpVEfL/I=; b=4w
+	z3AAVO6ByxmQ08Jcub4NyyGgs1HtWknw4vw4eXMG78e8VSoOkgPGzZXAPUwqSuLNMmklndnfed+3h
+	+Hd1E8tlcmgdRTImfeSmplEIRCtViBaTAfzwH10GPW8Nd3LPp/AzFrjtGcspVyH/u89q/c3QWTWzv
+	A2E3E/sN6X6q2Z4=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1s0pQP-00EA3g-Ey; Sat, 27 Apr 2024 23:17:37 +0200
+Date: Sat, 27 Apr 2024 23:17:37 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: =?iso-8859-1?Q?Ram=F3n?= Nordin Rodriguez <ramon.nordin.rodriguez@ferroamp.se>
 Cc: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
 	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
 	pabeni@redhat.com, horms@kernel.org, saeedm@nvidia.com,
 	anthony.l.nguyen@intel.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, andrew@lunn.ch, corbet@lwn.net,
+	linux-kernel@vger.kernel.org, corbet@lwn.net,
 	linux-doc@vger.kernel.org, robh+dt@kernel.org,
 	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
 	devicetree@vger.kernel.org, horatiu.vultur@microchip.com,
@@ -67,35 +44,124 @@ Cc: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
 	Thorsten.Kummermehr@microchip.com, Pier.Beruto@onsemi.com,
 	Selvamani.Rajagopal@onsemi.com, Nicolas.Ferre@microchip.com,
 	benjamin.bigler@bernformulastudent.ch
-Subject: Re: [PATCH net-next v4 11/12] microchip: lan865x: add driver support
- for Microchip's LAN865X MAC-PHY
-Message-ID: <Zi1pj28Eb57bByef@builder>
+Subject: Re: [PATCH net-next v4 05/12] net: ethernet: oa_tc6: implement error
+ interrupts unmasking
+Message-ID: <77d7d190-0847-4dc9-8fc5-4e33308ce7c8@lunn.ch>
 References: <20240418125648.372526-1-Parthiban.Veerasooran@microchip.com>
- <20240418125648.372526-12-Parthiban.Veerasooran@microchip.com>
- <Zi1PxgANUWh1S0sO@builder>
- <20240427-vaporizer-pencil-be6a25030f08@spud>
- <Zi1cbScrKzFN3PNT@builder>
- <20240427-attention-negate-a3b6ede708d7@spud>
+ <20240418125648.372526-6-Parthiban.Veerasooran@microchip.com>
+ <Zi1Xbz7ARLm3HkqW@builder>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20240427-attention-negate-a3b6ede708d7@spud>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Zi1Xbz7ARLm3HkqW@builder>
 
-> I think the error pretty much is what it says it is, the driver doesn't
-> appear to have a spi_device_id table containing lan8650. The name of
-> the driver is lan685x which is used in the fallback clause in
-> __spi_register_driver(), so it complains as it does not find lan8650 in
-> either. If my understanding is correct, either a spi_device_id table is
-> required or the driver needs a rename with s/x/0/.
+On Sat, Apr 27, 2024 at 09:52:15PM +0200, Ramón Nordin Rodriguez wrote:
+> > +static int oa_tc6_unmask_macphy_error_interrupts(struct oa_tc6 *tc6)
+> > +{
+> > +	u32 regval;
+> > +	int ret;
+> > +
+> > +	ret = oa_tc6_read_register(tc6, OA_TC6_REG_INT_MASK0, &regval);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	regval &= ~(INT_MASK0_TX_PROTOCOL_ERR_MASK |
+> > +		    INT_MASK0_RX_BUFFER_OVERFLOW_ERR_MASK |
+> > +		    INT_MASK0_LOSS_OF_FRAME_ERR_MASK |
+> > +		    INT_MASK0_HEADER_ERR_MASK);
+> > +
+> > +	return oa_tc6_write_register(tc6, OA_TC6_REG_INT_MASK0, regval);
+> > +}
+> > +
 > 
+> This togheter with patch 11 works poorly for me. I get alot of kernel
+> output, dropped packets and lower performance.
+> Below is an example for a run when I curl a 10MB blob
+> 
+> time curl 20.0.0.55:8000/rdump -o dump -w '{%speed_download}'
+>   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+>                                  Dload  U[  387.944737] net_ratelimit: 38 callbacks suppressed
+> pload   Total   Spent    Left  Sp[  387.944755] eth0: Receive buffer overflow error
+> eed
+>   0     0    0     0    0     0      0      0 --:--:-- --:-[  387.961424] eth0: Receive buffer overflow error
+>   0 10.0M    0  2896    0     0  13031      0  0:13:24 --:--:--  0:13:24 12986[  388.204257] eth0: Receive buffer overflow error
+> [  388.209848] eth0: Receive buffer overflow error
 
-Right you are, no gdb necessary. With the caveat that I only get it
-working when setting DRV_NAME to "lan8651", setting it to "lan8650"
-still produces the log
+How fast is your SPI bus? Faster than the link speed? Or slower?
 
-R
+It could be different behaviour is needed depending on the SPI bus
+speed. If the SPI bus is faster than the link speed, by some margin,
+the receiver buffer should not overflow, since the CPU can empty the
+buffer faster than it fills.
+
+If however, the SPI bus is slower than the link speed, there will be
+buffer overflows, and a reliance on TCP backing off and slowing down.
+The driver should not be spamming the log, since it is going to happen
+and there is nothing that can be done about it.
+
+> I tried this patch
+> 
+> diff --git a/drivers/net/ethernet/oa_tc6.c b/drivers/net/ethernet/oa_tc6.c
+> index 9f17f3712137..bd7bd3ef6897 100644
+> --- a/drivers/net/ethernet/oa_tc6.c
+> +++ b/drivers/net/ethernet/oa_tc6.c
+> @@ -615,21 +615,9 @@ static int oa_tc6_sw_reset_macphy(struct oa_tc6 *tc6)
+>         return oa_tc6_write_register(tc6, OA_TC6_REG_STATUS0, regval);
+>  }
+> 
+> -static int oa_tc6_unmask_macphy_error_interrupts(struct oa_tc6 *tc6)
+> +static int oa_tc6_disable_imask0_interrupts(struct oa_tc6 *tc6)
+>  {
+> -       u32 regval;
+> -       int ret;
+> -
+> -       ret = oa_tc6_read_register(tc6, OA_TC6_REG_INT_MASK0, &regval);
+> -       if (ret)
+> -               return ret;
+> -
+> -       regval &= ~(INT_MASK0_TX_PROTOCOL_ERR_MASK |
+> -                   INT_MASK0_RX_BUFFER_OVERFLOW_ERR_MASK |
+> -                   INT_MASK0_LOSS_OF_FRAME_ERR_MASK |
+> -                   INT_MASK0_HEADER_ERR_MASK);
+> -
+> -       return oa_tc6_write_register(tc6, OA_TC6_REG_INT_MASK0, regval);
+> +       return oa_tc6_write_register(tc6, OA_TC6_REG_INT_MASK0, (u32)-1);
+
+So this appears to be disabling all error interrupts?
+
+This is maybe going too far. Overflow errors are going to happen if
+you have a slow SPI bus. So i probably would not enable that. However,
+are the other errors actually expected in normal usage? If not, leave
+them enabled, because they might indicate real problems.
+
+> Which results in no log spam, ~5-10% higher throughput and no dropped
+> packets when I look at /sys/class/net/eth0/statistics/rx_dropped
+
+You cannot trust rx_dropped because you just disabled the code which
+increments it! The device is probably still dropping packets, and they
+are no longer counted.
+
+It could be the performance increase comes from two places:
+
+1) Spending time and bus bandwidth dealing with the buffer overflow
+interrupt
+
+2) Printing out the serial port.
+
+Please could you benchmark a few things:
+
+1) Remove the printk("Receive buffer overflow error"), but otherwise
+keep the code the same. That will give us an idea how much the serial
+port matters.
+
+2) Disable only the RX buffer overflow interrupt
+
+3) Disable all error interrupts.
+
+   Andrew
