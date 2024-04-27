@@ -1,85 +1,104 @@
-Received: from hust.edu.cn (unknown [202.114.0.240])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE8181E4A8;
-	Sat, 27 Apr 2024 05:38:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.114.0.240
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D3CA41A89;
+	Sat, 27 Apr 2024 07:07:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714196286; cv=none; b=nDYSYbdf0lWFDmkNH671vsUioOgSxASMs1LaAfZT4TiNmXHhI66FSrx7U9HMp/+J79BWE/L72p2jgA6PhJEZR1Sqbfbw0EYo6fXbV7jC2b+5OORU5uzowaXFlwxjDYWPpKAJ85Gnze4EeiDbSBAUJasGkYsB5HwUVdJcIgVJCEM=
+	t=1714201652; cv=none; b=taw67J3UyqTD8ec7CdkLdGG73WNv6DiqoJzxqRVTAd8b5bImKObQgNz7JnYynOg21q6YMw0S1YbEqpOUUbJ3gJNKbekWpEWQ+3h7/jtu/Zl/225JvvwQCgu7ThVMmS4TlXb8fWXmRfmaurb7nIJ8imockg0NFqclNFcaSFX9p6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714196286; c=relaxed/simple;
-	bh=iO6uCBxvEkuj7AfpMsgerSOpQQfvTsqL9ARBUK5sltQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=FUdyXPOw7YlImMxvEM2GWLdQ3VF0UconSwB0G8UfUaJVYja+S7DAxFwONWmquvM6PRQSUG+dfaQSuVhq5xO6yt/w1ThUSxU5L7QzvA4h6BKFJtZ/MaTgLIT+vg5xVMjF1eIZlA/HrZHLB8q0su9FUHGEx+dM6Y0woie7P39Iscw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=202.114.0.240
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app2 (Coremail) with SMTP id HwEQrAB3f_sIjyxm+0oKAQ--.48584S2;
-	Sat, 27 Apr 2024 13:37:12 +0800 (CST)
-Received: from pride-poweredge-r740.. (unknown [222.20.126.129])
-	by gateway (Coremail) with SMTP id _____wBnTy0BjyxmsW07AQ--.35593S2;
-	Sat, 27 Apr 2024 13:37:11 +0800 (CST)
-From: Dongliang Mu <dzm91@hust.edu.cn>
-To: Alex Shi <alexs@kernel.org>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Dongliang Mu <dzm91@hust.edu.cn>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/zh_CN: remove two inconsistent spaces
-Date: Sat, 27 Apr 2024 13:37:02 +0800
-Message-Id: <20240427053703.2339727-1-dzm91@hust.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1714201652; c=relaxed/simple;
+	bh=/CGA1YZNwX3gAWmnKXT2ml9BQalf1WSTv5fRQB8eosk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gQHa8D/iMvfg2F2tTDpKCQh0s9eRF4E5dqCXGdwMDV0VTO6XuHseGXv2bd13eSYezynYhICIXQBqjLt31klZTes/fO+EQMCwVlWTfWpReFHyrPa4oD30le+OXi1Y2Ka3O+prE8qzcRhBLvd2zudXGqxKZr/xcaChTC9s69lv18E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HdA54LsR; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HdA54LsR"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2b101ac9ab4so59665a91.0;
+        Sat, 27 Apr 2024 00:07:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714201650; x=1714806450; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/CGA1YZNwX3gAWmnKXT2ml9BQalf1WSTv5fRQB8eosk=;
+        b=HdA54LsR/SmcSqWn2HrkRRBu8vWZxn5P8/7xe0qrQrPHNaClaHKQydw+XMZZaDnuBx
+         rfiVKhYiJw/m7K721CzCbWry39xrNfH87cIjgoyUJ5MNZytg4IaqBq/7gMzkaVpLpp9i
+         i9pYsFNjlkH7uLtidQVqNRYxg5O5wX4tnv1MJ0aPw0KGjeRxfgAdtJI5Wei/dbFh39fR
+         gmwtpyD8FOhV46KRBJNXloIxaeaThvTg3VKSBO3yR/AR+SWB5zJ75gpFtU+0EZhMt/nn
+         T6qoIRMTJvf4/6NwDaD53UdrYM5VTwOee18W5NqIxePSTZXNlp1joIeDSPzonIxqfET5
+         Nt/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714201650; x=1714806450;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/CGA1YZNwX3gAWmnKXT2ml9BQalf1WSTv5fRQB8eosk=;
+        b=dzZjK5Eg07r0/3inuEZUu/H3rSFz2/DIjsACMOa7WLcGIin9i+9fvO19nqR6X+3+k4
+         vzbnddxaesWrEILTXleRtBwurIpIBPFjNykqCjpZjfVR18PkFUY+ZHPQB4RiVqdtZn1M
+         NYvNiXroVcyVOOZYViCE/2V1e/r+W3fcG8g9gpBYGdFdpSf+k+fK6OSVQAz3hHfpVdzk
+         uzy8DHTpjGxElASK9PfX6kURcoEEORrueGSsSPP80tUs9EcM6U4b/Fg+iCGUlWsvq//Z
+         Bw9ikkFiWtK0/6kv6oGWeId6VoVoOfZ5a03xWnAOLaVQfd9vzG5TGjxjSOTShBytEFZa
+         ScHw==
+X-Forwarded-Encrypted: i=1; AJvYcCWx6iXr0rEglg/ss7niWxP7rTYpzPJQT1AQHUSCctXJKw2FlDwkjPlJAp4nITTjB/vmJiDdnCsPNFFIYd4d8bGJXg3ZTkF8NBpo7L/L9Q32Sr3ME3Yx6HHZT3fEAIQ2vsgTRPhGv0sOE+8=
+X-Gm-Message-State: AOJu0YyKc9LRS7VLdKNlZKCw6bnvrh3NAIXq7SMQa3SaakManflUoINL
+	sMWmM68XEki61lhAXRoSmd0lPkKI+SVLO6hc2zHAyaYgW4B0RD5MBL5IULtwaiGPX4/s9oQvtIW
+	jC68N5V6vV8WncqiPjgoJ4aJLdiw=
+X-Google-Smtp-Source: AGHT+IHKofGcLoII2Oid/yXNZTA6rcCBJ0FPtB2YItGOSvF1xcF5lLBmzSBqiKigm0G2dFzG9rGbqfJbPzz3KVR7WaE=
+X-Received: by 2002:a17:90b:4a85:b0:2ae:d03b:9594 with SMTP id
+ lp5-20020a17090b4a8500b002aed03b9594mr1594141pjb.39.1714201649876; Sat, 27
+ Apr 2024 00:07:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HwEQrAB3f_sIjyxm+0oKAQ--.48584S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoW7tw4DCFWUWF18Zry7CrykKrg_yoW8GFWUpF
-	12g34fKa48ZF15CryagFy7Zr17Ga4xKa18KF18W3WSqrZ3XrZYqF4DtFZ0qFnFqrWfZFWU
-	XrW2kF9Yg34jvrJanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUmqb7Iv0xC_Ar1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
-	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
-	1Y6r17M2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
-	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
-	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
-	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF04
-	k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAF
-	wI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zV
-	AF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Ar0_tr1l
-	IxAIcVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF
-	4lIxAIcVC2z280aVAFwI0_Cr0_Gr1UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIY
-	CTnIWIevJa73UjIFyTuYvj4REiiSUUUUU
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+References: <cover.1714113680.git.siyanteng@loongson.cn> <CANiq72meE9txt5b09Y7cUJd-hEqcZX1ZtRc_0YYDZqWQgyo3wA@mail.gmail.com>
+ <87zftgnsun.fsf@meer.lwn.net> <CANiq72mHoh=qgOGPj29hpS7EhVcXi5Q_7GYsycKhYwj3QbsTag@mail.gmail.com>
+ <f49129dd-ed6f-4940-b851-0282fc320234@loongson.cn>
+In-Reply-To: <f49129dd-ed6f-4940-b851-0282fc320234@loongson.cn>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Sat, 27 Apr 2024 09:06:23 +0200
+Message-ID: <CANiq72kDEm7prV6ynAf=rZ5VydT=cYD-Ncj=waZEUOeCA1wbGA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] rust: docs: Update the translation of rust to 6.9-rc4
+To: Yanteng Si <siyanteng@loongson.cn>
+Cc: Jonathan Corbet <corbet@lwn.net>, ojeda@kernel.org, alex.gaynor@gmail.com, 
+	wedsonaf@gmail.com, boqun.feng@gmail.com, gary@garyguo.net, 
+	bjorn3_gh@protonmail.com, benno.lossin@proton.me, a.hindborg@samsung.com, 
+	aliceryhl@google.com, nathan@kernel.org, ndesaulniers@google.com, 
+	morbo@google.com, justinstitt@google.com, alexs@kernel.org, dzm91@hust.edu.cn, 
+	linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The spaces on the left and right of texts should be consistent.
-Remove these redundent spaces.
+On Sat, Apr 27, 2024 at 6:38=E2=80=AFAM Yanteng Si <siyanteng@loongson.cn> =
+wrote:
+>
+> What I mean is that if I translate these two patches as two separate
+> patches,
 
-Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
----
- Documentation/translations/zh_CN/index.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Ah, I see. As far as I know and from a quick look at the history, the
+translations try to be in sync with the latest non-translated status
+at their own pace, and they don't mimic the development of the
+non-translated side commit-by-commit.
 
-diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-index 6ccec9657cc6..20b9d4270d1f 100644
---- a/Documentation/translations/zh_CN/index.rst
-+++ b/Documentation/translations/zh_CN/index.rst
-@@ -24,8 +24,8 @@
- 上的linux-doc邮件列表。
- 
- 顺便说下，中文文档也需要遵守内核编码风格，风格中中文和英文的主要不同就是中文
--的字符标点占用两个英文字符宽度， 所以，当英文要求不要超过每行100个字符时，
--中文就不要超过50个字符。另外，也要注意'-'，'=' 等符号与相关标题的对齐。在将
-+的字符标点占用两个英文字符宽度，所以，当英文要求不要超过每行100个字符时，
-+中文就不要超过50个字符。另外，也要注意'-'，'='等符号与相关标题的对齐。在将
- 补丁提交到社区之前，一定要进行必要的 ``checkpatch.pl`` 检查和编译测试。
- 
- 与Linux 内核社区一起工作
--- 
-2.34.1
+So I don't think particular commits should be translated as separate
+patches. In other words, what you did here in this v2 seems fine,
+since it already contains the "final state".
 
+Of course, there is a small risk of going out of sync with the current
+patch series if e.g. the RISC-V PR does not get eventually merged in
+the next merge window. This is why I mentioned that I am not sure what
+the policy is for translations here (e.g. there may be a requirement
+that patches to be applied to translations have been already applied
+to mainline, in which case you may want to send the RISC-V bit later
+-- but I don't know what the actual policy is).
+
+Thanks!
+
+Cheers,
+Miguel
