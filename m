@@ -1,374 +1,449 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from mail-m24109.xmail.ntesmail.com (mail-m24109.xmail.ntesmail.com [45.195.24.109])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 178524DA00;
-	Sat, 27 Apr 2024 11:21:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A0F344C66;
+	Sat, 27 Apr 2024 11:40:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.195.24.109
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714216892; cv=none; b=jR/YuMFCpxsJLNO2D4zMz0u5eVT+exGjATlz8lfpJD4ScK5jUle5Z3I0lTXiHqlJDqCHEnPUEm5rKYyjBP66ESuczaRP4nygxkcYQCw9xFO3wamiRk7ISLFYL8S12R6+AU7DWQCaJ2HIM3WJTOsU20k0ef/C8AZB+gW+xzCCaXs=
+	t=1714218027; cv=none; b=RGm8wghBlV/CTl0OKrT5YSaJTc1iF1ojnrboYnm1CiNNuRmNnViS678mydbbdxOCKVKEcbshxAIffTg2x1mHc0svC4wZQvzMAtWScACq9BOUB6mmWJe0fGpSdRQuwCO8OQPY5AIpdIHHssncI8onLV9J4XzpKqZooo51+SmZN74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714216892; c=relaxed/simple;
-	bh=bt5ZK9z0bKFYX0/bOnrNtTFlIXKShYN2ESGBnXMeNqI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=coZnRS2etrXF5r9bgeG0bQvckN1sIwA3zB9aNjwIC7mpQx9jgo9GEbCKBGRp6SL0HMWvcmWDVaDqgGxFUAuFn6N9RuZIVn/3B9fsxQgd+sD6BbovdEQYFE4gkuy8uPWKGOEAnIYlVz3Kd5ar0qBvSTs5UEotWDwXwKQDsxutkkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=desiato.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=jhEc64xq; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
+	s=arc-20240116; t=1714218027; c=relaxed/simple;
+	bh=+YSUFQ+m14yYo9GtYP9ffNI+CUZl9aN5mXoRk/mlNqg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dhOzS4AGIPi/2rvSvVwibHY5a+gYSQAPR7hDU3pLPCJC9dhgPZrlmYaK/smGpd9tjZe89bUGH9ORDJCkUmoZsMhAdSnRsO9CjzpvWgFSGbuB4h6TFRGMBKOj+ofQ8PnDsHk0luiYezygb1on2kmz37lmUBm1aGirkumywfz+eVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=ENHryBFR; arc=none smtp.client-ip=45.195.24.109
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="jhEc64xq"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=/JDpaKVQe9XBet6gm2cGiomyiCiWrajRge7yHD8i1TM=; b=jhEc64xqBFfAB0bEkdVUB5Jvcj
-	e9d2YjzDwcEwkh+4Q2e5eVTXYMwuLDYAueDRxvFbbO1z47+FN/bImbnSDoRUVgk94e06lVIWJSHQb
-	lAwv5lLNxyZwqPTGH6qJ4E+H8Utztv03njrkJdfKsXuUsSfNjnx0FK0Qc3I3t9ro3su706bIily6E
-	oYwBwftC+0DeLpa92yYA51w1lBrIGdd7F2b0KHDMpxp1B1Fuy1/yWej9FP5jmmwYGt/bR9GuzGMuI
-	Qx8msONw5zhkhQGwsXM7Vxy3daH0nsPZxWhow535EkdAYpMSSoDcmZ0g2APucnhZYNgze9I9GvRbx
-	NZs79P5w==;
-Received: from [2001:8b0:10b:1::ebe] (helo=i7.infradead.org)
-	by desiato.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s0g5h-0000000FeZf-3mf7;
-	Sat, 27 Apr 2024 11:20:51 +0000
-Received: from dwoodhou by i7.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s0g5f-000000002bB-3w9q;
-	Sat, 27 Apr 2024 12:19:35 +0100
-From: David Woodhouse <dwmw2@infradead.org>
-To: kvm@vger.kernel.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sean Christopherson <seanjc@google.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Paul Durrant <paul@xen.org>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	jalliste@amazon.co.uk,
-	sveith@amazon.de,
-	zide.chen@intel.com,
-	Dongli Zhang <dongli.zhang@oracle.com>
-Subject: [PATCH v2 03/15] KVM: x86: Add KVM_[GS]ET_CLOCK_GUEST for accurate KVM clock migration
-Date: Sat, 27 Apr 2024 12:05:00 +0100
-Message-ID: <20240427111929.9600-4-dwmw2@infradead.org>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240427111929.9600-1-dwmw2@infradead.org>
-References: <20240427111929.9600-1-dwmw2@infradead.org>
+	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="ENHryBFR"
+DKIM-Signature: a=rsa-sha256;
+	b=ENHryBFRQ4aCyvtieRGb6DXfSVh9F9/fbSSLIharXG7pCWkF2FfOX4va3dp7ekNYizAlb583eS8FK17NZZOO0TiW2dHn11yOoatcswaE0s6vdLOnxO49yLfuo3381SAETarhCvmcZKKNIfAuQWT260OP6LtcG/RxxV/zqRXdk0c=;
+	c=relaxed/relaxed; s=default; d=rock-chips.com; v=1;
+	bh=MFHvEQxvuWiIZUy27EMlytieIefflDA+IcGdm224ubE=;
+	h=date:mime-version:subject:message-id:from;
+Received: from [172.16.12.141] (unknown [58.22.7.114])
+	by smtp.qiye.163.com (Hmail) with ESMTPA id 01E2B840219;
+	Sat, 27 Apr 2024 18:44:54 +0800 (CST)
+Message-ID: <68eba0ec-bf9c-4d76-a362-5304a4cb61d5@rock-chips.com>
+Date: Sat, 27 Apr 2024 18:44:54 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: David Woodhouse <dwmw2@infradead.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato.infradead.org. See http://www.infradead.org/rpr.html
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 27/28] drm/rockchip: inno_hdmi: Switch to HDMI
+ connector
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <20240423-kms-hdmi-connector-state-v12-0-3338e4c0b189@kernel.org>
+ <20240423-kms-hdmi-connector-state-v12-27-3338e4c0b189@kernel.org>
+Content-Language: en-US
+From: Andy Yan <andy.yan@rock-chips.com>
+In-Reply-To: <20240423-kms-hdmi-connector-state-v12-27-3338e4c0b189@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGRhPGFZPQkNPHklKSh1PSBhVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk1PSU5IVUpLS1VKQk
+	tLWQY+
+X-HM-Tid: 0a8f1f28744d03a4kunm01e2b840219
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MCI6LAw4LDNLSSk1Nx0YNBVC
+	GBAaFChVSlVKTEpPSUpPTUJNTkhNVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
+	WUFZTkNVSUlVTFVKSk9ZV1kIAVlBSkNNSkI3Bg++
 
-From: Jack Allister <jalliste@amazon.com>
+Hi Maxime,
 
-In the common case (where kvm->arch.use_master_clock is true), the KVM
-clock is defined as a simple arithmetic function of the guest TSC, based on
-a reference point stored in kvm->arch.master_kernel_ns and
-kvm->arch.master_cycle_now.
+On 4/23/24 18:45, Maxime Ripard wrote:
+> The new HDMI connector infrastructure allows to remove some boilerplate,
+> especially to generate infoframes. Let's switch to it.
+> 
+> Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+> Acked-by: Heiko Stuebner <heiko@sntech.de>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>   drivers/gpu/drm/rockchip/Kconfig     |   1 +
+>   drivers/gpu/drm/rockchip/inno_hdmi.c | 143 +++++++++++++----------------------
+>   2 files changed, 53 insertions(+), 91 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip/Kconfig
+> index 4c7072e6e34e..e2ec20c2e2eb 100644
+> --- a/drivers/gpu/drm/rockchip/Kconfig
+> +++ b/drivers/gpu/drm/rockchip/Kconfig
+> @@ -72,10 +72,11 @@ config ROCKCHIP_DW_MIPI_DSI
+>   	  enable MIPI DSI on RK3288 or RK3399 based SoC, you should
+>   	  select this option.
+>   
+>   config ROCKCHIP_INNO_HDMI
+>   	bool "Rockchip specific extensions for Innosilicon HDMI"
+> +	depends on DRM_HDMI_STATE_HELPER
+>   	help
+>   	  This selects support for Rockchip SoC specific extensions
+>   	  for the Innosilicon HDMI driver. If you want to enable
+>   	  HDMI on RK3036 based SoC, you should select this option.
+>   
+> diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
+> index 1d2261643743..3756259bfb10 100644
+> --- a/drivers/gpu/drm/rockchip/inno_hdmi.c
+> +++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
+> @@ -65,13 +65,11 @@ struct inno_hdmi {
+>   	const struct inno_hdmi_variant *variant;
+>   };
+>   
 
-The existing KVM_[GS]ET_CLOCK functionality does not allow for this
-relationship to be precisely saved and restored by userspace. All it can
-currently do is set the KVM clock at a given UTC reference time, which is
-necessarily imprecise.
+I think we should include <drm/display/drm_hdmi_state_helper.h>, or the compile will complain about:
+implicit decalaration of funciont drm_atomic_helper_connector_hdmi_update_infoframes
 
-So on live update, the guest TSC can remain cycle accurate at precisely the
-same offset from the host TSC, but there is no way for userspace to restore
-the KVM clock accurately.
+>   struct inno_hdmi_connector_state {
+>   	struct drm_connector_state	base;
+> -	unsigned int			enc_out_format;
+>   	unsigned int			colorimetry;
+> -	bool				rgb_limited_range;
+>   };
+>   
+>   static struct inno_hdmi *encoder_to_inno_hdmi(struct drm_encoder *encoder)
+>   {
+>   	struct rockchip_encoder *rkencoder = to_rockchip_encoder(encoder);
+> @@ -255,90 +253,53 @@ static void inno_hdmi_reset(struct inno_hdmi *hdmi)
+>   	hdmi_modb(hdmi, HDMI_SYS_CTRL, msk, val);
+>   
+>   	inno_hdmi_standby(hdmi);
+>   }
+>   
+> -static void inno_hdmi_disable_frame(struct inno_hdmi *hdmi,
+> -				    enum hdmi_infoframe_type type)
+> +static int inno_hdmi_disable_frame(struct drm_connector *connector,
+> +				   enum hdmi_infoframe_type type)
+>   {
+> -	struct drm_connector *connector = &hdmi->connector;
+> -
+> -	if (type != HDMI_INFOFRAME_TYPE_AVI) {
+> -		drm_err(connector->dev,
+> -			"Unsupported infoframe type: %u\n", type);
+> -		return;
+> -	}
+> -
+> -	hdmi_writeb(hdmi, HDMI_CONTROL_PACKET_BUF_INDEX, INFOFRAME_AVI);
+> -}
+> -
+> -static int inno_hdmi_upload_frame(struct inno_hdmi *hdmi,
+> -				  union hdmi_infoframe *frame, enum hdmi_infoframe_type type)
+> -{
+> -	struct drm_connector *connector = &hdmi->connector;
+> -	u8 packed_frame[HDMI_MAXIMUM_INFO_FRAME_SIZE];
+> -	ssize_t rc, i;
+> +	struct inno_hdmi *hdmi = connector_to_inno_hdmi(connector);
+>   
+>   	if (type != HDMI_INFOFRAME_TYPE_AVI) {
+>   		drm_err(connector->dev,
+>   			"Unsupported infoframe type: %u\n", type);
+>   		return 0;
+>   	}
+>   
+> -	inno_hdmi_disable_frame(hdmi, type);
+> +	hdmi_writeb(hdmi, HDMI_CONTROL_PACKET_BUF_INDEX, INFOFRAME_AVI);
+>   
+> -	rc = hdmi_infoframe_pack(frame, packed_frame,
+> -				 sizeof(packed_frame));
+> -	if (rc < 0)
+> -		return rc;
+> +	return 0;
+> +}
+>   
+> -	for (i = 0; i < rc; i++)
+> +static int inno_hdmi_upload_frame(struct drm_connector *connector,
+> +				  enum hdmi_infoframe_type type,
+> +				  const u8 *buffer, size_t len)
+> +{
+> +	struct inno_hdmi *hdmi = connector_to_inno_hdmi(connector);
+> +	u8 packed_frame[HDMI_MAXIMUM_INFO_FRAME_SIZE];
+> +	ssize_t i;
+> +
+> +	if (type != HDMI_INFOFRAME_TYPE_AVI) {
+> +		drm_err(connector->dev,
+> +			"Unsupported infoframe type: %u\n", type);
+> +		return 0;
+> +	}
+> +
+> +	inno_hdmi_disable_frame(connector, type);
+> +
+> +	for (i = 0; i < len; i++)
+>   		hdmi_writeb(hdmi, HDMI_CONTROL_PACKET_ADDR + i,
+>   			    packed_frame[i]);
+>   
+>   	return 0;
+>   }
+>   
+> -static int inno_hdmi_config_video_avi(struct inno_hdmi *hdmi,
+> -				      struct drm_display_mode *mode)
+> -{
+> -	struct drm_connector *connector = &hdmi->connector;
+> -	struct drm_connector_state *conn_state = connector->state;
+> -	struct inno_hdmi_connector_state *inno_conn_state =
+> -					to_inno_hdmi_conn_state(conn_state);
+> -	union hdmi_infoframe frame;
+> -	int rc;
+> -
+> -	rc = drm_hdmi_avi_infoframe_from_display_mode(&frame.avi,
+> -						      &hdmi->connector,
+> -						      mode);
+> -	if (rc) {
+> -		inno_hdmi_disable_frame(hdmi, HDMI_INFOFRAME_TYPE_AVI);
+> -		return rc;
+> -	}
+> -
+> -	if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_YUV444)
+> -		frame.avi.colorspace = HDMI_COLORSPACE_YUV444;
+> -	else if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_YUV422)
+> -		frame.avi.colorspace = HDMI_COLORSPACE_YUV422;
+> -	else
+> -		frame.avi.colorspace = HDMI_COLORSPACE_RGB;
+> -
+> -	if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_RGB) {
+> -		drm_hdmi_avi_infoframe_quant_range(&frame.avi,
+> -						   connector, mode,
+> -						   inno_conn_state->rgb_limited_range ?
+> -						   HDMI_QUANTIZATION_RANGE_LIMITED :
+> -						   HDMI_QUANTIZATION_RANGE_FULL);
+> -	} else {
+> -		frame.avi.quantization_range = HDMI_QUANTIZATION_RANGE_DEFAULT;
+> -		frame.avi.ycc_quantization_range =
+> -			HDMI_YCC_QUANTIZATION_RANGE_LIMITED;
+> -	}
+> -
+> -	return inno_hdmi_upload_frame(hdmi, &frame, HDMI_INFOFRAME_TYPE_AVI);
+> -}
+> +static const struct drm_connector_hdmi_funcs inno_hdmi_hdmi_connector_funcs = {
+> +	.clear_infoframe	= inno_hdmi_disable_frame,
+> +	.write_infoframe	= inno_hdmi_upload_frame,
+> +};
+>   
+>   static int inno_hdmi_config_video_csc(struct inno_hdmi *hdmi)
+>   {
+>   	struct drm_connector *connector = &hdmi->connector;
+>   	struct drm_connector_state *conn_state = connector->state;
+> @@ -359,12 +320,12 @@ static int inno_hdmi_config_video_csc(struct inno_hdmi *hdmi)
+>   	value = v_VIDEO_INPUT_BITS(VIDEO_INPUT_8BITS) |
+>   		v_VIDEO_OUTPUT_COLOR(0) |
+>   		v_VIDEO_INPUT_CSP(0);
+>   	hdmi_writeb(hdmi, HDMI_VIDEO_CONTRL2, value);
+>   
+> -	if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_RGB) {
+> -		if (inno_conn_state->rgb_limited_range) {
+> +	if (conn_state->hdmi.output_format == HDMI_COLORSPACE_RGB) {
+> +		if (conn_state->hdmi.is_limited_range) {
+>   			csc_mode = CSC_RGB_0_255_TO_RGB_16_235_8BIT;
+>   			auto_csc = AUTO_CSC_DISABLE;
+>   			c0_c2_change = C0_C2_CHANGE_DISABLE;
+>   			csc_enable = v_CSC_ENABLE;
+>   
+> @@ -378,18 +339,18 @@ static int inno_hdmi_config_video_csc(struct inno_hdmi *hdmi)
+>   				  v_VIDEO_C0_C2_SWAP(C0_C2_CHANGE_DISABLE));
+>   			return 0;
+>   		}
+>   	} else {
+>   		if (inno_conn_state->colorimetry == HDMI_COLORIMETRY_ITU_601) {
+> -			if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_YUV444) {
+> +			if (conn_state->hdmi.output_format == HDMI_COLORSPACE_YUV444) {
+>   				csc_mode = CSC_RGB_0_255_TO_ITU601_16_235_8BIT;
+>   				auto_csc = AUTO_CSC_DISABLE;
+>   				c0_c2_change = C0_C2_CHANGE_DISABLE;
+>   				csc_enable = v_CSC_ENABLE;
+>   			}
+>   		} else {
+> -			if (inno_conn_state->enc_out_format == HDMI_COLORSPACE_YUV444) {
+> +			if (conn_state->hdmi.output_format == HDMI_COLORSPACE_YUV444) {
+>   				csc_mode = CSC_RGB_0_255_TO_ITU709_16_235_8BIT;
+>   				auto_csc = AUTO_CSC_DISABLE;
+>   				c0_c2_change = C0_C2_CHANGE_DISABLE;
+>   				csc_enable = v_CSC_ENABLE;
+>   			}
+> @@ -460,14 +421,16 @@ static int inno_hdmi_config_video_timing(struct inno_hdmi *hdmi,
+>   
+>   	return 0;
+>   }
+>   
+>   static int inno_hdmi_setup(struct inno_hdmi *hdmi,
+> -			   struct drm_display_mode *mode)
+> +			   struct drm_crtc_state *new_crtc_state,
+> +			   struct drm_connector_state *new_conn_state)
+>   {
+> -	struct drm_display_info *display = &hdmi->connector.display_info;
+> -	unsigned long mpixelclock = mode->clock * 1000;
+> +	struct drm_connector *connector = &hdmi->connector;
+> +	struct drm_display_info *display = &connector->display_info;
+> +	struct drm_display_mode *mode = &new_crtc_state->adjusted_mode;
+>   
+>   	/* Mute video and audio output */
+>   	hdmi_modb(hdmi, HDMI_AV_MUTE, m_AUDIO_MUTE | m_VIDEO_BLACK,
+>   		  v_AUDIO_MUTE(1) | v_VIDEO_MUTE(1));
+>   
+> @@ -477,26 +440,26 @@ static int inno_hdmi_setup(struct inno_hdmi *hdmi,
+>   
+>   	inno_hdmi_config_video_timing(hdmi, mode);
+>   
+>   	inno_hdmi_config_video_csc(hdmi);
+>   
+> -	if (display->is_hdmi)
+> -		inno_hdmi_config_video_avi(hdmi, mode);
+> +	drm_atomic_helper_connector_hdmi_update_infoframes(connector,
+> +							   new_conn_state->state);
+>   
+>   	/*
+>   	 * When IP controller have configured to an accurate video
+>   	 * timing, then the TMDS clock source would be switched to
+>   	 * DCLK_LCDC, so we need to init the TMDS rate to mode pixel
+>   	 * clock rate, and reconfigure the DDC clock.
+>   	 */
+> -	inno_hdmi_i2c_init(hdmi, mpixelclock);
+> +	inno_hdmi_i2c_init(hdmi, new_conn_state->hdmi.tmds_char_rate);
+>   
+>   	/* Unmute video and audio output */
+>   	hdmi_modb(hdmi, HDMI_AV_MUTE, m_AUDIO_MUTE | m_VIDEO_BLACK,
+>   		  v_AUDIO_MUTE(0) | v_VIDEO_MUTE(0));
+>   
+> -	inno_hdmi_power_up(hdmi, mpixelclock);
+> +	inno_hdmi_power_up(hdmi, new_conn_state->hdmi.tmds_char_rate);
+>   
+>   	return 0;
+>   }
+>   
+>   static enum drm_mode_status inno_hdmi_display_mode_valid(struct inno_hdmi *hdmi,
+> @@ -544,11 +507,11 @@ static void inno_hdmi_encoder_enable(struct drm_encoder *encoder,
+>   
+>   	crtc_state = drm_atomic_get_new_crtc_state(state, conn_state->crtc);
+>   	if (WARN_ON(!crtc_state))
+>   		return;
+>   
+> -	inno_hdmi_setup(hdmi, &crtc_state->adjusted_mode);
+> +	inno_hdmi_setup(hdmi, crtc_state, conn_state);
+>   }
+>   
+>   static void inno_hdmi_encoder_disable(struct drm_encoder *encoder,
+>   				      struct drm_atomic_state *state)
+>   {
+> @@ -561,11 +524,10 @@ static int
+>   inno_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
+>   			       struct drm_crtc_state *crtc_state,
+>   			       struct drm_connector_state *conn_state)
+>   {
+>   	struct rockchip_crtc_state *s = to_rockchip_crtc_state(crtc_state);
+> -	struct inno_hdmi *hdmi = encoder_to_inno_hdmi(encoder);
+>   	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
+>   	u8 vic = drm_match_cea_mode(mode);
+>   	struct inno_hdmi_connector_state *inno_conn_state =
+>   					to_inno_hdmi_conn_state(conn_state);
+>   
+> @@ -578,16 +540,11 @@ inno_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
+>   	    vic == 17 || vic == 18)
+>   		inno_conn_state->colorimetry = HDMI_COLORIMETRY_ITU_601;
+>   	else
+>   		inno_conn_state->colorimetry = HDMI_COLORIMETRY_ITU_709;
+>   
+> -	inno_conn_state->enc_out_format = HDMI_COLORSPACE_RGB;
+> -	inno_conn_state->rgb_limited_range =
+> -		drm_default_rgb_quant_range(mode) == HDMI_QUANTIZATION_RANGE_LIMITED;
+> -
+> -	return  inno_hdmi_display_mode_valid(hdmi,
+> -				&crtc_state->adjusted_mode) == MODE_OK ? 0 : -EINVAL;
+> +	return 0;
+>   }
+>   
+>   static struct drm_encoder_helper_funcs inno_hdmi_encoder_helper_funcs = {
+>   	.atomic_check	= inno_hdmi_encoder_atomic_check,
+>   	.atomic_enable	= inno_hdmi_encoder_enable,
+> @@ -660,14 +617,13 @@ static void inno_hdmi_connector_reset(struct drm_connector *connector)
+>   	inno_conn_state = kzalloc(sizeof(*inno_conn_state), GFP_KERNEL);
+>   	if (!inno_conn_state)
+>   		return;
+>   
+>   	__drm_atomic_helper_connector_reset(connector, &inno_conn_state->base);
+> +	__drm_atomic_helper_connector_hdmi_reset(connector, connector->state);
+>   
+>   	inno_conn_state->colorimetry = HDMI_COLORIMETRY_ITU_709;
+> -	inno_conn_state->enc_out_format = HDMI_COLORSPACE_RGB;
+> -	inno_conn_state->rgb_limited_range = false;
+>   }
+>   
+>   static struct drm_connector_state *
+>   inno_hdmi_connector_duplicate_state(struct drm_connector *connector)
+>   {
+> @@ -696,10 +652,11 @@ static const struct drm_connector_funcs inno_hdmi_connector_funcs = {
+>   	.atomic_duplicate_state = inno_hdmi_connector_duplicate_state,
+>   	.atomic_destroy_state = inno_hdmi_connector_destroy_state,
+>   };
+>   
+>   static struct drm_connector_helper_funcs inno_hdmi_connector_helper_funcs = {
+> +	.atomic_check = drm_atomic_helper_connector_hdmi_check,
+>   	.get_modes = inno_hdmi_connector_get_modes,
+>   	.mode_valid = inno_hdmi_connector_mode_valid,
+>   };
+>   
+>   static int inno_hdmi_register(struct drm_device *drm, struct inno_hdmi *hdmi)
+> @@ -723,14 +680,18 @@ static int inno_hdmi_register(struct drm_device *drm, struct inno_hdmi *hdmi)
+>   
+>   	hdmi->connector.polled = DRM_CONNECTOR_POLL_HPD;
+>   
+>   	drm_connector_helper_add(&hdmi->connector,
+>   				 &inno_hdmi_connector_helper_funcs);
+> -	drm_connector_init_with_ddc(drm, &hdmi->connector,
+> -				    &inno_hdmi_connector_funcs,
+> -				    DRM_MODE_CONNECTOR_HDMIA,
+> -				    hdmi->ddc);
+> +	drmm_connector_hdmi_init(drm, &hdmi->connector,
+> +				 "Rockchip", "Inno HDMI",
+> +				 &inno_hdmi_connector_funcs,
+> +				 &inno_hdmi_hdmi_connector_funcs,
+> +				 DRM_MODE_CONNECTOR_HDMIA,
+> +				 hdmi->ddc,
+> +				 BIT(HDMI_COLORSPACE_RGB),
+> +				 8);
+     This function call will failed as inno_hdmi_connector_funcs has a destory callback.
+     drmm_connector_init have the check:
+     if (drm_WARN_ON(dev, funcs && funcs->destory))
+         return -EINVAL.
 
-Even on live migration to a new host, where the accuracy of the guest time-
-keeping is fundamentally limited by the accuracy of wallclock
-synchronization between the source and destination hosts, the clock jump
-experienced by the guest's TSC and its KVM clock should at least be
-*consistent*. Even when the guest TSC suffers a discontinuity, its KVM
-clock should still remain the *same* arithmetic function of the guest TSC,
-and not suffer an *additional* discontinuity.
+I think the patch for sun4i has the same issue.
 
-To allow for accurate migration of the KVM clock, add per-vCPU ioctls which
-save and restore the actual PV clock info in pvclock_vcpu_time_info.
+>   
+>   	drm_connector_attach_encoder(&hdmi->connector, encoder);
+>   
+>   	return 0;
+>   }
+> 
 
-The restoration in KVM_SET_CLOCK_GUEST works by creating a new reference
-point in time just as kvm_update_masterclock() does, and calculating the
-corresponding guest TSC value. This guest TSC value is then passed through
-the user-provided pvclock structure to generate the *intended* KVM clock
-value at that point in time, and through the *actual* KVM clock calculation.
-Then kvm->arch.kvmclock_offset is adjusted to eliminate for the difference.
-
-Where kvm->arch.use_master_clock is false (because the host TSC is
-unreliable, or the guest TSCs are configured strangely), the KVM clock
-is *not* defined as a function of the guest TSC so KVM_GET_CLOCK_GUEST
-returns an error. In this case, as documented, userspace shall use the
-legacy KVM_GET_CLOCK ioctl. The loss of precision is acceptable in this
-case since the clocks are imprecise in this mode anyway.
-
-On *restoration*, if kvm->arch.use_master_clock is false, an error is
-returned for similar reasons and userspace shall fall back to using
-KVM_SET_CLOCK. This does mean that, as documented, userspace needs to use
-*both* KVM_GET_CLOCK_GUEST and KVM_GET_CLOCK and send both results with the
-migration data (unless the intent is to refuse to resume on a host with bad
-TSC).
-
-(It may have been possible to make KVM_SET_CLOCK_GUEST "good enough" in the
-non-masterclock mode, as that mode is necessarily imprecise anyway. The
-explicit fallback allows userspace to deliberately fail migration to a host
-with misbehaving TSC where master clock mode wouldn't be active.)
-
-Co-developed-by: David Woodhouse <dwmw@amazon.co.uk>
-Signed-off-by: Jack Allister <jalliste@amazon.com>
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-Reviewed-by: Paul Durrant <paul@xen.org>
-CC: Dongli Zhang <dongli.zhang@oracle.com>
----
- Documentation/virt/kvm/api.rst |  37 ++++++++
- arch/x86/kvm/x86.c             | 156 +++++++++++++++++++++++++++++++++
- include/uapi/linux/kvm.h       |   3 +
- 3 files changed, 196 insertions(+)
-
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index f0b76ff5030d..758f6fc08fe5 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -6352,6 +6352,43 @@ a single guest_memfd file, but the bound ranges must not overlap).
- 
- See KVM_SET_USER_MEMORY_REGION2 for additional details.
- 
-+4.143 KVM_GET_CLOCK_GUEST
-+----------------------------
-+
-+:Capability: none
-+:Architectures: x86_64
-+:Type: vcpu ioctl
-+:Parameters: struct pvclock_vcpu_time_info (out)
-+:Returns: 0 on success, <0 on error
-+
-+Retrieves the current time information structure used for KVM/PV clocks,
-+in precisely the form advertised to the guest vCPU, which gives parameters
-+for a direct conversion from a guest TSC value to nanoseconds.
-+
-+When the KVM clock not is in "master clock" mode, for example because the
-+host TSC is unreliable or the guest TSCs are oddly configured, the KVM clock
-+is actually defined by the host CLOCK_MONOTONIC_RAW instead of the guest TSC.
-+In this case, the KVM_GET_CLOCK_GUEST ioctl returns -EINVAL.
-+
-+4.144 KVM_SET_CLOCK_GUEST
-+----------------------------
-+
-+:Capability: none
-+:Architectures: x86_64
-+:Type: vcpu ioctl
-+:Parameters: struct pvclock_vcpu_time_info (in)
-+:Returns: 0 on success, <0 on error
-+
-+Sets the KVM clock (for the whole VM) in terms of the vCPU TSC, using the
-+pvclock structure as returned by KVM_GET_CLOCK_GUEST. This allows the precise
-+arithmetic relationship between guest TSC and KVM clock to be preserved by
-+userspace across migration.
-+
-+When the KVM clock is not in "master clock" mode, and the KVM clock is actually
-+defined by the host CLOCK_MONOTONIC_RAW, this ioctl returns -EINVAL. Userspace
-+may choose to set the clock using the less precise KVM_SET_CLOCK ioctl, or may
-+choose to fail, denying migration to a host whose TSC is misbehaving.
-+
- 5. The kvm_run structure
- ========================
- 
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 23281c508c27..42abce7b4fc9 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -5868,6 +5868,154 @@ static int kvm_vcpu_ioctl_enable_cap(struct kvm_vcpu *vcpu,
- 	}
- }
- 
-+#ifdef CONFIG_X86_64
-+static int kvm_vcpu_ioctl_get_clock_guest(struct kvm_vcpu *v, void __user *argp)
-+{
-+	struct pvclock_vcpu_time_info *hv_clock = &v->arch.hv_clock;
-+
-+	/*
-+	 * If KVM_REQ_CLOCK_UPDATE is already pending, or if the hv_clock has
-+	 * never been generated at all, call kvm_guest_time_update() to do so.
-+	 * Might as well use the PVCLOCK_TSC_STABLE_BIT as the check for ever
-+	 * having been written.
-+	 */
-+	if (kvm_check_request(KVM_REQ_CLOCK_UPDATE, v) ||
-+	    !(hv_clock->flags & PVCLOCK_TSC_STABLE_BIT)) {
-+		if (kvm_guest_time_update(v))
-+			return -EINVAL;
-+	}
-+
-+	/*
-+	 * PVCLOCK_TSC_STABLE_BIT is set in use_master_clock mode where the
-+	 * KVM clock is defined in terms of the guest TSC. Otherwise, it is
-+	 * is defined by the host CLOCK_MONOTONIC_RAW, and userspace should
-+	 * use the legacy KVM_[GS]ET_CLOCK to migrate it.
-+	 */
-+	if (!(hv_clock->flags & PVCLOCK_TSC_STABLE_BIT))
-+		return -EINVAL;
-+
-+	if (copy_to_user(argp, hv_clock, sizeof(*hv_clock)))
-+		return -EFAULT;
-+
-+	return 0;
-+}
-+
-+/*
-+ * Reverse the calculation in the hv_clock definition.
-+ *
-+ * time_ns = ( (cycles << shift) * mul ) >> 32;
-+ * (although shift can be negative, so that's bad C)
-+ *
-+ * So for a single second,
-+ *  NSEC_PER_SEC = ( ( FREQ_HZ << shift) * mul ) >> 32
-+ *  NSEC_PER_SEC << 32 = ( FREQ_HZ << shift ) * mul
-+ *  ( NSEC_PER_SEC << 32 ) / mul = FREQ_HZ << shift
-+ *  ( NSEC_PER_SEC << 32 ) / mul ) >> shift = FREQ_HZ
-+ */
-+static uint64_t hvclock_to_hz(uint32_t mul, int8_t shift)
-+{
-+	uint64_t tm = NSEC_PER_SEC << 32;
-+
-+	/* Maximise precision. Shift right until the top bit is set */
-+	tm <<= 2;
-+	shift += 2;
-+
-+	/* While 'mul' is even, increase the shift *after* the division */
-+	while (!(mul & 1)) {
-+		shift++;
-+		mul >>= 1;
-+	}
-+
-+	tm /= mul;
-+
-+	if (shift > 0)
-+		return tm >> shift;
-+	else
-+		return tm << -shift;
-+}
-+
-+static int kvm_vcpu_ioctl_set_clock_guest(struct kvm_vcpu *v, void __user *argp)
-+{
-+	struct pvclock_vcpu_time_info user_hv_clock;
-+	struct kvm *kvm = v->kvm;
-+	struct kvm_arch *ka = &kvm->arch;
-+	uint64_t curr_tsc_hz, user_tsc_hz;
-+	uint64_t user_clk_ns;
-+	uint64_t guest_tsc;
-+	int rc = 0;
-+
-+	if (copy_from_user(&user_hv_clock, argp, sizeof(user_hv_clock)))
-+		return -EFAULT;
-+
-+	if (!user_hv_clock.tsc_to_system_mul)
-+		return -EINVAL;
-+
-+	user_tsc_hz = hvclock_to_hz(user_hv_clock.tsc_to_system_mul,
-+				    user_hv_clock.tsc_shift);
-+
-+
-+	kvm_hv_request_tsc_page_update(kvm);
-+	kvm_start_pvclock_update(kvm);
-+	pvclock_update_vm_gtod_copy(kvm);
-+
-+	/*
-+	 * If not in use_master_clock mode, do not allow userspace to set
-+	 * the clock in terms of the guest TSC. Userspace should either
-+	 * fail the migration (to a host with suboptimal TSCs), or should
-+	 * knowingly restore the KVM clock using KVM_SET_CLOCK instead.
-+	 */
-+	if (!ka->use_master_clock) {
-+		rc = -EINVAL;
-+		goto out;
-+	}
-+
-+	curr_tsc_hz = get_cpu_tsc_khz() * 1000LL;
-+	if (unlikely(curr_tsc_hz == 0)) {
-+		rc = -EINVAL;
-+		goto out;
-+	}
-+
-+	if (kvm_caps.has_tsc_control)
-+		curr_tsc_hz = kvm_scale_tsc(curr_tsc_hz,
-+					    v->arch.l1_tsc_scaling_ratio);
-+
-+	/*
-+	 * The scaling factors in the hv_clock do not depend solely on the
-+	 * TSC frequency *requested* by userspace. They actually use the
-+	 * host TSC frequency that was measured/detected by the host kernel,
-+	 * scaled by kvm_scale_tsc() with the vCPU's l1_tsc_scaling_ratio.
-+	 *
-+	 * So a sanity check that they *precisely* match would have false
-+	 * negatives. Allow for a discrepancy of 1 kHz either way.
-+	 */
-+	if (user_tsc_hz < curr_tsc_hz - 1000 ||
-+	    user_tsc_hz > curr_tsc_hz + 1000) {
-+		rc = -ERANGE;
-+		goto out;
-+	}
-+
-+	/*
-+	 * The call to pvclock_update_vm_gtod_copy() has created a new time
-+	 * reference point in ka->master_cycle_now and ka->master_kernel_ns.
-+	 *
-+	 * Calculate the guest TSC at that moment, and the corresponding KVM
-+	 * clock value according to user_hv_clock. The value according to the
-+	 * current hv_clock will of course be ka->master_kernel_ns since no
-+	 * TSC cycles have elapsed.
-+	 *
-+	 * Adjust ka->kvmclock_offset to the delta, so that both definitions
-+	 * of the clock give precisely the same reading at the reference time.
-+	 */
-+	guest_tsc = kvm_read_l1_tsc(v, ka->master_cycle_now);
-+	user_clk_ns = __pvclock_read_cycles(&user_hv_clock, guest_tsc);
-+	ka->kvmclock_offset = user_clk_ns - ka->master_kernel_ns;
-+
-+out:
-+	kvm_end_pvclock_update(kvm);
-+	return rc;
-+}
-+#endif
-+
- long kvm_arch_vcpu_ioctl(struct file *filp,
- 			 unsigned int ioctl, unsigned long arg)
- {
-@@ -6256,6 +6404,14 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
- 		srcu_read_unlock(&vcpu->kvm->srcu, idx);
- 		break;
- 	}
-+#ifdef CONFIG_X86_64
-+	case KVM_SET_CLOCK_GUEST:
-+		r = kvm_vcpu_ioctl_set_clock_guest(vcpu, argp);
-+		break;
-+	case KVM_GET_CLOCK_GUEST:
-+		r = kvm_vcpu_ioctl_get_clock_guest(vcpu, argp);
-+		break;
-+#endif
- #ifdef CONFIG_KVM_HYPERV
- 	case KVM_GET_SUPPORTED_HV_CPUID:
- 		r = kvm_ioctl_get_supported_hv_cpuid(vcpu, argp);
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 2190adbe3002..0d306311e4d6 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -1548,4 +1548,7 @@ struct kvm_create_guest_memfd {
- 	__u64 reserved[6];
- };
- 
-+#define KVM_SET_CLOCK_GUEST       _IOW(KVMIO,  0xd5, struct pvclock_vcpu_time_info)
-+#define KVM_GET_CLOCK_GUEST       _IOR(KVMIO,  0xd6, struct pvclock_vcpu_time_info)
-+
- #endif /* __LINUX_KVM_H */
--- 
-2.44.0
-
+And after this whole series applied on linux 6.9-rc4, the display on rk3036 kylin is lost, I get
+the following error:
+[  178.999421] rockchip-drm display-subsystem: [drm:drm_atomic_check_only] checking 87b7fbde
+[  178.999471] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CRTC:35:crtc-0] mode changed
+[  178.999498] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CRTC:35:crtc-0] enable changed
+[  178.999521] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CRTC:35:crtc-0] active changed
+[  178.999547] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] Updating routing for [CONNECTOR:37:HDMI-A-1]
+[  178.999575] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CONNECTOR:37:HDMI-A-1] using [ENCODER:36:TMDS-36] on [CRTC:35:crtc-0]
+[  178.999604] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] Trying with a 8 bpc output
+[  178.999636] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] Trying RGB output format
+[  178.999730] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] RGB Format, checking the constraints.
+[  178.999757] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] RGB output format not supported with 8 bpc
+[  178.999783] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] Failed. No Format Supported for that bpc count.
+[  178.999810] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CONNECTOR:37:HDMI-A-1] driver check failed
+[  178.999836] rockchip-drm display-subsystem: [drm:drm_atomic_check_only] atomic driver check for 87b7fbde failed: -22
+[  178.999868] rockchip-drm display-subsystem: [drm:drm_atomic_state_default_clear] Clearing atomic state 87b7fbde
+[  178.999898] [drm:drm_mode_object_put] OBJ ID: 37 (4)
+[  178.999922] [drm:drm_mode_object_put] OBJ ID: 37 (3)
+[  178.999944] [drm:drm_mode_object_put] OBJ ID: 40 (1)
+[  178.999971] [drm:drm_mode_object_put] OBJ ID: 39 (2)
