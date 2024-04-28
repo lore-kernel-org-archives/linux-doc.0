@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37690B664;
-	Sun, 28 Apr 2024 22:00:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63C50BA41;
+	Sun, 28 Apr 2024 22:00:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714341635; cv=none; b=JM0w0+gMMnhgZg5DCS9bGspk18d9cxlqr2EPO4CRh5nFOm49P9q4AiOhrAoGAwPn6j6TCo06G0u/JKfotc3DUO/OHt6+G2sfGW1xvJF8d81Bl0+N7CEx/HIbClH3RMrKTj8fI6VWwUz7Dsc7FFsepFe9yFTitZzrLCoyzxTzkW4=
+	t=1714341635; cv=none; b=QT5/vGjd1oG6EqH+asuUH9TgkbOPcojxEzmTvEC+0ipySmsoNTTRmt81X3TBkeSH0SiAMIyS13t3AWQQpvFn9Uu7BruwgNRD6KmRQs3yPBIoGy1iEx0jfnIN9dnUqo5F48gcnB0Q+H//jBxR6yD8vr3yGCNZPfraJGfUC5pXXmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1714341635; c=relaxed/simple;
-	bh=dcRqllzvCViq7JroGLfFRXWzRjL6MWy0dXcchL9hte8=;
+	bh=G75BxI2Ke585cbRErrGMj5F7qdvtnyl04UrjmqS8Nts=;
 	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=N9n6AdgxOhqIZZpAfdpCztB+DGGV7Ctap/8/A98x1VFOoEyYnyPtJ9tWycM/lSbK28W8w4fO9o4vhBoTGXw/cvY9QUKnTMdugU3qbaRSTV8bOjypcC0dCcNrB3H2tDKuQHkE/FmPmsgOEb8oxYPRX9JH0EoDa603a99I3qvKf0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kELx0uKi; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=Ws6Q6y1tkS/L0FZ7uA8fjXRMTnQWiQEJohiGOnNQgxnQRFm/i2bXl9F8cJqX/2wk7mh7DNrWoZ8Vs5o45qbTjl7CECG/lBU3HUIGtJnY0daUvgPmbv46bDx1rxnaTVh+BvdCU4WaiMs2fyD5zABZLFVdg7Twb0m68rs8tIUGl38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RKACEZM1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kELx0uKi"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C455FC4AF18;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RKACEZM1"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id ED6E9C4AF1C;
 	Sun, 28 Apr 2024 22:00:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714341634;
-	bh=dcRqllzvCViq7JroGLfFRXWzRjL6MWy0dXcchL9hte8=;
+	s=k20201202; t=1714341635;
+	bh=G75BxI2Ke585cbRErrGMj5F7qdvtnyl04UrjmqS8Nts=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=kELx0uKi/H6bF9F8IQEsxAQ9T2dAnlx1PbdCIu98xcGm9MjoIRLYSKIsKVVmNwfRP
-	 2JfASZ8kxefbl2gMOSF68JtoDFKejRMSH5Gs4UzW429IWKbowqj/8Ay3J1iu9yC49/
-	 F0xzk6jNXDxTmE0lHLdirvgKp1nmE9/SzLlYQjtiavaiOfMGvuT9c561oDtcUFsu16
-	 6OCXvwrgSy+bVIDmDxFZJhqdAXTUskIe+9m7x484damGNUrtxzgvj/tNQi43QXIS0p
-	 7egOTOBaYK3n6DROAglIgSkcOrOah48QT+WyTGDmULo5NpHbMTkk63eKGXZrIl3nsT
-	 jPgwCmh9egPsw==
+	b=RKACEZM19RbQbpO/Z7PdjBdvoZePPUTDthdMmu1niB0ZKljcxQGfiXDP13BhPqRqx
+	 9EYEwdZM6CFTMX05tFuV5jZVJgoDCKrQiFYqYfg5lARUxSgVhmWnScukiB80GPDKMu
+	 qQJby5ChjLvbSwreZZD5Md9A8jiLm6wXRVq5O7WLA2bRcOZ2/NNk8sMIcMGdDp3tAP
+	 faXsVbSd1llPWZhDpS92sfMu0w9FCDkCj36CxwjuO9yXX2PM3HqsFJmwpKul/b1Fjv
+	 KI3OUHEXN8txRDoGc8JF6lZfP2sMypiukY4uPbBONsOXykR0TomVlzEyIa6sP5pSrn
+	 i2Sj/bzC+eJxA==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id B986CC4361C;
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E04DCC43618;
 	Sun, 28 Apr 2024 22:00:34 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
@@ -37,36 +37,47 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2] riscv: hwprobe: export Zihintpause ISA extension
+Subject: Re: [PATCH v13 0/4] riscv: Create and document
+ PR_RISCV_SET_ICACHE_FLUSH_CTX prctl
 From: patchwork-bot+linux-riscv@kernel.org
 Message-Id: 
- <171434163475.22130.3242508482383867837.git-patchwork-notify@kernel.org>
+ <171434163491.22130.7402887915365003575.git-patchwork-notify@kernel.org>
 Date: Sun, 28 Apr 2024 22:00:34 +0000
-References: <20240221083108.1235311-1-cleger@rivosinc.com>
-In-Reply-To: <20240221083108.1235311-1-cleger@rivosinc.com>
-To: =?utf-8?b?Q2zDqW1lbnQgTMOpZ2VyIDxjbGVnZXJAcml2b3NpbmMuY29tPg==?=@ci.codeaurora.org
-Cc: linux-riscv@lists.infradead.org, corbet@lwn.net, paul.walmsley@sifive.com,
- palmer@dabbelt.com, aou@eecs.berkeley.edu, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, rehn@rivosinc.com, atishp@rivosinc.com
+References: <20240312-fencei-v13-0-4b6bdc2bbf32@rivosinc.com>
+In-Reply-To: <20240312-fencei-v13-0-4b6bdc2bbf32@rivosinc.com>
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: linux-riscv@lists.infradead.org, paul.walmsley@sifive.com,
+ palmer@dabbelt.com, aou@eecs.berkeley.edu, corbet@lwn.net,
+ conor.dooley@microchip.com, cleger@rivosinc.com, atishp@atishpatra.org,
+ rdunlap@infradead.org, alex@ghiti.fr, samuel.holland@sifive.com,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, atishp@rivosinc.com,
+ alexghiti@rivosinc.com
 
 Hello:
 
-This patch was applied to riscv/linux.git (for-next)
+This series was applied to riscv/linux.git (for-next)
 by Palmer Dabbelt <palmer@rivosinc.com>:
 
-On Wed, 21 Feb 2024 09:31:06 +0100 you wrote:
-> Export the Zihintpause ISA extension through hwprobe which allows using
-> "pause" instructions. Some userspace applications (OpenJDK for
-> instance) uses this to handle some locking back-off.
+On Tue, 12 Mar 2024 16:53:39 -0700 you wrote:
+> Improve the performance of icache flushing by creating a new prctl flag
+> PR_RISCV_SET_ICACHE_FLUSH_CTX. The interface is left generic to allow
+> for future expansions such as with the proposed J extension [1].
 > 
-> Signed-off-by: Clément Léger <cleger@rivosinc.com>
-> Reviewed-by: Atish Patra <atishp@rivosinc.com>
+> Documentation is also provided to explain the use case.
+> 
+> Patch sent to add PR_RISCV_SET_ICACHE_FLUSH_CTX to man-pages [2].
 > 
 > [...]
 
 Here is the summary with links:
-  - [v2] riscv: hwprobe: export Zihintpause ISA extension
-    https://git.kernel.org/riscv/c/63f93a3ca891
+  - [v13,1/4] riscv: Remove unnecessary irqflags processor.h include
+    https://git.kernel.org/riscv/c/bebc345413f5
+  - [v13,2/4] riscv: Include riscv_set_icache_flush_ctx prctl
+    https://git.kernel.org/riscv/c/6b9391b581fd
+  - [v13,3/4] documentation: Document PR_RISCV_SET_ICACHE_FLUSH_CTX prctl
+    https://git.kernel.org/riscv/c/6a08e4709c58
+  - [v13,4/4] cpumask: Add assign cpu
+    https://git.kernel.org/riscv/c/decde1fa2093
 
 You are awesome, thank you!
 -- 
