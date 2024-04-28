@@ -1,173 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B77200D3;
-	Sun, 28 Apr 2024 16:29:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 390A671B49;
+	Sun, 28 Apr 2024 17:02:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714321772; cv=none; b=TVCKFQ1nvyr9x8E29QFXsWzHmKTEpCBUDQj9Wvfrr/T3+71mPmoDvVHcUP+yR7HHgMsEuqy7uWK5Wmsob3a36oanugqKGsyHrrX9vdDDUv28jYJza9J8A4Cg+5VqTcjj8SCHvnj0JBAFXKPJ7eWVcuHbUzgcp1pMDVTWh+SwTFU=
+	t=1714323744; cv=none; b=RL6Q4LFZ564TsNA7f9kpJ9a/hK00D/rHU4YukCOPZOYDipQDKWVOuLYtdIxMYPJC7mSSKBwyvCjUbSjCrrq6m1G2EunT1Lc+uK/2/dmGaNE24GCCIaO87VqGpFgZAtPCcpKEicRrVyNntORJ5Y3rPicz6a5fyd67mjFkyXAM7rI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714321772; c=relaxed/simple;
-	bh=vSrMdYGVa1THJhE9VGHR3c71Wan1QAssbo5bxRU7fyk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eE8GZK1jwk+7lqQsSLDi126UKJUi3OpiSQNzTCUe2dapsddRUuLLv1mZCDLG+I3/0jlVmF1/dHt1xAiNCqi5sx113QIXL28HQUz2mVTrPpEH+rhpELeZ0p4dOuHE+bIUqeeMzeDgFDgtulDE7LoArzhv/RC7XW9j+db+ZSiYBfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e6ivtPvR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714323744; c=relaxed/simple;
+	bh=Pp5xineCHUmqekoQLWtdIlRJ68sa9cPR44y2JZZFrPQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VyKa/FWnmpVYIfhLrVqbfQR7A1qcO4PNh1N31KTZjPl3MaatHaSFmRL3OZox5NiM6BfrxPcF0NQDR6zr7hMuUkzZGFZph3SdCSCtUDGQpKL5DOp2lONeWuM8LITf7Fh2u9tHnUZEXUdy+IWSHdr6kA8bHs+agxV5WDF9WWdHqcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fL5DRFa7; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e6ivtPvR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2E1DC113CC;
-	Sun, 28 Apr 2024 16:29:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714321771;
-	bh=vSrMdYGVa1THJhE9VGHR3c71Wan1QAssbo5bxRU7fyk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=e6ivtPvR1g/dJdwd2h2A6IrgImRP910wNr/OE0fTPtZ+6UCoicXkyLT/0iN+uq1DU
-	 kB4wxp8DnZ/uMAlwH9+4zjgacZQ0NlJLk7XNsbRDxDh6HJYOU7B0Qlr/+2kjOFJcCO
-	 JP+86oRoGjkcdo83+T1yf5UglcR/jZRIBkGDbXmI7s+tg6scrzM+u+M7V916W8fqyk
-	 F16SUavqdp7hpNcpuucvMLL/uaX0Ave3MwAZMSFpH8ONC65oogurZwVD8nE7pcwN6R
-	 cC9f7cd3jz83aBPsEVEyH7ayZGNYpL7w1kC0H4upFqkc/o7+EzRv1ibCSv+w1qK58q
-	 kFRpaQnU3endA==
-Date: Sun, 28 Apr 2024 17:29:23 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Michael Hennerich <Michael.Hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?=
- <nuno.sa@analog.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/2] iio: adc: ad7944: add support for chain mode
-Message-ID: <20240428172923.7dfe00ff@jic23-huawei>
-In-Reply-To: <20240425-iio-ad7944-chain-mode-v1-1-9d9220ff21e1@baylibre.com>
-References: <20240425-iio-ad7944-chain-mode-v1-0-9d9220ff21e1@baylibre.com>
-	<20240425-iio-ad7944-chain-mode-v1-1-9d9220ff21e1@baylibre.com>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fL5DRFa7"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1e65b29f703so33131695ad.3;
+        Sun, 28 Apr 2024 10:02:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714323742; x=1714928542; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=b1T3Hr1w32v0VXEXybJj/Hj7SF5hFewnPOJ+Ox/8LCk=;
+        b=fL5DRFa7+zvW1MV5hJ+KOjVE8Ozd1bPBwvIl+gv8BJVrpeo1vngo/PX8sUWz2JtP4T
+         d7TxyIsvz506f7Swn419tJO4ypaSYlkAfBGn7T0bWgf9qZaKUye60xMxjQOT6O3cLZZz
+         Xy20N72E/uMxKiMDRIkNHwJde5Nl48fX8u1qGbX8fy8Dm3fL3BqU1NxVOfmy1w+vZn32
+         9zyfPqhVEraZ4DBpMzl96i3qjj6UcF8TIHuKQx5tqMpXj+ZgV/fZEKbj4tQgOMOyS/Ar
+         Qc1OFR4C/byTceuzKEP1RdmC5aKwnefHuhpKI9IwSsZEPK2zlcYVYrk846smxX6dhH8w
+         lqyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714323742; x=1714928542;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=b1T3Hr1w32v0VXEXybJj/Hj7SF5hFewnPOJ+Ox/8LCk=;
+        b=oIW90PasjzXRtZqtwKKCvG2SOr5XOLMxCDWQo2RqK3RWZzepvAGp2WWaiB1Iee/3Tp
+         CLe/275jP2lmS/wWakZp5Rqd/2bPh5OQZ/zfvWF5j9Kne84NYltq5R5txM/0na+KCVa1
+         FQ4pnwLS25cFYJQsDzfvCX/9l60u7dT0R/fceQz7iqhtyG3kI7uVUSxjoathX8sz1N8Z
+         CFHzfzwoqn7QQz1dQVecobFd+wqncmcRNVFzganchLNFq5u4OIUA6pA+6JsLMk4iEaIW
+         0KykUgImIHgmnAg4eI5cdG/RiWK8cmFOHmdnW4NIH8sHsgROucsl8FuhpVkS30gC1eoN
+         0RpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVXOmb92AvCfU0GfiSp/TB6eSxYJ7gYoEHdM3g+66op3m3P8vnq96PLxZ8ucWf516B4GCVDuVscYlzGCs/j9L9CO3bKEWxCnAGBvPkgbIPcJf33hE5bRRhYMOuDXr/7DYUt4hjnO63cSyYUtcX1FpTX5yQMcG5uhaEkO0MNl+S5vTppiMnmyBwM3OINTavxR1j727PeEjB7YzL5DH/mWw==
+X-Gm-Message-State: AOJu0YxOg3NKNejJOjQz9t5tAbELSaSpc3K3LDYgiGty0pjY1TiJ7IM+
+	0qmxohHdJnmhQIwEeBD9aY29+3cqeLO7yqb3pMhGhLa/c89b2ZQo
+X-Google-Smtp-Source: AGHT+IEdftkXZBXxO2TZ48Tfy3JvvIaqRTrgDySRxV20fxHJXBJ4e2U/qL5PCUHq+NmstbjbOJpArg==
+X-Received: by 2002:a17:902:7c8f:b0:1e0:bacc:9977 with SMTP id y15-20020a1709027c8f00b001e0bacc9977mr8074575pll.59.1714323742509;
+        Sun, 28 Apr 2024 10:02:22 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id w9-20020a1709026f0900b001e20be11688sm19027806plk.229.2024.04.28.10.02.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Apr 2024 10:02:21 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Sun, 28 Apr 2024 10:02:21 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Jose Ramon San Buenaventura <jose.sanbuenaventura@analog.com>
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-i2c@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v3 1/2] dt-bindings: hwmon: adm1275: add adm1281
+Message-ID: <e5c0bfd6-495c-478d-8473-c90420f322c2@roeck-us.net>
+References: <20240425070948.25788-1-jose.sanbuenaventura@analog.com>
+ <20240425070948.25788-2-jose.sanbuenaventura@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240425070948.25788-2-jose.sanbuenaventura@analog.com>
 
-On Thu, 25 Apr 2024 09:09:59 -0500
-David Lechner <dlechner@baylibre.com> wrote:
-
-> This adds support for the chain mode of the AD7944 ADC. This mode allows
-> multiple ADCs to be daisy-chained together. Data from all of the ADCs in
-> is read by reading multiple words from the first ADC in the chain.
+On Thu, Apr 25, 2024 at 03:09:47PM +0800, Jose Ramon San Buenaventura wrote:
+> Add support for the adm1281 Hot-Swap Controller and Digital Power
+> and Energy Monitor
 > 
-> Each chip in the chain adds an extra IIO input voltage channel to the
-> IIO device.
-> 
-> Only the wiring configuration where the SPI controller CS line is
-> connected to the CNV pin of all of the ADCs in the chain is supported
-> in this patch.
-> 
-> Signed-off-by: David Lechner <dlechner@baylibre.com>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> Signed-off-by: Jose Ramon San Buenaventura <jose.sanbuenaventura@analog.com>
 
-Looks good except for one minor tweak needed to ensure the allocated buffer
-is zeroed as we don't necessarily overwrite the the whole thing.
-
-Given that's all I found, I've just switched that to devm_kzalloc and
-applied the series.
-
-Applied to the togreg branch of iio.git and pushed out initially as testing
-for 0-day to look at it.
+Applied.
 
 Thanks,
-
-Jonathan
-
-
-
->  
-> +/**
-> + * ad7944_chain_mode_alloc - allocate and initialize channel specs and buffers
-> + *                           for daisy-chained devices
-> + * @dev: The device for devm_ functions
-> + * @chan_template: The channel template for the devices (array of 2 channels
-> + *                 voltage and timestamp)
-> + * @n_chain_dev: The number of devices in the chain
-> + * @chain_chan: Pointer to receive the allocated channel specs
-> + * @chain_mode_buf: Pointer to receive the allocated rx buffer
-> + * @chain_scan_masks: Pointer to receive the allocated scan masks
-> + * Return: 0 on success, a negative error code on failure
-> + */
-> +static int ad7944_chain_mode_alloc(struct device *dev,
-> +				   const struct iio_chan_spec *chan_template,
-> +				   u32 n_chain_dev,
-> +				   struct iio_chan_spec **chain_chan,
-> +				   void **chain_mode_buf,
-> +				   unsigned long **chain_scan_masks)
-> +{
-> +	struct iio_chan_spec *chan;
-> +	size_t chain_mode_buf_size;
-> +	unsigned long *scan_masks;
-> +	void *buf;
-> +	int i;
-> +
-> +	/* 1 channel for each device in chain plus 1 for soft timestamp */
-> +
-> +	chan = devm_kcalloc(dev, n_chain_dev + 1, sizeof(*chan), GFP_KERNEL);
-> +	if (!chan)
-> +		return -ENOMEM;
-> +
-> +	for (i = 0; i < n_chain_dev; i++) {
-> +		chan[i] = chan_template[0];
-> +
-> +		if (chan_template[0].differential) {
-> +			chan[i].channel = 2 * i;
-> +			chan[i].channel2 = 2 * i + 1;
-> +		} else {
-> +			chan[i].channel = i;
-> +		}
-> +
-> +		chan[i].scan_index = i;
-> +	}
-> +
-> +	/* soft timestamp */
-> +	chan[i] = chan_template[1];
-> +	chan[i].scan_index = i;
-> +
-> +	*chain_chan = chan;
-> +
-> +	/* 1 word for each voltage channel + aligned u64 for timestamp */
-> +
-> +	chain_mode_buf_size = ALIGN(n_chain_dev *
-> +		BITS_TO_BYTES(chan[0].scan_type.storagebits), sizeof(u64))
-> +		+ sizeof(u64);
-> +	buf = devm_kmalloc(dev, chain_mode_buf_size, GFP_KERNEL);
-
-Zero it - It's not a problem to leak stale ADC data or similar
-into the gap between the data and the timestamp, but it is a problem
-if it's general kernel data potentially leaking.
-
-So play it safe and devm_kzalloc()
-		
-> +	if (!buf)
-> +		return -ENOMEM;
-> +
-> +	*chain_mode_buf = buf;
-> +
-> +	/*
-> +	 * Have to limit n_chain_dev due to current implementation of
-> +	 * available_scan_masks.
-> +	 */
-> +	if (n_chain_dev > BITS_PER_LONG)
-> +		return dev_err_probe(dev, -EINVAL,
-> +				     "chain is limited to 32 devices\n");
-> +
-> +	scan_masks = devm_kcalloc(dev, 2, sizeof(*scan_masks), GFP_KERNEL);
-> +	if (!scan_masks)
-> +		return -ENOMEM;
-> +
-> +	/*
-> +	 * Scan mask is needed since we always have to read all devices in the
-> +	 * chain in one SPI transfer.
-> +	 */
-> +	scan_masks[0] = GENMASK(n_chain_dev - 1, 0);
-> +
-> +	*chain_scan_masks = scan_masks;
-> +
-> +	return 0;
-> +}
-
+Guenter
