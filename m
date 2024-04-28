@@ -1,73 +1,95 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01F9AD52;
-	Sun, 28 Apr 2024 14:25:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A087B8C1F;
+	Sun, 28 Apr 2024 14:47:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714314342; cv=none; b=UMNFsUXqtxgHq4bwF0XLWsMGvbTXT8v1OYXRBJBGE+8IzhEj8aTGS0bC1hSZH619gew4KK2okliFhpVljwtWIkFLZOvoD+8aESDs+KivaaYpN96iWlGVjF8tdzQtHaxA5JRs94nNPY+NBrOgAQM//HnLl1EtL35Ki2aCAri5iJg=
+	t=1714315652; cv=none; b=JEGVXWDWpQnFg49A2vX3J59TJ/BMrjVmD6pzpWu6dC7NUYnvEJHHzUnUe9g3nfMSrlgxgouH4kgPacFbmuKb9T9pgVI/xWAt0zM/Ni1xYn5CdGq+apFpT3DM9ryMMJr53JhSagpS+qUz5yz4oUGR/DKuEYoWN2R2dXTWW3IRtdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714314342; c=relaxed/simple;
-	bh=lZxJrpNHn0XSynHk/uJrhAg3iT15StGrcBJXagCaH9Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DOuarzbh5njgD/7kLQvIb3pDDasTpqNfmgjaYSvrqW0/tuej1UkNApO9mbfeXYROqBhAtJEQViMJZknjrEghyV+DVqaqqjkbABXTLquZWPktRBZfEeAQ50jOnkKFpE7mU5yLYDuPRC8/pD7G19N7V6p+WyBbp7HQ0BJ1LMmZeJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=PsybsRSJ; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1714315652; c=relaxed/simple;
+	bh=j3dgZxwRNCdjI+Z7qYMD9SW57AmVLugjFAeYYrRK/KE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=udQZkj71zhe39tJAg3KZ4bYVWfXoo1EcguBoGD1ww+0KV4YSE+whkUVGrs4KYotCFF6n3KJwJ0ZM1nbnF99nhZn1eFPeO/SpRzd5GDLmHw+Oa8brrxcfZu0uRFbW3uPdAsCBoo+kVvTn6AvCbHQLrSemXbuWdBN79Nr2ct2R0Hk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fbpNeXf9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="PsybsRSJ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=M2ewwiL2pIG/9gVc441cLBbAgSNOqpkmdmS7M7cFcKk=; b=PsybsRSJOkK+rGQOMjU4XdJfQ2
-	PAtzE8sZGN0AlyQlsLwcVCWK1ocgaCJtSWG1akpwGdSZwplwCtDlbtCe5PTLrCit+FU2ronl8NDUN
-	GcRnDxwgLBGDFw8M/GbLCDRtpwsfyW56zlGdCguvofmc0UMTGgjaifCWtXsb7p8+t3KY=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1s15T6-00EBwA-JJ; Sun, 28 Apr 2024 16:25:28 +0200
-Date: Sun, 28 Apr 2024 16:25:28 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: =?iso-8859-1?Q?Ram=F3n?= Nordin Rodriguez <ramon.nordin.rodriguez@ferroamp.se>
-Cc: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, saeedm@nvidia.com,
-	anthony.l.nguyen@intel.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, corbet@lwn.net,
-	linux-doc@vger.kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	devicetree@vger.kernel.org, horatiu.vultur@microchip.com,
-	ruanjinjie@huawei.com, steen.hegelund@microchip.com,
-	vladimir.oltean@nxp.com, UNGLinuxDriver@microchip.com,
-	Thorsten.Kummermehr@microchip.com, Pier.Beruto@onsemi.com,
-	Selvamani.Rajagopal@onsemi.com, Nicolas.Ferre@microchip.com,
-	benjamin.bigler@bernformulastudent.ch
-Subject: Re: [PATCH net-next v4 11/12] microchip: lan865x: add driver support
- for Microchip's LAN865X MAC-PHY
-Message-ID: <8e06c952-b5ab-4591-8ab0-7aebf612a67e@lunn.ch>
-References: <20240418125648.372526-1-Parthiban.Veerasooran@microchip.com>
- <20240418125648.372526-12-Parthiban.Veerasooran@microchip.com>
- <Zi1Tang5RQMmEFdx@builder>
- <50b7cb69-61c0-45a2-9a48-4160b2d1e24c@lunn.ch>
- <Zi1uIjoIgzir1cwA@builder>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fbpNeXf9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F35F1C113CC;
+	Sun, 28 Apr 2024 14:47:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714315652;
+	bh=j3dgZxwRNCdjI+Z7qYMD9SW57AmVLugjFAeYYrRK/KE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=fbpNeXf91akNWf9Z9oN/ywTA3xvo4Iv1flypFsbcpznkTXlDms019j7h21DKqAMaa
+	 8qk8DSkZ+HTvE5XRyhx2KInErkxig4gFbIFZ4OHfo1ZzVTN81rNKpro5ub4/XyshHr
+	 zRsAx15XPwMzLbdR0qApIgMPS+Hq+2PTlsmoZZRb7ZaWe8QcEccFeiRfF8hzVCyYbm
+	 Fz+SLqos/JBw2hMKGzPTKES9OBycPXy2ldh0GKa4pEgl6YbQFGxj/XHBsV0lMN1LeI
+	 BVPb3XgQ60MjmI8rau0K50/M1NM5zjqYC+7PvRpzIZuLO26U2FiwtmJKSxq+vMPRRp
+	 bD7Mm8Q4iFVzQ==
+Date: Sun, 28 Apr 2024 15:47:22 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Ramona Gradinariu <ramona.bolboaca13@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-doc@vger.kernel.org, corbet@lwn.net, Ramona Gradinariu
+ <ramona.gradinariu@analog.com>
+Subject: Re: [PATCH 1/1] docs: iio: adis16475: fix device files tables
+Message-ID: <20240428154722.168cb7c2@jic23-huawei>
+In-Reply-To: <20240424094152.103667-2-ramona.gradinariu@analog.com>
+References: <20240424094152.103667-1-ramona.gradinariu@analog.com>
+	<20240424094152.103667-2-ramona.gradinariu@analog.com>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Zi1uIjoIgzir1cwA@builder>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-> I agree with your assesment, the phy won't reset itself, but maybe we
-> could add some comment doc about not adding it for the lan8670,
-> so no one trips over that in the future.
+On Wed, 24 Apr 2024 12:41:52 +0300
+Ramona Gradinariu <ramona.bolboaca13@gmail.com> wrote:
 
-In the PHY driver, you can provide your own .soft_reset handler. It
-could return -EOPNOTSUPP, or -EINVAL. Maybe check the data sheets for
-the standalone devices supported by the driver. Can you limit this to
-just the TC6 PHY?
+> Remove in_accel_calibbias_x and in_anglvel_calibbias_x device files
+> description, as they do not exist and were added by mistake.
+> Add correct naming for in_accel_y_calibbias and in_anglvel_y_calibbias
+> device files and update their description.
+> 
+> Fixes: 8243b2877eef ("docs: iio: add documentation for adis16475 driver")
+> Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
+Applied
+> ---
+>  Documentation/iio/adis16475.rst | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/iio/adis16475.rst b/Documentation/iio/adis16475.rst
+> index 91cabb7d8d05..130f9e97cc17 100644
+> --- a/Documentation/iio/adis16475.rst
+> +++ b/Documentation/iio/adis16475.rst
+> @@ -66,11 +66,9 @@ specific device folder path ``/sys/bus/iio/devices/iio:deviceX``.
+>  +-------------------------------------------+----------------------------------------------------------+
+>  | in_accel_x_calibbias                      | Calibration offset for the X-axis accelerometer channel. |
+>  +-------------------------------------------+----------------------------------------------------------+
+> -| in_accel_calibbias_x                      | x-axis acceleration offset correction                    |
+> -+-------------------------------------------+----------------------------------------------------------+
+>  | in_accel_x_raw                            | Raw X-axis accelerometer channel value.                  |
+>  +-------------------------------------------+----------------------------------------------------------+
+> -| in_accel_calibbias_y                      | y-axis acceleration offset correction                    |
+> +| in_accel_y_calibbias                      | Calibration offset for the Y-axis accelerometer channel. |
+>  +-------------------------------------------+----------------------------------------------------------+
+>  | in_accel_y_raw                            | Raw Y-axis accelerometer channel value.                  |
+>  +-------------------------------------------+----------------------------------------------------------+
+> @@ -94,11 +92,9 @@ specific device folder path ``/sys/bus/iio/devices/iio:deviceX``.
+>  +---------------------------------------+------------------------------------------------------+
+>  | in_anglvel_x_calibbias                | Calibration offset for the X-axis gyroscope channel. |
+>  +---------------------------------------+------------------------------------------------------+
+> -| in_anglvel_calibbias_x                | x-axis gyroscope offset correction                   |
+> -+---------------------------------------+------------------------------------------------------+
+>  | in_anglvel_x_raw                      | Raw X-axis gyroscope channel value.                  |
+>  +---------------------------------------+------------------------------------------------------+
+> -| in_anglvel_calibbias_y                | y-axis gyroscope offset correction                   |
+> +| in_anglvel_y_calibbias                | Calibration offset for the Y-axis gyroscope channel. |
+>  +---------------------------------------+------------------------------------------------------+
+>  | in_anglvel_y_raw                      | Raw Y-axis gyroscope channel value.                  |
+>  +---------------------------------------+------------------------------------------------------+
 
-     Andrew
