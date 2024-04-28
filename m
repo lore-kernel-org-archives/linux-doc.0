@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2801B58105;
-	Sun, 28 Apr 2024 15:33:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B77200D3;
+	Sun, 28 Apr 2024 16:29:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714318425; cv=none; b=UtNt6TUJ6DFALv0SI8rx1UtrXBjGJI5xX26I/LIAch4C7M0EkH/Yh0jFDon42lkq120wIB95IN242PHfudEzW91nWNPqgfwDmOwee1IePbbkjhrgqGP/FIEwK7Twc9x/QNXpwdL+NF92OsrMRc4RmBG4lV7nb/ERa/kb4xiJheE=
+	t=1714321772; cv=none; b=TVCKFQ1nvyr9x8E29QFXsWzHmKTEpCBUDQj9Wvfrr/T3+71mPmoDvVHcUP+yR7HHgMsEuqy7uWK5Wmsob3a36oanugqKGsyHrrX9vdDDUv28jYJza9J8A4Cg+5VqTcjj8SCHvnj0JBAFXKPJ7eWVcuHbUzgcp1pMDVTWh+SwTFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714318425; c=relaxed/simple;
-	bh=Bl5Jt/Gi7pD86ZXdSpC6cHLOrRDvkB2Iphv+mf7NzoI=;
+	s=arc-20240116; t=1714321772; c=relaxed/simple;
+	bh=vSrMdYGVa1THJhE9VGHR3c71Wan1QAssbo5bxRU7fyk=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=O9f7+Y35ZrtW5/HqoSE/0D/GxROEsWteTJzYRfaWEZECB9X9SE9alp6iSDNHknpOh4C6O5LWXQBt1tMgHI3r/dL7BtGFAN2fFcS1iY1K6dmr8Vs6jn4yp4fIR+K9eciyWLKceB1RENS28MBdktuH+7O1QzpcqcbO4kSvCQnOqdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PmUUQhvK; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=eE8GZK1jwk+7lqQsSLDi126UKJUi3OpiSQNzTCUe2dapsddRUuLLv1mZCDLG+I3/0jlVmF1/dHt1xAiNCqi5sx113QIXL28HQUz2mVTrPpEH+rhpELeZ0p4dOuHE+bIUqeeMzeDgFDgtulDE7LoArzhv/RC7XW9j+db+ZSiYBfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e6ivtPvR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PmUUQhvK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A3C2C113CC;
-	Sun, 28 Apr 2024 15:33:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e6ivtPvR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2E1DC113CC;
+	Sun, 28 Apr 2024 16:29:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714318424;
-	bh=Bl5Jt/Gi7pD86ZXdSpC6cHLOrRDvkB2Iphv+mf7NzoI=;
+	s=k20201202; t=1714321771;
+	bh=vSrMdYGVa1THJhE9VGHR3c71Wan1QAssbo5bxRU7fyk=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=PmUUQhvKtrxhIlQp/UKL4HJOiswhX6tkK0FAOBtPixvX/Z9miUuXKtKMy7Q05t/Oa
-	 BxZx7hkMROIasX2LlDZAxnOCVNyIorBLDnjI1wE4WvQRfbWeNehkWqlsSXMnnNciOr
-	 VN7ojjAuEAp0iQOqdNKzCw02zlBe9MSFijV6sLUjAfLLIUBvnWc3EBjvpNU+Tvu+cf
-	 2UjEkrdac4heopF6i+fpNw3Lp+3UWtZjI/iVK3q3LZXUM/IW2p33cLSLo64DY6nnKg
-	 alf8IUhqLcuI8IWRGsJBuplLytdwt+y/9esz1ZOJfw2Vt2uQ0mYmGaSiKGikfVrqd4
-	 WuZC50+B6Zi8A==
-Date: Sun, 28 Apr 2024 16:33:32 +0100
+	b=e6ivtPvR1g/dJdwd2h2A6IrgImRP910wNr/OE0fTPtZ+6UCoicXkyLT/0iN+uq1DU
+	 kB4wxp8DnZ/uMAlwH9+4zjgacZQ0NlJLk7XNsbRDxDh6HJYOU7B0Qlr/+2kjOFJcCO
+	 JP+86oRoGjkcdo83+T1yf5UglcR/jZRIBkGDbXmI7s+tg6scrzM+u+M7V916W8fqyk
+	 F16SUavqdp7hpNcpuucvMLL/uaX0Ave3MwAZMSFpH8ONC65oogurZwVD8nE7pcwN6R
+	 cC9f7cd3jz83aBPsEVEyH7ayZGNYpL7w1kC0H4upFqkc/o7+EzRv1ibCSv+w1qK58q
+	 kFRpaQnU3endA==
+Date: Sun, 28 Apr 2024 17:29:23 +0100
 From: Jonathan Cameron <jic23@kernel.org>
-To: Ramona Gradinariu <ramona.bolboaca13@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-doc@vger.kernel.org, devicetree@vger.kernel.org, corbet@lwn.net,
- conor+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, robh@kernel.org,
- Ramona Gradinariu <ramona.gradinariu@analog.com>
-Subject: Re: [PATCH 5/5] docs: iio: add documentation for adis16480 driver
-Message-ID: <20240428163332.1e1327d6@jic23-huawei>
-In-Reply-To: <20240423084210.191987-6-ramona.gradinariu@analog.com>
-References: <20240423084210.191987-1-ramona.gradinariu@analog.com>
-	<20240423084210.191987-6-ramona.gradinariu@analog.com>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Michael Hennerich <Michael.Hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] iio: adc: ad7944: add support for chain mode
+Message-ID: <20240428172923.7dfe00ff@jic23-huawei>
+In-Reply-To: <20240425-iio-ad7944-chain-mode-v1-1-9d9220ff21e1@baylibre.com>
+References: <20240425-iio-ad7944-chain-mode-v1-0-9d9220ff21e1@baylibre.com>
+	<20240425-iio-ad7944-chain-mode-v1-1-9d9220ff21e1@baylibre.com>
 X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -48,75 +48,126 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Tue, 23 Apr 2024 11:42:10 +0300
-Ramona Gradinariu <ramona.bolboaca13@gmail.com> wrote:
+On Thu, 25 Apr 2024 09:09:59 -0500
+David Lechner <dlechner@baylibre.com> wrote:
 
-> Add documentation for adis16480 driver which describes the driver
-> device files and shows how the user may use the ABI for various
-> scenarios (configuration, measurement, etc.).
+> This adds support for the chain mode of the AD7944 ADC. This mode allows
+> multiple ADCs to be daisy-chained together. Data from all of the ADCs in
+> is read by reading multiple words from the first ADC in the chain.
 > 
-> Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
+> Each chip in the chain adds an extra IIO input voltage channel to the
+> IIO device.
+> 
+> Only the wiring configuration where the SPI controller CS line is
+> connected to the CNV pin of all of the ADCs in the chain is supported
+> in this patch.
+> 
+> Signed-off-by: David Lechner <dlechner@baylibre.com>
 
-LGTM.  A few minor comments, and the final section feels to me like
-it belongs somewhere more generic.  I don't want to see much duplication
-in these files and that sort of set of pointers to software stacks is
-something that either needs to be in some higher level docs, or would
-get duplicated.
+Looks good except for one minor tweak needed to ensure the allocated buffer
+is zeroed as we don't necessarily overwrite the the whole thing.
 
-...
+Given that's all I found, I've just switched that to devm_kzalloc and
+applied the series.
 
->
-> +
-> +3. Device buffers
-> +=================
-> +
-> +This driver supports IIO buffers.
-> +
-> +All devices support retrieving the raw acceleration, gyroscope and temperature
-> +measurements using buffers.
-> +
-> +The following device families also support retrieving the delta velocity, delta
-> +angle and temperature measurements using buffers:
-> +
-> +- ADIS16545
-> +- ADIS16547
-> +
-> +However, when retrieving acceleration or gyroscope data using buffers, delta
-> +readings will not be available and vice versa.
+Applied to the togreg branch of iio.git and pushed out initially as testing
+for 0-day to look at it.
 
-I would add a sentence here on why.
+Thanks,
+
+Jonathan
 
 
-> +
-> +See ``Documentation/iio/iio_devbuf.rst`` for more information about how buffered
-> +data is structured.
-> +
-> +4. IIO Interfacing Tools
-> +========================
 
-This bit looks general.  Good to have, but given we don't want to repeat it in lots
-of drivers, perhaps move it somewhere more general?
+>  
+> +/**
+> + * ad7944_chain_mode_alloc - allocate and initialize channel specs and buffers
+> + *                           for daisy-chained devices
+> + * @dev: The device for devm_ functions
+> + * @chan_template: The channel template for the devices (array of 2 channels
+> + *                 voltage and timestamp)
+> + * @n_chain_dev: The number of devices in the chain
+> + * @chain_chan: Pointer to receive the allocated channel specs
+> + * @chain_mode_buf: Pointer to receive the allocated rx buffer
+> + * @chain_scan_masks: Pointer to receive the allocated scan masks
+> + * Return: 0 on success, a negative error code on failure
+> + */
+> +static int ad7944_chain_mode_alloc(struct device *dev,
+> +				   const struct iio_chan_spec *chan_template,
+> +				   u32 n_chain_dev,
+> +				   struct iio_chan_spec **chain_chan,
+> +				   void **chain_mode_buf,
+> +				   unsigned long **chain_scan_masks)
+> +{
+> +	struct iio_chan_spec *chan;
+> +	size_t chain_mode_buf_size;
+> +	unsigned long *scan_masks;
+> +	void *buf;
+> +	int i;
+> +
+> +	/* 1 channel for each device in chain plus 1 for soft timestamp */
+> +
+> +	chan = devm_kcalloc(dev, n_chain_dev + 1, sizeof(*chan), GFP_KERNEL);
+> +	if (!chan)
+> +		return -ENOMEM;
+> +
+> +	for (i = 0; i < n_chain_dev; i++) {
+> +		chan[i] = chan_template[0];
+> +
+> +		if (chan_template[0].differential) {
+> +			chan[i].channel = 2 * i;
+> +			chan[i].channel2 = 2 * i + 1;
+> +		} else {
+> +			chan[i].channel = i;
+> +		}
+> +
+> +		chan[i].scan_index = i;
+> +	}
+> +
+> +	/* soft timestamp */
+> +	chan[i] = chan_template[1];
+> +	chan[i].scan_index = i;
+> +
+> +	*chain_chan = chan;
+> +
+> +	/* 1 word for each voltage channel + aligned u64 for timestamp */
+> +
+> +	chain_mode_buf_size = ALIGN(n_chain_dev *
+> +		BITS_TO_BYTES(chan[0].scan_type.storagebits), sizeof(u64))
+> +		+ sizeof(u64);
+> +	buf = devm_kmalloc(dev, chain_mode_buf_size, GFP_KERNEL);
 
+Zero it - It's not a problem to leak stale ADC data or similar
+into the gap between the data and the timestamp, but it is a problem
+if it's general kernel data potentially leaking.
+
+So play it safe and devm_kzalloc()
+		
+> +	if (!buf)
+> +		return -ENOMEM;
 > +
-> +Linux Kernel Tools
-> +------------------
+> +	*chain_mode_buf = buf;
 > +
-> +Linux Kernel provides some userspace tools that can be used to retrieve data
-> +from IIO sysfs:
+> +	/*
+> +	 * Have to limit n_chain_dev due to current implementation of
+> +	 * available_scan_masks.
+> +	 */
+> +	if (n_chain_dev > BITS_PER_LONG)
+> +		return dev_err_probe(dev, -EINVAL,
+> +				     "chain is limited to 32 devices\n");
 > +
-> +* lsiio: example application that provides a list of IIO devices and triggers
-> +* iio_event_monitor: example application that reads events from an IIO device
-> +  and prints them
-> +* iio_generic_buffer: example application that reads data from buffer
-> +* iio_utils: set of APIs, typically used to access sysfs files.
+> +	scan_masks = devm_kcalloc(dev, 2, sizeof(*scan_masks), GFP_KERNEL);
+> +	if (!scan_masks)
+> +		return -ENOMEM;
 > +
-> +LibIIO
-> +------
+> +	/*
+> +	 * Scan mask is needed since we always have to read all devices in the
+> +	 * chain in one SPI transfer.
+> +	 */
+> +	scan_masks[0] = GENMASK(n_chain_dev - 1, 0);
 > +
-> +LibIIO is a C/C++ library that provides generic access to IIO devices. The
-> +library abstracts the low-level details of the hardware, and provides a simple
-> +yet complete programming interface that can be used for advanced projects.
+> +	*chain_scan_masks = scan_masks;
 > +
-> +For more information about LibIIO, please see:
-> +https://github.com/analogdevicesinc/libiio
+> +	return 0;
+> +}
 
