@@ -1,87 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63C50BA41;
-	Sun, 28 Apr 2024 22:00:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 706143F8F0
+	for <linux-doc@vger.kernel.org>; Sun, 28 Apr 2024 22:00:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714341635; cv=none; b=QT5/vGjd1oG6EqH+asuUH9TgkbOPcojxEzmTvEC+0ipySmsoNTTRmt81X3TBkeSH0SiAMIyS13t3AWQQpvFn9Uu7BruwgNRD6KmRQs3yPBIoGy1iEx0jfnIN9dnUqo5F48gcnB0Q+H//jBxR6yD8vr3yGCNZPfraJGfUC5pXXmU=
+	t=1714341646; cv=none; b=oT4FQyS0jHF9++MAsm3iFY6qWEoZYhkxe5QhHroMngN7xWlw2/p1yniumyZ2Qz+JSwivxHjCrqtXTv4EK6v6ja1RSTAW1WyYc1sjrhlBjJzBRP41r2Fsy1AFmVUX+7bvMgk+DW+NwHsDq3cZ+UrDzbR9QW+eW9abV3G3/So8mJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714341635; c=relaxed/simple;
-	bh=G75BxI2Ke585cbRErrGMj5F7qdvtnyl04UrjmqS8Nts=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=Ws6Q6y1tkS/L0FZ7uA8fjXRMTnQWiQEJohiGOnNQgxnQRFm/i2bXl9F8cJqX/2wk7mh7DNrWoZ8Vs5o45qbTjl7CECG/lBU3HUIGtJnY0daUvgPmbv46bDx1rxnaTVh+BvdCU4WaiMs2fyD5zABZLFVdg7Twb0m68rs8tIUGl38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RKACEZM1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714341646; c=relaxed/simple;
+	bh=VKa5DRK+rov4mOndYM37s5U81Iupu8JcxyUVcg4m+F4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GVcJOuC+sr/jNh7nE2yKOTSUVJ6vNnPAZhvak6BAgFpdQVp2tB2DZFGg1KrrSeFjOgsw5LbfuVZZ6a3PVwNQt6JMvanctMURimXi2ynUEyUJnhbawnSADl6UmT4xEvHYaDl1/8GPzocYb9gS3G4D4YGc+33tthPZWfVW+MI5Nj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ferroamp.se; spf=pass smtp.mailfrom=ferroamp.se; dkim=pass (2048-bit key) header.d=ferroamp-se.20230601.gappssmtp.com header.i=@ferroamp-se.20230601.gappssmtp.com header.b=aa+Nj/J2; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ferroamp.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ferroamp.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RKACEZM1"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id ED6E9C4AF1C;
-	Sun, 28 Apr 2024 22:00:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714341635;
-	bh=G75BxI2Ke585cbRErrGMj5F7qdvtnyl04UrjmqS8Nts=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=RKACEZM19RbQbpO/Z7PdjBdvoZePPUTDthdMmu1niB0ZKljcxQGfiXDP13BhPqRqx
-	 9EYEwdZM6CFTMX05tFuV5jZVJgoDCKrQiFYqYfg5lARUxSgVhmWnScukiB80GPDKMu
-	 qQJby5ChjLvbSwreZZD5Md9A8jiLm6wXRVq5O7WLA2bRcOZ2/NNk8sMIcMGdDp3tAP
-	 faXsVbSd1llPWZhDpS92sfMu0w9FCDkCj36CxwjuO9yXX2PM3HqsFJmwpKul/b1Fjv
-	 KI3OUHEXN8txRDoGc8JF6lZfP2sMypiukY4uPbBONsOXykR0TomVlzEyIa6sP5pSrn
-	 i2Sj/bzC+eJxA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E04DCC43618;
-	Sun, 28 Apr 2024 22:00:34 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=ferroamp-se.20230601.gappssmtp.com header.i=@ferroamp-se.20230601.gappssmtp.com header.b="aa+Nj/J2"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5171a529224so4788324e87.0
+        for <linux-doc@vger.kernel.org>; Sun, 28 Apr 2024 15:00:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ferroamp-se.20230601.gappssmtp.com; s=20230601; t=1714341642; x=1714946442; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=AWJwQ79KFPwoTQT9Ru/EFPzNPVyElzHVufYRANALvzk=;
+        b=aa+Nj/J2tKWrJ7FIFcFte6Vv5kEx/q5fJg4Jv9CmKXn3aSn7maYnaF/1G0xUWylXEP
+         UG4mSHUMzp8QDsA+EICzuN/mRBtXPT/0XO11p0jhaDmqTrjmfn1wICdOoRMlaSLmQ4S5
+         z8z3qgOK4WnRisytaA7KwtN1Ig7ildDr7p2l9ZJArWBlrNcL+fRjjCWcyhclGomoEE6O
+         FZusTxJFN6VbtqaVLFMBVlPZifDi/IGOEpuUPJUkLnqzVKfKF7uzJTmZofTm3VnStMn3
+         UVeQG+tmqTh/VaZIqifel++RV0T3CADBwVk7UIl6gci0onmQifzouChIQuUuJlvG4s30
+         l3qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714341642; x=1714946442;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AWJwQ79KFPwoTQT9Ru/EFPzNPVyElzHVufYRANALvzk=;
+        b=SpOlKZOUD7jwoiztKIcAgL1X277EUdoyhxXAgw3uJfKAylRsEycTtESR4u3G5o64cZ
+         YGWFTWhb1Ii0qy3S2ybNVi6MPBUZSmtaF00aUycoCcXG/mSelZzXK3leRm+tZdHfzm1L
+         wmjnLqpIdCZ9tAIMARLtqWpxjDBBdklNyAJxhPw+oP90te/D7EObsIzPcpZ6kEF+4iWL
+         9vduUexKPBGZ79dyRk8OGkTVUfYWoGphKxNL9U+ZvT//QEu+MWbVTWyZx26f6gXIsrZS
+         sktVMsbvUyv0TZxSYWqVhWhlDenzgrw6/Q/oki8x+JYnGOWvpTgkOTfeSwoc4EcJaFfM
+         qkyg==
+X-Forwarded-Encrypted: i=1; AJvYcCXQwj5Y99d0s5pUTSymmrp04SicEPgOUrRZU6AFyf/VBsyh1G3ASoEDttUcy2MHC1n17EPnebib5J/UuElP0AJ1NerTGBGRRbbY
+X-Gm-Message-State: AOJu0YzQVbdz77n5Tx1D/sQjJs9UvWhogrCn/jinSpLiR6xSKAcWXnJ8
+	cDXFGWgErA1jngfjNOVvNdeYqswDguaOqicY/XMW9gBxwUUn/IDEBkOuoLY51bg=
+X-Google-Smtp-Source: AGHT+IH+pw1RUW60bhQZcyaY+b3pXcFRtK54hYisJiG7BkigT+/etaKESEap9CmgjFFnDFuPPpiVPQ==
+X-Received: by 2002:a05:6512:ba2:b0:516:d448:b42a with SMTP id b34-20020a0565120ba200b00516d448b42amr6329943lfv.26.1714341642522;
+        Sun, 28 Apr 2024 15:00:42 -0700 (PDT)
+Received: from builder (c188-149-135-220.bredband.tele2.se. [188.149.135.220])
+        by smtp.gmail.com with ESMTPSA id j21-20020a056512399500b0051ab68bbb63sm3547485lfu.56.2024.04.28.15.00.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Apr 2024 15:00:42 -0700 (PDT)
+Date: Mon, 29 Apr 2024 00:00:40 +0200
+From: =?iso-8859-1?Q?Ram=F3n?= Nordin Rodriguez <ramon.nordin.rodriguez@ferroamp.se>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, horms@kernel.org, saeedm@nvidia.com,
+	anthony.l.nguyen@intel.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, corbet@lwn.net,
+	linux-doc@vger.kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	devicetree@vger.kernel.org, horatiu.vultur@microchip.com,
+	ruanjinjie@huawei.com, steen.hegelund@microchip.com,
+	vladimir.oltean@nxp.com, UNGLinuxDriver@microchip.com,
+	Thorsten.Kummermehr@microchip.com, Pier.Beruto@onsemi.com,
+	Selvamani.Rajagopal@onsemi.com, Nicolas.Ferre@microchip.com,
+	benjamin.bigler@bernformulastudent.ch
+Subject: Re: [PATCH net-next v4 11/12] microchip: lan865x: add driver support
+ for Microchip's LAN865X MAC-PHY
+Message-ID: <Zi7HCBmpznyQbE_u@builder>
+References: <20240418125648.372526-1-Parthiban.Veerasooran@microchip.com>
+ <20240418125648.372526-12-Parthiban.Veerasooran@microchip.com>
+ <Zi1Tang5RQMmEFdx@builder>
+ <50b7cb69-61c0-45a2-9a48-4160b2d1e24c@lunn.ch>
+ <Zi1uIjoIgzir1cwA@builder>
+ <8e06c952-b5ab-4591-8ab0-7aebf612a67e@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v13 0/4] riscv: Create and document
- PR_RISCV_SET_ICACHE_FLUSH_CTX prctl
-From: patchwork-bot+linux-riscv@kernel.org
-Message-Id: 
- <171434163491.22130.7402887915365003575.git-patchwork-notify@kernel.org>
-Date: Sun, 28 Apr 2024 22:00:34 +0000
-References: <20240312-fencei-v13-0-4b6bdc2bbf32@rivosinc.com>
-In-Reply-To: <20240312-fencei-v13-0-4b6bdc2bbf32@rivosinc.com>
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: linux-riscv@lists.infradead.org, paul.walmsley@sifive.com,
- palmer@dabbelt.com, aou@eecs.berkeley.edu, corbet@lwn.net,
- conor.dooley@microchip.com, cleger@rivosinc.com, atishp@atishpatra.org,
- rdunlap@infradead.org, alex@ghiti.fr, samuel.holland@sifive.com,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, atishp@rivosinc.com,
- alexghiti@rivosinc.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8e06c952-b5ab-4591-8ab0-7aebf612a67e@lunn.ch>
 
-Hello:
-
-This series was applied to riscv/linux.git (for-next)
-by Palmer Dabbelt <palmer@rivosinc.com>:
-
-On Tue, 12 Mar 2024 16:53:39 -0700 you wrote:
-> Improve the performance of icache flushing by creating a new prctl flag
-> PR_RISCV_SET_ICACHE_FLUSH_CTX. The interface is left generic to allow
-> for future expansions such as with the proposed J extension [1].
+On Sun, Apr 28, 2024 at 04:25:28PM +0200, Andrew Lunn wrote:
+> > I agree with your assesment, the phy won't reset itself, but maybe we
+> > could add some comment doc about not adding it for the lan8670,
+> > so no one trips over that in the future.
 > 
-> Documentation is also provided to explain the use case.
+> In the PHY driver, you can provide your own .soft_reset handler. It
+> could return -EOPNOTSUPP, or -EINVAL. Maybe check the data sheets for
+> the standalone devices supported by the driver. Can you limit this to
+> just the TC6 PHY?
 > 
-> Patch sent to add PR_RISCV_SET_ICACHE_FLUSH_CTX to man-pages [2].
-> 
-> [...]
 
-Here is the summary with links:
-  - [v13,1/4] riscv: Remove unnecessary irqflags processor.h include
-    https://git.kernel.org/riscv/c/bebc345413f5
-  - [v13,2/4] riscv: Include riscv_set_icache_flush_ctx prctl
-    https://git.kernel.org/riscv/c/6b9391b581fd
-  - [v13,3/4] documentation: Document PR_RISCV_SET_ICACHE_FLUSH_CTX prctl
-    https://git.kernel.org/riscv/c/6a08e4709c58
-  - [v13,4/4] cpumask: Add assign cpu
-    https://git.kernel.org/riscv/c/decde1fa2093
+Gotcha, I think that should be pretty easy to handle then. The
+microchip_t1s.c module handles two phy families 
+* lan865x - baked in
+* lan867x - standalone 
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+I need to do some thinking and get a bit more oriented. But pretty sure
+there is a simple path for this.
 
-
+R
