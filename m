@@ -1,57 +1,57 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D55319DF5F
-	for <linux-doc@vger.kernel.org>; Mon, 29 Apr 2024 23:40:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B8519DF7A
+	for <linux-doc@vger.kernel.org>; Mon, 29 Apr 2024 23:40:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714434043; cv=none; b=ZxBGqWEvPHp869NFNvW0yickFPdA6kykJtdAPkuYI2nDQMIlu4d6WNEeafLlGkQ+we85uAMGYvvokb6VyR/8ZjEAYP0AnOuCaZ9XFNVSrfbQgKO+d/t/gw+9IC/kSkwvEyIfBEQh4+5DEhUTcYpJJOcF1flOf5Zehp+gvdUTlmQ=
+	t=1714434044; cv=none; b=t+YIQKgB4mwK9LQyFPU/fCXZJ6aw644+jWL+OB5VmsFUWxlW5J7H1T+2C8m5dN1JxQKtL2+oj4p4JATqJOlG1Kzz4N/NrmsHenw1Pl3TEzLCJhDtug9n2qLBSVq13RbIFPAOT8UNzxltMZOXnRcGPY1ZT5CAzS0bLCbYfRWFbwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714434043; c=relaxed/simple;
-	bh=+zbSPfQCo2TidClAz8aFbx06kfsxotX22PYdokwlZHQ=;
+	s=arc-20240116; t=1714434044; c=relaxed/simple;
+	bh=4b44S3VIMtdkbxcMOARrPEB6+EsrH1npp+wwSXp0/Y8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aBvk5DAHgEMiQAOkU+lydhY7zeOGrnlNLxV4GXk3fpawyX0IQpRaHn88y0KEfgGpuHt8jPknOcmBvZ7PRDZsvsa3YHrPQBxapzw2mD3X67kNPwGXjeSeNecewabOzf5cX2KkaxqXasMZf5NmufRPJ2nME0QdcgV0jEUpxc/NGd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ea4ZkOko; arc=none smtp.client-ip=209.85.210.44
+	 MIME-Version:Content-Type; b=RtoZpFTNXbYJk7rRCfJ8yvXXrgSkMM2JyPxAAoXQIpVH6dlLa5JhIWrJ8LLMpxauPfcem/S0754S/xvQJJwRNcYaDA8NUwQ8Vygo+apqyobiFNVL/uLSYrkaFX7rtUtlCAqNa2pc6wouW/IL+UprT68cT2jzad4cug/A7W6PUik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=bduqQ5a+; arc=none smtp.client-ip=209.85.161.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ea4ZkOko"
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-6eb848b5a2eso2720972a34.3
-        for <linux-doc@vger.kernel.org>; Mon, 29 Apr 2024 16:40:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="bduqQ5a+"
+Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-5aa362cc2ccso3592341eaf.3
+        for <linux-doc@vger.kernel.org>; Mon, 29 Apr 2024 16:40:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1714434039; x=1715038839; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1714434040; x=1715038840; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mMa9itjiBD1i+54RsbufRd9SzNQWP0jHWTveFCuhzhs=;
-        b=ea4ZkOkogLaJ+P2HmFwS1T+oJTyEQyzL/0BoIKe1hiIXUFx1uP1MMk1fkmKhrkaxoP
-         fXLPUhNt95DcT/Qcg8NZRdv0JtO8Sh6Wy+MPpJ8D4LQoTZbVxh6IncQAH3HSLzjKxYfe
-         Pj8Lt4N4PiP3ZmGQSH5hhPbtkVygO/2jJhft8efTYiMQkehoUNNNM+4yE8JZBl0KqItE
-         uWdMIojbRIVioQrC/PavHvC5hnO2++vvqeuSuQb2RJv1I0wMEy5+eTizeaIkWBBjNBH/
-         AgOrikCZ4mMMUu93gcK+BBElVqMGjo4He7sFW9DmNGCwXxfXPVRrZvKlqiKz9WkEQi5H
-         mXQg==
+        bh=8cubJgWS5pQ7P3B0LhmHJm/4bbMow1xJhT8KxVswt/M=;
+        b=bduqQ5a+j6loGrmIgbI8tMn11NJphoFzKCIbBzmNfndnCaiQUMzWt+B0+ictA1WVtS
+         GZxyBFLnXLCZeYn3MdZwLEkjs+vMX3yHnNMq5xp9flDqXYcoTnBKcH+OArn2ljmrKh1I
+         ODn9jZUMfRGn6hIcCvoR9qN4dTVH185Lm1N+iNiuTr9S2BYPOb7BmjAsry94d4fxBkmi
+         rhZbIzTGTOEkZ9c7SqI3THA24S9cfBUEU7Ha33/xcvos3s9ecDM6udVr8DwxZR8azH8w
+         VKkBxWgAjars0jJdUyFR+bYmLQo1DZdHEpLjCQhU1V0afc730679HinA70Th/YfDgd9a
+         1x0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714434039; x=1715038839;
+        d=1e100.net; s=20230601; t=1714434040; x=1715038840;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mMa9itjiBD1i+54RsbufRd9SzNQWP0jHWTveFCuhzhs=;
-        b=RENQFQ5IniHA5k1ehQWLWRgWuIoEScPnFmbcqP73K5FJKrtugOm4nmj0EwSr2HFFPN
-         eX7XG9M38A7ZWc9ItdWy+dEsW/I3aN0+O4qsnFZDMvej0udr9DITYY1szUP67bGL+Z0L
-         EEDGE+6hnlVhm9Vxa8Rr62O8+mSWPkk8uLZ+MEyxXb9aYWnpNiW/+t40K7JghkP53+t4
-         zQXVg26J44eBxNIQ2NG4/SOsC6seLM67gAAYY3rfjdNritNnn2CXc3EeRNaUgsLdGzCQ
-         qDSXyC9AZ8YPUDOOVCBaBisvcYOfJH7GpRT7f/1W3Sy8Ija7GbRhzsIEyv7+dhTZ/SPB
-         er9g==
-X-Forwarded-Encrypted: i=1; AJvYcCVp7hFdrFeHwgPESau+xkLJ5fvp2POzpmUUMh3gOSdb9MCWz+OZFQ7RjrGj8lX3xq3cvYp+UoGXDwYA6W3lDi5rbtYpnvSoy24Q
-X-Gm-Message-State: AOJu0YzjAxyM5P+oYBPgBUsrZgEZpucvBiVX++EaO/kWoUQTK5gXQndZ
-	4CVA1bRp9NcdBPWpNtgjHTPtbjrnCLhPPlTOMZxnXa2NuLJvzQSvhG+K/R5sqD4=
-X-Google-Smtp-Source: AGHT+IHZS+Qb8IK/5+c42Z7q9D/JlPLCK9Xj2YphxAuDblsocLb4nLT+una8inphv6YTDWUrrKC1Qw==
-X-Received: by 2002:a05:6870:d1ca:b0:23a:4a77:af72 with SMTP id b10-20020a056870d1ca00b0023a4a77af72mr12643410oac.31.1714434039393;
-        Mon, 29 Apr 2024 16:40:39 -0700 (PDT)
+        bh=8cubJgWS5pQ7P3B0LhmHJm/4bbMow1xJhT8KxVswt/M=;
+        b=SKw0Da6hMZpYEQkiUTQciPUTtFEh/lq+QVbFZau5oJzELxq6bAYvkOjh1irhYNeP9I
+         c4EMJRHMGnJmqBAmsQF1UCMSQEKgAaUKmFSLFp+LMERRpcN8aedYDi/E2Iq0NFFZoCsX
+         6C3Y1tRRBSRDJNlyJEc8jENiHTNek0odyO8+GcuNoTt4TteQwcx7mEFJM6LG3+yCn47E
+         cTmSqO7jXA7FZrnwa3BTgblaxG2z780pvoKW/xy9kNaGj1G4RFlet9EkcyKC+Z+NLIF0
+         gYOplCpBQZs1PUzTpHJ1ZXT1Q3E1PXgHGaoXG4UitBooItbU6XYUE+L8LZKpyVYCm1bd
+         BGLw==
+X-Forwarded-Encrypted: i=1; AJvYcCXgGtuePAU3RgoHMYbTyJoAGmlwMj2kekoti5Q3mCNbiyHknmLfDld2xgIwG8N9/hcmTgGgvehNRZYoQlJudl737DFh4kvEMaLC
+X-Gm-Message-State: AOJu0Yye+MQGE7v4zv6WB7M6FDpC/aypGnYQ7ttR8rSLSwF+njHgqZ8n
+	+xeodt86ILNZMqTN3cVEcMsJhNVxswj0/l/+tA+vJTjGOTsusj+0S/vGQuWnHx8=
+X-Google-Smtp-Source: AGHT+IF9FNXMJn6cCCuS5KH/ro7axiMukYHYUjRjs+0McXERXtUeYMZud/t0NDESAzUK3Kc/OnKC2Q==
+X-Received: by 2002:a05:6870:8a0f:b0:23c:6020:6733 with SMTP id p15-20020a0568708a0f00b0023c60206733mr6514806oaq.27.1714434040496;
+        Mon, 29 Apr 2024 16:40:40 -0700 (PDT)
 Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id hp22-20020a0568709a9600b0023b58aa20afsm2144508oab.25.2024.04.29.16.40.38
+        by smtp.gmail.com with ESMTPSA id hp22-20020a0568709a9600b0023b58aa20afsm2144508oab.25.2024.04.29.16.40.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Apr 2024 16:40:38 -0700 (PDT)
+        Mon, 29 Apr 2024 16:40:40 -0700 (PDT)
 From: David Lechner <dlechner@baylibre.com>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -74,9 +74,9 @@ Cc: David Lechner <dlechner@baylibre.com>,
 	linux-staging@lists.linux.dev,
 	linux-input@vger.kernel.org,
 	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [PATCH v2 5/7] iio: frequency: admv1013: Use devm_regulator_get_enable_read_voltage()
-Date: Mon, 29 Apr 2024 18:40:13 -0500
-Message-ID: <20240429-regulator-get-enable-get-votlage-v2-5-b1f11ab766c1@baylibre.com>
+Subject: [PATCH v2 6/7] staging: iio: impedance-analyzer: ad5933: Use devm_regulator_get_enable_read_voltage()
+Date: Mon, 29 Apr 2024 18:40:14 -0500
+Message-ID: <20240429-regulator-get-enable-get-votlage-v2-6-b1f11ab766c1@baylibre.com>
 X-Mailer: git-send-email 2.43.2
 In-Reply-To: <20240429-regulator-get-enable-get-votlage-v2-0-b1f11ab766c1@baylibre.com>
 References: <20240429-regulator-get-enable-get-votlage-v2-0-b1f11ab766c1@baylibre.com>
@@ -93,131 +93,70 @@ Content-Transfer-Encoding: 8bit
 We can reduce boilerplate code by using
 devm_regulator_get_enable_read_voltage().
 
-The common mode voltage is now passed as a parameter in the init
-functions so we can avoid adding a state member that is only used
-during init.
-
 Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Signed-off-by: David Lechner <dlechner@baylibre.com>
 ---
 
 v2 changes:
-* renamed to devm_regulator_get_enable_read_voltage
+* fixed wrong driver name in patch subject
+* renamed to devm_regulator_get_enable_read_voltage()
 * restored error message
 ---
- drivers/iio/frequency/admv1013.c | 40 ++++++++++------------------------------
- 1 file changed, 10 insertions(+), 30 deletions(-)
+ drivers/staging/iio/impedance-analyzer/ad5933.c | 26 ++-----------------------
+ 1 file changed, 2 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/iio/frequency/admv1013.c b/drivers/iio/frequency/admv1013.c
-index 92923074f930..c0cd5d9844fe 100644
---- a/drivers/iio/frequency/admv1013.c
-+++ b/drivers/iio/frequency/admv1013.c
-@@ -95,7 +95,6 @@ struct admv1013_state {
- 	struct clk		*clkin;
- 	/* Protect against concurrent accesses to the device and to data */
- 	struct mutex		lock;
--	struct regulator	*reg;
- 	struct notifier_block	nb;
- 	unsigned int		input_mode;
- 	unsigned int		quad_se_mode;
-@@ -342,14 +341,9 @@ static int admv1013_update_quad_filters(struct admv1013_state *st)
- 					FIELD_PREP(ADMV1013_QUAD_FILTERS_MSK, filt_raw));
+diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/staging/iio/impedance-analyzer/ad5933.c
+index 9149d41fe65b..b7af5fe63e09 100644
+--- a/drivers/staging/iio/impedance-analyzer/ad5933.c
++++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
+@@ -84,7 +84,6 @@
+ 
+ struct ad5933_state {
+ 	struct i2c_client		*client;
+-	struct regulator		*reg;
+ 	struct clk			*mclk;
+ 	struct delayed_work		work;
+ 	struct mutex			lock; /* Protect sensor state */
+@@ -660,13 +659,6 @@ static void ad5933_work(struct work_struct *work)
+ 	}
  }
  
--static int admv1013_update_mixer_vgate(struct admv1013_state *st)
-+static int admv1013_update_mixer_vgate(struct admv1013_state *st, int vcm)
- {
- 	unsigned int mixer_vgate;
--	int vcm;
--
--	vcm = regulator_get_voltage(st->reg);
--	if (vcm < 0)
--		return vcm;
- 
- 	if (vcm <= 1800000)
- 		mixer_vgate = (2389 * vcm / 1000000 + 8100) / 100;
-@@ -443,7 +437,7 @@ static const struct iio_chan_spec admv1013_channels[] = {
- 	ADMV1013_CHAN_CALIB(1, Q),
- };
- 
--static int admv1013_init(struct admv1013_state *st)
-+static int admv1013_init(struct admv1013_state *st, int vcm_uv)
- {
- 	int ret;
- 	unsigned int data;
-@@ -483,7 +477,7 @@ static int admv1013_init(struct admv1013_state *st)
- 	if (ret)
- 		return ret;
- 
--	ret = admv1013_update_mixer_vgate(st);
-+	ret = admv1013_update_mixer_vgate(st, vcm_uv);
- 	if (ret)
- 		return ret;
- 
-@@ -498,11 +492,6 @@ static int admv1013_init(struct admv1013_state *st)
- 					  st->input_mode);
- }
- 
--static void admv1013_reg_disable(void *data)
+-static void ad5933_reg_disable(void *data)
 -{
--	regulator_disable(data);
+-	struct ad5933_state *st = data;
+-
+-	regulator_disable(st->reg);
 -}
 -
- static void admv1013_powerdown(void *data)
+ static int ad5933_probe(struct i2c_client *client)
  {
- 	unsigned int enable_reg, enable_reg_msk;
-@@ -557,11 +546,6 @@ static int admv1013_properties_parse(struct admv1013_state *st)
- 	else
- 		return -EINVAL;
- 
--	st->reg = devm_regulator_get(&spi->dev, "vcm");
--	if (IS_ERR(st->reg))
--		return dev_err_probe(&spi->dev, PTR_ERR(st->reg),
--				     "failed to get the common-mode voltage\n");
--
- 	ret = devm_regulator_bulk_get_enable(&st->spi->dev,
- 					     ARRAY_SIZE(admv1013_vcc_regs),
- 					     admv1013_vcc_regs);
-@@ -578,7 +562,7 @@ static int admv1013_probe(struct spi_device *spi)
- {
- 	struct iio_dev *indio_dev;
- 	struct admv1013_state *st;
--	int ret;
-+	int ret, vcm_uv;
- 
- 	indio_dev = devm_iio_device_alloc(&spi->dev, sizeof(*st));
- 	if (!indio_dev)
-@@ -597,16 +581,12 @@ static int admv1013_probe(struct spi_device *spi)
- 	if (ret)
- 		return ret;
- 
--	ret = regulator_enable(st->reg);
--	if (ret) {
--		dev_err(&spi->dev, "Failed to enable specified Common-Mode Voltage!\n");
--		return ret;
--	}
-+	ret = devm_regulator_get_enable_read_voltage(&spi->dev, "vcm");
-+	if (ret < 0)
-+		return dev_err_probe(&spi->dev, ret,
-+				     "failed to get the common-mode voltage\n");
- 
--	ret = devm_add_action_or_reset(&spi->dev, admv1013_reg_disable,
--				       st->reg);
--	if (ret)
--		return ret;
-+	vcm_uv = ret;
- 
- 	st->clkin = devm_clk_get_enabled(&spi->dev, "lo_in");
- 	if (IS_ERR(st->clkin))
-@@ -620,7 +600,7 @@ static int admv1013_probe(struct spi_device *spi)
+ 	const struct i2c_device_id *id = i2c_client_get_device_id(client);
+@@ -685,23 +677,9 @@ static int ad5933_probe(struct i2c_client *client)
  
  	mutex_init(&st->lock);
  
--	ret = admv1013_init(st);
-+	ret = admv1013_init(st, vcm_uv);
- 	if (ret) {
- 		dev_err(&spi->dev, "admv1013 init failed\n");
- 		return ret;
+-	st->reg = devm_regulator_get(&client->dev, "vdd");
+-	if (IS_ERR(st->reg))
+-		return PTR_ERR(st->reg);
+-
+-	ret = regulator_enable(st->reg);
+-	if (ret) {
+-		dev_err(&client->dev, "Failed to enable specified VDD supply\n");
+-		return ret;
+-	}
+-
+-	ret = devm_add_action_or_reset(&client->dev, ad5933_reg_disable, st);
+-	if (ret)
+-		return ret;
+-
+-	ret = regulator_get_voltage(st->reg);
++	ret = devm_regulator_get_enable_read_voltage(&client->dev, "vdd");
+ 	if (ret < 0)
+-		return ret;
++		return dev_err_probe(&client->dev, ret, "failed to get vdd voltage\n");
+ 
+ 	st->vref_mv = ret / 1000;
+ 
 
 -- 
 2.43.2
