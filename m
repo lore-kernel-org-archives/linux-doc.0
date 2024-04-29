@@ -1,149 +1,110 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C4CB664;
-	Sun, 28 Apr 2024 23:17:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F087F;
+	Mon, 29 Apr 2024 01:17:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714346259; cv=none; b=Ic74vHarZf32p7uZI3FHrC0LWNnyggiFfCd4UP9qWCO35LCJ92J1vZ0Njl+A397mnASloFOfAEPIe97xcwX+YXO9KFn8neapzakydCEgPgE1VEjMYh3Qd20rp3f62f8qnFHBqeiDqxpNESCCtzeEj8rVgoMroOG8SMx4X9s4bPA=
+	t=1714353470; cv=none; b=UnPMFt833+8NmEYxxdrGuU+B4q7KpeVj43ttxtT9PqGlmn11JzxftR2gDZlkXQC9eu0FJifm7UQVCPksG8c6eeDtWR7T0mJJQiDCUhY0906MgXq/nGuj3kwjYudi0tJuYM8wWlcJgjzc86TWbZGBBv8lkpFG19SZoS3eEaDkGE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714346259; c=relaxed/simple;
-	bh=yddcab5au8dcJoHAuuTUrC0HJdHCkbWtQT1Frk4wJt0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l5bmsJtYKkC/UO1JSuvWR+a+VdfzSeKD2BaVaW9QzhTQK2Vb5WkBow5dhmXQhi9lgkTXnaM+1sllWUooQWevt7zIUQyTLVUHINDeSRhuBXWOn99SFItOCmT03jaA4/LmGsTrf+G93vWVhjNyrkXIk2AchSVXoHAh9FH1Nl83lnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=gnifZcZF; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1714353470; c=relaxed/simple;
+	bh=UFgBiOOmmXqHEwT+1QxPW0ZTpzeO8YmGhUJOF/GVftQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TAla8KBx+TZraO20LM0gfOEqOhAH8pzACm9EFMku/EhGDTY+BraTheQxnw3dmJoWGAH9SBkjCJJ1r/k0wcUD2wigoAE1ShaJUsRekB/80cdnAWjIr0ezUhm5IvwuDCxNHCrrPXhaw5ji8kKq69CSMezw39uK+1MRvkg044T+cAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TcrDkfIM; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="gnifZcZF"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=SMe0vlJFp/xalizO6Sd1gmUR5ZkmrPZTdfiEBeCz/LQ=; b=gn
-	ifZcZFkS4YmYfgxdFm6pJvh18z15pOUad4fald1wPhy8iZNEjhQRtTQCyPKUmEqLum0IUIWyDtFAv
-	ejkJL10FFOIALO/HmNmmV6ZGg3rBiou7Sh2ibZS/NDEaeevOqxLYwNzWth9jdnOAmTpb2dbEHHHc/
-	WLsv+poAhHxnNa8=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1s1Dlf-00ECv4-01; Mon, 29 Apr 2024 01:17:11 +0200
-Date: Mon, 29 Apr 2024 01:17:10 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: =?iso-8859-1?Q?Ram=F3n?= Nordin Rodriguez <ramon.nordin.rodriguez@ferroamp.se>
-Cc: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, saeedm@nvidia.com,
-	anthony.l.nguyen@intel.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, corbet@lwn.net,
-	linux-doc@vger.kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	devicetree@vger.kernel.org, horatiu.vultur@microchip.com,
-	ruanjinjie@huawei.com, steen.hegelund@microchip.com,
-	vladimir.oltean@nxp.com, UNGLinuxDriver@microchip.com,
-	Thorsten.Kummermehr@microchip.com, Pier.Beruto@onsemi.com,
-	Selvamani.Rajagopal@onsemi.com, Nicolas.Ferre@microchip.com,
-	benjamin.bigler@bernformulastudent.ch
-Subject: Re: [PATCH net-next v4 13/12] net: lan865x: optional hardware reset
-Message-ID: <13c38696-25ed-418d-b85e-950736384a0b@lunn.ch>
-References: <20240418125648.372526-1-Parthiban.Veerasooran@microchip.com>
- <Zi68sDje4wfgftyZ@builder>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TcrDkfIM"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-41adf155cffso29070065e9.2;
+        Sun, 28 Apr 2024 18:17:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714353467; x=1714958267; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wvYNgy5C9EMP23cxTp8gy/RloSg0mUJ8ULOX1VTrioE=;
+        b=TcrDkfIMasQ52nDQGnUQrxZPXyudU+M3rNyeLff0xHs7rXqgdHV3mV0KLqtwKLfrjR
+         Qge4WO5zd58ptSrlFfRfYEjwcmm5b8Z4tlMv0UO9EJ6AolWS2mhNLB2XjZ1bGgwZWWcD
+         lTJ6NKJZOTXcQIyIxszCwiebq9DIVmZvOveg5AcE27OGP1DtTHJ3LMlj+EKrl8ZJsBqU
+         ii40U28BNpEx5YPdLmwC0ln/Th0rhnr8ujWBJdq1IfLGtqo+fdKi1wYoD40uhi3891W7
+         AZAQiShJpyJ+KAd7TCUdU0QfwAxtpx/38rFCDoShvdja0iHSERQ7Gre29rhJR101XA4E
+         C1dQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714353467; x=1714958267;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wvYNgy5C9EMP23cxTp8gy/RloSg0mUJ8ULOX1VTrioE=;
+        b=pJGruQwMhec6SGPL1w2CQrTq846o7jB3nB8NCfyEp81GtMtyGTPuSGoVwwPiGadcT9
+         SsuIrK8heEAOMMsmxQ3PbtF7e0uQgUVlPFXZ8t8Fx+5sdkmL+WF6n8vW2VL3S6Zkr9B9
+         0o742WXCBwuacuDCs//jLZwwrT4J2EEdDK0AGbr2wyKQcR72/S5es+t98FXfAHETdgaM
+         X5r/oG4gKXdRgsrCQZPEdgsvLHrXnoyxm7IsbLCokncj3N+wN3JF5CtZ4T7UmAsJ/3EK
+         mdPljnrGetmRk42DgMkhosEdWuVDhao704Sa2tjkjNPhCwM05SfamWtTNb9kbJ+bZ9GM
+         3D0g==
+X-Forwarded-Encrypted: i=1; AJvYcCWt05pIaVUWbLK5zK4CmRAqskwN+RcGPa92qsFN3pkhN9ghsEWnBKrG2YGEqtGR5UKvktAHfJGYTP2+BOqHhTD+V7A/LXGuInH+/YQpA6TOQUQQKxCiYbApsQmHXfIjqetInNAe4YBUbXgKcmd4UGS9ii0L3G7hjeeYHpY0Q4LWuirHVwVwMxVZ5C/Mgrcpy8IU0dXws0Bh07nRpgnhJiyQXjEEAwbxszVG8aJnhaXVYZ1GDsZMt5vgzWil
+X-Gm-Message-State: AOJu0YxgyAuSUjdAVo8M+WYX2gADvNQmZf/DDP1RvJgEuC3LPxiPzDeJ
+	6jHz3PjWOt5sciE+Ios6stmH7mTG7CKc4nd7247+kgMM7VcMgnl5Fjzy3u3G3iAFWT22elyWtfl
+	vO7aYMQBFfS3sN9qcnhNSGKkiRFo=
+X-Google-Smtp-Source: AGHT+IGSZmWosWs2d2fEUlOsOzZ5bfdsUkGiCtQDFYJXFBl/M/fwWvsyDyKDf/1W+727A1rvZlrgIV6Vvn05TbsZ0wM=
+X-Received: by 2002:a05:600c:46ce:b0:41b:fb9b:d2be with SMTP id
+ q14-20020a05600c46ce00b0041bfb9bd2bemr2636667wmo.40.1714353466878; Sun, 28
+ Apr 2024 18:17:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zi68sDje4wfgftyZ@builder>
+References: <20240425153608.4003782-1-peteryin.openbmc@gmail.com>
+ <20240425153608.4003782-3-peteryin.openbmc@gmail.com> <4e329d1b-fad5-416f-b0ca-55e8c6c3394c@kernel.org>
+ <CAPSyxFQcKvpvO2-U7QPjrVTqam_bQ6OP8VoomnSbmEj4g7uDVw@mail.gmail.com>
+ <d1cc7b23-32e9-4326-851d-88708ba28052@kernel.org> <20240426-fantastic-charming-pheasant-64f7fb@lemur>
+In-Reply-To: <20240426-fantastic-charming-pheasant-64f7fb@lemur>
+From: Peter Yin <peteryin.openbmc@gmail.com>
+Date: Mon, 29 Apr 2024 09:17:35 +0800
+Message-ID: <CAPSyxFSAMdO3LxP4C0nJzcrmUnr-F6QoSocmWU9W7-SgE-RjsA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] dt-bindings: hwmon: Add infineon xdp710 driver bindings
+To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, patrick@stwcx.xyz, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
+	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, 
+	Patrick Rudolph <patrick.rudolph@9elements.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Charles Hsu <ythsu0511@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Lukas Wunner <lukas@wunner.de>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-i2c@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Apr 28, 2024 at 11:16:32PM +0200, Ramón Nordin Rodriguez wrote:
-> >From c65e42982684d5fd8b2294eb6acf755aa0fcab83 Mon Sep 17 00:00:00 2001
-> From: =?UTF-8?q?Ram=C3=B3n=20Nordin=20Rodriguez?=
->  <ramon.nordin.rodriguez@ferroamp.se>
-> Date: Sun, 28 Apr 2024 22:25:12 +0200
-> Subject: [PATCH net-next v4 13/12] net: lan865x: optional hardware reset
-> MIME-Version: 1.0
-> Content-Type: text/plain; charset=UTF-8
-> Content-Transfer-Encoding: 8bit
+Thank you for the information you provided.
 
-You sent this patch in an odd way. We don't normally see headers like
-this. I've been using b4 recently for patch management:
-
-https://b4.docs.kernel.org/en/latest/contributor/prep.html
-
-Using `b4 send` is a good idea. Otherwise git format-patch; git send-email
-
-> index 9abefa8b9d9f..bed9033574b2 100644
-> --- a/drivers/net/ethernet/microchip/lan865x/lan865x.c
-> +++ b/drivers/net/ethernet/microchip/lan865x/lan865x.c
-> @@ -9,6 +9,7 @@
->  #include <linux/kernel.h>
->  #include <linux/phy.h>
->  #include <linux/oa_tc6.h>
-> +#include <linux/gpio/driver.h>
-
-This is not a gpio driver, it is a gpio consumer. So you should be
-using linux/gpio/consumer.h. Also, i _think_ the includes are sorted,
-so it probably should go earlier.
-
->  
->  #define DRV_NAME			"lan865x"
->  
-> @@ -33,6 +34,7 @@
->  
->  struct lan865x_priv {
->  	struct work_struct multicast_work;
-> +	struct gpio_desc *reset_gpio;
->  	struct net_device *netdev;
->  	struct spi_device *spi;
->  	struct oa_tc6 *tc6;
-> @@ -283,6 +285,24 @@ static int lan865x_set_zarfe(struct lan865x_priv *priv)
->  	return oa_tc6_write_register(priv->tc6, OA_TC6_REG_CONFIG0, regval);
->  }
->  
-> +static int lan865x_probe_reset_gpio(struct lan865x_priv *priv)
-> +{
-> +	priv->reset_gpio = devm_gpiod_get_optional(&priv->spi->dev, "reset",
-> +						   GPIOD_OUT_HIGH);
-> +	if (IS_ERR(priv->reset_gpio))
-> +		return PTR_ERR(priv->reset_gpio);
-> +
-> +	return 0;
-> +}
-> +
-> +static void lan865x_hw_reset(struct lan865x_priv *priv)
-> +{
-> +	gpiod_set_value_cansleep(priv->reset_gpio, 1);
-> +	// section 9.6.3 RESET_N Timing specifies a minimum hold of 5us
-> +	usleep_range(5, 10);
-> +	gpiod_set_value_cansleep(priv->reset_gpio, 0);
-> +}
-
-Do you see a need to do a reset at any time other than probe? If not,
-i would probably combine these two functions into one. Also, since you
-pass GPIOD_OUT_HIGH, you have already put it into reset. So setting
-the gpio to 1 is pointless.
-
-Does the datasheet say anything about how long you should wait after
-releasing the reset?
-
-> +
->  static int lan865x_probe(struct spi_device *spi)
->  {
->  	struct net_device *netdev;
-> @@ -297,6 +317,14 @@ static int lan865x_probe(struct spi_device *spi)
->  	priv->netdev = netdev;
->  	priv->spi = spi;
->  	spi_set_drvdata(spi, priv);
-> +	if (lan865x_probe_reset_gpio(priv)) {
-> +		dev_err(&spi->dev, "failed to probe reset pin");
-> +		ret = -ENODEV;
-
-It is normal that a function like lan865x_probe_reset_gpio() would
-return an error code. You should then return that error code, rather
-than replace it with ENODEV.
-
-     Andrew
+On Sat, Apr 27, 2024 at 4:38=E2=80=AFAM Konstantin Ryabitsev
+<konstantin@linuxfoundation.org> wrote:
+>
+> On Fri, Apr 26, 2024 at 10:20:58AM GMT, Krzysztof Kozlowski wrote:
+> > On 26/04/2024 09:12, Chia Hsing Yin wrote:
+> > > I use b4 download and apply it, I think it is a tool issue, I can fix
+> > > in the next version.
+> >
+> > Just did it now:
+> >
+> > b4 trailers -C -u -F '20240424095604.3425857-1-peteryin.openbmc@gmail.c=
+om>'
+> > Calculating patch-ids from commits, this may take a moment...
+> > Grabbing thread from
+> > lore.kernel.org/all/20240424095604.3425857-1-peteryin.openbmc@gmail.com=
+/t.mbox.gz
+> > Looking for additional code-review trailers on lore.kernel.org
+> > ---
+> >   dt-bindings: hwmon: Add infineon xdp710 driver bindings
+> >     + Acked-by: Rob Herring (Arm) <robh@kernel.org> (=E2=9C=93 DKIM/ker=
+nel.org)
+> >
+> >
+> > And no quotes...
+>
+> Yes, this was fixed in b4-0.12.4 and b4-0.13.
+>
+> -K
