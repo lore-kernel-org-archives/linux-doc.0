@@ -1,91 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DBF514AA3;
-	Mon, 29 Apr 2024 07:51:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CA78EED4;
+	Mon, 29 Apr 2024 07:55:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714377103; cv=none; b=UacXx7Q/r5HLjexo0hTQYKfHvExqDrDd/uTCY/rEFspemZYrjlinGNGZMEKhNmXR0ZNbTw32jW0LOVhGjJkfADpFqa0qVBFj8/YKii5G2OZsTB1kK/N7mxkFsVmtDHzHsDHy+BdKrin/NUIqzIfgTlcGjlTq6npmpsFy8hdwkxE=
+	t=1714377306; cv=none; b=R5Uq92SNtWI0/PjD78Hn/x+j1hmhkzg0Up/ReHnA2xXCXccnbCAk1csDk+3OYrY1Y+bR2W/c9nuGmISBH30JVtnGLkVoB7cw84+G/WhCTu526P2BFfxlbEVBw8hhxELAvqyxJ4Q+6YQTI4zv+I1RUTfYBmB1njhQlVHxI/kfERw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714377103; c=relaxed/simple;
-	bh=xp1MqptAb4gk4u0qt7wVJibOwKdhPFQMAPrlbTDArvw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=utijv4bKhL5d9sdI0NmPzzniMLqCbokQF8Un7Gc6egJPxL7hS1chGcV/wxcEFbBsrgHTVTpwJrFHv8UtbKISCK12mJUhy2akucFwKUI17Y+Mt/YwwPDwqONRTU0iFynZfHx306dThL5IZLjw0Cg5b/62lC8/YpSxh+nLkbuP608=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=fWgtLpMB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714377306; c=relaxed/simple;
+	bh=tiKshYUIgU+C4Jc8N+hBsmNQ/hFvFexXKDmBYginrA0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=tbD6sI9+KOfmDilU7A8YJgasJGMZrvkDYeobAfsu6oEBCOAeSOseefQixRlkWQ5V+gYKfzFM753FWyx+mOD1PU1nOXQa1LlPuuyyVs/TrS8eoYlB3yZivh/ZdGqx+9XqH0p5wirGmAherOBRGkECOnTUivgGvWWjV2OEWHQjZ+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m0b2J07E; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fWgtLpMB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C890AC113CD;
-	Mon, 29 Apr 2024 07:51:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1714377103;
-	bh=xp1MqptAb4gk4u0qt7wVJibOwKdhPFQMAPrlbTDArvw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fWgtLpMBpQoMdaRdU/8FfIbs9vPp0v81fsIp0nrwxg/aLfIg80ZSEX/UtNqotnhEw
-	 TlhB0C88NSYB7Df9hCM5oA8q+pHQE5GVuEpysM0O/gIF+xO6JNnzsdEjgnseonhHJ9
-	 DmQ+S9AG1IKKznQZPbKgKMQF2FI9iokRWrtv00TU=
-Date: Mon, 29 Apr 2024 09:51:40 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	stable@vger.kernel.org, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 5/5] docs: stable-kernel-rules: create special tag to
- flag 'no backporting'
-Message-ID: <2024042914-bleep-imbecile-5f68@gregkh>
-References: <cover.1714367921.git.linux@leemhuis.info>
- <35989d3b2f3f8cf23828b0c84fde9b17a74be97c.1714367921.git.linux@leemhuis.info>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m0b2J07E"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-34c0f5f5cd0so3329397f8f.2;
+        Mon, 29 Apr 2024 00:55:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714377303; x=1714982103; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=tiKshYUIgU+C4Jc8N+hBsmNQ/hFvFexXKDmBYginrA0=;
+        b=m0b2J07E5PTjff6MrdcAzfx2aX4vwVjCH8BZM970tQhtt15VNhuaEXi/lqhbvjmCim
+         4vaMwL/vkCEoIUhhkzf7F8z5u4YTYikRow3PeStEPsQ0fmIod/FfJMCqRfG275+qbxSm
+         2eMfOjfLTr8FleQXG5CqFZI6lMStS4xRoqtTdoBAs6aL4TLb1tKDk7I1Kf7F2wy1E3Rm
+         XfIiCVaU/xewKZY6CRuWeYFWOWUNr/6cM0G/zvh24TK5nR4ZpVQHT5BWb2d091XevFWP
+         ecGNbypBfZBOqviPVUj7UsoWs7k3fYF2PP0ny3Ppv7XcLV3RX11bHmlksntK04Rn667r
+         jU6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714377303; x=1714982103;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tiKshYUIgU+C4Jc8N+hBsmNQ/hFvFexXKDmBYginrA0=;
+        b=KlnqI4YnF5SZZacnBq+yTFwsfA/LVGjGoIBQqNc0n1PTgQ+cL9jRuyxcfUu56uuO46
+         prug8LrLZxjKgR3cTwg6UlbWjDsiHQNh3/X3pv2yqm+owNhXtQmU+hVVuwFaxGkvk9XA
+         dTTuIh43gG4hEALD/1Jc4XFtab9xnf/IOgLux0zA4bVlINXocgDwLleYKgHVV/oMm03o
+         TLGgLFajJnd+KYmTP5PZxpDBJ/qPiDyJt6Gnpg4/fnerjw3qCZ8eiw/Y9txBVILu1V43
+         SItXDXF44Jc7N3lBElhb63z0gBjgYfQ3yfukCgeBubkjGlAnH2kM1+8/AxFBednPpkAQ
+         +KwA==
+X-Forwarded-Encrypted: i=1; AJvYcCXOCsCgPcs2LgSbwVscTU4RSzcCGrYUr8IuSwxxf8p8a7BwMz4uzPXAHiZJJxDSEpd1SpK5kogEOk5xdCrMa1dcgHchejII0nJlj45vYZ3cNKNzzskk04EEq8xGFvzLuuH8xUpWeFVk2C9M0ihnRn+ZRq/IEVZ4FHt4yxuqu24JpQ==
+X-Gm-Message-State: AOJu0YzPkealz2TtPT8Iw5Ro3V6H/0B1W+jyBxMGolFJMwkcOH6dNx8f
+	JhlWQUNUalgEES34Wi2K96S72UxUpaFxp3vbzSTVkFZazk4iTQy+L0aRsaoNH/8=
+X-Google-Smtp-Source: AGHT+IE1t/q4f+QGWHixnNA2MQJglgBMGgcEo52I+k0yP1J/yswyQvKvQcaKnXxVRdS5zUr48uGRCA==
+X-Received: by 2002:a05:6000:1ac8:b0:34d:a9:6642 with SMTP id i8-20020a0560001ac800b0034d00a96642mr2166868wry.28.1714377303111;
+        Mon, 29 Apr 2024 00:55:03 -0700 (PDT)
+Received: from ?IPv6:2003:f6:ef1c:c500:994e:fbde:478:1ce1? (p200300f6ef1cc500994efbde04781ce1.dip0.t-ipconnect.de. [2003:f6:ef1c:c500:994e:fbde:478:1ce1])
+        by smtp.gmail.com with ESMTPSA id k21-20020adfb355000000b0034c6b368aecsm7480380wrd.26.2024.04.29.00.55.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Apr 2024 00:55:02 -0700 (PDT)
+Message-ID: <e62f8df4b06abc371b1e9fe3232cb593e468d54c.camel@gmail.com>
+Subject: Re: [PATCH 4/5] iio: adis16480: add support for adis16545/7 families
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>, Ramona Gradinariu
+	 <ramona.bolboaca13@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+ linux-doc@vger.kernel.org, devicetree@vger.kernel.org, corbet@lwn.net, 
+ conor+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, robh@kernel.org,
+ Ramona Gradinariu <ramona.gradinariu@analog.com>, Nuno
+ =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>
+Date: Mon, 29 Apr 2024 09:58:40 +0200
+In-Reply-To: <20240428162555.3ddf31ea@jic23-huawei>
+References: <20240423084210.191987-1-ramona.gradinariu@analog.com>
+	 <20240423084210.191987-5-ramona.gradinariu@analog.com>
+	 <20240428162555.3ddf31ea@jic23-huawei>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <35989d3b2f3f8cf23828b0c84fde9b17a74be97c.1714367921.git.linux@leemhuis.info>
 
-On Mon, Apr 29, 2024 at 09:18:30AM +0200, Thorsten Leemhuis wrote:
-> Document a new variant of the stable tag developers can use to make the
-> stable team's tools ignore a change[1].
-> 
-> That way developers can use 'Fixes:' tags without fearing the changes
-> might be backported in semi-automatic fashion. Such concerns are the
-> reason why some developers deliberately omit the 'Fixes:' tag in
-> changes[2] -- which somewhat undermines the reason for the existence of
-> that tag and might be unwise in the long term[3].
-> 
-> Link: https://lore.kernel.org/all/b452fd54-fdc6-47e4-8c26-6627f6b7eff3@leemhuis.info/ [1]
-> Link: https://lore.kernel.org/all/cover.1712226175.git.antony.antony@secunet.com/ [2]
-> Link: https://lore.kernel.org/all/dfd87673-c581-4b4b-b37a-1cf5c817240d@leemhuis.info/ [3]
-> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
-> 
-> ---
-> 
-> A patch to make one of the stable-script honor the flag can be found in
-> https://lore.kernel.org/all/655ce2a3-eb04-4ade-999e-23fc5dc5fb3a@leemhuis.info/
-> 
-> For autosel I was unable to locate the code.
-> ---
->  Documentation/process/stable-kernel-rules.rst | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
-> index ebf4152659f2d0..9ca8083b41c7f1 100644
-> --- a/Documentation/process/stable-kernel-rules.rst
-> +++ b/Documentation/process/stable-kernel-rules.rst
-> @@ -129,6 +129,12 @@ comment to pass arbitrary or predefined notes:
->  
->      Cc: <stable@vger.kernel.org> # see patch description, needs adjustments for <= 6.3
->  
-> +There furthermore is a variant of the stable tag you can use to make the stable
-> +team's backporting tools (e.g AUTOSEL or scripts that look for commits
-> +containing a 'Fixes:' tag) ignore a change::
-> +
-> +     Cc: <stable+noautosel@kernel.org> # reason goes here, and must be present
-> +
->  .. _option_2:
->  
+On Sun, 2024-04-28 at 16:25 +0100, Jonathan Cameron wrote:
+> On Tue, 23 Apr 2024 11:42:09 +0300
+> Ramona Gradinariu <ramona.bolboaca13@gmail.com> wrote:
+>=20
+> > The ADIS16545 and ADIS16547 are a complete inertial system that
+> > includes a triaxis gyroscope and a triaxis accelerometer.
+> > The serial peripheral interface (SPI) and register structure provide a
+> > simple interface for data collection and configuration control.
+> >=20
+> > These devices are similar to the ones already supported in the driver,
+> > with changes in the scales, timings and the max spi speed in burst
+> > mode.
+> > Also, they support delta angle and delta velocity readings in burst
+> > mode, for which support was added in the trigger handler.
+> >=20
+> > Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+>=20
+> What is Nuno's relationship to this patch?=C2=A0 You are author and the s=
+ender
+> which is fine, but in that case you need to make Nuno's involvement expli=
+cit.
+> Perhaps a Co-developed-by or similar is appropriate?
+>=20
+> > Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
+> A few comments inline.=C2=A0 Biggest one is I'd like a clear statement of=
+ why you
+> can't do a burst of one type, then a burst of other.=C2=A0 My guess is th=
+at the
+> transition is very time consuming?=C2=A0 If so, that is fine, but you sho=
+uld be
+> able
+> to let available_scan_masks handle the disjoint channel sets.
 
-Thanks for seeing this through:
+Yeah, the burst message is a special spi transfer that brings you all of th=
+e
+channels data at once but for the accel/gyro you need to explicitly configu=
+re
+the chip to either give you the "normal vs "delta" readings. Re-configuring=
+ the
+chip and then do another burst would destroy performance I think. We could =
+do
+the manual readings as we do in adis16475 for chips not supporting burst32.=
+ But
+in the burst32 case those manual readings should be minimal while in here w=
+e
+could have to do 6 of them which could also be very time consuming...
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Now, why we don't use available_scan_masks is something I can't really reme=
+mber
+but this implementation goes in line with what we have in the adis16475 dri=
+ver.
+
+- Nuno S=C3=A1
+
+
