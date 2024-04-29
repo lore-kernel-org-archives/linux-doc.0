@@ -1,57 +1,57 @@
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C30F199E9E
-	for <linux-doc@vger.kernel.org>; Mon, 29 Apr 2024 23:40:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A750199EB5
+	for <linux-doc@vger.kernel.org>; Mon, 29 Apr 2024 23:40:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714434040; cv=none; b=F5PGPhA6YxpYZYJFQkJ6qRyV/5HSjjrN5OFmKckuZgGRq+cLd3MBxkdtOk4bKzU/fbT9pWE6lhtBmJnR61t6Hfh8ip8gna41VYJ/rOovCdMo1+M4nZ3vfSJVUwbDI3wBjazewwKJ2NIsOk67gEgnH0zrDBsNjo6z3tAtW/pK4fU=
+	t=1714434041; cv=none; b=Z/Cz3OexkUWDNz7UDJ+1npyUpRfAkAZytOoOfhWWmMZmLBqRLA1Gen/kZ9j8yb9nCm4wbbGTVik25wrpq13/zlz0ZHytA04ODcVLe547w2mwuEx8XVKp4FspqcYh/CSeH/eJHdaPwMNGx6ZOS41NkXO9PfpRuAR11jX/eAzS3KY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714434040; c=relaxed/simple;
-	bh=FxpiwVEGKQscfaIrKjDK4V3875jn6xFnM8mM/zDKOGQ=;
+	s=arc-20240116; t=1714434041; c=relaxed/simple;
+	bh=NUwBgmeSK3VKvI/ARdfWUNBS7Wbg1ExrHA4koeGcxm0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OqEaMsO/bv1Mr67fiwWA2Q3tz+78x2JvmmU1izYCzouujomlortR3OOrOofdzhBR8jVqfyOAIn07Zltps+oC0FOFa2jPntqfosWIvdaarzMfGAt15IkAdHJgKM5Ce1jFT5CPHhF/2E6dCO1gDTNz/0tbXd4alTra7FxiOmFRmns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=QHghTFco; arc=none smtp.client-ip=209.85.160.54
+	 MIME-Version:Content-Type; b=ems/P6jMIBkQD1Gb5uzxi8rulVJi0jw6cE2q7tK6s7muuShz7s+4yH6j70OIkJw0pr0B4yyPT8tO2I4yF/6bURyoupDRfbPAY/JbJCpfOeB9CypVkp73v5D+cAgF71q7zSUIRFmOUrdZWnc2LnMFWdqMGFeIBzp/yS4VXhd1XEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=K9iiAVNG; arc=none smtp.client-ip=209.85.160.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="QHghTFco"
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-23a6a8e9978so2239418fac.3
-        for <linux-doc@vger.kernel.org>; Mon, 29 Apr 2024 16:40:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="K9iiAVNG"
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-2390335b67cso1438892fac.0
+        for <linux-doc@vger.kernel.org>; Mon, 29 Apr 2024 16:40:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1714434036; x=1715038836; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1714434037; x=1715038837; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fCu+RSrpWOgpCZSyomahXHu6xaI4OOMemllTcAyzYVE=;
-        b=QHghTFco/zn/C7GqSoc3lNXuq0jTvpQ/JqEjfbqDbonhTVUtLd3/fJLiZsp8U6rYOB
-         5a/YiM7+GorUDXJvIJULOD7ah1COUSyfeikBmReiLOrTspre3k2kMG5MiRESOwmesINN
-         wDnxn4VlCPBMHyxpv0dMJK1/6omEHRW0Fz85mFNfNpKkVb/7qFjbANf5QKwj9byr1JRB
-         FLsL/H5ng6I4BGADhWywr8ai9lNbMuvay6F4msrhs3IhwnsNK606l6tA3WZxDIvSLlkp
-         dRY3ypyHTch7KjBrxHf8InljEOn/OV3hshj0u6/om1HUbFoj2KF+0/m1EVoNCnbXtFPq
-         H6uQ==
+        bh=7M5L1jF+Kp9rDaa/Fjma53dz8N5rl7gUPtDyE6LZUDo=;
+        b=K9iiAVNGKN9MnTEvkvb9qzEjylwdt6PrKJCjK9jUaNjF16En1bFd4+xCl4WyRd+uCL
+         UIfmPB/fp8yLBc45WWscm51b75qPYC4MtQbIEgu94CQGdVZA0s7hzhZfNfLSIXO7E0jh
+         RmcCp/UP0zMof4hTTwHGCj7DEI+NX5bDwgA/TOBWKWEC49Df09pZF1Pa9g2RBsvtKUba
+         HA1ZLnNv2P5rq2PxWJJvfwlXa0IXwqK8QIX6jkytXacyZfxLkSV+W8RWMezm9Xr8TCSW
+         utH/sYhCB+06jqlw2i8q0TGwY3a+nNwURYJ1EGChrnMqoZgF7xvP552JddzIgrDsd4Tk
+         1VIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714434036; x=1715038836;
+        d=1e100.net; s=20230601; t=1714434037; x=1715038837;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fCu+RSrpWOgpCZSyomahXHu6xaI4OOMemllTcAyzYVE=;
-        b=EhTYr01b9lvp2loYdeQEKjPOS0KT4m0sblprqbIcepM7pnnsG/Eb295R03Fwv8D8lX
-         lxOc+kDC84a5njymFZ7wNwPQmN1uQzfMt5cq3FqZ6ermM2vOkfJIFIiiEPedStJsiPR6
-         ktecMnWznGtVbbhM+jAFYfQxlSM54misy7RR/xNPE+3pNVK/H8jZDRvU8DTa1SrsgiTU
-         HfBjrngr40X5wSDrBpwiy6/mhu1rFdsCHWtpTNHUatnHvR93Yoc3mZIoeBYnnoXFpMav
-         GMFH2IeOztEQWamKAMojEqnhxigUgcrIk1ZisFNhv6jMIsKcT/ASAyrzXQIl7ubWJTuL
-         9S2w==
-X-Forwarded-Encrypted: i=1; AJvYcCUj6T3iSuiHm/smMD1lB35/lFsNDO49trmv5oijAKJJhbKHNUAP4ZxCUseomw7Jfen2w1jzmEkcRGYAcvfBKlddUHQ39culNr1D
-X-Gm-Message-State: AOJu0YzuRUrluK+7EJFQl40UJUEuDXjKgpTZm1VOa4QefwRGSvksTwwM
-	P5UWy21HAWskZd603VKomb70bk6hBiTpXFUaSsxhiZqD1UZAB679Jl2GnE2CSJk=
-X-Google-Smtp-Source: AGHT+IHvFRkfpRvjsc3KUb2Jg1DqGyd2+WOnB4xcy/LRQ+hoCXNoFpQKjrtG95po28kNgaZ1HyBPmQ==
-X-Received: by 2002:a05:6870:d911:b0:232:fb5e:c23b with SMTP id gq17-20020a056870d91100b00232fb5ec23bmr16803310oab.26.1714434036129;
-        Mon, 29 Apr 2024 16:40:36 -0700 (PDT)
+        bh=7M5L1jF+Kp9rDaa/Fjma53dz8N5rl7gUPtDyE6LZUDo=;
+        b=q1/1bnUaycqMCdQeggKzaWTjjNiFiJJoFkgLlFhZ+kwOQGMqtbdRJLqrw+GDuFLGqM
+         27DAtPrZQJApFNj51k/L/Epphvrwt+INH1xONbtWx+n8SDVY/oMkWCQTzz1S0sMi56gm
+         6mRP7C+tFcrK+0FLoYhkyJZ/e3dtSoQzMLCtiD7YUt787Qp1Izno7kPxdqVXJZB7O4k+
+         wnxqfB5XJqoNsziyhdZsT1lFXFxwWQd6hnr/o63HdyBCuWeD47gI6u44LbuyxW2j/9iU
+         d8GYaIP6jfmo4Pn/z2VIrfU5ir0LV5XVtBXWtFvkZlB4D+REfRU1wALiAtA0knV8aEur
+         l9tw==
+X-Forwarded-Encrypted: i=1; AJvYcCUkg4tmnEWoOpTRlPNWMWW5p4GtlmHDPzmShrG4CgPgNvLqwZ0YfyVlTcgyM0ovFqaJv+6CJUav4zq+Z9Vi0vKqA2Bsq5rP6nD2
+X-Gm-Message-State: AOJu0YwGbVN2WVHvmBG+Nr2cNjWqc+yrzEpE69AZXyrDptY9PtlK+RVE
+	q6e1DPvXyOPhy9A0bNG79KvjKfSmDrAfWSSqFa5zTvubbi/PNXGeNchisOSy+UA=
+X-Google-Smtp-Source: AGHT+IEkVlk2cV8mp+ZOarfU3l4tFQus8TZbqOG542aqbSglrecsjyn0xdubyW2FSqkOsnvvP58lDA==
+X-Received: by 2002:a05:6870:1604:b0:22e:dea0:83c6 with SMTP id b4-20020a056870160400b0022edea083c6mr14055773oae.10.1714434037262;
+        Mon, 29 Apr 2024 16:40:37 -0700 (PDT)
 Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id hp22-20020a0568709a9600b0023b58aa20afsm2144508oab.25.2024.04.29.16.40.35
+        by smtp.gmail.com with ESMTPSA id hp22-20020a0568709a9600b0023b58aa20afsm2144508oab.25.2024.04.29.16.40.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Apr 2024 16:40:35 -0700 (PDT)
+        Mon, 29 Apr 2024 16:40:36 -0700 (PDT)
 From: David Lechner <dlechner@baylibre.com>
 To: Liam Girdwood <lgirdwood@gmail.com>,
 	Mark Brown <broonie@kernel.org>,
@@ -74,9 +74,9 @@ Cc: David Lechner <dlechner@baylibre.com>,
 	linux-staging@lists.linux.dev,
 	linux-input@vger.kernel.org,
 	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [PATCH v2 2/7] hwmon: (adc128d818) Use devm_regulator_get_enable_read_voltage()
-Date: Mon, 29 Apr 2024 18:40:10 -0500
-Message-ID: <20240429-regulator-get-enable-get-votlage-v2-2-b1f11ab766c1@baylibre.com>
+Subject: [PATCH v2 3/7] hwmon: (da9052) Use devm_regulator_get_enable_read_voltage()
+Date: Mon, 29 Apr 2024 18:40:11 -0500
+Message-ID: <20240429-regulator-get-enable-get-votlage-v2-3-b1f11ab766c1@baylibre.com>
 X-Mailer: git-send-email 2.43.2
 In-Reply-To: <20240429-regulator-get-enable-get-votlage-v2-0-b1f11ab766c1@baylibre.com>
 References: <20240429-regulator-get-enable-get-votlage-v2-0-b1f11ab766c1@baylibre.com>
@@ -90,11 +90,8 @@ Content-Type: text/plain; charset="utf-8"
 X-Mailer: b4 0.12.4
 Content-Transfer-Encoding: 8bit
 
-We can reduce boilerplate code and eliminate the driver remove()
-function by using devm_regulator_get_enable_read_voltage().
-
-A new external_vref flag is added since we no longer have the handle
-to the regulator to check if it is present.
+We can reduce boilerplate code by using
+devm_regulator_get_enable_read_voltage().
 
 Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Signed-off-by: David Lechner <dlechner@baylibre.com>
@@ -102,142 +99,105 @@ Signed-off-by: David Lechner <dlechner@baylibre.com>
 
 v2 changes:
 * rename to devm_regulator_get_enable_read_voltage()
-* use vref instead of err for return value
-* simplify last error check to return PTR_ERR directly
+* add local variable tsiref_uv instead of using err
+* restored error message via dev_err_probe()
+* shortened pdev->dev to dev in lines we are touching anyway
 ---
- drivers/hwmon/adc128d818.c | 57 ++++++++++++++--------------------------------
- 1 file changed, 17 insertions(+), 40 deletions(-)
+ drivers/hwmon/da9052-hwmon.c | 38 ++++++++++----------------------------
+ 1 file changed, 10 insertions(+), 28 deletions(-)
 
-diff --git a/drivers/hwmon/adc128d818.c b/drivers/hwmon/adc128d818.c
-index 46e3c8c50765..2a35acb011eb 100644
---- a/drivers/hwmon/adc128d818.c
-+++ b/drivers/hwmon/adc128d818.c
-@@ -58,7 +58,6 @@ static const u8 num_inputs[] = { 7, 8, 4, 6 };
+diff --git a/drivers/hwmon/da9052-hwmon.c b/drivers/hwmon/da9052-hwmon.c
+index 2bd7ae8100d7..7fb0c57dfef5 100644
+--- a/drivers/hwmon/da9052-hwmon.c
++++ b/drivers/hwmon/da9052-hwmon.c
+@@ -26,7 +26,6 @@ struct da9052_hwmon {
+ 	struct mutex		hwmon_lock;
+ 	bool			tsi_as_adc;
+ 	int			tsiref_mv;
+-	struct regulator	*tsiref;
+ 	struct completion	tsidone;
+ };
  
- struct adc128_data {
- 	struct i2c_client *client;
--	struct regulator *regulator;
- 	int vref;		/* Reference voltage in mV */
- 	struct mutex update_lock;
- 	u8 mode;		/* Operation mode */
-@@ -389,7 +388,7 @@ static int adc128_detect(struct i2c_client *client, struct i2c_board_info *info)
- 	return 0;
- }
- 
--static int adc128_init_client(struct adc128_data *data)
-+static int adc128_init_client(struct adc128_data *data, bool external_vref)
- {
- 	struct i2c_client *client = data->client;
- 	int err;
-@@ -408,7 +407,7 @@ static int adc128_init_client(struct adc128_data *data)
- 		regval |= data->mode << 1;
- 
- 	/* If external vref is selected, configure the chip to use it */
--	if (data->regulator)
-+	if (external_vref)
- 		regval |= 0x01;
- 
- 	/* Write advanced configuration register */
-@@ -430,9 +429,9 @@ static int adc128_init_client(struct adc128_data *data)
- static int adc128_probe(struct i2c_client *client)
- {
- 	struct device *dev = &client->dev;
--	struct regulator *regulator;
+@@ -397,7 +396,7 @@ static int da9052_hwmon_probe(struct platform_device *pdev)
+ 	struct device *dev = &pdev->dev;
+ 	struct da9052_hwmon *hwmon;
  	struct device *hwmon_dev;
- 	struct adc128_data *data;
-+	bool external_vref;
- 	int err, vref;
+-	int err;
++	int err, tsiref_uv;
  
- 	data = devm_kzalloc(dev, sizeof(struct adc128_data), GFP_KERNEL);
-@@ -440,20 +439,15 @@ static int adc128_probe(struct i2c_client *client)
- 		return -ENOMEM;
+ 	hwmon = devm_kzalloc(dev, sizeof(struct da9052_hwmon), GFP_KERNEL);
+ 	if (!hwmon)
+@@ -414,32 +413,20 @@ static int da9052_hwmon_probe(struct platform_device *pdev)
+ 		device_property_read_bool(pdev->dev.parent, "dlg,tsi-as-adc");
  
- 	/* vref is optional. If specified, is used as chip reference voltage */
--	regulator = devm_regulator_get_optional(dev, "vref");
--	if (!IS_ERR(regulator)) {
--		data->regulator = regulator;
--		err = regulator_enable(regulator);
--		if (err < 0)
+ 	if (hwmon->tsi_as_adc) {
+-		hwmon->tsiref = devm_regulator_get(pdev->dev.parent, "tsiref");
+-		if (IS_ERR(hwmon->tsiref)) {
+-			err = PTR_ERR(hwmon->tsiref);
+-			dev_err(&pdev->dev, "failed to get tsiref: %d", err);
 -			return err;
--		vref = regulator_get_voltage(regulator);
--		if (vref < 0) {
--			err = vref;
--			goto error;
 -		}
--		data->vref = DIV_ROUND_CLOSEST(vref, 1000);
--	} else {
-+	vref = devm_regulator_get_enable_read_voltage(dev, "vref");
-+	if (vref == -ENODEV) {
-+		external_vref = false;
- 		data->vref = 2560;	/* 2.56V, in mV */
-+	} else if (vref < 0) {
-+		return vref;
-+	} else {
-+		external_vref = true;
-+		data->vref = DIV_ROUND_CLOSEST(vref, 1000);
- 	}
+-
+-		err = regulator_enable(hwmon->tsiref);
+-		if (err)
+-			return err;
+-
+-		hwmon->tsiref_mv = regulator_get_voltage(hwmon->tsiref);
+-		if (hwmon->tsiref_mv < 0) {
+-			err = hwmon->tsiref_mv;
+-			goto exit_regulator;
+-		}
++		tsiref_uv = devm_regulator_get_enable_read_voltage(dev->parent,
++								   "tsiref");
++		if (tsiref_uv < 0)
++			return dev_err_probe(dev, tsiref_uv,
++					     "failed to get tsiref voltage\n");
  
- 	/* Operation mode is optional. If unspecified, keep current mode */
-@@ -461,13 +455,12 @@ static int adc128_probe(struct i2c_client *client)
- 		if (data->mode > 3) {
- 			dev_err(dev, "invalid operation mode %d\n",
- 				data->mode);
--			err = -EINVAL;
--			goto error;
-+			return -EINVAL;
+ 		/* convert from microvolt (DT) to millivolt (hwmon) */
+-		hwmon->tsiref_mv /= 1000;
++		hwmon->tsiref_mv = tsiref_uv / 1000;
+ 
+ 		/* TSIREF limits from datasheet */
+ 		if (hwmon->tsiref_mv < 1800 || hwmon->tsiref_mv > 2600) {
+ 			dev_err(hwmon->da9052->dev, "invalid TSIREF voltage: %d",
+ 				hwmon->tsiref_mv);
+-			err = -ENXIO;
+-			goto exit_regulator;
++			return -ENXIO;
  		}
- 	} else {
- 		err = i2c_smbus_read_byte_data(client, ADC128_REG_CONFIG_ADV);
- 		if (err < 0)
--			goto error;
+ 
+ 		/* disable touchscreen features */
+@@ -456,7 +443,7 @@ static int da9052_hwmon_probe(struct platform_device *pdev)
+ 		if (err) {
+ 			dev_err(&pdev->dev, "Failed to register TSIRDY IRQ: %d",
+ 				err);
+-			goto exit_regulator;
 +			return err;
- 		data->mode = (err >> 1) & ADC128_REG_MASK;
+ 		}
  	}
  
-@@ -476,31 +469,16 @@ static int adc128_probe(struct i2c_client *client)
- 	mutex_init(&data->update_lock);
+@@ -472,9 +459,6 @@ static int da9052_hwmon_probe(struct platform_device *pdev)
+ exit_irq:
+ 	if (hwmon->tsi_as_adc)
+ 		da9052_free_irq(hwmon->da9052, DA9052_IRQ_TSIREADY, hwmon);
+-exit_regulator:
+-	if (hwmon->tsiref)
+-		regulator_disable(hwmon->tsiref);
  
- 	/* Initialize the chip */
--	err = adc128_init_client(data);
-+	err = adc128_init_client(data, external_vref);
- 	if (err < 0)
--		goto error;
-+		return err;
+ 	return err;
+ }
+@@ -483,10 +467,8 @@ static void da9052_hwmon_remove(struct platform_device *pdev)
+ {
+ 	struct da9052_hwmon *hwmon = platform_get_drvdata(pdev);
  
- 	hwmon_dev = devm_hwmon_device_register_with_groups(dev, client->name,
- 							   data, adc128_groups);
--	if (IS_ERR(hwmon_dev)) {
--		err = PTR_ERR(hwmon_dev);
--		goto error;
+-	if (hwmon->tsi_as_adc) {
++	if (hwmon->tsi_as_adc)
+ 		da9052_free_irq(hwmon->da9052, DA9052_IRQ_TSIREADY, hwmon);
+-		regulator_disable(hwmon->tsiref);
 -	}
-+	if (IS_ERR(hwmon_dev))
-+		return PTR_ERR(hwmon_dev);
- 
- 	return 0;
--
--error:
--	if (data->regulator)
--		regulator_disable(data->regulator);
--	return err;
--}
--
--static void adc128_remove(struct i2c_client *client)
--{
--	struct adc128_data *data = i2c_get_clientdata(client);
--
--	if (data->regulator)
--		regulator_disable(data->regulator);
  }
  
- static const struct i2c_device_id adc128_id[] = {
-@@ -522,7 +500,6 @@ static struct i2c_driver adc128_driver = {
- 		.of_match_table = of_match_ptr(adc128_of_match),
- 	},
- 	.probe		= adc128_probe,
--	.remove		= adc128_remove,
- 	.id_table	= adc128_id,
- 	.detect		= adc128_detect,
- 	.address_list	= normal_i2c,
+ static struct platform_driver da9052_hwmon_driver = {
 
 -- 
 2.43.2
