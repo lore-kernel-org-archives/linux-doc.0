@@ -1,222 +1,95 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0CD7D530;
-	Mon, 29 Apr 2024 06:57:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD7FC134BE;
+	Mon, 29 Apr 2024 07:18:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714373827; cv=none; b=HTg8oxnaY1YQEo2QjmsL6Mkv6kIK5ISagP8jkXjnrni5/kzhR+GSYKMXFM2Umg8dtx9A/TuEcMJddZKilniJQdesLHOD810SPld7z9Px5n+xUfI4tEFa6bnSqzwFGvtFUhYR5I08zovYAEVoc8+ugxgwkwb7hhhRwb90Fu3CfFs=
+	t=1714375118; cv=none; b=h7Da1d+btlZhW864J6C445X7tdZBKmpg6JtuRGpsVsvHR2jvR9TZX1yf7iCUAZZ76kKTPRlNNewiGdCcjdy3de+ECLmoWoc0p19yGvevkLmmtcOE/GWU8eAbWxVNGQamkItiN+6IqNDe+NTOWJOFDV5cOYwOaT4spWHibU/oU2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714373827; c=relaxed/simple;
-	bh=09FThBTM6Hwa/xsabgjmzwu4MaDIcTHSgg/+eqvr7L8=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=W7+L4VNe3vFj/2MIY2PNPUc1j+Wd1dy5Cc8C9qlyh9hDbPaMKPObXLEq5YUsM4KqwwTvKJgqE+6q7ivwoNWcKPLDhIC0Hk3fplTv6tz1ESy5eVqd3gSzhkkaKrY3F67uQCeMnHqALAXMy+t2c5e4QOQEV89gVkMTAudz4pnrix8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OJtApqpI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GNFMWpF+; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OJtApqpI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=GNFMWpF+; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1714375118; c=relaxed/simple;
+	bh=mRJK2AQiE5O8jdME3BVX81Wip+tE76LubZ8HkAoHRzA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=q7ON2BfFJePoPb0k8ciCzdCnFa/OXYLsiTZYrBgWtgkukCeDcOhWvJl5kwvMX/AyW/a77oDols67fsVb3PYqlODzNM+OQhVJJl3YbNxyQojTBYf3QPWfwo3XFTZQ8AOun60rSr6gnB50fwPoy7say8NPqxKRlPZcKntpQZSOtjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=fRmFoCzU; arc=none smtp.client-ip=80.237.130.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OJtApqpI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GNFMWpF+";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OJtApqpI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GNFMWpF+"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 73D4D229E1;
-	Mon, 29 Apr 2024 06:57:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714373821; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=foSFvja1xtZKhFfCb1ELz3yeDCDBi6VORfN0RMsU5pA=;
-	b=OJtApqpIPGDK99iFXGxcMgAEKKSpnM04GzeAMgKa2KYTtHV2N5fgr5FwKZcqya773HSXu6
-	51Yuz6es2QA/gM88Razf4OefFkQliUzDjRexy4Q5ImYaQlh0Z1SWxn5VN348qvzftAkX1H
-	xMYJpgUYptBOswYZmmf2ysYF9QoScuI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714373821;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=foSFvja1xtZKhFfCb1ELz3yeDCDBi6VORfN0RMsU5pA=;
-	b=GNFMWpF+hD8jdZO3NGTur7+AX8P0TG8hhl97FjQtoFv8BAptI92Y6TI4srZUqvpGhG56FQ
-	OaByZXcdFnunNzDQ==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1714373821; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=foSFvja1xtZKhFfCb1ELz3yeDCDBi6VORfN0RMsU5pA=;
-	b=OJtApqpIPGDK99iFXGxcMgAEKKSpnM04GzeAMgKa2KYTtHV2N5fgr5FwKZcqya773HSXu6
-	51Yuz6es2QA/gM88Razf4OefFkQliUzDjRexy4Q5ImYaQlh0Z1SWxn5VN348qvzftAkX1H
-	xMYJpgUYptBOswYZmmf2ysYF9QoScuI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1714373821;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=foSFvja1xtZKhFfCb1ELz3yeDCDBi6VORfN0RMsU5pA=;
-	b=GNFMWpF+hD8jdZO3NGTur7+AX8P0TG8hhl97FjQtoFv8BAptI92Y6TI4srZUqvpGhG56FQ
-	OaByZXcdFnunNzDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D1700138A7;
-	Mon, 29 Apr 2024 06:57:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id gBRzMbxEL2YQbQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Mon, 29 Apr 2024 06:57:00 +0000
-Date: Mon, 29 Apr 2024 08:57:12 +0200
-Message-ID: <87o79s1ws7.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: "Rajashekar Kuruva (Temp)" <quic_kuruva@quicinc.com>
-Cc: <srinivas.kandagatla@linaro.org>,
-	<mathias.nyman@intel.com>,
-	<perex@perex.cz>,
-	<conor+dt@kernel.org>,
-	<corbet@lwn.net>,
-	<lgirdwood@gmail.com>,
-	<andersson@kernel.org>,
-	<krzysztof.kozlowski+dt@linaro.org>,
-	<gregkh@linuxfoundation.org>,
-	<Thinh.Nguyen@synopsys.com>,
-	<broonie@kernel.org>,
-	<bgoswami@quicinc.com>,
-	<tiwai@suse.com>,
-	<robh@kernel.org>,
-	<konrad.dybcio@linaro.org>,
-	<linux-kernel@vger.kernel.org>,
-	<devicetree@vger.kernel.org>,
-	<linux-sound@vger.kernel.org>,
-	<linux-usb@vger.kernel.org>,
-	<linux-arm-msm@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>,
-	<alsa-devel@alsa-project.org>
-Subject: Re: [PATCH] [RFC PATCH] ALSA: usb-audio: endpoint: Prevent NULL pointer deference in snd_usb_endpoint_close
-In-Reply-To: <64ed9496-577c-4f31-b061-9f3dcaca4b26@quicinc.com>
-References: <20240426122511.547755-1-quic_kuruva@quicinc.com>
-	<877cgks399.wl-tiwai@suse.de>
-	<64ed9496-577c-4f31-b061-9f3dcaca4b26@quicinc.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="fRmFoCzU"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:From:Sender:
+	Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=6Urg+TQ/FnsFc4yBOyVl/MrcHcj+2yeVM0FYIrCt150=; t=1714375117;
+	x=1714807117; b=fRmFoCzU6nJ8Xl+zpoKl9DM2oMLYmmhVo3Y/8iJ07P5lQjjOjbHKGw2N6wwRh
+	+G/MWEpEbvhnlDKD1FcXMV3vWre8MkvLydjEoKfATqV5ibuoVIrbCFcA+pXZNfZR0L8VouXymYDnm
+	cnx0vgzWUJ+R0dBeP+Q/WA92+RjtGa9/QqbV250EDjVLInqZK8/+INOFIcP9KG6U+By2SneTTm1IZ
+	N7ezbXIFbD2OT3vJtzKptMA4Ku9gTbC1TR0+yQ5lD9p58T/7z6peCZZQRrsx73k/ryl6UnXHfXCkb
+	vZlYxk+h9KYuWSrEzKY1hGU0NOVtun+E0jLffIF5xTSZ7B1QZg==;
+Received: from ip4d148da6.dynamic.kabel-deutschland.de ([77.20.141.166] helo=truhe.fritz.box); authenticated
+	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	id 1s1LHU-0004e1-7h; Mon, 29 Apr 2024 09:18:32 +0200
+From: Thorsten Leemhuis <linux@leemhuis.info>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	stable@vger.kernel.org,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 2/5] docs: stable-kernel-rules: call mainline by its name and change example
+Date: Mon, 29 Apr 2024 09:18:27 +0200
+Message-ID: <0a120573ea827aee12d45e7bd802ba85c09884da.1714367921.git.linux@leemhuis.info>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <cover.1714367921.git.linux@leemhuis.info>
+References: <cover.1714367921.git.linux@leemhuis.info>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -1.80
-X-Spam-Level: 
-X-Spamd-Result: default: False [-1.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TAGGED_RCPT(0.00)[dt];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linaro.org,intel.com,perex.cz,kernel.org,lwn.net,gmail.com,linuxfoundation.org,synopsys.com,quicinc.com,suse.com,vger.kernel.org,alsa-project.org];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[]
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1714375117;b475376d;
+X-HE-SMSGID: 1s1LHU-0004e1-7h
 
-On Mon, 29 Apr 2024 08:23:27 +0200,
-Rajashekar Kuruva (Temp) wrote:
-> 
-> 
-> On 4/26/2024 6:13 PM, Takashi Iwai wrote:
-> > On Fri, 26 Apr 2024 14:25:11 +0200,
-> > Rajashekar kuruva wrote:
-> >> When multiple plug-in and plug-out events occur,
-> >> there is a risk of encountering a NULL pointer dereference
-> >> leading to a kernel panic during a headset use-case.
-> >> this issue arises in the snd_usb_endpoint_close function
-> > Such a scenario can't happen: ep->iface_ref is changed only in
-> > chip->mutex lock, hence it can't be NULL there.
-> > 
-> > 
-> > thanks,
-> > 
-> > Takashi
-> 
-> Hi Takashi,
-> 
-> Actually we are facing NULL pointer deference while running headset
-> case when i checked call trace the last running function is
-> snd_usb_endpoint_close where iface_ref and clock_ref both are 0x0
-> 
-> [75703.933104][T10585] Unable to handle kernel NULL pointer
-> dereference at virtual address 0000000000000004
-> [75703.933113][T10585] [RB/E]rb_sreason_str_set: sreason_str set NULL
-> pointer dereference
-> [75703.933116][T10585] Mem abort info:
-> [75703.933117][T10585]   ESR = 0x0000000096000005
-> [75703.933119][T10585]   EC = 0x25: DABT (current EL), IL = 32 bits
-> [75703.933120][T10585]   SET = 0, FnV = 0
-> [75703.933121][T10585]   EA = 0, S1PTW = 0
-> [75703.933123][T10585]   FSC = 0x05: level 1 translation fault
-> [75703.933124][T10585] Data abort info:
-> [75703.933124][T10585]   ISV = 0, ISS = 0x00000005
-> [75703.933125][T10585]   CM = 0, WnR = 0
-> …
-> [75703.933676][T10585] CPU: 3 PID: 10585 Comm: kworker/u17:0 Tainted:
-> G S      W  OE 6.1.43-android14-11-ga2fa77d36d26-ab11204829 #1
-> [75703.933697][T10585] pstate: 62400005 (nZCv daif +PAN -UAO +TCO -DIT
-> -SSBS BTYPE=--)
-> [75703.933700][T10585] pc : snd_usb_endpoint_close+0x30/0x104
-> [75703.933721][T10585] lr : snd_usb_endpoint_close+0x28/0x104
-> [75703.933724][T10585] sp : ffffffc04b2bb740
-> [75703.933725][T10585] x29: ffffffc04b2bb740 x28: ffffff8024e3ba78
-> x27: ffffffd266e91da0
-> [75703.933728][T10585] x26: ffffffc04b2bb7a8 x25: ffffff89bec5be00
-> x24: 00000000ffffffea
-> [75703.933730][T10585] x23: 0000000000000002 x22: ffffff885d568008
-> x21: ffffff8024e3ba78
-> [75703.933732][T10585] x20: ffffff885d568000 x19: ffffff8024e3bb18
-> x18: ffffffd26db2d140
-> [75703.933734][T10585] x17: 00000000f01b0818 x16: 00000000f01b0818
-> x15: 0000000000000008
-> [75703.933736][T10585] x14: ffffff8a3e2b5780 x13: ffffff8a3e2b5780
-> x12: ffffffd26cbd2770
-> [75703.933738][T10585] x11: 0000000000000001 x10: ffffff8984320000 x9
-> : 4f43b86e946b4e00
-> [75703.933740][T10585] x8 : 0000000000000000 x7 : 0000000000000001 x6
-> : fffffffdef8e8b70
-> [75703.933742][T10585] x5 : 0000000000000001 x4 : 0000000000000000 x3
-> : ffffff8024e3bb28
-> [75703.933743][T10585] x2 : 00000001011fa7c9 x1 : ffffffc04b2bb680 x0
-> : 0000000000000000
-> [75703.933746][T10585] Call trace:
-> [75703.933747][T10585]  snd_usb_endpoint_close+0x30/0x104
+Fine-tuning:
 
-Who is actually calling snd_usb_endpoint_close()?
-I guess that's rather a bug in the call pattern, not the code in
-USB-audio driver itself.
+* s/Linus' tree/Linux mainline/, as mainline is the term used elsewhere
+  in the document.
 
-snd_usb_endpoint_close() is supposed to be called only for a really
-opened endpoint.  So, if any, it's rather a race (or a bug) in the
-caller side, and it should be addressed there instead.
+* Provide a better example for the 'delayed backporting' case that uses
+  a fixed rather than a relative reference point, which makes it easier
+  to handle for the stable team.
 
+Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+---
+ Documentation/process/stable-kernel-rules.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-thanks,
+diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
+index 0da9c57287c134..d28072b570f872 100644
+--- a/Documentation/process/stable-kernel-rules.rst
++++ b/Documentation/process/stable-kernel-rules.rst
+@@ -6,7 +6,7 @@ Everything you ever wanted to know about Linux -stable releases
+ Rules on what kind of patches are accepted, and which ones are not, into the
+ "-stable" tree:
+ 
+- - It or an equivalent fix must already exist in Linus' tree (upstream).
++ - It or an equivalent fix must already exist in Linux mainline (upstream).
+  - It must be obviously correct and tested.
+  - It cannot be bigger than 100 lines, with context.
+  - It must follow the
+@@ -134,7 +134,7 @@ comment to pass arbitrary or predefined notes:
+ 
+    .. code-block:: none
+ 
+-     Cc: <stable@vger.kernel.org> # after 4 weeks in mainline
++     Cc: <stable@vger.kernel.org> # after -rc3
+ 
+  * Point out known problems:
+ 
+-- 
+2.44.0
 
-Takashi
