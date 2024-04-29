@@ -1,494 +1,320 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40DF317798F;
-	Mon, 29 Apr 2024 22:16:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0740F1E888
+	for <linux-doc@vger.kernel.org>; Mon, 29 Apr 2024 22:55:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714428961; cv=none; b=FwvkonT3CSZ8KxOJbsoDkABaE6RbQ0AFsyHdmGrrEOfQP7gSLWE5xfFIAmDJZTzFPAVz1nDYe3ZWjGcvOshKXXaxGUjRzeTpuq5RoHNsxxK1zWPQCE9WfZS+vdKYadxiGIyHtAnOGbx2SrlEw4o7rcVh1G/dQvbbjbTgCfZYbjU=
+	t=1714431354; cv=none; b=h2rGtr5C9UKScR+wGPxVcV1cwOTCfxREj4oHCtSs2bSc482oyp3qlIhChV/W8COgOnkwCX6OdEr38QBS8MknulwrnPNlvLm57/4lLr/SRxUblhF7vQYo1ZJrvkBEDa0sIlAXIOxl+NcEPvzfsNA75sd4RYVFFsSjCtc3USLSECM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714428961; c=relaxed/simple;
-	bh=kI6j9LvXJei+paKWCFq45W4DHlVh8To1UON+IuKXPAY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PFUBPKtparEa29kd2H5omitqqDOlpFRgsw8/y1+EQT+CY8OqQfI7YOxIaHSqCwiIbG86F/tftHa4IdhJwSLv0eCA0x2SMXeNuts688QGJNXEggFILhqjifA326hWZG/JJhv7FVDi2KXMOYA5y32z4RsT14GpebwfCQ4aLcbERQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gQvD37S0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714431354; c=relaxed/simple;
+	bh=tU8k7uFthMUmH1zn47AFp/Y6MqilSJd/Cs0wXpqOZN0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=ax3Z9IU73nUFCnFpUf3AiFP/5QdntekyRWuqwrpXpztukEXzs2M732u6DFREdsGbUogigQmIxiV59N5ejbGmgNaRRIUDp+M3gJqYUl7mgoEhy3da86sMGKfNM25mKPumcJDdEUmnmjttMQJPTh7uzsgu4SU1K5i2ei2z7rvUPmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uci.edu; spf=pass smtp.mailfrom=uci.edu; dkim=pass (2048-bit key) header.d=uci.edu header.i=@uci.edu header.b=ii/t5plc; arc=none smtp.client-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uci.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uci.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gQvD37S0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B773C113CD;
-	Mon, 29 Apr 2024 22:15:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714428960;
-	bh=kI6j9LvXJei+paKWCFq45W4DHlVh8To1UON+IuKXPAY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gQvD37S0sU34ym3B+9iPpcfQINjMBdg9SrZXZM3G3UHvK+h5Q2OXGYQQtA/FB4ZlS
-	 ShbaqtPWoD/OpXsnAUvbWydtIsIapxmXZnzVe9ChRXpj6tDpMS9f0pgJTHNDuaXW6R
-	 O3NVFycd+Ud4PJbZmnmfliONIb/DRB7S+1+2C1Q7YGTD0dhCpuB6MTItqRCK8VKfIV
-	 BkhPlb75uAW03eC63BX0L88ebk6S96d/LA+Tn74knpew+mjSHrzz8u+Ti3Kjgjx+Vx
-	 IhOwrFV8hFP9vozQ6W7ZOO0UuN26irkaJ+8DouoPe52vtuniTEqrjojydITjK2VGru
-	 LcMZR7/oHxHnA==
-Date: Mon, 29 Apr 2024 23:15:55 +0100
-From: Conor Dooley <conor@kernel.org>
-To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Anup Patel <anup@brainfault.org>, Shuah Khan <shuah@kernel.org>,
-	Atish Patra <atishp@atishpatra.org>, linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v4 02/11] riscv: add ISA extensions validation
-Message-ID: <20240429-subtext-tabby-3a1532f058a5@spud>
-References: <20240429150553.625165-1-cleger@rivosinc.com>
- <20240429150553.625165-3-cleger@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=uci.edu header.i=@uci.edu header.b="ii/t5plc"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6eff2be3b33so4741004b3a.2
+        for <linux-doc@vger.kernel.org>; Mon, 29 Apr 2024 15:55:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=uci.edu; s=google; t=1714431351; x=1715036151; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=POlR7NQgiLwjOhYaRxz63ZKhGHYztGZkSOHzbrcjgOw=;
+        b=ii/t5plcIwUYZsgZzpViw50PswbiAOQBPulmF5VHVDVMt90o+YO0k2ffZTRNhqpyp1
+         +kMJq9gxaOVesaLDxK/1gG6dhEMZq8KupTNkqyvyOEEdQ0K1sdmJ0+vdQH1UpW3acMzh
+         QDKdMoR/TeV38sjNrI5y0sKMnjw3rDonWM9FuTiCxTD8UH0KzWUSHrDmZqntGJ60Lfph
+         65i6k7+snFe1vvj02DPJbLu6qScNJ9Pb/Kb4XVRQJ0iemTxqmvppg6SrBXoBe5FHBWjo
+         Or9GN3fFy0a+kjl5Dj9OvOsUsOu3odpcb3DGojPV+wzdllpwVQTASKm2laDli8LFdrUU
+         3CTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714431351; x=1715036151;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=POlR7NQgiLwjOhYaRxz63ZKhGHYztGZkSOHzbrcjgOw=;
+        b=Kj3zF295QQMdxriIjN//XktaZJeqBLZNrEOBZxaSsPz8x4cyuWKJiHqSKdXSZaM+GR
+         AiI0RnXUUu8NWCBnwlkoYz9XYf1oGrSEj09Ic0H1NGlJX0FDqFnir7ikr5GcKliH/e6w
+         NjenY+oyDFgZHmutQ9DN//LFIvQXijG0CcZYvQrwlStOvomW6Os5nENz6+Ql7itRERL9
+         cp1XZnTxNuumaYyULBFh3siFm69ogaJe8qtKWL6pWL//hY4511FQRZUOVh23mIdPWzfF
+         cXf/mam+nnuoqyCWg0qOfWuemM09fsqZJ+BMNjWjfugEw+3iL2q9zPdbcFdQO+mQuMm/
+         RpIw==
+X-Gm-Message-State: AOJu0YwHs2dZLJBpUStohjHbqU0FcAesfBsi3Y+6s7xufz0Q6wxePA3J
+	B9WGcdU/d8yxs9k/oUU5KGAs9zxwDb8c6/sMlS2jqa3VPTDbbjcYXmw7Zijq+e8=
+X-Google-Smtp-Source: AGHT+IEd7I6jT2tLz/KAtRkU3Yc07uF1+ZTS9TR3nGX3gf5lm4cWxbWHCn35G3KMXiEudHUWhvAcGw==
+X-Received: by 2002:a05:6a00:3907:b0:6f3:86ac:5eae with SMTP id fh7-20020a056a00390700b006f386ac5eaemr952015pfb.28.1714431351160;
+        Mon, 29 Apr 2024 15:55:51 -0700 (PDT)
+Received: from alpha.mshome.net (ip68-4-168-191.oc.oc.cox.net. [68.4.168.191])
+        by smtp.gmail.com with ESMTPSA id e14-20020aa7824e000000b006edceb4ea9dsm19827265pfn.166.2024.04.29.15.55.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Apr 2024 15:55:50 -0700 (PDT)
+From: Remington Brasga <rbrasga@uci.edu>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Remington Brasga <rbrasga@uci.edu>
+Subject: [PATCH] Docs: typos/spelling
+Date: Mon, 29 Apr 2024 22:55:27 +0000
+Message-Id: <20240429225527.2329-1-rbrasga@uci.edu>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="gd7/nk5BpVfZAZKi"
-Content-Disposition: inline
-In-Reply-To: <20240429150553.625165-3-cleger@rivosinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Fix spelling and grammar in Docs descriptions
 
---gd7/nk5BpVfZAZKi
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Remington Brasga <rbrasga@uci.edu>
+---
+ Documentation/admin-guide/hw-vuln/srso.rst                    | 2 +-
+ Documentation/admin-guide/kernel-parameters.txt               | 2 +-
+ Documentation/admin-guide/mm/ksm.rst                          | 2 +-
+ Documentation/arch/m68k/buddha-driver.rst                     | 2 +-
+ Documentation/arch/sparc/oradax/dax-hv-api.txt                | 2 +-
+ Documentation/arch/x86/xstate.rst                             | 2 +-
+ Documentation/core-api/entry.rst                              | 2 +-
+ Documentation/driver-api/mtd/nand_ecc.rst                     | 2 +-
+ Documentation/driver-api/scsi.rst                             | 2 +-
+ Documentation/driver-api/usb/usb.rst                          | 2 +-
+ Documentation/driver-api/wbrf.rst                             | 2 +-
+ Documentation/filesystems/directory-locking.rst               | 4 ++--
+ Documentation/filesystems/porting.rst                         | 4 ++--
+ Documentation/mm/slub.rst                                     | 2 +-
+ Documentation/security/SCTP.rst                               | 2 +-
+ Documentation/translations/zh_TW/process/submit-checklist.rst | 2 +-
+ 16 files changed, 18 insertions(+), 18 deletions(-)
 
-On Mon, Apr 29, 2024 at 05:04:55PM +0200, Cl=E9ment L=E9ger wrote:
-> Since a few extensions (Zicbom/Zicboz) already needs validation and
-> future ones will need it as well (Zc*) add a validate() callback to
-> struct riscv_isa_ext_data. This require to rework the way extensions are
-> parsed and split it in two phases. First phase is isa string or isa
-> extension list parsing and consists in enabling all the extensions in a
-> temporary bitmask without any validation. The second step "resolves" the
-> final isa bitmap, handling potential missing dependencies. The mechanism
-> is quite simple and simply validate each extension described in the
-> temporary bitmap before enabling it in the final isa bitmap. validate()
-> callbacks can return either 0 for success, -EPROBEDEFER if extension
-> needs to be validated again at next loop. A previous ISA bitmap is kept
-> to avoid looping mutliple times if an extension dependencies are never
-> satisfied until we reach a stable state. In order to avoid any potential
-> infinite looping, allow looping a maximum of the number of extension we
-> handle. Zicboz and Zicbom extensions are modified to use this validation
-> mechanism.
+diff --git a/Documentation/admin-guide/hw-vuln/srso.rst b/Documentation/admin-guide/hw-vuln/srso.rst
+index e715bfc09879..4bd3ce3ba171 100644
+--- a/Documentation/admin-guide/hw-vuln/srso.rst
++++ b/Documentation/admin-guide/hw-vuln/srso.rst
+@@ -135,7 +135,7 @@ and does not want to suffer the performance impact, one can always
+ disable the mitigation with spec_rstack_overflow=off.
+ 
+ Similarly, 'Mitigation: IBPB' is another full mitigation type employing
+-an indrect branch prediction barrier after having applied the required
++an indirect branch prediction barrier after having applied the required
+ microcode patch for one's system. This mitigation comes also at
+ a performance cost.
+ 
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 213d0719e2b7..bdf0112afdc5 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -7323,7 +7323,7 @@
+ 			This can be changed after boot by writing to the
+ 			matching /sys/module/workqueue/parameters file. All
+ 			workqueues with the "default" affinity scope will be
+-			updated accordignly.
++			updated accordingly.
+ 
+ 	workqueue.debug_force_rr_cpu
+ 			Workqueue used to implicitly guarantee that work
+diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin-guide/mm/ksm.rst
+index a639cac12477..ad8e7a41f3b5 100644
+--- a/Documentation/admin-guide/mm/ksm.rst
++++ b/Documentation/admin-guide/mm/ksm.rst
+@@ -308,7 +308,7 @@ limited by the ``advisor_max_cpu`` parameter. In addition there is also the
+ ``advisor_target_scan_time`` parameter. This parameter sets the target time to
+ scan all the KSM candidate pages. The parameter ``advisor_target_scan_time``
+ decides how aggressive the scan time advisor scans candidate pages. Lower
+-values make the scan time advisor to scan more aggresively. This is the most
++values make the scan time advisor to scan more aggressively. This is the most
+ important parameter for the configuration of the scan time advisor.
+ 
+ The initial value and the maximum value can be changed with
+diff --git a/Documentation/arch/m68k/buddha-driver.rst b/Documentation/arch/m68k/buddha-driver.rst
+index 20e401413991..5d1bc824978b 100644
+--- a/Documentation/arch/m68k/buddha-driver.rst
++++ b/Documentation/arch/m68k/buddha-driver.rst
+@@ -173,7 +173,7 @@ When accessing IDE registers with A6=1 (for example $84x),
+ the timing will always be mode 0 8-bit compatible, no matter
+ what you have selected in the speed register:
+ 
+-781ns select, IOR/IOW after 4 clock cycles (=314ns) aktive.
++781ns select, IOR/IOW after 4 clock cycles (=314ns) active.
+ 
+ All  the  timings with a very short select-signal (the 355ns
+ fast  accesses)  depend  on the accelerator card used in the
+diff --git a/Documentation/arch/sparc/oradax/dax-hv-api.txt b/Documentation/arch/sparc/oradax/dax-hv-api.txt
+index 7ecd0bf4957b..ef1a4c2bf08b 100644
+--- a/Documentation/arch/sparc/oradax/dax-hv-api.txt
++++ b/Documentation/arch/sparc/oradax/dax-hv-api.txt
+@@ -41,7 +41,7 @@ Chapter 36. Coprocessor services
+         submissions until they succeed; waiting for an outstanding CCB to complete is not necessary, and would
+         not be a guarantee that a future submission would succeed.
+ 
+-        The availablility of DAX coprocessor command service is indicated by the presence of the DAX virtual
++        The availability of DAX coprocessor command service is indicated by the presence of the DAX virtual
+         device node in the guest MD (Section 8.24.17, “Database Analytics Accelerators (DAX) virtual-device
+         node”).
+ 
+diff --git a/Documentation/arch/x86/xstate.rst b/Documentation/arch/x86/xstate.rst
+index ae5c69e48b11..cec05ac464c1 100644
+--- a/Documentation/arch/x86/xstate.rst
++++ b/Documentation/arch/x86/xstate.rst
+@@ -138,7 +138,7 @@ Note this example does not include the sigaltstack preparation.
+ Dynamic features in signal frames
+ ---------------------------------
+ 
+-Dynamcally enabled features are not written to the signal frame upon signal
++Dynamically enabled features are not written to the signal frame upon signal
+ entry if the feature is in its initial configuration.  This differs from
+ non-dynamic features which are always written regardless of their
+ configuration.  Signal handlers can examine the XSAVE buffer's XSTATE_BV
+diff --git a/Documentation/core-api/entry.rst b/Documentation/core-api/entry.rst
+index e12f22ab33c7..a15f9b1767a2 100644
+--- a/Documentation/core-api/entry.rst
++++ b/Documentation/core-api/entry.rst
+@@ -18,7 +18,7 @@ exceptions`_, `NMI and NMI-like exceptions`_.
+ Non-instrumentable code - noinstr
+ ---------------------------------
+ 
+-Most instrumentation facilities depend on RCU, so intrumentation is prohibited
++Most instrumentation facilities depend on RCU, so instrumentation is prohibited
+ for entry code before RCU starts watching and exit code after RCU stops
+ watching. In addition, many architectures must save and restore register state,
+ which means that (for example) a breakpoint in the breakpoint entry code would
+diff --git a/Documentation/driver-api/mtd/nand_ecc.rst b/Documentation/driver-api/mtd/nand_ecc.rst
+index 74347c14a70b..a0d681f26a2e 100644
+--- a/Documentation/driver-api/mtd/nand_ecc.rst
++++ b/Documentation/driver-api/mtd/nand_ecc.rst
+@@ -462,7 +462,7 @@ statements is reduced. This is also reflected in the assembly code.
+ Analysis 3
+ ==========
+ 
+-Very weird. Guess it has to do with caching or instruction parallellism
++Very weird. Guess it has to do with caching or instruction parallelism
+ or so. I also tried on an eeePC (Celeron, clocked at 900 Mhz). Interesting
+ observation was that this one is only 30% slower (according to time)
+ executing the code as my 3Ghz D920 processor.
+diff --git a/Documentation/driver-api/scsi.rst b/Documentation/driver-api/scsi.rst
+index 64b231d125e0..ec92ea2c82cd 100644
+--- a/Documentation/driver-api/scsi.rst
++++ b/Documentation/driver-api/scsi.rst
+@@ -259,7 +259,7 @@ attributes for Serial Attached SCSI, a variant of SATA aimed at large
+ high-end systems.
+ 
+ The SAS transport class contains common code to deal with SAS HBAs, an
+-aproximated representation of SAS topologies in the driver model, and
++approximated representation of SAS topologies in the driver model, and
+ various sysfs attributes to expose these topologies and management
+ interfaces to userspace.
+ 
+diff --git a/Documentation/driver-api/usb/usb.rst b/Documentation/driver-api/usb/usb.rst
+index fb41768696ec..89f9c37bb979 100644
+--- a/Documentation/driver-api/usb/usb.rst
++++ b/Documentation/driver-api/usb/usb.rst
+@@ -422,7 +422,7 @@ USBDEVFS_CONNECTINFO
+ 
+ USBDEVFS_GET_SPEED
+     Returns the speed of the device. The speed is returned as a
+-    nummerical value in accordance with enum usb_device_speed
++    numerical value in accordance with enum usb_device_speed
+ 
+     File modification time is not updated by this request.
+ 
+diff --git a/Documentation/driver-api/wbrf.rst b/Documentation/driver-api/wbrf.rst
+index f48bfa029813..6b18833e2e69 100644
+--- a/Documentation/driver-api/wbrf.rst
++++ b/Documentation/driver-api/wbrf.rst
+@@ -68,7 +68,7 @@ The expected flow for the consumers:
+ can be enabled for the device.
+ 2. Call `amd_wbrf_register_notifier` to register for notification
+ of frequency band change(add or remove) from other producers.
+-3. Call the `amd_wbrf_retrieve_freq_band` initally to retrieve
++3. Call the `amd_wbrf_retrieve_freq_band` initially to retrieve
+ current active frequency bands considering some producers may broadcast
+ such information before the consumer is up.
+ 4. On receiving a notification for frequency band change, run
+diff --git a/Documentation/filesystems/directory-locking.rst b/Documentation/filesystems/directory-locking.rst
+index 05ea387bc9fb..6fdf0b02df43 100644
+--- a/Documentation/filesystems/directory-locking.rst
++++ b/Documentation/filesystems/directory-locking.rst
+@@ -44,7 +44,7 @@ For our purposes all operations fall in 6 classes:
+ 	* decide which of the source and target need to be locked.
+ 	  The source needs to be locked if it's a non-directory, target - if it's
+ 	  a non-directory or about to be removed.
+-	* take the locks that need to be taken (exlusive), in inode pointer order
++	* take the locks that need to be taken (exclusive), in inode pointer order
+ 	  if need to take both (that can happen only when both source and target
+ 	  are non-directories - the source because it wouldn't need to be locked
+ 	  otherwise and the target because mixing directory and non-directory is
+@@ -234,7 +234,7 @@ among the children, in some order.  But that is also impossible, since
+ neither of the children is a descendent of another.
+ 
+ That concludes the proof, since the set of operations with the
+-properties requiered for a minimal deadlock can not exist.
++properties required for a minimal deadlock can not exist.
+ 
+ Note that the check for having a common ancestor in cross-directory
+ rename is crucial - without it a deadlock would be possible.  Indeed,
+diff --git a/Documentation/filesystems/porting.rst b/Documentation/filesystems/porting.rst
+index 1be76ef117b3..f2b44c2400c6 100644
+--- a/Documentation/filesystems/porting.rst
++++ b/Documentation/filesystems/porting.rst
+@@ -858,7 +858,7 @@ be misspelled d_alloc_anon().
+ 
+ **mandatory**
+ 
+-[should've been added in 2016] stale comment in finish_open() nonwithstanding,
++[should've been added in 2016] stale comment in finish_open() notwithstanding,
+ failure exits in ->atomic_open() instances should *NOT* fput() the file,
+ no matter what.  Everything is handled by the caller.
+ 
+@@ -989,7 +989,7 @@ This mechanism would only work for a single device so the block layer couldn't
+ find the owning superblock of any additional devices.
+ 
+ In the old mechanism reusing or creating a superblock for a racing mount(2) and
+-umount(2) relied on the file_system_type as the holder. This was severly
++umount(2) relied on the file_system_type as the holder. This was severely
+ underdocumented however:
+ 
+ (1) Any concurrent mounter that managed to grab an active reference on an
+diff --git a/Documentation/mm/slub.rst b/Documentation/mm/slub.rst
+index b517ee28a955..60d350d08362 100644
+--- a/Documentation/mm/slub.rst
++++ b/Documentation/mm/slub.rst
+@@ -80,7 +80,7 @@ to the dentry cache with::
+ 
+ Debugging options may require the minimum possible slab order to increase as
+ a result of storing the metadata (for example, caches with PAGE_SIZE object
+-sizes).  This has a higher liklihood of resulting in slab allocation errors
++sizes).  This has a higher likelihood of resulting in slab allocation errors
+ in low memory situations or if there's high fragmentation of memory.  To
+ switch off debugging for such caches by default, use::
+ 
+diff --git a/Documentation/security/SCTP.rst b/Documentation/security/SCTP.rst
+index b73eb764a001..6d80d464ab6e 100644
+--- a/Documentation/security/SCTP.rst
++++ b/Documentation/security/SCTP.rst
+@@ -81,7 +81,7 @@ A summary of the ``@optname`` entries is as follows::
+                             destination addresses.
+ 
+     SCTP_SENDMSG_CONNECT  - Initiate a connection that is generated by a
+-                            sendmsg(2) or sctp_sendmsg(3) on a new asociation.
++                            sendmsg(2) or sctp_sendmsg(3) on a new association.
+ 
+     SCTP_PRIMARY_ADDR     - Set local primary address.
+ 
+diff --git a/Documentation/translations/zh_TW/process/submit-checklist.rst b/Documentation/translations/zh_TW/process/submit-checklist.rst
+index 43f2e3c5b514..0ecb187753e4 100644
+--- a/Documentation/translations/zh_TW/process/submit-checklist.rst
++++ b/Documentation/translations/zh_TW/process/submit-checklist.rst
+@@ -31,7 +31,7 @@ Linux內核補丁提交檢查單
+ 
+    c) 使用 ``O=builddir`` 時可以成功編譯
+ 
+-   d) 任何 Doucmentation/ 下的變更都能成功構建且不引入新警告/錯誤。
++   d) 任何 Documentation/ 下的變更都能成功構建且不引入新警告/錯誤。
+       用 ``make htmldocs`` 或 ``make pdfdocs`` 檢驗構建情況並修復問題。
+ 
+ 3) 通過使用本地交叉編譯工具或其他一些構建設施在多個CPU體系結構上構建。
+-- 
+2.34.1
 
-Your reply to my last review only talked about part of my comments,
-which is usually what you do when you're gonna implement the rest, but
-you haven't.
-I like the change you've made to shorten looping, but I'd at least like
-a response to why a split is not worth doing :)
-
-Thanks,
-Conor.
-
->=20
-> Signed-off-by: Cl=E9ment L=E9ger <cleger@rivosinc.com>
-> ---
->  arch/riscv/include/asm/cpufeature.h |   1 +
->  arch/riscv/kernel/cpufeature.c      | 211 ++++++++++++++++------------
->  2 files changed, 126 insertions(+), 86 deletions(-)
->=20
-> diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm=
-/cpufeature.h
-> index 347805446151..000796c2d0b1 100644
-> --- a/arch/riscv/include/asm/cpufeature.h
-> +++ b/arch/riscv/include/asm/cpufeature.h
-> @@ -70,6 +70,7 @@ struct riscv_isa_ext_data {
->  	const char *property;
->  	const unsigned int *subset_ext_ids;
->  	const unsigned int subset_ext_size;
-> +	int (*validate)(const struct riscv_isa_ext_data *data, const unsigned l=
-ong *isa_bitmap);
->  };
-> =20
->  extern const struct riscv_isa_ext_data riscv_isa_ext[];
-> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
-e.c
-> index 115ba001f1bc..cb2ffa6c8c33 100644
-> --- a/arch/riscv/kernel/cpufeature.c
-> +++ b/arch/riscv/kernel/cpufeature.c
-> @@ -72,51 +72,58 @@ bool __riscv_isa_extension_available(const unsigned l=
-ong *isa_bitmap, unsigned i
->  }
->  EXPORT_SYMBOL_GPL(__riscv_isa_extension_available);
-> =20
-> -static bool riscv_isa_extension_check(int id)
-> +static bool riscv_isa_extension_valid(int id)
->  {
-> -	switch (id) {
-> -	case RISCV_ISA_EXT_ZICBOM:
-> -		if (!riscv_cbom_block_size) {
-> -			pr_err("Zicbom detected in ISA string, disabling as no cbom-block-siz=
-e found\n");
-> -			return false;
-> -		} else if (!is_power_of_2(riscv_cbom_block_size)) {
-> -			pr_err("Zicbom disabled as cbom-block-size present, but is not a powe=
-r-of-2\n");
-> -			return false;
-> -		}
-> -		return true;
-> -	case RISCV_ISA_EXT_ZICBOZ:
-> -		if (!riscv_cboz_block_size) {
-> -			pr_err("Zicboz detected in ISA string, disabling as no cboz-block-siz=
-e found\n");
-> -			return false;
-> -		} else if (!is_power_of_2(riscv_cboz_block_size)) {
-> -			pr_err("Zicboz disabled as cboz-block-size present, but is not a powe=
-r-of-2\n");
-> -			return false;
-> -		}
-> -		return true;
-> -	case RISCV_ISA_EXT_INVALID:
-> -		return false;
-> +	return id !=3D RISCV_ISA_EXT_INVALID;
-> +}
-> +
-> +static int riscv_ext_zicbom_validate(const struct riscv_isa_ext_data *da=
-ta,
-> +				     const unsigned long *isa_bitmap)
-> +{
-> +	if (!riscv_cbom_block_size) {
-> +		pr_err("Zicbom detected in ISA string, disabling as no cbom-block-size=
- found\n");
-> +		return -EINVAL;
-> +	} else if (!is_power_of_2(riscv_cbom_block_size)) {
-> +		pr_err("Zicbom disabled as cbom-block-size present, but is not a power=
--of-2\n");
-> +		return -EINVAL;
->  	}
-> +	return 0;
-> +}
-> =20
-> -	return true;
-> +static int riscv_ext_zicboz_validate(const struct riscv_isa_ext_data *da=
-ta,
-> +				     const unsigned long *isa_bitmap)
-> +{
-> +	if (!riscv_cboz_block_size) {
-> +		pr_err("Zicboz detected in ISA string, disabling as no cboz-block-size=
- found\n");
-> +		return -EINVAL;
-> +	} else if (!is_power_of_2(riscv_cboz_block_size)) {
-> +		pr_err("Zicboz disabled as cboz-block-size present, but is not a power=
--of-2\n");
-> +		return -EINVAL;
-> +	}
-> +	return 0;
->  }
-> =20
-> -#define _RISCV_ISA_EXT_DATA(_name, _id, _subset_exts, _subset_exts_size)=
- {	\
-> -	.name =3D #_name,								\
-> -	.property =3D #_name,							\
-> -	.id =3D _id,								\
-> -	.subset_ext_ids =3D _subset_exts,						\
-> -	.subset_ext_size =3D _subset_exts_size					\
-> +#define _RISCV_ISA_EXT_DATA(_name, _id, _subset_exts, _subset_exts_size,=
- _validate) {	\
-> +	.name =3D #_name,									\
-> +	.property =3D #_name,								\
-> +	.id =3D _id,									\
-> +	.subset_ext_ids =3D _subset_exts,							\
-> +	.subset_ext_size =3D _subset_exts_size,						\
-> +	.validate =3D _validate								\
->  }
-> =20
-> -#define __RISCV_ISA_EXT_DATA(_name, _id) _RISCV_ISA_EXT_DATA(_name, _id,=
- NULL, 0)
-> +#define __RISCV_ISA_EXT_DATA(_name, _id) _RISCV_ISA_EXT_DATA(_name, _id,=
- NULL, 0, NULL)
-> =20
->  /* Used to declare pure "lasso" extension (Zk for instance) */
->  #define __RISCV_ISA_EXT_BUNDLE(_name, _bundled_exts) \
-> -	_RISCV_ISA_EXT_DATA(_name, RISCV_ISA_EXT_INVALID, _bundled_exts, ARRAY_=
-SIZE(_bundled_exts))
-> +	_RISCV_ISA_EXT_DATA(_name, RISCV_ISA_EXT_INVALID, _bundled_exts, \
-> +			    ARRAY_SIZE(_bundled_exts), NULL)
-> =20
->  /* Used to declare extensions that are a superset of other extensions (Z=
-vbb for instance) */
->  #define __RISCV_ISA_EXT_SUPERSET(_name, _id, _sub_exts) \
-> -	_RISCV_ISA_EXT_DATA(_name, _id, _sub_exts, ARRAY_SIZE(_sub_exts))
-> +	_RISCV_ISA_EXT_DATA(_name, _id, _sub_exts, ARRAY_SIZE(_sub_exts), NULL)
-> +#define __RISCV_ISA_EXT_SUPERSET_VALIDATE(_name, _id, _sub_exts, _valida=
-te) \
-> +	_RISCV_ISA_EXT_DATA(_name, _id, _sub_exts, ARRAY_SIZE(_sub_exts), _vali=
-date)
-> =20
->  static const unsigned int riscv_zk_bundled_exts[] =3D {
->  	RISCV_ISA_EXT_ZBKB,
-> @@ -247,8 +254,10 @@ const struct riscv_isa_ext_data riscv_isa_ext[] =3D {
->  	__RISCV_ISA_EXT_DATA(c, RISCV_ISA_EXT_c),
->  	__RISCV_ISA_EXT_DATA(v, RISCV_ISA_EXT_v),
->  	__RISCV_ISA_EXT_DATA(h, RISCV_ISA_EXT_h),
-> -	__RISCV_ISA_EXT_SUPERSET(zicbom, RISCV_ISA_EXT_ZICBOM, riscv_xlinuxenvc=
-fg_exts),
-> -	__RISCV_ISA_EXT_SUPERSET(zicboz, RISCV_ISA_EXT_ZICBOZ, riscv_xlinuxenvc=
-fg_exts),
-> +	__RISCV_ISA_EXT_SUPERSET_VALIDATE(zicbom, RISCV_ISA_EXT_ZICBOM, riscv_x=
-linuxenvcfg_exts,
-> +					  riscv_ext_zicbom_validate),
-> +	__RISCV_ISA_EXT_SUPERSET_VALIDATE(zicboz, RISCV_ISA_EXT_ZICBOZ, riscv_x=
-linuxenvcfg_exts,
-> +					  riscv_ext_zicboz_validate),
->  	__RISCV_ISA_EXT_DATA(zicntr, RISCV_ISA_EXT_ZICNTR),
->  	__RISCV_ISA_EXT_DATA(zicond, RISCV_ISA_EXT_ZICOND),
->  	__RISCV_ISA_EXT_DATA(zicsr, RISCV_ISA_EXT_ZICSR),
-> @@ -310,33 +319,80 @@ const struct riscv_isa_ext_data riscv_isa_ext[] =3D=
- {
-> =20
->  const size_t riscv_isa_ext_count =3D ARRAY_SIZE(riscv_isa_ext);
-> =20
-> -static void __init match_isa_ext(const struct riscv_isa_ext_data *ext, c=
-onst char *name,
-> -				 const char *name_end, struct riscv_isainfo *isainfo)
-> +static void riscv_isa_set_ext(const struct riscv_isa_ext_data *ext, unsi=
-gned long *bitmap)
->  {
-> -	if ((name_end - name =3D=3D strlen(ext->name)) &&
-> -	     !strncasecmp(name, ext->name, name_end - name)) {
-> -		/*
-> -		 * If this is a bundle, enable all the ISA extensions that
-> -		 * comprise the bundle.
-> -		 */
-> -		if (ext->subset_ext_size) {
-> -			for (int i =3D 0; i < ext->subset_ext_size; i++) {
-> -				if (riscv_isa_extension_check(ext->subset_ext_ids[i]))
-> -					set_bit(ext->subset_ext_ids[i], isainfo->isa);
-> -			}
-> +	/*
-> +	 * This is valid even for bundle extensions which uses the RISCV_ISA_EX=
-T_INVALID id
-> +	 * (rejected by riscv_isa_extension_valid()).
-> +	 */
-> +	if (riscv_isa_extension_valid(ext->id))
-> +		set_bit(ext->id, bitmap);
-> +
-> +	for (int i =3D 0; i < ext->subset_ext_size; i++) {
-> +		if (riscv_isa_extension_valid(ext->subset_ext_ids[i]))
-> +			set_bit(ext->subset_ext_ids[i], bitmap);
-> +	}
-> +}
-> +
-> +static void __init riscv_resolve_isa(unsigned long *isa_bitmap, struct r=
-iscv_isainfo *isainfo,
-> +				     unsigned long *this_hwcap, unsigned long *isa2hwcap)
-> +{
-> +	bool loop;
-> +	const struct riscv_isa_ext_data *ext;
-> +	DECLARE_BITMAP(prev_bitmap, RISCV_ISA_EXT_MAX);
-> +	int max_loop_count =3D riscv_isa_ext_count, ret;
-> +
-> +	do {
-> +		loop =3D false;
-> +		if (max_loop_count-- < 0) {
-> +			pr_err("Failed to reach a stable ISA state\n");
-> +			return;
->  		}
-> +		memcpy(prev_bitmap, isainfo->isa, sizeof(prev_bitmap));
-> +		for (int i =3D 0; i < riscv_isa_ext_count; i++) {
-> +			ext =3D &riscv_isa_ext[i];
-> +
-> +			/* Bundle extensions ids are invalid*/
-> +			if (!riscv_isa_extension_valid(ext->id))
-> +				continue;
-> +
-> +			if (!test_bit(ext->id, isa_bitmap) || test_bit(ext->id, isainfo->isa))
-> +				continue;
-> +
-> +			if (ext->validate) {
-> +				ret =3D ext->validate(ext, isainfo->isa);
-> +				if (ret) {
-> +					if (ret =3D=3D -EPROBE_DEFER)
-> +						loop =3D true;
-> +					else
-> +						clear_bit(ext->id, isa_bitmap);
-> +					continue;
-> +				}
-> +			}
-> =20
-> -		/*
-> -		 * This is valid even for bundle extensions which uses the RISCV_ISA_E=
-XT_INVALID id
-> -		 * (rejected by riscv_isa_extension_check()).
-> -		 */
-> -		if (riscv_isa_extension_check(ext->id))
->  			set_bit(ext->id, isainfo->isa);
-> +
-> +			/* Only single letter extensions get set in hwcap */
-> +			if (ext->id < RISCV_ISA_EXT_BASE)
-> +				*this_hwcap |=3D isa2hwcap[ext->id];
-> +		}
-> +	} while (loop && memcmp(prev_bitmap, isainfo->isa, sizeof(prev_bitmap))=
-);
-> +}
-> +
-> +static void __init match_isa_ext(const char *name, const char *name_end,=
- unsigned long *bitmap)
-> +{
-> +	for (int i =3D 0; i < riscv_isa_ext_count; i++) {
-> +		const struct riscv_isa_ext_data *ext =3D &riscv_isa_ext[i];
-> +
-> +		if ((name_end - name =3D=3D strlen(ext->name)) &&
-> +		    !strncasecmp(name, ext->name, name_end - name)) {
-> +			riscv_isa_set_ext(ext, bitmap);
-> +			break;
-> +		}
->  	}
->  }
-> =20
-> -static void __init riscv_parse_isa_string(unsigned long *this_hwcap, str=
-uct riscv_isainfo *isainfo,
-> -					  unsigned long *isa2hwcap, const char *isa)
-> +static void __init riscv_resolve_isa_string(const char *isa, unsigned lo=
-ng *bitmap)
->  {
->  	/*
->  	 * For all possible cpus, we have already validated in
-> @@ -349,7 +405,7 @@ static void __init riscv_parse_isa_string(unsigned lo=
-ng *this_hwcap, struct risc
->  	while (*isa) {
->  		const char *ext =3D isa++;
->  		const char *ext_end =3D isa;
-> -		bool ext_long =3D false, ext_err =3D false;
-> +		bool ext_err =3D false;
-> =20
->  		switch (*ext) {
->  		case 's':
-> @@ -389,7 +445,6 @@ static void __init riscv_parse_isa_string(unsigned lo=
-ng *this_hwcap, struct risc
->  			 * character itself while eliminating the extensions version number.
->  			 * A simple re-increment solves this problem.
->  			 */
-> -			ext_long =3D true;
->  			for (; *isa && *isa !=3D '_'; ++isa)
->  				if (unlikely(!isalnum(*isa)))
->  					ext_err =3D true;
-> @@ -469,17 +524,8 @@ static void __init riscv_parse_isa_string(unsigned l=
-ong *this_hwcap, struct risc
-> =20
->  		if (unlikely(ext_err))
->  			continue;
-> -		if (!ext_long) {
-> -			int nr =3D tolower(*ext) - 'a';
-> =20
-> -			if (riscv_isa_extension_check(nr)) {
-> -				*this_hwcap |=3D isa2hwcap[nr];
-> -				set_bit(nr, isainfo->isa);
-> -			}
-> -		} else {
-> -			for (int i =3D 0; i < riscv_isa_ext_count; i++)
-> -				match_isa_ext(&riscv_isa_ext[i], ext, ext_end, isainfo);
-> -		}
-> +		match_isa_ext(ext, ext_end, bitmap);
->  	}
->  }
-> =20
-> @@ -501,6 +547,7 @@ static void __init riscv_fill_hwcap_from_isa_string(u=
-nsigned long *isa2hwcap)
->  	for_each_possible_cpu(cpu) {
->  		struct riscv_isainfo *isainfo =3D &hart_isa[cpu];
->  		unsigned long this_hwcap =3D 0;
-> +		DECLARE_BITMAP(isa_bitmap, RISCV_ISA_EXT_MAX) =3D { 0 };
-> =20
->  		if (acpi_disabled) {
->  			node =3D of_cpu_device_node_get(cpu);
-> @@ -523,7 +570,7 @@ static void __init riscv_fill_hwcap_from_isa_string(u=
-nsigned long *isa2hwcap)
->  			}
->  		}
-> =20
-> -		riscv_parse_isa_string(&this_hwcap, isainfo, isa2hwcap, isa);
-> +		riscv_resolve_isa_string(isa, isa_bitmap);
-> =20
->  		/*
->  		 * These ones were as they were part of the base ISA when the
-> @@ -531,10 +578,10 @@ static void __init riscv_fill_hwcap_from_isa_string=
-(unsigned long *isa2hwcap)
->  		 * unconditionally where `i` is in riscv,isa on DT systems.
->  		 */
->  		if (acpi_disabled) {
-> -			set_bit(RISCV_ISA_EXT_ZICSR, isainfo->isa);
-> -			set_bit(RISCV_ISA_EXT_ZIFENCEI, isainfo->isa);
-> -			set_bit(RISCV_ISA_EXT_ZICNTR, isainfo->isa);
-> -			set_bit(RISCV_ISA_EXT_ZIHPM, isainfo->isa);
-> +			set_bit(RISCV_ISA_EXT_ZICSR, isa_bitmap);
-> +			set_bit(RISCV_ISA_EXT_ZIFENCEI, isa_bitmap);
-> +			set_bit(RISCV_ISA_EXT_ZICNTR, isa_bitmap);
-> +			set_bit(RISCV_ISA_EXT_ZIHPM, isa_bitmap);
->  		}
-> =20
->  		/*
-> @@ -548,9 +595,11 @@ static void __init riscv_fill_hwcap_from_isa_string(=
-unsigned long *isa2hwcap)
->  		if (acpi_disabled && riscv_cached_mvendorid(cpu) =3D=3D THEAD_VENDOR_I=
-D &&
->  		    riscv_cached_marchid(cpu) =3D=3D 0x0) {
->  			this_hwcap &=3D ~isa2hwcap[RISCV_ISA_EXT_v];
-> -			clear_bit(RISCV_ISA_EXT_v, isainfo->isa);
-> +			clear_bit(RISCV_ISA_EXT_v, isa_bitmap);
->  		}
-> =20
-> +		riscv_resolve_isa(isa_bitmap, isainfo, &this_hwcap, isa2hwcap);
-> +
->  		/*
->  		 * All "okay" hart should have same isa. Set HWCAP based on
->  		 * common capabilities of every "okay" hart, in case they don't
-> @@ -579,6 +628,7 @@ static int __init riscv_fill_hwcap_from_ext_list(unsi=
-gned long *isa2hwcap)
->  		unsigned long this_hwcap =3D 0;
->  		struct device_node *cpu_node;
->  		struct riscv_isainfo *isainfo =3D &hart_isa[cpu];
-> +		DECLARE_BITMAP(isa_bitmap, RISCV_ISA_EXT_MAX) =3D { 0 };
-> =20
->  		cpu_node =3D of_cpu_device_node_get(cpu);
->  		if (!cpu_node) {
-> @@ -598,22 +648,11 @@ static int __init riscv_fill_hwcap_from_ext_list(un=
-signed long *isa2hwcap)
->  						     ext->property) < 0)
->  				continue;
-> =20
-> -			if (ext->subset_ext_size) {
-> -				for (int j =3D 0; j < ext->subset_ext_size; j++) {
-> -					if (riscv_isa_extension_check(ext->subset_ext_ids[i]))
-> -						set_bit(ext->subset_ext_ids[j], isainfo->isa);
-> -				}
-> -			}
-> -
-> -			if (riscv_isa_extension_check(ext->id)) {
-> -				set_bit(ext->id, isainfo->isa);
-> -
-> -				/* Only single letter extensions get set in hwcap */
-> -				if (strnlen(riscv_isa_ext[i].name, 2) =3D=3D 1)
-> -					this_hwcap |=3D isa2hwcap[riscv_isa_ext[i].id];
-> -			}
-> +			riscv_isa_set_ext(ext, isa_bitmap);
->  		}
-> =20
-> +		riscv_resolve_isa(isa_bitmap, isainfo, &this_hwcap, isa2hwcap);
-> +
->  		of_node_put(cpu_node);
-> =20
->  		/*
-> --=20
-> 2.43.0
->=20
-
---gd7/nk5BpVfZAZKi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZjAcGwAKCRB4tDGHoIJi
-0pT4AP4kpeAwM643hQaOreeufIP87GLfG2CZSm6TigSWmM7XiQEAj71baUpHBbbR
-Wd/42Ew6FGbxhqzfsiMcqhUbQeJTgwk=
-=qQwN
------END PGP SIGNATURE-----
-
---gd7/nk5BpVfZAZKi--
