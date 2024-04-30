@@ -1,1250 +1,1179 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8257245030;
-	Tue, 30 Apr 2024 08:07:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FE6E4652F
+	for <linux-doc@vger.kernel.org>; Tue, 30 Apr 2024 08:14:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714464423; cv=none; b=Pzr5ywgt6JuLS3T+1kQW8bt08OMB9wKgI6hkH3utD8ImE1eZlq8j+EwufiOlmCY39G6FCIevWYFqlgJ8zbZUBJBEZP5SJW0kh41OPVFOoghAlI4Wc3C6JbAvOVbEihaOhf49xZwVf1M2JpJlmtTaG/vTmODEsjFCPFdTU6xiyNU=
+	t=1714464892; cv=none; b=CNU2InknrhdvRnlcYRmcTqwrEMik2YZiO1vl+ljUVYezcpqA4pb8uFZiOb50dpBH8DD2CSJINWiGAaTPXnzapCbIkqaoVYkAN+vUugvQd2nnxSbQnfI8NTV2MXP7hql1hKHbAQZ1ZIfZ+y2OZUaIKX5i//OxHqFtGmsEAaIZpvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714464423; c=relaxed/simple;
-	bh=Osr7eFEucb5rOKuNzPfxNMn5ZpBN425PobQ7rVqTlEY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CTN6FUY4q6cv+z/vMSH0AvYGlOX2U5hPkunWkYGFlK889DG0FFFCnkD6w1u1nRqD76T3CVZdfnJc1/UUxlGTNqD9Y4wIyHlTE9U2TAzSAfHKiTRQdCKv6IMUQVM20HzAGZfrwle5RIN68LZxGmQGt1u65kNUNdTN5PR//RDlfgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=2NJdLHwk; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1714464892; c=relaxed/simple;
+	bh=GHhr+Kg8QPwb2S+8i6A+Ryl3yEbiJCM+EvH+Jz55j1w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eSIEf+r5L2plQCwmKOsxPqoNHbo1X+4xxxwJoeQgfEP+AopGmt0nYEZg2pGNUnykJ9WeMlXE0A85mNezPVjqzox+urIWLTpwezDxwbhm1cmNbt4cuajY6Ea7P+TGBQQFLiy9k0Nc69InovWm7JEKygQ+Y//IPkGah1SnKIGhtpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=gGPygzeD; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="2NJdLHwk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1714464418;
-	bh=Osr7eFEucb5rOKuNzPfxNMn5ZpBN425PobQ7rVqTlEY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=2NJdLHwkvUNNWPY9ys+b2DBlF/DDbReqj6ap9n8BoRHenxv7IIFNzSCrjL0MweFdi
-	 04nQrbossfIq29p4RzMeBrlh1WKXR4WA4T8/bn/f3jPXQj2tnaPu0JGZrPTpMZTE3z
-	 q5g3EscUoqmZHbqjp+r/q3ZxehczZGAUq6ZX2iSMIgklh6xO1eZbpbvD+Bzq3Oz0Kn
-	 FUZdZoP2KRZHP7A8RuIcuTTxuhmsZiEVy8hrRLAWP0yFs2BuqhK0RB6kPynmeu8ssj
-	 BOWMeXkzG/qdpVkMWactE9oi6nOSksMTf6fRH4Isw/qqOG4k3qcx6c7iYbW7CLM0Kj
-	 Yb7a1vbjzmqEg==
-Received: from [100.95.196.182] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: andrzej.p)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 05CEC37820F9;
-	Tue, 30 Apr 2024 08:06:57 +0000 (UTC)
-Message-ID: <fffb9372-7b25-450a-b466-51afe82ad126@collabora.com>
-Date: Tue, 30 Apr 2024 10:06:57 +0200
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="gGPygzeD"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-51d9d8c2c3dso361168e87.0
+        for <linux-doc@vger.kernel.org>; Tue, 30 Apr 2024 01:14:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1714464886; x=1715069686; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8kQTjfd0G9f9yj0lt8lg+AWljdbUaD8NKQmCiyCQ1as=;
+        b=gGPygzeDI4oveqxB6s02g4Go+LLN/xxZrqLSP3l67A8X1uoaw/rKQ6N8XUcgjxbpkJ
+         3he65NL9itHwGXN6mClXk0iKn4UroJhCdH3PBwKPxvhyq4iDhzjnxto1Ppq+WrYpNwWj
+         hNgR2h7PjstgMXj4xJufKTFbUIw6GseIGpoFw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714464886; x=1715069686;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8kQTjfd0G9f9yj0lt8lg+AWljdbUaD8NKQmCiyCQ1as=;
+        b=Af11nb7IQ0mbo2NhIEHs6WU/C/zJd/sdUYxH55GmrHncf10V51mgkvCQXQy91wyC5X
+         92DG92UMMlK4CM/t5OFKyBbmv2EJCinxkYHVY3Jb96xGxq7eJFTKyxiLgCBwFHyECM/j
+         DS8SDTl6ejn55yEUoj2bdho9UYuj7nbv8FAU+cHTo508iMTRZyXpWXNLfmDvxmH4JR90
+         IaLtkyNbv0KyF6Pr2hmhnCk8qgDOih464IzinatPtZQtE8Bwy3yICDbib0Brv8lXCIOT
+         m91d3i9fSRXQ7hIB5yhzbNMbHdxZszlAPEaoucxwQ9Pm8EooPFTCCBzQPpyuNWeg10OL
+         OLsg==
+X-Forwarded-Encrypted: i=1; AJvYcCXItRCAZz66N2qq9wL1bfMK+cSnnxvDW5FBzztV8xAWchsPYKcCtu1U60x3sclbNsZVnZuK6evEWENqp3lg8CKYqaCHm/CKgYag
+X-Gm-Message-State: AOJu0YxJJWY2G9dF6wyUAV/IQJ/LXpdz0Jl6t7IraBrMsDIxYT7MkR4Z
+	lLKfty75KVOgWf5lfWWcAUpH/p46UzWcoMElaXsGwIjCiNzAe4UbPPCe6l6tRdE=
+X-Google-Smtp-Source: AGHT+IG4cPfjyod8EVfhktT7F5OfLgjxYqZ9emNg1VAEjSFz38VBQtTVwJzjtXKw05dfyke2163IoA==
+X-Received: by 2002:a19:6916:0:b0:513:30fd:2991 with SMTP id e22-20020a196916000000b0051330fd2991mr7740434lfc.0.1714464886143;
+        Tue, 30 Apr 2024 01:14:46 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id bg5-20020a05600c3c8500b00419f419236fsm35696381wmb.41.2024.04.30.01.14.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Apr 2024 01:14:45 -0700 (PDT)
+Date: Tue, 30 Apr 2024 10:14:43 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Brandon Pollack <brpol@chromium.org>
+Cc: marius.vlad@collabora.com, mairacanal@riseup.net, jshargo@chromium.org,
+	hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com,
+	linux-doc@vger.kernel.org, hirono@chromium.org, corbet@lwn.net,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	melissa.srw@gmail.com, mduggan@chromium.org, mripard@kernel.org,
+	tzimmermann@suse.de
+Subject: Re: [PATCH v6 4/7] drm/vkms: Add ConfigFS scaffolding to VKMS
+Message-ID: <ZjCoc8tE_bP1Lqrt@phenom.ffwll.local>
+Mail-Followup-To: Brandon Pollack <brpol@chromium.org>,
+	marius.vlad@collabora.com, mairacanal@riseup.net,
+	jshargo@chromium.org, hamohammed.sa@gmail.com,
+	rodrigosiqueiramelo@gmail.com, linux-doc@vger.kernel.org,
+	hirono@chromium.org, corbet@lwn.net, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, melissa.srw@gmail.com,
+	mduggan@chromium.org, mripard@kernel.org, tzimmermann@suse.de
+References: <20230829053201.423261-1-brpol@chromium.org>
+ <20230829053201.423261-5-brpol@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] net/9p/usbg: Add new usb gadget function transport
-To: Michael Grzeschik <mgr@pengutronix.de>
-Cc: Eric Van Hensbergen <ericvh@kernel.org>,
- Latchesar Ionkov <lucho@ionkov.net>,
- Dominique Martinet <asmadeus@codewreck.org>,
- Christian Schoenebeck <linux_oss@crudebyte.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, v9fs@lists.linux.dev,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel@pengutronix.de, linux-doc@vger.kernel.org
-References: <20240116-ml-topic-u9p-v3-0-c62a36eccda1@pengutronix.de>
- <20240116-ml-topic-u9p-v3-2-c62a36eccda1@pengutronix.de>
- <915890fa-e763-470a-a82b-eda97c47c0c8@collabora.com>
- <ZjAueNMN8nSbsqvI@pengutronix.de>
-Content-Language: en-US
-From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-In-Reply-To: <ZjAueNMN8nSbsqvI@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230829053201.423261-5-brpol@chromium.org>
+X-Operating-System: Linux phenom 6.6.15-amd64 
 
-Hi Michael,
+On Tue, Aug 29, 2023 at 05:30:56AM +0000, Brandon Pollack wrote:
+> From: Jim Shargo <jshargo@chromium.org>
+> 
+> This change adds the basic scaffolding for ConfigFS, including setting
+> up the default directories. It does not allow for the registration of
+> configfs-backed devices, which is complex and provided in a follow-up
+> commit.
+> 
+> This CL includes docs about using ConfigFS with VKMS, but I'll summarize
+> in brief here as well (assuming ConfigFS is mounted at /config/):
+> 
+> To create a new device, you can do so via `mkdir
+> /config/vkms/my-device`.
+> 
+> This will create a number of directories and files automatically:
+> 
+> 	/config
+> 	`-- vkms
+> 	    `-- my-device
+> 		|-- connectors
+> 		|-- crtcs
+> 		|-- encoders
+> 		|-- planes
+> 		`-- enabled
+> 
+> You can then configure objects by mkdir'ing in each of the directories.
+> 
+> When you're satisfied, you can `echo 1 > /config/vkms/my-device/enabled`.
+> This will create a new device according to your configuration.
+> 
+> For now, this will fail, but the next change will add support for it.
+> 
+> Signed-off-by: Jim Shargo <jshargo@chromium.org>
+> Signed-off-by: Brandon Pollack <brpol@chromium.org>
 
-W dniu 30.04.2024 o 01:34, Michael Grzeschik pisze:
-> Hi Andrzej!
-> 
-> Based on your feedback I rolled out v4.
-> 
-> https://lore.kernel.org/r/20240116-ml-topic-u9p-v4-0-722ed28b0ade@pengutronix.de
+A bunch of comments on locking/lifetime issues below, they should apply
+irrespective of whether we'll go with a split setup code or use
+struct vkms_config for configfs too.
 
-Thanks. I will be able to have a look and try it next week. Should you not hear
-from me until 10 May I wouldn't mind being pinged afterwards.
+> ---
+>  Documentation/gpu/vkms.rst           |  18 +-
+>  drivers/gpu/drm/Kconfig              |   1 +
+>  drivers/gpu/drm/vkms/Makefile        |   1 +
+>  drivers/gpu/drm/vkms/vkms_configfs.c | 650 +++++++++++++++++++++++++++
+>  drivers/gpu/drm/vkms/vkms_drv.c      |  56 ++-
+>  drivers/gpu/drm/vkms/vkms_drv.h      |  92 +++-
+>  drivers/gpu/drm/vkms/vkms_output.c   |   5 +
+>  7 files changed, 806 insertions(+), 17 deletions(-)
+>  create mode 100644 drivers/gpu/drm/vkms/vkms_configfs.c
+> 
+> diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
+> index ba04ac7c2167..c3875bf66dba 100644
+> --- a/Documentation/gpu/vkms.rst
+> +++ b/Documentation/gpu/vkms.rst
+> @@ -51,6 +51,12 @@ To disable the driver, use ::
+>  
+>    sudo modprobe -r vkms
+>  
+> +Configuration With ConfigFS
+> +===========================
+> +
+> +.. kernel-doc:: drivers/gpu/drm/vkms/vkms_configfs.c
+> +   :doc: ConfigFS Support for VKMS
+> +
+>  Testing With IGT
+>  ================
+>  
+> @@ -135,22 +141,16 @@ project.
+>  Runtime Configuration
+>  ---------------------
+>  
+> -We want to be able to reconfigure vkms instance without having to reload the
+> -module. Use/Test-cases:
+> +We want to be able to manipulate vkms instances without having to reload the
+> +module. Such configuration can be added as extensions to vkms's ConfigFS
+> +support. Use-cases:
+>  
+>  - Hotplug/hotremove connectors on the fly (to be able to test DP MST handling
+>    of compositors).
+>  
+> -- Configure planes/crtcs/connectors (we'd need some code to have more than 1 of
+> -  them first).
+> -
+>  - Change output configuration: Plug/unplug screens, change EDID, allow changing
+>    the refresh rate.
+>  
+> -The currently proposed solution is to expose vkms configuration through
+> -configfs. All existing module options should be supported through configfs
+> -too.
+> -
+>  Writeback support
+>  -----------------
+>  
+> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+> index ab9ef1c20349..e39ee0e8ca06 100644
+> --- a/drivers/gpu/drm/Kconfig
+> +++ b/drivers/gpu/drm/Kconfig
+> @@ -284,6 +284,7 @@ config DRM_VKMS
+>  	depends on DRM && MMU
+>  	select DRM_KMS_HELPER
+>  	select DRM_GEM_SHMEM_HELPER
+> +	select CONFIGFS_FS
+>  	select CRC32
+>  	default n
+>  	help
+> diff --git a/drivers/gpu/drm/vkms/Makefile b/drivers/gpu/drm/vkms/Makefile
+> index 1b28a6a32948..6b83907ad554 100644
+> --- a/drivers/gpu/drm/vkms/Makefile
+> +++ b/drivers/gpu/drm/vkms/Makefile
+> @@ -1,5 +1,6 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  vkms-y := \
+> +	vkms_configfs.o \
+>  	vkms_drv.o \
+>  	vkms_plane.o \
+>  	vkms_output.o \
+> diff --git a/drivers/gpu/drm/vkms/vkms_configfs.c b/drivers/gpu/drm/vkms/vkms_configfs.c
+> new file mode 100644
+> index 000000000000..dae2e85d83a1
+> --- /dev/null
+> +++ b/drivers/gpu/drm/vkms/vkms_configfs.c
+> @@ -0,0 +1,650 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +
+> +#include <linux/configfs.h>
+> +#include <linux/mutex.h>
+> +#include <linux/platform_device.h>
+> +
+> +#include <drm/drm_plane.h>
+> +#include <drm/drm_print.h>
+> +
+> +#include "vkms_drv.h"
+> +
+> +/**
+> + * DOC: ConfigFS Support for VKMS
+> + *
+> + * VKMS is instrumented with support for configuration via :doc:`ConfigFS
+> + * <../filesystems/configfs>`.
+> + *
+> + * With VKMS installed, you can mount ConfigFS at ``/config/`` like so::
+> + *
+> + *   mkdir -p /config/
+> + *   sudo mount -t configfs none /config
+> + *
+> + * This allows you to configure multiple virtual devices. Note
+> + * that the default device which can be enabled in the module params with::
+> + *
+> + *  modprobe vkms default_device=1
+> + *
+> + * is immutable because we cannot pre-populate ConfigFS directories with normal
+> + * files.
+> + *
+> + * To set up a new device, create a new directory under the VKMS configfs
+> + * directory::
+> + *
+> + *   mkdir /config/vkms/test
+> + *
+> + * With your device created you'll find an new directory ready to be
+> + * configured::
+> + *
+> + *   /config
+> + *   `-- vkms
+> + *       `-- test
+> + *           |-- connectors
+> + *           |-- crtcs
+> + *           |-- encoders
+> + *           |-- planes
+> + *           `-- enabled
+> + *
+> + * Each directory you add within the connectors, crtcs, encoders, and planes
+> + * directories will let you configure a new object of that type. Adding new
+> + * objects will automatically create a set of default files and folders you can
+> + * use to configure that object.
+> + *
+> + * For instance, we can set up a two-output device like so::
+> + *
+> + *   DRM_PLANE_TYPE_PRIMARY=1
+> + *   DRM_PLANE_TYPE_CURSOR=2
+> + *   DRM_PLANE_TYPE_OVERLAY=0
+> + *
+> + *   mkdir /config/vkms/test/planes/primary
+> + *   echo $DRM_PLANE_TYPE_PRIMARY > /config/vkms/test/planes/primary/type
+> + *
+> + *   mkdir /config/vkms/test/planes/other_primary
+> + *   echo $DRM_PLANE_TYPE_PRIMARY > /config/vkms/test/planes/other_primary/type
+> + *
+> + *   mkdir /config/vkms/test/crtcs/crtc
+> + *   mkdir /config/vkms/test/crtcs/crtc_other
+> + *
+> + *   mkdir /config/vkms/test/encoders/encoder
+> + *   mkdir /config/vkms/test/encoders/encoder_other
+> + *
+> + *   mkdir /config/vkms/test/connectors/connector
+> + *   mkdir /config/vkms/test/connectors/connector_other
+> + *
+> + * You can see that specific attributes, such as ``.../<plane>/type``, can be
+> + * configured by writing into them. Associating objects together can be done via
+> + * symlinks::
+> + *
+> + *   ln -s /config/vkms/test/encoders/encoder       /config/vkms/test/connectors/connector/possible_encoders
+> + *   ln -s /config/vkms/test/encoders/encoder_other /config/vkms/test/connectors/connector_other/possible_encoders
+> + *
+> + *   ln -s /config/vkms/test/crtcs/crtc             /config/vkms/test/planes/primary/possible_crtcs/
+> + *   ln -s /config/vkms/test/crtcs/crtc_other       /config/vkms/test/planes/other_primary/possible_crtcs/
+> + *
+> + *   ln -s /config/vkms/test/crtcs/crtc             /config/vkms/test/encoders/encoder/possible_crtcs/
+> + *   ln -s /config/vkms/test/crtcs/crtc_other       /config/vkms/test/encoders/encoder_other/possible_crtcs/
+> + *
+> + * Finally, to enable your configured device, just write 1 to the ``enabled``
+> + * file::
+> + *
+> + *   echo 1 > /config/vkms/test/enabled
+> + *
+> + * When you're done with the virtual device, you can clean up the device like
+> + * so::
+> + *
+> + *   echo 0 > /config/vkms/test/enabled
 
-Regards,
+So I'm not sure whether this is a bright idea, because it makes the
+lifetim fun even more fun. I think a cleaner approach would be if we only
+allow enabled to change once from 0 to 1, and once that's happened the
+only way to remove the driver/device is by deleting the entire configfs
+instance directory. You pretty much have that code here already.
 
-Andrzej
+> + *
+> + *   rm /config/vkms/test/connectors/connector/possible_encoders/encoder
+> + *   rm /config/vkms/test/encoders/encoder/possible_crtcs/crtc
+> + *   rm /config/vkms/test/planes/primary/possible_crtcs/crtc
+> + *   rm /config/vkms/test/planes/cursor/possible_crtcs/crtc
+> + *   rm /config/vkms/test/planes/overlay/possible_crtcs/crtc
+> + *   rm /config/vkms/test/planes/overlay/possible_crtcs/crtc_other
+> + *   rm /config/vkms/test/planes/other_primary/possible_crtcs/crtc_other
+> + *
+> + *   rmdir /config/vkms/test/planes/primary
+> + *   rmdir /config/vkms/test/planes/other_primary
+> + *   rmdir /config/vkms/test/planes/cursor
+> + *   rmdir /config/vkms/test/planes/overlay
+> + *   rmdir /config/vkms/test/crtcs/crtc
+> + *   rmdir /config/vkms/test/crtcs/crtc_other
+> + *   rmdir /config/vkms/test/encoders/encoder
+> + *   rmdir /config/vkms/test/encoders/encoder_other
+> + *   rmdir /config/vkms/test/connectors/connector
+> + *   rmdir /config/vkms/test/connectors/connector_other
+> + *
+> + *   rmdir /config/vkms/test
+> + */
+> +
+> +/*
+> + * Common helpers (i.e. common sub-groups)
+> + */
+> +
+> +/* Possible CRTCs, e.g. /config/vkms/device/<object>/possible_crtcs/<symlink> */
+> +
+> +static struct config_item_type crtc_type;
+> +
+> +static int possible_crtcs_allow_link(struct config_item *src,
+> +				     struct config_item *target)
+> +{
+> +	struct vkms_config_links *links = item_to_config_links(src);
+> +	struct vkms_config_crtc *crtc;
+> +
+> +	if (target->ci_type != &crtc_type) {
+> +		DRM_ERROR("Unable to link non-CRTCs.\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	crtc = item_to_config_crtc(target);
+> +
+> +	if (links->linked_object_bitmap & BIT(crtc->crtc_config_idx)) {
+> +		DRM_ERROR(
+> +			"Tried to add two symlinks to the same CRTC from the same object\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	links->linked_object_bitmap |= BIT(crtc->crtc_config_idx);
+> +
+> +	return 0;
+> +}
+> +
+> +static void possible_crtcs_drop_link(struct config_item *src,
+> +				     struct config_item *target)
+> +{
+> +	struct vkms_config_links *links = item_to_config_links(src);
+> +	struct vkms_config_crtc *crtc = item_to_config_crtc(target);
+> +
+> +	links->linked_object_bitmap &= ~BIT(crtc->crtc_config_idx);
+> +}
+> +
+> +static struct configfs_item_operations possible_crtcs_item_ops = {
+> +	.allow_link = &possible_crtcs_allow_link,
+> +	.drop_link = &possible_crtcs_drop_link,
+> +};
+> +
+> +static struct config_item_type possible_crtcs_group_type = {
+> +	.ct_item_ops = &possible_crtcs_item_ops,
+> +	.ct_owner = THIS_MODULE,
+> +};
+> +
+> +static void add_possible_crtcs(struct config_group *parent,
+> +			       struct config_group *possible_crtcs)
+> +{
+> +	config_group_init_type_name(possible_crtcs, "possible_crtcs",
+> +				    &possible_crtcs_group_type);
+> +	configfs_add_default_group(possible_crtcs, parent);
+> +}
+> +
+> +/* Possible encoders, e.g. /config/vkms/device/connector/possible_encoders/<symlink> */
+> +
+> +static struct config_item_type encoder_type;
+> +
+> +static int possible_encoders_allow_link(struct config_item *src,
+> +					struct config_item *target)
+> +{
+> +	struct vkms_config_links *links = item_to_config_links(src);
+> +	struct vkms_config_encoder *encoder;
+> +
+> +	if (target->ci_type != &encoder_type) {
+> +		DRM_ERROR("Unable to link non-encoders.\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	encoder = item_to_config_encoder(target);
+> +
+> +	if (links->linked_object_bitmap & BIT(encoder->encoder_config_idx)) {
+> +		DRM_ERROR(
+> +			"Tried to add two symlinks to the same encoder from the same object\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	links->linked_object_bitmap |= BIT(encoder->encoder_config_idx);
+> +
+> +	return 0;
+> +}
+> +
+> +static void possible_encoders_drop_link(struct config_item *src,
+> +					struct config_item *target)
+> +{
+> +	struct vkms_config_links *links = item_to_config_links(src);
+> +	struct vkms_config_encoder *encoder = item_to_config_encoder(target);
+> +
+> +	links->linked_object_bitmap &= ~BIT(encoder->encoder_config_idx);
+> +}
+> +
+> +static struct configfs_item_operations possible_encoders_item_ops = {
+> +	.allow_link = &possible_encoders_allow_link,
+> +	.drop_link = &possible_encoders_drop_link,
+> +};
+> +
+> +static struct config_item_type possible_encoders_group_type = {
+> +	.ct_item_ops = &possible_encoders_item_ops,
+> +	.ct_owner = THIS_MODULE,
+> +};
+> +
+> +static void add_possible_encoders(struct config_group *parent,
+> +				  struct config_group *possible_encoders)
+> +{
+> +	config_group_init_type_name(possible_encoders, "possible_encoders",
+> +				    &possible_encoders_group_type);
+> +	configfs_add_default_group(possible_encoders, parent);
+> +}
+> +
+> +/*
+> + * Individual objects (connectors, crtcs, encoders, planes):
+> + */
+> +
+> +/*  Connector item, e.g. /config/vkms/device/connectors/ID */
+> +
+> +static struct config_item_type connector_type = {
+> +	.ct_owner = THIS_MODULE,
+> +};
+> +
+> +/*  Crtc item, e.g. /config/vkms/device/crtcs/ID */
+> +
+> +static struct config_item_type crtc_type = {
+> +	.ct_owner = THIS_MODULE,
+> +};
+> +
+> +/*  Encoder item, e.g. /config/vkms/device/encoder/ID */
+> +
+> +static struct config_item_type encoder_type = {
+> +	.ct_owner = THIS_MODULE,
+> +};
+> +
+> +/*  Plane item, e.g. /config/vkms/device/planes/ID */
+> +
+> +static ssize_t plane_type_show(struct config_item *item, char *buf)
+> +{
+> +	struct vkms_config_plane *plane = item_to_config_plane(item);
+> +	struct vkms_configfs *configfs = plane_item_to_configfs(item);
+> +	enum drm_plane_type plane_type;
+> +
+> +	mutex_lock(&configfs->lock);
+> +	plane_type = plane->type;
+> +	mutex_unlock(&configfs->lock);
+> +
+> +	return sprintf(buf, "%u", plane_type);
+> +}
+> +
+> +static ssize_t plane_type_store(struct config_item *item, const char *buf,
+> +				size_t len)
+> +{
+> +	struct vkms_config_plane *plane = item_to_config_plane(item);
+> +	struct vkms_configfs *configfs = plane_item_to_configfs(item);
+> +	int val, ret;
+> +
+> +	ret = kstrtouint(buf, 10, &val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (val != DRM_PLANE_TYPE_PRIMARY && val != DRM_PLANE_TYPE_CURSOR &&
+> +	    val != DRM_PLANE_TYPE_OVERLAY)
+> +		return -EINVAL;
+> +
+> +	mutex_lock(&configfs->lock);
+> +	plane->type = val;
+> +	mutex_unlock(&configfs->lock);
+> +
+> +	return len;
+> +}
+> +
+> +CONFIGFS_ATTR(plane_, type);
+> +
+> +static struct configfs_attribute *plane_attrs[] = {
+> +	&plane_attr_type,
+> +	NULL,
+> +};
+> +
+> +static struct config_item_type plane_type = {
+> +	.ct_attrs = plane_attrs,
+> +	.ct_owner = THIS_MODULE,
+> +};
+> +
+> +/*
+> + * Directory groups, e.g. /config/vkms/device/{planes, crtcs, ...}
+> + */
+> +
+> +/* Connectors group: /config/vkms/device/connectors/ */
+> +
+> +static struct config_group *connectors_group_make(struct config_group *group,
+> +						  const char *name)
+> +{
+> +	struct vkms_config_connector *connector =
+> +		kzalloc(sizeof(*connector), GFP_KERNEL);
+> +	if (!connector)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	config_group_init_type_name(&connector->config_group, name,
+> +				    &connector_type);
+> +	add_possible_encoders(&connector->config_group,
+> +			      &connector->possible_encoders.group);
+> +
+> +	return &connector->config_group;
+> +}
+> +
+> +static void connectors_group_drop(struct config_group *group,
+> +				  struct config_item *item)
+> +{
+> +	struct vkms_config_connector *connector =
+> +		item_to_config_connector(item);
+> +	kfree(connector);
+> +}
+> +
+> +static struct configfs_group_operations connectors_group_ops = {
+> +	.make_group = &connectors_group_make,
+> +	.drop_item = &connectors_group_drop,
+> +};
+> +
+> +static struct config_item_type connectors_group_type = {
+> +	.ct_group_ops = &connectors_group_ops,
+> +	.ct_owner = THIS_MODULE,
+> +};
+> +
+> +/* CRTCs group: /config/vkms/device/crtcs/ */
+> +
+> +static struct config_group *crtcs_group_make(struct config_group *group,
+> +					     const char *name)
+> +{
+> +	struct vkms_configfs *configfs =
+> +		container_of(group, struct vkms_configfs, crtcs_group);
+> +	unsigned long next_idx;
+> +	struct vkms_config_crtc *crtc;
+> +
+> +	mutex_lock(&configfs->lock);
+> +
+> +	next_idx = find_first_zero_bit(&configfs->allocated_crtcs,
+> +				       VKMS_MAX_OUTPUT_OBJECTS);
 
-> 
-> On Wed, Mar 06, 2024 at 04:18:54PM +0100, Andrzej Pietrasiewicz wrote:
->> W dniu 26.02.2024 o 14:56, Michael Grzeschik pisze:
->>> Add the new gadget function for 9pfs transport. This function is
->>> defining an simple 9pfs transport interface that consists of one in and
->>> one out endpoint. The endpoints transmit and receive the 9pfs protocol
->>> payload when mounting a 9p filesystem over usb.
->>
->> Reading the earlier discussions on v1 and v2 I was somehow under the impression
->> that what you submitted here does not contain configfs support.
->>
->> But once I started reading the code I realized it does.
->>
->> It worked for me, both as a legacy gadget and when composed with configfs.
->>
->> I noticed that when you stop the forwarder at the host side when 9pfs remains
->> mounted at the gadget side, umount hangs at the gadget side until the forwarder
->> is restarted. I know that once the host-side software dies, not much can be
->> done, however, unmounting a dead filesystem seems a reasonable thing to do
->> and the way usb9pfs worked for me it is not possible to unmount in this
->> situation. Any ideas on improving this?
-> 
-> As Dominique suggested I implemented conn_cancel to ensure the
-> connection to be removed on the gadget side. Regarding the stopped
-> correspondence from the host-side, there is not much we can do.
-> However for the v4 I ensured that a mount -f would work out
-> by checking the connection status before sending anything
-> to the host.
-> 
-> With this changes I was able to mount and unmount several times
-> and always reuse the gadget connection by restarting the host side.
-> 
->> Please find my review below.
->>
->>>
->>> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
->>>
->>> ---
->>> v2 -> v3: -
->>> v1 -> v2:
->>>   - move the driver to net/9p/trans_usbg.c
->>>   - fixed the commit title
->>>   - fix %zu usage in p9_debug for size_t type
->>>   - define functions static that are only used localy
->>>   - return 0 in alloc_requests
->>>   - use id_alloc_max instead of ida_simple_get
->>>   - call ida_free in usb9pfs_free_func
->>>   - call kfree for usb9pfs->tag and usb9pfs in usb9pfs_free_func
->>>   - add MODULE_ALIAS_9P to load this module automatic when mounting
->>>   - improved the documentation
->>>   - added depends on USB_GADGET in Kconfig
->>> ---
->>>  Documentation/filesystems/9p.rst |  15 +
->>>  net/9p/Kconfig                   |   6 +
->>>  net/9p/Makefile                  |   4 +
->>>  net/9p/trans_usbg.c              | 871 +++++++++++++++++++++++++++++++++++++++
->>>  4 files changed, 896 insertions(+)
->>>
->>> diff --git a/Documentation/filesystems/9p.rst b/Documentation/filesystems/9p.rst
->>> index 1e0e0bb6fdf91..64439068a8fc5 100644
->>> --- a/Documentation/filesystems/9p.rst
->>> +++ b/Documentation/filesystems/9p.rst
->>> @@ -53,6 +53,20 @@ mount points. Each 9P export is seen by the client as a 
->>> virtio device with an
->>>  associated "mount_tag" property. Available mount tags can be
->>>  seen by reading /sys/bus/virtio/drivers/9pnet_virtio/virtio<n>/mount_tag files.
->>> +USBG Usage
->>> +==========
->>> +
->>> +To mount a 9p FS on a USB Host accessible via the gadget at runtime::
->>> +
->>> +    mount -t 9p -o trans=usbg,aname=/path/to/fs <mount_tag> /mnt/9
->>> +
->>> +To mount a 9p FS on a USB Host accessible via the gadget as root filesystem::
->>> +
->>> +    root=<mount_tag> rootfstype=9p 
->>> rootflags=trans=usbg,cache=loose,uname=root,access=0,dfltuid=0,dfltgid=0,aname=/path/to/rootfs
->>> +
->>> +where mount_tag is the tag associated by the usb gadget transport. The
->>> +pattern is usb9pfs0, usb9pfs1, ...
->>
->> I'd reword to use "generated" instead of "associated" which would emphasize
->> that it is the usb gadget transport part that comes up with the name.
->> The word "associated" suggests that maybe the name comes from elsewhere.
->>
->> I'm wondering if it would make sense to treat instance name, e.g.
->>
->> "my_9pfs" from
->>
->> $ mkdir /sys/kernel/config/usb_gadget/g9pfs/functions/usb9pfs.my_9pfs
->>
->> as device name known above as "<mount_tag>?"
->>
->> FunctionFS uses this strategy and IMO it makes sense to follow this pattern.
->>
->> BTW, isn't this being called "mount_tag" an implementation detail of 9pfs?
->> When doing "mount" users usually expect a "device name" (even if not a "real"
->> device).
-> 
-> Fair point about the mount_tag. I reworked it to be used like with ffs.
-> 
->>> +
->>>  Options
->>>  =======
->>> @@ -68,6 +82,7 @@ Options
->>>              virtio      connect to the next virtio channel available
->>>                    (from QEMU with trans_virtio module)
->>>              rdma      connect to a specified RDMA channel
->>> +            usbg      connect to a specified usb gadget channel
->>>              ========  ============================================
->>>    uname=name    user name to attempt mount as on the remote server.  The
->>> diff --git a/net/9p/Kconfig b/net/9p/Kconfig
->>> index 00ebce9e5a657..c3d357eb8bb37 100644
->>> --- a/net/9p/Kconfig
->>> +++ b/net/9p/Kconfig
->>> @@ -39,6 +39,12 @@ config NET_9P_XEN
->>>        This builds support for a transport for 9pfs between
->>>        two Xen domains.
->>> +config NET_9P_USBG
->>> +    bool "9P USB Gadget Transport"
->>> +    depends on USB_GADGET
->>> +    help
->>> +      This builds support for a transport for 9pfs over
->>> +      usb gadget.
->>>  config NET_9P_RDMA
->>>      depends on INET && INFINIBAND && INFINIBAND_ADDR_TRANS
->>> diff --git a/net/9p/Makefile b/net/9p/Makefile
->>> index 1df9b344c30bd..22794a451c3f7 100644
->>> --- a/net/9p/Makefile
->>> +++ b/net/9p/Makefile
->>> @@ -4,6 +4,7 @@ obj-$(CONFIG_NET_9P_FD) += 9pnet_fd.o
->>>  obj-$(CONFIG_NET_9P_XEN) += 9pnet_xen.o
->>>  obj-$(CONFIG_NET_9P_VIRTIO) += 9pnet_virtio.o
->>>  obj-$(CONFIG_NET_9P_RDMA) += 9pnet_rdma.o
->>> +obj-$(CONFIG_NET_9P_USBG) += 9pnet_usbg.o
->>>  9pnet-objs := \
->>>      mod.o \
->>> @@ -23,3 +24,6 @@ obj-$(CONFIG_NET_9P_RDMA) += 9pnet_rdma.o
->>>  9pnet_rdma-objs := \
->>>      trans_rdma.o \
->>> +
->>> +9pnet_usbg-objs := \
->>> +    trans_usbg.o \
->>> diff --git a/net/9p/trans_usbg.c b/net/9p/trans_usbg.c
->>> new file mode 100644
->>> index 0000000000000..93d9606a806d8
->>> --- /dev/null
->>> +++ b/net/9p/trans_usbg.c
->>> @@ -0,0 +1,871 @@
->>> +// SPDX-License-Identifier: GPL-2.0+
->>> +/*
->>> + * trans_usbg.c - USB peripheral usb9pfs configuration driver and transport.
->>> + *
->>> + * Copyright (C) 2024 Michael Grzeschik <m.grzeschik@pengutronix.de>
->>> + */
->>> +
->>> +/* Gadget usb9pfs only needs two bulk endpoints, and will use the usb9pfs
->>> + * transport to mount host exported filesystem via usb gadget.
->>> + */
->>> +
->>> +/*     +--------------------------+    |    +--------------------------+
->>> + *     |  9PFS mounting client    |    |    |  9PFS exporting server   |
->>> + *  SW |                          |    |    |                          |
->>> + *     |   (this:trans_usbg)      |    |    |(e.g. diod or nfs-ganesha)|
->>> + *     +-------------^------------+    |    +-------------^------------+
->>> + *                   |                 |                  |
->>> + * ------------------|------------------------------------|-------------
->>> + *                   |                 |                  |
->>> + *     +-------------v------------+    |    +-------------v------------+
->>> + *     |                          |    |    |                          |
->>> + *  HW |   USB Device Controller  <--------->   USB Host Controller    |
->>> + *     |                          |    |    |                          |
->>> + *     +--------------------------+    |    +--------------------------+
->>> + */
->>> +
->>> +#include <linux/slab.h>
->>> +#include <linux/kernel.h>
->>> +#include <linux/device.h>
->>> +#include <linux/module.h>
->>> +#include <linux/err.h>
->>> +#include <linux/usb/composite.h>
->>> +#include <linux/usb/u_f.h>
->>> +
->>> +#include <net/9p/9p.h>
->>> +#include <net/9p/client.h>
->>> +#include <net/9p/transport.h>
->>> +
->>> +#define DEFAULT_BUFLEN        16384
->>> +
->>> +struct f_usb9pfs {
->>> +    struct p9_client *client;
->>> +
->>> +    struct p9_req_t *p9_tx_req;
->>> +
->>> +    struct list_head tx_req_list;
->>> +
->>> +    /* 9p request lock for en/dequeue */
->>> +    spinlock_t lock;
->>> +    /* usb request lock for en/dequeue */
->>> +    spinlock_t req_lock;
->>> +
->>> +    struct usb_request *in_req;
->>> +    struct usb_request *out_req;
->>> +
->>> +    struct usb_ep *in_ep;
->>> +    struct usb_ep *out_ep;
->>> +
->>> +    unsigned int buflen;
->>> +
->>> +    bool inuse;
->>> +    char *tag;
->>> +
->>> +    int index;
->>> +
->>> +    struct usb_function function;
->>> +
->>> +    struct list_head function_list;
->>
->> usb9pfs_instance ?
-> 
-> Sounds good. I changed it.
-> 
->>> +};
->>> +
->>> +static inline struct f_usb9pfs *func_to_usb9pfs(struct usb_function *f)
->>> +{
->>> +    return container_of(f, struct f_usb9pfs, function);
->>> +}
->>> +
->>> +struct f_usb9pfs_opts {
->>> +    struct usb_function_instance func_inst;
->>> +    unsigned int buflen;
->>> +
->>> +    /* Read/write access to configfs attributes is handled by configfs.
->>> +     *
->>> +     * This is to protect the data from concurrent access by read/write
->>> +     * and create symlink/remove symlink.
->>> +     */
->>> +    struct mutex lock;
->>> +    int refcnt;
->>> +};
->>> +
->>> +static DEFINE_IDA(usb9pfs_ida);
->>> +static DEFINE_MUTEX(usb9pfs_ida_lock); /* protects access do usb9pfs_ida */
->>> +
->>> +static DEFINE_MUTEX(usb9pfs_lock);
->>> +static struct list_head usbg_function_list;
->>
->> This name seems too generic to me, it creates an impression that the list
->> contains all functions of USB gadgets. It really doesn't and what it
->> contains is a number of 9pfs instances. What about usb9pfs_instance_list?
-> 
-> I will go with usb9pfs_instance_list.
-> 
->>> +
->>> +static int usb9pfs_tx_fill(struct f_usb9pfs *usb9pfs, struct usb_request *req,
->>
->> given what this function effectively does...
->>
->>> +               gfp_t gfp_flags)
->>> +{
->>> +    struct usb_composite_dev *cdev = usb9pfs->function.config->cdev;
->>> +    int retval = -ENOMEM;
->>> +
->>> +    if (!(usb9pfs->p9_tx_req->tc.size % usb9pfs->in_ep->maxpacket))
->>> +        req->zero = 1;
->>> +
->>> +    req->buf = usb9pfs->p9_tx_req->tc.sdata;
->>> +    req->length = usb9pfs->p9_tx_req->tc.size;
->>> +
->>> +    dev_dbg(&cdev->gadget->dev, "%s usb9pfs send --> %d/%d, zero: %d\n",
->>> +        usb9pfs->in_ep->name, req->actual, req->length, req->zero);
->>> +
->>> +    retval = usb_ep_queue(usb9pfs->in_ep, req, gfp_flags);
->>
->> ... (which is usb_ep_queue), I'd rather name it e.g. usb9pfs_tx_queue.
->> Or maybe usb9pfs_queue_tx to not create an impression that the function
->> is a queue of some sort (because rather than being a queue it does queueing).
-> 
-> I changed it to usb9pfs_queue_tx.
-> 
->>> +
->>> +    dev_dbg(&cdev->gadget->dev, "tx submit --> %d\n", retval);
->>> +
->>> +    return retval;
->>> +}
->>
->> The return value of this function is never used.
-> 
-> Right, I fixed that at each caller.
-> 
->>
->>> +
->>> +static int usb9pfs_rx_fill(struct f_usb9pfs *usb9pfs, struct usb_request *req,
->>
->> usb9pfs_queue_rx() ?
-> 
-> I changed it to usb9pfs_queue_rx.
-> 
->>> +               gfp_t gfp_flags)
->>> +{
->>> +    struct usb_composite_dev *cdev = usb9pfs->function.config->cdev;
->>> +    int retval = -ENOMEM;
->>> +
->>> +    retval = usb_ep_queue(usb9pfs->out_ep, req, gfp_flags);
->>> +
->>> +    dev_dbg(&cdev->gadget->dev, "rx submit --> %d\n", retval);
->>> +
->>> +    return retval;
->>> +}
->>
->> The return value of this function is never used.
-> 
-> Right, I fixed that at each caller.
-> 
->>> +
->>> +static int usb9pfs_transmit(struct f_usb9pfs *usb9pfs)
->>
->> Might be worth documenting that this needs to be called with req_lock held.
-> 
-> I wrote a comment above the function name.
-> 
->>> +{
->>> +    struct p9_req_t *p9_req = NULL;
->>> +    unsigned long flags;
->>> +    int ret = 0;
->>> +
->>> +    spin_lock_irqsave(&usb9pfs->lock, flags);
->>> +
->>> +    if (usb9pfs->p9_tx_req) {
->>> +        spin_unlock_irqrestore(&usb9pfs->lock, flags);
->>> +        return -EBUSY;
->>> +    }
->>> +
->>> +    p9_req = list_first_entry_or_null(&usb9pfs->tx_req_list, struct 
->>> p9_req_t, req_list);
->>> +    if (!p9_req) {
->>> +        spin_unlock_irqrestore(&usb9pfs->lock, flags);
->>> +        return -ENOENT;
->>> +    }
->>> +
->>> +    list_del(&p9_req->req_list);
->>> +
->>> +    usb9pfs->p9_tx_req = p9_req;
->>> +
->>> +    p9_req_get(usb9pfs->p9_tx_req);
->>> +
->>> +    usb9pfs_tx_fill(usb9pfs, usb9pfs->in_req, GFP_ATOMIC);
->>> +
->>> +    spin_unlock_irqrestore(&usb9pfs->lock, flags);
->>> +
->>> +    return ret;
->>> +}
->>> +
->>> +static void usb9pfs_tx_complete(struct usb_ep *ep, struct usb_request *req)
->>> +{
->>> +    struct f_usb9pfs *usb9pfs = ep->driver_data;
->>> +    struct usb_composite_dev *cdev = usb9pfs->function.config->cdev;
->>> +
->>> +    /* reset zero packages */
->>> +    req->zero = 0;
->>> +
->>> +    dev_dbg(&cdev->gadget->dev, "%s usb9pfs complete --> %d, %d/%d\n",
->>> +        ep->name, req->status, req->actual, req->length);
->>> +
->>> +    switch (req->status) {
->>
->> Are more cases expected here? I'm asking because for now it seems
->> that "if - else" would do the job.
-> 
-> You are right if else is doing the job just well. I changed it.
-> 
->>> +    case 0:                /* normal completion? */
->>> +        spin_lock(&usb9pfs->req_lock);
->>> +
->>> +        WRITE_ONCE(usb9pfs->p9_tx_req->status, REQ_STATUS_SENT);
->>> +
->>> +        p9_req_put(usb9pfs->client, usb9pfs->p9_tx_req);
->>> +
->>> +        usb9pfs_rx_fill(usb9pfs, usb9pfs->out_req, GFP_ATOMIC);
->>> +
->>> +        spin_unlock(&usb9pfs->req_lock);
->>> +
->>> +        break;
->>> +
->>> +    default:
->>> +        dev_err(&cdev->gadget->dev, "%s usb9pfs complete --> %d, %d/%d\n",
->>> +            ep->name, req->status, req->actual, req->length);
->>> +        usb_ep_free_request(ep == usb9pfs->in_ep ?
->>> +                    usb9pfs->out_ep : usb9pfs->in_ep,
->>> +                    req->context);
->>> +        free_ep_req(ep, req);
->>> +        return;
->>
->> Is this return necessary? The "default" branch does contain some statements,
->> so there's no need to silence the compiler.
-> 
-> I removed it.
-> 
->>> +    }
->>> +}
->>> +
->>> +static struct p9_req_t *usb9pfs_rx_header(struct f_usb9pfs *usb9pfs,
->>> +                      struct usb_request *req)
->>
->> It seems that the logic of this function does not depend on anything USB.
->> It is all p9 stuff, so I'd rather accept a plain buffer instead of usb_request.
-> 
-> Good point. I moved it to use the plain buffer instead.
-> 
->>> +{
->>> +    struct p9_req_t *p9_rx_req;
->>> +    struct p9_fcall    rc;
->>> +    int ret;
->>> +
->>> +    /* start by reading header */
->>> +    rc.sdata = req->buf;
->>> +    rc.offset = 0;
->>> +    rc.capacity = P9_HDRSZ;
->>> +    rc.size = P9_HDRSZ;
->>> +
->>> +    p9_debug(P9_DEBUG_TRANS, "mux %p got %zu bytes\n", usb9pfs,
->>> +         rc.capacity - rc.offset);
->>> +
->>> +    ret = p9_parse_header(&rc, &rc.size, NULL, NULL, 0);
->>> +    if (ret) {
->>> +        p9_debug(P9_DEBUG_ERROR,
->>> +             "error parsing header: %d\n", ret);
->>> +        return NULL;
->>> +    }
->>> +
->>> +    p9_debug(P9_DEBUG_TRANS,
->>> +         "mux %p pkt: size: %d bytes tag: %d\n",
->>> +         usb9pfs, rc.size, rc.tag);
->>> +
->>> +    p9_rx_req = p9_tag_lookup(usb9pfs->client, rc.tag);
->>> +    if (!p9_rx_req || p9_rx_req->status != REQ_STATUS_SENT) {
->>> +        p9_debug(P9_DEBUG_ERROR, "Unexpected packet tag %d\n", rc.tag);
->>> +        return NULL;
->>> +    }
->>> +
->>
->> I know nothing about p9 proper, but it seems that at this point
->> you have p9_rx_req...
->>
->>> +    if (rc.size > p9_rx_req->rc.capacity) {
->>> +        p9_debug(P9_DEBUG_ERROR,
->>> +             "requested packet size too big: %d for tag %d with capacity 
->>> %zd\n",
->>> +             rc.size, rc.tag, p9_rx_req->rc.capacity);
->>> +        return NULL;
->>
->> ... which you don't "put" here, but...
-> 
-> Nice catch. I added p9_req_put here aswell.
-> 
->>> +    }
->>> +
->>> +    if (!p9_rx_req->rc.sdata) {
->>> +        p9_debug(P9_DEBUG_ERROR,
->>> +             "No recv fcall for tag %d (req %p), disconnecting!\n",
->>> +             rc.tag, p9_rx_req);
->>> +        p9_req_put(usb9pfs->client, p9_rx_req);
->>
->> ... you do "put" it here. Not sure if this is ok or not ok, just asking,
->> because judging by the return value the caller of this function seems unable
->> to know which of the above "return" statements caused a NULL, hence it is
->> unable to tell whether it (the caller) should "put" or not.
->>
->>> +        return NULL;
->>> +    }
->>> +
->>> +    return p9_rx_req;
->>> +}
->>> +
->>> +static void usb9pfs_rx_complete(struct usb_ep *ep, struct usb_request *req)
->>> +{
->>> +    struct f_usb9pfs *usb9pfs = ep->driver_data;
->>> +    struct usb_composite_dev *cdev = usb9pfs->function.config->cdev;
->>> +    struct p9_req_t *p9_rx_req;
->>> +    unsigned long flags;
->>> +
->>> +    switch (req->status) {
->>> +    case 0:                /* normal completion? */
->>> +        spin_lock_irqsave(&usb9pfs->req_lock, flags);
->>> +        p9_rx_req = usb9pfs_rx_header(usb9pfs, req);
->>> +        if (!p9_rx_req) {
->>> +            spin_unlock_irqrestore(&usb9pfs->req_lock, flags);
->>> +            goto free_req;
->>> +        }
->>> +
->>> +        memcpy(p9_rx_req->rc.sdata, req->buf, req->actual);
->>> +        p9_rx_req->rc.size = req->actual;
->>> +
->>> +        p9_client_cb(usb9pfs->client, p9_rx_req, REQ_STATUS_RCVD);
->>> +        p9_req_put(usb9pfs->client, p9_rx_req);
->>> +
->>> +        usb9pfs->p9_tx_req = NULL;
->>> +
->>> +        usb9pfs_transmit(usb9pfs);
->>> +
->>> +        spin_unlock_irqrestore(&usb9pfs->req_lock, flags);
->>> +
->>> +        return;
->>> +free_req:
->>> +    default:
->>> +        dev_err(&cdev->gadget->dev, "%s usb9pfs complete --> %d, %d/%d\n",
->>> +            ep->name, req->status, req->actual, req->length);
->>> +        usb_ep_free_request(ep == usb9pfs->in_ep ?
->>> +                    usb9pfs->out_ep : usb9pfs->in_ep,
->>> +                    req->context);
->>> +        free_ep_req(ep, req);
->>> +        return;
->>
->> I assume this return means that p9_client_cb() should not be called if
->> either "free_req" or "default" cases happen?
->>
->> But then anything after the end of this "switch" instruction seems unreachable
->> code.
-> 
-> Right, it was some leftover. I removed the p9_client_cb.
-> 
->>> +    }
->>> +
->>> +    p9_client_cb(usb9pfs->client, p9_rx_req, REQ_STATUS_ERROR);
->>> +}
->>> +
->>> +static void disable_ep(struct usb_composite_dev *cdev, struct usb_ep *ep)
->>> +{
->>> +    int value;
->>> +
->>> +    value = usb_ep_disable(ep);
->>> +    if (value < 0)
->>> +        dev_info(&cdev->gadget->dev, "disable %s --> %d\n", ep->name, value);
->>> +}
->>> +
->>> +static void disable_endpoints(struct usb_composite_dev *cdev,
->>> +                  struct usb_ep *in, struct usb_ep *out,
->>> +                  struct usb_ep *iso_in, struct usb_ep *iso_out)
->>
->> iso_in and iso_out are never used
->>
->>> +{
->>> +    disable_ep(cdev, in);
->>> +    disable_ep(cdev, out);
->>
->> I'm not sure how useful this whole function is...
->>
->>> +}
->>> +
->>> +static void disable_usb9pfs(struct f_usb9pfs *usb9pfs)
->>> +{
->>> +    struct usb_composite_dev *cdev;
->>> +
->>> +    cdev = usb9pfs->function.config->cdev;
->>> +    disable_endpoints(cdev, usb9pfs->in_ep, usb9pfs->out_ep, NULL, NULL);
->>
->> ... why not
->>     disable_ep(cdev, usb9pfs->in_ep);
->>     disable_ep(cdev, usb9pfs->out_ep);
->> ?
-> 
-> I removed the function and use the disable calls directly.
-> 
->>> +    dev_dbg(&cdev->gadget->dev, "%s disabled\n", usb9pfs->function.name);
->>> +}
->>> +
->>> +static inline struct usb_request *usb9pfs_alloc_ep_req(struct usb_ep *ep, 
->>> int len)
->>> +{
->>> +    return alloc_ep_req(ep, len);
->>> +}
->>
->> What is the purpose of this wrapper?
-> 
-> Leftover from some copy paste section. I removed it.
-> 
->>> +
->>> +static int alloc_requests(struct usb_composite_dev *cdev,
->>> +              struct f_usb9pfs *usb9pfs)
->>> +{
->>> +    usb9pfs->in_req = usb_ep_alloc_request(usb9pfs->in_ep, GFP_ATOMIC);
->>> +    if (!usb9pfs->in_req)
->>> +        goto fail;
->>> +
->>> +    usb9pfs->out_req = usb9pfs_alloc_ep_req(usb9pfs->out_ep, usb9pfs->buflen);
->>> +    if (!usb9pfs->out_req)
->>> +        goto fail_in;
->>> +
->>> +    usb9pfs->in_req->complete = usb9pfs_tx_complete;
->>> +    usb9pfs->out_req->complete = usb9pfs_rx_complete;
->>> +
->>> +    /* length will be set in complete routine */
->>> +    usb9pfs->in_req->context = usb9pfs;
->>> +    usb9pfs->out_req->context = usb9pfs;
->>> +
->>> +    return 0;
->>> +
->>> +fail_in:
->>> +    usb_ep_free_request(usb9pfs->in_ep, usb9pfs->in_req);
->>> +fail:
->>> +    return 0;
->>> +}
->>
->> This funcion returns a zero no matter what. Such a return value carries
->> no information. I saw something in the changelog regarding returning 0,
->> was it about this function? But then why return always 0 instead of void?
-> 
-> I changed it to proper return values.
-> 
->>> +
->>> +static int enable_endpoint(struct usb_composite_dev *cdev,
->>> +               struct f_usb9pfs *usb9pfs, struct usb_ep *ep)
->>> +{
->>> +    int result;
->>> +
->>> +    result = config_ep_by_speed(cdev->gadget, &usb9pfs->function, ep);
->>> +    if (result)
->>> +        goto out;
->>> +
->>> +    result = usb_ep_enable(ep);
->>> +    if (result < 0)
->>> +        goto out;
->>> +
->>> +    ep->driver_data = usb9pfs;
->>> +
->>> +    result = 0;
->>> +
->>> +out:
->>> +    return result;
->>
->> I assume this is "a single point of return". You'd save 3 lines of code
->> by returning "result" on the spot instead of gotos and explicitly
->> returning a zero. Who knows, maybe modern compilers are smart enough
->> to figure this out. Not a deal breaker for me, though.
-> 
-> I squashed it as you suggested.
-> 
->>> +}
->>> +
->>> +static int
->>> +enable_usb9pfs(struct usb_composite_dev *cdev, struct f_usb9pfs *usb9pfs)
->>> +{
->>> +    int result = 0;
->>> +
->>> +    result = enable_endpoint(cdev, usb9pfs, usb9pfs->in_ep);
->>> +    if (result)
->>> +        goto out;
->>> +
->>> +    result = enable_endpoint(cdev, usb9pfs, usb9pfs->out_ep);
->>> +    if (result)
->>> +        goto disable_in;
->>> +
->>> +    result = alloc_requests(cdev, usb9pfs);
->>> +    if (result)
->>> +        goto disable_out;
->>> +
->>> +    dev_dbg(&cdev->gadget->dev, "%s enabled\n", usb9pfs->function.name);
->>> +    return 0;
->>> +
->>> +disable_out:
->>> +    usb_ep_disable(usb9pfs->out_ep);
->>> +disable_in:
->>> +    usb_ep_disable(usb9pfs->in_ep);
->>> +out:
->>> +    return result;
->>> +}
->>> +
->>> +static int p9_usbg_create(struct p9_client *client, const char *devname, 
->>> char *args)
->>> +{
->>> +    struct usb_composite_dev *cdev;
->>> +    struct f_usb9pfs *usb9pfs;
->>> +    struct f_usb9pfs *tmp;
->>> +    struct usb_function *f;
->>> +    int ret = -ENOENT;
->>> +    int found = 0;
->>> +
->>> +    if (!devname)
->>> +        return -EINVAL;
->>> +
->>> +    mutex_lock(&usb9pfs_lock);
->>> +    list_for_each_entry_safe(usb9pfs, tmp, &usbg_function_list, 
->>> function_list) {
->>> +        if (!usb9pfs->tag)
->>> +            continue;
->>> +        if (!strncmp(devname, usb9pfs->tag, strlen(devname))) {
->>> +            if (!usb9pfs->inuse) {
->>> +                usb9pfs->inuse = true;
->>> +                found = 1;
->>> +                break;
->>> +            }
->>> +            ret = -EBUSY;
->>> +            break;
->>> +        }
->>> +    }
->>> +    mutex_unlock(&usb9pfs_lock);
->>> +
->>> +    if (!found) {
->>> +        pr_err("no channels available for device %s\n", devname);
->>> +        return ret;
->>> +    }
->>> +
->>> +    INIT_LIST_HEAD(&usb9pfs->tx_req_list);
->>> +
->>> +    spin_lock_init(&usb9pfs->lock);
->>> +    spin_lock_init(&usb9pfs->req_lock);
->>> +
->>> +    f = &usb9pfs->function;
->>> +    cdev = f->config->cdev;
->>> +
->>> +    client->trans = (void *)usb9pfs;
->>> +    client->status = Connected;
->>> +    usb9pfs->client = client;
->>> +
->>> +    client->trans_mod->maxsize = usb9pfs->buflen;
->>> +
->>> +    disable_usb9pfs(usb9pfs);
->>> +
->>> +    return enable_usb9pfs(cdev, usb9pfs);
->>
->> This looks a bit weird. Clearly some side effect is intended here.
->> Can you document here, why and what is expected?
-> 
-> This is probably due to some copy paste left over. I removed the extra
-> disable path.
-> 
->>> +}
->>> +
->>> +static void p9_usbg_close(struct p9_client *client)
->>> +{
->>> +    struct f_usb9pfs *usb9pfs = client->trans;
->>> +
->>> +    disable_usb9pfs(usb9pfs);
->>> +}
->>> +
->>> +static int p9_usbg_request(struct p9_client *client, struct p9_req_t *p9_req)
->>> +{
->>> +    struct f_usb9pfs *usb9pfs = client->trans;
->>> +    unsigned long flags;
->>> +
->>> +    spin_lock_irqsave(&usb9pfs->lock, flags);
->>> +    list_add_tail(&p9_req->req_list, &usb9pfs->tx_req_list);
->>> +    spin_unlock_irqrestore(&usb9pfs->lock, flags);
->>> +
->>> +    spin_lock_irqsave(&usb9pfs->req_lock, flags);
->>> +    usb9pfs_transmit(usb9pfs);
->>> +    spin_unlock_irqrestore(&usb9pfs->req_lock, flags);
->>> +
->>> +    return 0;
->>> +}
->>> +
->>> +/* We don't currently allow canceling of requests */
->>
->> What would we gain by allowing those? In other words,
->> what are we losing?
-> 
-> As suggested by Dominique I added the cancel callback.
-> 
->> Regards,
->>
->> Andrzej
->>
->>> +static int p9_usbg_cancel(struct p9_client *client, struct p9_req_t *req)
->>> +{
->>> +    return 1;
->>> +}
->>> +
->>> +static struct p9_trans_module p9_usbg_trans = {
->>> +    .name = "usbg",
->>> +    .create = p9_usbg_create,
->>> +    .close = p9_usbg_close,
->>> +    .request = p9_usbg_request,
->>> +    .cancel = p9_usbg_cancel,
->>> +    .owner = THIS_MODULE,
->>> +};
->>> +
->>> +/*-------------------------------------------------------------------------*/
->>> +
->>> +#define USB_PROTOCOL_9PFS    0x09
->>> +
->>> +static struct usb_interface_descriptor usb9pfs_intf = {
->>> +    .bLength =        sizeof(usb9pfs_intf),
->>> +    .bDescriptorType =    USB_DT_INTERFACE,
->>> +
->>> +    .bNumEndpoints =    2,
->>> +    .bInterfaceClass =    USB_CLASS_VENDOR_SPEC,
->>> +    .bInterfaceSubClass =    USB_SUBCLASS_VENDOR_SPEC,
->>> +    .bInterfaceProtocol =   USB_PROTOCOL_9PFS,
->>> +
->>> +    /* .iInterface = DYNAMIC */
->>> +};
->>> +
->>> +/* full speed support: */
->>> +
->>> +static struct usb_endpoint_descriptor fs_usb9pfs_source_desc = {
->>> +    .bLength =        USB_DT_ENDPOINT_SIZE,
->>> +    .bDescriptorType =    USB_DT_ENDPOINT,
->>> +
->>> +    .bEndpointAddress =    USB_DIR_IN,
->>> +    .bmAttributes =        USB_ENDPOINT_XFER_BULK,
->>> +};
->>> +
->>> +static struct usb_endpoint_descriptor fs_usb9pfs_sink_desc = {
->>> +    .bLength =        USB_DT_ENDPOINT_SIZE,
->>> +    .bDescriptorType =    USB_DT_ENDPOINT,
->>> +
->>> +    .bEndpointAddress =    USB_DIR_OUT,
->>> +    .bmAttributes =        USB_ENDPOINT_XFER_BULK,
->>> +};
->>> +
->>> +static struct usb_descriptor_header *fs_usb9pfs_descs[] = {
->>> +    (struct usb_descriptor_header *)&usb9pfs_intf,
->>> +    (struct usb_descriptor_header *)&fs_usb9pfs_sink_desc,
->>> +    (struct usb_descriptor_header *)&fs_usb9pfs_source_desc,
->>> +    NULL,
->>> +};
->>> +
->>> +/* high speed support: */
->>> +
->>> +static struct usb_endpoint_descriptor hs_usb9pfs_source_desc = {
->>> +    .bLength =        USB_DT_ENDPOINT_SIZE,
->>> +    .bDescriptorType =    USB_DT_ENDPOINT,
->>> +
->>> +    .bmAttributes =        USB_ENDPOINT_XFER_BULK,
->>> +    .wMaxPacketSize =    cpu_to_le16(512),
->>> +};
->>> +
->>> +static struct usb_endpoint_descriptor hs_usb9pfs_sink_desc = {
->>> +    .bLength =        USB_DT_ENDPOINT_SIZE,
->>> +    .bDescriptorType =    USB_DT_ENDPOINT,
->>> +
->>> +    .bmAttributes =        USB_ENDPOINT_XFER_BULK,
->>> +    .wMaxPacketSize =    cpu_to_le16(512),
->>> +};
->>> +
->>> +static struct usb_descriptor_header *hs_usb9pfs_descs[] = {
->>> +    (struct usb_descriptor_header *)&usb9pfs_intf,
->>> +    (struct usb_descriptor_header *)&hs_usb9pfs_source_desc,
->>> +    (struct usb_descriptor_header *)&hs_usb9pfs_sink_desc,
->>> +    NULL,
->>> +};
->>> +
->>> +/* super speed support: */
->>> +
->>> +static struct usb_endpoint_descriptor ss_usb9pfs_source_desc = {
->>> +    .bLength =        USB_DT_ENDPOINT_SIZE,
->>> +    .bDescriptorType =    USB_DT_ENDPOINT,
->>> +
->>> +    .bmAttributes =        USB_ENDPOINT_XFER_BULK,
->>> +    .wMaxPacketSize =    cpu_to_le16(1024),
->>> +};
->>> +
->>> +static struct usb_ss_ep_comp_descriptor ss_usb9pfs_source_comp_desc = {
->>> +    .bLength =        USB_DT_SS_EP_COMP_SIZE,
->>> +    .bDescriptorType =    USB_DT_SS_ENDPOINT_COMP,
->>> +    .bMaxBurst =        0,
->>> +    .bmAttributes =        0,
->>> +    .wBytesPerInterval =    0,
->>> +};
->>> +
->>> +static struct usb_endpoint_descriptor ss_usb9pfs_sink_desc = {
->>> +    .bLength =        USB_DT_ENDPOINT_SIZE,
->>> +    .bDescriptorType =    USB_DT_ENDPOINT,
->>> +
->>> +    .bmAttributes =        USB_ENDPOINT_XFER_BULK,
->>> +    .wMaxPacketSize =    cpu_to_le16(1024),
->>> +};
->>> +
->>> +static struct usb_ss_ep_comp_descriptor ss_usb9pfs_sink_comp_desc = {
->>> +    .bLength =        USB_DT_SS_EP_COMP_SIZE,
->>> +    .bDescriptorType =    USB_DT_SS_ENDPOINT_COMP,
->>> +    .bMaxBurst =        0,
->>> +    .bmAttributes =        0,
->>> +    .wBytesPerInterval =    0,
->>> +};
->>> +
->>> +static struct usb_descriptor_header *ss_usb9pfs_descs[] = {
->>> +    (struct usb_descriptor_header *)&usb9pfs_intf,
->>> +    (struct usb_descriptor_header *)&ss_usb9pfs_source_desc,
->>> +    (struct usb_descriptor_header *)&ss_usb9pfs_source_comp_desc,
->>> +    (struct usb_descriptor_header *)&ss_usb9pfs_sink_desc,
->>> +    (struct usb_descriptor_header *)&ss_usb9pfs_sink_comp_desc,
->>> +    NULL,
->>> +};
->>> +
->>> +/* function-specific strings: */
->>> +static struct usb_string strings_usb9pfs[] = {
->>> +    [0].s = "usb9pfs input to output",
->>> +    {  }            /* end of list */
->>> +};
->>> +
->>> +static struct usb_gadget_strings stringtab_usb9pfs = {
->>> +    .language    = 0x0409,    /* en-us */
->>> +    .strings    = strings_usb9pfs,
->>> +};
->>> +
->>> +static struct usb_gadget_strings *usb9pfs_strings[] = {
->>> +    &stringtab_usb9pfs,
->>> +    NULL,
->>> +};
->>> +
->>> +/*-------------------------------------------------------------------------*/
->>> +
->>> +static int usb9pfs_func_bind(struct usb_configuration *c,
->>> +                 struct usb_function *f)
->>> +{
->>> +    struct f_usb9pfs *usb9pfs = func_to_usb9pfs(f);
->>> +    struct usb_composite_dev *cdev = c->cdev;
->>> +    int ret;
->>> +    int id;
->>> +
->>> +    /* allocate interface ID(s) */
->>> +    id = usb_interface_id(c, f);
->>> +    if (id < 0)
->>> +        return id;
->>> +    usb9pfs_intf.bInterfaceNumber = id;
->>> +
->>> +    id = usb_string_id(cdev);
->>> +    if (id < 0)
->>> +        return id;
->>> +    strings_usb9pfs[0].id = id;
->>> +    usb9pfs_intf.iInterface = id;
->>> +
->>> +    /* allocate endpoints */
->>> +    usb9pfs->in_ep = usb_ep_autoconfig(cdev->gadget,
->>> +                       &fs_usb9pfs_source_desc);
->>> +    if (!usb9pfs->in_ep)
->>> +        goto autoconf_fail;
->>> +
->>> +    usb9pfs->out_ep = usb_ep_autoconfig(cdev->gadget,
->>> +                        &fs_usb9pfs_sink_desc);
->>> +    if (!usb9pfs->out_ep)
->>> +        goto autoconf_fail;
->>> +
->>> +    /* support high speed hardware */
->>> +    hs_usb9pfs_source_desc.bEndpointAddress =
->>> +        fs_usb9pfs_source_desc.bEndpointAddress;
->>> +    hs_usb9pfs_sink_desc.bEndpointAddress = 
->>> fs_usb9pfs_sink_desc.bEndpointAddress;
->>> +
->>> +    /* support super speed hardware */
->>> +    ss_usb9pfs_source_desc.bEndpointAddress =
->>> +        fs_usb9pfs_source_desc.bEndpointAddress;
->>> +    ss_usb9pfs_sink_desc.bEndpointAddress = 
->>> fs_usb9pfs_sink_desc.bEndpointAddress;
->>> +
->>> +    ret = usb_assign_descriptors(f, fs_usb9pfs_descs, hs_usb9pfs_descs,
->>> +                     ss_usb9pfs_descs, ss_usb9pfs_descs);
->>> +    if (ret)
->>> +        return ret;
->>> +
->>> +    dev_dbg(&cdev->gadget->dev, "%s speed %s: IN/%s, OUT/%s\n",
->>> +        (gadget_is_superspeed(c->cdev->gadget) ? "super" :
->>> +        (gadget_is_dualspeed(c->cdev->gadget) ? "dual" : "full")),
->>> +            f->name, usb9pfs->in_ep->name, usb9pfs->out_ep->name);
->>> +    return 0;
->>> +
->>> +autoconf_fail:
->>> +    ERROR(cdev, "%s: can't autoconfigure on %s\n",
->>> +          f->name, cdev->gadget->name);
->>> +    return -ENODEV;
->>> +}
->>> +
->>> +static void usb9pfs_free_func(struct usb_function *f)
->>> +{
->>> +    struct f_usb9pfs *usb9pfs = func_to_usb9pfs(f);
->>> +    struct f_usb9pfs_opts *opts;
->>> +
->>> +    ida_free(&usb9pfs_ida, usb9pfs->index);
->>> +    kfree(usb9pfs->tag);
->>> +    kfree(usb9pfs);
->>> +
->>> +    opts = container_of(f->fi, struct f_usb9pfs_opts, func_inst);
->>> +
->>> +    mutex_lock(&opts->lock);
->>> +    opts->refcnt--;
->>> +    mutex_unlock(&opts->lock);
->>> +
->>> +    usb_free_all_descriptors(f);
->>> +}
->>> +
->>> +static int usb9pfs_set_alt(struct usb_function *f,
->>> +               unsigned int intf, unsigned int alt)
->>> +{
->>> +    return 0;
->>> +}
->>> +
->>> +static void usb9pfs_disable(struct usb_function *f)
->>> +{
->>> +}
->>> +
->>> +static struct usb_function *usb9pfs_alloc(struct usb_function_instance *fi)
->>> +{
->>> +    struct f_usb9pfs_opts *usb9pfs_opts;
->>> +    struct f_usb9pfs *usb9pfs;
->>> +
->>> +    usb9pfs = kzalloc(sizeof(*usb9pfs), GFP_KERNEL);
->>> +    if (!usb9pfs)
->>> +        return ERR_PTR(-ENOMEM);
->>> +
->>> +    usb9pfs_opts = container_of(fi, struct f_usb9pfs_opts, func_inst);
->>> +
->>> +    mutex_lock(&usb9pfs_opts->lock);
->>> +    usb9pfs_opts->refcnt++;
->>> +    mutex_unlock(&usb9pfs_opts->lock);
->>> +
->>> +    usb9pfs->buflen = usb9pfs_opts->buflen;
->>> +
->>> +    usb9pfs->function.name = "usb9pfs";
->>> +    usb9pfs->function.bind = usb9pfs_func_bind;
->>> +    usb9pfs->function.set_alt = usb9pfs_set_alt;
->>> +    usb9pfs->function.disable = usb9pfs_disable;
->>> +    usb9pfs->function.strings = usb9pfs_strings;
->>> +
->>> +    usb9pfs->function.free_func = usb9pfs_free_func;
->>> +
->>> +    mutex_lock(&usb9pfs_ida_lock);
->>> +
->>> +    usb9pfs->index = ida_alloc_max(&usb9pfs_ida, U8_MAX, GFP_KERNEL);
->>> +    if (usb9pfs->index < 0) {
->>> +        struct usb_function *ret = ERR_PTR(usb9pfs->index);
->>> +
->>> +        kfree(usb9pfs);
->>> +        mutex_unlock(&usb9pfs_ida_lock);
->>> +        return ret;
->>> +    }
->>> +
->>> +    mutex_unlock(&usb9pfs_ida_lock);
->>> +
->>> +    usb9pfs->tag = kasprintf(GFP_KERNEL, "%s%d", usb9pfs->function.name,
->>> +                 usb9pfs->index);
->>> +
->>> +    INIT_LIST_HEAD(&usb9pfs->function_list);
->>> +
->>> +    mutex_lock(&usb9pfs_lock);
->>> +    list_add_tail(&usb9pfs->function_list, &usbg_function_list);
->>> +    mutex_unlock(&usb9pfs_lock);
->>> +
->>> +    return &usb9pfs->function;
->>> +}
->>> +
->>> +static inline struct f_usb9pfs_opts *to_f_usb9pfs_opts(struct config_item 
->>> *item)
->>> +{
->>> +    return container_of(to_config_group(item), struct f_usb9pfs_opts,
->>> +                func_inst.group);
->>> +}
->>> +
->>> +static void usb9pfs_attr_release(struct config_item *item)
->>> +{
->>> +    struct f_usb9pfs_opts *usb9pfs_opts = to_f_usb9pfs_opts(item);
->>> +
->>> +    usb_put_function_instance(&usb9pfs_opts->func_inst);
->>> +}
->>> +
->>> +static struct configfs_item_operations usb9pfs_item_ops = {
->>> +    .release        = usb9pfs_attr_release,
->>> +};
->>> +
->>> +static ssize_t f_usb9pfs_opts_buflen_show(struct config_item *item, char *page)
->>> +{
->>> +    struct f_usb9pfs_opts *opts = to_f_usb9pfs_opts(item);
->>> +    int result;
->>> +
->>> +    mutex_lock(&opts->lock);
->>> +    result = sprintf(page, "%d\n", opts->buflen);
->>> +    mutex_unlock(&opts->lock);
->>> +
->>> +    return result;
->>> +}
->>> +
->>> +static ssize_t f_usb9pfs_opts_buflen_store(struct config_item *item,
->>> +                       const char *page, size_t len)
->>> +{
->>> +    struct f_usb9pfs_opts *opts = to_f_usb9pfs_opts(item);
->>> +    int ret;
->>> +    u32 num;
->>> +
->>> +    mutex_lock(&opts->lock);
->>> +    if (opts->refcnt) {
->>> +        ret = -EBUSY;
->>> +        goto end;
->>> +    }
->>> +
->>> +    ret = kstrtou32(page, 0, &num);
->>> +    if (ret)
->>> +        goto end;
->>> +
->>> +    opts->buflen = num;
->>> +    ret = len;
->>> +end:
->>> +    mutex_unlock(&opts->lock);
->>> +    return ret;
->>> +}
->>> +
->>> +CONFIGFS_ATTR(f_usb9pfs_opts_, buflen);
->>> +
->>> +static struct configfs_attribute *usb9pfs_attrs[] = {
->>> +    &f_usb9pfs_opts_attr_buflen,
->>> +    NULL,
->>> +};
->>> +
->>> +static const struct config_item_type usb9pfs_func_type = {
->>> +    .ct_item_ops    = &usb9pfs_item_ops,
->>> +    .ct_attrs    = usb9pfs_attrs,
->>> +    .ct_owner    = THIS_MODULE,
->>> +};
->>> +
->>> +static void usb9pfs_free_instance(struct usb_function_instance *fi)
->>> +{
->>> +    struct f_usb9pfs_opts *usb9pfs_opts;
->>> +
->>> +    usb9pfs_opts = container_of(fi, struct f_usb9pfs_opts, func_inst);
->>> +    kfree(usb9pfs_opts);
->>> +}
->>> +
->>> +static struct usb_function_instance *usb9pfs_alloc_instance(void)
->>> +{
->>> +    struct f_usb9pfs_opts *usb9pfs_opts;
->>> +
->>> +    usb9pfs_opts = kzalloc(sizeof(*usb9pfs_opts), GFP_KERNEL);
->>> +    if (!usb9pfs_opts)
->>> +        return ERR_PTR(-ENOMEM);
->>> +
->>> +    mutex_init(&usb9pfs_opts->lock);
->>> +
->>> +    usb9pfs_opts->func_inst.free_func_inst = usb9pfs_free_instance;
->>> +
->>> +    usb9pfs_opts->buflen = DEFAULT_BUFLEN;
->>> +
->>> +    config_group_init_type_name(&usb9pfs_opts->func_inst.group, "",
->>> +                    &usb9pfs_func_type);
->>> +
->>> +    return &usb9pfs_opts->func_inst;
->>> +}
->>> +DECLARE_USB_FUNCTION(usb9pfs, usb9pfs_alloc_instance, usb9pfs_alloc);
->>> +
->>> +static int __init usb9pfs_modinit(void)
->>> +{
->>> +    int ret;
->>> +
->>> +    INIT_LIST_HEAD(&usbg_function_list);
->>> +
->>> +    ret = usb_function_register(&usb9pfsusb_func);
->>> +    if (!ret)
->>> +        v9fs_register_trans(&p9_usbg_trans);
->>> +
->>> +    return ret;
->>> +}
->>> +
->>> +static void __exit usb9pfs_modexit(void)
->>> +{
->>> +    usb_function_unregister(&usb9pfsusb_func);
->>> +    v9fs_unregister_trans(&p9_usbg_trans);
->>> +}
->>> +
->>> +module_init(usb9pfs_modinit);
->>> +module_exit(usb9pfs_modexit);
->>> +
->>> +MODULE_ALIAS_9P("usbg");
->>> +MODULE_LICENSE("GPL");
->>> +MODULE_DESCRIPTION("USB gadget 9pfs transport");
->>> +MODULE_AUTHOR("Michael Grzeschik");
->>>
->>
->>
->>
+Uh I think it'd be best to use an xarray here like drm does, but I'm also
+not super sure we really need this. Can we not just walk all the links to
+check for duplicates when adding a new one instead?
+
+Having our own tracking in vkms on top of the id allocation drm does
+already anyway is a bit iffy. Similar to how vkms duplicating the object
+book-keeping in its own arrays is also a bit awkward, just more potential
+for bugs if the book-keeping diverges.
+
+> +
+> +	if (next_idx == VKMS_MAX_OUTPUT_OBJECTS) {
+> +		DRM_ERROR("Unable to allocate another CRTC.\n");
+> +		mutex_unlock(&configfs->lock);
+> +		return ERR_PTR(-ENOMEM);
+> +	}
+> +
+> +	crtc = kzalloc(sizeof(*crtc), GFP_KERNEL);
+> +	if (!crtc) {
+> +		DRM_ERROR("Unable to allocate CRTC.\n");
+> +		mutex_unlock(&configfs->lock);
+> +		return ERR_PTR(-ENOMEM);
+> +	}
+> +
+> +	config_group_init_type_name(&crtc->config_group, name, &crtc_type);
+> +	crtc->crtc_config_idx = next_idx;
+> +
+> +	set_bit(next_idx, &configfs->allocated_crtcs);
+> +
+> +	mutex_unlock(&configfs->lock);
+> +
+> +	return &crtc->config_group;
+> +}
+> +
+> +static void crtcs_group_drop(struct config_group *group,
+> +			     struct config_item *item)
+> +{
+> +	struct vkms_config_crtc *crtc = item_to_config_crtc(item);
+> +
+> +	kfree(crtc);
+> +}
+> +
+> +static struct configfs_group_operations crtcs_group_ops = {
+> +	.make_group = &crtcs_group_make,
+> +	.drop_item = &crtcs_group_drop,
+> +};
+> +
+> +static struct config_item_type crtcs_group_type = {
+> +	.ct_group_ops = &crtcs_group_ops,
+> +	.ct_owner = THIS_MODULE,
+> +};
+> +
+> +/* Encoders group: /config/vkms/device/encoders/ */
+> +
+> +static struct config_group *encoders_group_make(struct config_group *group,
+> +						const char *name)
+> +{
+> +	struct vkms_configfs *configfs =
+> +		container_of(group, struct vkms_configfs, encoders_group);
+> +	unsigned long next_idx;
+> +	struct vkms_config_encoder *encoder;
+> +
+> +	mutex_lock(&configfs->lock);
+> +
+> +	next_idx = find_first_zero_bit(&configfs->allocated_encoders,
+> +				       VKMS_MAX_OUTPUT_OBJECTS);
+> +
+> +	if (next_idx == VKMS_MAX_OUTPUT_OBJECTS) {
+> +		DRM_ERROR("Unable to allocate another encoder.\n");
+> +		mutex_unlock(&configfs->lock);
+> +		return ERR_PTR(-ENOMEM);
+> +	}
+> +
+> +	encoder = kzalloc(sizeof(*encoder), GFP_KERNEL);
+> +	if (!encoder) {
+> +		DRM_ERROR("Unable to allocate encoder.\n");
+> +		mutex_unlock(&configfs->lock);
+> +		return ERR_PTR(-ENOMEM);
+> +	}
+> +
+> +	config_group_init_type_name(&encoder->config_group, name,
+> +				    &encoder_type);
+> +	add_possible_crtcs(&encoder->config_group,
+> +			   &encoder->possible_crtcs.group);
+> +	encoder->encoder_config_idx = next_idx;
+> +	set_bit(next_idx, &configfs->allocated_encoders);
+> +
+> +	mutex_unlock(&configfs->lock);
+> +
+> +	return &encoder->config_group;
+> +}
+> +
+> +static void encoders_group_drop(struct config_group *group,
+> +				struct config_item *item)
+> +{
+> +	struct vkms_config_encoder *encoder = item_to_config_encoder(item);
+> +
+> +	kfree(encoder);
+> +}
+> +
+> +static struct configfs_group_operations encoders_group_ops = {
+> +	.make_group = &encoders_group_make,
+> +	.drop_item = &encoders_group_drop,
+> +};
+> +
+> +static struct config_item_type encoders_group_type = {
+> +	.ct_group_ops = &encoders_group_ops,
+> +	.ct_owner = THIS_MODULE,
+> +};
+> +
+> +/* Planes group: /config/vkms/device/planes/ */
+> +
+> +static struct config_group *make_plane_group(struct config_group *group,
+> +					     const char *name)
+> +{
+> +	struct vkms_config_plane *plane = kzalloc(sizeof(*plane), GFP_KERNEL);
+> +
+> +	if (!plane)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	config_group_init_type_name(&plane->config_group, name, &plane_type);
+> +	add_possible_crtcs(&plane->config_group, &plane->possible_crtcs.group);
+> +
+> +	return &plane->config_group;
+> +}
+> +
+> +static void drop_plane_group(struct config_group *group,
+> +			     struct config_item *item)
+> +{
+> +	struct vkms_config_plane *plane = item_to_config_plane(item);
+> +
+> +	kfree(plane);
+> +}
+> +
+> +static struct configfs_group_operations plane_group_ops = {
+> +	.make_group = &make_plane_group,
+> +	.drop_item = &drop_plane_group,
+> +};
+> +
+> +static struct config_item_type planes_group_type = {
+> +	.ct_group_ops = &plane_group_ops,
+> +	.ct_owner = THIS_MODULE,
+> +};
+> +
+> +/* Root directory group, e.g. /config/vkms/device */
+> +
+> +static ssize_t device_enabled_show(struct config_item *item, char *buf)
+> +{
+> +	struct vkms_configfs *configfs = item_to_configfs(item);
+> +	bool is_enabled;
+> +
+> +	mutex_lock(&configfs->lock);
+> +	is_enabled = configfs->vkms_device != NULL;
+> +	mutex_unlock(&configfs->lock);
+> +
+> +	return sprintf(buf, "%d", is_enabled);
+> +}
+> +
+> +static ssize_t device_enabled_store(struct config_item *item, const char *buf,
+> +				    size_t len)
+> +{
+> +	struct vkms_configfs *configfs = item_to_configfs(item);
+> +	struct vkms_device *device;
+> +	int value, ret;
+> +
+> +	ret = kstrtoint(buf, 0, &value);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (value != 1)
+> +		return -EINVAL;
+> +
+> +	mutex_lock(&configfs->lock);
+> +
+> +	if (configfs->vkms_device) {
+> +		mutex_unlock(&configfs->lock);
+> +		return len;
+> +	}
+> +
+> +	device = vkms_add_device(configfs);
+> +	mutex_unlock(&configfs->lock);
+> +
+> +	if (IS_ERR(device))
+> +		return -PTR_ERR(device);
+> +
+> +	return len;
+> +}
+> +
+> +CONFIGFS_ATTR(device_, enabled);
+> +
+> +static ssize_t device_id_show(struct config_item *item, char *buf)
+> +{
+> +	struct vkms_configfs *configfs = item_to_configfs(item);
+> +	int id = -1;
+> +
+> +	mutex_lock(&configfs->lock);
+> +	if (configfs->vkms_device)
+> +		id = configfs->vkms_device->platform->id;
+> +
+> +	mutex_unlock(&configfs->lock);
+> +
+> +	return sprintf(buf, "%d", id);
+> +}
+> +
+> +CONFIGFS_ATTR_RO(device_, id);
+> +
+> +static struct configfs_attribute *device_group_attrs[] = {
+> +	&device_attr_id,
+> +	&device_attr_enabled,
+> +	NULL,
+> +};
+> +
+> +static struct config_item_type device_group_type = {
+> +	.ct_attrs = device_group_attrs,
+> +	.ct_owner = THIS_MODULE,
+> +};
+> +
+> +static void vkms_configfs_setup_default_groups(struct vkms_configfs *configfs,
+> +					       const char *name)
+> +{
+> +	config_group_init_type_name(&configfs->device_group, name,
+> +				    &device_group_type);
+> +
+> +	config_group_init_type_name(&configfs->connectors_group, "connectors",
+> +				    &connectors_group_type);
+> +	configfs_add_default_group(&configfs->connectors_group,
+> +				   &configfs->device_group);
+> +
+> +	config_group_init_type_name(&configfs->crtcs_group, "crtcs",
+> +				    &crtcs_group_type);
+> +	configfs_add_default_group(&configfs->crtcs_group,
+> +				   &configfs->device_group);
+> +
+> +	config_group_init_type_name(&configfs->encoders_group, "encoders",
+> +				    &encoders_group_type);
+> +	configfs_add_default_group(&configfs->encoders_group,
+> +				   &configfs->device_group);
+> +
+> +	config_group_init_type_name(&configfs->planes_group, "planes",
+> +				    &planes_group_type);
+> +	configfs_add_default_group(&configfs->planes_group,
+> +				   &configfs->device_group);
+> +}
+> +
+> +/* Root directory group and subsystem, e.g. /config/vkms/ */
+> +
+> +static struct config_group *make_root_group(struct config_group *group,
+> +					    const char *name)
+> +{
+> +	struct vkms_configfs *configfs = kzalloc(sizeof(*configfs), GFP_KERNEL);
+> +
+> +	if (!configfs)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	vkms_configfs_setup_default_groups(configfs, name);
+> +	mutex_init(&configfs->lock);
+> +
+> +	return &configfs->device_group;
+> +}
+> +
+> +static void drop_root_group(struct config_group *group,
+> +			    struct config_item *item)
+> +{
+> +	struct vkms_configfs *configfs = item_to_configfs(item);
+> +
+> +	mutex_lock(&configfs->lock);
+> +	if (configfs->vkms_device)
+> +		vkms_remove_device(configfs->vkms_device);
+> +	mutex_unlock(&configfs->lock);
+> +
+> +	kfree(configfs);
+> +}
+> +
+> +static struct configfs_group_operations root_group_ops = {
+> +	.make_group = &make_root_group,
+> +	.drop_item = &drop_root_group,
+> +};
+> +
+> +static struct config_item_type vkms_type = {
+> +	.ct_group_ops = &root_group_ops,
+> +	.ct_owner = THIS_MODULE,
+> +};
+> +
+> +static struct configfs_subsystem vkms_subsys = {
+> +	.su_group = {
+> +		.cg_item = {
+> +			.ci_name = "vkms",
+> +			.ci_type = &vkms_type,
+> +		},
+> +	},
+> +	.su_mutex = __MUTEX_INITIALIZER(vkms_subsys.su_mutex),
+> +};
+> +
+> +int vkms_init_configfs(void)
+> +{
+> +	config_group_init(&vkms_subsys.su_group);
+> +	return configfs_register_subsystem(&vkms_subsys);
+> +}
+> +
+> +void vkms_unregister_configfs(void)
+> +{
+> +	configfs_unregister_subsystem(&vkms_subsys);
+> +}
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> index 6c94c2b5d529..819e880a8cf7 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> @@ -9,8 +9,10 @@
+>   * the GPU in DRM API tests.
+>   */
+>  
+> -#include "asm-generic/errno-base.h"
+> +#include <linux/configfs.h>
+>  #include <linux/device.h>
+> +#include <linux/dma-mapping.h>
+> +#include <linux/err.h>
+>  #include <linux/module.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/dma-mapping.h>
+> @@ -172,8 +174,8 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
+>  	dev->mode_config.preferred_depth = 0;
+>  	dev->mode_config.helper_private = &vkms_mode_config_helpers;
+>  
+> -	return vkmsdev->is_default ? vkms_output_init_default(vkmsdev) :
+> -				     -EINVAL;
+> +	return vkmsdev->configfs ? vkms_output_init(vkmsdev) :
+> +				   vkms_output_init_default(vkmsdev);
+>  }
+>  
+>  static int vkms_platform_probe(struct platform_device *pdev)
+> @@ -184,8 +186,10 @@ static int vkms_platform_probe(struct platform_device *pdev)
+>  	void *grp;
+>  
+>  	grp = devres_open_group(&pdev->dev, NULL, GFP_KERNEL);
+> -	if (!grp)
+> +	if (!grp) {
+> +		DRM_ERROR("Could not open devres group\n");
+>  		return -ENOMEM;
+> +	}
+>  
+>  	vkms_device = devm_drm_dev_alloc(&pdev->dev, &vkms_driver,
+>  					 struct vkms_device, drm);
+> @@ -198,7 +202,7 @@ static int vkms_platform_probe(struct platform_device *pdev)
+>  	vkms_device->config.cursor = enable_cursor;
+>  	vkms_device->config.writeback = enable_writeback;
+>  	vkms_device->config.overlay = enable_overlay;
+> -	vkms_device->is_default = vkms_device_setup->is_default;
+> +	vkms_device->configfs = vkms_device_setup->configfs;
+>  
+>  	ret = dma_coerce_mask_and_coherent(vkms_device->drm.dev,
+>  					   DMA_BIT_MASK(64));
+> @@ -258,12 +262,43 @@ static struct platform_driver vkms_platform_driver = {
+>  	.driver.name = DRIVER_NAME,
+>  };
+>  
+> +struct vkms_device *vkms_add_device(struct vkms_configfs *configfs)
+> +{
+> +	struct device *dev = NULL;
+> +	struct platform_device *pdev;
+> +	int max_id = 1;
+> +	struct vkms_device_setup vkms_device_setup = {
+> +		.configfs = configfs,
+> +	};
+> +
+> +	while ((dev = platform_find_device_by_driver(
+> +			dev, &vkms_platform_driver.driver))) {
+> +		pdev = to_platform_device(dev);
+> +		max_id = max(max_id, pdev->id);
+> +	}
+
+Uh this is both a layering violation (digging around in platform
+internals) and doesn't have enough locking. I think much better if we just
+have our own xarray for allocating these. For locking we should be able to
+reuse the confifgfs_subsystem.su_mutex, so just needs another
+configfs_assert_subsystem_locked instead.
+
+> +
+> +	pdev = platform_device_register_data(NULL, DRIVER_NAME, max_id + 1,
+> +					     &vkms_device_setup,
+> +					     sizeof(vkms_device_setup));
+> +	if (IS_ERR(pdev)) {
+> +		DRM_ERROR("Unable to register vkms device'\n");
+> +		return ERR_PTR(PTR_ERR(pdev));
+> +	}
+> +
+> +	return platform_get_drvdata(pdev);
+> +}
+> +
+> +void vkms_remove_device(struct vkms_device *vkms_device)
+> +{
+> +	platform_device_unregister(vkms_device->platform);
+
+We must nuke the platform_data here, because after this point there's
+nothing guaranteeing that the configfs pointers will survive.
+-Sima
+
+> +}
+> +
+>  static int __init vkms_init(void)
+>  {
+>  	int ret;
+>  	struct platform_device *pdev;
+>  	struct vkms_device_setup vkms_device_setup = {
+> -		.is_default = true,
+> +		.configfs = NULL,
+>  	};
+>  
+>  	ret = platform_driver_register(&vkms_platform_driver);
+> @@ -281,6 +316,13 @@ static int __init vkms_init(void)
+>  		return PTR_ERR(pdev);
+>  	}
+>  
+> +	ret = vkms_init_configfs();
+> +	if (ret) {
+> +		DRM_ERROR("Unable to initialize configfs\n");
+> +		platform_device_unregister(pdev);
+> +		platform_driver_unregister(&vkms_platform_driver);
+> +	}
+> +
+>  	return 0;
+>  }
+>  
+> @@ -288,6 +330,8 @@ static void __exit vkms_exit(void)
+>  {
+>  	struct device *dev;
+>  
+> +	vkms_unregister_configfs();
+> +
+>  	while ((dev = platform_find_device_by_driver(
+>  			NULL, &vkms_platform_driver.driver))) {
+>  		// platform_find_device_by_driver increments the refcount. Drop
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index 4262dcffd7e1..8cdd7949f661 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -3,6 +3,7 @@
+>  #ifndef _VKMS_DRV_H_
+>  #define _VKMS_DRV_H_
+>  
+> +#include <linux/configfs.h>
+>  #include <linux/hrtimer.h>
+>  
+>  #include <drm/drm.h>
+> @@ -10,6 +11,7 @@
+>  #include <drm/drm_gem.h>
+>  #include <drm/drm_gem_atomic_helper.h>
+>  #include <drm/drm_encoder.h>
+> +#include <drm/drm_plane.h>
+>  #include <drm/drm_writeback.h>
+>  
+>  #define XRES_MIN    10
+> @@ -138,14 +140,65 @@ struct vkms_config {
+>  	bool overlay;
+>  };
+>  
+> +struct vkms_config_links {
+> +	struct config_group group;
+> +	unsigned long linked_object_bitmap;
+> +};
+> +
+> +struct vkms_config_connector {
+> +	struct config_group config_group;
+> +	struct vkms_config_links possible_encoders;
+> +};
+> +
+> +struct vkms_config_crtc {
+> +	struct config_group config_group;
+> +	unsigned long crtc_config_idx;
+> +};
+> +
+> +struct vkms_config_encoder {
+> +	struct config_group config_group;
+> +	struct vkms_config_links possible_crtcs;
+> +	unsigned long encoder_config_idx;
+> +};
+> +
+> +struct vkms_config_plane {
+> +	struct vkms_configfs *configfs;
+> +	struct config_group config_group;
+> +	struct vkms_config_links possible_crtcs;
+> +	enum drm_plane_type type;
+> +};
+> +
+> +struct vkms_configfs {
+> +	/* Directory group containing connector configs, e.g. /config/vkms/device/ */
+> +	struct config_group device_group;
+> +	/* Directory group containing connector configs, e.g. /config/vkms/device/connectors/ */
+> +	struct config_group connectors_group;
+> +	/* Directory group containing CRTC configs, e.g. /config/vkms/device/crtcs/ */
+> +	struct config_group crtcs_group;
+> +	/* Directory group containing encoder configs, e.g. /config/vkms/device/encoders/ */
+> +	struct config_group encoders_group;
+> +	/* Directory group containing plane configs, e.g. /config/vkms/device/planes/ */
+> +	struct config_group planes_group;
+> +
+> +	unsigned long allocated_crtcs;
+> +	unsigned long allocated_encoders;
+> +
+> +	struct mutex lock;
+
+So this doesn't work, because it doesn't protect against against concurent
+add/removal of items to groups and other changes. Instead we need to rely
+on configfs_subsystem.su_mutex. To make this work cleanly I think we
+should do the following:
+
+- Add a configfs_assert_subsystem_locked wrapped to configfs.h, so that we
+  have a nicely abstracted lockdep check using lockdep_assert_held.
+
+  Than use that locking assert everywhere you currently have a
+  mutex_lock(vkms_configfs->lock). Note that you have quiet a few missing
+  places (since really everything we do needs that lock), I'd focus on
+  adding it to important helper functions like the xarray wrappers for
+  allocating ids (if we do those).
+
+- Then for walking the various lists (both here and in the next patch) we
+  should also add proper wrapper macros to configfs.h, which both do the
+  right upcasting and also have the lockdep assert.
+
+> +
+> +	/* The platform device if this is registered, otherwise NULL */
+> +	struct vkms_device *vkms_device;
+> +};
+> +
+>  struct vkms_device_setup {
+> -	bool is_default;
+> +	// Is NULL in the case of the default card.
+> +	struct vkms_configfs *configfs;
+>  };
+>  
+>  struct vkms_device {
+>  	struct drm_device drm;
+>  	struct platform_device *platform;
+> -	bool is_default;
+> +	// Is NULL in the case of the default card.
+> +	struct vkms_configfs *configfs;
+>  	struct vkms_output output;
+>  	struct vkms_config config;
+>  };
+> @@ -164,11 +217,42 @@ struct vkms_device {
+>  #define to_vkms_plane_state(target)\
+>  	container_of(target, struct vkms_plane_state, base.base)
+>  
+> +#define item_to_configfs(item) \
+> +	container_of(to_config_group(item), struct vkms_configfs, device_group)
+> +
+> +#define item_to_config_connector(item)                                    \
+> +	container_of(to_config_group(item), struct vkms_config_connector, \
+> +		     config_group)
+> +
+> +#define item_to_config_crtc(item)                                    \
+> +	container_of(to_config_group(item), struct vkms_config_crtc, \
+> +		     config_group)
+> +
+> +#define item_to_config_encoder(item)                                    \
+> +	container_of(to_config_group(item), struct vkms_config_encoder, \
+> +		     config_group)
+> +
+> +#define item_to_config_plane(item)                                    \
+> +	container_of(to_config_group(item), struct vkms_config_plane, \
+> +		     config_group)
+> +
+> +#define item_to_config_links(item) \
+> +	container_of(to_config_group(item), struct vkms_config_links, group)
+> +
+> +#define plane_item_to_configfs(item)                                         \
+> +	container_of(to_config_group(item->ci_parent), struct vkms_configfs, \
+> +		     planes_group)
+> +
+> +/* Devices */
+> +struct vkms_device *vkms_add_device(struct vkms_configfs *configfs);
+> +void vkms_remove_device(struct vkms_device *vkms_device);
+> +
+>  /* CRTC */
+>  struct vkms_crtc *vkms_crtc_init(struct vkms_device *vkmsdev,
+>  				 struct drm_plane *primary,
+>  				 struct drm_plane *cursor);
+>  
+> +int vkms_output_init(struct vkms_device *vkmsdev);
+>  int vkms_output_init_default(struct vkms_device *vkmsdev);
+>  
+>  struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
+> @@ -191,4 +275,8 @@ void vkms_writeback_row(struct vkms_writeback_job *wb, const struct line_buffer
+>  int vkms_enable_writeback_connector(struct vkms_device *vkmsdev,
+>  				    struct vkms_crtc *vkms_crtc);
+>  
+> +/* ConfigFS Support */
+> +int vkms_init_configfs(void);
+> +void vkms_unregister_configfs(void);
+> +
+>  #endif /* _VKMS_DRV_H_ */
+> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+> index bfc2e2362c6d..dc69959c5e1d 100644
+> --- a/drivers/gpu/drm/vkms/vkms_output.c
+> +++ b/drivers/gpu/drm/vkms/vkms_output.c
+> @@ -176,3 +176,8 @@ int vkms_output_init_default(struct vkms_device *vkmsdev)
+>  
+>  	return ret;
+>  }
+> +
+> +int vkms_output_init(struct vkms_device *vkmsdev)
+> +{
+> +	return -EOPNOTSUPP;
+> +}
+> -- 
+> 2.42.0.rc2.253.gd59a3bf2b4-goog
 > 
 
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
