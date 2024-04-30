@@ -1,166 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out30-110.freemail.mail.aliyun.com (out30-110.freemail.mail.aliyun.com [115.124.30.110])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 581C91836EE;
-	Tue, 30 Apr 2024 16:55:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A474213C66A;
+	Tue, 30 Apr 2024 17:31:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.110
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714496128; cv=none; b=LDd6TTiOJMX2dwIxljQwCgX7/jD2r+EunYJ0m58hNR91WaYP+ijhx7bUo/6PXUcdFjRgUZptQYjo4xOYnnJYLEH2G2yCFNCakbJ1Tn5vaKOscoi5fAJHsm2LANhkDcGUHgkWmm7qK/GQk0cxLMixRyQ+xF3sEA1KzoXh2R9TK0Y=
+	t=1714498305; cv=none; b=sgBFSshbjCldx9Jqzhk4KtIrJOZ11jX9znXTS2MMV8m0sHt7bmxTInKhj0yY5nD1jywJGIlT/8bQX6CWyHoQww7kvf8vgki5DAVRczS5zv4PZ1qA27aW+IKoKMigQRuOGlwBbPbZJSNapJhq8y/K1nJOKNCU5GYfv+CfKJp2ms8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714496128; c=relaxed/simple;
-	bh=afEaKbtT3sTJoRjqGUMv4dNh/Opd3i+knlydOHpRElM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dXlEvahINiZ+L0AtSKdvNihfBoXtU+9Cv/WKLyC0hSk15sc1Tbtpiw/v2Dm9qAdYNFciQaj973tSU9A9kIQULgA4BZaE9DXpww94ui+f5oUP3ZoUL0ciLKFqJbcOPVzgbX0g1XZ3xzua0oSBvFbxI4WfmunS3Gasm/O/d1oeRHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BPhi/PZL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714498305; c=relaxed/simple;
+	bh=35wJNzCtc3YlHo7W5Fcjr+gnMzorolWtmPw4Tagx2O8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HctQ5f9+L0zK3RCVk1jAHTzdEaNApo390g3sClrrDsgKszceNE5iphjpYppmFszzD8qgLP7HWfMiwxiWKewZqz4NGuMw9cSWm9OpKkvUkFMPhG7B5Y4O5PsxRmU7bdsnfC7hF4E0GRyzt1weo1+4gL4+OSDzpLwSjBhkARadtDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=Wi9BdB2r; arc=none smtp.client-ip=115.124.30.110
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BPhi/PZL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8B00C2BBFC;
-	Tue, 30 Apr 2024 16:55:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714496128;
-	bh=afEaKbtT3sTJoRjqGUMv4dNh/Opd3i+knlydOHpRElM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BPhi/PZLth6a7tETJJ+1u7dd7WBmJV/4L8EVw17ALRH7e0EUUEvxWtVyGsKklLnim
-	 Pd/Wb6IDT2rdxIT7fXIIHs0DMQg/EV/dgbQxn63BiHJMefIlIJqvJe2DQM9sXeZP+j
-	 NPPpEsmXNjkMUxzx4xuOQs+SLgPrfJZrf6eBqPsrg84SBN9HCoUpJsvq1l33UoV6/9
-	 JZP42clG60jChHV5M6zLW+aep8PnvZL4hn8rAov1AAVsKIGLAxfkCIcfId4vyoYJSj
-	 oT0Yq9p5CRzrXXeyhNcv+tZU934jkTvci1B+4KoSobX8MZvZLVq0fqPee9WHMao4el
-	 ZnOtaZKWFlRVg==
-Date: Tue, 30 Apr 2024 17:55:20 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Parthiban.Veerasooran@microchip.com
-Cc: andrew@lunn.ch, ramon.nordin.rodriguez@ferroamp.se, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	horms@kernel.org, saeedm@nvidia.com, anthony.l.nguyen@intel.com,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	corbet@lwn.net, linux-doc@vger.kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	devicetree@vger.kernel.org, Horatiu.Vultur@microchip.com,
-	ruanjinjie@huawei.com, Steen.Hegelund@microchip.com,
-	vladimir.oltean@nxp.com, UNGLinuxDriver@microchip.com,
-	Thorsten.Kummermehr@microchip.com, Pier.Beruto@onsemi.com,
-	Selvamani.Rajagopal@onsemi.com, Nicolas.Ferre@microchip.com,
-	benjamin.bigler@bernformulastudent.ch
-Subject: Re: [PATCH net-next v4 11/12] microchip: lan865x: add driver support
- for Microchip's LAN865X MAC-PHY
-Message-ID: <20240430-sharpie-manor-fd53df03b77d@spud>
-References: <20240418125648.372526-1-Parthiban.Veerasooran@microchip.com>
- <20240418125648.372526-12-Parthiban.Veerasooran@microchip.com>
- <Zi1PxgANUWh1S0sO@builder>
- <20240427-vaporizer-pencil-be6a25030f08@spud>
- <1ae4f1d5-140b-41b1-9191-da14fd67d409@microchip.com>
- <243dab3b-ac07-4d88-8c43-aed53a34cea9@lunn.ch>
- <bc54d514-cd93-4b12-a10a-3d613efc98a2@microchip.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="Wi9BdB2r"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1714498299; h=From:To:Subject:Date:Message-Id:MIME-Version;
+	bh=WQP0KNwV8WJxKA5ty6Apja/BByTogFld6Sod7EGrQNI=;
+	b=Wi9BdB2rrkEtTfW+Tz1b8kedH3KVqM/fvcfe8d+yh/91Nmp7yYr2mn5SkWBQZ8QMCMHaEUffXHvjT7eI/rXZRkVxHZ4WC0LcjavyQKoQGiapL/ASbPmd6prBHwMY3iNepGeLl9Y//UzKBd/fpXqBKP5WzlHNfSH/DIH1YzPaX4c=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R961e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037067110;MF=hengqi@linux.alibaba.com;NM=1;PH=DS;RN=23;SR=0;TI=SMTPD_---0W5coJt0_1714498296;
+Received: from localhost(mailfrom:hengqi@linux.alibaba.com fp:SMTPD_---0W5coJt0_1714498296)
+          by smtp.aliyun-inc.com;
+          Wed, 01 May 2024 01:31:37 +0800
+From: Heng Qi <hengqi@linux.alibaba.com>
+To: netdev@vger.kernel.org,
+	virtualization@lists.linux.dev
+Cc: Jakub Kicinski <kuba@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jason Wang <jasowang@redhat.com>,
+	"Michael S . Tsirkin" <mst@redhat.com>,
+	Brett Creeley <bcreeley@amd.com>,
+	Ratheesh Kannoth <rkannoth@marvell.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Tal Gilboa <talgi@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Paul Greenwalt <paul.greenwalt@intel.com>,
+	Ahmed Zaki <ahmed.zaki@intel.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	justinstitt@google.com
+Subject: [PATCH net-next v11 0/4] ethtool: provide the dim profile fine-tuning channel
+Date: Wed,  1 May 2024 01:31:32 +0800
+Message-Id: <20240430173136.15807-1-hengqi@linux.alibaba.com>
+X-Mailer: git-send-email 2.32.0.3.g01195cf9f
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="js/VJxOTZJXlYBp3"
-Content-Disposition: inline
-In-Reply-To: <bc54d514-cd93-4b12-a10a-3d613efc98a2@microchip.com>
+Content-Transfer-Encoding: 8bit
 
+The NetDIM library provides excellent acceleration for many modern
+network cards. However, the default profiles of DIM limits its maximum
+capabilities for different NICs, so providing a way which the NIC can
+be custom configured is necessary.
 
---js/VJxOTZJXlYBp3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Currently, the way is based on the commonly used "ethtool -C".
 
-On Tue, Apr 30, 2024 at 01:30:22PM +0000, Parthiban.Veerasooran@microchip.c=
-om wrote:
-> Hi Andrew,
->=20
-> On 29/04/24 5:39 pm, Andrew Lunn wrote:
-> > EXTERNAL EMAIL: Do not click links or open attachments unless you know =
-the content is safe
-> >=20
-> >> Looks like, the below changes needed to work correctly,
-> >>
-> >> lan865x.c:
-> >> - compatible string to be changed like below as it is a fallback for a=
-ll
-> >> variants,
-> >>        .compatible =3D "microchip,lan8650"
-> >> - DRV_NAME to be changed like below,
-> >>        #define DRV_NAME                        "lan8650"
-> >>
-> >> microchip,lan865x.example.dts for lan8650:
-> >> - compatible string to be changed like below,
-> >>        .compatible =3D "microchip,lan8650";
-> >>        OR
-> >> microchip,lan865x.example.dts for lan8651:
-> >> - compatible string to be changed like below,
-> >>        compatible =3D "microchip,lan8651", "microchip,lan8650";
-> >>
-> >> I tested with the above changes and there was no issues observed. Any
-> >> comments on this? Otherwise we can stick with these changes for the ne=
-xt
-> >> version.
-> >=20
-> > As Conor said, this is probably relying on the fallback
-> > mechanism. Please look at other SPI devices, e.g. hwmon, and see how
-> > they probe for multiple different devices.
-> I just referred the below drivers for the spi devices handling along=20
-> with the compatible,
->=20
-> https://elixir.bootlin.com/linux/latest/source/drivers/net/ethernet/davic=
-om/dm9051.c#L1239
->=20
-> https://elixir.bootlin.com/linux/latest/source/drivers/net/ethernet/adi/a=
-din1110.c#L1644
->=20
-> lan8650 - MAC-PHY chip
-> lan8651 - ETH Click-Mikroe with MAC-PHY chip
->=20
-> So, they are different in interface but not in functionality. There is=20
-> no difference in the configuration. So let's consider lan8650 is the=20
-> fallback option for lan8651.
->=20
-> By referring the above links, I have restructured the code like below to=
-=20
-> support with lan8651 fallback. Still there is no change in the existing=
-=20
-> device tree binding. This is the only change in lan865x.c.
->=20
-> static const struct spi_device_id spidev_spi_ids[] =3D {
->          { .name =3D "lan8650" },
->          {},
-> };
->=20
-> static const struct of_device_id lan865x_dt_ids[] =3D {
->          { .compatible =3D "microchip,lan8650" },
->          { /* Sentinel */ }
-> };
-> MODULE_DEVICE_TABLE(of, lan865x_dt_ids);
->=20
-> static struct spi_driver lan865x_driver =3D {
->          .driver =3D {
->                  .name =3D DRV_NAME,
->                  .of_match_table =3D lan865x_dt_ids,
->           },
->          .probe =3D lan865x_probe,
->          .remove =3D lan865x_remove,
->          .id_table =3D spidev_spi_ids,
-> };
->=20
-> I also referred the below two links for the device tree binding and=20
-> driver in case of fallback.
+Please review, thank you very much!
 
-Did you also verify that the warning from the spi core is no longer
-generated when using compatible =3D "microchip,lan8651", "microchip,lan8650=
-"?
+Changelog
+=====
+v10->v11:
+  - Fix and clean up some issues from Kuba, thanks.
+  - Rebase net-next/main
 
---js/VJxOTZJXlYBp3
-Content-Type: application/pgp-signature; name="signature.asc"
+v9->v10:
+  - Collect dim related flags/mode/work into one place.
+  - Use rx_profile + tx_profile instead of four profiles.
+  - Add several helps.
+  - Update commit logs.
 
------BEGIN PGP SIGNATURE-----
+v8->v9:
+  - Fix the compilation error of conflicting names of rx_profile in
+    dim.h and ice driver: in dim.h, rx_profile is replaced with
+    dim_rx_profile. So does tx_profile.
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZjEieAAKCRB4tDGHoIJi
-0rXJAQCg3c5KEmlcUVnAQeoyvJAbMOXTrqTIe+5HNtP5ghxVCQD9H3u3qZgPhyOU
-umMo7Mi2fXou2ruId81UEDb48eDqIQ0=
-=yp6N
------END PGP SIGNATURE-----
+v7->v8:
+  - Use kmemdup() instead of kzalloc()/memcpy() in dev_dim_profile_init().
 
---js/VJxOTZJXlYBp3--
+v6->v7:
+  - A new wrapper struct pointer is used in struct net_device.
+  - Add IS_ENABLED(CONFIG_DIMLIB) to avoid compiler warnings.
+  - Profile fields changed from u16 to u32.
+
+v5->v6:
+  - Place the profile in netdevice to bypass the driver.
+    The interaction code of ethtool <-> kernel has not changed at all,
+    only the interaction part of kernel <-> driver has changed.
+
+v4->v5:
+  - Update some snippets from Kuba.
+
+v3->v4:
+  - Some tiny updates and patch 1 only add a new comment.
+
+v2->v3:
+  - Break up the attributes to avoid the use of raw c structs.
+  - Use per-device profile instead of global profile in the driver.
+
+v1->v2:
+  - Use ethtool tool instead of net-sysfs.
+
+Heng Qi (4):
+  linux/dim: move useful macros to .h file
+  ethtool: provide customized dim profile management
+  dim: add new interfaces for initialization and getting results
+  virtio-net: support dim profile fine-tuning
+
+ Documentation/netlink/specs/ethtool.yaml     |  31 +++
+ Documentation/networking/ethtool-netlink.rst |   4 +
+ drivers/net/virtio_net.c                     |  48 +++-
+ include/linux/dim.h                          | 117 ++++++++
+ include/linux/ethtool.h                      |   7 +-
+ include/linux/netdevice.h                    |   5 +
+ include/uapi/linux/ethtool_netlink.h         |  22 ++
+ lib/dim/net_dim.c                            | 145 +++++++++-
+ net/ethtool/coalesce.c                       | 278 ++++++++++++++++++-
+ 9 files changed, 642 insertions(+), 15 deletions(-)
+
+-- 
+2.32.0.3.g01195cf9f
+
