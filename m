@@ -1,383 +1,460 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D4238DFC;
-	Tue, 30 Apr 2024 07:34:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714462465; cv=fail; b=dgj+vF8b0V0JwV/B24OsCLSr7WQ13F+Slh0MWPE7kmXpEOkSMC/75CHffwbKB1VjnHusiKGNEhXtMKmnJoXfkarvv59AeuQQCJhUwlwJq55oXnC1m1tojLmt0aN5/dpjV+6YSrNuHkmbjVzJg0vWTeODEqcrsUbI1ZpKY3+45U8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714462465; c=relaxed/simple;
-	bh=WH2IzzgtwxBncPZ5zmuZCzkJq6LYTlJ58Iz8OXXECCA=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=mQw4LBhWVVOEmeOGPgz3qallCDqIksh+npa997DtoF2wIvzCJAprfnwVKimvHMT/9oU9cW9kh/MeLqyls9s5R3jp0IBUKrp9bkSW5DlfhIXtbwHZgXrnDHlc90nqMIbt5erQ+2tOhf82PjM/+kE7b5g8w0jBHBkmNtHOGnJf0+0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LBMIWO/w; arc=fail smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29CAC40860
+	for <linux-doc@vger.kernel.org>; Tue, 30 Apr 2024 07:47:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1714463228; cv=none; b=bOGK+cKEBg1PMKGTnaS5at9kIAH5IldpXpPSiA+rujsa1ZUy45lmDLlbmhPQbYlnnepCPD2IMFpGdBI8tsdN7MgGlgKiGIvKW7zd2FpohmQ7GhOuZBdIQlOzRHmjOATVBDPw7B1XBlCN1Prv1hjJ5qZOBMGTWz5vWGlqTeVm/7U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1714463228; c=relaxed/simple;
+	bh=gC45VDK4siqx016hdJWbpUE3+bLlYhLTYFknnLg71PY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PouDwNTMcGsNmyMO9ZGd3U6HhEuA4tUf372vj7vBBivVRXURxyRFQLjwl57iPmhWJJrkgZg8aYUiwYyVZTVFNJqtLxEZXKnOasf94gWRj4KlC8ovAQwWbqMUH2HB3S6NboR53WrumlsaB6aE1S0kLb+0G5IwSqb2QFe+frYReTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=RzHd60eq; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LBMIWO/w"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714462464; x=1745998464;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=WH2IzzgtwxBncPZ5zmuZCzkJq6LYTlJ58Iz8OXXECCA=;
-  b=LBMIWO/wfiFspbPcgVvnz7LChtB/Ah6XPbeSqMAQUZ3pEUilzpWu/xXm
-   up91Y16YYu310B5AXp35l+rtfSBbveWkwyERFNEN9OYPKPJWh86vIZVLl
-   CHb1aaWbNomUppPLKsPtQuYpOk81gXqrMaiMSoblYLx36bVSGHK8cnrln
-   8ENsureNJtwnrRjvNbB+qUCP/J895GEmZHu8TQPRKn0mhcaUOSJYElUxJ
-   4xzh9BcO+R+a6Mt8O8kLdTGapdYyaoHl/Lhn0if2svf5wddKn+gUG+XHX
-   Cn5R9rnuub8lZ7E4fRLMFEzp44JizpXpsk2A5hApQ6Q8NvkZh4/uyF4CP
-   g==;
-X-CSE-ConnectionGUID: MISD6PuTSwiq+lDvPPf5ig==
-X-CSE-MsgGUID: 6HsmQtgdQUSDJDbRIL+5iQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="10308178"
-X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
-   d="scan'208";a="10308178"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 00:34:23 -0700
-X-CSE-ConnectionGUID: HMGDXy1kRF6nc3t7WYcAuQ==
-X-CSE-MsgGUID: ffCztrWYSDmwojrSpUtJvQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
-   d="scan'208";a="57251609"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 30 Apr 2024 00:34:23 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 30 Apr 2024 00:34:22 -0700
-Received: from orsmsx602.amr.corp.intel.com (10.22.229.15) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Tue, 30 Apr 2024 00:34:22 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Tue, 30 Apr 2024 00:34:22 -0700
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.41) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Tue, 30 Apr 2024 00:34:21 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=edQ+JwFdeycyn4vFShGc7kr2zaNdC6YiHzDgtU+6Abez7MmkWzomILsb0hnaYUvu7+Yq8BmGa6UM4f1A+pQe8GPqUQMWVuzSGYNMOc0mx3jjPO9xcd1fqGK3lAisczTz2pYgNvATZDvCIxuHafgW7zLUTZnnBitByo2tPaWI59lFuZ9uLBNbXxisSIEvT9iPzlEoAr7bTIrazGit2U7QhzPBxK6EvzWz0vvtsIyJ0bJJu7EvKrxNNUmj2p62IGNAGBAUni3JinHnJeOFpJXXlcN81NBtIrUW1V/5NOyNGOlsjNU93vHAC6Btf9q3gw3LksQzV8DmE4qgftL+zGyCVQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VA6s3Rjcd5JpWjyUbZKkSBGM3wG3EohyAIsoM0g3jTM=;
- b=eP0DWf/tOjmhpfwhlKwEzPLi1Dc9zm7xJJhDUMxA7LEBVn2gUnYIFTeIF43w7brSFGPwmtgdkiHpX8C5OWCDqG5TK1RzP147u8gWh6xBty81qGqFfGIVRLR5AEue/Iwo72/D0BMq/UKUmLlatT2D7ZFRw1Xv349xB31QVgboINl5um276U1LpeaX7rleNJlaUo+e3eCqq+aoHkqulnCp/W/bHWaHjDezDi/DflkB+aZvBA2BV98MwGHyzkpjFzn1V/uYomy02Qx5G69dIGml+e0POTP3qxnZjCHPYa4boAOQ+TEoC0PXNZPtXbddcJVC17VA1074k9WvG4/i0X5P8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CH3PR11MB8660.namprd11.prod.outlook.com (2603:10b6:610:1ce::13)
- by CH0PR11MB5265.namprd11.prod.outlook.com (2603:10b6:610:e0::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.34; Tue, 30 Apr
- 2024 07:34:20 +0000
-Received: from CH3PR11MB8660.namprd11.prod.outlook.com
- ([fe80::5135:2255:52ba:c64e]) by CH3PR11MB8660.namprd11.prod.outlook.com
- ([fe80::5135:2255:52ba:c64e%4]) with mapi id 15.20.7519.031; Tue, 30 Apr 2024
- 07:34:20 +0000
-Date: Tue, 30 Apr 2024 15:34:08 +0800
-From: Chao Gao <chao.gao@intel.com>
-To: Xin Li <xin3.li@intel.com>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
-	<linux-kselftest@vger.kernel.org>, "seanjc@google.com" <seanjc@google.com>,
-	"pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net"
-	<corbet@lwn.net>, "tglx@linutronix.de" <tglx@linutronix.de>,
-	"mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org"
-	<x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>, "shuah@kernel.org"
-	<shuah@kernel.org>, "vkuznets@redhat.com" <vkuznets@redhat.com>,
-	"peterz@infradead.org" <peterz@infradead.org>, "Shankar, Ravi V"
-	<ravi.v.shankar@intel.com>, "xin@zytor.com" <xin@zytor.com>
-Subject: Re: [PATCH v2 13/25] KVM: VMX: Handle VMX nested exception for FRED
-Message-ID: <ZjCe8HGMh1D8KXdD@chao-email>
-References: <20240207172646.3981-1-xin3.li@intel.com>
- <20240207172646.3981-14-xin3.li@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20240207172646.3981-14-xin3.li@intel.com>
-X-ClientProxiedBy: SI1PR02CA0036.apcprd02.prod.outlook.com
- (2603:1096:4:1f6::20) To CH3PR11MB8660.namprd11.prod.outlook.com
- (2603:10b6:610:1ce::13)
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="RzHd60eq"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-41be416455bso1779895e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 30 Apr 2024 00:47:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1714463224; x=1715068024; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Dl1GVdvN0rueQglXaHxovHAsGiDm4e1yNLBN8HxvIs4=;
+        b=RzHd60eqTGy2B5hMmr8h5IuK0HPVJI8Gvuor2iB4EHEi5Ghpthm5ycIx2bbG4aKiDb
+         KnIVXIvLi31mkmje/ZRsE0zh0aVl/MrFfTg9B9sEdTothIqHFkRs7PQWXZ296zCNTeOY
+         mXukRcrh0WvRvod12WgG3GxkfveFy3KzoEX8U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714463224; x=1715068024;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:mail-followup-to:message-id:subject:cc:to
+         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Dl1GVdvN0rueQglXaHxovHAsGiDm4e1yNLBN8HxvIs4=;
+        b=uwYnGBGWAiOxslwWg8/aV1zz4wCQQpi1cPZ1jz4c2m7csSN23qCkepCleW8XzWUBg6
+         bmb3a84zFc31re0fmR5ri+MTGzUzo3jqNlHQYv4CbVwKLlVrNbHVosceQWP9SW7t2maz
+         qEwHRP9sYSz3B6mOLEMdViVkw/7sSq8Ko1DmyhD200pn5nYj1IFpUyRfz0UdU2cogRy1
+         0TSHVBDiisIhC2Y1lpmJ8T00k61PUcLBjUfyUPL8rflH18ud6rskXaiq5SdOGHsvr8G+
+         OvRwk8xsoCO2xnozokr7/9TKF3+vaboZpIOS9QNhLyyRmGIMzfXyfvZVoBd2il7RiOFc
+         /X9A==
+X-Forwarded-Encrypted: i=1; AJvYcCUfcSOXc1bs9k/73JjEBBZCThiRFxm8A0KuPEhYuAAxlD+/UEnqhAJ2b2e5h9GaZrFDejWliVp4PEo8z9rslaKaWwlVeg5HF412
+X-Gm-Message-State: AOJu0YzIUN4v5OC/o9JppVRcSQvE5UhM/qYy/lRZKb74TvZnGY+glbIb
+	Oug53orzzuMAL4cLiKY8n4jUv0+0+RCpa6mU4XB1i4SKpPqqSQzr858EfQ37w4g=
+X-Google-Smtp-Source: AGHT+IHuDyo23DJDpBF8JKqWWbigshhI7I6HT5tZcYEE0/M6RSPMqPV+XQRy0UmQoJM+uQ4/DbbzAQ==
+X-Received: by 2002:a5d:53c8:0:b0:34c:9a04:4673 with SMTP id a8-20020a5d53c8000000b0034c9a044673mr5123632wrw.4.1714463224175;
+        Tue, 30 Apr 2024 00:47:04 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id u18-20020a5d6ad2000000b0034c66bddea3sm570314wrw.37.2024.04.30.00.47.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Apr 2024 00:47:03 -0700 (PDT)
+Date: Tue, 30 Apr 2024 09:47:00 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Brandon Pollack <brpol@chromium.org>
+Cc: marius.vlad@collabora.com, mairacanal@riseup.net, jshargo@chromium.org,
+	hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com,
+	linux-doc@vger.kernel.org, hirono@chromium.org, corbet@lwn.net,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	melissa.srw@gmail.com, mduggan@chromium.org, mripard@kernel.org,
+	tzimmermann@suse.de
+Subject: Re: [PATCH v6 1/7] drm/vkms: Back VKMS with DRM memory management
+ instead of static objects
+Message-ID: <ZjCh9DGnh2JQ3vtk@phenom.ffwll.local>
+Mail-Followup-To: Brandon Pollack <brpol@chromium.org>,
+	marius.vlad@collabora.com, mairacanal@riseup.net,
+	jshargo@chromium.org, hamohammed.sa@gmail.com,
+	rodrigosiqueiramelo@gmail.com, linux-doc@vger.kernel.org,
+	hirono@chromium.org, corbet@lwn.net, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, melissa.srw@gmail.com,
+	mduggan@chromium.org, mripard@kernel.org, tzimmermann@suse.de
+References: <20230829053201.423261-1-brpol@chromium.org>
+ <20230829053201.423261-2-brpol@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8660:EE_|CH0PR11MB5265:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1dc2f092-f655-487a-79f1-08dc68e7f2ce
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|7416005|376005|1800799015;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?K2f65UZlJ/oHPn+/IW5XsuAAk7P0/54lp0EZ5rmy93zLWn3LICJuZzV2Xf6V?=
- =?us-ascii?Q?anPTZ5TZ0eaGiLFv7Cn+EnTxAld0j/DFFoF+pgcKhpJblBQqhQnjjjlgrzpu?=
- =?us-ascii?Q?TKu1MoT54flM+HLq81hZkaPbQW0yFnMnnRJMit/VDkTYTi5W3fUV4ZboTXEZ?=
- =?us-ascii?Q?OgXVloAmtae3qgJL58hVv+rPZgAG0ac1tNf6ZnllISCxbNQNEAEmmy9d1t6t?=
- =?us-ascii?Q?t5UmxlXcVON8GTGrKC1r5drQUX4HrfNFTiwwWe6You+4wFOR0vX501vgaDUB?=
- =?us-ascii?Q?Wh7Az4+QCt0ivb7q3ptccP4ebBT/b07DRrozkV+tWDUqXKYjBNPjX+72bdf4?=
- =?us-ascii?Q?gB12XAWCKxikkgf8npe0AE5JG4ui7ST4QH4aGkbhqF7CjPvTDArl2aAl9/Og?=
- =?us-ascii?Q?sNvvc+13jVN3a+CjEbv+djx1Z/mPLPE9r4qzu0//mA9JFNzSJqQIM2J9ri80?=
- =?us-ascii?Q?jgIK8IMNg3l5ASCU8I6qcFCSGkqsDhTkWgy5FXurzdeYtsY9cum/xZCuoinC?=
- =?us-ascii?Q?2loYuKValvx+0huWZmd6KxtMvAAtLPGRao6otqUj2ZAUsJhs1n/VDw9GiuMw?=
- =?us-ascii?Q?+rQQUV6S2nYqmA+8+yJE2OOsGBiQS//9J2kHzwtL6rqPD8fPz8YjUCemKApH?=
- =?us-ascii?Q?1goswayLtxE/QKOrU9yviZ4VBJBf/mFOK0JJaql75PGdSt2eOC8zl0Iur2U2?=
- =?us-ascii?Q?k71ikcMiEash37SGt+HjZTle1BrQeWvncq91qLtVxNYIni7D77DjtNlvESal?=
- =?us-ascii?Q?EJ8EV8DgVHcU98TJI+MN0Uw6wtaDOQ9sDzAQm77CBw5UDc8zKXRtFijlwzTU?=
- =?us-ascii?Q?zuGu9mz+CzlYXcVPmc3tpWTK6S88CTlx5iG5PDrk+ZdWb1K+yffxQqUBWbCu?=
- =?us-ascii?Q?NcM6SPoulT6JThkMGt8WdvEXM3HR0UvrEO0A8cQA4Ua7INSRNy8XglZdCNGk?=
- =?us-ascii?Q?5WLCr7ec46XXpnvfOYcqGqG3FmESTRoDylDGA3mklPu3TFk7s0eWx5znvvOI?=
- =?us-ascii?Q?B6PJju+X0Naa5woW0aEn3D4GNJ8s9MdxVWbdlWgjvnEyPNBBXcgNqYqcSW2R?=
- =?us-ascii?Q?Gh5TRVNcLUh4fbaBnyS3PQnBsIVUhV/jdTGrO2kQSGUKbo0UX2qeO7ZMaRiG?=
- =?us-ascii?Q?Hv6m8Z1ok4+a5c6AnSShHqBqIiave2JGCAfNUvv18N+Cv7I+f3qk5JbY+twO?=
- =?us-ascii?Q?gy+9TfOckcOcndzSV217H3eRQ7HuG5pbl4esZxUlMM1Beyd45hC3EzWS+TVe?=
- =?us-ascii?Q?GwKfOWnuUPqu13Kxh4o1xYfeYFwE4+8hVKOmEWbISQ=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8660.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(7416005)(376005)(1800799015);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1zRLIKjqnsN6oXwY2udWb1pj16zX6yg/UiZYm+7hRMmAUpmrgP1nU5dMqufF?=
- =?us-ascii?Q?LvmfIkZLNDSxMSJfCXTa+/PPjmCxqnSe84A32YZBlw7abhhgfTXcyqOgFO6l?=
- =?us-ascii?Q?2DPvRt+jXIL3t2VfcQih7SfXDzAcBMSfg2zIty8We+cxuwvB4iL7H/bdSnvM?=
- =?us-ascii?Q?UdLC0BiwEstmRt5juAq5Ya9L25VqBaJSUiHuHHS58zHi6gUdKagFpnK9CFj9?=
- =?us-ascii?Q?+RkY1oo8cj5esbKgMNnucTsXhZU3940S62ptBFm8OYkCxALukiqBjsh78LHt?=
- =?us-ascii?Q?skj8ZrvIbSLkrs2GayjTq2vzT85ytCPiY75QULrY1aB0CeyTli7SS5pX4DOM?=
- =?us-ascii?Q?PuUT70xASepK84ZWMIy3FruBujqV3qvvJZyguFlgfgbDMEdMx2LbEaoP4nRR?=
- =?us-ascii?Q?S20GLYJgXMeQkHK+Mp5i1hJivyePPry/6xVIB5A4h9S4p7M/4AqfeKbMA6Ei?=
- =?us-ascii?Q?V2aHAeiZwAsqc0IBzekqsgfuUasDU7q0Zf/o6pcXKGvx9PqwEML8ANxkS0Oz?=
- =?us-ascii?Q?rDd+JYR7GD8XbkvdqVfdPjnvZsNKH5TD3PJ63buYl0KXUqgrR8n9ShRVpoYx?=
- =?us-ascii?Q?ECL4vqpwyTGMDxCXEAtFc/TRerP+ow6uIhNXUx/ZBAYf3XnZSZFhJ8RL1/Eu?=
- =?us-ascii?Q?GPrd7Vk1DRJZod0V6fVPaSyNlaYLjXRc49lwwrZxZ5Tcph2/rpWPBWtJy6Po?=
- =?us-ascii?Q?fQd0R1RZOyGn55OROgruWzVPA21cRU6G2c85Odqce2wam41yDBGJkv7PSV9H?=
- =?us-ascii?Q?ajV/XvM0NHBc1oalyTZtinCPG5iPQQLHvp81cCm18pcbGnf0Flz0606PT8HF?=
- =?us-ascii?Q?nb26EP7zOUsojZoTugRfuY3clh+E7vk8sn+nyfTUlYZvNtsu3dLZ8AJyNW1K?=
- =?us-ascii?Q?46+hZRWUaMPeL+CL76N8BGbvUf5WYFcCHBQXs/UJ8kZt0mg93ym06AJ2b54q?=
- =?us-ascii?Q?9mBnyTN/AuBIdyWSPrIYqsVoDkntRmJ0iYLJOhty1MfIVXEUHgB6SGQuBbuF?=
- =?us-ascii?Q?JUvAds4HYfhq1/m+XQCn08S6gvvvKsrWa6SBzhXfn527XP4Mn86v7aq1gfkH?=
- =?us-ascii?Q?FYAYx8cg4i4OpaLLjD06ismF2jNkL5/cZ1Fm9Pltuj9jZdSrMlTzWa3pjPiF?=
- =?us-ascii?Q?+8ieLNDoFuDqDVJBdRG24iHdkRhY6BvMwqAE9FV0TIo79M/3+IHWYze84M5R?=
- =?us-ascii?Q?PfFitrZD4yov1GyrqHI8g8T5HauVwQQQBeB7GhuDQib7QkIRLKehSPeT5F6F?=
- =?us-ascii?Q?vBHSDEg2QpzFj75VTkaVSpk9kJsSOPhYVjEOg9ysokFmrlBWH+W9um+7ITPT?=
- =?us-ascii?Q?GKf/pOAJ+Xdy9HQ5F4vE0VZ3AIf39Yyjsd1P77Zyy7pvzY2aISQzKfMQASc9?=
- =?us-ascii?Q?NswbA+tY46K02w6mPiCr9pj+Auc8LKC5DwUhvtdEyTLAGXA3b20DNG+mYtul?=
- =?us-ascii?Q?V2ycJxTMt0Z4KggMPaLrC0F0O3wDn72K0s9g/w/WOZT2lC2U3j+/lDxKtzwQ?=
- =?us-ascii?Q?pjt3szB4M6r921KNQ1imNXa1ZayzPsjPqGLTcnV42NAG7O5qBN9WaM/s9ptu?=
- =?us-ascii?Q?IaZyuuyiYnqeBXBh168eSkTOYUXUqn+WQti/pMVC?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1dc2f092-f655-487a-79f1-08dc68e7f2ce
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8660.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2024 07:34:20.2013
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Uew8NmEWpknhwn5E10XYn8EINs8jE8EdpqF5VWiGrSUPRcD/Iiw6IVp55f2foyHZ+Uj1dGl+p0STe2HUTMGY7A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5265
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230829053201.423261-2-brpol@chromium.org>
+X-Operating-System: Linux phenom 6.6.15-amd64 
 
-On Thu, Feb 08, 2024 at 01:26:33AM +0800, Xin Li wrote:
->Set VMX nested exception bit in the VM-entry interruption information
->VMCS field when injecting a nested exception using FRED event delivery
->to ensure:
->  1) The nested exception is injected on a correct stack level.
->  2) The nested bit defined in FRED stack frame is set.
->
->The event stack level used by FRED event delivery depends on whether the
->event was a nested exception encountered during delivery of another event,
->because a nested exception is "regarded" as happening on ring 0.  E.g.,
->when #PF is configured to use stack level 1 in IA32_FRED_STKLVLS MSR:
->  - nested #PF will be delivered on stack level 1 when encountered in
->    ring 3.
->  - normal #PF will be delivered on stack level 0 when encountered in
->    ring 3.
->
->The VMX nested-exception support ensures the correct event stack level is
->chosen when a VM entry injects a nested exception.
->
->Signed-off-by: Xin Li <xin3.li@intel.com>
->Tested-by: Shan Kang <shan.kang@intel.com>
->---
->
->Changes since v1:
->* Set the nested flag when there is an original interrupt (Chao Gao).
->---
-> arch/x86/include/asm/kvm_host.h |  6 +++--
-> arch/x86/include/asm/vmx.h      |  5 ++--
-> arch/x86/kvm/svm/svm.c          |  4 +--
-> arch/x86/kvm/vmx/vmx.c          |  8 ++++--
-> arch/x86/kvm/x86.c              | 46 ++++++++++++++++++++++++++-------
-> arch/x86/kvm/x86.h              |  1 +
-> 6 files changed, 53 insertions(+), 17 deletions(-)
->
->diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
->index 0d88873eba63..ef278ee0b6ca 100644
->--- a/arch/x86/include/asm/kvm_host.h
->+++ b/arch/x86/include/asm/kvm_host.h
->@@ -736,6 +736,7 @@ struct kvm_queued_exception {
-> 	u32 error_code;
-> 	unsigned long payload;
-> 	bool has_payload;
->+	bool nested;
+On Tue, Aug 29, 2023 at 05:30:53AM +0000, Brandon Pollack wrote:
+> From: Jim Shargo <jshargo@chromium.org>
+> 
+> This is a small refactor to make ConfigFS support easier. Once we
+> support ConfigFS, there can be multiple devices instantiated by the
+> driver, and so moving everything into managed memory makes things much
+> easier.
+> 
+> This should be a no-op refactor.
+> 
+> Signed-off-by: Jim Shargo <jshargo@chromium.org>
+> Signed-off-by: Brandon Pollack <brpol@chromium.org>
 
-"nested" may be lost after migration.
+Ok a few things on more the design of this all:
 
-> };
-> 
-> struct kvm_vcpu_arch {
->@@ -2060,8 +2061,9 @@ int kvm_emulate_rdpmc(struct kvm_vcpu *vcpu);
-> void kvm_queue_exception(struct kvm_vcpu *vcpu, unsigned nr);
-> void kvm_queue_exception_e(struct kvm_vcpu *vcpu, unsigned nr, u32 error_code);
-> void kvm_queue_exception_p(struct kvm_vcpu *vcpu, unsigned nr, unsigned long payload);
->-void kvm_requeue_exception(struct kvm_vcpu *vcpu, unsigned nr);
->-void kvm_requeue_exception_e(struct kvm_vcpu *vcpu, unsigned nr, u32 error_code);
->+void kvm_requeue_exception(struct kvm_vcpu *vcpu, unsigned nr, bool nested);
->+void kvm_requeue_exception_e(struct kvm_vcpu *vcpu, unsigned nr,
->+			     u32 error_code, bool nested);
-> void kvm_inject_page_fault(struct kvm_vcpu *vcpu, struct x86_exception *fault);
-> void kvm_inject_emulated_page_fault(struct kvm_vcpu *vcpu,
-> 				    struct x86_exception *fault);
->diff --git a/arch/x86/include/asm/vmx.h b/arch/x86/include/asm/vmx.h
->index 6b796c5c9c2b..68af74e48788 100644
->--- a/arch/x86/include/asm/vmx.h
->+++ b/arch/x86/include/asm/vmx.h
->@@ -134,7 +134,7 @@
-> #define VMX_BASIC_DUAL_MONITOR_TREATMENT	BIT_ULL(49)
-> #define VMX_BASIC_INOUT				BIT_ULL(54)
-> #define VMX_BASIC_TRUE_CTLS			BIT_ULL(55)
->-
->+#define VMX_BASIC_NESTED_EXCEPTION		BIT_ULL(58)
+- This patch switches vkms over to be a real platform driver with
+  probe/remove hooks. Fine with me, but would need to be split out and
+  properly justified with some reason.
 
-this definition is not used in this patch.
+  Also if we do this, we don't need our own devres group anymore, that's
+  redundant.
 
-> 
-> /* VMX_MISC bits and bitmasks */
-> #define VMX_MISC_INTEL_PT			BIT_ULL(14)
->@@ -407,8 +407,9 @@ enum vmcs_field {
-> #define INTR_INFO_INTR_TYPE_MASK        0x700           /* 10:8 */
-> #define INTR_INFO_DELIVER_CODE_MASK     0x800           /* 11 */
-> #define INTR_INFO_UNBLOCK_NMI		0x1000		/* 12 */
->+#define INTR_INFO_NESTED_EXCEPTION_MASK	0x2000		/* 13 */
-> #define INTR_INFO_VALID_MASK            0x80000000      /* 31 */
->-#define INTR_INFO_RESVD_BITS_MASK       0x7ffff000
->+#define INTR_INFO_RESVD_BITS_MASK       0x7fffd000
-> 
-> #define VECTORING_INFO_VECTOR_MASK           	INTR_INFO_VECTOR_MASK
-> #define VECTORING_INFO_TYPE_MASK        	INTR_INFO_INTR_TYPE_MASK
->diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
->index e90b429c84f1..c220b690a37c 100644
->--- a/arch/x86/kvm/svm/svm.c
->+++ b/arch/x86/kvm/svm/svm.c
->@@ -4057,10 +4057,10 @@ static void svm_complete_interrupts(struct kvm_vcpu *vcpu)
-> 
-> 		if (exitintinfo & SVM_EXITINTINFO_VALID_ERR) {
-> 			u32 err = svm->vmcb->control.exit_int_info_err;
->-			kvm_requeue_exception_e(vcpu, vector, err);
->+			kvm_requeue_exception_e(vcpu, vector, err, false);
-> 
-> 		} else
->-			kvm_requeue_exception(vcpu, vector);
->+			kvm_requeue_exception(vcpu, vector, false);
-> 		break;
-> 	case SVM_EXITINTINFO_TYPE_INTR:
-> 		kvm_queue_interrupt(vcpu, vector, false);
->diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
->index f622fb90a098..1f265d526daf 100644
->--- a/arch/x86/kvm/vmx/vmx.c
->+++ b/arch/x86/kvm/vmx/vmx.c
->@@ -1891,6 +1891,8 @@ static void vmx_inject_exception(struct kvm_vcpu *vcpu)
-> 				event_data = to_vmx(vcpu)->fred_xfd_event_data;
-> 
-> 			vmcs_write64(INJECTED_EVENT_DATA, event_data);
->+
->+			intr_info |= ex->nested ? INTR_INFO_NESTED_EXCEPTION_MASK : 0;
-> 		}
-> 	}
-> 
->@@ -7281,9 +7283,11 @@ static void __vmx_complete_interrupts(struct kvm_vcpu *vcpu, bool vectoring)
-> 		}
-> 
-> 		if (event_id & INTR_INFO_DELIVER_CODE_MASK)
->-			kvm_requeue_exception_e(vcpu, vector, vmcs_read32(error_code_field));
->+			kvm_requeue_exception_e(vcpu, vector, vmcs_read32(error_code_field),
->+						event_id & INTR_INFO_NESTED_EXCEPTION_MASK);
-> 		else
->-			kvm_requeue_exception(vcpu, vector);
->+			kvm_requeue_exception(vcpu, vector,
->+					      event_id & INTR_INFO_NESTED_EXCEPTION_MASK);
-> 		break;
-> 	case INTR_TYPE_SOFT_INTR:
-> 		vcpu->arch.event_exit_inst_len = vmcs_read32(instr_len_field);
->diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
->index 00c0062726ae..725819262085 100644
->--- a/arch/x86/kvm/x86.c
->+++ b/arch/x86/kvm/x86.c
->@@ -645,7 +645,8 @@ static void kvm_leave_nested(struct kvm_vcpu *vcpu)
-> 
-> static void kvm_multiple_exception(struct kvm_vcpu *vcpu,
-> 		unsigned nr, bool has_error, u32 error_code,
->-	        bool has_payload, unsigned long payload, bool reinject)
->+	        bool has_payload, unsigned long payload,
->+		bool reinject, bool nested)
-> {
-> 	u32 prev_nr;
-> 	int class1, class2;
->@@ -696,6 +697,13 @@ static void kvm_multiple_exception(struct kvm_vcpu *vcpu,
-> 			vcpu->arch.exception.pending = true;
-> 			vcpu->arch.exception.injected = false;
-> 		}
->+
->+		vcpu->arch.exception.nested = vcpu->arch.exception.nested ||
->+					      (kvm_is_fred_enabled(vcpu) &&
->+					       ((reinject && nested) ||
->+					        vcpu->arch.nmi_injected ||
->+					        vcpu->arch.interrupt.injected));
+- Now on the actual configfs prep work, the issue is that configfs and
+  drm_device have independent lifetimes, and we cannot have links between
+  the two. The configfs structures might have shorter lifetime thatn the
+  vkms_device (and there's no refcounting on configfs afaict), which means
+  we cannot have a backpointer from vkms_device to configfs. We can only
+  rely on configfs being around during the probe/init code, thanks to the
+  configfs mutex.
 
-You can set the nested flag regardless of FRED because the sole place using
-such information (vmx_inject_exception()) is guarded by kvm_is_fred_enabled()
-already.
+  This is why the refactoring to use vkms_config was done, so that
+  configfs becomes a two-step process: 1. convert the configfs data into a
+  struct vkms_config 2. initialize the vkms device using that stand-alone
+  vkms_config.
 
-I would also drop the check about @reinject to make @reinject and @nested
-orthogonal (i.e., avoid the artifical rule that nested interrupts should be
-queued by "reinject" only)
+  Now I understand that this is quite a bit of work, but I think it would
+  also lead to somewhat more robust code (stuff like the lifetime bugs in
+  the connector hotplug patch become impossible). So before we go into
+  details, we need to make a decision whether we stick with the
+  vkms_config design, or whether we just have two separate paths: a)
+  default device setup and b) configfs dynamic setup. Imo this also needs
+  an ack from Maíra.
 
-so, how about:
-		if (vcpu->arch.nmi_injected || vcpu->arch.interrupt.injected ||
-		    nested)
-			vcpu->arch.exception.nested = true;
+- If we stick with the split approach then we need a few changes.
 
->+
-> 		vcpu->arch.exception.has_error_code = has_error;
-> 		vcpu->arch.exception.vector = nr;
-> 		vcpu->arch.exception.error_code = error_code;
->@@ -725,8 +733,28 @@ static void kvm_multiple_exception(struct kvm_vcpu *vcpu,
-> 		vcpu->arch.exception.injected = false;
-> 		vcpu->arch.exception.pending = false;
+  - The vkms_device->configfs backpointer needs to go, it's fundamentally
+    busted. Instead I think it's best we pass the configfs pointer around
+    directly during init time.
+
+  - I think we should clearly split the default and configfs paths with
+    explicit suffixes in the relevant functions (like
+    vkms_output_init_default/configfs) and explicitly passing parameters
+    around.
+
+  - the vkms_config design doesn't have a use anymore, imo we should
+    simplify the _default() paths to again just look at the module
+    parameters. But only if we go the route of having split setup paths.
+
+  - Data that's only relevant for one or the other paths needs to be
+    removed from global structures. This would be vkms_config and
+    vkms_output in vkms_device (the latter is left around, which is very
+    confusing since the configfs path doesn't use that at all).
+
+  - Going with a real platform driver means passing arguments to
+    probe/init becomes tricky. Using the platform data seems like a good
+    approach, but we must ensure that we clear that again when we remove
+    the platform_device. Note that with a real driver userspace can
+    unbind/rebind the driver through sysfs, which means we must keep the
+    configfs pointer valid until the device is removed, to make sure that
+    these subsequent re-probe calls still work. These complications are
+    also the reasons why I think we should only switch to a real platform
+    driver if there's a reason, a lot of things become a lot more
+    complicated and dynamic and tricky with this.
+
+    Also this means that driver code could try to look at configfs even
+    after probe/init is finished, which is buggy but would mostly work
+    (unless you really carefully race hotunplug against other driver
+    code). So potential for some tricky bugs. That's why I think we should
+    explicitly pass the configfs pointer as a function parameter and only
+    grab it from the platform_data in ->probe once (and put a comment
+    there why this is really tricky).
+
+Anyway before we proceed I think we need consensus on these 2 design
+questions.
+-Sima
+
+> ---
+>  drivers/gpu/drm/vkms/vkms_drv.c    | 128 +++++++++++++++--------------
+>  drivers/gpu/drm/vkms/vkms_drv.h    |   4 +-
+>  drivers/gpu/drm/vkms/vkms_output.c |   6 +-
+>  3 files changed, 71 insertions(+), 67 deletions(-)
 > 
->+		/*
->+		 * A #DF is NOT a nested event per its definition, however per
->+		 * FRED spec 5.0 Appendix B, its delivery determines the new
->+		 * stack level as is done for events occurring when CPL = 0.
->+		 */
->+		vcpu->arch.exception.nested = false;
->+
-> 		kvm_queue_exception_e(vcpu, DF_VECTOR, 0);
-> 	} else {
->+		/*
->+		 * FRED spec 5.0 Appendix B: delivery of a nested exception
->+		 * determines the new stack level as is done for events
->+		 * occurring when CPL = 0.
->+		 *
->+		 * IOW, FRED event delivery of an event encountered in ring 3
->+		 * normally uses stack level 0 unconditionally.  However, if
->+		 * the event is an exception nested on any earlier event,
->+		 * delivery of the nested exception will consult the FRED MSR
->+		 * IA32_FRED_STKLVLS to determine which stack level to use.
->+		 */
->+		vcpu->arch.exception.nested = kvm_is_fred_enabled(vcpu);
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
+> index dd0af086e7fa..387c832f5dc9 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.c
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.c
+> @@ -9,10 +9,12 @@
+>   * the GPU in DRM API tests.
+>   */
+>  
+> +#include <linux/device.h>
+>  #include <linux/module.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/dma-mapping.h>
+>  
+> +#include <drm/drm_device.h>
+>  #include <drm/drm_gem.h>
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+> @@ -37,8 +39,6 @@
+>  #define DRIVER_MAJOR	1
+>  #define DRIVER_MINOR	0
+>  
+> -static struct vkms_config *default_config;
+> -
+>  static bool enable_cursor = true;
+>  module_param_named(enable_cursor, enable_cursor, bool, 0444);
+>  MODULE_PARM_DESC(enable_cursor, "Enable/Disable cursor support");
+> @@ -96,9 +96,9 @@ static int vkms_config_show(struct seq_file *m, void *data)
+>  	struct drm_device *dev = entry->dev;
+>  	struct vkms_device *vkmsdev = drm_device_to_vkms_device(dev);
+>  
+> -	seq_printf(m, "writeback=%d\n", vkmsdev->config->writeback);
+> -	seq_printf(m, "cursor=%d\n", vkmsdev->config->cursor);
+> -	seq_printf(m, "overlay=%d\n", vkmsdev->config->overlay);
+> +	seq_printf(m, "writeback=%d\n", vkmsdev->config.writeback);
+> +	seq_printf(m, "cursor=%d\n", vkmsdev->config.cursor);
+> +	seq_printf(m, "overlay=%d\n", vkmsdev->config.overlay);
+>  
+>  	return 0;
+>  }
+> @@ -166,121 +166,127 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
+>  	dev->mode_config.cursor_height = 512;
+>  	/* FIXME: There's a confusion between bpp and depth between this and
+>  	 * fbdev helpers. We have to go with 0, meaning "pick the default",
+> -	 * which ix XRGB8888 in all cases. */
+> +	 * which ix XRGB8888 in all cases.
+> +	 */
+>  	dev->mode_config.preferred_depth = 0;
+>  	dev->mode_config.helper_private = &vkms_mode_config_helpers;
+>  
+>  	return vkms_output_init(vkmsdev, 0);
+>  }
+>  
+> -static int vkms_create(struct vkms_config *config)
+> +static int vkms_platform_probe(struct platform_device *pdev)
+>  {
+>  	int ret;
+> -	struct platform_device *pdev;
+>  	struct vkms_device *vkms_device;
+> +	void *grp;
+>  
+> -	pdev = platform_device_register_simple(DRIVER_NAME, -1, NULL, 0);
+> -	if (IS_ERR(pdev))
+> -		return PTR_ERR(pdev);
+> -
+> -	if (!devres_open_group(&pdev->dev, NULL, GFP_KERNEL)) {
+> -		ret = -ENOMEM;
+> -		goto out_unregister;
+> -	}
+> +	grp = devres_open_group(&pdev->dev, NULL, GFP_KERNEL);
+> +	if (!grp)
+> +		return -ENOMEM;
+>  
+>  	vkms_device = devm_drm_dev_alloc(&pdev->dev, &vkms_driver,
+>  					 struct vkms_device, drm);
+>  	if (IS_ERR(vkms_device)) {
+>  		ret = PTR_ERR(vkms_device);
+> -		goto out_devres;
+> +		goto out_release_group;
+>  	}
+> +
+>  	vkms_device->platform = pdev;
+> -	vkms_device->config = config;
+> -	config->dev = vkms_device;
+> +	vkms_device->config.cursor = enable_cursor;
+> +	vkms_device->config.writeback = enable_writeback;
+> +	vkms_device->config.overlay = enable_overlay;
+>  
+>  	ret = dma_coerce_mask_and_coherent(vkms_device->drm.dev,
+>  					   DMA_BIT_MASK(64));
+> -
+>  	if (ret) {
+>  		DRM_ERROR("Could not initialize DMA support\n");
+> -		goto out_devres;
+> +		goto out_release_group;
+>  	}
+>  
+>  	ret = drm_vblank_init(&vkms_device->drm, 1);
+>  	if (ret) {
+>  		DRM_ERROR("Failed to vblank\n");
+> -		goto out_devres;
+> +		goto out_release_group;
+>  	}
+>  
+>  	ret = vkms_modeset_init(vkms_device);
+> -	if (ret)
+> -		goto out_devres;
+> +	if (ret) {
+> +		DRM_ERROR("Unable to initialize modesetting\n");
+> +		goto out_release_group;
+> +	}
+>  
+>  	drm_debugfs_add_files(&vkms_device->drm, vkms_config_debugfs_list,
+>  			      ARRAY_SIZE(vkms_config_debugfs_list));
+>  
+>  	ret = drm_dev_register(&vkms_device->drm, 0);
+> -	if (ret)
+> -		goto out_devres;
+> +	if (ret) {
+> +		DRM_ERROR("Unable to register device with id %d\n", pdev->id);
+> +		goto out_release_group;
+> +	}
+>  
+>  	drm_fbdev_generic_setup(&vkms_device->drm, 0);
+> +	platform_set_drvdata(pdev, vkms_device);
+> +	devres_close_group(&pdev->dev, grp);
+>  
+>  	return 0;
+>  
+> -out_devres:
+> -	devres_release_group(&pdev->dev, NULL);
+> -out_unregister:
+> -	platform_device_unregister(pdev);
+> +out_release_group:
+> +	devres_release_group(&pdev->dev, grp);
+>  	return ret;
+>  }
+>  
+> -static int __init vkms_init(void)
+> +static int vkms_platform_remove(struct platform_device *pdev)
+>  {
+> -	int ret;
+> -	struct vkms_config *config;
+> -
+> -	config = kmalloc(sizeof(*config), GFP_KERNEL);
+> -	if (!config)
+> -		return -ENOMEM;
+> -
+> -	default_config = config;
+> +	struct vkms_device *vkms_device;
+>  
+> -	config->cursor = enable_cursor;
+> -	config->writeback = enable_writeback;
+> -	config->overlay = enable_overlay;
+> +	vkms_device = platform_get_drvdata(pdev);
+> +	if (!vkms_device)
+> +		return 0;
+>  
+> -	ret = vkms_create(config);
+> -	if (ret)
+> -		kfree(config);
+> -
+> -	return ret;
+> +	drm_dev_unregister(&vkms_device->drm);
+> +	drm_atomic_helper_shutdown(&vkms_device->drm);
+> +	return 0;
+>  }
+>  
+> -static void vkms_destroy(struct vkms_config *config)
+> +static struct platform_driver vkms_platform_driver = {
+> +	.probe = vkms_platform_probe,
+> +	.remove = vkms_platform_remove,
+> +	.driver.name = DRIVER_NAME,
+> +};
+> +
+> +static int __init vkms_init(void)
+>  {
+> +	int ret;
+>  	struct platform_device *pdev;
+>  
+> -	if (!config->dev) {
+> -		DRM_INFO("vkms_device is NULL.\n");
+> -		return;
+> +	ret = platform_driver_register(&vkms_platform_driver);
+> +	if (ret) {
+> +		DRM_ERROR("Unable to register platform driver\n");
+> +		return ret;
+>  	}
+>  
+> -	pdev = config->dev->platform;
+> -
+> -	drm_dev_unregister(&config->dev->drm);
+> -	drm_atomic_helper_shutdown(&config->dev->drm);
+> -	devres_release_group(&pdev->dev, NULL);
+> -	platform_device_unregister(pdev);
+> +	pdev = platform_device_register_simple(DRIVER_NAME, -1, NULL, 0);
+> +	if (IS_ERR(pdev)) {
+> +		platform_driver_unregister(&vkms_platform_driver);
+> +		return PTR_ERR(pdev);
+> +	}
+>  
+> -	config->dev = NULL;
+> +	return 0;
+>  }
+>  
+>  static void __exit vkms_exit(void)
+>  {
+> -	if (default_config->dev)
+> -		vkms_destroy(default_config);
+> +	struct device *dev;
+> +
+> +	while ((dev = platform_find_device_by_driver(
+> +			NULL, &vkms_platform_driver.driver))) {
+> +		// platform_find_device_by_driver increments the refcount. Drop
+> +		// it so we don't leak memory.
+> +		put_device(dev);
+> +		platform_device_unregister(to_platform_device(dev));
+> +	}
+>  
+> -	kfree(default_config);
+> +	platform_driver_unregister(&vkms_platform_driver);
+>  }
+>  
+>  module_init(vkms_init);
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
+> index c7ae6c2ba1df..4c35d6305f2a 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -124,15 +124,13 @@ struct vkms_config {
+>  	bool writeback;
+>  	bool cursor;
+>  	bool overlay;
+> -	/* only set when instantiated */
+> -	struct vkms_device *dev;
+>  };
+>  
+>  struct vkms_device {
+>  	struct drm_device drm;
+>  	struct platform_device *platform;
+>  	struct vkms_output output;
+> -	const struct vkms_config *config;
+> +	struct vkms_config config;
+>  };
+>  
+>  #define drm_crtc_to_vkms_output(target) \
+> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+> index 5ce70dd946aa..963a64cf068b 100644
+> --- a/drivers/gpu/drm/vkms/vkms_output.c
+> +++ b/drivers/gpu/drm/vkms/vkms_output.c
+> @@ -62,7 +62,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+>  	if (IS_ERR(primary))
+>  		return PTR_ERR(primary);
+>  
+> -	if (vkmsdev->config->overlay) {
+> +	if (vkmsdev->config.overlay) {
+>  		for (n = 0; n < NUM_OVERLAY_PLANES; n++) {
+>  			ret = vkms_add_overlay_plane(vkmsdev, index, crtc);
+>  			if (ret)
+> @@ -70,7 +70,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+>  		}
+>  	}
+>  
+> -	if (vkmsdev->config->cursor) {
+> +	if (vkmsdev->config.cursor) {
+>  		cursor = vkms_plane_init(vkmsdev, DRM_PLANE_TYPE_CURSOR, index);
+>  		if (IS_ERR(cursor))
+>  			return PTR_ERR(cursor);
+> @@ -103,7 +103,7 @@ int vkms_output_init(struct vkms_device *vkmsdev, int index)
+>  		goto err_attach;
+>  	}
+>  
+> -	if (vkmsdev->config->writeback) {
+> +	if (vkmsdev->config.writeback) {
+>  		writeback = vkms_enable_writeback_connector(vkmsdev);
+>  		if (writeback)
+>  			DRM_ERROR("Failed to init writeback connector\n");
+> -- 
+> 2.42.0.rc2.253.gd59a3bf2b4-goog
+> 
 
-as said above, nested flag can be set regardless of FRED.
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
