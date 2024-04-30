@@ -1,69 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214A017167F;
-	Tue, 30 Apr 2024 13:53:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CC9B17A93D;
+	Tue, 30 Apr 2024 14:14:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714485220; cv=none; b=fBkXrj4WTPWoVQpFWN0UAbImvJQJbNpL2zJZbVqOMBnqqdoHbHggsm/da0hoTRidbhf0b3KgG4ju6Jlftz6d3ZMqAuKV0eO+3h8pAk/HdUUn07kF4bVG3fCTYk7OATggQRpOXmW9ffiHSJhTgHAzjPg/zBL8UqpDzpIK4O0Piu0=
+	t=1714486459; cv=none; b=dJkGKqm31TzwVljHUmDZeDrpbzTAAr1Ovy1UbffdSPn485SvEyy7jnnfmmbBxncAChHMwk+1xpwMKNHDimuYXhk+FL1/bNwoZvbh5jlfS8wXJ0jmbTQm8Ykl4a02ar6cm4qdv8GYbbmErBEJu0TyuN/dtVF1T8MvdrbaNBpYRiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714485220; c=relaxed/simple;
-	bh=sqoodRfj0IATLtJDqqqpof/7WjIJbwK83pY5fT0FQTA=;
+	s=arc-20240116; t=1714486459; c=relaxed/simple;
+	bh=ENdoDuLwfsRKNzcTx8bsgX96EEjDRozpgGFsMolVNPs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IAdnrwCrrSBxAdXNC5Xvh1ask3aJofvTyi5Rr4FCEU+MXQ3X5ymfpp93YLANVZDu45kjIy7wv6ty9jgxorYPO83Xt16fcfS1PIO2Wqe7Bohl/Z658XVwjOplGriW4QCqGkdWlnGXDMHJ3DWVvVDTLVlu36SffJAWcPjdqvViTxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WO6ovsvn; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=RfjCBTrx6j6Bd2YVM7hUgyYfSogsg3ayxX+OJojkLcS5D+bChc//AiKTXohj18/Rd5Q+DFS03WQ2Fb3xXsIz7UbWNpnWCaWXiuVihvJn0jkHRrVfpXVaoT7QXm6K4RE4Y9vZQ4bQo4bmM6Lasiyalhm7nzu5CF2UOz2QtdVsFN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=fisz1Kdp; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WO6ovsvn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714485209; x=1746021209;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sqoodRfj0IATLtJDqqqpof/7WjIJbwK83pY5fT0FQTA=;
-  b=WO6ovsvnXQQnMUi7k7ybacRzQ1SJoSamDypiZMm6Xk7nrkKTuQfcirws
-   NN5Lu3wcvBeGtDYmuCwS2kLDl9TmC/pgJkNfOWmjds5T4qydWV62qAI86
-   v+o7KYurfGeNLyEBkt69mYjssWo5PctUxvNCFeLnUvPCBUjd9YKW7V+VW
-   LtAPl/+ym0jJLXWOq+142OSl7jaCA4XA2xL6NVWGhTlnqOulJ6FtGFx3K
-   h2Bn7Zl47QRk5Ot757FQXxVGhObGMKc0CvgIWfHuZmH5mUazuqWgSaX3j
-   Uz4W6MAvjhp82juiuop2QlGxweKW4FTvR4vR9wtXdwQmYAiJF4xK4ggRI
-   g==;
-X-CSE-ConnectionGUID: Cd2XlXhrRY62rp9njJrnYA==
-X-CSE-MsgGUID: 2geQL9DoQbmcQt78lpU5PQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="27713347"
-X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
-   d="scan'208";a="27713347"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 06:53:28 -0700
-X-CSE-ConnectionGUID: 5eOKwBEpSferwc2RTJ/a9g==
-X-CSE-MsgGUID: 9kf4TRh7TgypIABzvykqNA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
-   d="scan'208";a="26967408"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 06:53:23 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1s1nv5-00000002gCo-0Ukb;
-	Tue, 30 Apr 2024 16:53:19 +0300
-Date: Tue, 30 Apr 2024 16:53:18 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: lakshmi.sowjanya.d@intel.com
-Cc: tglx@linutronix.de, jstultz@google.com, giometti@enneenne.com,
-	corbet@lwn.net, linux-kernel@vger.kernel.org, x86@kernel.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org, eddie.dong@intel.com,
-	christopher.s.hall@intel.com, jesse.brandeburg@intel.com,
-	davem@davemloft.net, alexandre.torgue@foss.st.com,
-	joabreu@synopsys.com, mcoquelin.stm32@gmail.com, perex@perex.cz,
-	linux-sound@vger.kernel.org, anthony.l.nguyen@intel.com,
-	peter.hilber@opensynergy.com, pandith.n@intel.com,
-	subramanian.mohan@intel.com, thejesh.reddy.t.r@intel.com
-Subject: Re: [PATCH v7 10/12] pps: generators: Add PPS Generator TIO Driver
-Message-ID: <ZjD3ztepVkb5RlVE@smile.fi.intel.com>
-References: <20240430085225.18086-1-lakshmi.sowjanya.d@intel.com>
- <20240430085225.18086-11-lakshmi.sowjanya.d@intel.com>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="fisz1Kdp"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=yJ1XxJMQ5M4P8jDVlymHQ15RBEASqivIdtexJWW2a98=; b=fisz1KdpdOh41mp9RFPSz1o7tW
+	7gW0hNiQhLW0rJoOyJ0O2qTek0DJKhbGZrwXJp15ugMa2otOdd+XbTgStjNXNW4P+dUvcZv3upBVn
+	+GwP7FxkNS/9ytEzWezlQ1zSqMa12f1ggO0PWECAVjTsMZ5U8fkqxUejwVAnqvV+utss=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1s1oF9-00ELdZ-9N; Tue, 30 Apr 2024 16:14:03 +0200
+Date: Tue, 30 Apr 2024 16:14:03 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Parthiban.Veerasooran@microchip.com
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, horms@kernel.org, saeedm@nvidia.com,
+	anthony.l.nguyen@intel.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, corbet@lwn.net,
+	linux-doc@vger.kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	devicetree@vger.kernel.org, Horatiu.Vultur@microchip.com,
+	ruanjinjie@huawei.com, Steen.Hegelund@microchip.com,
+	vladimir.oltean@nxp.com, UNGLinuxDriver@microchip.com,
+	Thorsten.Kummermehr@microchip.com, Pier.Beruto@onsemi.com,
+	Selvamani.Rajagopal@onsemi.com, Nicolas.Ferre@microchip.com,
+	benjamin.bigler@bernformulastudent.ch,
+	ramon.nordin.rodriguez@ferroamp.se
+Subject: Re: [PATCH net-next v4 13/12] net: lan865x: optional hardware reset
+Message-ID: <a7c43359-5d5a-47a9-a9b5-819e164457d4@lunn.ch>
+References: <20240418125648.372526-1-Parthiban.Veerasooran@microchip.com>
+ <Zi68sDje4wfgftyZ@builder>
+ <dd9da345-e056-4f34-8e39-6901bf9c1636@microchip.com>
+ <Zi94jdVg8a5MaB3E@builder>
+ <eaa4eb3e-d82a-4b52-a375-1fc84be7225a@lunn.ch>
+ <a3719443-153b-49d5-b039-fa0a7928de28@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -72,71 +59,22 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240430085225.18086-11-lakshmi.sowjanya.d@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <a3719443-153b-49d5-b039-fa0a7928de28@microchip.com>
 
-On Tue, Apr 30, 2024 at 02:22:23PM +0530, lakshmi.sowjanya.d@intel.com wrote:
-> From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
-> 
-> The Intel Timed IO PPS generator driver outputs a PPS signal using
-> dedicated hardware that is more accurate than software actuated PPS.
-> The Timed IO hardware generates output events using the ART timer.
-> The ART timer period varies based on platform type, but is less than 100
-> nanoseconds for all current platforms. Timed IO output accuracy is
-> within 1 ART period.
-> 
-> PPS output is enabled by writing '1' the 'enable' sysfs attribute. The
-> driver uses hrtimers to schedule a wake-up 10 ms before each event
-> (edge) target time. At wakeup, the driver converts the target time in
-> terms of CLOCK_REALTIME to ART trigger time and writes this to the Timed
-> IO hardware. The Timed IO hardware generates an event precisely at the
-> requested system time without software involvement.
+> In the spec, external RESET pin is mentioned as "if implemented", in my 
+> understanding it is MAC-PHY vendors choice of implementing it where 
+> Microchip is implemented it. Using this reset, can be a application 
+> requirement/decision. It can be controlled from an external application 
+> where it is not needed SPI to operate.
 
-...
+Since it is optional, controlling the reset pin is clearly not
+something for the TC6 core.
 
-> +static enum hrtimer_restart hrtimer_callback(struct hrtimer *timer)
-> +{
-> +	struct pps_tio *tio = container_of(timer, struct pps_tio, timer);
-> +	ktime_t expires, now;
-> +	u32 event_count;
-> +
-> +	guard(spinlock)(&tio->lock);
-> +
-> +	/* Check if any event is missed. If an event is missed, TIO will be disabled*/
-> +	event_count = pps_tio_read(tio, TIOEC);
-> +	if (tio->prev_count && tio->prev_count == event_count)
-> +		goto err;
-> +	tio->prev_count = event_count;
-> +	expires = hrtimer_get_expires(timer);
-> +	now = ktime_get_real();
+However, i doubt having an external application controlling the reset
+is a good idea. You don't want to reset during operation. So to me,
+this reset should be controlled by the driver. I tend to agree, that
+actually performing a reset is optional, but i would expect the driver
+to ensure the device is taken out of reset during probe, if the power
+on default of the board is to hold it in reset.
 
-> +	if (now - expires < SAFE_TIME_NS) {
-> +		if (!pps_generate_next_pulse(tio, expires + SAFE_TIME_NS))
-> +			return HRTIMER_NORESTART;
-> +	} else {
-
-Redundant.
-
-> +		goto err;
-> +	}
-
-	if (now - expires >= SAFE_TIME_NS)
-		goto err;
-
-	if (!pps_generate_next_pulse(tio, expires + SAFE_TIME_NS))
-		return HRTIMER_NORESTART;
-
-
-> +	hrtimer_forward(timer, now, NSEC_PER_SEC / 2);
-> +	return HRTIMER_RESTART;
-> +err:
-> +	dev_err(tio->dev, "Event missed, Disabling Timed I/O");
-> +	pps_tio_disable(tio);
-> +	return HRTIMER_NORESTART;
-> +}
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+   Andrew
