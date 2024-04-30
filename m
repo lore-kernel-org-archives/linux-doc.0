@@ -1,188 +1,205 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A81313EA73
-	for <linux-doc@vger.kernel.org>; Tue, 30 Apr 2024 08:36:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ADC61E48B;
+	Tue, 30 Apr 2024 08:52:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714466183; cv=none; b=uk3u8DRyTQSIPMG1mrMMbw0PPzE3pZ1L22bhRo89a+ih7vt7VN9VgaX+Be3ENDiIVZEgrtJ5MkOjvUOcUF0DO00y9HUVg2QUk2zCzoESLsBI4SmJE8SXQAtksCP8oWuZnaK1fL5DwmvGRspbXJs/qPFe3g64Z4AmwcaSfhhvqF0=
+	t=1714467156; cv=none; b=JRb4nsvjGS5M+S8uQ+NRH2o/3hsiIyJvC5Fy6iHW99X4jUYSghci0I53cJohpv4U/R3brDtEbgcnGot7JjhOgSTxtxKeIB7cY7hO8ERMI/glpXJUOggvazziDTTIOBxe0MgJnBq07lLTaeg6wfCOm8XGd5Zks+H4AwnPPb2H4jk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714466183; c=relaxed/simple;
-	bh=PKJi23ZEdp7YSR9RP6FGfNy1KIVhPpmIoZUapBG4h5o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YTSxJThS/teq/wCrOHuBuRsX+OSqtqvvIkuKgOWRP3qxFb3yR/P11o6hv4arUy3K5JOkmV+05T3jGUIgiULow/+g7nQ9Er8ECU2LnQEY7FuzcTXkvni0H9Gv1Fi252xOCZwu80LYlVHVTg+WPj4B9eF74ccs2qNGjiscPmEdEOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=YqU7MWks; arc=none smtp.client-ip=209.85.208.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+	s=arc-20240116; t=1714467156; c=relaxed/simple;
+	bh=TXs16JUTJJYiNwzKrUs3bjsFv/mqblL5veTLN9Ghv18=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=t1nUZhIG7SOYMzTW+JZONereLYNgoZgu6KCyd0Ioa1zAINff8gHFG6OePAwG2JCsyeETk9XN28PEL96UXNoU9RyqqJWFZEsa9bdadgRYPKJOhvzBlaflsJeIaJVwhWeIerx74UnQvPcfPNxaomsZujhhzuDmJ+mbSiHBGjraJ9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lCYBpJWB; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="YqU7MWks"
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2e0c363d93bso2917501fa.2
-        for <linux-doc@vger.kernel.org>; Tue, 30 Apr 2024 01:36:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google; t=1714466180; x=1715070980; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fGVB/W5mrOB3l6iBdxjqJlIucqWuwhmZ4dypg7eBhxs=;
-        b=YqU7MWksncHXC0tX3fNsSQaLaT5WAvmVIzit9W4+01+9qGPSIXf2hpe5Tu2cAehpEL
-         n2vidwII33xKgMqhxxT2XuU7TCv1XJxfyT/0whnqOGxVy/meFvPukX3QuSggj49OLt3/
-         IIvcJjpY4pYaZczCvDhn7xCGfmLiaalQ1PoYQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714466180; x=1715070980;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fGVB/W5mrOB3l6iBdxjqJlIucqWuwhmZ4dypg7eBhxs=;
-        b=aHiirpBUs0Vqp/dlXNRstzR8UrVBjgE3JiJ28qYFzKZfbVMtv8xHco3LcJcWohDC9p
-         TKmULaL7BEnMoSPkp9+QO8IJU917GmN9pbQMhoIlSXbATRfdRa8896CE+SRQgONSUSWV
-         xC0YXB8zy7VouuPCmSHotcssoz0on0QYtSJ7abpjnLS21BKOoYm2go9B4SvQ49+BbAHk
-         yXf5qmCcWlPHmLdQ5nkvctF/KNcs27pHlNKKue9a/6aYm5udDEAVd8Wu0qoDQo57c8e0
-         wF7e2zP/IgzFTJJMAbkBXUR+p4ciIaZgShIDeml3+x52XWGOToZxpXppYE67K+RznlSX
-         zJlQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVvQLYZpnR2vueancyNAUsixPxR8RnAiPCXrD+Uwf2xh2oeMpMfMs970ytaOywf00oKFQ3SKNAi0r5Phgt2tBe4npUD5mYDJApl
-X-Gm-Message-State: AOJu0Yw0Kv5dXHBNGxOchCxmeMs+fYgQvggEI6NmVbRDr5lmS27onkKx
-	cy2/mgWBZk87s+798w+bO4/mwyqSBAU/1eOILiiOk90oUGGDvtuV3lECDcxsa14=
-X-Google-Smtp-Source: AGHT+IEYFTGK3s8lpOgKS5ZwMqfeIgo5p84oT5kN52Xbo3XKHDHug3/cbMfIkcCiFuK9z1+GK7/Cnw==
-X-Received: by 2002:a19:381a:0:b0:513:9d6b:6d6d with SMTP id f26-20020a19381a000000b005139d6b6d6dmr7386406lfa.5.1714466179684;
-        Tue, 30 Apr 2024 01:36:19 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id l2-20020a05600c4f0200b0041be78ae1f0sm11303980wmq.2.2024.04.30.01.36.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Apr 2024 01:36:19 -0700 (PDT)
-Date: Tue, 30 Apr 2024 10:36:17 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Brandon Pollack <brpol@chromium.org>
-Cc: marius.vlad@collabora.com, mairacanal@riseup.net, jshargo@chromium.org,
-	hamohammed.sa@gmail.com, rodrigosiqueiramelo@gmail.com,
-	linux-doc@vger.kernel.org, hirono@chromium.org, corbet@lwn.net,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	melissa.srw@gmail.com, mduggan@chromium.org, mripard@kernel.org,
-	tzimmermann@suse.de
-Subject: Re: [PATCH v6 0/7] Adds support for ConfigFS to VKMS!
-Message-ID: <ZjCtgSaL50YrS-F-@phenom.ffwll.local>
-Mail-Followup-To: Brandon Pollack <brpol@chromium.org>,
-	marius.vlad@collabora.com, mairacanal@riseup.net,
-	jshargo@chromium.org, hamohammed.sa@gmail.com,
-	rodrigosiqueiramelo@gmail.com, linux-doc@vger.kernel.org,
-	hirono@chromium.org, corbet@lwn.net, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, melissa.srw@gmail.com,
-	mduggan@chromium.org, mripard@kernel.org, tzimmermann@suse.de
-References: <20230829053201.423261-1-brpol@chromium.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lCYBpJWB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714467155; x=1746003155;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=TXs16JUTJJYiNwzKrUs3bjsFv/mqblL5veTLN9Ghv18=;
+  b=lCYBpJWB4NG0WVV8tL38TWhr1T/2nqJmqLGIvD9khGJJxHVHtczvjchm
+   6mE/AjrCaQRxK//ooeSGKRWt+j/eM1wU7JBQpkoWXgtRyJL1soOkLMHW2
+   Jr8EJad9PPPNiQWM49AmJ2xqTACjoX2NJp8i7tZvlXyJOqaWjcGgpP1cq
+   VO8l7u4qQ4jPdyjV2ohi2k1SY5bnDlvqIPUNgMKUpEUZjgte6ZVTHdxBJ
+   AMwtRuBbiAN9vJE38WySwBX5AYrac0PShZQP6KPVVZ/Mglr8PbCIEj11B
+   9DYBllkZfNmQRAZan1BLdA4GZQ+vEFkE3ngQx5jIb/DxTo8VQKK1rcHpN
+   g==;
+X-CSE-ConnectionGUID: 1DYbti+OQ2e/uqdpDlTilA==
+X-CSE-MsgGUID: 3kEckPtkR+2GKYLFY30FrQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="21311243"
+X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
+   d="scan'208";a="21311243"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 01:52:33 -0700
+X-CSE-ConnectionGUID: QlDMvrfbR4+RDn7PCv4t9A==
+X-CSE-MsgGUID: FPAD6XhCSMienCnGnbUeAQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,241,1708416000"; 
+   d="scan'208";a="26891476"
+Received: from inlubt0316.iind.intel.com ([10.191.20.213])
+  by orviesa007.jf.intel.com with ESMTP; 30 Apr 2024 01:52:26 -0700
+From: lakshmi.sowjanya.d@intel.com
+To: tglx@linutronix.de,
+	jstultz@google.com,
+	giometti@enneenne.com,
+	corbet@lwn.net,
+	linux-kernel@vger.kernel.org
+Cc: x86@kernel.org,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org,
+	andriy.shevchenko@linux.intel.com,
+	eddie.dong@intel.com,
+	christopher.s.hall@intel.com,
+	jesse.brandeburg@intel.com,
+	davem@davemloft.net,
+	alexandre.torgue@foss.st.com,
+	joabreu@synopsys.com,
+	mcoquelin.stm32@gmail.com,
+	perex@perex.cz,
+	linux-sound@vger.kernel.org,
+	anthony.l.nguyen@intel.com,
+	peter.hilber@opensynergy.com,
+	pandith.n@intel.com,
+	subramanian.mohan@intel.com,
+	thejesh.reddy.t.r@intel.com,
+	lakshmi.sowjanya.d@intel.com
+Subject: [PATCH v7 00/12] Add support for Intel PPS Generator
+Date: Tue, 30 Apr 2024 14:22:13 +0530
+Message-Id: <20240430085225.18086-1-lakshmi.sowjanya.d@intel.com>
+X-Mailer: git-send-email 2.35.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230829053201.423261-1-brpol@chromium.org>
-X-Operating-System: Linux phenom 6.6.15-amd64 
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 29, 2023 at 05:30:52AM +0000, Brandon Pollack wrote:
-> Since Jim is busy with other work and I'm working on some things that
-> rely on this, I've taken up the task of doing the iterations.  I've
-> addressed the comments as best I can (those replies are to each
-> individual change) and here is the patch set to go with those.
-> 
-> I added my own signoff to each commit, but I've left jshargo@ as the
-> author of all the commits he wrote.  I'm sure there is still more to
-> address and the ICT tests that were writtein parallel to this may also
-> need some additions, but I'm hoping we're in a good enough state to get
-> this in and iterate from there soon.
-> 
-> Since V6:
-> ========
-> rmdirs for documentation examples
-> fix crtc mask for writebacks
-> 
-> Since V5:
-> ========
-> Fixed some bad merge conflicts and locking behaviours as well as
-> clarified some documentation, should be good to go now :)
-> 
-> Since V4:
-> ========
-> Fixed up some documentation as suggested by Marius
-> Fixed up some bad locking as suggested by Marius
-> Small fixes here and there (most have email responses to previous chain
-> emails)
-> 
-> Since V3:
-> ========
-> I've added hotplug support in the latest patch.  This has been reviewed some
-> and the notes from that review are addressed here as well.
-> 
-> Relevant/Utilizing work:
-> =======================
-> I've built a while test framework based on this as proof it functions (though
-> I'm sure there may be lingering bugs!).  You can check that out on
-> crrev.com if you are interested and need to get started yourself (but be
-> aware of any licensing that may differ from the kernel itself!  Make
-> sure you understand the license:
-> 
-> https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/platform/tast-tests/LICENSE
-> 
-> That said, you can see the changes in review on the crrev gerrit:
-> 
-> https://chromium-review.googlesource.com/c/chromiumos/platform/tast-tests/+/4666669
-> 
-> Outro:
-> =====
-> I really appreciate everyone's input and tolerance in getting these
-> changes in.  Jim's first patch series was this, and other than some
-> small cleanups and documentation, taking over it is also mine.
+From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
 
-Sorry for not having looked at this earlier. I think overall it's looking
-good, mostly just a bunch of comments on lifetime/locking questions.
+The goal of the PPS (Pulse Per Second) hardware/software is to generate a
+signal from the system on a wire so that some third-party hardware can
+observe that signal and judge how close the system's time is to another
+system or piece of hardware.
 
-I'm also wondering a bit how much we want to go overboard with igt tests,
-since the lifetime fun is quite big here. I think at least some basic
-tests that trying to do nasty things like unbind the driver in sysfs and
-then try to use configfs, or keeping the vkms_device alive with an open fd
-and removing the configfs directory would be really good.
+Existing methods (like parallel ports) require software to flip a bit at
+just the right time to create a PPS signal. Many things can prevent
+software from doing this precisely. This (Timed I/O) method is better
+because software only "arms" the hardware in advance and then depends on
+the hardware to "fire" and flip the signal at just the right time.
 
-One thing that's a bit tricky is that configfs is considered uapi, so must
-be stable forever. And I think that's actually the right thing for us,
-since we want compositors and other projects to use this for their
-testing. So unlike igt tests using special debugfs interfaces, which are
-ok to be very tightly coupled to kernel releases
+To generate a PPS signal with this new hardware, the kernel wakes up
+twice a second, once for 1->0 edge and other for the 0->1 edge. It does
+this shortly (~10ms) before the actual change in the signal needs to be
+made. It computes the TSC value at which edge will happen, convert to a
+value hardware understands and program this value to Timed I/O hardware.
+The actual edge transition happens without any further action from the
+kernel.
 
-Cheers, Sima
-> 
-> Thank you everyone :)
-> 
-> Brandon Pollack (1):
->   drm/vkms Add hotplug support via configfs to VKMS.
-> 
-> Jim Shargo (6):
->   drm/vkms: Back VKMS with DRM memory management instead of static
->     objects
->   drm/vkms: Support multiple DRM objects (crtcs, etc.) per VKMS device
->   drm/vkms: Provide platform data when creating VKMS devices
->   drm/vkms: Add ConfigFS scaffolding to VKMS
->   drm/vkms: Support enabling ConfigFS devices
->   drm/vkms: Add a module param to enable/disable the default device
-> 
->  Documentation/gpu/vkms.rst            |  20 +-
->  drivers/gpu/drm/Kconfig               |   1 +
->  drivers/gpu/drm/vkms/Makefile         |   1 +
->  drivers/gpu/drm/vkms/vkms_composer.c  |  30 +-
->  drivers/gpu/drm/vkms/vkms_configfs.c  | 723 ++++++++++++++++++++++++++
->  drivers/gpu/drm/vkms/vkms_crtc.c      | 102 ++--
->  drivers/gpu/drm/vkms/vkms_drv.c       | 206 +++++---
->  drivers/gpu/drm/vkms/vkms_drv.h       | 182 +++++--
->  drivers/gpu/drm/vkms/vkms_output.c    | 404 ++++++++++++--
->  drivers/gpu/drm/vkms/vkms_plane.c     |  44 +-
->  drivers/gpu/drm/vkms/vkms_writeback.c |  42 +-
->  11 files changed, 1514 insertions(+), 241 deletions(-)
->  create mode 100644 drivers/gpu/drm/vkms/vkms_configfs.c
-> 
-> -- 
-> 2.42.0.rc2.253.gd59a3bf2b4-goog
-> 
+The result here is a signal coming out of the system that is roughly
+1,000 times more accurate than the old methods. If the system is heavily
+loaded, the difference in accuracy is larger in old methods.
+
+Application Interface:
+The API to use Timed I/O is very simple. It is enabled and disabled by
+writing a '1' or '0' value to the sysfs enable attribute associated with
+the Timed I/O PPS device. Each Timed I/O pin is represented by a PPS
+device. When enabled, a pulse-per-second (PPS) synchronized with the
+system clock is continuously produced on the Timed I/O pin, otherwise it
+is pulled low.
+
+The Timed I/O signal on the motherboard is enabled in the BIOS setup.
+Intel Advanced Menu -> PCH IO Configuration -> Timed I/O <Enable>
+
+References:
+https://en.wikipedia.org/wiki/Pulse-per-second_signal
+https://drive.google.com/file/d/1vkBRRDuELmY8I3FlfOZaEBp-DxLW6t_V/view
+https://youtu.be/JLUTT-lrDqw
+
+Patch 1 adds base clock properties in clocksource structure
+Patch 2 updates tsc, art values in the base clock structure
+Patch 3 - 7 removes reference to convert_art_to_tsc function across
+drivers
+Patch 8 removes the convert art to tsc functions which are no longer
+used
+Patch 9 adds function to convert realtime to base clock
+Patch 10 adds the pps(pulse per second) generator tio driver to the pps
+subsystem.
+Patch 11 documentation and usage of the pps tio generator module.
+Patch 12 includes documentation for sysfs interface.
+
+Please help to review the changes.
+
+Thanks in advance,
+Sowjanya
+
+Changes from v2:
+ - Split patch 1 to remove the functions in later stages.
+ - Include required headers in pps_gen_tio.
+
+Changes from v3:
+ - Corrections in Documentation.
+ - Introducing non-RFC version of the patch series.
+
+Changes from v4:
+ - Setting id in ice_ptp
+ - Modified conversion logic in convert_base_to_cs.
+ - Included the usage of the APIs in the commit message of 2nd patch.
+
+Changes from v5:
+ - Change nsecs variable to use_nsecs.
+ - Change order of 1&2 patches and modify the commit message.
+ - Add sysfs abi file entry in MAINTAINERS file.
+ - Add check to find if any event is missed and disable hardware
+   accordingly.
+
+Changes from v6:
+ - Split patch 1 into 1&2 patches.
+ - Add check for overflow in convert_ns_to_cs().
+ - Refine commit messages. 
+
+Lakshmi Sowjanya D (7):
+  timekeeping: Add base clock properties in clocksource structure
+  x86/tsc: Update tsc/art values in the base clock structure
+  x86/tsc: Remove art to tsc conversion functions which are obsolete
+  timekeeping: Add function to convert realtime to base clock
+  pps: generators: Add PPS Generator TIO Driver
+  Documentation: driver-api: pps: Add Intel Timed I/O PPS generator
+  ABI: pps: Add ABI documentation for Intel TIO
+
+Thomas Gleixner (5):
+  e1000e: remove convert_art_to_tsc()
+  igc: remove convert_art_ns_to_tsc()
+  stmmac: intel: remove convert_art_to_tsc()
+  ALSA: hda: remove convert_art_to_tsc()
+  ice/ptp: remove convert_art_to_tsc()
+
+ .../ABI/testing/sysfs-platform-pps-tio        |   7 +
+ Documentation/driver-api/pps.rst              |  22 ++
+ MAINTAINERS                                   |   1 +
+ arch/x86/include/asm/tsc.h                    |   3 -
+ arch/x86/kernel/tsc.c                         |  92 ++-----
+ drivers/net/ethernet/intel/e1000e/ptp.c       |   3 +-
+ drivers/net/ethernet/intel/ice/ice_ptp.c      |   3 +-
+ drivers/net/ethernet/intel/igc/igc_ptp.c      |   6 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-intel.c |   3 +-
+ drivers/pps/generators/Kconfig                |  16 ++
+ drivers/pps/generators/Makefile               |   1 +
+ drivers/pps/generators/pps_gen_tio.c          | 260 ++++++++++++++++++
+ include/linux/clocksource.h                   |  27 ++
+ include/linux/clocksource_ids.h               |   1 +
+ include/linux/timekeeping.h                   |   6 +
+ kernel/time/timekeeping.c                     | 125 ++++++++-
+ sound/pci/hda/hda_controller.c                |   3 +-
+ 17 files changed, 496 insertions(+), 83 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-platform-pps-tio
+ create mode 100644 drivers/pps/generators/pps_gen_tio.c
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.35.3
+
