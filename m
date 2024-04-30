@@ -1,122 +1,164 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bee.tesarici.cz (bee.tesarici.cz [37.205.15.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0589C1A0AFB;
-	Tue, 30 Apr 2024 20:03:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA243308A;
+	Tue, 30 Apr 2024 20:09:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.205.15.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714507385; cv=none; b=r67fq/8GaB14LKZci2B2QGJXc+Sor+uGnP7MwiOZKCfJWRzejH7IPAkWs8DEc7tmWcMnV1JMLw7U2QcGzo+uy1asI5burNJlJzBqB2XL7fIXaBsRCBCEAktnQJmZy5kNbnE9E0VN9FmWsD8K6ZlMZLjlWVJSQTV2gZ5m/vPEl0c=
+	t=1714507770; cv=none; b=M+rpZ4V37nAEKTQZEkjeSp0L5vxhx+oz1N3Gah3PPqaEXuTf9MTypKEWnTXtTCmCIClo2K0vEIHbL5ANb/Myha11eatA5w34INGzuqcLjJghYbBsT+PEuOyp7XMKZy3fA8f/gAuMIzjRY8NnyJxhyywkFQMyZtFXrGjwyK3D98E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714507385; c=relaxed/simple;
-	bh=4MMWKqrqMWleDHuXwmb7LFjDvAuwnnOwOjLO3S5FiZI=;
+	s=arc-20240116; t=1714507770; c=relaxed/simple;
+	bh=+W073mdtgIFOzLF3pLZOnqWa4SW4FX7ciIxPNHIMnjQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IsVbPA3r4tunor2JDX1bN6NFmqHwZJ9+jZtcDEsXc7W4z9CWDTtiQT4pfetO2AZyRtaBySPc24AinmMpeMZdNdjR/ROFPaNhFOB7iI4MY4oRZ+QKce4MMxcwSNFkSQn2h9ZfrUl176KPsxeYQjbWL5vbk6mgx7CyuFSOSVDwPF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G5xcVyFd; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=ujFekWfdeyddk2a7S6a7fjy9zTUyYCNeni1bFomisMpRog8AAC5OdVpeFl8fqvwCiI9qgm1D7SxfhbyYjEeTHvKq1Ka8GM2N6l541Kpao+vJuSedL7eZIfliclvuZYqxp094wPyDTpCqMY9ewIAsFRGRUqrVpVjHuPIcZjGwi/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz; spf=pass smtp.mailfrom=tesarici.cz; dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b=SkBYcRS+; arc=none smtp.client-ip=37.205.15.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tesarici.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G5xcVyFd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1608C4AF14;
-	Tue, 30 Apr 2024 20:03:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714507384;
-	bh=4MMWKqrqMWleDHuXwmb7LFjDvAuwnnOwOjLO3S5FiZI=;
+	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="SkBYcRS+"
+Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by bee.tesarici.cz (Postfix) with ESMTPSA id 2B35B1B33AB;
+	Tue, 30 Apr 2024 22:09:25 +0200 (CEST)
+Authentication-Results: mail.tesarici.cz; dmarc=fail (p=quarantine dis=none) header.from=tesarici.cz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tesarici.cz; s=mail;
+	t=1714507765; bh=9hVpNf0UpME2ZAq2VVrOWX05zjm2iYyBWxgQpaSqhEE=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=G5xcVyFdVtl54uX/hFKtu4Xp8ZRHZksXd2T0ai5bqu/MORN2M96uFMG3sxxhhlC/H
-	 eHLdTwN8NWUooPxQ72fGu9LdqjzUmnah1c2GzOzi2h8rbZafOHK2kv26V7JnufrNT3
-	 FS3XrMYp1cQi7Vr3IIh3A5PG79xUjoRRE1nLVXb2HxBEGVREkdwqfpGaXwh9e9tumO
-	 iKEzdopuvWlfen73mZa1yyUmfV/7ehba2fXmcYLk3PirbFwn6MblWfFEvlwWXWNqEr
-	 fCTfvdHw/bns0ZwhYpfTEEduzixTLb6RQ2S9Gj4MQz4/0QySN6OeMzY9QlGyLntwA9
-	 WXLgMwh/P4Pkg==
-Date: Tue, 30 Apr 2024 13:03:02 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Danielle Ratson <danieller@nvidia.com>
-Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "davem@davemloft.net"
- <davem@davemloft.net>, "edumazet@google.com" <edumazet@google.com>,
- "pabeni@redhat.com" <pabeni@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>,
- "linux@armlinux.org.uk" <linux@armlinux.org.uk>, "sdf@google.com"
- <sdf@google.com>, "kory.maincent@bootlin.com" <kory.maincent@bootlin.com>,
- "maxime.chevallier@bootlin.com" <maxime.chevallier@bootlin.com>,
- "vladimir.oltean@nxp.com" <vladimir.oltean@nxp.com>,
- "przemyslaw.kitszel@intel.com" <przemyslaw.kitszel@intel.com>,
- "ahmed.zaki@intel.com" <ahmed.zaki@intel.com>, "richardcochran@gmail.com"
- <richardcochran@gmail.com>, "shayagr@amazon.com" <shayagr@amazon.com>,
- "paul.greenwalt@intel.com" <paul.greenwalt@intel.com>, "jiri@resnulli.us"
- <jiri@resnulli.us>, "linux-doc@vger.kernel.org"
- <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, mlxsw <mlxsw@nvidia.com>, Petr Machata
- <petrm@nvidia.com>, Ido Schimmel <idosch@nvidia.com>
-Subject: Re: [PATCH net-next v5 04/10] ethtool: Add flashing transceiver
- modules' firmware notifications ability
-Message-ID: <20240430130302.235d612d@kernel.org>
-In-Reply-To: <DM6PR12MB45168DC7D9D9D7A5AE3E2B2DD81A2@DM6PR12MB4516.namprd12.prod.outlook.com>
-References: <20240424133023.4150624-1-danieller@nvidia.com>
-	<20240424133023.4150624-5-danieller@nvidia.com>
-	<20240429201130.5fad6d05@kernel.org>
-	<DM6PR12MB45168DC7D9D9D7A5AE3E2B2DD81A2@DM6PR12MB4516.namprd12.prod.outlook.com>
+	b=SkBYcRS+1DgzItYu4znKOQOwyrc0mqUDVbLVI5/da2r4YcYoqFL2jY0tNX/XsifwQ
+	 pQo2swe5T4NzzIX4WvCuOmGx2SxBkFY3T/1/N5hKNoh7z7Rz9RK0VLUdHTOjOtrgc2
+	 jrcEThrVOWriPcwS7+eM7weKDs6dobPEuUI/lZrV15/LSo4p7FDvYBVx8ETBuqKQgV
+	 d4ntvnWsjczfUiEbqqknTdYxwh+JQIU/SdHYIwt4OTEFuYeqB9fPhrDpqkMMX4Q/+i
+	 u/ZRIUAG3u5OxFASbqiWpGtuQNEKfazFHC86gvBHWstoyK2bvxBUfR8nhGxTOoGj31
+	 8HZ139QUNghkw==
+Date: Tue, 30 Apr 2024 22:09:24 +0200
+From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+To: Michael Kelley <mhklinux@outlook.com>
+Cc: "mhkelley58@gmail.com" <mhkelley58@gmail.com>, "robin.murphy@arm.com"
+ <robin.murphy@arm.com>, "joro@8bytes.org" <joro@8bytes.org>,
+ "will@kernel.org" <will@kernel.org>, "hch@lst.de" <hch@lst.de>,
+ "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>, "corbet@lwn.net"
+ <corbet@lwn.net>, "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "roberto.sassu@huaweicloud.com" <roberto.sassu@huaweicloud.com>
+Subject: Re: [PATCH v3 1/1] Documentation/core-api: Add swiotlb
+ documentation
+Message-ID: <20240430220924.3d0446f7@meshulam.tesarici.cz>
+In-Reply-To: <SN6PR02MB41579F43DD1ACB401EEC9E7AD41A2@SN6PR02MB4157.namprd02.prod.outlook.com>
+References: <20240429151337.1069470-1-mhklinux@outlook.com>
+	<20240430132413.69797af1@mordecai>
+	<SN6PR02MB41579F43DD1ACB401EEC9E7AD41A2@SN6PR02MB4157.namprd02.prod.outlook.com>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 30 Apr 2024 18:11:18 +0000 Danielle Ratson wrote:
-> > Do we want to blast it to all listeners or treat it as an async reply?
-> > We can save the seq and portid of the original requester and use reply, I
-> > think.  
-> 
-> I am sorry, I am not sure I understood what you meant here... it
-> should be an async reply, but not sure I understood your suggestion.
-> 
-> Can you explain please?
+On Tue, 30 Apr 2024 15:48:42 +0000
+Michael Kelley <mhklinux@outlook.com> wrote:
 
-Make sure you have read the netlink intro, it should help fill in some
-gaps I won't explicitly cover:
-https://docs.kernel.org/next/userspace-api/netlink/intro.html
+> From: Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz> Sent: Tuesday, April 30, =
+2024 4:24 AM
+> > >
+> > > +Usage Scenarios
+> > > +---------------
+> > > +swiotlb was originally created to handle DMA for devices with addres=
+sing
+> > > +limitations. As physical memory sizes grew beyond 4 GiB, some device=
+s could
+> > > +only provide 32-bit DMA addresses. By allocating bounce buffer memor=
+y below
+> > > +the 4 GiB line, these devices with addressing limitations could stil=
+l work and
+> > > +do DMA. =20
+> >=20
+> > IIRC the origins are even older and bounce buffers were used to
+> > overcome the design flaws inherited all the way from the original IBM
+> > PC. These computers used an Intel 8237 for DMA. This chip has a 16-bit
+> > address register, but even the early 8088 CPUs had a 20-bit bus. So IBM
+> > added a separate 74LS670 4-by-4 register file chip to provide the high 4
+> > bits for each of the 4 DMA channels. As a side note, these bits were not
+> > updated when the 8237 address register was incrementing from 0xffff, so
+> > DMA would overflow at every 64K address boundary. PC AT then replaced
+> > these 4 bits with an 8-bit DMA "page" register to match the 24-bit
+> > address bus of an 80286. This design was not changed for 32-bit CPUs
+> > (i.e. 80386).
+> >=20
+> > In short, bounce buffers were not introduced because of 64-bit CPUs.
+> > They were already needed on 386 systems.
+> >=20
+> > OTOH this part of the history need not be mentioned in the
+> > documentation (unless you WANT it). =20
+>=20
+> I knew there was some even earlier history, but I didn't know the
+> details. :-(  I'll add some qualifying wording about there being multiple
+> DMA addressing limitations during the history of the x86 PCs, with
+> the 32-bit addressing as a more recent example.  But I won't try to
+> cover the details of what you describe.
 
-"True" notifications will have pid = 0 and seq = 0, while replies to
-commands have those fields populated based on the request.
+Yes, this sounds like a good level of detail.
 
-pid identifies the socket where the message should be delivered.
-ethnl_multicast() assumes that it's zero (since it's designed to work
-for notifications) and sends the message to all sockets subscribed to 
-a multicast / notification group (ETHNL_MCGRP_MONITOR).
-
-So that's the background. What you're doing isn't incorrect but I think
-it'd be better if we didn't use the multicast group here, and sent the
-messages as a reply - just to the socket which requested the flashing.
-Still asynchronously, we just need to save the right pid and seq to use.
-
-Two reasons for this:
- 1) convenience, the user space socket won't have to subscribe to 
-    the multicast group
- 2) the multicast group is really intended for notifying about
-    _configuration changes_ done to the system. If there is a daemon
-    listening on that group, there's a very high chance it won't care
-    about progress of the flashing. Maybe we can send a single
-    notification that flashing has been completed but not "progress
-    updates"
-
-I think it should work.
-
-> > > +void ethnl_module_fw_flash_ntf_err(struct net_device *dev,
-> > > +				   char *err_msg, char *sub_err_msg) {
-> > > +	char status_msg[120];
 > > > +
-> > > +	if (sub_err_msg)
-> > > +		sprintf(status_msg, "%s, %s.", err_msg, sub_err_msg);
-> > > +	else
-> > > +		sprintf(status_msg, "%s.", err_msg);  
-> > 
-> > Hm, printing in the dot, and assuming sizeof err_msg + sub_err < 116 is a bit
-> > surprising. But I guess you have a reason...
-> > 
-> > Maybe pass them separately to ethnl_module_fw_flash_ntf() then you can
-> > nla_reserve() the right amount of space and sprintf() directly into the skb?  
-> 
-> I can get rid of the dot actually, would it be ok like that?
+> > > +More recently, Confidential Computing (CoCo) VMs have the guest VM's=
+ memory
+> > > +encrypted by default, and the memory is not accessible by the host h=
+ypervisor
+> > > +and VMM. For the host to do I/O on behalf of the guest, the I/O must=
+ be
+> > > +directed to guest memory that is unencrypted. CoCo VMs set a kernel-=
+wide option
+> > > +to force all DMA I/O to use bounce buffers, and the bounce buffer me=
+mory is set
+> > > +up as unencrypted. The host does DMA I/O to/from the bounce buffer m=
+emory, and
+> > > +the Linux kernel DMA layer does "sync" operations to cause the CPU t=
+o copy the
+> > > +data to/from the original target memory buffer. The CPU copying brid=
+ges between
+> > > +the unencrypted and the encrypted memory. This use of bounce buffers=
+ allows
+> > > +existing device drivers to "just work" in a CoCo VM, with no modific=
+ations
+> > > +needed to handle the memory encryption complexity. =20
+> >=20
+> > This part might be misleading. It sounds as if SWIOTLB would not be
+> > needed if drivers were smarter. =20
+>=20
+> I'm not sure I understand the point you are making. It is possible for a
+> driver to do its own manual bounce buffering to handle encrypted memory.
+> For example, in adding support for CoCo VMs, we encountered such a
+> driver/device with complex DMA and memory requirements that already
+> did some manual bounce buffering. When used in a CoCo VM, driver
+> modifications were needed to handle encrypted memory, but that was
+> the preferred approach because of the pre-existing manual bounce
+> buffering. In that case, indeed swiotlb was not needed by that driver/dev=
+ice.
+> But in the general case, we don't want to require driver modifications for
+> CoCo VMs. swiotlb bounce buffering makes it all work in the exactly the
+> situation you describe where the buffer memory could have originated
+> in a variety of places.
+>=20
+> Could you clarify your point?  Or perhaps suggest alternate wording
+> that would help avoid any confusion?
 
-It'd still be better to splice the two strings and the comma directly
-to the skb, rather than on the stack using a function which doesn't
-check the bounds of the buffer :S
+Ah, I wasn't aware that some drivers implement their own bounce
+buffers. I can't say I'm really happy about it, because such drivers
+must inevitably deal with all the complexities like IOMMU, decrypting,
+etc. But you're right - bounce buffers can be implemented by individual
+drivers.
+
+I have now read the sentence again, and the problematic wording is
+"existing device drivers". I know it's not the same as "legacy device
+drivers", but it still leaves some doubt whether "future device drivers"
+should make use of SWIOTLB. So either remove "existing" or be more
+explicit and say "existing and future device drivers". Then it sounds
+fine to me.
+
+HTH
+Petr T
