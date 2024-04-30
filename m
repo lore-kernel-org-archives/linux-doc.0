@@ -1,195 +1,112 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D9813D26E
-	for <linux-doc@vger.kernel.org>; Tue, 30 Apr 2024 11:58:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A6913D268
+	for <linux-doc@vger.kernel.org>; Tue, 30 Apr 2024 12:00:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714478296; cv=none; b=SoWyORa6nacQOZZxpCQqjwuyBXbL7KzX/uZ34VB6NhuB59L8wAo+ZolmCm56rkVlRuC//NjziCkF/VSKxmgXLd8lTriEcHuQgITPSPuJH8S0+VvpRNEThw1lmH/onFspjLUKk7k30/IYX3tT9EysOpu1H5dU0VYSzQgHxi+/KjU=
+	t=1714478460; cv=none; b=eBz6A9zj53oI+BUMa4nAqkCqqNGP0bwQ5YsjpEhv4QJE6AoT1ILyN0gJVTShDjniK3+6TLClmVofs8LW3FHwyt9ZpQcOm7s/u8eCd0c3wv54VNcDai8pcmtIvdQfZj6jgj+/gWXNupFNgK5AKlk7Xpn72FLvUbekZlf8Um13v1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714478296; c=relaxed/simple;
-	bh=4Id6VGdf2u95AiGZLRjJqIidD6qWkQ0vVUrWA2CAko0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UaPRdqzYNACW7m2JjpZ9hJtmIGtcGCQfAfTJ4/Nw35PBVF/pQMrONFnY0P/pq75o9N+HguNJv5W/2M1q3kmuSonPVlYbLqmr4Qpe2g0xq+wMDCAmk4/fT812FpJenJyUwBcI3MwCeYV2ocIMCr2rH5xY2T+FT5rbJkUppXrXpUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=gfax4WYZ; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1714478460; c=relaxed/simple;
+	bh=4i+oZELfhNBtH5dV47fRsrwUCxoVTACihHsZt/+Av6M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ed/bbY5teu+jbXWOx4gBbxnYA2d3APoRVdX2dnEtJcr99kwNdlffqTSu3segyyO1nzsBQ6GXO2R0EByOkEpAR4U4TnQZSA632QkmY0yRFIEcWDMdvfEozK/+sVUxL7diUgpwKwwpc7ZdDlKl1eXFGuVoWmCLSLHUhyJL6hIyF08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BpxXjIY9; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="gfax4WYZ"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-34a42d6e216so1247529f8f.1
-        for <linux-doc@vger.kernel.org>; Tue, 30 Apr 2024 04:58:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BpxXjIY9"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2a2d0ca3c92so3944479a91.0
+        for <linux-doc@vger.kernel.org>; Tue, 30 Apr 2024 05:00:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1714478293; x=1715083093; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OzSSsyfFzBl2mcBYufKCnCUvVLKXjpztnM9DRhV5I5Q=;
-        b=gfax4WYZVWRWHneERJ5B9qLZ+IGdyGTAn1ajTfdxobuIBSH9Y1VwduofRqT8pXlEnt
-         B3eRiNcry74gnR2ZfzleUYU1cpIdZ33M07dJcB+DId08lzZtiwbagmnV4Q9rur4JB8Ue
-         vV2Z1vZ0RB+VXCNn60bFd8JxrQchN9+M/8AUKqyBIT3QuHtsPIg4FT7yxKGDsGho+e66
-         Lc3Ca+RGcPxE8Z4I270KgfAfkDM1pW4eCl57wXctjEQIXM3bfX03uj7QelroWUb68+pm
-         j3ykx8JWRwzDyOru8RKRvXYplu1uJwRBUBPdCNxiNqHQodkZYPJ4CRM2oSEPEfPq/tdk
-         GvTQ==
+        d=linaro.org; s=google; t=1714478458; x=1715083258; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=1Z1myKdAdC7HyTTZzja4JHzqozZdoiE8OpsVv5HUH3I=;
+        b=BpxXjIY9SXeeMvcA+8kpBAFTJg8aMorOMVAwa0JPkjpgxf1NLkBcmHjrtO8zSQ+u6l
+         dxQEWNLKBKJw4ZtQ3Lh75+xLmXS4qoe56MfQP7XyTViq7AAikaXwrGIL6kJC0QD3ZOqa
+         2zxSTum5ismBdU59R6UnmHeSqdbH/73k0oW4IINcFFgwvwZHI0LUEs9g43eceSLmnzjA
+         h6OVG7sGlYbNxGWffSo7RLYt27vSjbcVwFzUZigckKgMT69Jj9WAWlg5FKKNrVSvqUqN
+         AriE0W5TlTW9qPeDhSK0taVPjWkoRORCCO5oiXZ6b3ln/4oPIPGIU8+HeiZsaBrQsma9
+         BpBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714478293; x=1715083093;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OzSSsyfFzBl2mcBYufKCnCUvVLKXjpztnM9DRhV5I5Q=;
-        b=YD65h9Hxf2sD7NI7Kc02CWLS39SY+G/LjewdWfbtXV6goWo1BR7P4kTFXu7HYFXDsV
-         xMH/1fTxxZqImjhFkWceV1pYC7m/jE4qAPtl6JKt8Ijz5V6Yx4f1HmO0Gw5fWp7sMd6j
-         +fd0UwfKbOd4/N2meIBYj9FwesS2J+ay50gdmRdoOgzAahP7rbmZ49SGTiNFnXP3O4uZ
-         rehIub/VMbTxB6RCRuKXZeC0WnxmSeEhvLGOZcXC2o+i25dyxgdkz/1b58hfF2fZOrh+
-         rBOnptszFvC9D06F3n9I0yTnxsjQTFKa3mKXnR5GorERHfMXk9oCJKibhof0m6n9jTig
-         D6XQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXSR+7KbEiOZ/+PS2SCjuwS/5iZC3ztEAuM6eicXvy3CcNrCTVRc5SPsD7OUd54FbU9TQ1STMjcGVKDZJUvyXOLs9jP1n6dZFIV
-X-Gm-Message-State: AOJu0YwdRcRX6EojqsLjEmJ1YwD7I73orbKhihCwKyEQ1WUzAfz23ReM
-	1bjn9vemkESPqJP8xmet2XtpRm7rJpChGgbkTqkVIxTBcG2AvK/QRGzQWbL69hw=
-X-Google-Smtp-Source: AGHT+IFowi0uScE3U6kwtOLic0zxD94ruOb8GXnQAwFE/D5XSkJPVJ8UzE8OGVrMPrp7yPhK24S50A==
-X-Received: by 2002:a05:6000:1756:b0:34d:af59:32bc with SMTP id m22-20020a056000175600b0034daf5932bcmr103435wrf.7.1714478293117;
-        Tue, 30 Apr 2024 04:58:13 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:999:a3a0:c21b:67fd:90ab:9053? ([2a01:e0a:999:a3a0:c21b:67fd:90ab:9053])
-        by smtp.gmail.com with ESMTPSA id g17-20020a5d5551000000b0034c5e61ee82sm10843260wrw.67.2024.04.30.04.58.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Apr 2024 04:58:12 -0700 (PDT)
-Message-ID: <dbcf0be9-eae6-4776-bc5b-c6fad58df9c3@rivosinc.com>
-Date: Tue, 30 Apr 2024 13:58:11 +0200
+        d=1e100.net; s=20230601; t=1714478458; x=1715083258;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1Z1myKdAdC7HyTTZzja4JHzqozZdoiE8OpsVv5HUH3I=;
+        b=SYjOXJSyJlnTTQmblzbDnaYw3VYWJpadPz1pFunCVZwBqoewXPzrQVJW4QnA76f+Qe
+         aNozfzFqhnMymJO8Lm/SOsdo9QUROKXYsPAWvte3V3gXallXmfupohcOlb2gLKaHE/8A
+         Nh3EXsjTbUffN+dM7nfHFF78v+/J5YPtZj72G4X0ESoD9HnyLHTFJr7K9N0SdC74FxsP
+         CKwzLBuMdCwqdsa2lExBgqjuIxRtov7jPqmeYW0VaLI0i5rN9ZbM91WR/aVSFFCcqkZP
+         DhOHqc4KB30B5/aiPUBqYF4rU7bi4Vi0YwuHbreARa0nfMJuZodNhG4c+7PxhdWqKrsw
+         k/9w==
+X-Forwarded-Encrypted: i=1; AJvYcCUwDvKwJSb5leYoKJ6tx31o3TPij91QZCUGD49nZQ36Nyhv9g/F3FGsQAal8gtAd9D/GLJR1UUejAAKKVqJ97/TRro8iyuY8kho
+X-Gm-Message-State: AOJu0Yy8fVpgrP/nvttwp+Uz+mIQCoKBGyERkTzx3oL5NSmdInmL8GRJ
+	el8gQ6J5yYw151j5tRlsZxuBrQJak9eO0dv6KazQB47nmrZGpKJo74B28wbG1A0HZw82iNEzmAP
+	1FpVuk+gDY6V2Pge39PxKMst2alluqmaVNqGx+w==
+X-Google-Smtp-Source: AGHT+IEuoO12CTIHP9MUVVJqpOCwqG+W7dUdh4INEBszG2ueQMsjN9KNncSH+zwGVhI1PcUMescz5bfhnoSrw19sGCs=
+X-Received: by 2002:a17:90a:a00a:b0:2a5:df97:b with SMTP id
+ q10-20020a17090aa00a00b002a5df97000bmr3997149pjp.18.1714478458032; Tue, 30
+ Apr 2024 05:00:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 02/11] riscv: add ISA extensions validation
-To: Conor Dooley <conor.dooley@microchip.com>
-Cc: Conor Dooley <conor@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Anup Patel <anup@brainfault.org>, Shuah Khan <shuah@kernel.org>,
- Atish Patra <atishp@atishpatra.org>, linux-doc@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, kvm@vger.kernel.org,
- kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
-References: <20240429150553.625165-1-cleger@rivosinc.com>
- <20240429150553.625165-3-cleger@rivosinc.com>
- <20240429-subtext-tabby-3a1532f058a5@spud>
- <5d5febd5-d113-4e8c-9535-9e75acf23398@rivosinc.com>
- <20240430-payable-famished-6711765d5ca4@wendy>
-Content-Language: en-US
-From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-In-Reply-To: <20240430-payable-famished-6711765d5ca4@wendy>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240326091616.3696851-1-vincent.guittot@linaro.org>
+ <20240326091616.3696851-5-vincent.guittot@linaro.org> <95760e2b-ec38-4f04-8f86-e4f935d24a83@linaro.org>
+In-Reply-To: <95760e2b-ec38-4f04-8f86-e4f935d24a83@linaro.org>
+From: Vincent Guittot <vincent.guittot@linaro.org>
+Date: Tue, 30 Apr 2024 14:00:46 +0200
+Message-ID: <CAKfTPtDhVfpvO46YWmMnVhJmiKUbNJt7d2cvmyXfPJ4g1YZkXg@mail.gmail.com>
+Subject: Re: [PATCH v6 4/5] sched: Rename arch_update_thermal_pressure into arch_update_hw_pressure
+To: Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org, 
+	sudeep.holla@arm.com, rafael@kernel.org, viresh.kumar@linaro.org, 
+	agross@kernel.org, andersson@kernel.org, mingo@redhat.com, 
+	peterz@infradead.org, juri.lelli@redhat.com, dietmar.eggemann@arm.com, 
+	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de, bristot@redhat.com, 
+	vschneid@redhat.com, lukasz.luba@arm.com, rui.zhang@intel.com, 
+	mhiramat@kernel.org, daniel.lezcano@linaro.org, amit.kachhap@gmail.com, 
+	corbet@lwn.net, gregkh@linuxfoundation.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Qais Yousef <qyousef@layalina.io>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 
+H Konrad,
 
+On Tue, 30 Apr 2024 at 13:23, Konrad Dybcio <konrad.dybcio@linaro.org> wrote:
+>
+> On 26.03.2024 10:16 AM, Vincent Guittot wrote:
+> > Now that cpufreq provides a pressure value to the scheduler, rename
+> > arch_update_thermal_pressure into HW pressure to reflect that it returns
+> > a pressure applied by HW (i.e. with a high frequency change) and not
+> > always related to thermal mitigation but also generated by max current
+> > limitation as an example. Such high frequency signal needs filtering to be
+> > smoothed and provide an value that reflects the average available capacity
+> > into the scheduler time scale.
+> >
+> > Signed-off-by: Vincent Guittot <vincent.guittot@linaro.org>
+> > Reviewed-by: Qais Yousef <qyousef@layalina.io>
+> > Reviewed-by: Lukasz Luba <lukasz.luba@arm.com>
+> > Tested-by: Lukasz Luba <lukasz.luba@arm.com>
+> > ---
+>
+> Hi, I'm not quite sure how, but this commit specifically breaks booting
+> on Qualcomm platforms with EAS..
 
-On 30/04/2024 13:44, Conor Dooley wrote:
-> On Tue, Apr 30, 2024 at 09:18:47AM +0200, Clément Léger wrote:
->>
->>
->> On 30/04/2024 00:15, Conor Dooley wrote:
->>> On Mon, Apr 29, 2024 at 05:04:55PM +0200, Clément Léger wrote:
->>>> Since a few extensions (Zicbom/Zicboz) already needs validation and
->>>> future ones will need it as well (Zc*) add a validate() callback to
->>>> struct riscv_isa_ext_data. This require to rework the way extensions are
->>>> parsed and split it in two phases. First phase is isa string or isa
->>>> extension list parsing and consists in enabling all the extensions in a
->>>> temporary bitmask without any validation. The second step "resolves" the
->>>> final isa bitmap, handling potential missing dependencies. The mechanism
->>>> is quite simple and simply validate each extension described in the
->>>> temporary bitmap before enabling it in the final isa bitmap. validate()
->>>> callbacks can return either 0 for success, -EPROBEDEFER if extension
->>>> needs to be validated again at next loop. A previous ISA bitmap is kept
->>>> to avoid looping mutliple times if an extension dependencies are never
->>>> satisfied until we reach a stable state. In order to avoid any potential
->>>> infinite looping, allow looping a maximum of the number of extension we
->>>> handle. Zicboz and Zicbom extensions are modified to use this validation
->>>> mechanism.
->>>
->>> Your reply to my last review only talked about part of my comments,
->>> which is usually what you do when you're gonna implement the rest, but
->>> you haven't.
->>> I like the change you've made to shorten looping, but I'd at least like
->>> a response to why a split is not worth doing :)
->>
->> Hi Conor,
->>
->> Missed that point since I was feeling that my solution actually
->> addresses your concerns. Your argument was that there is no reason to
->> loop for Zicbom/Zicboz but that would also apply to Zcf in case we are
->> on RV64 as well (since zcf is not supported on RV64). So for Zcf, that
->> would lead to using both mecanism or additional ifdefery with little to
->> no added value since the current solution actually solves both cases:
->>
->> - We don't have any extra looping if all validation callback returns 0
->> (except the initial one on riscv_isa_ext, which is kind of unavoidable).
->> - Zicbom, Zicboz callbacks will be called only once (which was one of
->> your concern).
->>
->> Adding a second kind of callback for after loop validation would only
->> lead to a bunch of additional macros/ifdefery for extensions with
->> validate() callback, with validate_end() or with both (ie Zcf)). For
->> these reasons, I do not think there is a need for a separate mechanism
->> nor additional callback for such extensions except adding extra code
->> with no real added functionality.
->>
->> AFAIK, the platform driver probing mechanism works the same, the probe()
->> callback is actually called even if for some reason properties are
->> missing from nodes for platform devices and thus the probe() returns
->> -EINVAL or whatever.
->>
->> Hope this answers your question,
-> 
-> Yeah, pretty much I am happy with just an "it's not worth doing it"
-> response. Given it wasn't your first choice, I doubt you're overly happy
-> with it either, but I really would like to avoid looping to closure to
-> sort out dependencies - particularly on the boot CPU before we bring
-> anyone else up, but if the code is now more proactive about breaking
-> out, I suppose that'll have to do :)
+This is the fix:
+https://lore.kernel.org/lkml/20240425073709.379016-1-vincent.guittot@linaro.org/
 
-Ahah, I would have done it if it would have make sense and add any
-useful support. But AFAICT, the current implementation solves most of
-the problems you raised.
+>
+> https://pastebin.com/raw/1Uh7u81x
 
-While thinking about it, I can even simply it a bit more. Once a ISA
-extension bit is set in the final mask, I can actually disable it in the
-original mask to avoid looping over it again. I'll send a V5.
+Which platform is it ?
+I tested it on dragonboard rb3 and it booted and run tests  even w/o the fix
 
-> I kinda wish we didn't do this at all, but I think we've brought this
-> upon ourselves via hwprobe. I'm still on the fence as to whether things
-> that are implied need to be handled in this way. I think I'll bring this
-> up tomorrow at the weekly call, because so far it's only been you and I
-> discussing this really and it's a policy decision that hwprobe-ists
-> should be involved in I think.
-
-Yeah sure.
-
-> 
-> Implied extensions aside, I think we will eventually need this stuff
-> anyway, for extensions that make no sense to consider if a config option
-> for a dependency is disabled.
-> From talking to Eric Biggers the other week about
-> riscv_isa_extension_available() I'm of the opinion that we need to do
-> better with that interface w.r.t. extension and config dependencies,
-> and what seems like a good idea to me at the moment is putting tests for
-> IS_ENABLED(RISCV_ISA_FOO) into these validate hooks.
-
-Yeah, see what you mean. I think we also need to define if we want to
-expose all the ISA extensions in /proc/cpuinfo (ie no matter the config
-of the kernel) or not. If so, additional validate() callback would make
-sense. If we want to keep the full ISA string in /proc/info, then we
-will need another way of doing so.
-
-> 
-> I'll try to look at the actual implementation here tomorrow.
-
-Great, thanks.
-
-Clément
-
-> 
-> Cheers,
-> Conor.
+>
+> Konrad
