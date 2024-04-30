@@ -1,103 +1,202 @@
-Received: from mx0b-00823401.pphosted.com (mx0b-00823401.pphosted.com [148.163.152.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAA14176FA1;
-	Tue, 30 Apr 2024 16:14:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.152.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 581EB176FA3
+	for <linux-doc@vger.kernel.org>; Tue, 30 Apr 2024 16:19:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714493673; cv=none; b=QIpYZ3t2pjMyvupxyoBQQL5QUY/J/rmfe16ogIl37YxC4xFUKE3/rnYghvsqVNS61m3+T9x8x3RaBHTeeuH5nWlJR0Ci+qkum6+CIj3+EfceoJmtEF4jtB2KKSh6ALN41wwdor76IJbVTkH+ymeyRS896Y5J241U4JGFd7Dp+P4=
+	t=1714493958; cv=none; b=uHyPaMmJ1mm1TVfI8WW38UqEz8r1MWnAF5AMJDEUEkKwPqDVcxTVKpaBrGsJsLT/L95VRHDl4lPEryBiIMwigNctyMLm5MWqgaz5YOiqLCIhQomUwg3qL1d306/JmnVK80q3XBLZCNYZep8K6RtbeSqE7fHN6A0d7rZoTIugWUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714493673; c=relaxed/simple;
-	bh=jDRp8ZKc/ZI1h5C/iego2Wm5Y1Gpx7UAFijBltFFKrU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MByyt9yYabsWDosRGQtOcSxpkaJxvqs5KRmL64iWkCNYt6FLkAFzLGzFiHT02LIrl3WcJP1d+KEctCBDRqIDFag8y6XxenKiUgsuNvfNE7Fg3xXPEmO3kBdu7OaRQJpFaSmg5Fache9BSd05gyca7McmOd4OEH+dGMlTBqFCBF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=motorola.com; spf=pass smtp.mailfrom=motorola.com; dkim=pass (2048-bit key) header.d=motorola.com header.i=@motorola.com header.b=UNpWYu4Q; arc=none smtp.client-ip=148.163.152.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=motorola.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=motorola.com
+	s=arc-20240116; t=1714493958; c=relaxed/simple;
+	bh=J44hCCyxD35NbqWW6nQLBqBSODmWNn0Dexkak4J/EvQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LW9Rh+7dRo4wDLq85b4WMssjitKVpO/i5ippqC828CA0JdvUm7pJmj0lkvk3J+0cWsExrlbFYwuXkPKDHeMlWP2/uMBL05kLDBfj/J9n4wIhoX9fzjJVx756Dfh/beiFSV42eZNiSw4hiaOQxi6WGQKOX9TwJyG1rnDuZ5vFZxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=10DWIIV7; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=motorola.com header.i=@motorola.com header.b="UNpWYu4Q"
-Received: from pps.filterd (m0355089.ppops.net [127.0.0.1])
-	by mx0b-00823401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43U9WwMa008922;
-	Tue, 30 Apr 2024 16:13:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=motorola.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=DKIM202306; bh=ZdSmt5zDcC89PDnHHr/a
-	KSAriMvIJvGcEbgYXmtQydc=; b=UNpWYu4QnWd5olOAPBicmnEue67SUVLkf0ka
-	hej0B9Lznq7inaCpw5pfRUbofR2BWXhYyg2QedyqvVXQkVpwaTaO1h3RkfA2BfXu
-	+QNm9IT71yq+i3cpgluvvK9ADvbt8v1ilBSv9pvlL3Pyg9GNm0d4avZPpI66vVDV
-	UJ/njm5gdvSKvRH+2kPvRYBEmiYntIYtw95xtt7TmYPKCGAZQI3tfTQ+SoUijpDg
-	js8vJOUZAY+hkh7Oq/iu6q7dOkuOTMiQk7y9oxc+FkSIbZCUAZhLlw91lZWZ/pbF
-	sBdABbaTaollpL2YbS4Z2pMRa3sSY8xeMnExwlsD8EvblqdEFg==
-Received: from va32lpfpp03.lenovo.com ([104.232.228.23])
-	by mx0b-00823401.pphosted.com (PPS) with ESMTPS id 3xtqvf9ftp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 30 Apr 2024 16:13:59 +0000 (GMT)
-Received: from ilclmmrp02.lenovo.com (ilclmmrp02.mot.com [100.65.83.26])
-	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by va32lpfpp03.lenovo.com (Postfix) with ESMTPS id 4VTQHV5Msyz51Q9x;
-	Tue, 30 Apr 2024 16:13:58 +0000 (UTC)
-Received: from ilclasset02 (ilclasset02.mot.com [100.64.49.13])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: mbland)
-	by ilclmmrp02.lenovo.com (Postfix) with ESMTPSA id 4VTQHV3n4Wz3p6jp;
-	Tue, 30 Apr 2024 16:13:58 +0000 (UTC)
-Date: Tue, 30 Apr 2024 11:13:57 -0500
-From: Maxwell Bland <mbland@motorola.com>
-To: linux-mm@kvack.org
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ard Biesheuvel <ardb@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Maxwell Bland <mbland@motorola.com>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] ptdump: add intermediate directory support
-Message-ID: <36faail77z762b6tnldswwe4yxbedx3gwi4n5reldwbkovb5kb@m5gz4a3yqxav>
-References: <fik5ys53dbkpkl22o4s7sw7cxi6dqjcpm2f3kno5tyms73jm5y@buo4jsktsnrt>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="10DWIIV7"
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2e049cfe645so17580741fa.0
+        for <linux-doc@vger.kernel.org>; Tue, 30 Apr 2024 09:19:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1714493953; x=1715098753; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EYdB/zYMgqlA7okFvLjIPPWUlhTGwRwh73eiOLj9MZw=;
+        b=10DWIIV7lFrlwECtQ+gLiDg8MMuhXsRtzC/FDf4WbC1nhsxE+rB3dP9gXWEoZx8ey3
+         CfBdGszghuUQBfBtByeHtFLh0ChHCA5/oFG3clQRcdGGqTNBPa0wVNJE9f6pbcXyU87O
+         AKzsaY9d13YfZ5RHT04c/OIeP1STbjgtD+ADg5iXQ23TmqWf2FW+nuo5Xm9kut0npnQb
+         SAJwnNxo26e3tcHPtO6Yttq74QxTJJHFqsadVTNACUXyzSgmOvpp+5+Wuw3sgLpIQSS3
+         BFF+j8tA7syaoOsC9LOJASeHrjzr7cfsvbrGGH+TDj9Q4N2olM3sr/G4bSy6Rm+Sas8W
+         P3xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714493953; x=1715098753;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EYdB/zYMgqlA7okFvLjIPPWUlhTGwRwh73eiOLj9MZw=;
+        b=n3Rhon0oxySR1TPaBmEDdldRZZ7LVW6AP1X7jS7nxbzV44lliTRls83iCPiGDA3vB/
+         QmLCiw9u7IUYCVh/sCswMnCCSL5ldrt1n0sArC/3h5xuUMtTfCzFDWcnUFtPENR12Uam
+         gXaouwfStY2dwbIwCHA/T3BzEtbFQUMt48HdhXCaywUd3IA2a64Ym+Wc0n8cmZXs6Z7c
+         6iAazq/6h1O021Os/fz6dHMT7cliAqVWa5RGKGaUGq+IoEuyCNYylRs1HfSDFB2zrijV
+         WsPWrL4cEm5BY6XEbV/lGc8ZV4ChEOXhvvmZTjXs9wrTaYr9VFFdV72qBT1chLtv46TL
+         S28Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWoivfolr4r6LybSNuiOAK4Ya1W5D2Shrzzy0iLH/nMzTqEMoaXmkNSRMznBCR6PDrJyKaetWC/3DkPF7JWAQFJ2SyTQhGmmieW
+X-Gm-Message-State: AOJu0Yz98cty1hrcI04HQhNcYCh8Z6zQB6lA7Px1sd5FRA12hais9oOV
+	CFH0Q6sL2ic60OPGp+5CHKeompJ4xmMtF9z5C95N599Y3DcJm/WJ4k2l9lomztcwcaFeV8aIhYI
+	vrbyI+zL7+DOHwrTAQP8s1vj/3z3p8ruAiZ0hNg==
+X-Google-Smtp-Source: AGHT+IHNUEuRQYO/ery9q1WbMjDy+FPeaxsW7gh/vbOG22U6B5PZTmXy7tHPumx1KaMD3DrYzbtRncJOi4/QHYWE08I=
+X-Received: by 2002:a2e:3515:0:b0:2de:6f52:5c8d with SMTP id
+ z21-20020a2e3515000000b002de6f525c8dmr73932ljz.21.1714493953250; Tue, 30 Apr
+ 2024 09:19:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fik5ys53dbkpkl22o4s7sw7cxi6dqjcpm2f3kno5tyms73jm5y@buo4jsktsnrt>
-X-Proofpoint-GUID: ordh2vEURrLkI_4r9779MV_wQqbPnjan
-X-Proofpoint-ORIG-GUID: ordh2vEURrLkI_4r9779MV_wQqbPnjan
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-04-30_09,2024-04-30_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- spamscore=0 adultscore=0 mlxscore=0 impostorscore=0 phishscore=0
- suspectscore=0 clxscore=1015 mlxlogscore=974 lowpriorityscore=0
- bulkscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2404300115
+References: <20240429-regulator-get-enable-get-votlage-v2-0-b1f11ab766c1@baylibre.com>
+ <20240429-regulator-get-enable-get-votlage-v2-1-b1f11ab766c1@baylibre.com>
+In-Reply-To: <20240429-regulator-get-enable-get-votlage-v2-1-b1f11ab766c1@baylibre.com>
+From: David Lechner <dlechner@baylibre.com>
+Date: Tue, 30 Apr 2024 11:19:01 -0500
+Message-ID: <CAMknhBG2ySYNEvghnO63wE=x6W8jk0-T2oWZKeXApM_d_eeoCw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/7] regulator: devres: add API for reference voltage supplies
+To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
+	Jonathan Cameron <jic23@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Support Opensource <support.opensource@diasemi.com>, 
+	Cosmin Tanislav <cosmin.tanislav@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Antoniu Miclaus <antoniu.miclaus@analog.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-input@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 30, 2024 at 11:05:01AM GMT, Maxwell Bland wrote:
-> v3:
->   - Added tabulation to delineate entries
->   - Fixed formatting issues with mailer and rebased to mm/linus
-> 
-> v2:
->   - Rebased onto linux-next/akpm (the incorrect branch)
+On Mon, Apr 29, 2024 at 6:40=E2=80=AFPM David Lechner <dlechner@baylibre.co=
+m> wrote:
+>
+> A common use case for regulators is to supply a reference voltage to an
+> analog input or output device. This adds a new devres API to get,
+> enable, and get the voltage in a single call. This allows eliminating
+> boilerplate code in drivers that use reference supplies in this way.
+>
+> Signed-off-by: David Lechner <dlechner@baylibre.com>
+> ---
+>
+> v2 changes:
+> * removed dev_err_probe() on error return
+> * dropped optional version of the function since there is no more
+>   difference after dev_err_probe() is removed
+> * renamed function to devm_regulator_get_enable_read_voltage()
+> * added unwinding on error paths
+> ---
+>  Documentation/driver-api/driver-model/devres.rst |  1 +
+>  drivers/regulator/devres.c                       | 59 ++++++++++++++++++=
+++++++
+>  include/linux/regulator/consumer.h               |  7 +++
+>  3 files changed, 67 insertions(+)
+>
+> diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documenta=
+tion/driver-api/driver-model/devres.rst
+> index 7be8b8dd5f00..18caebad7376 100644
+> --- a/Documentation/driver-api/driver-model/devres.rst
+> +++ b/Documentation/driver-api/driver-model/devres.rst
+> @@ -433,6 +433,7 @@ REGULATOR
+>    devm_regulator_bulk_put()
+>    devm_regulator_get()
+>    devm_regulator_get_enable()
+> +  devm_regulator_get_enable_read_voltage()
+>    devm_regulator_get_enable_optional()
+>    devm_regulator_get_exclusive()
+>    devm_regulator_get_optional()
+> diff --git a/drivers/regulator/devres.c b/drivers/regulator/devres.c
+> index 90bb0d178885..4f290b9b559b 100644
+> --- a/drivers/regulator/devres.c
+> +++ b/drivers/regulator/devres.c
+> @@ -145,6 +145,65 @@ struct regulator *devm_regulator_get_optional(struct=
+ device *dev,
+>  }
+>  EXPORT_SYMBOL_GPL(devm_regulator_get_optional);
+>
+> +/**
+> + * devm_regulator_get_enable_read_voltage - Resource managed regulator g=
+et and
+> + *                                          enable that returns the volt=
+age
+> + * @dev: device to supply
+> + * @id:  supply name or regulator ID.
+> + *
+> + * Get and enable regulator for duration of the device life-time.
+> + * regulator_disable() and regulator_put() are automatically called on d=
+river
+> + * detach. See regulator_get_optional(), regulator_enable(), and
+> + * regulator_get_voltage() for more information.
+> + *
+> + * This is a convenience function for supplies that provide a reference =
+voltage
+> + * where the consumer driver just needs to know the voltage and keep the
+> + * regulator enabled.
+> + *
+> + * In cases where the supply is not strictly required, callers can check=
+ for
+> + * -ENODEV error and handle it accordingly.
+> + *
+> + * Returns: voltage in microvolts on success, or an error code on failur=
+e.
+> + */
+> +int devm_regulator_get_enable_read_voltage(struct device *dev, const cha=
+r *id)
+> +{
+> +       struct regulator *r;
+> +       int ret;
+> +
+> +       /*
+> +        * Since we need a real voltage, we use devm_regulator_get_option=
+al()
+> +        * rather than getting a dummy regulator with devm_regulator_get(=
+) and
+> +        * then letting regulator_get_voltage() fail with -EINVAL. This w=
+ay, the
+> +        * caller can handle the -ENODEV error code if needed instead of =
+the
+> +        * ambiguous -EINVAL.
+> +        */
+> +       r =3D devm_regulator_get_optional(dev, id);
+> +       if (IS_ERR(r))
+> +               return PTR_ERR(r);
+> +
+> +       ret =3D regulator_enable(r);
+> +       if (ret)
+> +               goto err_regulator_put;
+> +
+> +       ret =3D devm_add_action_or_reset(dev, regulator_action_disable, r=
+);
+> +       if (ret)
+> +               goto err_regulator_put;
+> +
+> +       ret =3D regulator_get_voltage(r);
+> +       if (ret < 0)
+> +               goto err_release_action;
+> +
+> +       return 0;
 
-Note that I am referring to
-20240423121820.874441838-1-mbland@motorola.com
-as the v1/v2 here.
+Oof. Apparently I didn't test this as well as I should have after
+adding the unwinding. This obviously should return ret, not 0.
 
-The v1/v2 mailer malformatting will hopefully never happen again. I have
-tested mailing this patch to myself and have confirmed it cleanly merges
-to mm/linus. I ended up needing to compile mutt from scratch. ):
+I did more extensive testing today, including faking error returns to
+test unwinding to make sure I didn't miss anything else.
 
-Also, I made these changes in order to compliment testing
-20240220203256.31153-1-mbland@motorola.com
-and
-20240423095843.446565600-1-mbland@motorola.com
-and figured they might be useful to include/merge before attempting to
-merge the above more impactful changes.
+> +
+> +err_release_action:
+> +       devm_release_action(dev, regulator_action_disable, r);
+> +err_regulator_put:
+> +       devm_regulator_put(r);
+> +
+> +       return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(devm_regulator_get_enable_read_voltage);
+> +
