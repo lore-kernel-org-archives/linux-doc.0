@@ -1,170 +1,142 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2EF0172761
-	for <linux-doc@vger.kernel.org>; Tue, 30 Apr 2024 13:46:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214A017167F;
+	Tue, 30 Apr 2024 13:53:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714484765; cv=none; b=FOO4bQ6ZngJ7SSZS4mvJJa0HExGEr1vwyDvQ8MWPCBRym+AvPBHjsfTcYfo/cfXe90mUqddkFaRmFdc0NQTRW4FLfeXMbOcV2qPmAQjoe5eK+KMnheS0WI4ojEuOX5XUqv0ssLEX0cUQUmxqfx45z182acAWZNfdYDxRh2S4s9w=
+	t=1714485220; cv=none; b=fBkXrj4WTPWoVQpFWN0UAbImvJQJbNpL2zJZbVqOMBnqqdoHbHggsm/da0hoTRidbhf0b3KgG4ju6Jlftz6d3ZMqAuKV0eO+3h8pAk/HdUUn07kF4bVG3fCTYk7OATggQRpOXmW9ffiHSJhTgHAzjPg/zBL8UqpDzpIK4O0Piu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714484765; c=relaxed/simple;
-	bh=T1pCeAqcp0hagoseX+NBrv4VuqjeZqvX4PDGNfjpbho=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MBTPMMrCqWx5jMnvh0PffBuPLFelFS0vVjgLI1S3ekmo/wu3ovcYpzMTj+Z3LUgpzzKjxp9Fs5cZLd/0hWckHrMEHZIM1fEVBxUXUYsx/fjd5xqhqqQ4z/6+0TWskcuI6PK3PqNitCIC7LXcgJX4EBMQLeNTMsTK/dLC8n68gjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=TrbWzzUJ; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1714485220; c=relaxed/simple;
+	bh=sqoodRfj0IATLtJDqqqpof/7WjIJbwK83pY5fT0FQTA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IAdnrwCrrSBxAdXNC5Xvh1ask3aJofvTyi5Rr4FCEU+MXQ3X5ymfpp93YLANVZDu45kjIy7wv6ty9jgxorYPO83Xt16fcfS1PIO2Wqe7Bohl/Z658XVwjOplGriW4QCqGkdWlnGXDMHJ3DWVvVDTLVlu36SffJAWcPjdqvViTxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WO6ovsvn; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="TrbWzzUJ"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2b2aab2d46dso116268a91.0
-        for <linux-doc@vger.kernel.org>; Tue, 30 Apr 2024 06:46:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1714484761; x=1715089561; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JjNR4wPlgvb/NrdAvCR/ceifiIGObytGntMYaBKjRCU=;
-        b=TrbWzzUJm4ACtdJyO8oibE6KYZmSqfTX2Jp4Q0yG9JcxctyXvP+CDWGCRkRrVsuMY5
-         iMVNVsN3muXq+fKDdYw5GJRGGzLAyrSmaV0eEKQRnVARtWliWdQoTqQ1FD1RUlHU5m3U
-         gDdLu5C5HjkqWAIpLZ4ayF0asn66ueCZTz0j8eCPMTI0Z8v/bSHAT2v+b0W4MSZMvrlE
-         oROpvzBoqEz7hAfm06s0TLcuLfyELeqxigNRtGhSdBSBaHmYeXwgI8qUnuKDsSwX9Nh2
-         5g8SyL48LiJV6qg+w5MFs+9pri8thZKS40PTXmP8hzxdCZM8eyX9NKg32HgQ9RPA9Rcw
-         IC2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714484761; x=1715089561;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JjNR4wPlgvb/NrdAvCR/ceifiIGObytGntMYaBKjRCU=;
-        b=uaarBxmLgy96LKYH1yUHdNyfQcYzgeelvGMevVtdkYaFeUXBfuzHe5z+64iFNmBv0t
-         mHi8L/CaFnB7nRMwvmbqTyIBgDj572/b7O7HA6DLJjMzNgZXczy4czq1S2JH3boVCo8z
-         GEhKs519bZ7m8YAD/o7x+qVJ+TgKn/jqkEFK0xa8g7yutsKpKndefR8Hm0HioYTnEAg7
-         7Ryysckokqe7rDKGvT1phFJGQtljO26TLSo+2bWX8fBSew3lczz7BiBKIYrDK1nD9K/x
-         6tRJhkjhjIHnK/dwoEpMhfa/cgnLKK406hK5vUPsZPzT8xZ4vufQwnO9iFo9kW5pW4qs
-         FujQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVW6dPA2p/S403q4CGIWTuo0F3gjTJ/yREo0/T2uo2nGis/R8AVUyf2yFRGOEAlOpsw/H255rVaoNM+sUAeYCA3LaAN0Dj204uO
-X-Gm-Message-State: AOJu0Yw85gQoey13/g61q2M0BEXZ81V8jh/gW5oJvnKSf5ZZ576kwd3y
-	fSS9O0lS4Pv3cNpyecpIEI5vlRdXWTOMVp+NmTDUTe0cKIiGgjDeatA5chdDQt8=
-X-Google-Smtp-Source: AGHT+IH9R1bNbi/b5An2t0YujuKFT91RDi4jOUG3j3R9m2Jy6nNwhLv9ihFj9tl7tQbksDchw49Kdw==
-X-Received: by 2002:a05:6a00:1d22:b0:6ed:cc50:36cd with SMTP id a34-20020a056a001d2200b006edcc5036cdmr14955130pfx.2.1714484761068;
-        Tue, 30 Apr 2024 06:46:01 -0700 (PDT)
-Received: from [192.168.1.150] ([198.8.77.194])
-        by smtp.gmail.com with ESMTPSA id fe8-20020a056a002f0800b006ed00ea504asm21108186pfb.159.2024.04.30.06.45.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Apr 2024 06:46:00 -0700 (PDT)
-Message-ID: <aafbbf09-a33d-4e73-99c8-9ddab5910657@kernel.dk>
-Date: Tue, 30 Apr 2024 07:45:52 -0600
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WO6ovsvn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714485209; x=1746021209;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sqoodRfj0IATLtJDqqqpof/7WjIJbwK83pY5fT0FQTA=;
+  b=WO6ovsvnXQQnMUi7k7ybacRzQ1SJoSamDypiZMm6Xk7nrkKTuQfcirws
+   NN5Lu3wcvBeGtDYmuCwS2kLDl9TmC/pgJkNfOWmjds5T4qydWV62qAI86
+   v+o7KYurfGeNLyEBkt69mYjssWo5PctUxvNCFeLnUvPCBUjd9YKW7V+VW
+   LtAPl/+ym0jJLXWOq+142OSl7jaCA4XA2xL6NVWGhTlnqOulJ6FtGFx3K
+   h2Bn7Zl47QRk5Ot757FQXxVGhObGMKc0CvgIWfHuZmH5mUazuqWgSaX3j
+   Uz4W6MAvjhp82juiuop2QlGxweKW4FTvR4vR9wtXdwQmYAiJF4xK4ggRI
+   g==;
+X-CSE-ConnectionGUID: Cd2XlXhrRY62rp9njJrnYA==
+X-CSE-MsgGUID: 2geQL9DoQbmcQt78lpU5PQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="27713347"
+X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
+   d="scan'208";a="27713347"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 06:53:28 -0700
+X-CSE-ConnectionGUID: 5eOKwBEpSferwc2RTJ/a9g==
+X-CSE-MsgGUID: 9kf4TRh7TgypIABzvykqNA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
+   d="scan'208";a="26967408"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 06:53:23 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1s1nv5-00000002gCo-0Ukb;
+	Tue, 30 Apr 2024 16:53:19 +0300
+Date: Tue, 30 Apr 2024 16:53:18 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: lakshmi.sowjanya.d@intel.com
+Cc: tglx@linutronix.de, jstultz@google.com, giometti@enneenne.com,
+	corbet@lwn.net, linux-kernel@vger.kernel.org, x86@kernel.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org, eddie.dong@intel.com,
+	christopher.s.hall@intel.com, jesse.brandeburg@intel.com,
+	davem@davemloft.net, alexandre.torgue@foss.st.com,
+	joabreu@synopsys.com, mcoquelin.stm32@gmail.com, perex@perex.cz,
+	linux-sound@vger.kernel.org, anthony.l.nguyen@intel.com,
+	peter.hilber@opensynergy.com, pandith.n@intel.com,
+	subramanian.mohan@intel.com, thejesh.reddy.t.r@intel.com
+Subject: Re: [PATCH v7 10/12] pps: generators: Add PPS Generator TIO Driver
+Message-ID: <ZjD3ztepVkb5RlVE@smile.fi.intel.com>
+References: <20240430085225.18086-1-lakshmi.sowjanya.d@intel.com>
+ <20240430085225.18086-11-lakshmi.sowjanya.d@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH net-next v8 07/14] page_pool: devmem support
-To: Mina Almasry <almasrymina@google.com>, David Wei <dw@davidwei.uk>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Amritha Nambiar <amritha.nambiar@intel.com>,
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
- Alexander Mikhalitsyn <alexander@mihalicyn.com>,
- Kaiyuan Zhang <kaiyuanz@google.com>, Christian Brauner <brauner@kernel.org>,
- Simon Horman <horms@kernel.org>, David Howells <dhowells@redhat.com>,
- Florian Westphal <fw@strlen.de>, Yunsheng Lin <linyunsheng@huawei.com>,
- Kuniyuki Iwashima <kuniyu@amazon.com>,
- Arseniy Krasnov <avkrasnov@salutedevices.com>,
- Aleksander Lobakin <aleksander.lobakin@intel.com>,
- Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Lorenzo Bianconi <lorenzo@kernel.org>,
- Richard Gobert <richardbgobert@gmail.com>,
- Sridhar Samudrala <sridhar.samudrala@intel.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- Johannes Berg <johannes.berg@intel.com>, Abel Wu <wuyun.abel@bytedance.com>,
- Breno Leitao <leitao@debian.org>, Pavel Begunkov <asml.silence@gmail.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- linux-mm@kvack.org, Matthew Wilcox <willy@infradead.org>
-References: <20240403002053.2376017-1-almasrymina@google.com>
- <20240403002053.2376017-8-almasrymina@google.com>
- <8357256a-f0e9-4640-8fec-23341fc607db@davidwei.uk>
- <CAHS8izPeYryoLdCAQdGQU-wn7YVdtuofVKNvRFjFjhqTDsT7zA@mail.gmail.com>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <CAHS8izPeYryoLdCAQdGQU-wn7YVdtuofVKNvRFjFjhqTDsT7zA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240430085225.18086-11-lakshmi.sowjanya.d@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On 4/26/24 8:11 PM, Mina Almasry wrote:
-> On Fri, Apr 26, 2024 at 5:18?PM David Wei <dw@davidwei.uk> wrote:
->>
->> On 2024-04-02 5:20 pm, Mina Almasry wrote:
->>> @@ -69,20 +106,26 @@ net_iov_binding(const struct net_iov *niov)
->>>   */
->>>  typedef unsigned long __bitwise netmem_ref;
->>>
->>> +static inline bool netmem_is_net_iov(const netmem_ref netmem)
->>> +{
->>> +#if defined(CONFIG_PAGE_POOL) && defined(CONFIG_DMA_SHARED_BUFFER)
->>
->> I am guessing you added this to try and speed up the fast path? It's
->> overly restrictive for us since we do not need dmabuf necessarily. I
->> spent a bit too much time wondering why things aren't working only to
->> find this :(
+On Tue, Apr 30, 2024 at 02:22:23PM +0530, lakshmi.sowjanya.d@intel.com wrote:
+> From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
 > 
-> My apologies, I'll try to put the changelog somewhere prominent, or
-> notify you when I do something that I think breaks you.
+> The Intel Timed IO PPS generator driver outputs a PPS signal using
+> dedicated hardware that is more accurate than software actuated PPS.
+> The Timed IO hardware generates output events using the ART timer.
+> The ART timer period varies based on platform type, but is less than 100
+> nanoseconds for all current platforms. Timed IO output accuracy is
+> within 1 ART period.
 > 
-> Yes, this is a by-product of a discussion with regards to the
-> page_pool benchmark regressions due to adding devmem. There is some
-> background on why this was added and the impact on the
-> bench_page_pool_simple tests in the cover letter.
-> 
-> For you, I imagine you want to change this to something like:
-> 
-> #if defined(CONFIG_PAGE_POOL)
-> #if defined(CONFIG_DMA_SHARED_BUFFER) || defined(CONFIG_IOURING)
-> 
-> or something like that, right? Not sure if this is something I should
-> do here or if something more appropriate to be in the patches you
-> apply on top.
+> PPS output is enabled by writing '1' the 'enable' sysfs attribute. The
+> driver uses hrtimers to schedule a wake-up 10 ms before each event
+> (edge) target time. At wakeup, the driver converts the target time in
+> terms of CLOCK_REALTIME to ART trigger time and writes this to the Timed
+> IO hardware. The Timed IO hardware generates an event precisely at the
+> requested system time without software involvement.
 
-In general, attempting to hide overhead behind config options is always
-a losing proposition. It merely serves to say "look, if these things
-aren't enabled, the overhead isn't there", while distros blindly enable
-pretty much everything and then you're back where you started.
+...
+
+> +static enum hrtimer_restart hrtimer_callback(struct hrtimer *timer)
+> +{
+> +	struct pps_tio *tio = container_of(timer, struct pps_tio, timer);
+> +	ktime_t expires, now;
+> +	u32 event_count;
+> +
+> +	guard(spinlock)(&tio->lock);
+> +
+> +	/* Check if any event is missed. If an event is missed, TIO will be disabled*/
+> +	event_count = pps_tio_read(tio, TIOEC);
+> +	if (tio->prev_count && tio->prev_count == event_count)
+> +		goto err;
+> +	tio->prev_count = event_count;
+> +	expires = hrtimer_get_expires(timer);
+> +	now = ktime_get_real();
+
+> +	if (now - expires < SAFE_TIME_NS) {
+> +		if (!pps_generate_next_pulse(tio, expires + SAFE_TIME_NS))
+> +			return HRTIMER_NORESTART;
+> +	} else {
+
+Redundant.
+
+> +		goto err;
+> +	}
+
+	if (now - expires >= SAFE_TIME_NS)
+		goto err;
+
+	if (!pps_generate_next_pulse(tio, expires + SAFE_TIME_NS))
+		return HRTIMER_NORESTART;
+
+
+> +	hrtimer_forward(timer, now, NSEC_PER_SEC / 2);
+> +	return HRTIMER_RESTART;
+> +err:
+> +	dev_err(tio->dev, "Event missed, Disabling Timed I/O");
+> +	pps_tio_disable(tio);
+> +	return HRTIMER_NORESTART;
+> +}
 
 -- 
-Jens Axboe
+With Best Regards,
+Andy Shevchenko
+
 
