@@ -1,81 +1,153 @@
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86FE0128816
-	for <linux-doc@vger.kernel.org>; Tue, 30 Apr 2024 10:56:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ABD112C462;
+	Tue, 30 Apr 2024 11:02:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714474606; cv=none; b=b4OjkzT6KJIMkv4ii0yTpQnDbFujTOiGzDSsCsCBEgGhMoReeXaEr4RNPLRqCiwVvE5ERfAr+bklu/6LxqGOtvTvym7Zp0XGP75Mm6chfEYN3CIxgTjqXaMtMOrp4DzAmfuLWNzGqJG494bGnrQT3NmBR/lLReBWUJ3GtWR4pPY=
+	t=1714474952; cv=none; b=Cg3pjy03eHypY9L+33IytRi98BCiesoLwLYopIfhx+wZXQJL+k/s5MDlXmn2fOAAmfjbUjfIgqg3rbtNzVEXxZF4QuD6Ypxq1ul4a//Dqsf0kR2uxqVQWh//NNWwPT9fsjPAmMGVoyvoJFuG8pUvJRmOh4o0aR1+/N+8waFcJsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714474606; c=relaxed/simple;
-	bh=pzIyXcdyfqtUGA1qx1iaMgx0D4XtXaB83+uXXULcFS0=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KVF4YblzaC+236/X7+ybDbvgu9ep+u5U9tCXVBuOgwWazVg6J3D/cL+4vzirjzSRhjZW2p+8XwjuV5iIV1bND81B/8duU1zC5DUJ0tr92+fqSLQsUOr1tgEfmEw9bu2OcaJn/fqGeaOkF0zRle2lkHpWQr6Ycb/6wpoHBb04lEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org; spf=pass smtp.mailfrom=cknow.org; dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b=zdU0fsSi; arc=none smtp.client-ip=91.218.175.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow.org
+	s=arc-20240116; t=1714474952; c=relaxed/simple;
+	bh=WEpGkinjP85gZ1yikgGfZHLhlM9a1u3AEgisLuq7IPY=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:From:Subject:
+	 In-Reply-To:Content-Type; b=dvDw0F53e8hLvl1pGtesd2dXDauSzpM+a0MYB+CHz8BX7ETs6OF6XfNkQ5a0k7MEL/CvOQQxqTwSul1OpUTar7B6FpjWVZaAZgDIez7zTKL2IqSAYX7+aNJKPQjcuCLDlalDjtJkKLkTm77lAmH4sd5zGZavPG1kMRwLSKWOdkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MTB81+gS; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b="zdU0fsSi"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
-	t=1714474600;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type;
-	bh=bEl3LgtNBcFokQSDWjC3vLo8EQukiz9sfPEbKmNjeko=;
-	b=zdU0fsSiAX4OF2JWE/nPr38uQKr/BJ2D+NxYfMO/qV5VacfFfARv+1WyPAhhjzrHvzitvR
-	Y6rcFy8D6bGwU6xiYV7RqOrRmTMxG70JyHs3+l1trWmceTGu3SiVTKjRZ4v3r8BFp6uhmE
-	pzZIm52iDe/v0nU5DzJcTmkIEdznfmsZjLfD5KEMqOjTRx3tTO37+x4iLwvo9IvcGO7s4H
-	7tqbi5Kys4SCm8axk1KJgQB8vSaMBRgnanFQ8yXnR+q9bQf2x7yRERk/XcBDw196H/uM9A
-	7oLPQqyZoPLI9XS+lFqo7lb+1vrIcGYp+UAqRVgbYgqpMLkOqL/3GxPo40awgw==
-From: Diederik de Haas <didi.debian@cknow.org>
-To: linux-doc@vger.kernel.org
-Subject: checkpatch doc suggestion
-Date: Tue, 30 Apr 2024 12:56:30 +0200
-Message-ID: <8090211.0vHzs8tI1a@bagend>
-Organization: Connecting Knowledge
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MTB81+gS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714474951; x=1746010951;
+  h=message-id:date:mime-version:to:cc:references:from:
+   subject:in-reply-to:content-transfer-encoding;
+  bh=WEpGkinjP85gZ1yikgGfZHLhlM9a1u3AEgisLuq7IPY=;
+  b=MTB81+gSBOPHRCY/n+gU9oAE3jzVEJYmeuL9V4EOVHhR26gehE5bjIlm
+   nDnhoyvASW9mChFvo3jaxC1FxVpq9f5716mprcLyojB7deF2n5pStrqoI
+   8nTuD7lGTXzc4cyLRyAvcoe0GEkMfPLyA09I0Yh+oTY/PU9ZznCX47XyG
+   4BG6jRJ/hVeesZGa87Vh0JNVW7rIrevlWG4X7IUfWTPek9b0eAFQhIjvS
+   /bDmbJkpxlWgUy3Ui7/WlrqAl+eOF4pOWsjq9bkOs5faP9knSu1kDdE+N
+   Z51+rCpfzA+/OhvCvrkhFRDqgOIAtlDF/FfxWk0z3UkuEaPFamd8A/DxV
+   g==;
+X-CSE-ConnectionGUID: wLlspz5DSoeJZfcAAs8nDg==
+X-CSE-MsgGUID: RE/jgmcVQGmm2Vo71IS6qA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="10049968"
+X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
+   d="scan'208";a="10049968"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 04:01:14 -0700
+X-CSE-ConnectionGUID: ZYP4FPMyTz+USEUyCE9qJw==
+X-CSE-MsgGUID: 7E29hnIZQbuS2emcfSjQsQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
+   d="scan'208";a="26845804"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by orviesa006.jf.intel.com with ESMTP; 30 Apr 2024 04:01:07 -0700
+Message-ID: <12d29c54-c005-7112-0933-d9d28f11abd6@linux.intel.com>
+Date: Tue, 30 Apr 2024 14:02:59 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart3953469.dA3AkLujJ6";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.13.0
+To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+ corbet@lwn.net, lgirdwood@gmail.com, andersson@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org,
+ Thinh.Nguyen@synopsys.com, broonie@kernel.org, bgoswami@quicinc.com,
+ tiwai@suse.com, robh@kernel.org, konrad.dybcio@linaro.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+ alsa-devel@alsa-project.org
+References: <20240425215125.29761-1-quic_wcheng@quicinc.com>
+ <20240425215125.29761-4-quic_wcheng@quicinc.com>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: Re: [PATCH v20 03/41] usb: host: xhci: Repurpose event handler for
+ skipping interrupter events
+In-Reply-To: <20240425215125.29761-4-quic_wcheng@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---nextPart3953469.dA3AkLujJ6
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
-From: Diederik de Haas <didi.debian@cknow.org>
-To: linux-doc@vger.kernel.org
-Subject: checkpatch doc suggestion
-Date: Tue, 30 Apr 2024 12:56:30 +0200
-Message-ID: <8090211.0vHzs8tI1a@bagend>
-Organization: Connecting Knowledge
-MIME-Version: 1.0
+On 26.4.2024 0.50, Wesley Cheng wrote:
+> Depending on the interrupter use case, the OS may only be used to handle
+> the interrupter event ring clean up.  In these scenarios, event TRBs don't
+> need to be handled by the OS, so introduce an xhci interrupter flag to tag
+> if the events from an interrupter needs to be handled or not.
 
-Hi,
+Could you elaborate on this a bit.
 
-I think it would be really useful if (f.e.) the following URL
-https://docs.kernel.org/dev-tools/checkpatch.html#BAD_FIXES_TAG
+If I understood correctly the whole point of requesting a secondary xhci interrupter
+for the sideband device without ever requesting a real interrupt for it was to avoid
+waking up the cpu and calling the interrupt handler.
 
-would lead me straight to the BAD_FIXES_TAG explanation.
+with this flag is seems the normal xhci interrupt handler does get called for
+sideband transfer events.
 
-Cheers,
-  Diederik
---nextPart3953469.dA3AkLujJ6
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
+> 
+> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> ---
+>   drivers/usb/host/xhci-ring.c | 17 +++++++++++++----
+>   drivers/usb/host/xhci.h      |  1 +
+>   2 files changed, 14 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+> index 52278afea94b..6c7a21f522cd 100644
+> --- a/drivers/usb/host/xhci-ring.c
+> +++ b/drivers/usb/host/xhci-ring.c
+> @@ -2973,14 +2973,22 @@ static int handle_tx_event(struct xhci_hcd *xhci,
+>   }
+>   
+>   /*
+> - * This function handles one OS-owned event on the event ring. It may drop
+> - * xhci->lock between event processing (e.g. to pass up port status changes).
+> + * This function handles one OS-owned event on the event ring, or ignores one event
+> + * on interrupters which are non-OS owned. It may drop xhci->lock between event
+> + * processing (e.g. to pass up port status changes).
+>    */
+>   static int xhci_handle_event_trb(struct xhci_hcd *xhci, struct xhci_interrupter *ir,
+>   				 union xhci_trb *event)
+>   {
+>   	u32 trb_type;
+>   
+> +	/*
+> +	 * Some interrupters do not need to handle event TRBs, as they may be
+> +	 * managed by another entity, but rely on the OS to clean up.
+> +	 */
+> +	if (ir->skip_events)
+> +		return 0;
+> +
 
------BEGIN PGP SIGNATURE-----
+I think we need another solution than a skip_events flag.
 
-iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZjDOXgAKCRDXblvOeH7b
-bv6VAP0d3fajPDW02jCzTRYmx3g0CS1JWYqgiTGCerHhmoZNwgEAhhsBqoG03IkB
-mC3dvi0NlbjQ7qHhUXJcA0QoGRWUuAA=
-=2U1Q
------END PGP SIGNATURE-----
+To make secondary xhci interrupters more useful in general it would make more
+sense to add an interrupt handler function pointer to struct xhci_interrupter.
 
---nextPart3953469.dA3AkLujJ6--
+Then call that function instead of xhci_handle_event_trb()
 
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -3098,8 +3098,8 @@ static int xhci_handle_events(struct xhci_hcd *xhci, struct xhci_interrupter *ir
+  
+         /* Process all OS owned event TRBs on this event ring */
+         while (unhandled_event_trb(ir->event_ring)) {
+-               err = xhci_handle_event_trb(xhci, ir, ir->event_ring->dequeue);
+-
++               if (ir->handle_event_trb)
++                       err = ir->handle_event_trb(xhci, ir, ir->event_ring->dequeue);
+                 /*
+                  * If half a segment of events have been handled in one go then
+                  * update ERDP, and force isoc trbs to interrupt more often
 
+The handler function would be passed to, and function pointer set in
+xhci_create_secondary_interrupter()
+
+For primary interrupter it would always be set to xhci_handle_event_trb()
+
+Thanks
+Mathias
 
