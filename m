@@ -1,153 +1,144 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ABD112C462;
-	Tue, 30 Apr 2024 11:02:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A3B12D214
+	for <linux-doc@vger.kernel.org>; Tue, 30 Apr 2024 11:24:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714474952; cv=none; b=Cg3pjy03eHypY9L+33IytRi98BCiesoLwLYopIfhx+wZXQJL+k/s5MDlXmn2fOAAmfjbUjfIgqg3rbtNzVEXxZF4QuD6Ypxq1ul4a//Dqsf0kR2uxqVQWh//NNWwPT9fsjPAmMGVoyvoJFuG8pUvJRmOh4o0aR1+/N+8waFcJsE=
+	t=1714476241; cv=none; b=r6EbMK0r95jSBaTv3xuz4lzOEzUUU1knfvsVwdM15EdGYepcyt1CWSwGHUQ1rSRyEr0yzXKYpFUzv2f+Bb0Zw2H/uKtwb3ym+qrTcAahz7Ojk6ZuxjAr2KsE+aKXRO2hMI/s5qnBu24WVbHSZKUoBsnfRE3ek8ek3EG0npsIZHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714474952; c=relaxed/simple;
-	bh=WEpGkinjP85gZ1yikgGfZHLhlM9a1u3AEgisLuq7IPY=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:From:Subject:
-	 In-Reply-To:Content-Type; b=dvDw0F53e8hLvl1pGtesd2dXDauSzpM+a0MYB+CHz8BX7ETs6OF6XfNkQ5a0k7MEL/CvOQQxqTwSul1OpUTar7B6FpjWVZaAZgDIez7zTKL2IqSAYX7+aNJKPQjcuCLDlalDjtJkKLkTm77lAmH4sd5zGZavPG1kMRwLSKWOdkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MTB81+gS; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1714476241; c=relaxed/simple;
+	bh=Xc/E1muDcRTkULpV7kIzSbWB3pDGQ/49fUGW3LpDLU8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eraxJ37BxS5AnKjZwv4JyG/knHtJDAiCCR2C8T23gf3if81O/WLGkcgGQABjMOwT2B1R8h8s3cYlL5SNjbPem/kTdKHx5gab4HXwc4gokXmZbcQL97jkSjM66etxRm+oaPHndARFJKzR1Mov5wXjY60t5SiSdi9Onx6S55e9SY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wteN+2xH; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MTB81+gS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714474951; x=1746010951;
-  h=message-id:date:mime-version:to:cc:references:from:
-   subject:in-reply-to:content-transfer-encoding;
-  bh=WEpGkinjP85gZ1yikgGfZHLhlM9a1u3AEgisLuq7IPY=;
-  b=MTB81+gSBOPHRCY/n+gU9oAE3jzVEJYmeuL9V4EOVHhR26gehE5bjIlm
-   nDnhoyvASW9mChFvo3jaxC1FxVpq9f5716mprcLyojB7deF2n5pStrqoI
-   8nTuD7lGTXzc4cyLRyAvcoe0GEkMfPLyA09I0Yh+oTY/PU9ZznCX47XyG
-   4BG6jRJ/hVeesZGa87Vh0JNVW7rIrevlWG4X7IUfWTPek9b0eAFQhIjvS
-   /bDmbJkpxlWgUy3Ui7/WlrqAl+eOF4pOWsjq9bkOs5faP9knSu1kDdE+N
-   Z51+rCpfzA+/OhvCvrkhFRDqgOIAtlDF/FfxWk0z3UkuEaPFamd8A/DxV
-   g==;
-X-CSE-ConnectionGUID: wLlspz5DSoeJZfcAAs8nDg==
-X-CSE-MsgGUID: RE/jgmcVQGmm2Vo71IS6qA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11059"; a="10049968"
-X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
-   d="scan'208";a="10049968"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 04:01:14 -0700
-X-CSE-ConnectionGUID: ZYP4FPMyTz+USEUyCE9qJw==
-X-CSE-MsgGUID: 7E29hnIZQbuS2emcfSjQsQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
-   d="scan'208";a="26845804"
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
-  by orviesa006.jf.intel.com with ESMTP; 30 Apr 2024 04:01:07 -0700
-Message-ID: <12d29c54-c005-7112-0933-d9d28f11abd6@linux.intel.com>
-Date: Tue, 30 Apr 2024 14:02:59 +0300
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wteN+2xH"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-a51addddbd4so607890766b.0
+        for <linux-doc@vger.kernel.org>; Tue, 30 Apr 2024 04:23:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1714476238; x=1715081038; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=XWLp1lMkRn/z9F/qb1rRBcveVv86YGGLdJozbQqO3w4=;
+        b=wteN+2xHbalmfFAhfIYncc9nUNXG3OakploFfLqKyDj5sYIQ/2o1lJju8YtzVrq67t
+         yqG33atk6u7e9dj0XNA6S8yyN1dmmHtHJs2+HCrhMdn7AaU/LyleeU7FuSbNB8oJVmKS
+         8D8fpVzAscJEJPQpjk5gIu1u91kG3vEcdru2OtPicMawjpa85Tspdcm8WlgtLaYwNwx6
+         DobvZb7fQVrb+gp161Hu3EB9fmKTvNr7/LdXzWXMDdWdu0Kgw9QLL5bs1TGQJ83Wfknn
+         v1XUTx4gnMI/z/sx1+XpIN1Gi09NE1qFN7jbvY9a6COHxwYG3PtnMf2WyXfOoQiRvbV6
+         vODA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714476238; x=1715081038;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XWLp1lMkRn/z9F/qb1rRBcveVv86YGGLdJozbQqO3w4=;
+        b=ejlzMXome17+/bx5YVGWVtAH2brAD3sxlVaEu9bsqFkjxljHRH0SIVSGKpDLc5KCzJ
+         3AdEuTCidQW0CnG88UW8k931TQ8AQ9PloQ/tm7Ycg8oyLBJL0x+bNDFPHnd9gps2UI9A
+         Rn2NG8FEVmo0RfkiuS/oEBpGzvTAPsFLOONHfBPs1Ro22cvxBAEgBjGdbrSot+3EKDgc
+         i3eGFppnXwc6tXMc6NfiXVHTv6uaWoKM/GybkF6Wj8eyKa510S8CNoU1xBQq7Kr8Ja8I
+         UYMy8KXEMnJrthqUmWEaiIXa3/7hBtlU1n/ayIh0QKc2zXv/Tc4mCF9i/u6oFuDllXRZ
+         bLpw==
+X-Forwarded-Encrypted: i=1; AJvYcCUB67uLOiYKAXjMAl4r4Svwb/9YKtd8rgYtLQCS5oc0+ZzGqMQlfUlbRutzT9xwwniedx66JBmmxU0JWGx6ajXVDbGxJu8OZG8n
+X-Gm-Message-State: AOJu0Yyar1ERbLO1ck0ezoZK6rOE9i9HaarIAie8md0EAwlG4gLQoUO0
+	aX+IpWvZJmDFsJ+IDhNvudH3KxM9G1OMZQhBw5bx4t4dB2E1imIYlBLFUsRq03M=
+X-Google-Smtp-Source: AGHT+IEDXRI6x5rnf8Dk6QVa3UjpA/rv05QLyf2+PdfnSyuNQlVzzUXFdifCUi0+BsM1CU66n5It8w==
+X-Received: by 2002:a17:906:1113:b0:a55:b7b2:2d42 with SMTP id h19-20020a170906111300b00a55b7b22d42mr8852366eja.24.1714476238348;
+        Tue, 30 Apr 2024 04:23:58 -0700 (PDT)
+Received: from [192.168.114.15] (078088045141.garwolin.vectranet.pl. [78.88.45.141])
+        by smtp.gmail.com with ESMTPSA id h6-20020a170906110600b00a5827d2f6f4sm9482718eja.115.2024.04.30.04.23.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Apr 2024 04:23:57 -0700 (PDT)
+Message-ID: <95760e2b-ec38-4f04-8f86-e4f935d24a83@linaro.org>
+Date: Tue, 30 Apr 2024 13:23:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Firefox/102.0 Thunderbird/102.13.0
-To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- corbet@lwn.net, lgirdwood@gmail.com, andersson@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org,
- Thinh.Nguyen@synopsys.com, broonie@kernel.org, bgoswami@quicinc.com,
- tiwai@suse.com, robh@kernel.org, konrad.dybcio@linaro.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <20240425215125.29761-1-quic_wcheng@quicinc.com>
- <20240425215125.29761-4-quic_wcheng@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 4/5] sched: Rename arch_update_thermal_pressure into
+ arch_update_hw_pressure
+To: Vincent Guittot <vincent.guittot@linaro.org>, linux@armlinux.org.uk,
+ catalin.marinas@arm.com, will@kernel.org, sudeep.holla@arm.com,
+ rafael@kernel.org, viresh.kumar@linaro.org, agross@kernel.org,
+ andersson@kernel.org, mingo@redhat.com, peterz@infradead.org,
+ juri.lelli@redhat.com, dietmar.eggemann@arm.com, rostedt@goodmis.org,
+ bsegall@google.com, mgorman@suse.de, bristot@redhat.com,
+ vschneid@redhat.com, lukasz.luba@arm.com, rui.zhang@intel.com,
+ mhiramat@kernel.org, daniel.lezcano@linaro.org, amit.kachhap@gmail.com,
+ corbet@lwn.net, gregkh@linuxfoundation.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Qais Yousef <qyousef@layalina.io>, Bjorn Andersson
+ <andersson@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+References: <20240326091616.3696851-1-vincent.guittot@linaro.org>
+ <20240326091616.3696851-5-vincent.guittot@linaro.org>
 Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: Re: [PATCH v20 03/41] usb: host: xhci: Repurpose event handler for
- skipping interrupter events
-In-Reply-To: <20240425215125.29761-4-quic_wcheng@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <20240326091616.3696851-5-vincent.guittot@linaro.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 26.4.2024 0.50, Wesley Cheng wrote:
-> Depending on the interrupter use case, the OS may only be used to handle
-> the interrupter event ring clean up.  In these scenarios, event TRBs don't
-> need to be handled by the OS, so introduce an xhci interrupter flag to tag
-> if the events from an interrupter needs to be handled or not.
-
-Could you elaborate on this a bit.
-
-If I understood correctly the whole point of requesting a secondary xhci interrupter
-for the sideband device without ever requesting a real interrupt for it was to avoid
-waking up the cpu and calling the interrupt handler.
-
-with this flag is seems the normal xhci interrupt handler does get called for
-sideband transfer events.
-
+On 26.03.2024 10:16 AM, Vincent Guittot wrote:
+> Now that cpufreq provides a pressure value to the scheduler, rename
+> arch_update_thermal_pressure into HW pressure to reflect that it returns
+> a pressure applied by HW (i.e. with a high frequency change) and not
+> always related to thermal mitigation but also generated by max current
+> limitation as an example. Such high frequency signal needs filtering to be
+> smoothed and provide an value that reflects the average available capacity
+> into the scheduler time scale.
 > 
-> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> Signed-off-by: Vincent Guittot <vincent.guittot@linaro.org>
+> Reviewed-by: Qais Yousef <qyousef@layalina.io>
+> Reviewed-by: Lukasz Luba <lukasz.luba@arm.com>
+> Tested-by: Lukasz Luba <lukasz.luba@arm.com>
 > ---
->   drivers/usb/host/xhci-ring.c | 17 +++++++++++++----
->   drivers/usb/host/xhci.h      |  1 +
->   2 files changed, 14 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-> index 52278afea94b..6c7a21f522cd 100644
-> --- a/drivers/usb/host/xhci-ring.c
-> +++ b/drivers/usb/host/xhci-ring.c
-> @@ -2973,14 +2973,22 @@ static int handle_tx_event(struct xhci_hcd *xhci,
->   }
->   
->   /*
-> - * This function handles one OS-owned event on the event ring. It may drop
-> - * xhci->lock between event processing (e.g. to pass up port status changes).
-> + * This function handles one OS-owned event on the event ring, or ignores one event
-> + * on interrupters which are non-OS owned. It may drop xhci->lock between event
-> + * processing (e.g. to pass up port status changes).
->    */
->   static int xhci_handle_event_trb(struct xhci_hcd *xhci, struct xhci_interrupter *ir,
->   				 union xhci_trb *event)
->   {
->   	u32 trb_type;
->   
-> +	/*
-> +	 * Some interrupters do not need to handle event TRBs, as they may be
-> +	 * managed by another entity, but rely on the OS to clean up.
-> +	 */
-> +	if (ir->skip_events)
-> +		return 0;
-> +
 
-I think we need another solution than a skip_events flag.
+Hi, I'm not quite sure how, but this commit specifically breaks booting
+on Qualcomm platforms with EAS..
 
-To make secondary xhci interrupters more useful in general it would make more
-sense to add an interrupt handler function pointer to struct xhci_interrupter.
+https://pastebin.com/raw/1Uh7u81x
 
-Then call that function instead of xhci_handle_event_trb()
-
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -3098,8 +3098,8 @@ static int xhci_handle_events(struct xhci_hcd *xhci, struct xhci_interrupter *ir
-  
-         /* Process all OS owned event TRBs on this event ring */
-         while (unhandled_event_trb(ir->event_ring)) {
--               err = xhci_handle_event_trb(xhci, ir, ir->event_ring->dequeue);
--
-+               if (ir->handle_event_trb)
-+                       err = ir->handle_event_trb(xhci, ir, ir->event_ring->dequeue);
-                 /*
-                  * If half a segment of events have been handled in one go then
-                  * update ERDP, and force isoc trbs to interrupt more often
-
-The handler function would be passed to, and function pointer set in
-xhci_create_secondary_interrupter()
-
-For primary interrupter it would always be set to xhci_handle_event_trb()
-
-Thanks
-Mathias
-
+Konrad
