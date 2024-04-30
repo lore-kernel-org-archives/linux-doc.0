@@ -1,202 +1,148 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 581EB176FA3
-	for <linux-doc@vger.kernel.org>; Tue, 30 Apr 2024 16:19:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C80D6179658;
+	Tue, 30 Apr 2024 16:28:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714493958; cv=none; b=uHyPaMmJ1mm1TVfI8WW38UqEz8r1MWnAF5AMJDEUEkKwPqDVcxTVKpaBrGsJsLT/L95VRHDl4lPEryBiIMwigNctyMLm5MWqgaz5YOiqLCIhQomUwg3qL1d306/JmnVK80q3XBLZCNYZep8K6RtbeSqE7fHN6A0d7rZoTIugWUA=
+	t=1714494519; cv=none; b=K5yu2b8D+igH8V7mzt9Ka9CFtk/T3khLBsIZHDHC7+nOVw1YVX2PNNFiakprYZ1oyurfE6f4vxTHGnoCw5N95yNL1z7CrBXDpExYeGoc9Qqar2UU47KeK+czppNNqu69XlTubj2pn+ftaZGHVx6ZfFu27nWFw0OHAl8817QciQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714493958; c=relaxed/simple;
-	bh=J44hCCyxD35NbqWW6nQLBqBSODmWNn0Dexkak4J/EvQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LW9Rh+7dRo4wDLq85b4WMssjitKVpO/i5ippqC828CA0JdvUm7pJmj0lkvk3J+0cWsExrlbFYwuXkPKDHeMlWP2/uMBL05kLDBfj/J9n4wIhoX9fzjJVx756Dfh/beiFSV42eZNiSw4hiaOQxi6WGQKOX9TwJyG1rnDuZ5vFZxs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=10DWIIV7; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1714494519; c=relaxed/simple;
+	bh=ugkt3k4B4PYbENI6jlGFe6etoG8QJ8s0xUKQxIhNEMY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P6atL4xeqAxqJEzRxbuw9AP7ZUPadP6iXsksgSQoHkXq0qIK3zk6lAt6D8gNYMO7IKkJifVmQD+7TnkVjzGzhZXC97Yt7hJA2aICmF9R6yOiboXGjZXOn6G+n5DZCSv5ROIIyMaUWJQVqHppX9LMJrOaV1C0FR6UobSWOVD0k0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SNc3nYv8; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="10DWIIV7"
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2e049cfe645so17580741fa.0
-        for <linux-doc@vger.kernel.org>; Tue, 30 Apr 2024 09:19:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1714493953; x=1715098753; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EYdB/zYMgqlA7okFvLjIPPWUlhTGwRwh73eiOLj9MZw=;
-        b=10DWIIV7lFrlwECtQ+gLiDg8MMuhXsRtzC/FDf4WbC1nhsxE+rB3dP9gXWEoZx8ey3
-         CfBdGszghuUQBfBtByeHtFLh0ChHCA5/oFG3clQRcdGGqTNBPa0wVNJE9f6pbcXyU87O
-         AKzsaY9d13YfZ5RHT04c/OIeP1STbjgtD+ADg5iXQ23TmqWf2FW+nuo5Xm9kut0npnQb
-         SAJwnNxo26e3tcHPtO6Yttq74QxTJJHFqsadVTNACUXyzSgmOvpp+5+Wuw3sgLpIQSS3
-         BFF+j8tA7syaoOsC9LOJASeHrjzr7cfsvbrGGH+TDj9Q4N2olM3sr/G4bSy6Rm+Sas8W
-         P3xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714493953; x=1715098753;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EYdB/zYMgqlA7okFvLjIPPWUlhTGwRwh73eiOLj9MZw=;
-        b=n3Rhon0oxySR1TPaBmEDdldRZZ7LVW6AP1X7jS7nxbzV44lliTRls83iCPiGDA3vB/
-         QmLCiw9u7IUYCVh/sCswMnCCSL5ldrt1n0sArC/3h5xuUMtTfCzFDWcnUFtPENR12Uam
-         gXaouwfStY2dwbIwCHA/T3BzEtbFQUMt48HdhXCaywUd3IA2a64Ym+Wc0n8cmZXs6Z7c
-         6iAazq/6h1O021Os/fz6dHMT7cliAqVWa5RGKGaUGq+IoEuyCNYylRs1HfSDFB2zrijV
-         WsPWrL4cEm5BY6XEbV/lGc8ZV4ChEOXhvvmZTjXs9wrTaYr9VFFdV72qBT1chLtv46TL
-         S28Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWoivfolr4r6LybSNuiOAK4Ya1W5D2Shrzzy0iLH/nMzTqEMoaXmkNSRMznBCR6PDrJyKaetWC/3DkPF7JWAQFJ2SyTQhGmmieW
-X-Gm-Message-State: AOJu0Yz98cty1hrcI04HQhNcYCh8Z6zQB6lA7Px1sd5FRA12hais9oOV
-	CFH0Q6sL2ic60OPGp+5CHKeompJ4xmMtF9z5C95N599Y3DcJm/WJ4k2l9lomztcwcaFeV8aIhYI
-	vrbyI+zL7+DOHwrTAQP8s1vj/3z3p8ruAiZ0hNg==
-X-Google-Smtp-Source: AGHT+IHNUEuRQYO/ery9q1WbMjDy+FPeaxsW7gh/vbOG22U6B5PZTmXy7tHPumx1KaMD3DrYzbtRncJOi4/QHYWE08I=
-X-Received: by 2002:a2e:3515:0:b0:2de:6f52:5c8d with SMTP id
- z21-20020a2e3515000000b002de6f525c8dmr73932ljz.21.1714493953250; Tue, 30 Apr
- 2024 09:19:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SNc3nYv8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714494518; x=1746030518;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ugkt3k4B4PYbENI6jlGFe6etoG8QJ8s0xUKQxIhNEMY=;
+  b=SNc3nYv8QZNk0MPnggrGQkbOoZDE2R/5qjQeTJCOLWvnFohctauVJB22
+   jViMQdZ92pxUlPYQlCgd8Fqfeq4YaffrU2k/4SOYVu4EctYd8rZ7lViIa
+   V8DDTuQQrMi29Xx2YRfq3PEr7WGyPzO7rlT2Nib7jaY3/v5ZbtwRfaBT+
+   W3b2rru508Q7SbYYNORy6OIWryMZkOehI8b9oCj09DbJ9GDdPDo+m4/TJ
+   gIFbSQfZN4ne4iX70Bl4me7iBYJRIcCVnsk3WgnAx/h0Wqs8KKZFX2Edc
+   lQb0rczBcHkuCCAHhR6g5uXsdLReho+8iS0ebp1ukvfxys9qjMwdPVtun
+   Q==;
+X-CSE-ConnectionGUID: FMTSUrHsQkiqS5JVUcWVKw==
+X-CSE-MsgGUID: 8QcIDfi/QvWIc08zbOO9pw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="13994263"
+X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
+   d="scan'208";a="13994263"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 09:28:37 -0700
+X-CSE-ConnectionGUID: XwE2O6zpS8Onouf1kmd13g==
+X-CSE-MsgGUID: Y3r7vwXvQb6rUnmrtCY3zw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,242,1708416000"; 
+   d="scan'208";a="57394192"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 30 Apr 2024 09:28:31 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s1qLE-0008Lj-1Y;
+	Tue, 30 Apr 2024 16:28:28 +0000
+Date: Wed, 1 May 2024 00:27:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: lakshmi.sowjanya.d@intel.com, tglx@linutronix.de, jstultz@google.com,
+	giometti@enneenne.com, corbet@lwn.net, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, christopher.s.hall@intel.com,
+	subramanian.mohan@intel.com, lakshmi.sowjanya.d@intel.com,
+	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+	pandith.n@intel.com, x86@kernel.org, eddie.dong@intel.com,
+	linux-sound@vger.kernel.org, alexandre.torgue@foss.st.com,
+	peter.hilber@opensynergy.com, joabreu@synopsys.com,
+	intel-wired-lan@lists.osuosl.org, mcoquelin.stm32@gmail.com,
+	thejesh.reddy.t.r@intel.com, perex@perex.cz,
+	anthony.l.nguyen@intel.com, andriy.shevchenko@linux.intel.com,
+	davem@davemloft.net
+Subject: Re: [Intel-wired-lan] [PATCH v7 09/12] timekeeping: Add function to
+ convert realtime to base clock
+Message-ID: <202405010052.Cxh2bazm-lkp@intel.com>
+References: <20240430085225.18086-10-lakshmi.sowjanya.d@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240429-regulator-get-enable-get-votlage-v2-0-b1f11ab766c1@baylibre.com>
- <20240429-regulator-get-enable-get-votlage-v2-1-b1f11ab766c1@baylibre.com>
-In-Reply-To: <20240429-regulator-get-enable-get-votlage-v2-1-b1f11ab766c1@baylibre.com>
-From: David Lechner <dlechner@baylibre.com>
-Date: Tue, 30 Apr 2024 11:19:01 -0500
-Message-ID: <CAMknhBG2ySYNEvghnO63wE=x6W8jk0-T2oWZKeXApM_d_eeoCw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/7] regulator: devres: add API for reference voltage supplies
-To: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
-	Jonathan Cameron <jic23@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Support Opensource <support.opensource@diasemi.com>, 
-	Cosmin Tanislav <cosmin.tanislav@analog.com>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Antoniu Miclaus <antoniu.miclaus@analog.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
-	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-input@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240430085225.18086-10-lakshmi.sowjanya.d@intel.com>
 
-On Mon, Apr 29, 2024 at 6:40=E2=80=AFPM David Lechner <dlechner@baylibre.co=
-m> wrote:
->
-> A common use case for regulators is to supply a reference voltage to an
-> analog input or output device. This adds a new devres API to get,
-> enable, and get the voltage in a single call. This allows eliminating
-> boilerplate code in drivers that use reference supplies in this way.
->
-> Signed-off-by: David Lechner <dlechner@baylibre.com>
-> ---
->
-> v2 changes:
-> * removed dev_err_probe() on error return
-> * dropped optional version of the function since there is no more
->   difference after dev_err_probe() is removed
-> * renamed function to devm_regulator_get_enable_read_voltage()
-> * added unwinding on error paths
-> ---
->  Documentation/driver-api/driver-model/devres.rst |  1 +
->  drivers/regulator/devres.c                       | 59 ++++++++++++++++++=
-++++++
->  include/linux/regulator/consumer.h               |  7 +++
->  3 files changed, 67 insertions(+)
->
-> diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documenta=
-tion/driver-api/driver-model/devres.rst
-> index 7be8b8dd5f00..18caebad7376 100644
-> --- a/Documentation/driver-api/driver-model/devres.rst
-> +++ b/Documentation/driver-api/driver-model/devres.rst
-> @@ -433,6 +433,7 @@ REGULATOR
->    devm_regulator_bulk_put()
->    devm_regulator_get()
->    devm_regulator_get_enable()
-> +  devm_regulator_get_enable_read_voltage()
->    devm_regulator_get_enable_optional()
->    devm_regulator_get_exclusive()
->    devm_regulator_get_optional()
-> diff --git a/drivers/regulator/devres.c b/drivers/regulator/devres.c
-> index 90bb0d178885..4f290b9b559b 100644
-> --- a/drivers/regulator/devres.c
-> +++ b/drivers/regulator/devres.c
-> @@ -145,6 +145,65 @@ struct regulator *devm_regulator_get_optional(struct=
- device *dev,
->  }
->  EXPORT_SYMBOL_GPL(devm_regulator_get_optional);
->
-> +/**
-> + * devm_regulator_get_enable_read_voltage - Resource managed regulator g=
-et and
-> + *                                          enable that returns the volt=
-age
-> + * @dev: device to supply
-> + * @id:  supply name or regulator ID.
-> + *
-> + * Get and enable regulator for duration of the device life-time.
-> + * regulator_disable() and regulator_put() are automatically called on d=
-river
-> + * detach. See regulator_get_optional(), regulator_enable(), and
-> + * regulator_get_voltage() for more information.
-> + *
-> + * This is a convenience function for supplies that provide a reference =
-voltage
-> + * where the consumer driver just needs to know the voltage and keep the
-> + * regulator enabled.
-> + *
-> + * In cases where the supply is not strictly required, callers can check=
- for
-> + * -ENODEV error and handle it accordingly.
-> + *
-> + * Returns: voltage in microvolts on success, or an error code on failur=
-e.
-> + */
-> +int devm_regulator_get_enable_read_voltage(struct device *dev, const cha=
-r *id)
-> +{
-> +       struct regulator *r;
-> +       int ret;
-> +
-> +       /*
-> +        * Since we need a real voltage, we use devm_regulator_get_option=
-al()
-> +        * rather than getting a dummy regulator with devm_regulator_get(=
-) and
-> +        * then letting regulator_get_voltage() fail with -EINVAL. This w=
-ay, the
-> +        * caller can handle the -ENODEV error code if needed instead of =
-the
-> +        * ambiguous -EINVAL.
-> +        */
-> +       r =3D devm_regulator_get_optional(dev, id);
-> +       if (IS_ERR(r))
-> +               return PTR_ERR(r);
-> +
-> +       ret =3D regulator_enable(r);
-> +       if (ret)
-> +               goto err_regulator_put;
-> +
-> +       ret =3D devm_add_action_or_reset(dev, regulator_action_disable, r=
-);
-> +       if (ret)
-> +               goto err_regulator_put;
-> +
-> +       ret =3D regulator_get_voltage(r);
-> +       if (ret < 0)
-> +               goto err_release_action;
-> +
-> +       return 0;
+Hi,
 
-Oof. Apparently I didn't test this as well as I should have after
-adding the unwinding. This obviously should return ret, not 0.
+kernel test robot noticed the following build warnings:
 
-I did more extensive testing today, including faking error returns to
-test unwinding to make sure I didn't miss anything else.
+[auto build test WARNING on tip/timers/core]
+[also build test WARNING on tnguy-next-queue/dev-queue tnguy-net-queue/dev-queue linus/master v6.9-rc6 next-20240430]
+[cannot apply to tip/x86/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> +
-> +err_release_action:
-> +       devm_release_action(dev, regulator_action_disable, r);
-> +err_regulator_put:
-> +       devm_regulator_put(r);
-> +
-> +       return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(devm_regulator_get_enable_read_voltage);
-> +
+url:    https://github.com/intel-lab-lkp/linux/commits/lakshmi-sowjanya-d-intel-com/timekeeping-Add-base-clock-properties-in-clocksource-structure/20240430-165602
+base:   tip/timers/core
+patch link:    https://lore.kernel.org/r/20240430085225.18086-10-lakshmi.sowjanya.d%40intel.com
+patch subject: [Intel-wired-lan] [PATCH v7 09/12] timekeeping: Add function to convert realtime to base clock
+config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20240501/202405010052.Cxh2bazm-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240501/202405010052.Cxh2bazm-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405010052.Cxh2bazm-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> kernel/time/timekeeping.c:1271: warning: Function parameter or struct member 'cycles' not described in 'ktime_real_to_base_clock'
+   kernel/time/timekeeping.c:2547: warning: Function parameter or struct member 'txc' not described in 'do_adjtimex'
+   kernel/time/timekeeping.c:2615: warning: Function parameter or struct member 'phase_ts' not described in 'hardpps'
+   kernel/time/timekeeping.c:2615: warning: Function parameter or struct member 'raw_ts' not described in 'hardpps'
+
+
+vim +1271 kernel/time/timekeeping.c
+
+  1259	
+  1260	/**
+  1261	 * ktime_real_to_base_clock() - Convert CLOCK_REALTIME timestamp to a base clock timestamp
+  1262	 * @treal:	CLOCK_REALTIME timestamp to convert
+  1263	 * @base_id:	base clocksource id
+  1264	 * @*cycles:	pointer to store the converted base clock timestamp
+  1265	 *
+  1266	 * Converts a supplied, future realtime clock value to the corresponding base clock value.
+  1267	 *
+  1268	 * Return:  true if the conversion is successful, false otherwise.
+  1269	 */
+  1270	bool ktime_real_to_base_clock(ktime_t treal, enum clocksource_ids base_id, u64 *cycles)
+> 1271	{
+  1272		struct timekeeper *tk = &tk_core.timekeeper;
+  1273		unsigned int seq;
+  1274		u64 delta;
+  1275	
+  1276		do {
+  1277			seq = read_seqcount_begin(&tk_core.seq);
+  1278			if ((u64)treal < tk->tkr_mono.base_real)
+  1279				return false;
+  1280			delta = (u64)treal - tk->tkr_mono.base_real;
+  1281			if (!convert_ns_to_cs(&delta))
+  1282				return false;
+  1283			*cycles = tk->tkr_mono.cycle_last + delta;
+  1284			if (!convert_cs_to_base(cycles, base_id))
+  1285				return false;
+  1286		} while (read_seqcount_retry(&tk_core.seq, seq));
+  1287	
+  1288		return true;
+  1289	}
+  1290	EXPORT_SYMBOL_GPL(ktime_real_to_base_clock);
+  1291	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
