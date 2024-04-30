@@ -1,53 +1,129 @@
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-	by smtp.subspace.kernel.org (Postfix) with SMTP id D26AE5C82
-	for <linux-doc@vger.kernel.org>; Tue, 30 Apr 2024 01:51:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.131.102.5
+Received: from out30-99.freemail.mail.aliyun.com (out30-99.freemail.mail.aliyun.com [115.124.30.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D79E88F6F;
+	Tue, 30 Apr 2024 02:13:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.99
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714441883; cv=none; b=mfPBWskjYt4j9+U8LWcz2ffM5+01LN4cmN7/0vqwaH2y40N3YLGswM5/y+piaKvtPIeNdMy+PdhDjzhMnSUFFY4Vnc2eHRcjon661pg5oCYGkK00aJ1QIfVDDoyuYkZfFdA6Pno0qq2EjkvqcKsHHVixUPG2lW4dn6IT0wYURxc=
+	t=1714443237; cv=none; b=bqqxGHuHcFqLSANVKyO05z6hTUwbQ6qs0B2GOXgxEIQnNn2QuXeiGaANF4kdu7GMaHtMVzW1KFxRbDCIYmezh73ti+9gXYaaQkHKsOR4KxDjAQ85H0gZUrQ7CayTU5ZbO4WSazP9Efvc1R2Nq+WgmKKM0ZPlIjUgkgdsAkzNlog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714441883; c=relaxed/simple;
-	bh=1dZFllmSUYIU5Tu60QYWUdcFtWjeeWfLdtbeuvwZiCQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MTgSUaoyxHpmV5tiMC5Dc1oBsXWeIVkjFP0XaxwPqinkDqdlxNxRVDf4MoxqCBBUPzpflkLpwKlcF0Tt8xV1qkiJDJx+1regztbAeFHVdksff0YMItrSOOPLp+lAp+vYDEAEssFI6utjZsffZymHYHaaFWQxpKyZGapND4hUIgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu; spf=pass smtp.mailfrom=netrider.rowland.org; arc=none smtp.client-ip=192.131.102.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netrider.rowland.org
-Received: (qmail 640741 invoked by uid 1000); 29 Apr 2024 21:51:20 -0400
-Date: Mon, 29 Apr 2024 21:51:20 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Michael Grzeschik <m.grzeschik@pengutronix.de>
-Cc: Eric Van Hensbergen <ericvh@kernel.org>,
-  Latchesar Ionkov <lucho@ionkov.net>,
-  Dominique Martinet <asmadeus@codewreck.org>,
-  Christian Schoenebeck <linux_oss@crudebyte.com>,
-  Jonathan Corbet <corbet@lwn.net>,
-  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, v9fs@lists.linux.dev,
-  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-  linux-usb@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH v4 1/3] usb: gadget: function: move u_f.h to
- include/linux/usb/
-Message-ID: <1fb801bf-3bef-4f95-8036-fc8634679141@rowland.harvard.edu>
-References: <20240116-ml-topic-u9p-v4-0-722ed28b0ade@pengutronix.de>
- <20240116-ml-topic-u9p-v4-1-722ed28b0ade@pengutronix.de>
+	s=arc-20240116; t=1714443237; c=relaxed/simple;
+	bh=8sbxx22xmGWgECxkXVi/5b28FpNr1fg/fRLgHhiSgQE=;
+	h=Message-ID:Subject:Date:From:To:Cc:References:In-Reply-To; b=HBCWbz072rfaM7XUER86iZFMBJZiSbTvSHdW9ox/x0yuSvmSXo3/9pOib17s/mvykCTFMhoqL8jFJrV0q7kkqIPRomnavcizxsO0RNibT9Huzx6kyZbA7nMQXu8KV9PWGB08kHgqKvn2RggHeN/xDO+raG0fPMRq6VdHr1qe048=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=M23WbWHW; arc=none smtp.client-ip=115.124.30.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="M23WbWHW"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1714443227; h=Message-ID:Subject:Date:From:To;
+	bh=y6BHbK1lWejK17N+PEG4y4GRz35g2lrll3r6j9O47ps=;
+	b=M23WbWHWhuG/M3daJPJcwdTdwSHdJefhEj71ZcoFmMDQEbSQIIlmIuZYkCB4RL6EDfttABeeG5tz78XDEs9aJXvoI+1c8gaG4kdEgo7DMIKUnb4C4uFBI1JoQGajno0W6JQLzLBgFjWyZMbAC4lSCL3hs6EV5LwW+NnB5BUWj8w=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R601e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037067111;MF=hengqi@linux.alibaba.com;NM=1;PH=DS;RN=23;SR=0;TI=SMTPD_---0W5ae2VQ_1714443224;
+Received: from localhost(mailfrom:hengqi@linux.alibaba.com fp:SMTPD_---0W5ae2VQ_1714443224)
+          by smtp.aliyun-inc.com;
+          Tue, 30 Apr 2024 10:13:44 +0800
+Message-ID: <1714442379.4695537-1-hengqi@linux.alibaba.com>
+Subject: Re: [PATCH net-next v10 2/4] ethtool: provide customized dim profile management
+Date: Tue, 30 Apr 2024 09:59:39 +0800
+From: Heng Qi <hengqi@linux.alibaba.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org,
+ virtualization@lists.linux.dev,
+ "David S .  Miller" <davem@davemloft.net>,
+ Paolo Abeni <pabeni@redhat.com>,
+ Eric  Dumazet <edumazet@google.com>,
+ Jason Wang <jasowang@redhat.com>,
+ "Michael S  . Tsirkin" <mst@redhat.com>,
+ Brett Creeley <bcreeley@amd.com>,
+ Ratheesh  Kannoth <rkannoth@marvell.com>,
+ Alexander Lobakin <aleksander.lobakin@intel.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ Tal  Gilboa <talgi@nvidia.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>,
+ Jiri Pirko <jiri@resnulli.us>,
+ Paul  Greenwalt <paul.greenwalt@intel.com>,
+ Ahmed Zaki <ahmed.zaki@intel.com>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>,
+ Kory Maincent <kory.maincent@bootlin.com>,
+ Andrew Lunn <andrew@lunn.ch>,
+ "justinstitt @  google . com" <justinstitt@google.com>
+References: <20240425165948.111269-1-hengqi@linux.alibaba.com>
+ <20240425165948.111269-3-hengqi@linux.alibaba.com>
+ <20240426183333.257ccae5@kernel.org>
+ <98ea9d4d-1a90-45b9-a4e0-6941969295be@linux.alibaba.com>
+ <20240429104741.3a628fe6@kernel.org>
+In-Reply-To: <20240429104741.3a628fe6@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240116-ml-topic-u9p-v4-1-722ed28b0ade@pengutronix.de>
 
-On Tue, Apr 30, 2024 at 01:33:26AM +0200, Michael Grzeschik wrote:
-> We move the u_f.h header to include/linux/usb to be
-> able to compile function drivers outside of the
-> drivers/usb/gadget/function directory.
+On Mon, 29 Apr 2024 10:47:41 -0700, Jakub Kicinski <kuba@kernel.org> wrote:
+> On Sun, 28 Apr 2024 22:49:09 +0800 Heng Qi wrote:
+> > >> +	nla_for_each_nested_type(nest, ETHTOOL_A_PROFILE_IRQ_MODERATION, nests, rem) {
+> > >> +		ret = nla_parse_nested(moder,
+> > >> +				       ARRAY_SIZE(coalesce_irq_moderation_policy) - 1,
+> > >> +				       nest, coalesce_irq_moderation_policy,
+> > >> +				       extack);
+> > >> +		if (ret)
+> > >> +			return ret;
+> > >> +
+> > >> +		if (!NL_REQ_ATTR_CHECK(extack, nest, moder, ETHTOOL_A_IRQ_MODERATION_USEC)) {
+> > >> +			if (irq_moder->coal_flags & DIM_COALESCE_USEC)  
+> > > There are 3 options here, not 2:
+> > >
+> > > 	if (irq_moder->coal_flags & flag) {
+> > > 		if (NL_REQ_ATTR_CHECK())
+> > > 			val = nla_get_u32(...);
+> > > 		else
+> > > 			return -EINVAL;
+> > > 	} else {
+> > > 		if (moder[attr_type)) {
+> > > 			BAD_ATTR()
+> > > 			return -EOPNOTSUPP;
+> > > 		}
+> > > 	}  
+> > 
+> > Maybe we missed something.
+> > 
+> > As shown in the commit log, the user is allowed to modify only
+> > a certain fields in irq-moderation. It is assumed that the driver
+> > supports modification of usec and pkts, but the user may only
+> > modify usec and only fill in the usec attr.
+> > 
+> > Therefore, the kernel only gets usec attr here. Of course, the user
+> > may have passed in 5 groups of "n, n, n", which means that nothing
+> > is modified, and rx_profile and irq_moderation attrs are all empty.
 > 
-> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+> What you describe sounds good, but it's not what the code seems to be
+> doing. NL_REQ_ATTR_CHECK() will set an error attribute if the attr is
+> not present.
 
-Given that you're moving a private header file to a public location,
-don't you think it should now have a name that's more meaningful to
-general kernel developers than "u_f.h"?
+So here we can use:
 
-Alan Stern
++ if (moder[ETHTOOL_A_IRQ_MODERATION_USEC]) {
++ 	if (irq_moder->coal_flags & DIM_COALESCE_USEC)
++ 		new_profile[i].usec =
++ 			nla_get_u32(moder[ETHTOOL_A_IRQ_MODERATION_USEC]);
++ 	else
++ 		return -EOPNOTSUPP;
++ }
+
+instead of:
+
++ if (!NL_REQ_ATTR_CHECK(extack, nest, moder, ETHTOOL_A_IRQ_MODERATION_USEC)) {
++ 	if (irq_moder->coal_flags & DIM_COALESCE_USEC)
++ 		new_profile[i].usec =
++ 			nla_get_u32(moder[ETHTOOL_A_IRQ_MODERATION_USEC]);
++ 	else
++ 		return -EOPNOTSUPP;
++ }
+
+to avoid missing information set in extack?
+
+Thanks.
