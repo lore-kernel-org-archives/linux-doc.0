@@ -1,164 +1,218 @@
-Received: from bee.tesarici.cz (bee.tesarici.cz [37.205.15.56])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA243308A;
-	Tue, 30 Apr 2024 20:09:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.205.15.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CE131A0AF9;
+	Tue, 30 Apr 2024 21:57:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714507770; cv=none; b=M+rpZ4V37nAEKTQZEkjeSp0L5vxhx+oz1N3Gah3PPqaEXuTf9MTypKEWnTXtTCmCIClo2K0vEIHbL5ANb/Myha11eatA5w34INGzuqcLjJghYbBsT+PEuOyp7XMKZy3fA8f/gAuMIzjRY8NnyJxhyywkFQMyZtFXrGjwyK3D98E=
+	t=1714514279; cv=none; b=bR0fxVDTSQK+SxALJGOAM3TB2ZqO650mqFxw2yGatATq/plzmo7rqbSuh3lZlSpHZgqTy7R6OXUO9mpkzIKX8bF2vWVIrb47IBspns3bJcPd0HcFruPKtYUO9hTLD6iBH/F2fDST5gU2Our4z4NxEWldLk/C14IAOOyKqXkOFBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714507770; c=relaxed/simple;
-	bh=+W073mdtgIFOzLF3pLZOnqWa4SW4FX7ciIxPNHIMnjQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ujFekWfdeyddk2a7S6a7fjy9zTUyYCNeni1bFomisMpRog8AAC5OdVpeFl8fqvwCiI9qgm1D7SxfhbyYjEeTHvKq1Ka8GM2N6l541Kpao+vJuSedL7eZIfliclvuZYqxp094wPyDTpCqMY9ewIAsFRGRUqrVpVjHuPIcZjGwi/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz; spf=pass smtp.mailfrom=tesarici.cz; dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b=SkBYcRS+; arc=none smtp.client-ip=37.205.15.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tesarici.cz
+	s=arc-20240116; t=1714514279; c=relaxed/simple;
+	bh=i/PgM4+9YzpPI2JE/sWr4KRAmUULs5TogIsWAyenxRU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Z5Jk6IVwFp+IMsxPBD5COcj0Mbda4X5GhRLW6NFQYLlEGDDwslI0o3S2cYZf3CPIYjzbUJh/GV+T6Idq2+XhenESN4nLe4vxmTW4z/VLY3nFips2HXPZKsUgHyz4S3uZWWaaGGzhYd1d5whnFDWjA1nUTm9QGnX7TK0omSdqe1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=coTFXNn6; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="SkBYcRS+"
-Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by bee.tesarici.cz (Postfix) with ESMTPSA id 2B35B1B33AB;
-	Tue, 30 Apr 2024 22:09:25 +0200 (CEST)
-Authentication-Results: mail.tesarici.cz; dmarc=fail (p=quarantine dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tesarici.cz; s=mail;
-	t=1714507765; bh=9hVpNf0UpME2ZAq2VVrOWX05zjm2iYyBWxgQpaSqhEE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=SkBYcRS+1DgzItYu4znKOQOwyrc0mqUDVbLVI5/da2r4YcYoqFL2jY0tNX/XsifwQ
-	 pQo2swe5T4NzzIX4WvCuOmGx2SxBkFY3T/1/N5hKNoh7z7Rz9RK0VLUdHTOjOtrgc2
-	 jrcEThrVOWriPcwS7+eM7weKDs6dobPEuUI/lZrV15/LSo4p7FDvYBVx8ETBuqKQgV
-	 d4ntvnWsjczfUiEbqqknTdYxwh+JQIU/SdHYIwt4OTEFuYeqB9fPhrDpqkMMX4Q/+i
-	 u/ZRIUAG3u5OxFASbqiWpGtuQNEKfazFHC86gvBHWstoyK2bvxBUfR8nhGxTOoGj31
-	 8HZ139QUNghkw==
-Date: Tue, 30 Apr 2024 22:09:24 +0200
-From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To: Michael Kelley <mhklinux@outlook.com>
-Cc: "mhkelley58@gmail.com" <mhkelley58@gmail.com>, "robin.murphy@arm.com"
- <robin.murphy@arm.com>, "joro@8bytes.org" <joro@8bytes.org>,
- "will@kernel.org" <will@kernel.org>, "hch@lst.de" <hch@lst.de>,
- "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>, "corbet@lwn.net"
- <corbet@lwn.net>, "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "roberto.sassu@huaweicloud.com" <roberto.sassu@huaweicloud.com>
-Subject: Re: [PATCH v3 1/1] Documentation/core-api: Add swiotlb
- documentation
-Message-ID: <20240430220924.3d0446f7@meshulam.tesarici.cz>
-In-Reply-To: <SN6PR02MB41579F43DD1ACB401EEC9E7AD41A2@SN6PR02MB4157.namprd02.prod.outlook.com>
-References: <20240429151337.1069470-1-mhklinux@outlook.com>
-	<20240430132413.69797af1@mordecai>
-	<SN6PR02MB41579F43DD1ACB401EEC9E7AD41A2@SN6PR02MB4157.namprd02.prod.outlook.com>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-suse-linux-gnu)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="coTFXNn6"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43UKethg001390;
+	Tue, 30 Apr 2024 21:57:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=7jhPW16fQo6HuFqRFyf89B8cImkfjn+GX5pu77TR1SI=; b=co
+	TFXNn60mugFAdEwR/rk1bX9OZnL0IrglDSqwbRyCM86GmPpHuDz8D0AEPLEIXReI
+	hdo9LmpsbFHukvu2xZ9atp14ezXNnTYbWP600jSfTAst8TMmNSfwvTFJqQaIlyCS
+	AxHxwzGIbBkA9vT+53N6ZPeu96VsEbU3gGW1yLs/518ZmDXChX/vllnHDBttyval
+	FdTGHaG1DNdJJdUNpgSkmGNxKuSKEPR+x2NvlWmruNelZwUc9lMZelrmsEhuoxo3
+	DDW3E02DL2ys3efX7CFnBDfF2LEwvPevTQoQisg1jnuAoMr3UzlDJRSSNLgXjdJn
+	YRgCp0Rzr0momctfL7cw==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xthgvv80b-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 30 Apr 2024 21:57:31 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 43ULvTaL030479
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 30 Apr 2024 21:57:29 GMT
+Received: from [10.110.61.50] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 30 Apr
+ 2024 14:57:29 -0700
+Message-ID: <33dfa0c5-c43f-79f6-2700-beee2e5d389f@quicinc.com>
+Date: Tue, 30 Apr 2024 14:57:28 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v20 03/41] usb: host: xhci: Repurpose event handler for
+ skipping interrupter events
+Content-Language: en-US
+To: Mathias Nyman <mathias.nyman@linux.intel.com>,
+        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <lgirdwood@gmail.com>, <andersson@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
+        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
+        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh@kernel.org>,
+        <konrad.dybcio@linaro.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>
+References: <20240425215125.29761-1-quic_wcheng@quicinc.com>
+ <20240425215125.29761-4-quic_wcheng@quicinc.com>
+ <12d29c54-c005-7112-0933-d9d28f11abd6@linux.intel.com>
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <12d29c54-c005-7112-0933-d9d28f11abd6@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: UId7krUyvkycsAgm6iTt_AwrnACSfBku
+X-Proofpoint-GUID: UId7krUyvkycsAgm6iTt_AwrnACSfBku
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-04-30_13,2024-04-30_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
+ adultscore=0 mlxscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0
+ mlxlogscore=999 priorityscore=1501 phishscore=0 malwarescore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2404300156
 
-On Tue, 30 Apr 2024 15:48:42 +0000
-Michael Kelley <mhklinux@outlook.com> wrote:
+Hi Mathias,
 
-> From: Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz> Sent: Tuesday, April 30, =
-2024 4:24 AM
-> > >
-> > > +Usage Scenarios
-> > > +---------------
-> > > +swiotlb was originally created to handle DMA for devices with addres=
-sing
-> > > +limitations. As physical memory sizes grew beyond 4 GiB, some device=
-s could
-> > > +only provide 32-bit DMA addresses. By allocating bounce buffer memor=
-y below
-> > > +the 4 GiB line, these devices with addressing limitations could stil=
-l work and
-> > > +do DMA. =20
-> >=20
-> > IIRC the origins are even older and bounce buffers were used to
-> > overcome the design flaws inherited all the way from the original IBM
-> > PC. These computers used an Intel 8237 for DMA. This chip has a 16-bit
-> > address register, but even the early 8088 CPUs had a 20-bit bus. So IBM
-> > added a separate 74LS670 4-by-4 register file chip to provide the high 4
-> > bits for each of the 4 DMA channels. As a side note, these bits were not
-> > updated when the 8237 address register was incrementing from 0xffff, so
-> > DMA would overflow at every 64K address boundary. PC AT then replaced
-> > these 4 bits with an 8-bit DMA "page" register to match the 24-bit
-> > address bus of an 80286. This design was not changed for 32-bit CPUs
-> > (i.e. 80386).
-> >=20
-> > In short, bounce buffers were not introduced because of 64-bit CPUs.
-> > They were already needed on 386 systems.
-> >=20
-> > OTOH this part of the history need not be mentioned in the
-> > documentation (unless you WANT it). =20
->=20
-> I knew there was some even earlier history, but I didn't know the
-> details. :-(  I'll add some qualifying wording about there being multiple
-> DMA addressing limitations during the history of the x86 PCs, with
-> the 32-bit addressing as a more recent example.  But I won't try to
-> cover the details of what you describe.
+On 4/30/2024 4:02 AM, Mathias Nyman wrote:
+> On 26.4.2024 0.50, Wesley Cheng wrote:
+>> Depending on the interrupter use case, the OS may only be used to handle
+>> the interrupter event ring clean up.  In these scenarios, event TRBs 
+>> don't
+>> need to be handled by the OS, so introduce an xhci interrupter flag to 
+>> tag
+>> if the events from an interrupter needs to be handled or not.
+> 
+> Could you elaborate on this a bit.
+> 
+> If I understood correctly the whole point of requesting a secondary xhci 
+> interrupter
+> for the sideband device without ever requesting a real interrupt for it 
+> was to avoid
+> waking up the cpu and calling the interrupt handler.
+> 
 
-Yes, this sounds like a good level of detail.
+Yes, this is the correct understanding.  We don't currently register the 
+separate interrupt line (from GIC) for the secondary interrupter, so the 
+main apps proc doesn't get interrupted on events generated on the 
+secondary interrupter.
 
-> > > +
-> > > +More recently, Confidential Computing (CoCo) VMs have the guest VM's=
- memory
-> > > +encrypted by default, and the memory is not accessible by the host h=
-ypervisor
-> > > +and VMM. For the host to do I/O on behalf of the guest, the I/O must=
- be
-> > > +directed to guest memory that is unencrypted. CoCo VMs set a kernel-=
-wide option
-> > > +to force all DMA I/O to use bounce buffers, and the bounce buffer me=
-mory is set
-> > > +up as unencrypted. The host does DMA I/O to/from the bounce buffer m=
-emory, and
-> > > +the Linux kernel DMA layer does "sync" operations to cause the CPU t=
-o copy the
-> > > +data to/from the original target memory buffer. The CPU copying brid=
-ges between
-> > > +the unencrypted and the encrypted memory. This use of bounce buffers=
- allows
-> > > +existing device drivers to "just work" in a CoCo VM, with no modific=
-ations
-> > > +needed to handle the memory encryption complexity. =20
-> >=20
-> > This part might be misleading. It sounds as if SWIOTLB would not be
-> > needed if drivers were smarter. =20
->=20
-> I'm not sure I understand the point you are making. It is possible for a
-> driver to do its own manual bounce buffering to handle encrypted memory.
-> For example, in adding support for CoCo VMs, we encountered such a
-> driver/device with complex DMA and memory requirements that already
-> did some manual bounce buffering. When used in a CoCo VM, driver
-> modifications were needed to handle encrypted memory, but that was
-> the preferred approach because of the pre-existing manual bounce
-> buffering. In that case, indeed swiotlb was not needed by that driver/dev=
-ice.
-> But in the general case, we don't want to require driver modifications for
-> CoCo VMs. swiotlb bounce buffering makes it all work in the exactly the
-> situation you describe where the buffer memory could have originated
-> in a variety of places.
->=20
-> Could you clarify your point?  Or perhaps suggest alternate wording
-> that would help avoid any confusion?
+> with this flag is seems the normal xhci interrupt handler does get 
+> called for
+> sideband transfer events.
+> 
 
-Ah, I wasn't aware that some drivers implement their own bounce
-buffers. I can't say I'm really happy about it, because such drivers
-must inevitably deal with all the complexities like IOMMU, decrypting,
-etc. But you're right - bounce buffers can be implemented by individual
-drivers.
+Main intention was to utilize the refactoring you did to expose the 
+xhci_handle_event_trb() for both handling events on the main 
+interrupter, as well as the logic to skip events on the secondary 
+interrupter.
 
-I have now read the sentence again, and the problematic wording is
-"existing device drivers". I know it's not the same as "legacy device
-drivers", but it still leaves some doubt whether "future device drivers"
-should make use of SWIOTLB. So either remove "existing" or be more
-explicit and say "existing and future device drivers". Then it sounds
-fine to me.
+https://lore.kernel.org/linux-usb/44a3d4db-7759-dd93-782a-1efbebfdb22c@linux.intel.com/
 
-HTH
-Petr T
+>>
+>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+>> ---
+>>   drivers/usb/host/xhci-ring.c | 17 +++++++++++++----
+>>   drivers/usb/host/xhci.h      |  1 +
+>>   2 files changed, 14 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+>> index 52278afea94b..6c7a21f522cd 100644
+>> --- a/drivers/usb/host/xhci-ring.c
+>> +++ b/drivers/usb/host/xhci-ring.c
+>> @@ -2973,14 +2973,22 @@ static int handle_tx_event(struct xhci_hcd *xhci,
+>>   }
+>>   /*
+>> - * This function handles one OS-owned event on the event ring. It may 
+>> drop
+>> - * xhci->lock between event processing (e.g. to pass up port status 
+>> changes).
+>> + * This function handles one OS-owned event on the event ring, or 
+>> ignores one event
+>> + * on interrupters which are non-OS owned. It may drop xhci->lock 
+>> between event
+>> + * processing (e.g. to pass up port status changes).
+>>    */
+>>   static int xhci_handle_event_trb(struct xhci_hcd *xhci, struct 
+>> xhci_interrupter *ir,
+>>                    union xhci_trb *event)
+>>   {
+>>       u32 trb_type;
+>> +    /*
+>> +     * Some interrupters do not need to handle event TRBs, as they 
+>> may be
+>> +     * managed by another entity, but rely on the OS to clean up.
+>> +     */
+>> +    if (ir->skip_events)
+>> +        return 0;
+>> +
+> 
+> I think we need another solution than a skip_events flag.
+> 
+> To make secondary xhci interrupters more useful in general it would make 
+> more
+> sense to add an interrupt handler function pointer to struct 
+> xhci_interrupter.
+> 
+> Then call that function instead of xhci_handle_event_trb()
+>
+
+I agree that is how it should be for when support for actually utilizing 
+secondary interrupters for routing events to different targets (instead 
+of offloading).  However, since I don't have an existing use case that 
+will exercise this functionality, its a bit difficult to verify that it 
+should be working the way it was intended.
+
+> --- a/drivers/usb/host/xhci-ring.c
+> +++ b/drivers/usb/host/xhci-ring.c
+> @@ -3098,8 +3098,8 @@ static int xhci_handle_events(struct xhci_hcd 
+> *xhci, struct xhci_interrupter *ir
+> 
+>          /* Process all OS owned event TRBs on this event ring */
+>          while (unhandled_event_trb(ir->event_ring)) {
+> -               err = xhci_handle_event_trb(xhci, ir, 
+> ir->event_ring->dequeue);
+> -
+> +               if (ir->handle_event_trb)
+> +                       err = ir->handle_event_trb(xhci, ir, 
+> ir->event_ring->dequeue);
+>                  /*
+>                   * If half a segment of events have been handled in one 
+> go then
+>                   * update ERDP, and force isoc trbs to interrupt more 
+> often
+> 
+> The handler function would be passed to, and function pointer set in
+> xhci_create_secondary_interrupter()
+> 
+> For primary interrupter it would always be set to xhci_handle_event_trb()
+> 
+
+Yes, definitely agree with this for when we introduce support for 
+handling the secondary interrupter GIC line within the apps proc itself. 
+  Would prefer if we took up that effort in another series, but willing 
+to go back to the skip events loop previously implemented if the above 
+change isn't where you want to go with this.
+
+Thanks
+Wesley Cheng
+
+> Thanks
+> Mathias
+> 
