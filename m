@@ -1,68 +1,64 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E3E42E3F2;
-	Wed,  1 May 2024 07:39:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6A74D58A
+	for <linux-doc@vger.kernel.org>; Wed,  1 May 2024 07:49:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714549197; cv=none; b=Bm8JyMKfRJJb4wKtMvMgaFSa1fOFw8ERita9eP6CnpPHg8mFjMVRm1SyeUytx8xGQG0e+WhzP0p9sEzGl1eK+/V9WkHB1CMc1DLL+//wC3OHgBbO0GL8KBwAQu9GgdZvxACBq3mXiUDk2TXzkHGJtxf8hTjo2xuYxExzyOdJ7sc=
+	t=1714549800; cv=none; b=rt7qsmdgy/x/UJcrEw8LyjNB+C6IuB/MgEY7HkqJiTIpnB/VZKwUU0LIYSfEOKMx9udpXHdAyLMfEtrWnlHL2AasSQzqqw41GP4AB/V4gh/k2YGXeb+34EcSFozIQP/yg9r4TlyZ8gQW3FZnLBl4rKog8F2/M+Q+cd4R3he8nqk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714549197; c=relaxed/simple;
-	bh=5eWuGHYXfyJHepRujiagDpeV3q8qyo9GkPxVCzukQy4=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FkxfAegtczwnIfz2Swl+O3l4o0gq8NDXpKaAAGX+AgO7cC6/YcSo+nDOQ/JLiUdU8w0wXBjLI2UFFw9dn9lT8FHWs15X0j65sgk0zZugaUpsQIYIGiRrQorsnRwVc17/ie+sFUB0muLLEtUYvtqDWI9UtwDVjL4iVXwcZWZskzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lkeYkYla; arc=none smtp.client-ip=209.85.214.170
+	s=arc-20240116; t=1714549800; c=relaxed/simple;
+	bh=oeD98aa6nZC3GHQ4F2QupEm5uFuAx1L+MtY/bk6xP2k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F955Rch3PwpfuysiaU4UQAkepkGVbkoXwv8V+2NXY500FV6rWO9neRe0ScaXfDzXYVCZMI84p4ahMLRFlBcd5vCc2Rajt8qDrejunQihKcJAMo8wNdJ0r+jcPnp4i5K4WAsXqgFFNClHCbHhHQcAZsyyosnhBDDV2CZ1rE7ca0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U3z16Por; arc=none smtp.client-ip=209.85.161.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lkeYkYla"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1eab16c8d83so52921075ad.3;
-        Wed, 01 May 2024 00:39:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U3z16Por"
+Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-5aa2551d33dso4366036eaf.0
+        for <linux-doc@vger.kernel.org>; Wed, 01 May 2024 00:49:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714549195; x=1715153995; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1714549797; x=1715154597; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5eWuGHYXfyJHepRujiagDpeV3q8qyo9GkPxVCzukQy4=;
-        b=lkeYkYlavqCvNh+rLvd5S2clhQO5HTVHqjRAnpGQNTi0ckjWlD1eiCFcFOFQHp6TnN
-         Y/V7qmscLVHaXDzIjQFiA/omUDOZBrAut5k4zdmzzcgHzV2q1T4cxZeSq2j/f+nn3TFI
-         nJSlJuESh/rHLYGCCZ8Z7BLjwHbdRoWuCxacQiBbVb91AuwtWy+5bkrWErpMJqsz1xpE
-         iyniSAzZLHU67K3E69An6U4+0Kp6uF5dLyID2/aDJCB3231b9hvTKqt7F2efAbBdxtoS
-         I8qlGBhKpVvxaPtokidR3JHmWT7fAL7HU+K7aQSwPobuasV9jOOtw2N22SLVk94R+U3c
-         41sw==
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=r5ES/1fo0+YQ2s0s2n1hJlTL6WCq1v2GBEvIHKIXAiU=;
+        b=U3z16PorDK34Eld6lpQoqJnhAXoOGgDI2uxBQi+fr9M3e5rMaTQu1R21K96ZLhPOlx
+         hMQx4VezD5NzcF9tYmWilyq+Jic+RJhtkLT9Fi5gjDNXAaQXzHYJ4n+VL4lTC5kKl7CD
+         KH/RUKCrAWJtUgXIG25GID7uJbaabbwU5XqxJPPy7pgtyAuDqz7V94FsHcxXgWy7zE/W
+         PfTbSRFcR51GVy9PIz0kZieRV3BPQdmPwoMAcJGa6PiKGZQKB5KyQWMjlUgVXQbskKt/
+         0nznWghoILbDX9lghBXTtJ0G6DK7Rt8BRqe/ut+WLlCkaAZYJJBPaSDeyahtLLnUPOyL
+         NLtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714549195; x=1715153995;
+        d=1e100.net; s=20230601; t=1714549797; x=1715154597;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5eWuGHYXfyJHepRujiagDpeV3q8qyo9GkPxVCzukQy4=;
-        b=SNx37z3opqq7vkLIl/cTXxdHcGUKz7z//73aQcMiZB6sc/CMWeva44TFxD7QhbAKeW
-         SFK4ynDYD/mWDWKNXa2xr/2bDZ5wD0jQYy+q+BXD1EDZRZdfgxA3R2uQogcfifvg0fCw
-         +uc2EM56PN42fidACFNPxCAr6NcFuCw0n4YO46HlK501w1zWvtE4LyzMh8dyvDgR4sE2
-         ZUk6ZgVMoREpLyxkBuPA59Sqbspq3sRn2y0Tbtp0C9S7v72Wic45PBKM2VUW1mUosEsC
-         14Dr/uN0EW2SyHlMSAUag+XMmfl4qMwSSrDyPyipVSmw6KznWTt1tpGrxQ6eQqm71+gH
-         upUA==
-X-Forwarded-Encrypted: i=1; AJvYcCUKuU6//uHoBG5xMIH0Tkt9ue/CSTxHz2zwABo7YhUVCUdoGFjieQZ5SxlKKa4IUz468ONqlx4HWs9GGzoltlBEbHvy30FclCb3CIr4HLZ18XFTc9CcAlwWIU9oPbCJUEwR3H1N+nvo
-X-Gm-Message-State: AOJu0YxVL2rZMqDfgNivpTvztspJ6OoxRfrZdLf6ddKbHszBcU7YOels
-	7MoHfU4S1yWAs4g7T3tfO2imfjd1fcRip1lfP+816zwavMfdbBKz
-X-Google-Smtp-Source: AGHT+IGtHhq6yEiiulIYwbWbLH9rp2tc+PgviJAeQI/3SWUvHmKXCvEk5gVgKxrvXwKxyIXXBnfupQ==
-X-Received: by 2002:a17:902:eb8e:b0:1e4:6253:75db with SMTP id q14-20020a170902eb8e00b001e4625375dbmr2093312plg.17.1714549195020;
-        Wed, 01 May 2024 00:39:55 -0700 (PDT)
+        bh=r5ES/1fo0+YQ2s0s2n1hJlTL6WCq1v2GBEvIHKIXAiU=;
+        b=ASuDAku/+AcA/bVmvAsjz97lI70wENslGb1zrFZ9pSBNFLPfdVdXL7g2FDlC1YL7tU
+         5svDNON/AN1kmrz39Vlfmi/1Cy+hrls12LGAWo9RPi4JqypG9Rv3f210hQjfgzkF7vPX
+         SXluA44az39yujOmv2iMeDZswVlpIxOWoWK8yyoRP9qKSiqY9nrRPpzxbPcY6p1yg781
+         24Ooi1bY8Ae+P16Izp4fc0HiLArRj0YkXVBgQkMuhG08Wf2GQuOAn4FXJ4291+ZS3JWa
+         Lrc/x1pU1EoTpUxGRfeuWHRLKZtCDrLhRl58d1gCqQLWfES0YI2pbZgY5XU/N4YiPhQT
+         iCQQ==
+X-Gm-Message-State: AOJu0YzyeI/Pq0T0Jz80OqML0i4z09sxWxkenIu7ZhI/LUQABLG8dLbW
+	ZYDowB6LnVz6WndIyD3HQguFhyxWAt+MqJFEB3+lL131a3nLvVAa
+X-Google-Smtp-Source: AGHT+IFMqbgrVm6MjPLsd7XyvtWxZPNquYJtiNkjSTuoKYbKJIHttE9StSSCarRDSP1diagijtkkCw==
+X-Received: by 2002:a05:6359:a115:b0:18a:634a:6cfc with SMTP id kl21-20020a056359a11500b0018a634a6cfcmr2383141rwc.22.1714549797302;
+        Wed, 01 May 2024 00:49:57 -0700 (PDT)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id q4-20020a170902edc400b001e29c4b7bd2sm23626709plk.240.2024.05.01.00.39.54
+        by smtp.gmail.com with ESMTPSA id 9-20020a630b09000000b005dbed0ffb10sm22135611pgl.83.2024.05.01.00.49.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 May 2024 00:39:54 -0700 (PDT)
+        Wed, 01 May 2024 00:49:56 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id 23CFD18462B23; Wed, 01 May 2024 14:39:51 +0700 (WIB)
-Date: Wed, 1 May 2024 14:39:51 +0700
+	id A962118462B23; Wed, 01 May 2024 14:49:54 +0700 (WIB)
+Date: Wed, 1 May 2024 14:49:54 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: mhklinux@outlook.com, robin.murphy@arm.com, joro@8bytes.org,
-	will@kernel.org, hch@lst.de, m.szyprowski@samsung.com,
-	corbet@lwn.net, iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, petr@tesarici.cz,
-	roberto.sassu@huaweicloud.com
-Subject: Re: [PATCH v3 1/1] Documentation/core-api: Add swiotlb documentation
-Message-ID: <ZjHxxzRb-63ARo6Z@archie.me>
-References: <20240429151337.1069470-1-mhklinux@outlook.com>
+To: Akira Yokosawa <akiyks@gmail.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: kernel_include.py: Cope with docutils 0.21
+Message-ID: <ZjH0IgP-X62924N5@archie.me>
+References: <faf5fa45-2a9d-4573-9d2e-3930bdc1ed65@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,41 +66,75 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="SQuUPEbHKzRUh2zX"
+	protocol="application/pgp-signature"; boundary="boTE1sbGc0ojQHI4"
 Content-Disposition: inline
-In-Reply-To: <20240429151337.1069470-1-mhklinux@outlook.com>
+In-Reply-To: <faf5fa45-2a9d-4573-9d2e-3930bdc1ed65@gmail.com>
 
 
---SQuUPEbHKzRUh2zX
+--boTE1sbGc0ojQHI4
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 29, 2024 at 08:13:37AM -0700, mhkelley58@gmail.com wrote:
-> From: Michael Kelley <mhklinux@outlook.com>
+On Wed, May 01, 2024 at 12:16:11PM +0900, Akira Yokosawa wrote:
+> Running "make htmldocs" on a newly installed Sphinx 7.3.7 ends up in
+> a build error:
 >=20
-> There's currently no documentation for the swiotlb. Add documentation
-> describing usage scenarios, the key APIs, and implementation details.
-> Group the new documentation with other DMA-related documentation.
+>     Sphinx parallel build error:
+>     AttributeError: module 'docutils.nodes' has no attribute 'reprunicode'
 >=20
-> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+> docutils 0.21 has removed nodes.reprunicode, quote from release note [1]:
+>=20
+>   * Removed objects:
+>=20
+>     docutils.nodes.reprunicode, docutils.nodes.ensure_str()
+>         Python 2 compatibility hacks
+>=20
+> Sphinx 7.3.0 supports docutils 0.21 [2]:
+>=20
+> kernel_include.py, whose origin is misc.py of docutils, uses reprunicode.
+>=20
+> Upstream docutils removed the offending line from the corresponding file
+> (docutils/docutils/parsers/rst/directives/misc.py) in January 2022.
+> Quoting the changelog [3]:
+>=20
+>     Deprecate `nodes.reprunicode` and `nodes.ensure_str()`.
+>=20
+>     Drop uses of the deprecated constructs (not required with Python 3).
+>=20
+> Do the same for kernel_include.py.
+>=20
+> Tested against:
+>   - Sphinx 2.4.5 (docutils 0.17.1)
+>   - Sphinx 3.4.3 (docutils 0.17.1)
+>   - Sphinx 5.3.0 (docutils 0.18.1)
+>   - Sphinx 6.2.1 (docutils 0.19)
+>   - Sphinx 7.2.6 (docutils 0.20.1)
+>   - Sphinx 7.3.7 (docutils 0.21.2)
+>=20
+> Link: http://www.docutils.org/RELEASE-NOTES.html#release-0-21-2024-04-09 =
+[1]
+> Link: https://www.sphinx-doc.org/en/master/changes.html#release-7-3-0-rel=
+eased-apr-16-2024 [2]
+> Link: https://github.com/docutils/docutils/commit/c8471ce47a24 [3]
+> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
 
-Other than outstanding reviews, the doc LGTM. Thanks!
+No htmldocs regressions on Sphinx 5.0.1.
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Tested-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---SQuUPEbHKzRUh2zX
+--boTE1sbGc0ojQHI4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZjHxwgAKCRD2uYlJVVFO
-o3WrAQDvhNlHDw0C1NqqL2yH9OQNIxn9j4y2CY6FFWX/Oz/INwD/WbBcId0StqpV
-oVnntracxxAV03zfP4U6+nARrv12Qg0=
-=zv+C
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZjH0IgAKCRD2uYlJVVFO
+o+0BAPkBo1VT9zV+BVc7e/IplMAPT3HVJFhl+1VLDpeHTzyiagEAs52jwKQVD2eF
+j8mikk8IgY9VDQ3twLObnbU57LQJMgc=
+=R3hn
 -----END PGP SIGNATURE-----
 
---SQuUPEbHKzRUh2zX--
+--boTE1sbGc0ojQHI4--
