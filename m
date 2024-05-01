@@ -1,635 +1,561 @@
-Received: from bee.tesarici.cz (bee.tesarici.cz [37.205.15.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F7D12FF86;
-	Wed,  1 May 2024 16:27:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.205.15.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54DCFDF53
+	for <linux-doc@vger.kernel.org>; Wed,  1 May 2024 16:44:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714580838; cv=none; b=ccQb0YBCBPA5Ri5ztgvW1ok24vtQptQbala2JAhCSaD3KFF+p2G5E3unzDOAModLB1O2FTM4oFW2tkumJ7+x+3qwOYUDVRVjVXOKbbOxpY1WQmFkswq3GEAJ0Z6gfx+d7v11h0nAKbTu6wx8HpzPhxJH1oVdnSzBdhMdsxopqDQ=
+	t=1714581896; cv=none; b=UGtCk7X1aXEiKfCYpkntv5tFherod9+RtDOexbkBl6whkF+URcs6DV3xbnwANdYdCFadIIO7adPRXZsujwGhcuHtKzleqrnJ02b3+mFNrTRhbDKzD/1f95tdcN53t6ISI4qucXdY2nBFOkYhX9/ykLKQvLtVG8TbDcBjjKxbyHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714580838; c=relaxed/simple;
-	bh=26WtctVaTLTLc776t9nI7ES3WntMKj7sFyWZDGc/5GE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aOJs5cyBbQys0e2hglcxSzyBbQNdyQK2A1V6sM8PfK3fDj7368XB+IVUt1RuybHCpRsmGvpVIFlQfTy7rziXa4W0VVQHz8qK2bmvlg7PoN3nf3gFMp84nPAv/VzHyW3+ZXljBGA5T74KeWHTr4Z2VSuCn1kF/eOM7B8moVZzu60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz; spf=pass smtp.mailfrom=tesarici.cz; dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b=hGzxsX1B; arc=none smtp.client-ip=37.205.15.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tesarici.cz
+	s=arc-20240116; t=1714581896; c=relaxed/simple;
+	bh=ZU1Y1IkYSP6w7StVTrBck8oe3WqI+kbnV6UZ9dW1yqQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Gts/oGlHaOiIKDArS36/KIqh5v5nnoyqlXwtIk8HE7Y5BGcwD4y2qaenkULdqSKLDnVsqmNUye1gNV058abVD2VvnWI0EZvCIQaGnMgN/a20dnQqUqUX/Z1ET+lgX+3vgAWSLjWqGk5h3qa5iFI+nKDOOdOWrfDI+RXErmMqp8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=rVdd41fB; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="hGzxsX1B"
-Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by bee.tesarici.cz (Postfix) with ESMTPSA id 680C61B45ED;
-	Wed,  1 May 2024 18:27:07 +0200 (CEST)
-Authentication-Results: mail.tesarici.cz; dmarc=fail (p=quarantine dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tesarici.cz; s=mail;
-	t=1714580827; bh=fBvZZlumoKZqzBJIFGtRRADPHppBYMwkyXFAsAJrVTg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=hGzxsX1Beh+WPSkCo+hhO9K6L9/HcJgEVIfC6gL9/b4yWE2WzJ9QmisZmqY2uJGA6
-	 bZZcOXGmhXNmC+2amRdd0L+EzvY2hXTam5i/4t4u0sbP1PnZDg7MSKFO10Hkdzj86Z
-	 r6id+ZEAUlbUNCLDPlxsiZQ0JNWbN1vfJv+6aRRHqFf/Ydg979aUtV0wjk+LiU5iDd
-	 jGhVpkTPD0cSEH9PJAylMg+LKwGmENE7mcRUKA7QKAX1Owq3Hd1fCZOIeZ1/f3+6nF
-	 WMFgvDDxVFLzpMU4AbFrnBcLM9FK97R6OcGuYzD1i+moWM4v1bmUvrLn2Qor77SnHi
-	 n4eGJtcyn6YKA==
-Date: Wed, 1 May 2024 18:27:05 +0200
-From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To: mhkelley58@gmail.com
-Cc: mhklinux@outlook.com, robin.murphy@arm.com, joro@8bytes.org,
- will@kernel.org, hch@lst.de, m.szyprowski@samsung.com, corbet@lwn.net,
- iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, roberto.sassu@huaweicloud.com
-Subject: Re: [PATCH v4 1/1] Documentation/core-api: Add swiotlb
- documentation
-Message-ID: <20240501182705.1fc5af92@meshulam.tesarici.cz>
-In-Reply-To: <20240501151651.2912-1-mhklinux@outlook.com>
-References: <20240501151651.2912-1-mhklinux@outlook.com>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-suse-linux-gnu)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="rVdd41fB"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-51abd9fcbf6so11863778e87.1
+        for <linux-doc@vger.kernel.org>; Wed, 01 May 2024 09:44:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1714581892; x=1715186692; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rIWMmqnTjgErL9OLwt3NQMkkU2mTDcp42sUE4KhYx8k=;
+        b=rVdd41fBQDiJpS4ocxAy1MJx12ZMpNZCsZ4eY8NS7+AeLinOE38WwkZjRqdP6GMMuw
+         Yua36H+YMuhLh67XW70NRft4A+y707MsXelJfv9ZAmQRGxfISmnpUO39F+hdw080E/U7
+         jiGKwq4n5OPljLDr9BkQJF6P+FZPO6VcmNsumABXnXF+q4XfnVq8l6f1Tx8+W0dp9Rlq
+         OAMVXff4c/NLtJCHEvSKcS8UxOH22gI/h/akHfHVPcw2tl7wXcTZkjsctEXNIeNknShQ
+         ORg/y9aSY3sfanJUMO3qyEdV7Rh3Rfw3fLnFDrjDu/gg4v8wfLq0y+jS6sFNHNx1pBXM
+         cYww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714581892; x=1715186692;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rIWMmqnTjgErL9OLwt3NQMkkU2mTDcp42sUE4KhYx8k=;
+        b=BCHZmKHmPx5z03svNxyU0/7/70WZxc/2IpgX2CgC5TC6Ub2kszicUWj0PvBrtM4Leq
+         1eqZtxvhb53F83KU1t8LOkgmBmKK+sTIXfIMVG07iPaug0SGSjij8IDph1cPCE5KZXcM
+         XdDPHEN3Sn+kN7zJDbZqhxM0e5gSPmX7InfdVKgX1EVVm6yIHGQE9YU09RIfOfzvR0gc
+         5t8kTh5Ze1YSObKWy8sjVWB1tHFT/4qwfsxusPlAU2YWPFd8JvKSvyqYAt3okGxolhg8
+         i0KQNHIB1YS8PgNh/ypMUK7680Xjv+nc1/iH+8yTirRRhmizhJGdaO4QeCQKgJ1xWDLp
+         XD7A==
+X-Forwarded-Encrypted: i=1; AJvYcCVltrdNExDf24ohQAKIiecL/ZPAqCRs5wHrqmCmUK2OcmhTuZzn7PRVNCcD3LG5ijVbGjAQ4oPqd09a7FrqO7PLDBvbK4i+qaeV
+X-Gm-Message-State: AOJu0YxwInB+4jQ7kJLUhTzT4PD5IFLAN3pnjepmHTLGfjO+fnR738h5
+	lyIrDjnVU+4vR7SVIRVe0t8WxA5mhGJQmtrJww4UOFESxUbPhXVY5sStNJLQ0X+OtoyZ6LU9cIj
+	3yHRf3VC+tHL/wNQqJro9uYHOg4HX3RpGJ3FPokACMURYJcly5uA=
+X-Google-Smtp-Source: AGHT+IGNGr0Vfi7RwQP0lbA1+oJdc24tg9zNJVwzmKVPGSBxaExuuL+ZMNuz9kr2WrI5dHDiuXPyNIqhejqVg5SfIfg=
+X-Received: by 2002:a05:6512:1388:b0:51d:9291:6945 with SMTP id
+ fc8-20020a056512138800b0051d92916945mr3097857lfb.44.1714581892127; Wed, 01
+ May 2024 09:44:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20240426-dev-charlie-support_thead_vector_6_9-v4-0-b692f3c516ec@rivosinc.com>
+ <20240426-dev-charlie-support_thead_vector_6_9-v4-5-b692f3c516ec@rivosinc.com>
+In-Reply-To: <20240426-dev-charlie-support_thead_vector_6_9-v4-5-b692f3c516ec@rivosinc.com>
+From: Evan Green <evan@rivosinc.com>
+Date: Wed, 1 May 2024 09:44:15 -0700
+Message-ID: <CALs-HstM64Hy_=XVz=0sWQt=8j1u+bq6RhthUuD3P0E4=HyvcA@mail.gmail.com>
+Subject: Re: [PATCH v4 05/16] riscv: Extend cpufeature.c to detect vendor extensions
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Conor Dooley <conor.dooley@microchip.com>, =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, linux-riscv@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Palmer Dabbelt <palmer@rivosinc.com>, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed,  1 May 2024 08:16:51 -0700
-mhkelley58@gmail.com wrote:
-
-> From: Michael Kelley <mhklinux@outlook.com>
->=20
-> There's currently no documentation for the swiotlb. Add documentation
-> describing usage scenarios, the key APIs, and implementation details.
-> Group the new documentation with other DMA-related documentation.
->=20
-> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
-
-Looks perfect now. :-)
-
-Reviewed-by: Petr Tesarik <petr@tesarici.cz>
-
-Petr T
-
+On Fri, Apr 26, 2024 at 2:29=E2=80=AFPM Charlie Jenkins <charlie@rivosinc.c=
+om> wrote:
+>
+> Separate vendor extensions out into one struct per vendor
+> instead of adding vendor extensions onto riscv_isa_ext.
+>
+> Add a hidden config RISCV_ISA_VENDOR_EXT to conditionally include this
+> code.
+>
+> The xtheadvector vendor extension is added using these changes.
+>
+> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
 > ---
-> Changes in v4:
-> * Removed "existing" qualifier in describing device drivers that "just wo=
-rk"
->   in a CoCo VM [Petr Tesa=C5=99=C3=ADk]
-> * Added mention of DMA_ATTR_SKIP_CPU_SYNC in describing
->   swiotlb_tbl_unmap_single() [Petr Tesa=C5=99=C3=ADk]
-> * Provided more detail on operation of min_align_mask [Petr Tesa=C5=99=C3=
-=ADk]
->=20
-> Changes in v3:
-> * Reference swiotlb as just "swiotlb", not "the swiotlb" [Christoph Hellw=
-ig]
-> * Lengthen text lines to close to 80 chars instead of 65 [Christoph Hellw=
-ig]
->=20
-> Changes in v2:
-> * Use KiB/MiB/GiB units instead of Kbytes/Mbytes/Gbytes [Matthew Wilcox]
->=20
->  Documentation/core-api/index.rst   |   1 +
->  Documentation/core-api/swiotlb.rst | 321 +++++++++++++++++++++++++++++
->  2 files changed, 322 insertions(+)
->  create mode 100644 Documentation/core-api/swiotlb.rst
->=20
-> diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/in=
-dex.rst
-> index 7a3a08d81f11..89c517665763 100644
-> --- a/Documentation/core-api/index.rst
-> +++ b/Documentation/core-api/index.rst
-> @@ -102,6 +102,7 @@ more memory-management documentation in Documentation=
-/mm/index.rst.
->     dma-api-howto
->     dma-attributes
->     dma-isa-lpc
-> +   swiotlb
->     mm-api
->     genalloc
->     pin_user_pages
-> diff --git a/Documentation/core-api/swiotlb.rst b/Documentation/core-api/=
-swiotlb.rst
+>  arch/riscv/Kconfig                               |  2 +
+>  arch/riscv/Kconfig.vendor                        | 19 ++++++
+>  arch/riscv/include/asm/cpufeature.h              | 18 ++++++
+>  arch/riscv/include/asm/vendor_extensions.h       | 26 ++++++++
+>  arch/riscv/include/asm/vendor_extensions/thead.h | 19 ++++++
+>  arch/riscv/kernel/Makefile                       |  2 +
+>  arch/riscv/kernel/cpufeature.c                   | 77 ++++++++++++++++++=
+------
+>  arch/riscv/kernel/vendor_extensions.c            | 18 ++++++
+>  arch/riscv/kernel/vendor_extensions/Makefile     |  3 +
+>  arch/riscv/kernel/vendor_extensions/thead.c      | 36 +++++++++++
+>  10 files changed, 200 insertions(+), 20 deletions(-)
+>
+> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> index be09c8836d56..fec86fba3acd 100644
+> --- a/arch/riscv/Kconfig
+> +++ b/arch/riscv/Kconfig
+> @@ -759,6 +759,8 @@ config RISCV_EFFICIENT_UNALIGNED_ACCESS
+>
+>  endchoice
+>
+> +source "arch/riscv/Kconfig.vendor"
+> +
+>  endmenu # "Platform type"
+>
+>  menu "Kernel features"
+> diff --git a/arch/riscv/Kconfig.vendor b/arch/riscv/Kconfig.vendor
 > new file mode 100644
-> index 000000000000..5ad2c9ca85bc
+> index 000000000000..4fc86810af1d
 > --- /dev/null
-> +++ b/Documentation/core-api/swiotlb.rst
-> @@ -0,0 +1,321 @@
-> +.. SPDX-License-Identifier: GPL-2.0
+> +++ b/arch/riscv/Kconfig.vendor
+> @@ -0,0 +1,19 @@
+> +menu "Vendor extensions"
 > +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +DMA and swiotlb
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +config RISCV_ISA_VENDOR_EXT
+> +       bool
 > +
-> +swiotlb is a memory buffer allocator used by the Linux kernel DMA layer.=
- It is
-> +typically used when a device doing DMA can't directly access the target =
-memory
-> +buffer because of hardware limitations or other requirements. In such a =
-case,
-> +the DMA layer calls swiotlb to allocate a temporary memory buffer that c=
-onforms
-> +to the limitations. The DMA is done to/from this temporary memory buffer=
-, and
-> +the CPU copies the data between the temporary buffer and the original ta=
-rget
-> +memory buffer. This approach is generically called "bounce buffering", a=
-nd the
-> +temporary memory buffer is called a "bounce buffer".
+> +menu "T-Head"
+> +config RISCV_ISA_VENDOR_EXT_THEAD
+> +       bool "T-Head vendor extension support"
+> +       select RISCV_ISA_VENDOR_EXT
+> +       default y
+> +       help
+> +         Say N here if you want to disable all T-Head vendor extension
+> +         support. This will cause any T-Head vendor extensions that are
+> +         requested to be ignored.
 > +
-> +Device drivers don't interact directly with swiotlb. Instead, drivers in=
-form
-> +the DMA layer of the DMA attributes of the devices they are managing, an=
-d use
-> +the normal DMA map, unmap, and sync APIs when programming a device to do=
- DMA.
-> +These APIs use the device DMA attributes and kernel-wide settings to det=
-ermine
-> +if bounce buffering is necessary. If so, the DMA layer manages the alloc=
-ation,
-> +freeing, and sync'ing of bounce buffers. Since the DMA attributes are per
-> +device, some devices in a system may use bounce buffering while others d=
-o not.
+> +         If you don't know what to do here, say Y.
+> +endmenu
 > +
-> +Because the CPU copies data between the bounce buffer and the original t=
-arget
-> +memory buffer, doing bounce buffering is slower than doing DMA directly =
-to the
-> +original memory buffer, and it consumes more CPU resources. So it is use=
-d only
-> +when necessary for providing DMA functionality.
+> +endmenu
+> diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm=
+/cpufeature.h
+> index 0c4f08577015..fedd479ccfd1 100644
+> --- a/arch/riscv/include/asm/cpufeature.h
+> +++ b/arch/riscv/include/asm/cpufeature.h
+> @@ -35,6 +35,24 @@ extern u32 riscv_vlenb_of;
+>
+>  void riscv_user_isa_enable(void);
+>
+> +#define _RISCV_ISA_EXT_DATA(_name, _id, _subset_exts, _subset_exts_size)=
+ {     \
+> +       .name =3D #_name,                                                =
+         \
+> +       .property =3D #_name,                                            =
+         \
+> +       .id =3D _id,                                                     =
+         \
+> +       .subset_ext_ids =3D _subset_exts,                                =
+         \
+> +       .subset_ext_size =3D _subset_exts_size                           =
+         \
+> +}
 > +
-> +Usage Scenarios
-> +---------------
-> +swiotlb was originally created to handle DMA for devices with addressing
-> +limitations. As physical memory sizes grew beyond 4 GiB, some devices co=
-uld
-> +only provide 32-bit DMA addresses. By allocating bounce buffer memory be=
-low
-> +the 4 GiB line, these devices with addressing limitations could still wo=
-rk and
-> +do DMA.
+> +#define __RISCV_ISA_EXT_DATA(_name, _id) _RISCV_ISA_EXT_DATA(_name, _id,=
+ NULL, 0)
 > +
-> +More recently, Confidential Computing (CoCo) VMs have the guest VM's mem=
-ory
-> +encrypted by default, and the memory is not accessible by the host hyper=
-visor
-> +and VMM. For the host to do I/O on behalf of the guest, the I/O must be
-> +directed to guest memory that is unencrypted. CoCo VMs set a kernel-wide=
- option
-> +to force all DMA I/O to use bounce buffers, and the bounce buffer memory=
- is set
-> +up as unencrypted. The host does DMA I/O to/from the bounce buffer memor=
-y, and
-> +the Linux kernel DMA layer does "sync" operations to cause the CPU to co=
-py the
-> +data to/from the original target memory buffer. The CPU copying bridges =
-between
-> +the unencrypted and the encrypted memory. This use of bounce buffers all=
-ows
-> +device drivers to "just work" in a CoCo VM, with no modifications
-> +needed to handle the memory encryption complexity.
+> +/* Used to declare pure "lasso" extension (Zk for instance) */
+> +#define __RISCV_ISA_EXT_BUNDLE(_name, _bundled_exts) \
+> +       _RISCV_ISA_EXT_DATA(_name, RISCV_ISA_EXT_INVALID, _bundled_exts, =
+ARRAY_SIZE(_bundled_exts))
 > +
-> +Other edge case scenarios arise for bounce buffers. For example, when IO=
-MMU
-> +mappings are set up for a DMA operation to/from a device that is conside=
-red
-> +"untrusted", the device should be given access only to the memory contai=
-ning
-> +the data being transferred. But if that memory occupies only part of an =
-IOMMU
-> +granule, other parts of the granule may contain unrelated kernel data. S=
-ince
-> +IOMMU access control is per-granule, the untrusted device can gain acces=
-s to
-> +the unrelated kernel data. This problem is solved by bounce buffering th=
-e DMA
-> +operation and ensuring that unused portions of the bounce buffers do not
-> +contain any unrelated kernel data.
+> +/* Used to declare extensions that are a superset of other extensions (Z=
+vbb for instance) */
+> +#define __RISCV_ISA_EXT_SUPERSET(_name, _id, _sub_exts) \
+> +       _RISCV_ISA_EXT_DATA(_name, _id, _sub_exts, ARRAY_SIZE(_sub_exts))
 > +
-> +Core Functionality
-> +------------------
-> +The primary swiotlb APIs are swiotlb_tbl_map_single() and
-> +swiotlb_tbl_unmap_single(). The "map" API allocates a bounce buffer of a
-> +specified size in bytes and returns the physical address of the buffer. =
-The
-> +buffer memory is physically contiguous. The expectation is that the DMA =
-layer
-> +maps the physical memory address to a DMA address, and returns the DMA a=
-ddress
-> +to the driver for programming into the device. If a DMA operation specif=
-ies
-> +multiple memory buffer segments, a separate bounce buffer must be alloca=
-ted for
-> +each segment. swiotlb_tbl_map_single() always does a "sync" operation (i=
-.e., a
-> +CPU copy) to initialize the bounce buffer to match the contents of the o=
-riginal
-> +buffer.
+>  #if defined(CONFIG_RISCV_MISALIGNED)
+>  bool check_unaligned_access_emulated_all_cpus(void);
+>  void unaligned_emulation_finish(void);
+> diff --git a/arch/riscv/include/asm/vendor_extensions.h b/arch/riscv/incl=
+ude/asm/vendor_extensions.h
+> new file mode 100644
+> index 000000000000..0af1ddd0af70
+> --- /dev/null
+> +++ b/arch/riscv/include/asm/vendor_extensions.h
+> @@ -0,0 +1,26 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright 2024 Rivos, Inc
+> + */
 > +
-> +swiotlb_tbl_unmap_single() does the reverse. If the DMA operation might =
-have
-> +updated the bounce buffer memory and DMA_ATTR_SKIP_CPU_SYNC is not set, =
-the
-> +unmap does a "sync" operation to cause a CPU copy of the data from the b=
-ounce
-> +buffer back to the original buffer. Then the bounce buffer memory is fre=
-ed.
+> +#ifndef _ASM_VENDOR_EXTENSIONS_H
+> +#define _ASM_VENDOR_EXTENSIONS_H
 > +
-> +swiotlb also provides "sync" APIs that correspond to the dma_sync_*() AP=
-Is that
-> +a driver may use when control of a buffer transitions between the CPU an=
-d the
-> +device. The swiotlb "sync" APIs cause a CPU copy of the data between the
-> +original buffer and the bounce buffer. Like the dma_sync_*() APIs, the s=
-wiotlb
-> +"sync" APIs support doing a partial sync, where only a subset of the bou=
-nce
-> +buffer is copied to/from the original buffer.
+> +#include <asm/cpufeature.h>
 > +
-> +Core Functionality Constraints
-> +------------------------------
-> +The swiotlb map/unmap/sync APIs must operate without blocking, as they a=
-re
-> +called by the corresponding DMA APIs which may run in contexts that cann=
-ot
-> +block. Hence the default memory pool for swiotlb allocations must be
-> +pre-allocated at boot time (but see Dynamic swiotlb below). Because swio=
-tlb
-> +allocations must be physically contiguous, the entire default memory poo=
-l is
-> +allocated as a single contiguous block.
+> +#include <linux/array_size.h>
+> +#include <linux/types.h>
 > +
-> +The need to pre-allocate the default swiotlb pool creates a boot-time tr=
-adeoff.
-> +The pool should be large enough to ensure that bounce buffer requests can
-> +always be satisfied, as the non-blocking requirement means requests can'=
-t wait
-> +for space to become available. But a large pool potentially wastes memor=
-y, as
-> +this pre-allocated memory is not available for other uses in the system.=
- The
-> +tradeoff is particularly acute in CoCo VMs that use bounce buffers for a=
-ll DMA
-> +I/O. These VMs use a heuristic to set the default pool size to ~6% of me=
-mory,
-> +with a max of 1 GiB, which has the potential to be very wasteful of memo=
-ry.
-> +Conversely, the heuristic might produce a size that is insufficient, dep=
-ending
-> +on the I/O patterns of the workload in the VM. The dynamic swiotlb featu=
-re
-> +described below can help, but has limitations. Better management of the =
-swiotlb
-> +default memory pool size remains an open issue.
-> +
-> +A single allocation from swiotlb is limited to IO_TLB_SIZE * IO_TLB_SEGS=
-IZE
-> +bytes, which is 256 KiB with current definitions. When a device's DMA se=
-ttings
-> +are such that the device might use swiotlb, the maximum size of a DMA se=
-gment
-> +must be limited to that 256 KiB. This value is communicated to higher-le=
-vel
-> +kernel code via dma_map_mapping_size() and swiotlb_max_mapping_size(). I=
-f the
-> +higher-level code fails to account for this limit, it may make requests =
-that
-> +are too large for swiotlb, and get a "swiotlb full" error.
-> +
-> +A key device DMA setting is "min_align_mask", which is a power of 2 minu=
-s 1
-> +so that some number of low order bits are set, or it may be zero. swiotlb
-> +allocations ensure these min_align_mask bits of the physical address of =
-the
-> +bounce buffer match the same bits in the address of the original buffer.=
- When
-> +min_align_mask is non-zero, it may produce an "alignment offset" in the =
-address
-> +of the bounce buffer that slightly reduces the maximum size of an alloca=
-tion.
-> +This potential alignment offset is reflected in the value returned by
-> +swiotlb_max_mapping_size(), which can show up in places like
-> +/sys/block/<device>/queue/max_sectors_kb. For example, if a device does =
-not use
-> +swiotlb, max_sectors_kb might be 512 KiB or larger. If a device might use
-> +swiotlb, max_sectors_kb will be 256 KiB. When min_align_mask is non-zero,
-> +max_sectors_kb might be even smaller, such as 252 KiB.
-> +
-> +swiotlb_tbl_map_single() also takes an "alloc_align_mask" parameter. This
-> +parameter specifies the allocation of bounce buffer space must start at a
-> +physical address with the alloc_align_mask bits set to zero. But the act=
-ual
-> +bounce buffer might start at a larger address if min_align_mask is non-z=
-ero.
-> +Hence there may be pre-padding space that is allocated prior to the star=
-t of
-> +the bounce buffer. Similarly, the end of the bounce buffer is rounded up=
- to an
-> +alloc_align_mask boundary, potentially resulting in post-padding space. =
-Any
-> +pre-padding or post-padding space is not initialized by swiotlb code. The
-> +"alloc_align_mask" parameter is used by IOMMU code when mapping for untr=
-usted
-> +devices. It is set to the granule size - 1 so that the bounce buffer is
-> +allocated entirely from granules that are not used for any other purpose.
-> +
-> +Data structures concepts
-> +------------------------
-> +Memory used for swiotlb bounce buffers is allocated from overall system =
-memory
-> +as one or more "pools". The default pool is allocated during system boot=
- with a
-> +default size of 64 MiB. The default pool size may be modified with the
-> +"swiotlb=3D" kernel boot line parameter. The default size may also be ad=
-justed
-> +due to other conditions, such as running in a CoCo VM, as described abov=
-e. If
-> +CONFIG_SWIOTLB_DYNAMIC is enabled, additional pools may be allocated lat=
-er in
-> +the life of the system. Each pool must be a contiguous range of physical
-> +memory. The default pool is allocated below the 4 GiB physical address l=
-ine so
-> +it works for devices that can only address 32-bits of physical memory (u=
-nless
-> +architecture-specific code provides the SWIOTLB_ANY flag). In a CoCo VM,=
- the
-> +pool memory must be decrypted before swiotlb is used.
-> +
-> +Each pool is divided into "slots" of size IO_TLB_SIZE, which is 2 KiB wi=
-th
-> +current definitions. IO_TLB_SEGSIZE contiguous slots (128 slots) constit=
-ute
-> +what might be called a "slot set". When a bounce buffer is allocated, it
-> +occupies one or more contiguous slots. A slot is never shared by multiple
-> +bounce buffers. Furthermore, a bounce buffer must be allocated from a si=
-ngle
-> +slot set, which leads to the maximum bounce buffer size being IO_TLB_SIZ=
-E *
-> +IO_TLB_SEGSIZE. Multiple smaller bounce buffers may co-exist in a single=
- slot
-> +set if the alignment and size constraints can be met.
-> +
-> +Slots are also grouped into "areas", with the constraint that a slot set=
- exists
-> +entirely in a single area. Each area has its own spin lock that must be =
-held to
-> +manipulate the slots in that area. The division into areas avoids conten=
-ding
-> +for a single global spin lock when swiotlb is heavily used, such as in a=
- CoCo
-> +VM. The number of areas defaults to the number of CPUs in the system for
-> +maximum parallelism, but since an area can't be smaller than IO_TLB_SEGS=
-IZE
-> +slots, it might be necessary to assign multiple CPUs to the same area. T=
-he
-> +number of areas can also be set via the "swiotlb=3D" kernel boot paramet=
-er.
-> +
-> +When allocating a bounce buffer, if the area associated with the calling=
- CPU
-> +does not have enough free space, areas associated with other CPUs are tr=
-ied
-> +sequentially. For each area tried, the area's spin lock must be obtained=
- before
-> +trying an allocation, so contention may occur if swiotlb is relatively b=
-usy
-> +overall. But an allocation request does not fail unless all areas do not=
- have
-> +enough free space.
-> +
-> +IO_TLB_SIZE, IO_TLB_SEGSIZE, and the number of areas must all be powers =
-of 2 as
-> +the code uses shifting and bit masking to do many of the calculations. T=
-he
-> +number of areas is rounded up to a power of 2 if necessary to meet this
-> +requirement.
-> +
-> +The default pool is allocated with PAGE_SIZE alignment. If an alloc_alig=
-n_mask
-> +argument to swiotlb_tbl_map_single() specifies a larger alignment, one o=
-r more
-> +initial slots in each slot set might not meet the alloc_align_mask crite=
-rium.
-> +Because a bounce buffer allocation can't cross a slot set boundary, elim=
-inating
-> +those initial slots effectively reduces the max size of a bounce buffer.
-> +Currently, there's no problem because alloc_align_mask is set based on I=
-OMMU
-> +granule size, and granules cannot be larger than PAGE_SIZE. But if that =
-were to
-> +change in the future, the initial pool allocation might need to be done =
-with
-> +alignment larger than PAGE_SIZE.
-> +
-> +Dynamic swiotlb
-> +---------------
-> +When CONFIG_DYNAMIC_SWIOTLB is enabled, swiotlb can do on-demand expansi=
-on of
-> +the amount of memory available for allocation as bounce buffers. If a bo=
-unce
-> +buffer request fails due to lack of available space, an asynchronous bac=
-kground
-> +task is kicked off to allocate memory from general system memory and tur=
-n it
-> +into an swiotlb pool. Creating an additional pool must be done asynchron=
-ously
-> +because the memory allocation may block, and as noted above, swiotlb req=
-uests
-> +are not allowed to block. Once the background task is kicked off, the bo=
-unce
-> +buffer request creates a "transient pool" to avoid returning an "swiotlb=
- full"
-> +error. A transient pool has the size of the bounce buffer request, and is
-> +deleted when the bounce buffer is freed. Memory for this transient pool =
-comes
-> +from the general system memory atomic pool so that creation does not blo=
-ck.
-> +Creating a transient pool has relatively high cost, particularly in a Co=
-Co VM
-> +where the memory must be decrypted, so it is done only as a stopgap unti=
-l the
-> +background task can add another non-transient pool.
-> +
-> +Adding a dynamic pool has limitations. Like with the default pool, the m=
-emory
-> +must be physically contiguous, so the size is limited to MAX_PAGE_ORDER =
-pages
-> +(e.g., 4 MiB on a typical x86 system). Due to memory fragmentation, a ma=
-x size
-> +allocation may not be available. The dynamic pool allocator tries smalle=
-r sizes
-> +until it succeeds, but with a minimum size of 1 MiB. Given sufficient sy=
-stem
-> +memory fragmentation, dynamically adding a pool might not succeed at all.
-> +
-> +The number of areas in a dynamic pool may be different from the number o=
-f areas
-> +in the default pool. Because the new pool size is typically a few MiB at=
- most,
-> +the number of areas will likely be smaller. For example, with a new pool=
- size
-> +of 4 MiB and the 256 KiB minimum area size, only 16 areas can be created=
-. If
-> +the system has more than 16 CPUs, multiple CPUs must share an area, crea=
-ting
-> +more lock contention.
-> +
-> +New pools added via dynamic swiotlb are linked together in a linear list.
-> +swiotlb code frequently must search for the pool containing a particular
-> +swiotlb physical address, so that search is linear and not performant wi=
-th a
-> +large number of dynamic pools. The data structures could be improved for
-> +faster searches.
-> +
-> +Overall, dynamic swiotlb works best for small configurations with relati=
-vely
-> +few CPUs. It allows the default swiotlb pool to be smaller so that memor=
-y is
-> +not wasted, with dynamic pools making more space available if needed (as=
- long
-> +as fragmentation isn't an obstacle). It is less useful for large CoCo VM=
-s.
-> +
-> +Data Structure Details
-> +----------------------
-> +swiotlb is managed with four primary data structures: io_tlb_mem, io_tlb=
-_pool,
-> +io_tlb_area, and io_tlb_slot. io_tlb_mem describes a swiotlb memory allo=
-cator,
-> +which includes the default memory pool and any dynamic or transient pools
-> +linked to it. Limited statistics on swiotlb usage are kept per memory al=
-locator
-> +and are stored in this data structure. These statistics are available un=
-der
-> +/sys/kernel/debug/swiotlb when CONFIG_DEBUG_FS is set.
-> +
-> +io_tlb_pool describes a memory pool, either the default pool, a dynamic =
-pool,
-> +or a transient pool. The description includes the start and end addresse=
-s of
-> +the memory in the pool, a pointer to an array of io_tlb_area structures,=
- and a
-> +pointer to an array of io_tlb_slot structures that are associated with t=
-he pool.
-> +
-> +io_tlb_area describes an area. The primary field is the spin lock used to
-> +serialize access to slots in the area. The io_tlb_area array for a pool =
-has an
-> +entry for each area, and is accessed using a 0-based area index derived =
-from the
-> +calling processor ID. Areas exist solely to allow parallel access to swi=
-otlb
-> +from multiple CPUs.
-> +
-> +io_tlb_slot describes an individual memory slot in the pool, with size
-> +IO_TLB_SIZE (2 KiB currently). The io_tlb_slot array is indexed by the s=
-lot
-> +index computed from the bounce buffer address relative to the starting m=
-emory
-> +address of the pool. The size of struct io_tlb_slot is 24 bytes, so the
-> +overhead is about 1% of the slot size.
-> +
-> +The io_tlb_slot array is designed to meet several requirements. First, t=
-he DMA
-> +APIs and the corresponding swiotlb APIs use the bounce buffer address as=
- the
-> +identifier for a bounce buffer. This address is returned by
-> +swiotlb_tbl_map_single(), and then passed as an argument to
-> +swiotlb_tbl_unmap_single() and the swiotlb_sync_*() functions.  The orig=
-inal
-> +memory buffer address obviously must be passed as an argument to
-> +swiotlb_tbl_map_single(), but it is not passed to the other APIs. Conseq=
-uently,
-> +swiotlb data structures must save the original memory buffer address so =
-that it
-> +can be used when doing sync operations. This original address is saved i=
-n the
-> +io_tlb_slot array.
-> +
-> +Second, the io_tlb_slot array must handle partial sync requests. In such=
- cases,
-> +the argument to swiotlb_sync_*() is not the address of the start of the =
-bounce
-> +buffer but an address somewhere in the middle of the bounce buffer, and =
-the
-> +address of the start of the bounce buffer isn't known to swiotlb code. B=
-ut
-> +swiotlb code must be able to calculate the corresponding original memory=
- buffer
-> +address to do the CPU copy dictated by the "sync". So an adjusted origin=
-al
-> +memory buffer address is populated into the struct io_tlb_slot for each =
-slot
-> +occupied by the bounce buffer. An adjusted "alloc_size" of the bounce bu=
-ffer is
-> +also recorded in each struct io_tlb_slot so a sanity check can be perfor=
-med on
-> +the size of the "sync" operation. The "alloc_size" field is not used exc=
-ept for
-> +the sanity check.
-> +
-> +Third, the io_tlb_slot array is used to track available slots. The "list=
-" field
-> +in struct io_tlb_slot records how many contiguous available slots exist =
-starting
-> +at that slot. A "0" indicates that the slot is occupied. A value of "1"
-> +indicates only the current slot is available. A value of "2" indicates t=
-he
-> +current slot and the next slot are available, etc. The maximum value is
-> +IO_TLB_SEGSIZE, which can appear in the first slot in a slot set, and in=
-dicates
-> +that the entire slot set is available. These values are used when search=
-ing for
-> +available slots to use for a new bounce buffer. They are updated when al=
-locating
-> +a new bounce buffer and when freeing a bounce buffer. At pool creation t=
-ime, the
-> +"list" field is initialized to IO_TLB_SEGSIZE down to 1 for the slots in=
- every
-> +slot set.
-> +
-> +Fourth, the io_tlb_slot array keeps track of any "padding slots" allocat=
-ed to
-> +meet alloc_align_mask requirements described above. When
-> +swiotlb_tlb_map_single() allocates bounce buffer space to meet alloc_ali=
-gn_mask
-> +requirements, it may allocate pre-padding space across zero or more slot=
-s. But
-> +when swiotbl_tlb_unmap_single() is called with the bounce buffer address=
-, the
-> +alloc_align_mask value that governed the allocation, and therefore the
-> +allocation of any padding slots, is not known. The "pad_slots" field rec=
-ords
-> +the number of padding slots so that swiotlb_tbl_unmap_single() can free =
-them.
-> +The "pad_slots" value is recorded only in the first non-padding slot all=
-ocated
-> +to the bounce buffer.
-> +
-> +Restricted pools
-> +----------------
-> +The swiotlb machinery is also used for "restricted pools", which are poo=
-ls of
-> +memory separate from the default swiotlb pool, and that are dedicated fo=
-r DMA
-> +use by a particular device. Restricted pools provide a level of DMA memo=
-ry
-> +protection on systems with limited hardware protection capabilities, suc=
-h as
-> +those lacking an IOMMU. Such usage is specified by DeviceTree entries and
-> +requires that CONFIG_DMA_RESTRICTED_POOL is set. Each restricted pool is=
- based
-> +on its own io_tlb_mem data structure that is independent of the main swi=
-otlb
-> +io_tlb_mem.
-> +
-> +Restricted pools add swiotlb_alloc() and swiotlb_free() APIs, which are =
-called
-> +from the dma_alloc_*() and dma_free_*() APIs. The swiotlb_alloc/free() A=
-PIs
-> +allocate/free slots from/to the restricted pool directly and do not go t=
-hrough
-> +swiotlb_tbl_map/unmap_single().
+> +struct riscv_isa_vendor_ext_data_list {
+> +       const struct riscv_isa_ext_data *ext_data;
+> +       struct riscv_isainfo *per_hart_vendor_bitmap;
+> +       unsigned long *vendor_bitmap;
 
+It took a lot of digging for me to understand this was the set of
+vendor extensions supported on all harts. Can we add that to the name,
+maybe something like isa_bitmap_all_harts? (I wonder if we could drop
+the vendor part of the name since we already know we're in a
+vendor_ext_data_list structure).
+
+> +       const size_t ext_data_count;
+> +       const size_t bitmap_size;
+> +};
+> +
+> +extern const struct riscv_isa_vendor_ext_data_list *riscv_isa_vendor_ext=
+_list[];
+> +
+> +extern const size_t riscv_isa_vendor_ext_list_size;
+> +
+> +#endif /* _ASM_VENDOR_EXTENSIONS_H */
+> diff --git a/arch/riscv/include/asm/vendor_extensions/thead.h b/arch/risc=
+v/include/asm/vendor_extensions/thead.h
+> new file mode 100644
+> index 000000000000..92eec729888d
+> --- /dev/null
+> +++ b/arch/riscv/include/asm/vendor_extensions/thead.h
+> @@ -0,0 +1,19 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef _ASM_RISCV_VENDOR_EXTENSIONS_THEAD_H
+> +#define _ASM_RISCV_VENDOR_EXTENSIONS_THEAD_H
+> +
+> +#include <asm/vendor_extensions.h>
+> +
+> +#include <linux/types.h>
+> +
+> +#define RISCV_ISA_VENDOR_EXT_XTHEADVECTOR              0
+> +
+> +/*
+> + * Extension keys should be strictly less than max.
+> + * It is safe to increment this when necessary.
+> + */
+> +#define RISCV_ISA_VENDOR_EXT_MAX_THEAD                 32
+> +
+> +extern const struct riscv_isa_vendor_ext_data_list riscv_isa_vendor_ext_=
+list_thead;
+> +
+> +#endif
+> diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
+> index 81d94a8ee10f..53361c50fb46 100644
+> --- a/arch/riscv/kernel/Makefile
+> +++ b/arch/riscv/kernel/Makefile
+> @@ -58,6 +58,8 @@ obj-y +=3D riscv_ksyms.o
+>  obj-y  +=3D stacktrace.o
+>  obj-y  +=3D cacheinfo.o
+>  obj-y  +=3D patch.o
+> +obj-y  +=3D vendor_extensions.o
+> +obj-y  +=3D vendor_extensions/
+>  obj-y  +=3D probes/
+>  obj-y  +=3D tests/
+>  obj-$(CONFIG_MMU) +=3D vdso.o vdso/
+> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
+e.c
+> index 8158f34c3e36..c073494519eb 100644
+> --- a/arch/riscv/kernel/cpufeature.c
+> +++ b/arch/riscv/kernel/cpufeature.c
+> @@ -24,6 +24,7 @@
+>  #include <asm/processor.h>
+>  #include <asm/sbi.h>
+>  #include <asm/vector.h>
+> +#include <asm/vendor_extensions.h>
+>
+>  #define NUM_ALPHA_EXTS ('z' - 'a' + 1)
+>
+> @@ -102,24 +103,6 @@ static bool riscv_isa_extension_check(int id)
+>         return true;
+>  }
+>
+> -#define _RISCV_ISA_EXT_DATA(_name, _id, _subset_exts, _subset_exts_size)=
+ {     \
+> -       .name =3D #_name,                                                =
+         \
+> -       .property =3D #_name,                                            =
+         \
+> -       .id =3D _id,                                                     =
+         \
+> -       .subset_ext_ids =3D _subset_exts,                                =
+         \
+> -       .subset_ext_size =3D _subset_exts_size                           =
+         \
+> -}
+> -
+> -#define __RISCV_ISA_EXT_DATA(_name, _id) _RISCV_ISA_EXT_DATA(_name, _id,=
+ NULL, 0)
+> -
+> -/* Used to declare pure "lasso" extension (Zk for instance) */
+> -#define __RISCV_ISA_EXT_BUNDLE(_name, _bundled_exts) \
+> -       _RISCV_ISA_EXT_DATA(_name, RISCV_ISA_EXT_INVALID, _bundled_exts, =
+ARRAY_SIZE(_bundled_exts))
+> -
+> -/* Used to declare extensions that are a superset of other extensions (Z=
+vbb for instance) */
+> -#define __RISCV_ISA_EXT_SUPERSET(_name, _id, _sub_exts) \
+> -       _RISCV_ISA_EXT_DATA(_name, _id, _sub_exts, ARRAY_SIZE(_sub_exts))
+> -
+>  static const unsigned int riscv_zk_bundled_exts[] =3D {
+>         RISCV_ISA_EXT_ZBKB,
+>         RISCV_ISA_EXT_ZBKC,
+> @@ -353,6 +336,10 @@ static void __init riscv_parse_isa_string(unsigned l=
+ong *this_hwcap, struct risc
+>                 bool ext_long =3D false, ext_err =3D false;
+>
+>                 switch (*ext) {
+> +               case 'x':
+> +               case 'X':
+> +                       pr_warn_once("Vendor extensions are ignored in ri=
+scv,isa. Use riscv,isa-extensions instead.");
+> +                       continue;
+>                 case 's':
+>                         /*
+>                          * Workaround for invalid single-letter 's' & 'u'=
+ (QEMU).
+> @@ -368,8 +355,6 @@ static void __init riscv_parse_isa_string(unsigned lo=
+ng *this_hwcap, struct risc
+>                         }
+>                         fallthrough;
+>                 case 'S':
+> -               case 'x':
+> -               case 'X':
+>                 case 'z':
+>                 case 'Z':
+>                         /*
+> @@ -572,6 +557,54 @@ static void __init riscv_fill_hwcap_from_isa_string(=
+unsigned long *isa2hwcap)
+>                 acpi_put_table((struct acpi_table_header *)rhct);
+>  }
+>
+> +static void __init riscv_fill_cpu_vendor_ext(struct device_node *cpu_nod=
+e, int cpu)
+> +{
+> +       if (!IS_ENABLED(CONFIG_RISCV_ISA_VENDOR_EXT))
+> +               return;
+> +
+> +       for (int i =3D 0; i < riscv_isa_vendor_ext_list_size; i++) {
+> +               const struct riscv_isa_vendor_ext_data_list *ext_list =3D=
+ riscv_isa_vendor_ext_list[i];
+> +
+> +               for (int j =3D 0; j < ext_list->ext_data_count; j++) {
+> +                       const struct riscv_isa_ext_data ext =3D ext_list-=
+>ext_data[j];
+> +                       struct riscv_isainfo *isavendorinfo =3D &ext_list=
+->per_hart_vendor_bitmap[cpu];
+> +
+> +                       if (of_property_match_string(cpu_node, "riscv,isa=
+-extensions",
+> +                                                    ext.property) < 0)
+> +                               continue;
+> +
+> +                       /*
+> +                        * Assume that subset extensions are all members =
+of the
+> +                        * same vendor.
+> +                        */
+> +                       if (ext.subset_ext_size)
+> +                               for (int k =3D 0; k < ext.subset_ext_size=
+; k++)
+> +                                       set_bit(ext.subset_ext_ids[k], is=
+avendorinfo->isa);
+> +
+> +                       set_bit(ext.id, isavendorinfo->isa);
+> +               }
+
+This loop seems super similar to the regular one (in
+riscv_fill_hwcap_from_ext_list() in the random, possibly old, kernel I
+have open). Could we refactor these together into a common helper? The
+other loop has an extra stanza for riscv_isa_extension_check(), so
+we'd have to add an extra condition there, but otherwise it looks
+pretty compatible?
+
+> +       }
+> +}
+> +
+> +static void __init riscv_fill_vendor_ext_list(int cpu)
+> +{
+> +       if (!IS_ENABLED(CONFIG_RISCV_ISA_VENDOR_EXT))
+> +               return;
+> +
+> +       for (int i =3D 0; i < riscv_isa_vendor_ext_list_size; i++) {
+> +               const struct riscv_isa_vendor_ext_data_list *ext_list =3D=
+ riscv_isa_vendor_ext_list[i];
+> +
+> +               if (bitmap_empty(ext_list->vendor_bitmap, ext_list->bitma=
+p_size))
+> +                       bitmap_copy(ext_list->vendor_bitmap,
+> +                                   ext_list->per_hart_vendor_bitmap[cpu]=
+.isa,
+> +                                   ext_list->bitmap_size);
+
+Could you get into trouble here if the set of vendor extensions
+reduces to zero, and then becomes non-zero? To illustrate, consider
+these masks:
+cpu 0: 0x0000C000
+cpu 1: 0x00000003 <<< vendor_bitmap ANDs out to 0
+cpu 2: 0x00000010 <<< oops, we end up copying this into vendor_bitmap
+
+> +               else
+> +                       bitmap_and(ext_list->vendor_bitmap, ext_list->ven=
+dor_bitmap,
+> +                                  ext_list->per_hart_vendor_bitmap[cpu].=
+isa,
+> +                                  ext_list->bitmap_size);
+> +       }
+> +}
+> +
+>  static int __init riscv_fill_hwcap_from_ext_list(unsigned long *isa2hwca=
+p)
+>  {
+>         unsigned int cpu;
+> @@ -615,6 +648,8 @@ static int __init riscv_fill_hwcap_from_ext_list(unsi=
+gned long *isa2hwcap)
+>                         }
+>                 }
+>
+> +               riscv_fill_cpu_vendor_ext(cpu_node, cpu);
+> +
+>                 of_node_put(cpu_node);
+>
+>                 /*
+> @@ -630,6 +665,8 @@ static int __init riscv_fill_hwcap_from_ext_list(unsi=
+gned long *isa2hwcap)
+>                         bitmap_copy(riscv_isa, isainfo->isa, RISCV_ISA_EX=
+T_MAX);
+>                 else
+>                         bitmap_and(riscv_isa, riscv_isa, isainfo->isa, RI=
+SCV_ISA_EXT_MAX);
+> +
+> +               riscv_fill_vendor_ext_list(cpu);
+>         }
+>
+>         if (bitmap_empty(riscv_isa, RISCV_ISA_EXT_MAX))
+> diff --git a/arch/riscv/kernel/vendor_extensions.c b/arch/riscv/kernel/ve=
+ndor_extensions.c
+> new file mode 100644
+> index 000000000000..f76cb3013c2d
+> --- /dev/null
+> +++ b/arch/riscv/kernel/vendor_extensions.c
+> @@ -0,0 +1,18 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright 2024 Rivos, Inc
+> + */
+> +
+> +#include <asm/vendor_extensions.h>
+> +#include <asm/vendor_extensions/thead.h>
+> +
+> +#include <linux/array_size.h>
+> +#include <linux/types.h>
+> +
+> +const struct riscv_isa_vendor_ext_data_list *riscv_isa_vendor_ext_list[]=
+ =3D {
+> +#ifdef CONFIG_RISCV_ISA_VENDOR_EXT_THEAD
+> +       &riscv_isa_vendor_ext_list_thead,
+> +#endif
+> +};
+> +
+> +const size_t riscv_isa_vendor_ext_list_size =3D ARRAY_SIZE(riscv_isa_ven=
+dor_ext_list);
+> diff --git a/arch/riscv/kernel/vendor_extensions/Makefile b/arch/riscv/ke=
+rnel/vendor_extensions/Makefile
+> new file mode 100644
+> index 000000000000..3383066baaab
+> --- /dev/null
+> +++ b/arch/riscv/kernel/vendor_extensions/Makefile
+> @@ -0,0 +1,3 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +
+> +obj-$(CONFIG_RISCV_ISA_VENDOR_EXT_THEAD)       +=3D thead.o
+> diff --git a/arch/riscv/kernel/vendor_extensions/thead.c b/arch/riscv/ker=
+nel/vendor_extensions/thead.c
+> new file mode 100644
+> index 000000000000..edb20b928c0c
+> --- /dev/null
+> +++ b/arch/riscv/kernel/vendor_extensions/thead.c
+> @@ -0,0 +1,36 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +
+> +#include <asm/cpufeature.h>
+> +#include <asm/vendor_extensions.h>
+> +#include <asm/vendor_extensions/thead.h>
+> +
+> +#include <linux/array_size.h>
+> +#include <linux/types.h>
+> +
+> +/* All T-Head vendor extensions supported in Linux */
+> +const struct riscv_isa_ext_data riscv_isa_vendor_ext_thead[] =3D {
+> +       __RISCV_ISA_EXT_DATA(xtheadvector, RISCV_ISA_VENDOR_EXT_XTHEADVEC=
+TOR),
+> +};
+> +
+> +/*
+> + * The first member of this struct must be a bitmap named isa so it can =
+be
+> + * compatible with riscv_isainfo even though the sizes of the bitmaps ma=
+y be
+> + * different.
+This is kinda yucky, as you're casting a bitmap of a different size
+into a struct riscv_isainfo *, which has a known size. I don't
+necessarily have a fabulous suggestion to fix though. The best I can
+come up with is refactor struct riscv_isainfo to be:
+struct riscv_isainfo {
+    int count;
+    unsigned long isa[0];
+};
+
+then declare a standard one (for hart_isa, which is statically allocated):
+struct riscv_std_isainfo {
+    int count;
+    DECLARE_BITMAP(isa, RISCV_ISA_EXT_MAX);
+}
+
+and a thead one
+struct riscv_thead_isainfo {
+    int count;
+    DECLARE_BITMAP(isa, RISCV_ISA_VENDOR_EXT_MAX_THEAD);
+}
+
+But there's still a cast in there, as you'd cast the specialized
+structs to struct riscv_isainfo *. But at least the size is in there
+to be enforced at runtime, rather than a compile-time check that's
+wrong.  So I'll just leave this half baked thought here, and maybe you
+can think of a cleaner way, or ignore it :).
+
+
+> + */
+> +struct riscv_isavendorinfo_thead {
+> +       DECLARE_BITMAP(isa, RISCV_ISA_VENDOR_EXT_MAX_THEAD);
+> +};
+> +
+> +/* Hart specific T-Head vendor extension support */
+> +static struct riscv_isavendorinfo_thead hart_vendorinfo_thead[NR_CPUS];
+> +
+> +/* Set of T-Head vendor extensions supported on all harts */
+> +DECLARE_BITMAP(vendorinfo_thead, RISCV_ISA_VENDOR_EXT_MAX_THEAD);
+> +
+> +const struct riscv_isa_vendor_ext_data_list riscv_isa_vendor_ext_list_th=
+ead =3D {
+> +       .ext_data =3D riscv_isa_vendor_ext_thead,
+> +       .per_hart_vendor_bitmap =3D (struct riscv_isainfo *)hart_vendorin=
+fo_thead,
+> +       .vendor_bitmap =3D vendorinfo_thead,
+> +       .ext_data_count =3D ARRAY_SIZE(riscv_isa_vendor_ext_thead),
+> +       .bitmap_size =3D RISCV_ISA_VENDOR_EXT_MAX_THEAD
+> +};
+>
+> --
+> 2.44.0
+>
