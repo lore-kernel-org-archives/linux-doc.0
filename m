@@ -1,107 +1,139 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2903112DDBC;
-	Wed,  1 May 2024 13:43:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC09212C490;
+	Wed,  1 May 2024 13:59:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714571007; cv=none; b=ufGCfTmVpEyy0mWLo8QdGtkBrLJ9fJyk1bkg9YrKqyh265I50nFBdlEkZo58cIaeHi2pQ9WNHOFv565GZrFzzYH4ZB0U5duO7haQj1SzAeUdYjxiRMNmuDOI7wgQzNC3JIV+vKs7bQWHQbQ7u6EhaKSqSXY7Kb4SiNg0CDqB2P0=
+	t=1714571957; cv=none; b=J3nv4JNhCH3zr/s7JdeCsI2Z5LuWf1arbxDg7Qyw7WRs8NW/s+Ms+ZHv1rgylDWWOPIEg7X1kQ0Ich2HQzQ+nboY35WZXfcQc7sKgsxTfa8x/5sXx2f+pVpQnKr9XRTaacybTZNig9nm+QFiRTEg5LGAeJjQFINFafgtD1bON2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714571007; c=relaxed/simple;
-	bh=T3xXGNja0aLmlP+yhOtmezggporaiAuZ867fVt1ccOQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=FGFWM0mel5kg1ya+zuIb7T4I68uMzfl37mmqSjkMxZSUg8VX1ZGW131wun3ZizSYspWqJehNw8KzYWQji/HWzMOpkwcQn5577m8NhnKWqqTOI2GbmApeK9OkUq9gmvd5mwHuqYjXbTgVO5FB6jMvc4g6WZY273eKTtq//rs0CoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t4yMwhv4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714571957; c=relaxed/simple;
+	bh=Fi4PvMRZrF9DXNpSOwwia/BblzTiRO6iyf1z/eVq1XU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NbchjvG3iRoD7tZsVbSHBC2VDA1pFY2cj3SWAp5gw7+QlIJJAkkhCxOyXperwsUU5+WmLLsJDxONdC8ykFbY6y9qB9qCS+FG6ugqs8QH6pC8ieafJ/cFNzvbEp2j2Hhzi3kO26lzjrgh3dVTN/naxrWwGNw4DCa+GCEq30m/AXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sCbrUaES; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t4yMwhv4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5715C113CC;
-	Wed,  1 May 2024 13:43:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sCbrUaES"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B3C7C072AA;
+	Wed,  1 May 2024 13:59:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714571006;
-	bh=T3xXGNja0aLmlP+yhOtmezggporaiAuZ867fVt1ccOQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=t4yMwhv4ynlUnwArcfoOt27yM6QoX0mMnbw9+3YcPGams2ObPiIrjnLiiLgnPiFQG
-	 BAecQ3al97jvjN5ZcVYk7AAR2NTzUZ2FeueHExJnH3l88FFPrKzmAfAlF9GQ4J+3sj
-	 9EMy+JlHuqx4F24Q2mk5jGOX1Lr+XV97nGtawc0tH5WSOU7bs3XRuaoF7hDriVgYwD
-	 m1OR+p/3x/BMnWLSJV8BVOFUaTqgGe76/GsCMl7blpbJkLKrD7FIDl1YtzYZPtvGp8
-	 QU/F1IxBYjj3WVLN2yQjBriDBzPjdF8IebsQT/GF7ke/vsd4leDEbtkZ8uraLNsoVF
-	 p7RGjuhzxu70Q==
-From: Mark Brown <broonie@kernel.org>
-To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Bagas Sanjaya <bagasdotme@gmail.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- linux-sound@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20240426-dapm-docs-v2-0-87b07547eb5b@bootlin.com>
-References: <20240426-dapm-docs-v2-0-87b07547eb5b@bootlin.com>
-Subject: Re: (subset) [PATCH v2 00/12] ASoC: doc: dapm: various
- improvements
-Message-Id: <171457100410.1888704.9831804306512477494.b4-ty@kernel.org>
-Date: Wed, 01 May 2024 22:43:24 +0900
+	s=k20201202; t=1714571956;
+	bh=Fi4PvMRZrF9DXNpSOwwia/BblzTiRO6iyf1z/eVq1XU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=sCbrUaESax+zNwmTNdY7otL0UFOQLPT1tCLvxhS1E2UCWFKHW4CFOG8eHXGAPEzYV
+	 K59HSeGnESqWuVyypeDsfjxCGIwlrkTiIB8RtlSIeODJISpG+bjrjqgUZTNnVYoXFo
+	 0nAjOD3kay/wsGxmwOPaAc5VD0eUhuiBlauj3Z2WQisvO7reiDxOn7qiXguQyswbXz
+	 eGzZQLUgdh76hRrtTEFJVQdEHnMA2UjgtwHVl2z9L4Tsb3ZTSE/wBE57PdTiTs8Ocp
+	 FhNUI+PSuIOyAwwjpVUsbAi1uNR+QWMI+7HqtFjSwPStPFYwbkZKYGKHcbZk0YZOQW
+	 CZlqUKG4oenXA==
+Message-ID: <779b9542-4170-483a-af54-ca0dd471f774@kernel.org>
+Date: Wed, 1 May 2024 15:58:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH net-next v8 07/14] page_pool: devmem support
+To: Jens Axboe <axboe@kernel.dk>, Mina Almasry <almasrymina@google.com>
+Cc: David Wei <dw@davidwei.uk>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Amritha Nambiar <amritha.nambiar@intel.com>,
+ Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+ Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+ Kaiyuan Zhang <kaiyuanz@google.com>, Christian Brauner <brauner@kernel.org>,
+ Simon Horman <horms@kernel.org>, David Howells <dhowells@redhat.com>,
+ Florian Westphal <fw@strlen.de>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Kuniyuki Iwashima <kuniyu@amazon.com>,
+ Arseniy Krasnov <avkrasnov@salutedevices.com>,
+ Aleksander Lobakin <aleksander.lobakin@intel.com>,
+ Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Lorenzo Bianconi <lorenzo@kernel.org>,
+ Richard Gobert <richardbgobert@gmail.com>,
+ Sridhar Samudrala <sridhar.samudrala@intel.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ Johannes Berg <johannes.berg@intel.com>, Abel Wu <wuyun.abel@bytedance.com>,
+ Breno Leitao <leitao@debian.org>, Pavel Begunkov <asml.silence@gmail.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ linux-mm@kvack.org, Matthew Wilcox <willy@infradead.org>
+References: <20240403002053.2376017-1-almasrymina@google.com>
+ <20240403002053.2376017-8-almasrymina@google.com>
+ <8357256a-f0e9-4640-8fec-23341fc607db@davidwei.uk>
+ <CAHS8izPeYryoLdCAQdGQU-wn7YVdtuofVKNvRFjFjhqTDsT7zA@mail.gmail.com>
+ <aafbbf09-a33d-4e73-99c8-9ddab5910657@kernel.dk>
+ <CAHS8izMKLYATo6g3xkj_thFo3whCfq6LSoex5s0m5XZd-U7SVQ@mail.gmail.com>
+ <11f52113-7b67-4b45-ba1d-29b070050cec@kernel.dk>
+Content-Language: en-US
+From: Jesper Dangaard Brouer <hawk@kernel.org>
+In-Reply-To: <11f52113-7b67-4b45-ba1d-29b070050cec@kernel.dk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14-dev
 
-On Fri, 26 Apr 2024 18:56:33 +0200, Luca Ceresoli wrote:
-> This series applies various improvements to the DAPM documentation: a
-> rewrite of a few sections for clarity, style improvements and typo fixes.
-> 
-> 
 
-Applied to
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+On 30/04/2024 20.55, Jens Axboe wrote:
+> On 4/30/24 12:29 PM, Mina Almasry wrote:
+>> On Tue, Apr 30, 2024 at 6:46?AM Jens Axboe<axboe@kernel.dk>  wrote:
+[...]
+>>> In general, attempting to hide overhead behind config options is always
+>>> a losing proposition. It merely serves to say "look, if these things
+>>> aren't enabled, the overhead isn't there", while distros blindly enable
+>>> pretty much everything and then you're back where you started.
+>>>
+>> The history there is that this check adds 1 cycle regression to the
+>> page_pool fast path benchmark. The regression last I measured is 8->9
+>> cycles, so in % wise it's a quite significant 12.5% (more details in
+>> the cover letter[1]). I doubt I can do much better than that to be
+>> honest.
+>
+> I'm all for cycle counting, and do it myself too, but is that even
+> measurable in anything that isn't a super targeted microbenchmark? Or
+> even in that?
 
-Thanks!
+The reason for page_pool fast path being critical is that it is used for 
+the XDP_DROP use-case.
+E.g on Mellanox mlx5 driver we see 24 Mpps XDP_DROP, which is approx 42 
+nanosec per packet. Adding 9 nanosec will reduce this to 19.6 Mpps.
 
-[01/12] ASoC: doc: dapm: fix typos
-        commit: 534e0cd89baf74c22ca55b442fb4add8d844e272
-[02/12] ASoC: doc: dapm: fix struct name
-        commit: eaf84bda623e0a034fe03b871addf7dc4f70dfff
-[03/12] ASoC: doc: dapm: minor rewording
-        commit: 610277caa77f07997857ab2e31a073d8ad7ed090
-[04/12] ASoC: doc: dapm: remove dash after colon
-        commit: 3233a68fcb216a2d8615862841c1fca7a940fc5c
-[06/12] ASoC: doc: dapm: replace "map" with "graph"
-        commit: 7d0e76107894377a14f211c85a821a53416d5ab2
-[07/12] ASoC: doc: dapm: extend initial descrption
-        commit: dd5f36e59134654f9fd7b39d4d66327a1a2db82d
-[08/12] ASoC: doc: dapm: describe how widgets and routes are registered
-        commit: 36de8c0e26793beeda1d6a7592f44b4551271469
-[09/12] ASoC: doc: dapm: fix and improve section "Registering DAPM controls"
-        commit: d40e82194423c9d058bdeff863373b7da9f7045b
-[10/12] ASoC: doc: dapm: improve section "Codec/DSP Widget Interconnections"
-        commit: 057acfb460d6792c7d3ec088f57c411fb0e4d395
-[11/12] ASoC: doc: dapm: update section "DAPM Widget Events"
-        commit: ce5a4f101cd0dfbda391d4f1815222d82a9d8a5a
-[12/12] ASoC: doc: dapm: update event types
-        commit: 4155a82f6af8068473cd66b55da56fd379835fb0
+   1/(42+9)*10^9 = 19607843
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+--Jesper
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+p.s. Upstreaming my PP microbenchmark[1] is still at the bottom of my 
+todo-list.
+  [1] 
+https://github.com/netoptimizer/prototype-kernel/blob/master/kernel/lib/bench_page_pool_simple.c
