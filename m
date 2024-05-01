@@ -1,168 +1,213 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE5A3646;
-	Wed,  1 May 2024 00:33:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2EF612B71;
+	Wed,  1 May 2024 02:37:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714523619; cv=none; b=aR7QeBWL7TTQMBbON2pSxyjcnayHwBkWYNyrzSrYKmBecl199+Gzpv4e7XjXflNPRMOh5uLO0yepB/SZtcR0Zp1ybL7KGsvETQG/F1+pvrO9+LTiV0VxlThFHDHhrVqKZjDG+LhahiNMxNDxfX4K641/MReiKOMEz0llvtKc/nY=
+	t=1714531031; cv=none; b=qSRMbLbgXOL028sfu8xP9upYlkATlEoFYxDGzerN+RBJ+7EhX8ix10cwbCBZElXReJORJ5XqXBRxIp4NP5mGFDSmuzGdVD7jP3JjvObsHB0afVpC/fovKcR3uS3wb5Mlv2bYga7dxz/v23Qzx+mxPvRacBj9CXAO/XFC1L0zPYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714523619; c=relaxed/simple;
-	bh=3GxgYzbam8HgNyK+VdtYgp46UreAUNvtQ0s3h2WWRpU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=kwusV+vIE7JcjYgm3CUKJwJRdOPAG4tHbXLOlgZZ7rXt2J58kI4k039jZsGjgGkCEvVex/zF4C0Ukyb7axrkMKxbXRIEE49cG9dXtHIkimU19pIwSIrKR9G2pW09B4fL6PacPr2e5jxOc7zuIz96NuF5itzyFEoBSM8Qt6AMYC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=D0fGt0cW; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1714531031; c=relaxed/simple;
+	bh=y8xLAXNr+/UtvDDmPpBQLJYvsR7p4WubKvcI9fxnIfI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NmLiujCLsbjx1HzdidE6TqeqimcWWXjQ1jhcX5gYPDsW/TVtU2qmW4yVgRaRv1RYZgnweWKBulFOVNFNJxga/Ojk9AKO8mL2x2dF8LVmu9jFlGda3BkAwAI6ZWyUSyf60dWEWB1dmxoBKOe7nrfyrsyLluBCBqgeTxcXpNo6Clg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S9M4Leat; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="D0fGt0cW"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 43UNxo8v005742;
-	Wed, 1 May 2024 00:32:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=LRnPNBK8fB5m3Wd6M+Ba4l+Ai4vlC8s1ZRRcL3qyiV8=; b=D0
-	fGt0cWBkZIPWOJq1/d0Q52iDWMscdVnrML7zq7Mbq2eSO79vTDbgEhppVdmaZYB9
-	W07e1ZyXYOAC1U9O8EZLDsYzZ/bpdB97r9bWIItYRofzjyHE/VY7+6V/JdLo6Fcx
-	qY6g+5mkCVUTLisci98ZNdXtuwDMVR/rULDTu38jVUqwYaFijmmKAWZOdbSUYj+A
-	pYi+sHTXkQW6eM6eGzbhl6MQ8jRsvz3fHaUHJahsaQ7ouVkBfc/FbF1I3Vi+BM9X
-	h/s/nmOZbCRG4RGgMyTr+0iRCMdVjCr8fjnAXGop8Z5xU3QP8wIKGtaT/Ukm7qVz
-	v/FZnk2+9pAbCBnH4CrA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3xtw1hj6qf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 01 May 2024 00:32:27 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 4410WQEC025873
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 1 May 2024 00:32:26 GMT
-Received: from [10.110.61.50] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 30 Apr
- 2024 17:32:25 -0700
-Message-ID: <a1115d39-b60e-a5da-5c7e-79266d6ced17@quicinc.com>
-Date: Tue, 30 Apr 2024 17:32:24 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S9M4Leat"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714531029; x=1746067029;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=y8xLAXNr+/UtvDDmPpBQLJYvsR7p4WubKvcI9fxnIfI=;
+  b=S9M4Leat2R7QqYh5pG2QRL0fvKA/Wf4XwxTQzjMVl4cypoVHcAjwxDG8
+   FG2akOUxtXI+E3KT+MkiK3O5oR/Hapt2ioIOhbIWbOQcvvSq7wuukhrKu
+   aEvvl6qvhFBTYzyCVJX2j/c6CY7y5pejD5QaRtG4QehMAzYOnLOEd2UaR
+   FaLpt6b/U4dOWgfloh//HGcz7yR70kOFp7ODtXURMnJAUH1GC7ULJc64O
+   a3UUQsElJtFXZUCV7nOxGAHOzn+MwiJDPcHuRZ0Bb/uooTSrZsNjUrDQ5
+   J+7Ow1gEkRdPyNh6HbgZH3hzZPeBZ7IjI2rEh0KKFnfDs8/BOPdWBgoo4
+   A==;
+X-CSE-ConnectionGUID: gRdvClOhQ7qjFPf6BiwZ0w==
+X-CSE-MsgGUID: 0pS1k+UZRna6fK8m7NeVIA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11060"; a="21667446"
+X-IronPort-AV: E=Sophos;i="6.07,244,1708416000"; 
+   d="scan'208";a="21667446"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2024 19:37:08 -0700
+X-CSE-ConnectionGUID: snhREbvBShugyaqUCOG16g==
+X-CSE-MsgGUID: dSeqwmzwQSWWNDOuad4Y2g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,244,1708416000"; 
+   d="scan'208";a="31132294"
+Received: from lkp-server01.sh.intel.com (HELO e434dd42e5a1) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 30 Apr 2024 19:37:02 -0700
+Received: from kbuild by e434dd42e5a1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s1zq8-0008lj-0u;
+	Wed, 01 May 2024 02:37:00 +0000
+Date: Wed, 1 May 2024 10:36:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Heng Qi <hengqi@linux.alibaba.com>, netdev@vger.kernel.org,
+	virtualization@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
+	Jason Wang <jasowang@redhat.com>,
+	"Michael S . Tsirkin" <mst@redhat.com>,
+	Brett Creeley <bcreeley@amd.com>,
+	Ratheesh Kannoth <rkannoth@marvell.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Tal Gilboa <talgi@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Paul Greenwalt <paul.greenwalt@intel.com>,
+	Ahmed Zaki <ahmed.zaki@intel.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	Andrew Lunn <andrew@lunn.ch>, justinstitt@google.com
+Subject: Re: [PATCH net-next v11 2/4] ethtool: provide customized dim profile
+ management
+Message-ID: <202405011004.Rkw6IrSl-lkp@intel.com>
+References: <20240430173136.15807-3-hengqi@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v20 33/41] ASoC: usb: Create SOC USB SND jack kcontrol
-Content-Language: en-US
-To: =?UTF-8?Q?Amadeusz_S=c5=82awi=c5=84ski?=
-	<amadeuszx.slawinski@linux.intel.com>,
-        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <lgirdwood@gmail.com>, <andersson@kernel.org>,
-        <krzysztof.kozlowski+dt@linaro.org>, <gregkh@linuxfoundation.org>,
-        <Thinh.Nguyen@synopsys.com>, <broonie@kernel.org>,
-        <bgoswami@quicinc.com>, <tiwai@suse.com>, <robh@kernel.org>,
-        <konrad.dybcio@linaro.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>
-References: <20240425215125.29761-1-quic_wcheng@quicinc.com>
- <20240425215125.29761-34-quic_wcheng@quicinc.com>
- <c8bd16e8-b204-471b-a702-36e14c8695c5@linux.intel.com>
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <c8bd16e8-b204-471b-a702-36e14c8695c5@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: ciB1uOnPTSzQscrGnEx8GYc3pFB6UvC6
-X-Proofpoint-ORIG-GUID: ciB1uOnPTSzQscrGnEx8GYc3pFB6UvC6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-04-30_16,2024-04-30_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
- mlxlogscore=877 clxscore=1015 bulkscore=0 impostorscore=0 malwarescore=0
- suspectscore=0 spamscore=0 adultscore=0 priorityscore=1501
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2404010003 definitions=main-2405010002
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240430173136.15807-3-hengqi@linux.alibaba.com>
 
-Hi Amadeusz,
+Hi Heng,
 
-On 4/26/2024 6:26 AM, Amadeusz Sławiński wrote:
-> On 4/25/2024 11:51 PM, Wesley Cheng wrote:
->> Expose API for creation of a jack control for notifying of available
->> devices that are plugged in/discovered, and that support offloading.  
->> This
->> allows for control names to be standardized across implementations of USB
->> audio offloading.
->>
->> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
->> ---
-> 
-> (...)
-> 
->>   /* SOC USB sound kcontrols */
->> +/**
->> + * snd_soc_usb_setup_offload_jack() - Create USB offloading jack
->> + * @component: USB DPCM backend DAI component
->> + * @jack: jack structure to create
->> + *
->> + * Creates a jack device for notifying userspace of the availability
->> + * of an offload capable device.
->> + *
->> + * Returns 0 on success, negative on error.
->> + *
->> + */
->> +int snd_soc_usb_setup_offload_jack(struct snd_soc_component *component,
->> +                    struct snd_soc_jack *jack)
->> +{
->> +    int ret;
->> +
->> +    ret = snd_soc_card_jack_new(component->card, "USB Offload 
->> Playback Jack",
->> +                    SND_JACK_HEADPHONE, jack);
->> +    if (ret < 0) {
->> +        dev_err(component->card->dev, "Unable to add USB offload 
->> jack\n");
->> +        return ret;
->> +    }
->> +
->> +    ret = snd_soc_component_set_jack(component, jack, NULL);
->> +    if (ret) {
->> +        dev_warn(component->card->dev, "Failed to set jack: %d\n", ret);
->> +        return ret;
->> +    }
->> +
->> +    return 0;
->> +}
->> +EXPORT_SYMBOL_GPL(snd_soc_usb_setup_offload_jack);
->> +
->>   static int snd_soc_usb_get_offload_card_status(struct snd_kcontrol 
->> *kcontrol,
->>                      struct snd_ctl_elem_value *ucontrol)
->>   {
->>
-> 
-> I'm not sure if this should be handled in generic USB API, this feels 
-> like something that should be handled in specific device driver side, 
-> like all users currently do.
-> 
+kernel test robot noticed the following build warnings:
 
-In some of the previous comments, it was mentioned that maybe it was 
-better to have more consistent/defined naming across devices that do 
-have support for audio offload.  Initially, I did have these within our 
-vendor specific ASoC platform driver also.
+[auto build test WARNING on net-next/main]
 
-> Anyway I think there should also be some function that tears jack down, 
-> by calling:
-> snd_soc_component_set_jack(component, NULL, NULL);
-> so it can get cleaned up properly?
+url:    https://github.com/intel-lab-lkp/linux/commits/Heng-Qi/linux-dim-move-useful-macros-to-h-file/20240501-013413
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240430173136.15807-3-hengqi%40linux.alibaba.com
+patch subject: [PATCH net-next v11 2/4] ethtool: provide customized dim profile management
+config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20240501/202405011004.Rkw6IrSl-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240501/202405011004.Rkw6IrSl-lkp@intel.com/reproduce)
 
-I can add that.  I didn't realize there were some situations where maybe 
-components would want to disable the jack.  I will leave the cleanup 
-part to ASoC when the platform card is removed.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405011004.Rkw6IrSl-lkp@intel.com/
 
-Thanks
-Wesley Cheng
+All warnings (new ones prefixed by >>):
+
+   net/ethtool/coalesce.c: In function 'ethnl_update_profile':
+   net/ethtool/coalesce.c:453:46: error: 'struct net_device' has no member named 'irq_moder'
+     453 |         struct dim_irq_moder *irq_moder = dev->irq_moder;
+         |                                              ^~
+   net/ethtool/coalesce.c: At top level:
+>> net/ethtool/coalesce.c:446:12: warning: 'ethnl_update_profile' defined but not used [-Wunused-function]
+     446 | static int ethnl_update_profile(struct net_device *dev,
+         |            ^~~~~~~~~~~~~~~~~~~~
+>> net/ethtool/coalesce.c:151:12: warning: 'coalesce_put_profile' defined but not used [-Wunused-function]
+     151 | static int coalesce_put_profile(struct sk_buff *skb, u16 attr_type,
+         |            ^~~~~~~~~~~~~~~~~~~~
+
+
+vim +/ethnl_update_profile +446 net/ethtool/coalesce.c
+
+   424	
+   425	/**
+   426	 * ethnl_update_profile - get a profile nest with child nests from userspace.
+   427	 * @dev: netdevice to update the profile
+   428	 * @dst: profile get from the driver and modified by ethnl_update_profile.
+   429	 * @nests: nest attr ETHTOOL_A_COALESCE_*X_PROFILE to set profile.
+   430	 * @extack: Netlink extended ack
+   431	 *
+   432	 * Layout of nests:
+   433	 *   Nested ETHTOOL_A_COALESCE_*X_PROFILE attr
+   434	 *     Nested ETHTOOL_A_PROFILE_IRQ_MODERATION attr
+   435	 *       ETHTOOL_A_IRQ_MODERATION_USEC attr
+   436	 *       ETHTOOL_A_IRQ_MODERATION_PKTS attr
+   437	 *       ETHTOOL_A_IRQ_MODERATION_COMPS attr
+   438	 *     ...
+   439	 *     Nested ETHTOOL_A_PROFILE_IRQ_MODERATION attr
+   440	 *       ETHTOOL_A_IRQ_MODERATION_USEC attr
+   441	 *       ETHTOOL_A_IRQ_MODERATION_PKTS attr
+   442	 *       ETHTOOL_A_IRQ_MODERATION_COMPS attr
+   443	 *
+   444	 * Return: 0 on success or a negative error code.
+   445	 */
+ > 446	static int ethnl_update_profile(struct net_device *dev,
+   447					struct dim_cq_moder __rcu **dst,
+   448					const struct nlattr *nests,
+   449					struct netlink_ext_ack *extack)
+   450	{
+   451		int len_irq_moder = ARRAY_SIZE(coalesce_irq_moderation_policy);
+   452		struct nlattr *tb[ARRAY_SIZE(coalesce_irq_moderation_policy)];
+ > 453		struct dim_irq_moder *irq_moder = dev->irq_moder;
+   454		struct dim_cq_moder *new_profile, *old_profile;
+   455		int ret, rem, i = 0, len;
+   456		struct nlattr *nest;
+   457	
+   458		if (!nests)
+   459			return 0;
+   460	
+   461		if (!*dst)
+   462			return -EOPNOTSUPP;
+   463	
+   464		old_profile = rtnl_dereference(*dst);
+   465		len = NET_DIM_PARAMS_NUM_PROFILES * sizeof(*old_profile);
+   466		new_profile = kmemdup(old_profile, len, GFP_KERNEL);
+   467		if (!new_profile)
+   468			return -ENOMEM;
+   469	
+   470		nla_for_each_nested_type(nest, ETHTOOL_A_PROFILE_IRQ_MODERATION,
+   471					 nests, rem) {
+   472			ret = nla_parse_nested(tb, len_irq_moder - 1, nest,
+   473					       coalesce_irq_moderation_policy,
+   474					       extack);
+   475			if (ret)
+   476				goto err_out;
+   477	
+   478			ret = ethnl_update_irq_moder(irq_moder, &new_profile[i].usec,
+   479						     ETHTOOL_A_IRQ_MODERATION_USEC,
+   480						     tb, DIM_COALESCE_USEC,
+   481						     extack);
+   482			if (ret)
+   483				goto err_out;
+   484	
+   485			ret = ethnl_update_irq_moder(irq_moder, &new_profile[i].pkts,
+   486						     ETHTOOL_A_IRQ_MODERATION_PKTS,
+   487						     tb, DIM_COALESCE_PKTS,
+   488						     extack);
+   489			if (ret)
+   490				goto err_out;
+   491	
+   492			ret = ethnl_update_irq_moder(irq_moder, &new_profile[i].comps,
+   493						     ETHTOOL_A_IRQ_MODERATION_COMPS,
+   494						     tb, DIM_COALESCE_COMPS,
+   495						     extack);
+   496			if (ret)
+   497				goto err_out;
+   498	
+   499			i++;
+   500		}
+   501	
+   502		rcu_assign_pointer(*dst, new_profile);
+   503		kfree_rcu(old_profile, rcu);
+   504	
+   505		return 0;
+   506	
+   507	err_out:
+   508		kfree(new_profile);
+   509		return ret;
+   510	}
+   511	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
