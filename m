@@ -1,107 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A9E1758D;
-	Wed,  1 May 2024 11:40:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED34583A0B
+	for <linux-doc@vger.kernel.org>; Wed,  1 May 2024 12:02:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714563645; cv=none; b=JqPe2XeeRF9CbcH64RmW2+g84LRJnsBbbVgXY2OIUvCjfvpS5cbtGGeULs0At+njahcwu+mekpKzW2YAUVkn0yo2nNAYrWHL+aDNBmy+yd41qIIynFYSbIgAmacJoPZQ6jDUxdgim35QIcwo7XRH6JTtCTFJ5Q23aE61uvSNsiw=
+	t=1714564930; cv=none; b=cvSUZImtgTtj2gX06TZCKDaIHcLElNKvTNnMSflC5FOVM1jQSJADRBkUJQuiWUkx9bxmm0I4Jx/pjwtupkWA846NI+Bjl08TYjPzCiJfcHQPMciBavBgO+YjThF0bADC9ZYlKDXnFIHVLzZWU89wjDU73jsTzoeapmP6EIjqALs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714563645; c=relaxed/simple;
-	bh=wjSpgVBA1AYrZcgC5XCgSh0SYSTObA/R2PwB5ny4N2w=;
+	s=arc-20240116; t=1714564930; c=relaxed/simple;
+	bh=kPqVO4gkmQec2j/rZpF8HaGgeJQsy8uBuIEkqskjQSg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jPUo0vlq1bRygDAvNp7OANUViRtR4QCcgjTiZtZWu+wcsBj1Sj8QAJ/rYtIO85iijH6ukoLQAiqp5NG8iTXQuDLUle/LDYJ+GBzyu2VOQKYsdnZGdAGUhuJQsbxUNzHsmXuXbtyMPPfhuU3ilgK1jw98Faeg1mP1BVUWtW5LQd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FWQrVZmR; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=oPDndTcyIzq2eyFzsoP8o1uf88AMWG65GnvBpvcDXlLz8DkBujX4zAhqEHp0ztDGXqGIbYbMsAxMt+QTTkiUv1InK6qv2TFM1r01ik+KqZoz6lBuW9G+lNhovHkSUk2h0Z1FPW/5+yuyYdIvHMm8lkBoSSOzcrpdmi2g+799A5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b=3AXXAEBE; arc=none smtp.client-ip=209.85.222.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FWQrVZmR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA9A8C113CC;
-	Wed,  1 May 2024 11:40:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714563645;
-	bh=wjSpgVBA1AYrZcgC5XCgSh0SYSTObA/R2PwB5ny4N2w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FWQrVZmRHD6t4l4m9y9InSm/dWTF32vdD7aRGjavVGSSVvdot/XLB32fC9noC9XwH
-	 w+J/4Oat23aTb9B82vofQ22DNvfGaXGWViI6IIKyx8XzeYYtNxaSnfKTrdoEUmDrat
-	 aprayiD8//hPgwZ/HgwXG+GzMNQw2c5vb09Dv8FSJApGEjrF/azhi3sA3j0aZXZT4g
-	 xix/psYZtkm/Ityc67DQeYgmE9DFcLFuUCkvONgQr7nyNUlKXaZsYg/MKmn7EH2J5t
-	 03lQH24dwjGHhRp0t/Jji6+ljB1m1kZeJCXabufwTJmoyHFPw643kpW3V6IOc5CvNW
-	 3+fd64QGmZvLA==
-Date: Wed, 1 May 2024 12:40:38 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Evan Green <evan@rivosinc.com>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v4 05/16] riscv: Extend cpufeature.c to detect vendor
- extensions
-Message-ID: <20240501-drivable-deviation-0a493511770c@spud>
-References: <20240426-dev-charlie-support_thead_vector_6_9-v4-0-b692f3c516ec@rivosinc.com>
- <20240426-dev-charlie-support_thead_vector_6_9-v4-5-b692f3c516ec@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="3AXXAEBE"
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-792639cf4faso89464485a.1
+        for <linux-doc@vger.kernel.org>; Wed, 01 May 2024 05:02:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1714564927; x=1715169727; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bfLk7bGUufEMZraSml5jPutCQGtddj/TkwI16oNdBn8=;
+        b=3AXXAEBE5RM1yYhx5YRHTUJtG9CM3OtTD7VJXVZaZKKbbTtfndgirQjAxx1jf/OGKL
+         fOlRq0afAS8k/zrAz1YlMkX/rzufhZMcer2iugUQ8uJkzxRctBWTbhYkTRn5lY2KzQR2
+         kHVhc+rZyCU2aKMJ5jsTtw/TXU3ZzINTKjFYzxGzB+7MOPn+C464sxOGFB4S551TiJYx
+         zOMBvWBgPsB36dp9HHgZui2GvRYRFpWhnQuTrqt4gTZaiqRngxQ+PvW3CEFovkQ9K0RD
+         wCXnbFRSvwnvSdxcVNbQDNzVK4XJY5ZL/ywJ3V02xpz/Z1isgAjH5I1i9smXaDo/4JEj
+         0Y2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714564927; x=1715169727;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bfLk7bGUufEMZraSml5jPutCQGtddj/TkwI16oNdBn8=;
+        b=Okbf2HgibOabIGU9VYU8vhQ2/OKCZIUtJ7bhNoWK0vlP3Icsp7y2xSAxzZMBl+xhIB
+         B7cBymDqK3Cd6WhjwpZD/n14Bni881yFPUEZSDn8ApsTnCBkP7aUbinHEfY68aTHwR73
+         kk++OEOyyCLK5/j54LrTXUwLh+rxI7BsCyvRQHCV/t10dWsBtZpw8440elE3c6tZ9xK5
+         qQMMhdpd7Vv8czgdm76Th9q2C4dz9+PCyUTpjMuUNvZxUmFFOYptFWa6lcz+MOJxHfoZ
+         5Hk7Lv2ArVIWKnvI+VUq6ceUtzlA5nby7YdpIG3dw8Tlho7ewbFsp7HOiMqw9DTeGFpn
+         KTSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUdIvzx3PmixoHVCAuviwHT7UONlskDac/X/ygSf3rMGrYP7SDNkSwl48Y8/nrcoDUSl3fyIaR3cRK4NoVnfM/wbXQLoDuWWJ2R
+X-Gm-Message-State: AOJu0YzEMZXnFKFkKIpkKtAN4xsLriCD333EYh3uYzM5GzVF/Q+Lp1EE
+	3vEPUTjfl5InMciPxDh1FesMntCW1RxTHrqcnZvLU2uwtZdwtDUzdF0B1vdz/Ss=
+X-Google-Smtp-Source: AGHT+IEWthroIrb+JTNpr43+vunLRZ22Cm5i+grgJXt6uS17vY6dRRy34/CUCxuB6exEJiF9j+hfXg==
+X-Received: by 2002:a05:620a:2051:b0:78d:6649:4c79 with SMTP id d17-20020a05620a205100b0078d66494c79mr1958138qka.70.1714564926606;
+        Wed, 01 May 2024 05:02:06 -0700 (PDT)
+Received: from localhost ([2603:7000:c01:2716:da5e:d3ff:fee7:26e7])
+        by smtp.gmail.com with ESMTPSA id wd40-20020a05620a72a800b00790f5a43245sm2627782qkn.37.2024.05.01.05.02.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 May 2024 05:02:06 -0700 (PDT)
+Date: Wed, 1 May 2024 08:02:05 -0400
+From: Johannes Weiner <hannes@cmpxchg.org>
+To: Usama Arif <usamaarif642@gmail.com>
+Cc: tj@kernel.org, lizefan.x@bytedance.com, nphamcs@gmail.com,
+	corbet@lwn.net, linux-mm@kvack.org, cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-team@meta.com
+Subject: Re: [PATCH] cgroup: Add documentation for missing zswap memory.stat
+Message-ID: <20240501120205.GB2538005@cmpxchg.org>
+References: <20240501095349.1407643-1-usamaarif642@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="xHWLnBdUePAybcBR"
-Content-Disposition: inline
-In-Reply-To: <20240426-dev-charlie-support_thead_vector_6_9-v4-5-b692f3c516ec@rivosinc.com>
-
-
---xHWLnBdUePAybcBR
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240501095349.1407643-1-usamaarif642@gmail.com>
 
-On Fri, Apr 26, 2024 at 02:29:19PM -0700, Charlie Jenkins wrote:
-> Separate vendor extensions out into one struct per vendor
-> instead of adding vendor extensions onto riscv_isa_ext.
->=20
-> Add a hidden config RISCV_ISA_VENDOR_EXT to conditionally include this
-> code.
->=20
-> The xtheadvector vendor extension is added using these changes.
->=20
-> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+On Wed, May 01, 2024 at 10:53:49AM +0100, Usama Arif wrote:
+> This includes zswpin, zswpout and zswpwb.
+
+Good idea adding these!
+
+> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
 > ---
->  arch/riscv/Kconfig                               |  2 +
->  arch/riscv/Kconfig.vendor                        | 19 ++++++
->  arch/riscv/include/asm/cpufeature.h              | 18 ++++++
->  arch/riscv/include/asm/vendor_extensions.h       | 26 ++++++++
->  arch/riscv/include/asm/vendor_extensions/thead.h | 19 ++++++
->  arch/riscv/kernel/Makefile                       |  2 +
->  arch/riscv/kernel/cpufeature.c                   | 77 ++++++++++++++++++=
-------
->  arch/riscv/kernel/vendor_extensions.c            | 18 ++++++
->  arch/riscv/kernel/vendor_extensions/Makefile     |  3 +
->  arch/riscv/kernel/vendor_extensions/thead.c      | 36 +++++++++++
+>  Documentation/admin-guide/cgroup-v2.rst | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index 17e6e9565156..48ec54627814 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -1454,6 +1454,15 @@ PAGE_SIZE multiple when read back.
+>  	  zswapped
+>  		Amount of application memory swapped out to zswap.
+>  
+> +	  zswpin
+> +		Number of pages moved in to memory from zswap.
+> +
+> +	  zswpout
+> +		Number of pages moved out of memory to zswap.
+> +
+> +	  zswpwb
+> +		Number of pages written from zswap to swap.
+> +
 
-I see no modifications to cpu.c here, is it intentional that vendor
-stuff isn't gonna show up in /proc/cpuinfo?
+They should go between pglazyfreed and thp_fault_alloc to match the
+output ordering (they're event counters, not memory counters).
 
---xHWLnBdUePAybcBR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZjIqNgAKCRB4tDGHoIJi
-0tFmAP9+0phfGvQLL4gYc5HwlKNHCFOZaYtAbKHBrc9NrXK7HQEAqAyjuARwXzQt
-BVcKUnRCSkMAcAMLHfb0vHWJR0NQ7QA=
-=qPWD
------END PGP SIGNATURE-----
-
---xHWLnBdUePAybcBR--
+>  	  file_mapped
+>  		Amount of cached filesystem data mapped with mmap()
+>  
