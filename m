@@ -1,66 +1,34 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED34583A0B
-	for <linux-doc@vger.kernel.org>; Wed,  1 May 2024 12:02:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D240C83CB0;
+	Wed,  1 May 2024 12:07:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714564930; cv=none; b=cvSUZImtgTtj2gX06TZCKDaIHcLElNKvTNnMSflC5FOVM1jQSJADRBkUJQuiWUkx9bxmm0I4Jx/pjwtupkWA846NI+Bjl08TYjPzCiJfcHQPMciBavBgO+YjThF0bADC9ZYlKDXnFIHVLzZWU89wjDU73jsTzoeapmP6EIjqALs=
+	t=1714565261; cv=none; b=VU+t1W1CKAqeNeoI1vdQEqxCXJYnyzI/Qh0fKMh5jIh2A6+y0CsO5qsAoY4w+W0x2xwWdG9oNyfX4i3tqbWSqkL4bEGLxdw7TVTvWQZety56A6sCXv0WlhcaquR/dVILEyUfBivMDZ5a5mbco7pIXM5X45ngav42rTbxernGQmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714564930; c=relaxed/simple;
-	bh=kPqVO4gkmQec2j/rZpF8HaGgeJQsy8uBuIEkqskjQSg=;
+	s=arc-20240116; t=1714565261; c=relaxed/simple;
+	bh=KRSiba1Wfe1AyV1Ikzz7ypfhE6bSK4FEWZ0s092Z/9c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oPDndTcyIzq2eyFzsoP8o1uf88AMWG65GnvBpvcDXlLz8DkBujX4zAhqEHp0ztDGXqGIbYbMsAxMt+QTTkiUv1InK6qv2TFM1r01ik+KqZoz6lBuW9G+lNhovHkSUk2h0Z1FPW/5+yuyYdIvHMm8lkBoSSOzcrpdmi2g+799A5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org; spf=pass smtp.mailfrom=cmpxchg.org; dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b=3AXXAEBE; arc=none smtp.client-ip=209.85.222.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmpxchg.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cmpxchg-org.20230601.gappssmtp.com header.i=@cmpxchg-org.20230601.gappssmtp.com header.b="3AXXAEBE"
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-792639cf4faso89464485a.1
-        for <linux-doc@vger.kernel.org>; Wed, 01 May 2024 05:02:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20230601.gappssmtp.com; s=20230601; t=1714564927; x=1715169727; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bfLk7bGUufEMZraSml5jPutCQGtddj/TkwI16oNdBn8=;
-        b=3AXXAEBE5RM1yYhx5YRHTUJtG9CM3OtTD7VJXVZaZKKbbTtfndgirQjAxx1jf/OGKL
-         fOlRq0afAS8k/zrAz1YlMkX/rzufhZMcer2iugUQ8uJkzxRctBWTbhYkTRn5lY2KzQR2
-         kHVhc+rZyCU2aKMJ5jsTtw/TXU3ZzINTKjFYzxGzB+7MOPn+C464sxOGFB4S551TiJYx
-         zOMBvWBgPsB36dp9HHgZui2GvRYRFpWhnQuTrqt4gTZaiqRngxQ+PvW3CEFovkQ9K0RD
-         wCXnbFRSvwnvSdxcVNbQDNzVK4XJY5ZL/ywJ3V02xpz/Z1isgAjH5I1i9smXaDo/4JEj
-         0Y2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714564927; x=1715169727;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bfLk7bGUufEMZraSml5jPutCQGtddj/TkwI16oNdBn8=;
-        b=Okbf2HgibOabIGU9VYU8vhQ2/OKCZIUtJ7bhNoWK0vlP3Icsp7y2xSAxzZMBl+xhIB
-         B7cBymDqK3Cd6WhjwpZD/n14Bni881yFPUEZSDn8ApsTnCBkP7aUbinHEfY68aTHwR73
-         kk++OEOyyCLK5/j54LrTXUwLh+rxI7BsCyvRQHCV/t10dWsBtZpw8440elE3c6tZ9xK5
-         qQMMhdpd7Vv8czgdm76Th9q2C4dz9+PCyUTpjMuUNvZxUmFFOYptFWa6lcz+MOJxHfoZ
-         5Hk7Lv2ArVIWKnvI+VUq6ceUtzlA5nby7YdpIG3dw8Tlho7ewbFsp7HOiMqw9DTeGFpn
-         KTSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUdIvzx3PmixoHVCAuviwHT7UONlskDac/X/ygSf3rMGrYP7SDNkSwl48Y8/nrcoDUSl3fyIaR3cRK4NoVnfM/wbXQLoDuWWJ2R
-X-Gm-Message-State: AOJu0YzEMZXnFKFkKIpkKtAN4xsLriCD333EYh3uYzM5GzVF/Q+Lp1EE
-	3vEPUTjfl5InMciPxDh1FesMntCW1RxTHrqcnZvLU2uwtZdwtDUzdF0B1vdz/Ss=
-X-Google-Smtp-Source: AGHT+IEWthroIrb+JTNpr43+vunLRZ22Cm5i+grgJXt6uS17vY6dRRy34/CUCxuB6exEJiF9j+hfXg==
-X-Received: by 2002:a05:620a:2051:b0:78d:6649:4c79 with SMTP id d17-20020a05620a205100b0078d66494c79mr1958138qka.70.1714564926606;
-        Wed, 01 May 2024 05:02:06 -0700 (PDT)
-Received: from localhost ([2603:7000:c01:2716:da5e:d3ff:fee7:26e7])
-        by smtp.gmail.com with ESMTPSA id wd40-20020a05620a72a800b00790f5a43245sm2627782qkn.37.2024.05.01.05.02.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 May 2024 05:02:06 -0700 (PDT)
-Date: Wed, 1 May 2024 08:02:05 -0400
-From: Johannes Weiner <hannes@cmpxchg.org>
-To: Usama Arif <usamaarif642@gmail.com>
-Cc: tj@kernel.org, lizefan.x@bytedance.com, nphamcs@gmail.com,
-	corbet@lwn.net, linux-mm@kvack.org, cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH] cgroup: Add documentation for missing zswap memory.stat
-Message-ID: <20240501120205.GB2538005@cmpxchg.org>
-References: <20240501095349.1407643-1-usamaarif642@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=MBFZIYCjRuh+mgYefTgCBbRVoujcIDALXF6ys3ieXIhWSd7uTNzB3JMJe8ThMEe6ZU4SEGwW+q80VUNNUJ8DRRcjsKMuBx28+nMqlLLz4SNomlg/kz6y4fsue5/RETtTWHB3yor09uDOgPIJtBwlglWk8BbFyCpVgT6xZSmgDhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CE03C113CC;
+	Wed,  1 May 2024 12:07:38 +0000 (UTC)
+Date: Wed, 1 May 2024 13:07:36 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Maxwell Bland <mbland@motorola.com>
+Cc: linux-mm@kvack.org, Will Deacon <will@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Alexandre Ghiti <alexghiti@rivosinc.com>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] ptdump: add intermediate directory support
+Message-ID: <ZjIwiFa3CMxxtAZ1@arm.com>
+References: <fik5ys53dbkpkl22o4s7sw7cxi6dqjcpm2f3kno5tyms73jm5y@buo4jsktsnrt>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,39 +37,59 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240501095349.1407643-1-usamaarif642@gmail.com>
+In-Reply-To: <fik5ys53dbkpkl22o4s7sw7cxi6dqjcpm2f3kno5tyms73jm5y@buo4jsktsnrt>
 
-On Wed, May 01, 2024 at 10:53:49AM +0100, Usama Arif wrote:
-> This includes zswpin, zswpout and zswpwb.
-
-Good idea adding these!
-
-> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
-> ---
->  Documentation/admin-guide/cgroup-v2.rst | 9 +++++++++
->  1 file changed, 9 insertions(+)
+On Tue, Apr 30, 2024 at 11:05:01AM -0500, Maxwell Bland wrote:
+> Add an optional note_non_leaf parameter to ptdump, causing note_page to
+> be called on non-leaf descriptors. Implement this functionality on arm64
+> by printing table descriptors along with table-specific permission sets.
 > 
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> index 17e6e9565156..48ec54627814 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -1454,6 +1454,15 @@ PAGE_SIZE multiple when read back.
->  	  zswapped
->  		Amount of application memory swapped out to zswap.
->  
-> +	  zswpin
-> +		Number of pages moved in to memory from zswap.
-> +
-> +	  zswpout
-> +		Number of pages moved out of memory to zswap.
-> +
-> +	  zswpwb
-> +		Number of pages written from zswap to swap.
-> +
+> For arm64, break (1) the uniform number of columns for each descriptor,
+> and (2) the coalescing of large PTE regions, which are now split up by
+> PMD. This is a "good" thing since it makes the behavior and protection
+> bits set on page tables, such as PXNTable, more explicit.
+> 
+> Before:
+> 0xffff008440210000-0xffff008440400000 1984K PTE ro NX SHD AF NG UXN M...
+> 0xffff008440400000-0xffff008441c00000 24M PMD ro NX SHD AF NG BLK UXN...
+> 0xffff008441c00000-0xffff008441dc0000 1792K PTE ro NX SHD AF NG UXN M...
+> 0xffff008441dc0000-0xffff00844317b000 20204K PTE RW NX SHD AF NG UXN ...
+> 
+> After (tabulation omitted and spaces condensed):
+> 0xffff0fb640200000-0xffff0fb640400000 2M PMD TBL RW x NXTbl UXNTbl ME...
+> 0xffff0fb640200000-0xffff0fb640210000 64K PTE RW NX SHD AF NG UXN MEM...
+> 0xffff0fb640210000-0xffff0fb640400000 1984K PTE ro NX SHD AF NG UXN M...
+> 0xffff0fb640400000-0xffff0fb641c00000 24M PMD BLK ro SHD AF NG NX UXN...
+> 0xffff0fb641c00000-0xffff0fb641e00000 2M PMD TBL RW x NXTbl UXNTbl ME...
+> 0xffff0fb641c00000-0xffff0fb641dc0000 1792K PTE ro NX SHD AF NG UXN M...
+> 0xffff0fb641dc0000-0xffff0fb641e00000 256K PTE RW NX SHD AF NG UXN ME...
+> 
+> v3:
+>   - Added tabulation to delineate entries
+>   - Fixed formatting issues with mailer and rebased to mm/linus
+> 
+> v2:
+>   - Rebased onto linux-next/akpm (the incorrect branch)
+> 
+> Signed-off-by: Maxwell Bland <mbland@motorola.com>
+> ---
+> Thank you again to the maintainers for your review of this patch.
+> 
+> To Andrew Morton, I apologize for the malformatted patches last week.It
+> will hopefully never happen again. I have tested mailing this patch to
+> myself and have confirmed it cleanly merges to mm/linus.
+> 
+>  Documentation/arch/arm64/ptdump.rst | 184 +++++++++++++---------
+>  arch/arm64/mm/ptdump.c              | 230 +++++++++++++++++++++++++---
+>  include/linux/ptdump.h              |   1 +
+>  mm/ptdump.c                         |  13 ++
+>  4 files changed, 332 insertions(+), 96 deletions(-)
 
-They should go between pglazyfreed and thp_fault_alloc to match the
-output ordering (they're event counters, not memory counters).
+Is this v3 replacing v2 here:
 
->  	  file_mapped
->  		Amount of cached filesystem data mapped with mmap()
->  
+https://lore.kernel.org/r/20240423142307.495726312-1-mbland@motorola.com
+
+or it goes on top? The patch versioning and subject change confuses me.
+
+-- 
+Catalin
