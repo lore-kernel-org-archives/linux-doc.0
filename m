@@ -1,98 +1,107 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16DCD12DDB0;
-	Wed,  1 May 2024 13:33:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2903112DDBC;
+	Wed,  1 May 2024 13:43:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714570424; cv=none; b=hBGbWXFD8S4VSaJtUiwRiPbp6AvQ4SujGK9Np716Uu1uMQ6bK8A8nEKN1jnnb2vIA3tGfL8Gz1HS3/aN/vOatuf2s2PHAK5cTvmEvVyiJ/ciNtZNV0OPJ6qGGhU0u+CvG2RxrZ8azV3XDn3y6zAyvg1K6GP6d8k02DtWYmqCs2s=
+	t=1714571007; cv=none; b=ufGCfTmVpEyy0mWLo8QdGtkBrLJ9fJyk1bkg9YrKqyh265I50nFBdlEkZo58cIaeHi2pQ9WNHOFv565GZrFzzYH4ZB0U5duO7haQj1SzAeUdYjxiRMNmuDOI7wgQzNC3JIV+vKs7bQWHQbQ7u6EhaKSqSXY7Kb4SiNg0CDqB2P0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714570424; c=relaxed/simple;
-	bh=v1uq+AqyCYjTejfbtW5mvJzoxMflu+kesffuEm3SeEI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=J1qj5FylZj6DFHkwcgNxyKYj48Y5cdDFvySAEch/CNB2DT+5/nuUbWH3dhWAzf1FbhpGbQMNOkiVGtIe5rQ86Ls1HFdcy72MHYr2HxFlwkU+RcoPiD3awqiA+VeaKjuOjQiMbGObhPoQys6lmM0TI4yYw8fPqWJDnKVrV467t+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BdNsCGdc; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1714571007; c=relaxed/simple;
+	bh=T3xXGNja0aLmlP+yhOtmezggporaiAuZ867fVt1ccOQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=FGFWM0mel5kg1ya+zuIb7T4I68uMzfl37mmqSjkMxZSUg8VX1ZGW131wun3ZizSYspWqJehNw8KzYWQji/HWzMOpkwcQn5577m8NhnKWqqTOI2GbmApeK9OkUq9gmvd5mwHuqYjXbTgVO5FB6jMvc4g6WZY273eKTtq//rs0CoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t4yMwhv4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BdNsCGdc"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1ec69e3dbe5so12082975ad.0;
-        Wed, 01 May 2024 06:33:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714570422; x=1715175222; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RIs2EAnwhy7zwu/YLIZtkKABdkCncOCCKCOVBsGpvIA=;
-        b=BdNsCGdcqgcqVexGQrbg/DJ+fklwWTfkZL7NTPXycG4Om0c9e8VU9TShvK63b/CZdb
-         zMr52VghsyYXzq/rGi9StMvZJBlDGjH8y2cZzaTkYNhfUTTJZLcy/I4xHbi9xnYloO2u
-         jBzdyGpF1bILKMwAkJ9GkUFRmGFz93ZH8YI11vDcQjICsO3TQVIzSrkWQmc1Sa05bdZV
-         OFtXZeV3wBZisXojvoufn5I6emQc8XQPjMwbDCPFVeVrdDgMoGNa8gQQP68ea6rtKDHL
-         YXlPrMaBC2UG4HIVj4hQ4jp+I16hCkzlSaXco57VCJhrNHsFp60afPTnUWKllC5Co4iy
-         TAQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714570422; x=1715175222;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RIs2EAnwhy7zwu/YLIZtkKABdkCncOCCKCOVBsGpvIA=;
-        b=e6P6n+ZfXrbb45DBw60LzcDw2aBcBlVTxEj77cbgeTa9QKRMRZQ/hjf7aSphSn2oeP
-         1WrMP+4gQKleaKAEZtxL2INongZMFSUWuqhyeNeukPD6NpjLg+64qfiiaMoURJrV/Zwk
-         1ZU9VrOi4qD4MxneZEgs9MZQLsbrj5I8YT5FIjEFiAGxbF5UjzrMGWqgvjIvJfP2LYCV
-         g1sUG1HsEHyTcYyne+wdTF37UUr30WFoDaQODt85SCBE/0ZXtL1vLzyMEMjN2vODv41c
-         QwfP7jvgeRCTsOuFnpVjMQuILDawvJ3c17f9jQ26usSEWwpoVjmcQEF6p3uMoxHt1MfH
-         2IqA==
-X-Forwarded-Encrypted: i=1; AJvYcCXjQ7xX2auAqAljn9jp2eW5sWgLC/jLF/pGGvZH0iAuNFSRiRfc6qJZdH9mMcS+tr+qFlXG5Zc7I+jTO/eNWT2kOWru2rDMU84+dONKaG+9kQ66X2lyulTc6HVZ++nZJVVqjnwL97FC
-X-Gm-Message-State: AOJu0Yxx3pp0tuUM0NAjrl20lSuGQgrn0x/y4YbQZj0RFearG7m17jsg
-	o4zZHw3FbPyPiXnVRBki2/8ERpYFzAFHbmx821EUUEQvQl6ahFQ=
-X-Google-Smtp-Source: AGHT+IGoLzo5WXbR9Dq1fTr1Mlwf77nJ95s7iCo/7aejTpbvHOgX2b3snoBNCMj1rdhtryNIvOLIIg==
-X-Received: by 2002:a17:903:191:b0:1e6:7731:80 with SMTP id z17-20020a170903019100b001e677310080mr2959626plg.11.1714570422111;
-        Wed, 01 May 2024 06:33:42 -0700 (PDT)
-Received: from utkarsh-ROG-Zephyrus-G14-GA401II-GA401II.. ([117.203.246.41])
-        by smtp.gmail.com with ESMTPSA id l6-20020a170903244600b001ea963d0d58sm12435926pls.137.2024.05.01.06.33.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 May 2024 06:33:41 -0700 (PDT)
-From: Utkarsh Tripathi <utripathi2002@gmail.com>
-To: tj@kernel.org,
-	jiangshanlai@gmail.com,
-	skhan@linuxfoundation.org
-Cc: Utkarsh Tripathi <utripathi2002@gmail.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Sphinx error fixed for inline literal end-string in include/linux/workqueue.h
-Date: Wed,  1 May 2024 19:02:40 +0530
-Message-Id: <20240501133240.6003-1-utripathi2002@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t4yMwhv4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5715C113CC;
+	Wed,  1 May 2024 13:43:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714571006;
+	bh=T3xXGNja0aLmlP+yhOtmezggporaiAuZ867fVt1ccOQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=t4yMwhv4ynlUnwArcfoOt27yM6QoX0mMnbw9+3YcPGams2ObPiIrjnLiiLgnPiFQG
+	 BAecQ3al97jvjN5ZcVYk7AAR2NTzUZ2FeueHExJnH3l88FFPrKzmAfAlF9GQ4J+3sj
+	 9EMy+JlHuqx4F24Q2mk5jGOX1Lr+XV97nGtawc0tH5WSOU7bs3XRuaoF7hDriVgYwD
+	 m1OR+p/3x/BMnWLSJV8BVOFUaTqgGe76/GsCMl7blpbJkLKrD7FIDl1YtzYZPtvGp8
+	 QU/F1IxBYjj3WVLN2yQjBriDBzPjdF8IebsQT/GF7ke/vsd4leDEbtkZ8uraLNsoVF
+	 p7RGjuhzxu70Q==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Bagas Sanjaya <bagasdotme@gmail.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ linux-sound@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20240426-dapm-docs-v2-0-87b07547eb5b@bootlin.com>
+References: <20240426-dapm-docs-v2-0-87b07547eb5b@bootlin.com>
+Subject: Re: (subset) [PATCH v2 00/12] ASoC: doc: dapm: various
+ improvements
+Message-Id: <171457100410.1888704.9831804306512477494.b4-ty@kernel.org>
+Date: Wed, 01 May 2024 22:43:24 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev
 
-Fixed Error in Workqueue Documentation in the kernel-doc comment 
-for alloc_workqueue function in include/linux/workqueue.h, 
-the error was "Inline literal start-string without end-string" 
-which was fixed by removing the inline literal.
-Kernel Version - 6.9.0-rc5
+On Fri, 26 Apr 2024 18:56:33 +0200, Luca Ceresoli wrote:
+> This series applies various improvements to the DAPM documentation: a
+> rewrite of a few sections for clarity, style improvements and typo fixes.
+> 
+> 
 
-Signed-off-by: Utkarsh Tripathi <utripathi2002@gmail.com>
----
- include/linux/workqueue.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied to
 
-diff --git a/include/linux/workqueue.h b/include/linux/workqueue.h
-index 158784dd189a..b4aebd981a23 100644
---- a/include/linux/workqueue.h
-+++ b/include/linux/workqueue.h
-@@ -490,7 +490,7 @@ void workqueue_softirq_dead(unsigned int cpu);
-  * min_active which is set to min(@max_active, %WQ_DFL_MIN_ACTIVE). This means
-  * that the sum of per-node max_active's may be larger than @max_active.
-  *
-- * For detailed information on %WQ_* flags, please refer to
-+ * For detailed information on WQ_* flags, please refer to
-  * Documentation/core-api/workqueue.rst.
-  *
-  * RETURNS:
--- 
-2.34.1
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+
+Thanks!
+
+[01/12] ASoC: doc: dapm: fix typos
+        commit: 534e0cd89baf74c22ca55b442fb4add8d844e272
+[02/12] ASoC: doc: dapm: fix struct name
+        commit: eaf84bda623e0a034fe03b871addf7dc4f70dfff
+[03/12] ASoC: doc: dapm: minor rewording
+        commit: 610277caa77f07997857ab2e31a073d8ad7ed090
+[04/12] ASoC: doc: dapm: remove dash after colon
+        commit: 3233a68fcb216a2d8615862841c1fca7a940fc5c
+[06/12] ASoC: doc: dapm: replace "map" with "graph"
+        commit: 7d0e76107894377a14f211c85a821a53416d5ab2
+[07/12] ASoC: doc: dapm: extend initial descrption
+        commit: dd5f36e59134654f9fd7b39d4d66327a1a2db82d
+[08/12] ASoC: doc: dapm: describe how widgets and routes are registered
+        commit: 36de8c0e26793beeda1d6a7592f44b4551271469
+[09/12] ASoC: doc: dapm: fix and improve section "Registering DAPM controls"
+        commit: d40e82194423c9d058bdeff863373b7da9f7045b
+[10/12] ASoC: doc: dapm: improve section "Codec/DSP Widget Interconnections"
+        commit: 057acfb460d6792c7d3ec088f57c411fb0e4d395
+[11/12] ASoC: doc: dapm: update section "DAPM Widget Events"
+        commit: ce5a4f101cd0dfbda391d4f1815222d82a9d8a5a
+[12/12] ASoC: doc: dapm: update event types
+        commit: 4155a82f6af8068473cd66b55da56fd379835fb0
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
