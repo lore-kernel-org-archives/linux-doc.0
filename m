@@ -1,106 +1,231 @@
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBE00524BE;
-	Wed,  1 May 2024 09:53:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 930CED520;
+	Wed,  1 May 2024 10:31:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714557240; cv=none; b=Le8TPssxiyN5oBqSAGp8rKdks80YdedeUh9woH+mEat4SGr3DZMDcrRUtQeh7ws8j33MsjJZ0JN1osb6ztB6s0S4NLDa/R1oSH0kC65bhk5l7L4o0KWfV7VM+x/MMoYVaIW6KNSfRI+LEGKM98m0OcyOfA+It9GyYJ/raB/BhLc=
+	t=1714559512; cv=none; b=lsIPGrcB8Njd/R8HOWAI4UPSiKPauaEKhAf9wiSkycgbNpk4qBttjBQrK7XNUlNk16qv/AQ2dtGkajwLmrjFKnAtVgoxUxYHc74hXGo5xJ3CQIrHRjTcGyHCCI7C94/RRvmKIPZvvwfuprftmSFxNUrPTIMmDanufhELaIWOPRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714557240; c=relaxed/simple;
-	bh=W8BKYSHno6I/ZDbLlUDxiU42eD/HUO9F/ZG28GDGRHs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZxUM0jE59XfYkkKJkilMLBhzQIjbYTZi8PbWmD1Zk4+qDdcxKKCu4JdlFu2JQq14e1NjTKrgQ1XYOzaLXr6aTgcw+efSaaX6/GVVoCaiJuRzHfNB1vnxxYtDEBVLFxXEOwx2DUBjMvOOTZ541nruVDWl2OtNkSA7/28PtwMWtzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ibzd4s8U; arc=none smtp.client-ip=209.85.166.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1714559512; c=relaxed/simple;
+	bh=6DBbHrkfxS0tiwHrPZgT+bjTP/LQ6KTVWXOSl9oS0uw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GKJbMJNsr0yj38pAKqBpiKs5xQVbQQcuAfZ1cZgyJeNFz6vZH5R1M1Bjg5cJ+u7FfyeUlomXxchX8lZcMhZpVaiiviHdvt9yA2Ram5bt/8vSvcWnLcGFiQxSk12Dog9QMSSBUec2cKXbCUBHjyemEprVjYo07NmYuDdmpflJsZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U5ee8bwg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ibzd4s8U"
-Received: by mail-io1-f51.google.com with SMTP id ca18e2360f4ac-7ded074a237so141652239f.1;
-        Wed, 01 May 2024 02:53:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714557238; x=1715162038; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Sj0HBOnE/AZzpY+aRr1oFb31zLWbK1bfAK1h5C0SYek=;
-        b=ibzd4s8UwfWO4GC74Qibo77pjPZs1UGgDT4jm/j1Hi4smz6pZk6Pgm4ilSZXrbOTa8
-         5e148zavflprm4OVcDFubjUWLnk1vrMCiWqhnXUux2yv2C52NXGDmVogzKrPhI5kKifW
-         3NU7HqlPoqqEGoNYZBErMvoWH/h5apuJiR0a1iZ7z7OpyLUWzWqWTmX/VcZxYLtDiOJw
-         MtxZ6i7WKVbXqN7wNShMWdk7yn8GTxtwwy97mIc8OjGwVK+cDfJu2ym9t6/lnPZZM5ex
-         94d8DAby2Y/OLw3uyGsOYSA5pkNFljOkBcZeuWDab+bTR99THrQGTksz8fK0gz7CowxE
-         CO2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714557238; x=1715162038;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Sj0HBOnE/AZzpY+aRr1oFb31zLWbK1bfAK1h5C0SYek=;
-        b=GnTP+oe2/2+6VX2ChEexzPPXA3r64f3+oadTVjpnhY8eRQbEUk0mQQn0u4ii8CDFkz
-         d7XEiim9knFrlsZlsc9N2yrdXHHP58r97bVfW213cvW1l+dU8+xv5GQTy6WSCUkjvl9t
-         ckj5X/LAACSAOC0DfNFb1OXSRq5ylbBIlA8/s9rK0KzXKPhD5slukLmHUdaR+P4EVcvl
-         7fD8J/HQEQGdPPJcgZ5UnvG12OHuQDe+qg9FB4bG2RJ/kNUg+gcpBPWUSCSOfPQFeNeh
-         7ekELlC6uVunmSR++cIDLH5187EHsy9uqiBV7A8Qo5ZlgNHUWrZlwGQNuPqOP/DNaaAL
-         lvmw==
-X-Forwarded-Encrypted: i=1; AJvYcCU3zbx7R6pqWI9JJ2UxkKui1eKFgnNRMLBP0MDJhMMDjACG7iJvH0YO9E7/7XAaUz+03HPo5rq9EtzXa0Tf98csO3B3hiOFVIUySXZTnlKU+kJLOIwBdBfbVC7intd9rNcmZ/777c5fQfjYhigKc2Q43XN/btLvpZM6g8ILWFP4Wg==
-X-Gm-Message-State: AOJu0YxXeNMAmM0b7gYc2CBG4u9zd9HoNNEqczf4XYhnALm/5JpeaCYg
-	WukKGdJBwdYHnlzKhoDR7mHp+89ss/j49lwrEc+o24N7L7cPiWMZ
-X-Google-Smtp-Source: AGHT+IGO+JZlCqTtLRXab1myxfgJ9pjUVq6GTGb3fjNOHplR8ZPlYSayGrHeTaLPwlQNOYDE3S31Rg==
-X-Received: by 2002:a5e:a606:0:b0:7de:c3c3:b1f7 with SMTP id q6-20020a5ea606000000b007dec3c3b1f7mr2744011ioi.4.1714557237913;
-        Wed, 01 May 2024 02:53:57 -0700 (PDT)
-Received: from localhost (fwdproxy-nao-116.fbsv.net. [2a03:2880:23ff:74::face:b00c])
-        by smtp.gmail.com with ESMTPSA id r6-20020a056638130600b00487f87a60besm750356jad.134.2024.05.01.02.53.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 May 2024 02:53:57 -0700 (PDT)
-From: Usama Arif <usamaarif642@gmail.com>
-To: hannes@cmpxchg.org,
-	tj@kernel.org,
-	lizefan.x@bytedance.com,
-	nphamcs@gmail.com,
-	corbet@lwn.net
-Cc: linux-mm@kvack.org,
-	cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kernel-team@meta.com,
-	Usama Arif <usamaarif642@gmail.com>
-Subject: [PATCH] cgroup: Add documentation for missing zswap memory.stat
-Date: Wed,  1 May 2024 10:53:49 +0100
-Message-ID: <20240501095349.1407643-1-usamaarif642@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U5ee8bwg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87259C113CC;
+	Wed,  1 May 2024 10:31:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714559512;
+	bh=6DBbHrkfxS0tiwHrPZgT+bjTP/LQ6KTVWXOSl9oS0uw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=U5ee8bwgBLBCu4DumpOEAERsjw3ZbAP1XblSkz9aVFKZGtMgCFTiA0pxj3GXTowo2
+	 7ckb1Z6BdjEoy5msRFbdI7BAYmKf3htSei2B1D+T+yu7FP0PpQaNy/3aUaePzp97sH
+	 cKmbeqTesHi0Ye71vJBxFoyAGSy1+14roh4mNDgO4HIUFKck3ZWyiaPStY1bnoEVLR
+	 X+s8MeH8GU3OZ/Bbz6IXbIwrDt+H/pAnwRuBeq5KVjdgFCzLaJJOUDaF7GmMYbxq0+
+	 c/FTazQwk1znasxvU2OYJorZPiHHCvI29cVf3yfADDUqbsf5qSiQcr3P/qB1DuRqmk
+	 iHHbtFC1LN2rw==
+Date: Wed, 1 May 2024 11:31:45 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Evan Green <evan@rivosinc.com>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v4 03/16] riscv: vector: Use vlenb from DT
+Message-ID: <20240501-showroom-rephrase-66c0929011b3@spud>
+References: <20240426-dev-charlie-support_thead_vector_6_9-v4-0-b692f3c516ec@rivosinc.com>
+ <20240426-dev-charlie-support_thead_vector_6_9-v4-3-b692f3c516ec@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="SnPvkgTlHmJo6buD"
+Content-Disposition: inline
+In-Reply-To: <20240426-dev-charlie-support_thead_vector_6_9-v4-3-b692f3c516ec@rivosinc.com>
 
-This includes zswpin, zswpout and zswpwb.
 
-Signed-off-by: Usama Arif <usamaarif642@gmail.com>
----
- Documentation/admin-guide/cgroup-v2.rst | 9 +++++++++
- 1 file changed, 9 insertions(+)
+--SnPvkgTlHmJo6buD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 17e6e9565156..48ec54627814 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1454,6 +1454,15 @@ PAGE_SIZE multiple when read back.
- 	  zswapped
- 		Amount of application memory swapped out to zswap.
- 
-+	  zswpin
-+		Number of pages moved in to memory from zswap.
-+
-+	  zswpout
-+		Number of pages moved out of memory to zswap.
-+
-+	  zswpwb
-+		Number of pages written from zswap to swap.
-+
- 	  file_mapped
- 		Amount of cached filesystem data mapped with mmap()
- 
--- 
-2.43.0
+On Fri, Apr 26, 2024 at 02:29:17PM -0700, Charlie Jenkins wrote:
+> If vlenb is provided in the device tree, prefer that over reading the
+> vlenb csr.
+>=20
+> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> ---
+>  arch/riscv/include/asm/cpufeature.h |  2 ++
+>  arch/riscv/kernel/cpufeature.c      | 43 +++++++++++++++++++++++++++++++=
+++++++
+>  arch/riscv/kernel/vector.c          | 12 ++++++++++-
+>  3 files changed, 56 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm=
+/cpufeature.h
+> index 347805446151..0c4f08577015 100644
+> --- a/arch/riscv/include/asm/cpufeature.h
+> +++ b/arch/riscv/include/asm/cpufeature.h
+> @@ -31,6 +31,8 @@ DECLARE_PER_CPU(struct riscv_cpuinfo, riscv_cpuinfo);
+>  /* Per-cpu ISA extensions. */
+>  extern struct riscv_isainfo hart_isa[NR_CPUS];
+> =20
+> +extern u32 riscv_vlenb_of;
+> +
+>  void riscv_user_isa_enable(void);
+> =20
+>  #if defined(CONFIG_RISCV_MISALIGNED)
+> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
+e.c
+> index 3ed2359eae35..8158f34c3e36 100644
+> --- a/arch/riscv/kernel/cpufeature.c
+> +++ b/arch/riscv/kernel/cpufeature.c
+> @@ -35,6 +35,8 @@ static DECLARE_BITMAP(riscv_isa, RISCV_ISA_EXT_MAX) __r=
+ead_mostly;
+>  /* Per-cpu ISA extensions. */
+>  struct riscv_isainfo hart_isa[NR_CPUS];
+> =20
+> +u32 riscv_vlenb_of;
+> +
+>  /**
+>   * riscv_isa_extension_base() - Get base extension word
+>   *
+> @@ -648,6 +650,42 @@ static int __init riscv_isa_fallback_setup(char *__u=
+nused)
+>  early_param("riscv_isa_fallback", riscv_isa_fallback_setup);
+>  #endif
+> =20
+> +static int riscv_homogeneous_vlenb(void)
 
+Without a verb, this function name is rather odd.
+
+> +{
+> +	int cpu;
+> +	u32 prev_vlenb =3D 0;
+> +	u32 vlenb;
+> +
+> +	for_each_possible_cpu(cpu) {
+> +		struct device_node *cpu_node;
+> +
+> +		cpu_node =3D of_cpu_device_node_get(cpu);
+> +		if (!cpu_node) {
+> +			pr_warn("Unable to find cpu node\n");
+> +			continue;
+
+Hmm, if we fail to find the cpu node, then shouldn't we be returning an
+error?
+
+> +		}
+> +
+> +		if (of_property_read_u32(cpu_node, "riscv,vlenb", &vlenb)) {
+> +			of_node_put(cpu_node);
+> +
+> +			if (prev_vlenb)
+> +				return -1;
+
+Can you return an errno here and below please?
+
+> +			continue;
+> +		}
+> +
+> +		if (prev_vlenb && vlenb !=3D prev_vlenb) {
+> +			of_node_put(cpu_node);
+> +			return -1;
+> +		}
+> +
+> +		prev_vlenb =3D vlenb;
+> +		of_node_put(cpu_node);
+> +	}
+> +
+> +	riscv_vlenb_of =3D vlenb;
+> +	return 0;
+> +}
+> +
+>  void __init riscv_fill_hwcap(void)
+>  {
+>  	char print_str[NUM_ALPHA_EXTS + 1];
+> @@ -671,6 +709,11 @@ void __init riscv_fill_hwcap(void)
+>  			pr_info("Falling back to deprecated \"riscv,isa\"\n");
+>  			riscv_fill_hwcap_from_isa_string(isa2hwcap);
+>  		}
+> +
+> +		if (riscv_homogeneous_vlenb() < 0) {
+> +			pr_warn("RISCV_ISA_V only supports one vlenb on SMP systems. Please e=
+nsure that the riscv,vlenb devicetree property is the same across all CPUs.=
+ Either all CPUs must have the riscv,vlenb property, or none. If no CPUs in=
+ the devicetree use riscv,vlenb then vlenb will be probed from the vlenb CS=
+R. Disabling vector.\n");
+
+Oh dear, that's a bit unwieldy... I think you could get away with a far
+more basic message - and you should be able to break this over lines,
+adjacent string literals should get concatenated.
+I'd probably say something like "unsupported heterogeneous vlen detected,
+vector extension disabled", however we should actually check that the
+vector extension has been detected on all CPUs and that kernel support
+for vector is enabled before emitting a warning for this.
+
+Cheers,
+Conor.
+
+> +			elf_hwcap &=3D ~COMPAT_HWCAP_ISA_V;
+> +		}
+>  	}
+> =20
+>  	/*
+> diff --git a/arch/riscv/kernel/vector.c b/arch/riscv/kernel/vector.c
+> index 6727d1d3b8f2..e04586cdb7f0 100644
+> --- a/arch/riscv/kernel/vector.c
+> +++ b/arch/riscv/kernel/vector.c
+> @@ -33,7 +33,17 @@ int riscv_v_setup_vsize(void)
+>  {
+>  	unsigned long this_vsize;
+> =20
+> -	/* There are 32 vector registers with vlenb length. */
+> +	/*
+> +	 * There are 32 vector registers with vlenb length.
+> +	 *
+> +	 * If the riscv,vlenb property was provided by the firmware, use that
+> +	 * instead of probing the CSRs.
+> +	 */
+> +	if (riscv_vlenb_of) {
+> +		this_vsize =3D riscv_vlenb_of * 32;
+> +		return 0;
+> +	}
+> +
+>  	riscv_v_enable();
+>  	this_vsize =3D csr_read(CSR_VLENB) * 32;
+>  	riscv_v_disable();
+>=20
+> --=20
+> 2.44.0
+>=20
+
+--SnPvkgTlHmJo6buD
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZjIaEQAKCRB4tDGHoIJi
+0hNBAP9YH38VakJjIeXqwOnQlJJWTLPRdPDQPf5eTY+Ir67I6QEA8WCxzjgKtaAO
+OCpGug+WIcHcZlm8J+isXxxHhyQ9TwQ=
+=T1wq
+-----END PGP SIGNATURE-----
+
+--SnPvkgTlHmJo6buD--
