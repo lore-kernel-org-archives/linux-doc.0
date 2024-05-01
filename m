@@ -1,36 +1,64 @@
-Received: from netrider.rowland.org (netrider.rowland.org [192.131.102.5])
-	by smtp.subspace.kernel.org (Postfix) with SMTP id 2562912E1D5
-	for <linux-doc@vger.kernel.org>; Wed,  1 May 2024 14:19:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.131.102.5
+Received: from mx0b-00823401.pphosted.com (mx0b-00823401.pphosted.com [148.163.152.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D71021527AD;
+	Wed,  1 May 2024 14:32:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.152.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714573160; cv=none; b=f4F5A8cAmP0bBpX6oZzVG5otAdRA333p1+BFfiRLNximJwnUQI8yRQ9LVn5qXgi093dI4csMfw9ONZoNDxmuD3ys4ntshiMZuqB/kc1wlxipOBhs6cDw8EGyzfPKAZJPyigA6CmhVX0gM/WwWiAUCGrPQuBAG7u5+/9UHfh8kaE=
+	t=1714573981; cv=none; b=B1aoMW592ZQnFDgw9BHto7HtuA92dKDwjWlBipzKznaz+eth0aCgwpDxZcHVCp15pPIa3DBMd5OCdhPTMTo2Hb6inb4iJ2W4Oo56Jt/JjvmElo1bIFEI3ACDiHAiy1WJ9quTXKXrOPqkUTZctT1GjAZloJ0Tw9FW4neWeK/S4ww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714573160; c=relaxed/simple;
-	bh=0fX7DMTnyqd2OctZ1Pn8GWeMAq5i4D6ET5kIT05SFxI=;
+	s=arc-20240116; t=1714573981; c=relaxed/simple;
+	bh=GXoUH7B/P9A2dDs/RYb7yImJqNo6d6mfYWXhoD3vawU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=udFf4cQHt1GnIliLj7KyvXiSIAk1ZyYQN1JI+fG1VizV/RsJ/Khek2eUP99UK/dFbDHvd+FIwjLk2Se1p2W1FLu/jKa5u/HSbs1Mm6XbFuMDveLBb9j4LnckAP3XFBBNioxwVOm9/6rhkyDx2/eCeuYl7UIJL/9GkM8gCmOr6qE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu; spf=pass smtp.mailfrom=netrider.rowland.org; arc=none smtp.client-ip=192.131.102.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netrider.rowland.org
-Received: (qmail 693310 invoked by uid 1000); 1 May 2024 10:19:18 -0400
-Date: Wed, 1 May 2024 10:19:18 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Michael Grzeschik <mgr@pengutronix.de>
-Cc: Eric Van Hensbergen <ericvh@kernel.org>,
-  Latchesar Ionkov <lucho@ionkov.net>,
-  Dominique Martinet <asmadeus@codewreck.org>,
-  Christian Schoenebeck <linux_oss@crudebyte.com>,
-  Jonathan Corbet <corbet@lwn.net>,
-  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, v9fs@lists.linux.dev,
-  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-  linux-usb@vger.kernel.org, kernel@pengutronix.de
-Subject: Re: [PATCH v4 1/3] usb: gadget: function: move u_f.h to
- include/linux/usb/
-Message-ID: <96fe85f7-eaf1-4231-985b-14514cf53f3d@rowland.harvard.edu>
-References: <20240116-ml-topic-u9p-v4-0-722ed28b0ade@pengutronix.de>
- <20240116-ml-topic-u9p-v4-1-722ed28b0ade@pengutronix.de>
- <1fb801bf-3bef-4f95-8036-fc8634679141@rowland.harvard.edu>
- <ZjH_cx_0uBLc6M6L@pengutronix.de>
+	 Content-Type:Content-Disposition:In-Reply-To; b=CxM9WvqnmLAL3oVpl1TF12QINQBYM1R5k2HMrXS0ee+x/vQAXzrKVNHtC+ncLl7Zap3IeysCWzxSHKwfC1tTWTcrCA7qfqpkDelLLiOV4KpDDcgKQ6xCak2WP/o9/klcNTNL7dBL84p76e3rF0nlIfGhm/qXgrHULJqjg+OxNsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=motorola.com; spf=pass smtp.mailfrom=motorola.com; dkim=pass (2048-bit key) header.d=motorola.com header.i=@motorola.com header.b=Gj1zUbgo; arc=none smtp.client-ip=148.163.152.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=motorola.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=motorola.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=motorola.com header.i=@motorola.com header.b="Gj1zUbgo"
+Received: from pps.filterd (m0355092.ppops.net [127.0.0.1])
+	by mx0b-00823401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4416165t029171;
+	Wed, 1 May 2024 14:32:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=motorola.com; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=DKIM202306; bh=GXoUH7B/P9A2dDs/RYb7
+	yImJqNo6d6mfYWXhoD3vawU=; b=Gj1zUbgoeBxnQ/SeJruTSI7gcU1R0joFV54A
+	Tvtu2e50rBpgQPF7RbeRCszWezPzxHDhpELXU2N1waXEDiSzsLlTSfh0AMQbz0T6
+	tDgw52C80jAwfDvXYsINtHu8Z2iIZWzFzMUQjhVMV8i0gPH1ixA0ZhPXJGdKKC1Z
+	kJFwtCdko8HOwFzu2WM13MYEXM8WHnKRp7Y6VJujTeCDYwk9VSVXqFtIm96pX8Qp
+	KG1AF1VXDY6VDXnd8mKvyAOL10nwfQmMsWulNZUVUJDAsxVbBrB1vYEYfju5saK7
+	QupgLx8QGqY5bh73OFrGXOEtQ9+Zq6zANJ30WP5XJnAwScnNmA==
+Received: from ilclpfpp01.lenovo.com ([144.188.128.67])
+	by mx0b-00823401.pphosted.com (PPS) with ESMTPS id 3xug3pgf8c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 01 May 2024 14:32:30 +0000 (GMT)
+Received: from ilclmmrp02.lenovo.com (ilclmmrp02.mot.com [100.65.83.26])
+	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ilclpfpp01.lenovo.com (Postfix) with ESMTPS id 4VTzzx6MS4zfBZq;
+	Wed,  1 May 2024 14:32:29 +0000 (UTC)
+Received: from ilclasset02 (ilclasset02.mot.com [100.64.49.13])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: mbland)
+	by ilclmmrp02.lenovo.com (Postfix) with ESMTPSA id 4VTzzx5pdsz3p6jp;
+	Wed,  1 May 2024 14:32:29 +0000 (UTC)
+Date: Wed, 1 May 2024 09:32:28 -0500
+From: Maxwell Bland <mbland@motorola.com>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: linux-mm@kvack.org, Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ard Biesheuvel <ardb@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Alexandre Ghiti <alexghiti@rivosinc.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] ptdump: add intermediate directory support
+Message-ID: <xg6hbbnoytkju6trv2f5orj2sfexj7g2vrhjku3f6iwsicn7c3@bzrfpxpmhh7c>
+References: <fik5ys53dbkpkl22o4s7sw7cxi6dqjcpm2f3kno5tyms73jm5y@buo4jsktsnrt>
+ <ZjIwiFa3CMxxtAZ1@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,28 +67,27 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZjH_cx_0uBLc6M6L@pengutronix.de>
+In-Reply-To: <ZjIwiFa3CMxxtAZ1@arm.com>
+X-Proofpoint-GUID: fAXxpbWjub_vGxKwt14zl18QMB219Lvz
+X-Proofpoint-ORIG-GUID: fAXxpbWjub_vGxKwt14zl18QMB219Lvz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1011,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-05-01_14,2024-04-30_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ suspectscore=0 mlxlogscore=968 priorityscore=1501 mlxscore=0 phishscore=0
+ clxscore=1015 malwarescore=0 bulkscore=0 lowpriorityscore=0 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2404010003 definitions=main-2405010101
 
-On Wed, May 01, 2024 at 10:38:11AM +0200, Michael Grzeschik wrote:
-> On Mon, Apr 29, 2024 at 09:51:20PM -0400, Alan Stern wrote:
-> > On Tue, Apr 30, 2024 at 01:33:26AM +0200, Michael Grzeschik wrote:
-> > > We move the u_f.h header to include/linux/usb to be
-> > > able to compile function drivers outside of the
-> > > drivers/usb/gadget/function directory.
-> > > 
-> > > Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
-> > 
-> > Given that you're moving a private header file to a public location,
-> > don't you think it should now have a name that's more meaningful to
-> > general kernel developers than "u_f.h"?
-> 
-> Fair point.
-> 
-> How about func_utils.h instead?
+On Wed, May 01, 2024 at 01:07:36PM GMT, Catalin Marinas wrote:
+> Is this v3 replacing v2 here:
+> https://lore.kernel.org/r/20240423142307.495726312-1-mbland@motorola.com
+> or it goes on top?
 
-Yes, that would be a lot better.  Especially if you put it in 
-include/linux/usb/gadget rather than include/linux/usb.
+Replacing. Sorry for the confusion---my mailer broke the previous
+versions' formatting.
 
-Thanks.
+I am new to linux kernel commits and our SMTP/IT was not set up for
+patch submission, but this new workflow looks OK. (-:
 
-Alan Stern
+Maxwell
