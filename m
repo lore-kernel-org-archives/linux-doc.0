@@ -1,33 +1,34 @@
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97CAEF9EB;
-	Wed,  1 May 2024 19:59:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38F5C1474B1;
+	Wed,  1 May 2024 20:07:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714593543; cv=none; b=nH27gGSL8KqnIl1A2De7uIvNXt+hdh23+gmPacDUw84jugKs0MNS1vOgfuQNXo+JVyJOcGIX9GedfyVfIjI43UJ8eidaJ/WeR1bsVhuE/nyF0ndGY3z9KpPho9g26UxhIT2rVv8qZaXbP4teeOLTYYi7d8G+wOBMAq98bKf1Lgc=
+	t=1714594079; cv=none; b=ZOGLVPEbPNTLfZTD7vDXPYDUcbhR4DvpsPVmdcLLZT4LNts/nN3DVYUGWDqXWGtUSsQ5zdfs0iIJC9eiNEE3m/yAzKFm5/fHrA0+Cap4hreCW57h3W5cp7avhANTOD4sZzE6To56mLfFiLtidNsWDNPCnsxYCypD52BjgJy+stg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714593543; c=relaxed/simple;
-	bh=sH+kPAfPtPPzuzFlFeWrZY9KddU1txu/ShuQs6gKKfk=;
+	s=arc-20240116; t=1714594079; c=relaxed/simple;
+	bh=N3zk6Y234MgqGMAQG9RoCDph4rWUl30bnD7vWlEU0cw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cLEx9ChgZfNzjNfCfMc9FO7co5JoxBnJFljxKcTWLoc/i+dF+1p5t/sndSV7ZPc5NriJ99DNK3d5dvopaGlFruiIldOZhum7uyd/Ru/AY0jzx25oqreWtxxICyKpqFNhmHLLLwRS6Q+J30M/53EmYiYxF1YsFCJoSKeCfDTRQXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=hpjItpNp; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=BJQR/pgzR6geXSkwWZpFr6v9U+gIvkepusfjkyBlGvnBP44Vr57uSrjPDF4VsWs8kpdRhsa75KcfdX65C7NoSIeQttKOJdUb/Qxj8/fSNdtInR7mhYNTLtTAA37CYonX/QeyVcpJ5Gxhhc0SuX0hyakcOMxqoahhfRSjuaeMEDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=c2Veqygb; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="hpjItpNp"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="c2Veqygb"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=Crv1FLzU1DFSQngdp0IScKnC91Dz3LBFOcsgrrV7NJw=; b=hpjItpNp/wVur8ltojtSaJmcpP
-	bDQtDHkCaSKmGRgVFXJDy2LmNmzKd/SFPtAjzLgdS5L/kfd/kMR3f7QiOYIaBnrXeGUto7WQneYKl
-	KJCcXMp0PA7VB9N24GhyncgmcR/fOrpT59uFbSAGetMhVpa5ew07Z4EQrfmllASUFosE=;
+	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+	In-Reply-To:References; bh=k3d7/UgyKgzqATK8IOdA9YZPJAlZPNvl/CaLjYyubLs=; b=c2
+	VeqygbK4kMrNOqM+BMGsJoDKkcY8/L1sC1BdKVRwWunbcGmKnxKzIw5ryFrljq/SUBxRQs+XKcUFr
+	cv/uJ2pJvJ+MpTTXawoowC07lYn9u1e1E53MQo0TjgAsKAeK8Y+TWasPdoUreKn77/8PHzbiBREFF
+	ZQa0/qUbiRvX1GQ=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1s2G6F-00ERxS-7B; Wed, 01 May 2024 21:58:43 +0200
-Date: Wed, 1 May 2024 21:58:43 +0200
+	id 1s2GEz-00ERzR-Gv; Wed, 01 May 2024 22:07:45 +0200
+Date: Wed, 1 May 2024 22:07:45 +0200
 From: Andrew Lunn <andrew@lunn.ch>
 To: =?iso-8859-1?Q?Ram=F3n?= Nordin Rodriguez <ramon.nordin.rodriguez@ferroamp.se>
 Cc: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
@@ -45,7 +46,7 @@ Cc: Parthiban Veerasooran <Parthiban.Veerasooran@microchip.com>,
 	benjamin.bigler@bernformulastudent.ch
 Subject: Re: [PATCH net-next v4 05/12] net: ethernet: oa_tc6: implement error
  interrupts unmasking
-Message-ID: <210d7f40-ec98-4811-be33-2bab6dbe608a@lunn.ch>
+Message-ID: <78395aa9-5871-4db1-8232-ffdaacc7671a@lunn.ch>
 References: <20240418125648.372526-1-Parthiban.Veerasooran@microchip.com>
  <20240418125648.372526-6-Parthiban.Veerasooran@microchip.com>
  <Zi1Xbz7ARLm3HkqW@builder>
@@ -59,46 +60,33 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <ZjKJ93uPjSgoMOM7@builder>
 
-> Kernel output:
-> [   94.361312] sched: RT throttling activated
-> 
-> top output:
->  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
->  145 root     -51   0       0      0      0 R  95.5   0.0   1:11.22 oa-tc6-spi-thread
-> 
-> link stats:
-> 3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP mode DEFAULT group default qlen 1000
->     link/ether 32:c2:7e:22:93:99 brd ff:ff:ff:ff:ff:ff
->     RX:  bytes packets errors dropped  missed   mcast
->        3371902    7186      0      48       0       0
->     RX errors:  length    crc   frame    fifo overrun
->                      0      0       0       0       0
->     TX:  bytes packets errors dropped carrier collsns
->       10341438    8071      0       0       0       0
->     TX errors: aborted   fifo  window heartbt transns
->                      0      0       0       0       1
-> state:
-> Completly borked, can't ping in or out, bringing the interface down then up
-> has no effect.
+> I don't have access to a logic analyzer but my old oscilloscope is
+> almost reliable. I could confirm that the spi clock is indeed running at
+> the expected 25MHz, but I could observe some gaps of up to 320µs so
+> that's 8k spi cycles spent doing something else.
+> These gaps were observed on the SPI clock and the macphy interrupt was
+> active for the same ammount of time(though this was measured independently
+> and not on the same trigger).
+> I've been drinking way to much coffe, so soldering is not gonna happen
+> today (shaky hands), but if it helps I can solder wires to attach both
+> probes to confirm that the gap in the SPI clock happens at the same time
+> or not as the interrupt is active.
 
-Completely borked is not good. 
+What i expect you will see is that the interrupt line goes active. A
+while later there is an SPI bus transfer to fetch the interrupt
+status, and when that transfer completes the interrupt should go
+inactive. But you will need your second channel to confirm this.
 
-> I'd be keen on hearing what Microchips plans to address. If tracking
-> down performance issues is a priority I'll probably not spend any time
-> on it, if not then I'll definetly dig into it more.
+One question would be, is 320µs reasonable for an interrupt, and one
+SPI transfer?
 
-Borked ! = performance issue. This should be addressed. Lets see if
-the python scripts are enough to be able to reproduce it.
-
-We should not rule out differences in SPI drivers. So it might be you
-need to debug this, if Microchip cannot reproduce it.
-
-I would also suggest you enable the "kernel hacking" debug features
-for finding deadlocks, bad spinlocks, stuck RT tasks etc. That might
-give some clues.
+I would then expect a number of back to back transfers, each around 64
+bytes in size, as it gets the received frame. The gaps between those
+transfers will be interesting.
 
 	Andrew
