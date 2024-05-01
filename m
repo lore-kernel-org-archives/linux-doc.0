@@ -1,86 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F417250A93;
-	Wed,  1 May 2024 09:33:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBE00524BE;
+	Wed,  1 May 2024 09:53:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714555997; cv=none; b=B+5rAdHb8Uraba46btqqdf3+zw3P1xGKgSmt5lj7uUH2sWbqpEfIemowGC9UODYQuyyW62AgVqwR8IrhGzMNQLt3Cp8rdl+tQ+tniMQ+cV+17Yhb+oMXlMsdKoROcVynda7Qu6Z2pdAOzOLwuWAt36l/fPvp4bQ+nINdpmcgob8=
+	t=1714557240; cv=none; b=Le8TPssxiyN5oBqSAGp8rKdks80YdedeUh9woH+mEat4SGr3DZMDcrRUtQeh7ws8j33MsjJZ0JN1osb6ztB6s0S4NLDa/R1oSH0kC65bhk5l7L4o0KWfV7VM+x/MMoYVaIW6KNSfRI+LEGKM98m0OcyOfA+It9GyYJ/raB/BhLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714555997; c=relaxed/simple;
-	bh=DclVSrlrdkcZr1ObaRHJvxosciV2uhyezrUD7sSt2m4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z/d6TQoBKXFIeO6fU63SGIf14uwSNYKB8ifK2DRvkof+IfCAKsxKzvzU14130vtcy32wEwANlc4+l9+QXyuLtZm/KzUwxw3iXuikhooK6f82eZuWLzA8C+zUB8xvML3fgY58exw8jvehLUZcKmzijmFWViIYeHd+6HFpcQ8ft+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IoyiRHvD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714557240; c=relaxed/simple;
+	bh=W8BKYSHno6I/ZDbLlUDxiU42eD/HUO9F/ZG28GDGRHs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZxUM0jE59XfYkkKJkilMLBhzQIjbYTZi8PbWmD1Zk4+qDdcxKKCu4JdlFu2JQq14e1NjTKrgQ1XYOzaLXr6aTgcw+efSaaX6/GVVoCaiJuRzHfNB1vnxxYtDEBVLFxXEOwx2DUBjMvOOTZ541nruVDWl2OtNkSA7/28PtwMWtzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ibzd4s8U; arc=none smtp.client-ip=209.85.166.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IoyiRHvD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4761AC113CC;
-	Wed,  1 May 2024 09:33:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714555996;
-	bh=DclVSrlrdkcZr1ObaRHJvxosciV2uhyezrUD7sSt2m4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IoyiRHvDC5flpZ/DSE5pjSTFZXfBhn4045k0KTJ2GdINO/K0dfQxuXvQ5kJZfrD2v
-	 zL49ouEdNeCtucCnhGMrmZkG15cOO7qk9mBV54mj239E15LuSBe9cq3rZ7spKvn3GK
-	 VSXpB50YRUGC1ZMAJQ+k+sLgnkFRjs1yHiZHn/4XPj5XlJRFp3sIjpi5+3L96p9g5/
-	 yS2a87JFuJ74y9SHIjU2dLti59i3PuPdtwAzE9Jl1eF/N9xRuFbq7o7V3tc4UtHhZB
-	 ZrHR5OSOp8VgPnkuKNMXPlDLsN9lK3nuGgFO5KQSeEVnEDOwIXdOSZ/EAkM6mxNuq6
-	 1Q2e+LF8TG+lQ==
-Date: Wed, 1 May 2024 10:33:11 +0100
-From: Conor Dooley <conor@kernel.org>
-To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Anup Patel <anup@brainfault.org>, Shuah Khan <shuah@kernel.org>,
-	Atish Patra <atishp@atishpatra.org>, linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v4 08/11] riscv: add ISA extension parsing for Zcmop
-Message-ID: <20240501-dazzler-sandworm-defb8d7345e1@spud>
-References: <20240429150553.625165-1-cleger@rivosinc.com>
- <20240429150553.625165-9-cleger@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ibzd4s8U"
+Received: by mail-io1-f51.google.com with SMTP id ca18e2360f4ac-7ded074a237so141652239f.1;
+        Wed, 01 May 2024 02:53:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714557238; x=1715162038; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Sj0HBOnE/AZzpY+aRr1oFb31zLWbK1bfAK1h5C0SYek=;
+        b=ibzd4s8UwfWO4GC74Qibo77pjPZs1UGgDT4jm/j1Hi4smz6pZk6Pgm4ilSZXrbOTa8
+         5e148zavflprm4OVcDFubjUWLnk1vrMCiWqhnXUux2yv2C52NXGDmVogzKrPhI5kKifW
+         3NU7HqlPoqqEGoNYZBErMvoWH/h5apuJiR0a1iZ7z7OpyLUWzWqWTmX/VcZxYLtDiOJw
+         MtxZ6i7WKVbXqN7wNShMWdk7yn8GTxtwwy97mIc8OjGwVK+cDfJu2ym9t6/lnPZZM5ex
+         94d8DAby2Y/OLw3uyGsOYSA5pkNFljOkBcZeuWDab+bTR99THrQGTksz8fK0gz7CowxE
+         CO2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714557238; x=1715162038;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Sj0HBOnE/AZzpY+aRr1oFb31zLWbK1bfAK1h5C0SYek=;
+        b=GnTP+oe2/2+6VX2ChEexzPPXA3r64f3+oadTVjpnhY8eRQbEUk0mQQn0u4ii8CDFkz
+         d7XEiim9knFrlsZlsc9N2yrdXHHP58r97bVfW213cvW1l+dU8+xv5GQTy6WSCUkjvl9t
+         ckj5X/LAACSAOC0DfNFb1OXSRq5ylbBIlA8/s9rK0KzXKPhD5slukLmHUdaR+P4EVcvl
+         7fD8J/HQEQGdPPJcgZ5UnvG12OHuQDe+qg9FB4bG2RJ/kNUg+gcpBPWUSCSOfPQFeNeh
+         7ekELlC6uVunmSR++cIDLH5187EHsy9uqiBV7A8Qo5ZlgNHUWrZlwGQNuPqOP/DNaaAL
+         lvmw==
+X-Forwarded-Encrypted: i=1; AJvYcCU3zbx7R6pqWI9JJ2UxkKui1eKFgnNRMLBP0MDJhMMDjACG7iJvH0YO9E7/7XAaUz+03HPo5rq9EtzXa0Tf98csO3B3hiOFVIUySXZTnlKU+kJLOIwBdBfbVC7intd9rNcmZ/777c5fQfjYhigKc2Q43XN/btLvpZM6g8ILWFP4Wg==
+X-Gm-Message-State: AOJu0YxXeNMAmM0b7gYc2CBG4u9zd9HoNNEqczf4XYhnALm/5JpeaCYg
+	WukKGdJBwdYHnlzKhoDR7mHp+89ss/j49lwrEc+o24N7L7cPiWMZ
+X-Google-Smtp-Source: AGHT+IGO+JZlCqTtLRXab1myxfgJ9pjUVq6GTGb3fjNOHplR8ZPlYSayGrHeTaLPwlQNOYDE3S31Rg==
+X-Received: by 2002:a5e:a606:0:b0:7de:c3c3:b1f7 with SMTP id q6-20020a5ea606000000b007dec3c3b1f7mr2744011ioi.4.1714557237913;
+        Wed, 01 May 2024 02:53:57 -0700 (PDT)
+Received: from localhost (fwdproxy-nao-116.fbsv.net. [2a03:2880:23ff:74::face:b00c])
+        by smtp.gmail.com with ESMTPSA id r6-20020a056638130600b00487f87a60besm750356jad.134.2024.05.01.02.53.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 May 2024 02:53:57 -0700 (PDT)
+From: Usama Arif <usamaarif642@gmail.com>
+To: hannes@cmpxchg.org,
+	tj@kernel.org,
+	lizefan.x@bytedance.com,
+	nphamcs@gmail.com,
+	corbet@lwn.net
+Cc: linux-mm@kvack.org,
+	cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel-team@meta.com,
+	Usama Arif <usamaarif642@gmail.com>
+Subject: [PATCH] cgroup: Add documentation for missing zswap memory.stat
+Date: Wed,  1 May 2024 10:53:49 +0100
+Message-ID: <20240501095349.1407643-1-usamaarif642@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="bzCcwQgeWm10dOJ9"
-Content-Disposition: inline
-In-Reply-To: <20240429150553.625165-9-cleger@rivosinc.com>
+Content-Transfer-Encoding: 8bit
 
+This includes zswpin, zswpout and zswpwb.
 
---bzCcwQgeWm10dOJ9
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Usama Arif <usamaarif642@gmail.com>
+---
+ Documentation/admin-guide/cgroup-v2.rst | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-On Mon, Apr 29, 2024 at 05:05:01PM +0200, Cl=E9ment L=E9ger wrote:
-> Add parsing for Zcmop ISA extension which was ratified in commit
-> b854a709c00 ("Zcmop is ratified/1.0") of the riscv-isa-manual.
->=20
-> Signed-off-by: Cl=E9ment L=E9ger <cleger@rivosinc.com>
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 17e6e9565156..48ec54627814 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -1454,6 +1454,15 @@ PAGE_SIZE multiple when read back.
+ 	  zswapped
+ 		Amount of application memory swapped out to zswap.
+ 
++	  zswpin
++		Number of pages moved in to memory from zswap.
++
++	  zswpout
++		Number of pages moved out of memory to zswap.
++
++	  zswpwb
++		Number of pages written from zswap to swap.
++
+ 	  file_mapped
+ 		Amount of cached filesystem data mapped with mmap()
+ 
+-- 
+2.43.0
 
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-
-Cheers,
-Conor.
-
-
---bzCcwQgeWm10dOJ9
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZjIMVwAKCRB4tDGHoIJi
-0qS2AQDd5pQQV1Lo9gk6mG0PPGVg8VQ3JQTP3B6Td3sgZ3TSUwD/VRGQ9RYmks2d
-95wqK6MMvSBVf0bbdPHFZ7rwAOMKXAw=
-=7zWw
------END PGP SIGNATURE-----
-
---bzCcwQgeWm10dOJ9--
