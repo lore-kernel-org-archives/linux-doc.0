@@ -1,138 +1,213 @@
-Received: from bee.tesarici.cz (bee.tesarici.cz [37.205.15.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E373F51012;
-	Wed,  1 May 2024 11:21:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.205.15.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 425724F898;
+	Wed,  1 May 2024 11:30:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714562502; cv=none; b=Vl82qkRtLq4uH/lMVgVPZsGugvu/T+a3BXPqMio9W5t+a2GQaH1vWF7WiVOXpMN7rwh9YbNDp0zg55fjxrrj8CGoqCgv6xj4oGLw2A7kGk3qijAZZN6wirjBFVI49X1mGgoe9O/DRKk0UZi1IWstlL7BVrvwwGQu0IzJJtfY9kk=
+	t=1714563004; cv=none; b=W8pwIlF4XJmxW1GKSgr7UuPSFm2BJs3ZSvexwCnt57bU4Ao1omsNdUXMjz6zATh/IudxleF5gE/UWo2yUt9x930Ifth+WOQkbVcecYNDlT22h6UB7+ZMzOUTfLS2bFd/5rN2k6ib7x3eiI2ML5WzqZOw4SrqghqumQiVvDBRkeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714562502; c=relaxed/simple;
-	bh=aukg8XygoU/tHZmfHQJiWI5+qkxsLkxS+JlmBKyJbLw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=C8KGjPcF6u0OoJ3MWmDMREX+TC+zp7e40lyrZz0ytN/CB72Mi2M5Km95Xh+m3AueN3J+EwqybbhG0xeHfWEaeZSBjvwlbXhHzru7vSbOjFL5MYHy/mLDX6ERmDmkJ/YBdv5cvmGIFLUwXIdUMHpNjfhVdxs/g/QV4HK8g2pySxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz; spf=pass smtp.mailfrom=tesarici.cz; dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b=x7YnD+NQ; arc=none smtp.client-ip=37.205.15.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tesarici.cz
+	s=arc-20240116; t=1714563004; c=relaxed/simple;
+	bh=wnyP0N2IUEGu5xTUV2erSrz4gmuy2GNmNKOOWDxahyQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ieeyATj0dycJcTqHrHqor7vCE5l4daB0M90lkW53PIYhRZbw+3UfjKjeB2Fy8Cl0YKvLNO3UHgh0Jl/XFW3/zoE+MO4gY+pGvp5Qi8cPMLSMwhzmVSyCA6AIXBm5FKH50aBgqey1HRHByTuvLqheRyBBDkpThAouxrytv6mGsBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FV/NkRDA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="x7YnD+NQ"
-Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by bee.tesarici.cz (Postfix) with ESMTPSA id DD01D1B3EAE;
-	Wed,  1 May 2024 13:21:35 +0200 (CEST)
-Authentication-Results: mail.tesarici.cz; dmarc=fail (p=quarantine dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tesarici.cz; s=mail;
-	t=1714562496; bh=yX5KcB4S/Oqw9I+Le8+2EvUssgBuoEZIsBVsDa++6bQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=x7YnD+NQizeLFfIPEfS6HPJcDPqVH2aC1DcJ08dc1CY9Q4vyP9qAmhSFnSQd994ML
-	 ZpfhnGzUJIkWXb3k4B1WaUXanOYriGkWp/fZvYGDJBOeBdfMRlyAqbw/1RXs9UqwQ1
-	 5HlZ8qIEwXz/E7i9EX9QFmQsgg+uosJoFlQAbK7VYH5t/FH5O9+JG2UwuMUyAlxjgn
-	 j2ZVCOftiRUCMuYaYfnhg30eoJ0QgKQBWkQH+E7z+G8DbwCohOJm8XVnMEVmtkRpuX
-	 wY7PPUd5SRtX20Oo6mg/UMQR4RJ8HgNILrjHZU1pwyGudT72UOffIFrqULRqLV5teZ
-	 QyGfXSi9db70A==
-Date: Wed, 1 May 2024 13:21:34 +0200
-From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To: Christoph Hellwig <hch@lst.de>
-Cc: mhkelley58@gmail.com, mhklinux@outlook.com, robin.murphy@arm.com,
- joro@8bytes.org, will@kernel.org, m.szyprowski@samsung.com, corbet@lwn.net,
- iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, roberto.sassu@huaweicloud.com
-Subject: Re: [PATCH v3 1/1] Documentation/core-api: Add swiotlb
- documentation
-Message-ID: <20240501132134.24d3d5d8@meshulam.tesarici.cz>
-In-Reply-To: <20240501044910.GD31252@lst.de>
-References: <20240429151337.1069470-1-mhklinux@outlook.com>
-	<20240430132413.69797af1@mordecai>
-	<20240501044910.GD31252@lst.de>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-suse-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FV/NkRDA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46749C113CC;
+	Wed,  1 May 2024 11:29:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714563003;
+	bh=wnyP0N2IUEGu5xTUV2erSrz4gmuy2GNmNKOOWDxahyQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FV/NkRDARin7EyZMp5zpEWMLOj7VUk5uwlOKmK/QraQENAekoYt74g9QAxgVzlN7Q
+	 08GMdnBX9j1fCSX+x9eHg/9gkz/RRyQGC6WXGnBZKEQrc/FYO3xS2k2rJOgUeNOvO9
+	 v+6TP+11RF1FxRoCP6ym+ANBFfHJod9ArKo9IAbRaqgfJWhwB1P4LfsvKEsURoylZR
+	 HA405aAGd6qouJVCU+Tav/nkNNHiA3TFy/qmglhIqIAuB/6EkZ8Ogy42gqJmmRlz6H
+	 Xeur1ue0wnBx8dK9Mr/kaiu3qffOQ5XkwtpYP2HF/F5YNEPWhYoshZQbfFN6YyH+RF
+	 In72dVGW+yRmQ==
+Date: Wed, 1 May 2024 12:29:56 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Evan Green <evan@rivosinc.com>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v4 06/16] riscv: Introduce vendor variants of extension
+ helpers
+Message-ID: <20240501-tripping-acetone-e556e993ba95@spud>
+References: <20240426-dev-charlie-support_thead_vector_6_9-v4-0-b692f3c516ec@rivosinc.com>
+ <20240426-dev-charlie-support_thead_vector_6_9-v4-6-b692f3c516ec@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="Y5+x5J78UsrLnSS+"
+Content-Disposition: inline
+In-Reply-To: <20240426-dev-charlie-support_thead_vector_6_9-v4-6-b692f3c516ec@rivosinc.com>
+
+
+--Y5+x5J78UsrLnSS+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 1 May 2024 06:49:10 +0200
-Christoph Hellwig <hch@lst.de> wrote:
+On Fri, Apr 26, 2024 at 02:29:20PM -0700, Charlie Jenkins wrote:
 
-> On Tue, Apr 30, 2024 at 01:24:13PM +0200, Petr Tesa=C5=99=C3=ADk wrote:
-> > > +swiotlb was originally created to handle DMA for devices with addres=
-sing
-> > > +limitations. As physical memory sizes grew beyond 4 GiB, some device=
-s could
-> > > +only provide 32-bit DMA addresses. By allocating bounce buffer memor=
-y below
-> > > +the 4 GiB line, these devices with addressing limitations could stil=
-l work and
-> > > +do DMA. =20
-> >=20
-> > IIRC the origins are even older and bounce buffers were used to
-> > overcome the design flaws inherited all the way from the original IBM
-> > PC. =20
->=20
-> [correct, but for swiotlb largely irrelevant PC addressing bits snipped]
->=20
-> swiotlb was added with the merge of the ia64 port to address 32-bit
-> addressing limitations.  The 1MB addressing limitations of the PC did
-> and still do of course exist, but weren't dealt with in any coherent
-> fashion, and still aren't.  Swiotlb isn't related to them.
+> index c073494519eb..dd7e8e0c0af1 100644
+> --- a/arch/riscv/kernel/cpufeature.c
+> +++ b/arch/riscv/kernel/cpufeature.c
+> @@ -844,25 +844,41 @@ void __init_or_module riscv_cpufeature_patch_func(s=
+truct alt_entry *begin,
+>  {
+>  	struct alt_entry *alt;
+>  	void *oldptr, *altptr;
+> -	u16 id, value;
+> +	u16 id, value, vendor;
+> =20
+>  	if (stage =3D=3D RISCV_ALTERNATIVES_EARLY_BOOT)
+>  		return;
+> =20
+>  	for (alt =3D begin; alt < end; alt++) {
+> -		if (alt->vendor_id !=3D 0)
+> -			continue;
+> -
+>  		id =3D PATCH_ID_CPUFEATURE_ID(alt->patch_id);
+> +		vendor =3D PATCH_ID_CPUFEATURE_ID(alt->vendor_id);
+> =20
+> -		if (id >=3D RISCV_ISA_EXT_MAX) {
+> +		/*
+> +		 * Any alternative with a patch_id that is less than
+> +		 * RISCV_ISA_EXT_MAX is interpreted as a standard extension.
+> +		 *
+> +		 * Any alternative with patch_id that is greater than or equal
+> +		 * to RISCV_VENDOR_EXT_ALTERNATIVES_BASE is interpreted as a
+> +		 * vendor extension.
 
-Thanks for correcting me. Oh, and this is probably why some drivers did
-their own bounce buffering. I was mistaken that swiotlb was supposed to
-clean up the existing mess...
+I think this stuff is all fine, since we can always re-jig things in the
+future if needs be.
 
-> > > +data to/from the original target memory buffer. The CPU copying brid=
-ges between
-> > > +the unencrypted and the encrypted memory. This use of bounce buffers=
- allows
-> > > +existing device drivers to "just work" in a CoCo VM, with no modific=
-ations
-> > > +needed to handle the memory encryption complexity. =20
-> >=20
-> > This part might be misleading. It sounds as if SWIOTLB would not be
-> > needed if drivers were smarter. But IIUC that's not the case. SWIOTLB
-> > is used for streaming DMA, where device drivers have little control
-> > over the physical placement of a DMA buffer. For example, when a
-> > process allocates some memory, the kernel cannot know that this memory
-> > will be later passed to a write(2) syscall to do direct I/O of a
-> > properly aligned buffer that can go all the way down to the NVMe driver
-> > with zero copy. =20
->=20
-> I think the statement in the text is fine and easy to understand.  CoCo
-> drivers could instead always map the memory unencrypted (which would have
-> no so nice security and performance properties) or use fixed ringbuffers
-> in shared unencrypted memory (which would require a different driver
-> architecture).
->=20
-> > > +block. Hence the default memory pool for swiotlb allocations must be
-> > > +pre-allocated at boot time (but see Dynamic swiotlb below). Because =
-swiotlb
-> > > +allocations must be physically contiguous, the entire default memory=
- pool is
-> > > +allocated as a single contiguous block. =20
-> >=20
-> > Allocations must be contiguous in target device's DMA address space. In
-> > practice this is achieved by being contiguous in CPU physical address
-> > space (aka "physically contiguous"), but there might be subtle
-> > differences, e.g. in a virtualized environment.
-> >=20
-> > Now that I'm thinking about it, leave the paragraph as is, and I'll
-> > update it if I write the code for it. =20
->=20
-> Heh.  The only think making cpu non-contiguous address space contiguous
-> for a device is an iommu.  And when we have that we only use swiotlb
-> for unaligned iommu pages, so I'm not sure how we'd ever get there.
+> +		 */
+> +		if (id < RISCV_ISA_EXT_MAX) {
+> +			/*
+> +			 * This patch should be treated as errata so skip
+> +			 * processing here.
+> +			 */
+> +			if (alt->vendor_id !=3D 0)
+> +				continue;
+> +
+> +			if (!__riscv_isa_extension_available(NULL, id))
+> +				continue;
+> +		} else if (id >=3D RISCV_VENDOR_EXT_ALTERNATIVES_BASE) {
+> +			if (!__riscv_isa_vendor_extension_available(VENDOR_EXT_ALL_CPUS, vend=
+or, id))
+> +				continue;
+> +		} else {
+>  			WARN(1, "This extension id:%d is not in ISA extension list", id);
+>  			continue;
+>  		}
+> =20
+> -		if (!__riscv_isa_extension_available(NULL, id))
+> -			continue;
+> -
+>  		value =3D PATCH_ID_CPUFEATURE_VALUE(alt->patch_id);
+>  		if (!riscv_cpufeature_patch_check(id, value))
+>  			continue;
+> diff --git a/arch/riscv/kernel/vendor_extensions.c b/arch/riscv/kernel/ve=
+ndor_extensions.c
+> index f76cb3013c2d..eced93eec5a6 100644
+> --- a/arch/riscv/kernel/vendor_extensions.c
+> +++ b/arch/riscv/kernel/vendor_extensions.c
+> @@ -3,6 +3,7 @@
+>   * Copyright 2024 Rivos, Inc
+>   */
+> =20
+> +#include <asm/vendorid_list.h>
+>  #include <asm/vendor_extensions.h>
+>  #include <asm/vendor_extensions/thead.h>
+> =20
+> @@ -16,3 +17,42 @@ const struct riscv_isa_vendor_ext_data_list *riscv_isa=
+_vendor_ext_list[] =3D {
+>  };
+> =20
+>  const size_t riscv_isa_vendor_ext_list_size =3D ARRAY_SIZE(riscv_isa_ven=
+dor_ext_list);
+> +
+> +/**
+> + * __riscv_isa_vendor_extension_available() - Check whether given vendor
+> + * extension is available or not.
+> + *
+> + * @cpu: check if extension is available on this cpu
+> + * @vendor: vendor that the extension is a member of
+> + * @bit: bit position of the desired extension
+> + * Return: true or false
+> + *
+> + * NOTE: When cpu is -1, will check if extension is available on all cpus
+> + */
+> +bool __riscv_isa_vendor_extension_available(int cpu, unsigned long vendo=
+r, unsigned int bit)
+> +{
+> +	unsigned long *bmap;
+> +	struct riscv_isainfo *cpu_bmap;
+> +	size_t bmap_size;
+> +
+> +	switch (vendor) {
+> +#ifdef CONFIG_RISCV_ISA_VENDOR_EXT_THEAD
+> +	case THEAD_VENDOR_ID:
+> +		bmap =3D riscv_isa_vendor_ext_list_thead.vendor_bitmap;
+> +		cpu_bmap =3D riscv_isa_vendor_ext_list_thead.per_hart_vendor_bitmap;
+> +		bmap_size =3D riscv_isa_vendor_ext_list_thead.bitmap_size;
+> +		break;
+> +#endif
+> +	default:
+> +		return false;
+> +	}
+> +
+> +	if (cpu !=3D -1)
+> +		bmap =3D cpu_bmap[cpu].isa;
+> +
+> +	if (bit >=3D bmap_size)
+> +		return false;
+> +
+> +	return test_bit(bit, bmap) ? true : false;
+> +}
+> +EXPORT_SYMBOL_GPL(__riscv_isa_vendor_extension_available);
 
-Yes, there's no way to make CPU non-contiguous addresses contiguous for
-a device (except with IOMMU), but there are some real-world bus bridges
-that make a CPU contiguous address range non-contiguous for a target
-device, most often by limiting the address width and overflowing at the
-correspondign boundary.
+I wonder if we care to implement a non __ prefixed version of this, like
+the standard stuff? The only __ version users of the standard one are in
+kvm and core arch code, the "external" users all use the non-prefixed
+version.
 
-This is moot anyway, because I suggest to leave the paragraph as is.
+In any case,
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
-Petr T
+Cheers,
+Conor.
+
+--Y5+x5J78UsrLnSS+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZjIntAAKCRB4tDGHoIJi
+0pG1AP9aIuCIPhbYrT1n7AA8UjSnOOwkB+PkZ7aGQQs6HdTO4gEA7aKglY8RnM0i
+x4nkold+5MiZkBsWg8bRWX3UFKhfEAA=
+=BvUa
+-----END PGP SIGNATURE-----
+
+--Y5+x5J78UsrLnSS+--
