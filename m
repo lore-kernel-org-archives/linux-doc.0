@@ -1,129 +1,97 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01E3A53A9
-	for <linux-doc@vger.kernel.org>; Wed,  1 May 2024 03:16:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8C63D0A9;
+	Wed,  1 May 2024 04:49:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714533375; cv=none; b=XXM/GyqCLtSqC8LDGSZRw3u/5xx+wwNrrE8BGy25NvuRzb1bSo2ZD2eQ5KhZXxeKspJKsrtwhQ8PKsdvc/Q6s1rF7NgqhLWAK+iDdJIhuMG/ZeAL6Ccfgc1bYUHLewhBnG+jkRIhju3PM4R7jmdv8o3Ga1y5qmGJIShMxbxBsIE=
+	t=1714538958; cv=none; b=IgopjYGljnU5GxO8Gs2tt43zr960E0KRMkWpMYg+jc4O7dM+ZQGZI5MEpThBx2UWXD8spn0ys+hpNQdMU9tVnk/3cVG5iRGJ7kfLbmPCOQ4xLO4a01o4QMJnVBA4L+kTQvA5Ahh6CzEckg9fesyvsIh43benAyv7vKRR3zi//oU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714533375; c=relaxed/simple;
-	bh=fM3E7VHV8igY21z0/KR6kXLNmpKU5S2nd3tKDXDF7J8=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=lFZHJGnX8y2R7EEZL9R1dVA8ViBxFetJrgKuXs1muQs0lKrZR2+2vTszjyn0eDuOmlrze3l+dVveNU6V+6jGvnHAZruxhyudfrIenNDSzPXtm05Nz5ahdILiHM9Z9wLtABe3V6+6enekbdQT3jVN1tMKoQpD1uL7vCJmPyE7T3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jm3bo8lL; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jm3bo8lL"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1ec44cf691aso3281225ad.0
-        for <linux-doc@vger.kernel.org>; Tue, 30 Apr 2024 20:16:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714533373; x=1715138173; darn=vger.kernel.org;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xaDVbAwDlSNwpvz9fy1n4YZ/u6100O7JsUxkVH9FuGw=;
-        b=jm3bo8lLv+1dCJ/GlanAF+SiLClpTk4qaukV/iWRwQdrK/gnsUwrR0eZGyv8ZBMDlx
-         EqAguQpe3T3wDLPuLRI/4RyNoXN9kj2JZl5Oj2ydQ3cgvBBt8D3mH9dT7G9B2jGYdAok
-         idX2wg2WTFU5mmdpvfStLCrj6KLr2g2LYD3DrELlwCYAAaf28R/daPNdD4oFT3JzHFgS
-         qRzBWthcZ3irH3RDQ1Rmc4FeGcuYPHwnwOZWTkzGFUIks0sj3IpnSpbVvy288wutSyv+
-         +7ETgB5LYDviN+Is2VhexmIRBr19Qw3mcMm7o/29pisosr3/zexevMVWycKKZeSDlUCB
-         Nx4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714533373; x=1715138173;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=xaDVbAwDlSNwpvz9fy1n4YZ/u6100O7JsUxkVH9FuGw=;
-        b=PgNM8+MsnirFFKnKUjJRvfYWQWWMBrHbCdO/QXG/bS9Tk/58cj/R/UOJOQyBLSb2u2
-         aeFutD8W7Jt44vQWkwofJfats9CpczDGYfjzpmevOtfzyllt1IeG/PZXdycxfofZNY7Y
-         f0PgOQfKk/9D83CID8H20DcIpV/QBraYPj2+v+6PLEFPr+3QDiLipQG+mIjXGFIjEusz
-         kOQcEmi6hyuCWjc25GD+5N4swqpYtcwCeW4rw3DY5A6sV61aeAGXOgDDkIqQlr3dOF2Q
-         dwhD7M6aHEZA6VgzGCouqp1sYhczsxrV5SHdeAEIrWkC5Gs/GZ4q0DHuMnrLBXQ9hayk
-         4S8Q==
-X-Gm-Message-State: AOJu0YwLXKzLFOM70Kt+3yfz9cOKWRf9EhAopeywGvUWjjtQmfHn/u8l
-	rCqDhADSFrWXDoYqnU3MT/5tI4XfwhBVAqRu5v2Us8RulsHgbdEeAUcBHQ==
-X-Google-Smtp-Source: AGHT+IH8vSawCsPDuxSNhs7qy4I+qB3Uvj1eXQ7Ah9VFnLdJ1uURupAT0VAnB1RzOO5j02B58B9QvQ==
-X-Received: by 2002:a17:903:244e:b0:1e5:c131:ca0e with SMTP id l14-20020a170903244e00b001e5c131ca0emr6614801pls.6.1714533373017;
-        Tue, 30 Apr 2024 20:16:13 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id e13-20020a170902ed8d00b001e4464902bcsm23199622plj.60.2024.04.30.20.16.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Apr 2024 20:16:12 -0700 (PDT)
-Message-ID: <faf5fa45-2a9d-4573-9d2e-3930bdc1ed65@gmail.com>
-Date: Wed, 1 May 2024 12:16:11 +0900
+	s=arc-20240116; t=1714538958; c=relaxed/simple;
+	bh=he/kUeqK0dNeAWJhFxJc2221VUgxwuPvsqDXRRJ2wgk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aBq7BVtosrYqNYpcH/7G+3mTAyx13VHnbzRJVYBMhowOmBwUjFgM1p+mj0sZOLrFTaf73WOF5ATBm4M6756VhB4XVCjiQQ1kOKpxiLBb7Cw2eK9laxVjuev/EoZaeYDpXlShKpYX6ZsO8v3bgHuNYTy6XBCfb7HMjaAtVlZKo9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 9F6AA67373; Wed,  1 May 2024 06:49:11 +0200 (CEST)
+Date: Wed, 1 May 2024 06:49:10 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+Cc: mhkelley58@gmail.com, mhklinux@outlook.com, robin.murphy@arm.com,
+	joro@8bytes.org, will@kernel.org, hch@lst.de,
+	m.szyprowski@samsung.com, corbet@lwn.net, iommu@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	roberto.sassu@huaweicloud.com
+Subject: Re: [PATCH v3 1/1] Documentation/core-api: Add swiotlb
+ documentation
+Message-ID: <20240501044910.GD31252@lst.de>
+References: <20240429151337.1069470-1-mhklinux@outlook.com> <20240430132413.69797af1@mordecai>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-From: Akira Yokosawa <akiyks@gmail.com>
-Subject: [PATCH] docs: kernel_include.py: Cope with docutils 0.21
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240430132413.69797af1@mordecai>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-Running "make htmldocs" on a newly installed Sphinx 7.3.7 ends up in
-a build error:
+On Tue, Apr 30, 2024 at 01:24:13PM +0200, Petr Tesařík wrote:
+> > +swiotlb was originally created to handle DMA for devices with addressing
+> > +limitations. As physical memory sizes grew beyond 4 GiB, some devices could
+> > +only provide 32-bit DMA addresses. By allocating bounce buffer memory below
+> > +the 4 GiB line, these devices with addressing limitations could still work and
+> > +do DMA.
+> 
+> IIRC the origins are even older and bounce buffers were used to
+> overcome the design flaws inherited all the way from the original IBM
+> PC.
 
-    Sphinx parallel build error:
-    AttributeError: module 'docutils.nodes' has no attribute 'reprunicode'
+[correct, but for swiotlb largely irrelevant PC addressing bits snipped]
 
-docutils 0.21 has removed nodes.reprunicode, quote from release note [1]:
+swiotlb was added with the merge of the ia64 port to address 32-bit
+addressing limitations.  The 1MB addressing limitations of the PC did
+and still do of course exist, but weren't dealt with in any coherent
+fashion, and still aren't.  Swiotlb isn't related to them.
 
-  * Removed objects:
+> > +data to/from the original target memory buffer. The CPU copying bridges between
+> > +the unencrypted and the encrypted memory. This use of bounce buffers allows
+> > +existing device drivers to "just work" in a CoCo VM, with no modifications
+> > +needed to handle the memory encryption complexity.
+> 
+> This part might be misleading. It sounds as if SWIOTLB would not be
+> needed if drivers were smarter. But IIUC that's not the case. SWIOTLB
+> is used for streaming DMA, where device drivers have little control
+> over the physical placement of a DMA buffer. For example, when a
+> process allocates some memory, the kernel cannot know that this memory
+> will be later passed to a write(2) syscall to do direct I/O of a
+> properly aligned buffer that can go all the way down to the NVMe driver
+> with zero copy.
 
-    docutils.nodes.reprunicode, docutils.nodes.ensure_str()
-        Python 2 compatibility hacks
+I think the statement in the text is fine and easy to understand.  CoCo
+drivers could instead always map the memory unencrypted (which would have
+no so nice security and performance properties) or use fixed ringbuffers
+in shared unencrypted memory (which would require a different driver
+architecture).
 
-Sphinx 7.3.0 supports docutils 0.21 [2]:
+> > +block. Hence the default memory pool for swiotlb allocations must be
+> > +pre-allocated at boot time (but see Dynamic swiotlb below). Because swiotlb
+> > +allocations must be physically contiguous, the entire default memory pool is
+> > +allocated as a single contiguous block.
+> 
+> Allocations must be contiguous in target device's DMA address space. In
+> practice this is achieved by being contiguous in CPU physical address
+> space (aka "physically contiguous"), but there might be subtle
+> differences, e.g. in a virtualized environment.
+> 
+> Now that I'm thinking about it, leave the paragraph as is, and I'll
+> update it if I write the code for it.
 
-kernel_include.py, whose origin is misc.py of docutils, uses reprunicode.
-
-Upstream docutils removed the offending line from the corresponding file
-(docutils/docutils/parsers/rst/directives/misc.py) in January 2022.
-Quoting the changelog [3]:
-
-    Deprecate `nodes.reprunicode` and `nodes.ensure_str()`.
-
-    Drop uses of the deprecated constructs (not required with Python 3).
-
-Do the same for kernel_include.py.
-
-Tested against:
-  - Sphinx 2.4.5 (docutils 0.17.1)
-  - Sphinx 3.4.3 (docutils 0.17.1)
-  - Sphinx 5.3.0 (docutils 0.18.1)
-  - Sphinx 6.2.1 (docutils 0.19)
-  - Sphinx 7.2.6 (docutils 0.20.1)
-  - Sphinx 7.3.7 (docutils 0.21.2)
-
-Link: http://www.docutils.org/RELEASE-NOTES.html#release-0-21-2024-04-09 [1]
-Link: https://www.sphinx-doc.org/en/master/changes.html#release-7-3-0-released-apr-16-2024 [2]
-Link: https://github.com/docutils/docutils/commit/c8471ce47a24 [3]
-Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
----
- Documentation/sphinx/kernel_include.py | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/Documentation/sphinx/kernel_include.py b/Documentation/sphinx/kernel_include.py
-index abe768088377..638762442336 100755
---- a/Documentation/sphinx/kernel_include.py
-+++ b/Documentation/sphinx/kernel_include.py
-@@ -97,7 +97,6 @@ class KernelInclude(Include):
-         # HINT: this is the only line I had to change / commented out:
-         #path = utils.relative_path(None, path)
- 
--        path = nodes.reprunicode(path)
-         encoding = self.options.get(
-             'encoding', self.state.document.settings.input_encoding)
-         e_handler=self.state.document.settings.input_encoding_error_handler
-
-base-commit: fcb5bcefdbfbd939bf4edfa71182df0b56d20a49
--- 
-2.34.1
+Heh.  The only think making cpu non-contiguous address space contiguous
+for a device is an iommu.  And when we have that we only use swiotlb
+for unaligned iommu pages, so I'm not sure how we'd ever get there.
 
