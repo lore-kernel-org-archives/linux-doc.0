@@ -1,147 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bee.tesarici.cz (bee.tesarici.cz [37.205.15.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC22956B63;
-	Wed,  1 May 2024 11:19:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E373F51012;
+	Wed,  1 May 2024 11:21:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.205.15.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714562382; cv=none; b=t7CUtKKlXNBhNYmkLSlDkg61GlD5YorA2/b+6mP3rnPpnCPatbgu2BZbIWkG+NybqMOzC9VrE3z6tCUnNWm8IClBDZnjGkPqrDIJKxq3avx7z0HltR8Wn+ErDMdwQqqSjtTpJ/i2mrtOX+rYvmmdusFXilQtC5+Dx87a5Z32ZFQ=
+	t=1714562502; cv=none; b=Vl82qkRtLq4uH/lMVgVPZsGugvu/T+a3BXPqMio9W5t+a2GQaH1vWF7WiVOXpMN7rwh9YbNDp0zg55fjxrrj8CGoqCgv6xj4oGLw2A7kGk3qijAZZN6wirjBFVI49X1mGgoe9O/DRKk0UZi1IWstlL7BVrvwwGQu0IzJJtfY9kk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714562382; c=relaxed/simple;
-	bh=NdA764WJcGvt8lXly8jeVIEutQMXNgk81JN1Ta7vWVY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DTobHv7krHL4IgXAorK98I/fq4rOC7gkVISaSelsjLXvoCt9TEX8jqlpvppeAqQD+e5xtX4mIYTRXOV8qB1yDq7eCjCyBFxa8Ed0RBAQkYCuvS3qTLTDw/rBP4l5qfsKPuF02XefkTpaids+yIKCgWgtDgRdkQwyYwW2DecfoHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r1GBh8g1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714562502; c=relaxed/simple;
+	bh=aukg8XygoU/tHZmfHQJiWI5+qkxsLkxS+JlmBKyJbLw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=C8KGjPcF6u0OoJ3MWmDMREX+TC+zp7e40lyrZz0ytN/CB72Mi2M5Km95Xh+m3AueN3J+EwqybbhG0xeHfWEaeZSBjvwlbXhHzru7vSbOjFL5MYHy/mLDX6ERmDmkJ/YBdv5cvmGIFLUwXIdUMHpNjfhVdxs/g/QV4HK8g2pySxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz; spf=pass smtp.mailfrom=tesarici.cz; dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b=x7YnD+NQ; arc=none smtp.client-ip=37.205.15.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tesarici.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r1GBh8g1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7021C113CC;
-	Wed,  1 May 2024 11:19:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714562381;
-	bh=NdA764WJcGvt8lXly8jeVIEutQMXNgk81JN1Ta7vWVY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r1GBh8g178zlWYlSPyVe2IH0YcLY8mAJwRU9UH6hXxlYt1gtua7k+rREM54kTau8v
-	 Y7H5zBcJuIl+SZda1BS1vSVtZAvg3vHs7pYF6qdrJGk5t2JULK+jPJSDUbfF/lFJnH
-	 mMet8WFbpQw6okf2wyuvVSnse3Sy2Je/ak+0cQNHc1F2ZLmFtcIkEnjQMc3awKM1RT
-	 oo9KexsvtcE8/ZSxRErW4WHCu/GL31Ut8GKqV/Ce4A1OlM4v/AttF/xsFREivm2Y6/
-	 d2oip2TN9cSMH8U+W9EJskrejkG8sx4vcgkggrLIEBTr5l8AiJx7BN4XblhE8sNr8g
-	 yR40X/LPEX0Ig==
-Date: Wed, 1 May 2024 12:19:34 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Evan Green <evan@rivosinc.com>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v4 05/16] riscv: Extend cpufeature.c to detect vendor
- extensions
-Message-ID: <20240501-pelican-throwaway-da84be7dac30@spud>
-References: <20240426-dev-charlie-support_thead_vector_6_9-v4-0-b692f3c516ec@rivosinc.com>
- <20240426-dev-charlie-support_thead_vector_6_9-v4-5-b692f3c516ec@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="x7YnD+NQ"
+Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by bee.tesarici.cz (Postfix) with ESMTPSA id DD01D1B3EAE;
+	Wed,  1 May 2024 13:21:35 +0200 (CEST)
+Authentication-Results: mail.tesarici.cz; dmarc=fail (p=quarantine dis=none) header.from=tesarici.cz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tesarici.cz; s=mail;
+	t=1714562496; bh=yX5KcB4S/Oqw9I+Le8+2EvUssgBuoEZIsBVsDa++6bQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=x7YnD+NQizeLFfIPEfS6HPJcDPqVH2aC1DcJ08dc1CY9Q4vyP9qAmhSFnSQd994ML
+	 ZpfhnGzUJIkWXb3k4B1WaUXanOYriGkWp/fZvYGDJBOeBdfMRlyAqbw/1RXs9UqwQ1
+	 5HlZ8qIEwXz/E7i9EX9QFmQsgg+uosJoFlQAbK7VYH5t/FH5O9+JG2UwuMUyAlxjgn
+	 j2ZVCOftiRUCMuYaYfnhg30eoJ0QgKQBWkQH+E7z+G8DbwCohOJm8XVnMEVmtkRpuX
+	 wY7PPUd5SRtX20Oo6mg/UMQR4RJ8HgNILrjHZU1pwyGudT72UOffIFrqULRqLV5teZ
+	 QyGfXSi9db70A==
+Date: Wed, 1 May 2024 13:21:34 +0200
+From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+To: Christoph Hellwig <hch@lst.de>
+Cc: mhkelley58@gmail.com, mhklinux@outlook.com, robin.murphy@arm.com,
+ joro@8bytes.org, will@kernel.org, m.szyprowski@samsung.com, corbet@lwn.net,
+ iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, roberto.sassu@huaweicloud.com
+Subject: Re: [PATCH v3 1/1] Documentation/core-api: Add swiotlb
+ documentation
+Message-ID: <20240501132134.24d3d5d8@meshulam.tesarici.cz>
+In-Reply-To: <20240501044910.GD31252@lst.de>
+References: <20240429151337.1069470-1-mhklinux@outlook.com>
+	<20240430132413.69797af1@mordecai>
+	<20240501044910.GD31252@lst.de>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="p3ofyY8PZFrt+4od"
-Content-Disposition: inline
-In-Reply-To: <20240426-dev-charlie-support_thead_vector_6_9-v4-5-b692f3c516ec@rivosinc.com>
-
-
---p3ofyY8PZFrt+4od
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 26, 2024 at 02:29:19PM -0700, Charlie Jenkins wrote:
-> @@ -353,6 +336,10 @@ static void __init riscv_parse_isa_string(unsigned l=
-ong *this_hwcap, struct risc
->  		bool ext_long =3D false, ext_err =3D false;
-> =20
->  		switch (*ext) {
-> +		case 'x':
-> +		case 'X':
-> +			pr_warn_once("Vendor extensions are ignored in riscv,isa. Use riscv,i=
-sa-extensions instead.");
-> +			continue;
+On Wed, 1 May 2024 06:49:10 +0200
+Christoph Hellwig <hch@lst.de> wrote:
 
-Yeah, so this is not right - you need to find the end of the extension
-before containing - for example if I had a system with
-rv64imafdcxconorkwe, you get something like:
-[    0.000000] CPU with hartid=3D0 is not available
-[    0.000000] Falling back to deprecated "riscv,isa"
-[    0.000000] Vendor extensions are ignored in riscv,isa. Use riscv,isa-ex=
-tensions instead.
-[    0.000000] riscv: base ISA extensions acdefikmnorw
-[    0.000000] riscv: ELF capabilities acdfim
+> On Tue, Apr 30, 2024 at 01:24:13PM +0200, Petr Tesa=C5=99=C3=ADk wrote:
+> > > +swiotlb was originally created to handle DMA for devices with addres=
+sing
+> > > +limitations. As physical memory sizes grew beyond 4 GiB, some device=
+s could
+> > > +only provide 32-bit DMA addresses. By allocating bounce buffer memor=
+y below
+> > > +the 4 GiB line, these devices with addressing limitations could stil=
+l work and
+> > > +do DMA. =20
+> >=20
+> > IIRC the origins are even older and bounce buffers were used to
+> > overcome the design flaws inherited all the way from the original IBM
+> > PC. =20
+>=20
+> [correct, but for swiotlb largely irrelevant PC addressing bits snipped]
+>=20
+> swiotlb was added with the merge of the ia64 port to address 32-bit
+> addressing limitations.  The 1MB addressing limitations of the PC did
+> and still do of course exist, but weren't dealt with in any coherent
+> fashion, and still aren't.  Swiotlb isn't related to them.
 
-kwe are all pretty safe letters, but suppose one was a v..
-I think you can just yoink the code from the s/z case:
+Thanks for correcting me. Oh, and this is probably why some drivers did
+their own bounce buffering. I was mistaken that swiotlb was supposed to
+clean up the existing mess...
 
-diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-index 20bc9ba6b7a2..4daedba7961f 100644
---- a/arch/riscv/kernel/cpufeature.c
-+++ b/arch/riscv/kernel/cpufeature.c
-@@ -338,8 +338,19 @@ static void __init riscv_parse_isa_string(unsigned lon=
-g *this_hwcap, struct risc
- 		switch (*ext) {
- 		case 'x':
- 		case 'X':
--			pr_warn_once("Vendor extensions are ignored in riscv,isa. Use riscv,isa=
--extensions instead.");
--			continue;
-+			if (acpi_disabled)
-+				pr_warn_once("Vendor extensions are ignored in riscv,isa. Use riscv,is=
-a-extensions instead.");
-+			/*
-+			 * To skip an extension, we find its end.
-+			 * As multi-letter extensions must be split from other multi-letter
-+			 * extensions with an "_", the end of a multi-letter extension will
-+			 * either be the null character or the "_" at the start of the next
-+			 * multi-letter extension.
-+			 */
-+			for (; *isa && *isa !=3D '_'; ++isa)
-+				;
-+			ext_err =3D true;
-+			break;
- 		case 's':
- 			/*
- 			 * Workaround for invalid single-letter 's' & 'u' (QEMU).
+> > > +data to/from the original target memory buffer. The CPU copying brid=
+ges between
+> > > +the unencrypted and the encrypted memory. This use of bounce buffers=
+ allows
+> > > +existing device drivers to "just work" in a CoCo VM, with no modific=
+ations
+> > > +needed to handle the memory encryption complexity. =20
+> >=20
+> > This part might be misleading. It sounds as if SWIOTLB would not be
+> > needed if drivers were smarter. But IIUC that's not the case. SWIOTLB
+> > is used for streaming DMA, where device drivers have little control
+> > over the physical placement of a DMA buffer. For example, when a
+> > process allocates some memory, the kernel cannot know that this memory
+> > will be later passed to a write(2) syscall to do direct I/O of a
+> > properly aligned buffer that can go all the way down to the NVMe driver
+> > with zero copy. =20
+>=20
+> I think the statement in the text is fine and easy to understand.  CoCo
+> drivers could instead always map the memory unencrypted (which would have
+> no so nice security and performance properties) or use fixed ringbuffers
+> in shared unencrypted memory (which would require a different driver
+> architecture).
+>=20
+> > > +block. Hence the default memory pool for swiotlb allocations must be
+> > > +pre-allocated at boot time (but see Dynamic swiotlb below). Because =
+swiotlb
+> > > +allocations must be physically contiguous, the entire default memory=
+ pool is
+> > > +allocated as a single contiguous block. =20
+> >=20
+> > Allocations must be contiguous in target device's DMA address space. In
+> > practice this is achieved by being contiguous in CPU physical address
+> > space (aka "physically contiguous"), but there might be subtle
+> > differences, e.g. in a virtualized environment.
+> >=20
+> > Now that I'm thinking about it, leave the paragraph as is, and I'll
+> > update it if I write the code for it. =20
+>=20
+> Heh.  The only think making cpu non-contiguous address space contiguous
+> for a device is an iommu.  And when we have that we only use swiotlb
+> for unaligned iommu pages, so I'm not sure how we'd ever get there.
 
-You'll note that I made the dt property error dt only, this function
-gets called for ACPI too. I think the skip is pretty safe there though
-at the moment, we've not established any meanings yet for vendor stuff
-on ACPI.
-I think breaking is probably better than using continue - we get the _
-skip from outside the switch statement out of that. And ye, I am lazy
-so I kept it as a for loop.
+Yes, there's no way to make CPU non-contiguous addresses contiguous for
+a device (except with IOMMU), but there are some real-world bus bridges
+that make a CPU contiguous address range non-contiguous for a target
+device, most often by limiting the address width and overflowing at the
+correspondign boundary.
 
-Cheers,
-Conor.
+This is moot anyway, because I suggest to leave the paragraph as is.
 
---p3ofyY8PZFrt+4od
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZjIlRgAKCRB4tDGHoIJi
-0ugAAPoDPa6ArkzDoKOdltjV690jUcxJanZcOTddmqK/7OVlEQEAxQBqLmw0FIrU
-vufC89X3QQxXx0ONQsmNnf3NeXJ//QU=
-=Ec6E
------END PGP SIGNATURE-----
-
---p3ofyY8PZFrt+4od--
+Petr T
