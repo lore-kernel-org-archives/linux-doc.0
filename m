@@ -1,95 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D240C83CB0;
-	Wed,  1 May 2024 12:07:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16DCD12DDB0;
+	Wed,  1 May 2024 13:33:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714565261; cv=none; b=VU+t1W1CKAqeNeoI1vdQEqxCXJYnyzI/Qh0fKMh5jIh2A6+y0CsO5qsAoY4w+W0x2xwWdG9oNyfX4i3tqbWSqkL4bEGLxdw7TVTvWQZety56A6sCXv0WlhcaquR/dVILEyUfBivMDZ5a5mbco7pIXM5X45ngav42rTbxernGQmk=
+	t=1714570424; cv=none; b=hBGbWXFD8S4VSaJtUiwRiPbp6AvQ4SujGK9Np716Uu1uMQ6bK8A8nEKN1jnnb2vIA3tGfL8Gz1HS3/aN/vOatuf2s2PHAK5cTvmEvVyiJ/ciNtZNV0OPJ6qGGhU0u+CvG2RxrZ8azV3XDn3y6zAyvg1K6GP6d8k02DtWYmqCs2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714565261; c=relaxed/simple;
-	bh=KRSiba1Wfe1AyV1Ikzz7ypfhE6bSK4FEWZ0s092Z/9c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MBFZIYCjRuh+mgYefTgCBbRVoujcIDALXF6ys3ieXIhWSd7uTNzB3JMJe8ThMEe6ZU4SEGwW+q80VUNNUJ8DRRcjsKMuBx28+nMqlLLz4SNomlg/kz6y4fsue5/RETtTWHB3yor09uDOgPIJtBwlglWk8BbFyCpVgT6xZSmgDhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CE03C113CC;
-	Wed,  1 May 2024 12:07:38 +0000 (UTC)
-Date: Wed, 1 May 2024 13:07:36 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Maxwell Bland <mbland@motorola.com>
-Cc: linux-mm@kvack.org, Will Deacon <will@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	s=arc-20240116; t=1714570424; c=relaxed/simple;
+	bh=v1uq+AqyCYjTejfbtW5mvJzoxMflu+kesffuEm3SeEI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=J1qj5FylZj6DFHkwcgNxyKYj48Y5cdDFvySAEch/CNB2DT+5/nuUbWH3dhWAzf1FbhpGbQMNOkiVGtIe5rQ86Ls1HFdcy72MHYr2HxFlwkU+RcoPiD3awqiA+VeaKjuOjQiMbGObhPoQys6lmM0TI4yYw8fPqWJDnKVrV467t+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BdNsCGdc; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BdNsCGdc"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-1ec69e3dbe5so12082975ad.0;
+        Wed, 01 May 2024 06:33:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714570422; x=1715175222; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RIs2EAnwhy7zwu/YLIZtkKABdkCncOCCKCOVBsGpvIA=;
+        b=BdNsCGdcqgcqVexGQrbg/DJ+fklwWTfkZL7NTPXycG4Om0c9e8VU9TShvK63b/CZdb
+         zMr52VghsyYXzq/rGi9StMvZJBlDGjH8y2cZzaTkYNhfUTTJZLcy/I4xHbi9xnYloO2u
+         jBzdyGpF1bILKMwAkJ9GkUFRmGFz93ZH8YI11vDcQjICsO3TQVIzSrkWQmc1Sa05bdZV
+         OFtXZeV3wBZisXojvoufn5I6emQc8XQPjMwbDCPFVeVrdDgMoGNa8gQQP68ea6rtKDHL
+         YXlPrMaBC2UG4HIVj4hQ4jp+I16hCkzlSaXco57VCJhrNHsFp60afPTnUWKllC5Co4iy
+         TAQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714570422; x=1715175222;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RIs2EAnwhy7zwu/YLIZtkKABdkCncOCCKCOVBsGpvIA=;
+        b=e6P6n+ZfXrbb45DBw60LzcDw2aBcBlVTxEj77cbgeTa9QKRMRZQ/hjf7aSphSn2oeP
+         1WrMP+4gQKleaKAEZtxL2INongZMFSUWuqhyeNeukPD6NpjLg+64qfiiaMoURJrV/Zwk
+         1ZU9VrOi4qD4MxneZEgs9MZQLsbrj5I8YT5FIjEFiAGxbF5UjzrMGWqgvjIvJfP2LYCV
+         g1sUG1HsEHyTcYyne+wdTF37UUr30WFoDaQODt85SCBE/0ZXtL1vLzyMEMjN2vODv41c
+         QwfP7jvgeRCTsOuFnpVjMQuILDawvJ3c17f9jQ26usSEWwpoVjmcQEF6p3uMoxHt1MfH
+         2IqA==
+X-Forwarded-Encrypted: i=1; AJvYcCXjQ7xX2auAqAljn9jp2eW5sWgLC/jLF/pGGvZH0iAuNFSRiRfc6qJZdH9mMcS+tr+qFlXG5Zc7I+jTO/eNWT2kOWru2rDMU84+dONKaG+9kQ66X2lyulTc6HVZ++nZJVVqjnwL97FC
+X-Gm-Message-State: AOJu0Yxx3pp0tuUM0NAjrl20lSuGQgrn0x/y4YbQZj0RFearG7m17jsg
+	o4zZHw3FbPyPiXnVRBki2/8ERpYFzAFHbmx821EUUEQvQl6ahFQ=
+X-Google-Smtp-Source: AGHT+IGoLzo5WXbR9Dq1fTr1Mlwf77nJ95s7iCo/7aejTpbvHOgX2b3snoBNCMj1rdhtryNIvOLIIg==
+X-Received: by 2002:a17:903:191:b0:1e6:7731:80 with SMTP id z17-20020a170903019100b001e677310080mr2959626plg.11.1714570422111;
+        Wed, 01 May 2024 06:33:42 -0700 (PDT)
+Received: from utkarsh-ROG-Zephyrus-G14-GA401II-GA401II.. ([117.203.246.41])
+        by smtp.gmail.com with ESMTPSA id l6-20020a170903244600b001ea963d0d58sm12435926pls.137.2024.05.01.06.33.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 May 2024 06:33:41 -0700 (PDT)
+From: Utkarsh Tripathi <utripathi2002@gmail.com>
+To: tj@kernel.org,
+	jiangshanlai@gmail.com,
+	skhan@linuxfoundation.org
+Cc: Utkarsh Tripathi <utripathi2002@gmail.com>,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] ptdump: add intermediate directory support
-Message-ID: <ZjIwiFa3CMxxtAZ1@arm.com>
-References: <fik5ys53dbkpkl22o4s7sw7cxi6dqjcpm2f3kno5tyms73jm5y@buo4jsktsnrt>
+Subject: [PATCH] Sphinx error fixed for inline literal end-string in include/linux/workqueue.h
+Date: Wed,  1 May 2024 19:02:40 +0530
+Message-Id: <20240501133240.6003-1-utripathi2002@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fik5ys53dbkpkl22o4s7sw7cxi6dqjcpm2f3kno5tyms73jm5y@buo4jsktsnrt>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 30, 2024 at 11:05:01AM -0500, Maxwell Bland wrote:
-> Add an optional note_non_leaf parameter to ptdump, causing note_page to
-> be called on non-leaf descriptors. Implement this functionality on arm64
-> by printing table descriptors along with table-specific permission sets.
-> 
-> For arm64, break (1) the uniform number of columns for each descriptor,
-> and (2) the coalescing of large PTE regions, which are now split up by
-> PMD. This is a "good" thing since it makes the behavior and protection
-> bits set on page tables, such as PXNTable, more explicit.
-> 
-> Before:
-> 0xffff008440210000-0xffff008440400000 1984K PTE ro NX SHD AF NG UXN M...
-> 0xffff008440400000-0xffff008441c00000 24M PMD ro NX SHD AF NG BLK UXN...
-> 0xffff008441c00000-0xffff008441dc0000 1792K PTE ro NX SHD AF NG UXN M...
-> 0xffff008441dc0000-0xffff00844317b000 20204K PTE RW NX SHD AF NG UXN ...
-> 
-> After (tabulation omitted and spaces condensed):
-> 0xffff0fb640200000-0xffff0fb640400000 2M PMD TBL RW x NXTbl UXNTbl ME...
-> 0xffff0fb640200000-0xffff0fb640210000 64K PTE RW NX SHD AF NG UXN MEM...
-> 0xffff0fb640210000-0xffff0fb640400000 1984K PTE ro NX SHD AF NG UXN M...
-> 0xffff0fb640400000-0xffff0fb641c00000 24M PMD BLK ro SHD AF NG NX UXN...
-> 0xffff0fb641c00000-0xffff0fb641e00000 2M PMD TBL RW x NXTbl UXNTbl ME...
-> 0xffff0fb641c00000-0xffff0fb641dc0000 1792K PTE ro NX SHD AF NG UXN M...
-> 0xffff0fb641dc0000-0xffff0fb641e00000 256K PTE RW NX SHD AF NG UXN ME...
-> 
-> v3:
->   - Added tabulation to delineate entries
->   - Fixed formatting issues with mailer and rebased to mm/linus
-> 
-> v2:
->   - Rebased onto linux-next/akpm (the incorrect branch)
-> 
-> Signed-off-by: Maxwell Bland <mbland@motorola.com>
-> ---
-> Thank you again to the maintainers for your review of this patch.
-> 
-> To Andrew Morton, I apologize for the malformatted patches last week.It
-> will hopefully never happen again. I have tested mailing this patch to
-> myself and have confirmed it cleanly merges to mm/linus.
-> 
->  Documentation/arch/arm64/ptdump.rst | 184 +++++++++++++---------
->  arch/arm64/mm/ptdump.c              | 230 +++++++++++++++++++++++++---
->  include/linux/ptdump.h              |   1 +
->  mm/ptdump.c                         |  13 ++
->  4 files changed, 332 insertions(+), 96 deletions(-)
+Fixed Error in Workqueue Documentation in the kernel-doc comment 
+for alloc_workqueue function in include/linux/workqueue.h, 
+the error was "Inline literal start-string without end-string" 
+which was fixed by removing the inline literal.
+Kernel Version - 6.9.0-rc5
 
-Is this v3 replacing v2 here:
+Signed-off-by: Utkarsh Tripathi <utripathi2002@gmail.com>
+---
+ include/linux/workqueue.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-https://lore.kernel.org/r/20240423142307.495726312-1-mbland@motorola.com
-
-or it goes on top? The patch versioning and subject change confuses me.
-
+diff --git a/include/linux/workqueue.h b/include/linux/workqueue.h
+index 158784dd189a..b4aebd981a23 100644
+--- a/include/linux/workqueue.h
++++ b/include/linux/workqueue.h
+@@ -490,7 +490,7 @@ void workqueue_softirq_dead(unsigned int cpu);
+  * min_active which is set to min(@max_active, %WQ_DFL_MIN_ACTIVE). This means
+  * that the sum of per-node max_active's may be larger than @max_active.
+  *
+- * For detailed information on %WQ_* flags, please refer to
++ * For detailed information on WQ_* flags, please refer to
+  * Documentation/core-api/workqueue.rst.
+  *
+  * RETURNS:
 -- 
-Catalin
+2.34.1
+
