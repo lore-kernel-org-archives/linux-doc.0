@@ -1,137 +1,95 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D5911581E3
-	for <linux-doc@vger.kernel.org>; Wed,  1 May 2024 18:37:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 787CA1607A8;
+	Wed,  1 May 2024 18:57:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714588661; cv=none; b=mX1b9o6GSbDAAjflifG1jY8F2zF6/BlIjo1BOoiIudiYExAo5xwK8HJgFcvYBMT7yPOpQ7QC5rTdm0tllFK+BUKKSFDt1CN4HUarOiX5kwuVqfVLcTia6d5ByrmCRqYt3qiLyaF2I+1eYUChP261sKat6eP4B5XKhnNJ6d8aXS4=
+	t=1714589830; cv=none; b=bZnNZ642F3jBDrV8pjSgv9hPzHVfXly3i9h/ok0Qoz4FPeglv9sVqkJdKlT7FHCJeGs/2PEdmHEQSpfC+obLtxSrgRF5K9x0CX61U4oJ/VU1gemGis7PdpsLV9fjUQPPeeqg6D2nvaSECzvrZbtblYSHCVGMIbikTKMgTuz7CAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714588661; c=relaxed/simple;
-	bh=JuEww4VdQj0DUkQJJy7CdW/ah+PwXXtcE+4baSBSWmg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r9ZjHrX+mOBQGfCJeGGW3e0obXswAZz52wK+uVbN6kScBKLJg7uIk6mrOhUmu753Co4qrBnDEhXKsXiqb2jHppbK6IebRmBozrwgz3/ukdF8ZSN92qCByi2i16UXvVyTumSKV5vrfDHUsnXCq3QAH+sq1GipxWWNcpBWccLdY78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=SU9geB7W; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1714589830; c=relaxed/simple;
+	bh=0aoNKXX8hWE0H+YlLw7f66VrTZxQWRpKPdrqMg24ySE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=FlGCx658jshjV7XAtB8FV3hjVnH8QT5L9HNzxS/ILHT8FPHrYVkci25YON2cXeLDppUeMSKofkOsOqtNqc9tXD6fSotqczr21CnvfBASmiahShpS/ZhiruYcDT1kW8/ihdVwnhtLcCBJHdGNbFHdvWZt/2nK7uewrTwt8OUFjvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=SRkJzVs8; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="SU9geB7W"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-6ecec796323so6782135b3a.3
-        for <linux-doc@vger.kernel.org>; Wed, 01 May 2024 11:37:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1714588659; x=1715193459; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=UPPZ5LFjy8shqZnGR3m66PAl3+HNQfmLTm+BXjtgDiI=;
-        b=SU9geB7WtsRPik19lbwiTnZkq4+Ugy3cwxvvTohX8CwkOWxS4p3goKGUICi9jfPssK
-         7g5/wiAocpqguorU9SNgQ1nx/XfxmKxwoFUbPr2HKeW25SxpPTXLnAHSBlQqWsY7lCZs
-         0AOdHXAyUQmjEfhBvOi/3/yi1vaQJhLHnqJklizccrsiu0CAkvAyVhoZaLbvZwjuBtrg
-         As07tNkCkn56pecg8Y5kBlmfjH9TLr4gXZtilMp1vuEfUKpc6QJ2CTtvkQlhLp9V66tH
-         s1HdQWPF9RNpMyCAU2Ps3R42M4kQo9BpeqqTSDs+ImWlSIWHVriCowOSOzmpdQ3zxvaJ
-         exyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714588659; x=1715193459;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UPPZ5LFjy8shqZnGR3m66PAl3+HNQfmLTm+BXjtgDiI=;
-        b=qi6CDc6+xBeau9VDwKfW/yY1kRA0gMo0hOqytWUMEZNCwdot3YzyNgtus2l4kU/VCG
-         8f3phhP4Kwd2hCobwryZd23LtmOHCsiZ/DNXwOZTnFaH2KzVKmEEgxj1JuwGMaQV9VL8
-         rErLkY/hjO4bnHINmSM9jfRFo+7U9hduYyg7g35ePqaTMoA+h5+GLPtETmY7ZxLL2IRq
-         YrkH3CEAAMjsd7FLni8hTNdtQqhPOFSw84VaydhVmiaDqo43QE5WYBogfmsKY1XMoHOC
-         JrK8D8we8nbWjboNzBZgCrfHhRW9NiwowXIhispS6z9CiK157+qDwIahpmzSBMz7u+SL
-         6Lyw==
-X-Forwarded-Encrypted: i=1; AJvYcCWlenPhXpU22nfMMn3kMMvmFQgIBLHPEZSMk5fmGXaecZiQAfZ7Ja6/sF/MaAqTZs01UiLPFnqLuuAaZvX90MvKkUU5vpXf+8o5
-X-Gm-Message-State: AOJu0YwBVTsrZygNZbVHlSEOC7NDq5xFOgrGeQvfqy7UWFz6isS6RqdP
-	SjO4cUquJ9U0LO4wQH268q7Q8tBR9yfZ888baJIucNIbVNzfPFCt8dT/f7ewGE4=
-X-Google-Smtp-Source: AGHT+IFvmfcgG9gsaJ1/osT3hsX+JLkHUCdFQSUoli8OLgDET6zbJ2GqgYGb+4vjIsoV+zp3JnL2Pg==
-X-Received: by 2002:a05:6a20:8425:b0:1a7:3b4a:3e8 with SMTP id c37-20020a056a20842500b001a73b4a03e8mr4113035pzd.7.1714588659240;
-        Wed, 01 May 2024 11:37:39 -0700 (PDT)
-Received: from ghost ([2601:647:5700:6860:1dcc:e03e:dc61:895d])
-        by smtp.gmail.com with ESMTPSA id m8-20020a17090ab78800b002b15e6ec4efsm1672349pjr.15.2024.05.01.11.37.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 May 2024 11:37:38 -0700 (PDT)
-Date: Wed, 1 May 2024 11:37:35 -0700
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Conor Dooley <conor@kernel.org>
-Cc: Evan Green <evan@rivosinc.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v4 05/16] riscv: Extend cpufeature.c to detect vendor
- extensions
-Message-ID: <ZjKL7x+s5AYzdCGE@ghost>
-References: <20240426-dev-charlie-support_thead_vector_6_9-v4-0-b692f3c516ec@rivosinc.com>
- <20240426-dev-charlie-support_thead_vector_6_9-v4-5-b692f3c516ec@rivosinc.com>
- <CALs-HstM64Hy_=XVz=0sWQt=8j1u+bq6RhthUuD3P0E4=HyvcA@mail.gmail.com>
- <ZjKBKg5zzikR5ngl@ghost>
- <20240501-banner-sniff-4c5958eb15ef@spud>
- <20240501-moneyless-shifter-a54bbaecc4e7@spud>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="SRkJzVs8"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5F46147C42
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1714589821; bh=4xnLp8OdJ5uSBbLV1KZq5CLFPr7xzGKpCJEQ3FB3DAM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=SRkJzVs87gjmPX0/pAPwI6xs+zY2cyy/tOjPno1u8hq4/9N6fD/iN4SnODv2eodWd
+	 BVmq/WPRqpuM/ihNtExfghfg+0Vh40tD1dClc4XokbeNPsDv/+421lekHIuGrtzV1l
+	 8yuD4wUP1HTgn/n3QoVlnKT4Bk8QvvwxHvyVTGsYy0bxh0bArGYicqpGUbmJA1wl5J
+	 iRqDBSL8LPm+K/oyyU0CBgNCOjav2oWpKYg23pAJWO+WtYolgqvn+UUuWh1XCqQa49
+	 rXwqkN5WuJhSBaktxPhkHku7AM7R7m/ODRgiWkwjCpTDC1XFoF3uHFkSj2+h7XPfMt
+	 hgN7vdnQX2wnA==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 5F46147C42;
+	Wed,  1 May 2024 18:57:01 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Utkarsh Tripathi <utripathi2002@gmail.com>, akiyks@gmail.com
+Cc: Utkarsh Tripathi <utripathi2002@gmail.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
+Subject: Re: [PATCH v2] Sphinx error fixed for inline literal end-string by
+ changing $type_constant2 in kernel-doc script to include "*" unicode
+ character in highlights_rst.
+In-Reply-To: <20240501175730.23326-1-utripathi2002@gmail.com>
+References: <b9e4bedb-6678-42ed-9ac1-c10179be5b69@gmail.com>
+ <20240501175730.23326-1-utripathi2002@gmail.com>
+Date: Wed, 01 May 2024 12:57:00 -0600
+Message-ID: <87r0elbbsz.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240501-moneyless-shifter-a54bbaecc4e7@spud>
+Content-Type: text/plain
 
-On Wed, May 01, 2024 at 07:09:28PM +0100, Conor Dooley wrote:
-> On Wed, May 01, 2024 at 07:03:46PM +0100, Conor Dooley wrote:
-> > On Wed, May 01, 2024 at 10:51:38AM -0700, Charlie Jenkins wrote:
-> > > On Wed, May 01, 2024 at 09:44:15AM -0700, Evan Green wrote:
-> > > > On Fri, Apr 26, 2024 at 2:29 PM Charlie Jenkins <charlie@rivosinc.com> wrote:
-> > > > > +       for (int i = 0; i < riscv_isa_vendor_ext_list_size; i++) {
-> > > > > +               const struct riscv_isa_vendor_ext_data_list *ext_list = riscv_isa_vendor_ext_list[i];
-> > > > > +
-> > > > > +               if (bitmap_empty(ext_list->vendor_bitmap, ext_list->bitmap_size))
-> > > > > +                       bitmap_copy(ext_list->vendor_bitmap,
-> > > > > +                                   ext_list->per_hart_vendor_bitmap[cpu].isa,
-> > > > > +                                   ext_list->bitmap_size);
-> > > > 
-> > > > Could you get into trouble here if the set of vendor extensions
-> > > > reduces to zero, and then becomes non-zero? To illustrate, consider
-> > > > these masks:
-> > > > cpu 0: 0x0000C000
-> > > > cpu 1: 0x00000003 <<< vendor_bitmap ANDs out to 0
-> > > > cpu 2: 0x00000010 <<< oops, we end up copying this into vendor_bitmap
-> > > > 
-> > > 
-> > > Huh that's a good point. The standard extensions have that same bug too?
-> > > 
-> > > 	if (bitmap_empty(riscv_isa, RISCV_ISA_EXT_MAX))
-> > > 		bitmap_copy(riscv_isa, isainfo->isa, RISCV_ISA_EXT_MAX);
-> > > 	else
-> > > 		bitmap_and(riscv_isa, riscv_isa, isainfo->isa, RISCV_ISA_EXT_MAX);
-> > 
-> > I suppose it could in theory, but the boot hart needs ima to even get
-> > this far. I think you'd only end up with this happening if there were
-> > enabled harts that supported rvXXe, but I don't think we even add those
-> > to the possible set of CPUs. I'll have to check.
-> 
-> Ye, you don't get marked possible if you don't have ima, so I don't
-> think this is possible to have happen. Maybe a comment here is
-> sufficient, explaining why this cannot reduce to zeros?
+Utkarsh Tripathi <utripathi2002@gmail.com> writes:
 
-Okay cool. A comment is sufficient then.
+> The kernel-doc script uses the $type_constant2 variable to match
+> expressions used to find embedded type information. The current
+> implementation of $type_constant2 does not include the "*" unicode
+> character, which is used to highlight inline literals in the
+> documentation. This causes a Sphinx error when the inline literal
+> end-string is used in the documentation.
 
-- Charlie
+So I need to look a bit further at the actual change, but I do have a
+couple of comments on the patch itself.  First, the text above is a
+reasonable description of the problem, as a changelog should have.  That
+said, the subject line could be a bit shorter and to the point.
 
-> 
-> 
+This text below:
 
+> This commit follows the pattern of the commit
+> 8aaf297a0dd6 ("docs: scripts: kernel-doc: accept bitwise negation like ~@var")
+> and takes inspiration from the following commit
+> 69fc23efc7e5 ("kernel-doc: Add unary operator * to $type_param_ref").
+>
+> Thanks Akira, for your suggestions, I have made the required changes.
+> I am fairly new to the kernel community, so if I am making 
+> any mistakes while making patches and replying to mails,
+> please let me know, it will be very helpful.
 
+...doesn't belong in the changelog.  If you put comments like this below
+the "---" line, then the maintainer won't have to edit them out when
+applying the patch.
+
+> Signed-off-by: Utkarsh Tripathi <utripathi2002@gmail.com>
+> Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
+> Suggested-by: Akira Yokosawa <akiyks@gmail.com>
+
+Did Akira offer you that Reviewed-by tag?  I haven't seen it (which
+doesn't mean it didn't happen).  If it was not explicitly given to you,
+though, you cannot put it here.
+
+Thanks,
+
+jon
