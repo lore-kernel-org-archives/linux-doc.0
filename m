@@ -1,52 +1,54 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE0A4F898
-	for <linux-doc@vger.kernel.org>; Wed,  1 May 2024 15:43:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6698130ADD
+	for <linux-doc@vger.kernel.org>; Wed,  1 May 2024 15:43:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714578201; cv=none; b=JexjJqnBOYGVEO5H2m7tNu3heOZvfWTA6+x3L7BBkCkCMKfMfnqKP0gnhUz77KsbN1nxUhATsG6TVy5jdeKWYxWdfiQ+Luu7J4/EI5ImYIJQ8Ts7JSkCFGHzsQ6MFCZBCg7n2d5zu6XmhuVNwUGmnizALycizsZksB4J+9MI62A=
+	t=1714578212; cv=none; b=fvvsbCT9S1t4XXzdSKyUSc25giKRxNxDWSZbYzePoq2rUvfjNlNr+anDfSnzxsK7bxlsAPj1uU+dnbZxz59ERLPj3h+4URIeTQ6jUFoP0M1XHQ2D7cDPchoY+iU3nD2XNzudVG9RqDG9mcynKAxEd6k24HIJFwmBN9IdNIpSNLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714578201; c=relaxed/simple;
-	bh=l18OjoF9z9/KJIkQeFHeAoDUNt5M0OaJGhX0AhKmSsM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MoQ2xt/j68rPQonuzLku05dizPDRhu8YiLGc8a2VRWpBeWcQ1tF6d3CoHyrk/7T+okpNRXm7L0nbcAICYxQ+uIct4FkdgbxSFYXwrVUSWHm6p4O830mdfrIWiRINKFzXjbNZVGj3WVbEkW0qXXe6+flUduDcrdqo5Z7mMwD7OQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=RdClgPHI; arc=none smtp.client-ip=209.85.210.175
+	s=arc-20240116; t=1714578212; c=relaxed/simple;
+	bh=iX/2Xz7SgoVhTkI6iA0U9mq9MhmHRTeqAoKISHCNd3M=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=L+v0uZBNfnhjnlS5B3JGhkF5wEypokCeAkKA0Ai91fyXyqpTL7VVwdICBnkP18ArF0rZGRNQXe3dPl12NlgUMsptpMvaxTG68RlSHwNuYnEce5Kauuyh5zGWGxIKFvzWwiY52Ut4HLfH1qNANfykJAIaCovxXukXHfPxvKrxJ68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=MYqE2+W/; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="RdClgPHI"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6f3e3d789cdso4705738b3a.1
-        for <linux-doc@vger.kernel.org>; Wed, 01 May 2024 08:43:18 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="MYqE2+W/"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6ecec796323so6616550b3a.3
+        for <linux-doc@vger.kernel.org>; Wed, 01 May 2024 08:43:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1714578198; x=1715182998; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FY1JyFaDnQGTqxfQ2HctDPUgwCZwwkdXbXVkbs7t8UM=;
-        b=RdClgPHIUybVdXYZDa00LyPqBFKzbNlZQxe1ubNsNGf6G9+uUIJDQFQbEIRJnrr7ng
-         saJTzz60/yugVTU30ABoh9mJyOVgYXL313YN27Hpm4pjQjrz6Ix6c23qidxajT4JF+N0
-         9eJrAhWbjOgv/HHVeN0NaURGB+/WCwMWfoFyA=
+        d=chromium.org; s=google; t=1714578210; x=1715183010; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O8K2bD3VSCdKM5fxY8ne7lxaMKISymJY6P8xiQj5Fs0=;
+        b=MYqE2+W/5iNTbU/upFNxyKpe9qS4xEl3WDTDmPpr+Uey7NjZ7C1+wr4oWZywmuWCb8
+         Sa749FxUcKe/8BRRh8RtMr00NNYQYZl8yIHdsDxOWxG4JB26ujyKx4rxyKXGi7Bt2jSN
+         AkOy9bpErBXExj94NRTRM/hOsE8HO2RMXHkB4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714578198; x=1715182998;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FY1JyFaDnQGTqxfQ2HctDPUgwCZwwkdXbXVkbs7t8UM=;
-        b=FRD+K393/ijt+uE/0etku5hsFV4wHUicF9yOj43bVeUJC9vWq+ObQ3z+kqc+rJ0XMn
-         8gl7n+5H9FAMW7Z3XMzJaRGN5f3wZMQBMbcSbxAhjyGfJsLdVJbfdaOr23wxIaq/CaYd
-         GE450ITuDeuQfajCCW07xfA1JfjPvNrUEWDIfEh6O+NTNElFJFNF0FCkGfCrLLTloibU
-         LBGnzlUP4c0SZC6jS2J8vuD54Kp1SxUdoupaaGjpiqGU/7KymDgzYl+d6S9R8kNffGyc
-         GwS5ypg57jd/TQe4XtrxgH7EILurnzwAe2imo6sSqWXyzU5JVe47BpBrPAcnxHzmpIT/
-         bkRw==
-X-Forwarded-Encrypted: i=1; AJvYcCWMIcDLD98fClIAXhtrICWbxKAaJico4HhksAwLpNA2rpT4OIvjbw+W0dZX6+1muSjxxtcyp2HTE09V7mpro/vzBIu88Wfb2LJp
-X-Gm-Message-State: AOJu0Yz0UoGa0Ej0j8yN9KI6hNgEcsoRXhIc2u3mTOKVtA7CTFUaiIpu
-	GvK4siNfrnIAvvy1bBXx6928FoSlshzCsGnmbtW594zo4sBpzf6uolGn4asirQ==
-X-Google-Smtp-Source: AGHT+IG5IE9X8NYR+TK2tL4Nw0zNG4DxZx7ua7w9u0B4daBN4S28dT+xY2gFWEmWj9/+wdCLMHCxxA==
-X-Received: by 2002:a05:6a20:3aaf:b0:1ae:3f36:28d3 with SMTP id d47-20020a056a203aaf00b001ae3f3628d3mr3648768pzh.49.1714578198442;
-        Wed, 01 May 2024 08:43:18 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1714578210; x=1715183010;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=O8K2bD3VSCdKM5fxY8ne7lxaMKISymJY6P8xiQj5Fs0=;
+        b=PtD4Cwd7VjXfNKcZltLWGHXIg5Qrdk4bjc1GLptzlZMzUSszZaBYsQjFoCewV8QVC+
+         4uqi+ToJ/p+DinEcXwVgNhvnNr0LfhsG8K7hgtShNji5dQG1Q/XXjd/TdZx7iPuZ5ot9
+         r518airTCGGMBkRwetnxEisVLFTuabzZ1TtcRrQTMGpY9OV9x+VB031CCQZGISkb8/y4
+         84n/kuCi582GiPm5CY88FdetBPCsigrdg+9gAwdpR7DgvTocUe+b1MtZTuJ2RZZN1l9X
+         dbvu1/t7U3npz6YaCKKh11ZpOXK07wEGq8KJa8jy+veYW8/6BgDxxaWBcmwRtevhSGou
+         k44A==
+X-Forwarded-Encrypted: i=1; AJvYcCVNtB7akcZJI+YTA+arqB4VWsCJk3S4EH0muLE7KQIy8uxo2fJxIf8zpbxWdArZ6x+71g4kAOI7h28LPXwgwBBju8e15t1vn2O3
+X-Gm-Message-State: AOJu0YzyKGffgtX+LW8rUEgF4nPFtWrGZ+nTfqIkqXqQpvDGqEszq7bH
+	1xMHPv4RGroPfB/uFL+AZTV1ZIcDm+9C4Yc8gWkbGdVNi7NFwnIwcliDdY0YWA==
+X-Google-Smtp-Source: AGHT+IG8Kd2PCiOfCuYcQSZZv4vbMZ11cB15Vz0uNMp7sIiPbstNdmqih9l8A3cISPQr6ZXTK0Z3tg==
+X-Received: by 2002:a05:6a20:1581:b0:1a7:4b3f:a66c with SMTP id h1-20020a056a20158100b001a74b3fa66cmr3384371pzj.49.1714578209974;
+        Wed, 01 May 2024 08:43:29 -0700 (PDT)
 Received: from dianders.sjc.corp.google.com ([2620:15c:9d:2:e886:8de:19a2:55b0])
-        by smtp.gmail.com with ESMTPSA id fb12-20020a056a002d8c00b006f3ec69bc09sm7717924pfb.75.2024.05.01.08.43.16
+        by smtp.gmail.com with ESMTPSA id fb12-20020a056a002d8c00b006f3ec69bc09sm7717924pfb.75.2024.05.01.08.43.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 May 2024 08:43:17 -0700 (PDT)
+        Wed, 01 May 2024 08:43:29 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org
 Cc: Linus Walleij <linus.walleij@linaro.org>,
@@ -63,17 +65,18 @@ Cc: Linus Walleij <linus.walleij@linaro.org>,
 	Douglas Anderson <dianders@chromium.org>,
 	Daniel Vetter <daniel@ffwll.ch>,
 	David Airlie <airlied@gmail.com>,
-	Jessica Zhang <quic_jesszhan@quicinc.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 0/9] drm/mipi-dsi: Reduce bloat and add funcs for cleaner init seqs
-Date: Wed,  1 May 2024 08:41:03 -0700
-Message-ID: <20240501154251.3302887-1-dianders@chromium.org>
+Subject: [PATCH v3 5/9] drm/mipi-dsi: Introduce mipi_dsi_*_write_seq_multi()
+Date: Wed,  1 May 2024 08:41:08 -0700
+Message-ID: <20240501084109.v3.5.Ie94246c30fe95101e0e26dd5f96e976dbeb8f242@changeid>
 X-Mailer: git-send-email 2.45.0.rc0.197.gbae5840b3b-goog
+In-Reply-To: <20240501154251.3302887-1-dianders@chromium.org>
+References: <20240501154251.3302887-1-dianders@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,82 +85,270 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The consensus of many DRM folks is that we want to move away from DSI
-drivers defining tables of init commands. Instead, we want to move to
-init functions that can use common DRM functions. The issue thus far
-has been that using the macros mipi_dsi_generic_write_seq() and
-mipi_dsi_dcs_write_seq() bloats the driver using them.
+The current mipi_dsi_*_write_seq() macros are non-intutitive because
+they contain a hidden "return" statement that will return out of the
+_caller_ of the macro. Let's mark them as deprecated and instead
+introduce some new macros that are more intuitive.
 
-While trying to solve bloat, we realized that the majority of the it
-was easy to solve. This series solves the bloat for existing drivers
-by moving the printout outside of the macro.
+These new macros are less optimal when an error occurs but should
+behave more optimally when there is no error. Specifically these new
+macros cause smaller code to get generated and the code size savings
+(less to fetch from RAM, less cache space used, less RAM used) are
+important. Since the error case isn't something we need to optimize
+for and these new macros are easier to understand and more flexible,
+they should be used.
 
-During discussion of my v1 patch to fix the bloat [1], we also decided
-that we really want to change the way that drivers deal with init
-sequences to make it clearer. In addition to being cleaner, a side
-effect of moving drivers to the new style reduces bloat _even more_.
+After converting to use these new functions, one example shows some
+nice savings while also being easier to understand.
 
-This series also contains a few minor fixes / cleanups that I found
-along the way.
+$ scripts/bloat-o-meter \
+  ...after/panel-novatek-nt36672e.ko \
+  ...ctx/panel-novatek-nt36672e.ko
+add/remove: 0/0 grow/shrink: 0/1 up/down: 0/-988 (-988)
+Function                                     old     new   delta
+nt36672e_1080x2408_60hz_init                6236    5248    -988
+Total: Before=10651, After=9663, chg -9.28%
 
-This series converts four drivers over to the new
-mipi_dsi_dcs_write_seq_multi() function. Not all conversions have been
-tested, but hopefully they are straightforward enough. I'd appreciate
-testing.
-
-NOTE: In v3 I tried to incorporate the feedback from v2. I also
-converted the other two panels I could find that used table-based
-initialization.
-
-[1] https://lore.kernel.org/r/20240424172017.1.Id15fae80582bc74a0d4f1338987fa375738f45b9@changeid
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
+Right now this patch introduces two new functions in drm_mipi_dsi.c.
+Alternatively we could have changed the prototype of the "chatty"
+functions and made the deprecated macros adapt to the new prototype.
+While this sounds nice, it bloated callers of the deprecated functioin
+a bit because it caused the compiler to emit less optimal code. It
+doesn't seem terrible to add two more functions, so I went that
+way. There may be cases where callers who aren't writing many
+sequences prefer to use the "chatty" versions anyway.
 
 Changes in v3:
-- ("mipi_dsi_*_write functions don't need to ratelimit...") moved earlier.
 - Add a TODO item for cleaning up the deprecated macros/functions.
-- Fix spacing of init function.
 - Inline kerneldoc comments for struct mipi_dsi_multi_context.
-- Rebased upon patch to remove ratelimit of prints.
-- Remove an unneeded error print.
-- Squash boe-tv101wum-nl6 lowercase patch into main patch
-- Use %zd in print instead of casting errors to int.
-- drm/panel: ili9882t: Don't use a table for initting panels
-- drm/panel: innolux-p079zca: Don't use a table for initting panels
 
 Changes in v2:
-- Add some comments to the macros about printing and returning.
-- Change the way err value is handled in prep for next patch.
-- Modify commit message now that this is part of a series.
-- Rebased upon patches to avoid theoretical int overflow.
-- drm/mipi-dsi: Fix theoretical int overflow in mipi_dsi_dcs_write_seq()
-- drm/mipi-dsi: Fix theoretical int overflow in mipi_dsi_generic_write_seq()
-- drm/mipi-dsi: Introduce mipi_dsi_*_write_seq_multi()
-- drm/mipi-dsi: mipi_dsi_*_write functions don't need to ratelimit prints
-- drm/panel: boe-tv101wum-nl6: Convert hex to lowercase
-- drm/panel: boe-tv101wum-nl6: Don't use a table for initting commands
-- drm/panel: novatek-nt36672e: Switch to mipi_dsi_dcs_write_seq_multi()
+- New
 
-Douglas Anderson (9):
-  drm/mipi-dsi: Fix theoretical int overflow in mipi_dsi_dcs_write_seq()
-  drm/mipi-dsi: Fix theoretical int overflow in
-    mipi_dsi_generic_write_seq()
-  drm/mipi-dsi: mipi_dsi_*_write functions don't need to ratelimit
-    prints
-  drm/mipi-dsi: Reduce driver bloat of mipi_dsi_*_write_seq()
-  drm/mipi-dsi: Introduce mipi_dsi_*_write_seq_multi()
-  drm/panel: novatek-nt36672e: Switch to mipi_dsi_dcs_write_seq_multi()
-  drm/panel: boe-tv101wum-nl6: Don't use a table for initting panels
-  drm/panel: ili9882t: Don't use a table for initting panels
-  drm/panel: innolux-p079zca: Don't use a table for initting panels
+ Documentation/gpu/todo.rst     | 18 ++++++++++
+ drivers/gpu/drm/drm_mipi_dsi.c | 56 ++++++++++++++++++++++++++++++
+ include/drm/drm_mipi_dsi.h     | 62 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 136 insertions(+)
 
- Documentation/gpu/todo.rst                    |   18 +
- drivers/gpu/drm/drm_mipi_dsi.c                |  112 +
- .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 2792 +++++++++--------
- drivers/gpu/drm/panel/panel-ilitek-ili9882t.c |  794 +++--
- drivers/gpu/drm/panel/panel-innolux-p079zca.c |  284 +-
- .../gpu/drm/panel/panel-novatek-nt36672e.c    |  576 ++--
- include/drm/drm_mipi_dsi.h                    |  101 +-
- 7 files changed, 2451 insertions(+), 2226 deletions(-)
-
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index fb9ad120b141..45a59c176b06 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -507,6 +507,24 @@ Contact: Douglas Anderson <dianders@chromium.org>
+ 
+ Level: Starter/Intermediate
+ 
++Transition away from using mipi_dsi_*_write_seq()
++-------------------------------------------------
++
++The macros mipi_dsi_generic_write_seq() and mipi_dsi_dcs_write_seq() are
++non-intuitive because, if there are errors, they return out of the *caller's*
++function. We should move all callers to use mipi_dsi_generic_write_seq_multi()
++and mipi_dsi_dcs_write_seq_multi() macros instead.
++
++Once all callers are transitioned, the macros and the functions that they call,
++mipi_dsi_generic_write_chatty() and mipi_dsi_dcs_write_buffer_chatty(), can
++probably be removed. Alternatively, if people feel like the _multi() variants
++are overkill for some use cases, we could keep the mipi_dsi_*_write_seq()
++variants but change them not to return out of the caller.
++
++Contact: Douglas Anderson <dianders@chromium.org>
++
++Level: Starter
++
+ 
+ Core refactorings
+ =================
+diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
+index 8593d9ed5891..d2957cb692d3 100644
+--- a/drivers/gpu/drm/drm_mipi_dsi.c
++++ b/drivers/gpu/drm/drm_mipi_dsi.c
+@@ -792,6 +792,34 @@ int mipi_dsi_generic_write_chatty(struct mipi_dsi_device *dsi,
+ }
+ EXPORT_SYMBOL(mipi_dsi_generic_write_chatty);
+ 
++/**
++ * mipi_dsi_generic_write_multi() - mipi_dsi_generic_write_chatty() w/ accum_err
++ * @ctx: Context for multiple DSI transactions
++ * @payload: buffer containing the payload
++ * @size: size of payload buffer
++ *
++ * Like mipi_dsi_generic_write_chatty() but deals with errors in a way that
++ * makes it convenient to make several calls in a row.
++ */
++void mipi_dsi_generic_write_multi(struct mipi_dsi_multi_context *ctx,
++				  const void *payload, size_t size)
++{
++	struct mipi_dsi_device *dsi = ctx->dsi;
++	struct device *dev = &dsi->dev;
++	ssize_t ret;
++
++	if (ctx->accum_err)
++		return;
++
++	ret = mipi_dsi_generic_write(dsi, payload, size);
++	if (ret < 0) {
++		ctx->accum_err = ret;
++		dev_err(dev, "sending generic data %*ph failed: %d\n",
++			(int)size, payload, ctx->accum_err);
++	}
++}
++EXPORT_SYMBOL(mipi_dsi_generic_write_multi);
++
+ /**
+  * mipi_dsi_generic_read() - receive data using a generic read packet
+  * @dsi: DSI peripheral device
+@@ -908,6 +936,34 @@ int mipi_dsi_dcs_write_buffer_chatty(struct mipi_dsi_device *dsi,
+ }
+ EXPORT_SYMBOL(mipi_dsi_dcs_write_buffer_chatty);
+ 
++/**
++ * mipi_dsi_dcs_write_buffer_multi - mipi_dsi_dcs_write_buffer_chatty() w/ accum_err
++ * @ctx: Context for multiple DSI transactions
++ * @data: buffer containing data to be transmitted
++ * @len: size of transmission buffer
++ *
++ * Like mipi_dsi_dcs_write_buffer_chatty() but deals with errors in a way that
++ * makes it convenient to make several calls in a row.
++ */
++void mipi_dsi_dcs_write_buffer_multi(struct mipi_dsi_multi_context *ctx,
++				     const void *data, size_t len)
++{
++	struct mipi_dsi_device *dsi = ctx->dsi;
++	struct device *dev = &dsi->dev;
++	ssize_t ret;
++
++	if (ctx->accum_err)
++		return;
++
++	ret = mipi_dsi_dcs_write_buffer(dsi, data, len);
++	if (ret < 0) {
++		ctx->accum_err = ret;
++		dev_err(dev, "sending dcs data %*ph failed: %d\n",
++			(int)len, data, ctx->accum_err);
++	}
++}
++EXPORT_SYMBOL(mipi_dsi_dcs_write_buffer_multi);
++
+ /**
+  * mipi_dsi_dcs_write() - send DCS write command
+  * @dsi: DSI peripheral device
+diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+index 6d68d9927f46..5e9cad541bd6 100644
+--- a/include/drm/drm_mipi_dsi.h
++++ b/include/drm/drm_mipi_dsi.h
+@@ -197,6 +197,27 @@ struct mipi_dsi_device {
+ 	struct drm_dsc_config *dsc;
+ };
+ 
++/**
++ * struct mipi_dsi_multi_context - Context to call multiple MIPI DSI funcs in a row
++ */
++struct mipi_dsi_multi_context {
++	/**
++	 * @dsi: Pointer to the MIPI DSI device
++	 */
++	struct mipi_dsi_device *dsi;
++
++	/**
++	 * @accum_err: Storage for the accumulated error over the multiple calls
++	 *
++	 * Init to 0. If a function encounters an error then the error code
++	 * will be stored here. If you call a function and this points to a
++	 * non-zero value then the function will be a noop. This allows calling
++	 * a function many times in a row and just checking the error at the
++	 * end to see if any of them failed.
++	 */
++	int accum_err;
++};
++
+ #define MIPI_DSI_MODULE_PREFIX "mipi-dsi:"
+ 
+ #define to_mipi_dsi_device(__dev)	container_of_const(__dev, struct mipi_dsi_device, dev)
+@@ -258,6 +279,8 @@ ssize_t mipi_dsi_generic_write(struct mipi_dsi_device *dsi, const void *payload,
+ 			       size_t size);
+ int mipi_dsi_generic_write_chatty(struct mipi_dsi_device *dsi,
+ 				  const void *payload, size_t size);
++void mipi_dsi_generic_write_multi(struct mipi_dsi_multi_context *ctx,
++				  const void *payload, size_t size);
+ ssize_t mipi_dsi_generic_read(struct mipi_dsi_device *dsi, const void *params,
+ 			      size_t num_params, void *data, size_t size);
+ 
+@@ -283,6 +306,8 @@ ssize_t mipi_dsi_dcs_write_buffer(struct mipi_dsi_device *dsi,
+ 				  const void *data, size_t len);
+ int mipi_dsi_dcs_write_buffer_chatty(struct mipi_dsi_device *dsi,
+ 				     const void *data, size_t len);
++void mipi_dsi_dcs_write_buffer_multi(struct mipi_dsi_multi_context *ctx,
++				     const void *data, size_t len);
+ ssize_t mipi_dsi_dcs_write(struct mipi_dsi_device *dsi, u8 cmd,
+ 			   const void *data, size_t len);
+ ssize_t mipi_dsi_dcs_read(struct mipi_dsi_device *dsi, u8 cmd, void *data,
+@@ -319,6 +344,9 @@ int mipi_dsi_dcs_get_display_brightness_large(struct mipi_dsi_device *dsi,
+  * This macro will print errors for you and will RETURN FROM THE CALLING
+  * FUNCTION (yes this is non-intuitive) upon error.
+  *
++ * Because of the non-intuitive return behavior, THIS MACRO IS DEPRECATED.
++ * Please replace calls of it with mipi_dsi_generic_write_seq_multi().
++ *
+  * @dsi: DSI peripheral device
+  * @seq: buffer containing the payload
+  */
+@@ -331,12 +359,30 @@ int mipi_dsi_dcs_get_display_brightness_large(struct mipi_dsi_device *dsi,
+ 			return ret;                                            \
+ 	} while (0)
+ 
++/**
++ * mipi_dsi_generic_write_seq_multi - transmit data using a generic write packet
++ *
++ * This macro will print errors for you and error handling is optimized for
++ * callers that call this multiple times in a row.
++ *
++ * @ctx: Context for multiple DSI transactions
++ * @seq: buffer containing the payload
++ */
++#define mipi_dsi_generic_write_seq_multi(ctx, seq...)                \
++	do {                                                         \
++		static const u8 d[] = { seq };                       \
++		mipi_dsi_generic_write_multi(ctx, d, ARRAY_SIZE(d)); \
++	} while (0)
++
+ /**
+  * mipi_dsi_dcs_write_seq - transmit a DCS command with payload
+  *
+  * This macro will print errors for you and will RETURN FROM THE CALLING
+  * FUNCTION (yes this is non-intuitive) upon error.
+  *
++ * Because of the non-intuitive return behavior, THIS MACRO IS DEPRECATED.
++ * Please replace calls of it with mipi_dsi_dcs_write_seq_multi().
++ *
+  * @dsi: DSI peripheral device
+  * @cmd: Command
+  * @seq: buffer containing data to be transmitted
+@@ -350,6 +396,22 @@ int mipi_dsi_dcs_get_display_brightness_large(struct mipi_dsi_device *dsi,
+ 			return ret;                                            \
+ 	} while (0)
+ 
++/**
++ * mipi_dsi_dcs_write_seq_multi - transmit a DCS command with payload
++ *
++ * This macro will print errors for you and error handling is optimized for
++ * callers that call this multiple times in a row.
++ *
++ * @ctx: Context for multiple DSI transactions
++ * @cmd: Command
++ * @seq: buffer containing data to be transmitted
++ */
++#define mipi_dsi_dcs_write_seq_multi(ctx, cmd, seq...)                  \
++	do {                                                            \
++		static const u8 d[] = { cmd, seq };                     \
++		mipi_dsi_dcs_write_buffer_multi(ctx, d, ARRAY_SIZE(d)); \
++	} while (0)
++
+ /**
+  * struct mipi_dsi_driver - DSI driver
+  * @driver: device driver model driver
 -- 
 2.45.0.rc0.197.gbae5840b3b-goog
 
