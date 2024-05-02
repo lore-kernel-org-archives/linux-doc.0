@@ -1,61 +1,76 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43E6815B552;
-	Thu,  2 May 2024 15:46:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5811042078
+	for <linux-doc@vger.kernel.org>; Thu,  2 May 2024 15:46:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714664765; cv=none; b=eTkinY2pamSMxmhSXcktPjNTiOEwA7DMNAGFdkRS58pQZWNTLP9jQxmpTTXUNjiZrjK7v7e+aVWOdUHF3KTk0XDW6BUPE6+wpAPvEmT55gOWTughrRtr95lCmUPNpq90jq1LTVClErLyY7zFuwb6iYPSwN+xQ4YIHMKqaaRe4Lc=
+	t=1714664813; cv=none; b=GtOxz5rAWzojhbEnmwAJYg0GF3TIfnqTknbsg2IyXvwoDNjdQMSjJqGYYpbmzGbUQfFsBXXjSR78ldbmK961WTJgBeMq8jir+Fnamn3f441l6qCWtPaNga1Q9JUIr9y6m32MO0lJJNOnal60b8pIECVtQ0JVUjiy80rU19Sd+Uw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714664765; c=relaxed/simple;
-	bh=ke5fV4sGRwndayA7Ai35n4IndDXJW3aZT4TXL/Tq40E=;
+	s=arc-20240116; t=1714664813; c=relaxed/simple;
+	bh=jg2TUDfx+mRm3IrZJUX+wlFepbkQ0AMpgLu5x8T6mpk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ilVMCOXOLXz959ORx2xcHS4R/I6k7dT10ALyj5A/mCzrL57tI3hRmnuHbDYGgPb47Gjagy/pYOfQls3wAN3XHhw2TjhhCKssf8jMfyH69InO3kKIbA8b0CV0bm4TxDlR1L7SMu2eUX1HiIuxGdSAOJnHHATfYSaklmQoUP69obI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=UdrzkB1A; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=SrFfKaNfJBUQ44BIydcEGBSMA6CI6jBS61vzDXIQsr+59uC+gCC4EN1cAtKKSP1Tv6e5pRfieeUj1G2ZK4LKfPPmQdFlXtOAuR2DlU9LNsJoqNsE862F83DMcnIb6QvcZ7n5sVWGqRdgMVGoskxE4934alSv++ajw2UzpE5B9Ww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=WJrATbKl; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="UdrzkB1A"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 616AB47C39
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="WJrATbKl"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7C6E947C39
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1714664761; bh=ousXZmiImu7YU7q0/as6YIRuE8ckEwwhEQWCYCHx7eU=;
+	t=1714664808; bh=jg2TUDfx+mRm3IrZJUX+wlFepbkQ0AMpgLu5x8T6mpk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=UdrzkB1A2m8ezcEzlyMFxGByPirJ58/ZO3aC3ejiH6m9yyVvc9r1AH4axJLj4r5CF
-	 f+w44Bg7lL6n5Zdv4cYVupy7LcuCvpyvQ/7TWP6Yhwd7vne+6ZhJaS16yGsBdYsds9
-	 2VEW2w3/MbEIOUVFwUrGNARQm3HeG49ymsVWfJOgUf45zr5ygDo9QVlKI8otd4/aG6
-	 d1eUXqy4lXAcgLmz7f+hnx/WK3hqaq9e7anwfwfGQk5kg7A7OebRnbN1bUDt+Ng/5X
-	 COH1Vj3CSVkyRyqoXO21kxqjN4HJZBE4/akI5I0KpLoMZqymFUExVWynBM8rbrXoAN
-	 UwttCRC3HCRDw==
+	b=WJrATbKlrWBAmpL/EuWpEUAa3403+LcDenhKYnAJ3bk3q1eiZiM1trwBEfS7xzlHw
+	 aaqVfmIUkejECvQJDG4LbbvncJZxtdE3gVa7k1Lo6UG/DRQoCC9DW5daO66dpdtVSw
+	 4Q5SP4FxW+MdJQ7f/vYpO78lk3u+DjJWR+YYIadSHmL8z8u31Vq/n1Pi7z/qNmbgXv
+	 PQXVsUTLwEmvlfdLocNGdNTZNnqRINtjQcDoqybrBxezzTtudIawpLLMB7rbfx7eB3
+	 5w5jIZITne8R83QjD/GkrAfY841gctg8IreOQmDKMAadz/h5nSMb3PayyjM6lnRhv2
+	 uhBA/rloj9bQw==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 616AB47C39;
-	Thu,  2 May 2024 15:46:01 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 7C6E947C39;
+	Thu,  2 May 2024 15:46:48 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Federico Vaga <federico.vaga@vaga.pv.it>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] doc:it_IT: align Italian documentation
-In-Reply-To: <f63524e3bc9d110c96255f27580c680d@vaga.pv.it>
-References: <20240316225400.22590-1-federico.vaga@vaga.pv.it>
- <f63524e3bc9d110c96255f27580c680d@vaga.pv.it>
-Date: Thu, 02 May 2024 09:46:00 -0600
-Message-ID: <87a5l88bev.fsf@meer.lwn.net>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>, Tsugikazu
+ Shibata <shibata@linuxfoundation.org>
+Subject: Re: [PATCH] docs: ja_JP/howto: Catch up update in v6.8
+In-Reply-To: <20240502085610.111739-1-akiyks@gmail.com>
+References: <20240502085610.111739-1-akiyks@gmail.com>
+Date: Thu, 02 May 2024 09:46:47 -0600
+Message-ID: <875xvw8bdk.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
 
-Federico Vaga <federico.vaga@vaga.pv.it> writes:
-
-> Hello Jonathan,
->
-> I'm pinging you on this patch, just in case it got somehow lost.
-
-It did indeed fall through the cracks, not quite sure how.  Applied now,
-thanks.
-
-jon
+QWtpcmEgWW9rb3Nhd2EgPGFraXlrc0BnbWFpbC5jb20+IHdyaXRlczoNCg0KPiBDYXRjaCB1cCB0
+aGUgdXBkYXRlIG1hZGUgaW4gY29tbWl0IGU0OWFkODUzMGRlOSAoIkNSRURJVFMsIE1BSU5UQUlO
+RVJTLA0KPiBkb2NzL3Byb2Nlc3MvaG93dG86IFVwZGF0ZSBtYW4tcGFnZXMnIG1haW50YWluZXIi
+KS4NCj4NCj4gU2lnbmVkLW9mZi1ieTogQWtpcmEgWW9rb3Nhd2EgPGFraXlrc0BnbWFpbC5jb20+
+DQo+IENjOiBUc3VnaWthenUgU2hpYmF0YSA8c2hpYmF0YUBsaW51eGZvdW5kYXRpb24ub3JnPg0K
+PiAtLS0NCj4gIERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL2phX0pQL3Byb2Nlc3MvaG93dG8u
+cnN0IHwgMiArLQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9u
+KC0pDQo+DQo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy9qYV9KUC9w
+cm9jZXNzL2hvd3RvLnJzdCBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL2phX0pQL3Byb2Nl
+c3MvaG93dG8ucnN0DQo+IGluZGV4IDhkODU2ZWJlODczYy4uODcyODc2YzY3ODk2IDEwMDY0NA0K
+PiAtLS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy9qYV9KUC9wcm9jZXNzL2hvd3RvLnJz
+dA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy9qYV9KUC9wcm9jZXNzL2hvd3Rv
+LnJzdA0KPiBAQCAtMTEwLDcgKzExMCw3IEBAIExpbnV4IOOCq+ODvOODjeODq+OCveODvOOCueOD
+hOODquODvOOBr+W5heW6g+OBhOevhOWbsuOBruODieOCreODpeODoeODs+ODiOOCkg0KPiAg5paw
+44GX44GE44OJ44Kt44Ol44Oh44Oz44OI44OV44Kh44Kk44Or44KC6L+95Yqg44GZ44KL44GT44Go
+44KS5Yun44KB44G+44GZ44CCDQo+ICDjgqvjg7zjg43jg6vjga7lpInmm7TjgYzjgIHjgqvjg7zj
+g43jg6vjgYzjg6bjg7zjgrbnqbrplpPjgavlhazplovjgZfjgabjgYTjgovjgqTjg7Pjgr/jg7zj
+g5XjgqfjgqTjgrnjga4NCj4gIOWkieabtOOCkuW8leOBjei1t+OBk+OBmeWgtOWQiOOAgeOBneOB
+ruWkieabtOOCkuiqrOaYjuOBmeOCi+ODnuODi+ODpeOCouODq+ODmuODvOOCuOOBruODkeODg+OD
+geOChOaDheWgsQ0KPiAt44KS44Oe44OL44Ol44Ki44Or44Oa44O844K444Gu44Oh44Oz44OG44OK
+IG10ay5tYW5wYWdlc0BnbWFpbC5jb20g44Gr6YCB44KK44CBQ0Mg44KSDQo+ICvjgpLjg57jg4vj
+g6XjgqLjg6vjg5rjg7zjgrjjga7jg6Hjg7Pjg4bjg4ogYWx4QGtlcm5lbC5vcmcg44Gr6YCB44KK
+44CBQ0Mg44KSDQo+ICBsaW51eC1hcGlAdmdlci5rZXJuZWwub3JnIOOBq+mAgeOCi+OBk+OBqOOC
+kuWLp+OCgeOBvuOBmeOAgg0KDQpBcHBsaWVkLCB0aGFua3MuDQoNCmpvbg0K
