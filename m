@@ -1,123 +1,133 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 337915F874;
-	Thu,  2 May 2024 10:39:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8F65FEF2;
+	Thu,  2 May 2024 11:05:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714646395; cv=none; b=LIZ1KuvbkIz63T7D7N/Ezq0ZMqc6N8104AQ9dMi8my/c8yDu0drHqBD9v37rD5NkrMbMPoUqvSz9A7/z7GYwZ8FQQSY6dESa5Ota6PGTZ3Je5qec1VBdMgBFecg/FjREntKMJSzdZg8mOA/YhRGfORbv3zBS5GL+xc8tw7L+QD8=
+	t=1714647941; cv=none; b=QHIcBTsMeRKPjzg2cR9KiBWyHeRIURKzkC7qdzLyhRXml0ebE36uYfo4ojmdK59CXVBNuW56CQ19lVglD4aMjnaU0eoGw4BZVgFImSTgkuRmObRdFNjVlEYfli4h1jXWxXW0pNB8W5A8/QGUszOEBGEx2jt4wPGpN8BVqnZuzOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714646395; c=relaxed/simple;
-	bh=t5g00IGuHelGRldg6cVwXrUENnvsckikhiMzyAUt2X0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Acud2VEX2ZoMqDUpavpz4IZjQE7+WegJKFRF/bJjJOOFy91EJMi3Px8rVtiZeD4oa+8WzRJavO4o1A/jzKMTm6grO/vROqulNUhykUfbQDAd824t8OhyoBgRjXd2KYpKIrOf928glZpLW9TFdowbbqY7sACNQnN2IkJv6eJLwmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IAJdWk1l; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1714647941; c=relaxed/simple;
+	bh=EluTdDMIMNhKZ/EkpupaemH1PZsrZoO5k/Ow1fEItns=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:From:Subject:
+	 In-Reply-To:Content-Type; b=hgudez0EHh1lSeBgMrnyQ6P9F1uXbbhzXjgkjErC+XGidjJggXOQuOFhqRUe7FScZ8oNkbb02EnlTlY+cm7+T82zHuDJ80hmIVfNQhBMV3G7jIVcFvVruLygQHSbb62YEZhXn/LmQvsAYnwhp/T+Vv1L5n2kCBDEoxzyzvXvEe4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ftuPKS2c; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IAJdWk1l"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1e4bf0b3e06so76981685ad.1;
-        Thu, 02 May 2024 03:39:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714646393; x=1715251193; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=t4GOnPYyyWwnP1/8TVXg36vGNLqaRGbyUqOh/xHsbXg=;
-        b=IAJdWk1lv35dZEdIhCbTqm6TNz5VVezmq/fURr7yT9vYC0+qzqxJhpfcoZujOyhLgf
-         FiYT6WYD7/IbS6pTwLVZQw/wGR5jr4wN3uem61TDcNCMhxqBwd7zPLTu9XPLFfAZn1Vp
-         bfFC+mSv/jz67/qzAvZajs6CncmvVbfMBAw486jhrsYze/Rv62RzercXHxusaanVQjqt
-         5Ex2LpYXWSagirCyebCkhoSTazyxDfUtNLk2DzE6vE9Q//8Wz8507bnVvfMFEcyXodRr
-         YFtboxgBJPtC8gsZI8RLBJineu2L1f1taFuZ8Qm50TN0EutAzVc2HmCrOuOkJ87EGhcb
-         LjdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714646393; x=1715251193;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=t4GOnPYyyWwnP1/8TVXg36vGNLqaRGbyUqOh/xHsbXg=;
-        b=RGwf4cCBpPuvrDWGdM63RDcsr/aKFI0htbAax+3pZE07yEeLn3qP467qQvsMksYkEX
-         G3MED5A/H3zVpyRJ09NQaU2Bigbkg85oSERV22k4+3rO/ZkBDtMHm/8XwVSN/751Fj60
-         hO6s41yaW3bwCyI2Cb8xV4yIUos3X8Vk5v8APWHSMbbo+K8r0KoJiGUJLgU8EOvDdVYu
-         LC2Be9bHNpZ2B+TALve9HrhnEb2v7dA2xbHNopWtwyhikZpnYZ0Ca1HNafJZomB8dZei
-         D+uGl5aQb8Q53kO0x/UuyBg408CcYnhijL/6R65UDMD83jHhePKOgmz/ffxBiZCmB19h
-         kuKA==
-X-Forwarded-Encrypted: i=1; AJvYcCUrGaHOheKv3YwqmiuCXzOmvjgMLK4m3txqOtvMe6YwJMJJ0NUtvh7v/Jwy0JB5WWQuRM9t5epCS47B1pcROybGoTu0kZFTTg1PAkMH
-X-Gm-Message-State: AOJu0YzWOwygwX2jb1bkQV6ngFEIC5aAQlrI2xGxYJZiY/9Ia/UCtkXS
-	d8y2Wbh3EljLgJatZy+BcwXhlwVhlag47BxTUNzBp58Wt/Dnx2hGqnNvpw==
-X-Google-Smtp-Source: AGHT+IFqR9Gkj344QonOI/YaQd5ZGgXVxI22fmuDMyiLr1wujioqvrX9hCDlBQudXht6mXr5poqAMw==
-X-Received: by 2002:a17:90a:d446:b0:2b2:af15:f948 with SMTP id cz6-20020a17090ad44600b002b2af15f948mr5891627pjb.38.1714646393420;
-        Thu, 02 May 2024 03:39:53 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
-        by smtp.gmail.com with ESMTPSA id t22-20020a17090a5d9600b002b16d9ab430sm879121pji.3.2024.05.02.03.39.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 May 2024 03:39:53 -0700 (PDT)
-Message-ID: <640114d2-5780-48c3-a294-c0eba230f984@gmail.com>
-Date: Thu, 2 May 2024 19:39:48 +0900
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ftuPKS2c"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1714647940; x=1746183940;
+  h=message-id:date:mime-version:to:cc:references:from:
+   subject:in-reply-to:content-transfer-encoding;
+  bh=EluTdDMIMNhKZ/EkpupaemH1PZsrZoO5k/Ow1fEItns=;
+  b=ftuPKS2c6s6Q6BcO03FR5MvmaWT642aql9qTd4VwhhM615excS1TAHcF
+   c9zmc2rp/d0eBS0bjC/PpknfcH5DXWZ9MzCAskdkPdyMLUx+W88fFRv8A
+   GNrGBdEeB3YFR5ywBb8QUnjYDV7ylN+kCa+mErnVhsnOAOeTw9f6dfkou
+   T8LVGsgHgUnIYaEeN/yyJMYy3wfWIO1wtlVVs5LCPc3W1CVfFTsIc2AYj
+   yj3f4C0tAdSo09qyIPsEnNGI4e+qnKQBawITc/+WQpVfk3sMjS/+7sMgL
+   SzPA72pIQdUBhv1bfnYw1btn3TkEE/U/AnrehM2eNl4AW99WmaXG1oPuC
+   Q==;
+X-CSE-ConnectionGUID: oUmZip18Tjm7AxchHOyvjA==
+X-CSE-MsgGUID: QnUiwb2NQxGOBAcRY3am0g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11061"; a="21813489"
+X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
+   d="scan'208";a="21813489"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2024 04:05:39 -0700
+X-CSE-ConnectionGUID: RNrykgpXQNOhcPL/BW4gnA==
+X-CSE-MsgGUID: 8wdqEQM1TVOscvvgR0xz0w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
+   d="scan'208";a="50280954"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.199]) ([10.237.72.199])
+  by fmviesa002.fm.intel.com with ESMTP; 02 May 2024 04:05:34 -0700
+Message-ID: <ddd682da-5cfd-db09-e316-3c54939caf90@linux.intel.com>
+Date: Thu, 2 May 2024 14:07:26 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Sphinx error fixed for inline literal end-string by
- changing $type_constant2 in kernel-doc script to include "*" unicode
- character in highlights_rst.
-To: Utkarsh Tripathi <utripathi2002@gmail.com>, corbet@lwn.net
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- skhan@linuxfoundation.org, Akira Yokosawa <akiyks@gmail.com>
-References: <b9e4bedb-6678-42ed-9ac1-c10179be5b69@gmail.com>
- <20240501175730.23326-1-utripathi2002@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.13.0
 Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20240501175730.23326-1-utripathi2002@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+ corbet@lwn.net, lgirdwood@gmail.com, andersson@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, gregkh@linuxfoundation.org,
+ Thinh.Nguyen@synopsys.com, broonie@kernel.org, bgoswami@quicinc.com,
+ tiwai@suse.com, robh@kernel.org, konrad.dybcio@linaro.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+ alsa-devel@alsa-project.org
+References: <20240425215125.29761-1-quic_wcheng@quicinc.com>
+ <20240425215125.29761-7-quic_wcheng@quicinc.com>
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: Re: [PATCH v20 06/41] usb: host: xhci-sideband: Expose a sideband
+ interrupter enable API
+In-Reply-To: <20240425215125.29761-7-quic_wcheng@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Utkarsh,
+On 26.4.2024 0.50, Wesley Cheng wrote:
+> Some use cases maybe require that the secondary interrupter's events to
+> be handled by the OS.  In this case, configure the IMOD and the
+> skip_events property to enable the interrupter's events.  By default,
+> assume that the secondary interrupter doesn't want to enable OS event
+> handling.
+> 
+> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> ---
+>   drivers/usb/host/xhci-sideband.c  | 28 ++++++++++++++++++++++++++++
+>   include/linux/usb/xhci-sideband.h |  2 ++
+>   2 files changed, 30 insertions(+)
+> 
+> diff --git a/drivers/usb/host/xhci-sideband.c b/drivers/usb/host/xhci-sideband.c
+> index 255feae33c6e..6fdae9840c11 100644
+> --- a/drivers/usb/host/xhci-sideband.c
+> +++ b/drivers/usb/host/xhci-sideband.c
+> @@ -237,6 +237,30 @@ xhci_sideband_get_event_buffer(struct xhci_sideband *sb)
+>   }
+>   EXPORT_SYMBOL_GPL(xhci_sideband_get_event_buffer);
+>   
+> +/**
+> + * xhci_sideband_enable_interrupt - enable interrupt for secondary interrupter
+> + * @sb: sideband instance for this usb device
+> + * @imod_interval: number of event ring segments to allocate
+> + *
+> + * Enables OS owned event handling for a particular interrupter if client
+> + * requests for it.  In addition, set the IMOD interval for this particular
+> + * interrupter.
+> + *
+> + * Returns 0 on success, negative error otherwise
+> + */
+> +int xhci_sideband_enable_interrupt(struct xhci_sideband *sb, u32 imod_interval)
+> +{
+> +	if (!sb || !sb->ir)
+> +		return -ENODEV;
+> +
+> +	xhci_set_interrupter_moderation(sb->ir, imod_interval);
 
-First of all, thank you for taking the time!
+Is there a need to adjust the moderation after initial setup?
 
-Besides Jon's comments on the summary and changelog, please find my
-suggestion below.
+If not then maybe we could pass the imod_interval as a parameter to
+xhci_create_secondary_interrupter(), and avoid exporting
+xhci_set_interrupter_moderation()
 
-On Wed,  1 May 2024 23:27:30 +0530, Utkarsh Tripathi wrote:
-> The kernel-doc script uses the $type_constant2 variable to match
-> expressions used to find embedded type information. The current
-> implementation of $type_constant2 does not include the "*" unicode
-> character, which is used to highlight inline literals in the
-> documentation. This causes a Sphinx error when the inline literal
-> end-string is used in the documentation.
 
-I'm afraid your description of what is wrong is not clear enough ...
-Let me talk using some examples.
+> +	sb->ir->skip_events = false;
+> +	xhci_enable_interrupter(sb->ir);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(xhci_sideband_enable_interrupt);
 
-Current kernel-doc (script) conversion to reST:
+I can't find the place where xhci_sideband_enable_interrupt() is called in
+this series. How is it planned to be used?
 
-    %WQ_* -->  ``WQ_``*
-
-Against which Sphinx complains:
-
-    WARNING: Inline literal start-string without end-string.
-
-, because ``* is not recognized as end-string (of inline literal).
-
-With your change applied, conversion to reST becomes:
-
-    %WQ_* --> ``WQ_*``
-
-, and it is a proper inline literal.
-
-Please update the changelog accordingly.
-
-This is not urgent at all.  Please take your time and read through
-Documentation/process/submitting-patches.rst (among others) before
-submitting v3.
-
-Feel free to add (in v3):
-
-Reviewed-by: Akira Yokosawa <akiyks@gmail.com>
-
-    Thanks, Akira
-
+Thanks
+Mathias
