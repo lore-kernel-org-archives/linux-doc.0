@@ -1,266 +1,382 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBC4D2032D;
-	Thu,  2 May 2024 05:56:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=68.232.154.123
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714629420; cv=fail; b=G2OLBmL4IsrtXcmsIOizJ1xfH0OzF8+YASGGps22VOg+cN3zuGh6l4VmqnV91YRyggm7VWfujbJMLSZ7NqdPoQAf9nCyfpENw6KvvFpfn2cKJzFUhj+waPLPpPdnsfBh+eWUXryIXaZKrklbet7ycAnU89DepdEIXH6fgcspl3k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714629420; c=relaxed/simple;
-	bh=F8+1cY/dI/cVOBW/hPgmHxdS8zSu0GL3sMieZe+ocqY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=mLZ70ayhxXvM96/HXVslzIxsSyDoPc5ntDYCDrxrxWW9cFpTq40Z4MNqYLCj58fEDUCCYWEbAFys9KRhYnqU/4nHFtrJJp9+TgRwQ7YgUhuXGK3MwnAD/R4ELIM3z3paBSPHRWIBAT/QZ0O1kB9/dkMpJr1NwINJasEolfvksvw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=wdXDQ2C4; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=BFMsJ3Uc; arc=fail smtp.client-ip=68.232.154.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55711219E0
+	for <linux-doc@vger.kernel.org>; Thu,  2 May 2024 07:28:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1714634915; cv=none; b=gakFbOUFySvv9wpBHvu4P79R/hAySIMqAQgL1jDJGNg8Jc62ZQc3LZTA0xS+vlqvrAcUy7hj5B2gIlhuJRBYeeHbuBrSRYvNFKfBP3vG7LsgbHGI5AMsYBDmU2kUn9AJ2Pc9zRHJZOFyZo9hkFIr6XJjClo8IYd/nP7r04kxgsY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1714634915; c=relaxed/simple;
+	bh=RCx+7bgqMTdTVzXI0D7hkwReJQntWFCtyT71VNZH774=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=QmFmk1QHWo2XE0m8vh7OfGc9srZmbyq/5J/GCNoxROyO2m4qhLly9M9gHNfabp4mY0F41509HvzKWUsHCj1V780ojnJpTaBDu36Ia8tSXnYQDWuvVK1X1ch65KkvQo7uEKMMVodqJzD/RHMswlu8H2M7jbVK0URZ6pjZDf1PAUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=f8LymL6l; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="wdXDQ2C4";
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="BFMsJ3Uc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1714629418; x=1746165418;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=F8+1cY/dI/cVOBW/hPgmHxdS8zSu0GL3sMieZe+ocqY=;
-  b=wdXDQ2C4LYeIdcPkZ7SVCwa7FXKgeV1kwOKmtdfzfRnCi866+fN7gETj
-   qKddjEWPbpq6n19fYw6ApIRkkxygxt2mfxIlmlvg8KPqIWMIEA3F5ezg3
-   7cwEpJrJyamRCEgZNQP9uNT+3XCUiL9Gi76JLY+pSAA5P0nZklQKTE60y
-   ZjHj1d6vxF/6I+ctAAAzlxCs+8QaG8jXJJd2kfy3zjO4i9FjHEH84zGzN
-   gWyOgM5a2q5E+kKZ6Y9wvY4s9pTht6ec85gviYnZKXKPLOwwFiy8MHDhB
-   ULTiJDXyNtUudCWQMWPXu75dme7X4vyQBMZ7BxAxZy10kHSSrF9ugp2Uy
-   Q==;
-X-CSE-ConnectionGUID: kDMd9dskThyLmww7EZH4FQ==
-X-CSE-MsgGUID: AgcycY+SSIyFHMOOu+24pQ==
-X-IronPort-AV: E=Sophos;i="6.07,247,1708412400"; 
-   d="scan'208";a="190690732"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 01 May 2024 22:56:56 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 1 May 2024 22:56:52 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (10.10.215.250)
- by email.microchip.com (10.10.87.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Wed, 1 May 2024 22:56:52 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oQ9HCgRPn30k5SlTQw+N+ou3uypGLtlNLKQ8SRqcsW6qmklADIYR9Bs/qzOaKnQcLgII+orVbVCG/bkE/Fmkpp755YRSpOIj0wVL9Dj7CGysds/RAurS5+ZY15F5ovh0epxz75KVDb6n0UhiB5TOZOqXhXk3acQVx2H4MbLC4JpfAMudOjyD+tz4wlrZ+8EVNcrC8MntoGDh5u8e3ROwNy7IrSEOKzy6uUR+7/tHKUKeUyUes88o6QdG50UvKtRpHBHVlI/hRgZmI9XpN0+KEpeVNa0sbOOR9gLHkffZKj0ASiHsz0AsFO0HZJ/S7c1XvLlkz//DgiR6rDcq3zZW+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=F8+1cY/dI/cVOBW/hPgmHxdS8zSu0GL3sMieZe+ocqY=;
- b=XjYod+yMc0cawXmJtJ3vuSBl5cIH0/8FNgWIb/thYXwB+0tmcc0gHda87whFDp0EYexXTzT+DWugUysBmwdPfZF6ZJbze2npvW9OlqcSDH3nPB+O1+QNFgVBmii+I4PNXQ858/giblMAPU9bZ1/FDQ9/AfhwT9wkK7qhQ5So7BaAWzE5iv6E0ya/1aMHCPEYSqEyi56qhngzQyp+r9uzp88auQf56HEhs8x5x98z4KppPLAmrotTIIPTBFHRj9ZAyZhr0WUzcCTlh76dkLDQNo8YSOAQ6ZUbnEiBbr5E7GtGb7qf9nxWhbLcjujcwNvzv5ICLVx94lv/TTKfzWvSMg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microchip.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=F8+1cY/dI/cVOBW/hPgmHxdS8zSu0GL3sMieZe+ocqY=;
- b=BFMsJ3Uc39wXGIGN4BxIybh/So9jOiieSrgvls0S2m4liy5M5If2DEZxp/lwSxxgyogWT674cKJDYIx+7NKyJkZUo/ov80t6MWASHgiSuEuaxHihHUWCyqr7bFvgPnH6dh7/JF5ItVubxK8Z5Bs87p1EottkiPwJAFK1jZr3I56/XSAQohou17TK+Zv4nhZmsW28gq1d+QWHj/bn5TW8PiDBcg3fkiR64PEgJfpT15zN1Q9jcRcVRwS48p8E2a9rs3WZMu/lxDrv8NSlL6HiTohwpliffVGcmsr8O7Mmk8Dw7qIY57B1PXKm3rR1HxTY77Bjx3Sp5O5FMRD0J/lgbg==
-Received: from SA1PR11MB8278.namprd11.prod.outlook.com (2603:10b6:806:25b::19)
- by DS0PR11MB7631.namprd11.prod.outlook.com (2603:10b6:8:14e::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7519.35; Thu, 2 May
- 2024 05:56:46 +0000
-Received: from SA1PR11MB8278.namprd11.prod.outlook.com
- ([fe80::84fa:e267:e389:fa9]) by SA1PR11MB8278.namprd11.prod.outlook.com
- ([fe80::84fa:e267:e389:fa9%4]) with mapi id 15.20.7519.031; Thu, 2 May 2024
- 05:56:46 +0000
-From: <Parthiban.Veerasooran@microchip.com>
-To: <conor@kernel.org>
-CC: <andrew@lunn.ch>, <ramon.nordin.rodriguez@ferroamp.se>,
-	<davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-	<pabeni@redhat.com>, <horms@kernel.org>, <saeedm@nvidia.com>,
-	<anthony.l.nguyen@intel.com>, <netdev@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <corbet@lwn.net>,
-	<linux-doc@vger.kernel.org>, <robh+dt@kernel.org>,
-	<krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-	<devicetree@vger.kernel.org>, <Horatiu.Vultur@microchip.com>,
-	<ruanjinjie@huawei.com>, <Steen.Hegelund@microchip.com>,
-	<vladimir.oltean@nxp.com>, <UNGLinuxDriver@microchip.com>,
-	<Thorsten.Kummermehr@microchip.com>, <Pier.Beruto@onsemi.com>,
-	<Selvamani.Rajagopal@onsemi.com>, <Nicolas.Ferre@microchip.com>,
-	<benjamin.bigler@bernformulastudent.ch>
-Subject: Re: [PATCH net-next v4 11/12] microchip: lan865x: add driver support
- for Microchip's LAN865X MAC-PHY
-Thread-Topic: [PATCH net-next v4 11/12] microchip: lan865x: add driver support
- for Microchip's LAN865X MAC-PHY
-Thread-Index: AQHakZAq1RqgTRBTy0mY7YMhKP6dQLF8jIwAgAAKqICAAnocgIAAJ6wAgAGo6gCAADlYAIACbMEA
-Date: Thu, 2 May 2024 05:56:45 +0000
-Message-ID: <b06b5195-9079-485e-b83f-db416f16a389@microchip.com>
-References: <20240418125648.372526-1-Parthiban.Veerasooran@microchip.com>
- <20240418125648.372526-12-Parthiban.Veerasooran@microchip.com>
- <Zi1PxgANUWh1S0sO@builder> <20240427-vaporizer-pencil-be6a25030f08@spud>
- <1ae4f1d5-140b-41b1-9191-da14fd67d409@microchip.com>
- <243dab3b-ac07-4d88-8c43-aed53a34cea9@lunn.ch>
- <bc54d514-cd93-4b12-a10a-3d613efc98a2@microchip.com>
- <20240430-sharpie-manor-fd53df03b77d@spud>
-In-Reply-To: <20240430-sharpie-manor-fd53df03b77d@spud>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA1PR11MB8278:EE_|DS0PR11MB7631:EE_
-x-ms-office365-filtering-correlation-id: fc1ed9f8-7b0a-44c5-8ae8-08dc6a6ca657
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230031|366007|376005|1800799015|7416005|38070700009;
-x-microsoft-antispam-message-info: =?utf-8?B?SVlRTzZ5cGVDTi9rWkhQSDVvS3pISW0xRVlLc2V0ak9tclp2Q2k0NERydWNv?=
- =?utf-8?B?WEErN3pZeTQ1MFA1MEc1TnRTSU5GeEJuK0tzSGZuaG1xSU9nb2c3MThLS2VJ?=
- =?utf-8?B?eEI2NzBQNExCd2Q3TFRwQnNWeWl6YXppSXkxTjhXdlBhekpKbzhrNTNXS2NI?=
- =?utf-8?B?MUQyVEx2SEpoVUIwZWhSeit4WjZqRXovMGJ0YWxWakUvWFVnQ2liWkxHSWlZ?=
- =?utf-8?B?TjFsK2xyaFBPWXlDNVkzbzc1bmdTNEhHcjJwam4raERGbkZYa2RGUWpSL3VC?=
- =?utf-8?B?MGJYTGpLODBhUTFHNWVWTkR2SHM3NDRpay8welNTQVE5dmtyeHNOMjVwWFp4?=
- =?utf-8?B?OFdSM3VDbnVYSmh5S013SjM4N1YzWEl0SGtlNXpCVnM0cUJOQTN5cEp2cXAy?=
- =?utf-8?B?MTBOMzVaU0ZQcVNTTHpTa0M3RTJRcUpsSUxrcm1WZXlGRWFQMzA1RzJmRm1k?=
- =?utf-8?B?MGl1WXYwbURvUTl4VFZta3h1V01wWG91ekp5UFkzQmc1SUdNcnlaWkZEWldl?=
- =?utf-8?B?d0hxUXdQMTFUM083Vm1KWFp3WkJlM2E1YnNSczVDME1lQnZySmJZdytPeXJO?=
- =?utf-8?B?K0ZUMW5DT3pkWHdSM1VDTUtnQVVsSk1Ga1dBT2lFeGpLR0lDVjI3dDFEaUdh?=
- =?utf-8?B?alhQK0hYZGV5MzhiTk9qWHRCb1hiTWZKL2UvTnNldFM1RVJVMjladzl6RWRS?=
- =?utf-8?B?VU1mc0Y3Tmt3bDdyOXhhSGJMN1FZUzdtcmE0a3hkeFR5RjIyUTMyMHZPVmlx?=
- =?utf-8?B?aGF6bVpMSmcrZk5KU0xjZWpvR1hEY2JvWm12L3BybmJXRUUvL1EwczJ3d1M3?=
- =?utf-8?B?c3NXdG4vN1NHZE10MGcvbklmNHBBSGZna3VEMG1oVDQ0TGdzdzZOTEE4ZWc0?=
- =?utf-8?B?cmowVzZoWXdHeks5TFFyNlZ5RFlTblFjZkg0TEdHNlFUbHh3d1VVWHZmME54?=
- =?utf-8?B?aGJGTkdaeFlFaE1YTXd1K0tMc3NYTGZ3bmcwV3BjZ2ZrNmFwM1JqWFdDS25B?=
- =?utf-8?B?R0pVYWdkZlpjeVFlanNNZXBBZU92SitLQlgvWGdRQVBZaWNsb2F5dDAxdHl6?=
- =?utf-8?B?bWpLbzVRVHQ2WWszS21xSTdsTG5RdExrTVUrKzZybFlwQ2I0V0VGTFRKdEU1?=
- =?utf-8?B?Y2tqUG5vaHNmSTlVUFJCTHNsUm1ML2xNSW9JWmdRWnRUaFBlanB1eHF5cndx?=
- =?utf-8?B?eTFpdnh3ZU9TT3FoWUFaQThhYWN0eVd5MWgrbG5Ta21GUFg1YUVwZXowWC96?=
- =?utf-8?B?Y2VHSWNIMllYZXZiUDdNS0xvMEcvRVNxa09PZm1Xb2dadm9HN290MkEwdVZE?=
- =?utf-8?B?UVZKTC80ejhpc2NWZVAxejNsOTM0T1FLczNpNm43Z3o0ZHMrdC9nUTlOSXVt?=
- =?utf-8?B?V0hGK0VWUWdGSDR2ZE13MDBWRERKVlVPbG5pYUNYSlozalE0eTVTdGhjV29y?=
- =?utf-8?B?UzBDd1o5TWh0aklMVUtDZ0R4QXU5VWFKZlhFTnRBVTVFOWY2THFTQ2dnNDZh?=
- =?utf-8?B?SzNndjVHQmZLTW80amZVaVNYVjV6VFkvUWREeEZWZ1RxNW1JOG9qV2FobkhX?=
- =?utf-8?B?WmZFZDlneFZLcUVNbHpZR2RMNVd0MjdPNmJ4cUpPRFpRVjJmTlVnYVR1UEpi?=
- =?utf-8?B?WExwT0pMVEE0Nm5hRGtDRnorVlRORHQ2WjFTWFFIeTltRUh2c1JMYlg5UXZR?=
- =?utf-8?B?cHR2RXVPK25vM3hnOS8zcGhzUENpMTJ5WlhJL2lkOHliYkJ0dUw5WDZHVzNs?=
- =?utf-8?Q?cw71BZ1zg7z7WaSEt4=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB8278.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015)(7416005)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?QWJNelVZbDZaTldacTlMVVRmOUZBTXFmM09GTkp6QlBQR24yS21DeEZhaE1P?=
- =?utf-8?B?L0V4NHVZc3F6QlU3SU10dkFtQXFubDQrTlp1ZmpGYVZwbDNxQlpiV3ZjZDZ0?=
- =?utf-8?B?WEtOTmZRTTlKLytEU20valNmQTdHS1NtU0FXN1oyRmg3MVFsa01acUJwbXdu?=
- =?utf-8?B?T0w4c3U4c3VGTnVJT2FHUG10OXZHUXhaem9zQlMvT3k1cE54R0kyU2FuSjdI?=
- =?utf-8?B?dWExMlpKcnhsdW1POEE1UnJoMlFzS2tnVXRrNjFhQ0haNWFaWVVqV2RKdHds?=
- =?utf-8?B?bDhpRkZEK2xkNUd4blZJOUkrbGtWazI3UlJFTHF3aGlpblFTT25Sb0VHdnZ3?=
- =?utf-8?B?aXN4WHNZbGkvaDdFNzFQSjdlSzRhTDVhdDQ1UjAzL3drV1FITWxZQ3B6My9T?=
- =?utf-8?B?Yk4ySGRsbHJjSmd6aTFyYzl5cTIzdy9MZExJbmlCbDJDZlg4Um1oREZFY2NW?=
- =?utf-8?B?ZU9YSlYyYzE0TUZFYmVHYkRkeElxUTBwc21vdVpsVkNmRnZuaVBQRXRaWG9O?=
- =?utf-8?B?MkpiNDNUS2Fkdk00TExZS2x1VjRBNlJybEZnQitxbTJZY0RhNjRSQUNkOTFt?=
- =?utf-8?B?Q1dlRWxqNlFXOUU1MlJRUjZHQlIrV1hhaWJ6aDBEazZ4dzJVTHhCMzFXemdO?=
- =?utf-8?B?Y0p2Mk1hME9QUUMwZlYyempJSTI0M2FxSDNJMHpnc2FRMnhlWjdQY3MreExX?=
- =?utf-8?B?N3FGMzlYdmhScDQ3bEJNUVppRVFTM2IvRVhzQ0NyUlpiSDhLZ3g5TkUwRDVq?=
- =?utf-8?B?NFZxWTlIUW9GUmVsbFdncWRMNUczWkIyNXZNaEJPOGY1aFoxekEzMGdFbXRy?=
- =?utf-8?B?OTFMWUFqVGh1R1djb2k4VzRFWk9XU01lcHl1STI0Kyt0bjAvVzNHN1pSTXBM?=
- =?utf-8?B?UmM5dnpYQTFWZWFhTGs2V1U5OCt4RTg1OXRXUFFBYlBUZCtZOUVoYlRzd2JC?=
- =?utf-8?B?czcyU3VGdlNndlUyMmhKVWNmUWRTcVhPekxVU0Q5UW9UY25SVzJEdnQ3VnRp?=
- =?utf-8?B?YUMrWGd4Mkd2WmVUMDNTNXZPdndjblUyYnQxQnpzeEpUM2Urc05DdDlyU0Ev?=
- =?utf-8?B?UFd3UzJZRmJ6dk5YMzR1QTlhQU56Rkpub1hqR3Bua0lxZHo1SmFjdjFVM0xV?=
- =?utf-8?B?WktRUXJkOVluRzYycHBvaEhGOE1TQWxJYXJ3WmFGUTJwMFJ6OGVzOXpNYlBi?=
- =?utf-8?B?SEpoTjhIRUZmaU8vUE0zUmlaVER4UG1JSEx6am1zSC9xZTA4WkZrU0Y5aHhn?=
- =?utf-8?B?VnR0b3VOTzVXNkxGZStxRk9oSTU0eFNHN2I5V1ZQUE5tOExyY1J2YVpnZEE1?=
- =?utf-8?B?T1hYR1MvR0Y3ZUw2UWVTbWcvMnVockEvbUYzUThtcjU4aEs5NEZoamhJcVR3?=
- =?utf-8?B?eU5wR1NFeDY2QmJaS3RCOExSWjRQM0NkVDVoSk54eko3SDRjK2FieEZMaVVJ?=
- =?utf-8?B?K3BJYlFRWVUrL2laOG9JNVlmZ0Q5M0NrRFl1bFA0SUF6TjZRbzFrbGJIZU1K?=
- =?utf-8?B?bW93cEF0NmJnWUVhK3ArQWZ2ZTZKVUw5eU90dXFUYms4RmdOTTFsdG41SEhF?=
- =?utf-8?B?MGdzMWd6ZWxYbWZJbTJDWmNjTDFjbm5FbXZSWHlabktCSVdSclNYRENXU0RX?=
- =?utf-8?B?dzNNdyszY2NXNTdISERZOEtiVHNadVJlVjByT3pGcXRuSHo5MGtHSytBekFa?=
- =?utf-8?B?LzRERVNWUm5seGljRWNOMW1iNVR5UkVjZGVUNitCZ25WREsxUlV5cExWR0hN?=
- =?utf-8?B?TVBxMjdwY0JpT1VyRXlYblBDVHNoU2FuSjI5b2lBci9pMHJUR0R1ZS9Za3c2?=
- =?utf-8?B?cy8vSExzR2N2VDVwTkY0QStVYlJ2UjBON3NIUzVkQ1M3VFMzK1l1all6N2tq?=
- =?utf-8?B?cVFubmw0dnBzQ3diVkFDbVpuSksvYXpKZUx0UGpjamVQQUxqL1h3bXJGeGFo?=
- =?utf-8?B?NTFwMnlzOXVWQmFGUzd6ZzNNT0RoTFpXU1NFaHludFdUcDFMazJHK0lpcG5I?=
- =?utf-8?B?Q2FnOTF1TlhqT2ZsNTY5YjYzdkdMeHMwT0FwTGpDQVFCM2gyeDlId05uUk5Y?=
- =?utf-8?B?NFNtMXBxSDZHVlZjSUpvVkZjSXREVU1rQ0FnOWxtbUc3STBaL3B6NDVXNTJx?=
- =?utf-8?B?Q0tMbkM2QTE4L1Y2NEpSakZKMGZIakptWmJmVGVmSVFML2dpbUJZcVpGMzM3?=
- =?utf-8?B?d2c9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <966BB7CF7ACBB946969A545B6C2E9353@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="f8LymL6l"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-34ddc9fe497so659565f8f.3
+        for <linux-doc@vger.kernel.org>; Thu, 02 May 2024 00:28:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1714634912; x=1715239712; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EAYVbhkSlUWJPsnQXQt9SynXL0L0vg1XbxE7nTp8ygY=;
+        b=f8LymL6lBEhCwJ0zJnnPOKZXiGpv1F6aJA+U40C1R7sPBd5D45Ialt8O8iy8pjNWKI
+         aN5Fd2oyGkNkyQzsyCZHlDbChCGynApia3v2mR/nqjP7/x7yvv7mo+o6ZzzG0quAymb5
+         olqm7dk71fPvtITj01++QzX7w1Qd94AUpNA80HtqSKn0iSPHq38tCx8tGKMKWLpdRX9C
+         bE/yXfX7GRLEcqVWkcA2KqufXpfKaHx+QX4zI+jtKAA71MTLpEwa7eQ5ourkOccBkygw
+         ANRg+cMuX092GLOKfcLq9XsODQgo0sijPWtu0FF6rJuLNbhgMA6vskNm/BZRmjAjsOMo
+         eOKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714634912; x=1715239712;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=EAYVbhkSlUWJPsnQXQt9SynXL0L0vg1XbxE7nTp8ygY=;
+        b=iOH7MJPJFHC69VYc4LJYhP5TmLQYjRAMsx0DU8sJ71MdWL1JQAu6zDXaKON8h4txi5
+         86DQli8zAIi4P2FYr0M3QxYMohM+KQsv0xd3eh0o7YL3F/FvrK3YSMEsLsRIJjt44vjM
+         tl9znRWc3W3TM0+CAFCktJayWr/EutWKZYHpUIkFxWqu/z/D1g1JMb/8KS8/Efa9plY6
+         nUWPEUMKvG3iqMz0/5SGrn7sLafvabNZSAJUakK4c69JRqfDw4XiUw5tsh4RWUic2Hyl
+         0vWcGxNdK5KoKLrO8H5+ZpZZ5UYVcZmOjL9V5V+mNWCjKESmg4haT3IANC1Uu8/zAQqW
+         4kfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVmf24TelEI3+cXNHaJSHvHMQApH7Gi3HwAck9NpjDqWHVvjO5yJSz24ke0UmVUvPCQGFOrRH8t5SYNSFWwBXtOa/EKM+tTMppn
+X-Gm-Message-State: AOJu0YyBd7hO1SCuggWwRUSZacjTDnPMBw9qa22MUlPacDugCpTJVZBK
+	FIcfkx1zAN/2YXzyx5PR02FMS5NGruKWAdGQYz/BX6qmVB3ts0CUkjt6aVFWbTo=
+X-Google-Smtp-Source: AGHT+IFg+7H0QarbP4+qvpL7EnZBUPH5jduwtoAjY9s5Iz2hBR8PhUgiX8N7RaoMmKDPah1ruy4Hcw==
+X-Received: by 2002:a5d:674d:0:b0:34e:2363:2c59 with SMTP id l13-20020a5d674d000000b0034e23632c59mr804522wrw.26.1714634911513;
+        Thu, 02 May 2024 00:28:31 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:cad:2140:67e2:5e2:652b:4129? ([2a01:e0a:cad:2140:67e2:5e2:652b:4129])
+        by smtp.gmail.com with ESMTPSA id t3-20020a05600001c300b0034df7313bf1sm557982wrx.0.2024.05.02.00.28.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 May 2024 00:28:31 -0700 (PDT)
+Message-ID: <f4fd280f-19c7-46a3-a8bb-2915f6694c3f@linaro.org>
+Date: Thu, 2 May 2024 09:28:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB8278.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc1ed9f8-7b0a-44c5-8ae8-08dc6a6ca657
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 May 2024 05:56:45.9331
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Dq83xTb+8qTyNisCko2D78/NKGYLg1oMX5rq4i5XzMBWE3EUoJNHavjW/PeWTeiIfyPZhNRyoeahocOmGCmczsgkTz6KniK8546GEjy8HiU1MVDQ10hcrB/95dbQqs+X
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7631
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: neil.armstrong@linaro.org
+Subject: Re: [PATCH v3 5/9] drm/mipi-dsi: Introduce
+ mipi_dsi_*_write_seq_multi()
+To: Douglas Anderson <dianders@chromium.org>, dri-devel@lists.freedesktop.org
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
+ Hsin-Yi Wang <hsinyi@google.com>, Brian Norris <briannorris@chromium.org>,
+ Sam Ravnborg <sam@ravnborg.org>,
+ Javier Martinez Canillas <javierm@redhat.com>, Joel Selvaraj
+ <jo@jsfamily.in>, lvzhaoxiong@huaqin.corp-partner.google.com,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240501154251.3302887-1-dianders@chromium.org>
+ <20240501084109.v3.5.Ie94246c30fe95101e0e26dd5f96e976dbeb8f242@changeid>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20240501084109.v3.5.Ie94246c30fe95101e0e26dd5f96e976dbeb8f242@changeid>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-SGkgQ29ub3IsDQoNCk9uIDMwLzA0LzI0IDEwOjI1IHBtLCBDb25vciBEb29sZXkgd3JvdGU6DQo+
-IE9uIFR1ZSwgQXByIDMwLCAyMDI0IGF0IDAxOjMwOjIyUE0gKzAwMDAsUGFydGhpYmFuLlZlZXJh
-c29vcmFuQG1pY3JvY2hpcC5jb20gIHdyb3RlOg0KPj4gSGkgQW5kcmV3LA0KPj4NCj4+IE9uIDI5
-LzA0LzI0IDU6MzkgcG0sIEFuZHJldyBMdW5uIHdyb3RlOg0KPj4+IEVYVEVSTkFMIEVNQUlMOiBE
-byBub3QgY2xpY2sgbGlua3Mgb3Igb3BlbiBhdHRhY2htZW50cyB1bmxlc3MgeW91IGtub3cgdGhl
-IGNvbnRlbnQgaXMgc2FmZQ0KPj4+DQo+Pj4+IExvb2tzIGxpa2UsIHRoZSBiZWxvdyBjaGFuZ2Vz
-IG5lZWRlZCB0byB3b3JrIGNvcnJlY3RseSwNCj4+Pj4NCj4+Pj4gbGFuODY1eC5jOg0KPj4+PiAt
-IGNvbXBhdGlibGUgc3RyaW5nIHRvIGJlIGNoYW5nZWQgbGlrZSBiZWxvdyBhcyBpdCBpcyBhIGZh
-bGxiYWNrIGZvciBhbGwNCj4+Pj4gdmFyaWFudHMsDQo+Pj4+ICAgICAgICAgLmNvbXBhdGlibGUg
-PSAibWljcm9jaGlwLGxhbjg2NTAiDQo+Pj4+IC0gRFJWX05BTUUgdG8gYmUgY2hhbmdlZCBsaWtl
-IGJlbG93LA0KPj4+PiAgICAgICAgICNkZWZpbmUgRFJWX05BTUUgICAgICAgICAgICAgICAgICAg
-ICAgICAibGFuODY1MCINCj4+Pj4NCj4+Pj4gbWljcm9jaGlwLGxhbjg2NXguZXhhbXBsZS5kdHMg
-Zm9yIGxhbjg2NTA6DQo+Pj4+IC0gY29tcGF0aWJsZSBzdHJpbmcgdG8gYmUgY2hhbmdlZCBsaWtl
-IGJlbG93LA0KPj4+PiAgICAgICAgIC5jb21wYXRpYmxlID0gIm1pY3JvY2hpcCxsYW44NjUwIjsN
-Cj4+Pj4gICAgICAgICBPUg0KPj4+PiBtaWNyb2NoaXAsbGFuODY1eC5leGFtcGxlLmR0cyBmb3Ig
-bGFuODY1MToNCj4+Pj4gLSBjb21wYXRpYmxlIHN0cmluZyB0byBiZSBjaGFuZ2VkIGxpa2UgYmVs
-b3csDQo+Pj4+ICAgICAgICAgY29tcGF0aWJsZSA9ICJtaWNyb2NoaXAsbGFuODY1MSIsICJtaWNy
-b2NoaXAsbGFuODY1MCI7DQo+Pj4+DQo+Pj4+IEkgdGVzdGVkIHdpdGggdGhlIGFib3ZlIGNoYW5n
-ZXMgYW5kIHRoZXJlIHdhcyBubyBpc3N1ZXMgb2JzZXJ2ZWQuIEFueQ0KPj4+PiBjb21tZW50cyBv
-biB0aGlzPyBPdGhlcndpc2Ugd2UgY2FuIHN0aWNrIHdpdGggdGhlc2UgY2hhbmdlcyBmb3IgdGhl
-IG5leHQNCj4+Pj4gdmVyc2lvbi4NCj4+PiBBcyBDb25vciBzYWlkLCB0aGlzIGlzIHByb2JhYmx5
-IHJlbHlpbmcgb24gdGhlIGZhbGxiYWNrDQo+Pj4gbWVjaGFuaXNtLiBQbGVhc2UgbG9vayBhdCBv
-dGhlciBTUEkgZGV2aWNlcywgZS5nLiBod21vbiwgYW5kIHNlZSBob3cNCj4+PiB0aGV5IHByb2Jl
-IGZvciBtdWx0aXBsZSBkaWZmZXJlbnQgZGV2aWNlcy4NCj4+IEkganVzdCByZWZlcnJlZCB0aGUg
-YmVsb3cgZHJpdmVycyBmb3IgdGhlIHNwaSBkZXZpY2VzIGhhbmRsaW5nIGFsb25nDQo+PiB3aXRo
-IHRoZSBjb21wYXRpYmxlLA0KPj4NCj4+IGh0dHBzOi8vZWxpeGlyLmJvb3RsaW4uY29tL2xpbnV4
-L2xhdGVzdC9zb3VyY2UvZHJpdmVycy9uZXQvZXRoZXJuZXQvZGF2aWNvbS9kbTkwNTEuYyNMMTIz
-OQ0KPj4NCj4+IGh0dHBzOi8vZWxpeGlyLmJvb3RsaW4uY29tL2xpbnV4L2xhdGVzdC9zb3VyY2Uv
-ZHJpdmVycy9uZXQvZXRoZXJuZXQvYWRpL2FkaW4xMTEwLmMjTDE2NDQNCj4+DQo+PiBsYW44NjUw
-IC0gTUFDLVBIWSBjaGlwDQo+PiBsYW44NjUxIC0gRVRIIENsaWNrLU1pa3JvZSB3aXRoIE1BQy1Q
-SFkgY2hpcA0KPj4NCj4+IFNvLCB0aGV5IGFyZSBkaWZmZXJlbnQgaW4gaW50ZXJmYWNlIGJ1dCBu
-b3QgaW4gZnVuY3Rpb25hbGl0eS4gVGhlcmUgaXMNCj4+IG5vIGRpZmZlcmVuY2UgaW4gdGhlIGNv
-bmZpZ3VyYXRpb24uIFNvIGxldCdzIGNvbnNpZGVyIGxhbjg2NTAgaXMgdGhlDQo+PiBmYWxsYmFj
-ayBvcHRpb24gZm9yIGxhbjg2NTEuDQo+Pg0KPj4gQnkgcmVmZXJyaW5nIHRoZSBhYm92ZSBsaW5r
-cywgSSBoYXZlIHJlc3RydWN0dXJlZCB0aGUgY29kZSBsaWtlIGJlbG93IHRvDQo+PiBzdXBwb3J0
-IHdpdGggbGFuODY1MSBmYWxsYmFjay4gU3RpbGwgdGhlcmUgaXMgbm8gY2hhbmdlIGluIHRoZSBl
-eGlzdGluZw0KPj4gZGV2aWNlIHRyZWUgYmluZGluZy4gVGhpcyBpcyB0aGUgb25seSBjaGFuZ2Ug
-aW4gbGFuODY1eC5jLg0KPj4NCj4+IHN0YXRpYyBjb25zdCBzdHJ1Y3Qgc3BpX2RldmljZV9pZCBz
-cGlkZXZfc3BpX2lkc1tdID0gew0KPj4gICAgICAgICAgIHsgLm5hbWUgPSAibGFuODY1MCIgfSwN
-Cj4+ICAgICAgICAgICB7fSwNCj4+IH07DQo+Pg0KPj4gc3RhdGljIGNvbnN0IHN0cnVjdCBvZl9k
-ZXZpY2VfaWQgbGFuODY1eF9kdF9pZHNbXSA9IHsNCj4+ICAgICAgICAgICB7IC5jb21wYXRpYmxl
-ID0gIm1pY3JvY2hpcCxsYW44NjUwIiB9LA0KPj4gICAgICAgICAgIHsgLyogU2VudGluZWwgKi8g
-fQ0KPj4gfTsNCj4+IE1PRFVMRV9ERVZJQ0VfVEFCTEUob2YsIGxhbjg2NXhfZHRfaWRzKTsNCj4+
-DQo+PiBzdGF0aWMgc3RydWN0IHNwaV9kcml2ZXIgbGFuODY1eF9kcml2ZXIgPSB7DQo+PiAgICAg
-ICAgICAgLmRyaXZlciA9IHsNCj4+ICAgICAgICAgICAgICAgICAgIC5uYW1lID0gRFJWX05BTUUs
-DQo+PiAgICAgICAgICAgICAgICAgICAub2ZfbWF0Y2hfdGFibGUgPSBsYW44NjV4X2R0X2lkcywN
-Cj4+ICAgICAgICAgICAgfSwNCj4+ICAgICAgICAgICAucHJvYmUgPSBsYW44NjV4X3Byb2JlLA0K
-Pj4gICAgICAgICAgIC5yZW1vdmUgPSBsYW44NjV4X3JlbW92ZSwNCj4+ICAgICAgICAgICAuaWRf
-dGFibGUgPSBzcGlkZXZfc3BpX2lkcywNCj4+IH07DQo+Pg0KPj4gSSBhbHNvIHJlZmVycmVkIHRo
-ZSBiZWxvdyB0d28gbGlua3MgZm9yIHRoZSBkZXZpY2UgdHJlZSBiaW5kaW5nIGFuZA0KPj4gZHJp
-dmVyIGluIGNhc2Ugb2YgZmFsbGJhY2suDQo+IERpZCB5b3UgYWxzbyB2ZXJpZnkgdGhhdCB0aGUg
-d2FybmluZyBmcm9tIHRoZSBzcGkgY29yZSBpcyBubyBsb25nZXINCj4gZ2VuZXJhdGVkIHdoZW4g
-dXNpbmcgY29tcGF0aWJsZSA9ICJtaWNyb2NoaXAsbGFuODY1MSIsICJtaWNyb2NoaXAsbGFuODY1
-MCI/DQpEbyB5b3UgbWVhbiBjaGFuZ2luZyBpbiB0aGUgbGFuODY1eC5jIGZpbGU/IGlmIHllcyB0
-aGVuIEkgZ290IHRoZSANCndhcm5pbmcgIlNQSSBkcml2ZXIgbGFuODY1eCBoYXMgbm8gc3BpX2Rl
-dmljZV9pZCBmb3IgbWljcm9jaGlwLGxhbjg2NTEiDQoNCkJ1dCBhZnRlciB1cGRhdGluZyB0aGUg
-bGFuODY1eC5jIGxpa2UgYmVsb3csIHRoZSB3YXJuaW5nIGRpc2FwcGVhcmVkLg0KDQpzdGF0aWMg
-Y29uc3Qgc3RydWN0IHNwaV9kZXZpY2VfaWQgc3BpZGV2X3NwaV9pZHNbXSA9IHsNCiAgICAgICAg
-IHsgLm5hbWUgPSAibGFuODY1MCIgfSwNCiAgICAgICAgIHsgLm5hbWUgPSAibGFuODY1MSIgfSwN
-CiAgICAgICAgIHt9LA0KfTsNCg0KTm90ZTogSW4gYm90aCB0aGUgYWJvdmUgdHdvIGNhc2VzIGNv
-bXBhdGlibGUgaW4gdGhlIGR0cyBpcw0KY29tcGF0aWJsZSA9ICJtaWNyb2NoaXAsbGFuODY1MSIs
-ICJtaWNyb2NoaXAsbGFuODY1MCI7DQoNCkJlc3QgcmVnYXJkcywNClBhcnRoaWJhbiBWDQo=
+On 01/05/2024 17:41, Douglas Anderson wrote:
+> The current mipi_dsi_*_write_seq() macros are non-intutitive because
+> they contain a hidden "return" statement that will return out of the
+> _caller_ of the macro. Let's mark them as deprecated and instead
+> introduce some new macros that are more intuitive.
+> 
+> These new macros are less optimal when an error occurs but should
+> behave more optimally when there is no error. Specifically these new
+> macros cause smaller code to get generated and the code size savings
+> (less to fetch from RAM, less cache space used, less RAM used) are
+> important. Since the error case isn't something we need to optimize
+> for and these new macros are easier to understand and more flexible,
+> they should be used.
+> 
+> After converting to use these new functions, one example shows some
+> nice savings while also being easier to understand.
+> 
+> $ scripts/bloat-o-meter \
+>    ...after/panel-novatek-nt36672e.ko \
+>    ...ctx/panel-novatek-nt36672e.ko
+> add/remove: 0/0 grow/shrink: 0/1 up/down: 0/-988 (-988)
+> Function                                     old     new   delta
+> nt36672e_1080x2408_60hz_init                6236    5248    -988
+> Total: Before=10651, After=9663, chg -9.28%
+> 
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+> Right now this patch introduces two new functions in drm_mipi_dsi.c.
+> Alternatively we could have changed the prototype of the "chatty"
+> functions and made the deprecated macros adapt to the new prototype.
+> While this sounds nice, it bloated callers of the deprecated functioin
+> a bit because it caused the compiler to emit less optimal code. It
+> doesn't seem terrible to add two more functions, so I went that
+> way. There may be cases where callers who aren't writing many
+> sequences prefer to use the "chatty" versions anyway.
+> 
+> Changes in v3:
+> - Add a TODO item for cleaning up the deprecated macros/functions.
+> - Inline kerneldoc comments for struct mipi_dsi_multi_context.
+> 
+> Changes in v2:
+> - New
+> 
+>   Documentation/gpu/todo.rst     | 18 ++++++++++
+>   drivers/gpu/drm/drm_mipi_dsi.c | 56 ++++++++++++++++++++++++++++++
+>   include/drm/drm_mipi_dsi.h     | 62 ++++++++++++++++++++++++++++++++++
+>   3 files changed, 136 insertions(+)
+> 
+> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+> index fb9ad120b141..45a59c176b06 100644
+> --- a/Documentation/gpu/todo.rst
+> +++ b/Documentation/gpu/todo.rst
+> @@ -507,6 +507,24 @@ Contact: Douglas Anderson <dianders@chromium.org>
+>   
+>   Level: Starter/Intermediate
+>   
+> +Transition away from using mipi_dsi_*_write_seq()
+> +-------------------------------------------------
+> +
+> +The macros mipi_dsi_generic_write_seq() and mipi_dsi_dcs_write_seq() are
+> +non-intuitive because, if there are errors, they return out of the *caller's*
+> +function. We should move all callers to use mipi_dsi_generic_write_seq_multi()
+> +and mipi_dsi_dcs_write_seq_multi() macros instead.
+> +
+> +Once all callers are transitioned, the macros and the functions that they call,
+> +mipi_dsi_generic_write_chatty() and mipi_dsi_dcs_write_buffer_chatty(), can
+> +probably be removed. Alternatively, if people feel like the _multi() variants
+> +are overkill for some use cases, we could keep the mipi_dsi_*_write_seq()
+> +variants but change them not to return out of the caller.
+> +
+> +Contact: Douglas Anderson <dianders@chromium.org>
+> +
+> +Level: Starter
+> +
+>   
+>   Core refactorings
+>   =================
+> diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
+> index 8593d9ed5891..d2957cb692d3 100644
+> --- a/drivers/gpu/drm/drm_mipi_dsi.c
+> +++ b/drivers/gpu/drm/drm_mipi_dsi.c
+> @@ -792,6 +792,34 @@ int mipi_dsi_generic_write_chatty(struct mipi_dsi_device *dsi,
+>   }
+>   EXPORT_SYMBOL(mipi_dsi_generic_write_chatty);
+>   
+> +/**
+> + * mipi_dsi_generic_write_multi() - mipi_dsi_generic_write_chatty() w/ accum_err
+> + * @ctx: Context for multiple DSI transactions
+> + * @payload: buffer containing the payload
+> + * @size: size of payload buffer
+> + *
+> + * Like mipi_dsi_generic_write_chatty() but deals with errors in a way that
+> + * makes it convenient to make several calls in a row.
+> + */
+> +void mipi_dsi_generic_write_multi(struct mipi_dsi_multi_context *ctx,
+> +				  const void *payload, size_t size)
+> +{
+> +	struct mipi_dsi_device *dsi = ctx->dsi;
+> +	struct device *dev = &dsi->dev;
+> +	ssize_t ret;
+> +
+> +	if (ctx->accum_err)
+> +		return;
+> +
+> +	ret = mipi_dsi_generic_write(dsi, payload, size);
+> +	if (ret < 0) {
+> +		ctx->accum_err = ret;
+> +		dev_err(dev, "sending generic data %*ph failed: %d\n",
+> +			(int)size, payload, ctx->accum_err);
+> +	}
+> +}
+> +EXPORT_SYMBOL(mipi_dsi_generic_write_multi);
+> +
+>   /**
+>    * mipi_dsi_generic_read() - receive data using a generic read packet
+>    * @dsi: DSI peripheral device
+> @@ -908,6 +936,34 @@ int mipi_dsi_dcs_write_buffer_chatty(struct mipi_dsi_device *dsi,
+>   }
+>   EXPORT_SYMBOL(mipi_dsi_dcs_write_buffer_chatty);
+>   
+> +/**
+> + * mipi_dsi_dcs_write_buffer_multi - mipi_dsi_dcs_write_buffer_chatty() w/ accum_err
+> + * @ctx: Context for multiple DSI transactions
+> + * @data: buffer containing data to be transmitted
+> + * @len: size of transmission buffer
+> + *
+> + * Like mipi_dsi_dcs_write_buffer_chatty() but deals with errors in a way that
+> + * makes it convenient to make several calls in a row.
+> + */
+> +void mipi_dsi_dcs_write_buffer_multi(struct mipi_dsi_multi_context *ctx,
+> +				     const void *data, size_t len)
+> +{
+> +	struct mipi_dsi_device *dsi = ctx->dsi;
+> +	struct device *dev = &dsi->dev;
+> +	ssize_t ret;
+> +
+> +	if (ctx->accum_err)
+> +		return;
+> +
+> +	ret = mipi_dsi_dcs_write_buffer(dsi, data, len);
+> +	if (ret < 0) {
+> +		ctx->accum_err = ret;
+> +		dev_err(dev, "sending dcs data %*ph failed: %d\n",
+> +			(int)len, data, ctx->accum_err);
+> +	}
+> +}
+> +EXPORT_SYMBOL(mipi_dsi_dcs_write_buffer_multi);
+> +
+>   /**
+>    * mipi_dsi_dcs_write() - send DCS write command
+>    * @dsi: DSI peripheral device
+> diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+> index 6d68d9927f46..5e9cad541bd6 100644
+> --- a/include/drm/drm_mipi_dsi.h
+> +++ b/include/drm/drm_mipi_dsi.h
+> @@ -197,6 +197,27 @@ struct mipi_dsi_device {
+>   	struct drm_dsc_config *dsc;
+>   };
+>   
+> +/**
+> + * struct mipi_dsi_multi_context - Context to call multiple MIPI DSI funcs in a row
+> + */
+> +struct mipi_dsi_multi_context {
+> +	/**
+> +	 * @dsi: Pointer to the MIPI DSI device
+> +	 */
+> +	struct mipi_dsi_device *dsi;
+> +
+> +	/**
+> +	 * @accum_err: Storage for the accumulated error over the multiple calls
+> +	 *
+> +	 * Init to 0. If a function encounters an error then the error code
+> +	 * will be stored here. If you call a function and this points to a
+> +	 * non-zero value then the function will be a noop. This allows calling
+> +	 * a function many times in a row and just checking the error at the
+> +	 * end to see if any of them failed.
+> +	 */
+> +	int accum_err;
+> +};
+> +
+>   #define MIPI_DSI_MODULE_PREFIX "mipi-dsi:"
+>   
+>   #define to_mipi_dsi_device(__dev)	container_of_const(__dev, struct mipi_dsi_device, dev)
+> @@ -258,6 +279,8 @@ ssize_t mipi_dsi_generic_write(struct mipi_dsi_device *dsi, const void *payload,
+>   			       size_t size);
+>   int mipi_dsi_generic_write_chatty(struct mipi_dsi_device *dsi,
+>   				  const void *payload, size_t size);
+> +void mipi_dsi_generic_write_multi(struct mipi_dsi_multi_context *ctx,
+> +				  const void *payload, size_t size);
+>   ssize_t mipi_dsi_generic_read(struct mipi_dsi_device *dsi, const void *params,
+>   			      size_t num_params, void *data, size_t size);
+>   
+> @@ -283,6 +306,8 @@ ssize_t mipi_dsi_dcs_write_buffer(struct mipi_dsi_device *dsi,
+>   				  const void *data, size_t len);
+>   int mipi_dsi_dcs_write_buffer_chatty(struct mipi_dsi_device *dsi,
+>   				     const void *data, size_t len);
+> +void mipi_dsi_dcs_write_buffer_multi(struct mipi_dsi_multi_context *ctx,
+> +				     const void *data, size_t len);
+>   ssize_t mipi_dsi_dcs_write(struct mipi_dsi_device *dsi, u8 cmd,
+>   			   const void *data, size_t len);
+>   ssize_t mipi_dsi_dcs_read(struct mipi_dsi_device *dsi, u8 cmd, void *data,
+> @@ -319,6 +344,9 @@ int mipi_dsi_dcs_get_display_brightness_large(struct mipi_dsi_device *dsi,
+>    * This macro will print errors for you and will RETURN FROM THE CALLING
+>    * FUNCTION (yes this is non-intuitive) upon error.
+>    *
+> + * Because of the non-intuitive return behavior, THIS MACRO IS DEPRECATED.
+> + * Please replace calls of it with mipi_dsi_generic_write_seq_multi().
+> + *
+>    * @dsi: DSI peripheral device
+>    * @seq: buffer containing the payload
+>    */
+> @@ -331,12 +359,30 @@ int mipi_dsi_dcs_get_display_brightness_large(struct mipi_dsi_device *dsi,
+>   			return ret;                                            \
+>   	} while (0)
+>   
+> +/**
+> + * mipi_dsi_generic_write_seq_multi - transmit data using a generic write packet
+> + *
+> + * This macro will print errors for you and error handling is optimized for
+> + * callers that call this multiple times in a row.
+> + *
+> + * @ctx: Context for multiple DSI transactions
+> + * @seq: buffer containing the payload
+> + */
+> +#define mipi_dsi_generic_write_seq_multi(ctx, seq...)                \
+> +	do {                                                         \
+> +		static const u8 d[] = { seq };                       \
+> +		mipi_dsi_generic_write_multi(ctx, d, ARRAY_SIZE(d)); \
+> +	} while (0)
+> +
+>   /**
+>    * mipi_dsi_dcs_write_seq - transmit a DCS command with payload
+>    *
+>    * This macro will print errors for you and will RETURN FROM THE CALLING
+>    * FUNCTION (yes this is non-intuitive) upon error.
+>    *
+> + * Because of the non-intuitive return behavior, THIS MACRO IS DEPRECATED.
+> + * Please replace calls of it with mipi_dsi_dcs_write_seq_multi().
+> + *
+>    * @dsi: DSI peripheral device
+>    * @cmd: Command
+>    * @seq: buffer containing data to be transmitted
+> @@ -350,6 +396,22 @@ int mipi_dsi_dcs_get_display_brightness_large(struct mipi_dsi_device *dsi,
+>   			return ret;                                            \
+>   	} while (0)
+>   
+> +/**
+> + * mipi_dsi_dcs_write_seq_multi - transmit a DCS command with payload
+> + *
+> + * This macro will print errors for you and error handling is optimized for
+> + * callers that call this multiple times in a row.
+> + *
+> + * @ctx: Context for multiple DSI transactions
+> + * @cmd: Command
+> + * @seq: buffer containing data to be transmitted
+> + */
+> +#define mipi_dsi_dcs_write_seq_multi(ctx, cmd, seq...)                  \
+> +	do {                                                            \
+> +		static const u8 d[] = { cmd, seq };                     \
+> +		mipi_dsi_dcs_write_buffer_multi(ctx, d, ARRAY_SIZE(d)); \
+> +	} while (0)
+> +
+>   /**
+>    * struct mipi_dsi_driver - DSI driver
+>    * @driver: device driver model driver
+
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
