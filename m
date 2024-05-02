@@ -1,110 +1,112 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAAE0C8CE;
-	Thu,  2 May 2024 00:46:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DF93D299;
+	Thu,  2 May 2024 00:52:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714610813; cv=none; b=unP4wqQO1zNYJd3QO9ueq5HWe/zVAnGUUgjKdEteTmUNUFOHiL/Zj1+LMvaPtjoqAIiFFsjvNkMBPZ6poaMk/IRQGjriqVXUU6Q7cmTrCezmr3mDwhTRRchsNJ6deVIpc56VqjAIJz9MbNNYTuPsKCoRTHTkyzKyPzyHt1Y8dfA=
+	t=1714611160; cv=none; b=OC7Knn1OjkZws+/AE0GUOmv9lM9wXpZXqSNpJ5KW38V+qoXqspz67oxhUw2Znjg5iVxtHY9nVCACNwG1NQfhJlAPtQW8jGEkdHX9NNhfhv4MVaMnhlN00EaTbErPcIBmAaYn24sx2ZiHEY3WFwjJ/uq1ciiU/zE2oyxQfERShBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714610813; c=relaxed/simple;
-	bh=r6vRcnyfra/XvQVBWqFon0COqo1Zoj1iroQVqm6E308=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RyX2fhrJuGWwlucDRXRlUP4oQlIbFlZqsHfM1510JJT53CXRELKD9gSoqRo5d6nRvHS75esHr3FuYd4UOEH6+DwECuej5E6qmp5C60Rq/i8qQ/PEPCAZKM14ufM3B4+CBM6/jKIWzHt/x+zOwmy6jQdcL+igj0rC4sWpvQlgXT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dWsTqIfi; arc=none smtp.client-ip=209.85.210.181
+	s=arc-20240116; t=1714611160; c=relaxed/simple;
+	bh=xnGH4XbmTFoht1KOiwCMDV60ppiri5Zo8GDKQxKyPXM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=rYcd1wW0Xwhe+3J4Tu+bvYIckL6973zJiWcde9NqSOw2qamVAUokGr6mdItPt20m3YRvqjr+KUcHHhjsPphiU6/DOhszTjoilEejh2ckDmW2oABIERW0DH8YwaFProilR1/MFmWLgrUPFcOIPVKgK8cPn6cA537BWOmZDEEzL+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yn+UjKbQ; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dWsTqIfi"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6ecec796323so7026768b3a.3;
-        Wed, 01 May 2024 17:46:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yn+UjKbQ"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1e3ff14f249so10328725ad.1;
+        Wed, 01 May 2024 17:52:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714610811; x=1715215611; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=r6vRcnyfra/XvQVBWqFon0COqo1Zoj1iroQVqm6E308=;
-        b=dWsTqIfinz1s8KLVBXEQP5F6mY9cKjuHK1xrL0xKnmOV6YhWNIPeLW6LC513d8+fyH
-         pKmrTyxGewZkQxFVPVq3JO2Lsv87Dx8WGQV9KvAaceSJxcGBk0z4dDLntOd9Mwt+VUxO
-         K3OFtQvr0HyBySyYKegYj/BAVCemnLFOjRGm77sXZwdjE4raP9xxKFGOyVc90xA51iak
-         F/n2dRBAc16JgO/OqeT07VlAMptG3RTw7DrwAbscUvrBNCyZDPAcw5V8FUiz8OhM2Kzz
-         9Eun+3Z/6gnERukVDbeSR5jn4qUmOVL4u5jQUURrOeZU5yBvxKn+sCv57ruUVkQJkFrf
-         fipQ==
+        d=gmail.com; s=20230601; t=1714611157; x=1715215957; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=KiClpx8en7jGiPuIVIRk6u5bdQ8fzLhRfc1W/iVK5Q8=;
+        b=Yn+UjKbQfww9UgA9m3F9SXjn3tXee6kTkTlAI7u2aHA66CtOSZTxjLPsFw0Rr1bKXG
+         b4UrJ9Mi0wnMSC0rS/lH98qMMscScqWfjnzmChkxAmu+id1mFKgsw0JgMz18TMG/gkEn
+         VrSQUPfFLc2QoOan3P05QHecPBoQrT8h3fJx3r/44jFNv2lMn8QTh6TBpL7MzQ0dbRd/
+         5iDERryrShij6n+M76Ju6Rwph5iAdOoKo4XxtcwhDgHp1yqyvh14+ZJL4tncGR8RtKKk
+         qJDKT5X+aKiQ/1y/lpuO6pbFAuiDVTn//pP9vrLzHHodd6V82ZO1NVXg4t4a096FQtUE
+         VrZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714610811; x=1715215611;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=r6vRcnyfra/XvQVBWqFon0COqo1Zoj1iroQVqm6E308=;
-        b=ZTMdQd4kp2Ohh2N4QZGRVZaKkcagJJPM42RmCdeHzKbmpvQ6A3rBBZ4YawIQNSMF4M
-         HLwFUyu4q/9SBj/kF1ZvXYGOF4XGJP58LurffsB83OUgnmrPpnkTEYFHucJwQTSrMPd5
-         R3NCDI/v1r5fcRXh1noK80OWwLRrKOboJIYwnqfXIubqGfa6ZBxR/uIfiLG1tq8+ZQfR
-         stJmeGn6aCVTjGxvXYJMApOMLke23TVx9cmBzgdDGYwGZTvR3IOOyZ5ZASTV4qKRzsId
-         wGJ/c4UlXREMmIhI5gAgmYde/Im1OKqTK3ogB9y4cAim37oV1KFBLhB8cHB9INnwGcET
-         tHtw==
-X-Forwarded-Encrypted: i=1; AJvYcCXrbu5vRw7SbffEIp9Efb1KMECXcRnCk7NmUHUZXck00xPApl/ly5xK0OWIrF6fwvGljXH75vApo9yUmCapHxKcATghtCtQh/oAAbvctSZ/f1OVNcrtXOcMWqtPG423VolmRxgu60Px
-X-Gm-Message-State: AOJu0YzANvQEKJrLdLxl4EH92AApGNM6GTzxOXmZl1TTOE9pkalY7BsA
-	I7hucH5QGE0VGnnL5j+qNl8f/I9ZAPq51Dj2EV5K4EBYMcS1SNa2
-X-Google-Smtp-Source: AGHT+IHwU4/61QY/W4PI397ZvWqj9/LHxy0c+jQK8AspbpBzjbs2tbF+eYJN0yoDRgWGYQujUcR60Q==
-X-Received: by 2002:a05:6a00:1ad3:b0:6e8:f66f:6b33 with SMTP id f19-20020a056a001ad300b006e8f66f6b33mr4870989pfv.4.1714610811128;
-        Wed, 01 May 2024 17:46:51 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id x37-20020a056a000be500b006edcceffcb0sm23225000pfu.161.2024.05.01.17.46.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 May 2024 17:46:50 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id E24CA18462B26; Thu, 02 May 2024 07:46:48 +0700 (WIB)
-Date: Thu, 2 May 2024 07:46:48 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: mhklinux@outlook.com, robin.murphy@arm.com, joro@8bytes.org,
-	will@kernel.org, hch@lst.de, m.szyprowski@samsung.com,
-	corbet@lwn.net, iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, petr@tesarici.cz,
-	roberto.sassu@huaweicloud.com
-Subject: Re: [PATCH v4 1/1] Documentation/core-api: Add swiotlb documentation
-Message-ID: <ZjLieHFvjlTJrCUM@archie.me>
-References: <20240501151651.2912-1-mhklinux@outlook.com>
+        d=1e100.net; s=20230601; t=1714611157; x=1715215957;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KiClpx8en7jGiPuIVIRk6u5bdQ8fzLhRfc1W/iVK5Q8=;
+        b=KecSJoEes+yditCxnqygS4yVBe4J2ME5MC0+SmLTt/viWrv2A9eJTkKJH8rA9guTO5
+         mxrukNa0rGYMYPvgxzoTUqbj4ZhvGqGuDhV5T47ieXB2oku5pJwG1kxheZZfWNhGjqGh
+         c8rNzNNOkQxAqAU0jmrd0N3eWnvOtAuvbF3KAm/IcSqbbP7basvckxvBP9tLmo839s9b
+         Oz4U78zrGREejz3+0I6OmNdluE1NCkmRZz/jyR/6gw/fzhp8dG9PZxjJdBnZQ5S8htWe
+         af67Grpt/bvD0HM+rM6sEwOaQnvRUp3+K+m/JK7Qmz5MwAIRYE8ys09gkMZgD+5Q27ru
+         JWBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXcOelisGY3558NLnGwEtl+SlVjDgAyTQewh4Y20yqf+AYN2SlG2GjMGHH2AWBbmSK+aIPg0hVx+8xKF8GDw0Pdg3lUl2RQVFdtLm4lbUItfFB3bi83kVgenhK/iA0/I2GudS/Ex3G5
+X-Gm-Message-State: AOJu0Yxc3xjDm+Xbi5lRkYbwIeO20jFKgkgUbrIUHUwBQknFh4/HyxPH
+	Izx1pc8VTAgY++oB3p5oopl3kV+M51FeBzwR1O3LYH02AIwxveWH
+X-Google-Smtp-Source: AGHT+IG8oQUiorwBnxV0eC3LSJCQz1jnCAKbHg0kvh6Mr6O3B8VYhbFrkPHTmVFdcX+SYpsnDbIWlw==
+X-Received: by 2002:a17:902:ec87:b0:1e5:e676:4b09 with SMTP id x7-20020a170902ec8700b001e5e6764b09mr1984424plg.25.1714611157329;
+        Wed, 01 May 2024 17:52:37 -0700 (PDT)
+Received: from [192.168.0.107] ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id w3-20020a170902a70300b001e83a718d87sm24844659plq.19.2024.05.01.17.52.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 May 2024 17:52:36 -0700 (PDT)
+Message-ID: <33862156-cd95-4b74-bd64-82a4a4d2583f@gmail.com>
+Date: Thu, 2 May 2024 07:52:31 +0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xmC8L8lm/UzjLhNP"
-Content-Disposition: inline
-In-Reply-To: <20240501151651.2912-1-mhklinux@outlook.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/1] Documentation/core-api: Add swiotlb documentation
+To: Michael Kelley <mhklinux@outlook.com>,
+ "robin.murphy@arm.com" <robin.murphy@arm.com>,
+ "joro@8bytes.org" <joro@8bytes.org>, "will@kernel.org" <will@kernel.org>,
+ "hch@lst.de" <hch@lst.de>,
+ "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
+ "corbet@lwn.net" <corbet@lwn.net>,
+ "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "petr@tesarici.cz" <petr@tesarici.cz>,
+ "roberto.sassu@huaweicloud.com" <roberto.sassu@huaweicloud.com>
+References: <20240429151337.1069470-1-mhklinux@outlook.com>
+ <ZjHxxzRb-63ARo6Z@archie.me>
+ <SN6PR02MB41574D7C31507EA7AD10FAA5D4192@SN6PR02MB4157.namprd02.prod.outlook.com>
+Content-Language: en-US
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+In-Reply-To: <SN6PR02MB41574D7C31507EA7AD10FAA5D4192@SN6PR02MB4157.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 5/2/24 01:05, Michael Kelley wrote:
+> From: Bagas Sanjaya <bagasdotme@gmail.com> Sent: Wednesday, May 1, 2024 12:40 AM
+>>
+>> On Mon, Apr 29, 2024 at 08:13:37AM -0700, mhkelley58@gmail.com wrote:
+>>> From: Michael Kelley <mhklinux@outlook.com>
+>>>
+>>> There's currently no documentation for the swiotlb. Add documentation
+>>> describing usage scenarios, the key APIs, and implementation details.
+>>> Group the new documentation with other DMA-related documentation.
+>>>
+>>> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+>>
+>> Other than outstanding reviews, the doc LGTM. Thanks!
+>>
+>> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>>
+> 
+> Thanks for your review!  I realize that I forgot to carry your Reviewed-by
+> forward to v4.   If you care to do it again for v4, that would be great.
+> 
 
---xmC8L8lm/UzjLhNP
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Done [1], thanks!
 
-On Wed, May 01, 2024 at 08:16:51AM -0700, mhkelley58@gmail.com wrote:
-> From: Michael Kelley <mhklinux@outlook.com>
->=20
-> There's currently no documentation for the swiotlb. Add documentation
-> describing usage scenarios, the key APIs, and implementation details.
-> Group the new documentation with other DMA-related documentation.
->=20
-> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+[1]: https://lore.kernel.org/linux-doc/ZjLieHFvjlTJrCUM@archie.me/
 
-The doc LGTM, thanks!
-
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-
---=20
+-- 
 An old man doll... just what I always wanted! - Clara
 
---xmC8L8lm/UzjLhNP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZjLieAAKCRD2uYlJVVFO
-oxauAQDt9V+aVqf0N3EOJm2WLmYhylB3nbvQWXzkMfVxhz7V4wD/Uge4eZdVPJha
-nkCxgxnQOBxzAnRSJPmMohaEeSVNUAo=
-=IKGL
------END PGP SIGNATURE-----
-
---xmC8L8lm/UzjLhNP--
