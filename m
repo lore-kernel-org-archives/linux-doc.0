@@ -1,264 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DBD315FD0B;
-	Thu,  2 May 2024 19:14:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA773158845;
+	Thu,  2 May 2024 20:12:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714677286; cv=none; b=Zp4bCxAv1be/W7kqC6aq1URE3V2AeDqVLjAioiMiDiCoog1k92uaotzxzp8ufkqso5B2ElPOahxc2CZWtpDDQfBnbLsijSjFEgm4ec5I7dHHPvCLaBuhqZ0UMrbeWZuat6FLFYu/I9bwyLvnz463Cp5v+wB1zbCk7d5wOIke/uk=
+	t=1714680750; cv=none; b=XhCRHhFjs84sfkwawz0n8uLB12TQmLWEOpI1m6/C5yLVzdlqae5XnhphDOmQ+UVnWHqbxwgLyxtS5B2DURV515CSvOi0BB9g7XjutWWbL/b6pHsFphyS53/8PGWp9ZfxHldpLUjNpV1mVZuOi6EdQ7UmWz/0PsCqus90zlvZa3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714677286; c=relaxed/simple;
-	bh=BBlkb84hHXVG3Ve5x+ET9a7uN2YIwLDnxgmQ6QkN5ys=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=K4plhTOKuBOmm4tC9fdnVtLC2M/wrKuyZi5EJA7L65P943PrULEkSLGAvGTBBMqCAG6JMgxnkI8HXxUMlArD9d8yRds/ffW/rr4zePTeRvQfnu88HLcJeYLPilDRogeWck7n8reDb9khUpccZxUiCziPwjAOg/svQh+O4JTZ6Uo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Onw5PGyv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714680750; c=relaxed/simple;
+	bh=m2RT8PC4x1UCnE8lG23iBCFVaGRGa4zOXUVtHgndTQs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OLsefs2xNQb20FRi08FEETe5Av8pPP80F5Gz12TJUHqfEfMA6E6OM7bWde+pKA6NBB+97woyoPAmtd+EYAqxHlBvAuoh9M3FSIBNa8gAUEcAVJdCv0MkKLJ4knufnO7rspSu2e+QgyxntnysOPjdinAB2ZPNiL37dGw3VfLQMkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ge2W1nD5; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Onw5PGyv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CA05C113CC;
-	Thu,  2 May 2024 19:14:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714677286;
-	bh=BBlkb84hHXVG3Ve5x+ET9a7uN2YIwLDnxgmQ6QkN5ys=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Onw5PGyvJgNNN6dD0D6icj1zLOV0ySF1y6PuCPIQIQBlgjwiHXzEcGkW2I8o1urj+
-	 +naEqlyP7dxBIPVw+06Nsl1E5cg5L8K6z1RI3wy3kl5QLS1hWwn+ZyLXP9CAj+Fhz1
-	 kI+lZI0RWz2W5wRGTpJoviUsiWnOd5U3w42jJo+HI1t2lNXyEZc67nkwlljPy4njwB
-	 yVyh9m9YsT+W3PjLulRGh1mBZ4NoYv8fOjQ2ririNZ2PVzeXvjYor2RJp3kobNN2qE
-	 o2Dtl3XuOCBLjzW49Uk4XNr2WQ37VKb1NwFgZN2MdesVsKdPpHp0JW9xA/JoMG2cfX
-	 p8mUczVQfFw5Q==
-Date: Thu, 2 May 2024 20:14:33 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Nuno =?UTF-8?B?U8Oh?= <noname.nuno@gmail.com>
-Cc: "Gradinariu, Ramona"  <Ramona.Gradinariu@analog.com>, Ramona Gradinariu
- <ramona.bolboaca13@gmail.com>, "linux-kernel@vger.kernel.org" 
- <linux-kernel@vger.kernel.org>, "linux-iio@vger.kernel.org" 
- <linux-iio@vger.kernel.org>, "linux-doc@vger.kernel.org" 
- <linux-doc@vger.kernel.org>, "devicetree@vger.kernel.org" 
- <devicetree@vger.kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
- "conor+dt@kernel.org"  <conor+dt@kernel.org>,
- "krzysztof.kozlowski+dt@linaro.org"  <krzysztof.kozlowski+dt@linaro.org>,
- "robh@kernel.org" <robh@kernel.org>, "Sa, Nuno" <Nuno.Sa@analog.com>
-Subject: Re: [PATCH 4/5] iio: adis16480: add support for adis16545/7
- families
-Message-ID: <20240502201408.216575e4@jic23-huawei>
-In-Reply-To: <0e13f8b643bb7afcc7c4f0d62741cf9fda66c1e0.camel@gmail.com>
-References: <20240423084210.191987-1-ramona.gradinariu@analog.com>
-	<20240423084210.191987-5-ramona.gradinariu@analog.com>
-	<20240428162555.3ddf31ea@jic23-huawei>
-	<e62f8df4b06abc371b1e9fe3232cb593e468d54c.camel@gmail.com>
-	<BL1PR03MB5992DEBF82C0DB7BDC5EA0FF971B2@BL1PR03MB5992.namprd03.prod.outlook.com>
-	<20240429204027.3e47074a@jic23-huawei>
-	<0e13f8b643bb7afcc7c4f0d62741cf9fda66c1e0.camel@gmail.com>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ge2W1nD5"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-6f44b390d5fso23653b3a.3;
+        Thu, 02 May 2024 13:12:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714680747; x=1715285547; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6meDpwIFn6POwM0GTM589VI6wgTQh6ljoPgnNTkMk6k=;
+        b=ge2W1nD5TdeklGBzFFoI0zcQEingoFhN2BdeS75r+QyfIFedSal+b+zYkC3ddjHrdg
+         +BSZg+DYtPZJ31lsgSMXfg10hiJPFxTBNSDgEo3TQwG75cEks87ydVr8bX+mLnfISWDN
+         wLzObveYakL0LM0x1ge95ML8W4f8OcuVGPEZri9o1q/slyEwFT7VnczTvLzahr61Izw4
+         DkM1ELFCw6IV9OL4X41wH1glcgO1u0dHn4kIfgXqh+18Pn4gd2Ki49sIerztgHFAS1AM
+         zfXO54FExQ1hF26XvYxwdPy47fvJPw2hBMygFke2kph/HkgtxxuI9u2wX3KHcebKPpm3
+         Mofw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714680747; x=1715285547;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6meDpwIFn6POwM0GTM589VI6wgTQh6ljoPgnNTkMk6k=;
+        b=muGUPWBIdek1TYfGUK7ppc0onSskbJll9dPPOAAjOGgL8L7iuGa+WwXM8LJtRMlHVr
+         sKBmx+lamLiPzRU1Zz6esQxOHC15wq8e5LlMMvSixt073NH37WkGkPx03xbKzno7VuPk
+         CN38pwEvGHZUakZHQxlohDWWE+v+rpfOY1JfpwZDxv8QVPVQWk5x0Cua7SodCoBtoQz6
+         iid26/LG/5GSJO2QoJcSfgAEL9p21ixedyT1vfzNAue0jUVwehflmjeqMS2AYUmhbTAV
+         gaeGw0a7ijzgmiPZfk0TUjMe7SnAN0sYteUAOxgnFLNT/fARZjy2M0RWR4iQlvadSxyy
+         ElpA==
+X-Forwarded-Encrypted: i=1; AJvYcCXU7Y05rFJi9ar9AVrrJzC5XQViL4iZ+6bYKTV+7ro53JoIMXCRBO76Q+wURcoybFk2Ekt7kEp1L2bmAvbI8d/LXbzH0OW2t1bSVKh4zlv4Jiw7m0dZ/stb3sgV4MYs0Qygaic/+bZ4
+X-Gm-Message-State: AOJu0YwQJ5ua5cygl6pSyZ+jPeqoy6vRTqphZg1Xf0ZK0wVHsibOx9gc
+	fMaNbWcvkKw4FxAOqpGqAFIpeJihypJkB66yhSAMI5n1pIM9yrPMObcW6m+H
+X-Google-Smtp-Source: AGHT+IEkeV0ZW1vAReZH/O25DndzDOP7OdAvbWnDjw0Mc3J2E3onwOJi72SjnZxcb1iqBZb/Ax44sA==
+X-Received: by 2002:a05:6a00:2290:b0:6f0:b53c:dfb4 with SMTP id f16-20020a056a00229000b006f0b53cdfb4mr736947pfe.22.1714680747237;
+        Thu, 02 May 2024 13:12:27 -0700 (PDT)
+Received: from localhost ([115.96.207.161])
+        by smtp.gmail.com with ESMTPSA id k1-20020a632401000000b0061ca8fac008sm84332pgk.22.2024.05.02.13.12.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 May 2024 13:12:26 -0700 (PDT)
+Date: Fri, 3 May 2024 01:41:21 +0530
+From: Aryabhatta Dey <aryabhattadey35@gmail.com>
+To: linux-leds@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Cc: pavel@ucw.cz, lee@kernel.org, corbet@lwn.net, 
+	skhan@linuxfoundation.org, javier.carrasco.cruz@gmail.com
+Subject: [PATCH] Fix typo
+Message-ID: <y5bqy3p7deaemny5sczd33zy2dwtbqvucgrq6wxqs7ibf4omwb@kpd2gwfve2ax>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 02 May 2024 13:31:55 +0200
-Nuno S=C3=A1 <noname.nuno@gmail.com> wrote:
+Change 'dasy-chain' to 'daisy-chain'.
 
-> On Mon, 2024-04-29 at 20:40 +0100, Jonathan Cameron wrote:
-> > On Mon, 29 Apr 2024 13:17:42 +0000
-> > "Gradinariu, Ramona" <Ramona.Gradinariu@analog.com> wrote:
-> >  =20
-> > > > -----Original Message-----
-> > > > From: Nuno S=C3=A1 <noname.nuno@gmail.com>
-> > > > Sent: Monday, April 29, 2024 10:59 AM
-> > > > To: Jonathan Cameron <jic23@kernel.org>; Ramona Gradinariu
-> > > > <ramona.bolboaca13@gmail.com>
-> > > > Cc: linux-kernel@vger.kernel.org; linux-iio@vger.kernel.org; linux-
-> > > > doc@vger.kernel.org; devicetree@vger.kernel.org; corbet@lwn.net;
-> > > > conor+dt@kernel.org; krzysztof.kozlowski+dt@linaro.org; robh@kernel=
-.org;
-> > > > Gradinariu, Ramona <Ramona.Gradinariu@analog.com>; Sa, Nuno
-> > > > <Nuno.Sa@analog.com>
-> > > > Subject: Re: [PATCH 4/5] iio: adis16480: add support for adis16545/=
-7 families
-> > > >=20
-> > > > [External]
-> > > >=20
-> > > > On Sun, 2024-04-28 at 16:25 +0100, Jonathan Cameron wrote:=C2=A0  =
-=20
-> > > > > On Tue, 23 Apr 2024 11:42:09 +0300
-> > > > > Ramona Gradinariu <ramona.bolboaca13@gmail.com> wrote:
-> > > > > =C2=A0 =20
-> > > > > > The ADIS16545 and ADIS16547 are a complete inertial system that
-> > > > > > includes a triaxis gyroscope and a triaxis accelerometer.
-> > > > > > The serial peripheral interface (SPI) and register structure pr=
-ovide a
-> > > > > > simple interface for data collection and configuration control.
-> > > > > >=20
-> > > > > > These devices are similar to the ones already supported in the =
-driver,
-> > > > > > with changes in the scales, timings and the max spi speed in bu=
-rst
-> > > > > > mode.
-> > > > > > Also, they support delta angle and delta velocity readings in b=
-urst
-> > > > > > mode, for which support was added in the trigger handler.
-> > > > > >=20
-> > > > > > Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>=C2=A0  =20
-> > > > >=20
-> > > > > What is Nuno's relationship to this patch?=C2=A0 You are author a=
-nd the sender
-> > > > > which is fine, but in that case you need to make Nuno's involveme=
-nt explicit.
-> > > > > Perhaps a Co-developed-by or similar is appropriate?
-> > > > > =C2=A0 =20
-> > > > > > Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>=
-=C2=A0  =20
-> > > > > A few comments inline.=C2=A0 Biggest one is I'd like a clear stat=
-ement of why you
-> > > > > can't do a burst of one type, then a burst of other.=C2=A0 My gue=
-ss is that the
-> > > > > transition is very time consuming?=C2=A0 If so, that is fine, but=
- you should be
-> > > > > able
-> > > > > to let available_scan_masks handle the disjoint channel sets.=C2=
-=A0  =20
-> > > >=20
-> > > > Yeah, the burst message is a special spi transfer that brings you a=
-ll of the
-> > > > channels data at once but for the accel/gyro you need to explicitly=
- configure
-> > > > the chip to either give you the "normal vs "delta" readings. Re-con=
-figuring the
-> > > > chip and then do another burst would destroy performance I think. W=
-e could
-> > > > do
-> > > > the manual readings as we do in adis16475 for chips not supporting =
-burst32.
-> > > > But
-> > > > in the burst32 case those manual readings should be minimal while i=
-n here we
-> > > > could have to do 6 of them which could also be very time consuming.=
-..
-> > > >=20
-> > > > Now, why we don't use available_scan_masks is something I can't rea=
-lly
-> > > > remember
-> > > > but this implementation goes in line with what we have in the adis1=
-6475
-> > > > driver.
-> > > >=20
-> > > > - Nuno S=C3=A1
-> > > > =C2=A0  =20
-> > >=20
-> > > Thank you Nuno for all the additional explanations.
-> > > Regarding the use of available_scan_masks, the idea is to have any po=
-ssible
-> > > combination for accel, gyro, temp and timestamp channels or delta ang=
-le, delta=20
-> > > velocity, temp and=C2=A0 timestamp channels. There are a lot of combi=
-nations for=20
-> > > this and it does not seem like a good idea to write them all manually=
-. That is=20
-> > > why adis16480_update_scan_mode is used for checking the correct chann=
-els=20
-> > > selection. =20
-> >=20
-> > If you are using bursts, the data is getting read anyway - which is the=
- main
-> > cost here. The real question becomes what are you actually saving by su=
-pporting all
-> > the combinations of the the two subsets of channels in the pollfunc?
-> > Currently you have to pick the channels out and repack them, if pushing=
- them all
-> > looks to me like a mempcy and a single value being set (unconditionally=
-). =20
->=20
-> > Then it's a question of what the overhead of the channel demux in the c=
-ore is.
-> > What you pass out of the driver via iio_push_to_buffers*()
-> > is not what ends up in the buffer if you allow the IIO core to do data =
-demuxing
-> > for you - that is enabled by providing available_scan_masks.=C2=A0 At b=
-uffer
-> > start up the demux code computes a fairly optimal set of copies to repa=
-ck
-> > the incoming data to match with what channels the consumer (here probab=
-ly
-> > the kfifo on the way to userspace) is expecting.
-> >=20
-> > That demux adds a small overhead but it should be small as long
-> > as the channels wanted aren't pathological (i.e. every other one).
-> >=20
-> > Advantage is the driver ends up simpler and in the common case of turn
-> > on all the channels (why else did you buy a device with those measureme=
-nts
-> > if you didn't want them!) the demux is zerocopy so effectively free whi=
-ch
-> > is not going to be the case for the bitmap walk and element copy in the
-> > driver.
-> >  =20
->=20
-> Maybe my younger me was smarter but reading again the validation of the s=
-can mask
-> code (when available_scan_masks is available), I'm not sure why we're not=
- using them.
-> I think that having one mask with delta values + temperature and another =
-one with
-> normal + temperature would be enough for what we want in here. The code in
-> adis16480_update_scan_mode() could then be simpler I think.
->=20
-> Now, what I'm still not following is the straight memcpy(). I may be miss=
-ing
-> something but the demux code only appears to kick in when we have compoun=
-d masks
-> resulting of multiple buffers being enabled. So I'm not seeing how we can=
- get away
-> without picking the channels and place them correctly in the buffer passe=
-d to IIO?
+Signed-off-by: Aryabhatta Dey <aryabhattadey35@gmail.com>
+---
+ Documentation/leds/leds-blinkm.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-It runs whenever the enabled mask requested (the channels that are enabled)=
- is
-different from the active_scan_mask. It only sends channels in one
-direction if there is only one user but it only sends the ones enabled by t=
-hat consumer.
-It's called unconditionally from iio_enable_buffers()
-
-That iterates over all enabled buffers (often there is only 1)
-
-and then checks if the active scan mask is the same as the one for this buf=
-fer.
-https://elixir.bootlin.com/linux/v6.9-rc6/source/drivers/iio/industrialio-b=
-uffer.c#L1006
-
-The setup for whether to find a superset from available_scan_masks is here
-https://elixir.bootlin.com/linux/v6.9-rc6/source/drivers/iio/industrialio-b=
-uffer.c#L928
-
-Key is that if it happens to match, then we don't actually do anything in t=
-he demux.
-It just gets passed straight on through.  That does the fast path you menti=
-on below.
-
-> What we could do in the future (for a similar device) is to maybe have a =
-fastpath in
-> the handler. Something like:
->=20
-> if (bitmap_full(scan_mask, masklength)) {
-> 	memcpy(iio_buff, burst + data_off, size);
-> 	goto push_to_iio;
-> }
->=20
-> Right now we would always have to do some "manual" work as the temperatur=
-e scan index
-> does not match the position on the received burst data.
-
-Agreed -that one is needed to shuffle the temperature to the right place.
-
-
->=20
-> Some devices with the burst32 (which I think do not exist in this driver)=
- would also
-> make the plain memcpy() harder.
->=20
-> - Nuno S=C3=A1
->=20
+diff --git a/Documentation/leds/leds-blinkm.rst b/Documentation/leds/leds-blinkm.rst
+index c74b5bc877b1..2d3c226a371a 100644
+--- a/Documentation/leds/leds-blinkm.rst
++++ b/Documentation/leds/leds-blinkm.rst
+@@ -7,7 +7,7 @@ The leds-blinkm driver supports the devices of the BlinkM family.
+ They are RGB-LED modules driven by a (AT)tiny microcontroller and
+ communicate through I2C. The default address of these modules is
+ 0x09 but this can be changed through a command. By this you could
+-dasy-chain up to 127 BlinkMs on an I2C bus.
++daisy-chain up to 127 BlinkMs on an I2C bus.
+ 
+ The device accepts RGB and HSB color values through separate commands.
+ Also you can store blinking sequences as "scripts" in
+-- 
+2.44.0
 
