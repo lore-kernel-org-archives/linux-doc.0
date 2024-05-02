@@ -1,45 +1,46 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFB8939AF9
-	for <linux-doc@vger.kernel.org>; Thu,  2 May 2024 16:01:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7455115991E;
+	Thu,  2 May 2024 16:03:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714665671; cv=none; b=khdBa6IhWp1OEJV0nEdNDE5lJJl7k9EXideUu/D93HuGS7bDiQ7ya+u1PB/H4u4Kbwbp8fsT3B8vrFFkXy0IFtqFA2BFwCgHQP/Uzoh4i+EN3gx3mbiOPS3d3LKpMyZLFgPMwdqkHRMspNIC0Ej7Rd0pYAcpT7jq5O6jjrioAV0=
+	t=1714665829; cv=none; b=BBPp0P4l0T9AtpYu3wwER1rlQPsYL9cE8m8NRDmjdOfUOrI2wzz9L2DW/qY+oDb+AgGmz/5MaSEkC8hOk5vo9Z80PJ1AxOv6eiosVsDR0cXhtVOIkrShocyl96HRyXtwBp5LoT1f6tjaULxYr9ErU7QUQ98FQDgzNf5H5xbaWt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714665671; c=relaxed/simple;
-	bh=EzOmkD0cMn2H4/QPfenDBg5jJhWNUUPSnjc/IguNCpM=;
+	s=arc-20240116; t=1714665829; c=relaxed/simple;
+	bh=C4p74GXwgBU9xVrDTLpTjgvTtnUYi96q//QK5IQzsNU=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=dyhrgPRzvU9fVR2fpAcFwIaa6vsXIma+CC55xVMH43bFoPHmcguqXR0I18B8vvQYUOJCcQe2OqD92k2h7aCkRvx2z0h9NgWKhmXapEXhNoOURINh8CSesuGfpkgH/dhZCjjDDCXbaJhTemfaRiR6zU6xLLtSGKMqCEqHLO/SBnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=iztJNwm5; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=XmSk7zTL7PiGiwZNgARJcESJ8xijCMj0l69Gy/ITlzgJTn0JCXMgR2S/ws52ChZxBCfoOiARvodcEgLFilxO2Is1VGTSMqU2XH8WjwfPhDnKDWk1H6gjspy9DgiXCQROYtORipwydvlgBMKvTng13WXNebWk36hHe5cKvjO4JCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=dtUw95q0; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="iztJNwm5"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AFCA547C39
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="dtUw95q0"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 868CE47C39
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1714665666; bh=hOxwFRG/nb4s7VXTG7o6ZKzPrfZ0O50hS7rMCweQijU=;
+	t=1714665827; bh=aQ5qTPoGJifQI2mnWAfO0qtqKccOBd/tOi8k7Fk0gQw=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=iztJNwm5BEwSJ+Lr2a5N7aOsgnRz5GZptHdvn7eoOfKruFgeHc5Vgse23JYH3s7Kl
-	 uuk2YfbeQRPh544WjTco1Nf0zYT25pqXo5mUcwGw7Khod+rTHUJLg0r/1cJKUoC6Hl
-	 y0rJL6NzBZ31UPt8XAQZ3iaZMaOCIuxUhYhIMrTCxZVhUO2+GRcfavtjGODIEuXdkW
-	 reV5b8vXkNgXCXVRM2CAWIEKxduHhHJiEH6v3b89fWVmV0uAkPsdneV3bZLWQlEqGD
-	 JcWMkyuDzWPwjtm8ngGApaHzxPMx3kZFzx9HdcKngsOKJRrGemM/0RyPVG+HGL1q/9
-	 vW6GqHEtZC3kA==
+	b=dtUw95q0Geajx3oGs0seWfCk3LUg1lEQvScPl1MB87g8q9LVQOqgNLLRIX1eKNe62
+	 /Pr4/44bmoX5JkoSc/AiyQdCazIMuvIhGZtxQ/6ENBJRdnApNY1lbNtkY8F89WHxsN
+	 jEEZONcaLxRSOr9mpztFn6rqU97eF+AlaHyD3+zjX4mMZ16eatIhhdwCAvMly2m5m/
+	 6ln9ns31XbwwvKtkpiInnDnwrRpNUSGvQCKv6cafxV7iR32X/IEgYOc5ph/I/fdoYB
+	 0l2euBo/5Lf2RSCj2s6TGkru1fAQSaWnZz5nmrIFhjj12STiR3KLwA8IltzmT25qKI
+	 1MHuIcg2vQFJQ==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id AFCA547C39;
-	Thu,  2 May 2024 16:01:06 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 868CE47C39;
+	Thu,  2 May 2024 16:03:47 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: linux-doc@vger.kernel.org, Akira Yokosawa <akiyks@gmail.com>
-Subject: Re: [PATCH] docs: kernel_include.py: Cope with docutils 0.21
-In-Reply-To: <faf5fa45-2a9d-4573-9d2e-3930bdc1ed65@gmail.com>
-References: <faf5fa45-2a9d-4573-9d2e-3930bdc1ed65@gmail.com>
-Date: Thu, 02 May 2024 10:01:05 -0600
-Message-ID: <87wmoc6w5a.fsf@meer.lwn.net>
+To: Remington Brasga <rbrasga@uci.edu>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Remington
+ Brasga <rbrasga@uci.edu>
+Subject: Re: [PATCH] Docs: typos/spelling
+In-Reply-To: <20240429225527.2329-1-rbrasga@uci.edu>
+References: <20240429225527.2329-1-rbrasga@uci.edu>
+Date: Thu, 02 May 2024 10:03:46 -0600
+Message-ID: <87sez06w0t.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,61 +49,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Akira Yokosawa <akiyks@gmail.com> writes:
+Remington Brasga <rbrasga@uci.edu> writes:
 
-> Running "make htmldocs" on a newly installed Sphinx 7.3.7 ends up in
-> a build error:
+> Fix spelling and grammar in Docs descriptions
 >
->     Sphinx parallel build error:
->     AttributeError: module 'docutils.nodes' has no attribute 'reprunicode'
->
-> docutils 0.21 has removed nodes.reprunicode, quote from release note [1]:
->
->   * Removed objects:
->
->     docutils.nodes.reprunicode, docutils.nodes.ensure_str()
->         Python 2 compatibility hacks
->
-> Sphinx 7.3.0 supports docutils 0.21 [2]:
->
-> kernel_include.py, whose origin is misc.py of docutils, uses reprunicode.
->
-> Upstream docutils removed the offending line from the corresponding file
-> (docutils/docutils/parsers/rst/directives/misc.py) in January 2022.
-> Quoting the changelog [3]:
->
->     Deprecate `nodes.reprunicode` and `nodes.ensure_str()`.
->
->     Drop uses of the deprecated constructs (not required with Python 3).
->
-> Do the same for kernel_include.py.
->
-> Tested against:
->   - Sphinx 2.4.5 (docutils 0.17.1)
->   - Sphinx 3.4.3 (docutils 0.17.1)
->   - Sphinx 5.3.0 (docutils 0.18.1)
->   - Sphinx 6.2.1 (docutils 0.19)
->   - Sphinx 7.2.6 (docutils 0.20.1)
->   - Sphinx 7.3.7 (docutils 0.21.2)
->
-> Link: http://www.docutils.org/RELEASE-NOTES.html#release-0-21-2024-04-09 [1]
-> Link: https://www.sphinx-doc.org/en/master/changes.html#release-7-3-0-released-apr-16-2024 [2]
-> Link: https://github.com/docutils/docutils/commit/c8471ce47a24 [3]
-> Signed-off-by: Akira Yokosawa <akiyks@gmail.com>
+> Signed-off-by: Remington Brasga <rbrasga@uci.edu>
 > ---
->  Documentation/sphinx/kernel_include.py | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/Documentation/sphinx/kernel_include.py b/Documentation/sphinx/kernel_include.py
-> index abe768088377..638762442336 100755
-> --- a/Documentation/sphinx/kernel_include.py
-> +++ b/Documentation/sphinx/kernel_include.py
-> @@ -97,7 +97,6 @@ class KernelInclude(Include):
->          # HINT: this is the only line I had to change / commented out:
->          #path = utils.relative_path(None, path)
->  
-> -        path = nodes.reprunicode(path)
->          encoding = self.options.get(
+>  Documentation/admin-guide/hw-vuln/srso.rst                    | 2 +-
+>  Documentation/admin-guide/kernel-parameters.txt               | 2 +-
+>  Documentation/admin-guide/mm/ksm.rst                          | 2 +-
+>  Documentation/arch/m68k/buddha-driver.rst                     | 2 +-
+>  Documentation/arch/sparc/oradax/dax-hv-api.txt                | 2 +-
+>  Documentation/arch/x86/xstate.rst                             | 2 +-
+>  Documentation/core-api/entry.rst                              | 2 +-
+>  Documentation/driver-api/mtd/nand_ecc.rst                     | 2 +-
+>  Documentation/driver-api/scsi.rst                             | 2 +-
+>  Documentation/driver-api/usb/usb.rst                          | 2 +-
+>  Documentation/driver-api/wbrf.rst                             | 2 +-
+>  Documentation/filesystems/directory-locking.rst               | 4 ++--
+>  Documentation/filesystems/porting.rst                         | 4 ++--
+>  Documentation/mm/slub.rst                                     | 2 +-
+>  Documentation/security/SCTP.rst                               | 2 +-
+>  Documentation/translations/zh_TW/process/submit-checklist.rst | 2 +-
+>  16 files changed, 18 insertions(+), 18 deletions(-)
 
 Applied, thanks.
 
