@@ -1,77 +1,78 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B16D015D5A2;
-	Thu,  2 May 2024 16:16:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C74A714A634;
+	Thu,  2 May 2024 16:21:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714666580; cv=none; b=EM9N54hYV8XnHsOVF7ATkwb8NqgmudeGt4vJqpWBwnlTj/NicUy2XDt2lUSomNYohfR5S8MOMAPi5VPdzqdWMSEOKWBmJ3IExq0Yeto+9gHfhqR/1rjtzmAnNJ4HQwZp3jPzTbCIDvurSaLrYmVQuYhI5GIIQlB525LjG6ESkX0=
+	t=1714666872; cv=none; b=uEYWGE4+yFEoSe/SQoOLXpwqU9YlvrtAXTfTPReDiXMEJMjG4XxT9/5fh6SsbOJlSId8VSYkSPP+H0LAobaJl0qJZPairXbzcqWfr7LtStNEsZMp3AvQkhGS1xyaqPpE1gh/P4BBWiWcaavGHCva1MfGSUycwdEJb2f8NdYXSug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714666580; c=relaxed/simple;
-	bh=Z2OYISWByIYzD9+VFOy92tbxhQNUhGkkVQwpims5ZzY=;
+	s=arc-20240116; t=1714666872; c=relaxed/simple;
+	bh=Z05WgU3aafLprgYV9IDNlMX9MUGyo1Jra7XKiJMpEHI=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=GYT0Oi/uD9t/q9SBOTQ2uIbJx8C5zikWGRaNfuYZUofcUzYerKk/shXZyOLwM3C47MbJLlEZ8buhBV4F6Zjd7nzRdj53DEs2tpAZR8opRoh7+JBn/8fXfmuPOKtYz1aAFF3/rimNzkij+3NNP4go4Jc72Dp7eJ2pal6l9J1rAWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=lS1dmT+4; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=m3Bdv2+yu6HuX5S8OcLktvepRwhio/hCU+G92JtOg3W72y2YcDNg1ZVXs+DzvcC2dZV5UjB6cw11zD0Aqyt7DGIB92iFK+XGcKvxq6Z7PfDhVzh8JDQwIfO4c4n4N0LTeFPqueeW3VLux0s2MmyDSn4VzkMqpq8397TeckbaF+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=YrIFh892; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="lS1dmT+4"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BF4A847C39
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="YrIFh892"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B170947C39
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1714666577; bh=Z2OYISWByIYzD9+VFOy92tbxhQNUhGkkVQwpims5ZzY=;
+	t=1714666869; bh=XMrTBMGLBVTy6sqrL3KsBhAdRcCXU7B5G0Wg6k9C0HM=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=lS1dmT+4kkmazaFSuYX7qLUHNjOR2lDwQQBqpWZH5RBEKGx9bq5LYcWIiBEPqjOfg
-	 h555z/2OTXG36oBqdrpFy5lGsjZ4qT7k9XSGVurs0GxKW3NYRiH8X8N0QOzNH0XJ5J
-	 uzM/xx4nb4NPFtM2Aa0/gDoFhCkivBYGf52B3HSxKIXPkzK6aJXPRyDYnJ9h6A/h4s
-	 qE6j62idbOoa6iI0FrE75a7toL1m6RbvDMLTL3GwrphGhDKuEWFkQvLAR2FtQasDlq
-	 /MEmdZFydHFUBc3ju19MR+mPW1gyXAzrfkrq0oQZXDAQ26vKpSkp1aPtoJ27tPRgUw
-	 gsKy9fLtAZOuA==
+	b=YrIFh8925mWjDSdAqOvl4dt9FupkIPQbxNYQVv+ECsl4325j3DdLByH1BpF/Ik0yE
+	 tSzaM1ckgEOgz2wKPQecnVtcWH5KRhrJlkum8mW2GOyV6V56Ei+IhRU4oEx5/pY7Ju
+	 2oufhSRw1+1w4Mg//H1k04qJgrCL2IDl2AKrK8S/Hd0eg7FBvxGbM2igjOzEt2MEER
+	 VqlJGqanwzL+cBTXm5V3+wFsSh/LxGHxz5fBWP21aKbOeyt/6D4u8yO5SUqh6HzETW
+	 bUiAKFEES62jWx6WykwtXT1pt6lvOzxaQwmu8X9uFODW8axVwwJCa00PaMdD5Giv/i
+	 NkAZ3Xf8dmMnw==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id BF4A847C39;
-	Thu,  2 May 2024 16:16:17 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id B170947C39;
+	Thu,  2 May 2024 16:21:09 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>, Yanteng
- Si <siyanteng@loongson.cn>
-Cc: Dongliang Mu <dzm91@hust.edu.cn>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs/zh_CN: remove two inconsistent spaces
-In-Reply-To: <20240427053703.2339727-1-dzm91@hust.edu.cn>
-References: <20240427053703.2339727-1-dzm91@hust.edu.cn>
-Date: Thu, 02 May 2024 10:16:16 -0600
-Message-ID: <87bk5o6vfz.fsf@meer.lwn.net>
+To: "Bird, Tim" <Tim.Bird@sony.com>, Greg KroahHartman
+ <gregkh@linuxfoundation.org>, Sasha Levin <sashal@kernel.org>
+Cc: "stable@vger.kernel.org" <stable@vger.kernel.org>,
+ "workflows@vger.kernel.org" <workflows@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] docs: stable-kernel-rules: fix typo sent->send
+In-Reply-To: <SA3PR13MB63726A746C847D7C0919C25BFD162@SA3PR13MB6372.namprd13.prod.outlook.com>
+References: <SA3PR13MB63726A746C847D7C0919C25BFD162@SA3PR13MB6372.namprd13.prod.outlook.com>
+Date: Thu, 02 May 2024 10:21:08 -0600
+Message-ID: <877cgc6v7v.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: base64
+Content-Type: text/plain
 
-RG9uZ2xpYW5nIE11IDxkem05MUBodXN0LmVkdS5jbj4gd3JpdGVzOg0KDQo+IFRoZSBzcGFjZXMg
-b24gdGhlIGxlZnQgYW5kIHJpZ2h0IG9mIHRleHRzIHNob3VsZCBiZSBjb25zaXN0ZW50Lg0KPiBS
-ZW1vdmUgdGhlc2UgcmVkdW5kZW50IHNwYWNlcy4NCj4NCj4gU2lnbmVkLW9mZi1ieTogRG9uZ2xp
-YW5nIE11IDxkem05MUBodXN0LmVkdS5jbj4NCj4gLS0tDQo+ICBEb2N1bWVudGF0aW9uL3RyYW5z
-bGF0aW9ucy96aF9DTi9pbmRleC5yc3QgfCA0ICsrLS0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAyIGlu
-c2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pDQo+DQo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0
-aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9pbmRleC5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0
-aW9ucy96aF9DTi9pbmRleC5yc3QNCj4gaW5kZXggNmNjZWM5NjU3Y2M2Li4yMGI5ZDQyNzBkMWYg
-MTAwNjQ0DQo+IC0tLSBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2luZGV4LnJz
-dA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9pbmRleC5yc3QNCj4g
-QEAgLTI0LDggKzI0LDggQEANCj4gIOS4iueahGxpbnV4LWRvY+mCruS7tuWIl+ihqOOAgg0KPiAg
-DQo+ICDpobrkvr/or7TkuIvvvIzkuK3mlofmlofmoaPkuZ/pnIDopoHpgbXlrojlhoXmoLjnvJbn
-oIHpo47moLzvvIzpo47moLzkuK3kuK3mloflkozoi7HmlofnmoTkuLvopoHkuI3lkIzlsLHmmK/k
-uK3mlocNCj4gLeeahOWtl+espuagh+eCueWNoOeUqOS4pOS4quiLseaWh+Wtl+espuWuveW6pu+8
-jCDmiYDku6XvvIzlvZPoi7HmlofopoHmsYLkuI3opoHotoXov4fmr4/ooYwxMDDkuKrlrZfnrKbm
-l7bvvIwNCj4gLeS4reaWh+WwseS4jeimgei2hei/hzUw5Liq5a2X56ym44CC5Y+m5aSW77yM5Lmf
-6KaB5rOo5oSPJy0n77yMJz0nIOetieespuWPt+S4juebuOWFs+agh+mimOeahOWvuem9kOOAguWc
-qOWwhg0KPiAr55qE5a2X56ym5qCH54K55Y2g55So5Lik5Liq6Iux5paH5a2X56ym5a695bqm77yM
-5omA5Lul77yM5b2T6Iux5paH6KaB5rGC5LiN6KaB6LaF6L+H5q+P6KGMMTAw5Liq5a2X56ym5pe2
-77yMDQo+ICvkuK3mloflsLHkuI3opoHotoXov4c1MOS4quWtl+espuOAguWPpuWklu+8jOS5n+im
-geazqOaEjyctJ++8jCc9J+etieespuWPt+S4juebuOWFs+agh+mimOeahOWvuem9kOOAguWcqOWw
-hg0KPiAg6KGl5LiB5o+Q5Lqk5Yiw56S+5Yy65LmL5YmN77yM5LiA5a6a6KaB6L+b6KGM5b+F6KaB
-55qEIGBgY2hlY2twYXRjaC5wbGBgIOajgOafpeWSjOe8luivkea1i+ivleOAgg0KDQpBcHBsaWVk
-LCB0aGFua3MuDQoNCmpvbg0K
+"Bird, Tim" <Tim.Bird@sony.com> writes:
+
+> Change 'sent' to 'send'
+>
+> Signed-off-by: Tim Bird <tim.bird@sony.com>
+> ---
+>  Documentation/process/stable-kernel-rules.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
+> index 1704f1c686d0..3178bef6fca3 100644
+> --- a/Documentation/process/stable-kernel-rules.rst
+> +++ b/Documentation/process/stable-kernel-rules.rst
+> @@ -78,7 +78,7 @@ in the sign-off area. Once the patch is mainlined it will be applied to the
+>  stable tree without anything else needing to be done by the author or
+>  subsystem maintainer.
+>  
+> -To sent additional instructions to the stable team, use a shell-style inline
+> +To send additional instructions to the stable team, use a shell-style inline
+>  comment:
+
+Applied, thanks.
+
+jon
