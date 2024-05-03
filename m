@@ -1,122 +1,98 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F92722339
-	for <linux-doc@vger.kernel.org>; Fri,  3 May 2024 18:35:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99ECC12F38E
+	for <linux-doc@vger.kernel.org>; Fri,  3 May 2024 18:59:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714761334; cv=none; b=iAw9CM+kg90f/E0Qs3XB9Vvv+ekyePBvl7qQDzf+S2dEGoyN87BJXfj5M4IQ40aRyOSoZSODAdurVnlWDWUmBTBZpq9R3EtCEB2etMoXRRHImgU+S5mjqmtsmmROGkIGZx8/fNLKMmYh6x2YeVSMdIhbg+QrtHzThmPd56roRdA=
+	t=1714762798; cv=none; b=QZ7LD+Zolzwk1ioqA1B5Tb2d41zgcI+dVNxAE4UXQwUHhO5MQ+a5ck4vI6sdz/qY7dG96d285n/qiT2ZnamYUdtplSgr198l1erz3kNw6oQ4ji8gqwHSgCL1LuE+IgqaZQY1JOJKVAI9FWqbDwkIAO/GN5fBQRsviOoz/0MpF3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714761334; c=relaxed/simple;
-	bh=lctBDKKbaQ0GP8xmsQpbPsTnN5YakI/d7YGn9gn3TMU=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=NtbHdz0xwB5slZaH45Fn6+HZ90XgpP9OBhgiFb2mC5FLKDc3Ad7IFmbENAKlhunMXa+wXNABVeR4WMJV8tr2SKpsJGZKmpmgt68NXYggU9UYtt161dKiGGROXyE3vrp4hmEdTOt6xFnS+zWiUPol45n4PmRV8C37JF8LVE9FdAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VfGqyzUM; arc=none smtp.client-ip=209.85.214.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com
+	s=arc-20240116; t=1714762798; c=relaxed/simple;
+	bh=vstfoZvHsAcXCZCvOZqSg5KA/bwkjUFboyKSn6palj4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mNL0PRVVwjYq+uS3DmR9w11Z5iFeYlqU7DozbZPgD7gyzFJmJR+APC3b7dThU2cKF9TljmHBADgDyVwg/pjvjD/OzJ2Ql9nM0onhm4h10SX3CAS3RBFtI5n3WBuUNnk5djXC5ffSh9fMHUtSYjgqP5ZGIUhs0NQWlno7TR/6c48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ddj8Fw3h; arc=none smtp.client-ip=209.85.166.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VfGqyzUM"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-1e63ff880f5so109782815ad.1
-        for <linux-doc@vger.kernel.org>; Fri, 03 May 2024 11:35:32 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ddj8Fw3h"
+Received: by mail-io1-f52.google.com with SMTP id ca18e2360f4ac-7da55194b31so83095439f.3
+        for <linux-doc@vger.kernel.org>; Fri, 03 May 2024 11:59:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1714761332; x=1715366132; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=iVQp8VZ+GT1btk34Ge4A/qMobcmdU0dr1U1FJvarTM0=;
-        b=VfGqyzUMv1VAc3hkSHpaH/ikIlB0hkd/EIFgCqQ1Gt5XaferUqyHXtknzcvfuKuOAo
-         HRBfJimS1ICbb0DDspqqJMpDMg7BZFLnW8I/0IDR3q+8DLcINoqGUKpQCP2ddbwaT/V6
-         hvp8n2JxNLO9zcGXj/+fOwm/y9dYWUCkHzZI/ImNqshZ59nyKFf5ntEC/+Ia3j3cJdBd
-         q0lV/NK3NQuwjaVo6N0v+48qMjSmNQh1tRIjRRifixFzTEuVviZpl2ivVjYAmwdwdFn4
-         jN499+kFGtUKtSNdZq23mZL+i2g+hsVp+/68lM7WiMk2eVlfTxcJb/6htawaVBZdV8ez
-         Q69A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714761332; x=1715366132;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+        d=linuxfoundation.org; s=google; t=1714762796; x=1715367596; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=iVQp8VZ+GT1btk34Ge4A/qMobcmdU0dr1U1FJvarTM0=;
-        b=uz4c90GmNkR3zrKcaHfkhI7AfIJ6bdNLx5Un1AHGG68RZ/Ff5FM54w7JTDsnQxqr9b
-         rmC5suzsz7M7xAKJJO9fPQPR1+Bsi7AINKOPC1WS0GrRzh3OlGuA5nX7Aym8rGoFFLEv
-         Ndw2cs84kpWT+WCJI//Hocw5uT6CBZnMtszAhiUkOXXLffP+mZBfyOyAi5Z8tqxt9frJ
-         1jUwcGMG+xvlkSJ8FynAtV+p8KDLmY0BkaIF3HJU5R5bgNFE6BTE1k9R9SVFpTYqNzC8
-         OEMtMFLEoVA8ZeZD0CRoeFDfEPCmaJpAfD4KtrVyonYPdMIwXuoQdZUryjEtnjYWrYv5
-         /Xcw==
-X-Forwarded-Encrypted: i=1; AJvYcCV3HyVDBp0Czk79LuY8efAQ/TUBp0+bs4qFvtzZWB1V0YOFM8L4KaP0YWyeodKi4LSrIF/26Cz+eLOffXAtl98QcxtRxPLXeRBJ
-X-Gm-Message-State: AOJu0YwBkjJAYg4ir2o+Gr1B7elRz7T1d9XhT+LvqH8MBKfLDyJyg54j
-	eeNj2ioyP0LlBdfvGGIhR8WlWY7YPs2dUGb75vWf03Q0APBj6kO5eMpJtfWusD3L4ff3VtNzo3h
-	kC5J6HGxNExwK9w==
-X-Google-Smtp-Source: AGHT+IH43Mgk2bJwNZrlwDJzmhbx9udVERtQckuEWb3sCigBB6T1dsjzWtnv29QEOO5n0WToIxr27/3AIGcP6sU=
-X-Received: from tj-virt.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5683])
- (user=tjmercier job=sendgmr) by 2002:a17:902:f94b:b0:1e8:a7fb:c1fc with SMTP
- id kx11-20020a170902f94b00b001e8a7fbc1fcmr7948plb.5.1714761331746; Fri, 03
- May 2024 11:35:31 -0700 (PDT)
-Date: Fri,  3 May 2024 18:35:26 +0000
+        bh=zK7EjngVwHxCdqRBj4DTZ+w1kW00DuCOALFXYA7wuDI=;
+        b=ddj8Fw3hiXbVeHPP9J7nRpOtbBZlfSnozmvrikXmssHMvCnr64VwE6TdZ61Hh5CwJi
+         SV371pAmkbO99or4+RbvwMoqL1ytIvrofc+Rm52r2de+6gnq6qGXFLC6/bjGRV+sosMa
+         MZpm3UqL8o5O13UafPKy/yX/cVlgBBj2nSsLg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714762796; x=1715367596;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zK7EjngVwHxCdqRBj4DTZ+w1kW00DuCOALFXYA7wuDI=;
+        b=FZJObwIxghlUgWoTptTMF5GvayqSnkzPgIpks/OXsYHWPu3f1f/FBhfKgKM5R+Jy1t
+         OwwJGYtMOv8asXpn7iu4COGn6wgKhX4JxC3i0cgZOpqoHe4ckH51HKEFFizp+1ANG8N3
+         CmJanoi9UtdNgmnrKcj62vTlZ6MEJa3kj0XQC/BIAEhGHDEQMddFDr8RZ4GKp8/7e+U5
+         XsfEqrFF8i9i/GfhWBZ2mIzjMV4sD6D/gj8HJ4kNDmZuDMoUaIRPXIKzy2+36txxfUFD
+         dCaZ/m5+Bte+0PwittcfFWsQ5U/megxprQ9dAjQJnNuAvgYVaO5ZmvMoyOvIq4fBih0f
+         zxFA==
+X-Forwarded-Encrypted: i=1; AJvYcCXjFsi2+MHop6xddhSV/G6cxFmnou/J46eOAe3xzoCAlmz8tJQfp15L3HxcEZSqbpll7JagM9T3wow3CY7JM8kzzkA9uzLCaW3X
+X-Gm-Message-State: AOJu0Yx4LmMIgg1P8sbIowQPDQhwlbV1FB5bRl1lz+NHjKjP5YDY0g+H
+	TSLQYQplvIZ9qAObvGSJgjcR94Htp7ZjMruDuau7a5oQ/gNSRKqiQh0xn4AZS4U=
+X-Google-Smtp-Source: AGHT+IGKOG2BRFN59lfSUvaPMYRftU2oCo3evPUBOi38lV7vpEyniKA6Hz/kFSVNmS0ClAbtZJsuug==
+X-Received: by 2002:a05:6e02:188d:b0:368:974b:f7c7 with SMTP id o13-20020a056e02188d00b00368974bf7c7mr4362981ilu.0.1714762795516;
+        Fri, 03 May 2024 11:59:55 -0700 (PDT)
+Received: from [192.168.1.128] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id ix13-20020a056638878d00b00482c2bcabd5sm933236jab.2.2024.05.03.11.59.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 May 2024 11:59:55 -0700 (PDT)
+Message-ID: <6a54d332-c13f-4d9c-93c7-7700baf951f9@linuxfoundation.org>
+Date: Fri, 3 May 2024 12:59:54 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.45.0.rc1.225.g2a3ae87e7f-goog
-Message-ID: <20240503183527.1548119-1-tjmercier@google.com>
-Subject: [PATCH] swiotlb: iommu/dma: Clarify swiotlb options apply only to dma-direct
-From: "T.J. Mercier" <tjmercier@google.com>
-To: tjmercier@google.com, Jonathan Corbet <corbet@lwn.net>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>
-Cc: hch@infradead.org, robin.murphy@arm.com, joro@8bytes.org, will@kernel.org, 
-	akpm@linux-foundation.org, isaacmanjarres@google.com, iommu@lists.linux.dev, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: kselftest: fix codeblock
+To: "Yo-Jung (Leo) Lin" <0xff07@gmail.com>
+Cc: Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+References: <20240429165047.16088-1-0xff07@gmail.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20240429165047.16088-1-0xff07@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-IOMMU implementations now sometimes bounce memory through SWIOTLB to
-achieve cacheline alignment [1], or prevent DMA attacks by untrusted
-devices [2]. These uses of SWIOTLB differ conceptually from historical
-use which was a solution to the problem of device addressing
-limitations that prevent DMA to some portion of system memory
-(typically beyond 4 GiB). IOMMUs also solve the problem of device
-addressing limitations and therefore eliminate the need for SWIOTLB for
-that purpose. However as mentioned, IOMMUs can use SWIOTLB for other
-purposes.
+On 4/29/24 10:50, Yo-Jung (Leo) Lin wrote:
+> Add extra colon to mark command in the next paragraph as codeblock
+> 
+> Signed-off-by: Yo-Jung (Leo) Lin <0xff07@gmail.com>
+> ---
+>   Documentation/dev-tools/kselftest.rst | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
+> index ff10dc6eef5d..dcf634e411bd 100644
+> --- a/Documentation/dev-tools/kselftest.rst
+> +++ b/Documentation/dev-tools/kselftest.rst
+> @@ -183,7 +183,7 @@ expected time it takes to run a test. If you have control over the systems
+>   which will run the tests you can configure a test runner on those systems to
+>   use a greater or lower timeout on the command line as with the `-o` or
+>   the `--override-timeout` argument. For example to use 165 seconds instead
+> -one would use:
+> +one would use::
+>   
+>      $ ./run_kselftest.sh --override-timeout 165
+>   
 
-The swiotlb kernel command line parameter does not impact IOMMU related
-use of SWIOTLB, and that is intentional. IOMMUs cannot be forced to use
-SWIOTLB for all buffers. Update the documentation for the swiotlb
-parameter to clarify that SWIOTLB use can only be forced in scenarios
-where an IOMMU is not involved.
+Thank you. Applied to linux=kselftest next for Linux 6.10-rc1.
 
-[1] https://lore.kernel.org/all/20230612153201.554742-16-catalin.marinas@arm.com
-[2] https://lore.kernel.org/all/20190906061452.30791-1-baolu.lu@linux.intel.com/
-Signed-off-by: T.J. Mercier <tjmercier@google.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 1 +
- Documentation/arch/x86/x86_64/boot-options.rst  | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 213d0719e2b7..84c582ac246c 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -6486,6 +6486,7 @@
- 				 to a power of 2.
- 			force -- force using of bounce buffers even if they
- 			         wouldn't be automatically used by the kernel
-+			         where a hardware IOMMU is not involved
- 			noforce -- Never use bounce buffers (for debugging)
- 
- 	switches=	[HW,M68k,EARLY]
-diff --git a/Documentation/arch/x86/x86_64/boot-options.rst b/Documentation/arch/x86/x86_64/boot-options.rst
-index 137432d34109..066b4bc81583 100644
---- a/Documentation/arch/x86/x86_64/boot-options.rst
-+++ b/Documentation/arch/x86/x86_64/boot-options.rst
-@@ -285,7 +285,7 @@ iommu options only relevant to the AMD GART hardware IOMMU:
-       Always panic when IOMMU overflows.
- 
- iommu options only relevant to the software bounce buffering (SWIOTLB) IOMMU
--implementation:
-+implementation where a hardware IOMMU is not involved:
- 
-     swiotlb=<slots>[,force,noforce]
-       <slots>
--- 
-2.45.0.rc1.225.g2a3ae87e7f-goog
-
+thanks,
+-- Shuah
