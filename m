@@ -1,202 +1,194 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE8215358B;
-	Fri,  3 May 2024 13:14:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C63154446;
+	Fri,  3 May 2024 13:52:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714742048; cv=none; b=fiybGIh0WBX0bRyQbxo1cmcVUgNJHxr+k75ANuGHDk7iViQo5jyd9Q6VeK6GWx6FMp/X6iQHEJ29nrS+Rit93+fzbE2maVHDlpq6VCQpn0aRopoj3twk51aNaYw2Ko0a3WblSn8rScpgxO9MGX4pt9OE7oWy+nF+rM0m2zVKjHc=
+	t=1714744372; cv=none; b=pGLDdeUwBCQfkwzb3oqLanTEg+y2p0hw6eCj9NOnQmMkfJWyfAktRIT6ueyrLhCTjjIoMNslcFXvX00L1Q0Di/J8MAZcoadsUHJbs+7adVVoEX8cdNGoCDDaXjtx7tyjoujasppAC8AhM/79fIWOdgmdmYNX2lkTLVFmcq/WlOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714742048; c=relaxed/simple;
-	bh=emDrdx6WOkQnF2Eso3DR0P187wYGRr+WTfcYUP8aUXY=;
+	s=arc-20240116; t=1714744372; c=relaxed/simple;
+	bh=1/sEbkKVzr1sl9rpqMBPxOBN56nWkciK2TSQEX52IVw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uFXxjxIXve9tB75TqzA1vNN7p1ZU5NDyFqcopoA0UUVfvFh1JS/nMk3ot7qef24ngbQ2n4pmTs+DAMMeRmnMpMzJeVPMb6hApDjw+5Kkz/K+wFS/+9iHnupJ9J3qE+gTXxDy7nljRkmNzUGN9Vz3vgKH6DzhoQSrEPGwoTNjwh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gcauIy26; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=UL/7H2TgkCf3xN7YS0cRORWqTaCkClJMBlYZJS0K5xrsW7+nYmlo54RDY4HtD4+VSSNIfqPIpKLijuzqCXKb/5Imzu+6wBQygjvgZZ2RIWd3oZMY4FS+Gi/8NkwGN3pzSKHFCMYClGTNh/ft/CuV9aq5uORhJWTbJe8V5hTaPvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i58uEv04; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gcauIy26"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-6f44ed6e82fso314106b3a.3;
-        Fri, 03 May 2024 06:14:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714742046; x=1715346846; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=S6Kz22nN7XZpw5/QYn8eU3Vl5d2ZzmTa9J6l4Ufw1zs=;
-        b=gcauIy26MtzJYA8Gns6kXZilBsGTzVoH5HBE70noznhGOD4euDnekA10A01JhJPaLO
-         3g/gVlbyt0HrO4AS2vlEUGm9fP40LfNNZhe05qHmQQDDTXbdlsjL6mGTAhieH0jEnWuf
-         2UXYKRmnjAejy9goG3wES6Ad1+iG+/facnZgyyouKsCRo2hXWbGOu9VtEEfnnefyPTSW
-         7iMwwes0uuOIIV/vYUUhSG5tqOsagJyJGfgu3ygTA3yLrrmBgMDFctfaUxslbfdu6TXe
-         7IgKNvm5WAWO0WLGUO0ftNS79LC27eJf2MhdRHCgpdbxC0N19AnVU+8e/hJVtiOaJ5Cd
-         29Pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714742046; x=1715346846;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=S6Kz22nN7XZpw5/QYn8eU3Vl5d2ZzmTa9J6l4Ufw1zs=;
-        b=Q5uGiD4D6J/PrQvGzWl+iPWr35x9BFY32I3uffYTmLVU2gJccyoYKYOihx6Fucj+B2
-         gA9t9O9JpEcUdshqKBBY3YCp0zSPaM3r3ggiRYt5d2a9tFWwBJysy/QI1VF2ZIdh/kqB
-         A/9K4Iba1nfp9IQNqChm4DMSW+jJQFBInncsAwtQzpGZfpG4qVrw7aJAnBg9AhKTNzyJ
-         CvJJNDlUZJhFLk8OtF++fxDILWOYY7glkSaunLgvoUQ8H7V/vnzoma6qsa9Oq4WR37v3
-         k1r2JE9Ti1N+wYw4p0cPfi5eCPspBIp8y5CqBJuaZT6vG4MvG9ej9DIo+7PWdwc/GODd
-         6v+w==
-X-Forwarded-Encrypted: i=1; AJvYcCVILL6wtpyjp9AhtO3obmCsPN3ndhJIKkDpP0EPmFncQvyR/Krsp4rbEJ1jlY3jNJys+oXkf0RSHkgUMRCcecEATmVTc8kc/SRJU3HPnjLguE9vdE6uLjh53jSmXZ2MKaq/VnlNFdZ5DIwROEPEe96L/QUYjImbzgkZsUyKoZBxz1NA8JaCYGyjt5tdyIVPi97Oublw5HQ+zpiA9zKv86vL1l68FUcazL/PG2xQp0i4poNkbUioC9mTRE3VcTwJBq9Rl+Vkmzd/fcpEaT8aPn6FSeOm5TShzeECXsf3O3G8vwrzHoicyoBNXwlrmfKz3sWspenNHP1fv5grRcEa7yRbL3HruID7AYjsySZj4ntgyGwixOYBAZQcOjAoqD3lOiCr7HpZSQ3Gsa/+mJjUtR+RiVCqV8kn6cGhYgf9W12xfI0LMH/hkK06p7fNn16Zygg23SlxfvDBE/Qgc1uf1zwru5rc3ua53X6Dyudnn3XWunVjFj1GemFEY89xD+ymFrqlAuUu3w==
-X-Gm-Message-State: AOJu0YxrOPSFGgA0SvXlclJbHO9actMARbcZeqFgnXwjiekXoN7gsQcY
-	eOQa9hGvHl7K5jXKPV9hHKiye5303LSuvCHluvvjR8nW59v/1Zny
-X-Google-Smtp-Source: AGHT+IGAxZcx6M5jku9xJQNGsk1mq4nfDpmBwjTTeZ5TRCe/HqThlL4pFRsVfzRAFzuWYWRs0QPHbQ==
-X-Received: by 2002:a05:6a20:3cac:b0:1ac:c8dc:3e5e with SMTP id b44-20020a056a203cac00b001acc8dc3e5emr3146813pzj.24.1714742046301;
-        Fri, 03 May 2024 06:14:06 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id j1-20020a170902da8100b001e509d4d6ddsm3203863plx.1.2024.05.03.06.14.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 May 2024 06:14:05 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id C0EA918462B27; Fri, 03 May 2024 20:14:03 +0700 (WIB)
-Date: Fri, 3 May 2024 20:14:03 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-	Matt Turner <mattst88@gmail.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	David Ahern <dsahern@kernel.org>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Amritha Nambiar <amritha.nambiar@intel.com>,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
-	Kaiyuan Zhang <kaiyuanz@google.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Simon Horman <horms@kernel.org>,
-	David Howells <dhowells@redhat.com>,
-	Florian Westphal <fw@strlen.de>,
-	Yunsheng Lin <linyunsheng@huawei.com>,
-	Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
-	Arseniy Krasnov <avkrasnov@salutedevices.com>,
-	Aleksander Lobakin <aleksander.lobakin@intel.com>,
-	Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Richard Gobert <richardbgobert@gmail.com>,
-	Sridhar Samudrala <sridhar.samudrala@intel.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i58uEv04"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3464C2BBFC;
+	Fri,  3 May 2024 13:52:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714744371;
+	bh=1/sEbkKVzr1sl9rpqMBPxOBN56nWkciK2TSQEX52IVw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=i58uEv04qUG5DAgLpocPjF3sinBvQely/LrKAIf5mxbVLYZ5uFWE+Jn+8LPmmVMkp
+	 dEHNPmB09phulo90CmfqeS0ZobiViN470dScFLCDlQnroBGKxWb1TyQc18vhWblSwJ
+	 0nQglDytYII8DIjGdgOw6bPtFRwmxbjDM43ws7e+L+f7iWdmXC3ZexyCoq7LYY1Obr
+	 ooocTlSSLUr3zJcsg4WdBC3JOOdIfvP8oOu6Yb1S5XF+a/hTyW+Ck9vRVTg6PWqPXc
+	 +Lu1YBcg8a22e9f/fU9sRTU/bzy+63yhGB/7uvJjAYUqnoFF7PlZ4mZrfEh26LCXYx
+	 pdyeERfnr3nMQ==
+Date: Fri, 3 May 2024 14:52:44 +0100
+From: Simon Horman <horms@kernel.org>
+To: Heng Qi <hengqi@linux.alibaba.com>
+Cc: netdev@vger.kernel.org, virtualization@lists.linux.dev,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
+	Jason Wang <jasowang@redhat.com>,
+	"Michael S . Tsirkin" <mst@redhat.com>,
+	Brett Creeley <bcreeley@amd.com>,
+	Ratheesh Kannoth <rkannoth@marvell.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
 	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Johannes Berg <johannes.berg@intel.com>,
-	Abel Wu <wuyun.abel@bytedance.com>,
-	Breno Leitao <leitao@debian.org>,
-	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Shailend Chand <shailend@google.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Jeroen de Borst <jeroendb@google.com>,
-	Praveen Kaligineedi <pkaligineedi@google.com>
-Subject: Re: [RFC PATCH net-next v8 13/14] net: add devmem TCP documentation
-Message-ID: <ZjTjG_INUM4G1Pf5@archie.me>
-References: <20240403002053.2376017-1-almasrymina@google.com>
- <20240403002053.2376017-14-almasrymina@google.com>
+	Tal Gilboa <talgi@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Paul Greenwalt <paul.greenwalt@intel.com>,
+	Ahmed Zaki <ahmed.zaki@intel.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	Andrew Lunn <andrew@lunn.ch>, justinstitt@google.com
+Subject: Re: [PATCH net-next v11 2/4] ethtool: provide customized dim profile
+ management
+Message-ID: <20240503135244.GV2821784@kernel.org>
+References: <20240430173136.15807-1-hengqi@linux.alibaba.com>
+ <20240430173136.15807-3-hengqi@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="p760D9CQLIFGzr8t"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240403002053.2376017-14-almasrymina@google.com>
+In-Reply-To: <20240430173136.15807-3-hengqi@linux.alibaba.com>
+
+On Wed, May 01, 2024 at 01:31:34AM +0800, Heng Qi wrote:
+
+...
+
+> diff --git a/include/linux/dim.h b/include/linux/dim.h
+
+...
+
+> @@ -198,6 +234,32 @@ enum dim_step_result {
+>  	DIM_ON_EDGE,
+>  };
+>  
+> +/**
+> + * net_dim_init_irq_moder - collect information to initialize irq moderation
+> + * @dev: target network device
+> + * @profile_flags: Rx or Tx profile modification capability
+> + * @coal_flags: irq moderation params flags
+> + * @rx_mode: CQ period mode for Rx
+> + * @tx_mode: CQ period mode for Tx
+> + * @rx_dim_work: Rx worker called after dim decision
+> + *    void (*rx_dim_work)(struct work_struct *work);
+> + *
+> + * @tx_dim_work: Tx worker called after dim decision
+> + *    void (*tx_dim_work)(struct work_struct *work);
+> + *
+
+Hi Heng Qi,
+
+The above seems to result in make htmldocs issuing the following warnings:
+
+ .../net_dim:175: ./include/linux/dim.h:244: WARNING: Inline emphasis start-string without end-string.
+ .../net_dim:175: ./include/linux/dim.h:244: WARNING: Inline emphasis start-string without end-string.
+ .../net_dim:175: ./include/linux/dim.h:247: WARNING: Inline emphasis start-string without end-string.
+ .../net_dim:175: ./include/linux/dim.h:247: WARNING: Inline emphasis start-string without end-string.
+
+I suggest the following alternative:
+
+ * @rx_dim_work: Rx worker called after dim decision
+ * @tx_dim_work: Tx worker called after dim decision
+
+Exercised using Sphinx 7.2.6
+
+...
+
+> diff --git a/net/ethtool/coalesce.c b/net/ethtool/coalesce.c
+
+...
+
+> @@ -134,6 +212,12 @@ static int coalesce_fill_reply(struct sk_buff *skb,
+>  	const struct coalesce_reply_data *data = COALESCE_REPDATA(reply_base);
+>  	const struct kernel_ethtool_coalesce *kcoal = &data->kernel_coalesce;
+>  	const struct ethtool_coalesce *coal = &data->coalesce;
+> +#if IS_ENABLED(CONFIG_DIMLIB)
+> +	struct net_device *dev = req_base->dev;
+> +	struct dim_irq_moder *moder = dev->irq_moder;
+> +	u8 coal_flags;
+> +	int ret;
+> +#endif
+>  	u32 supported = data->supported_params;
+
+It's a minor nit, but here goes: please consider using reverse xmas tree
+order - longest line to shortest - for local variable declarations in
+Networking code.
+
+In this case, I appreciate that it's not strictly possible without
+introducing more than one IS_ENABLED condition, which seems worse.
+So, as that condition breaks the visual flow, what I suggest in this
+case is having a second block of local variable declarations, like this:
+
+	const struct coalesce_reply_data *data = COALESCE_REPDATA(reply_base);
+	const struct kernel_ethtool_coalesce *kcoal = &data->kernel_coalesce;
+	const struct ethtool_coalesce *coal = &data->coalesce;
+	u32 supported = data->supported_params;                  
+
+#if IS_ENABLED(CONFIG_DIMLIB)
+	struct dim_irq_moder *moder = dev->irq_moder;
+	struct net_device *dev = req_base->dev;
+	u8 coal_flags;
+	int ret;
+#endif 
+
+Or better still, if it can be done cleanly, moving all the IS_ENABLED()
+code in this function into a separate function, with an no-op
+implementation in the case that CONFIG_DIMLIB is not enabled. In general
+I'd recommend that approach over sprinkling IS_ENABLED or #ifdef inside
+functions. Because in my experience it tends to lead to more readable code.
+
+In any case, the following tool is helpful for isolating
+reverse xmas tree issues.
+
+https://github.com/ecree-solarflare/xmastree
 
 
---p760D9CQLIFGzr8t
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Apr 02, 2024 at 05:20:50PM -0700, Mina Almasry wrote:
-> +ncdevmem has a validation mode as well that expects a repeating pattern =
-of
-> +incoming data and validates it as such::
+>  	if (coalesce_put_u32(skb, ETHTOOL_A_COALESCE_RX_USECS,
+> @@ -192,11 +276,49 @@ static int coalesce_fill_reply(struct sk_buff *skb,
+>  			     kcoal->tx_aggr_time_usecs, supported))
+>  		return -EMSGSIZE;
+>  
+> +#if IS_ENABLED(CONFIG_DIMLIB)
+> +	if (!moder)
+> +		return 0;
 > +
-> +	# On server:
-> +	ncdevmem -s <server IP> -c <client IP> -f eth1 -d 3 -n 0000:06:00.0 -l \
-> +		 -p 5201 -v 7
+> +	coal_flags = moder->coal_flags;
+> +	rcu_read_lock();
+> +	if (moder->profile_flags & DIM_PROFILE_RX) {
+> +		ret = coalesce_put_profile(skb, ETHTOOL_A_COALESCE_RX_PROFILE,
+> +					   rcu_dereference(moder->rx_profile),
+> +					   coal_flags);
+> +		if (ret) {
+> +			rcu_read_unlock();
+> +			return ret;
+> +		}
+> +	}
 > +
-> +	# On client:
-> +	yes $(echo -e \\x01\\x02\\x03\\x04\\x05\\x06) | \
-> +		tr \\n \\0 | head -c 5G | nc <server IP> 5201 -p 5201
+> +	if (moder->profile_flags & DIM_PROFILE_TX) {
+> +		ret = coalesce_put_profile(skb, ETHTOOL_A_COALESCE_TX_PROFILE,
+> +					   rcu_dereference(moder->tx_profile),
+> +					   coal_flags);
+> +		if (ret) {
+> +			rcu_read_unlock();
+> +			return ret;
+> +		}
+> +	}
+> +	rcu_read_unlock();
+> +#endif
+>  	return 0;
+>  }
 
-What about splitting server and client usage?
-
----- >8 ----
-diff --git a/Documentation/networking/devmem.rst b/Documentation/networking=
-/devmem.rst
-index e4e978fbcdbd5f..f32acfd62075d2 100644
---- a/Documentation/networking/devmem.rst
-+++ b/Documentation/networking/devmem.rst
-@@ -245,12 +245,14 @@ To run ncdevmem, you need to run it on a server on th=
-e machine under test, and
- you need to run netcat on a peer to provide the TX data.
-=20
- ncdevmem has a validation mode as well that expects a repeating pattern of
--incoming data and validates it as such::
-+incoming data and validates it as such. For example, you can launch
-+ncdevmem on the server by::
-=20
--	# On server:
- 	ncdevmem -s <server IP> -c <client IP> -f eth1 -d 3 -n 0000:06:00.0 -l \
- 		 -p 5201 -v 7
-=20
--	# On client:
-+On client side, use regular netcat to send TX data to ncdevmem process
-+on the server::
-+
- 	yes $(echo -e \\x01\\x02\\x03\\x04\\x05\\x06) | \
- 		tr \\n \\0 | head -c 5G | nc <server IP> 5201 -p 5201
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---p760D9CQLIFGzr8t
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZjTjFwAKCRD2uYlJVVFO
-o9RPAQCNza/o9eilURPtLMgckHLWGXSLgl+m05JS4n+5eQOBfAEAuaR+vADZuSKC
-PnV18jn47Aqz1SmrD+MDjjeFy4rw0gM=
-=E6BN
------END PGP SIGNATURE-----
-
---p760D9CQLIFGzr8t--
+...
