@@ -1,361 +1,237 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F76F14D2BC;
-	Fri,  3 May 2024 09:58:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85222152DE0
+	for <linux-doc@vger.kernel.org>; Fri,  3 May 2024 11:57:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714730284; cv=none; b=cNOYjHQStLJmTzNt09eEauS4pxtyJ+dc7+UtUBtS7BSGZ261J3JA0p9q5XYELUWbEPa4g+Z+caohxgzKkGxFewGhjLS+qktlJEk1AGkWgawdtmd7apJnZpbUvbM0k4FqSRmLzf3tHDIpCssA7b+S25uG/PKEoLRZ3udquAQ392Q=
+	t=1714737429; cv=none; b=nUvVvtnoOB/IaCGK9bcFFq9jOhCd0HbnanuqQeltX56olh7HWMMBXm2PmSD5ynHY7o07v3nkRri97DH2eBMVvuVMlJVS1R4ibAnyLDfpcvCAXfWDZPsIhJ15i95zF3UeJ5nhIR2oqzamYyjynNu6n5OIWk+hnrCzGaSAKfkn/5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714730284; c=relaxed/simple;
-	bh=f8Mn/L/rPRgscXzOJ4TK13C7rdziWCwow2p/jHjIwJ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ixS8mChSbTcwJXZ2G3I/3Ixwh/CuyWn20xluJX2l0q/D077N/85mx2isnrskHMBDwEHGbWAARZxY5dV/IyJe5ldWCZ0EOJ2JuSdKlZO/Uje+SDxP2w3AJZH8qd8IyKqvcq/F0/qE3a/oAMEBtBj0IBg442c11uzomjAjYgAUdK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BYY7lLlo; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714737429; c=relaxed/simple;
+	bh=N1UR76ibJXT6KSmjP9DwgMJEalcANwTRYffmZX8HUPM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sj3NKQ/g+hKVXvMTG9g7MF5U+LGI4RG9P+5IZPBDu4/uTjNRlgD4LNFfWedrYfRuxya41kE+yxg4bNo09ibclQ7D50zf4D0aNGibeOPiUOZ+IWHkN4YMnnHUjltmCG2R7CJ42/xqzCbXWaw4Ql3LFt5yQEgwz6uCtjuMRhnNFyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=qyB1ISae; arc=none smtp.client-ip=91.218.175.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BYY7lLlo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0249C116B1;
-	Fri,  3 May 2024 09:57:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714730283;
-	bh=f8Mn/L/rPRgscXzOJ4TK13C7rdziWCwow2p/jHjIwJ8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BYY7lLlogB03mbGSB3SgN+WPEjR3akhQYsqOL/HAjXxgEOk1biLm7Gy4WYyr12fQF
-	 1lG/DTrRz7WofC8yDi/4cYNplVMGXjuIkuJV7kRYFydEm+vzIC74uwoYa8qZ4RSZtX
-	 Jf3+olxTYdYiKQh2ghqGXScHeUQaw/sjqLWqVl4uc6Kjk3TgESTReef9kcoQkgu1L3
-	 CrirGXZxlKJQIdgmLFcuez6Xyri0pGyzHhKRJQOO/NWXOUpSsZ4q1d/FfvhIS3KCyD
-	 8+Et9wTVudLQiYemszcf74rgyEa4hsYqZLwMQ982eXTmfcjnsqTbZlg35mxT3Hncir
-	 MMy3qXrsZaQww==
-Date: Fri, 3 May 2024 11:57:56 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Kees Cook <keescook@chromium.org>
-Cc: Adrian Ratiu <adrian.ratiu@collabora.com>, 
-	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org, 
-	kernel@collabora.com, gbiv@google.com, ryanbeltran@google.com, inglorion@google.com, 
-	ajordanr@google.com, jorgelo@chromium.org, Guenter Roeck <groeck@chromium.org>, 
-	Doug Anderson <dianders@chromium.org>, Jann Horn <jannh@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Mike Frysinger <vapier@chromium.org>
-Subject: Re: [PATCH v3 1/2] proc: restrict /proc/pid/mem access via param
- knobs
-Message-ID: <20240503-nulltarif-karten-82213463dedc@brauner>
-References: <20240409175750.206445-1-adrian.ratiu@collabora.com>
- <202404261544.1EAD63D@keescook>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qyB1ISae"
+Message-ID: <dcbd4df7-328e-4d28-8098-dca3e8c4f004@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1714737425;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QBEy7QkEaMvis9qjHZ5cOY4POeQ4rKqY2XsSXuPCu4U=;
+	b=qyB1ISae7I/P6hByROK73LSERbiL7NzoQZuWyVzVYXd5DEKcWqZ+01n4/u2G94uRlwKdZg
+	pgnNepE8R4vEhrgw3+TI+jbCs12NmD0KobYhO09ypdlc17huPvRqS1WfGm3a/IDhhV2Unp
+	wPw01DbGYiFsnIgrK1nDyTpIy9Rx9YU=
+Date: Fri, 3 May 2024 13:57:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <202404261544.1EAD63D@keescook>
+Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two steps
+To: "Zeng, Oak" <oak.zeng@intel.com>, "leon@kernel.org" <leon@kernel.org>,
+ Christoph Hellwig <hch@lst.de>, Robin Murphy <robin.murphy@arm.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+ "Brost, Matthew" <matthew.brost@intel.com>,
+ "Hellstrom, Thomas" <thomas.hellstrom@intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+ Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ Yishai Hadas <yishaih@nvidia.com>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ "Tian, Kevin" <kevin.tian@intel.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ Bart Van Assche <bvanassche@acm.org>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Amir Goldstein <amir73il@gmail.com>,
+ "josef@toxicpanda.com" <josef@toxicpanda.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ "daniel@iogearbox.net" <daniel@iogearbox.net>,
+ "Williams, Dan J" <dan.j.williams@intel.com>, "jack@suse.com"
+ <jack@suse.com>, Leon Romanovsky <leonro@nvidia.com>
+References: <cover.1709635535.git.leon@kernel.org>
+ <SA1PR11MB6991CB2B1398948F4241E51992182@SA1PR11MB6991.namprd11.prod.outlook.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Zhu Yanjun <yanjun.zhu@linux.dev>
+In-Reply-To: <SA1PR11MB6991CB2B1398948F4241E51992182@SA1PR11MB6991.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Fri, Apr 26, 2024 at 04:10:49PM -0700, Kees Cook wrote:
-> On Tue, Apr 09, 2024 at 08:57:49PM +0300, Adrian Ratiu wrote:
-> > Prior to v2.6.39 write access to /proc/<pid>/mem was restricted,
-> > after which it got allowed in commit 198214a7ee50 ("proc: enable
-> > writing to /proc/pid/mem"). Famous last words from that patch:
-> > "no longer a security hazard". :)
-> > 
-> > Afterwards exploits started causing drama like [1]. The exploits
-> > using /proc/*/mem can be rather sophisticated like [2] which
-> > installed an arbitrary payload from noexec storage into a running
-> > process then exec'd it, which itself could include an ELF loader
-> > to run arbitrary code off noexec storage.
-> > 
-> > One of the well-known problems with /proc/*/mem writes is they
-> > ignore page permissions via FOLL_FORCE, as opposed to writes via
-> > process_vm_writev which respect page permissions. These writes can
-> > also be used to bypass mode bits.
-> > 
-> > To harden against these types of attacks, distrbutions might want
-> > to restrict /proc/pid/mem accesses, either entirely or partially,
-> > for eg. to restrict FOLL_FORCE usage.
-> > 
-> > Known valid use-cases which still need these accesses are:
-> > 
-> > * Debuggers which also have ptrace permissions, so they can access
-> > memory anyway via PTRACE_POKEDATA & co. Some debuggers like GDB
-> > are designed to write /proc/pid/mem for basic functionality.
-> > 
-> > * Container supervisors using the seccomp notifier to intercept
-> > syscalls and rewrite memory of calling processes by passing
-> > around /proc/pid/mem file descriptors.
-> > 
-> > There might be more, that's why these params default to disabled.
-> > 
-> > Regarding other mechanisms which can block these accesses:
-> > 
-> > * seccomp filters can be used to block mmap/mprotect calls with W|X
-> > perms, but they often can't block open calls as daemons want to
-> > read/write their runtime state and seccomp filters cannot check
-> > file paths, so plain write calls can't be easily blocked.
-> > 
-> > * Since the mem file is part of the dynamic /proc/<pid>/ space, we
-> > can't run chmod once at boot to restrict it (and trying to react
-> > to every process and run chmod doesn't scale, and the kernel no
-> > longer allows chmod on any of these paths).
-> > 
-> > * SELinux could be used with a rule to cover all /proc/*/mem files,
-> > but even then having multiple ways to deny an attack is useful in
-> > case one layer fails.
-> > 
-> > Thus we introduce three kernel parameters to restrict /proc/*/mem
-> > access: read, write and foll_force. All three can be independently
-> > set to the following values:
-> > 
-> > all     => restrict all access unconditionally.
-> > ptracer => restrict all access except for ptracer processes.
-> > 
-> > If left unset, the existing behaviour is preserved, i.e. access
-> > is governed by basic file permissions.
-> > 
-> > Examples which can be passed by bootloaders:
-> > 
-> > restrict_proc_mem_foll_force=all
-> > restrict_proc_mem_write=ptracer
-> > restrict_proc_mem_read=ptracer
-> > 
-> > Each distribution needs to decide what restrictions to apply,
-> > depending on its use-cases. Embedded systems might want to do
-> > more, while general-purpouse distros might want a more relaxed
-> > policy, because for e.g. foll_force=all and write=all both break
-> > break GDB, so it might be a bit excessive.
-> > 
-> > Based on an initial patch by Mike Frysinger <vapier@chromium.org>.
-> 
-> Thanks for this new version!
-> 
-> > 
-> > Link: https://lwn.net/Articles/476947/ [1]
-> > Link: https://issues.chromium.org/issues/40089045 [2]
-> > Cc: Guenter Roeck <groeck@chromium.org>
-> > Cc: Doug Anderson <dianders@chromium.org>
-> > Cc: Kees Cook <keescook@chromium.org>
-> > Cc: Jann Horn <jannh@google.com>
-> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > Cc: Randy Dunlap <rdunlap@infradead.org>
-> > Cc: Christian Brauner <brauner@kernel.org>
-> > Co-developed-by: Mike Frysinger <vapier@chromium.org>
-> > Signed-off-by: Mike Frysinger <vapier@chromium.org>
-> > Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
-> > ---
-> >  .../admin-guide/kernel-parameters.txt         |  27 +++++
-> >  fs/proc/base.c                                | 103 +++++++++++++++++-
-> >  include/linux/jump_label.h                    |   5 +
-> >  3 files changed, 133 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > index 6e62b8cb19c8d..d7f7db41369c7 100644
-> > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > @@ -5665,6 +5665,33 @@
-> >  	reset_devices	[KNL] Force drivers to reset the underlying device
-> >  			during initialization.
-> >  
-> > +	restrict_proc_mem_read= [KNL]
-> > +			Format: {all | ptracer}
-> > +			Allows restricting read access to /proc/*/mem files.
-> > +			Depending on restriction level, open for reads return -EACCESS.
-> > +			Can be one of:
-> > +			- 'all' restricts all access unconditionally.
-> > +			- 'ptracer' allows access only for ptracer processes.
-> > +			If not specified, then basic file permissions continue to apply.
-> > +
-> > +	restrict_proc_mem_write= [KNL]
-> > +			Format: {all | ptracer}
-> > +			Allows restricting write access to /proc/*/mem files.
-> > +			Depending on restriction level, open for writes return -EACCESS.
-> > +			Can be one of:
-> > +			- 'all' restricts all access unconditionally.
-> > +			- 'ptracer' allows access only for ptracer processes.
-> > +			If not specified, then basic file permissions continue to apply.
-> > +
-> > +	restrict_proc_mem_foll_force= [KNL]
-> > +			Format: {all | ptracer}
-> > +			Restricts the use of the FOLL_FORCE flag for /proc/*/mem access.
-> > +			If restricted, the FOLL_FORCE flag will not be added to vm accesses.
-> > +			Can be one of:
-> > +			- 'all' restricts all access unconditionally.
-> > +			- 'ptracer' allows access only for ptracer processes.
-> > +			If not specified, FOLL_FORCE is always used.
-> 
-> bike shedding: I wonder if this should be a fake namespace (adding a dot
-> just to break it up for reading more easily), and have words reordered
-> to the kernel's more common subject-verb-object: proc_mem.restrict_read=...
-> 
-> > +
-> >  	resume=		[SWSUSP]
-> >  			Specify the partition device for software suspend
-> >  			Format:
-> > diff --git a/fs/proc/base.c b/fs/proc/base.c
-> > index 18550c071d71c..c733836c42a65 100644
-> > --- a/fs/proc/base.c
-> > +++ b/fs/proc/base.c
-> > @@ -152,6 +152,41 @@ struct pid_entry {
-> >  		NULL, &proc_pid_attr_operations,	\
-> >  		{ .lsmid = LSMID })
-> >  
-> > +/*
-> > + * each restrict_proc_mem_* param controls the following static branches:
-> > + * key[0] = restrict all writes
-> > + * key[1] = restrict writes except for ptracers
-> > + * key[2] = restrict all reads
-> > + * key[3] = restrict reads except for ptracers
-> > + * key[4] = restrict all FOLL_FORCE usage
-> > + * key[5] = restrict FOLL_FORCE usage except for ptracers
-> > + */
-> > +DEFINE_STATIC_KEY_ARRAY_FALSE_RO(restrict_proc_mem, 6);
-> 
-> So, I don't like having open-coded numbers. And I'm not sure there's a
-> benefit to stuffing these all into an array? So:
-> 
-> DEFINE_STATIC_KEY_FALSE_RO(proc_mem_restrict_read);
-> DEFINE_STATIC_KEY_FALSE_RO(proc_mem_restrict_write);
-> DEFINE_STATIC_KEY_FALSE_RO(proc_mem_restrict_foll_force);
-> 
-> > +
-> > +static int __init early_restrict_proc_mem(char *buf, int offset)
-> > +{
-> > +	if (!buf)
-> > +		return -EINVAL;
-> > +
-> > +	if (strncmp(buf, "all", 3) == 0)
-> 
-> I'd use strcmp() to get exact matches. That way "allalksdjflas" doesn't
-> match. :)
-> 
-> > +		static_branch_enable(&restrict_proc_mem[offset]);
-> > +	else if (strncmp(buf, "ptracer", 7) == 0)
-> > +		static_branch_enable(&restrict_proc_mem[offset + 1]);
-> > +
-> > +	return 0;
-> > +}
-> 
-> Then don't bother with a common helper since you've got a macro, and
-> it'll all get tossed after __init anyway.
-> 
-> > +
-> > +#define DEFINE_EARLY_RESTRICT_PROC_MEM(name, offset)			\
-> > +static int __init early_restrict_proc_mem_##name(char *buf)		\
-> > +{									\
-> > +	return early_restrict_proc_mem(buf, offset);			\
-> > +}									\
-> > +early_param("restrict_proc_mem_" #name, early_restrict_proc_mem_##name)
-> > +
-> > +DEFINE_EARLY_RESTRICT_PROC_MEM(write, 0);
-> > +DEFINE_EARLY_RESTRICT_PROC_MEM(read, 2);
-> > +DEFINE_EARLY_RESTRICT_PROC_MEM(foll_force, 4);
-> 
-> #define DEFINE_EARLY_PROC_MEM_RESTRICT(name)				\
-> static int __init early_proc_mem_restrict_##name(char *buf)		\
-> {									\
-> 	if (!buf)							\
-> 		return -EINVAL;						\
-> 									\
-> 	if (strcmp(buf, "all") == 0)					\
-> 		static_branch_enable(&proc_mem_restrict_##name);	\
-> 	else if (strcmp(buf, "ptracer") == 0)				\
-> 		static_branch_enable(&proc_mem_restrict_##name);	\
-> 									\
-> 	return 0;							\
-> }									\
-> early_param("proc_mem_restrict_" #name, early_proc_mem_restrict_##name)
-> 
-> 
-> > +
-> >  /*
-> >   * Count the number of hardlinks for the pid_entry table, excluding the .
-> >   * and .. links.
-> > @@ -825,9 +860,58 @@ static int __mem_open(struct inode *inode, struct file *file, unsigned int mode)
-> >  	return 0;
-> >  }
-> >  
-> > +static bool __mem_open_current_is_ptracer(struct file *file)
-> > +{
-> > +	struct inode *inode = file_inode(file);
-> > +	struct task_struct *task = get_proc_task(inode);
-> > +	int ret = false;
-> > +
-> > +	if (task) {
-> > +		rcu_read_lock();
-> > +		if (current == ptrace_parent(task))
-> > +			ret = true;
-> > +		rcu_read_unlock();
-> > +		put_task_struct(task);
-> > +	}
-> 
-> This creates a ToCToU race between this check (which releases the task)
-> and the later memopen which make get a different task (and mm).
-> 
-> To deal with this, I think you need to add a new mode flag for
-> proc_mem_open(), and add the checking there.
-> 
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static int __mem_open_check_access_restriction(struct file *file)
-> > +{
-> > +	if (file->f_mode & FMODE_WRITE) {
-> > +		/* Deny if writes are unconditionally disabled via param */
-> > +		if (static_branch_unlikely(&restrict_proc_mem[0]))
-> > +			return -EACCES;
-> > +
-> > +		/* Deny if writes are allowed only for ptracers via param */
-> > +		if (static_branch_unlikely(&restrict_proc_mem[1]) &&
-> > +		    !__mem_open_current_is_ptracer(file))
-> > +			return -EACCES;
-> > +
-> > +	} else if (file->f_mode & FMODE_READ) {
-> 
-> I think this "else" means that O_RDWR opens will only check the write
-> flag, so drop the "else".
-> 
-> > +		/* Deny if reads are unconditionally disabled via param */
-> > +		if (static_branch_unlikely(&restrict_proc_mem[2]))
-> > +			return -EACCES;
-> > +
-> > +		/* Deny if reads are allowed only for ptracers via param */
-> > +		if (static_branch_unlikely(&restrict_proc_mem[3]) &&
-> > +		    !__mem_open_current_is_ptracer(file))
-> > +			return -EACCES;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  static int mem_open(struct inode *inode, struct file *file)
-> >  {
-> > -	int ret = __mem_open(inode, file, PTRACE_MODE_ATTACH);
-> > +	int ret;
-> > +
-> > +	ret = __mem_open_check_access_restriction(file);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret = __mem_open(inode, file, PTRACE_MODE_ATTACH);
-> >  
-> >  	/* OK to pass negative loff_t, we can catch out-of-range */
-> >  	file->f_mode |= FMODE_UNSIGNED_OFFSET;
-> > @@ -835,6 +919,20 @@ static int mem_open(struct inode *inode, struct file *file)
-> >  	return ret;
-> >  }
-> >  
-> > +static unsigned int __mem_rw_get_foll_force_flag(struct file *file)
-> > +{
-> > +	/* Deny if FOLL_FORCE is disabled via param */
-> > +	if (static_branch_unlikely(&restrict_proc_mem[4]))
-> > +		return 0;
-> > +
-> > +	/* Deny if FOLL_FORCE is allowed only for ptracers via param */
-> > +	if (static_branch_unlikely(&restrict_proc_mem[5]) &&
-> > +	    !__mem_open_current_is_ptracer(file))
-> 
-> This is like the ToCToU: the task may have changed out from under us
-> between the open the read/write.
 
-But why would you care? As long as the task is the ptracer it doesn't
-really matter afaict.
+On 03.05.24 01:32, Zeng, Oak wrote:
+> Hi Leon, Jason
+>
+>> -----Original Message-----
+>> From: Leon Romanovsky <leon@kernel.org>
+>> Sent: Tuesday, March 5, 2024 6:19 AM
+>> To: Christoph Hellwig <hch@lst.de>; Robin Murphy
+>> <robin.murphy@arm.com>; Marek Szyprowski
+>> <m.szyprowski@samsung.com>; Joerg Roedel <joro@8bytes.org>; Will
+>> Deacon <will@kernel.org>; Jason Gunthorpe <jgg@ziepe.ca>; Chaitanya
+>> Kulkarni <chaitanyak@nvidia.com>
+>> Cc: Jonathan Corbet <corbet@lwn.net>; Jens Axboe <axboe@kernel.dk>;
+>> Keith Busch <kbusch@kernel.org>; Sagi Grimberg <sagi@grimberg.me>;
+>> Yishai Hadas <yishaih@nvidia.com>; Shameer Kolothum
+>> <shameerali.kolothum.thodi@huawei.com>; Kevin Tian
+>> <kevin.tian@intel.com>; Alex Williamson <alex.williamson@redhat.com>;
+>> Jérôme Glisse <jglisse@redhat.com>; Andrew Morton <akpm@linux-
+>> foundation.org>; linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
+>> linux-block@vger.kernel.org; linux-rdma@vger.kernel.org;
+>> iommu@lists.linux.dev; linux-nvme@lists.infradead.org;
+>> kvm@vger.kernel.org; linux-mm@kvack.org; Bart Van Assche
+>> <bvanassche@acm.org>; Damien Le Moal
+>> <damien.lemoal@opensource.wdc.com>; Amir Goldstein
+>> <amir73il@gmail.com>; josef@toxicpanda.com; Martin K. Petersen
+>> <martin.petersen@oracle.com>; daniel@iogearbox.net; Dan Williams
+>> <dan.j.williams@intel.com>; jack@suse.com; Leon Romanovsky
+>> <leonro@nvidia.com>; Zhu Yanjun <zyjzyj2000@gmail.com>
+>> Subject: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two
+>> steps
+>>
+>> This is complimentary part to the proposed LSF/MM topic.
+>> https://lore.kernel.org/linux-rdma/22df55f8-cf64-4aa8-8c0b-
+>> b556c867b926@linux.dev/T/#m85672c860539fdbbc8fe0f5ccabdc05b40269057
+>>
+>> This is posted as RFC to get a feedback on proposed split, but RDMA, VFIO
+>> and
+>> DMA patches are ready for review and inclusion, the NVMe patches are still
+>> in
+>> progress as they require agreement on API first.
+>>
+>> Thanks
+>>
+>> -------------------------------------------------------------------------------
+>> The DMA mapping operation performs two steps at one same time: allocates
+>> IOVA space and actually maps DMA pages to that space. This one shot
+>> operation works perfectly for non-complex scenarios, where callers use
+>> that DMA API in control path when they setup hardware.
+>>
+>> However in more complex scenarios, when DMA mapping is needed in data
+>> path and especially when some sort of specific datatype is involved,
+>> such one shot approach has its drawbacks.
+>>
+>> That approach pushes developers to introduce new DMA APIs for specific
+>> datatype. For example existing scatter-gather mapping functions, or
+>> latest Chuck's RFC series to add biovec related DMA mapping [1] and
+>> probably struct folio will need it too.
+>>
+>> These advanced DMA mapping APIs are needed to calculate IOVA size to
+>> allocate it as one chunk and some sort of offset calculations to know
+>> which part of IOVA to map.
+>>
+>> Instead of teaching DMA to know these specific datatypes, let's separate
+>> existing DMA mapping routine to two steps and give an option to advanced
+>> callers (subsystems) perform all calculations internally in advance and
+>> map pages later when it is needed.
+> I looked into how this scheme can be applied to DRM subsystem and GPU drivers.
+>
+> I figured RDMA can apply this scheme because RDMA can calculate the iova size. Per my limited knowledge of rdma, user can register a memory region (the reg_user_mr vfunc) and memory region's sized is used to pre-allocate iova space. And in the RDMA use case, it seems the user registered region can be very big, e.g., 512MiB or even GiB
+>
+> In GPU driver, we have a few use cases where we need dma-mapping. Just name two:
+>
+> 1) userptr: it is user malloc'ed/mmap'ed memory and registers to gpu (in Intel's driver it is through a vm_bind api, similar to mmap). A userptr can be of any random size, depending on user malloc size. Today we use dma-map-sg for this use case. The down side of our approach is, during userptr invalidation, even if user only munmap partially of an userptr, we invalidate the whole userptr from gpu page table, because there is no way for us to partially dma-unmap the whole sg list. I think we can try your new API in this case. The main benefit of the new approach is the partial munmap case.
+>
+> We will have to pre-allocate iova for each userptr, and we have many userptrs of random size... So we might be not as efficient as RDMA case where I assume user register a few big memory regions.
+>
+> 2) system allocator: it is malloc'ed/mmap'ed memory be used for GPU program directly, without any other extra driver API call. We call this use case system allocator.
+>
+> For system allocator, driver have no knowledge of which virtual address range is valid in advance. So when GPU access a malloc'ed/mmap'ed address, we have a page fault. We then look up a CPU vma which contains the fault address. I guess we can use the CPU vma size to allocate the iova space of the same size?
+>
+> But there will be a true difficulty to apply your scheme to this use case. It is related to the STICKY flag. As I understand it, the sticky flag is designed for driver to mark "this page/pfn has been populated, no need to re-populate again", roughly...Unlike userptr and RDMA use cases where the backing store of a buffer is always in system memory, in the system allocator use case, the backing store can be changing b/t system memory and GPU's device private memory. Even worse, we have to assume the data migration b/t system and GPU is dynamic. When data is migrated to GPU, we don't need dma-map. And when migration happens to a pfn with STICKY flag, we still need to repopulate this pfn. So you can see, it is not easy to apply this scheme to this use case. At least I can't see an obvious way.
+
+Not sure if GPU peer to peer dma mapping GPU memory for use can use this 
+scheme or not. If I remember it correctly, Intel Gaudi GPU supports peer 
+2 peer dma mapping in GPU Direct RDMA. Not sure if this scheme can be 
+applied in that place or not.
+
+Just my 2 cent suggestions.
+
+Zhu Yanjun
+
+>
+>
+> Oak
+>
+>
+>> In this series, three users are converted and each of such conversion
+>> presents different positive gain:
+>> 1. RDMA simplifies and speeds up its pagefault handling for
+>>     on-demand-paging (ODP) mode.
+>> 2. VFIO PCI live migration code saves huge chunk of memory.
+>> 3. NVMe PCI avoids intermediate SG table manipulation and operates
+>>     directly on BIOs.
+>>
+>> Thanks
+>>
+>> [1]
+>> https://lore.kernel.org/all/169772852492.5232.17148564580779995849.stgit@
+>> klimt.1015granger.net
+>>
+>> Chaitanya Kulkarni (2):
+>>    block: add dma_link_range() based API
+>>    nvme-pci: use blk_rq_dma_map() for NVMe SGL
+>>
+>> Leon Romanovsky (14):
+>>    mm/hmm: let users to tag specific PFNs
+>>    dma-mapping: provide an interface to allocate IOVA
+>>    dma-mapping: provide callbacks to link/unlink pages to specific IOVA
+>>    iommu/dma: Provide an interface to allow preallocate IOVA
+>>    iommu/dma: Prepare map/unmap page functions to receive IOVA
+>>    iommu/dma: Implement link/unlink page callbacks
+>>    RDMA/umem: Preallocate and cache IOVA for UMEM ODP
+>>    RDMA/umem: Store ODP access mask information in PFN
+>>    RDMA/core: Separate DMA mapping to caching IOVA and page linkage
+>>    RDMA/umem: Prevent UMEM ODP creation with SWIOTLB
+>>    vfio/mlx5: Explicitly use number of pages instead of allocated length
+>>    vfio/mlx5: Rewrite create mkey flow to allow better code reuse
+>>    vfio/mlx5: Explicitly store page list
+>>    vfio/mlx5: Convert vfio to use DMA link API
+>>
+>>   Documentation/core-api/dma-attributes.rst |   7 +
+>>   block/blk-merge.c                         | 156 ++++++++++++++
+>>   drivers/infiniband/core/umem_odp.c        | 219 +++++++------------
+>>   drivers/infiniband/hw/mlx5/mlx5_ib.h      |   1 +
+>>   drivers/infiniband/hw/mlx5/odp.c          |  59 +++--
+>>   drivers/iommu/dma-iommu.c                 | 129 ++++++++---
+>>   drivers/nvme/host/pci.c                   | 220 +++++--------------
+>>   drivers/vfio/pci/mlx5/cmd.c               | 252 ++++++++++++----------
+>>   drivers/vfio/pci/mlx5/cmd.h               |  22 +-
+>>   drivers/vfio/pci/mlx5/main.c              | 136 +++++-------
+>>   include/linux/blk-mq.h                    |   9 +
+>>   include/linux/dma-map-ops.h               |  13 ++
+>>   include/linux/dma-mapping.h               |  39 ++++
+>>   include/linux/hmm.h                       |   3 +
+>>   include/rdma/ib_umem_odp.h                |  22 +-
+>>   include/rdma/ib_verbs.h                   |  54 +++++
+>>   kernel/dma/debug.h                        |   2 +
+>>   kernel/dma/direct.h                       |   7 +-
+>>   kernel/dma/mapping.c                      |  91 ++++++++
+>>   mm/hmm.c                                  |  34 +--
+>>   20 files changed, 870 insertions(+), 605 deletions(-)
+>>
+>> --
+>> 2.44.0
+
+-- 
+Best Regards,
+Yanjun.Zhu
+
