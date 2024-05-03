@@ -1,82 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1284D139CE9;
-	Fri,  3 May 2024 07:22:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D54C5148313;
+	Fri,  3 May 2024 08:20:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714720936; cv=none; b=RWm9WGOacoZ0XNVpHTsjJkHlYbMeJ2NZ3xa2BOLgi93D5NSfE8/fciHo7f+4H/5jW7xmx8VQ8zq0XT7mw4JPlJ2DMwbtDat6ihsKIX+BlOPgRyiPFoUGNyRwisYxjr5+owREU3dnByfvqhJWX0P5fgIoxlVOsCj07mYS1KHXp0w=
+	t=1714724423; cv=none; b=tp5Eb+XRjmQZNjk6tfq+SPdtMzNWmlGIvDbWKNro2Tba3bGZf/R3+nVSCV/dmJhaH5iCnfU2OO6sfRppYG8kvxBJZe31nCTrm8c5iBYV8TVSbR2uCD2G3vQSv+mv6fWI0YNKhkFKbbOUGIy21bAKaFK6dop0YQ1PW+gYfWEH4ao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714720936; c=relaxed/simple;
-	bh=mZNPNHX5QiwkCs1px6XTXA4O8VZL26IIA1+vNZMfaKk=;
+	s=arc-20240116; t=1714724423; c=relaxed/simple;
+	bh=MNIFnx2qTxrjZunIYAyHq5H9qZ0uBcjf4J51U8fNhhU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dsi3IkGLkHe2Nk6y8yhlObZ8c1GtgvB5A77isX1tiA1dsu/3e8iMlHwo5oX4RfVH4Vcbp3o+h413atJ4YBlmXE/nWg+m9mlWxo8a9pGbb3lPuSLkZ9X/UuaeO45vZ1R2jRtewyvtggKR2KMU4tlhk8Mu5L6np6JZH8l1ZtHk80c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DV/8co1T; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZUYDFnyjdsE5FFthjcIFjA0UwTEkc2yD5O/lpIqtkGE0JTDnvwppO5QybEcCJM313TO3bhsEYSn0JUclB7LoPh8OmD/MoPaZBmz13726YTzvwCIp9w+Q2X/Ui880kfKEdDwZEURZlyAISOUPkZf1meNLdSWupkZxBatR5b8n6Dg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kcghk5aV; arc=none smtp.client-ip=209.85.161.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DV/8co1T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0F5FC116B1;
-	Fri,  3 May 2024 07:22:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714720935;
-	bh=mZNPNHX5QiwkCs1px6XTXA4O8VZL26IIA1+vNZMfaKk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DV/8co1TuP/SJrKaa0GQ+YPhnyBWPIogJCCdGUTxRgLO6QHJFRt1woa2XR8ZwCMkg
-	 itvc0Ba0lxHjrfRC0sfinStBVhf5B+zBJA1kfftHqlsKUdVrBjjQKjkXhPmjsmodl9
-	 t0KhF2aVOB5WUtUIkcLEC3TiDOss4uWEZAQ2Js5WtCqWBflTHV8jcjTjQtr5rF1QFS
-	 DB0W5E2wgBDuhq+jiKMFBbdMyuY9yfaVsP/tIZkKF4opFmerXRdyfh5qX0I6YltFsf
-	 POq7K3Z4Nl/R3sVyYRhGeUGGo/ju68pylf/cBVKCTgbQ9/uOJ9HgYAW46HCMrb8E0v
-	 iUwXndyRg7lsg==
-Date: Fri, 3 May 2024 08:22:10 +0100
-From: Lee Jones <lee@kernel.org>
-To: Aryabhatta Dey <aryabhattadey35@gmail.com>
-Cc: linux-leds@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, pavel@ucw.cz, corbet@lwn.net,
-	skhan@linuxfoundation.org, javier.carrasco.cruz@gmail.com
-Subject: Re: [PATCH] Fix typo
-Message-ID: <20240503072210.GF1227636@google.com>
-References: <y5bqy3p7deaemny5sczd33zy2dwtbqvucgrq6wxqs7ibf4omwb@kpd2gwfve2ax>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kcghk5aV"
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-5aa2bd6f651so5963236eaf.0;
+        Fri, 03 May 2024 01:20:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714724421; x=1715329221; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3hH1YXLlyA1Xepv5zeFpL8G//5XUCXH9AjpKXyKmtRc=;
+        b=Kcghk5aVMyBY1/vaFpDT3trMyEoFIiG2BulFKLaVKsP5FwNn40HTfEWWpK5DDNVTgF
+         QOUWBCwLeV4JcnPbSPpQRr0UlvB60DNVHhXHx8X+DR465UtvA8x4FYtTggC7fb6knK+9
+         mKLocIAZT3+VS+9fS8WCoqD1KeJN2dfUhqzeZ4II+keRIrsSm9tqNTUmppGJQCbwb7gC
+         z/wt8FQq0QdVEA8LueqyEw5TPWdkR5oJo4WQOJwmHpV2C5ImV6DBQywIPGHXEn+RoPPo
+         QnRkGG2UM3/UPUHgKJJvl0IQwhKxlEvwAt6BThFssga22yBzYzCzKswzQHJTjrPvPsLC
+         aCQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714724421; x=1715329221;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3hH1YXLlyA1Xepv5zeFpL8G//5XUCXH9AjpKXyKmtRc=;
+        b=XnvFMubc1BxFZ5Xiga7eCANTA8OdRMWejQXxwcAKEWlOfvX4HpunToPPQ5RXwNrIAB
+         yILqLUfd0g3y2ZEQdkjz6xchtWpSFC0aFTKEO8shfhwIEhbmXGnBkhq/cABPbH59tkF3
+         CFlY7yGQKm/xJlWTN402s1v4A4Eg0DdgsmfwnvlFwYbvNDD+u2e3aNEVOvBnCZqEFYFj
+         3EMm7e3NTK0sFv5m9HXxX4r0ntk74EXYDqwM8EwIXaef+360iUOE8F5vmRe06KjiUxRd
+         1bMdnqyMRw58gbNaoIuE1cujuueXI2qyov2fRV8vfJ8mxF1PP+HArWZ1Wnymx6dayiTw
+         Yomw==
+X-Forwarded-Encrypted: i=1; AJvYcCUmEsR+iyQsb9LrCWA2+nPxK22DdzixRHSTBPtDlodKVtYJgACfUnH+JrBqksULpqjn6bIUJt70dJVzcQLmAhxRxi5M1WWfXx6YrObfUSS8LfU1H2XmOTqTq3wjyC1mWwFdOylpQ8zvAEHDs+DbAw2AZcthQlSsUnvIfnuGZcsOgw==
+X-Gm-Message-State: AOJu0Ywq2Krjtr+zSEIZIXUnQ2NPXOD8M5vmc4elMA2dffNsYj9m2eIX
+	b4IUTIeTs3EdjF0VUccSoyrN2ZNBrTG/SbX/IKnWaLJ/CH4frHFr
+X-Google-Smtp-Source: AGHT+IGX/ND1xY8XwJ5CXNf6LkUuVIkOsSBWoWuk/E0wuSsHPBhj9ByTB65T3ot42p7umDDjfusQnw==
+X-Received: by 2002:a05:6358:5912:b0:18d:7755:8219 with SMTP id g18-20020a056358591200b0018d77558219mr1767900rwf.32.1714724420825;
+        Fri, 03 May 2024 01:20:20 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id bz20-20020a056a02061400b005f7fed76e59sm2283395pgb.78.2024.05.03.01.20.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 May 2024 01:20:20 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 86C7218462B27; Fri, 03 May 2024 15:20:17 +0700 (WIB)
+Date: Fri, 3 May 2024 15:20:17 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Usama Arif <usamaarif642@gmail.com>, hannes@cmpxchg.org, tj@kernel.org,
+	lizefan.x@bytedance.com, nphamcs@gmail.com, corbet@lwn.net
+Cc: linux-mm@kvack.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v2 1/1] cgroup: Add documentation for missing zswap
+ memory.stat
+Message-ID: <ZjSeQaPR90gV61xp@archie.me>
+References: <20240502185307.3942173-1-usamaarif642@gmail.com>
+ <20240502185307.3942173-2-usamaarif642@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="crh03WeP2jR7Qlt/"
+Content-Disposition: inline
+In-Reply-To: <20240502185307.3942173-2-usamaarif642@gmail.com>
+
+
+--crh03WeP2jR7Qlt/
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <y5bqy3p7deaemny5sczd33zy2dwtbqvucgrq6wxqs7ibf4omwb@kpd2gwfve2ax>
+Content-Transfer-Encoding: quoted-printable
 
-Intentional top-post referencing the subject line:
+On Thu, May 02, 2024 at 07:50:24PM +0100, Usama Arif wrote:
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admi=
+n-guide/cgroup-v2.rst
+> index 17e6e9565156..eaf9e66e472a 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -1572,6 +1572,15 @@ PAGE_SIZE multiple when read back.
+>  	  pglazyfreed (npn)
+>  		Amount of reclaimed lazyfree pages
+> =20
+> +	  zswpin
+> +		Number of pages moved in to memory from zswap.
+> +
+> +	  zswpout
+> +		Number of pages moved out of memory to zswap.
+> +
+> +	  zswpwb
+> +		Number of pages written from zswap to swap.
+> +
+>  	  thp_fault_alloc (npn)
+>  		Number of transparent hugepages which were allocated to satisfy
+>  		a page fault. This counter is not present when CONFIG_TRANSPARENT_HUGE=
+PAGE
 
-Please provide a subject that is befitting of the project/subsystem.
+LGTM, thanks!
 
-`git log --oneline -- <file>` is your friend.
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-On Fri, 03 May 2024, Aryabhatta Dey wrote:
+--=20
+An old man doll... just what I always wanted! - Clara
 
-> Change 'dasy-chain' to 'daisy-chain'.
-> 
-> Signed-off-by: Aryabhatta Dey <aryabhattadey35@gmail.com>
-> ---
->  Documentation/leds/leds-blinkm.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/leds/leds-blinkm.rst b/Documentation/leds/leds-blinkm.rst
-> index c74b5bc877b1..2d3c226a371a 100644
-> --- a/Documentation/leds/leds-blinkm.rst
-> +++ b/Documentation/leds/leds-blinkm.rst
-> @@ -7,7 +7,7 @@ The leds-blinkm driver supports the devices of the BlinkM family.
->  They are RGB-LED modules driven by a (AT)tiny microcontroller and
->  communicate through I2C. The default address of these modules is
->  0x09 but this can be changed through a command. By this you could
-> -dasy-chain up to 127 BlinkMs on an I2C bus.
-> +daisy-chain up to 127 BlinkMs on an I2C bus.
->  
->  The device accepts RGB and HSB color values through separate commands.
->  Also you can store blinking sequences as "scripts" in
-> -- 
-> 2.44.0
-> 
+--crh03WeP2jR7Qlt/
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-Lee Jones [李琼斯]
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZjSePQAKCRD2uYlJVVFO
+o66XAQCCDUlqsMuoqiEoVUacN+LWFuXAOwveu8ll93ptMzCLuAD+PmqqrXvbV07D
+GbRC9OsCb8v87evI9zIURxytHAfibw4=
+=No1B
+-----END PGP SIGNATURE-----
+
+--crh03WeP2jR7Qlt/--
