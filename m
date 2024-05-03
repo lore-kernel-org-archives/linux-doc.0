@@ -1,197 +1,214 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 372C4156C5E
-	for <linux-doc@vger.kernel.org>; Fri,  3 May 2024 16:42:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D54157A4F;
+	Fri,  3 May 2024 16:59:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714754563; cv=none; b=KLOPH82oAdrPJD0fU79d1ppdL7nRSeg2/1q+vEZ6ArEXPsClNgJ74+6zsTMDJUjNKHpXVmFtv0Yx2FMVyGBRHV+OqMxqiv2JRD1Hp7bWpOFOruBBfvdVtge7AFcUQK+CqPmBhkCI/TW4dnlByvyrumhUpzeuve8yyQumQlFeQxk=
+	t=1714755580; cv=none; b=Ju7EKA/KDCIyeLhciAMnui4RlVlc3Qo2qXPY+QhbQgtXK3qqg+fTd3sF7wSIam4FhDrSzrBMCtyAznlF10DkEywZr0G2loyi7zu3nMmsMFjlNDZjYo6Cr29DaLb+N2NcI+SAaODWNDk8HfyhCZE2NUwSpeCDLVgwBfA7zf84xdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714754563; c=relaxed/simple;
-	bh=yC4oGgKTnqIzx0SwseiUuBVl6ikYuhNImy0LdahK+hY=;
+	s=arc-20240116; t=1714755580; c=relaxed/simple;
+	bh=vvcBvT6k7MW9lcqkcTuHTUlXRCysGywOkQMNFUqI1HM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yk3YEZZwOF0wzS/prtgDSCwitnHHGT4cuLQ9AcV6F7JT1LZseBgXjDnSarHnDf+9mmxAunVU2y0qWtOqX5VetoConhqbn1eRkqxLEFjrR80zI92gt+bTzN9gbchIUIKElrFyzkSsxMRGJTQnClXU5qOcSOG7y+43HeEEgV/ThwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=TE0zOntu; arc=none smtp.client-ip=209.85.210.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	 Content-Type:Content-Disposition:In-Reply-To; b=SYNi/fey5p6lBiSY3e873qiz5YA59e03nQI+wjS3n3n0jdwHH8sFZJzUq9ggQDNfswHB2nFzM987Xl3FIn91x/4v4EEjhAYGWQ96W5rghjrCRb0/yDESyApfeUnCsHivljadneC6a8e1mFtxjWV9dJboaGIeRM62Z7lcNTUf648=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iSZFWd59; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="TE0zOntu"
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-6ee55714625so1774759a34.0
-        for <linux-doc@vger.kernel.org>; Fri, 03 May 2024 09:42:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1714754561; x=1715359361; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=9MCkvEl6vfBsR3xGXbm5ipuSQzsyNXlO2daQS9IANas=;
-        b=TE0zOntu+3apuUKJVLSWkF78FO0PGQCdxodCLGmkOG0wDvF3GWppAPWCmWBOQEOVP7
-         YJ0Awj7odvTnTxD7vMXpoZopROrJtOXzJGabZ2jhSyO+WopjtgVDLsz4G+jXyfSm4UF4
-         EiNl9NasSl5dKmhqBeXXbIPT0YdbeujHt75WCQoNJpGi1zArUz2uf+scBJO1IVeny7rA
-         7J/LRfVdPcY9Qbl8U/57m+oK1acU2EgPsYIT3f5ACWjsN4eIJbE4Pv3Q5vCn1+YCHw30
-         0ZNw1sxQvHLt0Qd4fsCjym+bhijRBVpaf21oauLcQxGy0r/Im7WfZStR2gC6XmaOBkMB
-         Cvcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714754561; x=1715359361;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9MCkvEl6vfBsR3xGXbm5ipuSQzsyNXlO2daQS9IANas=;
-        b=Ek5O6DyMTOnjLf8t3L7dG6EGV8ujtb3HNIToapVAo3uB7zGhUCnttXV0BFOQ0vyBwz
-         6WItLOvjonllRXczU4rFOYuI6hV9gndajGbnemGKYMR/+DgkxivB+cR+3X5rPEsIQszq
-         eeCWJgE5cSYTw9e5C+nqX3bGfUtmvS9JYbbalpztdNO2cp0jjJLgcQwKq+FkYz1KNmyy
-         WqnBLkls2bZaNzfNAoSRiqrTlKF/bTei5xJV0sMdpBDQtyYXPQKWS1eEYxnc+l7yhekI
-         zVJAPa9yzkxP5CDX627GIIc7eC5m9WHt3Q5kYwscCLBYeBsV+8WN90J/iqS1x+zgxQC9
-         5VAA==
-X-Forwarded-Encrypted: i=1; AJvYcCUMgPxWHV6AfMjy9iYF26P+TKPjf37s5AM1jhFkcNeUk+7MC6CV9IOoASOvjs6cmPSLtWxrfOzmXI0STOzm1rHmjhHFrZpBA0XV
-X-Gm-Message-State: AOJu0YzpRASEp3g5Tga44Ux6eJjRhr8wF9/Wq83EYfYMK/cy2S0zjkvO
-	TJJ+sszbTSVlCnamz9xTuTbDhCR6VzpmnO3uNplz+buyq++iCDNqyJPiEUvMsS/FLOXtSbYkPs2
-	kQMQ=
-X-Google-Smtp-Source: AGHT+IFVT2rAsXVdMpvr8pAPF1WuNA1CE6Xv9L67MOMLKugSh13tMbQmSyNxDuuJNWHb/QOcrYHVYQ==
-X-Received: by 2002:a05:6830:33fb:b0:6ee:1cc5:68c3 with SMTP id i27-20020a05683033fb00b006ee1cc568c3mr3499852otu.12.1714754561211;
-        Fri, 03 May 2024 09:42:41 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-68-80-239.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.80.239])
-        by smtp.gmail.com with ESMTPSA id ca14-20020a056830610e00b006ee5b409f23sm701317otb.22.2024.05.03.09.42.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 May 2024 09:42:40 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.95)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1s2vzb-007ETb-4i;
-	Fri, 03 May 2024 13:42:39 -0300
-Date: Fri, 3 May 2024 13:42:39 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: "Zeng, Oak" <oak.zeng@intel.com>
-Cc: "leon@kernel.org" <leon@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	"Brost, Matthew" <matthew.brost@intel.com>,
-	"Hellstrom, Thomas" <thomas.hellstrom@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	"Tian, Kevin" <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Amir Goldstein <amir73il@gmail.com>,
-	"josef@toxicpanda.com" <josef@toxicpanda.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	"daniel@iogearbox.net" <daniel@iogearbox.net>,
-	"Williams, Dan J" <dan.j.williams@intel.com>,
-	"jack@suse.com" <jack@suse.com>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	Zhu Yanjun <zyjzyj2000@gmail.com>
-Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two steps
-Message-ID: <20240503164239.GB901876@ziepe.ca>
-References: <cover.1709635535.git.leon@kernel.org>
- <SA1PR11MB6991CB2B1398948F4241E51992182@SA1PR11MB6991.namprd11.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iSZFWd59"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 628B6C116B1;
+	Fri,  3 May 2024 16:59:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714755579;
+	bh=vvcBvT6k7MW9lcqkcTuHTUlXRCysGywOkQMNFUqI1HM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iSZFWd59XXPmDZD6g5k7lZqj9fhC5u3o0luW/c5v43i4PLwlWbXjXuiY7N/3Fvkza
+	 yiQ37uooXGmhvimq+ipEQWfK3NPQfx/1/tD4/5/ogAOlsLqeUlrpsHPE6dANieeQFC
+	 cge9SuF/YFnaDxfmcjxIXZJwozDA3V84vpeebfsY8I1LS3xbISHfZ/gRHKADcqGQh9
+	 u9WMYt2Ddy2vLdxSJddz61dweY5vVxx5LBfKA88HfgdsszY8mhgovfZGHgBBbsD229
+	 THtCmjgqQ7EmoIuIH2J/WBAM39ocQQ2jpO73EWTR7nmDgZuqhvw6UWwiBT7RfznI2N
+	 6p8Gzjc+xmlug==
+Date: Fri, 3 May 2024 17:59:33 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Evan Green <evan@rivosinc.com>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v5 03/17] riscv: vector: Use vlenb from DT
+Message-ID: <20240503-zippy-skeletal-e5f63c9f17c1@spud>
+References: <20240502-dev-charlie-support_thead_vector_6_9-v5-0-d1b5c013a966@rivosinc.com>
+ <20240502-dev-charlie-support_thead_vector_6_9-v5-3-d1b5c013a966@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="Jm1skXhSfPF6Cfdj"
+Content-Disposition: inline
+In-Reply-To: <20240502-dev-charlie-support_thead_vector_6_9-v5-3-d1b5c013a966@rivosinc.com>
+
+
+--Jm1skXhSfPF6Cfdj
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <SA1PR11MB6991CB2B1398948F4241E51992182@SA1PR11MB6991.namprd11.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 02, 2024 at 11:32:55PM +0000, Zeng, Oak wrote:
+On Thu, May 02, 2024 at 09:46:38PM -0700, Charlie Jenkins wrote:
+> If vlenb is provided in the device tree, prefer that over reading the
+> vlenb csr.
+>=20
+> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> ---
+>  arch/riscv/include/asm/cpufeature.h |  2 ++
+>  arch/riscv/kernel/cpufeature.c      | 43 +++++++++++++++++++++++++++++++=
+++++++
+>  arch/riscv/kernel/vector.c          | 12 ++++++++++-
+>  3 files changed, 56 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm=
+/cpufeature.h
+> index 347805446151..0c4f08577015 100644
+> --- a/arch/riscv/include/asm/cpufeature.h
+> +++ b/arch/riscv/include/asm/cpufeature.h
+> @@ -31,6 +31,8 @@ DECLARE_PER_CPU(struct riscv_cpuinfo, riscv_cpuinfo);
+>  /* Per-cpu ISA extensions. */
+>  extern struct riscv_isainfo hart_isa[NR_CPUS];
+> =20
+> +extern u32 riscv_vlenb_of;
+> +
+>  void riscv_user_isa_enable(void);
+> =20
+>  #if defined(CONFIG_RISCV_MISALIGNED)
+> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
+e.c
+> index 3ed2359eae35..12c79db0b0bb 100644
+> --- a/arch/riscv/kernel/cpufeature.c
+> +++ b/arch/riscv/kernel/cpufeature.c
+> @@ -35,6 +35,8 @@ static DECLARE_BITMAP(riscv_isa, RISCV_ISA_EXT_MAX) __r=
+ead_mostly;
+>  /* Per-cpu ISA extensions. */
+>  struct riscv_isainfo hart_isa[NR_CPUS];
+> =20
+> +u32 riscv_vlenb_of;
+> +
+>  /**
+>   * riscv_isa_extension_base() - Get base extension word
+>   *
+> @@ -648,6 +650,42 @@ static int __init riscv_isa_fallback_setup(char *__u=
+nused)
+>  early_param("riscv_isa_fallback", riscv_isa_fallback_setup);
+>  #endif
+> =20
+> +static int has_riscv_homogeneous_vlenb(void)
+> +{
+> +	int cpu;
+> +	u32 prev_vlenb =3D 0;
+> +	u32 vlenb;
+> +
+> +	for_each_possible_cpu(cpu) {
+> +		struct device_node *cpu_node;
+> +
+> +		cpu_node =3D of_cpu_device_node_get(cpu);
+> +		if (!cpu_node) {
+> +			pr_warn("Unable to find cpu node\n");
+> +			return -ENOENT;
+> +		}
+> +
+> +		if (of_property_read_u32(cpu_node, "riscv,vlenb", &vlenb)) {
+> +			of_node_put(cpu_node);
+> +
+> +			if (prev_vlenb)
+> +				return -ENOENT;
+> +			continue;
+> +		}
+> +
+> +		if (prev_vlenb && vlenb !=3D prev_vlenb) {
+> +			of_node_put(cpu_node);
+> +			return -ENOENT;
+> +		}
+> +
+> +		prev_vlenb =3D vlenb;
+> +		of_node_put(cpu_node);
+> +	}
+> +
+> +	riscv_vlenb_of =3D vlenb;
+> +	return 0;
+> +}
+> +
+>  void __init riscv_fill_hwcap(void)
+>  {
+>  	char print_str[NUM_ALPHA_EXTS + 1];
+> @@ -671,6 +709,11 @@ void __init riscv_fill_hwcap(void)
+>  			pr_info("Falling back to deprecated \"riscv,isa\"\n");
+>  			riscv_fill_hwcap_from_isa_string(isa2hwcap);
+>  		}
+> +
+> +		if (elf_hwcap & COMPAT_HWCAP_ISA_V && has_riscv_homogeneous_vlenb() < =
+0) {
 
-> > Instead of teaching DMA to know these specific datatypes, let's separate
-> > existing DMA mapping routine to two steps and give an option to advanced
-> > callers (subsystems) perform all calculations internally in advance and
-> > map pages later when it is needed.
-> 
-> I looked into how this scheme can be applied to DRM subsystem and GPU drivers. 
-> 
-> I figured RDMA can apply this scheme because RDMA can calculate the
-> iova size. Per my limited knowledge of rdma, user can register a
-> memory region (the reg_user_mr vfunc) and memory region's sized is
-> used to pre-allocate iova space. And in the RDMA use case, it seems
-> the user registered region can be very big, e.g., 512MiB or even GiB
+I still think this isn't quite right, as it will emit a warning when
+RISCV_ISA_V is disabled. The simplest thing to do probably is just
+add an `if (IS_ENABLED(CONFIG_RISCV_ISA_V) return 0` shortcut the to
+function? It'll get disabled a few lines later so I think a zero is
+safe.
 
-In RDMA the iova would be linked to the SVA granual we discussed
-previously.
+> +			pr_warn("Unsupported heterogeneous vlen detected, vector extension di=
+sabled.\n");
+> +			elf_hwcap &=3D ~COMPAT_HWCAP_ISA_V;
+> +		}
+>  	}
+> =20
+>  	/*
+> diff --git a/arch/riscv/kernel/vector.c b/arch/riscv/kernel/vector.c
+> index 6727d1d3b8f2..e04586cdb7f0 100644
+> --- a/arch/riscv/kernel/vector.c
+> +++ b/arch/riscv/kernel/vector.c
+> @@ -33,7 +33,17 @@ int riscv_v_setup_vsize(void)
+>  {
+>  	unsigned long this_vsize;
+> =20
+> -	/* There are 32 vector registers with vlenb length. */
+> +	/*
+> +	 * There are 32 vector registers with vlenb length.
+> +	 *
+> +	 * If the riscv,vlenb property was provided by the firmware, use that
+> +	 * instead of probing the CSRs.
+> +	 */
+> +	if (riscv_vlenb_of) {
+> +		this_vsize =3D riscv_vlenb_of * 32;
+> +		return 0;
+> +	}
+> +
+>  	riscv_v_enable();
+>  	this_vsize =3D csr_read(CSR_VLENB) * 32;
+>  	riscv_v_disable();
+>=20
+> --=20
+> 2.44.0
+>=20
 
-> In GPU driver, we have a few use cases where we need dma-mapping. Just name two:
-> 
-> 1) userptr: it is user malloc'ed/mmap'ed memory and registers to gpu
-> (in Intel's driver it is through a vm_bind api, similar to mmap). A
-> userptr can be of any random size, depending on user malloc
-> size. Today we use dma-map-sg for this use case. The down side of
-> our approach is, during userptr invalidation, even if user only
-> munmap partially of an userptr, we invalidate the whole userptr from
-> gpu page table, because there is no way for us to partially
-> dma-unmap the whole sg list. I think we can try your new API in this
-> case. The main benefit of the new approach is the partial munmap
-> case.
+--Jm1skXhSfPF6Cfdj
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Yes, this is one of the main things it will improve.
- 
-> We will have to pre-allocate iova for each userptr, and we have many
-> userptrs of random size... So we might be not as efficient as RDMA
-> case where I assume user register a few big memory regions.
+-----BEGIN PGP SIGNATURE-----
 
-You are already doing this. dma_map_sg() does exactly the same IOVA
-allocation under the covers.
- 
-> 2) system allocator: it is malloc'ed/mmap'ed memory be used for GPU
-> program directly, without any other extra driver API call. We call
-> this use case system allocator.
- 
-> For system allocator, driver have no knowledge of which virtual
-> address range is valid in advance. So when GPU access a
-> malloc'ed/mmap'ed address, we have a page fault. We then look up a
-> CPU vma which contains the fault address. I guess we can use the CPU
-> vma size to allocate the iova space of the same size?
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZjUX9QAKCRB4tDGHoIJi
+0rXxAQDDUnlsnbkBc4xorvMXBorwh8UuxTwps60RTP8U5kKaKwD/RTwTniatfEGc
+LN74K3N4cTgYcOwsuNu6rNRBb5lk5Ao=
+=d5rs
+-----END PGP SIGNATURE-----
 
-No. You'd follow what we discussed in the other thread.
-
-If you do a full SVA then you'd split your MM space into granuals and
-when a fault hits a granual you'd allocate the IOVA for the whole
-granual. RDMA ODP is using a 512M granual currently.
-
-If you are doing sub ranges then you'd probably allocate the IOVA for
-the well defined sub range (assuming the typical use case isn't huge)
-
-> But there will be a true difficulty to apply your scheme to this use
-> case. It is related to the STICKY flag. As I understand it, the
-> sticky flag is designed for driver to mark "this page/pfn has been
-> populated, no need to re-populate again", roughly...Unlike userptr
-> and RDMA use cases where the backing store of a buffer is always in
-> system memory, in the system allocator use case, the backing store
-> can be changing b/t system memory and GPU's device private
-> memory. Even worse, we have to assume the data migration b/t system
-> and GPU is dynamic. When data is migrated to GPU, we don't need
-> dma-map. And when migration happens to a pfn with STICKY flag, we
-> still need to repopulate this pfn. So you can see, it is not easy to
-> apply this scheme to this use case. At least I can't see an obvious
-> way.
-
-You are already doing this today, you are keeping the sg list around
-until you unmap it.
-
-Instead of keeping the sg list you'd keep a much smaller datastructure
-per-granual. The sticky bit is simply a convient way for ODP to manage
-the smaller data structure, you don't have to use it.
-
-But you do need to keep track of what pages in the granual have been
-DMA mapped - sg list was doing this before. This could be a simple
-bitmap array matching the granual size.
-
-Looking (far) forward we may be able to have a "replace" API that
-allows installing a new page unconditionally regardless of what is
-already there.
-
-Jason
+--Jm1skXhSfPF6Cfdj--
