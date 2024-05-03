@@ -1,87 +1,300 @@
-Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A9559B4E
-	for <linux-doc@vger.kernel.org>; Fri,  3 May 2024 22:13:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5937D82C88;
+	Fri,  3 May 2024 22:32:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714774401; cv=none; b=YhUffmIlDRHpZuWbLq6ozT4r69b/2zisG5T9nexF3pmuphZE1znOk5SaJTG/57nQPq4JsHHAq5cH80SWBIRdQ74rQcItOB+0Hyz1w6rIJBXYvow258L/j+MO35nlIeJARxcu3M7wCHKequAz4OhVueVM5qAfeuDONaa18tZHS9g=
+	t=1714775556; cv=none; b=PiSaX8uU0lpalNDCgAMFimB/ydEJ80L7mzb6u5hGjYRWv/GHr9ajtEQfHRSB5uhN6qufRZpYEz6IjZw0o9OCDBv6ITierT1m2FcHGq8uFZeDOZiCIsS18eGbf2V1y051w5DA9pmwdiMGwChe7Y2xiURnht3DQhXve49gPb3tQC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714774401; c=relaxed/simple;
-	bh=tTu4T0YSToV5yW1ztczWGRMlzVAablQJ7IdHacuoYhE=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=l3lOp29elfHylHNjLWVfFCeK29y819i7Fpv28Jvg2Lzb0jzVEBuTF3CQDtOgrWuAi2F0L2UfIi2o+HuylWytfeonea1Keif8so6EFj3nKJqwMIlTJ5JjLZ6kqVdtkasAu48pr7pPRTwuYfVeHpdRhfsu8nqZYVjySwMdgHRupcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uTkfVglz; arc=none smtp.client-ip=209.85.219.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1714775556; c=relaxed/simple;
+	bh=0v1Zo4qQhCF7cuYTLut+HMo3yAsxmP/yI/WQ69PCOmE=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=QyloGsJRScd5Odydx3c0sl3M+nyY9ZCofJM68XY3+rOlebw4lgfp0oR/nbvWwQLpPkKaHcYmHYGHG6z9m1gTm2gz7frblMUvR1tTQFsCK58aoJ9jh2BSDokPcTf4Hznro+CkbnS3Kb5QC+5BMppez43kpLMjAhsSQOIwivX/vHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=q2o+8Itj; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uTkfVglz"
-Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-de60321ce6cso335019276.1
-        for <linux-doc@vger.kernel.org>; Fri, 03 May 2024 15:13:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1714774398; x=1715379198; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lPuqnqlQf1TFbSeYbj5+H2+Mrg1R7W+s6tOfYqt9u3k=;
-        b=uTkfVglzYHyJBMbyqCy/8X0psriDURjGmWZPaWZJNvJAY4BHiBAOxT9RgvAqq8+6ab
-         ssUH7OVxVir8NFFMWpuuY973La2gOXDLHAslZ+K86ozSO0OU7xQWgwYHANmGoRL3ATgE
-         1+VorM1+iD5cQ4R0NNQa1BjNt7Ozki/YTZjFcIAHMbboRT9xHe9K/A11MOf3sMWcSX9B
-         LeC43k8tuwpzQ9v7mOMMBlGSr8NqtcrXVLT0QVO8NZJOQi4T3X/9hhDB9TaOMVho4sh1
-         6CwPKsNKLcQx9BSsv9WWVt2CBS3ZSYNSyxKf8OOfeMyYnT9KAZrqL1+SCDxIqR36/t6b
-         ynGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714774398; x=1715379198;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=lPuqnqlQf1TFbSeYbj5+H2+Mrg1R7W+s6tOfYqt9u3k=;
-        b=PCkN+XQjRY9SWgjVSMJ/B4KAvXjzZ4HlCg5GPLOPDOW6V09Tw9/Fprf5bNNnMOhW+x
-         h2Z2C9YL3Ssiy+gY+wVMf6/Z9mlat11zSGV3Pu/Zxkp6nD+urCkSzTe/NS/SXl531XVI
-         l7xb+Vsxa2r31b4CLvGvJW0p7KsG2LPdx0RHkbwL9N2+5naW+DDHHFyW+xABt3+Z7IB+
-         krSEZ94Lj8eSF2E0PgdCbZ/z6XO3585rwOw4pk0dyZW4Fo18ySSyboeI+TkVYmNQ1MwX
-         VqJxeRnNiNa53y3BvBUN8TqJ73SUkFvlFpY0r9bGZ2KW/75adNfOtIdAX/pfHz/aDqGq
-         CL0g==
-X-Forwarded-Encrypted: i=1; AJvYcCXzANQ0QCPXdBcVtbnWXc0LAkg5/xo7TGUXkcKrWQvN46yMVYhNQagxIFQYpgma/mAAm7PMMCgK5d2q6CTQBNtsniUtLbJsiNHH
-X-Gm-Message-State: AOJu0YxaH/iTXUG/tnv0hfumKvrDvhdjYbojdVSAmqdhJy0SlqpRQrSt
-	YeFvR0Z0JxoUCnKaXYrjKs6mGCNYHMxgcdFOQKgAybfle9Z2TQiZrak6b6kaixtnpSsUS0aPv0i
-	v6A==
-X-Google-Smtp-Source: AGHT+IFTEgkYDtwGLWZJdyovW4tTRZOEDccm5U4FAzOb/u3poMhryEcruOMiy7+Pl9xE3D52TIrnELvR2Fs=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:6902:1007:b0:dc6:d233:ffdd with SMTP id
- w7-20020a056902100700b00dc6d233ffddmr1277567ybt.0.1714774398707; Fri, 03 May
- 2024 15:13:18 -0700 (PDT)
-Date: Fri,  3 May 2024 15:13:12 -0700
-In-Reply-To: <20240424103317.28522-1-clopez@suse.de>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="q2o+8Itj"
+Received: by linux.microsoft.com (Postfix, from userid 1052)
+	id E34DB20B2C86; Fri,  3 May 2024 15:32:32 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E34DB20B2C86
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1714775552;
+	bh=tyU1fdZY/WjFMXTyscqC7UlqchwkgkYLBYHiiOkh8ng=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=q2o+8Itjt3Iw4RNaLXn124tIpN4Jn8ECRCP67LWRLozL6m9fn6+00bOWvbmPsIFlM
+	 Nd5i/458FGhk2lF9zwIlOCJDjv0hZzbVb/uOJAF4UlkzYgOhVo5wte3FvfiVi98PGT
+	 gmwSzVVKs5xs92mzLt/VaikyM+6gxhvte2JPCq2A=
+From: Fan Wu <wufan@linux.microsoft.com>
+To: corbet@lwn.net,
+	zohar@linux.ibm.com,
+	jmorris@namei.org,
+	serge@hallyn.com,
+	tytso@mit.edu,
+	ebiggers@kernel.org,
+	axboe@kernel.dk,
+	agk@redhat.com,
+	snitzer@kernel.org,
+	eparis@redhat.com,
+	paul@paul-moore.com
+Cc: linux-doc@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	fsverity@lists.linux.dev,
+	linux-block@vger.kernel.org,
+	dm-devel@lists.linux.dev,
+	audit@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Deven Bowers <deven.desai@linux.microsoft.com>,
+	Fan Wu <wufan@linux.microsoft.com>
+Subject: [PATCH v18 03/21] ipe: add evaluation loop
+Date: Fri,  3 May 2024 15:32:13 -0700
+Message-Id: <1714775551-22384-4-git-send-email-wufan@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1714775551-22384-1-git-send-email-wufan@linux.microsoft.com>
+References: <1714775551-22384-1-git-send-email-wufan@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240424103317.28522-1-clopez@suse.de>
-X-Mailer: git-send-email 2.45.0.rc1.225.g2a3ae87e7f-goog
-Message-ID: <171477432131.1257597.4087115549657208837.b4-ty@google.com>
-Subject: Re: [PATCH] KVM: fix documentation for KVM_CREATE_GUEST_MEMFD
-From: Sean Christopherson <seanjc@google.com>
-To: Sean Christopherson <seanjc@google.com>, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, "=?UTF-8?q?Carlos=20L=C3=B3pez?=" <clopez@suse.de>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, 24 Apr 2024 12:33:16 +0200, Carlos L=C3=B3pez wrote:
-> The KVM_CREATE_GUEST_MEMFD ioctl returns a file descriptor, and is
-> documented as such in the description. However, the "Returns" field
-> in the documentation states that the ioctl returns 0 on success.
-> Update this to match the description.
->=20
->=20
+From: Deven Bowers <deven.desai@linux.microsoft.com>
 
-Applied to kvm-x86 generic, thanks!
+Introduce a core evaluation function in IPE that will be triggered by
+various security hooks (e.g., mmap, bprm_check, kexec). This function
+systematically assesses actions against the defined IPE policy, by
+iterating over rules specific to the action being taken. This critical
+addition enables IPE to enforce its security policies effectively,
+ensuring that actions intercepted by these hooks are scrutinized for policy
+compliance before they are allowed to proceed.
 
-[1/1] KVM: fix documentation for KVM_CREATE_GUEST_MEMFD
-      https://github.com/kvm-x86/linux/commit/2098acaf2445
+Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
+Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
 
---
-https://github.com/kvm-x86/linux/tree/next
+---
+v2:
++ Split evaluation loop, access control hooks, and evaluation loop from policy parser and userspace interface to pass mailing list character limit
+
+v3:
++ Move ipe_load_properties to patch 04.
++ Remove useless 0-initializations Prefix extern variables with ipe_
++ Remove kernel module parameters, as these are exposed through sysctls.
++ Add more prose to the IPE base config option help text.
++ Use GFP_KERNEL for audit_log_start.
++ Remove unnecessary caching system.
++ Remove comments from headers
++ Use rcu_access_pointer for rcu-pointer null check
++ Remove usage of reqprot; use prot only.
++Move policy load and activation audit event to 03/12
+
+v4:
++ Remove sysctls in favor of securityfs nodes
++ Re-add kernel module parameters, as these are now exposed through securityfs.
++ Refactor property audit loop to a separate function.
+
+v5:
++ fix minor grammatical errors
++ do not group rule by curly-brace in audit record,
++ reconstruct the exact rule.
+
+v6:
++ No changes
+
+v7:
++ Further split lsm creation into a separate commit from the evaluation loop and audit system, for easier review.
++ Propagating changes to support the new ipe_context structure in the evaluation loop.
+
+v8:
++ Remove ipe_hook enumeration; hooks can be correlated via syscall record.
+
+v9:
++ Remove ipe_context related code and simplify the evaluation loop.
+
+v10:
++ Split eval part and boot_verified part
+
+v11:
++ Fix code style issues
+
+v12:
++ Correct an rcu_read_unlock usage
++ Add a WARN to unknown op during evaluation
+
+v13:
++ No changes
+
+v14:
++ No changes
+
+v15:
++ No changes
+
+v16:
++ No changes
+
+v17:
++ Add years to license header
++ Fix code and documentation style issues
+
+v18:
++ No changes
+---
+ security/ipe/Makefile |   1 +
+ security/ipe/eval.c   | 102 ++++++++++++++++++++++++++++++++++++++++++
+ security/ipe/eval.h   |  24 ++++++++++
+ 3 files changed, 127 insertions(+)
+ create mode 100644 security/ipe/eval.c
+ create mode 100644 security/ipe/eval.h
+
+diff --git a/security/ipe/Makefile b/security/ipe/Makefile
+index 3093de1afd3e..4cc17eb92060 100644
+--- a/security/ipe/Makefile
++++ b/security/ipe/Makefile
+@@ -6,6 +6,7 @@
+ #
+ 
+ obj-$(CONFIG_SECURITY_IPE) += \
++	eval.o \
+ 	ipe.o \
+ 	policy.o \
+ 	policy_parser.o \
+diff --git a/security/ipe/eval.c b/security/ipe/eval.c
+new file mode 100644
+index 000000000000..41331afdef7c
+--- /dev/null
++++ b/security/ipe/eval.c
+@@ -0,0 +1,102 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2020-2024 Microsoft Corporation. All rights reserved.
++ */
++
++#include <linux/fs.h>
++#include <linux/types.h>
++#include <linux/slab.h>
++#include <linux/file.h>
++#include <linux/sched.h>
++#include <linux/rcupdate.h>
++
++#include "ipe.h"
++#include "eval.h"
++#include "policy.h"
++
++struct ipe_policy __rcu *ipe_active_policy;
++
++/**
++ * evaluate_property() - Analyze @ctx against a rule property.
++ * @ctx: Supplies a pointer to the context to be evaluated.
++ * @p: Supplies a pointer to the property to be evaluated.
++ *
++ * This is a placeholder. The actual function will be introduced in the
++ * latter commits.
++ *
++ * Return:
++ * * %true	- The current @ctx match the @p
++ * * %false	- The current @ctx doesn't match the @p
++ */
++static bool evaluate_property(const struct ipe_eval_ctx *const ctx,
++			      struct ipe_prop *p)
++{
++	return false;
++}
++
++/**
++ * ipe_evaluate_event() - Analyze @ctx against the current active policy.
++ * @ctx: Supplies a pointer to the context to be evaluated.
++ *
++ * This is the loop where all policy evaluation happens against IPE policy.
++ *
++ * Return:
++ * * %0		- Success
++ * * %-EACCES	- @ctx did not pass evaluation
++ */
++int ipe_evaluate_event(const struct ipe_eval_ctx *const ctx)
++{
++	const struct ipe_op_table *rules = NULL;
++	const struct ipe_rule *rule = NULL;
++	struct ipe_policy *pol = NULL;
++	struct ipe_prop *prop = NULL;
++	enum ipe_action_type action;
++	bool match = false;
++
++	rcu_read_lock();
++
++	pol = rcu_dereference(ipe_active_policy);
++	if (!pol) {
++		rcu_read_unlock();
++		return 0;
++	}
++
++	if (ctx->op == IPE_OP_INVALID) {
++		if (pol->parsed->global_default_action == IPE_ACTION_DENY) {
++			rcu_read_unlock();
++			return -EACCES;
++		}
++		if (pol->parsed->global_default_action == IPE_ACTION_INVALID)
++			WARN(1, "no default rule set for unknown op, ALLOW it");
++		rcu_read_unlock();
++		return 0;
++	}
++
++	rules = &pol->parsed->rules[ctx->op];
++
++	list_for_each_entry(rule, &rules->rules, next) {
++		match = true;
++
++		list_for_each_entry(prop, &rule->props, next) {
++			match = evaluate_property(ctx, prop);
++			if (!match)
++				break;
++		}
++
++		if (match)
++			break;
++	}
++
++	if (match)
++		action = rule->action;
++	else if (rules->default_action != IPE_ACTION_INVALID)
++		action = rules->default_action;
++	else
++		action = pol->parsed->global_default_action;
++
++	rcu_read_unlock();
++	if (action == IPE_ACTION_DENY)
++		return -EACCES;
++
++	return 0;
++}
+diff --git a/security/ipe/eval.h b/security/ipe/eval.h
+new file mode 100644
+index 000000000000..b137f2107852
+--- /dev/null
++++ b/security/ipe/eval.h
+@@ -0,0 +1,24 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) 2020-2024 Microsoft Corporation. All rights reserved.
++ */
++
++#ifndef _IPE_EVAL_H
++#define _IPE_EVAL_H
++
++#include <linux/file.h>
++#include <linux/types.h>
++
++#include "policy.h"
++
++extern struct ipe_policy __rcu *ipe_active_policy;
++
++struct ipe_eval_ctx {
++	enum ipe_op_type op;
++
++	const struct file *file;
++};
++
++int ipe_evaluate_event(const struct ipe_eval_ctx *const ctx);
++
++#endif /* _IPE_EVAL_H */
+-- 
+2.44.0
+
