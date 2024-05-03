@@ -1,511 +1,361 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EACEF14E2F2;
-	Fri,  3 May 2024 09:04:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F76F14D2BC;
+	Fri,  3 May 2024 09:58:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714727070; cv=none; b=UQoa7XlkFuMZcdhyZBTiUopF5L9ipYAc5SIf03yZkv/HfuvJb6RrIE3PO2Fv8HFj2NXugylRXCKKd5/UEeiCX3VvTSUFOf9tZZgs5DhjHx95AlC3sL58I2qC2E14nAD2o3ONLzRaowhqNSOg3ua0YOEcuB7b/bpnIasZQ7DEU34=
+	t=1714730284; cv=none; b=cNOYjHQStLJmTzNt09eEauS4pxtyJ+dc7+UtUBtS7BSGZ261J3JA0p9q5XYELUWbEPa4g+Z+caohxgzKkGxFewGhjLS+qktlJEk1AGkWgawdtmd7apJnZpbUvbM0k4FqSRmLzf3tHDIpCssA7b+S25uG/PKEoLRZ3udquAQ392Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714727070; c=relaxed/simple;
-	bh=L9mym5HUs0jB6zHpWIWPd24vsCgaxBi+qB3rwEwqx+4=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=iloD9fj/ET/pb9HqNoAyGmtdaDZlnyZjuV2urylxmM/AHYFE4CvnQiIuMtjvO7Trf6QfXh+1hLvHnjgh7KspTtR501Xaz3+O+jtaV/WrilORGzxAprzE0bDuyPMKuh0eW7tU217fkJBvC597zUfm4/i+1V204Z5loNiv11l0QZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DpJu4Ale; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1714730284; c=relaxed/simple;
+	bh=f8Mn/L/rPRgscXzOJ4TK13C7rdziWCwow2p/jHjIwJ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ixS8mChSbTcwJXZ2G3I/3Ixwh/CuyWn20xluJX2l0q/D077N/85mx2isnrskHMBDwEHGbWAARZxY5dV/IyJe5ldWCZ0EOJ2JuSdKlZO/Uje+SDxP2w3AJZH8qd8IyKqvcq/F0/qE3a/oAMEBtBj0IBg442c11uzomjAjYgAUdK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BYY7lLlo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DpJu4Ale"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1714727068; x=1746263068;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=L9mym5HUs0jB6zHpWIWPd24vsCgaxBi+qB3rwEwqx+4=;
-  b=DpJu4AleBOfF70xFTWgfTbZQ//Ci8+LHB2eqgJG2v3tDxcphFJxZWFd6
-   FAcuHnLfklP5Ji7X/lm18HAkJQD7CHEwEVvF1gqriQDQf+fpB4mCHh70P
-   c5WT/3TaU6IbeaXJriuth0SJtTC8pyYvuIEH8NysX+zTg+Igkn3cRcwgg
-   yv/PcMvzk/ZD0c/dFb9DtThYD9uKXyXbog+oPgwF+/EqIvJetn2GhTp0K
-   cX+poqaAVL3ZwqZZaa2rAp+JJSm1ke6UBmc7HgV0OzX7ubmmfy3mMznDn
-   fICK4+8fM3giTqixY5kX5Wp/EC1//xlQVIZ9UM1anc+YOCin8v9/+KexF
-   Q==;
-X-CSE-ConnectionGUID: 7wgEkiC/RqCSbqtcyOxXaA==
-X-CSE-MsgGUID: RhRWtEHdQ/+tr3Nn2QrKHg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11062"; a="10656572"
-X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
-   d="scan'208";a="10656572"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 02:04:27 -0700
-X-CSE-ConnectionGUID: gyWdPFp4S9u31rhTod4NBQ==
-X-CSE-MsgGUID: 5hkp3xgURZetLduywtwaLg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,247,1708416000"; 
-   d="scan'208";a="27369361"
-Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.245.247.56])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2024 02:04:24 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Fri, 3 May 2024 12:04:19 +0300 (EEST)
-To: "David E. Box" <david.e.box@linux.intel.com>
-cc: linux-doc@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>, 
-    LKML <linux-kernel@vger.kernel.org>, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 1/2] platform/x86/intel/sdsi: Add ioctl SPDM transport
-In-Reply-To: <20240503025727.10254-1-david.e.box@linux.intel.com>
-Message-ID: <9a91ca6e-99cd-d53a-0ea1-228ac555cd02@linux.intel.com>
-References: <20240503025727.10254-1-david.e.box@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BYY7lLlo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0249C116B1;
+	Fri,  3 May 2024 09:57:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1714730283;
+	bh=f8Mn/L/rPRgscXzOJ4TK13C7rdziWCwow2p/jHjIwJ8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BYY7lLlogB03mbGSB3SgN+WPEjR3akhQYsqOL/HAjXxgEOk1biLm7Gy4WYyr12fQF
+	 1lG/DTrRz7WofC8yDi/4cYNplVMGXjuIkuJV7kRYFydEm+vzIC74uwoYa8qZ4RSZtX
+	 Jf3+olxTYdYiKQh2ghqGXScHeUQaw/sjqLWqVl4uc6Kjk3TgESTReef9kcoQkgu1L3
+	 CrirGXZxlKJQIdgmLFcuez6Xyri0pGyzHhKRJQOO/NWXOUpSsZ4q1d/FfvhIS3KCyD
+	 8+Et9wTVudLQiYemszcf74rgyEa4hsYqZLwMQ982eXTmfcjnsqTbZlg35mxT3Hncir
+	 MMy3qXrsZaQww==
+Date: Fri, 3 May 2024 11:57:56 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Kees Cook <keescook@chromium.org>
+Cc: Adrian Ratiu <adrian.ratiu@collabora.com>, 
+	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org, 
+	kernel@collabora.com, gbiv@google.com, ryanbeltran@google.com, inglorion@google.com, 
+	ajordanr@google.com, jorgelo@chromium.org, Guenter Roeck <groeck@chromium.org>, 
+	Doug Anderson <dianders@chromium.org>, Jann Horn <jannh@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Mike Frysinger <vapier@chromium.org>
+Subject: Re: [PATCH v3 1/2] proc: restrict /proc/pid/mem access via param
+ knobs
+Message-ID: <20240503-nulltarif-karten-82213463dedc@brauner>
+References: <20240409175750.206445-1-adrian.ratiu@collabora.com>
+ <202404261544.1EAD63D@keescook>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <202404261544.1EAD63D@keescook>
 
-On Thu, 2 May 2024, David E. Box wrote:
-
-> Intel On Demand adds attestation and firmware measurement retrieval
-> services through use of the protocols defined the Security Protocols and
-> Data Measurement (SPDM) specification. SPDM messages exchanges are used to
-> authenticate On Demand hardware and to retrieve signed measurements of the
-> NVRAM state used to track feature provisioning and the NVRAM state used for
-> metering services. These allow software to verify the authenticity of the
-> On Demand hardware as well as the integrity of the reported silicon
-> configuration.
+On Fri, Apr 26, 2024 at 04:10:49PM -0700, Kees Cook wrote:
+> On Tue, Apr 09, 2024 at 08:57:49PM +0300, Adrian Ratiu wrote:
+> > Prior to v2.6.39 write access to /proc/<pid>/mem was restricted,
+> > after which it got allowed in commit 198214a7ee50 ("proc: enable
+> > writing to /proc/pid/mem"). Famous last words from that patch:
+> > "no longer a security hazard". :)
+> > 
+> > Afterwards exploits started causing drama like [1]. The exploits
+> > using /proc/*/mem can be rather sophisticated like [2] which
+> > installed an arbitrary payload from noexec storage into a running
+> > process then exec'd it, which itself could include an ELF loader
+> > to run arbitrary code off noexec storage.
+> > 
+> > One of the well-known problems with /proc/*/mem writes is they
+> > ignore page permissions via FOLL_FORCE, as opposed to writes via
+> > process_vm_writev which respect page permissions. These writes can
+> > also be used to bypass mode bits.
+> > 
+> > To harden against these types of attacks, distrbutions might want
+> > to restrict /proc/pid/mem accesses, either entirely or partially,
+> > for eg. to restrict FOLL_FORCE usage.
+> > 
+> > Known valid use-cases which still need these accesses are:
+> > 
+> > * Debuggers which also have ptrace permissions, so they can access
+> > memory anyway via PTRACE_POKEDATA & co. Some debuggers like GDB
+> > are designed to write /proc/pid/mem for basic functionality.
+> > 
+> > * Container supervisors using the seccomp notifier to intercept
+> > syscalls and rewrite memory of calling processes by passing
+> > around /proc/pid/mem file descriptors.
+> > 
+> > There might be more, that's why these params default to disabled.
+> > 
+> > Regarding other mechanisms which can block these accesses:
+> > 
+> > * seccomp filters can be used to block mmap/mprotect calls with W|X
+> > perms, but they often can't block open calls as daemons want to
+> > read/write their runtime state and seccomp filters cannot check
+> > file paths, so plain write calls can't be easily blocked.
+> > 
+> > * Since the mem file is part of the dynamic /proc/<pid>/ space, we
+> > can't run chmod once at boot to restrict it (and trying to react
+> > to every process and run chmod doesn't scale, and the kernel no
+> > longer allows chmod on any of these paths).
+> > 
+> > * SELinux could be used with a rule to cover all /proc/*/mem files,
+> > but even then having multiple ways to deny an attack is useful in
+> > case one layer fails.
+> > 
+> > Thus we introduce three kernel parameters to restrict /proc/*/mem
+> > access: read, write and foll_force. All three can be independently
+> > set to the following values:
+> > 
+> > all     => restrict all access unconditionally.
+> > ptracer => restrict all access except for ptracer processes.
+> > 
+> > If left unset, the existing behaviour is preserved, i.e. access
+> > is governed by basic file permissions.
+> > 
+> > Examples which can be passed by bootloaders:
+> > 
+> > restrict_proc_mem_foll_force=all
+> > restrict_proc_mem_write=ptracer
+> > restrict_proc_mem_read=ptracer
+> > 
+> > Each distribution needs to decide what restrictions to apply,
+> > depending on its use-cases. Embedded systems might want to do
+> > more, while general-purpouse distros might want a more relaxed
+> > policy, because for e.g. foll_force=all and write=all both break
+> > break GDB, so it might be a bit excessive.
+> > 
+> > Based on an initial patch by Mike Frysinger <vapier@chromium.org>.
 > 
-> Add an ioctl interface for sending SPDM messages through the On Demand
-> mailbox. Provides commands to get a list of SPDM enabled devices, get the
-> message size limits for SPDM Requesters and Responders, and perform an SPDM
-> message exchange.
+> Thanks for this new version!
 > 
-> Signed-off-by: David E. Box <david.e.box@linux.intel.com>
-> Link: https://www.dmtf.org/sites/default/files/standards/documents/DSP0274_1.0.1.pdf [1]
-> ---
->  .../userspace-api/ioctl/ioctl-number.rst      |   1 +
->  MAINTAINERS                                   |   1 +
->  drivers/platform/x86/intel/sdsi.c             | 210 +++++++++++++++++-
->  include/uapi/linux/intel_sdsi.h               |  72 ++++++
->  4 files changed, 283 insertions(+), 1 deletion(-)
->  create mode 100644 include/uapi/linux/intel_sdsi.h
+> > 
+> > Link: https://lwn.net/Articles/476947/ [1]
+> > Link: https://issues.chromium.org/issues/40089045 [2]
+> > Cc: Guenter Roeck <groeck@chromium.org>
+> > Cc: Doug Anderson <dianders@chromium.org>
+> > Cc: Kees Cook <keescook@chromium.org>
+> > Cc: Jann Horn <jannh@google.com>
+> > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > Cc: Randy Dunlap <rdunlap@infradead.org>
+> > Cc: Christian Brauner <brauner@kernel.org>
+> > Co-developed-by: Mike Frysinger <vapier@chromium.org>
+> > Signed-off-by: Mike Frysinger <vapier@chromium.org>
+> > Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+> > ---
+> >  .../admin-guide/kernel-parameters.txt         |  27 +++++
+> >  fs/proc/base.c                                | 103 +++++++++++++++++-
+> >  include/linux/jump_label.h                    |   5 +
+> >  3 files changed, 133 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> > index 6e62b8cb19c8d..d7f7db41369c7 100644
+> > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > @@ -5665,6 +5665,33 @@
+> >  	reset_devices	[KNL] Force drivers to reset the underlying device
+> >  			during initialization.
+> >  
+> > +	restrict_proc_mem_read= [KNL]
+> > +			Format: {all | ptracer}
+> > +			Allows restricting read access to /proc/*/mem files.
+> > +			Depending on restriction level, open for reads return -EACCESS.
+> > +			Can be one of:
+> > +			- 'all' restricts all access unconditionally.
+> > +			- 'ptracer' allows access only for ptracer processes.
+> > +			If not specified, then basic file permissions continue to apply.
+> > +
+> > +	restrict_proc_mem_write= [KNL]
+> > +			Format: {all | ptracer}
+> > +			Allows restricting write access to /proc/*/mem files.
+> > +			Depending on restriction level, open for writes return -EACCESS.
+> > +			Can be one of:
+> > +			- 'all' restricts all access unconditionally.
+> > +			- 'ptracer' allows access only for ptracer processes.
+> > +			If not specified, then basic file permissions continue to apply.
+> > +
+> > +	restrict_proc_mem_foll_force= [KNL]
+> > +			Format: {all | ptracer}
+> > +			Restricts the use of the FOLL_FORCE flag for /proc/*/mem access.
+> > +			If restricted, the FOLL_FORCE flag will not be added to vm accesses.
+> > +			Can be one of:
+> > +			- 'all' restricts all access unconditionally.
+> > +			- 'ptracer' allows access only for ptracer processes.
+> > +			If not specified, FOLL_FORCE is always used.
 > 
-> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> index c472423412bf..20dcc2dbcaf6 100644
-> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> @@ -382,6 +382,7 @@ Code  Seq#    Include File                                           Comments
->                                                                       <mailto:mathieu.desnoyers@efficios.com>
->  0xF8  all    arch/x86/include/uapi/asm/amd_hsmp.h                    AMD HSMP EPYC system management interface driver
->                                                                       <mailto:nchatrad@amd.com>
-> +0xFC  all    linux/intel_sdsi.h
->  0xFD  all    linux/dm-ioctl.h
->  0xFE  all    linux/isst_if.h
->  ====  =====  ======================================================= ================================================================
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 3fb0fa67576d..e3865e61f302 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -11165,6 +11165,7 @@ INTEL SDSI DRIVER
->  M:	David E. Box <david.e.box@linux.intel.com>
->  S:	Supported
->  F:	drivers/platform/x86/intel/sdsi.c
-> +F:	include/uapi/linux/intel_sdsi.h
->  F:	tools/arch/x86/intel_sdsi/
->  F:	tools/testing/selftests/drivers/sdsi/
->  
-> diff --git a/drivers/platform/x86/intel/sdsi.c b/drivers/platform/x86/intel/sdsi.c
-> index 277e4f4b20ac..bab6df0521b4 100644
-> --- a/drivers/platform/x86/intel/sdsi.c
-> +++ b/drivers/platform/x86/intel/sdsi.c
-> @@ -11,9 +11,12 @@
->  #include <linux/auxiliary_bus.h>
->  #include <linux/bits.h>
->  #include <linux/bitfield.h>
-> +#include <linux/cleanup.h>
->  #include <linux/device.h>
->  #include <linux/iopoll.h>
-> +#include <linux/intel_sdsi.h>
->  #include <linux/kernel.h>
-> +#include <linux/miscdevice.h>
->  #include <linux/module.h>
->  #include <linux/overflow.h>
->  #include <linux/pci.h>
-> @@ -42,6 +45,7 @@
->  
->  #define SDSI_ENABLED_FEATURES_OFFSET	16
->  #define SDSI_FEATURE_SDSI		BIT(3)
-> +#define SDSI_FEATURE_ATTESTATION	BIT(12)
->  #define SDSI_FEATURE_METERING		BIT(26)
->  
->  #define SDSI_SOCKET_ID_OFFSET		64
-> @@ -91,6 +95,7 @@ enum sdsi_command {
->  	SDSI_CMD_PROVISION_CAP		= 0x0008,
->  	SDSI_CMD_READ_STATE		= 0x0010,
->  	SDSI_CMD_READ_METER		= 0x0014,
-> +	SDSI_CMD_ATTESTATION		= 0x1012,
->  };
->  
->  struct sdsi_mbox_info {
-> @@ -109,12 +114,14 @@ struct disc_table {
->  struct sdsi_priv {
->  	struct mutex		mb_lock;	/* Mailbox access lock */
->  	struct device		*dev;
-> +	struct miscdevice	miscdev;
->  	void __iomem		*control_addr;
->  	void __iomem		*mbox_addr;
->  	void __iomem		*regs_addr;
->  	int			control_size;
->  	int			maibox_size;
->  	int			registers_size;
-> +	int			id;
->  	u32			guid;
->  	u32			features;
->  };
-> @@ -582,6 +589,94 @@ static const struct attribute_group sdsi_group = {
->  };
->  __ATTRIBUTE_GROUPS(sdsi);
->  
-> +/* SPDM transport  */
-> +static int sdsi_spdm_exchange(void *private, const void *request,
-> +			      size_t request_sz, void *response,
-> +			      size_t response_sz)
-> +{
-> +	struct sdsi_priv *priv = private;
-> +	struct sdsi_mbox_info info = {};
-> +	size_t spdm_msg_size, size;
-> +	int ret;
-> +
-> +	/*
-> +	 * For the attestation command, the mailbox write size is the sum of:
-> +	 *     Size of the SPDM request payload, padded for qword alignment
-> +	 *     8 bytes for the mailbox command
-> +	 *     8 bytes for the actual (non-padded) size of the SPDM request
-> +	 */
-> +	if (request_sz > (SDSI_SIZE_WRITE_MSG - (2 * sizeof(u64))))
-
-This looks way more readable when unnecessary parethesis are eliminated:
-
-	if (request_sz > SDSI_SIZE_WRITE_MSG - 2 * sizeof(u64))
-
-> +		return -EOVERFLOW;
-> +
-> +	info.size = round_up(request_sz, sizeof(u64)) + 2 * sizeof(u64);
->
-> +	u64 *payload __free(kfree) = kzalloc(info.size, GFP_KERNEL);
-> +	if (!payload)
-> +		return -ENOMEM;
-> +
-> +	memcpy(payload, request, request_sz);
-> +
-> +	/* The non-padded SPDM payload size is the 2nd-to-last qword */
-> +	payload[(info.size / sizeof(u64)) - 2] = request_sz;
-> +
-> +	/* Attestation mailbox command is the last qword of payload buffer */
-> +	payload[(info.size / sizeof(u64)) - 1] = SDSI_CMD_ATTESTATION;
-> +
-> +	info.payload = payload;
-> +	info.buffer = response;
-> +
-> +	ret = mutex_lock_interruptible(&priv->mb_lock);
-> +	if (ret)
-> +		return ret;
-> +	ret = sdsi_mbox_write(priv, &info, &size);
-> +	mutex_unlock(&priv->mb_lock);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/*
-> +	 * The read size is the sum of:
-> +	 *     Size of the SPDM response payload, padded for qword alignment
-> +	 *     8 bytes for the actual (non-padded) size of the SPDM payload
-> +	 */
-> +
-> +	if (size < sizeof(u64)) {
-> +		dev_err(priv->dev,
-> +			"Attestation error: Mailbox reply size, %ld, too small\n",
-> +			size);
-> +		return -EPROTO;
-> +	}
-> +
-> +	if (!IS_ALIGNED(size, sizeof(u64))) {
-> +		dev_err(priv->dev,
-> +			"Attestation error: Mailbox reply size, %ld, is not aligned\n",
-> +			size);
-> +		return -EPROTO;
-> +	}
-> +
-> +	/*
-> +	 * Get the SPDM response size from the last QWORD and check it fits
-> +	 * with no more than 7 bytes of padding
-> +	 */
-> +	spdm_msg_size = ((u64 *)info.buffer)[(size - sizeof(u64)) / sizeof(u64)];
-> +	if (!in_range(size - spdm_msg_size - sizeof(u64), 0, 8)) {
-> +		dev_err(priv->dev,
-> +			"Attestation error: Invalid SPDM response size, %ld\n",
-> +			spdm_msg_size);
-> +		return -EPROTO;
-> +	}
-> +
-> +	if (spdm_msg_size > response_sz) {
-> +		dev_err(priv->dev, "Attestation error: Expected response size %ld, got %ld\n",
-> +			 response_sz, spdm_msg_size);
-> +		return -EOVERFLOW;
-> +	}
-> +
-> +	memcpy(response, info.buffer, spdm_msg_size);
-> +
-> +	return spdm_msg_size;
-> +}
-> +
->  static int sdsi_get_layout(struct sdsi_priv *priv, struct disc_table *table)
->  {
->  	switch (table->guid) {
-> @@ -649,6 +744,92 @@ static int sdsi_map_mbox_registers(struct sdsi_priv *priv, struct pci_dev *paren
->  	return 0;
->  }
->  
-> +#define SDSI_SPDM_DRIVER_VERSION	1
-> +
-> +static int sdsi_spdm_get_info(struct sdsi_priv *priv,
-> +			      struct sdsi_spdm_info __user *argp)
-> +{
-> +	struct sdsi_spdm_info info;
-> +
-> +	info.driver_version = SDSI_SPDM_DRIVER_VERSION;
-> +	info.api_version = priv->guid;
-> +	info.dev_no = priv->id;
-> +	info.max_request_size = SDSI_SIZE_WRITE_MSG - (2 * sizeof(u64));
-> +	info.max_response_size = SDSI_SIZE_READ_MSG - (sizeof(u64));
-
-Unnecessary parenthesis on both lines.
-
-> +
-> +	if (copy_to_user(argp, &info, sizeof(info)))
-> +		return -EFAULT;
-> +
-> +	return 0;
-> +}
-> +
-> +static int sdsi_spdm_do_command(struct sdsi_priv *priv,
-> +				struct sdsi_spdm_command __user *argp)
-> +{
-> +	u32 req_size, rsp_size;
-> +
-> +	if (get_user(req_size, &argp->size))
-> +		return -EFAULT;
-> +
-> +	if (req_size < 4 || req_size > sizeof(struct sdsi_spdm_message))
-> +		return -EINVAL;
-> +
-> +	struct sdsi_spdm_message *request __free(kfree) =
-> +		kmalloc(req_size, GFP_KERNEL);
-> +	if (!request)
-> +		return -ENOMEM;
-> +
-> +	struct sdsi_spdm_command *response __free(kfree) =
-> +		kmalloc(SDSI_SIZE_READ_MSG, GFP_KERNEL);
-> +	if (!response)
-> +		return -ENOMEM;
-> +
-> +	if (copy_from_user(request, &argp->message, req_size))
-> +		return -EFAULT;
-> +
-> +	rsp_size = sdsi_spdm_exchange(priv, request, req_size, response,
-> +				      SDSI_SIZE_READ_MSG);
-> +	if (rsp_size < 4)
-> +		return rsp_size;
-
-Hmm, what the return value of this function actually means? Here it can 
-returns -inf..3 but in the end you return 0. So clearly the return value 
-isn't size. Is it something "work remaining to do" or what? Consider 
-adding function comment about the return value because it looks a bit 
-odd from the code alone.
-
-> +
-> +	if (put_user(rsp_size, &argp->size))
-> +		return -EFAULT;
-> +
-> +	if (copy_to_user(&argp->message, response, rsp_size))
-> +		return -EFAULT;
-> +
-> +	return 0;
-> +}
-> +
-> +static long sdsi_spdm_ioctl(struct file *file, unsigned int cmd,
-> +			    unsigned long arg)
-> +{
-> +	struct sdsi_priv *priv;
-> +	long ret = -ENOTTY;
-> +
-> +	priv = container_of(file->private_data, struct sdsi_priv, miscdev);
-> +
-> +	switch (cmd) {
-> +	case SDSI_IF_SPDM_INFO:
-> +		ret = sdsi_spdm_get_info(priv,
-> +				(struct sdsi_spdm_info __user *)arg);
-> +		break;
-> +	case SDSI_IF_SPDM_COMMAND:
-> +		ret = sdsi_spdm_do_command(priv,
-> +				(struct sdsi_spdm_command __user *)arg);
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static const struct file_operations sdsi_spdm_ops = {
-> +	.owner = THIS_MODULE,
-> +	.unlocked_ioctl = sdsi_spdm_ioctl,
-> +};
-> +
->  static int sdsi_probe(struct auxiliary_device *auxdev, const struct auxiliary_device_id *id)
->  {
->  	struct intel_vsec_device *intel_cap_dev = auxdev_to_ivdev(auxdev);
-> @@ -663,6 +844,7 @@ static int sdsi_probe(struct auxiliary_device *auxdev, const struct auxiliary_de
->  		return -ENOMEM;
->  
->  	priv->dev = &auxdev->dev;
-> +	priv->id = auxdev->id;
->  	mutex_init(&priv->mb_lock);
->  	auxiliary_set_drvdata(auxdev, priv);
->  
-> @@ -686,9 +868,35 @@ static int sdsi_probe(struct auxiliary_device *auxdev, const struct auxiliary_de
->  	if (ret)
->  		return ret;
->  
-> +	/* Attestation miscdevice */
-> +	if (priv->features & SDSI_FEATURE_ATTESTATION) {
-> +		priv->miscdev.name = kasprintf(GFP_KERNEL, "isdsi%d", priv->id);
-
-devm_kasprintf() ?
-
-> +		if (!priv->miscdev.name)
-> +			return -ENOMEM;
-> +
-> +		priv->miscdev.minor = MISC_DYNAMIC_MINOR;
-> +		priv->miscdev.fops = &sdsi_spdm_ops;
-> +
-> +		ret = misc_register(&priv->miscdev);
-> +		if (!ret) {
-> +			kfree_const(priv->miscdev.name);
-> +			return ret;
-> +		}
-> +	}
-> +
->  	return 0;
->  }
->  
-> +static void sdsi_remove(struct auxiliary_device *auxdev)
-> +{
-> +	struct sdsi_priv *priv = auxiliary_get_drvdata(auxdev);
-> +
-> +	if (priv->features & SDSI_FEATURE_ATTESTATION) {
-> +		misc_deregister(&priv->miscdev);
-> +		kfree_const(priv->miscdev.name);
-> +	}
-> +}
-> +
->  static const struct auxiliary_device_id sdsi_aux_id_table[] = {
->  	{ .name = "intel_vsec.sdsi" },
->  	{}
-> @@ -701,7 +909,7 @@ static struct auxiliary_driver sdsi_aux_driver = {
->  	},
->  	.id_table	= sdsi_aux_id_table,
->  	.probe		= sdsi_probe,
-> -	/* No remove. All resources are handled under devm */
-> +	.remove		= sdsi_remove,
->  };
->  module_auxiliary_driver(sdsi_aux_driver);
->  
-> diff --git a/include/uapi/linux/intel_sdsi.h b/include/uapi/linux/intel_sdsi.h
-> new file mode 100644
-> index 000000000000..de9e7f6c44c5
-> --- /dev/null
-> +++ b/include/uapi/linux/intel_sdsi.h
-> @@ -0,0 +1,72 @@
-> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-> +/*
-> + * Intel On Demand (SDSi) Interface for SPDM based attestation.
-> + * Copyright (c) 2019, Intel Corporation.
-> + * All rights reserved.
-> + *
-> + * Author: David E. Box <david.e.box@linux.intel.com>
-> + */
-> +
-> +#ifndef __SDSI_H
-> +#define __SDSI_H
-> +
-> +#include <linux/types.h>
-> +
-> +/**
-> + * struct sdsi_spdm_info - Define platform information
-> + * @api_version:	Version of the firmware document, which this driver
-> + *			can communicate
-> + * @driver_version:	Driver version, which will help user to send right
-> + *			commands. Even if the firmware is capable, driver may
-> + *			not be ready
-> + * @dev_no:		Returns the auxiliary device number the corresponding
-> + *			sdsi instance
-> + * @max_request_size:	Returns the maximum allowed size for SPDM request
-> + *			messages
-> + * @max_response_size:	Returns the maximum size of an SPDM response message
-> + *
-> + * Used to return output of IOCTL SDSI_SPDM_INFO. This
-> + * information can be used by the user space, to get the driver, firmware
-> + * support and also number of commands to send in a single IOCTL request.
-> + */
-> +struct sdsi_spdm_info {
-> +	__u32 api_version;
-> +	__u16 driver_version;
-> +	__u16 dev_no;
-> +	__u16 max_request_size;
-> +	__u16 max_response_size;
-> +};
-> +
-> +/**
-> + * struct sdsi_spdm_message - The SPDM message sent and received from the device
-> + * @spdm_version:		Supported SPDM version
-> + * @request_response_code:	The SPDM message code for requests and responses
-> + * @param1:			Parameter 1
-> + * @param2:			Parameter 2
-> + * @buffer:			SDPM message specific buffer
-> + *
-> + */
-> +struct sdsi_spdm_message {
-> +	__u8 spdm_version;
-> +	__u8 request_response_code;
-> +	__u8 param1;
-> +	__u8 param2;
-> +	__u8 buffer[4092];
-
-How about SZ_4K - 4 * sizeof(__u8) ?
-
-Or move those header/metadata fields into another struct which is 
-anonymously embedded into this one so you could do SZ_4K - sizeof(struct 
-sdsi_spdm_message_header).
-
-Remember to add #include for SZ_4K.
-
--- 
- i.
-
-> +};
-> +
-> +/**
-> + * struct sdsi_spdm_command - The SPDM command
-> + * @ size:		The size of the SPDM message
-> + * @ message:		The SPDM message
-> + *
-> + * Used to return output of IOCTL SDSI_SPDM_COMMAND.
-> + */
-> +struct sdsi_spdm_command {
-> +	__u32 size;
-> +	struct sdsi_spdm_message message;
-> +};
-> +
-> +#define SDSI_IF_MAGIC		0xFC
-> +#define SDSI_IF_SPDM_INFO	_IOR(SDSI_IF_MAGIC, 0, struct sdsi_spdm_info *)
-> +#define SDSI_IF_SPDM_COMMAND	_IOWR(SDSI_IF_MAGIC, 1, struct sdsi_spdm_command *)
-> +#endif
+> bike shedding: I wonder if this should be a fake namespace (adding a dot
+> just to break it up for reading more easily), and have words reordered
+> to the kernel's more common subject-verb-object: proc_mem.restrict_read=...
 > 
-> base-commit: 36dc58c367149680bed334e83ec54728f980a96e
+> > +
+> >  	resume=		[SWSUSP]
+> >  			Specify the partition device for software suspend
+> >  			Format:
+> > diff --git a/fs/proc/base.c b/fs/proc/base.c
+> > index 18550c071d71c..c733836c42a65 100644
+> > --- a/fs/proc/base.c
+> > +++ b/fs/proc/base.c
+> > @@ -152,6 +152,41 @@ struct pid_entry {
+> >  		NULL, &proc_pid_attr_operations,	\
+> >  		{ .lsmid = LSMID })
+> >  
+> > +/*
+> > + * each restrict_proc_mem_* param controls the following static branches:
+> > + * key[0] = restrict all writes
+> > + * key[1] = restrict writes except for ptracers
+> > + * key[2] = restrict all reads
+> > + * key[3] = restrict reads except for ptracers
+> > + * key[4] = restrict all FOLL_FORCE usage
+> > + * key[5] = restrict FOLL_FORCE usage except for ptracers
+> > + */
+> > +DEFINE_STATIC_KEY_ARRAY_FALSE_RO(restrict_proc_mem, 6);
 > 
+> So, I don't like having open-coded numbers. And I'm not sure there's a
+> benefit to stuffing these all into an array? So:
+> 
+> DEFINE_STATIC_KEY_FALSE_RO(proc_mem_restrict_read);
+> DEFINE_STATIC_KEY_FALSE_RO(proc_mem_restrict_write);
+> DEFINE_STATIC_KEY_FALSE_RO(proc_mem_restrict_foll_force);
+> 
+> > +
+> > +static int __init early_restrict_proc_mem(char *buf, int offset)
+> > +{
+> > +	if (!buf)
+> > +		return -EINVAL;
+> > +
+> > +	if (strncmp(buf, "all", 3) == 0)
+> 
+> I'd use strcmp() to get exact matches. That way "allalksdjflas" doesn't
+> match. :)
+> 
+> > +		static_branch_enable(&restrict_proc_mem[offset]);
+> > +	else if (strncmp(buf, "ptracer", 7) == 0)
+> > +		static_branch_enable(&restrict_proc_mem[offset + 1]);
+> > +
+> > +	return 0;
+> > +}
+> 
+> Then don't bother with a common helper since you've got a macro, and
+> it'll all get tossed after __init anyway.
+> 
+> > +
+> > +#define DEFINE_EARLY_RESTRICT_PROC_MEM(name, offset)			\
+> > +static int __init early_restrict_proc_mem_##name(char *buf)		\
+> > +{									\
+> > +	return early_restrict_proc_mem(buf, offset);			\
+> > +}									\
+> > +early_param("restrict_proc_mem_" #name, early_restrict_proc_mem_##name)
+> > +
+> > +DEFINE_EARLY_RESTRICT_PROC_MEM(write, 0);
+> > +DEFINE_EARLY_RESTRICT_PROC_MEM(read, 2);
+> > +DEFINE_EARLY_RESTRICT_PROC_MEM(foll_force, 4);
+> 
+> #define DEFINE_EARLY_PROC_MEM_RESTRICT(name)				\
+> static int __init early_proc_mem_restrict_##name(char *buf)		\
+> {									\
+> 	if (!buf)							\
+> 		return -EINVAL;						\
+> 									\
+> 	if (strcmp(buf, "all") == 0)					\
+> 		static_branch_enable(&proc_mem_restrict_##name);	\
+> 	else if (strcmp(buf, "ptracer") == 0)				\
+> 		static_branch_enable(&proc_mem_restrict_##name);	\
+> 									\
+> 	return 0;							\
+> }									\
+> early_param("proc_mem_restrict_" #name, early_proc_mem_restrict_##name)
+> 
+> 
+> > +
+> >  /*
+> >   * Count the number of hardlinks for the pid_entry table, excluding the .
+> >   * and .. links.
+> > @@ -825,9 +860,58 @@ static int __mem_open(struct inode *inode, struct file *file, unsigned int mode)
+> >  	return 0;
+> >  }
+> >  
+> > +static bool __mem_open_current_is_ptracer(struct file *file)
+> > +{
+> > +	struct inode *inode = file_inode(file);
+> > +	struct task_struct *task = get_proc_task(inode);
+> > +	int ret = false;
+> > +
+> > +	if (task) {
+> > +		rcu_read_lock();
+> > +		if (current == ptrace_parent(task))
+> > +			ret = true;
+> > +		rcu_read_unlock();
+> > +		put_task_struct(task);
+> > +	}
+> 
+> This creates a ToCToU race between this check (which releases the task)
+> and the later memopen which make get a different task (and mm).
+> 
+> To deal with this, I think you need to add a new mode flag for
+> proc_mem_open(), and add the checking there.
+> 
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static int __mem_open_check_access_restriction(struct file *file)
+> > +{
+> > +	if (file->f_mode & FMODE_WRITE) {
+> > +		/* Deny if writes are unconditionally disabled via param */
+> > +		if (static_branch_unlikely(&restrict_proc_mem[0]))
+> > +			return -EACCES;
+> > +
+> > +		/* Deny if writes are allowed only for ptracers via param */
+> > +		if (static_branch_unlikely(&restrict_proc_mem[1]) &&
+> > +		    !__mem_open_current_is_ptracer(file))
+> > +			return -EACCES;
+> > +
+> > +	} else if (file->f_mode & FMODE_READ) {
+> 
+> I think this "else" means that O_RDWR opens will only check the write
+> flag, so drop the "else".
+> 
+> > +		/* Deny if reads are unconditionally disabled via param */
+> > +		if (static_branch_unlikely(&restrict_proc_mem[2]))
+> > +			return -EACCES;
+> > +
+> > +		/* Deny if reads are allowed only for ptracers via param */
+> > +		if (static_branch_unlikely(&restrict_proc_mem[3]) &&
+> > +		    !__mem_open_current_is_ptracer(file))
+> > +			return -EACCES;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  static int mem_open(struct inode *inode, struct file *file)
+> >  {
+> > -	int ret = __mem_open(inode, file, PTRACE_MODE_ATTACH);
+> > +	int ret;
+> > +
+> > +	ret = __mem_open_check_access_restriction(file);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ret = __mem_open(inode, file, PTRACE_MODE_ATTACH);
+> >  
+> >  	/* OK to pass negative loff_t, we can catch out-of-range */
+> >  	file->f_mode |= FMODE_UNSIGNED_OFFSET;
+> > @@ -835,6 +919,20 @@ static int mem_open(struct inode *inode, struct file *file)
+> >  	return ret;
+> >  }
+> >  
+> > +static unsigned int __mem_rw_get_foll_force_flag(struct file *file)
+> > +{
+> > +	/* Deny if FOLL_FORCE is disabled via param */
+> > +	if (static_branch_unlikely(&restrict_proc_mem[4]))
+> > +		return 0;
+> > +
+> > +	/* Deny if FOLL_FORCE is allowed only for ptracers via param */
+> > +	if (static_branch_unlikely(&restrict_proc_mem[5]) &&
+> > +	    !__mem_open_current_is_ptracer(file))
+> 
+> This is like the ToCToU: the task may have changed out from under us
+> between the open the read/write.
+
+But why would you care? As long as the task is the ptracer it doesn't
+really matter afaict.
