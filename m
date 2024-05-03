@@ -1,52 +1,54 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C593517C66
-	for <linux-doc@vger.kernel.org>; Fri,  3 May 2024 21:36:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9849E13793E
+	for <linux-doc@vger.kernel.org>; Fri,  3 May 2024 21:38:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714772185; cv=none; b=OE383uATT1N+ZNWKIYsoHoF+pcOzO5LzemiV9WhPoHYUYyXp+721LSZNWztTJqwxYCILeONyOqFqJUmoBDnlpFar6PD4kKMzj4BnhzhYb31Fd2bFkN9M491dcwJluFrsoQCWgIgIr87lcIJjW7elKyy7KxTSerNYvnhDBK8kVUo=
+	t=1714772299; cv=none; b=boAer87xFe9TAxuinSZZko5kbt/HfjTYYBz2ViEn+GwZs0ZqFnbbIFqxgh7qzB83zpvr2/0EpIhhJMFdx0cEIj33a0B0qXPwDN528BaNfgmMqEzIOt5pddGi+OfkPyESZZ/3wJZlPxTjE66xfpt++x3yZf/s5LCvrLdP6+3WYpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714772185; c=relaxed/simple;
-	bh=zPdUhEqWBJ29dUl2NmZwwOZKTWDEHAXfImCAJa6FEJ8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=paxA82CkJBH2y8swsXabCb4Gs+LEKTTMwzFERVfT9tmJM7fsFmWB0E3eCt7RfixZQvbO77w8/d5Bzjl9ERDa+ylMmizmkP/GcpPhnMsxBQDg5AS/YOVRKANF0XmUgpoqQNKOk5/hX8iZvFDvLKxJVuN4G4P80oXAVbTbnNXi5HA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bejV8R1y; arc=none smtp.client-ip=209.85.214.181
+	s=arc-20240116; t=1714772299; c=relaxed/simple;
+	bh=EaWtWEnAFoVYQQ7NdwPJMqMdWOvHRnxTyipd/TFLpqw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=mTS7wr4vJq+Y1Rwg1Xq4sWbxHlkqPxyJQ9CDNQfZNhVH6YWrkm/816w0jpQrUSHqoSW4OJkNxz+kX+yZOr+0H07qRSs7+w+i0rC+wmeIQfp/tCFiwOQ6jJHUo+YJnj0B+WuE1Sbisu83Dwgr946lChMg0+g4S52T3SyKwtii/zQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=nlNk1Alg; arc=none smtp.client-ip=209.85.216.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bejV8R1y"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1e3f17c6491so778435ad.2
-        for <linux-doc@vger.kernel.org>; Fri, 03 May 2024 14:36:23 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nlNk1Alg"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-2b27c660174so132439a91.1
+        for <linux-doc@vger.kernel.org>; Fri, 03 May 2024 14:38:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1714772183; x=1715376983; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=O7IvcNsNHU8RMEEGHB36x94SUhZEWVNbyGS+d0gObkA=;
-        b=bejV8R1yB7mZngTOPiRdHYmUxE05BRPS1ROUnG/rWyJuT8Ns78KGXJ+QHqFvu24O9e
-         VVPJ9zO74+duR5I/J2Bn3wQ13DmF2hImmkqmM7hhiXCetce6CZNLqyP8UzcNP5gSmQzc
-         Qj4VS74FJqI93SFvOEp+9VLes4vNTwQ9NLawI=
+        d=chromium.org; s=google; t=1714772297; x=1715377097; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gkS+rg5OKiFoHCGrecPUpnEeRZJMeWyJ+snKafgy5vs=;
+        b=nlNk1Alg9L0OtkB8zxq3JA6tAKSLOHp6f15vm5koUH9FP5DyEm6Dg6BXgAdntsrdWi
+         avR5+u0SMT8Tl9+KVjdPN1txM+DeSEUVl1q4siPnjm0p5NGFVgm+Fpm/Zu3UQO6kvwDW
+         1g8heKyPmEo6JvdjTVzP0b5+CbBvPte2wS4lg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714772183; x=1715376983;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=O7IvcNsNHU8RMEEGHB36x94SUhZEWVNbyGS+d0gObkA=;
-        b=ClkafdZ/ejKAjuJa7YRYu4KU7pA+9Bn0dMKBRxTc5nSgWynEunFaHUr55z+2MFtSbD
-         HIhYDNRx+/r86oo6333QtWZuxMVKImqONUFG/NRn5e7h3zMLejWI2KpGxOlXe/0Lrf3z
-         J2cuPCGXO9Tqt+qR3Ou4Rsvn6tVJjpL8MMuF3gbn7JQjkUf/nnRxLDrxlQ5yRI8cJRYS
-         jOkZ0kKuOTS+TkYrhSghFsUxz5gH2ErHNqPaXwR6lhW0X4C+LTxs/3S1zA7AgVI2SZj3
-         zIhdnHW0NcVKl/JUeftILEBd3rUwPYBYSfLPxmSGwEfhWktCHXymYBwKmPJ3s0fQAJHn
-         SJow==
-X-Forwarded-Encrypted: i=1; AJvYcCWcinQdgNlNtSGT9HeBywumV3M/GvIslexfyi0bO7S4Wl1Hslc2e5ensGpHEc5ZN6tgm8PHb3ZAVg5ix6DeS/UYbreD6oK032V6
-X-Gm-Message-State: AOJu0YyaurP4D4plfQ12GuurlABxgP0CciHIqqmKKI83bXsn0pMtQPqU
-	PjeqONrT3UcW4jyNUO5PixrIN/DVtMGrqa20WfcAMxOD2fg60ksgb8/2W2QS9A==
-X-Google-Smtp-Source: AGHT+IH5eduOHdb1FCgLuhTvqIJg3l60grEr/JNT4BiC6IxKFTTgVq2iMUFgza4DOD4xTrjDsAYlqw==
-X-Received: by 2002:a17:902:e882:b0:1eb:4950:554f with SMTP id w2-20020a170902e88200b001eb4950554fmr4690309plg.22.1714772183009;
-        Fri, 03 May 2024 14:36:23 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1714772297; x=1715377097;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gkS+rg5OKiFoHCGrecPUpnEeRZJMeWyJ+snKafgy5vs=;
+        b=rPQdr2JxegjPjlyS0qpMHjv+rIYBMREPRq2rDM2TQoLps/+GNljFlwQmTzYkwFiqi6
+         bdyVKK32VGztUhTlWHsCoy3U3XCe3jaYyTXf+oI4JQbBWgD4HbwQ6KmTxzU05sqYJx5Z
+         D/2NeptpTRbw24eKsRctY5x6g9jN85ibseHzcEgeejBD+N7Y0v7q0ySam2juVaHF3Pu+
+         vG5MZgfl+qQVNqsFe8gAhloSllOpOx7qjOP+6JbINABNrCkHBbjXyv5fMgVrM4LX7lE2
+         5k5bZtila2oPZ8f/j4NpBqMDkgqECkTZA/ZN4xl57rniCEoIhCPglM44hTLotHazKIpu
+         EfTA==
+X-Forwarded-Encrypted: i=1; AJvYcCXGA6kNunzkYR0/Wez3k7rPq7AMfTo51TPEtfy6mJome7SG7Tt0DYLXO/N2MVZY6Fz46rydOtkV6XIpjKhgNGC9p5ayX0S81bux
+X-Gm-Message-State: AOJu0Yyvo0DOhyOIqb7cdKJ87Ml+IXjTQf4r8vgA59VQTJiV7y22odCr
+	9k737P0pmEkZldzKinmQSodSZal717DstbLxkRWhLhyF+9B8apiUIfGmHHDccg==
+X-Google-Smtp-Source: AGHT+IHkW28tWyRIV7NmgOtGvUD0tFuJ+wrkeXjluxHwAroLQKxUR2uvyN5Qr5JmQy9q9YdYC6JW1Q==
+X-Received: by 2002:a17:90a:6081:b0:2a2:8ed7:da34 with SMTP id z1-20020a17090a608100b002a28ed7da34mr3992252pji.1.1714772297001;
+        Fri, 03 May 2024 14:38:17 -0700 (PDT)
 Received: from dianders.sjc.corp.google.com ([2620:15c:9d:2:fb6a:b54b:7580:64f3])
-        by smtp.gmail.com with ESMTPSA id j12-20020a170903024c00b001eb51a46f5bsm3729134plh.43.2024.05.03.14.36.20
+        by smtp.gmail.com with ESMTPSA id j12-20020a170903024c00b001eb51a46f5bsm3729134plh.43.2024.05.03.14.38.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 May 2024 14:36:22 -0700 (PDT)
+        Fri, 03 May 2024 14:38:16 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	Maxime Ripard <mripard@kernel.org>
@@ -55,196 +57,99 @@ Cc: Linus Walleij <linus.walleij@linaro.org>,
 	Yuran Pereira <yuran.pereira@hotmail.com>,
 	Neil Armstrong <neil.armstrong@linaro.org>,
 	Douglas Anderson <dianders@chromium.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
 	Daniel Vetter <daniel@ffwll.ch>,
 	David Airlie <airlied@gmail.com>,
-	=?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
-	Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
-	Jessica Zhang <quic_jesszhan@quicinc.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Ondrej Jirman <megi@xff.cz>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Robert Chiras <robert.chiras@nxp.com>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	Stefan Mavrodiev <stefan@olimex.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
-	linux-arm-kernel@lists.infradead.org,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mediatek@lists.infradead.org
-Subject: [RFT PATCH v2 00/48] drm/panel: Remove most store/double-check of prepared/enabled state
-Date: Fri,  3 May 2024 14:32:41 -0700
-Message-ID: <20240503213441.177109-1-dianders@chromium.org>
+	linux-kernel@vger.kernel.org
+Subject: [RFT PATCH v2 48/48] drm/panel: Update TODO list item for cleaning up prepared/enabled tracking
+Date: Fri,  3 May 2024 14:33:29 -0700
+Message-ID: <20240503143327.RFT.v2.48.I104cdece7324b0c365e552a17f9883414ffaea01@changeid>
 X-Mailer: git-send-email 2.45.0.rc1.225.g2a3ae87e7f-goog
+In-Reply-To: <20240503213441.177109-1-dianders@chromium.org>
+References: <20240503213441.177109-1-dianders@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+Now that most panels have been updated not to track/double-check their
+prepared/enabled state update the TODO with next steps.
 
-As talked about in commit d2aacaf07395 ("drm/panel: Check for already
-prepared/enabled in drm_panel"), we want to remove needless code from
-panel drivers that was storing and double-checking the
-prepared/enabled state. Even if someone was relying on the
-double-check before, that double-check is now in the core and not
-needed in individual drivers.
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
 
-This series attempts to do just that. While the original grep, AKA:
-  git grep 'if.*>prepared' -- drivers/gpu/drm/panel
-  git grep 'if.*>enabled' -- drivers/gpu/drm/panel
-...still produces a few hits after my series, they are _mostly_ all
-gone. The ones that are left are less trivial to fix.
+(no changes since v1)
 
-One of the main reasons that many panels probably needed to store and
-double-check their prepared/enabled appears to have been to handle
-shutdown and/or remove. Panels drivers often wanted to force the power
-off for panels in these cases and this was a good reason for the
-double-check.
+ Documentation/gpu/todo.rst | 47 +++++++++++++++++++++-----------------
+ 1 file changed, 26 insertions(+), 21 deletions(-)
 
-In response to my V1 series [1] we had much discussion of what to
-do. The conclusion was that as long as DRM modeset drivers properly
-called drm_atomic_helper_shutdown() that we should be able to remove
-the explicit shutdown/remove handling in the panel drivers. Most of
-the patches to improve DRM modeset drivers [2] [3] [4] have now
-landed.
-
-In contrast to my V1 series, I broke the V2 series up a lot
-more. Since a few of the panel drivers in V1 already landed, we had
-fewer total drivers and so we could devote a patch to each panel.
-Also, since we were now relying on DRM modeset drivers I felt like we
-should split the patches for each panel into two: one that's
-definitely safe and one that could be reverted if we found a
-problematic DRM modeset driver that we couldn't fix.
-
-Sorry for the large number of patches. I've set things to mostly just
-CC people on the cover letter and the patches that are relevant to
-them. I've tried to CC people on the whole series that have shown
-interest in this TODO item.
-
-As patches in this series are reviewed and/or tested they could be
-landed. There's really no ordering requirement for the series unless
-patches touch the same driver.
-
-NOTE: this touches _a lot_ of drivers, is repetitive, and is not
-really possible to generate automatically. That means it's entirely
-possible that my eyes glazed over and I did something wrong. Please
-double-check me and don't assume that I got everything perfect, though
-I did my best. I have at least confirmed that "allmodconfig" for arm64
-doesn't fall on its face with this series. I haven't done a ton of
-other testing.
-
-[1] https://lore.kernel.org/r/20230804140605.RFC.4.I930069a32baab6faf46d6b234f89613b5cec0f14@changeid
-[2] https://lore.kernel.org/r/20230901234015.566018-1-dianders@chromium.org
-[3] https://lore.kernel.org/r/20230901234202.566951-1-dianders@chromium.org
-[4] https://lore.kernel.org/r/20230921192749.1542462-1-dianders@chromium.org
-
-Changes in v2:
-- ("drm/panel: raydium-rm692e5: Stop tracking prepared") new for v2.
-- Only handle 1 panel per patch.
-- Split removal of prepared/enabled from handling of remove/shutdown.
-- panel-edp and panel-simple just get a comment now.
-
-Douglas Anderson (48):
-  drm/panel: raydium-rm692e5: Stop tracking prepared
-  drm/panel: boe-himax8279d: Stop tracking prepared/enabled
-  drm/panel: boe-himax8279d: Don't call unprepare+disable at
-    shutdown/remove
-  drm/panel: boe-tv101wum-nl6: Stop tracking prepared
-  drm/panel: boe-tv101wum-nl6: Don't call unprepare+disable at
-    shutdown/remove
-  drm/panel: edp: Stop tracking prepared/enabled
-  drm/panel: edp: Add a comment about unprepare+disable at
-    shutdown/remove
-  drm/panel: innolux-p079zca: Stop tracking prepared/enabled
-  drm/panel: innolux-p079zca: Don't call unprepare+disable at
-    shutdown/remove
-  drm/panel: khadas-ts050: Stop tracking prepared/enabled
-  drm/panel: khadas-ts050: Don't call unprepare+disable at
-    shutdown/remove
-  drm/panel: kingdisplay-kd097d04: Stop tracking prepared/enabled
-  drm/panel: kingdisplay-kd097d04: Don't call unprepare+disable at
-    shutdown/remove
-  drm/panel: ltk050h3146w: Stop tracking prepared
-  drm/panel: ltk050h3146w: Don't call unprepare+disable at
-    shutdown/remove
-  drm/panel: ltk500hd1829: Stop tracking prepared
-  drm/panel: ltk500hd1829: Don't call unprepare+disable at
-    shutdown/remove
-  drm/panel: novatek-nt36672a: Stop tracking prepared
-  drm/panel: novatek-nt36672a: Don't call unprepare+disable at
-    shutdown/remove
-  drm/panel: olimex-lcd-olinuxino: Stop tracking prepared/enabled
-  drm/panel: olimex-lcd-olinuxino: Don't call unprepare+disable at
-    remove
-  drm/panel: osd-osd101t2587-53ts: Stop tracking prepared/enabled
-  drm/panel: osd-osd101t2587-53ts: Don't call unprepare+disable at
-    shutdown/remove
-  drm/panel: samsung-atna33xc20: Stop tracking prepared/enabled
-  drm/panel: samsung-atna33xc20: Don't call unprepare+disable at
-    shutdown/remove
-  drm/panel: simple: Stop tracking prepared/enabled
-  drm/panel: simple: Add a comment about unprepare+disable at
-    shutdown/remove
-  drm/panel: tdo-tl070wsh30: Stop tracking prepared
-  drm/panel: tdo-tl070wsh30: Don't call unprepare+disable at
-    shutdown/remove
-  drm/panel: xinpeng-xpp055c272: Stop tracking prepared
-  drm/panel: xinpeng-xpp055c272: Don't call unprepare+disable at
-    shutdown/remove
-  drm/panel: jdi-lt070me05000: Stop tracking prepared/enabled
-  drm/panel: jdi-lt070me05000: Don't call disable at shutdown/remove
-  drm/panel: panasonic-vvx10f034n00: Stop tracking prepared/enabled
-  drm/panel: panasonic-vvx10f034n00: Don't call disable at
-    shutdown/remove
-  drm/panel: seiko-43wvf1g: Stop tracking prepared/enabled
-  drm/panel: seiko-43wvf1g: Don't call disable at shutdown/remove
-  drm/panel: sharp-lq101r1sx01: Stop tracking prepared/enabled
-  drm/panel: sharp-lq101r1sx01: Don't call disable at shutdown/remove
-  drm/panel: sharp-ls043t1le01: Stop tracking prepared
-  drm/panel: sharp-ls043t1le01: Don't call disable at shutdown/remove
-  drm/panel: sitronix-st7703: Stop tracking prepared
-  drm/panel: sitronix-st7703: Don't call disable at shutdown/remove
-  drm/panel: raydium-rm67191: Stop tracking enabled
-  drm/panel: raydium-rm67191: Don't call unprepare+disable at shutdown
-  drm/panel: sony-acx565akm: Don't double-check enabled state in disable
-  drm/panel: sony-acx565akm: Don't call disable at remove
-  drm/panel: Update TODO list item for cleaning up prepared/enabled
-    tracking
-
- Documentation/gpu/todo.rst                    | 47 +++++++-------
- drivers/gpu/drm/panel/panel-boe-himax8279d.c  | 40 ------------
- .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 23 -------
- drivers/gpu/drm/panel/panel-edp.c             | 60 +++++++-----------
- drivers/gpu/drm/panel/panel-innolux-p079zca.c | 55 ----------------
- .../gpu/drm/panel/panel-jdi-lt070me05000.c    | 35 -----------
- drivers/gpu/drm/panel/panel-khadas-ts050.c    | 39 ------------
- .../drm/panel/panel-kingdisplay-kd097d04.c    | 48 --------------
- .../drm/panel/panel-leadtek-ltk050h3146w.c    | 28 ---------
- .../drm/panel/panel-leadtek-ltk500hd1829.c    | 28 ---------
- .../gpu/drm/panel/panel-novatek-nt36672a.c    | 29 ---------
- .../drm/panel/panel-olimex-lcd-olinuxino.c    | 44 -------------
- .../drm/panel/panel-osd-osd101t2587-53ts.c    | 41 +-----------
- .../drm/panel/panel-panasonic-vvx10f034n00.c  | 47 +-------------
- drivers/gpu/drm/panel/panel-raydium-rm67191.c | 26 --------
- drivers/gpu/drm/panel/panel-raydium-rm692e5.c | 10 ---
- .../gpu/drm/panel/panel-samsung-atna33xc20.c  | 36 -----------
- drivers/gpu/drm/panel/panel-seiko-43wvf1g.c   | 49 ---------------
- .../gpu/drm/panel/panel-sharp-lq101r1sx01.c   | 63 +------------------
- .../gpu/drm/panel/panel-sharp-ls043t1le01.c   | 24 -------
- drivers/gpu/drm/panel/panel-simple.c          | 60 +++++++-----------
- drivers/gpu/drm/panel/panel-sitronix-st7703.c | 35 +++--------
- drivers/gpu/drm/panel/panel-sony-acx565akm.c  |  6 --
- drivers/gpu/drm/panel/panel-tdo-tl070wsh30.c  | 23 -------
- .../gpu/drm/panel/panel-xinpeng-xpp055c272.c  | 28 ---------
- 25 files changed, 83 insertions(+), 841 deletions(-)
-
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index e2a0585915b3..4063bc45bbd3 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -469,30 +469,35 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>
+ 
+ Level: Starter
+ 
+-Clean up checks for already prepared/enabled in panels
+-------------------------------------------------------
+-
+-In a whole pile of panel drivers, we have code to make the
+-prepare/unprepare/enable/disable callbacks behave as no-ops if they've already
+-been called. To get some idea of the duplicated code, try::
+-
+-  git grep 'if.*>prepared' -- drivers/gpu/drm/panel
+-  git grep 'if.*>enabled' -- drivers/gpu/drm/panel
+-
+-In the patch ("drm/panel: Check for already prepared/enabled in drm_panel")
+-we've moved this check to the core. Now we can most definitely remove the
+-check from the individual panels and save a pile of code.
+-
+-In adition to removing the check from the individual panels, it is believed
+-that even the core shouldn't need this check and that should be considered
+-an error if other code ever relies on this check. The check in the core
+-currently prints a warning whenever something is relying on this check with
+-dev_warn(). After a little while, we likely want to promote this to a
+-WARN(1) to help encourage folks not to rely on this behavior.
++Remove disable/unprepare in remove/shutdown in panel-simple and panel-edp
++-------------------------------------------------------------------------
++
++As of commit d2aacaf07395 ("drm/panel: Check for already prepared/enabled in
++drm_panel"), we have a check in the drm_panel core to make sure nobody
++double-calls prepare/enable/disable/unprepare. Eventually that should probably
++be turned into a WARN_ON() or somehow made louder, but right now we actually
++expect it to trigger and so we don't want it to be too loud.
++
++Specifically, that warning will trigger for panel-edp and panel-simple at
++shutdown time because those panels hardcode a call to drm_panel_disable()
++and drm_panel_unprepare() at shutdown and remove time that they call regardless
++of panel state. On systems with a properly coded DRM modeset driver that
++calls drm_atomic_helper_shutdown() this is pretty much guaranteed to cause
++the warning to fire.
++
++Unfortunately we can't safely remove the calls in panel-edp and panel-simple
++until we're sure that all DRM modeset drivers that are used with those panels
++properly call drm_atomic_helper_shutdown(). This TODO item is to validate
++that all DRM modeset drivers used with panel-edp and panel-simple properly
++call drm_atomic_helper_shutdown() and then remove the calls to
++disable/unprepare from those panels. Alternatively, this TODO item could be
++removed by convincing stakeholders that those calls are fine and downgrading
++the error message in drm_panel_disable() / drm_panel_unprepare() to a
++debug-level message.
+ 
+ Contact: Douglas Anderson <dianders@chromium.org>
+ 
+-Level: Starter/Intermediate
++Level: Intermediate
+ 
+ 
+ Core refactorings
 -- 
 2.45.0.rc1.225.g2a3ae87e7f-goog
 
