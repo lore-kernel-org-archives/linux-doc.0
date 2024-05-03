@@ -1,44 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85329524BE;
-	Fri,  3 May 2024 18:03:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E08D7158A32;
+	Fri,  3 May 2024 18:03:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714759402; cv=none; b=JsKrOKooezk4uvVz8v5bDVY9QGZLzznfmhU2T1zJCAj8GC9r6ObE7MOk2NPfpCn96WzP32Rf+W/20+aANIsnatZ9M6ym/UXhTGB5FNuFsZ63+ViU7logW4BchfEcwbKlr+td//n1Mj7szriACJ3tIK/6ftBvaC+YapapiwJkyWc=
+	t=1714759407; cv=none; b=MP6xo9o086fXmVYRc2itgdA0tU5c35QCE2pnzlv3o5tHd8/XQ+mijXWr13JnYDEv1f6bZZlb24NSmoG+aaasj2wkyADdTxObW5YIwGLtGpTA0IJ95SpCynApeqZpgwzbn+hgko+xhUTgNGHRkVjNKfJiAXj+xd+qwQplWqM2Lm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714759402; c=relaxed/simple;
-	bh=EaRqMYwfZ6CLfXPj4ijECU/OD147lD5SF+BXmhPmFBE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uceVdSl6sN9NN4KRTunI5u2hk8Qu1dApxpOM4eZ5AiwdVSxy0yr20BqL4zvbXvYrAb/0FwEzJ3ZSE96mSovDxRXIzgLk1g8f0ytoZzYGMCSUZH1j5yVYTDwych84EI/wMwDaj7gdI14MmgEXZvLfX4omnguGgVUoWsz8uqqZths=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c/ANqK38; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714759407; c=relaxed/simple;
+	bh=AS2JS3BGQVHo5RzbTVMIa5UQeXJ+fVLWbjaYsPF6V/A=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=FnLjw99rjEA2ypAu/zm7ceVbElSYdzupBi2LpV510QoxbJlnaSI+lSuO+H9vyr3zMuONLLwFp/gehZADv6YiYzwDfIGmn/pm8Xb5aGusZGYvV4lYeajDwIevzXtAno2Vc4QM9Jy5sWVst4+RCHJnvvpAJ0e6r0co9AyLapARYws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ueOhhzQV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c/ANqK38"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DE58C116B1;
-	Fri,  3 May 2024 18:03:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ueOhhzQV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D49F2C4AF49;
+	Fri,  3 May 2024 18:03:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714759402;
-	bh=EaRqMYwfZ6CLfXPj4ijECU/OD147lD5SF+BXmhPmFBE=;
-	h=From:To:Cc:Subject:Date:From;
-	b=c/ANqK38xQzyHdzDJOSTvZdEXbKgMhzGY+jpa3IIINQ5OxKUJ82vJj1zM62xdPM3G
-	 r+tLJo6ZjzHqZqfU3EnC32lBEoCGOXpNeMUBz2yYvmemF5TBOcxwKdeIMiHJPjsCs4
-	 LykAW/rdIX/geqNnFwcPAFHLJqEEDeutBud6EqKDgTvEy3dat0hI0PVmCpnI+D6aKk
-	 stVO19TpNFgbvyHbqNpo99PWCK8zG2KfyMGTvYRUFrZ5AEZQbjZxvjO3WJZrIMN576
-	 UFABaXUaLRtLTsLvWCzwsdoSMQcpWaM46DXMgelfpaHMLCM6Bj7XuLBhllHZYXr0DS
-	 WMQVXowP7D5aA==
+	s=k20201202; t=1714759406;
+	bh=AS2JS3BGQVHo5RzbTVMIa5UQeXJ+fVLWbjaYsPF6V/A=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ueOhhzQVHOqQWS9hYd7/BOnLu3AxufgKPocOXtiZLC21qJmV/tqXZ61UompLt/MJd
+	 +WVAZWgVSP9eVni1vx7w7nHUO/+7h6JQlu391AY1frY6stamIP3CGGUutmqakezWye
+	 s/dYRTuD9XCUL49qOm8PjT5kc3Z7DWRP4jDyjRpZsrl8J5sRKJpdMTjfA86XtGDudR
+	 QOevYHYzah/lMOmxfaYzul8yQPsENcjYKTXqc69dZfwQQRLegrgx3Af9MdlHGWpmab
+	 SWfahDGBBQdx6ypo2/1tIBOCEnouQr1GEQiSV0YRQvAW9xuSeVTo8bXLtQViTC4sYJ
+	 x0l/C9XFWnn2g==
 From: SeongJae Park <sj@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: SeongJae Park <sj@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
 	damon@lists.linux.dev,
 	linux-mm@kvack.org,
 	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 00/10] mm/damon: misc fixes and improvements
-Date: Fri,  3 May 2024 11:03:08 -0700
-Message-Id: <20240503180318.72798-1-sj@kernel.org>
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH 06/10] Docs/admin-guide/mm/damon/usage: fix wrong example of DAMOS filter matching sysfs file
+Date: Fri,  3 May 2024 11:03:14 -0700
+Message-Id: <20240503180318.72798-7-sj@kernel.org>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240503180318.72798-1-sj@kernel.org>
+References: <20240503180318.72798-1-sj@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,35 +49,33 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add miscelleneous and non-urgent fixes and improvements for DAMON code,
-selftests, and documents.
+The example usage of DAMOS filter sysfs files, specifically the part of
+'matching' file writing for memcg type filter, is wrong.  The intention
+is to exclude pages of a memcg that already getting enough care from a
+given scheme, but the example is setting the filter to apply the scheme
+to only the pages of the memcg.  Fix it.
 
-SeongJae Park (10):
-  mm/damon/core: initialize ->esz_bp from damos_quota_init_priv()
-  selftests/damon/_damon_sysfs: check errors from nr_schemes file reads
-  selftests/damon/_damon_sysfs: find sysfs mount point from /proc/mounts
-  selftests/damon/_damon_sysfs: use 'is' instead of '==' for 'None'
-  selftests/damon: classify tests for functionalities and regressions
-  Docs/admin-guide/mm/damon/usage: fix wrong example of DAMOS filter
-    matching sysfs file
-  Docs/admin-guide/mm/damon/usage: fix wrong schemes effective quota
-    update command
-  Docs/mm/damon/design: use a list for supported filters
-  Docs/mm/damon/maintainer-profile: change the maintainer's timezone
-    from PST to PT
-  Docs/mm/damon/maintainer-profile: allow posting patches based on
-    damon/next tree
+Fixes: 9b7f9322a530 ("Docs/admin-guide/mm/damon/usage: document DAMOS filters of sysfs")
+Closes: https://lore.kernel.org/r/20240317191358.97578-1-sj@kernel.org
+Cc: <stable@vger.kernel.org> # 6.3.x
+Signed-off-by: SeongJae Park <sj@kernel.org>
+---
+ Documentation/admin-guide/mm/damon/usage.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- Documentation/admin-guide/mm/damon/usage.rst  |  6 +-
- Documentation/mm/damon/design.rst             | 46 +++++----
- Documentation/mm/damon/maintainer-profile.rst | 13 +--
- mm/damon/core.c                               |  1 +
- tools/testing/selftests/damon/Makefile        | 13 ++-
- tools/testing/selftests/damon/_damon_sysfs.py | 95 +++++++++++--------
- 6 files changed, 100 insertions(+), 74 deletions(-)
-
-
-base-commit: fc7314cb6b750187a1366e0bf9da4c3ca8cfd064
+diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
+index 69bc8fabf378..3ce3f0aaa1d5 100644
+--- a/Documentation/admin-guide/mm/damon/usage.rst
++++ b/Documentation/admin-guide/mm/damon/usage.rst
+@@ -434,7 +434,7 @@ pages of all memory cgroups except ``/having_care_already``.::
+     # # further filter out all cgroups except one at '/having_care_already'
+     echo memcg > 1/type
+     echo /having_care_already > 1/memcg_path
+-    echo N > 1/matching
++    echo Y > 1/matching
+ 
+ Note that ``anon`` and ``memcg`` filters are currently supported only when
+ ``paddr`` :ref:`implementation <sysfs_context>` is being used.
 -- 
 2.39.2
 
