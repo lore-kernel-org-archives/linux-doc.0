@@ -1,230 +1,123 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bee.tesarici.cz (bee.tesarici.cz [37.205.15.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33DBAD29E;
-	Sat,  4 May 2024 08:04:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2512110A0A;
+	Sat,  4 May 2024 08:16:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.205.15.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714809869; cv=none; b=Kgr6DSAxNcEM/nEoRD2/QLhSsYbECiMri96BOozGV7tN3HGyv8wGorBCI7HAGhKx7mus9nBLyWP5f61ittUmXfgWzi1O+XGEeGwjP4+IbcJagDMri18JaUNFKGrRvzqtu62Xn7vpnxd4k+x/74nWEbuUPE+Phbt+XJ0YBNd28P4=
+	t=1714810624; cv=none; b=MC+VdhPh6q9RxGZ4hVTgEdCw/GSyc2Amdv5BH389AnmXZNqNx0wb0lP6Oa1epkNLT10HvJAq9kCCvQidYohZm25sfEC7d2wRVv8wYhTF0o1EqmfAujw0SilTN/hmm7laXgyO9MfEnnp4woSzO3VubXFuIh5pzu2/j3uUBwR26yQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714809869; c=relaxed/simple;
-	bh=0hjZIw2e2IuhjYNugxhXSXZpWs5mVXjcsoZo1BqocAs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ue9HDOTCe4j4gjig2I5kW18f3muEpv7ofXLBCkNYbB+0QclQdB4Cqx+eop9AdV3RyWRFpTdcWx/hovEZz0DGnnly0O+dp/E/hyfNkHqbhF6gqEH+hxpPwJh4LQ2YdtrCYJ1fktZT8a1VC0wZEcHeFt1FNVkC2KBVRpp2QD+bw9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j2MPtTQT; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1714810624; c=relaxed/simple;
+	bh=5KLQ5djW6HtWwiT2B9Pb+poWNF+1A6VF1v+gQJIH0bM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZJtZlIiTiJffFwPtaJdjmvC4zbZliemBUPGCs9HmX2Z4qv/kT7kHMYaSU7GfNZ9C1frr6rXFTpEbzlrxwPSo3f/J5J3MMKUa7XNoPbgqeDAstwjrOZROPdR8kNqeWhZGQ+HtfjvrjnHUeiox7M3oRoIrpkMGovpmZivJ45mlgVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz; spf=pass smtp.mailfrom=tesarici.cz; dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b=DV+Xe+9J; arc=none smtp.client-ip=37.205.15.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tesarici.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j2MPtTQT"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6ed3cafd766so391268b3a.0;
-        Sat, 04 May 2024 01:04:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714809866; x=1715414666; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3Lj67rtK1QueWPk7ARNpfvxl9vOgAVWGxhUJDN/QBK8=;
-        b=j2MPtTQTx683nJWgf+VqG/CYiRVqskw/qKRynsLET/BuZX8Gx+lRoPor2Mbw77E/rs
-         f5PVcoklIFNoWE1RWFO5kyJxadfxcHOe93vboEbFAAR6eo1eO/Ojiu2xD1/ZLSYQgZVD
-         dNBAFTYTp+S45ULOfx3Gb5TClMgKwPE6cUWd7KZraDaORWL3p+Zu4h2Su3ynomL8e6LD
-         79/LzoGjVid/dmXwbAQMJIMFL9s8a6R+onCZxCrYzATbVGNaXht4nt62YZv976Bw3bOt
-         EQNcwi76REG8VUUY9c9FJC931NWCEBwxuZVEH7Oz07377xVwvG8hfW/mnCrYjJr9GJoR
-         WQBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714809866; x=1715414666;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3Lj67rtK1QueWPk7ARNpfvxl9vOgAVWGxhUJDN/QBK8=;
-        b=W/9dzpS/lLFJLoXjFbPJnwnrRBB4BRKasFPORn58kgupW5I6D2nCxYpPxGmsIaEBQ/
-         PgY/W+6LNNYNdgRqp7v3k2CR83+eGtgJTjNL77EfWHiWBN1pc1qhf/+AGirZ+T/CkmhJ
-         23TCkpvDGFZGJl0INYpBO2/VkZjI5Ft891YCX9AiugpNjGDGYKSFjDWXdlvInlGm5lIr
-         Ou6KaBBVBXAWwT4JJXzpetcQJjwfholBX+SSc1b8LI1NZ2FDbMlhn16orvoQphinZw57
-         ZB4aZZRCK9notumSDPq1TB3cvs/AkeVebzZ5RPwVtir/PGa1Y9mIjImT4WDg40m0NFyl
-         dRWA==
-X-Forwarded-Encrypted: i=1; AJvYcCXgXjfzAGqpZFd8V4eQ7FPaIReB6gBfvQp8Pd21tKLo97WCvi5PjVJncQsXy6aHX9EbG0gJX3OAOaeVkZASF5jbPRjbPc63YWcIDdDVXt5rBQmW/ax84o4AtD5yKzeFZolBzn0o2zsibhxLWZiVFoOnQopXNZqcLaMvGukLzVACXXbzAspKWKC3paLYd9go/Kp7hR05ZqZsLt3OHf+RuHfN1Klrw0BKRJses52aGIXYnWI6ceZpCiNLDwef7gWtZmENw0R3nBWbLg==
-X-Gm-Message-State: AOJu0YzESvWpYvlndTA/zG1moIQZJ9Zm1Gq3mrp1V9ezJtQHJ0V+o+7t
-	QQ9MI9lwRe27O8mBR6TVZsbkUDrvwJgRwCE4y/Q2XQuESGNMvOcB
-X-Google-Smtp-Source: AGHT+IG0qZqH9zc005lWKjgxwZgqZm5TyMRd8CrRzXUZbRqngw1NpFuolrIDkh7YQEN+G1GdDh8Ciw==
-X-Received: by 2002:a05:6a00:a81:b0:6f3:e9bc:7ed3 with SMTP id b1-20020a056a000a8100b006f3e9bc7ed3mr5704824pfl.17.1714809866257;
-        Sat, 04 May 2024 01:04:26 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id bn12-20020a056a00324c00b006edd05e3751sm4356202pfb.176.2024.05.04.01.04.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 May 2024 01:04:25 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 8A4001847D504; Sat, 04 May 2024 15:04:22 +0700 (WIB)
-Date: Sat, 4 May 2024 15:04:22 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net, zohar@linux.ibm.com,
-	jmorris@namei.org, serge@hallyn.com, tytso@mit.edu,
-	ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com,
-	snitzer@kernel.org, eparis@redhat.com, paul@paul-moore.com
-Cc: linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
-	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
-	linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
-	audit@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Deven Bowers <deven.desai@linux.microsoft.com>
-Subject: Re: [PATCH v18 20/21] Documentation: add ipe documentation
-Message-ID: <ZjXsBjAFs-qp9xY4@archie.me>
-References: <1714775551-22384-1-git-send-email-wufan@linux.microsoft.com>
- <1714775551-22384-21-git-send-email-wufan@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="DV+Xe+9J"
+Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by bee.tesarici.cz (Postfix) with ESMTPSA id 060441BA1D9;
+	Sat,  4 May 2024 10:16:52 +0200 (CEST)
+Authentication-Results: mail.tesarici.cz; dmarc=fail (p=quarantine dis=none) header.from=tesarici.cz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tesarici.cz; s=mail;
+	t=1714810612; bh=HIQTiZruIzF8K/sYeFSJkzkfpUCRGh0NaHzc0R77M4g=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=DV+Xe+9JkNy6B/5oNxKh9ZDZSsY1jtZZ6kQwSp+2wLf2OuF0HFTOw0w6z1Tv3OR80
+	 TQwBP6j/fwqAkMrg3Lj8JimDRpkYlqN2czE6jNikZSWzP1pyAPH+ua+LXisk7VSxSw
+	 mbQ+hP4l7EITxV7zt8BWkJ/Yz66kC/tONhSyjc+Lse3YhEDmbpvu04Q5dlEPVtrb3v
+	 NJ5EeEnAHeizDOUwfAMZp2LN1QK5HTOTpNM9C7FFh+hUroQgFYLU9Y6zT5Z2EHhkBi
+	 eJxhMDU6HNDsFn6vXteIH4jxFShl3PTMyYf4LP46W2ZTs33hXWxssYzDlFlef0eaHF
+	 0d+1+JigElsDA==
+Date: Sat, 4 May 2024 10:16:51 +0200
+From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+To: "T.J. Mercier" <tjmercier@google.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"
+ <hpa@zytor.com>, hch@infradead.org, robin.murphy@arm.com, joro@8bytes.org,
+ will@kernel.org, akpm@linux-foundation.org, isaacmanjarres@google.com,
+ iommu@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Michael Kelley <mhklinux@outlook.com>
+Subject: Re: [PATCH] swiotlb: iommu/dma: Clarify swiotlb options apply only
+ to dma-direct
+Message-ID: <20240504101651.7de5106f@meshulam.tesarici.cz>
+In-Reply-To: <20240503183527.1548119-1-tjmercier@google.com>
+References: <20240503183527.1548119-1-tjmercier@google.com>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="nK/4++6p9aVBG6jQ"
-Content-Disposition: inline
-In-Reply-To: <1714775551-22384-21-git-send-email-wufan@linux.microsoft.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Fri,  3 May 2024 18:35:26 +0000
+"T.J. Mercier" <tjmercier@google.com> wrote:
 
---nK/4++6p9aVBG6jQ
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> IOMMU implementations now sometimes bounce memory through SWIOTLB to
+> achieve cacheline alignment [1], or prevent DMA attacks by untrusted
+> devices [2]. These uses of SWIOTLB differ conceptually from historical
+> use which was a solution to the problem of device addressing
+> limitations that prevent DMA to some portion of system memory
+> (typically beyond 4 GiB). IOMMUs also solve the problem of device
+> addressing limitations and therefore eliminate the need for SWIOTLB for
+> that purpose. However as mentioned, IOMMUs can use SWIOTLB for other
+> purposes.
+> 
+> The swiotlb kernel command line parameter does not impact IOMMU related
+> use of SWIOTLB, and that is intentional. IOMMUs cannot be forced to use
+> SWIOTLB for all buffers. Update the documentation for the swiotlb
+> parameter to clarify that SWIOTLB use can only be forced in scenarios
+> where an IOMMU is not involved.
+> 
+> [1] https://lore.kernel.org/all/20230612153201.554742-16-catalin.marinas@arm.com
+> [2] https://lore.kernel.org/all/20190906061452.30791-1-baolu.lu@linux.intel.com/
+> Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 1 +
+>  Documentation/arch/x86/x86_64/boot-options.rst  | 2 +-
+>  2 files changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 213d0719e2b7..84c582ac246c 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -6486,6 +6486,7 @@
+>  				 to a power of 2.
+>  			force -- force using of bounce buffers even if they
+>  			         wouldn't be automatically used by the kernel
+> +			         where a hardware IOMMU is not involved
+>  			noforce -- Never use bounce buffers (for debugging)
+>  
+>  	switches=	[HW,M68k,EARLY]
 
-On Fri, May 03, 2024 at 03:32:30PM -0700, Fan Wu wrote:
-> +IPE does not mitigate threats arising from malicious but authorized
-> +developers (with access to a signing certificate), or compromised
-> +developer tools used by them (i.e. return-oriented programming attacks).
-> +Additionally, IPE draws hard security boundary between userspace and
-> +kernelspace. As a result, IPE does not provide any protections against a
-> +kernel level exploit, and a kernel-level exploit can disable or tamper
-> +with IPE's protections.
+Yes, this part is correct. SWIOTLB cannot be forced if there is an IOMMU.
 
-So how to mitigate kernel-level exploits then?
+> diff --git a/Documentation/arch/x86/x86_64/boot-options.rst b/Documentation/arch/x86/x86_64/boot-options.rst
+> index 137432d34109..066b4bc81583 100644
+> --- a/Documentation/arch/x86/x86_64/boot-options.rst
+> +++ b/Documentation/arch/x86/x86_64/boot-options.rst
+> @@ -285,7 +285,7 @@ iommu options only relevant to the AMD GART hardware IOMMU:
+>        Always panic when IOMMU overflows.
+>  
+>  iommu options only relevant to the software bounce buffering (SWIOTLB) IOMMU
+> -implementation:
+> +implementation where a hardware IOMMU is not involved:
+>  
+>      swiotlb=<slots>[,force,noforce]
+>        <slots>
 
-> +Allow only initramfs
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> <snipped>...
-> +Allow any signed and validated dm-verity volume and the initramfs
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> <snipped>...
+But this part needs some improvement. The "swiotlb" option is not
+entirely ignored if there is a hardware IOMMU. For example, the size of
+the SWIOTLB can be adjusted using "swiotlb=<slots>", and since SWIOTLB
+can be used by IOMMUs for other purposes (as you correctly note in the
+commit message), this setting is relevant even where a hardware IOMMU
+is involved.
 
-htmldocs build reports new warnings:
-
-Documentation/admin-guide/LSM/ipe.rst:694: WARNING: Title underline too sho=
-rt.
-
-Allow any signed and validated dm-verity volume and the initramfs
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Documentation/admin-guide/LSM/ipe.rst:694: WARNING: Title underline too sho=
-rt.
-
-Allow any signed and validated dm-verity volume and the initramfs
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Documentation/arch/x86/resctrl.rst:577: WARNING: Title underline too short.
-
-I have to match these sections underline length:
-
----- >8 ----
-diff --git a/Documentation/admin-guide/LSM/ipe.rst b/Documentation/admin-gu=
-ide/LSM/ipe.rst
-index 1a3bf1d8aa23f0..a47e14e024a90d 100644
---- a/Documentation/admin-guide/LSM/ipe.rst
-+++ b/Documentation/admin-guide/LSM/ipe.rst
-@@ -681,7 +681,7 @@ Allow all
-    DEFAULT action=3DALLOW
-=20
- Allow only initramfs
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+~~~~~~~~~~~~~~~~~~~~
-=20
- ::
-=20
-@@ -691,7 +691,7 @@ Allow only initramfs
-    op=3DEXECUTE boot_verified=3DTRUE action=3DALLOW
-=20
- Allow any signed and validated dm-verity volume and the initramfs
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-=20
- ::
-=20
-@@ -725,7 +725,7 @@ Allow only a specific dm-verity volume
-    op=3DEXECUTE dmverity_roothash=3Dsha256:401fcec5944823ae12f62726e818440=
-7a5fa9599783f030dec146938 action=3DALLOW
-=20
- Allow any fs-verity file with a valid built-in signature
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-=20
- ::
-=20
-@@ -735,7 +735,7 @@ Allow any fs-verity file with a valid built-in signature
-    op=3DEXECUTE fsverity_signature=3DTRUE action=3DALLOW
-=20
- Allow execution of a specific fs-verity file
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-=20
- ::
-=20
-
-> +Additional Information
-> +----------------------
-> +
-> +- `Github Repository <https://github.com/microsoft/ipe>`_
-> +- Documentation/security/ipe.rst
-
-Link title to both this admin-side and developer docs can be added for
-disambiguation (to avoid confusion on readers):
-
----- >8 ----
-diff --git a/Documentation/admin-guide/LSM/ipe.rst b/Documentation/admin-gu=
-ide/LSM/ipe.rst
-index a47e14e024a90d..25b17e11559149 100644
---- a/Documentation/admin-guide/LSM/ipe.rst
-+++ b/Documentation/admin-guide/LSM/ipe.rst
-@@ -7,7 +7,8 @@ Integrity Policy Enforcement (IPE)
-=20
-    This is the documentation for admins, system builders, or individuals
-    attempting to use IPE. If you're looking for more developer-focused
--   documentation about IPE please see Documentation/security/ipe.rst
-+   documentation about IPE please see :doc:`the design docs
-+   </security/ipe>`.
-=20
- Overview
- --------
-@@ -748,7 +749,7 @@ Additional Information
- ----------------------
-=20
- - `Github Repository <https://github.com/microsoft/ipe>`_
--- Documentation/security/ipe.rst
-+- :doc:`Developer and design docs for IPE </security/ipe>`
-=20
- FAQ
- ---
-diff --git a/Documentation/security/ipe.rst b/Documentation/security/ipe.rst
-index 07e3632241285d..fd1b1a852d2165 100644
---- a/Documentation/security/ipe.rst
-+++ b/Documentation/security/ipe.rst
-@@ -7,7 +7,7 @@ Integrity Policy Enforcement (IPE) - Kernel Documentation
-=20
-    This is documentation targeted at developers, instead of administrators.
-    If you're looking for documentation on the usage of IPE, please see
--   Documentation/admin-guide/LSM/ipe.rst
-+   `IPE admin guide </admin-guide/LSM/ipe.rst>`_.
-=20
- Historical Motivation
- ---------------------
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---nK/4++6p9aVBG6jQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZjXsAgAKCRD2uYlJVVFO
-o5rXAQCS3HwJg98sIZ+dvHD4EtrdQXP2AZQEC3nP+kq7cOi47wD+P0ZrOINzS3p5
-azRTQTXUkE+0lznZFyE75YeW2OX1dQs=
-=ebwU
------END PGP SIGNATURE-----
-
---nK/4++6p9aVBG6jQ--
+Petr T
