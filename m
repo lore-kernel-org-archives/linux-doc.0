@@ -1,76 +1,189 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE5A12E4A;
-	Sat,  4 May 2024 11:25:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9FFE7318A;
+	Sat,  4 May 2024 20:13:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714821917; cv=none; b=d3UEIneovagY0rH7uZ1slvSvtKoiRRdR+uuPvqCtnMc0/JoFkTAs5fOUYpemli7KjLh6XsQJ5qqyqOGGR9IFp/y99lVxdRTYPRY+YsydUnnjz3mvMk8/o6s8gkXm6R1kIQUYLjgCe7qXg97MoNAYIWhPTMONhSqFVh0JxHQmJh4=
+	t=1714853604; cv=none; b=XOwf2wIoUOSvjw4wy5YMzkoX3Bkv6CiPFQ11MlfN2N0rZpVq8EbXv8iSKjSS0mLeMYYC8+pSqydZhKgrfN9+PxXesKJSg6t+kyoXr9lpM+jZRSnufsRQIruOc1VCyYUWiTHd5qhbctLotWg+hOsrojJnuYrsrWcuRx0LN6bSwPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714821917; c=relaxed/simple;
-	bh=aoXtElC6QjfEFEfzT5AfaOXZlXtAWDSJADrXTUPIhJ0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Iw+p2gYXchSk9PxM3LRIXLjEDaluYG0/MgZXGR39cLALH5fOXpj+WG45yctgD1+IBsFqyy7vk8xjz/asYAFgOGu7fo3d+TKm6sHE47fqDdMu7P9rpNoqtQo64Zsz6w8YNpz25KC0wxMu7ep74wpotNazKcF0uUCj0jBlHt/oHJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tu1gtAgG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714853604; c=relaxed/simple;
+	bh=fhto2uEYgU4wqeL/mix3cVjrhwG4PTmSdbCpoGKNje0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aGo6C4MiNswYbj8bQgBmPxE6KlSX+Ng9hCypm3p8iOl94npK3d/rS+6xVcfHRSbKjjH9MCx/Tpd1Vvl1N5jOfpuXbi46YtXJjh5V9WU+5lMggo5vs5L0GO5IBP5ZYlw5JtTrFMaQ9KiTrGl5SajKGqLXpEnvX0bcjJ2308jkON4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=AF7a2jdM; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tu1gtAgG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C081C072AA;
-	Sat,  4 May 2024 11:25:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714821917;
-	bh=aoXtElC6QjfEFEfzT5AfaOXZlXtAWDSJADrXTUPIhJ0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Tu1gtAgG9z5Y+yIvIEIVmQ2fgyjD9Tn/RCv0n/DVuQsXojxeIcNqTROwRA0zGng4j
-	 Ya5SpoaGi4SNih9n8Sq3x2yfWbKEhYzBOqQZnSxnGf5l7dtD3PWZLGjvO1Ih20FJQD
-	 TReESyKIdZ7IsVIZsuw+P7sRyIFVtAbV56r6zgRm45YQ57ybcMMkFIXvmtn8AJNS7L
-	 SXuEjrVx4AQy13Z4yg9Rs4OpkuCPiiSzKbCIBkbCtfS15qjAPrPWQ8hxsqGMzicPgt
-	 RLgbpCGMpBjeLONT4v4OjIUqu4JFCpK+1qh829hJZmLNgsXGxStgLOER2GggkuhHv7
-	 8TOSwx7Ys5crA==
-Date: Sat, 4 May 2024 12:25:04 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Support Opensource <support.opensource@diasemi.com>,
- Cosmin Tanislav <cosmin.tanislav@analog.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>,
- Antoniu Miclaus <antoniu.miclaus@analog.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-input@vger.kernel.org
-Subject: Re: [PATCH v2 4/7] iio: addac: ad74115: Use
- devm_regulator_get_enable_read_voltage()
-Message-ID: <20240504122504.0389b872@jic23-huawei>
-In-Reply-To: <20240429-regulator-get-enable-get-votlage-v2-4-b1f11ab766c1@baylibre.com>
-References: <20240429-regulator-get-enable-get-votlage-v2-0-b1f11ab766c1@baylibre.com>
-	<20240429-regulator-get-enable-get-votlage-v2-4-b1f11ab766c1@baylibre.com>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="AF7a2jdM"
+Received: from [10.137.106.151] (unknown [167.220.2.23])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 79675207DBB5;
+	Sat,  4 May 2024 13:13:16 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 79675207DBB5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1714853596;
+	bh=Xjz+ah6dGJK98fSkhXGcgKoJ+WDVAsQMdYbME8KL/v4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=AF7a2jdMT93DQfcuBJJyAee3iRGHkB6sAaFzHW3xa8rmM2fr/yng8b/vuFYOI6r1C
+	 mOake8mf6Ya2UDnxaN+IpyWI8rszWLoz+iix+kLcubqMjZSW2GP9OEzG1RuoPbRQBn
+	 oVcqMwODzceFEk90N4os+slDEJ+rrCu+IqwzfnOM=
+Message-ID: <ab7054cd-affd-47c3-bd98-2cf47d6a6376@linux.microsoft.com>
+Date: Sat, 4 May 2024 13:13:16 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v18 20/21] Documentation: add ipe documentation
+To: Bagas Sanjaya <bagasdotme@gmail.com>, corbet@lwn.net,
+ zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com, tytso@mit.edu,
+ ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
+ eparis@redhat.com, paul@paul-moore.com
+Cc: linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+ linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
+ linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
+ audit@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Deven Bowers <deven.desai@linux.microsoft.com>
+References: <1714775551-22384-1-git-send-email-wufan@linux.microsoft.com>
+ <1714775551-22384-21-git-send-email-wufan@linux.microsoft.com>
+ <ZjXsBjAFs-qp9xY4@archie.me>
+Content-Language: en-CA
+From: Fan Wu <wufan@linux.microsoft.com>
+In-Reply-To: <ZjXsBjAFs-qp9xY4@archie.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Mon, 29 Apr 2024 18:40:12 -0500
-David Lechner <dlechner@baylibre.com> wrote:
 
-> We can reduce boilerplate code by using
-> devm_regulator_get_enable_read_voltage().
-> 
-> To maintain backwards compatibility in the case a DT does not provide
-> an avdd-supply, we fall back to calling devm_regulator_get_enable()
-> so that there is no change in user-facing behavior (e.g. dummy regulator
-> will still be in sysfs).
-> 
-> Also add an informative error message when we failed to get the voltage
-> and knowing the voltage is required while we are touching this.
-> 
-> Signed-off-by: David Lechner <dlechner@baylibre.com>
-A somewhat fiddly case.  I think you've done it the best way possible though.
 
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+On 5/4/2024 1:04 AM, Bagas Sanjaya wrote:
+> On Fri, May 03, 2024 at 03:32:30PM -0700, Fan Wu wrote:
+>> +IPE does not mitigate threats arising from malicious but authorized
+>> +developers (with access to a signing certificate), or compromised
+>> +developer tools used by them (i.e. return-oriented programming attacks).
+>> +Additionally, IPE draws hard security boundary between userspace and
+>> +kernelspace. As a result, IPE does not provide any protections against a
+>> +kernel level exploit, and a kernel-level exploit can disable or tamper
+>> +with IPE's protections.
+> 
+> So how to mitigate kernel-level exploits then?
+>
+One possible way is to use hypervisor to protect the kernel integrity. 
+https://github.com/heki-linux is one project on this direction. Perhaps 
+I should also add this link to the doc.
+
+>> +Allow only initramfs
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> <snipped>...
+>> +Allow any signed and validated dm-verity volume and the initramfs
+>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> <snipped>...
+> 
+> htmldocs build reports new warnings:
+> 
+> Documentation/admin-guide/LSM/ipe.rst:694: WARNING: Title underline too short.
+> 
+> Allow any signed and validated dm-verity volume and the initramfs
+> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> Documentation/admin-guide/LSM/ipe.rst:694: WARNING: Title underline too short.
+> 
+> Allow any signed and validated dm-verity volume and the initramfs
+> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> Documentation/arch/x86/resctrl.rst:577: WARNING: Title underline too short.
+> 
+> I have to match these sections underline length:
+> 
+> ---- >8 ----
+> diff --git a/Documentation/admin-guide/LSM/ipe.rst b/Documentation/admin-guide/LSM/ipe.rst
+> index 1a3bf1d8aa23f0..a47e14e024a90d 100644
+> --- a/Documentation/admin-guide/LSM/ipe.rst
+> +++ b/Documentation/admin-guide/LSM/ipe.rst
+> @@ -681,7 +681,7 @@ Allow all
+>      DEFAULT action=ALLOW
+>   
+>   Allow only initramfs
+> -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +~~~~~~~~~~~~~~~~~~~~
+>   
+>   ::
+>   
+> @@ -691,7 +691,7 @@ Allow only initramfs
+>      op=EXECUTE boot_verified=TRUE action=ALLOW
+>   
+>   Allow any signed and validated dm-verity volume and the initramfs
+> -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>   
+>   ::
+>   
+> @@ -725,7 +725,7 @@ Allow only a specific dm-verity volume
+>      op=EXECUTE dmverity_roothash=sha256:401fcec5944823ae12f62726e8184407a5fa9599783f030dec146938 action=ALLOW
+>   
+>   Allow any fs-verity file with a valid built-in signature
+> -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>   
+>   ::
+>   
+> @@ -735,7 +735,7 @@ Allow any fs-verity file with a valid built-in signature
+>      op=EXECUTE fsverity_signature=TRUE action=ALLOW
+>   
+>   Allow execution of a specific fs-verity file
+> -~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>   
+>   ::
+>   
+> 
+>> +Additional Information
+>> +----------------------
+>> +
+>> +- `Github Repository <https://github.com/microsoft/ipe>`_
+>> +- Documentation/security/ipe.rst
+> 
+> Link title to both this admin-side and developer docs can be added for
+> disambiguation (to avoid confusion on readers):
+> 
+> ---- >8 ----
+> diff --git a/Documentation/admin-guide/LSM/ipe.rst b/Documentation/admin-guide/LSM/ipe.rst
+> index a47e14e024a90d..25b17e11559149 100644
+> --- a/Documentation/admin-guide/LSM/ipe.rst
+> +++ b/Documentation/admin-guide/LSM/ipe.rst
+> @@ -7,7 +7,8 @@ Integrity Policy Enforcement (IPE)
+>   
+>      This is the documentation for admins, system builders, or individuals
+>      attempting to use IPE. If you're looking for more developer-focused
+> -   documentation about IPE please see Documentation/security/ipe.rst
+> +   documentation about IPE please see :doc:`the design docs
+> +   </security/ipe>`.
+>   
+>   Overview
+>   --------
+> @@ -748,7 +749,7 @@ Additional Information
+>   ----------------------
+>   
+>   - `Github Repository <https://github.com/microsoft/ipe>`_
+> -- Documentation/security/ipe.rst
+> +- :doc:`Developer and design docs for IPE </security/ipe>`
+>   
+>   FAQ
+>   ---
+> diff --git a/Documentation/security/ipe.rst b/Documentation/security/ipe.rst
+> index 07e3632241285d..fd1b1a852d2165 100644
+> --- a/Documentation/security/ipe.rst
+> +++ b/Documentation/security/ipe.rst
+> @@ -7,7 +7,7 @@ Integrity Policy Enforcement (IPE) - Kernel Documentation
+>   
+>      This is documentation targeted at developers, instead of administrators.
+>      If you're looking for documentation on the usage of IPE, please see
+> -   Documentation/admin-guide/LSM/ipe.rst
+> +   `IPE admin guide </admin-guide/LSM/ipe.rst>`_.
+>   
+>   Historical Motivation
+>   ---------------------
+> 
+> Thanks.
+> 
+
+My apologies for these format issues and thanks for the suggestions. I 
+will fix them.
+-Fan
