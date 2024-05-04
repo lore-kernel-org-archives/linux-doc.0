@@ -1,186 +1,230 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F7079C4
-	for <linux-doc@vger.kernel.org>; Sat,  4 May 2024 07:44:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33DBAD29E;
+	Sat,  4 May 2024 08:04:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714808657; cv=none; b=XPz1mmNDXSD0NtahrsXDrQgVEONflAOsmrrNtB6dU6fCEjeuy+5qmaX3zwYuWbHAeNyytfxBL8Q4xDhZ/fx6srM3/ULP+Sj2vX7Ad8mAi5aFOSaBIjKYdCugLhwfwFO4XL4NA9arN8Plz+j8eBii/14NuMwIHdLdEBEzypeIxRQ=
+	t=1714809869; cv=none; b=Kgr6DSAxNcEM/nEoRD2/QLhSsYbECiMri96BOozGV7tN3HGyv8wGorBCI7HAGhKx7mus9nBLyWP5f61ittUmXfgWzi1O+XGEeGwjP4+IbcJagDMri18JaUNFKGrRvzqtu62Xn7vpnxd4k+x/74nWEbuUPE+Phbt+XJ0YBNd28P4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714808657; c=relaxed/simple;
-	bh=+CN3pnC6QWhowtu4+MVaqdx3fIV2fqPHQVc21m9r/bQ=;
+	s=arc-20240116; t=1714809869; c=relaxed/simple;
+	bh=0hjZIw2e2IuhjYNugxhXSXZpWs5mVXjcsoZo1BqocAs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mrBkIb5s8Nv1g++VuZJoy5m+CGoW11gRoO1hbplV8qAiWfdKfqj3oFwB8Ys3Hi4y0IMFC8obYaQO5MoiexbJZjpAzu411uWwlGPWw7sN8LTVzL3UBuS6m3FCx1KB/VuerDWvp3lxtUxfOZFOOdUxfJWq4epbOiWKp84ClOZdeBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ONOuRq64; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ue9HDOTCe4j4gjig2I5kW18f3muEpv7ofXLBCkNYbB+0QclQdB4Cqx+eop9AdV3RyWRFpTdcWx/hovEZz0DGnnly0O+dp/E/hyfNkHqbhF6gqEH+hxpPwJh4LQ2YdtrCYJ1fktZT8a1VC0wZEcHeFt1FNVkC2KBVRpp2QD+bw9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j2MPtTQT; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ONOuRq64"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1714808654;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xU5umL+P+Q+gcA8Y/3yX0AYaEr9mECnJdAoU1QaQSxw=;
-	b=ONOuRq64rKeikenVDn27ij+0twsZW02jyOX+9Cc8qKG+RR3XIU3a7TZjuY0l/s563lnj6p
-	LjVDNbl/2OrV0lm5/49YGm5Y+VR4BizMrtujmebwH8MFgPBe+3HCNrtE66VSJvkmWQwtHJ
-	1E7Gae+4TBOWlhUD27xeux0BJ/aQ34Q=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-675-mQE3_v7uMwijUuGdmrozOg-1; Sat, 04 May 2024 03:44:09 -0400
-X-MC-Unique: mQE3_v7uMwijUuGdmrozOg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 053D11005055;
-	Sat,  4 May 2024 07:44:08 +0000 (UTC)
-Received: from tpad.localdomain (unknown [10.96.133.2])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1FA31AC6B;
-	Sat,  4 May 2024 07:44:07 +0000 (UTC)
-Received: by tpad.localdomain (Postfix, from userid 1000)
-	id 5469F400DF404; Sat,  4 May 2024 04:42:47 -0300 (-03)
-Date: Sat, 4 May 2024 04:42:47 -0300
-From: Marcelo Tosatti <mtosatti@redhat.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sean Christopherson <seanjc@google.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Paul Durrant <paul@xen.org>,
-	Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Oliver Upton <oliver.upton@linux.dev>, jalliste@amazon.co.uk,
-	sveith@amazon.de, zide.chen@intel.com,
-	Dongli Zhang <dongli.zhang@oracle.com>
-Subject: Re: [PATCH v2 01/15] KVM: x86/xen: Do not corrupt KVM clock in
- kvm_xen_shared_info_init()
-Message-ID: <ZjXm9w/y3/NLCxLQ@tpad>
-References: <20240427111929.9600-1-dwmw2@infradead.org>
- <20240427111929.9600-2-dwmw2@infradead.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j2MPtTQT"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6ed3cafd766so391268b3a.0;
+        Sat, 04 May 2024 01:04:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714809866; x=1715414666; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3Lj67rtK1QueWPk7ARNpfvxl9vOgAVWGxhUJDN/QBK8=;
+        b=j2MPtTQTx683nJWgf+VqG/CYiRVqskw/qKRynsLET/BuZX8Gx+lRoPor2Mbw77E/rs
+         f5PVcoklIFNoWE1RWFO5kyJxadfxcHOe93vboEbFAAR6eo1eO/Ojiu2xD1/ZLSYQgZVD
+         dNBAFTYTp+S45ULOfx3Gb5TClMgKwPE6cUWd7KZraDaORWL3p+Zu4h2Su3ynomL8e6LD
+         79/LzoGjVid/dmXwbAQMJIMFL9s8a6R+onCZxCrYzATbVGNaXht4nt62YZv976Bw3bOt
+         EQNcwi76REG8VUUY9c9FJC931NWCEBwxuZVEH7Oz07377xVwvG8hfW/mnCrYjJr9GJoR
+         WQBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714809866; x=1715414666;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3Lj67rtK1QueWPk7ARNpfvxl9vOgAVWGxhUJDN/QBK8=;
+        b=W/9dzpS/lLFJLoXjFbPJnwnrRBB4BRKasFPORn58kgupW5I6D2nCxYpPxGmsIaEBQ/
+         PgY/W+6LNNYNdgRqp7v3k2CR83+eGtgJTjNL77EfWHiWBN1pc1qhf/+AGirZ+T/CkmhJ
+         23TCkpvDGFZGJl0INYpBO2/VkZjI5Ft891YCX9AiugpNjGDGYKSFjDWXdlvInlGm5lIr
+         Ou6KaBBVBXAWwT4JJXzpetcQJjwfholBX+SSc1b8LI1NZ2FDbMlhn16orvoQphinZw57
+         ZB4aZZRCK9notumSDPq1TB3cvs/AkeVebzZ5RPwVtir/PGa1Y9mIjImT4WDg40m0NFyl
+         dRWA==
+X-Forwarded-Encrypted: i=1; AJvYcCXgXjfzAGqpZFd8V4eQ7FPaIReB6gBfvQp8Pd21tKLo97WCvi5PjVJncQsXy6aHX9EbG0gJX3OAOaeVkZASF5jbPRjbPc63YWcIDdDVXt5rBQmW/ax84o4AtD5yKzeFZolBzn0o2zsibhxLWZiVFoOnQopXNZqcLaMvGukLzVACXXbzAspKWKC3paLYd9go/Kp7hR05ZqZsLt3OHf+RuHfN1Klrw0BKRJses52aGIXYnWI6ceZpCiNLDwef7gWtZmENw0R3nBWbLg==
+X-Gm-Message-State: AOJu0YzESvWpYvlndTA/zG1moIQZJ9Zm1Gq3mrp1V9ezJtQHJ0V+o+7t
+	QQ9MI9lwRe27O8mBR6TVZsbkUDrvwJgRwCE4y/Q2XQuESGNMvOcB
+X-Google-Smtp-Source: AGHT+IG0qZqH9zc005lWKjgxwZgqZm5TyMRd8CrRzXUZbRqngw1NpFuolrIDkh7YQEN+G1GdDh8Ciw==
+X-Received: by 2002:a05:6a00:a81:b0:6f3:e9bc:7ed3 with SMTP id b1-20020a056a000a8100b006f3e9bc7ed3mr5704824pfl.17.1714809866257;
+        Sat, 04 May 2024 01:04:26 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id bn12-20020a056a00324c00b006edd05e3751sm4356202pfb.176.2024.05.04.01.04.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 May 2024 01:04:25 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 8A4001847D504; Sat, 04 May 2024 15:04:22 +0700 (WIB)
+Date: Sat, 4 May 2024 15:04:22 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net, zohar@linux.ibm.com,
+	jmorris@namei.org, serge@hallyn.com, tytso@mit.edu,
+	ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com,
+	snitzer@kernel.org, eparis@redhat.com, paul@paul-moore.com
+Cc: linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
+	linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
+	audit@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Deven Bowers <deven.desai@linux.microsoft.com>
+Subject: Re: [PATCH v18 20/21] Documentation: add ipe documentation
+Message-ID: <ZjXsBjAFs-qp9xY4@archie.me>
+References: <1714775551-22384-1-git-send-email-wufan@linux.microsoft.com>
+ <1714775551-22384-21-git-send-email-wufan@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="nK/4++6p9aVBG6jQ"
+Content-Disposition: inline
+In-Reply-To: <1714775551-22384-21-git-send-email-wufan@linux.microsoft.com>
+
+
+--nK/4++6p9aVBG6jQ
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240427111929.9600-2-dwmw2@infradead.org>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.1
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Apr 27, 2024 at 12:04:58PM +0100, David Woodhouse wrote:
-> From: David Woodhouse <dwmw@amazon.co.uk>
-> 
-> The KVM clock is an interesting thing. It is defined as "nanoseconds
-> since the guest was created", but in practice it runs at two *different*
-> rates — or three different rates, if you count implementation bugs.
-> 
-> Definition A is that it runs synchronously with the CLOCK_MONOTONIC_RAW
-> of the host, with a delta of kvm->arch.kvmclock_offset.
-> 
-> But that version doesn't actually get used in the common case, where the
-> host has a reliable TSC and the guest TSCs are all running at the same
-> rate and in sync with each other, and kvm->arch.use_master_clock is set.
-> 
-> In that common case, definition B is used: There is a reference point in
-> time at kvm->arch.master_kernel_ns (again a CLOCK_MONOTONIC_RAW time),
-> and a corresponding host TSC value kvm->arch.master_cycle_now. This
-> fixed point in time is converted to guest units (the time offset by
-> kvmclock_offset and the TSC Value scaled and offset to be a guest TSC
-> value) and advertised to the guest in the pvclock structure. While in
-> this 'use_master_clock' mode, the fixed point in time never needs to be
-> changed, and the clock runs precisely in time with the guest TSC, at the
-> rate advertised in the pvclock structure.
-> 
-> The third definition C is implemented in kvm_get_wall_clock_epoch() and
-> __get_kvmclock(), using the master_cycle_now and master_kernel_ns fields
-> but converting the *host* TSC cycles directly to a value in nanoseconds
-> instead of scaling via the guest TSC.
-> 
-> One might naïvely think that all three definitions are identical, since
-> CLOCK_MONOTONIC_RAW is not skewed by NTP frequency corrections; all
-> three are just the result of counting the host TSC at a known frequency,
-> or the scaled guest TSC at a known precise fraction of the host's
-> frequency. The problem is with arithmetic precision, and the way that
-> frequency scaling is done in a division-free way by multiplying by a
-> scale factor, then shifting right. In practice, all three ways of
-> calculating the KVM clock will suffer a systemic drift from each other.
-> 
-> Eventually, definition C should just be eliminated. Commit 451a707813ae
-> ("KVM: x86/xen: improve accuracy of Xen timers") worked around it for
-> the specific case of Xen timers, which are defined in terms of the KVM
-> clock and suffered from a continually increasing error in timer expiry
-> times. That commit notes that get_kvmclock_ns() is non-trivial to fix
-> and says "I'll come back to that", which remains true.
-> 
-> Definitions A and B do need to coexist, the former to handle the case
-> where the host or guest TSC is suboptimally configured. But KVM should
-> be more careful about switching between them, and the discontinuity in
-> guest time which could result.
-> 
-> In particular, KVM_REQ_MASTERCLOCK_UPDATE will take a new snapshot of
-> time as the reference in master_kernel_ns and master_cycle_now, yanking
-> the guest's clock back to match definition A at that moment.
+On Fri, May 03, 2024 at 03:32:30PM -0700, Fan Wu wrote:
+> +IPE does not mitigate threats arising from malicious but authorized
+> +developers (with access to a signing certificate), or compromised
+> +developer tools used by them (i.e. return-oriented programming attacks).
+> +Additionally, IPE draws hard security boundary between userspace and
+> +kernelspace. As a result, IPE does not provide any protections against a
+> +kernel level exploit, and a kernel-level exploit can disable or tamper
+> +with IPE's protections.
 
-KVM_REQ_MASTERCLOCK_UPDATE stops the vcpus because:
+So how to mitigate kernel-level exploits then?
 
- * To avoid that problem, do not allow visibility of distinct
- * system_timestamp/tsc_timestamp values simultaneously: use a master
- * copy of host monotonic time values. Update that master copy
- * in lockstep.
+> +Allow only initramfs
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> <snipped>...
+> +Allow any signed and validated dm-verity volume and the initramfs
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> <snipped>...
 
-> When invoked from in 'use_master_clock' mode, kvm_update_masterclock()
-> should probably *adjust* kvm->arch.kvmclock_offset to account for the
-> drift, instead of yanking the clock back to defintion A.
+htmldocs build reports new warnings:
 
-You are likely correct...
+Documentation/admin-guide/LSM/ipe.rst:694: WARNING: Title underline too sho=
+rt.
 
-> But in the meantime there are a bunch of places where it just doesn't need to be
-> invoked at all.
-> 
-> To start with: there is no need to do such an update when a Xen guest
-> populates the shared_info page. This seems to have been a hangover from
-> the very first implementation of shared_info which automatically
-> populated the vcpu_info structures at their default locations, but even
-> then it should just have raised KVM_REQ_CLOCK_UPDATE on each vCPU
-> instead of using KVM_REQ_MASTERCLOCK_UPDATE. And now that userspace is
-> expected to explicitly set the vcpu_info even in its default locations,
-> there's not even any need for that either.
-> 
-> Fixes: 629b5348841a1 ("KVM: x86/xen: update wallclock region")
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> Reviewed-by: Paul Durrant <paul@xen.org>
-> ---
->  arch/x86/kvm/xen.c | 2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/arch/x86/kvm/xen.c b/arch/x86/kvm/xen.c
-> index f65b35a05d91..5a83a8154b79 100644
-> --- a/arch/x86/kvm/xen.c
-> +++ b/arch/x86/kvm/xen.c
-> @@ -98,8 +98,6 @@ static int kvm_xen_shared_info_init(struct kvm *kvm)
->  	wc->version = wc_version + 1;
->  	read_unlock_irq(&gpc->lock);
->  
-> -	kvm_make_all_cpus_request(kvm, KVM_REQ_MASTERCLOCK_UPDATE);
-> -
->  out:
->  	srcu_read_unlock(&kvm->srcu, idx);
->  	return ret;
-> -- 
-> 2.44.0
+Allow any signed and validated dm-verity volume and the initramfs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Documentation/admin-guide/LSM/ipe.rst:694: WARNING: Title underline too sho=
+rt.
 
-So KVM_REQ_MASTERCLOCK_UPDATE is to avoid the race above.
+Allow any signed and validated dm-verity volume and the initramfs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Documentation/arch/x86/resctrl.rst:577: WARNING: Title underline too short.
 
-In what contexes is kvm_xen_shared_info_init called from again?
+I have to match these sections underline length:
 
-Not clear to me KVM_REQ_MASTERCLOCK_UPDATE is not needed (or that is
-needed, for that matter...).
+---- >8 ----
+diff --git a/Documentation/admin-guide/LSM/ipe.rst b/Documentation/admin-gu=
+ide/LSM/ipe.rst
+index 1a3bf1d8aa23f0..a47e14e024a90d 100644
+--- a/Documentation/admin-guide/LSM/ipe.rst
++++ b/Documentation/admin-guide/LSM/ipe.rst
+@@ -681,7 +681,7 @@ Allow all
+    DEFAULT action=3DALLOW
+=20
+ Allow only initramfs
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++~~~~~~~~~~~~~~~~~~~~
+=20
+ ::
+=20
+@@ -691,7 +691,7 @@ Allow only initramfs
+    op=3DEXECUTE boot_verified=3DTRUE action=3DALLOW
+=20
+ Allow any signed and validated dm-verity volume and the initramfs
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=20
+ ::
+=20
+@@ -725,7 +725,7 @@ Allow only a specific dm-verity volume
+    op=3DEXECUTE dmverity_roothash=3Dsha256:401fcec5944823ae12f62726e818440=
+7a5fa9599783f030dec146938 action=3DALLOW
+=20
+ Allow any fs-verity file with a valid built-in signature
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=20
+ ::
+=20
+@@ -735,7 +735,7 @@ Allow any fs-verity file with a valid built-in signature
+    op=3DEXECUTE fsverity_signature=3DTRUE action=3DALLOW
+=20
+ Allow execution of a specific fs-verity file
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=20
+ ::
+=20
 
+> +Additional Information
+> +----------------------
+> +
+> +- `Github Repository <https://github.com/microsoft/ipe>`_
+> +- Documentation/security/ipe.rst
 
+Link title to both this admin-side and developer docs can be added for
+disambiguation (to avoid confusion on readers):
+
+---- >8 ----
+diff --git a/Documentation/admin-guide/LSM/ipe.rst b/Documentation/admin-gu=
+ide/LSM/ipe.rst
+index a47e14e024a90d..25b17e11559149 100644
+--- a/Documentation/admin-guide/LSM/ipe.rst
++++ b/Documentation/admin-guide/LSM/ipe.rst
+@@ -7,7 +7,8 @@ Integrity Policy Enforcement (IPE)
+=20
+    This is the documentation for admins, system builders, or individuals
+    attempting to use IPE. If you're looking for more developer-focused
+-   documentation about IPE please see Documentation/security/ipe.rst
++   documentation about IPE please see :doc:`the design docs
++   </security/ipe>`.
+=20
+ Overview
+ --------
+@@ -748,7 +749,7 @@ Additional Information
+ ----------------------
+=20
+ - `Github Repository <https://github.com/microsoft/ipe>`_
+-- Documentation/security/ipe.rst
++- :doc:`Developer and design docs for IPE </security/ipe>`
+=20
+ FAQ
+ ---
+diff --git a/Documentation/security/ipe.rst b/Documentation/security/ipe.rst
+index 07e3632241285d..fd1b1a852d2165 100644
+--- a/Documentation/security/ipe.rst
++++ b/Documentation/security/ipe.rst
+@@ -7,7 +7,7 @@ Integrity Policy Enforcement (IPE) - Kernel Documentation
+=20
+    This is documentation targeted at developers, instead of administrators.
+    If you're looking for documentation on the usage of IPE, please see
+-   Documentation/admin-guide/LSM/ipe.rst
++   `IPE admin guide </admin-guide/LSM/ipe.rst>`_.
+=20
+ Historical Motivation
+ ---------------------
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--nK/4++6p9aVBG6jQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZjXsAgAKCRD2uYlJVVFO
+o5rXAQCS3HwJg98sIZ+dvHD4EtrdQXP2AZQEC3nP+kq7cOi47wD+P0ZrOINzS3p5
+azRTQTXUkE+0lznZFyE75YeW2OX1dQs=
+=ebwU
+-----END PGP SIGNATURE-----
+
+--nK/4++6p9aVBG6jQ--
