@@ -1,117 +1,186 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 981D228EA;
-	Sat,  4 May 2024 07:17:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F7079C4
+	for <linux-doc@vger.kernel.org>; Sat,  4 May 2024 07:44:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714807065; cv=none; b=QW4UJDeoEszVW/hXRWiGQq03JM/mrKEmaWn/DOtZku52cygUMOpPMlVIeaiSu8FDQMMC4gMruSY0kcYataWbGb5TAMmE6xaFmz2YnLlQjiD7vicFsaTzsrMBIko3gTuqmd693Qq1oCRSC7slftQit3fYf7RxyEMyf/mk9RmNl54=
+	t=1714808657; cv=none; b=XPz1mmNDXSD0NtahrsXDrQgVEONflAOsmrrNtB6dU6fCEjeuy+5qmaX3zwYuWbHAeNyytfxBL8Q4xDhZ/fx6srM3/ULP+Sj2vX7Ad8mAi5aFOSaBIjKYdCugLhwfwFO4XL4NA9arN8Plz+j8eBii/14NuMwIHdLdEBEzypeIxRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714807065; c=relaxed/simple;
-	bh=ejWxIT2n8p8dZWoM545mizb9Me9EE2+yOLIi4nbVIhk=;
+	s=arc-20240116; t=1714808657; c=relaxed/simple;
+	bh=+CN3pnC6QWhowtu4+MVaqdx3fIV2fqPHQVc21m9r/bQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NChiG2ynP0+ztIZ94IjWMAJmZiU+hPBBDwTm9keI6Y1Vh9ig22MDnTaXa/kI/duvIZbJpwLPm5/ZCYodKyDK9vsXDUFrwpVUSZ4RpGuajwO3P18yiF/+XtBamRRa8znc80I4rAZZaa9AUF7T6PbZ5xJDzVe/gov9a2vp+fzWs/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HhB1eTvY; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=mrBkIb5s8Nv1g++VuZJoy5m+CGoW11gRoO1hbplV8qAiWfdKfqj3oFwB8Ys3Hi4y0IMFC8obYaQO5MoiexbJZjpAzu411uWwlGPWw7sN8LTVzL3UBuS6m3FCx1KB/VuerDWvp3lxtUxfOZFOOdUxfJWq4epbOiWKp84ClOZdeBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ONOuRq64; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HhB1eTvY"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1eb0e08bfd2so1692195ad.1;
-        Sat, 04 May 2024 00:17:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714807064; x=1715411864; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7XC8N3tk53B+3ELEb4uOpOgXhdDIpoi23VgMeUZkbc4=;
-        b=HhB1eTvYPD+ktMHwXFp3GKlF1zSclijHiPwoZC23vftEygD4oayrFNXo7lM0auYl53
-         vdT7JyQ8644W1wciuQdFUAGlvVvKRS/aK/7ZExYpb6ArRrW7fUzEZUaIupCms7pHwX1o
-         GQSSFrXl9y1CPCI8d5Y7t03DrVQlgwsCy/976ZUSJtWS0uBzEEeIgsc7cV4Z5Jb+1uhw
-         tupTKtmqPEIn2O++PukbHZ3KDTB5F5mg6P98IHvJW/2/YNA7TxqV9mJhv5ZXf5BSPkUx
-         IoV96ZI8eOcksdj8wfBEPpFsrX+lM8kufeRs9HPpKzKeb7WUkuZpr7uCQeCap3OX1+X4
-         0Y+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714807064; x=1715411864;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7XC8N3tk53B+3ELEb4uOpOgXhdDIpoi23VgMeUZkbc4=;
-        b=phNWQKp/VsBXyUL5I9Dss2Sp8t8dviee8a8ChIuGyelr+gtFJ7wWVeMWq7tncEjv/w
-         8XvA774akYtuiwkSFweId9cl5Efpi//h1tQ/MTnXFcIlWzbTaBwpDD9B076q/o5o7Nxb
-         jnTN7hsUwPChFZSCf/4P4SWyhXCpNcV2zHhT205aayLwcaBDx2KGI/mjZ+RKA1BbD2am
-         BD3aV8MHNWEG30xdVQdsbe1/xLaPWf/uKQtiH7MsIMrBLCIOlzdxIwJUJY+AwEbuDmmN
-         WhYADkFqYL7GgJg2nB2gkDT+k/b64H/XwqzVcddOIiJyrw84FZAsrrJ0JJOvpN896bm6
-         4WXA==
-X-Forwarded-Encrypted: i=1; AJvYcCUMtHnZR4ASGujl05UHJIWGDawLGNNe/LwtpTIdfeyS/9JrAmMDgLB8J2GP3wz2p0zC+/+7Qw+fHTScZrHSOkul4FQIMyyMRd1gl3iq
-X-Gm-Message-State: AOJu0YzmTX265orsRCxXqDZ6d5A1v5EzSggBtWu/R7ahHEMz71MvPd6s
-	ohYCaIeZZ1SwZhd35/KvSuzXQ4b09qlZYWm1hd25vHtHypQnQrGdepjPMg==
-X-Google-Smtp-Source: AGHT+IEb8mu9yDKo6GTL0CkxNwJE2by96WT7UiE/qOzFSZ1sKGTGQowxWrGnYBUzMHUIvVAMWGvE8Q==
-X-Received: by 2002:a17:902:f546:b0:1e6:34f9:f730 with SMTP id h6-20020a170902f54600b001e634f9f730mr4855974plf.52.1714807063714;
-        Sat, 04 May 2024 00:17:43 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id t12-20020a170902bc4c00b001e4565a2596sm4420092plz.92.2024.05.04.00.17.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 May 2024 00:17:42 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 915FB18494A25; Sat, 04 May 2024 14:17:39 +0700 (WIB)
-Date: Sat, 4 May 2024 14:17:39 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Utkarsh Tripathi <utripathi2002@gmail.com>, corbet@lwn.net,
-	akiyks@gmail.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org
-Subject: Re: [PATCH v3] kernel-doc: Added "*" in $type_constants2 to fix
- 'make htmldocs' warning.
-Message-ID: <ZjXhExdIpDu23Y3K@archie.me>
-References: <20240503182650.7761-1-utripathi2002@gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ONOuRq64"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1714808654;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xU5umL+P+Q+gcA8Y/3yX0AYaEr9mECnJdAoU1QaQSxw=;
+	b=ONOuRq64rKeikenVDn27ij+0twsZW02jyOX+9Cc8qKG+RR3XIU3a7TZjuY0l/s563lnj6p
+	LjVDNbl/2OrV0lm5/49YGm5Y+VR4BizMrtujmebwH8MFgPBe+3HCNrtE66VSJvkmWQwtHJ
+	1E7Gae+4TBOWlhUD27xeux0BJ/aQ34Q=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-675-mQE3_v7uMwijUuGdmrozOg-1; Sat, 04 May 2024 03:44:09 -0400
+X-MC-Unique: mQE3_v7uMwijUuGdmrozOg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 053D11005055;
+	Sat,  4 May 2024 07:44:08 +0000 (UTC)
+Received: from tpad.localdomain (unknown [10.96.133.2])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1FA31AC6B;
+	Sat,  4 May 2024 07:44:07 +0000 (UTC)
+Received: by tpad.localdomain (Postfix, from userid 1000)
+	id 5469F400DF404; Sat,  4 May 2024 04:42:47 -0300 (-03)
+Date: Sat, 4 May 2024 04:42:47 -0300
+From: Marcelo Tosatti <mtosatti@redhat.com>
+To: David Woodhouse <dwmw2@infradead.org>
+Cc: kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sean Christopherson <seanjc@google.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Paul Durrant <paul@xen.org>,
+	Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Oliver Upton <oliver.upton@linux.dev>, jalliste@amazon.co.uk,
+	sveith@amazon.de, zide.chen@intel.com,
+	Dongli Zhang <dongli.zhang@oracle.com>
+Subject: Re: [PATCH v2 01/15] KVM: x86/xen: Do not corrupt KVM clock in
+ kvm_xen_shared_info_init()
+Message-ID: <ZjXm9w/y3/NLCxLQ@tpad>
+References: <20240427111929.9600-1-dwmw2@infradead.org>
+ <20240427111929.9600-2-dwmw2@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="MK4xn+smwcKRqZrj"
-Content-Disposition: inline
-In-Reply-To: <20240503182650.7761-1-utripathi2002@gmail.com>
-
-
---MK4xn+smwcKRqZrj
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240427111929.9600-2-dwmw2@infradead.org>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.1
 
-On Fri, May 03, 2024 at 11:56:50PM +0530, Utkarsh Tripathi wrote:
-> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-> index cb1be22afc65..58129b1cf3f4 100755
-> --- a/scripts/kernel-doc
-> +++ b/scripts/kernel-doc
-> @@ -62,7 +62,7 @@ my $anon_struct_union =3D 0;
-> =20
->  # match expressions used to find embedded type information
->  my $type_constant =3D '\b``([^\`]+)``\b';
-> -my $type_constant2 =3D '\%([-_\w]+)';
-> +my $type_constant2 =3D '\%([-_*\w]+)';
->  my $type_func =3D '(\w+)\(\)';
->  my $type_param =3D '\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
->  my $type_param_ref =3D '([\!~\*]?)\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
->=20
+On Sat, Apr 27, 2024 at 12:04:58PM +0100, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
+> 
+> The KVM clock is an interesting thing. It is defined as "nanoseconds
+> since the guest was created", but in practice it runs at two *different*
+> rates — or three different rates, if you count implementation bugs.
+> 
+> Definition A is that it runs synchronously with the CLOCK_MONOTONIC_RAW
+> of the host, with a delta of kvm->arch.kvmclock_offset.
+> 
+> But that version doesn't actually get used in the common case, where the
+> host has a reliable TSC and the guest TSCs are all running at the same
+> rate and in sync with each other, and kvm->arch.use_master_clock is set.
+> 
+> In that common case, definition B is used: There is a reference point in
+> time at kvm->arch.master_kernel_ns (again a CLOCK_MONOTONIC_RAW time),
+> and a corresponding host TSC value kvm->arch.master_cycle_now. This
+> fixed point in time is converted to guest units (the time offset by
+> kvmclock_offset and the TSC Value scaled and offset to be a guest TSC
+> value) and advertised to the guest in the pvclock structure. While in
+> this 'use_master_clock' mode, the fixed point in time never needs to be
+> changed, and the clock runs precisely in time with the guest TSC, at the
+> rate advertised in the pvclock structure.
+> 
+> The third definition C is implemented in kvm_get_wall_clock_epoch() and
+> __get_kvmclock(), using the master_cycle_now and master_kernel_ns fields
+> but converting the *host* TSC cycles directly to a value in nanoseconds
+> instead of scaling via the guest TSC.
+> 
+> One might naïvely think that all three definitions are identical, since
+> CLOCK_MONOTONIC_RAW is not skewed by NTP frequency corrections; all
+> three are just the result of counting the host TSC at a known frequency,
+> or the scaled guest TSC at a known precise fraction of the host's
+> frequency. The problem is with arithmetic precision, and the way that
+> frequency scaling is done in a division-free way by multiplying by a
+> scale factor, then shifting right. In practice, all three ways of
+> calculating the KVM clock will suffer a systemic drift from each other.
+> 
+> Eventually, definition C should just be eliminated. Commit 451a707813ae
+> ("KVM: x86/xen: improve accuracy of Xen timers") worked around it for
+> the specific case of Xen timers, which are defined in terms of the KVM
+> clock and suffered from a continually increasing error in timer expiry
+> times. That commit notes that get_kvmclock_ns() is non-trivial to fix
+> and says "I'll come back to that", which remains true.
+> 
+> Definitions A and B do need to coexist, the former to handle the case
+> where the host or guest TSC is suboptimally configured. But KVM should
+> be more careful about switching between them, and the discontinuity in
+> guest time which could result.
+> 
+> In particular, KVM_REQ_MASTERCLOCK_UPDATE will take a new snapshot of
+> time as the reference in master_kernel_ns and master_cycle_now, yanking
+> the guest's clock back to match definition A at that moment.
 
-The warning gone away, thanks!
+KVM_REQ_MASTERCLOCK_UPDATE stops the vcpus because:
 
-Tested-by: Bagas Sanjaya <bagasdotme@gmail.com>
+ * To avoid that problem, do not allow visibility of distinct
+ * system_timestamp/tsc_timestamp values simultaneously: use a master
+ * copy of host monotonic time values. Update that master copy
+ * in lockstep.
 
---=20
-An old man doll... just what I always wanted! - Clara
+> When invoked from in 'use_master_clock' mode, kvm_update_masterclock()
+> should probably *adjust* kvm->arch.kvmclock_offset to account for the
+> drift, instead of yanking the clock back to defintion A.
 
---MK4xn+smwcKRqZrj
-Content-Type: application/pgp-signature; name="signature.asc"
+You are likely correct...
 
------BEGIN PGP SIGNATURE-----
+> But in the meantime there are a bunch of places where it just doesn't need to be
+> invoked at all.
+> 
+> To start with: there is no need to do such an update when a Xen guest
+> populates the shared_info page. This seems to have been a hangover from
+> the very first implementation of shared_info which automatically
+> populated the vcpu_info structures at their default locations, but even
+> then it should just have raised KVM_REQ_CLOCK_UPDATE on each vCPU
+> instead of using KVM_REQ_MASTERCLOCK_UPDATE. And now that userspace is
+> expected to explicitly set the vcpu_info even in its default locations,
+> there's not even any need for that either.
+> 
+> Fixes: 629b5348841a1 ("KVM: x86/xen: update wallclock region")
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> Reviewed-by: Paul Durrant <paul@xen.org>
+> ---
+>  arch/x86/kvm/xen.c | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/arch/x86/kvm/xen.c b/arch/x86/kvm/xen.c
+> index f65b35a05d91..5a83a8154b79 100644
+> --- a/arch/x86/kvm/xen.c
+> +++ b/arch/x86/kvm/xen.c
+> @@ -98,8 +98,6 @@ static int kvm_xen_shared_info_init(struct kvm *kvm)
+>  	wc->version = wc_version + 1;
+>  	read_unlock_irq(&gpc->lock);
+>  
+> -	kvm_make_all_cpus_request(kvm, KVM_REQ_MASTERCLOCK_UPDATE);
+> -
+>  out:
+>  	srcu_read_unlock(&kvm->srcu, idx);
+>  	return ret;
+> -- 
+> 2.44.0
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZjXhDwAKCRD2uYlJVVFO
-o751AP9fBDG7Usg1VtPWsrMMKjw89VtmkrfYeE9bjVJCLG5cSwD7Bo12xCxeaprJ
-NJTShYCz1OIAf0ws8jun+m2Qu0buWQ0=
-=zAKi
------END PGP SIGNATURE-----
+So KVM_REQ_MASTERCLOCK_UPDATE is to avoid the race above.
 
---MK4xn+smwcKRqZrj--
+In what contexes is kvm_xen_shared_info_init called from again?
+
+Not clear to me KVM_REQ_MASTERCLOCK_UPDATE is not needed (or that is
+needed, for that matter...).
+
+
