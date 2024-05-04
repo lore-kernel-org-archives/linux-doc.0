@@ -1,172 +1,76 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E1E2EEB2;
-	Sat,  4 May 2024 10:34:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE5A12E4A;
+	Sat,  4 May 2024 11:25:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714818885; cv=none; b=NxFbbsJ93z6+0XPakFlpb/Avfj66kQWyq1Yd72o6Q1qM/Um3k38GNnrc4nX3Z6bXhTKcGZ03KV2rGXmlINjjknMkqmS0i84Z2hxXg5+6WdaKrW7i+bVbjMxHt6BmwNIP5PkmZptNx0YntR/+3eEYPrdH7zGf47cRg1p44a+4R+I=
+	t=1714821917; cv=none; b=d3UEIneovagY0rH7uZ1slvSvtKoiRRdR+uuPvqCtnMc0/JoFkTAs5fOUYpemli7KjLh6XsQJ5qqyqOGGR9IFp/y99lVxdRTYPRY+YsydUnnjz3mvMk8/o6s8gkXm6R1kIQUYLjgCe7qXg97MoNAYIWhPTMONhSqFVh0JxHQmJh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714818885; c=relaxed/simple;
-	bh=HV/JCs7Z7tqv/VPFIFyIpdPE4o8/rnvHPB7bkjF3Iko=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T+ZjpHVFM9CJflcB/6W58BVHqqQe+IhZbuKNFyQi8ehHfPPnvCPM/IShu/T78w4LrSIZ3DWGxX7KHTqK8B+LTfsVQtSc8JzyCOVEwgZTZP7SwEq3sbnRgD+Ay6oeBC/FifmSOgNl5Opx7ApeNEmSX8OEBqNjJANn+wzQO4xv3F0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RIlKUOyJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714821917; c=relaxed/simple;
+	bh=aoXtElC6QjfEFEfzT5AfaOXZlXtAWDSJADrXTUPIhJ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Iw+p2gYXchSk9PxM3LRIXLjEDaluYG0/MgZXGR39cLALH5fOXpj+WG45yctgD1+IBsFqyy7vk8xjz/asYAFgOGu7fo3d+TKm6sHE47fqDdMu7P9rpNoqtQo64Zsz6w8YNpz25KC0wxMu7ep74wpotNazKcF0uUCj0jBlHt/oHJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tu1gtAgG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RIlKUOyJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF03BC072AA;
-	Sat,  4 May 2024 10:34:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tu1gtAgG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C081C072AA;
+	Sat,  4 May 2024 11:25:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714818885;
-	bh=HV/JCs7Z7tqv/VPFIFyIpdPE4o8/rnvHPB7bkjF3Iko=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RIlKUOyJzPbnyCfPM+2Fi61ViHBurhkO0ZxpjLvCTVAMhPLTrRXSq6y0V1goT6C1y
-	 zzQoQetoe11khxsBy4ofYVf1/jW4qnuyp28ASFEs0pQdBBufzNB0pkUYzTXcOeq84i
-	 cneb/O8Qjnb0isq856Awyptf36mM8x86DN+aWWazdv7PRWPONlUdFhkkGL2Ip6oifd
-	 Qh2E+QfuO/oE9zXpy26FfuY7vi7Q9CusgCy47/MXgKyj87duFmYI+/vK/XM0IPGDMK
-	 nztCoU4+iFzegmIfF4Xgfbtu6xPnSy9p4i2kHkaJtN+IbijCbjxZc3LCugpae2eNwd
-	 r9Sy5ORihw2qg==
-Date: Sat, 4 May 2024 11:33:05 +0100
-From: Simon Horman <horms@kernel.org>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
-	Jay Vosburgh <j.vosburgh@gmail.com>,
-	Andy Gospodarek <andy@greyhouse.net>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	UNGLinuxDriver@microchip.com,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Rahul Rameshbabu <rrameshbabu@nvidia.com>
-Subject: Re: [PATCH net-next v12 12/13] net: ethtool: tsinfo: Add support for
- hwtstamp provider and get/set hwtstamp config
-Message-ID: <20240504103305.GD3167983@kernel.org>
-References: <20240430-feature_ptp_netnext-v12-0-2c5f24b6a914@bootlin.com>
- <20240430-feature_ptp_netnext-v12-12-2c5f24b6a914@bootlin.com>
+	s=k20201202; t=1714821917;
+	bh=aoXtElC6QjfEFEfzT5AfaOXZlXtAWDSJADrXTUPIhJ0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Tu1gtAgG9z5Y+yIvIEIVmQ2fgyjD9Tn/RCv0n/DVuQsXojxeIcNqTROwRA0zGng4j
+	 Ya5SpoaGi4SNih9n8Sq3x2yfWbKEhYzBOqQZnSxnGf5l7dtD3PWZLGjvO1Ih20FJQD
+	 TReESyKIdZ7IsVIZsuw+P7sRyIFVtAbV56r6zgRm45YQ57ybcMMkFIXvmtn8AJNS7L
+	 SXuEjrVx4AQy13Z4yg9Rs4OpkuCPiiSzKbCIBkbCtfS15qjAPrPWQ8hxsqGMzicPgt
+	 RLgbpCGMpBjeLONT4v4OjIUqu4JFCpK+1qh829hJZmLNgsXGxStgLOER2GggkuhHv7
+	 8TOSwx7Ys5crA==
+Date: Sat, 4 May 2024 12:25:04 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Support Opensource <support.opensource@diasemi.com>,
+ Cosmin Tanislav <cosmin.tanislav@analog.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>,
+ Antoniu Miclaus <antoniu.miclaus@analog.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-input@vger.kernel.org
+Subject: Re: [PATCH v2 4/7] iio: addac: ad74115: Use
+ devm_regulator_get_enable_read_voltage()
+Message-ID: <20240504122504.0389b872@jic23-huawei>
+In-Reply-To: <20240429-regulator-get-enable-get-votlage-v2-4-b1f11ab766c1@baylibre.com>
+References: <20240429-regulator-get-enable-get-votlage-v2-0-b1f11ab766c1@baylibre.com>
+	<20240429-regulator-get-enable-get-votlage-v2-4-b1f11ab766c1@baylibre.com>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240430-feature_ptp_netnext-v12-12-2c5f24b6a914@bootlin.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Apr 30, 2024 at 05:49:55PM +0200, Kory Maincent wrote:
-> Enhance 'get' command to retrieve tsinfo of hwtstamp providers within a
-> network topology and read current hwtstamp configuration.
+On Mon, 29 Apr 2024 18:40:12 -0500
+David Lechner <dlechner@baylibre.com> wrote:
+
+> We can reduce boilerplate code by using
+> devm_regulator_get_enable_read_voltage().
 > 
-> Introduce support for ETHTOOL_MSG_TSINFO_SET ethtool netlink socket to
-> configure hwtstamp of a PHC provider. Note that simultaneous hwtstamp
-> isn't supported; configuring a new one disables the previous setting.
+> To maintain backwards compatibility in the case a DT does not provide
+> an avdd-supply, we fall back to calling devm_regulator_get_enable()
+> so that there is no change in user-facing behavior (e.g. dummy regulator
+> will still be in sysfs).
 > 
-> Also, add support for a specific dump command to retrieve all hwtstamp
-> providers within the network topology, with added functionality for
-> filtered dump to target a single interface.
+> Also add an informative error message when we failed to get the voltage
+> and knowing the voltage is required while we are touching this.
 > 
-> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+> Signed-off-by: David Lechner <dlechner@baylibre.com>
+A somewhat fiddly case.  I think you've done it the best way possible though.
 
-...
-
-> diff --git a/net/core/dev_ioctl.c b/net/core/dev_ioctl.c
-> index acb0cadb7512..ec6dd81a5add 100644
-> --- a/net/core/dev_ioctl.c
-> +++ b/net/core/dev_ioctl.c
-> @@ -270,10 +270,13 @@ static int dev_eth_ioctl(struct net_device *dev,
->  int dev_get_hwtstamp_phylib(struct net_device *dev,
->  			    struct kernel_hwtstamp_config *cfg)
->  {
-> -	if (dev->hwtstamp) {
-> -		struct ptp_clock *ptp = dev->hwtstamp->ptp;
-> +	struct hwtstamp_provider *hwtstamp;
->  
-> -		cfg->qualifier = dev->hwtstamp->qualifier;
-> +	hwtstamp = rtnl_dereference(dev->hwtstamp);
-> +	if (hwtstamp) {
-> +		struct ptp_clock *ptp = hwtstamp->ptp;
-> +
-> +		cfg->qualifier = hwtstamp->qualifier;
->  		if (ptp_clock_from_phylib(ptp))
->  			return phy_hwtstamp_get(ptp_clock_phydev(ptp), cfg);
->  
-> @@ -340,13 +343,15 @@ int dev_set_hwtstamp_phylib(struct net_device *dev,
->  {
->  	const struct net_device_ops *ops = dev->netdev_ops;
->  	struct kernel_hwtstamp_config old_cfg = {};
-> +	struct hwtstamp_provider *hwtstamp;
->  	struct phy_device *phydev;
->  	bool changed = false;
->  	bool phy_ts;
->  	int err;
->  
-> -	if (dev->hwtstamp) {
-> -		struct ptp_clock *ptp = dev->hwtstamp->ptp;
-> +	hwtstamp = rtnl_dereference(dev->hwtstamp);
-> +	if (hwtstamp) {
-> +		struct ptp_clock *ptp = hwtstamp->ptp;
->  
->  		if (ptp_clock_from_phylib(ptp)) {
->  			phy_ts = true;
-
-Hi Kory,
-
-A few lines beyond this hunk, within the "if (hwtstamp)" block,
-is the following:
-
-		cfg->qualifier = dev->hwtstamp->qualifier;
-
-Now that dev->hwtstamp is managed using RCU, I don't think it is correct
-to dereference it directly like this. Rather, the hwtstamp local variable,
-which has rcu_dereference'd this pointer should be used:
-
-		 cfg->qualifier = hwtstamp->qualifier;
-
-Flagged by Sparse.
-
-...
-
-> diff --git a/net/ethtool/tsinfo.c b/net/ethtool/tsinfo.c
-
-...
-
-> +static int ethnl_tsinfo_dump_one_dev(struct sk_buff *skb, struct net_device *dev,
-> +				     struct netlink_callback *cb)
-> +{
-> +	struct ethnl_tsinfo_dump_ctx *ctx = (void *)cb->ctx;
-> +	struct ptp_clock *ptp;
-> +	int ret;
-> +
-> +	netdev_for_each_ptp_clock_start(dev, ctx->pos_phcindex, ptp,
-> +					ctx->pos_phcindex) {
-> +		ret = ethnl_tsinfo_dump_one_ptp(skb, dev, cb, ptp);
-> +		if (ret < 0 && ret != -EOPNOTSUPP)
-> +			break;
-> +		ctx->pos_phcqualifier = HWTSTAMP_PROVIDER_QUALIFIER_PRECISE;
-> +	}
-> +
-> +	return ret;
-
-Perhaps it is not possible, but if the loop iterates zero times then
-ret will be used uninitialised here.
-
-Flagged by Smatch.
-
-> +}
-
-...
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
