@@ -1,216 +1,117 @@
-Received: from out30-110.freemail.mail.aliyun.com (out30-110.freemail.mail.aliyun.com [115.124.30.110])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CF1F14A84;
-	Sat,  4 May 2024 06:45:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.110
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 981D228EA;
+	Sat,  4 May 2024 07:17:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714805106; cv=none; b=t1zMMXV9ael7JXS3IVwVRzanddmnXEY6DqiflZU3td+O+dpwkY6dCNyrlsWXwDk1HCiZwaicwhP1O2kGw2LthKgqmkdtGC55AwTSVdgMtJXJj2l5kd4mA1OnueMMrsgHZ/ZT8PCKEsVQ3zRZtUtlBiQu7mSCmVBvIOdOc4xOK38=
+	t=1714807065; cv=none; b=QW4UJDeoEszVW/hXRWiGQq03JM/mrKEmaWn/DOtZku52cygUMOpPMlVIeaiSu8FDQMMC4gMruSY0kcYataWbGb5TAMmE6xaFmz2YnLlQjiD7vicFsaTzsrMBIko3gTuqmd693Qq1oCRSC7slftQit3fYf7RxyEMyf/mk9RmNl54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714805106; c=relaxed/simple;
-	bh=ls/PIBwKI6TT1X75ac0C4Wm0YLYXqQKw3/ydK2nRGKE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=piyTZv4/n1hBGMktmB+PZqHPYb2dGKGbiqL57OPV/XNLbjUR9x//J4LNKpAgopOPV7sbap5/+vQ4ZepXgjlGXSXj4nvrOwsHrkXyHuzIfSsDvd1Yy4n46NdNAPvbflRRKxm6q3BWdoChllInXRx8sgA92jVLPjJVhllmeu2re6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=RmTk5DsK; arc=none smtp.client-ip=115.124.30.110
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1714807065; c=relaxed/simple;
+	bh=ejWxIT2n8p8dZWoM545mizb9Me9EE2+yOLIi4nbVIhk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NChiG2ynP0+ztIZ94IjWMAJmZiU+hPBBDwTm9keI6Y1Vh9ig22MDnTaXa/kI/duvIZbJpwLPm5/ZCYodKyDK9vsXDUFrwpVUSZ4RpGuajwO3P18yiF/+XtBamRRa8znc80I4rAZZaa9AUF7T6PbZ5xJDzVe/gov9a2vp+fzWs/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HhB1eTvY; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="RmTk5DsK"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1714805096; h=From:To:Subject:Date:Message-Id:MIME-Version;
-	bh=GJD19GuqeHHyAZSeKce08gSgzKiq2SrycBxSISnyviU=;
-	b=RmTk5DsKkG65qnt0bYiHzBQXbLC/B3tKhubIgje6ezLOmD9BjAz8AjEUWrhYGCaPbVGLyucg879+vjSB+Kv8qsNqIhlXSOxZ1pQExLhLGUjVpe2eKDe2LeXQXt/AijclYl5KGzOpTIU+aMMJfa2zzfNY+T4/J71VvwDT++3rS/c=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R681e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037067110;MF=hengqi@linux.alibaba.com;NM=1;PH=DS;RN=24;SR=0;TI=SMTPD_---0W5luCme_1714805093;
-Received: from localhost(mailfrom:hengqi@linux.alibaba.com fp:SMTPD_---0W5luCme_1714805093)
-          by smtp.aliyun-inc.com;
-          Sat, 04 May 2024 14:44:54 +0800
-From: Heng Qi <hengqi@linux.alibaba.com>
-To: netdev@vger.kernel.org,
-	virtualization@lists.linux.dev
-Cc: Jakub Kicinski <kuba@kernel.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jason Wang <jasowang@redhat.com>,
-	"Michael S . Tsirkin" <mst@redhat.com>,
-	Brett Creeley <bcreeley@amd.com>,
-	Ratheesh Kannoth <rkannoth@marvell.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Tal Gilboa <talgi@nvidia.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Paul Greenwalt <paul.greenwalt@intel.com>,
-	Ahmed Zaki <ahmed.zaki@intel.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	justinstitt@google.com,
-	Simon Horman <horms@kernel.org>
-Subject: [PATCH net-next v12 3/4] dim: add new interfaces for initialization and getting results
-Date: Sat,  4 May 2024 14:44:46 +0800
-Message-Id: <20240504064447.129622-4-hengqi@linux.alibaba.com>
-X-Mailer: git-send-email 2.32.0.3.g01195cf9f
-In-Reply-To: <20240504064447.129622-1-hengqi@linux.alibaba.com>
-References: <20240504064447.129622-1-hengqi@linux.alibaba.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HhB1eTvY"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1eb0e08bfd2so1692195ad.1;
+        Sat, 04 May 2024 00:17:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714807064; x=1715411864; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7XC8N3tk53B+3ELEb4uOpOgXhdDIpoi23VgMeUZkbc4=;
+        b=HhB1eTvYPD+ktMHwXFp3GKlF1zSclijHiPwoZC23vftEygD4oayrFNXo7lM0auYl53
+         vdT7JyQ8644W1wciuQdFUAGlvVvKRS/aK/7ZExYpb6ArRrW7fUzEZUaIupCms7pHwX1o
+         GQSSFrXl9y1CPCI8d5Y7t03DrVQlgwsCy/976ZUSJtWS0uBzEEeIgsc7cV4Z5Jb+1uhw
+         tupTKtmqPEIn2O++PukbHZ3KDTB5F5mg6P98IHvJW/2/YNA7TxqV9mJhv5ZXf5BSPkUx
+         IoV96ZI8eOcksdj8wfBEPpFsrX+lM8kufeRs9HPpKzKeb7WUkuZpr7uCQeCap3OX1+X4
+         0Y+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714807064; x=1715411864;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7XC8N3tk53B+3ELEb4uOpOgXhdDIpoi23VgMeUZkbc4=;
+        b=phNWQKp/VsBXyUL5I9Dss2Sp8t8dviee8a8ChIuGyelr+gtFJ7wWVeMWq7tncEjv/w
+         8XvA774akYtuiwkSFweId9cl5Efpi//h1tQ/MTnXFcIlWzbTaBwpDD9B076q/o5o7Nxb
+         jnTN7hsUwPChFZSCf/4P4SWyhXCpNcV2zHhT205aayLwcaBDx2KGI/mjZ+RKA1BbD2am
+         BD3aV8MHNWEG30xdVQdsbe1/xLaPWf/uKQtiH7MsIMrBLCIOlzdxIwJUJY+AwEbuDmmN
+         WhYADkFqYL7GgJg2nB2gkDT+k/b64H/XwqzVcddOIiJyrw84FZAsrrJ0JJOvpN896bm6
+         4WXA==
+X-Forwarded-Encrypted: i=1; AJvYcCUMtHnZR4ASGujl05UHJIWGDawLGNNe/LwtpTIdfeyS/9JrAmMDgLB8J2GP3wz2p0zC+/+7Qw+fHTScZrHSOkul4FQIMyyMRd1gl3iq
+X-Gm-Message-State: AOJu0YzmTX265orsRCxXqDZ6d5A1v5EzSggBtWu/R7ahHEMz71MvPd6s
+	ohYCaIeZZ1SwZhd35/KvSuzXQ4b09qlZYWm1hd25vHtHypQnQrGdepjPMg==
+X-Google-Smtp-Source: AGHT+IEb8mu9yDKo6GTL0CkxNwJE2by96WT7UiE/qOzFSZ1sKGTGQowxWrGnYBUzMHUIvVAMWGvE8Q==
+X-Received: by 2002:a17:902:f546:b0:1e6:34f9:f730 with SMTP id h6-20020a170902f54600b001e634f9f730mr4855974plf.52.1714807063714;
+        Sat, 04 May 2024 00:17:43 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id t12-20020a170902bc4c00b001e4565a2596sm4420092plz.92.2024.05.04.00.17.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 May 2024 00:17:42 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 915FB18494A25; Sat, 04 May 2024 14:17:39 +0700 (WIB)
+Date: Sat, 4 May 2024 14:17:39 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Utkarsh Tripathi <utripathi2002@gmail.com>, corbet@lwn.net,
+	akiyks@gmail.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org
+Subject: Re: [PATCH v3] kernel-doc: Added "*" in $type_constants2 to fix
+ 'make htmldocs' warning.
+Message-ID: <ZjXhExdIpDu23Y3K@archie.me>
+References: <20240503182650.7761-1-utripathi2002@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="MK4xn+smwcKRqZrj"
+Content-Disposition: inline
+In-Reply-To: <20240503182650.7761-1-utripathi2002@gmail.com>
 
-DIM-related mode and work have been collected in one same place,
-so new interfaces are added to provide convenience.
 
-Signed-off-by: Heng Qi <hengqi@linux.alibaba.com>
----
- include/linux/dim.h | 48 ++++++++++++++++++++++++++++++++
- lib/dim/net_dim.c   | 68 +++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 116 insertions(+)
+--MK4xn+smwcKRqZrj
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/include/linux/dim.h b/include/linux/dim.h
-index d848b790ca50..5cf0987a79f7 100644
---- a/include/linux/dim.h
-+++ b/include/linux/dim.h
-@@ -257,6 +257,54 @@ int net_dim_init_irq_moder(struct net_device *dev, u8 profile_flags,
-  */
- void net_dim_free_irq_moder(struct net_device *dev);
- 
-+/**
-+ * net_dim_setting - initialize DIM's cq mode and schedule worker
-+ * @dev: target network device
-+ * @dim: DIM context
-+ * @is_tx: true indicates the tx direction, false indicates the rx direction
-+ */
-+void net_dim_setting(struct net_device *dev, struct dim *dim, bool is_tx);
-+
-+/**
-+ * net_dim_work_cancel - synchronously cancel dim's worker
-+ * @dim: DIM context
-+ */
-+void net_dim_work_cancel(struct dim *dim);
-+
-+/**
-+ * net_dim_get_rx_irq_moder - get DIM rx results based on profile_ix
-+ * @dev: target network device
-+ * @dim: DIM context
-+ *
-+ * Return: DIM irq moderation
-+ */
-+struct dim_cq_moder
-+net_dim_get_rx_irq_moder(struct net_device *dev, struct dim *dim);
-+
-+/**
-+ * net_dim_get_tx_irq_moder - get DIM tx results based on profile_ix
-+ * @dev: target network device
-+ * @dim: DIM context
-+ *
-+ * Return: DIM irq moderation
-+ */
-+struct dim_cq_moder
-+net_dim_get_tx_irq_moder(struct net_device *dev, struct dim *dim);
-+
-+/**
-+ * net_dim_set_rx_mode - set DIM rx cq mode
-+ * @dev: target network device
-+ * @rx_mode: target rx cq mode
-+ */
-+void net_dim_set_rx_mode(struct net_device *dev, u8 rx_mode);
-+
-+/**
-+ * net_dim_set_tx_mode - set DIM tx cq mode
-+ * @dev: target network device
-+ * @tx_mode: target tx cq mode
-+ */
-+void net_dim_set_tx_mode(struct net_device *dev, u8 tx_mode);
-+
- /**
-  *	dim_on_top - check if current state is a good place to stop (top location)
-  *	@dim: DIM context
-diff --git a/lib/dim/net_dim.c b/lib/dim/net_dim.c
-index b3e01619f929..60944f31a886 100644
---- a/lib/dim/net_dim.c
-+++ b/lib/dim/net_dim.c
-@@ -166,6 +166,74 @@ void net_dim_free_irq_moder(struct net_device *dev)
- }
- EXPORT_SYMBOL(net_dim_free_irq_moder);
- 
-+void net_dim_setting(struct net_device *dev, struct dim *dim, bool is_tx)
-+{
-+	struct dim_irq_moder *irq_moder = dev->irq_moder;
-+
-+	if (!irq_moder)
-+		return;
-+
-+	if (is_tx) {
-+		INIT_WORK(&dim->work, irq_moder->tx_dim_work);
-+		dim->mode = READ_ONCE(irq_moder->dim_tx_mode);
-+		return;
-+	}
-+
-+	INIT_WORK(&dim->work, irq_moder->rx_dim_work);
-+	dim->mode = READ_ONCE(irq_moder->dim_rx_mode);
-+}
-+EXPORT_SYMBOL(net_dim_setting);
-+
-+void net_dim_work_cancel(struct dim *dim)
-+{
-+	cancel_work_sync(&dim->work);
-+}
-+EXPORT_SYMBOL(net_dim_work_cancel);
-+
-+struct dim_cq_moder net_dim_get_rx_irq_moder(struct net_device *dev,
-+					     struct dim *dim)
-+{
-+	struct dim_cq_moder res, *profile;
-+
-+	rcu_read_lock();
-+	profile = rcu_dereference(dev->irq_moder->rx_profile);
-+	res = profile[dim->profile_ix];
-+	rcu_read_unlock();
-+
-+	res.cq_period_mode = dim->mode;
-+
-+	return res;
-+}
-+EXPORT_SYMBOL(net_dim_get_rx_irq_moder);
-+
-+struct dim_cq_moder net_dim_get_tx_irq_moder(struct net_device *dev,
-+					     struct dim *dim)
-+{
-+	struct dim_cq_moder res, *profile;
-+
-+	rcu_read_lock();
-+	profile = rcu_dereference(dev->irq_moder->tx_profile);
-+	res = profile[dim->profile_ix];
-+	rcu_read_unlock();
-+
-+	res.cq_period_mode = dim->mode;
-+
-+	return res;
-+}
-+EXPORT_SYMBOL(net_dim_get_tx_irq_moder);
-+
-+void net_dim_set_rx_mode(struct net_device *dev, u8 rx_mode)
-+{
-+	WRITE_ONCE(dev->irq_moder->dim_rx_mode, rx_mode);
-+}
-+EXPORT_SYMBOL(net_dim_set_rx_mode);
-+
-+void net_dim_set_tx_mode(struct net_device *dev, u8 tx_mode)
-+{
-+	WRITE_ONCE(dev->irq_moder->dim_tx_mode, tx_mode);
-+}
-+EXPORT_SYMBOL(net_dim_set_tx_mode);
-+
- static int net_dim_step(struct dim *dim)
- {
- 	if (dim->tired == (NET_DIM_PARAMS_NUM_PROFILES * 2))
--- 
-2.32.0.3.g01195cf9f
+On Fri, May 03, 2024 at 11:56:50PM +0530, Utkarsh Tripathi wrote:
+> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+> index cb1be22afc65..58129b1cf3f4 100755
+> --- a/scripts/kernel-doc
+> +++ b/scripts/kernel-doc
+> @@ -62,7 +62,7 @@ my $anon_struct_union =3D 0;
+> =20
+>  # match expressions used to find embedded type information
+>  my $type_constant =3D '\b``([^\`]+)``\b';
+> -my $type_constant2 =3D '\%([-_\w]+)';
+> +my $type_constant2 =3D '\%([-_*\w]+)';
+>  my $type_func =3D '(\w+)\(\)';
+>  my $type_param =3D '\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
+>  my $type_param_ref =3D '([\!~\*]?)\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)';
+>=20
 
+The warning gone away, thanks!
+
+Tested-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--MK4xn+smwcKRqZrj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZjXhDwAKCRD2uYlJVVFO
+o751AP9fBDG7Usg1VtPWsrMMKjw89VtmkrfYeE9bjVJCLG5cSwD7Bo12xCxeaprJ
+NJTShYCz1OIAf0ws8jun+m2Qu0buWQ0=
+=zAKi
+-----END PGP SIGNATURE-----
+
+--MK4xn+smwcKRqZrj--
