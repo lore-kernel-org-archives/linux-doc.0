@@ -1,90 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED3F13D289;
-	Mon,  6 May 2024 14:25:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E38B153583;
+	Mon,  6 May 2024 14:59:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715005557; cv=none; b=q3oIWrE2srGYB9gD1lap4S2u3eydfzjuwaWoO+f5tMiKeaTw80hYcKXbQzBA6u94NbOOmRjW8SnpeuPlgXk/c662akceoQR1L/s1LDknc1SK4DNqNHaLWQGAw0QWwv5Uy/+cMwJEV7aWEzoHSliM10tychy9IPoKmgMqYRnc0Oc=
+	t=1715007564; cv=none; b=g2051KvBELRE822nbQSEGPWdlXP7IELyRehbowa2mwZa8qdv4GFT+LT8Z/1+B89M8XLWig2/AzHyJCsX+PQ6MKLZ10hy+RUpsKyyLaLfQdt9G9HE4ykhJlwwfhxdRnRjJbp7gboq5hUmpbFwxcmZJmFQYcHcLyxfTWhXT8gdWzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715005557; c=relaxed/simple;
-	bh=EnQPE3FwCk5Ns+k1JljGSjyT4ERWWDmlzGdgIeUIZJg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VgH6PtMUIxK2X5GCl99J1ZQ1rai33M823y7ZI2v7/D5PvqRDtbBCrj5TS8XCxELJv2DVfAC+qRZvVqVNJWvYY9Z1r/hURCG/dmaLH0Kq2Z4GD7lnFI1sls4Yjyn0n/f/v7sTlIG75ApSVvJVv/HO/tKKyw5DoRz0eMXgWGUk3aE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HTQxxFHB; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1715007564; c=relaxed/simple;
+	bh=mS7dSTeWCBi5ZyYS09A2fI9maoy49+AMSmPQlxoNqps=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=MQnoqd4eHBI5qsTIuhPp5LiJCu2h6PWCyMf5wO6Z2MgS+H1nJLSny9zKdIEQygzsNeWsnHVjLT6rx32mV3ZmGKKhmhHVMK2MkrYmoNiegEkxLLP5DSSMX9ZBw2JOFonSeDG7lqbxMul50NdQKys3Vd0WoKH+ucpgn4ZFHq3BoS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qfEjx5Lu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HTQxxFHB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715005556; x=1746541556;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EnQPE3FwCk5Ns+k1JljGSjyT4ERWWDmlzGdgIeUIZJg=;
-  b=HTQxxFHB7i062trcxj0lIbBlxlrYs2WhBsrDs5XG53C2F1yUGLlG7lI0
-   oXjjRsS2FypCybNCabKleh4+p47b8fUlurmyyHC32Nbr7N6etbXCEzt2I
-   sVjTpW1hQB5unDpmwwY1SEm6biQeR0nrk6G1b2fGb8gkksAvB3JF3pWm7
-   IsTwj5BY44bJThVi++4ETmfDNR9GsWRfDArt+6+LNTZ2PKfqFpShDIC+M
-   Wcaln9FIpIoEwTK27FuzaBXrqWg5lPsXcdHs+feF4zJWMtTL4qOUpF0Nj
-   1DjoFSzTmZnQEF/MNmrWWlmQCiWOdALw+BzM3leVIm2qx9ImSb4iFJQ3p
-   g==;
-X-CSE-ConnectionGUID: bPDmbS/GSYWOtIrL/jcE7A==
-X-CSE-MsgGUID: Tt60eOY+RHGwKIFCEAnslg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11065"; a="14534828"
-X-IronPort-AV: E=Sophos;i="6.07,258,1708416000"; 
-   d="scan'208";a="14534828"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2024 07:25:56 -0700
-X-CSE-ConnectionGUID: CiJSTNs9R3Oi9MI8OGmVJA==
-X-CSE-MsgGUID: 19i6sOY5RcK6PGp2uu2OEQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.07,258,1708416000"; 
-   d="scan'208";a="28182208"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2024 07:25:53 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1s3zHq-00000004iso-3Ur8;
-	Mon, 06 May 2024 17:25:50 +0300
-Date: Mon, 6 May 2024 17:25:50 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: linux-sound@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	baojun.xu@ti.com
-Subject: Re: [PATCH v1 1/1] ALSA: Correct the kernel object suffix of target
-Message-ID: <Zjjobmw7UIv9LXim@smile.fi.intel.com>
-References: <20240506085219.3403731-1-andriy.shevchenko@linux.intel.com>
- <878r0ngh9u.wl-tiwai@suse.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qfEjx5Lu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC200C4AF66;
+	Mon,  6 May 2024 14:59:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715007563;
+	bh=mS7dSTeWCBi5ZyYS09A2fI9maoy49+AMSmPQlxoNqps=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=qfEjx5LuL6bEffjRxJ3mTsH7wUbsTYK2zv/kCnb0FqyCADylG1X3h4GDctDp87LcN
+	 ho5M7DPB8GVZpQR+W7uuldtRJ1DsWnZaQ2GtECLFCPHuvwtnc3FUeEvH9OXTPIREVH
+	 qhViGMzOF/ROqN7qaUL5xixVYa3AdwK0kkPUBUUUOhtLljgYQyaG6ZcJuGc2kRckiS
+	 JZQIhA4sMuFK07RLGE6kiak3yPV0E1sh7T2zQvYOo5fTScibR6kqMh5ONj43akUL3a
+	 rg9NVNAl3QG/+5macYiqyI0D4Myn5Q4OBdNWjk6lzdU9C9iCQqq5S9q0lTFLSaLImq
+	 fE9uJ5u90f3RA==
+From: Mark Brown <broonie@kernel.org>
+To: Liam Girdwood <lgirdwood@gmail.com>, Jean Delvare <jdelvare@suse.com>, 
+ Guenter Roeck <linux@roeck-us.net>, Jonathan Cameron <jic23@kernel.org>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+ David Lechner <dlechner@baylibre.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+ Support Opensource <support.opensource@diasemi.com>, 
+ Cosmin Tanislav <cosmin.tanislav@analog.com>, 
+ Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Antoniu Miclaus <antoniu.miclaus@analog.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+ linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
+ linux-input@vger.kernel.org, Jonathan Cameron <Jonathan.Cameron@huawei.com>
+In-Reply-To: <20240429-regulator-get-enable-get-votlage-v2-0-b1f11ab766c1@baylibre.com>
+References: <20240429-regulator-get-enable-get-votlage-v2-0-b1f11ab766c1@baylibre.com>
+Subject: Re: (subset) [PATCH v2 0/7] regulator: new API for voltage
+ reference supplies
+Message-Id: <171500756002.1968386.17290951989557329800.b4-ty@kernel.org>
+Date: Mon, 06 May 2024 23:59:20 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <878r0ngh9u.wl-tiwai@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14-dev
 
-On Mon, May 06, 2024 at 04:13:33PM +0200, Takashi Iwai wrote:
-> On Mon, 06 May 2024 10:52:19 +0200,
-> Andy Shevchenko wrote:
-> > 
-> > The correct suffix is 'y' for the kernel code and
-> > 'objs' for the user space. Update documentation.
-> > 
-> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+On Mon, 29 Apr 2024 18:40:08 -0500, David Lechner wrote:
+> In the IIO subsystem, we noticed a pattern in many drivers where we need
+> to get, enable and get the voltage of a supply that provides a reference
+> voltage. In these cases, we only need the voltage and not a handle to
+> the regulator. Another common pattern is for chips to have an internal
+> reference voltage that is used when an external reference is not
+> available. There are also a few drivers outside of IIO that do the same.
 > 
-> Applied now.  I added a suffix to the subject to indicate it's a
-> documentation fix, too.
+> [...]
 
-Thank you!
+Applied to
 
--- 
-With Best Regards,
-Andy Shevchenko
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
 
+Thanks!
+
+[1/7] regulator: devres: add API for reference voltage supplies
+      commit: b250c20b64290808aa4b5cc6d68819a7ee28237f
+[2/7] hwmon: (adc128d818) Use devm_regulator_get_enable_read_voltage()
+      commit: cffb8d74bd4e9dd0653c7093c4a5164a72c52b1f
+[3/7] hwmon: (da9052) Use devm_regulator_get_enable_read_voltage()
+      commit: d72fd5228c9f2136a3143daf5c7822140211883a
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
 
