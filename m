@@ -1,129 +1,109 @@
-Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A16140366;
-	Mon,  6 May 2024 10:06:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB2C2128372;
+	Mon,  6 May 2024 10:59:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714989971; cv=none; b=oSc2SL65hgtGAgJywtl/0ZwYyQRPFJHQag/+O089fchNx0b1pZ/gDuIe7CwGWAuL86bTscziK4g1QrazzkK8yQKMgti5SKWIrCwQx7d7ukJZLOqnE0jZF/9DzaJWPCmO+JSUDx/GF7mbQrE2KEu/zbosXz8u2PjalTlWorgD0Rg=
+	t=1714993199; cv=none; b=Lmq7E0ceQCqt1+qejKkhqGMkOYZPCPNyO90mP1dLOiDRTkWs5ghrooFQfw0j3jPI1W+n6uOsxmSPkwO1LE8eEBkMTL/AcSBF9QUgrbOdJn1bW8KGnb35MAExOrAlm15OxUWF42VzqlTTmEua+s4jusUA9I4IuZfPLIgip6O8DIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714989971; c=relaxed/simple;
-	bh=3bKywxWdwXQJn9t7WE5tCeMMFA6vA0dUvFi3njX5doo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Yx99Cws+Mn02v9a28WeNX/Uw9MyZfPlp4znWlE7U9Q+QQb6cFhLf8Yu7G+Pw0x03Kh5rTtPs3sAlHkepPF8y1NA2ejgYbVwU1OagdFpU/gJspPA/3P91YfYKyTu+RPOOQwzWP0wFCObGhIViGNyejBLhfDOXCcW7XSSEwPw1wFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.186.51])
-	by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4VXxMR3twyz9xGXN;
-	Mon,  6 May 2024 17:44:35 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.47])
-	by mail.maildlp.com (Postfix) with ESMTP id 6DCB91404D9;
-	Mon,  6 May 2024 18:05:58 +0800 (CST)
-Received: from [10.81.216.243] (unknown [10.81.216.243])
-	by APP1 (Coremail) with SMTP id LxC2BwCHexR2qzhmIrWjBw--.20188S2;
-	Mon, 06 May 2024 11:05:57 +0100 (CET)
-Message-ID: <c97f0529-5a8f-4a82-8e14-0078d4372bdc@huaweicloud.com>
-Date: Mon, 6 May 2024 12:05:39 +0200
+	s=arc-20240116; t=1714993199; c=relaxed/simple;
+	bh=sHYZaWmfDRzKzlIiPdRNF18IWRY23/RhfLJWuB8vfyY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=R4WnKwaueArWlo0rXMdG0iwJtFIUrLSKhNN2bvkUHLJVbwZAX9MrlLKZtOTOHc9DA5+KTyM9BCk8DfhL+loX9iznllMSksUchYIK+z30uojtdPscM1TNcfveH84tPAZbVdudmX96OPJweDm9sF/0vUkJuaCX9rHfCzsXx77SFgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tz5u+8Nw; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tz5u+8Nw"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1ecd3867556so11128815ad.0;
+        Mon, 06 May 2024 03:59:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714993197; x=1715597997; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zJamX9TTA5ozFRtXzVtK6/RgerXqdmilnzpt+IxTl7s=;
+        b=Tz5u+8Nw9HnGCKcrqJ09HCBwbLyx+WB86tRn5F47rVZTlNFxNciq1FLxxxc6aPPuP3
+         XpK/QOz4NNsp2Mw4wAFhjFGMn25oJ84yvDO++Acw7Q8Of12Nmp7vu8ahb/+bvA5xhxLv
+         QZ22LrS/K95ZmfEvnLcsCPhS13/XBYyv7nRH5y6ff8zv0cCleJLYhEs+btFGOe0otCRk
+         3tcysVwS0/6A173wso0cJZ8sbKsxIqA+0eERCtpip121OAhcbpeDNLT3FAbOfv1BhQOf
+         mR1gZXIRc3ArFYNxVk9d8WEQdGoaDa9erroVOdyKhH6YPTXAXyAElW1YQDY/Fod3/bgm
+         9ihg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714993197; x=1715597997;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zJamX9TTA5ozFRtXzVtK6/RgerXqdmilnzpt+IxTl7s=;
+        b=sgk1WTa7wzNVyD9oqdD6Y9JwPa0pk3GLx5Jj3dFMS43Tpym2/nKevmGabEagYMNKSf
+         ikP2McVhj2aJ6Rw+iuyr6cOk/Edm43chtOzB3ATNbgblIlc0m43baK51eUelkdgLQHlL
+         vCFPuPFb1A97kwmcYzUIFkbBuLLq+Oy7rtqQWKEsL1AfJv1asr8YMCzTfLwpvfak24gY
+         N7PNA0LZIX9dpOzptcMPLX+iHCMW7V8oO6OQHb2G+8aVYdBEiy/2WKE8iClX/n00i8rf
+         jQiYIfLejiuUCZoHhA0joFfZfTXGIIa8m7L0w6/5WtWeq3jP4iF6VrmQgstAYTtYIDQ5
+         qLEA==
+X-Forwarded-Encrypted: i=1; AJvYcCVAtfy6+F9woyZE8ZfciCqQ1Y3vIxol69xF0u9ETjppQ1i6lDtEtYXnUXcfMFRnrnszy5/4rkI1UF4rnkr0JoUs5297dIaPqmibdwmA9Eh63fMk/qEGK09ozmgoQ0cRmXaW/55+pcwGug==
+X-Gm-Message-State: AOJu0YyAn36xcGQTufj9JjQ2kxStBL5vOrWFp4QhAyixpEUQwhuw5CHG
+	ldoenUuxlU4ntu8uM4JQ1Nkr3dMTM1Sxf8se7gH+22bs7AL9RFzA
+X-Google-Smtp-Source: AGHT+IFM87zu5cIMc1I4BWtLdWyxQNhwkpcxaQE7IypFNm5dIz0QAahEFKlUlkxKpBryaGBlGml1Tw==
+X-Received: by 2002:a17:902:b607:b0:1ea:f9af:ee99 with SMTP id b7-20020a170902b60700b001eaf9afee99mr9566416pls.25.1714993196487;
+        Mon, 06 May 2024 03:59:56 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id c8-20020a170903234800b001e3e09690c6sm7987845plh.199.2024.05.06.03.59.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 May 2024 03:59:56 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 20682184790CF; Mon, 06 May 2024 17:59:54 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Next Mailing List <linux-next@vger.kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	James Bottomley <James.Bottomley@HansenPartnership.com>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH] Documentation: tpm: Add TPM security docs toctree entry
+Date: Mon,  6 May 2024 17:59:36 +0700
+Message-ID: <20240506105936.37073-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.45.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH memory-model 2/4] Documentation/litmus-tests: Demonstrate
- unordered failing cmpxchg
-To: "Paul E. McKenney" <paulmck@kernel.org>, linux-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, kernel-team@meta.com, mingo@kernel.org
-Cc: stern@rowland.harvard.edu, parri.andrea@gmail.com, will@kernel.org,
- peterz@infradead.org, boqun.feng@gmail.com, npiggin@gmail.com,
- dhowells@redhat.com, j.alglave@ucl.ac.uk, luc.maranget@inria.fr,
- akiyks@gmail.com, Frederic Weisbecker <frederic@kernel.org>,
- Daniel Lustig <dlustig@nvidia.com>, Joel Fernandes <joel@joelfernandes.org>,
- Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org
-References: <42a43181-a431-44bd-8aff-6b305f8111ba@paulmck-laptop>
- <20240501232132.1785861-2-paulmck@kernel.org>
-From: Jonas Oberhauser <jonas.oberhauser@huaweicloud.com>
-In-Reply-To: <20240501232132.1785861-2-paulmck@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:LxC2BwCHexR2qzhmIrWjBw--.20188S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Kr45urWDKw47Ary5Kw1Dtrb_yoW8Gw17pF
-	WUKF43Kry7J39Ykwn5Za43X348uayftan5Gry3GrWqv3Z8CFyjvFyrtFWSgFy3Jrsaka1j
-	vr1a934xZrWUAaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUk0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
-	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij
-	64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
-	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE
-	2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42
-	xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv
-	6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUFDGOUUUUU
-X-CM-SenderInfo: 5mrqt2oorev25kdx2v3u6k3tpzhluzxrxghudrp/
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1087; i=bagasdotme@gmail.com; h=from:subject; bh=sHYZaWmfDRzKzlIiPdRNF18IWRY23/RhfLJWuB8vfyY=; b=kA0DAAoW9rmJSVVRTqMByyZiAGY4t6rIVWeAlvNBVJ28YVOyQGnfzPfrWmN/G57CRdHL6fAIs Yh1BAAWCgAdFiEEkmEOgsu6MhTQh61B9rmJSVVRTqMFAmY4t6oACgkQ9rmJSVVRTqPjxAEA/0aZ NqKxpXB/QspqxXTpv0wioowr3gicQlsFCbH7hvMBAOSK8JmBx0+VM0jQLvaTsr6301Qa2axd4N/ blaisvYQD
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
+Stephen Rothwell reports htmldocs warning when merging tpmdd tree for
+linux-next:
 
+Documentation/security/tpm/tpm-security.rst: WARNING: document isn't included in any toctree
 
-Am 5/2/2024 um 1:21 AM schrieb Paul E. McKenney:
-> This commit adds four litmus tests showing that a failing cmpxchg()
-> operation is unordered unless followed by an smp_mb__after_atomic()
-> operation.
+Add toctree entry for TPM security docs to fix above warning.
 
-So far, my understanding was that all RMW operations without suffix 
-(xchg(), cmpxchg(), ...) will be interpreted as F[Mb];...;F[Mb].
+Fixes: ddfb3687c538 ("Documentation: add tpm-security.rst")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Closes: https://lore.kernel.org/linux-next/20240506162105.42ce2ff7@canb.auug.org.au/
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ Documentation/security/tpm/index.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-I guess this shows again how important it is to model these full 
-barriers explicitly inside the cat model, instead of relying on implicit 
-conversions internal to herd.
+diff --git a/Documentation/security/tpm/index.rst b/Documentation/security/tpm/index.rst
+index f27a17f60a9602..fa593d960040a9 100644
+--- a/Documentation/security/tpm/index.rst
++++ b/Documentation/security/tpm/index.rst
+@@ -5,6 +5,7 @@ Trusted Platform Module documentation
+ .. toctree::
+ 
+    tpm_event_log
++   tpm-security
+    tpm_tis
+    tpm_vtpm_proxy
+    xen-tpmfront
 
-I'd like to propose a patch to this effect.
-
-What is the intended behavior of a failed cmpxchg()? Is it the same as a 
-relaxed one?
-
-My suggestion would be in the direction of marking read and write events 
-of these operations as Mb, and then defining
-
-(* full barrier events that appear in non-failing RMW *)
-let RMW_MB = Mb & (dom(rmw) | range(rmw))
-
-
-let mb =
-     [M] ; fencerel(Mb) ; [M]
-   | [M] ; (po \ si ; rmw) ; [RMW_MB] ; po^? ; [M]
-   | [M] ; po^? ; [RMW_MB] ; (po \ rmw ; si) ; [M]
-   | ...
-
-The po \ si;rmw is because ordering is not provided internally of the 
-rmw, although I suspect that after we added release sequences it could 
-perhaps be simplified to
-
-
-let mb =
-     [M] ; fencerel(Mb) ; [M]
-   | [M] ; po ; [RMW_MB] ; po^? ; [M]
-   | [M] ; po^? ; [RMW_MB] ; po ; [M]
-   | ...
-
-or
-
-let mb =
-     [M] ; fencerel(Mb) ; [M]
-   | [M] ; po & (po^? ; [RMW_MB] ; po^?) ; [M]
-   | ...
-
-(the po & is necessary to avoid trivial hb cycles of an RMW event 
-happening before itself)
-
-
-Any interest?
-
-Have fun,
-jonas
-
+base-commit: 152585665f0f6b89e67ed6d04c17b18d1f0f4077
+-- 
+An old man doll... just what I always wanted! - Clara
 
