@@ -1,92 +1,132 @@
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20ED715A5
-	for <linux-doc@vger.kernel.org>; Mon,  6 May 2024 13:59:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D3713CAAD;
+	Mon,  6 May 2024 14:13:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715003998; cv=none; b=H00y+iKK4/v3NEL1N+VyB7qQFUO9MQ9T0fmGNXbYZ6BoHOZG+wVCTz7NKjFyWVP5B7S4agX7EzzNAcdhWEXjApQwtbXWdaDdTYVH5YhB9UNpYaszOz1ndkrvgRLhB0hNXzyX99DR6yFvNO5atptkbVm8MICn2Fyqe8yBIR74t9I=
+	t=1715004802; cv=none; b=tKxOgihaxJvl2eBybtQDJ35KXfnZEBQPcMSa8NTFBjmP7VH+Zi7yBJNQPmYUFsXZBvQ3oz3GggMXx6b3kElIdgI04RMvZyjSyGErKiLwlGRed6E19MJ9deYYMt0UwXwsNt8y8fJecJWL3/QFiTAP4t/7seQB5CGt0dHBznvpox8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715003998; c=relaxed/simple;
-	bh=9QyoBM5OciUWfzMMtP7ILW37nhWVCyfuC2Ea6o5QqBM=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ryFb1q2S4ZrgN+Iwx3jvKMEYy3ihpJW51yLAqBZHZx8Den7/oPQ7T0TPX8zyhbSobBsgC97l4yDdpnBHYzgHV5zd0yKRLWGuUPLcwqwiuCW6mp5oIQwJd07iNlbRSdNTBjwLROOScGvTIi01iVEbIbB98dEcVgaDQPR8EVT3gcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org; spf=pass smtp.mailfrom=cknow.org; dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b=Fyg5inRz; arc=none smtp.client-ip=91.218.175.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow.org
+	s=arc-20240116; t=1715004802; c=relaxed/simple;
+	bh=QRbq6H4DwuT9gwWhZhUd8BbIWyf3EoJfoxV0DVP1gA0=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QtX7gjtDQXuoh1Pf1+waAHlz/Y7bjtxeJ8shrpJV0FWbjv9wq70J3YMzIFuFS9Se42/LaRFpJ1aA5GB0RrBiORjnq8kOa1DK4TDBi47j6p8NZAJ5Q47fA7K8PCUd7ubzlcdxM8n1+L5Os2DWoZL8injKrPz22nkHKSF6u52jsqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0MhZXtvV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6P2WRc2X; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=0MhZXtvV; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=6P2WRc2X; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b="Fyg5inRz"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
-	t=1715003993;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0MhZXtvV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6P2WRc2X";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="0MhZXtvV";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6P2WRc2X"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 79BB03846B;
+	Mon,  6 May 2024 14:13:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1715004799; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Z2WXk0EuQ5nz923nMjKal2VZpAShTUCRAYCxi1j7Elg=;
-	b=Fyg5inRzsFupkLS22MxFbipSXdQ1DagF8r0dKViA7k6L3gMVIK47QdqbYigBLbts78MSlu
-	VARuqc8HybL9bCtrohTB6OvD15fy+fJG79WVQBQcOt1bVnE9vKLCESY7tBIehboltvJDdC
-	kIwMM3Ba9dokeoYxETe0nzZFV5jgPAgmzoOTRQxJOgiak2Ad9mkv7AOuhd4uoS3aUqPhsV
-	rhPUiYbHnNEjNgsHb0xyg+Ao3Iqo13ZVNktgrx9Z41ZSdSxdDE2aUecz3V+vfnunFTPlm8
-	Ta1BrwI37Axsdvhyxhp2StcljNl+0mKQV1bY6HOjLobFpNl83ogHLGEl06dcDA==
-From: Diederik de Haas <didi.debian@cknow.org>
-To: Linux Documentation <linux-doc@vger.kernel.org>,
- Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: checkpatch doc suggestion
-Date: Mon, 06 May 2024 15:59:41 +0200
-Message-ID: <5571273.FuBcWSoPN1@bagend>
-Organization: Connecting Knowledge
-In-Reply-To: <ZjTe1STECXg2mmmJ@archie.me>
-References: <8090211.0vHzs8tI1a@bagend> <ZjTe1STECXg2mmmJ@archie.me>
+	bh=irJD7qM4mYj0gC4NEUKkvFnP7jHOV8RW90W/Hb6silI=;
+	b=0MhZXtvVAvMpqpdq8QPxgXxe7s3ZxyX6Y4PLqXRKwXjAC5ss9zBPWzCUA7FhbsTbFTfd3X
+	X1qYMDopMYE8DnmEP9M28Pd4+Ruur2dVz13QkdxGszk1g0Wq1UF5qbxH1wKgiKdVZIY77D
+	kZvRQRrWfxtjbbIa5RnCdeocyDRyYo4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1715004799;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=irJD7qM4mYj0gC4NEUKkvFnP7jHOV8RW90W/Hb6silI=;
+	b=6P2WRc2X3AQ3RnfLS8PE9CV81oUyC3RccalrCGVu2569DdtPhTckPC1Shw3ev+Dn/DOqu0
+	trV1Sy+PeS1MobAQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1715004799; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=irJD7qM4mYj0gC4NEUKkvFnP7jHOV8RW90W/Hb6silI=;
+	b=0MhZXtvVAvMpqpdq8QPxgXxe7s3ZxyX6Y4PLqXRKwXjAC5ss9zBPWzCUA7FhbsTbFTfd3X
+	X1qYMDopMYE8DnmEP9M28Pd4+Ruur2dVz13QkdxGszk1g0Wq1UF5qbxH1wKgiKdVZIY77D
+	kZvRQRrWfxtjbbIa5RnCdeocyDRyYo4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1715004799;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=irJD7qM4mYj0gC4NEUKkvFnP7jHOV8RW90W/Hb6silI=;
+	b=6P2WRc2X3AQ3RnfLS8PE9CV81oUyC3RccalrCGVu2569DdtPhTckPC1Shw3ev+Dn/DOqu0
+	trV1Sy+PeS1MobAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3C2691386E;
+	Mon,  6 May 2024 14:13:19 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 47GQDX/lOGbFaQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 06 May 2024 14:13:19 +0000
+Date: Mon, 06 May 2024 16:13:33 +0200
+Message-ID: <878r0ngh9u.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Takashi Iwai <tiwai@suse.de>,
+	linux-sound@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	baojun.xu@ti.com
+Subject: Re: [PATCH v1 1/1] ALSA: Correct the kernel object suffix of target
+In-Reply-To: <20240506085219.3403731-1-andriy.shevchenko@linux.intel.com>
+References: <20240506085219.3403731-1-andriy.shevchenko@linux.intel.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart17503119.A57yYLbYUM";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.27 / 50.00];
+	BAYES_HAM(-2.97)[99.86%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.995];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_TLS_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,intel.com:email]
+X-Spam-Score: -3.27
+X-Spam-Flag: NO
 
---nextPart17503119.A57yYLbYUM
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
-From: Diederik de Haas <didi.debian@cknow.org>
-Subject: Re: checkpatch doc suggestion
-Date: Mon, 06 May 2024 15:59:41 +0200
-Message-ID: <5571273.FuBcWSoPN1@bagend>
-Organization: Connecting Knowledge
-In-Reply-To: <ZjTe1STECXg2mmmJ@archie.me>
-References: <8090211.0vHzs8tI1a@bagend> <ZjTe1STECXg2mmmJ@archie.me>
-MIME-Version: 1.0
-
-On Friday, 3 May 2024 14:55:49 CEST Bagas Sanjaya wrote:
-> > I think it would be really useful if (f.e.) the following URL
-> > https://docs.kernel.org/dev-tools/checkpatch.html#BAD_FIXES_TAG
-> > 
-> > would lead me straight to the BAD_FIXES_TAG explanation.
+On Mon, 06 May 2024 10:52:19 +0200,
+Andy Shevchenko wrote:
 > 
-> So to add link to arbitrary location in the docs, you have to explicitly add
-> target (anchor) to desired location. Then you can reference it using the
-> target's name. For example, to accomplish your suggestion above:
+> The correct suffix is 'y' for the kernel code and
+> 'objs' for the user space. Update documentation.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Thanks for that hint as I indeed didn't know how to add anchors in .rst files.
-
-Cheers,
-  Diederik
---nextPart17503119.A57yYLbYUM
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZjjiTQAKCRDXblvOeH7b
-bk7PAQDlQnHmUItWk3KtKE0rgIx7VBmHvxUzKAnnPvbFkejtmwEAvvSdebTBbZo/
-vbO0da+1e2KAQtTwVF4+6Y1fxrOEWQU=
-=Rgdc
------END PGP SIGNATURE-----
-
---nextPart17503119.A57yYLbYUM--
+Applied now.  I added a suffix to the subject to indicate it's a
+documentation fix, too.
 
 
+thanks,
 
+Takashi
