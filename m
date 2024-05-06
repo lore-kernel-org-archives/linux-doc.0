@@ -1,100 +1,127 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016D638F91;
-	Mon,  6 May 2024 01:21:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B8F5381AA;
+	Mon,  6 May 2024 01:46:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714958503; cv=none; b=iGP4/hvDTyo+zQpHJvExhPvr76hAIDphBEa9vFS4QkP0EW0KeuGTxY7IEivEDBYKOnPlCfh/kLtsNVnTkIwNtmj+hYb5fRIc79F+s9Q+o8Od4DlYC6z3lw14GMuF9JShLZ7QXn2T0WE2jEzmaD7jV3aGHMZC66a0yiLcw85/UZo=
+	t=1714959986; cv=none; b=mzSnMoWhPkLT2rFEGd3XFAO4qT9BdUkC7Gptj0MEhRf7VCUWMZafLUtE6JQLAegwsCm5vA0LAZXiOsdvxJ2HPjBbcfqjx+lja5ZSVajBjpFraxvCY1fP95P2KXgxsaq0qNX34jan5Z+fcv611g/t+6btd/KnJZPdSu7Z2xBPHDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714958503; c=relaxed/simple;
-	bh=tcmaZci8s2SbyJUHrYITwrkr8FP51PKjAGTRDAgHu6g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fvhFsqMvCPULP4XxxbZ0a6Xl7HNBi/D0lhtIyt7sE2wKmc2IiVmGgoWYzxNBvWDyt8dAQWAMLxqGFg83cJTyWsWn4T/+fZ0R7ItQ2gazDPbSkoGD+LnntcUOC0St9QkDFjMoivQXjQ3sRDabp6cDbqp+cn2JCx9buhT0aIhz1xc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=ukxOGBLF; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1714959986; c=relaxed/simple;
+	bh=i83YdIPPx0R/zg6nAIJzCB1vAwrQ7TEYddQ6IihpENM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=K2x0V6NpDxBOnX+tkLHoWG0cQ8+1njRg1MlebHNeOMTVjOsHzktTVPuF+bqqr9ZAgNsu6ut0M0ZtthFul1vWNSQUV5KTkUCmQyUhb1rO/6T1hwTppvGUHOEZhLeAzNqu9x/a2/lex52yVvxyMnLRLk5XS3hAjZ1NM5ZbSklFCac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jY25Wczd; arc=none smtp.client-ip=209.85.160.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="ukxOGBLF"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=khJBnJGPC0Bwe9eiBGBBnF2OTwHW4sDwaW9VH58A8V4=; b=uk
-	xOGBLFCjVDrlt4Eq3SZGfQKp7QAvvCm7RSkCQGBkoae0DqlHW7TvrA7l657UiB6uAU7DAztJuehRq
-	nuT8gRybHcwjqkaKjitmt/1YKdShzcqGV4CDRybC3HY8yYHmSkgyR97oFCk07MPdO63ke0zBCzNeC
-	nzdPOZLdvcSzOKg=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1s3n2b-00EixG-8J; Mon, 06 May 2024 03:21:17 +0200
-Date: Mon, 6 May 2024 03:21:17 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Parthiban.Veerasooran@microchip.com
-Cc: ramon.nordin.rodriguez@ferroamp.se, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	horms@kernel.org, saeedm@nvidia.com, anthony.l.nguyen@intel.com,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	corbet@lwn.net, linux-doc@vger.kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	devicetree@vger.kernel.org, Horatiu.Vultur@microchip.com,
-	ruanjinjie@huawei.com, Steen.Hegelund@microchip.com,
-	vladimir.oltean@nxp.com, UNGLinuxDriver@microchip.com,
-	Thorsten.Kummermehr@microchip.com, Pier.Beruto@onsemi.com,
-	Selvamani.Rajagopal@onsemi.com, Nicolas.Ferre@microchip.com,
-	benjamin.bigler@bernformulastudent.ch
-Subject: Re: [PATCH net-next v4 05/12] net: ethernet: oa_tc6: implement error
- interrupts unmasking
-Message-ID: <fd5d0d2a-7562-4fb1-b552-6a11d024da2f@lunn.ch>
-References: <20240418125648.372526-1-Parthiban.Veerasooran@microchip.com>
- <20240418125648.372526-6-Parthiban.Veerasooran@microchip.com>
- <Zi1Xbz7ARLm3HkqW@builder>
- <77d7d190-0847-4dc9-8fc5-4e33308ce7c8@lunn.ch>
- <Zi4czGX8jlqSdNrr@builder>
- <874654d4-3c52-4b0e-944a-dc5822f54a5d@lunn.ch>
- <ZjKJ93uPjSgoMOM7@builder>
- <b7c7aad7-3e93-4c57-82e9-cb3f9e7adf64@microchip.com>
- <ZjNorUP-sEyMCTG0@builder>
- <ae801fb9-09e0-49a3-a928-8975fe25a893@microchip.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jY25Wczd"
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-23d39e4c0d9so997693fac.0;
+        Sun, 05 May 2024 18:46:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1714959984; x=1715564784; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1/DXUBEvuqpvW9vgHBUj1lOdo7CYu69Q0rcw2cg02+k=;
+        b=jY25WczdF/oAYSkYHCpQku3c5Ka5ydOcD9AajdHBFzKl97RaNMFlCpIy2dDdwI38vV
+         XSXBZpkhp/9h2iXV6qg9Doe1m1oumFaeLJoyJnu3RPp48dD2/oadqPih7HIN3wwvftf2
+         GqzJmDwRFIaNAipSIW2br8tfIdk32oFMX8EnN+6sjYZim5Uochb6oVDVaQgcp7bjz2H/
+         wT128sHsVJRf1d0AFxPHLJ+sXeyUKcq2A/8IN6lhBAOXP+2YrRRI/kCsoGMy9GqaWRfd
+         0rWzeaiSMEGGOEcpuxuS6VPxHm7AzvqzgSuXrlrSTQDr6ErHOsBWzuuTE5Ea8/EMGO00
+         NKKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1714959984; x=1715564784;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1/DXUBEvuqpvW9vgHBUj1lOdo7CYu69Q0rcw2cg02+k=;
+        b=hjkMirOGI57MI7YOD5SlJPcForR5lkagHt5x0Vcm/mzkgdT777gjOnWMTvt3H2F9zF
+         +rlJgcE1YGxqb+K+MJx+IY2bHI4EQq9oGhunicHTvOzrqO5Do93HttoneMqbntbTDiNx
+         8K8uOv7IJsazDi1OhhLlzNwgMMtYyRIv8c3l3mY/2K07IOyICSTuvlTylY1c01vQHA3k
+         S6Xa2VJ45pDfC5Mk3eW1zDSQXYskrY2O0CqoLNy1hIgVB5UqymJSa9MPf8x9Jj6uvym0
+         bq9UHnabLvGD8nxln9A4j54MDXHkAQ4f3be42212M16EZMzjxXUupjXJ35zHfTwx7VTT
+         wcKw==
+X-Forwarded-Encrypted: i=1; AJvYcCWKgR6nYCHECiYcFfyAAcaaLrN/Kzm1lf5BFqqCNaMDGeaIqMcU7Ybd4BKP9ixiSRHRSReA4RmdFkUvtzKjuypUAxEk6COtOu6DBpCLE/lYAZ48aoppFwk0aP2NMIs/YjByhf2dgj7mhIos/u7LTbkZIkvf0z6WpwEphibeKSPm8nFv
+X-Gm-Message-State: AOJu0YwTJtDzGobasQwLY2pKUChsIL9sGaEXEjK5IM/KmXkQYywux5KR
+	MX7/b7O7AaKrU1WeG5iQSSZGGoNlSLjIoBbeDBndF939RyNSlqkR
+X-Google-Smtp-Source: AGHT+IHNV4KkyMkXtQ78NzO1JrnRuS5z5CKcjhAO9LaYdx7XXRsGvLPio/POxvAR/SbsMpqw3RPNZA==
+X-Received: by 2002:a05:6870:2486:b0:23d:4997:7692 with SMTP id s6-20020a056870248600b0023d49977692mr11375763oaq.1.1714959984129;
+        Sun, 05 May 2024 18:46:24 -0700 (PDT)
+Received: from localhost.localdomain ([2407:7000:8942:5500:aaa1:59ff:fe57:eb97])
+        by smtp.gmail.com with ESMTPSA id fj30-20020a056a003a1e00b006eac4297ed3sm6608511pfb.20.2024.05.05.18.46.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 May 2024 18:46:23 -0700 (PDT)
+From: Barry Song <21cnbao@gmail.com>
+To: akpm@linux-foundation.org,
+	joe@perches.com,
+	linux-doc@vger.kernel.org
+Cc: apw@canonical.com,
+	broonie@kernel.org,
+	chenhuacai@loongson.cn,
+	chris@zankel.net,
+	corbet@lwn.net,
+	dwaipayanray1@gmail.com,
+	herbert@gondor.apana.org.au,
+	linux-kernel@vger.kernel.org,
+	linux@roeck-us.net,
+	lukas.bulwahn@gmail.com,
+	mac.xxn@outlook.com,
+	sfr@canb.auug.org.au,
+	v-songbaohua@oppo.com,
+	workflows@vger.kernel.org
+Subject: [PATCH RESEND v6 0/2] codingstyle: avoid unused parameters for a function-like macro
+Date: Mon,  6 May 2024 13:46:04 +1200
+Message-Id: <20240506014606.8638-1-21cnbao@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ae801fb9-09e0-49a3-a928-8975fe25a893@microchip.com>
 
+From: Barry Song <v-songbaohua@oppo.com>
 
-> [  285.482275] LAN865X Rev.B0 Internal Phy spi0.0:00: attached PHY 
-> driver (mii_bus:phy_addr=spi0.0:00, irq=POLL)
-> [  285.534760] lan865x spi0.0 eth1: Link is Up - 10Mbps/Half - flow 
-> control off
-> [  341.466221] eth1: Receive buffer overflow error
-> [  345.730222] eth1: Receive buffer overflow error
-> [  345.891126] eth1: Receive buffer overflow error
-> [  346.074220] eth1: Receive buffer overflow error
+-v6:
+ * collect ack of Joe, thanks!
+ * refine docs according to Jonathan, thanks!
+ * add checkpatch doc according to Joe, thanks!
 
-Generally we only log real errors. Is a receive buffer overflow a real
-error? I would say not. But it would be good to count it.
+-v5:
+ * Simplify the code for Patch 2 according to Joe's suggestions.
+ * add s-o-b of Barry according to Jeff Johnson
+ v5 link:
+ https://lore.kernel.org/all/20240401012120.6052-1-21cnbao@gmail.com/
 
-There was also the open question, what exactly does a receive buffer
-overflow mean?
+-v4:
+ * fix Xining's email address, s/ma.xxn@outlook.com/mac.xxn@outlook.com/g
+ * fix some false positives of checkpatch.pl
+ * downgrade from ERROR to WARN in checkpatch.pl
 
-The spec says:
+ Thanks for Joe's comments!
 
-  9.2.8.11 RXBOE
+ v4 link: https://lore.kernel.org/all/20240328022136.5789-1-21cnbao@gmail.com/
 
-  Receive Buffer Overflow Error. When set, this bit indicates that the
-  receive buffer (from the network) has overflowed and receive frame
-  data was lost.
+-v3:
+ https://lore.kernel.org/all/20240322084937.66018-1-21cnbao@gmail.com/
 
-Which is a bit ambiguous. I would hope it means the receiver has
-dropped the packet. It will not be passed to the host. But other than
-maybe count it, i don't think there is anything to do. But Ramón was
-suggesting you actually drop the frame currently be transferred over
-the SPI bus?
+A function-like macro could result in build warnings such as
+"unused variable." This patchset updates the guidance to
+recommend always using a static inline function instead
+and also provides checkpatch support for this new rule.
 
-	Andrew
+Barry Song (1):
+  Documentation: coding-style: ask function-like macros to evaluate
+    parameters
+
+Xining Xu (1):
+  scripts: checkpatch: check unused parameters for function-like macro
+
+ Documentation/dev-tools/checkpatch.rst | 14 ++++++++++++++
+ Documentation/process/coding-style.rst | 23 +++++++++++++++++++++++
+ scripts/checkpatch.pl                  |  6 ++++++
+ 3 files changed, 43 insertions(+)
+
+-- 
+2.34.1
+
