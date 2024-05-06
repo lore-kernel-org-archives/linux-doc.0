@@ -1,67 +1,114 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB63D1772F;
-	Mon,  6 May 2024 07:27:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB43140E25;
+	Mon,  6 May 2024 07:49:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714980465; cv=none; b=sT05s4IaPPM9xwktMwimO2+xJULfr7AuYHe3MYcWB/QbPx8pjFfmloTxGKeW0/hggVEaYYfvOxQcdkt9/ROkwj++E5FfxwOGMA67Pu7tAyw3SWmGC8ujQ4/yCAUD786QphUNTSwQa8JeXfebJr6iLKznoG+NnphMRyigBPWEf/o=
+	t=1714981799; cv=none; b=lvC51foFER5bktyXlnSdksLiQKXmVZvEib42bRI7aIqWjsZ3ObHpWE5qbrKgTaWbx6CxAc6kH/TO73OO7B035ASg6Ez93iwxrHWkh6dmmUBahegPkFwxlvRCplXnePD5WJuwGda9d0wIAsZ4+HTqlgzuMlhkFiKElh5GWJU+GAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714980465; c=relaxed/simple;
-	bh=9Kw69BfKa5kkeDkJAAyST9I0D7UXthaocRM2ai6H6cA=;
-	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=bxkbhIATY0YhHLvNC2Wy9GAxmYNLc/pkCKsfQmk3zQBj/g3roF5UmBtt4EMAYd0Idb7ZG9A61BH38mi/OjYnsLW+nzwirQBvcNiHtQ/8vslkmYP7pABbr9ecroWOm7B2yCyknShBgL+9X41cKIS7bjeTXg07UQWIgepPBumZDQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TPi2B+bP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1714981799; c=relaxed/simple;
+	bh=PScBbjAnxeZJlVZobb9RkhFjTBeBleYHRdB7+WbwtCg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mP+0V5Nciich5v9G25JJMwZdk+9oDBgYN0ciZAwQf6xlAbUlOsNLvaxGT/Kfzmk8Ncq5XrcrEvYWS9OT/DiUkQ9hPfDOQRfpz/id3byc1vStuCaGw7GKkIpMsUXcBHcMSdkQQEQ8g/nOvJ6RVXFP9m2I2fd6Cwk4yqZBQfX8pXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=daqEwQT7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TPi2B+bP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E091CC4AF63;
-	Mon,  6 May 2024 07:27:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="daqEwQT7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2080C116B1;
+	Mon,  6 May 2024 07:49:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1714980464;
-	bh=9Kw69BfKa5kkeDkJAAyST9I0D7UXthaocRM2ai6H6cA=;
-	h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
-	b=TPi2B+bPlbWrXR0vRrMi7OO7YfR/17oBUiIP3I0reFQOse+6mJiSXTFUDiYz9KNxR
-	 Xgovz8h0zqDVo38VqRUvYWa495nrfut4pabGPBCiTJyx8MjnJDLDH8Es1uxCDl+3hM
-	 UMzY/RS2j75++Trzbyg6e6aITMjsDP7A3+iToxB6REkWgd4QuQHWdTc7nCS3vwzbpc
-	 e0z72+4Ib9oZ/Smq22YUV4CnfxfAHkusWe39MT5oJnmX8+hSa589nJhtRd1NPj/zlH
-	 6O8cxnx+WZaWn5Rm9rYHzlX2ijHikOqIxGr1IQXAhHqQQIo4MkIs7LcwYYge1M3qSq
-	 cXp1IO+KNQZ2w==
-Message-ID: <0aebaa438b4f2fd13b8a7ea5a92ca60d@kernel.org>
-Date: Mon, 06 May 2024 07:27:41 +0000
-From: "Maxime Ripard" <mripard@kernel.org>
-To: "Douglas Anderson" <dianders@chromium.org>
-Subject: Re: [RFT PATCH v2 00/48] drm/panel: Remove most store/double-check
- of prepared/enabled state
-In-Reply-To: <20240503213441.177109-1-dianders@chromium.org>
-References: <20240503213441.177109-1-dianders@chromium.org>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, "AngeloGioacchino
- Del Regno" <angelogioacchino.delregno@collabora.com>, "Chris Morgan" <macromorgan@hotmail.com>, "Daniel
- Vetter" <daniel@ffwll.ch>, "David Airlie" <airlied@gmail.com>,
- =?utf-8?b?R3VpZG8gR8O8bnRoZXI=?= <agx@sigxcpu.org>, "Jerry Han" <hanxu5@huaqin.corp-partner.google.com>, "Jessica
- Zhang" <quic_jesszhan@quicinc.com>, "Jonathan Corbet" <corbet@lwn.net>, "Linus
- Walleij" <linus.walleij@linaro.org>, "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Matthias
- Brugger" <matthias.bgg@gmail.com>, "Maxime Ripard" <mripard@kernel.org>, "Neil
- Armstrong" <neil.armstrong@linaro.org>, "Ondrej Jirman" <megi@xff.cz>, "Purism
- Kernel Team" <kernel@puri.sm>, "Robert Chiras" <robert.chiras@nxp.com>, "Sam
- Ravnborg" <sam@ravnborg.org>, "Stefan Mavrodiev" <stefan@olimex.com>, "Sumit
- Semwal" <sumit.semwal@linaro.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "Yuran
- Pereira" <yuran.pereira@hotmail.com>
-Content-Transfer-Encoding: 7bit
+	s=k20201202; t=1714981799;
+	bh=PScBbjAnxeZJlVZobb9RkhFjTBeBleYHRdB7+WbwtCg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=daqEwQT72wzzVhhxaadbP0J7TfhVeGtkoDLVZBhP67FR+IrIX9JHHo5CMTt+aeT2o
+	 5fctJhDPhApWE6WV6FdDfuDqZFLm63Lonzwveroz2A3WUVGRjCWfv1GO6DdiUYCSbs
+	 iWg8thDix9w6nDLLjKVHPRm89YVBA4CgH0uwE1o98twpcLoR4sDWHKbJwpSFoGTtmq
+	 GoO1+LeN1pys+rFLW30DL8rfeo7kPYlTewsrNBRffJy23vjB7xLjIes4dwzyF78zzR
+	 gP65FY8VYbf5uWYIqxCQemcDrv9wvkDIWZa8F0plLIKNXcPQoze93iXeAwJoUTo+m7
+	 u0qAt/aGZx7Og==
+Date: Mon, 6 May 2024 09:49:56 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Andy Yan <andy.yan@rock-chips.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Sebastian Wick <sebastian.wick@redhat.com>, Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v12 27/28] drm/rockchip: inno_hdmi: Switch to HDMI
+ connector
+Message-ID: <20240506-elated-cheetah-of-awe-bd10cb@houat>
+References: <20240423-kms-hdmi-connector-state-v12-0-3338e4c0b189@kernel.org>
+ <20240423-kms-hdmi-connector-state-v12-27-3338e4c0b189@kernel.org>
+ <bab90a27-b742-4587-aec6-e4e1fdf2d186@rock-chips.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="5r5gd5hzylmqbla5"
+Content-Disposition: inline
+In-Reply-To: <bab90a27-b742-4587-aec6-e4e1fdf2d186@rock-chips.com>
 
-On Fri, 3 May 2024 14:32:41 -0700, Douglas Anderson wrote:
-> 
-> As talked about in commit d2aacaf07395 ("drm/panel: Check for already
-> prepared/enabled in drm_panel"), we want to remove needless code from
-> panel drivers that was storing and double-checking the
-> prepared/enabled state. Even if someone was relying on the
-> 
-> [ ... ]
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
+--5r5gd5hzylmqbla5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Sat, Apr 27, 2024 at 06:12:26PM GMT, Andy Yan wrote:
+> On 4/23/24 18:45, Maxime Ripard wrote:
+> > The new HDMI connector infrastructure allows to remove some boilerplate,
+> > especially to generate infoframes. Let's switch to it.
+> >=20
+> > Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+> > Acked-by: Heiko Stuebner <heiko@sntech.de>
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> >   drivers/gpu/drm/rockchip/Kconfig     |   1 +
+> >   drivers/gpu/drm/rockchip/inno_hdmi.c | 143 +++++++++++++-------------=
+---------
+> >   2 files changed, 53 insertions(+), 91 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchi=
+p/Kconfig
+> > index 4c7072e6e34e..e2ec20c2e2eb 100644
+> > --- a/drivers/gpu/drm/rockchip/Kconfig
+> > +++ b/drivers/gpu/drm/rockchip/Kconfig
+> > @@ -72,10 +72,11 @@ config ROCKCHIP_DW_MIPI_DSI
+> >   	  enable MIPI DSI on RK3288 or RK3399 based SoC, you should
+> >   	  select this option.
+> >   config ROCKCHIP_INNO_HDMI
+> >   	bool "Rockchip specific extensions for Innosilicon HDMI"
+> > +	depends on
+>=20
+> Is this supposed to be  DRM_DISPLAY_HDMI_STATE_HELPER whith you introduce=
+d in PATCH 04/28?
+> I couldn't find any place where  DRM_HDMI_STATE_HELPER is defined.
+
+Yes, it was a typo indeed. I've fixed it in the next version.
 
 Thanks!
 Maxime
+
+--5r5gd5hzylmqbla5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZjiLowAKCRAnX84Zoj2+
+dhERAX4hDKKQK0zUSiy8s+7HxdEWgMiPtGfXL1zjlOPBVdxa0oBEfrdf0wSgA6ZC
+GvcBlYYBfiq7TVSrJMvpZnnDzUsshI7PPYS7GaVjK5IcPqxFB7jgVDcNihybvsg/
+4zQYJv8UYA==
+=CFE1
+-----END PGP SIGNATURE-----
+
+--5r5gd5hzylmqbla5--
