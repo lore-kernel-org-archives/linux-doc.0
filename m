@@ -1,212 +1,195 @@
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2069.outbound.protection.outlook.com [40.107.95.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD89F15AD95
-	for <linux-doc@vger.kernel.org>; Mon,  6 May 2024 20:16:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715026620; cv=none; b=iq2CoazMXVm0XQ05F3ClhtmkHhP24NDb1IByUVh8FjZntPYervUamsrmT5x9UxRzYik/FhCEIJ6Gwz546v4D0WnvHG/TdHZo8mpipxaTjjyAdX7o9P3ImBsK7pWEV2dXBUnLaL7nDkixVSwRgivXFXQX8fRZSXjUflOY+rihFrA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715026620; c=relaxed/simple;
-	bh=O4m3D6QJkpCyIotiPkNx41gI4the4mNBM6wP0C8Edm8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CEWIKIoZdJmuf6FvS2SyW0OB314678loPItqXcKjo5JAKirNzeg2e1yCFchiYsBjnC3HUnj1RH1AL4UTHbIbgzOkMoM+/Nsi2wLOdwHm/ObfTxCAFBSkjeEAI/HV7KzL7p+EGQMvsbbFVrK2FIvE21oJDmAlQFg0zN9sTOnC/Y4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xHEPVmdP; arc=none smtp.client-ip=209.85.219.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36F6856B76;
+	Mon,  6 May 2024 20:23:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.95.69
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715026996; cv=fail; b=aIHf7MnGQ7WT1CMfvo6Uoc84ArhqsLKlJNyno7O3QEfiZs9AS00UMvAJo1NkNd+4wHQvoaAx+vxLnoR0qKsTp4hla5JMRFaKXJ9sZ5SGzSkc6N4W7J663FkZ3zLfzR+m/43eDDu+NGfNTmByPSZDCo6OM9h/REurHS3LVSXiaBU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715026996; c=relaxed/simple;
+	bh=1YDEZc2TUDRZXVmAsT1OtRU1LNhhBUJt2wl8GXOz/kA=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=iB9natMTB01fkkdGn6gd1YGjNZDSbgxS6daipgsZ2igPcr6zhz3SnsmG9w9R3N7IDwcS/2k7Wz2SaOVdzTRqtl33kyNQ2Yc72IqdW1S1SioXfwL1GRJFw/f4PwIjQsuO3Y/Cz2FCtqp7Zc9ClaYzDtydGBRZDGxyVLIAs2g7TcU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=X2s5bSWN; arc=fail smtp.client-ip=40.107.95.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xHEPVmdP"
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-de5b1e6beceso2796184276.0
-        for <linux-doc@vger.kernel.org>; Mon, 06 May 2024 13:16:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1715026618; x=1715631418; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5fr3FvzBZJmUemTYZLBAlTUKyWusYtW7x1D9jX3o6JY=;
-        b=xHEPVmdPMeKAN+gJoQ0mTk50Lp43ayUaIeubdfAEUB1IHwXW+iy1lKM4GbT02Ub27K
-         qB2p81ViCnuMHh5wOa9Zl0mDfWmYmjr3dauxd605yt/WI5dVUDN9wd0E5WQyqF7k2IaS
-         VVkmUfkDg0ADCfhi/UjkPsYZIqZO0GQh85nmJwWjQY3UR3tx53ViMVkvHnaYYXAVtgDm
-         ZGz5KVY/UtSgATSvQLH8BMXDV9trviaDvffUPnQ1xC9xVNsmQ0ZfX6zkQ/P+l1NGugYq
-         tTcaPAqW4qg4pncb3ToynARu+L6IzHeVrVkoUPfZrE74onZ9DVmn8ikrmbH7A+qoTESm
-         NJhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715026618; x=1715631418;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5fr3FvzBZJmUemTYZLBAlTUKyWusYtW7x1D9jX3o6JY=;
-        b=FYlTtb/XU3dOxBkRDFzxcqkuszgb0krKNhw15V44lVnhpcf8buOh01tZlaB10+Yj5G
-         FECEznj0yyNwY0vJvkRqOAT/P9hwren1eDfv72/LJqjrQvVTGlhtOd0TgF6O0VT+/9E5
-         I3qLgeb1f+yfVg6ud30JjuGpuvmzWhA+J5fYt+NFxU8ifcbAmHoZrfbUpSGg6jPyXk3f
-         URYmeMzW2GvMqUYl6lC5ACkx7Ns1htGhRFlHqdV3NdOsVwXcfk8yS7FHbZ0iQYKWuZ4/
-         9U8AKxD0PhbruOreJcFvjjAUQKWfU8K+KnF68LVLzVtEEdObqT3PxFTILnyYMvpxza+c
-         htBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUYClp6y3M7F5l0P6sN4Z1PiYzic0WrtKvKi2G5+bJ4wdAaruHb41ITZErzIFVRmHnleEX8Y0JZODvj+QBqkjQBfQUzt6NxwxCF
-X-Gm-Message-State: AOJu0Yyjxnh7Pk+/shJGbdHnvCo1xbLXoEQANruHj4xB8wxNNKIauyi6
-	r2AdwSQbN6LksRh17yL+uAvPEkL+rRS+OYg+TBYQqsfz3iCw+rY83xuXVSrIASMiJqfh4HgFpdE
-	rvEMRztgCe1cAJ3S6ZFJ1+eGg5LssDMzdoLHv
-X-Google-Smtp-Source: AGHT+IGtWotnhPG27Dr3QshUJCxX3ZQr+AKdbHMvm08l/sNlWD/7aGB+2kgrdBLLg3rPTCwuYNEVPaohe4FIFH8eSqw=
-X-Received: by 2002:a5b:a0d:0:b0:de5:9f30:e40c with SMTP id
- k13-20020a5b0a0d000000b00de59f30e40cmr10782095ybq.4.1715026617408; Mon, 06
- May 2024 13:16:57 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="X2s5bSWN"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LvyMmUSSTSYzbvPmTd3O1u+d2Kck8CD4ci1P34Iwz3KaUAqEN2rdn0UZ3liLGQkG3cgL/w7pRlmk0GWKTY9iya/HRaGcV8CKoBNAiv8EubR8/Bjnsrm4EC4cXlcDRQ7KHM/zSmfDRumeGRPjiumRfQHxMU3nG912LnqFX0MeS+7hI1vy51VwOe7maxcQTBY3cEjNb6uggr3nIKxsgyzTsk3Lse7H0rarevnZpPv7R6KwWQ/vW3LA21ZIUr7MlLhfzyGBMkIZZaZLYb6Am84uFQzqsswXilaCvVflgUGhCVR1K0zPgAFr+lc/YeeVnDGE1bz9cBQ7k//483UXkk0QsQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ewWPuJ3OalEYmc3M0b+cdfvoGYFXTMEjuWB9UNThLAs=;
+ b=F3BFAAnGBPkaBOJsZrdq+QRTTDMQZ2vbirqxSzoUaGO9hpfwFMKtz89WbHBcGkLJULFM1sSEZ6iGt+tLAcLC1wrrMrB0jyLSvWtuh8sQdT19zV53EGZb2LkPCl1n6ks9kB5Z4WwU4vMuHKpIq7LitqNAvmPmJFg9Qj0kI6uY1oZjoEWDYUVyAExGPc6OscTqUybQc3JaBG0XfBY8cRd4r9GToR+tdf1hs6HOZHOo+Upz8E/sw95yWojezJlWShTvqBSm8+12ElrIqemmyaGntn8jHPX6kRTCFpsTnazsWsHIk5pi5BLTLPmnYa9/sN52vRdXy4HDFEYY4drm8XAdUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ewWPuJ3OalEYmc3M0b+cdfvoGYFXTMEjuWB9UNThLAs=;
+ b=X2s5bSWNSpHqe8zOGK2XKJzTpYkLPiUc5yCaEsa6XZLPBznriuEz5PrHhnLfSbGjFa9hH/2xkborDdBwYOtSLuZ17O9eYQVCSQDpeIR2oeJz/00J9uoTVHqddEJ92cElA9CjO0y2sWzS65lOlm1UDgBVnKhK3MTFtc1iB/vVhMo=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by MW5PR12MB5598.namprd12.prod.outlook.com (2603:10b6:303:193::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.41; Mon, 6 May
+ 2024 20:23:07 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%4]) with mapi id 15.20.7544.041; Mon, 6 May 2024
+ 20:23:07 +0000
+Message-ID: <119fbe0f-9688-4382-9263-220f69caa718@amd.com>
+Date: Mon, 6 May 2024 15:23:02 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [RFC PATCH v3 04/17] x86/resctrl: Introduce
+ resctrl_file_fflags_init
+To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ fenghua.yu@intel.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
+ tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
+ kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
+ jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
+ rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
+ jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
+ daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
+ ilpo.jarvinen@linux.intel.com, peternewman@google.com,
+ maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
+References: <cover.1711674410.git.babu.moger@amd.com>
+ <363c14eeeac99eb0453ac3429f9e7bd446b2acdb.1711674410.git.babu.moger@amd.com>
+ <55fa3189-b5da-494f-8ec2-7f0ab4b8d33e@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <55fa3189-b5da-494f-8ec2-7f0ab4b8d33e@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: DM6PR13CA0027.namprd13.prod.outlook.com
+ (2603:10b6:5:bc::40) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240503183527.1548119-1-tjmercier@google.com>
- <20240504101651.7de5106f@meshulam.tesarici.cz> <CABdmKX06v23-w8PQJab8kgfPDRYLU3bQSQ4AsC3zrzxYL955gQ@mail.gmail.com>
- <SN6PR02MB4157EE83332FF789FA6BEEE8D41C2@SN6PR02MB4157.namprd02.prod.outlook.com>
-In-Reply-To: <SN6PR02MB4157EE83332FF789FA6BEEE8D41C2@SN6PR02MB4157.namprd02.prod.outlook.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Mon, 6 May 2024 13:16:45 -0700
-Message-ID: <CABdmKX2q1rELreKG4oOrKCwKQk9Xswe=gV9254rkHzMNYaD3GQ@mail.gmail.com>
-Subject: Re: [PATCH] swiotlb: iommu/dma: Clarify swiotlb options apply only to dma-direct
-To: Michael Kelley <mhklinux@outlook.com>
-Cc: =?UTF-8?B?UGV0ciBUZXNhxZnDrWs=?= <petr@tesarici.cz>, 
-	Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	"x86@kernel.org" <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, "hch@infradead.org" <hch@infradead.org>, 
-	"robin.murphy@arm.com" <robin.murphy@arm.com>, "joro@8bytes.org" <joro@8bytes.org>, 
-	"will@kernel.org" <will@kernel.org>, "akpm@linux-foundation.org" <akpm@linux-foundation.org>, 
-	"isaacmanjarres@google.com" <isaacmanjarres@google.com>, "iommu@lists.linux.dev" <iommu@lists.linux.dev>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|MW5PR12MB5598:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9461f2fa-719f-4072-0421-08dc6e0a56ff
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|7416005|1800799015|376005|366007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?VnBGSGZFK1ZvTEh6WlE1aVEvMWpCK2t3WmJIWWViek9qMm1ZOUo0UktqNFha?=
+ =?utf-8?B?cm0rS2hKZXY4VU1vV2tsekQyVXJIKytiZ1AzT2pMU0JsWEl0UFVqcG5VbXZW?=
+ =?utf-8?B?aDU1MHl2bU84YVRORXhKb1VOalArWUJWZVIwN25TcWJkWi9kL0VlQmg2eGVT?=
+ =?utf-8?B?U3Y1aXU2bFJ3Y1VBZFRRc0piQUVpOGpYRXhOcDlrVjd6d0JSV0NQVnJKM1lV?=
+ =?utf-8?B?bDg3OHB2VElaUXgrc2hmaDJkaEErVU8rSzlEUEdqZEJqVWVPVDB2RWk0enZI?=
+ =?utf-8?B?aDA2UnVTR0J1RFZXVWNsQW54RlZRWWdlZGhiRmJBNm42RlV4QnRnUWZ5OW91?=
+ =?utf-8?B?ME8rYmxuWTNyQ3B3dXU0aHBBSFJNanVqMkl3T3kvZkFJUjEyMFptdWt0WUk4?=
+ =?utf-8?B?aGRsTk5LYWtEZzFaOHdzQXYvdkJ3eE9MVis4OURZS0tsL3B1LzlRa2NJNXBs?=
+ =?utf-8?B?UG5VSFFkL0ZXSkdoM2lDS09BWkY4ODdCS0J0VGdsZmZmSUpwbC9oSU4zYnNS?=
+ =?utf-8?B?UjJhZHY4MWNBVmVkTjR2TG5aQnJERnRpR1JjdHR4YjUzbFNsMnFDWDFKRGoz?=
+ =?utf-8?B?d0tWdXJGRllGTWdlanY4T0ZjUWRwalN1eVAzMzg1Wm9oaENRY3FlNnBHZVNV?=
+ =?utf-8?B?MDBjd0x5VEl3NHVJakVqUG1GdlY2ckNlTUpUV0FvM3l6RjNrSy9DQysrdWt3?=
+ =?utf-8?B?L3JsNXI0TURHdDdvRXZNK1RzRlltRDVaMWtXUCtyeVdjQlJ2YnFJRHhSQUJU?=
+ =?utf-8?B?cHB1b04ra2tNdk1ZZDNTd1pPMjJwaVZSWmJFK0M3NmVzRTlGcXh5OUVHTjIw?=
+ =?utf-8?B?RExtUHlSVGVFRzVDcjhBaVdMMlF2R0RZMmdkQXB3OFNKcmlYUXVDV3VaSkhN?=
+ =?utf-8?B?VWN5N1Q0bHVybGhaZXZCNFZxRExlY0IwWHlvSXFTTTZxYzBFRTZONmR4R2xy?=
+ =?utf-8?B?QjF6Z2Q2azdxV21IeVRMUXBIcXMxeFlNbkRsSUlGdURBaDgrc1NmM01wSnF1?=
+ =?utf-8?B?SzdPcUpOUmV1OUVVZzR3RjBNcmdxNVNub1lhbFk4ZTJTcmNaQWd1K0Vjcmtj?=
+ =?utf-8?B?YlZsY0VxZlhjSklHeWs3bVk3ekVrNHN1b25FZkpuUElwckpyRllhVDVwRVZY?=
+ =?utf-8?B?NE1lSk9KaEtQZE8zdUNMekwxZ2tsblViQThVa2JSaTBFM2prN1hIYjRVaWNr?=
+ =?utf-8?B?ZE9iOEFoTjl6V2svOGdUanc3WE1vcTJxRFhMWFZ2ZFd3MDQxTkEzdUh1QjFZ?=
+ =?utf-8?B?NmJlNFVIU0gxbmpWMERoY2lKbEdKUXlFR21pZDNtbGtqMVFtU0U0TmxieXFt?=
+ =?utf-8?B?N0ZON3pnZFBYa3NtRllqZGZZdTlNUEFSV2NwMHd5V3NJVFdwOHUrZ0htRE0z?=
+ =?utf-8?B?czFIY0VpUWZKVmRjU3AwSE14ZVN3V0E3RDk2c3dwME9wcXNWOUovT0tPdUdv?=
+ =?utf-8?B?anNSNFRRbTIyK0xLZ1dVWXk3dmI1M0tyWkxMVTRwMC90YXl6MUNRZ2pIeCt1?=
+ =?utf-8?B?eUNrc3RFR1FVZzFZRzJ4b1lDa2trU3gxZG5OTW9HOGNyamQvSThzSXdGNVhG?=
+ =?utf-8?B?Y0k3bndPanJSeTBjaGhXZEhzMDlLUzcwVWJXTDNHMFcxVjQ4VEdEbGtIR2Rj?=
+ =?utf-8?B?UTI4eWE5blBkbTgzdGlxQ1EwT2gzN1dOK2hEQWdkT01EVU9yamRUQmc0b1Z1?=
+ =?utf-8?B?ZTNIajJnNzk1TWk4VklBdzNPQU5SV1lzTGZMamJheXRFUi9ZVEJtMnV3PT0=?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(1800799015)(376005)(366007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Z09aSU0xZFh1L3N5dXBsS3NSRkJia0YwZGg4NFJ6ejhXQkZkd2NnemoxN0Ez?=
+ =?utf-8?B?Mk41MWlXMHMrMHByNXlLQlVPUjBXaFFPY1VVeFUrSytWMlcwTHd1VCtNOTBo?=
+ =?utf-8?B?N21NYkJ0NUFoUnFBdWZSaWI3WnB3clN5UVJoRzV1bFlEMFhUb0RWNjdyZmVj?=
+ =?utf-8?B?ekU4a2ZXYjI2d2JuZ25OMlJZR2xGbERvUGtJQUV3YlQ0U0k4dG0yVjU0QW9k?=
+ =?utf-8?B?eWZpUU5xV21rblR6bHVPdUQycFJIU2tWcC9YVmViS2VDQllweVc1ZTZhUXda?=
+ =?utf-8?B?bVdYSzF6NWMrQW5xMXQzUDlndDZNd2ttQ3EydUowMmMzR056VzI4VGU2cTE4?=
+ =?utf-8?B?ZHNIdlczZFg0bTduTWNzYlZJRVNDKzN4U1FVdnpFbW92cGdNVkZKVzlxSTBD?=
+ =?utf-8?B?bXlja01vcGRxZUJCVWR6dHpRMEMxeXRXaGs3ZlB3aGRGYTVyVjVRT093Z2d6?=
+ =?utf-8?B?SWdGcVdvL1kxUmtvbmxtWWZwSnE4cWxEQlM5MWJ1RGFZdStVWmxHZGVUeTYz?=
+ =?utf-8?B?NE9GTzdUb2N2TkRMU0ovbnRFdmtlZ3NVSTJ3VVlOT1ZLYytzVWpyeHBEeXBS?=
+ =?utf-8?B?RUpQb2RZSUZJMVl1TDFVSHU1M2EvdkxtNTluNWMveldtdkxWcUFjUFJFWDU4?=
+ =?utf-8?B?TnhjTUlocVF6OVBDaSszM0tYa1FRUVR5b0syRWtZK0pQRVdGMzhqYXQxYll3?=
+ =?utf-8?B?Z004bm1qSkZ0RFlpdHpaS3JZNDZYdjlGelc4RG1Cekp3RE1GRWNwanZsTk1a?=
+ =?utf-8?B?bWFYODU3YmpsMmI4UGJsVDlILzJMRTYyTjg0RzB1ZnY2Y1AxdmlVdVhWSXpY?=
+ =?utf-8?B?S3FuNzRodFNkZGxmRWU0NGViVHB5MVZ0dTNjU1NmR1c0elBtTEQwOWpwMXpX?=
+ =?utf-8?B?VzI2aFNycGR0eTRHNTUxckFqQkhVNWkzb3l2VG52M2lDUHhaOC9RRVV1R1hL?=
+ =?utf-8?B?azVWblh5S3hqbXNDaXdQNnphelczVmplMFRSY2FCWHdBT292bnp5MlpJUTlQ?=
+ =?utf-8?B?eWowUGFUSUpxOTYvZ2I2aVNGZ3RwQkw4ejNZMlFtdngxUlg4VEhOUVBtRS9U?=
+ =?utf-8?B?N2ZLRzZFYUVzQ2owbm9xQVFwbkQ3Qzg5UjAzVFZLQjZoU3RYK1RZR3lCajdv?=
+ =?utf-8?B?clVDYWgxWncxR3VNVkgweXhodUdJMy9NL21xcUg3aVE2akJ2Wml2TjFHaFpL?=
+ =?utf-8?B?alZkNitsdEZJeHNvTEFYRnh6OWpQMXloTDhwektYa1V6cCsrVkQrS3RDcVJY?=
+ =?utf-8?B?bnJSVmtqc1F6UHJZUDVRcFRjVUJOSjNuaHpSV251VjdDYmtTd082UTVvZHZp?=
+ =?utf-8?B?ZGZ0SloxUlduRVJybTJqaE1ucmEyUlNLbEJZcTJoYzZOcThXZlZ5S01KclV0?=
+ =?utf-8?B?T3ZlYWI5M2xuM3ZPT1VGaTYvV2E4VzMxcmtyYXVNV05UT2V4ZWM1eGg2L1hP?=
+ =?utf-8?B?RGNKMldkc29kUVRjWXhyVUtKdGV6cEtaQ1dxOWtxNnpzWnNZZHYvMk5NKzRh?=
+ =?utf-8?B?NXRwQk4xK2NtY2grTWFVQitsdkFTOTVPLzVDaDVvazZkR3hVS3VRbm5leGZB?=
+ =?utf-8?B?SXJQTlFxaTJlYW55ZU1FOTVmVlR3WFQxT0RIZC9NU0RWZ05FOTBUb3Y3RGVm?=
+ =?utf-8?B?cUdISW05V0luYWtWVnZndEtsYmZNMmJpc0t5V0I4MFRZN2c5U29nZ0RDbkUr?=
+ =?utf-8?B?OWJNM2YrNkJJSThFVkNHVUhyek9NOEN2b3JkUzh6eVYvN2NXdmdmSzU1ZkRy?=
+ =?utf-8?B?QzEwY0c5NmtESXFWRTJIOWhRcGI1bEF0MWVpQVlHMkNrcmlRTUFjRi9sRnVS?=
+ =?utf-8?B?S1kvTG9Uam55blZFTDd0TzF6bHQrNW95UXRsTFc2U0prclNVOWF3cUNETWZ5?=
+ =?utf-8?B?R041aDJPL1dISVlneFRzanBsby9zZkcxVEozcmJSejd3MnNXUjVVOHZhT1hW?=
+ =?utf-8?B?ejJVSXp1dGV4aFJkUjhnYktCb2M4SVp3RzZsQ0xLcXpOeVNtSmFGeUFyWWlx?=
+ =?utf-8?B?eUpDakpLZVV3cmVMUStNZzByUm0wSHpBT3krdUc1Sk9sZWNETkxUSUlRa2ZB?=
+ =?utf-8?B?aUR6Y0M5bmdtSjBMaDE0bmFabWNaQndOY3dyYktxZ1ZrY3RZY2pGR2RsYmFl?=
+ =?utf-8?Q?P3Zc=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9461f2fa-719f-4072-0421-08dc6e0a56ff
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2024 20:23:07.0743
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: O4IUh9b+jEzFfm2nbPwzQkbbUBapWNxKkc4KMfPphsWf1a9z7xfLwgnIbwz9WgB1
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR12MB5598
 
-On Mon, May 6, 2024 at 12:58=E2=80=AFPM Michael Kelley <mhklinux@outlook.co=
-m> wrote:
->
-> From: T.J. Mercier <tjmercier@google.com> Sent: Monday, May 6, 2024 10:23=
- AM
-> >
-> > On Sat, May 4, 2024 at 1:16=E2=80=AFAM Petr Tesa=C5=99=C3=ADk <petr@tes=
-arici.cz> wrote:
-> > >
-> > > On Fri,  3 May 2024 18:35:26 +0000
-> > > "T.J. Mercier" <tjmercier@google.com> wrote:
-> > >
-> > > > IOMMU implementations now sometimes bounce memory through SWIOTLB t=
-o
-> > > > achieve cacheline alignment [1], or prevent DMA attacks by untruste=
-d
-> > > > devices [2]. These uses of SWIOTLB differ conceptually from histori=
-cal
-> > > > use which was a solution to the problem of device addressing
-> > > > limitations that prevent DMA to some portion of system memory
-> > > > (typically beyond 4 GiB). IOMMUs also solve the problem of device
-> > > > addressing limitations and therefore eliminate the need for SWIOTLB=
- for
-> > > > that purpose. However as mentioned, IOMMUs can use SWIOTLB for othe=
-r
-> > > > purposes.
-> > > >
-> > > > The swiotlb kernel command line parameter does not impact IOMMU rel=
-ated
-> > > > use of SWIOTLB, and that is intentional. IOMMUs cannot be forced to=
- use
-> > > > SWIOTLB for all buffers. Update the documentation for the swiotlb
-> > > > parameter to clarify that SWIOTLB use can only be forced in scenari=
-os
-> > > > where an IOMMU is not involved.
-> > > >
-> > > > [1] https://lore.kernel.org/all/20230612153201.554742-16-catalin.ma=
-rinas@arm.com/
-> > > > [2] https://lore.kernel.org/all/20190906061452.30791-1-baolu.lu@lin=
-ux.intel.com/
-> > > > Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> > > > ---
-> > > >  Documentation/admin-guide/kernel-parameters.txt | 1 +
-> > > >  Documentation/arch/x86/x86_64/boot-options.rst  | 2 +-
-> > > >  2 files changed, 2 insertions(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Docu=
-mentation/admin-guide/kernel-parameters.txt
-> > > > index 213d0719e2b7..84c582ac246c 100644
-> > > > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > > > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > > > @@ -6486,6 +6486,7 @@
-> > > >                                to a power of 2.
-> > > >                       force -- force using of bounce buffers even i=
-f they
-> > > >                                wouldn't be automatically used by th=
-e kernel
-> > > > +                              where a hardware IOMMU is not involv=
-ed
-> > > >                       noforce -- Never use bounce buffers (for debu=
-gging)
-> > > >
-> > > >       switches=3D       [HW,M68k,EARLY]
-> > >
-> > > Yes, this part is correct. SWIOTLB cannot be forced if there is an IO=
-MMU.
-> > >
-> > > > diff --git a/Documentation/arch/x86/x86_64/boot-options.rst b/Docum=
-entation/arch/x86/x86_64/boot-options.rst
-> > > > index 137432d34109..066b4bc81583 100644
-> > > > --- a/Documentation/arch/x86/x86_64/boot-options.rst
-> > > > +++ b/Documentation/arch/x86/x86_64/boot-options.rst
-> > > > @@ -285,7 +285,7 @@ iommu options only relevant to the AMD GART har=
-dware IOMMU:
-> > > >        Always panic when IOMMU overflows.
-> > > >
-> > > >  iommu options only relevant to the software bounce buffering (SWIO=
-TLB) IOMMU
-> > > > -implementation:
-> > > > +implementation where a hardware IOMMU is not involved:
-> > > >
-> > > >      swiotlb=3D<slots>[,force,noforce]
-> > > >        <slots>
-> > >
-> > > But this part needs some improvement. The "swiotlb" option is not
-> > > entirely ignored if there is a hardware IOMMU. For example, the size =
-of
-> > > the SWIOTLB can be adjusted using "swiotlb=3D<slots>", and since SWIO=
-TLB
-> > > can be used by IOMMUs for other purposes (as you correctly note in th=
-e
-> > > commit message), this setting is relevant even where a hardware IOMMU
-> > > is involved.
-> > >
-> > > Petr T
-> >
-> > Thanks. I think I should also update the commit message:
-> > "The swiotlb=3Dforce kernel command line parameter does not impact IOMM=
-U
-> > related use of SWIOTLB"
-> > and title:
-> > "Clarify swiotlb=3Dforce option applies only to dma-direct"
-> >
-> > As for fixing boot-options.txt, I think it makes the most sense to
-> > expand on just the force option rather than the section summary like
-> > above:
-> >        force
-> >          Force all IO through the software TLB.
-> > +        Hardware IOMMU implementations can use SWIOTLB bounce bufferin=
-g in
-> > +        some circumstances, but they cannot be forced to always use th=
-em, so
-> > +        this option only has an effect when no hardware IOMMU is invol=
-ved.
-> >        noforce
->
-> Note also that the documentation for swiotlb=3D in boot-options.rst is so=
-mewhat
-> out-of-date.  It doesn't have the optional second integer parameter to sp=
-ecify
-> the number of "areas" that have their own lock.  Perhaps that could be fi=
-xed
-> at the same time?
->
-> Michael
+Hi Reinette,
 
-Thanks, I could add this as a second patch.
+On 5/3/24 18:26, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> In shortlog, please use () to indicate function:
+> resctrl_file_fflags_init().
+> 
+> On 3/28/2024 6:06 PM, Babu Moger wrote:
+>> Consolidate multiple fflags initialization into one function.
+>>
+>> Remove thread_throttle_mode_init, mbm_config_rftype_init and
+>> consolidate them into resctrl_file_fflags_init.
+> 
+> This changelog has no context and only describes what the code does,
+> which can be learned from reading the patch. Could you please
+> update changelog with context and motivation for this change?
+How about this?
 
-I also noticed that several of the iommu options (soft, allowed,
-nofullflush, panic) are not listed in the set of possible options at
-the top of the IOMMU section. Rebooting is the only other section that
-does that, so I'm wondering if we're better off getting rid of it to
-be like other sections.
+Consolidate multiple fflags initialization into one function.
+
+The functions thread_throttle_mode_init() and mbm_config_rftype_init()
+both initialize fflags for resctrl files. This can be simplified into one
+function passing the file name and flags to be initialized. It also helps
+code simplification of new flags initialized for ABMC feature.
+-- 
+Thanks
+Babu Moger
