@@ -1,133 +1,119 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0AB759155;
-	Mon,  6 May 2024 07:17:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81EB2763E4
+	for <linux-doc@vger.kernel.org>; Mon,  6 May 2024 07:25:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714979836; cv=none; b=RZPZGAAQyXzSIpkLI9/QqrgNv5anUCDFSRTJwPf8ir3eI6kj8e4rNCJg7HQ/LjNdLRoSJpaPSJwe5KlNrbenrXxba8DqgpW7Or1+KmerXPG7F4FC8fr4wGSN4ayVTZCB0oFiqn4zi6n1npL2ZxRFRQ7C56kwEAVfJCRmjJMAwV4=
+	t=1714980311; cv=none; b=j9o7VZNwweMCh3whoM4ZhbUMKA7j7n0wplmhIEVWlWDFsyj+z4yfa1xn0tySGKORgdXtLIY5oPKlkNfFovtllqtd/LIyZgYJdCM0IizkBVDYoNKDxRd9oXvCLxxxJ0MlHe4c+kz7ltVuGmRBWiSv8VL2ShlrJLBxPeKPi3J8Bgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714979836; c=relaxed/simple;
-	bh=K1WCsuV2vgVysMR5YZCWY9/J81gDLpA8JuqAbgG1slQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Em8SNToH1JIbWiCzLx6Q2Wwxc4HRcpSjZ8YaBVc+RufWv6xQIFHv75bY9+boYdaYleL8iUo4DMWZrZ59VnzZQ0MYfSMOKs9EnaDwN8FwSLiB+ZCKPqMH8NMsiddxitXfOajjknOzsjBIE8w3KPiVqxR/pQBPZ8FpRZZsyzmnPaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FC6ok4Sm; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1714980311; c=relaxed/simple;
+	bh=OVDIWxUDRvlUhkLXJmVPIg7Ss7MCI8rmRJKjNBcIAYc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=txbjHmNq6DPpH/u81RY4g8c/N/3SWr7Ubn6aiP2qxXcXse8XRVUAszpFx4lcDxfGsTvP79wF2s0eN/7dU2QAvyJUWsQCKnvJCEu1uLOn7lPKPbXcpUWg9AdQumYXydcebJqVXZxFx+S2IdQV7Jc6XSAJco2AQsFaWe7d/y9dyeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=nZznPeyz; arc=none smtp.client-ip=95.215.58.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FC6ok4Sm"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6f45020ac2cso1224540b3a.0;
-        Mon, 06 May 2024 00:17:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714979834; x=1715584634; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4CZTKvqkXHwfN9qILwrzk90HvdiwAcsWOFrQEfW+iRE=;
-        b=FC6ok4Sm59HZrkI+retbJ3dQQKoaemBXn7YnYqozhC50EAMhPM7xhbTwRzcp/qRNqe
-         owTvB6pLPcOLvbGcb7fYQPbmuvSNMwcJ7ak/97PVr+rG7gd6v7buEASSWBhqESyskkEL
-         9wYTybx7Jxxn6vZnOh9s8yrj+e+VmJK4EynabbzNjIHrJPTzoNE/IJ+GyDOpJOZ4TgBl
-         Oq0qoby54BpukduCYcNmQG4uB6/0zCyxx2P33iNlWgmmKDKbnEt1hbcLTM1WEnh26Lhw
-         I+CzB35PwE7B5L37URwd4351/BagAxoSz8nYVQEx1ckFbcfSkjyxINxXdfd9zMaA7H5G
-         QHsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714979834; x=1715584634;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4CZTKvqkXHwfN9qILwrzk90HvdiwAcsWOFrQEfW+iRE=;
-        b=tr4+wzH3hJ3DnMIc8pMTE6rSXAFmbaERHmGBnSl1arx+gESAV3bkebhM7+50+oJEBR
-         vJ/xYxe1tFraWlsVCRgV0nrnmhnE33dWQzg4/cyD8nefAhz0xaxfiw9XFGqosGcKrCWU
-         Ls+Edw0xQnr/7qDRbwOr+iye+aHxmRhLkhkOgMSqBp2nG39pWz7dzfCxiMzb02y7oDwq
-         R/08W2Zpjrz3xNb4sGg8q0M+BHBuvlY3MScKlisnWoey9fUmt+G1liSjFbHS+/tLGk6H
-         ESQ9fJ30SqafvNC5vTeTA+oWoH025K23m1YWQaYWuLfWFYKB4lcADGIAhyC7J/3wBEbs
-         3YAA==
-X-Forwarded-Encrypted: i=1; AJvYcCWLgLqCFHYL8/h9gZqQ0UJNaFEloB/hhR6gaXHT/ROYDZuWk3LCHLgK9wpHf/p4ixc7Yh+KyzfFNDBJbcNIdcYHVD2FpmSa3GkIy+A0GDgoQ0sPJfzztZSZze9w3kAfrK7rGYfQngpMaD/Ct4tC2au7s/KwHxT1djVuCvjL2UzW5zC+
-X-Gm-Message-State: AOJu0YzTGabEXQQ1DACSoVjtN4nvDAJM58hLdI5H5Etsk6iGd4EkBdb/
-	TLhThNppBXFL/yg9gu6IObCLD2SGRDq5uGDuyrDUsVkvqBBoPwK+RqbY1g==
-X-Google-Smtp-Source: AGHT+IFnkT6YBQQjfzErTQTUon6Klo1F+E+nze30gG9jbyJLQHC5uMXPftLCYlGLexdwp3QR8R3B3g==
-X-Received: by 2002:a05:6a20:564e:b0:1aa:5984:d3 with SMTP id is14-20020a056a20564e00b001aa598400d3mr8611476pzc.6.1714979833990;
-        Mon, 06 May 2024 00:17:13 -0700 (PDT)
-Received: from localhost.localdomain ([2407:7000:8942:5500:aaa1:59ff:fe57:eb97])
-        by smtp.gmail.com with ESMTPSA id u90-20020a17090a51e300b002af2bf7082fsm8178779pjh.39.2024.05.06.00.17.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 May 2024 00:17:13 -0700 (PDT)
-From: Barry Song <21cnbao@gmail.com>
-To: joe@perches.com
-Cc: akpm@linux-foundation.org,
-	apw@canonical.com,
-	broonie@kernel.org,
-	charlemagnelasse@gmail.com,
-	chenhuacai@loongson.cn,
-	chris@zankel.net,
-	corbet@lwn.net,
-	dwaipayanray1@gmail.com,
-	herbert@gondor.apana.org.au,
-	jcmvbkbc@gmail.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux@roeck-us.net,
-	lukas.bulwahn@gmail.com,
-	mac.xxn@outlook.com,
-	quic_jjohnson@quicinc.com,
-	sfr@canb.auug.org.au,
-	v-songbaohua@oppo.com,
-	workflows@vger.kernel.org
-Subject: Re: [PATCH RESEND v6 2/2] scripts: checkpatch: check unused parameters for function-like macro
-Date: Mon,  6 May 2024 19:16:57 +1200
-Message-Id: <20240506071657.13434-1-21cnbao@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <5e26f82913801050afa4442dfb9a07249895ab98.camel@perches.com>
-References: <5e26f82913801050afa4442dfb9a07249895ab98.camel@perches.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="nZznPeyz"
+Message-ID: <1615fe92-d4ff-4ef2-9bd0-199aa9e3a426@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1714980307;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VNICsQwAZLEIq4FagMWJtT9l3ne94Q3HOggFLnvinbw=;
+	b=nZznPeyzXvBnkwuymZAd7H5uP6FsRpvl2JfkIEHhVLGTRXN2z1loonY6p/619WY28zpwEl
+	Bogs2+q+8zcc500vR6DNiQHdd+mPtphq8OjqAyhbN7IEoPG5hcFcOxw9uMk2A927K9UGj9
+	Kf4xW9Sd1i3DF1NmDYSRbBRBNofkxMI=
+Date: Mon, 6 May 2024 09:25:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [RFC RESEND 16/16] nvme-pci: use blk_rq_dma_map() for NVMe SGL
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Robin Murphy <robin.murphy@arm.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+ Chaitanya Kulkarni <kch@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+ Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, Yishai Hadas <yishaih@nvidia.com>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ Kevin Tian <kevin.tian@intel.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+ linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+ linux-nvme@lists.infradead.org, kvm@vger.kernel.org, linux-mm@kvack.org,
+ Bart Van Assche <bvanassche@acm.org>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Amir Goldstein <amir73il@gmail.com>,
+ "josef@toxicpanda.com" <josef@toxicpanda.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ "daniel@iogearbox.net" <daniel@iogearbox.net>,
+ Dan Williams <dan.j.williams@intel.com>, "jack@suse.com" <jack@suse.com>
+References: <cover.1709635535.git.leon@kernel.org>
+ <016fc02cbfa9be3c156a6f74df38def1e09c08f1.1709635535.git.leon@kernel.org>
+ <c9f9e29e-c2e1-4f99-b359-db0babd41dec@linux.dev>
+ <20240505132314.GC68202@unreal>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Zhu Yanjun <yanjun.zhu@linux.dev>
+In-Reply-To: <20240505132314.GC68202@unreal>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
->> From: Xining Xu <mac.xxn@outlook.com>
->> 
->> If function-like macros do not utilize a parameter, it might result in a
->> build warning.  In our coding style guidelines, we advocate for utilizing
->> static inline functions to replace such macros.  This patch verifies
->> compliance with the new rule.
-> []
->> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> []
->> @@ -6040,6 +6040,12 @@ sub process {
->>  					CHK("MACRO_ARG_PRECEDENCE",
->>  					    "Macro argument '$arg' may be better as '($arg)' to avoid precedence issues\n" . "$herectx");
->>  				}
->> +
->> +# check if this is an unused argument
->> +				if ($define_stmt !~ /\b$arg\b/) {
->> +					WARN("MACRO_ARG_UNUSED",
->> +						"Argument '$arg' is not used in function-like macro\n" . "$herectx");
-> 
-> trivia:  This should be aligned to the open parenthesis.
-> 
 
-Hi Joe,
-I assume you mean the below?
+On 05.05.24 15:23, Leon Romanovsky wrote:
+> On Fri, May 03, 2024 at 04:41:21PM +0200, Zhu Yanjun wrote:
+>> On 05.03.24 12:18, Leon Romanovsky wrote:
+>>> From: Chaitanya Kulkarni <kch@nvidia.com>
+> <...>
+>
+>>> This is an RFC to demonstrate the newly added DMA APIs can be used to
+>>> map/unmap bvecs without the use of sg list, hence I've modified the pci
+>>> code to only handle SGLs for now. Once we have some agreement on the
+>>> structure of new DMA API I'll add support for PRPs along with all the
+>>> optimization that I've removed from the code for this RFC for NVMe SGLs
+>>> and PRPs.
+>>>
+> <...>
+>
+>>> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+>>> index e6267a6aa380..140939228409 100644
+>>> --- a/drivers/nvme/host/pci.c
+>>> +++ b/drivers/nvme/host/pci.c
+>>> @@ -236,7 +236,9 @@ struct nvme_iod {
+>>>    	unsigned int dma_len;	/* length of single DMA segment mapping */
+>>>    	dma_addr_t first_dma;
+>>>    	dma_addr_t meta_dma;
+>>> -	struct sg_table sgt;
+>>> +	struct dma_iova_attrs iova;
+>>> +	dma_addr_t dma_link_address[128];
+>> Why the length of this array is 128? Can we increase this length of the
+>> array?
+> It is combination of two things:
+>   * Good enough value for this nvme RFC to pass simple test, which Chaitanya did.
+>   * Output of various NVME_CTRL_* defines
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 9895d7e38a9f..2b812210b412 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -6044,7 +6044,7 @@ sub process {
- # check if this is an unused argument
- 				if ($define_stmt !~ /\b$arg\b/) {
- 					WARN("MACRO_ARG_UNUSED",
--						"Argument '$arg' is not used in function-like macro\n" . "$herectx");
-+					     "Argument '$arg' is not used in function-like macro\n" . "$herectx");
- 				}
- 			}
-> Otherwise:
-> Acked-by: Joe Perches <joe@perches.com>
+Thanks a lot. I enlarged this number to 512. It seems that it can work. 
+Hope this will increase the performance.
 
-Thanks!
+Best Regards,
 
--Barry
+Zhu Yanjun
+
+>
+> Thanks
+
+-- 
+Best Regards,
+Yanjun.Zhu
 
