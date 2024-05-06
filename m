@@ -1,109 +1,134 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB2C2128372;
-	Mon,  6 May 2024 10:59:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F55143877;
+	Mon,  6 May 2024 12:04:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714993199; cv=none; b=Lmq7E0ceQCqt1+qejKkhqGMkOYZPCPNyO90mP1dLOiDRTkWs5ghrooFQfw0j3jPI1W+n6uOsxmSPkwO1LE8eEBkMTL/AcSBF9QUgrbOdJn1bW8KGnb35MAExOrAlm15OxUWF42VzqlTTmEua+s4jusUA9I4IuZfPLIgip6O8DIo=
+	t=1714997093; cv=none; b=HZ5tEyEAiIZPLrBym2RExVaSOikwoOGQ+r1K4RMiz5L1+cHcyXv7ZQs3ny4k5i4MUZ/Has/efCnFzMyW25hjFpPJi2lf1soAgbU3QXpYbkWYdEXOCeJM4YjuUcrAzCrGNCcwznzJX1+gnvWpM0Me3HpPppOGtfoplA6RKJpE8Q0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714993199; c=relaxed/simple;
-	bh=sHYZaWmfDRzKzlIiPdRNF18IWRY23/RhfLJWuB8vfyY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=R4WnKwaueArWlo0rXMdG0iwJtFIUrLSKhNN2bvkUHLJVbwZAX9MrlLKZtOTOHc9DA5+KTyM9BCk8DfhL+loX9iznllMSksUchYIK+z30uojtdPscM1TNcfveH84tPAZbVdudmX96OPJweDm9sF/0vUkJuaCX9rHfCzsXx77SFgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tz5u+8Nw; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1714997093; c=relaxed/simple;
+	bh=Nn6pTgW11u0x9B6Nd1xA/pfcfA/mwlQQj1++/hKvgLo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BjwQsE9C8WSOrL4G4ol76A0+Z+D3fO+fIS9AwvdpY1O5uX8mgxklTZsP3CqaOn6F9PfuZz2mRug2ToL8VLd8F/+dv0zO1wFbw//S1rFjLuyfhQmrxgmP9aQkV6ToJJ42lOR3RLxzHxr3gs5yEDCm9/fAIdXOQlSraLELXFyo044=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Al+5UWz0; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tz5u+8Nw"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1ecd3867556so11128815ad.0;
-        Mon, 06 May 2024 03:59:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714993197; x=1715597997; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zJamX9TTA5ozFRtXzVtK6/RgerXqdmilnzpt+IxTl7s=;
-        b=Tz5u+8Nw9HnGCKcrqJ09HCBwbLyx+WB86tRn5F47rVZTlNFxNciq1FLxxxc6aPPuP3
-         XpK/QOz4NNsp2Mw4wAFhjFGMn25oJ84yvDO++Acw7Q8Of12Nmp7vu8ahb/+bvA5xhxLv
-         QZ22LrS/K95ZmfEvnLcsCPhS13/XBYyv7nRH5y6ff8zv0cCleJLYhEs+btFGOe0otCRk
-         3tcysVwS0/6A173wso0cJZ8sbKsxIqA+0eERCtpip121OAhcbpeDNLT3FAbOfv1BhQOf
-         mR1gZXIRc3ArFYNxVk9d8WEQdGoaDa9erroVOdyKhH6YPTXAXyAElW1YQDY/Fod3/bgm
-         9ihg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714993197; x=1715597997;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zJamX9TTA5ozFRtXzVtK6/RgerXqdmilnzpt+IxTl7s=;
-        b=sgk1WTa7wzNVyD9oqdD6Y9JwPa0pk3GLx5Jj3dFMS43Tpym2/nKevmGabEagYMNKSf
-         ikP2McVhj2aJ6Rw+iuyr6cOk/Edm43chtOzB3ATNbgblIlc0m43baK51eUelkdgLQHlL
-         vCFPuPFb1A97kwmcYzUIFkbBuLLq+Oy7rtqQWKEsL1AfJv1asr8YMCzTfLwpvfak24gY
-         N7PNA0LZIX9dpOzptcMPLX+iHCMW7V8oO6OQHb2G+8aVYdBEiy/2WKE8iClX/n00i8rf
-         jQiYIfLejiuUCZoHhA0joFfZfTXGIIa8m7L0w6/5WtWeq3jP4iF6VrmQgstAYTtYIDQ5
-         qLEA==
-X-Forwarded-Encrypted: i=1; AJvYcCVAtfy6+F9woyZE8ZfciCqQ1Y3vIxol69xF0u9ETjppQ1i6lDtEtYXnUXcfMFRnrnszy5/4rkI1UF4rnkr0JoUs5297dIaPqmibdwmA9Eh63fMk/qEGK09ozmgoQ0cRmXaW/55+pcwGug==
-X-Gm-Message-State: AOJu0YyAn36xcGQTufj9JjQ2kxStBL5vOrWFp4QhAyixpEUQwhuw5CHG
-	ldoenUuxlU4ntu8uM4JQ1Nkr3dMTM1Sxf8se7gH+22bs7AL9RFzA
-X-Google-Smtp-Source: AGHT+IFM87zu5cIMc1I4BWtLdWyxQNhwkpcxaQE7IypFNm5dIz0QAahEFKlUlkxKpBryaGBlGml1Tw==
-X-Received: by 2002:a17:902:b607:b0:1ea:f9af:ee99 with SMTP id b7-20020a170902b60700b001eaf9afee99mr9566416pls.25.1714993196487;
-        Mon, 06 May 2024 03:59:56 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id c8-20020a170903234800b001e3e09690c6sm7987845plh.199.2024.05.06.03.59.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 May 2024 03:59:56 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 20682184790CF; Mon, 06 May 2024 17:59:54 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Next Mailing List <linux-next@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	James Bottomley <James.Bottomley@HansenPartnership.com>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH] Documentation: tpm: Add TPM security docs toctree entry
-Date: Mon,  6 May 2024 17:59:36 +0700
-Message-ID: <20240506105936.37073-1-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.45.0
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Al+5UWz0"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=yXYhhTIjT/JZbkFthIE5YrCYO35Pg9XXB/SziqtVej8=; b=Al+5UWz0be2VM4EzLSv4PIqpbk
+	mEbhGZD2BYZ0ghxdDv/M4uc7pKbaCXZ4PyarQux3ZBy5JBvo6vA50xgfU8v82lgkdNf0k7VB8TkyR
+	1Gjg/zwRLuHynK93w6eAQDnHxenMCnOmIgK0o5x1r065VybbArgKfhAVoC02C9UjMkG2KG+4uF37X
+	PUvC9dUF6/Yz9GjoGh1VQgNHxsTH6r2iugkT960in4C0K73F8Xd+qFtEy9u15fvhEpWWZ/5e1Thrq
+	FpyJtIxYM4xZMLaMNvucptitryFptPh5kUV3Biz+i04kUBkoV3NFYeslTqPTmvo04D4zfLxosQHAZ
+	xOJ0p5dQ==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1s3x58-00000007Bwu-1EIp;
+	Mon, 06 May 2024 12:04:34 +0000
+Date: Mon, 6 May 2024 05:04:34 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	David Ahern <dsahern@kernel.org>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Amritha Nambiar <amritha.nambiar@intel.com>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+	Kaiyuan Zhang <kaiyuanz@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Simon Horman <horms@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Florian Westphal <fw@strlen.de>,
+	Yunsheng Lin <linyunsheng@huawei.com>,
+	Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
+	Arseniy Krasnov <avkrasnov@salutedevices.com>,
+	Aleksander Lobakin <aleksander.lobakin@intel.com>,
+	Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Richard Gobert <richardbgobert@gmail.com>,
+	Sridhar Samudrala <sridhar.samudrala@intel.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Abel Wu <wuyun.abel@bytedance.com>,
+	Breno Leitao <leitao@debian.org>,
+	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Shailend Chand <shailend@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Jeroen de Borst <jeroendb@google.com>,
+	Praveen Kaligineedi <pkaligineedi@google.com>
+Subject: Re: [RFC PATCH net-next v8 02/14] net: page_pool: create hooks for
+ custom page providers
+Message-ID: <ZjjHUh1eINPg1wkn@infradead.org>
+References: <20240403002053.2376017-1-almasrymina@google.com>
+ <20240403002053.2376017-3-almasrymina@google.com>
+ <ZjH1QaSSQ98mw158@infradead.org>
+ <CAHS8izM0=xc2UhUxhnF_BixuFs5VaDV9W1jbso1K+Rg=35NzeA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1087; i=bagasdotme@gmail.com; h=from:subject; bh=sHYZaWmfDRzKzlIiPdRNF18IWRY23/RhfLJWuB8vfyY=; b=kA0DAAoW9rmJSVVRTqMByyZiAGY4t6rIVWeAlvNBVJ28YVOyQGnfzPfrWmN/G57CRdHL6fAIs Yh1BAAWCgAdFiEEkmEOgsu6MhTQh61B9rmJSVVRTqMFAmY4t6oACgkQ9rmJSVVRTqPjxAEA/0aZ NqKxpXB/QspqxXTpv0wioowr3gicQlsFCbH7hvMBAOSK8JmBx0+VM0jQLvaTsr6301Qa2axd4N/ blaisvYQD
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHS8izM0=xc2UhUxhnF_BixuFs5VaDV9W1jbso1K+Rg=35NzeA@mail.gmail.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Stephen Rothwell reports htmldocs warning when merging tpmdd tree for
-linux-next:
+On Fri, May 03, 2024 at 01:10:44PM -0700, Mina Almasry wrote:
+> Is the concern still that folks may be able to hook proprietary stuff
+> into this like you mentioned before[1]?
 
-Documentation/security/tpm/tpm-security.rst: WARNING: document isn't included in any toctree
+That is on concern.  The other is that people will do stupid stuff
+even in tree if you give them enough rope, and they should not have
+that rope when the only sensible options are page/folio based kernel
+memory (incuding large/huge folios) and dmabuf.
 
-Add toctree entry for TPM security docs to fix above warning.
+> cp net/core/page_pool.c net/core/dmabuf_pool.c
+> 
+> and then modify it such that the net stack maintains 2 page_pools?
+> There are a lot of cons to that:
 
-Fixes: ddfb3687c538 ("Documentation: add tpm-security.rst")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/linux-next/20240506162105.42ce2ff7@canb.auug.org.au/
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/security/tpm/index.rst | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/Documentation/security/tpm/index.rst b/Documentation/security/tpm/index.rst
-index f27a17f60a9602..fa593d960040a9 100644
---- a/Documentation/security/tpm/index.rst
-+++ b/Documentation/security/tpm/index.rst
-@@ -5,6 +5,7 @@ Trusted Platform Module documentation
- .. toctree::
- 
-    tpm_event_log
-+   tpm-security
-    tpm_tis
-    tpm_vtpm_proxy
-    xen-tpmfront
-
-base-commit: 152585665f0f6b89e67ed6d04c17b18d1f0f4077
--- 
-An old man doll... just what I always wanted! - Clara
+No.  Just have branches for page based vs dmabuf in a few places.
 
