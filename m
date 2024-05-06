@@ -1,84 +1,66 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 139893D55D;
-	Mon,  6 May 2024 01:46:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B377019479;
+	Mon,  6 May 2024 02:44:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714960000; cv=none; b=CP+6miVKlip3gei5cZdQYp9I+HgfAccmeUQNIt4ew4ZjGS17hCcdfu9dvefFd+6XbzzTr+T4uYQyADa9VnyFMo1JmAPWDpxhGNCq4J0m7v5Pjh1AvwQZXGgck1ryKViOTv6j2w0LPU5Ec1fOLNAMc3Q6SIE1vviiCGPCkBCjS88=
+	t=1714963458; cv=none; b=lA9Qycmkxgxd9nQoYbLhaeLew6E8y41PCOPfQvOcs32ly6QtGZLefNDkNqyiokH1/I02HD9OCOvo22ITuFRSZHth7/Jxhq1MM0kriE+P7kW6VeW6VsGBkqF9WLn8PoN3G4q3uL1+LqcyzaxZNJ89ABMqvP6eJ5uoXV92incj+P8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714960000; c=relaxed/simple;
-	bh=lOubGtR80AaNFh/cJV+FIWAPhTfv5Muj74fW8EsJv/8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Nj4MnbyyQGQMGrR1+5D5mMLLPrQOm6ebzii7uFOp7Rq2QCk4yRnbPMOmUTWXycTZh7vKkb8HoG6sEAgCioeJWZBL5HBFZCvXxuflRm64MpUHrg5UZaBf91sFuHYL4rcGrB+DatmFgqTkQvvYAI2CYp/5/dRp95IcpUdVFYH/Kv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZcU7HWCg; arc=none smtp.client-ip=209.85.210.169
+	s=arc-20240116; t=1714963458; c=relaxed/simple;
+	bh=9IJ7eL/NXZnN6iaxGyEly5g6ObXfEECQHJhrZGGTc9I=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CN3wDrentjuxUaK6d4kC/OJhXxN6LVRQpEOyOJpKuOt/tbSoFNjdtgPIqaegsav4zfXZQB00xgTvZQ91n4hDDExDIs8Fiu8QunmjDjQSoHss7vy1CtXNo1E37KFXBFj2e0/6BjR4YH8SVP6uRX2URvR1AdFykfuUSiiw5m5ZgIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jOBGgmp6; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZcU7HWCg"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-6f44b390d5fso1446866b3a.3;
-        Sun, 05 May 2024 18:46:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jOBGgmp6"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1ed012c1afbso10620315ad.1;
+        Sun, 05 May 2024 19:44:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1714959998; x=1715564798; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SbtBOu7AIsmC5hqACAkZ2qUxEdKcn2SBtMp5/oLSpC4=;
-        b=ZcU7HWCg2qJMm9oAS3H++pytOXPmT0lGq7sYOpYfeOiLnt+lLGQAtFI9IWgQWIDQOB
-         WwnYPgqQLMJKv7Hx/JXRdYS5dGb/Igojb7yxcJHFrphZiIWHPU0J0vznsh+eBq1ttQNf
-         JE+iXFbLw5mQRqkq1Ekc1dlHlRnZurEf4Z4i784560nwX3vJaeL2JTtH4etPZ0LeDj7E
-         qUwP+JYpF/S7l275jtungr4PgmoYUfjhuW30eNdGzEsCmgL8ghsc0R4NyKhh9InH7R+s
-         mph9j0xCOgXsp53sDz0gCR5H0HPknJPerCdZefRokXDXFUDaff4FrHZOSVyBBsPbbWFo
-         tAmw==
+        d=gmail.com; s=20230601; t=1714963456; x=1715568256; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eeHa5cvAFWS6KkAuD02BZwd0wIMOooO6IwbFyNPbjJM=;
+        b=jOBGgmp66fZE6/A5N2LUvX7yoK1CwC8b5f81aHlryPKdb3baslEq53ch044YxEweoc
+         +Dz0RwWTEyuWAfkD7wcMh//0Bwzidvg7WwYQLbKYy6YBlcfgE+yHyo1flBkqu0SVhNDe
+         FD6o/xh17XGpUP2wm4BHBVusPm+RikuwaNjs8Cqxdqn/sBqkzKCtnxkBPiIaQKzpRnly
+         9IS4YFTdxsiz2+OYbbtneMWA1tHrCWqyb2/MYy3OmVwHyWymq+1KKdR/JOjuHbpjOAqj
+         qFDTLQRhW26UBalorijQBXdx4noHZpC8AsXG9RcIp4Ht3lBUZfrCCW8DALpFyK/KrMPC
+         y/xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1714959998; x=1715564798;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SbtBOu7AIsmC5hqACAkZ2qUxEdKcn2SBtMp5/oLSpC4=;
-        b=Xp+WkZdmOtfdRlTfAZpgPB3N/r5ICoaSL5Kxj90bAh7PhTUXGsu6hiWBTjzBVjVPYB
-         4Szx3AURUkgojXWmW/5aPfbaZDp1h8wTZaUPrqZe6Qflb9ThGOR3EtDdOhjtYmEb6pfD
-         tWXZSHRh4RhqjG7cn6qNCVIKnP66m8eAw2sEPTL2yQ4mh2f8ZshVaBSGxRmavF3nhtce
-         +Jlh9F0r2S8t0Ks1lWcKv7akxHImR+MyhGEa3uj6YiR3hTwJEgZNYdYsn4NT64Q2mPCa
-         uRW+L9GdLCBCFPES8GwbuEnCjV4M3aZ2rBtfKkeKAsPErZznCI+gRUDsnSZ11WTMZGqF
-         Oj3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWMFowOdoAiSgy3q9CePBRUbVR09KxruCyc7DFmUkvF3S1+M43WYDkFB/ytMiUR9YimnasvMckKFB11Aefkt0+kUQ+IqscSp2VIepAOlHwTYe466mFWKPAAM45TECqY1q750ZJhQV6defth7Z8P2Bk/O2h7PtS2LGLNuYLiiSo4SD+8
-X-Gm-Message-State: AOJu0Yy/WDex7hcuNFFBSRgdqeGVX+XMjPMOAzj2e8rkpamEOdYPEQIq
-	h/JlBZlFEdHNvb5DHnN9yEM45JXy3K356yxgWKbInblxTY9tSb9L
-X-Google-Smtp-Source: AGHT+IGfsukyiuaHRr94O7X2ihmZy4ttRqvBKuQdqA5ieu6ZRIIBAbfj30XugXmyYBynDBFGbRy/lg==
-X-Received: by 2002:a05:6a00:1704:b0:6f3:854c:dee0 with SMTP id h4-20020a056a00170400b006f3854cdee0mr12877549pfc.21.1714959998353;
-        Sun, 05 May 2024 18:46:38 -0700 (PDT)
-Received: from localhost.localdomain ([2407:7000:8942:5500:aaa1:59ff:fe57:eb97])
-        by smtp.gmail.com with ESMTPSA id fj30-20020a056a003a1e00b006eac4297ed3sm6608511pfb.20.2024.05.05.18.46.31
+        d=1e100.net; s=20230601; t=1714963456; x=1715568256;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eeHa5cvAFWS6KkAuD02BZwd0wIMOooO6IwbFyNPbjJM=;
+        b=GSj6D7znJQNjqQogkCVetD6fCYv3SGM51CDJwAYxbsBRzC9zNh6KJhvpflOlFrOUoE
+         eUCcv/g6pSP+3DviNJJR/8tLG3IWw/7HPGkZsFivted/AInnlALXy/0v9qeeOvK7fMjo
+         5GDBAykyU5UDBF7iBMR4twwxlJhg0MtmiGhMIT8xoXWgx5W37/95SREvjDq7tCUP/Lv2
+         dIk3WevdjsyzPA5lKEOkygqS3S4PQOIw+xYfJymB5Mew8ndpPeFOftbMZ0NgqYd39sis
+         XnNMSkmmQDozqsgDmIgUF7hc4vSLoB4b1QT061Sy+HjjbaAJKk3t7R3FU3olmGys9qxe
+         7YMg==
+X-Forwarded-Encrypted: i=1; AJvYcCWrolOdfewxr+nECkXvkazOe3NONEzscGiKudEScx/qrV6fY1MXuS6d39mYzYU8oG+Kc+SewJWXQuZzUqc/rESAkFmz4mFPbv4j
+X-Gm-Message-State: AOJu0Yxm0jaKTkYKryg2JIcXyazNaKIHZY5WTMgxBYSVDJiRYCYKA3Zu
+	BT7xFGP+4uCZg4G3jCX3/CR8ZZcs8htjfLvZPVmi/Qi36xmQccD5ZP4chjPrc3Q=
+X-Google-Smtp-Source: AGHT+IHbnOBnObgwxWEwtWP/CWIRPGwUPhe7ORjBHqUhSbuZRKoN0UTaJv+4wQPQaX98txh7gPhnlA==
+X-Received: by 2002:a17:902:6546:b0:1ea:691b:3692 with SMTP id d6-20020a170902654600b001ea691b3692mr14746033pln.17.1714963455957;
+        Sun, 05 May 2024 19:44:15 -0700 (PDT)
+Received: from localhost ([42.80.85.11])
+        by smtp.gmail.com with ESMTPSA id q5-20020a170902a3c500b001e99ffdbe56sm7284177plb.215.2024.05.05.19.44.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 May 2024 18:46:37 -0700 (PDT)
-From: Barry Song <21cnbao@gmail.com>
-To: akpm@linux-foundation.org,
-	joe@perches.com,
-	linux-doc@vger.kernel.org
-Cc: apw@canonical.com,
-	broonie@kernel.org,
-	chenhuacai@loongson.cn,
-	chris@zankel.net,
-	corbet@lwn.net,
-	dwaipayanray1@gmail.com,
-	herbert@gondor.apana.org.au,
-	linux-kernel@vger.kernel.org,
-	linux@roeck-us.net,
-	lukas.bulwahn@gmail.com,
-	mac.xxn@outlook.com,
-	sfr@canb.auug.org.au,
-	v-songbaohua@oppo.com,
-	workflows@vger.kernel.org,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Jeff Johnson <quic_jjohnson@quicinc.com>,
-	Charlemagne Lasse <charlemagnelasse@gmail.com>
-Subject: [PATCH RESEND v6 2/2] scripts: checkpatch: check unused parameters for function-like macro
-Date: Mon,  6 May 2024 13:46:06 +1200
-Message-Id: <20240506014606.8638-3-21cnbao@gmail.com>
+        Sun, 05 May 2024 19:44:15 -0700 (PDT)
+From: qiurui <happyqiuqiu9604@gmail.com>
+X-Google-Original-From: qiurui <qiurui@kylinos.cn>
+To: gregkh@linuxfoundation.org,
+	corbet@lwn.net
+Cc: linux-usb@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	qiurui@kylinos.cn
+Subject: [PATCH] docs: usb:gadget:hid: fix hid_gadget_test code in documentation of hid section
+Date: Mon,  6 May 2024 10:44:08 +0800
+Message-Id: <20240506024408.19344-1-qiurui@kylinos.cn>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240506014606.8638-1-21cnbao@gmail.com>
-References: <20240506014606.8638-1-21cnbao@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -87,89 +69,33 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Xining Xu <mac.xxn@outlook.com>
+Fix bzero buffer before read()
 
-If function-like macros do not utilize a parameter, it might result in a
-build warning.  In our coding style guidelines, we advocate for utilizing
-static inline functions to replace such macros.  This patch verifies
-compliance with the new rule.
-
-For a macro such as the one below,
-
- #define test(a) do { } while (0)
-
-The test result is as follows.
-
- WARNING: Argument 'a' is not used in function-like macro
- #21: FILE: mm/init-mm.c:20:
- +#define test(a) do { } while (0)
-
- total: 0 errors, 1 warnings, 8 lines checked
-
-Signed-off-by: Xining Xu <mac.xxn@outlook.com>
-Tested-by: Barry Song <v-songbaohua@oppo.com>
-Signed-off-by: Barry Song <v-songbaohua@oppo.com>
-Cc: Chris Zankel <chris@zankel.net>
-Cc: Huacai Chen <chenhuacai@loongson.cn>
-Cc: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: Guenter Roeck <linux@roeck-us.net>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Andy Whitcroft <apw@canonical.com>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Cc: Joe Perches <joe@perches.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc: Max Filippov <jcmvbkbc@gmail.com>
-Cc: Jeff Johnson <quic_jjohnson@quicinc.com>
-Cc: Charlemagne Lasse <charlemagnelasse@gmail.com>
+Signed-off-by: qiurui <qiurui@kylinos.cn>
 ---
- Documentation/dev-tools/checkpatch.rst | 14 ++++++++++++++
- scripts/checkpatch.pl                  |  6 ++++++
- 2 files changed, 20 insertions(+)
+ Documentation/usb/gadget_hid.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index 127968995847..a9fac978a525 100644
---- a/Documentation/dev-tools/checkpatch.rst
-+++ b/Documentation/dev-tools/checkpatch.rst
-@@ -906,6 +906,20 @@ Macros, Attributes and Symbols
+diff --git a/Documentation/usb/gadget_hid.rst b/Documentation/usb/gadget_hid.rst
+index e623416de4f1..c4ee81a6b48e 100644
+--- a/Documentation/usb/gadget_hid.rst
++++ b/Documentation/usb/gadget_hid.rst
+@@ -410,6 +410,7 @@ Sample code::
+ 		}
  
-     See: https://lore.kernel.org/lkml/1399671106.2912.21.camel@joe-AO725/
+ 		if (FD_ISSET(fd, &rfds)) {
++			bzero(buf, SIZE);
+ 			cmd_len = read(fd, buf, BUF_LEN - 1);
+ 			printf("recv report:");
+ 			for (i = 0; i < cmd_len; i++)
+@@ -419,6 +420,7 @@ Sample code::
  
-+  **MACRO_ARG_UNUSED**
-+    If function-like macros do not utilize a parameter, it might result
-+    in a build warning. We advocate for utilizing static inline functions
-+    to replace such macros.
-+    For example, for a macro such as the one below::
-+
-+      #define test(a) do { } while (0)
-+
-+    there would be a warning like below::
-+
-+      WARNING: Argument 'a' is not used in function-like macro.
-+
-+    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#macros-enums-and-rtl
-+
-   **SINGLE_STATEMENT_DO_WHILE_MACRO**
-     For the multi-statement macros, it is necessary to use the do-while
-     loop to avoid unpredictable code paths. The do-while loop helps to
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 9c4c4a61bc83..9895d7e38a9f 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -6040,6 +6040,12 @@ sub process {
- 					CHK("MACRO_ARG_PRECEDENCE",
- 					    "Macro argument '$arg' may be better as '($arg)' to avoid precedence issues\n" . "$herectx");
- 				}
-+
-+# check if this is an unused argument
-+				if ($define_stmt !~ /\b$arg\b/) {
-+					WARN("MACRO_ARG_UNUSED",
-+						"Argument '$arg' is not used in function-like macro\n" . "$herectx");
-+				}
- 			}
+ 		if (FD_ISSET(STDIN_FILENO, &rfds)) {
+ 			memset(report, 0x0, sizeof(report));
++			bzero(buf, SIZE);
+ 			cmd_len = read(STDIN_FILENO, buf, BUF_LEN - 1);
  
- # check for macros with flow control, but without ## concatenation
+ 			if (cmd_len == 0)
 -- 
 2.34.1
 
