@@ -1,394 +1,172 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2070.outbound.protection.outlook.com [40.107.220.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C0F616C84E;
-	Tue,  7 May 2024 19:12:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.70
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715109160; cv=fail; b=flj3JU6gfMjYTZwrxLziF2W8GpxJuEtsPWzo3FgVUC1xcq2r25wCFQ2pKvOJq/qzbETDRRcn0rXZZrqGuzlCfxa5mFDd5Ybut+aH/wBDlO4Y3+Y0UwbWEWV0Yb9siOpz+L42OU+rHqXFG7Z2CUWb6t+PG0Vyx/F3AGUq3iP6BuQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715109160; c=relaxed/simple;
-	bh=6Xs+bog6gjNYzRNZDW+5yb4LhhXSW99tLJOL1lGUIBc=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=EAWiVbpIhti98x+AyiiV4T1jL6DAEEQUFOkFPybtsph7lUb3NpB4iu33RzRJBeftjMDp9ZprUKmDdzEbWPP28atT090h++e3yZH8VzZ6mlYBLr3vWG3dSkqKW4q7hVm1D+TuA+6AtPQ1xQ8ifsZ8lELPxwCGUxJ2dXLrqpdEoBI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=sALASOjA; arc=fail smtp.client-ip=40.107.220.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387B61607A7;
+	Tue,  7 May 2024 19:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715110534; cv=none; b=habkOchynkxOnnxzvrE+ARJcehWMkU66aYgA5XMuTlT9/7pwBg+/3Kw/HMNGl1BpfqigvawLgdxVq3X9nDm2ijaT3SjKk8guPUvg2dKCfGMj9mx1jMIkttUsgWFHluqZImi28xWWrVHWSg5tdOB/zaH+DuvEpxfh0b4UMbKcjxw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715110534; c=relaxed/simple;
+	bh=K7koNsOotobWiysspCzAcVC3GFkF8Gu5l5G8dKp2Hak=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EAmh29qBxSn4VkyAw+CQOCB+/5RA/drT0+1hJA83BaZWRy8jdUiIu6zjhcFYqv5OHJQd7oTpwvcWgFrBgyZi9Bx+fBRhb5tG3ECZmDzTV+Vu7s7eye8VdD4U9/FYHGkQDWzhRFk7qtgqD9P4fIdYr88QTlGmpOfWOFfEaNpmG4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UuFlJ0su; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="sALASOjA"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VRs9gb7RTIB8ZvoZ7JVCWITtTIGmHVyZecRF8D28cnuz42yWM0ceoKTpfP5o0WctpcoIuxcyO5yA2Mb463CBVVr9H1yEKSSJwLfS2+6hy6HE84GHqeH7/MDOeMxUCUdpKpPNs3KR4Z5QqqzbwEUfLK6P1nRnkbGeKBAINrMGoW9uQwSRPCLQUajPZZIklzSdgGxfioolfyyu8rZQ7qpvSQuAyXc9+KG99shsQGK4+tLHYpcvhrDwgZrNd+o0lxXAr8fFXjuZ2j7R3HN66M2gJzaBFlvXOYqxcXExE938pVNCDvnT1xmaplDcbZT1Th1WMZSHyMgIRaSpJXkHI5AAAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=88CIg4Xi6DG17FYdEE7yLYhAsJZ4Ni+3DTKJfzeiPdc=;
- b=SegxKMjd/5BJ6uwdmQIBlYw3PKa/lPuFgh4WpEbuD2cVaYKtBjBjNUeRYqeFrPH0hVao/5Boywb57ZP05P4Y7XLvi0Y2nGTJ5yxyh3hjcWTViFEkOg8BrvNpxzv37EwxvpoVzIAieq5XbdK2Csg8hOVgHZiBUuaXcrke9/aTmK/Q6Yr962hgKEEIF3BQqDfrKo2Di+BMTFpu0hvLjjRWZvLrLeYP7gR3ojbHbKRPLwwFSqodiZI5ZeuuC5UgvC4z8Lvhr41y5QAZlAML2+76DVocjltY+2oZhfZBk2ZlafhkFlVQyU3Aymqad5xXfysXm5rf198oB8rwTFmGFxgPTA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=88CIg4Xi6DG17FYdEE7yLYhAsJZ4Ni+3DTKJfzeiPdc=;
- b=sALASOjA2HgoLFJPXSqTxcd8ZYjQmuw2q0aDNTvetoqyzRde6BzHzfCnq8FwoRc07ONNxR5/Y1vgmhSl8IY5mjhc6oNEPPlRPK8zM79F1LhPC+/sKmznWMqIIPnQ2TmMsMb3ic8Gfpbboux4NGI8bTgrJ5FL5rjKgCN3G6IxXtk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by DS0PR12MB8562.namprd12.prod.outlook.com (2603:10b6:8:164::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.41; Tue, 7 May
- 2024 19:12:36 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%4]) with mapi id 15.20.7544.041; Tue, 7 May 2024
- 19:12:36 +0000
-Message-ID: <54ec73f9-6c9e-44f4-8ee9-a683bfcee607@amd.com>
-Date: Tue, 7 May 2024 14:12:31 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [RFC PATCH v3 07/17] x86/resctrl: Add support to enable/disable
- ABMC feature
-To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
- fenghua.yu@intel.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com
-Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
- tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
- kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
- jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
- rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
- jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
- daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
- ilpo.jarvinen@linux.intel.com, peternewman@google.com,
- maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
-References: <cover.1711674410.git.babu.moger@amd.com>
- <0db75c94886da62b8da498ef159d8fe27b0b3811.1711674410.git.babu.moger@amd.com>
- <54b1fe8f-13e5-440b-bb36-4100c1d283d0@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <54b1fe8f-13e5-440b-bb36-4100c1d283d0@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN4PR0501CA0039.namprd05.prod.outlook.com
- (2603:10b6:803:41::16) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UuFlJ0su"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-41c1b75ca31so26297875e9.2;
+        Tue, 07 May 2024 12:35:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715110531; x=1715715331; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0MsVmwcc7IjdJ/e1qKc5IeNtKIDJim+5sn115KirsXM=;
+        b=UuFlJ0suPwJAUR9NA4My7Sr82F1k55jAJas2JUPg41UEYltdHEHV2ud2/6txlmgxDy
+         YKvZ/Letr2rCL08NZuYM9UnoXohx3ZIih0KyrvtucKBHXoGLo9PvYI8fHbJMIUPNHgqh
+         tUWYaGnZXsdLhKdI6VYiH2xg4Ph1niwTSIuWZeNLCilDaKa0YfrGjZgJvJ4L+PI+fbfK
+         2PQxFozR/WueZRSzZK6FNLafTuqos6y22WvJRtOxBRscZf4k+AZ0tQ8eZnlQ/Bd23qHO
+         1e7rXg+pTAzZtjVRl5onJ6VVczBpYRT6b242KVfR+Q/u6bBVakLasqPYxmeGYWfe7A2b
+         eDBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715110531; x=1715715331;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0MsVmwcc7IjdJ/e1qKc5IeNtKIDJim+5sn115KirsXM=;
+        b=YtXJMXgxu/pu7uH4kznEhGIShVKwUV5ja/yiEciIucAQLv79lnL+yV6O796uURabIl
+         BthNkKeVBfiC7hUyU8AdywQ/MylR3nlo4JJaJodJweCPeWpydfBSaym2Xfw4Nd4hm2JY
+         CE8UIK5DZBHJw/DK+fcl+v5PrHLJ23+l6f2bzwWaSFC6K/uNRkt3nZwp72dPmamPkcK3
+         ruOM7qF8wevuRdc46Ll9OE1JvcB29+BE7M3rRyz2cGx+la3Qg6vqAeKULs6BESwsitYg
+         9RFHkVhI3H0wenJDPXf4xzr6VcI9FwF2G31265zVHrOW8HrzfgN23LiyfV1hTaG6E97v
+         wdjw==
+X-Forwarded-Encrypted: i=1; AJvYcCVFVgyFYMcvrkM2ANpIpJbyDvBKnVMsfOyYlKgtcErJiJriNxnRwu2mgZRlmpJUaVBxvOIzpfff9SCJdYj//abMa2xfWi0VGh2Oc9b01xo1WkhvYVW362ud66c/+G85z64L2WHsmToEzT0s5Tr/z1fy1eSormgU3hPOT4mzipw6BAzmsVS3o6TS8FDrrFXoc9dRcOLd8aP5kx93YdBEZSqjWFqsHrYaDcXkC2VT2gDeX4A9r0Ks40drbK+HuZpVyq+7DkcCYIp7O9X3zKPfTTjLVd/3Czti/m1LLYbh6vIsOek+qH6xYnyHk1P7HeUyam3J4L+tk2N+BCWlUK6Y608TzJd/TN2C5FYt9fwMMngHhESJgQru5WluPAjA6Qv0Hc624tnX1EsY2IFu0eOJnJh58PMGXdw5mIXaPigUngLa5RW0npxyc98eFHM/o/sF933e1Zqk/l3BvbpNYSrrvKer/T+4CWtlj2ZWaW/g8TLRtMD2CVYWTzWyfvJOhVJKAGSvTkwG6w==
+X-Gm-Message-State: AOJu0YyjcI6OSzo3UzcOA1ufPXfhtl/igDrHzHNil1Z0xD2+SZ6l+Z0n
+	u7whzzC5MqGnzgc0bndbMfTRgya8NR4R2h9DNDxoo6ydchvy3F5u
+X-Google-Smtp-Source: AGHT+IEykirY9gyWc0Q9cAc6TvBa0+t0xp9ehEp+M4lSOcYK9DTE6BwXpCm/3e/UtlGIJu+qNRFaFg==
+X-Received: by 2002:a05:600c:3583:b0:418:ed13:302d with SMTP id 5b1f17b1804b1-41f723a1a0amr5612735e9.26.1715110531198;
+        Tue, 07 May 2024 12:35:31 -0700 (PDT)
+Received: from [192.168.42.69] ([85.255.235.91])
+        by smtp.gmail.com with ESMTPSA id z5-20020a05600c0a0500b0041bd85cd3f2sm20447278wmp.19.2024.05.07.12.35.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 May 2024 12:35:30 -0700 (PDT)
+Message-ID: <6a50d01a-b5b9-4699-9d58-94e5f8f81c13@gmail.com>
+Date: Tue, 7 May 2024 20:35:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DS0PR12MB8562:EE_
-X-MS-Office365-Filtering-Correlation-Id: cbf95d6c-2f81-44bc-dca5-08dc6ec9a7ee
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|1800799015|376005|7416005|366007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?N1Z2V3RXWTY4WFpYSkl2c2VvQjl3blVhS281azRoVkNwUlhsaEF6Y0pPc0lV?=
- =?utf-8?B?ODBHMGp3YzJRRWVROHU0dFhWVXExMHRGUmUrRC9pL0xQKzN3QXZYbnI3RjBP?=
- =?utf-8?B?b090M0Nad21BanZ4SGI4ME1EWjlTRWtsdW8yRkFXU2d5MkVsOXZqQk9henZV?=
- =?utf-8?B?Z1pkS0czckFkMzJaaldwdUFJVjdidndJNTJ1WXk5T1BGSjlPMnRQWW00MXVt?=
- =?utf-8?B?cUo0bjhDVWxvaTdVaVlyRTZrSXNDbXpxa3czS01kNTFpUzNIUWVpeVJSVEtY?=
- =?utf-8?B?aENvYkVENUdua3lENzc3TGMvc2pRU1A1YjhyQ0FkS012bjFiL2VvVGdZMC9t?=
- =?utf-8?B?bUI0TDhRUFVaYStCS0NXNkZBTVVHV1hTMFhZc05SUVdaSXV2WVVoRThvdWVK?=
- =?utf-8?B?VmQ3SjFsWU1FYTFtU0RJMmliUTIrZ2IvaHUxOUV5c3djWktjTDk1OXJUM0pS?=
- =?utf-8?B?bWJkaHE3cWZ1VHd0UXBBd2t2MndjMDlIa0tjYXpqbXV6UEtiQVFuQlBNS3lu?=
- =?utf-8?B?L1dhTFdOZEFVWVBrMVhSWkVQSlFrNFNNRHlhckhjZ3lLdU9neDVnLzBWZ3VJ?=
- =?utf-8?B?TTVINFVhS2tGYTcwTHJGdU4rdXM0bE9ERHlmMTdpZ3dpelY0bnUvcXdsMzlJ?=
- =?utf-8?B?T0kzeDZxc3k1RXhteGR0WjIvRnhYYkFCc1RJVUpUY2s3WDM5NElIa0xOMW5i?=
- =?utf-8?B?V3RIQkRvYlQrSDJMMERNUllYWmRpT3NLdklpYTVtVWphL3FEd2ZLSFdTZGNQ?=
- =?utf-8?B?eEU4L0tWWlZieHhYaDdFNmJtWnFQYkIvdU1mbDVpeU5peHJVRVVyZDBtQi9L?=
- =?utf-8?B?Zm9YU2xVUWVHRE0xbXRPL0ZVYTF4dGo3ZWs4b1MwK3dhMlcyNjk1a0hmNlNM?=
- =?utf-8?B?cnJadnRIRlFwbC9VaVRkOFk3OXJBbXptU1A5TS90c1ZOU0MvNkppZGt4bDRG?=
- =?utf-8?B?b0UxeThibGdyWlhZcFNLNUlycW1Vd1Q0bVVvNDhEQ0VaSFJ6cnc1cElIK2pq?=
- =?utf-8?B?TmpFVFdpMll1WUREb2lPWFl0cjJGUFNmUmNzZDVxZjZENkw1Q0tPcm5rZ2Q0?=
- =?utf-8?B?SEdpUTZnL1c4SFFHUEswVGVSQmRVZk4vR0liQ1JGcXV2TEluOUo0aFB0VXZl?=
- =?utf-8?B?YUlpZmZaZ1UwTHpNd2lOb3ZvMXBFSmtJK1ppSVV5ZnRpcUx5RnUveU93V3Vi?=
- =?utf-8?B?WjRjdWxzR3FXQ09EeG5HYlZjWkNlOW1yU3R2KzhSR3JoU0V0bXFTazZUYWV6?=
- =?utf-8?B?T3ZITTNyaldSZzRnSVBtYi9qSXhFOHYxVDNuMFVQYk5RaVcxK3VseDdoK0lx?=
- =?utf-8?B?TFUzL1RFZEhUYXNFVmhOekxlM0xaYldaMDZEOEZ3ZjJIbGpGQTQ3aXFyM3Na?=
- =?utf-8?B?S3ZXaUhvYnNKazdVTi9vSUlxVHRnZW1BVmlrYlE1YVh2Y3k1QXdVSExjUktV?=
- =?utf-8?B?VmlpUElZTE5ueXp3NGc1T3NKK3ZqR09RVWtMQ3RxMkRmQ0ppa3dhUmhveVJn?=
- =?utf-8?B?amJMUG12OCtjYlhzTU53cGo5WWFSUmFUYXROZzhWYkp4bmltVm11N2dwWk94?=
- =?utf-8?B?YU1Da2lpQ0ZvK3RQdUtPcTh6MS96b0p3a2pVZy9QYTVxQ1VsRTdOaFBLa2Vt?=
- =?utf-8?Q?eGI7UrpvUU2/6S/0n1HNjo6SZ1lrpn7EB62MM180I+sY=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(7416005)(366007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Ykk1cS9nV0FOSG40Q2FSVkJ2Z0MwUlZ5RFhReDlWOStyeWRscFhYWU10N3Y3?=
- =?utf-8?B?YUdNNXRNSC9td0Y1WU8yZ3FwTkdFNHpRZ2JWYkIrQ2F6VEtNWmpvMUJUdGFj?=
- =?utf-8?B?cTFBQXVJTU53TllrVElqVTU5d1NDM0RYa0tYQ3UrQkRUblNnSGppMTlRbkIw?=
- =?utf-8?B?b2dsQkZ0cFYvVzhKeitZN0NaK1g0SnlxUXV2ZXBQdEc3QmNTSDNBWlRsSnM3?=
- =?utf-8?B?VTlRNDVYYTRJNzZzNnZJdVFZMzAyRFFRUVcwSWNTWVVIdDc1clFOVXRSemV4?=
- =?utf-8?B?RWplZHJtR3U4Z3pzaTB6WVZTaWJSd2NmNVRjNno3bitiUFd5WUF2OE1ndmRh?=
- =?utf-8?B?eVcvOXhxTXVoUHo1TGdxeUJlUmdsNFo5RithU0hIV0lUbGhTOHBoVGtzM1F6?=
- =?utf-8?B?RFluVTNaVzVsQ1QwVy9nM1p2ckdUWkVKVm5zUzNIMXVNTU5pSEc3ZHRvQjJn?=
- =?utf-8?B?eFBGMzdUY21qZ2sxSG1hR1BNUWYzbXNMT285cGJ3US9xVkdVcEFMMmpWMVAr?=
- =?utf-8?B?SDZPNWJ2cjdZTmJGd21zd0pQSUJKOHNrSzlIbDVTMlk1Z0xDOW5LS09Sek91?=
- =?utf-8?B?TWExUWc0dm9UZzRKZUhSOVUzdUlrdFBGOEVncUM4aTY0U01Yd3lsVjJKa21X?=
- =?utf-8?B?Y0JUd0xHZ3NFZ09GeCtVYU4yKzA1L21MSkdFMjE2RStJWmc2TjFwZkM5YkJC?=
- =?utf-8?B?UTl5NWl4eFlBcUc0T1MvWUZObFdndUd0OUhkN1h0WEliUzJCMXVZQzBZRWkz?=
- =?utf-8?B?R0h6Ync2dmJWZjdMZmswN3RBZHhnemZkN2xhSE1PU0FtbnpWV3dWWGJKVHJ0?=
- =?utf-8?B?V2wxZDl0WFNKVFJRQStsRTgwUFZyY3ErVnhqb1dJQXN5LzlPMzZrdVo1K0JZ?=
- =?utf-8?B?V0xLTnYxSnpSaVcyRmRyUWZ5UEpWeXNSbW96Q2t5L2JGVGdMajc5MGY2Q0dt?=
- =?utf-8?B?cWZhejM4V0svV3pzOVNTajVrL2lzNUV1Z0NsN213TlJSMmFQZWJZR05qQWQ0?=
- =?utf-8?B?SjhjVkRYc3BkTVYrdzN0N1pwQ1pPUDQyYnN2QVd1MFV1Y2NtcmowMWxDOCtn?=
- =?utf-8?B?eWxxOGhlN1Q3TlR0ZUZZZkszT0t6MTdyRDVNL1NQaUdVdWxST0lPcTRiTFNU?=
- =?utf-8?B?aysvL2Z5Skd3Y1hEOXVBTURoWkUrZFFTbFRrS0IvWWsrVWNTNHQrSjN0L2Na?=
- =?utf-8?B?RlVTMXlaWTR0MDN2emdIazNZTDBWRUl0bVdnWnIraVEzOXZQa24zUTdhSUtU?=
- =?utf-8?B?NFBwamJFWmsrNUxONDdxQm9qcFdsdTJEU1NkdmhISUdpRmk3WG9HNmhOVEpu?=
- =?utf-8?B?OEh3b0dmdFZlaWgzQkhTa2Z4a1pCQ3hkZFExeTN4cjkzU1EraFdQWGFEbyt0?=
- =?utf-8?B?YmR2OVloQmNKUjR3dWhnL0RWKzgzdjgzTGxhTHNaWm1OVlJLSFFzVVRsOU9S?=
- =?utf-8?B?MFRmNGFDRnVtdUd2MG1ac01Tbnh0OTI5NjlFazJBMTQ0UVdGV0NuZGUrRHFN?=
- =?utf-8?B?VHl2Y2Q0dng4dzJnbURMM0w0cTdUMmJMVmpGYzZvT2xlV2VUVmYzY0kyOVJn?=
- =?utf-8?B?THVUTlU5YjNJSUk2bk9JYWNjbUVhc0RVNlpFUGRiSFlVZHdvbUcxeTVLVEJS?=
- =?utf-8?B?WHZqWGh4K2Z3ZjM2V1hnaWdkb0ZYSFFRRjRLUU5EZGs1Qi9ybklhWU5rUFZm?=
- =?utf-8?B?alhaa2JaUi8yMG5UalB3Mit2S3ZlTzRTTFVWcHRpUFJKRzRDbVhDK0tsYVhZ?=
- =?utf-8?B?TG8xbHlMa2E0M1lYQnFtWVgxcUNneTgzM3NhUlppQVNOWEZJN0lZc1QxWk9R?=
- =?utf-8?B?bVoxc09ub0J4cXBTVkFvYk5JVkxZZEFsVGNnd3p1Mm9vVU83SHM0bFJsZ0lZ?=
- =?utf-8?B?M2VPNm1nbExaV0pCbVprQzNDVjZENGdUai9WNDdUSGNZNUxFbGVmY2wwd0g2?=
- =?utf-8?B?U1d0aDh0WUg3cmJrMmVRZVR6WkhoVW5HeFN2N1FRUDN4OTRkUU1nN3B2bU9m?=
- =?utf-8?B?SEJIazRMK21wQ0dMWlBxSXFqSkMrQjkvU2xrUW5jZVZ5S0JHa2tpVUE3bWty?=
- =?utf-8?B?YmpZM2ZEVUU4WVlOQkI5WFVYOThhRks1N3RDUm05aEJRKzlQWlh5Z04xeGZS?=
- =?utf-8?Q?0Vjs=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cbf95d6c-2f81-44bc-dca5-08dc6ec9a7ee
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2024 19:12:36.6411
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: x+TYGg+zCu0ERJVtKa2ZPmwylYXhJWmy36CnJuVwWXqyg5HWcMiCatFC+5OgZ58d
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8562
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH net-next v8 02/14] net: page_pool: create hooks for
+ custom page providers
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Mina Almasry <almasrymina@google.com>,
+ Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Amritha Nambiar <amritha.nambiar@intel.com>,
+ Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+ Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+ Kaiyuan Zhang <kaiyuanz@google.com>, Christian Brauner <brauner@kernel.org>,
+ Simon Horman <horms@kernel.org>, David Howells <dhowells@redhat.com>,
+ Florian Westphal <fw@strlen.de>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
+ Arseniy Krasnov <avkrasnov@salutedevices.com>,
+ Aleksander Lobakin <aleksander.lobakin@intel.com>,
+ Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Lorenzo Bianconi <lorenzo@kernel.org>,
+ Richard Gobert <richardbgobert@gmail.com>,
+ Sridhar Samudrala <sridhar.samudrala@intel.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ Johannes Berg <johannes.berg@intel.com>, Abel Wu <wuyun.abel@bytedance.com>,
+ Breno Leitao <leitao@debian.org>, David Wei <dw@davidwei.uk>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
+References: <20240403002053.2376017-3-almasrymina@google.com>
+ <ZjH1QaSSQ98mw158@infradead.org>
+ <CAHS8izM0=xc2UhUxhnF_BixuFs5VaDV9W1jbso1K+Rg=35NzeA@mail.gmail.com>
+ <ZjjHUh1eINPg1wkn@infradead.org>
+ <20b1c2d9-0b37-414c-b348-89684c0c0998@gmail.com>
+ <20240507161857.GA4718@ziepe.ca> <ZjpVfPqGNfE5N4bl@infradead.org>
+ <CAHS8izPH+sRLSiZ7vbrNtRdHrFEf8XQ61XAyHuxRSL9Jjy8YbQ@mail.gmail.com>
+ <20240507164838.GG4718@ziepe.ca>
+ <0d5da361-cc7b-46e9-a635-9a7a4c208444@gmail.com>
+ <20240507175644.GJ4718@ziepe.ca>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20240507175644.GJ4718@ziepe.ca>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Reinette,
-
-On 5/3/24 18:30, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 3/28/2024 6:06 PM, Babu Moger wrote:
->> Add the functionality to enable/disable ABMC feature.
+On 5/7/24 18:56, Jason Gunthorpe wrote:
+> On Tue, May 07, 2024 at 06:25:52PM +0100, Pavel Begunkov wrote:
+>> On 5/7/24 17:48, Jason Gunthorpe wrote:
+>>> On Tue, May 07, 2024 at 09:42:05AM -0700, Mina Almasry wrote:
+>>>
+>>>> 1. Align with devmem TCP to use udmabuf for your io_uring memory. I
+>>>> think in the past you said it's a uapi you don't link but in the face
+>>>> of this pushback you may want to reconsider.
+>>>
+>>> dmabuf does not force a uapi, you can acquire your pages however you
+>>> want and wrap them up in a dmabuf. No uapi at all.
+>>>
+>>> The point is that dmabuf already provides ops that do basically what
+>>> is needed here. We don't need ops calling ops just because dmabuf's
+>>> ops are not understsood or not perfect. Fixup dmabuf.
 >>
->> ABMC is enabled by setting enabled bit(0) in MSR L3_QOS_EXT_CFG. When the
->> state of ABMC is changed, it must be changed to the updated value on all
->> logical processors in the QOS Domain.
+>> Those ops, for example, are used to efficiently return used buffers
+>> back to the kernel, which is uapi, I don't see how dmabuf can be
+>> fixed up to cover it.
 > 
-> This patch does much more than enable what is mentioned above. There is little
-> information about what this patch aims to accomplish. Without this it makes
-> review difficult.
+> Sure, but that doesn't mean you can't use dma buf for the other parts
+> of the flow. The per-page lifetime is a different topic than the
+> refcounting and access of the entire bulk of memory.
 
-Sure. Also I need to add details about why resctrl_arch_reset_rmid_all()
-is required. Will do.
-
-> 
->>
->> The ABMC feature details are documented in APM listed below [1].
->> [1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
->> Publication # 24593 Revision 3.41 section 19.3.3.3 Assignable Bandwidth
->> Monitoring (ABMC).
->>
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
->> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
->> ---
->> v3: No changes.
->>
->> v2: Few text changes in commit message.
->> ---
->>  arch/x86/include/asm/msr-index.h       |  1 +
->>  arch/x86/kernel/cpu/resctrl/internal.h | 12 ++++
->>  arch/x86/kernel/cpu/resctrl/rdtgroup.c | 76 +++++++++++++++++++++++++-
->>  3 files changed, 88 insertions(+), 1 deletion(-)
->>
->> diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
->> index 05956bd8bacf..f16ee50b1a23 100644
->> --- a/arch/x86/include/asm/msr-index.h
->> +++ b/arch/x86/include/asm/msr-index.h
->> @@ -1165,6 +1165,7 @@
->>  #define MSR_IA32_MBA_BW_BASE		0xc0000200
->>  #define MSR_IA32_SMBA_BW_BASE		0xc0000280
->>  #define MSR_IA32_EVT_CFG_BASE		0xc0000400
->> +#define MSR_IA32_L3_QOS_EXT_CFG		0xc00003ff
->>  
->>  /* MSR_IA32_VMX_MISC bits */
->>  #define MSR_IA32_VMX_MISC_INTEL_PT                 (1ULL << 14)
->> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
->> index 722388621403..8238ee437369 100644
->> --- a/arch/x86/kernel/cpu/resctrl/internal.h
->> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
->> @@ -96,6 +96,9 @@ cpumask_any_housekeeping(const struct cpumask *mask, int exclude_cpu)
->>  	return cpu;
->>  }
->>  
->> +/* ABMC ENABLE */
-> 
-> Can this comment be made more useful?
-
-How about?
-/* Setting bit 0 in L3_QOS_EXT_CFG enables ABMC features */
-
-Or I can remove it totally.
-
-> 
->> +#define ABMC_ENABLE			BIT(0)
->> +
->>  struct rdt_fs_context {
->>  	struct kernfs_fs_context	kfc;
->>  	bool				enable_cdpl2;
->> @@ -433,6 +436,7 @@ struct rdt_parse_data {
->>   * @mbm_cfg_mask:	Bandwidth sources that can be tracked when Bandwidth
->>   *			Monitoring Event Configuration (BMEC) is supported.
->>   * @cdp_enabled:	CDP state of this resource
->> + * @abmc_enabled:	ABMC feature is enabled
->>   *
->>   * Members of this structure are either private to the architecture
->>   * e.g. mbm_width, or accessed via helpers that provide abstraction. e.g.
->> @@ -448,6 +452,7 @@ struct rdt_hw_resource {
->>  	unsigned int		mbm_width;
->>  	unsigned int		mbm_cfg_mask;
->>  	bool			cdp_enabled;
->> +	bool			abmc_enabled;
->>  };
->>  
->>  static inline struct rdt_hw_resource *resctrl_to_arch_res(struct rdt_resource *r)
->> @@ -491,6 +496,13 @@ static inline bool resctrl_arch_get_cdp_enabled(enum resctrl_res_level l)
->>  
->>  int resctrl_arch_set_cdp_enabled(enum resctrl_res_level l, bool enable);
->>  
->> +static inline bool resctrl_arch_get_abmc_enabled(enum resctrl_res_level l)
->> +{
->> +	return rdt_resources_all[l].abmc_enabled;
->> +}
->> +
->> +int resctrl_arch_set_abmc_enabled(enum resctrl_res_level l, bool enable);
->> +
->>  /*
->>   * To return the common struct rdt_resource, which is contained in struct
->>   * rdt_hw_resource, walk the resctrl member of struct rdt_hw_resource.
->> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> index 05f551bc316e..f49073c86884 100644
->> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> @@ -850,9 +850,15 @@ static int rdtgroup_mbm_assign_show(struct kernfs_open_file *of,
->>  				    struct seq_file *s, void *v)
->>  {
->>  	struct rdt_resource *r = of->kn->parent->priv;
->> +	struct rdt_hw_resource *hw_res = resctrl_to_arch_res(r);
->>  
->> -	if (r->mbm_assign_capable)
->> +	if (r->mbm_assign_capable && hw_res->abmc_enabled) {
->> +		seq_puts(s, "[abmc]\n");
->> +		seq_puts(s, "legacy_mbm\n");
->> +	} else if (r->mbm_assign_capable) {
->>  		seq_puts(s, "abmc\n");
->> +		seq_puts(s, "[legacy_mbm]\n");
->> +	}
->>  
->>  	return 0;
->>  }
->> @@ -2433,6 +2439,74 @@ int resctrl_arch_set_cdp_enabled(enum resctrl_res_level l, bool enable)
->>  	return 0;
->>  }
->>  
->> +static void resctrl_abmc_msrwrite(void *arg)
->> +{
->> +	bool *enable = arg;
->> +	u64 msrval;
->> +
->> +	rdmsrl(MSR_IA32_L3_QOS_EXT_CFG, msrval);
->> +
->> +	if (*enable)
->> +		msrval |= ABMC_ENABLE;
->> +	else
->> +		msrval &= ~ABMC_ENABLE;
->> +
->> +	wrmsrl(MSR_IA32_L3_QOS_EXT_CFG, msrval);
->> +}
->> +
->> +static int resctrl_abmc_setup(enum resctrl_res_level l, bool enable)
->> +{
->> +	struct rdt_resource *r = &rdt_resources_all[l].r_resctrl;
->> +	struct rdt_domain *d;
->> +
->> +	/* Update QOS_CFG MSR on all the CPUs in cpu_mask */
-> 
-> "all the CPUs in cpu_mask" -> "all the CPUs associated with the resource"?
-
-Sure.
-
-> 
->> +	list_for_each_entry(d, &r->domains, list) {
->> +		on_each_cpu_mask(&d->cpu_mask, resctrl_abmc_msrwrite, &enable, 1);
->> +		resctrl_arch_reset_rmid_all(r, d);
-> 
-> Could the changelog please explain why this is needed and what the impact of
-> this is?
-
-Sure.
-
-> 
->> +	}
->> +
->> +	return 0;
->> +}
-> 
-> I think the naming can be changed to make these easier to understand. For example,
-> resctrl_abmc_msrwrite() -> resctrl_abmc_set_one()
-> resctrl_abmc_setup() -> resctrl_abmc_set_all()
-
-Sure.
-
-> 
->> +
->> +static int resctrl_abmc_enable(enum resctrl_res_level l)
->> +{
->> +	struct rdt_hw_resource *hw_res = &rdt_resources_all[l];
->> +	int ret = 0;
->> +
->> +	if (!hw_res->abmc_enabled) {
->> +		ret = resctrl_abmc_setup(l, true);
->> +		if (!ret)
->> +			hw_res->abmc_enabled = true;
->> +	}
->> +
->> +	return ret;
->> +}
->> +
->> +static void resctrl_abmc_disable(enum resctrl_res_level l)
->> +{
->> +	struct rdt_hw_resource *hw_res = &rdt_resources_all[l];
->> +
->> +	if (hw_res->abmc_enabled) {
->> +		resctrl_abmc_setup(l, false);
->> +		hw_res->abmc_enabled = false;
->> +	}
->> +}
->> +
->> +int resctrl_arch_set_abmc_enabled(enum resctrl_res_level l, bool enable)
->> +{
->> +	struct rdt_hw_resource *hw_res = &rdt_resources_all[l];
->> +
->> +	if (!hw_res->r_resctrl.mbm_assign_capable)
->> +		return -EINVAL;
->> +
->> +	if (enable)
->> +		return resctrl_abmc_enable(l);
->> +
->> +	resctrl_abmc_disable(l);
->> +
->> +	return 0;
->> +}
-> 
-> Why is resctrl_arch_set_abmc_enabled() necessary? It seem to add an unnecessary
-> layer of abstraction.
-> 
-
-I feel it is better to keep it that way. It is consistent with definition
-of resctrl_arch_set_cdp_enabled. It handles both enable and disable.
-Otherwise we have add those checks from the caller.
+Ok, so if we're leaving uapi (and ops) and keep per page/sub-buffer as
+is, the rest is resolving uptr -> pages, and passing it to page pool in
+a convenient to page pool format (net_iov). I don't see how dmabuf would
+help here. Adding dmabuf in the middle (internally wrapping pages) would
+add more setup code with the same final result, that is a format that
+page pool can work with. And for io_uring it's normal user memory. We'll
+have to use dmabuf when we'd want to extend to peer-to-peer and all that
+fun, but that's a small fraction of it, and we'll hopefully reuse some
+setup helpers from devmem tcp.
 
 -- 
-Thanks
-Babu Moger
+Pavel Begunkov
