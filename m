@@ -1,175 +1,205 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11010000.outbound.protection.outlook.com [52.101.229.0])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073E751010;
-	Tue,  7 May 2024 03:28:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715052511; cv=none; b=beZP7sJVLx7UkQ5CNm0NtQM3oxxUFz/l7CHhL/gCO4fzMk2SxUx8wqV/CKTTT0Y1we7tvzQ7TIIxPq/fL7XWUk2vL0z1/l3rB8wUClMxc+wrcTMMPk2coIFITWH+mX+TernWCSkRmsMeeHVSQ9ZVEO3QxIZoxBqwfPeGvbczQZQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715052511; c=relaxed/simple;
-	bh=RJFOiqz4QzNMe5fUaO49lQKw+BLYKHJV5ZAJCUpwMoU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Niciju62KqKrFDIRM7OE43uCEauU4nyjvf6ti8pEQnGwQmfG1M/u4PdVB/LtT9s94NoX/buLiG/2Kob9AHRjnArfIydNWc5HIUxGUOU67Z967KW6qjjtsf0Nn/kBdyvOsjR4nKyXhN7geWsZQUqTi0vyfonjF2mBDWl3xga7rE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SuczOKv2; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 207B579CF;
+	Tue,  7 May 2024 04:32:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.0
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715056370; cv=fail; b=b9/khvRcvMKqezfphr9XPwSu5j1TKhXs83Kh6BkD4SrAYmp7iC4m42tXKai7Ac/TW/gcSmrVmbIiAd/i+UJdflEOqVoThl5n+b5Vda3WlPenhpYDgvsOCmeSOhPqmZfsacbV+oI5s4Cemnu7YB+UwiJ5xTOh06BP49jv9lpXdLE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715056370; c=relaxed/simple;
+	bh=zPloEHG8cVxN6AZN9hG0OOlwFHMYH0H4VX0YcD8JoSI=;
+	h=Message-ID:To:From:Subject:Content-Type:Date:MIME-Version; b=iNFoh4NIngPchIU39f360n9isINFVzZkS8w1gu4cWbaAJyPqQdq8gIsP8bt3AownJqzl1lqL+tKqNinIioAkjXnbqIFMkK6+fAqo2i8VERFkri2UYx7vYVi8XKcOnUbUTHtiAjwoq+uopMHjpHjSChNlTCf5DPKarIAtKCyl/uU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=eJf4M5u2; arc=fail smtp.client-ip=52.101.229.0
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SuczOKv2"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1ed41eb3382so19917215ad.0;
-        Mon, 06 May 2024 20:28:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715052509; x=1715657309; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SO4svkG2NjlN6TUmciRZsz/RMioTaNbu5km5tihixL8=;
-        b=SuczOKv2EEwxVN3jnA//e3vuukpTB1USQJtZo4DxwPcyfrlaBVj3P9T6+nfeZ6qUEl
-         Vj3gnX+nVa7p3/iXtzlzr9Erq6uaXUsWYeeid6esYR8dFG+xrgltIviI6j2dUlhgbULN
-         I2dvEO5PiI/0fZuUqj3SWxb+sPhvPj68u7QdqnX65hdUkll37hAKV2b4KXeQnuWzOZQi
-         5JK/XYRB9H8LzsPKx2TBJW+s+GLkpcyUngvrKcfnS0fZyX/ezpgZFGLWmx2iQaJ9/Uz4
-         6XOPVnKS3RO6nnVMtKm2NV3S5Vwa/mGcDP81TqycSOZEjb6A5xxE5KKK+ty6R8ks+3Xr
-         Wedw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715052509; x=1715657309;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SO4svkG2NjlN6TUmciRZsz/RMioTaNbu5km5tihixL8=;
-        b=mzhRaH1sD7kUJvx47yWuZonuKWeX2TTYbZqE5nwR3dgbL7u4OCAh5A/FENnSfpr9A6
-         YxM3CtMfFKhZJ6C9BD9FXq7wR9hyQ1dA2TdUY/b4yJB9k5s6m2Ge4Dws9xh6h4xsIwxH
-         DtuVWAAhq0G7AdS7FhEpuo0BYhZGwZnAGpRiUxzAf64nGaahxoGBl4Yy21TWsyzxFkJR
-         JdiOoeLJGenzR3AgO3LnuAg82KxigF8uiO6/qVZY286aK5R2LFUFrGY8Nyr353eiOwfv
-         rL5UOlM1bXgPRdEKugZ90d1yLyxWapNoKSuxCSEWTYGi5/RMdc7lH/SKGe2q9SLMyTEO
-         p9FQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVrLlM/yooDDVkw17FHtsjElqCdjCJtf84XSq04lfUFYSVRxMm8PPNgQt6sOl6RwD+1PwSx8Rb95c8LV8+JyOLpp5Ya9K76o4x19kknXod0R/JXaY4yiqFjcdq9Rn/zlxZmKIw2oolgXR+JqBSnAiED5KKJNfNuffrDBRE2Tax5/MaM
-X-Gm-Message-State: AOJu0Yy2+hja8Ml+JCw67Rm1Ig4gW3QJSUufZhcuXxPXwXStMxxO70tu
-	Qvf/JZ2Ssbbow+/ZTqEo8MlzFFaEmyEUrUB2rVMV06mzo5IOaYF4
-X-Google-Smtp-Source: AGHT+IG3qDqL1LI9mMmJY13LJ3nnxFJ9FUPUeAEV+FMwxCHYwOzUfyhz2TCvIPCdZnfdRqvb8d6a8A==
-X-Received: by 2002:a17:902:e5c7:b0:1e8:92:c5e2 with SMTP id u7-20020a170902e5c700b001e80092c5e2mr16956588plf.47.1715052509309;
-        Mon, 06 May 2024 20:28:29 -0700 (PDT)
-Received: from localhost.localdomain ([2407:7000:8942:5500:aaa1:59ff:fe57:eb97])
-        by smtp.gmail.com with ESMTPSA id p16-20020a170902ebd000b001ebd7bdaaffsm8988409plg.288.2024.05.06.20.28.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 May 2024 20:28:28 -0700 (PDT)
-From: Barry Song <21cnbao@gmail.com>
-To: akpm@linux-foundation.org,
-	linux-doc@vger.kernel.org
-Cc: apw@canonical.com,
-	broonie@kernel.org,
-	chenhuacai@loongson.cn,
-	chris@zankel.net,
-	corbet@lwn.net,
-	dwaipayanray1@gmail.com,
-	herbert@gondor.apana.org.au,
-	joe@perches.com,
-	linux-kernel@vger.kernel.org,
-	linux@roeck-us.net,
-	lukas.bulwahn@gmail.com,
-	mac.xxn@outlook.com,
-	sfr@canb.auug.org.au,
-	v-songbaohua@oppo.com,
-	workflows@vger.kernel.org,
-	Max Filippov <jcmvbkbc@gmail.com>,
-	Jeff Johnson <quic_jjohnson@quicinc.com>,
-	Charlemagne Lasse <charlemagnelasse@gmail.com>
-Subject: [PATCH v7 2/2] scripts: checkpatch: check unused parameters for function-like macro
-Date: Tue,  7 May 2024 15:27:57 +1200
-Message-Id: <20240507032757.146386-3-21cnbao@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240507032757.146386-1-21cnbao@gmail.com>
-References: <20240507032757.146386-1-21cnbao@gmail.com>
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="eJf4M5u2"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BrXKPYIKECvIXYKXRVR8jEDm/2yQ04NZe5iE6yDjzyAdif8FP0qNEBT774yXf7Tdb+ibERd4p567lQPlevvQFSG1+spnPbtokl1xnrgVL29PiwyqPjwQNbPWjb74s+9BAqRA3rCbRboxIaQIlaxJPiTzWOFcw3a+GKE+7JaGNzl6GXf1ok4ABz84D9ZuzHIfJInCD0LSo/F8DXEtLQWUcrDLxXJQ80CPkM3snGGC7/JmRnPSDrkWgcYV0Vcz4oB0BzY4uv1FGuIruDBC6kvoeLMCDPB7up4SzHipgx/sC59Gh0Un7qYZL3X2Ng937/P1l70BKMIHoPdR3YxiGD/rPQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BFFIuhW5v5taXm5HOw962Tk3ElZwJ087+YZzDfjhOsc=;
+ b=P5kuUS5FdcS5VDlzJ44Wsj6nOdE1yn609K/6sAnGn55SeSv1+QntvqgZAT5C3e/yyBB1gf2qefp6NF4nFAe6GVk1FH7Ly97ROyxwLVXEXYlKLzuk8GxrJNmIMB86/DBE/TTs2ZRaw0vFk1oTA0kYNdVk7hJdYAcfKAa6TIk0L7sMnNGHFaaArDn2jmp7dohHZAFf84jc+RVyq0FcxaM28wKkVM/GWdg+TNJniqNiRi06FLxU1lqI4tGFup6A+oGnCz5YzDaOPsPHKbx9YNMrAgqg7UF3aNVd6ZDxnyPP5bTzsZAz5ysxvaGlvpTmN6pt00kIYuZucpsOWFbNN/cyNQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BFFIuhW5v5taXm5HOw962Tk3ElZwJ087+YZzDfjhOsc=;
+ b=eJf4M5u2tf54eeeX7tlvLCCWinyAA3vvkaeE3mQppl4GRcqLNcKSHubD4CMaeene/skzoYectcddadEXGaVGdFsbIFyFU5ZHyp5YbW+0SiUw92ZTVAIWrXy4sUYYN3DKyf2qbrLot4vGvG4c6HTKJ8qEcTFefwEZwNUrIKykFaA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by TYCPR01MB7092.jpnprd01.prod.outlook.com
+ (2603:1096:400:c3::5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.42; Tue, 7 May
+ 2024 04:32:44 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::2f40:537b:2694:7b76]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::2f40:537b:2694:7b76%7]) with mapi id 15.20.7544.041; Tue, 7 May 2024
+ 04:32:44 +0000
+Message-ID: <87wmo6dyxg.wl-kuninori.morimoto.gx@renesas.com>
+To: =?ISO-8859-2?Q?=22Amadeusz_S=B3awi=F1ski=22?=
+ <amadeuszx.slawinski@linux.intel.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>,Alper Nebi Yasak
+ <alpernebiyasak@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Banajit Goswami
+ <bgoswami@quicinc.com>, Bard Liao <yung-chuan.liao@linux.intel.com>, Brent
+ Lu <brent.lu@intel.com>, Cezary Rojewski <cezary.rojewski@intel.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>, Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>, Cristian Ciocaltea
+ <cristian.ciocaltea@collabora.com>, Daniel Baluta <daniel.baluta@nxp.com>,
+ Hans de Goede <hdegoede@redhat.com>, Jaroslav Kysela <perex@perex.cz>,
+ Jerome Brunet <jbrunet@baylibre.com>, Jiawei Wang <me@jwang.link>, Jonathan
+ Corbet <corbet@lwn.net>, Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Maso Huang <maso.huang@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, Pierre-Louis Bossart
+ <pierre-louis.bossart@linux.intel.com>, Ranjani Sridharan
+ <ranjani.sridharan@linux.intel.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>, Shengjiu Wang <shengjiu.wang@gmail.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Sylwester Nawrocki
+ <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, Vinod Koul
+ <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
+ alsa-devel@alsa-project.org, imx@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-sound@vger.kernel.org
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [PATCH 0/3] ASoC: grace time for DPCM cleanup
+User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Tue, 7 May 2024 04:32:43 +0000
+X-ClientProxiedBy: TYCP286CA0041.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:29d::16) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|TYCPR01MB7092:EE_
+X-MS-Office365-Filtering-Correlation-Id: c313d2a0-6362-4cf8-04b5-08dc6e4ebd44
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230031|7416005|366007|376005|1800799015|52116005|38350700005|921011;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?C6LDDm9bnCo883+ZSJor7MCbjwBvPYEl7Y5rKMiI/SnKdkhf2f6vUaJ6xmfW?=
+ =?us-ascii?Q?rRb9IDUOQa3wjprFxKTcvEXcM+uo+oAGpkVfnM8tp3KlanVqgTbBFFDkqs5w?=
+ =?us-ascii?Q?qvu7v5nKIubmGc+cHW6HCxgP47lxy1r1gFdk+soHNci7K6jICZ8+IaJy2COI?=
+ =?us-ascii?Q?Vnq+XDfTlNjcX8ivra4QSy+yalBr9Nq7gB1TqQzQb4ERNCiuJsz5827YYNv/?=
+ =?us-ascii?Q?0NJFUXDHKch783iHgTQgC3375EcLDvpyhJtIBX5aJyGXnS05jrp34lpg3S7K?=
+ =?us-ascii?Q?jZPhvKNXcP7h9tRCT7i4RmLcZp38OxkZlRS9ngAItbQ2kOuPp6iCBiFGSjD2?=
+ =?us-ascii?Q?vZVKC3eYHoKnBjXX1+EdHOXu4zPIfOQ1K8jOR1/g98dL4NluHHGXbXbC3oFZ?=
+ =?us-ascii?Q?gJVh9rkP8d+4UID14oRtvIegmALEn7eG3faz8w8G2E2SK9h+xUqNaSe8wf/w?=
+ =?us-ascii?Q?+UETZ54/Hw4uT6WgOutVN57cOnAjjT9lM2tXB67/XY2VSix7thJZ4g3kU7q6?=
+ =?us-ascii?Q?Pkj35GF1pwVihnPkPJJCLcJYU/obT5+jX9E+fFA5DOm2XWFBH7j3Nh/DTHsa?=
+ =?us-ascii?Q?5HNyKqp0lTEQVrUx6S+0l7KJC0AXfqp2dsbLQ+0YceRwIY5fii1/yUuvv+ef?=
+ =?us-ascii?Q?nwiCM1ZjqQfAlPaakaj0ETdsqDmusMJ3H5Ho94te7/Kn05oyVgGwo26WyrRs?=
+ =?us-ascii?Q?Uf01fv+SbuyY0FoaHfqSeI+yS3rKcQe92tEepl/jeGWCdhQpOcg0FWcmJvzM?=
+ =?us-ascii?Q?FD0+XDtpvnyC1Xyd3nbF4XjNAwRBbDGXn+4Zpv1Fbo+pURNgX4N7wuBsT3sl?=
+ =?us-ascii?Q?QsBQO3fNiF/S0xNCZEEvVOpL3r0pJ1lK7z9dgHl6m/ykMpbse/ZqYee36WNS?=
+ =?us-ascii?Q?h+NMx+DFfuyTCUjSQff7oMjjFhchL+8+1GtiyRxbp7xOPiH//kYo36ERjTNo?=
+ =?us-ascii?Q?ChK7UNESYBsTZyliigVMaPORkEFh1OPSqd7s0jluAQXzMqp4aubbX8TvCgiq?=
+ =?us-ascii?Q?6sl2iveE1eDuf6Wli2/vQ1+tfyBBcOOBaPImHnT9NBMOQcEjDBikD590dgyH?=
+ =?us-ascii?Q?9oB2L0tX0arYHC01YV1n8EkFZdxs586AvDunLGAoTJCA6JR++KaPvDyBeLrm?=
+ =?us-ascii?Q?OSPwCt1ia0KawdxXtjIeJLq+hJ9cHLNtEttQCL9EnJwAiwR1XNWrt6LYCUUA?=
+ =?us-ascii?Q?6jO7P12kiUIBeieI0eH74Q4ttKwRRIwnSpIsbXkEY/zBtCk5Yiu0K34h0aRE?=
+ =?us-ascii?Q?PKgGtY70Q1TT5hdzP7gK27cQdCbis6HiiOvrhLaazr1B/1zV3zNoPZ3bquEe?=
+ =?us-ascii?Q?LC4=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(366007)(376005)(1800799015)(52116005)(38350700005)(921011);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?vUHnQ+dAJm2DDrSNjbs9Hi8wXcpi9qcFVosIrlSIm9MkX+nvw3BdYTnnMe0c?=
+ =?us-ascii?Q?5OWSklmH9xd53QC2eGfVLuGniaFkXFOV0hHTvMaB9uzet9bvIDY6LhJYljlK?=
+ =?us-ascii?Q?tWcgyavhvYOOQ8uOdXtc5wxgrsTTwHhXo7eKooXdrDpG01ylVoyGjlQVbYq6?=
+ =?us-ascii?Q?tKfIfd0kw6h+dY5vXoexXd48bPy1cihQHYwrkJLaxkG6Ndjj+PNkX2ByWAvN?=
+ =?us-ascii?Q?jLFlma0+LJs0LNUJW2G5Of0jx/utdtuHtkQRtceqmjTv/4DvkOvG5pAFe6uw?=
+ =?us-ascii?Q?DFBVj31yixNRbnoRW9aMyioJMUwPTFWAsBpaAoLoB5oi7SLa55ViOKU5nTb0?=
+ =?us-ascii?Q?GqByNTVcUZx3wBcaziWKaClrgXxa+kasA8OPB4CLIsfJZo0HRUlGGiKLyAZM?=
+ =?us-ascii?Q?xS/smihVeKmehkOzLqz67QkcDKReR/qx8KpJQlBEBpeVq601lTZy7zVlZYqR?=
+ =?us-ascii?Q?ADump7o/w+Jh02auyNZEFf6onW3tWYbDIGA2k1ZkRUQhInqM9Q3huUDWsacO?=
+ =?us-ascii?Q?Sj2bUOwrnrDck9p0EQSEgGM0BsESJb3u6GpVQ+H8rDF+2W0sEEqRIPYknE6+?=
+ =?us-ascii?Q?2+OG08F2O3h+8kCHGWKI0kjWKb3BleTMq1WnP60GpqbwL9OFRuwmhNvsB0qJ?=
+ =?us-ascii?Q?javZRtPWvTmy/mo+5wCNh2/pvZ8+dgExaEfWIozaxWsHMcXlURxKXfupnQMB?=
+ =?us-ascii?Q?tXu/jngy3iuJfgAGxX+QmMOD2z0Mkx/ePxrxc1IFCTIEb1yq6+VsjgnO5i3s?=
+ =?us-ascii?Q?F0d29/4KImLhrF2p2IgeXkcFAvGjhIZInlCZ4RjPhk8uBNNj9IaMeQEmKqM5?=
+ =?us-ascii?Q?B8caXEx0RUWG3rkdMQACoviVDkTXstMQTyqIsX4WQOcVTHdbsDLJJEnEmp4R?=
+ =?us-ascii?Q?Hl3CGcn76IGDI91zLqfyjTxE1YJ2mBITR7+GNrQNCCf/kCp6M3Gp2jch8cek?=
+ =?us-ascii?Q?Vs9y2/T8THJKN2l0WCbzlLNzIgt+TsH/y2IAEAamYP5a1eFIiF51yp8yVATm?=
+ =?us-ascii?Q?jyamkCNRZMUF1E4Oud7WSupCr2rf+cfW7eLx2hlXrcGXmaKIG8CTUZKC59mr?=
+ =?us-ascii?Q?CLQYPwbLzCh4xI6t1O9VUFoHsoHXVtLVj1OHGKRL5VUG1NGk2ZlAJDqs2Z8D?=
+ =?us-ascii?Q?b5oVQI1mVrlaYUmikmj/UwiQP8HKiQdo0ywXUBTX9d4QOOP5grJ0+SPsAE7+?=
+ =?us-ascii?Q?S/DbRfXc7bOxvZSY9c8P4JZSclAAHjYy1ejoO7D4fO20Q+s5jiMG4q03h6VL?=
+ =?us-ascii?Q?qBJWCbXUwhNVNtWskQymNrTKvp2HOg6udKx1RF45SJkG5uCo7EQEKLLrtIkX?=
+ =?us-ascii?Q?qZrx0ifsh1UTQ0tqdksjzwEUt2fCc/iEhYysIG81Zhri2AU4x5kXPb4zApm+?=
+ =?us-ascii?Q?15t2Cwv2yWug5GzEmI87SPSJ2F8KrpGDy341xex8SC2mBRoh6sxYoHVv4K3j?=
+ =?us-ascii?Q?bQzBNt2m1bjfct5AHpDp7JRw+9lm8Xi/eUK0lKrZQB/9VXicCE8DE2htDZX0?=
+ =?us-ascii?Q?gqq34xWovStN2xRYDLEeOvG3yKC1n/S1xUO7Jni9ChUyZlWmEgk7+o2qlCzo?=
+ =?us-ascii?Q?AXMLkOASqmRjH5gwwgxn3dFWc3SecpIaL0gqP5SE0/V0EV+44o5fmmk3/LDy?=
+ =?us-ascii?Q?yDv/IfjcYpn/1CEZY1DOYdk=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c313d2a0-6362-4cf8-04b5-08dc6e4ebd44
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2024 04:32:44.3178
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xG9m9BsW6VdPyOJWGBoQEwmmKKFwQg0vJHkS8V+MXO/wiQ+RSoidfFl1QwdFBeEMNUjk3HfTCw9wy7n8HmAXmjz8v8GezegY5qJF3pJDG5LUwKO+VJ5pI4jvKk+10PHY
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB7092
 
-From: Xining Xu <mac.xxn@outlook.com>
 
-If function-like macros do not utilize a parameter, it might result in a
-build warning.  In our coding style guidelines, we advocate for utilizing
-static inline functions to replace such macros.  This patch verifies
-compliance with the new rule.
+Hi Mark, Pierre-Louis
+Cc each ASoC driver maintainer
 
-For a macro such as the one below,
+As we discussed in [1], we don't need to use dpcm_playback/capture flag,
+so we remove it. But we have been using it for 10 years, some driver might
+get damage. The most likely case is that the device/driver can use both
+playback/capture, but have only one flag, and not using xxx_only flag.
+[1/3] patch indicates warning in such case.
 
- #define test(a) do { } while (0)
+And because of its history, DPCM has been checking CPU side only. But it should
+check Codec side too same as non-DPCM. Some device/driver has been bypassed
+this check. It should be error. [2/3] patch indicates warning in such case.
 
-The test result is as follows.
+Because dpcm_xxx flag is no longer used by [1/3] patch, 
+snd_soc_dai_link_set_capabilities() is no longer needed. [3/3] patch remove it.
 
- WARNING: Argument 'a' is not used in function-like macro
- #21: FILE: mm/init-mm.c:20:
- +#define test(a) do { } while (0)
+These adds grace time for DPCM cleanup.
+I'm not sure when dpcm_xxx will be removed, and Codec check bypass will be error,
+but maybe v6.11 or v6.12 ?
+Please check each driver by that time.
 
- total: 0 errors, 1 warnings, 8 lines checked
+[1] https://lore.kernel.org/r/87edaym2cg.wl-kuninori.morimoto.gx@renesas.com
 
-Signed-off-by: Xining Xu <mac.xxn@outlook.com>
-Tested-by: Barry Song <v-songbaohua@oppo.com>
-Signed-off-by: Barry Song <v-songbaohua@oppo.com>
-Acked-by: Joe Perches <joe@perches.com>
-Cc: Chris Zankel <chris@zankel.net>
-Cc: Huacai Chen <chenhuacai@loongson.cn>
-Cc: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: Guenter Roeck <linux@roeck-us.net>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Andy Whitcroft <apw@canonical.com>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc: Max Filippov <jcmvbkbc@gmail.com>
-Cc: Jeff Johnson <quic_jjohnson@quicinc.com>
-Cc: Charlemagne Lasse <charlemagnelasse@gmail.com>
----
- Documentation/dev-tools/checkpatch.rst | 14 ++++++++++++++
- scripts/checkpatch.pl                  |  6 ++++++
- 2 files changed, 20 insertions(+)
+Kuninori Morimoto (3):
+  ASoC: soc-pcm: Indicate warning if dpcm_playback/capture were used for availability limition
+  ASoC: soc-pcm: Indicate warning if CPU / Codec availability mismatch
+  ASoC: remove snd_soc_dai_link_set_capabilities()
 
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
-index 127968995847..a9fac978a525 100644
---- a/Documentation/dev-tools/checkpatch.rst
-+++ b/Documentation/dev-tools/checkpatch.rst
-@@ -906,6 +906,20 @@ Macros, Attributes and Symbols
- 
-     See: https://lore.kernel.org/lkml/1399671106.2912.21.camel@joe-AO725/
- 
-+  **MACRO_ARG_UNUSED**
-+    If function-like macros do not utilize a parameter, it might result
-+    in a build warning. We advocate for utilizing static inline functions
-+    to replace such macros.
-+    For example, for a macro such as the one below::
-+
-+      #define test(a) do { } while (0)
-+
-+    there would be a warning like below::
-+
-+      WARNING: Argument 'a' is not used in function-like macro.
-+
-+    See: https://www.kernel.org/doc/html/latest/process/coding-style.html#macros-enums-and-rtl
-+
-   **SINGLE_STATEMENT_DO_WHILE_MACRO**
-     For the multi-statement macros, it is necessary to use the do-while
-     loop to avoid unpredictable code paths. The do-while loop helps to
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 9c4c4a61bc83..2b812210b412 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -6040,6 +6040,12 @@ sub process {
- 					CHK("MACRO_ARG_PRECEDENCE",
- 					    "Macro argument '$arg' may be better as '($arg)' to avoid precedence issues\n" . "$herectx");
- 				}
-+
-+# check if this is an unused argument
-+				if ($define_stmt !~ /\b$arg\b/) {
-+					WARN("MACRO_ARG_UNUSED",
-+					     "Argument '$arg' is not used in function-like macro\n" . "$herectx");
-+				}
- 			}
- 
- # check for macros with flow control, but without ## concatenation
+ include/sound/soc-dai.h               |  1 -
+ include/sound/soc.h                   |  1 +
+ sound/soc/fsl/imx-card.c              |  3 -
+ sound/soc/generic/audio-graph-card.c  |  2 -
+ sound/soc/generic/audio-graph-card2.c |  2 -
+ sound/soc/generic/simple-card.c       |  2 -
+ sound/soc/meson/axg-card.c            |  1 -
+ sound/soc/meson/gx-card.c             |  1 -
+ sound/soc/qcom/common.c               |  1 -
+ sound/soc/soc-dai.c                   | 38 -----------
+ sound/soc/soc-pcm.c                   | 96 ++++++++++++++++++---------
+ 11 files changed, 67 insertions(+), 81 deletions(-)
+
 -- 
-2.34.1
+2.25.1
 
