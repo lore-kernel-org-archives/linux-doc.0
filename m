@@ -1,285 +1,394 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2070.outbound.protection.outlook.com [40.107.220.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ADB416D9A7;
-	Tue,  7 May 2024 19:08:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715108932; cv=none; b=MJ3uZGqN1Z7K9sNdUiA4ygxooirqn4lNl2lxKWhjWgTtojeBCfs5PdmGzh8LobCSJtvljuOspR1fvvn3gYk5sMIzHKOvZEuUzOEK1EEstp79POlAJiHwKbz12Y1OrdlS1mKg1fYsZSwhz6T3t+nV3w4oF2Np131n439tQ7scpcE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715108932; c=relaxed/simple;
-	bh=zBtOdwwtvKm20Q77bQR/mEqpEaFtLymX61Rz+GGBf8I=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=tjQlz+pTL1MaEB5FkuoJm5HaHkcNpH2SArlLzwIrFvHkWNQJvU7h3pOkGoYVQnA1NXiJqdPUvubgiUuVzvPI1fRpPEiSUstmKRwrVz8SAW1m8pM2F/yyiAlNDTvofggCsP/iaB1QUSYX/9rI/sVwTqJdR0M0fvDv1TmFsLGZB/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MdWnk8yo; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C0F616C84E;
+	Tue,  7 May 2024 19:12:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.70
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715109160; cv=fail; b=flj3JU6gfMjYTZwrxLziF2W8GpxJuEtsPWzo3FgVUC1xcq2r25wCFQ2pKvOJq/qzbETDRRcn0rXZZrqGuzlCfxa5mFDd5Ybut+aH/wBDlO4Y3+Y0UwbWEWV0Yb9siOpz+L42OU+rHqXFG7Z2CUWb6t+PG0Vyx/F3AGUq3iP6BuQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715109160; c=relaxed/simple;
+	bh=6Xs+bog6gjNYzRNZDW+5yb4LhhXSW99tLJOL1lGUIBc=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=EAWiVbpIhti98x+AyiiV4T1jL6DAEEQUFOkFPybtsph7lUb3NpB4iu33RzRJBeftjMDp9ZprUKmDdzEbWPP28atT090h++e3yZH8VzZ6mlYBLr3vWG3dSkqKW4q7hVm1D+TuA+6AtPQ1xQ8ifsZ8lELPxwCGUxJ2dXLrqpdEoBI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=sALASOjA; arc=fail smtp.client-ip=40.107.220.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MdWnk8yo"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=zBtOdwwtvKm20Q77bQR/mEqpEaFtLymX61Rz+GGBf8I=; b=MdWnk8yoI2DOelSJXtTlIUSpzj
-	IQ3W64s3IyVTPaLMA6DEOtDjKp2/Nx8QfV7Q7H78ngnw0+FpgcJKClmwzFRSP/pdkyoIHmfSUHJR2
-	3M028WgCpRtgQELOITgr51x9myAnIGJY0sYy5bQPzHHpGvK+XeKggPfG7l9eyxxcIPEIsrCaE94OB
-	tnJwsxryJ3rdnaiyL47JuljvYXR62OJ8FuHg2yFG21qp9xkk1KdOJIOkRyIh4i51efiyypodxn702
-	KgQNwzMkoSujXejKdm8LvsJZ5GNVQ1qpQTQK1NxVA+6ZsR6XMo3dYRQOzwTicQWqXDfTzPO5ZH5UL
-	pg3GX21Q==;
-Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.ant.amazon.com)
-	by casper.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s4QB7-0000000Dsk7-40yh;
-	Tue, 07 May 2024 19:08:42 +0000
-Message-ID: <51dea3a632131d9a49af3991a633f26ce8592dd3.camel@infradead.org>
-Subject: Re: [PATCH v2 01/15] KVM: x86/xen: Do not corrupt KVM clock in
- kvm_xen_shared_info_init()
-From: David Woodhouse <dwmw2@infradead.org>
-To: Marcelo Tosatti <mtosatti@redhat.com>
-Cc: kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, Jonathan
- Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>, Thomas
- Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav
- Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, Paul Durrant
- <paul@xen.org>, Shuah Khan <shuah@kernel.org>,  linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,  linux-kselftest@vger.kernel.org, Oliver
- Upton <oliver.upton@linux.dev>,  jalliste@amazon.co.uk, sveith@amazon.de,
- zide.chen@intel.com, Dongli Zhang <dongli.zhang@oracle.com>
-Date: Tue, 07 May 2024 20:08:40 +0100
-In-Reply-To: <ZjXm9w/y3/NLCxLQ@tpad>
-References: <20240427111929.9600-1-dwmw2@infradead.org>
-	 <20240427111929.9600-2-dwmw2@infradead.org> <ZjXm9w/y3/NLCxLQ@tpad>
-Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-1MxL1pyflkVSO892kaNk"
-User-Agent: Evolution 3.44.4-0ubuntu2 
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="sALASOjA"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VRs9gb7RTIB8ZvoZ7JVCWITtTIGmHVyZecRF8D28cnuz42yWM0ceoKTpfP5o0WctpcoIuxcyO5yA2Mb463CBVVr9H1yEKSSJwLfS2+6hy6HE84GHqeH7/MDOeMxUCUdpKpPNs3KR4Z5QqqzbwEUfLK6P1nRnkbGeKBAINrMGoW9uQwSRPCLQUajPZZIklzSdgGxfioolfyyu8rZQ7qpvSQuAyXc9+KG99shsQGK4+tLHYpcvhrDwgZrNd+o0lxXAr8fFXjuZ2j7R3HN66M2gJzaBFlvXOYqxcXExE938pVNCDvnT1xmaplDcbZT1Th1WMZSHyMgIRaSpJXkHI5AAAQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=88CIg4Xi6DG17FYdEE7yLYhAsJZ4Ni+3DTKJfzeiPdc=;
+ b=SegxKMjd/5BJ6uwdmQIBlYw3PKa/lPuFgh4WpEbuD2cVaYKtBjBjNUeRYqeFrPH0hVao/5Boywb57ZP05P4Y7XLvi0Y2nGTJ5yxyh3hjcWTViFEkOg8BrvNpxzv37EwxvpoVzIAieq5XbdK2Csg8hOVgHZiBUuaXcrke9/aTmK/Q6Yr962hgKEEIF3BQqDfrKo2Di+BMTFpu0hvLjjRWZvLrLeYP7gR3ojbHbKRPLwwFSqodiZI5ZeuuC5UgvC4z8Lvhr41y5QAZlAML2+76DVocjltY+2oZhfZBk2ZlafhkFlVQyU3Aymqad5xXfysXm5rf198oB8rwTFmGFxgPTA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=88CIg4Xi6DG17FYdEE7yLYhAsJZ4Ni+3DTKJfzeiPdc=;
+ b=sALASOjA2HgoLFJPXSqTxcd8ZYjQmuw2q0aDNTvetoqyzRde6BzHzfCnq8FwoRc07ONNxR5/Y1vgmhSl8IY5mjhc6oNEPPlRPK8zM79F1LhPC+/sKmznWMqIIPnQ2TmMsMb3ic8Gfpbboux4NGI8bTgrJ5FL5rjKgCN3G6IxXtk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by DS0PR12MB8562.namprd12.prod.outlook.com (2603:10b6:8:164::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.41; Tue, 7 May
+ 2024 19:12:36 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%4]) with mapi id 15.20.7544.041; Tue, 7 May 2024
+ 19:12:36 +0000
+Message-ID: <54ec73f9-6c9e-44f4-8ee9-a683bfcee607@amd.com>
+Date: Tue, 7 May 2024 14:12:31 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [RFC PATCH v3 07/17] x86/resctrl: Add support to enable/disable
+ ABMC feature
+To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ fenghua.yu@intel.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
+ tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
+ kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
+ jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
+ rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
+ jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
+ daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
+ ilpo.jarvinen@linux.intel.com, peternewman@google.com,
+ maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
+References: <cover.1711674410.git.babu.moger@amd.com>
+ <0db75c94886da62b8da498ef159d8fe27b0b3811.1711674410.git.babu.moger@amd.com>
+ <54b1fe8f-13e5-440b-bb36-4100c1d283d0@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <54b1fe8f-13e5-440b-bb36-4100c1d283d0@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN4PR0501CA0039.namprd05.prod.outlook.com
+ (2603:10b6:803:41::16) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DS0PR12MB8562:EE_
+X-MS-Office365-Filtering-Correlation-Id: cbf95d6c-2f81-44bc-dca5-08dc6ec9a7ee
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|1800799015|376005|7416005|366007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?N1Z2V3RXWTY4WFpYSkl2c2VvQjl3blVhS281azRoVkNwUlhsaEF6Y0pPc0lV?=
+ =?utf-8?B?ODBHMGp3YzJRRWVROHU0dFhWVXExMHRGUmUrRC9pL0xQKzN3QXZYbnI3RjBP?=
+ =?utf-8?B?b090M0Nad21BanZ4SGI4ME1EWjlTRWtsdW8yRkFXU2d5MkVsOXZqQk9henZV?=
+ =?utf-8?B?Z1pkS0czckFkMzJaaldwdUFJVjdidndJNTJ1WXk5T1BGSjlPMnRQWW00MXVt?=
+ =?utf-8?B?cUo0bjhDVWxvaTdVaVlyRTZrSXNDbXpxa3czS01kNTFpUzNIUWVpeVJSVEtY?=
+ =?utf-8?B?aENvYkVENUdua3lENzc3TGMvc2pRU1A1YjhyQ0FkS012bjFiL2VvVGdZMC9t?=
+ =?utf-8?B?bUI0TDhRUFVaYStCS0NXNkZBTVVHV1hTMFhZc05SUVdaSXV2WVVoRThvdWVK?=
+ =?utf-8?B?VmQ3SjFsWU1FYTFtU0RJMmliUTIrZ2IvaHUxOUV5c3djWktjTDk1OXJUM0pS?=
+ =?utf-8?B?bWJkaHE3cWZ1VHd0UXBBd2t2MndjMDlIa0tjYXpqbXV6UEtiQVFuQlBNS3lu?=
+ =?utf-8?B?L1dhTFdOZEFVWVBrMVhSWkVQSlFrNFNNRHlhckhjZ3lLdU9neDVnLzBWZ3VJ?=
+ =?utf-8?B?TTVINFVhS2tGYTcwTHJGdU4rdXM0bE9ERHlmMTdpZ3dpelY0bnUvcXdsMzlJ?=
+ =?utf-8?B?T0kzeDZxc3k1RXhteGR0WjIvRnhYYkFCc1RJVUpUY2s3WDM5NElIa0xOMW5i?=
+ =?utf-8?B?V3RIQkRvYlQrSDJMMERNUllYWmRpT3NLdklpYTVtVWphL3FEd2ZLSFdTZGNQ?=
+ =?utf-8?B?eEU4L0tWWlZieHhYaDdFNmJtWnFQYkIvdU1mbDVpeU5peHJVRVVyZDBtQi9L?=
+ =?utf-8?B?Zm9YU2xVUWVHRE0xbXRPL0ZVYTF4dGo3ZWs4b1MwK3dhMlcyNjk1a0hmNlNM?=
+ =?utf-8?B?cnJadnRIRlFwbC9VaVRkOFk3OXJBbXptU1A5TS90c1ZOU0MvNkppZGt4bDRG?=
+ =?utf-8?B?b0UxeThibGdyWlhZcFNLNUlycW1Vd1Q0bVVvNDhEQ0VaSFJ6cnc1cElIK2pq?=
+ =?utf-8?B?TmpFVFdpMll1WUREb2lPWFl0cjJGUFNmUmNzZDVxZjZENkw1Q0tPcm5rZ2Q0?=
+ =?utf-8?B?SEdpUTZnL1c4SFFHUEswVGVSQmRVZk4vR0liQ1JGcXV2TEluOUo0aFB0VXZl?=
+ =?utf-8?B?YUlpZmZaZ1UwTHpNd2lOb3ZvMXBFSmtJK1ppSVV5ZnRpcUx5RnUveU93V3Vi?=
+ =?utf-8?B?WjRjdWxzR3FXQ09EeG5HYlZjWkNlOW1yU3R2KzhSR3JoU0V0bXFTazZUYWV6?=
+ =?utf-8?B?T3ZITTNyaldSZzRnSVBtYi9qSXhFOHYxVDNuMFVQYk5RaVcxK3VseDdoK0lx?=
+ =?utf-8?B?TFUzL1RFZEhUYXNFVmhOekxlM0xaYldaMDZEOEZ3ZjJIbGpGQTQ3aXFyM3Na?=
+ =?utf-8?B?S3ZXaUhvYnNKazdVTi9vSUlxVHRnZW1BVmlrYlE1YVh2Y3k1QXdVSExjUktV?=
+ =?utf-8?B?VmlpUElZTE5ueXp3NGc1T3NKK3ZqR09RVWtMQ3RxMkRmQ0ppa3dhUmhveVJn?=
+ =?utf-8?B?amJMUG12OCtjYlhzTU53cGo5WWFSUmFUYXROZzhWYkp4bmltVm11N2dwWk94?=
+ =?utf-8?B?YU1Da2lpQ0ZvK3RQdUtPcTh6MS96b0p3a2pVZy9QYTVxQ1VsRTdOaFBLa2Vt?=
+ =?utf-8?Q?eGI7UrpvUU2/6S/0n1HNjo6SZ1lrpn7EB62MM180I+sY=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(7416005)(366007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Ykk1cS9nV0FOSG40Q2FSVkJ2Z0MwUlZ5RFhReDlWOStyeWRscFhYWU10N3Y3?=
+ =?utf-8?B?YUdNNXRNSC9td0Y1WU8yZ3FwTkdFNHpRZ2JWYkIrQ2F6VEtNWmpvMUJUdGFj?=
+ =?utf-8?B?cTFBQXVJTU53TllrVElqVTU5d1NDM0RYa0tYQ3UrQkRUblNnSGppMTlRbkIw?=
+ =?utf-8?B?b2dsQkZ0cFYvVzhKeitZN0NaK1g0SnlxUXV2ZXBQdEc3QmNTSDNBWlRsSnM3?=
+ =?utf-8?B?VTlRNDVYYTRJNzZzNnZJdVFZMzAyRFFRUVcwSWNTWVVIdDc1clFOVXRSemV4?=
+ =?utf-8?B?RWplZHJtR3U4Z3pzaTB6WVZTaWJSd2NmNVRjNno3bitiUFd5WUF2OE1ndmRh?=
+ =?utf-8?B?eVcvOXhxTXVoUHo1TGdxeUJlUmdsNFo5RithU0hIV0lUbGhTOHBoVGtzM1F6?=
+ =?utf-8?B?RFluVTNaVzVsQ1QwVy9nM1p2ckdUWkVKVm5zUzNIMXVNTU5pSEc3ZHRvQjJn?=
+ =?utf-8?B?eFBGMzdUY21qZ2sxSG1hR1BNUWYzbXNMT285cGJ3US9xVkdVcEFMMmpWMVAr?=
+ =?utf-8?B?SDZPNWJ2cjdZTmJGd21zd0pQSUJKOHNrSzlIbDVTMlk1Z0xDOW5LS09Sek91?=
+ =?utf-8?B?TWExUWc0dm9UZzRKZUhSOVUzdUlrdFBGOEVncUM4aTY0U01Yd3lsVjJKa21X?=
+ =?utf-8?B?Y0JUd0xHZ3NFZ09GeCtVYU4yKzA1L21MSkdFMjE2RStJWmc2TjFwZkM5YkJC?=
+ =?utf-8?B?UTl5NWl4eFlBcUc0T1MvWUZObFdndUd0OUhkN1h0WEliUzJCMXVZQzBZRWkz?=
+ =?utf-8?B?R0h6Ync2dmJWZjdMZmswN3RBZHhnemZkN2xhSE1PU0FtbnpWV3dWWGJKVHJ0?=
+ =?utf-8?B?V2wxZDl0WFNKVFJRQStsRTgwUFZyY3ErVnhqb1dJQXN5LzlPMzZrdVo1K0JZ?=
+ =?utf-8?B?V0xLTnYxSnpSaVcyRmRyUWZ5UEpWeXNSbW96Q2t5L2JGVGdMajc5MGY2Q0dt?=
+ =?utf-8?B?cWZhejM4V0svV3pzOVNTajVrL2lzNUV1Z0NsN213TlJSMmFQZWJZR05qQWQ0?=
+ =?utf-8?B?SjhjVkRYc3BkTVYrdzN0N1pwQ1pPUDQyYnN2QVd1MFV1Y2NtcmowMWxDOCtn?=
+ =?utf-8?B?eWxxOGhlN1Q3TlR0ZUZZZkszT0t6MTdyRDVNL1NQaUdVdWxST0lPcTRiTFNU?=
+ =?utf-8?B?aysvL2Z5Skd3Y1hEOXVBTURoWkUrZFFTbFRrS0IvWWsrVWNTNHQrSjN0L2Na?=
+ =?utf-8?B?RlVTMXlaWTR0MDN2emdIazNZTDBWRUl0bVdnWnIraVEzOXZQa24zUTdhSUtU?=
+ =?utf-8?B?NFBwamJFWmsrNUxONDdxQm9qcFdsdTJEU1NkdmhISUdpRmk3WG9HNmhOVEpu?=
+ =?utf-8?B?OEh3b0dmdFZlaWgzQkhTa2Z4a1pCQ3hkZFExeTN4cjkzU1EraFdQWGFEbyt0?=
+ =?utf-8?B?YmR2OVloQmNKUjR3dWhnL0RWKzgzdjgzTGxhTHNaWm1OVlJLSFFzVVRsOU9S?=
+ =?utf-8?B?MFRmNGFDRnVtdUd2MG1ac01Tbnh0OTI5NjlFazJBMTQ0UVdGV0NuZGUrRHFN?=
+ =?utf-8?B?VHl2Y2Q0dng4dzJnbURMM0w0cTdUMmJMVmpGYzZvT2xlV2VUVmYzY0kyOVJn?=
+ =?utf-8?B?THVUTlU5YjNJSUk2bk9JYWNjbUVhc0RVNlpFUGRiSFlVZHdvbUcxeTVLVEJS?=
+ =?utf-8?B?WHZqWGh4K2Z3ZjM2V1hnaWdkb0ZYSFFRRjRLUU5EZGs1Qi9ybklhWU5rUFZm?=
+ =?utf-8?B?alhaa2JaUi8yMG5UalB3Mit2S3ZlTzRTTFVWcHRpUFJKRzRDbVhDK0tsYVhZ?=
+ =?utf-8?B?TG8xbHlMa2E0M1lYQnFtWVgxcUNneTgzM3NhUlppQVNOWEZJN0lZc1QxWk9R?=
+ =?utf-8?B?bVoxc09ub0J4cXBTVkFvYk5JVkxZZEFsVGNnd3p1Mm9vVU83SHM0bFJsZ0lZ?=
+ =?utf-8?B?M2VPNm1nbExaV0pCbVprQzNDVjZENGdUai9WNDdUSGNZNUxFbGVmY2wwd0g2?=
+ =?utf-8?B?U1d0aDh0WUg3cmJrMmVRZVR6WkhoVW5HeFN2N1FRUDN4OTRkUU1nN3B2bU9m?=
+ =?utf-8?B?SEJIazRMK21wQ0dMWlBxSXFqSkMrQjkvU2xrUW5jZVZ5S0JHa2tpVUE3bWty?=
+ =?utf-8?B?YmpZM2ZEVUU4WVlOQkI5WFVYOThhRks1N3RDUm05aEJRKzlQWlh5Z04xeGZS?=
+ =?utf-8?Q?0Vjs=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cbf95d6c-2f81-44bc-dca5-08dc6ec9a7ee
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2024 19:12:36.6411
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: x+TYGg+zCu0ERJVtKa2ZPmwylYXhJWmy36CnJuVwWXqyg5HWcMiCatFC+5OgZ58d
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8562
 
+Hi Reinette,
 
---=-1MxL1pyflkVSO892kaNk
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 5/3/24 18:30, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 3/28/2024 6:06 PM, Babu Moger wrote:
+>> Add the functionality to enable/disable ABMC feature.
+>>
+>> ABMC is enabled by setting enabled bit(0) in MSR L3_QOS_EXT_CFG. When the
+>> state of ABMC is changed, it must be changed to the updated value on all
+>> logical processors in the QOS Domain.
+> 
+> This patch does much more than enable what is mentioned above. There is little
+> information about what this patch aims to accomplish. Without this it makes
+> review difficult.
 
-On Sat, 2024-05-04 at 04:42 -0300, Marcelo Tosatti wrote:
-> On Sat, Apr 27, 2024 at 12:04:58PM +0100, David Woodhouse wrote:
-> >=20
-> > In particular, KVM_REQ_MASTERCLOCK_UPDATE will take a new snapshot of
-> > time as the reference in master_kernel_ns and master_cycle_now, yanking
-> > the guest's clock back to match definition A at that moment.
->=20
-> KVM_REQ_MASTERCLOCK_UPDATE stops the vcpus because:
+Sure. Also I need to add details about why resctrl_arch_reset_rmid_all()
+is required. Will do.
 
-Took me a while to work that one out, btw. The fact that the=C2=A0
-KVM_REQ_MCLOCK_INPROGRESS request is asserted but never actually
-*handled*, so all it does is repeatedly kick the vCPU out and make it
-spin until the request is cleared is... interesting. Likewise the way
-that we set KVM_REQ_MASTERCLOCK_UPDATE on *all* vCPUs, so they *all*
-call kvm_update_masterclock(), when only one of them needed to. I may
-clean that up a little.
+> 
+>>
+>> The ABMC feature details are documented in APM listed below [1].
+>> [1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
+>> Publication # 24593 Revision 3.41 section 19.3.3.3 Assignable Bandwidth
+>> Monitoring (ABMC).
+>>
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
+>> ---
+>> v3: No changes.
+>>
+>> v2: Few text changes in commit message.
+>> ---
+>>  arch/x86/include/asm/msr-index.h       |  1 +
+>>  arch/x86/kernel/cpu/resctrl/internal.h | 12 ++++
+>>  arch/x86/kernel/cpu/resctrl/rdtgroup.c | 76 +++++++++++++++++++++++++-
+>>  3 files changed, 88 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
+>> index 05956bd8bacf..f16ee50b1a23 100644
+>> --- a/arch/x86/include/asm/msr-index.h
+>> +++ b/arch/x86/include/asm/msr-index.h
+>> @@ -1165,6 +1165,7 @@
+>>  #define MSR_IA32_MBA_BW_BASE		0xc0000200
+>>  #define MSR_IA32_SMBA_BW_BASE		0xc0000280
+>>  #define MSR_IA32_EVT_CFG_BASE		0xc0000400
+>> +#define MSR_IA32_L3_QOS_EXT_CFG		0xc00003ff
+>>  
+>>  /* MSR_IA32_VMX_MISC bits */
+>>  #define MSR_IA32_VMX_MISC_INTEL_PT                 (1ULL << 14)
+>> diff --git a/arch/x86/kernel/cpu/resctrl/internal.h b/arch/x86/kernel/cpu/resctrl/internal.h
+>> index 722388621403..8238ee437369 100644
+>> --- a/arch/x86/kernel/cpu/resctrl/internal.h
+>> +++ b/arch/x86/kernel/cpu/resctrl/internal.h
+>> @@ -96,6 +96,9 @@ cpumask_any_housekeeping(const struct cpumask *mask, int exclude_cpu)
+>>  	return cpu;
+>>  }
+>>  
+>> +/* ABMC ENABLE */
+> 
+> Can this comment be made more useful?
 
-> =C2=A0* To avoid that problem, do not allow visibility of distinct
-> =C2=A0* system_timestamp/tsc_timestamp values simultaneously: use a maste=
-r
-> =C2=A0* copy of host monotonic time values. Update that master copy
-> =C2=A0* in lockstep.
+How about?
+/* Setting bit 0 in L3_QOS_EXT_CFG enables ABMC features */
 
-Right. That comment is a lot longer than the part you cited here, and
-starts with 'assuming a stable TSC across pCPUS, and a stable TSC
-across vCPUs'. It's the "if (ka->use_master_clock)" case.
+Or I can remove it totally.
 
-And yes, what it's basically saying is a special case of the fact that
-if you let the KVM clock run at its "natural" rate based on the guest
-TSC (definition B), but each vCPU runs at that rate from a *different*
-point on the line that is definition A (the host CLOCK_MONOTONIC_RAW),
-bad things will happen.
+> 
+>> +#define ABMC_ENABLE			BIT(0)
+>> +
+>>  struct rdt_fs_context {
+>>  	struct kernfs_fs_context	kfc;
+>>  	bool				enable_cdpl2;
+>> @@ -433,6 +436,7 @@ struct rdt_parse_data {
+>>   * @mbm_cfg_mask:	Bandwidth sources that can be tracked when Bandwidth
+>>   *			Monitoring Event Configuration (BMEC) is supported.
+>>   * @cdp_enabled:	CDP state of this resource
+>> + * @abmc_enabled:	ABMC feature is enabled
+>>   *
+>>   * Members of this structure are either private to the architecture
+>>   * e.g. mbm_width, or accessed via helpers that provide abstraction. e.g.
+>> @@ -448,6 +452,7 @@ struct rdt_hw_resource {
+>>  	unsigned int		mbm_width;
+>>  	unsigned int		mbm_cfg_mask;
+>>  	bool			cdp_enabled;
+>> +	bool			abmc_enabled;
+>>  };
+>>  
+>>  static inline struct rdt_hw_resource *resctrl_to_arch_res(struct rdt_resource *r)
+>> @@ -491,6 +496,13 @@ static inline bool resctrl_arch_get_cdp_enabled(enum resctrl_res_level l)
+>>  
+>>  int resctrl_arch_set_cdp_enabled(enum resctrl_res_level l, bool enable);
+>>  
+>> +static inline bool resctrl_arch_get_abmc_enabled(enum resctrl_res_level l)
+>> +{
+>> +	return rdt_resources_all[l].abmc_enabled;
+>> +}
+>> +
+>> +int resctrl_arch_set_abmc_enabled(enum resctrl_res_level l, bool enable);
+>> +
+>>  /*
+>>   * To return the common struct rdt_resource, which is contained in struct
+>>   * rdt_hw_resource, walk the resctrl member of struct rdt_hw_resource.
+>> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>> index 05f551bc316e..f49073c86884 100644
+>> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+>> @@ -850,9 +850,15 @@ static int rdtgroup_mbm_assign_show(struct kernfs_open_file *of,
+>>  				    struct seq_file *s, void *v)
+>>  {
+>>  	struct rdt_resource *r = of->kn->parent->priv;
+>> +	struct rdt_hw_resource *hw_res = resctrl_to_arch_res(r);
+>>  
+>> -	if (r->mbm_assign_capable)
+>> +	if (r->mbm_assign_capable && hw_res->abmc_enabled) {
+>> +		seq_puts(s, "[abmc]\n");
+>> +		seq_puts(s, "legacy_mbm\n");
+>> +	} else if (r->mbm_assign_capable) {
+>>  		seq_puts(s, "abmc\n");
+>> +		seq_puts(s, "[legacy_mbm]\n");
+>> +	}
+>>  
+>>  	return 0;
+>>  }
+>> @@ -2433,6 +2439,74 @@ int resctrl_arch_set_cdp_enabled(enum resctrl_res_level l, bool enable)
+>>  	return 0;
+>>  }
+>>  
+>> +static void resctrl_abmc_msrwrite(void *arg)
+>> +{
+>> +	bool *enable = arg;
+>> +	u64 msrval;
+>> +
+>> +	rdmsrl(MSR_IA32_L3_QOS_EXT_CFG, msrval);
+>> +
+>> +	if (*enable)
+>> +		msrval |= ABMC_ENABLE;
+>> +	else
+>> +		msrval &= ~ABMC_ENABLE;
+>> +
+>> +	wrmsrl(MSR_IA32_L3_QOS_EXT_CFG, msrval);
+>> +}
+>> +
+>> +static int resctrl_abmc_setup(enum resctrl_res_level l, bool enable)
+>> +{
+>> +	struct rdt_resource *r = &rdt_resources_all[l].r_resctrl;
+>> +	struct rdt_domain *d;
+>> +
+>> +	/* Update QOS_CFG MSR on all the CPUs in cpu_mask */
+> 
+> "all the CPUs in cpu_mask" -> "all the CPUs associated with the resource"?
 
-I'm OK with it stopping the vCPUs (although I'd like it to do so in a
-less implicitly awful way). But when we don't need to update the
-reference time at all, let's not do so.
+Sure.
 
-> > When invoked from in 'use_master_clock' mode, kvm_update_masterclock()
-> > should probably *adjust* kvm->arch.kvmclock_offset to account for the
-> > drift, instead of yanking the clock back to defintion A.
->=20
-> You are likely correct...
->=20
-> > But in the meantime there are a bunch of places where it just doesn't n=
-eed to be
-> > invoked at all.
-> >=20
-> > To start with: there is no need to do such an update when a Xen guest
-> > populates the shared_info page. This seems to have been a hangover from
-> > the very first implementation of shared_info which automatically
-> > populated the vcpu_info structures at their default locations, but even
-> > then it should just have raised KVM_REQ_CLOCK_UPDATE on each vCPU
-> > instead of using KVM_REQ_MASTERCLOCK_UPDATE. And now that userspace is
-> > expected to explicitly set the vcpu_info even in its default locations,
-> > there's not even any need for that either.
-> >=20
-> > Fixes: 629b5348841a1 ("KVM: x86/xen: update wallclock region")
-> > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> > Reviewed-by: Paul Durrant <paul@xen.org>
-> > ---
-> > =C2=A0arch/x86/kvm/xen.c | 2 --
-> > =C2=A01 file changed, 2 deletions(-)
-> >=20
-> > diff --git a/arch/x86/kvm/xen.c b/arch/x86/kvm/xen.c
-> > index f65b35a05d91..5a83a8154b79 100644
-> > --- a/arch/x86/kvm/xen.c
-> > +++ b/arch/x86/kvm/xen.c
-> > @@ -98,8 +98,6 @@ static int kvm_xen_shared_info_init(struct kvm *kvm)
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0wc->version =3D wc_vers=
-ion + 1;
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0read_unlock_irq(&gpc->l=
-ock);
-> > =C2=A0
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0kvm_make_all_cpus_request(kv=
-m, KVM_REQ_MASTERCLOCK_UPDATE);
-> > -
-> > =C2=A0out:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0srcu_read_unlock(&kvm->=
-srcu, idx);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return ret;
-> > --=20
-> > 2.44.0
->=20
-> So KVM_REQ_MASTERCLOCK_UPDATE is to avoid the race above.
->=20
-> In what contexes is kvm_xen_shared_info_init called from again?
->=20
-> Not clear to me KVM_REQ_MASTERCLOCK_UPDATE is not needed (or that is
-> needed, for that matter...).
+> 
+>> +	list_for_each_entry(d, &r->domains, list) {
+>> +		on_each_cpu_mask(&d->cpu_mask, resctrl_abmc_msrwrite, &enable, 1);
+>> +		resctrl_arch_reset_rmid_all(r, d);
+> 
+> Could the changelog please explain why this is needed and what the impact of
+> this is?
 
-We cal kvm_xen_shared_info_init() when the Xen "shared info" page is
-set up. The only interesting part of that is the *wallclock* epoch.
+Sure.
 
-The wallclock (just like KSR_KVM_WALL_CLOCK{,_NEW}) is *entirely* hosed
-ever since the KVM clock stopped being based on CLOCK_MONOTONIC, since
-that means that the value of "wallclock time minus KVM clock time"
-actually *changes* as the KVM clock runs at a different rate to
-wallclock time.=20
+> 
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+> 
+> I think the naming can be changed to make these easier to understand. For example,
+> resctrl_abmc_msrwrite() -> resctrl_abmc_set_one()
+> resctrl_abmc_setup() -> resctrl_abmc_set_all()
 
-I'm looking at a replacement for that which uses the gtod information
-to give the guest a direct mapping of guest TSC to host CLOCK_TAI. And
-in doing so we can *also* indicate when live migration has potentially
-disrupted the guest TSC, so any further NTP/PTP refinement that the
-guest may have done for itself needs to be thrown away.
+Sure.
 
+> 
+>> +
+>> +static int resctrl_abmc_enable(enum resctrl_res_level l)
+>> +{
+>> +	struct rdt_hw_resource *hw_res = &rdt_resources_all[l];
+>> +	int ret = 0;
+>> +
+>> +	if (!hw_res->abmc_enabled) {
+>> +		ret = resctrl_abmc_setup(l, true);
+>> +		if (!ret)
+>> +			hw_res->abmc_enabled = true;
+>> +	}
+>> +
+>> +	return ret;
+>> +}
+>> +
+>> +static void resctrl_abmc_disable(enum resctrl_res_level l)
+>> +{
+>> +	struct rdt_hw_resource *hw_res = &rdt_resources_all[l];
+>> +
+>> +	if (hw_res->abmc_enabled) {
+>> +		resctrl_abmc_setup(l, false);
+>> +		hw_res->abmc_enabled = false;
+>> +	}
+>> +}
+>> +
+>> +int resctrl_arch_set_abmc_enabled(enum resctrl_res_level l, bool enable)
+>> +{
+>> +	struct rdt_hw_resource *hw_res = &rdt_resources_all[l];
+>> +
+>> +	if (!hw_res->r_resctrl.mbm_assign_capable)
+>> +		return -EINVAL;
+>> +
+>> +	if (enable)
+>> +		return resctrl_abmc_enable(l);
+>> +
+>> +	resctrl_abmc_disable(l);
+>> +
+>> +	return 0;
+>> +}
+> 
+> Why is resctrl_arch_set_abmc_enabled() necessary? It seem to add an unnecessary
+> layer of abstraction.
+> 
 
---=-1MxL1pyflkVSO892kaNk
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
+I feel it is better to keep it that way. It is consistent with definition
+of resctrl_arch_set_cdp_enabled. It handles both enable and disable.
+Otherwise we have add those checks from the caller.
 
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
-ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
-EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
-FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
-aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
-EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
-VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
-ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
-QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
-rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
-ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
-U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
-BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
-dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
-BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
-QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
-CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
-xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
-IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
-kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
-eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
-KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
-1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
-OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
-x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
-5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
-DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
-VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
-UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
-MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
-ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
-oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
-SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
-xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
-RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
-bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
-NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
-KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
-5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
-C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
-gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
-b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
-BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
-QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
-c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
-AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
-qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
-v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
-Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
-tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
-Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
-YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
-ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
-IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
-ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
-GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
-h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
-9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
-P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
-2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
-BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
-7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
-lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
-lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
-AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
-Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
-FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
-BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
-cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
-aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
-LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
-BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
-Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
-lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
-WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
-hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
-IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
-dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
-NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
-xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjQwNTA3MTkwODQwWjAvBgkqhkiG9w0BCQQxIgQgHVmiWasw
-frgDY5E3eFn0b2+Z8rpbfP6rB7OVXKnqfWgwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
-A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
-dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
-DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
-MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
-Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgChZ/FYOFQZZOOYZG05b4wiJdTD0tZ47wKq
-LYyo2tJiF2gtDaUDWztKlqtXJIhy1EHqLJkXexeS+G2NXJKc5m0GZfapeKEKDnlr4m7T6SSisSPl
-ou2+ZtAwIvnQg22lFFbDKBrzpKCvR2TPAhnbFEck/sUzmostgvzLgc4q76A16HYZ9dYLqShXGJoa
-gUOMidK1fOFrWC/36QjUDNB0JEHPDBYxvq4hSLlmMI81AxZ0+xCSOHOeTNHM7yqOJEGKJlTqgtx7
-UzSkB/W+uOs6re+XgyHZegmMukZyWEKHEZXo44gYfx4QZUUMi0pmOU8NC27TwLpD9N6mMvOsmkGo
-iUP8ZcTnNGjjFJKqfpEVeOymeGkPJxFBPfccQdc/WaPht2IDVnKiIDYc2Sw5QggL54iU4uwUKFay
-rXpzuMXRdJmfIyAQQIOIZokQJ0TLFJNW4q1gfulgO7HK48CRDxaceSbxHMBjwVfx9Zf5e8zfYFJC
-UT/pNvdY4RdfDUUMf+tzUyLKbE7XbrT5FvNCWlNyZgyTJgleGDKTj7KV0fCVQM/mqmwHipQo45fh
-4DFMfwa2FF045ZXH0ICN6ovrfYbjmcjMdPWQFvxCFX09dwPFYfmWvgBVdqJJi8EVHUTepQytBUqd
-Y2ueJkoJdXRulF3xvCQ006bk3AcMevjRqueyVfTXFAAAAAAAAA==
-
-
---=-1MxL1pyflkVSO892kaNk--
+-- 
+Thanks
+Babu Moger
