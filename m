@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C57A8060D;
-	Tue,  7 May 2024 22:58:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B125C134735;
+	Tue,  7 May 2024 23:00:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715122705; cv=none; b=Y7rLTIBI/NbfHbZD47qnHWlXMmQKEwReF+Ueu63tDnmH5esQGRbp5YAX2fs6dCt9gU2MJQ8KHKWK4a/p4Y8epUJjNPvYKlJDNRCBwpfOICoXouBIU3Z2SVMJdfQQN0V4JOxxtIdXszlhODgIiSvVClmBAa4b5L3Qhgw0xmNvmNg=
+	t=1715122805; cv=none; b=cL1NJoRrEb1pQr7+5koo17CjV8hlA10Z6AHdm/TsFv4PX2SpYeTcyXQZGaGPPD2p4aKT1wwbt1PqDbyMABWemawXVnlBf5nTj27veB3nai4l2Og2FoJwwjyYZxPb3d30D4j8fhOsx4NoqrRnKhPejRY5E/HdYo5WwWsBqr3TFhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715122705; c=relaxed/simple;
-	bh=GV9fGJP89g5AslJ5zfrMFPFR094Dgndsw4GvTjbyES4=;
+	s=arc-20240116; t=1715122805; c=relaxed/simple;
+	bh=CftoOuFlniFGqgAyMnAyQDmZGd/aDIrkcRVcyNfegnk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=REtoUVZ5/dX89jUC6DoyJ0ds1hboxIpAvoJe0cc+JAX2zfeGyHniPNR+zJZDUzZj8K3/x6rXSUSt1zrGaCliSvvsStgzGTUoDy0BqdiGrtnBCzGGbL9YP8ONWNsNsFj41viV7YurwLU8QwwDqUDxOapoEC614t3r+RuJVdFRFL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UG5Yg7fN; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=V0DLYeFBvqkvWdhX3QKWpi2ZtLAyOH4jWYnrJaepB+ssi9sbHWA2vL7lGrjt8sQwNY8WLpC+YIR+sgMEwmGA4nW+sz7m9JVX32Nj1gfC0lgs+3bi2KeYQDGPeFOmrhUWd+9+RcFws1bU5N3dbYp74SR8o5QcWA9i4b0r177Gp+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O0i5TACS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UG5Yg7fN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 547ABC3277B;
-	Tue,  7 May 2024 22:58:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O0i5TACS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 986ACC4AF17;
+	Tue,  7 May 2024 23:00:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715122705;
-	bh=GV9fGJP89g5AslJ5zfrMFPFR094Dgndsw4GvTjbyES4=;
+	s=k20201202; t=1715122805;
+	bh=CftoOuFlniFGqgAyMnAyQDmZGd/aDIrkcRVcyNfegnk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UG5Yg7fNvlo/bcL5RLmMY5mQJe/HsD6ZyhYpBMO2UTPxERqUgXONX32ZnR2u1mZ8T
-	 nQg163OOMRaGHHSGSP/CKCaCYaZQ0sLMug21AZd6Mxu/Ara24NGoCBxmTDfZXcd0gK
-	 HRu2SF4LGQvnEKOQ/LvAJ9zwKztRp+tgaNDr0XNQ3iRM7KdyoWy4Fdl0KSoFfvsiBH
-	 ZASZk7GPvMjSYcb/BiPNgufAXq01scQqeT81Xck5HgFwdSKy/yWVBLng4RplT+MZen
-	 AeOUNaf+idpvz4GCpKMhrZDsxls9KN/+XJTlWCE9fcMIUorGhxsuOpMP2dxtjlmW6Q
-	 kFfZ5G0373MkQ==
+	b=O0i5TACSELPyLsd3LeCcvbB2c+AsNZO3wYkMJE4i3ZURIJNjbSOZtaJ4EInn2r9GC
+	 kZvZzrOFRslKO3cZskGcYxeurNmi3fcxtjY9owOCebucy8IdZ9Ewa3Y6xkJJyoMto7
+	 dSBi4L26rBYkcHi9fs0SyRPS1oLkeMzgrfkXqAuIlDMUfUuvSucLC4UNb0ImV2LsQD
+	 bSSw3PDvv7ye0qwtM8jNP210u3ktcI5B4Y+VhATFWn7rR0GQXeq1DnsiIEEOmOhb1a
+	 pKdPdpg7EqNpGMqhcq309vxRcB4fPucarlxauPxEpL+tdO52MpnJNA0zClF82MQVJa
+	 QFQBoIQKQJVcA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -43,12 +43,12 @@ Cc: Sean Christopherson <seanjc@google.com>,
 	tj@kernel.org,
 	xiongwei.song@windriver.com,
 	linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.8 17/23] cpu: Ignore "mitigations" kernel parameter if CPU_MITIGATIONS=n
-Date: Tue,  7 May 2024 18:56:43 -0400
-Message-ID: <20240507225725.390306-17-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 15/19] cpu: Ignore "mitigations" kernel parameter if CPU_MITIGATIONS=n
+Date: Tue,  7 May 2024 18:58:37 -0400
+Message-ID: <20240507225910.390914-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240507225725.390306-1-sashal@kernel.org>
-References: <20240507225725.390306-1-sashal@kernel.org>
+In-Reply-To: <20240507225910.390914-1-sashal@kernel.org>
+References: <20240507225910.390914-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,7 +57,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.8.9
+X-stable-base: Linux 6.6.30
 Content-Transfer-Encoding: 8bit
 
 From: Sean Christopherson <seanjc@google.com>
@@ -89,10 +89,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  4 files changed, 30 insertions(+), 6 deletions(-)
 
 diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 31fdaf4fe9dd8..9bfc972af2403 100644
+index 66dfc348043d6..8d2f9ed3f1076 100644
 --- a/Documentation/admin-guide/kernel-parameters.txt
 +++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3399,6 +3399,9 @@
+@@ -3323,6 +3323,9 @@
  			arch-independent options, each of which is an
  			aggregation of existing arch-specific options.
  
@@ -103,10 +103,10 @@ index 31fdaf4fe9dd8..9bfc972af2403 100644
  				Disable all optional CPU mitigations.  This
  				improves system performance, but it may also
 diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 6f49999a6b838..bfccf1213871b 100644
+index be9248e5cb71b..82d12c93feabe 100644
 --- a/arch/x86/Kconfig
 +++ b/arch/x86/Kconfig
-@@ -2474,9 +2474,13 @@ menuconfig CPU_MITIGATIONS
+@@ -2428,9 +2428,13 @@ menuconfig CPU_MITIGATIONS
  	help
  	  Say Y here to enable options which enable mitigations for hardware
  	  vulnerabilities (usually related to speculative execution).
@@ -123,10 +123,10 @@ index 6f49999a6b838..bfccf1213871b 100644
  if CPU_MITIGATIONS
  
 diff --git a/include/linux/cpu.h b/include/linux/cpu.h
-index 8654714421a0d..75f0344bd3b94 100644
+index e990c180282e7..a7d91a167a8b6 100644
 --- a/include/linux/cpu.h
 +++ b/include/linux/cpu.h
-@@ -219,7 +219,18 @@ void cpuhp_report_idle_dead(void);
+@@ -214,7 +214,18 @@ void cpuhp_report_idle_dead(void);
  static inline void cpuhp_report_idle_dead(void) { }
  #endif /* #ifdef CONFIG_HOTPLUG_CPU */
  
@@ -146,10 +146,10 @@ index 8654714421a0d..75f0344bd3b94 100644
  
  #endif /* _LINUX_CPU_H_ */
 diff --git a/kernel/cpu.c b/kernel/cpu.c
-index f8a0406ce8ba5..bac70ea54e349 100644
+index 2dd2fd300e916..4f453226fcf48 100644
 --- a/kernel/cpu.c
 +++ b/kernel/cpu.c
-@@ -3196,6 +3196,7 @@ void __init boot_cpu_hotplug_init(void)
+@@ -3197,6 +3197,7 @@ void __init boot_cpu_hotplug_init(void)
  	this_cpu_write(cpuhp_state.target, CPUHP_ONLINE);
  }
  
@@ -157,7 +157,7 @@ index f8a0406ce8ba5..bac70ea54e349 100644
  /*
   * These are used for a global "mitigations=" cmdline option for toggling
   * optional CPU mitigations.
-@@ -3206,9 +3207,7 @@ enum cpu_mitigations {
+@@ -3207,9 +3208,7 @@ enum cpu_mitigations {
  	CPU_MITIGATIONS_AUTO_NOSMT,
  };
  
@@ -168,7 +168,7 @@ index f8a0406ce8ba5..bac70ea54e349 100644
  
  static int __init mitigations_parse_cmdline(char *arg)
  {
-@@ -3224,7 +3223,6 @@ static int __init mitigations_parse_cmdline(char *arg)
+@@ -3225,7 +3224,6 @@ static int __init mitigations_parse_cmdline(char *arg)
  
  	return 0;
  }
@@ -176,7 +176,7 @@ index f8a0406ce8ba5..bac70ea54e349 100644
  
  /* mitigations=off */
  bool cpu_mitigations_off(void)
-@@ -3239,3 +3237,11 @@ bool cpu_mitigations_auto_nosmt(void)
+@@ -3240,3 +3238,11 @@ bool cpu_mitigations_auto_nosmt(void)
  	return cpu_mitigations == CPU_MITIGATIONS_AUTO_NOSMT;
  }
  EXPORT_SYMBOL_GPL(cpu_mitigations_auto_nosmt);
