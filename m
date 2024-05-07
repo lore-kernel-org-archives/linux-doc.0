@@ -1,163 +1,125 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7496614D2B1
-	for <linux-doc@vger.kernel.org>; Tue,  7 May 2024 08:53:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE22714D447;
+	Tue,  7 May 2024 09:03:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715072004; cv=none; b=pF+hDlfvsHJplPeyz3IcVBGPxs8zRzklRVGZviuu7a3RoD5alYVxZsYA3YQIMKty059XtXne8MKDGy2YrcHcYiL239AGwnwID39zPykIq3UgYKEIFWtBZ/RCA5JlP0u+taAeiAoaJ87Hjdwzp4Q5XNHOpPCDcP0PJwSRBzdZpmM=
+	t=1715072636; cv=none; b=kRnO+236K0MjvXPimNqhJ16a1eIaqGsR5gW513235PxZu1TWny8JJUxAduXJ7ZrFEnTdbvMJjWH9ofYABKd/V2ZH4SYEkXOWeYAKaTwk934jPqKzupKoeiCIuM4StoKH/rTHgbvO4bJbYumNBdolCLD3KJZuMnSZxKoA/4v51H4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715072004; c=relaxed/simple;
-	bh=U8OQatDW4FjtbvC5rTx+PuIOqv56NEu7e4PvA5d1ACs=;
-	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
-	 MIME-Version:Content-Type; b=OqhCuufiMvEso/N9jp3Bji5JM6PIq0Y/qZM+0zBiFgM0znHSf4VfExuxo7HBc5hSuoLT9in1MZaxPOL6cZu5NNHcHaAvalHeuoxm7AJ3lw8YC1z25NsQbz2pH/jqbhhFABABWSVplC6KfV13Pe/ntIst0MqsIv+ZOobhy0vsi0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=I7y8VNSd; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="I7y8VNSd"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-51f2ebbd8a7so3395616e87.2
-        for <linux-doc@vger.kernel.org>; Tue, 07 May 2024 01:53:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1715072000; x=1715676800; darn=vger.kernel.org;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
-        bh=xCxOzDLdEh75jB6y9qUsYnk1sa4ucuKaEHLhrAj+2nA=;
-        b=I7y8VNSdnwTnVtWftc8vZKkb56WWpt4WMj10bSIJlpcs+ajO8rleyMIytXyJ4sL9te
-         wvrBhmodZNpbFU5a5i55cISLo8A/8RascHZOkGUFXBQiVxgmZWWhL32iduE+qEPG1JiI
-         rqYWTkYdISKUhEBmK68hrHutUm5FwLspkKrhh7o35x3LJXrvY3Wc9i6W2y2NeAHzFNae
-         46BM5RrQs4Jtz/aM0djL9Tv2Ic4FDKd/VMC2ipJgGkJLJWs6n0NVkKMQVLpyZnyso+J9
-         ngX/1JnYxqa2RPGfZ0/mSt4Vb0rxeBj5Lon81o5AInsVRWBj4V6gJA7HrvcCZ/7chEm2
-         31/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715072000; x=1715676800;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xCxOzDLdEh75jB6y9qUsYnk1sa4ucuKaEHLhrAj+2nA=;
-        b=YhQ4iQdMkflWk1v7GP98PdcpNOaSmHIo1z8oRmWfTWe6TrjQgXz1loJmwii2azT56w
-         IsVCmZocLNOvQI/MPN+wd1CpPuQjTAYlOPk4MfmDflXaONtE9+YeR8qitTIi1qS4Sq5I
-         8EFR8eIYPPg1jKKPqsOckttd0CVuy8b6wRc6k7E9cjye5G9HaECGxypfXOW9hfVhxlt2
-         ym67Fv5UxOEU+Q0eUThYIFooEidoawPS3HXK3uspOeKQerMh1yPko3b/jm9WS+T8tAjd
-         cw9678PfHzo6Hn8aNNT8r/KN29U9BwXRQ6yNOgKvcwW5QZuUAURHqrIFkPDlwMCrtaRU
-         6ZCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWL6gUViViZjeJR8HqgnCQs1u4xwg8BcvfJC/4Y+IdQs/9I+U9UBXqlpuoh9r+bgIHeZckEQGsRqrBvz3UgQVnssWcUYp0E/yyd
-X-Gm-Message-State: AOJu0YyrAELNus1z2mZa+aTyMAie8JF/NJ4FrU/bIWfOQIwlkVGrMxbY
-	SB/ZdCRI0zmfOazJEaLvrgBzCl0YwSU5tbN0voa028EDm23u7jYvrhsgf5/Vlpw=
-X-Google-Smtp-Source: AGHT+IHowCcLFFaLyyT16y8DxcMAyDiK7IAn6wJm9zlWi1Dnoyl03rPbptGdEMLcTqFhlY4mJAuSmg==
-X-Received: by 2002:ac2:58fb:0:b0:519:2d60:d71b with SMTP id v27-20020ac258fb000000b005192d60d71bmr7323830lfo.22.1715072000389;
-        Tue, 07 May 2024 01:53:20 -0700 (PDT)
-Received: from localhost ([2a01:e0a:3c5:5fb1:970:8464:9c54:e891])
-        by smtp.gmail.com with ESMTPSA id g9-20020a05600c4ec900b0041c542636bcsm22453098wmq.44.2024.05.07.01.53.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 May 2024 01:53:19 -0700 (PDT)
-References: <87wmo6dyxg.wl-kuninori.morimoto.gx@renesas.com>
-User-agent: mu4e 1.10.8; emacs 29.2
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: =?utf-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>, Alexandre
- Belloni <alexandre.belloni@bootlin.com>, Alper Nebi Yasak
- <alpernebiyasak@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, Banajit Goswami
- <bgoswami@quicinc.com>, Bard Liao <yung-chuan.liao@linux.intel.com>, Brent
-  Lu <brent.lu@intel.com>, Cezary Rojewski <cezary.rojewski@intel.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>, Claudiu Beznea
- <claudiu.beznea@tuxon.dev>, Cristian Ciocaltea
- <cristian.ciocaltea@collabora.com>, Daniel Baluta <daniel.baluta@nxp.com>,
- Hans de Goede <hdegoede@redhat.com>, Jaroslav Kysela <perex@perex.cz>,
- Jerome Brunet <jbrunet@baylibre.com>, Jiawei Wang <me@jwang.link>,
- Jonathan  Corbet <corbet@lwn.net>, Kai Vehmanen
- <kai.vehmanen@linux.intel.com>, Kevin Hilman <khilman@baylibre.com>, Liam
- Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Maso
- Huang <maso.huang@mediatek.com>, Matthias Brugger
- <matthias.bgg@gmail.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, Peter Ujfalusi
- <peter.ujfalusi@linux.intel.com>, Pierre-Louis Bossart
- <pierre-louis.bossart@linux.intel.com>, Ranjani Sridharan
- <ranjani.sridharan@linux.intel.com>, Sascha Hauer
- <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Shengjiu Wang
- <shengjiu.wang@gmail.com>, Srinivas Kandagatla
- <srinivas.kandagatla@linaro.org>, Sylwester Nawrocki
- <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, Vinod Koul
- <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
- alsa-devel@alsa-project.org, imx@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 0/3] ASoC: grace time for DPCM cleanup
-Date: Tue, 07 May 2024 10:47:22 +0200
-In-reply-to: <87wmo6dyxg.wl-kuninori.morimoto.gx@renesas.com>
-Message-ID: <1jr0ee2ebk.fsf@starbuckisacylon.baylibre.com>
+	s=arc-20240116; t=1715072636; c=relaxed/simple;
+	bh=2xnallKHSfS3jGvqNeNimXCB0bIdex0YoRsg8+jbQVg=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=cymAvXR65S8Xmbi3rh0S/7vjvV4e/QxSc7/TNUlZEiQIbgOBVtH5BK02lICbKo5tQ99v3xvXA+TO4n0i1vkxCjkJhbNVxExN/zm8xiwvp2aNSOzphvHGTIYofuUV8/Mko1m1NKtvYOrRTjQKSZZrZ3Je98Z29R01EEFkgepj+UU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.186.29])
+	by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4VYWx16Pqrz9xFmK;
+	Tue,  7 May 2024 16:42:13 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.27])
+	by mail.maildlp.com (Postfix) with ESMTP id A417E14010C;
+	Tue,  7 May 2024 17:03:44 +0800 (CST)
+Received: from [10.45.158.162] (unknown [10.45.158.162])
+	by APP2 (Coremail) with SMTP id GxC2BwB3sSVh7jlm51OtBw--.22983S2;
+	Tue, 07 May 2024 10:03:43 +0100 (CET)
+Message-ID: <fd2369ed-1e84-4e44-ac80-cd316f8e7051@huaweicloud.com>
+Date: Tue, 7 May 2024 11:03:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+From: Jonas Oberhauser <jonas.oberhauser@huaweicloud.com>
+Subject: Re: [PATCH memory-model 2/4] Documentation/litmus-tests: Demonstrate
+ unordered failing cmpxchg
+To: Alan Stern <stern@rowland.harvard.edu>,
+ "Paul E. McKenney" <paulmck@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ kernel-team@meta.com, mingo@kernel.org, parri.andrea@gmail.com,
+ will@kernel.org, peterz@infradead.org, boqun.feng@gmail.com,
+ npiggin@gmail.com, dhowells@redhat.com, j.alglave@ucl.ac.uk,
+ luc.maranget@inria.fr, akiyks@gmail.com,
+ Frederic Weisbecker <frederic@kernel.org>, Daniel Lustig
+ <dlustig@nvidia.com>, Joel Fernandes <joel@joelfernandes.org>,
+ Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org
+References: <42a43181-a431-44bd-8aff-6b305f8111ba@paulmck-laptop>
+ <20240501232132.1785861-2-paulmck@kernel.org>
+ <c97f0529-5a8f-4a82-8e14-0078d4372bdc@huaweicloud.com>
+ <16381d02-cb70-4ae5-b24e-aa73afad9aed@huaweicloud.com>
+ <2a695f63-6c9a-4837-ac03-f0a5c63daaaf@paulmck-laptop>
+ <c168f56f-dfae-4cac-bc61-fc5a93ee3aed@rowland.harvard.edu>
+In-Reply-To: <c168f56f-dfae-4cac-bc61-fc5a93ee3aed@rowland.harvard.edu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:GxC2BwB3sSVh7jlm51OtBw--.22983S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7KryrCrW7tFy5Ww4DKw1rZwb_yoW8CrWfpa
+	9rKa10kr1UXr4Sk34qqw43JrWFvwsrJay5WFyrXFWqyayqkF4SyF4Yvry5Kr93Jws7Jw42
+	yrWYga92vayDZFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkmb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
+	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij
+	64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
+	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYY7kG6xAYrwCIc40Y0x0E
+	wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JV
+	WxJwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI
+	42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUgEksDUUUU
+X-CM-SenderInfo: 5mrqt2oorev25kdx2v3u6k3tpzhluzxrxghudrp/
 
 
-On Tue 07 May 2024 at 04:32, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
 
-> Hi Mark, Pierre-Louis
-> Cc each ASoC driver maintainer
->
-> As we discussed in [1], we don't need to use dpcm_playback/capture flag,
-> so we remove it. But we have been using it for 10 years, some driver might
-> get damage. The most likely case is that the device/driver can use both
-> playback/capture, but have only one flag, and not using xxx_only flag.
-> [1/3] patch indicates warning in such case.
->
-> And because of its history, DPCM has been checking CPU side only. But it should
-> check Codec side too same as non-DPCM. Some device/driver has been bypassed
-> this check. It should be error. [2/3] patch indicates warning in such case.
->
-> Because dpcm_xxx flag is no longer used by [1/3] patch, 
-> snd_soc_dai_link_set_capabilities() is no longer needed. [3/3] patch remove it.
->
-> These adds grace time for DPCM cleanup.
-> I'm not sure when dpcm_xxx will be removed, and Codec check bypass will be error,
-> but maybe v6.11 or v6.12 ?
-> Please check each driver by that time.
+Am 5/6/2024 um 9:21 PM schrieb Alan Stern:
+> On Mon, May 06, 2024 at 11:00:42AM -0700, Paul E. McKenney wrote:
+>> On Mon, May 06, 2024 at 06:30:45PM +0200, Jonas Oberhauser wrote:
+>>> Am 5/6/2024 um 12:05 PM schrieb Jonas Oberhauser:
+>>>> Am 5/2/2024 um 1:21 AM schrieb Paul E. McKenney:
+>>>>> This commit adds four litmus tests showing that a failing cmpxchg()
+>>>>> operation is unordered unless followed by an smp_mb__after_atomic()
+>>>>> operation.
+>>>>
+>>>> So far, my understanding was that all RMW operations without suffix
+>>>> (xchg(), cmpxchg(), ...) will be interpreted as F[Mb];...;F[Mb].
+> 
+> It's more accurate to say that RMW operations without a suffix that
+> return a value will be interpreted that way.  So for example,
+> atomic_inc() doesn't imply any ordering, because it doesn't return a
+> value.
+> 
 
-Hi Kuninori-san,
+I see, thanks.
 
-I have tested this series on an Amlogic device (vim3l)
-This brings warnings for cases which are perfectly fine.
+>>>> barriers explicitlyinside the cat model, instead of relying on implicit
+>>>> conversions internal to herd.
+> 
+> Don't the annotations in linux-kernel.def and linux-kernel.bell (like
+> "noreturn") already make this explicit?
 
-For example, one of the DPCM backends is the TDM interface. This
-interface is capable of both playback and capture. It can be associated
-with any i2s/TDM codec.
+Not that I'm aware. All I can see there is that according to .bell RMW 
+don't have an mb mode, but according to .def they do.
 
-The codec may do playback and capture too, but it
-may also do a single direction. Then usual example is the hdmi codec
-which does playback only.
+How this mb disappears between parsing the code (.def) and interpreting 
+it (.bell) is totally implicit. Including how noreturn affects this 
+disappeareance.
 
-In this case I get:
- axg-sound-card sound: CPU capture is available but Codec capture is not (be.dai-link-6) Please update Codec driver
+In fact most tool developers that support LKMM (Viktor, Hernan, and Luc) 
+were at least once confused about it. And I think they read those files 
+more carefully than I.
 
-I don't think this is right.
+https://github.com/herd/herdtools7/issues/384#issuecomment-1132859904
 
->
-> [1] https://lore.kernel.org/r/87edaym2cg.wl-kuninori.morimoto.gx@renesas.com
->
-> Kuninori Morimoto (3):
->   ASoC: soc-pcm: Indicate warning if dpcm_playback/capture were used for availability limition
->   ASoC: soc-pcm: Indicate warning if CPU / Codec availability mismatch
->   ASoC: remove snd_soc_dai_link_set_capabilities()
->
->  include/sound/soc-dai.h               |  1 -
->  include/sound/soc.h                   |  1 +
->  sound/soc/fsl/imx-card.c              |  3 -
->  sound/soc/generic/audio-graph-card.c  |  2 -
->  sound/soc/generic/audio-graph-card2.c |  2 -
->  sound/soc/generic/simple-card.c       |  2 -
->  sound/soc/meson/axg-card.c            |  1 -
->  sound/soc/meson/gx-card.c             |  1 -
->  sound/soc/qcom/common.c               |  1 -
->  sound/soc/soc-dai.c                   | 38 -----------
->  sound/soc/soc-pcm.c                   | 96 ++++++++++++++++++---------
->  11 files changed, 67 insertions(+), 81 deletions(-)
+Note that while there's no explicit annotation of noreturn in the .def 
+file, at least I can guess based on context that it should be annotated 
+on all the functions that don't have _return and for which also a 
+version with _return exists.
 
 
--- 
-Jerome
+have fun,
+   jonas
+
