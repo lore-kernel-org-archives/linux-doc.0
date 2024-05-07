@@ -1,252 +1,329 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE0015DBC0;
-	Tue,  7 May 2024 13:16:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B171515DBC0;
+	Tue,  7 May 2024 13:17:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715087792; cv=none; b=IN8fULgJe0Ty+l54oAErCtwUqa0SfPIeuJGrPeQ69DOyeugR4weOdAPKqSV4fmLIJOKOuho+KR05gHvszxGwAZ00Hv9Mg9P+kaPR2+zStUmvSfvNyfOnww6YfM17l/pydOhgAEQKvtXVbTW42jO2tMtDQdHOOjUzrYvXuEjULf8=
+	t=1715087863; cv=none; b=i+sttP+i+q9Bq6iYMzzLwWf5G6NQd+XcVOuAl83/74PoJGBH4QmC7kTlXR74dkokZtzd9i4JU7x2IG240eBX2H45JQayvxi1bT/B+ADasg2od6PRsdKldO9uAPmOoZksrzYYOm5y3JP669JaZ4Up5x7Q9/SWJcscmHNF4Lye33o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715087792; c=relaxed/simple;
-	bh=0uKvsasIj33/Tyfsa9oOCGaF+gpRdd5U8GQpflVQ0s0=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=mGj9Hgg6sKn9kxzr5qnAJ+9xCdvmNotdke/TKwBwBv1enB8xnXKMGxslIuvOduuimSfIiyWCsXS6ygSUbPevTXgH9XTAjyZwGWlfQS07T2oGK0ehq+B7ypI+iY8tq8wwMupcal1I2eCVWmgPOvoBNVBL1o81E/xV7kNEQyrkTEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C7HyKSyF; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1715087863; c=relaxed/simple;
+	bh=WW176dZajkNx26e0wWVm8RXpDaGQtwUspYxNbPOhOsw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ezICF026XFYtIWjbQ1Pc+b1EgjH3tXJKCbIKSFiscKQIP7TF9msmOxagxOOnSEpowJ+GmDXK5LtIm+ECyi3q0z9D7pn6wGqE3IvwmH93Mj3FxqK+WVo3cek8HjHyCRWnx8UWADsKNKLe6w/WFgRXtQCxrJf6xcxLO3VJe1sIuFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gNwYYLSe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C7HyKSyF"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-6f4551f2725so3003428b3a.1;
-        Tue, 07 May 2024 06:16:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715087790; x=1715692590; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:reply-to:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6Qb9gUXAb6B0uEKdTy5ff19pWlQ4SHfnnvxveJ1/rLE=;
-        b=C7HyKSyFS+uM5ukYnlpGIAKqw1R3n5+vS2UIdLZML+vv5Oa3qzYX0WfsfPaD83lG/V
-         3rQMXpTJZMHeCpHDzoWMW+1KvNTXshrV4i0GJcTwVKK67mafmFMLp3VZeyYl6lPO8v4U
-         91WGvo95i9/sGtRks3wlnIPR3E7iMmDomkStg+UHMjdM08rnjeHHUkHz/F72Q7w9vonP
-         exPu277jh7xQI2tyjhA2zGNVhc2jEqy1MxkBUhA5qDEVgZ7gKom3GB760aySpF0fNSz2
-         Z1N/YIHt30d91JuWqRb2eN8YGtoJCEM64epjAAFV4kv+MUBtESfoiMbW7tSYloSbkFNs
-         4Fvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715087790; x=1715692590;
-        h=content-transfer-encoding:mime-version:reply-to:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=6Qb9gUXAb6B0uEKdTy5ff19pWlQ4SHfnnvxveJ1/rLE=;
-        b=gTezF8XE9CYPOluwxBIPaO9YNY4kzuJdesCFA3GtM9q+uzVOFNDQR/qwKpWq+ZHEgc
-         VhY+pqwXPochftHy4no7qUzkn+BHiMkGYjbGjcoSjXvbzBuKNV/5bdR+zk6jnxY94A4/
-         gg7WFns42Ggh9KQbxus1Ir45TRip0iQOjS5IUK9i9osZVb1kZkHmlzuZsfnnqcXPHwB9
-         tRpuU+M1mm3pLf7Op1SwxVr00zLYtvSFXo83UzviBk3SGoMS4QFoEOgzAbsUSK3UnqFH
-         daAbDkAIWHFDzNk7yAi4Qdm/Rv8FM+cF24Lv/7R3OeBgE1lxv0KJqf5UFphnPh7jonkR
-         P2jQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUPn0GIKrQ5BaOVCemyb9MXslJx8u6lBRA0o/6spWAbGood5C0NGsRzJttTJIxfjQqrIctC+pGhIaerD2RzgB2cbcAAXyberRXxaJ+c4XwzBAMyB/ivO65FlJ7EzRdK5JoaVT8EzC8mGHp+DciCr/BwiOn6H0oN3bgKQV5QNFot/PrmJZFh
-X-Gm-Message-State: AOJu0YxhLE7RcE/ZcyN4VZG7pdifGtbcE70yrTVrOqnWTfsUI2IZ8ehh
-	hWb8hR/2S+noGyJDYXd0SEg7uR6SbueIJVVQkGaCJPlyeBINlh3hTNZmoA==
-X-Google-Smtp-Source: AGHT+IG2IrpnFoACtA5A61A4XB+TtRNsqtbtyLYV99OhtMdAW5NHuGMGGrCLiF2rhlRex6gnjeYUeA==
-X-Received: by 2002:a05:6a00:801:b0:6ed:21d5:fc2c with SMTP id m1-20020a056a00080100b006ed21d5fc2cmr16619970pfk.26.1715087790260;
-        Tue, 07 May 2024 06:16:30 -0700 (PDT)
-Received: from localhost.localdomain ([67.161.114.176])
-        by smtp.gmail.com with ESMTPSA id fi26-20020a056a00399a00b006f3ec69bc09sm9382237pfb.75.2024.05.07.06.16.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 May 2024 06:16:29 -0700 (PDT)
-From: mhkelley58@gmail.com
-X-Google-Original-From: mhklinux@outlook.com
-To: haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com,
-	kys@microsoft.com,
-	corbet@lwn.net,
-	linux-kernel@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 2/2] Documentation: hyperv: Improve synic and interrupt handling description
-Date: Tue,  7 May 2024 06:16:07 -0700
-Message-Id: <20240507131607.367571-2-mhklinux@outlook.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240507131607.367571-1-mhklinux@outlook.com>
-References: <20240507131607.367571-1-mhklinux@outlook.com>
-Reply-To: mhklinux@outlook.com
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gNwYYLSe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA998C2BBFC;
+	Tue,  7 May 2024 13:17:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715087863;
+	bh=WW176dZajkNx26e0wWVm8RXpDaGQtwUspYxNbPOhOsw=;
+	h=From:Subject:Date:To:Cc:From;
+	b=gNwYYLSe1rA0arS77T9foPtabtjUQkSdF7wvH2JgIQPQjrImNTr9PGCwWyJRyAwue
+	 ePisjQWRRKz5PrsPImynaOFyNWPovYpZ9EtNk5ZzQJSQ3R4XhINo2MKbnjwp4afp2K
+	 eMWmcH5GoH2Bjvlo/cAqErXu3YR5L3dWd0MXHSdt98qJlWZOQ+D3heGHsAW36fZQK1
+	 IeZdq6VmqIWWJqWpIquI7bfn4nd3wKDxuwj+mU/YgCHr5XfLbdmQURZ2iXsLkRjV3d
+	 AGhm385o+lscXJWeRlBfhuWrty0T0PplYt/X6am6iEbhMWPqlu2vA+/rsSHmnbda6Z
+	 cpGJA83ju/03w==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v13 00/28] drm/connector: Create HDMI Connector
+ infrastructure
+Date: Tue, 07 May 2024 15:17:18 +0200
+Message-Id: <20240507-kms-hdmi-connector-state-v13-0-8fafc5efe8be@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAN4pOmYC/43SzWrDMAwH8FcpOS/DkmzZ3mnvMXZI/NGGrgkkJ
+ TBK333qYEuGwexkbOGfJfy/NUuah7Q0L4dbM6d1WIZplA3Q06EJp248pnaIctCgQlIOdHu+LO0
+ pXoY2TOOYwnWa2+XaXVPLwNbZxNajbeT6aVik+PlNryDL2z+QFVrVKu2U0TETG/16TvOYPp6n+
+ di8i7riJnlUFQlFAusJYxdjtLGQ6FcCRVCRSCRC16vcJU2dLSS9SYCuImmRgmWFYBwpToVkNgm
+ VrUhGJDbkEvjIpMvp+EfS8hpWJBYp6z7E4K1PnAvJ7iSsSVYkl3WXjTU5JCwkt0lUnc6JlDJ3n
+ Ak8676Q/E6C2t95kaI2zitCIl3mCdSOwhoF6tEVB7COGJx3pQV7i2vWI+fBsFM5h4wMpYWbpZF
+ q1iPpRJIFHVQvjf2x7vf7F88hMv3mAwAA
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, 
+ Sebastian Wick <sebastian.wick@redhat.com>, 
+ =?utf-8?q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Sui Jingfeng <sui.jingfeng@linux.dev>, 
+ Pekka Paalanen <pekka.paalanen@collabora.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=11740; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=WW176dZajkNx26e0wWVm8RXpDaGQtwUspYxNbPOhOsw=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDGlWmo/SY75lf3+0SKrhkateYWpy7L9f+1O/sfxdZ1u4V
+ 72zxbuwYyoLgzAng6yYIssTmbDTy9sXVznYr/wBM4eVCWQIAxenAExkLx9jw/kJP7ImsWgERpYv
+ 8zwxZylvilBJK5fQy+s1ivVGGa0lzDa5RQUXe2xz32TOTe3lceZjbJgltjQkoOnz1siQ30KiwVL
+ XDP8tTTp/oG/7kUqzkn88k+4rXljIw1YXcK5T8w0Pe98sLQA=
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-From: Michael Kelley <mhklinux@outlook.com>
+Hi,
 
-Current documentation does not describe how Linux handles the synthetic
-interrupt controller (synic) that Hyper-V provides to guest VMs, nor how
-VMBus or timer interrupts are handled. Add text describing the synic and
-reorganize existing text to make this more clear.
+Here's a series that creates some extra infrastructure specifically
+targeted at HDMI controllers.
 
-Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+The idea behind this series came from a recent discussion on IRC during
+which we discussed infoframes generation of i915 vs everything else.
+
+Infoframes generation code still requires some decent boilerplate, with
+each driver doing some variation of it.
+
+In parallel, while working on vc4, we ended up converting a lot of i915
+logic (mostly around format / bpc selection, and scrambler setup) to
+apply on top of a driver that relies only on helpers.
+
+While currently sitting in the vc4 driver, none of that logic actually
+relies on any driver or hardware-specific behaviour.
+
+The only missing piece to make it shareable are a bunch of extra
+variables stored in a state (current bpc, format, RGB range selection,
+etc.).
+
+The initial implementation was relying on some generic subclass of
+drm_connector to address HDMI connectors, with a bunch of helpers that
+will take care of all the "HDMI Spec" related code. Scrambler setup is
+missing at the moment but can easily be plugged in.
+
+The feedback was that creating a connector subclass like was done for
+writeback would prevent the adoption of those helpers since it couldn't
+be used in all situations (like when the connector driver can implement
+multiple output) and required more churn to cast between the
+drm_connector and its subclass. The decision was thus to provide a set
+of helper and to store the required variables in drm_connector and
+drm_connector_state. This what has been implemented now.
+
+Hans Verkuil also expressed interest in implementing a mechanism in v4l2
+to retrieve infoframes from HDMI receiver and implementing a tool to
+decode (and eventually check) infoframes. His current work on
+edid-decode to enable that based on that series can be found here:
+https://git.linuxtv.org/hverkuil/edid-decode.git/log/?h=hverkuil
+
+And some more context here:
+https://lore.kernel.org/dri-devel/50db7366-cd3d-4675-aaad-b857202234de@xs4all.nl/
+
+This series thus leverages the infoframe generation code to expose it
+through debugfs.
+
+I also used the occasion to unit-test everything but the infoframe
+generation, which can come later once I get a proper understanding of
+what the infoframe are supposed to look like. This required to add some
+extra kunit helpers and infrastructure to have multiple EDIDs and allow
+each test to run with a particular set of capabilities.
+
+This entire series has been tested on a Pi4, passes all its unittests
+(125 new tests), and has only been build-tested for sunxi and rockchip.
+
+Let me know what you think,
+Maxime
+
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: David Airlie <airlied@gmail.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Sandy Huang <hjc@rock-chips.com>
+To: Heiko Stübner <heiko@sntech.de>
+To: Chen-Yu Tsai <wens@csie.org>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: Samuel Holland <samuel@sholland.org>
+To: Andy Yan <andy.yan@rock-chips.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Sebastian Wick <sebastian.wick@redhat.com>
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: linux-rockchip@lists.infradead.org
+Cc: linux-sunxi@lists.linux.dev
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+
+Changes in v13:
+- Adapt to latest Kconfig helper changes
+- Fixes for sun4i and rockchip
+- Rebase on current drm-misc-next
+- Link to v12: https://lore.kernel.org/r/20240423-kms-hdmi-connector-state-v12-0-3338e4c0b189@kernel.org
+
+Changes in v12:
+- Rebase on current drm-misc-next
+- Remove VIC check in clock rate computation function
+- Invert RGB range logic to signal limited range instead of full like
+  before
+- Link to v11: https://lore.kernel.org/r/20240326-kms-hdmi-connector-state-v11-0-c5680ffcf261@kernel.org
+
+Changes in v11:
+- Turn the HDMI state helpers into a separate C file under
+  drivers/gpu/drm/display
+- Rework the Kconfig options too to prevent configuration breakages.
+- Link to v10: https://lore.kernel.org/r/20240321-kms-hdmi-connector-state-v10-0-e6c178361898@kernel.org
+
+Changes in v10:
+- Drop the YUV422 fallback, and adjust the tests accordingly
+- Fix HDMI infoframe handling
+- Remove the infoframe copy in drm_connector
+- Add a TODO that drm_hdmi_avi_infoframe_quant_range() only works for
+  RGB
+- Add a TODO for the YUV420 selection
+- Fix a few bugs in vc4
+- Change the logging from driver to KMS for the helpers
+- Drop UPDATE_INFOFRAME macro
+- Add infoframe code logging
+- Document the selection of 8bpc for VIC1
+- Rename state to conn_state where relevant
+- Link to v9: https://lore.kernel.org/r/20240311-kms-hdmi-connector-state-v9-0-d45890323344@kernel.org
+
+Changes in v9:
+- Generate every infoframe but the HDMI vendor one if has_hdmi_infoframe
+  isn't set
+- Fix typos in the doc
+- Removed undef for inexisting macro
+- Improve the Broadcast RGB sanitation test
+- Make EDID bytes array const
+- Link to v8: https://lore.kernel.org/r/20240307-kms-hdmi-connector-state-v8-0-ef6a6f31964b@kernel.org
+
+Changes in v8:
+- Drop applied patches
+- Drop the YUV limited range mention in the Broadcast RGB documentation
+- Rephrase the vc4_dummy_plane removal commit log
+- Move infroframe mutex initialisation to the main drm_connector_init
+  function to make sure it's always initialised
+- Link to v7: https://lore.kernel.org/r/20240222-kms-hdmi-connector-state-v7-0-8f4af575fce2@kernel.org
+
+Changes in v7:
+- Rebased on top of current next
+- Only consider the Broadcast RGB property if the output format is RGB,
+  and use a limited range otherwise
+- Document the fact that Broadcast RGB only applies if the output format
+  is RGB
+- Add some test to make sure we always get a limited range if we have a
+  YCbCr output format.
+- Link to v6: https://lore.kernel.org/r/20240212-kms-hdmi-connector-state-v6-0-f4bcdc979e6f@kernel.org
+
+Changes in v6:
+- Rebased on top of current next
+- Split the tests into separate patches
+- Improve the Broadcast RGB documentation
+- Link to v5: https://lore.kernel.org/r/20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org
+
+Changes in v5:
+- Dropped the connector init arg checking patch, and the related kunit
+  tests
+- Dropped HDMI Vendor infoframes in rockchip inno_hdmi
+- Fixed the build warnings
+- Link to v4: https://lore.kernel.org/r/20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org
+
+Changes in v4:
+- Create unit tests for everything but infoframes
+- Fix a number of bugs identified by the unit tests
+- Rename DRM (Dynamic Range and Mastering) infoframe file to HDR_DRM
+- Drop RFC status
+- Link to v3: https://lore.kernel.org/r/20231031-kms-hdmi-connector-state-v3-0-328b0fae43a7@kernel.org
+
+Changes in v3:
+- Made sure the series work on the RaspberryPi4
+- Handle YUV420 in the char clock rate computation
+- Use the maximum bpc value the connector allows at reset
+- Expose the RGB Limited vs Full Range value in the connector state
+  instead of through a helper
+- Fix Broadcast RGB documentation
+- Add more debug logging
+- Small fixes here and there
+- Link to v2: https://lore.kernel.org/r/20230920-kms-hdmi-connector-state-v2-0-17932daddd7d@kernel.org
+
+Changes in v2:
+- Change from a subclass to a set of helpers for drm_connector and
+  drm_connector state
+- Don't assume that all drivers support RGB, YUV420 and YUV422 but make
+  them provide a bitfield instead.
+- Don't assume that all drivers support the Broadcast RGB property but
+  make them call the registration helper.
+- Document the Broacast RGB property
+- Convert the inno_hdmi and sun4i_hdmi driver.
+- Link to v1: https://lore.kernel.org/r/20230814-kms-hdmi-connector-state-v1-0-048054df3654@kernel.org
+
 ---
- Documentation/virt/hyperv/clocks.rst | 21 +++++---
- Documentation/virt/hyperv/vmbus.rst  | 79 ++++++++++++++++++----------
- 2 files changed, 66 insertions(+), 34 deletions(-)
+Maxime Ripard (28):
+      drm/connector: Introduce an HDMI connector initialization function
+      drm/mode_object: Export drm_mode_obj_find_prop_id for tests
+      drm/tests: connector: Add tests for drmm_connector_hdmi_init
+      drm/connector: hdmi: Create an HDMI sub-state
+      drm/connector: hdmi: Add output BPC to the connector state
+      drm/tests: Add output bpc tests
+      drm/connector: hdmi: Add support for output format
+      drm/tests: Add output formats tests
+      drm/display: hdmi: Add HDMI compute clock helper
+      drm/tests: Add HDMI TDMS character rate tests
+      drm/connector: hdmi: Calculate TMDS character rate
+      drm/tests: Add TDMS character rate connector state tests
+      drm/connector: hdmi: Add custom hook to filter TMDS character rate
+      drm/tests: Add HDMI connector rate filter hook tests
+      drm/connector: hdmi: Compute bpc and format automatically
+      drm/tests: Add HDMI connector bpc and format tests
+      drm/connector: hdmi: Add Broadcast RGB property
+      drm/tests: Add tests for Broadcast RGB property
+      drm/connector: hdmi: Add RGB Quantization Range to the connector state
+      drm/tests: Add RGB Quantization tests
+      drm/connector: hdmi: Add Infoframes generation
+      drm/tests: Add infoframes test
+      drm/connector: hdmi: Create Infoframe DebugFS entries
+      drm/vc4: hdmi: Switch to HDMI connector
+      drm/vc4: tests: Remove vc4_dummy_plane structure
+      drm/vc4: tests: Convert to plane creation helper
+      drm/rockchip: inno_hdmi: Switch to HDMI connector
+      drm/sun4i: hdmi: Switch to HDMI connector
 
-diff --git a/Documentation/virt/hyperv/clocks.rst b/Documentation/virt/hyperv/clocks.rst
-index a56f4837d443..919bb92d6d9d 100644
---- a/Documentation/virt/hyperv/clocks.rst
-+++ b/Documentation/virt/hyperv/clocks.rst
-@@ -62,12 +62,21 @@ shared page with scale and offset values into user space.  User
- space code performs the same algorithm of reading the TSC and
- applying the scale and offset to get the constant 10 MHz clock.
- 
--Linux clockevents are based on Hyper-V synthetic timer 0. While
--Hyper-V offers 4 synthetic timers for each CPU, Linux only uses
--timer 0. Interrupts from stimer0 are recorded on the "HVS" line in
--/proc/interrupts.  Clockevents based on the virtualized PIT and
--local APIC timer also work, but the Hyper-V synthetic timer is
--preferred.
-+Linux clockevents are based on Hyper-V synthetic timer 0 (stimer0).
-+While Hyper-V offers 4 synthetic timers for each CPU, Linux only uses
-+timer 0. In older versions of Hyper-V, an interrupt from stimer0
-+results in a VMBus control message that is demultiplexed by
-+vmbus_isr() as described in the VMBus documentation. In newer versions
-+of Hyper-V, stimer0 interrupts can be mapped to an architectural
-+interrupt, which is referred to as "Direct Mode". Linux prefers
-+to use Direct Mode when available. Since x86/x64 doesn't support
-+per-CPU interrupts, Direct Mode statically allocates an x86 interrupt
-+vector (HYPERV_STIMER0_VECTOR) across all CPUs and explicitly codes it
-+to call the stimer0 interrupt handler. Hence interrupts from stimer0
-+are recorded on the "HVS" line in /proc/interrupts rather than being
-+associated with a Linux IRQ. Clockevents based on the virtualized
-+PIT and local APIC timer also work, but Hyper-V stimer0
-+is preferred.
- 
- The driver for the Hyper-V synthetic system clock and timers is
- drivers/clocksource/hyperv_timer.c.
-diff --git a/Documentation/virt/hyperv/vmbus.rst b/Documentation/virt/hyperv/vmbus.rst
-index f0d83ebda626..1dcef6a7fda3 100644
---- a/Documentation/virt/hyperv/vmbus.rst
-+++ b/Documentation/virt/hyperv/vmbus.rst
-@@ -102,10 +102,10 @@ resources.  For Windows Server 2019 and later, this limit is
- approximately 1280 Mbytes.  For versions prior to Windows Server
- 2019, the limit is approximately 384 Mbytes.
- 
--VMBus messages
----------------
--All VMBus messages have a standard header that includes the message
--length, the offset of the message payload, some flags, and a
-+VMBus channel messages
-+----------------------
-+All messages sent in a VMBus channel have a standard header that includes
-+the message length, the offset of the message payload, some flags, and a
- transactionID.  The portion of the message after the header is
- unique to each VSP/VSC pair.
- 
-@@ -137,7 +137,7 @@ control message contains a list of GPAs that describe the data
- buffer.  For example, the storvsc driver uses this approach to
- specify the data buffers to/from which disk I/O is done.
- 
--Three functions exist to send VMBus messages:
-+Three functions exist to send VMBus channel messages:
- 
- 1. vmbus_sendpacket():  Control-only messages and messages with
-    embedded data -- no GPAs
-@@ -165,6 +165,37 @@ performed in this temporary buffer without the risk of Hyper-V
- maliciously modifying the message after it is validated but before
- it is used.
- 
-+Synthetic Interrupt Controller (synic)
-+--------------------------------------
-+Hyper-V provides each guest CPU with a synthetic interrupt controller
-+that is used by VMBus for host-guest communication. While each synic
-+defines 16 synthetic interrupts (SINT), Linux uses only one of the 16
-+(VMBUS_MESSAGE_SINT). All interrupts related to communication between
-+the Hyper-V host and a guest CPU use that SINT.
-+
-+The SINT is mapped to a single per-CPU architectural interrupt (i.e,
-+an 8-bit x86/x64 interrupt vector, or an arm64 PPI INTID). Because
-+each CPU in the guest has a synic and may receive VMBus interrupts,
-+they are best modeled in Linux as per-CPU interrupts. This model works
-+well on arm64 where a single per-CPU Linux IRQ is allocated for
-+VMBUS_MESSAGE_SINT. This IRQ appears in /proc/interrupts as an IRQ labelled
-+"Hyper-V VMbus". Since x86/x64 lacks support for per-CPU IRQs, an x86
-+interrupt vector is statically allocated (HYPERVISOR_CALLBACK_VECTOR)
-+across all CPUs and explicitly coded to call vmbus_isr(). In this case,
-+there's no Linux IRQ, and the interrupts are visible in aggregate in
-+/proc/interrupts on the "HYP" line.
-+
-+The synic provides the means to demultiplex the architectural interrupt into
-+one or more logical interrupts and route the logical interrupt to the proper
-+VMBus handler in Linux. This demultiplexing is done by vmbus_isr() and
-+related functions that access synic data structures.
-+
-+The synic is not modeled in Linux as an irq chip or irq domain,
-+and the demultiplexed logical interrupts are not Linux IRQs. As such,
-+they don't appear in /proc/interrupts or /proc/irq. The CPU
-+affinity for one of these logical interrupts is controlled via an
-+entry under /sys/bus/vmbus as described below.
-+
- VMBus interrupts
- ----------------
- VMBus provides a mechanism for the guest to interrupt the host when
-@@ -176,16 +207,18 @@ unnecessary.  If a guest sends an excessive number of unnecessary
- interrupts, the host may throttle that guest by suspending its
- execution for a few seconds to prevent a denial-of-service attack.
- 
--Similarly, the host will interrupt the guest when it sends a new
--message on the VMBus control path, or when a VMBus channel "in" ring
--buffer transitions from empty to non-empty.  Each CPU in the guest
--may receive VMBus interrupts, so they are best modeled as per-CPU
--interrupts in Linux.  This model works well on arm64 where a single
--per-CPU IRQ is allocated for VMBus.  Since x86/x64 lacks support for
--per-CPU IRQs, an x86 interrupt vector is statically allocated (see
--HYPERVISOR_CALLBACK_VECTOR) across all CPUs and explicitly coded to
--call the VMBus interrupt service routine.  These interrupts are
--visible in /proc/interrupts on the "HYP" line.
-+Similarly, the host will interrupt the guest via the synic when
-+it sends a new message on the VMBus control path, or when a VMBus
-+channel "in" ring buffer transitions from empty to non-empty due to
-+the host inserting a new VMBus channel message. The control message stream
-+and each VMBus channel "in" ring buffer are separate logical interrupts
-+that are demultiplexed by vmbus_isr(). It demultiplexes by first checking
-+for channel interrupts by calling vmbus_chan_sched(), which looks at a synic
-+bitmap to determine which channels have pending interrupts on this CPU.
-+If multiple channels have pending interrupts for this CPU, they are
-+processed sequentially.  When all channel interrupts have been processed,
-+vmbus_isr() checks for and processes any messages received on the VMBus
-+control path.
- 
- The guest CPU that a VMBus channel will interrupt is selected by the
- guest when the channel is created, and the host is informed of that
-@@ -212,10 +245,9 @@ neither "unmanaged" nor "managed" interrupts.
- The CPU that a VMBus channel will interrupt can be seen in
- /sys/bus/vmbus/devices/<deviceGUID>/ channels/<channelRelID>/cpu.
- When running on later versions of Hyper-V, the CPU can be changed
--by writing a new value to this sysfs entry.  Because the interrupt
--assignment is done outside of the normal Linux affinity mechanism,
--there are no entries in /proc/irq corresponding to individual
--VMBus channel interrupts.
-+by writing a new value to this sysfs entry. Because VMBus channel
-+interrupts are not Linux IRQs, there are no entries in /proc/interrupts
-+or /proc/irq corresponding to individual VMBus channel interrupts.
- 
- An online CPU in a Linux guest may not be taken offline if it has
- VMBus channel interrupts assigned to it.  Any such channel
-@@ -223,15 +255,6 @@ interrupts must first be manually reassigned to another CPU as
- described above.  When no channel interrupts are assigned to the
- CPU, it can be taken offline.
- 
--When a guest CPU receives a VMBus interrupt from the host, the
--function vmbus_isr() handles the interrupt.  It first checks for
--channel interrupts by calling vmbus_chan_sched(), which looks at a
--bitmap setup by the host to determine which channels have pending
--interrupts on this CPU.  If multiple channels have pending
--interrupts for this CPU, they are processed sequentially.  When all
--channel interrupts have been processed, vmbus_isr() checks for and
--processes any message received on the VMBus control path.
--
- The VMBus channel interrupt handling code is designed to work
- correctly even if an interrupt is received on a CPU other than the
- CPU assigned to the channel.  Specifically, the code does not use
+ Documentation/gpu/kms-properties.csv               |    1 -
+ drivers/gpu/drm/Kconfig                            |    1 +
+ drivers/gpu/drm/display/Kconfig                    |    7 +
+ drivers/gpu/drm/display/Makefile                   |    2 +
+ drivers/gpu/drm/display/drm_hdmi_helper.c          |   57 +
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  698 ++++++++
+ drivers/gpu/drm/drm_atomic.c                       |   11 +
+ drivers/gpu/drm/drm_atomic_uapi.c                  |    4 +
+ drivers/gpu/drm/drm_connector.c                    |  194 +++
+ drivers/gpu/drm/drm_debugfs.c                      |  152 ++
+ drivers/gpu/drm/drm_mode_object.c                  |    1 +
+ drivers/gpu/drm/rockchip/Kconfig                   |    3 +
+ drivers/gpu/drm/rockchip/inno_hdmi.c               |  153 +-
+ drivers/gpu/drm/sun4i/Kconfig                      |    3 +
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |   84 +-
+ drivers/gpu/drm/tests/Makefile                     |    1 +
+ drivers/gpu/drm/tests/drm_connector_test.c         | 1032 +++++++++++-
+ drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 1743 ++++++++++++++++++++
+ drivers/gpu/drm/tests/drm_kunit_edid.h             |  482 ++++++
+ drivers/gpu/drm/vc4/Kconfig                        |    1 +
+ drivers/gpu/drm/vc4/tests/vc4_mock.c               |    6 +-
+ drivers/gpu/drm/vc4/tests/vc4_mock.h               |    9 +-
+ drivers/gpu/drm/vc4/tests/vc4_mock_plane.c         |   44 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c                     |  644 +-------
+ drivers/gpu/drm/vc4/vc4_hdmi.h                     |   44 +-
+ drivers/gpu/drm/vc4/vc4_hdmi_phy.c                 |    6 +-
+ include/drm/display/drm_hdmi_helper.h              |    4 +
+ include/drm/display/drm_hdmi_state_helper.h        |   23 +
+ include/drm/drm_connector.h                        |  229 +++
+ 29 files changed, 4862 insertions(+), 777 deletions(-)
+---
+base-commit: 533db32499de1618443b2249bc20011cd5abc9d9
+change-id: 20230814-kms-hdmi-connector-state-616787e67927
+
+Best regards,
 -- 
-2.25.1
+Maxime Ripard <mripard@kernel.org>
 
