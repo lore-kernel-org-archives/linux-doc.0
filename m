@@ -1,119 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.119])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED9C79DD5;
-	Tue,  7 May 2024 06:38:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3D5C13D25E;
+	Tue,  7 May 2024 08:45:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.119
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715063919; cv=none; b=qchlBIVlaGw71iqi1XaEvmNMA45/9sEe2lXMEf1BIKsK+JoVuPG5gxqrwK/GwSw5BGsQQRUvwlWcWIg/N0+9C50AToI+c82FyuF9TAPhTbCvSGYUFIZXcbirQvZAzFa2OYodmx6KDCVP45ftkqM3otn6JRgerJKEjHi8XhtWotM=
+	t=1715071508; cv=none; b=hoTmjz3sDvewgjPI33ExqTD2bRj199qSJbO+bOVrRC1tPz+Lmknx7jIOCtO5J7Rjh3LdHYRgbKVSAdRWdybNXgkh+3Z33WaC9znNly0a6jZpsvhGJVJxRvrDfRssvN2Y3r1evaJiW/qszAJ6j7VnoiD7zxKlZi8j/B6RgoYrYNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715063919; c=relaxed/simple;
-	bh=+jCl/Bk8B/p/WIdgE2PrsvxstUDWmFgiL+fNpMkcHFo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PQa19QeYYVEen/ac5Te6yNPbmeO8sAnUVb6bzLUBaT3kecgng8QZd2Sz3zpR1/LLOza+fFd3WK3SSWIeuguKzj9aNbViJBGaFTjaHFxKzNNUY/cWgNJGM6Aa8YY97blA+9atG6E9+gE4s510i6aFIocU0KyW+tYLHCsCwGROXwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KNMp4fVL; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KNMp4fVL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95200C4AF18;
-	Tue,  7 May 2024 06:38:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715063918;
-	bh=+jCl/Bk8B/p/WIdgE2PrsvxstUDWmFgiL+fNpMkcHFo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=KNMp4fVLnSPgfy5ylptuzEO7/8ac7568vebJpzCEw8qkGah60Ks0TizdNiJrZYfN8
-	 OFXd/rwO7kbXAfCTTKga3u3PIqqasgjM639hymnm3+NqGiGCc+GAEeciZC2agY/Rv6
-	 w/YSu8spKVS6c2Mivy6kfLMj4ey41FASJL7tLP52FK0Pe/WKbfW4bLTBTNsRQV9Y5q
-	 bsc5bdwGyEdrSATiKTcldkcUGXBE3BA2ROQQJREl0zsOT9aOWFUlJrTjYXNK8Znx4V
-	 x5sqHNSnwEMbffqlUdGSEbUZ7y32U2b2XkvtPMzcoH7Z7460FrIeIRUBMQ3mWtDRz0
-	 Zoi0cCJ/JOiiA==
-Message-ID: <71c52a0d-b788-4bbd-b409-6e62e6aff222@kernel.org>
-Date: Tue, 7 May 2024 08:38:29 +0200
+	s=arc-20240116; t=1715071508; c=relaxed/simple;
+	bh=9A8aEb/H5tnV9h/oJOLC+7cvqcA0+aC7Q7/UdHScoJ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AyhyQWyEbiOBaaHNpvr7KsMHjgg91OMMURTaRFpQuOZaZfXSYGqpSx5UyREdamx7w5jyNGHD2LHlFktLUu6aUH9pMxOIVfYqqwvBlVsTyPeEEYYimCDjXVMin/7tDqeGEsDI0uYjieOXOMwriG80KcXOLLMQkHjzVuZ7X2Hgb8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=avm.de; arc=none smtp.client-ip=212.42.244.119
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=fjasle.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
+Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [212.42.244.71])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Tue,  7 May 2024 10:45:00 +0200 (CEST)
+Received: from buildd.core.avm.de (buildd-sv-01.avm.de [172.16.0.225])
+	by mail-auth.avm.de (Postfix) with ESMTPA id 26098805BF;
+	Tue,  7 May 2024 10:45:00 +0200 (CEST)
+Received: by buildd.core.avm.de (Postfix, from userid 1000)
+	id 151C2181156; Tue,  7 May 2024 10:45:00 +0200 (CEST)
+Date: Tue, 7 May 2024 10:45:00 +0200
+From: Nicolas Schier <nicolas@fjasle.eu>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Matt Porter <mporter@kernel.crashing.org>,
+	Alexandre Bounine <alex.bou9@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/2] kconfig: do not imply the type of choice from the
+ first entry
+Message-ID: <ZjnqDCqRLWmvFxWN@buildd.core.avm.de>
+References: <20240427104231.2728905-1-masahiroy@kernel.org>
+ <20240427104231.2728905-3-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 00/11] Introduce Tegra register config settings
-To: Krishna Yarlagadda <kyarlagadda@nvidia.com>, linux-tegra@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-i2c@vger.kernel.org, linux-mmc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: thierry.reding@gmail.com, jonathanh@nvidia.com, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
- andi.shyti@kernel.org, wsa+renesas@sang-engineering.com,
- ulf.hansson@linaro.org, adrian.hunter@intel.com, digetx@gmail.com,
- ldewangan@nvidia.com, mkumard@nvidia.com
-References: <20240506225139.57647-1-kyarlagadda@nvidia.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240506225139.57647-1-kyarlagadda@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240427104231.2728905-3-masahiroy@kernel.org>
+X-purgate-ID: 149429::1715071500-93D8D2A6-18139FF2/0/0
+X-purgate-type: clean
+X-purgate-size: 2183
+X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
+X-purgate: This mail is considered clean (visit http://www.eleven.de for further information)
+X-purgate: clean
 
-On 07/05/2024 00:51, Krishna Yarlagadda wrote:
->  
->  Patch 01: Documentation about the device tree binding for common config framework.
->  Patch 02: Common parser of the device tree config setting node for Tegra SoC.
->  Patch 03: Device tree binding documentation for config setting.
->  Patch 04: Device tree binding documentation for the I2C config setting.
->  Patch 05: Avoid config settings child node to be treated as I2C device.
->  Patch 06: Move clock initialization code into new methods
->  Patch 07: Using config settings in Tegra I2C driver for interface timing registers.
->  Patch 08: Add Tegra234 I2C config settings in DT.
->  Patch 09: Device tree binding documentation for the SDHCI config setting.
->  Patch 10: Using config settings in Tegra SDHCI driver for tuning iteration.
->  Patch 11: Add Tegra234 SDHCI config settings in DT.
+On Sat, Apr 27, 2024 at 07:42:31PM +0900, Masahiro Yamada wrote:
+> The followng two test cases are very similar, but the latter does not
+> work.
 > 
-> Known Issues:
->  - DTC warning for config 'missing or empty reg property for I2C nodes'
+> [test case 1]
+> 
+>     choice
+>             prompt "choose"
+> 
+>     config A
+>             bool "A"
+> 
+>     if y
+>     config B
+>             bool "B"
+>     endif
+> 
+>     endchoice
+> 
+> [test case 2]
+> 
+>     choice
+>             prompt "choose"
+> 
+>     if y
+>     config A
+>             bool "A"
+> 
+>     config B
+>             bool "B"
+>     endif
+> 
+>     endchoice
+> 
+> Since 'if y' is always true, both of them should be equivalent to:
+> 
+>     choice
+>             prompt "choose"
+> 
+>     config A
+>             bool "A"
+> 
+>     config B
+>             bool "B"
+> 
+>     endchoice
+> 
+> However, the test case 2 warns:
+>   Kconfig:1:warning: config symbol defined without type
+> 
+> If the type of choice is not specified, it is implied from the first
+> entry within the choice block.
+> 
+> When inferring the choice type, menu_finalize() checks only direct
+> children of the choice. At this point, the menu entries still exist
+> under the 'if' entry:
+> 
+>   choice
+>   \-- if y
+>       |-- A
+>       \-- B
+> 
+> Later, menu_finalize() re-parents the menu, so A and B will be lifted up
+> right under the choice:
+> 
+>   choice
+>   |-- if y
+>   |-- A
+>   \-- B
+> 
+> This is complex because menu_finalize() sets attributes, restructures
+> the menu tree, and checks the sanity at the same time, leading to some
+> bugs.
+> 
+> It would be possible to resolve it by setting the choice type after
+> re-parenting, but the current mechanism looks questionable to me.
+> 
+> Let's default all choices to 'bool' unless the type is specified.
+> This change makes sense because 99% of choice use cases are bool.
+> 
+> There exists only one 'tristate' choice in drivers/rapidio/Kconfig.
+> Another (much cleaner) approach would be to remove the tristate choice
+> support entirely, but I have not yet made up my mind.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
 
-Which should stop you from sending buggy code, till you fix it.
+Thanks, looks good to me.
 
-Best regards,
-Krzysztof
-
+Reviewed-by: Nicolas Schier <n.schier@avm.de>
