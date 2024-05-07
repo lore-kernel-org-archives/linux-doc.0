@@ -1,101 +1,193 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 886842746B;
-	Tue,  7 May 2024 21:15:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C57A8060D;
+	Tue,  7 May 2024 22:58:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715116559; cv=none; b=DfcKB43KsGAYh2GpcnoTP1uXLl0liY+NgUOF6I/dze5MFm9ZjAgNBDVeRCiA13o9Z8hD1HhI7vTUAURMccIxij+s0Lnagx9yMYT1Udl3MZSas/M2gXdw65iz42c/ygLE8Wj1luLywHsKjAVhTg4QrX2CuEeJ9JHhkuUSpuMgyD4=
+	t=1715122705; cv=none; b=Y7rLTIBI/NbfHbZD47qnHWlXMmQKEwReF+Ueu63tDnmH5esQGRbp5YAX2fs6dCt9gU2MJQ8KHKWK4a/p4Y8epUJjNPvYKlJDNRCBwpfOICoXouBIU3Z2SVMJdfQQN0V4JOxxtIdXszlhODgIiSvVClmBAa4b5L3Qhgw0xmNvmNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715116559; c=relaxed/simple;
-	bh=goUkuLckbYtMinqNxuCVrvPMEnCgp7dtnW5xcRA5XCY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PHZdvjroxPTI4aZp/Xt+nvZTd2Sk/0H9vTuvFcsWoOtB1c5k/Q9AILXIQFUzQHKFevthlqNBYba+El/j0dSnzqsesZzxV0OjNRyRjMJCqae+me8PrJ1KGr6c3Y+KZRXKWFa6JGhH6HCgfMmu4QkFqlULi62KbG7SBLWaitYhSdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hW4YYgwR; arc=none smtp.client-ip=209.85.128.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1715122705; c=relaxed/simple;
+	bh=GV9fGJP89g5AslJ5zfrMFPFR094Dgndsw4GvTjbyES4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=REtoUVZ5/dX89jUC6DoyJ0ds1hboxIpAvoJe0cc+JAX2zfeGyHniPNR+zJZDUzZj8K3/x6rXSUSt1zrGaCliSvvsStgzGTUoDy0BqdiGrtnBCzGGbL9YP8ONWNsNsFj41viV7YurwLU8QwwDqUDxOapoEC614t3r+RuJVdFRFL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UG5Yg7fN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hW4YYgwR"
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-6181d032bf9so35382707b3.3;
-        Tue, 07 May 2024 14:15:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715116556; x=1715721356; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mYeGMToteaskIs6sMPrkW/JKjEbgC3kWhMUNPICMUpk=;
-        b=hW4YYgwRIZ5ICwtN0PsY/dE7VDSGa5C46FAZQCZrjcuOFdiIUNV70rYS31wdJzTTRR
-         LGDUDvnOj1AlDNr18INE36Omcxfzh/0GuKrKE7SnzMnz8f9JJuz2Pc1Ky3Z3+vxXRGud
-         dHxs3u10wE87d0vKF2+63vFf/9dCNi2vWdKgQzy8HuWMCcsUWUILzzBYd7eWwknof3zw
-         WJcyCW6PCVs02szeK/bYtTab490bl/6wiGZ8sEecP/85ZYMyI11xzapV4cuVdIMdG/iW
-         wyoGrSQIdfVut1uxsF3/+Jb5R+MBtJEhQaAUoDYYvIliAl0xEOgfIiPfYwWJXWPoyPA2
-         p51A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715116556; x=1715721356;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mYeGMToteaskIs6sMPrkW/JKjEbgC3kWhMUNPICMUpk=;
-        b=YmKLOIlfCvhI4PU7GB0R9tG3DAaA1M/ZWP3+i7lKFcroF4CSdhL0/0rC8gM2WuevmI
-         QpRfSgrcQ+o3rCi3Bz37iCKKWIBXIS8DrygBa6yE4ib8xJ3WTPOZndw2KZ+Ss+nLjDMj
-         f1ayK2xeq75t6FKObMexn2WxedYbhr6PbPD/4xME0bwoRpel6ik+6XqOvqeXHhUaZkGP
-         VhXWkQCQA3yWQ9vyYrQiYmVMg+nipEhNUjR7YUkB+bnmmksfUyF6VMxLicRX5qGNJBkv
-         tZ6oKh8amsCzwoKwoBHj0DA0n3rMUC3rPKsvd3LG33jxzdsoFDAvoiwFntOky1sivM+g
-         trHg==
-X-Forwarded-Encrypted: i=1; AJvYcCX+VXSNQWR6vjfy3/2zkbVKUbfBfLh4b7HyuPFc/gDAFZDIp0lk8y2KfDSiVcyOmarO22CP8iklghBH8IDAlDzQinethtZxVuKdhLnWHgyTnlPf6ct0mEUDS7sSy0PgiGs6juP13jWodjGRSGDVHfoNBuITa7q0m8vxC+JFGyJyDCVnkbejGOLGecgthreNKdROcIB/8aawR5qz0Lvl9cERYL9oIzPLpQALC0rfQWGyRwrBC8kT3Z/6FPJtQA==
-X-Gm-Message-State: AOJu0YxwNVTzm6F5l4ZZ5yWBMMo6Z57o/mDQ+PTj8kU69EYQEGiIGZFT
-	uhUy8p6/cm7bjkPELOBXBIACt8ENzLJbasLFsfq+Q1Bk/IEhyKQb
-X-Google-Smtp-Source: AGHT+IGkf8neUX4Td3fdf5viAkv7QSY2fzH2N80z+lW4vEfVjVZop7l7kDw3wXLDKTTm9Ao1ryNEdw==
-X-Received: by 2002:a05:690c:3603:b0:61b:1718:7302 with SMTP id 00721157ae682-62086299e20mr10077027b3.31.1715116556362;
-        Tue, 07 May 2024 14:15:56 -0700 (PDT)
-Received: from google.com ([2620:15c:9d:2:e3c:6631:2efa:fee2])
-        by smtp.gmail.com with ESMTPSA id u70-20020a0deb49000000b00618876dc75fsm2879497ywe.27.2024.05.07.14.15.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 May 2024 14:15:56 -0700 (PDT)
-Date: Tue, 7 May 2024 14:15:52 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Cosmin Tanislav <cosmin.tanislav@analog.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Antoniu Miclaus <antoniu.miclaus@analog.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-input@vger.kernel.org,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v2 7/7] Input: mpr121: Use
- devm_regulator_get_enable_read_voltage()
-Message-ID: <ZjqaCHUc7PlbKDCK@google.com>
-References: <20240429-regulator-get-enable-get-votlage-v2-0-b1f11ab766c1@baylibre.com>
- <20240429-regulator-get-enable-get-votlage-v2-7-b1f11ab766c1@baylibre.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UG5Yg7fN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 547ABC3277B;
+	Tue,  7 May 2024 22:58:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715122705;
+	bh=GV9fGJP89g5AslJ5zfrMFPFR094Dgndsw4GvTjbyES4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=UG5Yg7fNvlo/bcL5RLmMY5mQJe/HsD6ZyhYpBMO2UTPxERqUgXONX32ZnR2u1mZ8T
+	 nQg163OOMRaGHHSGSP/CKCaCYaZQ0sLMug21AZd6Mxu/Ara24NGoCBxmTDfZXcd0gK
+	 HRu2SF4LGQvnEKOQ/LvAJ9zwKztRp+tgaNDr0XNQ3iRM7KdyoWy4Fdl0KSoFfvsiBH
+	 ZASZk7GPvMjSYcb/BiPNgufAXq01scQqeT81Xck5HgFwdSKy/yWVBLng4RplT+MZen
+	 AeOUNaf+idpvz4GCpKMhrZDsxls9KN/+XJTlWCE9fcMIUorGhxsuOpMP2dxtjlmW6Q
+	 kFfZ5G0373MkQ==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Sean Christopherson <seanjc@google.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Sasha Levin <sashal@kernel.org>,
+	corbet@lwn.net,
+	tglx@linutronix.de,
+	mingo@redhat.com,
+	dave.hansen@linux.intel.com,
+	x86@kernel.org,
+	peterz@infradead.org,
+	paulmck@kernel.org,
+	jpoimboe@kernel.org,
+	tj@kernel.org,
+	xiongwei.song@windriver.com,
+	linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.8 17/23] cpu: Ignore "mitigations" kernel parameter if CPU_MITIGATIONS=n
+Date: Tue,  7 May 2024 18:56:43 -0400
+Message-ID: <20240507225725.390306-17-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240507225725.390306-1-sashal@kernel.org>
+References: <20240507225725.390306-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240429-regulator-get-enable-get-votlage-v2-7-b1f11ab766c1@baylibre.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.8.9
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 29, 2024 at 06:40:15PM -0500, David Lechner wrote:
-> We can reduce boilerplate code by using
-> devm_regulator_get_enable_read_voltage().
-> 
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Signed-off-by: David Lechner <dlechner@baylibre.com>
+From: Sean Christopherson <seanjc@google.com>
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+[ Upstream commit ce0abef6a1d540acef85068e0e82bdf1fbeeb0e9 ]
 
-Mark, maybe you will pick up this one as well?
+Explicitly disallow enabling mitigations at runtime for kernels that were
+built with CONFIG_CPU_MITIGATIONS=n, as some architectures may omit code
+entirely if mitigations are disabled at compile time.
 
-Thanks.
+E.g. on x86, a large pile of Kconfigs are buried behind CPU_MITIGATIONS,
+and trying to provide sane behavior for retroactively enabling mitigations
+is extremely difficult, bordering on impossible.  E.g. page table isolation
+and call depth tracking require build-time support, BHI mitigations will
+still be off without additional kernel parameters, etc.
 
+  [ bp: Touchups. ]
+
+Signed-off-by: Sean Christopherson <seanjc@google.com>
+Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+Acked-by: Borislav Petkov (AMD) <bp@alien8.de>
+Link: https://lore.kernel.org/r/20240420000556.2645001-3-seanjc@google.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Documentation/admin-guide/kernel-parameters.txt |  3 +++
+ arch/x86/Kconfig                                |  8 ++++++--
+ include/linux/cpu.h                             | 11 +++++++++++
+ kernel/cpu.c                                    | 14 ++++++++++----
+ 4 files changed, 30 insertions(+), 6 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 31fdaf4fe9dd8..9bfc972af2403 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3399,6 +3399,9 @@
+ 			arch-independent options, each of which is an
+ 			aggregation of existing arch-specific options.
+ 
++			Note, "mitigations" is supported if and only if the
++			kernel was built with CPU_MITIGATIONS=y.
++
+ 			off
+ 				Disable all optional CPU mitigations.  This
+ 				improves system performance, but it may also
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 6f49999a6b838..bfccf1213871b 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -2474,9 +2474,13 @@ menuconfig CPU_MITIGATIONS
+ 	help
+ 	  Say Y here to enable options which enable mitigations for hardware
+ 	  vulnerabilities (usually related to speculative execution).
++	  Mitigations can be disabled or restricted to SMT systems at runtime
++	  via the "mitigations" kernel parameter.
+ 
+-	  If you say N, all mitigations will be disabled. You really
+-	  should know what you are doing to say so.
++	  If you say N, all mitigations will be disabled.  This CANNOT be
++	  overridden at runtime.
++
++	  Say 'Y', unless you really know what you are doing.
+ 
+ if CPU_MITIGATIONS
+ 
+diff --git a/include/linux/cpu.h b/include/linux/cpu.h
+index 8654714421a0d..75f0344bd3b94 100644
+--- a/include/linux/cpu.h
++++ b/include/linux/cpu.h
+@@ -219,7 +219,18 @@ void cpuhp_report_idle_dead(void);
+ static inline void cpuhp_report_idle_dead(void) { }
+ #endif /* #ifdef CONFIG_HOTPLUG_CPU */
+ 
++#ifdef CONFIG_CPU_MITIGATIONS
+ extern bool cpu_mitigations_off(void);
+ extern bool cpu_mitigations_auto_nosmt(void);
++#else
++static inline bool cpu_mitigations_off(void)
++{
++	return true;
++}
++static inline bool cpu_mitigations_auto_nosmt(void)
++{
++	return false;
++}
++#endif
+ 
+ #endif /* _LINUX_CPU_H_ */
+diff --git a/kernel/cpu.c b/kernel/cpu.c
+index f8a0406ce8ba5..bac70ea54e349 100644
+--- a/kernel/cpu.c
++++ b/kernel/cpu.c
+@@ -3196,6 +3196,7 @@ void __init boot_cpu_hotplug_init(void)
+ 	this_cpu_write(cpuhp_state.target, CPUHP_ONLINE);
+ }
+ 
++#ifdef CONFIG_CPU_MITIGATIONS
+ /*
+  * These are used for a global "mitigations=" cmdline option for toggling
+  * optional CPU mitigations.
+@@ -3206,9 +3207,7 @@ enum cpu_mitigations {
+ 	CPU_MITIGATIONS_AUTO_NOSMT,
+ };
+ 
+-static enum cpu_mitigations cpu_mitigations __ro_after_init =
+-	IS_ENABLED(CONFIG_CPU_MITIGATIONS) ? CPU_MITIGATIONS_AUTO :
+-					     CPU_MITIGATIONS_OFF;
++static enum cpu_mitigations cpu_mitigations __ro_after_init = CPU_MITIGATIONS_AUTO;
+ 
+ static int __init mitigations_parse_cmdline(char *arg)
+ {
+@@ -3224,7 +3223,6 @@ static int __init mitigations_parse_cmdline(char *arg)
+ 
+ 	return 0;
+ }
+-early_param("mitigations", mitigations_parse_cmdline);
+ 
+ /* mitigations=off */
+ bool cpu_mitigations_off(void)
+@@ -3239,3 +3237,11 @@ bool cpu_mitigations_auto_nosmt(void)
+ 	return cpu_mitigations == CPU_MITIGATIONS_AUTO_NOSMT;
+ }
+ EXPORT_SYMBOL_GPL(cpu_mitigations_auto_nosmt);
++#else
++static int __init mitigations_parse_cmdline(char *arg)
++{
++	pr_crit("Kernel compiled without mitigations, ignoring 'mitigations'; system may still be vulnerable\n");
++	return 0;
++}
++#endif
++early_param("mitigations", mitigations_parse_cmdline);
 -- 
-Dmitry
+2.43.0
+
