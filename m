@@ -1,83 +1,76 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from xry111.site (xry111.site [89.208.246.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2490E158D9A;
-	Tue,  7 May 2024 14:01:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE30316C434;
+	Tue,  7 May 2024 14:21:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.208.246.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715090517; cv=none; b=YgofaOlMuGOE/3euIyCHN5Imyp+W3rYV4RzRBlM/rsJGm6u1Agwm86rhRpNsR96MgRVcc025/z28XJSNC32BmntXlIpdpOU9XbWQopM0osoxzGIHrCFZ9JiOOw2P0meZOSBSI10vYq2sBmtHS854e35l5BP5nMGRTR5ibxK3YcE=
+	t=1715091674; cv=none; b=lNmHN0w69Q+KJ38+n0nuj+oBSzw3iukiuxSeUdI7AJy4kwy29sX0LoAQzJ0XkkFxv3SbAMdaXqi8lzuUNqwnbE2i8yB49xhPxU5Br0ObMG6bHQsO0BFetlgcqIdrOct0EekCpa8BzXoiVbiZZBBoKkDbTKucqoR6gdMNVU8DKKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715090517; c=relaxed/simple;
-	bh=I8Jh/c0O3HmeTvddNyCG+LPiNook2RF0dJ160XS3vEE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=kbwYnCe6ftBfl5WfBy40DEyGRA8+0tEYWBMt8213u0KMn34IzPGfOv+FCJei+CzhhsPCG2cvIS+J1dfPXlFIlDInty6qdwl+Bp40wXfQjNktlHL0SGs8lL4PXmj20kiHiZ6hsmaXcJQqkljtFxZDxtAihQzxqdcohWKcFqu7auo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=SRwLjig1; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1715091674; c=relaxed/simple;
+	bh=KuPguweerCAeDeFcHUy2Ym+qHGosgURq8HC0Jlhat0k=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=FC2gyQNIdPT1FsaXiLcTX0M7Hd8pHJc5votZxQQCvZo6rY2WFJVtBcC3y66cfV7vqtXFNrAczlSWqS0gn0gPiaXGD/2+k4tKX2gH9m9PLElKISw6kgln/vniadR8EzBqD/NbTDaBMEcbwxEr5ecNijuoqjE/ynwGo9hbgAGyXTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xry111.site; spf=pass smtp.mailfrom=xry111.site; dkim=pass (1024-bit key) header.d=xry111.site header.i=@xry111.site header.b=SAnUNbzE; arc=none smtp.client-ip=89.208.246.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=xry111.site
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xry111.site
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="SRwLjig1"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6785247C42
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1715090515; bh=v8zpDZ52eJJsgwnWvpCntsojxBM4sw48U0a8jeYBkJU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=SRwLjig1A4b9jYCSZ43z5CULRf48H3strCTKj15I7/JjCqzo9uoTeVSy+nTIp/PMx
-	 f1nB9w5FFFySKx67fnvolXM5Q9vpGea3B1Ot2sdh2raJ1BYHhs44mfkTiE+jMPt6ZX
-	 7yUcOosRU+CP59izZcjoPa/DGctwmNbA+bcvwAzLuuGHM8H5bPRf9iLm3JJVtHIlzJ
-	 gYATyXtEUFmZ1kKQgtN06WQV2QQKLBW9UsA2Kw90VLvuc4eEhIhNVffSsc6UEX2JNH
-	 AcTrikbDSHFa7VIvtFY3HjuWazJJHHDum2exmiHRpwc/Tqb4n3/PTFw+polvai3wVu
-	 y1EXwEx2K5nzg==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625:67c:16ff:fe81:5f9b])
+	dkim=pass (1024-bit key) header.d=xry111.site header.i=@xry111.site header.b="SAnUNbzE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xry111.site;
+	s=default; t=1715091664;
+	bh=KuPguweerCAeDeFcHUy2Ym+qHGosgURq8HC0Jlhat0k=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=SAnUNbzEABYCaE148HVT/5Kc4c/5dt5/BW8DXzOR1++aF+l+/mjwKH+6T7FEc3FIp
+	 T9BRfDKtYojdJP+XCKnBUJCMq8+Y6QmdObldwQCWw/KfSZyHXblBYUrnCpHV4WH7H9
+	 olguVMaRtysU2TO3gu3pLu1vDfFeanhezIxj2Wiw=
+Received: from [IPv6:240e:456:1030:3f01:af89:88e3:556c:eacb] (unknown [IPv6:240e:456:1030:3f01:af89:88e3:556c:eacb])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 6785247C42;
-	Tue,  7 May 2024 14:01:55 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Dennis Lam <dennis.lamerice@gmail.com>, chris@chrisdown.name
-Cc: Dennis Lam <dennis.lamerice@gmail.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs:core-api: fixed typos and grammar in printk-index
- page
-In-Reply-To: <20240502212522.4263-1-dennis.lamerice@gmail.com>
-References: <dennis.lamerice@gmail.com>
- <20240502212522.4263-1-dennis.lamerice@gmail.com>
-Date: Tue, 07 May 2024 08:01:54 -0600
-Message-ID: <87zft1g1pp.fsf@meer.lwn.net>
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-384) server-digest SHA384)
+	(Client did not present a certificate)
+	(Authenticated sender: xry111@xry111.site)
+	by xry111.site (Postfix) with ESMTPSA id DFBE266916;
+	Tue,  7 May 2024 10:20:48 -0400 (EDT)
+Message-ID: <a0a896fef1aca8958a190801ab5355e22373081d.camel@xry111.site>
+Subject: Re: [PATCH 2/2] Loongarch:Support loongarch avec
+From: Xi Ruoyao <xry111@xry111.site>
+To: Tianyang Zhang <zhangtianyang@loongson.cn>, chenhuacai@kernel.org, 
+	kernel@xen0n.name, tglx@linutronix.de, jiaxun.yang@flygoat.com, 
+	gaoliang@loongson.cn, wangliupu@loongson.cn, lvjianmin@loongson.cn, 
+	yijun@loongson.cn, mhocko@suse.com, akpm@linux-foundation.org, 
+	dianders@chromium.org, maobibo@loongson.cn, zhaotianrui@loongson.cn, 
+	nathan@kernel.org, yangtiezhu@loongson.cn, zhoubinbin@loongson.cn
+Cc: loongarch@lists.linux.dev, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Date: Tue, 07 May 2024 22:20:42 +0800
+In-Reply-To: <20240507125953.9117-1-zhangtianyang@loongson.cn>
+References: <20240507125953.9117-1-zhangtianyang@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
 
-Dennis Lam <dennis.lamerice@gmail.com> writes:
+On Tue, 2024-05-07 at 20:59 +0800, Tianyang Zhang wrote:
+> +static inline void loongarch_avec_ack_irq(struct irq_data *d)
+> +{
+> +}
+> +
+> +static inline void loongarch_avec_unmask_irq(struct irq_data *d)
+> +{
+> +}
+> +
+> +static inline void loongarch_avec_mask_irq(struct irq_data *d)
+> +{
+> +}
 
-> Signed-off-by: Dennis Lam <dennis.lamerice@gmail.com>
-> ---
->  Documentation/core-api/printk-index.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/core-api/printk-index.rst b/Documentation/core-api/printk-index.rst
-> index 3062f37d119b..1979c5dd32fe 100644
-> --- a/Documentation/core-api/printk-index.rst
-> +++ b/Documentation/core-api/printk-index.rst
-> @@ -4,7 +4,7 @@
->  Printk Index
->  ============
->  
-> -There are many ways how to monitor the state of the system. One important
-> +There are many ways to monitor the state of the system. One important
->  source of information is the system log. It provides a lot of information,
->  including more or less important warnings and error messages.
->  
-> @@ -101,7 +101,7 @@ their own wrappers adding __printk_index_emit().
->  
->  Only few subsystem specific wrappers have been updated so far,
->  for example, dev_printk(). As a result, the printk formats from
-> -some subsystes can be missing in the printk index.
-> +some subsystems can be missing in the printk index.
->  
-Applied, thanks.
+"inline" has no use here because these functions are only called via
+function pointers, thus such calls cannot be inline-able.  I'd suggest
+to remove "inline" for them.
 
-jon
+--=20
+Xi Ruoyao <xry111@xry111.site>
+School of Aerospace Science and Technology, Xidian University
