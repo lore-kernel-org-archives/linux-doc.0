@@ -1,30 +1,31 @@
-Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
+Received: from mail-m127102.qiye.163.com (mail-m127102.qiye.163.com [115.236.127.102])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D6BF6BFC0;
-	Tue,  7 May 2024 09:11:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D25C4F894;
+	Tue,  7 May 2024 09:50:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.236.127.102
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715073117; cv=none; b=oqzXnMjjHJXUi43kpNBrdfh1Z5aaolu2w08440qnU5h/KiYWNRMS1884RCL+Ll11vWmi4QxmXuB8ALdk/7XiR52UTy8jbRzNWOs/mm2STu0p1R5fMhePQ69wyVvM1FtCoNLpTM3SMQXi0+F4GDK5uwJqH2YVvT41XC2psShkeLQ=
+	t=1715075419; cv=none; b=MxKgRwFrOD/Ze9XSPTsjnkJvhGfxSr19l3KDsTYNAJUGKX/dKpvWeqN9Df7hs4iaBRN2qOBi6gm7tt+Eiv38Mb58hw+AL8nPl8OE2Pd1OMqgVXs+K5bqd9rroD5qv2RQgclYLe1YW83hgeghQJptP2TThwrb5D0cFwugnS697cw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715073117; c=relaxed/simple;
-	bh=YHXlC7kJ8K1unV8F/MZ9J57OGBK3Citlye2x7wU1iwo=;
+	s=arc-20240116; t=1715075419; c=relaxed/simple;
+	bh=ik7otHDJmq2Tk97tlY36+mTtqzuQS3rBj0pENGE7aBE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ibGOO5FFEL1zWsv57/rwCUAAN5XE/A5qnX5TMry9KHnMOV4xRVAlxBfAntKdvwoWgJZtEAiG2uYQbmEWQI46YS3tz0bojT+GLmPaQ/opmUfI25qx79Q2ByweEUcksSPGZKSuEdlTFbeQWNcK/ufw58U3QGNGWutbhrZZH/GNb4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.186.29])
-	by frasgout11.his.huawei.com (SkyGuard) with ESMTP id 4VYXCb0gGNz9v7fr;
-	Tue,  7 May 2024 16:54:51 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.27])
-	by mail.maildlp.com (Postfix) with ESMTP id A26CE14074A;
-	Tue,  7 May 2024 17:11:40 +0800 (CST)
-Received: from [10.45.158.162] (unknown [10.45.158.162])
-	by APP2 (Coremail) with SMTP id GxC2BwB3Yyc+8DlmamutBw--.32210S2;
-	Tue, 07 May 2024 10:11:40 +0100 (CET)
-Message-ID: <a49c85e2-f5d1-4beb-86d9-43cbc2d59336@huaweicloud.com>
-Date: Tue, 7 May 2024 11:11:19 +0200
+	 In-Reply-To:Content-Type; b=PJCsjIKQqE27y3Iu847eLjKy+iumqt1TEoBRkvwJL4tWFp6AC9QGPLsqhDFZRhxBrTGvNFtQpbJYlY5F9ImiCbc3GjvHFlqrHxDK7UhX8T0bb7LI/3ESZDWBZlxFWKhQNCcNoOvYBI3YZ5CVytHK1qDZkf1I1EcORo77PlhHlgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=QD7wbqQE; arc=none smtp.client-ip=115.236.127.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="QD7wbqQE"
+DKIM-Signature: a=rsa-sha256;
+	b=QD7wbqQEud+fYkWN/Q7FNR38iFCkbtRNXWfbUQA1u9rbZv3g9C98+Wzdl3+GV215VkPYS6py3dmniAu6pIJctsBM81fUogbc5cjAt7i1ME65s2FeYSU/Ufljs3Vjd/rMOc+TwXoH+7cXFdwVG3Q8lZEcWSVgCH7IfjHZ4AFko/c=;
+	c=relaxed/relaxed; s=default; d=rock-chips.com; v=1;
+	bh=HAJvQdLYmyL3qiXfsvwfss35CTvFlv7T9/m66zcsIFU=;
+	h=date:mime-version:subject:message-id:from;
+Received: from [172.16.12.141] (unknown [58.22.7.114])
+	by smtp.qiye.163.com (Hmail) with ESMTPA id B408A8401F9;
+	Tue,  7 May 2024 09:32:16 +0800 (CST)
+Message-ID: <d1f29354-c187-46b9-a167-7a54762ecfa0@rock-chips.com>
+Date: Tue, 7 May 2024 09:32:16 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -32,149 +33,100 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH memory-model 2/4] Documentation/litmus-tests: Demonstrate
- unordered failing cmpxchg
-To: paulmck@kernel.org, luc.maranget@inria.fr
-Cc: linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- kernel-team@meta.com, mingo@kernel.org, stern@rowland.harvard.edu,
- parri.andrea@gmail.com, will@kernel.org, peterz@infradead.org,
- boqun.feng@gmail.com, npiggin@gmail.com, dhowells@redhat.com,
- j.alglave@ucl.ac.uk, akiyks@gmail.com,
- Frederic Weisbecker <frederic@kernel.org>, Daniel Lustig
- <dlustig@nvidia.com>, Joel Fernandes <joel@joelfernandes.org>,
- Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org
-References: <42a43181-a431-44bd-8aff-6b305f8111ba@paulmck-laptop>
- <20240501232132.1785861-2-paulmck@kernel.org>
- <c97f0529-5a8f-4a82-8e14-0078d4372bdc@huaweicloud.com>
- <16381d02-cb70-4ae5-b24e-aa73afad9aed@huaweicloud.com>
- <2a695f63-6c9a-4837-ac03-f0a5c63daaaf@paulmck-laptop>
-From: Jonas Oberhauser <jonas.oberhauser@huaweicloud.com>
-In-Reply-To: <2a695f63-6c9a-4837-ac03-f0a5c63daaaf@paulmck-laptop>
+Subject: Re: [PATCH v12 27/28] drm/rockchip: inno_hdmi: Switch to HDMI
+ connector
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Sebastian Wick <sebastian.wick@redhat.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <20240423-kms-hdmi-connector-state-v12-0-3338e4c0b189@kernel.org>
+ <20240423-kms-hdmi-connector-state-v12-27-3338e4c0b189@kernel.org>
+ <68eba0ec-bf9c-4d76-a362-5304a4cb61d5@rock-chips.com>
+ <20240506-eccentric-wren-of-peace-819aad@houat>
+Content-Language: en-US
+From: Andy Yan <andy.yan@rock-chips.com>
+In-Reply-To: <20240506-eccentric-wren-of-peace-819aad@houat>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:GxC2BwB3Yyc+8DlmamutBw--.32210S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxAryDXF4kKFy3WFWfZr45trb_yoWrGr1xpF
-	WrKFWUKr1DJ3yUu340va1qqFy0v393JF4Yqw15tryjyan8GF1FvFyYqrWY9r9rtrs3Cw40
-	vr1Y93srZr98AFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUklb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
-	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij
-	64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
-	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYY7kG6xAYrwCIc40Y0x0E
-	wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JV
-	WxJwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
-	IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU5vQ6JUUUU
-	U==
-X-CM-SenderInfo: 5mrqt2oorev25kdx2v3u6k3tpzhluzxrxghudrp/
+Content-Transfer-Encoding: 7bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGUpDQ1ZPGkJITk1NTB1OSxlVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlOQ1VJSVVMVUpKT1lXWRYaDxIVHRRZQVlPS0hVSk1PSU5IVUpLS1VKQk
+	tLWQY+
+X-HM-Tid: 0a8f50ae181203a4kunmb408a8401f9
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Pxg6GSo6MTMDCBVKDi8yNTQW
+	OC8KFE9VSlVKTEpOS09OTkhDSU9MVTMWGhIXVRoVHwJVAhoVOwkUGBBWGBMSCwhVGBQWRVlXWRIL
+	WUFZTkNVSUlVTFVKSk9ZV1kIAVlBTU1JSzcG
 
+Hi Maxime,
 
-
-Am 5/6/2024 um 8:00 PM schrieb Paul E. McKenney:
-> On Mon, May 06, 2024 at 06:30:45PM +0200, Jonas Oberhauser wrote:
->> Am 5/6/2024 um 12:05 PM schrieb Jonas Oberhauser:
->>> Am 5/2/2024 um 1:21 AM schrieb Paul E. McKenney:
->>>> This commit adds four litmus tests showing that a failing cmpxchg()
->>>> operation is unordered unless followed by an smp_mb__after_atomic()
->>>> operation.
->>>
->>> So far, my understanding was that all RMW operations without suffix
->>> (xchg(), cmpxchg(), ...) will be interpreted as F[Mb];...;F[Mb].
->>>
->>> I guess this shows again how important it is to model these full
->>> barriers explicitly inside the cat model, instead of relying on implicit
->>> conversions internal to herd.
->>>
->>> I'd like to propose a patch to this effect.
->>>
->>> What is the intended behavior of a failed cmpxchg()? Is it the same as a
->>> relaxed one?
+On 5/6/24 15:59, Maxime Ripard wrote:
+> Hi Andy,
 > 
-> Yes, and unless I am too confused, LKMM currently does implement this.
-> Please let me know if I am missing something.
-
-At least the herd and Dat3M implementations seem to be doing that, at 
-least according to this thread sent to me by Hernan.
-
-https://github.com/herd/herdtools7/issues/384#issue-1243049709
-
-
+> Thanks a lot for giving it a try
 > 
->>> My suggestion would be in the direction of marking read and write events
->>> of these operations as Mb, and then defining
->>>
->>> (* full barrier events that appear in non-failing RMW *)
->>> let RMW_MB = Mb & (dom(rmw) | range(rmw))
->>>
->>>
->>> let mb =
->>>       [M] ; fencerel(Mb) ; [M]
->>>     | [M] ; (po \ rmw) ; [RMW_MB] ; po^? ; [M]
->>>     | [M] ; po^? ; [RMW_MB] ; (po \ rmw) ; [M]
->>>     | ...
->>>
->>> The po \ rmw is because ordering is not provided internally of the rmw
->>
->> (removed the unnecessary si since LKMM is still non-mixed-accesses)
+> All the issues you raised in your review are fixed.
 > 
-> Addition of mixed-access support would be quite welcome!
-
-:P
-
-
->> This could also be written with a single rule:
->>
->>       | [M] ; (po \ rmw) & (po^?; [RMW_MB] ; po^?) ; [M]
->>
->>> I suspect that after we added [rmw] sequences it could perhaps be
->>> simplified [...]
->>
->> No, my suspicion is wrong - this would incorrectly let full-barrier RMWs
->> act like strong fences when they appear in an rmw sequence.
->>
->>   if (z==1)  ||  x = 2;     ||  xchg(&y,2)  || if (y==2)
->>     x = 1;   ||  y =_rel 1; ||              ||    z=1;
->>
->>
->> right now, we allow x=2 overwriting x=1 (in case the last thread does not
->> propagate x=2 along with z=1) because on power, the xchg might be
->> implemented with a sync that doesn't get executed until the very end
->> of the program run.
->>
->>
->> Instead of its negative form (everything other than inside the rmw),
->> it could also be rewritten positively. Here's a somewhat short form:
->>
->> let mb =
->>       [M] ; fencerel(Mb) ; [M]
->>     (* everything across a full barrier RMW is ordered. This includes up to
->> one event inside the RMW. *)
->>     | [M] ; po ; [RMW_MB] ; po ; [M]
->>     (* full barrier RMW writes are ordered with everything behind the RMW *)
->>     | [W & RMW_MB] ; po ; [M]
->>     (* full barrier RMW reads are ordered with everything before the RMW *)
->>     | [M] ; po ; [R & RMW_MB]
->>     | ...
+> On Sat, Apr 27, 2024 at 06:44:54PM GMT, Andy Yan wrote:
+>> And after this whole series applied on linux 6.9-rc4, the display on rk3036 kylin is lost, I get
+>> the following error:
+>> [  178.999421] rockchip-drm display-subsystem: [drm:drm_atomic_check_only] checking 87b7fbde
+>> [  178.999471] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CRTC:35:crtc-0] mode changed
+>> [  178.999498] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CRTC:35:crtc-0] enable changed
+>> [  178.999521] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CRTC:35:crtc-0] active changed
+>> [  178.999547] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] Updating routing for [CONNECTOR:37:HDMI-A-1]
+>> [  178.999575] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CONNECTOR:37:HDMI-A-1] using [ENCODER:36:TMDS-36] on [CRTC:35:crtc-0]
+>> [  178.999604] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] Trying with a 8 bpc output
+>> [  178.999636] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] Trying RGB output format
+>> [  178.999730] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] RGB Format, checking the constraints.
+>> [  178.999757] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] RGB output format not supported with 8 bpc
+>> [  178.999783] rockchip-drm display-subsystem: [drm:drm_atomic_helper_connector_hdmi_check] Failed. No Format Supported for that bpc count.
+>> [  178.999810] rockchip-drm display-subsystem: [drm:drm_atomic_helper_check_modeset] [CONNECTOR:37:HDMI-A-1] driver check failed
+>> [  178.999836] rockchip-drm display-subsystem: [drm:drm_atomic_check_only] atomic driver check for 87b7fbde failed: -22
+>> [  178.999868] rockchip-drm display-subsystem: [drm:drm_atomic_state_default_clear] Clearing atomic state 87b7fbde
+>> [  178.999898] [drm:drm_mode_object_put] OBJ ID: 37 (4)
+>> [  178.999922] [drm:drm_mode_object_put] OBJ ID: 37 (3)
+>> [  178.999944] [drm:drm_mode_object_put] OBJ ID: 40 (1)
+>> [  178.999971] [drm:drm_mode_object_put] OBJ ID: 39 (2)
 > 
-> Does this produce the results expected by the litmus tests in the Linux
-> kernel source tree and also those at https://github.com/paulmckrcu/litmus?
+> Which kind of display are you testing with? The only reason it could do
+> so is if the display claim it doesn't support RGB in its EDID which is
+> contradicting the HDMI spec. Are you using an Analog display by any
+> chance? or the built-in EDIDs through the drm.edid_firmware mechanism?
+> 
 
-I suspect that it doesn't work out of the box because of some of the 
-implicit magic herd is doing that could get in the way, so I'd need some 
-help from Luc to actually turn this into a patch that can be tested.
-(or at least confirmation that just by changing a few things in the .def 
-& .bell files we can sidestep the implicit behaviors).
+It is because there is something wrong(I still don't know why) with the DDC on my board.
+It always failed to read edid when it first bootup, that means inno_hdmi_connector_get_modes
+will return 0.
 
-But at least in my proofs it seems to be equivalent.
-(there may still be differences in opinion on what some herd things 
-mean, so what I/Viktor have formalized as the semantics of the herd 
-model may not be exactly the behavior of LKMM in herd. hence testing is 
-necessary too as a sanity check)
+and in function
 
-best wishes,
-   jonas
+drm_helper_probe_single_connector_modes:
 
+         count = drm_helper_probe_get_modes(connector);
+
+         if (count == 0 && (connector->status == connector_status_connected ||
+                            connector->status == connector_status_unknown)) {
+                 count = drm_add_modes_noedid(connector, 1024, 768);
+
+                 /*
+                  * Section 4.2.2.6 (EDID Corruption Detection) of the DP 1.4a
+                  * Link CTS specifies that 640x480 (the official "failsafe"
+                  * mode) needs to be the default if there's no EDID.
+                  */
+                 if (connector->connector_type == DRM_MODE_CONNECTOR_DisplayPort)
+                         drm_set_preferred_mode(connector, 640, 480);
+         }
+drm_add_modes_noedid will not initialize display_info.
+
+> Maxime
