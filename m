@@ -1,92 +1,173 @@
-Received: from phoenix.uberspace.de (phoenix.uberspace.de [95.143.172.135])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BB4C14D716
-	for <linux-doc@vger.kernel.org>; Tue,  7 May 2024 10:39:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.143.172.135
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 207ED15E1FF;
+	Tue,  7 May 2024 12:22:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715078397; cv=none; b=Qq67mq2YJ6K77L27cmkbZsiD800b5rTU4ExJj7aZfrWmRkzRXbevGyOpWjnoGPGDWjFsQES6eOQcpcOR8q6tSS43xAeWyWykJQ8bheU1Rt2lQpddxxHrVqH/eFPlCqyqMnEQXXABzo3nsjxNqmwfzLDUQCZ42oB1DTg3NbV5QpM=
+	t=1715084556; cv=none; b=NlH7OazC2qijWVbbBXzbswwSoLObtsn47nnTKvbIutYIP9UQLG8iEv/EcoGCnyw/sj8WUXTQ+qMyN7wxQDlkqaP+4bIubh8VZCMSfScSA8GbJa1ue8StptqoHMvFUw1UrBlpe6HO5g1h3Pr+aXxtfLdD/BCAk2zDehuTYbODJxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715078397; c=relaxed/simple;
-	bh=QNnIOUmGw+/4sKtvKLRny0R9Qjd8tUiqHl1cHAokzNs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=G4WvQ/Ur9y56yOAj0pblb29hYV/CvcOG99nkdsuF5G/I0FCmSmY0no3gix5rVHDbuhkrlRttxnBxdqTvWpzT6jTc8x2r92wKmlNyEZ0sg/tRrRGMoQQrfSZ6TMnsQ4aSSwFbr3Rf7hAtBsO80Wa4Xv91j5evkFXrzxhAmS6QrVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yshyn.com; spf=pass smtp.mailfrom=yshyn.com; dkim=pass (2048-bit key) header.d=yshyn.com header.i=@yshyn.com header.b=tkRxsuVy; arc=none smtp.client-ip=95.143.172.135
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yshyn.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yshyn.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yshyn.com header.i=@yshyn.com header.b="tkRxsuVy"
-Received: (qmail 8221 invoked by uid 988); 7 May 2024 10:39:53 -0000
-Authentication-Results: phoenix.uberspace.de;
-	auth=pass (plain)
-Received: from unknown (HELO unkown) (::1)
-	by phoenix.uberspace.de (Haraka/3.0.1) with ESMTPSA; Tue, 07 May 2024 12:39:53 +0200
-From: Illia Ostapyshyn <illia@yshyn.com>
-To: Tejun Heo <tj@kernel.org>,
-	Zefan Li <lizefan.x@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc: cgroups@vger.kernel.org,
+	s=arc-20240116; t=1715084556; c=relaxed/simple;
+	bh=P6OVKvpCCsdebuKqd+D/tHWKONqi84dZHxn/mU5HZQM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=hgY76/+/lZObaAfwgd6tonktWSc+RDWSvxtLY+ZD9MEI8+TntS9G7hHeotX7IRRpei0429tbMY/pNZDWb4rJ+aLDEtKiQ4LbhHW1pGAds3G8ljtdT0+48yMkguxWvDpa32W1KXFhuZthGCL1xXAaLd+maFVB4unFExYy+tgLnmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [10.2.10.34])
+	by gateway (Coremail) with SMTP id _____8Bx9eoHHTpm+9IIAA--.12116S3;
+	Tue, 07 May 2024 20:22:31 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.2.10.34])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8Dx8VUGHTpm9QsUAA--.22782S2;
+	Tue, 07 May 2024 20:22:31 +0800 (CST)
+From: Tianyang Zhang <zhangtianyang@loongson.cn>
+To: chenhuacai@kernel.org,
+	kernel@xen0n.name,
+	corbet@lwn.net,
+	alexs@kernel.org,
+	siyanteng@loongson.cn
+Cc: loongarch@lists.linux.dev,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Illia Ostapyshyn <illia@yshyn.com>
-Subject: [PATCH v2] docs: cgroup-v1: Update page cache removal functions
-Date: Tue,  7 May 2024 12:34:27 +0200
-Message-Id: <20240507103426.544488-1-illia@yshyn.com>
-X-Mailer: git-send-email 2.39.2
+	Tianyang Zhang <zhangtianyang@loongson.cn>
+Subject: [PATCH 1/2] docs: Add advanced extended IRQ model description
+Date: Tue,  7 May 2024 20:22:28 +0800
+Message-Id: <20240507122228.5288-1-zhangtianyang@loongson.cn>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Bar: ++
-X-Rspamd-Report: SUSPICIOUS_RECIPS(1.5) BAYES_HAM(-0.000492) MID_CONTAINS_FROM(1) MIME_GOOD(-0.1) R_MISSING_CHARSET(0.5)
-X-Rspamd-Score: 2.899507
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=yshyn.com; s=uberspace;
-	h=from:to:cc:subject:date;
-	bh=QNnIOUmGw+/4sKtvKLRny0R9Qjd8tUiqHl1cHAokzNs=;
-	b=tkRxsuVy35OnSL57/lXDwilDdQpvmsMNSOyBf4sDPYWRdUOP6xXPBo/5SA8Ny1M5jmFBhhBAg5
-	wLEBo8hUTQJGaWTcNRf++3hvEoOJ/RIqCmv9zZMgoXp9Bg0HaoAoLf/J7L7ESXaFcomgnyelqTcS
-	BAU/mmwBImm9lWTJpoXJi6Mrj1Cqnxv5kAj2F8uKa0+uG/+7EszpFwD5329lPvH5F3B/HBVP+r3u
-	HjHT4SN8q/K+vK3icC6YecyYXCwSvU9NsBid1UkJyuo97FdtoScD2TR6aTh9LO6LqUsWbh0dERm4
-	x4fcKnCGuyvj9V5efTvNuJZXJzkgBwY/5k6vM7tg==
+X-CM-TRANSID:AQAAf8Dx8VUGHTpm9QsUAA--.22782S2
+X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBj93XoWxCFy8Gr17WryfWr47KF1fZrc_yoWrZr47pr
+	ZxCryIqF48Gry5Xr17Jr18Wr13G3Z3Ja1DtF1xtry8Xr1kAr1Utr1UtrykJFy7G34rAF1j
+	qFWrtw1UGw1UJwcCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUkFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+	xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
+	1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15McIj6I8E87Iv
+	67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2
+	Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s02
+	6x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0x
+	vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE
+	42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6x
+	kF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07URa0PUUUUU=
 
-Commit 452e9e6992fe ("filemap: Add filemap_remove_folio and
-__filemap_remove_folio") reimplemented __delete_from_page_cache() as
-__filemap_remove_folio() and delete_from_page_cache() as
-filemap_remove_folio().  The compatibility wrappers were finally removed
-in ece62684dcfb ("hugetlbfs: convert hugetlb_delete_from_page_cache() to
-use folios") and 6ffcd825e7d0 ("mm: Remove __delete_from_page_cache()").
+From 3C6000, Loongarch began to support advanced extended
+interrupt mode, in which each CPU has an independent interrupt
+vector number.This will enhance the architecture's ability
+to support modern devices
 
-Update the remaining references to dead functions in the memcg
-implementation memo.
-
-Signed-off-by: Illia Ostapyshyn <illia@yshyn.com>
+Signed-off-by: Tianyang Zhang <zhangtianyang@loongson.cn>
 ---
+ .../arch/loongarch/irq-chip-model.rst         | 33 +++++++++++++++++
+ .../zh_CN/arch/loongarch/irq-chip-model.rst   | 37 +++++++++++++++++--
+ 2 files changed, 67 insertions(+), 3 deletions(-)
 
-Changes in v2:
- * filemap_free_folio() was meant to be filemap_remove_folio(). Sorry.
-
- Documentation/admin-guide/cgroup-v1/memcg_test.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/cgroup-v1/memcg_test.rst b/Documentation/admin-guide/cgroup-v1/memcg_test.rst
-index 1f128458ddea..9f8e27355cba 100644
---- a/Documentation/admin-guide/cgroup-v1/memcg_test.rst
-+++ b/Documentation/admin-guide/cgroup-v1/memcg_test.rst
-@@ -102,7 +102,7 @@ Under below explanation, we assume CONFIG_SWAP=y.
- 	The logic is very clear. (About migration, see below)
+diff --git a/Documentation/arch/loongarch/irq-chip-model.rst b/Documentation/arch/loongarch/irq-chip-model.rst
+index 7988f4192363..79228741d1b9 100644
+--- a/Documentation/arch/loongarch/irq-chip-model.rst
++++ b/Documentation/arch/loongarch/irq-chip-model.rst
+@@ -85,6 +85,39 @@ to CPUINTC directly::
+     | Devices |
+     +---------+
  
- 	Note:
--	  __remove_from_page_cache() is called by remove_from_page_cache()
-+	  __filemap_remove_folio() is called by filemap_remove_folio()
- 	  and __remove_mapping().
++Advanced Extended IRQ model
++=======================
++
++In this model, IPI (Inter-Processor Interrupt) and CPU Local Timer interrupt go
++to CPUINTC directly, CPU UARTS interrupts go to LIOINTC, MSI interrupts go to AVEC,
++and then go to CPUINTC, Other devices interrupts go to PCH-PIC/PCH-LPC and gathered
++by EIOINTC, and then go to CPUINTC directly::
++
++ +-----+     +--------------------------+     +-------+
++ | IPI | --> |           CPUINTC        | <-- | Timer |
++ +-----+     +--------------------------+     +-------+
++              ^        ^             ^
++              |        |             |
++      +--------+  +---------+ +---------+     +-------+
++      | AVEC   |  | EIOINTC | | LIOINTC | <-- | UARTs |
++      +--------+  +---------+ +---------+     +-------+
++           ^            ^
++           |            |
++         +---------+  +---------+
++         |   MSI   |  | PCH-PIC |
++         +---------+  +---------+
++            ^          ^       ^
++            |          |       |
++    +---------+ +---------+ +---------+
++    | Devices | | PCH-LPC | | Devices |
++    +---------+ +---------+ +---------+
++                     ^
++                     |
++                +---------+
++                | Devices |
++                +---------+
++
++
+ ACPI-related definitions
+ ========================
  
- 6. Shmem(tmpfs) Page Cache
+diff --git a/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst b/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
+index f1e9ab18206c..7ccde82dd666 100644
+--- a/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
++++ b/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
+@@ -9,9 +9,8 @@
+ LoongArch的IRQ芯片模型（层级关系）
+ ==================================
+ 
+-目前，基于LoongArch的处理器（如龙芯3A5000）只能与LS7A芯片组配合工作。LoongArch计算机
+-中的中断控制器（即IRQ芯片）包括CPUINTC（CPU Core Interrupt Controller）、LIOINTC（
+-Legacy I/O Interrupt Controller）、EIOINTC（Extended I/O Interrupt Controller）、
++LoongArch计算机中的中断控制器（即IRQ芯片）包括CPUINTC（CPU Core Interrupt Controller）、
++LIOINTC（Legacy I/O Interrupt Controller）、EIOINTC（Extended I/O Interrupt Controller）、
+ HTVECINTC（Hyper-Transport Vector Interrupt Controller）、PCH-PIC（LS7A芯片组的主中
+ 断控制器）、PCH-LPC（LS7A芯片组的LPC中断控制器）和PCH-MSI（MSI中断控制器）。
+ 
+@@ -87,6 +86,38 @@ PCH-LPC/PCH-MSI，然后被EIOINTC统一收集，再直接到达CPUINTC::
+     | Devices |
+     +---------+
+ 
++高级扩展IRQ模型
++=======================
++
++在这种模型里面，IPI（Inter-Processor Interrupt）和CPU本地时钟中断直接发送到CPUINTC，
++CPU串口（UARTs）中断发送到LIOINTC，MSI中断发送到AVEC,而后通过AVEC送达CPUINTC，而
++其他所有设备的中断则分别发送到所连接的PCH-PIC/PCH-LPC，然后由EIOINTC统一收集，再直
++接到达CPUINTC::
++
++ +-----+     +--------------------------+     +-------+
++ | IPI | --> |           CPUINTC        | <-- | Timer |
++ +-----+     +--------------------------+     +-------+
++              ^        ^             ^
++              |        |             |
++      +--------+  +---------+ +---------+     +-------+
++      | AVEC   |  | EIOINTC | | LIOINTC | <-- | UARTs |
++      +--------+  +---------+ +---------+     +-------+
++              ^        ^
++              |        |
++      +---------+  +-------------+
++      |   MSI   |  |   PCH-PIC   |
++      +---------+  +-------------+
++            ^          ^       ^
++            |          |       |
++    +---------+ +---------+ +---------+
++    | Devices | | PCH-LPC | | Devices |
++    +---------+ +---------+ +---------+
++                     ^
++                     |
++                +---------+
++                | Devices |
++                +---------+
++
+ ACPI相关的定义
+ ==============
+ 
 -- 
-2.39.2
+2.20.1
 
