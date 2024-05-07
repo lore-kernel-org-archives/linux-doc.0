@@ -1,781 +1,285 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBDC716C866;
-	Tue,  7 May 2024 18:01:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ADB416D9A7;
+	Tue,  7 May 2024 19:08:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715104875; cv=none; b=gQtz5F5mJ9jr7z8TT1WH7V6FEJSDpAF6UQ/RFrI6Yv1p6LqCBZxa46VzmG7lQuXriPLszjk3+75x3W92D/QLudY+uF60PXWWgo+HQbGVz3zDG7j0Bi12y5JO2um0vW7W8p16e8kQbOw/mL0MAZX5hgwT+nMyiHu5FQOuOEXkL6A=
+	t=1715108932; cv=none; b=MJ3uZGqN1Z7K9sNdUiA4ygxooirqn4lNl2lxKWhjWgTtojeBCfs5PdmGzh8LobCSJtvljuOspR1fvvn3gYk5sMIzHKOvZEuUzOEK1EEstp79POlAJiHwKbz12Y1OrdlS1mKg1fYsZSwhz6T3t+nV3w4oF2Np131n439tQ7scpcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715104875; c=relaxed/simple;
-	bh=biVE2pxIxx+qNIVvKr5FCUYpjbM7OkxaTTAGZtWw5K4=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Yapt302Y64i0kUpUNNtKDklqoSoViiKbjnRm0gAtzuEaHqqozR3Omsxo5d9G7XTR0pr/TR+rrqW54WiwUpQFSihxewAcSp07y0cS16gPbWBotgZ74MgDpV6+cqLDZ9al7UV8b7ImO2Po2z/FxZUiPQk3GVXp7CwN7BWvFwP+ScI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TvEPuWhk; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1715108932; c=relaxed/simple;
+	bh=zBtOdwwtvKm20Q77bQR/mEqpEaFtLymX61Rz+GGBf8I=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=tjQlz+pTL1MaEB5FkuoJm5HaHkcNpH2SArlLzwIrFvHkWNQJvU7h3pOkGoYVQnA1NXiJqdPUvubgiUuVzvPI1fRpPEiSUstmKRwrVz8SAW1m8pM2F/yyiAlNDTvofggCsP/iaB1QUSYX/9rI/sVwTqJdR0M0fvDv1TmFsLGZB/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=casper.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MdWnk8yo; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TvEPuWhk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715104873; x=1746640873;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=biVE2pxIxx+qNIVvKr5FCUYpjbM7OkxaTTAGZtWw5K4=;
-  b=TvEPuWhkTFzppzQ07DnrR75LkujnAEZ6awyUtpbZoWUVgKKejISWkOFP
-   HjeIXDDDxG5Aas3y2+wGA06CxZBlxCY7mLcqbxLrKzOq6yPAilxsaJke7
-   5SV+jWbfk66E3wtz9aMiJ46vkDLJD0DUJa5hROuXbZIcpjRe5Xmu1kSb8
-   NJpUMTPOqQ2qCnnwv1aA84TJnBfIItxp/nYx8dB4LNak5OARN5psMc5Qe
-   bk27O9pjtLJjyIjmPgjRq81e8ABK0lvW3VJ1kGOfocPClEuTolSI99+nm
-   Gw0ogGEEJkvug5AZNlR2s/OhTcaTd1iESZ82c2ZwktDSGF2IBf+ZENT8u
-   g==;
-X-CSE-ConnectionGUID: mwxugn6xQraz5ibzcfsIZw==
-X-CSE-MsgGUID: PMBIHSctTdmBmb7hxpD//A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="22333265"
-X-IronPort-AV: E=Sophos;i="6.08,143,1712646000"; 
-   d="scan'208";a="22333265"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2024 11:01:10 -0700
-X-CSE-ConnectionGUID: Mh8S9EvoSy2QUg8UCPQ6YA==
-X-CSE-MsgGUID: Z///CB4XQJy55LI4++pv9Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,143,1712646000"; 
-   d="scan'208";a="28491203"
-Received: from sayakray-mobl2.amr.corp.intel.com (HELO debox1-desk4.lan) ([10.212.130.28])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2024 11:01:11 -0700
-From: "David E. Box" <david.e.box@linux.intel.com>
-To: linux-doc@vger.kernel.org,
-	david.e.box@linux.intel.com,
-	ilpo.jarvinen@linux.intel.com,
-	hdegoede@redhat.com,
-	linux-kernel@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org
-Subject: [PATCH V2 3/3] tools/arch/x86/intel_sdsi: Add attestation support
-Date: Tue,  7 May 2024 11:01:06 -0700
-Message-Id: <20240507180106.5218-3-david.e.box@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240507180106.5218-1-david.e.box@linux.intel.com>
-References: <20240507180106.5218-1-david.e.box@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MdWnk8yo"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=zBtOdwwtvKm20Q77bQR/mEqpEaFtLymX61Rz+GGBf8I=; b=MdWnk8yoI2DOelSJXtTlIUSpzj
+	IQ3W64s3IyVTPaLMA6DEOtDjKp2/Nx8QfV7Q7H78ngnw0+FpgcJKClmwzFRSP/pdkyoIHmfSUHJR2
+	3M028WgCpRtgQELOITgr51x9myAnIGJY0sYy5bQPzHHpGvK+XeKggPfG7l9eyxxcIPEIsrCaE94OB
+	tnJwsxryJ3rdnaiyL47JuljvYXR62OJ8FuHg2yFG21qp9xkk1KdOJIOkRyIh4i51efiyypodxn702
+	KgQNwzMkoSujXejKdm8LvsJZ5GNVQ1qpQTQK1NxVA+6ZsR6XMo3dYRQOzwTicQWqXDfTzPO5ZH5UL
+	pg3GX21Q==;
+Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.ant.amazon.com)
+	by casper.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1s4QB7-0000000Dsk7-40yh;
+	Tue, 07 May 2024 19:08:42 +0000
+Message-ID: <51dea3a632131d9a49af3991a633f26ce8592dd3.camel@infradead.org>
+Subject: Re: [PATCH v2 01/15] KVM: x86/xen: Do not corrupt KVM clock in
+ kvm_xen_shared_info_init()
+From: David Woodhouse <dwmw2@infradead.org>
+To: Marcelo Tosatti <mtosatti@redhat.com>
+Cc: kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>, Jonathan
+ Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>, Thomas
+ Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav
+ Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, Paul Durrant
+ <paul@xen.org>, Shuah Khan <shuah@kernel.org>,  linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,  linux-kselftest@vger.kernel.org, Oliver
+ Upton <oliver.upton@linux.dev>,  jalliste@amazon.co.uk, sveith@amazon.de,
+ zide.chen@intel.com, Dongli Zhang <dongli.zhang@oracle.com>
+Date: Tue, 07 May 2024 20:08:40 +0100
+In-Reply-To: <ZjXm9w/y3/NLCxLQ@tpad>
+References: <20240427111929.9600-1-dwmw2@infradead.org>
+	 <20240427111929.9600-2-dwmw2@infradead.org> <ZjXm9w/y3/NLCxLQ@tpad>
+Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
+	boundary="=-1MxL1pyflkVSO892kaNk"
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
-Add support in the intel_sdsi tool to perform SPDM GET_DIGESTS and
-GET_CERTIFICATE commands. Output is sent to stdout.
 
-Example reading the certificate chain from socket 0:
+--=-1MxL1pyflkVSO892kaNk
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-intel_sdsi -d 1 -attest get_certificate | openssl x509 -inform DER -nout -text
+On Sat, 2024-05-04 at 04:42 -0300, Marcelo Tosatti wrote:
+> On Sat, Apr 27, 2024 at 12:04:58PM +0100, David Woodhouse wrote:
+> >=20
+> > In particular, KVM_REQ_MASTERCLOCK_UPDATE will take a new snapshot of
+> > time as the reference in master_kernel_ns and master_cycle_now, yanking
+> > the guest's clock back to match definition A at that moment.
+>=20
+> KVM_REQ_MASTERCLOCK_UPDATE stops the vcpus because:
 
-Signed-off-by: David E. Box <david.e.box@linux.intel.com>
----
-V2
-   - Remove unnecessary struct packing
-   - Remove newline from perror()
-   - Use new SDSI_SPDM_BUF_SIZE from uapi header
-   - In spdm_get_certificate:
-        - Initialize remainder length to the minimum of the actual size
-          or the maximum buffer size.
-        - Add old_remainder to test for progress in retrieving the
-	  certificate chain
-   - Add the MESSAGE options for --attest in --help output
+Took me a while to work that one out, btw. The fact that the=C2=A0
+KVM_REQ_MCLOCK_INPROGRESS request is asserted but never actually
+*handled*, so all it does is repeatedly kick the vCPU out and make it
+spin until the request is cleared is... interesting. Likewise the way
+that we set KVM_REQ_MASTERCLOCK_UPDATE on *all* vCPUs, so they *all*
+call kvm_update_masterclock(), when only one of them needed to. I may
+clean that up a little.
 
- tools/arch/x86/intel_sdsi/Makefile     |  11 +-
- tools/arch/x86/intel_sdsi/intel_sdsi.c |  72 +++-
- tools/arch/x86/intel_sdsi/spdm.c       | 476 +++++++++++++++++++++++++
- tools/arch/x86/intel_sdsi/spdm.h       |  13 +
- 4 files changed, 567 insertions(+), 5 deletions(-)
- create mode 100644 tools/arch/x86/intel_sdsi/spdm.c
- create mode 100644 tools/arch/x86/intel_sdsi/spdm.h
+> =C2=A0* To avoid that problem, do not allow visibility of distinct
+> =C2=A0* system_timestamp/tsc_timestamp values simultaneously: use a maste=
+r
+> =C2=A0* copy of host monotonic time values. Update that master copy
+> =C2=A0* in lockstep.
 
-diff --git a/tools/arch/x86/intel_sdsi/Makefile b/tools/arch/x86/intel_sdsi/Makefile
-index 47b6fd98372c..0d59a0299bc7 100644
---- a/tools/arch/x86/intel_sdsi/Makefile
-+++ b/tools/arch/x86/intel_sdsi/Makefile
-@@ -3,20 +3,23 @@
- include ../../../scripts/Makefile.include
- BINDIR ?= /usr/sbin
- 
--SRCS = intel_sdsi.c
-+SRCS = intel_sdsi.c spdm.c
- 
- OBJS = $(SRCS:.c=.o)
- 
--override CFLAGS += -O2 -Wall -Wextra
-+override CFLAGS += -O2 -Wall -Wextra -I../../../include
- 
--intel_sdsi: $(OBJS)
-+intel_sdsi: intel_sdsi.h $(OBJS)
- 	$(CC) $(CFLAGS) $(OBJS) -o $@
- 
-+intel_sdsi.h: ../../../../include/uapi/linux/intel_sdsi.h
-+	ln -sf ../../../../include/uapi/linux/intel_sdsi.h $@
-+
- %.o: %.c
- 	$(CC) $(CFLAGS) -c $< -o $@
- 
- clean :
--	@rm -f intel_sdsi $(OBJS)
-+	@rm -f intel_sdsi intel_sdsi.h $(OBJS)
- 
- install : intel_sdsi
- 	install -d  $(DESTDIR)$(BINDIR)
-diff --git a/tools/arch/x86/intel_sdsi/intel_sdsi.c b/tools/arch/x86/intel_sdsi/intel_sdsi.c
-index 766a5d26f534..b3c13e4696f4 100644
---- a/tools/arch/x86/intel_sdsi/intel_sdsi.c
-+++ b/tools/arch/x86/intel_sdsi/intel_sdsi.c
-@@ -22,6 +22,9 @@
- 
- #include <sys/types.h>
- 
-+#include "spdm.h"
-+#include "intel_sdsi.h"
-+
- #ifndef __packed
- #define __packed __attribute__((packed))
- #endif
-@@ -179,6 +182,7 @@ struct sdsi_dev {
- 	struct state_certificate sc;
- 	char *dev_name;
- 	char *dev_path;
-+	int dev_no;
- 	uint32_t guid;
- };
- 
-@@ -189,6 +193,12 @@ enum command {
- 	CMD_STATE_CERT,
- 	CMD_PROV_AKC,
- 	CMD_PROV_CAP,
-+	CMD_ATTESTATION,
-+};
-+
-+enum spdm_message {
-+	GET_DIGESTS,
-+	GET_CERTIFICATE,
- };
- 
- static void sdsi_list_devices(void)
-@@ -647,6 +657,41 @@ static int sdsi_provision_cap(struct sdsi_dev *s, char *bin_file)
- 	return sdsi_provision(s, bin_file, CMD_PROV_CAP);
- }
- 
-+static int sdsi_attestation(struct sdsi_dev *s, enum spdm_message message)
-+{
-+	struct cert_chain c;
-+	uint8_t digest[TPM_ALG_SHA_384_SIZE];
-+	size_t size;
-+	int ret, i;
-+
-+	switch (message) {
-+	case GET_CERTIFICATE:
-+		ret = spdm_get_certificate(s->dev_no, &c);
-+		if (ret)
-+			return ret;
-+
-+		size = fwrite(c.chain, sizeof(uint8_t), c.len, stdout);
-+		if (size != c.len) {
-+			fprintf(stderr, "Unable to write complete certificate chain\n");
-+			ret = -1;
-+		}
-+
-+		free(c.chain);
-+		break;
-+	case GET_DIGESTS:
-+		ret = spdm_get_digests(s->dev_no, digest);
-+		if (ret)
-+			return ret;
-+
-+		for (i = 0; i < TPM_ALG_SHA_384_SIZE; i++)
-+			printf("%02x", digest[i]);
-+		printf("\n");
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
- static int read_sysfs_data(const char *file, int *value)
- {
- 	char buff[16];
-@@ -728,6 +773,7 @@ static struct sdsi_dev *sdsi_create_dev(char *dev_no)
- 	}
- 
- 	s->guid = guid;
-+	s->dev_no = atoi(dev_no);
- 
- 	return s;
- }
-@@ -742,6 +788,7 @@ static void sdsi_free_dev(struct sdsi_dev *s)
- static void usage(char *prog)
- {
- 	printf("Usage: %s [-l] [-d DEVNO [-i] [-s] [-m | -C] [-a FILE] [-c FILE]\n", prog);
-+	printf("       [-attest MESSAGE]\n");
- }
- 
- static void show_help(void)
-@@ -754,12 +801,17 @@ static void show_help(void)
- 	printf("  %-18s\t%s\n", "-m, --meter",          "show meter certificate data");
- 	printf("  %-18s\t%s\n", "-C, --meter_current",  "show live unattested meter data");
- 	printf("  %-18s\t%s\n", "-a, --akc FILE",       "provision socket with AKC FILE");
--	printf("  %-18s\t%s\n", "-c, --cap FILE>",      "provision socket with CAP FILE");
-+	printf("  %-18s\t%s\n", "-c, --cap FILE",       "provision socket with CAP FILE");
-+	printf("  %-18s\t%s\n", "--attest MESSAGE",     "send attestion MESSAGE. Valid");
-+	printf("  %-18s\t%s\n", "",                     "messages are:");
-+	printf("  %-18s\t%s\n", "",                     "    get_digests");
-+	printf("  %-18s\t%s\n", "",                     "    get_certificate");
- }
- 
- int main(int argc, char *argv[])
- {
- 	char bin_file[PATH_MAX], *dev_no = NULL;
-+	enum spdm_message message = GET_DIGESTS;
- 	bool device_selected = false;
- 	char *progname;
- 	enum command command = -1;
-@@ -769,6 +821,7 @@ int main(int argc, char *argv[])
- 
- 	static struct option long_options[] = {
- 		{"akc",			required_argument,	0, 'a'},
-+		{"attest",		required_argument,	0, 0},
- 		{"cap",			required_argument,	0, 'c'},
- 		{"devno",		required_argument,	0, 'd'},
- 		{"help",		no_argument,		0, 'h'},
-@@ -820,6 +873,20 @@ int main(int argc, char *argv[])
- 
- 			command = (opt == 'a') ? CMD_PROV_AKC : CMD_PROV_CAP;
- 			break;
-+		case 0:
-+			if (strcmp(long_options[option_index].name, "attest") == 0) {
-+				command = CMD_ATTESTATION;
-+
-+				if (strcmp(optarg, "get_digests") == 0)
-+					message = GET_DIGESTS;
-+				else if (strcmp(optarg, "get_certificate") == 0)
-+					message = GET_CERTIFICATE;
-+				else {
-+					fprintf(stderr, "Unrecognized attestation command\n");
-+					return -1;
-+				}
-+			}
-+			break;
- 		case 'h':
- 			usage(progname);
- 			show_help();
-@@ -854,6 +921,9 @@ int main(int argc, char *argv[])
- 		case CMD_PROV_CAP:
- 			ret = sdsi_provision_cap(s, bin_file);
- 			break;
-+		case CMD_ATTESTATION:
-+			ret = sdsi_attestation(s, message);
-+			break;
- 		default:
- 			fprintf(stderr, "No command specified\n");
- 			return -1;
-diff --git a/tools/arch/x86/intel_sdsi/spdm.c b/tools/arch/x86/intel_sdsi/spdm.c
-new file mode 100644
-index 000000000000..71ac1e91a6d8
---- /dev/null
-+++ b/tools/arch/x86/intel_sdsi/spdm.c
-@@ -0,0 +1,476 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * spdm: Lightweight Security Protocol and Data Model (SPDM) specification
-+ * support code for performing attestation commands using the Intel On
-+ * Demand driver ioctl interface. Intel On Demand currently supports
-+ * SPDM version 1.0
-+ *
-+ * See the SPDM v1.0 specification at:
-+ * https://www.dmtf.org/sites/default/files/standards/documents/DSP0274_1.0.1.pdf
-+ *
-+ * Copyright (C) 2024 Intel Corporation. All rights reserved.
-+ */
-+
-+#include<linux/bits.h>
-+
-+#include<fcntl.h>
-+#include<stdio.h>
-+#include<stdlib.h>
-+#include<stdint.h>
-+#include<string.h>
-+#include<unistd.h>
-+#include<sys/ioctl.h>
-+#include "spdm.h"
-+#include "intel_sdsi.h"
-+
-+// SPDM constants
-+#define SPDM_VERSION			0x10
-+#define SPDM_REQUEST			0x80
-+#define SPDM_ERROR			0x7f
-+
-+// SPDM request codes
-+#define SPDM_GET_VERSION		0x84
-+#define SPDM_GET_CAPABILITIES		0xE1
-+#define SPDM_NEGOTIATE_ALGORITHMS	0xE3
-+#define SPDM_GET_DIGESTS		0x81
-+#define SPDM_GET_CERTIFICATE		0x82
-+#define SPDM_CHALLENGE			0x83
-+#define SPDM_GET_MEASUREMENTS		0xE0
-+
-+#define SDSI_DEV_PATH			"/dev/isdsi"
-+
-+#define SPDM_RSVD			0
-+
-+#ifndef __packed
-+#define __packed __attribute__((packed))
-+#endif
-+
-+struct spdm_header {
-+	uint8_t version;
-+	uint8_t code;
-+	uint8_t param1;
-+	uint8_t param2;
-+};
-+
-+static int error_response(struct spdm_header *response)
-+{
-+	if (response->code != SPDM_ERROR)
-+		fprintf(stderr, "ERROR: Unrecognized SPDM response\n");
-+
-+	switch (response->param1) {
-+	case 0x00:
-+	case 0x02:
-+	case 0x06:
-+	case 0x08 ... 0x40:
-+	case 0x44 ... 0xfe:
-+		fprintf(stderr, "SPDM RSP ERROR: Reserved.\n");
-+		break;
-+	case 0x01:
-+		fprintf(stderr, "SPDM RSP ERROR: One or more request fields are invalid.\n");
-+		break;
-+	case 0x03:
-+		fprintf(stderr, "SPDM RSP ERROR: The Responder received the request message\n");
-+		fprintf(stderr, "and the Responder decided to ignore the request message\n");
-+		fprintf(stderr, "but the Responder may be able to process the request message\n");
-+		fprintf(stderr, "if the request message is sent again in the future.\n");
-+		break;
-+	case 0x04:
-+		fprintf(stderr, "SPDM RSP ERROR: The Responder received an unexpected request\n");
-+		fprintf(stderr, "message. For example, CHALLENGE before NEGOTIATE_ALGORITHMS.\n");
-+		break;
-+	case 0x05:
-+		fprintf(stderr, "SPDM RSP ERROR: Unspecified error occurred.\n");
-+		break;
-+	case 0x07:
-+		fprintf(stderr, "SPDM RSP ERROR: The RequestResponseCode in the request\n");
-+		fprintf(stderr, "message is unsupported.\n");
-+		break;
-+	case 0x41:
-+		fprintf(stderr, "SPDM RSP ERROR: Requested SPDM Major Version is not\n");
-+		fprintf(stderr, "supported.\n");
-+		break;
-+	case 0x42:
-+		fprintf(stderr, "SPDM RSP ERROR: See the RESPONSE_IF_READY request message.\n");
-+		break;
-+	case 0x43:
-+		fprintf(stderr, "SPDM RSP ERROR: Responder is requesting Requester to reissue\n");
-+		fprintf(stderr, "GET_VERSION to resynchronize.\n");
-+		break;
-+	case 0xFF:
-+		fprintf(stderr, "SPDM RSP ERROR: Vendor or Other Standards defined.\n");
-+		break;
-+	}
-+
-+	return -1;
-+}
-+
-+static int sdsi_process_ioctl(int ioctl_no, void *info, uint8_t dev_no)
-+{
-+	char pathname[14];
-+	int fd, ret;
-+
-+	ret = snprintf(pathname, 14, "%s%d", SDSI_DEV_PATH, dev_no);
-+	if (ret < 0)
-+		return ret;
-+
-+	fd = open(pathname, O_RDONLY);
-+	if (fd < 0)
-+		return fd;
-+
-+	ret = ioctl(fd, ioctl_no, info);
-+	if (ret)
-+		perror("Failed to process ioctl");
-+
-+	close(fd);
-+
-+	return ret;
-+}
-+
-+static int
-+sdsi_process_spdm(void *request, void *response, int req_size, uint32_t rsp_size,
-+		  int dev_no)
-+{
-+	struct sdsi_spdm_command *command;
-+	struct sdsi_spdm_message *message = request;
-+	uint8_t request_code;
-+	int ret;
-+
-+	command = malloc(sizeof(*command));
-+	if (!command) {
-+		perror("malloc");
-+		return -1;
-+	}
-+
-+	command->size = req_size;
-+	command->message = *message;
-+	request_code = command->message.request_response_code;
-+
-+	ret = sdsi_process_ioctl(SDSI_IF_SPDM_COMMAND, command, dev_no);
-+	if (ret)
-+		goto free_command;
-+
-+	if (command->size < sizeof(struct spdm_header)) {
-+		fprintf(stderr, "Bad SPDM message size\n");
-+		ret = -1;
-+		goto free_command;
-+	}
-+
-+	if (command->message.request_response_code != (request_code & ~SPDM_REQUEST)) {
-+		ret = error_response((struct spdm_header *)&command->message);
-+		goto free_command;
-+	}
-+
-+	if (response) {
-+		if (command->size > rsp_size) {
-+			fprintf(stderr, "SPDM response buffer too small\n");
-+			ret = -1;
-+			goto free_command;
-+		}
-+
-+		memcpy(response, &command->message, command->size);
-+	}
-+
-+free_command:
-+	free(command);
-+	return ret;
-+}
-+
-+struct version_number_entry {
-+	uint8_t alpha:4;
-+	uint8_t update_version_number:4;
-+	union {
-+		uint8_t version;
-+		struct {
-+			uint8_t minor:4;
-+			uint8_t major:4;
-+		};
-+	};
-+} __packed;
-+
-+struct get_version_response {
-+	struct spdm_header header;
-+	uint16_t reserved:8;
-+	uint16_t version_number_entry_count:8;
-+	struct version_number_entry entry[10];
-+} __packed;
-+
-+static int spdm_get_version(int dev_no)
-+{
-+	struct spdm_header request = {};
-+	struct get_version_response response = {};
-+	uint8_t version;
-+	int ret;
-+
-+	request.version = SPDM_VERSION;
-+	request.code = SPDM_GET_VERSION;
-+	request.param1 = SPDM_RSVD;
-+	request.param2 = SPDM_RSVD;
-+
-+	ret = sdsi_process_spdm(&request, &response, sizeof(request),
-+				sizeof(response), dev_no);
-+	if (ret) {
-+		fprintf(stderr, "Failed GET_VERSION\n");
-+		return ret;
-+	}
-+
-+	if (!response.version_number_entry_count) {
-+		fprintf(stderr, "Bad GET_VERSION entry count\n");
-+		return -1;
-+	}
-+
-+	version = response.entry[0].version;
-+
-+	if (version != SPDM_VERSION) {
-+		fprintf(stderr, "Unsupported version 0x%x\n", SPDM_VERSION);
-+		return -1;
-+	}
-+
-+	return 0;
-+}
-+
-+static int spdm_get_capabilities(int dev_no)
-+{
-+	struct spdm_header request = {};
-+	int ret;
-+
-+	request.version = SPDM_VERSION;
-+	request.code = SPDM_GET_CAPABILITIES;
-+	request.param1 = SPDM_RSVD;
-+	request.param2 = SPDM_RSVD;
-+
-+	ret = sdsi_process_spdm(&request, NULL, sizeof(request), 0, dev_no);
-+	if (ret) {
-+		fprintf(stderr, "Failed GET_CAPABILITIES\n");
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+struct spdm_negotiate_alg {
-+	struct spdm_header header;
-+	uint32_t	length:16;
-+	uint32_t	measurement_specification:8;
-+	uint32_t	reserved:8;
-+	uint32_t	base_asym_algo;
-+	uint32_t	base_hash_algo;
-+	uint32_t	reserved2[3];
-+	uint32_t	ext_asym_count:8;
-+	uint32_t	ext_hash_count:8;
-+	uint32_t	reserved3:16;
-+};
-+
-+#define MEASUREMENT_SPEC_DMTF			BIT(0)
-+#define BASE_ASYM_ALG_ECDSA_ECC_NIST_P384	BIT(7)
-+#define BASE_HASH_ALG_SHA_384			BIT(1)
-+
-+static int spdm_negotiate_algorithms(int dev_no)
-+{
-+	struct spdm_negotiate_alg request = {};
-+	int ret;
-+
-+	request.header.version = SPDM_VERSION;
-+	request.header.code = SPDM_NEGOTIATE_ALGORITHMS;
-+	request.header.param1 = SPDM_RSVD;
-+	request.header.param2 = SPDM_RSVD;
-+
-+	request.length = sizeof(request);
-+	request.measurement_specification = MEASUREMENT_SPEC_DMTF;
-+	request.base_asym_algo = BASE_ASYM_ALG_ECDSA_ECC_NIST_P384;
-+	request.base_hash_algo = BASE_HASH_ALG_SHA_384;
-+
-+	ret = sdsi_process_spdm(&request, NULL, sizeof(request), 0, dev_no);
-+	if (ret) {
-+		fprintf(stderr, "Failed NEGOTIATE_ALGORITHMS\n");
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int spdm_negotiate(int dev_no)
-+{
-+	int ret;
-+
-+	ret = spdm_get_version(dev_no);
-+	if (ret)
-+		return ret;
-+
-+	ret = spdm_get_capabilities(dev_no);
-+	if (ret)
-+		return ret;
-+
-+	return spdm_negotiate_algorithms(dev_no);
-+}
-+
-+struct get_digests_response {
-+	struct spdm_header header;
-+	uint8_t digest[TPM_ALG_SHA_384_SIZE];
-+};
-+
-+#define SLOT_MASK(slot) BIT(slot)
-+
-+int spdm_get_digests(int dev_no, uint8_t digest[TPM_ALG_SHA_384_SIZE])
-+{
-+	struct spdm_header request = {};
-+	struct get_digests_response response = {};
-+	int ret;
-+
-+	ret = spdm_negotiate(dev_no);
-+	if (ret)
-+		return ret;
-+
-+	request.version = SPDM_VERSION;
-+	request.code = SPDM_GET_DIGESTS;
-+	request.param1 = SPDM_RSVD;
-+	request.param2 = SPDM_RSVD;
-+
-+	ret = sdsi_process_spdm(&request, &response, sizeof(request),
-+				sizeof(response), dev_no);
-+	if (ret) {
-+		fprintf(stderr, "Failed GET_DIGESTS\n");
-+		return ret;
-+	}
-+
-+	if (!(response.header.param2 & SLOT_MASK(0))) {
-+		fprintf(stderr, "Error, Slot 0 not selected in GET_DIGESTS\n");
-+		return -1;
-+	}
-+
-+	if (digest)
-+		memcpy(digest, response.digest, TPM_ALG_SHA_384_SIZE);
-+
-+	return 0;
-+}
-+
-+#define CERT_SLOT	0
-+
-+struct get_cert_request {
-+	struct spdm_header header;
-+	uint16_t offset;
-+	uint16_t length;
-+};
-+
-+struct get_cert_response {
-+	struct spdm_header header;
-+	uint16_t portion_length;
-+	uint16_t remainder_length;
-+	uint8_t certificate_chain[SDSI_SPDM_BUF_SIZE];
-+};
-+
-+static int get_certificate_size(int dev_no)
-+{
-+	struct get_cert_request request = {};
-+	struct get_cert_response response = {};
-+	int ret;
-+
-+	request.header.version = SPDM_VERSION;
-+	request.header.code = SPDM_GET_CERTIFICATE;
-+	request.header.param1 = CERT_SLOT;
-+	request.header.param2 = SPDM_RSVD;
-+	request.offset = 0;
-+	request.length = SDSI_SPDM_BUF_SIZE;
-+
-+	ret = sdsi_process_spdm(&request, &response, sizeof(request),
-+				sizeof(response), dev_no);
-+	if (ret) {
-+		fprintf(stderr, "Error getting size during GET_CERTIFICATE\n");
-+		return ret;
-+	}
-+
-+	return response.portion_length + response.remainder_length;
-+}
-+
-+static int get_certificate_portion(int dev_no, uint16_t offset, uint16_t length,
-+				   uint16_t *portion_length, uint16_t *remainder_length,
-+				   uint8_t *cert_chain)
-+{
-+	struct get_cert_request request = {};
-+	struct get_cert_response response = {};
-+	int ret;
-+
-+	request.header.version = SPDM_VERSION;
-+	request.header.code = SPDM_GET_CERTIFICATE;
-+	request.header.param1 = CERT_SLOT;
-+	request.header.param2 = SPDM_RSVD;
-+	request.offset = offset;
-+	request.length = length;
-+
-+	ret = sdsi_process_spdm(&request, &response, sizeof(request),
-+				sizeof(response), dev_no);
-+	if (ret) {
-+		fprintf(stderr, "Failed GET_CERTIFICATE\n");
-+		return ret;
-+	}
-+
-+	*portion_length = response.portion_length;
-+	*remainder_length = response.remainder_length;
-+
-+	memcpy(cert_chain + offset, response.certificate_chain, *portion_length);
-+
-+	return 0;
-+}
-+
-+int spdm_get_certificate(int dev_no, struct cert_chain *c)
-+{
-+	uint16_t remainder_length;
-+	uint16_t old_remainder;
-+	uint16_t portion_length = 0;
-+	uint16_t offset = 0;
-+	uint16_t size;
-+	int ret;
-+
-+	ret = spdm_negotiate(dev_no);
-+	if (ret)
-+		return ret;
-+
-+	ret = spdm_get_digests(dev_no, NULL);
-+	if (ret)
-+		return ret;
-+
-+	ret = get_certificate_size(dev_no);
-+	if (ret < 0)
-+		return ret;
-+
-+	size = ret;
-+
-+	c->chain = malloc(size);
-+	if (!c->chain) {
-+		perror("malloc");
-+		return -1;
-+	}
-+
-+	remainder_length = size < SDSI_SPDM_BUF_SIZE ? size : SDSI_SPDM_BUF_SIZE;
-+	old_remainder = remainder_length;
-+
-+	while (remainder_length) {
-+		uint16_t length;
-+
-+		length = remainder_length < SDSI_SPDM_BUF_SIZE ?
-+				remainder_length : SDSI_SPDM_BUF_SIZE;
-+		offset += portion_length;
-+
-+		ret = get_certificate_portion(dev_no, offset, length,
-+					      &portion_length,
-+					      &remainder_length,
-+					      c->chain);
-+		if (ret < 0)
-+			goto free_cert_chain;
-+
-+		if (!(remainder_length < old_remainder)) {
-+			fprintf(stderr, "Bad GET_CERTIFICATE length\n");
-+			ret = -1;
-+			goto free_cert_chain;
-+		}
-+
-+		old_remainder = remainder_length;
-+	}
-+
-+	c->len = offset + portion_length;
-+	return 0;
-+
-+free_cert_chain:
-+	free(c->chain);
-+	c->chain = NULL;
-+	return ret;
-+}
-diff --git a/tools/arch/x86/intel_sdsi/spdm.h b/tools/arch/x86/intel_sdsi/spdm.h
-new file mode 100644
-index 000000000000..aa7e08ffb872
---- /dev/null
-+++ b/tools/arch/x86/intel_sdsi/spdm.h
-@@ -0,0 +1,13 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#include <stdint.h>
-+
-+#define TPM_ALG_SHA_384_SIZE 48
-+
-+struct cert_chain {
-+	void *chain;
-+	size_t len;
-+};
-+
-+int spdm_get_digests(int dev_no, uint8_t digest[TPM_ALG_SHA_384_SIZE]);
-+int spdm_get_certificate(int dev_no, struct cert_chain *c);
-+
--- 
-2.34.1
+Right. That comment is a lot longer than the part you cited here, and
+starts with 'assuming a stable TSC across pCPUS, and a stable TSC
+across vCPUs'. It's the "if (ka->use_master_clock)" case.
 
+And yes, what it's basically saying is a special case of the fact that
+if you let the KVM clock run at its "natural" rate based on the guest
+TSC (definition B), but each vCPU runs at that rate from a *different*
+point on the line that is definition A (the host CLOCK_MONOTONIC_RAW),
+bad things will happen.
+
+I'm OK with it stopping the vCPUs (although I'd like it to do so in a
+less implicitly awful way). But when we don't need to update the
+reference time at all, let's not do so.
+
+> > When invoked from in 'use_master_clock' mode, kvm_update_masterclock()
+> > should probably *adjust* kvm->arch.kvmclock_offset to account for the
+> > drift, instead of yanking the clock back to defintion A.
+>=20
+> You are likely correct...
+>=20
+> > But in the meantime there are a bunch of places where it just doesn't n=
+eed to be
+> > invoked at all.
+> >=20
+> > To start with: there is no need to do such an update when a Xen guest
+> > populates the shared_info page. This seems to have been a hangover from
+> > the very first implementation of shared_info which automatically
+> > populated the vcpu_info structures at their default locations, but even
+> > then it should just have raised KVM_REQ_CLOCK_UPDATE on each vCPU
+> > instead of using KVM_REQ_MASTERCLOCK_UPDATE. And now that userspace is
+> > expected to explicitly set the vcpu_info even in its default locations,
+> > there's not even any need for that either.
+> >=20
+> > Fixes: 629b5348841a1 ("KVM: x86/xen: update wallclock region")
+> > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> > Reviewed-by: Paul Durrant <paul@xen.org>
+> > ---
+> > =C2=A0arch/x86/kvm/xen.c | 2 --
+> > =C2=A01 file changed, 2 deletions(-)
+> >=20
+> > diff --git a/arch/x86/kvm/xen.c b/arch/x86/kvm/xen.c
+> > index f65b35a05d91..5a83a8154b79 100644
+> > --- a/arch/x86/kvm/xen.c
+> > +++ b/arch/x86/kvm/xen.c
+> > @@ -98,8 +98,6 @@ static int kvm_xen_shared_info_init(struct kvm *kvm)
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0wc->version =3D wc_vers=
+ion + 1;
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0read_unlock_irq(&gpc->l=
+ock);
+> > =C2=A0
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0kvm_make_all_cpus_request(kv=
+m, KVM_REQ_MASTERCLOCK_UPDATE);
+> > -
+> > =C2=A0out:
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0srcu_read_unlock(&kvm->=
+srcu, idx);
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return ret;
+> > --=20
+> > 2.44.0
+>=20
+> So KVM_REQ_MASTERCLOCK_UPDATE is to avoid the race above.
+>=20
+> In what contexes is kvm_xen_shared_info_init called from again?
+>=20
+> Not clear to me KVM_REQ_MASTERCLOCK_UPDATE is not needed (or that is
+> needed, for that matter...).
+
+We cal kvm_xen_shared_info_init() when the Xen "shared info" page is
+set up. The only interesting part of that is the *wallclock* epoch.
+
+The wallclock (just like KSR_KVM_WALL_CLOCK{,_NEW}) is *entirely* hosed
+ever since the KVM clock stopped being based on CLOCK_MONOTONIC, since
+that means that the value of "wallclock time minus KVM clock time"
+actually *changes* as the KVM clock runs at a different rate to
+wallclock time.=20
+
+I'm looking at a replacement for that which uses the gtod information
+to give the guest a direct mapping of guest TSC to host CLOCK_TAI. And
+in doing so we can *also* indicate when live migration has potentially
+disrupted the guest TSC, so any further NTP/PTP refinement that the
+guest may have done for itself needs to be thrown away.
+
+
+--=-1MxL1pyflkVSO892kaNk
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjQwNTA3MTkwODQwWjAvBgkqhkiG9w0BCQQxIgQgHVmiWasw
+frgDY5E3eFn0b2+Z8rpbfP6rB7OVXKnqfWgwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgChZ/FYOFQZZOOYZG05b4wiJdTD0tZ47wKq
+LYyo2tJiF2gtDaUDWztKlqtXJIhy1EHqLJkXexeS+G2NXJKc5m0GZfapeKEKDnlr4m7T6SSisSPl
+ou2+ZtAwIvnQg22lFFbDKBrzpKCvR2TPAhnbFEck/sUzmostgvzLgc4q76A16HYZ9dYLqShXGJoa
+gUOMidK1fOFrWC/36QjUDNB0JEHPDBYxvq4hSLlmMI81AxZ0+xCSOHOeTNHM7yqOJEGKJlTqgtx7
+UzSkB/W+uOs6re+XgyHZegmMukZyWEKHEZXo44gYfx4QZUUMi0pmOU8NC27TwLpD9N6mMvOsmkGo
+iUP8ZcTnNGjjFJKqfpEVeOymeGkPJxFBPfccQdc/WaPht2IDVnKiIDYc2Sw5QggL54iU4uwUKFay
+rXpzuMXRdJmfIyAQQIOIZokQJ0TLFJNW4q1gfulgO7HK48CRDxaceSbxHMBjwVfx9Zf5e8zfYFJC
+UT/pNvdY4RdfDUUMf+tzUyLKbE7XbrT5FvNCWlNyZgyTJgleGDKTj7KV0fCVQM/mqmwHipQo45fh
+4DFMfwa2FF045ZXH0ICN6ovrfYbjmcjMdPWQFvxCFX09dwPFYfmWvgBVdqJJi8EVHUTepQytBUqd
+Y2ueJkoJdXRulF3xvCQ006bk3AcMevjRqueyVfTXFAAAAAAAAA==
+
+
+--=-1MxL1pyflkVSO892kaNk--
