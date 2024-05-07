@@ -1,48 +1,70 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C755315D5C8;
-	Tue,  7 May 2024 12:59:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3A9113C3FA;
+	Tue,  7 May 2024 13:16:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715086802; cv=none; b=AnrqtCTpLl5j2Pjaxi9CHwNrby66zoN8Ooc7iP2AGAwaXP2JYT5BZJIIaIId7t3KUrd/dKZkE3LX4zgOW7OaKoaGDLpLtG7BbDmuv2l3k+CIiLcpZV0qm9Y7d4E/EF6EgfYnmgRV8Il/GXqYVE6xJ8LGTTs3iG702B2Cj/bJfIs=
+	t=1715087791; cv=none; b=VMpTvcVDn8sNDZVD17V753in0/GXSnC2EfZL9Mtb9Y8FixBSxc9hklQr3KyQp5a5tEPYvwmW/jci2DlreCoZ1GNM428v/UhUnOq4xinNLFKlotMvuLuzmHJWDPL2Amp7WZWC+PxTcSYIvwyLr6CueHP+PzvSuJFs8W6IRkGg4kw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715086802; c=relaxed/simple;
-	bh=9b3qQTd4rTSGkrWttgabngSudDrHOAq2pV6pOL5r81o=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=i7BA8FBMxg293/QI+2Boj7lySzs3VjXVf8NVKor3l6FXg0Ly2bOR3GTpzrRmwvBNGxfS/qopVdKdpwiCZVzyNDCMuFBqwCYJ/hou92Xs5O+0eS7EQQVCmc1kZlfIw/QDGNWekxiLoJjXqwiIjvSXJXp3bkPlIy3i8TMfAQVL1UE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [10.2.10.34])
-	by gateway (Coremail) with SMTP id _____8Cx7+vNJTpmbtkIAA--.23959S3;
-	Tue, 07 May 2024 20:59:57 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.2.10.34])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8DxsFXLJTpm+xgUAA--.22870S2;
-	Tue, 07 May 2024 20:59:55 +0800 (CST)
-From: Tianyang Zhang <zhangtianyang@loongson.cn>
-To: chenhuacai@kernel.org,
-	kernel@xen0n.name,
-	tglx@linutronix.de,
-	jiaxun.yang@flygoat.com,
-	gaoliang@loongson.cn,
-	wangliupu@loongson.cn,
-	lvjianmin@loongson.cn,
-	zhangtianyang@loongson.cn,
-	yijun@loongson.cn,
-	mhocko@suse.com,
-	akpm@linux-foundation.org,
-	dianders@chromium.org,
-	maobibo@loongson.cn,
-	xry111@xry111.site,
-	zhaotianrui@loongson.cn,
-	nathan@kernel.org,
-	yangtiezhu@loongson.cn,
-	zhoubinbin@loongson.cn
-Cc: loongarch@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] Loongarch:Support loongarch avec
-Date: Tue,  7 May 2024 20:59:53 +0800
-Message-Id: <20240507125953.9117-1-zhangtianyang@loongson.cn>
-X-Mailer: git-send-email 2.20.1
+	s=arc-20240116; t=1715087791; c=relaxed/simple;
+	bh=9ERhS3Oi6lfDP0mQI0ss76n0NCBHsAEM5aOAGB8a3yU=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version; b=boj0xHyeDdUt/aB/xMKSNprBwroCc3scxXQAXIFJXR4R+4C7P7kH2l/uqhFsPVlpp/zZW5xkJrzhlpIMRoejMvnA1xA/uvB/apmUKZWSpmosj8Y71nsi7yXxbCtbGR0U8Yrug0ytYpPbVY/K4vDLNn7XVV+62snZjxlNBnki0/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z5aJpyQz; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z5aJpyQz"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-6f47787a0c3so2149899b3a.0;
+        Tue, 07 May 2024 06:16:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715087789; x=1715692589; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HmQC3+jFNp7e+kAlZxRfBdT8RA7TB6gWaoL1oF7SfPo=;
+        b=Z5aJpyQzfSPOGaqQLSZMEsxWUm2yrbQzPtXAOY9xsbY01xHHr+JoDdNuWZ/KZxfaRW
+         WZWVm/ElI7Pc2X9sPFosWYnpUMDodqTVUtHRtwItSlazr9vEkn5nJSSJgGmIEDTvRMs3
+         VDJ4y2BWHTsVedTmTFmU6RIrzFxToPCKKqH9Mk1Z/y+5iq2+b7JqHsbrF+ZbWi7thpV5
+         4rm4k9i9NjeLo8zv922gd+C2OHTq6SDN91asVlwuebpzRfsOGGmKD0dQy/LuX6mzT/p1
+         FYOGApXAzi0+WI0jPDsvgALZriI41cGJ5FsGxDfSV2lkeeavGJpUwaF/c66PziH3PxOR
+         iUgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715087789; x=1715692589;
+        h=content-transfer-encoding:mime-version:reply-to:message-id:date
+         :subject:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HmQC3+jFNp7e+kAlZxRfBdT8RA7TB6gWaoL1oF7SfPo=;
+        b=gBhIhWzZaF5yY1SCgy31RtdS216spRpF1Sh266kfrH1xDpcxj5q2tnPGkJnJMSZl2H
+         YZFkthvyquz27uxbqeSrt7V4eccG+giSJF24pp4dbvCjNLbyG8YNIbLtmKAJbSXlbJSI
+         HorQJxB/glQsO8ZXMyjlkDm1VuozjlV7RCyIp3yQFAWMZieM9OMqF3vzJiIbOl/FOCia
+         7MTSUebi6+zRyw85yAfxQRS+ujDihMNXHM8vUFWN91tFSfz4S8Yonl208GjlLV+YH53s
+         koZgHTyWYQZYfyvkIZ6nx6y5mAkXdiE8KX5MH0BnwtErTstbWYT4Whp+bEEMrFx/GqEa
+         QzKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX0jBLer+Y0s1M8aGlbbAcJT9BZf95zx88LhzMuDJB6c4rR+QijILNrXcQQxh8G5toAHwLNRheDL3ME4aY373ADv/TAyi9BSLYzf+w7RdPefVGFr9DY+vgi9eSPxV5Hq3ZlFdpSPdLqWKcw4n8zAe/Z1/Yrc1iESCUNEzYi/zxQO15KluuV
+X-Gm-Message-State: AOJu0YyVX4jZ4PdZN+x6XA8gcYB+4WGP52cbHHQ9+xvfqV6OwzAA5BLH
+	/YOZ2byFPW0EyDtXlhO1BJMgh4D5G64vkhujgrTuteGu3IUkqcQFWZ9TEg==
+X-Google-Smtp-Source: AGHT+IHnfsA8iAePbmBbOtee/I2o0fXvVRaKhtujBNIHRjSEHfMKFzHehKnOnigVuqbmxI5J9qJj4Q==
+X-Received: by 2002:a05:6a00:987:b0:6ea:afcb:1b4a with SMTP id u7-20020a056a00098700b006eaafcb1b4amr17857867pfg.8.1715087788910;
+        Tue, 07 May 2024 06:16:28 -0700 (PDT)
+Received: from localhost.localdomain ([67.161.114.176])
+        by smtp.gmail.com with ESMTPSA id fi26-20020a056a00399a00b006f3ec69bc09sm9382237pfb.75.2024.05.07.06.16.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 May 2024 06:16:28 -0700 (PDT)
+From: mhkelley58@gmail.com
+X-Google-Original-From: mhklinux@outlook.com
+To: haiyangz@microsoft.com,
+	wei.liu@kernel.org,
+	decui@microsoft.com,
+	kys@microsoft.com,
+	corbet@lwn.net,
+	linux-kernel@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH 1/2] Documentation: hyperv: Update spelling and fix typo
+Date: Tue,  7 May 2024 06:16:06 -0700
+Message-Id: <20240507131607.367571-1-mhklinux@outlook.com>
+X-Mailer: git-send-email 2.25.1
+Reply-To: mhklinux@outlook.com
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,818 +72,307 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:AQAAf8DxsFXLJTpm+xgUAA--.22870S2
-X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBj9fXoWfuw17tr4DCrWrZw1xJw1UJwc_yoW5JF13Jo
-	WfXF1Yqw18Gr4xCrZ5Kwn0qFyjqry8CFWDA3s3ZFZ29F48ArZ8Kry7Kw1ayFy7J3WkGrZx
-	Gay2grn3Ga97trnrl-sFpf9Il3svdjkaLaAFLSUrUUUUeb8apTn2vfkv8UJUUUU8wcxFpf
-	9Il3svdxBIdaVrn0xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3
-	UjIYCTnIWjp_UUUYC7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI
-	8IcIk0rVWrJVCq3wAFIxvE14AKwVWUXVWUAwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xG
-	Y2AK021l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14
-	v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAF
-	wI0_Gr1j6F4UJwAaw2AFwI0_JF0_Jw1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2
-	xF0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_
-	JF0_Jw1lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x
-	0EwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkE
-	bVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E74
-	80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0
-	I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04
-	k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7Cj
-	xVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jFApnUUUUU=
 
-From: zhangtianyang <zhangtianyang@loongson.cn>
+From: Michael Kelley <mhklinux@outlook.com>
 
-Introduce the advanced extended interrupt controllers,
-This feature will allow each core to have an independent
-256 interrupt vectors, and MSI interrupts can be
-independently routed to any vector on any CPU.
+Update spelling from "VMbus" to "VMBus" to match Hyper-V product
+documentation. Also correct typo: "SNP-SEV" should be "SEV-SNP".
 
-Co-developed-by: Jianmin Lv <lvjianmin@loongson.cn>
-Signed-off-by: Jianmin Lv <lvjianmin@loongson.cn>
-Co-developed-by: Liupu Wang <wangliupu@loongson.cn>
-Signed-off-by: Liupu Wang <wangliupu@loongson.cn>
-Signed-off-by: Tianyang Zhang <zhangtianyang@loongson.cn>
+Signed-off-by: Michael Kelley <mhklinux@outlook.com>
 ---
- arch/loongarch/Kconfig                    |   1 +
- arch/loongarch/include/asm/cpu-features.h |   1 +
- arch/loongarch/include/asm/cpu.h          |   2 +
- arch/loongarch/include/asm/hw_irq.h       |  10 +
- arch/loongarch/include/asm/irq.h          |   7 +-
- arch/loongarch/include/asm/loongarch.h    |  19 +-
- arch/loongarch/include/asm/smp.h          |   1 +
- arch/loongarch/kernel/cpu-probe.c         |   3 +-
- arch/loongarch/kernel/smp.c               |   3 +
- drivers/irqchip/Makefile                  |   2 +-
- drivers/irqchip/irq-loongarch-avec.c      | 434 ++++++++++++++++++++++
- drivers/irqchip/irq-loongarch-cpu.c       |   4 +-
- drivers/irqchip/irq-loongson-eiointc.c    |   3 +
- drivers/irqchip/irq-loongson-pch-msi.c    |  45 ++-
- 14 files changed, 525 insertions(+), 10 deletions(-)
- create mode 100644 drivers/irqchip/irq-loongarch-avec.c
+ Documentation/virt/hyperv/overview.rst | 22 +++----
+ Documentation/virt/hyperv/vmbus.rst    | 82 +++++++++++++-------------
+ 2 files changed, 52 insertions(+), 52 deletions(-)
 
-diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
-index 10959e6c3583..71b8f19745e0 100644
---- a/arch/loongarch/Kconfig
-+++ b/arch/loongarch/Kconfig
-@@ -76,6 +76,7 @@ config LOONGARCH
- 	select GENERIC_ENTRY
- 	select GENERIC_GETTIMEOFDAY
- 	select GENERIC_IOREMAP if !ARCH_IOREMAP
-+	select GENERIC_IRQ_MATRIX_ALLOCATOR
- 	select GENERIC_IRQ_MULTI_HANDLER
- 	select GENERIC_IRQ_PROBE
- 	select GENERIC_IRQ_SHOW
-diff --git a/arch/loongarch/include/asm/cpu-features.h b/arch/loongarch/include/asm/cpu-features.h
-index 2eafe6a6aca8..16a716f88a5c 100644
---- a/arch/loongarch/include/asm/cpu-features.h
-+++ b/arch/loongarch/include/asm/cpu-features.h
-@@ -65,5 +65,6 @@
- #define cpu_has_guestid		cpu_opt(LOONGARCH_CPU_GUESTID)
- #define cpu_has_hypervisor	cpu_opt(LOONGARCH_CPU_HYPERVISOR)
- #define cpu_has_ptw		cpu_opt(LOONGARCH_CPU_PTW)
-+#define cpu_has_avecint		cpu_opt(LOONGARCH_CPU_AVECINT)
+diff --git a/Documentation/virt/hyperv/overview.rst b/Documentation/virt/hyperv/overview.rst
+index cd493332c88a..77408a89d1a4 100644
+--- a/Documentation/virt/hyperv/overview.rst
++++ b/Documentation/virt/hyperv/overview.rst
+@@ -40,7 +40,7 @@ Linux guests communicate with Hyper-V in four different ways:
+   arm64, these synthetic registers must be accessed using explicit
+   hypercalls.
  
- #endif /* __ASM_CPU_FEATURES_H */
-diff --git a/arch/loongarch/include/asm/cpu.h b/arch/loongarch/include/asm/cpu.h
-index 48b9f7168bcc..843f9c4ec980 100644
---- a/arch/loongarch/include/asm/cpu.h
-+++ b/arch/loongarch/include/asm/cpu.h
-@@ -99,6 +99,7 @@ enum cpu_type_enum {
- #define CPU_FEATURE_GUESTID		24	/* CPU has GuestID feature */
- #define CPU_FEATURE_HYPERVISOR		25	/* CPU has hypervisor (running in VM) */
- #define CPU_FEATURE_PTW			26	/* CPU has hardware page table walker */
-+#define CPU_FEATURE_AVECINT		27	/* CPU has avec interrupt */
+-* VMbus: VMbus is a higher-level software construct that is built on
++* VMBus: VMBus is a higher-level software construct that is built on
+   the other 3 mechanisms.  It is a message passing interface between
+   the Hyper-V host and the Linux guest.  It uses memory that is shared
+   between Hyper-V and the guest, along with various signaling
+@@ -54,8 +54,8 @@ x86/x64 architecture only.
  
- #define LOONGARCH_CPU_CPUCFG		BIT_ULL(CPU_FEATURE_CPUCFG)
- #define LOONGARCH_CPU_LAM		BIT_ULL(CPU_FEATURE_LAM)
-@@ -127,5 +128,6 @@ enum cpu_type_enum {
- #define LOONGARCH_CPU_GUESTID		BIT_ULL(CPU_FEATURE_GUESTID)
- #define LOONGARCH_CPU_HYPERVISOR	BIT_ULL(CPU_FEATURE_HYPERVISOR)
- #define LOONGARCH_CPU_PTW		BIT_ULL(CPU_FEATURE_PTW)
-+#define LOONGARCH_CPU_AVECINT		BIT_ULL(CPU_FEATURE_AVECINT)
+ .. _Hyper-V Top Level Functional Spec (TLFS): https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/tlfs/tlfs
  
- #endif /* _ASM_CPU_H */
-diff --git a/arch/loongarch/include/asm/hw_irq.h b/arch/loongarch/include/asm/hw_irq.h
-index af4f4e8fbd85..521abce32135 100644
---- a/arch/loongarch/include/asm/hw_irq.h
-+++ b/arch/loongarch/include/asm/hw_irq.h
-@@ -9,6 +9,16 @@
+-VMbus is not documented.  This documentation provides a high-level
+-overview of VMbus and how it works, but the details can be discerned
++VMBus is not documented.  This documentation provides a high-level
++overview of VMBus and how it works, but the details can be discerned
+ only from the code.
  
- extern atomic_t irq_err_count;
+ Sharing Memory
+@@ -74,7 +74,7 @@ follows:
+   physical address space.  How Hyper-V is told about the GPA or list
+   of GPAs varies.  In some cases, a single GPA is written to a
+   synthetic register.  In other cases, a GPA or list of GPAs is sent
+-  in a VMbus message.
++  in a VMBus message.
  
-+/*
-+ * 256 vectors Map:
-+ *
-+ * 0 - 15: mapping legacy IPs, e.g. IP0-12.
-+ * 16 - 255: mapping a vector for external IRQ.
-+ *
-+ */
-+#define NR_VECTORS	256
-+#define IRQ_MATRIX_BITS	NR_VECTORS
-+#define NR_LEGACY_VECTORS	16
- /*
-  * interrupt-retrigger: NOP for now. This may not be appropriate for all
-  * machines, we'll see ...
-diff --git a/arch/loongarch/include/asm/irq.h b/arch/loongarch/include/asm/irq.h
-index 218b4da0ea90..e28bd96c6611 100644
---- a/arch/loongarch/include/asm/irq.h
-+++ b/arch/loongarch/include/asm/irq.h
-@@ -65,7 +65,7 @@ extern struct acpi_vector_group msi_group[MAX_IO_PICS];
- #define LOONGSON_LPC_LAST_IRQ		(LOONGSON_LPC_IRQ_BASE + 15)
+ * Hyper-V translates the GPAs into "real" physical memory addresses,
+   and creates a virtual mapping that it can use to access the memory.
+@@ -133,9 +133,9 @@ only the CPUs actually present in the VM, so Linux does not report
+ any hot-add CPUs.
  
- #define LOONGSON_CPU_IRQ_BASE		16
--#define LOONGSON_CPU_LAST_IRQ		(LOONGSON_CPU_IRQ_BASE + 14)
-+#define LOONGSON_CPU_LAST_IRQ		(LOONGSON_CPU_IRQ_BASE + 15)
+ A Linux guest CPU may be taken offline using the normal Linux
+-mechanisms, provided no VMbus channel interrupts are assigned to
+-the CPU.  See the section on VMbus Interrupts for more details
+-on how VMbus channel interrupts can be re-assigned to permit
++mechanisms, provided no VMBus channel interrupts are assigned to
++the CPU.  See the section on VMBus Interrupts for more details
++on how VMBus channel interrupts can be re-assigned to permit
+ taking a CPU offline.
  
- #define LOONGSON_PCH_IRQ_BASE		64
- #define LOONGSON_PCH_ACPI_IRQ		(LOONGSON_PCH_IRQ_BASE + 47)
-@@ -101,6 +101,11 @@ int pch_msi_acpi_init(struct irq_domain *parent,
- 					struct acpi_madt_msi_pic *acpi_pchmsi);
- int pch_pic_acpi_init(struct irq_domain *parent,
- 					struct acpi_madt_bio_pic *acpi_pchpic);
-+int __init pch_msi_acpi_init_v2(struct irq_domain *parent,
-+		struct acpi_madt_msi_pic *pch_msi_entry);
-+int __init loongarch_avec_acpi_init(struct irq_domain *parent);
-+void complete_irq_moving(int *restart);
-+
- int find_pch_pic(u32 gsi);
- struct fwnode_handle *get_pch_msi_handle(int pci_segment);
+ 32-bit and 64-bit
+@@ -169,14 +169,14 @@ and functionality. Hyper-V indicates feature/function availability
+ via flags in synthetic MSRs that Hyper-V provides to the guest,
+ and the guest code tests these flags.
  
-diff --git a/arch/loongarch/include/asm/loongarch.h b/arch/loongarch/include/asm/loongarch.h
-index 46366e783c84..4d9a09861925 100644
---- a/arch/loongarch/include/asm/loongarch.h
-+++ b/arch/loongarch/include/asm/loongarch.h
-@@ -72,7 +72,6 @@
- #define  CPUCFG1_RPLV			BIT(23)
- #define  CPUCFG1_HUGEPG			BIT(24)
- #define  CPUCFG1_CRC32			BIT(25)
--#define  CPUCFG1_MSGINT			BIT(26)
+-VMbus has its own protocol version that is negotiated during the
+-initial VMbus connection from the guest to Hyper-V. This version
++VMBus has its own protocol version that is negotiated during the
++initial VMBus connection from the guest to Hyper-V. This version
+ number is also output to dmesg during boot.  This version number
+ is checked in a few places in the code to determine if specific
+ functionality is present.
  
- #define LOONGARCH_CPUCFG2		0x2
- #define  CPUCFG2_FP			BIT(0)
-@@ -240,8 +239,8 @@
- #define  CSR_ESTAT_EXC_WIDTH		6
- #define  CSR_ESTAT_EXC			(_ULCAST_(0x3f) << CSR_ESTAT_EXC_SHIFT)
- #define  CSR_ESTAT_IS_SHIFT		0
--#define  CSR_ESTAT_IS_WIDTH		14
--#define  CSR_ESTAT_IS			(_ULCAST_(0x3fff) << CSR_ESTAT_IS_SHIFT)
-+#define  CSR_ESTAT_IS_WIDTH		15
-+#define  CSR_ESTAT_IS			(_ULCAST_(0x7fff) << CSR_ESTAT_IS_SHIFT)
+-Furthermore, each synthetic device on VMbus also has a protocol
+-version that is separate from the VMbus protocol version. Device
++Furthermore, each synthetic device on VMBus also has a protocol
++version that is separate from the VMBus protocol version. Device
+ drivers for these synthetic devices typically negotiate the device
+ protocol version, and may test that protocol version to determine
+ if specific device functionality is present.
+diff --git a/Documentation/virt/hyperv/vmbus.rst b/Documentation/virt/hyperv/vmbus.rst
+index d2012d9022c5..f0d83ebda626 100644
+--- a/Documentation/virt/hyperv/vmbus.rst
++++ b/Documentation/virt/hyperv/vmbus.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
  
- #define LOONGARCH_CSR_ERA		0x6	/* ERA */
+-VMbus
++VMBus
+ =====
+-VMbus is a software construct provided by Hyper-V to guest VMs.  It
++VMBus is a software construct provided by Hyper-V to guest VMs.  It
+ consists of a control path and common facilities used by synthetic
+ devices that Hyper-V presents to guest VMs.   The control path is
+ used to offer synthetic devices to the guest VM and, in some cases,
+@@ -12,9 +12,9 @@ and the synthetic device implementation that is part of Hyper-V, and
+ signaling primitives to allow Hyper-V and the guest to interrupt
+ each other.
  
-@@ -987,10 +986,17 @@
- #define CSR_FWPC_SKIP_SHIFT		16
- #define CSR_FWPC_SKIP			(_ULCAST_(1) << CSR_FWPC_SKIP_SHIFT)
+-VMbus is modeled in Linux as a bus, with the expected /sys/bus/vmbus
+-entry in a running Linux guest.  The VMbus driver (drivers/hv/vmbus_drv.c)
+-establishes the VMbus control path with the Hyper-V host, then
++VMBus is modeled in Linux as a bus, with the expected /sys/bus/vmbus
++entry in a running Linux guest.  The VMBus driver (drivers/hv/vmbus_drv.c)
++establishes the VMBus control path with the Hyper-V host, then
+ registers itself as a Linux bus driver.  It implements the standard
+ bus functions for adding and removing devices to/from the bus.
  
-+#define LOONGARCH_CSR_IRR0		0xa0
-+#define LOONGARCH_CSR_IRR1		0xa1
-+#define LOONGARCH_CSR_IRR2		0xa2
-+#define LOONGARCH_CSR_IRR3		0xa3
-+
-+#define	LOONGARCH_CSR_ILR		0xa4
-+
- /*
-  * CSR_ECFG IM
-  */
--#define ECFG0_IM		0x00001fff
-+#define ECFG0_IM		0x00005fff
- #define ECFGB_SIP0		0
- #define ECFGF_SIP0		(_ULCAST_(1) << ECFGB_SIP0)
- #define ECFGB_SIP1		1
-@@ -1033,6 +1039,7 @@
- #define  IOCSRF_EIODECODE		BIT_ULL(9)
- #define  IOCSRF_FLATMODE		BIT_ULL(10)
- #define  IOCSRF_VM			BIT_ULL(11)
-+#define  IOCSRF_AVEC			BIT_ULL(15)
+@@ -49,9 +49,9 @@ synthetic NIC is referred to as "netvsc" and the Linux driver for
+ the synthetic SCSI controller is "storvsc".  These drivers contain
+ functions with names like "storvsc_connect_to_vsp".
  
- #define LOONGARCH_IOCSR_VENDOR		0x10
+-VMbus channels
++VMBus channels
+ --------------
+-An instance of a synthetic device uses VMbus channels to communicate
++An instance of a synthetic device uses VMBus channels to communicate
+ between the VSP and the VSC.  Channels are bi-directional and used
+ for passing messages.   Most synthetic devices use a single channel,
+ but the synthetic SCSI controller and synthetic NIC may use multiple
+@@ -73,7 +73,7 @@ write indices and some control flags, followed by the memory for the
+ actual ring.  The size of the ring is determined by the VSC in the
+ guest and is specific to each synthetic device.   The list of GPAs
+ making up the ring is communicated to the Hyper-V host over the
+-VMbus control path as a GPA Descriptor List (GPADL).  See function
++VMBus control path as a GPA Descriptor List (GPADL).  See function
+ vmbus_establish_gpadl().
  
-@@ -1043,6 +1050,7 @@
- #define LOONGARCH_IOCSR_MISC_FUNC	0x420
- #define  IOCSR_MISC_FUNC_TIMER_RESET	BIT_ULL(21)
- #define  IOCSR_MISC_FUNC_EXT_IOI_EN	BIT_ULL(48)
-+#define  IOCSR_MISC_FUNC_AVEC_EN	BIT_ULL(51)
+ Each ring buffer is mapped into contiguous Linux kernel virtual
+@@ -102,9 +102,9 @@ resources.  For Windows Server 2019 and later, this limit is
+ approximately 1280 Mbytes.  For versions prior to Windows Server
+ 2019, the limit is approximately 384 Mbytes.
  
- #define LOONGARCH_IOCSR_CPUTEMP		0x428
+-VMbus messages
++VMBus messages
+ --------------
+-All VMbus messages have a standard header that includes the message
++All VMBus messages have a standard header that includes the message
+ length, the offset of the message payload, some flags, and a
+ transactionID.  The portion of the message after the header is
+ unique to each VSP/VSC pair.
+@@ -137,7 +137,7 @@ control message contains a list of GPAs that describe the data
+ buffer.  For example, the storvsc driver uses this approach to
+ specify the data buffers to/from which disk I/O is done.
  
-@@ -1363,9 +1371,10 @@ __BUILD_CSR_OP(tlbidx)
- #define INT_TI		11	/* Timer */
- #define INT_IPI		12
- #define INT_NMI		13
-+#define INT_AVEC	14
+-Three functions exist to send VMbus messages:
++Three functions exist to send VMBus messages:
  
- /* ExcCodes corresponding to interrupts */
--#define EXCCODE_INT_NUM		(INT_NMI + 1)
-+#define EXCCODE_INT_NUM		(INT_AVEC + 1)
- #define EXCCODE_INT_START	64
- #define EXCCODE_INT_END		(EXCCODE_INT_START + EXCCODE_INT_NUM - 1)
+ 1. vmbus_sendpacket():  Control-only messages and messages with
+    embedded data -- no GPAs
+@@ -154,20 +154,20 @@ Historically, Linux guests have trusted Hyper-V to send well-formed
+ and valid messages, and Linux drivers for synthetic devices did not
+ fully validate messages.  With the introduction of processor
+ technologies that fully encrypt guest memory and that allow the
+-guest to not trust the hypervisor (AMD SNP-SEV, Intel TDX), trusting
++guest to not trust the hypervisor (AMD SEV-SNP, Intel TDX), trusting
+ the Hyper-V host is no longer a valid assumption.  The drivers for
+-VMbus synthetic devices are being updated to fully validate any
++VMBus synthetic devices are being updated to fully validate any
+ values read from memory that is shared with Hyper-V, which includes
+-messages from VMbus devices.  To facilitate such validation,
++messages from VMBus devices.  To facilitate such validation,
+ messages read by the guest from the "in" ring buffer are copied to a
+ temporary buffer that is not shared with Hyper-V.  Validation is
+ performed in this temporary buffer without the risk of Hyper-V
+ maliciously modifying the message after it is validated but before
+ it is used.
  
-diff --git a/arch/loongarch/include/asm/smp.h b/arch/loongarch/include/asm/smp.h
-index f81e5f01d619..577f591c1c73 100644
---- a/arch/loongarch/include/asm/smp.h
-+++ b/arch/loongarch/include/asm/smp.h
-@@ -62,6 +62,7 @@ extern int __cpu_logical_map[NR_CPUS];
- #define SMP_BOOT_CPU		0x1
- #define SMP_RESCHEDULE		0x2
- #define SMP_CALL_FUNCTION	0x4
-+#define SMP_CLEAR_VECT		0x8
+-VMbus interrupts
++VMBus interrupts
+ ----------------
+-VMbus provides a mechanism for the guest to interrupt the host when
++VMBus provides a mechanism for the guest to interrupt the host when
+ the guest has queued new messages in a ring buffer.  The host
+ expects that the guest will send an interrupt only when an "out"
+ ring buffer transitions from empty to non-empty.  If the guest sends
+@@ -177,62 +177,62 @@ interrupts, the host may throttle that guest by suspending its
+ execution for a few seconds to prevent a denial-of-service attack.
  
- struct secondary_data {
- 	unsigned long stack;
-diff --git a/arch/loongarch/kernel/cpu-probe.c b/arch/loongarch/kernel/cpu-probe.c
-index 55320813ee08..3b2e72e8f9bd 100644
---- a/arch/loongarch/kernel/cpu-probe.c
-+++ b/arch/loongarch/kernel/cpu-probe.c
-@@ -106,7 +106,6 @@ static void cpu_probe_common(struct cpuinfo_loongarch *c)
- 		elf_hwcap |= HWCAP_LOONGARCH_CRC32;
- 	}
+ Similarly, the host will interrupt the guest when it sends a new
+-message on the VMbus control path, or when a VMbus channel "in" ring
++message on the VMBus control path, or when a VMBus channel "in" ring
+ buffer transitions from empty to non-empty.  Each CPU in the guest
+-may receive VMbus interrupts, so they are best modeled as per-CPU
++may receive VMBus interrupts, so they are best modeled as per-CPU
+ interrupts in Linux.  This model works well on arm64 where a single
+-per-CPU IRQ is allocated for VMbus.  Since x86/x64 lacks support for
++per-CPU IRQ is allocated for VMBus.  Since x86/x64 lacks support for
+ per-CPU IRQs, an x86 interrupt vector is statically allocated (see
+ HYPERVISOR_CALLBACK_VECTOR) across all CPUs and explicitly coded to
+-call the VMbus interrupt service routine.  These interrupts are
++call the VMBus interrupt service routine.  These interrupts are
+ visible in /proc/interrupts on the "HYP" line.
  
--
- 	config = read_cpucfg(LOONGARCH_CPUCFG2);
- 	if (config & CPUCFG2_LAM) {
- 		c->options |= LOONGARCH_CPU_LAM;
-@@ -176,6 +175,8 @@ static void cpu_probe_common(struct cpuinfo_loongarch *c)
- 		c->options |= LOONGARCH_CPU_EIODECODE;
- 	if (config & IOCSRF_VM)
- 		c->options |= LOONGARCH_CPU_HYPERVISOR;
-+	if (config & IOCSRF_AVEC)
-+		c->options |= LOONGARCH_CPU_AVECINT;
+-The guest CPU that a VMbus channel will interrupt is selected by the
++The guest CPU that a VMBus channel will interrupt is selected by the
+ guest when the channel is created, and the host is informed of that
+-selection.  VMbus devices are broadly grouped into two categories:
++selection.  VMBus devices are broadly grouped into two categories:
  
- 	config = csr_read32(LOONGARCH_CSR_ASID);
- 	config = (config & CSR_ASID_BIT) >> CSR_ASID_BIT_SHIFT;
-diff --git a/arch/loongarch/kernel/smp.c b/arch/loongarch/kernel/smp.c
-index a16e3dbe9f09..4fcf399a8b17 100644
---- a/arch/loongarch/kernel/smp.c
-+++ b/arch/loongarch/kernel/smp.c
-@@ -176,6 +176,9 @@ irqreturn_t loongson_ipi_interrupt(int irq, void *dev)
- 		per_cpu(irq_stat, cpu).ipi_irqs[IPI_CALL_FUNCTION]++;
- 	}
+-1. "Slow" devices that need only one VMbus channel.  The devices
++1. "Slow" devices that need only one VMBus channel.  The devices
+    (such as keyboard, mouse, heartbeat, and timesync) generate
+-   relatively few interrupts.  Their VMbus channels are all
++   relatively few interrupts.  Their VMBus channels are all
+    assigned to interrupt the VMBUS_CONNECT_CPU, which is always
+    CPU 0.
  
-+	if (action & SMP_CLEAR_VECT)
-+		complete_irq_moving(NULL);
-+
- 	return IRQ_HANDLED;
- }
+-2. "High speed" devices that may use multiple VMbus channels for
++2. "High speed" devices that may use multiple VMBus channels for
+    higher parallelism and performance.  These devices include the
+-   synthetic SCSI controller and synthetic NIC.  Their VMbus
++   synthetic SCSI controller and synthetic NIC.  Their VMBus
+    channels interrupts are assigned to CPUs that are spread out
+    among the available CPUs in the VM so that interrupts on
+    multiple channels can be processed in parallel.
  
-diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
-index ec4a18380998..398db4c3e264 100644
---- a/drivers/irqchip/Makefile
-+++ b/drivers/irqchip/Makefile
-@@ -105,7 +105,7 @@ obj-$(CONFIG_LS1X_IRQ)			+= irq-ls1x.o
- obj-$(CONFIG_TI_SCI_INTR_IRQCHIP)	+= irq-ti-sci-intr.o
- obj-$(CONFIG_TI_SCI_INTA_IRQCHIP)	+= irq-ti-sci-inta.o
- obj-$(CONFIG_TI_PRUSS_INTC)		+= irq-pruss-intc.o
--obj-$(CONFIG_IRQ_LOONGARCH_CPU)		+= irq-loongarch-cpu.o
-+obj-$(CONFIG_IRQ_LOONGARCH_CPU)		+= irq-loongarch-cpu.o irq-loongarch-avec.o
- obj-$(CONFIG_LOONGSON_LIOINTC)		+= irq-loongson-liointc.o
- obj-$(CONFIG_LOONGSON_EIOINTC)		+= irq-loongson-eiointc.o
- obj-$(CONFIG_LOONGSON_HTPIC)		+= irq-loongson-htpic.o
-diff --git a/drivers/irqchip/irq-loongarch-avec.c b/drivers/irqchip/irq-loongarch-avec.c
-new file mode 100644
-index 000000000000..71ce33db63db
---- /dev/null
-+++ b/drivers/irqchip/irq-loongarch-avec.c
-@@ -0,0 +1,434 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2020 Loongson Technologies, Inc.
-+ */
-+
-+#include <linux/init.h>
-+#include <linux/interrupt.h>
-+#include <linux/kernel.h>
-+#include <linux/irq.h>
-+#include <linux/irqchip.h>
-+#include <linux/irqdomain.h>
-+#include <linux/spinlock.h>
-+#include <linux/msi.h>
-+#include <linux/irqchip/chained_irq.h>
-+#include <linux/cpuhotplug.h>
-+#include <linux/radix-tree.h>
-+
-+#include <asm/loongarch.h>
-+#include <asm/setup.h>
-+
-+static phys_addr_t msi_base_v2;
-+
-+typedef struct irq_data *irq_map_t[NR_VECTORS];
-+DECLARE_PER_CPU(irq_map_t, irq_map);
-+DEFINE_PER_CPU(irq_map_t, irq_map) = {
-+	[0 ... NR_VECTORS - 1] = NULL,
-+};
-+
-+struct pending_list {
-+	struct list_head head;
-+	raw_spinlock_t	lock;
-+};
-+
-+DEFINE_PER_CPU(struct pending_list, pending_list);
-+
-+struct loongarch_avec_chip {
-+	struct fwnode_handle	*fwnode;
-+	struct irq_domain	*domain;
-+	struct irq_matrix	*vector_matrix;
-+	raw_spinlock_t		lock;
-+} loongarch_avec;
-+
-+struct loongarch_avec_data {
-+	struct list_head entry;
-+	unsigned int cpu;
-+	unsigned int vec;
-+	unsigned int prev_cpu;
-+	unsigned int prev_vec;
-+};
-+
-+static int assign_irq_vector(struct irq_data *irqd, const struct cpumask *dest,
-+		unsigned int *cpu, int *vector)
-+{
-+	int ret;
-+
-+	ret = irq_matrix_alloc(loongarch_avec.vector_matrix, dest, false, cpu);
-+	if (ret < 0)
-+		return ret;
-+	*vector = ret;
-+
-+	return 0;
-+}
-+
-+static inline void loongarch_avec_ack_irq(struct irq_data *d)
-+{
-+}
-+
-+static inline void loongarch_avec_unmask_irq(struct irq_data *d)
-+{
-+}
-+
-+static inline void loongarch_avec_mask_irq(struct irq_data *d)
-+{
-+}
-+
-+static void loongarch_avec_sync(struct loongarch_avec_data *adata)
-+{
-+	struct loongarch_avec_data *data;
-+	struct pending_list *plist;
-+
-+	if (cpu_online(adata->prev_cpu)) {
-+		plist = per_cpu_ptr(&pending_list, adata->prev_cpu);
-+
-+		data = kmalloc(sizeof(struct loongarch_avec_data), GFP_KERNEL);
-+		if (!data) {
-+			pr_warn("NO space for clean data\n");
-+			return;
-+		}
-+		memcpy(data, adata, sizeof(struct loongarch_avec_data));
-+		INIT_LIST_HEAD(&data->entry);
-+
-+		list_add_tail(&data->entry, &plist->head);
-+		loongson_send_ipi_single(adata->prev_cpu, SMP_CLEAR_VECT);
-+	}
-+	adata->prev_cpu = adata->cpu;
-+	adata->prev_vec = adata->vec;
-+}
-+
-+static int loongarch_avec_set_affinity(struct irq_data *data,
-+		const struct cpumask *dest, bool force)
-+{
-+	struct cpumask intersect_mask;
-+	struct loongarch_avec_data *adata;
-+	unsigned int cpu, vector;
-+	unsigned long flags;
-+	int ret = 0;
-+
-+	raw_spin_lock_irqsave(&loongarch_avec.lock, flags);
-+	adata = irq_data_get_irq_chip_data(data);
-+
-+	if (adata->vec && cpu_online(adata->cpu)
-+			&& cpumask_test_cpu(adata->cpu, dest)) {
-+		raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
-+		return 0;
-+	}
-+
-+	if (!cpumask_intersects(dest, cpu_online_mask)) {
-+		raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
-+		return -EINVAL;
-+	}
-+
-+	cpumask_and(&intersect_mask, dest, cpu_online_mask);
-+
-+	ret = assign_irq_vector(data, &intersect_mask, &cpu, &vector);
-+	if (ret) {
-+		raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
-+		return ret;
-+	}
-+
-+	adata->cpu = cpu;
-+	adata->vec = vector;
-+	per_cpu_ptr(irq_map, adata->cpu)[adata->vec] = data;
-+	loongarch_avec_sync(adata);
-+
-+	raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
-+	irq_data_update_effective_affinity(data, cpumask_of(cpu));
-+
-+	return IRQ_SET_MASK_OK;
-+}
-+
-+static void loongarch_avec_compose_msg(struct irq_data *d,
-+		struct msi_msg *msg)
-+{
-+	struct loongarch_avec_data *avec_data;
-+
-+	avec_data = irq_data_get_irq_chip_data(d);
-+
-+	msg->address_hi = 0x0;
-+	msg->address_lo = msi_base_v2 | ((avec_data->vec & 0xff) << 4) |
-+		((cpu_logical_map(avec_data->cpu & 0xffff)) << 12);
-+	msg->data = 0x0;
-+
-+}
-+
-+static struct irq_chip loongarch_avec_controller = {
-+	.name			= "CORE_AVEC",
-+	.irq_ack		= loongarch_avec_ack_irq,
-+	.irq_mask		= loongarch_avec_mask_irq,
-+	.irq_unmask		= loongarch_avec_unmask_irq,
-+	.irq_set_affinity	= loongarch_avec_set_affinity,
-+	.irq_compose_msi_msg	= loongarch_avec_compose_msg,
-+};
-+
-+void complete_irq_moving(int *restart)
-+{
-+	struct pending_list *plist = this_cpu_ptr(&pending_list);
-+	struct loongarch_avec_data *adata, *tmp;
-+	int cpu, vector;
-+	u32 bias;
-+	u64 irr;
-+
-+	raw_spin_lock(&loongarch_avec.lock);
-+
-+	list_for_each_entry_safe(adata, tmp, &plist->head, entry) {
-+
-+		cpu = adata->prev_cpu;
-+		vector = adata->prev_vec;
-+		bias = vector/64;
-+		switch (bias) {
-+		case 0x0:
-+			irr = csr_read64(LOONGARCH_CSR_IRR0);
-+			break;
-+		case 0x1:
-+			irr = csr_read64(LOONGARCH_CSR_IRR1);
-+			break;
-+		case 0x2:
-+			irr = csr_read64(LOONGARCH_CSR_IRR2);
-+			break;
-+		case 0x3:
-+			irr = csr_read64(LOONGARCH_CSR_IRR3);
-+			break;
-+		default:
-+			return;
-+		}
-+
-+		if (irr & (1UL << (vector % 64))) {
-+			loongson_send_ipi_single(cpu, SMP_CLEAR_VECT);
-+			continue;
-+		}
-+		list_del(&adata->entry);
-+		irq_matrix_free(loongarch_avec.vector_matrix, cpu, vector, false);
-+		this_cpu_ptr(irq_map)[vector] = 0;
-+		kfree(adata);
-+	}
-+	raw_spin_unlock(&loongarch_avec.lock);
-+}
-+
-+static void loongarch_avec_dispatch(struct irq_desc *desc)
-+{
-+	struct irq_chip *chip = irq_desc_get_chip(desc);
-+	struct irq_data *d;
-+	unsigned long vector;
-+
-+	chained_irq_enter(chip, desc);
-+	vector = csr_read64(LOONGARCH_CSR_ILR);
-+	if (vector & 0x80000000)
-+		return;
-+
-+	vector &= 0xff;
-+
-+	d = raw_cpu_ptr(irq_map)[vector];
-+	if (d)
-+		generic_handle_irq(d->irq);
-+	else
-+		pr_warn("IRQ ERROR:Unexpected irq  occur on cpu %d[vector %d]\n",
-+				smp_processor_id(), vector);
-+
-+	chained_irq_exit(chip, desc);
-+}
-+
-+static int loongarch_avec_alloc(struct irq_domain *domain, unsigned int virq,
-+		unsigned int nr_irqs, void *arg)
-+{
-+	struct loongarch_avec_data *adata;
-+	struct irq_data *irqd;
-+	unsigned int cpu, vector;
-+	unsigned long flags;
-+	int i, err;
-+
-+	raw_spin_lock_irqsave(&loongarch_avec.lock, flags);
-+	for (i = 0; i < nr_irqs; i++) {
-+		irqd = irq_domain_get_irq_data(domain, virq + i);
-+		adata = kzalloc(sizeof(*adata), GFP_KERNEL);
-+		if (!adata) {
-+			raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
-+			return -ENOMEM;
-+		}
-+		err = assign_irq_vector(irqd, cpu_online_mask, &cpu, &vector);
-+		if (err) {
-+			raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
-+			return err;
-+		}
-+		adata->prev_cpu = adata->cpu = cpu;
-+		adata->prev_vec = adata->vec = vector;
-+
-+		per_cpu_ptr(irq_map, adata->cpu)[adata->vec] = irqd;
-+		irq_domain_set_info(domain, virq + i, virq, &loongarch_avec_controller,
-+				adata, handle_edge_irq, NULL, NULL);
-+		irqd_set_single_target(irqd);
-+		irqd_set_affinity_on_activate(irqd);
-+	}
-+	raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
-+
-+	return err;
-+}
-+
-+static void loongarch_avec_free(struct irq_domain *domain, unsigned int virq,
-+		unsigned int nr_irqs)
-+{
-+	struct loongarch_avec_data *adata;
-+	struct irq_data *d;
-+	unsigned long flags;
-+	unsigned int i;
-+
-+	raw_spin_lock_irqsave(&loongarch_avec.lock, flags);
-+	for (i = 0; i < nr_irqs; i++) {
-+		d = irq_domain_get_irq_data(domain, virq + i);
-+		adata = irq_data_get_irq_chip_data(d);
-+		if (d) {
-+			irq_matrix_free(loongarch_avec.vector_matrix,
-+					adata->cpu,
-+					adata->vec, false);
-+			irq_domain_reset_irq_data(d);
-+		}
-+	}
-+
-+	raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
-+}
-+
-+static const struct irq_domain_ops loongarch_avec_domain_ops = {
-+	.alloc		= loongarch_avec_alloc,
-+	.free		= loongarch_avec_free,
-+};
-+
-+static int __init irq_matrix_init(void)
-+{
-+	int i;
-+
-+	loongarch_avec.vector_matrix = irq_alloc_matrix(NR_VECTORS, 0, NR_VECTORS - 1);
-+	if (!loongarch_avec.vector_matrix)
-+		return -ENOMEM;
-+	for (i = 0; i < NR_LEGACY_VECTORS; i++)
-+		irq_matrix_assign_system(loongarch_avec.vector_matrix, i, false);
-+
-+	irq_matrix_online(loongarch_avec.vector_matrix);
-+
-+	return 0;
-+}
-+
-+static int __init loongarch_avec_init(struct irq_domain *parent)
-+{
-+	int ret = 0, parent_irq;
-+	unsigned long tmp;
-+
-+	tmp = iocsr_read64(LOONGARCH_IOCSR_MISC_FUNC);
-+	tmp |= IOCSR_MISC_FUNC_AVEC_EN;
-+	iocsr_write64(tmp, LOONGARCH_IOCSR_MISC_FUNC);
-+
-+	raw_spin_lock_init(&loongarch_avec.lock);
-+
-+	loongarch_avec.fwnode = irq_domain_alloc_named_fwnode("CORE_AVEC");
-+	if (!loongarch_avec.fwnode) {
-+		pr_err("Unable to allocate domain handle\n");
-+		ret = -ENOMEM;
-+		goto out;
-+	}
-+
-+	loongarch_avec.domain = irq_domain_create_tree(loongarch_avec.fwnode,
-+			&loongarch_avec_domain_ops, NULL);
-+	if (!loongarch_avec.domain) {
-+		pr_err("core-vec: cannot create IRQ domain\n");
-+		ret = -ENOMEM;
-+		goto out_free_handle;
-+	}
-+
-+	parent_irq = irq_create_mapping(parent, INT_AVEC);
-+	if (!parent_irq) {
-+		pr_err("Failed to mapping hwirq\n");
-+		ret = -EINVAL;
-+		goto out_remove_domain;
-+	}
-+	irq_set_chained_handler_and_data(parent_irq, loongarch_avec_dispatch, NULL);
-+
-+	ret = irq_matrix_init();
-+	if (ret) {
-+		pr_err("Failed to init irq matrix\n");
-+		goto out_free_matrix;
-+	}
-+
-+	return ret;
-+
-+out_free_matrix:
-+	kfree(loongarch_avec.vector_matrix);
-+out_remove_domain:
-+	irq_domain_remove(loongarch_avec.domain);
-+out_free_handle:
-+	irq_domain_free_fwnode(loongarch_avec.fwnode);
-+out:
-+	return ret;
-+}
-+
-+static int loongarch_avec_offline_cpu(unsigned int cpu)
-+{
-+	unsigned long flags;
-+	struct pending_list *plist = per_cpu_ptr(&pending_list, cpu);
-+
-+	raw_spin_lock_irqsave(&loongarch_avec.lock, flags);
-+	if (list_empty(&plist->head)) {
-+		irq_matrix_offline(loongarch_avec.vector_matrix);
-+	} else {
-+		pr_warn("cpu %d advanced extioi is busy\n");
-+		raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
-+		return -EBUSY;
-+	}
-+	raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
-+	return 0;
-+}
-+
-+static int loongarch_avec_online_cpu(unsigned int cpu)
-+{
-+	struct pending_list *plist = per_cpu_ptr(&pending_list, cpu);
-+	unsigned long flags;
-+
-+	raw_spin_lock_irqsave(&loongarch_avec.lock, flags);
-+
-+	irq_matrix_online(loongarch_avec.vector_matrix);
-+
-+	INIT_LIST_HEAD(&plist->head);
-+
-+	raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
-+	return 0;
-+}
-+#if defined(CONFIG_ACPI)
-+static int __init pch_msi_parse_madt(union acpi_subtable_headers *header,
-+		const unsigned long end)
-+{
-+	struct acpi_madt_msi_pic *pchmsi_entry = (struct acpi_madt_msi_pic *)header;
-+
-+	msi_base_v2 = pchmsi_entry->msg_address;
-+	return pch_msi_acpi_init_v2(loongarch_avec.domain, pchmsi_entry);
-+}
-+
-+static inline int __init acpi_cascade_irqdomain_init(void)
-+{
-+	return acpi_table_parse_madt(ACPI_MADT_TYPE_MSI_PIC, pch_msi_parse_madt, 1);
-+}
-+
-+int __init loongarch_avec_acpi_init(struct irq_domain *parent)
-+{
-+	int ret = 0;
-+
-+	ret = loongarch_avec_init(parent);
-+	if (ret) {
-+		pr_err("Failed to init irq domain\n");
-+		return ret;
-+	}
-+
-+	ret = acpi_cascade_irqdomain_init();
-+	if (ret) {
-+		pr_err("Failed to cascade IRQ domain\n");
-+		return ret;
-+	}
-+
-+	ret = cpuhp_setup_state_nocalls(CPUHP_AP_ONLINE_DYN,
-+			"loongarch_avec:online",
-+			loongarch_avec_online_cpu, loongarch_avec_offline_cpu);
-+	if (ret < 0) {
-+		pr_err("loongarch_avec: failed to register hotplug callbacks.\n");
-+		return ret;
-+	}
-+
-+	return ret;
-+}
-+#endif
-diff --git a/drivers/irqchip/irq-loongarch-cpu.c b/drivers/irqchip/irq-loongarch-cpu.c
-index 9d8f2c406043..1ecac59925c6 100644
---- a/drivers/irqchip/irq-loongarch-cpu.c
-+++ b/drivers/irqchip/irq-loongarch-cpu.c
-@@ -138,7 +138,9 @@ static int __init acpi_cascade_irqdomain_init(void)
- 	if (r < 0)
- 		return r;
+-The assignment of VMbus channel interrupts to CPUs is done in the
++The assignment of VMBus channel interrupts to CPUs is done in the
+ function init_vp_index().  This assignment is done outside of the
+ normal Linux interrupt affinity mechanism, so the interrupts are
+ neither "unmanaged" nor "managed" interrupts.
  
--	return 0;
-+	if (cpu_has_avecint)
-+		r = loongarch_avec_acpi_init(irq_domain);
-+	return r;
- }
+-The CPU that a VMbus channel will interrupt can be seen in
++The CPU that a VMBus channel will interrupt can be seen in
+ /sys/bus/vmbus/devices/<deviceGUID>/ channels/<channelRelID>/cpu.
+ When running on later versions of Hyper-V, the CPU can be changed
+ by writing a new value to this sysfs entry.  Because the interrupt
+ assignment is done outside of the normal Linux affinity mechanism,
+ there are no entries in /proc/irq corresponding to individual
+-VMbus channel interrupts.
++VMBus channel interrupts.
  
- static int __init cpuintc_acpi_init(union acpi_subtable_headers *header,
-diff --git a/drivers/irqchip/irq-loongson-eiointc.c b/drivers/irqchip/irq-loongson-eiointc.c
-index 405f622a26ad..39795241304e 100644
---- a/drivers/irqchip/irq-loongson-eiointc.c
-+++ b/drivers/irqchip/irq-loongson-eiointc.c
-@@ -359,6 +359,9 @@ static int __init acpi_cascade_irqdomain_init(void)
- 	if (r < 0)
- 		return r;
+ An online CPU in a Linux guest may not be taken offline if it has
+-VMbus channel interrupts assigned to it.  Any such channel
++VMBus channel interrupts assigned to it.  Any such channel
+ interrupts must first be manually reassigned to another CPU as
+ described above.  When no channel interrupts are assigned to the
+ CPU, it can be taken offline.
  
-+	if (cpu_has_avecint)
-+		return 0;
-+
- 	r = acpi_table_parse_madt(ACPI_MADT_TYPE_MSI_PIC, pch_msi_parse_madt, 1);
- 	if (r < 0)
- 		return r;
-diff --git a/drivers/irqchip/irq-loongson-pch-msi.c b/drivers/irqchip/irq-loongson-pch-msi.c
-index 6e1e1f011bb2..d1706080b4f4 100644
---- a/drivers/irqchip/irq-loongson-pch-msi.c
-+++ b/drivers/irqchip/irq-loongson-pch-msi.c
-@@ -16,7 +16,6 @@
- #include <linux/slab.h>
+-When a guest CPU receives a VMbus interrupt from the host, the
++When a guest CPU receives a VMBus interrupt from the host, the
+ function vmbus_isr() handles the interrupt.  It first checks for
+ channel interrupts by calling vmbus_chan_sched(), which looks at a
+ bitmap setup by the host to determine which channels have pending
+ interrupts on this CPU.  If multiple channels have pending
+ interrupts for this CPU, they are processed sequentially.  When all
+ channel interrupts have been processed, vmbus_isr() checks for and
+-processes any message received on the VMbus control path.
++processes any message received on the VMBus control path.
  
- static int nr_pics;
--
- struct pch_msi_data {
- 	struct mutex	msi_map_lock;
- 	phys_addr_t	doorbell;
-@@ -100,6 +99,17 @@ static struct irq_chip middle_irq_chip = {
- 	.irq_compose_msi_msg	= pch_msi_compose_msi_msg,
- };
+-The VMbus channel interrupt handling code is designed to work
++The VMBus channel interrupt handling code is designed to work
+ correctly even if an interrupt is received on a CPU other than the
+ CPU assigned to the channel.  Specifically, the code does not use
+ CPU-based exclusion for correctness.  In normal operation, Hyper-V
+@@ -242,23 +242,23 @@ when Hyper-V will make the transition.  The code must work correctly
+ even if there is a time lag before Hyper-V starts interrupting the
+ new CPU.  See comments in target_cpu_store().
  
-+static struct irq_chip pch_msi_irq_chip_v2 = {
-+	.name			= "MSI",
-+	.irq_ack		= irq_chip_ack_parent,
-+};
-+
-+static struct msi_domain_info pch_msi_domain_info_v2 = {
-+	.flags		= MSI_FLAG_USE_DEF_DOM_OPS | MSI_FLAG_USE_DEF_CHIP_OPS |
-+			MSI_FLAG_MULTI_PCI_MSI | MSI_FLAG_PCI_MSIX,
-+	.chip	= &pch_msi_irq_chip_v2,
-+};
-+
- static int pch_msi_parent_domain_alloc(struct irq_domain *domain,
- 					unsigned int virq, int hwirq)
- {
-@@ -268,6 +278,9 @@ struct fwnode_handle *get_pch_msi_handle(int pci_segment)
- {
- 	int i;
+-VMbus device creation/deletion
++VMBus device creation/deletion
+ ------------------------------
+ Hyper-V and the Linux guest have a separate message-passing path
+ that is used for synthetic device creation and deletion. This
+-path does not use a VMbus channel.  See vmbus_post_msg() and
++path does not use a VMBus channel.  See vmbus_post_msg() and
+ vmbus_on_msg_dpc().
  
-+	if (cpu_has_avecint)
-+		return pch_msi_handle[0];
-+
- 	for (i = 0; i < MAX_IO_PICS; i++) {
- 		if (msi_group[i].pci_segment == pci_segment)
- 			return pch_msi_handle[i];
-@@ -289,4 +302,34 @@ int __init pch_msi_acpi_init(struct irq_domain *parent,
+ The first step is for the guest to connect to the generic
+-Hyper-V VMbus mechanism.  As part of establishing this connection,
+-the guest and Hyper-V agree on a VMbus protocol version they will
++Hyper-V VMBus mechanism.  As part of establishing this connection,
++the guest and Hyper-V agree on a VMBus protocol version they will
+ use.  This negotiation allows newer Linux kernels to run on older
+ Hyper-V versions, and vice versa.
  
- 	return ret;
- }
-+
-+int __init pch_msi_acpi_init_v2(struct irq_domain *parent,
-+		struct acpi_madt_msi_pic *msi_entry)
-+{
-+	struct irq_domain *msi_domain;
-+
-+	if (pch_msi_handle[0])
-+		return 0;
-+
-+	pch_msi_handle[0] = irq_domain_alloc_named_fwnode("msipic-v2");
-+	if (!pch_msi_handle[0]) {
-+		pr_err("Unable to allocate domain handle\n");
-+		kfree(pch_msi_handle[0]);
-+		return -ENOMEM;
-+	}
-+
-+	msi_domain = pci_msi_create_irq_domain(pch_msi_handle[0],
-+			&pch_msi_domain_info_v2,
-+			parent);
-+	if (!msi_domain) {
-+		pr_err("Failed to create PCI MSI domain\n");
-+		kfree(pch_msi_handle[0]);
-+		return -ENOMEM;
-+	}
-+
-+	pr_info("IRQ domain MSIPIC-V2 init done.\n");
-+	return 0;
-+}
-+
-+
- #endif
+ The guest then tells Hyper-V to "send offers".  Hyper-V sends an
+ offer message to the guest for each synthetic device that the VM
+-is configured to have. Each VMbus device type has a fixed GUID
+-known as the "class ID", and each VMbus device instance is also
++is configured to have. Each VMBus device type has a fixed GUID
++known as the "class ID", and each VMBus device instance is also
+ identified by a GUID. The offer message from Hyper-V contains
+ both GUIDs to uniquely (within the VM) identify the device.
+ There is one offer message for each device instance, so a VM with
+@@ -275,7 +275,7 @@ type based on the class ID, and invokes the correct driver to set up
+ the device.  Driver/device matching is performed using the standard
+ Linux mechanism.
+ 
+-The device driver probe function opens the primary VMbus channel to
++The device driver probe function opens the primary VMBus channel to
+ the corresponding VSP. It allocates guest memory for the channel
+ ring buffers and shares the ring buffer with the Hyper-V host by
+ giving the host a list of GPAs for the ring buffer memory.  See
+@@ -285,7 +285,7 @@ Once the ring buffer is set up, the device driver and VSP exchange
+ setup messages via the primary channel.  These messages may include
+ negotiating the device protocol version to be used between the Linux
+ VSC and the VSP on the Hyper-V host.  The setup messages may also
+-include creating additional VMbus channels, which are somewhat
++include creating additional VMBus channels, which are somewhat
+ mis-named as "sub-channels" since they are functionally
+ equivalent to the primary channel once they are created.
+ 
 -- 
-2.20.1
+2.25.1
 
