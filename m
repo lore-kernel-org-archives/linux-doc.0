@@ -1,101 +1,133 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A037AD25
-	for <linux-doc@vger.kernel.org>; Tue,  7 May 2024 01:35:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C8C4C94;
+	Tue,  7 May 2024 03:28:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715045735; cv=none; b=JRlyS1jDBXNtTVWA/EinA+nr14Oj5q4ytfXbplUC60cQFjRAgAJumP3tIuPQK+4cSTKIgFOFQZQOOMpQn2z0nfkg6M3F0aVSNhkDTiCcYsY2nF9v92TtlUlAsl1zt3o1nKauH7ef47VLfXt9ajLXTE84l3NGahlUtUJ4nUXjB4Y=
+	t=1715052498; cv=none; b=oUHssI82dNwPIfwNn/d+RMBxxTo6ExE4zTgLJtHpBekiE8NcZuDqPX7piJ67YDbouKZHeOMC4i9rD+zT46eYlxUUUaOzdL1svvtq+bJeLtGkHYH1aB8Ml+UN6CPL6klo3TjR6VrUN9V0ZROp9ldjWqyWdiN6cgSVwh4wu4ZsHME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715045735; c=relaxed/simple;
-	bh=cJjey8+N7XA0lWDAjmdyuCkOhS9zN5a0WpUdS4sjd3U=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=ZTxN/MJek9nMOOKPkKrUK76PMItI7LWXLleebPkElfXKERp+TMPq9CTIOWVWdCOz8QXn8WX7ygjb1Z5i/c1kWgmsXLYTN8nhwCkqORPPSQgplEDdwcTCn7GgMCqJtuZY4Gv0xLro7sHNiIAdq0lX8pmJ7xrNnaia8aKhKPeaS44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FTP8WTSb; arc=none smtp.client-ip=209.85.214.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com
+	s=arc-20240116; t=1715052498; c=relaxed/simple;
+	bh=oFI7tm++PMwnpezXZl6+RVdttyuxeXzDX3sJCx+Aak0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=oEJa28YVE8+VNnUfd5+q8jJ8/oJ3N3KG6SAMOrFZo/hr3D7lp40WMsnCIU4iODRPZy12fVZqZpBTaPL8jg6HXhCPqUYptvNebmM/E6CYf15MI0JhOw8G7cLC70PfTfpr8e1Kw09lo55AZ74Noezuv0UEfMuBS1M4e0bzYQm94iQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KYwa9sLS; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FTP8WTSb"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-1ec5dc29f95so29052805ad.3
-        for <linux-doc@vger.kernel.org>; Mon, 06 May 2024 18:35:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KYwa9sLS"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-6f457853950so1679565b3a.0;
+        Mon, 06 May 2024 20:28:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1715045733; x=1715650533; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FgYO7v0ogCok46mLXJTMv8ZgjJeavmyV/7t/mM5NWqE=;
-        b=FTP8WTSb2KGDUAyfU4scl7gd292yTFMR1bnU8d4dqQs+yOMP5/acLynE1iCLoWIwas
-         lQqq78xDwH3ZuoJxb6ibwcS5gvedylRhx+F2GQsFAQZbW92lPgxcMJodwwYu6AFJYxHg
-         XxgmxNUKhTQmKfta2GYog6vqm/72r8LCUkXlXNAIIeGMM54R2RTVFEuEgfA+v/5zto+z
-         4vo69E5lXhmUkpVSoTQrRVgpI/QCLzLOPXJ1w2bPwSjfW8G+sXikXT1r95BbyiqI3rR3
-         sPw6tSUW2rn976SOVoPDFxnavSutueiIlmhG2TCUcCQKuhONDmp92Esh+eJbDa2YEHFR
-         nLmQ==
+        d=gmail.com; s=20230601; t=1715052496; x=1715657296; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yG0hyI/fiqqTDu9hk0CUtBDwmucjumAbk3/rvFBap28=;
+        b=KYwa9sLSXcn+NCJnGyeLhjD/tgCat5GQegioFbSBlGBjPXiQ2BoO5sIkd4Y2kThUuy
+         MoaZ/MzBs0OwxDWiJ1fRYRo61OpL/f62miUwwiUalY7McLwCYaOx72hh9Hmzom+zdpk2
+         A55E01C9B+ike+WEuWu18ujwJKbjR2/vFy9pgXEBlAQzNBcQQm7vqe648cEHn/ElepYJ
+         N0htIxc9KOCju+q5sMkkfUYV4D6fQPggzP85t/FHZBXSLMtQyzTOK2B08l3SH2qfpnpY
+         j/tfiy1Ud2UY35HpQ7xJ2D9NBQXQM4Hs/vp+2jT9aAN6QAYsaYyYNruao0JwdegkvZ7p
+         GP7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715045733; x=1715650533;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FgYO7v0ogCok46mLXJTMv8ZgjJeavmyV/7t/mM5NWqE=;
-        b=NzacetGEDwhvXLe+0hJ64GAf5ehr481J6Fhl5SHfRHbA2HjMjCTE/TtH54RpQLtk7d
-         5F9Ofk5NBtr9EmBs0qMZvVYvdOLsX9pZpDXanzjtWY2BggLCKBjAB4j+QSA8XPEBxMWT
-         ZHxfiJ5HpM7AA4RqVGfalDRNK0CoR5yQLnn4SVd9Mbr4N5Ynfn0Mwep5p+DIpxbcpl8v
-         FUIM0DZraSqG8ok1VYCQK/LxjLCQtEG5GmklFFWURm2cRFIQlem4NZRkF50l6IScQAMm
-         eC7hqu1fvsz+xPB+urBlcYbE9iHYDVeiPkaKVURKEjAFlyeMZhvSDnjk3Y/a+uNALnMc
-         tlJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUQNSMcMt7PCEAUlIHmtAxVSyfOPOt/8ep/j8pC9Jhy9g1F910oMEr1fO8Y5SJUn03RG6iWSz+X6njMGwfCqAw3DpG65Myygp+x
-X-Gm-Message-State: AOJu0Yyn4KthAakIz3LRlzpVSLym3w5fKqAKFnHVEIDtZ5zww6d+ND4J
-	XWO4mBquOtINkp5mIm21ZhuiTjPmembx0x/UrjOxYTl7SJfB4oHT/zIzK0kuyoeY1G1TLOu7fe0
-	wKyCQ2qkSdV27/g==
-X-Google-Smtp-Source: AGHT+IErfLerZobD9xg1Wmd5+21UToJ9w/LMkvvj/wvhb1Ne0SrUXgnxBdtSvjMYm3uIeFmtL+QqkX9J33f6zCg=
-X-Received: from tj-virt.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5683])
- (user=tjmercier job=sendgmr) by 2002:a17:902:da8c:b0:1e3:d6e6:45ab with SMTP
- id j12-20020a170902da8c00b001e3d6e645abmr1078068plx.8.1715045732859; Mon, 06
- May 2024 18:35:32 -0700 (PDT)
-Date: Tue,  7 May 2024 01:35:00 +0000
-In-Reply-To: <20240507013502.3095744-1-tjmercier@google.com>
+        d=1e100.net; s=20230601; t=1715052496; x=1715657296;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yG0hyI/fiqqTDu9hk0CUtBDwmucjumAbk3/rvFBap28=;
+        b=QPZteD9g1gclYg8sc+AYd2+DR7cMph7fJszicZ2RvnT07/HWB/grnGB53m4DsSH7lz
+         Wgx4QGeoh+64Df+hoJBkQES+1CW5J/wkARnOHSMf8tftRPForyJ88nq9/AgDPhvF0dTj
+         J8r+aIj3L3gp/j09VMY+9snVcVLRsU1fTRH+bYquA8Z7kWE3EYs6KlyzxFPZAbfVIKCF
+         vWvc0bBZaBZxj6csUKOllGUVNkspI/MaAhbxKwYBGyN/6zX32KTnvLCSiYCs1jPl6+9z
+         AQrd15HDAeJpNwW7dZ1mNw18yJU5vH6kBMBiNRDxkOXjYNRi9ktwhJeQAp/339uQ2ZEF
+         l5Ug==
+X-Forwarded-Encrypted: i=1; AJvYcCVL/g9CZnNwRLGdioQO8TUiVx5H+tF4jq9/UujnS+FH0Gfl+AhzCc9HD28cYhAbbRC6loCD6jFnDvxc2SZzVBzHoUQI0Oy5hgdW0kLswmlBCdRi8sAGJAndCUDC2z9zbvQQ3DLGGgfrysviSHW4tlZlLHpmI3PLmPLmQ/wp70vQrHH2
+X-Gm-Message-State: AOJu0Yy8FMp0q9JyPBKUgxHQHaAtc+9lk74EBg8fYhg3oNZZGfdDion8
+	T0dCanFQ3tpxMZqYnx+1pSr/Z+Jzxm0deDGYVZ3n5TI5gi8IyP2r
+X-Google-Smtp-Source: AGHT+IHQGrM3apVuTaRp7pOKdv1cKN0aYiJobTHZXaiaDf5r+6av+oBOFd+j2BhjsX3MB0aaP8V7tA==
+X-Received: by 2002:a17:902:e891:b0:1e2:58f:7ed4 with SMTP id w17-20020a170902e89100b001e2058f7ed4mr2443528plg.5.1715052495885;
+        Mon, 06 May 2024 20:28:15 -0700 (PDT)
+Received: from localhost.localdomain ([2407:7000:8942:5500:aaa1:59ff:fe57:eb97])
+        by smtp.gmail.com with ESMTPSA id p16-20020a170902ebd000b001ebd7bdaaffsm8988409plg.288.2024.05.06.20.28.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 May 2024 20:28:15 -0700 (PDT)
+From: Barry Song <21cnbao@gmail.com>
+To: akpm@linux-foundation.org,
+	linux-doc@vger.kernel.org
+Cc: apw@canonical.com,
+	broonie@kernel.org,
+	chenhuacai@loongson.cn,
+	chris@zankel.net,
+	corbet@lwn.net,
+	dwaipayanray1@gmail.com,
+	herbert@gondor.apana.org.au,
+	joe@perches.com,
+	linux-kernel@vger.kernel.org,
+	linux@roeck-us.net,
+	lukas.bulwahn@gmail.com,
+	mac.xxn@outlook.com,
+	sfr@canb.auug.org.au,
+	v-songbaohua@oppo.com,
+	workflows@vger.kernel.org
+Subject: [PATCH v7 0/2] codingstyle: avoid unused parameters for a function-like macro
+Date: Tue,  7 May 2024 15:27:55 +1200
+Message-Id: <20240507032757.146386-1-21cnbao@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240507013502.3095744-1-tjmercier@google.com>
-X-Mailer: git-send-email 2.45.0.rc1.225.g2a3ae87e7f-goog
-Message-ID: <20240507013502.3095744-3-tjmercier@google.com>
-Subject: [PATCH v2 3/3] doc: x86/iommu: Update and reorder iommu options
-From: "T.J. Mercier" <tjmercier@google.com>
-To: tjmercier@google.com, Thomas Gleixner <tglx@linutronix.de>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: petr@tesarici.cz, mhklinux@outlook.com, robin.murphy@arm.com, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Several options were missing from the top of the IOMMU section that were
-detailed below. Add the missing options and reorder them to match the
-order in which they are documented.
+From: Barry Song <v-songbaohua@oppo.com>
 
-Signed-off-by: T.J. Mercier <tjmercier@google.com>
----
- Documentation/arch/x86/x86_64/boot-options.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+-v7:
+ * collect ack of Joe for checkpatch.pl, thanks!
+ * fixed an indentation per Joe
 
-diff --git a/Documentation/arch/x86/x86_64/boot-options.rst b/Documentation/arch/x86/x86_64/boot-options.rst
-index 18161657b301..04baefcc1712 100644
---- a/Documentation/arch/x86/x86_64/boot-options.rst
-+++ b/Documentation/arch/x86/x86_64/boot-options.rst
-@@ -242,9 +242,9 @@ Multiple x86-64 PCI-DMA mapping implementations exist, for example:
- 
- ::
- 
--  iommu=[<size>][,noagp][,off][,force][,noforce]
--  [,memaper[=<order>]][,merge][,fullflush][,nomerge]
--  [,noaperture]
-+  iommu=[off][,noforce][,force][,soft][,<size>]
-+  [,allowed][,fullflush][,nofullflush][,memaper[=<order>]]
-+  [,merge][,nomerge][,noaperture][,noagp][,panic]
- 
- General iommu options:
- 
+-v6:
+ * collect ack of Joe, thanks!
+ * refine docs according to Jonathan, thanks!
+ * add checkpatch doc according to Joe, thanks!
+ v6 link:
+ https://lore.kernel.org/lkml/20240506014606.8638-1-21cnbao@gmail.com/
+
+-v5:
+ * Simplify the code for Patch 2 according to Joe's suggestions.
+ * add s-o-b of Barry according to Jeff Johnson
+ v5 link:
+ https://lore.kernel.org/all/20240401012120.6052-1-21cnbao@gmail.com/
+
+-v4:
+ * fix Xining's email address, s/ma.xxn@outlook.com/mac.xxn@outlook.com/g
+ * fix some false positives of checkpatch.pl
+ * downgrade from ERROR to WARN in checkpatch.pl
+
+ Thanks for Joe's comments!
+
+ v4 link: https://lore.kernel.org/all/20240328022136.5789-1-21cnbao@gmail.com/
+
+-v3:
+ https://lore.kernel.org/all/20240322084937.66018-1-21cnbao@gmail.com/
+
+A function-like macro could result in build warnings such as
+"unused variable." This patchset updates the guidance to
+recommend always using a static inline function instead
+and also provides checkpatch support for this new rule.
+
+Barry Song (1):
+  Documentation: coding-style: ask function-like macros to evaluate
+    parameters
+
+Xining Xu (1):
+  scripts: checkpatch: check unused parameters for function-like macro
+
+ Documentation/dev-tools/checkpatch.rst | 14 ++++++++++++++
+ Documentation/process/coding-style.rst | 23 +++++++++++++++++++++++
+ scripts/checkpatch.pl                  |  6 ++++++
+ 3 files changed, 43 insertions(+)
+
 -- 
-2.45.0.rc1.225.g2a3ae87e7f-goog
+2.34.1
 
