@@ -1,107 +1,161 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D443F1635AD;
-	Tue,  7 May 2024 16:17:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82D1E16C686
+	for <linux-doc@vger.kernel.org>; Tue,  7 May 2024 16:18:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715098674; cv=none; b=bi0qLqA4dE7XxUkV8Q/Wel6fQZEvz5M545SGi6VsSRrNYYiELW9h1OXYX3Bj7MEF9L/KtvqT8CR6DCbJTrRlXuDjTmrPGxVg+YySyd7/1HjSeCZmh3EV+s30+0fkrg7jWIrx3OfXtoWjqhy9lkoWGfhLykdb7QTUhXnmcsCxb1U=
+	t=1715098741; cv=none; b=aMNx/w1D5B0i87R5qbCwmcMZjR/UkrPch30Ap9YRxPWXIO26c2JlofB8yQlBZbGKbf+yCOjNpBgUoAI6jt8G8H9EjtyVuv3GMVUnGxWLfvURdP0pFHfwKRpPJ2L6JwzdgLe6qlFXY1SwsB7FG6iNQnmSfl1YFGcCXEfqPIqp8x0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715098674; c=relaxed/simple;
-	bh=+EdSyGJvH/21wvtCtdWqpIduQUpmlkNHvWInRhO/rfM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HrsxHnhH3WXOx1vIgr5aHBSu5BVzj/iHIMce25SVUdO170pKQh/J1jvmQsGSv0i165t67JRRqqPqztUyAcVB4kadyUpL8h0PG3yPG3Zqe0i7cqj2H7ezCt9IZ9uhWTwxg0pcFXbrjUYWTr8mO9CWbLF7Lwb9GfYhK3zPMcd3yzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DzyCpRuS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715098741; c=relaxed/simple;
+	bh=0nsEzeVMKy4YdFDUp85eHaoqb8xweeElGlao/4FZIUg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OFsnY/2aDdcT3bJ0dOBlfDKiQb+AE2aM+0Te4b3mBjSTWvIBNGiD9Qq9hKDMCVvWlQRtVZmjhjWaegn+SGEa1GlZqzYVTHVHMCfFkEfduQFA/LaOV7REyFZeYPKA7pCDSoaq0rVX8s/4lEOwnLB9xxXPmehnZF8HUbwz3U725yQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=opveKBa6; arc=none smtp.client-ip=209.85.167.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DzyCpRuS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E230FC2BBFC;
-	Tue,  7 May 2024 16:17:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715098673;
-	bh=+EdSyGJvH/21wvtCtdWqpIduQUpmlkNHvWInRhO/rfM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=DzyCpRuSW/aH3TOPxd84HNZGAObZKBcn5x5F//oO1euvpIRhnP0WaO52llBFnJNuz
-	 OPjNCF5G2gn/nSm7wIj9fNBD9PW+rpNwirCVy0FVfkARGLWZ2vbq8lMAIlRazgjwfB
-	 ckLJDeJEsrnjhjM4aFOaAHQ4MdmNgwGB8YuBZ+MZUZLO0lBIqDNkimAJm1HjI0iTTv
-	 Ay8d+b8Gpri7hKmkK3QYzsSG8P19Fwirec8qN8GXM+ZYfNBdhwEKPt+vO3MnzJLx8v
-	 bk1GFZuDDo8L64XcudNko1z4hZs0/m9UvUX8Rv2LWxTOuTGQ5cTAXAHpqfjLgSFnVW
-	 Dd10P6V/FK/yQ==
-From: SeongJae Park <sj@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: SeongJae Park <sj@kernel.org>,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="opveKBa6"
+Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3c97066a668so739163b6e.0
+        for <linux-doc@vger.kernel.org>; Tue, 07 May 2024 09:18:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1715098738; x=1715703538; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mpA0imZ1JqdhWIK1ORQBd9/L74Ck+FsRXQUsgUAbnpw=;
+        b=opveKBa68KDbotBwf+SHOGwR3L1ZEqcrdU071diK37U0beD4PU9lO4RkVxKP0Py0Ic
+         YnHD+bPzb79ZIWtRKfMvo7fg51hCnMP2Nc1DMug+5gHJLpkJxs143i+EJJeVaZLIb8ON
+         Hki4ApLOWCcRKhlk6LPk3jWJ9kuNTTOmPAze0955YfA3lIifckMzLgXCDhRjH9U7pp87
+         QUEreZiAHX+Msr+MM3DRBDfLpxxyehEdPpU2r8XeTFJFXvDPDYkMt/Tgt9MJbgrJ5hIX
+         Hve75qz7JpJG2KiWTu0envqkVVDR2M607agTGZ4qrNRqOL8pdgHhP4A5KJXcmBa0rAqU
+         5CNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715098738; x=1715703538;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mpA0imZ1JqdhWIK1ORQBd9/L74Ck+FsRXQUsgUAbnpw=;
+        b=p6keLK5aTS3Rw44PtBno7ffFvrErnDG/Acg4+7HHTeedOr5EfxSgOssGNe2QRUdbIp
+         e/m7yix7eNd/jxX90f7CsEAWW+CKyLEimXxdPa73f97TqQQ5Fwsl3Cdr8mgikoJWA7yt
+         aNnGBjS1bM9hVcGuUcLfCu/s40WbE02V77Aokb0bKz7El5VxpvKiLZewRRdops7YalWv
+         q3B97h/UY7+Fvb7Hvy8omaF4SOJQNgKS1Oy85A+eI2gZzZ5BEg1J8y9a/zo/hBWDKEna
+         +Tys0kE2XJYpm9f4ufWUPwHOHszwkaiVUzRE2DbrRRS0y8Nc72PilnPk25EFbb1tVVTt
+         X8WQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVgzFB3fHLztYAlTkdOVh3BZWrs6WZkzVTIUU05HRs+wyKiYvJ/7JEFgjQQOuu+HmP8gCg/DnWifxsctKkmD23hu/B5K6GGtpDN
+X-Gm-Message-State: AOJu0YyYW5wOACbVJV5jG491AlgEMFlv7i81PYjQu1duJ6L2gD9DT1wO
+	oXdBJWN4cIn7xVVi77TIqIURBAtTpETPhmP8GfrpyE7McKl6rsvuuWr1kHTQYw0=
+X-Google-Smtp-Source: AGHT+IHBeOFCxQYTrI8MfHIwKkBSBqM9hntJdk3KZjtoSOk7dYsXXEt5GzDg6QwjzVe4x2v7iKDOJw==
+X-Received: by 2002:a05:6808:242:b0:3c9:70bf:6824 with SMTP id 5614622812f47-3c9852ad715mr54932b6e.7.1715098738624;
+        Tue, 07 May 2024 09:18:58 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-68-80-239.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.80.239])
+        by smtp.gmail.com with ESMTPSA id mh15-20020a056214564f00b0069942e76d99sm4800030qvb.48.2024.05.07.09.18.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 May 2024 09:18:58 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1s4NWr-0001Pl-DR;
+	Tue, 07 May 2024 13:18:57 -0300
+Date: Tue, 7 May 2024 13:18:57 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: Christoph Hellwig <hch@infradead.org>,
+	Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-next@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH mm-unstable] Docs/mm/damon/design: fix build warning
-Date: Tue,  7 May 2024 09:17:47 -0700
-Message-Id: <20240507161747.52430-1-sj@kernel.org>
-X-Mailer: git-send-email 2.39.2
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	David Ahern <dsahern@kernel.org>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Amritha Nambiar <amritha.nambiar@intel.com>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+	Kaiyuan Zhang <kaiyuanz@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Simon Horman <horms@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Florian Westphal <fw@strlen.de>,
+	Yunsheng Lin <linyunsheng@huawei.com>,
+	Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
+	Arseniy Krasnov <avkrasnov@salutedevices.com>,
+	Aleksander Lobakin <aleksander.lobakin@intel.com>,
+	Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Richard Gobert <richardbgobert@gmail.com>,
+	Sridhar Samudrala <sridhar.samudrala@intel.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Abel Wu <wuyun.abel@bytedance.com>,
+	Breno Leitao <leitao@debian.org>, David Wei <dw@davidwei.uk>,
+	Shailend Chand <shailend@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Jeroen de Borst <jeroendb@google.com>,
+	Praveen Kaligineedi <pkaligineedi@google.com>
+Subject: Re: [RFC PATCH net-next v8 02/14] net: page_pool: create hooks for
+ custom page providers
+Message-ID: <20240507161857.GA4718@ziepe.ca>
+References: <20240403002053.2376017-1-almasrymina@google.com>
+ <20240403002053.2376017-3-almasrymina@google.com>
+ <ZjH1QaSSQ98mw158@infradead.org>
+ <CAHS8izM0=xc2UhUxhnF_BixuFs5VaDV9W1jbso1K+Rg=35NzeA@mail.gmail.com>
+ <ZjjHUh1eINPg1wkn@infradead.org>
+ <20b1c2d9-0b37-414c-b348-89684c0c0998@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20b1c2d9-0b37-414c-b348-89684c0c0998@gmail.com>
 
-Commit b7138c7d40b0 ("Docs/mm/damon/design: use a list for supported
-filters") of mm-unstable tree is causing below warning and error with
-'make htmldocs'.
+On Tue, May 07, 2024 at 05:05:12PM +0100, Pavel Begunkov wrote:
+> > even in tree if you give them enough rope, and they should not have
+> > that rope when the only sensible options are page/folio based kernel
+> > memory (incuding large/huge folios) and dmabuf.
+> 
+> I believe there is at least one deep confusion here, considering you
+> previously mentioned Keith's pre-mapping patches. The "hooks" are not
+> that about in what format you pass memory, it's arguably the least
+> interesting part for page pool, more or less it'd circulate whatever
+> is given. It's more of how to have a better control over buffer lifetime
+> and implement a buffer pool passing data to users and empty buffers
+> back.
 
-    Documentation/mm/damon/design.rst:482: ERROR: Unexpected indentation.
-    Documentation/mm/damon/design.rst:483: WARNING: Block quote ends without a blank line; unexpected unindent.
+Isn't that more or less exactly what dmabuf is? Why do you need
+another almost dma-buf thing for another project?
 
-The problem caused by wrong indentation for nested list items.  Fix the
-wrong indentation.
-
-Fixes: b7138c7d40b0 ("Docs/mm/damon/design: use a list for supported filters")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/20240507162623.4d94d455@canb.auug.org.au
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/mm/damon/design.rst | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
-
-diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
-index 1873755358af..3df387249937 100644
---- a/Documentation/mm/damon/design.rst
-+++ b/Documentation/mm/damon/design.rst
-@@ -472,21 +472,21 @@ counted as the scheme has tried.  This difference affects the statistics.
- Below types of filters are currently supported.
- 
- - anonymous page
--  - Applied to pages that containing data that not stored in files.
--  - Handled by operations set layer.  Supported by only ``paddr`` set.
-+    - Applied to pages that containing data that not stored in files.
-+    - Handled by operations set layer.  Supported by only ``paddr`` set.
- - memory cgroup
--  - Applied to pages that belonging to a given cgroup.
--  - Handled by operations set layer.  Supported by only ``paddr`` set.
-+    - Applied to pages that belonging to a given cgroup.
-+    - Handled by operations set layer.  Supported by only ``paddr`` set.
- - young page
--  - Applied to pages that are accessed after the last access check from the
--    scheme.
--  - Handled by operations set layer.  Supported by only ``paddr`` set.
-+    - Applied to pages that are accessed after the last access check from the
-+      scheme.
-+    - Handled by operations set layer.  Supported by only ``paddr`` set.
- - address range
--  - Applied to pages that belonging to a given address range.
--  - Handled by the core logic.
-+    - Applied to pages that belonging to a given address range.
-+    - Handled by the core logic.
- - DAMON monitoring target
--  - Applied to pages that belonging to a given DAMON monitoring target.
--  - Handled by the core logic.
-+    - Applied to pages that belonging to a given DAMON monitoring target.
-+    - Handled by the core logic.
- 
- 
- Application Programming Interface
--- 
-2.39.2
-
+Jason
