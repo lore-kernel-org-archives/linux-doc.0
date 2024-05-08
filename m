@@ -1,330 +1,371 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2051.outbound.protection.outlook.com [40.107.92.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0779F824BF;
-	Wed,  8 May 2024 11:20:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715167247; cv=none; b=bHUJmnIQ9CGT2nw4KszTFtdU/46r5WmJyzk5PeTnikDk174HFvr/F4x8PNBgGtxXpnd+wQlJ+BH4a3mp9FiuDmxeHFHtv5+Uirr/ZWKTNRgBFMXZDnaImkFY2k9foIVLOVG7DFiOC489qLqgOoYHerjWYuWNwCIivfrmiy0uKnE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715167247; c=relaxed/simple;
-	bh=SOFK6vxi3GZWSiC2GhxKzkoWc9mqFMse7HMQCdT9VYQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S+UQ5qMNd6iPHAfCWeMMyP+9mxEsMn8E/r7+kmccBnIoem8NYAaWVn2OD3NklMzW72g9w5vnnhjRn2zU4t2tYxUe6LVjWyybac1ThN4tEXH8oHABBIDwWHz9hW0l3dustno5lCpH7q+q1sBgUJANc7dAiJU0Gc541KbASPqb8pw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 392AFC4DDE1;
-	Wed,  8 May 2024 11:20:44 +0000 (UTC)
-Date: Wed, 8 May 2024 12:20:41 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Maxwell Bland <mbland@motorola.com>
-Cc: linux-mm@kvack.org, Will Deacon <will@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] ptdump: add intermediate directory support
-Message-ID: <ZjtgCfhQDJus3dqI@arm.com>
-References: <fik5ys53dbkpkl22o4s7sw7cxi6dqjcpm2f3kno5tyms73jm5y@buo4jsktsnrt>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EDD881ACA;
+	Wed,  8 May 2024 11:27:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715167653; cv=fail; b=Ltug+o6KZmrOuZzY5BsC7kQOitN7edbfQ/lGt8qEPwpX4LmFXKAZRkLkeSraDlv796zPj2XagtRwoTe/PZkJRjxIibOvjGJgYBuMMVmeWWYGMOFivhukMPDXZwInFGIF+Gebqxh0CaAJBdJ1AtHn4xwRnWVkfi7uo9egbYZMOZo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715167653; c=relaxed/simple;
+	bh=alU1ZDgrzr45WpqQixiTgtbQfoEJDUgfn7w85CTMORg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UK1aQaRV1rLlBbPS01HAcmxHy0CstVeobQ1Cj50DnQYX093+i53pZ5q97uypGNYi7F4ZUh/01yUZg8t2wD07+liqB4/gGrQUndBWVKx0UXd2alfzvGNjrQdtGvTK0O/EjGSjXrzn/SFKGF8pjXguEONwGt1fSkaOOkVhPwQ0ySs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=jYuuvzo1; arc=fail smtp.client-ip=40.107.92.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="jYuuvzo1"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QDI+jS/JQzNtQKiF+0ZhyWMwe9pccMeKjvV1jldCnhnhtlEQi1zFmMkV9CAN5OO0T1awJYkPADw42UK7JoqS8wQ/GlU5UPwm0TvAUHO93yQRol4YdrNh5LWqOIBnqSeg+QH4lcaI1vHJnnhFyNYDieICvE14c8MZjoX3TYxhBBR707I2N2YsYMqp3iVW/lf+hAqhvrl7Sr/w1vE5SuUTGX3urjBxnouOSNWIYX3a640tSk+XX9zyxsfmaUEmWggJMieQ5gTVLAEY/08nLASwK+3eJhnAoS3OqxShcbkBvC0MmNSjX85Va8FIiM9oaMhtNoKpgwlzcUl9Fzigr2aQ7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=g6XpHvbRm83eDZCXE0++oixUcydx3uKJHMJZUoSIlPU=;
+ b=BCqGingzJMrijDVjyVF01MUENSidSOv1Ne8E2BGGts8Xn6v4fgdFWR8E1+XjJm8RKRhMJN1uKqayOmBmzmyn3KGLGzCbvuQLXi57RzOMQht7tfx834fEX8sHUeNJuN23sPXmVsUgz8xjG+k21rZz5j+vaObtLPrCmEeKByR3UO/23ooNZhDplDFpCrt3sdVbkV/tq/rDnk3D2csZ63LHpXcL90E8bYi0Oq/AimUyqV9fl33c+ZjoDYX/a9mf1kihDraTuCbKVl90DKNBosA38sX/fGEgeG/rEDHVtxQlIzTd90Ky6BycnUMyOY6ne06ZCzHCkZ+ehg97mWWAf/Bcww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=lwn.net smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=g6XpHvbRm83eDZCXE0++oixUcydx3uKJHMJZUoSIlPU=;
+ b=jYuuvzo1zhe4adMX34M9g9BJuQS8RRG8RwtrRGSiU/kLFKH7zZ/qcIamHFTgIi6WAuGS4aFyq+Lv1r3WmPxdlqiyDMK/rCceujua17jCmleyA1Wisiuti82dv9I/1KigQA+tGDOlo+PSZLOylNSIgXDWKzWwUkSjfMMGMnhjPm6jy/pW5aVGYJXn2mXL7xZ9EZwEvvybj2tSstXuPW878yucD3A/ElybouZn9bhqY8pQ2Q2zVSCujTJaBIlyLp/5i4o97BEXgQOaMaqNoQ1AfpCgvRkaDTDMi4+uG88dDN3ErWtoXKy/EJqwfMld8UiaI3admslKrx1SG8/nf3z5iQ==
+Received: from CH0P220CA0004.NAMP220.PROD.OUTLOOK.COM (2603:10b6:610:ef::10)
+ by PH7PR12MB6658.namprd12.prod.outlook.com (2603:10b6:510:211::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.45; Wed, 8 May
+ 2024 11:27:25 +0000
+Received: from CH3PEPF00000011.namprd21.prod.outlook.com
+ (2603:10b6:610:ef:cafe::ae) by CH0P220CA0004.outlook.office365.com
+ (2603:10b6:610:ef::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.42 via Frontend
+ Transport; Wed, 8 May 2024 11:27:24 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ CH3PEPF00000011.mail.protection.outlook.com (10.167.244.116) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7587.0 via Frontend Transport; Wed, 8 May 2024 11:27:24 +0000
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 8 May 2024
+ 04:27:07 -0700
+Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail203.nvidia.com
+ (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 8 May 2024
+ 04:27:06 -0700
+Received: from vidyas-desktop.nvidia.com (10.127.8.9) by mail.nvidia.com
+ (10.129.68.9) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
+ Transport; Wed, 8 May 2024 04:27:01 -0700
+From: Vidya Sagar <vidyas@nvidia.com>
+To: <corbet@lwn.net>, <bhelgaas@google.com>, <galshalom@nvidia.com>,
+	<leonro@nvidia.com>, <jgg@nvidia.com>, <treding@nvidia.com>,
+	<jonathanh@nvidia.com>
+CC: <mmoshrefjava@nvidia.com>, <shahafs@nvidia.com>, <vsethi@nvidia.com>,
+	<sdonthineni@nvidia.com>, <jan@nvidia.com>, <tdave@nvidia.com>,
+	<linux-doc@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <kthota@nvidia.com>,
+	<mmaddireddy@nvidia.com>, <vidyas@nvidia.com>, <sagar.tv@gmail.com>
+Subject: [PATCH V1] PCI: Extend ACS configurability
+Date: Wed, 8 May 2024 16:56:58 +0530
+Message-ID: <20240508112658.3555882-1-vidyas@nvidia.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fik5ys53dbkpkl22o4s7sw7cxi6dqjcpm2f3kno5tyms73jm5y@buo4jsktsnrt>
+Content-Type: text/plain; charset="UTF-8"
+X-NVConfidentiality: public
+Content-Transfer-Encoding: 8bit
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PEPF00000011:EE_|PH7PR12MB6658:EE_
+X-MS-Office365-Filtering-Correlation-Id: b2cdb56f-d45b-4d56-903f-08dc6f51d595
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230031|1800799015|36860700004|376005|82310400017;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?anp5K3dGS0JNM3NGTTZTeVQxcWJsVWJqeEhpU2I1OGhLY2pNY0UrNGozNW10?=
+ =?utf-8?B?RVErNWkwb3ZpbmlldjJxQTF5K0orUmhTbVQ2Wk5jcE1HTElQVDMyV1dDLzd6?=
+ =?utf-8?B?Rm5MdlNFV2xOZmpwb0g2YkRLeENUYW5rcUU1NHQzejVjUDFDWExGNlRmdXFR?=
+ =?utf-8?B?Q3lmV0FNNVUrQy9CZFFMbW1XMWhMcXN3Y0N4WVU3bjhrSDMyUDA0STdaYzZK?=
+ =?utf-8?B?UEdTclc2M3R0cC8yUFRKajB3MmF1ZjIvNWk4UXJlMmIrcUtoVGI4NHdkbytR?=
+ =?utf-8?B?U2xjQUFHWHlKcWRHbHlKR0RvemdrRytFaXRRRk53Z3RXWUNoaFB1Yzc5WHJS?=
+ =?utf-8?B?TWVYQlgyczRpKzFoeFh0OGlrNTZrdkFjQ0gxTWJCTjRadkJBZk16NHBrTzhr?=
+ =?utf-8?B?Yy9HemF5RndET1U0K1Y0Yjl3UURHMzlWZWpDeXFoZWZmVkhucVg2V3dsZ1hL?=
+ =?utf-8?B?bGdLdUY3WG9Zc1pSTjhRU1RORlBoM29FSnZHQitmSEVVZGFoVDRUaDVpbVRG?=
+ =?utf-8?B?bFRTdHN4R29vT1RNaEZSc3ZzcWNXam9KVlN0blRWVVBjdkY1R3BScFY5RGRJ?=
+ =?utf-8?B?dlY5NzJrVzV1THpUTzI5Q0hVQVh0SEF0OVhiK2xkc3lxU01IQTQ0WjJyckU5?=
+ =?utf-8?B?WlNLOUlHNmRCdTVOdXNqNDgxMTJ1Nk9YaXVwVkZsMzFHVHljS1JtZ2kzK0p0?=
+ =?utf-8?B?ZjZ5a2QwNVNPNllDcmpCa0dpeDNDdm95aVdxSlM1YVV1Nk03ZGd1bSt2THVu?=
+ =?utf-8?B?VGlqTVNveDhNZGdZVzFsZlNDVlA5T2labklJaWJnTkFIR0xNejZiYVVRK3Mx?=
+ =?utf-8?B?NTExQkdGUUdyRjlBYm83bURwQjNKMmZ5NG9mRVdMZmozcVNoSzdKbGlMbE5r?=
+ =?utf-8?B?TWpWcnBmSnY1ZXQvK0hLdXNjcHNlSzFHU2dUajV3dG9adHErV0RHeForWGJm?=
+ =?utf-8?B?SldUclhQUi8ybytxSDZlK3crdk5vRjd2UjUrcWhZdFFMY21xcE9aZTBRb2Q1?=
+ =?utf-8?B?RS9zUndHN1RLa28rRTZpRmFVRW8wYzlLNGFONDNKMUp6MjNwaFVkZExQazND?=
+ =?utf-8?B?NVp3cDByYjhHTCtsNDU3Z1BsdDdONEVkRzIxMXdmcys5dlNjcTVrckVQLzBV?=
+ =?utf-8?B?blBJdC9FUTlYNnNVY1BQSUZYZEsvV0NwVGdFRkIxMWdFSCtXS3RkbXhrMloz?=
+ =?utf-8?B?UmVFWEtNV05WM2lndjNDNjlEOGgvcjN6aHhCeWhRaDNId1BvMXNwTFM1b0VE?=
+ =?utf-8?B?S29DQWJZS2FOcGY4WEg0cWZZVVh0YW5rTjV1VkdnS2h6T2JBdlNqWHpKdXpo?=
+ =?utf-8?B?RmVFVzBvQjkzZk0wWEdCWWFFSFlLNWthdnNmem5UVGtvSmJVQ3o2VTR0MDR5?=
+ =?utf-8?B?MWdDdnkxU3dLSzI2WHpQVjNLODBycFZoV1NYVDJlMEtvZjdXeDM1VWZ6aEFZ?=
+ =?utf-8?B?dUwzSW9EOURrYlhCRkNPeFNsb2dRelFHMmgvRGw0d0gybGlROWcyaWZQM2VY?=
+ =?utf-8?B?Vy85ZUJ6ekdrZGtvbUE5Ymd1NGtCb0ZMQ3VHUU9NN3FtSUUxVkxJOXlFUTBJ?=
+ =?utf-8?B?U1E2Y3VCam5ERGp2VVBkaEl6eHZNMlExV2xXYU51SzMwMkowZ3pIK1gzbmxR?=
+ =?utf-8?B?YkVLdElla3NIRmk0enU0WDllSlBsVHJMK3kxQWFLdDJvYVFPSlc0VkZzRFRQ?=
+ =?utf-8?B?VDJyYlFIQys4ZjhPNlBlejRFZ0ZVNmoyOEh1K2pzWlVhemVaU245djRuRXAr?=
+ =?utf-8?B?VW4xM3F2N3UyM3BOOFBJM1dhbDBWbVhMR2Jkczc2V3VsN0k3NDVrYkhKSjR0?=
+ =?utf-8?Q?65fmb5QvphHG77Efcy+l1JuD+6Fo+POtYpkR8=3D?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230031)(1800799015)(36860700004)(376005)(82310400017);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2024 11:27:24.3650
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b2cdb56f-d45b-4d56-903f-08dc6f51d595
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH3PEPF00000011.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6658
 
-On Tue, Apr 30, 2024 at 11:05:01AM -0500, Maxwell Bland wrote:
-> diff --git a/Documentation/arch/arm64/ptdump.rst b/Documentation/arch/arm64/ptdump.rst
-> index 5dcfc5d7cddf..350eea06300e 100644
-> --- a/Documentation/arch/arm64/ptdump.rst
-> +++ b/Documentation/arch/arm64/ptdump.rst
-> @@ -2,25 +2,24 @@
->  Kernel page table dump
->  ======================
->  
-> -ptdump is a debugfs interface that provides a detailed dump of the
-> -kernel page tables. It offers a comprehensive overview of the kernel
-> -virtual memory layout as well as the attributes associated with the
-> -various regions in a human-readable format. It is useful to dump the
-> -kernel page tables to verify permissions and memory types. Examining the
-> -page table entries and permissions helps identify potential security
-> -vulnerabilities such as mappings with overly permissive access rights or
-> -improper memory protections.
-> +ptdump is a debugfs interface that provides a detailed dump of the kernel page
-> +tables. It offers a comprehensive overview of the kernel virtual memory layout
-> +as well as the attributes associated with the various regions in a
-> +human-readable format. It is useful to dump the kernel page tables to verify
-> +permissions and memory types. Examining the page table entries and permissions
-> +helps identify potential security vulnerabilities such as mappings with overly
-> +permissive access rights or improper memory protections.
+For iommu_groups to form correctly, the ACS settings in the PCIe fabric
+need to be setup early in the boot process, either via the BIOS or via
+the kernel disable_acs_redir parameter.
 
-Please don't re-wrap existing text unless it's a separate patch with no
-content change (and with a good justification). It is hard to see
-whether anything has changed in this paragraph (or the next ones).
+disable_acs_redir allows clearing the RR|CR|EC ACS flags, but the PCIe
+spec Rev3.0 already defines 7 different ACS related flags with many more
+useful combinations depending on the fabric design.
 
-Also, many (most?) text files are wrapped around 72 characters, no need
-to re-wrap them at 80, just keep the formatting in that file when adding
-new text.
+For backward compatibility, leave the 'disable_acs_redir' as is and add
+a new parameter 'config_acs'so that the user can directly specify the ACS
+flags to set on a per-device basis. Use a similar syntax to the existing
+'resource_alignment'  parameter by using the @ character and have the user
+specify the ACS flags using a bit encoding. If both 'disable_acs_redir' and
+'config_acs' are specified for a particular device, configuration specified
+through 'config_acs' takes precedence over the other.
 
-> @@ -29,68 +28,101 @@ configurations and mount debugfs::
->   mount -t debugfs nodev /sys/kernel/debug
->   cat /sys/kernel/debug/kernel_page_tables
->  
-> -On analysing the output of ``cat /sys/kernel/debug/kernel_page_tables``
-> -one can derive information about the virtual address range of the entry,
-> -followed by size of the memory region covered by this entry, the
-> -hierarchical structure of the page tables and finally the attributes
-> -associated with each page. The page attributes provide information about
-> -access permissions, execution capability, type of mapping such as leaf
-> -level PTE or block level PGD, PMD and PUD, and access status of a page
-> -within the kernel memory. Assessing these attributes can assist in
-> -understanding the memory layout, access patterns and security
-> -characteristics of the kernel pages.
-> +On analysing the output of ``cat /sys/kernel/debug/kernel_page_tables`` one can
-> +derive information about the virtual address range of a contiguous group of
-> +page table entries, followed by size of the memory region covered by this
-> +group, the hierarchical structure of the page tables and finally the attributes
-> +associated with each page in the group. Groups are broken up either according
-> +to a change in attributes or by parent descriptor, such as a PMD. Note that the
-> +set of attributes, and therefore formatting, is not equivalent between entry
-> +types. For example, PMD entries have a separate set of attributes from leaf
-> +level PTE entries, because they support both the UXNTable and PXNTable
-> +permission bits.
-> +
-> +The page attributes provide information about access permissions, execution
-> +capability, type of mapping such as leaf level PTE or block level PGD, PMD and
-> +PUD, and access status of a page within the kernel memory. Non-PTE block or
-> +page level entries are denoted with either "BLK" or "TBL", respectively.
-> +Assessing these attributes can assist in understanding the memory layout,
-> +access patterns and security characteristics of the kernel pages.
+Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
+---
+ .../admin-guide/kernel-parameters.txt         |  22 ++++
+ drivers/pci/pci.c                             | 119 ++++++++++++++----
+ 2 files changed, 119 insertions(+), 22 deletions(-)
 
-I presume there's some new text here.
-
-> diff --git a/arch/arm64/mm/ptdump.c b/arch/arm64/mm/ptdump.c
-> index 6986827e0d64..bd4f1df0c444 100644
-> --- a/arch/arm64/mm/ptdump.c
-> +++ b/arch/arm64/mm/ptdump.c
-> @@ -24,6 +24,7 @@
->  #include <asm/memory.h>
->  #include <asm/pgtable-hwdef.h>
->  #include <asm/ptdump.h>
-> +#include <asm/pgalloc.h>
->  
->  
->  #define pt_dump_seq_printf(m, fmt, args...)	\
-> @@ -70,6 +71,11 @@ static const struct prot_bits pte_bits[] = {
->  		.val	= PTE_VALID,
->  		.set	= " ",
->  		.clear	= "F",
-> +	}, {
-> +		.mask	= PTE_TABLE_BIT,
-> +		.val	= PTE_TABLE_BIT,
-> +		.set	= "   ",
-> +		.clear	= "BLK",
->  	}, {
->  		.mask	= PTE_USER,
->  		.val	= PTE_USER,
-> @@ -105,11 +111,6 @@ static const struct prot_bits pte_bits[] = {
->  		.val	= PTE_CONT,
->  		.set	= "CON",
->  		.clear	= "   ",
-> -	}, {
-> -		.mask	= PTE_TABLE_BIT,
-> -		.val	= PTE_TABLE_BIT,
-> -		.set	= "   ",
-> -		.clear	= "BLK",
->  	}, {
->  		.mask	= PTE_UXN,
->  		.val	= PTE_UXN,
-
-Since you are adding a separate pmd_bits[] array, I think we could get
-rid of the PTE_TABLE_BIT entry. It doesn't make sense for ptes anyway.
-Why it works currently is that for ptes it won't show anything since we
-have the bit set while for p*d entries it should have shown TBL when set
-but it's not called on non-leaf entries.
-
-> @@ -143,34 +144,208 @@ static const struct prot_bits pte_bits[] = {
->  	}
->  };
->  
-> +static const struct prot_bits pmd_bits[] = {
-[...]
-> +};
-> +
-> +static const struct prot_bits pud_bits[] = {
-[...]
-> +};
-
-Do we need pud_bits[] as well? Can we not just use pmd_bits[]? Call it
-pxd_bits if you want, the format is the same for all p*d entries.
-
-> +
->  struct pg_level {
->  	const struct prot_bits *bits;
->  	char name[4];
->  	int num;
->  	u64 mask;
-> +	unsigned long size;
->  };
->  
->  static struct pg_level pg_level[] __ro_after_init = {
->  	{ /* pgd */
->  		.name	= "PGD",
-> -		.bits	= pte_bits,
-> -		.num	= ARRAY_SIZE(pte_bits),
-> +		.bits	= pud_bits,
-> +		.num	= ARRAY_SIZE(pud_bits),
-> +		.size	= PGD_SIZE
->  	}, { /* p4d */
->  		.name	= "P4D",
-> -		.bits	= pte_bits,
-> -		.num	= ARRAY_SIZE(pte_bits),
-> +		.bits	= pud_bits,
-> +		.num	= ARRAY_SIZE(pud_bits),
-> +		.size	= P4D_SIZE
->  	}, { /* pud */
->  		.name	= "PUD",
-> -		.bits	= pte_bits,
-> -		.num	= ARRAY_SIZE(pte_bits),
-> +		.bits	= pud_bits,
-> +		.num	= ARRAY_SIZE(pud_bits),
-> +		.size	= PUD_SIZE
->  	}, { /* pmd */
->  		.name	= "PMD",
-> -		.bits	= pte_bits,
-> -		.num	= ARRAY_SIZE(pte_bits),
-> +		.bits	= pmd_bits,
-> +		.num	= ARRAY_SIZE(pmd_bits),
-> +		.size	= PMD_SIZE
->  	}, { /* pte */
->  		.name	= "PTE",
->  		.bits	= pte_bits,
->  		.num	= ARRAY_SIZE(pte_bits),
-> +		.size	= PAGE_SIZE
->  	},
->  };
->  
-> @@ -225,8 +400,9 @@ static void note_page(struct ptdump_state *pt_st, unsigned long addr, int level,
->  		      u64 val)
->  {
->  	struct pg_state *st = container_of(pt_st, struct pg_state, ptdump);
-> -	static const char units[] = "KMGTPE";
-> +	static const char units[] = "BKMGTPE";
->  	u64 prot = 0;
-> +	int i = 0;
->  
->  	/* check if the current level has been folded dynamically */
->  	if ((level == 1 && mm_p4d_folded(st->mm)) ||
-> @@ -241,20 +417,33 @@ static void note_page(struct ptdump_state *pt_st, unsigned long addr, int level,
->  		st->current_prot = prot;
->  		st->start_address = addr;
->  		pt_dump_seq_printf(st->seq, "---[ %s ]---\n", st->marker->name);
-> -	} else if (prot != st->current_prot || level != st->level ||
-> -		   addr >= st->marker[1].start_address) {
-> +	} else if ((prot != st->current_prot || level != st->level ||
-> +		   addr >= st->marker[1].start_address)) {
->  		const char *unit = units;
->  		unsigned long delta;
->  
-> +		for (i = 0; i < st->level; i++)
-> +			pt_dump_seq_printf(st->seq, "  ");
-
-Please separate the alignment changes into a different patch, it makes
-it easier to review what's new functionality, what's cosmetic. I'm also
-not particularly keen on the new alignment. It's fine to have the
-sub-ranges indented but I'd keep the bits/permissions/size/etc. aligned.
-
-> +
->  		if (st->current_prot) {
->  			note_prot_uxn(st, addr);
->  			note_prot_wx(st, addr);
->  		}
->  
-> -		pt_dump_seq_printf(st->seq, "0x%016lx-0x%016lx   ",
-> -				   st->start_address, addr);
-> +		/*
-> +		 * Entries are coalesced into a single line, so non-leaf
-> +		 * entries have no size relative to start_address
-> +		 */
-> +		if (st->start_address != addr) {
-> +			pt_dump_seq_printf(st->seq, "0x%016lx-0x%016lx   ",
-> +					   st->start_address, addr);
-> +			delta = (addr - st->start_address);
-
-What's this supposed to show? In your example, it's strange that the PGD
-is shown as 128 bytes:
-
-+ 0xffff020000000000-0xffff020000000080         128B PGD   TBL     RW               NXTbl UXNTbl    MEM/NORMAL
-+     0xffff020000000000-0xffff023080000000         194G PUD
-+     0xffff023080000000-0xffff0230c0000000           1G PUD   TBL     RW               NXTbl UXNTbl    MEM/NORMAL
-
-The table pgd entries should cover full pud ranges below. I don't know
-how it ended up with 0x...80 as the end of the range for the pgd. Should
-it show a PGD_SIZE * number_of_entries instead?
-
-> +		} else {
-> +			pt_dump_seq_printf(st->seq, "0x%016lx-0x%016lx   ", addr,
-> +					   addr + pg_level[st->level].size);
-> +			delta = (pg_level[st->level].size);
-> +		}
->  
-> -		delta = (addr - st->start_address) >> 10;
->  		while (!(delta & 1023) && unit[1]) {
->  			delta >>= 10;
->  			unit++;
-> @@ -301,7 +490,8 @@ void ptdump_walk(struct seq_file *s, struct ptdump_info *info)
->  			.range = (struct ptdump_range[]){
->  				{info->base_addr, end},
->  				{0, 0}
-> -			}
-> +			},
-> +			.note_non_leaf = true
->  		}
->  	};
->  
-> diff --git a/include/linux/ptdump.h b/include/linux/ptdump.h
-> index 8dbd51ea8626..b3e793a5c77f 100644
-> --- a/include/linux/ptdump.h
-> +++ b/include/linux/ptdump.h
-> @@ -16,6 +16,7 @@ struct ptdump_state {
->  			  int level, u64 val);
->  	void (*effective_prot)(struct ptdump_state *st, int level, u64 val);
->  	const struct ptdump_range *range;
-> +	bool note_non_leaf;
->  };
->  
->  bool ptdump_walk_pgd_level_core(struct seq_file *m,
-> diff --git a/mm/ptdump.c b/mm/ptdump.c
-> index 106e1d66e9f9..97da7a765b22 100644
-> --- a/mm/ptdump.c
-> +++ b/mm/ptdump.c
-> @@ -41,6 +41,9 @@ static int ptdump_pgd_entry(pgd_t *pgd, unsigned long addr,
->  	if (st->effective_prot)
->  		st->effective_prot(st, 0, pgd_val(val));
->  
-> +	if (st->note_non_leaf && !pgd_leaf(val))
-> +		st->note_page(st, addr, 0, pgd_val(val));
-> +
->  	if (pgd_leaf(val)) {
->  		st->note_page(st, addr, 0, pgd_val(val));
->  		walk->action = ACTION_CONTINUE;
-
-Is the difference between leaf and non-leaf calls only the walk->action?
-We could have a single call to st->note_page() and keep the walk->action
-setting separately. Do we also need to set ACTION_SUBTREE in case the
-entry is a table entry? Or is it done in the caller somewhere? I could
-not figure out.
-
-An alternative would be to have an ARCH_WANT_NON_LEAF_PTDUMP Kconfig
-option instead of a bool note_non_leaf in struct ptdump_state. This
-option seems to be entirely static, not sure it's worth a struct member
-for it. You'd use IS_ENABLED() above instead of st->note_non_leaf.
-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 41644336e..b4a8207eb 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -4456,6 +4456,28 @@
+ 				bridges without forcing it upstream. Note:
+ 				this removes isolation between devices and
+ 				may put more devices in an IOMMU group.
++		config_acs=
++				Format:
++				=<ACS flags>@<pci_dev>[; ...]
++				Specify one or more PCI devices (in the format
++				specified above) optionally prepended with flags
++				and separated by semicolons. The respective
++				capabilities will be enabled, disabled or unchanged
++				based on what is specified in flags.
++				ACS Flags is defined as follows
++				bit-0 : ACS Source Validation
++				bit-1 : ACS Translation Blocking
++				bit-2 : ACS P2P Request Redirect
++				bit-3 : ACS P2P Completion Redirect
++				bit-4 : ACS Upstream Forwarding
++				bit-5 : ACS P2P Egress Control
++				bit-6 : ACS Direct Translated P2P
++				Each bit can be marked as
++				‘0‘ – force disabled
++				‘1’ – force enabled
++				‘x’ – unchanged.
++				Note: this may remove isolation between devices
++				and may put more devices in an IOMMU group.
+ 		force_floating	[S390] Force usage of floating interrupts.
+ 		nomio		[S390] Do not use MIO instructions.
+ 		norid		[S390] ignore the RID field and force use of
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index a607f277c..0ad48ade9 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -887,30 +887,59 @@ void pci_request_acs(void)
+ }
+ 
+ static const char *disable_acs_redir_param;
++static const char *config_acs_param;
+ 
+-/**
+- * pci_disable_acs_redir - disable ACS redirect capabilities
+- * @dev: the PCI device
+- *
+- * For only devices specified in the disable_acs_redir parameter.
+- */
+-static void pci_disable_acs_redir(struct pci_dev *dev)
++static void __pci_config_acs(struct pci_dev *dev, const char *p,
++			     u16 mask, u16 flags)
+ {
++	char *delimit;
+ 	int ret = 0;
+-	const char *p;
+-	int pos;
+-	u16 ctrl;
++	u16 ctrl, pos;
+ 
+-	if (!disable_acs_redir_param)
+-		return;
+-
+-	p = disable_acs_redir_param;
+ 	while (*p) {
++		if (!mask) {
++			/* Check for ACS flags */
++			delimit = strstr(p, "@");
++			if (delimit) {
++				int end;
++				u32 shift = 0;
++
++				end = delimit - p - 1;
++
++				while (end > -1) {
++					if (*(p + end) == '0') {
++						mask |= 1 << shift;
++						shift++;
++						end--;
++					} else if (*(p + end) == '1') {
++						mask |= 1 << shift;
++						flags |= 1 << shift;
++						shift++;
++						end--;
++					} else if ((*(p + end) == 'x') || (*(p + end) == 'X')) {
++						shift++;
++						end--;
++					} else {
++						pci_err(dev, "Invalid ACS flags... Ignoring\n");
++						return;
++					}
++				}
++				p = delimit + 1;
++			} else {
++				pci_err(dev, "ACS Flags missing\n");
++				return;
++			}
++		}
++
++		if (mask & ~(PCI_ACS_SV | PCI_ACS_TB | PCI_ACS_RR | PCI_ACS_CR |
++			    PCI_ACS_UF | PCI_ACS_EC | PCI_ACS_DT)) {
++			pci_err(dev, "Invalid ACS flags specified\n");
++			return;
++		}
++
+ 		ret = pci_dev_str_match(dev, p, &p);
+ 		if (ret < 0) {
+-			pr_info_once("PCI: Can't parse disable_acs_redir parameter: %s\n",
+-				     disable_acs_redir_param);
+-
++			pr_info_once("PCI: Can't parse acs command line parameter\n");
+ 			break;
+ 		} else if (ret == 1) {
+ 			/* Found a match */
+@@ -932,18 +961,60 @@ static void pci_disable_acs_redir(struct pci_dev *dev)
+ 
+ 	pos = dev->acs_cap;
+ 	if (!pos) {
+-		pci_warn(dev, "cannot disable ACS redirect for this hardware as it does not have ACS capabilities\n");
++		pci_warn(dev, "cannot configure ACS for this hardware as it does not have ACS capabilities\n");
+ 		return;
+ 	}
+ 
++	pci_dbg(dev, "ACS mask  = 0x%X\n", mask);
++	pci_dbg(dev, "ACS flags = 0x%X\n", flags);
++
+ 	pci_read_config_word(dev, pos + PCI_ACS_CTRL, &ctrl);
++	ctrl &= ~mask;
++	ctrl |= flags;
++	pci_write_config_word(dev, pos + PCI_ACS_CTRL, ctrl);
+ 
+-	/* P2P Request & Completion Redirect */
+-	ctrl &= ~(PCI_ACS_RR | PCI_ACS_CR | PCI_ACS_EC);
++	pci_info(dev, "Configured ACS\n");
++}
+ 
+-	pci_write_config_word(dev, pos + PCI_ACS_CTRL, ctrl);
++/**
++ * pci_disable_acs_redir - disable ACS redirect capabilities
++ * @dev: the PCI device
++ *
++ * For only devices specified in the disable_acs_redir parameter.
++ */
++static void pci_disable_acs_redir(struct pci_dev *dev)
++{
++	const char *p;
++	u16 mask = 0, flags = 0;
++
++	if (!disable_acs_redir_param)
++		return;
++
++	p = disable_acs_redir_param;
++
++	mask = PCI_ACS_RR | PCI_ACS_CR | PCI_ACS_EC;
++	flags = ~(PCI_ACS_RR | PCI_ACS_CR | PCI_ACS_EC);
++
++	__pci_config_acs(dev, p, mask, flags);
++}
++
++/**
++ * pci_config_acs - configure ACS capabilities
++ * @dev: the PCI device
++ *
++ * For only devices specified in the config_acs parameter.
++ */
++static void pci_config_acs(struct pci_dev *dev)
++{
++	const char *p;
++	u16 mask = 0, flags = 0;
++
++	if (!config_acs_param)
++		return;
++
++	p = config_acs_param;
+ 
+-	pci_info(dev, "disabled ACS redirect\n");
++	__pci_config_acs(dev, p, mask, flags);
+ }
+ 
+ /**
+@@ -1005,6 +1076,7 @@ static void pci_enable_acs(struct pci_dev *dev)
+ 	 * preferences.
+ 	 */
+ 	pci_disable_acs_redir(dev);
++	pci_config_acs(dev);
+ }
+ 
+ /**
+@@ -7023,6 +7095,8 @@ static int __init pci_setup(char *str)
+ 				pci_add_flags(PCI_SCAN_ALL_PCIE_DEVS);
+ 			} else if (!strncmp(str, "disable_acs_redir=", 18)) {
+ 				disable_acs_redir_param = str + 18;
++			} else if (!strncmp(str, "config_acs=", 11)) {
++				config_acs_param = str + 11;
+ 			} else {
+ 				pr_err("PCI: Unknown option `%s'\n", str);
+ 			}
+@@ -7047,6 +7121,7 @@ static int __init pci_realloc_setup_params(void)
+ 	resource_alignment_param = kstrdup(resource_alignment_param,
+ 					   GFP_KERNEL);
+ 	disable_acs_redir_param = kstrdup(disable_acs_redir_param, GFP_KERNEL);
++	config_acs_param = kstrdup(config_acs_param, GFP_KERNEL);
+ 
+ 	return 0;
+ }
 -- 
-Catalin
+2.25.1
+
