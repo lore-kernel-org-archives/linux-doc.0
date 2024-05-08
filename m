@@ -1,64 +1,202 @@
-Received: from mx0a-00823401.pphosted.com (mx0a-00823401.pphosted.com [148.163.148.104])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E3754FA3;
-	Wed,  8 May 2024 15:29:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.148.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2043C127E32
+	for <linux-doc@vger.kernel.org>; Wed,  8 May 2024 15:34:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715182168; cv=none; b=s+hVia35ER6rG0GnG5ID+YJLbSBv8b7uYFDR1sZdsYtCCVyS7zVA+nBukg44PfjphT86+8n+uiVja6oAkeLxb0ovSjVGtC8IaKb9GO29k14E6sSvZWxcgxLpj7b6Rxq+yjSkYW6kLgjKrZzUKUJVHc9fSsL9JqG+l++RIs3shJc=
+	t=1715182480; cv=none; b=IjwrNFsTpmVwnkiv017LP17ujHg+okAf2EyKYy6NX9NOvq8gFeJEcvuljn2C/WCwD287CG2Y7DKy30VqU8WFkd1Gh/jp7AQmO+ztOINzbU+uVLyjQUaXWhCI/PiykRyZ7ee478eiCDQUzwiTZtxU6bd07kuYl1g6AStBC/jgRFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715182168; c=relaxed/simple;
-	bh=1ktqRneI/xmAzA9v760a5rRiagZx2Ep2uk7aSWIn2To=;
+	s=arc-20240116; t=1715182480; c=relaxed/simple;
+	bh=OM1eAfRhyV3Y6xgWugPNvS9Olp1YXcsXIUwGaArq1gU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UbZmkm4YgC7IUHWs4zfk1qRmCPuHCzIkUm23ForrzBGtxRyxYcUKVg9bLvWx/NxXH9/qj0PfMIbxhbWXashkoZTB1yuWhv+iDYpdPui+UJvkVV1aGcfsPCU+sVkQInjFryEgNuecflBepRuzGBjVtQPWYWuUhzUj41/emdnlX2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=motorola.com; spf=pass smtp.mailfrom=motorola.com; dkim=pass (2048-bit key) header.d=motorola.com header.i=@motorola.com header.b=1EKx5BvI; arc=none smtp.client-ip=148.163.148.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=motorola.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=motorola.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=DHJAdtd4ECQJ32nVmDSujblHlxSneCVN8EJ8B0o1VAorFiUyhdD1XiANYSiU+9twkOyBCimfBODks6ULN/g1xkxjM6XV7DhHARv+WhjuID/qmgqaGfOiJLVFSy9F4BIpeeoDCzqhwxHGLSCdn4TqEyanj6M12t9FIy3g1YAkEKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=Cs/W2GsW; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=motorola.com header.i=@motorola.com header.b="1EKx5BvI"
-Received: from pps.filterd (m0355088.ppops.net [127.0.0.1])
-	by m0355088.ppops.net (8.18.1.2/8.18.1.2) with ESMTP id 4489oU6U014952;
-	Wed, 8 May 2024 15:29:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=motorola.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=DKIM202306; bh=cGgfm3JhXLARphCYx+vu
-	VE/z5SXwoyLJfxNkrGFGD8w=; b=1EKx5BvIv5YJL/+zjBlp/AACoftJ4JIRtMQk
-	ZfYAceFaoj1RubYf0/oNui357lH6boZ9NI8YO5ADPjPsJ+WiBN8byD+b6HTDbAA7
-	hQ/DeH9vZs0qA1x2wdiKy/51R+TY/3t6mUV9zYBSo4NId/FLkHIWTZzlv40u+b5N
-	Vl2CTEU/IjiSKrhJWwj0uV3hvkMBdjVE8GP+rqX5BOIO1RVfalXF//HqkMgVXPus
-	a89djP6eliWMjf08nC3aGgYUGQkoXeC8lEi2vasr5hCkNvzc2i2Zf7KGpN9X6fUg
-	iT8FUK5OOIi8C2/oZib0MZOELwgTjqO5VDkk/ggo/gtMgYbhZg==
-Received: from va32lpfpp01.lenovo.com ([104.232.228.21])
-	by m0355088.ppops.net (PPS) with ESMTPS id 3xysg1tbuw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 08 May 2024 15:29:05 +0000 (GMT)
-Received: from ilclmmrp02.lenovo.com (ilclmmrp02.mot.com [100.65.83.26])
-	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by va32lpfpp01.lenovo.com (Postfix) with ESMTPS id 4VZJw014BFzgQ3p;
-	Wed,  8 May 2024 15:29:04 +0000 (UTC)
-Received: from ilclasset02 (ilclasset02.mot.com [100.64.49.13])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: mbland)
-	by ilclmmrp02.lenovo.com (Postfix) with ESMTPSA id 4VZJvz6l6Jz3p6jp;
-	Wed,  8 May 2024 15:29:03 +0000 (UTC)
-Date: Wed, 8 May 2024 10:29:02 -0500
-From: Maxwell Bland <mbland@motorola.com>
-To: Catalin Marinas <catalin.marinas@arm.com>
-Cc: linux-mm@kvack.org, Will Deacon <will@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ard Biesheuvel <ardb@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] ptdump: add intermediate directory support
-Message-ID: <h4znjkryp5k6sq4by7lgmctbfyhkyzqmm3f7o74ktfy7k3wfkr@s2mktazkcv3k>
-References: <fik5ys53dbkpkl22o4s7sw7cxi6dqjcpm2f3kno5tyms73jm5y@buo4jsktsnrt>
- <ZjtgCfhQDJus3dqI@arm.com>
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="Cs/W2GsW"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-51f929b9f10so972292e87.2
+        for <linux-doc@vger.kernel.org>; Wed, 08 May 2024 08:34:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1715182476; x=1715787276; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YzSCOae2a+QPgOLUGTOQmc4nIRcoyi9N83mBQKVx8Xg=;
+        b=Cs/W2GsW4Akw5wpqOChNN54DDMID8THeUpU383oFyAk7zS0GvirQzNO+qXLQi9sRBa
+         wpNWf0/qeC1tTYWo/4yaTC/RLvnGWvqpH8cKnxy29uy6ElLVTj9yTHdQgn6ZI1K4Cnel
+         sHfjaq1P0Wnaz4xn87oQ/JsgLFISqcGIkKIQQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715182476; x=1715787276;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YzSCOae2a+QPgOLUGTOQmc4nIRcoyi9N83mBQKVx8Xg=;
+        b=hbeVEVP4BKn7L6CTS7rV0f0cXqykB2TGH3MgIiOGvBqAlSjSOI3nr2CYc021YPszBi
+         W4pdzmPL3QEFyiv7oqgrW6zJorhrsLaOc8/h15aNqpoveZq/hkyGsUcL6zuSIUZ7XpZz
+         Pd1ERFFW2JUIRzqqXsQDLGBDAIW+IzpYgyTROsstEw9LqaFCmye30n1UZ+zqqd7W2YiG
+         9fkvXYPiLXhUnybSHyUPhD3gj8eoFR92UFaIchUtHZsNyvYoEZuIHKjfFxYI1m/jg091
+         g7WXlyFYJQ4GtLMBmKm9Uvo8IkiaZCrG88cN6GWyJHJYOV6F3dNM38XwLFIw5E4CFZ2y
+         FZAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVPF0CBBRy9IT4KdR9yLNZOKOZ6Vc/aiZ+oSmGIgbgp4obqXPB8yEiJEQr9DRW0qZzMv6nehYCblHixqEONkYZYbbSvFwXPZS2O
+X-Gm-Message-State: AOJu0Yw4relX5oyhtvhQ++YIbLBmx2k2uCK89kdxKgQ664q/wnmfoz/D
+	PPR6/GV0jVOMrDz73vlX3Kuay3YL/nL2XkKi4VOyRODqaXywGQfD4q20wpuhX6o=
+X-Google-Smtp-Source: AGHT+IHZ7XK1ZuxPGd8HrjDaMtETjtJJqnKQXRun5AIyHliGUeKgct7es+zl9WyQAXcwu+/5tIrqpw==
+X-Received: by 2002:a05:6512:532:b0:51f:8ad:673f with SMTP id 2adb3069b0e04-5217d0487a6mr1735900e87.5.1715182476038;
+        Wed, 08 May 2024 08:34:36 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id n4-20020aa7d044000000b005720e083878sm7657018edo.49.2024.05.08.08.34.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 May 2024 08:34:35 -0700 (PDT)
+Date: Wed, 8 May 2024 17:34:32 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Mina Almasry <almasrymina@google.com>,
+	Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	David Ahern <dsahern@kernel.org>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Amritha Nambiar <amritha.nambiar@intel.com>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+	Kaiyuan Zhang <kaiyuanz@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Simon Horman <horms@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Florian Westphal <fw@strlen.de>,
+	Yunsheng Lin <linyunsheng@huawei.com>,
+	Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
+	Arseniy Krasnov <avkrasnov@salutedevices.com>,
+	Aleksander Lobakin <aleksander.lobakin@intel.com>,
+	Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Richard Gobert <richardbgobert@gmail.com>,
+	Sridhar Samudrala <sridhar.samudrala@intel.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Abel Wu <wuyun.abel@bytedance.com>,
+	Breno Leitao <leitao@debian.org>, David Wei <dw@davidwei.uk>,
+	Shailend Chand <shailend@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Jeroen de Borst <jeroendb@google.com>,
+	Praveen Kaligineedi <pkaligineedi@google.com>
+Subject: Re: [RFC PATCH net-next v8 02/14] net: page_pool: create hooks for
+ custom page providers
+Message-ID: <ZjubiL4nkULP9nyV@phenom.ffwll.local>
+Mail-Followup-To: Pavel Begunkov <asml.silence@gmail.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Mina Almasry <almasrymina@google.com>,
+	Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	David Ahern <dsahern@kernel.org>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Amritha Nambiar <amritha.nambiar@intel.com>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+	Kaiyuan Zhang <kaiyuanz@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Simon Horman <horms@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Florian Westphal <fw@strlen.de>,
+	Yunsheng Lin <linyunsheng@huawei.com>,
+	Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
+	Arseniy Krasnov <avkrasnov@salutedevices.com>,
+	Aleksander Lobakin <aleksander.lobakin@intel.com>,
+	Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Richard Gobert <richardbgobert@gmail.com>,
+	Sridhar Samudrala <sridhar.samudrala@intel.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Abel Wu <wuyun.abel@bytedance.com>,
+	Breno Leitao <leitao@debian.org>, David Wei <dw@davidwei.uk>,
+	Shailend Chand <shailend@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Jeroen de Borst <jeroendb@google.com>,
+	Praveen Kaligineedi <pkaligineedi@google.com>
+References: <20240507161857.GA4718@ziepe.ca>
+ <ZjpVfPqGNfE5N4bl@infradead.org>
+ <CAHS8izPH+sRLSiZ7vbrNtRdHrFEf8XQ61XAyHuxRSL9Jjy8YbQ@mail.gmail.com>
+ <20240507164838.GG4718@ziepe.ca>
+ <0d5da361-cc7b-46e9-a635-9a7a4c208444@gmail.com>
+ <20240507175644.GJ4718@ziepe.ca>
+ <6a50d01a-b5b9-4699-9d58-94e5f8f81c13@gmail.com>
+ <20240507233247.GK4718@ziepe.ca>
+ <Zjsm3vO6rIY_sw5A@phenom.ffwll.local>
+ <1e2823db-504b-4829-856f-3f45a45ccada@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,59 +205,83 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZjtgCfhQDJus3dqI@arm.com>
-X-Proofpoint-GUID: Pe7vE0fxNa4ELU7UpgxPS46DCDq9E_EK
-X-Proofpoint-ORIG-GUID: Pe7vE0fxNa4ELU7UpgxPS46DCDq9E_EK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-08_09,2024-05-08_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- suspectscore=0 adultscore=0 impostorscore=0 spamscore=0 clxscore=1015
- phishscore=0 bulkscore=0 malwarescore=0 mlxlogscore=999 lowpriorityscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405010000 definitions=main-2405080111
+In-Reply-To: <1e2823db-504b-4829-856f-3f45a45ccada@gmail.com>
+X-Operating-System: Linux phenom 6.6.15-amd64 
 
-On Wed, May 08, 2024 at 12:20:41PM GMT, Catalin Marinas wrote:
-> On Tue, Apr 30, 2024 at 11:05:01AM -0500, Maxwell Bland wrote:
+On Wed, May 08, 2024 at 12:35:52PM +0100, Pavel Begunkov wrote:
+> On 5/8/24 08:16, Daniel Vetter wrote:
+> > On Tue, May 07, 2024 at 08:32:47PM -0300, Jason Gunthorpe wrote:
+> > > On Tue, May 07, 2024 at 08:35:37PM +0100, Pavel Begunkov wrote:
+> > > > On 5/7/24 18:56, Jason Gunthorpe wrote:
+> > > > > On Tue, May 07, 2024 at 06:25:52PM +0100, Pavel Begunkov wrote:
+> > > > > > On 5/7/24 17:48, Jason Gunthorpe wrote:
+> > > > > > > On Tue, May 07, 2024 at 09:42:05AM -0700, Mina Almasry wrote:
+> > > > > > > 
+> > > > > > > > 1. Align with devmem TCP to use udmabuf for your io_uring memory. I
+> > > > > > > > think in the past you said it's a uapi you don't link but in the face
+> > > > > > > > of this pushback you may want to reconsider.
+> > > > > > > 
+> > > > > > > dmabuf does not force a uapi, you can acquire your pages however you
+> > > > > > > want and wrap them up in a dmabuf. No uapi at all.
+> > > > > > > 
+> > > > > > > The point is that dmabuf already provides ops that do basically what
+> > > > > > > is needed here. We don't need ops calling ops just because dmabuf's
+> > > > > > > ops are not understsood or not perfect. Fixup dmabuf.
+> > > > > > 
+> > > > > > Those ops, for example, are used to efficiently return used buffers
+> > > > > > back to the kernel, which is uapi, I don't see how dmabuf can be
+> > > > > > fixed up to cover it.
+> > > > > 
+> > > > > Sure, but that doesn't mean you can't use dma buf for the other parts
+> > > > > of the flow. The per-page lifetime is a different topic than the
+> > > > > refcounting and access of the entire bulk of memory.
+> > > > 
+> > > > Ok, so if we're leaving uapi (and ops) and keep per page/sub-buffer as
+> > > > is, the rest is resolving uptr -> pages, and passing it to page pool in
+> > > > a convenient to page pool format (net_iov).
+> > > 
+> > > I'm not going to pretend to know about page pool details, but dmabuf
+> > > is the way to get the bulk of pages into a pool within the net stack's
+> > > allocator and keep that bulk properly refcounted while.
+> > > 
+> > > An object like dmabuf is needed for the general case because there are
+> > > not going to be per-page references or otherwise available.
+> > > 
+> > > What you seem to want is to alter how the actual allocation flow works
+> > > from that bulk of memory and delay the free. It seems like a different
+> > > topic to me, and honestly hacking into the allocator free function
+> > > seems a bit weird..
+> > 
+> > Also I don't see how it's an argument against dma-buf as the interface for
+> 
+> It's not, neither I said it is, but it is an argument against removing
+> the network's page pool ops.
+> 
+> > all these, because e.g. ttm internally does have a page pool because
+> > depending upon allocator, that's indeed beneficial. Other drm drivers have
+> > more buffer-based concepts for opportunistically memory around, usually
+> > by marking buffers that are just kept as cache as purgeable (which is a
+> > concept that goes all the way to opengl/vulkan).
+> 
+> Because in this case it solves nothing and helps with nothing, quite
+> the opposite. Just as well we can ask why NVMe doesn't wrap user pages
+> into a dmabuf while doing IO.
 
-> > +		if (st->start_address != addr) {
-> > +			pt_dump_seq_printf(st->seq, "0x%016lx-0x%016lx   ",
-> > +					   st->start_address, addr);
-> > +			delta = (addr - st->start_address);
+Because the rules around memory reclaim, gfp nesting and guaranteed
+forward progress don't match up for block i/o. I looked quite a bit into
+gluing direct i/o into dma-buf because there's vulkan extensions for that,
+and it's an absolute mess.
+-Sima
 
-> Should it show a PGD_SIZE * number_of_entries instead?
-
-It should show the full range of memory covered by the PGD's table.
-Will fix, thanks!
-
-r > +	if (st->note_non_leaf && !pgd_leaf(val))
-> > +		st->note_page(st, addr, 0, pgd_val(val));
-> > +
-> >  	if (pgd_leaf(val)) {
-> >  		st->note_page(st, addr, 0, pgd_val(val));
-> >  		walk->action = ACTION_CONTINUE;
-
-> Is the difference between leaf and non-leaf calls only the walk->action?
-> We could have a single call to st->note_page() and keep the walk->action
-> setting separately. Do we also need to set ACTION_SUBTREE in case the
-> entry is a table entry? Or is it done in the caller somewhere? I could
-> not figure out.
->
-> An alternative would be to have an ARCH_WANT_NON_LEAF_PTDUMP Kconfig
-> option instead of a bool note_non_leaf in struct ptdump_state. This
-> option seems to be entirely static, not sure it's worth a struct member
-> for it. You'd use IS_ENABLED() above instead of st->note_non_leaf.
-
-
-ACTION_SUBTREE seems right, I will look into it. Something like (though
-I'll check to see if it is correct and polish):
-
-  walk_action = (!pgd_leaf) ? ACTION_SUBTREE : ACTION_CONTINUE;
-  if ((IS_ENABLED(...) && !pgd_leaf()) || pgd_leaf())
-  	st->note_page ...
-
+> 
+> > But these are all internals of the dma-buf exporter, the dma-buf api users
+> > don't ever need to care.
+> > -Sima
+> 
 > -- 
-> Catalin
+> Pavel Begunkov
 
-Nice! Thank you for your feedback. I will iterate and also fix up the
-other minor things, e.g. 72 character wrap in doc files.
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
