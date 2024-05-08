@@ -1,100 +1,184 @@
-Received: from out30-113.freemail.mail.aliyun.com (out30-113.freemail.mail.aliyun.com [115.124.30.113])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6779273191;
-	Wed,  8 May 2024 13:52:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.113
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 193B085639
+	for <linux-doc@vger.kernel.org>; Wed,  8 May 2024 14:25:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715176366; cv=none; b=BZCnVGOUoJAtDw5ALr0t536WClxtoHLZyLf27U3i2QLlVu7mOVtkE7Dy4yfMqTjGzjPlewHTA3d26WZOJ20hYmoJt+noYkmonGzzC6MuY98WZloGKWwzwiww4m5GYWsmb2hwPtb8lvCbQ2UhJ8uDH/AlQ5PeMJNAv1yfHOU0e2g=
+	t=1715178335; cv=none; b=K7KbI19QODx24o/gDQvdv9JiBSXeu7nWNa5S6tdT1xfgXp8w6T2qZfbPQWxsbOed4jrHkx5as+e4BSNqvfFdGbjK2cxqy6XYnFtfgNmi8sNWZ42N39m+X6HNjwzyCb5t2H/rbbklP90Tqy+HfrBb9yHW/Ry9rR3ERc/uto6Wuig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715176366; c=relaxed/simple;
-	bh=Ml4MH7OyY97yD/03Zsb3r7jzo7NavHhSvPLXa331+VU=;
-	h=Message-ID:Subject:Date:From:To:Cc:References:In-Reply-To; b=rnCD8dBhtG4Ce9cI73wDwm1/2w2v2smplnvcPooZfBw65TAzhQgWjHaPzxqoJPoVAMc/tPTqlF7YVsZDGv2lM+iklD3zuLfIfFj3XDvY9AYkzo5hUmxirHJY1jABkwwBt0//SHAdNJkgpZlF95VPoD0OkRsfVRkPh884+IWGhkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=fC4YGzbc; arc=none smtp.client-ip=115.124.30.113
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1715178335; c=relaxed/simple;
+	bh=4BjthKjlyBrv7qlqiwaK/PtT8pzCfUhJT3JhHavFgDI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wuly9rerEquYBnImyv1wmkRtFyD5GpbA5NXzqlIuwASg71JSXTmAxUQXv8H/Riw6HzY8JIWs8obIJtv6V3exgMKAqn5PakSzXd4G5lDkEEWPsFBJLfW+7rsB0U5KagqULoWFD3BVuxVNtfPBMAPfd/dUryEDAtekais7PD/5wm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=PkSz5ZIr; arc=none smtp.client-ip=209.85.161.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="fC4YGzbc"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1715176361; h=Message-ID:Subject:Date:From:To;
-	bh=UoFkCzf53phjWeqxsZI7jlTBll/ysjzs9Qwt22TwZNI=;
-	b=fC4YGzbcMygRg8Zg/CFoa26tflu/eEr69koi5FqfMG39a16Zb77O0lhD9SQlFti7+1OZcddMUIb1pJkoyxewG8L0JG7ISawN6ZHCT4taM7OgUo/l/bfPpw60qWLsAVj4g56r/VPYomxNC5pXdTuZNWOBYFTraRYPWD8rV0QJf1Y=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033022160150;MF=hengqi@linux.alibaba.com;NM=1;PH=DS;RN=24;SR=0;TI=SMTPD_---0W63uNyB_1715176358;
-Received: from localhost(mailfrom:hengqi@linux.alibaba.com fp:SMTPD_---0W63uNyB_1715176358)
-          by smtp.aliyun-inc.com;
-          Wed, 08 May 2024 21:52:39 +0800
-Message-ID: <1715174806.2456756-1-hengqi@linux.alibaba.com>
-Subject: Re: [PATCH net-next v12 2/4] ethtool: provide customized dim profile management
-Date: Wed, 8 May 2024 21:26:46 +0800
-From: Heng Qi <hengqi@linux.alibaba.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org,
- virtualization@lists.linux.dev,
- "David S .  Miller" <davem@davemloft.net>,
- Paolo Abeni <pabeni@redhat.com>,
- Eric  Dumazet <edumazet@google.com>,
- Jason Wang <jasowang@redhat.com>,
- "Michael S  . Tsirkin" <mst@redhat.com>,
- Brett Creeley <bcreeley@amd.com>,
- Ratheesh  Kannoth <rkannoth@marvell.com>,
- Alexander Lobakin <aleksander.lobakin@intel.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- Tal  Gilboa <talgi@nvidia.com>,
- Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org,
- Maxime Chevallier <maxime.chevallier@bootlin.com>,
- Jiri Pirko <jiri@resnulli.us>,
- Paul  Greenwalt <paul.greenwalt@intel.com>,
- Ahmed Zaki <ahmed.zaki@intel.com>,
- Vladimir Oltean <vladimir.oltean@nxp.com>,
- Kory Maincent <kory.maincent@bootlin.com>,
- Andrew Lunn <andrew@lunn.ch>,
- justinstitt@google.com,
- Simon Horman <horms@kernel.org>
-References: <20240504064447.129622-1-hengqi@linux.alibaba.com>
- <20240504064447.129622-3-hengqi@linux.alibaba.com>
- <20240507195752.7275cb63@kernel.org>
-In-Reply-To: <20240507195752.7275cb63@kernel.org>
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="PkSz5ZIr"
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-5b203c9933dso2366192eaf.3
+        for <linux-doc@vger.kernel.org>; Wed, 08 May 2024 07:25:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1715178332; x=1715783132; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=AgrD1WoYkdj8wg28imEY2ANZlllvJHBViF8cNCfVJ94=;
+        b=PkSz5ZIrJA+JdKLTG1OfJOpsC3pIK9p0Yyyccg0hoyFx4nX+QslSRwMwI4DVdChRJP
+         izW8bkDiT9CPlsFn6NWC8ObqLmJqHdv9dPY0oT30ErifiuP39AlKPuvD7Yf+BkCaa7Sb
+         Te00sjo5KeKCTCzDG2Db1vLaDVs3d6arHQrZ1bw9QDP+92DwkxA9EYsv7pLYZJCoOqPF
+         uZtQ58ltzdg1IK0HMjEk0b7ojsbJFvvU8qgxGk4eLmdxoYaDj295d2YoNoZssCzplhTt
+         gIWCjBnmhmKaQvlqOK/z5YS7LMtFLbkb/MYrvH7dBUqJkFBFDaeqoCDz0sPa37MSs4wn
+         v6AQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715178332; x=1715783132;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AgrD1WoYkdj8wg28imEY2ANZlllvJHBViF8cNCfVJ94=;
+        b=P8NfKcwi9A1PuPnwQRK+8f8vcA2lXz97IvBohHzL8vSCsMhTUBDL6xa5/QF2Ll7vmT
+         Fo/sSEz80lIz9IrVnDAkuynJZNwW/eGRDiSL2XnEArFCPA16Q7a4+C+lra4HxlYZ/z+8
+         taC3SkP8D3MDhKxDwMDKLD0zwVQJ5DA8NrQKipJ/+N2X7QzgKwKQKxYqBrVATJs9Kuez
+         LOwAV5klKO5Vqh/ZLrvnb9b5YYtiiba9n1cbQAxN3dPkXTLJM3WK7kcJjFz1xhHbpOUq
+         7QK+cFzLtTmL6tftCTe3tQaubHlppqjBYPnWE7uKgEkkp6bwFe/Affz8TYF+Eqt3DT44
+         ibnw==
+X-Forwarded-Encrypted: i=1; AJvYcCWCeGekJwtyAW2flbmOLeSGosEWEKaVNjgBcbgHCymhIviE9dMUoT/PPiId4kWwwzgy7HGRfQRpKHRG43cwU8A51JiydmGlmPau
+X-Gm-Message-State: AOJu0Yyw/fns6LIP4Nb8/MXigMy0e3J0Uc2ABNjkgT6oeIK0uNOsFRL0
+	akCRJkDkO3Cu/C5umM0Scpq2c7Y9XvFtYF5qBMrmsDglxYZf7FiXCArogRiH3Kk=
+X-Google-Smtp-Source: AGHT+IHjV+YjcifEHKw5oQYkCNsBVkCIuACEQyUL/WL5v5GcAhnL6ouYxG09iM1YvQ+6Pe3rmrQdgA==
+X-Received: by 2002:a4a:8c24:0:b0:5aa:538a:ed60 with SMTP id 006d021491bc7-5b24d28fdb4mr2495842eaf.3.1715178331994;
+        Wed, 08 May 2024 07:25:31 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-68-80-239.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.80.239])
+        by smtp.gmail.com with ESMTPSA id o18-20020ac86992000000b0043d4245dd4csm4389539qtq.84.2024.05.08.07.25.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 May 2024 07:25:31 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1s4iEc-0016QI-DE;
+	Wed, 08 May 2024 11:25:30 -0300
+Date: Wed, 8 May 2024 11:25:30 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: Mina Almasry <almasrymina@google.com>,
+	Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	David Ahern <dsahern@kernel.org>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Amritha Nambiar <amritha.nambiar@intel.com>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+	Kaiyuan Zhang <kaiyuanz@google.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Simon Horman <horms@kernel.org>,
+	David Howells <dhowells@redhat.com>,
+	Florian Westphal <fw@strlen.de>,
+	Yunsheng Lin <linyunsheng@huawei.com>,
+	Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
+	Arseniy Krasnov <avkrasnov@salutedevices.com>,
+	Aleksander Lobakin <aleksander.lobakin@intel.com>,
+	Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Richard Gobert <richardbgobert@gmail.com>,
+	Sridhar Samudrala <sridhar.samudrala@intel.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Abel Wu <wuyun.abel@bytedance.com>,
+	Breno Leitao <leitao@debian.org>, David Wei <dw@davidwei.uk>,
+	Shailend Chand <shailend@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Jeroen de Borst <jeroendb@google.com>,
+	Praveen Kaligineedi <pkaligineedi@google.com>
+Subject: Re: [RFC PATCH net-next v8 02/14] net: page_pool: create hooks for
+ custom page providers
+Message-ID: <20240508142530.GR4718@ziepe.ca>
+References: <20b1c2d9-0b37-414c-b348-89684c0c0998@gmail.com>
+ <20240507161857.GA4718@ziepe.ca>
+ <ZjpVfPqGNfE5N4bl@infradead.org>
+ <CAHS8izPH+sRLSiZ7vbrNtRdHrFEf8XQ61XAyHuxRSL9Jjy8YbQ@mail.gmail.com>
+ <20240507164838.GG4718@ziepe.ca>
+ <0d5da361-cc7b-46e9-a635-9a7a4c208444@gmail.com>
+ <20240507175644.GJ4718@ziepe.ca>
+ <6a50d01a-b5b9-4699-9d58-94e5f8f81c13@gmail.com>
+ <20240507233247.GK4718@ziepe.ca>
+ <54830914-1ec9-4312-96ad-423ac0aeb233@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <54830914-1ec9-4312-96ad-423ac0aeb233@gmail.com>
 
-On Tue, 7 May 2024 19:57:52 -0700, Jakub Kicinski <kuba@kernel.org> wrote:
-> On Sat,  4 May 2024 14:44:45 +0800 Heng Qi wrote:
-> > @@ -1325,6 +1354,8 @@ operations:
-> >              - tx-aggr-max-bytes
-> >              - tx-aggr-max-frames
-> >              - tx-aggr-time-usecs
-> > +            - rx-profile
-> > +            - tx-profil
-> >        dump: *coalesce-get-op
-> >      -
-> >        name: coalesce-set
+On Wed, May 08, 2024 at 12:30:07PM +0100, Pavel Begunkov wrote:
+
+> > I'm not going to pretend to know about page pool details, but dmabuf
+> > is the way to get the bulk of pages into a pool within the net stack's
+> > allocator and keep that bulk properly refcounted while.> An object like
+> > dmabuf is needed for the general case because there are
+> > not going to be per-page references or otherwise available.
 > 
-> set probably needs to get the new attributes, too?
+> They are already pinned, memory is owned by the provider, io_uring
+> in this case, and it should not be freed circumventing io_uring,
+> and at this stage calling release_pages() is not such a hassle,
+> especially comparing to introducing an additional object.
 
-I looked at other similar use cases (such as wol, debug) and it doesn't
-seem to be needed?
+Something needs to co-ordinate when the net stack's allocator is done
+with the bulk of pages and when io_uring and do the final
+put_user_page() to free it. DMABUF is not an unreasonable choice for
+this.
 
+> > topic to me, and honestly hacking into the allocator free function
+> > seems a bit weird..
 > 
-> > +static int ethnl_update_profile(struct net_device *dev,
-> > +				struct dim_cq_moder __rcu **dst,
-> > +				const struct nlattr *nests,
-> > +				struct netlink_ext_ack *extack)
-> 
-> > +	rcu_assign_pointer(*dst, new_profile);
-> > +	kfree_rcu(old_profile, rcu);
-> > +
-> > +	return 0;
-> 
-> Don't we need to inform DIM somehow that profile has switched
-> and it should restart itself?
+> Do you also think that DMA_BUF_IOCTL_SYNC is a weird hack, because
+> it "delays free" by pinning the dmabuf object and letting the user
+> read memory instead of copying it? I can find many examples
 
-When the profile is modified, dim itself is a dynamic adjustment mechanism
-and will quickly adjust to the appropriate value according to the new profile.
-This is also seen in practice.
+It seems to me the flow you want is for the driver to allocate a page,
+put it on a rx ring, process it through the netstack, and deliver it
+to io_uring. io_uring would then sit on the allocation until userspace
+it done and return it back to the netstack allocator.
 
-Thanks!
+Hooking the free of the netstack allocator and then defering it seems
+like a weird and indirect way to get there. Why can't io_uring just be
+the entity that does the final free and not mess with the logic
+allocator?
+
+Jason
