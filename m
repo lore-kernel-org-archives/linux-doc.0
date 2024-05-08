@@ -1,358 +1,211 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF708132C0C
-	for <linux-doc@vger.kernel.org>; Wed,  8 May 2024 20:53:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1559221373
+	for <linux-doc@vger.kernel.org>; Wed,  8 May 2024 21:15:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715201608; cv=none; b=hIcdKtSMbwRqAiibxflBbgAy/11inZVRZEl3HP9JsR86EAeJMrYNbccYlHIgfMtY50D2oO/eVFwNXMpykv+g6ddMNTduQn1T2HsG2LTEKBN8CyFkw9PeIMCLGo/WuzLBEgApkYF7Jy/RGrQyolTw9iUr7nEzx1H7azwsdmFZh8I=
+	t=1715202904; cv=none; b=gupB+BzqSMpD7jRVJyhbbgcmZC0ky5QhtWrwhAdrSkQixHedbf4HXDISYxGMERK98HVTl35+ATBpFq8KIcDuayxKW5vnwdK07j5pOxq1bCv8CXaLkeDyCX4oCsyMneBiUptUefAMLkQA5f2vTTtrDCU10KSuECN8g5vNfyQJQnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715201608; c=relaxed/simple;
-	bh=CqNHX9JWyhE8yB/L0439PfYYQCLxog5tUZhwe2qQH8Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IkJuh94iOOKNOANZdcLcUCq65LkXeCMs9KkzdY8Xbbv2f2pDS2GDXUONYGFhJmZcEfkbnzkiKYLdeLoCGw/8MfJPpxQbpDeROaPJY5lIMrCIAPudK663WnEw4F4uZNPW+yuNcXYVAMBGMyfGK4L+dGQ01HhC8WyHIGIf9De4XAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=J8tHLvvi; arc=none smtp.client-ip=209.85.215.171
+	s=arc-20240116; t=1715202904; c=relaxed/simple;
+	bh=ZAY9OmGIvyuKXyebqDh1IRclz4/RXSUx0T+wrGSqSIY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SVr9/jooCkyYIUhBa4wBJrJ2w0da2sHjneRa4bJ4AXp/MC6++TGRxWk4nPrv2KwPjKzEoMWXrklRlDe1c7oX+nZJFr9DarnKHgZzjfvlZx55nkjOmLFgQToCaSsuZXtEDD5shonnxpKhrRfQdEYw96itmZ+9Ty8NYwryIbbsorQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Kxuxpqp8; arc=none smtp.client-ip=209.85.222.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="J8tHLvvi"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-5ff57410ebbso150067a12.1
-        for <linux-doc@vger.kernel.org>; Wed, 08 May 2024 13:53:25 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Kxuxpqp8"
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-792b94301eeso11455585a.3
+        for <linux-doc@vger.kernel.org>; Wed, 08 May 2024 14:15:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1715201605; x=1715806405; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=chromium.org; s=google; t=1715202901; x=1715807701; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jzcpGszDYfYDvpAtJ9I5+W4SIWDBCKlbuPhkejfhvkU=;
-        b=J8tHLvviQ21vFFgPZ5dxS7dsr5XkDQ0jNq+Li6PgZt95PeNgOhPdUZfU76fCW0kLII
-         EdG96yUugpm3sU13arSklB+j8Z/wuHJJCt6iJWJjaq5/kJHrtfbsieHxQ1BlS4kO37R0
-         bb7d4DqWel0UeY/yH8pbS55zYptzJbY7xmZmE=
+        bh=buSNW1rXJ5tp0mHF2b1c12zxGyNSJnH+cWUgnRIBSqA=;
+        b=Kxuxpqp8c24qcvc4ShwzWdwy1bdADPCCWE/3rBmWfhiQl6hmu0NdmIbHyO8NB8+22V
+         T1AKHck2Z/tvmPyshjvk2+2JGaFhz/d59CmLU5kYFec3BAR0eclD2vwZGFpBSnY8R0DQ
+         pOxGVSom0MfMQBZNbGBcdViJYzUQdo2vhLahY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715201605; x=1715806405;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1715202901; x=1715807701;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jzcpGszDYfYDvpAtJ9I5+W4SIWDBCKlbuPhkejfhvkU=;
-        b=kkU1Y8oq9jsaV3GB0EmwsurggvnnDT6B/wHh6BCG9qv03TrxYfqVwMNFQfwNT4J2Rm
-         7weoHJnFSv2q9RI5qCP0npsbVuVOS5JCqbdvfW8rcdM1/iaDR3Ju7m2MSilh0Ssy0WiM
-         MOtc4NchuhcrAqfPBXoFUKZTUcG5e8YwctAugHrc/1OmsWPT86TwX8D33SV+rl/vmpx0
-         /dHz+DS7JrjkFyrA42LB6qfduiG53hbCc+9kWSi9Iafzh/RGpaAa+y/rjGGZccDCrGQq
-         X8SgpX4m3wN1qAMeUGhgu/fb2f31Zh50G7wLyuA2Xy6H9qibd8oQTackrI+vAO05fIyI
-         +pYw==
-X-Forwarded-Encrypted: i=1; AJvYcCXk5yhs38/9yc8uA4nqe4nmtDBd0Y6I4RITSyHci1jPLc4ZsW2dHTVIR9zS7aD7JataApwtqYxBIlEYhjvsVJGv22xQ82AKi5SD
-X-Gm-Message-State: AOJu0YzsDsh2CMNd2r33EueuozlHRtETFipfabgiyRXVXY/C79IVBetu
-	3d1EZbMFCaWSL3c3OUi0pfGAFjuiztbxkdAb/SoWHn7yTJTLP1hRj+8Sm1eWaw==
-X-Google-Smtp-Source: AGHT+IHBvDm5AOB1l7xVKhM38HiKJm0yG0yn39vA4dLcvbwfI+I4vyt3bJTsCzuKdgtRxySdr6+LTQ==
-X-Received: by 2002:a17:90b:b17:b0:2b4:36d7:b6ad with SMTP id 98e67ed59e1d1-2b61639c45dmr3572050a91.4.1715201604990;
-        Wed, 08 May 2024 13:53:24 -0700 (PDT)
-Received: from dianders.sjc.corp.google.com ([2620:15c:9d:2:40f4:feca:59e0:d3ca])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2b67126ad51sm6887a91.25.2024.05.08.13.53.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 May 2024 13:53:24 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: dri-devel@lists.freedesktop.org
-Cc: lvzhaoxiong@huaqin.corp-partner.google.com,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Hsin-Yi Wang <hsinyi@google.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Joel Selvaraj <jo@jsfamily.in>,
-	Brian Norris <briannorris@chromium.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	David Airlie <airlied@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 5/9] drm/mipi-dsi: Introduce mipi_dsi_*_write_seq_multi()
-Date: Wed,  8 May 2024 13:51:47 -0700
-Message-ID: <20240508135148.v4.5.Ie94246c30fe95101e0e26dd5f96e976dbeb8f242@changeid>
-X-Mailer: git-send-email 2.45.0.rc1.225.g2a3ae87e7f-goog
-In-Reply-To: <20240508205222.2251854-1-dianders@chromium.org>
-References: <20240508205222.2251854-1-dianders@chromium.org>
+        bh=buSNW1rXJ5tp0mHF2b1c12zxGyNSJnH+cWUgnRIBSqA=;
+        b=NXElNxG2wVowwQ4S5fjvwYRlY7nElg1553FPB9TchKmHaIh/aKI9g4Rts/P8nYwVKC
+         fgRxkFiQ/xFZrtSEMzqBXo8cb64qc3v8tdjWl/FmHsufNlNrRjE9TV74lDXXc5huwOgN
+         HKaK4HbTt17uyycfenraFJj1lDLimHpijuKYgz+/hUB5in4vZM75V6hT24XsPXD8iEH5
+         6LP/fucACHzeWUfW5N1VaiU3DqLRzK1HELy6GdvntCiQDTpIoSpT2ahXCeZiDjkktzV/
+         cyaoSLnXgzkUnCNwIeAg0ZoHkPSKkU/JXriTCBd5pTWAo30qhN7G+6k2uM78vDRtZJl/
+         CL9A==
+X-Forwarded-Encrypted: i=1; AJvYcCXY2JgMeHwzra3Nf/qXOnz9f/4jWmIa4f2AvjQEop3fy84JF6a6KJ3LkU+osCykywV8/XhTDTQmcX8BP6WCHF1ojWAoB0wB+3F3
+X-Gm-Message-State: AOJu0YwzrmeUzMkevIzecnLtkYj3lHsITJGpog6KHViQSFOfIppYN2Xe
+	7BpAu3Hzc9og9jsNrfR/Rg00aVFT3GRPzDUizrK2FwIrQO0UcbCRJ4wLFkL7d6CdrfahVBL1Y84
+	=
+X-Google-Smtp-Source: AGHT+IG8uBX495VSujbfkjJn/SoQ0h7y4BG+aJRf8dtd1b9MJDoj5SlxjkB8TrkRezJlf4m0zVcCjg==
+X-Received: by 2002:ad4:5bc8:0:b0:6a0:ca4c:c37a with SMTP id 6a1803df08f44-6a1515b836cmr49622236d6.53.1715202900762;
+        Wed, 08 May 2024 14:15:00 -0700 (PDT)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com. [209.85.160.182])
+        by smtp.gmail.com with ESMTPSA id mi8-20020a056214558800b006a0f4921e8esm5890647qvb.119.2024.05.08.14.15.00
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 May 2024 14:15:00 -0700 (PDT)
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-43ae23431fbso57651cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 08 May 2024 14:15:00 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWoU6SwXIPSWAcnHKMC0jlpvMcO3yQHLJdWPBIRzrmSwmYwbHTGPBUGrg2yLqMSNA53wBXism0kFlVeQldrO0Y3QFhC7mwjYrp2
+X-Received: by 2002:a05:622a:1c0d:b0:43a:c1cd:2f4c with SMTP id
+ d75a77b69052e-43df44dc04cmr169931cf.5.1715202879034; Wed, 08 May 2024
+ 14:14:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240503213441.177109-1-dianders@chromium.org> <CACRpkdYbtfE9RLsDewV2UwnJknCp_sFEgc+cq=OF+Qd3tkTcwA@mail.gmail.com>
+In-Reply-To: <CACRpkdYbtfE9RLsDewV2UwnJknCp_sFEgc+cq=OF+Qd3tkTcwA@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 8 May 2024 14:14:22 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WoYm43SzrdrSZ1Np58iQ4nMwF0u6uamOAnZc4pqmBpsg@mail.gmail.com>
+Message-ID: <CAD=FV=WoYm43SzrdrSZ1Np58iQ4nMwF0u6uamOAnZc4pqmBpsg@mail.gmail.com>
+Subject: Re: [RFT PATCH v2 00/48] drm/panel: Remove most store/double-check of
+ prepared/enabled state
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
+	Chris Morgan <macromorgan@hotmail.com>, Yuran Pereira <yuran.pereira@hotmail.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	David Airlie <airlied@gmail.com>, =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
+	Jerry Han <hanxu5@huaqin.corp-partner.google.com>, 
+	Jessica Zhang <quic_jesszhan@quicinc.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Ondrej Jirman <megi@xff.cz>, 
+	Purism Kernel Team <kernel@puri.sm>, Robert Chiras <robert.chiras@nxp.com>, Sam Ravnborg <sam@ravnborg.org>, 
+	Stefan Mavrodiev <stefan@olimex.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The current mipi_dsi_*_write_seq() macros are non-intutitive because
-they contain a hidden "return" statement that will return out of the
-_caller_ of the macro. Let's mark them as deprecated and instead
-introduce some new macros that are more intuitive.
+Hi,
 
-These new macros are less optimal when an error occurs but should
-behave more optimally when there is no error. Specifically these new
-macros cause smaller code to get generated and the code size savings
-(less to fetch from RAM, less cache space used, less RAM used) are
-important. Since the error case isn't something we need to optimize
-for and these new macros are easier to understand and more flexible,
-they should be used.
+On Sun, May 5, 2024 at 11:52=E2=80=AFPM Linus Walleij <linus.walleij@linaro=
+.org> wrote:
+>
+> On Fri, May 3, 2024 at 11:36=E2=80=AFPM Douglas Anderson <dianders@chromi=
+um.org> wrote:
+>
+> > As talked about in commit d2aacaf07395 ("drm/panel: Check for already
+> > prepared/enabled in drm_panel"), we want to remove needless code from
+> > panel drivers that was storing and double-checking the
+> > prepared/enabled state. Even if someone was relying on the
+> > double-check before, that double-check is now in the core and not
+> > needed in individual drivers.
+> >
+> > This series attempts to do just that. While the original grep, AKA:
+> >   git grep 'if.*>prepared' -- drivers/gpu/drm/panel
+> >   git grep 'if.*>enabled' -- drivers/gpu/drm/panel
+> > ...still produces a few hits after my series, they are _mostly_ all
+> > gone. The ones that are left are less trivial to fix.
+> >
+> > One of the main reasons that many panels probably needed to store and
+> > double-check their prepared/enabled appears to have been to handle
+> > shutdown and/or remove. Panels drivers often wanted to force the power
+> > off for panels in these cases and this was a good reason for the
+> > double-check.
+> >
+> > In response to my V1 series [1] we had much discussion of what to
+> > do. The conclusion was that as long as DRM modeset drivers properly
+> > called drm_atomic_helper_shutdown() that we should be able to remove
+> > the explicit shutdown/remove handling in the panel drivers. Most of
+> > the patches to improve DRM modeset drivers [2] [3] [4] have now
+> > landed.
+> >
+> > In contrast to my V1 series, I broke the V2 series up a lot
+> > more. Since a few of the panel drivers in V1 already landed, we had
+> > fewer total drivers and so we could devote a patch to each panel.
+> > Also, since we were now relying on DRM modeset drivers I felt like we
+> > should split the patches for each panel into two: one that's
+> > definitely safe and one that could be reverted if we found a
+> > problematic DRM modeset driver that we couldn't fix.
+> >
+> > Sorry for the large number of patches. I've set things to mostly just
+> > CC people on the cover letter and the patches that are relevant to
+> > them. I've tried to CC people on the whole series that have shown
+> > interest in this TODO item.
+> >
+> > As patches in this series are reviewed and/or tested they could be
+> > landed. There's really no ordering requirement for the series unless
+> > patches touch the same driver.
+> >
+> > NOTE: this touches _a lot_ of drivers, is repetitive, and is not
+> > really possible to generate automatically. That means it's entirely
+> > possible that my eyes glazed over and I did something wrong. Please
+> > double-check me and don't assume that I got everything perfect, though
+> > I did my best. I have at least confirmed that "allmodconfig" for arm64
+> > doesn't fall on its face with this series. I haven't done a ton of
+> > other testing.
+> >
+> > [1] https://lore.kernel.org/r/20230804140605.RFC.4.I930069a32baab6faf46=
+d6b234f89613b5cec0f14@changeid
+> > [2] https://lore.kernel.org/r/20230901234015.566018-1-dianders@chromium=
+.org
+> > [3] https://lore.kernel.org/r/20230901234202.566951-1-dianders@chromium=
+.org
+> > [4] https://lore.kernel.org/r/20230921192749.1542462-1-dianders@chromiu=
+m.org
+>
+> This is the right thing to do, thanks for looking into this!
+>
+> As for the behaviour of .remove() I doubt whether in many cases
+> the original driver authors have even tested this themselves.
 
-After converting to use these new functions, one example shows some
-nice savings while also being easier to understand.
+Yeah, I'd tend to agree.
 
-$ scripts/bloat-o-meter \
-  ...after/panel-novatek-nt36672e.ko \
-  ...ctx/panel-novatek-nt36672e.ko
-add/remove: 0/0 grow/shrink: 0/1 up/down: 0/-988 (-988)
-Function                                     old     new   delta
-nt36672e_1080x2408_60hz_init                6236    5248    -988
-Total: Before=10651, After=9663, chg -9.28%
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
-Right now this patch introduces two new functions in drm_mipi_dsi.c.
-Alternatively we could have changed the prototype of the "chatty"
-functions and made the deprecated macros adapt to the new prototype.
-While this sounds nice, it bloated callers of the deprecated functioin
-a bit because it caused the compiler to emit less optimal code. It
-doesn't seem terrible to add two more functions, so I went that
-way. There may be cases where callers who aren't writing many
-sequences prefer to use the "chatty" versions anyway.
+> I would say we should just apply the series as soon as it's non-RFC
 
-(no changes since v3)
+It's not actually RFC now, but "RFT" (request for testing). I don't
+_think_ there's any need to send a version without the RFT tag before
+landing unless someone really feels strongly about it.
 
-Changes in v3:
-- Add a TODO item for cleaning up the deprecated macros/functions.
-- Inline kerneldoc comments for struct mipi_dsi_multi_context.
 
-Changes in v2:
-- New
+> after the next merge window
 
- Documentation/gpu/todo.rst     | 18 ++++++++++
- drivers/gpu/drm/drm_mipi_dsi.c | 56 ++++++++++++++++++++++++++++++
- include/drm/drm_mipi_dsi.h     | 62 ++++++++++++++++++++++++++++++++++
- 3 files changed, 136 insertions(+)
+With drm-misc there's not really any specific reason to wait for the
+merge window to open/close as we can land in drm-misc-next at any time
+regardless of the merge window. drm-misc-next will simply stop feeding
+linuxnext for a while.
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index e2a0585915b3..2734b8a34541 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -494,6 +494,24 @@ Contact: Douglas Anderson <dianders@chromium.org>
- 
- Level: Starter/Intermediate
- 
-+Transition away from using mipi_dsi_*_write_seq()
-+-------------------------------------------------
-+
-+The macros mipi_dsi_generic_write_seq() and mipi_dsi_dcs_write_seq() are
-+non-intuitive because, if there are errors, they return out of the *caller's*
-+function. We should move all callers to use mipi_dsi_generic_write_seq_multi()
-+and mipi_dsi_dcs_write_seq_multi() macros instead.
-+
-+Once all callers are transitioned, the macros and the functions that they call,
-+mipi_dsi_generic_write_chatty() and mipi_dsi_dcs_write_buffer_chatty(), can
-+probably be removed. Alternatively, if people feel like the _multi() variants
-+are overkill for some use cases, we could keep the mipi_dsi_*_write_seq()
-+variants but change them not to return out of the caller.
-+
-+Contact: Douglas Anderson <dianders@chromium.org>
-+
-+Level: Starter
-+
- 
- Core refactorings
- =================
-diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
-index 8593d9ed5891..d2957cb692d3 100644
---- a/drivers/gpu/drm/drm_mipi_dsi.c
-+++ b/drivers/gpu/drm/drm_mipi_dsi.c
-@@ -792,6 +792,34 @@ int mipi_dsi_generic_write_chatty(struct mipi_dsi_device *dsi,
- }
- EXPORT_SYMBOL(mipi_dsi_generic_write_chatty);
- 
-+/**
-+ * mipi_dsi_generic_write_multi() - mipi_dsi_generic_write_chatty() w/ accum_err
-+ * @ctx: Context for multiple DSI transactions
-+ * @payload: buffer containing the payload
-+ * @size: size of payload buffer
-+ *
-+ * Like mipi_dsi_generic_write_chatty() but deals with errors in a way that
-+ * makes it convenient to make several calls in a row.
-+ */
-+void mipi_dsi_generic_write_multi(struct mipi_dsi_multi_context *ctx,
-+				  const void *payload, size_t size)
-+{
-+	struct mipi_dsi_device *dsi = ctx->dsi;
-+	struct device *dev = &dsi->dev;
-+	ssize_t ret;
-+
-+	if (ctx->accum_err)
-+		return;
-+
-+	ret = mipi_dsi_generic_write(dsi, payload, size);
-+	if (ret < 0) {
-+		ctx->accum_err = ret;
-+		dev_err(dev, "sending generic data %*ph failed: %d\n",
-+			(int)size, payload, ctx->accum_err);
-+	}
-+}
-+EXPORT_SYMBOL(mipi_dsi_generic_write_multi);
-+
- /**
-  * mipi_dsi_generic_read() - receive data using a generic read packet
-  * @dsi: DSI peripheral device
-@@ -908,6 +936,34 @@ int mipi_dsi_dcs_write_buffer_chatty(struct mipi_dsi_device *dsi,
- }
- EXPORT_SYMBOL(mipi_dsi_dcs_write_buffer_chatty);
- 
-+/**
-+ * mipi_dsi_dcs_write_buffer_multi - mipi_dsi_dcs_write_buffer_chatty() w/ accum_err
-+ * @ctx: Context for multiple DSI transactions
-+ * @data: buffer containing data to be transmitted
-+ * @len: size of transmission buffer
-+ *
-+ * Like mipi_dsi_dcs_write_buffer_chatty() but deals with errors in a way that
-+ * makes it convenient to make several calls in a row.
-+ */
-+void mipi_dsi_dcs_write_buffer_multi(struct mipi_dsi_multi_context *ctx,
-+				     const void *data, size_t len)
-+{
-+	struct mipi_dsi_device *dsi = ctx->dsi;
-+	struct device *dev = &dsi->dev;
-+	ssize_t ret;
-+
-+	if (ctx->accum_err)
-+		return;
-+
-+	ret = mipi_dsi_dcs_write_buffer(dsi, data, len);
-+	if (ret < 0) {
-+		ctx->accum_err = ret;
-+		dev_err(dev, "sending dcs data %*ph failed: %d\n",
-+			(int)len, data, ctx->accum_err);
-+	}
-+}
-+EXPORT_SYMBOL(mipi_dsi_dcs_write_buffer_multi);
-+
- /**
-  * mipi_dsi_dcs_write() - send DCS write command
-  * @dsi: DSI peripheral device
-diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
-index 6d68d9927f46..5e9cad541bd6 100644
---- a/include/drm/drm_mipi_dsi.h
-+++ b/include/drm/drm_mipi_dsi.h
-@@ -197,6 +197,27 @@ struct mipi_dsi_device {
- 	struct drm_dsc_config *dsc;
- };
- 
-+/**
-+ * struct mipi_dsi_multi_context - Context to call multiple MIPI DSI funcs in a row
-+ */
-+struct mipi_dsi_multi_context {
-+	/**
-+	 * @dsi: Pointer to the MIPI DSI device
-+	 */
-+	struct mipi_dsi_device *dsi;
-+
-+	/**
-+	 * @accum_err: Storage for the accumulated error over the multiple calls
-+	 *
-+	 * Init to 0. If a function encounters an error then the error code
-+	 * will be stored here. If you call a function and this points to a
-+	 * non-zero value then the function will be a noop. This allows calling
-+	 * a function many times in a row and just checking the error at the
-+	 * end to see if any of them failed.
-+	 */
-+	int accum_err;
-+};
-+
- #define MIPI_DSI_MODULE_PREFIX "mipi-dsi:"
- 
- #define to_mipi_dsi_device(__dev)	container_of_const(__dev, struct mipi_dsi_device, dev)
-@@ -258,6 +279,8 @@ ssize_t mipi_dsi_generic_write(struct mipi_dsi_device *dsi, const void *payload,
- 			       size_t size);
- int mipi_dsi_generic_write_chatty(struct mipi_dsi_device *dsi,
- 				  const void *payload, size_t size);
-+void mipi_dsi_generic_write_multi(struct mipi_dsi_multi_context *ctx,
-+				  const void *payload, size_t size);
- ssize_t mipi_dsi_generic_read(struct mipi_dsi_device *dsi, const void *params,
- 			      size_t num_params, void *data, size_t size);
- 
-@@ -283,6 +306,8 @@ ssize_t mipi_dsi_dcs_write_buffer(struct mipi_dsi_device *dsi,
- 				  const void *data, size_t len);
- int mipi_dsi_dcs_write_buffer_chatty(struct mipi_dsi_device *dsi,
- 				     const void *data, size_t len);
-+void mipi_dsi_dcs_write_buffer_multi(struct mipi_dsi_multi_context *ctx,
-+				     const void *data, size_t len);
- ssize_t mipi_dsi_dcs_write(struct mipi_dsi_device *dsi, u8 cmd,
- 			   const void *data, size_t len);
- ssize_t mipi_dsi_dcs_read(struct mipi_dsi_device *dsi, u8 cmd, void *data,
-@@ -319,6 +344,9 @@ int mipi_dsi_dcs_get_display_brightness_large(struct mipi_dsi_device *dsi,
-  * This macro will print errors for you and will RETURN FROM THE CALLING
-  * FUNCTION (yes this is non-intuitive) upon error.
-  *
-+ * Because of the non-intuitive return behavior, THIS MACRO IS DEPRECATED.
-+ * Please replace calls of it with mipi_dsi_generic_write_seq_multi().
-+ *
-  * @dsi: DSI peripheral device
-  * @seq: buffer containing the payload
-  */
-@@ -331,12 +359,30 @@ int mipi_dsi_dcs_get_display_brightness_large(struct mipi_dsi_device *dsi,
- 			return ret;                                            \
- 	} while (0)
- 
-+/**
-+ * mipi_dsi_generic_write_seq_multi - transmit data using a generic write packet
-+ *
-+ * This macro will print errors for you and error handling is optimized for
-+ * callers that call this multiple times in a row.
-+ *
-+ * @ctx: Context for multiple DSI transactions
-+ * @seq: buffer containing the payload
-+ */
-+#define mipi_dsi_generic_write_seq_multi(ctx, seq...)                \
-+	do {                                                         \
-+		static const u8 d[] = { seq };                       \
-+		mipi_dsi_generic_write_multi(ctx, d, ARRAY_SIZE(d)); \
-+	} while (0)
-+
- /**
-  * mipi_dsi_dcs_write_seq - transmit a DCS command with payload
-  *
-  * This macro will print errors for you and will RETURN FROM THE CALLING
-  * FUNCTION (yes this is non-intuitive) upon error.
-  *
-+ * Because of the non-intuitive return behavior, THIS MACRO IS DEPRECATED.
-+ * Please replace calls of it with mipi_dsi_dcs_write_seq_multi().
-+ *
-  * @dsi: DSI peripheral device
-  * @cmd: Command
-  * @seq: buffer containing data to be transmitted
-@@ -350,6 +396,22 @@ int mipi_dsi_dcs_get_display_brightness_large(struct mipi_dsi_device *dsi,
- 			return ret;                                            \
- 	} while (0)
- 
-+/**
-+ * mipi_dsi_dcs_write_seq_multi - transmit a DCS command with payload
-+ *
-+ * This macro will print errors for you and error handling is optimized for
-+ * callers that call this multiple times in a row.
-+ *
-+ * @ctx: Context for multiple DSI transactions
-+ * @cmd: Command
-+ * @seq: buffer containing data to be transmitted
-+ */
-+#define mipi_dsi_dcs_write_seq_multi(ctx, cmd, seq...)                  \
-+	do {                                                            \
-+		static const u8 d[] = { cmd, seq };                     \
-+		mipi_dsi_dcs_write_buffer_multi(ctx, d, ARRAY_SIZE(d)); \
-+	} while (0)
-+
- /**
-  * struct mipi_dsi_driver - DSI driver
-  * @driver: device driver model driver
--- 
-2.45.0.rc1.225.g2a3ae87e7f-goog
+That all being said, I'm happy to delay landing this until after the
+next -rc1 comes out if people would prefer that. If I don't hear
+anything, I guess I'll just wait until -rc1 before landing any of
+these.
 
+
+> and see what happens. I doubt it
+> will cause much trouble.
+
+I can land the whole series if that's what everyone agrees on. As I
+mentioned above, I'm at least slightly worried that I did something
+stupid _somewhere_ in this series since no automation was possible and
+with repetitive tasks like this it's super easy to flub something up.
+It's _probably_ fine, but I guess I still have the worry in the back
+of my mind.
+
+If folks think I should just apply the whole series then I'm happy to
+do that. If folks think I should just land parts of the series as they
+are reviewed/tested I can do that as well. Let me know. If I don't
+hear anything I'd tend to just land patches that are reviewed/tested.
+Then after a month or so (hopefully) I'd send out a v2 with anything
+left.
+
+
+> The series:
+> Acked-by: Linus Walleij <linus.walleij@linaro.org>
+
+Thanks!
+
+-Doug
