@@ -1,257 +1,175 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE70B12E1F2;
-	Wed,  8 May 2024 20:42:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715200931; cv=fail; b=XbkkXZ7ekr2qAcstCyzSa4INkw8MBNL6ld4uhk84opzfr3PSdhHvHsTK4G9+9kFbAExUCm8oMPUb0uzdrAV36MeFfZcNtusaNzZE+DfzyYhEvErxJ7DzszkNH55WqEnWJv981WsYi5qzudPfYO3ViQEQm+eryeLMmGmd9ibN1nI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715200931; c=relaxed/simple;
-	bh=veuevydN2XGqd53V0+kppNcbVVadA6U69odozkWeBIM=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=UQAjXl4foTtx4lEw6qW68wD7gVZkXokPnkJlYLnOEFN82bh+F1kKrfPg6TsukJLGHlOuchvC69upuDXggt61SICKl7FzFgk6Hb0y+3P6sw4+x0z+pIkkm6KJ0ON7zaRZisNLm2onYqjt9IgvyPRKVaDW2PPVIBC+Th6eopJkRgQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VxUCe+vX; arc=fail smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84DC414A9F
+	for <linux-doc@vger.kernel.org>; Wed,  8 May 2024 20:53:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715201597; cv=none; b=TML1y8EOiNmric1kaV3yA9KdLTYE8GF5sZc0U+7dJ4Ro2A9xLDRKM9of29Cp2c8U2JfqwKdXh0lz9FlSHhon4JzPBQTRMjpSHdHT1xeqwmIMgElGqiHUjnjZvq9t3lzXJeL49fyZfWxxVH4d0GAQ7mf5tJVRNVCZuIax58eJpLI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715201597; c=relaxed/simple;
+	bh=5dqI6Q9VRMnPFtj/fULp3IbNjZl7toh/De9ZjCYDd9c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nmyiMl7mQMC00v/umiQLr2T9tpJKy2emdfru3nPDNgww6QflGI8/iGD3pYSn+YXr2T+ZBcYyQ4wAqCPeKotfEQv/ZMgaJJ21UY5SeI0HAiBYxHm9GhFYxlQZWUCl9Eji9lIP7yADBoQORj6L9MGeBrfVhIBwkSOW2iIW+U2MV2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=i1t7e66N; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VxUCe+vX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715200930; x=1746736930;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=veuevydN2XGqd53V0+kppNcbVVadA6U69odozkWeBIM=;
-  b=VxUCe+vXCCJGiShwg0HNiQD+EQjkrqg8YQfQZIGbVRl+EaHyHVOiAlru
-   /flcA2ZqPU1Jr/9oOuVfTuBBBC9Adk03vrB3g/ULyOkJDlMIuC1n043Pp
-   MSjX1r5jFVhVvtc7a/MLDniNMbhn6lR5CV2zZWAwrULonpYFHTfCmKsCq
-   aZXcE0eVwzFlhs83gyXcISjk4fKo78c+gY9h7YRhzHZmIhSvgjb5swQKq
-   0602MPwXExqToZLxGdOA2wmczY8SMcXCKhPqo9eFgsnPAa7hebEasjZBU
-   8nfZgSGTIj3ZPFu/e8kCJRtBYb1ktVETpiD2vhvAmnNR8n2t3pDxB1tKx
-   g==;
-X-CSE-ConnectionGUID: 87rezKFfRQWOHaHqINFs+Q==
-X-CSE-MsgGUID: cjmJ1QRtT5yDLTpSO6u88A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11067"; a="11301949"
-X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; 
-   d="scan'208";a="11301949"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 13:42:09 -0700
-X-CSE-ConnectionGUID: Wg/+snXQSZCrJ7w0B7UPhw==
-X-CSE-MsgGUID: Ysx+FCPNSGSfCx9C7AqaoQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,145,1712646000"; 
-   d="scan'208";a="52209068"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmviesa002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 08 May 2024 13:42:08 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Wed, 8 May 2024 13:42:08 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Wed, 8 May 2024 13:42:08 -0700
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.40) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Wed, 8 May 2024 13:42:07 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gfJ1//U+igczxYaKZ2ft4wc06yQCQTyAeZsySfk2HvflGHsP+P9edjFlbKNYqg9EzdnbJ0sl1RAmdX2FDQcpuVO0gxxEPMmKdwPByD07pM9fs8+wDWFTYfNeB+in5emwmi3Uv1BIDvVhL+woOYR723agUluaDjR9amldE8Djy800Q9OXVBgBs9aCQvnFZzXXAS1oGQj5xwFTMZ5hZR7NowbrgkmdiQN3i1yKU+rqdRTPlsMfpTB7YIJKyAskJJaMFFr1A+VD+4tluh9fTJ9jp5GLRIGc9N1yjWWWDRJKV1sMQ6bBOxFreJiogaNpbVWVVJTQsNVdq63iEgfRRjSrgQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=f3QNzWtg/Y+n/xmOZzj7ixrSoFZnHFsHMjjwBPp+hTc=;
- b=cWEJ02WrV4JajTBuF5+VkDk0cWd/4Qdmjhh7N7iBU1NcWaWGkoelXsUbvw4q6y/RGzA0Cd+H+nb2Qvc0RAJjASdsRWtBStoImmeujkvRzuHlZ+kjWns+gjmn1DehN72/pBhWy8VjRzyoZFPoQEM/ZTEULCIRb+MDvVDOuqPYKuJlXB0wwRxEccJ8gMBrPTkcjViRg8hU7Oa6o2fhbTx0L/kpvQDYazDgPMqO4z476MSE8ly4L8+wNd2+MQkAEQiKvgyTHv4kFCstkeJ5xgjQYsckPBxlNhici4C0/4vxka8ge3GqRqNBcXuemh8nBWF40HO8Jpzc8PSw3WS2ewh8KA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by DS7PR11MB6248.namprd11.prod.outlook.com (2603:10b6:8:97::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.42; Wed, 8 May
- 2024 20:42:02 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::b394:287f:b57e:2519]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::b394:287f:b57e:2519%4]) with mapi id 15.20.7544.023; Wed, 8 May 2024
- 20:42:02 +0000
-Message-ID: <b8a87fb1-838f-4337-8940-8eb1c5328a2b@intel.com>
-Date: Wed, 8 May 2024 13:41:58 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v3 00/17] x86/resctrl : Support AMD Assignable
- Bandwidth Monitoring Counters (ABMC)
-To: <babu.moger@amd.com>, <corbet@lwn.net>, <fenghua.yu@intel.com>,
-	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>
-CC: <x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
-	<rdunlap@infradead.org>, <tj@kernel.org>, <peterz@infradead.org>,
-	<yanjiewtw@gmail.com>, <kim.phillips@amd.com>, <lukas.bulwahn@gmail.com>,
-	<seanjc@google.com>, <jmattson@google.com>, <leitao@debian.org>,
-	<jpoimboe@kernel.org>, <rick.p.edgecombe@intel.com>,
-	<kirill.shutemov@linux.intel.com>, <jithu.joseph@intel.com>,
-	<kai.huang@intel.com>, <kan.liang@linux.intel.com>,
-	<daniel.sneddon@linux.intel.com>, <pbonzini@redhat.com>,
-	<sandipan.das@amd.com>, <ilpo.jarvinen@linux.intel.com>,
-	<peternewman@google.com>, <maciej.wieczor-retman@intel.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<eranian@google.com>, <james.morse@arm.com>
-References: <cover.1711674410.git.babu.moger@amd.com>
- <48b595cc-5ffe-4507-bffd-335a60fdaab9@intel.com>
- <2016b830-64c7-43bd-8116-bdfd239221e3@amd.com>
- <ea75801f-e56a-486d-85a4-85c57bce0c81@intel.com>
- <7e92200e-d68c-4dc4-85c3-7192a23f8cbc@amd.com>
-Content-Language: en-US
-From: Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <7e92200e-d68c-4dc4-85c3-7192a23f8cbc@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR04CA0378.namprd04.prod.outlook.com
- (2603:10b6:303:81::23) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="i1t7e66N"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2ac9b225a91so178594a91.2
+        for <linux-doc@vger.kernel.org>; Wed, 08 May 2024 13:53:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1715201594; x=1715806394; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YqkxFBwBCIjXspjTXUzXTZ3b9F2ADVTFncXrWGlr3RY=;
+        b=i1t7e66NzREA+EFdGhzrd3v3nU9VQOzOByNhSseGi+58Zvl/tqb6GhVUEluyxxv505
+         nBGQ51LkcnEAxxbeAalD2fD03mH3b1xB9XunuZhWo3w7rnEtHkFGVJHLZ5sj5lEOUjk5
+         XwUcm9CWH+Lg3RwoIABOKyPmxtJgNH7pDSw7E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715201594; x=1715806394;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YqkxFBwBCIjXspjTXUzXTZ3b9F2ADVTFncXrWGlr3RY=;
+        b=S/pSSqdB28YxqiFCrV4WWbkKV05U+6Lv7Yqfkb8U0HpsiajlVTO8MPUB6TWN+Dmxwh
+         jAhj2KbhIeJ/WvoAbqcorowJoYJccpSPB/pNRbxz6fecEdjuCHv0SP8tnGfLAm2P24ZZ
+         XdwILCDUv6vSBjQC6XYiGO/Yd3cm0OWMkw3X+AwuFJRi5SoJA6Mire+IbZbwTxDjCqlI
+         9JHM7XIE3JlLmy3ZXwOsV/JmBKkwDuQre+silCI+ObMoNCSfT+xWu/iZKYsS1qWY10Pi
+         Z7xVgIKF8iUghvi7Owp19+yk12yHMEvm0zxtq7bYO5mtA4vg9xwKjUzMRaar/+lveZLc
+         utlw==
+X-Forwarded-Encrypted: i=1; AJvYcCUsnxGi4yW2kGbHmkPtcjfpEXTHRCNx5BrgJw91E2aW6XKvywO0Q0uUN9ua6d2cEYKdHx+a4zq1EcRIwy63AG9xtmV3GJ3HIpYI
+X-Gm-Message-State: AOJu0YylFwz2Iwyfuo2zohUpbd+WMKk4yH/cPVIV/6WjFwfR8eRD2ptQ
+	54vKonwZM02gwUWFo2RWsqs0/p7zwn0mBM5FE4rUmywxZkYT1oZJNteNBAfjYg==
+X-Google-Smtp-Source: AGHT+IGiUf19nbv8mVQARWFwlILcfxotMoUSFRx1h7bsJtjkb0vbvYocGef5+88IYl9SHmfxsT4U6w==
+X-Received: by 2002:a17:90b:603:b0:2ac:5a93:636b with SMTP id 98e67ed59e1d1-2b61649d74amr3509508a91.2.1715201593783;
+        Wed, 08 May 2024 13:53:13 -0700 (PDT)
+Received: from dianders.sjc.corp.google.com ([2620:15c:9d:2:40f4:feca:59e0:d3ca])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2b67126ad51sm6887a91.25.2024.05.08.13.53.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 May 2024 13:53:13 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Cc: lvzhaoxiong@huaqin.corp-partner.google.com,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Hsin-Yi Wang <hsinyi@google.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
+	Sam Ravnborg <sam@ravnborg.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Joel Selvaraj <jo@jsfamily.in>,
+	Brian Norris <briannorris@chromium.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	David Airlie <airlied@gmail.com>,
+	Jessica Zhang <quic_jesszhan@quicinc.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/9] drm/mipi-dsi: Reduce bloat and add funcs for cleaner init seqs
+Date: Wed,  8 May 2024 13:51:42 -0700
+Message-ID: <20240508205222.2251854-1-dianders@chromium.org>
+X-Mailer: git-send-email 2.45.0.rc1.225.g2a3ae87e7f-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|DS7PR11MB6248:EE_
-X-MS-Office365-Filtering-Correlation-Id: 382ccb05-b27a-4fdc-cf29-08dc6f9f5072
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|7416005|376005|1800799015;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?RjhJaTRNYkM1Y0ZNek1NY2VCOWp3ZDhFblAxcHg2MXhhV1RQRU8xTGE1bnpz?=
- =?utf-8?B?Qy81SVlUbDVnTUlkcHREc0pvcjdsczhDdm94QWx3aDJYMi8wWHIyMFdTYkRa?=
- =?utf-8?B?NVlxUk90NCtiUEdxSUx3WmE0ejBVY0d4K0g2SFNHY2VGWDNWdHRFcUFVeGpX?=
- =?utf-8?B?bXhxM010ODZEZVdyMXU0TnArT2pQclJLbW83Q1JvcjFDdWcwVzcyZGhIYkFr?=
- =?utf-8?B?eHp1MEx6QlpwelpKTkNhUVlWc0N6cjRKNzVwS0ZqUTcwSXdFUWQrOTFxcW5s?=
- =?utf-8?B?ektMTFhKZC9Cc2EwZmd6YjVueW50aVNZS1JWSyt5WmxnY0QvamRQV2lMVjdU?=
- =?utf-8?B?UWtvTUJMUHROMktoQlhKalp3MHR2UHhqL3AzV3ZnL3BaektCOS9heGlwQk1a?=
- =?utf-8?B?UUE4d3ZaWEtMajRQaDZ2L0d5TUZSeEcybGlybThMWTkrYWxxUjMzSUtlQjJx?=
- =?utf-8?B?L2dtV2lhNU5LZGlQWjEwZmpnckVhSWxrT09kVWwreXA0blBBTHJkLzQxNjlF?=
- =?utf-8?B?NmtzMmV1em1yck50U016RTZaTU8wSFd6MzZrQ1NISENFYkJvUjZCZlQvSmY4?=
- =?utf-8?B?OEtaVHdUSGhOWXc3eWxUY2llOGRyN0xzZXUyNXZSd3ZXUis5K2QyTUJSVlNX?=
- =?utf-8?B?bGhGcXVmM2dsbVVvU2tPZkdSU0lGb09SUTdsT0NjenlaL0ZNaUFJMDZYV3A4?=
- =?utf-8?B?R2EwdXliT1U3eFo0TDRadTVVN1dkSVUxUm1hMy9iejdDbGgra3p4NzV3NWky?=
- =?utf-8?B?clJCMDhQYjM0OVJhNkJRN3dkaVBtTXVBSDBwWjJjb3dyeTFZYi9yRG9mUG1i?=
- =?utf-8?B?bmhMdUkxRDRCeDgrQjlna0FObHpjc1dGMEYxbzZJRGI4WnpwdHp6dzhKTHRG?=
- =?utf-8?B?UGpTd0dPR2tDNnFHOFMzUTVIamVoNUg1bGY2T3c3bnhESmJ5elhtZGk5T2xh?=
- =?utf-8?B?YWordmp5MkRMc2tIVmgvallBdUtZNWg3MVplVzJFZWVXZEJCWStJVFhuUkZG?=
- =?utf-8?B?TzhHRWdlT3ZzVEVucC9oOWdFUFZIZGpmU1ZhNWpJUzFzNHE5N0ZUbEtzZG5D?=
- =?utf-8?B?azhVRDZ5ejRBZU5Kc1ZnWHNKUnhxSklaOVBaK0N0M3hFU2dhbTBvWU9TVm0y?=
- =?utf-8?B?NGg4ZjVubmhncGtLUXBrc1lwaHVQWjhNc0k3d1lETVJTTi96UWEyWlA4MjNG?=
- =?utf-8?B?SkFTdUx3VGFWREtrWlYwSDErU2V1RjRFTCs0eVBmTzRXODlrWkk2YUE0TCtE?=
- =?utf-8?B?TEJ3QysxTlhuNE84dC8xS1c1clZBbDRLYjNmZElTRWFhR2pWMjNZRzlPd2I1?=
- =?utf-8?B?dnpBelRyTU5jUDZoUXpwNWNKRGRzUUtTSlRSTHpRRVRXWnluWFhmemhORzdO?=
- =?utf-8?B?NzBBMG1EczB5V09LNUVTTllEa3ZINWNlRUtQUHFMVDEwTHY1eE1ELzVHQitK?=
- =?utf-8?B?UVZ1UWVVSXhDV25SQ1lVU1dCaTFkOXhPYmZTa0szTDRaV25sc0FaZGVIL2tF?=
- =?utf-8?B?cGxuMDhFWFY2dk14dVR6TGpvQmVSYmg0UnhOYldMQ1M4cmhHTnFvSXNMWjUy?=
- =?utf-8?B?d2VBTTNoemFSQytMR0p2akdOUHZxcEowQndZazdhMk9iZzRKOE0zbmt5VG1q?=
- =?utf-8?B?WmdFZWxWMjBWZ2NmcmNNTXhYa1RyRXU4UmtVckhwY0hnUmFqL0w2K1NZWGlY?=
- =?utf-8?B?aGVySnk1di9UcU4vMUd6dkthbkRpSkV6dCtvVlpCSmZUVk1DcWx6dVRnPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(7416005)(376005)(1800799015);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QVdQOVoyaXpOeU1tb3FFRml6NjFBZzRpUjI0TDRsdDVDcU1OWHU0V3l2OWFM?=
- =?utf-8?B?WjhxYmhqWVpOOW1yTW9KcDc3OWUrQ21scnl4S1ZGWjFoNmMzVGo1QkdMZGd1?=
- =?utf-8?B?cnU4QjlROUxCajFHeFBBYkgySzUwZjhZdk1VSWVxQ2U5N0ZydTJVUVJ5RC9k?=
- =?utf-8?B?U3JrNXJZRDErYytQelAwdUR1Y2Z1aWxRUHJ1WDBKZzlzMlp4Sk9tTDFtazVS?=
- =?utf-8?B?UVN6OXpGbHRWYjhwMFdLMzI3dWhua2dOQ3RyWlFWejZlcmF1UEtFd1RwUXBo?=
- =?utf-8?B?RG5oUmVxdnlWditYTTA3ME5SNWdtRHVUOXZsTDVYb1lSRHJpdWx4YThFQjdn?=
- =?utf-8?B?ekJwU2c5TGhuRGp4Ymg2TGIrcFF0MU1WY2JubUtGajdjREJVSlR0b3oxenVo?=
- =?utf-8?B?UzI3aUorQVF0bCtpZ1Z3ZllUTDN5UUJTcG5CcUdRTXo4YUFUanU0ZVRDaDFW?=
- =?utf-8?B?a2lTR2tjdSs3K01oODVGaXRuTmxjTENlRzNMc1RiQ1ZYZm0vbnpkVTBjNkha?=
- =?utf-8?B?c3NsbjExMnZPWFdtS3JYcmV0M3pXa0pXSDhjZFBxVGJOV3RqbDl4bEVCdGhK?=
- =?utf-8?B?T2FNdXE0R2xxVHJyTEQvVXhRSEdvcEhKNWtDMndZbVVaUm1iczgzcEllTE1I?=
- =?utf-8?B?VlpmQUlkTlRlODBkTWRBWnBPUEs5blBxN01MMit1MHZsRXdyMitUVmUrdkE4?=
- =?utf-8?B?ZExnMTk3bnZUUjM0TVRra0g0cWJZcWVpSVA4cW52OE9xS2YyN1V4RkxhWTlE?=
- =?utf-8?B?ZlFVOURjeC9vVnhtUm9ZK2JvcWhHOS9YY0V1VTUyM0dtZWRyOGowWjdKc3Rq?=
- =?utf-8?B?aVpCSmJscVc3NFhqd3lHYTVGYVpIVFVSMUFNdUs3Y2d4MEgwVWhNKy83S2Vq?=
- =?utf-8?B?dS9yYndGVnB0bWpNbSs1Zi9KZzNYcnV0dFppazJXbnBVYkZYdFZBemJCRnFJ?=
- =?utf-8?B?UW12R0hIREt4RE04bVE2TmtkdWFUb0hjNDFUeHgvVUVoWmZ6by9TZkI5NUtI?=
- =?utf-8?B?V0FYK1VmVURxMmd4TmwrRnE4S2xrY3JoQUF1Q3dhZkdIQ3RkeVBSK3VkeW9k?=
- =?utf-8?B?bG1uOWtWMng2aU44cmdZem8rM3FaajM2ZFNObVRtWUovWjhUOHU5YmFnVFVU?=
- =?utf-8?B?c3dVUGM0ZWtJTUdRaXcrMnFKTzJWWGNYMWRBUFQ4WXhiSmI3aGZRL0x4bmpN?=
- =?utf-8?B?ZGpYVjBLUmpVUkpOeTFFcERjN1FsN0I4TU9vUndnUytmeEt1KzVQSjRsaHpJ?=
- =?utf-8?B?M0p3YTIrVGp6dlhuT2pQb01DM0NvUzNReDVMVVVIcU1tZVlzeVczMkZxMG1L?=
- =?utf-8?B?YzJPQVc2enJjMUlTWHhjZFU0cHlMMkRLUjhMV2twd1ZJUE1HYWdXSHNrUWhj?=
- =?utf-8?B?SkZLcURKZHhHcGUzR0RTcGhzZVBiSk96RXdVblRuMlIxL2pvbGNscm9TSUNk?=
- =?utf-8?B?bjMzK28vNzRpUzFMQ3M2TkN5eHZLb0REZVBaS0NDMGszZWRjNHhvWG96aG9K?=
- =?utf-8?B?KzVXVkRUbzZyK2hNMFFldThKS1NOSEdBUTRXbCsvKzZ5WXMzV3BESytIZytj?=
- =?utf-8?B?NjRzMVhyS0lvRXA2R0tNNFBDcGc1SGFQSnF6MFMwUkhJZ3I1a090WG40cTJE?=
- =?utf-8?B?aElOSUpXSC85Y2FrR2JucEpPendxOEZwM2JUQWphSURmUHFXblFWdGtic1BF?=
- =?utf-8?B?d0lyck1BR3M2UlcwbUs5M2hMYnJyQnpiVERnOURnK3FhUDdsVk1vQ3Ruamls?=
- =?utf-8?B?aEFPYWJHU3hOakFtUHh0Sm5oWlVNOUxWVFNhMTExTDl6SFg1UkFrOG1hNTNX?=
- =?utf-8?B?ajcvMkdna2dRSHBWaU96RTE2S1NBbTRrRHVTNnQ4akdBUDlqK01wYmEreW9r?=
- =?utf-8?B?NndkZWhDSU42WkxQVG9kVHZwY2YzZlJDaCt3UGhvWXBhc2hGQVlzaHZpU25T?=
- =?utf-8?B?V2NiNnVDdWJ3VDJxNkR4TFRSNGZWYUNmUEFqRDZSZDA5L2x0WFJyUHBDRkc3?=
- =?utf-8?B?dVdIdEFSNEVuK1NGSUhwdjkwK0FFRDl6bS9QSGVqcENuQURZRUZGMng3N2JZ?=
- =?utf-8?B?OFZxZXpnSUpoTU82U21XelNIemhzZGJabjNubnpDcGl6bXozYm0rbUtmdmxn?=
- =?utf-8?B?b3ZJcHAvZ0V6SWliQXFFMW1oOVZ4WkhTUlZ0NWVQTmJ2NWtDR0FUN0JsQUFQ?=
- =?utf-8?B?Wnc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 382ccb05-b27a-4fdc-cf29-08dc6f9f5072
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2024 20:42:02.1541
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TBG3iCpwpiP8zrRpucAghNS3u+Ip+nQYyQq87mdEQ5ytm+lpO60PI0MOobR81uhe4KzDXlJ1nvZBVFIbJmS1R6sexbL80g0oFlK17qoAsjI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB6248
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 
-Hi Babu,
+The consensus of many DRM folks is that we want to move away from DSI
+drivers defining tables of init commands. Instead, we want to move to
+init functions that can use common DRM functions. The issue thus far
+has been that using the macros mipi_dsi_generic_write_seq() and
+mipi_dsi_dcs_write_seq() bloats the driver using them.
 
-On 5/8/2024 1:07 PM, Moger, Babu wrote:
-> Hi Reinette,
-> 
-> On 5/7/24 15:26, Reinette Chatre wrote:
->> Hi Babu,
->>
->> On 5/6/2024 10:18 AM, Moger, Babu wrote:
->>> On 5/3/24 18:24, Reinette Chatre wrote:
->>>> On 3/28/2024 6:06 PM, Babu Moger wrote:
->>>>
->>>>> a. Check if ABMC support is available
->>>>> 	#mount -t resctrl resctrl /sys/fs/resctrl/
->>>>>
->>>>> 	#cat /sys/fs/resctrl/info/L3_MON/mbm_assign
->>>>> 	[abmc] 
->>>>> 	legacy_mbm
->>>>>
->>>>> 	Linux kernel detected ABMC feature and it is enabled.
->>>>
->>>> Please note that this adds the "abmc" feature to the resctrl
->>>> *filesystem* that supports more architectures than just AMD. Calling the
->>>> resctrl filesystem feature "abmc" means that (a) AMD needs to be ok with
->>>> other architectures calling their features that are
->>>> similar-but-maybe-not-identical-to-AMD-ABMC "abmc", or (b) this needs
->>>> a new generic name.
->>>
->>> It should not a problem if other architecture calling abmc for similar
->>> feature. But generic name is always better if there is a suggestion.
->>
->> "should not a problem" does not instill confidence that AMD is
->> actually ok with this.
-> 
-> The feature "ABMC" has been used in the public document already to refer
-> this feature.
-> https://www.amd.com/content/dam/amd/en/documents/processor-tech-docs/programmer-references/24594.pdf
+While trying to solve bloat, we realized that the majority of the it
+was easy to solve. This series solves the bloat for existing drivers
+by moving the printout outside of the macro.
 
-It is clear to me that Assignable Bandwidth Monitoring Counters (ABMC) is the
-name of the AMD feature. The question is whether users can use the 
-same name to interact with "similar but maybe not identical" features from other
-architectures, which is what this series enables.
+During discussion of my v1 patch to fix the bloat [1], we also decided
+that we really want to change the way that drivers deal with init
+sequences to make it clearer. In addition to being cleaner, a side
+effect of moving drivers to the new style reduces bloat _even more_.
 
-> If there comes a conflict then we can change it to amd_abmc. Didn't see
-> any conflict at this pint.
+This series also contains a few minor fixes / cleanups that I found
+along the way.
 
-How do you envision this? The resctrl filesystem interface is intended to be
-architecture neutral so it is not obvious to me how "amd_abmc" is expected
-to look? Why would it be necessary to have different architecture specific names
-for a similar feature from different architectures that users interact with in
-the same way? Sounds to me as though this just needs a new non-AMD marketing name. 
+This series converts four drivers over to the new
+mipi_dsi_dcs_write_seq_multi() function. Not all conversions have been
+tested, but hopefully they are straightforward enough. I'd appreciate
+testing.
 
-Reinette
+NOTE: In v3 I tried to incorporate the feedback from v2. I also
+converted the other two panels I could find that used table-based
+initialization.
+
+v4 just has a tiny bugfix and collects tags. Assuming no other
+problems are found the plan is to land this series sometime roughly
+around May 16 [2]. Note that unless I get a review/Ack for the patch
+("drm/panel: novatek-nt36672e: Switch to
+mipi_dsi_dcs_write_seq_multi()") then I'll land the series without
+that patch.
+
+[1] https://lore.kernel.org/r/20240424172017.1.Id15fae80582bc74a0d4f1338987fa375738f45b9@changeid
+[2] https://lore.kernel.org/r/35b899d2-fb47-403a-83d2-204c0800d496@linaro.org
+
+Changes in v4:
+- Test to see if init is non-NULL before using it.
+- Update wording as per Linus W.
+
+Changes in v3:
+- ("mipi_dsi_*_write functions don't need to ratelimit...") moved earlier.
+- Add a TODO item for cleaning up the deprecated macros/functions.
+- Fix spacing of init function.
+- Inline kerneldoc comments for struct mipi_dsi_multi_context.
+- Rebased upon patch to remove ratelimit of prints.
+- Remove an unneeded error print.
+- Squash boe-tv101wum-nl6 lowercase patch into main patch
+- Use %zd in print instead of casting errors to int.
+- drm/panel: ili9882t: Don't use a table for initting panels
+- drm/panel: innolux-p079zca: Don't use a table for initting panels
+
+Changes in v2:
+- Add some comments to the macros about printing and returning.
+- Change the way err value is handled in prep for next patch.
+- Modify commit message now that this is part of a series.
+- Rebased upon patches to avoid theoretical int overflow.
+- drm/mipi-dsi: Fix theoretical int overflow in mipi_dsi_dcs_write_seq()
+- drm/mipi-dsi: Fix theoretical int overflow in mipi_dsi_generic_write_seq()
+- drm/mipi-dsi: Introduce mipi_dsi_*_write_seq_multi()
+- drm/mipi-dsi: mipi_dsi_*_write functions don't need to ratelimit prints
+- drm/panel: boe-tv101wum-nl6: Convert hex to lowercase
+- drm/panel: boe-tv101wum-nl6: Don't use a table for initting commands
+- drm/panel: novatek-nt36672e: Switch to mipi_dsi_dcs_write_seq_multi()
+
+Douglas Anderson (9):
+  drm/mipi-dsi: Fix theoretical int overflow in mipi_dsi_dcs_write_seq()
+  drm/mipi-dsi: Fix theoretical int overflow in
+    mipi_dsi_generic_write_seq()
+  drm/mipi-dsi: mipi_dsi_*_write functions don't need to ratelimit
+    prints
+  drm/mipi-dsi: Reduce driver bloat of mipi_dsi_*_write_seq()
+  drm/mipi-dsi: Introduce mipi_dsi_*_write_seq_multi()
+  drm/panel: novatek-nt36672e: Switch to mipi_dsi_dcs_write_seq_multi()
+  drm/panel: boe-tv101wum-nl6: Don't use a table for initting panels
+  drm/panel: ili9882t: Don't use a table for initting panels
+  drm/panel: innolux-p079zca: Don't use a table for initting panels
+
+ Documentation/gpu/todo.rst                    |   18 +
+ drivers/gpu/drm/drm_mipi_dsi.c                |  112 +
+ .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 2792 +++++++++--------
+ drivers/gpu/drm/panel/panel-ilitek-ili9882t.c |  794 +++--
+ drivers/gpu/drm/panel/panel-innolux-p079zca.c |  284 +-
+ .../gpu/drm/panel/panel-novatek-nt36672e.c    |  576 ++--
+ include/drm/drm_mipi_dsi.h                    |  101 +-
+ 7 files changed, 2452 insertions(+), 2225 deletions(-)
+
+-- 
+2.45.0.rc1.225.g2a3ae87e7f-goog
+
