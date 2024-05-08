@@ -1,192 +1,330 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E8708121A;
-	Wed,  8 May 2024 10:43:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0779F824BF;
+	Wed,  8 May 2024 11:20:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715165024; cv=none; b=bjuTwtfvDSMqmCMqI5Zgw/GCynyIYF9sbPV+K7/iCbjO27iLihc4PeBYZeHuh8a+eV+Yd+u1vu6HSaGErDRy1q9ueRgIOoF4SYD0dXsLk/9AwnP/NDqgHJWkb9qQvVQorkv/VddEKlMvUF9bTgsbOA3FAuCwSj8goxgx0xTlJJU=
+	t=1715167247; cv=none; b=bHUJmnIQ9CGT2nw4KszTFtdU/46r5WmJyzk5PeTnikDk174HFvr/F4x8PNBgGtxXpnd+wQlJ+BH4a3mp9FiuDmxeHFHtv5+Uirr/ZWKTNRgBFMXZDnaImkFY2k9foIVLOVG7DFiOC489qLqgOoYHerjWYuWNwCIivfrmiy0uKnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715165024; c=relaxed/simple;
-	bh=4kEk/+lJ061tISvnU8C3DinplnN17yBiPWG18m1vvrE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Th7DZdgaKVKjjBx6H/R1bljSXtemqeDXbRasEs5iz+RkmcNWy7ojCBBt9Z6Ywi2JvRA2/Y1D/MSFO5aIAJ2LMHT7mD1tqxJcOwUr7i2IzPp7hsrNA2D3FQOuJBVijxen725+/fr553b5uMwZXYNe3AwLAv780V3s3g+JLZEqPhk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id DD2DC1BF204;
-	Wed,  8 May 2024 10:43:28 +0000 (UTC)
-Message-ID: <d14c1d04-2fd9-4c9b-affb-f4335bd7e6fc@ghiti.fr>
-Date: Wed, 8 May 2024 12:43:28 +0200
+	s=arc-20240116; t=1715167247; c=relaxed/simple;
+	bh=SOFK6vxi3GZWSiC2GhxKzkoWc9mqFMse7HMQCdT9VYQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S+UQ5qMNd6iPHAfCWeMMyP+9mxEsMn8E/r7+kmccBnIoem8NYAaWVn2OD3NklMzW72g9w5vnnhjRn2zU4t2tYxUe6LVjWyybac1ThN4tEXH8oHABBIDwWHz9hW0l3dustno5lCpH7q+q1sBgUJANc7dAiJU0Gc541KbASPqb8pw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 392AFC4DDE1;
+	Wed,  8 May 2024 11:20:44 +0000 (UTC)
+Date: Wed, 8 May 2024 12:20:41 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Maxwell Bland <mbland@motorola.com>
+Cc: linux-mm@kvack.org, Will Deacon <will@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Alexandre Ghiti <alexghiti@rivosinc.com>,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] ptdump: add intermediate directory support
+Message-ID: <ZjtgCfhQDJus3dqI@arm.com>
+References: <fik5ys53dbkpkl22o4s7sw7cxi6dqjcpm2f3kno5tyms73jm5y@buo4jsktsnrt>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/9] riscv: smp: fail booting up smp if inconsistent
- vlen is detected
-To: Andy Chiu <andy.chiu@sifive.com>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Conor Dooley <conor.dooley@microchip.com>, Heiko Stuebner <heiko@sntech.de>,
- Guo Ren <guoren@kernel.org>, Conor Dooley <conor@kernel.org>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Jonathan Corbet <corbet@lwn.net>, Evan Green <evan@rivosinc.com>,
- =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>,
- Shuah Khan <shuah@kernel.org>, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
- Vincent Chen <vincent.chen@sifive.com>,
- Greentime Hu <greentime.hu@sifive.com>, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20240412-zve-detection-v4-0-e0c45bb6b253@sifive.com>
- <20240412-zve-detection-v4-2-e0c45bb6b253@sifive.com>
- <4acc62d0-d62b-4d42-805b-0bc7f663a81c@ghiti.fr>
- <CABgGipXcjY9KDU=fN6KtER3mPbxsQdb+Y5Czhq7QDBFFc6p__w@mail.gmail.com>
-Content-Language: en-US
-From: Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <CABgGipXcjY9KDU=fN6KtER3mPbxsQdb+Y5Czhq7QDBFFc6p__w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: alex@ghiti.fr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fik5ys53dbkpkl22o4s7sw7cxi6dqjcpm2f3kno5tyms73jm5y@buo4jsktsnrt>
 
-Hi Andy,
+On Tue, Apr 30, 2024 at 11:05:01AM -0500, Maxwell Bland wrote:
+> diff --git a/Documentation/arch/arm64/ptdump.rst b/Documentation/arch/arm64/ptdump.rst
+> index 5dcfc5d7cddf..350eea06300e 100644
+> --- a/Documentation/arch/arm64/ptdump.rst
+> +++ b/Documentation/arch/arm64/ptdump.rst
+> @@ -2,25 +2,24 @@
+>  Kernel page table dump
+>  ======================
+>  
+> -ptdump is a debugfs interface that provides a detailed dump of the
+> -kernel page tables. It offers a comprehensive overview of the kernel
+> -virtual memory layout as well as the attributes associated with the
+> -various regions in a human-readable format. It is useful to dump the
+> -kernel page tables to verify permissions and memory types. Examining the
+> -page table entries and permissions helps identify potential security
+> -vulnerabilities such as mappings with overly permissive access rights or
+> -improper memory protections.
+> +ptdump is a debugfs interface that provides a detailed dump of the kernel page
+> +tables. It offers a comprehensive overview of the kernel virtual memory layout
+> +as well as the attributes associated with the various regions in a
+> +human-readable format. It is useful to dump the kernel page tables to verify
+> +permissions and memory types. Examining the page table entries and permissions
+> +helps identify potential security vulnerabilities such as mappings with overly
+> +permissive access rights or improper memory protections.
 
-On 08/05/2024 10:21, Andy Chiu wrote:
-> On Thu, Apr 25, 2024 at 4:01 AM Alexandre Ghiti <alex@ghiti.fr> wrote:
->> Hi Andy,
->>
->> On 12/04/2024 08:48, Andy Chiu wrote:
->>> Currently we only support Vector for SMP platforms, that is, all SMP
->>> cores have the same vlenb. If we happen to detect a mismatching vlen, it
->>> is better to just fail bootting it up to prevent further race/scheduling
->>> issues.
->>>
->>> Also, move .Lsecondary_park forward and chage `tail smp_callin` into a
->>> regular call in the early assembly. So a core would be parked right
->>> after a return from smp_callin. Note that a successful smp_callin
->>> does not return.
->>>
->>> Fixes: 7017858eb2d7 ("riscv: Introduce riscv_v_vsize to record size of Vector context")
->>> Reported-by: Conor Dooley <conor.dooley@microchip.com>
->>> Closes: https://lore.kernel.org/linux-riscv/20240228-vicinity-cornstalk-4b8eb5fe5730@spud/
->>> Signed-off-by: Andy Chiu <andy.chiu@sifive.com>
->>> ---
->>> Changelog v4:
->>>    - update comment also in the assembly code (Yunhui)
->>> Changelog v2:
->>>    - update commit message to explain asm code change (Conor)
->>> ---
->>>    arch/riscv/kernel/head.S    | 19 ++++++++++++-------
->>>    arch/riscv/kernel/smpboot.c | 14 +++++++++-----
->>>    2 files changed, 21 insertions(+), 12 deletions(-)
->>>
->>> diff --git a/arch/riscv/kernel/head.S b/arch/riscv/kernel/head.S
->>> index 4236a69c35cb..a00f7523cb91 100644
->>> --- a/arch/riscv/kernel/head.S
->>> +++ b/arch/riscv/kernel/head.S
->>> @@ -165,9 +165,20 @@ secondary_start_sbi:
->>>    #endif
->>>        call .Lsetup_trap_vector
->>>        scs_load_current
->>> -     tail smp_callin
->>> +     call smp_callin
->>>    #endif /* CONFIG_SMP */
->>>
->>> +.align 2
->>> +.Lsecondary_park:
->>> +     /*
->>> +      * Park this hart if we:
->>> +      *  - have too many harts on CONFIG_RISCV_BOOT_SPINWAIT
->>> +      *  - receive an early trap, before setup_trap_vector finished
->>> +      *  - fail in smp_callin(), as a successful one wouldn't return
->>> +      */
->>> +     wfi
->>> +     j .Lsecondary_park
->>> +
->>>    .align 2
->>>    .Lsetup_trap_vector:
->>>        /* Set trap vector to exception handler */
->>> @@ -181,12 +192,6 @@ secondary_start_sbi:
->>>        csrw CSR_SCRATCH, zero
->>>        ret
->>>
->>> -.align 2
->>> -.Lsecondary_park:
->>> -     /* We lack SMP support or have too many harts, so park this hart */
->>> -     wfi
->>> -     j .Lsecondary_park
->>> -
->>>    SYM_CODE_END(_start)
->>>
->>>    SYM_CODE_START(_start_kernel)
->>> diff --git a/arch/riscv/kernel/smpboot.c b/arch/riscv/kernel/smpboot.c
->>> index d41090fc3203..673437ccc13d 100644
->>> --- a/arch/riscv/kernel/smpboot.c
->>> +++ b/arch/riscv/kernel/smpboot.c
->>> @@ -214,6 +214,15 @@ asmlinkage __visible void smp_callin(void)
->>>        struct mm_struct *mm = &init_mm;
->>>        unsigned int curr_cpuid = smp_processor_id();
->>>
->>> +     if (has_vector()) {
->>> +             /*
->>> +              * Return as early as possible so the hart with a mismatching
->>> +              * vlen won't boot.
->>> +              */
->>> +             if (riscv_v_setup_vsize())
->>> +                     return;
->>> +     }
->>> +
->>>        /* All kernel threads share the same mm context.  */
->>>        mmgrab(mm);
->>>        current->active_mm = mm;
->>> @@ -226,11 +235,6 @@ asmlinkage __visible void smp_callin(void)
->>>        numa_add_cpu(curr_cpuid);
->>>        set_cpu_online(curr_cpuid, 1);
->>>
->>> -     if (has_vector()) {
->>> -             if (riscv_v_setup_vsize())
->>> -                     elf_hwcap &= ~COMPAT_HWCAP_ISA_V;
->>> -     }
->>> -
->>>        riscv_user_isa_enable();
->>>
->>>        /*
->>>
->> So this should go into -fixes, would you mind sending a single patch for
->> this fix?
-> I thought it would be magically picked up by a bot as long as we have
-> a fix tag. Am I assuming something wrong?
+Please don't re-wrap existing text unless it's a separate patch with no
+content change (and with a good justification). It is hard to see
+whether anything has changed in this paragraph (or the next ones).
 
+Also, many (most?) text files are wrapped around 72 characters, no need
+to re-wrap them at 80, just keep the formatting in that file when adding
+new text.
 
-It gets backported to stable when it is merged, but then it is missing 
-from the first stable releases (as long as it is not merged).
+> @@ -29,68 +28,101 @@ configurations and mount debugfs::
+>   mount -t debugfs nodev /sys/kernel/debug
+>   cat /sys/kernel/debug/kernel_page_tables
+>  
+> -On analysing the output of ``cat /sys/kernel/debug/kernel_page_tables``
+> -one can derive information about the virtual address range of the entry,
+> -followed by size of the memory region covered by this entry, the
+> -hierarchical structure of the page tables and finally the attributes
+> -associated with each page. The page attributes provide information about
+> -access permissions, execution capability, type of mapping such as leaf
+> -level PTE or block level PGD, PMD and PUD, and access status of a page
+> -within the kernel memory. Assessing these attributes can assist in
+> -understanding the memory layout, access patterns and security
+> -characteristics of the kernel pages.
+> +On analysing the output of ``cat /sys/kernel/debug/kernel_page_tables`` one can
+> +derive information about the virtual address range of a contiguous group of
+> +page table entries, followed by size of the memory region covered by this
+> +group, the hierarchical structure of the page tables and finally the attributes
+> +associated with each page in the group. Groups are broken up either according
+> +to a change in attributes or by parent descriptor, such as a PMD. Note that the
+> +set of attributes, and therefore formatting, is not equivalent between entry
+> +types. For example, PMD entries have a separate set of attributes from leaf
+> +level PTE entries, because they support both the UXNTable and PXNTable
+> +permission bits.
+> +
+> +The page attributes provide information about access permissions, execution
+> +capability, type of mapping such as leaf level PTE or block level PGD, PMD and
+> +PUD, and access status of a page within the kernel memory. Non-PTE block or
+> +page level entries are denoted with either "BLK" or "TBL", respectively.
+> +Assessing these attributes can assist in understanding the memory layout,
+> +access patterns and security characteristics of the kernel pages.
 
-But anyway, 6.9 fixes are all out, so let's hope this series makes it to 
-6.10.
+I presume there's some new text here.
 
-Thanks,
+> diff --git a/arch/arm64/mm/ptdump.c b/arch/arm64/mm/ptdump.c
+> index 6986827e0d64..bd4f1df0c444 100644
+> --- a/arch/arm64/mm/ptdump.c
+> +++ b/arch/arm64/mm/ptdump.c
+> @@ -24,6 +24,7 @@
+>  #include <asm/memory.h>
+>  #include <asm/pgtable-hwdef.h>
+>  #include <asm/ptdump.h>
+> +#include <asm/pgalloc.h>
+>  
+>  
+>  #define pt_dump_seq_printf(m, fmt, args...)	\
+> @@ -70,6 +71,11 @@ static const struct prot_bits pte_bits[] = {
+>  		.val	= PTE_VALID,
+>  		.set	= " ",
+>  		.clear	= "F",
+> +	}, {
+> +		.mask	= PTE_TABLE_BIT,
+> +		.val	= PTE_TABLE_BIT,
+> +		.set	= "   ",
+> +		.clear	= "BLK",
+>  	}, {
+>  		.mask	= PTE_USER,
+>  		.val	= PTE_USER,
+> @@ -105,11 +111,6 @@ static const struct prot_bits pte_bits[] = {
+>  		.val	= PTE_CONT,
+>  		.set	= "CON",
+>  		.clear	= "   ",
+> -	}, {
+> -		.mask	= PTE_TABLE_BIT,
+> -		.val	= PTE_TABLE_BIT,
+> -		.set	= "   ",
+> -		.clear	= "BLK",
+>  	}, {
+>  		.mask	= PTE_UXN,
+>  		.val	= PTE_UXN,
 
-Alex
+Since you are adding a separate pmd_bits[] array, I think we could get
+rid of the PTE_TABLE_BIT entry. It doesn't make sense for ptes anyway.
+Why it works currently is that for ptes it won't show anything since we
+have the bit set while for p*d entries it should have shown TBL when set
+but it's not called on non-leaf entries.
 
+> @@ -143,34 +144,208 @@ static const struct prot_bits pte_bits[] = {
+>  	}
+>  };
+>  
+> +static const struct prot_bits pmd_bits[] = {
+[...]
+> +};
+> +
+> +static const struct prot_bits pud_bits[] = {
+[...]
+> +};
 
->
->> Your patch 8 is actually already fixed by Clement's patch
->> https://lore.kernel.org/linux-riscv/20240409143839.558784-1-cleger@rivosinc.com/
-> Okay, I will drop it at the next revision.
->
->> and I already mentioned this one to Palmer.
->>
->> Thanks,
->>
->> Alex
->>
-> Thanks,
-> Andy
->
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+Do we need pud_bits[] as well? Can we not just use pmd_bits[]? Call it
+pxd_bits if you want, the format is the same for all p*d entries.
+
+> +
+>  struct pg_level {
+>  	const struct prot_bits *bits;
+>  	char name[4];
+>  	int num;
+>  	u64 mask;
+> +	unsigned long size;
+>  };
+>  
+>  static struct pg_level pg_level[] __ro_after_init = {
+>  	{ /* pgd */
+>  		.name	= "PGD",
+> -		.bits	= pte_bits,
+> -		.num	= ARRAY_SIZE(pte_bits),
+> +		.bits	= pud_bits,
+> +		.num	= ARRAY_SIZE(pud_bits),
+> +		.size	= PGD_SIZE
+>  	}, { /* p4d */
+>  		.name	= "P4D",
+> -		.bits	= pte_bits,
+> -		.num	= ARRAY_SIZE(pte_bits),
+> +		.bits	= pud_bits,
+> +		.num	= ARRAY_SIZE(pud_bits),
+> +		.size	= P4D_SIZE
+>  	}, { /* pud */
+>  		.name	= "PUD",
+> -		.bits	= pte_bits,
+> -		.num	= ARRAY_SIZE(pte_bits),
+> +		.bits	= pud_bits,
+> +		.num	= ARRAY_SIZE(pud_bits),
+> +		.size	= PUD_SIZE
+>  	}, { /* pmd */
+>  		.name	= "PMD",
+> -		.bits	= pte_bits,
+> -		.num	= ARRAY_SIZE(pte_bits),
+> +		.bits	= pmd_bits,
+> +		.num	= ARRAY_SIZE(pmd_bits),
+> +		.size	= PMD_SIZE
+>  	}, { /* pte */
+>  		.name	= "PTE",
+>  		.bits	= pte_bits,
+>  		.num	= ARRAY_SIZE(pte_bits),
+> +		.size	= PAGE_SIZE
+>  	},
+>  };
+>  
+> @@ -225,8 +400,9 @@ static void note_page(struct ptdump_state *pt_st, unsigned long addr, int level,
+>  		      u64 val)
+>  {
+>  	struct pg_state *st = container_of(pt_st, struct pg_state, ptdump);
+> -	static const char units[] = "KMGTPE";
+> +	static const char units[] = "BKMGTPE";
+>  	u64 prot = 0;
+> +	int i = 0;
+>  
+>  	/* check if the current level has been folded dynamically */
+>  	if ((level == 1 && mm_p4d_folded(st->mm)) ||
+> @@ -241,20 +417,33 @@ static void note_page(struct ptdump_state *pt_st, unsigned long addr, int level,
+>  		st->current_prot = prot;
+>  		st->start_address = addr;
+>  		pt_dump_seq_printf(st->seq, "---[ %s ]---\n", st->marker->name);
+> -	} else if (prot != st->current_prot || level != st->level ||
+> -		   addr >= st->marker[1].start_address) {
+> +	} else if ((prot != st->current_prot || level != st->level ||
+> +		   addr >= st->marker[1].start_address)) {
+>  		const char *unit = units;
+>  		unsigned long delta;
+>  
+> +		for (i = 0; i < st->level; i++)
+> +			pt_dump_seq_printf(st->seq, "  ");
+
+Please separate the alignment changes into a different patch, it makes
+it easier to review what's new functionality, what's cosmetic. I'm also
+not particularly keen on the new alignment. It's fine to have the
+sub-ranges indented but I'd keep the bits/permissions/size/etc. aligned.
+
+> +
+>  		if (st->current_prot) {
+>  			note_prot_uxn(st, addr);
+>  			note_prot_wx(st, addr);
+>  		}
+>  
+> -		pt_dump_seq_printf(st->seq, "0x%016lx-0x%016lx   ",
+> -				   st->start_address, addr);
+> +		/*
+> +		 * Entries are coalesced into a single line, so non-leaf
+> +		 * entries have no size relative to start_address
+> +		 */
+> +		if (st->start_address != addr) {
+> +			pt_dump_seq_printf(st->seq, "0x%016lx-0x%016lx   ",
+> +					   st->start_address, addr);
+> +			delta = (addr - st->start_address);
+
+What's this supposed to show? In your example, it's strange that the PGD
+is shown as 128 bytes:
+
++ 0xffff020000000000-0xffff020000000080         128B PGD   TBL     RW               NXTbl UXNTbl    MEM/NORMAL
++     0xffff020000000000-0xffff023080000000         194G PUD
++     0xffff023080000000-0xffff0230c0000000           1G PUD   TBL     RW               NXTbl UXNTbl    MEM/NORMAL
+
+The table pgd entries should cover full pud ranges below. I don't know
+how it ended up with 0x...80 as the end of the range for the pgd. Should
+it show a PGD_SIZE * number_of_entries instead?
+
+> +		} else {
+> +			pt_dump_seq_printf(st->seq, "0x%016lx-0x%016lx   ", addr,
+> +					   addr + pg_level[st->level].size);
+> +			delta = (pg_level[st->level].size);
+> +		}
+>  
+> -		delta = (addr - st->start_address) >> 10;
+>  		while (!(delta & 1023) && unit[1]) {
+>  			delta >>= 10;
+>  			unit++;
+> @@ -301,7 +490,8 @@ void ptdump_walk(struct seq_file *s, struct ptdump_info *info)
+>  			.range = (struct ptdump_range[]){
+>  				{info->base_addr, end},
+>  				{0, 0}
+> -			}
+> +			},
+> +			.note_non_leaf = true
+>  		}
+>  	};
+>  
+> diff --git a/include/linux/ptdump.h b/include/linux/ptdump.h
+> index 8dbd51ea8626..b3e793a5c77f 100644
+> --- a/include/linux/ptdump.h
+> +++ b/include/linux/ptdump.h
+> @@ -16,6 +16,7 @@ struct ptdump_state {
+>  			  int level, u64 val);
+>  	void (*effective_prot)(struct ptdump_state *st, int level, u64 val);
+>  	const struct ptdump_range *range;
+> +	bool note_non_leaf;
+>  };
+>  
+>  bool ptdump_walk_pgd_level_core(struct seq_file *m,
+> diff --git a/mm/ptdump.c b/mm/ptdump.c
+> index 106e1d66e9f9..97da7a765b22 100644
+> --- a/mm/ptdump.c
+> +++ b/mm/ptdump.c
+> @@ -41,6 +41,9 @@ static int ptdump_pgd_entry(pgd_t *pgd, unsigned long addr,
+>  	if (st->effective_prot)
+>  		st->effective_prot(st, 0, pgd_val(val));
+>  
+> +	if (st->note_non_leaf && !pgd_leaf(val))
+> +		st->note_page(st, addr, 0, pgd_val(val));
+> +
+>  	if (pgd_leaf(val)) {
+>  		st->note_page(st, addr, 0, pgd_val(val));
+>  		walk->action = ACTION_CONTINUE;
+
+Is the difference between leaf and non-leaf calls only the walk->action?
+We could have a single call to st->note_page() and keep the walk->action
+setting separately. Do we also need to set ACTION_SUBTREE in case the
+entry is a table entry? Or is it done in the caller somewhere? I could
+not figure out.
+
+An alternative would be to have an ARCH_WANT_NON_LEAF_PTDUMP Kconfig
+option instead of a bool note_non_leaf in struct ptdump_state. This
+option seems to be entirely static, not sure it's worth a struct member
+for it. You'd use IS_ENABLED() above instead of st->note_non_leaf.
+
+-- 
+Catalin
