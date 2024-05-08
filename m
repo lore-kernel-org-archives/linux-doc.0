@@ -1,371 +1,204 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2051.outbound.protection.outlook.com [40.107.92.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EDD881ACA;
-	Wed,  8 May 2024 11:27:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715167653; cv=fail; b=Ltug+o6KZmrOuZzY5BsC7kQOitN7edbfQ/lGt8qEPwpX4LmFXKAZRkLkeSraDlv796zPj2XagtRwoTe/PZkJRjxIibOvjGJgYBuMMVmeWWYGMOFivhukMPDXZwInFGIF+Gebqxh0CaAJBdJ1AtHn4xwRnWVkfi7uo9egbYZMOZo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715167653; c=relaxed/simple;
-	bh=alU1ZDgrzr45WpqQixiTgtbQfoEJDUgfn7w85CTMORg=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UK1aQaRV1rLlBbPS01HAcmxHy0CstVeobQ1Cj50DnQYX093+i53pZ5q97uypGNYi7F4ZUh/01yUZg8t2wD07+liqB4/gGrQUndBWVKx0UXd2alfzvGNjrQdtGvTK0O/EjGSjXrzn/SFKGF8pjXguEONwGt1fSkaOOkVhPwQ0ySs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=jYuuvzo1; arc=fail smtp.client-ip=40.107.92.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EE064C61F;
+	Wed,  8 May 2024 11:30:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715167804; cv=none; b=kUurOUyrvVMhkPgx0Vx2sU5AMAe1yC3MFevHxe2hzgjKF4SonV+hPQEFCSoI9Cp6oAUEA1geUyphKdyVjGiK8ZIqLuGwQMetPlK7kogmNL77eNq5rFGvYddxxI3r0GJrw5ZvnnlkNg5SM06i263JpSc7vxGrYVOnHmEnBMlsdsg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715167804; c=relaxed/simple;
+	bh=i1YXbT1f9p3n8QhwhLPoFD2HZIiqNikXNuPP+Cyyt3c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Pv/lRpMxcvXS+X071yeAjW0UbLvKL1GPOYPSVSz6zxxUFq2UVgTyx1olEvbEk93zUj5aaG0bN8Nvn8sQ/Ae8g7Iu8rM7cXaydHxkvJF9Msu5YGlkUU5G6uCBRwc923dX+CZlKavu/GxpaeSrXsYtMJX4IKAtFP9jSf5WsiG6F+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h1xNeRSz; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="jYuuvzo1"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QDI+jS/JQzNtQKiF+0ZhyWMwe9pccMeKjvV1jldCnhnhtlEQi1zFmMkV9CAN5OO0T1awJYkPADw42UK7JoqS8wQ/GlU5UPwm0TvAUHO93yQRol4YdrNh5LWqOIBnqSeg+QH4lcaI1vHJnnhFyNYDieICvE14c8MZjoX3TYxhBBR707I2N2YsYMqp3iVW/lf+hAqhvrl7Sr/w1vE5SuUTGX3urjBxnouOSNWIYX3a640tSk+XX9zyxsfmaUEmWggJMieQ5gTVLAEY/08nLASwK+3eJhnAoS3OqxShcbkBvC0MmNSjX85Va8FIiM9oaMhtNoKpgwlzcUl9Fzigr2aQ7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=g6XpHvbRm83eDZCXE0++oixUcydx3uKJHMJZUoSIlPU=;
- b=BCqGingzJMrijDVjyVF01MUENSidSOv1Ne8E2BGGts8Xn6v4fgdFWR8E1+XjJm8RKRhMJN1uKqayOmBmzmyn3KGLGzCbvuQLXi57RzOMQht7tfx834fEX8sHUeNJuN23sPXmVsUgz8xjG+k21rZz5j+vaObtLPrCmEeKByR3UO/23ooNZhDplDFpCrt3sdVbkV/tq/rDnk3D2csZ63LHpXcL90E8bYi0Oq/AimUyqV9fl33c+ZjoDYX/a9mf1kihDraTuCbKVl90DKNBosA38sX/fGEgeG/rEDHVtxQlIzTd90Ky6BycnUMyOY6ne06ZCzHCkZ+ehg97mWWAf/Bcww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=lwn.net smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=g6XpHvbRm83eDZCXE0++oixUcydx3uKJHMJZUoSIlPU=;
- b=jYuuvzo1zhe4adMX34M9g9BJuQS8RRG8RwtrRGSiU/kLFKH7zZ/qcIamHFTgIi6WAuGS4aFyq+Lv1r3WmPxdlqiyDMK/rCceujua17jCmleyA1Wisiuti82dv9I/1KigQA+tGDOlo+PSZLOylNSIgXDWKzWwUkSjfMMGMnhjPm6jy/pW5aVGYJXn2mXL7xZ9EZwEvvybj2tSstXuPW878yucD3A/ElybouZn9bhqY8pQ2Q2zVSCujTJaBIlyLp/5i4o97BEXgQOaMaqNoQ1AfpCgvRkaDTDMi4+uG88dDN3ErWtoXKy/EJqwfMld8UiaI3admslKrx1SG8/nf3z5iQ==
-Received: from CH0P220CA0004.NAMP220.PROD.OUTLOOK.COM (2603:10b6:610:ef::10)
- by PH7PR12MB6658.namprd12.prod.outlook.com (2603:10b6:510:211::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.45; Wed, 8 May
- 2024 11:27:25 +0000
-Received: from CH3PEPF00000011.namprd21.prod.outlook.com
- (2603:10b6:610:ef:cafe::ae) by CH0P220CA0004.outlook.office365.com
- (2603:10b6:610:ef::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.42 via Frontend
- Transport; Wed, 8 May 2024 11:27:24 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- CH3PEPF00000011.mail.protection.outlook.com (10.167.244.116) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7587.0 via Frontend Transport; Wed, 8 May 2024 11:27:24 +0000
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 8 May 2024
- 04:27:07 -0700
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail203.nvidia.com
- (10.129.68.9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 8 May 2024
- 04:27:06 -0700
-Received: from vidyas-desktop.nvidia.com (10.127.8.9) by mail.nvidia.com
- (10.129.68.9) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
- Transport; Wed, 8 May 2024 04:27:01 -0700
-From: Vidya Sagar <vidyas@nvidia.com>
-To: <corbet@lwn.net>, <bhelgaas@google.com>, <galshalom@nvidia.com>,
-	<leonro@nvidia.com>, <jgg@nvidia.com>, <treding@nvidia.com>,
-	<jonathanh@nvidia.com>
-CC: <mmoshrefjava@nvidia.com>, <shahafs@nvidia.com>, <vsethi@nvidia.com>,
-	<sdonthineni@nvidia.com>, <jan@nvidia.com>, <tdave@nvidia.com>,
-	<linux-doc@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <kthota@nvidia.com>,
-	<mmaddireddy@nvidia.com>, <vidyas@nvidia.com>, <sagar.tv@gmail.com>
-Subject: [PATCH V1] PCI: Extend ACS configurability
-Date: Wed, 8 May 2024 16:56:58 +0530
-Message-ID: <20240508112658.3555882-1-vidyas@nvidia.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h1xNeRSz"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a59b178b75bso779737866b.0;
+        Wed, 08 May 2024 04:30:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715167801; x=1715772601; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3OIqwzAifyFyoLgyrgDnMDOezHmps93bJkTuXZ4CdWs=;
+        b=h1xNeRSzafyepxYmDP1++9rqUH17lOg6BY5IYYZKIy6/IE1vkKZ8Xz7yiNh6rfSm1c
+         XIGgKxzsKV+baBdnLFU7P0dnnybBXBEeophzt68HmlzA/m8P54CIVfgNBz2YTznj58VD
+         Q6oA6BVEVkZ/5RYKlFDZJrAt3aZtbUcKPBxz3zLgX7PgUAMeLFewiNouR+ANUam+C8C/
+         8lg4qW5ITEVgUmrEogE2fgkpY+Rd+LaRFTV8CmMADYhvQyvR/IaL0qlxzA1NQrKyMU+v
+         wGPc6XNTYYd8u96moAaUVk8P4wNMSFxj6CgECON6X2mzq2STOxFTrxAF69XZCNuNFftQ
+         Jj1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715167801; x=1715772601;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3OIqwzAifyFyoLgyrgDnMDOezHmps93bJkTuXZ4CdWs=;
+        b=aNRaoLQHW1BxW3FMWZAyG3s1ptWM+mSjr4TAZ9Yr/rp5Piff1eJjdfkKoJPKsMSRTk
+         q0XBzvhaYWm7Q0yO4mo6TwbPkpv9JhTKtothM2JePqInUxDu/P8VxPQ6vf0w4sOr83XB
+         /3X8OmtZW0WFbC1eSjFkA/83Oscj8lVxEO3yjLG+cxvuwFMrPl0mhaZJ63NpWgjgP+kT
+         Scgm0oqN807bIweux6kMzrAl1usRlxM2QN2EAeqqru0Kw0fhh/MQtcXwv8c6TNZArohZ
+         dIVtEQy6Pmx+/yPs+JDIWTsZjVNv2zvHvQIRcau9bk90KQhJUTb4rKbpjY//0EPtam1K
+         E7vA==
+X-Forwarded-Encrypted: i=1; AJvYcCXm6w1eumq2q9EMEFyo4kNc8BR9pHrCS7tCygX2LAAYKcKouzgdFQMTPS5lAf6HJFibgduel/icX9JLTfZlq06TgC6rI4xyuOEcXDL4pIENalvxqAp0uCq1j5phhJICqgDkqsePt1bEIvIdvUtNI32jtOt8On8FNwThndFpciAiOgmgaF9/qomoYHHG/WquLicwAIWHVN4B7/Nqp2MalaWONW9Ek5G/KWTjX7B3Y4s7s4f4PA0kjabU0g8+wb6DwEfegEVxQlPeGSBmt9GoTJ/MvjN6ZeUCtvwzyozO2IUgQuzvl28XVn/Fky4SF7VV+Cn28NrJSmETpnz1E0nOCaWDyMsDLQlT6olsbEPRsxTtW9aFDzYcjBPHsPBSoeC6hGPhz++xbtf//NRFe97vRuoIRbGP1r1alatawYbxTOAflPn5lJSi7qC8dulkn6pESJOiz+BJhfLqgy7fISAXu/vGH/ghY2EiC19Qp4vWL1dp6LXRHhgctY75V7oUF9ROZsoG2p0hKQ==
+X-Gm-Message-State: AOJu0YzhUcl4AehwA3nCUUxAAjhD/+r3doMZIQfZcynU/xi7awPEAfHT
+	tlKafeagOWsmRTkwhFBzSWh9c5r2dW8fRzMiKGUfp+A6Q2mrY/B2
+X-Google-Smtp-Source: AGHT+IEBCSS9yz2TLoxpJSv9wB1C02lZToMUPdrmRCsf8QV6Km9boW/BeDcdlJbFciMxAmm6cw9vRg==
+X-Received: by 2002:a17:906:2b1b:b0:a58:a0b8:2a64 with SMTP id a640c23a62f3a-a59fb94b152mr153051866b.5.1715167800381;
+        Wed, 08 May 2024 04:30:00 -0700 (PDT)
+Received: from [192.168.42.217] ([163.114.131.193])
+        by smtp.gmail.com with ESMTPSA id kh24-20020a170906f81800b00a59bf40ba6dsm4449273ejb.7.2024.05.08.04.29.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 May 2024 04:29:59 -0700 (PDT)
+Message-ID: <54830914-1ec9-4312-96ad-423ac0aeb233@gmail.com>
+Date: Wed, 8 May 2024 12:30:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-NVConfidentiality: public
-Content-Transfer-Encoding: 8bit
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PEPF00000011:EE_|PH7PR12MB6658:EE_
-X-MS-Office365-Filtering-Correlation-Id: b2cdb56f-d45b-4d56-903f-08dc6f51d595
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230031|1800799015|36860700004|376005|82310400017;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?anp5K3dGS0JNM3NGTTZTeVQxcWJsVWJqeEhpU2I1OGhLY2pNY0UrNGozNW10?=
- =?utf-8?B?RVErNWkwb3ZpbmlldjJxQTF5K0orUmhTbVQ2Wk5jcE1HTElQVDMyV1dDLzd6?=
- =?utf-8?B?Rm5MdlNFV2xOZmpwb0g2YkRLeENUYW5rcUU1NHQzejVjUDFDWExGNlRmdXFR?=
- =?utf-8?B?Q3lmV0FNNVUrQy9CZFFMbW1XMWhMcXN3Y0N4WVU3bjhrSDMyUDA0STdaYzZK?=
- =?utf-8?B?UEdTclc2M3R0cC8yUFRKajB3MmF1ZjIvNWk4UXJlMmIrcUtoVGI4NHdkbytR?=
- =?utf-8?B?U2xjQUFHWHlKcWRHbHlKR0RvemdrRytFaXRRRk53Z3RXWUNoaFB1Yzc5WHJS?=
- =?utf-8?B?TWVYQlgyczRpKzFoeFh0OGlrNTZrdkFjQ0gxTWJCTjRadkJBZk16NHBrTzhr?=
- =?utf-8?B?Yy9HemF5RndET1U0K1Y0Yjl3UURHMzlWZWpDeXFoZWZmVkhucVg2V3dsZ1hL?=
- =?utf-8?B?bGdLdUY3WG9Zc1pSTjhRU1RORlBoM29FSnZHQitmSEVVZGFoVDRUaDVpbVRG?=
- =?utf-8?B?bFRTdHN4R29vT1RNaEZSc3ZzcWNXam9KVlN0blRWVVBjdkY1R3BScFY5RGRJ?=
- =?utf-8?B?dlY5NzJrVzV1THpUTzI5Q0hVQVh0SEF0OVhiK2xkc3lxU01IQTQ0WjJyckU5?=
- =?utf-8?B?WlNLOUlHNmRCdTVOdXNqNDgxMTJ1Nk9YaXVwVkZsMzFHVHljS1JtZ2kzK0p0?=
- =?utf-8?B?ZjZ5a2QwNVNPNllDcmpCa0dpeDNDdm95aVdxSlM1YVV1Nk03ZGd1bSt2THVu?=
- =?utf-8?B?VGlqTVNveDhNZGdZVzFsZlNDVlA5T2labklJaWJnTkFIR0xNejZiYVVRK3Mx?=
- =?utf-8?B?NTExQkdGUUdyRjlBYm83bURwQjNKMmZ5NG9mRVdMZmozcVNoSzdKbGlMbE5r?=
- =?utf-8?B?TWpWcnBmSnY1ZXQvK0hLdXNjcHNlSzFHU2dUajV3dG9adHErV0RHeForWGJm?=
- =?utf-8?B?SldUclhQUi8ybytxSDZlK3crdk5vRjd2UjUrcWhZdFFMY21xcE9aZTBRb2Q1?=
- =?utf-8?B?RS9zUndHN1RLa28rRTZpRmFVRW8wYzlLNGFONDNKMUp6MjNwaFVkZExQazND?=
- =?utf-8?B?NVp3cDByYjhHTCtsNDU3Z1BsdDdONEVkRzIxMXdmcys5dlNjcTVrckVQLzBV?=
- =?utf-8?B?blBJdC9FUTlYNnNVY1BQSUZYZEsvV0NwVGdFRkIxMWdFSCtXS3RkbXhrMloz?=
- =?utf-8?B?UmVFWEtNV05WM2lndjNDNjlEOGgvcjN6aHhCeWhRaDNId1BvMXNwTFM1b0VE?=
- =?utf-8?B?S29DQWJZS2FOcGY4WEg0cWZZVVh0YW5rTjV1VkdnS2h6T2JBdlNqWHpKdXpo?=
- =?utf-8?B?RmVFVzBvQjkzZk0wWEdCWWFFSFlLNWthdnNmem5UVGtvSmJVQ3o2VTR0MDR5?=
- =?utf-8?B?MWdDdnkxU3dLSzI2WHpQVjNLODBycFZoV1NYVDJlMEtvZjdXeDM1VWZ6aEFZ?=
- =?utf-8?B?dUwzSW9EOURrYlhCRkNPeFNsb2dRelFHMmgvRGw0d0gybGlROWcyaWZQM2VY?=
- =?utf-8?B?Vy85ZUJ6ekdrZGtvbUE5Ymd1NGtCb0ZMQ3VHUU9NN3FtSUUxVkxJOXlFUTBJ?=
- =?utf-8?B?U1E2Y3VCam5ERGp2VVBkaEl6eHZNMlExV2xXYU51SzMwMkowZ3pIK1gzbmxR?=
- =?utf-8?B?YkVLdElla3NIRmk0enU0WDllSlBsVHJMK3kxQWFLdDJvYVFPSlc0VkZzRFRQ?=
- =?utf-8?B?VDJyYlFIQys4ZjhPNlBlejRFZ0ZVNmoyOEh1K2pzWlVhemVaU245djRuRXAr?=
- =?utf-8?B?VW4xM3F2N3UyM3BOOFBJM1dhbDBWbVhMR2Jkczc2V3VsN0k3NDVrYkhKSjR0?=
- =?utf-8?Q?65fmb5QvphHG77Efcy+l1JuD+6Fo+POtYpkR8=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230031)(1800799015)(36860700004)(376005)(82310400017);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2024 11:27:24.3650
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b2cdb56f-d45b-4d56-903f-08dc6f51d595
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH3PEPF00000011.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6658
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH net-next v8 02/14] net: page_pool: create hooks for
+ custom page providers
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Mina Almasry <almasrymina@google.com>,
+ Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Amritha Nambiar <amritha.nambiar@intel.com>,
+ Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+ Alexander Mikhalitsyn <alexander@mihalicyn.com>,
+ Kaiyuan Zhang <kaiyuanz@google.com>, Christian Brauner <brauner@kernel.org>,
+ Simon Horman <horms@kernel.org>, David Howells <dhowells@redhat.com>,
+ Florian Westphal <fw@strlen.de>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Kuniyuki Iwashima <kuniyu@amazon.com>, Jens Axboe <axboe@kernel.dk>,
+ Arseniy Krasnov <avkrasnov@salutedevices.com>,
+ Aleksander Lobakin <aleksander.lobakin@intel.com>,
+ Michael Lass <bevan@bi-co.net>, Jiri Pirko <jiri@resnulli.us>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Lorenzo Bianconi <lorenzo@kernel.org>,
+ Richard Gobert <richardbgobert@gmail.com>,
+ Sridhar Samudrala <sridhar.samudrala@intel.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ Johannes Berg <johannes.berg@intel.com>, Abel Wu <wuyun.abel@bytedance.com>,
+ Breno Leitao <leitao@debian.org>, David Wei <dw@davidwei.uk>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
+References: <CAHS8izM0=xc2UhUxhnF_BixuFs5VaDV9W1jbso1K+Rg=35NzeA@mail.gmail.com>
+ <ZjjHUh1eINPg1wkn@infradead.org>
+ <20b1c2d9-0b37-414c-b348-89684c0c0998@gmail.com>
+ <20240507161857.GA4718@ziepe.ca> <ZjpVfPqGNfE5N4bl@infradead.org>
+ <CAHS8izPH+sRLSiZ7vbrNtRdHrFEf8XQ61XAyHuxRSL9Jjy8YbQ@mail.gmail.com>
+ <20240507164838.GG4718@ziepe.ca>
+ <0d5da361-cc7b-46e9-a635-9a7a4c208444@gmail.com>
+ <20240507175644.GJ4718@ziepe.ca>
+ <6a50d01a-b5b9-4699-9d58-94e5f8f81c13@gmail.com>
+ <20240507233247.GK4718@ziepe.ca>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20240507233247.GK4718@ziepe.ca>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-For iommu_groups to form correctly, the ACS settings in the PCIe fabric
-need to be setup early in the boot process, either via the BIOS or via
-the kernel disable_acs_redir parameter.
+On 5/8/24 00:32, Jason Gunthorpe wrote:
+> On Tue, May 07, 2024 at 08:35:37PM +0100, Pavel Begunkov wrote:
+>> On 5/7/24 18:56, Jason Gunthorpe wrote:
+>>> On Tue, May 07, 2024 at 06:25:52PM +0100, Pavel Begunkov wrote:
+>>>> On 5/7/24 17:48, Jason Gunthorpe wrote:
+>>>>> On Tue, May 07, 2024 at 09:42:05AM -0700, Mina Almasry wrote:
+>>>>>
+>>>>>> 1. Align with devmem TCP to use udmabuf for your io_uring memory. I
+>>>>>> think in the past you said it's a uapi you don't link but in the face
+>>>>>> of this pushback you may want to reconsider.
+>>>>>
+>>>>> dmabuf does not force a uapi, you can acquire your pages however you
+>>>>> want and wrap them up in a dmabuf. No uapi at all.
+>>>>>
+>>>>> The point is that dmabuf already provides ops that do basically what
+>>>>> is needed here. We don't need ops calling ops just because dmabuf's
+>>>>> ops are not understsood or not perfect. Fixup dmabuf.
+>>>>
+>>>> Those ops, for example, are used to efficiently return used buffers
+>>>> back to the kernel, which is uapi, I don't see how dmabuf can be
+>>>> fixed up to cover it.
+>>>
+>>> Sure, but that doesn't mean you can't use dma buf for the other parts
+>>> of the flow. The per-page lifetime is a different topic than the
+>>> refcounting and access of the entire bulk of memory.
+>>
+>> Ok, so if we're leaving uapi (and ops) and keep per page/sub-buffer as
+>> is, the rest is resolving uptr -> pages, and passing it to page pool in
+>> a convenient to page pool format (net_iov).
+> 
+> I'm not going to pretend to know about page pool details, but dmabuf
+> is the way to get the bulk of pages into a pool within the net stack's
+> allocator and keep that bulk properly refcounted while.> 
+> An object like dmabuf is needed for the general case because there are
+> not going to be per-page references or otherwise available.
 
-disable_acs_redir allows clearing the RR|CR|EC ACS flags, but the PCIe
-spec Rev3.0 already defines 7 different ACS related flags with many more
-useful combinations depending on the fabric design.
+They are already pinned, memory is owned by the provider, io_uring
+in this case, and it should not be freed circumventing io_uring,
+and at this stage calling release_pages() is not such a hassle,
+especially comparing to introducing an additional object.
 
-For backward compatibility, leave the 'disable_acs_redir' as is and add
-a new parameter 'config_acs'so that the user can directly specify the ACS
-flags to set on a per-device basis. Use a similar syntax to the existing
-'resource_alignment'  parameter by using the @ character and have the user
-specify the ACS flags using a bit encoding. If both 'disable_acs_redir' and
-'config_acs' are specified for a particular device, configuration specified
-through 'config_acs' takes precedence over the other.
+My question is how having an intermediary dmabuf benefits the net
+stack or io_uring ? For now IMO it doesn't solve anything but adds
+extra complexity. Adding dmabuf for the sake of adding dmabuf is
+not a great choice.
 
-Signed-off-by: Vidya Sagar <vidyas@nvidia.com>
----
- .../admin-guide/kernel-parameters.txt         |  22 ++++
- drivers/pci/pci.c                             | 119 ++++++++++++++----
- 2 files changed, 119 insertions(+), 22 deletions(-)
+> What you seem to want is to alter how the actual allocation flow works
+> from that bulk of memory and delay the free. It seems like a different
+For people who jumped here without looking what this patchset is
+about, that's the entire point of the io_uring zero copy approach
+as well as this set. Instead of using kernel private pages that you
+have no other option but to copy/mmap (and then free), it hands
+buffers to the user while using memory accessible/visible in some
+way by the user.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 41644336e..b4a8207eb 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -4456,6 +4456,28 @@
- 				bridges without forcing it upstream. Note:
- 				this removes isolation between devices and
- 				may put more devices in an IOMMU group.
-+		config_acs=
-+				Format:
-+				=<ACS flags>@<pci_dev>[; ...]
-+				Specify one or more PCI devices (in the format
-+				specified above) optionally prepended with flags
-+				and separated by semicolons. The respective
-+				capabilities will be enabled, disabled or unchanged
-+				based on what is specified in flags.
-+				ACS Flags is defined as follows
-+				bit-0 : ACS Source Validation
-+				bit-1 : ACS Translation Blocking
-+				bit-2 : ACS P2P Request Redirect
-+				bit-3 : ACS P2P Completion Redirect
-+				bit-4 : ACS Upstream Forwarding
-+				bit-5 : ACS P2P Egress Control
-+				bit-6 : ACS Direct Translated P2P
-+				Each bit can be marked as
-+				‘0‘ – force disabled
-+				‘1’ – force enabled
-+				‘x’ – unchanged.
-+				Note: this may remove isolation between devices
-+				and may put more devices in an IOMMU group.
- 		force_floating	[S390] Force usage of floating interrupts.
- 		nomio		[S390] Do not use MIO instructions.
- 		norid		[S390] ignore the RID field and force use of
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index a607f277c..0ad48ade9 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -887,30 +887,59 @@ void pci_request_acs(void)
- }
- 
- static const char *disable_acs_redir_param;
-+static const char *config_acs_param;
- 
--/**
-- * pci_disable_acs_redir - disable ACS redirect capabilities
-- * @dev: the PCI device
-- *
-- * For only devices specified in the disable_acs_redir parameter.
-- */
--static void pci_disable_acs_redir(struct pci_dev *dev)
-+static void __pci_config_acs(struct pci_dev *dev, const char *p,
-+			     u16 mask, u16 flags)
- {
-+	char *delimit;
- 	int ret = 0;
--	const char *p;
--	int pos;
--	u16 ctrl;
-+	u16 ctrl, pos;
- 
--	if (!disable_acs_redir_param)
--		return;
--
--	p = disable_acs_redir_param;
- 	while (*p) {
-+		if (!mask) {
-+			/* Check for ACS flags */
-+			delimit = strstr(p, "@");
-+			if (delimit) {
-+				int end;
-+				u32 shift = 0;
-+
-+				end = delimit - p - 1;
-+
-+				while (end > -1) {
-+					if (*(p + end) == '0') {
-+						mask |= 1 << shift;
-+						shift++;
-+						end--;
-+					} else if (*(p + end) == '1') {
-+						mask |= 1 << shift;
-+						flags |= 1 << shift;
-+						shift++;
-+						end--;
-+					} else if ((*(p + end) == 'x') || (*(p + end) == 'X')) {
-+						shift++;
-+						end--;
-+					} else {
-+						pci_err(dev, "Invalid ACS flags... Ignoring\n");
-+						return;
-+					}
-+				}
-+				p = delimit + 1;
-+			} else {
-+				pci_err(dev, "ACS Flags missing\n");
-+				return;
-+			}
-+		}
-+
-+		if (mask & ~(PCI_ACS_SV | PCI_ACS_TB | PCI_ACS_RR | PCI_ACS_CR |
-+			    PCI_ACS_UF | PCI_ACS_EC | PCI_ACS_DT)) {
-+			pci_err(dev, "Invalid ACS flags specified\n");
-+			return;
-+		}
-+
- 		ret = pci_dev_str_match(dev, p, &p);
- 		if (ret < 0) {
--			pr_info_once("PCI: Can't parse disable_acs_redir parameter: %s\n",
--				     disable_acs_redir_param);
--
-+			pr_info_once("PCI: Can't parse acs command line parameter\n");
- 			break;
- 		} else if (ret == 1) {
- 			/* Found a match */
-@@ -932,18 +961,60 @@ static void pci_disable_acs_redir(struct pci_dev *dev)
- 
- 	pos = dev->acs_cap;
- 	if (!pos) {
--		pci_warn(dev, "cannot disable ACS redirect for this hardware as it does not have ACS capabilities\n");
-+		pci_warn(dev, "cannot configure ACS for this hardware as it does not have ACS capabilities\n");
- 		return;
- 	}
- 
-+	pci_dbg(dev, "ACS mask  = 0x%X\n", mask);
-+	pci_dbg(dev, "ACS flags = 0x%X\n", flags);
-+
- 	pci_read_config_word(dev, pos + PCI_ACS_CTRL, &ctrl);
-+	ctrl &= ~mask;
-+	ctrl |= flags;
-+	pci_write_config_word(dev, pos + PCI_ACS_CTRL, ctrl);
- 
--	/* P2P Request & Completion Redirect */
--	ctrl &= ~(PCI_ACS_RR | PCI_ACS_CR | PCI_ACS_EC);
-+	pci_info(dev, "Configured ACS\n");
-+}
- 
--	pci_write_config_word(dev, pos + PCI_ACS_CTRL, ctrl);
-+/**
-+ * pci_disable_acs_redir - disable ACS redirect capabilities
-+ * @dev: the PCI device
-+ *
-+ * For only devices specified in the disable_acs_redir parameter.
-+ */
-+static void pci_disable_acs_redir(struct pci_dev *dev)
-+{
-+	const char *p;
-+	u16 mask = 0, flags = 0;
-+
-+	if (!disable_acs_redir_param)
-+		return;
-+
-+	p = disable_acs_redir_param;
-+
-+	mask = PCI_ACS_RR | PCI_ACS_CR | PCI_ACS_EC;
-+	flags = ~(PCI_ACS_RR | PCI_ACS_CR | PCI_ACS_EC);
-+
-+	__pci_config_acs(dev, p, mask, flags);
-+}
-+
-+/**
-+ * pci_config_acs - configure ACS capabilities
-+ * @dev: the PCI device
-+ *
-+ * For only devices specified in the config_acs parameter.
-+ */
-+static void pci_config_acs(struct pci_dev *dev)
-+{
-+	const char *p;
-+	u16 mask = 0, flags = 0;
-+
-+	if (!config_acs_param)
-+		return;
-+
-+	p = config_acs_param;
- 
--	pci_info(dev, "disabled ACS redirect\n");
-+	__pci_config_acs(dev, p, mask, flags);
- }
- 
- /**
-@@ -1005,6 +1076,7 @@ static void pci_enable_acs(struct pci_dev *dev)
- 	 * preferences.
- 	 */
- 	pci_disable_acs_redir(dev);
-+	pci_config_acs(dev);
- }
- 
- /**
-@@ -7023,6 +7095,8 @@ static int __init pci_setup(char *str)
- 				pci_add_flags(PCI_SCAN_ALL_PCIE_DEVS);
- 			} else if (!strncmp(str, "disable_acs_redir=", 18)) {
- 				disable_acs_redir_param = str + 18;
-+			} else if (!strncmp(str, "config_acs=", 11)) {
-+				config_acs_param = str + 11;
- 			} else {
- 				pr_err("PCI: Unknown option `%s'\n", str);
- 			}
-@@ -7047,6 +7121,7 @@ static int __init pci_realloc_setup_params(void)
- 	resource_alignment_param = kstrdup(resource_alignment_param,
- 					   GFP_KERNEL);
- 	disable_acs_redir_param = kstrdup(disable_acs_redir_param, GFP_KERNEL);
-+	config_acs_param = kstrdup(config_acs_param, GFP_KERNEL);
- 
- 	return 0;
- }
+That "delay free" is taking a reference while user is reading data
+(slightly different for devmem tcp). And note, it's not a page/dmabuf
+reference, kernel can forcibly take it back and release pages.
+
+> topic to me, and honestly hacking into the allocator free function
+> seems a bit weird..
+
+Do you also think that DMA_BUF_IOCTL_SYNC is a weird hack, because
+it "delays free" by pinning the dmabuf object and letting the user
+read memory instead of copying it? I can find many examples
+
 -- 
-2.25.1
-
+Pavel Begunkov
