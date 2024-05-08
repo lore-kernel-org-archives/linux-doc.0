@@ -1,93 +1,210 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82DB8364
-	for <linux-doc@vger.kernel.org>; Wed,  8 May 2024 00:16:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DAFE79EA;
+	Wed,  8 May 2024 01:17:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715127372; cv=none; b=qmix3uoSN5nVTzvebJiRV5XSzvkUATIKO7WiNuUv3oD3fGB8J0ZWQtbNxbiEdgMCMrmPtckf+vWMWazXM+bL9CoTSxbmE57KEqsK00iDbZ3Y6ra+mR2O0urN4reBQqTCiEly7j4jjh8wvcdfgpbNxb5xRodM9JPZHY3hfPLMyNk=
+	t=1715131044; cv=none; b=l8CdXPkXy2qo2O/HNB4yHHK1XP479PRowOh1H83qUN7l3My2WgwoDdVCpNc3i92ghwmk1o8Xz6dyQkiplK6snKNgWpqRKs1AAAobKxbj6eS+OA/aaaWsKgUIanBxNWT2jeS5Iytk2o7B5FBekyQUkX8FDnnwZaPs5LpQLfwbyBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715127372; c=relaxed/simple;
-	bh=iG1KxbbO5MvARNK5ko7b33Ud/1DhjIU8OBrU8tHaNBA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=opqLOmSlhXdwxjBs3QBFUEi4QzXIXqoaQTjaDJMZAu6UtPbXfqKt2Fg8X9gVQY3xsYYl4gaI6xERbIafxuddp8VArFO1OTvQZh+3IXL5bBH3oaf5L9Zr4IwOArLMniOKqMCyb+G80aS+ZGGOGn1g8Vjbs0crW6KEk1ptfL21Xig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mTaQEJua; arc=none smtp.client-ip=209.85.214.169
+	s=arc-20240116; t=1715131044; c=relaxed/simple;
+	bh=q+flXFjjckrLPgiVDLB1Ixl+QXYQc/Y230a9unJhNo0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZwHJSHBzIX1u7VeA2F9+/YFpEAHUM9gFsNdKAI3cj8rzp4vN/VVPSSYRl4ONSrQN3SsyecCqb085wIai8siBv9qUAhZEvKWWcVW/aZ3eNyDImf5WnNlOg/9eVJceeg8UvPJDECwhtlqgUUgoK/b/s2143ZcgBime5JdRV5OClEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DMHiMyAQ; arc=none smtp.client-ip=209.85.218.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mTaQEJua"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1eca195a7c8so30791395ad.2
-        for <linux-doc@vger.kernel.org>; Tue, 07 May 2024 17:16:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DMHiMyAQ"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a59a934ad50so868303466b.1;
+        Tue, 07 May 2024 18:17:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715127371; x=1715732171; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Gg8sSzPHrM2jCyT82bneNTIvvXSCQ5woaFjmWG9rkYQ=;
-        b=mTaQEJualZtSfHz+xooSU9vOaTwNHF/Dcwf+P3GNnzfZ8hWT7Fp1OiukSCwJQ4eMXp
-         KfcC0JJpUVDhCFp36cPh5AGlm0D+/5mOgPoTTQWXm6wKcUylUa2QJQNlzVjqfG95LLlu
-         aqZUfo50HKBokSvy8f6RjoY9MCIeJScok21wtcNjMlfnJzEdAZjAFfCymVGyX5+j9mW1
-         y8WNNV2U6wLyXwoOeErTluhzM3fxvsVDvCZ/8QnZdE2NdrLWz5zTkeiV5drkUu/M9hNj
-         C/9O9msvma/BBqkOFEo72axLXjSvy8LVJMWBGE1hQSyKRZzEJwFtYcUROfNxFiHbzc/7
-         P5fA==
+        d=gmail.com; s=20230601; t=1715131041; x=1715735841; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gxC2TtexmcaRDAYZCHXgg+btsYEd2qPKlrWiDWoUjPA=;
+        b=DMHiMyAQhQamuaF4h/sDHDnN11CD5xGPoH3M/VGzgf86Yl2qmj+RedWQPlctV7VfMF
+         JrQ9xC3r1XLikW6QE80G8AXQd8TT+EkCWvSMDlOhCt1hbGc5Q1+yO6FS1uaL2nUm84u0
+         ymonqRRAT32Qy5YT0VptxUjr6ZBRJKl0pTu8LgxayIUtNxSjJXX4LVXEZXJrTLYkx5zt
+         xAC7h8YgwCeIoCmXRd1bpjvnzs1KkF2SNbb0ut3/0+bicuC6qo5a67ecNzC1jXjploqp
+         nGlbTh9A8D5Z/bEznfQ56mk/UptlTadPz70ZjqwjUGR5HvFi4cWtdl0kLblYl/CsPmyR
+         fSeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715127371; x=1715732171;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Gg8sSzPHrM2jCyT82bneNTIvvXSCQ5woaFjmWG9rkYQ=;
-        b=LNAcvSygAMqGQIJesn7qlOt3EOX69EeNQzx6PbyB9DdIw5StQVKT3AD17vYMzryjrP
-         VfPJEJCVOFGrmsxqLiCwQeh/+AvgeqUu/MOk7AbOXrrKGgqbjgh3CqTWjeq9xCK+esf2
-         LfJi9xqnZJP21Sv0Sp3XyVa1iMtXn/wb+Q8lQPHlFl2acfX60XIovMFREGRthr0HwKH8
-         ruWuccls0g181ZdXMaKlT4OL/ZHMoByUdrWxQz4nr+EW7RD2z/CXx//fNz7OdqLE29cc
-         3T9R6TGr1UjCq47m+PPpA+eQXP/QGfSmgnZoKqo5ot53yzzXI8hNt6jY9OEQUJRahe8S
-         LzSg==
-X-Forwarded-Encrypted: i=1; AJvYcCUlZKXYQhGssj+IrHNmnmrxHS1XoS/R70T6x1/ymUl7Cy3e0h2lbTzEkCzqOkxqM7YbxOFvU1pgPH6w6P3JbXjiYPFdCOn86Ifq
-X-Gm-Message-State: AOJu0Yxe3AHsRvaQQatM4Ew1AvFAzgwGNowBAl3NqC/mFR/KUbfNQy9v
-	IVoqzyZnjcfKLSW04LI0m4R3DmBcYa66hjtxxQ8PMahb1MOnND/Bj2g2VQ==
-X-Google-Smtp-Source: AGHT+IEhBT6+9s6iDLTCpWC/yiXCKkGS+D5UZHbvZ8KUeFLJzWY17Ks7mvSlRoWKnR5+l5xRC0Nw0A==
-X-Received: by 2002:a17:903:41d0:b0:1e2:9ddc:f72d with SMTP id d9443c01a7336-1eeb019739bmr12711945ad.26.1715127370626;
-        Tue, 07 May 2024 17:16:10 -0700 (PDT)
-Received: from [192.168.0.107] ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id t18-20020a170902e85200b001eb50eba52esm10590699plg.214.2024.05.07.17.16.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 May 2024 17:16:10 -0700 (PDT)
-Message-ID: <ada37f1d-d53f-4da8-905c-d6cfa7809259@gmail.com>
-Date: Wed, 8 May 2024 07:16:07 +0700
+        d=1e100.net; s=20230601; t=1715131041; x=1715735841;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gxC2TtexmcaRDAYZCHXgg+btsYEd2qPKlrWiDWoUjPA=;
+        b=WHM9KQR0TUQK8wIIdQbmQqZXcxwg7i7RoOwxvxEJiAbpMbc6uHkfMXtlASji54JJUu
+         zUAOIzaTDkUSStLhpTjpi2GUMzJ6YCpJTZuon34xbmPZLr499bENEYpXC12TOKyMD7X8
+         dn68Kl24O9TnIpGGhMpsomdHmMujVm4vCZoeCi1xzfIne5eL/Nd42Y30h3jHK2fw6/7w
+         R/r+n8Z+QGRSMB0JsjJK6amny12trhFqnsqRI6ijLRfAiwVlF/IxAHi7BE7RvRMS4B1l
+         6uzrxfU8+JTLk194FUXS9OVHlRQfS9hKelpl+MHZmHwIS73+9Z2D9qKBJE3VSEVrtBn7
+         9QYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUBuTR/pWliqyAq2QIuF9ZulUFbOwKX5D3oeULqm/61HrxtK1XWqZKealwi1Qed+wXrJkgIzPZH9I1ab6K5WICuhh3NGziEU4O788KT0F838AHAvN3H1THWuNQ+6GY9Tv1cO3D6+L0T0cnBk83ynecJHX85h1lpwNXZkSyv8gNiKQLQAA==
+X-Gm-Message-State: AOJu0YyY/QVOlZad1VOOkPe28a3tquvxGPNM1LrCYLUOx2XQQ0O3Xrxf
+	OYn1twlca8IlymuoY9M6DDBbpcOOOv8wU84JyKN960hm5EOCt3jQ
+X-Google-Smtp-Source: AGHT+IHa3tmWcdaiXdb1wvbTrDNRAA3RlVMxEe8irj/3vOirRww0C4SAaF+FEdUJGS58+x7jb8P9sw==
+X-Received: by 2002:a17:906:a449:b0:a59:a0c1:b222 with SMTP id a640c23a62f3a-a59fb95d71dmr55407866b.39.1715131041187;
+        Tue, 07 May 2024 18:17:21 -0700 (PDT)
+Received: from andrea ([31.189.114.81])
+        by smtp.gmail.com with ESMTPSA id gc4-20020a170906c8c400b00a59b2c5003csm4304004ejb.23.2024.05.07.18.17.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 May 2024 18:17:20 -0700 (PDT)
+Date: Wed, 8 May 2024 03:17:15 +0200
+From: Andrea Parri <parri.andrea@gmail.com>
+To: Jonas Oberhauser <jonas.oberhauser@huaweicloud.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+	kernel-team@meta.com, mingo@kernel.org, will@kernel.org,
+	peterz@infradead.org, boqun.feng@gmail.com, npiggin@gmail.com,
+	dhowells@redhat.com, j.alglave@ucl.ac.uk, luc.maranget@inria.fr,
+	akiyks@gmail.com, Frederic Weisbecker <frederic@kernel.org>,
+	Daniel Lustig <dlustig@nvidia.com>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH memory-model 2/4] Documentation/litmus-tests: Demonstrate
+ unordered failing cmpxchg
+Message-ID: <ZjrSm119+IfIU9eU@andrea>
+References: <42a43181-a431-44bd-8aff-6b305f8111ba@paulmck-laptop>
+ <20240501232132.1785861-2-paulmck@kernel.org>
+ <c97f0529-5a8f-4a82-8e14-0078d4372bdc@huaweicloud.com>
+ <16381d02-cb70-4ae5-b24e-aa73afad9aed@huaweicloud.com>
+ <2a695f63-6c9a-4837-ac03-f0a5c63daaaf@paulmck-laptop>
+ <c168f56f-dfae-4cac-bc61-fc5a93ee3aed@rowland.harvard.edu>
+ <fd2369ed-1e84-4e44-ac80-cd316f8e7051@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: checkpatch doc suggestion
-To: Diederik de Haas <didi.debian@cknow.org>,
- Linux Documentation <linux-doc@vger.kernel.org>
-References: <8090211.0vHzs8tI1a@bagend> <ZjTe1STECXg2mmmJ@archie.me>
- <5571273.FuBcWSoPN1@bagend>
-Content-Language: en-US
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-In-Reply-To: <5571273.FuBcWSoPN1@bagend>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fd2369ed-1e84-4e44-ac80-cd316f8e7051@huaweicloud.com>
 
-On 5/6/24 20:59, Diederik de Haas wrote:
-> On Friday, 3 May 2024 14:55:49 CEST Bagas Sanjaya wrote:
->>> I think it would be really useful if (f.e.) the following URL
->>> https://docs.kernel.org/dev-tools/checkpatch.html#BAD_FIXES_TAG
->>>
->>> would lead me straight to the BAD_FIXES_TAG explanation.
->>
->> So to add link to arbitrary location in the docs, you have to explicitly add
->> target (anchor) to desired location. Then you can reference it using the
->> target's name. For example, to accomplish your suggestion above:
+> > Don't the annotations in linux-kernel.def and linux-kernel.bell (like
+> > "noreturn") already make this explicit?
 > 
-> Thanks for that hint as I indeed didn't know how to add anchors in .rst files.
->
- 
-OK, thanks!
+> Not that I'm aware. All I can see there is that according to .bell RMW don't
+> have an mb mode, but according to .def they do.
+> 
+> How this mb disappears between parsing the code (.def) and interpreting it
+> (.bell) is totally implicit. Including how noreturn affects this
+> disappeareance.
 
--- 
-An old man doll... just what I always wanted! - Clara
+IIRC, that's more or less implicit  ;-) in the herd macros of the .def file;
+for example,
 
+
+  (noreturn)
+
+  - atomic_add(V,X) { __atomic_op(X,+,V); }
+
+    Generates a pair of R*[noreturn] and W*[once] events
+
+
+  (w/ return)
+
+  - atomic_add_return_relaxed(V,X) __atomic_op_return{once}(X,+,V)
+
+    Generates a pair of R*[once] and W*[once] events
+
+  - atomic_add_return_acquire(V,X) __atomic_op_return{acquire}(X,+,V)
+
+    Generates a pair of R*[acquire] and W*[once] events
+
+  - atomic_add_return_release(V,X) __atomic_op_return{acquire}(X,+,V)
+
+    Generates a pair of R*[once] and W*[release] events
+
+  - atomic_add_return(V,X) __atomic_op_return{mb}(X,+,V)
+
+    Generates a pair of R*[once] and W*[once] events plus two F[mb] events
+
+
+  (possibly failing)
+
+  - atomic_cmpxchg_relaxed(X,V,W) __cmpxchg{once}(X,V,W)
+
+    Generates a pair of R*[once] and W*[once] events if successful;
+    a single R*[once] event otherwise.
+
+  - atomic_cmpxchg_acquire(X,V,W) __cmpxchg{acquire}(X,V,W)
+
+    Generates a pair of R*[acquire] and W*[once] events if successful;
+    a single R*[once] event otherwise.
+
+  - atomic_cmpxchg_release(X,V,W) __cmpxchg{release}(X,V,W)
+
+    Generates a pair of R*[once] and W*[release] events if successful;
+    a single R*[once] event otherwise.
+
+  - atomic_cmpxchg(X,V,W) __cmpxchg{mb}(X,V,W)
+
+    Generates a pair of R*[once] and W*[once] events plus two F[mb] events
+    if successful; a single R*[once] event otherwise.
+
+
+The line
+
+  instructions RMW[{'once,'acquire,'release}]
+
+in the .bell file seems to be effectively redundant (perhaps a LISA backward
+-compatibility?): consider
+
+  $ cat rmw.litmus
+  C rmw
+    
+  {}
+    
+  P0(atomic_t *x)
+  {
+	int r0;
+
+	r0 = atomic_inc_return_release(x);
+  }
+
+  exists (x=1)
+
+Some experiments:
+
+  - Upon removing 'release from "(instructions) RMW"
+
+    $ herd7 -conf linux-kernel.cfg rmw.litmus 
+    Test rmw Allowed
+    States 1
+    [x]=1;
+    Ok
+    Witnesses
+    Positive: 1 Negative: 0
+    Condition exists ([x]=1)
+    Observation rmw Always 1 0
+    Time rmw 0.00
+    Hash=3a2dd354c250206d993d31f05f3f595c
+
+  - Upon restoring 'release in RMW and removing it from W
+
+    $ herd7 -conf linux-kernel.cfg rmw.litmus 
+    Test rmw Allowed
+    States 1
+    [x]=1;
+    Ok
+    Witnesses
+    Positive: 1 Negative: 0
+    Condition exists ([x]=1)
+    Observation rmw Always 1 0
+    Time rmw 0.00
+    Hash=3a2dd354c250206d993d31f05f3f595c
+
+  - Upon removing 'release from both W and RMW
+
+    $ herd7 -conf linux-kernel.cfg rmw.litmus (herd complains... )
+    File "./linux-kernel.bell", line 76, characters 32-39: unbound var: Release
+
+But I'd have to defer to Luc/Jade about herd internals and/or recommended style
+on this matter.
+
+  Andrea
