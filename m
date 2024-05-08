@@ -1,366 +1,639 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE4252F86;
-	Wed,  8 May 2024 08:23:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 947AC75803;
+	Wed,  8 May 2024 09:43:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715156642; cv=none; b=WGEfKEI3UzTIph+19BGuBWEX5nPbmZOb0I9SIU27TKf2/eY7GmurMWsECB9KqEgcjvUuQ8OH0rnBzEMDmWGsAhJH3+qM1k3sYM2CTaHy5j20ZFyAx8ur9DnrGwMojMIeV2BkpGovGDrTcgJnjlTa9venBQ/yUbHwY3ykJNsJCGU=
+	t=1715161400; cv=none; b=Bqv8MV3uIcxmi8PN2HU4ep0LPxg/kyPZc850BgYkOC6Iqmwd49phZOtJU6vbvfvL/nqd4U0qmQBX2ZnYMIs+Ii3fz6On7J6n+Tx3cNvjaXXDLm9GnI35fmGW6ccAco0QqXCtDOEroFNZ+Sm/iLlX2Dv94Xwp2clqfO25rfS1sks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715156642; c=relaxed/simple;
-	bh=mpJMJiFgL29condaFoFct70ooxm4gcroDqJ7evmuU1Q=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=kT383DC/+aTBqKqnGqSVWJdIkOLzsCuF6Fm+wwA1Js28IGkRkXe+BisuaCzBemdt7eIomMfQUlI651yZOJnRTbP7t1BBRkZybBYNa1zC91jj5f3sV98MZ6UxlJhvDnHQ9Lg0vH3St2MeOlc7eu3n7V5P5CKN3Zz973DhetyTsys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HA7Ydd3f; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1715161400; c=relaxed/simple;
+	bh=ARhtpo8Jmx37/QbwR78hdvenhm1/JHnfsdvXDDIGO6c=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=hbdTPBI1lrajhD53ZJjWByRmmmDatd7Wg+ULtfyGiqEaT2t70mwvim8UREoAHy0awJ9ANH3IYfSwouHGNBL3YBS8A7nTr3jxbmGdtTJxSOKlqaFlDysVtkOso3MlZEQ8Yo+FmMtHlxZqcxZYW5CzJ93aThW3UNQVV/M2/77/nZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=wz4e9Iw1; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1im8+bRk; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HA7Ydd3f"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715156640; x=1746692640;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=mpJMJiFgL29condaFoFct70ooxm4gcroDqJ7evmuU1Q=;
-  b=HA7Ydd3fUHgr/1upXvnvx+2xkOIG9YiTHYOlK2wj/AieGPIhpkIHdG3t
-   I7lD14F6IRiebuAe1tEF7YBcVk3KD4UZO+8zoern5dpHyDaAA3JxMz8wo
-   FzYDpJgc4mzaFoQJikSF1453q6gB7Wx11mi1eDdZPrRqiT4FkpWfCzBWB
-   fXRqvt91EJ9VzMOBx+GwtuxWfn8zDUiBT+1KS5nLnerkgdT19HjmDUgbr
-   5AjaCZp+uWmMP2VsHcx8SNeetCCuGf21d9PHQk8HNRXwDWk3aPO3ppRO9
-   VxdQzLcfERxXErCu7S9LCfJzbMsKOzN5alKeFW/JmIXBKAEQqY9gbiGAJ
-   A==;
-X-CSE-ConnectionGUID: 95mBBDA3RYmWRBBoCcE8uQ==
-X-CSE-MsgGUID: hHHqQiIfQ4yyC1YLbmX6OQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11066"; a="22154732"
-X-IronPort-AV: E=Sophos;i="6.08,144,1712646000"; 
-   d="scan'208";a="22154732"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 01:24:00 -0700
-X-CSE-ConnectionGUID: IOeDcwVmRcWGeF7CEoDBiQ==
-X-CSE-MsgGUID: zU58sGYtTUqlwP90I9IEPg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,144,1712646000"; 
-   d="scan'208";a="52021470"
-Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.245.247.80])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2024 01:23:56 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Wed, 8 May 2024 11:23:51 +0300 (EEST)
-To: "David E. Box" <david.e.box@linux.intel.com>
-cc: linux-doc@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>, 
-    LKML <linux-kernel@vger.kernel.org>, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH V2 1/3] platform/x86/intel/sdsi: Add ioctl SPDM
- transport
-In-Reply-To: <20240507180106.5218-1-david.e.box@linux.intel.com>
-Message-ID: <462e6bef-d8fc-16e2-ad8d-7fb18e9a011a@linux.intel.com>
-References: <20240507180106.5218-1-david.e.box@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="wz4e9Iw1";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1im8+bRk"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1715161395;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VprUFeKX/HznPHuWilhPGErbZk95Xg8FX1vIXsoDuLA=;
+	b=wz4e9Iw1x59+8YDdk0VmJyh2X5frQd6HaTTt3IL9/qZO7qXS5ZX7ie8E7wzv7YsUnn98iy
+	qvIP37sXHHsEOhj9/XWHfOCA6wbQc03Q/y24sXan1Kbnf4epwclmowY6Hyy9t3kJfC6lU7
+	68+jOmFRewYhSr7NK7/uMgQ+0Wrx7icKe8ndODHmncqKl1BWaXUf63ps3csMpRIUduhjzB
+	J0yt1HVwMcNf2mgJPz4JcsgaRRumpqxzfkxAMAbRiBb+U6zXaZ7NxmIEVtfNBc/RziK/Yp
+	+FriqN2shkpM/7x+SpjBoTpyd2M8oOIPv2BrfcHDw4GI0zuh7sFzeXj7AJI8qA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1715161395;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VprUFeKX/HznPHuWilhPGErbZk95Xg8FX1vIXsoDuLA=;
+	b=1im8+bRkhkxb6649oVjaN6OiJpQhNiyYO7Q6N74UeHpn63IJFWL0w3U5c3AVaf8fn/g5+S
+	4cN4bcQZGwJ3VABQ==
+To: Tianyang Zhang <zhangtianyang@loongson.cn>, chenhuacai@kernel.org,
+ kernel@xen0n.name, jiaxun.yang@flygoat.com, gaoliang@loongson.cn,
+ wangliupu@loongson.cn, lvjianmin@loongson.cn, zhangtianyang@loongson.cn,
+ yijun@loongson.cn, mhocko@suse.com, akpm@linux-foundation.org,
+ dianders@chromium.org, maobibo@loongson.cn, xry111@xry111.site,
+ zhaotianrui@loongson.cn, nathan@kernel.org, yangtiezhu@loongson.cn,
+ zhoubinbin@loongson.cn
+Cc: loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] Loongarch:Support loongarch avec
+In-Reply-To: <20240507125953.9117-1-zhangtianyang@loongson.cn>
+References: <20240507125953.9117-1-zhangtianyang@loongson.cn>
+Date: Wed, 08 May 2024 11:43:15 +0200
+Message-ID: <87a5l0prkc.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain
 
-On Tue, 7 May 2024, David E. Box wrote:
+On Tue, May 07 2024 at 20:59, Tianyang Zhang wrote:
+> From: zhangtianyang <zhangtianyang@loongson.cn>
 
-> Intel On Demand adds attestation and firmware measurement retrieval
-> services through use of the protocols defined the Security Protocols and
-> Data Measurement (SPDM) specification. SPDM messages exchanges are used to
-> authenticate On Demand hardware and to retrieve signed measurements of the
-> NVRAM state used to track feature provisioning and the NVRAM state used for
-> metering services. These allow software to verify the authenticity of the
-> On Demand hardware as well as the integrity of the reported silicon
-> configuration.
-> 
-> Add an ioctl interface for sending SPDM messages through the On Demand
-> mailbox. Provides commands to get a list of SPDM enabled devices, get the
-> message size limits for SPDM Requesters and Responders, and perform an SPDM
-> message exchange.
-> 
-> Signed-off-by: David E. Box <david.e.box@linux.intel.com>
-> Link: https://www.dmtf.org/sites/default/files/standards/documents/DSP0274_1.0.1.pdf [1]
-> ---
-> V2
->    - Move size < 4 check into sdsi_spdm_exchange() and add comment
->      clarifying return values of that function.
->    - Use SZ_4K and add helpers
->    - Use devm_kasprintf()
->    - Remove unnecessary parens
->    - Use --attest for long option
-> 
->  .../userspace-api/ioctl/ioctl-number.rst      |   1 +
->  MAINTAINERS                                   |   1 +
->  drivers/platform/x86/intel/sdsi.c             | 210 +++++++++++++++++-
->  include/uapi/linux/intel_sdsi.h               |  81 +++++++
->  4 files changed, 292 insertions(+), 1 deletion(-)
->  create mode 100644 include/uapi/linux/intel_sdsi.h
-> 
-> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> index c472423412bf..20dcc2dbcaf6 100644
-> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> @@ -382,6 +382,7 @@ Code  Seq#    Include File                                           Comments
->                                                                       <mailto:mathieu.desnoyers@efficios.com>
->  0xF8  all    arch/x86/include/uapi/asm/amd_hsmp.h                    AMD HSMP EPYC system management interface driver
->                                                                       <mailto:nchatrad@amd.com>
-> +0xFC  all    linux/intel_sdsi.h
->  0xFD  all    linux/dm-ioctl.h
->  0xFE  all    linux/isst_if.h
->  ====  =====  ======================================================= ================================================================
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 846187625552..060bd3358cec 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -11165,6 +11165,7 @@ INTEL SDSI DRIVER
->  M:	David E. Box <david.e.box@linux.intel.com>
->  S:	Supported
->  F:	drivers/platform/x86/intel/sdsi.c
-> +F:	include/uapi/linux/intel_sdsi.h
->  F:	tools/arch/x86/intel_sdsi/
->  F:	tools/testing/selftests/drivers/sdsi/
->  
-> diff --git a/drivers/platform/x86/intel/sdsi.c b/drivers/platform/x86/intel/sdsi.c
-> index 277e4f4b20ac..686dd9e4e026 100644
-> --- a/drivers/platform/x86/intel/sdsi.c
-> +++ b/drivers/platform/x86/intel/sdsi.c
-> @@ -11,9 +11,12 @@
->  #include <linux/auxiliary_bus.h>
->  #include <linux/bits.h>
->  #include <linux/bitfield.h>
-> +#include <linux/cleanup.h>
->  #include <linux/device.h>
->  #include <linux/iopoll.h>
-> +#include <linux/intel_sdsi.h>
->  #include <linux/kernel.h>
-> +#include <linux/miscdevice.h>
->  #include <linux/module.h>
->  #include <linux/overflow.h>
->  #include <linux/pci.h>
-> @@ -42,6 +45,7 @@
->  
->  #define SDSI_ENABLED_FEATURES_OFFSET	16
->  #define SDSI_FEATURE_SDSI		BIT(3)
-> +#define SDSI_FEATURE_ATTESTATION	BIT(12)
->  #define SDSI_FEATURE_METERING		BIT(26)
->  
->  #define SDSI_SOCKET_ID_OFFSET		64
-> @@ -91,6 +95,7 @@ enum sdsi_command {
->  	SDSI_CMD_PROVISION_CAP		= 0x0008,
->  	SDSI_CMD_READ_STATE		= 0x0010,
->  	SDSI_CMD_READ_METER		= 0x0014,
-> +	SDSI_CMD_ATTESTATION		= 0x1012,
->  };
->  
->  struct sdsi_mbox_info {
-> @@ -109,12 +114,14 @@ struct disc_table {
->  struct sdsi_priv {
->  	struct mutex		mb_lock;	/* Mailbox access lock */
->  	struct device		*dev;
-> +	struct miscdevice	miscdev;
->  	void __iomem		*control_addr;
->  	void __iomem		*mbox_addr;
->  	void __iomem		*regs_addr;
->  	int			control_size;
->  	int			maibox_size;
->  	int			registers_size;
-> +	int			id;
->  	u32			guid;
->  	u32			features;
->  };
-> @@ -582,6 +589,97 @@ static const struct attribute_group sdsi_group = {
->  };
->  __ATTRIBUTE_GROUPS(sdsi);
->  
-> +/*
-> + * SPDM transport
-> + * Returns size of the response message or an error code on failure.
-> + */
-> +static int sdsi_spdm_exchange(void *private, const void *request,
-> +			      size_t request_sz, void *response,
-> +			      size_t response_sz)
+Please use your real name for the From line.
+
+> +
+> +#include <linux/init.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/kernel.h>
+> +#include <linux/irq.h>
+> +#include <linux/irqchip.h>
+> +#include <linux/irqdomain.h>
+> +#include <linux/spinlock.h>
+> +#include <linux/msi.h>
+> +#include <linux/irqchip/chained_irq.h>
+> +#include <linux/cpuhotplug.h>
+> +#include <linux/radix-tree.h>
+
+Please put the includes in alphabethical order.
+
+> +#include <asm/loongarch.h>
+> +#include <asm/setup.h>
+> +
+> +static phys_addr_t msi_base_v2;
+> +
+> +typedef struct irq_data *irq_map_t[NR_VECTORS];
+
+No new pointless typedefs please.
+
+struct irq_map {
+	struct irq_data irqd[NR_VECTORS];
+};
+
+> +DECLARE_PER_CPU(irq_map_t, irq_map);
+
+What's this declaration for?
+
+> +DEFINE_PER_CPU(irq_map_t, irq_map) = {
+
+Why is this global and not static? 
+
+> +	[0 ... NR_VECTORS - 1] = NULL,
+
+No need to initialize to NULL. It's zeroed by default.
+
+> +};
+> +
+> +struct pending_list {
+> +	struct list_head head;
+> +	raw_spinlock_t	lock;
+> +};
+
+https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#struct-declarations-and-initializers
+
+> +DEFINE_PER_CPU(struct pending_list, pending_list);
+
+Why is this global?
+
+> +struct loongarch_avec_chip {
+> +	struct fwnode_handle	*fwnode;
+> +	struct irq_domain	*domain;
+> +	struct irq_matrix	*vector_matrix;
+> +	raw_spinlock_t		lock;
+> +} loongarch_avec;
+> +
+> +struct loongarch_avec_data {
+> +	struct list_head entry;
+> +	unsigned int cpu;
+> +	unsigned int vec;
+> +	unsigned int prev_cpu;
+> +	unsigned int prev_vec;
+> +};
+
+See link above.
+
+> +static int assign_irq_vector(struct irq_data *irqd, const struct cpumask *dest,
+> +		unsigned int *cpu, int *vector)
+
+Please read the line break section in the tip docomentation
+
 > +{
-> +	struct sdsi_priv *priv = private;
-> +	struct sdsi_mbox_info info = {};
-> +	size_t spdm_msg_size, size;
 > +	int ret;
 > +
-> +	/*
-> +	 * For the attestation command, the mailbox write size is the sum of:
-> +	 *     Size of the SPDM request payload, padded for qword alignment
-> +	 *     8 bytes for the mailbox command
-> +	 *     8 bytes for the actual (non-padded) size of the SPDM request
-> +	 */
-> +	if (request_sz > SDSI_SIZE_WRITE_MSG - 2 * sizeof(u64))
-> +		return -EOVERFLOW;
-> +
-> +	info.size = round_up(request_sz, sizeof(u64)) + 2 * sizeof(u64);
-> +
-> +	u64 *payload __free(kfree) = kzalloc(info.size, GFP_KERNEL);
-> +	if (!payload)
-> +		return -ENOMEM;
-> +
-> +	memcpy(payload, request, request_sz);
-> +
-> +	/* The non-padded SPDM payload size is the 2nd-to-last qword */
-> +	payload[(info.size / sizeof(u64)) - 2] = request_sz;
-> +
-> +	/* Attestation mailbox command is the last qword of payload buffer */
-> +	payload[(info.size / sizeof(u64)) - 1] = SDSI_CMD_ATTESTATION;
-> +
-> +	info.payload = payload;
-> +	info.buffer = response;
-> +
-> +	ret = mutex_lock_interruptible(&priv->mb_lock);
-> +	if (ret)
-> +		return ret;
-> +	ret = sdsi_mbox_write(priv, &info, &size);
-> +	mutex_unlock(&priv->mb_lock);
-> +
+> +	ret = irq_matrix_alloc(loongarch_avec.vector_matrix, dest, false, cpu);
 > +	if (ret < 0)
 > +		return ret;
-> +
-> +	/*
-> +	 * The read size is the sum of:
-> +	 *     Size of the SPDM response payload, padded for qword alignment
-> +	 *     8 bytes for the actual (non-padded) size of the SPDM payload
-> +	 */
-> +
-> +	if (size < sizeof(u64)) {
-> +		dev_err(priv->dev,
-> +			"Attestation error: Mailbox reply size, %ld, too small\n",
-> +			size);
-
-For size_t, %zu is the correct printf format. There are more of these 
-below but I won't mark them explicitly.
-
-> +		return -EPROTO;
-> +	}
-> +
-> +	if (!IS_ALIGNED(size, sizeof(u64))) {
-> +		dev_err(priv->dev,
-> +			"Attestation error: Mailbox reply size, %ld, is not aligned\n",
-> +			size);
-> +		return -EPROTO;
-> +	}
-> +
-> +	/*
-> +	 * Get the SPDM response size from the last QWORD and check it fits
-> +	 * with no more than 7 bytes of padding
-> +	 */
-> +	spdm_msg_size = ((u64 *)info.buffer)[(size - sizeof(u64)) / sizeof(u64)];
-> +	if (!in_range(size - spdm_msg_size - sizeof(u64), 0, 8)) {
-> +		dev_err(priv->dev,
-> +			"Attestation error: Invalid SPDM response size, %ld\n",
-> +			spdm_msg_size);
-> +		return -EPROTO;
-> +	}
-> +
-> +	if (spdm_msg_size > response_sz || spdm_msg_size < SPDM_HEADER_SIZE) {
-> +		dev_err(priv->dev, "Attestation error: Expected response size %ld, got %ld\n",
-> +			response_sz, spdm_msg_size);
-> +		return -EOVERFLOW;
-> +	}
-> +
-> +	memcpy(response, info.buffer, spdm_msg_size);
-> +
-> +	return spdm_msg_size;
-> +}
-> +
->  static int sdsi_get_layout(struct sdsi_priv *priv, struct disc_table *table)
->  {
->  	switch (table->guid) {
-> @@ -649,6 +747,92 @@ static int sdsi_map_mbox_registers(struct sdsi_priv *priv, struct pci_dev *paren
->  	return 0;
->  }
->  
-> +#define SDSI_SPDM_DRIVER_VERSION	1
-> +
-> +static int sdsi_spdm_get_info(struct sdsi_priv *priv,
-> +			      struct sdsi_spdm_info __user *argp)
-> +{
-> +	struct sdsi_spdm_info info;
-> +
-> +	info.driver_version = SDSI_SPDM_DRIVER_VERSION;
-> +	info.api_version = priv->guid;
-> +	info.dev_no = priv->id;
-> +	info.max_request_size = SDSI_SIZE_WRITE_MSG - 2 * sizeof(u64);
-> +	info.max_response_size = SDSI_SIZE_READ_MSG - sizeof(u64);
-> +
-> +	if (copy_to_user(argp, &info, sizeof(info)))
-> +		return -EFAULT;
+> +	*vector = ret;
 > +
 > +	return 0;
+
+Why not simply returning the result of irq_matrix_alloc() and checking
+it for negative value at the call site. If not negative then use it as
+vector. That spares the whole indirection and makes the code readable.
+
+> +static void loongarch_avec_sync(struct loongarch_avec_data *adata)
+> +{
+> +	struct loongarch_avec_data *data;
+> +	struct pending_list *plist;
+> +
+> +	if (cpu_online(adata->prev_cpu)) {
+> +		plist = per_cpu_ptr(&pending_list, adata->prev_cpu);
+> +
+> +		data = kmalloc(sizeof(struct loongarch_avec_data), GFP_KERNEL);
+
+This is called from loongarch_avec_set_affinity() with raw spinlocks
+held and interrupts disabled. So GFP_KERNEL cannot work. You clearly did
+not test that code with proper debug options enabled.
+
+But even GFP_ATOMIC won't work when you want to support PREEMPT_RT as
+that does not allow allocations in such contexts.
+
+Look how x86 solves exactly this problem without allocations required.
+
+> +		if (!data) {
+> +			pr_warn("NO space for clean data\n");
+> +			return;
+> +		}
+> +		memcpy(data, adata, sizeof(struct loongarch_avec_data));
+> +		INIT_LIST_HEAD(&data->entry);
+> +
+> +		list_add_tail(&data->entry, &plist->head);
+> +		loongson_send_ipi_single(adata->prev_cpu, SMP_CLEAR_VECT);
+> +	}
+> +	adata->prev_cpu = adata->cpu;
+> +	adata->prev_vec = adata->vec;
 > +}
 > +
-> +static int sdsi_spdm_do_command(struct sdsi_priv *priv,
-> +				struct sdsi_spdm_command __user *argp)
+> +static int loongarch_avec_set_affinity(struct irq_data *data,
+> +		const struct cpumask *dest, bool force)
 > +{
-> +	u32 req_size, rsp_size;
+> +	struct cpumask intersect_mask;
+
+No cpumasks on stack please. You can make that static as usage is always
+serialized via loongarch_avec.lock
+
+> +	struct loongarch_avec_data *adata;
+> +	unsigned int cpu, vector;
+> +	unsigned long flags;
+> +	int ret = 0;
 > +
-> +	if (get_user(req_size, &argp->size))
-> +		return -EFAULT;
+> +	raw_spin_lock_irqsave(&loongarch_avec.lock, flags);
+> +	adata = irq_data_get_irq_chip_data(data);
 > +
-> +	if (req_size < 4 || req_size > sizeof(struct sdsi_spdm_message))
+> +	if (adata->vec && cpu_online(adata->cpu)
+> +			&& cpumask_test_cpu(adata->cpu, dest)) {
+
+Please align the condition proper when you need a line break:
+
+	if (adata->vec && cpu_online(adata->cpu) &&
+	    cpumask_test_cpu(adata->cpu, dest)) {
+
+But you don't need a line break here because 
+
+	if (adata->vec && cpu_online(adata->cpu) && cpumask_test_cpu(adata->cpu, dest)) {
+
+fits into the 100 character line width limit.
+
+> +		raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
+> +		return 0;
+> +	}
+> +
+> +	if (!cpumask_intersects(dest, cpu_online_mask)) {
+> +		raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
 > +		return -EINVAL;
+> +	}
 > +
-> +	struct sdsi_spdm_message *request __free(kfree) =
-> +		kmalloc(req_size, GFP_KERNEL);
-> +	if (!request)
-> +		return -ENOMEM;
+> +	cpumask_and(&intersect_mask, dest, cpu_online_mask);
+
+The above intersect check is pointless as the matrix allocator already
+checks the cpumask and returns -EINVAL if empty.
+
 > +
-> +	struct sdsi_spdm_command *response __free(kfree) =
-> +		kmalloc(SDSI_SIZE_READ_MSG, GFP_KERNEL);
-> +	if (!response)
-> +		return -ENOMEM;
+> +	ret = assign_irq_vector(data, &intersect_mask, &cpu, &vector);
+> +	if (ret) {
+> +		raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
+> +		return ret;
+> +	}
+
+> +void complete_irq_moving(int *restart)
+
+What is the 'restart' argument for?
+
+> +{
+> +	struct pending_list *plist = this_cpu_ptr(&pending_list);
+> +	struct loongarch_avec_data *adata, *tmp;
+> +	int cpu, vector;
+> +	u32 bias;
+> +	u64 irr;
 > +
-> +	if (copy_from_user(request, &argp->message, req_size))
-> +		return -EFAULT;
+> +	raw_spin_lock(&loongarch_avec.lock);
 > +
-> +	rsp_size = sdsi_spdm_exchange(priv, request, req_size, response,
-> +				      SDSI_SIZE_READ_MSG);
-> +	if (rsp_size < 0)
-> +		return rsp_size;
+> +	list_for_each_entry_safe(adata, tmp, &plist->head, entry) {
 > +
-> +	if (put_user(rsp_size, &argp->size))
-> +		return -EFAULT;
+> +		cpu = adata->prev_cpu;
+> +		vector = adata->prev_vec;
+> +		bias = vector/64;
 > +
-> +	if (copy_to_user(&argp->message, response, rsp_size))
-> +		return -EFAULT;
+> +		switch (bias) {
+> +		case 0x0:
+> +			irr = csr_read64(LOONGARCH_CSR_IRR0);
+> +			break;
+> +		case 0x1:
+> +			irr = csr_read64(LOONGARCH_CSR_IRR1);
+> +			break;
+> +		case 0x2:
+> +			irr = csr_read64(LOONGARCH_CSR_IRR2);
+> +			break;
+> +		case 0x3:
+> +			irr = csr_read64(LOONGARCH_CSR_IRR3);
+> +			break;
+> +		default:
+> +			return;
+
+How can that happen ?
+
+> +		}
+
+                irr = csr_read64(LOONGARCH_CSR_IRR0 + vector / 64);
+
+should be good enough, no?
+
+Also please use a proper constant instead of '64', e.g. VECTORS_PER_IRR
+
 > +
+> +		if (irr & (1UL << (vector % 64))) {
+> +			loongson_send_ipi_single(cpu, SMP_CLEAR_VECT);
+
+So this sends an IPI to the current CPU. What guarantees that the
+pending interrupt is handled _before_ the IPI is handled again?
+
+> +			continue;
+> +		}
+> +		list_del(&adata->entry);
+> +		irq_matrix_free(loongarch_avec.vector_matrix, cpu, vector, false);
+> +		this_cpu_ptr(irq_map)[vector] = 0;
+
+s/0/NULL/ as this writes a pointer.
+
+                this_cpu_write(irq_map.irqd[vector], NULL);
+
+avoids the whole pointer indirection.
+
+> +		kfree(adata);
+
+Again this won't work with PREEMPT_RT.
+
+> +	}
+> +	raw_spin_unlock(&loongarch_avec.lock);
+> +}
+> +
+> +static void loongarch_avec_dispatch(struct irq_desc *desc)
+> +{
+> +	struct irq_chip *chip = irq_desc_get_chip(desc);
+> +	struct irq_data *d;
+> +	unsigned long vector;
+> +
+> +	chained_irq_enter(chip, desc);
+> +	vector = csr_read64(LOONGARCH_CSR_ILR);
+> +	if (vector & 0x80000000)
+
+No magic numbers. Please use proper constant defines.
+
+> +		return;
+> +
+> +	vector &= 0xff;
+
+Ditto.
+
+> +
+> +	d = raw_cpu_ptr(irq_map)[vector];
+
+Why raw?
+
+        d = __this_cpu_read(...);
+
+Also, what is the point of storing irqdata in the irq_map if the only
+thing you use is d->irq. You can simply store the interrupt number, no?
+
+If you want to spare cycles for the lookup, then you want to store the
+interrupt descriptor like x86 does.
+
+> +	if (d)
+> +		generic_handle_irq(d->irq);
+> +	else
+> +		pr_warn("IRQ ERROR:Unexpected irq  occur on cpu %d[vector %d]\n",
+> +				smp_processor_id(), vector);
+
+See bracket rules in the tip documentation.
+
+> +	chained_irq_exit(chip, desc);
+> +}
+> +
+> +static int loongarch_avec_alloc(struct irq_domain *domain, unsigned int virq,
+> +		unsigned int nr_irqs, void *arg)
+> +{
+> +	struct loongarch_avec_data *adata;
+> +	struct irq_data *irqd;
+> +	unsigned int cpu, vector;
+> +	unsigned long flags;
+> +	int i, err;
+
+See variable declaration rules in the tip documentation
+
+> +	raw_spin_lock_irqsave(&loongarch_avec.lock, flags);
+> +	for (i = 0; i < nr_irqs; i++) {
+> +		irqd = irq_domain_get_irq_data(domain, virq + i);
+> +		adata = kzalloc(sizeof(*adata), GFP_KERNEL);
+> +		if (!adata) {
+> +			raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
+> +			return -ENOMEM;
+> +		}
+> +		err = assign_irq_vector(irqd, cpu_online_mask, &cpu, &vector);
+> +		if (err) {
+> +			raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
+> +			return err;
+> +		}
+> +		adata->prev_cpu = adata->cpu = cpu;
+> +		adata->prev_vec = adata->vec = vector;
+> +
+> +		per_cpu_ptr(irq_map, adata->cpu)[adata->vec] = irqd;
+
+This needs to be set last, no?
+
+> +		irq_domain_set_info(domain, virq + i, virq, &loongarch_avec_controller,
+> +				adata, handle_edge_irq, NULL, NULL);
+> +		irqd_set_single_target(irqd);
+> +		irqd_set_affinity_on_activate(irqd);
+> +	}
+> +	raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
+> +
+> +	return err;
+> +}
+> +
+> +static void loongarch_avec_free(struct irq_domain *domain, unsigned int virq,
+> +		unsigned int nr_irqs)
+> +{
+> +	struct loongarch_avec_data *adata;
+> +	struct irq_data *d;
+> +	unsigned long flags;
+> +	unsigned int i;
+> +
+> +	raw_spin_lock_irqsave(&loongarch_avec.lock, flags);
+> +	for (i = 0; i < nr_irqs; i++) {
+> +		d = irq_domain_get_irq_data(domain, virq + i);
+> +		adata = irq_data_get_irq_chip_data(d);
+> +		if (d) {
+> +			irq_matrix_free(loongarch_avec.vector_matrix,
+> +					adata->cpu,
+> +					adata->vec, false);
+> +			irq_domain_reset_irq_data(d);
+> +		}
+
+What cleans up the irq_map and pending cleanups? There is a UAF waiting
+around the corner.
+
+> +	}
+> +
+> +	raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
+> +}
+
+> +static int __init loongarch_avec_init(struct irq_domain *parent)
+> +{
+> +	int ret = 0, parent_irq;
+> +	unsigned long tmp;
+> +
+> +	tmp = iocsr_read64(LOONGARCH_IOCSR_MISC_FUNC);
+> +	tmp |= IOCSR_MISC_FUNC_AVEC_EN;
+> +	iocsr_write64(tmp, LOONGARCH_IOCSR_MISC_FUNC);
+
+Enabling AVEC _before_ everything is set up is a patently bad idea.
+
+> +	raw_spin_lock_init(&loongarch_avec.lock);
+> +
+> +	loongarch_avec.fwnode = irq_domain_alloc_named_fwnode("CORE_AVEC");
+> +	if (!loongarch_avec.fwnode) {
+> +		pr_err("Unable to allocate domain handle\n");
+> +		ret = -ENOMEM;
+> +		goto out;
+> +	}
+> +
+> +	loongarch_avec.domain = irq_domain_create_tree(loongarch_avec.fwnode,
+> +			&loongarch_avec_domain_ops, NULL);
+> +	if (!loongarch_avec.domain) {
+> +		pr_err("core-vec: cannot create IRQ domain\n");
+> +		ret = -ENOMEM;
+> +		goto out_free_handle;
+> +	}
+> +
+> +	parent_irq = irq_create_mapping(parent, INT_AVEC);
+> +	if (!parent_irq) {
+> +		pr_err("Failed to mapping hwirq\n");
+> +		ret = -EINVAL;
+> +		goto out_remove_domain;
+> +	}
+> +	irq_set_chained_handler_and_data(parent_irq, loongarch_avec_dispatch, NULL);
+> +
+> +	ret = irq_matrix_init();
+> +	if (ret) {
+> +		pr_err("Failed to init irq matrix\n");
+> +		goto out_free_matrix;
+> +	}
+> +
+> +	return ret;
+> +
+> +out_free_matrix:
+> +	kfree(loongarch_avec.vector_matrix);
+> +out_remove_domain:
+> +	irq_domain_remove(loongarch_avec.domain);
+> +out_free_handle:
+> +	irq_domain_free_fwnode(loongarch_avec.fwnode);
+> +out:
+> +	return ret;
+> +}
+> +
+> +static int loongarch_avec_offline_cpu(unsigned int cpu)
+> +{
+> +	unsigned long flags;
+> +	struct pending_list *plist = per_cpu_ptr(&pending_list, cpu);
+> +
+> +	raw_spin_lock_irqsave(&loongarch_avec.lock, flags);
+> +	if (list_empty(&plist->head)) {
+> +		irq_matrix_offline(loongarch_avec.vector_matrix);
+> +	} else {
+> +		pr_warn("cpu %d advanced extioi is busy\n");
+> +		raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
+> +		return -EBUSY;
+> +	}
+> +	raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
 > +	return 0;
 > +}
 > +
-> +static long sdsi_spdm_ioctl(struct file *file, unsigned int cmd,
-> +			    unsigned long arg)
+> +static int loongarch_avec_online_cpu(unsigned int cpu)
 > +{
-> +	struct sdsi_priv *priv;
-> +	long ret = -ENOTTY;
+> +	struct pending_list *plist = per_cpu_ptr(&pending_list, cpu);
+> +	unsigned long flags;
 > +
-> +	priv = container_of(file->private_data, struct sdsi_priv, miscdev);
+> +	raw_spin_lock_irqsave(&loongarch_avec.lock, flags);
 > +
-> +	switch (cmd) {
-> +	case SDSI_IF_SPDM_INFO:
-> +		ret = sdsi_spdm_get_info(priv,
-> +				(struct sdsi_spdm_info __user *)arg);
-> +		break;
-> +	case SDSI_IF_SPDM_COMMAND:
-> +		ret = sdsi_spdm_do_command(priv,
-> +				(struct sdsi_spdm_command __user *)arg);
+> +	irq_matrix_online(loongarch_avec.vector_matrix);
+> +
+> +	INIT_LIST_HEAD(&plist->head);
+> +
+> +	raw_spin_unlock_irqrestore(&loongarch_avec.lock, flags);
+> +	return 0;
+> +}
+> +#if defined(CONFIG_ACPI)
 
-You can return directly.
+Missing newline before #if and also please use #ifdef CONFIG_ACPI
 
-> +		break;
-> +	default:
-> +		break;
+> +static int __init pch_msi_parse_madt(union acpi_subtable_headers *header,
+> +		const unsigned long end)
+> +{
+> +	struct acpi_madt_msi_pic *pchmsi_entry = (struct acpi_madt_msi_pic *)header;
+> +
+> +	msi_base_v2 = pchmsi_entry->msg_address;
+> +	return pch_msi_acpi_init_v2(loongarch_avec.domain, pchmsi_entry);
+> +}
+> +
+> +static inline int __init acpi_cascade_irqdomain_init(void)
+> +{
+> +	return acpi_table_parse_madt(ACPI_MADT_TYPE_MSI_PIC, pch_msi_parse_madt, 1);
+> +}
+> +
+> +int __init loongarch_avec_acpi_init(struct irq_domain *parent)
+> +{
+> +	int ret = 0;
+> +
+> +	ret = loongarch_avec_init(parent);
+> +	if (ret) {
+> +		pr_err("Failed to init irq domain\n");
+> +		return ret;
+> +	}
+> +
+> +	ret = acpi_cascade_irqdomain_init();
+> +	if (ret) {
+> +		pr_err("Failed to cascade IRQ domain\n");
+> +		return ret;
+> +	}
+> +
+> +	ret = cpuhp_setup_state_nocalls(CPUHP_AP_ONLINE_DYN,
+> +			"loongarch_avec:online",
+> +			loongarch_avec_online_cpu, loongarch_avec_offline_cpu);
+
+You cannot online/offline the matrix and handle eventually pending
+cleanups from a CPUHP_AP_ONLINE_DYN state. That needs to happen in the
+STARTING section between CPUHP_AP_OFFLINE and CPUHP_AP_ONLINE
+
+> +	if (ret < 0) {
+> +		pr_err("loongarch_avec: failed to register hotplug callbacks.\n");
+> +		return ret;
 > +	}
 > +
 > +	return ret;
 
-return -ENOTTY;
+So if CONFIG_ACPI is disabled then loongarch_avec_init() is unused and
+results in a defined but not used build warning...
 
-and remove the ret variable entirely.
+> diff --git a/drivers/irqchip/irq-loongson-pch-msi.c b/drivers/irqchip/irq-loongson-pch-msi.c
+> index 6e1e1f011bb2..d1706080b4f4 100644
+> --- a/drivers/irqchip/irq-loongson-pch-msi.c
+> +++ b/drivers/irqchip/irq-loongson-pch-msi.c
+> @@ -16,7 +16,6 @@
+>  #include <linux/slab.h>
+>  
+>  static int nr_pics;
+> -
+>  struct pch_msi_data {
+>  	struct mutex	msi_map_lock;
+>  	phys_addr_t	doorbell;
+> @@ -100,6 +99,17 @@ static struct irq_chip middle_irq_chip = {
+>  	.irq_compose_msi_msg	= pch_msi_compose_msi_msg,
+>  };
+>  
+> +static struct irq_chip pch_msi_irq_chip_v2 = {
+> +	.name			= "MSI",
+> +	.irq_ack		= irq_chip_ack_parent,
+> +};
+> +
+> +static struct msi_domain_info pch_msi_domain_info_v2 = {
+> +	.flags		= MSI_FLAG_USE_DEF_DOM_OPS | MSI_FLAG_USE_DEF_CHIP_OPS |
+> +			MSI_FLAG_MULTI_PCI_MSI | MSI_FLAG_PCI_MSIX,
+> +	.chip	= &pch_msi_irq_chip_v2,
+> +};
+> +
+>  static int pch_msi_parent_domain_alloc(struct irq_domain *domain,
+>  					unsigned int virq, int hwirq)
+>  {
+> @@ -268,6 +278,9 @@ struct fwnode_handle *get_pch_msi_handle(int pci_segment)
+>  {
+>  	int i;
+>  
+> +	if (cpu_has_avecint)
+> +		return pch_msi_handle[0];
+> +
+>  	for (i = 0; i < MAX_IO_PICS; i++) {
+>  		if (msi_group[i].pci_segment == pci_segment)
+>  			return pch_msi_handle[i];
+> @@ -289,4 +302,34 @@ int __init pch_msi_acpi_init(struct irq_domain *parent,
+>  
+>  	return ret;
+>  }
+> +
+> +int __init pch_msi_acpi_init_v2(struct irq_domain *parent,
+> +		struct acpi_madt_msi_pic *msi_entry)
+> +{
+> +	struct irq_domain *msi_domain;
+> +
+> +	if (pch_msi_handle[0])
+> +		return 0;
+> +
+> +	pch_msi_handle[0] = irq_domain_alloc_named_fwnode("msipic-v2");
+> +	if (!pch_msi_handle[0]) {
+> +		pr_err("Unable to allocate domain handle\n");
+> +		kfree(pch_msi_handle[0]);
+> +		return -ENOMEM;
+> +	}
+> +
+> +	msi_domain = pci_msi_create_irq_domain(pch_msi_handle[0],
+> +			&pch_msi_domain_info_v2,
+> +			parent);
+> +	if (!msi_domain) {
+> +		pr_err("Failed to create PCI MSI domain\n");
+> +		kfree(pch_msi_handle[0]);
+> +		return -ENOMEM;
+> +	}
+> +
+> +	pr_info("IRQ domain MSIPIC-V2 init done.\n");
+> +	return 0;
+> +}
+> +
+> +
 
+Stray newlines. But as with the other CONFIG_ACPI part above a build
+with CONFIG_ACPI=n will result in defined but not used warnings ....
 
--- 
- i.
+Thanks,
 
+        tglx
