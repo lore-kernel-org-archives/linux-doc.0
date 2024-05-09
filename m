@@ -1,225 +1,119 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A4A11474DF;
-	Thu,  9 May 2024 13:05:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=68.232.154.123
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715259908; cv=fail; b=VNc/u/FnAndWOcKIbXoE2J36RLnWYJNUvVGVubVamsUF+EbfCwqIMkgkqxXMFkHWHDjx7r/wMXkEeGdlj7F1eoAW02HD0veCOIGNEJ3K+LvHBUOVR60fHCqU4THCceFTALfifbVwmF7AOnsjJ1VhEAvYE6MIdFjogF4MxdtKkng=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715259908; c=relaxed/simple;
-	bh=9ai78xD0vWvoiE4YsiSWIO23h6G1WQ1tyfVEX4F5TsM=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=nKH2de1zD+M1ZlYJYU4/zLJJ5aEOwXzNbM7LF+qIN5iqp9IRMJaM0HFUC+Br8yRxShdgYOryfsihPdEfNqL4a6hEeQJ63Oas7ho0U0sIimpkgSmtaDzixJ+Sh+dAss0i60qmLIMZ2CRK1v7GgUqs0WGJkwMaWSVX1k0l/AWbOWc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=tjPMtRV7; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=XjK8Xo/R; arc=fail smtp.client-ip=68.232.154.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C7115253E
+	for <linux-doc@vger.kernel.org>; Thu,  9 May 2024 13:31:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715261472; cv=none; b=dwwSoKASKPy2aXAeuxJ/tv6R0h7Sv3/JqjC55gqg34UtV+VTy21q5RtuALYlEQzjieMEhstv6twgjkCV7m+NdaP75TFgZqD6kZQCn0SiVvTVSqg1ubHGQYKtTSf638niFI/WtWIHo8X3GRJjI4LGIRKUOgc70jFmW6YzPnh0W7U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715261472; c=relaxed/simple;
+	bh=m2zEtruGkvxujMPhBXY7kQd55f5ocV/KfUBbo1KLpSg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=iZ6b0xzGRk7Mtuf58KCxnEtxD6U93/FompXGwLldiS1xOreisEcqVHlgTfZ36D/tj6gl4VsBQCvNRZ/VzBmiB/4eemjd/BGQq7ufkjHqpqsHRcBYQCEKZTmrnBUA7EIBqrcX2b9Pv5NyOOduCMC47eDZjZd+q262JXdgd8K7tV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wyuA16OA; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="tjPMtRV7";
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="XjK8Xo/R"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1715259906; x=1746795906;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=9ai78xD0vWvoiE4YsiSWIO23h6G1WQ1tyfVEX4F5TsM=;
-  b=tjPMtRV77jZ6Fvj96qaBCw8t4xRTyWjF9GKO7vvNR7Zk9eFmXRuaM7pC
-   GwqJgL7mJvhuKN4FX6We9yl57FWgoDzBkX7TyA1z0bnHdvO5+0hqSLjSf
-   qhLlWGZcr+mQ6L9L8iGuzAWCzK/YJAh988u7/PiV06L6ZFNU7842PwdVs
-   8rfBAjSyufacTIxsCg24x24HOjHGOd6oWIrI3HI7JkAJoS6EoI8naskyR
-   jNO5ssY2JtJVCRWT7GmS0oiIsKPdL+g5KYu47g/qharPAzHmlfAkUsk6i
-   Q25MJkB+lhZnDslhQqwdf3J1kH+6Rz0ZL+h8OLBj6eMbBQaqTQt0u4ejg
-   A==;
-X-CSE-ConnectionGUID: NqNpd8CbSZKuA6Eii+8kKA==
-X-CSE-MsgGUID: xGNUA2t7RReu2+yWjU8i6w==
-X-IronPort-AV: E=Sophos;i="6.08,147,1712646000"; 
-   d="scan'208";a="191640020"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 09 May 2024 06:05:04 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 9 May 2024 06:04:55 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (10.10.215.250)
- by email.microchip.com (10.10.87.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Thu, 9 May 2024 06:04:55 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TFIQlRUIGpIFIfAvNJP472XEMkA1/5q6ZuCUyiqSMDGtQ6/c01SGna7g97crlfJBpH94qkyAvwz+S8irMYRYZ8AeUAcqfbk0e2gWYiFIYqbcoKL8NbBouEnFvoTsrdNAvg5iq+f7z9QxIHBkskrFo2kWA+7k1ZQi3/5BuXd2QDR0j3JACHEIzTMXC95NEwhLVVJ0rr3T2YETvIwQoX6mn3ga3QyH+DXkoA7d9RYsw7/HcSHljjY/wyKqvHuCXNha5G0LArzwEfHz/8BgQXn7UmaDakMnXSmkPTNezcdhhYrL98P66GfL6jNeZ+SFdYqWwqx2V7YUGWD8VvFT9uAr9w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9ai78xD0vWvoiE4YsiSWIO23h6G1WQ1tyfVEX4F5TsM=;
- b=WSxxeb/rLWW4uhUtNkw7tboDJi2/D+zLVKlNcsmL+IDMhmnW3daaMMnengpIbGel1F2lcQkka6lGyT81tBpKEEtlR4i8aMjx2fhcJ090l5OZtv3I2E5ngMkf7Y8vMSQkObRRZI0qu0opJQ4fCzq+2+BtWsWulBGQ0X3Ep25z3YnCQcMIqfZtOgEVwNA42Xm7D26ZV2nk+DeckQZW7659ndDys97DyJmAPfUzZf1D52LPxgL9FV+egHUWS/lLJphZgSeU+ezsTHrkBBGYo5i/YzAOf/UFhJWvVh8/nlGPuEST8Xq8g1k855P3NPcGiIKUbLvbB47TdGo8vo2N0lUkyQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microchip.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9ai78xD0vWvoiE4YsiSWIO23h6G1WQ1tyfVEX4F5TsM=;
- b=XjK8Xo/RJZh58CZaLuuF2dZDiE39E6YvZLVZHfFsL3bEVA6G/0xz7kUxJydC8yPM7otvflmSwCRET28jczv3Y6EN7uK4LcP6WDssMBKCMeOCo/mdXZ8L+P57eZ0+b9QVn/9zFn5UsjrXwMwHHMV5ksVfzql9/leGoU+uRsmc1ZZXnYy3JR4gG8cAif3WlLtPVk0v2yeId9MwsdK0jA6JO7XILnNIYvGqMGjLQlYcm/05DsF6Yh956xrsCvUlSXn3eTk+R2N1IsOif9jVGRqRfqs819eIruUkSJO/p+/E+Aw8Mnd+P92BcFTeMMV+s1DiU0KCPCjJwRs6DOAwkI1RcA==
-Received: from SA1PR11MB8278.namprd11.prod.outlook.com (2603:10b6:806:25b::19)
- by IA0PR11MB7403.namprd11.prod.outlook.com (2603:10b6:208:431::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.47; Thu, 9 May
- 2024 13:04:52 +0000
-Received: from SA1PR11MB8278.namprd11.prod.outlook.com
- ([fe80::84fa:e267:e389:fa9]) by SA1PR11MB8278.namprd11.prod.outlook.com
- ([fe80::84fa:e267:e389:fa9%4]) with mapi id 15.20.7544.045; Thu, 9 May 2024
- 13:04:52 +0000
-From: <Parthiban.Veerasooran@microchip.com>
-To: <andrew@lunn.ch>
-CC: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-	<pabeni@redhat.com>, <horms@kernel.org>, <saeedm@nvidia.com>,
-	<anthony.l.nguyen@intel.com>, <netdev@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <corbet@lwn.net>,
-	<linux-doc@vger.kernel.org>, <robh+dt@kernel.org>,
-	<krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-	<devicetree@vger.kernel.org>, <Horatiu.Vultur@microchip.com>,
-	<ruanjinjie@huawei.com>, <Steen.Hegelund@microchip.com>,
-	<vladimir.oltean@nxp.com>, <UNGLinuxDriver@microchip.com>,
-	<Thorsten.Kummermehr@microchip.com>, <Pier.Beruto@onsemi.com>,
-	<Selvamani.Rajagopal@onsemi.com>, <Nicolas.Ferre@microchip.com>,
-	<benjamin.bigler@bernformulastudent.ch>
-Subject: Re: [PATCH net-next v4 00/12] Add support for OPEN Alliance
- 10BASE-T1x MACPHY Serial Interface
-Thread-Topic: [PATCH net-next v4 00/12] Add support for OPEN Alliance
- 10BASE-T1x MACPHY Serial Interface
-Thread-Index: AQHakY/2Zb5TFJZ12UCHjfgce9+PGrF0voeAgAA2YoCAGHimAIAAQu0AgAFPUYA=
-Date: Thu, 9 May 2024 13:04:52 +0000
-Message-ID: <8b9f8c10-e6bf-47df-ad83-eaf2590d8625@microchip.com>
-References: <20240418125648.372526-1-Parthiban.Veerasooran@microchip.com>
- <5f73edc0-1a25-4d03-be21-5b1aa9e933b2@lunn.ch>
- <32160a96-c031-4e5a-bf32-fd5d4dee727e@lunn.ch>
- <2d9f523b-99b7-485d-a20a-80d071226ac9@microchip.com>
- <6ba7e1c8-5f89-4a0e-931f-3c117ccc7558@lunn.ch>
-In-Reply-To: <6ba7e1c8-5f89-4a0e-931f-3c117ccc7558@lunn.ch>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA1PR11MB8278:EE_|IA0PR11MB7403:EE_
-x-ms-office365-filtering-correlation-id: 2ab92102-b8df-431c-9c2a-08dc70289d8f
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230031|366007|7416005|376005|1800799015|38070700009;
-x-microsoft-antispam-message-info: =?utf-8?B?d01PQjdna2RwajNXRkYxRFd0QmI3c3JFOFdHbURiVEZWcGRVVEZlbXhOcnVv?=
- =?utf-8?B?WGZhL0ZiTi96Y0tYOWlrYVN0bW5xYUhTTVpSczcveXV3UlU1RjhuMWhidGt6?=
- =?utf-8?B?aFBXNHJjNlJWbk9aVjlLUjdBME5CblpQWVhaM3VpYW81dEcvVFFEZ3FPRUow?=
- =?utf-8?B?Tm94YXhPdXdrMlpBRXd6ODd3Qy9rU3NwWklqSEo0bXRHL2xtUUM3ajB2Rnls?=
- =?utf-8?B?TlljelRvbE1jWmduL0NVT1YwSWE0VmJGVTRhb2h2N3FxeWZxWU1HQzBEQ2Mr?=
- =?utf-8?B?ZEp0OFNPY2xsVGNYcHZFTTE5djZPZHJYNEJ0YnRHbk9nV2NPK3pSNmw3TFcv?=
- =?utf-8?B?NXM3bEFCTjJWa2Y1Ykg5REFFeUhVYkpFVnhxM0FaVlZJcTZyUTl4dXBsVmJF?=
- =?utf-8?B?ZWRUZGxPa0RGYnFUK0NPNmoxdnJ1NEhCK2FjRkJNNG1PQ0dnL1ROTFVDc1VE?=
- =?utf-8?B?YVNSOERsVFJYWllVQ2lKeUw1R011cEQ3S3ZmbXNtZmZYaW5DaHpmVHVpVWpW?=
- =?utf-8?B?bU9JODF6U01aaXY0SjJDZmZLaElLTkRsaTUxWGY1MGNNZk9MWWhIdEl4eWta?=
- =?utf-8?B?YU1DV3pnSFY5Mys5TWwzVitxc2xLQ25mSUZsL0tMNXpKTmdqM1B2Y1ZYWXh3?=
- =?utf-8?B?MUpIVnJPdVRXaXJrUFRTSVpPcFkveGIveENFQnlVL0E0ZjQ2ckFRNGlFbVkz?=
- =?utf-8?B?VU4zcVhNWUNzRlY5dFEvZFlyS3IrZk9qdUhRbVVYRGFkNlFGdE5VVUp4N0Ux?=
- =?utf-8?B?eDdJc0kybFU1eHVGbXBybTMvY0NiVXlET2tHdUJ5cW9YcWVvVCtoMTJHSmdY?=
- =?utf-8?B?M3pnb09KNHN1Sjl0L0ozZ043eTRrT2pJa2hUakhwMVpEUnhRTEc1OVc0T3FI?=
- =?utf-8?B?YUJZcTlRSEhadnllaHRVNlhCTnhDZ0pNQVpQZlRBZkV6emJWSzVONTZ1ME5X?=
- =?utf-8?B?TThRVklTMDRJYi8zL3kzSk52blhUbk5GSDBqdmU3dVFsZnJjZmhBUFBsS0VW?=
- =?utf-8?B?aHp3NUFSckh2czNoYUgrTktHdThHVXYrSWNmUksrWHZXdktqVmNCeUtCTHVo?=
- =?utf-8?B?TnJJZURwM1ZMU3NiYmlFSm1ZbWJqQ3VoK3B6OE4ySDY0UXAzZUFqV3o4TnVq?=
- =?utf-8?B?NnNHaFBSRGM2bi9nWVhFRXFVZ0E5SkcydkhCSXIyREp1RkRXeWZGMy9ObmxB?=
- =?utf-8?B?dzR5Q3ZZeVgzeEFLaDI3YTBsL3N3OVVoTURJdVZaSHZGc05KZUptV2h6ekxZ?=
- =?utf-8?B?eGQ3UDZKd1JpZEpnemU4bVR0dGxxOUl1TCtScDh1VXJFTEZ2ZTRTRjFoV0tx?=
- =?utf-8?B?MktIUk5RNlU3cWlZN1R0UUsvSjdPK3lPdlY3bzQ4TUtBTHZuYmJjNGhSUmoz?=
- =?utf-8?B?RzBlUU8zSDhKRWtwL251b1hxeno4anVQb00rVjRrM01jSnZPWEh0THkyQkk4?=
- =?utf-8?B?VjhXT0VxYW1odDEvazRQVWxRZ1JXMDl4T3BpM1RHUzAwTkNxVjAwUGZXa3Qw?=
- =?utf-8?B?OWU1M3A1eFJoM1RzNHdSK3dvdDlIbHphTGh1UVVET2JjR0gzRXgrd2pYZWli?=
- =?utf-8?B?UXlnMktJVFVtdHBvTkx0anVQSHlCdUVvVER4T2pNSElud0UrU2I5YWNPVnBr?=
- =?utf-8?B?dHJBRHFMYkVKK2hNN1VpcVZVdFJxcngzU0t5OVNRN3hkNloxcmxzbTlNZzU4?=
- =?utf-8?B?VVNZSSsrMnlXRUdoQzI1UlBRWUtvZVVYcU50WTN0WEk1QjBJQUJBWjI4SDJy?=
- =?utf-8?B?L21Fd0dDVUhDNE15d2Z4b0o4cENVVmZPT2lEUDROY2U2RkFiUWtjdW8zK0E1?=
- =?utf-8?B?YmZ6Wk04WVd2YktrQmMxdz09?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB8278.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(7416005)(376005)(1800799015)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZlVkNy9oN3RLOTV5MjBRWXZjWE9VY3ZVMjlwTStJSzd3b01oclNXenRiS0NG?=
- =?utf-8?B?L0F0MHBBcG9zS3Q1V01DTW9EZWwwQjNjWnJKbXV6SkxNSkx5cXBwclZ1Mkp2?=
- =?utf-8?B?TjdnbGdTOEpGbHlzVUsxK1hEL3orbkMvZ3M4d2oxaUo2MWJIL1VqcTY1bUoz?=
- =?utf-8?B?TGIwMXp5SU9TNktZbzZNaVRjdmNsV05zaHVkc2FyTlVicXRyVEUzYnZxK1c0?=
- =?utf-8?B?NC8wQUxWSEJSVXF1cHJ4V2NXWVY4ZWk2bGxrZmxtMDZFSE9aQVQ1WXBYeVRa?=
- =?utf-8?B?bndBZ3l6enA4MVV4c0J3bTNNOG1Idm40M1lHS2VsYVlZQVJReFgrYnkrcEd0?=
- =?utf-8?B?RjQ4MEtwN2ZjbFo5VHFKbGJ6L2JDWlhFV3NTWXZKWFB1Z1pqRUxocWdCeFd0?=
- =?utf-8?B?QXBOdjdSeTRSUjV0NHVrdm84czNPb3VITkR6amZXYW1OUDVJQXpINFd2RFJF?=
- =?utf-8?B?bUtQVWQ3RStaQUt0U1dmWGwrTDJwSDB0RU0vNGJPVkJYQVNKUm41M1BoS21t?=
- =?utf-8?B?UlZSUCtNREVUSGJkS2JFU1ZFL3RmMXl4WkNDUXNEZE1BamUveUVKRWZ4QkFI?=
- =?utf-8?B?Qmp4TjVaR1JCWE9UVjNIaytEd0lLdStNTmhvVFJyT3VqSjNCQms1OW1rSTNX?=
- =?utf-8?B?ODBVSDFjdE1aTW51RzNoR3JkMjY2VmdnQVRvazJ5ZmtKUzRTOVRkam4xQVRW?=
- =?utf-8?B?enpub3cySDZMMjJZQTNiNjRCZ0hmT2NjbHZaK1hPd2xmOHg5Rk50L2Z4YW9V?=
- =?utf-8?B?VFRFWlFlcWJWOE9xRUhvSTJvSlpwaFpYM3hKem9jRW5uY2FVd1pBUkdFeXgz?=
- =?utf-8?B?UkRnc0VWQnhTV3VuN2kzNGVpV1h4aDZ1R2ROU2tTVFRzeTFCeEFEOGJHcXpu?=
- =?utf-8?B?MThjZ29NR2ppOE9kbnV6R05WdDlLbUI1MDh4VCsvSnBpYWtHZE84Qzl1UVph?=
- =?utf-8?B?aDE0UFU5Q1pFY2xBNDUxL0xqQ3l1ek9uT2lueW1Sd0hscUhZVjFGVW51V1ha?=
- =?utf-8?B?M1FXdzM0c3hVSlhpZ01TajVkL0E3SjVQbnJoUlBwQWVnT25LZzNkQ1ZVL1Bo?=
- =?utf-8?B?UUVSbnpQWUFIbHVXbEluZ2NJRk5HcHkrclNIRjQ3SU9kVnVFQSs3cTZ0L3Y1?=
- =?utf-8?B?V1R2cWlRT1lBQm5zbXgxUW1Wa014L3NaVGRBYlJtRDgyY1J1NEVucGJmN1Ni?=
- =?utf-8?B?bHh1d1M0aTFUREdmTHlZUVBQaWJCVVl1dnRMYkhRZGdsVlN2SzhPNTRNcVdP?=
- =?utf-8?B?azcrTEJEMzFXMXBxMUxjb0xoUUd4WGtKOTlQYTJwVnA1OXdtVXRVZWw3QldO?=
- =?utf-8?B?ZHY5MU5oUkdkODUyeTBtYkUvTjVublMvRXltZUZOcHhPR0Y0VFB3T0ZTZUlU?=
- =?utf-8?B?Tk5tZmh3WEFuRzZFeHhmNzQ0Z1VHUndlRUxndGNIRk52VlBqM3Zzd0tUWUg0?=
- =?utf-8?B?SEVKeEdSdHZWREdiVnBsUTVYMW4vS2RSWnJFUS9CeGpFUkMvZHRBWkM5dzNS?=
- =?utf-8?B?RXF4VUhxLzdaVXE0Q3RNZXhFYS9oc1JCcXRZa0Q1bzFldlhSLzZjbXRFaG44?=
- =?utf-8?B?M3RMdUp5WUNMRlF4bHQ4T2FQOHNyZmRpR2s1UzM0VzJYa3BXNzZ4YjB6d2hr?=
- =?utf-8?B?ZUZVYjZaVi9tTi9EZjJzL05UMXdra0QrVGJxQzFtUS9MSjdDYnZlSXd0b2Uv?=
- =?utf-8?B?RThDNEZkd0dyS3Z3b1ZxNGJKejFlb1B1bjVlWVhWL2NxMWt0dFZPMDNoOWhn?=
- =?utf-8?B?Q0NPMGVVTGpwNnJZTVlKMGowVTFMNE9pcjRkVGhpcVNnbk8rR0dIODZzM0Vh?=
- =?utf-8?B?OE9JMk5KT2hZS3NpQTViSkNWRFNTbERFYjFoOFZSS3lieTlQTmlnRjhpalg1?=
- =?utf-8?B?a0kyMkxKWFN5TEtpL0J6VUladkY2cEwrT250eVJzdENNdW41RU9USEZRdTA2?=
- =?utf-8?B?Z1lZL3VmRkVoaU1oOUFFY1RHQzVYRkVUSGVZRnZ3OGl3Y21DOE1MRkFsV083?=
- =?utf-8?B?U0tLeWs3TTNFZkVnZmd0MHBFd2pLOGNiUGU1K2k0Y255OE1BR2pDZEhSbko2?=
- =?utf-8?B?emN6YWpKYmtWRDd6em9iUVJCMnJ0TkZMdThmOE01aUVMeFNmSFV1OWRIbEY1?=
- =?utf-8?B?YTRiVG5oT1RSTzZYNHpCMUp4ZzV3NmFhZTB1YWp2OUdzd2JBKzVUdEJBYUNH?=
- =?utf-8?B?aEE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <985594FB61BD104AAA0322974F21C004@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wyuA16OA"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-51ab4ee9df8so953890e87.1
+        for <linux-doc@vger.kernel.org>; Thu, 09 May 2024 06:31:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1715261468; x=1715866268; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=r33dW7cmB/GM8ATE+hQpOZIrBaphuEwRmQOpy16eaJk=;
+        b=wyuA16OA9c4xcLj4ac+mA4NrgzqlNMOp5rg3RcOaGKIt4PleViZOPZhJ5WxD7wf9+U
+         PIM+GMjQFO4J1e6eBysEDnZNOhTtCVTrZ3u/DLun0KpF0IlRyml9hy1B1OzqjGt2K+yJ
+         ZkUvCRNU8lzzhIgfxPcRyTsaIbtY3IojAUM2TOT8RNu6bXdENU8XCusWewPF/ALOR7ku
+         9BKeYq0/kfTxH0ehZL+bpYmO5dmWWvXaOmmW4wFqn4TVuUZQQo2Sio7ZQ6dxkceyk9xB
+         wDWUhqKZ2igA1PdfUFlkpw47jCO84RIw6T6jbeIL77yoZ4DO34Wj6nJIUH5Vft6iBdM7
+         x9ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715261468; x=1715866268;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=r33dW7cmB/GM8ATE+hQpOZIrBaphuEwRmQOpy16eaJk=;
+        b=XGUHkYVRz4HrDurGQr57PNNf1aPbJYCR5wVoUHom7/dvnXnYxb58KyODI4xixv8rrd
+         XbMwlS56nRZMXd+ajoxyiYOart7qaEqwgs4m9jVQFQ/Cw3bJcakY309iIgzk7v4M+xn/
+         jpVUEurC2W3OdfHqFVOlx1ScSJ5I8OLmgQty6GiWH4d2FEPR73cli8HLL6WWAZWP3gXA
+         +c0g6duGkw7evrR/0PQjfqvv4bYO753kloKswuOrw1Fy7ycwJE/rXRvyagKwE75sB+qW
+         ghcrLBEI0Em/HHrOnJyq7fqNzYQOAlvdDuHtqH3tKNFdMkxmxmG5GUi//b4IbD8LD3NF
+         kcjQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXBbSuPCu66GfhdIHPW4yetIhWaod6WX5H/YfxiP2a7fciMJ0CcTvOhX/hnTtTGm+H9X+k7Q2xguvsHpQMHeI7KaV6v1FZEuqnN
+X-Gm-Message-State: AOJu0Yw/yviwgF1tpPYGeysZzCrC9UpVG8F/ZEAkjUIewe6lF5Lbphju
+	cLyCDfD+j4jOBzz9GNtokhoXmfYNqWFI6NR/LgwMWp+aNOs8uHzZ4mojbb4u/mU=
+X-Google-Smtp-Source: AGHT+IGIi4Tl8j+UerHfiw+tKEBIcpBqxthj+u4dQ+d8NON2NF/1TsiNDVaH03l0MKLov5/iuRPKUw==
+X-Received: by 2002:a05:6512:b23:b0:51c:f21c:518f with SMTP id 2adb3069b0e04-5217c27c36dmr4667766e87.12.1715261467693;
+        Thu, 09 May 2024 06:31:07 -0700 (PDT)
+Received: from umbar.lan ([192.130.178.91])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-521f39d367fsm294566e87.297.2024.05.09.06.31.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 May 2024 06:31:07 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Thu, 09 May 2024 16:31:05 +0300
+Subject: [PATCH] docs: document python version used for compilation
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB8278.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ab92102-b8df-431c-9c2a-08dc70289d8f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 May 2024 13:04:52.3800
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: n5CsKFy3ZTyOuEflNigKzPSwKbPEmoLhBqx8Q2dfUAdXwqL8aYpPreYjkHg8sWxi7JHYZbf76w0OBkEHI7DHtcdeXx12wyZMdaeilDWP8UAv+kLs4GkJKbWvVHRwX3xR
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7403
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240509-python-version-v1-1-a7dda3a95b5f@linaro.org>
+X-B4-Tracking: v=1; b=H4sIABjQPGYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDUwNL3YLKkoz8PN2y1CKQUt1EiySz5EQjQyPTtDQloKaCotS0zAqwgdG
+ xtbUAHGnRaWAAAAA=
+To: Jonathan Corbet <corbet@lwn.net>, Rob Clark <robdclark@gmail.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1194;
+ i=dmitry.baryshkov@linaro.org; h=from:subject:message-id;
+ bh=m2zEtruGkvxujMPhBXY7kQd55f5ocV/KfUBbo1KLpSg=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBmPNAa5VIUfz7hTsz50vCSYcPRyiOjpAP0rwDte
+ rlsD/kOqriJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCZjzQGgAKCRCLPIo+Aiko
+ 1SxAB/oC205Rgfupf6dxpqFBFVJhaoZiJlIjwQWT+zfYMi92ykQccxZj7Qy3bVawLRrUo23vC8Q
+ BLhTPBNplGA9OkEp/5goS084ThepWCY6xdBBLSha6PEEPPTtIQi5Q5jC6Tb+KMQ7TduZbwmH8nq
+ ogkKYKqzSDEADEybi/tJc+/6gP7vuI97Mv+OyXK0gNThg9AJcnW5K1aZ/v1u1qNWIVw8hyEStpd
+ g/10UDekOGJQsO6vpyIcptXKcopqIaxCPqgo20WeD1RbFo9RwVKQGwWzC0nAVhobYfOBCDeTT3X
+ kN8f9G9VEohrzHtr+a0GvxzZlSMBOFbMhZTEhxOP8H2Z+bug
+X-Developer-Key: i=dmitry.baryshkov@linaro.org; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
 
-SGkgQW5kcmV3LA0KDQpPbiAwOC8wNS8yNCAxMDozNCBwbSwgQW5kcmV3IEx1bm4gd3JvdGU6DQo+
-IEVYVEVSTkFMIEVNQUlMOiBEbyBub3QgY2xpY2sgbGlua3Mgb3Igb3BlbiBhdHRhY2htZW50cyB1
-bmxlc3MgeW91IGtub3cgdGhlIGNvbnRlbnQgaXMgc2FmZQ0KPiANCj4+IFllcy4gSSB0cmllZCB0
-aGlzIHRlc3QuIEl0IHdvcmtzIGFzIGV4cGVjdGVkLg0KPiANCj4+ICAgICBFYWNoIExBTjg2NTEg
-cmVjZWl2ZWQgYXBwcm94aW1hdGVseSAzTWJwcyB3aXRoIGxvdCBvZiAiUmVjZWl2ZSBidWZmZXIN
-Cj4+IG92ZXJmbG93IGVycm9yIi4gSSB0aGluayBpdCBpcyBleHBlY3RlZCBhcyB0aGUgc2luZ2xl
-IFNQSSBtYXN0ZXIgaGFzIHRvDQo+PiBzZXJ2ZSBib3RoIExBTjg2NTEgYXQgdGhlIHNhbWUgdGlt
-ZSBhbmQgYm90aCBMQU44NjUxIHdpbGwgYmUgcmVjZWl2aW5nDQo+PiAxME1icHMgb24gZWFjaC4N
-Cj4gDQo+IFRoYW5rcyBmb3IgdGVzdGluZyB0aGlzLg0KPiANCj4gVGhpcyBhbHNvIHNob3dzIHRo
-ZSAiUmVjZWl2ZSBidWZmZXIgb3ZlcmZsb3cgZXJyb3IiIG5lZWRzIHRvIGdvIGF3YXkuDQo+IEVp
-dGhlciB3ZSBkb24ndCBjYXJlIGF0IGFsbCwgYW5kIHNob3VsZCBub3QgZW5hYmxlIHRoZSBpbnRl
-cnJ1cHQsIG9yDQo+IHdlIGRvIGNhcmUgYW5kIHNob3VsZCBpbmNyZW1lbnQgYSBjb3VudGVyLg0K
-VGhhbmtzIGZvciB5b3VyIGNvbW1lbnRzLiBJIHRoaW5rLCBJIHdvdWxkIGdvIGZvciB5b3VyIDJu
-ZCBwcm9wb3NhbCANCmJlY2F1c2UgaGF2aW5nICJSZWNlaXZlIGJ1ZmZlciBvdmVyZmxvdyBlcnJv
-ciIgZW5hYmxlZCB3aWxsIGluZGljYXRlIHRoZSANCmNhdXNlIG9mIHRoZSBwb29yIHBlcmZvcm1h
-bmNlLg0KDQpBbHJlYWR5IHdlIGhhdmUsDQp0YzYtPm5ldGRldi0+c3RhdHMucnhfZHJvcHBlZCsr
-Ow0KdG8gaW5jcmVtZW50IHRoZSByeCBkcm9wcGVkIGNvdW50ZXIgaW4gY2FzZSBvZiByZWNlaXZl
-IGJ1ZmZlciBvdmVyZmxvdy4NCg0KTWF5IGJlIHdlIGNhbiByZW1vdmUgdGhlIHByaW50LA0KbmV0
-X2Vycl9yYXRlbGltaXRlZCgiJXM6IFJlY2VpdmUgYnVmZmVyIG92ZXJmbG93IGVycm9yXG4iLCAN
-CnRjNi0+bmV0ZGV2LT5uYW1lKTsNCmFzIGl0IG1pZ2h0IGxlYWQgdG8gYWRkaXRpb25hbCBwb29y
-IHBlcmZvcm1hbmNlIGJ5IGFkZGluZyBzb21lIGRlbGF5Lg0KDQpDb3VsZCB5b3UgcGxlYXNlIHBy
-b3ZpZGUgeW91ciBvcGluaW9uIG9uIHRoaXM/DQoNCkJlc3QgcmVnYXJkcywNClBhcnRoaWJhbiBW
-DQo+IA0KPiAgICAgICAgICBBbmRyZXcNCj4gDQoNCg==
+The drm/msm driver had adopted using Python3 script to generate register
+header files instead of shipping pre-generated header files. Document
+the minimal Python version supported by the script.
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ Documentation/process/changes.rst | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index 5685d7bfe4d0..8d225a9f65a2 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -63,6 +63,7 @@ cpio                   any              cpio --version
+ GNU tar                1.28             tar --version
+ gtags (optional)       6.6.5            gtags --version
+ mkimage (optional)     2017.01          mkimage --version
++Python (optional)      3.5.x            python3 --version
+ ====================== ===============  ========================================
+ 
+ .. [#f1] Sphinx is needed only to build the Kernel documentation
+
+---
+base-commit: 704ba27ac55579704ba1289392448b0c66b56258
+change-id: 20240509-python-version-a8b6ca2125ff
+
+Best regards,
+-- 
+Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
