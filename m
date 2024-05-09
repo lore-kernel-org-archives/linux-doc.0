@@ -1,117 +1,186 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38A4A12D74D;
-	Thu,  9 May 2024 23:10:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37D1312D766
+	for <linux-doc@vger.kernel.org>; Thu,  9 May 2024 23:26:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715296238; cv=none; b=rfkS+AxnnwwaShroBIA6rcZF3Y4R49yeeotz7K09JrA2BXEkflSpBzvTW+P2iedb4Ncwtc2mTMDN5mSEkoSoRcPGy9KxdHfkPtk8sfdDcSK057/ZTbh/QOIBAd55f2bCfSgksGQGwUVgq6SGbbL3X9a3jsm9S8Q0Wp8XukyrrEQ=
+	t=1715297192; cv=none; b=hs2ypvlN+IbHRZQoZFprVAEldGqBmVd99RP6ghvsnSQrpzZew9GdRPRuUeZIy0FJfoS1b6lI1k0Hy8geJMZ37RPhjvCjibbhkdFVV7LXI1G2J251uB9Z3c3X/o6RR1X5iudVfoJqM0CI1LMyiGZ83NKF6g9wtFabv4XV5KrVy4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715296238; c=relaxed/simple;
-	bh=iiYqaRLoWKNSifFPh2hXuPTM8AiJ9lhpKkeJ1QnZqJM=;
+	s=arc-20240116; t=1715297192; c=relaxed/simple;
+	bh=TtTIVr+7zspIAFnpGX8YJqM+7kUQcGBFCu/z/SDDPAw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ou11PHY7AQ1QdyEmYhoyMATg7nsQtj8saxAzOW7atzmlDiJr3HIlCSMOf1Nem85IVVItrwy9D0bu2RmFMbBKIrDs0t4xc8UvO+snb7tbVgjamWNCr/mGYXQD5hh+nN/k1O4/sdasS+aYEfbSO+xFAyL2cqGqrqzQ3rwSeuvdsLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QJfe4iAy; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=PBwUhUPWJKc7iYfmT5NtdVT7yvR/g9Y3t+cSriYXYxxVFndsmzZf2F3ceVyLisOblAmI0H7turmK3KGiOQi20kYkD3bVIAqvS36Hv7EE2craR1rDeXevL3a944CsADtm2eW9DjD5xON0i9st1dPG8B7qd6/rMY6e0eCEf042jNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=Lx7l0FQi; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QJfe4iAy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715296235; x=1746832235;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iiYqaRLoWKNSifFPh2hXuPTM8AiJ9lhpKkeJ1QnZqJM=;
-  b=QJfe4iAy+h16sUw4FueipAhlW4ZZpmoJZkLCoeOVfhk0VhO7RjwV/WEi
-   DE/SgjYRTUJ5weDdsH0c7biwVY5pR26jLxn0X8xzQMYIbx5+MuQ0E1UeC
-   VNiB/AvJKZcZzDwnT8vQOymn9QTxgeLLec+NP5jqHQGrwFxHme9RP+0uA
-   sL9irbUgniSqMb37X+wAb3NOTlUarwOuKdqDEx4Nz7Iy9WLT8YNbR9Z1D
-   T6rQXvIrhz39x4/VkOe2fDznChS38tnITKgqMWetZeGjWhSQAgI6R4Ot2
-   tX0obXX8697KfEfksmaGOJNQS1vfkp51mlH+Nfk8SK+hpObTpHhYPmCfk
-   Q==;
-X-CSE-ConnectionGUID: MHBhHDiEThyUif9eQAJT2w==
-X-CSE-MsgGUID: 0R5nSjUDTHiNY4uHPJzzMg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="22658912"
-X-IronPort-AV: E=Sophos;i="6.08,149,1712646000"; 
-   d="scan'208";a="22658912"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 16:10:35 -0700
-X-CSE-ConnectionGUID: peb8aCUlSw+MT1IsNjA38g==
-X-CSE-MsgGUID: j/6MzvdCQwandplxoHjdVA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,149,1712646000"; 
-   d="scan'208";a="34192718"
-Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 09 May 2024 16:10:28 -0700
-Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s5CuA-0005Tl-0L;
-	Thu, 09 May 2024 23:10:26 +0000
-Date: Fri, 10 May 2024 07:09:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Heng Qi <hengqi@linux.alibaba.com>, netdev@vger.kernel.org,
-	virtualization@lists.linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
-	Jason Wang <jasowang@redhat.com>,
-	"Michael S . Tsirkin" <mst@redhat.com>,
-	Brett Creeley <bcreeley@amd.com>,
-	Ratheesh Kannoth <rkannoth@marvell.com>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Tal Gilboa <talgi@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Paul Greenwalt <paul.greenwalt@intel.com>,
-	Ahmed Zaki <ahmed.zaki@intel.com>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	Andrew Lunn <andrew@lunn.ch>, justinstitt@google.com,
-	donald.hunter@gmail.com
-Subject: Re: [PATCH net-next v13 2/4] ethtool: provide customized dim profile
- management
-Message-ID: <202405100654.5PbLQXnL-lkp@intel.com>
-References: <20240509044747.101237-3-hengqi@linux.alibaba.com>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="Lx7l0FQi"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1e4c4fb6af3so8867075ad.0
+        for <linux-doc@vger.kernel.org>; Thu, 09 May 2024 16:26:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1715297189; x=1715901989; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=KoGFJaD8EljLtrVmLvtlC7K76bro4/HY8QoalZin5IY=;
+        b=Lx7l0FQi4l2AV47jWZ+VdWcHjpBJJ50cuf66IdLPN5DJBpFCsCL5cOb7Pd6WvraVrO
+         fwDBtXG18LhZ+tqD5QD1EQV1xfuKIKiqMkXg6ttYPMwspAeLvjO/kTpBxz4Bs6mtU7VT
+         ko1nj7g5RAuEErvxeIIehgBJ1O2GAGsEwNCKxaKe8aA+G223tRZURDCnpsxuvZ8yGqfe
+         EHGVdlC+qp2S2Fh1UG4BROVluQtpvv9JxjX6RBgWzgg0nLkpImRL3eUN5PfGad2iwuWo
+         76D4o3q9CSOiJPtXhAtY9LukNUJFx774Pe2WyzhPuZWnWUjUnA/Eq8fPTE0OiL9vEDYW
+         skZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715297189; x=1715901989;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KoGFJaD8EljLtrVmLvtlC7K76bro4/HY8QoalZin5IY=;
+        b=fboX0DaFCirB06UDAs4s1lNI8E+HsXUO2D0LkTPV2Il3xW2m0A9PC+Zwd4IGLvlDK3
+         YU6Vqo0J4sanLCb4RZdEoG88Vgd0TL58j2oqLn1Gxeg2Gv0QNCDfvJEDgnwo/6YkwjsU
+         7VjqMBMA/LmGDkDAbyiCdHOJbve4KaiVIwRAplE3MWtZvWVIklPlKqqUK06csGyJQN+c
+         JOQiWgioSnbO1tOWJ49yg2cPe9b9ajwt8nHnplQZIlVKtiIkhr5cfxWfdSzZv6H/blxH
+         Ec827626FnOVj+neUykb19N1oa5xsCk2kqir8vVcG0UZapXwekp7of06KUn05gg6cTsl
+         QACw==
+X-Forwarded-Encrypted: i=1; AJvYcCWCetHwIOydQeQT2UVq9+rxsP4O54hSJg4HEYK5+fwoH43C+sEgI08JsFSx+4zWOePSw/WTqOIaIG6TJe9h+oWU8IbSHBO8kupU
+X-Gm-Message-State: AOJu0Ywc+s3l2AhZkqADEmrgEKvH4UFZFmycUkYI2nKb7vO7BH2MUBJM
+	y4Ar+uqFBi14MpNXhEvrjx3PCMdTn7FXXTJ6WuEi3Mm1JwCpOJmB7Y0TJt3V01k=
+X-Google-Smtp-Source: AGHT+IEwp50qVSxIKzd3GeAEglFyHmirCQzUqIVxpG0w7MU50Y7SrsfbjsJXYlPTm4I0tHeIzltszA==
+X-Received: by 2002:a17:902:c402:b0:1eb:e40:3f74 with SMTP id d9443c01a7336-1ef432a092emr15262985ad.32.1715297189377;
+        Thu, 09 May 2024 16:26:29 -0700 (PDT)
+Received: from debug.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0b9d1758sm19701355ad.28.2024.05.09.16.26.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 May 2024 16:26:28 -0700 (PDT)
+Date: Thu, 9 May 2024 16:26:24 -0700
+From: Deepak Gupta <debug@rivosinc.com>
+To: Conor Dooley <conor@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, paul.walmsley@sifive.com,
+	rick.p.edgecombe@intel.com, broonie@kernel.org,
+	Szabolcs.Nagy@arm.com, kito.cheng@sifive.com, keescook@chromium.org,
+	ajones@ventanamicro.com, conor.dooley@microchip.com,
+	cleger@rivosinc.com, atishp@atishpatra.org, alex@ghiti.fr,
+	bjorn@rivosinc.com, alexghiti@rivosinc.com,
+	samuel.holland@sifive.com, linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-mm@kvack.org,
+	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	corbet@lwn.net, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+	krzysztof.kozlowski+dt@linaro.org, oleg@redhat.com,
+	akpm@linux-foundation.org, arnd@arndb.de, ebiederm@xmission.com,
+	Liam.Howlett@oracle.com, vbabka@suse.cz, lstoakes@gmail.com,
+	shuah@kernel.org, brauner@kernel.org, andy.chiu@sifive.com,
+	jerry.shih@sifive.com, hankuan.chen@sifive.com,
+	greentime.hu@sifive.com, evan@rivosinc.com, xiao.w.wang@intel.com,
+	charlie@rivosinc.com, apatel@ventanamicro.com,
+	mchitale@ventanamicro.com, dbarboza@ventanamicro.com,
+	sameo@rivosinc.com, shikemeng@huaweicloud.com, willy@infradead.org,
+	vincent.chen@sifive.com, guoren@kernel.org, samitolvanen@google.com,
+	songshuaishuai@tinylab.org, gerg@kernel.org, heiko@sntech.de,
+	bhe@redhat.com, jeeheng.sia@starfivetech.com, cyy@cyyself.name,
+	maskray@google.com, ancientmodern4@gmail.com,
+	mathis.salmen@matsal.de, cuiyunhui@bytedance.com,
+	bgray@linux.ibm.com, mpe@ellerman.id.au, baruch@tkos.co.il,
+	alx@kernel.org, david@redhat.com, catalin.marinas@arm.com,
+	revest@chromium.org, josh@joshtriplett.org, shr@devkernel.io,
+	deller@gmx.de, omosnace@redhat.com, ojeda@kernel.org,
+	jhubbard@nvidia.com
+Subject: Re: [PATCH v3 04/29] riscv: zicfilp / zicfiss in dt-bindings
+ (extensions.yaml)
+Message-ID: <Zj1boEJG4ijcdNi0@debug.ba.rivosinc.com>
+References: <20240403234054.2020347-1-debug@rivosinc.com>
+ <20240403234054.2020347-5-debug@rivosinc.com>
+ <20240410115806.GA4044117-robh@kernel.org>
+ <CAKC1njSsZ6wfvJtXkp4J4J6wXFtU92W9JGca-atKxBy8UvUwRg@mail.gmail.com>
+ <20240415194105.GA94432-robh@kernel.org>
+ <Zh6c0FH2OvrfDLje@debug.ba.rivosinc.com>
+ <20240509-cornflake-foyer-e6589c2bc364@spud>
+ <Zj0aAiZiTrt9ACjj@debug.ba.rivosinc.com>
+ <20240509-clatter-crewmate-9755669b9452@spud>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20240509044747.101237-3-hengqi@linux.alibaba.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240509-clatter-crewmate-9755669b9452@spud>
 
-Hi Heng,
+On Thu, May 09, 2024 at 09:32:49PM +0100, Conor Dooley wrote:
+>On Thu, May 09, 2024 at 11:46:26AM -0700, Deepak Gupta wrote:
+>> On Thu, May 09, 2024 at 07:14:26PM +0100, Conor Dooley wrote:
+>> > On Tue, Apr 16, 2024 at 08:44:16AM -0700, Deepak Gupta wrote:
+>> > > On Mon, Apr 15, 2024 at 02:41:05PM -0500, Rob Herring wrote:
+>> > > > On Wed, Apr 10, 2024 at 02:37:21PM -0700, Deepak Gupta wrote:
+>> > > > > On Wed, Apr 10, 2024 at 4:58 AM Rob Herring <robh@kernel.org> wrote:
+>> > > > > >
+>> > > > > > On Wed, Apr 03, 2024 at 04:34:52PM -0700, Deepak Gupta wrote:
+>> > > > > > > Make an entry for cfi extensions in extensions.yaml.
+>> > > > > > >
+>> > > > > > > Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+>> > > > > > > ---
+>> > > > > > >  .../devicetree/bindings/riscv/extensions.yaml          | 10 ++++++++++
+>> > > > > > >  1 file changed, 10 insertions(+)
+>> > > > > > >
+>> > > > > > > diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Documentation/devicetree/bindings/riscv/extensions.yaml
+>> > > > > > > index 63d81dc895e5..45b87ad6cc1c 100644
+>> > > > > > > --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
+>> > > > > > > +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
+>> > > > > > > @@ -317,6 +317,16 @@ properties:
+>> > > > > > >              The standard Zicboz extension for cache-block zeroing as ratified
+>> > > > > > >              in commit 3dd606f ("Create cmobase-v1.0.pdf") of riscv-CMOs.
+>> > > > > > >
+>> > > > > > > +        - const: zicfilp
+>> > > > > > > +          description:
+>> > > > > > > +            The standard Zicfilp extension for enforcing forward edge control-flow
+>> > > > > > > +            integrity in commit 3a20dc9 of riscv-cfi and is in public review.
+>> > > > > >
+>> > > > > > Does in public review mean the commit sha is going to change?
+>> > > > > >
+>> > > > >
+>> > > > > Less likely. Next step after public review is to gather comments from
+>> > > > > public review.
+>> > > > > If something is really pressing and needs to be addressed, then yes
+>> > > > > this will change.
+>> > > > > Else this gets ratified as it is.
+>> > > >
+>> > > > If the commit sha can change, then it is useless. What's the guarantee
+>> > > > someone is going to remember to update it if it changes?
+>> > >
+>> > > Sorry for late reply.
+>> > >
+>> > > I was following existing wordings and patterns for messaging in this file.
+>> > > You would rather have me remove sha and only mention that spec is in public
+>> > > review?
+>> >
+>> > Nope, having a commit sha is desired. None of this is mergeable until at
+>> > least the spec becomes frozen, so the sha can be updated at that point
+>> > to the freeze state - or better yet to the ratified state. Being in
+>> > public review is not sufficient.
+>>
+>> Spec is frozen.
+>> As per RVI spec lifecycle, spec freeze is a prior step to public review.
+>> Public review concluded on 25th April
+>> https://lists.riscv.org/g/tech-ss-lp-cfi/message/91
+>>
+>> Next step is ratification whenever board meets.
+>
+>Ah, I did the "silly" thing of looking on the RVI website at extension
+>status (because I never know the order of things) and these two
+>extensions were marked on there as being in the inception phase, so I
+>incorrectly assumed that "public review" came before freeze.
+>Freeze is the standard that we have been applying so far, but if
+>ratification is imminent, and nothing has changed in the review period,
+>then it seems sane to just pick the freeze point for the definition.
 
-kernel test robot noticed the following build errors:
+Yeah I don't think wiki is that regularly updated.
+But take a look at Ratification-Ready list of specs here
+https://wiki.riscv.org/display/HOME/RISC-V+Specification+Status
 
-[auto build test ERROR on net-next/main]
+>
+>Cheers,
+>Conor.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Heng-Qi/linux-dim-move-useful-macros-to-h-file/20240509-125007
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240509044747.101237-3-hengqi%40linux.alibaba.com
-patch subject: [PATCH net-next v13 2/4] ethtool: provide customized dim profile management
-config: arm-randconfig-002-20240510 (https://download.01.org/0day-ci/archive/20240510/202405100654.5PbLQXnL-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project b910bebc300dafb30569cecc3017b446ea8eafa0)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240510/202405100654.5PbLQXnL-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405100654.5PbLQXnL-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> ld.lld: error: undefined symbol: lockdep_rtnl_is_held
-   >>> referenced by net_dim.c
-   >>>               lib/dim/net_dim.o:(net_dim_free_irq_moder) in archive vmlinux.a
-   >>> referenced by net_dim.c
-   >>>               lib/dim/net_dim.o:(net_dim_free_irq_moder) in archive vmlinux.a
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
