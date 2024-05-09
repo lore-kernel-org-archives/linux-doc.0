@@ -1,229 +1,118 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11011008.outbound.protection.outlook.com [52.101.229.8])
+Received: from bee.tesarici.cz (bee.tesarici.cz [37.205.15.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49C8E1A2C2A;
-	Thu,  9 May 2024 05:50:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.8
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715233851; cv=fail; b=PI3zRvU3We89254kr62V1a0rSjaFGpELrh9/YeY9GTJKaqpdIQW/bfeiZOY1aDCcDdj+AkiveGVd1yim4bQ10EGHLU27x4si8lpYaNgqN7blwU621AaX8cs9jqleQgcxkq1+JBXS2TA6gI5BnHkwHuTE/TjmaHx9HtlMiALd0Rg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715233851; c=relaxed/simple;
-	bh=Abn6ku78wy/1oamhGsfOpuJ+/CKZci0liEj7ItXib6Q=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=aDiC4X2MEUTU/n9a/vj7mxZitlFvS+n3a+SjhZwPzVmcg4VIaBvPs66rjB/gqnDnmZB/c9pmGdc+UJpkc6GfgwXxCLLeIpKgoOWlVTmmaTQ7EQGBB+KeP/ulHvHSFVf8UOJ1HOkvGt8pnfwW6TRScFa4AX3dl5QmLe1s7PYXo2o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=mGTn6HUC; arc=fail smtp.client-ip=52.101.229.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4812414900A;
+	Thu,  9 May 2024 05:52:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.205.15.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715233945; cv=none; b=UueAXjKCHuKVStP0kF4CY4K6bXaiaG+0lsAhvaCAFNRllLNk9DqvTElfdoRcQ/wtybJbhNVM7StIaxKFD/mRo4sKtMuKIVg2fgDRxRVNdJgLivcqIH15SHtM52oJmACW5RUFtklB076qQBk5rlKFDEbWJGxjcGtLZ81aK3vHxdQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715233945; c=relaxed/simple;
+	bh=E0bYqZXYKsYzhCt6xLzwDSqYDsXqTDkvQq1kvUFpseo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Oj3tfD1+XKMWfSFy7KU/YBaisGGKrJNZv8Nh69iwfJEWFCP6TkB2D63kcYwBGzLBfsGV98ilobbABeR8MaEUolfc+C9HIhI7qXOiDWsEF8LbTce1qotBQNdV0dsGfKaHQ6a0OYsLNmyWVGDfif6DTVD0w9T4BCnjnJdwQ0fYQJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz; spf=pass smtp.mailfrom=tesarici.cz; dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b=gHpqON40; arc=none smtp.client-ip=37.205.15.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tesarici.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="mGTn6HUC"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZkpXgTW8UW3nFL3gntniE5xwA8nIPif12hZUnXwM7/a1l6zA4vgNg3xFtA/7b/+EFV3CiEk08jMJxJDd84YEFryxPzsg5IeHSPYlWG4t+er8seX/0CUEenZgUQA09Hwa66y40FMdCAcRKQPeHaFMUnUVoWEfst2dt5goqf6Mt09mro8D0p4V/lNnlVBu2P99Fw4DmHMcXlzt98y/Bc/dhm7s4fbQa6c37K7o6P029+Xq9Ga3tkQFdzHlT7qNZomxR9K9Ev/4ADGxFZ6FZD48qus7LWAy9ZUaDKey/ddvaXfXdOha4H8Rz9WuXAOKCz2PtvqmnNN3kSPrjnVtDRhzXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aOca45vba7htqxKgkw2r5bdAFLt5wRXjXXCoEBJ5quI=;
- b=O4kZcZqebAUN7untLuYpAmELcz/g9cSPMRfTzXdtDp6BRWhVClbR6wrZVSLUN1QI5MTMfP8v05E3bEEUPuaVVwg7/cRC16uu7DuRwmkvQtD2cWa6BcCCQD48kUdhLEELv9kaXHU6iDB3auSgXdiG5pXNc5vyGXxRm0ZFeZkIS7oYMj3Vo2RNzakZbZvKUdLvVKmgv9onyBbPDnETid/PYzVzIJB1KyricJ+W9HoAlkuBItz3GAeoqDnxWSp+muZ0H+k5nZUdPjqmkp5JF1TBZNhH3BDTpHsx70q2XzJtI/gwHfE6LKA7CDQxzoCk0gqIsjCs39DEE6xb1EldsJiv5Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aOca45vba7htqxKgkw2r5bdAFLt5wRXjXXCoEBJ5quI=;
- b=mGTn6HUCpFYGXTPEeyGCQcHM+nY/YMyjaDJ/DqWVWP+2VWIKcAsGNVL/6r0N2/f901NPFIZW85412Gyd2PWtmFoZ9JeM0F+sL4bMmQ8WLz7c3uemVZwFHQzaszKBk8ePiTWEgJwG2j0IRcBxzp32G0JHPCuPIMyPs7BH4q9kU9o=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TY3PR01MB10906.jpnprd01.prod.outlook.com
- (2603:1096:400:3af::14) by TYCPR01MB11419.jpnprd01.prod.outlook.com
- (2603:1096:400:37e::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.47; Thu, 9 May
- 2024 05:50:46 +0000
-Received: from TY3PR01MB10906.jpnprd01.prod.outlook.com
- ([fe80::592:9b7b:ef57:2dd8]) by TY3PR01MB10906.jpnprd01.prod.outlook.com
- ([fe80::592:9b7b:ef57:2dd8%4]) with mapi id 15.20.7544.046; Thu, 9 May 2024
- 05:50:46 +0000
-Message-ID: <87edaba5ze.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
- <amadeuszx.slawinski@linux.intel.com>,	Alexandre Belloni
- <alexandre.belloni@bootlin.com>,	Alper Nebi Yasak
- <alpernebiyasak@gmail.com>,	AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>,	Banajit Goswami
- <bgoswami@quicinc.com>,	Bard Liao <yung-chuan.liao@linux.intel.com>,	Brent 
- Lu <brent.lu@intel.com>,	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,	Claudiu Beznea
- <claudiu.beznea@tuxon.dev>,	Cristian Ciocaltea
- <cristian.ciocaltea@collabora.com>,	Daniel Baluta <daniel.baluta@nxp.com>,
-	Hans de Goede <hdegoede@redhat.com>,	Jaroslav Kysela <perex@perex.cz>,
-	Jiawei Wang <me@jwang.link>,	Jonathan  Corbet <corbet@lwn.net>,	Kai
- Vehmanen <kai.vehmanen@linux.intel.com>,	Kevin Hilman
- <khilman@baylibre.com>,	Liam Girdwood <lgirdwood@gmail.com>,	Mark Brown
- <broonie@kernel.org>,	Maso Huang <maso.huang@mediatek.com>,	Matthias
- Brugger <matthias.bgg@gmail.com>,	Neil Armstrong
- <neil.armstrong@linaro.org>,	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,	Pierre-Louis Bossart
- <pierre-louis.bossart@linux.intel.com>,	Ranjani Sridharan
- <ranjani.sridharan@linux.intel.com>,	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,	Sylwester Nawrocki
- <s.nawrocki@samsung.com>,	Takashi Iwai <tiwai@suse.com>,	Vinod Koul
- <vkoul@kernel.org>,	Xiubo Li <Xiubo.Lee@gmail.com>,
-	alsa-devel@alsa-project.org,	imx@lists.linux.dev,
-	linux-doc@vger.kernel.org,	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 0/3] ASoC: grace time for DPCM cleanup
-In-Reply-To: <87pltxmakr.wl-kuninori.morimoto.gx@renesas.com>
-References: <87wmo6dyxg.wl-kuninori.morimoto.gx@renesas.com>
-	<1jr0ee2ebk.fsf@starbuckisacylon.baylibre.com>
-	<87pltxmakr.wl-kuninori.morimoto.gx@renesas.com>
-User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Thu, 9 May 2024 05:50:45 +0000
-X-ClientProxiedBy: TYCP286CA0115.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:29c::19) To TY3PR01MB10906.jpnprd01.prod.outlook.com
- (2603:1096:400:3af::14)
+	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="gHpqON40"
+Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by bee.tesarici.cz (Postfix) with ESMTPSA id 1F41C1C3DAA;
+	Thu,  9 May 2024 07:52:13 +0200 (CEST)
+Authentication-Results: mail.tesarici.cz; dmarc=fail (p=quarantine dis=none) header.from=tesarici.cz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tesarici.cz; s=mail;
+	t=1715233933; bh=XpiPVFUL+AaGJMDdFMi7dziozT/Ubs4Tq5hF/a2lG8w=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=gHpqON40rBh3O0oITSADi1Eh1LZPdaNDKFVDkAL9DmvmC7WzomSKTTwLZilKGxHTf
+	 ajJevWgtbi3Fdwn4OqY6Qz/RzNENkDQVLLzSoQ1YhEkOHZvgYFAsicGCMhJZwWQDKG
+	 R2WYEXR142Qpq/dpgDJBk2HCn2/UmpubyKSc6FqukPqMa0CJoQAUrcla7TzjUx1hQJ
+	 +DCZqEIA4JgKyDH5sMkH4PHmkSeG/ghY/HCMdV//KfGa+lwlQ3UvPZR7z1wb1DxU2T
+	 Qi5zSBV8Jy2HzPq5jWX6H6JeqMrlRk0YOT3At+/soXJ7LD2l8wLldaF5S8RyHhuDFk
+	 RfHqen49kfmBg==
+Date: Thu, 9 May 2024 07:52:12 +0200
+From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+To: "T.J. Mercier" <tjmercier@google.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"
+ <hpa@zytor.com>, mhklinux@outlook.com, robin.murphy@arm.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] doc: swiotlb: iommu/dma: Clarify swiotlb=force
+ option applies only to dma-direct
+Message-ID: <20240509075212.33e521a8@meshulam.tesarici.cz>
+In-Reply-To: <20240507013502.3095744-1-tjmercier@google.com>
+References: <20240507013502.3095744-1-tjmercier@google.com>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY3PR01MB10906:EE_|TYCPR01MB11419:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1fc305a6-40fe-49ea-0ba7-08dc6febf8d9
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230031|376005|366007|52116005|1800799015|7416005|38350700005;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?FLmOiMzY6VWWLIAnYjLBfCWRHv1gx1THGpyp132L4Q5AvUoneS1D5zZckm0Y?=
- =?us-ascii?Q?5hcgL6adJcXtWWfMQFSbYIIogr2tOdEWczNl+Hl3jiKYnZbcwPwYNvSwJjWy?=
- =?us-ascii?Q?dy/GGL8kL8H3H2ka8GKiDZWxJQx7TfUCQa1oCOSoC7Y8PoW72fSlb1dRIWTg?=
- =?us-ascii?Q?wuAJ7sNAfzzNaVoJikzmKzMGg8qvxvNGCzg0L8H7CvRDk/GAdKxl2CADv1dX?=
- =?us-ascii?Q?mXmg1gcnpot3Gq7f1ORcqYcvsQ4kzXdUmqC8FmwVR4y2XqgNfEqOekUM5cmq?=
- =?us-ascii?Q?YHTvlvezvF+eeXAS9n3Z7i1ydOJa83uHCxo17p5IkQnqd+FeANoTKCi0WLyB?=
- =?us-ascii?Q?clp+DNL57nmLcHm7cpJsfjnf13bUTEKek949jqtTvzHolV6bqosV61MF9qqh?=
- =?us-ascii?Q?nq4sDBcPIlpkZmUntiup08a7IUkqYP5b9NXpn6S0no10DjfUexD8CmJ9HPwL?=
- =?us-ascii?Q?/LiM6AIlZeNdH+tK5JvYJNfG4wlqb2zdsglo/xTL8aJznE8oQSAdS0YYo8k/?=
- =?us-ascii?Q?rDW4DPty3NU6rbvp8B+I2C7feYEbG2BJk9AloMleN45S6zTxZn1jBfijxOfG?=
- =?us-ascii?Q?oMwecyKkzAkslx/XuU7kNRHG1+uFivTmsd0CQAlzrtDUvNDB33rNVbIJ1km/?=
- =?us-ascii?Q?Y6xkuv81TMFccuIK1m02XvfOnf9svYfNj2r+zJsigdhZYoy0etUju0rMnXc+?=
- =?us-ascii?Q?DKtgCdAUVp8xspuFyqSFoP2CNU0u8fD8GSHTS+rlBy4NDsmr2Ljis3xxS02q?=
- =?us-ascii?Q?cNKPqeRwFfd8hZXlRxn03SVZaGM7Kt/QvdNo+1bZi7+279M3otni9jwiclcs?=
- =?us-ascii?Q?SKTtsI8eX1/bzRTAWsiC+Vf5LdM32/3hJJ+cPBl5LcN7hAW89UfoSkX9/3Wh?=
- =?us-ascii?Q?7xrpBD5Eb1ri5A5k4fDfSGGnhCtRgxg4YGbx+YOexcW+tKGEsAb/oV9Bymov?=
- =?us-ascii?Q?+6kpj/izUqitQSjoXqZ8txN1NE0wKzStopnbnOTdygOtvj4iubGHgu2Z2/Ho?=
- =?us-ascii?Q?7Dmo4E94zl9jnV8FQlDgo3It1smQCP2UjnoSVEuLWFD1bhlybOlEAMMaeErg?=
- =?us-ascii?Q?VSWQ3Y+PwyXYOqcvyF2rv4au6wMvvo7ERKygy2w7AT+yZ9ORFF8ODwvRMc7Z?=
- =?us-ascii?Q?RS/JCIyNLEkd524hpCffVM1HwLrv5ehx/yJD8lmy/qGHn82fikoZhL+ohmzW?=
- =?us-ascii?Q?kdrHXWLjgywV6w17oYe6bGj2104oiMdx6rDOVaJYnaAi8wxSpdY9GuONH4JK?=
- =?us-ascii?Q?kTjXYoE/shHNr9D3Ab3KlcmJISsp4ysV129vq1f6QukamhImr7pmpiUa9Ppc?=
- =?us-ascii?Q?Wdr5E2RNio8Ib2GhMivhRuLagqfySu4MjWL0hJQ7bQETmg=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB10906.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(366007)(52116005)(1800799015)(7416005)(38350700005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?KQ1HOzqn3Iar8sB3DTreUoqarOKDaIN134FgcDJa1Ax5S2DC0sCUGsL5SuY6?=
- =?us-ascii?Q?EUpCCM40hZRnlt4s6qg3ANoTlXL2cdfJX6yaiEcp3/5NeQu6jsT81+/8TVK5?=
- =?us-ascii?Q?C7PclZiP1HlGzweuQrPevaBFAoWYKg7xMndeAFcNgCD47KY12oIItaixULhV?=
- =?us-ascii?Q?J2qmV2dlwCByF6LylNB9UBBaJST/+u9/34JQaSw0H72rm+sWqmMAZ3p5vfbd?=
- =?us-ascii?Q?iPB8iAW8+R0bCLmOdDlWc+6ma3MKRkTxeOcskcA9u8r9Wgzf/9EWdzMvOeCM?=
- =?us-ascii?Q?4Ym63zwOPhcMdBR3d5bSNexIi6zAkiJfXyxsnLwCofwoPKMk4qoHvMguHYWH?=
- =?us-ascii?Q?MG5gZzzaARI9g52ji+jGhAr/vqCSizpZcVE1H6+/NJC/4evzsidQlYCQgleu?=
- =?us-ascii?Q?uEjlJ3FxzfViYMFygAToDIjtZuweR1gkPR5dz2vHGWnuckO7jIyeAva8Oqpe?=
- =?us-ascii?Q?gMejc+Dr5Od1jMAedX5iEBg2nQ+cxe8NWHNolTP378HSA4RYA9alRCPVWl13?=
- =?us-ascii?Q?gccVywKkly3+9Ce2lsvnCTVux+egTFWcs2yM8H/ddkbTKzdsHK1D4Uu3Wcup?=
- =?us-ascii?Q?InTERsN/ugdI/+MmsBB3coY7+Art+QVeVvZ5GaxwjsovMdAHTKXnVz4ZYIsl?=
- =?us-ascii?Q?YWEb9g1vK/d1qsXrdsw+tjhCiSMOve7EF4CUU5mKzbErln2PWiML2bxR4wlc?=
- =?us-ascii?Q?BSrvhRTdv1kCBBe5LJ79HSFjNaG8hER3bk5LSUYKKZmIAftdqUYl2aqjqeED?=
- =?us-ascii?Q?TeIZAPpvaUxhNS39gSAEw53jyaw/KQ0FOQyO3OO6M5ZpssI4ZYHzRTnkr0Kk?=
- =?us-ascii?Q?dkvPpdoiuutD+1x71r+03bT0jIuV/xiL0DzW9CLBPbNg0XLEMYAIbM8aQLH6?=
- =?us-ascii?Q?ImXMvkiorkmFssRKUvM51Ayb2RI4G94pkPdcXOgthmi8iD1XU6y7BhEQhe5K?=
- =?us-ascii?Q?k1r/IXX6/EiB/iwUy2pbnwD/zlP19XdSyjBUlBl9+BAWn/SMk06Eohj+2EO/?=
- =?us-ascii?Q?2pWC/actHJ2U6jTnrOF5dnJzq7TIng7F1J0Job6TxD3zY13HQn8DSWmxDPqK?=
- =?us-ascii?Q?oj5DC6HBIs9UeSCCx7XxK/JXbMXRWvL+lCD91VlNbz8HKXDINLCw3FUgwWdK?=
- =?us-ascii?Q?ADGNyJs+ru2KFGa9WAKC5t4QTOpY+6/S5xj0ceTHiT/QM8d8cJuA7oRMFJn7?=
- =?us-ascii?Q?FE0mqwXJXRKItcI5GyTsWv4cvzJnaZfIcVbJeRxzErXOg7iFLW/+fozUSc3y?=
- =?us-ascii?Q?B462/wgIK7W4gU1eBHRSi97MVfLj6zLO9h8whB5iQybuVjIBBLwl6/pPUrkL?=
- =?us-ascii?Q?3GBUkAhuE0Bca9YBDP/Ma/upnQUJ7vzwBHp1KHjVb+HZwqjS0K+CxR1XV1th?=
- =?us-ascii?Q?+C6j8hQbTIKtcQhi7e2lnBC77GQzA/c4Yp0Kno7+1ogY5hrF07+LdRWNjCZ4?=
- =?us-ascii?Q?GB7mn/kZGgTUOlSb9qXWizBs+ml9btuvID+TZFzKTyNbUh/llVGii5IHDzUJ?=
- =?us-ascii?Q?xfsLEazQRJBPIalYxYrrxiDG//5xRoZhPpE0eb8KiLe7cJqeJRXEnaHI88pA?=
- =?us-ascii?Q?hUYkky7XQL2zd964VT3c3OS5xfurgrAQo1yzJVRUcdRedYDsNcHtjB8+CTuI?=
- =?us-ascii?Q?Pmi03NV7pfqMAPirPk5cpQ0=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1fc305a6-40fe-49ea-0ba7-08dc6febf8d9
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB10906.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2024 05:50:46.4005
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2m0QDG0j926/ypjO99NbRU3BaqDaRyIiOgvwYE5WKJoiFRR8JTBlLSWst6a22uo5Wmx8m3dYmsMl6S82owK2ygOK7BR/hNuTPsJC2HgoTqiNjjlAv61qn5ebjMPJnHJO
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB11419
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Tue,  7 May 2024 01:34:58 +0000
+"T.J. Mercier" <tjmercier@google.com> wrote:
 
-Hi Jerome
-
-I need your help
-
-> > I have tested this series on an Amlogic device (vim3l)
-> > This brings warnings for cases which are perfectly fine.
-> > 
-> > For example, one of the DPCM backends is the TDM interface. This
-> > interface is capable of both playback and capture. It can be associated
-> > with any i2s/TDM codec.
-> > 
-> > The codec may do playback and capture too, but it
-> > may also do a single direction. Then usual example is the hdmi codec
-> > which does playback only.
-> > 
-> > In this case I get:
-> >  axg-sound-card sound: CPU capture is available but Codec capture is not (be.dai-link-6) Please update Codec driver
-> > 
-> > I don't think this is right.
+> IOMMU implementations now sometimes bounce memory through SWIOTLB to
+> achieve cacheline alignment [1], or prevent DMA attacks by untrusted
+> devices [2]. These uses of SWIOTLB differ conceptually from historical
+> use which was a solution to the problem of device addressing
+> limitations that prevent DMA to some portion of system memory
+> (typically beyond 4 GiB). IOMMUs also solve the problem of device
+> addressing limitations and therefore eliminate the need for SWIOTLB for
+> that purpose. However as mentioned, IOMMUs can use SWIOTLB for other
+> purposes.
 > 
-> Hmm..., I'm confusing
-> Does it mean you want to use "playback only" on it ?
-> If so, did you get below warning too ?
-> 	 "both playback/capture are available, but not using playback_only flag (%s)\n",
+> The swiotlb=force kernel command line parameter does not impact IOMMU
+> related use of SWIOTLB, and that is intentional. IOMMUs cannot be forced
+> to use SWIOTLB for all buffers. Update the documentation for the swiotlb
+> parameter to clarify that SWIOTLB use can only be forced in scenarios
+> where an IOMMU is not involved.
 > 
-> If not, can you please fill below ?
+> [1] https://lore.kernel.org/all/20230612153201.554742-16-catalin.marinas@arm.com
+> [2] https://lore.kernel.org/all/20190906061452.30791-1-baolu.lu@linux.intel.com/
+> Signed-off-by: T.J. Mercier <tjmercier@google.com>
+
+Looks good to me now.
+
+Reviewed-by: Petr Tesarik <petr@tesarici.cz>
+
+Petr T
+
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 1 +
+>  Documentation/arch/x86/x86_64/boot-options.rst  | 3 +++
+>  2 files changed, 4 insertions(+)
 > 
-> Card
-> 	dpcm_playback = (0 or 1)
-> 	dpcm_capture  = (0 or 1)
-> 	playback_only = (0 or 1)
-> 	capture_only  = (0 or 1)
-> BE.CPU
-> 	playback = (available, not available)
-> 	capture  = (available, not available)
-> BE.Codec
-> 	playback = (available, not available)
-> 	capture  = (available, not available)
-> Expect
-> 	playback = (available, not available)
-> 	capture  = (available, not available)
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 213d0719e2b7..84c582ac246c 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -6486,6 +6486,7 @@
+>  				 to a power of 2.
+>  			force -- force using of bounce buffers even if they
+>  			         wouldn't be automatically used by the kernel
+> +			         where a hardware IOMMU is not involved
+>  			noforce -- Never use bounce buffers (for debugging)
+>  
+>  	switches=	[HW,M68k,EARLY]
+> diff --git a/Documentation/arch/x86/x86_64/boot-options.rst b/Documentation/arch/x86/x86_64/boot-options.rst
+> index 137432d34109..a37139d1752f 100644
+> --- a/Documentation/arch/x86/x86_64/boot-options.rst
+> +++ b/Documentation/arch/x86/x86_64/boot-options.rst
+> @@ -292,6 +292,9 @@ implementation:
+>          Prereserve that many 2K slots for the software IO bounce buffering.
+>        force
+>          Force all IO through the software TLB.
+> +        Hardware IOMMU implementations can use SWIOTLB bounce buffering in
+> +        some circumstances, but they cannot be forced to always use them, so
+> +        this option only has an effect when no hardware IOMMU is involved.
+>        noforce
+>          Do not initialize the software TLB.
+>  
 
-I need feedback from you, it is still not clear for me.
-But I noticed that we want to update below. I'm happy if it can solve your
-issue.
-
--	if (has_playback && !has_playback_both)
-+	if (has_playback && !has_playback_both && !dai_link->capture_only)
-		dev_warn(rtd->card->dev, ...)
-
--	if (has_capture && !has_capture_both)
-+	if (has_capture && !has_capture_both && !dai_link->playback_only)
-		dev_warn(rtd->card->dev, ...)
-
-
-
-Thank you for your help !!
-
-Best regards
----
-Renesas Electronics
-Ph.D. Kuninori Morimoto
