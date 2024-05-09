@@ -1,149 +1,242 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A8BFD528;
-	Thu,  9 May 2024 08:26:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B824314A4F5
+	for <linux-doc@vger.kernel.org>; Thu,  9 May 2024 09:19:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715243177; cv=none; b=d9t1mRc5bDJ5I+S5uWcxTBgDITUhq/9ud20dY/JjTBwYHYzqbwFZL9j9GTWy84ws4vIxUGr3COEXvzyIUEy2qFTdQo9JCNWak3em7TpgC1L7ZM1Zz4vb2YS3YGbPlaZSNsig4VvbxGXzFqXrLpyQSTFuVdPMaEwQLnC7wjqaJdQ=
+	t=1715246343; cv=none; b=teCpKRC9OSFbIscyHY1c3n5tp3DiqEgJfmaEvgERhpd5yy1K2/hC/AvvVc2Tf6zjNhocLJ+iW6c/p3lcKLwiv3ggatJJZAkkicG14XFR5gxqWmXjIdiJlhFcBvdzm0gHfbJXthem6Qz9ccu/U550oOsuOyCRzY+4sAfJAbULsBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715243177; c=relaxed/simple;
-	bh=lizFEMoTEBeHtyz3VDJYwUzuXXkaTL9FurOp+03QTdM=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M6zyTHweQXswqt/IWs1Ni92YunSqjRQNt2aRaBOeXbUKyONjwFji6gksBmUtMIqiCGjDXP55gA7M3XzZBC2JkH+p5VwtQ5CYtiL0MHPbrcPFrvaqs5qUN0aIZCelGFs3bfD1qpa87qCuLwrbIB2upzGlPh2Sx4douTFw8Q+ax7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=AMdu3RDe; arc=none smtp.client-ip=68.232.154.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1715246343; c=relaxed/simple;
+	bh=lcCQnxRMRJTW7GYII3BN87nmQecfBijYHLC7JbXBtcU=;
+	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
+	 MIME-Version:Content-Type; b=L7Ftm3MNDN9HoY48uZYUlXeIOfK0Jl3+wHofDbZ4mMlAGZJLWYKatHbhbBT4wGUUgqGl2711AlMBbejFJo5CkA8KRzv6vvfJyFlk4NM4uBj1Zb5+pgC17vw8Tc73RSEWFak30qdpjPn1K0DVQoWvR0pqYZG+pFyMfi/hAaOOjqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=yHkILyna; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="AMdu3RDe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1715243175; x=1746779175;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lizFEMoTEBeHtyz3VDJYwUzuXXkaTL9FurOp+03QTdM=;
-  b=AMdu3RDe+AmTMkyfebgdHaPS9XG7SfMJ6/8mJwE/sYMHcF3N/0YOLPMZ
-   mACW8uk0IWCIw3TDzVQk8A6fcnwlbNYtgamafNQNY3QFwgRgqVRwHtNNL
-   5zYUVQDxedhpYmOYJW9Bjzqk5hnfDudsDQWdBFJ2Iwh+q2vPyeTNEhh5S
-   UOYa2yqX+bVtUzhTV4ZWUEbw/9QD+knUQBhs5nEuL0SgNkvc/VuCij+Fa
-   YlTVj599GoWj9O0RDKQcM7V4Zt/Z55eo8quc5e62qf2FXXwx9OnBYiPD0
-   GT2HfuEerLhuFxHK8MeuuILea4camUgbNN75FsJ+YSmL967U/KllWaKuf
-   A==;
-X-CSE-ConnectionGUID: jv5JI/A3QPCNVsdCd9Mb+g==
-X-CSE-MsgGUID: UDMgsYuwTqGWVx95aCyr1w==
-X-IronPort-AV: E=Sophos;i="6.08,147,1712646000"; 
-   d="asc'?scan'208";a="191613156"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 09 May 2024 01:26:14 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Thu, 9 May 2024 01:25:39 -0700
-Received: from wendy (10.10.85.11) by chn-vm-ex04.mchp-main.com (10.10.85.152)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
- Transport; Thu, 9 May 2024 01:25:35 -0700
-Date: Thu, 9 May 2024 09:25:25 +0100
-From: Conor Dooley <conor.dooley@microchip.com>
-To: Andy Chiu <andy.chiu@sifive.com>
-CC: Conor Dooley <conor@kernel.org>, Eric Biggers <ebiggers@kernel.org>, Paul
- Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Heiko Stuebner <heiko@sntech.de>, Guo Ren
-	<guoren@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>, Jonathan Corbet <corbet@lwn.net>, Evan
- Green <evan@rivosinc.com>, =?iso-8859-1?Q?Cl=E9ment_L=E9ger?=
-	<cleger@rivosinc.com>, Shuah Khan <shuah@kernel.org>,
-	<linux-riscv@lists.infradead.org>, <linux-kernel@vger.kernel.org>, Palmer
- Dabbelt <palmer@rivosinc.com>, Vincent Chen <vincent.chen@sifive.com>,
-	Greentime Hu <greentime.hu@sifive.com>, <devicetree@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>, Joel Granados
-	<j.granados@samsung.com>, Jerry Shih <jerry.shih@sifive.com>
-Subject: Re: [PATCH v4 7/9] riscv: vector: adjust minimum Vector requirement
- to ZVE32X
-Message-ID: <20240509-habitable-unrefined-02322f228d5a@wendy>
-References: <20240412-zve-detection-v4-0-e0c45bb6b253@sifive.com>
- <20240412-zve-detection-v4-7-e0c45bb6b253@sifive.com>
- <20240418-brook-chili-4d3e61d1a55c@wendy>
- <20240418155256.GA2410@sol.localdomain>
- <20240418-ultimatum-yam-11de4b063b83@spud>
- <20240418173203.GA1081@sol.localdomain>
- <20240418173946.GB1081@sol.localdomain>
- <20240418-sterling-sanding-d59c3b0a2aaa@spud>
- <CABgGipU74TA3KgCH4pPuRefbnYt3q6RKcQwfyspenisEtY6eqw@mail.gmail.com>
- <20240509-mandatory-monsieur-dfa4d7881fa9@wendy>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="yHkILyna"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-34d99ec52e1so504176f8f.3
+        for <linux-doc@vger.kernel.org>; Thu, 09 May 2024 02:19:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1715246339; x=1715851139; darn=vger.kernel.org;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
+        bh=bLpM7TJDjRcXRO0i4lYjo6OZAM3sE3CuEsmwQ0zb4mw=;
+        b=yHkILynaKr8Pwrn6OaZWyfkuuJDLtJzVnWXc3oLupaJtFtGmJngLhsxr0B9nLzjCRB
+         P/okConF6wbJrsn2lBAez1bTRwmTjbiXh8SyBX43oauvMpAegO9uiO/DJKAmnawT1Jmt
+         SKtk8d72I6DRW4LjlvDpCwK3+Yxlm6nA2SS28UwOqsNkegJ5CBaVGBgijodzLbBvOyoU
+         AErfvpJdY/VQO8cUTL87yfrcSWIX3CwVNaROADrs6zOIBkE8Jn6WbOTZJd9MFwWBEyAL
+         D3F8VcbbW7J3qTFAt9WsrpWY6t9VH7Kk6qsR8DMuNToNIqlDUj32gSFw0Hgc8CnfAIue
+         rKXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715246339; x=1715851139;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bLpM7TJDjRcXRO0i4lYjo6OZAM3sE3CuEsmwQ0zb4mw=;
+        b=K/DCXRhy2uyUUJj3+q/9qTfXba3WhffcgYDsHrFbh5+aOsY1Y7TS8ZaHII56n64zzs
+         IHMli4MMjZyo6B6YUgQsPlDuvmpWL4KzrUEy57QtrbtTXUUx7qSPjHmI5q8Pkbp7Cvt+
+         oUHsh2x7cZ/V3IM+gnbU5BCqaAxaOwi12hrq6wOb+EfTgNar9u3P/U7918nriQ3JJQQM
+         8bGMckgCcefTZlFxOUSY2DxGDkUYVndE60PfGcGmHkfR9xYsdokFPqrKlZ93kp/9W4Pm
+         r+eQjC1cgY8lvVXxhr/wFIc9JhEjgnH1Jzj3pCSKUFV6fET7bC7Vzm79R/wSWvQfKrJh
+         GWqA==
+X-Forwarded-Encrypted: i=1; AJvYcCWFzbv1DqDNkECMLp7gBitofB4GUOuKpr/lNa0865IjDl+baCMCRIGTGovDulIFPAxeYk8pD2pLXhm+tkz2o/SBXId3rrBVMjFo
+X-Gm-Message-State: AOJu0YwUORSi/gs3uyFocUYS8stfrcAEqzxEjh2X2uITpoZj+kpI1rE0
+	fZZeszynDrwp1YasZCbzKcxpejvWC1VPp2Ven6P0RaUwkV8kjo37bJkiLsbdOgE=
+X-Google-Smtp-Source: AGHT+IFsB5wyyg9+udb49eD6La4FDSf5anjooXUEPEJOhb5hbaV1MWw6t5Anw3NkxndfSAwplOMP8A==
+X-Received: by 2002:adf:ca90:0:b0:34d:ef22:70d9 with SMTP id ffacd0b85a97d-34fca23f9ecmr3576359f8f.15.1715246338692;
+        Thu, 09 May 2024 02:18:58 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:87e6:73a1:526b:a411])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3502b79bd40sm1179386f8f.4.2024.05.09.02.18.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 May 2024 02:18:58 -0700 (PDT)
+References: <87wmo6dyxg.wl-kuninori.morimoto.gx@renesas.com>
+ <1jr0ee2ebk.fsf@starbuckisacylon.baylibre.com>
+ <87pltxmakr.wl-kuninori.morimoto.gx@renesas.com>
+ <87edaba5ze.wl-kuninori.morimoto.gx@renesas.com>
+User-agent: mu4e 1.10.8; emacs 29.2
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Jerome Brunet <jbrunet@baylibre.com>, Amadeusz =?utf-8?B?U8WCYXdpxYRz?=
+ =?utf-8?B?a2k=?=
+ <amadeuszx.slawinski@linux.intel.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Alper Nebi Yasak
+ <alpernebiyasak@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Banajit Goswami
+ <bgoswami@quicinc.com>, Bard Liao <yung-chuan.liao@linux.intel.com>, Brent
+   Lu <brent.lu@intel.com>, Cezary Rojewski <cezary.rojewski@intel.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>, Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>, Cristian Ciocaltea
+ <cristian.ciocaltea@collabora.com>, Daniel Baluta <daniel.baluta@nxp.com>,
+ Hans de Goede <hdegoede@redhat.com>, Jaroslav Kysela <perex@perex.cz>,
+ Jiawei Wang <me@jwang.link>, Jonathan  Corbet <corbet@lwn.net>, Kai
+  Vehmanen <kai.vehmanen@linux.intel.com>, Kevin Hilman
+ <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+ <broonie@kernel.org>, Maso Huang <maso.huang@mediatek.com>, Matthias
+  Brugger <matthias.bgg@gmail.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, Pierre-Louis Bossart
+ <pierre-louis.bossart@linux.intel.com>, Ranjani Sridharan
+ <ranjani.sridharan@linux.intel.com>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Shengjiu Wang
+ <shengjiu.wang@gmail.com>, Srinivas Kandagatla
+ <srinivas.kandagatla@linaro.org>, Sylwester Nawrocki
+ <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, Vinod Koul
+ <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
+ alsa-devel@alsa-project.org, imx@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 0/3] ASoC: grace time for DPCM cleanup
+Date: Thu, 09 May 2024 10:51:59 +0200
+In-reply-to: <87edaba5ze.wl-kuninori.morimoto.gx@renesas.com>
+Message-ID: <1j1q6b1gxs.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="fd9CceYogHrFCPUX"
-Content-Disposition: inline
-In-Reply-To: <20240509-mandatory-monsieur-dfa4d7881fa9@wendy>
+Content-Type: text/plain
 
---fd9CceYogHrFCPUX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 09, 2024 at 08:48:09AM +0100, Conor Dooley wrote:
-> On Thu, May 09, 2024 at 02:56:30PM +0800, Andy Chiu wrote:
-> > Hi Conor,
-> >=20
-> > Should we check if "v" presents for vector crypto extensions in
-> > riscv_isa_extension_check()? We are not checking this for now. So a
-> > kernel compiled with RISCV_ISA_V still has a problem if its isa-string
-> > includes any of vector crypto ("zvbb, zvkg, etc") but not "v".
->=20
->=20
-> Yeah, one of the things I took away from this discussion is that we need
-> to improve the implementation of both the methods we have at the moment
-> for drivers etc to check if extensions are present and usable.
-> In general, I don't think checks like that are "safe" to do in
-> riscv_isa_extension_check(), because the dependencies may not all have
-> been resolved when we probe an extension (Clement's current Zca etc
-> series improves the situation though by only calling the checks after
-> we probe all extensions).
->=20
-> The simple V cases are all fine though - the DT binding and ACPI rules
-> for compatible strings all mandate that single-letter extensions must
-> come before multi-letter ones. For riscv,isa-extensions we control the
-> probe ordering and probe V before any multi-letter stuff. Additionally,
-> we should make it a requirement for V to be present if things that
-> depend on it are.
->=20
-> That said, is it permitted by the specs to have any of the extensions
-> you mention without the full V extension, but with one of the cut-down
-> variants you mention here? If not, I'd be more interested in figuring
-> out the non-extension dependencies: whether or not the kernel itself
-> supports vector and if the kernel has opted to disable vector due to
-> detecting that harts have mismatching vector lengths.
->=20
-> TL;DR: I think we should add some checks in riscv_isa_extension_check().
+On Thu 09 May 2024 at 05:50, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
 
-Also, unless this only becomes a problem with this series that adds the
-cut-down forms of vector, I think this is a separate problem to solve
-and I can send some patches for it (along with some other cleanup I'd like
-to do as a result of Eric's comments) and you can just submit the v2 you
-were planning to without it. I can't, off the top of my head, think of
-why this particular series would break the vector crypto stuff though,
-the problems with enabling extensions seem underlying.
+> Hi Jerome
+>
+> I need your help
+>
+>> > I have tested this series on an Amlogic device (vim3l)
+>> > This brings warnings for cases which are perfectly fine.
+>> > 
+>> > For example, one of the DPCM backends is the TDM interface. This
+>> > interface is capable of both playback and capture. It can be associated
+>> > with any i2s/TDM codec.
+>> > 
+>> > The codec may do playback and capture too, but it
+>> > may also do a single direction. Then usual example is the hdmi codec
+>> > which does playback only.
+>> > 
+>> > In this case I get:
+>> >  axg-sound-card sound: CPU capture is available but Codec capture is not (be.dai-link-6) Please update Codec driver
+>> > 
+>> > I don't think this is right.
+>> 
+>> Hmm..., I'm confusing
+>> Does it mean you want to use "playback only" on it ?
+>> If so, did you get below warning too ?
+>> 	 "both playback/capture are available, but not using playback_only flag (%s)\n",
+>>
 
-Thanks,
-Conor.
+I've checked. No such trace, no.
 
---fd9CceYogHrFCPUX
-Content-Type: application/pgp-signature; name="signature.asc"
+>> If not, can you please fill below ?
+>> 
+>> Card
+>> 	dpcm_playback = (0 or 1)
+>> 	dpcm_capture  = (0 or 1)
+>> 	playback_only = (0 or 1)
+>> 	capture_only  = (0 or 1)
+>> BE.CPU
+>> 	playback = (available, not available)
+>> 	capture  = (available, not available)
+>> BE.Codec
+>> 	playback = (available, not available)
+>> 	capture  = (available, not available)
+>> Expect
+>> 	playback = (available, not available)
+>> 	capture  = (available, not available)
 
------BEGIN PGP SIGNATURE-----
+I'm not too sure I undestand this. I'll try to illustrate the case
+raising the warning as precisely as possible bellow
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZjyIdQAKCRB4tDGHoIJi
-0hcBAQCRofWX8dSzuxqpA0rVYBNGm8WInygUT4+nUrHkr+BHaAEAhVPTVOy9BnkO
-2PVLOWUyKNOC8CVZCq9rs7skTcEbaAI=
-=w/06
------END PGP SIGNATURE-----
+>
+> I need feedback from you, it is still not clear for me.
 
---fd9CceYogHrFCPUX--
+Sorry. There are some national holidays in France. I'm not spending much
+time near the keyboard ATM
+
+> But I noticed that we want to update below. I'm happy if it can solve your
+> issue.
+>
+> -	if (has_playback && !has_playback_both)
+> +	if (has_playback && !has_playback_both && !dai_link->capture_only)
+> 		dev_warn(rtd->card->dev, ...)
+>
+> -	if (has_capture && !has_capture_both)
+> +	if (has_capture && !has_capture_both && !dai_link->playback_only)
+> 		dev_warn(rtd->card->dev, ...)
+>
+
+Honestly I'm a bit lost in all these flag :/
+
+Some for BE error reported here is the full picture
+
+     PCM
+ =====|=====
+      V
+    --------
+    |CPU FE| This CPU (FIFO) does Playback only. 
+    --------
+      |  Because of the CPU, link a playback only one
+      V
+    ----------
+    |Codec FE| Using Dummy here
+    ----------
+      |
+      V
+    ~~~~~~~~~~
+    |Routing |
+    ~~~~~~~~~~
+      ^
+      |
+      V
+    --------
+    |CPU BE|  This is the TDM interface. Capable of both Playback and
+    --------  Capture. Through routing it can be connected to Playback
+      ^       and/or Capture FE CPUs.
+      |
+      |
+      V
+    -------------
+    |BE Codec(s)| Possibly N codecs, supporting both direction, or a
+    ------------- Single one, or one direction each. In this particular case
+      |           it is Playback only C2C.
+      |
+ ---- V ------------------ From Here, it is specific to HDMI -------------
+    ~~~~~~~~~~~~~
+    |C2C Routing| SoC has routing has mux between the different TDM
+    ~~~~~~~~~~~~~ interfaces and the HDMI controller
+      |
+      |
+      V
+    ---------
+    |C2C CPU|     This is a playback only CPU for HDMI
+    ---------
+      |
+      V
+    -----------
+    |HDMI Codec|  The usual HDMI codec, playback only
+    -----------
+
+Better picture are available in the SoC doc.
+There is publicly available datasheet here [1]
+
+Audio paths are displayed in Section 9, page 807, Figure 9-1.
+A TDM interface in this figure is combination of a TDMOUT and a TDMIN
+(axg-tdm-formatter.c). The axg-tdm-interface.c joins them because they
+use the same pads and clocks.
+
+[1]: https://dl.khadas.com/products/vim3l/datasheet/s905d3_datasheet_0.2_wesion.pdf
+
+>
+>
+> Thank you for your help !!
+>
+> Best regards
+> ---
+> Renesas Electronics
+> Ph.D. Kuninori Morimoto
+
+
+-- 
+Jerome
