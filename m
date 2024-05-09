@@ -1,57 +1,57 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C147F476
-	for <linux-doc@vger.kernel.org>; Thu,  9 May 2024 19:00:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F02C2653
+	for <linux-doc@vger.kernel.org>; Thu,  9 May 2024 19:16:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715281251; cv=none; b=T2DZznl8dGCxP6WDZLC8Osy9CGNLwrkz5342eNjudFztDk1VSmwTgWtjayVZrXH4gA+J4XOc0w1B52KO2ABwvNHt1HHIDP2hNvnb8CwEM+lg5SJBQ9pEz73WO6FbpVJbwYC0fCcA+quzci27A4dpk9snSCsnyt79k5eiuxDC03Q=
+	t=1715282196; cv=none; b=KH6tLhS9A7ZIKPiO66SprzTZxewhx8TOLjutxbfEfBpwU+7TZZXuyWt0x0NkuRsE/GblCMX3mOeoYJeA5XkLFiG7soF1F2XMpHmpoTnwqD6Ky66EQB37uTp4wgmrW5WgfjMD427LfveFhD+j0TE0zej8ht848PqNIuGZ9OkVO1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715281251; c=relaxed/simple;
-	bh=xF39L+hs0TY+8aNmea7VYtJ+NEfSYKkZrUTY8FQHMiE=;
+	s=arc-20240116; t=1715282196; c=relaxed/simple;
+	bh=uCzgFU7wXjy37E1QSOA4C4Ah2huDwMghRUAkC14wOZE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LOq+e4dxyZwxya5qiWsUjPpY86SKCmIpJ13blBrxBs+rzDGq1WnpF15hKPlNTMjHujRV+H5ykeiYNkIUbAYQtbceUGPsgMM9at74xuYmFGNcMoVxEPyZCKkdJS9uXImB6o+TxEpARSFqMvOrA8rqrKp0c+Os5SgEA1fDAxhg7Js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=JJqxJHRe; arc=none smtp.client-ip=209.85.210.173
+	 Content-Type:Content-Disposition:In-Reply-To; b=XuDlZiBujaoTLVU7uieICn6K13X3eV6+E+pr9DpZYBNgm8BvXG7qeZXZEf8AfRWmtyvo39c9e8Z38v80xB84bqbmWG3u792ujcF6JdB8eZy3VrCmlLNNDniBn0OmxYGLDJZs1mobPYp1IE4ETHAuyHZWNAThe/rXwKoYgN5Y4io=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=p6BR47fZ; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="JJqxJHRe"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6f44bcbaae7so1116381b3a.2
-        for <linux-doc@vger.kernel.org>; Thu, 09 May 2024 12:00:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="p6BR47fZ"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1eeb1a4c10aso8342835ad.3
+        for <linux-doc@vger.kernel.org>; Thu, 09 May 2024 12:16:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1715281242; x=1715886042; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1715282194; x=1715886994; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=suVrTFWe4Q9EJfAXikAfGsbIG5FwHp88I8wjDmo5qhw=;
-        b=JJqxJHRelJ7QcM2PM36uXftB9ooQUS6iPJ+3M48VB7n1Rt0Qvw8nwkvwQdK7vDOnbS
-         aGOCUnx0yvWjP5VLhv8aqijkQH2PhO71MfbI8y33/IpWtnZiY6xNDPK0U8dCpwyd0xpG
-         3dlf94UK2jlFf37YfJTq20Hjh3qjs16ULJthd1fBhrPnwa34PZTYrTwDx0jC2sU1i/0n
-         vsGn9/NidfMsoQPz+QPJfwiNmFIVVlgzvW7oSE4yaFwoFEz1PjPZqXy+FpRLbeyIDEsN
-         mr50KSsUPaB3x61aY+qwHMBle46w/Gy+HE1Vj0UoExGhiAFSeN5W4WLz23Ex5zBWYhf/
-         CT5Q==
+        bh=WRd0Lx0MMpPCEzZHJ+gP+MBiwgoDsG5pFDJFXbEvS5E=;
+        b=p6BR47fZUkBd+uEdgLV91HLP/3f8tz9FUAZcMX1txl2WZCfGJTdp+7ji7eQ0HJsIou
+         7oDP3spbl6HXwjHBby8bB/D4x6YAMaqRKzXJBlD4nR67TSGhm7SCE647B6SSEUJ8cTnW
+         fXcRNJvRz0Uplw5AzETVF11LV3u0ZPVCdmAn5TnXS5lS4B6G/sQxncQ3DUCtaLGdH6hY
+         0/wmfs5EFIvkcZ8CMM8N9L9EDURm/c51QsQOAne3xTpfu1cKo7jKfC/FSo2cxUBkurQZ
+         kqrKu2kLpo8YPfyXBwxJOGyMy0Bnu8hLZtJ2xHu1VEHHRIaNOdIHaPeK381vB82/GWxY
+         tZrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715281242; x=1715886042;
+        d=1e100.net; s=20230601; t=1715282194; x=1715886994;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=suVrTFWe4Q9EJfAXikAfGsbIG5FwHp88I8wjDmo5qhw=;
-        b=OlVn+YWgDFxBTqykfghrIv1NLKvRer2U8Hl1s9rkCGZnNP2/VxjSA+nT+IVtkt13E+
-         mbzK1ZTxyVnvsOP6h5g5d9KnFzwbaNciLxjywwgSayzpflVAbgdQY226VSSTH3f6Wtje
-         o3lIAIAK93iQaUbyD55QOgmL5tzSXab/k96dSLxB1OBbOfmKAFW1BccB+tBbTeyR9q1g
-         OKYiYkkU7HGzCwiDptd8CageM9UUlApdn8k5LJ75BUlfvZFXTy1ELBV7OX0TvkPIEv73
-         pfhh4QxOeJLPdNgBuG7euBn/zJda2oiVZveuK9nbKEq/RJtcvb1onOknVLlqB7iAKigp
-         s9Ow==
-X-Forwarded-Encrypted: i=1; AJvYcCXhzfmqk8OdkUupSKbK7qYr3i7aP+/Fba5qn1iEaIFA1dHyQlhn7GDk3rfh8Dl5u+MKjoTamW86eytEQ1lNCiiFUZuarAFt11XE
-X-Gm-Message-State: AOJu0Yxm2+LhiZbYYHSX4U0snOWPagGokSodZnRH6JsS4OzFbr/LdjTQ
-	LFhnqf17B6B0MZoEohmXmxOmwieaQvR4jGgDn43mMvPFoWqjk3jeiP8ADbJMFUM=
-X-Google-Smtp-Source: AGHT+IHE3J/hwAQsHqywRim+p5Loya/dtj3SbYe2Ez8JQSaJRUzBly/edfRtpEMzoFQPu7m0vRKdfQ==
-X-Received: by 2002:a05:6300:8002:b0:1af:62a6:e2 with SMTP id adf61e73a8af0-1afde1fb753mr598976637.56.1715281241943;
-        Thu, 09 May 2024 12:00:41 -0700 (PDT)
+        bh=WRd0Lx0MMpPCEzZHJ+gP+MBiwgoDsG5pFDJFXbEvS5E=;
+        b=xC0mIEVULUib7s1IHhECcANzTrnwCtrikfPSVRYnYeyLxY2N/RtODZ4hcU6387duKq
+         SkXQklfrSsNlcnt15+PKj0ZTRvp/NpYqI17wdmNqvuG3coAwzepnCQPEYZD+Vs2ATX0U
+         9CSNn0SveICm6DybVRlGulbo+IRmhIuIOf80vJfhEko/WmAWu8P4X7qNnW/6K11xG/Y8
+         QhgiB080d6g3vP5ddo43d6puxVVwD0LB/xxZcoVmL6mome1kVLEymfZyWJLWEGKdFEoE
+         bBhwOief0VAN9+DrCBfYgjn/lEnfl5GRpi2R8OcCKhb5Mq3EsKCkzQIWozc+yW7hzrsu
+         Tpkw==
+X-Forwarded-Encrypted: i=1; AJvYcCVe/dVwf4YkJw4sZx1KTiw+uzeGUv5Y8YHXmNvlW/b0rlFO6fGmI8s8IGBdagDEpXHPKlSOsbsadd8VFl6Zl/ZGHkE3R7AWkJYJ
+X-Gm-Message-State: AOJu0YwwkNG55c+FYBJBqUWa4ImVLbOZ5Fgc+c49BzqKC7qzyxD+BomF
+	y4zAv2hvBI9W0pykb3TV8fn3L7ahkqx5t7QB3IPpJxvxiEDhX4/0+siJhaF3LQw=
+X-Google-Smtp-Source: AGHT+IGVLZ1hk7FPNudPJKafIIo2jYjbH8+I3TnNil7Sy8OT8DfcbS5dMB3RJTTTCW5vQbF2H1ruBQ==
+X-Received: by 2002:a17:903:191:b0:1dc:de65:623b with SMTP id d9443c01a7336-1ef4404b8cdmr7695675ad.60.1715282194292;
+        Thu, 09 May 2024 12:16:34 -0700 (PDT)
 Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2a6654asm1626451b3a.43.2024.05.09.12.00.37
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0c13692asm17812885ad.252.2024.05.09.12.16.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 May 2024 12:00:41 -0700 (PDT)
-Date: Thu, 9 May 2024 12:00:36 -0700
+        Thu, 09 May 2024 12:16:33 -0700 (PDT)
+Date: Thu, 9 May 2024 12:16:29 -0700
 From: Deepak Gupta <debug@rivosinc.com>
 To: Charlie Jenkins <charlie@rivosinc.com>
 Cc: paul.walmsley@sifive.com, rick.p.edgecombe@intel.com,
@@ -84,11 +84,11 @@ Cc: paul.walmsley@sifive.com, rick.p.edgecombe@intel.com,
 	revest@chromium.org, josh@joshtriplett.org, shr@devkernel.io,
 	deller@gmx.de, omosnace@redhat.com, ojeda@kernel.org,
 	jhubbard@nvidia.com
-Subject: Re: [PATCH v3 01/29] riscv: envcfg save and restore on task switching
-Message-ID: <Zj0dVJ20D05ELAoH@debug.ba.rivosinc.com>
+Subject: Re: [PATCH v3 29/29] kselftest/riscv: kselftest for user mode cfi
+Message-ID: <Zj0hDT1EZmOaEkCj@debug.ba.rivosinc.com>
 References: <20240403234054.2020347-1-debug@rivosinc.com>
- <20240403234054.2020347-2-debug@rivosinc.com>
- <ZjwUhvLBv13qi77a@ghost>
+ <20240403234054.2020347-30-debug@rivosinc.com>
+ <Zj0UGweLoRD1U9Po@ghost>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -97,107 +97,60 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <ZjwUhvLBv13qi77a@ghost>
+In-Reply-To: <Zj0UGweLoRD1U9Po@ghost>
 
-On Wed, May 08, 2024 at 05:10:46PM -0700, Charlie Jenkins wrote:
->On Wed, Apr 03, 2024 at 04:34:49PM -0700, Deepak Gupta wrote:
->> envcfg CSR defines enabling bits for cache management instructions and
->> soon will control enabling for control flow integrity and pointer
->> masking features.
->>
->> Control flow integrity enabling for forward cfi and backward cfi are
->> controlled via envcfg and thus need to be enabled on per thread basis.
->>
->> This patch creates a place holder for envcfg CSR in `thread_info` and
->> adds logic to save and restore on task switching.
->>
->> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
->> ---
->>  arch/riscv/include/asm/switch_to.h   | 10 ++++++++++
->>  arch/riscv/include/asm/thread_info.h |  1 +
->>  2 files changed, 11 insertions(+)
->>
->> diff --git a/arch/riscv/include/asm/switch_to.h b/arch/riscv/include/asm/switch_to.h
->> index 7efdb0584d47..2d9a00a30394 100644
->> --- a/arch/riscv/include/asm/switch_to.h
->> +++ b/arch/riscv/include/asm/switch_to.h
->> @@ -69,6 +69,15 @@ static __always_inline bool has_fpu(void) { return false; }
->>  #define __switch_to_fpu(__prev, __next) do { } while (0)
->>  #endif
->>
->> +static inline void __switch_to_envcfg(struct task_struct *next)
+On Thu, May 09, 2024 at 11:21:15AM -0700, Charlie Jenkins wrote:
+>On Wed, Apr 03, 2024 at 04:35:17PM -0700, Deepak Gupta wrote:
+>> +
+>> +int main(int argc, char *argv[])
 >> +{
->> +	register unsigned long envcfg = next->thread_info.envcfg;
->
->This doesn't need the register storage class.
->
-
-yeah. will fix it. thanks.
-
+>> +	int ret = 0;
+>> +	unsigned long lpad_status = 0, ss_status = 0;
 >> +
->> +	asm volatile (ALTERNATIVE("nop", "csrw " __stringify(CSR_ENVCFG) ", %0", 0,
->> +							  RISCV_ISA_EXT_XLINUXENVCFG, 1)
->> +							  :: "r" (envcfg) : "memory");
->> +}
+>> +	ksft_print_header();
 >> +
+>> +	ksft_set_plan(RISCV_CFI_SELFTEST_COUNT);
+>> +
+>> +	ksft_print_msg("starting risc-v tests\n");
+>> +
+>> +	/*
+>> +	 * Landing pad test. Not a lot of kernel changes to support landing
+>> +	 * pad for user mode except lighting up a bit in senvcfg via a prctl
+>> +	 * Enable landing pad through out the execution of test binary
+>> +	 */
+>> +	ret = my_syscall5(__NR_prctl, PR_GET_INDIR_BR_LP_STATUS, &lpad_status, 0, 0, 0);
 >
->Something like:
+>There is an assumption here that the libc supports setting
+>INDIR_BR_LP_STATUS but does not support the standard prctl interface
+>defined in <sys/prctl.h>. my_syscall5() is defined to fill in gaps in
+>the libc, so this test case should also set the status manually rather
+>than relying on the libc.
 >
->static inline void __switch_to_envcfg(struct task_struct *next)
->{
->	if (riscv_has_extension_unlikely(RISCV_ISA_EXT_XLINUXENVCFG))
->		csr_write(CSR_ENVCFG, next->thread_info.envcfg);
->}
->
->would be easier to read, but the alternative you have written doesn't
->have the jump that riscv_has_extension_unlikely has so what you have
->will be more performant.
+>I don't think it's necessary to define my_syscall5() since every libc
+>should have a prctl() definition. However, these CFI prctls are very new
+>and glibc does not yet support (correct me if I am wrong) it so these
+>prctls should be enabled by the test cases.
 
-Yeah looked at codegen of `riscv_has_extension_unlikely` and I didn't like un-necessary jumps,
-specially in switch_to path. All I want is a CSR write. So used alternative to patch nop with
-CSR write.
+In one of my previous patches, it was setting landing pad and shadow stack enabling
+directly via handcrafted prctl macro. I changed it to check for status for following reasons
 
->
->Does envcfg need to be save/restored always or just with
->CONFIG_RISCV_USER_CFI?
+- If this binary is compiled with landing pad and shadow stack option then toolchain being used
+   already has libc with shadow stack and landing pad enabling
 
-There is no save (no read of CSR). Only restore (writes to CSR).
+- Currently upstream glibc toolchain dont have support but libc with toolchain has the support.
 
-There are pointer masking patches from Samuel Holland where senvcfg needs to be context
-switched on per task basis.
-https://lore.kernel.org/lkml/20240319215915.832127-1-samuel.holland@sifive.com/T/
+In case of shadow stack enabling, macro is needed and `prctl` function can't be used.
+Because you enter `prctl` function with no shadow stack but exit with shadow stack and will lead to
+fault in its epilog.
 
-Given that this CSR controls user execution environment and is per task basis, I thought its
-better to not wrap it under CONFIG_RISCV_USER_CFI and rather make it dependend on
-RISCV_ISA_EXT_XLINUXENVCFG. If any of the extensions which require senvcfg, then simply
-restore this CSR on per task basis.
+Due to all these reasons, kselftests have to be compiled with toolchain with cfi codegen and thus libc
+should have support to light them up. Here tests only checks if they are already lit up, If not it fails.
+
+Although you're spot on one thing here, since this test is assuming libc already lit-up landing pad and
+shadow stack. It doesn't need macro here for status check of feature and can simply use `prctl` syscall
+interface.
 
 >
 >- Charlie
 >
->>  extern struct task_struct *__switch_to(struct task_struct *,
->>  				       struct task_struct *);
->>
->> @@ -80,6 +89,7 @@ do {							\
->>  		__switch_to_fpu(__prev, __next);	\
->>  	if (has_vector())					\
->>  		__switch_to_vector(__prev, __next);	\
->> +	__switch_to_envcfg(__next);				\
->>  	((last) = __switch_to(__prev, __next));		\
->>  } while (0)
->>
->> diff --git a/arch/riscv/include/asm/thread_info.h b/arch/riscv/include/asm/thread_info.h
->> index 5d473343634b..a503bdc2f6dd 100644
->> --- a/arch/riscv/include/asm/thread_info.h
->> +++ b/arch/riscv/include/asm/thread_info.h
->> @@ -56,6 +56,7 @@ struct thread_info {
->>  	long			user_sp;	/* User stack pointer */
->>  	int			cpu;
->>  	unsigned long		syscall_work;	/* SYSCALL_WORK_ flags */
->> +	unsigned long envcfg;
->>  #ifdef CONFIG_SHADOW_CALL_STACK
->>  	void			*scs_base;
->>  	void			*scs_sp;
->> --
->> 2.43.2
->>
+>> +	if (ret)
