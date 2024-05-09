@@ -1,123 +1,132 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BABE580055;
-	Thu,  9 May 2024 19:56:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5053129E76;
+	Thu,  9 May 2024 20:01:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715284593; cv=none; b=A+lWI+DRORlB+mG1mcNnaC5uvesGMKKxonLOmPBn/bdGPfXHcAZvN+SnHQbj+5O4Vns3bOfsqJy+uvr5YskN4T3I/uGUfptP+/37a9DYP6OOATAHbBxLB5zJ8aSmT5NwyDoncUD8ymo5DyntA6/tuuI1m8Al3cHhSGPjCSDobtk=
+	t=1715284877; cv=none; b=VPlUZyzfwnZtyPF88VF+MHkLxsEJrkP1mNnlwHs06kLIJzPqs2I/vNi5eYKPJ7m5Lj2TUywth3BZNpdkXqj543pf+gp4jp0WDXJnZFh8Q9wcuh04UVRfIxhftQwpgvstaFPS7TzGs+iO0nU/3hnSyzW+ZjNtGjCKlEAaptxyx7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715284593; c=relaxed/simple;
-	bh=+Xg6sg0lsspm+oGIl2gKYWFJ9L1HRkPP8JWiP000C8Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ctXkHb4dgUoe+gXGI7qJvqBVqACriUkUfi4y3254CwCy1zWlNRThlA0KsyEqR3+iSQAqNGTgJaHkdtcXFZl8iJE7CaSVGC4iDHCgfHmqX7UwTb3VDISh7uzm29sg1rLUY1+2OBARzcXnTIoBHj7ReO6Avrve4HN9sA4HIf+cxRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SepNGnx2; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1715284877; c=relaxed/simple;
+	bh=sRaSSg2FFDTPDk8c0zgqQf1W2ss6flB+SQnVqYy9dz0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Rp9eAEda9Kp1JQlOyhlHngfZsKXhfB7l5263lmNinRT/C4OY57Kph7lvwXVBykZcN7GMHx3OCkf1IUu1Bsxx3y2LqU++QcBfDv7tBmZLjquKKKdFWOxjDhG4gljlrsKfOF7ykb1x+IIRTJX44zjnDvQAaGG2VypnlTi1xQEU5WY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Y0RCS5xi; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SepNGnx2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715284592; x=1746820592;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=+Xg6sg0lsspm+oGIl2gKYWFJ9L1HRkPP8JWiP000C8Y=;
-  b=SepNGnx2IJcaxT8JIsgqVPN/ggX/nMrhL31NmSKCAZXNPOpCvbozrK0/
-   xy9sy+LTGx/Eth2dOBVHkGqifhBXpSI7xqHBuBsA7xHdmJFFBlD/OrM1w
-   sK/wTvCe7iXt/ClFo7oFVQEvalqA6dKIf8OcLqot26BOYsis+HQdmsvg7
-   JXipXuIXdw5axHo6TR4d6N7pbhKSqsuEB1ZJtL3QVIsWF/6DkOEODOyf0
-   GlRBk54v/0FpzVAM87GAf6SQbvniJN+f5KnxiO7HPNlekYT4QMrrTQfOc
-   yMV3vYMaB7tD2uOrANQAPMluk/2Dde77xtuax1Pq/MN7L/renMAEWEERP
-   w==;
-X-CSE-ConnectionGUID: SbFtlId8TlKzai7seHk4qw==
-X-CSE-MsgGUID: Gd1X/7AfS9+Ajo6SxFC6Bw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11454299"
-X-IronPort-AV: E=Sophos;i="6.08,148,1712646000"; 
-   d="scan'208";a="11454299"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 12:56:32 -0700
-X-CSE-ConnectionGUID: 1ox1AHb5TkOlj5+tCcFZIQ==
-X-CSE-MsgGUID: qXDyMCKMR7Opd+vqjTIr4Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,148,1712646000"; 
-   d="scan'208";a="34213141"
-Received: from ajunnare-mobl.amr.corp.intel.com (HELO [10.213.181.85]) ([10.213.181.85])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2024 12:56:28 -0700
-Message-ID: <92abca40-5eda-49d0-bc9d-eeb1a76e3461@linux.intel.com>
-Date: Thu, 9 May 2024 08:17:39 -0500
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Y0RCS5xi"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 449B7BB4006645;
+	Thu, 9 May 2024 18:59:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=TGevrFxx2sEOPvGB+uwSE8YqKDHduVwVRYRlUxcJcic=; b=Y0
+	RCS5xi8DUFJJFXkFIvslJpUQrX4N2B3rw2xR16vtDShPPd+qYZIuNsuxZ8i6m4fc
+	7sv6KhcKZSZi7c7QPjJ9wFHg9qg7QGVQt/snMIATkReTj2iuIbCpa3/ALDME/h2B
+	CU7nyRmq6odr22bXb3x44XSJ0rPwr9nR7AxroyipgFa+PXmO9HUJNZ1CM0yxMbFX
+	duZCvXpDtkiw1xsot3uNogv4dk35QIk1CJFL2qZ/2v/glgh5QRyU3/dDK6KTsk8B
+	+YnTz2quCwc3krndrS/xLXeunhRMKGwonDR7tfPtXM+ymDcBxxXnyH9HAl60UaVR
+	id5pYbUb6pp0XEgHAJgA==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3y07wfup54-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 09 May 2024 18:59:55 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 449IxsG5018864
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 9 May 2024 18:59:54 GMT
+Received: from [10.110.104.129] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 9 May 2024
+ 11:59:53 -0700
+Message-ID: <1e043ff3-58e0-7fd0-00b6-9117bc81e9ff@quicinc.com>
+Date: Thu, 9 May 2024 11:59:52 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v21 38/39] ASoC: qcom: Populate SoC components string
-To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- corbet@lwn.net, lgirdwood@gmail.com, andersson@kernel.org,
- krzk+dt@kernel.org, gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com,
- broonie@kernel.org, bgoswami@quicinc.com, tiwai@suse.com,
- bagasdotme@gmail.com, robh@kernel.org, konrad.dybcio@linaro.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <20240507195116.9464-1-quic_wcheng@quicinc.com>
- <20240507195116.9464-39-quic_wcheng@quicinc.com>
- <cb864ea4-95e3-4e99-920d-341188006291@linux.intel.com>
- <cdee0eb7-7fb7-f267-8203-7dfb0ea2d31d@quicinc.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH] docs: document python version used for compilation
 Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <cdee0eb7-7fb7-f267-8203-7dfb0ea2d31d@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To: Jonathan Corbet <corbet@lwn.net>,
+        Dmitry Baryshkov
+	<dmitry.baryshkov@linaro.org>,
+        Rob Clark <robdclark@gmail.com>, Sean Paul
+	<sean@poorly.run>,
+        Marijn Suijten <marijn.suijten@somainline.org>
+CC: <workflows@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <freedreno@lists.freedesktop.org>
+References: <20240509-python-version-v1-1-a7dda3a95b5f@linaro.org>
+ <87o79faq4a.fsf@meer.lwn.net>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <87o79faq4a.fsf@meer.lwn.net>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: UTN9o-NiCFp8SHChNih0iPS8RnlyCSRO
+X-Proofpoint-ORIG-GUID: UTN9o-NiCFp8SHChNih0iPS8RnlyCSRO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-05-09_10,2024-05-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 adultscore=0
+ spamscore=0 priorityscore=1501 suspectscore=0 bulkscore=0 phishscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 malwarescore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2405010000
+ definitions=main-2405090133
 
 
 
-On 5/8/24 15:06, Wesley Cheng wrote:
-> Hi Pierre,
+On 5/9/2024 9:48 AM, Jonathan Corbet wrote:
+> Dmitry Baryshkov <dmitry.baryshkov@linaro.org> writes:
 > 
-> On 5/7/2024 2:40 PM, Pierre-Louis Bossart wrote:
+>> The drm/msm driver had adopted using Python3 script to generate register
+>> header files instead of shipping pre-generated header files. Document
+>> the minimal Python version supported by the script.
 >>
+>> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>> ---
+>>   Documentation/process/changes.rst | 1 +
+>>   1 file changed, 1 insertion(+)
 >>
->> On 5/7/24 14:51, Wesley Cheng wrote:
->>> For userspace to know about certain capabilities of the current platform
->>> card, add tags to the components string that it can use to enable
->>> support
->>> for that audio path.  In case of USB offloading, the "usboffldplybk:
->>> 1" tag
->>
->> usboffloadplayback?
->>
->> same question as before, do we need spaces?
->>
+>> diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+>> index 5685d7bfe4d0..8d225a9f65a2 100644
+>> --- a/Documentation/process/changes.rst
+>> +++ b/Documentation/process/changes.rst
+>> @@ -63,6 +63,7 @@ cpio                   any              cpio --version
+>>   GNU tar                1.28             tar --version
+>>   gtags (optional)       6.6.5            gtags --version
+>>   mkimage (optional)     2017.01          mkimage --version
+>> +Python (optional)      3.5.x            python3 --version
+>>   ====================== ===============  ========================================
 > 
-> I think spaces are currently used as a delimiter, so I'll remove the
-> spaces.
+> Is it really optional - can you build the driver without it?
 > 
->> And if we have controls, why do we need component strings? The component
->> string is not dynamic to the best of my knowledge, this could be
->> problematic if the card is no longer capable of supporting this stream,
->> while a control can be updated at will.
->>
-> 
-> Maybe I misunderstood your comment here:
-> 
-> https://lore.kernel.org/linux-usb/925d7c03-c288-49a4-8bcd-395b32810d75@linux.intel.com/
-> 
-> At the time, I didn't include the kcontrols on the USB SND portion of
-> it, which was added after this series.  My interpretation was that there
-> were userspace entities that could query for general information about
-> what the card supports based on the components string, or sound card
-> name.  I treated this as an independent identifier, since the change to
-> add the offload capable jack was present.
 
-My comment at the time stands: it's very hard to figure out that a
-random card supports USB and is connected to a given endpoint.
+True, we cannot build the driver now without it. So we should be 
+dropping the optional tag.
 
-It'd be much easier as you wrote in the comments on patch 34 to have a
-control in the "regular" USB card to point to the 'better' offloaded
-path exposed by another card. Applications wouldn't need to know what
-this other card is, they would then use the card:device information
-directly.
+With that addressed,
+
+Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+
+> This document needs some help... I'm missing a number of things that are
+> *not* marked as "optional" (jfsutils, reiserfsprogs, pcmciautils, ppp,
+> ...) and somehow my system works fine :)  It would be nice to document
+> *why* users might need a specific tool.
+> 
+> But I guess we aren't going to do that now.  I can apply this, but I do
+> wonder about the "optional" marking.
+> 
+> Thanks,
+> 
+> jon
