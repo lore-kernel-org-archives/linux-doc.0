@@ -1,148 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EC4E770E0;
-	Thu,  9 May 2024 22:22:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E1ED10A0D;
+	Thu,  9 May 2024 22:33:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715293369; cv=none; b=G3CYs8NWBiz8e6VSywXRTIeXjeB/wrAFUSs0msdewYG6XHShezubhlnF9dkTY6FKzbknGa42itB3vb5NxbWjQ5lDL+f2Z2bbu0LIcYQ4JhtRG1Yu4h+Dc0pGHDu2AEN9QOATKd82eTYq8cbgTVepNhxEW3HR2UWyInvA1K1xZEo=
+	t=1715293988; cv=none; b=RlvA+hrTtgvAZnHjt26N4cna1WEuIV42ZmnUJXGl1JtgcBfYA0wgOtl51b6Qn0BduuTpf8Wr3bJ+JMzAXFBCZgrqv8Ftfi3rkbq2ItXZ0DWwcymoecW0fxpo7TH09XRUg68SubWh0i/lBb7T0GnmGJG/oLrf62U5Z0l9irWWbqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715293369; c=relaxed/simple;
-	bh=t3AE0C2YacrUZCTb4JRj3hzsa+lHuEvQQO/PQSjoxNE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UJYrTv5WPVZHy7Dm4Ugi7LbBS0Y1jjiAxEvkB57T4jhDapnTM6k5FxbWuypqeuu/q2N+nrDlN2sdtmgBJeorMdm/PAihdpmSmv4nHBlNCFOqVh2mjtGRBw3X0MLBgx4HjozfO0QP824awvszrOkw8AYhDHGXTIuadgKrXNjpP14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZMrZFnIS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715293988; c=relaxed/simple;
+	bh=VF+AfiIJHoS/yHmfkDQfIFqvpwDp+YeyZaff7Z1NEIY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=Kq3yh35izSafdgHZuE3yI4qy/uuV3wTRBj/zNZK8sADSlcWtQOY9TF0Rek1MXGiuHjOwF5Elf2KJzCkYSfK4GQSHaA/jx1cjkbIf3GkizfYvhtqsG2q7N8T4YoXhQCJQOqvT/FUsV/rYzDLEqLJkhWh+S5kBwNzUAL0c76MCk3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=XNMlLlmi; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZMrZFnIS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F940C116B1;
-	Thu,  9 May 2024 22:22:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715293368;
-	bh=t3AE0C2YacrUZCTb4JRj3hzsa+lHuEvQQO/PQSjoxNE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZMrZFnIShdbR6UvQ01rcp+t1LeIHoY5Y2AD+JRKCHUBoS0NA48p0xLWusq5PPoEfX
-	 FE3e8OnlE0uxdq8cvSJDbZIsuAu4/IX3P57NaXUGqyLDgdSbeDoTSjl29Y+pg68HtX
-	 g+wEsi+avkRq7uNrdLBzNTge88GJ2sOi1PhKgMp13WZK3fh7bDMaqi/YUSdUQdEY5E
-	 yqznvKm1XK8vv0D+cKhoBpvCDOcjSnyKq7oJBXr5GTjfClVWnwK9Y9/hnG7FH29vtu
-	 vqtks0t3/Ft8vxVis2DUczaQTTa0zzGoSA2AZ3PWKpfVSLBNY8VoKRV+xI0SGiRS8W
-	 VqayPJ/5ZbbSA==
-Date: Thu, 9 May 2024 23:22:42 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Conor Dooley <conor.dooley@microchip.com>
-Cc: Andy Chiu <andy.chiu@sifive.com>, Eric Biggers <ebiggers@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Heiko Stuebner <heiko@sntech.de>,
-	Guo Ren <guoren@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>, Evan Green <evan@rivosinc.com>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Shuah Khan <shuah@kernel.org>, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
-	Vincent Chen <vincent.chen@sifive.com>,
-	Greentime Hu <greentime.hu@sifive.com>, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Joel Granados <j.granados@samsung.com>,
-	Jerry Shih <jerry.shih@sifive.com>,
-	Charlie Jenkins <charlie@rivosinc.com>
-Subject: Re: [PATCH v4 7/9] riscv: vector: adjust minimum Vector requirement
- to ZVE32X
-Message-ID: <20240509-irritant-morphing-a25428a4f750@spud>
-References: <20240412-zve-detection-v4-7-e0c45bb6b253@sifive.com>
- <20240418-brook-chili-4d3e61d1a55c@wendy>
- <20240418155256.GA2410@sol.localdomain>
- <20240418-ultimatum-yam-11de4b063b83@spud>
- <20240418173203.GA1081@sol.localdomain>
- <20240418173946.GB1081@sol.localdomain>
- <20240418-sterling-sanding-d59c3b0a2aaa@spud>
- <CABgGipU74TA3KgCH4pPuRefbnYt3q6RKcQwfyspenisEtY6eqw@mail.gmail.com>
- <20240509-mandatory-monsieur-dfa4d7881fa9@wendy>
- <20240509-habitable-unrefined-02322f228d5a@wendy>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="XNMlLlmi"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 449MQLTH002289;
+	Thu, 9 May 2024 22:32:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=lvV/C277I4DddRmj7GYxGQ4oTHE9NNGzDWC/trZCNVE=; b=XN
+	MlLlmiZicXeidDDFFy1jBMrXn45Bfn2BQL2qK5xDlGW+xyQG+0EnH6sjVF/7mcjC
+	UbyHlGx1jmlYgEsFlJN+MU6jUQPZwB5v34UOwPosCxNFPIZE+O05Fs9uvJBvmea/
+	litW61f5g558hZgqAC1YOP2sH4WHmF+ee0oETkWIiTP791/FEmb725gRJb9rEdeB
+	gTvszVtOplJS2dVDOoZExbFF7RZJGzqj4rvBikalcZqLMBLbitrpn/vb3TPvDKy8
+	D6wxMlvFGsKA3fGuVb9F3FiiIsm8h8LMTpO3v/02K+8JL8kodexBAFqBCKcWhWX3
+	mFsoh07K1TaIRJDeon0g==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3y16w0r1k3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 09 May 2024 22:32:45 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 449MWhph004589
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 9 May 2024 22:32:43 GMT
+Received: from [10.71.112.114] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 9 May 2024
+ 15:32:43 -0700
+Message-ID: <e98f0e53-b6b7-5ad6-fe09-2f2487929f61@quicinc.com>
+Date: Thu, 9 May 2024 15:32:42 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="TLKFE95zt1kQU6Bl"
-Content-Disposition: inline
-In-Reply-To: <20240509-habitable-unrefined-02322f228d5a@wendy>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v21 27/39] ASoC: Introduce SND kcontrols to select sound
+ card and PCM device
+Content-Language: en-US
+To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
+        <lgirdwood@gmail.com>, <andersson@kernel.org>, <krzk+dt@kernel.org>,
+        <gregkh@linuxfoundation.org>, <Thinh.Nguyen@synopsys.com>,
+        <broonie@kernel.org>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
+        <bagasdotme@gmail.com>, <robh@kernel.org>, <konrad.dybcio@linaro.org>
+CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <alsa-devel@alsa-project.org>
+References: <20240507195116.9464-1-quic_wcheng@quicinc.com>
+ <20240507195116.9464-28-quic_wcheng@quicinc.com>
+ <54b79b7b-49e6-418e-9a6b-11bcbada8398@linux.intel.com>
+ <3390ef12-67dd-9474-21fb-b8df35fff546@quicinc.com>
+ <f1368be7-fea5-450c-a61c-f289ba61f150@linux.intel.com>
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <f1368be7-fea5-450c-a61c-f289ba61f150@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: VDvEEdoZl6xGIFhQdqSSzOZACpjh-pEN
+X-Proofpoint-ORIG-GUID: VDvEEdoZl6xGIFhQdqSSzOZACpjh-pEN
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-05-09_12,2024-05-09_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 bulkscore=0
+ malwarescore=0 suspectscore=0 adultscore=0 mlxlogscore=999 phishscore=0
+ mlxscore=0 lowpriorityscore=0 clxscore=1015 impostorscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405010000 definitions=main-2405090159
 
+Hi Pierre,
 
---TLKFE95zt1kQU6Bl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 5/9/2024 6:07 AM, Pierre-Louis Bossart wrote:
+> 
+> 
+> On 5/8/24 19:10, Wesley Cheng wrote:
+>> Hi Pierre,
+>>
+>> On 5/7/2024 2:26 PM, Pierre-Louis Bossart wrote:
+>>>
+>>>
+>>> On 5/7/24 14:51, Wesley Cheng wrote:
+>>>> Add SND kcontrol to SOC USB, which will allow for userpsace to determine
+>>>> which USB card number and PCM device to offload.  This allows for
+>>>> userspace
+>>>> to potentially tag an alternate path for a specific USB SND card and PCM
+>>>> device.  Previously, control was absent, and the offload path would be
+>>>> enabled on the last USB SND device which was connected.  This logic will
+>>>> continue to be applicable if no mixer input is received for specific
+>>>> device
+>>>> selection.
+>>>>
+>>>> An example to configure the offload device using tinymix:
+>>>> tinymix -D 0 set 'USB Offload Playback Route Select' 1 0
+>>>>
+>>>> The above command will configure the offload path to utilize card#1
+>>>> and PCM
+>>>> stream#0.
+>>>
+>>> I don't know how this is usable in practice. Using card indices is
+>>> really hard to do, it depends on the order in which devices are
+>>> plugged-in...
+>>
+>> How are the existing mechanisms handling USB audio devices, or what is
+>> the identifier being used?
+> 
+> Well it's a mess, that's why I asked.
+> 
+> There are configuration work-arounds to make sure that 'local'
+> accessories are handled first and get repeatable card indices.
+> 
 
-On Thu, May 09, 2024 at 09:25:25AM +0100, Conor Dooley wrote:
-> On Thu, May 09, 2024 at 08:48:09AM +0100, Conor Dooley wrote:
-> > On Thu, May 09, 2024 at 02:56:30PM +0800, Andy Chiu wrote:
-> > > Hi Conor,
-> > >=20
-> > > Should we check if "v" presents for vector crypto extensions in
-> > > riscv_isa_extension_check()? We are not checking this for now. So a
-> > > kernel compiled with RISCV_ISA_V still has a problem if its isa-string
-> > > includes any of vector crypto ("zvbb, zvkg, etc") but not "v".
-> >=20
-> >=20
-> > Yeah, one of the things I took away from this discussion is that we need
-> > to improve the implementation of both the methods we have at the moment
-> > for drivers etc to check if extensions are present and usable.
-> > In general, I don't think checks like that are "safe" to do in
-> > riscv_isa_extension_check(), because the dependencies may not all have
-> > been resolved when we probe an extension (Clement's current Zca etc
-> > series improves the situation though by only calling the checks after
-> > we probe all extensions).
-> >=20
-> > The simple V cases are all fine though - the DT binding and ACPI rules
-> > for compatible strings all mandate that single-letter extensions must
-> > come before multi-letter ones. For riscv,isa-extensions we control the
-> > probe ordering and probe V before any multi-letter stuff. Additionally,
-> > we should make it a requirement for V to be present if things that
-> > depend on it are.
-> >=20
-> > That said, is it permitted by the specs to have any of the extensions
-> > you mention without the full V extension, but with one of the cut-down
-> > variants you mention here? If not, I'd be more interested in figuring
-> > out the non-extension dependencies: whether or not the kernel itself
-> > supports vector and if the kernel has opted to disable vector due to
-> > detecting that harts have mismatching vector lengths.
-> >=20
-> > TL;DR: I think we should add some checks in riscv_isa_extension_check().
->=20
-> Also, unless this only becomes a problem with this series that adds the
-> cut-down forms of vector, I think this is a separate problem to solve
-> and I can send some patches for it (along with some other cleanup I'd like
-> to do as a result of Eric's comments) and you can just submit the v2 you
-> were planning to without it. I can't, off the top of my head, think of
-> why this particular series would break the vector crypto stuff though,
-> the problems with enabling extensions seem underlying.
+So is the intention of the configuration aspect you're thinking of to 
+have an entry that maps a USB device based on some identifier, which 
+will take the offload path by default?
 
-Here's something buggy that I chucked together as an idea of what I
-meant:
-https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git/commit/?h=
-=3Driscv-check_vector
-Beware, it is entirely untested :)
-It's based on both this series and patches 2 & 3 of Charlie's series doing
-the T-Head vector stuff. It really needs Clement's extension_check()
-rework that I mentioned 2 mails ago to function correctly for any of these
-vector subsets. Without Clement's stuff, it'll have "random" behaviour
-depending on probe order for riscv,isa and a determinate, but incorrect,
-behaviour otherwise.
+IMO, the concept of this selection of card and PCM device should happen 
+after the application discovers a USB device that is offload capable. 
+For example, maybe the application will use the USB VID/PID to lookup an 
+entry within the configuration.  If some offload tag is present, it can 
+further determine which card and PCM devices are associated w/ the USB 
+device?  Although this is under the assumption the application has 
+insight to the USB sysfs.
 
-Cheers,
-Conor.
+> But between USB devices I guess the rule is 'anything goes'. Even if
+> there are two devices connected at boot, the index allocation will
+> depend on probe order. The card names are not necessarily super-useful
+> either, i.e. yesterday I was confused by an USB card named "CODEC"
+> without any details.
 
---TLKFE95zt1kQU6Bl
-Content-Type: application/pgp-signature; name="signature.asc"
+That device is very informative :D
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZj1MsgAKCRB4tDGHoIJi
-0vmgAQD45tbvFJoRsUpsMY9T6rtZpE9/d1MUPNtjjZBcCvk81wEA9NHuzDQWVqos
-TKv6UR8HGOSqtTdK0XRrTlDGxoRiZQo=
-=ulWy
------END PGP SIGNATURE-----
-
---TLKFE95zt1kQU6Bl--
+Thanks
+Wesley Cheng
