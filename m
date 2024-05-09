@@ -1,80 +1,79 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2FB15C96
-	for <linux-doc@vger.kernel.org>; Thu,  9 May 2024 18:46:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C147F476
+	for <linux-doc@vger.kernel.org>; Thu,  9 May 2024 19:00:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715280394; cv=none; b=CnkzyQC4Uosfv9MhBH83G/0FLmi9xVk/7b5Ugf0ftcLe22XE7mnyWA3+V1zKvbg5kRDIJiiUYhhVVcsfPkAYWUzEczD9mSlzGG4197ymUOCCfW8TJvKRBSwPz2bl5TsqnV3nzyg5beMswKSGQFOesVU9CJmcqIjbcO/OHfLR+68=
+	t=1715281251; cv=none; b=T2DZznl8dGCxP6WDZLC8Osy9CGNLwrkz5342eNjudFztDk1VSmwTgWtjayVZrXH4gA+J4XOc0w1B52KO2ABwvNHt1HHIDP2hNvnb8CwEM+lg5SJBQ9pEz73WO6FbpVJbwYC0fCcA+quzci27A4dpk9snSCsnyt79k5eiuxDC03Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715280394; c=relaxed/simple;
-	bh=bVYyI3uNK8Ue9unjuecRzNC8ZDWp+FAsR3nmvBep48k=;
+	s=arc-20240116; t=1715281251; c=relaxed/simple;
+	bh=xF39L+hs0TY+8aNmea7VYtJ+NEfSYKkZrUTY8FQHMiE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JpvwHR9rOlWL8GccLe4fplDYBkd+IBU4tEgJoJjg+xc0OF5BmflbWrximpPD4/G7tLMH3xjUtthJkArgv406N/cIyzVFayKjU9jDLaci+qFAFeiuykzps+Psv6TIisvVmDpc/t17L3cndN4Z9HTS+hxf7iP9hbG0cjssjiq9XqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=G1C0l0pS; arc=none smtp.client-ip=209.85.210.175
+	 Content-Type:Content-Disposition:In-Reply-To; b=LOq+e4dxyZwxya5qiWsUjPpY86SKCmIpJ13blBrxBs+rzDGq1WnpF15hKPlNTMjHujRV+H5ykeiYNkIUbAYQtbceUGPsgMM9at74xuYmFGNcMoVxEPyZCKkdJS9uXImB6o+TxEpARSFqMvOrA8rqrKp0c+Os5SgEA1fDAxhg7Js=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=JJqxJHRe; arc=none smtp.client-ip=209.85.210.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="G1C0l0pS"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6f44dd41a5cso1248420b3a.0
-        for <linux-doc@vger.kernel.org>; Thu, 09 May 2024 11:46:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="JJqxJHRe"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-6f44bcbaae7so1116381b3a.2
+        for <linux-doc@vger.kernel.org>; Thu, 09 May 2024 12:00:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1715280392; x=1715885192; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=8qs+zeJ73xYDCsb+04oKc8vKm2skXM6Yjmk5Cex/hmQ=;
-        b=G1C0l0pSZ9WKAz3yBAJ34cjzN7oLHUiu/xl/t1kyW/hxNH3yObcTPTGas/rr/p2Z18
-         /TXyiuu6/TX3ekHxPDwIu3N+lBaSAi9iKKdEFvy5eUnPV0f73jC564DS9vL+HnHwoIRm
-         Ngy7IoO02hvOIrhdOLsNkc58Y8l05eJFsccJym3MqvSJb9SZOms5a843QXrC03zhxTIY
-         0pi422VZEonhd7O2QA3fHRz5Tz7vQmjEX1CLFDGIf5eVOP8IBjTvmOhcY1I/WZ96zGqM
-         a7BegrvAs4EmhgMXGWTAfqsbPYBtYIvgDf/muwMD0qsv1G2HjT+L28xrXuG7B5oakLsv
-         oxjA==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1715281242; x=1715886042; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=suVrTFWe4Q9EJfAXikAfGsbIG5FwHp88I8wjDmo5qhw=;
+        b=JJqxJHRelJ7QcM2PM36uXftB9ooQUS6iPJ+3M48VB7n1Rt0Qvw8nwkvwQdK7vDOnbS
+         aGOCUnx0yvWjP5VLhv8aqijkQH2PhO71MfbI8y33/IpWtnZiY6xNDPK0U8dCpwyd0xpG
+         3dlf94UK2jlFf37YfJTq20Hjh3qjs16ULJthd1fBhrPnwa34PZTYrTwDx0jC2sU1i/0n
+         vsGn9/NidfMsoQPz+QPJfwiNmFIVVlgzvW7oSE4yaFwoFEz1PjPZqXy+FpRLbeyIDEsN
+         mr50KSsUPaB3x61aY+qwHMBle46w/Gy+HE1Vj0UoExGhiAFSeN5W4WLz23Ex5zBWYhf/
+         CT5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715280392; x=1715885192;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8qs+zeJ73xYDCsb+04oKc8vKm2skXM6Yjmk5Cex/hmQ=;
-        b=dEEIY0UjvC53X2YAeWqSsoD5xb7BU7RCmLqmhMkBtUm6n+I670Z/sZd18UXzS48f+v
-         /Hu6EnR5Iceiw1KXguNSyQgfdVqpXUACC24fBG7b8lGmIqpZpZVvD6XPynUsWH2nVQWH
-         CJGEmtsQHcLpoBDWKw10vSQtv6qL6HzW0Uo0abmw18KuXQsak/urkmI5kox3u7b6WgC3
-         nvVuSlFcJQZMqk+Y/55HQZCq9aAkLhtFgrD5r5WOgDJVBXhknTF5hM5OkhLsl6muNTyT
-         tGZC0uAs+wGGuRIwPRcdWO9mPnS1FeLcbYb+mSPFN3Y/FhdO9nFCV/CXbLcU+gtCPDCm
-         dFiw==
-X-Forwarded-Encrypted: i=1; AJvYcCVZmi1Ou7lBz91bt4T1sarCUILhWZSRparZt2KSb8wPCr9yhC4OQeCwvO5yw2H/Mgfhszak+IreLl3taUMHTzNlSbEswEOGR6ci
-X-Gm-Message-State: AOJu0Yyrx6vx+B6a3Qg9r4N0974dpi4ifNtZzp+vSQutVQ4FtwEPK8aD
-	02k9cqeBe5KjF8jd5F13p3P6rXKr2KETV7OzLrnk8pMaLND+hKgdJIefH5c0nd0=
-X-Google-Smtp-Source: AGHT+IHSkbFTtM14eAz4leAGtq7pP+xnyJh4LBmDtig93VWvmXkOMQqIKOUJFRYjpBP4l5vncaDl3Q==
-X-Received: by 2002:a05:6a20:7486:b0:1af:889e:8b06 with SMTP id adf61e73a8af0-1afde10ad77mr864261637.35.1715280392190;
-        Thu, 09 May 2024 11:46:32 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1715281242; x=1715886042;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=suVrTFWe4Q9EJfAXikAfGsbIG5FwHp88I8wjDmo5qhw=;
+        b=OlVn+YWgDFxBTqykfghrIv1NLKvRer2U8Hl1s9rkCGZnNP2/VxjSA+nT+IVtkt13E+
+         mbzK1ZTxyVnvsOP6h5g5d9KnFzwbaNciLxjywwgSayzpflVAbgdQY226VSSTH3f6Wtje
+         o3lIAIAK93iQaUbyD55QOgmL5tzSXab/k96dSLxB1OBbOfmKAFW1BccB+tBbTeyR9q1g
+         OKYiYkkU7HGzCwiDptd8CageM9UUlApdn8k5LJ75BUlfvZFXTy1ELBV7OX0TvkPIEv73
+         pfhh4QxOeJLPdNgBuG7euBn/zJda2oiVZveuK9nbKEq/RJtcvb1onOknVLlqB7iAKigp
+         s9Ow==
+X-Forwarded-Encrypted: i=1; AJvYcCXhzfmqk8OdkUupSKbK7qYr3i7aP+/Fba5qn1iEaIFA1dHyQlhn7GDk3rfh8Dl5u+MKjoTamW86eytEQ1lNCiiFUZuarAFt11XE
+X-Gm-Message-State: AOJu0Yxm2+LhiZbYYHSX4U0snOWPagGokSodZnRH6JsS4OzFbr/LdjTQ
+	LFhnqf17B6B0MZoEohmXmxOmwieaQvR4jGgDn43mMvPFoWqjk3jeiP8ADbJMFUM=
+X-Google-Smtp-Source: AGHT+IHE3J/hwAQsHqywRim+p5Loya/dtj3SbYe2Ez8JQSaJRUzBly/edfRtpEMzoFQPu7m0vRKdfQ==
+X-Received: by 2002:a05:6300:8002:b0:1af:62a6:e2 with SMTP id adf61e73a8af0-1afde1fb753mr598976637.56.1715281241943;
+        Thu, 09 May 2024 12:00:41 -0700 (PDT)
 Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2afa7b5sm1607660b3a.163.2024.05.09.11.46.27
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2a6654asm1626451b3a.43.2024.05.09.12.00.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 May 2024 11:46:31 -0700 (PDT)
-Date: Thu, 9 May 2024 11:46:26 -0700
+        Thu, 09 May 2024 12:00:41 -0700 (PDT)
+Date: Thu, 9 May 2024 12:00:36 -0700
 From: Deepak Gupta <debug@rivosinc.com>
-To: Conor Dooley <conor@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, paul.walmsley@sifive.com,
-	rick.p.edgecombe@intel.com, broonie@kernel.org,
-	Szabolcs.Nagy@arm.com, kito.cheng@sifive.com, keescook@chromium.org,
-	ajones@ventanamicro.com, conor.dooley@microchip.com,
-	cleger@rivosinc.com, atishp@atishpatra.org, alex@ghiti.fr,
-	bjorn@rivosinc.com, alexghiti@rivosinc.com,
-	samuel.holland@sifive.com, linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-mm@kvack.org,
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	corbet@lwn.net, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: paul.walmsley@sifive.com, rick.p.edgecombe@intel.com,
+	broonie@kernel.org, Szabolcs.Nagy@arm.com, kito.cheng@sifive.com,
+	keescook@chromium.org, ajones@ventanamicro.com,
+	conor.dooley@microchip.com, cleger@rivosinc.com,
+	atishp@atishpatra.org, alex@ghiti.fr, bjorn@rivosinc.com,
+	alexghiti@rivosinc.com, samuel.holland@sifive.com, conor@kernel.org,
+	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-mm@kvack.org, linux-arch@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, corbet@lwn.net, palmer@dabbelt.com,
+	aou@eecs.berkeley.edu, robh+dt@kernel.org,
 	krzysztof.kozlowski+dt@linaro.org, oleg@redhat.com,
 	akpm@linux-foundation.org, arnd@arndb.de, ebiederm@xmission.com,
 	Liam.Howlett@oracle.com, vbabka@suse.cz, lstoakes@gmail.com,
 	shuah@kernel.org, brauner@kernel.org, andy.chiu@sifive.com,
 	jerry.shih@sifive.com, hankuan.chen@sifive.com,
 	greentime.hu@sifive.com, evan@rivosinc.com, xiao.w.wang@intel.com,
-	charlie@rivosinc.com, apatel@ventanamicro.com,
-	mchitale@ventanamicro.com, dbarboza@ventanamicro.com,
-	sameo@rivosinc.com, shikemeng@huaweicloud.com, willy@infradead.org,
+	apatel@ventanamicro.com, mchitale@ventanamicro.com,
+	dbarboza@ventanamicro.com, sameo@rivosinc.com,
+	shikemeng@huaweicloud.com, willy@infradead.org,
 	vincent.chen@sifive.com, guoren@kernel.org, samitolvanen@google.com,
 	songshuaishuai@tinylab.org, gerg@kernel.org, heiko@sntech.de,
 	bhe@redhat.com, jeeheng.sia@starfivetech.com, cyy@cyyself.name,
@@ -85,86 +84,120 @@ Cc: Rob Herring <robh@kernel.org>, paul.walmsley@sifive.com,
 	revest@chromium.org, josh@joshtriplett.org, shr@devkernel.io,
 	deller@gmx.de, omosnace@redhat.com, ojeda@kernel.org,
 	jhubbard@nvidia.com
-Subject: Re: [PATCH v3 04/29] riscv: zicfilp / zicfiss in dt-bindings
- (extensions.yaml)
-Message-ID: <Zj0aAiZiTrt9ACjj@debug.ba.rivosinc.com>
+Subject: Re: [PATCH v3 01/29] riscv: envcfg save and restore on task switching
+Message-ID: <Zj0dVJ20D05ELAoH@debug.ba.rivosinc.com>
 References: <20240403234054.2020347-1-debug@rivosinc.com>
- <20240403234054.2020347-5-debug@rivosinc.com>
- <20240410115806.GA4044117-robh@kernel.org>
- <CAKC1njSsZ6wfvJtXkp4J4J6wXFtU92W9JGca-atKxBy8UvUwRg@mail.gmail.com>
- <20240415194105.GA94432-robh@kernel.org>
- <Zh6c0FH2OvrfDLje@debug.ba.rivosinc.com>
- <20240509-cornflake-foyer-e6589c2bc364@spud>
+ <20240403234054.2020347-2-debug@rivosinc.com>
+ <ZjwUhvLBv13qi77a@ghost>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240509-cornflake-foyer-e6589c2bc364@spud>
+In-Reply-To: <ZjwUhvLBv13qi77a@ghost>
 
-On Thu, May 09, 2024 at 07:14:26PM +0100, Conor Dooley wrote:
->On Tue, Apr 16, 2024 at 08:44:16AM -0700, Deepak Gupta wrote:
->> On Mon, Apr 15, 2024 at 02:41:05PM -0500, Rob Herring wrote:
->> > On Wed, Apr 10, 2024 at 02:37:21PM -0700, Deepak Gupta wrote:
->> > > On Wed, Apr 10, 2024 at 4:58 AM Rob Herring <robh@kernel.org> wrote:
->> > > >
->> > > > On Wed, Apr 03, 2024 at 04:34:52PM -0700, Deepak Gupta wrote:
->> > > > > Make an entry for cfi extensions in extensions.yaml.
->> > > > >
->> > > > > Signed-off-by: Deepak Gupta <debug@rivosinc.com>
->> > > > > ---
->> > > > >  .../devicetree/bindings/riscv/extensions.yaml          | 10 ++++++++++
->> > > > >  1 file changed, 10 insertions(+)
->> > > > >
->> > > > > diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Documentation/devicetree/bindings/riscv/extensions.yaml
->> > > > > index 63d81dc895e5..45b87ad6cc1c 100644
->> > > > > --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
->> > > > > +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
->> > > > > @@ -317,6 +317,16 @@ properties:
->> > > > >              The standard Zicboz extension for cache-block zeroing as ratified
->> > > > >              in commit 3dd606f ("Create cmobase-v1.0.pdf") of riscv-CMOs.
->> > > > >
->> > > > > +        - const: zicfilp
->> > > > > +          description:
->> > > > > +            The standard Zicfilp extension for enforcing forward edge control-flow
->> > > > > +            integrity in commit 3a20dc9 of riscv-cfi and is in public review.
->> > > >
->> > > > Does in public review mean the commit sha is going to change?
->> > > >
->> > >
->> > > Less likely. Next step after public review is to gather comments from
->> > > public review.
->> > > If something is really pressing and needs to be addressed, then yes
->> > > this will change.
->> > > Else this gets ratified as it is.
->> >
->> > If the commit sha can change, then it is useless. What's the guarantee
->> > someone is going to remember to update it if it changes?
+On Wed, May 08, 2024 at 05:10:46PM -0700, Charlie Jenkins wrote:
+>On Wed, Apr 03, 2024 at 04:34:49PM -0700, Deepak Gupta wrote:
+>> envcfg CSR defines enabling bits for cache management instructions and
+>> soon will control enabling for control flow integrity and pointer
+>> masking features.
 >>
->> Sorry for late reply.
+>> Control flow integrity enabling for forward cfi and backward cfi are
+>> controlled via envcfg and thus need to be enabled on per thread basis.
 >>
->> I was following existing wordings and patterns for messaging in this file.
->> You would rather have me remove sha and only mention that spec is in public
->> review?
+>> This patch creates a place holder for envcfg CSR in `thread_info` and
+>> adds logic to save and restore on task switching.
+>>
+>> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+>> ---
+>>  arch/riscv/include/asm/switch_to.h   | 10 ++++++++++
+>>  arch/riscv/include/asm/thread_info.h |  1 +
+>>  2 files changed, 11 insertions(+)
+>>
+>> diff --git a/arch/riscv/include/asm/switch_to.h b/arch/riscv/include/asm/switch_to.h
+>> index 7efdb0584d47..2d9a00a30394 100644
+>> --- a/arch/riscv/include/asm/switch_to.h
+>> +++ b/arch/riscv/include/asm/switch_to.h
+>> @@ -69,6 +69,15 @@ static __always_inline bool has_fpu(void) { return false; }
+>>  #define __switch_to_fpu(__prev, __next) do { } while (0)
+>>  #endif
+>>
+>> +static inline void __switch_to_envcfg(struct task_struct *next)
+>> +{
+>> +	register unsigned long envcfg = next->thread_info.envcfg;
 >
->Nope, having a commit sha is desired. None of this is mergeable until at
->least the spec becomes frozen, so the sha can be updated at that point
->to the freeze state - or better yet to the ratified state. Being in
->public review is not sufficient.
+>This doesn't need the register storage class.
+>
 
-Spec is frozen.
-As per RVI spec lifecycle, spec freeze is a prior step to public review.
-Public review concluded on 25th April
-https://lists.riscv.org/g/tech-ss-lp-cfi/message/91
+yeah. will fix it. thanks.
 
-Next step is ratification whenever board meets.
+>> +
+>> +	asm volatile (ALTERNATIVE("nop", "csrw " __stringify(CSR_ENVCFG) ", %0", 0,
+>> +							  RISCV_ISA_EXT_XLINUXENVCFG, 1)
+>> +							  :: "r" (envcfg) : "memory");
+>> +}
+>> +
+>
+>Something like:
+>
+>static inline void __switch_to_envcfg(struct task_struct *next)
+>{
+>	if (riscv_has_extension_unlikely(RISCV_ISA_EXT_XLINUXENVCFG))
+>		csr_write(CSR_ENVCFG, next->thread_info.envcfg);
+>}
+>
+>would be easier to read, but the alternative you have written doesn't
+>have the jump that riscv_has_extension_unlikely has so what you have
+>will be more performant.
+
+Yeah looked at codegen of `riscv_has_extension_unlikely` and I didn't like un-necessary jumps,
+specially in switch_to path. All I want is a CSR write. So used alternative to patch nop with
+CSR write.
 
 >
->Cheers,
->Conor
+>Does envcfg need to be save/restored always or just with
+>CONFIG_RISCV_USER_CFI?
 
+There is no save (no read of CSR). Only restore (writes to CSR).
 
+There are pointer masking patches from Samuel Holland where senvcfg needs to be context
+switched on per task basis.
+https://lore.kernel.org/lkml/20240319215915.832127-1-samuel.holland@sifive.com/T/
+
+Given that this CSR controls user execution environment and is per task basis, I thought its
+better to not wrap it under CONFIG_RISCV_USER_CFI and rather make it dependend on
+RISCV_ISA_EXT_XLINUXENVCFG. If any of the extensions which require senvcfg, then simply
+restore this CSR on per task basis.
+
+>
+>- Charlie
+>
+>>  extern struct task_struct *__switch_to(struct task_struct *,
+>>  				       struct task_struct *);
+>>
+>> @@ -80,6 +89,7 @@ do {							\
+>>  		__switch_to_fpu(__prev, __next);	\
+>>  	if (has_vector())					\
+>>  		__switch_to_vector(__prev, __next);	\
+>> +	__switch_to_envcfg(__next);				\
+>>  	((last) = __switch_to(__prev, __next));		\
+>>  } while (0)
+>>
+>> diff --git a/arch/riscv/include/asm/thread_info.h b/arch/riscv/include/asm/thread_info.h
+>> index 5d473343634b..a503bdc2f6dd 100644
+>> --- a/arch/riscv/include/asm/thread_info.h
+>> +++ b/arch/riscv/include/asm/thread_info.h
+>> @@ -56,6 +56,7 @@ struct thread_info {
+>>  	long			user_sp;	/* User stack pointer */
+>>  	int			cpu;
+>>  	unsigned long		syscall_work;	/* SYSCALL_WORK_ flags */
+>> +	unsigned long envcfg;
+>>  #ifdef CONFIG_SHADOW_CALL_STACK
+>>  	void			*scs_base;
+>>  	void			*scs_sp;
+>> --
+>> 2.43.2
+>>
