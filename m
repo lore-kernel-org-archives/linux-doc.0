@@ -1,51 +1,50 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B76B1A2C0C;
-	Thu,  9 May 2024 16:48:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B44D6FD0;
+	Thu,  9 May 2024 16:53:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715273295; cv=none; b=AbsWeuIdL5Ph3YtKoHa8gcvF7apwozB0ADIyn4r34T+j2N0eEPFLuxvDOYrwg/Y1lgnJNzeERjt2p4EGKxmwSR3Feo1CcsXJkripLuHS8uLLIViPeqKTAigoe2/aFbM4EtNsSVcB1MlK2kFdML7nU8z1pygYZgdHz4DaSAFlgZQ=
+	t=1715273630; cv=none; b=D9IQpcJiL/XYWcHUbzFsxOT816zu1ndCLPWC98zjBKTpNPEjP3MtL/HcWM/f/50ptfPeHKKMgnxWGzoiQzCg9WVLkqPDup6mW8+Q9poAVw6KGhgU43/M8Q8AKHsvFKTSagT6EeciJyniBfW/RUoNAtHxnIn7np7WGO1sobz2rO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715273295; c=relaxed/simple;
-	bh=mUKF2aJhMC99EJP+R0ST6AsaHjTRCUxCk2H1sUYA7bs=;
+	s=arc-20240116; t=1715273630; c=relaxed/simple;
+	bh=WrrxmjCdbSQrx82x24gxrtpbnXLGGWA/COa+oD/wCDw=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=qgQe/xlnBqodUC+JtZmIZtn1RoNWrujnJGGml7Tf5zj3ZMt52OCZRe9ZsqW9glGjy3xMDOKMCc+pBltfpJx9CqpqjeEZPMBJSN43tsTu9R8USisqZcNIfPIlJfv5tbdcAabA6tADfQY8gB2D4JLd3g/CAi/hxuP3kFkZwnnKy98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=IhnoF1G3; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=hoOVep3w8+LZUDoSwphBxvRSrknuTssnpboki1PBOKX9F+NRmPxgnpLjsKXjFMo/oRLElIHm3U6+NPAPnmzzX1LtxEaDyplvGq5y6vRRSHm6NjaWUetiHX+DxNad3qBkwy4T99Eb0MOzTle7TLzlX9+bDNIIrs6iMJdSPU03nuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=o2RUXFJX; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="IhnoF1G3"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8EC1647C39
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="o2RUXFJX"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5334B47C39
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1715273286; bh=3qFwjzw8Vw1OvsBGlcfK09vFEBAUZplKcKp8nfsKqto=;
+	t=1715273628; bh=Swp5U3+6z/DT5it4gIm6NL5VrQp9grZhimL+5b+AEoI=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=IhnoF1G3IdGk/iRQpZeEEkmumlwkGNvlLtO+iLFf3hoa1dJeJkfNaGcLsrwDXhiQK
-	 IzZ6Zi2kGNxPjVur1GEQZ66yUX2mNQ455AmvJIaFHzndC3i7+dpCrBia2hoImT9x9Y
-	 FNsbSsmRDNrosuTPSxUsN9CoaRLw77uqv4mUHeXNNK1kB5/AKpln+jnBSJH8O/tkHn
-	 nWm4vYRiuVkE2mOQaG75amaRFrd0dadaM4GGwOkCYMzSHW77PN0/L32sf0USMaOp/z
-	 tqXqIsmN25QlME069Pd0UNXoAdH0of3wGRYO1kzF8NbCxjs0uHM6EX7OB0V3fzTyNG
-	 6zC6BGxZwtM0w==
+	b=o2RUXFJXTbO1fcWArXD2TKUDbl5Rzz9sWzwhPRACq8FLmSQJ7VTYr6H0I/p6w4qiq
+	 RDGoOv4y2jMMPcoqIwT+IFGKTOfAG8Ff5FvoSWDEAnEQKWq+KhDOYw8hUINSvGDOzI
+	 YGD2dsMkAFceDEVno9UUF/M7U0w9lfe+Q43KbcAltk6ejXye6BU5H6D8X9LvkmJFtA
+	 gL7BxLRF9osD0xACMIjS7tLzCPyK4nKpRJ7yQTB1ezAXGcs4+BeX/bJP0wARd8j2Hd
+	 eI3GYddIt7wBdhnxVm1ip7OYPtaBe0I6VNceJQjbHCjYYBgk+inSrtQgxt7wF6LaS3
+	 nxHsQhJsshvCw==
 Received: from localhost (mdns.lwn.net [45.79.72.68])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 8EC1647C39;
-	Thu,  9 May 2024 16:48:06 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 5334B47C39;
+	Thu,  9 May 2024 16:53:48 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob Clark
- <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, Dmitry
- Baryshkov <dmitry.baryshkov@linaro.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Subject: Re: [PATCH] docs: document python version used for compilation
-In-Reply-To: <20240509-python-version-v1-1-a7dda3a95b5f@linaro.org>
-References: <20240509-python-version-v1-1-a7dda3a95b5f@linaro.org>
-Date: Thu, 09 May 2024 10:48:05 -0600
-Message-ID: <87o79faq4a.fsf@meer.lwn.net>
+To: Usama Arif <usamaarif642@gmail.com>, hannes@cmpxchg.org, tj@kernel.org,
+ lizefan.x@bytedance.com, nphamcs@gmail.com
+Cc: linux-mm@kvack.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel-team@meta.com, Usama Arif
+ <usamaarif642@gmail.com>
+Subject: Re: [PATCH v2 1/1] cgroup: Add documentation for missing zswap
+ memory.stat
+In-Reply-To: <20240502185307.3942173-2-usamaarif642@gmail.com>
+References: <20240502185307.3942173-1-usamaarif642@gmail.com>
+ <20240502185307.3942173-2-usamaarif642@gmail.com>
+Date: Thu, 09 May 2024 10:53:47 -0600
+Message-ID: <87jzk3apus.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,38 +53,33 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Dmitry Baryshkov <dmitry.baryshkov@linaro.org> writes:
+Usama Arif <usamaarif642@gmail.com> writes:
 
-> The drm/msm driver had adopted using Python3 script to generate register
-> header files instead of shipping pre-generated header files. Document
-> the minimal Python version supported by the script.
+> This includes zswpin, zswpout and zswpwb.
 >
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
 > ---
->  Documentation/process/changes.rst | 1 +
->  1 file changed, 1 insertion(+)
+>  Documentation/admin-guide/cgroup-v2.rst | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 >
-> diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-> index 5685d7bfe4d0..8d225a9f65a2 100644
-> --- a/Documentation/process/changes.rst
-> +++ b/Documentation/process/changes.rst
-> @@ -63,6 +63,7 @@ cpio                   any              cpio --version
->  GNU tar                1.28             tar --version
->  gtags (optional)       6.6.5            gtags --version
->  mkimage (optional)     2017.01          mkimage --version
-> +Python (optional)      3.5.x            python3 --version
->  ====================== ===============  ========================================
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index 17e6e9565156..eaf9e66e472a 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -1572,6 +1572,15 @@ PAGE_SIZE multiple when read back.
+>  	  pglazyfreed (npn)
+>  		Amount of reclaimed lazyfree pages
+>  
+> +	  zswpin
+> +		Number of pages moved in to memory from zswap.
+> +
+> +	  zswpout
+> +		Number of pages moved out of memory to zswap.
+> +
+> +	  zswpwb
+> +		Number of pages written from zswap to swap.
+> +
 
-Is it really optional - can you build the driver without it?
-
-This document needs some help... I'm missing a number of things that are
-*not* marked as "optional" (jfsutils, reiserfsprogs, pcmciautils, ppp,
-...) and somehow my system works fine :)  It would be nice to document
-*why* users might need a specific tool.
-
-But I guess we aren't going to do that now.  I can apply this, but I do
-wonder about the "optional" marking.
-
-Thanks,
+Applied, thanks.
 
 jon
