@@ -1,101 +1,98 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA471BC4B;
-	Thu,  9 May 2024 20:39:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62DF480C1D
+	for <linux-doc@vger.kernel.org>; Thu,  9 May 2024 21:03:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715287178; cv=none; b=aQFniSc3HElRjzFAQUirn95ISjNrPi6jFgz9Qq2dUKlp8W2YqfG+AUzT/y4q97m0rWzQOQyXNp2cthaXF1iGB38SmSl6hu4r+7lY80V31n75/ecXQKQNM9Wci9xI3gZT6nUAQ+WL7InPVDCidlmtdNF9YvU3aDfMHlY9F1L6ijs=
+	t=1715288620; cv=none; b=Bfjn1VvCGh3Wftj7VzjdVWxMl3TfJtqgxXHoTgspjKwvGkLBPUomyXDere5FcnpD8fIBqt/q/A75dStZ7iBIakQNRPl+oXlDOrnQLF7ULrTrRYHphryeZjJMjmzgBjD7xttvIcOzZH/co3Tn4cTgW7M5hnMBiRZAvYraMudTmlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715287178; c=relaxed/simple;
-	bh=Unk6TINaoXW1m22XIiXlyqJeSR2h34B7v7roKHZmXSU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QBFCJh+XRJfQKmsY0fG8Sa5pLR5NF0s7SERkQYhjz34Qe83xrEWrW8ZuofeejYM4i7OLnfOS/PuvquD6W3KsLcD5b/iAJ2N9ft/pDdCnEDB1+64yJRxtv49Rcxnyi0HfgVMSKHhuyadBwF3CbnUuzthDgHOzur6MCViCSSh/sxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=GO1BDJ+8; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1715288620; c=relaxed/simple;
+	bh=WWeJkG+WaCF+VDsCkDaSF2gZlW5ED8FtpZTAWDGzQXI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gw3wKskKG6bKducS4lnlEsq7Yfb8463RtCw4esfHgehwwICHZ/+tZ0uQ2Hx823irwh5ryNObWaJf3dZCUBo7ZQh3Qu7x8w9RZdHuVmedP9wwB5/c6+5TcjAvEwrFeTD40Pe/rWJut4Zh8SFyyCI6WSqulYg/AM3c7rmU5cAcmJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=X4OWjvzO; arc=none smtp.client-ip=209.85.219.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="GO1BDJ+8"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=8YzdbPc6Xemin327MHAKFJrmBQ2jFs5tWg4OYxNAVXQ=; b=GO1BDJ+8/8ERTKWx6Q3YbYQc/j
-	FllvQRc5rCYfVIFZ9cOPp7Apf1xPacODWgf1aD1LUJZSACbJmDb1Q1CX4Ex92s6JINBchKXhdfdeF
-	NoseCuqhrcfvuh8KY44tWNYuXsUNToClf2DFbLoFJeDl9NbrTR+/ADKyLYxxycqFjV6Q=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1s5AXy-00F50G-Je; Thu, 09 May 2024 22:39:22 +0200
-Date: Thu, 9 May 2024 22:39:22 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Parthiban.Veerasooran@microchip.com
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, saeedm@nvidia.com,
-	anthony.l.nguyen@intel.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, corbet@lwn.net,
-	linux-doc@vger.kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	devicetree@vger.kernel.org, Horatiu.Vultur@microchip.com,
-	ruanjinjie@huawei.com, Steen.Hegelund@microchip.com,
-	vladimir.oltean@nxp.com, UNGLinuxDriver@microchip.com,
-	Thorsten.Kummermehr@microchip.com, Pier.Beruto@onsemi.com,
-	Selvamani.Rajagopal@onsemi.com, Nicolas.Ferre@microchip.com,
-	benjamin.bigler@bernformulastudent.ch
-Subject: Re: [PATCH net-next v4 00/12] Add support for OPEN Alliance
- 10BASE-T1x MACPHY Serial Interface
-Message-ID: <44cd0dc2-4b37-4e2f-be47-85f4c0e9f69c@lunn.ch>
-References: <20240418125648.372526-1-Parthiban.Veerasooran@microchip.com>
- <5f73edc0-1a25-4d03-be21-5b1aa9e933b2@lunn.ch>
- <32160a96-c031-4e5a-bf32-fd5d4dee727e@lunn.ch>
- <2d9f523b-99b7-485d-a20a-80d071226ac9@microchip.com>
- <6ba7e1c8-5f89-4a0e-931f-3c117ccc7558@lunn.ch>
- <8b9f8c10-e6bf-47df-ad83-eaf2590d8625@microchip.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="X4OWjvzO"
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-de45dba15feso1465074276.3
+        for <linux-doc@vger.kernel.org>; Thu, 09 May 2024 14:03:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1715288618; x=1715893418; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+IfAWkFXhjwD2b7MDcPpPbsLosZhZSildjQMHcbXjWw=;
+        b=X4OWjvzOD5TuDBjEWXbhsHIXQEli10/2uPFniLDv/pHR9F6HJrhUfWrTP4yw/fA9VR
+         TlEv12op/xb9KlPqtbsrgn/Y9sD+Kx/g5Ro95wUmdPpGCEiF2Vb7ojjG0rcSqr851oNi
+         Bl9skZma5hYn7iGvtgn2177YsL00VJqge2i7PRW5F1HBQxURljwTkjktETp9JOzaFOWB
+         DrfehpnNlqe6sLBXXdjjLxBUbeNrjeJaYUleVtGx7K86Uloo6DMJVxvXagQnNE4yjpxh
+         JMgP18dmH2son6KiOR8jcttGwL8AV8147waQ3tAxYe84qutjHjk9cbrtv78+1SVBrmHy
+         6TyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715288618; x=1715893418;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+IfAWkFXhjwD2b7MDcPpPbsLosZhZSildjQMHcbXjWw=;
+        b=ALBdAHLZsLdLV+9uuuB+qAUg1eonVaEwy0VDzwOYtVW5gyVS83EONrCxU6/g/D/00B
+         UNBR/jS0vJLJ8BTFYhHDmiChBwvGGwRn1E8c0AknmhFJIDw7Z1+QjKN2tg0+bhNCtyug
+         ZHZi1vT4m4Sb3Ln8KOvAwGqUiu0Cttiu+ntEVOIeQeewjqmJ8I4lmFrXlPijviT7Hc+/
+         HJtEzC5KdkVaOW+UPvKQLlnx+6labKE/1b6CqSGLEqsfZUnAxCYDoWTw9z9/k2t6zDTV
+         q55SXZCfakTgWmeaedY0C6Nv0Kzg03l2D6e9PtMdUlAqVrhNmhOh7xyamYRdQSqIHxcR
+         O2bw==
+X-Forwarded-Encrypted: i=1; AJvYcCWE0hD8+Y6gQn0gOw2kIrX/g2Nn0g+7/n767AC+0Vrgy1AJFRgNIuOKxuFYKo/crLS0rDJx+AbdCvoYYiZ5vvJqH1uOyJUEvSMp
+X-Gm-Message-State: AOJu0YwJ/xyiD5sQ3R9zSXBUkaur6mynkZ96Qc+UWamT74N6UFCd0c2U
+	ikB+9hfcecqEPsPBIHYKdY9bT9E3JyzdUxSmFyfnBkLvbvbXBY8rBDJYfyU4fnFq0X/UXDeZ8Ss
+	wCQkpFYbtZM9C3bFVTurdcY6bo1ALC118TZUE
+X-Google-Smtp-Source: AGHT+IHi4meLqolcqBUgsfW8E+aCr6OvcC0n5md5fXsCW9cwP0FNY/tME/MzPUie8mstiTIWEnHBYgpv6DCUutU9+jM=
+X-Received: by 2002:a5b:688:0:b0:de4:5cfe:855a with SMTP id
+ 3f1490d57ef6-dee4f1bc28emr739029276.33.1715288618153; Thu, 09 May 2024
+ 14:03:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8b9f8c10-e6bf-47df-ad83-eaf2590d8625@microchip.com>
+References: <20240507013502.3095744-1-tjmercier@google.com> <2125dda3-829c-4113-988c-3c5861127f97@intel.com>
+In-Reply-To: <2125dda3-829c-4113-988c-3c5861127f97@intel.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Thu, 9 May 2024 14:03:26 -0700
+Message-ID: <CABdmKX3OpiFup4AtEJ+qfBnO6_5KjT=d5yQJtkMptvXPJRKX0A@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] doc: swiotlb: iommu/dma: Clarify swiotlb=force
+ option applies only to dma-direct
+To: Dave Hansen <dave.hansen@intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, petr@tesarici.cz, mhklinux@outlook.com, 
+	robin.murphy@arm.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 09, 2024 at 01:04:52PM +0000, Parthiban.Veerasooran@microchip.com wrote:
-> Hi Andrew,
-> 
-> On 08/05/24 10:34 pm, Andrew Lunn wrote:
-> > EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
-> > 
-> >> Yes. I tried this test. It works as expected.
-> > 
-> >>     Each LAN8651 received approximately 3Mbps with lot of "Receive buffer
-> >> overflow error". I think it is expected as the single SPI master has to
-> >> serve both LAN8651 at the same time and both LAN8651 will be receiving
-> >> 10Mbps on each.
-> > 
-> > Thanks for testing this.
-> > 
-> > This also shows the "Receive buffer overflow error" needs to go away.
-> > Either we don't care at all, and should not enable the interrupt, or
-> > we do care and should increment a counter.
-> Thanks for your comments. I think, I would go for your 2nd proposal 
-> because having "Receive buffer overflow error" enabled will indicate the 
-> cause of the poor performance.
-> 
-> Already we have,
-> tc6->netdev->stats.rx_dropped++;
-> to increment the rx dropped counter in case of receive buffer overflow.
-> 
-> May be we can remove the print,
-> net_err_ratelimited("%s: Receive buffer overflow error\n", 
-> tc6->netdev->name);
-> as it might lead to additional poor performance by adding some delay.
-> 
-> Could you please provide your opinion on this?
+On Thu, May 9, 2024 at 1:18=E2=80=AFPM Dave Hansen <dave.hansen@intel.com> =
+wrote:
+>
+> So, I know get_maintainer.pl doesn't work great for files that are used
+> by a lot of subsystems, but it doesn't seem _super_ hard to find
+> relevant maintainers for this stuff.
+>
+> There are many IOMMU and swiotlb folks in MAINTAINERS who aren't cc'd
+> here.  I'd be great to get an ack from those folks.
+> iommu@lists.linux.dev seems to pop up pretty frequently.
+>
+> I'd also have zero objections to a patch to:
+>
+>         Documentation/arch/x86/x86_64/boot-options.rst
+>
+> that goes through another tree.
 
-This is your code. Ideally you should decide. I will only add review
-comments if i think it is wrong. Any can decide between any correct
-option.
+Sorry about that. I did manually CC iommu@lists.linux.dev on the
+original version of this patch after a thread [1] on this topic on the
+iommu list, but I neglected to manually add it for this v2. There will
+be a v3 for the second patch, so I'll make sure to include the iommu
+list then.
 
-	Andrew
+[1] https://lore.kernel.org/all/CABdmKX1HdXccWp9chz-Y_-Hh5TPry-4WRcVf4fUXKV=
+=3DOg3dVTg@mail.gmail.com/
