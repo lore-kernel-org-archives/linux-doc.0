@@ -1,157 +1,107 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 609D513CF85
-	for <linux-doc@vger.kernel.org>; Fri, 10 May 2024 21:47:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E3761BDC8
+	for <linux-doc@vger.kernel.org>; Fri, 10 May 2024 22:14:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715377649; cv=none; b=gIuncozQIoayJ+KOS77twwUFDrd8kGbw7bLuhoiOcu5NQSCYhTl1/372f/lA62kiUYg6iljj9SYu63XOaoKjAOL0CdNylgp3HJr74TPU9MqlwbIfSmjkYHZL4gHmvY/aaRVncMYCIySbyVBsOQrNzXFSxgTVOtIVBFJs0a/f76Q=
+	t=1715379280; cv=none; b=WZZ2clDQ+HCFRYRgC94QFAfsWxsejV3YOxk4kwYlURSfgpZpU+qWMLCsPM9e2trzcCLpzv2v5RfrFrDFMffE2EujM2zywWFn86ntIrwS3gi4nKbXsuBOEI53Ub5w4RPCsCb4GWfGnxUJVAg3xDUYYM93KT50E2joLI3nHOzLXRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715377649; c=relaxed/simple;
-	bh=5PYGqPb7LxaoIJQZEfb1VXfIqZRIfuMWFVa30lwrHLk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KQiaU+Kof287iT1nPUFnhLSuCKUU5G8zuldgewwwAxGJv+yCBRB2Z35B29Q0U1WbcfIVUhQcXRK7P/4plbF0wf/OAAMQ9jK+E/Jgr4aLlk31s5jILDn+XoZbvbRA4FSxWchLDHLIKGLW82lwH8Viw5nLYucUKqQuc+IGW4pv0T0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=EQGcUD51; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1715379280; c=relaxed/simple;
+	bh=ROcGEvtftnjYPI08GGYz9bNGpaH/RrDFIcR0zoLFgN0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=E7lcrum1Wb60MuvNA8XrFYFA74g/6Ceb442/tuHLGN5/4Ywj+L5FE1l+gDV3zPbo76Zaa14PtiBRcGL0ick31rlw5iyFavbl//FU3qemntVanulVc3vjbGf3Z/Xp6XJ74oacM45B+8iZJrktmCE6bY/jr1Tu7RBJcSk8MJuK2mk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=A06IhSg6; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="EQGcUD51"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1e4c4fb6af3so15718835ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 10 May 2024 14:47:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1715377648; x=1715982448; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/hdC9JzZ0lCEDEfdvCSKJ054LE730kwHqEMbc1syn4Y=;
-        b=EQGcUD51xgp26v1/5BLmiCtwFlyKkor4tfhxfQihv/UC1oljRqoxfVje5RBPsvUxY+
-         uApzzFilJJuOREOJ6uxlKktch0A4ENbRpIgfImPzOW2Ijlb9AMESTJyX1R5r/p+MoiEl
-         6F5KNio2PJWrTJ1J2EO8J/9aAKgzO06OP+rDg2yVbEQlLq9CNBpD1AW1ftApG3zK+2GO
-         r5wmuDanOJiCLypBn9ZTsa9iiGDSHlaOs+6kGPwWCCaYrNvbgw+FecOVc6dpKKFsQMeD
-         Bc/oJLxTZAmp0Pg23DVVyQMTT8SangX8lzODBSDbYofibc/VAFRRN9nrm/Per60DUZ6c
-         eopg==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="A06IhSg6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1715379277;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I/QlJHr+D+VnlQcWOXKBfsNZlT2gXuYn22rJbWjqVyA=;
+	b=A06IhSg6DFHpyiew0AUjunx1TX0PZURZavkmAmZdYHcwtC4Ty8qNHlWiGNTyAn9VPD+fe2
+	CL3ztIAlTAKCgxlsatA52DPAZi0UW2eGJYRFPckOtR47xik8glRsSq4xse+TGMmELAJnm5
+	pegR7rGHT+hfdLMm5gBLzyeH95ROHiE=
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-373-dpVfItwdNj2fUU8Qv9LJQw-1; Fri, 10 May 2024 18:14:29 -0400
+X-MC-Unique: dpVfItwdNj2fUU8Qv9LJQw-1
+Received: by mail-io1-f72.google.com with SMTP id ca18e2360f4ac-7e186a8af8bso272120039f.3
+        for <linux-doc@vger.kernel.org>; Fri, 10 May 2024 15:14:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715377648; x=1715982448;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/hdC9JzZ0lCEDEfdvCSKJ054LE730kwHqEMbc1syn4Y=;
-        b=YWPHScTK8q2Lz1mSis9/YUHs0OYRgEkSYHdrKbQ+pr9Kx+IRCZ/K4lNfLT4wzanNBK
-         7BsIYXqjZnmvXoTezUYIOAEKoUdqILXd6CnrluMyC5QSIvS6HvcEYakEQWxiE4LhohkH
-         nWU49VFPPA8g5PwX6rqIBaJLXAikfwa6LrWbDKtvmg1OkMKdPyfkmqsC+fRknUlt0njv
-         acOxnb1UB0+2sK/r9FUhLdBcCeUcdJDZ47WTG8Z+4rRc6PUkSVtlvxK/HjJ8OX+nGjgT
-         0TtH5f0efR4AL22/ohpnqxUzblYHQw6kPhi2Bim505UDBAJmlAprjb/40UYbHJSb30iN
-         BNYw==
-X-Forwarded-Encrypted: i=1; AJvYcCVn8Y0HokkepaHDrhcYj3zViC6a/jZYnIzDbf3ZvKSuYAJ7dZjzweyX6lQzxgmLnEi5C8cZf8vrdNF1tUtFjmz22T8HVTZ3sb37
-X-Gm-Message-State: AOJu0YxRtl7MXYBpQNJWB03ykSptgu5GSFhK+W/7MYrINthRdlJUVuL5
-	l66baTxmChn58lIl53ygTeBPDRzv+L5n9iX+E23twcjE2pjfkh3lLwh+Q6tpb6g=
-X-Google-Smtp-Source: AGHT+IEl8b0mhum+JV+b5DTSd1d3OjZ5PkTdYwtDqzJoyrI4CLabnHCiu4RAY/rQcDa9u2oMv/FfGA==
-X-Received: by 2002:a17:903:234c:b0:1e8:682b:7f67 with SMTP id d9443c01a7336-1ef432a0c85mr53371555ad.29.1715377647449;
-        Fri, 10 May 2024 14:47:27 -0700 (PDT)
-Received: from ghost ([2601:647:5700:6860:629e:3f2:f321:6c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0c038ce5sm36930875ad.195.2024.05.10.14.47.26
+        d=1e100.net; s=20230601; t=1715379268; x=1715984068;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=I/QlJHr+D+VnlQcWOXKBfsNZlT2gXuYn22rJbWjqVyA=;
+        b=aOjvy+W6MOpUguhKAW6BbHy+g8EgLqBw+MVWaXxv/kpOKtrVZlbepC/mpOdEmNWLbT
+         0B25KIXscFc7qd4Qjn/cm91x3fhkJTHCJEQMxajZwj0TUlM7hoYBIqiJKZzsenYB8Txm
+         ycUH69zjPvpDQ+KiAxyJzxA5kiGsfH4HtSCMm+DfujGgmu/d8vGB0O14dwKfEB8x7l1G
+         +Q4Y9ZGjXarh6zQoj1Bh5wRQGUaDDnCfWXHo5kSAAUhAPXGzv9VktMzr5Z+pKbgUZJpC
+         BINOYja+zAOFO5zRUYvzNFV46auo+zxGMqG0KMnJQSlnFGeAf4D93QxO5z5hQl62Zrf/
+         MJdA==
+X-Forwarded-Encrypted: i=1; AJvYcCXJUuwz7Uyelb4jv93AeNiIprIo/nY5sA8IQ3oTcu7Vg1mFX9ehnjD2ecgIOe4Sn8V+Ew9rLJ3MlFeseHFuIL9YBvYW+C9bGe2+
+X-Gm-Message-State: AOJu0YwU/gV7tTfV3z+Da55JeEs7qkOwTo88eh3Ua4OY01Tm3zorCpYH
+	7UTJ8njSmXr5rk3j53JHU+Oh0Kvv6CHvyQ3kZy4koXVJKby41b5iK7LfD2ZzVoO9xGou+EStbGD
+	UwvCg5gEkH9e02Xslb53PsXobozMNzqJ1JFBSNQWoadNJj3HPG+gDauCJNg==
+X-Received: by 2002:a05:6602:178d:b0:7e1:b4b2:d706 with SMTP id ca18e2360f4ac-7e1b51a3f2fmr446829239f.3.1715379268282;
+        Fri, 10 May 2024 15:14:28 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHBFf1hFugwXrr0klEwmRsIlfe4M8Guf0BNT2CGB9vmEx+wes5EAiaXPPMN4KI1D245YbdcEA==
+X-Received: by 2002:a05:6602:178d:b0:7e1:b4b2:d706 with SMTP id ca18e2360f4ac-7e1b51a3f2fmr446826939f.3.1715379267902;
+        Fri, 10 May 2024 15:14:27 -0700 (PDT)
+Received: from redhat.com ([38.15.36.11])
+        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-7e1b9499ba6sm54162539f.31.2024.05.10.15.14.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 May 2024 14:47:27 -0700 (PDT)
-Date: Fri, 10 May 2024 14:47:24 -0700
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Conor Dooley <conor@kernel.org>
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Evan Green <evan@rivosinc.com>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v6 06/17] riscv: Add vendor extensions to /proc/cpuinfo
-Message-ID: <Zj6V7N96odmFk4ni@ghost>
-References: <20240503-dev-charlie-support_thead_vector_6_9-v6-0-cb7624e65d82@rivosinc.com>
- <20240503-dev-charlie-support_thead_vector_6_9-v6-6-cb7624e65d82@rivosinc.com>
- <20240507-divisive-swoop-c2737a2d9a9f@spud>
- <20240510-childcare-outlook-d18e3cc5ccb3@spud>
- <Zj6QxisrBZSWq7ax@ghost>
- <20240510-unexposed-desecrate-e30674d4530b@spud>
+        Fri, 10 May 2024 15:14:27 -0700 (PDT)
+Date: Fri, 10 May 2024 16:14:25 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: "foryun.ma" <foryun.ma@jaguarmicro.com>
+Cc: corbet@lwn.net, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, angus.chen@jaguarmicro.com
+Subject: Re: [PATCH] vfio: remove an extra semicolon
+Message-ID: <20240510161425.589eb25d.alex.williamson@redhat.com>
+In-Reply-To: <20240510003735.2766-1-foryun.ma@jaguarmicro.com>
+References: <20240510003735.2766-1-foryun.ma@jaguarmicro.com>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240510-unexposed-desecrate-e30674d4530b@spud>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 10, 2024 at 10:32:19PM +0100, Conor Dooley wrote:
-> On Fri, May 10, 2024 at 02:25:26PM -0700, Charlie Jenkins wrote:
-> > On Fri, May 10, 2024 at 09:50:32PM +0100, Conor Dooley wrote:
-> > > On Tue, May 07, 2024 at 06:03:19PM +0100, Conor Dooley wrote:
-> > > > On Fri, May 03, 2024 at 11:18:21AM -0700, Charlie Jenkins wrote:
-> > > > > All of the supported vendor extensions that have been listed in
-> > > > > riscv_isa_vendor_ext_list can be exported through /proc/cpuinfo.
-> > > > > 
-> > > > > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> > > > 
-> > > > This seems fine, thanks for updating this interface :)
-> > > > 
-> > > > Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> > > 
-> > > Hmm, actually the automation on patchwork is complaining a bunch about
-> > > the series, but I think that's mostly false positives except for this
-> > > patch. The nommu defconfigs are prob the easiest way to reproduce this:
-> > >   /build/tmp.QPMRM3oUNu/arch/riscv/kernel/vendor_extensions.c:41:55: error: 'struct riscv_isa_vendor_ext_data_list' has no member named 'vendor_bitmap'
-> > >   /build/tmp.QPMRM3oUNu/arch/riscv/kernel/vendor_extensions.c:42:60: error: 'struct riscv_isa_vendor_ext_data_list' has no member named 'per_hart_vendor_bitmap'; did you mean 'per_hart_isa_bitmap'?
-> > >   /build/tmp.QPMRM3oUNu/arch/riscv/kernel/vendor_extensions.c:43:60: error: 'struct riscv_isa_vendor_ext_data_list' has no member named 'bitmap_size'
-> > > 
-> > > Cheers,
-> > > Conor.
-> > 
-> > The false negatives always throw me off.
+On Fri, 10 May 2024 14:37:35 +1400
+"foryun.ma" <foryun.ma@jaguarmicro.com> wrote:
+
+> remove an extra semicolon from the example code
 > 
-> Aye, it's pretty frustrating for me trying to report anything. Any time
-> a bunch of headers change produces a bunch of file rebuilds and
-> therefore warnings. That should in theory be caught by the fact that we
-> apply the patch & build, jump back to HEAD~1, build that & grab the
-> "before" warning state and then jump forward, rebuild the patch and
-> gather the "after" state. The idea is that that is an apples:apples
-> comparison as the same files will need to be rebuilt for both but it is
-> falling over somewhere. Maybe I'll have time to look into that soonTM.
+> Signed-off-by: foryun.ma <foryun.ma@jaguarmicro.com>
+> ---
+>  Documentation/driver-api/vfio.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> > The errors are also offset by
-> > one patch.
-> 
-> Ye, that's my bad I think. In a rush off to another patch before the
-> thought I had on it left my brain and just pressed reply on the wrong
-> email. Sorry bout that :)
-> 
+> diff --git a/Documentation/driver-api/vfio.rst b/Documentation/driver-api/vfio.rst
+> index 633d11c7fa71..2a21a42c9386 100644
+> --- a/Documentation/driver-api/vfio.rst
+> +++ b/Documentation/driver-api/vfio.rst
+> @@ -364,7 +364,7 @@ IOMMUFD IOAS/HWPT to enable userspace DMA::
+>  				    MAP_PRIVATE | MAP_ANONYMOUS, 0, 0);
+>  	map.iova = 0; /* 1MB starting at 0x0 from device view */
+>  	map.length = 1024 * 1024;
+> -	map.ioas_id = alloc_data.out_ioas_id;;
+> +	map.ioas_id = alloc_data.out_ioas_id;
+>  
+>  	ioctl(iommufd, IOMMU_IOAS_MAP, &map);
+>  
 
-The error message in full is:
+Applied to vfio next branch for v6.10.  Thanks,
 
-Patch 7/17: Test 2/12: .github/scripts/patches/tests/build_rv64_clang_allmodconfig.sh
-  Redirect to /build/tmp.OCcmyhkGEw and /build/tmp.TsjyVLqMfy
-  Tree base:
-  fefb1e9ecc34 ("riscv: Add vendor extensions to /proc/cpuinfo")
-  Building the whole tree with the patch
-  ../arch/riscv/kernel/vendor_extensions.c:41:42: error: no member named 'vendor_bitmap' in 'struct riscv_isa_vendor_ext_data_list'
-  ../arch/riscv/kernel/vendor_extensions.c:42:46: error: no member named 'per_hart_vendor_bitmap' in 'struct riscv_isa_vendor_ext_data_list'; did you mean 'per_hart_isa_bitmap'?
-  ../arch/riscv/kernel/vendor_extensions.c:43:47: error: no member named 'bitmap_size' in 'struct riscv_isa_vendor_ext_data_list'
-
-
-It knows it's on patch 7 but then it prints the title of patch 6.
-
-- Charlie
-
-> > This was actually introduced in the following patch "riscv:
-> > Introduce vendor variants of extension helpers" because I accidentally
-> > fixed this issue in the patch "riscv: cpufeature: Extract common
-> > elements from extension checking" instead of the one it was introduced
-> > in.
-> 
-
+Alex
 
