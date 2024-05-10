@@ -1,367 +1,265 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72AFB7E56B;
-	Fri, 10 May 2024 08:32:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715329937; cv=none; b=KFpXmBbVUmXSsd+RZ5kG3b09gk6aDhun1uwZDSnqtbgmE0CenptFnK3H4LE8EqALyyHQLfG7YXdS6o2D4EEh5iR+MahTQTr9NkaSdWWdwO1xFtnwylTjk1kF1ruv9iyHf3kYEv5M4Rbv5xsYzhC0jgs7ojdGudTUpTAPbQiuxqg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715329937; c=relaxed/simple;
-	bh=O5QlNzKEieFeemPSjPetKTGEZJvS6/Rm6jEpk3nt9Iw=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=NkmX7Yc7eToHUKCTrRa1dw4T999zWD2xfwzQTok+jWcisVY0yuIsPko/4hZ/ZHa6cAAi33pAPr53PNiaQ1f1UyzCaGOmcu+XztJUpGyoKphhv/dky5Tq8qUbI6XlXs6kvJArqH8+rFFpX6SjakZlXen5BM+5Ns/pEBgYE9gxLDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=5nfh2lqx; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A54115FA87;
+	Fri, 10 May 2024 09:03:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.20
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715331827; cv=fail; b=tWayM0gf4/Am/36gtPXTd3iyzToNumslwPQ157R0j07NJcnNueasMkg2TkbJcRHdYSB5R2KFPm/gLFnPDsm8RqQnqqW2uTe55NRJa4yMacHkg+XdZ90IexacUoc5VL1ZSYE1aprXHRz8+Kr3bdzB1N8r5ARYHu+N9/ydPx4UWks=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715331827; c=relaxed/simple;
+	bh=zWsp29DFVC148FyJxRGCD2zORk8hUl2UjuZcKHcN+nw=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Om17t48N86dkdbB7giCZVqi5EZmdvaNJA3JPce7uYk356JyjQx9JpJTGKw7EdD8451DVKxBXWlNZZwetkHixgKvYF7DcteHRtJTsONcw+kEP5LK0a0L7wHKongaEnWf64HPpbAsIzjiEARBbyfBTHZ+6msreHgAUOxGF52J63YY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A5yMeiOT; arc=fail smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="5nfh2lqx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1715329932;
-	bh=O5QlNzKEieFeemPSjPetKTGEZJvS6/Rm6jEpk3nt9Iw=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=5nfh2lqxco+2LsgxPNL3fozTt3tdhgp9jSbnEarNgykgnc2H6YYz3aHiaXfuQxVhW
-	 jOoqUhoGiXYqZrYO+zvU3SiPziqXDBl6/jExnR0e92U56O7+kSo15B1WLd+kchV/iM
-	 kvIKItpHKAAbouIGlh8qLq+FtvCLVPOERAHi46LQ48ZokuPunBOPUZsxi9cci1lR2M
-	 oznfdORYyR17IqIc9Sip5+F3mjUUWCqZvCXi9Zv5icuNBzLGHB7sganGW8kzEhTHPH
-	 LOiaP/BQbIUN7LN36ZGZU2acp+TiQprTMHaQydSo6+om4Zeuon9wsRJ1d9WMYYhraj
-	 bE0MwRauPisCg==
-Received: from [100.95.196.182] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: andrzej.p)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 329BA3782009;
-	Fri, 10 May 2024 08:32:12 +0000 (UTC)
-Message-ID: <cc5073ea-40b4-47a8-845b-95ee70846560@collabora.com>
-Date: Fri, 10 May 2024 10:32:11 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A5yMeiOT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715331826; x=1746867826;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=zWsp29DFVC148FyJxRGCD2zORk8hUl2UjuZcKHcN+nw=;
+  b=A5yMeiOTy3RPCnSKC3M8xfHwghCdQpZtn3wak2LHo59Vhm6Yc10AEIKL
+   38FyyWk8yFWyKirC/BCgFKWj33S8tnDc78lw/ntIMOAnww0yz4fEzqhfh
+   cELPCOgRN/guZ8MgarwLzf9LsPJhS+nWj9Fim4Ne06zcda9f5O9Crmrj1
+   9ZsH9HKfhTrzTdjc88DE44YUinPfFvsLnjkuHMCQ5vmq7tnDrWPO56ypr
+   I3Ng/Rz5KJMBDj5aPknsuZnjX+6K4nUcA0ktK9zio8u5DRXvcaMMGHaFR
+   5KR3ibSbiNDLQC1VoCrWINcTlwsxUau4rVkm48CqDd10sHJ+b7kNhMaQ6
+   w==;
+X-CSE-ConnectionGUID: Iw6KbDVdQC+rUZOswbkt+w==
+X-CSE-MsgGUID: 5isFrOs9Rdi/My2gZKGXhg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11068"; a="11139380"
+X-IronPort-AV: E=Sophos;i="6.08,150,1712646000"; 
+   d="scan'208";a="11139380"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 02:03:45 -0700
+X-CSE-ConnectionGUID: 6fnKlzJUSeq+mfzvb6aW+g==
+X-CSE-MsgGUID: O9YKKTeTT12kx8nbJp7o/Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,150,1712646000"; 
+   d="scan'208";a="67015577"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orviesa001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 May 2024 02:03:44 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Fri, 10 May 2024 02:03:43 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Fri, 10 May 2024 02:03:43 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.168)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Fri, 10 May 2024 02:03:43 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Nfph186v4JGmtb05mPJNuu2Il1OliX9048VysKRCb/TUBNY1vEoatHVxnbBKXam3YHdFA4B+Kpa+/ATUOqeGMixvisdfDDCB2Cnl+uVosCkq18Tfb41mn4CVtPSG5I2bFLfrb90KSHeQ2vr2kVkLL0ut3O9wpQwzS+zacbPH/Q6kJYtki6h1wVcmuouJ71aTNbASGyL4DVO9EgRAauYz5l0PYbOpGhRoJ/wefYfPpa2fQXh1+bwRme2cB6ox1enx0ufL8ifcuIyM4onJMfW2bx/orW09g6L7fsCaM/mcOnIGcgp8m3jXiRg71yAZfzxvMwsUGRNf5HnF+ZxBb8pAUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FmAJ2COWofY2u0cvbYFjytCJ2ZIEvekotvoa6PxPe2I=;
+ b=gYxwudpB6TzNAgaM6+i/r1CIVu/PlinHfJKNQuGTE1sAsBXHPUXwXgG3kcJUWpMxsGl0wTsJ7OU0UwGikFc0RG2uJTp/ZamH6rhBlF4llYfgvqWLa6vvF5jmHRiSq8ZMCPHr4v6G3MVOjn05QoP0tQllOTnQEP6XkeayB7qWDca9MCWM1nJr4cx4VMdbcQVQrYPefY4IywqVvJ8FPzN57r+1ZgGegs4/Js78uHj7KlZR8ZHkvyj4LxZxs/2vFkhJYeQx79WJkdxOQUgwBWPkJjjRL4oBzayIs1upk/gv+H0i1fONUfofPkH8ipejbFAu++fXEhImE/+dY/iLC8CCTw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM3PR11MB8735.namprd11.prod.outlook.com (2603:10b6:0:4b::20) by
+ SA3PR11MB8047.namprd11.prod.outlook.com (2603:10b6:806:2fc::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.49; Fri, 10 May
+ 2024 09:03:41 +0000
+Received: from DM3PR11MB8735.namprd11.prod.outlook.com
+ ([fe80::12da:5f9b:1b90:d23c]) by DM3PR11MB8735.namprd11.prod.outlook.com
+ ([fe80::12da:5f9b:1b90:d23c%5]) with mapi id 15.20.7544.049; Fri, 10 May 2024
+ 09:03:41 +0000
+Message-ID: <0867c527-6fe5-4f54-adcc-0344e9416f9b@intel.com>
+Date: Fri, 10 May 2024 17:03:28 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 13/15] KVM: x86: Kill cur_tsc_{nsec,offset,write}
+ fields
+To: David Woodhouse <dwmw2@infradead.org>, <kvm@vger.kernel.org>
+CC: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+	Sean Christopherson <seanjc@google.com>, Thomas Gleixner
+	<tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
+	<bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, <x86@kernel.org>,
+	"H. Peter Anvin" <hpa@zytor.com>, Paul Durrant <paul@xen.org>, Shuah Khan
+	<shuah@kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>, "Oliver
+ Upton" <oliver.upton@linux.dev>, Marcelo Tosatti <mtosatti@redhat.com>,
+	<jalliste@amazon.co.uk>, <sveith@amazon.de>, <zide.chen@intel.com>, "Dongli
+ Zhang" <dongli.zhang@oracle.com>
+References: <20240427111929.9600-1-dwmw2@infradead.org>
+ <20240427111929.9600-14-dwmw2@infradead.org>
+From: Chenyi Qiang <chenyi.qiang@intel.com>
+Content-Language: en-US
+In-Reply-To: <20240427111929.9600-14-dwmw2@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SG2PR02CA0003.apcprd02.prod.outlook.com
+ (2603:1096:3:17::15) To DM3PR11MB8735.namprd11.prod.outlook.com
+ (2603:10b6:0:4b::20)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/3] tools: usb: p9_fwd: add usb gadget packet
- forwarder script
-From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-To: Michael Grzeschik <m.grzeschik@pengutronix.de>,
- Eric Van Hensbergen <ericvh@kernel.org>, Latchesar Ionkov
- <lucho@ionkov.net>, Dominique Martinet <asmadeus@codewreck.org>,
- Christian Schoenebeck <linux_oss@crudebyte.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: v9fs@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- kernel@pengutronix.de
-References: <20240116-ml-topic-u9p-v4-0-722ed28b0ade@pengutronix.de>
- <20240116-ml-topic-u9p-v4-3-722ed28b0ade@pengutronix.de>
- <e1c8cc99-47e3-4780-87c8-9f4da370ac4b@collabora.com>
-Content-Language: en-US
-In-Reply-To: <e1c8cc99-47e3-4780-87c8-9f4da370ac4b@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM3PR11MB8735:EE_|SA3PR11MB8047:EE_
+X-MS-Office365-Filtering-Correlation-Id: aa05751d-8d43-4a6c-63c1-08dc70d01664
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|1800799015|376005|7416005|366007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?UkNrWlpMb2RwTms5NEdKaG54d0ZYWE5EU1AvaWlYSzlwNVJ4cWpzNC8xOVFG?=
+ =?utf-8?B?M1VrZ3Y3ejlING9vbW9zMmxZUzBmNjlETGtCN2FXVS9YbHdXR0ExMWtVTmdp?=
+ =?utf-8?B?UVViZ2pReU0vcW9pdUJVdUdsSFJZV25yZUJFT09RNEptbXFIRTJYK2xENkk5?=
+ =?utf-8?B?OFU4U1VPVUVPRnMzUlRSampjMGtXdHBrUGZKKzRnSnM1a3hsSUh1Q29BRlc4?=
+ =?utf-8?B?RTFSdVovVExlWGtWbEJqWDJZNFRVK2hQaU5ycXFqTjM0Sm5UUmk0eFkyK1pW?=
+ =?utf-8?B?Q0RHVVU1TGJUbFhMbm5VUjhtem5zMnBzOGdtdDY0WFpiM1l6SFhtWHVSSzVW?=
+ =?utf-8?B?TklHZ1hpSGx2WGxrdVN3QmdxTUFReldodkQzRVlKd2tnZ2dtSTk5L1ExeG1E?=
+ =?utf-8?B?NWRscURsZ1NCWjdyQVJQU3JGVWN4UkRueXRMMkVpOVFQczAyQ01jMWFEQ3Yv?=
+ =?utf-8?B?SHo4cFBaRmZiLzdzL044QTlKc1dKb0JMUk10NTA2aHcyL3dGNEdvbGhDc2g4?=
+ =?utf-8?B?NFBBOU40ZElGeXFWM3dEb0s5UFhBeG5uV2ZnMlFpZlNxTDkyM1ZCSGdJWDQ2?=
+ =?utf-8?B?aVJuL21ORUZXSU83WUwxZENjWCtFL1U0T1JhNzAzOGNBeWVNb0ZIWHQyUFR3?=
+ =?utf-8?B?NXlrSmsvTmhETk5PV2FyRm1XRTBucFJOTkhEOWQ5ZC9keEREcU5EaTgwUUFz?=
+ =?utf-8?B?d1Y5Smh5ZTVQMWRsMXNZYlBvOWh2OG1BLzVkaFB6aVpTMU9DQ09TSVh0Q2xv?=
+ =?utf-8?B?eVZabmpMNE04TkJ0SXByL0ovTGRIb2F6bE55dUJNbWpGcEIveUhpbDI0QjNZ?=
+ =?utf-8?B?d0xOZ05LZjB1bWZkYnJFazFKMk9iMGxFSmtFR2llZndzYjNHRmRZQTJvOWFI?=
+ =?utf-8?B?UURCWGYvUXJ6Zzh0VkFNN2NxdXpreG1YbFJPSXVkdVNEQnJqVzlyRlVBQ1Vq?=
+ =?utf-8?B?MHRVd0R0SWN6eFVla0FEL2xaODUvelBZRFhiK3doeUpRenhzb1JaVFQvVStv?=
+ =?utf-8?B?YnBZSEFsYTVtZGFnQjBRcUY3L2xiWU5IbkxjbkxRK3BDbUhiK1puRVo4Y3Y3?=
+ =?utf-8?B?L3FwL0VwM3J4NjZUNS85aWU3K21qR3FTcmdSMmlHWkxyL2VqVVFEWlRzbUE3?=
+ =?utf-8?B?aVErR3lwU1V6a1hCTURmT3BwWjNIclpkM0lHTzUyaFZ4VkFpRHlzTHBwV0pD?=
+ =?utf-8?B?TFZ5SjAyS3F0cGg4WUhNaDhDSGRQZTFrenZFb2pJbUF0Y1kwVnpYVHkxS2xh?=
+ =?utf-8?B?TlFleWtJMjNMZ1R1N1ZmbzBYVS9BWVAydUd5dVJ2OUlzaWNRY21RTlU5Y3A4?=
+ =?utf-8?B?bTRiUzl6Q2lFd29rT0xRZ0ZmRUJSSU1mVGZ2aEZhMmdxenZsQUtqdnI4Z2c1?=
+ =?utf-8?B?WW5WSUF2d1dhMzVKNEk1dU9XN3R0YWIvNU9uaTZzWWpnTUVJbmR0Y25aUEY1?=
+ =?utf-8?B?bU1qby93VzlsRndyeDNqZ1dWdkE4WEZuYjRKS1h6QWNwUDNpWVRaY1A3TXlQ?=
+ =?utf-8?B?N01vM21LdjdsbWJVUllKWWxZc3R3TGx0RkxTZmhiZi9aYVd2WFo4NVVHbzdK?=
+ =?utf-8?B?WU1SaFFTYlQ2QkoxQVpKc04zSC9mN21abzVoYzZEeGtLbVEvNzF3cXhRVVFm?=
+ =?utf-8?B?bDFUb2VnQXB1RlRndG5CWHBBWDhkR3dpNy9LUFBhR0lGTU9Wd1NhTTlXTDJn?=
+ =?utf-8?B?TVBnejMrUXA4MGdHWi9ZQXFNZ0pCVHpJWDBNcGNxeXVaQVZwaks4UU9RPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM3PR11MB8735.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(7416005)(366007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?azJZbXkzYzNuRDZBVnJGaWNYRG5YcjhDQ0Z2UU9uUjR5bFdSMDVYR1lyVkx4?=
+ =?utf-8?B?OXlNdzFDODNhaHhFQVFVang0ODFmS2hPbFhaSEU0ZjNVUHpCMWxPZ1l2N3JF?=
+ =?utf-8?B?NFk3VGIyOFZHN2hiZFA2cHdaWkJnenFTLzRCU1JONm55NkpXaU5XTGpKVE1z?=
+ =?utf-8?B?RjgrYlN1QjREakhmOUQzK3M3cWJsNTBzamlrZm1MRTVOb0NDN2c0TEdrVkpM?=
+ =?utf-8?B?STVBWklySTI1VTAxbkpCY0FBZXZsYVFwUmIzTnprVzVLbnAvZTdnZ2hGTlFa?=
+ =?utf-8?B?KzZJRndMVjJldDkxTVhYMGZVNkhTSG5kT2w3VjJkZ3RnRlB2bmpvZG54QjU5?=
+ =?utf-8?B?TlJXMEpjVURHc2ttOWNBejM5RTBwNjR2ZSsrWVVHLzhlQms1Ymt2OTQxMllL?=
+ =?utf-8?B?MGFOaUxJdzFTUVpWWlMya0EwK2dvSXNvSEVIamY0WUhBVWVtemVaTXRXSkZR?=
+ =?utf-8?B?SlBrbm9hZnpYeWFsK3lrbWcrQXJnZUVmcXVPYXplV241SU0yd2JXQWxRT0JC?=
+ =?utf-8?B?dmV2RjFhN0pDNzlTU3MxcktkRy84L2QwMk40WFF6R0lCR1VQUTY0QUxQK2Vr?=
+ =?utf-8?B?QzMwNnRTL0VMSldjZWEvajlEQmx5dGM3bTNxMlV5S2xXUUJRNGFsTGQ1aHpv?=
+ =?utf-8?B?anBRNU95WG9xR0xXOVBWM1VsRzIxendYMzVZYnhIeHQySkFtYlFFV0dsN2Jp?=
+ =?utf-8?B?aVlXZE9hdE5mUUVtMUhkZlhjS2ZNVHpFMGVzSHZFWFR3LzRTNXdjeFJDVGc1?=
+ =?utf-8?B?L2N6Ui93akhscXRXTHlpekp4NWpLbEIxODVWVjlDUktvL1ZXd05XazhVMm5v?=
+ =?utf-8?B?dVQvNnFDMVh0cWUwc3dDc1BxNkRSYVlWTE4vSWdQZW8zWGJUdkhNNldYMW5u?=
+ =?utf-8?B?Rm42MTFUQ1d3bkYrWHF5c1JjZlBpdHpiQVFwL1Vjb2ZRNlJWUldHNmNyWTFk?=
+ =?utf-8?B?eXlqLytpcWdlNjEyZXFmaVZkUWVEVVhZWFEzQkVVYU5UdzFmWmV3UVJBbjNi?=
+ =?utf-8?B?VTk3ZVZlR1crME9rQ0pNM0ZwZVBDaGw1cHNYRzJIL3JoKzJoVWNkZDhBY3dB?=
+ =?utf-8?B?Q3RPcDRzU2FYeDNWL0RNRWhHbm5XaFJ4UzRiNFFRVUcwWEFtRnlKS1V4SHk3?=
+ =?utf-8?B?Zi9ublJQRFhkV2FwaFVtVHVFUUJlMmQrdXg3YTVlN2Fqb3RwRjZ1WE4rYzI5?=
+ =?utf-8?B?dVpXdGdnRHpYTGlqcnI3a2JjdU00a1FaN28yV0dWeitxck1oY2VlUVhqekhV?=
+ =?utf-8?B?UGVwSE9sbldrY0NreVpZNXVnbHppbVRmTWpsSzdSOVVNWHdad0xvZG9JYlB2?=
+ =?utf-8?B?UDJPT0ZmWUJMM2FXanUzRU1jcDZqam01WjB6ekdDalVSczJ6Y1AzeXlkR2V5?=
+ =?utf-8?B?Mk9YbE5KaHFlRDUyVURtV3RTM0Q4NzN2Y0NFUzZwL1hxK0trQjZuWExCRm1I?=
+ =?utf-8?B?cHBoYXRNZHR4Uk1FcXB3RHFzQzFSVnM2V1JkWXRWd0VPQm82dEQwYk8xVmlB?=
+ =?utf-8?B?eFEvdGVCYWlIUUFPelFGYS8xT2hSZ2Z6Q2NRM0dtUWlzZ0paTGJVUEVyM1Ar?=
+ =?utf-8?B?dGdSRkcyS09GaUw0djROYU5Zd0lhSVh2WVVrbks4cElCOXVoSERseVhsQWRm?=
+ =?utf-8?B?aHFUekVGRHFkK1ljNlVoWmlzQ3c4eGxSQlFJR1NIcStJTUJnT3NETUZHWVZw?=
+ =?utf-8?B?SXBUTmM0M0gxVklWS3VMTkI5YmRFZ0F3YldlZklGWllWQ3VqSDM2Rmg2S2VU?=
+ =?utf-8?B?Q2hoSmFDbklvTXZ0MjJTL1l0Y1Y4U1ZKM044SThneVV5TTBBUXVkZWFUa2FI?=
+ =?utf-8?B?bGhhMGczMWJ3TXN3bW96d1RMbmlJd0tzYWsvN1VnK2hwcll0TVJXek9icDlT?=
+ =?utf-8?B?cWQ2MEM4RUdlSTZIeGtueWRLV1Jpem5uV3gyUzFjWHNTdVBjQ2JRbGE3Tlhm?=
+ =?utf-8?B?T1lHdW1iT0Rhd0Y0dlhmZDBNODlkTVBqQURXMVVhbUFOSnpMaHFIZlp2NDQ1?=
+ =?utf-8?B?S0VTZUl5NEloSnBWMjFQY1RIbk9jWVFCVUM3MXRxdWxMeXpoV2l0WVNJZmJ3?=
+ =?utf-8?B?MEMyaTl6SUNUTHZNZWQ1MElxVmtKZ2ZZZjhQbG1vOVBVdksrRVJqdFZBQWo4?=
+ =?utf-8?B?dGRHb0hkMTE5eEFjQnBaR3NCNDVvdlJNd1F4RUxXRkxkQzVNRWtTRjlCMXRi?=
+ =?utf-8?B?THc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: aa05751d-8d43-4a6c-63c1-08dc70d01664
+X-MS-Exchange-CrossTenant-AuthSource: DM3PR11MB8735.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 May 2024 09:03:41.3817
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: N5RlBJjT0YySIZK15/TUEsfExtsIzhjAyVVLWWW3ZrwIaSIdOKzGQw0QLXDPydd0OJ31du/HKIL16kiXoHybBw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR11MB8047
+X-OriginatorOrg: intel.com
 
-Hi Michael,
 
-W dniu 10.05.2024 o 10:29, Andrzej Pietrasiewicz pisze:
-> Hi Michael,
-> 
-> W dniu 30.04.2024 o 01:33, Michael Grzeschik pisze:
->> This patch is adding an small python tool to forward 9pfs requests
->> from the USB gadget to an existing 9pfs TCP server. Since currently all
->> 9pfs servers lack support for the usb transport this tool is an useful
->> helper to get started.
->>
->> Refer the Documentation section "USBG Example" in
->> Documentation/filesystems/9p.rst on how to use it.
->>
->> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
->>
->> ---
->> v3 -> v4: -
->> v2 -> v3: -
->> v1 -> v2:
->>    - added usbg 9pfs detailed instructions to 9p.rst doc
->> ---
->>   Documentation/filesystems/9p.rst |  32 +++++++
->>   tools/usb/p9_fwd.py              | 194 +++++++++++++++++++++++++++++++++++++++
->>   2 files changed, 226 insertions(+)
->>
->> diff --git a/Documentation/filesystems/9p.rst b/Documentation/filesystems/9p.rst
->> index 10cf79dc287f8..2467f1ea4a150 100644
->> --- a/Documentation/filesystems/9p.rst
->> +++ b/Documentation/filesystems/9p.rst
->> @@ -67,6 +67,38 @@ To mount a 9p FS on a USB Host accessible via the gadget as 
->> root filesystem::
->>   where <device> is the tag associated by the usb gadget transport.
->>   It is defined by the configfs instance name.
->> +USBG Example
->> +============
->> +
->> +The USB host exports a filesystem, while the gadget on the USB device
->> +side makes it mountable.
->> +
->> +Diod (9pfs server) and the forwarder are on the development host, where
->> +the root filesystem is actually stored. The gadget is initialized during
->> +boot (or later) on the embedded board. Then the forwarder will find it
->> +on the USB bus and start forwarding requests.
->> +
->> +In this case the 9p requests come from the device and are handled by the
->> +host. The reason is that USB device ports are normally not available on
->> +PCs, so a connection in the other direction would not work.
->> +
->> +When using the usbg transport, for now there is no native usb host
->> +service capable to handle the requests from the gadget driver. For
->> +this we have to use the extra python tool p9_fwd.py from tools/usb.
->> +
->> +Just start the 9pfs capable network server like diod/nfs-ganesha e.g.:
->> +
->> +    $ diod -f -n -d 0 -S -l 0.0.0.0:9999 -e $PWD
->> +
->> +Then start the python transport:
->> +
->> +    $ python $kernel_dir/tools/usb/p9_fwd.py -p 9999
->> +
->> +After that the gadget driver can be used as described above.
->> +
->> +One use-case is to use it as an alternative to NFS root booting during
->> +the development of embedded Linux devices.
->> +
->>   Options
->>   =======
->> diff --git a/tools/usb/p9_fwd.py b/tools/usb/p9_fwd.py
->> new file mode 100755
->> index 0000000000000..95208df11abef
->> --- /dev/null
->> +++ b/tools/usb/p9_fwd.py
->> @@ -0,0 +1,194 @@
->> +#!/usr/bin/env python3
->> +# SPDX-License-Identifier: GPL-2.0
->> +
->> +import argparse
->> +import errno
->> +import logging
->> +import socket
->> +import struct
->> +import sys
->> +import time
->> +
->> +import usb.core
->> +import usb.util
->> +
->> +
->> +class Forwarder:
->> +    HEXDUMP_FILTER = (
->> +        "".join(chr(x).isprintable() and chr(x) or "." for x in range(128)) + 
->> "." * 128
->> +    )
->> +
->> +    @staticmethod
->> +    def _log_hexdump(data):
->> +        if not logging.root.isEnabledFor(logging.TRACE):
->> +            return
->> +        L = 16
->> +        for c in range(0, len(data), L):
->> +            chars = data[c : c + L]
->> +            dump = " ".join(f"{x:02x}" for x in chars)
->> +            printable = "".join(HEXDUMP_FILTER[x] for x in chars)
->> +            line = f"{c:08x}  {dump:{L*3}s} |{printable:{L}s}|"
->> +            logging.root.log(logging.TRACE, "%s", line)
->> +
->> +    def __init__(self, server):
->> +        self.stats = {
->> +            "c2s packets": 0,
->> +            "c2s bytes": 0,
->> +            "s2c packets": 0,
->> +            "s2c bytes": 0,
->> +        }
->> +        self.stats_logged = time.monotonic()
->> +
->> +        dev = usb.core.find(idVendor=0x1D6B, idProduct=0x0109)
-> 
-> Is this idProduct an assigned number? I can't find it in
-> http://www.linux-usb.org/usb.ids. The "9" is obviously a pun on 9pfs,
-> a nice trick and it would make sense.
-> 
-> However, given composition with configfs there's no guarantee that 9pfs will be
-> the only USB gadget function present, and so it is not quite clear that Linux
-> Foundation's vendor and product ids are always appropriate. What's more, when
-> you are not going to the market with products you can use whatever ids you
-> please for your own use.
-> 
-> Given the above, I'd love these two (idVendor and idProduct) to be commandline
-> parameters of this script. My user story: whenever I created a gadget with
-> configfs it had different ids than the above and this script wouldn't work.
 
-And actually it is perfectly possible to have more than one USB device with
-_the same_ vendor and product ids connected. How would this script behave if
-that's the case?
+On 4/27/2024 7:05 PM, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
+> 
+> These pointlessly duplicate of the last_tsc_{nsec,offset,write} values.
+> 
+> The only place they were used was where the TSC is stable and a new vCPU
+> is being synchronized to the previous setting, in which case the 'last_'
+> value is definitely identical.
+> 
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> ---
+>  arch/x86/include/asm/kvm_host.h | 3 ---
+>  arch/x86/kvm/x86.c              | 9 ++-------
+>  2 files changed, 2 insertions(+), 10 deletions(-)
+> 
+> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+> index b01c1d000fff..7d06f389a607 100644
+> --- a/arch/x86/include/asm/kvm_host.h
+> +++ b/arch/x86/include/asm/kvm_host.h
+> @@ -1354,9 +1354,6 @@ struct kvm_arch {
+>  	u32 last_tsc_khz;
+>  	u64 last_tsc_offset;
+>  	u64 last_tsc_scaling_ratio;
+> -	u64 cur_tsc_nsec;
+> -	u64 cur_tsc_write;
+> -	u64 cur_tsc_offset;
+>  	u64 cur_tsc_generation;
+>  	int nr_vcpus_matched_tsc;
+>  
+> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> index 6ec43f39bdb0..92e81bfca25a 100644
+> --- a/arch/x86/kvm/x86.c
+> +++ b/arch/x86/kvm/x86.c
+> @@ -2737,9 +2737,6 @@ static void __kvm_synchronize_tsc(struct kvm_vcpu *vcpu, u64 offset, u64 tsc,
+>  		 * These values are tracked in kvm->arch.cur_xxx variables.
+>  		 */
+>  		kvm->arch.cur_tsc_generation++;
+> -		kvm->arch.cur_tsc_nsec = ns;
+> -		kvm->arch.cur_tsc_write = tsc;
+> -		kvm->arch.cur_tsc_offset = offset;
+>  		kvm->arch.nr_vcpus_matched_tsc = 0;
+>  	} else if (vcpu->arch.this_tsc_generation != kvm->arch.cur_tsc_generation) {
+>  		kvm->arch.nr_vcpus_matched_tsc++;
+> @@ -2747,8 +2744,6 @@ static void __kvm_synchronize_tsc(struct kvm_vcpu *vcpu, u64 offset, u64 tsc,
+>  
+>  	/* Keep track of which generation this VCPU has synchronized to */
+>  	vcpu->arch.this_tsc_generation = kvm->arch.cur_tsc_generation;
+> -	vcpu->arch.this_tsc_nsec = kvm->arch.cur_tsc_nsec;
+> -	vcpu->arch.this_tsc_write = kvm->arch.cur_tsc_write;
 
-Andrzej
+Do we need to track vcpu->arch.this_tsc_nsec/this_tsc_write? At least
+they are still used in compute_guest_tsc() to calculate the guest tsc.
 
-> 
-> Regards,
-> 
-> Andrzej
-> 
->> +        if dev is None:
->> +            raise ValueError("Device not found")
->> +
->> +        logging.info(f"found device: {dev.bus}/{dev.address}")
->> +
->> +        # dev.set_configuration() is not necessary since g_multi has only one
->> +        usb9pfs = None
->> +        # g_multi adds 9pfs as last interface
->> +        cfg = dev.get_active_configuration()
->> +        for intf in cfg:
->> +            # we have to detach the usb-storage driver from multi gadget since
->> +            # stall option could be set, which will lead to spontaneous port
->> +            # resets and our transfers will run dead
->> +            if intf.bInterfaceClass == 0x08:
->> +                if dev.is_kernel_driver_active(intf.bInterfaceNumber):
->> +                    dev.detach_kernel_driver(intf.bInterfaceNumber)
->> +
->> +            if (
->> +                intf.bInterfaceClass == 0xFF
->> +                and intf.bInterfaceSubClass == 0xFF
->> +                and intf.bInterfaceProtocol == 0x09
->> +            ):
->> +                usb9pfs = intf
->> +        if usb9pfs is None:
->> +            raise ValueError("Interface not found")
->> +
->> +        logging.info(f"claiming interface:\n{usb9pfs}")
->> +        usb.util.claim_interface(dev, usb9pfs.bInterfaceNumber)
->> +        ep_out = usb.util.find_descriptor(
->> +            usb9pfs,
->> +            custom_match=lambda e: 
->> usb.util.endpoint_direction(e.bEndpointAddress)
->> +            == usb.util.ENDPOINT_OUT,
->> +        )
->> +        assert ep_out is not None
->> +        ep_in = usb.util.find_descriptor(
->> +            usb9pfs,
->> +            custom_match=lambda e: 
->> usb.util.endpoint_direction(e.bEndpointAddress)
->> +            == usb.util.ENDPOINT_IN,
->> +        )
->> +        assert ep_in is not None
->> +        logging.info(f"interface claimed")
->> +
->> +        self.ep_out = ep_out
->> +        self.ep_in = ep_in
->> +        self.dev = dev
->> +
->> +        # create and connect socket
->> +        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
->> +        self.s.connect(server)
->> +
->> +        logging.info(f"connected to server")
->> +
->> +    def c2s(self):
->> +        """forward a request from the USB client to the TCP server"""
->> +        data = None
->> +        while data is None:
->> +            try:
->> +                logging.log(logging.TRACE, "c2s: reading")
->> +                data = self.ep_in.read(self.ep_in.wMaxPacketSize)
->> +            except usb.core.USBTimeoutError:
->> +                logging.log(logging.TRACE, "c2s: reading timed out")
->> +                continue
->> +            except usb.core.USBError as e:
->> +                if e.errno == errno.EIO:
->> +                    logging.debug("c2s: reading failed with %s, retrying", 
->> repr(e))
->> +                    time.sleep(0.5)
->> +                    continue
->> +                else:
->> +                    logging.error("c2s: reading failed with %s, aborting", 
->> repr(e))
->> +                    raise
->> +        size = struct.unpack("<I", data[:4])[0]
->> +        while len(data) < size:
->> +            data += self.ep_in.read(size - len(data))
->> +        logging.log(logging.TRACE, "c2s: writing")
->> +        self._log_hexdump(data)
->> +        self.s.send(data)
->> +        logging.debug("c2s: forwarded %i bytes", size)
->> +        self.stats["c2s packets"] += 1
->> +        self.stats["c2s bytes"] += size
->> +
->> +    def s2c(self):
->> +        """forward a response from the TCP server to the USB client"""
->> +        logging.log(logging.TRACE, "s2c: reading")
->> +        data = self.s.recv(4)
->> +        size = struct.unpack("<I", data[:4])[0]
->> +        while len(data) < size:
->> +            data += self.s.recv(size - len(data))
->> +        logging.log(logging.TRACE, "s2c: writing")
->> +        self._log_hexdump(data)
->> +        while data:
->> +            written = self.ep_out.write(data)
->> +            assert written > 0
->> +            data = data[written:]
->> +        if size % self.ep_out.wMaxPacketSize == 0:
->> +            logging.log(logging.TRACE, "sending zero length packet")
->> +            self.ep_out.write(b"")
->> +        logging.debug("s2c: forwarded %i bytes", size)
->> +        self.stats["s2c packets"] += 1
->> +        self.stats["s2c bytes"] += size
->> +
->> +    def log_stats(self):
->> +        logging.info("statistics:")
->> +        for k, v in self.stats.items():
->> +            logging.info(f"  {k+':':14s} {v}")
->> +
->> +    def log_stats_interval(self, interval=5):
->> +        if (time.monotonic() - self.stats_logged) < interval:
->> +            return
->> +
->> +        self.log_stats()
->> +        self.stats_logged = time.monotonic()
->> +
->> +
->> +def main():
->> +    parser = argparse.ArgumentParser(
->> +        description="Forward 9PFS requests from USB to TCP",
->> +    )
->> +
->> +    parser.add_argument(
->> +        "-s", "--server", type=str, default="127.0.0.1", help="server hostname"
->> +    )
->> +    parser.add_argument("-p", "--port", type=int, default=564, help="server 
->> port")
->> +    parser.add_argument("-v", "--verbose", action="count", default=0)
->> +
->> +    args = parser.parse_args()
->> +
->> +    logging.TRACE = logging.DEBUG - 5
->> +    logging.addLevelName(logging.TRACE, "TRACE")
->> +
->> +    if args.verbose >= 2:
->> +        level = logging.TRACE
->> +    elif args.verbose:
->> +        level = logging.DEBUG
->> +    else:
->> +        level = logging.INFO
->> +    logging.basicConfig(
->> +        level=level, format="%(asctime)-15s %(levelname)-8s %(message)s"
->> +    )
->> +
->> +    f = Forwarder(server=(args.server, args.port))
->> +
->> +    try:
->> +        while True:
->> +            f.c2s()
->> +            f.s2c()
->> +            f.log_stats_interval()
->> +    finally:
->> +        f.log_stats()
->> +
->> +
->> +if __name__ == "__main__":
->> +    main()
->>
-> 
-
+>  
+>  	kvm_track_tsc_matching(vcpu);
+>  }
+> @@ -2825,8 +2820,8 @@ static void kvm_synchronize_tsc(struct kvm_vcpu *vcpu, u64 *user_value)
+>  		data = kvm->arch.last_tsc_write;
+>  
+>  		if (!kvm_check_tsc_unstable()) {
+> -			offset = kvm->arch.cur_tsc_offset;
+> -			ns = kvm->arch.cur_tsc_nsec;
+> +			offset = kvm->arch.last_tsc_offset;
+> +			ns = kvm->arch.last_tsc_nsec;
+>  		} else {
+>  			/*
+>  			 * ... unless the TSC is unstable and has to be
