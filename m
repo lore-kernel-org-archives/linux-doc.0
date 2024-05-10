@@ -1,43 +1,43 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E1AC80BF8;
-	Fri, 10 May 2024 09:48:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E43280BF8;
+	Fri, 10 May 2024 09:49:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.190
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715334529; cv=none; b=FhvmMITKov2jrjlRSli1rl1LIcsVFVi25AlHv28laklhxcC093q9kVwcgx2jxERlrqXoGWRLKYEy0EVChKlg9BHISVl8ITYJAAANHHEffKMwUBSZVBqOWG/LgcHampdq1o6DlJ5K7cb8FA7n/wDPyGHjAYXrjMvjfcXj2S5ysiI=
+	t=1715334545; cv=none; b=PcZfqSyV0fRMdGCbTazUwtE11ZNA6edUmfoYqp7OmBGtADf6E1H9noLJYazv+iZBNEi9gTP8PdhY5wH/uFynSicYuFn7dhlj1WDVCzgok6ddxKKLfjDLUf3ieOJ9hHaFAjwWLfPTa+sOjEdz4MLUHWJHyvus9vFCVcZ92SDLyL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715334529; c=relaxed/simple;
-	bh=Xil9cHz9oqs+92T/ENlvQu/A3K8EA3wr2TLDeo2amOE=;
+	s=arc-20240116; t=1715334545; c=relaxed/simple;
+	bh=iBTeFMOVS9mPmWJSeecbdFD3UyXlu0mEW/gwhiAFh6I=;
 	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=rBQULUQdGitjZo/z+zbzokbmI18ISI/qy2fzm4Ds9j1hDtXNGhkOtsFkytFyNzlN9VKdBzZlYcaKrSqiMlm0wvqWzn+ibMUsEVTABVbGVUzPdGUl+N6ISz0uCFC9lusfIsiaoVoGJiEZBAQb8JSxw/vkcCrMcoADm3240tfmGhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
+	 In-Reply-To:Content-Type; b=CY1QfrRc/28U/kjuae4Z42chJbyRLR6jtWIjGIibu9bStJfxbQKaCkzJ7PnPxqq9WnVl99UpZUkSis1YZzvxe2i1ROuoOErcEP2Ds4cn+IItYlNdLtawera4hDxNc7z0gEEgrQvOfS1eAWN9WnUuVQ+4Ef2ioUjJmAcHfJ1T824=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.190
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.194])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4VbP9s42bYzfbh9;
-	Fri, 10 May 2024 17:44:49 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.162.112])
+	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4VbPCM1tQ1z1ypGw;
+	Fri, 10 May 2024 17:46:07 +0800 (CST)
 Received: from dggpemm500005.china.huawei.com (unknown [7.185.36.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id 445551400E3;
-	Fri, 10 May 2024 17:48:43 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id B24CF14038F;
+	Fri, 10 May 2024 17:48:55 +0800 (CST)
 Received: from [10.69.30.204] (10.69.30.204) by dggpemm500005.china.huawei.com
  (7.185.36.74) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Fri, 10 May
- 2024 17:48:43 +0800
+ 2024 17:48:55 +0800
 Subject: Re: [PATCH net-next v3 12/13] mm: page_frag: update documentation for
  page_frag
-To: Randy Dunlap <rdunlap@infradead.org>, <davem@davemloft.net>,
-	<kuba@kernel.org>, <pabeni@redhat.com>
-CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Alexander Duyck
+To: Mat Martineau <martineau@kernel.org>
+CC: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>,
+	<netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Alexander Duyck
 	<alexander.duyck@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Andrew Morton
 	<akpm@linux-foundation.org>, <linux-mm@kvack.org>,
 	<linux-doc@vger.kernel.org>
 References: <20240508133408.54708-1-linyunsheng@huawei.com>
  <20240508133408.54708-13-linyunsheng@huawei.com>
- <0ac5219b-b756-4a8d-ba31-21601eb1e7f4@infradead.org>
+ <2dc46fd0-fe7a-436a-5238-ff6b3f69e1a8@kernel.org>
 From: Yunsheng Lin <linyunsheng@huawei.com>
-Message-ID: <28447d18-dc61-3652-f572-617e718c8bd5@huawei.com>
-Date: Fri, 10 May 2024 17:48:42 +0800
+Message-ID: <9b76e7c0-7b24-00e5-adba-214ce306ae96@huawei.com>
+Date: Fri, 10 May 2024 17:48:55 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
  Thunderbird/52.2.0
 Precedence: bulk
@@ -46,107 +46,75 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <0ac5219b-b756-4a8d-ba31-21601eb1e7f4@infradead.org>
+In-Reply-To: <2dc46fd0-fe7a-436a-5238-ff6b3f69e1a8@kernel.org>
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
  dggpemm500005.china.huawei.com (7.185.36.74)
 
-On 2024/5/9 8:44, Randy Dunlap wrote:
-> 
-> 
-> On 5/8/24 6:34 AM, Yunsheng Lin wrote:
->> Update documentation about design, implementation and API usages
->> for page_frag.
->>
->> CC: Alexander Duyck <alexander.duyck@gmail.com>
->> Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
->> ---
->>  Documentation/mm/page_frags.rst | 156 +++++++++++++++++++++++++++++++-
->>  include/linux/page_frag_cache.h |  96 ++++++++++++++++++++
->>  mm/page_frag_cache.c            |  65 ++++++++++++-
->>  3 files changed, 314 insertions(+), 3 deletions(-)
->>
->> diff --git a/Documentation/mm/page_frags.rst b/Documentation/mm/page_frags.rst
->> index 503ca6cdb804..9c25c0fd81f0 100644
->> --- a/Documentation/mm/page_frags.rst
->> +++ b/Documentation/mm/page_frags.rst
->> @@ -1,3 +1,5 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->>  ==============
->>  Page fragments
->>  ==============
->> @@ -40,4 +42,156 @@ page via a single call.  The advantage to doing this is that it allows for
->>  cleaning up the multiple references that were added to a page in order to
->>  avoid calling get_page per allocation.
->>  
->> -Alexander Duyck, Nov 29, 2016.
->> +
->> +Architecture overview
->> +=====================
->> +
->> +.. code-block:: none
->> +
->> +                +----------------------+
->> +                | page_frag API caller |
->> +                +----------------------+
->> +                            ^
->> +                            |
->> +                            |
->> +                            |
->> +                            v
->> +    +------------------------------------------------+
->> +    |             request page fragment              |
->> +    +------------------------------------------------+
->> +        ^                      ^                   ^
->> +        |                      | Cache not enough  |
->> +        | Cache empty          v                   |
->> +        |             +-----------------+          |
->> +        |             | drain old cache |          |
->> +        |             +-----------------+          |
->> +        |                      ^                   |
->> +        |                      |                   |
->> +        v                      v                   |
->> +    +----------------------------------+           |
->> +    |  refill cache with order 3 page  |           |
->> +    +----------------------------------+           |
->> +     ^                  ^                          |
->> +     |                  |                          |
->> +     |                  | Refill failed            |
->> +     |                  |                          | Cache is enough
->> +     |                  |                          |
->> +     |                  v                          |
->> +     |    +----------------------------------+     |
->> +     |    |  refill cache with order 0 page  |     |
->> +     |    +----------------------------------+     |
->> +     |                       ^                     |
->> +     | Refill succeed        |                     |
->> +     |                       | Refill succeed      |
->> +     |                       |                     |
->> +     v                       v                     v
->> +    +------------------------------------------------+
->> +    |         allocate fragment from cache           |
->> +    +------------------------------------------------+
->> +
->> +API interface
->> +=============
->> +As the design and implementation of page_frag API implies, the allocation side
->> +does not allow concurrent calling. Instead it is assumed that the caller must
->> +ensure there is not concurrent alloc calling to the same page_frag_cache
->> +instance by using its own lock or rely on some lockless guarantee like NAPI
->> +softirq.
->> +
->> +Depending on different aligning requirement, the page_frag API caller may call
->> +page_frag_alloc*_align*() to ensure the returned virtual address or offset of
->> +the page is aligned according to the 'align/alignment' parameter. Note the size
->> +of the allocated fragment is not aligned, the caller need to provide a aligned
-> 
->                                                         needs to provide an aligned
-> 
->> +fragsz if there is a alignment requirement for the size of the fragment.
-> 
->                       an alignment
+On 2024/5/10 0:58, Mat Martineau wrote:
 
-Will update them accordingly, thanks for the review.
+...
+
+>>
+>> +/**
+>> + * page_frag_alloc_probe - Probe the avaiable page fragment.
+>> + * @nc: page_frag cache from which to probe
+>> + * @offset: out as the offset of the page fragment
+>> + * @fragsz: in as the requested size, out as the available size
+> 
+> Hi Yunsheng -
+> 
+> fragsz is never used as an input in this function. I think it would be good to make the code consistent with this documentation by checking that *fragsz <= (nc)->remaining
+
+Yes, you are right.
+It is not used as input, will update the documentation according.
+
+> 
+>> + * @va: out as the virtual address of the returned page fragment
+>> + *
+>> + * Probe the current available memory to caller without doing cache refilling.
+>> + * If the cache is empty, return NULL.
+> 
+> Instead of this line, is it more accurate to say "if no space is available in the page_frag cache, return NULL" ?
+> 
+> I also suggest adding some documentation here like:
+> 
+> "If the requested space is available, up to fragsz bytes may be added to the fragment using page_frag_alloc_commit()".
+
+Ok.
+
+> 
+>> + *
+>> + * Return:
+>> + * Return the page fragment, otherwise return NULL.
+>> + */
+>> #define page_frag_alloc_probe(nc, offset, fragsz, va)            \
+>> ({                                    \
+>>     struct encoded_va *__encoded_va;                \
+>> @@ -162,6 +241,13 @@ static inline struct encoded_va *__page_frag_alloc_probe(struct page_frag_cache
+>>     __page;                                \
+>> })
+>>
+>> +/**
+>> + * page_frag_alloc_commit - Commit allocing a page fragment.
+>> + * @nc: page_frag cache from which to commit
+>> + * @fragsz: size of the page fragment has been used
+>> + *
+>> + * Commit the alloc preparing by passing the actual used size.
+> 
+> Rephrasing suggestion:
+> 
+> "Commit the actual used size for the allocation that was either prepared or probed"
+
+Ok.
+
+Thanks.
+
+> 
+> 
+> Thanks,
+> 
+> Mat
+> 
