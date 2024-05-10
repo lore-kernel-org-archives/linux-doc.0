@@ -1,106 +1,238 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3090FC0B;
-	Fri, 10 May 2024 20:50:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964EB13B585
+	for <linux-doc@vger.kernel.org>; Fri, 10 May 2024 21:03:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715374239; cv=none; b=EYuqq/gBhK/I9vE/aQzMFnWGczuhuHJ5aX5eBju251ph3Bm2lUeRNuQjzyoNJYNq2SbS/Doq3yWUUuJN1pqeek7wQDxdNAkG8J/Q16nI2Bycd/l5QluKI/Qaz+KFOFTQsnth8l4mqtwsfPeDrI1Bfd7E8EZ1eaEUq0kKpx+KPPo=
+	t=1715374984; cv=none; b=Me8+mwBlL6q9X9wXNxiI7Z9PQ325mCn3bztl5tg76GGfnN/WpoNXfb2mQZgDHtskfvOT9yga5vTaYPNgcXdAXcHZf6oKisMAQe2Wx+gtjKER3xcfZmWbmi+C/Lqmxb9MG3RsJF0JEdRH2y/Elvd51LFR4w2FJmQnQ6wt6jtDqlk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715374239; c=relaxed/simple;
-	bh=+9uY+3QS/KU4LqGvBa9PuWhKX14BfkblrVKzdImHbHE=;
+	s=arc-20240116; t=1715374984; c=relaxed/simple;
+	bh=ht8vGH+eRp4JoG/jKhm/l8eFU/thbckIPh38sPehaF0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dl7eZNy30el480yxO5o+c2TmjmZXH7FPDDUyJcwCxKmFyabIEMEl3ZLmcE1jrRFC+ONCYCjHT6S14t9MfjJL77k5ecoIeDsxTM1AQAXZ6OvUq5KnxYqD/TPxwtIPs8QEz/aTmTPY+o4IR0/JSN9koVqLDsBm0emssYXPa4dKhzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B2Rz0POx; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=W5C9vzkP40K6LTQAFLzPPmyvz4zggT06MVgZ+ljDH229Se8PKw3ff/WVxdZeyRrfMvLMGCxoys4jHigkw0G+OQfZp6Gc0VO9t+QyIvkDrtHzSeSqlUZf6snwUPZWkSGJXRRU2g/3FjkO117Tyu0ALcHVMmUniSqgTw2hkAbcjpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=QcF/moWc; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B2Rz0POx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FF4BC32781;
-	Fri, 10 May 2024 20:50:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715374239;
-	bh=+9uY+3QS/KU4LqGvBa9PuWhKX14BfkblrVKzdImHbHE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=B2Rz0POxy4nvsZ9o7IKxVQPe6AU1Y5raSL2PH5Oq3Rmz9k8KRtPC1aeUKTzmOEOmB
-	 n71lEqdV6eRXzZanUG2D7rEuULiSpRFrDJ9IO9Vz10Bl16Bfwfq85+pXyM6rMFmlI4
-	 +Lhh0FZaryAI5Zv7h6a3CUH7A/zjs8HOEOz89ULFAlJpiSafjizZPyECELU1b07WSD
-	 vywqr+1jWnM0GTV1UaDeTW3gA1enGAqHExtiEYv222nusjRmFleW9jG7We53M7KEdE
-	 jPbZtVtERRLHwRgUbNclnBiRcRtw07M2GPeESJZlrhzrvk3zn1KHFhgmw34EUO6mby
-	 R7ylxUW7WiWbQ==
-Date: Fri, 10 May 2024 21:50:32 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Evan Green <evan@rivosinc.com>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v6 06/17] riscv: Add vendor extensions to /proc/cpuinfo
-Message-ID: <20240510-childcare-outlook-d18e3cc5ccb3@spud>
-References: <20240503-dev-charlie-support_thead_vector_6_9-v6-0-cb7624e65d82@rivosinc.com>
- <20240503-dev-charlie-support_thead_vector_6_9-v6-6-cb7624e65d82@rivosinc.com>
- <20240507-divisive-swoop-c2737a2d9a9f@spud>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="QcF/moWc"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1ec4dc64c6cso17758225ad.0
+        for <linux-doc@vger.kernel.org>; Fri, 10 May 2024 14:03:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1715374981; x=1715979781; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=70XwkvLb6QGypvEuEeEsNDMqohqQheU/3q6EeX2hHv8=;
+        b=QcF/moWcoVOkvoI4qks4CBozZZsI65NNibOvax20jihPPaUqjR41OhTYQw5PkPw/4g
+         cEKhhpYVubiz5zEaV/CChV9e7VchyrYfdlVgEyo4/R4zC3/L0QuOSqKFYui1LtE9HN0d
+         rQYKQ6WRih3b+ZsGy8oD7M9EnJnC0A9ew57gmPn/VLZhdOKDvlosZcr/OeTEyTjEp4jA
+         fyyZ3FEyt4NFQIX9GC84dBkJS39eB0U8LrBSYJQrwCRt9jAPh0J9uxtqD+R7OLBUyNTJ
+         GcHFii1ZdEOELS/jicNu/TtYsgMbILlj0BmVCPLeweO5mHak9m6Wv68PGk1oWWy5MFql
+         pT7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715374981; x=1715979781;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=70XwkvLb6QGypvEuEeEsNDMqohqQheU/3q6EeX2hHv8=;
+        b=aaPTvQ2iEOxz0crYRsU1AOouJsvS4siqcOp1eWjRMfPgsictJ22D9s01OD0l4GCID6
+         j2RuTisUbQYRq5EL5qw1z3Fgh3IN0N72xJYEsrN0bQKKtZQq322P1rK2BuEHjyzHwO0s
+         IEpY1/90LMeJ4PLG5Q55UDP4mvR8n4UdI/laPgj0ZqHuAbjcZcsIhPL9TtVEK2hOzbC5
+         nuVNt4lg/WU+qSm13miLUrBo1+k+Ikf/2BpBvAUVNb4TlpI4awO228xZnUx5p3R90ErJ
+         UXxgy6Vd6qMDt9HmfBcbInMvlDojXVbN6xujYA1Dabd+itARptxlkQBdWmRBbGyBZPBT
+         LzNg==
+X-Forwarded-Encrypted: i=1; AJvYcCXubdVCfBoxcAmGUXogfS/MC2ZzL0Ksajtzy0Qeeh6+z5g0lRIijTt/WQV5K0epTivOrRr9bfXvppDq8lBFthGKgSQHmTDEwek8
+X-Gm-Message-State: AOJu0Yw7hwJxftHmZgd5pCrlMsM1W2a/RUWAUIykbqMNpunJHjltUa3C
+	v3edy8EPWIx5SlX8/x94qNFANRx+2NoZS/UbgmDn9z1dSSwGCgebD81e483z6tE=
+X-Google-Smtp-Source: AGHT+IHWLLpJM9kP3GIJnAD3PIjowIRI5CiaLB2E1fEGzbZDh0VtuOglA9xHF/Pw/rBd48Qyed+Qyg==
+X-Received: by 2002:a17:903:228d:b0:1e5:a3b2:3dad with SMTP id d9443c01a7336-1ef43f51f2cmr48325145ad.42.1715374980776;
+        Fri, 10 May 2024 14:03:00 -0700 (PDT)
+Received: from ghost ([2601:647:5700:6860:629e:3f2:f321:6c])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0c13873esm36725165ad.266.2024.05.10.14.02.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 May 2024 14:03:00 -0700 (PDT)
+Date: Fri, 10 May 2024 14:02:54 -0700
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Deepak Gupta <debug@rivosinc.com>
+Cc: paul.walmsley@sifive.com, rick.p.edgecombe@intel.com,
+	broonie@kernel.org, Szabolcs.Nagy@arm.com, kito.cheng@sifive.com,
+	keescook@chromium.org, ajones@ventanamicro.com,
+	conor.dooley@microchip.com, cleger@rivosinc.com,
+	atishp@atishpatra.org, alex@ghiti.fr, bjorn@rivosinc.com,
+	alexghiti@rivosinc.com, samuel.holland@sifive.com, conor@kernel.org,
+	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-mm@kvack.org, linux-arch@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, corbet@lwn.net, palmer@dabbelt.com,
+	aou@eecs.berkeley.edu, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, oleg@redhat.com,
+	akpm@linux-foundation.org, arnd@arndb.de, ebiederm@xmission.com,
+	Liam.Howlett@oracle.com, vbabka@suse.cz, lstoakes@gmail.com,
+	shuah@kernel.org, brauner@kernel.org, andy.chiu@sifive.com,
+	jerry.shih@sifive.com, hankuan.chen@sifive.com,
+	greentime.hu@sifive.com, evan@rivosinc.com, xiao.w.wang@intel.com,
+	apatel@ventanamicro.com, mchitale@ventanamicro.com,
+	dbarboza@ventanamicro.com, sameo@rivosinc.com,
+	shikemeng@huaweicloud.com, willy@infradead.org,
+	vincent.chen@sifive.com, guoren@kernel.org, samitolvanen@google.com,
+	songshuaishuai@tinylab.org, gerg@kernel.org, heiko@sntech.de,
+	bhe@redhat.com, jeeheng.sia@starfivetech.com, cyy@cyyself.name,
+	maskray@google.com, ancientmodern4@gmail.com,
+	mathis.salmen@matsal.de, cuiyunhui@bytedance.com,
+	bgray@linux.ibm.com, mpe@ellerman.id.au, baruch@tkos.co.il,
+	alx@kernel.org, david@redhat.com, catalin.marinas@arm.com,
+	revest@chromium.org, josh@joshtriplett.org, shr@devkernel.io,
+	deller@gmx.de, omosnace@redhat.com, ojeda@kernel.org,
+	jhubbard@nvidia.com
+Subject: Re: [PATCH v3 10/29] riscv/mm : ensure PROT_WRITE leads to VM_READ |
+ VM_WRITE
+Message-ID: <Zj6LfpQhOjTLEx2O@ghost>
+References: <20240403234054.2020347-1-debug@rivosinc.com>
+ <20240403234054.2020347-11-debug@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="BHMvR13gFgTG0XBs"
-Content-Disposition: inline
-In-Reply-To: <20240507-divisive-swoop-c2737a2d9a9f@spud>
-
-
---BHMvR13gFgTG0XBs
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20240403234054.2020347-11-debug@rivosinc.com>
 
-On Tue, May 07, 2024 at 06:03:19PM +0100, Conor Dooley wrote:
-> On Fri, May 03, 2024 at 11:18:21AM -0700, Charlie Jenkins wrote:
-> > All of the supported vendor extensions that have been listed in
-> > riscv_isa_vendor_ext_list can be exported through /proc/cpuinfo.
-> >=20
-> > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
->=20
-> This seems fine, thanks for updating this interface :)
->=20
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+On Wed, Apr 03, 2024 at 04:34:58PM -0700, Deepak Gupta wrote:
+> `arch_calc_vm_prot_bits` is implemented on risc-v to return VM_READ |
+> VM_WRITE if PROT_WRITE is specified. Similarly `riscv_sys_mmap` is
+> updated to convert all incoming PROT_WRITE to (PROT_WRITE | PROT_READ).
+> This is to make sure that any existing apps using PROT_WRITE still work.
+> 
+> Earlier `protection_map[VM_WRITE]` used to pick read-write PTE encodings.
+> Now `protection_map[VM_WRITE]` will always pick PAGE_SHADOWSTACK PTE
+> encodings for shadow stack. Above changes ensure that existing apps
+> continue to work because underneath kernel will be picking
+> `protection_map[VM_WRITE|VM_READ]` PTE encodings.
+> 
+> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+> ---
+>  arch/riscv/include/asm/mman.h    | 24 ++++++++++++++++++++++++
+>  arch/riscv/include/asm/pgtable.h |  1 +
+>  arch/riscv/kernel/sys_riscv.c    | 11 +++++++++++
+>  arch/riscv/mm/init.c             |  2 +-
+>  mm/mmap.c                        |  1 +
+>  5 files changed, 38 insertions(+), 1 deletion(-)
+>  create mode 100644 arch/riscv/include/asm/mman.h
+> 
+> diff --git a/arch/riscv/include/asm/mman.h b/arch/riscv/include/asm/mman.h
+> new file mode 100644
+> index 000000000000..ef9fedf32546
+> --- /dev/null
+> +++ b/arch/riscv/include/asm/mman.h
+> @@ -0,0 +1,24 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef __ASM_MMAN_H__
+> +#define __ASM_MMAN_H__
+> +
+> +#include <linux/compiler.h>
+> +#include <linux/types.h>
+> +#include <uapi/asm/mman.h>
+> +
+> +static inline unsigned long arch_calc_vm_prot_bits(unsigned long prot,
+> +	unsigned long pkey __always_unused)
+> +{
+> +	unsigned long ret = 0;
+> +
+> +	/*
+> +	 * If PROT_WRITE was specified, force it to VM_READ | VM_WRITE.
+> +	 * Only VM_WRITE means shadow stack.
+> +	 */
+> +	if (prot & PROT_WRITE)
+> +		ret = (VM_READ | VM_WRITE);
+> +	return ret;
+> +}
+> +#define arch_calc_vm_prot_bits(prot, pkey) arch_calc_vm_prot_bits(prot, pkey)
+> +
+> +#endif /* ! __ASM_MMAN_H__ */
+> diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
+> index 6066822e7396..4d5983bc6766 100644
+> --- a/arch/riscv/include/asm/pgtable.h
+> +++ b/arch/riscv/include/asm/pgtable.h
+> @@ -184,6 +184,7 @@ extern struct pt_alloc_ops pt_ops __initdata;
+>  #define PAGE_READ_EXEC		__pgprot(_PAGE_BASE | _PAGE_READ | _PAGE_EXEC)
+>  #define PAGE_WRITE_EXEC		__pgprot(_PAGE_BASE | _PAGE_READ |	\
+>  					 _PAGE_EXEC | _PAGE_WRITE)
+> +#define PAGE_SHADOWSTACK       __pgprot(_PAGE_BASE | _PAGE_WRITE)
+>  
+>  #define PAGE_COPY		PAGE_READ
+>  #define PAGE_COPY_EXEC		PAGE_READ_EXEC
+> diff --git a/arch/riscv/kernel/sys_riscv.c b/arch/riscv/kernel/sys_riscv.c
+> index f1c1416a9f1e..846c36b1b3d5 100644
+> --- a/arch/riscv/kernel/sys_riscv.c
+> +++ b/arch/riscv/kernel/sys_riscv.c
+> @@ -8,6 +8,8 @@
+>  #include <linux/syscalls.h>
+>  #include <asm/cacheflush.h>
+>  #include <asm-generic/mman-common.h>
+> +#include <vdso/vsyscall.h>
+> +#include <asm/mman.h>
+>  
+>  static long riscv_sys_mmap(unsigned long addr, unsigned long len,
+>  			   unsigned long prot, unsigned long flags,
+> @@ -17,6 +19,15 @@ static long riscv_sys_mmap(unsigned long addr, unsigned long len,
+>  	if (unlikely(offset & (~PAGE_MASK >> page_shift_offset)))
+>  		return -EINVAL;
+>  
+> +	/*
+> +	 * If only PROT_WRITE is specified then extend that to PROT_READ
+> +	 * protection_map[VM_WRITE] is now going to select shadow stack encodings.
+> +	 * So specifying PROT_WRITE actually should select protection_map [VM_WRITE | VM_READ]
+> +	 * If user wants to create shadow stack then they should use `map_shadow_stack` syscall.
+> +	 */
+> +	if (unlikely((prot & PROT_WRITE) && !(prot & PROT_READ)))
 
-Hmm, actually the automation on patchwork is complaining a bunch about
-the series, but I think that's mostly false positives except for this
-patch. The nommu defconfigs are prob the easiest way to reproduce this:
-  /build/tmp.QPMRM3oUNu/arch/riscv/kernel/vendor_extensions.c:41:55: error:=
- 'struct riscv_isa_vendor_ext_data_list' has no member named 'vendor_bitmap'
-  /build/tmp.QPMRM3oUNu/arch/riscv/kernel/vendor_extensions.c:42:60: error:=
- 'struct riscv_isa_vendor_ext_data_list' has no member named 'per_hart_vend=
-or_bitmap'; did you mean 'per_hart_isa_bitmap'?
-  /build/tmp.QPMRM3oUNu/arch/riscv/kernel/vendor_extensions.c:43:60: error:=
- 'struct riscv_isa_vendor_ext_data_list' has no member named 'bitmap_size'
+The comments says that this should extend to PROT_READ if only
+PROT_WRITE is specified. This condition instead is checking if
+PROT_WRITE is selected but PROT_READ is not. If prot is (VM_EXEC |
+VM_WRITE) then it would be extended to (VM_EXEC | VM_WRITE | VM_READ).
+This will not currently cause any issues because these both map to the
+same value in the protection_map PAGE_COPY_EXEC, however this seems to
+be not the intention of this change.
 
-Cheers,
-Conor.
+prot == PROT_WRITE better suits the condition explained in the comment.
 
---BHMvR13gFgTG0XBs
-Content-Type: application/pgp-signature; name="signature.asc"
+> +		prot |= PROT_READ;
+> +
+>  	return ksys_mmap_pgoff(addr, len, prot, flags, fd,
+>  			       offset >> (PAGE_SHIFT - page_shift_offset));
+>  }
+> diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+> index fa34cf55037b..98e5ece4052a 100644
+> --- a/arch/riscv/mm/init.c
+> +++ b/arch/riscv/mm/init.c
+> @@ -299,7 +299,7 @@ pgd_t early_pg_dir[PTRS_PER_PGD] __initdata __aligned(PAGE_SIZE);
+>  static const pgprot_t protection_map[16] = {
+>  	[VM_NONE]					= PAGE_NONE,
+>  	[VM_READ]					= PAGE_READ,
+> -	[VM_WRITE]					= PAGE_COPY,
+> +	[VM_WRITE]					= PAGE_SHADOWSTACK,
+>  	[VM_WRITE | VM_READ]				= PAGE_COPY,
+>  	[VM_EXEC]					= PAGE_EXEC,
+>  	[VM_EXEC | VM_READ]				= PAGE_READ_EXEC,
+> diff --git a/mm/mmap.c b/mm/mmap.c
+> index d89770eaab6b..57a974f49b00 100644
+> --- a/mm/mmap.c
+> +++ b/mm/mmap.c
+> @@ -47,6 +47,7 @@
+>  #include <linux/oom.h>
+>  #include <linux/sched/mm.h>
+>  #include <linux/ksm.h>
+> +#include <linux/processor.h>
 
------BEGIN PGP SIGNATURE-----
+It doesn't seem like this is necessary for this patch.
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZj6ImAAKCRB4tDGHoIJi
-0v5GAQDz/COSUgwYOrRhiE95HyXWBcrE7N78mp8pUkk9m/hrFgEAxmMo1xhXO2iP
-tU7a1ZH2VRD826Ot6whFO6eC88ci1wU=
-=8S+4
------END PGP SIGNATURE-----
+- Charlie
 
---BHMvR13gFgTG0XBs--
+>  
+>  #include <linux/uaccess.h>
+>  #include <asm/cacheflush.h>
+> -- 
+> 2.43.2
+> 
