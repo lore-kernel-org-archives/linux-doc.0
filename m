@@ -1,102 +1,378 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8CF312C7E8;
-	Fri, 10 May 2024 14:22:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1493812C49A;
+	Fri, 10 May 2024 14:26:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715350949; cv=none; b=IDVnZoUMAoz90WHuycBLuztZ+7Xhk0j9ShT3kj6Hx4Em+6MV4aOGHkFl9aSYUk+M6k9UdnJO6xDTNTqXunzVKBw51ZBsDqjLhPNVtzrGd2vViuBsS5llPLWhF2WqzIXJP9EjiFoPrFzDnKOuJXlWztp8lpWPvAhipKBrE6CSOAo=
+	t=1715351190; cv=none; b=HribT+k0zhzbx9hH6viiTKMk42DWVutzXDoT0/4uogXDbwoUTyU3QFyOb7niD19nBEy4z1SnbqK6JEIyMGjT8P43ebuu4WzUi4NldfrAYA8msLpslwnVo6iMQCR6IJycz8bR9/KZTCCe67rUbQZeN9SoHywQZCgRE8/Jfc6zYn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715350949; c=relaxed/simple;
-	bh=oq2wm3Lbj4UkoA0P6JiSrXaZwpRiR7h5cZJSyLcveLU=;
-	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
-	 Message-Id:Subject; b=Xq+a+ti3UrOpbnSZ/CYCEkaiSshuzTwYqLC1VApfqy2HdVSRWQCcnQPFwtS6AvuamMsESmDB5LS3T8j9vhR6JkVeOQ14uPgNpxGJLppdF50ONg8/Wzlvrtff0+MOk9SG3Xsd8PxASkynfGpo1Nk8g67E++OWVorjwsjmt6Ny2SQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rf2yhUfn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715351190; c=relaxed/simple;
+	bh=UHieGComjeAJShXra8dHb1zZEtS/wf9h9mPlwoie+to=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=u0vbATL7YDPGgQzyBqnOFLGYrRIFi11XGI0ruBRejJdgvU4tvb1yVBJCyjI3jUmTXePJl9QChb0az6JBzBM4bY3LWszwMEOCsALPC5N0Ab9hWP0om0rCiz+Dyx2e31JVr1GYnPDTsDfoIrHRbdGyUvm0YojKifNWULQVNJ/yRs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bt+PLyPJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rf2yhUfn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 251C8C2BBFC;
-	Fri, 10 May 2024 14:22:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bt+PLyPJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83289C113CC;
+	Fri, 10 May 2024 14:26:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715350948;
-	bh=oq2wm3Lbj4UkoA0P6JiSrXaZwpRiR7h5cZJSyLcveLU=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=rf2yhUfnqZaPF/0sD21fkyCkLbHrpaiKcdoCjQEamkpFp2lgaTuGTWar+R+glsnZo
-	 Ce045If8KIQHEJIfTkChQ/oaBv1Qm8FkL3N4UO/SmJ8j8Eb6XotYTTb2tYcZz2b4xM
-	 S+Ic5N7LATP6lVzYlmQxR5DN0Fo7/mSjhd5QOUqPjtYWN5511i93zr98Agun4qDlpT
-	 /uAQ/4T6OI+95d9u16EfPiNLaDFQj7W7e9yEtCf3UM9dvlhEut7yOALR1X7ARsrURu
-	 k1e/ygT/ohuhgdilPLv6TbPn3D+OrbmHQg41D7hb2UsWxreQon161OMlonPDRfmlb/
-	 sBGVVwLHVIkeQ==
-Date: Fri, 10 May 2024 09:22:26 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20201202; t=1715351189;
+	bh=UHieGComjeAJShXra8dHb1zZEtS/wf9h9mPlwoie+to=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=bt+PLyPJL7kM2Fi6ztoKpTBdc0zuDo5S7vQdcVvSvzRfpf38wRvnpLfSDrajdbg9R
+	 oTf6SS5ETUO/mHsdXVtlDLsrix1vm2/DdGPs1woo2X4yYO6qQWaLsQvPRfkHqR4JBF
+	 AJgUxPd5G7Q1juhPg4vPhzWZg28rHpsgdhNw/Sb3jR7peljtpCIh1MoGFF/7xsf8nX
+	 B22PfF4tXf/KkAUZxVOKYJWcB6Pl/MuNB9aCpTP7zLCTHhyIt+TRhLj0WrOWqtLr+9
+	 GkJgC/w1Ocpdb7ym9jL8jdcRYmcXqiSasLThT+J/S0qjT4ddgbjsKyb4d5LDxTes2N
+	 QFoja/GIXVIVQ==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1s5RCd-00CEXP-62;
+	Fri, 10 May 2024 15:26:27 +0100
+Date: Fri, 10 May 2024 15:26:23 +0100
+Message-ID: <861q69oi9c.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Colton Lewis <coltonlewis@google.com>
+Cc: kvm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Oliver
+ Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+Subject: Re: [PATCH v5] KVM: arm64: Add early_param to control WFx trapping
+In-Reply-To: <20240430181444.670773-1-coltonlewis@google.com>
+References: <20240430181444.670773-1-coltonlewis@google.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/29.2
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Pankaj Gupta <pankaj.gupta@nxp.com>
-Cc: linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, Conor Dooley <conor+dt@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, linux-doc@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Fabio Estevam <festevam@gmail.com>, devicetree@vger.kernel.org, 
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
- Rob Herring <robh+dt@kernel.org>
-In-Reply-To: <20240510-imx-se-if-v1-2-27c5a674916d@nxp.com>
-References: <20240510-imx-se-if-v1-0-27c5a674916d@nxp.com>
- <20240510-imx-se-if-v1-2-27c5a674916d@nxp.com>
-Message-Id: <171535094644.45933.7938748436310737402.robh@kernel.org>
-Subject: Re: [PATCH 2/4] dt-bindings: arm: fsl: add imx-se-fw binding doc
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: coltonlewis@google.com, kvm@vger.kernel.org, corbet@lwn.net, oliver.upton@linux.dev, james.morse@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, catalin.marinas@arm.com, will@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-
-On Fri, 10 May 2024 18:57:28 +0530, Pankaj Gupta wrote:
-> The NXP security hardware IP(s) like: i.MX EdgeLock Enclave, V2X etc.,
-> creates an embedded secure enclave within the SoC boundary to enable
-> features like:
-> - HSM
-> - SHE
-> - V2X
+On Tue, 30 Apr 2024 19:14:44 +0100,
+Colton Lewis <coltonlewis@google.com> wrote:
 > 
-> Secure-Enclave(s) communication interface are typically via message
-> unit, i.e., based on mailbox linux kernel driver. This driver enables
-> communication ensuring well defined message sequence protocol between
-> Application Core and enclave's firmware.
+> Add an early_params to control WFI and WFE trapping. This is to
+> control the degree guests can wait for interrupts on their own without
+> being trapped by KVM. Options for each param are trap and notrap. trap
+> enables the trap. notrap disables the trap. Absent an explicitly set
+> policy, default to current behavior: disabling the trap if only a
+> single task is running and enabling otherwise.
 > 
-> Driver configures multiple misc-device on the MU, for multiple
-> user-space applications, to be able to communicate over single MU.
-> 
-> It exists on some i.MX processors. e.g. i.MX8ULP, i.MX93 etc.
-> 
-> Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
+> Signed-off-by: Colton Lewis <coltonlewis@google.com>
 > ---
->  .../devicetree/bindings/firmware/fsl,imx-se.yaml   | 186 +++++++++++++++++++++
->  1 file changed, 186 insertions(+)
+> v5:
 > 
+> * Move trap configuration to vcpu_reset_hcr(). This required moving
+>   kvm_emulate.h:vcpu_reset_hcr() to arm.c:kvm_vcpu_reset_hcr() to avoid needing
+>   to pull scheduler headers and my enums into kvm_emulate.h. I thought the
+>   function looked too bulky for that header anyway.
+> * Delete vcpu_{set,clear}_vfx_traps helpers that are no longer used anywhere.
+> * Remove documentation of explicit option for default behavior to avoid any
+>   implicit suggestion default behavior will stay that way.
+> 
+> v4:
+> https://lore.kernel.org/kvmarm/20240422181716.237284-1-coltonlewis@google.com/
+> 
+> v3:
+> https://lore.kernel.org/kvmarm/20240410175437.793508-1-coltonlewis@google.com/
+> 
+> v2:
+> https://lore.kernel.org/kvmarm/20240319164341.1674863-1-coltonlewis@google.com/
+> 
+> v1:
+> https://lore.kernel.org/kvmarm/20240129213918.3124494-1-coltonlewis@google.com/
+> 
+>  .../admin-guide/kernel-parameters.txt         |  16 +++
+>  arch/arm64/include/asm/kvm_emulate.h          |  53 ---------
+>  arch/arm64/include/asm/kvm_host.h             |   7 ++
+>  arch/arm64/kvm/arm.c                          | 110 +++++++++++++++++-
+>  4 files changed, 127 insertions(+), 59 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 31b3a25680d0..a4d94d9abbe4 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2653,6 +2653,22 @@
+>  			[KVM,ARM] Allow use of GICv4 for direct injection of
+>  			LPIs.
+> 
+> +	kvm-arm.wfe_trap_policy=
+> +			[KVM,ARM] Control when to set WFE instruction trap for
+> +			KVM VMs.
+> +
+> +			trap: set WFE instruction trap
+> +
+> +			notrap: clear WFE instruction trap
+> +
+> +	kvm-arm.wfi_trap_policy=
+> +			[KVM,ARM] Control when to set WFI instruction trap for
+> +			KVM VMs.
+> +
+> +			trap: set WFI instruction trap
+> +
+> +			notrap: clear WFI instruction trap
+> +
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Please make it clear that neither traps are guaranteed. The
+architecture *allows* an implementation to trap when no events (resp.
+interrupts) are pending, but nothing more. An implementation is
+perfectly allowed to ignore these bits.
 
-yamllint warnings/errors:
+>  	kvm_cma_resv_ratio=n [PPC]
+>  			Reserves given percentage from system memory area for
+>  			contiguous memory allocation for KVM hash pagetable
+> diff --git a/arch/arm64/include/asm/kvm_emulate.h b/arch/arm64/include/asm/kvm_emulate.h
+> index b804fe832184..c2a9a409ebfe 100644
+> --- a/arch/arm64/include/asm/kvm_emulate.h
+> +++ b/arch/arm64/include/asm/kvm_emulate.h
+> @@ -67,64 +67,11 @@ static __always_inline bool vcpu_el1_is_32bit(struct kvm_vcpu *vcpu)
+>  }
+>  #endif
+> 
+> -static inline void vcpu_reset_hcr(struct kvm_vcpu *vcpu)
+> -{
+> -	vcpu->arch.hcr_el2 = HCR_GUEST_FLAGS;
+> -	if (has_vhe() || has_hvhe())
+> -		vcpu->arch.hcr_el2 |= HCR_E2H;
+> -	if (cpus_have_final_cap(ARM64_HAS_RAS_EXTN)) {
+> -		/* route synchronous external abort exceptions to EL2 */
+> -		vcpu->arch.hcr_el2 |= HCR_TEA;
+> -		/* trap error record accesses */
+> -		vcpu->arch.hcr_el2 |= HCR_TERR;
+> -	}
+> -
+> -	if (cpus_have_final_cap(ARM64_HAS_STAGE2_FWB)) {
+> -		vcpu->arch.hcr_el2 |= HCR_FWB;
+> -	} else {
+> -		/*
+> -		 * For non-FWB CPUs, we trap VM ops (HCR_EL2.TVM) until M+C
+> -		 * get set in SCTLR_EL1 such that we can detect when the guest
+> -		 * MMU gets turned on and do the necessary cache maintenance
+> -		 * then.
+> -		 */
+> -		vcpu->arch.hcr_el2 |= HCR_TVM;
+> -	}
+> -
+> -	if (cpus_have_final_cap(ARM64_HAS_EVT) &&
+> -	    !cpus_have_final_cap(ARM64_MISMATCHED_CACHE_TYPE))
+> -		vcpu->arch.hcr_el2 |= HCR_TID4;
+> -	else
+> -		vcpu->arch.hcr_el2 |= HCR_TID2;
+> -
+> -	if (vcpu_el1_is_32bit(vcpu))
+> -		vcpu->arch.hcr_el2 &= ~HCR_RW;
+> -
+> -	if (kvm_has_mte(vcpu->kvm))
+> -		vcpu->arch.hcr_el2 |= HCR_ATA;
+> -}
+> -
+>  static inline unsigned long *vcpu_hcr(struct kvm_vcpu *vcpu)
+>  {
+>  	return (unsigned long *)&vcpu->arch.hcr_el2;
+>  }
+> 
+> -static inline void vcpu_clear_wfx_traps(struct kvm_vcpu *vcpu)
+> -{
+> -	vcpu->arch.hcr_el2 &= ~HCR_TWE;
+> -	if (atomic_read(&vcpu->arch.vgic_cpu.vgic_v3.its_vpe.vlpi_count) ||
+> -	    vcpu->kvm->arch.vgic.nassgireq)
+> -		vcpu->arch.hcr_el2 &= ~HCR_TWI;
+> -	else
+> -		vcpu->arch.hcr_el2 |= HCR_TWI;
+> -}
+> -
+> -static inline void vcpu_set_wfx_traps(struct kvm_vcpu *vcpu)
+> -{
+> -	vcpu->arch.hcr_el2 |= HCR_TWE;
+> -	vcpu->arch.hcr_el2 |= HCR_TWI;
+> -}
+> -
+>  static inline void vcpu_ptrauth_enable(struct kvm_vcpu *vcpu)
+>  {
+>  	vcpu->arch.hcr_el2 |= (HCR_API | HCR_APK);
+> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+> index 21c57b812569..315ee7bfc1cb 100644
+> --- a/arch/arm64/include/asm/kvm_host.h
+> +++ b/arch/arm64/include/asm/kvm_host.h
+> @@ -67,6 +67,13 @@ enum kvm_mode {
+>  	KVM_MODE_NV,
+>  	KVM_MODE_NONE,
+>  };
+> +
+> +enum kvm_wfx_trap_policy {
+> +	KVM_WFX_NOTRAP_SINGLE_TASK, /* Default option */
+> +	KVM_WFX_NOTRAP,
+> +	KVM_WFX_TRAP,
+> +};
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/firmware/fsl,imx-se.example.dtb: /example-2/v2x: failed to match any schema with compatible: ['fsl,imx95-v2x']
+Since this is only ever used in arm.c, it really doesn't need to be
+exposed anywhere else.
 
-doc reference errors (make refcheckdocs):
+> +
+>  #ifdef CONFIG_KVM
+>  enum kvm_mode kvm_get_mode(void);
+>  #else
+> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+> index a25265aca432..5ec52333e042 100644
+> --- a/arch/arm64/kvm/arm.c
+> +++ b/arch/arm64/kvm/arm.c
+> @@ -46,6 +46,8 @@
+>  #include <kvm/arm_psci.h>
+> 
+>  static enum kvm_mode kvm_mode = KVM_MODE_DEFAULT;
+> +static enum kvm_wfx_trap_policy kvm_wfi_trap_policy = KVM_WFX_NOTRAP_SINGLE_TASK;
+> +static enum kvm_wfx_trap_policy kvm_wfe_trap_policy = KVM_WFX_NOTRAP_SINGLE_TASK;
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240510-imx-se-if-v1-2-27c5a674916d@nxp.com
+It would be worth declaring those as __read_mostly.
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+>
+>  DECLARE_KVM_HYP_PER_CPU(unsigned long, kvm_hyp_vector);
+> 
+> @@ -456,11 +458,6 @@ void kvm_arch_vcpu_load(struct kvm_vcpu *vcpu, int cpu)
+>  	if (kvm_arm_is_pvtime_enabled(&vcpu->arch))
+>  		kvm_make_request(KVM_REQ_RECORD_STEAL, vcpu);
+> 
+> -	if (single_task_running())
+> -		vcpu_clear_wfx_traps(vcpu);
+> -	else
+> -		vcpu_set_wfx_traps(vcpu);
+> -
+>  	if (vcpu_has_ptrauth(vcpu))
+>  		vcpu_ptrauth_disable(vcpu);
+>  	kvm_arch_vcpu_load_debug_state_flags(vcpu);
+> @@ -1391,6 +1388,72 @@ static int kvm_vcpu_set_target(struct kvm_vcpu *vcpu,
+>  	return 0;
+>  }
+> 
+> +static bool kvm_vcpu_should_clear_twi(struct kvm_vcpu *vcpu)
+> +{
+> +	if (likely(kvm_wfi_trap_policy == KVM_WFX_NOTRAP_SINGLE_TASK))
+> +		return single_task_running() &&
+> +			(atomic_read(&vcpu->arch.vgic_cpu.vgic_v3.its_vpe.vlpi_count) ||
+> +			 vcpu->kvm->arch.vgic.nassgireq);
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+So you are evaluating a runtime condition (scheduler queue length,
+number of LPIs)...
 
-pip3 install dtschema --upgrade
+> +
+> +	return kvm_wfi_trap_policy == KVM_WFX_NOTRAP;
+> +}
+> +
+> +static bool kvm_vcpu_should_clear_twe(struct kvm_vcpu *vcpu)
+> +{
+> +	if (likely(kvm_wfe_trap_policy == KVM_WFX_NOTRAP_SINGLE_TASK))
+> +		return single_task_running();
+> +
+> +	return kvm_wfe_trap_policy == KVM_WFX_NOTRAP;
+> +}
+> +
+> +static inline void kvm_vcpu_reset_hcr(struct kvm_vcpu *vcpu)
 
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+Why the inline?
 
+> +{
+> +	vcpu->arch.hcr_el2 = HCR_GUEST_FLAGS;
+> +	if (has_vhe() || has_hvhe())
+> +		vcpu->arch.hcr_el2 |= HCR_E2H;
+> +	if (cpus_have_final_cap(ARM64_HAS_RAS_EXTN)) {
+> +		/* route synchronous external abort exceptions to EL2 */
+> +		vcpu->arch.hcr_el2 |= HCR_TEA;
+> +		/* trap error record accesses */
+> +		vcpu->arch.hcr_el2 |= HCR_TERR;
+> +	}
+> +
+> +	if (cpus_have_final_cap(ARM64_HAS_STAGE2_FWB)) {
+> +		vcpu->arch.hcr_el2 |= HCR_FWB;
+> +	} else {
+> +		/*
+> +		 * For non-FWB CPUs, we trap VM ops (HCR_EL2.TVM) until M+C
+> +		 * get set in SCTLR_EL1 such that we can detect when the guest
+> +		 * MMU gets turned on and do the necessary cache maintenance
+> +		 * then.
+> +		 */
+> +		vcpu->arch.hcr_el2 |= HCR_TVM;
+> +	}
+> +
+> +	if (cpus_have_final_cap(ARM64_HAS_EVT) &&
+> +	    !cpus_have_final_cap(ARM64_MISMATCHED_CACHE_TYPE))
+> +		vcpu->arch.hcr_el2 |= HCR_TID4;
+> +	else
+> +		vcpu->arch.hcr_el2 |= HCR_TID2;
+> +
+> +	if (vcpu_el1_is_32bit(vcpu))
+> +		vcpu->arch.hcr_el2 &= ~HCR_RW;
+> +
+> +	if (kvm_has_mte(vcpu->kvm))
+> +		vcpu->arch.hcr_el2 |= HCR_ATA;
+> +
+> +
+> +	if (kvm_vcpu_should_clear_twe(vcpu))
+> +		vcpu->arch.hcr_el2 &= ~HCR_TWE;
+> +	else
+> +		vcpu->arch.hcr_el2 |= HCR_TWE;
+> +
+> +	if (kvm_vcpu_should_clear_twi(vcpu))
+> +		vcpu->arch.hcr_el2 &= ~HCR_TWI;
+> +	else
+> +		vcpu->arch.hcr_el2 |= HCR_TWI;
+
+... and from the above runtime conditions you make it a forever
+decision, for a vcpu that still hasn't executed a single instruction.
+What could possibly go wrong?
+
+> +}
+> +
+>  static int kvm_arch_vcpu_ioctl_vcpu_init(struct kvm_vcpu *vcpu,
+>  					 struct kvm_vcpu_init *init)
+>  {
+> @@ -1427,7 +1490,7 @@ static int kvm_arch_vcpu_ioctl_vcpu_init(struct kvm_vcpu *vcpu,
+>  			icache_inval_all_pou();
+>  	}
+> 
+> -	vcpu_reset_hcr(vcpu);
+> +	kvm_vcpu_reset_hcr(vcpu);
+>  	vcpu->arch.cptr_el2 = kvm_get_reset_cptr_el2(vcpu);
+> 
+>  	/*
+> @@ -2654,6 +2717,41 @@ static int __init early_kvm_mode_cfg(char *arg)
+>  }
+>  early_param("kvm-arm.mode", early_kvm_mode_cfg);
+> 
+> +static int __init early_kvm_wfx_trap_policy_cfg(char *arg, enum kvm_wfx_trap_policy *p)
+> +{
+> +	if (!arg)
+> +		return -EINVAL;
+> +
+> +	if (strcmp(arg, "trap") == 0) {
+> +		*p = KVM_WFX_TRAP;
+> +		return 0;
+> +	}
+> +
+> +	if (strcmp(arg, "notrap") == 0) {
+> +		*p = KVM_WFX_NOTRAP;
+> +		return 0;
+> +	}
+> +
+> +	if (strcmp(arg, "default") == 0) {
+> +		*p = KVM_WFX_NOTRAP_SINGLE_TASK;
+> +		return 0;
+> +	}
+
+Where is this "default" coming from? It's not documented.
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
