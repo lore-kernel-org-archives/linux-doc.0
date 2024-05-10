@@ -1,278 +1,106 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 458A539FFB
-	for <linux-doc@vger.kernel.org>; Fri, 10 May 2024 20:37:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3090FC0B;
+	Fri, 10 May 2024 20:50:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715373435; cv=none; b=EGikGKbDW6asYqP+aL2zueVhA/di1AhaFMPQXIj5l4YNtgwsolG9TDh7aazEyjRFi5foBrJnDFK/UcIUmq2AlUqUUiw+6RR1K6Qwfl8OQ04PGwk726R+gKj4ger+I52abgdzPblbpgqNJ6Y2zH9amy0F3Xt2qkrz8uPe0Mq9zRc=
+	t=1715374239; cv=none; b=EYuqq/gBhK/I9vE/aQzMFnWGczuhuHJ5aX5eBju251ph3Bm2lUeRNuQjzyoNJYNq2SbS/Doq3yWUUuJN1pqeek7wQDxdNAkG8J/Q16nI2Bycd/l5QluKI/Qaz+KFOFTQsnth8l4mqtwsfPeDrI1Bfd7E8EZ1eaEUq0kKpx+KPPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715373435; c=relaxed/simple;
-	bh=soWc4IEDHuaWuKfQxQunEhBG0jXJIdZ7DForSA5/30o=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QyMl1fzIUapZvZzPcLjC7zRuVXCdWf+2D8/eK+xFj+3rDizJFEzPiBI7OpnxxtREVURL6a5v516SXtWuFqTm7kCfgH92RKcYRpdEoOdGgjp5Ip3DNxqNFvuzyGg/autCwQMm/oXHedFBEuCGBlHOJ/Jx1FzpgUByjAaEGXCUWvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=E+GZi+cv; arc=none smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	s=arc-20240116; t=1715374239; c=relaxed/simple;
+	bh=+9uY+3QS/KU4LqGvBa9PuWhKX14BfkblrVKzdImHbHE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dl7eZNy30el480yxO5o+c2TmjmZXH7FPDDUyJcwCxKmFyabIEMEl3ZLmcE1jrRFC+ONCYCjHT6S14t9MfjJL77k5ecoIeDsxTM1AQAXZ6OvUq5KnxYqD/TPxwtIPs8QEz/aTmTPY+o4IR0/JSN9koVqLDsBm0emssYXPa4dKhzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B2Rz0POx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="E+GZi+cv"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-43abc28f73fso8292021cf.1
-        for <linux-doc@vger.kernel.org>; Fri, 10 May 2024 13:37:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1715373431; x=1715978231; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Xhdl6rJNLlf5uJgnXjIjjuBOlYowvBqM3grROZJSB4k=;
-        b=E+GZi+cv2ly6EcBIhHyJMmytFtEw/Bm+CWIhbVCZBuswwwEkVdWisQD8eWQjAgDjZD
-         8uxuvFFlJGUx47TdlOrD/jxHB358QhXkxUGU1QFa+1sIP9GEvg1YXXmzb7kXyo9zPkRV
-         o+HXcxmXmatfiVeYP3W6aJjkuExLOOKY8v1ds=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715373431; x=1715978231;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xhdl6rJNLlf5uJgnXjIjjuBOlYowvBqM3grROZJSB4k=;
-        b=G/6Mh+VHPwgy4dLJI+PW/ZqqydzGlwS9bj5BlAYT8m++z34ZF/EggQQ8rTY4Az7zGF
-         syjDecI/k7+cV11hyVY82P88OmbxlEG1juPG5bfMiyjiPEmmjAG1LrR3cIf2VLI66hpZ
-         +LK/TYfKjTKX11cqrbgH843bJiFMbZA1FfG2H1BbMJBTTtBgkf9lUC53yQILaO75esiL
-         MaK7UQCkFeIIaXLucLR8qWyJQrlWj0WfGOnUUyU9F9LyaIyC5M7W6ep0fVyNSNHFiqda
-         owiG8TNPFQFn5ZWHNco2oqtx+xDXOht/+UyBzczRt1HK/dJ5e4fmpLn4Xv0H8QkXs5PQ
-         Jbtg==
-X-Forwarded-Encrypted: i=1; AJvYcCXDpWNbWBWlJ+0ThzzriitsWXjKGUcPyDhbxzp00dN1iGRP6YMiSkAs8AZZRpPnkz4ydthVWk8mjFJIuRd8UuohhL+1Jk9iloQz
-X-Gm-Message-State: AOJu0Yy46Z8bDEUnr91bqf0m9GR6RT1FEE2dfj3zhFai/ICsZWd2RvzV
-	LVhEGg/NIcqZc5lEpo7gOGyTwwE3Xaux8/sQ6LKoZZVVCIvF3A1mG+ju6tlwOQ==
-X-Google-Smtp-Source: AGHT+IGDzlofd6WAZhQ4JPfcPSjF/Nsjq3LZD69cWUFtPM+Om6AmASsCfdD/ablWnXCGJWyF72yHdg==
-X-Received: by 2002:a05:622a:6:b0:43a:cfc5:9cdf with SMTP id d75a77b69052e-43dfdaf47ebmr32233751cf.32.1715373431081;
-        Fri, 10 May 2024 13:37:11 -0700 (PDT)
-Received: from C02YVCJELVCG.dhcp.broadcom.net ([192.19.144.250])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-43df54f5c72sm25132951cf.36.2024.05.10.13.37.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 May 2024 13:37:10 -0700 (PDT)
-From: Andy Gospodarek <andrew.gospodarek@broadcom.com>
-X-Google-Original-From: Andy Gospodarek <gospo@broadcom.com>
-Date: Fri, 10 May 2024 16:37:08 -0400
-To: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Cc: Andy Gospodarek <andrew.gospodarek@broadcom.com>,
-	Ajit Khaparde <ajit.khaparde@broadcom.com>,
-	Wei Huang <wei.huang2@amd.com>, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	netdev@vger.kernel.org, bhelgaas@google.com, corbet@lwn.net,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, alex.williamson@redhat.com,
-	michael.chan@broadcom.com, manoj.panicker2@amd.com,
-	Eric.VanTassell@amd.com
-Subject: Re: [PATCH V1 8/9] bnxt_en: Add TPH support in BNXT driver
-Message-ID: <Zj6FdAb34o1-GNeV@C02YVCJELVCG.dhcp.broadcom.net>
-References: <20240509162741.1937586-1-wei.huang2@amd.com>
- <20240509162741.1937586-9-wei.huang2@amd.com>
- <868a4758-2873-4ede-83e5-65f42cb12b81@linux.dev>
- <CACZ4nhuBMOX8s1ODcJOvvCKp-VsOPHShEUHAsPvB75Yv2823qA@mail.gmail.com>
- <4c6a8b86-6544-4c99-a0f2-030e2ec4e98f@linux.dev>
- <Zj48BPYoFU1ISaiL@C02YVCJELVCG.dhcp.broadcom.net>
- <da52a255-e92c-48ac-bb30-02df2e86f119@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B2Rz0POx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FF4BC32781;
+	Fri, 10 May 2024 20:50:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715374239;
+	bh=+9uY+3QS/KU4LqGvBa9PuWhKX14BfkblrVKzdImHbHE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=B2Rz0POxy4nvsZ9o7IKxVQPe6AU1Y5raSL2PH5Oq3Rmz9k8KRtPC1aeUKTzmOEOmB
+	 n71lEqdV6eRXzZanUG2D7rEuULiSpRFrDJ9IO9Vz10Bl16Bfwfq85+pXyM6rMFmlI4
+	 +Lhh0FZaryAI5Zv7h6a3CUH7A/zjs8HOEOz89ULFAlJpiSafjizZPyECELU1b07WSD
+	 vywqr+1jWnM0GTV1UaDeTW3gA1enGAqHExtiEYv222nusjRmFleW9jG7We53M7KEdE
+	 jPbZtVtERRLHwRgUbNclnBiRcRtw07M2GPeESJZlrhzrvk3zn1KHFhgmw34EUO6mby
+	 R7ylxUW7WiWbQ==
+Date: Fri, 10 May 2024 21:50:32 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Evan Green <evan@rivosinc.com>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v6 06/17] riscv: Add vendor extensions to /proc/cpuinfo
+Message-ID: <20240510-childcare-outlook-d18e3cc5ccb3@spud>
+References: <20240503-dev-charlie-support_thead_vector_6_9-v6-0-cb7624e65d82@rivosinc.com>
+ <20240503-dev-charlie-support_thead_vector_6_9-v6-6-cb7624e65d82@rivosinc.com>
+ <20240507-divisive-swoop-c2737a2d9a9f@spud>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="BHMvR13gFgTG0XBs"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <da52a255-e92c-48ac-bb30-02df2e86f119@linux.dev>
+In-Reply-To: <20240507-divisive-swoop-c2737a2d9a9f@spud>
 
-On Fri, May 10, 2024 at 09:33:46PM +0100, Vadim Fedorenko wrote:
-> On 10/05/2024 16:23, Andy Gospodarek wrote:
-> > On Fri, May 10, 2024 at 11:35:35AM +0100, Vadim Fedorenko wrote:
-> > > On 10.05.2024 04:55, Ajit Khaparde wrote:
-> > > > On Thu, May 9, 2024 at 2:50 PM Vadim Fedorenko
-> > > > <vadim.fedorenko@linux.dev> wrote:
-> > > > > 
-> > > > > On 09/05/2024 17:27, Wei Huang wrote:
-> > > > > > From: Manoj Panicker <manoj.panicker2@amd.com>
-> > > > > > 
-> > > > > > As a usage example, this patch implements TPH support in Broadcom BNXT
-> > > > > > device driver by invoking pcie_tph_set_st() function when interrupt
-> > > > > > affinity is changed.
-> > > > > > 
-> > > > > > Reviewed-by: Ajit Khaparde <ajit.khaparde@broadcom.com>
-> > > > > > Reviewed-by: Andy Gospodarek <andrew.gospodarek@broadcom.com>
-> > > > > > Reviewed-by: Wei Huang <wei.huang2@amd.com>
-> > > > > > Signed-off-by: Manoj Panicker <manoj.panicker2@amd.com>
-> > > > > > ---
-> > > > > >     drivers/net/ethernet/broadcom/bnxt/bnxt.c | 51 +++++++++++++++++++++++
-> > > > > >     drivers/net/ethernet/broadcom/bnxt/bnxt.h |  4 ++
-> > > > > >     2 files changed, 55 insertions(+)
-> > > > > > 
-> > > > > > diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-> > > > > > index 2c2ee79c4d77..be9c17566fb4 100644
-> > > > > > --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-> > > > > > +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-> > > > > > @@ -55,6 +55,7 @@
-> > > > > >     #include <net/page_pool/helpers.h>
-> > > > > >     #include <linux/align.h>
-> > > > > >     #include <net/netdev_queues.h>
-> > > > > > +#include <linux/pci-tph.h>
-> > > > > > 
-> > > > > >     #include "bnxt_hsi.h"
-> > > > > >     #include "bnxt.h"
-> > > > > > @@ -10491,6 +10492,7 @@ static void bnxt_free_irq(struct bnxt *bp)
-> > > > > >                                 free_cpumask_var(irq->cpu_mask);
-> > > > > >                                 irq->have_cpumask = 0;
-> > > > > >                         }
-> > > > > > +                     irq_set_affinity_notifier(irq->vector, NULL);
-> > > > > >                         free_irq(irq->vector, bp->bnapi[i]);
-> > > > > >                 }
-> > > > > > 
-> > > > > > @@ -10498,6 +10500,45 @@ static void bnxt_free_irq(struct bnxt *bp)
-> > > > > >         }
-> > > > > >     }
-> > > > > > 
-> > > > > > +static void bnxt_rtnl_lock_sp(struct bnxt *bp);
-> > > > > > +static void bnxt_rtnl_unlock_sp(struct bnxt *bp);
-> > > > > > +static void bnxt_irq_affinity_notify(struct irq_affinity_notify *notify,
-> > > > > > +                                  const cpumask_t *mask)
-> > > > > > +{
-> > > > > > +     struct bnxt_irq *irq;
-> > > > > > +
-> > > > > > +     irq = container_of(notify, struct bnxt_irq, affinity_notify);
-> > > > > > +     cpumask_copy(irq->cpu_mask, mask);
-> > > > > > +
-> > > > > > +     if (!pcie_tph_set_st(irq->bp->pdev, irq->msix_nr,
-> > > > > > +                          cpumask_first(irq->cpu_mask),
-> > > > > > +                          TPH_MEM_TYPE_VM, PCI_TPH_REQ_TPH_ONLY))
-> > > > > > +             pr_err("error in configuring steering tag\n");
-> > > > > > +
-> > > > > > +     if (netif_running(irq->bp->dev)) {
-> > > > > > +             rtnl_lock();
-> > > > > > +             bnxt_close_nic(irq->bp, false, false);
-> > > > > > +             bnxt_open_nic(irq->bp, false, false);
-> > > > > > +             rtnl_unlock();
-> > > > > > +     }
-> > > > > 
-> > > > > Is it really needed? It will cause link flap and pause in the traffic
-> > > > > service for the device. Why the device needs full restart in this case?
-> > > > 
-> > > > In that sequence only the rings are recreated for the hardware to sync
-> > > > up the tags.
-> > > > 
-> > > > Actually its not a full restart. There is no link reinit or other
-> > > > heavy lifting in this sequence.
-> > > > The pause in traffic may be momentary. Do IRQ/CPU affinities change frequently?
-> > > > Probably not?
-> > > 
-> > >  From what I can see in bnxt_en, proper validation of link_re_init parameter is
-> > > not (yet?) implemented, __bnxt_open_nic will unconditionally call
-> > > netif_carrier_off() which will be treated as loss of carrier with counters
-> > > increment and proper events posted. Changes to CPU affinities were
-> > > non-disruptive before the patch, but now it may break user-space
-> > > assumptions.
-> > 
-> >  From my testing the link should not flap.  I just fired up a recent net-next
-> > and confirmed the same by calling $ ethtool -G ens7f0np0 rx 1024 which does a
-> > similar bnxt_close_nic(bp, false, false)/bnxt_open_nic(bp, false, false) as
-> > this patch.  Link remained up -- even with a non-Broadocm link-partner.
-> 
-> Hi Andy!
-> 
-> Well, it might be that from phy PoV the link didn't flap, but from network
-> subsystem it does flap:
-> 
-> [root@host ~]# ethtool -G eth0 rx 512
-> [root@host ~]# cat /sys/class/net/eth0/carrier_changes
-> 6
-> [root@host ~]# ethtool -G eth0 rx 1024
-> [root@host ~]# cat /sys/class/net/eth0/carrier_changes
-> 8
 
-Fair point :)
+--BHMvR13gFgTG0XBs
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I also think that we should skip doing the bnxt_close_nic/bnxt_open_nic
-except when TPH is possible on the system.  That should mitigate some of
-these concerns for users who do not have it enabled.
+On Tue, May 07, 2024 at 06:03:19PM +0100, Conor Dooley wrote:
+> On Fri, May 03, 2024 at 11:18:21AM -0700, Charlie Jenkins wrote:
+> > All of the supported vendor extensions that have been listed in
+> > riscv_isa_vendor_ext_list can be exported through /proc/cpuinfo.
+> >=20
+> > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+>=20
+> This seems fine, thanks for updating this interface :)
+>=20
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
-> And this is what I'm referring to when talking about user-space experience.
-> But I would like to see new ndo_queue_stop/start implementation, it may help
-> in this situation.
-> 
-> > > Does FW need full rings re-init to update target value, which is one u32 write?
-> > > It looks like overkill TBH.
-> > 
-> > Full rings do not, but the initialization of that particular ring associated
-> > with this irq does need to be done.  On my list of things we need to do in
-> > bnxt_en is implement the new ndo_queue_stop/start and ndo_queue_mem_alloc/free
-> > operations and once those are done we could make a switch as that may be less
-> > disruptive.
-> > 
-> > > And yes, affinities can be change on fly according to the changes of the
-> > > workload on the host.
-> > > 
-> > > > > 
-> > > > > 
-> > > > > > +}
-> > > > > > +
-> > > > > > +static void bnxt_irq_affinity_release(struct kref __always_unused *ref)
-> > > > > > +{
-> > > > > > +}
-> > > > > > +
-> > > > > > +static inline void __bnxt_register_notify_irqchanges(struct bnxt_irq *irq)
-> > > > > 
-> > > > > No inlines in .c files, please. Let compiler decide what to inline.
-> > > > > 
-> > > > > > +{
-> > > > > > +     struct irq_affinity_notify *notify;
-> > > > > > +
-> > > > > > +     notify = &irq->affinity_notify;
-> > > > > > +     notify->irq = irq->vector;
-> > > > > > +     notify->notify = bnxt_irq_affinity_notify;
-> > > > > > +     notify->release = bnxt_irq_affinity_release;
-> > > > > > +
-> > > > > > +     irq_set_affinity_notifier(irq->vector, notify);
-> > > > > > +}
-> > > > > > +
-> > > > > >     static int bnxt_request_irq(struct bnxt *bp)
-> > > > > >     {
-> > > > > >         int i, j, rc = 0;
-> > > > > > @@ -10543,6 +10584,7 @@ static int bnxt_request_irq(struct bnxt *bp)
-> > > > > >                         int numa_node = dev_to_node(&bp->pdev->dev);
-> > > > > > 
-> > > > > >                         irq->have_cpumask = 1;
-> > > > > > +                     irq->msix_nr = map_idx;
-> > > > > >                         cpumask_set_cpu(cpumask_local_spread(i, numa_node),
-> > > > > >                                         irq->cpu_mask);
-> > > > > >                         rc = irq_set_affinity_hint(irq->vector, irq->cpu_mask);
-> > > > > > @@ -10552,6 +10594,15 @@ static int bnxt_request_irq(struct bnxt *bp)
-> > > > > >                                             irq->vector);
-> > > > > >                                 break;
-> > > > > >                         }
-> > > > > > +
-> > > > > > +                     if (!pcie_tph_set_st(bp->pdev, i,
-> > > > > > +                                          cpumask_first(irq->cpu_mask),
-> > > > > > +                                          TPH_MEM_TYPE_VM, PCI_TPH_REQ_TPH_ONLY)) {
-> > > > > > +                             netdev_err(bp->dev, "error in setting steering tag\n");
-> > > > > > +                     } else {
-> > > > > > +                             irq->bp = bp;
-> > > > > > +                             __bnxt_register_notify_irqchanges(irq);
-> > > > > > +                     }
-> > > > > >                 }
-> > > > > >         }
-> > > > > >         return rc;
-> > > > > > diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.h b/drivers/net/ethernet/broadcom/bnxt/bnxt.h
-> > > > > > index dd849e715c9b..0d3442590bb4 100644
-> > > > > > --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.h
-> > > > > > +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.h
-> > > > > > @@ -1195,6 +1195,10 @@ struct bnxt_irq {
-> > > > > >         u8              have_cpumask:1;
-> > > > > >         char            name[IFNAMSIZ + 2];
-> > > > > >         cpumask_var_t   cpu_mask;
-> > > > > > +
-> > > > > > +     int             msix_nr;
-> > > > > > +     struct bnxt     *bp;
-> > > > > > +     struct irq_affinity_notify affinity_notify;
-> > > > > >     };
-> > > > > > 
-> > > > > >     #define HWRM_RING_ALLOC_TX  0x1
-> > > > > 
-> > > 
-> 
+Hmm, actually the automation on patchwork is complaining a bunch about
+the series, but I think that's mostly false positives except for this
+patch. The nommu defconfigs are prob the easiest way to reproduce this:
+  /build/tmp.QPMRM3oUNu/arch/riscv/kernel/vendor_extensions.c:41:55: error:=
+ 'struct riscv_isa_vendor_ext_data_list' has no member named 'vendor_bitmap'
+  /build/tmp.QPMRM3oUNu/arch/riscv/kernel/vendor_extensions.c:42:60: error:=
+ 'struct riscv_isa_vendor_ext_data_list' has no member named 'per_hart_vend=
+or_bitmap'; did you mean 'per_hart_isa_bitmap'?
+  /build/tmp.QPMRM3oUNu/arch/riscv/kernel/vendor_extensions.c:43:60: error:=
+ 'struct riscv_isa_vendor_ext_data_list' has no member named 'bitmap_size'
+
+Cheers,
+Conor.
+
+--BHMvR13gFgTG0XBs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZj6ImAAKCRB4tDGHoIJi
+0v5GAQDz/COSUgwYOrRhiE95HyXWBcrE7N78mp8pUkk9m/hrFgEAxmMo1xhXO2iP
+tU7a1ZH2VRD826Ot6whFO6eC88ci1wU=
+=8S+4
+-----END PGP SIGNATURE-----
+
+--BHMvR13gFgTG0XBs--
