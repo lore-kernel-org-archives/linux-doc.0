@@ -1,57 +1,57 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D05228F3
-	for <linux-doc@vger.kernel.org>; Fri, 10 May 2024 22:33:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B67621514D3
+	for <linux-doc@vger.kernel.org>; Fri, 10 May 2024 22:36:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715380424; cv=none; b=KCj/wZWJgzhuwoqPKm4CExvOzEUeI/gk4DOTltv1h7ElSETkwdyTwHcZ7/RxCqtlP5rw0Lvv/4o8BNsEFxTS63jN/vSYqu+2nf1nVbRloZhAP6Dxu+tsFN4Se0fkvZg0/yUMjBNiaq1rocPA1+zHxSmZEb746Sxr5oqweJaxvLI=
+	t=1715380617; cv=none; b=j6hDQcsz1OstxazUpI1HcWsTTU7v+HMd3Bf/gv8X/mFSySU4XrLHPMquVfb+oyJCijdhW9AGxwsliw9IbbQUzfhlgngdYdXXQ6Rsdgslthel+xPfu1J7O/Ar7HSRLC31BhSAUp+kcvBsm+obyuJGBMf8qGl06BLNIiaZkMvopyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715380424; c=relaxed/simple;
-	bh=cFsqolC03whbOXne5XKlbHEqaO9KmgRG1wEiBKh9mPQ=;
+	s=arc-20240116; t=1715380617; c=relaxed/simple;
+	bh=yoVhvIbXtXjAXXbTeoK/ZDLeEQzQ/4+EhbyXgPPnC74=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YTrIKiZoR7kvcRyK0IVz7J+89jupXIVCeByuVcC72D1i057Z+9bs7yGs6bLTsN3q3b7eyIzgEuLPX1KhQd/AoAQ72IhcoERQQn+rO0qs0gzY3M97ibTCG9nIxQgNTsXF3plviW6M/tjl6imAmz5G16pnj00CVWOcgQxoLYaBduQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=o8hi3s3l; arc=none smtp.client-ip=209.85.214.169
+	 Content-Type:Content-Disposition:In-Reply-To; b=DRTIXJ7d7ugZcY8U65ZBhWHA3JJxffVcOHNJBZ7xJ1Dq0ef8+oztEGkRHknGuK08Ky+nPZtc0yMcNqUdSFPPqQyu9o7KqLq+PbILi960hBc3sa/zm9zpOE1pe1MSUBCcBpPFDDU5SZeRYrjEDsgk+5RcSEDBtrKDfRBXoQ9UMZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=k12AqZ/B; arc=none smtp.client-ip=209.85.210.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="o8hi3s3l"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1e3c3aa8938so18450925ad.1
-        for <linux-doc@vger.kernel.org>; Fri, 10 May 2024 15:33:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="k12AqZ/B"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-6f472d550cbso2006673b3a.1
+        for <linux-doc@vger.kernel.org>; Fri, 10 May 2024 15:36:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1715380421; x=1715985221; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1715380615; x=1715985415; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Rx86BKf20oqqJvvyTkwVjgHBFBglkui4kaaauK5EOTw=;
-        b=o8hi3s3lmX2YqQnd9C/rkwE38e0hHuJfKp8+ForFPhNh+16MvZrxNZyMWKWUzl9QrB
-         qlM2my0i+vefxi2fxXAVQoi4gWsYKvYDmT5fAB+SGucJSMbN1UluiHj9pUcBpXgy33+X
-         qu9dvsIF8CyhUcZAYtkEAiydou6AoPPlrY5W4+RnREg1kl0L9O2V43w+yFFYlU4ECd02
-         WS4SdsP5pB3hlxXuMMdwyycHVavdp9uXnIMc66BPCJ3ksWiSHr4xm4WqYCAcT2HvCYWG
-         5WCWKybQQtsyp5j3rQ3xRwEIQbZahlYP1htzOFpK/TTIifibLzJseyY+oZi+asW3gRb4
-         dyvQ==
+        bh=zS7lCbzZkns2fdQ69wn4m037nt1gQxHyRlvOKblzJbQ=;
+        b=k12AqZ/Bq0Z+cHO6rimHqBAFFXB4mSIfmE8UdZggLlEgmkr+khlydOldPXDim6nMTx
+         FRvQmSpiVUlYESYUziCy/pZ0o0hB6IH4Vv8de5ZGIM7p6rh6aum/Lhkq2y5nvoJC7/YO
+         cmqaLm9Fw7xT9qUzFcpK4IfzV9F7gRGBf3nIPQGyuBOf89a3VltX3DRiqZ9kyc8DijBX
+         OvS2gz1n687nO+f5aBbk2O1dtI9BIsVJ0VmVnLgPVTDTXqXH3L2xEkEbd3vJ5GD6liMZ
+         HvEnV0dpii2FIgo6/LoIkoPEBujpKPngyylN9RIXTLKyIcXkLTGImyvAEYRkmImgD9Ra
+         RgpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715380421; x=1715985221;
+        d=1e100.net; s=20230601; t=1715380615; x=1715985415;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Rx86BKf20oqqJvvyTkwVjgHBFBglkui4kaaauK5EOTw=;
-        b=mmYUEBav2CbwkjNR2dncBJgppINqsvkeFANeH8RlWFd773XGIY7x6VOCX/M3tPlqFb
-         47pjZ81gwOwV2c7TUO7aNME+wxEzJh8gRiMPggeIas73mB079M4+aAL2vGYdWjLanKyq
-         pgKA/AEzdOsKpflsj5W8BSYapdRxXeiAm2W8DQMR71xjcKRiHBh60J/uWTcnHwe0VuR4
-         MGzYbO/MfguTUsX+H4BYvDo9Wbs29EStKqiI41K8Tpnsr6/F8KlNF0aIaequPXsjKh8d
-         prZvLjcl5OFnMCpK8GGGf3MJAB7f0t6D74EShUqX2DsheIJg1ulE+g6CBqfBnNcpwE6S
-         367A==
-X-Forwarded-Encrypted: i=1; AJvYcCV5dU9CgYuyMq5uHbBFukT9J+96xMDZJIIKwT/ZKF/O6ZRqCIY7ZIe1ozoJ6ugc/sR8wGJYDr02FPbTPR5kraHqYZ/70li3aeQh
-X-Gm-Message-State: AOJu0YztZ++1ysORMpBm+zXOVxZX8Mphc4CFRB2uVy8+EOES1HzMUjpy
-	E+LyR7cXQ4WR7z1jpXyLwQ6AwcYfU3pO3cY9qC87GEjlqxlgo5CNiBkAlkO/tus=
-X-Google-Smtp-Source: AGHT+IHCbIPqYj/CMVX+dpcmx2/ThEVPaXPHBWvK+JEhPYkGjzop6fsJUs8nt4PjI1Rtz6v88FXlIQ==
-X-Received: by 2002:a17:902:d483:b0:1eb:57cb:4c69 with SMTP id d9443c01a7336-1ef43f4d1ebmr53974765ad.45.1715380420958;
-        Fri, 10 May 2024 15:33:40 -0700 (PDT)
+        bh=zS7lCbzZkns2fdQ69wn4m037nt1gQxHyRlvOKblzJbQ=;
+        b=TIVOx9dlyfHZHf3d6CIG5gVrLoyxHpnR191ZrFiGvCpHyFpOAh0FExY45Int893Okl
+         Y2RimQ83FC+jp/pW88CwFiKR8RKmsAjElqXYu9voDhWmp0FFkNQvY6BwesV1rPtbIuLS
+         359VazdDd05o9HAt9uEGefnG2nXDM0zAK4r/kGXmcsmxNWlQ9LxfFpr8iv1bCG0ozDvQ
+         4C5qXffoPiI2oS8cme3ghK/430HhHkzQDe8VJD1UAY7UpV2X2FINx1z0SXDvtY1/bncp
+         pyNai+rYPYRTmGtgaFlLEnvRijY9B5RDJMLuenCoD/y9bq+cPYXEYxtVzftovDP9tz1R
+         DDNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVd5ER1DhOOqmbZILap+DdkwhAbKPQPQelOD1u/F3qWArewg5zhKbJomJ/r/6kzpwsBaRasOpY9IFpKWXkFqeNgImADglfNGrFx
+X-Gm-Message-State: AOJu0YzeEAE1xBrK4l3PPyZS6HXpn5xet2o9KGuZQ6Q+eBm2O5M4ERRH
+	rEBueC/b/psDWUWvzG/UY2mMNIJ8P/E4wFe9kL8tD5MC+PeXHbq6k4dzPjHkkBk=
+X-Google-Smtp-Source: AGHT+IECyJ3HLUBNJc9MInaH+TnpeoZ9uVPxr9owDU+2eCIW7wv4pKs78C2KGMvMq9oXNwmWHlzw3Q==
+X-Received: by 2002:a05:6a20:3206:b0:1aa:5a22:5eca with SMTP id adf61e73a8af0-1afde0ecc61mr4558503637.31.1715380615067;
+        Fri, 10 May 2024 15:36:55 -0700 (PDT)
 Received: from ghost ([2601:647:5700:6860:629e:3f2:f321:6c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0c16093fsm37221825ad.281.2024.05.10.15.33.37
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2a83d3dsm3438933b3a.65.2024.05.10.15.36.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 May 2024 15:33:40 -0700 (PDT)
-Date: Fri, 10 May 2024 15:33:36 -0700
+        Fri, 10 May 2024 15:36:54 -0700 (PDT)
+Date: Fri, 10 May 2024 15:36:50 -0700
 From: Charlie Jenkins <charlie@rivosinc.com>
 To: Deepak Gupta <debug@rivosinc.com>
 Cc: paul.walmsley@sifive.com, rick.p.edgecombe@intel.com,
@@ -84,10 +84,10 @@ Cc: paul.walmsley@sifive.com, rick.p.edgecombe@intel.com,
 	revest@chromium.org, josh@joshtriplett.org, shr@devkernel.io,
 	deller@gmx.de, omosnace@redhat.com, ojeda@kernel.org,
 	jhubbard@nvidia.com
-Subject: Re: [PATCH v3 02/29] riscv: define default value for envcfg for task
-Message-ID: <Zj6gwFvj2gA04NJq@ghost>
+Subject: Re: [PATCH v3 03/29] riscv/Kconfig: enable HAVE_EXIT_THREAD for riscv
+Message-ID: <Zj6hgrXzuxFdr3sl@ghost>
 References: <20240403234054.2020347-1-debug@rivosinc.com>
- <20240403234054.2020347-3-debug@rivosinc.com>
+ <20240403234054.2020347-4-debug@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -96,54 +96,50 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240403234054.2020347-3-debug@rivosinc.com>
+In-Reply-To: <20240403234054.2020347-4-debug@rivosinc.com>
 
-On Wed, Apr 03, 2024 at 04:34:50PM -0700, Deepak Gupta wrote:
-> Defines a base default value for envcfg per task. By default all tasks
-> should have cache zeroing capability. Any future base capabilities that
-> apply to all tasks can be turned on same way.
+On Wed, Apr 03, 2024 at 04:34:51PM -0700, Deepak Gupta wrote:
+> riscv will need an implementation for exit_thread to clean up shadow stack
+> when thread exits. If current thread had shadow stack enabled, shadow
+> stack is allocated by default for any new thread.
 > 
 > Signed-off-by: Deepak Gupta <debug@rivosinc.com>
 > ---
->  arch/riscv/include/asm/csr.h | 2 ++
->  arch/riscv/kernel/process.c  | 6 ++++++
->  2 files changed, 8 insertions(+)
+>  arch/riscv/Kconfig          | 1 +
+>  arch/riscv/kernel/process.c | 5 +++++
+>  2 files changed, 6 insertions(+)
 > 
-> diff --git a/arch/riscv/include/asm/csr.h b/arch/riscv/include/asm/csr.h
-> index 2468c55933cd..bbd2207adb39 100644
-> --- a/arch/riscv/include/asm/csr.h
-> +++ b/arch/riscv/include/asm/csr.h
-> @@ -202,6 +202,8 @@
->  #define ENVCFG_CBIE_FLUSH		_AC(0x1, UL)
->  #define ENVCFG_CBIE_INV			_AC(0x3, UL)
->  #define ENVCFG_FIOM			_AC(0x1, UL)
-> +/* by default all threads should be able to zero cache */
-> +#define ENVCFG_BASE			ENVCFG_CBZE
->  
->  /* Smstateen bits */
->  #define SMSTATEEN0_AIA_IMSIC_SHIFT	58
+> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> index e3142ce531a0..7e0b2bcc388f 100644
+> --- a/arch/riscv/Kconfig
+> +++ b/arch/riscv/Kconfig
+> @@ -149,6 +149,7 @@ config RISCV
+>  	select HAVE_SAMPLE_FTRACE_DIRECT_MULTI
+>  	select HAVE_STACKPROTECTOR
+>  	select HAVE_SYSCALL_TRACEPOINTS
+> +	select HAVE_EXIT_THREAD
+>  	select HOTPLUG_CORE_SYNC_DEAD if HOTPLUG_CPU
+>  	select IRQ_DOMAIN
+>  	select IRQ_FORCED_THREADING
 > diff --git a/arch/riscv/kernel/process.c b/arch/riscv/kernel/process.c
-> index 92922dbd5b5c..d3109557f951 100644
+> index d3109557f951..ce577cdc2af3 100644
 > --- a/arch/riscv/kernel/process.c
 > +++ b/arch/riscv/kernel/process.c
-> @@ -152,6 +152,12 @@ void start_thread(struct pt_regs *regs, unsigned long pc,
->  	else
->  		regs->status |= SR_UXL_64;
->  #endif
-> +	/*
-> +	 * read current envcfg settings, AND it with base settings applicable
-> +	 * for all the tasks. Base settings should've been set up during CPU
-> +	 * bring up.
-> +	 */
-> +	current->thread_info.envcfg = csr_read(CSR_ENVCFG) & ENVCFG_BASE;
-
-This needs to be gated on xlinuxenvcfg.
-
-- Charlie
-
+> @@ -200,6 +200,11 @@ int arch_dup_task_struct(struct task_struct *dst, struct task_struct *src)
+>  	return 0;
 >  }
 >  
->  void flush_thread(void)
+> +void exit_thread(struct task_struct *tsk)
+> +{
+> +
+> +}
+> +
+>  int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
+>  {
+>  	unsigned long clone_flags = args->flags;
 > -- 
 > 2.43.2
 > 
+
+Reviewed-by: Charlie Jenkins <charlie@rivosinc.com>
+
