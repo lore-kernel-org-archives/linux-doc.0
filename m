@@ -1,263 +1,204 @@
-Received: from mail-oa1-f73.google.com (mail-oa1-f73.google.com [209.85.160.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5764F1F2
-	for <linux-doc@vger.kernel.org>; Fri, 10 May 2024 23:30:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.73
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715383804; cv=none; b=up8rnn/B4XKYHBpzv6/Omd86LpvAZ6ARD+gGrBO7UslJQE+rR7lXcN/h7BWvx14kiHB+/+hTTCI/uh0VwHOJAM2xKUoxrvmFnStcI03Ex/+tamBQMA/Ds2aQ5HWFjMcH1Rfgkyaff/Hrz2KDKMuKQ842/GL1hkOsavQk72uV9bU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715383804; c=relaxed/simple;
-	bh=xdWY+KR9p0FLhp7gx5OoaDU0qowTs6U/msm/7fGUVY8=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=r5RCApnHfIOjo5ebamZi9fLx9KDNP397VONB8xl0hv/MxceqhtsIS1ew/8WG360CUH4c5ANJPz3D1/FR1A+3RUnNrvEsZyAIay7HEwM7AefDapVdBzaBsYfCwHd3Tes2Z62dGGAfIngt1hO0DFIgKPixBc9uaT9XxcA+V5+CkPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=em2LkgXu; arc=none smtp.client-ip=209.85.160.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA7F8F5E;
+	Sat, 11 May 2024 01:24:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715390662; cv=fail; b=SO3aFG2Ac924SM7pwEyRne6RhartqB7a4kCYGBPqdGQLlJEnXHBoHp9q1Aj2VUxkv9dxjZRdDWTksaQRF42j7l0D5KMW5k+6m9lGZS4lihChfQfXp9xrrNBW11vFE3Cdis8s5+2hRgQroU2Ft4V6MW8Spm94ZzM2tps6jWFQNMw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715390662; c=relaxed/simple;
+	bh=KSIWB4MS4RicdIIZSlGAYAZZoQ+NUScC+TEewIRaPDY=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=T9FFsBhiKzgUEmTxfj6DR77Zt0hUChY83k0uiT0/z8M1leT7zRvIQb51Qm7fzwqrcTS7saXOAYsN+M/mu6XyxDqAvGfnDLjujbVVJeiyXr064Qn0azVif1aSWMaOQBzW51wpnDpYs9/jJcGpFsqsKT339nsVBLrM5wTancMPuVs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HNKOhaa0; arc=fail smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="em2LkgXu"
-Received: by mail-oa1-f73.google.com with SMTP id 586e51a60fabf-23dd5283ca5so2774101fac.1
-        for <linux-doc@vger.kernel.org>; Fri, 10 May 2024 16:30:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1715383802; x=1715988602; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cIFstNeC3q4oijsFM3RKN1NWrYB3uLBgK62pDGvDUGc=;
-        b=em2LkgXuXRNsbWmzg2kjXYSSuiqfOpjAADj1tMJBz5ZcHHAPJDWp78ZkpnxrK6BWcq
-         /Fz4ittOcvw6RduWvYxGmf66uEAZ0klTmrd2tSc3NYsG+d63bXoSkzUwBrkOgPEv4yqG
-         67B51la7D4yoPjp84nZ/vQ7ce3pYdT9L7AC5KJvm1S9R1C1LgfnFi9SY3PIbtLeh66ms
-         kmk+OGk+gMj5k9YIMwEnNjdBJ5H9qGdnKpo50TiiY3YQDl+eWOa6RnUYKOYmwQ8Cl0AV
-         yEyi9qaShkk8Le9CUeeapbkk/3+yDR1/Wck7K0ThU1rSCOIzmc3yDWe/G1b2uDMTrjOI
-         hffg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715383802; x=1715988602;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cIFstNeC3q4oijsFM3RKN1NWrYB3uLBgK62pDGvDUGc=;
-        b=EvGCoRXDrY6qb9ot7OQhPQRMEmOTvqEgvq2ZxCPhCWiQ2zwBvK1K+BBU8145YSgn6y
-         faAxDiUSXJxBZnsbBO2wsezpYl7yYJuf5eJicMlCagynORRa+Bmq81oQFM+DkUUJcYfe
-         xIenEvIZoH22f9iOHZk66Hq0oIIP7lZ+E2P6U6h+oKoFcTK+fR2u7h+AP0JokrVxSPMq
-         MVd1Qa//iIzfXjSadZ9lLm9SpoSRGIfBPBnKkix484tDEOFObaDiyYwNxJoEQS7PQyR7
-         VQKCGsTKkEMZ1/CSW2sAbVjUxDkne2fE8gcDrRXtLRF6zgRuBDidwolQa3XxIUUGkfxH
-         cWfA==
-X-Forwarded-Encrypted: i=1; AJvYcCUXyqjnHdzg4/TAmE4BQTCtnjr8HbM9+YRy9ZaiJGp3CaJcEBnH1ZCTnv5Xlp5lQu2d77wgzMwADYbp07NrR+xddQJrREwHlE2S
-X-Gm-Message-State: AOJu0Yzve693GuaqBOvUOBBeiP6XIuZa4Rb6oFAAzd0QH4cqSL5mVTl7
-	H1qkYP5KXgn/FlMzIYjfVXYQ7XtVD0i7Xvj6EGrcEXzlJvkU+9xgzesZyo9Vxg3eKf7weSHRxCQ
-	cVgXhe/rFvBMphAXfqiO2Lw==
-X-Google-Smtp-Source: AGHT+IFrc3bI3foVbausGan6NBITnYL6pdSmGDzjUj2i/pl14yjDYPvAtCSQjWtnD/i8zjBBRDIlHe/eew2c9slsjQ==
-X-Received: from almasrymina.svl.corp.google.com ([2620:15c:2c4:200:3428:1b4e:e75a:d31b])
- (user=almasrymina job=sendgmr) by 2002:a05:6902:1004:b0:dbe:d0a9:2be3 with
- SMTP id 3f1490d57ef6-dee4e558e2dmr1178479276.3.1715383303176; Fri, 10 May
- 2024 16:21:43 -0700 (PDT)
-Date: Fri, 10 May 2024 16:21:16 -0700
-In-Reply-To: <20240510232128.1105145-1-almasrymina@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HNKOhaa0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715390661; x=1746926661;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=KSIWB4MS4RicdIIZSlGAYAZZoQ+NUScC+TEewIRaPDY=;
+  b=HNKOhaa0ds4k/8vxv6zD4AAVaZ6khXPoPhyL/D+1ORIxbiqXobmcmYDQ
+   +1M+9vHkNpN29g0JfhuGOrOz+J8gjUwfpRVFwF4T8CaLeS8+366NMxGpy
+   KPaDN9OC2Bix+9YZgNbRoGkafJj+V1T2nM+d+NVvsJzF+O8LOCN03hlPv
+   hd51hVxWMt4tDhvfc40lYCWYphJUIBNCobt03Sgm4ZnmWCYofywDDuH96
+   i78MFkcyuG5MyvvAEfk6XWoonO0z5Z2FBZ2uvJo750d1m4Oy0HO9Rd3o9
+   /E0Xpifg6HXIlq5LfJDcb8sZX8WDP9M4IG+XteatgIx0/n0uT8QRor34w
+   g==;
+X-CSE-ConnectionGUID: eNUSen/9R62GNImjMSa4Ww==
+X-CSE-MsgGUID: ILaSB0X8RO6V9i6wY7XJFA==
+X-IronPort-AV: E=McAfee;i="6600,9927,11069"; a="22066648"
+X-IronPort-AV: E=Sophos;i="6.08,152,1712646000"; 
+   d="scan'208";a="22066648"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 18:24:20 -0700
+X-CSE-ConnectionGUID: hCYiEumTSYeCVC0nqvP5uQ==
+X-CSE-MsgGUID: DPGtEqgUStK1KxKVLBvAOg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,152,1712646000"; 
+   d="scan'208";a="30178066"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orviesa006.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 May 2024 18:24:20 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Fri, 10 May 2024 18:24:19 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Fri, 10 May 2024 18:24:19 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.101)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Fri, 10 May 2024 18:24:19 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ldcwn/oT/KzXMzyeormdaoOIalEaN6EYgX/sGIkmBCxLjnV+FydKutQIVrrZLWryNR34OdPbJm490BA9pECiZ0oK73BXndvVj7dVfWc7g+dgP0r+Px1anXLFOEFDuqFzf6dyUn4d3dHdYV+BaKioUqBQZSFcaHynM0d+vvaOcGmT61+eIR4eD4xfL4oQwKdLa7AYbiXoaSSdB3Grj/aSNcAmdRsMDVWzbhBIvivzXrwZt6b5QswHDe5BOEnHVyxIBcU+S6vP9sFR2/XKhhMz0780OZ9C8fJPXAq5ag8IjSYzEDxdtriqiHuDKD3lm2OsPOUgtbKCHj+ei8IToyovEw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KSIWB4MS4RicdIIZSlGAYAZZoQ+NUScC+TEewIRaPDY=;
+ b=f5eumb6ZRoh+adtjU6M+3dUr88nAD1D7Uv+ZNe5tFqT/XhcmnhHvFDo9UOVbM4o90vDM3fRGrh3R/gsOJF3pGDABPqATUI571L6gCDPGmgtM+SDlxEBbKCyIbS1eA7MzoqGoZVzjy25XtpDoxmKQHDpQ+QWrvVIdb5+lQSNrSv8boEHB2uxF4QCjmmpuRtC6tF3J+Spe8RmLFyfhrBUCu/hQMu10oTu+/5drIo5I1F/p6c/KYxIdWoL4uwbu7D++eq4Cl7iG3/PLzGlX8bz3p6DKToIcapOoJty8VNl03gjK04WWXz/MUxiibKz/osnosADABpwSW+B6yClU3EyG/A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SA1PR11MB6734.namprd11.prod.outlook.com (2603:10b6:806:25d::22)
+ by BL1PR11MB5318.namprd11.prod.outlook.com (2603:10b6:208:312::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.48; Sat, 11 May
+ 2024 01:24:12 +0000
+Received: from SA1PR11MB6734.namprd11.prod.outlook.com
+ ([fe80::fcf6:46d6:f050:8a8c]) by SA1PR11MB6734.namprd11.prod.outlook.com
+ ([fe80::fcf6:46d6:f050:8a8c%3]) with mapi id 15.20.7544.048; Sat, 11 May 2024
+ 01:24:12 +0000
+From: "Li, Xin3" <xin3.li@intel.com>
+To: "Gao, Chao" <chao.gao@intel.com>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
+	<linux-kselftest@vger.kernel.org>, "seanjc@google.com" <seanjc@google.com>,
+	"pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net"
+	<corbet@lwn.net>, "tglx@linutronix.de" <tglx@linutronix.de>,
+	"mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org"
+	<x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>, "shuah@kernel.org"
+	<shuah@kernel.org>, "vkuznets@redhat.com" <vkuznets@redhat.com>,
+	"peterz@infradead.org" <peterz@infradead.org>, "Shankar, Ravi V"
+	<ravi.v.shankar@intel.com>, "xin@zytor.com" <xin@zytor.com>
+Subject: RE: [PATCH v2 11/25] KVM: x86: Add kvm_is_fred_enabled()
+Thread-Topic: [PATCH v2 11/25] KVM: x86: Add kvm_is_fred_enabled()
+Thread-Index: AQHaWfAO0doE8sIK3Eq6W5ZDZAAx+7F/aX4AgBE3YdA=
+Date: Sat, 11 May 2024 01:24:12 +0000
+Message-ID: <SA1PR11MB6734D9EF8C2D9A762CBEBF07A8E02@SA1PR11MB6734.namprd11.prod.outlook.com>
+References: <20240207172646.3981-1-xin3.li@intel.com>
+ <20240207172646.3981-12-xin3.li@intel.com> <Zi9ZSuwQXl8/Ncs/@chao-email>
+In-Reply-To: <Zi9ZSuwQXl8/Ncs/@chao-email>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA1PR11MB6734:EE_|BL1PR11MB5318:EE_
+x-ms-office365-filtering-correlation-id: f0776827-c9f0-4d2d-6f05-08dc7159107f
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230031|366007|376005|7416005|1800799015|38070700009;
+x-microsoft-antispam-message-info: =?us-ascii?Q?haF3z6s7Pl/fwcI7tdp33HQoUtbixKQIY7kbICnh3VbBEeQ7I776g3Y+7m5s?=
+ =?us-ascii?Q?jqqm1m4CJUKIIWbDBnmG/MFZPCj0pIUvPJ5liyVzBHY9B8wiZJVKcwBO+JQq?=
+ =?us-ascii?Q?OEuY5Htip+CcA3hjQ6AtcKiJonIDdZflJp5xW11m7M+DfI4XPHknA/NH2JxL?=
+ =?us-ascii?Q?mZyKN6GwfXHGeJpX6u7b5wZpJYxq/VVHaJD2QIzDmeiNdZVw0j/O8TVpdg28?=
+ =?us-ascii?Q?yVpo45dfnTfIxOesuc4abTjBT/GRZvYb8N7MOLadvxFUb86Y+SameccmKrkK?=
+ =?us-ascii?Q?ClHo3/TPNts+FWVR+MW/3fhyc9kNCUh3thLQEM/CBMjIgqUHcMQpIqvq0K3f?=
+ =?us-ascii?Q?mmt1O7KaPLAqOdAqTParUIjl6EierKGD6wPMVssDZFDHhqurZISd3wwmJKHO?=
+ =?us-ascii?Q?ZLCkepDanoAcB/4j4RUMVbcz1jKf6uHpRCX1r5iCcjbsRKBoGXKThfaBsyIz?=
+ =?us-ascii?Q?WtGW+AgXeWDro+kPP72gWbSSRpKZEV/inUUpacC0GRiDEoNK3bZEjROHfJ/E?=
+ =?us-ascii?Q?nQNE74bJmYHNWQc6/6g9Xm3/TyLwhoBAVxh9CD2a6eM4t4Ev73XJC6MMQwiU?=
+ =?us-ascii?Q?8SiBpFWcQSksLYzLUUNrTkI6pHetBHiRxUDYO4M2vuSTPciY641UfWUZe42j?=
+ =?us-ascii?Q?z0M9rlri+wDc4MhtPAB5NRW75oalBs9eryaBg2aGQQGi7i1/DNRqITY85JJk?=
+ =?us-ascii?Q?FJBW78ajZiAgQFLjxHYeZRpQGKQm38zKoVvQL/FbyqDo4Fjn627QE6vq0XmH?=
+ =?us-ascii?Q?n94xgPc604K+hoKT/9ZHOWTduW69bQVSCqL41zFqDp0q6dGFecmoyP1wxL4Y?=
+ =?us-ascii?Q?PGhFc9lrG3R91DnbzLnkP9jQuQW5qkA7CD4a9bmzjNi25XgQn9ccjhISlbyZ?=
+ =?us-ascii?Q?AhTMpIW4XbD0sxtTzDh1YMAet+boU+ZqWUAdjoc64VY6GT4RfXgB/5YhktCU?=
+ =?us-ascii?Q?kATaRLFUvghHFgz9xdN+jLbgKkFZInPm+aRRM5NP13mykuOa7fXbwCQNu8nD?=
+ =?us-ascii?Q?AgSJdZB1XM6kwQWFkdCgJhgH2/iQ5RqIAQ2d9pObV1zgas4/N8r2DVSsB6Tn?=
+ =?us-ascii?Q?7ircFdv0l/1CKKDIEAY0+XzHu4fHlLbxMxw3EDnmPFUD8Twv70jP5CAarNP3?=
+ =?us-ascii?Q?zKO9AovApEgD108/ySuiGeV0muCgmcQpkf0vp4c56gLSBFZAd8tP1nUxIDNP?=
+ =?us-ascii?Q?UWN37CHyhunRXqFEw1XgV3nnekzcVEF9X3izQreiBLcKWOKCsmebtIu7SCCN?=
+ =?us-ascii?Q?axvK2DvybCwwvnh5p92LHF4n+8HWWEAIfNkFvllgThDPAmS5Zmh6KKx0KWfF?=
+ =?us-ascii?Q?dXXSFASkt00n/Mf+amr3C/u2Bpq57ncvHqh/OzSYjs02oA=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB6734.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(7416005)(1800799015)(38070700009);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?5PqEv4r0zFIPapoLn1s+cUNZ34eF5Qm/uB8HV3Q2+BgPmTd5TM0l35qrbays?=
+ =?us-ascii?Q?0eCdarpdGam9EpQLopkYSpVeHSPImm0KSxg797MIzVWUhEk1Qda8V17AsZ15?=
+ =?us-ascii?Q?pBjpaVGE5GnBsS2PjBvNHYcSyiNfSHLvhZP6IkO4f65joXDQztqPQ1tajD/5?=
+ =?us-ascii?Q?Su/xntkkhjUHaCNkNoT1j6j3shTFZBFHCN6v9yJIseQtC61uDXYAgOGzVztl?=
+ =?us-ascii?Q?iCytdcc/20yll2cDvlqwsG/DjQOGPh62+2HJq4pCMhkTGdJvc8zeml/GDBhZ?=
+ =?us-ascii?Q?JgGSqPOP9luwXbJ22tcUedeRy3je9VZRNh1KllOm/3IaW0T/a7ip3XUb15q7?=
+ =?us-ascii?Q?e/f+bnt+1nROD8Y8+ePJclEHBtsmjJwnmZnm6wSV49LPO8H316GJgj1wjYJP?=
+ =?us-ascii?Q?0tHZNq9KtiEZvWb263syo3SuxiKmNuMohxVjOzSe13rckMvJ1C+BoD6vEEVy?=
+ =?us-ascii?Q?vXIS8FFQ0g0TnUgsF01cCQfFpVmF/wq9+yt0BIIfFzPJgBKn5rDqwoNI6YAS?=
+ =?us-ascii?Q?lJ73IScdCf3EfMOKeR68puXa8Txjknlb3qE6j8lLy7/bFelfpTRo6Fn0W5B7?=
+ =?us-ascii?Q?mBVyJmpnNXJBG446d8nRC0iXHbAlQfCrQN7Aj2n11oCKIJD+FosMo3YkMtcp?=
+ =?us-ascii?Q?lJ9Zkn9ei+ObqX8uziAH1cbaWHCiebIdoYxjoVFsNMlQOJTqjP7V8/BEn8To?=
+ =?us-ascii?Q?8ZmWc1ik2JGEaJRDFDPvlMKKZVwuh+Q40hBlHZ4FkiJe0SRnGh9uX4p3gaKo?=
+ =?us-ascii?Q?1YGOPfJ7bLm1Zq6VDZlfZcaslACjLk/nyntpE2csqPHEElvSvg81Oh6IIB3z?=
+ =?us-ascii?Q?aNyJWoABFhxo4iu+dl0dbo1GjyId6OAxncFfj8isVY05NKydEa4kHwZ2TDvH?=
+ =?us-ascii?Q?9KNNOxxyZBlyFrmoxsLJxXaYpFXgpwjCvDaxMS1rTvTDNvsg6rpLjda9i+m8?=
+ =?us-ascii?Q?2NFKsWuQTB+660jicK4sGiNz/lqlNJCEQtDi277j4rRcRxF9bU6M38Y6GTGj?=
+ =?us-ascii?Q?L1B4ZjbtdVluiIte0ze3y2zEzvjRELZ1iyHr8B+/UKifMh3cjyLKkGMSTtUF?=
+ =?us-ascii?Q?gceAH9vy4rn2GD0uHnLfDLExqlHzBPPhVb0qPuQ+aqUChKN7Nv61PoZWeJCp?=
+ =?us-ascii?Q?S83usC/IlvUWkUi8dZli6YSCTPUrRFlUhYJX+TnS8s6YymXOxkKUL0afYZbT?=
+ =?us-ascii?Q?+3xfGVwhep7IDnAK7Z2TpbpiKVJFG3cshRZI1li8f3NeZoMymGkXgYFn4Wpj?=
+ =?us-ascii?Q?tECVB+4eLDykU8wRnDGSvuHpPMVra8umev1kR/KByEt9X44jvxpjmx5Jg3cp?=
+ =?us-ascii?Q?U/27hZ+jddRH+eJDeyzDHqJdGy+pE4KgpAOPCSa0XANMLZSj4BCRZiSWRgp2?=
+ =?us-ascii?Q?BcDDbxYxIITKqyvgTD2cZ2XMqcohH3Xb9IMMiCJnxN7ux0189gcurMZ4bM2A?=
+ =?us-ascii?Q?iEnkMhWx7BspD6oME+/d6skyXfNiZ2SVeRR5I/C06u1zwBPOGXvxMWEy6Amf?=
+ =?us-ascii?Q?xhYWclKLFuV9iPQpGjoQ24Z+mdnhBs1Xbqe/6PNyKgOH0zqmW9FT2SaV++/c?=
+ =?us-ascii?Q?BHo0jR9EQF0WojL3L+0=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240510232128.1105145-1-almasrymina@google.com>
-X-Mailer: git-send-email 2.45.0.118.g7fe29c98d7-goog
-Message-ID: <20240510232128.1105145-6-almasrymina@google.com>
-Subject: [PATCH net-next v9 05/14] netdev: netdevice devmem allocator
-From: Mina Almasry <almasrymina@google.com>
-To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org
-Cc: Mina Almasry <almasrymina@google.com>, Donald Hunter <donald.hunter@gmail.com>, 
-	Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, 
-	"=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>, Pavel Begunkov <asml.silence@gmail.com>, 
-	David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
-	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, 
-	Kaiyuan Zhang <kaiyuanz@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6734.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f0776827-c9f0-4d2d-6f05-08dc7159107f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 May 2024 01:24:12.2202
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: IcoLmNgeqj+psq8d7LwqbhRrZZvBb8miFcBhfaj7NIEJokkmnGHd4ZXVNibZvxOAIwpsrQrtlPuq78RjukHxiA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5318
+X-OriginatorOrg: intel.com
 
-Implement netdev devmem allocator. The allocator takes a given struct
-netdev_dmabuf_binding as input and allocates net_iov from that
-binding.
+> >+/*
+> >+ * It's enough to check just CR4.FRED (X86_CR4_FRED) to tell if
+> >+ * a vCPU is running with FRED enabled, because:
+> >+ * 1) CR4.FRED can be set to 1 only _after_ IA32_EFER.LMA =3D 1.
+> >+ * 2) To leave IA-32e mode, CR4.FRED must be cleared first.
+> >+ *
+> >+ * More details at FRED Spec 6.0 Section 4.2 Enabling in CR4.
+> >+ */
+>=20
+> I think we can give more context here, e.g.,
+>=20
+> Although FRED architecture applies to 64-bit mode only, there is no need =
+to check if
+> the CPU is in 64-bit mode (i.e., IA32_EFER.LMA and CS.L) to tell if FRED =
+is enabled
+> because CR4.FRED=3D1 implies the CPU is in 64-bit mode.
 
-The allocation simply delegates to the binding's genpool for the
-allocation logic and wraps the returned memory region in a net_iov
-struct.
+What is "more context" here?
 
-Signed-off-by: Willem de Bruijn <willemb@google.com>
-Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
-Signed-off-by: Mina Almasry <almasrymina@google.com>
+> Specifically,
 
----
-
-v8:
-- Rename netdev_dmabuf_binding -> net_devmem_dmabuf_binding to avoid
-  patch-by-patch build error.
-- Move niov->pp_magic/pp/pp_ref_counter usage to later patch to avoid
-  patch-by-patch build error.
-
-v7:
-- netdev_ -> net_devmem_* naming (Yunsheng).
-
-v6:
-- Add comment on net_iov_dma_addr to explain why we don't use
-  niov->dma_addr (Pavel)
-- Refactor new functions into net/core/devmem.c (Pavel)
-
-v1:
-- Rename devmem -> dmabuf (David).
-
----
- include/net/devmem.h | 13 +++++++++++++
- include/net/netmem.h | 40 ++++++++++++++++++++++++++++++++++++++++
- net/core/devmem.c    | 36 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 89 insertions(+)
-
-diff --git a/include/net/devmem.h b/include/net/devmem.h
-index fa03bdabdffd9..cd3186f5d1fbd 100644
---- a/include/net/devmem.h
-+++ b/include/net/devmem.h
-@@ -68,7 +68,20 @@ int net_devmem_bind_dmabuf(struct net_device *dev, unsigned int dmabuf_fd,
- void net_devmem_unbind_dmabuf(struct net_devmem_dmabuf_binding *binding);
- int net_devmem_bind_dmabuf_to_queue(struct net_device *dev, u32 rxq_idx,
- 				    struct net_devmem_dmabuf_binding *binding);
-+struct net_iov *
-+net_devmem_alloc_dmabuf(struct net_devmem_dmabuf_binding *binding);
-+void net_devmem_free_dmabuf(struct net_iov *ppiov);
- #else
-+static inline struct net_iov *
-+net_devmem_alloc_dmabuf(struct net_devmem_dmabuf_binding *binding)
-+{
-+	return NULL;
-+}
-+
-+static inline void net_devmem_free_dmabuf(struct net_iov *ppiov)
-+{
-+}
-+
- static inline void
- __net_devmem_dmabuf_binding_free(struct net_devmem_dmabuf_binding *binding)
- {
-diff --git a/include/net/netmem.h b/include/net/netmem.h
-index 72e932a1a9489..33014370a8858 100644
---- a/include/net/netmem.h
-+++ b/include/net/netmem.h
-@@ -14,8 +14,48 @@
- 
- struct net_iov {
- 	struct dmabuf_genpool_chunk_owner *owner;
-+	unsigned long dma_addr;
- };
- 
-+static inline struct dmabuf_genpool_chunk_owner *
-+net_iov_owner(const struct net_iov *niov)
-+{
-+	return niov->owner;
-+}
-+
-+static inline unsigned int net_iov_idx(const struct net_iov *niov)
-+{
-+	return niov - net_iov_owner(niov)->niovs;
-+}
-+
-+/* This returns the absolute dma_addr_t calculated from
-+ * net_iov_owner(niov)->owner->base_dma_addr, not the page_pool-owned
-+ * niov->dma_addr.
-+ *
-+ * The absolute dma_addr_t is a dma_addr_t that is always uncompressed.
-+ *
-+ * The page_pool-owner niov->dma_addr is the absolute dma_addr compressed into
-+ * an unsigned long. Special handling is done when the unsigned long is 32-bit
-+ * but the dma_addr_t is 64-bit.
-+ *
-+ * In general code looking for the dma_addr_t should use net_iov_dma_addr(),
-+ * while page_pool code looking for the unsigned long dma_addr which mirrors
-+ * the field in struct page should use niov->dma_addr.
-+ */
-+static inline dma_addr_t net_iov_dma_addr(const struct net_iov *niov)
-+{
-+	struct dmabuf_genpool_chunk_owner *owner = net_iov_owner(niov);
-+
-+	return owner->base_dma_addr +
-+	       ((dma_addr_t)net_iov_idx(niov) << PAGE_SHIFT);
-+}
-+
-+static inline struct net_devmem_dmabuf_binding *
-+net_iov_binding(const struct net_iov *niov)
-+{
-+	return net_iov_owner(niov)->binding;
-+}
-+
- /* netmem */
- 
- /**
-diff --git a/net/core/devmem.c b/net/core/devmem.c
-index d82f92d7cf9ce..1f90e23a81441 100644
---- a/net/core/devmem.c
-+++ b/net/core/devmem.c
-@@ -54,6 +54,42 @@ void __net_devmem_dmabuf_binding_free(struct net_devmem_dmabuf_binding *binding)
- 	kfree(binding);
- }
- 
-+struct net_iov *
-+net_devmem_alloc_dmabuf(struct net_devmem_dmabuf_binding *binding)
-+{
-+	struct dmabuf_genpool_chunk_owner *owner;
-+	unsigned long dma_addr;
-+	struct net_iov *niov;
-+	ssize_t offset;
-+	ssize_t index;
-+
-+	dma_addr = gen_pool_alloc_owner(binding->chunk_pool, PAGE_SIZE,
-+					(void **)&owner);
-+	if (!dma_addr)
-+		return NULL;
-+
-+	offset = dma_addr - owner->base_dma_addr;
-+	index = offset / PAGE_SIZE;
-+	niov = &owner->niovs[index];
-+
-+	niov->dma_addr = 0;
-+
-+	net_devmem_dmabuf_binding_get(binding);
-+
-+	return niov;
-+}
-+
-+void net_devmem_free_dmabuf(struct net_iov *niov)
-+{
-+	struct net_devmem_dmabuf_binding *binding = net_iov_binding(niov);
-+	unsigned long dma_addr = net_iov_dma_addr(niov);
-+
-+	if (gen_pool_has_addr(binding->chunk_pool, dma_addr, PAGE_SIZE))
-+		gen_pool_free(binding->chunk_pool, dma_addr, PAGE_SIZE);
-+
-+	net_devmem_dmabuf_binding_put(binding);
-+}
-+
- /* Protected by rtnl_lock() */
- static DEFINE_XARRAY_FLAGS(net_devmem_dmabuf_bindings, XA_FLAGS_ALLOC1);
- 
--- 
-2.45.0.118.g7fe29c98d7-goog
 
