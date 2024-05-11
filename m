@@ -1,215 +1,243 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from fout4-smtp.messagingengine.com (fout4-smtp.messagingengine.com [103.168.172.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B9A2610D;
-	Sat, 11 May 2024 07:15:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 432DE2F26;
+	Sat, 11 May 2024 11:22:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715411759; cv=none; b=DrRczBNLTlVd6mKHFjc3NU0HDOYR5eHf6GvJH7/siWCIOSV6L4OpDWzgnKPPry9csDe8cRCI8aYtpU+f+4ZIB+dECI0nT5zVuWy05CnByGfvjIYbtNZ+Wfh1IMCgXh6zJ3ZlJPAmhBRDtVmVapq8P2R+PjKqhClxB0scKdDP6bk=
+	t=1715426523; cv=none; b=mqZX2nbebwdM/38h5xaaz9U/UFTENoqwKet1CmaePwapm+w/pE/HYYfiYY+/1o5TS9ApbifVx4BwCVVCOoCrYQO55+s2NRucc/XMKhYnfj181SGpca373NjbiNkzDFSz0bILgERhOmSOfB4zJp4vuq2yxsk5ztD0we7rWh2beFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715411759; c=relaxed/simple;
-	bh=TjIX/flL554zvS60Pv08V4xwbSviSX/085JsCFPdfW0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FlGixZl1n5ZN0JrHTgfiv1CG11Wtlygx5QhRsSV2bupB9Sj3egSCzshTHh3T1Srd/mWZtGfGL7JX6uWFhu+hMv18Aj75YwOMr3+BGNxhGiOdBidT5KGiGnuyDbuF0Xna3HZsTR2U1KOW0ieBsYHcaPnmegH61LH8VcPIwGmqzbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O0KD0eCw; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1715426523; c=relaxed/simple;
+	bh=hkf4rEOCgdFntx/Mu1+PPXNkVUuEi+F6I9iRdoIj6vw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=L1vreo7RYL91luht5a9UJWCfgJ2h1Fqg8/cty4VuPTeAONbo6adJzYUKi4fdbX0aEf0eDuAFpImu8NqDbrgE3oNYdKmbNeBv/3CSByPPCH1yLXhbnBp0DO2CiSQXrX+NQdDWTe+Nf0vmcLVGF9pgNYlVBpft6F9WKVSfARomJLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com; spf=pass smtp.mailfrom=flygoat.com; dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b=mdg5YGSn; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Gl/UHAZT; arc=none smtp.client-ip=103.168.172.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flygoat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O0KD0eCw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715411757; x=1746947757;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TjIX/flL554zvS60Pv08V4xwbSviSX/085JsCFPdfW0=;
-  b=O0KD0eCwO9R6GuqK5XlnlBlz7inxXag+onaC1SBQqx1Q4nBOG37CzdMX
-   rWHGKqNhh9bdw/mVT8Dr1gwLQcQgvlr6movjuJNoFriUnIJ6iCB4gMrX9
-   e6RlAZSKhXHie/VuLhUXGs+ssHVNCSvzg2ku3V5ORT35nFHqA4c/IfNpO
-   HNpPSwI+IIxrFAVrdeNj0IsGKlUrW1g5FAk6Qy5l3EhshCCN3R11EglvT
-   0NoQztO9f78Lh8DRmgzZiY6vFmyNf0JGK44rtciEcfyDXRi8sMRhUXFJC
-   PxrCjZj6UPd+pHhx5QhC+sjz63W8HDiJfuWrNvcayc7ikbJjsRarcpunj
-   Q==;
-X-CSE-ConnectionGUID: vFZpoqfKT/+otG1Chca/cw==
-X-CSE-MsgGUID: oiCacyipTlmlFXorJDiing==
-X-IronPort-AV: E=McAfee;i="6600,9927,11069"; a="15223393"
-X-IronPort-AV: E=Sophos;i="6.08,153,1712646000"; 
-   d="scan'208";a="15223393"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2024 00:15:56 -0700
-X-CSE-ConnectionGUID: MWwOHqH+RbO9RIk3HpsY+A==
-X-CSE-MsgGUID: gzKGgGHUTNGlt5D+4HZqmA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,153,1712646000"; 
-   d="scan'208";a="34391821"
-Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 11 May 2024 00:15:52 -0700
-Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s5gxS-00074n-0B;
-	Sat, 11 May 2024 07:15:50 +0000
-Date: Sat, 11 May 2024 15:14:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Pankaj Gupta <pankaj.gupta@nxp.com>, Jonathan Corbet <corbet@lwn.net>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Pankaj Gupta <pankaj.gupta@nxp.com>
-Subject: Re: [PATCH 4/4] firmware: imx: add driver for NXP EdgeLock Enclave
-Message-ID: <202405111457.slkK7qEv-lkp@intel.com>
-References: <20240510-imx-se-if-v1-4-27c5a674916d@nxp.com>
+	dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b="mdg5YGSn";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Gl/UHAZT"
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 45A2F1380234;
+	Sat, 11 May 2024 07:22:00 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute7.internal (MEProxy); Sat, 11 May 2024 07:22:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm1; t=1715426520; x=1715512920; bh=uw
+	KqFrzk6W2ITMOqoowChbKdFFtrKD3DJW7TgtnFfqg=; b=mdg5YGSnDWeuUJmnmt
+	prow9YFbdnNaWFWnQSMbYIEpSTzV3Zn3Scjc+TJ7Ykpx3fdebA/6sRpjyCSZr8cd
+	jZAUyZk3G3Kxgr9UaT6ljxw1kkiTJ1aKa7Yrft2hLc7NBvSg6MI+HKHoTCp+Rt6P
+	9SUHT9fsopB6TgGXMfz7F1LM0/dBh7RBYRsdEG2Q7ppe9FqpKBrTUsiQyJnHonJJ
+	99PIUkD3c4kYNAylNhOqj7HNg+s7xMSrkOKeC/qlZSUVpbqaHUxA1KkiR2vKuJzo
+	8yNb2rZmdGS9lkc5osNw5AXPrv5HjCP9+Kr7TCInP/TMjxA2nir4g6SjlHs9bg5L
+	kpfA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; t=1715426520; x=1715512920; bh=uwKqFrzk6W2IT
+	MOqoowChbKdFFtrKD3DJW7TgtnFfqg=; b=Gl/UHAZTdShA5IbCKHIscCv3CwCir
+	gsPIayApKSUMmWx0awY6mAPuJQfPcOfC9/A0YNNXg3F7Vm2pNroOkubjQcNaY53G
+	3Xz5tAVBOE9IePzimX3whHQezg1FGB6KrnfmDANMkjihfE5nwT3Cn98CFhjjGeOk
+	dqNgGQhm9/gUx0hcpbLVPOqFVFvUATBEf368biRP9Ey+lK/mK3nXIVCgWQ7eeMsf
+	j31Hko+3kIn0+DX/wQZSfKC4V9F4ns14P3H3OVgaUcRwyLXTJv/NO7tafAIUq5/G
+	z9lYe0EuZ2iVQkZV7gsaTHZFvCdRoX/7pWrn144G8zv8AjpNpfPHaNgyQ==
+X-ME-Sender: <xms:11Q_ZjkoMaQ1n56Jh1v7_7vV0hYpVB0ZY8F4BEBPeVvL0cdWzwa-Lg>
+    <xme:11Q_Zm1yk90UqUtMYbejIZW3k5xOdpJx7rz2cWRhv2la9mgCVE_mSmuhZT6tCnmD3
+    r8ErwX2R8gd9cYTHnU>
+X-ME-Received: <xmr:11Q_Zpr-ccqLSXxiEItWLL2ozsrNOE_9fmoF68myYEBteSxKsxxXyxY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrvdegtddgfeelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephfffufggtgfgkffvvefosehtjeertdertdejnecuhfhrohhmpeflihgrgihu
+    nhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqnecugg
+    ftrfgrthhtvghrnhephfffgeejgfejieeugffgudegvdekffevgeeuteetgeejveeiteei
+    vedvffehlefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehf
+    lhihghhorghtrdgtohhm
+X-ME-Proxy: <xmx:11Q_ZrkvIyRK-dOO6FRcJB-InV-sfEvy56BJ8aFnUo6M1mzBE1cSEg>
+    <xmx:11Q_Zh1Mq6gvcwYizl82NL27piKmlMQW0vko8cOFpoaXEbyMfwo2Aw>
+    <xmx:11Q_ZqsS9IjEspYMcGuMaLgmltLT-gVf2lTyY8SFmoFWC3PMaKaziQ>
+    <xmx:11Q_ZlUm84rrK9r4mwLUHoBQIiaMb1OOQXL23--Bf3k3v_8-SoZVZA>
+    <xmx:2FQ_ZroNDVgtBEWH1iDVsUspeItog0N8sd-ecQ2Yzk5jMxqMQYRCR2hV>
+Feedback-ID: ifd894703:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 11 May 2024 07:21:58 -0400 (EDT)
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Date: Sat, 11 May 2024 12:21:54 +0100
+Subject: [PATCH v2] MIPS: Implement ieee754 NAN2008 emulation mode
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240510-imx-se-if-v1-4-27c5a674916d@nxp.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240511-mips_ieee754_emul-v2-1-af796ea21ef0@flygoat.com>
+X-B4-Tracking: v=1; b=H4sIANFUP2YC/32NUQqDMBBEryL73ZQk1cb61XsUkbBZdUGNJFYq4
+ t2beoAyX29g3uwQKTBFqLIdAq0c2U8J9CUD7O3UkWCXGLTUuSykESPPsWEiMkXe0PgehFOmvBe
+ te5RGQtrNgVr+nM5XnbjnuPiwnRer+rX/bKsSKQ4NSqduaPHZDlvn7XJFP0J9HMcXGvFFl7QAA
+ AA=
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-mips@vger.kernel.org, Jiaxun Yang <jiaxun.yang@flygoat.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5105;
+ i=jiaxun.yang@flygoat.com; h=from:subject:message-id;
+ bh=hkf4rEOCgdFntx/Mu1+PPXNkVUuEi+F6I9iRdoIj6vw=;
+ b=owGbwMvMwCHmXMhTe71c8zDjabUkhjT7kOtTLj09yXBucUdUmm/czEsXMy9N3x1TtbLzkrvM4
+ Yibl+P0OkpZGMQ4GGTFFFlCBJT6NjReXHD9QdYfmDmsTCBDGLg4BWAiz2sZGfrlrOM5FZfvnP9X
+ /1+gyQWD7PrJN/tm6JWeXXPUhSWGNZ/hf/a5C3rX7DrCV0X6SV8wEVn/3MJQd/ZRnegZ1ikc+wp
+ L2AE=
+X-Developer-Key: i=jiaxun.yang@flygoat.com; a=openpgp;
+ fpr=980379BEFEBFBF477EA04EF9C111949073FC0F67
 
-Hi Pankaj,
+Implement ieee754 NAN2008 emulation mode.
 
-kernel test robot noticed the following build warnings:
+When this mode is enabled, kernel will accept ELF file
+compiled for both NaN 2008 and NaN legacy, but if hardware
+does not have capability to match ELF's NaN mode, __own_fpu
+will fail for corresponding thread and fpuemu will then kick
+in.
 
-[auto build test WARNING on e8f897f4afef0031fe618a8e94127a0934896aba]
+This mode trade performance for corretness, while maintaining
+support for both NaN mode regardless of hardware capability.
+It is useful for multilib installation that have both types
+of binary exist in system.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Pankaj-Gupta/Documentation-firmware-add-imx-se-to-other_interfaces/20240510-213210
-base:   e8f897f4afef0031fe618a8e94127a0934896aba
-patch link:    https://lore.kernel.org/r/20240510-imx-se-if-v1-4-27c5a674916d%40nxp.com
-patch subject: [PATCH 4/4] firmware: imx: add driver for NXP EdgeLock Enclave
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240511/202405111457.slkK7qEv-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project b910bebc300dafb30569cecc3017b446ea8eafa0)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240511/202405111457.slkK7qEv-lkp@intel.com/reproduce)
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+---
+Changes in v2:
+- Fix a typo
+- Link to v1: https://lore.kernel.org/r/20240507-mips_ieee754_emul-v1-1-1dc7c0d13cac@flygoat.com
+---
+ Documentation/admin-guide/kernel-parameters.txt |  4 +++-
+ arch/mips/include/asm/fpu.h                     | 15 +++++++++++++++
+ arch/mips/kernel/elf.c                          |  4 ++++
+ arch/mips/kernel/fpu-probe.c                    |  9 ++++++++-
+ 4 files changed, 30 insertions(+), 2 deletions(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405111457.slkK7qEv-lkp@intel.com/
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 500cfa776225..dee487b03c9d 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2000,7 +2000,7 @@
+ 			for the device. By default it is set to false (0).
+ 
+ 	ieee754=	[MIPS] Select IEEE Std 754 conformance mode
+-			Format: { strict | legacy | 2008 | relaxed }
++			Format: { strict | legacy | 2008 | relaxed | emulated }
+ 			Default: strict
+ 
+ 			Choose which programs will be accepted for execution
+@@ -2020,6 +2020,8 @@
+ 				by the FPU
+ 			relaxed	accept any binaries regardless of whether
+ 				supported by the FPU
++			emulated accept any binaries but enable FPU emulator
++				if binary mode is unsupported by the FPU.
+ 
+ 			The FPU emulator is always able to support both NaN
+ 			encodings, so if no FPU hardware is present or it has
+diff --git a/arch/mips/include/asm/fpu.h b/arch/mips/include/asm/fpu.h
+index 86310d6e1035..bc5ac9887d09 100644
+--- a/arch/mips/include/asm/fpu.h
++++ b/arch/mips/include/asm/fpu.h
+@@ -129,6 +129,18 @@ static inline int __own_fpu(void)
+ 	if (ret)
+ 		return ret;
+ 
++	if (current->thread.fpu.fcr31 & FPU_CSR_NAN2008) {
++		if (!cpu_has_nan_2008) {
++			ret = SIGFPE;
++			goto failed;
++		}
++	} else {
++		if (!cpu_has_nan_legacy) {
++			ret = SIGFPE;
++			goto failed;
++		}
++	}
++
+ 	KSTK_STATUS(current) |= ST0_CU1;
+ 	if (mode == FPU_64BIT || mode == FPU_HYBRID)
+ 		KSTK_STATUS(current) |= ST0_FR;
+@@ -137,6 +149,9 @@ static inline int __own_fpu(void)
+ 
+ 	set_thread_flag(TIF_USEDFPU);
+ 	return 0;
++failed:
++	__disable_fpu();
++	return ret;
+ }
+ 
+ static inline int own_fpu_inatomic(int restore)
+diff --git a/arch/mips/kernel/elf.c b/arch/mips/kernel/elf.c
+index 7aa2c2360ff6..f0e7fe85a42a 100644
+--- a/arch/mips/kernel/elf.c
++++ b/arch/mips/kernel/elf.c
+@@ -318,6 +318,10 @@ void mips_set_personality_nan(struct arch_elf_state *state)
+ 	t->thread.fpu.fcr31 = c->fpu_csr31;
+ 	switch (state->nan_2008) {
+ 	case 0:
++		if (!(c->fpu_msk31 & FPU_CSR_NAN2008))
++			t->thread.fpu.fcr31 &= ~FPU_CSR_NAN2008;
++		if (!(c->fpu_msk31 & FPU_CSR_ABS2008))
++			t->thread.fpu.fcr31 &= ~FPU_CSR_ABS2008;
+ 		break;
+ 	case 1:
+ 		if (!(c->fpu_msk31 & FPU_CSR_NAN2008))
+diff --git a/arch/mips/kernel/fpu-probe.c b/arch/mips/kernel/fpu-probe.c
+index e689d6a83234..6bf3f19b1c33 100644
+--- a/arch/mips/kernel/fpu-probe.c
++++ b/arch/mips/kernel/fpu-probe.c
+@@ -144,7 +144,7 @@ static void cpu_set_fpu_2008(struct cpuinfo_mips *c)
+  * IEEE 754 conformance mode to use.  Affects the NaN encoding and the
+  * ABS.fmt/NEG.fmt execution mode.
+  */
+-static enum { STRICT, LEGACY, STD2008, RELAXED } ieee754 = STRICT;
++static enum { STRICT, EMULATED, LEGACY, STD2008, RELAXED } ieee754 = STRICT;
+ 
+ /*
+  * Set the IEEE 754 NaN encodings and the ABS.fmt/NEG.fmt execution modes
+@@ -160,6 +160,7 @@ static void cpu_set_nofpu_2008(struct cpuinfo_mips *c)
+ 
+ 	switch (ieee754) {
+ 	case STRICT:
++	case EMULATED:
+ 		if (c->isa_level & (MIPS_CPU_ISA_M32R1 | MIPS_CPU_ISA_M64R1 |
+ 				    MIPS_CPU_ISA_M32R2 | MIPS_CPU_ISA_M64R2 |
+ 				    MIPS_CPU_ISA_M32R5 | MIPS_CPU_ISA_M64R5 |
+@@ -204,6 +205,10 @@ static void cpu_set_nan_2008(struct cpuinfo_mips *c)
+ 		mips_use_nan_legacy = !cpu_has_nan_2008;
+ 		mips_use_nan_2008 = !!cpu_has_nan_2008;
+ 		break;
++	case EMULATED:
++		/* Pretend ABS2008/NAN2008 options are dynamic */
++		c->fpu_msk31 &= ~(FPU_CSR_NAN2008 | FPU_CSR_ABS2008);
++		fallthrough;
+ 	case RELAXED:
+ 		mips_use_nan_legacy = true;
+ 		mips_use_nan_2008 = true;
+@@ -226,6 +231,8 @@ static int __init ieee754_setup(char *s)
+ 		return -1;
+ 	else if (!strcmp(s, "strict"))
+ 		ieee754 = STRICT;
++	else if (!strcmp(s, "emulated"))
++		ieee754 = EMULATED;
+ 	else if (!strcmp(s, "legacy"))
+ 		ieee754 = LEGACY;
+ 	else if (!strcmp(s, "2008"))
 
-All warnings (new ones prefixed by >>):
+---
+base-commit: 93a39e4766083050ca0ecd6a3548093a3b9eb60c
+change-id: 20240507-mips_ieee754_emul-d17865fd9870
 
->> drivers/firmware/imx/ele_common.c:27:6: warning: variable 'err' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-      27 |         if (!wait_for_completion_timeout(&priv->done, wait)) {
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/firmware/imx/ele_common.c:36:9: note: uninitialized use occurs here
-      36 |         return err;
-         |                ^~~
-   drivers/firmware/imx/ele_common.c:27:2: note: remove the 'if' if its condition is always true
-      27 |         if (!wait_for_completion_timeout(&priv->done, wait)) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/firmware/imx/ele_common.c:24:9: note: initialize the variable 'err' to silence this warning
-      24 |         int err;
-         |                ^
-         |                 = 0
-   1 warning generated.
---
-   In file included from drivers/firmware/imx/ele_base_msg.c:8:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2188:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/firmware/imx/ele_base_msg.c:23:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-      23 |         if (!priv || !s_info)
-         |             ^~~~~~~~~~~~~~~~
-   drivers/firmware/imx/ele_base_msg.c:114:9: note: uninitialized use occurs here
-     114 |         return ret;
-         |                ^~~
-   drivers/firmware/imx/ele_base_msg.c:23:2: note: remove the 'if' if its condition is always false
-      23 |         if (!priv || !s_info)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-      24 |                 goto exit;
-         |                 ~~~~~~~~~
->> drivers/firmware/imx/ele_base_msg.c:23:6: warning: variable 'ret' is used uninitialized whenever '||' condition is true [-Wsometimes-uninitialized]
-      23 |         if (!priv || !s_info)
-         |             ^~~~~
-   drivers/firmware/imx/ele_base_msg.c:114:9: note: uninitialized use occurs here
-     114 |         return ret;
-         |                ^~~
-   drivers/firmware/imx/ele_base_msg.c:23:6: note: remove the '||' if its condition is always false
-      23 |         if (!priv || !s_info)
-         |             ^~~~~~~~
-   drivers/firmware/imx/ele_base_msg.c:21:9: note: initialize the variable 'ret' to silence this warning
-      21 |         int ret;
-         |                ^
-         |                 = 0
->> drivers/firmware/imx/ele_base_msg.c:23:6: warning: variable 'get_info_addr' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-      23 |         if (!priv || !s_info)
-         |             ^~~~~~~~~~~~~~~~
-   drivers/firmware/imx/ele_base_msg.c:103:6: note: uninitialized use occurs here
-     103 |         if (get_info_addr) {
-         |             ^~~~~~~~~~~~~
-   drivers/firmware/imx/ele_base_msg.c:23:2: note: remove the 'if' if its condition is always false
-      23 |         if (!priv || !s_info)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-      24 |                 goto exit;
-         |                 ~~~~~~~~~
->> drivers/firmware/imx/ele_base_msg.c:23:6: warning: variable 'get_info_addr' is used uninitialized whenever '||' condition is true [-Wsometimes-uninitialized]
-      23 |         if (!priv || !s_info)
-         |             ^~~~~
-   drivers/firmware/imx/ele_base_msg.c:103:6: note: uninitialized use occurs here
-     103 |         if (get_info_addr) {
-         |             ^~~~~~~~~~~~~
-   drivers/firmware/imx/ele_base_msg.c:23:6: note: remove the '||' if its condition is always false
-      23 |         if (!priv || !s_info)
-         |             ^~~~~~~~
-   drivers/firmware/imx/ele_base_msg.c:18:27: note: initialize the variable 'get_info_addr' to silence this warning
-      18 |         phys_addr_t get_info_addr;
-         |                                  ^
-         |                                   = 0
-   9 warnings generated.
-
-
-vim +27 drivers/firmware/imx/ele_common.c
-
-    20	
-    21	int imx_ele_msg_rcv(struct se_if_priv *priv)
-    22	{
-    23		u32 wait;
-    24		int err;
-    25	
-    26		wait = msecs_to_jiffies(1000);
-  > 27		if (!wait_for_completion_timeout(&priv->done, wait)) {
-    28			dev_err(priv->dev,
-    29					"Error: wait_for_completion timed out.\n");
-    30			err = -ETIMEDOUT;
-    31		}
-    32	
-    33		mutex_unlock(&priv->se_if_cmd_lock);
-    34		priv->no_dev_ctx_used = false;
-    35	
-    36		return err;
-    37	}
-    38	
-
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jiaxun Yang <jiaxun.yang@flygoat.com>
+
