@@ -1,256 +1,188 @@
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E70F5336A;
-	Sat, 11 May 2024 13:38:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D19D366;
+	Sat, 11 May 2024 19:07:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715434722; cv=none; b=g8sDTcWBsKkIPJhrzIjbLQokzAr3WXqzGwA3q8trlJslRGWHgcD+gn+6YimT7wvGTSS9Evyn9QvPenHsR1vQBybt2W4eQ8x9XOKOcgLBo4U7FnvQQtCkwfgEnyDnuv89MIDN5UeV0xwj/lsc3cluWm5oa73gMAQjQLh9iSnLKT4=
+	t=1715454423; cv=none; b=Tw/ugTKcJa22s3NLyLHjAk+rTzLdXZvVHF7dfti1Ukr/AMKJ/XG5nI7DzqmCUfiGISTe7Bg7F3FoI5tL1b8bnvwlznBEb2iGKs7zn/kXMqMhnyQasDkc7nqIEMMDddxhELzz4/+p1tUjMFHvVw1/e1w/XsLYlj6C1oMiNmeo5Ic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715434722; c=relaxed/simple;
-	bh=OqBaqr7bnEw6rO87FVZ50xtATfSlYMFCyhoeQBBHomw=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=jxdMUcyp/salhjezrxt4crt4siRi/j4tCqJRAVm+KzueDd1+YxWqksZCtGdVec503+R4ndcqE9XWfUc8+rgxj3Meqz66cCUE3oksYVPK2GPJNU2tyCxrz8k7gYXBXiOWPji7ARl7gjEujmkjFZdvmaB01ItB5+5jEjLM+SpnZF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c1gXwK/D; arc=none smtp.client-ip=209.85.160.46
+	s=arc-20240116; t=1715454423; c=relaxed/simple;
+	bh=hHRqAUoBRH82pJuymk4l5g2SstMzMc4ea1ZkfNBzjC8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=PN+m0O2aeolQokhjeKXPJzWhKjWxS62c0A29GMkDX1J8S/INRjl26vUUGucegBYKthw6ZbaTYMZ1Tt5W3YFhbatym0Z5QMMupQa5HNrz2aekGNIGN8jAd+byQHzmYIkzUvAxZD0GG8JYMQZjP5ydw2JgmOsPM3Ebc3VdhgEXf0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j3h/p2T6; arc=none smtp.client-ip=209.85.210.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c1gXwK/D"
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-23f9d07829bso1602950fac.3;
-        Sat, 11 May 2024 06:38:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j3h/p2T6"
+Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-6f44881ad9eso2603267b3a.3;
+        Sat, 11 May 2024 12:07:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715434719; x=1716039519; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:reply-to:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6DFWICMD/WCOO9Yd1F/zaNQYZJnd1UcLXgXaWszNeVU=;
-        b=c1gXwK/DtHeqeyCedFR3y1TCsGtTiiJcOrbmwC5gpwmYkjTnt6aQ28ryWjrzxgFN3o
-         hVfnASV/Tl3bvM5x6NnVd5hyP/kAXp1Ov7WMA1+WuSHIkmii/mwst+ieCSCdV9ACjWOw
-         bHfVJMFBMlRok0lwnX3zKrFqc44Q/1mcFKaBm7nMHDsHqn9UybC6WHcPUUuh8M8yx6kz
-         6QlMaOEwbshvKybUcuqn8y8eL0AjStB5/aS57XdYqYt40J1p2fh0F6iuQdXeRZCZCNDn
-         gjhjb2Vyz6fC9OaliNjKH4T7fGYAo76BKFtmS6Vw1HjAhLUpBdkjgV882KuyHuyXXJq/
-         lprA==
+        d=gmail.com; s=20230601; t=1715454421; x=1716059221; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kKFpB0RxiHeU9h9LrzBPuEHdR23O3Fp1vgl2G/bmm/Y=;
+        b=j3h/p2T6IKUYLsCGEaV8qo44dgPmQxiD7RykXf0EWABlWpYDuSXISSdQktvxUNJSJ4
+         qWOrUsuRF6uYWBszLiMBjEb9ldNHM9OlJbqSerKp0jibE/vpuOPV5U6dO/X3xYHMz0Zx
+         D+6fpNqufz51b6cfA1WSR83uNsSH0cWAx6L8Tpm4OQrcn1CLuoNyob0GPxFA24JVC8ZC
+         E+XNCvWqxFF3Chdv1Xjs4wabgn7v85MA+Qc5bQTW4J9HfUaotd4oI1xHlbZFEKrQzZJs
+         +12S9hZRH6CZ5MPLAW5obggGRZbmkHPXFS1LKwHRUyeV4iL6sIMqhakrYRpOEs7NDxnL
+         Oy1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715434719; x=1716039519;
-        h=content-transfer-encoding:mime-version:reply-to:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=6DFWICMD/WCOO9Yd1F/zaNQYZJnd1UcLXgXaWszNeVU=;
-        b=fxzf1hu4gztGTN79i9ttuUZkbhoYBduFRSoR2upSzU1x/USp7Oe+fFsTnkecSzluEY
-         WVCVPm+VjP8q/0YsNXuUc1mI7IBwPybwLs96lYy5nJ1DKDSn1crxAiTXFcjl9bbgjVa0
-         K1UBk5a6SLdJzDij4LkgIAQjurFR9Axrp+Ovg422FhpS5Zk1zNXifKLuXgoeMa1N0jph
-         Rn2vGgLTawQqm5uNpyBeKFKM5oWwKS9PcRs8XOxzIXUi1m86zYiZlEYJULRHMMiBtnS5
-         c4PkB5mBQzY5UuHY4XvNzJYUvOSv16zJbDLIvHnE75Qi3FVyV56rNgGVuU57xhUdBygI
-         LlCA==
-X-Forwarded-Encrypted: i=1; AJvYcCUjdUK/U6OfmS/DXP9R3J7M4Qkb0pDXn1c4OmqQ4P/NNDPFK9q65EDztzRqE+H+QwQKS5nq2qNp8akkV1RAUn3cAvH0DdjPmxh8kibkVsNrtb6Ij2LExdogPX5wk3faIorBWqzJHtY1LmhE9z/uLh0n2Z2T6RsrAhseN0lMls8pCWQwClkb
-X-Gm-Message-State: AOJu0YwOx1u6zPKJ5Prh7sOd5+cyFyIB+J0fqkBIhDyjolSx/LvfoJAV
-	lKmYAf4XcjMFEou0K0AXp73L6LA7/FocBfg8ibDGd4y0GzX0RSft
-X-Google-Smtp-Source: AGHT+IHq0bKnJHe+wXHJcEWwVuU6a0I4Wz9D2EL5ocxSJPlGkxXW1tmNvEOlwFCGs/AMV27D8sXBEQ==
-X-Received: by 2002:a05:6871:d282:b0:233:f233:c3ee with SMTP id 586e51a60fabf-24172fc18c8mr6270539fac.50.1715434717764;
-        Sat, 11 May 2024 06:38:37 -0700 (PDT)
-Received: from localhost.localdomain ([67.161.114.176])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4f399b656sm767146b3a.139.2024.05.11.06.38.36
+        d=1e100.net; s=20230601; t=1715454421; x=1716059221;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kKFpB0RxiHeU9h9LrzBPuEHdR23O3Fp1vgl2G/bmm/Y=;
+        b=AeoM6HKxBawhGL5Pj1pgQCnMBZEK0A12g/2MXmmtP9yp3blAfKGOKpzKzyZHb4DtST
+         W+fFu/RIctEPaG7J9SgwF/ysBg7IArjpKW2DjEpmUts8FZURkqTXf+9h5+y/Vldjpli0
+         mTvMEzT3bPxA/0yTl/T2RUe6u/Vq9XtdwsbAZ8BdIQcmQ9eKiCm2g7H1LEZv/kNmm30n
+         SnQG6o+x5wWTWE0UbnPY15THpTxjBPDhJ7PvFipD0HF6+4+SO540YmZ98Q8Ic26UU4Hi
+         V0JFFJz2GmXmmLuPSdRsqLNBwF9GYHJhE/RzYLFIjmrl9qhe02ToPVkmQTkw/PWp/uao
+         p/Fg==
+X-Forwarded-Encrypted: i=1; AJvYcCXRNlu0sHLqzRk8qqojEX0pK/YwmF/B06XwjmsuBlBJAeITOtrYhF46CqYy1MuKJdnUMFvp24Lh1BKTyQGoamG/mV10VImyYvP66B5uywI2+bop8Nlujuc0BLWHSZY+M63pq/cVZ81Q260tz9zkw6bLMF1eUIPewEAIbpG15a3F76wM
+X-Gm-Message-State: AOJu0YxPeigPN39aA9wlGFsc2RNRi4u1e1A4pMn9lWEJ0B3a0bXsx/aB
+	WotWvSsX7QFf7K2JEeak23gtI3wixp/8+o0kRlnfACJbJWch4NTg
+X-Google-Smtp-Source: AGHT+IGmo2f78jWcqywMtYZHpVsGSJ2APhbQt+bMScxXaLDUI2+mPESa9uh0vzNCj3GOlsrEu3zlxg==
+X-Received: by 2002:a05:6a21:2709:b0:1af:d240:2c14 with SMTP id adf61e73a8af0-1afde0a9c02mr6414939637.6.1715454421184;
+        Sat, 11 May 2024 12:07:01 -0700 (PDT)
+Received: from paran-QEMU-Virtual-Machine.. ([118.32.98.101])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2b62863a22dsm7093588a91.3.2024.05.11.12.06.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 May 2024 06:38:37 -0700 (PDT)
-From: mhkelley58@gmail.com
-X-Google-Original-From: mhklinux@outlook.com
-To: haiyangz@microsoft.com,
-	wei.liu@kernel.org,
-	decui@microsoft.com,
-	kys@microsoft.com,
-	corbet@lwn.net,
+        Sat, 11 May 2024 12:07:00 -0700 (PDT)
+From: yskelg@gmail.com
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Austin Kim <austindh.kim@gmail.com>,
+	shjy180909@gmail.com,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v2 2/2] Documentation: hyperv: Improve synic and interrupt handling description
-Date: Sat, 11 May 2024 06:38:18 -0700
-Message-Id: <20240511133818.19649-2-mhklinux@outlook.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20240511133818.19649-1-mhklinux@outlook.com>
-References: <20240511133818.19649-1-mhklinux@outlook.com>
-Reply-To: mhklinux@outlook.com
+	Yunseong Kim <yskelg@gmail.com>
+Subject: [PATCH] Documentation: security-bugs Korean translation
+Date: Sun, 12 May 2024 04:06:40 +0900
+Message-Id: <20240511190639.20235-1-yskelg@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Michael Kelley <mhklinux@outlook.com>
+From: Yunseong Kim <yskelg@gmail.com>
 
-Current documentation does not describe how Linux handles the synthetic
-interrupt controller (synic) that Hyper-V provides to guest VMs, nor how
-VMBus or timer interrupts are handled. Add text describing the synic and
-reorganize existing text to make this more clear.
+This is a Documentation/process/security-bugs korean version.
 
-Signed-off-by: Michael Kelley <mhklinux@outlook.com>
+Signed-off-by: Yunseong Kim <yskelg@gmail.com>
 ---
-Changes in v2:
-* In clocks.rst, made a hyperlink for the reference to VMBus documentation
-  [Easwar Hariharan]
+ .../ko_KR/process/security-bugs.rst           | 96 +++++++++++++++++++
+ 1 file changed, 96 insertions(+)
+ create mode 100644 Documentation/translations/ko_KR/process/security-bugs.rst
 
- Documentation/virt/hyperv/clocks.rst | 21 +++++---
- Documentation/virt/hyperv/vmbus.rst  | 79 ++++++++++++++++++----------
- 2 files changed, 66 insertions(+), 34 deletions(-)
-
-diff --git a/Documentation/virt/hyperv/clocks.rst b/Documentation/virt/hyperv/clocks.rst
-index a56f4837d443..176043265803 100644
---- a/Documentation/virt/hyperv/clocks.rst
-+++ b/Documentation/virt/hyperv/clocks.rst
-@@ -62,12 +62,21 @@ shared page with scale and offset values into user space.  User
- space code performs the same algorithm of reading the TSC and
- applying the scale and offset to get the constant 10 MHz clock.
- 
--Linux clockevents are based on Hyper-V synthetic timer 0. While
--Hyper-V offers 4 synthetic timers for each CPU, Linux only uses
--timer 0. Interrupts from stimer0 are recorded on the "HVS" line in
--/proc/interrupts.  Clockevents based on the virtualized PIT and
--local APIC timer also work, but the Hyper-V synthetic timer is
--preferred.
-+Linux clockevents are based on Hyper-V synthetic timer 0 (stimer0).
-+While Hyper-V offers 4 synthetic timers for each CPU, Linux only uses
-+timer 0. In older versions of Hyper-V, an interrupt from stimer0
-+results in a VMBus control message that is demultiplexed by
-+vmbus_isr() as described in the Documentation/virt/hyperv/vmbus.rst
-+documentation. In newer versions of Hyper-V, stimer0 interrupts can
-+be mapped to an architectural interrupt, which is referred to as
-+"Direct Mode". Linux prefers to use Direct Mode when available. Since
-+x86/x64 doesn't support per-CPU interrupts, Direct Mode statically
-+allocates an x86 interrupt vector (HYPERV_STIMER0_VECTOR) across all CPUs
-+and explicitly codes it to call the stimer0 interrupt handler. Hence
-+interrupts from stimer0 are recorded on the "HVS" line in /proc/interrupts
-+rather than being associated with a Linux IRQ. Clockevents based on the
-+virtualized PIT and local APIC timer also work, but Hyper-V stimer0
-+is preferred.
- 
- The driver for the Hyper-V synthetic system clock and timers is
- drivers/clocksource/hyperv_timer.c.
-diff --git a/Documentation/virt/hyperv/vmbus.rst b/Documentation/virt/hyperv/vmbus.rst
-index f0d83ebda626..1dcef6a7fda3 100644
---- a/Documentation/virt/hyperv/vmbus.rst
-+++ b/Documentation/virt/hyperv/vmbus.rst
-@@ -102,10 +102,10 @@ resources.  For Windows Server 2019 and later, this limit is
- approximately 1280 Mbytes.  For versions prior to Windows Server
- 2019, the limit is approximately 384 Mbytes.
- 
--VMBus messages
----------------
--All VMBus messages have a standard header that includes the message
--length, the offset of the message payload, some flags, and a
-+VMBus channel messages
-+----------------------
-+All messages sent in a VMBus channel have a standard header that includes
-+the message length, the offset of the message payload, some flags, and a
- transactionID.  The portion of the message after the header is
- unique to each VSP/VSC pair.
- 
-@@ -137,7 +137,7 @@ control message contains a list of GPAs that describe the data
- buffer.  For example, the storvsc driver uses this approach to
- specify the data buffers to/from which disk I/O is done.
- 
--Three functions exist to send VMBus messages:
-+Three functions exist to send VMBus channel messages:
- 
- 1. vmbus_sendpacket():  Control-only messages and messages with
-    embedded data -- no GPAs
-@@ -165,6 +165,37 @@ performed in this temporary buffer without the risk of Hyper-V
- maliciously modifying the message after it is validated but before
- it is used.
- 
-+Synthetic Interrupt Controller (synic)
-+--------------------------------------
-+Hyper-V provides each guest CPU with a synthetic interrupt controller
-+that is used by VMBus for host-guest communication. While each synic
-+defines 16 synthetic interrupts (SINT), Linux uses only one of the 16
-+(VMBUS_MESSAGE_SINT). All interrupts related to communication between
-+the Hyper-V host and a guest CPU use that SINT.
+diff --git a/Documentation/translations/ko_KR/process/security-bugs.rst b/Documentation/translations/ko_KR/process/security-bugs.rst
+new file mode 100644
+index 000000000000..b8f16fe846ac
+--- /dev/null
++++ b/Documentation/translations/ko_KR/process/security-bugs.rst
+@@ -0,0 +1,96 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+The SINT is mapped to a single per-CPU architectural interrupt (i.e,
-+an 8-bit x86/x64 interrupt vector, or an arm64 PPI INTID). Because
-+each CPU in the guest has a synic and may receive VMBus interrupts,
-+they are best modeled in Linux as per-CPU interrupts. This model works
-+well on arm64 where a single per-CPU Linux IRQ is allocated for
-+VMBUS_MESSAGE_SINT. This IRQ appears in /proc/interrupts as an IRQ labelled
-+"Hyper-V VMbus". Since x86/x64 lacks support for per-CPU IRQs, an x86
-+interrupt vector is statically allocated (HYPERVISOR_CALLBACK_VECTOR)
-+across all CPUs and explicitly coded to call vmbus_isr(). In this case,
-+there's no Linux IRQ, and the interrupts are visible in aggregate in
-+/proc/interrupts on the "HYP" line.
++:Original: Documentation/process/security-bugs.rst
++:Translator: Yunseong Kim <yskelg@gmail.com>
 +
-+The synic provides the means to demultiplex the architectural interrupt into
-+one or more logical interrupts and route the logical interrupt to the proper
-+VMBus handler in Linux. This demultiplexing is done by vmbus_isr() and
-+related functions that access synic data structures.
++보안 버그
++=========
 +
-+The synic is not modeled in Linux as an irq chip or irq domain,
-+and the demultiplexed logical interrupts are not Linux IRQs. As such,
-+they don't appear in /proc/interrupts or /proc/irq. The CPU
-+affinity for one of these logical interrupts is controlled via an
-+entry under /sys/bus/vmbus as described below.
++Linux 커널 개발자는 보안을 매우 중요하게 생각합니다.
++따라서 보안 버그를 발견하면 가능한 한 빨리 수정하고 공개할 수 있도록
++알려주시기 바랍니다. 보안 버그를 Linux 커널 보안 팀에 신고해 주세요.
 +
- VMBus interrupts
- ----------------
- VMBus provides a mechanism for the guest to interrupt the host when
-@@ -176,16 +207,18 @@ unnecessary.  If a guest sends an excessive number of unnecessary
- interrupts, the host may throttle that guest by suspending its
- execution for a few seconds to prevent a denial-of-service attack.
- 
--Similarly, the host will interrupt the guest when it sends a new
--message on the VMBus control path, or when a VMBus channel "in" ring
--buffer transitions from empty to non-empty.  Each CPU in the guest
--may receive VMBus interrupts, so they are best modeled as per-CPU
--interrupts in Linux.  This model works well on arm64 where a single
--per-CPU IRQ is allocated for VMBus.  Since x86/x64 lacks support for
--per-CPU IRQs, an x86 interrupt vector is statically allocated (see
--HYPERVISOR_CALLBACK_VECTOR) across all CPUs and explicitly coded to
--call the VMBus interrupt service routine.  These interrupts are
--visible in /proc/interrupts on the "HYP" line.
-+Similarly, the host will interrupt the guest via the synic when
-+it sends a new message on the VMBus control path, or when a VMBus
-+channel "in" ring buffer transitions from empty to non-empty due to
-+the host inserting a new VMBus channel message. The control message stream
-+and each VMBus channel "in" ring buffer are separate logical interrupts
-+that are demultiplexed by vmbus_isr(). It demultiplexes by first checking
-+for channel interrupts by calling vmbus_chan_sched(), which looks at a synic
-+bitmap to determine which channels have pending interrupts on this CPU.
-+If multiple channels have pending interrupts for this CPU, they are
-+processed sequentially.  When all channel interrupts have been processed,
-+vmbus_isr() checks for and processes any messages received on the VMBus
-+control path.
- 
- The guest CPU that a VMBus channel will interrupt is selected by the
- guest when the channel is created, and the host is informed of that
-@@ -212,10 +245,9 @@ neither "unmanaged" nor "managed" interrupts.
- The CPU that a VMBus channel will interrupt can be seen in
- /sys/bus/vmbus/devices/<deviceGUID>/ channels/<channelRelID>/cpu.
- When running on later versions of Hyper-V, the CPU can be changed
--by writing a new value to this sysfs entry.  Because the interrupt
--assignment is done outside of the normal Linux affinity mechanism,
--there are no entries in /proc/irq corresponding to individual
--VMBus channel interrupts.
-+by writing a new value to this sysfs entry. Because VMBus channel
-+interrupts are not Linux IRQs, there are no entries in /proc/interrupts
-+or /proc/irq corresponding to individual VMBus channel interrupts.
- 
- An online CPU in a Linux guest may not be taken offline if it has
- VMBus channel interrupts assigned to it.  Any such channel
-@@ -223,15 +255,6 @@ interrupts must first be manually reassigned to another CPU as
- described above.  When no channel interrupts are assigned to the
- CPU, it can be taken offline.
- 
--When a guest CPU receives a VMBus interrupt from the host, the
--function vmbus_isr() handles the interrupt.  It first checks for
--channel interrupts by calling vmbus_chan_sched(), which looks at a
--bitmap setup by the host to determine which channels have pending
--interrupts on this CPU.  If multiple channels have pending
--interrupts for this CPU, they are processed sequentially.  When all
--channel interrupts have been processed, vmbus_isr() checks for and
--processes any message received on the VMBus control path.
--
- The VMBus channel interrupt handling code is designed to work
- correctly even if an interrupt is received on a CPU other than the
- CPU assigned to the channel.  Specifically, the code does not use
++제보하기
++--------
++
++Linux 커널 보안팀은 <security@kernel.org> 이메일로 연락할 수 있습니다.
++버그 신고를 확인하고 수정 사항을 개발 및 릴리스하는 데 도움을 줄 보안 담당자의
++비공개 목록입니다. 이미 수정 사항이 있는 경우 신고에 포함하면 처리 속도가
++상당히 빨라질 수 있습니다. 보안팀이 보안 취약점을 파악하고 수정하기 위해
++영역 관리자의 도움을 추가로 받을 수도 있습니다.
++
++모든 버그가 그렇듯이 더 많은 정보를 제공할수록 진단과 수정이 더 쉬워집니다.
++어떤 정보가 도움이 될지 잘 모르겠다면
++'Documentation/admin-guide/reporting-issues.rst'에
++나와있는 문제 신고하기 절차를 검토해 주세요. 모든 보안 취약점 공격 코드는
++매우 유용하며 이미 공개되어 있지 않은 한 신고자의 동의 없이 공개되지 않습니다.
++
++가능한 경우 첨부 파일 없이 일반 텍스트 이메일을 보내주세요.
++첨부 파일에 모든 세부 사항이 숨겨져 있으면 복잡한 문제에 대해 맥락에 맞는
++토론을 하기가 훨씬 더 어렵습니다. (아직 패치가 없는 경우라도) :doc:`일반적인
++패치 제출<../../../process/submitting-patches>`과 마찬가지로 문제와 영향을
++설명하고, 재현 단계를 나열하고, 제안된 수정 사항을 모두 일반 텍스트로
++작성하세요.
++
++공개 및 엠바고 정보
++-------------------
++
++보안 목록은 공개 채널이 아닙니다. 이에 대해서는 아래의 조정 사항을 참조하세요.
++강력한 수정이 개발되면 릴리스 프로세스가 시작됩니다. 공개적으로 알려진 버그에
++대한 수정 사항은 즉시 릴리스됩니다.
++
++공개적으로 알려지지 않은 버그에 대한 수정 사항이 제공되는 즉시 공개하는 것을
++선호하지만, 신고자 또는 영향을 받는 당사자의 요청에 따라 공개 프로세스
++시작일로부터 최대 7일 동안 연기될 수 있으며, 버그의 중요도에 따라 시간이 더
++필요하다는 데 동의하는 경우 예외적으로 14일까지 연장될 수 있습니다.
++수정 사항 공개를 연기할 수 있는 유일한 유효한 이유는 릴리스 조율이 필요한 QA
++및 대규모 롤아웃의 복잡한 실행 계획을 수용하기 위해서입니다.
++
++엠바고된 정보는 수정 개발을 위해 신뢰할 수 있는 개인과 공유할 수 있지만,
++신고자의 허가 없이 수정 사항과 함께 또는 다른 공개 채널에 게시할 수 없습니다.
++여기에는 원래의 버그 보고서와 후속 논의(있는 경우), 보안 취약점 공격 코드,
++CVE 정보 또는 신고자의 신원이 포함되지만 이에 국한되지 않습니다.
++
++다시 말해, 저희의 유일한 관심사는 버그 수정입니다. 보안 목록에 제출된 기타
++모든 정보와 보고에 대한 후속 논의는 엠바고가 해제된 후에도 영구적으로 기밀로
++취급됩니다.
++
++다른 그룹과의 협력
++------------------
++
++커널 보안팀은 버그 수정에만 집중하는 반면, 다른 그룹은 배포판의 문제를
++해결하고 운영 체제 공급업체 간의 공개를 조율하는 데 중점을 둡니다.
++조율은 일반적으로 "리눅스 배포판" 메일링 리스트에서 처리하고 공개는
++공공의 "oss-security" 메일링 리스트에서 처리하며, 이 둘은 서로 밀접하게
++관련되어 있으며 리눅스 배포판 위키에 제시되어 있습니다:
++<https://oss-security.openwall.org/wiki/mailing-lists/distros>
++
++세 가지 목록들이 추구하는 목표가 다르기 때문에 각각의 정책과 규칙이 다르다는
++점에 유의하세요. 커널 보안 팀과 다른 팀 간의 조율이 어려운 이유는
++커널 보안 팀의 경우 간혹 엠바고(최대 허용 일수에 따라)는 수정이 가능한
++시점부터 시작하지만, "리눅스 배포판"의 경우 수정 가능 여부와 관계없이 초기
++게시물부터 목록에 올라오기 때문입니다.
++
++따라서 커널 보안팀은 잠재적인 보안 문제를 신고하는 경우 해당 코드의
++메인테이너가 수정 사항을 수락하고 위의 배포판 위키 페이지를 읽었으며
++"리눅스 배포판" 메일링 리스트에 연락하는 것이 자신과 커널 커뮤니티에 부과되는
++요구 사항임을 완벽히 이해할 때까지 "리눅스 배포판"에 연락하지 않을 것을
++강력히 권장합니다. 이는 또한 일반적으로 수락된 수정 사항이 아직 병합되지 않은
++상태에서 조정을 위한 경우를 제외하고는 두 목록을 한 번에 참조하는 것이
++합리적이지 않다는 것을 의미합니다. 즉, 수정 사항이 수락될 때까지는
++"리눅스 배포판"을 메일에 참조하지 말고, 병합된 후에는 커널 보안 팀을 메일에
++참조하지 마세요.
++
++CVE 할당
++--------
++
++보안팀은 불필요하게 프로세스를 복잡하게 만들고 버그 처리를 지연시킬 수
++있으므로 보고나 수정에 대해 CVE를 할당하지 않으며, 이를 요구하지도 않습니다.
++보고자가 확인된 문제에 대해 CVE 식별자를 할당받고자 하는 경우 :doc:`커널 CVE
++할당팀<../../../process/cve>`에 연락하여 할당받을 수 있습니다.
++
++비공개 계약서
++-------------
++
++Linux 커널 보안 팀은 공식적인 기관이 아니므로 기밀 유지 계약을 체결할 수
++없습니다.
 -- 
-2.25.1
+2.34.1
 
