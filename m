@@ -1,219 +1,161 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E84C17991;
-	Sat, 11 May 2024 03:03:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715396626; cv=fail; b=fCjZ4VNJh1j3fTAvqhkU45P2nC/3zdzJeAowi1fzXwUTNbTyF+GgYrN3Pxlr7FM7Pj/EMUekI+w0yrRMqINCtPNf4JnRr/pnOmT+gzvTuOShCDfp/nrRSZ0QPwrXaBIqSmeHl9Sw7Zc4MNtz7ymvwsN0HDPvxU88ZAm1lGTKNQc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715396626; c=relaxed/simple;
-	bh=KEu9KPruJS7aILqBRpJCouKhzSPNi9LQmjahLrsAN5s=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Z2ylFTiqD20pw85qRxh5YO2Y4ufMipp85+XPpF//MTf0x37+yIr8Z45KEj6rW4Sui/o9tUSO73CwWCZl+r9bIpWPF9DSAwv938S42NwCanytbWXDwU24f9ZtpE2IMgFrgn+GJy7dT35uNb3wLxSMwBHntMj1YvlqShejUjnuBUo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TrtRSc5R; arc=fail smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3253D4653C;
+	Sat, 11 May 2024 05:30:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715405454; cv=none; b=cjUII0alStyVv4pqSIeWrSCHCVlbU/jtGVsMBy+u8ppXYhRUAW+FBudH7epWult+R8HVhCAAqK0AOjmWNbnmoWcWp8VkOPDLVF0zGzX6M67N+cfOW+gdH4cbbT3ltFuUOls1/TuyZNBjfWApYyA8+KnpmdudI/zUDPkrJMtFxgk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715405454; c=relaxed/simple;
+	bh=rQ1c7y7bZSRr0Y8VPoLgL/gNE+kEqKqhcHEmsbqe1Ro=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ne5nERiCmK0AsKW7FWui4mIJVqtHEB7kIcRgw/1AqprEdjEs8XslCcH33RQyHrZz7wsB38Rg6zmvzaWIOEcKH+aQKbEaf42/p6EEuTV34E3bSoqHn34xvVNZAkmaH/U9kGPpQ61ATObGD01m9mp3qapuUgu74eBwcjMo6o4R/6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TsH2yEUi; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TrtRSc5R"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TsH2yEUi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715396624; x=1746932624;
+  t=1715405452; x=1746941452;
   h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=KEu9KPruJS7aILqBRpJCouKhzSPNi9LQmjahLrsAN5s=;
-  b=TrtRSc5RoVWZjU/2qSNOBQnFKhVpVyZ7mJqwIpW3v33DwhurT/Mq1jNR
-   xoDNw/xIv7AQSbwR721TU+0ZJtoQ/PMleUGuJ8kfb1GkICd6yMQhGm8K0
-   F5Wf1g9G+l+xhiiqV6pqYjven7q/UzLjAVBiO1/pr+LrTL6Ui8g4qTsPY
-   qMREVFKZ3CdOVmvbceft6pUzjp8+9CRguiWvNGZHz5SvC5eErAT7R51zT
-   KiNcCyJxNVSDKy/uwdDoltLSLJ7tTdcg9WP1llSjwXRu95wa+g6uLe6oc
-   gz6hcJLoY0hG4vSDePv19RWtX6u/KUvA+da4LlWj7Vb/9lXrDBGtB/8f/
-   A==;
-X-CSE-ConnectionGUID: VOGWP5rcQ/uxolBCSDxpRg==
-X-CSE-MsgGUID: U0Bk6jmDRPWElPHT3KYTDA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11069"; a="15210565"
-X-IronPort-AV: E=Sophos;i="6.08,152,1712646000"; 
-   d="scan'208";a="15210565"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 20:03:43 -0700
-X-CSE-ConnectionGUID: RbxzKIwlScG3WaTbHuyWxA==
-X-CSE-MsgGUID: cft/hT7mTNSAJv9GzgVOaA==
+   mime-version:in-reply-to;
+  bh=rQ1c7y7bZSRr0Y8VPoLgL/gNE+kEqKqhcHEmsbqe1Ro=;
+  b=TsH2yEUiIGCkFS3jmLSBNRQMylh1Lhu/qpTOkB91E4Va9xEY38Wrb0j4
+   x7gF2GBsx8ILsH45awhvzVbqID24i5UcCz9F7d+l4oF+pb06XOK83cFnH
+   0bDwg/xe9aI2xH9z8oyCe6EynypTKNIJN0EGY2e/EtMgipuGboe8ZZLiT
+   zwGALGm99nVWleW7K8soqvZAswc6fDFth4bsoiE2BCO9Wtzo/AvykJKb6
+   Z5NXGqWbPZfqqK49YmjRXE+S5uhtj57oyT8Tjhu+xZBRklB5j4R0zavH/
+   ai/cZUYG2h5z5PsKh1Zq+FEZGXsSts3SAx07agzYdVqsgIsDzOlAN0G7j
+   w==;
+X-CSE-ConnectionGUID: ndBxNdeXT9G0VpDepZF/lg==
+X-CSE-MsgGUID: CFiTEkvpTHK2n0CrJwrhHQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11069"; a="11627140"
+X-IronPort-AV: E=Sophos;i="6.08,153,1712646000"; 
+   d="scan'208";a="11627140"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2024 22:30:52 -0700
+X-CSE-ConnectionGUID: U7mxv43QQ3aMp4eUHKbX3Q==
+X-CSE-MsgGUID: 1Yto9Q3cTBq4VwM+MDji3Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,152,1712646000"; 
-   d="scan'208";a="34244226"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 May 2024 20:03:42 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 10 May 2024 20:03:42 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 10 May 2024 20:03:41 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Fri, 10 May 2024 20:03:41 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.169)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Fri, 10 May 2024 20:03:41 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ihq3/HfA3M/yLXMf/V7ALqB7/GFXRiGHWiYPrS540vWtaILHxIypeaOeU2/9DpA2oAvew38EdvMxSPYcgGsgk951sAeIeLjQM5YQFs4HMApAxonEzhe4s2YpO9PO28JZrzuqxSEx69gFkNDT6EyZqAof4dh4S4c9dOqhq4kaHphraDLiF/wovyUNPfjYvpnPF2RG4qeWho7UW47LkLmJkLUe859oDErQuTlhUwqOG8oEN1GZ5YlmHsZYHqFr+lT0JrA1RoBMoIr5KITH7WFeJZqBnAB7Zvkc0gJQEY7n77I8E4aOdTd/1A3aAdGsXb5K4gBvEyJfij6YNCTBDoNDLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oqy1IOOM+qrmIBLqN8Apo4DdPnVHyw10T6N5tx22puQ=;
- b=mInQVKykCEA4w2M/kK9UfK+APjpoXmV45KTB4pkOXXxvi72P8ej4yAWg1gO3AwAOda9bV8riyE8z+pc9g7aT/tZMOnTCseW3zoW7JF8WWDiXrcbOqURymuMC+f36V3vueRyaZoF5EbecGUw7Wa3W21F6Bq+gN3X4z5jCCFvfVpY25+/BblxUkMUrWqzFw00cJXTkuS3LHMfLVduopKRKq00A8QkNTY7L52OzCB9cKYMnlQFOzCq8NcjEaVRmrY7Ld4kDriba4gqnDljFsABKLoIrLxBH020Kx6+KhoNBuvVO9HMOXt6a88TDbGqxqTeAqGdKX97O01HaswMrO0p+fQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CH3PR11MB8660.namprd11.prod.outlook.com (2603:10b6:610:1ce::13)
- by DM4PR11MB6093.namprd11.prod.outlook.com (2603:10b6:8:b0::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.49; Sat, 11 May
- 2024 03:03:32 +0000
-Received: from CH3PR11MB8660.namprd11.prod.outlook.com
- ([fe80::5135:2255:52ba:c64e]) by CH3PR11MB8660.namprd11.prod.outlook.com
- ([fe80::5135:2255:52ba:c64e%4]) with mapi id 15.20.7544.049; Sat, 11 May 2024
- 03:03:32 +0000
-Date: Sat, 11 May 2024 11:03:20 +0800
-From: Chao Gao <chao.gao@intel.com>
-To: "Li, Xin3" <xin3.li@intel.com>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
-	<linux-kselftest@vger.kernel.org>, "seanjc@google.com" <seanjc@google.com>,
-	"pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net"
-	<corbet@lwn.net>, "tglx@linutronix.de" <tglx@linutronix.de>,
-	"mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org"
-	<x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>, "shuah@kernel.org"
-	<shuah@kernel.org>, "vkuznets@redhat.com" <vkuznets@redhat.com>,
-	"peterz@infradead.org" <peterz@infradead.org>, "Shankar, Ravi V"
-	<ravi.v.shankar@intel.com>, "xin@zytor.com" <xin@zytor.com>
-Subject: Re: [PATCH v2 12/25] KVM: VMX: Handle FRED event data
-Message-ID: <Zj7f+JWbVfIBIK8h@chao-email>
-References: <20240207172646.3981-1-xin3.li@intel.com>
- <20240207172646.3981-13-xin3.li@intel.com>
- <ZjBiLDJ4SdQ0p5xm@chao-email>
- <SA1PR11MB6734740F9B6085E0997A4179A8E72@SA1PR11MB6734.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <SA1PR11MB6734740F9B6085E0997A4179A8E72@SA1PR11MB6734.namprd11.prod.outlook.com>
-X-ClientProxiedBy: KL1PR01CA0120.apcprd01.prod.exchangelabs.com
- (2603:1096:820:3::36) To CH3PR11MB8660.namprd11.prod.outlook.com
- (2603:10b6:610:1ce::13)
+X-IronPort-AV: E=Sophos;i="6.08,153,1712646000"; 
+   d="scan'208";a="34347206"
+Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 10 May 2024 22:30:48 -0700
+Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s5fJl-0006yk-2S;
+	Sat, 11 May 2024 05:30:45 +0000
+Date: Sat, 11 May 2024 13:30:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Pankaj Gupta <pankaj.gupta@nxp.com>, Jonathan Corbet <corbet@lwn.net>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	Pankaj Gupta <pankaj.gupta@nxp.com>
+Subject: Re: [PATCH 4/4] firmware: imx: add driver for NXP EdgeLock Enclave
+Message-ID: <202405111304.CJcpd03O-lkp@intel.com>
+References: <20240510-imx-se-if-v1-4-27c5a674916d@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8660:EE_|DM4PR11MB6093:EE_
-X-MS-Office365-Filtering-Correlation-Id: f6ccdc53-9d5d-4d37-685b-08dc7166f109
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|1800799015|376005|366007|7416005;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?bg8jt4b9mvDHld9qnpRgEI/KJASmV2xDXEm65J8j+jIxXigF+ZFbwbC8j8BY?=
- =?us-ascii?Q?Fq+XJ9iRibKyCFTe7REeEBboArIdxRcKDpth5/SyUljAFgrGltMSiJmpCB96?=
- =?us-ascii?Q?d0wj3rcQ1zw4aKWhoF6HNl615XWBSZ9os391DSsl/0Y5CMGQJjxGwYKe8ppQ?=
- =?us-ascii?Q?uqjPgB/39w/njVJz2sqwc9Sv0YwjXGXbNlViV0EON9Y/KDUd3dvLxndZKxsj?=
- =?us-ascii?Q?ziLDJEn4PHiyPd9E8dQuiy8EGC7MwYtIbaLhncwlV/J+dYx3mKW0YAMp+kbw?=
- =?us-ascii?Q?qq6dnzehXRvdHMAmHd2myIDumg5SvmDI1Vk8yBaIRRSMrhyOt6x69DxJPVFB?=
- =?us-ascii?Q?eMr41ldDQl9XlOT8a8k6QRBxBf6Y5N2mLgaYsos2HfDkvcV8RlnLtpLszPi6?=
- =?us-ascii?Q?/ocBruf+uejW7qfpB0mcWPE6ukQrpC+Z+t0Q0eH2YYy4pdmvbU4xoUU1bvPr?=
- =?us-ascii?Q?3ulnc6Roj4hTd1wbwpRhDmcSEomCCg4dMbi7hiqZ62VzN2abeRlDND0i/DOn?=
- =?us-ascii?Q?9NsMR14a9N0WGM1zAz7cTjs8N2jNl48LKq2hwTEkliF88pqhKQOhPeY3GK6h?=
- =?us-ascii?Q?YEGcGtddPiE7tm7gyPKmAe0svs8KUzc3mfwNg64PUg4EwVa5L14kfo1bo8lR?=
- =?us-ascii?Q?o1gJC4Jtj7GMFWQTZ895yeLt4UqhWC5aTjNLKrbdxsASbsSQNDqhHzXYx7OF?=
- =?us-ascii?Q?b2GIxLCekpN/ryBapn8jzcD+vuICt89LbAASSSVWB6sJQuuTx+dr6Ml1zpEG?=
- =?us-ascii?Q?7uWkNwFDOY6ivmmvJVGiQe7qGJa9t7HX8H7ruQknitV0QmoLaS4Eqi6jwhS3?=
- =?us-ascii?Q?8StrBtHfUsAYZyzsV9r+jsMi9rvPztqnprtDwgpwlu80FlkbgJHH8NloG0PF?=
- =?us-ascii?Q?kpsKU8usV7eTZzYpZeelGxIw2Bp1qp25l0U3cPuxzT8vjF0mLOEr4S0iCiSd?=
- =?us-ascii?Q?jelMlAiaGspw2w0yqkbDq1vsTdm8OpIT4CAdsWiTtThCJImYJT/psXKQPSXd?=
- =?us-ascii?Q?uKTiVUutq2NDVLZzrB4kwOOAyDNOYAW3Z7fDZt/iWmuim0j3xjue3Lsb4nVG?=
- =?us-ascii?Q?hqPj9eceXGTvBIs73LTogUuIBOi0MaNhBeq1UjlhDSA4CUG03iLogPvRiCf/?=
- =?us-ascii?Q?9oWcVsJNjmnsNmEz4ZiBqBgoi9yya1gUYZJow38bV/oaYSKWteiw4ZpTMgBr?=
- =?us-ascii?Q?z5sDU21ogKuLy+94NrBMBzDnV+glMEy5o4FP9AQvLZTEmsbNM5D8/5EFTUo5?=
- =?us-ascii?Q?7CFr0ptLu3oYsG0ieqRdOMtV61qnHb1azK2RH1cHqg=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8660.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(376005)(366007)(7416005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?AURRhxvqiFQOes+Ow/n/IoalxFlF38nYWSE2X2pRYmOIS2JWuVxfNkWO6nob?=
- =?us-ascii?Q?ZM+QXtOipQ5b17765gHAwwgJz4D85nIzXcLUdSpB8zHBJ+E8NP9dbG9my/FB?=
- =?us-ascii?Q?Sl6oU41574Wpe+ZsJpP/tdm5HIMI+V7oLPQ3mvus8kgh9eI6mms+KCyjrpnZ?=
- =?us-ascii?Q?UlPWnfuVE8WJWPsGQ7hVzbyJ7eFmfSrmf2PP2yjDKxOAATPk6hevH4mwdtyL?=
- =?us-ascii?Q?jHHTWoYzdWkUt4+6hMEuCe7Jli1mepzsjYR3Vul16rFOb6+dd5XkB9Dm5XN6?=
- =?us-ascii?Q?+C0/pT8DM2y+VBYXABPVfAj9rLwGF91nSXXD/g0yw3XpuVfBcEOySN41c65x?=
- =?us-ascii?Q?ewCvO9gWJMp76svOtA+LGgdBtxf36Ysu9z0w9Qos9cbpXGwKUnqGMUOkfyYu?=
- =?us-ascii?Q?wy2YhTXQ+g18VRiwoVqmMrSESvLtxyk8x0GODrJjiOm45hYXmy6xrmdbFuw0?=
- =?us-ascii?Q?V+Sdty9wnYIHkwME2Gp0wPLdrIxUreOrPzu/iaffR9IfGF00rgwuufHhCCpJ?=
- =?us-ascii?Q?sdxmB60+ne4aUq199C2P2Z8FUdmM8DZ4l3M73nG86ROzLpDUbcHa7VX1+uBA?=
- =?us-ascii?Q?TZXfVNhT8EkIlCWrcafzJQPLuftJApQ2BirnRaQfLUKeNV4dNDLqSZ/ocWu3?=
- =?us-ascii?Q?fKtxS1Of9bB1Mq8hFZqwR6twYg3UebSh6IlkAynhoZnXa5R/hy24cUveBUt0?=
- =?us-ascii?Q?gQaowR6+USdXlk+aWWYkm0bdAtE4qEqNi5/atmnd1bqH8o6+6iBFDrbAa5+S?=
- =?us-ascii?Q?QtYQRK9vvDSqNoqYzFJy+T5/DVivsqBAnRCgafiuRZvnSOXX8xkQpx+M5yYp?=
- =?us-ascii?Q?iWUkloo2EX+9GF/UiBEBxJABmECFSYFTUdmx583NEDdnaWPyYCBjEjBsA6WC?=
- =?us-ascii?Q?HG2uQdu2wP9YYyYvRZZYB2uPrXZHxRnVQK6J3XyySB0eUhe1tOsf0BPbOHqK?=
- =?us-ascii?Q?aTHZ3b3EqqDzsD2CRIaYQ3ZtC2KcRE0GgIhQgcVBG9p5uddTC3W9DsVlW57K?=
- =?us-ascii?Q?xkAjyWZoniDg8ixAjPIFL+GbNcB4vMQKV4p2YHNOSPIMTotkMZSgZFIY9lQ5?=
- =?us-ascii?Q?DbZuBq/MQwLFG14f8Tv6oKygZoFePKKmuE0uA6BWe7eEUaHtTwZMcxYkXcMu?=
- =?us-ascii?Q?mNzFKChc9tMq/SuS14h1IkxOPsSEz7Scf2Sh4d76AIdDGNOBQ+R6luS7VyI8?=
- =?us-ascii?Q?R8+QiJUn2WMU3Lzv1NugrvDolcfiAw1X47ovZnW9BBmI7jLC33Vdzw86GlZc?=
- =?us-ascii?Q?VkyHjq1jeWwQR7728CH8En6k9FhnYsuQae3AKEb3sl0hAGQbQvJYBokuCgQ+?=
- =?us-ascii?Q?ukqBBT8pRQ3kO7JJiiyh7NCOaLUkn00CunSXdDzL45AfXj+NDwBzRJAwruI8?=
- =?us-ascii?Q?PP/twalpL4VLq1iE7aBIVHn02yZA/9UyzYQzqvOcFEid6SJXeTh9+71GxNmA?=
- =?us-ascii?Q?lzaP3UVRrkJK2hFZuQjwUwLFznWXoVMYeX6o1FrUmC5zeGGE9EpQnPbCD/3n?=
- =?us-ascii?Q?GMy2KB55Nr1s6LQ7rl4Eme/SVJh9FNwI477cuF2stglxt6PRvbFjtf25K3LS?=
- =?us-ascii?Q?PEY/+FVB5nlKxhPcRmmh8zHpb8YpxHWunMFPFi/X?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: f6ccdc53-9d5d-4d37-685b-08dc7166f109
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8660.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2024 03:03:32.6382
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ///kLhseuTSQ0RPy/moUnXDJ6iRiKrBnqVOAohLQnGAgxcKdBWLWU3cbKGtfyQH2UiShUe8yQOWK3ueZ1D+1Mw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6093
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240510-imx-se-if-v1-4-27c5a674916d@nxp.com>
 
-On Fri, May 10, 2024 at 05:36:03PM +0800, Li, Xin3 wrote:
->> >+               if (kvm_is_fred_enabled(vcpu)) {
->> >+                       u64 event_data = 0;
->> >+
->> >+                       if (is_debug(intr_info))
->> >+                               /*
->> >+                                * Compared to DR6, FRED #DB event data saved on
->> >+                                * the stack frame have bits 4 ~ 11 and 16 ~ 31
->> >+                                * inverted, i.e.,
->> >+                                *   fred_db_event_data = dr6 ^ 0xFFFF0FF0UL
->> >+                                */
->> >+                               event_data = vcpu->arch.dr6 ^ DR6_RESERVED;
->> >+                       else if (is_page_fault(intr_info))
->> >+                               event_data = vcpu->arch.cr2;
->> >+                       else if (is_nm_fault(intr_info))
->> >+                               event_data =
->> >+ to_vmx(vcpu)->fred_xfd_event_data;
->> >+
->> 
->> IMO, deriving an event_data from CR2/DR6 is a little short-sighted because the
->> event_data and CR2/DR6 __can__ be different, e.g., L1 VMM __can__ set CR2 to A
->> and event_data field to B (!=A) when injecting #PF.
->
->VMM should guarantee a FRED guest _sees_ consistent values in CR6/DR6
->and event data. If not it's just a VMM bug that we need to fix.
+Hi Pankaj,
 
-I don't get why VMM should.
+kernel test robot noticed the following build errors:
 
-I know the hardware will guarantee this. And likely KVM will also do this.
-but I don't think it is necessary for KVM to assume L1 VMM will guarantee
-this. because as long as L2 guest is enlightened to read event_data from stack
-only, the ABI between L1 VMM and L2 guest can be: CR2/DR6 may be out of sync
-with the event_data. I am not saying it is good that L1 VMM deviates from the
-real hardware behavior. But how L1 VMM defines this ABI with L2 has nothing to
-do with KVM as L0. KVM shouldn't make assumptions on that.
+[auto build test ERROR on e8f897f4afef0031fe618a8e94127a0934896aba]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pankaj-Gupta/Documentation-firmware-add-imx-se-to-other_interfaces/20240510-213210
+base:   e8f897f4afef0031fe618a8e94127a0934896aba
+patch link:    https://lore.kernel.org/r/20240510-imx-se-if-v1-4-27c5a674916d%40nxp.com
+patch subject: [PATCH 4/4] firmware: imx: add driver for NXP EdgeLock Enclave
+config: x86_64-buildonly-randconfig-005-20240511 (https://download.01.org/0day-ci/archive/20240511/202405111304.CJcpd03O-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240511/202405111304.CJcpd03O-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405111304.CJcpd03O-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from <built-in>:1:
+>> ./usr/include/linux/se_ioctl.h:12:2: error: unknown type name 'u8'
+      12 |         u8 *user_buf;
+         |         ^
+>> ./usr/include/linux/se_ioctl.h:13:2: error: unknown type name 'u32'
+      13 |         u32 length;
+         |         ^
+   ./usr/include/linux/se_ioctl.h:14:2: error: unknown type name 'u32'
+      14 |         u32 flags;
+         |         ^
+>> ./usr/include/linux/se_ioctl.h:15:2: error: unknown type name 'u64'
+      15 |         u64 ele_addr;
+         |         ^
+   ./usr/include/linux/se_ioctl.h:19:2: error: unknown type name 'u32'
+      19 |         u32 base_offset;
+         |         ^
+   ./usr/include/linux/se_ioctl.h:20:2: error: unknown type name 'u32'
+      20 |         u32 size;
+         |         ^
+   ./usr/include/linux/se_ioctl.h:24:2: error: unknown type name 'u8'
+      24 |         u8 se_if_id;
+         |         ^
+   ./usr/include/linux/se_ioctl.h:25:2: error: unknown type name 'u8'
+      25 |         u8 interrupt_idx;
+         |         ^
+   ./usr/include/linux/se_ioctl.h:26:2: error: unknown type name 'u8'
+      26 |         u8 tz;
+         |         ^
+   ./usr/include/linux/se_ioctl.h:27:2: error: unknown type name 'u8'
+      27 |         u8 did;
+         |         ^
+   ./usr/include/linux/se_ioctl.h:28:2: error: unknown type name 'u8'
+      28 |         u8 cmd_tag;
+         |         ^
+   ./usr/include/linux/se_ioctl.h:29:2: error: unknown type name 'u8'
+      29 |         u8 rsp_tag;
+         |         ^
+   ./usr/include/linux/se_ioctl.h:30:2: error: unknown type name 'u8'
+      30 |         u8 success_tag;
+         |         ^
+   ./usr/include/linux/se_ioctl.h:31:2: error: unknown type name 'u8'
+      31 |         u8 base_api_ver;
+         |         ^
+   ./usr/include/linux/se_ioctl.h:32:2: error: unknown type name 'u8'
+      32 |         u8 fw_api_ver;
+         |         ^
+   ./usr/include/linux/se_ioctl.h:36:2: error: unknown type name 'u8'
+      36 |         u8 *message;
+         |         ^
+   ./usr/include/linux/se_ioctl.h:37:2: error: unknown type name 'u32'
+      37 |         u32 msg_size;
+         |         ^
+   ./usr/include/linux/se_ioctl.h:38:2: error: unknown type name 'u32'
+      38 |         u32 error_code;
+         |         ^
+>> ./usr/include/linux/se_ioctl.h:42:2: error: unknown type name 'u16'
+      42 |         u16 soc_id;
+         |         ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
