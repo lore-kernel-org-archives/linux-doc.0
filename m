@@ -1,131 +1,111 @@
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+Received: from out30-112.freemail.mail.aliyun.com (out30-112.freemail.mail.aliyun.com [115.124.30.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75DC246435;
-	Sun, 12 May 2024 16:32:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF0B042A8E;
+	Sun, 12 May 2024 16:39:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.112
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715531557; cv=none; b=iOlizaY6Lh39MC7rxK6Nl4j+TMaOglhtmJDN+DsmT4qpuS2BOj7dXZgTiAagCulWyPL/LR7aeNRaHXt9nXTcwDOo42eZajLIOy55mpxDXqNj6baijZFfDW0aQ9IrBUoCHdvi/bbpW2iN0/DlxmtYWRWFnIBYYfqm2Epx2l8rDYM=
+	t=1715531945; cv=none; b=EgjOZNW5TKk6+jYww1SNtYna73nzM3haheVN6OukuY6luuje2T+fZBqmqz+gMUvyPU+4cTsnbXVBDPIClCuYOjJGBPVF2LdD1xA+qwo8Mh14BZSihbUH9Ga5KzH7t6SVEykxeNAin6umSBh/J45cOeQW38q/Ryt1xDbheGdvLvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715531557; c=relaxed/simple;
-	bh=2fmYuzsF53sotwxXlB7hG9j2/QIAXITmWcD/TyP5X6I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dEJHo4k6cYlS7JZbmn2dJxcuMAWrgAOmafrmA0Rsd01Sj3r/pq8q9VZv60XGKl1Mp6RtS3jlt6uZMgkt6qbMjOJBZA3u7MX57/1/sAD7qQk7ezqYm/kAHGCvxyHhA/spULKibS89pZu0rWyOZRnk6fb6oeoNly06C9IzDHKxEDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C83DD40004;
-	Sun, 12 May 2024 16:31:25 +0000 (UTC)
-Message-ID: <276fa17b-cd62-433d-b0ec-fa98c65a46ca@ghiti.fr>
-Date: Sun, 12 May 2024 18:31:24 +0200
+	s=arc-20240116; t=1715531945; c=relaxed/simple;
+	bh=IWReFbWnSG11vlPQ92I5R2T/g5Ucy9dLLkzpOWm7rMs=;
+	h=Message-ID:Subject:Date:From:To:Cc:References:In-Reply-To; b=KKSFqEMpSEbinLNtwUN8AHN0TOCtQslN1KISUrIaWCuAT5ay2g0WtCJoTXjWFEmwg6FsUiNZhPrGFfRZPVsfDSbeV21FWiF1oKtDUYy8ecl/X3juZc1ZimVfwEBpd/E4rFZf1POka34dA5KMI29FREDtwxlbTPzGxZ9A+Szk0s0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=ugrDOLiA; arc=none smtp.client-ip=115.124.30.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="ugrDOLiA"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1715531935; h=Message-ID:Subject:Date:From:To;
+	bh=o40wkv9PATkuaNIfkNpU6m7tz6qpatklvvAUQQFo1aM=;
+	b=ugrDOLiA2noYnrbZyOf7Y7XDMv7zW358TJQqBvpcVOSDgbpqZXvfK78KvlcoPLrk7ON+pEeNvqvN2Hjn/39ybMtsl03cEFMuY7MGtmTh2KWQPCues5OdirTMSPSLI8hUbRN/W/OJ2koZrBINIq9vz9q2Of0QX9+EHA3Jpq3kZO0=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032014031;MF=hengqi@linux.alibaba.com;NM=1;PH=DS;RN=27;SR=0;TI=SMTPD_---0W6FsCq4_1715531932;
+Received: from localhost(mailfrom:hengqi@linux.alibaba.com fp:SMTPD_---0W6FsCq4_1715531932)
+          by smtp.aliyun-inc.com;
+          Mon, 13 May 2024 00:38:53 +0800
+Message-ID: <1715531818.6973832-3-hengqi@linux.alibaba.com>
+Subject: Re: [PATCH net-next v13 2/4] ethtool: provide customized dim profile management
+Date: Mon, 13 May 2024 00:36:58 +0800
+From: Heng Qi <hengqi@linux.alibaba.com>
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev,
+ Jakub Kicinski <kuba@kernel.org>,
+ "David S . Miller" <davem@davemloft.net>,
+ Paolo Abeni <pabeni@redhat.com>,
+ Eric Dumazet <edumazet@google.com>,
+ Jason Wang <jasowang@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Brett Creeley <bcreeley@amd.com>,
+ Ratheesh Kannoth <rkannoth@marvell.com>,
+ Alexander Lobakin <aleksander.lobakin@intel.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ Tal Gilboa <talgi@nvidia.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>,
+ Jiri Pirko <jiri@resnulli.us>,
+ Paul Greenwalt <paul.greenwalt@intel.com>,
+ Ahmed Zaki <ahmed.zaki@intel.com>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>,
+ Kory Maincent <kory.maincent@bootlin.com>,
+ Andrew Lunn <andrew@lunn.ch>,
+ justinstitt@google.com,
+ donald.hunter@gmail.com,
+ netdev@vger.kernel.org,
+ virtualization@lists.linux.dev
+References: <20240509044747.101237-1-hengqi@linux.alibaba.com>
+ <20240509044747.101237-3-hengqi@linux.alibaba.com>
+ <202405100654.5PbLQXnL-lkp@intel.com>
+In-Reply-To: <202405100654.5PbLQXnL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 13/29] riscv mmu: write protect and shadow stack
-To: Deepak Gupta <debug@rivosinc.com>, paul.walmsley@sifive.com,
- rick.p.edgecombe@intel.com, broonie@kernel.org, Szabolcs.Nagy@arm.com,
- kito.cheng@sifive.com, keescook@chromium.org, ajones@ventanamicro.com,
- conor.dooley@microchip.com, cleger@rivosinc.com, atishp@atishpatra.org,
- bjorn@rivosinc.com, alexghiti@rivosinc.com, samuel.holland@sifive.com,
- conor@kernel.org
-Cc: linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-mm@kvack.org, linux-arch@vger.kernel.org,
- linux-kselftest@vger.kernel.org, corbet@lwn.net, palmer@dabbelt.com,
- aou@eecs.berkeley.edu, robh+dt@kernel.org,
- krzysztof.kozlowski+dt@linaro.org, oleg@redhat.com,
- akpm@linux-foundation.org, arnd@arndb.de, ebiederm@xmission.com,
- Liam.Howlett@oracle.com, vbabka@suse.cz, lstoakes@gmail.com,
- shuah@kernel.org, brauner@kernel.org, andy.chiu@sifive.com,
- jerry.shih@sifive.com, hankuan.chen@sifive.com, greentime.hu@sifive.com,
- evan@rivosinc.com, xiao.w.wang@intel.com, charlie@rivosinc.com,
- apatel@ventanamicro.com, mchitale@ventanamicro.com,
- dbarboza@ventanamicro.com, sameo@rivosinc.com, shikemeng@huaweicloud.com,
- willy@infradead.org, vincent.chen@sifive.com, guoren@kernel.org,
- samitolvanen@google.com, songshuaishuai@tinylab.org, gerg@kernel.org,
- heiko@sntech.de, bhe@redhat.com, jeeheng.sia@starfivetech.com,
- cyy@cyyself.name, maskray@google.com, ancientmodern4@gmail.com,
- mathis.salmen@matsal.de, cuiyunhui@bytedance.com, bgray@linux.ibm.com,
- mpe@ellerman.id.au, baruch@tkos.co.il, alx@kernel.org, david@redhat.com,
- catalin.marinas@arm.com, revest@chromium.org, josh@joshtriplett.org,
- shr@devkernel.io, deller@gmx.de, omosnace@redhat.com, ojeda@kernel.org,
- jhubbard@nvidia.com
-References: <20240403234054.2020347-1-debug@rivosinc.com>
- <20240403234054.2020347-14-debug@rivosinc.com>
-Content-Language: en-US
-From: Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <20240403234054.2020347-14-debug@rivosinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-GND-Sasl: alex@ghiti.fr
 
-On 04/04/2024 01:35, Deepak Gupta wrote:
-> `fork` implements copy on write (COW) by making pages readonly in child
-> and parent both.
->
-> ptep_set_wrprotect and pte_wrprotect clears _PAGE_WRITE in PTE.
-> Assumption is that page is readable and on fault copy on write happens.
->
-> To implement COW on such pages,
+On Fri, 10 May 2024 07:09:52 +0800, kernel test robot <lkp@intel.com> wrote:
+> Hi Heng,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on net-next/main]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Heng-Qi/linux-dim-move-useful-macros-to-h-file/20240509-125007
+> base:   net-next/main
+> patch link:    https://lore.kernel.org/r/20240509044747.101237-3-hengqi%40linux.alibaba.com
+> patch subject: [PATCH net-next v13 2/4] ethtool: provide customized dim profile management
+> config: arm-randconfig-002-20240510 (https://download.01.org/0day-ci/archive/20240510/202405100654.5PbLQXnL-lkp@intel.com/config)
+> compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project b910bebc300dafb30569cecc3017b446ea8eafa0)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240510/202405100654.5PbLQXnL-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202405100654.5PbLQXnL-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> ld.lld: error: undefined symbol: lockdep_rtnl_is_held
 
+This failed use case seems to come from this series triggering a problem that
+has not been triggered historically, namely lockdep_rtnl_is_held() is not called
+in an environment where CONFIG_NET is not configured and CONFIG_PROVE_LOCKING is
+configured:
+  If CONFIG_PROVE_LOCKING is configured as Y and CONFIG_NET is n, then
+  lockdep_rtnl_is_held is in an undefined state at this time.
 
-I guess you mean "shadow stack pages" here.
+So I think we should declare "CONFIG_PROVE_LOCKING depends on CONFIG_NET".
+How do you think?
 
+Thanks!
 
->   clearing up W bit makes them XWR = 000.
-> This will result in wrong PTE setting which says no perms but V=1 and PFN
-> field pointing to final page. Instead desired behavior is to turn it into
-> a readable page, take an access (load/store) fault on sspush/sspop
-> (shadow stack) and then perform COW on such pages.
-> This way regular reads
-> would still be allowed and not lead to COW maintaining current behavior
-> of COW on non-shadow stack but writeable memory.
->
-> On the other hand it doesn't interfere with existing COW for read-write
-> memory. Assumption is always that _PAGE_READ must have been set and thus
-> setting _PAGE_READ is harmless.
->
-> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
-> ---
->   arch/riscv/include/asm/pgtable.h | 12 ++++++++++--
->   1 file changed, 10 insertions(+), 2 deletions(-)
->
-> diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
-> index 9b837239d3e8..7a1c2a98d272 100644
-> --- a/arch/riscv/include/asm/pgtable.h
-> +++ b/arch/riscv/include/asm/pgtable.h
-> @@ -398,7 +398,7 @@ static inline int pte_special(pte_t pte)
->   
->   static inline pte_t pte_wrprotect(pte_t pte)
->   {
-> -	return __pte(pte_val(pte) & ~(_PAGE_WRITE));
-> +	return __pte((pte_val(pte) & ~(_PAGE_WRITE)) | (_PAGE_READ));
->   }
->   
->   /* static inline pte_t pte_mkread(pte_t pte) */
-> @@ -581,7 +581,15 @@ static inline pte_t ptep_get_and_clear(struct mm_struct *mm,
->   static inline void ptep_set_wrprotect(struct mm_struct *mm,
->   				      unsigned long address, pte_t *ptep)
->   {
-> -	atomic_long_and(~(unsigned long)_PAGE_WRITE, (atomic_long_t *)ptep);
-> +	volatile pte_t read_pte = *ptep;
-> +	/*
-> +	 * ptep_set_wrprotect can be called for shadow stack ranges too.
-> +	 * shadow stack memory is XWR = 010 and thus clearing _PAGE_WRITE will lead to
-> +	 * encoding 000b which is wrong encoding with V = 1. This should lead to page fault
-> +	 * but we dont want this wrong configuration to be set in page tables.
-> +	 */
-> +	atomic_long_set((atomic_long_t *)ptep,
-> +			((pte_val(read_pte) & ~(unsigned long)_PAGE_WRITE) | _PAGE_READ));
->   }
->   
->   #define __HAVE_ARCH_PTEP_CLEAR_YOUNG_FLUSH
-
-
-Doesn't making the shadow stack page readable allow "normal" loads to 
-access the page? If it does, isn't that an issue (security-wise)?
-
+>    >>> referenced by net_dim.c
+>    >>>               lib/dim/net_dim.o:(net_dim_free_irq_moder) in archive vmlinux.a
+>    >>> referenced by net_dim.c
+>    >>>               lib/dim/net_dim.o:(net_dim_free_irq_moder) in archive vmlinux.a
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
