@@ -1,111 +1,291 @@
-Received: from out30-112.freemail.mail.aliyun.com (out30-112.freemail.mail.aliyun.com [115.124.30.112])
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF0B042A8E;
-	Sun, 12 May 2024 16:39:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49535DDD7;
+	Sun, 12 May 2024 16:51:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715531945; cv=none; b=EgjOZNW5TKk6+jYww1SNtYna73nzM3haheVN6OukuY6luuje2T+fZBqmqz+gMUvyPU+4cTsnbXVBDPIClCuYOjJGBPVF2LdD1xA+qwo8Mh14BZSihbUH9Ga5KzH7t6SVEykxeNAin6umSBh/J45cOeQW38q/Ryt1xDbheGdvLvo=
+	t=1715532704; cv=none; b=FtSkCyiOFpBH8fWe+f9+c0Lr7y4Z9AP014sFNZPssWKn9zf3BBGX5jLG2m0+OyTuyO/enVMq0KpnaDk6edwUBI6ksk28xIQr39qpfmL7VJLkK+owmgOT+wfOmY9V57pxoMHcfhL6Dh31Nzs4+BUC3KU4XYn+Sc2HT9qGrUKXI4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715531945; c=relaxed/simple;
-	bh=IWReFbWnSG11vlPQ92I5R2T/g5Ucy9dLLkzpOWm7rMs=;
-	h=Message-ID:Subject:Date:From:To:Cc:References:In-Reply-To; b=KKSFqEMpSEbinLNtwUN8AHN0TOCtQslN1KISUrIaWCuAT5ay2g0WtCJoTXjWFEmwg6FsUiNZhPrGFfRZPVsfDSbeV21FWiF1oKtDUYy8ecl/X3juZc1ZimVfwEBpd/E4rFZf1POka34dA5KMI29FREDtwxlbTPzGxZ9A+Szk0s0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=ugrDOLiA; arc=none smtp.client-ip=115.124.30.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="ugrDOLiA"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1715531935; h=Message-ID:Subject:Date:From:To;
-	bh=o40wkv9PATkuaNIfkNpU6m7tz6qpatklvvAUQQFo1aM=;
-	b=ugrDOLiA2noYnrbZyOf7Y7XDMv7zW358TJQqBvpcVOSDgbpqZXvfK78KvlcoPLrk7ON+pEeNvqvN2Hjn/39ybMtsl03cEFMuY7MGtmTh2KWQPCues5OdirTMSPSLI8hUbRN/W/OJ2koZrBINIq9vz9q2Of0QX9+EHA3Jpq3kZO0=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R111e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032014031;MF=hengqi@linux.alibaba.com;NM=1;PH=DS;RN=27;SR=0;TI=SMTPD_---0W6FsCq4_1715531932;
-Received: from localhost(mailfrom:hengqi@linux.alibaba.com fp:SMTPD_---0W6FsCq4_1715531932)
-          by smtp.aliyun-inc.com;
-          Mon, 13 May 2024 00:38:53 +0800
-Message-ID: <1715531818.6973832-3-hengqi@linux.alibaba.com>
-Subject: Re: [PATCH net-next v13 2/4] ethtool: provide customized dim profile management
-Date: Mon, 13 May 2024 00:36:58 +0800
-From: Heng Qi <hengqi@linux.alibaba.com>
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev,
- Jakub Kicinski <kuba@kernel.org>,
- "David S . Miller" <davem@davemloft.net>,
- Paolo Abeni <pabeni@redhat.com>,
- Eric Dumazet <edumazet@google.com>,
- Jason Wang <jasowang@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Brett Creeley <bcreeley@amd.com>,
- Ratheesh Kannoth <rkannoth@marvell.com>,
- Alexander Lobakin <aleksander.lobakin@intel.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- Tal Gilboa <talgi@nvidia.com>,
- Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org,
- Maxime Chevallier <maxime.chevallier@bootlin.com>,
- Jiri Pirko <jiri@resnulli.us>,
- Paul Greenwalt <paul.greenwalt@intel.com>,
- Ahmed Zaki <ahmed.zaki@intel.com>,
- Vladimir Oltean <vladimir.oltean@nxp.com>,
- Kory Maincent <kory.maincent@bootlin.com>,
- Andrew Lunn <andrew@lunn.ch>,
- justinstitt@google.com,
- donald.hunter@gmail.com,
- netdev@vger.kernel.org,
- virtualization@lists.linux.dev
-References: <20240509044747.101237-1-hengqi@linux.alibaba.com>
- <20240509044747.101237-3-hengqi@linux.alibaba.com>
- <202405100654.5PbLQXnL-lkp@intel.com>
-In-Reply-To: <202405100654.5PbLQXnL-lkp@intel.com>
+	s=arc-20240116; t=1715532704; c=relaxed/simple;
+	bh=u+mTLviAtKqkjVwjm67/CPoAoh0BegY5v8YMcgwh08k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AkUUoXl8KP4lxQb2r1xY3A/G4egOa41N6ahy3ZMXszxIHMMP6mIHMgfO3VtyivmAKViovCf82tKoi+wXswBZyWQtc3u+VAkmf3wbZNYwFtiaA+YzjztMDrVk0LHRjep0TEdQMTYtgXNMTk5ca9TPnGQ7GfuGhbb0sUev4+J2NpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 28326240003;
+	Sun, 12 May 2024 16:50:22 +0000 (UTC)
+Message-ID: <d0e2d1a5-110a-40be-8662-7c78afe22446@ghiti.fr>
+Date: Sun, 12 May 2024 18:50:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 14/29] riscv/mm: Implement map_shadow_stack() syscall
+Content-Language: en-US
+To: Deepak Gupta <debug@rivosinc.com>, paul.walmsley@sifive.com,
+ rick.p.edgecombe@intel.com, broonie@kernel.org, Szabolcs.Nagy@arm.com,
+ kito.cheng@sifive.com, keescook@chromium.org, ajones@ventanamicro.com,
+ conor.dooley@microchip.com, cleger@rivosinc.com, atishp@atishpatra.org,
+ bjorn@rivosinc.com, alexghiti@rivosinc.com, samuel.holland@sifive.com,
+ conor@kernel.org
+Cc: linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-mm@kvack.org, linux-arch@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, corbet@lwn.net, palmer@dabbelt.com,
+ aou@eecs.berkeley.edu, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, oleg@redhat.com,
+ akpm@linux-foundation.org, arnd@arndb.de, ebiederm@xmission.com,
+ Liam.Howlett@oracle.com, vbabka@suse.cz, lstoakes@gmail.com,
+ shuah@kernel.org, brauner@kernel.org, andy.chiu@sifive.com,
+ jerry.shih@sifive.com, hankuan.chen@sifive.com, greentime.hu@sifive.com,
+ evan@rivosinc.com, xiao.w.wang@intel.com, charlie@rivosinc.com,
+ apatel@ventanamicro.com, mchitale@ventanamicro.com,
+ dbarboza@ventanamicro.com, sameo@rivosinc.com, shikemeng@huaweicloud.com,
+ willy@infradead.org, vincent.chen@sifive.com, guoren@kernel.org,
+ samitolvanen@google.com, songshuaishuai@tinylab.org, gerg@kernel.org,
+ heiko@sntech.de, bhe@redhat.com, jeeheng.sia@starfivetech.com,
+ cyy@cyyself.name, maskray@google.com, ancientmodern4@gmail.com,
+ mathis.salmen@matsal.de, cuiyunhui@bytedance.com, bgray@linux.ibm.com,
+ mpe@ellerman.id.au, baruch@tkos.co.il, alx@kernel.org, david@redhat.com,
+ catalin.marinas@arm.com, revest@chromium.org, josh@joshtriplett.org,
+ shr@devkernel.io, deller@gmx.de, omosnace@redhat.com, ojeda@kernel.org,
+ jhubbard@nvidia.com
+References: <20240403234054.2020347-1-debug@rivosinc.com>
+ <20240403234054.2020347-15-debug@rivosinc.com>
+From: Alexandre Ghiti <alex@ghiti.fr>
+In-Reply-To: <20240403234054.2020347-15-debug@rivosinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-GND-Sasl: alex@ghiti.fr
 
-On Fri, 10 May 2024 07:09:52 +0800, kernel test robot <lkp@intel.com> wrote:
-> Hi Heng,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on net-next/main]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Heng-Qi/linux-dim-move-useful-macros-to-h-file/20240509-125007
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/20240509044747.101237-3-hengqi%40linux.alibaba.com
-> patch subject: [PATCH net-next v13 2/4] ethtool: provide customized dim profile management
-> config: arm-randconfig-002-20240510 (https://download.01.org/0day-ci/archive/20240510/202405100654.5PbLQXnL-lkp@intel.com/config)
-> compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project b910bebc300dafb30569cecc3017b446ea8eafa0)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240510/202405100654.5PbLQXnL-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202405100654.5PbLQXnL-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> ld.lld: error: undefined symbol: lockdep_rtnl_is_held
 
-This failed use case seems to come from this series triggering a problem that
-has not been triggered historically, namely lockdep_rtnl_is_held() is not called
-in an environment where CONFIG_NET is not configured and CONFIG_PROVE_LOCKING is
-configured:
-  If CONFIG_PROVE_LOCKING is configured as Y and CONFIG_NET is n, then
-  lockdep_rtnl_is_held is in an undefined state at this time.
+On 04/04/2024 01:35, Deepak Gupta wrote:
+> As discussed extensively in the changelog for the addition of this
+> syscall on x86 ("x86/shstk: Introduce map_shadow_stack syscall") the
+> existing mmap() and madvise() syscalls do not map entirely well onto the
+> security requirements for shadow stack memory since they lead to windows
+> where memory is allocated but not yet protected or stacks which are not
+> properly and safely initialised. Instead a new syscall map_shadow_stack()
+> has been defined which allocates and initialises a shadow stack page.
+>
+> This patch implements this syscall for riscv. riscv doesn't require token
+> to be setup by kernel because user mode can do that by itself. However to
+> provide compatibility and portability with other architectues, user mode
+> can specify token set flag.
+>
+> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+> ---
+>   arch/riscv/kernel/Makefile      |   2 +
+>   arch/riscv/kernel/usercfi.c     | 149 ++++++++++++++++++++++++++++++++
+>   include/uapi/asm-generic/mman.h |   1 +
+>   3 files changed, 152 insertions(+)
+>   create mode 100644 arch/riscv/kernel/usercfi.c
+>
+> diff --git a/arch/riscv/kernel/Makefile b/arch/riscv/kernel/Makefile
+> index 604d6bf7e476..3bec82f4e94c 100644
+> --- a/arch/riscv/kernel/Makefile
+> +++ b/arch/riscv/kernel/Makefile
+> @@ -107,3 +107,5 @@ obj-$(CONFIG_COMPAT)		+= compat_vdso/
+>   
+>   obj-$(CONFIG_64BIT)		+= pi/
+>   obj-$(CONFIG_ACPI)		+= acpi.o
+> +
+> +obj-$(CONFIG_RISCV_USER_CFI) += usercfi.o
+> diff --git a/arch/riscv/kernel/usercfi.c b/arch/riscv/kernel/usercfi.c
+> new file mode 100644
+> index 000000000000..c4ed0d4e33d6
+> --- /dev/null
+> +++ b/arch/riscv/kernel/usercfi.c
+> @@ -0,0 +1,149 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2024 Rivos, Inc.
+> + * Deepak Gupta <debug@rivosinc.com>
+> + */
+> +
+> +#include <linux/sched.h>
+> +#include <linux/bitops.h>
+> +#include <linux/types.h>
+> +#include <linux/mm.h>
+> +#include <linux/mman.h>
+> +#include <linux/uaccess.h>
+> +#include <linux/sizes.h>
+> +#include <linux/user.h>
+> +#include <linux/syscalls.h>
+> +#include <linux/prctl.h>
+> +#include <asm/csr.h>
+> +#include <asm/usercfi.h>
+> +
+> +#define SHSTK_ENTRY_SIZE sizeof(void *)
+> +
+> +/*
+> + * Writes on shadow stack can either be `sspush` or `ssamoswap`. `sspush` can happen
+> + * implicitly on current shadow stack pointed to by CSR_SSP. `ssamoswap` takes pointer to
+> + * shadow stack. To keep it simple, we plan to use `ssamoswap` to perform writes on shadow
+> + * stack.
+> + */
+> +static noinline unsigned long amo_user_shstk(unsigned long *addr, unsigned long val)
+> +{
+> +	/*
+> +	 * Since shadow stack is supported only in 64bit configuration,
+> +	 * ssamoswap.d is used below.
 
-So I think we should declare "CONFIG_PROVE_LOCKING depends on CONFIG_NET".
-How do you think?
+> *        * CONFIG_RISCV_USER_CFI is dependent
+> +	 * on 64BIT and compile of this file is dependent on CONFIG_RISCV_USER_CFI
+> +	 * In case ssamoswap faults, return -1.
 
-Thanks!
 
->    >>> referenced by net_dim.c
->    >>>               lib/dim/net_dim.o:(net_dim_free_irq_moder) in archive vmlinux.a
->    >>> referenced by net_dim.c
->    >>>               lib/dim/net_dim.o:(net_dim_free_irq_moder) in archive vmlinux.a
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+To me, this part of the comment is not needed.
+
+
+> +	 * Never expect -1 on shadow stack. Expect return addresses and zero
+
+
+In that case, should we BUG() instead?
+
+
+> +	 */
+> +	unsigned long swap = -1;
+> +
+> +	__enable_user_access();
+> +	asm goto(
+> +				".option push\n"
+> +				".option arch, +zicfiss\n"
+> +				"1: ssamoswap.d %[swap], %[val], %[addr]\n"
+> +				_ASM_EXTABLE(1b, %l[fault])
+> +				RISCV_ACQUIRE_BARRIER
+> +				".option pop\n"
+> +				: [swap] "=r" (swap), [addr] "+A" (*addr)
+> +				: [val] "r" (val)
+> +				: "memory"
+> +				: fault
+> +			);
+> +	__disable_user_access();
+> +	return swap;
+> +fault:
+> +	__disable_user_access();
+> +	return -1;
+> +}
+> +
+> +/*
+> + * Create a restore token on the shadow stack.  A token is always XLEN wide
+> + * and aligned to XLEN.
+> + */
+> +static int create_rstor_token(unsigned long ssp, unsigned long *token_addr)
+> +{
+> +	unsigned long addr;
+> +
+> +	/* Token must be aligned */
+> +	if (!IS_ALIGNED(ssp, SHSTK_ENTRY_SIZE))
+> +		return -EINVAL;
+> +
+> +	/* On RISC-V we're constructing token to be function of address itself */
+> +	addr = ssp - SHSTK_ENTRY_SIZE;
+> +
+> +	if (amo_user_shstk((unsigned long __user *)addr, (unsigned long) ssp) == -1)
+> +		return -EFAULT;
+> +
+> +	if (token_addr)
+> +		*token_addr = addr;
+> +
+> +	return 0;
+> +}
+> +
+> +static unsigned long allocate_shadow_stack(unsigned long addr, unsigned long size,
+> +				unsigned long token_offset,
+> +				bool set_tok)
+> +{
+> +	int flags = MAP_ANONYMOUS | MAP_PRIVATE;
+> +	struct mm_struct *mm = current->mm;
+> +	unsigned long populate, tok_loc = 0;
+> +
+> +	if (addr)
+> +		flags |= MAP_FIXED_NOREPLACE;
+> +
+> +	mmap_write_lock(mm);
+> +	addr = do_mmap(NULL, addr, size, PROT_READ, flags,
+
+
+Hmmm why do you map the shadow stack as PROT_READ here?
+
+
+> +				VM_SHADOW_STACK | VM_WRITE, 0, &populate, NULL);
+> +	mmap_write_unlock(mm);
+> +
+> +	if (!set_tok || IS_ERR_VALUE(addr))
+> +		goto out;
+> +
+> +	if (create_rstor_token(addr + token_offset, &tok_loc)) {
+> +		vm_munmap(addr, size);
+> +		return -EINVAL;
+> +	}
+> +
+> +	addr = tok_loc;
+> +
+> +out:
+> +	return addr;
+> +}
+> +
+> +SYSCALL_DEFINE3(map_shadow_stack, unsigned long, addr, unsigned long, size, unsigned int, flags)
+> +{
+> +	bool set_tok = flags & SHADOW_STACK_SET_TOKEN;
+> +	unsigned long aligned_size = 0;
+> +
+> +	if (!cpu_supports_shadow_stack())
+> +		return -EOPNOTSUPP;
+> +
+> +	/* Anything other than set token should result in invalid param */
+> +	if (flags & ~SHADOW_STACK_SET_TOKEN)
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * Unlike other architectures, on RISC-V, SSP pointer is held in CSR_SSP and is available
+> +	 * CSR in all modes. CSR accesses are performed using 12bit index programmed in instruction
+> +	 * itself. This provides static property on register programming and writes to CSR can't
+> +	 * be unintentional from programmer's perspective. As long as programmer has guarded areas
+> +	 * which perform writes to CSR_SSP properly, shadow stack pivoting is not possible. Since
+> +	 * CSR_SSP is writeable by user mode, it itself can setup a shadow stack token subsequent
+> +	 * to allocation. Although in order to provide portablity with other architecture (because
+> +	 * `map_shadow_stack` is arch agnostic syscall), RISC-V will follow expectation of a token
+> +	 * flag in flags and if provided in flags, setup a token at the base.
+> +	 */
+> +
+> +	/* If there isn't space for a token */
+> +	if (set_tok && size < SHSTK_ENTRY_SIZE)
+> +		return -ENOSPC;
+> +
+> +	if (addr && (addr % PAGE_SIZE))
+
+
+I would use:
+
+if (addr && (addr & (PAGE_SIZE - 1))
+
+
+> +		return -EINVAL;
+> +
+> +	aligned_size = PAGE_ALIGN(size);
+> +	if (aligned_size < size)
+> +		return -EOVERFLOW;
+> +
+> +	return allocate_shadow_stack(addr, aligned_size, size, set_tok);
+> +}
+> diff --git a/include/uapi/asm-generic/mman.h b/include/uapi/asm-generic/mman.h
+> index 57e8195d0b53..0c0ac6214de6 100644
+> --- a/include/uapi/asm-generic/mman.h
+> +++ b/include/uapi/asm-generic/mman.h
+> @@ -19,4 +19,5 @@
+>   #define MCL_FUTURE	2		/* lock all future mappings */
+>   #define MCL_ONFAULT	4		/* lock all pages that are faulted in */
+>   
+> +#define SHADOW_STACK_SET_TOKEN (1ULL << 0)     /* Set up a restore token in the shadow stack */
+>   #endif /* __ASM_GENERIC_MMAN_H */
+
+
+Don't we need to advertise this new syscall to the man pages?
+
