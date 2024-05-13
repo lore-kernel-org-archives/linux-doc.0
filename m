@@ -1,114 +1,92 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C4E950279;
-	Mon, 13 May 2024 14:05:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3837153BC0;
+	Mon, 13 May 2024 14:22:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715609113; cv=none; b=JPcnDMbrESKSHwmPEYlfsv/MtlmCsszB+D8tVMyOquC0QgBxkNkyWfYfr5Eru/usEWzEZfbsH+IG2TI9dC4UZAQmxonJ2yd9BmjGflgoqqsHa2uLS5xp7G0bsv6YaNiplfEPKqHiqJRRj7ZS8HCL3svytSoMXjS4sEDCU2FYJQ0=
+	t=1715610172; cv=none; b=tcO0eNFsUinYc/lzWail3KRMttre6haCGe1GYLBeuFYvl2Y05oam0AIzU8gJckg64wExLiMpH5nVvI7IVIq5CXzbAgBtZW/4kBTxu5/eEgp8j6Kbm/GQ0OqlT2N/TfkxGqNLuyz0viMCQ9AF6Af+bmkzFU7KSU1Ha1B4wD3M7XY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715609113; c=relaxed/simple;
-	bh=qwjQ4fg1WT6WfdujCf5cSA6FPKSOt1LSqitx8MP9bKQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u+fx/QI71yjlwFDIlR7mHg8z/V23D4nQ5tdyKd4CL49uWgntrapB+3akWSY7I5dVfpEx60H7jv3yEjoHg4jVuaSsAQZf0oLSsdzOiFPl9EcQa1DCDXGkb4v7PC10vZ1yFpmAunVuunkPA7wcPfR7Y/B5aPUjSOcTHYlNFAj1bz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=bU9Fuy/G; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1715610172; c=relaxed/simple;
+	bh=tI/WvQv46AJugXtuNIipq8toujNOpRvVaAr7krEGAnI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ELjeg1ptSJYglhTrLYBbbNUDGxDtYrlfph+QgCig6O54Yf8P18oDDVo3W77lcwR7FKSDtBZP8g3wQBa9TsOrkvMzGt7frw/LjauWOmbcEJ9bH6PKo/EoQL7J5rdJSK6LLKbZpt376SkKR4sEp9Ajs4JXO2K1MoBAbB9iKW230SQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MpFbeQBA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="bU9Fuy/G"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=aEGhKcPHh9CD0ui7RPmRSg76vE/Dq4xMw3NyWOINtCw=; b=bU9Fuy/GeuRaJHGhTQLB4qpvcH
-	cvKBaa7/AIOhMZOvKgrCuI7WM2kyUuohkdWAAioU75+Di2yG1zJqB+yt7VX3xeTWWj9qshuEPYoT+
-	V659BFgGI0LN137cGAl1WQNS/MkbeyQsllBOu4jWpxq5EcPeTbO1bRNIU7jlSY/h+xDg=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1s6WIQ-00FJKx-7h; Mon, 13 May 2024 16:04:54 +0200
-Date: Mon, 13 May 2024 16:04:54 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: =?iso-8859-1?Q?Ram=F3n?= Nordin Rodriguez <ramon.nordin.rodriguez@ferroamp.se>
-Cc: Piergiorgio Beruto <Pier.Beruto@onsemi.com>,
-	"Parthiban.Veerasooran@microchip.com" <Parthiban.Veerasooran@microchip.com>,
-	"davem@davemloft.net" <davem@davemloft.net>,
-	"edumazet@google.com" <edumazet@google.com>,
-	"kuba@kernel.org" <kuba@kernel.org>,
-	"pabeni@redhat.com" <pabeni@redhat.com>,
-	"horms@kernel.org" <horms@kernel.org>,
-	"saeedm@nvidia.com" <saeedm@nvidia.com>,
-	"anthony.l.nguyen@intel.com" <anthony.l.nguyen@intel.com>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"robh+dt@kernel.org" <robh+dt@kernel.org>,
-	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
-	"conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"Horatiu.Vultur@microchip.com" <Horatiu.Vultur@microchip.com>,
-	"ruanjinjie@huawei.com" <ruanjinjie@huawei.com>,
-	"Steen.Hegelund@microchip.com" <Steen.Hegelund@microchip.com>,
-	"vladimir.oltean@nxp.com" <vladimir.oltean@nxp.com>,
-	"UNGLinuxDriver@microchip.com" <UNGLinuxDriver@microchip.com>,
-	"Thorsten.Kummermehr@microchip.com" <Thorsten.Kummermehr@microchip.com>,
-	Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>,
-	"Nicolas.Ferre@microchip.com" <Nicolas.Ferre@microchip.com>,
-	"benjamin.bigler@bernformulastudent.ch" <benjamin.bigler@bernformulastudent.ch>
-Subject: Re: [PATCH net-next v4 05/12] net: ethernet: oa_tc6: implement error
- interrupts unmasking
-Message-ID: <81170ef6-2b16-4d7f-85b1-4c3fecdc8853@lunn.ch>
-References: <874654d4-3c52-4b0e-944a-dc5822f54a5d@lunn.ch>
- <ZjKJ93uPjSgoMOM7@builder>
- <b7c7aad7-3e93-4c57-82e9-cb3f9e7adf64@microchip.com>
- <ZjNorUP-sEyMCTG0@builder>
- <ae801fb9-09e0-49a3-a928-8975fe25a893@microchip.com>
- <fd5d0d2a-7562-4fb1-b552-6a11d024da2f@lunn.ch>
- <BY5PR02MB678683EADBC47A29A4F545A59D1C2@BY5PR02MB6786.namprd02.prod.outlook.com>
- <ZkG2Kb_1YsD8T1BF@minibuilder>
- <708d29de-b54a-40a4-8879-67f6e246f851@lunn.ch>
- <ZkIakC6ixYpRMiUV@minibuilder>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MpFbeQBA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 498C4C4AF16;
+	Mon, 13 May 2024 14:22:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715610171;
+	bh=tI/WvQv46AJugXtuNIipq8toujNOpRvVaAr7krEGAnI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=MpFbeQBA5dmJRcc8KkY9woVXu4e6RFP1wuGqPDI/UFeb8VGMy9Rhm2gxGSxP47VrW
+	 LK2BGQqqY3MhZLT1P3WXQISPRCqQaGHem2z3aCDhZKf5JMWGdNrg943mosK7hXDhCP
+	 /jraukPs7LRGbQwH/iWA8I9GM+TOtkP7ylmDUSdy5KUnQZWs+BdcTYKvkljpiUeKwp
+	 P5IzxWZEsW05YsWlfVKXqOAUD2YM7iCQ+T0z8kbbRjHHY4AyIq4fSq5VweynkrTPY9
+	 np161T+Nin8f5+nAgd5+oKunYx/YqDeWPi/+cHcqaWOYduFlKd1OOBbaoz0TYYzTbQ
+	 U/odJW3UbdhQg==
+Date: Mon, 13 May 2024 07:22:49 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Heng Qi <hengqi@linux.alibaba.com>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, "David S . Miller" <davem@davemloft.net>,
+ Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>, Jason
+ Wang <jasowang@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Brett
+ Creeley <bcreeley@amd.com>, Ratheesh Kannoth <rkannoth@marvell.com>,
+ Alexander Lobakin <aleksander.lobakin@intel.com>, Xuan Zhuo
+ <xuanzhuo@linux.alibaba.com>, Tal Gilboa <talgi@nvidia.com>, Jonathan
+ Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, Jiri Pirko <jiri@resnulli.us>, Paul
+ Greenwalt <paul.greenwalt@intel.com>, Ahmed Zaki <ahmed.zaki@intel.com>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>, Kory Maincent
+ <kory.maincent@bootlin.com>, Andrew Lunn <andrew@lunn.ch>,
+ justinstitt@google.com, donald.hunter@gmail.com, netdev@vger.kernel.org,
+ virtualization@lists.linux.dev
+Subject: Re: [PATCH net-next v13 2/4] ethtool: provide customized dim
+ profile management
+Message-ID: <20240513072249.7b0513b0@kernel.org>
+In-Reply-To: <1715531818.6973832-3-hengqi@linux.alibaba.com>
+References: <20240509044747.101237-1-hengqi@linux.alibaba.com>
+	<20240509044747.101237-3-hengqi@linux.alibaba.com>
+	<202405100654.5PbLQXnL-lkp@intel.com>
+	<1715531818.6973832-3-hengqi@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZkIakC6ixYpRMiUV@minibuilder>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-> Good input. I'll add some instrumentation/stats for how many jiffies
-> have elapsed between releases of the worker thread and for the irq
-> handler. I can probably find a gpio to toggle as well if it's really
-> tight timings.
-
-What might be more interesting is the interrupt status registers. Is
-there a bit always set which the driver is not clearly correctly?
-
-You can try printing the values. But that might upset the timing so
-you cannot reproduce the issue.
-
-If the printk() does upset the timing, what i have done before is
-allocate an array of u32 values. Write the interrupt status into it,
-looping around when you get to the end of the array. And then use
-debugfs_create_u32_array() to export the array in /sys/kernel/debugfs.
-Trigger the problem and then look at the values.
-
-> > Is this your dual device board? Do you have both devices on the same
-> > SPI bus? Do they share interrupt lines?
-> > 
+On Mon, 13 May 2024 00:36:58 +0800 Heng Qi wrote:
+> This failed use case seems to come from this series triggering a problem that
+> has not been triggered historically, namely lockdep_rtnl_is_held() is not called
+> in an environment where CONFIG_NET is not configured and CONFIG_PROVE_LOCKING is
+> configured:
+>   If CONFIG_PROVE_LOCKING is configured as Y and CONFIG_NET is n, then
+>   lockdep_rtnl_is_held is in an undefined state at this time.
 > 
-> It's on the dual device board, the macphys are using separate spi buses,
-> one chip shares the bus with another spi device, but the other is the
-> only tenant on the bus.
-> 
-> No device shares an irq line.
+> So I think we should declare "CONFIG_PROVE_LOCKING depends on CONFIG_NET".
+> How do you think?
 
-I was just wondering how your setup differs so you can trigger the
-issue, but others have not been able to reproduce it. It might be
-another clue as to what is going on. I don't think you need to do
-anything with respect to this, its just information to keep in mind.
+Doesn't sound right, can we instead make building lib/dim/net_dim.c
+dependent on CONFIG_NET? Untested but I'm thinking something like:
 
-	Andrew
+diff --git a/lib/dim/Makefile b/lib/dim/Makefile
+index c4cc4026c451..c02c306e2975 100644
+--- a/lib/dim/Makefile
++++ b/lib/dim/Makefile
+@@ -4,4 +4,8 @@
+ 
+ obj-$(CONFIG_DIMLIB) += dimlib.o
+ 
+-dimlib-objs := dim.o net_dim.o rdma_dim.o
++dimlib-objs := dim.o rdma_dim.o
++
++ifeq ($(CONFIG_NET),y)
++dimlib-objs += net_dim.o
++endif
+
+
