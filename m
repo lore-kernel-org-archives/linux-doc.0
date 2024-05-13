@@ -1,204 +1,254 @@
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2070.outbound.protection.outlook.com [40.107.102.70])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BEA3147C93;
-	Mon, 13 May 2024 08:50:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.70
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715590214; cv=fail; b=dAZqQrPyjJA1ehH9k+5V2bv14rpFfCwP0n+tpNc6doLgtPzvdWeJWAhSiBSaVYmK5QAPe5JRO9Z2V7V856sR46Zt0J52BLXStLS3ESzC9A80HaUG8OXpZuQlQ9mk04o40G3GYvPd2k8aHmlWpvvhduygy2a7Wt836NOB2VNJh7E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715590214; c=relaxed/simple;
-	bh=DF5iZUea89kNbx9T9oUaBtA3JhfjiWmJfChxiIctRS8=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=pYErRmTpeu0CSYa6g/0eeMi8buPzsghrT5cy8+cP8MGf+0nff8wAT5XV8ONIz8xnA2vlSW2ep8HaxQltDJHDjbXW1dGTvx718q70MseI2ijoKuq3+uw81odKZI5AVL8hpEpZ4T+7KHH5Hq/7yPKdS3WkvV9GDsOgrVOMPPA9KQw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=NWikODse; arc=fail smtp.client-ip=40.107.102.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58A812AD11;
+	Mon, 13 May 2024 09:03:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715591000; cv=none; b=KZY2KYcqs+GICCNS3bV4uBkxvslea5VMPY18ObIKeLxAkvLU4Zj1Mq+oJr4oZAZxv95Mc1Tgtk+OkAdapWUf4obSFF8I/dY2ZFGetHGjr3rsyK9zb9ErLeeDl6MPE+/tj10RY4ay+lt9KaEU9EalgY0o7FFajgTTwIlNT0RNh7o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715591000; c=relaxed/simple;
+	bh=daajJWtyQJC8cD/Rts30WijUb6z7d2RN1Sa3EFyArm8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NbrprbpXIrevXaXzWHUgHA5Pw7yCKa01y4MbLTOI1EEieprBiEcF8j2PiXHyOdDLU3aGk1sBzTi5Lbb6WJpMO5O07+ybnpnyoq5hYG78hKksmEId9gR/NxgpXh2fKHWOHrzwMOd0KGYycyrQy/Gf7UGBxd4YT4IQrfckQxuDRbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=NhQwZoBT; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="NWikODse"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HMpV09grsRKSAN9tmbj2W4xeuh/ws4GJgLxPwHXPAaiWH5EcWHATlZ8z5GuhkRw6Iw3UvXK4y6eEWUa/EYZcqX7P4Ok77et+QNDmgE611YgofEtrtXFytgxh6+JJRuyhFLJ6PZYa7EWB6Ro4goPz7UTAvn6KoQKUTD5FjKPBFQXTZ/n3ayn3GdrHGhSNbaZasaPutMKRuLYNAp1o0XNL6QPzdcot43PaYREjiLXP0713fwX6h8RuSnapHgmgdEb52qxkFg1o7s0klhOkyrsOuPtGaYifwQBTV9KcTUdhMxaXOghrEkiJcZ83+3BNLR9M5y1bUajIm/WSAANxRqSKSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=svoHXyXexgZXvl0jIboJ1QPkbaEpEtgIw9s1bGmGs3g=;
- b=kJxDtDSW/cCQ6PRNdsfBUOgtMKmeVqiymDCu2tjy7e4TFsvF1k4N8JDviTyVmS0vmPp+lxag//ortc/AqFaVRp9vi8s49v5LnC0eEj5d+gx+IaMq6UYMHTrddvUtTWKSCZr8C97wo24gDln6J9FdWEtAXUrtnh/TH4CjSWlEBcXGVdqtZUGZuwg9SK3Qte8b1AMTxp+jaDWQwgS/t/7vfVsW3wTagCpOMMxs+gJxJ4FDFZAqrLuEKJ9xyhaigUICvZn57I0d1piLcOS1suS0FoAnyd+dbGyAvMRQPNbPR667bn3KRTHKN2BMnKjasx7gwaQKAr2d5CyDneSwa0YRPA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=svoHXyXexgZXvl0jIboJ1QPkbaEpEtgIw9s1bGmGs3g=;
- b=NWikODseycYklMy3kgYh3l4R2H9FfBjzkffLNtVRErp5sEBLVhhUpa0JJ9hitTM5yF3jIJN1yWoCkT9s7ns3bd/MErLqL728dOC7wiCwJ7Y1UM9HVQcWMJRpCJ6acKNly/WBQRcKZ3QPnJEBOmqfiZ3MeO8rG9xgv4MwzQIH3mUDH2Y1+GNitWbtRUGD5sVjZQLsLP/n4LDjgyywcbq9UVY6a00FJSFuvgTdXka/G4hO57mdENmdIwW/GRf6alL+xssEWlpkHBlGuoqLggzcJWRYcgY5RbLf/9Ew9Sta6hRpNIgcgXqozai+wV4fXUGzbw8Uml8QuGCmlXGb2+2OaQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CO6PR12MB5444.namprd12.prod.outlook.com (2603:10b6:5:35e::8) by
- BL3PR12MB6617.namprd12.prod.outlook.com (2603:10b6:208:38c::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.55; Mon, 13 May
- 2024 08:50:10 +0000
-Received: from CO6PR12MB5444.namprd12.prod.outlook.com
- ([fe80::ae68:3461:c09b:e6e3]) by CO6PR12MB5444.namprd12.prod.outlook.com
- ([fe80::ae68:3461:c09b:e6e3%5]) with mapi id 15.20.7544.052; Mon, 13 May 2024
- 08:50:09 +0000
-Message-ID: <0c6af8ed-3cd5-4037-a232-3f697d448573@nvidia.com>
-Date: Mon, 13 May 2024 09:50:04 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs: document python version used for compilation
-To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jonathan Corbet <corbet@lwn.net>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-References: <20240512-python-version-v2-1-382870a1fa1d@linaro.org>
- <68e05c6f-d0ed-efea-6eef-a9ee008c6c24@quicinc.com>
-From: Jon Hunter <jonathanh@nvidia.com>
-Content-Language: en-US
-In-Reply-To: <68e05c6f-d0ed-efea-6eef-a9ee008c6c24@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: LO6P265CA0021.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2ff::14) To CO6PR12MB5444.namprd12.prod.outlook.com
- (2603:10b6:5:35e::8)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="NhQwZoBT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1715590989;
+	bh=daajJWtyQJC8cD/Rts30WijUb6z7d2RN1Sa3EFyArm8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NhQwZoBTTTQzQMdVmCdinXyaGtkanVhK52RMU0Pjt9QLy9Yx+GOhFpw1Yr6yQVCRI
+	 qmbUiicKfrvB/bbhbZTkGh55wYc/Lydd7oHfQN5WmTl/BlHAOPG1EdqVp7sTNoNoWt
+	 G3t6SgREjBvI+GD8NUv3sAoN8Rn4J00sBa3IBHRbKhPIrbst8kTG/MgaqQmulupM9h
+	 CgrvuYsDTSfMemLYtOgfjeJE9bvQZZ9XjvGwSngMbIbSrr19bXORCukGjWFrk23QFy
+	 JRz7bac8zMsOS0LIO9fs3RIrh5OrEXTdgkzoSztiF1INYx1tzohdADU9u1vpyYdYem
+	 EfvJ7LrGmoRow==
+Received: from xpredator (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: mvlad)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 6B4193780480;
+	Mon, 13 May 2024 09:03:08 +0000 (UTC)
+Date: Mon, 13 May 2024 12:03:07 +0300
+From: Marius Vlad <marius.vlad@collabora.com>
+To: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
+Cc: Louis Chauvet <louis.chauvet@bootlin.com>,
+	Jim Shargo <jshargo@google.com>, daniel@ffwll.ch,
+	brpol@chromium.org, corbet@lwn.net, dri-devel@lists.freedesktop.org,
+	hamohammed.sa@gmail.com, hirono@chromium.org, jshargo@chromium.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	mairacanal@riseup.net, mduggan@chromium.org, melissa.srw@gmail.com,
+	mripard@kernel.org, rodrigosiqueiramelo@gmail.com,
+	tzimmermann@suse.de
+Subject: Re: [PATCH v6 0/7] Adds support for ConfigFS to VKMS!
+Message-ID: <ZkHXS6iBLgRoApNl@xpredator>
+References: <ZjCtgSaL50YrS-F-@phenom.ffwll.local>
+ <20240508181744.7030-1-jose.exposito89@gmail.com>
+ <CACmi3jF6Dp3PE8X=T5kTO2+eYJQi7jWACFdmp9jzKxUtcQphnQ@mail.gmail.com>
+ <Zj5JIah0jWnIn2Ix@localhost.localdomain>
+ <ZkHKhtBmyS12i3fH@fedora>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5444:EE_|BL3PR12MB6617:EE_
-X-MS-Office365-Filtering-Correlation-Id: c9de67bc-949a-4a6e-8a25-08dc7329b1cf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|376005|7416005|1800799015;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?T1hFTisySUtydWdZTS9PNEtPTE9tTUNFeS9tTVF0ak1mN0c5QlczUHg3TmJh?=
- =?utf-8?B?VWMzbjRJcnlRZ05PUWFhS2ZrR3JJcGV2Y1lwTGpLa2xMRUpjSG1LR3l5M1Q3?=
- =?utf-8?B?WGRwZGFTTFRSRU9ack1zbmN5SjJvNXdOeXZKUnJzaVUwdjVrV2NxbUpkRDMx?=
- =?utf-8?B?VEg4eHNZbVlTT0g2YS90N2NaZUVPZUxGL2lkUEgwaDZQL1QrVE8zdmFDeXZK?=
- =?utf-8?B?V0VkTDVEZ1B4T2pOdzl2bm9SeDdNckdFMW5xT1hkN1pTaTlneXVkOEJCWDlz?=
- =?utf-8?B?K3NNYmNya1NDdjA1bWdRamNmNkVFdkFUWlNndjhjQ0ZjUmtjVTFwWldlT1ZI?=
- =?utf-8?B?c21KckxSTjJSLzJQVEJ1N3VFenpXM3JhMGxuVFVCMW84cUVkTVNybEZyRWVK?=
- =?utf-8?B?SUh2Qklaclhrd3RyMG9BdHBIRUZjRUY0WkJmaGdFc0s3bll0V1BLcjJJREkv?=
- =?utf-8?B?MkpYYmhpWHF3Q0RrMWZTRnZaOFI4bDZFYzlrZFExa0RRbEhYcnpYOTMwcFZ2?=
- =?utf-8?B?dkFLWEgwbjRqeG5PWUdhak54RnpacllqS2I5RlVOaG4wSE4wdkd2aUdzN0Ry?=
- =?utf-8?B?Qk1WcVN1NlZRQ2U1QW10WFdDSjBKUHlPblFNSXYzNklQaHpscUVQcFgvSFll?=
- =?utf-8?B?akVlOWFsY1huM3IzaWV0M2VZcm10UkZsQkpkRzJGemc3SjVvQzdXN3FpSXUx?=
- =?utf-8?B?TDFGRllWY3U3cnkzT05jVVpQT2VKeTVHQ3ovSitBYmg5MmZSK3BzWWJCd2pE?=
- =?utf-8?B?by9rdS83dnVuTzE3aXBUSnlBbnYyR0xscjVVT1ZQclowR0RWTk1RZjlTWDhs?=
- =?utf-8?B?R2dudHRsVy82NytEd01UaTJHY2p0NHZwdDZpS1E1TGVlZHRRRm5tVmFYbDNh?=
- =?utf-8?B?Q1gyT29ZYm1PRXkwM2F3SWZSY2tjWmdFbHFBa2NHZ241NVFFMkJUQ1dQY1J2?=
- =?utf-8?B?UFNLamlRU0ptY3RFeVBFOTRCc3BxaUh6eHhMWWtJN1RSamlMQWlocU5VK1RE?=
- =?utf-8?B?Z2svT2hrbS9CSGtoMmk2Qmwxbk5oT3VVOXkrSDFzQnQ5QTFocWdRUDkveGJF?=
- =?utf-8?B?dGtpbkx5N0JHeXR4dHl6THd2MjhGRkhKQmhITmNZTkE1U3huRjY1Q29xNHdH?=
- =?utf-8?B?RkgwUnFXL21IQThhd3JTa1UrdldydWRpMFo5ZWhKdUFWTjIzSHMxTWI0OFpl?=
- =?utf-8?B?TzhRTmxLUnpZbVdCL0VMS3oySzlETjFwZnZKb2xvNy9Rd1Q0K0ZscWlyTUZZ?=
- =?utf-8?B?akwxTldtd3M1ZnR1NC9oOEdGSmtKWmZqa2RXazN5NmJCdG1NcWFTNDN1d0pQ?=
- =?utf-8?B?ckNCcFVwRlA2WUVwcDdLeko4eEVCZWlQKzU3cXhNbmR6VTE1TWlUeVIycCt2?=
- =?utf-8?B?d24xSitaQ2RsZ2RVS0hBMHIrUkFGeU84eXdDbld0N0lWbUMrQ25QUDQ0bFlo?=
- =?utf-8?B?TkFVcC9zMW9kUW9ZSzFnKzh3ODV5VUFOUFQ3MTJOVks1UWwxbUo0Y2dvVUp2?=
- =?utf-8?B?d1dJSDJOOXJaRWV0K0pmVGFDb2haWFVxMTExUjhOY2xmMlRjMGwwQmZKc0tp?=
- =?utf-8?B?S2NvbXF5WEhjS2UzZVNBWnRqZ29ZTXN2QUNjMDE2WWhyOHZEMUdsTzVOZGpG?=
- =?utf-8?B?UkZiNS9lQ2MrN3U1bFpWdGVhV2g1OXNYY1UzZ0ZSOEtyL1hkcUIxc1l4U2lp?=
- =?utf-8?B?bUE0bk5EdFlBWk1IS0hybEd4Y0h4TWxGRTFBM01SKzRXMXMxWnN2U0tBPT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR12MB5444.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(7416005)(1800799015);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bjBXMDdFa21kMWpDcytSSDFxV1FGelZyS2VMYnY5Njh0ekE4S0tNNU1wYndk?=
- =?utf-8?B?V05YZUhqamR1eEJGR3R4MHRIc3dMTWtTUjVqYmhiSGRJVTFYWHhOdkt0c3pa?=
- =?utf-8?B?eVVrTmhMeEhYc1JUT3lmNnBHbjIxcEFTVkVOT09PanNDYzhNK3ZPbVJSdEk1?=
- =?utf-8?B?cmpjdC9xZWErTFhwMTBoaVBndi9Ed3hLYmZYeTdmbk9hWmp6UWp2Q0h2aVlU?=
- =?utf-8?B?bWo0bzhUTnlxWU8vaWE5THBEeCtUbGFNSThxcHUxWGw5SlF1MytXZzFkQWpp?=
- =?utf-8?B?TjFBZDJLSkRRY1BJY3NPcElVNHV2V0JNaTZ4RG5vSnQwZVIwSGpxK1NWa0Qv?=
- =?utf-8?B?cHVGVU10NEhURWZzOVVlSWJZZUY3MDdOblVDQ1dHWXBrdnlYa0F6VCtWYm5O?=
- =?utf-8?B?Z3pSZDhKTmJibDZKVjFqZ3Y3L1hvc2hnOTQ1TWdHRVVGV3IwMjNyNVBrMTFB?=
- =?utf-8?B?Sy9Oam1zME0xalBnR1ZNYm05VjZLQ1pZUEVGOXBVZEc5YkR1d0hCOG5ndXk5?=
- =?utf-8?B?czFHMWVkWjhianVwY1I2Ry9IVDkrVzBEUEdrQ09qUThyeXMzcWd5U25pSUhT?=
- =?utf-8?B?Tzh1aThSN3p6Z3o3U29sYnd0dG52VFFvM0hBbUswa2hKWGdRUzQ5eWswbWdo?=
- =?utf-8?B?ZEh6Z2lnRksybFB2Tnh6anJSb2c2ckxKd3dVNFo1ZjVWWTN2TUg1c3puREs3?=
- =?utf-8?B?V0tOY2lwY3dNM1F4MGs2OHU0bVdZcCtVVFB2STdTNDFRQ3BnN0ZwNzFZV2VY?=
- =?utf-8?B?QkJNS2xQMTJsUDFMVG9mSDQ5M05nSzVJVDdNQkdoRncyWnA1OXFtWFFzaFV1?=
- =?utf-8?B?eDJQemNhRUhSRFZndjRYUzRxd2R3TWorR1R3Y1Q4blQ2cVZCdjl3NCtOTnJn?=
- =?utf-8?B?MjZsWjhHemFxUC8reFNRM0h6aDFqMnQ5U28rd29QOTk3WEFtZlN2MDRwZGtk?=
- =?utf-8?B?bEdKL1dvY0o1QTA3Z1ZRaVdjZzlhdThSMGo4bGxlYmxWM1U2SmxQeTRFRXBu?=
- =?utf-8?B?UnBzRUYzWFQ0L2U0cHYwMTV0dGNaWHh4YjVadjFJN0I2Mkx4MkpzWk9ENmlD?=
- =?utf-8?B?MCtMRHBnaGZuZUpZeG9odG4zcWE1MDE2cktwTEJFZSs2Q3Q2dmhYL0hWbDhy?=
- =?utf-8?B?Z0k2NTFNL1VLKzQ3ejZTWlhKR3RpZEtnRjMvd2dNLzlxMVNuampBYUVBUFlS?=
- =?utf-8?B?bUZtL2V5dUM5NlR1ZGt6LytqcTNSUFp6T2pMTHp0aDlPWk5yUXdpL0xmclp5?=
- =?utf-8?B?NU9SWFAvN0hCbjBMSlNndVZXckV5SUxVSGtqclVwaE9rVzFnZzcwK1hkdHI4?=
- =?utf-8?B?Z1FSelNhSUFnOFZoNkhEWS9kSThEakI0TWwxQ1lJa0dvZ3E3YTIvRFJ3Y2hW?=
- =?utf-8?B?emdLY09xb2I1dW0wZ0ltMllpdkN6S3hGZUsraytvemJJUHpmcS9BcG9IU1dX?=
- =?utf-8?B?ZEJmcm43MmpxM2wyZWhQamx1RlRvd3FoeXVuMmFRdXJncU5YMXEzdmNpbkhx?=
- =?utf-8?B?Y3JIY0hYY2J2bEpyTThBNnhUM2VVdFRoeUY0QVVONVlaYWJIZlhwRDNjUlIv?=
- =?utf-8?B?YUtBQ1prMWxiQi9qRCtSWjFBL3FtZWh0QTRVSHF0cytBYVFDSGNtbWFKSC9C?=
- =?utf-8?B?UENLZlJId0F4MlBZS1poRFNPbGo3WW9XSlBpWE1Ealc5ZlpOaCtNOEVhendm?=
- =?utf-8?B?aXBMK05UWG5WMnVrWWFBRzVra1BKVWorNkJXS0RFK08rb1RVY2dWcERHRWF1?=
- =?utf-8?B?T0s5Z3ZBemFwdGdFTFhzeUJ5VHczZ2dPWHAxL2lIZlpJWHg4RVdTTHNTbzZP?=
- =?utf-8?B?clUvMkFxVnpjWUFseURsMW1EVHFTdUMrMEtqbjM3eXlKNHFTcHhyalNtM0hG?=
- =?utf-8?B?V29ieU9tNEpBSFB3Z0QwYjk2cUFOQTk3eEJkSUxCOUdEMUdEYUhZNnZBRDBE?=
- =?utf-8?B?eXhBakRsRURCdVY4MittK05aUE5GcWJweXl2RWpydUNQYkFZbjF2bmRjcHc1?=
- =?utf-8?B?bUkyRmR3dDFQS1JGTjdwTit3NE1oa2tNYWUwZThObTV3UmtRR0tPTytOVEE0?=
- =?utf-8?B?dmRTR2Y5L3VaZHNXaTlGWDlmNGdkQktzSG1senl4Wjd2WnhoU09IWllFcVhH?=
- =?utf-8?B?K09mRk9zYTFETkZVdlBWWWV0Y1JNRGpWeEZlcHc3MGE2L3czd3dSaldUNDl3?=
- =?utf-8?Q?CPqYTDXReiSEm/lxjVDGSUI43EfMAxGq4Jyc/ov581Nr?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c9de67bc-949a-4a6e-8a25-08dc7329b1cf
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5444.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2024 08:50:09.6190
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9yvG/xQuA67Pvg+PhhJkqWXxe18K43Corw0Cdc2pju05KAl7wlseVHSvCxD+HshJYoTDzz+O37X/6zrweWhGHQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6617
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="P6ICxzxgVt0CL0kk"
+Content-Disposition: inline
+In-Reply-To: <ZkHKhtBmyS12i3fH@fedora>
 
 
-On 12/05/2024 00:52, Abhinav Kumar wrote:
-> 
-> 
-> On 5/11/2024 3:32 PM, Dmitry Baryshkov wrote:
->> The drm/msm driver had adopted using Python3 script to generate register
->> header files instead of shipping pre-generated header files. Document
->> the minimal Python version supported by the script. Per request by Jon
->> Hunter, the script is required to be compatible with Python 3.5.
->>
->> Python is documented as an optional dependency, as it is required only
->> in a limited set of kernel configurations (following the example of
->> other optional dependencies).
->>
->> Cc: Jon Hunter <jonathanh@nvidia.com>
->> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
->> ---
->> Depends: 
->> https://lore.kernel.org/dri-devel/20240507230440.3384949-1-quic_abhinavk@quicinc.com/
->> ---
->> Changes in v2:
->> - Expanded documentation for the Python usage.
->> - Link to v1: 
->> https://lore.kernel.org/r/20240509-python-version-v1-1-a7dda3a95b5f@linaro.org
->> ---
->>   Documentation/process/changes.rst | 8 ++++++++
->>   1 file changed, 8 insertions(+)
->>
-> 
-> 
-> Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+--P6ICxzxgVt0CL0kk
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hi all,
+On Mon, May 13, 2024 at 10:08:38AM +0200, Jos=C3=A9 Exp=C3=B3sito wrote:
+> On Fri, May 10, 2024 at 06:19:45PM +0200, Louis Chauvet wrote:
+> > Le 09/05/24 - 18:18, Jim Shargo a =C3=A9crit :
+> > > Sima--thanks SO MUCH for going through with everything leaving a
+> > > detailed review. I am excited to go through your feedback.
+> > >=20
+> > > It makes me extremely happy to see these patches get people excited.
+> > >=20
+> > > They've bounced between a few people, and I recently asked to take
+> > > them over again from the folks who were most recently looking at them
+> > > but haven't since had capacity to revisit them. I'd love to contribute
+> > > more but I am currently pretty swamped and I probably couldn't
+> > > realistically make too much headway before the middle of June.
+> > >=20
+> > > Jos=C3=A9--if you've got capacity and interest, I'd love to see this =
+work
+> > > get in! Thanks!! Please let me know your timeline and if you want to
+> > > split anything up or have any questions, I'd love to help if possible.
+> > > But most important to me is seeing the community benefit from the
+> > > feature.
+> > >=20
+> > > And (in case it got lost in the shuffle of all these patches) the IGT
+> > > tests really make it much easier to develop this thing. Marius has
+> > > posted the most recent patches:
+> > > https://lore.kernel.org/igt-dev/?q=3Dconfigfs
+> > >=20
+> > > Thanks!
+> > > -- Jim
+> > >=20
+> > >=20
+> > >=20
+> > > On Wed, May 8, 2024 at 2:17=E2=80=AFPM Jos=C3=A9 Exp=C3=B3sito <jose.=
+exposito89@gmail.com> wrote:
+> > > >
+> > > > Hi everyone,
+> > > >
+> > > > I wasn't aware of these patches, but I'm really glad they are getti=
+ng
+> > > > some attention, thanks a lot for your review Sima.
+> > > >
+> > > > Given that it's been a while since the patches were emailed, I'm not
+> > > > sure if the original authors of the patches could implement your
+> > > > comments. If not, I can work on it. Please let me know.
+> > > >
+> > > > I'm working on a Mutter feature that'd greatly benefit from this ua=
+pi
+> > > > and I'm sure other compositors would find it useful.
+> > > >
+> > > > I'll start working on a new version in a few days if nobody else is
+> > > > already working on it.
+> > > >
+> > > > Best wishes,
+> > > > Jos=C3=A9 Exp=C3=B3sito
+> >=20
+> > Hi all!
+> >=20
+> > Very nice to see other people working on this subject. As the series=20
+> > seemed inactive, I started two weeks ago to rebase it on top of [1]. I=
+=20
+> > also started some work to use drmm_* helpers instead of using lists in=
+=20
+> > vkms. I currently struggle with a deadlock during rmmod.
+> >=20
+> > I need to clean my commits, but I can share a WIP version.
+>=20
+> Hi Louis,
+>=20
+> If you could share a RFC/WIP series it would be awesome!
+>=20
+> Since you are already working on the kernel patches (and I guess IGT?),
+> I'll start working on a libdrm high level API to interact with VKMS from
+> user-space on top of your patches. I'll share a link as soon as I have a
+> draft PR.
 
-Thanks! I made a request to update some of our legacy builders and so 
-hopefully they might be upgraded to a newer version. Anyway ...
+Just out of curiosity what API would that be? These should fairly
+simple that they can be configured from a shell script=20
+(mount/mkdir/rm/echo/umount). Believe should be easy enough to test stuff w=
+ith=20
+bunch scripts like that.
 
-Reviewed-by: Jon Hunter <jonathanh@nvidia.com>
+Perphas landing the I-G-T tests first (assuming we're settled=20
+on how exactly this would work) might be of greated help to get a green lit=
+=20
+the kernel driver side? Skip if vkms/configfs/something else that tells
+us VKMS doesn't have ConfigFS eneabled, and run it when that is on.
 
-Cheers
-Jon
+The lastest iteration was shared by Jim at=20
+https://lore.kernel.org/igt-dev/20230901092819.16924-1-marius.vlad@collabor=
+a.com/
 
--- 
-nvpublic
+That way sub-sequent BAT CI would pick up issues, and can also used
+independently by Louis. Should also divide the work-load evenly with
+Louis focusing on the just the driver. Happy to review and test it.
+
+>=20
+> > Maybe we can discuss a bit the comment from Daniel (split init between=
+=20
+> > default/configfs, use or not a real platform device...)
+> >=20
+> > For the split, I think the first solution (struct vkms_config) can be=
+=20
+> > easier to understand and to implement, for two reasons:
+> > - No need to distinguish between the "default" and the "configfs" devic=
+es=20
+> >   in the VKMS "core". All is managed with only one struct vkms_config.
+> > - Most of the lifetime issue should be gone. The only thing to=20
+> >   synchronize is passing this vkms_config from ConfigFS to VKMS.
+>=20
+> I agree, this seems like the easiest solution.
+>=20
+> > The drawback of this is that it can become difficult to do the "runtime=
+"=20
+> > configuration (today only hotplug, but I plan to add more complex stuff=
+=20
+> > like DP emulation, EDID selection, MST support...). Those configuration=
+=20
+> > must be done "at runtime" and will require a strong synchronization wit=
+h=20
+> > the vkms "core".
+> >=20
+> > Maybe we can distinguish between the "creation" and the "runtime=20
+> > configuration", in two different configFS directory? Once a device is=
+=20
+> > created, it is moved to the "enabled" directory and will have a differe=
+nt=20
+> > set of attribute (connection status, current EDID...)
+>=20
+> Once the device is enabled (i.e, `echo 1 > /config/vkms/my-device/enabled=
+`),
+> would it make sense to use sysfs instead of another configfs directory?
+> The advantage is that with sysfs the kernel controls the lifetime of the
+> objects and I think it *might* simplify the code, but I'll need to write a
+> proof of concept to see if this works.
+Can indeed sysfs be used similar to ConfigFS? To me it sounds like sysfs is=
+ a
+view into a kernel objects, mostly for viewing and slight modifications
+but not manipulating, adding/removing, on the fly, various things. Sort
+of see it the other way around, device enabled with sysfs but
+configuration happens through ConfigFS. At least from a user-space pov.
+>=20
+> > For the platform driver part, it seems logic to me to use a "real"=20
+> > platform driver and a platform device for each pipeline, but I don't ha=
+ve=20
+> > the experience to tell if this is a good idea or not.
+>=20
+> I'm afraid I don't know which approach could work better. Trusting Sima a=
+nd
+> Ma=C3=ADra on this one.
+>=20
+> Jose
+>=20
+> > [1]: https://lore.kernel.org/dri-devel/20240409-yuv-v6-0-de1c5728fd70@b=
+ootlin.com/
+> >=20
+> > Thanks,
+> > Louis Chauvet
+> >=20
+> > --=20
+> > Louis Chauvet, Bootlin
+> > Embedded Linux and Kernel engineering
+> > https://bootlin.com
+
+--P6ICxzxgVt0CL0kk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEcDKHej6x6uPk3J379jQS5glH1u8FAmZB10gACgkQ9jQS5glH
+1u9IhQ//YKKGQZru+mzohLxIFoZUEN+L25vQvgaQ9bHkgFsQeCooEON6j0FroHb8
+OqHCr4RHRsVTFVHlLhaYBedE+XSKvjrPkrN8BWKeGCQptcz9NKZhyo+VPUIAIpfy
+qmXvYK8IcSGU9Y7IFL1282T6FsTAg9IPRNmyH8C+t3xqsU3oiUvjldJeuPC3BO1f
+ljS9pRhi30n79U8X01zdVUQMb5epurBLCtlhP8IUSwA8ttnN/g+Npvya6w3VFUgp
+6szedYp12v0EJlIPjwbHkv0bPZ8s1akdSWsuCfcIuqZQOmX8gojIUZ32KZSMDQ6q
+Pj617jBbCl+Y/8b4P03cfhFWgfwSQoebqpoq+qiY9ywCAYBMou0D8Qg4FZ5Zyx27
+Bp81AmJ/t62rciz5QqQuhGz5DGmAE7XnBBmry8C6mhsBgMd0eqpfpjTl+9WMo5u1
+CmPpRsvA9zDB4RQkrM80Jed0ddAVPLUR3yiz7NTd6dm0fBZpGyhz5LePLtbpnyNO
+6XXiANPzBPJAR6/NJaL7NpoZt1/005SS68+TEFWzoWqWd/QHbDrPyhhiC9hUOKjm
+YoRfK6InnY8vijp6XFMRiiaIfhxwUkIs+QnBXt5WzXrQPLHGC83Efy+OacIdBnO9
+k5dcByhxrCTxZ9orig0vjf6gcTaJNO1IQ/ReErMppP8SzMA1Rco=
+=G6ed
+-----END PGP SIGNATURE-----
+
+--P6ICxzxgVt0CL0kk--
