@@ -1,195 +1,484 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 874CA146D51;
-	Mon, 13 May 2024 08:08:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3365C146D5D
+	for <linux-doc@vger.kernel.org>; Mon, 13 May 2024 08:21:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715587724; cv=none; b=fPlRBuuOxqu+oHQU2HAPh4WkSVhYuB/FRjykmD8HJPJ51CGxC3ZtVYNFcZLUE4XyXdcvvB8rQltMv809y6k3Uysrz0XAnRA2KOddGv/8TwK4hyDUtG16h7cUZo5uUc5kx4qEmDXbLwlb3LpxSoysmGAnQ/FQYYHSgBTbIsr4ZXk=
+	t=1715588507; cv=none; b=ULUTNW+cP4eMzF4yy69AMpLdZUQoOBbkqimW159KojasuIw9wHd956PxVJw6x+o6bILsBXbIX9YBD8sNXqsmZTNiTexHpG+PS9Fy6Of2Bk3g+Xs41h9WGMTtJWuOies8q7FTJfCvu5sshKIvtXlYxtIKxs2ptQU8f51mIMOlvkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715587724; c=relaxed/simple;
-	bh=e5Q+Z71JoPm4mw1PEubJIFTdVzb+FM23cc92+SA8twU=;
+	s=arc-20240116; t=1715588507; c=relaxed/simple;
+	bh=370Z/4pVqcnUJaFTTi6fEsKjJh8phfzv2AhRGUlrOS0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mMcQyqWg9yJPDHTw+Vciq1TnJMstKAtOVfUoM+kVaRFUXY9PA7OxZijCMFT8bTDxNDkIfGrhYVHsLHWHdV5QFEx6FIeRNOrpw89oa/Nr/PWNO9j6FbV/Dve7NSSXsvZlU4lsxwMifke0IALY34tqQJ6ngcEE8h9aU22MspzUhT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RO5KWf3u; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RO5KWf3u"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-34f52fc2191so2158011f8f.1;
-        Mon, 13 May 2024 01:08:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715587721; x=1716192521; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=TYCqLLcC+r5dGNKTuLB1ayvdzDR51lh0R2uUNOwd6XA=;
-        b=RO5KWf3uamtqrIZYlghAaSDSRJ6MAD1mMkKf8Bmsi4tFcJ1qHJXwegbfDWCz1tAcMA
-         Aw7urTuaudFuL7/oQxB/eVKeSacvLMGszW0MtBvj41C33KeZw2SA/wKBORrecNUQjhOW
-         Nr6M2hHhWsHW5KCH1RC16jDAcFfPq1WIBejfkuZyYCJQ5/4ZlD9QUQJEjBzI8PbOBOUi
-         lL62UGqF/SbBCgAihXc4C8o9VmkfqJgI+GUQySdAQaWiX/Ct0SwNUNpowNhauTM/C0Dt
-         omddBtuU5Z6atPlEHOJcsWEkY9HGt41SvWcwiGsEQ+grqg4iWPNg1lr9lvc9cJ3Lzmmo
-         qBHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715587721; x=1716192521;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TYCqLLcC+r5dGNKTuLB1ayvdzDR51lh0R2uUNOwd6XA=;
-        b=WNGB+YTHjT91KRR73OeBgGNbz9EyhPDXqiyUyi7Ba/TcmHtsREdosOOBcUm5jXxqMr
-         jpySC7xGivBGVNYOigL9XjMSDWOKQMCQeA7prgAkmOYubzoRFXCFQ5BmKrKcmXV96B/d
-         OV0NdfW61SpPl6H/VNTU7L5skvmeiOwoyly+OfI7vq2er2fK5WIvN/8rRInkecvyl5H4
-         kGPMGFA7hEeVgQZHJzUdSFE+3qCIAx+GpSm0H3lw5eOoBIJx5xixG/7n7mMIw1M8rAj0
-         rUaQAktlr1I71tkphL9pwpsO9D8QFTnKb0soTwhbsqHnZpDrsCvEoxZQ39iGMxPAwYj9
-         jIRg==
-X-Forwarded-Encrypted: i=1; AJvYcCXaOp+Ick0MiVOqxRXKiprH3TkBHv80zmKUGMwxt+PDAqxBfwc118MpbfGDPJBrst9yeMI2TlnarwWk5/k2gfQAZ5Lt7pfznjkmJTC0b3mb68dwWHs0l+QFnzjVPMH6bUh2GERWPrW3
-X-Gm-Message-State: AOJu0YxZylu3IhCEJWL66R6besUu3NDuntofwoYRguMj72tJQnCjecTE
-	juFrvf7H+bkxWzoTYj2G+mZur1oyNAuaoBSJx0ULvW4xRJ3bWw3G
-X-Google-Smtp-Source: AGHT+IEe9VUuVGU/HsjfLLb0XpK11DKQTSBN2cfjD0XUZz+WBxZjwSjj5+vzLMvgsNfHz+JGeZoNSw==
-X-Received: by 2002:a5d:53c8:0:b0:34d:354:b9c1 with SMTP id ffacd0b85a97d-3504aa62bb7mr6086423f8f.57.1715587720508;
-        Mon, 13 May 2024 01:08:40 -0700 (PDT)
-Received: from fedora ([213.94.26.172])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3502b895731sm10565071f8f.42.2024.05.13.01.08.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 May 2024 01:08:40 -0700 (PDT)
-Date: Mon, 13 May 2024 10:08:38 +0200
-From: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Jim Shargo <jshargo@google.com>, daniel@ffwll.ch, brpol@chromium.org,
-	corbet@lwn.net, dri-devel@lists.freedesktop.org,
-	hamohammed.sa@gmail.com, hirono@chromium.org, jshargo@chromium.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	mairacanal@riseup.net, marius.vlad@collabora.com,
-	mduggan@chromium.org, melissa.srw@gmail.com, mripard@kernel.org,
-	rodrigosiqueiramelo@gmail.com, tzimmermann@suse.de
-Subject: Re: [PATCH v6 0/7] Adds support for ConfigFS to VKMS!
-Message-ID: <ZkHKhtBmyS12i3fH@fedora>
-References: <ZjCtgSaL50YrS-F-@phenom.ffwll.local>
- <20240508181744.7030-1-jose.exposito89@gmail.com>
- <CACmi3jF6Dp3PE8X=T5kTO2+eYJQi7jWACFdmp9jzKxUtcQphnQ@mail.gmail.com>
- <Zj5JIah0jWnIn2Ix@localhost.localdomain>
+	 Content-Type:Content-Disposition:In-Reply-To; b=DyHPSkwxyD+rd/ivDyBey0gpZqybxy/TmwuuFOy7Cbj7hV5JozMuUUk/sVgRg5ZVWAg1uW7w2zSUoPGhmg4BVHgXgq8K3W5kNqXo1tkD2rTV8Blc3+FXg3/63L5cI8UzNcbRN4r5mQyZyOjXZ+Ap2fEuG4Y8yrHq9fwtehGnDas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <sha@pengutronix.de>)
+	id 1s6Qw8-0004dw-HJ; Mon, 13 May 2024 10:21:32 +0200
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <sha@pengutronix.de>)
+	id 1s6Qw7-0018O1-EL; Mon, 13 May 2024 10:21:31 +0200
+Received: from sha by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <sha@pengutronix.de>)
+	id 1s6Qw7-009QJp-17;
+	Mon, 13 May 2024 10:21:31 +0200
+Date: Mon, 13 May 2024 10:21:31 +0200
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Pankaj Gupta <pankaj.gupta@nxp.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 4/4] firmware: imx: add driver for NXP EdgeLock Enclave
+Message-ID: <ZkHNixUeasNCBjMn@pengutronix.de>
+References: <20240510-imx-se-if-v1-0-27c5a674916d@nxp.com>
+ <20240510-imx-se-if-v1-4-27c5a674916d@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Zj5JIah0jWnIn2Ix@localhost.localdomain>
+In-Reply-To: <20240510-imx-se-if-v1-4-27c5a674916d@nxp.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Fri, May 10, 2024 at 06:19:45PM +0200, Louis Chauvet wrote:
-> Le 09/05/24 - 18:18, Jim Shargo a écrit :
-> > Sima--thanks SO MUCH for going through with everything leaving a
-> > detailed review. I am excited to go through your feedback.
-> > 
-> > It makes me extremely happy to see these patches get people excited.
-> > 
-> > They've bounced between a few people, and I recently asked to take
-> > them over again from the folks who were most recently looking at them
-> > but haven't since had capacity to revisit them. I'd love to contribute
-> > more but I am currently pretty swamped and I probably couldn't
-> > realistically make too much headway before the middle of June.
-> > 
-> > José--if you've got capacity and interest, I'd love to see this work
-> > get in! Thanks!! Please let me know your timeline and if you want to
-> > split anything up or have any questions, I'd love to help if possible.
-> > But most important to me is seeing the community benefit from the
-> > feature.
-> > 
-> > And (in case it got lost in the shuffle of all these patches) the IGT
-> > tests really make it much easier to develop this thing. Marius has
-> > posted the most recent patches:
-> > https://lore.kernel.org/igt-dev/?q=configfs
-> > 
-> > Thanks!
-> > -- Jim
-> > 
-> > 
-> > 
-> > On Wed, May 8, 2024 at 2:17 PM José Expósito <jose.exposito89@gmail.com> wrote:
-> > >
-> > > Hi everyone,
-> > >
-> > > I wasn't aware of these patches, but I'm really glad they are getting
-> > > some attention, thanks a lot for your review Sima.
-> > >
-> > > Given that it's been a while since the patches were emailed, I'm not
-> > > sure if the original authors of the patches could implement your
-> > > comments. If not, I can work on it. Please let me know.
-> > >
-> > > I'm working on a Mutter feature that'd greatly benefit from this uapi
-> > > and I'm sure other compositors would find it useful.
-> > >
-> > > I'll start working on a new version in a few days if nobody else is
-> > > already working on it.
-> > >
-> > > Best wishes,
-> > > José Expósito
+On Fri, May 10, 2024 at 06:57:30PM +0530, Pankaj Gupta wrote:
+> NXP hardware IP(s) for secure-enclaves like Edgelock Enclave(ELE),
+> are embedded in the SoC to support the features like HSM, SHE & V2X,
+> using message based communication interface.
 > 
-> Hi all!
+> The secure enclave FW communicates on a dedicated messaging unit(MU)
+> based interface(s) with application core, where kernel is running.
+> It exists on specific i.MX processors. e.g. i.MX8ULP, i.MX93.
 > 
-> Very nice to see other people working on this subject. As the series 
-> seemed inactive, I started two weeks ago to rebase it on top of [1]. I 
-> also started some work to use drmm_* helpers instead of using lists in 
-> vkms. I currently struggle with a deadlock during rmmod.
+> This patch adds the driver for communication interface to secure-enclave,
+> for exchanging messages with NXP secure enclave HW IP(s) like EdgeLock Enclave,
+> both from:
+> - User-Space Applications via character driver.
+> - Kernel-space, used by kernel management layers like DM-Crypt.
 > 
-> I need to clean my commits, but I can share a WIP version.
+> ABI documentation for the NXP secure-enclave driver.
 
-Hi Louis,
+Several review comments inside, but stopping here. I just found v7 of
+this series. Could it be that you have resent an older version of this
+series instead of the new one??
 
-If you could share a RFC/WIP series it would be awesome!
+Sascha
 
-Since you are already working on the kernel patches (and I guess IGT?),
-I'll start working on a libdrm high level API to interact with VKMS from
-user-space on top of your patches. I'll share a link as soon as I have a
-draft PR.
-
-> Maybe we can discuss a bit the comment from Daniel (split init between 
-> default/configfs, use or not a real platform device...)
 > 
-> For the split, I think the first solution (struct vkms_config) can be 
-> easier to understand and to implement, for two reasons:
-> - No need to distinguish between the "default" and the "configfs" devices 
->   in the VKMS "core". All is managed with only one struct vkms_config.
-> - Most of the lifetime issue should be gone. The only thing to 
->   synchronize is passing this vkms_config from ConfigFS to VKMS.
-
-I agree, this seems like the easiest solution.
-
-> The drawback of this is that it can become difficult to do the "runtime" 
-> configuration (today only hotplug, but I plan to add more complex stuff 
-> like DP emulation, EDID selection, MST support...). Those configuration 
-> must be done "at runtime" and will require a strong synchronization with 
-> the vkms "core".
+> User-space library using this driver:
+> - i.MX Secure Enclave library:
+>   -- URL: https://github.com/nxp-imx/imx-secure-enclave.git,
+> - i.MX Secure Middle-Ware:
+>   -- URL: https://github.com/nxp-imx/imx-smw.git
 > 
-> Maybe we can distinguish between the "creation" and the "runtime 
-> configuration", in two different configFS directory? Once a device is 
-> created, it is moved to the "enabled" directory and will have a different 
-> set of attribute (connection status, current EDID...)
-
-Once the device is enabled (i.e, `echo 1 > /config/vkms/my-device/enabled`),
-would it make sense to use sysfs instead of another configfs directory?
-The advantage is that with sysfs the kernel controls the lifetime of the
-objects and I think it *might* simplify the code, but I'll need to write a
-proof of concept to see if this works.
-
-> For the platform driver part, it seems logic to me to use a "real" 
-> platform driver and a platform device for each pipeline, but I don't have 
-> the experience to tell if this is a good idea or not.
-
-I'm afraid I don't know which approach could work better. Trusting Sima and
-Maíra on this one.
-
-Jose
-
-> [1]: https://lore.kernel.org/dri-devel/20240409-yuv-v6-0-de1c5728fd70@bootlin.com/
+> Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
+> ---
+>  Documentation/ABI/testing/se-cdev   |   42 ++
+>  drivers/firmware/imx/Kconfig        |   12 +
+>  drivers/firmware/imx/Makefile       |    2 +
+>  drivers/firmware/imx/ele_base_msg.c |  287 ++++++++
+>  drivers/firmware/imx/ele_base_msg.h |   70 ++
+>  drivers/firmware/imx/ele_common.c   |  341 +++++++++
+>  drivers/firmware/imx/ele_common.h   |   43 ++
+>  drivers/firmware/imx/se_ctrl.c      | 1339 +++++++++++++++++++++++++++++++++++
+>  drivers/firmware/imx/se_ctrl.h      |  151 ++++
+>  include/linux/firmware/imx/se_api.h |   14 +
+>  include/uapi/linux/se_ioctl.h       |   88 +++
+>  11 files changed, 2389 insertions(+)
 > 
-> Thanks,
-> Louis Chauvet
-> 
-> -- 
-> Louis Chauvet, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+> diff --git a/Documentation/ABI/testing/se-cdev b/Documentation/ABI/testing/se-cdev
+> new file mode 100644
+> index 000000000000..699525af6b86
+> --- /dev/null
+> +++ b/Documentation/ABI/testing/se-cdev
+> @@ -0,0 +1,42 @@
+> +What:		/dev/<se>_mu[0-9]+_ch[0-9]+
+> +Date:		May 2024
+> +KernelVersion:	6.8
+> +Contact:	linux-imx@nxp.com, pankaj.gupta@nxp.com
+> +Description:
+> +		NXP offers multiple hardware IP(s) for  secure-enclaves like EdgeLock-
+> +		Enclave(ELE), SECO. The character device file-descriptors
+> +		/dev/<se>_mu*_ch* are the interface between user-space NXP's secure-
+> +		enclave shared-library and the kernel driver.
+> +
+> +		The ioctl(2)-based ABI is defined and documented in
+> +		[include]<linux/firmware/imx/ele_mu_ioctl.h>
+> +		 ioctl(s) are used primarily for:
+> +			- shared memory management
+> +			- allocation of I/O buffers
+> +			- get mu info
+> +			- setting a dev-ctx as receiver that is slave to fw
+> +			- get SoC info
+> +
+> +		The following file operations are supported:
+> +
+> +		open(2)
+> +		  Currently the only useful flags are O_RDWR.
+> +
+> +		read(2)
+> +		  Every read() from the opened character device context is waiting on
+> +		  wakeup_intruptible, that gets set by the registered mailbox callback
+> +		  function; indicating a message received from the firmware on message-
+> +		  unit.
+> +
+> +		write(2)
+> +		  Every write() to the opened character device context needs to acquire
+> +		  mailbox_lock, before sending message on to the message unit.
+> +
+> +		close(2)
+> +		  Stops and free up the I/O contexts that was associated
+> +		  with the file descriptor.
+> +
+> +Users:		https://github.com/nxp-imx/imx-secure-enclave.git,
+> +		https://github.com/nxp-imx/imx-smw.git
+> +		crypto/skcipher,
+> +		drivers/nvmem/imx-ocotp-ele.c
+> diff --git a/drivers/firmware/imx/Kconfig b/drivers/firmware/imx/Kconfig
+> index 183613f82a11..56bdca9bd917 100644
+> --- a/drivers/firmware/imx/Kconfig
+> +++ b/drivers/firmware/imx/Kconfig
+> @@ -22,3 +22,15 @@ config IMX_SCU
+>  
+>  	  This driver manages the IPC interface between host CPU and the
+>  	  SCU firmware running on M4.
+> +
+> +config IMX_SEC_ENCLAVE
+> +	tristate "i.MX Embedded Secure Enclave - EdgeLock Enclave Firmware driver."
+> +	depends on IMX_MBOX && ARCH_MXC && ARM64
+> +	default m if ARCH_MXC
+> +
+> +	help
+> +	  It is possible to use APIs exposed by the iMX Secure Enclave HW IP called:
+> +          - EdgeLock Enclave Firmware (for i.MX8ULP, i.MX93),
+> +          like base, HSM, V2X & SHE using the SAB protocol via the shared Messaging
+> +          Unit. This driver exposes these interfaces via a set of file descriptors
+> +          allowing to configure shared memory, send and receive messages.
+> diff --git a/drivers/firmware/imx/Makefile b/drivers/firmware/imx/Makefile
+> index 8f9f04a513a8..aa9033e0e9e3 100644
+> --- a/drivers/firmware/imx/Makefile
+> +++ b/drivers/firmware/imx/Makefile
+> @@ -1,3 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  obj-$(CONFIG_IMX_DSP)		+= imx-dsp.o
+>  obj-$(CONFIG_IMX_SCU)		+= imx-scu.o misc.o imx-scu-irq.o rm.o imx-scu-soc.o
+> +sec_enclave-objs		= se_ctrl.o ele_common.o ele_base_msg.o
+> +obj-${CONFIG_IMX_SEC_ENCLAVE}	+= sec_enclave.o
+> diff --git a/drivers/firmware/imx/ele_base_msg.c b/drivers/firmware/imx/ele_base_msg.c
+> new file mode 100644
+> index 000000000000..0463f26d93c7
+> --- /dev/null
+> +++ b/drivers/firmware/imx/ele_base_msg.c
+> @@ -0,0 +1,287 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Copyright 2024 NXP
+> + */
+> +
+> +#include <linux/types.h>
+> +#include <linux/completion.h>
+> +#include <linux/dma-mapping.h>
+> +
+> +#include "ele_base_msg.h"
+> +#include "ele_common.h"
+> +
+> +int ele_get_info(struct device *dev, struct soc_info *s_info)
+> +{
+> +	struct se_if_priv *priv = dev_get_drvdata(dev);
+> +	struct se_api_msg *tx_msg __free(kfree);
+> +	struct se_api_msg *rx_msg __free(kfree);
+> +	phys_addr_t get_info_addr;
+> +	u32 *get_info_data;
+> +	u32 status;
+> +	int ret;
+> +
+> +	if (!priv || !s_info)
+> +		goto exit;
+
+ret and get_info_addr are used uninitialized when jumping to the exit
+label from here.
+
+> +
+> +	memset(s_info, 0x0, sizeof(*s_info));
+> +
+> +	if (priv->mem_pool_name)
+> +		get_info_data = get_phy_buf_mem_pool(dev,
+> +						     priv->mem_pool_name,
+> +						     &get_info_addr,
+> +						     ELE_GET_INFO_BUFF_SZ);
+> +	else
+> +		get_info_data = dmam_alloc_coherent(dev,
+> +						    ELE_GET_INFO_BUFF_SZ,
+> +						    &get_info_addr,
+> +						    GFP_KERNEL);
+> +	if (!get_info_data) {
+> +		ret = -ENOMEM;
+> +		dev_err(dev,
+> +			"%s: Failed to allocate get_info_addr.\n",
+> +			__func__);
+> +		goto exit;
+> +	}
+> +
+> +	tx_msg = kzalloc(ELE_GET_INFO_REQ_MSG_SZ << 2, GFP_KERNEL);
+> +	if (!tx_msg) {
+> +		ret = -ENOMEM;
+> +		return ret;
+> +	}
+> +
+> +	rx_msg = kzalloc(ELE_GET_INFO_RSP_MSG_SZ << 2, GFP_KERNEL);
+> +	if (!rx_msg) {
+> +		ret = -ENOMEM;
+> +		return ret;
+> +	}
+> +
+> +	ret = plat_fill_cmd_msg_hdr(priv,
+> +				    (struct se_msg_hdr *)&tx_msg->header,
+> +				    ELE_GET_INFO_REQ,
+> +				    ELE_GET_INFO_REQ_MSG_SZ,
+> +				    true);
+> +	if (ret)
+> +		goto exit;
+> +
+> +	tx_msg->data[0] = upper_32_bits(get_info_addr);
+
+How can this work without triggering a NULL pointer exception? struct se_api_msg
+is declared as:
+
+struct se_api_msg {
+	u32 header; /* u8 Tag; u8 Command; u8 Size; u8 Ver; */
+	u32 *data;
+};
+
+The memory for tx_msg is kzalloced above, so *data is a NULL pointer.
+
+> +	tx_msg->data[1] = lower_32_bits(get_info_addr);
+> +	tx_msg->data[2] = ELE_GET_INFO_READ_SZ;
+> +	priv->rx_msg = rx_msg;
+> +	ret = imx_ele_msg_send_rcv(priv, tx_msg);
+> +	if (ret < 0)
+> +		goto exit;
+> +
+> +	ret  = validate_rsp_hdr(priv,
+> +				priv->rx_msg->header,
+> +				ELE_GET_INFO_REQ,
+> +				ELE_GET_INFO_RSP_MSG_SZ,
+> +				true);
+> +	if (ret)
+> +		goto exit;
+> +
+> +	status = RES_STATUS(priv->rx_msg->data[0]);
+> +	if (status != priv->success_tag) {
+> +		dev_err(dev, "Command Id[%d], Response Failure = 0x%x",
+> +			ELE_GET_INFO_REQ, status);
+> +		ret = -1;
+
+Callers seem to expect an error code. Do you intend to return -EPERM
+here?
+
+> +	}
+> +
+> +	s_info->imem_state = (get_info_data[ELE_IMEM_STATE_WORD]
+> +				& ELE_IMEM_STATE_MASK) >> 16;
+> +	s_info->major_ver = (get_info_data[GET_INFO_SOC_INFO_WORD_OFFSET]
+> +				& SOC_VER_MASK) >> 24;
+> +	s_info->minor_ver = ((get_info_data[GET_INFO_SOC_INFO_WORD_OFFSET]
+> +				& SOC_VER_MASK) >> 16) & 0xFF;
+> +	s_info->soc_rev = (get_info_data[GET_INFO_SOC_INFO_WORD_OFFSET]
+> +				& SOC_VER_MASK) >> 16;
+> +	s_info->soc_id = get_info_data[GET_INFO_SOC_INFO_WORD_OFFSET]
+> +				& SOC_ID_MASK;
+> +	s_info->serial_num
+> +		= (u64)get_info_data[GET_INFO_SL_NUM_MSB_WORD_OFF] << 32
+> +			| get_info_data[GET_INFO_SL_NUM_LSB_WORD_OFF];
+> +exit:
+> +	if (get_info_addr) {
+> +		if (priv->mem_pool_name)
+> +			free_phybuf_mem_pool(dev, priv->mem_pool_name,
+> +					     get_info_data, ELE_GET_INFO_BUFF_SZ);
+> +		else
+> +			dmam_free_coherent(dev,
+> +					   ELE_GET_INFO_BUFF_SZ,
+> +					   get_info_data,
+> +					   get_info_addr);
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +int ele_ping(struct device *dev)
+> +{
+> +	struct se_if_priv *priv = dev_get_drvdata(dev);
+> +	struct se_api_msg *tx_msg __free(kfree);
+> +	struct se_api_msg *rx_msg __free(kfree);
+> +	u32 status;
+> +	int ret;
+> +
+> +	tx_msg = kzalloc(ELE_PING_REQ_SZ << 2, GFP_KERNEL);
+> +	if (!tx_msg) {
+> +		ret = -ENOMEM;
+> +		return ret;
+> +	}
+> +
+> +	rx_msg = kzalloc(ELE_PING_RSP_SZ << 2, GFP_KERNEL);
+> +	if (!rx_msg) {
+> +		ret = -ENOMEM;
+> +		return ret;
+> +	}
+> +
+> +	ret = plat_fill_cmd_msg_hdr(priv,
+> +				    (struct se_msg_hdr *)&tx_msg->header,
+> +				    ELE_PING_REQ, ELE_PING_REQ_SZ,
+> +				    true);
+> +	if (ret) {
+> +		dev_err(dev, "Error: plat_fill_cmd_msg_hdr failed.\n");
+> +		goto exit;
+> +	}
+> +
+> +	priv->rx_msg = rx_msg;
+> +	ret = imx_ele_msg_send_rcv(priv, tx_msg);
+> +	if (ret)
+> +		goto exit;
+> +
+> +	ret  = validate_rsp_hdr(priv,
+> +				priv->rx_msg->header,
+> +				ELE_PING_REQ,
+> +				ELE_PING_RSP_SZ,
+> +				true);
+> +	if (ret)
+> +		goto exit;
+> +
+> +	status = RES_STATUS(priv->rx_msg->data[0]);
+> +	if (status != priv->success_tag) {
+> +		dev_err(dev, "Command Id[%d], Response Failure = 0x%x",
+> +			ELE_PING_REQ, status);
+> +		ret = -1;
+> +	}
+> +exit:
+> +	return ret;
+> +}
+> +
+> +int ele_service_swap(struct device *dev,
+> +		     phys_addr_t addr,
+> +		     u32 addr_size, u16 flag)
+> +{
+> +	struct se_if_priv *priv = dev_get_drvdata(dev);
+> +	struct se_api_msg *tx_msg __free(kfree);
+> +	struct se_api_msg *rx_msg __free(kfree);
+> +	u32 status;
+> +	int ret;
+> +
+> +	tx_msg = kzalloc(ELE_SERVICE_SWAP_REQ_MSG_SZ << 2, GFP_KERNEL);
+> +	if (!tx_msg) {
+> +		ret = -ENOMEM;
+> +		return ret;
+> +	}
+> +
+> +	rx_msg = kzalloc(ELE_SERVICE_SWAP_RSP_MSG_SZ << 2, GFP_KERNEL);
+> +	if (!rx_msg) {
+> +		ret = -ENOMEM;
+> +		return ret;
+> +	}
+> +
+> +	ret = plat_fill_cmd_msg_hdr(priv,
+> +				    (struct se_msg_hdr *)&tx_msg->header,
+> +				    ELE_SERVICE_SWAP_REQ,
+> +				    ELE_SERVICE_SWAP_REQ_MSG_SZ,
+> +				    true);
+> +	if (ret)
+> +		goto exit;
+> +
+> +	tx_msg->data[0] = flag;
+> +	tx_msg->data[1] = addr_size;
+> +	tx_msg->data[2] = ELE_NONE_VAL;
+> +	tx_msg->data[3] = lower_32_bits(addr);
+> +	tx_msg->data[4] = plat_add_msg_crc((uint32_t *)&tx_msg[0],
+> +						 ELE_SERVICE_SWAP_REQ_MSG_SZ);
+> +	priv->rx_msg = rx_msg;
+> +	ret = imx_ele_msg_send_rcv(priv, tx_msg);
+> +	if (ret < 0)
+> +		goto exit;
+> +
+> +	ret  = validate_rsp_hdr(priv,
+> +				priv->rx_msg->header,
+> +				ELE_SERVICE_SWAP_REQ,
+> +				ELE_SERVICE_SWAP_RSP_MSG_SZ,
+> +				true);
+> +	if (ret)
+> +		goto exit;
+> +
+> +	status = RES_STATUS(priv->rx_msg->data[0]);
+> +	if (status != priv->success_tag) {
+> +		dev_err(dev, "Command Id[%d], Response Failure = 0x%x",
+> +			ELE_SERVICE_SWAP_REQ, status);
+> +		ret = -1;
+> +	} else {
+> +		if (flag == ELE_IMEM_EXPORT)
+> +			ret = priv->rx_msg->data[1];
+> +		else
+> +			ret = 0;
+> +	}
+> +exit:
+> +
+> +	return ret;
+> +}
+> +
+> +int ele_fw_authenticate(struct device *dev, phys_addr_t addr)
+> +{
+> +	struct se_if_priv *priv = dev_get_drvdata(dev);
+> +	struct se_api_msg *tx_msg __free(kfree);
+> +	struct se_api_msg *rx_msg __free(kfree);
+> +	u32 status;
+> +	int ret;
+> +
+> +	tx_msg = kzalloc(ELE_FW_AUTH_REQ_SZ << 2, GFP_KERNEL);
+> +	if (!tx_msg) {
+> +		ret = -ENOMEM;
+> +		return ret;
+> +	}
+> +
+> +	rx_msg = kzalloc(ELE_FW_AUTH_RSP_MSG_SZ << 2, GFP_KERNEL);
+> +	if (!rx_msg) {
+> +		ret = -ENOMEM;
+> +		return ret;
+> +	}
+> +	ret = plat_fill_cmd_msg_hdr(priv,
+> +				    (struct se_msg_hdr *)&tx_msg->header,
+> +				    ELE_FW_AUTH_REQ,
+> +				    ELE_FW_AUTH_REQ_SZ,
+> +				    true);
+> +	if (ret)
+> +		goto exit;
+> +
+> +	tx_msg->data[0] = addr;
+> +	tx_msg->data[1] = 0x0;
+> +	tx_msg->data[2] = addr;
+
+Has this been tested? According to the documentation data[0] shall
+contain the upper 32bit of the address and data[1] shall contain the
+lower 32bit of the address. There is no data[2] for this call.
+
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
