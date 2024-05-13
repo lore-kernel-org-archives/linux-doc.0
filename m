@@ -1,101 +1,70 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D2E14C5A3;
-	Mon, 13 May 2024 13:01:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D721514E5;
+	Mon, 13 May 2024 13:22:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715605278; cv=none; b=uGrFMLo6RQIWtzaNBN0+6cjPdBC8E8TfkNYIPNs1/zyQdvdP9y4JJggK1O66W1Xa1tsouZcSBvta5rj+zIuL+kl0eKMpwzCFXKfA4hAdh8Lku/WIGLumrjdqmlI39+0fT0NAcIYkJSnXRHymEzS/F61ye0OLEDqCS2S1PvW7SYA=
+	t=1715606568; cv=none; b=uOPmUh03J2FZ6pHhzmKgl3g6RMDOj5ygtf36pSBoV+6C8gX2WGbZY/LiQeNYRgl7CoOcPEOG5zQq8XiCA11ML0D6a11pT0aDFJDV/d7veItjy7pHdmM+0TngAUcBB3TBlxj3MFTD2QPJNnxkN5oPnymgzvDoxZ55XEktPBPpDWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715605278; c=relaxed/simple;
-	bh=zFf4IL0Y1mUxcwPfjq2+ak1Dh56hOP+unCJYEQ6Wfnk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mnQjRMJbcT+2YAcysCV654icDcQI2kx6BEimIX6Tr71OlECRTX0Sm2rdrNEyR7XlW53ZXDp8OWpDDmc+F3LYsYXuGtqc5TmISSNsQW8pCHXjuogze1d0g8Sx1e0/HIXwlUA6GqZ5cY3+xlRkP5DFHTC85Ztj09raVS1gKurW05c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=m6/kUc+n; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1715606568; c=relaxed/simple;
+	bh=lGR/JTEovinL3WNGbtd8OB9QpmQr1FfHG7dzJAzXTU4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=DLTRUi02Fi4YMfgXRAj0plzzI3/Y+TsGDn66npAX7rooZLnbMypyI4ehuo4TBmGQPnENHNWVnmmVcFGRDC5qqgawHew3CIoBH7j+EnZCf7aR3EV1N+nTKUgWkPSuLM9ICBPrHQO+ynAZoQxjR8HYS9mvGlHC8TZpwGIAbgA5sRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=lvJ2QozZ; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="m6/kUc+n"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=2Rs58EEQW/8Tv4QiXxXctVbqfNgBxWv+iDW5TsZtSKY=; b=m6/kUc+n3CYBToleHdtj6whAVJ
-	QzD0OtILsFNOXN9SO2gBV0Sm1Px8ekjYWefiA4JMLxnJ82kMksMw/AuNZOUM6T5eCV3N3+ubuZyQz
-	aAJ1sTlavsRTJZCOnGeGrFWq03Hqc7K/o6CtvcfghEZgK7R880u+kYmdWgQOZy+10XjE=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1s6VIO-00FIzh-As; Mon, 13 May 2024 15:00:48 +0200
-Date: Mon, 13 May 2024 15:00:48 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: =?iso-8859-1?Q?Ram=F3n?= Nordin Rodriguez <ramon.nordin.rodriguez@ferroamp.se>
-Cc: Piergiorgio Beruto <Pier.Beruto@onsemi.com>,
-	"Parthiban.Veerasooran@microchip.com" <Parthiban.Veerasooran@microchip.com>,
-	"davem@davemloft.net" <davem@davemloft.net>,
-	"edumazet@google.com" <edumazet@google.com>,
-	"kuba@kernel.org" <kuba@kernel.org>,
-	"pabeni@redhat.com" <pabeni@redhat.com>,
-	"horms@kernel.org" <horms@kernel.org>,
-	"saeedm@nvidia.com" <saeedm@nvidia.com>,
-	"anthony.l.nguyen@intel.com" <anthony.l.nguyen@intel.com>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"robh+dt@kernel.org" <robh+dt@kernel.org>,
-	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
-	"conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"Horatiu.Vultur@microchip.com" <Horatiu.Vultur@microchip.com>,
-	"ruanjinjie@huawei.com" <ruanjinjie@huawei.com>,
-	"Steen.Hegelund@microchip.com" <Steen.Hegelund@microchip.com>,
-	"vladimir.oltean@nxp.com" <vladimir.oltean@nxp.com>,
-	"UNGLinuxDriver@microchip.com" <UNGLinuxDriver@microchip.com>,
-	"Thorsten.Kummermehr@microchip.com" <Thorsten.Kummermehr@microchip.com>,
-	Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>,
-	"Nicolas.Ferre@microchip.com" <Nicolas.Ferre@microchip.com>,
-	"benjamin.bigler@bernformulastudent.ch" <benjamin.bigler@bernformulastudent.ch>
-Subject: Re: [PATCH net-next v4 05/12] net: ethernet: oa_tc6: implement error
- interrupts unmasking
-Message-ID: <708d29de-b54a-40a4-8879-67f6e246f851@lunn.ch>
-References: <77d7d190-0847-4dc9-8fc5-4e33308ce7c8@lunn.ch>
- <Zi4czGX8jlqSdNrr@builder>
- <874654d4-3c52-4b0e-944a-dc5822f54a5d@lunn.ch>
- <ZjKJ93uPjSgoMOM7@builder>
- <b7c7aad7-3e93-4c57-82e9-cb3f9e7adf64@microchip.com>
- <ZjNorUP-sEyMCTG0@builder>
- <ae801fb9-09e0-49a3-a928-8975fe25a893@microchip.com>
- <fd5d0d2a-7562-4fb1-b552-6a11d024da2f@lunn.ch>
- <BY5PR02MB678683EADBC47A29A4F545A59D1C2@BY5PR02MB6786.namprd02.prod.outlook.com>
- <ZkG2Kb_1YsD8T1BF@minibuilder>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="lvJ2QozZ"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net ABDB947C38
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1715605990; bh=lpf6OUFZvm7ObQIuIT3AZZ2LQqZ6RrgRPjzd6o2GDF8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=lvJ2QozZIYvV7Jhup+iJxGOO0xSdy1/3hOb0/Wfx/N1jq/norVViXbs3WjUSXoi/Y
+	 S90RmL03HVEIgSwwvPum1L2qbWlrrdPk/q9ZIAlqzQCAMKQiV9m9Ex0FL3jrHQ5KhH
+	 ONV0eZxdIW7H/hh9GARRYGKOjvhT0J8iDW8vLZjzID6B7qg1z2QtTdWfLTbQybC1vg
+	 K0u5vAjBKjomM0ucp88hRQht/28ch80Hbu33+oQ3IP4ABz0VDMFMJ7i11Wxz/4NKKK
+	 DXP1NkIB6bcJKDtZLbGlLH/vZjRD8JV9h75Ah9VQ9n6lSg1U9xlUgMDuSUMfSvvQ1K
+	 /LO4ig5/NHBIA==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id ABDB947C38;
+	Mon, 13 May 2024 13:13:10 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Diederik de Haas <didi.debian@cknow.org>, Dwaipayan Ray
+ <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc: Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Diederik de Haas <didi.debian@cknow.org>
+Subject: Re: [PATCH] docs: dev-tools: checkpatch: Add targets for checkpatch
+ tags
+In-Reply-To: <20240513102237.112376-1-didi.debian@cknow.org>
+References: <20240513102237.112376-1-didi.debian@cknow.org>
+Date: Mon, 13 May 2024 07:13:09 -0600
+Message-ID: <878r0dam8q.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZkG2Kb_1YsD8T1BF@minibuilder>
+Content-Type: text/plain
 
-> I've enabled some debugging options but so far nothing seems to hit.
-> What I've been able to conclude is that there still is SPI
-> communication, the macphy interrupt is still pulled low, and the cpu
-> does the ack so that it's reset to inactive.
+Diederik de Haas <didi.debian@cknow.org> writes:
 
-Is it doing this in an endless cycle?
+> Make the tags directly linkable by defining targets for them.
+>
+> Closes: https://lore.kernel.org/r/8090211.0vHzs8tI1a@bagend/
+> Signed-off-by: Diederik de Haas <didi.debian@cknow.org>
+> ---
+>  Documentation/dev-tools/checkpatch.rst | 216 +++++++++++++++++++++++++
+>  1 file changed, 216 insertions(+)
 
-Probably the debug tools are not showing anything because it is not
-looping in just one location. It is a complex loop, interrupts
-triggering a thread which runs to completion etc. So it looks like
-normal behaviour.
+In addition to the other comments, I have to add: you have said what you
+are doing but not *why*.  All of these labels clutter up the text; what
+use will be made of them to justify that?
 
-If it is an endless cycle, it sounds like an interrupt storm. Some
-interrupt bit is not getting cleared, so it immediately fires again as
-soon as interrupts are enabled.
+Thanks,
 
-Is this your dual device board? Do you have both devices on the same
-SPI bus? Do they share interrupt lines?
-
-	Andrew
+jon
