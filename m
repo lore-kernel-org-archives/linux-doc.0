@@ -1,96 +1,138 @@
-Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
+Received: from out30-97.freemail.mail.aliyun.com (out30-97.freemail.mail.aliyun.com [115.124.30.97])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D200211C
-	for <linux-doc@vger.kernel.org>; Mon, 13 May 2024 14:48:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F331DA20;
+	Mon, 13 May 2024 15:06:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.97
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715611709; cv=none; b=ca8PDKIyplYV4C86yMwo8SF3nXegVKopUD2lNzXqktpgXGdtcxGeK1fNzgoVlMtS9qevCra30AYCvxXUI90KOC/Lpf9zwLd3d9v8O22xHas9g7wjsK1TMsrwPnqT3IbEbCiF3qg0Ghf/v+ns8ztXDMCxC9+aoEUhyXx/ri/VmqI=
+	t=1715612813; cv=none; b=jNdv42ldzFOgtHA+B9bCxYJrPa0UKUuMKRdeRNcMNGiMsw7tk65Zs9MzTXq8JcoNZCKGq7bh4g5p+xGJXhDO/w4D1Pf2X4TAskQLDknwS4UCt8Q72OrmHTmQdkiLKp1NKcZACHJBxXFKhKZgH77x3/XYtDqZx+pqAFu8sKQvwPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715611709; c=relaxed/simple;
-	bh=y4efa16kLFpbbZ8XWKQB3BfTcf+62U18pINNyU9G4jU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=imR/2y1W2kAeMahEkQM3J3ramgN/vtpQwV8+fj8M7JnDvF+EbmomxseZW9O8c126YtNzUlhmkg9MrUa31fMmhSZA2GxGtD8oA1W2TcatX78Pnwq/JDNCMtqboFwk7UumrEZvmct7f/EERnIpaSj2rwrulRBAxd0UtcACjdvWcmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org; spf=pass smtp.mailfrom=cknow.org; dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b=dvVTHdBj; arc=none smtp.client-ip=95.215.58.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow.org
+	s=arc-20240116; t=1715612813; c=relaxed/simple;
+	bh=y609Cc4cYkc6pEsR0kIAiOhx1xZxh+tw/aoYwkH85eA=;
+	h=Message-ID:Subject:Date:From:To:Cc:References:In-Reply-To; b=dWoz/ZYlILZzGZpw8Hc7OFDROANjSUlPxMgFnE3dO1p+W5CkQTi8ZPZ6VD4BifKv+38Oxf7oqECok9mczN3uuPyTFtt7x01GCYp+trNgTKcBe2s2EEXxWiVex94jqVuXNEqGralOsNcmT//YZsOe0OnCoa+0uOGLu/UNPN6gXHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=GVsoPJyZ; arc=none smtp.client-ip=115.124.30.97
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b="dvVTHdBj"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
-	t=1715611704;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7omKN+Pfe4q92+T26TXlvGrIMir00MoHuNeD4JbUVOo=;
-	b=dvVTHdBjLyLstIW04xOXCQuzu4rVe0WxBXcasjD+mkZiHHu9Fh/iUHh0kLMeBgR2hZFYsp
-	7EyudhKiPfBv6PoehATJ8aXJ1yuY0OmR6Wr5+5MP+d8KJzH5FBPefJGepjXZyIhlXe4MnX
-	Tc8YPj3lGrNMbqhefkTp7u0SBAEfMVMHZ+MpDxi6YVqD+E66AhQZf9iMLWUihKtnMTOWKD
-	G9Kkxvf9TC+1NixCf9Ga2pdEQHLWkF39lWNKXuAr28dekjGxa0OAhK+lzichLWdyY+cGZz
-	jYnBtbrsjd027sLW1SyeUJ9brXZa+cJmFFMJ53yUkGYnFICI6bMfOocc/iDxjA==
-From: Diederik de Haas <didi.debian@cknow.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>, Joe Perches <joe@perches.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject:
- Re: [PATCH] docs: dev-tools: checkpatch: Add targets for checkpatch tags
-Date: Mon, 13 May 2024 16:48:13 +0200
-Message-ID: <32373229.FC8mGFU5Tv@bagend>
-Organization: Connecting Knowledge
-In-Reply-To:
- <CAKXUXMzw6_JnPxXfgU2tEU-VkU6E_=ee-V4MUzGX8MQCSXLuNA@mail.gmail.com>
-References:
- <20240513102237.112376-1-didi.debian@cknow.org> <87a5kuez97.fsf@intel.com>
- <CAKXUXMzw6_JnPxXfgU2tEU-VkU6E_=ee-V4MUzGX8MQCSXLuNA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="GVsoPJyZ"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1715612807; h=Message-ID:Subject:Date:From:To;
+	bh=7MLM12E9blsRkdX77DqwhU+UpqcO9mhaNTsXw3y52Tg=;
+	b=GVsoPJyZU3B2Qm29UOkY+c4bj3bTNuNIQATHBg/apPbgDaRfmqjs3JSNywvvRGz6O4vW9WyGIm25nODVa3i1Rt/kQhxTg0yRqvEjHu5znM4NmJmH8qJ+WTfeJs8Fgwd6ZPZt3o4eSTjtwkribgm5Nv1Cc3Xe4Gy1kl7EJzeAiGI=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R381e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033022160150;MF=hengqi@linux.alibaba.com;NM=1;PH=DS;RN=27;SR=0;TI=SMTPD_---0W6SIWe7_1715612804;
+Received: from localhost(mailfrom:hengqi@linux.alibaba.com fp:SMTPD_---0W6SIWe7_1715612804)
+          by smtp.aliyun-inc.com;
+          Mon, 13 May 2024 23:06:45 +0800
+Message-ID: <1715611933.2264705-1-hengqi@linux.alibaba.com>
+Subject: Re: [PATCH net-next v13 2/4] ethtool: provide customized dim profile management
+Date: Mon, 13 May 2024 22:52:13 +0800
+From: Heng Qi <hengqi@linux.alibaba.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: kernel test robot <lkp@intel.com>,
+ llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev,
+ "David S . Miller" <davem@davemloft.net>,
+ Paolo Abeni <pabeni@redhat.com>,
+ Eric Dumazet <edumazet@google.com>,
+ Jason  Wang <jasowang@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Brett  Creeley <bcreeley@amd.com>,
+ Ratheesh Kannoth <rkannoth@marvell.com>,
+ Alexander Lobakin <aleksander.lobakin@intel.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ Tal Gilboa <talgi@nvidia.com>,
+ Jonathan  Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>,
+ Jiri Pirko <jiri@resnulli.us>,
+ Paul  Greenwalt <paul.greenwalt@intel.com>,
+ Ahmed Zaki <ahmed.zaki@intel.com>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>,
+ Kory Maincent <kory.maincent@bootlin.com>,
+ Andrew Lunn <andrew@lunn.ch>,
+ justinstitt@google.com,
+ donald.hunter@gmail.com,
+ netdev@vger.kernel.org,
+ virtualization@lists.linux.dev
+References: <20240509044747.101237-1-hengqi@linux.alibaba.com>
+ <20240509044747.101237-3-hengqi@linux.alibaba.com>
+ <202405100654.5PbLQXnL-lkp@intel.com>
+ <1715531818.6973832-3-hengqi@linux.alibaba.com>
+ <20240513072249.7b0513b0@kernel.org>
+In-Reply-To: <20240513072249.7b0513b0@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart5799183.NjtpuSdjI8";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
-X-Migadu-Flow: FLOW_OUT
 
---nextPart5799183.NjtpuSdjI8
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
-From: Diederik de Haas <didi.debian@cknow.org>
-Date: Mon, 13 May 2024 16:48:13 +0200
-Message-ID: <32373229.FC8mGFU5Tv@bagend>
-Organization: Connecting Knowledge
-MIME-Version: 1.0
+On Mon, 13 May 2024 07:22:49 -0700, Jakub Kicinski <kuba@kernel.org> wrote:
+> On Mon, 13 May 2024 00:36:58 +0800 Heng Qi wrote:
+> > This failed use case seems to come from this series triggering a problem that
+> > has not been triggered historically, namely lockdep_rtnl_is_held() is not called
+> > in an environment where CONFIG_NET is not configured and CONFIG_PROVE_LOCKING is
+> > configured:
+> >   If CONFIG_PROVE_LOCKING is configured as Y and CONFIG_NET is n, then
+> >   lockdep_rtnl_is_held is in an undefined state at this time.
+> > 
+> > So I think we should declare "CONFIG_PROVE_LOCKING depends on CONFIG_NET".
+> > How do you think?
+> 
+> Doesn't sound right, `can we instead make building lib/dim/net_dim.c
 
-On Monday, 13 May 2024 13:46:39 CEST Lukas Bulwahn wrote:
-> It is important to check that the verbose option of
-> the checkpatch still works. The script actually parses the
-> documentation and then shows the relevant parts as verbose output to
-> the user.
+Why? IIUC, the reason is that if CONFIG_NET is not set to Y, the net/core
+directory will not be compiled, so the lockdep_rtnl_is_held symbol is not
+present.
 
-I wasn't aware of that functionality as I've mostly used ``--terse``.
-What I want(ed) is having the documentation for a tag easily accessible.
-But it doesn't get much better then it already being part of the tool.
+> dependent on CONFIG_NET? Untested but I'm thinking something like:
+> 
+> diff --git a/lib/dim/Makefile b/lib/dim/Makefile
+> index c4cc4026c451..c02c306e2975 100644
+> --- a/lib/dim/Makefile
+> +++ b/lib/dim/Makefile
+> @@ -4,4 +4,8 @@
+>  
+>  obj-$(CONFIG_DIMLIB) += dimlib.o
+>  
+> -dimlib-objs := dim.o net_dim.o rdma_dim.o
+> +dimlib-objs := dim.o rdma_dim.o
+> +
+> +ifeq ($(CONFIG_NET),y)
+> +dimlib-objs += net_dim.o
+> +endif
 
-IOW: Please disregard this patch.
+1. This is unlikely to work if the kernel is configured as[1]:
 
-Cheers,
-  Diederik
---nextPart5799183.NjtpuSdjI8
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZkIoLQAKCRDXblvOeH7b
-btrPAQCIhM6b6gZllypG+wwdG77jh6I9HILVzviHH+fan4Vz5QEAi2QSXgujMBLz
-VDRGnyHlTFt/bAIfAdIVRuYRadwkHwA=
-=l8Kc
------END PGP SIGNATURE-----
-
---nextPart5799183.NjtpuSdjI8--
-
+[1] kernel configuration
+CONFIG_NET=n, CONFIG_ETHTOOL_NETLINK=n, CONFIG_PROVE_LOCKING=y,
+(CONFIG_FSL_MC_DPIO=y && CONFIG_FSL_MC_BUS=y) select CONFIG_DIMLIB=y.
 
 
+Then, because CONFIG_NET is not enabled, so there is no net_dim.o,
+the following warning appears:
+
+ld.lld: error: undefined symbol: net_dim_get_rx_moderation
+referenced by dpio-service.c
+drivers/soc/fsl/dpio/dpio-service.o:(dpaa2_io_dim_work) in archive vmlinux.a
+
+ld.lld: error: undefined symbol: net_dim
+referenced by dpio-service.c
+drivers/soc/fsl/dpio/dpio-service.o:(dpaa2_io_update_net_dim) in archive vmlinux.a
+
+2. If we declare "CONFIG_DIMLIB depends on CONFIG_NET",
+if the configuration is still [1]:
+Then the result is:
+CONFIG_DIMLIB=Y (selected by CONFIG_FSL_MC_DPIO=y && CONFIG_FSL_MC_BUS=y),
+CONFIG_NET=n, but we declared "CONFIG_DIMLIB depends on CONFIG_NET",
+there is still a compilation error because the lockdep_rtnl_is_held symbol
+cannot be found.
+
+3. If we declare "CONFIG_DIMLIB select CONFIG_NET" and kernel configuration is [1],
+then a circular dependency warning will appear:
+
+CONFIG_DIMLIB select CONFIG_NET, ETHTOOL_NETLINK=Y(depends on CONFIG_NET)
+selects CONFIG_DIMLIB. CONFIG_DIMLIB will select CONFIG_NET...
+
+> 
+> 
