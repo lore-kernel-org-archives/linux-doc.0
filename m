@@ -1,222 +1,414 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11011008.outbound.protection.outlook.com [52.101.229.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14CAB1D559;
-	Mon, 13 May 2024 23:43:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.8
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715643788; cv=fail; b=GLth7qKgNCwNVPNF6OAtJbYHDgSD9eKgQX/3n0PKSUzgy/oBW1LJgYg6vgZACXYVlBX/3vlvPlpAPCczoob+i4PQC8u5IQ+4bPSByILtRGmGzILV9zqUbUgcJPeqCKKhE9DNKZpSjwmUYEgsj4qaB7hVUs8WsR9jjFC/6txUzJQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715643788; c=relaxed/simple;
-	bh=59642dzEbUUzFFNPG1ZgW2DjfDLWllA4cjmsp16msP0=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=BrIi9r8zjkxal3xhuJivFJAyZ4kzPEzJTylmZWPz6OI79qkPEg8DzL54bdsiKoo6djkbJgiKKyGEJV6PAvb41WRLvVhs4Cr+ereDZtJoJ/sE5mMUWUIYNSGAOeOlkmS4c0jzWz0bq0qCw1Y9ttCLdXgKc5tSkH+DHHAnQLYQ8ac=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=AQLbDKNJ; arc=fail smtp.client-ip=52.101.229.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5869A8592B
+	for <linux-doc@vger.kernel.org>; Mon, 13 May 2024 23:50:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1715644228; cv=none; b=GoAmb2f1vIQzaQtsRSvJEJSJxSo2MyQeDdq1AFCdeZ4cvKgDP56Jmd/9qikcbr4aADSBTneepUwlLLGPnapAvJH4E/MfO75Cen2gYLeJpvaUrKiiy/Ic9N02lu8Wu9dCZp+q2fwrCX4lFDMiCzkGzmQ2YvJqlIu4cYJBx3q8zTQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1715644228; c=relaxed/simple;
+	bh=jabLpUywj9mXHcjULb4WKpzqpVQcaeWIMySbgxjnxi0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AEWGaBIQubWRaf8gbOLbFclakfp6+4xVcTj5njsNFpIkUQhsDbqfCScgqyerOWlG7LF4ohhNwpkihaPewc1sJiSdoEARpPaMOlHxjj6aQqKXU38szfxBe3znefVMac354Iy48KJbdvrpxYCIwQtVBzLABT92mU9RYQ8LgLtsVvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=EP/a1jCa; arc=none smtp.client-ip=209.85.215.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="AQLbDKNJ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HhBuYNeNbXN3zyfNvuLkTMmYBixjdF9sU9urt290ePYId8Y5t6twyMBUwCTecgQ/Xxr0HaTHf7GWTdoMjkG0BxT/dswSuyNAB2poESUVuRcft22sEv6gJJdNmzEUMX7G56NVLMGM1lFeYMtpQ1GAHGHNN+jhSEt7kR7z0vtFYowOD+2qJTYmd/8Ky1D2KRv7aftisr1Dktd4jurJauu2LZV0RRpZ/3lrgJ5wGD+81ZFFhyLVuoS6ubHPVpXwnA2gEdq4xzEOk8z+iGcIrB2bHVzRN3+Xew2fCT1YjQiLhMZe9AYdoFfEq5+bssUTajEV5Qg0KrrFqS5jIkIahUbotQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=59642dzEbUUzFFNPG1ZgW2DjfDLWllA4cjmsp16msP0=;
- b=dqubSpdq420o7Qg2LXXEA0qq3kuj62w9XYLbT6PcX29OIQmfArtIk9y3W6xVAG1TeXvXOyL5tkElyiFvETYxeGVL/TmH+lAOewnB/EOKYOpMu49RqgoBLPpjaN7v1MyEOs9NLYTCLioWTPp6fSP4dTDiGnWmjiDPuWf1vTJsQU5/74RW3dhchzuUHvuL+09F7se1pg7AUMHpc8vOtJM90UDC8S+XhKLHQvoxGMzD/OuTE67bCMhXlIkWPtramNqB4lo4xO608rVUvNO1D5tPNpVzCULhWo6lijPQZlP0yRcHT25Y0og21kJZTxwqw1MWEZaKEKGClBLRGCi+hqCe9g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=59642dzEbUUzFFNPG1ZgW2DjfDLWllA4cjmsp16msP0=;
- b=AQLbDKNJrub140xmwzjOM1z8Q1Rd9uGRC/cOZewvxlPnwN4H/yFdEcvV9g+lDZuf026zSt/OvH9qQ0ekDYln/Y9xji9KinVw0GxdL0sR0AVR9dQvEm2xnQPsrPdDqVPWzWPpYdn5EdBMJug1t6kAgGWXsQBUF05LHSHu4qD6YNE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by OSAPR01MB7423.jpnprd01.prod.outlook.com
- (2603:1096:604:144::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7544.55; Mon, 13 May
- 2024 23:43:02 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::2f40:537b:2694:7b76]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::2f40:537b:2694:7b76%7]) with mapi id 15.20.7544.052; Mon, 13 May 2024
- 23:43:02 +0000
-Message-ID: <87h6f1jn25.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Amadeusz =?ISO-8859-2?Q?S=B3awi=F1ski?=
- <amadeuszx.slawinski@linux.intel.com>,	Alexandre Belloni
- <alexandre.belloni@bootlin.com>,	Alper Nebi Yasak
- <alpernebiyasak@gmail.com>,	AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>,	Banajit Goswami
- <bgoswami@quicinc.com>,	Bard Liao <yung-chuan.liao@linux.intel.com>,	Brent 
-    Lu <brent.lu@intel.com>,	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,	Claudiu Beznea
- <claudiu.beznea@tuxon.dev>,	Cristian Ciocaltea
- <cristian.ciocaltea@collabora.com>,	Daniel Baluta <daniel.baluta@nxp.com>,
-	Hans de Goede <hdegoede@redhat.com>,	Jaroslav Kysela <perex@perex.cz>,
-	Jiawei Wang <me@jwang.link>,	Jonathan  Corbet <corbet@lwn.net>,	Kai   
- Vehmanen <kai.vehmanen@linux.intel.com>,	Kevin Hilman
- <khilman@baylibre.com>,	Liam Girdwood <lgirdwood@gmail.com>,	Mark Brown
- <broonie@kernel.org>,	Maso Huang <maso.huang@mediatek.com>,	Matthias   
- Brugger <matthias.bgg@gmail.com>,	Neil Armstrong
- <neil.armstrong@linaro.org>,	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,	Pierre-Louis Bossart
- <pierre-louis.bossart@linux.intel.com>,	Ranjani Sridharan
- <ranjani.sridharan@linux.intel.com>,	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,	Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,	Sylwester Nawrocki
- <s.nawrocki@samsung.com>,	Takashi Iwai <tiwai@suse.com>,	Vinod Koul
- <vkoul@kernel.org>,	Xiubo Li <Xiubo.Lee@gmail.com>,
-	alsa-devel@alsa-project.org,	imx@lists.linux.dev,
-	linux-doc@vger.kernel.org,	linux-sound@vger.kernel.org
-Subject: Re: [PATCH 0/3] ASoC: grace time for DPCM cleanup
-In-Reply-To: <1jseymyxa6.fsf@starbuckisacylon.baylibre.com>
-References: <87wmo6dyxg.wl-kuninori.morimoto.gx@renesas.com>
-	<1jr0ee2ebk.fsf@starbuckisacylon.baylibre.com>
-	<87pltxmakr.wl-kuninori.morimoto.gx@renesas.com>
-	<87edaba5ze.wl-kuninori.morimoto.gx@renesas.com>
-	<1j1q6b1gxs.fsf@starbuckisacylon.baylibre.com>
-	<878r0ir1qw.wl-kuninori.morimoto.gx@renesas.com>
-	<1jwmnzz5k3.fsf@starbuckisacylon.baylibre.com>
-	<87pltqzi3n.wl-kuninori.morimoto.gx@renesas.com>
-	<1jseymyxa6.fsf@starbuckisacylon.baylibre.com>
-User-Agent: Wanderlust/2.15.9 Emacs/27.1 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Mon, 13 May 2024 23:42:59 +0000
-X-ClientProxiedBy: TYAPR01CA0031.jpnprd01.prod.outlook.com
- (2603:1096:404:28::19) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EP/a1jCa"
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-5e8470c1cb7so3416342a12.2
+        for <linux-doc@vger.kernel.org>; Mon, 13 May 2024 16:50:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1715644225; x=1716249025; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8HkwG0xAsY0LmcCu7366TLsdMJMye5dnEFWq92mCE/g=;
+        b=EP/a1jCavQP7/vtImxx1GMoFn6hqxJ0lE0ObXSsb+ShWRslI4lafy3cBW49oRol60Z
+         j2S+j4dl5YVWv+EFDDWjdUcVNHrCkLjwLaJttd9v1ydMIkiCWBVuEeEMUnrqVxrQnz9g
+         txPjS/QCxnl61hSlEXYe27BrYlE7xO8njlDjk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715644225; x=1716249025;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8HkwG0xAsY0LmcCu7366TLsdMJMye5dnEFWq92mCE/g=;
+        b=N8rQdJiD/pFsXR1vGODfqMxpQYUf8eQSeTevuuXgFeMcQjbZwsPoHar5luopUbtcig
+         UY1tJQkpcuMciVBrBZ/Au963k8r9bX5J/X9PKU+EjJKqkcDbFHyy2nCnOL5QQb1VjuPs
+         M9v2Kgblkpg738Wht5sh293iaGsbX2ol8zx2cpN+8SDKmFQQNI0MtuYHduq3m2wLJlwq
+         fY8MyRDHeNJ8VaCA25royWYx9SOuXWJv4FmviM5Lmk7ftq85uDPW41LQ1YjumwLHeFh4
+         Uzg6qA0lP7DqeovE7qseSotB0JHEfqjGIRaUWsx8d8ZUihyiC7WWxq5h21EiKIr1F3Ud
+         iKCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW6cNmtbRKlexP2BP4ApOZ6/eAeDRb+ZZIQZB/xmCmjinxRFCRs9+1A4wLufKdI7xLvZTWrPYnH6YSr6x0oIHBEgebac9UmvhJj
+X-Gm-Message-State: AOJu0YymYL3OrPR0UKpj2Z1yYOnw01t2fpZLGqTxqo/77vBmBXlxsWLb
+	djj9hWdh1tX/qIvNUzQUJnpYjr0c+RyS5HTr801nm5EaRsUXG4icQMeXROCC7g==
+X-Google-Smtp-Source: AGHT+IGYhei7jKQWg3kW4q6ciPLQaYeMlYBwnGN1HFp6GQz0KvB+mNLvPf0P9zQEFJVwFP2dlfQzBA==
+X-Received: by 2002:a17:90a:b796:b0:2b1:dd0e:e20 with SMTP id 98e67ed59e1d1-2b6ccb7e5f8mr9202653a91.38.1715644224543;
+        Mon, 13 May 2024 16:50:24 -0700 (PDT)
+Received: from www.outflux.net ([198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2b671056613sm9392889a91.4.2024.05.13.16.50.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 May 2024 16:50:23 -0700 (PDT)
+Date: Mon, 13 May 2024 16:50:23 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Adrian Ratiu <adrian.ratiu@collabora.com>,
+	linux-fsdevel@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
+	kernel@collabora.com, gbiv@google.com, ryanbeltran@google.com,
+	inglorion@google.com, ajordanr@google.com, jorgelo@chromium.org,
+	Guenter Roeck <groeck@chromium.org>,
+	Doug Anderson <dianders@chromium.org>, Jann Horn <jannh@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Mike Frysinger <vapier@chromium.org>
+Subject: Re: [PATCH v3 1/2] proc: restrict /proc/pid/mem access via param
+ knobs
+Message-ID: <202405131641.219CD40A62@keescook>
+References: <20240409175750.206445-1-adrian.ratiu@collabora.com>
+ <202404261544.1EAD63D@keescook>
+ <20240503-nulltarif-karten-82213463dedc@brauner>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OSAPR01MB7423:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8f160d75-ac62-41ad-71d1-08dc73a66d9f
-X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230031|376005|1800799015|7416005|366007|52116005|38350700005;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?tDp/DSy9NP6XDslBQqV4xgBtCmf0WrZobiYe25kyYKnJXoK76aMw32r+C6eo?=
- =?us-ascii?Q?jBm16HAgB3N9g+dA9TB0UnY9iHqBCptzUWlfUvUmEum74OGovFJHkbBfZiGw?=
- =?us-ascii?Q?bIvxIsYlD3bh7Uq+eTllbVw+lXjulNOYh/bH2pZnnb22wccd1WvOUF/itEp9?=
- =?us-ascii?Q?lP7OwcXJ1o7c0bDghAImaSJpQBrasQQ+l8FOqKR9VNOi3kWnpkwuLyZklisY?=
- =?us-ascii?Q?YuVYD1qiMU6qAG0b8JrY/ltJhO7s9/AfJMY0+pXJGOSWR5OwUDfW44CJLPlQ?=
- =?us-ascii?Q?P5sR6ovzC8ucZ+sDNGqSQLVVc+3fpKiOYRo+S4lrl7SKQxhej2qFfyURpmBy?=
- =?us-ascii?Q?s3IM9KGIYAgM6mvlg60vNVGzsOrKtBqwqwb7jXBjMX11VmqOkH29mhBRZX4D?=
- =?us-ascii?Q?TbrByhIAe9gnRE0e7ohWctuA7MDee+7n3MycTzPR0byfBGO8AEvglmG9jehX?=
- =?us-ascii?Q?jPxMqxUi8/72Cn3LVL5FMxVVdC6SZ0i1yqXcn4Euq8OwatoT74n2HC+6CCPp?=
- =?us-ascii?Q?ShJEiByvDz+lLS7HxP+Cfd7bIYQ65dUD4yg/Y7azMmIyhmmzwAVrWpMLm1u2?=
- =?us-ascii?Q?5rI/1HDJpxrc1JeRhumzejxSmWOm19lkBxJAGCSIRYStgR9xqzPO9SfTrYp6?=
- =?us-ascii?Q?h3GTIY2HyVuA8+RPXkuOCXrGHAPQxbTkZ5nfG5U32bl0NqSdT2+rKo5YTkny?=
- =?us-ascii?Q?ACgF2I9bVgrVeUujbgYMIounT6hHfMV0l0DpzrPDiyVjQu5dWXDCguVG4Q3L?=
- =?us-ascii?Q?u+Jp25xwYhDLYZu4JbJ9mNxkvxg8AXmphw3qFrpo18Os0vaCvR7uYjFUpUxs?=
- =?us-ascii?Q?MfqTQ1co1TIs6IJbPNAZlzxbdxkKUSrwLlH5Ec7Rd6DNz3vR9MtyRdGNqF3W?=
- =?us-ascii?Q?8hxs9zDgxjAPUSYfBNODvzoaYMMPy45c0KgFbGhB+ahR67RW3tbNlq0kHKib?=
- =?us-ascii?Q?p4eUO7pohtSPwcaH8uALS3YZmB7IH7JNu0adaqdhQEymEXMYEZAgdQ0pQ/wH?=
- =?us-ascii?Q?0LGgRX0eBfZMyrVHJRkQRmvfV/Rv72dfQ/7PGBQ0BTN2hIkZ/EyAMv3E3gTJ?=
- =?us-ascii?Q?O5D1Uh5mZeFyo23SZQctdynKQYo+eKPvtFJfwxx78B6tiXOVd+z6xR7HeGgI?=
- =?us-ascii?Q?jlzg6bxdFGHABOueztv0H06taG1BKwLz+rGz1wSyQb+Tw2nxZVfnxkZ+7Xuv?=
- =?us-ascii?Q?0xnvDmSOREiWzBNRHuyJ0luI2aHy66AIz07yX5bKdxGnmcclFi+ECR5r3HS4?=
- =?us-ascii?Q?+ti5wlyBJJ4XPyKXOvatUaiw+NnIfgcn5D6myLf/nvQ8w/GDhXofXYnOOHvA?=
- =?us-ascii?Q?tXv74pPr0gV9HKNmZba0+lmUf7M9W3/kvUVYwsuVmzWa9A=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(7416005)(366007)(52116005)(38350700005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?SSH6OUWNpHXuAuBxuulEkki0FEauTAXkzGhQFEXqi0cojdpo8loIEFGS6q3a?=
- =?us-ascii?Q?hYmz4iVJqd5hUfJaFi5NbWPvwLXnitugIJwpOjvlDJ9/RbBtMuDV8ZVqxodJ?=
- =?us-ascii?Q?99anooTGAIHlZ1S3ECiPmLqZ/MCQ65hpNrsiFpHIkCEtmtcFOEj05AOFkUek?=
- =?us-ascii?Q?EeVIdyRRqW8wYrE8RlktOMyY7uLLeRkHuQIkDGypWPANy9ewtoHb8sr3N1s2?=
- =?us-ascii?Q?x9o/H8oYXZZe/c7VTzOzUdkOO7a+GAqmFWYrNkc8IiQ87F+zg90L0YLyNXgI?=
- =?us-ascii?Q?pqjPSARH9sA6VfmXaDOdqhsBjyZ4Qg40iJ4fhIGJNG/uoHq1O8FehbT3KB+U?=
- =?us-ascii?Q?hMY8dUH/U8pgDxmbnBi7ka45TnhpKmkGQ1Vs6HItTiEx1dlNzjqfiTdVpoGl?=
- =?us-ascii?Q?TauJWDrO1VHPR6lEezFF7nkLXjyFDqr3ErwRetHnCoVrOQNi6bn8vnC+t4N/?=
- =?us-ascii?Q?SaKR5tvYWcHisWSvkVO6J4rTPuUR5xPY/5r06tdwhSfYDl6DHerqPLR9+FtN?=
- =?us-ascii?Q?fbE1MZDjURqNx3y/lU2Rhyx3/qOopHXlRLZ8wTMKOXYZ2qdMiVpXcEcvNGkT?=
- =?us-ascii?Q?H8JnlHhYphNvSIKhanxr9YMr5irFPHNOyZoqeqpYtrTjWAVf268Yog+1Bnwp?=
- =?us-ascii?Q?QfD6x3+JnD5r/fin70hPNMdhW33taqTqKu4vjITtLzTCvm/wrvM26xsyyU1Z?=
- =?us-ascii?Q?aYY4ISS66s1RXcddF6VBO9aGpPnnnOhhKJdou3ZIuUsWsM5ttLENXpVLwivL?=
- =?us-ascii?Q?wrbhcpK/SVTQ8iLieWa2lnigroolltzKS0wz2hSrcxeap7PpAGTaTHOOn3mQ?=
- =?us-ascii?Q?gpvCcT/0m4BavGPXUUdzv2PTtBz25rU3pg2Uo7Jd2he2/dAcgzRGeb/rCl9l?=
- =?us-ascii?Q?+Ja/4wAdKFr0yZv+XIQFiDCD5e63hphhduVlN4uECw0Y5EX2718rQXEo+Xns?=
- =?us-ascii?Q?MQLaXGpwCqCFlyUtc0bMsXoUWnncFd4e6fl3aF4rUqoP0Bkv0IooGCMzWxaO?=
- =?us-ascii?Q?1AguBQecU38nJDmBOGpBT9aFmm2rOLvVaaAZsr+UFrMLsGKiX+17eNXW/hCs?=
- =?us-ascii?Q?k7i9srb50rcSv9gz0RaO7dwjdMJYu990mWf3QE1WUYqSTRwRdpY+twk0BcoW?=
- =?us-ascii?Q?imB4rbTqBmpemkV3oD40k39vJEWLKhfEktfSXMzeIKxdQoy91u4zwiSozLTR?=
- =?us-ascii?Q?i8gnN8iq3qrpM6DYrRBHDEE7F4BxqWFoRRwoEsDMT1H1cXtvp4fzXhxkk35A?=
- =?us-ascii?Q?bYYA3p2g+2xZVcaG/jYMB8bvq7qwWgg5TS+AQSm8BVuQHINe+ITgWTalDRmy?=
- =?us-ascii?Q?H9ue2k7yprXCOlD8uxWMScKFKnPd/ocjy7EPdcIuqafVmK/2l2JVcaS2u8Sp?=
- =?us-ascii?Q?AkVUp3fF44Ooj7DEVEtq/3PaXBLe6rKCsHfW+434me9eK743hVuEdSEqoxbX?=
- =?us-ascii?Q?ytTKBlM2fXuJYr9vAGG+RuBzIboD+X/LXoCRf09NQKR3rnBLggIoO+Zl3cvZ?=
- =?us-ascii?Q?eIPLiss7hg0UxEbnQpymZg0k69uIaqrbq3/AajQO7itCCt5lbySde72OZgWH?=
- =?us-ascii?Q?oRFL22T+vpH6RYi/Zd80vpnFjs+F35+4wgjnpCvIgKAqrdYrlCs8mYWeOo9X?=
- =?us-ascii?Q?3ai6SANcmVc6CaYNZxh3Ib0=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8f160d75-ac62-41ad-71d1-08dc73a66d9f
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2024 23:43:02.2086
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: t/T3njUaUSDsJIWXhMNF9bt5NyvVzhCCg9KkAlbbcdIwYIO/X8828JPcKvjTmskCBGaVyZwyo61xoZehZQimnZ4lRGqViXSC2JlaAaKGAejpm4RuXyAjOfzVP4Hz4/cW
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB7423
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240503-nulltarif-karten-82213463dedc@brauner>
+
+On Fri, May 03, 2024 at 11:57:56AM +0200, Christian Brauner wrote:
+> On Fri, Apr 26, 2024 at 04:10:49PM -0700, Kees Cook wrote:
+> > On Tue, Apr 09, 2024 at 08:57:49PM +0300, Adrian Ratiu wrote:
+> > > Prior to v2.6.39 write access to /proc/<pid>/mem was restricted,
+> > > after which it got allowed in commit 198214a7ee50 ("proc: enable
+> > > writing to /proc/pid/mem"). Famous last words from that patch:
+> > > "no longer a security hazard". :)
+> > > 
+> > > Afterwards exploits started causing drama like [1]. The exploits
+> > > using /proc/*/mem can be rather sophisticated like [2] which
+> > > installed an arbitrary payload from noexec storage into a running
+> > > process then exec'd it, which itself could include an ELF loader
+> > > to run arbitrary code off noexec storage.
+> > > 
+> > > One of the well-known problems with /proc/*/mem writes is they
+> > > ignore page permissions via FOLL_FORCE, as opposed to writes via
+> > > process_vm_writev which respect page permissions. These writes can
+> > > also be used to bypass mode bits.
+> > > 
+> > > To harden against these types of attacks, distrbutions might want
+> > > to restrict /proc/pid/mem accesses, either entirely or partially,
+> > > for eg. to restrict FOLL_FORCE usage.
+> > > 
+> > > Known valid use-cases which still need these accesses are:
+> > > 
+> > > * Debuggers which also have ptrace permissions, so they can access
+> > > memory anyway via PTRACE_POKEDATA & co. Some debuggers like GDB
+> > > are designed to write /proc/pid/mem for basic functionality.
+> > > 
+> > > * Container supervisors using the seccomp notifier to intercept
+> > > syscalls and rewrite memory of calling processes by passing
+> > > around /proc/pid/mem file descriptors.
+> > > 
+> > > There might be more, that's why these params default to disabled.
+> > > 
+> > > Regarding other mechanisms which can block these accesses:
+> > > 
+> > > * seccomp filters can be used to block mmap/mprotect calls with W|X
+> > > perms, but they often can't block open calls as daemons want to
+> > > read/write their runtime state and seccomp filters cannot check
+> > > file paths, so plain write calls can't be easily blocked.
+> > > 
+> > > * Since the mem file is part of the dynamic /proc/<pid>/ space, we
+> > > can't run chmod once at boot to restrict it (and trying to react
+> > > to every process and run chmod doesn't scale, and the kernel no
+> > > longer allows chmod on any of these paths).
+> > > 
+> > > * SELinux could be used with a rule to cover all /proc/*/mem files,
+> > > but even then having multiple ways to deny an attack is useful in
+> > > case one layer fails.
+> > > 
+> > > Thus we introduce three kernel parameters to restrict /proc/*/mem
+> > > access: read, write and foll_force. All three can be independently
+> > > set to the following values:
+> > > 
+> > > all     => restrict all access unconditionally.
+> > > ptracer => restrict all access except for ptracer processes.
+> > > 
+> > > If left unset, the existing behaviour is preserved, i.e. access
+> > > is governed by basic file permissions.
+> > > 
+> > > Examples which can be passed by bootloaders:
+> > > 
+> > > restrict_proc_mem_foll_force=all
+> > > restrict_proc_mem_write=ptracer
+> > > restrict_proc_mem_read=ptracer
+> > > 
+> > > Each distribution needs to decide what restrictions to apply,
+> > > depending on its use-cases. Embedded systems might want to do
+> > > more, while general-purpouse distros might want a more relaxed
+> > > policy, because for e.g. foll_force=all and write=all both break
+> > > break GDB, so it might be a bit excessive.
+> > > 
+> > > Based on an initial patch by Mike Frysinger <vapier@chromium.org>.
+> > 
+> > Thanks for this new version!
+> > 
+> > > 
+> > > Link: https://lwn.net/Articles/476947/ [1]
+> > > Link: https://issues.chromium.org/issues/40089045 [2]
+> > > Cc: Guenter Roeck <groeck@chromium.org>
+> > > Cc: Doug Anderson <dianders@chromium.org>
+> > > Cc: Kees Cook <keescook@chromium.org>
+> > > Cc: Jann Horn <jannh@google.com>
+> > > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > > Cc: Randy Dunlap <rdunlap@infradead.org>
+> > > Cc: Christian Brauner <brauner@kernel.org>
+> > > Co-developed-by: Mike Frysinger <vapier@chromium.org>
+> > > Signed-off-by: Mike Frysinger <vapier@chromium.org>
+> > > Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+> > > ---
+> > >  .../admin-guide/kernel-parameters.txt         |  27 +++++
+> > >  fs/proc/base.c                                | 103 +++++++++++++++++-
+> > >  include/linux/jump_label.h                    |   5 +
+> > >  3 files changed, 133 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> > > index 6e62b8cb19c8d..d7f7db41369c7 100644
+> > > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > > @@ -5665,6 +5665,33 @@
+> > >  	reset_devices	[KNL] Force drivers to reset the underlying device
+> > >  			during initialization.
+> > >  
+> > > +	restrict_proc_mem_read= [KNL]
+> > > +			Format: {all | ptracer}
+> > > +			Allows restricting read access to /proc/*/mem files.
+> > > +			Depending on restriction level, open for reads return -EACCESS.
+> > > +			Can be one of:
+> > > +			- 'all' restricts all access unconditionally.
+> > > +			- 'ptracer' allows access only for ptracer processes.
+> > > +			If not specified, then basic file permissions continue to apply.
+> > > +
+> > > +	restrict_proc_mem_write= [KNL]
+> > > +			Format: {all | ptracer}
+> > > +			Allows restricting write access to /proc/*/mem files.
+> > > +			Depending on restriction level, open for writes return -EACCESS.
+> > > +			Can be one of:
+> > > +			- 'all' restricts all access unconditionally.
+> > > +			- 'ptracer' allows access only for ptracer processes.
+> > > +			If not specified, then basic file permissions continue to apply.
+> > > +
+> > > +	restrict_proc_mem_foll_force= [KNL]
+> > > +			Format: {all | ptracer}
+> > > +			Restricts the use of the FOLL_FORCE flag for /proc/*/mem access.
+> > > +			If restricted, the FOLL_FORCE flag will not be added to vm accesses.
+> > > +			Can be one of:
+> > > +			- 'all' restricts all access unconditionally.
+> > > +			- 'ptracer' allows access only for ptracer processes.
+> > > +			If not specified, FOLL_FORCE is always used.
+> > 
+> > bike shedding: I wonder if this should be a fake namespace (adding a dot
+> > just to break it up for reading more easily), and have words reordered
+> > to the kernel's more common subject-verb-object: proc_mem.restrict_read=...
+> > 
+> > > +
+> > >  	resume=		[SWSUSP]
+> > >  			Specify the partition device for software suspend
+> > >  			Format:
+> > > diff --git a/fs/proc/base.c b/fs/proc/base.c
+> > > index 18550c071d71c..c733836c42a65 100644
+> > > --- a/fs/proc/base.c
+> > > +++ b/fs/proc/base.c
+> > > @@ -152,6 +152,41 @@ struct pid_entry {
+> > >  		NULL, &proc_pid_attr_operations,	\
+> > >  		{ .lsmid = LSMID })
+> > >  
+> > > +/*
+> > > + * each restrict_proc_mem_* param controls the following static branches:
+> > > + * key[0] = restrict all writes
+> > > + * key[1] = restrict writes except for ptracers
+> > > + * key[2] = restrict all reads
+> > > + * key[3] = restrict reads except for ptracers
+> > > + * key[4] = restrict all FOLL_FORCE usage
+> > > + * key[5] = restrict FOLL_FORCE usage except for ptracers
+> > > + */
+> > > +DEFINE_STATIC_KEY_ARRAY_FALSE_RO(restrict_proc_mem, 6);
+> > 
+> > So, I don't like having open-coded numbers. And I'm not sure there's a
+> > benefit to stuffing these all into an array? So:
+> > 
+> > DEFINE_STATIC_KEY_FALSE_RO(proc_mem_restrict_read);
+> > DEFINE_STATIC_KEY_FALSE_RO(proc_mem_restrict_write);
+> > DEFINE_STATIC_KEY_FALSE_RO(proc_mem_restrict_foll_force);
+> > 
+> > > +
+> > > +static int __init early_restrict_proc_mem(char *buf, int offset)
+> > > +{
+> > > +	if (!buf)
+> > > +		return -EINVAL;
+> > > +
+> > > +	if (strncmp(buf, "all", 3) == 0)
+> > 
+> > I'd use strcmp() to get exact matches. That way "allalksdjflas" doesn't
+> > match. :)
+> > 
+> > > +		static_branch_enable(&restrict_proc_mem[offset]);
+> > > +	else if (strncmp(buf, "ptracer", 7) == 0)
+> > > +		static_branch_enable(&restrict_proc_mem[offset + 1]);
+> > > +
+> > > +	return 0;
+> > > +}
+> > 
+> > Then don't bother with a common helper since you've got a macro, and
+> > it'll all get tossed after __init anyway.
+> > 
+> > > +
+> > > +#define DEFINE_EARLY_RESTRICT_PROC_MEM(name, offset)			\
+> > > +static int __init early_restrict_proc_mem_##name(char *buf)		\
+> > > +{									\
+> > > +	return early_restrict_proc_mem(buf, offset);			\
+> > > +}									\
+> > > +early_param("restrict_proc_mem_" #name, early_restrict_proc_mem_##name)
+> > > +
+> > > +DEFINE_EARLY_RESTRICT_PROC_MEM(write, 0);
+> > > +DEFINE_EARLY_RESTRICT_PROC_MEM(read, 2);
+> > > +DEFINE_EARLY_RESTRICT_PROC_MEM(foll_force, 4);
+> > 
+> > #define DEFINE_EARLY_PROC_MEM_RESTRICT(name)				\
+> > static int __init early_proc_mem_restrict_##name(char *buf)		\
+> > {									\
+> > 	if (!buf)							\
+> > 		return -EINVAL;						\
+> > 									\
+> > 	if (strcmp(buf, "all") == 0)					\
+> > 		static_branch_enable(&proc_mem_restrict_##name);	\
+> > 	else if (strcmp(buf, "ptracer") == 0)				\
+> > 		static_branch_enable(&proc_mem_restrict_##name);	\
+> > 									\
+> > 	return 0;							\
+> > }									\
+> > early_param("proc_mem_restrict_" #name, early_proc_mem_restrict_##name)
+> > 
+> > 
+> > > +
+> > >  /*
+> > >   * Count the number of hardlinks for the pid_entry table, excluding the .
+> > >   * and .. links.
+> > > @@ -825,9 +860,58 @@ static int __mem_open(struct inode *inode, struct file *file, unsigned int mode)
+> > >  	return 0;
+> > >  }
+> > >  
+> > > +static bool __mem_open_current_is_ptracer(struct file *file)
+> > > +{
+> > > +	struct inode *inode = file_inode(file);
+> > > +	struct task_struct *task = get_proc_task(inode);
+> > > +	int ret = false;
+> > > +
+> > > +	if (task) {
+> > > +		rcu_read_lock();
+> > > +		if (current == ptrace_parent(task))
+> > > +			ret = true;
+> > > +		rcu_read_unlock();
+> > > +		put_task_struct(task);
+> > > +	}
+> > 
+> > This creates a ToCToU race between this check (which releases the task)
+> > and the later memopen which make get a different task (and mm).
+> > 
+> > To deal with this, I think you need to add a new mode flag for
+> > proc_mem_open(), and add the checking there.
+> > 
+> > > +
+> > > +	return ret;
+> > > +}
+> > > +
+> > > +static int __mem_open_check_access_restriction(struct file *file)
+> > > +{
+> > > +	if (file->f_mode & FMODE_WRITE) {
+> > > +		/* Deny if writes are unconditionally disabled via param */
+> > > +		if (static_branch_unlikely(&restrict_proc_mem[0]))
+> > > +			return -EACCES;
+> > > +
+> > > +		/* Deny if writes are allowed only for ptracers via param */
+> > > +		if (static_branch_unlikely(&restrict_proc_mem[1]) &&
+> > > +		    !__mem_open_current_is_ptracer(file))
+> > > +			return -EACCES;
+> > > +
+> > > +	} else if (file->f_mode & FMODE_READ) {
+> > 
+> > I think this "else" means that O_RDWR opens will only check the write
+> > flag, so drop the "else".
+> > 
+> > > +		/* Deny if reads are unconditionally disabled via param */
+> > > +		if (static_branch_unlikely(&restrict_proc_mem[2]))
+> > > +			return -EACCES;
+> > > +
+> > > +		/* Deny if reads are allowed only for ptracers via param */
+> > > +		if (static_branch_unlikely(&restrict_proc_mem[3]) &&
+> > > +		    !__mem_open_current_is_ptracer(file))
+> > > +			return -EACCES;
+> > > +	}
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > >  static int mem_open(struct inode *inode, struct file *file)
+> > >  {
+> > > -	int ret = __mem_open(inode, file, PTRACE_MODE_ATTACH);
+> > > +	int ret;
+> > > +
+> > > +	ret = __mem_open_check_access_restriction(file);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	ret = __mem_open(inode, file, PTRACE_MODE_ATTACH);
+> > >  
+> > >  	/* OK to pass negative loff_t, we can catch out-of-range */
+> > >  	file->f_mode |= FMODE_UNSIGNED_OFFSET;
+> > > @@ -835,6 +919,20 @@ static int mem_open(struct inode *inode, struct file *file)
+> > >  	return ret;
+> > >  }
+> > >  
+> > > +static unsigned int __mem_rw_get_foll_force_flag(struct file *file)
+> > > +{
+> > > +	/* Deny if FOLL_FORCE is disabled via param */
+> > > +	if (static_branch_unlikely(&restrict_proc_mem[4]))
+> > > +		return 0;
+> > > +
+> > > +	/* Deny if FOLL_FORCE is allowed only for ptracers via param */
+> > > +	if (static_branch_unlikely(&restrict_proc_mem[5]) &&
+> > > +	    !__mem_open_current_is_ptracer(file))
+> > 
+> > This is like the ToCToU: the task may have changed out from under us
+> > between the open the read/write.
+> 
+> But why would you care? As long as the task is the ptracer it doesn't
+> really matter afaict.
+
+Because the mm you're writing to may no longer be associated with the
+task.
+
+proc_mem_operations.open() will take a reference to the current task's
+mm, via proc_mem_open() through __mem_open():
+
+        struct task_struct *task = get_proc_task(inode);
+	...
+	mm = mm_access(task, mode | PTRACE_MODE_FSCREDS);
+	...
+	file->private_data = mm;
 
 
-Hi Jerome
+And in the proposed check added to mem_rw(), if get_proc_task(inode)
+returns a different task (i.e. the pid got recycled and the original mm
+is still associated with a forked task), then it could write to the
+forked task using the ptrace check against the new task.
 
-Thank you for your reply
+Looking at it again now, I think it should be possible to just revalidate
+the mm in __mem_open_current_is_ptracer(), though. i.e. it would be
+allowed if ptrace check passes and file->private_data == mm_access(...),
+for the mem_rw case...
 
-> However, I'm a bit confused. If it is handled automatically by the CPUs
-> and Codecs settings, does it mean dpcm_playback/capture flags are
-> no-ops from now on ?
-
-Yes.
-dpcm_playback/capture flag itself will be exist for a while, but it will be
-removed soon (v6.11 ? v6.12 ? not yet fixed).
-
-Some driver might is using dpcm_xxx flag as limitation of direction. For
-example HW can use both playback/capture, but driver want to use playback
-only, in this case, driver might have dpcm_playback flag only.
-
-In this case, driver authoer need to update to use playback_only flag
-instead. [1/3] patch will indicate warning about it, for a while.
-
-
-> Should I update my card drivers to ditch those flags completely ?
-
-If the driver is using dpcm_xxx flag as limitation of direction,
-driver author need to update to use xxx_only flag.
-If the driver have no such flag miss, I will remove all dpcm_xxx flags
-when end of its support.
-Of course we can avoid extra problem if each driver author remove/update
-it by themself, instead of me ;P
-
-> May I still disable a direction on a link from the card driver, like in
-> the case I described above, when a TDM link has no slots for a direction ?
-
-For example, in case of CPU can handle both playback/capture, and Codec
-handles playback only, it will be playback only automatically, no Card
-settings is needed.
-
-If both CPU/Codec can handle playback/capture, but you want to enable
-playback only, you can use playback_only flag.
-
-Is it help you ?
-
-
-
-Thank you for your help !!
-
-Best regards
----
-Renesas Electronics
-Ph.D. Kuninori Morimoto
+-- 
+Kees Cook
