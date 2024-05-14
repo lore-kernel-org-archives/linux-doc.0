@@ -1,85 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF45C135A40;
-	Tue, 14 May 2024 13:46:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03DC117BB01
+	for <linux-doc@vger.kernel.org>; Tue, 14 May 2024 14:33:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715694389; cv=none; b=kErFygxB9XKPbUC7BLddBRW6EnsgTKfGE0VNYy3bxf9qUrXiYdr79u46ZBo5ScI/lMK076s6262nBXddbfceSd6nkvTkjSCLInXjMWJ8rr2gJqgOCBJS3Lo2sHUF/HtFuQ30C6gENiSUyZUdEOpobCC1OzhVBxNZYsVOwCQ6eQc=
+	t=1715697234; cv=none; b=ldhu3+9J7XZfkJK/ssQd1kl65q8p3exFSmn7s7tn9qvsJL4lrhsi9SCI/rTHH2wU/WOPWvQcrokeG5q4xPvBPqSFMHWJZjOvFXTkZpV8wPWpTL6HmuNsCqpFn/TVSxZGehD37NqamvMDWBaOkSM2Gsr+lGUMAqGCRUjcCRPOEiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715694389; c=relaxed/simple;
-	bh=zBSGEEVkAYXfxfHKmHO3J9UMnIn9Z43RNoE8U8/JUJs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cXT1sNrOGL/2b7UZwGHW3lbIlnJdMmY4xTjb79DninaNE7IrqD7qZ9mM7MwfT4T7eHo3mOUttWGPK09GJmFfk66Ll8jC9fCWN8f+l0ouB4ExJVN7toodN8CIMh9bhB0EFjFbJ6jo7S7RWdnmg2FtD4B9K1ia8pvXrjBdhaYrKBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l+nwBFyI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715697234; c=relaxed/simple;
+	bh=+IxW0MEtemQ59ohxen6OsJDtFiyIBSyf4pXlzCYNPeg=;
+	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
+	 MIME-Version:Content-Type; b=pJFmd8XYcCG81ifGTbAX5KwU1JndsJxm2hLtJmeZkoSczSjpQX3avEpUtxxrlkgjrdcgRtI3xMwntuJDCkCxrMVQCkMbbO/9U5FTcSQR+PpKkKMpD9zxOozXZvqQoTC5S1EHihYCaJqlK7XGZV8NcQDb5jZ/cv8LVmY32MZeA4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=RvJPKFfn; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l+nwBFyI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49328C2BD10;
-	Tue, 14 May 2024 13:46:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715694388;
-	bh=zBSGEEVkAYXfxfHKmHO3J9UMnIn9Z43RNoE8U8/JUJs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=l+nwBFyIporfF0UR4fTxoN8Lx4/bsH7hRvZEErPJk897JJ3CMiUBYxZKLILVJY5is
-	 pTOtImxqbpf50N34AaIr58fAovsJ3UZeVT6U49wtDBhi7qyd4XSQRyEPKjYMwdt9Uz
-	 g7RQ+0I7lkvQimxMs9+w3cdebdI0Wbv+SrbxI6S1DBEc+V8Kn/m1y7XoLn+dpRwTm+
-	 p/lfrJFNQPkOZm+ZkwmPeYH3kU9o2CzYBj2NLd6XoCY6FRqoera6YlYyvylZN04hiH
-	 wzt/rhaBxz1IZuXW6/NsZ5uzEGPq5MF9oVTKVEEpZx0spfVYDpKLMIfzFObhT6k9Lp
-	 WT2ozW4nGRFYw==
-Date: Tue, 14 May 2024 06:46:26 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Heng Qi <hengqi@linux.alibaba.com>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, "David S . Miller" <davem@davemloft.net>,
- Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>, Jason
-    Wang <jasowang@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Brett    Creeley <bcreeley@amd.com>, Ratheesh Kannoth
- <rkannoth@marvell.com>, Alexander Lobakin <aleksander.lobakin@intel.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Tal Gilboa <talgi@nvidia.com>,
- Jonathan    Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, Maxime
- Chevallier <maxime.chevallier@bootlin.com>, Jiri Pirko <jiri@resnulli.us>,
- Paul    Greenwalt <paul.greenwalt@intel.com>, Ahmed Zaki
- <ahmed.zaki@intel.com>, Vladimir Oltean <vladimir.oltean@nxp.com>, Kory
- Maincent <kory.maincent@bootlin.com>, Andrew Lunn <andrew@lunn.ch>,
- justinstitt@google.com, donald.hunter@gmail.com, netdev@vger.kernel.org,
- virtualization@lists.linux.dev
-Subject: Re: [PATCH net-next v13 2/4] ethtool: provide customized dim
- profile management
-Message-ID: <20240514064626.44778d98@kernel.org>
-In-Reply-To: <1715652495.6335685-4-hengqi@linux.alibaba.com>
-References: <20240509044747.101237-1-hengqi@linux.alibaba.com>
-	<20240509044747.101237-3-hengqi@linux.alibaba.com>
-	<202405100654.5PbLQXnL-lkp@intel.com>
-	<1715531818.6973832-3-hengqi@linux.alibaba.com>
-	<20240513072249.7b0513b0@kernel.org>
-	<1715611933.2264705-1-hengqi@linux.alibaba.com>
-	<20240513082412.2a27f965@kernel.org>
-	<1715614744.0497134-3-hengqi@linux.alibaba.com>
-	<20240513114233.6eb8799e@kernel.org>
-	<1715652495.6335685-4-hengqi@linux.alibaba.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="RvJPKFfn"
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2e3b1b6e9d1so69076561fa.2
+        for <linux-doc@vger.kernel.org>; Tue, 14 May 2024 07:33:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1715697230; x=1716302030; darn=vger.kernel.org;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
+        bh=2HpNVPq3YKqLVtMUiQ9jyLRuvtM9nOeWOTnThXBUYyw=;
+        b=RvJPKFfnUEwRr81KmvQ1Z57JbxUyYZ8tfEHdTLmtQRhFWuBnG+L2/jj0KJEEGnjJB8
+         hAQAgxCg2BBclw6EXv7ugU8BLuWlZJ0bID4lIjHRVbNihKT6jYYFEJS4gx2eAGWgS6bT
+         57eo1o109BgPROTUoDC5Hbb24u4cmkxms8p6OWAREWibJ7hvSXA69VKVK+o+v0Ia7pDt
+         nzHZqRQ+F2rQWENaghowxQoGtY/4KVuA5jVxWscJfZfYyu3PcDS7IP/UKF5Y0ABPDeWt
+         6X2bNmr6S4kEF6RJLRX1x3VHydBPq9COnsy/8ueMSPDF27kx3BX1rN/5WaL6xELnyOJF
+         S5JA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715697230; x=1716302030;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2HpNVPq3YKqLVtMUiQ9jyLRuvtM9nOeWOTnThXBUYyw=;
+        b=jIpKqNnTlUNNkAE/sNMB8cHFeCPRRjbElpVinBpcj07YtcfXGQssTZw65mbOfDtOZr
+         BFtQr5BcCq+nB3LPIPScVHFcDBfqeaDPN4ZYlzrp2ck6Bc+Em0DbKJzugPiVxnJZKjds
+         gD8pbJaklNaQKT+poNGAl7uSahSRphbeb6hLidAF0NcWQc7R8uUrP10Unre+hMc9yPhX
+         Jfs4QlQQJto8luvhS2gt0WbMG5euMcyR432BhXbPoD/gsY6xfzbrf+Ly2/AQIuI/X6o6
+         f8zTg2nrD4CBrpC3F5OqxiKWjhZjEMwclEg2JXXbtb8q9Tl2JChFmUV7WLS2e5FTRuph
+         Ky4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUysl0uLo3a/+zpKcAgB3JO2hTcV2p448LdT8qOLaD0WT7A0ylYL7RfIZOlFRf+RMSMufN3sFtq2rQMfNGapbHJRllaaq+/Eztu
+X-Gm-Message-State: AOJu0YxDFbfCIQErd7WJGcaPlB5G/TUK7PgSDa+suGQh7Pl3DmhrPSUF
+	d7jFJy7n1E1bKBVKkHJ+SYUHXBtBbDcmzcLlnPKhhgskf1Z5PSM8UiLAqaZcjhM=
+X-Google-Smtp-Source: AGHT+IFD4/QQf7DSCFn7BpKaHqZVvWjrhBM0s1pr0jlg9Ch9ima5C7dw+J80WKNKg5qjzUacSgKW4Q==
+X-Received: by 2002:a2e:a175:0:b0:2e3:3b4e:43e4 with SMTP id 38308e7fff4ca-2e5204b2ed4mr86104081fa.32.1715697229984;
+        Tue, 14 May 2024 07:33:49 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:3f47:f219:de13:38a7])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3502b8a76e6sm13856362f8f.62.2024.05.14.07.33.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 May 2024 07:33:49 -0700 (PDT)
+References: <87o79azh65.wl-kuninori.morimoto.gx@renesas.com>
+User-agent: mu4e 1.10.8; emacs 29.2
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: =?utf-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>, Alexandre
+ Belloni <alexandre.belloni@bootlin.com>, Alper Nebi Yasak
+ <alpernebiyasak@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Banajit Goswami
+ <bgoswami@quicinc.com>, Bard Liao <yung-chuan.liao@linux.intel.com>, Brent
+  Lu <brent.lu@intel.com>, Cezary Rojewski <cezary.rojewski@intel.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>, Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>, Cristian Ciocaltea
+ <cristian.ciocaltea@collabora.com>, Daniel Baluta <daniel.baluta@nxp.com>,
+ Hans de Goede <hdegoede@redhat.com>, Jaroslav Kysela <perex@perex.cz>,
+ Jerome Brunet <jbrunet@baylibre.com>, Jiawei Wang <me@jwang.link>,
+ Jonathan  Corbet <corbet@lwn.net>, Kai Vehmanen
+ <kai.vehmanen@linux.intel.com>, Kevin Hilman <khilman@baylibre.com>, Liam
+ Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Maso
+ Huang <maso.huang@mediatek.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, Peter Ujfalusi
+ <peter.ujfalusi@linux.intel.com>, Pierre-Louis Bossart
+ <pierre-louis.bossart@linux.intel.com>, Ranjani Sridharan
+ <ranjani.sridharan@linux.intel.com>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Shengjiu Wang
+ <shengjiu.wang@gmail.com>, Srinivas Kandagatla
+ <srinivas.kandagatla@linaro.org>, Sylwester Nawrocki
+ <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, Vinod Koul
+ <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
+ alsa-devel@alsa-project.org, imx@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH v2 0/3] ASoC: grace time for DPCM cleanup
+Date: Tue, 14 May 2024 16:31:55 +0200
+In-reply-to: <87o79azh65.wl-kuninori.morimoto.gx@renesas.com>
+Message-ID: <1jttj0xy2b.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On Tue, 14 May 2024 10:08:15 +0800 Heng Qi wrote:
-> > We can't make lockdep dependent on NET.
-> > People working on other subsystems should be able to use LOCKDEP 
-> > with minimal builds.  
-> 
-> Got it. Then I declare "DIMLIB depends on NET" and clean up other places.
 
-I'm not sure if there's any legit DIM (but not net_dim) user, if there
-isn't that SGTM. The RDMA is fine to depend on NET.
+On Mon 13 May 2024 at 00:31, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
 
-> One more friendly request, I see net-next is closed today, but our downstream
-> kernel release deadline is 5.20, so I want to test and release the new v14 today,
-> is it ok?
+> Hi Mark, Pierre-Louis, Jerome
+> Cc each ASoC driver maintainer
+>
+> As we discussed in [1], we don't need to use dpcm_playback/capture flag,
+> so we remove it. But we have been using it for 10 years, some driver might
+> get damage. The most likely case is that the device/driver can use both
+> playback/capture, but have only one flag, and not using xxx_only flag.
+> [1/3] patch indicates warning in such case.
+>
+> And because of its history, DPCM has been checking CPU side only. But it should
+> check Codec side too same as non-DPCM. Some device/driver has been bypassed
+> this check. It should be error. [2/3] patch indicates warning in such case.
+>
+> Because dpcm_xxx flag is no longer used by [1/3] patch, 
+> snd_soc_dai_link_set_capabilities() is no longer needed. [3/3] patch remove it.
+>
+> These adds grace time for DPCM cleanup.
+> I'm not sure when dpcm_xxx will be removed, and Codec check bypass will be error,
+> but maybe v6.11 or v6.12 ?
+> Please check each driver by that time.
+>
+> [1] https://lore.kernel.org/r/87edaym2cg.wl-kuninori.morimoto.gx@renesas.com
+>
+> Link: https://lore.kernel.org/r/87edaym2cg.wl-kuninori.morimoto.gx@renesas.com
+> Link: https://lore.kernel.org/r/87wmo6dyxg.wl-kuninori.morimoto.gx@renesas.com
+>
+> v1 -> v2
+> 	- tidyup Codec check warning output condition
+>
+> Kuninori Morimoto (3):
+>   ASoC: soc-pcm: Indicate warning if dpcm_playback/capture were used for availability limition
+>   ASoC: soc-pcm: Indicate warning if CPU / Codec availability mismatch
+>   ASoC: remove snd_soc_dai_link_set_capabilities()
 
-You'll need to post as RFC since it can't be applied but you can post
-to continue review. Please wait a day or two tho, I'm currently swamped
-trying to go thru the PR preparations.
+For Amlogic, with the change sent as RFC on this series.
+
+Tested-by: Jerome Brunet <jbrunet@baylibre.com>
+
+>
+>  include/sound/soc-dai.h               |   1 -
+>  include/sound/soc.h                   |   1 +
+>  sound/soc/fsl/imx-card.c              |   3 -
+>  sound/soc/generic/audio-graph-card.c  |   2 -
+>  sound/soc/generic/audio-graph-card2.c |   2 -
+>  sound/soc/generic/simple-card.c       |   2 -
+>  sound/soc/meson/axg-card.c            |   1 -
+>  sound/soc/meson/gx-card.c             |   1 -
+>  sound/soc/qcom/common.c               |   1 -
+>  sound/soc/soc-dai.c                   |  38 ---------
+>  sound/soc/soc-pcm.c                   | 110 +++++++++++++++++++-------
+>  11 files changed, 81 insertions(+), 81 deletions(-)
+
+
+-- 
+Jerome
