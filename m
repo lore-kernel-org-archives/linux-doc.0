@@ -1,73 +1,72 @@
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEF10181321
-	for <linux-doc@vger.kernel.org>; Tue, 14 May 2024 19:50:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E50E181335
+	for <linux-doc@vger.kernel.org>; Tue, 14 May 2024 19:55:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715716223; cv=none; b=FsgZgeXOR0JhijgO75ERjV6WSImgyHaSutuxwBpLQaxKC8ALz1AP/fD00KIXXdiyInXtF1aTBVZH3McTL7rjpzTVhE9z6HnoA2ZQ2yFszUMLRAVnm+HI3X0X0ORcY4bDHTj6Z0ASDH5pdn4hdRvvObStDs26eBzebIEMcnazZlI=
+	t=1715716516; cv=none; b=ftRDjFWq2+EsRAnNVdPOzVYZhW5xJQuJ0EhLkHPgf5ZB5zMO0xt/BvmCkN6fp7GKbmhIRHMidHi2iMuFN5+96YHihHfugjoaYeDK/0imYRhtjn+pJ0by26RF3lL0BozfksvzJxazZtG/VXJReQcJN5j3vv8hztnFe2E+yGuvyyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715716223; c=relaxed/simple;
-	bh=xCGobSiEZZKVIGvtlb17VkXzrJav2cpynpYO5pxHsTg=;
+	s=arc-20240116; t=1715716516; c=relaxed/simple;
+	bh=Tn7ggDBZ467fewog7X29iTchxNr3w1imZ5QlMHFp0v0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jY7+YcrEigRexTOkQbNiWzM35hjTSsEUL5LpaO5BrjqKcu/xkYWGMk7z8+i58nykC8Tml0vUbfLYb+wpeK9RcKCpckpMkSgczrJZjk8tZkVwaOfG3sdRxwdl9P+6OHRxXXLP8pc6n2MF3h2OhNS+WYVPf88/jJdhkdEBYKHcx9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=JF+Zbwi4; arc=none smtp.client-ip=209.85.219.174
+	 To:Cc:Content-Type; b=j+Cbo2E84k3exYKq4hctmYI2GzPzBC1p++p+k9bIaAWrWnBp75Z+NOibz+6rbYkeyODcd1buLgBwJ26HsRlWWy1tqIpobO3pzcID87btLSB4SdR/Ni1S7h/ocZjrCo5noYFuXyid1ojmwr0VU3lITWlR+nYeNpMhUqSCMHFmQjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=BQ5nTcrJ; arc=none smtp.client-ip=209.85.219.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="JF+Zbwi4"
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-debaa161ae3so6693197276.1
-        for <linux-doc@vger.kernel.org>; Tue, 14 May 2024 12:50:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="BQ5nTcrJ"
+Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-dcc71031680so6420065276.2
+        for <linux-doc@vger.kernel.org>; Tue, 14 May 2024 12:55:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1715716220; x=1716321020; darn=vger.kernel.org;
+        d=paul-moore.com; s=google; t=1715716512; x=1716321312; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lkp4I1/EP34xCsXz894jXcfOHu9Xc+3+8P13l0GVrxE=;
-        b=JF+Zbwi4A37UVjOELqyuSxI5XF16PnHoy/clBUi83jiG+YRodmecFW52qZKz4Kq726
-         4PTOrHIBMXKsd7NPB6GCHO6oGJCvxjHHJaMw38WnlU+B/cm4WbJETzVMZ2TafdoTfo4X
-         rBPSV09s7/igRv/0AE1D7RnilAUdFI2LXQQWFeHNyDVUgFRiRFPHAJLU+iEB4N2/widJ
-         cASIqHwqPxifXEwwXws+q0QEDlDblFWXqGYAXJmXfXw3VXV1KCegxMxVhRx0XCksA/sB
-         1VxkK02/WpwjROj2m5sVqBTGjVDYmmzXsDovMQ2t1pd4IrqPTv+jT8xruRy07h+w1pWB
-         IsxQ==
+        bh=I5DfaKSvWBjSuruH8QpkzwqbDWxyqIe8ntp5STBjhPE=;
+        b=BQ5nTcrJeiDGmJPbk+0RbPTElKvyqninC22tbUnOXLGS1LGq1NMiBlKd/vEdzgWmX3
+         J6CyOwcl5ivwV579DFEK3+TPJNedRbX5ta4rufuEGc9PXSFysi/1ahLWwCZ145ht6Uyl
+         Bw6LPtcCw4jhHWxePof5VARvVKrO7Gny5IjBXAEBH3jl2fhWU277pEPsN/aRwtFOao6H
+         alRLOYOxC3Mw4O3SYM24cutTSjj6riCyqehsqMkh76Ix8NCPvVfYnaoGWhA3ar0CMRBO
+         uOblc/Ql1V5KS6OL2dGv81/5AuDDrkYhB4Q5bH42HhK8obCcNSuLZXmuVzWWpy725Av5
+         SDxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715716220; x=1716321020;
+        d=1e100.net; s=20230601; t=1715716512; x=1716321312;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lkp4I1/EP34xCsXz894jXcfOHu9Xc+3+8P13l0GVrxE=;
-        b=Bxm0CyUJzwp+wYWu2xXxg5vYGmJ0Md8atPa3XMwZfn4GlpYwRahfPD3+zo/1fGFxg5
-         ILL7D5lzU9OlIsOMHIRfod4/cQ2em6k5oUThlXMQXcYLotCwcyhEUVhZkxqPZl4Vpuy5
-         jgeSEY4lsSP3ikZXFM2pKGl2BNXrLzuK/UyP+62F+g9wlFKetXcTxwjTxKd8mCPvAM7j
-         Qm2cimOcyeZldIQFeI+ACcBrhKs4U0ZfCzJIdyqragvZsyJw1b9j4VFqRpjKGerlNv9+
-         LKsJIzu7/Pv7BKpSzi5wE3CRHN1HmqXAsi2XBXmlDe/XQipInjtxBDHDkfACfNLySHOt
-         F+Sw==
-X-Forwarded-Encrypted: i=1; AJvYcCVAn78cv8YXdpYDaikLXw9qKs5AMumqRoEUMWMUD8mPrYATOz3iJB0EwKxKaYjGNrF8CtBiTdFAFOXtXQbLaHrmWBSZ2OzJovlv
-X-Gm-Message-State: AOJu0YzQxuNXy/XDtavPrBOqOQUo/16ACpc6XTAMJZR5SZWg8/640/cl
-	/BQ2kuTMul4Eew2dRAs4c7Ytt89mJbu9ONsE9SRK4wWw4D/0X9ELpWFqa49DPvpxvLSKo9NWgTG
-	ukOsgZGGj0/0U8fCarN0fezZZXvS87SPhCeGg
-X-Google-Smtp-Source: AGHT+IFWIy5UA2F/+z955H9aT1kkILcAstR0rQ1Z6k7ELYYSk3poMncJ+M812qPYw6M0u0TMB7AFkJo/BviRvM2KHkE=
-X-Received: by 2002:a05:6902:218f:b0:dee:8da8:aeb7 with SMTP id
- 3f1490d57ef6-dee8da8b092mr8719461276.25.1715716220678; Tue, 14 May 2024
- 12:50:20 -0700 (PDT)
+        bh=I5DfaKSvWBjSuruH8QpkzwqbDWxyqIe8ntp5STBjhPE=;
+        b=RdVks3FIOCePvtJHbtZ5K+govNYOs85kGSMmW2L6cbEMb6PYdbUpXJMpzCO9xwl+se
+         8xkKhuCBgehTPI1UNPL5SRE00GSQtFoKHdyuSEuGk8EQjT8f6xn+jf/9icdKksIsQ25p
+         Wxh3I6dvx6WBDtlXHMd9vgrQjtsXx+ZyIy4JhpinCgu5K20Y5GltFYftB8OHfeDxdLI8
+         fXFWtrGP65tRgRtLhstbE0J/m3oc0b+ssqVeiyVWi2UMT/eXMZ4JDD2Bf+f7GhoTWbzv
+         vf04tU6YR83uhbEQuTTioE49x6nc8BZwBJqh2W9I7PcWy4IvDw8DQQEo+NZy+BWPEjQX
+         Ci9A==
+X-Forwarded-Encrypted: i=1; AJvYcCXtcOtC33QgZTq4reYRb88m+OO53lK4cTM1ESKg0NP03GKuLYFyBPcau0judu0eLbLtkw32l9gn8tJCvdJxSVft2Sfxwsmy8fOe
+X-Gm-Message-State: AOJu0Yxk/QcIhIxqJZrOppRS5UJ9SCjWZDNjWUw06k/hdm5wGWjOpUdl
+	JzYZ9wwCSSpxQ7IgpaXnPmEuyh9aoTKam0mx57JfzSS7WwGppETNzwjzpaDY6ui4H9XU4Fd9Pjn
+	6SmkyQJzmASVVb9H0Dp9F5OpjpmgwhrEju5vv
+X-Google-Smtp-Source: AGHT+IGVq5mRXTNrK/KaBwurMBldLnV/6qJN5uwTdGazOX6+s8bWL81rsv23lU+ZbyujJVMk8Qdjk3/8J+Z+jQ3+QZk=
+X-Received: by 2002:a25:ad50:0:b0:de4:619a:fbd with SMTP id
+ 3f1490d57ef6-dee4f2f6cb8mr13359322276.9.1715716512499; Tue, 14 May 2024
+ 12:55:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <1714775551-22384-1-git-send-email-wufan@linux.microsoft.com>
- <1714775551-22384-21-git-send-email-wufan@linux.microsoft.com>
- <ZjXsBjAFs-qp9xY4@archie.me> <ab7054cd-affd-47c3-bd98-2cf47d6a6376@linux.microsoft.com>
-In-Reply-To: <ab7054cd-affd-47c3-bd98-2cf47d6a6376@linux.microsoft.com>
+References: <1714775551-22384-1-git-send-email-wufan@linux.microsoft.com> <1714775551-22384-17-git-send-email-wufan@linux.microsoft.com>
+In-Reply-To: <1714775551-22384-17-git-send-email-wufan@linux.microsoft.com>
 From: Paul Moore <paul@paul-moore.com>
-Date: Tue, 14 May 2024 15:50:09 -0400
-Message-ID: <CAHC9VhQewDL4cWXSiAgzvrHa8N5rd6TbhSCM3jRp29=Kmr3m-Q@mail.gmail.com>
-Subject: Re: [PATCH v18 20/21] Documentation: add ipe documentation
-To: Fan Wu <wufan@linux.microsoft.com>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>, corbet@lwn.net, zohar@linux.ibm.com, 
-	jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org, 
-	axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org, eparis@redhat.com, 
+Date: Tue, 14 May 2024 15:55:01 -0400
+Message-ID: <CAHC9VhTK4WS6BOXqLJ4sNKXR9a17gT3vXJUBc1F11cZ_QaOYBA@mail.gmail.com>
+Subject: Re: [PATCH v18 16/21] fsverity: expose verified fsverity built-in
+ signatures to LSMs
+To: ebiggers@kernel.org
+Cc: Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net, zohar@linux.ibm.com, 
+	jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, axboe@kernel.dk, 
+	agk@redhat.com, snitzer@kernel.org, eparis@redhat.com, 
 	linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, 
 	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev, 
 	linux-block@vger.kernel.org, dm-devel@lists.linux.dev, audit@vger.kernel.org, 
@@ -75,35 +74,44 @@ Cc: Bagas Sanjaya <bagasdotme@gmail.com>, corbet@lwn.net, zohar@linux.ibm.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, May 4, 2024 at 4:13=E2=80=AFPM Fan Wu <wufan@linux.microsoft.com> w=
+On Fri, May 3, 2024 at 6:32=E2=80=AFPM Fan Wu <wufan@linux.microsoft.com> w=
 rote:
-> On 5/4/2024 1:04 AM, Bagas Sanjaya wrote:
-> > On Fri, May 03, 2024 at 03:32:30PM -0700, Fan Wu wrote:
-> >> +IPE does not mitigate threats arising from malicious but authorized
-> >> +developers (with access to a signing certificate), or compromised
-> >> +developer tools used by them (i.e. return-oriented programming attack=
-s).
-> >> +Additionally, IPE draws hard security boundary between userspace and
-> >> +kernelspace. As a result, IPE does not provide any protections agains=
-t a
-> >> +kernel level exploit, and a kernel-level exploit can disable or tampe=
-r
-> >> +with IPE's protections.
-> >
-> > So how to mitigate kernel-level exploits then?
 >
-> One possible way is to use hypervisor to protect the kernel integrity.
-> https://github.com/heki-linux is one project on this direction. Perhaps
-> I should also add this link to the doc.
+> This patch enhances fsverity's capabilities to support both integrity and
+> authenticity protection by introducing the exposure of built-in
+> signatures through a new LSM hook. This functionality allows LSMs,
+> e.g. IPE, to enforce policies based on the authenticity and integrity of
+> files, specifically focusing on built-in fsverity signatures. It enables
+> a policy enforcement layer within LSMs for fsverity, offering granular
+> control over the usage of authenticity claims. For instance, a policy
+> could be established to permit the execution of all files with verified
+> built-in fsverity signatures while restricting kernel module loading
+> from specified fsverity files via fsverity digests.
+>
+> The introduction of a security_inode_setintegrity() hook call within
+> fsverity's workflow ensures that the verified built-in signature of a fil=
+e
+> is exposed to LSMs. This enables LSMs to recognize and label fsverity fil=
+es
+> that contain a verified built-in fsverity signature. This hook is invoked
+> subsequent to the fsverity_verify_signature() process, guaranteeing the
+> signature's verification against fsverity's keyring. This mechanism is
+> crucial for maintaining system security, as it operates in kernel space,
+> effectively thwarting attempts by malicious binaries to bypass user space
+> stack interactions.
+>
+> The second to last commit in this patch set will add a link to the IPE
+> documentation in fsverity.rst.
+>
+> Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
+> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
 
-I wouldn't spend a lot of time on kernel exploits in the IPE
-documentation as it is out of scope for IPE.  In face, I would say
-just that in the last sentence in the paragraph above:
+Eric, are you okay with the fs-verity patches in v18?  If so, it would
+be nice to get your ACK on this patch at the very least.
 
-"As a result, kernel-level exploits are considered outside the scope
-of IPE and mitigation is left to other mechanisms."
-
-(or something similar)
+While it looks like there may be a need for an additional respin to
+address some new/different feedback from the device-mapper folks, that
+shouldn't affect the fs-verity portions of the patchset.
 
 --=20
 paul-moore.com
