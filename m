@@ -1,183 +1,169 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C523317999
-	for <linux-doc@vger.kernel.org>; Tue, 14 May 2024 07:53:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B3111DFF0
+	for <linux-doc@vger.kernel.org>; Tue, 14 May 2024 09:06:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715673193; cv=none; b=upOv/OvZUAsBxo2HJXSOg/H4r5OycKHRy4m5Z9Zk6FQ7CioiR5RdAGO11qce93pYUGbxIjNETBJ3c++p47WCnhyqxJJon5CdL0KsLL27lQ4rzvwI3Eg9oYtVHCz9egnj/iQJh8GFFuYipxwB8wXO64RIYVFZNkqxq5kHOLFpeMs=
+	t=1715677585; cv=none; b=Plpo6Ghc05D9COjW3ZPem1/0WOGQ/Tj7XkPbu7mbyDSaghj7e9GYfF2oSz/aH90mIEwyyf9L70xScSQpJ4jg0oipsfTmy6/w+LkiT+sxrLImXO8dOFreCmiso5btFJGKVjBAhMaNnR5vEBFQY6ufQV3DwyTsMEK/8brH5igstRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715673193; c=relaxed/simple;
-	bh=4BPRRFjn10KTemZVMiXfbzWtTKbIap/yR25p1VitIqc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iTo7Sws0wQSylpDxFOgYocyfkPFdPpCMUECGMplG5bANvXOGT2dOoIAYmAedTwGJ9THRVaO1GM1qEc0q3/LjmLo/0OoaALItNOxLhqIEVpEJlfS88Q5soXkPPk4fhHrzf1G0k3MFqHlknQ0BASix/iExQcrnHbdZOOY38K36ACQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=YG1QtCEv; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1715677585; c=relaxed/simple;
+	bh=JveulSWtJk0/yBRY2YIfL8dzWQxVPxJpo1BEZ+B42+4=;
+	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
+	 MIME-Version:Content-Type; b=FloPV0mrBDciuoPnkYHKeweX2Abl+LsYeJBBnDLgiQUGZw5eI1HFHkn/GeI9VVkZrHNPQFcsT/+8oD2GA7pbUnfWZkwZdagWK3yZ3EblVQ+LVpmUUJuJqvnzhD1OS8W42d/m087L3uVMnlGolSuh0oN9zVQIo8pxH8ErHYa4TGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Y0tji745; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="YG1QtCEv"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-51f929b9f10so1100689e87.2
-        for <linux-doc@vger.kernel.org>; Tue, 14 May 2024 00:53:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Y0tji745"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-420180b58c5so12274635e9.3
+        for <linux-doc@vger.kernel.org>; Tue, 14 May 2024 02:06:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1715673190; x=1716277990; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xLTEzVHwu7ZYKj/KSfivTkPQEQSaRSHzucHxEOOY2fE=;
-        b=YG1QtCEvwcvEyKCFIuvs7uSvdvIKGv+ODpphQ2TyWi8aNEm8CSrztNmrfa9mvgCYTz
-         Z1kQhC4hzMipZrMG5UeoE0S1iQ/1S9Q7A0HWy0r01wIcFhah2C79lGO0YGAdtROQGdQW
-         8U8yNXCxErgc/F6qD3q6N5/FcMAta1iI4/BVBCdJ8PXMi2psIJbp89w3Kg1ytm/nG9M1
-         UFfTbhV0wA7JbHc/Yq2A9iH8QGOXiWgkHGTO3vwJyEi7NwSUguk4PTVguFG8IRR4ZfpM
-         4wD76T2x+hKkd/RoaHq974MefhtRF4Py04rtrrNxy+lFatqsjeMVc9IkbbiXuFXY0N+9
-         QWCA==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1715677581; x=1716282381; darn=vger.kernel.org;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
+        bh=oR0ReylhKEqKzH5kHG2G6k5ALzu913m0pq1siK/oT9c=;
+        b=Y0tji745cF0/Jqw6sW1z8zpgoPYXNQmkB+nxg5TevefeUJ0thhTpZxhcrTXGroPPTl
+         vfZH8iVzHsx9Ht3evrY1CWB3oCB/yrXsP1Qph+TMA4kW+Kbm/NYgkmA/Z8qS2YZFZuP7
+         J5CdBQh0N7LPjGXNMUOeQLrWOCLcuu98/lHQFan4hl0RvdtkZyyajxZUgeXkdQfjwqSc
+         aAYh1iglY633GJV/Er79mHhA2QnBAPnDeI3THiQRkK9Czy5hx0LhjVIo5cyCK9JiCRBa
+         Y0Ea/q6x5sMi94lwMmX/7tD9MpZF0hDtYA3Zl44Z+SXDPdQ8MHytTsvLISsJlpwGhiHW
+         vwRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715673190; x=1716277990;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xLTEzVHwu7ZYKj/KSfivTkPQEQSaRSHzucHxEOOY2fE=;
-        b=OfiizbMkHT0opwcOH5FL4iiZeoEfEqA31MOEr58rNV7zJl8T9ox4MVvBrX+vVRqFrw
-         y2C5qyP80VV06tOKf5POrX+IG4ErtRFHqlk5carcryP631k1/w/ACHFWOj9McWGwvH1C
-         XgOTQHl81SvWiti7lSlGXlIgXbFjO6hbvkaW0PlWfxd78SFEkFkEyA6CQiTITLgh+kxX
-         XfQ1Jm/+sfpbKreT2H55iMp2V4fmKuppo8+tnPsDTbSuY+SXt59Uz3UZraf5SP44M7b8
-         K/3LOXTpaGR8sLWTO7X9yYvW4mjTpVfzKBZ6j7L1CWZE40hW+asAkqE5/j7pdtT/KfXu
-         yK1A==
-X-Forwarded-Encrypted: i=1; AJvYcCU5W7YvLq4DBGElJsM2aYVxiNjUIT/HQrgts+ma4MvoonHPRhV0ABGpmVRrf50roOPhfeWzw0vDTm+rfva9rTor/RmPjWcysLY7
-X-Gm-Message-State: AOJu0Ywvdfp/3kn0+6Krjnz1XXAaRTTvjgZmkDeA8V7AHyRlbz1kWRCL
-	HwuEn73h2KSoZHj2bhyTODFTxeST/PF6gqwwET+dBPKJ1sstKaU0lS8OPGb91L0=
-X-Google-Smtp-Source: AGHT+IGAAZ+jOBUCojQGggh22j6hs6WvIQhPLRiw+ncZod2lDfQS/ZA3a8ERikpxDRqLtFBslYYo/A==
-X-Received: by 2002:a2e:9094:0:b0:2df:4bad:cb7f with SMTP id 38308e7fff4ca-2e51fd4b333mr72404111fa.2.1715673189903;
-        Tue, 14 May 2024 00:53:09 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:999:a3a0:1660:5f6e:2f9c:91b9? ([2a01:e0a:999:a3a0:1660:5f6e:2f9c:91b9])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41fccbe8e3csm185259155e9.1.2024.05.14.00.53.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 May 2024 00:53:09 -0700 (PDT)
-Message-ID: <e57f8b70-7981-42c1-bb04-2060054dd796@rivosinc.com>
-Date: Tue, 14 May 2024 09:53:08 +0200
+        d=1e100.net; s=20230601; t=1715677581; x=1716282381;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oR0ReylhKEqKzH5kHG2G6k5ALzu913m0pq1siK/oT9c=;
+        b=e8PmhIfl+r3l4px9tAymRM1PRYD8C1nyVcUv79rN13pggaI8E+7nDVDGV9GjByJEFG
+         QXqctE0ZM24z5APQO08AS/jRM2B7VZcsxRprC36232bUP6oS8jmTNPDE7Vt3sLmsya2o
+         lo1IOAz6SC7bXvjASA1tV7adg1U1t4sUsLOUE+QJAxJDLoqZkmnSj3HWQJ7SQZEbfV95
+         iSHGTwo1RzCys+Wg6CqZbrCrV3t9+juk0eLxQIzHCIh4WOgYADNL6fn+/ixYX25ty+s0
+         Lkjo6EEpYrxFZdyz2TV5UJqxka0rzo+rgWksL6DEaJh3J2WLXC0JVYIfzWu8JCZseH5T
+         ZWJA==
+X-Forwarded-Encrypted: i=1; AJvYcCW4Uz53/BZZbL5jbjwU/YvMyksZ03nlkvk2EonjdBxw1gbU2IxzteXxPZI5F7skEuhQE/mj1igb46pGq6vRHl5E/QYXax6QBfRu
+X-Gm-Message-State: AOJu0YwaAdrGMlxzjz5azrSjDonfLfwt/Dd9DNQ3WXad3iePCzVj9D72
+	/1QOx+edOgwVue0BgBBU3kIF+EyaNwc3G0awvZSc0mjt78oNc6Ruo6ernHI0pVc=
+X-Google-Smtp-Source: AGHT+IHW4C09dzKGpNnXI4nTfM4zJ0z+4B+aD9rH4pjOFB4gyI2EBMozVqvi/q5TDnnmVbzVUKgD6w==
+X-Received: by 2002:a05:600c:438a:b0:41b:cc7d:1207 with SMTP id 5b1f17b1804b1-41feaa4335cmr87706765e9.19.1715677581563;
+        Tue, 14 May 2024 02:06:21 -0700 (PDT)
+Received: from localhost ([2a01:e0a:3c5:5fb1:3f47:f219:de13:38a7])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41fccce24efsm186103125e9.19.2024.05.14.02.06.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 May 2024 02:06:20 -0700 (PDT)
+References: <87wmo6dyxg.wl-kuninori.morimoto.gx@renesas.com>
+ <1jr0ee2ebk.fsf@starbuckisacylon.baylibre.com>
+ <87pltxmakr.wl-kuninori.morimoto.gx@renesas.com>
+ <87edaba5ze.wl-kuninori.morimoto.gx@renesas.com>
+ <1j1q6b1gxs.fsf@starbuckisacylon.baylibre.com>
+ <878r0ir1qw.wl-kuninori.morimoto.gx@renesas.com>
+ <1jwmnzz5k3.fsf@starbuckisacylon.baylibre.com>
+ <87pltqzi3n.wl-kuninori.morimoto.gx@renesas.com>
+ <1jseymyxa6.fsf@starbuckisacylon.baylibre.com>
+ <87h6f1jn25.wl-kuninori.morimoto.gx@renesas.com>
+User-agent: mu4e 1.10.8; emacs 29.2
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: Jerome Brunet <jbrunet@baylibre.com>, Amadeusz =?utf-8?B?U8WCYXdpxYRz?=
+ =?utf-8?B?a2k=?=
+ <amadeuszx.slawinski@linux.intel.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Alper Nebi Yasak
+ <alpernebiyasak@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Banajit Goswami
+ <bgoswami@quicinc.com>, Bard Liao <yung-chuan.liao@linux.intel.com>, Brent
+      Lu <brent.lu@intel.com>, Cezary Rojewski <cezary.rojewski@intel.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>, Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>, Cristian Ciocaltea
+ <cristian.ciocaltea@collabora.com>, Daniel Baluta <daniel.baluta@nxp.com>,
+ Hans de Goede <hdegoede@redhat.com>, Jaroslav Kysela <perex@perex.cz>,
+ Jiawei Wang <me@jwang.link>, Jonathan  Corbet <corbet@lwn.net>, Kai
+     Vehmanen <kai.vehmanen@linux.intel.com>, Kevin Hilman
+ <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
+ <broonie@kernel.org>, Maso Huang <maso.huang@mediatek.com>, Matthias
+     Brugger <matthias.bgg@gmail.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, Pierre-Louis Bossart
+ <pierre-louis.bossart@linux.intel.com>, Ranjani Sridharan
+ <ranjani.sridharan@linux.intel.com>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Shengjiu Wang
+ <shengjiu.wang@gmail.com>, Srinivas Kandagatla
+ <srinivas.kandagatla@linaro.org>, Sylwester Nawrocki
+ <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, Vinod Koul
+ <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
+ alsa-devel@alsa-project.org, imx@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 0/3] ASoC: grace time for DPCM cleanup
+Date: Tue, 14 May 2024 11:04:40 +0200
+In-reply-to: <87h6f1jn25.wl-kuninori.morimoto.gx@renesas.com>
+Message-ID: <1j7cfwzrsj.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 02/11] riscv: add ISA extensions validation
-To: Conor Dooley <conor.dooley@microchip.com>
-Cc: Conor Dooley <conor@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Anup Patel <anup@brainfault.org>, Shuah Khan <shuah@kernel.org>,
- Atish Patra <atishp@atishpatra.org>, linux-doc@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, kvm@vger.kernel.org,
- kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
-References: <20240429150553.625165-1-cleger@rivosinc.com>
- <20240429150553.625165-3-cleger@rivosinc.com>
- <20240429-subtext-tabby-3a1532f058a5@spud>
- <5d5febd5-d113-4e8c-9535-9e75acf23398@rivosinc.com>
- <20240430-payable-famished-6711765d5ca4@wendy>
-Content-Language: en-US
-From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-In-Reply-To: <20240430-payable-famished-6711765d5ca4@wendy>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
 
+On Mon 13 May 2024 at 23:42, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com> wrote:
 
-On 30/04/2024 13:44, Conor Dooley wrote:
-> On Tue, Apr 30, 2024 at 09:18:47AM +0200, Clément Léger wrote:
->>
->>
->> On 30/04/2024 00:15, Conor Dooley wrote:
->>> On Mon, Apr 29, 2024 at 05:04:55PM +0200, Clément Léger wrote:
->>>> Since a few extensions (Zicbom/Zicboz) already needs validation and
->>>> future ones will need it as well (Zc*) add a validate() callback to
->>>> struct riscv_isa_ext_data. This require to rework the way extensions are
->>>> parsed and split it in two phases. First phase is isa string or isa
->>>> extension list parsing and consists in enabling all the extensions in a
->>>> temporary bitmask without any validation. The second step "resolves" the
->>>> final isa bitmap, handling potential missing dependencies. The mechanism
->>>> is quite simple and simply validate each extension described in the
->>>> temporary bitmap before enabling it in the final isa bitmap. validate()
->>>> callbacks can return either 0 for success, -EPROBEDEFER if extension
->>>> needs to be validated again at next loop. A previous ISA bitmap is kept
->>>> to avoid looping mutliple times if an extension dependencies are never
->>>> satisfied until we reach a stable state. In order to avoid any potential
->>>> infinite looping, allow looping a maximum of the number of extension we
->>>> handle. Zicboz and Zicbom extensions are modified to use this validation
->>>> mechanism.
->>>
->>> Your reply to my last review only talked about part of my comments,
->>> which is usually what you do when you're gonna implement the rest, but
->>> you haven't.
->>> I like the change you've made to shorten looping, but I'd at least like
->>> a response to why a split is not worth doing :)
->>
->> Hi Conor,
->>
->> Missed that point since I was feeling that my solution actually
->> addresses your concerns. Your argument was that there is no reason to
->> loop for Zicbom/Zicboz but that would also apply to Zcf in case we are
->> on RV64 as well (since zcf is not supported on RV64). So for Zcf, that
->> would lead to using both mecanism or additional ifdefery with little to
->> no added value since the current solution actually solves both cases:
->>
->> - We don't have any extra looping if all validation callback returns 0
->> (except the initial one on riscv_isa_ext, which is kind of unavoidable).
->> - Zicbom, Zicboz callbacks will be called only once (which was one of
->> your concern).
->>
->> Adding a second kind of callback for after loop validation would only
->> lead to a bunch of additional macros/ifdefery for extensions with
->> validate() callback, with validate_end() or with both (ie Zcf)). For
->> these reasons, I do not think there is a need for a separate mechanism
->> nor additional callback for such extensions except adding extra code
->> with no real added functionality.
->>
->> AFAIK, the platform driver probing mechanism works the same, the probe()
->> callback is actually called even if for some reason properties are
->> missing from nodes for platform devices and thus the probe() returns
->> -EINVAL or whatever.
->>
->> Hope this answers your question,
-> 
-> Yeah, pretty much I am happy with just an "it's not worth doing it"
-> response. Given it wasn't your first choice, I doubt you're overly happy
-> with it either, but I really would like to avoid looping to closure to
-> sort out dependencies - particularly on the boot CPU before we bring
-> anyone else up, but if the code is now more proactive about breaking
-> out, I suppose that'll have to do :)
-> I kinda wish we didn't do this at all, but I think we've brought this
-> upon ourselves via hwprobe. I'm still on the fence as to whether things
-> that are implied need to be handled in this way. I think I'll bring this
-> up tomorrow at the weekly call, because so far it's only been you and I
-> discussing this really and it's a policy decision that hwprobe-ists
-> should be involved in I think.
+> Hi Jerome
+>
+> Thank you for your reply
+>
+>> However, I'm a bit confused. If it is handled automatically by the CPUs
+>> and Codecs settings, does it mean dpcm_playback/capture flags are
+>> no-ops from now on ?
+>
+> Yes.
+> dpcm_playback/capture flag itself will be exist for a while, but it will be
+> removed soon (v6.11 ? v6.12 ? not yet fixed).
+>
+> Some driver might is using dpcm_xxx flag as limitation of direction. For
+> example HW can use both playback/capture, but driver want to use playback
+> only, in this case, driver might have dpcm_playback flag only.
+>
+> In this case, driver authoer need to update to use playback_only flag
+> instead. [1/3] patch will indicate warning about it, for a while.
+>
+>
+>> Should I update my card drivers to ditch those flags completely ?
+>
+> If the driver is using dpcm_xxx flag as limitation of direction,
+> driver author need to update to use xxx_only flag.
+> If the driver have no such flag miss, I will remove all dpcm_xxx flags
+> when end of its support.
+> Of course we can avoid extra problem if each driver author remove/update
+> it by themself, instead of me ;P
 
-Hi Conor,
+Makes sense. I'll check your v2 and prepare the update of the related
+card driver
 
-Were you able to discuss that topic ?
+>
+>> May I still disable a direction on a link from the card driver, like in
+>> the case I described above, when a TDM link has no slots for a direction ?
+>
+> For example, in case of CPU can handle both playback/capture, and Codec
+> handles playback only, it will be playback only automatically, no Card
+> settings is needed.
+>
+> If both CPU/Codec can handle playback/capture, but you want to enable
+> playback only, you can use playback_only flag.
+>
+> Is it help you ?
+>
 
-> 
-> Implied extensions aside, I think we will eventually need this stuff
-> anyway, for extensions that make no sense to consider if a config option
-> for a dependency is disabled.
-> From talking to Eric Biggers the other week about
-> riscv_isa_extension_available() I'm of the opinion that we need to do
-> better with that interface w.r.t. extension and config dependencies,
-> and what seems like a good idea to me at the moment is putting tests for
-> IS_ENABLED(RISCV_ISA_FOO) into these validate hooks.
-> 
-> I'll try to look at the actual implementation here tomorrow.
+Path forward is clear. Thanks a lot.
 
-Did you found time to look at the implementation ?
+>
+>
+> Thank you for your help !!
+>
+> Best regards
+> ---
+> Renesas Electronics
+> Ph.D. Kuninori Morimoto
 
-Thanks,
 
-Clément
-
-> 
-> Cheers,
-> Conor.
+-- 
+Jerome
