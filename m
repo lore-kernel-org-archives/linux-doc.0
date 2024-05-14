@@ -1,223 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 458E326AC6;
-	Tue, 14 May 2024 14:44:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE95D17EBA5
+	for <linux-doc@vger.kernel.org>; Tue, 14 May 2024 15:05:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715697851; cv=none; b=XktmwwpcuLud2BWGCHppJH+ci0xBHMtouWYgLfjsWR4WW40a0R2tH+4hS2DuWR/c5yMDT0S37yxk7FrDDvP4H5khqztRYjDcaAbAqBM/GKOggPmVZ9UkQ2dU88nR1ZAa4Hnl27oPOHCRwwfbd5HimmQ3XJG8eTxYjcrx6gyi4eM=
+	t=1715699119; cv=none; b=XUap3NVv9OsTn5nUEHzRfJ3gh+TbCuZhxfWXiiE9aOdJzK57rZFKrcD3hYgdhAcSkAQnjhKN11nhl+tfatP0EJxJvp/4gzgWbXpQYzU36H0+7J5Zu/snhvQtud9U71p5ld9qcos8SkmdqAbD6kNHt3AuD6vZzGHwroj8dnK9LaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715697851; c=relaxed/simple;
-	bh=y6f6cP8b+wbXxgeRLntoPzUrt10oVgLSe6lqdbiAE/Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DiNRnUICMyUSdWqZP/6t1a/iRJmCuIt2vLSDQaagUtA0Ir+4yWGQCZIXAB2dsaVNwPsfjj5ERdBnl/yIZ0mO5ejrqynYqqfojst2HCQekYkzCdNf1Nb9coaVT112yRHHWPOkDn6fF49TsjMqHSEWtXew5HgVvGtNpBefecORbF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JNn88E3q; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715699119; c=relaxed/simple;
+	bh=WO2ZPyFdMDCuN4Vi1bNSiOyJZCjTrUmtLapdLRGv73c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=f65oy7JnxLjTazKSUzQXNnRt9o6Be81J75j5ttv4aw89fH8Qm2Ur7ICm4TiBjlK5ZdiG8Rczdp3YMkrsVlGilPAI6rUEULn9UXcePwZAr8nf2zdC4U0UraaS8NWaMwsAkTD2lwx/N3uXhMp0x0TrdshLeLpaguvGl5wZPKMMXUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H7clV5U/; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JNn88E3q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54926C2BD10;
-	Tue, 14 May 2024 14:44:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715697850;
-	bh=y6f6cP8b+wbXxgeRLntoPzUrt10oVgLSe6lqdbiAE/Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JNn88E3qwlFZ8IDo6NLYz/WL2sOshJD3Uwz336B+1EH4VNtFWEZ+38K/urjlox5v4
-	 +p20OpHYmetUOS7FZF3FMG+TTHQ74Py0oaqF+8nysAdUl6Q/S+A6DtPPu1CbPT0nD2
-	 56JsY/sPwMcRh+UeCI85oV+CUt42T8bkE/rro8rs6hAli5pQnKnI6mikqVICbwyVtE
-	 T/89KdPyIKiQM5KK3IxQEOcmODsQ6xNUdO5WbgVHnDkYF/G5O9Otq4LkDmXfqLHxwu
-	 8uLS1hakZ34fk7+HjgCTmylScgB4wF6RJM2WTkGHUyuZJLNwKszxO5OW1N0yZa0b9x
-	 qfcktlIO2YeRA==
-Date: Tue, 14 May 2024 15:44:05 +0100
-From: Conor Dooley <conor@kernel.org>
-To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
-Cc: Conor Dooley <conor.dooley@microchip.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Anup Patel <anup@brainfault.org>, Shuah Khan <shuah@kernel.org>,
-	Atish Patra <atishp@atishpatra.org>, linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v4 02/11] riscv: add ISA extensions validation
-Message-ID: <20240514-ascend-joyous-a15969f703de@spud>
-References: <20240429150553.625165-1-cleger@rivosinc.com>
- <20240429150553.625165-3-cleger@rivosinc.com>
- <20240429-subtext-tabby-3a1532f058a5@spud>
- <5d5febd5-d113-4e8c-9535-9e75acf23398@rivosinc.com>
- <20240430-payable-famished-6711765d5ca4@wendy>
- <e57f8b70-7981-42c1-bb04-2060054dd796@rivosinc.com>
- <20240514-sip-exclusion-014b07b01f4c@spud>
- <9d0840ff-d00a-4866-8f45-e8676f369ad6@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H7clV5U/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715699118; x=1747235118;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WO2ZPyFdMDCuN4Vi1bNSiOyJZCjTrUmtLapdLRGv73c=;
+  b=H7clV5U/NJgunwr4rVCXc2PxBbygHe2pFPDJ8WvHHS5cOjpCpYcsMRX6
+   P96qDLBz1YelgKpLsn54jOQkH9EPDgapkPxJcEip/ia6e/LpkUv0aEjx4
+   +w6fHtkEZZX01e8SYwSsugZsb691QStaveYsfeaLT3Es+Li4vx8RPLikc
+   Tx2ChS+oe/ZFSIsQpfjZc7Db/9LhMmiSYqf8u0G6esV1XbhH6FdKqxuYf
+   C7x95vDA7QGRkWhBbH/jX2O16Kp1R0ATkL4txBaS2+Nu0g8pWVqt5oOVZ
+   WskPVQwaU099q/Rh+IHbDCP6+OHsIyYC8SogjJP+Up2Vl3skXEbktR8zO
+   w==;
+X-CSE-ConnectionGUID: 20ihg3VcTnOnFXEjR4lkBg==
+X-CSE-MsgGUID: xBcyfFbcTjCPM6o/imO61g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11073"; a="11855591"
+X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; 
+   d="scan'208";a="11855591"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2024 08:05:18 -0700
+X-CSE-ConnectionGUID: wnLNwo/LR+imyRjkihFGzA==
+X-CSE-MsgGUID: 7DWXS78nTu2nqLuXWed4Qg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,159,1712646000"; 
+   d="scan'208";a="31257341"
+Received: from lkp-server01.sh.intel.com (HELO f8b243fe6e68) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 14 May 2024 08:05:17 -0700
+Received: from kbuild by f8b243fe6e68 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s6tiL-000BY1-2r;
+	Tue, 14 May 2024 15:05:13 +0000
+Date: Tue, 14 May 2024 23:05:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jouni =?iso-8859-1?Q?H=F6gander?= <jouni.hogander@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+Subject: [drm-tip:drm-tip 10/10] htmldocs: Warning: integration-manifest
+ references a file that doesn't exist: Documentation/i915
+Message-ID: <202405142346.OQO7OOGu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="77IYhpXVRVT+g+0m"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9d0840ff-d00a-4866-8f45-e8676f369ad6@rivosinc.com>
 
+tree:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+head:   723adadf19b6bd8a54881b0e7d04ba56c4e8f401
+commit: 723adadf19b6bd8a54881b0e7d04ba56c4e8f401 [10/10] drm-tip: 2024y-05m-14d-12h-21m-31s UTC integration manifest
+reproduce: (https://download.01.org/0day-ci/archive/20240514/202405142346.OQO7OOGu-lkp@intel.com/reproduce)
 
---77IYhpXVRVT+g+0m
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405142346.OQO7OOGu-lkp@intel.com/
 
-On Tue, May 14, 2024 at 02:48:01PM +0200, Cl=E9ment L=E9ger wrote:
->=20
->=20
-> On 14/05/2024 14:43, Conor Dooley wrote:
-> > On Tue, May 14, 2024 at 09:53:08AM +0200, Cl=E9ment L=E9ger wrote:
-> >>
-> >>
-> >> On 30/04/2024 13:44, Conor Dooley wrote:
-> >>> On Tue, Apr 30, 2024 at 09:18:47AM +0200, Cl=E9ment L=E9ger wrote:
-> >>>>
-> >>>>
-> >>>> On 30/04/2024 00:15, Conor Dooley wrote:
-> >>>>> On Mon, Apr 29, 2024 at 05:04:55PM +0200, Cl=E9ment L=E9ger wrote:
-> >>>>>> Since a few extensions (Zicbom/Zicboz) already needs validation and
-> >>>>>> future ones will need it as well (Zc*) add a validate() callback to
-> >>>>>> struct riscv_isa_ext_data. This require to rework the way extensio=
-ns are
-> >>>>>> parsed and split it in two phases. First phase is isa string or isa
-> >>>>>> extension list parsing and consists in enabling all the extensions=
- in a
-> >>>>>> temporary bitmask without any validation. The second step "resolve=
-s" the
-> >>>>>> final isa bitmap, handling potential missing dependencies. The mec=
-hanism
-> >>>>>> is quite simple and simply validate each extension described in the
-> >>>>>> temporary bitmap before enabling it in the final isa bitmap. valid=
-ate()
-> >>>>>> callbacks can return either 0 for success, -EPROBEDEFER if extensi=
-on
-> >>>>>> needs to be validated again at next loop. A previous ISA bitmap is=
- kept
-> >>>>>> to avoid looping mutliple times if an extension dependencies are n=
-ever
-> >>>>>> satisfied until we reach a stable state. In order to avoid any pot=
-ential
-> >>>>>> infinite looping, allow looping a maximum of the number of extensi=
-on we
-> >>>>>> handle. Zicboz and Zicbom extensions are modified to use this vali=
-dation
-> >>>>>> mechanism.
-> >>>>>
-> >>>>> Your reply to my last review only talked about part of my comments,
-> >>>>> which is usually what you do when you're gonna implement the rest, =
-but
-> >>>>> you haven't.
-> >>>>> I like the change you've made to shorten looping, but I'd at least =
-like
-> >>>>> a response to why a split is not worth doing :)
-> >>>>
-> >>>> Hi Conor,
-> >>>>
-> >>>> Missed that point since I was feeling that my solution actually
-> >>>> addresses your concerns. Your argument was that there is no reason to
-> >>>> loop for Zicbom/Zicboz but that would also apply to Zcf in case we a=
-re
-> >>>> on RV64 as well (since zcf is not supported on RV64). So for Zcf, th=
-at
-> >>>> would lead to using both mecanism or additional ifdefery with little=
- to
-> >>>> no added value since the current solution actually solves both cases:
-> >>>>
-> >>>> - We don't have any extra looping if all validation callback returns=
- 0
-> >>>> (except the initial one on riscv_isa_ext, which is kind of unavoidab=
-le).
-> >>>> - Zicbom, Zicboz callbacks will be called only once (which was one of
-> >>>> your concern).
-> >>>>
-> >>>> Adding a second kind of callback for after loop validation would only
-> >>>> lead to a bunch of additional macros/ifdefery for extensions with
-> >>>> validate() callback, with validate_end() or with both (ie Zcf)). For
-> >>>> these reasons, I do not think there is a need for a separate mechani=
-sm
-> >>>> nor additional callback for such extensions except adding extra code
-> >>>> with no real added functionality.
-> >>>>
-> >>>> AFAIK, the platform driver probing mechanism works the same, the pro=
-be()
-> >>>> callback is actually called even if for some reason properties are
-> >>>> missing from nodes for platform devices and thus the probe() returns
-> >>>> -EINVAL or whatever.
-> >>>>
-> >>>> Hope this answers your question,
-> >>>
-> >>> Yeah, pretty much I am happy with just an "it's not worth doing it"
-> >>> response. Given it wasn't your first choice, I doubt you're overly ha=
-ppy
-> >>> with it either, but I really would like to avoid looping to closure to
-> >>> sort out dependencies - particularly on the boot CPU before we bring
-> >>> anyone else up, but if the code is now more proactive about breaking
-> >>> out, I suppose that'll have to do :)
-> >>> I kinda wish we didn't do this at all, but I think we've brought this
-> >>> upon ourselves via hwprobe. I'm still on the fence as to whether thin=
-gs
-> >>> that are implied need to be handled in this way. I think I'll bring t=
-his
-> >>> up tomorrow at the weekly call, because so far it's only been you and=
- I
-> >>> discussing this really and it's a policy decision that hwprobe-ists
-> >>> should be involved in I think.
-> >>
-> >> Hi Conor,
-> >>
-> >> Were you able to discuss that topic ?
-> >=20
-> > I realised last night that I'd not got back to this thread and meant to
-> > do that today (I had accidentally deleted it from my mailbox), but I had
-> > a migraine this morning and so didn't.
-> > I did bring it up and IIRC Palmer was of the opinion that we should try
-> > our best to infer extensions.
-> >=20
-> >>> Implied extensions aside, I think we will eventually need this stuff
-> >>> anyway, for extensions that make no sense to consider if a config opt=
-ion
-> >>> for a dependency is disabled.
-> >>> From talking to Eric Biggers the other week about
-> >>> riscv_isa_extension_available() I'm of the opinion that we need to do
-> >>> better with that interface w.r.t. extension and config dependencies,
-> >>> and what seems like a good idea to me at the moment is putting tests =
-for
-> >>> IS_ENABLED(RISCV_ISA_FOO) into these validate hooks.
-> >>>
-> >>> I'll try to look at the actual implementation here tomorrow.
-> >>
-> >> Did you found time to look at the implementation ?
-> >=20
-> > No, with the above excuse. I'll try to get to it today or tomorrow...
->=20
-> No worries, I was on vacation and was just checking if I hadn't missed
-> anything in the meantime. Take your time ;)
+All warnings (new ones prefixed by >>):
 
-I forget where we talked about validation for F/V, but I chucked this
-together last week in response to another thread of Andy's that was
-adding some of the vector subset stuff, because I realised we don't turn
-off any of the stuff that depends on vector if vector gets disabled:
-https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git/commit/?h=
-=3Driscv-check_vector&id=3D38050c6858143f43ce2fd04e9824727a7d7731d0
+   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/devicetree/bindings/sound/fsl-asoc-card.txt references a file that doesn't exist: Documentation/devicetree/bindings/sound/fsl,asrc.txt
+   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+>> Warning: integration-manifest references a file that doesn't exist: Documentation/i915
+   Using alabaster theme
 
-What I've got there doesn't actually work for the vector subsets though,
-only for vector itself, because of the probe ordering. Your validate
-callback stuff should solve that issue though.
-
---77IYhpXVRVT+g+0m
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZkN4tQAKCRB4tDGHoIJi
-0qISAP90Cmxbqg0YPzaeFWc+C9/VvgVu9xKpX7ljk8pbm7X1owD6AnM5MtNIBLJQ
-RIKtT/ATp2dDqn5rjyDfcJhTFVb4Qwk=
-=e78x
------END PGP SIGNATURE-----
-
---77IYhpXVRVT+g+0m--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
