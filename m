@@ -1,107 +1,81 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3412A181321
-	for <linux-doc@vger.kernel.org>; Tue, 14 May 2024 20:19:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36B7F180A6C
+	for <linux-doc@vger.kernel.org>; Tue, 14 May 2024 21:21:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715717975; cv=none; b=iGhVcogtjIadD8ErXW1RcgJmOpWC/uG7yx8/4ODE6sBctEMGLsQMKiCHZzgsD/IJvthyD92raRWdHRqJUAAgXUQMzaqwTCSMtaqPfzfSPL1IQcxKz6rJvieiCmr7Y9IBk27V5S9bsXc+iBIz9sAidtwFfzTvEkrSj+m8NsKkQUU=
+	t=1715721666; cv=none; b=ktjavsg6BQI1icBaU/YM8111WbvNGx2PY1VN0fFkT4LWwtiLyjhKJxmccxdwAz9Qnc+J0CGL58ELpS4ShGTO3hHc1e8hZNkzEnByNRbf0tNeERJbUzkEzbghS6K8aEXHEZTc6kPOLKEeFICf3XA/mfWZp9eaZTcN5crIBttsU0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715717975; c=relaxed/simple;
-	bh=VaHu7rKqUD82QxgHYz6hkdvHYjYa2IRHOTNhh/K5VCc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YsyVeSmkOMpWGw33l9Ozc7dWZLC516x8M6S+sMYu4uJ7DpxHCuK3pieI74+RTSHSfJWbB3QTRIzu+EFx4iaGYjg0eL83GxI3HjcbVIpn9vNo02fLeX73tatp4PCIgVXS4VcBkAPhASeri8yOek2RWcnqs0nctGAVzECb7v1lWP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0a1zuzJn; arc=none smtp.client-ip=209.85.128.177
+	s=arc-20240116; t=1715721666; c=relaxed/simple;
+	bh=CwPBPu20Q373SE94/2W5Gs5lJ3zjrSanPFx9uYehg0M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ku0nmLNwLjSmiFx+LR4C4hseb3RkSHTGfQiMJjVQvziTLQPOcEh5D9UtyDNuEO9HvAgBkjbEL15zrJTSoTdgNoMvFjpgxYJ+zd5prJZdXihjX9XP7SE9wLKugxuBjRD6HZDs4zJuOqZZ4KnQhJubZ1yqXX+jMQRrzwHWpEDaaSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=4dVJGaV6; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0a1zuzJn"
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-61df903aa05so68681957b3.3
-        for <linux-doc@vger.kernel.org>; Tue, 14 May 2024 13:19:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="4dVJGaV6"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-41fef5dda72so238015e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 14 May 2024 14:21:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1715717973; x=1716322773; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8hb7xfSX/VQFjXuNhYy1AT8FiF40Meq6UrJ0Q9OaWSI=;
-        b=0a1zuzJnVTED5zaBjn+vneejEbKjifynYTHZTlnVvJKgSHH0FmJ1Bkn3TIS+l5/1Fr
-         7NbcjAvEqVEWRplugA6jaRTfJGfPU91IqxQ5ua1BqzAlAnXHIcZeQbwh36eH+HrY/GST
-         kZoW1w7PDM6ndbkwbCdg+S4B9E6WtIyn53TkzQSHwaMIMYnXC80MnnzqZhcWHH9emoyo
-         tE/Y2rNZCaH7VE/zEmxSMNyxI7x+qvLgApVmmo/zHocyfjYSqqNyW6Xnzfkdzi34Kf5+
-         tILMfTM8IjYU5bggzvkRUy7e6LTeKynROC0y2vUCYxU7CkBeXgiJsP2fo5ZBHNle3+Vf
-         lA0w==
+        d=google.com; s=20230601; t=1715721661; x=1716326461; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=CwPBPu20Q373SE94/2W5Gs5lJ3zjrSanPFx9uYehg0M=;
+        b=4dVJGaV6gbT/74k+v2vX01UiSQm5+J3cdbUp13Ajx0HY0QhCG10FRaeB59efSxCcJ1
+         ChieX2dM1//AptnKX2SoKrrwFi3SEGKNX9MSsqenII5v0oOa620JgsQUXoDmcuiyQnXy
+         hr1Rl2+sLGwGG2wEQR6DO08/KWVlowi/1Zbp0Qg8hzBGNfc4sTGGeFfJfdvW3L2XxRoR
+         j14DfxP24Ef7V5us8d76+nvzFUQdfN6ujqkeACuyTMgmKh7EelBZhgdCw8Co+2YkN9Wu
+         V7PpdbLVNRxjKXFyT/Xl5vcgOzDTYO8adtyi/p2vG1KEYOQiJWV/Mq5VemKkz4XRi9YH
+         /cdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715717973; x=1716322773;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8hb7xfSX/VQFjXuNhYy1AT8FiF40Meq6UrJ0Q9OaWSI=;
-        b=sSBg42d0KkkkgGIJtYrGsyTmNNA0UBx8TkZL9QRIuo8PIs/CGsNcbpXICYBumoFotx
-         xPAIisXS/mYRNQgr63+s58LQjYzhBDgMvNwJVNTQEAyePW8O/pe9q+9FpELiHgK8WDC3
-         lr9jngVNAIB+XMd4JlnUvTZEk1pBnYPE8qELoVphXv8lRXJadLoVumnQM1p619hxDGdw
-         n077iUK6/B2KKPQw1DKu8cUnequMYDMEGRffGXeJPHKY6g5Cj6u8c8GY8lXxm3sdN46a
-         Sgm0Lit2uXTfzdqjmrxsc3p2kLwwKlScuHCQgscpRNEf8TySUd6UaF/Qb+C1IxHmQvmL
-         egCw==
-X-Forwarded-Encrypted: i=1; AJvYcCWQRCqCu1C7DYvLIqwXWtgzGaiNX9UTK3J805saMMPEO78luw5aZki8CiEmS3kxxXcZbm3wz5fmyBHhYcnGOG/2Hubib1vpppts
-X-Gm-Message-State: AOJu0Yy1chSovZvjyXrA/RxdyyKl9SWftKTUBVhFdfJLMFI0xy49EDtL
-	uPeHy6fG1TfFN/pBPnJOhQv/iMiJTzWRVyVoTv5Sxxbyyd/QmvXh7q4gBHnXn1YaRKgdk+n9len
-	Oja7EsF9XMGYXOuEeK6hESOy1jdiX4gc0NLeK
-X-Google-Smtp-Source: AGHT+IF0OFILt+I7s+gtnueoup30JC7tJkxqSmt1mTfiiTyFdrB2xvE1WcfGDmSBB02xHb0OOmS8gf0eZcoIH22ncJ8=
-X-Received: by 2002:a05:690c:386:b0:614:74ba:f91c with SMTP id
- 00721157ae682-622aff93dfamr216111377b3.19.1715717972903; Tue, 14 May 2024
- 13:19:32 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1715721661; x=1716326461;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CwPBPu20Q373SE94/2W5Gs5lJ3zjrSanPFx9uYehg0M=;
+        b=ak4e3nPQXksR4AeWZxSyGenrBtHJh78QWdwqbwKamLEyNfgjaj4eqLCTOkXNqLU9/K
+         AWwW90tdcruQs1IPP+93QZsrCh4V9Ow3/SBm00g2FBWTqYW11XIWAGIRsgvkCrbXgW1v
+         P5kZBbZsCpYmvlD/zTpFIuJUOXF+gY/SRggngSABEVri131B4P9v4Ss0muLTc2G4BY0o
+         oRmquqNA2baY/PBM0GcbPY2C10sTdQMD+r2o/6KGSVgXzNxRt8wYx874fb7ED90hr5kM
+         Jpbzv8hfzQoJa3sz6q7uQ7EcoYEwpjCoLFvdoU58jsIlXF7+GOjxWxBngmV9IK8BKQsI
+         UZkw==
+X-Forwarded-Encrypted: i=1; AJvYcCW8BoSXjpRMkWlUxiPy/08Wo4FHUANMCSi4Ltc+g1x8ABOHSAFXuYE7wSi1PMpPrfrSqzwk6RLrf9fiI4fo2PkHSTNheWWuYAmA
+X-Gm-Message-State: AOJu0Yyfz8dlLS5rT1oHiqgmqokVMgRUP9fSUL8s3iHRNChVyv+JFgqp
+	u+9fBZsAnFUuWeVnEaA6D44UoC4ry10cnQAaKN3WSaHQTmTtK0Sv/y5luFagRw==
+X-Google-Smtp-Source: AGHT+IFK25M0wgeXLfHIqwddgM4kRtbQlKmkMGa4V1C30HfAGSGO4wDqOPGaTUCXpXxxKks9YftHWQ==
+X-Received: by 2002:a05:600c:1e12:b0:419:b16:9c14 with SMTP id 5b1f17b1804b1-4200f8697eemr7227225e9.1.1715721660799;
+        Tue, 14 May 2024 14:21:00 -0700 (PDT)
+Received: from google.com (49.222.77.34.bc.googleusercontent.com. [34.77.222.49])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41fd491c712sm117556485e9.0.2024.05.14.14.21.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 May 2024 14:21:00 -0700 (PDT)
+Date: Tue, 14 May 2024 21:20:55 +0000
+From: Brendan Jackman <jackmanb@google.com>
+To: Daniel Latypov <dlatypov@google.com>, corbet@lwn.net
+Cc: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Brendan Higgins <brendan.higgins@linux.dev>, davidgow@google.com,
+	rmoar@google.com, corbet@lwn.net
+Subject: Re: [PATCH v2] Documentation: kunit: Clarify test filter format
+Message-ID: <ZkPVt9wyu7f-fC3c@google.com>
+References: <20240402125109.1251232-1-jackmanb@google.com>
+ <CAGS_qxpBmmafnQnDXYf5RftPzxghd+i8Ly4CK=EkcpidpCPP6g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240514163128.3662251-1-surenb@google.com> <202405140957.92089A615@keescook>
-In-Reply-To: <202405140957.92089A615@keescook>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 14 May 2024 13:19:19 -0700
-Message-ID: <CAJuCfpGjRtL4nrOp2fLVM2=Yfg2WH4DXjkTK-y_1q4uwAxFDHg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] lib: add version into /proc/allocinfo output
-To: Kees Cook <keescook@chromium.org>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, 
-	pasha.tatashin@soleen.com, vbabka@suse.cz, linux-mm@kvack.org, 
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGS_qxpBmmafnQnDXYf5RftPzxghd+i8Ly4CK=EkcpidpCPP6g@mail.gmail.com>
 
-On Tue, May 14, 2024 at 9:58=E2=80=AFAM Kees Cook <keescook@chromium.org> w=
-rote:
->
-> On Tue, May 14, 2024 at 09:31:28AM -0700, Suren Baghdasaryan wrote:
-> > Add version string and a header at the beginning of /proc/allocinfo to
-> > allow later format changes. Example output:
-> >
-> > > head /proc/allocinfo
-> > allocinfo - version: 1.0
-> > #     <size>  <calls> <tag info>
-> >            0        0 init/main.c:1314 func:do_initcalls
-> >            0        0 init/do_mounts.c:353 func:mount_nodev_root
-> >            0        0 init/do_mounts.c:187 func:mount_root_generic
-> >            0        0 init/do_mounts.c:158 func:do_mount_root
-> >            0        0 init/initramfs.c:493 func:unpack_to_rootfs
-> >            0        0 init/initramfs.c:492 func:unpack_to_rootfs
-> >            0        0 init/initramfs.c:491 func:unpack_to_rootfs
-> >          512        1 arch/x86/events/rapl.c:681 func:init_rapl_pmus
-> >          128        1 arch/x86/events/rapl.c:571 func:rapl_cpu_online
-> >
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
->
-> Ah yeah, good idea. (Do we have versioning like this anywhere else in
-> our /proc files? It seems a nice thing to add...)
+On Wed, Apr 03, 2024 at 02:59:43PM -0700, Daniel Latypov wrote:
+> Reviewed-by: Daniel Latypov <dlatypov@google.com>
 
-Yes, /proc/slabinfo has a similar header that includes a version number.
+Hi Jonathan, I think this is ready to be applied?
 
->
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-
-Thanks!
-
->
-> --
-> Kees Cook
+Thanks,
+Brendan
