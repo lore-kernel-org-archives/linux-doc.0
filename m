@@ -1,120 +1,85 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48B0214431F
-	for <linux-doc@vger.kernel.org>; Tue, 14 May 2024 13:36:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF45C135A40;
+	Tue, 14 May 2024 13:46:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715693780; cv=none; b=gKke1eq8vQVwwL7xp8LoHlPTkJkwAJ710DZTodK/e4WZDP5wuT8Y/uD62NIvBYQKQldGenzOZDVO29WIqCp1wcXrAJHgRn4S+Ik4Fn6YPawXDGHJZA8gLPX4f6CMuV0DSBZMv/cci9Ua4RpfhUGvgyzQum0cQM9ophaRuhjFWnE=
+	t=1715694389; cv=none; b=kErFygxB9XKPbUC7BLddBRW6EnsgTKfGE0VNYy3bxf9qUrXiYdr79u46ZBo5ScI/lMK076s6262nBXddbfceSd6nkvTkjSCLInXjMWJ8rr2gJqgOCBJS3Lo2sHUF/HtFuQ30C6gENiSUyZUdEOpobCC1OzhVBxNZYsVOwCQ6eQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715693780; c=relaxed/simple;
-	bh=Nyi+RCrf5Y+WqMKXmI2T5cOWnyBug0P72f6XYQ0uD+Q=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WlrjVwGf09Nd7sO7G5mcHhkmHiYleuBmtluWqpQPGvD8jYW6eNsJBj6g0maYWlSic98D/JhgrgV2ELew0XMlWUPyDHJ1PHg2Y1b7L/0g2BxtSvJm55FauJ0n9XzHAwD3aWzua8zyFkqnwZqCIo1zM8CQs37Ny69LFosaa6GJJUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=cjQAaCNW; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1715694389; c=relaxed/simple;
+	bh=zBSGEEVkAYXfxfHKmHO3J9UMnIn9Z43RNoE8U8/JUJs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cXT1sNrOGL/2b7UZwGHW3lbIlnJdMmY4xTjb79DninaNE7IrqD7qZ9mM7MwfT4T7eHo3mOUttWGPK09GJmFfk66Ll8jC9fCWN8f+l0ouB4ExJVN7toodN8CIMh9bhB0EFjFbJ6jo7S7RWdnmg2FtD4B9K1ia8pvXrjBdhaYrKBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l+nwBFyI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="cjQAaCNW"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1ee0132a6f3so41581255ad.0
-        for <linux-doc@vger.kernel.org>; Tue, 14 May 2024 06:36:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1715693778; x=1716298578; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ELhPDbgArQNQi6ZkTuNkJ3HaLG9b9s1A9lZNaSj8kas=;
-        b=cjQAaCNWjw7QS+MgedkvCizu5HKRF47jei0ErJEd0ePdKLT2SQINUHQoDDXemBmidt
-         Telb3uiSw13AzXQQVy69rJ3bStqmyd/DNklO2BwfM3OrJeQIkYAUE4c5M2Lm1fk5ZyB+
-         aUB6UguHsioz5/FttR0JX2IV8AS9Yf3GpoZEzTiR6XoPuDYPVrtywguR6n4WZlojvrVj
-         UO56fgXh49mHl4JiiQOo6REyzgIw7Y63GIM5b11SO6jQTw+NmzaXWjLMxXujFGwABtaq
-         EcrDp3SP7sWy4SeryQzIkwfcNAHl9heP1IwvSshtvz5OAGCHu5DIVncse4/LHs8PTO+i
-         QC0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715693778; x=1716298578;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ELhPDbgArQNQi6ZkTuNkJ3HaLG9b9s1A9lZNaSj8kas=;
-        b=oSj+6E5FXiDooC1xU0Uwf6xecwzKtI6rJTjgPVqTkVnPJ1dUBCSK8nTMkSqn4guxAb
-         2nhAkpI7jDF2LALXAwHABGZF90Yz86d6SYo55JvGHSL7ihIz6K8DnIa+qVkb+VAmLqry
-         naoq7jtzpYEfsyHhBJ4gOWF0+4OtP38M4Go+GMExNvnRffGAJe5/wQ5R0WbWEj8jN/sB
-         8reM1WW+9iXKye4weHaFbcrbOzSwpmVHQIg5qj1mg6Q8D7XpEgee7s1RnjYx2RTLQAor
-         i2YO1bDkfUSqAfhki+dyitJp1SgTo62zhJNCCbci+C4qgQ/egTKCZQzhvVapqfPqHKLI
-         LSIA==
-X-Forwarded-Encrypted: i=1; AJvYcCVEYGunA2zH0fSXIgO/1ClsY1wXvFOAl7OFibn6PJqz18ydFq77hPJ1EeTXkXrCGvuxF7hVnu9y67i1296OWdYe70yQ9lR8wVy7
-X-Gm-Message-State: AOJu0YwLMQmqus9/aAHdgeB9ZVC9CkHP/1WM57wzeT9nD2vnxtLO7wHr
-	a80swWTBCdiR7x1Ud0V2DFbQyKOt1Xqzo+LDN1GgWgtb3WPKY78nH4taMWp+JyM=
-X-Google-Smtp-Source: AGHT+IHfPx0KBY4rytS7KmSuQawsfE1ZSfpv7vPPScV5D9GsMRlZ30zNYZI5mhzzvMLWaliGYlVCAg==
-X-Received: by 2002:a17:902:e5c2:b0:1eb:2fb3:f9fd with SMTP id d9443c01a7336-1ef43c0cecbmr165256165ad.14.1715693778566;
-        Tue, 14 May 2024 06:36:18 -0700 (PDT)
-Received: from alex-rivos.ba.rivosinc.com ([50.204.89.31])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0c13699dsm97908565ad.239.2024.05.14.06.36.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 May 2024 06:36:17 -0700 (PDT)
-From: Alexandre Ghiti <alexghiti@rivosinc.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: [PATCH] riscv: Extend sv39 linear mapping max size to 128G
-Date: Tue, 14 May 2024 15:36:14 +0200
-Message-Id: <20240514133614.87813-1-alexghiti@rivosinc.com>
-X-Mailer: git-send-email 2.39.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l+nwBFyI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49328C2BD10;
+	Tue, 14 May 2024 13:46:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715694388;
+	bh=zBSGEEVkAYXfxfHKmHO3J9UMnIn9Z43RNoE8U8/JUJs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=l+nwBFyIporfF0UR4fTxoN8Lx4/bsH7hRvZEErPJk897JJ3CMiUBYxZKLILVJY5is
+	 pTOtImxqbpf50N34AaIr58fAovsJ3UZeVT6U49wtDBhi7qyd4XSQRyEPKjYMwdt9Uz
+	 g7RQ+0I7lkvQimxMs9+w3cdebdI0Wbv+SrbxI6S1DBEc+V8Kn/m1y7XoLn+dpRwTm+
+	 p/lfrJFNQPkOZm+ZkwmPeYH3kU9o2CzYBj2NLd6XoCY6FRqoera6YlYyvylZN04hiH
+	 wzt/rhaBxz1IZuXW6/NsZ5uzEGPq5MF9oVTKVEEpZx0spfVYDpKLMIfzFObhT6k9Lp
+	 WT2ozW4nGRFYw==
+Date: Tue, 14 May 2024 06:46:26 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Heng Qi <hengqi@linux.alibaba.com>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, "David S . Miller" <davem@davemloft.net>,
+ Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>, Jason
+    Wang <jasowang@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Brett    Creeley <bcreeley@amd.com>, Ratheesh Kannoth
+ <rkannoth@marvell.com>, Alexander Lobakin <aleksander.lobakin@intel.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Tal Gilboa <talgi@nvidia.com>,
+ Jonathan    Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, Maxime
+ Chevallier <maxime.chevallier@bootlin.com>, Jiri Pirko <jiri@resnulli.us>,
+ Paul    Greenwalt <paul.greenwalt@intel.com>, Ahmed Zaki
+ <ahmed.zaki@intel.com>, Vladimir Oltean <vladimir.oltean@nxp.com>, Kory
+ Maincent <kory.maincent@bootlin.com>, Andrew Lunn <andrew@lunn.ch>,
+ justinstitt@google.com, donald.hunter@gmail.com, netdev@vger.kernel.org,
+ virtualization@lists.linux.dev
+Subject: Re: [PATCH net-next v13 2/4] ethtool: provide customized dim
+ profile management
+Message-ID: <20240514064626.44778d98@kernel.org>
+In-Reply-To: <1715652495.6335685-4-hengqi@linux.alibaba.com>
+References: <20240509044747.101237-1-hengqi@linux.alibaba.com>
+	<20240509044747.101237-3-hengqi@linux.alibaba.com>
+	<202405100654.5PbLQXnL-lkp@intel.com>
+	<1715531818.6973832-3-hengqi@linux.alibaba.com>
+	<20240513072249.7b0513b0@kernel.org>
+	<1715611933.2264705-1-hengqi@linux.alibaba.com>
+	<20240513082412.2a27f965@kernel.org>
+	<1715614744.0497134-3-hengqi@linux.alibaba.com>
+	<20240513114233.6eb8799e@kernel.org>
+	<1715652495.6335685-4-hengqi@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-This harmonizes all virtual addressing modes which can now all map
-(PGDIR_SIZE * PTRS_PER_PGD) / 4 of physical memory.
+On Tue, 14 May 2024 10:08:15 +0800 Heng Qi wrote:
+> > We can't make lockdep dependent on NET.
+> > People working on other subsystems should be able to use LOCKDEP 
+> > with minimal builds.  
+> 
+> Got it. Then I declare "DIMLIB depends on NET" and clean up other places.
 
-Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
----
- Documentation/arch/riscv/vm-layout.rst | 10 +++++-----
- arch/riscv/include/asm/page.h          |  2 +-
- 2 files changed, 6 insertions(+), 6 deletions(-)
+I'm not sure if there's any legit DIM (but not net_dim) user, if there
+isn't that SGTM. The RDMA is fine to depend on NET.
 
-diff --git a/Documentation/arch/riscv/vm-layout.rst b/Documentation/arch/riscv/vm-layout.rst
-index e476b4386bd9..f37812863991 100644
---- a/Documentation/arch/riscv/vm-layout.rst
-+++ b/Documentation/arch/riscv/vm-layout.rst
-@@ -47,11 +47,11 @@ RISC-V Linux Kernel SV39
-                                                               | Kernel-space virtual memory, shared between all processes:
-   ____________________________________________________________|___________________________________________________________
-                     |            |                  |         |
--   ffffffc6fea00000 | -228    GB | ffffffc6feffffff |    6 MB | fixmap
--   ffffffc6ff000000 | -228    GB | ffffffc6ffffffff |   16 MB | PCI io
--   ffffffc700000000 | -228    GB | ffffffc7ffffffff |    4 GB | vmemmap
--   ffffffc800000000 | -224    GB | ffffffd7ffffffff |   64 GB | vmalloc/ioremap space
--   ffffffd800000000 | -160    GB | fffffff6ffffffff |  124 GB | direct mapping of all physical memory
-+   ffffffc5fea00000 | -232    GB | ffffffc5feffffff |    6 MB | fixmap
-+   ffffffc5ff000000 | -232    GB | ffffffc5ffffffff |   16 MB | PCI io
-+   ffffffc600000000 | -232    GB | ffffffc6ffffffff |    4 GB | vmemmap
-+   ffffffc700000000 | -228    GB | ffffffd6ffffffff |   64 GB | vmalloc/ioremap space
-+   ffffffd700000000 | -164    GB | fffffff6ffffffff |  128 GB | direct mapping of all physical memory
-    fffffff700000000 |  -36    GB | fffffffeffffffff |   32 GB | kasan
-   __________________|____________|__________________|_________|____________________________________________________________
-                                                               |
-diff --git a/arch/riscv/include/asm/page.h b/arch/riscv/include/asm/page.h
-index 115ac98b8d72..727ed7887cab 100644
---- a/arch/riscv/include/asm/page.h
-+++ b/arch/riscv/include/asm/page.h
-@@ -37,7 +37,7 @@
-  * define the PAGE_OFFSET value for SV48 and SV39.
-  */
- #define PAGE_OFFSET_L4		_AC(0xffffaf8000000000, UL)
--#define PAGE_OFFSET_L3		_AC(0xffffffd800000000, UL)
-+#define PAGE_OFFSET_L3		_AC(0xffffffd700000000, UL)
- #else
- #define PAGE_OFFSET		_AC(CONFIG_PAGE_OFFSET, UL)
- #endif /* CONFIG_64BIT */
--- 
-2.39.2
+> One more friendly request, I see net-next is closed today, but our downstream
+> kernel release deadline is 5.20, so I want to test and release the new v14 today,
+> is it ok?
 
+You'll need to post as RFC since it can't be applied but you can post
+to continue review. Please wait a day or two tho, I'm currently swamped
+trying to go thru the PR preparations.
