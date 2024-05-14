@@ -1,119 +1,183 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F8614A96;
-	Tue, 14 May 2024 05:26:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C523317999
+	for <linux-doc@vger.kernel.org>; Tue, 14 May 2024 07:53:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715664415; cv=none; b=K55dv0beUTx1a8Lhj5HnA2+WGZ4BrZM9UTwE0NlgweMRGSuCJVc5OXf6y9iYGKD2p4M5DjA8Uf8pDBz0aTeLC+hohIIR/Jhb5Y1lZ3IUTbJDxlzIrceESoA367RvTa9r2BX+9gKO2kMC6Dhnooen4WtxAUhub/SAIIMt0b5Lg5o=
+	t=1715673193; cv=none; b=upOv/OvZUAsBxo2HJXSOg/H4r5OycKHRy4m5Z9Zk6FQ7CioiR5RdAGO11qce93pYUGbxIjNETBJ3c++p47WCnhyqxJJon5CdL0KsLL27lQ4rzvwI3Eg9oYtVHCz9egnj/iQJh8GFFuYipxwB8wXO64RIYVFZNkqxq5kHOLFpeMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715664415; c=relaxed/simple;
-	bh=Jq8OjoVu3xwkmJtrdu7jX+SZO8MO/9NEOuV6wtqdUlI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FVU5xwaHdw4bdiAP7rGMXUJgIzRUrwXaCzxBjTCgfKjpBPgzFdAC5B4fHmbF8V5X5QzVJLDdnzcotbulqCb4isiDLjZvaiJzYmWiv8TTqOcAW+twiy4HtdIOR1Zb/Nd8kiS2zHmnHYWiv9FnbZoAvoUQNyOhJq4KALJkRPTfzNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fRdMWvsV; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1715673193; c=relaxed/simple;
+	bh=4BPRRFjn10KTemZVMiXfbzWtTKbIap/yR25p1VitIqc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iTo7Sws0wQSylpDxFOgYocyfkPFdPpCMUECGMplG5bANvXOGT2dOoIAYmAedTwGJ9THRVaO1GM1qEc0q3/LjmLo/0OoaALItNOxLhqIEVpEJlfS88Q5soXkPPk4fhHrzf1G0k3MFqHlknQ0BASix/iExQcrnHbdZOOY38K36ACQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=YG1QtCEv; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fRdMWvsV"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1ed012c1afbso41628285ad.1;
-        Mon, 13 May 2024 22:26:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="YG1QtCEv"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-51f929b9f10so1100689e87.2
+        for <linux-doc@vger.kernel.org>; Tue, 14 May 2024 00:53:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715664413; x=1716269213; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Jq8OjoVu3xwkmJtrdu7jX+SZO8MO/9NEOuV6wtqdUlI=;
-        b=fRdMWvsVRgXlOYv3K4fo3WOQK8oBzaGff/M826GDoyRmV3jbcdlZKmlnIhuxKASR8s
-         eZt4qKIE1xiZHvnkpbfC4meY7dRTXj8BFcWvXds4hA2aee+T0UoOP33Xfd2j0U68bz4R
-         vmSqMsV9fUwitH9tTweF+gDfsam/mtlNUg0465+yQghNvSJXKXrirJJFbndK4aYgu6At
-         jOrZXwiUSWgihXAV42SOCpJ0TRUXFHEWZMI6+R8HE1+8KB/cPS5Jaq7pTgFj94LIqMYR
-         D8NpewYE4SDzNd6tSpUHmhY+Bb7Pi8j8ULTaIujE9/Vbq6Mlp09wvbjNz/gm6OhJg+pn
-         2iKQ==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1715673190; x=1716277990; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xLTEzVHwu7ZYKj/KSfivTkPQEQSaRSHzucHxEOOY2fE=;
+        b=YG1QtCEvwcvEyKCFIuvs7uSvdvIKGv+ODpphQ2TyWi8aNEm8CSrztNmrfa9mvgCYTz
+         Z1kQhC4hzMipZrMG5UeoE0S1iQ/1S9Q7A0HWy0r01wIcFhah2C79lGO0YGAdtROQGdQW
+         8U8yNXCxErgc/F6qD3q6N5/FcMAta1iI4/BVBCdJ8PXMi2psIJbp89w3Kg1ytm/nG9M1
+         UFfTbhV0wA7JbHc/Yq2A9iH8QGOXiWgkHGTO3vwJyEi7NwSUguk4PTVguFG8IRR4ZfpM
+         4wD76T2x+hKkd/RoaHq974MefhtRF4Py04rtrrNxy+lFatqsjeMVc9IkbbiXuFXY0N+9
+         QWCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715664413; x=1716269213;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Jq8OjoVu3xwkmJtrdu7jX+SZO8MO/9NEOuV6wtqdUlI=;
-        b=p8/q1jKY5154khIx1euxvJN4I/GBHkQ8JnGqOwj5pafdW8N7ZnKM1y4X99XftiM/33
-         jNtKgcTCPmY8Ls8JTgQLBsQJDXKEDwYF3xPhEGixOLO15uI711IPmkZt376RcHej7MsY
-         ZcyTsSygcrs5z2jqsZX2xgE64ln3LO7/iCibuyRphYley1lM0s7r9Al6zfvHUist3fjZ
-         fid71NhYMqDPSDnSu1DLZOD53vXJ80GUzU9E4/wXpDuVokdkLQahuKvLwVntSmlOhRPg
-         2C3nVo0zqVR1nMD6o2t4ZbvW2oMpMb541s/msIhqGSh70ji2vZkGE8naD4K2RTJ/8zuy
-         z43g==
-X-Forwarded-Encrypted: i=1; AJvYcCXRu8kczkVMdoeM15t+Is24iy/rZpdUasu0aRmLUA4NzUe8cfW0duBwUEgfiF0Ef7WNDEj7vk788nJlVuoaVy8fEQXSD8GHpn8RXnQDO+QiD7QlieJXDD0z5QwcVwMHeapfg0UMqdgzSKO6c3KbJfDr+mGmIiLN6gvr6Tjg2HxrQUCmPg==
-X-Gm-Message-State: AOJu0YxjTak6c8EIf9yXK30E5QdnHnTqzTe/djJ6NR4wIypfX74urRH+
-	lLX6bsRd0gnJkGskNuY/K2eOM04qdx9V+6QHbQbD97x1GIL8qPN4sG8frg==
-X-Google-Smtp-Source: AGHT+IH0o6lLOoPznD44gBWTySwMpvv83A4K4CTMxIQPkMFfM3pFrenE2vDc2FB9w9bsIhs5oMmVOw==
-X-Received: by 2002:a17:903:1c2:b0:1e0:a2cf:62e8 with SMTP id d9443c01a7336-1eefa03a41cmr226226425ad.10.1715664413477;
-        Mon, 13 May 2024 22:26:53 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0bf31229sm88291695ad.138.2024.05.13.22.26.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 May 2024 22:26:53 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 3F34F181C8F95; Tue, 14 May 2024 12:26:50 +0700 (WIB)
-Date: Tue, 14 May 2024 12:26:50 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Huichun Feng <foxhoundsk.tw@gmail.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Kent Gibson <warthog618@gmail.com>, linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Mao Zhu <zhumao001@208suo.com>, Ran Sun <sunran001@208suo.com>,
-	Xiang wangx <wangxiang@cdjrlc.com>,
-	Shaomin Deng <dengshaomin@cdjrlc.com>,
-	Charles Han <hanchunchao@inspur.com>,
-	Attreyee M <tintinm2017@gmail.com>, LihaSika <lihasika@gmail.com>
-Subject: Re: [PATCH] docs: gpio: prefer pread(2) for interrupt reading
-Message-ID: <ZkL2GkCsyKYRckj7@archie.me>
-References: <20240514041223.800811-1-foxhoundsk.tw@gmail.com>
+        d=1e100.net; s=20230601; t=1715673190; x=1716277990;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xLTEzVHwu7ZYKj/KSfivTkPQEQSaRSHzucHxEOOY2fE=;
+        b=OfiizbMkHT0opwcOH5FL4iiZeoEfEqA31MOEr58rNV7zJl8T9ox4MVvBrX+vVRqFrw
+         y2C5qyP80VV06tOKf5POrX+IG4ErtRFHqlk5carcryP631k1/w/ACHFWOj9McWGwvH1C
+         XgOTQHl81SvWiti7lSlGXlIgXbFjO6hbvkaW0PlWfxd78SFEkFkEyA6CQiTITLgh+kxX
+         XfQ1Jm/+sfpbKreT2H55iMp2V4fmKuppo8+tnPsDTbSuY+SXt59Uz3UZraf5SP44M7b8
+         K/3LOXTpaGR8sLWTO7X9yYvW4mjTpVfzKBZ6j7L1CWZE40hW+asAkqE5/j7pdtT/KfXu
+         yK1A==
+X-Forwarded-Encrypted: i=1; AJvYcCU5W7YvLq4DBGElJsM2aYVxiNjUIT/HQrgts+ma4MvoonHPRhV0ABGpmVRrf50roOPhfeWzw0vDTm+rfva9rTor/RmPjWcysLY7
+X-Gm-Message-State: AOJu0Ywvdfp/3kn0+6Krjnz1XXAaRTTvjgZmkDeA8V7AHyRlbz1kWRCL
+	HwuEn73h2KSoZHj2bhyTODFTxeST/PF6gqwwET+dBPKJ1sstKaU0lS8OPGb91L0=
+X-Google-Smtp-Source: AGHT+IGAAZ+jOBUCojQGggh22j6hs6WvIQhPLRiw+ncZod2lDfQS/ZA3a8ERikpxDRqLtFBslYYo/A==
+X-Received: by 2002:a2e:9094:0:b0:2df:4bad:cb7f with SMTP id 38308e7fff4ca-2e51fd4b333mr72404111fa.2.1715673189903;
+        Tue, 14 May 2024 00:53:09 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:999:a3a0:1660:5f6e:2f9c:91b9? ([2a01:e0a:999:a3a0:1660:5f6e:2f9c:91b9])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41fccbe8e3csm185259155e9.1.2024.05.14.00.53.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 May 2024 00:53:09 -0700 (PDT)
+Message-ID: <e57f8b70-7981-42c1-bb04-2060054dd796@rivosinc.com>
+Date: Tue, 14 May 2024 09:53:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tApy7N8s/kQ5ZoLI"
-Content-Disposition: inline
-In-Reply-To: <20240514041223.800811-1-foxhoundsk.tw@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 02/11] riscv: add ISA extensions validation
+To: Conor Dooley <conor.dooley@microchip.com>
+Cc: Conor Dooley <conor@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Anup Patel <anup@brainfault.org>, Shuah Khan <shuah@kernel.org>,
+ Atish Patra <atishp@atishpatra.org>, linux-doc@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, kvm@vger.kernel.org,
+ kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
+References: <20240429150553.625165-1-cleger@rivosinc.com>
+ <20240429150553.625165-3-cleger@rivosinc.com>
+ <20240429-subtext-tabby-3a1532f058a5@spud>
+ <5d5febd5-d113-4e8c-9535-9e75acf23398@rivosinc.com>
+ <20240430-payable-famished-6711765d5ca4@wendy>
+Content-Language: en-US
+From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
+In-Reply-To: <20240430-payable-famished-6711765d5ca4@wendy>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
---tApy7N8s/kQ5ZoLI
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 14, 2024 at 12:12:23PM +0800, Huichun Feng wrote:
-> In legacy sysfs GPIO, when using poll(2) on the sysfs GPIO value for
-> state change awaiting, a subsequent read(2) is required for consuming
-> the event, which the doc recommends the use of lseek(2) or
-> close-and-reopen to reset the file offset afterwards.
->=20
-> The recommendations however, require at least 2 syscalls to consume
-> the event. Gladly, use of pread(2) require only 1 syscall for the
-> consumption. Let's advertise this usage by prioritizing its placement.
->=20
-> Signed-off-by: Huichun Feng <foxhoundsk.tw@gmail.com>
+On 30/04/2024 13:44, Conor Dooley wrote:
+> On Tue, Apr 30, 2024 at 09:18:47AM +0200, Clément Léger wrote:
+>>
+>>
+>> On 30/04/2024 00:15, Conor Dooley wrote:
+>>> On Mon, Apr 29, 2024 at 05:04:55PM +0200, Clément Léger wrote:
+>>>> Since a few extensions (Zicbom/Zicboz) already needs validation and
+>>>> future ones will need it as well (Zc*) add a validate() callback to
+>>>> struct riscv_isa_ext_data. This require to rework the way extensions are
+>>>> parsed and split it in two phases. First phase is isa string or isa
+>>>> extension list parsing and consists in enabling all the extensions in a
+>>>> temporary bitmask without any validation. The second step "resolves" the
+>>>> final isa bitmap, handling potential missing dependencies. The mechanism
+>>>> is quite simple and simply validate each extension described in the
+>>>> temporary bitmap before enabling it in the final isa bitmap. validate()
+>>>> callbacks can return either 0 for success, -EPROBEDEFER if extension
+>>>> needs to be validated again at next loop. A previous ISA bitmap is kept
+>>>> to avoid looping mutliple times if an extension dependencies are never
+>>>> satisfied until we reach a stable state. In order to avoid any potential
+>>>> infinite looping, allow looping a maximum of the number of extension we
+>>>> handle. Zicboz and Zicbom extensions are modified to use this validation
+>>>> mechanism.
+>>>
+>>> Your reply to my last review only talked about part of my comments,
+>>> which is usually what you do when you're gonna implement the rest, but
+>>> you haven't.
+>>> I like the change you've made to shorten looping, but I'd at least like
+>>> a response to why a split is not worth doing :)
+>>
+>> Hi Conor,
+>>
+>> Missed that point since I was feeling that my solution actually
+>> addresses your concerns. Your argument was that there is no reason to
+>> loop for Zicbom/Zicboz but that would also apply to Zcf in case we are
+>> on RV64 as well (since zcf is not supported on RV64). So for Zcf, that
+>> would lead to using both mecanism or additional ifdefery with little to
+>> no added value since the current solution actually solves both cases:
+>>
+>> - We don't have any extra looping if all validation callback returns 0
+>> (except the initial one on riscv_isa_ext, which is kind of unavoidable).
+>> - Zicbom, Zicboz callbacks will be called only once (which was one of
+>> your concern).
+>>
+>> Adding a second kind of callback for after loop validation would only
+>> lead to a bunch of additional macros/ifdefery for extensions with
+>> validate() callback, with validate_end() or with both (ie Zcf)). For
+>> these reasons, I do not think there is a need for a separate mechanism
+>> nor additional callback for such extensions except adding extra code
+>> with no real added functionality.
+>>
+>> AFAIK, the platform driver probing mechanism works the same, the probe()
+>> callback is actually called even if for some reason properties are
+>> missing from nodes for platform devices and thus the probe() returns
+>> -EINVAL or whatever.
+>>
+>> Hope this answers your question,
+> 
+> Yeah, pretty much I am happy with just an "it's not worth doing it"
+> response. Given it wasn't your first choice, I doubt you're overly happy
+> with it either, but I really would like to avoid looping to closure to
+> sort out dependencies - particularly on the boot CPU before we bring
+> anyone else up, but if the code is now more proactive about breaking
+> out, I suppose that'll have to do :)
+> I kinda wish we didn't do this at all, but I think we've brought this
+> upon ourselves via hwprobe. I'm still on the fence as to whether things
+> that are implied need to be handled in this way. I think I'll bring this
+> up tomorrow at the weekly call, because so far it's only been you and I
+> discussing this really and it's a policy decision that hwprobe-ists
+> should be involved in I think.
 
-LGTM, thanks!
+Hi Conor,
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Were you able to discuss that topic ?
 
---=20
-An old man doll... just what I always wanted! - Clara
+> 
+> Implied extensions aside, I think we will eventually need this stuff
+> anyway, for extensions that make no sense to consider if a config option
+> for a dependency is disabled.
+> From talking to Eric Biggers the other week about
+> riscv_isa_extension_available() I'm of the opinion that we need to do
+> better with that interface w.r.t. extension and config dependencies,
+> and what seems like a good idea to me at the moment is putting tests for
+> IS_ENABLED(RISCV_ISA_FOO) into these validate hooks.
+> 
+> I'll try to look at the actual implementation here tomorrow.
 
---tApy7N8s/kQ5ZoLI
-Content-Type: application/pgp-signature; name="signature.asc"
+Did you found time to look at the implementation ?
 
------BEGIN PGP SIGNATURE-----
+Thanks,
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZkL2GQAKCRD2uYlJVVFO
-owkxAP4+j0XIuZjzer3KEU2hBpV2m/fGG4rwaXE66ovkHGdkEQEA6k+r0sif9hPK
-fSFs0eCsgOkyXQfo0mfLntsTJh9lVA8=
-=0QDZ
------END PGP SIGNATURE-----
+Clément
 
---tApy7N8s/kQ5ZoLI--
+> 
+> Cheers,
+> Conor.
