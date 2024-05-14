@@ -1,110 +1,175 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6175A17F396
-	for <linux-doc@vger.kernel.org>; Tue, 14 May 2024 17:15:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D717451C42
+	for <linux-doc@vger.kernel.org>; Tue, 14 May 2024 17:21:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715706937; cv=none; b=lAmfPleml1FHrK2ykSsCbBQVxljCc4Kgaj6/yRgoGXxj9FLJMggOXZErbsmZOx9DV/cyA2TUgvOJUCo9NgiDEaijQ6y/OGBzhkrb1BejSA1dTphyhp9j0dxUtFQryupN7ZLgSARQM/sobJcTMJ47RSrkhSyoydeoyZgYHPln2mY=
+	t=1715707315; cv=none; b=HLTIuUMZVM4LSpIH129oNBUwlKsRIxVEcSNfzz+XzOUUrnvHJd6xThB/FYJj/ZVDmZgvx4W3lhEx+J0bBAItvtvKJtpHGaKww5aYjpfXzTExadMXruZVT2yEKYBcm7klFcCcwzFXnZfakaPFw3sOz0hNsaIPLeWu+cJLEsr7BL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715706937; c=relaxed/simple;
-	bh=JphrTnGE11d/hcgLanrvMdnjxLSu0oYp2e2Hwwop9sM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=c8bv3UMnpZTHD4qDnHpKgqHaStevRvJyap+/cFhsfuNbu4iK7MRuZYV71ei8IUU+UPSO87I3UE6Os3cYdI3jQNSdVK970RSnH3a5zy6mK4TIxOGpHNQQm93W3wXU/iouhtLLk45l2Oau6AgTbKWyGLkGkeORYpb9yo1oL9EgBc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0iOWUnBD; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1715707315; c=relaxed/simple;
+	bh=LXxOW+4URWw04jgWlII7sX2DMFbfU12irLmGCjF+1H8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lLBJpK0VDi0iX4M/nTn6hfiCFA87PzBRdiL8vY6gmzDUv49Czu1ihQ1N9ZSFpEPFQ960ZioBZGS2RoCeea+F1pV14FiGEFunNez7ArOnRmGb6jpI6hZjariNAxJF4O3GWQvrJtqrvQHlqdWdNCe0ki1gqz32P5EJTo0FhOAwtuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=aDe7usDp; arc=none smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0iOWUnBD"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a59a934ad50so70670766b.1
-        for <linux-doc@vger.kernel.org>; Tue, 14 May 2024 10:15:35 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="aDe7usDp"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2b620677a4fso4359853a91.1
+        for <linux-doc@vger.kernel.org>; Tue, 14 May 2024 10:21:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1715706934; x=1716311734; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JphrTnGE11d/hcgLanrvMdnjxLSu0oYp2e2Hwwop9sM=;
-        b=0iOWUnBDzJP8ffTn7q6qGPHMBKoAK2jWGPB1fnj68OQljM1csqUFLvPtPlrkGkTqDY
-         Vqdbb3tImIM99DQ8Lglibm2JxMP7EWa1fUXdHtcBAfOkOZPh6XI3f535F8wRWntSYn3O
-         0t9exVre0Q9nMFx72/hEX35IFOOgJFYZMPJSQJuvvoitWok2x8anqnrLIN9k2E77gx3/
-         GMql6scUnB/KnFb2CYg+ikZG9YSGieC1q+VcKFydFMlbmiyCoTW5qJgM3qPxX4qw/SQc
-         BVSK6uLSIAeDmF+4lm1Q4UJaWQZUEaY/ocJSIVWJ+/RUhIg5dDBTwfiS+AqwJ529ZUQx
-         Z4XA==
+        d=chromium.org; s=google; t=1715707313; x=1716312113; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ssdyg8CCGX3LIJke97/Daf2m8VAxcmXAY7Al2Agin+M=;
+        b=aDe7usDpOTauWs82wHXWAUrQdpAgKYeabzvO4yLyh9WzxMo/18CxHc/wj7rH5YFELa
+         T5k1Kvk2z+trJJz8FT9CnGVnHiz87bDMi5bgNwL09bj5IFrhNAokP5bXt8231M7lrWrE
+         5NCW5SNi1qEcXv6p5//GsJsvxEBgKVlNKo98k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715706934; x=1716311734;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JphrTnGE11d/hcgLanrvMdnjxLSu0oYp2e2Hwwop9sM=;
-        b=wG8ydiTdtlPRdPQguPpClCxsgks0wBezFqtDVVexi6Pat05WMWdJs0fKeXtliiiMeh
-         VDeqPaPw6eMQmKZ3daOrVHhQpuuGWIYeHajKgwZsUDNX9xu5nobNFD/OwTFEIczlUAda
-         UKsLvaDoUzWcxPw89oSTTv74uYwTosdZtJMWsReqgZi6/yW4+7D69wlsakFYyC7B//hv
-         LOcmdS6OKZHTKupfS4r+8ijJsfB3G6ZMhxocKib5Z7uPbuvforJ5+OLIqHes2UwaBzqv
-         IXRQElTQ8alk991m+mwWScalXfIcoEeve2DUwie3OQU+Og5xGF9+0IXIdEgmlr9N4TjJ
-         3eTA==
-X-Forwarded-Encrypted: i=1; AJvYcCWt2DrU1FkGobTvgqFNc6h1AIrWbbXzNiIEDCcr3nuSeRbz9AXle6/HTInAzjAyGuWPupU5r1colybJs8tz1gEo2FbNeNG3ECCC
-X-Gm-Message-State: AOJu0YzvP5M+hMJgoG/Xex+llxcP7LQy7Qrhlx1be8oeVIMRpD8nnGab
-	vPcXfRteAZS4fhZE9O4v2SM0Q26I4v5YnYNtCScK2AdLZyikYXDBwS1o2bds+m3S3w9Y2hmn6sR
-	GoA7+gqlnBpik6eUNZBjp2fbFMy88Ixp89Gkc
-X-Google-Smtp-Source: AGHT+IEwOQpqw4ZMKIlz9X6LbLlfb8P5lzGCaO4YFYW5AVzaTN7hWpB9KsS7Ts3tYb3EwJ+JwuI+UCM3+u1xlOEFWOo=
-X-Received: by 2002:a17:906:714a:b0:a5a:8ac4:3c4c with SMTP id
- a640c23a62f3a-a5a8ac43e15mr130162166b.68.1715706933383; Tue, 14 May 2024
- 10:15:33 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1715707313; x=1716312113;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ssdyg8CCGX3LIJke97/Daf2m8VAxcmXAY7Al2Agin+M=;
+        b=rVob8BsOP0smnVKtnKtR+MMrRBSy+Wo+VlrZeq2eWP8cp9Yx4q4txOjoTAtaa+J1We
+         y//iOxOjn3Tb29VLF0YQpKsqpe1WxB3QCBcvG7TmhO3zok3gRPd1NqBGnK/+L/kC8GIz
+         DkgpHXUiBu4mNKMXaz7mnXIqISjLSPKfTSl+KIvP4KnK23rqtCjzRlQTqo7diYUbcFC/
+         /2GyDMWRd3b7+m22FrLFM+1eRdP6krbL2mYPZSiy9nqZb6/LMtvLN4sZK195b2n0SP08
+         YCC7Yjbb+YnB9llrY+bIj79hNg7988K7XSBMLnhXgCKNaKM0HOS5VJcuDRy346Ff+p7j
+         qDxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWo701F078c9z4TDrAFMREuRWNH7BE/c7AFyoW8nbmMee0wv546J7f96y2GxSwB0gb0b58V4Xv0m4WvdstQpBHBPsIOSWTgln3A
+X-Gm-Message-State: AOJu0YyqJjY3s1m0kGojqLMB0FwQr2Lez+XvSsChGu+F6cFpHbyjOn6y
+	KiOd6Dx1wCiqYi3qVpbKOM1O5fU5PISWwUiW6dx8sRGaauzLs5I1C91OVlm/zQ==
+X-Google-Smtp-Source: AGHT+IEdkNHfIF4J+VOvPXSXkd1kac81F8OYFYQWIaEBgRlg2k0P2Wfxxy1Qni+Ukv55u3HtLQE+5Q==
+X-Received: by 2002:a17:90a:4c84:b0:2b6:3034:4ae6 with SMTP id 98e67ed59e1d1-2b6ccd93d4dmr14814191a91.33.1715707313086;
+        Tue, 14 May 2024 10:21:53 -0700 (PDT)
+Received: from dianders.sjc.corp.google.com ([2620:15c:9d:2:ef10:6fdf:5041:421f])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0bf3101csm100147575ad.121.2024.05.14.10.21.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 May 2024 10:21:52 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Cc: Javier Martinez Canillas <javierm@redhat.com>,
+	lvzhaoxiong@huaqin.corp-partner.google.com,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Brian Norris <briannorris@chromium.org>,
+	Sam Ravnborg <sam@ravnborg.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Joel Selvaraj <jo@jsfamily.in>,
+	Hsin-Yi Wang <hsinyi@google.com>,
+	Cong Yang <yangcong5@huaqin.corp-partner.google.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	David Airlie <airlied@gmail.com>,
+	Jessica Zhang <quic_jesszhan@quicinc.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v5 0/9] drm/mipi-dsi: Reduce bloat and add funcs for cleaner init seqs
+Date: Tue, 14 May 2024 10:20:50 -0700
+Message-ID: <20240514172136.1578498-1-dianders@chromium.org>
+X-Mailer: git-send-email 2.45.0.rc1.225.g2a3ae87e7f-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240510232128.1105145-1-almasrymina@google.com> <20240513163114.52b44f66@kernel.org>
-In-Reply-To: <20240513163114.52b44f66@kernel.org>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 14 May 2024 10:15:18 -0700
-Message-ID: <CAHS8izMH9223wbHQk8zbtqP-hfydvqkmo3k3BYeWYrpkuVcnVw@mail.gmail.com>
-Subject: Re: [PATCH net-next v9 00/14] Device Memory TCP
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
-	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
-	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 13, 2024 at 4:31=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
->
-> On Fri, 10 May 2024 16:21:11 -0700 Mina Almasry wrote:
-> > Device Memory TCP
->
-> Sorry Mina, this is too big to apply during the merge window :(
+The consensus of many DRM folks is that we want to move away from DSI
+drivers defining tables of init commands. Instead, we want to move to
+init functions that can use common DRM functions. The issue thus far
+has been that using the macros mipi_dsi_generic_write_seq() and
+mipi_dsi_dcs_write_seq() bloats the driver using them.
 
-No worries at all. I'll repost once it re-opens with any feedback I
-get in the meantime.
+While trying to solve bloat, we realized that the majority of the it
+was easy to solve. This series solves the bloat for existing drivers
+by moving the printout outside of the macro.
 
---=20
-Thanks,
-Mina
+During discussion of my v1 patch to fix the bloat [1], we also decided
+that we really want to change the way that drivers deal with init
+sequences to make it clearer. In addition to being cleaner, a side
+effect of moving drivers to the new style reduces bloat _even more_.
+
+This series also contains a few minor fixes / cleanups that I found
+along the way.
+
+This series converts four drivers over to the new
+mipi_dsi_dcs_write_seq_multi() function. Not all conversions have been
+tested, but hopefully they are straightforward enough. I'd appreciate
+testing.
+
+NOTE: In v3 I tried to incorporate the feedback from v2. I also
+converted the other two panels I could find that used table-based
+initialization.
+
+v4 just has a tiny bugfix and collects tags. v5 has another tiny
+bugfix. Assuming no other problems are found the plan is to land this
+series sometime roughly around May 16 [2].
+
+[1] https://lore.kernel.org/r/20240424172017.1.Id15fae80582bc74a0d4f1338987fa375738f45b9@changeid
+[2] https://lore.kernel.org/r/35b899d2-fb47-403a-83d2-204c0800d496@linaro.org
+
+Changes in v5:
+- Fix comment dev_err_ratelimited() => dev_err().
+
+Changes in v4:
+- Test to see if init is non-NULL before using it.
+- Update wording as per Linus W.
+
+Changes in v3:
+- ("mipi_dsi_*_write functions don't need to ratelimit...") moved earlier.
+- Add a TODO item for cleaning up the deprecated macros/functions.
+- Fix spacing of init function.
+- Inline kerneldoc comments for struct mipi_dsi_multi_context.
+- Rebased upon patch to remove ratelimit of prints.
+- Remove an unneeded error print.
+- Squash boe-tv101wum-nl6 lowercase patch into main patch
+- Use %zd in print instead of casting errors to int.
+- drm/panel: ili9882t: Don't use a table for initting panels
+- drm/panel: innolux-p079zca: Don't use a table for initting panels
+
+Changes in v2:
+- Add some comments to the macros about printing and returning.
+- Change the way err value is handled in prep for next patch.
+- Modify commit message now that this is part of a series.
+- Rebased upon patches to avoid theoretical int overflow.
+- drm/mipi-dsi: Fix theoretical int overflow in mipi_dsi_dcs_write_seq()
+- drm/mipi-dsi: Fix theoretical int overflow in mipi_dsi_generic_write_seq()
+- drm/mipi-dsi: Introduce mipi_dsi_*_write_seq_multi()
+- drm/mipi-dsi: mipi_dsi_*_write functions don't need to ratelimit prints
+- drm/panel: boe-tv101wum-nl6: Convert hex to lowercase
+- drm/panel: boe-tv101wum-nl6: Don't use a table for initting commands
+- drm/panel: novatek-nt36672e: Switch to mipi_dsi_dcs_write_seq_multi()
+
+Douglas Anderson (9):
+  drm/mipi-dsi: Fix theoretical int overflow in mipi_dsi_dcs_write_seq()
+  drm/mipi-dsi: Fix theoretical int overflow in
+    mipi_dsi_generic_write_seq()
+  drm/mipi-dsi: mipi_dsi_*_write functions don't need to ratelimit
+    prints
+  drm/mipi-dsi: Reduce driver bloat of mipi_dsi_*_write_seq()
+  drm/mipi-dsi: Introduce mipi_dsi_*_write_seq_multi()
+  drm/panel: novatek-nt36672e: Switch to mipi_dsi_dcs_write_seq_multi()
+  drm/panel: boe-tv101wum-nl6: Don't use a table for initting panels
+  drm/panel: ili9882t: Don't use a table for initting panels
+  drm/panel: innolux-p079zca: Don't use a table for initting panels
+
+ Documentation/gpu/todo.rst                    |   18 +
+ drivers/gpu/drm/drm_mipi_dsi.c                |  112 +
+ .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 2792 +++++++++--------
+ drivers/gpu/drm/panel/panel-ilitek-ili9882t.c |  794 +++--
+ drivers/gpu/drm/panel/panel-innolux-p079zca.c |  284 +-
+ .../gpu/drm/panel/panel-novatek-nt36672e.c    |  576 ++--
+ include/drm/drm_mipi_dsi.h                    |  101 +-
+ 7 files changed, 2452 insertions(+), 2225 deletions(-)
+
+-- 
+2.45.0.rc1.225.g2a3ae87e7f-goog
+
