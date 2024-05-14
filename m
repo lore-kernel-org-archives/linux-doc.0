@@ -1,126 +1,293 @@
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2D7D1879;
-	Tue, 14 May 2024 04:12:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B34528E3;
+	Tue, 14 May 2024 04:31:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715659951; cv=none; b=VNnxIynTeSxbySG1/iURtKdGdOGFcoShODKh64QSmLLvDNFV7vnFcnkC3ooTVlAH8Dgcy4jbMMMJJowpaTORd/v9XTsSUHlHQY9zQtRHHR7epBZb3WKMGDRdHTRr9L1VdIKoba4XuliCv+VOqACjOTz67iLD75jgXyITMfTeA90=
+	t=1715661081; cv=none; b=uxBDcuzH5xfKQvXtxq/mEZsryU3tNoBnIp0xloP9KJnxM5fdrrnB9S+E/XP1IXa8QhC+RPEZKWPr5YLPfZNdgo6jk1V8obhrs3Qun+K41va/Zo0QfYQeVc/ofmfIo3eMF47l9+39hyoa0cO3KXfxPp7o2j+8CEOHJGX89SKrgMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715659951; c=relaxed/simple;
-	bh=BSNSHZATQNEiFHEX3bIx9iNu5D407arnYgHWBJhIj60=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=TknwuW5c4vWSa45eXxsR4d/2hyfWmAyP5rhXZVn7nUWCQ+ifJ0ynRLdnjZIrjZAzPM+FmbuGXPABb6fpx1Mtll3xnAYpGL58gzDOMitu9zTc4bPFy9GvPvKHw6sXrS3tOfUV7QTCFaRXV1xkvFUka5zKNnY0zGd8AzvJ9ww9Zq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kVLkeYMb; arc=none smtp.client-ip=209.85.160.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1715661081; c=relaxed/simple;
+	bh=KticW/LzOiqW8d+K9WGeuWevQ/oIXO4ouOTY8TyEDiA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PCTbfscADLNq/TxRkn09mjiR9ytpQuHBjLiuIEKQeKEhTQY9TOzjGPvVDlGX584dZJhh6sAZDv2NhV2N72NwR/Vdsl5iL2ghC3P5T2mBZ3ksXWtLMKImWAgw4JOqlYfTpX92z7Z/1BH9mh3UNzv52YGIyfQ/ZQaCF8ucvBtiM08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=lx62fzIB; arc=none smtp.client-ip=4.36.192.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kVLkeYMb"
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-23f0d4353abso3347151fac.3;
-        Mon, 13 May 2024 21:12:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715659949; x=1716264749; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZRPEnu/ON9I5NtOR1yelgmcp8gSLZwJcxlTGStCRKXM=;
-        b=kVLkeYMbsYmGoft1R4gmmwVW9J6kfhnSe0JqcjEAHfrzwsHYXBMjeSKq8xHCMPUHkH
-         /4uEsdB+vbbeRmgctURFJFGSW2s4jbh9cl279TkZca8y/vu+02t+mbYXzX8WGllCQHwB
-         +JI3AjfRWVF6j2VU+uPx94vWDiYesRuUXSgo6Ll72B8GOsV5yEmbW0w0oNtPo4KGTazN
-         kvK5P1vdkiLe2PzqNcAUuVnPF0sNMXgCwAdCgvRorilAOqcVwunfGcd2FGTYAqcI576g
-         KnlTSbsCVD621NnNH2WRA3iXBjgtGkkxCiT0qTuB7ufAUbuqMhSvOXgBO9AiFOd/m4yI
-         qp2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715659949; x=1716264749;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZRPEnu/ON9I5NtOR1yelgmcp8gSLZwJcxlTGStCRKXM=;
-        b=vdpzzItOhCNasZwKGWupgpWCBndknoQGFDWUF4wlc54cisth7RsxseE7vu+X0HKxEU
-         E98iMBaWFKiQsAZ0JqjKd1moxzgLDHEjL2kUkDFP16L+DAC9enqRdCQAD5f6dEtoo8k2
-         /YggYweEH/4xj0QfvRnEdTn533x9F8TV/jJXnzu5NgR9xDGot/tZ5ooqBJdug5OABtqg
-         pa0os4JUXhDS36m43lJPboCofsHxJU1OG2zdfSJkykHXqjELgdnyNCQ/PRCs25HHhapt
-         ttr6RssJzgbs61244GVpAaEAoVYMElo2Ah561xPYOP47LnP6ClrSuGqJH6Uikdp/otsZ
-         FRxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXlLL+/03avgiEJXmO1572RsrNbxHYtTELzj6mct70Me2ifVYaFxOe70WzHscB+wtGeipY0b0vsmjdmmCuxnhTxH20wds+n2F955rfhoEU5JOMq6R6p8v9ww3mFP5ZhwXMP1b2byud/d8F84/YfLAH/9UY1HLCEH5b5+g4TC+2ZhMrKzg==
-X-Gm-Message-State: AOJu0YyNepug+yWYP15WkUeXSqLpAAnOhnVcE3XOXaVTrjbz1G7L84Vl
-	zpA9eYVhFQmb5AVKC0Q2uvGvBSfc1w0mVlyZIu3D5xizpJIq+eqt
-X-Google-Smtp-Source: AGHT+IEaATE5fgre3nk/hAl6vNSctnTSjsa3d5EP84Nl98mLa0dFA7LL59NvJKmES1RtbuI0BmpVog==
-X-Received: by 2002:a05:6871:e70b:b0:240:851c:e6f1 with SMTP id 586e51a60fabf-24172f87de2mr14243879fac.59.1715659948858;
-        Mon, 13 May 2024 21:12:28 -0700 (PDT)
-Received: from Kuiu.. ([140.110.223.222])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2ae0f1csm8383633b3a.99.2024.05.13.21.12.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 May 2024 21:12:28 -0700 (PDT)
-From: Huichun Feng <foxhoundsk.tw@gmail.com>
-To: Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Kent Gibson <warthog618@gmail.com>,
-	linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: foxhoundsk.tw@gmail.com
-Subject: [PATCH] docs: gpio: prefer pread(2) for interrupt reading
-Date: Tue, 14 May 2024 12:12:23 +0800
-Message-Id: <20240514041223.800811-1-foxhoundsk.tw@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="lx62fzIB"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
+	bh=2SlV9Cal6hzzO4e99rzO08hgr/w9g9NBudXVPOnZiNM=; b=lx62fzIBlSXxKAvTBOFGfvlNFr
+	nwE0Vw0azshzqNdst8I71Y7qb9+Oqssb1o1ffMKDm+GNidUzDENaCAi6V/gmPiBygnO7dPzI0YaoU
+	rSjDL9FK3Ej5LgNLQvbFVYfPZ63DZvJ+y8nHMZrouCqwq672CU1gyANcrakNgrPG5Lulrjt8fg7YX
+	og4f64q5VpjhxrGX8pUt+C8KOBxoRYyKEDiGWY3JItam6Ouu1NF9FTihdbNuzDJTw+nEMM633QD4L
+	KssfLvPJ53up9Te+4E20T4ZgrfxBxTWw13257z5TFrVSp9bDYb0Ysa1nnk4/bsC1IiWPKff1unpYx
+	fee+IL/Q==;
+Received: from [10.69.139.4] (helo=watership.localnet)
+	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <zfigura@codeweavers.com>)
+	id 1s6jZn-0041qp-15;
+	Mon, 13 May 2024 23:15:44 -0500
+From: Elizabeth Figura <zfigura@codeweavers.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+ wine-devel@winehq.org,
+ =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+ Wolfram Sang <wsa@kernel.org>, Arkadiusz Hiler <ahiler@codeweavers.com>,
+ Andy Lutomirski <luto@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+ Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>
+Subject: Re: [PATCH v4 02/27] ntsync: Introduce NTSYNC_IOC_WAIT_ALL.
+Date: Mon, 13 May 2024 23:15:42 -0500
+Message-ID: <4629754.LvFx2qVVIh@watership>
+In-Reply-To: <20240419162814.GA39162@noisy.programming.kicks-ass.net>
+References:
+ <20240416010837.333694-1-zfigura@codeweavers.com>
+ <20240418093511.GQ40213@noisy.programming.kicks-ass.net>
+ <20240419162814.GA39162@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-In legacy sysfs GPIO, when using poll(2) on the sysfs GPIO value for
-state change awaiting, a subsequent read(2) is required for consuming
-the event, which the doc recommends the use of lseek(2) or
-close-and-reopen to reset the file offset afterwards.
+On Friday, April 19, 2024 11:28:14=E2=80=AFAM CDT Peter Zijlstra wrote:
+> On Thu, Apr 18, 2024 at 11:35:11AM +0200, Peter Zijlstra wrote:
+> > On Wed, Apr 17, 2024 at 03:03:05PM -0500, Elizabeth Figura wrote:
+> > > Ach. I wrote this with the idea that the race isn't meaningful, but
+> > > looking at it again you're right=E2=80=94there is a harmful race here.
+> > >=20
+> > > I think it should be fixable by moving the atomic_read inside the loc=
+k,
+> > > though.
+> >=20
+> > Right, I've ended up with the (as yet untested) below. I'll see if I can
+> > find time later to actually test things.
+>=20
+> Latest hackery... I tried testing this but I'm not having luck using the
+> patched wine as per the other email.
+>=20
 
-The recommendations however, require at least 2 syscalls to consume
-the event. Gladly, use of pread(2) require only 1 syscall for the
-consumption. Let's advertise this usage by prioritizing its placement.
+I converted the rest of the direct uses of spin_lock() using the below patc=
+h=20
+and tested it myself, and it passes Wine tests. As far as I can tell the lo=
+gic=20
+is correct, too; I couldn't find any races.
 
-Signed-off-by: Huichun Feng <foxhoundsk.tw@gmail.com>
----
- Documentation/driver-api/gpio/legacy.rst   | 6 ++++--
- Documentation/userspace-api/gpio/sysfs.rst | 7 ++++---
- 2 files changed, 8 insertions(+), 5 deletions(-)
+I'll incorporate these changes into the next revision, unless there's a goo=
+d=20
+reason not to.
 
-diff --git a/Documentation/driver-api/gpio/legacy.rst b/Documentation/driver-api/gpio/legacy.rst
-index b6505914791c..c1a083444b0c 100644
---- a/Documentation/driver-api/gpio/legacy.rst
-+++ b/Documentation/driver-api/gpio/legacy.rst
-@@ -648,8 +648,10 @@ and have the following read/write attributes:
- 		poll(2) will return whenever the interrupt was triggered. If
- 		you use poll(2), set the events POLLPRI. If you use select(2),
- 		set the file descriptor in exceptfds. After poll(2) returns,
--		either lseek(2) to the beginning of the sysfs file and read the
--		new value or close the file and re-open it to read the value.
-+		use pread(2) to read the value at offset zero. Alternatively,
-+		either lseek(2) to the beginning of the sysfs file and read
-+		the new value or close the file and re-open it to read the
-+		value.
- 
- 	"edge" ... reads as either "none", "rising", "falling", or
- 		"both". Write these strings to select the signal edge(s)
-diff --git a/Documentation/userspace-api/gpio/sysfs.rst b/Documentation/userspace-api/gpio/sysfs.rst
-index 116921048b18..bd64896de91a 100644
---- a/Documentation/userspace-api/gpio/sysfs.rst
-+++ b/Documentation/userspace-api/gpio/sysfs.rst
-@@ -97,9 +97,10 @@ and have the following read/write attributes:
- 		poll(2) will return whenever the interrupt was triggered. If
- 		you use poll(2), set the events POLLPRI and POLLERR. If you
- 		use select(2), set the file descriptor in exceptfds. After
--		poll(2) returns, either lseek(2) to the beginning of the sysfs
--		file and read the new value or close the file and re-open it
--		to read the value.
-+		poll(2) returns, use pread(2) to read the value at offset
-+		zero. Alternatively, either lseek(2) to the beginning of the
-+		sysfs file and read the new value or close the file and
-+		re-open it to read the value.
- 
- 	"edge" ...
- 		reads as either "none", "rising", "falling", or
--- 
-2.34.1
+=2D--
+=2D-- a/drivers/misc/ntsync.c
++++ b/drivers/misc/ntsync.c
+@@ -569,17 +569,19 @@ static int ntsync_event_set(struct ntsync_obj *event,=
+=20
+void __user *argp, bool pu
+=20
+ static int ntsync_event_reset(struct ntsync_obj *event, void __user *argp)
+ {
++	struct ntsync_device *dev =3D event->dev;
+ 	__u32 prev_state;
++	bool all;
+=20
+ 	if (event->type !=3D NTSYNC_TYPE_EVENT)
+ 		return -EINVAL;
+=20
+=2D	spin_lock(&event->lock);
++	all =3D ntsync_lock_obj(dev, event);
+=20
+ 	prev_state =3D event->u.event.signaled;
+ 	event->u.event.signaled =3D false;
+=20
+=2D	spin_unlock(&event->lock);
++	ntsync_unlock_obj(dev, event, all);
+=20
+ 	if (put_user(prev_state, (__u32 __user *)argp))
+ 		return -EFAULT;
+@@ -590,16 +592,21 @@ static int ntsync_event_reset(struct ntsync_obj *even=
+t,=20
+void __user *argp)
+ static int ntsync_sem_read(struct ntsync_obj *sem, void __user *argp)
+ {
+ 	struct ntsync_sem_args __user *user_args =3D argp;
++	struct ntsync_device *dev =3D sem->dev;
+ 	struct ntsync_sem_args args;
++	bool all;
+=20
+ 	if (sem->type !=3D NTSYNC_TYPE_SEM)
+ 		return -EINVAL;
+=20
+ 	args.sem =3D 0;
+=2D	spin_lock(&sem->lock);
++
++	all =3D ntsync_lock_obj(dev, sem);
++
+ 	args.count =3D sem->u.sem.count;
+ 	args.max =3D sem->u.sem.max;
+=2D	spin_unlock(&sem->lock);
++
++	ntsync_unlock_obj(dev, sem, all);
+=20
+ 	if (copy_to_user(user_args, &args, sizeof(args)))
+ 		return -EFAULT;
+@@ -609,18 +616,23 @@ static int ntsync_sem_read(struct ntsync_obj *sem, vo=
+id=20
+__user *argp)
+ static int ntsync_mutex_read(struct ntsync_obj *mutex, void __user *argp)
+ {
+ 	struct ntsync_mutex_args __user *user_args =3D argp;
++	struct ntsync_device *dev =3D mutex->dev;
+ 	struct ntsync_mutex_args args;
++	bool all;
+ 	int ret;
+=20
+ 	if (mutex->type !=3D NTSYNC_TYPE_MUTEX)
+ 		return -EINVAL;
+=20
+ 	args.mutex =3D 0;
+=2D	spin_lock(&mutex->lock);
++
++	all =3D ntsync_lock_obj(dev, mutex);
++
+ 	args.count =3D mutex->u.mutex.count;
+ 	args.owner =3D mutex->u.mutex.owner;
+ 	ret =3D mutex->u.mutex.ownerdead ? -EOWNERDEAD : 0;
+=2D	spin_unlock(&mutex->lock);
++
++	ntsync_unlock_obj(dev, mutex, all);
+=20
+ 	if (copy_to_user(user_args, &args, sizeof(args)))
+ 		return -EFAULT;
+@@ -630,16 +642,21 @@ static int ntsync_mutex_read(struct ntsync_obj *mutex=
+,=20
+void __user *argp)
+ static int ntsync_event_read(struct ntsync_obj *event, void __user *argp)
+ {
+ 	struct ntsync_event_args __user *user_args =3D argp;
++	struct ntsync_device *dev =3D event->dev;
+ 	struct ntsync_event_args args;
++	bool all;
+=20
+ 	if (event->type !=3D NTSYNC_TYPE_EVENT)
+ 		return -EINVAL;
+=20
+ 	args.event =3D 0;
+=2D	spin_lock(&event->lock);
++
++	all =3D ntsync_lock_obj(dev, event);
++
+ 	args.manual =3D event->u.event.manual;
+ 	args.signaled =3D event->u.event.signaled;
+=2D	spin_unlock(&event->lock);
++
++	ntsync_unlock_obj(dev, event, all);
+=20
+ 	if (copy_to_user(user_args, &args, sizeof(args)))
+ 		return -EFAULT;
+@@ -962,6 +979,7 @@ static int ntsync_wait_any(struct ntsync_device *dev, v=
+oid=20
+__user *argp)
+ 	__u32 i, total_count;
+ 	struct ntsync_q *q;
+ 	int signaled;
++	bool all;
+ 	int ret;
+=20
+ 	if (copy_from_user(&args, argp, sizeof(args)))
+@@ -981,9 +999,9 @@ static int ntsync_wait_any(struct ntsync_device *dev, v=
+oid=20
+__user *argp)
+ 		struct ntsync_q_entry *entry =3D &q->entries[i];
+ 		struct ntsync_obj *obj =3D entry->obj;
+=20
+=2D		spin_lock(&obj->lock);
++		all =3D ntsync_lock_obj(dev, obj);
+ 		list_add_tail(&entry->node, &obj->any_waiters);
+=2D		spin_unlock(&obj->lock);
++		ntsync_unlock_obj(dev, obj, all);
+ 	}
+=20
+ 	/*
+@@ -1000,9 +1018,9 @@ static int ntsync_wait_any(struct ntsync_device *dev,=
+=20
+void __user *argp)
+ 		if (atomic_read(&q->signaled) !=3D -1)
+ 			break;
+=20
+=2D		spin_lock(&obj->lock);
++		all =3D ntsync_lock_obj(dev, obj);
+ 		try_wake_any_obj(obj);
+=2D		spin_unlock(&obj->lock);
++		ntsync_unlock_obj(dev, obj, all);
+ 	}
+=20
+ 	/* sleep */
+@@ -1015,9 +1033,9 @@ static int ntsync_wait_any(struct ntsync_device *dev,=
+=20
+void __user *argp)
+ 		struct ntsync_q_entry *entry =3D &q->entries[i];
+ 		struct ntsync_obj *obj =3D entry->obj;
+=20
+=2D		spin_lock(&obj->lock);
++		all =3D ntsync_lock_obj(dev, obj);
+ 		list_del(&entry->node);
+=2D		spin_unlock(&obj->lock);
++		ntsync_unlock_obj(dev, obj, all);
+=20
+ 		put_obj(obj);
+ 	}
+@@ -1075,9 +1093,9 @@ static int ntsync_wait_all(struct ntsync_device *dev,=
+=20
+void __user *argp)
+ 		struct ntsync_q_entry *entry =3D &q->entries[args.count];
+ 		struct ntsync_obj *obj =3D entry->obj;
+=20
+=2D		spin_lock_nest_lock(&obj->lock, &dev->wait_all_lock);
++		dev_lock_obj(dev, obj);
+ 		list_add_tail(&entry->node, &obj->any_waiters);
+=2D		spin_unlock(&obj->lock);
++		dev_unlock_obj(dev, obj);
+ 	}
+=20
+ 	/* check if we are already signaled */
+@@ -1095,9 +1113,9 @@ static int ntsync_wait_all(struct ntsync_device *dev,=
+=20
+void __user *argp)
+ 		struct ntsync_obj *obj =3D q->entries[args.count].obj;
+=20
+ 		if (atomic_read(&q->signaled) =3D=3D -1) {
+=2D			spin_lock(&obj->lock);
++			dev_lock_obj(dev, obj);
+ 			try_wake_any_obj(obj);
+=2D			spin_unlock(&obj->lock);
++			dev_unlock_obj(dev, obj);
+ 		}
+ 	}
+=20
+@@ -1127,9 +1145,9 @@ static int ntsync_wait_all(struct ntsync_device *dev,=
+=20
+void __user *argp)
+ 		struct ntsync_q_entry *entry =3D &q->entries[args.count];
+ 		struct ntsync_obj *obj =3D entry->obj;
+=20
+=2D		spin_lock_nest_lock(&obj->lock, &dev->wait_all_lock);
++		dev_lock_obj(dev, obj);
+ 		list_del(&entry->node);
+=2D		spin_unlock(&obj->lock);
++		dev_unlock_obj(dev, obj);
+=20
+ 		put_obj(obj);
+ 	}
+
+
 
