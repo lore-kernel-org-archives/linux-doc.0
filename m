@@ -1,167 +1,171 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout13.his.huawei.com (frasgout13.his.huawei.com [14.137.139.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0584C23D7;
-	Wed, 15 May 2024 04:24:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 243ACEA4;
+	Wed, 15 May 2024 06:45:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715747068; cv=none; b=Jm66mM3V9M38SkwHPiA5jZWg+xz8OztMG09JHCxBT3oanERDiS2gKzt8AiwVOeWwc7jwR30YnspEg9bI+zbUMohHI/cRgywg7UgA0hpy2WoTioHDdI9JhSUotZhaMMfbD+L/agtf4czlrOh+VeR9xELefbrEb72/BKnUsZ6EnU8=
+	t=1715755509; cv=none; b=jPlJMzVVseD3xH5KvpVHIvQWxVM7y/0rq9YvtgdM/vFDLCfjx3RG+Vc6e8MnvDz02s2NYZZxVcRuRwWDtBnm4ehnPD0PjkWBS7nkVFwxiLQorP6zd2Y/CkHpR17grwMoEofI5l6RjOVexqBMkk6nYpEZGjVhrss3mHQKI0g6P/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715747068; c=relaxed/simple;
-	bh=n0/8MoO3v1R9tapgIO+J09N9yNjTcc9+zZ5gLC+8UOg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=stYYWb5IdxZf0QilV4VSrC5/BL9XIVdNXsEIyWd8JfW5qlAw67vzl7AQWM1Tbw/rwtP02zUTkOtGpQfUJRvF9gMpoCiXwG8m3peU2y11dZvWxiR5nbPy+at+A6Oje4kivFlLt9n5AWZ8RDpSw2nua6V1uFMyYSQVYg1yfG1qSjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gijaTxiH; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gijaTxiH"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-5f80aa2d4a3so4992259a12.0;
-        Tue, 14 May 2024 21:24:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715747066; x=1716351866; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q2rsm1NJsgZPzAH8gk3mncdDifRxN4sJYMQ3cyC9C7A=;
-        b=gijaTxiHJPBAINl6Y4ZPnaOowUqLsNbB8oJoXvs/UL+qnvVGMW8PKt/IHTCk2kK9zU
-         IGD64l1dWALfCfpQFmm+UIHkE1RHKgBuiM3u1F5DJcd+zFgw5tahMYOCWxnElwmHrsZx
-         oPq1U1DHiB6+AoXbs6FyWJr9v8Vydui5Gq4YUR67ohsQW7rtlxrneGRttY8r/8TSUjl8
-         2NBZyP+TOvXNCdoBWYRi44tfalg0pRx/sx+684H9p3zwrNXd/SJ4cRGbCZnI9XNLKmWA
-         XFSQDeEa1L1czwHwMx/LtA6xktF576NgtwZMnyTJ3AhWXPcnhkDUUq2R0zaglxfdz9R8
-         GEQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715747066; x=1716351866;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q2rsm1NJsgZPzAH8gk3mncdDifRxN4sJYMQ3cyC9C7A=;
-        b=Kloa2695ZfWRz3MwN4+1c3XCzciqpdWDRB7OVrhpabCrmD0ctbEyNewAl2X3fkwfNl
-         u3B0p4u1oBud1MpQCi8YmNmQtPTIh7uMOzXcwVfQTyKv7yskZKasepchu7jr76PofTdt
-         VgdvMR/nuXiZFlQkMzD1KZq3gOP3QjrO6El3nsKvuOvOxaH3R2m6s0Ltp+mnQU1lGOP5
-         L1bbCzDpuTOJvExI6Tzj/n0gGsfD562B/6jzrHqquUih2p7ZaSofs/gIJaEpJ56gpeWK
-         8n2rdGs+FSvWqs9RlrXiWdSGf7Yt98UGPaJg3H/hGRijQSfUv8TGfMB/VV5naq44b5hV
-         6NqA==
-X-Forwarded-Encrypted: i=1; AJvYcCUJFoNAmiNjH7hzQ72z7mclAVl6/W/AiAnbO1e6hGfBqjd/NznbbWZuqlbHNKEOkflBV9WRHGr0b5LmntKjAHIkd2L/RkcKYrZ0VxK7MtMLgYj7ffZhVAof0ZovugtddoHR7M4Pk3dL
-X-Gm-Message-State: AOJu0YwZjdayDkOsNFaab9QS5ucwEqUcOht8PsKxqurPwlwedFKPsPF7
-	1ZDg606Gr/zh4P0RpcyS6TV7bOHqYxRJ1qK2dBdYDcI69GymGQ76ouZKkfbMDdA=
-X-Google-Smtp-Source: AGHT+IHaEyZ9+wxWtBqCL0f0IDmOcJkLZAPTaM/9b/QIJTDWinjbIv+IjeDs28khRlNDhltJwVWekA==
-X-Received: by 2002:a05:6a20:9717:b0:1af:ac6c:367f with SMTP id adf61e73a8af0-1afde19799emr12581952637.44.1715747065864;
-        Tue, 14 May 2024 21:24:25 -0700 (PDT)
-Received: from server (S0106f85e42401d5e.cg.shawcable.net. [174.0.240.170])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0bf31420sm107061315ad.172.2024.05.14.21.24.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 May 2024 21:24:25 -0700 (PDT)
-Date: Wed, 15 May 2024 04:24:23 +0000
-From: Abhinav Saxena <xandfury@gmail.com>
-To: linux-sound@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH] Documentation: sound: Fix trailing whitespaces
-Message-ID: <ZkQ496Y1SWSr4dDi@server>
-References: <20240515034103.1010269-1-xandfury@gmail.com>
+	s=arc-20240116; t=1715755509; c=relaxed/simple;
+	bh=rr/1kVdootVVGU7hj5fWVS2fCteWe7tsqWLCJvLLKkU=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=U0fARLmRDdCvyf3/a3yc8ZKP1U1orMmpCZXFrvi08wnGlD88Vu0f24ee2o9f7KuJvaSd3PiHcfYa0C/q63yd8udhvi6lmjVU+oEmHRcmxR/0Qy/eD69Be8b+kw8TSh354KmhShExDXlN9SR1iQdJHgGJnz7Lg1AyzZTLuV3Jwuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.186.51])
+	by frasgout13.his.huawei.com (SkyGuard) with ESMTP id 4VfNZN0Twxz9v7Hl;
+	Wed, 15 May 2024 14:27:56 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.27])
+	by mail.maildlp.com (Postfix) with ESMTP id F0B4A1404D9;
+	Wed, 15 May 2024 14:44:48 +0800 (CST)
+Received: from [10.221.98.131] (unknown [10.221.98.131])
+	by APP2 (Coremail) with SMTP id GxC2BwBnoCTQWURm3bwvCA--.4342S2;
+	Wed, 15 May 2024 07:44:48 +0100 (CET)
+Message-ID: <143273e9-1243-60bc-4fb0-eea6fb3de355@huaweicloud.com>
+Date: Wed, 15 May 2024 08:44:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240515034103.1010269-1-xandfury@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+From: Hernan Ponce de Leon <hernan.poncedeleon@huaweicloud.com>
+Subject: Re: [PATCH memory-model 2/4] Documentation/litmus-tests: Demonstrate
+ unordered failing cmpxchg
+To: paulmck@kernel.org, Jonas Oberhauser <jonas.oberhauser@huaweicloud.com>
+Cc: linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ kernel-team@meta.com, mingo@kernel.org, stern@rowland.harvard.edu,
+ parri.andrea@gmail.com, will@kernel.org, peterz@infradead.org,
+ boqun.feng@gmail.com, npiggin@gmail.com, dhowells@redhat.com,
+ j.alglave@ucl.ac.uk, luc.maranget@inria.fr, akiyks@gmail.com,
+ Frederic Weisbecker <frederic@kernel.org>, Daniel Lustig
+ <dlustig@nvidia.com>, Joel Fernandes <joel@joelfernandes.org>,
+ Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org
+References: <42a43181-a431-44bd-8aff-6b305f8111ba@paulmck-laptop>
+ <20240501232132.1785861-2-paulmck@kernel.org>
+ <c97f0529-5a8f-4a82-8e14-0078d4372bdc@huaweicloud.com>
+ <16381d02-cb70-4ae5-b24e-aa73afad9aed@huaweicloud.com>
+ <2a695f63-6c9a-4837-ac03-f0a5c63daaaf@paulmck-laptop>
+Content-Language: en-US
+In-Reply-To: <2a695f63-6c9a-4837-ac03-f0a5c63daaaf@paulmck-laptop>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:GxC2BwBnoCTQWURm3bwvCA--.4342S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxAryDXF4kKFy3Wr1fAFW3Awb_yoW5uw4kpF
+	yrKayUKrs7JrWUAw4Iva1jqF10vrZ3JFW5Xw15tryUAan8GF1FvFyYqrW5ury2yrsaka1j
+	vr1Y9347Zry5AaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvKb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxV
+	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7I2V7IY0VAS
+	07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
+	02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_
+	WrylIxkvb40E47kJMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcV
+	C0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF
+	0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxh
+	VjvjDU0xZFpf9x07boZ2-UUUUU=
+X-CM-SenderInfo: xkhu0tnqos00pfhgvzhhrqqx5xdzvxpfor3voofrz/
 
-Adding Shuah Khan<skhan@linuxfoundation.org> to cc.
+On 5/6/2024 8:00 PM, Paul E. McKenney wrote:
+> On Mon, May 06, 2024 at 06:30:45PM +0200, Jonas Oberhauser wrote:
+>> Am 5/6/2024 um 12:05 PM schrieb Jonas Oberhauser:
+>>> Am 5/2/2024 um 1:21 AM schrieb Paul E. McKenney:
+>>>> This commit adds four litmus tests showing that a failing cmpxchg()
+>>>> operation is unordered unless followed by an smp_mb__after_atomic()
+>>>> operation.
+>>>
+>>> So far, my understanding was that all RMW operations without suffix
+>>> (xchg(), cmpxchg(), ...) will be interpreted as F[Mb];...;F[Mb].
+>>>
+>>> I guess this shows again how important it is to model these full
+>>> barriers explicitly inside the cat model, instead of relying on implicit
+>>> conversions internal to herd.
+>>>
+>>> I'd like to propose a patch to this effect.
+>>>
+>>> What is the intended behavior of a failed cmpxchg()? Is it the same as a
+>>> relaxed one?
+> 
+> Yes, and unless I am too confused, LKMM currently does implement this.
+> Please let me know if I am missing something.
+> 
+>>> My suggestion would be in the direction of marking read and write events
+>>> of these operations as Mb, and then defining
+>>>
+>>> (* full barrier events that appear in non-failing RMW *)
+>>> let RMW_MB = Mb & (dom(rmw) | range(rmw))
+>>>
+>>>
+>>> let mb =
+>>>       [M] ; fencerel(Mb) ; [M]
+>>>     | [M] ; (po \ rmw) ; [RMW_MB] ; po^? ; [M]
+>>>     | [M] ; po^? ; [RMW_MB] ; (po \ rmw) ; [M]
+>>>     | ...
+>>>
+>>> The po \ rmw is because ordering is not provided internally of the rmw
+>>
+>> (removed the unnecessary si since LKMM is still non-mixed-accesses)
+> 
+> Addition of mixed-access support would be quite welcome!
+> 
+>> This could also be written with a single rule:
+>>
+>>       | [M] ; (po \ rmw) & (po^?; [RMW_MB] ; po^?) ; [M]
+>>
+>>> I suspect that after we added [rmw] sequences it could perhaps be
+>>> simplified [...]
+>>
+>> No, my suspicion is wrong - this would incorrectly let full-barrier RMWs
+>> act like strong fences when they appear in an rmw sequence.
+>>
+>>   if (z==1)  ||  x = 2;     ||  xchg(&y,2)  || if (y==2)
+>>     x = 1;   ||  y =_rel 1; ||              ||    z=1;
+>>
+>>
+>> right now, we allow x=2 overwriting x=1 (in case the last thread does not
+>> propagate x=2 along with z=1) because on power, the xchg might be
+>> implemented with a sync that doesn't get executed until the very end
+>> of the program run.
+>>
+>>
+>> Instead of its negative form (everything other than inside the rmw),
+>> it could also be rewritten positively. Here's a somewhat short form:
+>>
+>> let mb =
+>>       [M] ; fencerel(Mb) ; [M]
+>>     (* everything across a full barrier RMW is ordered. This includes up to
+>> one event inside the RMW. *)
+>>     | [M] ; po ; [RMW_MB] ; po ; [M]
+>>     (* full barrier RMW writes are ordered with everything behind the RMW *)
+>>     | [W & RMW_MB] ; po ; [M]
+>>     (* full barrier RMW reads are ordered with everything before the RMW *)
+>>     | [M] ; po ; [R & RMW_MB]
+>>     | ...
+> 
+> Does this produce the results expected by the litmus tests in the Linux
+> kernel source tree and also those at https://github.com/paulmckrcu/litmus?
+> 
+> 							Thanx, Paul
 
--Abhinav.
+I implemented in the dartagnan tool the changes proposed by Jonas (i.e. 
+changing the mb definition in the cat model and removing the fences that 
+were added programmatically).
 
-On Wed, May 15, 2024 at 03:41:03AM +0000, Abhinav Saxena wrote:
-> Remove trailing whitespace from sound/hd-audio/notes as reported by
-> checkpatch. Removing trailing spaces improves consistency, and
-> prevents Preventing potential merge conflicts due to whitespace
-> differences. maintain a cleaner and more professional codebase.
-> 
-> Signed-off-by: Abhinav Saxena <xandfury@gmail.com>
-> ---
->  Documentation/sound/hd-audio/notes.rst | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/sound/hd-audio/notes.rst b/Documentation/sound/hd-audio/notes.rst
-> index a9e35b1f87bd..ef6a4513cce7 100644
-> --- a/Documentation/sound/hd-audio/notes.rst
-> +++ b/Documentation/sound/hd-audio/notes.rst
-> @@ -15,7 +15,7 @@ problem is broken BIOS, and the rest is the driver implementation.
->  This document explains the brief trouble-shooting and debugging
->  methods for the	HD-audio hardware.
->  
-> -The HD-audio component consists of two parts: the controller chip and 
-> +The HD-audio component consists of two parts: the controller chip and
->  the codec chips on the HD-audio bus.  Linux provides a single driver
->  for all controllers, snd-hda-intel.  Although the driver name contains
->  a word of a well-known hardware vendor, it's not specific to it but for
-> @@ -81,7 +81,7 @@ the wake-up timing.  It wakes up a few samples before actually
->  processing the data on the buffer.  This caused a lot of problems, for
->  example, with ALSA dmix or JACK.  Since 2.6.27 kernel, the driver puts
->  an artificial delay to the wake up timing.  This delay is controlled
-> -via ``bdl_pos_adj`` option. 
-> +via ``bdl_pos_adj`` option.
->  
->  When ``bdl_pos_adj`` is a negative value (as default), it's assigned to
->  an appropriate value depending on the controller chip.  For Intel
-> @@ -144,7 +144,7 @@ see a regression wrt the sound quality (stuttering, etc) or a lock-up
->  in the recent kernel, try to pass ``enable_msi=0`` option to disable
->  MSI.  If it works, you can add the known bad device to the blacklist
->  defined in hda_intel.c.  In such a case, please report and give the
-> -patch back to the upstream developer. 
-> +patch back to the upstream developer.
->  
->  
->  HD-Audio Codec
-> @@ -375,7 +375,7 @@ HD-Audio Reconfiguration
->  ------------------------
->  This is an experimental feature to allow you re-configure the HD-audio
->  codec dynamically without reloading the driver.  The following sysfs
-> -files are available under each codec-hwdep device directory (e.g. 
-> +files are available under each codec-hwdep device directory (e.g.
->  /sys/class/sound/hwC0D0):
->  
->  vendor_id
-> @@ -433,7 +433,7 @@ re-configure based on that state, run like below:
->  ::
->  
->      # echo 0x14 0x9993013f > /sys/class/sound/hwC0D0/user_pin_configs
-> -    # echo 1 > /sys/class/sound/hwC0D0/reconfig  
-> +    # echo 1 > /sys/class/sound/hwC0D0/reconfig
->  
->  
->  Hint Strings
-> @@ -494,7 +494,7 @@ indep_hp (bool)
->      mixer control, if available
->  add_stereo_mix_input (bool)
->      add the stereo mix (analog-loopback mix) to the input mux if
-> -    available 
-> +    available
->  add_jack_modes (bool)
->      add "xxx Jack Mode" enum controls to each I/O jack for allowing to
->      change the headphone amp and mic bias VREF capabilities
-> @@ -504,7 +504,7 @@ power_save_node (bool)
->      stream states
->  power_down_unused (bool)
->      power down the unused widgets, a subset of power_save_node, and
-> -    will be dropped in future 
-> +    will be dropped in future
->  add_hp_mic (bool)
->      add the headphone to capture source if possible
->  hp_mic_detect (bool)
-> @@ -603,7 +603,7 @@ present.
->  
->  The patch module option is specific to each card instance, and you
->  need to give one file name for each instance, separated by commas.
-> -For example, if you have two cards, one for an on-board analog and one 
-> +For example, if you have two cards, one for an on-board analog and one
->  for an HDMI video board, you may pass patch option like below:
->  ::
->  
-> -- 
-> 2.34.1
-> 
+I run this using the ~5K litmus test I have (it should include 
+everything from the source tree + the non-LISA ones from your repo). I 
+also checked with the version of qspinlock discussed in [1].
+
+I do get the expected results.
+
+Hernan
+
+[1] https://lkml.org/lkml/2022/8/26/597
+
