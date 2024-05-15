@@ -1,98 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F167E156222;
-	Wed, 15 May 2024 15:47:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B13EE482DB;
+	Wed, 15 May 2024 16:58:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715788028; cv=none; b=peRpPSnWO/PEIa5OGu2U+yT41d2tDltJBx9huesb7ttGt0kUTQ3FYpYQdpMmbEF9FIV+zSPxgxIYp3a+eY5ZkvXiiekQcnSco3brmCllvwKrKXOoMC/tdBTWqWo3/bxp6lBOYYxgP/DPjPrtmUHn8Y9XTZDZdsXgrdDHMSdDKvM=
+	t=1715792292; cv=none; b=ZNPJqKnOJ5DDslx8lEtDNd0lIyik80s9K5p7q56VtKLmmgMR8j19/tMNSytutQAr420OKtKEtdgi1KA6QvgxSEKSETdN70p0cCt7IKiQn6HhuMDpRol6czYvmXaRy/HFNXZPsxIUN/2o7kGL7HaG+DgOFSoCHyhGRI50iuhJjkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715788028; c=relaxed/simple;
-	bh=3i/POYwuo5W+l1r5f3w06dIkd/xGPKue75hnlbOliL4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JznQeXpWJwLpsd07x6WjwtIjO6S8AmGskqJn9d6dA407Q0T7OtwrbCNASWXeZvs52sRdk5jgf+FbqRlP0BH2O2amR3mdT3LpHujSIlJI9NNN3McyIx9uvEqv2Q3vK/0wVcSSFtBP8Qa5fUw+f2dgWVCtMnQc3Weylu6rRnzkGQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DF8iYYpJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715792292; c=relaxed/simple;
+	bh=SLGJTmZ/6Fdf4e/gBCHc7aKNPKQaZTTyFRcj/nywmi8=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=mF3LtM5PuctwrOyZZUMTCAVSJXJPWUAkmTqdUyYvXcCk8l6eZVZf3pHxdiIQQLt9wEeI7bHBBSaMIr7xBp2pmWvH4qK1j8u0JjnXbbtM0mtl38pD133WRUe8YRqmWEX/4wDFeRp75Lnc+iS11LJFZQgarCsaHVxrHeqUpViNFcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ujRFFUVL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DF8iYYpJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38E30C116B1;
-	Wed, 15 May 2024 15:47:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ujRFFUVL"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 38A21C4AF08;
+	Wed, 15 May 2024 16:58:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715788027;
-	bh=3i/POYwuo5W+l1r5f3w06dIkd/xGPKue75hnlbOliL4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DF8iYYpJshvHDiL0aN1ynB1Xamqclpnm5VsF7Gb/scp5CbHlyYhY5T6KjtGiHzTWB
-	 sWCeWecwaskt/I+Se+I3+9jzLZjdY5WApFbu3g1OU5/C6SaH5PdArGhjOmQRjdOnga
-	 oP59kEoDooOB60AOf8sX0eXbvIVaWJXrLq5c73G96g77s/fPb3AdEbaGIB9tW30mZy
-	 cuqbdplphnJa87SWxpquy/ytCaiuCmEJ4wGgHYnHeLM1rq9VjxZzEFYhy2Yfl5qbj3
-	 +bkm2C9PCQexxHPocoNrwfFVB3ivvjrBCzeuYrYS9/WwLBVfG515YR8ixV2OW91ZdT
-	 UvrWLVPJ+JMqQ==
-Date: Wed, 15 May 2024 16:47:02 +0100
-From: Conor Dooley <conor@kernel.org>
-To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Anup Patel <anup@brainfault.org>, Shuah Khan <shuah@kernel.org>,
-	Atish Patra <atishp@atishpatra.org>, linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v4 02/11] riscv: add ISA extensions validation
-Message-ID: <20240515-bucktooth-squiggly-4facfc989f28@spud>
-References: <20240429150553.625165-1-cleger@rivosinc.com>
- <20240429150553.625165-3-cleger@rivosinc.com>
- <20240514-headcount-shrill-390ac0b9233c@spud>
- <7a26604f-2653-4140-9294-637b340282d1@rivosinc.com>
+	s=k20201202; t=1715792292;
+	bh=SLGJTmZ/6Fdf4e/gBCHc7aKNPKQaZTTyFRcj/nywmi8=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=ujRFFUVLopOlmxrneZm+NxDYxlabD2gPBNXR9bvxzdgmJwrITYlOfW546/pfuvRSF
+	 PEM3IPJwljzkMw2rnoZyOsRtEClOVHCpoAe+8MZ3u6UAo31J64f+bbYG1t45Y1+9UG
+	 i9mkISm/Hx+GM2Mnz3ottEM8+8WFPZ6bH4TU4IpEahR7mYJgvvYokX7T5o815hvchD
+	 HNng6HNUSL40LQ1s1tHfTZ1RVn+kO1ZT0h6D9QOzqudJSGlt2XJgedqipsHG55+4SQ
+	 suz9ZpZBvUCknyhBmU6/TUoBR0D8Kc/iSqlCF4MeBZO7o5ZFGZSw68/t5rrE7/+P9L
+	 XvCoUnmXIXF3w==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 2CD4ACF21E3;
+	Wed, 15 May 2024 16:58:12 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="B+OPq6rJ8plGHjIi"
-Content-Disposition: inline
-In-Reply-To: <7a26604f-2653-4140-9294-637b340282d1@rivosinc.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH bpf] bpf,
+ docs: Fix the description of 'src' in ALU instructions
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <171579229218.15564.16554458070344125415.git-patchwork-notify@kernel.org>
+Date: Wed, 15 May 2024 16:58:12 +0000
+References: <20240514130303.113607-1-puranjay@kernel.org>
+In-Reply-To: <20240514130303.113607-1-puranjay@kernel.org>
+To: Puranjay Mohan <puranjay@kernel.org>
+Cc: void@manifault.com, ast@kernel.org, daniel@iogearbox.net,
+ andrii@kernel.org, martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org,
+ yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org,
+ sdf@google.com, haoluo@google.com, jolsa@kernel.org, corbet@lwn.net,
+ dthaler1968@googlemail.com, hawkinsw@obs.cr, bpf@vger.kernel.org,
+ bpf@ietf.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ puranjay12@gmail.com
+
+Hello:
+
+This patch was applied to bpf/bpf.git (master)
+by Alexei Starovoitov <ast@kernel.org>:
+
+On Tue, 14 May 2024 13:03:03 +0000 you wrote:
+> An ALU instruction's source operand can be the value in the source
+> register or the 32-bit immediate value encoded in the instruction. This
+> is controlled by the 's' bit of the 'opcode'.
+> 
+> The current description explicitly uses the phrase 'value of the source
+> register' when defining the meaning of 'src'.
+> 
+> [...]
+
+Here is the summary with links:
+  - [bpf] bpf, docs: Fix the description of 'src' in ALU instructions
+    https://git.kernel.org/bpf/bpf/c/7a8030057f67
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
---B+OPq6rJ8plGHjIi
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, May 15, 2024 at 03:26:23PM +0200, Cl=E9ment L=E9ger wrote:
-> > This function is badly in need of some new variable names for the first
-> > two parameters. It's hard to follow what each of them is meant to be
-> > once you're inside this function and removed from their definitions.
-> > The first parameter is the source bitmap that we've already filled from
-> > the dt/acpi scan of that hart and the second is the per-hart data
-> > structure that we're gonna assign it to and keep "forever", I think the
-> > naming should reflect that.
->=20
-> Yeah, wasn't sure of the naming at all. Would you be ok with the followin=
-g:
->=20
-> - source_isa: Input ISA bitmap parsed from ISA string (DT/ACPI)
-> - resolved_isa: Output ISA bitmap resolved from the first one
-> (configuration and extension dependencies matching).
->=20
-> Since I'm a non-native english speaker, I'm not sure at all if it
-> correctly means what they do, feel free to tell me if you have some
-> better options.
-
-I think those are fine, thanks.
-
---B+OPq6rJ8plGHjIi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZkTY9gAKCRB4tDGHoIJi
-0gfyAQD3gQ7fCpehp/K+Pj9OiStbPvZMpDXqnSuJw6Duajbu8AD+NUc2u8OiReCl
-xfifv7AgIuj7zJ7HphX1WRFq4KJc6wQ=
-=cKSf
------END PGP SIGNATURE-----
-
---B+OPq6rJ8plGHjIi--
