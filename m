@@ -1,529 +1,547 @@
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 988F71272C6;
-	Wed, 15 May 2024 13:13:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.255
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30C258595F
+	for <linux-doc@vger.kernel.org>; Wed, 15 May 2024 13:26:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715778800; cv=none; b=REiaE1guhHM4pZy44Nt4xvxUb9E62KX5YtpDKPJY9qgzSDZSmHhe+n5zIQirvWzDccE44zKbZuTFHJD2QvhTplkQzlIWm1P4coZMFuIiSd/Ke4iyFAKsS9tPzxsmSowW7URTrZaoHpD4YRtSkwynhncNINfxcfagxBSUL5BxNUY=
+	t=1715779589; cv=none; b=icaSWxVhcTvDI9+RQ4hnxiYRXt73NJZEog2mPO5vNP+9pRIZ/e7G1fs8q2S0KvT71q+uShlNO3bRq/t9HZtAfJVqD697jm77fV1GbfjVzlBoMgrpuRPypRGi/pp/MsaBUPbRG6Z/nVJ1XtxDJG+6XJ9GzHbp2duGRQO5LockUmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715778800; c=relaxed/simple;
-	bh=KpusKHmwU7O0D+TRwevdEJnIYNwzWIir5159BQ/bde4=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=h6kxPZTbIDp1EI7UzA2q+PvN1vvY2c2hAkMinoj2imYIVyCSgnAcrLhaBlqjS4O9HV0o++2lAzDFPiJfF+qjPn3Rcb3jvfYegjiWsHjj1Zlya8F+S79jRDQHMmAPWZNB/P/gE8c5YmlJ6lGiihx7geJd7XKVRotPLHL4h/LcjwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.255
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.174])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4VfYV36df1z1S5TV;
-	Wed, 15 May 2024 21:09:47 +0800 (CST)
-Received: from dggpemm500005.china.huawei.com (unknown [7.185.36.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id 00F91140157;
-	Wed, 15 May 2024 21:13:17 +0800 (CST)
-Received: from localhost.localdomain (10.69.192.56) by
- dggpemm500005.china.huawei.com (7.185.36.74) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Wed, 15 May 2024 21:13:16 +0800
-From: Yunsheng Lin <linyunsheng@huawei.com>
-To: <davem@davemloft.net>, <kuba@kernel.org>, <pabeni@redhat.com>
-CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Yunsheng Lin
-	<linyunsheng@huawei.com>, Alexander Duyck <alexander.duyck@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
-	<linux-mm@kvack.org>, <linux-doc@vger.kernel.org>
-Subject: [RFC v4 12/13] mm: page_frag: update documentation for page_frag
-Date: Wed, 15 May 2024 21:09:31 +0800
-Message-ID: <20240515130932.18842-13-linyunsheng@huawei.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20240515130932.18842-1-linyunsheng@huawei.com>
-References: <20240515130932.18842-1-linyunsheng@huawei.com>
+	s=arc-20240116; t=1715779589; c=relaxed/simple;
+	bh=Ay36m1Hv1uA4nVw2mx1bBjHXOneciByDqnlcaCc4eOg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bmmPc7O1TwaO/K2/4rdm8EqWBXQtOvBUfGgbUQ0V9xA4oESFhebEGGD2HC8eApvZgvhbIx42Zwh14rEarcoaxe0H0WNqIBGCwdU8QdNyEjCTIUVc72eUmK1dh9GOmm8j3rQsZYctpB1F9Y79C8CKk2Zi8YbtOEOjl4u+vib6OD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=3PFE6nlA; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="3PFE6nlA"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-420197fba0eso4163745e9.1
+        for <linux-doc@vger.kernel.org>; Wed, 15 May 2024 06:26:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1715779585; x=1716384385; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=j4jRaTLo0FBNHYO1U6ebOfybdn0s3zuus+R/Yo6bdlE=;
+        b=3PFE6nlA5QUxWJwfWpBkcFnGNIv7gP7QV8KPFK/8T/uFRZ+DGGa/mL5fvMEVGMrZnE
+         n3vQ7DkTQh/C2r1Kbs/KWSiN2WgymPgJoyFlvW/zp033Rif9F/BhERVUxLEnQ4MCkr+n
+         /s+4yTPo/VDgnr8wmOp/Yy7BF9OdcOZZgwRbgbQ3sKmCYTeN7tZgE9TE4RekSIkvwJUd
+         vj3vZiGphr8UnzFl/TgWsy08OUOVPLZ12+LVNJqPzidpNtcxFebW9q0bHoBKP4yGXZsG
+         TtuLJWgg6X4kpdLZHINKZ7OQ3Cu8/ARRYoFd6F66kMhCciDzCL7sxHKdHAdqCU2YJkt0
+         Hj5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715779585; x=1716384385;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=j4jRaTLo0FBNHYO1U6ebOfybdn0s3zuus+R/Yo6bdlE=;
+        b=AyEMwGmYQXc3pCkq9aKqnujnAZSCbtsbdm9aoIcwZhuKUDWuQn1Ct5+AoZsnXjs4r9
+         Lkkc6m4SEN5Lo5o5S+FNeO99dThWxBS2jPFHNXhFSw5kXB3joE3i9iRrrsXu3i5Lum/o
+         7qBlH1UBPLHVmWqZNI554Ptn94rSmH4+VMgmwpCD3nryDAgZi4kDj6NKj83rxOfRp5Sq
+         sjYQOUetFnPRijEWKu5qLpVqf2cVfa7yT23OFLmw/jVQ9BZp9T2GBIdh3W9mDlZr+BH9
+         MDgaAc+VMUEmEf7WxUmEliwV8zfHUcuM4OObX9f6rTL5p3+vlkV1yc4lIpTsGAhbx52J
+         nNHg==
+X-Forwarded-Encrypted: i=1; AJvYcCWl/6CH/v6ZSzLKdNMlJKboETJJtx0bb2KLA2xusqTkZQSS4kYcGBWUm+BSkDVELLXhQjvxpqvuzWhG6/dH+Tibm8Ak0fAVPxIj
+X-Gm-Message-State: AOJu0YyPejhXUbLrYtdfMIEnMDPGSVTrujvQhFN84t6ZGs0YtrKwHWNi
+	dwRwJWP0gtVw0ZWsGvNFCtEVWfttZCZR6Ib2U+Jerfatrk4xCb12jCafGV/h+ns=
+X-Google-Smtp-Source: AGHT+IF/WKhF6PXHO1JN4EiQHsyuki3NYd7GxeZ1PvC8tJ0bB/n5WVvtu6sOSb+rsq6GKiqpgb39IQ==
+X-Received: by 2002:a5d:4d10:0:b0:34c:f989:dc25 with SMTP id ffacd0b85a97d-3504a9689demr10930354f8f.6.1715779585335;
+        Wed, 15 May 2024 06:26:25 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:999:a3a0:f218:39c8:532e:12d6? ([2a01:e0a:999:a3a0:f218:39c8:532e:12d6])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3502b8a78cdsm16462077f8f.58.2024.05.15.06.26.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 May 2024 06:26:24 -0700 (PDT)
+Message-ID: <7a26604f-2653-4140-9294-637b340282d1@rivosinc.com>
+Date: Wed, 15 May 2024 15:26:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 02/11] riscv: add ISA extensions validation
+To: Conor Dooley <conor@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Anup Patel <anup@brainfault.org>, Shuah Khan <shuah@kernel.org>,
+ Atish Patra <atishp@atishpatra.org>, linux-doc@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, kvm@vger.kernel.org,
+ kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
+References: <20240429150553.625165-1-cleger@rivosinc.com>
+ <20240429150553.625165-3-cleger@rivosinc.com>
+ <20240514-headcount-shrill-390ac0b9233c@spud>
+Content-Language: en-US
+From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
+In-Reply-To: <20240514-headcount-shrill-390ac0b9233c@spud>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500005.china.huawei.com (7.185.36.74)
 
-Update documentation about design, implementation and API usages
-for page_frag.
 
-CC: Alexander Duyck <alexander.duyck@gmail.com>
-Signed-off-by: Yunsheng Lin <linyunsheng@huawei.com>
----
- Documentation/mm/page_frags.rst | 165 +++++++++++++++++++++++++++++++-
- include/linux/page_frag_cache.h | 108 +++++++++++++++++++++
- mm/page_frag_cache.c            |  65 ++++++++++++-
- 3 files changed, 335 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/mm/page_frags.rst b/Documentation/mm/page_frags.rst
-index 503ca6cdb804..cd66a54383c5 100644
---- a/Documentation/mm/page_frags.rst
-+++ b/Documentation/mm/page_frags.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- ==============
- Page fragments
- ==============
-@@ -40,4 +42,165 @@ page via a single call.  The advantage to doing this is that it allows for
- cleaning up the multiple references that were added to a page in order to
- avoid calling get_page per allocation.
- 
--Alexander Duyck, Nov 29, 2016.
-+
-+Architecture overview
-+=====================
-+
-+.. code-block:: none
-+
-+                      +----------------------+
-+                      | page_frag API caller |
-+                      +----------------------+
-+                                  ^
-+                                  |
-+                                  |
-+                                  |
-+                                  v
-+    +------------------------------------------------------------+
-+    |                   request page fragment                    |
-+    +------------------------------------------------------------+
-+           ^                                 ^                 ^
-+           |                                 |                 |
-+           |                          Cache not enough         |
-+           |                                 |                 |
-+           |                                 v                 |
-+      Cache empty                   +-----------------+        |
-+           |                        | drain old cache |        |
-+           |                        +-----------------+        |
-+           |                                 ^                 |
-+           |_________________________________|                 |
-+                             ^                                 |
-+                             |                                 |
-+            _________________v_______________                  |
-+           |                                 |          Cache is enough
-+           |                                 |                 |
-+PAGE_SIZE < PAGE_FRAG_CACHE_MAX_SIZE         |                 |
-+           |                                 |                 |
-+           |             PAGE_SIZE >= PAGE_FRAG_CACHE_MAX_SIZE |
-+           |                                 |                 |
-+           v                                 |                 |
-+    +----------------------------------+     |                 |
-+    | refill cache with order > 0 page |     |                 |
-+    +----------------------------------+     |                 |
-+      ^                    ^                 |                 |
-+      |                    |                 |                 |
-+      |              Refill failed           |                 |
-+      |                    |                 |                 |
-+      |                    v                 v                 |
-+      |      +----------------------------------+              |
-+      |      |  refill cache with order 0 page  |              |
-+      |      +----------------------------------+              |
-+      |                       ^                                |
-+Refill succeed                |                                |
-+      |                 Refill succeed                         |
-+      |                       |                                |
-+      v                       v                                v
-+    +------------------------------------------------------------+
-+    |             allocate fragment from cache                   |
-+    +------------------------------------------------------------+
-+
-+API interface
-+=============
-+As the design and implementation of page_frag API implies, the allocation side
-+does not allow concurrent calling. Instead it is assumed that the caller must
-+ensure there is not concurrent alloc calling to the same page_frag_cache
-+instance by using its own lock or rely on some lockless guarantee like NAPI
-+softirq.
-+
-+Depending on different aligning requirement, the page_frag API caller may call
-+page_frag_alloc*_align*() to ensure the returned virtual address or offset of
-+the page is aligned according to the 'align/alignment' parameter. Note the size
-+of the allocated fragment is not aligned, the caller needs to provide an aligned
-+fragsz if there is an alignment requirement for the size of the fragment.
-+
-+Depending on different use cases, callers expecting to deal with va, page or
-+both va and page for them may call page_frag_alloc_va*, page_frag_alloc_pg*,
-+or page_frag_alloc* API accordingly.
-+
-+There is also a use case that needs minimum memory in order for forward progress,
-+but more performant if more memory is available. Using page_frag_alloc_prepare()
-+and page_frag_alloc_commit() related API, the caller requests the minimum memory
-+it needs and the prepare API will return the maximum size of the fragment
-+returned. The caller needs to either call the commit API to report how much
-+memory it actually uses, or not do so if deciding to not use any memory.
-+
-+.. kernel-doc:: include/linux/page_frag_cache.h
-+   :identifiers: page_frag_cache_init page_frag_cache_is_pfmemalloc
-+                 page_frag_cache_page_offset page_frag_alloc_va
-+                 page_frag_alloc_va_align page_frag_alloc_va_prepare_align
-+                 page_frag_alloc_probe page_frag_alloc_commit
-+                 page_frag_alloc_commit_noref page_frag_alloc_abort
-+
-+.. kernel-doc:: mm/page_frag_cache.c
-+   :identifiers: __page_frag_alloc_va_align page_frag_alloc_va_prepare
-+		 page_frag_alloc_pg_prepare page_frag_alloc_prepare
-+		 page_frag_cache_drain page_frag_free_va
-+
-+Coding examples
-+===============
-+
-+Init & Drain API
-+----------------
-+
-+.. code-block:: c
-+
-+   page_frag_cache_init(pfrag);
-+   ...
-+   page_frag_cache_drain(pfrag);
-+
-+
-+Alloc & Free API
-+----------------
-+
-+.. code-block:: c
-+
-+    void *va;
-+
-+    va = page_frag_alloc_va_align(pfrag, size, gfp, align);
-+    if (!va)
-+        goto do_error;
-+
-+    err = do_something(va, size);
-+    if (err) {
-+        page_frag_free_va(va);
-+        goto do_error;
-+    }
-+
-+Prepare & Commit API
-+--------------------
-+
-+.. code-block:: c
-+
-+    unsigned int copy, offset, size;
-+    bool merge = true;
-+    struct page *page;
-+    void *va;
-+
-+    size = 32U;
-+    page = page_frag_alloc_prepare(pfrag, &offset, &size, &va);
-+    if (!page)
-+        goto wait_for_space;
-+
-+    copy = min_t(unsigned int, copy, size);
-+    if (!skb_can_coalesce(skb, i, page, offset)) {
-+        if (i >= max_skb_frags)
-+            goto new_segment;
-+
-+        merge = false;
-+    }
-+
-+    copy = mem_schedule(copy);
-+    if (!copy)
-+        goto wait_for_space;
-+
-+    err = copy_from_iter_full_nocache(va, copy, iter);
-+    if (err)
-+        goto do_error;
-+
-+    if (merge) {
-+        skb_frag_size_add(&skb_shinfo(skb)->frags[i - 1], copy);
-+        page_frag_alloc_commit_noref(pfrag, offset, copy);
-+    } else {
-+        skb_fill_page_desc(skb, i, page, offset, copy);
-+        page_frag_alloc_commit(pfrag, offset, copy);
-+    }
-diff --git a/include/linux/page_frag_cache.h b/include/linux/page_frag_cache.h
-index 50466f5b71ea..0a1594cb6512 100644
---- a/include/linux/page_frag_cache.h
-+++ b/include/linux/page_frag_cache.h
-@@ -61,11 +61,28 @@ struct page_frag_cache {
- #endif
- };
- 
-+/**
-+ * page_frag_cache_init() - Init page_frag cache.
-+ * @nc: page_frag cache from which to init
-+ *
-+ * Inline helper to init the page_frag cache.
-+ */
- static inline void page_frag_cache_init(struct page_frag_cache *nc)
- {
- 	memset(nc, 0, sizeof(*nc));
- }
- 
-+/**
-+ * page_frag_cache_is_pfmemalloc() - Check for pfmemalloc.
-+ * @nc: page_frag cache from which to check
-+ *
-+ * Used to check if the current page in page_frag cache is pfmemalloc'ed.
-+ * It has the same calling context expection as the alloc API.
-+ *
-+ * Return:
-+ * true if the current page in page_frag cache is pfmemalloc'ed, otherwise
-+ * return false.
-+ */
- static inline bool page_frag_cache_is_pfmemalloc(struct page_frag_cache *nc)
- {
- 	return encoded_page_pfmemalloc(nc->encoded_va);
-@@ -92,6 +109,19 @@ void *__page_frag_alloc_va_align(struct page_frag_cache *nc,
- 				 unsigned int fragsz, gfp_t gfp_mask,
- 				 unsigned int align_mask);
- 
-+/**
-+ * page_frag_alloc_va_align() - Alloc a page fragment with aligning requirement.
-+ * @nc: page_frag cache from which to allocate
-+ * @fragsz: the requested fragment size
-+ * @gfp_mask: the allocation gfp to use when cache needs to be refilled
-+ * @align: the requested aligning requirement for virtual address of fragment
-+ *
-+ * WARN_ON_ONCE() checking for @align before allocing a page fragment from
-+ * page_frag cache with aligning requirement.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *page_frag_alloc_va_align(struct page_frag_cache *nc,
- 					     unsigned int fragsz,
- 					     gfp_t gfp_mask, unsigned int align)
-@@ -100,11 +130,32 @@ static inline void *page_frag_alloc_va_align(struct page_frag_cache *nc,
- 	return __page_frag_alloc_va_align(nc, fragsz, gfp_mask, -align);
- }
- 
-+/**
-+ * page_frag_cache_page_offset() - Return the current page fragment's offset.
-+ * @nc: page_frag cache from which to check
-+ *
-+ * The API is only used in net/sched/em_meta.c for historical reason, do not use
-+ * it for new caller unless there is a strong reason.
-+ *
-+ * Return:
-+ * the offset of the current page fragment in the page_frag cache.
-+ */
- static inline unsigned int page_frag_cache_page_offset(const struct page_frag_cache *nc)
- {
- 	return __page_frag_cache_page_offset(nc->encoded_va, nc->remaining);
- }
- 
-+/**
-+ * page_frag_alloc_va() - Alloc a page fragment.
-+ * @nc: page_frag cache from which to allocate
-+ * @fragsz: the requested fragment size
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ *
-+ * Get a page fragment from page_frag cache.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *page_frag_alloc_va(struct page_frag_cache *nc,
- 				       unsigned int fragsz, gfp_t gfp_mask)
- {
-@@ -114,6 +165,21 @@ static inline void *page_frag_alloc_va(struct page_frag_cache *nc,
- void *page_frag_alloc_va_prepare(struct page_frag_cache *nc, unsigned int *fragsz,
- 				 gfp_t gfp);
- 
-+/**
-+ * page_frag_alloc_va_prepare_align() - Prepare allocing a page fragment with
-+ * aligning requirement.
-+ * @nc: page_frag cache from which to prepare
-+ * @fragsz: in as the requested size, out as the available size
-+ * @gfp: the allocation gfp to use when cache need to be refilled
-+ * @align: the requested aligning requirement
-+ *
-+ * WARN_ON_ONCE() checking for @align before preparing an aligned page fragment
-+ * with minimum size of @fragsz, @fragsz is also used to report the maximum size
-+ * of the page fragment the caller can use.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- static inline void *page_frag_alloc_va_prepare_align(struct page_frag_cache *nc,
- 						     unsigned int *fragsz,
- 						     gfp_t gfp,
-@@ -148,6 +214,21 @@ static inline struct encoded_va *__page_frag_alloc_probe(struct page_frag_cache
- 	return encoded_va;
- }
- 
-+/**
-+ * page_frag_alloc_probe - Probe the available page fragment.
-+ * @nc: page_frag cache from which to probe
-+ * @offset: out as the offset of the page fragment
-+ * @fragsz: in as the requested size, out as the available size
-+ * @va: out as the virtual address of the returned page fragment
-+ *
-+ * Probe the current available memory to caller without doing cache refilling.
-+ * If no space is available in the page_frag cache, return NULL.
-+ * If the requested space is available, up to @fragsz bytes may be added to the
-+ * fragment using commit API.
-+ *
-+ * Return:
-+ * the page fragment, otherwise return NULL.
-+ */
- #define page_frag_alloc_probe(nc, offset, fragsz, va)			\
- ({									\
- 	struct page *__page = NULL;					\
-@@ -162,6 +243,14 @@ static inline struct encoded_va *__page_frag_alloc_probe(struct page_frag_cache
- 	__page;								\
- })
- 
-+/**
-+ * page_frag_alloc_commit - Commit allocing a page fragment.
-+ * @nc: page_frag cache from which to commit
-+ * @fragsz: size of the page fragment has been used
-+ *
-+ * Commit the actual used size for the allocation that was either prepared or
-+ * probed.
-+ */
- static inline void page_frag_alloc_commit(struct page_frag_cache *nc,
- 					  unsigned int fragsz)
- {
-@@ -170,6 +259,16 @@ static inline void page_frag_alloc_commit(struct page_frag_cache *nc,
- 	nc->remaining -= fragsz;
- }
- 
-+/**
-+ * page_frag_alloc_commit_noref - Commit allocing a page fragment without taking
-+ * page refcount.
-+ * @nc: page_frag cache from which to commit
-+ * @fragsz: size of the page fragment has been used
-+ *
-+ * Commit the alloc preparing or probing by passing the actual used size, but
-+ * not taking refcount. Mostly used for fragmemt coalescing case when the
-+ * current fragment can share the same refcount with previous fragment.
-+ */
- static inline void page_frag_alloc_commit_noref(struct page_frag_cache *nc,
- 						unsigned int fragsz)
- {
-@@ -177,6 +276,15 @@ static inline void page_frag_alloc_commit_noref(struct page_frag_cache *nc,
- 	nc->remaining -= fragsz;
- }
- 
-+/**
-+ * page_frag_alloc_abort - Abort the page fragment alloced using page_frag_alloc()
-+ * related API back to the page_frag cache.
-+ * @nc: page_frag cache to which the page fragment is aborted back
-+ * @fragsz: size of the page fragment to be aborted
-+ *
-+ * It is expected to be called from the same context as the alloc API.
-+ * Mostly used for error handling cases where the fragment is no longer needed.
-+ */
- static inline void page_frag_alloc_abort(struct page_frag_cache *nc,
- 					 unsigned int fragsz)
- {
-diff --git a/mm/page_frag_cache.c b/mm/page_frag_cache.c
-index 273ccd715eae..a150ad895663 100644
---- a/mm/page_frag_cache.c
-+++ b/mm/page_frag_cache.c
-@@ -91,6 +91,18 @@ static struct page *page_frag_cache_refill(struct page_frag_cache *nc,
- 	return page;
- }
- 
-+/**
-+ * page_frag_alloc_va_prepare() - Prepare allocing a page fragment.
-+ * @nc: page_frag cache from which to prepare
-+ * @fragsz: in as the requested size, out as the available size
-+ * @gfp: the allocation gfp to use when cache needs to be refilled
-+ *
-+ * Prepare a page fragment with minimum size of @fragsz, @fragsz is also used
-+ * to report the maximum size of the page fragment the caller can use.
-+ *
-+ * Return:
-+ * virtual address of the page fragment, otherwise return NULL.
-+ */
- void *page_frag_alloc_va_prepare(struct page_frag_cache *nc,
- 				 unsigned int *fragsz, gfp_t gfp)
- {
-@@ -113,6 +125,19 @@ void *page_frag_alloc_va_prepare(struct page_frag_cache *nc,
- }
- EXPORT_SYMBOL(page_frag_alloc_va_prepare);
- 
-+/**
-+ * page_frag_alloc_pg_prepare - Prepare allocing a page fragment.
-+ * @nc: page_frag cache from which to prepare
-+ * @offset: out as the offset of the page fragment
-+ * @fragsz: in as the requested size, out as the available size
-+ * @gfp: the allocation gfp to use when cache needs to be refilled
-+ *
-+ * Prepare a page fragment with minimum size of @fragsz, @fragsz is also used
-+ * to report the maximum size of the page fragment the caller can use.
-+ *
-+ * Return:
-+ * the page fragment, otherwise return NULL.
-+ */
- struct page *page_frag_alloc_pg_prepare(struct page_frag_cache *nc,
- 					unsigned int *offset,
- 					unsigned int *fragsz, gfp_t gfp)
-@@ -143,6 +168,21 @@ struct page *page_frag_alloc_pg_prepare(struct page_frag_cache *nc,
- }
- EXPORT_SYMBOL(page_frag_alloc_pg_prepare);
- 
-+/**
-+ * page_frag_alloc_prepare - Prepare allocing a page fragment.
-+ * @nc: page_frag cache from which to prepare
-+ * @offset: out as the offset of the page fragment
-+ * @fragsz: in as the requested size, out as the available size
-+ * @va: out as the virtual address of the returned page fragment
-+ * @gfp: the allocation gfp to use when cache needs to be refilled
-+ *
-+ * Prepare a page fragment with minimum size of @fragsz, @fragsz is also used
-+ * to report the maximum size of the page fragment. Return both 'struct page'
-+ * and virtual address of the fragment to the caller.
-+ *
-+ * Return:
-+ * the page fragment, otherwise return NULL.
-+ */
- struct page *page_frag_alloc_prepare(struct page_frag_cache *nc,
- 				     unsigned int *offset,
- 				     unsigned int *fragsz,
-@@ -175,6 +215,10 @@ struct page *page_frag_alloc_prepare(struct page_frag_cache *nc,
- }
- EXPORT_SYMBOL(page_frag_alloc_prepare);
- 
-+/**
-+ * page_frag_cache_drain - Drain the current page from page_frag cache.
-+ * @nc: page_frag cache from which to drain
-+ */
- void page_frag_cache_drain(struct page_frag_cache *nc)
- {
- 	if (!nc->encoded_va)
-@@ -195,6 +239,19 @@ void __page_frag_cache_drain(struct page *page, unsigned int count)
- }
- EXPORT_SYMBOL(__page_frag_cache_drain);
- 
-+/**
-+ * __page_frag_alloc_va_align() - Alloc a page fragment with aligning
-+ * requirement.
-+ * @nc: page_frag cache from which to allocate
-+ * @fragsz: the requested fragment size
-+ * @gfp_mask: the allocation gfp to use when cache need to be refilled
-+ * @align_mask: the requested aligning requirement for the 'va'
-+ *
-+ * Get a page fragment from page_frag cache with aligning requirement.
-+ *
-+ * Return:
-+ * Return va of the page fragment, otherwise return NULL.
-+ */
- void *__page_frag_alloc_va_align(struct page_frag_cache *nc,
- 				 unsigned int fragsz, gfp_t gfp_mask,
- 				 unsigned int align_mask)
-@@ -260,8 +317,12 @@ void *__page_frag_alloc_va_align(struct page_frag_cache *nc,
- }
- EXPORT_SYMBOL(__page_frag_alloc_va_align);
- 
--/*
-- * Frees a page fragment allocated out of either a compound or order 0 page.
-+/**
-+ * page_frag_free_va - Free a page fragment.
-+ * @addr: va of page fragment to be freed
-+ *
-+ * Free a page fragment allocated out of either a compound or order 0 page by
-+ * virtual address.
-  */
- void page_frag_free_va(void *addr)
- {
--- 
-2.33.0
+On 14/05/2024 19:39, Conor Dooley wrote:
+> On Mon, Apr 29, 2024 at 05:04:55PM +0200, Clément Léger wrote:
+>> Since a few extensions (Zicbom/Zicboz) already needs validation and
+>> future ones will need it as well (Zc*) add a validate() callback to
+>> struct riscv_isa_ext_data. This require to rework the way extensions are
+>> parsed and split it in two phases. First phase is isa string or isa
+>> extension list parsing and consists in enabling all the extensions in a
+>> temporary bitmask without any validation. The second step "resolves" the
+>> final isa bitmap, handling potential missing dependencies. The mechanism
+>> is quite simple and simply validate each extension described in the
+>> temporary bitmap before enabling it in the final isa bitmap. validate()
+>> callbacks can return either 0 for success, -EPROBEDEFER if extension
+>> needs to be validated again at next loop. A previous ISA bitmap is kept
+>> to avoid looping mutliple times if an extension dependencies are never
+>> satisfied until we reach a stable state. In order to avoid any potential
+>> infinite looping, allow looping a maximum of the number of extension we
+>> handle. Zicboz and Zicbom extensions are modified to use this validation
+>> mechanism.
+>>
+>> Signed-off-by: Clément Léger <cleger@rivosinc.com>
+>> ---
+>>  arch/riscv/include/asm/cpufeature.h |   1 +
+>>  arch/riscv/kernel/cpufeature.c      | 211 ++++++++++++++++------------
+>>  2 files changed, 126 insertions(+), 86 deletions(-)
+>>
+>> diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm/cpufeature.h
+>> index 347805446151..000796c2d0b1 100644
+>> --- a/arch/riscv/include/asm/cpufeature.h
+>> +++ b/arch/riscv/include/asm/cpufeature.h
+>> @@ -70,6 +70,7 @@ struct riscv_isa_ext_data {
+>>  	const char *property;
+>>  	const unsigned int *subset_ext_ids;
+>>  	const unsigned int subset_ext_size;
+>> +	int (*validate)(const struct riscv_isa_ext_data *data, const unsigned long *isa_bitmap);
+>>  };
+>>  
+>>  extern const struct riscv_isa_ext_data riscv_isa_ext[];
+>> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
+>> index 115ba001f1bc..cb2ffa6c8c33 100644
+>> --- a/arch/riscv/kernel/cpufeature.c
+>> +++ b/arch/riscv/kernel/cpufeature.c
+>> @@ -72,51 +72,58 @@ bool __riscv_isa_extension_available(const unsigned long *isa_bitmap, unsigned i
+>>  }
+>>  EXPORT_SYMBOL_GPL(__riscv_isa_extension_available);
+>>  
+>> -static bool riscv_isa_extension_check(int id)
+>> +static bool riscv_isa_extension_valid(int id)
+>>  {
+>> -	switch (id) {
+>> -	case RISCV_ISA_EXT_ZICBOM:
+>> -		if (!riscv_cbom_block_size) {
+>> -			pr_err("Zicbom detected in ISA string, disabling as no cbom-block-size found\n");
+>> -			return false;
+>> -		} else if (!is_power_of_2(riscv_cbom_block_size)) {
+>> -			pr_err("Zicbom disabled as cbom-block-size present, but is not a power-of-2\n");
+>> -			return false;
+>> -		}
+>> -		return true;
+>> -	case RISCV_ISA_EXT_ZICBOZ:
+>> -		if (!riscv_cboz_block_size) {
+>> -			pr_err("Zicboz detected in ISA string, disabling as no cboz-block-size found\n");
+>> -			return false;
+>> -		} else if (!is_power_of_2(riscv_cboz_block_size)) {
+>> -			pr_err("Zicboz disabled as cboz-block-size present, but is not a power-of-2\n");
+>> -			return false;
+>> -		}
+>> -		return true;
+>> -	case RISCV_ISA_EXT_INVALID:
+>> -		return false;
+>> +	return id != RISCV_ISA_EXT_INVALID;
+>> +}
+>> +
+>> +static int riscv_ext_zicbom_validate(const struct riscv_isa_ext_data *data,
+>> +				     const unsigned long *isa_bitmap)
+>> +{
+>> +	if (!riscv_cbom_block_size) {
+>> +		pr_err("Zicbom detected in ISA string, disabling as no cbom-block-size found\n");
+>> +		return -EINVAL;
+>> +	} else if (!is_power_of_2(riscv_cbom_block_size)) {
+> 
+> I guess the original code did this too, but as the branches return the
+> else here should go.
 
+Indeed.
+
+> 
+>> +		pr_err("Zicbom disabled as cbom-block-size present, but is not a power-of-2\n");
+>> +		return -EINVAL;
+>>  	}
+>> +	return 0;
+>> +}
+>>  
+>> -	return true;
+>> +static int riscv_ext_zicboz_validate(const struct riscv_isa_ext_data *data,
+>> +				     const unsigned long *isa_bitmap)
+>> +{
+>> +	if (!riscv_cboz_block_size) {
+>> +		pr_err("Zicboz detected in ISA string, disabling as no cboz-block-size found\n");
+>> +		return -EINVAL;
+>> +	} else if (!is_power_of_2(riscv_cboz_block_size)) {
+>> +		pr_err("Zicboz disabled as cboz-block-size present, but is not a power-of-2\n");
+>> +		return -EINVAL;
+>> +	}
+>> +	return 0;
+>>  }
+>>  
+>> -#define _RISCV_ISA_EXT_DATA(_name, _id, _subset_exts, _subset_exts_size) {	\
+>> -	.name = #_name,								\
+>> -	.property = #_name,							\
+>> -	.id = _id,								\
+>> -	.subset_ext_ids = _subset_exts,						\
+>> -	.subset_ext_size = _subset_exts_size					\
+>> +#define _RISCV_ISA_EXT_DATA(_name, _id, _subset_exts, _subset_exts_size, _validate) {	\
+>> +	.name = #_name,									\
+>> +	.property = #_name,								\
+>> +	.id = _id,									\
+>> +	.subset_ext_ids = _subset_exts,							\
+>> +	.subset_ext_size = _subset_exts_size,						\
+>> +	.validate = _validate								\
+>>  }
+>>  
+>> -#define __RISCV_ISA_EXT_DATA(_name, _id) _RISCV_ISA_EXT_DATA(_name, _id, NULL, 0)
+>> +#define __RISCV_ISA_EXT_DATA(_name, _id) _RISCV_ISA_EXT_DATA(_name, _id, NULL, 0, NULL)
+>>  
+>>  /* Used to declare pure "lasso" extension (Zk for instance) */
+>>  #define __RISCV_ISA_EXT_BUNDLE(_name, _bundled_exts) \
+>> -	_RISCV_ISA_EXT_DATA(_name, RISCV_ISA_EXT_INVALID, _bundled_exts, ARRAY_SIZE(_bundled_exts))
+>> +	_RISCV_ISA_EXT_DATA(_name, RISCV_ISA_EXT_INVALID, _bundled_exts, \
+>> +			    ARRAY_SIZE(_bundled_exts), NULL)
+>>  
+>>  /* Used to declare extensions that are a superset of other extensions (Zvbb for instance) */
+>>  #define __RISCV_ISA_EXT_SUPERSET(_name, _id, _sub_exts) \
+>> -	_RISCV_ISA_EXT_DATA(_name, _id, _sub_exts, ARRAY_SIZE(_sub_exts))
+>> +	_RISCV_ISA_EXT_DATA(_name, _id, _sub_exts, ARRAY_SIZE(_sub_exts), NULL)
+>> +#define __RISCV_ISA_EXT_SUPERSET_VALIDATE(_name, _id, _sub_exts, _validate) \
+>> +	_RISCV_ISA_EXT_DATA(_name, _id, _sub_exts, ARRAY_SIZE(_sub_exts), _validate)
+>>  
+>>  static const unsigned int riscv_zk_bundled_exts[] = {
+>>  	RISCV_ISA_EXT_ZBKB,
+>> @@ -247,8 +254,10 @@ const struct riscv_isa_ext_data riscv_isa_ext[] = {
+>>  	__RISCV_ISA_EXT_DATA(c, RISCV_ISA_EXT_c),
+>>  	__RISCV_ISA_EXT_DATA(v, RISCV_ISA_EXT_v),
+>>  	__RISCV_ISA_EXT_DATA(h, RISCV_ISA_EXT_h),
+>> -	__RISCV_ISA_EXT_SUPERSET(zicbom, RISCV_ISA_EXT_ZICBOM, riscv_xlinuxenvcfg_exts),
+>> -	__RISCV_ISA_EXT_SUPERSET(zicboz, RISCV_ISA_EXT_ZICBOZ, riscv_xlinuxenvcfg_exts),
+>> +	__RISCV_ISA_EXT_SUPERSET_VALIDATE(zicbom, RISCV_ISA_EXT_ZICBOM, riscv_xlinuxenvcfg_exts,
+>> +					  riscv_ext_zicbom_validate),
+>> +	__RISCV_ISA_EXT_SUPERSET_VALIDATE(zicboz, RISCV_ISA_EXT_ZICBOZ, riscv_xlinuxenvcfg_exts,
+>> +					  riscv_ext_zicboz_validate),
+>>  	__RISCV_ISA_EXT_DATA(zicntr, RISCV_ISA_EXT_ZICNTR),
+>>  	__RISCV_ISA_EXT_DATA(zicond, RISCV_ISA_EXT_ZICOND),
+>>  	__RISCV_ISA_EXT_DATA(zicsr, RISCV_ISA_EXT_ZICSR),
+>> @@ -310,33 +319,80 @@ const struct riscv_isa_ext_data riscv_isa_ext[] = {
+>>  
+>>  const size_t riscv_isa_ext_count = ARRAY_SIZE(riscv_isa_ext);
+>>  
+>> -static void __init match_isa_ext(const struct riscv_isa_ext_data *ext, const char *name,
+>> -				 const char *name_end, struct riscv_isainfo *isainfo)
+>> +static void riscv_isa_set_ext(const struct riscv_isa_ext_data *ext, unsigned long *bitmap)
+>>  {
+>> -	if ((name_end - name == strlen(ext->name)) &&
+>> -	     !strncasecmp(name, ext->name, name_end - name)) {
+>> -		/*
+>> -		 * If this is a bundle, enable all the ISA extensions that
+>> -		 * comprise the bundle.
+>> -		 */
+>> -		if (ext->subset_ext_size) {
+>> -			for (int i = 0; i < ext->subset_ext_size; i++) {
+>> -				if (riscv_isa_extension_check(ext->subset_ext_ids[i]))
+>> -					set_bit(ext->subset_ext_ids[i], isainfo->isa);
+>> -			}
+>> +	/*
+>> +	 * This is valid even for bundle extensions which uses the RISCV_ISA_EXT_INVALID id
+>> +	 * (rejected by riscv_isa_extension_valid()).
+> 
+> I really don't understand what this comment is trying to say.
+> I think what you're trying to say is that it is safe to call
+> riscv_isa_extension_valid() for bundles, but wouldn't it just be clearer
+> to drop the function calls and do the comparison to ..._INVALID here
+> since riscv_isa_extension_valid() has been reduced to just that single
+> comparison?
+
+Yeah, that comment is a remnant of the rpevious code but does not make
+sense anymore. I'll remove it along with riscv_isa_extension_valid() and
+just compare to RISCV_ISA_EXT_INVALID.
+
+> 
+> I'd understand this function looking as it did if
+> riscv_isa_extension_valid() was more than a oneliner.
+> 
+>> +	 */
+>> +	if (riscv_isa_extension_valid(ext->id))
+>> +		set_bit(ext->id, bitmap);
+>> +
+>> +	for (int i = 0; i < ext->subset_ext_size; i++) {
+>> +		if (riscv_isa_extension_valid(ext->subset_ext_ids[i]))
+>> +			set_bit(ext->subset_ext_ids[i], bitmap);
+>> +	}
+>> +}
+>> +
+>> +static void __init riscv_resolve_isa(unsigned long *isa_bitmap, struct riscv_isainfo *isainfo,
+>> +				     unsigned long *this_hwcap, unsigned long *isa2hwcap)
+> 
+> This function is badly in need of some new variable names for the first
+> two parameters. It's hard to follow what each of them is meant to be
+> once you're inside this function and removed from their definitions.
+> The first parameter is the source bitmap that we've already filled from
+> the dt/acpi scan of that hart and the second is the per-hart data
+> structure that we're gonna assign it to and keep "forever", I think the
+> naming should reflect that.
+
+Yeah, wasn't sure of the naming at all. Would you be ok with the following:
+
+- source_isa: Input ISA bitmap parsed from ISA string (DT/ACPI)
+- resolved_isa: Output ISA bitmap resolved from the first one
+(configuration and extension dependencies matching).
+
+Since I'm a non-native english speaker, I'm not sure at all if it
+correctly means what they do, feel free to tell me if you have some
+better options.
+
+> 
+>> +{
+>> +	bool loop;
+>> +	const struct riscv_isa_ext_data *ext;
+>> +	DECLARE_BITMAP(prev_bitmap, RISCV_ISA_EXT_MAX);
+>> +	int max_loop_count = riscv_isa_ext_count, ret;
+>> +
+>> +	do {
+>> +		loop = false;
+>> +		if (max_loop_count-- < 0) {
+>> +			pr_err("Failed to reach a stable ISA state\n");
+>> +			return;
+>>  		}
+>> +		memcpy(prev_bitmap, isainfo->isa, sizeof(prev_bitmap));
+> 
+> Why not bitmap_copy()?
+
+Not reason at all, just forgot it existed.
+
+> 
+>> +		for (int i = 0; i < riscv_isa_ext_count; i++) {
+> 
+> Why would we even be testing extensions that have been disabled rather
+> than iterating just over the set that has been turned on? IOW, does
+> for_each_set_bit() work here?
+
+I think the loop can acutally be done the other way (not sure, need to
+check thoug) and iterate on isa_bitmap first rather than on extension array.
+
+> 
+>> +			ext = &riscv_isa_ext[i];
+>> +
+>> +			/* Bundle extensions ids are invalid*/
+>> +			if (!riscv_isa_extension_valid(ext->id))
+>> +				continue;
+>> +
+> 
+>> +			if (!test_bit(ext->id, isa_bitmap) || test_bit(ext->id, isainfo->isa))
+>> +				continue;
+> 
+> What's this test excluding? I think this deserves a comment.
+
+Skips non set extension id in isa bitmap or extensions already enabled
+in resolved bitmap. Will be rendered useless if changing the loop order.
+
+> 
+>> +
+>> +			if (ext->validate) {
+>> +				ret = ext->validate(ext, isainfo->isa);
+>> +				if (ret) {
+>> +					if (ret == -EPROBE_DEFER)
+>> +						loop = true;
+>> +					else
+>> +						clear_bit(ext->id, isa_bitmap);
+>> +					continue;
+>> +				}
+>> +			}
+>>  
+>> -		/*
+>> -		 * This is valid even for bundle extensions which uses the RISCV_ISA_EXT_INVALID id
+>> -		 * (rejected by riscv_isa_extension_check()).
+>> -		 */
+>> -		if (riscv_isa_extension_check(ext->id))
+>>  			set_bit(ext->id, isainfo->isa);
+>> +
+>> +			/* Only single letter extensions get set in hwcap */
+>> +			if (ext->id < RISCV_ISA_EXT_BASE)
+>> +				*this_hwcap |= isa2hwcap[ext->id];
+>> +		}
+>> +	} while (loop && memcmp(prev_bitmap, isainfo->isa, sizeof(prev_bitmap)));
+>> +}
+>> +
+>> +static void __init match_isa_ext(const char *name, const char *name_end, unsigned long *bitmap)
+>> +{
+>> +	for (int i = 0; i < riscv_isa_ext_count; i++) {
+>> +		const struct riscv_isa_ext_data *ext = &riscv_isa_ext[i];
+>> +
+>> +		if ((name_end - name == strlen(ext->name)) &&
+>> +		    !strncasecmp(name, ext->name, name_end - name)) {
+>> +			riscv_isa_set_ext(ext, bitmap);
+>> +			break;
+>> +		}
+>>  	}
+>>  }
+>>  
+>> -static void __init riscv_parse_isa_string(unsigned long *this_hwcap, struct riscv_isainfo *isainfo,
+>> -					  unsigned long *isa2hwcap, const char *isa)
+>> +static void __init riscv_resolve_isa_string(const char *isa, unsigned long *bitmap)
+> 
+> I don't see why this needs to be renamed, I think the original name here
+> was fine - and the new name makes the operation of the caller of this
+> function less clear to me.
+> 
+
+Bad renaming from a previous version where it conflicted with a new
+function. No reason to keep it as is though, I'll revert that.
+
+>>  {
+>>  	/*
+>>  	 * For all possible cpus, we have already validated in
+>> @@ -349,7 +405,7 @@ static void __init riscv_parse_isa_string(unsigned long *this_hwcap, struct risc
+>>  	while (*isa) {
+>>  		const char *ext = isa++;
+>>  		const char *ext_end = isa;
+>> -		bool ext_long = false, ext_err = false;
+>> +		bool ext_err = false;
+>>  
+>>  		switch (*ext) {
+>>  		case 's':
+>> @@ -389,7 +445,6 @@ static void __init riscv_parse_isa_string(unsigned long *this_hwcap, struct risc
+>>  			 * character itself while eliminating the extensions version number.
+>>  			 * A simple re-increment solves this problem.
+>>  			 */
+>> -			ext_long = true;
+>>  			for (; *isa && *isa != '_'; ++isa)
+>>  				if (unlikely(!isalnum(*isa)))
+>>  					ext_err = true;
+>> @@ -469,17 +524,8 @@ static void __init riscv_parse_isa_string(unsigned long *this_hwcap, struct risc
+>>  
+>>  		if (unlikely(ext_err))
+>>  			continue;
+>> -		if (!ext_long) {
+>> -			int nr = tolower(*ext) - 'a';
+>>  
+>> -			if (riscv_isa_extension_check(nr)) {
+>> -				*this_hwcap |= isa2hwcap[nr];
+>> -				set_bit(nr, isainfo->isa);
+>> -			}
+>> -		} else {
+>> -			for (int i = 0; i < riscv_isa_ext_count; i++)
+>> -				match_isa_ext(&riscv_isa_ext[i], ext, ext_end, isainfo);
+>> -		}
+>> +		match_isa_ext(ext, ext_end, bitmap);
+>>  	}
+>>  }
+>>  
+>> @@ -501,6 +547,7 @@ static void __init riscv_fill_hwcap_from_isa_string(unsigned long *isa2hwcap)
+>>  	for_each_possible_cpu(cpu) {
+>>  		struct riscv_isainfo *isainfo = &hart_isa[cpu];
+> 
+> I think this code would, and the non-string variant below, benefit from
+> a similar renaming to make the "flow" of information clearer.
+> 
+> In general tho, this stuff looks sane to me. There's a bunch of moving
+> pieces at the moment with various extensions, so I hope that some of
+> them (the vector subsets & the non-vector parts (1-9) of Charlie's series
+> for vendor stuff maybe) get merged as 6.10 material so that we can
+> reduce what's in play while we try to add this stuff.
+
+Yes sure.
+
+Thanks,
+
+Clément
+
+> 
+> I'll suggest that to Palmer tomorrow I think..
+> 
+> Cheers,
+> Conor.
+> 
+>>  		unsigned long this_hwcap = 0;
+>> +		DECLARE_BITMAP(isa_bitmap, RISCV_ISA_EXT_MAX) = { 0 };
+>>  
+>>  		if (acpi_disabled) {
+>>  			node = of_cpu_device_node_get(cpu);
+>> @@ -523,7 +570,7 @@ static void __init riscv_fill_hwcap_from_isa_string(unsigned long *isa2hwcap)
+>>  			}
+>>  		}
+>>  
+>> -		riscv_parse_isa_string(&this_hwcap, isainfo, isa2hwcap, isa);
+>> +		riscv_resolve_isa_string(isa, isa_bitmap);
+>>  
+>>  		/*
+>>  		 * These ones were as they were part of the base ISA when the
+>> @@ -531,10 +578,10 @@ static void __init riscv_fill_hwcap_from_isa_string(unsigned long *isa2hwcap)
+>>  		 * unconditionally where `i` is in riscv,isa on DT systems.
+>>  		 */
+>>  		if (acpi_disabled) {
+>> -			set_bit(RISCV_ISA_EXT_ZICSR, isainfo->isa);
+>> -			set_bit(RISCV_ISA_EXT_ZIFENCEI, isainfo->isa);
+>> -			set_bit(RISCV_ISA_EXT_ZICNTR, isainfo->isa);
+>> -			set_bit(RISCV_ISA_EXT_ZIHPM, isainfo->isa);
+>> +			set_bit(RISCV_ISA_EXT_ZICSR, isa_bitmap);
+>> +			set_bit(RISCV_ISA_EXT_ZIFENCEI, isa_bitmap);
+>> +			set_bit(RISCV_ISA_EXT_ZICNTR, isa_bitmap);
+>> +			set_bit(RISCV_ISA_EXT_ZIHPM, isa_bitmap);
+>>  		}
+>>  
+>>  		/*
+> 
+>> @@ -548,9 +595,11 @@ static void __init riscv_fill_hwcap_from_isa_string(unsigned long *isa2hwcap)
+>>  		if (acpi_disabled && riscv_cached_mvendorid(cpu) == THEAD_VENDOR_ID &&
+>>  		    riscv_cached_marchid(cpu) == 0x0) {
+>>  			this_hwcap &= ~isa2hwcap[RISCV_ISA_EXT_v];
+>> -			clear_bit(RISCV_ISA_EXT_v, isainfo->isa);
+>> +			clear_bit(RISCV_ISA_EXT_v, isa_bitmap);
+>>  		}
+>>  
+>> +		riscv_resolve_isa(isa_bitmap, isainfo, &this_hwcap, isa2hwcap);
+>> +
+>>  		/*
+>>  		 * All "okay" hart should have same isa. Set HWCAP based on
+>>  		 * common capabilities of every "okay" hart, in case they don't
+>> @@ -579,6 +628,7 @@ static int __init riscv_fill_hwcap_from_ext_list(unsigned long *isa2hwcap)
+>>  		unsigned long this_hwcap = 0;
+>>  		struct device_node *cpu_node;
+>>  		struct riscv_isainfo *isainfo = &hart_isa[cpu];
+>> +		DECLARE_BITMAP(isa_bitmap, RISCV_ISA_EXT_MAX) = { 0 };
+>>  
+>>  		cpu_node = of_cpu_device_node_get(cpu);
+>>  		if (!cpu_node) {
+>> @@ -598,22 +648,11 @@ static int __init riscv_fill_hwcap_from_ext_list(unsigned long *isa2hwcap)
+>>  						     ext->property) < 0)
+>>  				continue;
+>>  
+>> -			if (ext->subset_ext_size) {
+>> -				for (int j = 0; j < ext->subset_ext_size; j++) {
+>> -					if (riscv_isa_extension_check(ext->subset_ext_ids[i]))
+>> -						set_bit(ext->subset_ext_ids[j], isainfo->isa);
+>> -				}
+>> -			}
+>> -
+>> -			if (riscv_isa_extension_check(ext->id)) {
+>> -				set_bit(ext->id, isainfo->isa);
+>> -
+>> -				/* Only single letter extensions get set in hwcap */
+>> -				if (strnlen(riscv_isa_ext[i].name, 2) == 1)
+>> -					this_hwcap |= isa2hwcap[riscv_isa_ext[i].id];
+>> -			}
+>> +			riscv_isa_set_ext(ext, isa_bitmap);
+>>  		}
+>>  
+>> +		riscv_resolve_isa(isa_bitmap, isainfo, &this_hwcap, isa2hwcap);
+>> +
+>>  		of_node_put(cpu_node);
+>>  
+>>  		/*
+>> -- 
+>> 2.43.0
+>>
