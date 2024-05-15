@@ -1,73 +1,72 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47B4174416;
-	Wed, 15 May 2024 11:56:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFB56219E8;
+	Wed, 15 May 2024 12:11:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715774172; cv=none; b=nVvFOsy9r4Pvb38Hmco78MXY9zcEeiD72JivDx+alIbeCzt8+eq/5ikE2f7LpATmLXH+3w+7pxhk+2CAJSnUszRVUS4k7NVAgDSv/qX7yXXcWSKf82HP9nAVA/JABCLexueXqKeXV4LqXi8pIBIf6rIDmSHcV5pYvdpmQsFKMRM=
+	t=1715775092; cv=none; b=ZIK/9unn4QJqQheqQ48VUZqvSctmwfIO4e9WzGltHkr/BB27wD+iSBNFvojWPrVoOcXxFfjCqWzgHQuGcQ1GfKKkL+OkxcF/9qGsEO0xaED7oz3MnEnm5Qqxwj26NB374z1lDPUwKyyutDFJv6NPEX3PSUfKvHYEEUeE1yYrsc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715774172; c=relaxed/simple;
-	bh=KLIJf6dyuUtjxVo29n46MFMN5nAM6CJEG8L1rIRFJXc=;
+	s=arc-20240116; t=1715775092; c=relaxed/simple;
+	bh=TRsDlL8sCyl98mO7vQCQry7hPCiEZjBcOThVQmDnsAE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dpTm//1M7feMuxac8zDS6UnKEkh21MFKoH0YkFH0jfbgyBR5PO5UuUWEtDDUjni2UBlJxodxBGnLOEd438E/j3pz7M0DCaoyoVg7uGjSJT8rFmq2xCDixg7kCk/uWlpA+6QkUN2f1HGSthM1+S3bZiol74Bo7BmI7aFBGmoGBnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V7QqoPiH; arc=none smtp.client-ip=209.85.210.182
+	 Content-Type:Content-Disposition:In-Reply-To; b=aDMRAkTfBLnagQIrOj92uiiylA5vevadQpULak3PxHLWocV5ZoDCcQNYQqAe3IPmPxz0zhHcdqPBCilsROUCsWhjw0gycLrQHn2XHKZ55rVLcRAvKySlEyq+UZbAquYVgug5Hw/6Vcrv+feK7wypUiTWLWcH4utQUgOZjjLFOJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gmXbYVAD; arc=none smtp.client-ip=209.85.210.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V7QqoPiH"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-6f6765226d0so474851b3a.3;
-        Wed, 15 May 2024 04:56:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gmXbYVAD"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-6f4ed9dc7beso2867310b3a.1;
+        Wed, 15 May 2024 05:11:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715774170; x=1716378970; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1715775090; x=1716379890; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KLIJf6dyuUtjxVo29n46MFMN5nAM6CJEG8L1rIRFJXc=;
-        b=V7QqoPiH4mE1vYcxyxLYiYiRwbMO0AYPCg7QJQ1kcHOLWHnzdmCqyCCLw33MkpDh4b
-         +MlPTg43EyXPO24Ff4B+xWJis7DGv7znPjU+ok9WV9E9eUYOPunuHCzzqAIYUfhHJ7WU
-         IYHecI4GmoJ2N8Jy5mPSW+E7MTjsbaU1CUILbKZeMTzJWlTiAC2I1Y0HqIduxkrbB0wr
-         Ah1+WTdam7dQFjvic/+zJj/uPiMZULewxbgprSg0Zd8m01jgpDVs//Iyljgm/4umKsID
-         lyzqEVdAchXQiAIAl4NdAzFhajJSD2kfVwrJufRkbeP44BfoV4VUoaXpTR/rSskk4jEX
-         XSEg==
+        bh=uRO1GLnelDCAkzspkfFkF5Khl58EqY3Lr1TOrAInGvA=;
+        b=gmXbYVADnOoQlMaDrdYfLO1IDK0Lx+34fQAv94a1XUPqn9EvsquYyXFZrKyUNnGc6l
+         EX2FzsMEmf/wGwhffT06nQKmBq8ZM96RYQRAiGoDN5i+rJx2/bi9rZUukxxUTZi01a9i
+         kvmR1eohvrQ+60LNJr9nkajBSfbkzvYQx4oA2pbOw6a+O5xkS9QcA65emHfnJt04Zba7
+         Z7baC9Tf2PMmzqDwmSDSDj0c6BgExKsymKi98d6l9WlqFxsFfZz4b7pFnfkiom+wciL+
+         wyS4dtA8IycFTsi1joCIBBsVlVKuXQVD8VtxvOlOrhjxpXWO78dZ2OwNNdwY2sJ9sClo
+         SzZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715774170; x=1716378970;
+        d=1e100.net; s=20230601; t=1715775090; x=1716379890;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=KLIJf6dyuUtjxVo29n46MFMN5nAM6CJEG8L1rIRFJXc=;
-        b=XFa026hChOWUEtHvHCs0kiqPgkte4rCeupjBRJ4gGFhgey0kJIu1fNDDKSB5qo03CY
-         WsSWiviykY+Q60uBLZeQBfTnAaA0Y6I0th+OXFIy+8MlxN9daa6FVd5rphF8xcZx7e9X
-         BUwGXoF79fl7pQsWIYar86b60D6FxsEnQ8b6SToMcDWrz6mMiUnvjlyuumXomoO7xN6+
-         SlHMMwCCka6M0rIoBbuWxD5lrQnlIR8mZxI6r35P2Zs6V3YpH/R9J+eA+zcPsvkU25AB
-         on6ILYD2K3F2Th/FTtlmOOu5OH8L8w4sAybV4qwYiU8E3HvvqqwOpUm2JoLZEY/Rx4Cr
-         4U5w==
-X-Forwarded-Encrypted: i=1; AJvYcCUI5TJMyxTSdRLFMJSfwj6rJSRjGd6pOewTGKMMr8/vF9K2k+hJjX8YPQkBu5EGJQM9jtuUm7KuJb4VbDfRC4ZRSlgSFOfRWjEcMTiSM9X9pHmWk9XIXUPXlvm+5qBhWnR9tBlMHUSFAxOJIkBcVuYKnzX+Tyt0pRfodqqBdfGnx3d88/zm
-X-Gm-Message-State: AOJu0YzUFWZdMl6raZSkb6K+Y4kQogYJkg4owTpGJlhcgIm+7Zc1yiOE
-	xmv/ghW3FV/Km4FGiVsOGlE1jAIognkptjCBtTqYY3qHNUw1zHKlWLSEgg==
-X-Google-Smtp-Source: AGHT+IGbixuRdWw3hpUoH/eg1XmRvH8la1VlEm92zf5wZvmtJsIjySYZuMUHfsOOYQLyQZwHSeeW7A==
-X-Received: by 2002:a05:6a20:5504:b0:1a9:da1f:1679 with SMTP id adf61e73a8af0-1afde0e20f6mr13397919637.34.1715774170370;
-        Wed, 15 May 2024 04:56:10 -0700 (PDT)
+        bh=uRO1GLnelDCAkzspkfFkF5Khl58EqY3Lr1TOrAInGvA=;
+        b=UnwD0Ok+lin9CLXvvjscV4y5xB6k4nccDHiazCu3jZZD+4Un2z+ykRPIqZx8N0q5vR
+         qlYKEZOYg6Y81DWBcGxH/VbDapDqShmVW54Bkb630NBHb0wDowno4CFWIq93z8c0Hccf
+         RZwFq+7sAiZrNQBY1/4TSJT276Jg3oepr9b/Cpc6UNbgZYKmMN0H9zccsmFrxCW16NgV
+         9VEVWv25PwQfKVtPPPVpyqsEibGHDCwvYTkQwZj/Lo93OV+dKgNUh/n5XLW24O1rmZwV
+         Hf9ZRR+XGrQi9243kpE4GN+7z1cza+Rn1nqODpBrV2uNW/fytIx6nnCsqEZfdUQ9ts3i
+         0nng==
+X-Forwarded-Encrypted: i=1; AJvYcCXYHiWJW0nmGNV0/pZneMbZmn51nhFOgtZeARvXtP0W7du6a88yA+9+Rs/Rcnwa3//+p4i2xelELfjw5qZDon45Pe+hHumNvCnJEOaBFtt8yIKGnzx/TeACvH4yc0DUBJCIOLAo1Fuaaag22L3njPYQYPw3eN5JF9p58P6Aum3YtaGsYucCyjERUTz/MDhHEeSeLNgDVhy/R+Ho
+X-Gm-Message-State: AOJu0YwbPHEg9Ho082cUHsZtj9xRCHpngTaVJ8P/rzZyRtYTKRsuEv58
+	K4nlW5rG2Ml6MMcCIlWV8RggD2x0Tgxa72oZq5m3eflYX2zUuSlZnEmAlQ==
+X-Google-Smtp-Source: AGHT+IHG7hHxrV/oUj7QxhLr2TFdf3HfhAtMErEVrrunpdY238v3hTNUjjGBpDRhqlnNkn7dL17tRg==
+X-Received: by 2002:a05:6a00:984:b0:6f3:e6c3:eadf with SMTP id d2e1a72fcca58-6f4df44ca45mr25106612b3a.15.1715775090173;
+        Wed, 15 May 2024 05:11:30 -0700 (PDT)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1ef0bf30c95sm115677075ad.125.2024.05.15.04.56.09
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f66897e209sm3228060b3a.136.2024.05.15.05.11.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 May 2024 04:56:09 -0700 (PDT)
+        Wed, 15 May 2024 05:11:29 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id 7272A19C325FD; Wed, 15 May 2024 18:56:07 +0700 (WIB)
-Date: Wed, 15 May 2024 18:56:06 +0700
+	id 04746187C5760; Wed, 15 May 2024 19:11:25 +0700 (WIB)
+Date: Wed, 15 May 2024 19:11:25 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: mhklinux@outlook.com, haiyangz@microsoft.com, wei.liu@kernel.org,
-	decui@microsoft.com, kys@microsoft.com, corbet@lwn.net,
-	linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: Mao Zhu <zhumao001@208suo.com>, Ran Sun <sunran001@208suo.com>,
-	Xiang wangx <wangxiang@cdjrlc.com>,
-	Shaomin Deng <dengshaomin@cdjrlc.com>,
-	Charles Han <hanchunchao@inspur.com>,
-	Attreyee M <tintinm2017@gmail.com>, LihaSika <lihasika@gmail.com>
-Subject: Re: [PATCH v2 1/2] Documentation: hyperv: Update spelling and fix
- typo
-Message-ID: <ZkSi1raEBdu7MdBE@archie.me>
-References: <20240511133818.19649-1-mhklinux@outlook.com>
+To: Wei Huang <wei.huang2@amd.com>, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	netdev@vger.kernel.org
+Cc: bhelgaas@google.com, corbet@lwn.net, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	alex.williamson@redhat.com, gospo@broadcom.com,
+	michael.chan@broadcom.com, ajit.khaparde@broadcom.com,
+	manoj.panicker2@amd.com, Eric.VanTassell@amd.com
+Subject: Re: [PATCH V1 7/9] PCI/TPH: Add TPH documentation
+Message-ID: <ZkSmbZr_9hFj4kZi@archie.me>
+References: <20240509162741.1937586-1-wei.huang2@amd.com>
+ <20240509162741.1937586-8-wei.huang2@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,41 +74,52 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3mYU1ClqV7Ho83G5"
+	protocol="application/pgp-signature"; boundary="vG4xZd3V2A4WD42D"
 Content-Disposition: inline
-In-Reply-To: <20240511133818.19649-1-mhklinux@outlook.com>
+In-Reply-To: <20240509162741.1937586-8-wei.huang2@amd.com>
 
 
---3mYU1ClqV7Ho83G5
+--vG4xZd3V2A4WD42D
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, May 11, 2024 at 06:38:17AM -0700, mhkelley58@gmail.com wrote:
-> From: Michael Kelley <mhklinux@outlook.com>
->=20
-> Update spelling from "VMbus" to "VMBus" to match Hyper-V product
-> documentation. Also correct typo: "SNP-SEV" should be "SEV-SNP".
->=20
-> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
-> Reviewed-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+On Thu, May 09, 2024 at 11:27:39AM -0500, Wei Huang wrote:
+> +:Copyright: |copy| 2024 Advanced Micro Devices, Inc.
+> +:Authors: - Eric van Tassell <eric.vantassell@amd.com>
+> +          - Wei Huang <wei.huang2@amd.com>
 
-LGTM, thanks!
+You can directly embed copyright symbol without having to pull in <isonum.t=
+xt>:
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---- >8 ----
+diff --git a/Documentation/PCI/tph.rst b/Documentation/PCI/tph.rst
+index ea9c8313f3e4f8..d7043fb0b71b3a 100644
+--- a/Documentation/PCI/tph.rst
++++ b/Documentation/PCI/tph.rst
+@@ -5,7 +5,7 @@ TPH Support
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
+=20
+-:Copyright: |copy| 2024 Advanced Micro Devices, Inc.
++:Copyright: =C2=A9 2024 Advanced Micro Devices, Inc.
+ :Authors: - Eric van Tassell <eric.vantassell@amd.com>
+           - Wei Huang <wei.huang2@amd.com>
+=20
+Thanks.
 
 --=20
 An old man doll... just what I always wanted! - Clara
 
---3mYU1ClqV7Ho83G5
+--vG4xZd3V2A4WD42D
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZkSi0wAKCRD2uYlJVVFO
-oxgoAQDmu6lTcbrHgqcQ1gt7KND0JsUN7RpkeyB7/6Ot0t2pwwD/d6Gvmzh1zJBg
-7y20CyvYAA6LPQ7TrB9/ITaX0kci/AU=
-=pwFL
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZkSmbQAKCRD2uYlJVVFO
+o2/fAQDWwU+Co9SFTXcGix+apuCZ0tAf7zDMA5Y56ZXlRYlm1gD/VpD3ni4CLkMP
+Iq5VgmqCFz0/e1qtYk4/CevT7Ltelg8=
+=6Crw
 -----END PGP SIGNATURE-----
 
---3mYU1ClqV7Ho83G5--
+--vG4xZd3V2A4WD42D--
