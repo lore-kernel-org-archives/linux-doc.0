@@ -1,165 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956A45C8EF;
-	Wed, 15 May 2024 15:01:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E74715574C
+	for <linux-doc@vger.kernel.org>; Wed, 15 May 2024 15:23:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715785308; cv=none; b=ierG6GP2VXYZo7G+X4E3RP6laVCGAhlWriqTk7vUrNBBz9s5TEsnaCtRQtSJqdLi2ZUFruAfb3/XVgoGypOID5KYmEYNaLvx68MiTAd+r7DyTeSL5sR4alBJeXIwrG8xJvu1TjESweePDvUZeeuPeeJ0l456o+CoXnYTNB54Bkk=
+	t=1715786635; cv=none; b=fN2SiyAaLb764HVhdigu7VR8Pe+PQZBqcHJC5r48314tZar0RupV37+rieKumlYUUXgREFLmvgnxxEN6xsN9+H0BBGciJ/UvZkUEgP4cva51CAuGKao8Bz3LgjvUIvg9M5pNHDqU3xojxc7yTaf7P+RQf0XGo6lGLl4NF9IC514=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715785308; c=relaxed/simple;
-	bh=FJbNPnUkasyY9TzP1ZUPLSyD2EQcKz/cqB3DDwyBxrc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ahi1Ewq7l7pT+PSTxymo4KKUmz1ssJZCMUyTi0Fy+UrVW9CUxG7PWaViguovr0sQsiluxGn8j7+U0Hnrx1poc7GZfdABC8NH0eYYm+MKfWC6jATVXq3Bfj3hipTAoPIL6ZZ2zWXfU3u7Hr6VkE+qXOEvUMy2Cb0/tX/N6qVMHEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p53Sex6r; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715786635; c=relaxed/simple;
+	bh=kU5haLDUlfgVHXQJnqJgdAkMMg41tQYnmCEL6k+6oDU=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=haBBB5eTOK9t/OIMN7F+K067i7l5KuO/+5OQfCdhgu/ek7GA9ZocFlP3FYVwxSrm/ndns3TaBIpQ0HMILEGFs3kEmZmIDQYxpY61NctVhW2SRCbuhgtst9sZi6mXKVYtJg7ABjKRoFAcI40c2j8QwB8eRf+PSWHVMvUkkR0QFR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tw1B7+sV; arc=none smtp.client-ip=209.85.219.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p53Sex6r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 161AAC116B1;
-	Wed, 15 May 2024 15:01:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715785308;
-	bh=FJbNPnUkasyY9TzP1ZUPLSyD2EQcKz/cqB3DDwyBxrc=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=p53Sex6r84tdCIPl4BKe8v4+wVZwH3i1kXGQA51tPbcxHNRCmfj9oqZqi7lh2w/gH
-	 ewnv8vMSNDJy3getAiNWy38VGTjrg/MlkVFW1YJawnKNtlpkJS8XfmbrfhRD8zoTLy
-	 WfNSjUfwLQE50KSnVCSVdlJ47EjbuIL6f9qo63pSeP1DJidSyASR0SCX1Nnp2kjq39
-	 7vpXxLoL5DqM815YWO1ptyStUCOEw2dfZNg9boTD0Cy/ziT9gWxUcpS7m5MOwZ2pn5
-	 sqpdbVruaMGa0bMrIaYkPKlMUnOFCoCrWX89rQvrbJjuoVmOVOKOzG3RjH4OsEkZyJ
-	 NKh/qad+ZenJg==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 90968CE098A; Wed, 15 May 2024 08:01:37 -0700 (PDT)
-Date: Wed, 15 May 2024 08:01:37 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Hernan Ponce de Leon <hernan.poncedeleon@huaweicloud.com>
-Cc: Jonas Oberhauser <jonas.oberhauser@huaweicloud.com>,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	kernel-team@meta.com, mingo@kernel.org, stern@rowland.harvard.edu,
-	parri.andrea@gmail.com, will@kernel.org, peterz@infradead.org,
-	boqun.feng@gmail.com, npiggin@gmail.com, dhowells@redhat.com,
-	j.alglave@ucl.ac.uk, luc.maranget@inria.fr, akiyks@gmail.com,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Daniel Lustig <dlustig@nvidia.com>,
-	Joel Fernandes <joel@joelfernandes.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH memory-model 2/4] Documentation/litmus-tests: Demonstrate
- unordered failing cmpxchg
-Message-ID: <49f61e62-dbd8-449d-9166-11da43db76a6@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <42a43181-a431-44bd-8aff-6b305f8111ba@paulmck-laptop>
- <20240501232132.1785861-2-paulmck@kernel.org>
- <c97f0529-5a8f-4a82-8e14-0078d4372bdc@huaweicloud.com>
- <16381d02-cb70-4ae5-b24e-aa73afad9aed@huaweicloud.com>
- <2a695f63-6c9a-4837-ac03-f0a5c63daaaf@paulmck-laptop>
- <143273e9-1243-60bc-4fb0-eea6fb3de355@huaweicloud.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tw1B7+sV"
+Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-dee5f035dd6so8957622276.0
+        for <linux-doc@vger.kernel.org>; Wed, 15 May 2024 08:23:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1715786633; x=1716391433; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/vj1A9ui2SaRE/HWTW3nQNHcmp/FHeI/IPRLs6zsaMw=;
+        b=tw1B7+sVFtLjslTi3HDAnFYd1iIy8cvWIarH4hCGkD6J92zscbjwLbuYGsatzPX5Cj
+         KEnvLeIfSFgkSvKV/HiWjOFpFi2a2ELVLN+x2CHivUe0BjRn17aRRVqZhpcWFL8W2dOH
+         57hVo9YNpfD4+ecY6Hpd1KsqbLuUezwfptRqO0sBtYHIHW4kt1Rm5bWrpIh4Y5enZHRj
+         jrBrr512YcD2J/cKhbaENhvJu5cozKwDZqy6jk3e1vr/LEESnTO9bJg3nN3t/IEvy9v1
+         +dabm4c3g/Qgu+DT9rjQrBCLZ2Y9mwgcT8pj9dFyQJzs8pm1I5UO78yQq7XZno5j/13N
+         bM2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715786633; x=1716391433;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/vj1A9ui2SaRE/HWTW3nQNHcmp/FHeI/IPRLs6zsaMw=;
+        b=T+um3ysFzX4J9uRuOKRWhL9vQke+X6apY5E/9Cryxv0rjc3adS1Pfro3G6j2WL/7ja
+         jaXBTdbl4+xrb2U4Y3gcLo+LLVHSW7Dfb1RvS2yQbArxWWUJwpNxGK1UHc7NYSZ+rfyH
+         Ifemj0AdGQ8TDRteRwuY7rWM0Yc6YJ5v/366tZQh9fdsQ7x/qfE8eU4FCR4fs9J1g7l2
+         ooMhqJC6pzZ/F5cnf0VmFOFw2vDwMjNoaIWKWvEoQLWmJczfYb+UQMZLrcMQ2tLMfbig
+         FctMHFkzBs3BpZ3ICjgGqN2tPVkYKSr7kvmTiXU8SxXTE0Vc2WWuJLHG8o9jAzTZJnBq
+         OgjQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVzMmc+KEZbLJeKGtEmX2anzFaTKjdRytXDJntUkvkgUlT04cr5AnQswtnipnybG6ppo6OYxEUgRRnSRmnKFJUImSaqfiYhHYYr
+X-Gm-Message-State: AOJu0Yz9prmT4sKzEv7Sd0sHR3xO2O4ynimb8vFPV+RbJvvI2DBZhs4c
+	Ubkt0xOyRBWJ9vPh3HEe4MEBbIJ3RXi5cgeaBLaLFF3paV9mF7q9L8AAQmQdCy9Zv8DZU/syX5b
+	XoA==
+X-Google-Smtp-Source: AGHT+IHYglKVcDSO/IWQfJ8xI8dVwMGpQ0/ErI/yxeFoh8tCkNXcyH0VPfrlyu4AmFvEBSdW3dgM2ePXTNA=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a05:6902:100f:b0:dee:5d43:a0f3 with SMTP id
+ 3f1490d57ef6-dee5d43c91fmr3707898276.6.1715786633444; Wed, 15 May 2024
+ 08:23:53 -0700 (PDT)
+Date: Wed, 15 May 2024 08:23:51 -0700
+In-Reply-To: <5547dd176122865e6a13b61829aa9c4b6cc21ff3.camel@cyberus-technology.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <143273e9-1243-60bc-4fb0-eea6fb3de355@huaweicloud.com>
+Mime-Version: 1.0
+References: <20240508132502.184428-1-julian.stecklina@cyberus-technology.de> <5547dd176122865e6a13b61829aa9c4b6cc21ff3.camel@cyberus-technology.de>
+Message-ID: <ZkTGhmfF-FYisKL_@google.com>
+Subject: Re: [PATCH] KVM: x86: add KVM_RUN_X86_GUEST_MODE kvm_run flag
+From: Sean Christopherson <seanjc@google.com>
+To: Julian Stecklina <julian.stecklina@cyberus-technology.de>
+Cc: "corbet@lwn.net" <corbet@lwn.net>, "bp@alien8.de" <bp@alien8.de>, 
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "hpa@zytor.com" <hpa@zytor.com>, 
+	"x86@kernel.org" <x86@kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "tglx@linutronix.de" <tglx@linutronix.de>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
+	"pbonzini@redhat.com" <pbonzini@redhat.com>, 
+	Thomas Prescher <thomas.prescher@cyberus-technology.de>, 
+	"mingo@redhat.com" <mingo@redhat.com>
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, May 15, 2024 at 08:44:30AM +0200, Hernan Ponce de Leon wrote:
-> On 5/6/2024 8:00 PM, Paul E. McKenney wrote:
-> > On Mon, May 06, 2024 at 06:30:45PM +0200, Jonas Oberhauser wrote:
-> > > Am 5/6/2024 um 12:05 PM schrieb Jonas Oberhauser:
-> > > > Am 5/2/2024 um 1:21 AM schrieb Paul E. McKenney:
-> > > > > This commit adds four litmus tests showing that a failing cmpxchg()
-> > > > > operation is unordered unless followed by an smp_mb__after_atomic()
-> > > > > operation.
-> > > > 
-> > > > So far, my understanding was that all RMW operations without suffix
-> > > > (xchg(), cmpxchg(), ...) will be interpreted as F[Mb];...;F[Mb].
-> > > > 
-> > > > I guess this shows again how important it is to model these full
-> > > > barriers explicitly inside the cat model, instead of relying on implicit
-> > > > conversions internal to herd.
-> > > > 
-> > > > I'd like to propose a patch to this effect.
-> > > > 
-> > > > What is the intended behavior of a failed cmpxchg()? Is it the same as a
-> > > > relaxed one?
-> > 
-> > Yes, and unless I am too confused, LKMM currently does implement this.
-> > Please let me know if I am missing something.
-> > 
-> > > > My suggestion would be in the direction of marking read and write events
-> > > > of these operations as Mb, and then defining
-> > > > 
-> > > > (* full barrier events that appear in non-failing RMW *)
-> > > > let RMW_MB = Mb & (dom(rmw) | range(rmw))
-> > > > 
-> > > > 
-> > > > let mb =
-> > > >       [M] ; fencerel(Mb) ; [M]
-> > > >     | [M] ; (po \ rmw) ; [RMW_MB] ; po^? ; [M]
-> > > >     | [M] ; po^? ; [RMW_MB] ; (po \ rmw) ; [M]
-> > > >     | ...
-> > > > 
-> > > > The po \ rmw is because ordering is not provided internally of the rmw
-> > > 
-> > > (removed the unnecessary si since LKMM is still non-mixed-accesses)
-> > 
-> > Addition of mixed-access support would be quite welcome!
-> > 
-> > > This could also be written with a single rule:
-> > > 
-> > >       | [M] ; (po \ rmw) & (po^?; [RMW_MB] ; po^?) ; [M]
-> > > 
-> > > > I suspect that after we added [rmw] sequences it could perhaps be
-> > > > simplified [...]
-> > > 
-> > > No, my suspicion is wrong - this would incorrectly let full-barrier RMWs
-> > > act like strong fences when they appear in an rmw sequence.
-> > > 
-> > >   if (z==1)  ||  x = 2;     ||  xchg(&y,2)  || if (y==2)
-> > >     x = 1;   ||  y =_rel 1; ||              ||    z=1;
-> > > 
-> > > 
-> > > right now, we allow x=2 overwriting x=1 (in case the last thread does not
-> > > propagate x=2 along with z=1) because on power, the xchg might be
-> > > implemented with a sync that doesn't get executed until the very end
-> > > of the program run.
-> > > 
-> > > 
-> > > Instead of its negative form (everything other than inside the rmw),
-> > > it could also be rewritten positively. Here's a somewhat short form:
-> > > 
-> > > let mb =
-> > >       [M] ; fencerel(Mb) ; [M]
-> > >     (* everything across a full barrier RMW is ordered. This includes up to
-> > > one event inside the RMW. *)
-> > >     | [M] ; po ; [RMW_MB] ; po ; [M]
-> > >     (* full barrier RMW writes are ordered with everything behind the RMW *)
-> > >     | [W & RMW_MB] ; po ; [M]
-> > >     (* full barrier RMW reads are ordered with everything before the RMW *)
-> > >     | [M] ; po ; [R & RMW_MB]
-> > >     | ...
-> > 
-> > Does this produce the results expected by the litmus tests in the Linux
-> > kernel source tree and also those at https://github.com/paulmckrcu/litmus?
-> > 
-> > 							Thanx, Paul
+On Wed, May 15, 2024, Julian Stecklina wrote:
+> Hey Sean,
 > 
-> I implemented in the dartagnan tool the changes proposed by Jonas (i.e.
-> changing the mb definition in the cat model and removing the fences that
-> were added programmatically).
-> 
-> I run this using the ~5K litmus test I have (it should include everything
-> from the source tree + the non-LISA ones from your repo). I also checked
-> with the version of qspinlock discussed in [1].
-> 
-> I do get the expected results.
+> does this this patch go into the right direction?
 
-Thank you very much, Hernan!!!  And good show, Puranjay!!!
-
-							Thanx, Paul
-
-> Hernan
-> 
-> [1] https://lkml.org/lkml/2022/8/26/597
-> 
+At a glance, yes.  We're in a "quite period" until 6.10-rc1, so it'll be a few
+weeks before I take a closer look at this (or really anything that's destined
+for 6.11 or later).
