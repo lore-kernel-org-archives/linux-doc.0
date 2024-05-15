@@ -1,82 +1,98 @@
-Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E74715574C
-	for <linux-doc@vger.kernel.org>; Wed, 15 May 2024 15:23:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F167E156222;
+	Wed, 15 May 2024 15:47:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715786635; cv=none; b=fN2SiyAaLb764HVhdigu7VR8Pe+PQZBqcHJC5r48314tZar0RupV37+rieKumlYUUXgREFLmvgnxxEN6xsN9+H0BBGciJ/UvZkUEgP4cva51CAuGKao8Bz3LgjvUIvg9M5pNHDqU3xojxc7yTaf7P+RQf0XGo6lGLl4NF9IC514=
+	t=1715788028; cv=none; b=peRpPSnWO/PEIa5OGu2U+yT41d2tDltJBx9huesb7ttGt0kUTQ3FYpYQdpMmbEF9FIV+zSPxgxIYp3a+eY5ZkvXiiekQcnSco3brmCllvwKrKXOoMC/tdBTWqWo3/bxp6lBOYYxgP/DPjPrtmUHn8Y9XTZDZdsXgrdDHMSdDKvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715786635; c=relaxed/simple;
-	bh=kU5haLDUlfgVHXQJnqJgdAkMMg41tQYnmCEL6k+6oDU=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=haBBB5eTOK9t/OIMN7F+K067i7l5KuO/+5OQfCdhgu/ek7GA9ZocFlP3FYVwxSrm/ndns3TaBIpQ0HMILEGFs3kEmZmIDQYxpY61NctVhW2SRCbuhgtst9sZi6mXKVYtJg7ABjKRoFAcI40c2j8QwB8eRf+PSWHVMvUkkR0QFR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tw1B7+sV; arc=none smtp.client-ip=209.85.219.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1715788028; c=relaxed/simple;
+	bh=3i/POYwuo5W+l1r5f3w06dIkd/xGPKue75hnlbOliL4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JznQeXpWJwLpsd07x6WjwtIjO6S8AmGskqJn9d6dA407Q0T7OtwrbCNASWXeZvs52sRdk5jgf+FbqRlP0BH2O2amR3mdT3LpHujSIlJI9NNN3McyIx9uvEqv2Q3vK/0wVcSSFtBP8Qa5fUw+f2dgWVCtMnQc3Weylu6rRnzkGQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DF8iYYpJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tw1B7+sV"
-Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-dee5f035dd6so8957622276.0
-        for <linux-doc@vger.kernel.org>; Wed, 15 May 2024 08:23:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1715786633; x=1716391433; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/vj1A9ui2SaRE/HWTW3nQNHcmp/FHeI/IPRLs6zsaMw=;
-        b=tw1B7+sVFtLjslTi3HDAnFYd1iIy8cvWIarH4hCGkD6J92zscbjwLbuYGsatzPX5Cj
-         KEnvLeIfSFgkSvKV/HiWjOFpFi2a2ELVLN+x2CHivUe0BjRn17aRRVqZhpcWFL8W2dOH
-         57hVo9YNpfD4+ecY6Hpd1KsqbLuUezwfptRqO0sBtYHIHW4kt1Rm5bWrpIh4Y5enZHRj
-         jrBrr512YcD2J/cKhbaENhvJu5cozKwDZqy6jk3e1vr/LEESnTO9bJg3nN3t/IEvy9v1
-         +dabm4c3g/Qgu+DT9rjQrBCLZ2Y9mwgcT8pj9dFyQJzs8pm1I5UO78yQq7XZno5j/13N
-         bM2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715786633; x=1716391433;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/vj1A9ui2SaRE/HWTW3nQNHcmp/FHeI/IPRLs6zsaMw=;
-        b=T+um3ysFzX4J9uRuOKRWhL9vQke+X6apY5E/9Cryxv0rjc3adS1Pfro3G6j2WL/7ja
-         jaXBTdbl4+xrb2U4Y3gcLo+LLVHSW7Dfb1RvS2yQbArxWWUJwpNxGK1UHc7NYSZ+rfyH
-         Ifemj0AdGQ8TDRteRwuY7rWM0Yc6YJ5v/366tZQh9fdsQ7x/qfE8eU4FCR4fs9J1g7l2
-         ooMhqJC6pzZ/F5cnf0VmFOFw2vDwMjNoaIWKWvEoQLWmJczfYb+UQMZLrcMQ2tLMfbig
-         FctMHFkzBs3BpZ3ICjgGqN2tPVkYKSr7kvmTiXU8SxXTE0Vc2WWuJLHG8o9jAzTZJnBq
-         OgjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVzMmc+KEZbLJeKGtEmX2anzFaTKjdRytXDJntUkvkgUlT04cr5AnQswtnipnybG6ppo6OYxEUgRRnSRmnKFJUImSaqfiYhHYYr
-X-Gm-Message-State: AOJu0Yz9prmT4sKzEv7Sd0sHR3xO2O4ynimb8vFPV+RbJvvI2DBZhs4c
-	Ubkt0xOyRBWJ9vPh3HEe4MEBbIJ3RXi5cgeaBLaLFF3paV9mF7q9L8AAQmQdCy9Zv8DZU/syX5b
-	XoA==
-X-Google-Smtp-Source: AGHT+IHYglKVcDSO/IWQfJ8xI8dVwMGpQ0/ErI/yxeFoh8tCkNXcyH0VPfrlyu4AmFvEBSdW3dgM2ePXTNA=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:6902:100f:b0:dee:5d43:a0f3 with SMTP id
- 3f1490d57ef6-dee5d43c91fmr3707898276.6.1715786633444; Wed, 15 May 2024
- 08:23:53 -0700 (PDT)
-Date: Wed, 15 May 2024 08:23:51 -0700
-In-Reply-To: <5547dd176122865e6a13b61829aa9c4b6cc21ff3.camel@cyberus-technology.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DF8iYYpJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38E30C116B1;
+	Wed, 15 May 2024 15:47:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715788027;
+	bh=3i/POYwuo5W+l1r5f3w06dIkd/xGPKue75hnlbOliL4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DF8iYYpJshvHDiL0aN1ynB1Xamqclpnm5VsF7Gb/scp5CbHlyYhY5T6KjtGiHzTWB
+	 sWCeWecwaskt/I+Se+I3+9jzLZjdY5WApFbu3g1OU5/C6SaH5PdArGhjOmQRjdOnga
+	 oP59kEoDooOB60AOf8sX0eXbvIVaWJXrLq5c73G96g77s/fPb3AdEbaGIB9tW30mZy
+	 cuqbdplphnJa87SWxpquy/ytCaiuCmEJ4wGgHYnHeLM1rq9VjxZzEFYhy2Yfl5qbj3
+	 +bkm2C9PCQexxHPocoNrwfFVB3ivvjrBCzeuYrYS9/WwLBVfG515YR8ixV2OW91ZdT
+	 UvrWLVPJ+JMqQ==
+Date: Wed, 15 May 2024 16:47:02 +0100
+From: Conor Dooley <conor@kernel.org>
+To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Anup Patel <anup@brainfault.org>, Shuah Khan <shuah@kernel.org>,
+	Atish Patra <atishp@atishpatra.org>, linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, kvm@vger.kernel.org,
+	kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v4 02/11] riscv: add ISA extensions validation
+Message-ID: <20240515-bucktooth-squiggly-4facfc989f28@spud>
+References: <20240429150553.625165-1-cleger@rivosinc.com>
+ <20240429150553.625165-3-cleger@rivosinc.com>
+ <20240514-headcount-shrill-390ac0b9233c@spud>
+ <7a26604f-2653-4140-9294-637b340282d1@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240508132502.184428-1-julian.stecklina@cyberus-technology.de> <5547dd176122865e6a13b61829aa9c4b6cc21ff3.camel@cyberus-technology.de>
-Message-ID: <ZkTGhmfF-FYisKL_@google.com>
-Subject: Re: [PATCH] KVM: x86: add KVM_RUN_X86_GUEST_MODE kvm_run flag
-From: Sean Christopherson <seanjc@google.com>
-To: Julian Stecklina <julian.stecklina@cyberus-technology.de>
-Cc: "corbet@lwn.net" <corbet@lwn.net>, "bp@alien8.de" <bp@alien8.de>, 
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "hpa@zytor.com" <hpa@zytor.com>, 
-	"x86@kernel.org" <x86@kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "tglx@linutronix.de" <tglx@linutronix.de>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>, 
-	"pbonzini@redhat.com" <pbonzini@redhat.com>, 
-	Thomas Prescher <thomas.prescher@cyberus-technology.de>, 
-	"mingo@redhat.com" <mingo@redhat.com>
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="B+OPq6rJ8plGHjIi"
+Content-Disposition: inline
+In-Reply-To: <7a26604f-2653-4140-9294-637b340282d1@rivosinc.com>
 
-On Wed, May 15, 2024, Julian Stecklina wrote:
-> Hey Sean,
-> 
-> does this this patch go into the right direction?
 
-At a glance, yes.  We're in a "quite period" until 6.10-rc1, so it'll be a few
-weeks before I take a closer look at this (or really anything that's destined
-for 6.11 or later).
+--B+OPq6rJ8plGHjIi
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, May 15, 2024 at 03:26:23PM +0200, Cl=E9ment L=E9ger wrote:
+> > This function is badly in need of some new variable names for the first
+> > two parameters. It's hard to follow what each of them is meant to be
+> > once you're inside this function and removed from their definitions.
+> > The first parameter is the source bitmap that we've already filled from
+> > the dt/acpi scan of that hart and the second is the per-hart data
+> > structure that we're gonna assign it to and keep "forever", I think the
+> > naming should reflect that.
+>=20
+> Yeah, wasn't sure of the naming at all. Would you be ok with the followin=
+g:
+>=20
+> - source_isa: Input ISA bitmap parsed from ISA string (DT/ACPI)
+> - resolved_isa: Output ISA bitmap resolved from the first one
+> (configuration and extension dependencies matching).
+>=20
+> Since I'm a non-native english speaker, I'm not sure at all if it
+> correctly means what they do, feel free to tell me if you have some
+> better options.
+
+I think those are fine, thanks.
+
+--B+OPq6rJ8plGHjIi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZkTY9gAKCRB4tDGHoIJi
+0gfyAQD3gQ7fCpehp/K+Pj9OiStbPvZMpDXqnSuJw6Duajbu8AD+NUc2u8OiReCl
+xfifv7AgIuj7zJ7HphX1WRFq4KJc6wQ=
+=cKSf
+-----END PGP SIGNATURE-----
+
+--B+OPq6rJ8plGHjIi--
