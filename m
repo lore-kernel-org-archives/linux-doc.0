@@ -1,171 +1,238 @@
-Received: from frasgout13.his.huawei.com (frasgout13.his.huawei.com [14.137.139.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 243ACEA4;
-	Wed, 15 May 2024 06:45:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A43D5EE80
+	for <linux-doc@vger.kernel.org>; Wed, 15 May 2024 09:53:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715755509; cv=none; b=jPlJMzVVseD3xH5KvpVHIvQWxVM7y/0rq9YvtgdM/vFDLCfjx3RG+Vc6e8MnvDz02s2NYZZxVcRuRwWDtBnm4ehnPD0PjkWBS7nkVFwxiLQorP6zd2Y/CkHpR17grwMoEofI5l6RjOVexqBMkk6nYpEZGjVhrss3mHQKI0g6P/E=
+	t=1715766785; cv=none; b=iNBtSuVMJPxvW0XbTDdhRmQYDEG31L/8RnkCkwVV4+xD4FYRYFKj4EsfVx8ie9fDANPg1fdenUSkpV979qaFNZt/6FZsorRu1GcVFXqyaRttPBx+xAJ8JvhGKd+frp0OHa06v1D6R5VYHppQL2amo/ukE1ZAsBQK+pEitPeDXsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715755509; c=relaxed/simple;
-	bh=rr/1kVdootVVGU7hj5fWVS2fCteWe7tsqWLCJvLLKkU=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=U0fARLmRDdCvyf3/a3yc8ZKP1U1orMmpCZXFrvi08wnGlD88Vu0f24ee2o9f7KuJvaSd3PiHcfYa0C/q63yd8udhvi6lmjVU+oEmHRcmxR/0Qy/eD69Be8b+kw8TSh354KmhShExDXlN9SR1iQdJHgGJnz7Lg1AyzZTLuV3Jwuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.186.51])
-	by frasgout13.his.huawei.com (SkyGuard) with ESMTP id 4VfNZN0Twxz9v7Hl;
-	Wed, 15 May 2024 14:27:56 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.27])
-	by mail.maildlp.com (Postfix) with ESMTP id F0B4A1404D9;
-	Wed, 15 May 2024 14:44:48 +0800 (CST)
-Received: from [10.221.98.131] (unknown [10.221.98.131])
-	by APP2 (Coremail) with SMTP id GxC2BwBnoCTQWURm3bwvCA--.4342S2;
-	Wed, 15 May 2024 07:44:48 +0100 (CET)
-Message-ID: <143273e9-1243-60bc-4fb0-eea6fb3de355@huaweicloud.com>
-Date: Wed, 15 May 2024 08:44:30 +0200
+	s=arc-20240116; t=1715766785; c=relaxed/simple;
+	bh=TsOk3vFqremJkiKTf83L+7lVwN7NONoMxe4kSI6IvYw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ANUsh0DDsu8IGzj7/gHjv4+UZfoHKVGosfLRSeZRSijz2zrYluauhw2lScgX39pNotGIltaa7DOUiNQG5jNP1AMON/Y0q10md/SrxfgdBjs3vSYVd91P8kmexke4Xe//ehxbGb7Zlx6d2oGdhLyikjMuVxYeErca8SdK7Iql7t4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blackwall.org; spf=none smtp.mailfrom=blackwall.org; dkim=pass (2048-bit key) header.d=blackwall-org.20230601.gappssmtp.com header.i=@blackwall-org.20230601.gappssmtp.com header.b=CyTK+oMk; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blackwall.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=blackwall.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=blackwall-org.20230601.gappssmtp.com header.i=@blackwall-org.20230601.gappssmtp.com header.b="CyTK+oMk"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-572ba002a6bso1457737a12.1
+        for <linux-doc@vger.kernel.org>; Wed, 15 May 2024 02:53:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=blackwall-org.20230601.gappssmtp.com; s=20230601; t=1715766782; x=1716371582; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=S1lmRXypy+tgqjJjCBelLKezDGdnEAnnPizIiNZdruM=;
+        b=CyTK+oMkbUZvJX+UEpXD2WFMSiEdaF9FbbEkHgrzxqIOXJh3IjX7fUED53WyhtfNCd
+         n2EIRkb6K9WTdMARS9VuK3lIcwCF+typcSHLH8KJGqwuPma5t+cvhe1NS61b8h6qwBS9
+         mwkIWHGaxIqTXF7Z16UhZF5rk3gXWnzQYKdn3/bSx+l9CaYvAZ7b1mGjre/zhtmIw1DR
+         RKNJlKAICoTaHxukGyzYNIJyvWGUzOle01tTAWgalCoZoqZ6ZcgK2yzNZGrfyW/vCVKi
+         Cqm3jpwjE0S+sh5WKfhm6aGR9HpoF3H7IOUypLZ8RwI1GxjJa/GYPwQbzgxCpJMUYCBL
+         n9Bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715766782; x=1716371582;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=S1lmRXypy+tgqjJjCBelLKezDGdnEAnnPizIiNZdruM=;
+        b=k7BSp5l5ECgsH6yKPRT/Jdi8HOcBSrbzBZWtpvnyMKygo0FEAPuLQNG64cU6wxiqJ4
+         ZJC1Lc5WSE6tuplO5y1Vb1UR7a+WQrLnUKSPeErpn6sc1W6vxiP5JhaYhurVvzObzB34
+         MZZev4EUzKu2tCwjbut8GXM/hW47+wLAxgxsrqlUY0OmBZmFDcLcvdlZHFmXXoDDfdDo
+         fb/rBv4xPbWHcD1UZ63OCCYfweP9ORhNXuD2o9S/MeZj6ci7nhqYiGtRgqv5ZUD2Oz5Y
+         b7VL4GAwqK06HRo+tzXQKXvtkI9y6dOz8HsrkkvWRcRQzpI3+7NOGAnfHdiqx8Jhu/LQ
+         Edcg==
+X-Forwarded-Encrypted: i=1; AJvYcCUC6sANqN/oDBkgDvZoFATcokFMvff4Z1PDlbknW2NxCPcweKTis1C3Z1zgjjvQe3M410lnqlpNMEsJou8Lgn23RSWSQjz/V8TF
+X-Gm-Message-State: AOJu0Yw2uWtGO/eExf3imR0mc4YbTDHnLeKdVc9iCpmjcJIWiQqNhZff
+	N9xF1z3z/IbNOcoC+92r/ecbnmtUXNqCoAabxL5Zavqq/6YTTcQr10IVLi4e6hY=
+X-Google-Smtp-Source: AGHT+IHJ/nIQ9Mj+hR5RkGPoGTlj6+iE5Zdg+QT5yPe2HHYjGXYAnkxMww7zPjsNTDTMLKdw2VFCRA==
+X-Received: by 2002:a50:f699:0:b0:56e:f64:aaf6 with SMTP id 4fb4d7f45d1cf-5734d5c16dfmr11167023a12.5.1715766781663;
+        Wed, 15 May 2024 02:53:01 -0700 (PDT)
+Received: from [192.168.0.245] ([62.73.69.208])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5733bebb687sm8592378a12.25.2024.05.15.02.52.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 May 2024 02:53:01 -0700 (PDT)
+Message-ID: <0e5007fb-2d95-4cbb-b0a6-baa0d20e9469@blackwall.org>
+Date: Wed, 15 May 2024 12:52:57 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-From: Hernan Ponce de Leon <hernan.poncedeleon@huaweicloud.com>
-Subject: Re: [PATCH memory-model 2/4] Documentation/litmus-tests: Demonstrate
- unordered failing cmpxchg
-To: paulmck@kernel.org, Jonas Oberhauser <jonas.oberhauser@huaweicloud.com>
-Cc: linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- kernel-team@meta.com, mingo@kernel.org, stern@rowland.harvard.edu,
- parri.andrea@gmail.com, will@kernel.org, peterz@infradead.org,
- boqun.feng@gmail.com, npiggin@gmail.com, dhowells@redhat.com,
- j.alglave@ucl.ac.uk, luc.maranget@inria.fr, akiyks@gmail.com,
- Frederic Weisbecker <frederic@kernel.org>, Daniel Lustig
- <dlustig@nvidia.com>, Joel Fernandes <joel@joelfernandes.org>,
- Mark Rutland <mark.rutland@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org
-References: <42a43181-a431-44bd-8aff-6b305f8111ba@paulmck-laptop>
- <20240501232132.1785861-2-paulmck@kernel.org>
- <c97f0529-5a8f-4a82-8e14-0078d4372bdc@huaweicloud.com>
- <16381d02-cb70-4ae5-b24e-aa73afad9aed@huaweicloud.com>
- <2a695f63-6c9a-4837-ac03-f0a5c63daaaf@paulmck-laptop>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v9 12/14] net: add SO_DEVMEM_DONTNEED setsockopt
+ to release RX frags
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski
+ <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20240510232128.1105145-1-almasrymina@google.com>
+ <20240510232128.1105145-13-almasrymina@google.com>
 Content-Language: en-US
-In-Reply-To: <2a695f63-6c9a-4837-ac03-f0a5c63daaaf@paulmck-laptop>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:GxC2BwBnoCTQWURm3bwvCA--.4342S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxAryDXF4kKFy3Wr1fAFW3Awb_yoW5uw4kpF
-	yrKayUKrs7JrWUAw4Iva1jqF10vrZ3JFW5Xw15tryUAan8GF1FvFyYqrW5ury2yrsaka1j
-	vr1Y9347Zry5AaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvKb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxV
-	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7I2V7IY0VAS
-	07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
-	02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_
-	WrylIxkvb40E47kJMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcV
-	C0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF
-	0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxh
-	VjvjDU0xZFpf9x07boZ2-UUUUU=
-X-CM-SenderInfo: xkhu0tnqos00pfhgvzhhrqqx5xdzvxpfor3voofrz/
+From: Nikolay Aleksandrov <razor@blackwall.org>
+In-Reply-To: <20240510232128.1105145-13-almasrymina@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 5/6/2024 8:00 PM, Paul E. McKenney wrote:
-> On Mon, May 06, 2024 at 06:30:45PM +0200, Jonas Oberhauser wrote:
->> Am 5/6/2024 um 12:05 PM schrieb Jonas Oberhauser:
->>> Am 5/2/2024 um 1:21 AM schrieb Paul E. McKenney:
->>>> This commit adds four litmus tests showing that a failing cmpxchg()
->>>> operation is unordered unless followed by an smp_mb__after_atomic()
->>>> operation.
->>>
->>> So far, my understanding was that all RMW operations without suffix
->>> (xchg(), cmpxchg(), ...) will be interpreted as F[Mb];...;F[Mb].
->>>
->>> I guess this shows again how important it is to model these full
->>> barriers explicitly inside the cat model, instead of relying on implicit
->>> conversions internal to herd.
->>>
->>> I'd like to propose a patch to this effect.
->>>
->>> What is the intended behavior of a failed cmpxchg()? Is it the same as a
->>> relaxed one?
+On 11/05/2024 02:21, Mina Almasry wrote:
+> Add an interface for the user to notify the kernel that it is done
+> reading the devmem dmabuf frags returned as cmsg. The kernel will
+> drop the reference on the frags to make them available for reuse.
 > 
-> Yes, and unless I am too confused, LKMM currently does implement this.
-> Please let me know if I am missing something.
+> Signed-off-by: Willem de Bruijn <willemb@google.com>
+> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
 > 
->>> My suggestion would be in the direction of marking read and write events
->>> of these operations as Mb, and then defining
->>>
->>> (* full barrier events that appear in non-failing RMW *)
->>> let RMW_MB = Mb & (dom(rmw) | range(rmw))
->>>
->>>
->>> let mb =
->>>       [M] ; fencerel(Mb) ; [M]
->>>     | [M] ; (po \ rmw) ; [RMW_MB] ; po^? ; [M]
->>>     | [M] ; po^? ; [RMW_MB] ; (po \ rmw) ; [M]
->>>     | ...
->>>
->>> The po \ rmw is because ordering is not provided internally of the rmw
->>
->> (removed the unnecessary si since LKMM is still non-mixed-accesses)
+> ---
 > 
-> Addition of mixed-access support would be quite welcome!
+> v7:
+> - Updated SO_DEVMEM_* uapi to use the next available entry (Arnd).
 > 
->> This could also be written with a single rule:
->>
->>       | [M] ; (po \ rmw) & (po^?; [RMW_MB] ; po^?) ; [M]
->>
->>> I suspect that after we added [rmw] sequences it could perhaps be
->>> simplified [...]
->>
->> No, my suspicion is wrong - this would incorrectly let full-barrier RMWs
->> act like strong fences when they appear in an rmw sequence.
->>
->>   if (z==1)  ||  x = 2;     ||  xchg(&y,2)  || if (y==2)
->>     x = 1;   ||  y =_rel 1; ||              ||    z=1;
->>
->>
->> right now, we allow x=2 overwriting x=1 (in case the last thread does not
->> propagate x=2 along with z=1) because on power, the xchg might be
->> implemented with a sync that doesn't get executed until the very end
->> of the program run.
->>
->>
->> Instead of its negative form (everything other than inside the rmw),
->> it could also be rewritten positively. Here's a somewhat short form:
->>
->> let mb =
->>       [M] ; fencerel(Mb) ; [M]
->>     (* everything across a full barrier RMW is ordered. This includes up to
->> one event inside the RMW. *)
->>     | [M] ; po ; [RMW_MB] ; po ; [M]
->>     (* full barrier RMW writes are ordered with everything behind the RMW *)
->>     | [W & RMW_MB] ; po ; [M]
->>     (* full barrier RMW reads are ordered with everything before the RMW *)
->>     | [M] ; po ; [R & RMW_MB]
->>     | ...
+> v6:
+> - Squash in locking optimizations from edumazet@google.com. With his
+>   changes we lock the xarray once per sock_devmem_dontneed operation
+>   rather than once per frag.
 > 
-> Does this produce the results expected by the litmus tests in the Linux
-> kernel source tree and also those at https://github.com/paulmckrcu/litmus?
+> Changes in v1:
+> - devmemtoken -> dmabuf_token (David).
+> - Use napi_pp_put_page() for refcounting (Yunsheng).
+> - Fix build error with missing socket options on other asms.
 > 
-> 							Thanx, Paul
+> ---
+>  arch/alpha/include/uapi/asm/socket.h  |  1 +
+>  arch/mips/include/uapi/asm/socket.h   |  1 +
+>  arch/parisc/include/uapi/asm/socket.h |  1 +
+>  arch/sparc/include/uapi/asm/socket.h  |  1 +
+>  include/uapi/asm-generic/socket.h     |  1 +
+>  include/uapi/linux/uio.h              |  4 ++
+>  net/core/sock.c                       | 61 +++++++++++++++++++++++++++
+>  7 files changed, 70 insertions(+)
+> 
+[snip]
+> diff --git a/net/core/sock.c b/net/core/sock.c
+> index 8d6e638b5426d..2edb988259e8d 100644
+> --- a/net/core/sock.c
+> +++ b/net/core/sock.c
+> @@ -124,6 +124,7 @@
+>  #include <linux/netdevice.h>
+>  #include <net/protocol.h>
+>  #include <linux/skbuff.h>
+> +#include <linux/skbuff_ref.h>
+>  #include <net/net_namespace.h>
+>  #include <net/request_sock.h>
+>  #include <net/sock.h>
+> @@ -1049,6 +1050,62 @@ static int sock_reserve_memory(struct sock *sk, int bytes)
+>  	return 0;
+>  }
+>  
+> +#ifdef CONFIG_PAGE_POOL
+> +static noinline_for_stack int
+> +sock_devmem_dontneed(struct sock *sk, sockptr_t optval, unsigned int optlen)
+> +{
+> +	unsigned int num_tokens, i, j, k, netmem_num = 0;
+> +	struct dmabuf_token *tokens;
+> +	netmem_ref netmems[16];
+> +	int ret;
+> +
+> +	if (sk->sk_type != SOCK_STREAM || sk->sk_protocol != IPPROTO_TCP)
+> +		return -EBADF;
+> +
+> +	if (optlen % sizeof(struct dmabuf_token) ||
+> +	    optlen > sizeof(*tokens) * 128)
+> +		return -EINVAL;
+> +
+> +	tokens = kvmalloc_array(128, sizeof(*tokens), GFP_KERNEL);
+> +	if (!tokens)
+> +		return -ENOMEM;
+> +
+> +	num_tokens = optlen / sizeof(struct dmabuf_token);
+> +	if (copy_from_sockptr(tokens, optval, optlen))
+> +		return -EFAULT;
 
-I implemented in the dartagnan tool the changes proposed by Jonas (i.e. 
-changing the mb definition in the cat model and removing the fences that 
-were added programmatically).
+tokens isn't freed in this error case
 
-I run this using the ~5K litmus test I have (it should include 
-everything from the source tree + the non-LISA ones from your repo). I 
-also checked with the version of qspinlock discussed in [1].
-
-I do get the expected results.
-
-Hernan
-
-[1] https://lkml.org/lkml/2022/8/26/597
+> +
+> +	ret = 0;
+> +
+> +	xa_lock_bh(&sk->sk_user_frags);
+> +	for (i = 0; i < num_tokens; i++) {
+> +		for (j = 0; j < tokens[i].token_count; j++) {
+> +			netmem_ref netmem = (__force netmem_ref)__xa_erase(
+> +				&sk->sk_user_frags, tokens[i].token_start + j);
+> +
+> +			if (netmem &&
+> +			    !WARN_ON_ONCE(!netmem_is_net_iov(netmem))) {
+> +				netmems[netmem_num++] = netmem;
+> +				if (netmem_num == ARRAY_SIZE(netmems)) {
+> +					xa_unlock_bh(&sk->sk_user_frags);
+> +					for (k = 0; k < netmem_num; k++)
+> +						WARN_ON_ONCE(!napi_pp_put_page(netmems[k]));
+> +					netmem_num = 0;
+> +					xa_lock_bh(&sk->sk_user_frags);
+> +				}
+> +				ret++;
+> +			}
+> +		}
+> +	}
+> +
+> +	xa_unlock_bh(&sk->sk_user_frags);
+> +	for (k = 0; k < netmem_num; k++)
+> +		WARN_ON_ONCE(!napi_pp_put_page(netmems[k]));
+> +
+> +	kvfree(tokens);
+> +	return ret;
+> +}
+> +#endif
+> +
+>  void sockopt_lock_sock(struct sock *sk)
+>  {
+>  	/* When current->bpf_ctx is set, the setsockopt is called from
+> @@ -1200,6 +1257,10 @@ int sk_setsockopt(struct sock *sk, int level, int optname,
+>  			ret = -EOPNOTSUPP;
+>  		return ret;
+>  		}
+> +#ifdef CONFIG_PAGE_POOL
+> +	case SO_DEVMEM_DONTNEED:
+> +		return sock_devmem_dontneed(sk, optval, optlen);
+> +#endif
+>  	}
+>  
+>  	sockopt_lock_sock(sk);
 
