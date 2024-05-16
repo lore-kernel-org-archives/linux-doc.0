@@ -1,44 +1,55 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2DE214D452;
-	Thu, 16 May 2024 16:04:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4029C2421A;
+	Thu, 16 May 2024 16:24:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715875461; cv=none; b=GG/HM1PgjLpCLBzUPM4gjy8yC/Law/2+pdUOGFeOjx2f5GJaZjfL4IvDtOkyJuQHqzQezVQuhuGPB9RICZP4j5iY+mCrROn4Srvz8dRG+nK8ZRPIKj6L0YFFlv+BgUH+mA2AhsCxWjOwYQMTfwsqoWoakLhyXc4gp0fY16dEhho=
+	t=1715876672; cv=none; b=AGQ4QSbJzZNuJUjaI7qO4TDjRiB85Cax7aSh5HXr3l1L55u7LIRY2rWQBZ5Ghc9U8TYfcIGYOqwQhE39Pidq5hDwtDdzjeBI1XpEorIg+ms268c+Arkunr8ShhY4g0UBYz0lfxW1TY9Qz4SDmTpcY5GhcT2rOMK2wcOlOI//qxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715875461; c=relaxed/simple;
-	bh=w/VCxKOJAzskajQyGDqLy9NBiE2zC4FfWI7LfgmWFfA=;
+	s=arc-20240116; t=1715876672; c=relaxed/simple;
+	bh=YPQd9Pwq5Y5I0Bij2ansbmtYi61hje5cM4D0fSaH4v0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fXcI0iApu/Tq+/OsBBhG9t/x5Xc3c6nbW5J26C+J9ibaexJYKl+Dgfn76OmYXRVNetHjec8zX8b9H9UBjmTx1KlwESJU1KPi7Mmg6+RF8H0cm2Q7TE0QrORW80w+4POmn//AVAl5O9Blu5GT99NXvQ4QjxqvSQU60+Lsa1WVhvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k+Hvg3eQ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=diAcRdWbPrmEFmxVwEK16Ew48amhIX8WXWUAxZuFt85ECVWESz4W3x/kG51PK312Iq6iWL4T5DlpkkZzxd9q2L5zfufUZhDpCXnM3tuAP0VZzSHwLbFCyXgs7xemtQ7KmE+YgpmkhSVGVpo6WF8sZ1iPWJF8pjrp7c4FPiJVV9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ckTBUbeU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k+Hvg3eQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF7E3C32786;
-	Thu, 16 May 2024 16:04:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ckTBUbeU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F557C113CC;
+	Thu, 16 May 2024 16:24:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715875460;
-	bh=w/VCxKOJAzskajQyGDqLy9NBiE2zC4FfWI7LfgmWFfA=;
+	s=k20201202; t=1715876672;
+	bh=YPQd9Pwq5Y5I0Bij2ansbmtYi61hje5cM4D0fSaH4v0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=k+Hvg3eQLJ4lIBsk6+vsvR2fp7IKceiyjLvU8HaXSbVWJ2AAGtSFGQxKUVyW4mYLb
-	 1jhtdzpmD/PK3YwTEIaaP718jLsO4oV9Qz+yWqRsQEaRxJoIctWWYgPMQdkqiqPthy
-	 jR4FYUN8jnkuQAhiBhTNJchXpbFKYakPdP/fy271WL+ve30xsuqS7PWE7zVKaqguUr
-	 y5IUPGGLLX+dd/BVVLn6HuqeAxlqemyf/86swKuesbIQTQoP7AymmoZMCMO/i8nroK
-	 F9xu8rBIVZjyJ3IABAtEvYF6eCPzV3XyasJVbcYVjI/MjSAR2yqV+0nXnQam2KfVSj
-	 mZjzXZ+P2kyzg==
-Date: Thu, 16 May 2024 17:04:16 +0100
+	b=ckTBUbeU+U4d8pK30I5KoZpbLoTF1F3+e6xfJWjXJ4EJQyFcHH8LKaim31594OV8N
+	 mLeuX/YVDzdBjW8zJiShYpRnbVPc9rQznt1jj3VJ7+lyGmQU9EzEUWQp4cCxD2urfV
+	 vMlxsjpdY4l9sInSsA0QnW2dCTO258v55LpfqzLuFxP4QXecHPkpPW0MG3lFZ6xH4m
+	 UAtqVq37k3D3kP9GRlXGON/IS+3TCIn9S7HqoBAPo44+HK9rT90qyAo6ZIykI2epHX
+	 j6l3mUoL4XBcQpMJOXoE9B88N7CTanz7fRCGviNd7CG7INHguA1X2uMTnfFsvvzL24
+	 dCPsaC40p8iQg==
+Date: Thu, 16 May 2024 17:24:25 +0100
 From: Conor Dooley <conor@kernel.org>
-To: Kanak Shilledar <kanakshilledar111@protonmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
+To: Andy Chiu <andy.chiu@sifive.com>
+Cc: Charlie Jenkins <charlie@rivosinc.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
 	Conor Dooley <conor.dooley@microchip.com>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-	Mark Brown <broonie@kernel.org>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] Documentation: process: Revert "Document suitability
- of Proton Mail for kernel development"
-Message-ID: <20240516-tattered-rival-f443328b5971@spud>
-References: <20240516-groin-slingshot-c3c3734d2f10@spud>
- <4oW9pC38sSYZn96BW8abMfVpDDCmG4MDHwwmL73o5bP-WyHAutJ5j2GrSU17MCSWOKufViNl4q2zZUmwmN40evP5OK3QiMnUn2hsgWCYhl4=@protonmail.com>
+	Evan Green <evan@rivosinc.com>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v6 03/17] riscv: vector: Use vlenb from DT
+Message-ID: <20240516-grandkid-monday-86c698ca4aed@spud>
+References: <20240503-dev-charlie-support_thead_vector_6_9-v6-0-cb7624e65d82@rivosinc.com>
+ <20240503-dev-charlie-support_thead_vector_6_9-v6-3-cb7624e65d82@rivosinc.com>
+ <CABgGipXg68VEGt=oZZSENmbqs4-g3PB=CBobNwgqQjLHfxo+VQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -46,105 +57,73 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="M4UZhHp/KDapPJjU"
+	protocol="application/pgp-signature"; boundary="54mb6NLQMPiDuRTG"
 Content-Disposition: inline
-In-Reply-To: <4oW9pC38sSYZn96BW8abMfVpDDCmG4MDHwwmL73o5bP-WyHAutJ5j2GrSU17MCSWOKufViNl4q2zZUmwmN40evP5OK3QiMnUn2hsgWCYhl4=@protonmail.com>
+In-Reply-To: <CABgGipXg68VEGt=oZZSENmbqs4-g3PB=CBobNwgqQjLHfxo+VQ@mail.gmail.com>
 
 
---M4UZhHp/KDapPJjU
-Content-Type: text/plain; charset=us-ascii
+--54mb6NLQMPiDuRTG
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 16, 2024 at 04:00:10PM +0000, Kanak Shilledar wrote:
-> On Thursday, May 16th, 2024 at 9:05 PM, Conor Dooley <conor@kernel.org> w=
-rote:
->=20
-> > From: Conor Dooley conor.dooley@microchip.com
-> >=20
-> >=20
-> > Revert commit 1d2ed9234c85 ("Documentation: process: Document
-> > suitability of Proton Mail for kernel development") as Proton disabled
-> > WKD for kernel.org addresses as a result of some interaction with
-> > Konstantin on social.kernel.org
-> >=20
-> > Signed-off-by: Conor Dooley conor.dooley@microchip.com
-> >=20
-> > ---
-> >=20
-> > I tried to find the stuff on social.korg to provide a link
-> > but could not.
-> >=20
-> > CC: kanakshilledar111@protonmail.com
-> > CC: Konstantin Ryabitsev konstantin@linuxfoundation.org
-> >=20
-> > CC: Mark Brown broonie@kernel.org
-> >=20
-> > CC: Jonathan Corbet corbet@lwn.net
-> >=20
-> > CC: workflows@vger.kernel.org
-> > CC: linux-doc@vger.kernel.org
-> > CC: linux-kernel@vger.kernel.org
-> > ---
-> > Documentation/process/email-clients.rst | 20 --------------------
-> > 1 file changed, 20 deletions(-)
-> >=20
-> > diff --git a/Documentation/process/email-clients.rst b/Documentation/pr=
-ocess/email-clients.rst
-> > index 471e1f93fa09..fc2c46f3f82d 100644
-> > --- a/Documentation/process/email-clients.rst
-> > +++ b/Documentation/process/email-clients.rst
-> > @@ -350,23 +350,3 @@ although tab2space problem can be solved with exte=
-rnal editor.
-> >=20
-> > Another problem is that Gmail will base64-encode any message that has a
-> > non-ASCII character. That includes things like European names.
-> > -
-> > -Proton Mail
-> > -***********
-> > -
-> > -Proton Mail has a "feature" where it looks up keys using Web Key Direc=
-tory
-> > -(WKD) and encrypts mail to any recipients for which it finds a key.
-> > -Kernel.org publishes the WKD for all developers who have kernel.org ac=
-counts.
-> > -As a result, emails sent using Proton Mail to kernel.org addresses wil=
-l be
-> > -encrypted.
-> > -Unfortunately, Proton Mail does not provide a mechanism to disable the
-> > -automatic encryption, viewing it as a privacy feature.
-> > -The automatic encryption feature is also enabled for mail sent via the=
- Proton
-> > -Mail Bridge, so this affects all outgoing messages, including patches =
-sent with
-> > -`git send-email`.
-> > -Encrypted mail adds unnecessary friction, as other developers may not =
-have mail
-> > -clients, or tooling, configured for use with encrypted mail and some m=
-ail
-> > -clients may encrypt responses to encrypted mail for all recipients, in=
-cluding
-> > -the mailing lists.
-> > -Unless a way to disable this "feature" is introduced, Proton Mail is u=
-nsuited
-> > -to kernel development.
->=20
-> Instead of completely removing the Proton Mail section, can we keep the
-> mention about the Proton Mail bridge and the third-party hydroxide
-> (https://github.com/emersion/hydroxide) bridge.
+On Thu, May 16, 2024 at 10:00:12PM +0800, Andy Chiu wrote:
+> On Sat, May 4, 2024 at 2:21=E2=80=AFAM Charlie Jenkins <charlie@rivosinc.=
+com> wrote:
 
-I think that is probably reasonable, but I think writing the replacement
-text is up to someone who actually uses protonmail.
+> > +               if (elf_hwcap & COMPAT_HWCAP_ISA_V && has_riscv_homogen=
+eous_vlenb() < 0) {
+> > +                       pr_warn("Unsupported heterogeneous vlen detecte=
+d, vector extension disabled.\
+> > +                       elf_hwcap &=3D ~COMPAT_HWCAP_ISA_V;
+> > +               }
+>=20
+> We only touch COMPAT_HWCAP_ISA_V and the failed case only turns off the
+> rectified V. So here we have nothing to do with the Xtheadvector.
 
---M4UZhHp/KDapPJjU
+There's nothing t-head related in the tree at this point, so doing
+anything with it would cause build issues.
+
+> However, I am still confused because I think Xtheadvector would also
+> need to call into this check, so as to setup vlenb.
+
+
+> Apart from that, it seems like some vendor stating Xtheadvector is
+> actually vector-0.7.
+
+The T-Head implementation is 0.7.x, but I am not really sure what you
+mean by this comment.
+
+> Please correct me if I speak anything wrong. One
+> thing I noticed is that Xtheadvector wouldn't trap on reading
+> th.vlenb but vector-0.7 would. If that is the case, should we require
+> Xtheadvector to specify `riscv,vlenb` on the device tree?
+
+In the world of Linux, "vector-0.7" isn't a thing. There's only 1.0, and
+after this patchset, "xtheadvector". My understanding, from discussion
+on earlier versions of this series the trap is actually accessing
+th.vlenb register, despite the documentation stating that it is
+unprivileged:
+https://github.com/T-head-Semi/thead-extension-spec/blob/master/xtheadvecto=
+r.adoc
+I assume Charlie tried it but was trapping, as v1 had a comment:
++		 * Although xtheadvector states that th.vlenb exists and
++		 * overlaps with the vector 1.0 extension overlaps, an illegal
++		 * instruction is raised if read. These systems all currently
++		 * have a fixed vector length of 128, so hardcode that value.
+
+Cheers,
+Conor.
+
+--54mb6NLQMPiDuRTG
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZkYugAAKCRB4tDGHoIJi
-0omAAQD2PDht18QafEYRX8KcAkFSW+u0xgTPRkv1jW67OHnXUQD/b7l2pDkiHGJO
-H0NRHTXedMoiytMxuVkw1tu7zM96SwE=
-=qAQV
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZkYzOQAKCRB4tDGHoIJi
+0rSDAQDYSejV6VHTrL2jnxNTvkydaJkpuoNoUR0KH7Woyb0A7wEAoRBty/hTiap0
+kvVFRs7XwEEn0QBitKVO7a6zx8YNQA4=
+=DNuY
 -----END PGP SIGNATURE-----
 
---M4UZhHp/KDapPJjU--
+--54mb6NLQMPiDuRTG--
