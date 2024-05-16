@@ -1,89 +1,241 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB231143886;
-	Thu, 16 May 2024 13:54:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD43F1459F2
+	for <linux-doc@vger.kernel.org>; Thu, 16 May 2024 14:00:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715867686; cv=none; b=ngpmMeTcfgkZQ5LXwxS7/CvhKQNGTKIEGRYuEPtSwgjOBYzGPktoF8TbPRKFWa/tQs6NEjnXESuCfFhIdcBg9Fot3p4bTnHUZyMqW/RlpIfe+0l8FIsZFnwjsE+rzkCoNuVHWJKK+FO7aiMmxBXbQI5//1Nf+BgAjVco1XYDemM=
+	t=1715868027; cv=none; b=n7C+sz/6bg9lPVyv3LiCGWaL9iWOpxo4hKYYz/JX+YWPYASDdBDTrro/9A5qRqHdpK7bCvPQB6TP+cFdwv8lRMjGWZJ41jH46hyB+hQifTfblXAS3WuiDlfk2ykaqNlUWxZBx8hAvpRtBMApTFdUjLvVHcidn0cJE9CuB1LKK08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715867686; c=relaxed/simple;
-	bh=+/sGHoVHNh7aDbg74jwHs3yv+dQdkDY6SZT5+s9g1/M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SMfu6Xz9xkxzVffYX5i3/85B8ZYsxv36Y+Dx+9UuvvH7QGCK0oepxL8iZvG0FcOKJPemKEbpBsP93KBZ1eGhyprm62c+WYXjmrEMZeBstqM8HI+8qjl7uREj8JYgaBBCzXVEww+bD8feRvjaOsjuI7i8daxRqXJpHqB1zlT1VWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gz1BKpbF; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1715868027; c=relaxed/simple;
+	bh=N0mPA+arP6XJeVtdFeMPRAWdHbtc4Ku64hU43AeRhbA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GjlWw6BWHifUiF7W/LjlRGGMiCWPxA7GUE8QXr4mWdZytftcKL6ml/sPUcl7a0BSjdMeFZbRraVx3+kc7kAaMcowxJG9wM8gwvF0H75Rgoy80lE0pV5J3wxxjcFwVlB3c2FUsd8gldC8v27Z6plpfy7eIkRL+IhFA/x4UWTqsrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=BhCD22Dc; arc=none smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gz1BKpbF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715867685; x=1747403685;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+/sGHoVHNh7aDbg74jwHs3yv+dQdkDY6SZT5+s9g1/M=;
-  b=gz1BKpbFnY+FmpztnptLByZKBe35QeEkuqbrYQLryDhx+tCELy/lGT8y
-   SxExYcCfhy9dDDHZBHTT5HOBF2/u1ffyhtxu4VeGAedYZBGYW3p9JcUBF
-   9rNf7/YrmIzL6McB212cWA0mREaRiBEghG7sm8qgxtExVwW4wugxQJXrf
-   j/XlZEfwerp6+lOMXLpUhON3RHdSZfF1kTIKFurc3fDc3NEyeDGmrfnlu
-   RqcktvScs2oE49NKb76bO/W7WRxoRhzcZynIfLXldeCtM9ggq49aPyel+
-   lf8FQzCEs+3ezc6mhD/CNKv/xzB1DWbjn5Bw9jwMykmFUK0FxOfSTzcPA
-   w==;
-X-CSE-ConnectionGUID: lyYJu9U7Qn2pUv7O/peESQ==
-X-CSE-MsgGUID: ByKj6GvsSJCaHnqMHd5Mug==
-X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="12190229"
-X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; 
-   d="scan'208";a="12190229"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 06:54:44 -0700
-X-CSE-ConnectionGUID: pBlz2EjuTyyvjt6hpl+yQA==
-X-CSE-MsgGUID: L/cy23MOSQK7TU5pBtUfEA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; 
-   d="scan'208";a="36214456"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 06:54:41 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1s7bZ8-000000084Xq-1boe;
-	Thu, 16 May 2024 16:54:38 +0300
-Date: Thu, 16 May 2024 16:54:38 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Vegard Nossum <vegard.nossum@oracle.com>,
-	Kent Gibson <warthog618@gmail.com>,
-	Hu Haowen <2023002089@link.tyut.edu.cn>, linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-	Yanteng Si <siyanteng@loongson.cn>
-Subject: Re: [PATCH v1 1/1] gpio: Remove legacy API documentation
-Message-ID: <ZkYQHnF76WLIf8-r@smile.fi.intel.com>
-References: <20240508101703.830066-1-andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="BhCD22Dc"
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-61b2218ab6fso69764847b3.1
+        for <linux-doc@vger.kernel.org>; Thu, 16 May 2024 07:00:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sifive.com; s=google; t=1715868024; x=1716472824; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cD8EYomjv0kIIk3OrzTD6Ca/3+CIlst2MLQc78I7jZU=;
+        b=BhCD22Dc5V68obKgOEVceU+JrXBdI6Ww3G3vWghy1zaiE88ECqEsRB/uAmpOr1z9bx
+         g1BgG6RNRJ61JdqrZBf/psEcESg6sODr5Gow38BQ8GA5XnT9g3b8WyGXroOSi4X7x8UZ
+         FxMqUsRicsFg7omGr2lUVrtmkLf13OxAwexyDr86xQuyaHTA5W6nhEEIWFJDEdr+x0v6
+         JWMYHMifLANNI3fteQmDOHYxQVzE+nXnR1fjkdHEBFE+233sDhlG/4ZLtSkt2eWb6XPz
+         NFAG95Ucsym7MfMwnoxiiefv3ojOm9ApGZg8N3H8CihSQGP8vcrgPObnhcYGxJwUAq4E
+         1UyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715868024; x=1716472824;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cD8EYomjv0kIIk3OrzTD6Ca/3+CIlst2MLQc78I7jZU=;
+        b=vfkH/7mbyt1U7f+MQMkUPKcmw8EDmjwxqGxjwOojLcEszaF8r/nJhDQpOuIX0Mrj4b
+         S7DYZQYBVjEONM0DwrTaTMO8okpiRz7nxd1STvy6Dybazlzq99778gGXiVHer1LABIf9
+         gAKa0Ftb72MtxOBAGRLvEDFEodV/r619vJUcr1n4i8f66v6tXIYEHtoC5rNS2voh2jMS
+         UwJrwiRb+snQ4DuJDb49GcF4gu8/KDJIEQUdDHOq9+AGouexo6PfVQyDjHn6y8YKesev
+         sPolg1KJmsgHjJMyRwIIuAqBYAr09iHxCYMiSq2cm6gIkab27c750T9gT7+CCt8MajK2
+         5Ehg==
+X-Forwarded-Encrypted: i=1; AJvYcCVD7ZCXXax8oODkmklIMOS6aEjf2tuZ7rm322dotfrzbSnYv0UfGcD7VVjn+I52cK32DVaPli3WILmpokXeYLSxtWkkQepJO4Hg
+X-Gm-Message-State: AOJu0YwQxyhYnVGCIOgqXALK1QdQjwgOt9ySiDQKsu++2wFOd+4niNUc
+	o82S+c/H1/tQrd/2sIlN9mvEVfBhWGI+nCFpwR18btq6qHMUtUoa+LbQWAXqoIOTE9jSWED+jO9
+	pum0pjmVy+pF6xqe99K4gLytCXkC4harqWzNa1w==
+X-Google-Smtp-Source: AGHT+IEiXLNHmQcW5RA/wgj6ioJ1XAjnfrpiTrNjDqI8fGRd+D3gGsZcnD/VKszGvYjANziq7R0rmzEGrccihxPdLyI=
+X-Received: by 2002:a81:480f:0:b0:61a:dfd6:fd6d with SMTP id
+ 00721157ae682-622aff831a4mr186279727b3.25.1715868023507; Thu, 16 May 2024
+ 07:00:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240508101703.830066-1-andriy.shevchenko@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240503-dev-charlie-support_thead_vector_6_9-v6-0-cb7624e65d82@rivosinc.com>
+ <20240503-dev-charlie-support_thead_vector_6_9-v6-3-cb7624e65d82@rivosinc.com>
+In-Reply-To: <20240503-dev-charlie-support_thead_vector_6_9-v6-3-cb7624e65d82@rivosinc.com>
+From: Andy Chiu <andy.chiu@sifive.com>
+Date: Thu, 16 May 2024 22:00:12 +0800
+Message-ID: <CABgGipXg68VEGt=oZZSENmbqs4-g3PB=CBobNwgqQjLHfxo+VQ@mail.gmail.com>
+Subject: Re: [PATCH v6 03/17] riscv: vector: Use vlenb from DT
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Guo Ren <guoren@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Conor Dooley <conor.dooley@microchip.com>, Evan Green <evan@rivosinc.com>, 
+	=?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, linux-riscv@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Palmer Dabbelt <palmer@rivosinc.com>, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 08, 2024 at 01:17:01PM +0300, Andy Shevchenko wrote:
-> In order to discourage people to use old and legacy GPIO APIs
-> remove the respective documentation completely. It also helps
-> further cleanups of the legacy GPIO API leftovers, which is
-> ongoing task.
+Sorry Charlie, I forgot to include the mailing list. Here is the same as
+what I sent in the private message.
 
-Bart, Linus, Kent, what do you think about this?
+On Sat, May 4, 2024 at 2:21=E2=80=AFAM Charlie Jenkins <charlie@rivosinc.co=
+m> wrote:
+>
+> If vlenb is provided in the device tree, prefer that over reading the
+> vlenb csr.
+>
+> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> ---
+>  arch/riscv/include/asm/cpufeature.h |  2 ++
+>  arch/riscv/kernel/cpufeature.c      | 47 +++++++++++++++++++++++++++++++=
+++++++
+>  arch/riscv/kernel/vector.c          | 12 +++++++++-
+>  3 files changed, 60 insertions(+), 1 deletion(-)
+>
+> diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm=
+/cpufeature.h
+> index 347805446151..0c4f08577015 100644
+> --- a/arch/riscv/include/asm/cpufeature.h
+> +++ b/arch/riscv/include/asm/cpufeature.h
+> @@ -31,6 +31,8 @@ DECLARE_PER_CPU(struct riscv_cpuinfo, riscv_cpuinfo);
+>  /* Per-cpu ISA extensions. */
+>  extern struct riscv_isainfo hart_isa[NR_CPUS];
+>
+> +extern u32 riscv_vlenb_of;
+> +
+>  void riscv_user_isa_enable(void);
+>
+>  #if defined(CONFIG_RISCV_MISALIGNED)
+> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
+e.c
+> index 3ed2359eae35..6c143ea9592b 100644
+> --- a/arch/riscv/kernel/cpufeature.c
+> +++ b/arch/riscv/kernel/cpufeature.c
+> @@ -35,6 +35,8 @@ static DECLARE_BITMAP(riscv_isa, RISCV_ISA_EXT_MAX) __r=
+ead_mostly;
+>  /* Per-cpu ISA extensions. */
+>  struct riscv_isainfo hart_isa[NR_CPUS];
+>
+> +u32 riscv_vlenb_of;
+> +
+>  /**
+>   * riscv_isa_extension_base() - Get base extension word
+>   *
+> @@ -648,6 +650,46 @@ static int __init riscv_isa_fallback_setup(char *__u=
+nused)
+>  early_param("riscv_isa_fallback", riscv_isa_fallback_setup);
+>  #endif
+>
+> +static int has_riscv_homogeneous_vlenb(void)
+> +{
+> +       int cpu;
+> +       u32 prev_vlenb =3D 0;
+> +       u32 vlenb;
+> +
+> +       /* Ignore vlenb if vector is not enabled in the kernel */
+> +       if (!IS_ENABLED(CONFIG_RISCV_ISA_V))
+> +               return 0;
+> +
+> +       for_each_possible_cpu(cpu) {
+> +               struct device_node *cpu_node;
+> +
+> +               cpu_node =3D of_cpu_device_node_get(cpu);
+> +               if (!cpu_node) {
+> +                       pr_warn("Unable to find cpu node\n");
+> +                       return -ENOENT;
+> +               }
+> +
+> +               if (of_property_read_u32(cpu_node, "riscv,vlenb", &vlenb)=
+) {
+> +                       of_node_put(cpu_node);
+> +
+> +                       if (prev_vlenb)
+> +                               return -ENOENT;
+> +                       continue;
+> +               }
+> +
+> +               if (prev_vlenb && vlenb !=3D prev_vlenb) {
+> +                       of_node_put(cpu_node);
+> +                       return -ENOENT;
+> +               }
+> +
+> +               prev_vlenb =3D vlenb;
+> +               of_node_put(cpu_node);
+> +       }
+> +
+> +       riscv_vlenb_of =3D vlenb;
+> +       return 0;
+> +}
+> +
+>  void __init riscv_fill_hwcap(void)
+>  {
+>         char print_str[NUM_ALPHA_EXTS + 1];
+> @@ -671,6 +713,11 @@ void __init riscv_fill_hwcap(void)
+>                         pr_info("Falling back to deprecated \"riscv,isa\"=
+\n");
+>                         riscv_fill_hwcap_from_isa_string(isa2hwcap);
+>                 }
+> +
+> +               if (elf_hwcap & COMPAT_HWCAP_ISA_V && has_riscv_homogeneo=
+us_vlenb() < 0) {
+> +                       pr_warn("Unsupported heterogeneous vlen detected,=
+ vector extension disabled.\> +                       elf_hwcap &=3D ~COMPA=
+T_HWCAP_ISA_V;
+> +               }
 
-If there is a positive consensus, I would even dare to go for v6.10-rc2
-with it.
+We only touch COMPAT_HWCAP_ISA_V and the failed case only turns off the
+rectified V. So here we have nothing to do with the Xtheadvector.
 
--- 
-With Best Regards,
-Andy Shevchenko
+However, I am still confused because I think Xtheadvector would also
+need to call into this check, so as to setup vlenb.
 
+Apart from that, it seems like some vendor stating Xtheadvector is
+actually vector-0.7. Please correct me if I speak anything wrong. One
+thing I noticed is that Xtheadvector wouldn't trap on reading
+th.vlenb but vector-0.7 would. If that is the case, should we require
+Xtheadvector to specify `riscv,vlenb` on the device tree?
 
+>         }
+>
+>         /*
+> diff --git a/arch/riscv/kernel/vector.c b/arch/riscv/kernel/vector.c
+> index 6727d1d3b8f2..e04586cdb7f0 100644
+> --- a/arch/riscv/kernel/vector.c
+> +++ b/arch/riscv/kernel/vector.c
+> @@ -33,7 +33,17 @@ int riscv_v_setup_vsize(void)
+>  {
+>         unsigned long this_vsize;
+>
+> -       /* There are 32 vector registers with vlenb length. */
+> +       /*
+> +        * There are 32 vector registers with vlenb length.
+> +        *
+> +        * If the riscv,vlenb property was provided by the firmware, use =
+that
+> +        * instead of probing the CSRs.
+> +        */
+> +       if (riscv_vlenb_of) {
+> +               this_vsize =3D riscv_vlenb_of * 32;
+> +               return 0;
+> +       }
+> +
+>         riscv_v_enable();
+>         this_vsize =3D csr_read(CSR_VLENB) * 32;
+>         riscv_v_disable();
+>
+> --
+> 2.44.0
+>
+>
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
+
+Thanks,
+Andy
