@@ -1,185 +1,151 @@
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60E0115746B;
-	Thu, 16 May 2024 17:45:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA7754688
+	for <linux-doc@vger.kernel.org>; Thu, 16 May 2024 18:49:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715881506; cv=none; b=IgmGUyol2KfCczcs98WNRwxLO1xPx3VrZ2u4ofoGsD68aEkgufh4YVwjV7LODEHQSCuIWK68xPxAVQtvPC0nbK2ntI7zrJABOe6UNs3eUpO2+iCHWrjQlSzooyfPwpIWivrYyrIBH7bngiVrFVWqw67Udh5yUnGKr2pp7sRo3z4=
+	t=1715885361; cv=none; b=KsZnO6+rkRLpAwP01NgLwlZA6XwB0DYzvq+f03MPePdCtHlGryd/VlrtyScY7yXnQ+LRbe//jxTFJHLFHgVWwXaaR3VDP/TSkNc+mfo4cIrBxWaxE9FKWEnlcIqPhjxzwWa7drdl1Gn/mubXqbjV90tv2Moi2WyV96BtsUYUrUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715881506; c=relaxed/simple;
-	bh=GM9N2LrlUL8U0wq9Ag+waTG9Hi+B5LIi7b+LNnW+GLI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FZ7DplCWVo6Cm8VwxIOtFpAFXpju7yHwSRqXyJBRTegX64TgCOyb8BDwwKp6M/CJmx1juPBb9YYJoYBuW9bLAuHWDAwBhqa63JOUhQkxA7ucvp3oOKd+93RiD8RYHG0yxerohLa7ktGRWKqJMTySP6q1oJGV8kJYC9OwYpy5cG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E2hDBwrL; arc=none smtp.client-ip=209.85.166.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E2hDBwrL"
-Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-7e1d1caa7ffso66187339f.2;
-        Thu, 16 May 2024 10:45:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715881500; x=1716486300; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eLBKzxxH2pRFwxzcdRvJn2RLwMnUnuSXZFAsD4xZDeo=;
-        b=E2hDBwrLAYygAlVFudvFcuC7ZX7tGfj4Gp4fPjAde8EYfSVK7zYsXKmXYcnb9pbiRS
-         yEc1Fy+GSGpdljCbZ3d6RDbRfeX7DRDfzdM/r2lgnpGdobGhCHihARWsJfUQ/2Wpy+A3
-         DKP4eRgeBrhE47r0QqcR7w4GePt5o4mhEJM2WY9eoXqsGt+8lMMeS4eybkoKMRKVa5Uz
-         ju3EPBwk4sWgCfzB8DeeHabIEWHHWKLsre9CBK2iKn6Cvipf51ApJW+xBoUVsEFdPMNG
-         pqDXAU6ScaI5u7ApnXx6VjT7dt2s0fOOMaXztsjScPHcgeYss5twQ6EfZgKHwyfcDXZU
-         p96g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715881500; x=1716486300;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eLBKzxxH2pRFwxzcdRvJn2RLwMnUnuSXZFAsD4xZDeo=;
-        b=UP9wgnDEoZKQBxTBkIfjl/r3mQwcVWH4zaYLPsfk4PUEvYedsqCdGAzj3lCGwVckRj
-         UXBmY0VdrSXmrSix6NXpCDjLJK59TY5ymYVSVjpfybcFI1IXTWFnPKFf/+gpUlilbhe4
-         c/A+ry4aEGtWaYXhzGPlcJb3BSJpjmK1Xko/5EdElh+0RaJ68EeZqSmU2vLOF02sImRC
-         i9a0UA+uhJ0KwqP+4PkLa328DTI5qzUXg14vJ4XIMlO3g35uwBidbBGtm8Gw2+lW9Cco
-         IhYAklUCFRN15ijOUTQvTpO6FBQMLJiEhGrO4Xf0keGrAw+Bx/dpLFHfjPMveD615Vlc
-         U9+A==
-X-Forwarded-Encrypted: i=1; AJvYcCUKm9jyrUVrzlOaXtsv6s+dZV0ee2tBQj/6IcWVQcIpNhDCs4BN69KxxRKs4RyBwqhCG3U1z8Bp1jGBGMB6sVJ/soaeILtNChBFvaSCKpuLH19YB+vuGE9ExwX0WJcT/tF3gxFjAOn1
-X-Gm-Message-State: AOJu0YzGqM4lGwK84TGoMF22Be5leZBi462MgYXRwAPwjWHuGmI+puQ1
-	tKO4aqwIPxo2SzYrcofX11B2UCIHvlGJrcfDEKToBXHA1dOZE7Ew6F+rYfwO
-X-Google-Smtp-Source: AGHT+IF/+eG2qtE07kKJaVQnO9f66GBm40WERaL8uTXj4qQUQvXwvu2VIwG8Q36c5154c75Shh3DSg==
-X-Received: by 2002:a6b:600c:0:b0:7e1:79ef:b78a with SMTP id ca18e2360f4ac-7e1b522a828mr2069164039f.21.1715881500524;
-        Thu, 16 May 2024 10:45:00 -0700 (PDT)
-Received: from frodo.. (c-73-78-62-130.hsd1.co.comcast.net. [73.78.62.130])
-        by smtp.googlemail.com with ESMTPSA id 8926c6da1cb9f-4893715057csm4273595173.80.2024.05.16.10.44.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 May 2024 10:45:00 -0700 (PDT)
-From: Jim Cromie <jim.cromie@gmail.com>
-To: jbaron@akamai.com,
-	gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org
-Cc: ukaszb@chromium.org,
-	linux@rasmusvillemoes.dk,
-	joe@perches.com,
-	mcgrof@kernel.org,
-	daniel.vetter@ffwll.ch,
-	tvrtko.ursulin@linux.intel.com,
-	jani.nikula@intel.com,
-	ville.syrjala@linux.intel.com,
-	seanpaul@chromium.org,
-	robdclark@gmail.com,
-	groeck@google.com,
-	yanivt@google.com,
-	bleung@google.com,
-	Jim Cromie <jim.cromie@gmail.com>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v8-RESEND 19/33] dyndbg-doc: add classmap info to howto
-Date: Thu, 16 May 2024 11:43:43 -0600
-Message-ID: <20240516174357.26755-20-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.45.0
-In-Reply-To: <20240516174357.26755-1-jim.cromie@gmail.com>
-References: <20240516174357.26755-1-jim.cromie@gmail.com>
+	s=arc-20240116; t=1715885361; c=relaxed/simple;
+	bh=7sDQLbzYPoMng3X/oV0YblZ0kaUEel4rP8Huz0OPohs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hBXZJwhEN/y+ZM8sQ8e5ATTbE/Jnm9wXRHd0O7OuQfXaZ+Yng3SXAv2LU+41z8OVH4Jhe5a7e99FPiLiVgv3eKg54QpHIE7c/sI0n/kNGlHtA5FwztPRfK5f6P9fz+71Xqnd5ZBg6lwXlUW/7Ye0mW6/XP5TSMEoXDeqa9TNgW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mgr@pengutronix.de>)
+	id 1s7gA5-00022d-RR; Thu, 16 May 2024 20:49:05 +0200
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <mgr@pengutronix.de>)
+	id 1s7gA2-001let-Ll; Thu, 16 May 2024 20:49:02 +0200
+Received: from mgr by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <mgr@pengutronix.de>)
+	id 1s7gA2-00Ewms-1m;
+	Thu, 16 May 2024 20:49:02 +0200
+Date: Thu, 16 May 2024 20:49:02 +0200
+From: Michael Grzeschik <mgr@pengutronix.de>
+To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc: Eric Van Hensbergen <ericvh@kernel.org>,
+	Latchesar Ionkov <lucho@ionkov.net>,
+	Dominique Martinet <asmadeus@codewreck.org>,
+	Christian Schoenebeck <linux_oss@crudebyte.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	v9fs@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	kernel@pengutronix.de
+Subject: Re: [PATCH v4 2/3] net/9p/usbg: Add new usb gadget function transport
+Message-ID: <ZkZVHoHcdoNF6T2-@pengutronix.de>
+References: <20240116-ml-topic-u9p-v4-0-722ed28b0ade@pengutronix.de>
+ <20240116-ml-topic-u9p-v4-2-722ed28b0ade@pengutronix.de>
+ <c78c9e88-bd53-4ae5-8f78-d8b1c468a5cd@collabora.com>
+ <Zj3y04btf16BGZAJ@pengutronix.de>
+ <2f36e766-054c-4001-addf-fe388916d858@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="8+72CV5QLt3FWqM3"
+Content-Disposition: inline
+In-Reply-To: <2f36e766-054c-4001-addf-fe388916d858@collabora.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mgr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-Describe the 3 API macros providing dynamic_debug's classmaps
 
-DYNDBG_CLASSMAP_DEFINE - create, exports a module's classmap
-DYNDBG_CLASSMAP_USE    - refer to exported map
-DYNDBG_CLASSMAP_PARAM  - bind control param to the classmap
-DYNDBG_CLASSMAP_PARAM_REF + use module's storage - __drm_debug
+--8+72CV5QLt3FWqM3
+Content-Type: text/plain; charset=iso-8859-15; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-cc: linux-doc@vger.kernel.org
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
----
-v5 adjustments per Randy Dunlap
-v7 checkpatch fixes
-v8 more
----
- .../admin-guide/dynamic-debug-howto.rst       | 63 ++++++++++++++++++-
- 1 file changed, 62 insertions(+), 1 deletion(-)
+Hi
 
-diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index 6a8ce5a34382..742eb4230c6e 100644
---- a/Documentation/admin-guide/dynamic-debug-howto.rst
-+++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -225,7 +225,6 @@ the ``p`` flag has meaning, other flags are ignored.
- Note the regexp ``^[-+=][fslmpt_]+$`` matches a flags specification.
- To clear all flags at once, use ``=_`` or ``-fslmpt``.
- 
--
- Debug messages during Boot Process
- ==================================
- 
-@@ -375,3 +374,65 @@ just a shortcut for ``print_hex_dump(KERN_DEBUG)``.
- For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string is
- its ``prefix_str`` argument, if it is constant string; or ``hexdump``
- in case ``prefix_str`` is built dynamically.
-+
-+Dynamic Debug classmaps
-+=======================
-+
-+Dyndbg allows selection/grouping of *prdbg* callsites using structural
-+info: module, file, function, line.  Classmaps allow authors to add
-+their own domain-oriented groupings using class-names.  Classmaps are
-+exported, so they referencable from other modules.
-+
-+  # enable classes individually
-+  :#> ddcmd class DRM_UT_CORE +p
-+  :#> ddcmd class DRM_UT_KMS +p
-+  # or more selectively
-+  :#> ddcmd class DRM_UT_CORE module drm +p
-+
-+The "class FOO" syntax protects class'd prdbgs from generic overwrite::
-+
-+  # IOW this doesn't wipe any DRM.debug settings
-+  :#> ddcmd -p
-+
-+To support the DRM.debug parameter, DYNDBG_CLASSMAP_PARAM* updates all
-+classes in a classmap, mapping param-bits 0..N onto the classes:
-+DRM_UT_<*> for the DRM use-case.
-+
-+Dynamic Debug Classmap API
-+==========================
-+
-+DYNDBG_CLASSMAP_DEFINE - modules use this to create classmaps, naming
-+each of the classes (stringified enum-symbols: "DRM_UT_<*>"), and
-+type, and mapping the class-names to consecutive _class_ids.
-+
-+By doing so, modules tell dyndbg that they have prdbgs with those
-+class_ids, and they authorize dyndbg to accept "class FOO" for the
-+module defining the classmap, and its contained classnames.
-+
-+DYNDBG_CLASSMAP_USE - drm drivers invoke this to ref the CLASSMAP that
-+drm DEFINEs.  This shares the classmap definition, and authorizes
-+dyndbg to apply changes to the user module's class'd pr_debugs.  It
-+also tells dyndbg how to initialize the user's prdbgs at modprobe,
-+based upon the current setting of the parent's controlling param.
-+
-+There are 2 types of classmaps:
-+
-+ DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like DRM.debug
-+ DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
-+
-+DYNDBG_CLASSMAP_PARAM - modelled after module_param_cb, it refers to a
-+DEFINEd classmap, and associates it to the param's data-store.  This
-+state is then applied to DEFINEr and USEr modules when they're modprobed.
-+
-+This interface also enforces the DD_CLASS_TYPE_LEVEL_NUM relation
-+amongst the contained classnames; all classes are independent in the
-+control parser itself.
-+
-+Modules or module-groups (drm & drivers) can define multiple
-+classmaps, as long as they share the limited 0..62 per-module-group
-+_class_id range, without overlap.
-+
-+``#define DEBUG`` will enable all pr_debugs in scope, including any
-+class'd ones.  This won't be reflected in the PARAM readback value,
-+but the class'd pr_debug callsites can be forced off by toggling the
-+classmap-kparam all-on then all-off.
--- 
-2.45.0
+On Fri, May 10, 2024 at 04:11:27PM +0200, Andrzej Pietrasiewicz wrote:
+>W dniu 10.05.2024 o=A012:11, Michael Grzeschik pisze:
+>>On Fri, May 10, 2024 at 11:25:47AM +0200, Andrzej Pietrasiewicz wrote:
+>>>Hi Michael,
+>>>
+>>>W dniu 30.04.2024 o=A001:33, Michael Grzeschik pisze:
+>>>>Add the new gadget function for 9pfs transport. This function is
+>>>>defining an simple 9pfs transport interface that consists of one in and
+>>>>one out endpoint. The endpoints transmit and receive the 9pfs protocol
+>>>>payload when mounting a 9p filesystem over usb.
+>>>>
+>>>>Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+>>>>
+>>>>---
+>>>>v3 -> v4:
+>>>>=A0 - implemented conn_cancel
+>>>
+>>>I tried this scenario:
+>>>
+>>>1) run all the components and have 9pfs up and running
+>>>2) stop the forwarder
+>>>3) umount -f at the gadget side - this indeed succeeds now in v4
+>>>4) start the forwarder again
+>>>5) mount at the gadget side - this hangs.
+>>>
+>>>Did this scenario work for you?
+>>
+>>I actually tested this exact scenario. So this is
+>>suprising. I will try this again just to be sure
+>>that I did send the latest version.
+>>
+>>My latest testsetup included the dummy_hcd. Did you test on real hardware?
+>
+>Yes, I did.
 
+I just also tested this again on real hardware. With the imx6 chipidea
+udc I indeed see that this is stuck after the first round of mount and
+remount. With the musb core on the beaglebone this seems to be fine.
+
+While debugging this I also ran into some shutdown issues and lockdep
+issues I see because the complete handler is possible to be resumed
+immedeatly on musb, which is odd. However I fixed/fix them and send an
+v5 afterwards.
+
+Regarding the hang on the imx6, which hardware did you test this on?
+
+Michael
+
+--=20
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+
+--8+72CV5QLt3FWqM3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmZGVRsACgkQC+njFXoe
+LGRgFw//WscWMXZFcbFLW4HiBLc2QmGtJZP2s/7F9Evy6G7D1trQoFPBP9TimGPI
+/Hh6cbdJOtcUeg62SdHx2WWwPEdC5S4a/WDxAGmWmmpJsvKnHORq+auPWBdG6Lnb
+/Q93NqZKlSO9eByMWSigLlxCNEcRgpdKR2lePU5zF8leavY2iS2sVB2eAAFNYURS
+K3WiL/PGjuJ6eWUUfpSug/zMwDmrZHlX91zraeDcicjVrDFUuoz4/AxtWIsM6xM8
+6RBcsQg1kqMIeUrbynqzUe997CckffDAoQBrfizydTKqFGRwt4Ofv+m0KFmqBhAl
+1g332cvvJRGy3R4B9lIWWz99at67nF7eC/Fb9FHYG7e+Gf50rpCnP8RWV8xHycFP
+SlKSDlqgCD9shSBmPWpJYbOTEFwrGbCVjew1SOgkMklI+heQDi6QJxsK/WGKO9Sq
+xD6LxCogW3qrCrBru7Q6lkaUDTwaF6ol/DNnAotsCygHI9lye+gdJptJbo4jnDUv
+AsbiBzU6vxx6D9vw2LhaNS8MHRNzChpjo5hAWu11jdhFQnukqgvscfAPc0I4A31F
+Qgw/p2dB8sAPH21CNz3Y6eipXiDwKv2tvm/jOClgDw7bNU5BC6xDGUFlKzfSg7H4
+tungGeFatDe+7SUKh0lJOOnGqYnhVjG3bbB5eOUbsAvYQSCW8JQ=
+=WIQ9
+-----END PGP SIGNATURE-----
+
+--8+72CV5QLt3FWqM3--
