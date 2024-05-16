@@ -1,131 +1,210 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F08231A83;
-	Thu, 16 May 2024 09:33:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF82514374C;
+	Thu, 16 May 2024 09:36:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715851988; cv=none; b=nqgbEmKAfBL07lnOiugPqNKYK7UXIMUjr8a6UxFfFXeylrEoodoiuZeHB9bZU1tvG+GqO0X1JRFVstGwsq4gtN1Yeg0Pe+bjvAmAwnSR7EykHYLxVUk6+0HppxrsrLyu7z6a6BZerXK72UQuYPbE44UF8VRTB1See6Yk1i91z7s=
+	t=1715852180; cv=none; b=IKqo7b8Rmk0OR32pWwex7gsBbwpokxI06tE3QupVG5zdY5NcX3EMJVYx9EhtUHrTW/KuFP7LKHqD1wnuMznA8OpgTiM6oXr6nBqpTZ1kY5apJNOCgnNTGM59OgHJ6zMKC4YsjqyYmTQ8adFZshEE8F5e248renFiwJa+3dWiYkI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715851988; c=relaxed/simple;
-	bh=C+sgypmpkReKGmyko3Nfq67Es9ksH8VsgZ2bo7aqLj4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Elhm/dexCpwIkJj+wfznaezRzIYs1ugb1qF1+q5YGJEYdNIcvgRjsbMrJG7Os9JRwRFaJsGITKnBSlhhzJmW4A4QF3H4zN8oiZ31gqcxOhmJXcOomBR7ZsEo4vgT2nA3651QZiDQkkrRo12XYF3YjttYf0eCoKf9eDo4CT+7Xi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AJ9kfWQ1; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1715852180; c=relaxed/simple;
+	bh=DD6VkVQwYr5qx+QtEY3TjdvNx99y2R6fc5bKmJrT/yU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g4UXSiNbsvx5RZinRosr2sRCd7cTIDBFd9Ijj9+VasB8vcZyRURZOs62QTnHPYrg3xqdAVyS2wpw/EU9yCXNbtCN3KVhDBqaC7qOqSTAiUKRJUKPUtDCZ1jkv79LbR8JWPJ144/iEyHGuBxNm0CDYFCWXr35gb7RCGSooRT0YzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QBKJ+EGR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AJ9kfWQ1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715851987; x=1747387987;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=C+sgypmpkReKGmyko3Nfq67Es9ksH8VsgZ2bo7aqLj4=;
-  b=AJ9kfWQ1zco1XhTxktb4pednijLIml5ySsTNRvVDUHZo4VjrTwmYmCPl
-   JDVIEzkewDWlS9vDfDnQMrWRz4OaLd5fUhW4rRpB6n7iIHIEVZgeUn2Eb
-   cr+1muT1bhbj4tk/UAt8rmcT1CmhkHniagMxbFj1f2WeKsaJ4TSLBeQR4
-   5SFvINOYV04poLIdt1Go0iAMJgPrjHplEoUptG2RSEB/SWbeZDCM2/FA5
-   6h78n8Yaab5aRiZvN88QpyClIJoBnw2fmUgwUJH7nnEAAQo7ok+7mM6v5
-   YU8n/JHbMKxVOvMdx6OMvAqBsXaDa4MxsXUyFW8VdWQ2/cCaFvUnMHn8y
-   g==;
-X-CSE-ConnectionGUID: cwpxKzZmQJqAR14M1T0aMQ==
-X-CSE-MsgGUID: +siXCHx/QymACWOI8mA4Fg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="12113866"
-X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; 
-   d="scan'208";a="12113866"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 02:33:07 -0700
-X-CSE-ConnectionGUID: CednYF2HQ6K5G5Nzjgwu1Q==
-X-CSE-MsgGUID: XPhJU6naTYi3P3A8Xl0uXw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; 
-   d="scan'208";a="31491042"
-Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.245.247.108])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 02:33:00 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-To: linux-pci@vger.kernel.org,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-	Rob Herring <robh@kernel.org>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-	"Maciej W . Rozycki" <macro@orcam.me.uk>,
-	Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
-	Lukas Wunner <lukas@wunner.de>,
-	Alexandru Gagniuc <mr.nuke.me@gmail.com>,
-	Krishna chaitanya chundru <quic_krichai@quicinc.com>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	linux-pm@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Amit Kucheria <amitk@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: [PATCH v6 1/8] PCI: Protect Link Control 2 Register with RMW locking
-Date: Thu, 16 May 2024 12:32:15 +0300
-Message-Id: <20240516093222.1684-2-ilpo.jarvinen@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240516093222.1684-1-ilpo.jarvinen@linux.intel.com>
-References: <20240516093222.1684-1-ilpo.jarvinen@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QBKJ+EGR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2DFAC32786;
+	Thu, 16 May 2024 09:36:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715852180;
+	bh=DD6VkVQwYr5qx+QtEY3TjdvNx99y2R6fc5bKmJrT/yU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QBKJ+EGRMsSNdlLBhmx53NWlpf+CzZyD6Xltp3lapOO4kKjqkEIyYWYTJ6IgNfD+J
+	 dpGkuxqkwdVly4WexTyd0WNIiGgZ93P9AaZVBpOxARuVE03VwQRspXwiSG56EiR3hz
+	 dTFlBUMwmy5ZDKI3/+8pcHBnYMLn2JmGwFOS8W95AywbGZdhpupmQzo475khgSIRoo
+	 RTrao7VNnZ0ENZondAbSeVjp4MpC5Fd0b3RtR/5A+uJKniHE9J9D0mfpvF3DEckH7O
+	 FSPYDwomE7Erk+SMone0rTuL5aHot6mbrHEYsWD/zCSDwyUs/QjZ17V0rlze2utFsC
+	 U9B7RXNH6AoOw==
+Date: Thu, 16 May 2024 11:36:17 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Andy Yan <andyshrk@163.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, 
+	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v13 27/28] drm/rockchip: inno_hdmi: Switch to HDMI
+ connector
+Message-ID: <20240516-romantic-goose-of-fame-ef968f@penduick>
+References: <20240507-kms-hdmi-connector-state-v13-0-8fafc5efe8be@kernel.org>
+ <20240507-kms-hdmi-connector-state-v13-27-8fafc5efe8be@kernel.org>
+ <2d3073ce.16e2.18f6bec1d61.Coremail.andyshrk@163.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="uaerwrggzaiekave"
+Content-Disposition: inline
+In-Reply-To: <2d3073ce.16e2.18f6bec1d61.Coremail.andyshrk@163.com>
 
-PCIe Bandwidth Controller performs RMW accesses the Link Control 2
-Register which can occur concurrently to other sources of Link Control
-2 Register writes. Therefore, add Link Control 2 Register among the PCI
-Express Capability Registers that need RMW locking.
 
-Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-Reviewed-by: Lukas Wunner <lukas@wunner.de>
----
- Documentation/PCI/pciebus-howto.rst | 14 +++++++++-----
- include/linux/pci.h                 |  1 +
- 2 files changed, 10 insertions(+), 5 deletions(-)
+--uaerwrggzaiekave
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/PCI/pciebus-howto.rst b/Documentation/PCI/pciebus-howto.rst
-index a0027e8fb0d0..cd7857dd37aa 100644
---- a/Documentation/PCI/pciebus-howto.rst
-+++ b/Documentation/PCI/pciebus-howto.rst
-@@ -217,8 +217,12 @@ capability structure except the PCI Express capability structure,
- that is shared between many drivers including the service drivers.
- RMW Capability accessors (pcie_capability_clear_and_set_word(),
- pcie_capability_set_word(), and pcie_capability_clear_word()) protect
--a selected set of PCI Express Capability Registers (Link Control
--Register and Root Control Register). Any change to those registers
--should be performed using RMW accessors to avoid problems due to
--concurrent updates. For the up-to-date list of protected registers,
--see pcie_capability_clear_and_set_word().
-+a selected set of PCI Express Capability Registers:
-+
-+* Link Control Register
-+* Root Control Register
-+* Link Control 2 Register
-+
-+Any change to those registers should be performed using RMW accessors to
-+avoid problems due to concurrent updates. For the up-to-date list of
-+protected registers, see pcie_capability_clear_and_set_word().
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 16493426a04f..93faaf08965e 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -1273,6 +1273,7 @@ static inline int pcie_capability_clear_and_set_word(struct pci_dev *dev,
- {
- 	switch (pos) {
- 	case PCI_EXP_LNKCTL:
-+	case PCI_EXP_LNKCTL2:
- 	case PCI_EXP_RTCTL:
- 		return pcie_capability_clear_and_set_word_locked(dev, pos,
- 								 clear, set);
--- 
-2.39.2
+Hi Andy,
 
+On Sun, May 12, 2024 at 04:29:47PM +0800, Andy Yan wrote:
+> At 2024-05-07 21:17:45, "Maxime Ripard" <mripard@kernel.org> wrote:
+> >The new HDMI connector infrastructure allows to remove some boilerplate,
+> >especially to generate infoframes. Let's switch to it.
+> >
+> >Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+> >Acked-by: Heiko Stuebner <heiko@sntech.de>
+> >Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> >---
+> > drivers/gpu/drm/rockchip/Kconfig       |   3 +
+> > drivers/gpu/drm/rockchip/inno_hdmi.c   | 153 ++++++++++++--------------=
+-------
+> > drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c |   3 +
+> > 3 files changed, 61 insertions(+), 98 deletions(-)
+> >
+> >diff --git a/drivers/gpu/drm/rockchip/Kconfig b/drivers/gpu/drm/rockchip=
+/Kconfig
+> >index 1bf3e2829cd0..7df875e38517 100644
+> >--- a/drivers/gpu/drm/rockchip/Kconfig
+> >+++ b/drivers/gpu/drm/rockchip/Kconfig
+> >@@ -72,10 +72,13 @@ config ROCKCHIP_DW_MIPI_DSI
+> > 	  enable MIPI DSI on RK3288 or RK3399 based SoC, you should
+> > 	  select this option.
+> >=20
+> > config ROCKCHIP_INNO_HDMI
+> > 	bool "Rockchip specific extensions for Innosilicon HDMI"
+> >+	select DRM_DISPLAY_HDMI_HELPER
+> >+	select DRM_DISPLAY_HDMI_STATE_HELPER
+> >+	select DRM_DISPLAY_HELPER
+> > 	help
+> > 	  This selects support for Rockchip SoC specific extensions
+> > 	  for the Innosilicon HDMI driver. If you want to enable
+> > 	  HDMI on RK3036 based SoC, you should select this option.
+> >=20
+> >diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rock=
+chip/inno_hdmi.c
+> >index 3df2cfcf9998..5069403c3b80 100644
+> >--- a/drivers/gpu/drm/rockchip/inno_hdmi.c
+> >+++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
+> >@@ -20,10 +20,13 @@
+> > #include <drm/drm_edid.h>
+> > #include <drm/drm_of.h>
+> > #include <drm/drm_probe_helper.h>
+> > #include <drm/drm_simple_kms_helper.h>
+> >=20
+> >+#include <drm/display/drm_hdmi_helper.h>
+> >+#include <drm/display/drm_hdmi_state_helper.h>
+> >+
+> ......
+> >=20
+> > static int inno_hdmi_config_video_csc(struct inno_hdmi *hdmi)
+> > {
+> > 	struct drm_connector *connector =3D &hdmi->connector;
+> > 	struct drm_connector_state *conn_state =3D connector->state;
+> >@@ -359,12 +323,12 @@ static int inno_hdmi_config_video_csc(struct inno_=
+hdmi *hdmi)
+> > 	value =3D v_VIDEO_INPUT_BITS(VIDEO_INPUT_8BITS) |
+> > 		v_VIDEO_OUTPUT_COLOR(0) |
+> > 		v_VIDEO_INPUT_CSP(0);
+> > 	hdmi_writeb(hdmi, HDMI_VIDEO_CONTRL2, value);
+> >=20
+> >-	if (inno_conn_state->enc_out_format =3D=3D HDMI_COLORSPACE_RGB) {
+> >-		if (inno_conn_state->rgb_limited_range) {
+> >+	if (conn_state->hdmi.output_format =3D=3D HDMI_COLORSPACE_RGB) {
+> >+		if (conn_state->hdmi.is_limited_range) {
+> > 			csc_mode =3D CSC_RGB_0_255_TO_RGB_16_235_8BIT;
+> > 			auto_csc =3D AUTO_CSC_DISABLE;
+> > 			c0_c2_change =3D C0_C2_CHANGE_DISABLE;
+> > 			csc_enable =3D v_CSC_ENABLE;
+> >=20
+> >@@ -378,18 +342,18 @@ static int inno_hdmi_config_video_csc(struct inno_=
+hdmi *hdmi)
+> > 				  v_VIDEO_C0_C2_SWAP(C0_C2_CHANGE_DISABLE));
+> > 			return 0;
+> > 		}
+> > 	} else {
+> > 		if (inno_conn_state->colorimetry =3D=3D HDMI_COLORIMETRY_ITU_601) {
+> >-			if (inno_conn_state->enc_out_format =3D=3D HDMI_COLORSPACE_YUV444) {
+> >+			if (conn_state->hdmi.output_format =3D=3D HDMI_COLORSPACE_YUV444) {
+> > 				csc_mode =3D CSC_RGB_0_255_TO_ITU601_16_235_8BIT;
+> > 				auto_csc =3D AUTO_CSC_DISABLE;
+> > 				c0_c2_change =3D C0_C2_CHANGE_DISABLE;
+> > 				csc_enable =3D v_CSC_ENABLE;
+> > 			}
+> > 		} else {
+> >-			if (inno_conn_state->enc_out_format =3D=3D HDMI_COLORSPACE_YUV444) {
+> >+			if (conn_state->hdmi.output_format =3D=3D HDMI_COLORSPACE_YUV444) {
+> > 				csc_mode =3D CSC_RGB_0_255_TO_ITU709_16_235_8BIT;
+> > 				auto_csc =3D AUTO_CSC_DISABLE;
+> > 				c0_c2_change =3D C0_C2_CHANGE_DISABLE;
+> > 				csc_enable =3D v_CSC_ENABLE;
+> > 			}
+> >@@ -460,14 +424,16 @@ static int inno_hdmi_config_video_timing(struct in=
+no_hdmi *hdmi,
+> >=20
+> > 	return 0;
+> > }
+> >=20
+> > static int inno_hdmi_setup(struct inno_hdmi *hdmi,
+> >-			   struct drm_display_mode *mode)
+> >+			   struct drm_crtc_state *new_crtc_state,
+> >+			   struct drm_connector_state *new_conn_state)
+> > {
+> >-	struct drm_display_info *display =3D &hdmi->connector.display_info;
+> >-	unsigned long mpixelclock =3D mode->clock * 1000;
+> >+	struct drm_connector *connector =3D &hdmi->connector;
+> >+	struct drm_display_info *display =3D &connector->display_info;
+> >+	struct drm_display_mode *mode =3D &new_crtc_state->adjusted_mode;
+> >=20
+> > 	/* Mute video and audio output */
+> > 	hdmi_modb(hdmi, HDMI_AV_MUTE, m_AUDIO_MUTE | m_VIDEO_BLACK,
+> > 		  v_AUDIO_MUTE(1) | v_VIDEO_MUTE(1));
+> >=20
+> >@@ -477,26 +443,26 @@ static int inno_hdmi_setup(struct inno_hdmi *hdmi,
+> >=20
+> > 	inno_hdmi_config_video_timing(hdmi, mode);
+> >=20
+> > 	inno_hdmi_config_video_csc(hdmi);
+> >=20
+> >-	if (display->is_hdmi)
+> >-		inno_hdmi_config_video_avi(hdmi, mode);
+> >+	drm_atomic_helper_connector_hdmi_update_infoframes(connector,
+> >+							   new_conn_state->state);
+> >=20
+>=20
+> new_conn_state->state will be set NULL in drm_atomic_helper_swap_state,
+> so this will cause a NULL pointer reference panic here.
+
+That's a good catch, I'll fix it, thanks!
+Maxime
+
+--uaerwrggzaiekave
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCZkXTkAAKCRAnX84Zoj2+
+drHFAX0WNL3Wj3Fov5y9wmbhRlVOE3cZBO2OqCK8lFoIx3jXXKZebGyaAtxrBPIm
+NWKddK8BgK5/Qs7oRmknzpUJJMceIrrXhv1HUGmQ9aVTrxk9JlXkqf8DDsZaKwVr
+nNmDraUwrg==
+=4TDG
+-----END PGP SIGNATURE-----
+
+--uaerwrggzaiekave--
