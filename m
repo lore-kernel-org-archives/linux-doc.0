@@ -1,266 +1,150 @@
-Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B94A14D6E7
-	for <linux-doc@vger.kernel.org>; Thu, 16 May 2024 16:02:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2DE214D452;
+	Thu, 16 May 2024 16:04:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715875381; cv=none; b=dxa6QN7eCPAVgkmH3mwqRB4Z81RYq8o2JkaS7huTH0N47FQTst3RLc4zowGgMF9UbYiUeaUiixGSwsV6I82TixqMdmEsFQ+FP+aHFuU89MNhRuKa6Db81FSJzgVx36Z7ZInkr7HapJayBz1HAZnuu+S2Ue4zE77ouDGCMm72iZ0=
+	t=1715875461; cv=none; b=GG/HM1PgjLpCLBzUPM4gjy8yC/Law/2+pdUOGFeOjx2f5GJaZjfL4IvDtOkyJuQHqzQezVQuhuGPB9RICZP4j5iY+mCrROn4Srvz8dRG+nK8ZRPIKj6L0YFFlv+BgUH+mA2AhsCxWjOwYQMTfwsqoWoakLhyXc4gp0fY16dEhho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715875381; c=relaxed/simple;
-	bh=Qvn+eDPV3KjfuRiCHUcxOODBkfjgRSK4kviR/a5h1b0=;
-	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=Usfjt/2fEokzrp1KDD1LoEVJcoZluIKU4xZDP342OCquNFBBW+uvu1YLbqhlG/4xRytlQSi/Y2XAWCpm/nmZntyzxOwwtYoIkEAVlGa67Da9hJLWUkGsQZqxBeNmOnV4TYHybPbOhgVCl20JVWG+VZehgOpqdfJSDGEGT4/uL9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=siHbNN0H; arc=none smtp.client-ip=209.85.219.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
+	s=arc-20240116; t=1715875461; c=relaxed/simple;
+	bh=w/VCxKOJAzskajQyGDqLy9NBiE2zC4FfWI7LfgmWFfA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fXcI0iApu/Tq+/OsBBhG9t/x5Xc3c6nbW5J26C+J9ibaexJYKl+Dgfn76OmYXRVNetHjec8zX8b9H9UBjmTx1KlwESJU1KPi7Mmg6+RF8H0cm2Q7TE0QrORW80w+4POmn//AVAl5O9Blu5GT99NXvQ4QjxqvSQU60+Lsa1WVhvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k+Hvg3eQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="siHbNN0H"
-Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-dc6b26783b4so10835005276.0
-        for <linux-doc@vger.kernel.org>; Thu, 16 May 2024 09:02:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1715875378; x=1716480178; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=7HpIXuT6tOszn6Sdim+VjymIhcvyFpypZfRE8OZjGxU=;
-        b=siHbNN0Hkag8LErRHX1pAwbMgIKp+zJYlmoN6XdicTxJc/rj0PGpfAKKVkhiovR8Xm
-         PLh6BFoecYu5ynnu7QPuZWBPyIOkPx5JpRvuBMhuzuEwbKoct+2pKt+/1pY8sMNGHLHA
-         upeNUc4mX2sQJn7zCPsmXjz5dTP8k4W/Ar104YMIWFYpitOC8Jnftt//qQrStp8SRnPQ
-         /wwjMG8IHEvXxN8ufI547BvO8fvgFxl2tQn1PIV+lrMSzA9gHDMslurPOG4wUEIGlWAo
-         Sfms6ZGdWxt/MDvj+BygTX2GdTraQjrZzsGRNJ3fDWIMBzqCoCqe7v5fJuoWWjkkfcLR
-         QVFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715875378; x=1716480178;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7HpIXuT6tOszn6Sdim+VjymIhcvyFpypZfRE8OZjGxU=;
-        b=Kju2dQ+Azxsy07oYXmHF5r4DNNHRdI4ZSY6e+s1evSICFlekHUwHUrvTnSXXz0k9R6
-         dchQDflfjVBTKsHFcqDLaRbe3QXMK00S09YGriqCJ1ZMjsUQRCoR8Nmhuda7/qbRRHP9
-         SBeWC7IpCEgtQpNz9x2unVaA5hlRPInp+ra/7BpFZ6rZEHjU+qT3yFlXsuUIvn+NOief
-         veCc6BAgyL0fMD2nzsrow2eC/Nd6JctvsQ0719dwWYq6XA8t+ICOAcs6xvFWEpUR3a+B
-         l+2tAWWoVgCNEXS2IicHxH0xCaint//lMnKlwApFv1E0B0udombL2tRcIZaBEukgBj5y
-         f9Ag==
-X-Forwarded-Encrypted: i=1; AJvYcCW80dKRYrHRBIKM3zMasPJ2VwUFGpE0qm3dMZ7tu5HzCgMofkLSHds6ufrPpJZzl67/JCoNht0raSNSrtZJ+cUzXR+izbl1ZVsZ
-X-Gm-Message-State: AOJu0YzC8z6tcWnCRR3ZFWs4o4Bdx4AfJxUyeJ18C+UC3g5mWc8002XF
-	E1UKDf5i5xKgwtYiye5wIK690cPtmqFpIpvfyX6LKMeN6aa8KebIbm0dPFiblSFe/yhlTXlUoYP
-	g35XrU77aoS7SEXRBzivGUA==
-X-Google-Smtp-Source: AGHT+IF/VTizL3uRcaPz4FUA6Qw+im1lfzOrpyEK3SLZlU2Rx96wjJQrdDCUaoRmdREzsaN+wgsjcIqTNDS1LM0OIQ==
-X-Received: from coltonlewis-kvm.c.googlers.com ([fda3:e722:ac3:cc00:2b:ff92:c0a8:14ce])
- (user=coltonlewis job=sendgmr) by 2002:a05:6902:1201:b0:dee:6f9d:b753 with
- SMTP id 3f1490d57ef6-dee6f9dbdeamr1196625276.6.1715875378456; Thu, 16 May
- 2024 09:02:58 -0700 (PDT)
-Date: Thu, 16 May 2024 16:02:57 +0000
-In-Reply-To: <861q69oi9c.wl-maz@kernel.org> (message from Marc Zyngier on Fri,
- 10 May 2024 15:26:23 +0100)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k+Hvg3eQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF7E3C32786;
+	Thu, 16 May 2024 16:04:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1715875460;
+	bh=w/VCxKOJAzskajQyGDqLy9NBiE2zC4FfWI7LfgmWFfA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=k+Hvg3eQLJ4lIBsk6+vsvR2fp7IKceiyjLvU8HaXSbVWJ2AAGtSFGQxKUVyW4mYLb
+	 1jhtdzpmD/PK3YwTEIaaP718jLsO4oV9Qz+yWqRsQEaRxJoIctWWYgPMQdkqiqPthy
+	 jR4FYUN8jnkuQAhiBhTNJchXpbFKYakPdP/fy271WL+ve30xsuqS7PWE7zVKaqguUr
+	 y5IUPGGLLX+dd/BVVLn6HuqeAxlqemyf/86swKuesbIQTQoP7AymmoZMCMO/i8nroK
+	 F9xu8rBIVZjyJ3IABAtEvYF6eCPzV3XyasJVbcYVjI/MjSAR2yqV+0nXnQam2KfVSj
+	 mZjzXZ+P2kyzg==
+Date: Thu, 16 May 2024 17:04:16 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Kanak Shilledar <kanakshilledar111@protonmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	Mark Brown <broonie@kernel.org>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] Documentation: process: Revert "Document suitability
+ of Proton Mail for kernel development"
+Message-ID: <20240516-tattered-rival-f443328b5971@spud>
+References: <20240516-groin-slingshot-c3c3734d2f10@spud>
+ <4oW9pC38sSYZn96BW8abMfVpDDCmG4MDHwwmL73o5bP-WyHAutJ5j2GrSU17MCSWOKufViNl4q2zZUmwmN40evP5OK3QiMnUn2hsgWCYhl4=@protonmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Message-ID: <gsntbk55agni.fsf@coltonlewis-kvm.c.googlers.com>
-Subject: Re: [PATCH v5] KVM: arm64: Add early_param to control WFx trapping
-From: Colton Lewis <coltonlewis@google.com>
-To: Marc Zyngier <maz@kernel.org>
-Cc: kvm@vger.kernel.org, corbet@lwn.net, oliver.upton@linux.dev, 
-	james.morse@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
-	catalin.marinas@arm.com, will@kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="M4UZhHp/KDapPJjU"
+Content-Disposition: inline
+In-Reply-To: <4oW9pC38sSYZn96BW8abMfVpDDCmG4MDHwwmL73o5bP-WyHAutJ5j2GrSU17MCSWOKufViNl4q2zZUmwmN40evP5OK3QiMnUn2hsgWCYhl4=@protonmail.com>
 
-Hi Marc. Thanks for the review.
 
-Marc Zyngier <maz@kernel.org> writes:
+--M4UZhHp/KDapPJjU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> On Tue, 30 Apr 2024 19:14:44 +0100,
-> Colton Lewis <coltonlewis@google.com> wrote:
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt  
->> b/Documentation/admin-guide/kernel-parameters.txt
->> index 31b3a25680d0..a4d94d9abbe4 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -2653,6 +2653,22 @@
->>   			[KVM,ARM] Allow use of GICv4 for direct injection of
->>   			LPIs.
+On Thu, May 16, 2024 at 04:00:10PM +0000, Kanak Shilledar wrote:
+> On Thursday, May 16th, 2024 at 9:05 PM, Conor Dooley <conor@kernel.org> w=
+rote:
+>=20
+> > From: Conor Dooley conor.dooley@microchip.com
+> >=20
+> >=20
+> > Revert commit 1d2ed9234c85 ("Documentation: process: Document
+> > suitability of Proton Mail for kernel development") as Proton disabled
+> > WKD for kernel.org addresses as a result of some interaction with
+> > Konstantin on social.kernel.org
+> >=20
+> > Signed-off-by: Conor Dooley conor.dooley@microchip.com
+> >=20
+> > ---
+> >=20
+> > I tried to find the stuff on social.korg to provide a link
+> > but could not.
+> >=20
+> > CC: kanakshilledar111@protonmail.com
+> > CC: Konstantin Ryabitsev konstantin@linuxfoundation.org
+> >=20
+> > CC: Mark Brown broonie@kernel.org
+> >=20
+> > CC: Jonathan Corbet corbet@lwn.net
+> >=20
+> > CC: workflows@vger.kernel.org
+> > CC: linux-doc@vger.kernel.org
+> > CC: linux-kernel@vger.kernel.org
+> > ---
+> > Documentation/process/email-clients.rst | 20 --------------------
+> > 1 file changed, 20 deletions(-)
+> >=20
+> > diff --git a/Documentation/process/email-clients.rst b/Documentation/pr=
+ocess/email-clients.rst
+> > index 471e1f93fa09..fc2c46f3f82d 100644
+> > --- a/Documentation/process/email-clients.rst
+> > +++ b/Documentation/process/email-clients.rst
+> > @@ -350,23 +350,3 @@ although tab2space problem can be solved with exte=
+rnal editor.
+> >=20
+> > Another problem is that Gmail will base64-encode any message that has a
+> > non-ASCII character. That includes things like European names.
+> > -
+> > -Proton Mail
+> > -***********
+> > -
+> > -Proton Mail has a "feature" where it looks up keys using Web Key Direc=
+tory
+> > -(WKD) and encrypts mail to any recipients for which it finds a key.
+> > -Kernel.org publishes the WKD for all developers who have kernel.org ac=
+counts.
+> > -As a result, emails sent using Proton Mail to kernel.org addresses wil=
+l be
+> > -encrypted.
+> > -Unfortunately, Proton Mail does not provide a mechanism to disable the
+> > -automatic encryption, viewing it as a privacy feature.
+> > -The automatic encryption feature is also enabled for mail sent via the=
+ Proton
+> > -Mail Bridge, so this affects all outgoing messages, including patches =
+sent with
+> > -`git send-email`.
+> > -Encrypted mail adds unnecessary friction, as other developers may not =
+have mail
+> > -clients, or tooling, configured for use with encrypted mail and some m=
+ail
+> > -clients may encrypt responses to encrypted mail for all recipients, in=
+cluding
+> > -the mailing lists.
+> > -Unless a way to disable this "feature" is introduced, Proton Mail is u=
+nsuited
+> > -to kernel development.
+>=20
+> Instead of completely removing the Proton Mail section, can we keep the
+> mention about the Proton Mail bridge and the third-party hydroxide
+> (https://github.com/emersion/hydroxide) bridge.
 
->> +	kvm-arm.wfe_trap_policy=
->> +			[KVM,ARM] Control when to set WFE instruction trap for
->> +			KVM VMs.
->> +
->> +			trap: set WFE instruction trap
->> +
->> +			notrap: clear WFE instruction trap
->> +
->> +	kvm-arm.wfi_trap_policy=
->> +			[KVM,ARM] Control when to set WFI instruction trap for
->> +			KVM VMs.
->> +
->> +			trap: set WFI instruction trap
->> +
->> +			notrap: clear WFI instruction trap
->> +
+I think that is probably reasonable, but I think writing the replacement
+text is up to someone who actually uses protonmail.
 
-> Please make it clear that neither traps are guaranteed. The
-> architecture *allows* an implementation to trap when no events (resp.
-> interrupts) are pending, but nothing more. An implementation is
-> perfectly allowed to ignore these bits.
+--M4UZhHp/KDapPJjU
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Will do. I'll just add an additional sentence stating "Traps are allowed
-but not guaranteed by the CPU architecture"
+-----BEGIN PGP SIGNATURE-----
 
->> diff --git a/arch/arm64/include/asm/kvm_host.h  
->> b/arch/arm64/include/asm/kvm_host.h
->> index 21c57b812569..315ee7bfc1cb 100644
->> --- a/arch/arm64/include/asm/kvm_host.h
->> +++ b/arch/arm64/include/asm/kvm_host.h
->> @@ -67,6 +67,13 @@ enum kvm_mode {
->>   	KVM_MODE_NV,
->>   	KVM_MODE_NONE,
->>   };
->> +
->> +enum kvm_wfx_trap_policy {
->> +	KVM_WFX_NOTRAP_SINGLE_TASK, /* Default option */
->> +	KVM_WFX_NOTRAP,
->> +	KVM_WFX_TRAP,
->> +};
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZkYugAAKCRB4tDGHoIJi
+0omAAQD2PDht18QafEYRX8KcAkFSW+u0xgTPRkv1jW67OHnXUQD/b7l2pDkiHGJO
+H0NRHTXedMoiytMxuVkw1tu7zM96SwE=
+=qAQV
+-----END PGP SIGNATURE-----
 
-> Since this is only ever used in arm.c, it really doesn't need to be
-> exposed anywhere else.
-
-I can move it to there.
-
->> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
->> index a25265aca432..5ec52333e042 100644
->> --- a/arch/arm64/kvm/arm.c
->> +++ b/arch/arm64/kvm/arm.c
->> @@ -46,6 +46,8 @@
->>   #include <kvm/arm_psci.h>
-
->>   static enum kvm_mode kvm_mode = KVM_MODE_DEFAULT;
->> +static enum kvm_wfx_trap_policy kvm_wfi_trap_policy =  
->> KVM_WFX_NOTRAP_SINGLE_TASK;
->> +static enum kvm_wfx_trap_policy kvm_wfe_trap_policy =  
->> KVM_WFX_NOTRAP_SINGLE_TASK;
-
-> It would be worth declaring those as __read_mostly.
-
-Will do.
-
->> +static bool kvm_vcpu_should_clear_twi(struct kvm_vcpu *vcpu)
->> +{
->> +	if (likely(kvm_wfi_trap_policy == KVM_WFX_NOTRAP_SINGLE_TASK))
->> +		return single_task_running() &&
->> +			(atomic_read(&vcpu->arch.vgic_cpu.vgic_v3.its_vpe.vlpi_count) ||
->> +			 vcpu->kvm->arch.vgic.nassgireq);
-
-> So you are evaluating a runtime condition (scheduler queue length,
-> number of LPIs)...
-
-Yes. Only in the case of default behavior when no option is given, which
-should be equivalent to what the code was doing before.
-
->> +
->> +	return kvm_wfi_trap_policy == KVM_WFX_NOTRAP;
->> +}
->> +
->> +static bool kvm_vcpu_should_clear_twe(struct kvm_vcpu *vcpu)
->> +{
->> +	if (likely(kvm_wfe_trap_policy == KVM_WFX_NOTRAP_SINGLE_TASK))
->> +		return single_task_running();
->> +
->> +	return kvm_wfe_trap_policy == KVM_WFX_NOTRAP;
->> +}
->> +
->> +static inline void kvm_vcpu_reset_hcr(struct kvm_vcpu *vcpu)
-
-> Why the inline?
-
-Because I moved it from the kvm_emulate.h header with no
-modification. It doesn't have to be.
-
->> +{
->> +	vcpu->arch.hcr_el2 = HCR_GUEST_FLAGS;
->> +	if (has_vhe() || has_hvhe())
->> +		vcpu->arch.hcr_el2 |= HCR_E2H;
->> +	if (cpus_have_final_cap(ARM64_HAS_RAS_EXTN)) {
->> +		/* route synchronous external abort exceptions to EL2 */
->> +		vcpu->arch.hcr_el2 |= HCR_TEA;
->> +		/* trap error record accesses */
->> +		vcpu->arch.hcr_el2 |= HCR_TERR;
->> +	}
->> +
->> +	if (cpus_have_final_cap(ARM64_HAS_STAGE2_FWB)) {
->> +		vcpu->arch.hcr_el2 |= HCR_FWB;
->> +	} else {
->> +		/*
->> +		 * For non-FWB CPUs, we trap VM ops (HCR_EL2.TVM) until M+C
->> +		 * get set in SCTLR_EL1 such that we can detect when the guest
->> +		 * MMU gets turned on and do the necessary cache maintenance
->> +		 * then.
->> +		 */
->> +		vcpu->arch.hcr_el2 |= HCR_TVM;
->> +	}
->> +
->> +	if (cpus_have_final_cap(ARM64_HAS_EVT) &&
->> +	    !cpus_have_final_cap(ARM64_MISMATCHED_CACHE_TYPE))
->> +		vcpu->arch.hcr_el2 |= HCR_TID4;
->> +	else
->> +		vcpu->arch.hcr_el2 |= HCR_TID2;
->> +
->> +	if (vcpu_el1_is_32bit(vcpu))
->> +		vcpu->arch.hcr_el2 &= ~HCR_RW;
->> +
->> +	if (kvm_has_mte(vcpu->kvm))
->> +		vcpu->arch.hcr_el2 |= HCR_ATA;
->> +
->> +
->> +	if (kvm_vcpu_should_clear_twe(vcpu))
->> +		vcpu->arch.hcr_el2 &= ~HCR_TWE;
->> +	else
->> +		vcpu->arch.hcr_el2 |= HCR_TWE;
->> +
->> +	if (kvm_vcpu_should_clear_twi(vcpu))
->> +		vcpu->arch.hcr_el2 &= ~HCR_TWI;
->> +	else
->> +		vcpu->arch.hcr_el2 |= HCR_TWI;
-
-> ... and from the above runtime conditions you make it a forever
-> decision, for a vcpu that still hasn't executed a single instruction.
-> What could possibly go wrong?
-
-Oh I see. kvm_arch_vcpu_ioctl_vcpu_init only executes once when the vcpu
-is created (makes sense given the name), thereby making the decision
-permanent for the life of the vcpu. I misunderstood that fact before.
-
-I will move the decision back to when the vcpu is loaded as it was in
-earlier versions of this series.
-
->> +static int __init early_kvm_wfx_trap_policy_cfg(char *arg, enum  
->> kvm_wfx_trap_policy *p)
->> +{
->> +	if (!arg)
->> +		return -EINVAL;
->> +
->> +	if (strcmp(arg, "trap") == 0) {
->> +		*p = KVM_WFX_TRAP;
->> +		return 0;
->> +	}
->> +
->> +	if (strcmp(arg, "notrap") == 0) {
->> +		*p = KVM_WFX_NOTRAP;
->> +		return 0;
->> +	}
->> +
->> +	if (strcmp(arg, "default") == 0) {
->> +		*p = KVM_WFX_NOTRAP_SINGLE_TASK;
->> +		return 0;
->> +	}
-
-> Where is this "default" coming from? It's not documented.
-
-It was explicitly documented on earlier patch versions, but then I was
-told we didn't want people to rely on the default behavior so we have
-flexibility to change it in the future.
-
-There isn't much use for it if it isn't documented, so I'll take it out.
+--M4UZhHp/KDapPJjU--
