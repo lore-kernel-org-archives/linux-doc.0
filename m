@@ -1,60 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A877E147C67;
-	Thu, 16 May 2024 13:25:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB231143886;
+	Thu, 16 May 2024 13:54:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715865942; cv=none; b=u5y4pvPw2s5BE/7zSE1YOJD9jb2z2Tcn6v2juJ2gtb2FpPD/bwcK9FKbp7B8aRbKPb2+Q+DlA7rps9aLOUf2O50Kf7bS4JXdhT2cbOXohJtCNb5jHLU/HX+0NQWtZXcCo/n7V1gXSSoT3vxye6QZDikwUZ+RO+GuqE4goJ3XlHU=
+	t=1715867686; cv=none; b=ngpmMeTcfgkZQ5LXwxS7/CvhKQNGTKIEGRYuEPtSwgjOBYzGPktoF8TbPRKFWa/tQs6NEjnXESuCfFhIdcBg9Fot3p4bTnHUZyMqW/RlpIfe+0l8FIsZFnwjsE+rzkCoNuVHWJKK+FO7aiMmxBXbQI5//1Nf+BgAjVco1XYDemM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715865942; c=relaxed/simple;
-	bh=DTID0d2KyQR/8XiYolqjuMB/saokffSkjZ3E2d08u6s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sXofks9LwKRFSGQGadJLEIopgRoQaIYx2GSoQOtLT3EAlW92Rk8ZucucQC+IBg4HUOZGwDj0DsA6sYKVwClawVX+c93ROqSPII2q7fAx7gGrbWvCoXcUNGpDnftRRCKyZyc3KD4qY+XgT4jnv5ORGfU3qJQR41MgZttrRIan7bE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kd/9POmk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1715867686; c=relaxed/simple;
+	bh=+/sGHoVHNh7aDbg74jwHs3yv+dQdkDY6SZT5+s9g1/M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SMfu6Xz9xkxzVffYX5i3/85B8ZYsxv36Y+Dx+9UuvvH7QGCK0oepxL8iZvG0FcOKJPemKEbpBsP93KBZ1eGhyprm62c+WYXjmrEMZeBstqM8HI+8qjl7uREj8JYgaBBCzXVEww+bD8feRvjaOsjuI7i8daxRqXJpHqB1zlT1VWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gz1BKpbF; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kd/9POmk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B363DC2BD11;
-	Thu, 16 May 2024 13:25:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1715865941;
-	bh=DTID0d2KyQR/8XiYolqjuMB/saokffSkjZ3E2d08u6s=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=kd/9POmk6sAVT/dIQrtQahOW/w/liyZhYvG6lD3CmGDKPp0+e+IISQFD+/8feGQ0n
-	 iTsoEp4+NfZxo6nr+9fR9kEp4gTBsJ+kgQyr6ad36xRhzf3WyJdaqbBB87GBmdg+FH
-	 j4fshPF5vNLGPjPo5EVcRoOVoyVw2/xKOmXtdzH6V6s3x4VGLyXtF5aD3C/XWnQ8U8
-	 kOjN2PBYa6UnoBvRZ5CLnkNXFDjH+fcqIXhFiEcFaMyqsaXJ22llRmYxzp1AigMZBG
-	 wywUkBGcoh90/DrNM78YequKHs8P8gOzgkZ/0n3+0ZWij9enG04jNX0d6RGTU1LHsf
-	 dmFQ4XsuA3HmQ==
-Message-ID: <d1034c35-8737-4f8f-91c2-be53dfa73e57@kernel.org>
-Date: Thu, 16 May 2024 15:25:37 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gz1BKpbF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715867685; x=1747403685;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+/sGHoVHNh7aDbg74jwHs3yv+dQdkDY6SZT5+s9g1/M=;
+  b=gz1BKpbFnY+FmpztnptLByZKBe35QeEkuqbrYQLryDhx+tCELy/lGT8y
+   SxExYcCfhy9dDDHZBHTT5HOBF2/u1ffyhtxu4VeGAedYZBGYW3p9JcUBF
+   9rNf7/YrmIzL6McB212cWA0mREaRiBEghG7sm8qgxtExVwW4wugxQJXrf
+   j/XlZEfwerp6+lOMXLpUhON3RHdSZfF1kTIKFurc3fDc3NEyeDGmrfnlu
+   RqcktvScs2oE49NKb76bO/W7WRxoRhzcZynIfLXldeCtM9ggq49aPyel+
+   lf8FQzCEs+3ezc6mhD/CNKv/xzB1DWbjn5Bw9jwMykmFUK0FxOfSTzcPA
+   w==;
+X-CSE-ConnectionGUID: lyYJu9U7Qn2pUv7O/peESQ==
+X-CSE-MsgGUID: ByKj6GvsSJCaHnqMHd5Mug==
+X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="12190229"
+X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; 
+   d="scan'208";a="12190229"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 06:54:44 -0700
+X-CSE-ConnectionGUID: pBlz2EjuTyyvjt6hpl+yQA==
+X-CSE-MsgGUID: L/cy23MOSQK7TU5pBtUfEA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,164,1712646000"; 
+   d="scan'208";a="36214456"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2024 06:54:41 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1s7bZ8-000000084Xq-1boe;
+	Thu, 16 May 2024 16:54:38 +0300
+Date: Thu, 16 May 2024 16:54:38 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Vegard Nossum <vegard.nossum@oracle.com>,
+	Kent Gibson <warthog618@gmail.com>,
+	Hu Haowen <2023002089@link.tyut.edu.cn>, linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+	Yanteng Si <siyanteng@loongson.cn>
+Subject: Re: [PATCH v1 1/1] gpio: Remove legacy API documentation
+Message-ID: <ZkYQHnF76WLIf8-r@smile.fi.intel.com>
+References: <20240508101703.830066-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 8/8] rtla: Add --trace-buffer-size option
-To: Steven Rostedt <rostedt@goodmis.org>, linux-trace-kernel@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>, Juri Lelli <juri.lelli@redhat.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- John Kacur <jkacur@redhat.com>
-References: <cover.1713968967.git.bristot@kernel.org>
- <0281bfbd3b3fed11a0150a8645a1f9941a423c7a.1713968967.git.bristot@kernel.org>
-Content-Language: en-US, pt-BR, it-IT
-From: Daniel Bristot de Oliveira <bristot@kernel.org>
-In-Reply-To: <0281bfbd3b3fed11a0150a8645a1f9941a423c7a.1713968967.git.bristot@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240508101703.830066-1-andriy.shevchenko@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On 4/24/24 16:36, Daniel Bristot de Oliveira wrote:
-> +			retval = trace_set_buffer_size(&record->trace, params->buffer_size);
+On Wed, May 08, 2024 at 01:17:01PM +0300, Andy Shevchenko wrote:
+> In order to discourage people to use old and legacy GPIO APIs
+> remove the respective documentation completely. It also helps
+> further cleanups of the legacy GPIO API leftovers, which is
+> ongoing task.
 
-This function appears on libtracefs from 1.6 up, so I need to update
-the minimum required lib version to 1.6. I will send a v2 of this
-patch only.
+Bart, Linus, Kent, what do you think about this?
 
-Thanks jkacur for pointing it to me, it happens on fedora 38.
+If there is a positive consensus, I would even dare to go for v6.10-rc2
+with it.
 
--- Daniel
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
