@@ -1,48 +1,32 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15771A2C19;
-	Fri, 17 May 2024 18:33:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81B0D13F423;
+	Fri, 17 May 2024 19:13:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715970784; cv=none; b=WtmqlXDOMEytUsNfn9+cZeUyg9kAoUT1fkESm6YKMB04q44adJ1K7pYQdd0z8iGhsfe4zCLBFKdqehWU8/cGSPKsb3o8ozKpQR6mgkRcy7IIE1qiqGu+VMA2miLzBqL9FSSSeRcwwc78ulXMeopNqO6rQos5qSv9WNRhiOzmwc8=
+	t=1715973216; cv=none; b=ok9rZbwP6SBnQ3ydAey78g7sFx9YsB59h+E11RBBuLwU0js/izpFeK88hjflSt64LtW1H67z8BXftkpKseI3fVFkjizzfuw7w2EDzkHuqtlqsJ2lx1hlz2LFHV/tGRdB6UKrIpxSN7xam1dykkkRiZKcwCwojwykHM9ndiwNhYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715970784; c=relaxed/simple;
-	bh=IpHKn100vUjrZafmZKJ1y8v2H5IiPMdG53S1ZMl4E+8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=JZBaN1w1C4Z15A0SGIW36kQ6DFv2+fd5nxMyLqQay5WxT+iArhHmSPFZzHjWU25SS7hNbQdiLqcQiXH3+C93mdVvuZrYBStqalYuR/8uJQ9988JfH0pSQRgZpDdMIjuO5VMnDUt8k1nYNKiy4VfmyIJBGp4kal+/LaC+RMkdzXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Vg79+cHH; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1715973216; c=relaxed/simple;
+	bh=cl5z+RypzfaYXGWf+rnBBjI5OlA1WYqdwNwX6Edu4uM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sBvJuDcCVC/JfYhw9pXSqQC4rCodnPr1gKmcVu4Rj7PgKS10tH5lU9t9AUyyzUT2314l2ypu6ELPrRLFMvjtNupA6tCxYGiXvwvYBUKyskW0HmuGNixCY9FJnMM9BgVUtniV+v5nuDhliYhQTgfHo9KkzrquHv+BbCPbx/t107I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=fpp/vl3D; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Vg79+cHH"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44H98KQL007278;
-	Fri, 17 May 2024 18:32:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=trmdsobqOMWDgc1D8NKUUfFAo9qR0PrBuwm8lSkrz3c=; b=Vg
-	79+cHHTr16tp9TBmcnGCAcEW4MomLM4m1TKiTIMTQjhQhCHjjJmqRKuVQpASP1VN
-	gxPAIarbirbphn6E+t149eDVGIc8hRdrMDvVL2EPWF0/JqMPMC+sDo22wQMCLsD9
-	TaDEpjCGVD6MyiiC+Zypj2Qh8NGx1wx/BT6qe8gGgVukepc9SfhRSypj9nwj2AXF
-	pdjF1XthSOHFf1ZIDamd8/2hyO6puG00UnQXR3gmAhQeqdI7avackgQZta38hLf+
-	F7v7kO4aoxLR8t6au8FWW0Go2wxeAf7yXaKYIS9GNA8dwVz211WwZI8AzmkmrsoI
-	kP19QtIyiZjB95ADFoOA==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3y49ge0tmx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 17 May 2024 18:32:48 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44HIWlH1005033
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 17 May 2024 18:32:47 GMT
-Received: from [10.110.126.2] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 17 May
- 2024 11:32:46 -0700
-Message-ID: <8000851c-f3e2-4fcb-b4d4-9acaf9763fdb@quicinc.com>
-Date: Fri, 17 May 2024 11:32:45 -0700
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="fpp/vl3D"
+Received: from [10.137.106.151] (unknown [167.220.2.23])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 6FAD220B915A;
+	Fri, 17 May 2024 12:13:27 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6FAD220B915A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1715973207;
+	bh=2p1wopyKvglG1K22JP2DhRwV85SJbq4dKxtjT1xHvtY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=fpp/vl3DKUdjSDRpvAjyDgeuyiVrUyujnX4va9QRUjeu+quEuTpy1VLMWrbI1o4O2
+	 7tFT61OD7MvfnS0fygEkUh5vIkJKB8wvWKhgP7fqsqhi6YbLFLZ5KpReHrkz8TRyK5
+	 gfobGVgWsvo7PzhwRCDJDIgnL1vDR71OaQIF5phw=
+Message-ID: <234910c1-40c3-4489-94ab-6e9a5f00d93e@linux.microsoft.com>
+Date: Fri, 17 May 2024 12:13:26 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,71 +34,140 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/7] hwspinlock: Introduce refcount
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Bjorn Andersson
-	<andersson@kernel.org>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Peter
- Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
-        Will Deacon
-	<will@kernel.org>, Waiman Long <longman@redhat.com>,
-        Boqun Feng
-	<boqun.feng@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-        Mathieu Poirier
-	<mathieu.poirier@linaro.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof
- Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Konrad Dybcio
-	<konrad.dybcio@linaro.org>
-CC: <linux-remoteproc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, Richard Maina <quic_rmaina@quicinc.com>
-References: <20240516-hwspinlock-bust-v1-0-47a90a859238@quicinc.com>
- <20240516-hwspinlock-bust-v1-1-47a90a859238@quicinc.com>
- <edfb049a-b56e-424f-bca7-556dffa6c87d@linaro.org>
-Content-Language: en-US
-From: Chris Lew <quic_clew@quicinc.com>
-In-Reply-To: <edfb049a-b56e-424f-bca7-556dffa6c87d@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: iv9sI3L20wtxJZlWpyoVobWcaFr13M2_
-X-Proofpoint-ORIG-GUID: iv9sI3L20wtxJZlWpyoVobWcaFr13M2_
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-17_08,2024-05-17_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=888
- impostorscore=0 clxscore=1011 priorityscore=1501 phishscore=0 spamscore=0
- mlxscore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405010000 definitions=main-2405170144
+Subject: Re: [PATCH v18 12/21] dm: add finalize hook to target_type
+To: Mikulas Patocka <mpatocka@redhat.com>, Mike Snitzer <snitzer@kernel.org>
+Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
+ tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com,
+ snitzer@kernel.org, eparis@redhat.com, paul@paul-moore.com,
+ linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+ linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
+ linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
+ audit@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1714775551-22384-1-git-send-email-wufan@linux.microsoft.com>
+ <1714775551-22384-13-git-send-email-wufan@linux.microsoft.com>
+ <aa767961-5e3-2ceb-1a1e-ff66a8eed649@redhat.com>
+ <212b02a8-f5f0-4433-a726-1639dda61790@linux.microsoft.com>
+ <bc9aa053-20a6-eaa-cbe4-344f340242b@redhat.com>
+Content-Language: en-CA
+From: Fan Wu <wufan@linux.microsoft.com>
+In-Reply-To: <bc9aa053-20a6-eaa-cbe4-344f340242b@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
 
-On 5/17/2024 1:58 AM, Bryan O'Donoghue wrote:
-> On 17/05/2024 00:58, Chris Lew wrote:
->> +    unsigned int refcnt;
+On 5/9/2024 10:07 AM, Mikulas Patocka wrote:
 > 
-> Why int and not refcount_t ?
 > 
-> Have you an argument for or against use of one over another ?
+> On Wed, 8 May 2024, Fan Wu wrote:
 > 
+>>
+>>
+>> On 5/8/2024 10:17 AM, Mikulas Patocka wrote:
+>>>
+>>>
+>>> On Fri, 3 May 2024, Fan Wu wrote:
+>>>
+>>>> This patch adds a target finalize hook.
+>>>>
+>>>> The hook is triggered just before activating an inactive table of a
+>>>> mapped device. If it returns an error the __bind get cancelled.
+>>>>
+>>>> The dm-verity target will use this hook to attach the dm-verity's
+>>>> roothash metadata to the block_device struct of the mapped device.
+>>>>
+>>>> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+>>>
+>>> Hi
+>>>
+>>> Why not use the preresume callback?
+>>>
+>>> Is there some reason why do we need a new callback instead of using the
+>>> existing one?
+>>>
+>>> Mikulas
+>> Thanks for the suggestion.
+>>
+>> Mike suggested the new finalize() callback. I think the reason for not using
+>> the preresume() callback is that there are multiple points that can fail
+>> before activating an inactive table of a mapped device which can potentially
+>> lead to inconsistent state.
+>>
+>> In our specific case, we are trying to associate dm-verity's roothash metadata
+>> with the block_device struct of the mapped device inside the callback.
+>>
+>> If we use the preresume() callback for the work and an error occurs between
+>> the callback and the table activation, this leave the block_device struct in
+>> an inconsistent state.
+> 
+> The preresume callback is the final GO/NO-GO decision point. If all the
+> targets return zero in their preresume callback, then there's no turning
+> back and the table will be activated.
+> 
+>> This is because now the block device contains the roothash metadata of it's
+>> inactive table due to the preresume() callback, but the activation failed so
+>> the mapped device is still using the old table.
+>>
+>> The new finalize() callback guarantees that the callback happens just before
+>> the table activation, thus avoiding the inconsistency.
+> 
+> In your patch, it doesn't guarantee that.
+> 
+> do_resume calls dm_swap_table, dm_swap_table calls __bind, __bind calls
+> ti->type->finalize. Then we go back to do_resume and call dm_resume which
+> calls __dm_resume which calls dm_table_resume_targets which calls the
+> preresume callback on all the targets. If some of them fails, it returns a
+> failure (despite the fact that ti->type->finalize succeeded), if all of
+> them succeed, it calls the resume callback on all of them.
+> 
+> So, it seems that the preresume callback provides the guarantee that you
+> looking for.
+> 
+>> -Fan
+> 
+> Mikulas
 
-I wanted to avoid the warning if you try to do a refcount_inc on 0. In 
-this case, 0 means the the hwlock is unused but the hwlock should 
-persist while waiting for another request. It seemed like refcount_t 
-expected the associated object to be released once the count hit 0.
+Thanks for the info. I have tested and verified that the preresume() 
+hook can also work for our case.
 
-Also the count here is serialized by hwspinlock_tree_lock so the need 
-for the atomicity provided by refcount_t was unneeded. Using unsigned 
-int here seemed simpler.
+ From the source code 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/md/dm-ioctl.c#n1149, 
+the whole resume process appears to be:
 
-> ---
-> bod
+1. Check if there is a new map for the device. If so, attempt to 
+activate the new map using dm_swap_table() (where the finalize() 
+callback occurs).
+
+2. Check if the device is suspended. If so, use dm_resume() (where the 
+preresume() callback occurs) to resume the device.
+
+3. If a new map is activated, use dm_table_destroy() to destroy the old map.
+
+For our case:
+
+- Using the finalize() callback, the metadata of the dm-verity target 
+inside the table is attached to the mapped device every time a new table 
+is activated.
+- Using the preresume() callback, the same metadata is attached every 
+time the device resumes from suspension.
+
+If I understand the code correctly, resuming from suspension is a 
+necessary step for loading a new mapping table. Thus, the preresume() 
+callback covers all conditions where the finalize() callback would be 
+triggered. However, the preresume() callback can also be triggered when 
+the device resumes from suspension without loading a new table, in which 
+case there is no new metadata in the table to attach to the mapped device.
+
+In the scenario where the finalize() callback succeeds but the 
+preresume() callback fails, it seems the device will remain in a 
+suspended state, the newly activated table will be kept, and the old 
+table will be destroyed, so it seems there is no inconsistency using 
+finalize() even preresume() potentially fails.
+
+I believe both the finalize() callback proposed by Mike and the 
+preresume() callback suggested by Mikulas can work for our case. I am 
+fine with either approach, but I would like to know which one is 
+preferred by the maintainers and would appreciate an ACK for the chosen 
+approach.
+
+-Fan
