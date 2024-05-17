@@ -1,94 +1,150 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-40137.protonmail.ch (mail-40137.protonmail.ch [185.70.40.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA33223773
-	for <linux-doc@vger.kernel.org>; Fri, 17 May 2024 08:58:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63F522F00;
+	Fri, 17 May 2024 09:08:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.40.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715936304; cv=none; b=ViGRz5pW23FD1ZriWmYw0YeV/ITPCJ/HVL7waxLFWWIMhG/I0APE2vWz1/w8TQMn7UhOOxHShhlYahq3cMmdqCgzQ0o958vWZ6t5rHqVeP448RBiXgpDaUHZpfOpjnbsnPFOUwx0mJUIE/Wert4rbFpsAyoquRU4VeQ18gvqeVc=
+	t=1715936925; cv=none; b=dXppO6eeynLo0hZrnetIy6sraOySZDOkDP3y3vVv9bHF6fc09hOuxN1iYDoO4NhL33gr/xe8itj6yEq39QEWfOgbFy5EWuO0NvTtrnTZfZ01Odlgr2cJwTC/kDoHjFYKBsEFTdNl0RlvE0lPhs40wcMJhv6DiGjAyeGsSBG1D2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715936304; c=relaxed/simple;
-	bh=fh/EhHYv7kPstMXk8bNVt+vHBJv+tYraANwKXrpuKLE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Axb/s2j/05Wr88ZmwpJgRB0Nv0fVegBhcj9GgKpT50ElcQ+2Cb12RSqGBtzvl7bHJGkMqQbVa1v2KgrDQPEsmsM8C8M+57nY7A8Du7AyDj6OiJFzvpXAe0aUuJ+WnKd0rU/IO+a2pngTrxxzSj1rVPQ7nTzuIHY6ZNO2z3K21X0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=S5JvALA+; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1715936925; c=relaxed/simple;
+	bh=iNBDFhCBNE67NN1Yc2iWdFblOh/QlI+R0LFCWkmYMCM=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=G4xWvEjJsvxsmpPc5DBNO3X3krXbf38Tp9/cKHVeiIO8dsVyr6Js/Y+gTUcpPE/C7G0z3uRMTuIwYbS8phHq5MF0/vF+2Yn9yzV7w3uX6gR9MGORV3PW5ugASCm43/RVOXrOmd5qmSxA9bpqtuhWuIHKug4BQwHE6xey/dB0yxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=kc+TOi2N; arc=none smtp.client-ip=185.70.40.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="S5JvALA+"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-52388d9ca98so738619e87.0
-        for <linux-doc@vger.kernel.org>; Fri, 17 May 2024 01:58:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1715936301; x=1716541101; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WXEIiwHqeogB7g3eJChPlM4JmbteA+j2Ygd7KOJ9e/w=;
-        b=S5JvALA+XsizQSD+TZyYEIBf3CNIFZuinBO7TYWOlKfYtokAK2zH2d6Ds4TevMVcVd
-         YVeOKMyxFT4CooMl44Z4tpPliKUpSRdxjJgwW3+YFeQu45fihGxQTidxFNlgFXtEUF6j
-         2YhKT08x9cr/xnSr0pqFGhnNMb3TBB0IUclSM9e8XYSSRSjZqrkyy33XCwiGkh1hcaO1
-         w2RVFWIs7W+CEcxJlxxs3ieBEDngnOZObdD8f9/lXbF7KJa9a0Gp0k4nCResfakWdw5U
-         8YlgDbW0cROeUOQQE2GrBeIxdR1zYXAZbXvSRzqEnmEjRz5meseZf2KnyU2UhmKnbPpN
-         v7pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715936301; x=1716541101;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WXEIiwHqeogB7g3eJChPlM4JmbteA+j2Ygd7KOJ9e/w=;
-        b=GhdiDEphMMKtyIDLhPUvEBXItQJADIj5xU+QgUXmtkz2Sdjwc31FaDFJkmW5dHLBgj
-         6xlgV6+0B3MLWTtDWRLO1MyBu9DdMZuYbIE7Ox9KdfyNcYUHaIStZzzugGPwrgiULPKo
-         yWWF1m1PQeN43Ts3XLHVM1sRHbAsqsnxDRrm9fMVV1phFEufCsnDp1g+bd/OtxRj2F0w
-         Vez0dQPiOy6VljmosPdlslZpmvUGH3PBBfyrW4cyvCBz47AEqZT4i+dz6NXDrIBG1hHl
-         qldQPJkrIHv/XpcGBra5wRIRi96k/ffrz31i58HMrj3fqjdgBReAl2BSpArc/KH8EWIu
-         DomQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUKnhWqi0mYFF1sx6ByIN2CTAIYj/NxbV7cmoQTtf3974HVkfK7S7OLTf+kGK6b/JGIAFUwaI1riM7ip+VAiUbvJ4ieLOiaTIhE
-X-Gm-Message-State: AOJu0YwdNrMNCcn1H5+gTRRGrUmSonHFyS8M6oC0XRxornVpyypVBddA
-	2Q3m3q2cNcnppkDPzatnbabejs1ecjPOEBpveTPSAZNVLAnlqtqEMRgCCVyV/ps=
-X-Google-Smtp-Source: AGHT+IHkfIzP+hj8dP0Dt3WefFPm0Nq5vUF7+ysNW0I2MuifC2v/wA6VP1/jj8rSAmxAM+Ky7YAGHg==
-X-Received: by 2002:a05:6512:542:b0:51d:9e17:29f0 with SMTP id 2adb3069b0e04-5220fd7c89emr16576217e87.24.1715936301003;
-        Fri, 17 May 2024 01:58:21 -0700 (PDT)
-Received: from [10.91.1.133] ([149.14.240.163])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a5a69148b97sm637788566b.114.2024.05.17.01.58.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 May 2024 01:58:20 -0700 (PDT)
-Message-ID: <edfb049a-b56e-424f-bca7-556dffa6c87d@linaro.org>
-Date: Fri, 17 May 2024 10:58:18 +0200
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="kc+TOi2N"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1715936914; x=1716196114;
+	bh=iNBDFhCBNE67NN1Yc2iWdFblOh/QlI+R0LFCWkmYMCM=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=kc+TOi2NB0ZHC9etZ2NzJ+JrvRuEICAtejvfHHqq6+YLRuGH+K9iuAv2p637pYUIO
+	 CrADfXuZg/ME9WLxifmqeggb4fGPKXsuZ4N7MoTF4RgpsGB+JUWgZLHw12epuk/DNc
+	 +aEXgLA60RWimEDABfBX0eZwXnelGnwkex1YVGt4mWp3WFCwH9CLeWvLGl8lFzLNv1
+	 Z8lXkKhsa3DgL0DnCnoVUCMR7SaoF2Ry6rwCkDGNh0XifjrVI+dcaEk4ZfvCim0Bbm
+	 gb2OTYFQRQu2zXteWNKnicQcj8CZOEQc8AwWDIkMnUvHZ50UrQbrWWGLhbt+gdDAdH
+	 3FNj/P1hfgO7A==
+Date: Fri, 17 May 2024 09:08:30 +0000
+To: Conor Dooley <conor@kernel.org>
+From: Kanak Shilledar <kanakshilledar111@protonmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Conor Dooley <conor.dooley@microchip.com>, Konstantin Ryabitsev <konstantin@linuxfoundation.org>, Mark Brown <broonie@kernel.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] Documentation: process: Revert "Document suitability of Proton Mail for kernel development"
+Message-ID: <hVKtRvWc18nNqYLUeYn_BDrvTbCR9tNZkgwvHBU3xGFdJjuNuQz-mT3o2QcsHFy4QyXOzwlnFXu_cM5pJxEhBeNa9jV_z6uZf83PO4OoCGk=@protonmail.com>
+In-Reply-To: <20240516-tattered-rival-f443328b5971@spud>
+References: <20240516-groin-slingshot-c3c3734d2f10@spud> <4oW9pC38sSYZn96BW8abMfVpDDCmG4MDHwwmL73o5bP-WyHAutJ5j2GrSU17MCSWOKufViNl4q2zZUmwmN40evP5OK3QiMnUn2hsgWCYhl4=@protonmail.com> <20240516-tattered-rival-f443328b5971@spud>
+Feedback-ID: 26271244:user:proton
+X-Pm-Message-ID: bc97481a8a38a7ca766e1c040cb2e186f58efdfc
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/7] hwspinlock: Introduce refcount
-Content-Language: en-US
-To: Chris Lew <quic_clew@quicinc.com>, Bjorn Andersson
- <andersson@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
- Boqun Feng <boqun.feng@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Mathieu Poirier <mathieu.poirier@linaro.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, Richard Maina <quic_rmaina@quicinc.com>
-References: <20240516-hwspinlock-bust-v1-0-47a90a859238@quicinc.com>
- <20240516-hwspinlock-bust-v1-1-47a90a859238@quicinc.com>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20240516-hwspinlock-bust-v1-1-47a90a859238@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 17/05/2024 00:58, Chris Lew wrote:
-> +	unsigned int refcnt;
 
-Why int and not refcount_t ?
 
-Have you an argument for or against use of one over another ?
 
----
-bod
+
+
+Sent with Proton Mail secure email.
+
+On Thursday, May 16th, 2024 at 9:34 PM, Conor Dooley <conor@kernel.org> wro=
+te:
+
+> On Thu, May 16, 2024 at 04:00:10PM +0000, Kanak Shilledar wrote:
+>=20
+> > On Thursday, May 16th, 2024 at 9:05 PM, Conor Dooley conor@kernel.org w=
+rote:
+> >=20
+> > > From: Conor Dooley conor.dooley@microchip.com
+> > >=20
+> > > Revert commit 1d2ed9234c85 ("Documentation: process: Document
+> > > suitability of Proton Mail for kernel development") as Proton disable=
+d
+> > > WKD for kernel.org addresses as a result of some interaction with
+> > > Konstantin on social.kernel.org
+> > >=20
+> > > Signed-off-by: Conor Dooley conor.dooley@microchip.com
+> > >=20
+> > > ---
+> > >=20
+> > > I tried to find the stuff on social.korg to provide a link
+> > > but could not.
+> > >=20
+> > > CC: kanakshilledar111@protonmail.com
+> > > CC: Konstantin Ryabitsev konstantin@linuxfoundation.org
+> > >=20
+> > > CC: Mark Brown broonie@kernel.org
+> > >=20
+> > > CC: Jonathan Corbet corbet@lwn.net
+> > >=20
+> > > CC: workflows@vger.kernel.org
+> > > CC: linux-doc@vger.kernel.org
+> > > CC: linux-kernel@vger.kernel.org
+> > > ---
+> > > Documentation/process/email-clients.rst | 20 --------------------
+> > > 1 file changed, 20 deletions(-)
+> > >=20
+> > > diff --git a/Documentation/process/email-clients.rst b/Documentation/=
+process/email-clients.rst
+> > > index 471e1f93fa09..fc2c46f3f82d 100644
+> > > --- a/Documentation/process/email-clients.rst
+> > > +++ b/Documentation/process/email-clients.rst
+> > > @@ -350,23 +350,3 @@ although tab2space problem can be solved with ex=
+ternal editor.
+> > >=20
+> > > Another problem is that Gmail will base64-encode any message that has=
+ a
+> > > non-ASCII character. That includes things like European names.
+> > > -
+> > > -Proton Mail
+> > > -***********
+> > > -
+> > > -Proton Mail has a "feature" where it looks up keys using Web Key Dir=
+ectory
+> > > -(WKD) and encrypts mail to any recipients for which it finds a key.
+> > > -Kernel.org publishes the WKD for all developers who have kernel.org =
+accounts.
+> > > -As a result, emails sent using Proton Mail to kernel.org addresses w=
+ill be
+> > > -encrypted.
+> > > -Unfortunately, Proton Mail does not provide a mechanism to disable t=
+he
+> > > -automatic encryption, viewing it as a privacy feature.
+> > > -The automatic encryption feature is also enabled for mail sent via t=
+he Proton
+> > > -Mail Bridge, so this affects all outgoing messages, including patche=
+s sent with
+> > > -`git send-email`.
+> > > -Encrypted mail adds unnecessary friction, as other developers may no=
+t have mail
+> > > -clients, or tooling, configured for use with encrypted mail and some=
+ mail
+> > > -clients may encrypt responses to encrypted mail for all recipients, =
+including
+> > > -the mailing lists.
+> > > -Unless a way to disable this "feature" is introduced, Proton Mail is=
+ unsuited
+> > > -to kernel development.
+> >=20
+> > Instead of completely removing the Proton Mail section, can we keep the
+> > mention about the Proton Mail bridge and the third-party hydroxide
+> > (https://github.com/emersion/hydroxide) bridge.
+>=20
+>=20
+> I think that is probably reasonable, but I think writing the replacement
+> text is up to someone who actually uses protonmail.
+
+Alright! I will tryout hydroxide and roll out another patch in near future.
+For now the patch looks good.
+
+Reviewed-by: Kanak Shilledar <kanakshilledar111@protonmail.com>
+
+Thanks and Regards,
+Kanak Shilledar
