@@ -1,153 +1,173 @@
-Received: from phoenix.uberspace.de (phoenix.uberspace.de [95.143.172.135])
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6AE71EB36
-	for <linux-doc@vger.kernel.org>; Fri, 17 May 2024 09:20:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.143.172.135
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78EF636120;
+	Fri, 17 May 2024 09:26:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.216.63.35
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715937645; cv=none; b=h8WP06lLh4c5i8k2Kr3F9PNGwLdFYtWXQTEKZrEJt/yAPfhT0yauaPZMc8MhX0T0ib1DA1rAU8U3d/5IUpJaA24+zSMM5x9Kij4KqgK2PUaBNmtRkqynNjiBlPMom3TsnphCKvymXhdtPQf/Gs4y+hYTUC8C8zoqtJuh5GVSVGo=
+	t=1715938020; cv=none; b=UfKUzPkw9Y4csZjQszm4p3q18nfr45e3ZMLGELx/8bVCqHTFpLKB0m0WtBGjy6tqUYJDM3g8ABYl8ggcf8KWqv3k5Lw6rzl4j+/bFRd79m/COeMsBwSuhccl1PAwyFcf9ElUnFtZSK+2INia4LY2iDnw56WL41MhnE6Ym7fDuBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715937645; c=relaxed/simple;
-	bh=zUX5qNIfW548vNLMV3YfOWr2RVuk/rIW/JNspwwgaDA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=miOO6hXABB8WYhRafy1Bd4LdUwtvrI09mh9jefGrk0LJ+VbF5nrE1hMopsMyY3CIZSIM3lSBxjeWj+Xfh7W5mdsYjj500/O9/yOJn2BJFlSydDMw0WucBwVSZRvWdySlkHPtC9ZARWB0L5MjUkA1KIS9Rob/SJz3BSdh8zlrZ54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yshyn.com; spf=pass smtp.mailfrom=yshyn.com; dkim=pass (2048-bit key) header.d=yshyn.com header.i=@yshyn.com header.b=s8qF9X+x; arc=none smtp.client-ip=95.143.172.135
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yshyn.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yshyn.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yshyn.com header.i=@yshyn.com header.b="s8qF9X+x"
-Received: (qmail 13005 invoked by uid 988); 17 May 2024 09:13:58 -0000
-Authentication-Results: phoenix.uberspace.de;
-	auth=pass (plain)
-Received: from unknown (HELO unkown) (::1)
-	by phoenix.uberspace.de (Haraka/3.0.1) with ESMTPSA; Fri, 17 May 2024 11:13:57 +0200
-From: Illia Ostapyshyn <illia@yshyn.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Matthew Wilcox <willy@infradead.org>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-fsdevel@vger.kernel.org,
-	Illia Ostapyshyn <illia@yshyn.com>
-Subject: [PATCH] mm/vmscan: Update stale references to shrink_page_list
-Date: Fri, 17 May 2024 11:13:48 +0200
-Message-Id: <20240517091348.1185566-1-illia@yshyn.com>
-X-Mailer: git-send-email 2.39.2
+	s=arc-20240116; t=1715938020; c=relaxed/simple;
+	bh=dDE02QwcEJgIaN7EsPYpJ/E8ZjuShWfIOgaAUYFyGrI=;
+	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=a98cMfGdPPq6D2zLx62mfYil3PiSSrytH6ifJgnsiZM3XI24+hADVXAe/uSW2SSaXhGXOLCuNsS/5a6iUtHwrFmSl33YlRvqCXZYPMeYM8P3RUcyNoUNF0lgrjwZj0O5nV/sIQD9EYlBepKlDeMg0pLXZYC04sPfInKoEy8Q+h8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=63.216.63.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4VghRs6vrLz5R9kB;
+	Fri, 17 May 2024 17:26:49 +0800 (CST)
+Received: from xaxapp01.zte.com.cn ([10.88.99.176])
+	by mse-fl1.zte.com.cn with SMTP id 44H9Qa5F065180;
+	Fri, 17 May 2024 17:26:36 +0800 (+08)
+	(envelope-from ye.xingchen@zte.com.cn)
+Received: from mapi (xaxapp01[null])
+	by mapi (Zmail) with MAPI id mid31;
+	Fri, 17 May 2024 17:26:39 +0800 (CST)
+Date: Fri, 17 May 2024 17:26:39 +0800 (CST)
+X-Zmail-TransId: 2af9664722cf5bc-59194
+X-Mailer: Zmail v1.0
+Message-ID: <20240517172639229ec5bN7VBV7SGEHkSK5K6f@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Bar: +
-X-Rspamd-Report: MID_CONTAINS_FROM(1) MIME_GOOD(-0.1) R_MISSING_CHARSET(0.5)
-X-Rspamd-Score: 1.4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=yshyn.com; s=uberspace;
-	h=from:to:cc:subject:date;
-	bh=zUX5qNIfW548vNLMV3YfOWr2RVuk/rIW/JNspwwgaDA=;
-	b=s8qF9X+xASJEWN/cMfdXpv37+eChv24TVme12xnLdvA65YeLPvsTXzosKqg8OeC49J5W76JCJG
-	jXt8b3WBCoWyHOW6ZAXTIEhwcx3HgSKo7GNhhPzlmOFAiMkpfbb/Qr2+tBLxzjpAAPK2KqHIAS3X
-	dun0Pvmwj1DQ5Ikf7ijj4Y6RxzPpcYrN9nNzeGMn0R0Thnq6Z3unRuYKkAK98CKUGmfeVqggYD8j
-	7pWiuwES3hWX1bm0vSyKHopIQGsB0IWLRKFbBd0pEPGW4zAG8AmBYKOyWdHAm1T2zG3TdRB4+fRv
-	qKhYjDH39qcYIOrnRP/Z7LvFijc0MOp8VK/n/Kiw==
+Mime-Version: 1.0
+From: <ye.xingchen@zte.com.cn>
+To: <davem@davemloft.net>
+Cc: <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+        <corbet@lwn.net>, <dsahern@kernel.org>, <ncardwell@google.com>,
+        <soheil@google.com>, <mfreemon@cloudflare.com>, <lixiaoyan@google.com>,
+        <david.laight@aculab.com>, <haiyangz@microsoft.com>,
+        <ye.xingchen@zte.com.cn>, <netdev@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <xu.xin16@zte.com.cn>, <zhang.yunkai@zte.com.cn>, <fan.yu9@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIIG5ldC1uZXh0XSBpY21wOiBBZGQgaWNtcF90aW1lc3RhbXBfaWdub3JlX2FsbCB0byBjb250cm9sIElDTVBfVElNRVNUQU1Q?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 44H9Qa5F065180
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 664722D9.002/4VghRs6vrLz5R9kB
 
-Commit 49fd9b6df54e ("mm/vmscan: fix a lot of comments") renamed
-shrink_page_list() to shrink_folio_list().  Fix up the remaining
-references to the old name in comments and documentation.
+From: YeXingchen <ye.xingchen@zte.com.cn>
 
-Signed-off-by: Illia Ostapyshyn <illia@yshyn.com>
+The CVE-1999-0524 became a medium risk vulnerability in May of this year.
+
+In some embedded systems, firewalls such as iptables maybe cannot to use.
+For embedded systems where firewalls can't be used and devices that don't
+require icmp timestamp, provide the icmp_timestamp_ignore_all interface,
+which ignores all icmp timestamp messages to circumvent the vulnerability.
+
+Signed-off-by: YeXingchen <ye.xingchen@zte.com.cn>
 ---
- Documentation/mm/unevictable-lru.rst | 10 +++++-----
- mm/memory.c                          |  2 +-
- mm/swap_state.c                      |  2 +-
- mm/truncate.c                        |  2 +-
- 4 files changed, 8 insertions(+), 8 deletions(-)
+ Documentation/networking/ip-sysctl.rst                   | 6 ++++++
+ .../networking/net_cachelines/netns_ipv4_sysctl.rst      | 1 +
+ include/net/netns/ipv4.h                                 | 1 +
+ include/uapi/linux/sysctl.h                              | 1 +
+ net/ipv4/icmp.c                                          | 8 ++++++++
+ net/ipv4/sysctl_net_ipv4.c                               | 9 +++++++++
+ 6 files changed, 26 insertions(+)
 
-diff --git a/Documentation/mm/unevictable-lru.rst b/Documentation/mm/unevictable-lru.rst
-index b6a07a26b10d..2feb2ed51ae2 100644
---- a/Documentation/mm/unevictable-lru.rst
-+++ b/Documentation/mm/unevictable-lru.rst
-@@ -191,13 +191,13 @@ have become evictable again (via munlock() for example) and have been "rescued"
- from the unevictable list.  However, there may be situations where we decide,
- for the sake of expediency, to leave an unevictable folio on one of the regular
- active/inactive LRU lists for vmscan to deal with.  vmscan checks for such
--folios in all of the shrink_{active|inactive|page}_list() functions and will
-+folios in all of the shrink_{active|inactive|folio}_list() functions and will
- "cull" such folios that it encounters: that is, it diverts those folios to the
- unevictable list for the memory cgroup and node being scanned.
- 
- There may be situations where a folio is mapped into a VM_LOCKED VMA,
- but the folio does not have the mlocked flag set.  Such folios will make
--it all the way to shrink_active_list() or shrink_page_list() where they
-+it all the way to shrink_active_list() or shrink_folio_list() where they
- will be detected when vmscan walks the reverse map in folio_referenced()
- or try_to_unmap().  The folio is culled to the unevictable list when it
- is released by the shrinker.
-@@ -269,7 +269,7 @@ the LRU.  Such pages can be "noticed" by memory management in several places:
- 
-  (4) in the fault path and when a VM_LOCKED stack segment is expanded; or
- 
-- (5) as mentioned above, in vmscan:shrink_page_list() when attempting to
-+ (5) as mentioned above, in vmscan:shrink_folio_list() when attempting to
-      reclaim a page in a VM_LOCKED VMA by folio_referenced() or try_to_unmap().
- 
- mlocked pages become unlocked and rescued from the unevictable list when:
-@@ -548,12 +548,12 @@ Some examples of these unevictable pages on the LRU lists are:
-  (3) pages still mapped into VM_LOCKED VMAs, which should be marked mlocked,
-      but events left mlock_count too low, so they were munlocked too early.
- 
--vmscan's shrink_inactive_list() and shrink_page_list() also divert obviously
-+vmscan's shrink_inactive_list() and shrink_folio_list() also divert obviously
- unevictable pages found on the inactive lists to the appropriate memory cgroup
- and node unevictable list.
- 
- rmap's folio_referenced_one(), called via vmscan's shrink_active_list() or
--shrink_page_list(), and rmap's try_to_unmap_one() called via shrink_page_list(),
-+shrink_folio_list(), and rmap's try_to_unmap_one() called via shrink_folio_list(),
- check for (3) pages still mapped into VM_LOCKED VMAs, and call mlock_vma_folio()
- to correct them.  Such pages are culled to the unevictable list when released
- by the shrinker.
-diff --git a/mm/memory.c b/mm/memory.c
-index 0201f50d8307..c58b3d92e6a8 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -4511,7 +4511,7 @@ static vm_fault_t __do_fault(struct vm_fault *vmf)
- 	 * lock_page(B)
- 	 *				lock_page(B)
- 	 * pte_alloc_one
--	 *   shrink_page_list
-+	 *   shrink_folio_list
- 	 *     wait_on_page_writeback(A)
- 	 *				SetPageWriteback(B)
- 	 *				unlock_page(B)
-diff --git a/mm/swap_state.c b/mm/swap_state.c
-index bfc7e8c58a6d..3d163ec1364a 100644
---- a/mm/swap_state.c
-+++ b/mm/swap_state.c
-@@ -28,7 +28,7 @@
- 
- /*
-  * swapper_space is a fiction, retained to simplify the path through
-- * vmscan's shrink_page_list.
-+ * vmscan's shrink_folio_list.
-  */
- static const struct address_space_operations swap_aops = {
- 	.writepage	= swap_writepage,
-diff --git a/mm/truncate.c b/mm/truncate.c
-index 725b150e47ac..e1c352bb026b 100644
---- a/mm/truncate.c
-+++ b/mm/truncate.c
-@@ -554,7 +554,7 @@ EXPORT_SYMBOL(invalidate_mapping_pages);
-  * This is like mapping_evict_folio(), except it ignores the folio's
-  * refcount.  We do this because invalidate_inode_pages2() needs stronger
-  * invalidation guarantees, and cannot afford to leave folios behind because
-- * shrink_page_list() has a temp ref on them, or because they're transiently
-+ * shrink_folio_list() has a temp ref on them, or because they're transiently
-  * sitting in the folio_add_lru() caches.
-  */
- static int invalidate_complete_folio2(struct address_space *mapping,
+diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+index bd50df6a5a42..41eb3de61659 100644
+--- a/Documentation/networking/ip-sysctl.rst
++++ b/Documentation/networking/ip-sysctl.rst
+@@ -1441,6 +1441,12 @@ icmp_ratelimit - INTEGER
+
+ 	Default: 1000
+
++icmp_timestamp_ignore_all - BOOLEAN
++	If set non-zero, then the kernel will ignore all ICMP TIMESTAMP
++	requests sent to it.
++
++	Default: 0
++
+ icmp_msgs_per_sec - INTEGER
+ 	Limit maximal number of ICMP packets sent per second from this host.
+ 	Only messages whose type matches icmp_ratemask (see below) are
+diff --git a/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst b/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
+index 9b87089a84c6..ed72f67c8f72 100644
+--- a/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
++++ b/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
+@@ -38,6 +38,7 @@ u8                              sysctl_icmp_ignore_bogus_error_responses
+ u8                              sysctl_icmp_errors_use_inbound_ifaddr                                                
+ int                             sysctl_icmp_ratelimit                                                                
+ int                             sysctl_icmp_ratemask                                                                 
++u8                              sysctl_icmp_timestamp_ignore_all
+ u32                             ip_rt_min_pmtu                               -                   -                   
+ int                             ip_rt_mtu_expires                            -                   -                   
+ int                             ip_rt_min_advmss                             -                   -                   
+diff --git a/include/net/netns/ipv4.h b/include/net/netns/ipv4.h
+index c356c458b340..7364c469e7eb 100644
+--- a/include/net/netns/ipv4.h
++++ b/include/net/netns/ipv4.h
+@@ -113,6 +113,7 @@ struct netns_ipv4 {
+ 	u8 sysctl_icmp_echo_ignore_broadcasts;
+ 	u8 sysctl_icmp_ignore_bogus_error_responses;
+ 	u8 sysctl_icmp_errors_use_inbound_ifaddr;
++	u8 sysctl_icmp_timestamp_ignore_all;
+ 	int sysctl_icmp_ratelimit;
+ 	int sysctl_icmp_ratemask;
+
+diff --git a/include/uapi/linux/sysctl.h b/include/uapi/linux/sysctl.h
+index 8981f00204db..ef8640947f4e 100644
+--- a/include/uapi/linux/sysctl.h
++++ b/include/uapi/linux/sysctl.h
+@@ -426,6 +426,7 @@ enum
+ 	NET_TCP_ALLOWED_CONG_CONTROL=123,
+ 	NET_TCP_MAX_SSTHRESH=124,
+ 	NET_TCP_FRTO_RESPONSE=125,
++	NET_IPV4_ICMP_TIMESTAMP_IGNORE_ALL = 126,
+ };
+
+ enum {
+diff --git a/net/ipv4/icmp.c b/net/ipv4/icmp.c
+index ab6d0d98dbc3..6fa5c26cf402 100644
+--- a/net/ipv4/icmp.c
++++ b/net/ipv4/icmp.c
+@@ -1152,6 +1152,11 @@ EXPORT_SYMBOL_GPL(icmp_build_probe);
+ static enum skb_drop_reason icmp_timestamp(struct sk_buff *skb)
+ {
+ 	struct icmp_bxm icmp_param;
++	struct net *net;
++
++	if (READ_ONCE(net->ipv4.sysctl_icmp_timestamp_ignore_all))
++		return SKB_NOT_DROPPED_YET;
++
+ 	/*
+ 	 *	Too short.
+ 	 */
+@@ -1469,6 +1474,9 @@ static int __net_init icmp_sk_init(struct net *net)
+ 	net->ipv4.sysctl_icmp_echo_enable_probe = 0;
+ 	net->ipv4.sysctl_icmp_echo_ignore_broadcasts = 1;
+
++	/* Control parameters for TIMESTAMP replies. */
++	net->ipv4.sysctl_icmp_timestamp_ignore_all = 0;
++
+ 	/* Control parameter - ignore bogus broadcast responses? */
+ 	net->ipv4.sysctl_icmp_ignore_bogus_error_responses = 1;
+
+diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
+index 162a0a3b6ba5..b002426c3d9c 100644
+--- a/net/ipv4/sysctl_net_ipv4.c
++++ b/net/ipv4/sysctl_net_ipv4.c
+@@ -651,6 +651,15 @@ static struct ctl_table ipv4_net_table[] = {
+ 		.mode		= 0644,
+ 		.proc_handler	= ipv4_ping_group_range,
+ 	},
++	{
++		.procname	= "icmp_timestamp_ignore_all",
++		.data		= &init_net.ipv4.sysctl_icmp_timestamp_ignore_all,
++		.maxlen		= sizeof(u8),
++		.mode		= 0644,
++		.proc_handler	= proc_dou8vec_minmax,
++		.extra1		= SYSCTL_ZERO,
++		.extra2		= SYSCTL_ONE
++	},
+ #ifdef CONFIG_NET_L3_MASTER_DEV
+ 	{
+ 		.procname	= "raw_l3mdev_accept",
 -- 
-2.39.2
-
+2.25.1
