@@ -1,181 +1,125 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E437038DD6;
-	Fri, 17 May 2024 17:26:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD0C613DDB7
+	for <linux-doc@vger.kernel.org>; Fri, 17 May 2024 17:38:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715966776; cv=none; b=no9d+u5u9aww1YiaBAGEANgAcgppkcLfa5aHC/lvX9u2KPfGckGhOq6NE0IyZODcYhBVpKXYNRHW9YwkQp88QlriGs8lIp+ojUNqnwPpScISxs22pj4YuZt2ETlXuqvJO8zGZiZ4hS+e9Ai02cF8D8S7QyL3sF38j5LEbzPQ0o4=
+	t=1715967495; cv=none; b=pwsgFji0VwLgILKPzMsQrNrBvVPvxqLtmpNgITq9ihlffvNvok/mIcQAxJx/0XHRcYcyvaJkR/mK8u7OsEbTB/lsSL1GZPneDhLwIjVP1iOcCDrKQ8sWns7oulxLEy/rWsPuJ1yzSAuwZEAzefl2MKdF5/DFYOocuqUlK2uTc6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715966776; c=relaxed/simple;
-	bh=0M3HYSdEmubxOzs/jcX7oAnPF/iNS8AiC7WXi8DwIRA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=fpumou0DLaxTSj3P4FVrLLjt0cWdEwWXW7r16U88q24mt3si3ZvX4IR8g+dirYjYTH0t7pBuhRgMx5Iq8dkjYYnz/BL2hP7qwcNRU6aLylvg0vigkcoe07MXjdkXvZ9xaY/Vz0+Q/ZNKnF+04hb8ZERI0orz41TIPi2SezHz03U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Kd0yH2xr; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1715967495; c=relaxed/simple;
+	bh=BY/hZo13CLwFiuLGXW4iBxh7QnHKbF0uMbcvEEfu4u8=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=BwEAlB0sVODNl+E0tvawUtL3xIwDgBc8rMJ+5wpYG0twyIt4bACDMo7G5sN2B/n74rGUEWfETPTz8ZyOJYMnUQLUzuFCGU0h1y+bl+q1F5k8NMsc4b9qHFL9aNHoniJg6UepiZ8Oc/8Ft2UsxwzVbYPxUN+4nr3zIakR5RwTHv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=t5Up0GXK; arc=none smtp.client-ip=209.85.216.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Kd0yH2xr"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44H887hm007325;
-	Fri, 17 May 2024 17:25:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=gLVVj3IpTMDOAfQJiNsX9fmZxMsVPG8Kxu10qlV2sjY=; b=Kd
-	0yH2xrdS7mqMMysI3ADZYa8rRXZdNSY5mbAn4DrvuIngbUa9FS/98CqDqHshw8Ee
-	cQzTeilZ7/HuT9O8OlG83JKw6bidRJnWPDwwK2B0y1LJibh8iN9bjMaIrkWlIVsb
-	ACjj1ck65ByXm4pB0zIo7eigOg7UyIY9QqrqfawBSfcb3fU/8oAB7+XZV9EZEc0h
-	GhXFWcHLUtSjLTQo+/xQWAnwif0BRVD675S6TOzqRHvNfRpqd6aepbsiYA1U0wvM
-	KQZIp/OEu4blXaGHGSQFMVy4KRrmUeuTA9z29zHS78XzNKRMj/bmTRRJfzrOFA3I
-	asf3q13i1tG8//uYYKOg==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3y51tunesg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 17 May 2024 17:25:58 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44HHPvSn025836
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 17 May 2024 17:25:57 GMT
-Received: from [10.110.27.85] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 17 May
- 2024 10:25:56 -0700
-Message-ID: <87e2a55c-4b8c-40e0-b371-aaae40e5e876@quicinc.com>
-Date: Fri, 17 May 2024 10:25:55 -0700
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="t5Up0GXK"
+Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-2b5cb8686c9so8960678a91.2
+        for <linux-doc@vger.kernel.org>; Fri, 17 May 2024 10:38:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1715967493; x=1716572293; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=jzuhfQ6w0AXMfOQGLEmaZLyI3U2s6W3AD5J7+WG1xGA=;
+        b=t5Up0GXKE0nkxk5wqIQ7eWRlUoDpJnS7WQsuU8v11c2jqeSwyWw0nwnYn8AtG6Ipo4
+         8EGheSwGmmjQsomo7LptjOv3eMa1qo17l0yQ3+sNlhlAMrJs2JlHGiiFwoysmcBMluhm
+         upCotU8d4vWWOFoTpbff6148Ysx721R8EcTcoNQk960SaIKYrOXhypnChp7yl6+uoawS
+         PlDGV1lXz+JfB4bZAkPwKLXs5QBhCtxncfL7zfWiph9OGI4ieAzHCTnS9L00zSs4xHyD
+         nVIXawrQOxBg8tbbIha4svhF9b7yYCF/Duyk7W1rkbrbghIyXPa9cvsqkhcGFUH2UlTx
+         WRag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715967493; x=1716572293;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jzuhfQ6w0AXMfOQGLEmaZLyI3U2s6W3AD5J7+WG1xGA=;
+        b=eVOhGMn/SZxXbGlf6vSbn9k/WaSwlegtebRp4w8CbJm5k+MT/dodP+M01PHi7ThDgk
+         1F/171u9/ufTR5aJ2gZTn9H5I+8QaRZit0W7XJ6YBEmBromJzNiUzNT0nfpUuQb9jVn0
+         rJw7pLhB508sP0sY3vIUfFqMC0DR/buCMpjAFVg+8FBA0Ds1HJ7X8A3jjYWSDg0C9vxY
+         9ObcSYNvjEDbQu7HnQOMNio+DRitCr4wBJnkg3kRrWnCeLpZSnOshRghUdajzXGaENIx
+         n9wiCjS6wjG7DCNua+Qlt74ac9KANORn42Mn+3JLj/YpewRE3LYfGQegfQY6cdcYsZeW
+         1hrQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVTH/pGeW/ss/Y9fBKrkk4mAFAYJ7E1R/Gbkj74R7x94WTjXpvZhhuDpFvm9scuKhMn+m+QNhGIaI/dOR87DVSomtA1rdmj+GHU
+X-Gm-Message-State: AOJu0YyhyJNPgJHWw9a8YL9+/kUbAPXEjuPtIq5O0GpZGAf7dGKk5fvU
+	YSTZpeQY40qnbQDzUoOGnI+OI178Napef2Vl9xQKWHKJoh8jVKD4hcB3flsbqWte+T6d5ioFjTH
+	jH41CzrKKj7IIoA==
+X-Google-Smtp-Source: AGHT+IEcSEnhlabGL3MljAexrvTLovRHSHspelEweE+rv/3eEDJNx1P5eiOiDLgxiAyFBGGJIPp91LWn/mkrckE=
+X-Received: from tj-virt.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5683])
+ (user=tjmercier job=sendgmr) by 2002:a17:90b:2341:b0:2b9:df61:c002 with SMTP
+ id 98e67ed59e1d1-2b9df61c049mr21973a91.3.1715967492100; Fri, 17 May 2024
+ 10:38:12 -0700 (PDT)
+Date: Fri, 17 May 2024 17:38:02 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/7] remoteproc: qcom_q6v5_pas: Add hwspinlock bust on
- stop
-To: Mukesh Ojha <quic_mojha@quicinc.com>,
-        Bjorn Andersson
-	<andersson@kernel.org>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        "Peter
- Zijlstra" <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, Will Deacon
-	<will@kernel.org>,
-        Waiman Long <longman@redhat.com>, Boqun Feng
-	<boqun.feng@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mathieu Poirier
-	<mathieu.poirier@linaro.org>,
-        Rob Herring <robh@kernel.org>,
-        "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Konrad Dybcio
-	<konrad.dybcio@linaro.org>
-CC: <linux-remoteproc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, Richard Maina <quic_rmaina@quicinc.com>
-References: <20240516-hwspinlock-bust-v1-0-47a90a859238@quicinc.com>
- <20240516-hwspinlock-bust-v1-6-47a90a859238@quicinc.com>
- <1238fa39-f0da-fb4c-0668-caa946505373@quicinc.com>
-Content-Language: en-US
-From: Chris Lew <quic_clew@quicinc.com>
-In-Reply-To: <1238fa39-f0da-fb4c-0668-caa946505373@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: hUOpJDWfPmO--lYc7lk1l-UrlwupcZOQ
-X-Proofpoint-GUID: hUOpJDWfPmO--lYc7lk1l-UrlwupcZOQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
- definitions=2024-05-17_07,2024-05-17_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 phishscore=0
- spamscore=0 impostorscore=0 bulkscore=0 suspectscore=0 clxscore=1015
- mlxscore=0 lowpriorityscore=0 mlxlogscore=999 malwarescore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405010000 definitions=main-2405170136
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.45.0.rc1.225.g2a3ae87e7f-goog
+Message-ID: <20240517173805.4181349-1-tjmercier@google.com>
+Subject: [PATCH v3 1/2] doc: swiotlb: iommu/dma: Clarify swiotlb=force option
+ applies only to dma-direct
+From: "T.J. Mercier" <tjmercier@google.com>
+To: tjmercier@google.com, Jonathan Corbet <corbet@lwn.net>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>
+Cc: iommu@lists.linux.dev, isaacmanjarres@google.com, robin.murphy@arm.com, 
+	will@kernel.org, joro@8bytes.org, Petr Tesarik <petr@tesarici.cz>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
+IOMMU implementations now sometimes bounce memory through SWIOTLB to
+achieve cacheline alignment [1], or prevent DMA attacks by untrusted
+devices [2]. These uses of SWIOTLB differ conceptually from historical
+use which was a solution to the problem of device addressing
+limitations that prevent DMA to some portion of system memory
+(typically beyond 4 GiB). IOMMUs also solve the problem of device
+addressing limitations and therefore eliminate the need for SWIOTLB for
+that purpose. However as mentioned, IOMMUs can use SWIOTLB for other
+purposes.
 
+The swiotlb=force kernel command line parameter does not impact IOMMU
+related use of SWIOTLB, and that is intentional. IOMMUs cannot be forced
+to use SWIOTLB for all buffers. Update the documentation for the swiotlb
+parameter to clarify that SWIOTLB use can only be forced in scenarios
+where an IOMMU is not involved.
 
-On 5/17/2024 12:21 AM, Mukesh Ojha wrote:
-> 
-> 
-> On 5/17/2024 4:28 AM, Chris Lew wrote:
->> From: Richard Maina <quic_rmaina@quicinc.com>
->>
->> When remoteproc goes down unexpectedly this results in a state where any
->> acquired hwspinlocks will remain locked possibly resulting in deadlock.
->> In order to ensure all locks are freed we include a call to
->> hwspin_lock_bust() during remoteproc shutdown.
->>
->> For qcom_q6v5_pas remoteprocs, each remoteproc has an assigned id that
->> is used to take the hwspinlock. Remoteproc should use this id to try and
->> bust the lock on remoteproc stop.
->>
->> This edge case only occurs with q6v5_pas watchdog crashes. The error
->> fatal case has handling to clear the hwspinlock before the error fatal
->> interrupt is triggered.
->>
->> Signed-off-by: Richard Maina <quic_rmaina@quicinc.com>
->> Signed-off-by: Chris Lew <quic_clew@quicinc.com>
->> ---
->>   drivers/remoteproc/qcom_q6v5_pas.c | 28 ++++++++++++++++++++++++++++
->>   1 file changed, 28 insertions(+)
->>
->> diff --git a/drivers/remoteproc/qcom_q6v5_pas.c 
->> b/drivers/remoteproc/qcom_q6v5_pas.c
->> index 54d8005d40a3..57178fcb9aa3 100644
->> --- a/drivers/remoteproc/qcom_q6v5_pas.c
->> +++ b/drivers/remoteproc/qcom_q6v5_pas.c
->> @@ -10,6 +10,7 @@
->>   #include <linux/clk.h>
->>   #include <linux/delay.h>
->>   #include <linux/firmware.h>
->> +#include <linux/hwspinlock.h>
->>   #include <linux/interrupt.h>
->>   #include <linux/kernel.h>
->>   #include <linux/module.h>
->> @@ -52,6 +53,7 @@ struct adsp_data {
->>       const char *ssr_name;
->>       const char *sysmon_name;
->>       int ssctl_id;
->> +    int hwlock_id;
->>       int region_assign_idx;
->>       int region_assign_count;
->> @@ -84,6 +86,9 @@ struct qcom_adsp {
->>       bool decrypt_shutdown;
->>       const char *info_name;
->> +    struct hwspinlock *hwlock;
->> +    int hwlock_id;
->> +
->>       const struct firmware *firmware;
->>       const struct firmware *dtb_firmware;
->> @@ -399,6 +404,12 @@ static int adsp_stop(struct rproc *rproc)
->>       if (handover)
->>           qcom_pas_handover(&adsp->q6v5);
->> +    if (adsp->hwlock) {
->> +        ret = hwspin_lock_bust(adsp->hwlock, adsp->hwlock_id);
->> +        if (ret)
->> +            dev_info(adsp->dev, "failed to bust hwspinlock\n");
->> +    }
->> +
-> 
-> As you said above, you seem to cover only wdog case and fatal cases
-> are already handled at remote;
-> 
-> You are clearing here for both ? is this right understanding ?
-> 
+[1] https://lore.kernel.org/all/20230612153201.554742-16-catalin.marinas@arm.com
+[2] https://lore.kernel.org/all/20190906061452.30791-1-baolu.lu@linux.intel.com/
+Signed-off-by: T.J. Mercier <tjmercier@google.com>
+Reviewed-by: Petr Tesarik <petr@tesarici.cz>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 1 +
+ Documentation/arch/x86/x86_64/boot-options.rst  | 3 +++
+ 2 files changed, 4 insertions(+)
 
-Yes that is correct. While the firmware is able to handle error fatal 
-cases, I think it is still the responsibility of the remoteproc driver 
-to try and bust the lock on behalf of the rproc in both cases.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 213d0719e2b7..84c582ac246c 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6486,6 +6486,7 @@
+ 				 to a power of 2.
+ 			force -- force using of bounce buffers even if they
+ 			         wouldn't be automatically used by the kernel
++			         where a hardware IOMMU is not involved
+ 			noforce -- Never use bounce buffers (for debugging)
+ 
+ 	switches=	[HW,M68k,EARLY]
+diff --git a/Documentation/arch/x86/x86_64/boot-options.rst b/Documentation/arch/x86/x86_64/boot-options.rst
+index 137432d34109..a37139d1752f 100644
+--- a/Documentation/arch/x86/x86_64/boot-options.rst
++++ b/Documentation/arch/x86/x86_64/boot-options.rst
+@@ -292,6 +292,9 @@ implementation:
+         Prereserve that many 2K slots for the software IO bounce buffering.
+       force
+         Force all IO through the software TLB.
++        Hardware IOMMU implementations can use SWIOTLB bounce buffering in
++        some circumstances, but they cannot be forced to always use them, so
++        this option only has an effect when no hardware IOMMU is involved.
+       noforce
+         Do not initialize the software TLB.
+ 
+-- 
+2.45.0.rc1.225.g2a3ae87e7f-goog
 
-The bust will only clear the spinlock if it has the token (specific id 
-for that rproc) that is passed into hwspin_lock_bust, so it is safe to 
-attempt this even if the value has been cleared by the rproc in the 
-error fatal case.
-
-> -Mukesh
