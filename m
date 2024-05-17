@@ -1,142 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CE2239FFD;
-	Fri, 17 May 2024 21:41:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7791DFD2
+	for <linux-doc@vger.kernel.org>; Fri, 17 May 2024 21:51:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715982093; cv=none; b=k2J4a8kLY+1ymBEbYoepvBj5s+458Q4GbCH7XfTBe2tTxbqw6RCieNyv8DE+FJI8/ibdGn7Rs4VHgqgvU0gCuwiLbObkE/ke5oJsLVPG15rlozlZ8FzbLFsz1n4l5/xKA1tPMACRCNUh0k69lCc9RGfkVM7+BvMJAn03/65A8UQ=
+	t=1715982704; cv=none; b=ZJTolZls1/+2LVKvu24igbgmoOxaBjlyxhNKvwenG3xX/kgr38x3ehAzzKE/fO8mvYJfqjfVzB3x6bKr1NiZSeywzKrcwWsYtKBYauvalp5Y38fHaHrsvlQ0Bsm2Mcnhz9UIHzBHyVCjbIGSILxJ1Be4a9egAqxwDOYQNNYzy74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715982093; c=relaxed/simple;
-	bh=4DbhTqVeCazl5JYN5QLQkbjuL3BMRR4vuSZ6FBq93Jc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TEu4/3r2JmBz41OetC2PujvqMHpfUJjhYoiVZYJk82zkxKNtaa26ihtQJ3BWi9lRQUvCMn9xCEAGo6Gm7Rlh2N0Mv5R+sTiP7AkbFJVJbk0EEil/2FQ4zmnR17VRbf46+7tAUg8+rnjVdAiRlhovI0egm4u9yQp3G9A6Bnb4jEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DYHavwk5; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1715982704; c=relaxed/simple;
+	bh=0BnsCVzy0id/M//gXYNHDgKFcuT3ZsFHq/dlbbTEOFo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Fw65wDagAx0NOUOPE7hGzXttcuybzLcCNqHGCpRMYp5Vy/8B1qmOUDHavhB1l8x/UphJ5IwObC/6N+kh9Lf/a7OPf/zc+5dASijvoHe/18w2zCjegxJfcxFyxLX+2xCYkwkYZ67vldaJaE2cWugN9K+eYQCdqk17XViou+gVYVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xveNHRdu; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DYHavwk5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715982092; x=1747518092;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4DbhTqVeCazl5JYN5QLQkbjuL3BMRR4vuSZ6FBq93Jc=;
-  b=DYHavwk5BDhpoO5lvq4eAS9ZQALRzhUga0ic1Mldk8H67Hi/WVExCvE/
-   zCmBok8BvE6/IKi/jOT2XJ+FJHrfiOrFElENc751Tf0dQ8w1v9wvIposO
-   0zJlhNeGiJobaJQM7KTeGj59Z2Bny0h/UgQiUPr0lYhcFsxZNtK0w6Wmj
-   CJHAcvvJsg4FJdR0+6jqvS8UKlFbhs7Kgy0SeIynRCaSj6LATZYeqg71b
-   EWqtwXPGdES/+o6LYikceHfIU35FfJ3NVUZTLZWyuFWT0jryWC4Rbnx7b
-   kawFGivVXjsn2vFk0CUnQSzi9cvANXHeaS0y1AJnNu+ArausT5ncyaGEM
-   g==;
-X-CSE-ConnectionGUID: qyP+kP+/SGO5WA3mSmR9Hg==
-X-CSE-MsgGUID: tkzBAKr2QseCS4C3Tua+Wg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="12397799"
-X-IronPort-AV: E=Sophos;i="6.08,168,1712646000"; 
-   d="scan'208";a="12397799"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2024 14:41:30 -0700
-X-CSE-ConnectionGUID: e19tFCluQkOjkel6aQ+J2Q==
-X-CSE-MsgGUID: xJBNCq0iQ1WL/xSrWmqUqg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,168,1712646000"; 
-   d="scan'208";a="31935398"
-Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 17 May 2024 14:41:20 -0700
-Received: from kbuild by 108735ec233b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1s85KH-00019l-1V;
-	Fri, 17 May 2024 21:41:17 +0000
-Date: Sat, 18 May 2024 05:34:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: ye.xingchen@zte.com.cn, davem@davemloft.net
-Cc: oe-kbuild-all@lists.linux.dev, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, corbet@lwn.net, dsahern@kernel.org,
-	ncardwell@google.com, soheil@google.com, mfreemon@cloudflare.com,
-	lixiaoyan@google.com, david.laight@aculab.com,
-	haiyangz@microsoft.com, ye.xingchen@zte.com.cn,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, xu.xin16@zte.com.cn,
-	zhang.yunkai@zte.com.cn, fan.yu9@zte.com.cn
-Subject: Re: [PATCH net-next] icmp: Add icmp_timestamp_ignore_all to control
- ICMP_TIMESTAMP
-Message-ID: <202405180527.iGJVxmda-lkp@intel.com>
-References: <20240517172639229ec5bN7VBV7SGEHkSK5K6f@zte.com.cn>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xveNHRdu"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1ec76185c0fso3725ad.1
+        for <linux-doc@vger.kernel.org>; Fri, 17 May 2024 14:51:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1715982703; x=1716587503; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0BnsCVzy0id/M//gXYNHDgKFcuT3ZsFHq/dlbbTEOFo=;
+        b=xveNHRduf9vHMQT0zku245gxxkXc5VxYLQgni79eiuLEJdgIM6k6eI9EOLI/6FMtc7
+         5eki17w0dP69P2lJvbsJ1JWA2N4FM1KG7baQtNnFt2Ohug8yTqJcyfSuT33g1NtUmw8W
+         Nih2bX8uFtmcexi5DKbzDilt9rZZDdkiT0958RxygA/gtBURhq50wpVNFyXo/UB4KQdX
+         efoNhhkw1D/4rU7XNXrP61RdY4FA4ATSvUzQ21WOt3JQUfWj2BvpXoBaYd9Niv+kLQXn
+         o/EZr7egZdtJhK3GgaZKTnrCzIaDbznMZTeak9SNQeusu/3gk2c74zNF4VpJULHgLYeJ
+         96fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715982703; x=1716587503;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0BnsCVzy0id/M//gXYNHDgKFcuT3ZsFHq/dlbbTEOFo=;
+        b=FMIXZX1ZFdAVcW6GxIv2kcngnxiH4RFGaZ1lCmDkeVmm4jvLm615PiMkEBDf82BKNF
+         sS0XqjrwZmWxZenwn9norD+AphJHNpNjtv5I5BjqMST+OHbGfeu8uUsAByzfid1ngzPl
+         ORGdNtElrz/I117c6AtR16AVBR/oHf+jEZsi9h/V6FFfwFQrQAPUMxL+lwcsxMYoRgxF
+         ky0BGhljcCfIc16UbzaPKZZ9ujPLAV32wQ6dttuj7NgwY+yI5kd4OAsamkdWv/znAkTX
+         5hM5P8J5i8foGu2HD/HFx0zHerGzrnwo7s48MK2yAIugI7imI2VJTxfBWMKgzTQpz0bC
+         ROhw==
+X-Forwarded-Encrypted: i=1; AJvYcCU+h8KiNKUDGo9aLlAK8uLtuIcSbMhBgarbuOkncVEk2ceaovs4vASLo8kONmfrjS0yXMwex8sGqo5xhx1D6hY2gAUCpqMcRxE+
+X-Gm-Message-State: AOJu0Yxk4Wx6owfQLeoJJEVSH6Azh7/bPCOJqHz6sdmnWPQajsYSM7Wk
+	y3OvN4JrLL5BZ1s+r2//Kqeu2bbHvEAu80Wad8t3hpqtExQTeIMmIAa9f1TFP3Ufdcooen112a7
+	7o4J+6/9YjjQ/a8urKvtHS6yOqbqlD1qmWDHf
+X-Google-Smtp-Source: AGHT+IG+91I7rOKF2t9bNu6iWny0Jc+Pde2JFYBdmetZyANUcgW1VcEP8hO1J4SqD4XvoLgf2WRbUrcQCYEpWmxMRQM=
+X-Received: by 2002:a17:903:8c3:b0:1e2:73a9:7df6 with SMTP id
+ d9443c01a7336-1f2ee0b1ebdmr195265ad.23.1715982702348; Fri, 17 May 2024
+ 14:51:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240517172639229ec5bN7VBV7SGEHkSK5K6f@zte.com.cn>
+References: <cover.1711674410.git.babu.moger@amd.com> <CALPaoCjZ3oLdKymJjASt0aqtd0GGOme7LavvYOtPYTb_rA-mYQ@mail.gmail.com>
+ <b35dc4e9-7e8b-42ed-9a51-ae50d521cf4b@amd.com> <CALPaoChxYoJx8eR48EkSKf-hu2p2myQJLZEhj_Pq6O4R15-=5A@mail.gmail.com>
+ <6edffe1b-e9a9-4995-8172-353efc189666@amd.com> <ab2a6a4b-3740-47c6-9443-e6bb7a0c1adb@intel.com>
+ <CALPaoCiYFKeASPMDwzzaHLw4JiMtBB6DTyVPgt0Voe3c3Tav_A@mail.gmail.com>
+ <b725e4ca-8602-eb26-9d47-914526621f52@amd.com> <CALPaoCiu2_UHyGjsyitz28BL1N93TSn28E1r-6nhXg--bzmU+Q@mail.gmail.com>
+ <d7f3c5b1-c39d-4c66-92c3-5b096b9e0579@intel.com>
+In-Reply-To: <d7f3c5b1-c39d-4c66-92c3-5b096b9e0579@intel.com>
+From: Peter Newman <peternewman@google.com>
+Date: Fri, 17 May 2024 14:51:28 -0700
+Message-ID: <CALPaoCiJ9ELXkij-zsAhxC1hx8UUR+KMPJH6i8c8AT6_mtXs+Q@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 00/17] x86/resctrl : Support AMD Assignable
+ Bandwidth Monitoring Counters (ABMC)
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: babu.moger@amd.com, corbet@lwn.net, fenghua.yu@intel.com, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org, 
+	peterz@infradead.org, yanjiewtw@gmail.com, kim.phillips@amd.com, 
+	lukas.bulwahn@gmail.com, seanjc@google.com, jmattson@google.com, 
+	leitao@debian.org, jpoimboe@kernel.org, rick.p.edgecombe@intel.com, 
+	kirill.shutemov@linux.intel.com, jithu.joseph@intel.com, kai.huang@intel.com, 
+	kan.liang@linux.intel.com, daniel.sneddon@linux.intel.com, 
+	pbonzini@redhat.com, sandipan.das@amd.com, ilpo.jarvinen@linux.intel.com, 
+	maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi Reinette, Babu,
 
-kernel test robot noticed the following build warnings:
+On Fri, May 3, 2024 at 2:15=E2=80=AFPM Reinette Chatre
+<reinette.chatre@intel.com> wrote:
+>
+> Hi Peter,
+>
+> On 5/3/2024 2:00 PM, Peter Newman wrote:
+> > Hi Babu,
+> >
+> > On Fri, May 3, 2024 at 1:44=E2=80=AFPM Moger, Babu <bmoger@amd.com> wro=
+te:
+> >>
+> >> Hi Peter,
+> >>
+> >> On 5/2/2024 7:57 PM, Peter Newman wrote:
+> >>> Hi Reinette,
+> >>>
+> >>> On Thu, May 2, 2024 at 4:21=E2=80=AFPM Reinette Chatre
+> >>>> I do think ABMC should be enabled by default when available and it l=
+ooks
+> >>>> to be what this series aims to do [1]. The way I reason about this i=
+s
+> >>>> that legacy user space gets more reliable monitoring behavior withou=
+t
+> >>>> needing to change behavior.
+> >>>
+> >>> I don't like that for a monitor assignment-aware user, following the
+> >>> creation of new monitoring groups, there will be less monitors
+> >>> available for assignment. If the user wants precise control over wher=
+e
+> >>> monitors are allocated, they would need to manually unassign the
+> >>> automatically-assigned monitor after creating new groups.
+> >>>
+> >>> It's an annoyance, but I'm not sure if it would break any realistic
+> >>> usage model. Maybe if the monitoring agent operates independently of
+> >>
+> >> Yes. Its annoyance.
+> >>
+> >> But if you think about it, normal users don't create too many groups.
+> >> They wont have to worry about assign/unassign headache if we enable
+> >> monitor assignment automatically. Also there is pqos tool which uses
+> >> this interface. It does not have to know about assign/unassign stuff.
+> >
+> > Thinking about this again, I don't think it's much of a concern
+> > because the automatic assignment on mongroup creation behavior can be
+> > trivially disabled using a boolean flag.
+>
+> This could be a config option.
 
-[auto build test WARNING on net-next/main]
+I'd like to work out the details of this option.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/ye-xingchen-zte-com-cn/icmp-Add-icmp_timestamp_ignore_all-to-control-ICMP_TIMESTAMP/20240517-172903
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20240517172639229ec5bN7VBV7SGEHkSK5K6f%40zte.com.cn
-patch subject: [PATCH net-next] icmp: Add icmp_timestamp_ignore_all to control ICMP_TIMESTAMP
-config: arc-vdk_hs38_defconfig (https://download.01.org/0day-ci/archive/20240518/202405180527.iGJVxmda-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240518/202405180527.iGJVxmda-lkp@intel.com/reproduce)
+info/L3_MON/mbm_assign_on_mkdir?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405180527.iGJVxmda-lkp@intel.com/
+boolean (parsed with kstrtobool()), defaulting to true?
 
-All warnings (new ones prefixed by >>):
-
-   In file included from ./arch/arc/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:299,
-                    from include/linux/build_bug.h:5,
-                    from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/module.h:12,
-                    from net/ipv4/icmp.c:62:
-   net/ipv4/icmp.c: In function 'icmp_timestamp':
->> include/asm-generic/rwonce.h:44:71: warning: 'net' is used uninitialized [-Wuninitialized]
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                                                                       ^~~~
-   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |         ^~~~~~~~~~~
-   net/ipv4/icmp.c:1157:13: note: in expansion of macro 'READ_ONCE'
-    1157 |         if (READ_ONCE(net->ipv4.sysctl_icmp_timestamp_ignore_all))
-         |             ^~~~~~~~~
-   net/ipv4/icmp.c:1155:21: note: 'net' was declared here
-    1155 |         struct net *net;
-         |                     ^~~
-
-
-vim +/net +44 include/asm-generic/rwonce.h
-
-e506ea451254ab1 Will Deacon 2019-10-15  28  
-e506ea451254ab1 Will Deacon 2019-10-15  29  /*
-e506ea451254ab1 Will Deacon 2019-10-15  30   * Yes, this permits 64-bit accesses on 32-bit architectures. These will
-e506ea451254ab1 Will Deacon 2019-10-15  31   * actually be atomic in some cases (namely Armv7 + LPAE), but for others we
-e506ea451254ab1 Will Deacon 2019-10-15  32   * rely on the access being split into 2x32-bit accesses for a 32-bit quantity
-e506ea451254ab1 Will Deacon 2019-10-15  33   * (e.g. a virtual address) and a strong prevailing wind.
-e506ea451254ab1 Will Deacon 2019-10-15  34   */
-e506ea451254ab1 Will Deacon 2019-10-15  35  #define compiletime_assert_rwonce_type(t)					\
-e506ea451254ab1 Will Deacon 2019-10-15  36  	compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),	\
-e506ea451254ab1 Will Deacon 2019-10-15  37  		"Unsupported access size for {READ,WRITE}_ONCE().")
-e506ea451254ab1 Will Deacon 2019-10-15  38  
-e506ea451254ab1 Will Deacon 2019-10-15  39  /*
-e506ea451254ab1 Will Deacon 2019-10-15  40   * Use __READ_ONCE() instead of READ_ONCE() if you do not require any
-3c9184109e78ea2 Will Deacon 2019-10-30  41   * atomicity. Note that this may result in tears!
-e506ea451254ab1 Will Deacon 2019-10-15  42   */
-b78b331a3f5c077 Will Deacon 2019-10-15  43  #ifndef __READ_ONCE
-e506ea451254ab1 Will Deacon 2019-10-15 @44  #define __READ_ONCE(x)	(*(const volatile __unqual_scalar_typeof(x) *)&(x))
-b78b331a3f5c077 Will Deacon 2019-10-15  45  #endif
-e506ea451254ab1 Will Deacon 2019-10-15  46  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-Peter
