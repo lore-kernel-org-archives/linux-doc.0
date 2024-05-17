@@ -1,240 +1,166 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F57038FA6;
-	Thu, 16 May 2024 22:59:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7675C171C8;
+	Fri, 17 May 2024 07:20:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715900388; cv=none; b=hIEGiYbPKdT+1QpM0Y/9A0o9BV5nUni0WSagd13IB++XFYIMeodJvNh+jrlee+9Y+wJJAnearxqrQY43heFD3Hork7WSvtNPCdSBQs1HpN8WPC+mZ0dFlvkfRHFaA4GDeJvpBzPAibP5Kpexd+gIv4s7gW7FX4RQ+Q6sBxdEN0Q=
+	t=1715930431; cv=none; b=lMT91jZqSO3ciKahVrwSeXTWSSFIrRGmovHSjXK/kxZRyTiSVAFpbnu9wV75bJ7QEjolhgnjz8Rk8wrby1yWtBAh7mZGI90RHkqZmdPKnT5+j69ADMzRBrPaJ6c+VIED/oaoOZi3hiVXGUCQRMFD+n3hiHKfoK194H2DduxKCzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715900388; c=relaxed/simple;
-	bh=PuP3rCcFrb95od+jXOlfqySFSEORz+MzdKmq2DrM7Io=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=Xo4edmLuZx1SZNEehoiyp+pZy6fF9MxxE0f4BdBf7ew/jqYz2xJc4EQO0ggqbAK5XKpO1Zxg8Jzm9ZApQX5/Rx1fUChqULn1VZqC0Bt4ak3wyyjEypFhma2vhCnAMaPWiR6UOqwzDyeKAaxHTUWAgsdLbM7ZL6Tf8xN3fejPFrU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=WNuUlF+W; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1715930431; c=relaxed/simple;
+	bh=r7NLOcVOLcY+DFIoJzb0OFwv9OcP/ogxNDe9/qB2lVs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=cyNw6faKRL/wL2j8Q5Elg7qK51ZinFcpac/okIK4LP6mp0MK0rwgWS7WFMqbpARwubgZ6nw+iNlenClBuUlLbDci14F1Qgcx//4syn+IscHbBkgh3HcGhPmx+VQ7a6TFKdmCQHmaA9lVb1KME92IzGrEyIof7hao+Cbms9lWOGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=FqQIaaU7; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="WNuUlF+W"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44GKMrO7008455;
-	Thu, 16 May 2024 22:59:09 GMT
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="FqQIaaU7"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44GKMaQW007096;
+	Fri, 17 May 2024 07:20:06 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	from:date:subject:mime-version:content-type
-	:content-transfer-encoding:message-id:references:in-reply-to:to
-	:cc; s=qcppdkim1; bh=YiZm6RAtjJv5sclEXV9/7nXZIdJO10j8272UKQobI70
-	=; b=WNuUlF+WAnFYata1I/47Zbh6B0ajZnWCnH0+XUyeJ6t7wfOWUmOoSKJKXG1
-	Y/lSDIDYj0Y/DxV50PsvSzL01O7B+qtqyhWiwityvEx3vCEGvm9Jh84R6K9eZJEX
-	hrHjFw0pcWzqxVBIoFlMCw75ZLlE3IhqOXpK9mYKw+ZnZTma1qcSDgBqXD6DhoTr
-	8gnqe0UksRWvs/MSWZEDKQfLJix6sdeEsyLFAssqwrwwcixKi0IoDmld7wHKYdh0
-	czciwE8Ugd2M22WODwcrPE7qFWi8FWW4s5Ht/k8hZfyh191SbB0OGh+7KpQ+w+OO
-	JxmZ5KYI13wQWSxTj5Oua5YwOKw==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3y51tuk6bp-1
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=uY1zTHz8LU8EGSAVc2VKG3qcU0iZZ32JvHNT0TH28cA=; b=Fq
+	QIaaU7nFCC+93sdCNvEA+Nujl2gGyfvHHp00O2fAZI/8BJ7M8FfILsxVLw4OBzvK
+	rhZ6cFVMM7ful5O1TdXo4jixidLegTnC+VnZZJpnPPMnR4XKQsqkuQnDb0bhaaQd
+	X55P3+R9oweYP1wRX1asLxbkBk53PCutsVSU5VPzrD0/i3XHKDVkM700SysN7vrh
+	xlQvO6GHzgoj2LwVuT86kDZw5W2matDUODMU2CXO4GOIkxOSYJKLOmdJ6zedvpiC
+	qFjszYAmjzmnFbrpnMpVnoq1TXC8iKptiiuAMnDOY5NGcEyyMwpV5M8p8JgZzOrR
+	+13+5a6YrP4TWO7m71Ng==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3y47egfmf0-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 16 May 2024 22:59:09 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44GMx6K2012432
+	Fri, 17 May 2024 07:20:06 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44H7K489016321
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 16 May 2024 22:59:06 GMT
-Received: from hu-clew-lv.qualcomm.com (10.49.16.6) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Thu, 16 May 2024 15:59:05 -0700
-From: Chris Lew <quic_clew@quicinc.com>
-Date: Thu, 16 May 2024 15:58:21 -0700
-Subject: [PATCH 3/7] hwspinlock: Introduce hwspin_lock_bust()
+	Fri, 17 May 2024 07:20:04 GMT
+Received: from [10.216.53.65] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 17 May
+ 2024 00:19:56 -0700
+Message-ID: <be23b02d-d2b5-2bec-487b-35caf90f29f7@quicinc.com>
+Date: Fri, 17 May 2024 12:49:47 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20240516-hwspinlock-bust-v1-3-47a90a859238@quicinc.com>
-References: <20240516-hwspinlock-bust-v1-0-47a90a859238@quicinc.com>
-In-Reply-To: <20240516-hwspinlock-bust-v1-0-47a90a859238@quicinc.com>
-To: Bjorn Andersson <andersson@kernel.org>,
-        Baolin Wang
-	<baolin.wang@linux.alibaba.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Ingo
- Molnar" <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-        Waiman Long
-	<longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
-        Jonathan Corbet
-	<corbet@lwn.net>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>,
-        Manivannan Sadhasivam
-	<manivannan.sadhasivam@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 6/7] remoteproc: qcom_q6v5_pas: Add hwspinlock bust on
+ stop
+Content-Language: en-US
+To: Chris Lew <quic_clew@quicinc.com>, Bjorn Andersson <andersson@kernel.org>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Peter Zijlstra
+	<peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+        Will Deacon
+	<will@kernel.org>, Waiman Long <longman@redhat.com>,
+        Boqun Feng
+	<boqun.feng@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+        Mathieu Poirier
+	<mathieu.poirier@linaro.org>,
+        Rob Herring <robh@kernel.org>,
+        "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Konrad Dybcio
+	<konrad.dybcio@linaro.org>
 CC: <linux-remoteproc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, Chris Lew <quic_clew@quicinc.com>,
-        "Richard
- Maina" <quic_rmaina@quicinc.com>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1715900345; l=5549;
- i=quic_clew@quicinc.com; s=20240508; h=from:subject:message-id;
- bh=r6T0Zp/81nd5V0dz4Vr79ona63c6Utz764HgHxRPvAQ=;
- b=DQOtMMsB6YfYb6ieVLpXbaK2ARStqPqBFkQrwerJT6Lfh3XX31xuKJzmMZiSp4MU0f6WNzkn1
- hsG2FvAsAFSBO+6e2sWhnAfe317k6ogWTt4++PFNZ2Ri7ZNdO7qIMsk
-X-Developer-Key: i=quic_clew@quicinc.com; a=ed25519;
- pk=lEYKFaL1H5dMC33BEeOULLcHAwjKyHkTLdLZQRDTKV4=
-X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
+        <devicetree@vger.kernel.org>, Richard Maina <quic_rmaina@quicinc.com>
+References: <20240516-hwspinlock-bust-v1-0-47a90a859238@quicinc.com>
+ <20240516-hwspinlock-bust-v1-6-47a90a859238@quicinc.com>
+From: Mukesh Ojha <quic_mojha@quicinc.com>
+In-Reply-To: <20240516-hwspinlock-bust-v1-6-47a90a859238@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: uz2yE_2PP5De56H-hTxKgdHjDlyI5iEE
-X-Proofpoint-GUID: uz2yE_2PP5De56H-hTxKgdHjDlyI5iEE
+X-Proofpoint-GUID: Ji2uEMqRe5cnnI3ZhmT3R5tX19g0KEvH
+X-Proofpoint-ORIG-GUID: Ji2uEMqRe5cnnI3ZhmT3R5tX19g0KEvH
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
  definitions=2024-05-16_07,2024-05-15_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 phishscore=0
- spamscore=0 impostorscore=0 bulkscore=0 suspectscore=0 clxscore=1015
- mlxscore=0 lowpriorityscore=0 mlxlogscore=999 malwarescore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405010000 definitions=main-2405160168
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
+ malwarescore=0 phishscore=0 spamscore=0 mlxlogscore=999 lowpriorityscore=0
+ clxscore=1011 impostorscore=0 suspectscore=0 priorityscore=1501
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405010000 definitions=main-2405170057
 
-From: Richard Maina <quic_rmaina@quicinc.com>
 
-When a remoteproc crashes or goes down unexpectedly this can result in
-a state where locks held by the remoteproc will remain locked possibly
-resulting in deadlock. This new API hwspin_lock_bust() allows
-hwspinlock implementers to define a bust operation for freeing previously
-acquired hwspinlocks after verifying ownership of the acquired lock.
 
-Signed-off-by: Richard Maina <quic_rmaina@quicinc.com>
-Signed-off-by: Chris Lew <quic_clew@quicinc.com>
----
- Documentation/locking/hwspinlock.rst     | 11 +++++++++++
- drivers/hwspinlock/hwspinlock_core.c     | 30 +++++++++++++++++++++++++++++-
- drivers/hwspinlock/hwspinlock_internal.h |  3 +++
- include/linux/hwspinlock.h               |  6 ++++++
- 4 files changed, 49 insertions(+), 1 deletion(-)
+On 5/17/2024 4:28 AM, Chris Lew wrote:
+> From: Richard Maina <quic_rmaina@quicinc.com>
+> 
+> When remoteproc goes down unexpectedly this results in a state where any
+> acquired hwspinlocks will remain locked possibly resulting in deadlock.
+> In order to ensure all locks are freed we include a call to
+> hwspin_lock_bust() during remoteproc shutdown.
+> 
+> For qcom_q6v5_pas remoteprocs, each remoteproc has an assigned id that
+> is used to take the hwspinlock. Remoteproc should use this id to try and
+> bust the lock on remoteproc stop.
+> 
+> This edge case only occurs with q6v5_pas watchdog crashes. The error
+> fatal case has handling to clear the hwspinlock before the error fatal
+> interrupt is triggered.
+> 
+> Signed-off-by: Richard Maina <quic_rmaina@quicinc.com>
+> Signed-off-by: Chris Lew <quic_clew@quicinc.com>
+> ---
+>   drivers/remoteproc/qcom_q6v5_pas.c | 28 ++++++++++++++++++++++++++++
+>   1 file changed, 28 insertions(+)
+> 
+> diff --git a/drivers/remoteproc/qcom_q6v5_pas.c b/drivers/remoteproc/qcom_q6v5_pas.c
+> index 54d8005d40a3..57178fcb9aa3 100644
+> --- a/drivers/remoteproc/qcom_q6v5_pas.c
+> +++ b/drivers/remoteproc/qcom_q6v5_pas.c
+> @@ -10,6 +10,7 @@
+>   #include <linux/clk.h>
+>   #include <linux/delay.h>
+>   #include <linux/firmware.h>
+> +#include <linux/hwspinlock.h>
+>   #include <linux/interrupt.h>
+>   #include <linux/kernel.h>
+>   #include <linux/module.h>
+> @@ -52,6 +53,7 @@ struct adsp_data {
+>   	const char *ssr_name;
+>   	const char *sysmon_name;
+>   	int ssctl_id;
+> +	int hwlock_id;
+>   
+>   	int region_assign_idx;
+>   	int region_assign_count;
+> @@ -84,6 +86,9 @@ struct qcom_adsp {
+>   	bool decrypt_shutdown;
+>   	const char *info_name;
+>   
+> +	struct hwspinlock *hwlock;
+> +	int hwlock_id;
+> +
+>   	const struct firmware *firmware;
+>   	const struct firmware *dtb_firmware;
+>   
+> @@ -399,6 +404,12 @@ static int adsp_stop(struct rproc *rproc)
+>   	if (handover)
+>   		qcom_pas_handover(&adsp->q6v5);
+>   
+> +	if (adsp->hwlock) {
+> +		ret = hwspin_lock_bust(adsp->hwlock, adsp->hwlock_id);
+> +		if (ret)
+> +			dev_info(adsp->dev, "failed to bust hwspinlock\n");
+> +	}
+> +
 
-diff --git a/Documentation/locking/hwspinlock.rst b/Documentation/locking/hwspinlock.rst
-index c1c2c827b575..6ee94cc6d3b7 100644
---- a/Documentation/locking/hwspinlock.rst
-+++ b/Documentation/locking/hwspinlock.rst
-@@ -85,6 +85,17 @@ is already free).
- 
- Should be called from a process context (might sleep).
- 
-+::
-+
-+  int hwspin_lock_bust(struct hwspinlock *hwlock, unsigned int id);
-+
-+After verifying the owner of the hwspinlock, release a previously acquired
-+hwspinlock; returns 0 on success, or an appropriate error code on failure
-+(e.g. -EOPNOTSUPP if the bust operation is not defined for the specific
-+hwspinlock).
-+
-+Should be called from a process context (might sleep).
-+
- ::
- 
-   int hwspin_lock_timeout(struct hwspinlock *hwlock, unsigned int timeout);
-diff --git a/drivers/hwspinlock/hwspinlock_core.c b/drivers/hwspinlock/hwspinlock_core.c
-index 73a6dff5cbac..a7851262f36f 100644
---- a/drivers/hwspinlock/hwspinlock_core.c
-+++ b/drivers/hwspinlock/hwspinlock_core.c
-@@ -305,6 +305,34 @@ void __hwspin_unlock(struct hwspinlock *hwlock, int mode, unsigned long *flags)
- }
- EXPORT_SYMBOL_GPL(__hwspin_unlock);
- 
-+/**
-+ * hwspin_lock_bust() - bust a specific hwspinlock
-+ * @hwlock: a previously-acquired hwspinlock which we want to bust
-+ * @id: identifier of the remote lock holder, if applicable
-+ *
-+ * This function will bust a hwspinlock that was previously acquired as
-+ * long as the current owner of the lock matches the id given by the caller.
-+ *
-+ * Should be called from a process context (might sleep).
-+ *
-+ * Returns: 0 on success, or -EINVAL if the hwspinlock does not exist, or
-+ * the bust operation fails, and -EOPNOTSUPP if the bust operation is not
-+ * defined for the hwspinlock.
-+ */
-+int hwspin_lock_bust(struct hwspinlock *hwlock, unsigned int id)
-+{
-+	if (WARN_ON(!hwlock))
-+		return -EINVAL;
-+
-+	if (!hwlock->bank->ops->bust) {
-+		pr_err("bust operation not defined\n");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	return hwlock->bank->ops->bust(hwlock, id);
-+}
-+EXPORT_SYMBOL_GPL(hwspin_lock_bust);
-+
- /**
-  * of_hwspin_lock_simple_xlate - translate hwlock_spec to return a lock id
-  * @hwlock_spec: hwlock specifier as found in the device tree
-@@ -610,7 +638,7 @@ EXPORT_SYMBOL_GPL(devm_hwspin_lock_unregister);
-  * This function should be called from the underlying platform-specific
-  * implementation, to register a new hwspinlock device instance.
-  *
-- * Should be called from a process context (might sleep)
-+ * Context: Process context. GFP_KERNEL allocation.
-  *
-  * Returns: %0 on success, or an appropriate error code on failure
-  */
-diff --git a/drivers/hwspinlock/hwspinlock_internal.h b/drivers/hwspinlock/hwspinlock_internal.h
-index 12f230b40693..2202f2c9a62e 100644
---- a/drivers/hwspinlock/hwspinlock_internal.h
-+++ b/drivers/hwspinlock/hwspinlock_internal.h
-@@ -21,6 +21,8 @@ struct hwspinlock_device;
-  * @trylock: make a single attempt to take the lock. returns 0 on
-  *	     failure and true on success. may _not_ sleep.
-  * @unlock:  release the lock. always succeed. may _not_ sleep.
-+ * @bust:    optional, platform-specific bust handler, called by hwspinlock
-+ *	     core to bust a specific lock.
-  * @relax:   optional, platform-specific relax handler, called by hwspinlock
-  *	     core while spinning on a lock, between two successive
-  *	     invocations of @trylock. may _not_ sleep.
-@@ -28,6 +30,7 @@ struct hwspinlock_device;
- struct hwspinlock_ops {
- 	int (*trylock)(struct hwspinlock *lock);
- 	void (*unlock)(struct hwspinlock *lock);
-+	int (*bust)(struct hwspinlock *lock, unsigned int id);
- 	void (*relax)(struct hwspinlock *lock);
- };
- 
-diff --git a/include/linux/hwspinlock.h b/include/linux/hwspinlock.h
-index bfe7c1f1ac6d..f0231dbc4777 100644
---- a/include/linux/hwspinlock.h
-+++ b/include/linux/hwspinlock.h
-@@ -68,6 +68,7 @@ int __hwspin_lock_timeout(struct hwspinlock *, unsigned int, int,
- int __hwspin_trylock(struct hwspinlock *, int, unsigned long *);
- void __hwspin_unlock(struct hwspinlock *, int, unsigned long *);
- int of_hwspin_lock_get_id_byname(struct device_node *np, const char *name);
-+int hwspin_lock_bust(struct hwspinlock *hwlock, unsigned int id);
- int devm_hwspin_lock_free(struct device *dev, struct hwspinlock *hwlock);
- struct hwspinlock *devm_hwspin_lock_request(struct device *dev);
- struct hwspinlock *devm_hwspin_lock_request_specific(struct device *dev,
-@@ -127,6 +128,11 @@ void __hwspin_unlock(struct hwspinlock *hwlock, int mode, unsigned long *flags)
- {
- }
- 
-+static inline int hwspin_lock_bust(struct hwspinlock *hwlock, unsigned int id)
-+{
-+	return 0;
-+}
-+
- static inline int of_hwspin_lock_get_id(struct device_node *np, int index)
- {
- 	return 0;
+What if recovery is disabled, fatal case is clearing the hwspinlock but
+wdog case is not, right ?
 
--- 
-2.25.1
-
+-Mukesh
