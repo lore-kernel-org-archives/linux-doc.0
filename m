@@ -1,118 +1,134 @@
-Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10CFD1F93E;
-	Fri, 17 May 2024 15:15:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 491A6848E
+	for <linux-doc@vger.kernel.org>; Fri, 17 May 2024 15:18:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715958936; cv=none; b=Z3rEy1bJri2zaQqsMJpU5drb4fJbW1w7DUOVk7dwTDyxC+7EX19bGE7BmLvSX91j3+TrwSsUmmGB2iZL3GNkc2z8LTp56+TQgYUMn2w0sufOfObfgn+Gt9W02WI/JuqeqOPM1CO8XMY6RrAz63ytxKsuHfHvLIqKqT4Ch9wM2E4=
+	t=1715959086; cv=none; b=PrshdvSD8GKULVJYPE96CIys1cbuGnFId/BThHV1XJ+ADEHHVe7fIWJxksi8rV3McYMu+yC0bqawoKjS+khOLHjhfLLVnoKJIUag/tea2MFs0AdLaTJP/3tdoD6oFPhi49M1bPYDHZeA8RJNVJ6dMz11tV//V9+aswgOECtGF2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715958936; c=relaxed/simple;
-	bh=tzkeAutgHKDvtezMaRFIFQ1vOKGxq4NGB23kr6qrPCE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=NI4PbtxFjKBzBBKfazPnlMDCjISSNrRK3l8PhRF0KKoo/FCxjwor8agjswJtkcvS9R3+TI7MGCuu/1GVheHznJMBLIP5EA6K7hOd+SxVldsET6OHJUs4mlGtyEV+OVfKQbFl7pVw5WCVN7mnzpfidRyYm6KNNOXwGGvH6Oq2OwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=link.tyut.edu.cn; spf=pass smtp.mailfrom=link.tyut.edu.cn; arc=none smtp.client-ip=45.254.49.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=link.tyut.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=link.tyut.edu.cn
-Received: from localhost.localdomain (unknown [120.208.127.153])
-	by smtp.qiye.163.com (Hmail) with ESMTPA id 2CDA0920119;
-	Fri, 17 May 2024 23:05:50 +0800 (CST)
-From: Hu Haowen <2023002089@link.tyut.edu.cn>
-To: corbet@lwn.net
-Cc: Hu Haowen <2023002089@link.tyut.edu.cn>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/zh_TW: add translation for glossary
-Date: Fri, 17 May 2024 23:05:28 +0800
-Message-ID: <20240517150529.102958-1-2023002089@link.tyut.edu.cn>
-X-Mailer: git-send-email 2.45.0
+	s=arc-20240116; t=1715959086; c=relaxed/simple;
+	bh=VJJtaa3CR6YMvRWAqyg1KE5Ku5S+20oB3+0+lzQy9oI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Icz/xMdQ/Oru4IwbJznV2gyyewKHazrXP7ZsJAGICJDwWH5Z9+0Wad2VHPyIERU9rrOeR60Xqdv2zKu6xl56ItRF2GLZKoKEssPO7ez4CMhz+2SWiIUq/BO61PLoAjI1hs5f6ZwkA+qsjFmRZ4SGXeO1Tinvbe5HdmragHXchgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org; spf=none smtp.mailfrom=brainfault.org; dkim=pass (2048-bit key) header.d=brainfault-org.20230601.gappssmtp.com header.i=@brainfault-org.20230601.gappssmtp.com header.b=GWSAlyKD; arc=none smtp.client-ip=209.85.166.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=brainfault.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=brainfault-org.20230601.gappssmtp.com header.i=@brainfault-org.20230601.gappssmtp.com header.b="GWSAlyKD"
+Received: by mail-il1-f177.google.com with SMTP id e9e14a558f8ab-36db3304053so8402945ab.2
+        for <linux-doc@vger.kernel.org>; Fri, 17 May 2024 08:18:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brainfault-org.20230601.gappssmtp.com; s=20230601; t=1715959084; x=1716563884; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ef3MF8Rs0G3jit24HO3OWy+0DrrgzGDkN37Y+6PEB9I=;
+        b=GWSAlyKDzSG/8Lva7AJJemLNxl1/rCKHYRbWzGVGo9u7VdJpzWumg1j6poS3CiCY+h
+         Q/vYwL571bEeuIVHMbZUi7rZgeanWwpDfcNQqZWTvE8BU9jQA47+CZoZS3a6she498eT
+         mmziej6OAzT0RMLi1XR6sWSe5ECSxo3POPkaFGDb0VkDutbZAxpa98GZ9dfmCG+oyGWA
+         acVgxrrCmxIfOMfBd4ua52CwZ2R/XdZHnv+WOrH1xtKuXIIfUXWdR7Zc7tK13EwuXW28
+         cEX4iyzGoB4JpcpEa2YQ2E1/cW9e/xsWDm0ki1JlmtvkF3n3j5rYpahRiKWC+usOR2HB
+         OXeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715959084; x=1716563884;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ef3MF8Rs0G3jit24HO3OWy+0DrrgzGDkN37Y+6PEB9I=;
+        b=kwgdRjJE+DVoTlj7ghZW0QYMvhqiiWsK0RfknTQFRlyk+NmKLr43XsofeDQB+2zYfM
+         SkAVtxZTbdWHWfoyiuiUsXat3xWdYz4KqsuQcT3fBd8klYDcd+KdkD0ajx8DcZ6u19iQ
+         AfVVLEHWBgtXAraYIC2NdbIBwEZXuBoX4Z0yusf3oxM98GmbXbo6DXoATHFu3EbfkIOK
+         JrUawSOoB5zSzr4UeKuVA9OgbvWtGAYQMuVxoDj52e+KkITy2AF8NW6/Bx236d4y++Dp
+         Vaba+KW3UJK8axOw8JFvQ/aXfk6SlMwynsiBJoudq1k4K64qga51PfqIcfmGcuJ9sA+T
+         5qUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWls1qKy4DD/z2YKuKXsDiSowMtopeB1fzXDyu2KJUjrzZ2DUGQwoMLnmu/Yttpk+K/fqBpFofrDmMCPLlllH540FB095dJ/XSO
+X-Gm-Message-State: AOJu0Yz1vRyuPHLdgr4HvW2rh611EP9jeoxjGp19u4yyhFgQuqwRa/My
+	klywRImSI6Wh5A8NvCtHQ3OFDAtkPgQwQ40yI5qYZIqy8kMalOXfjt39hKMmmm6M84dA5d8T+BF
+	xraS/Gbk8fa8Tc2N1eiVo+45lnW5V93HUUU3MUA==
+X-Google-Smtp-Source: AGHT+IHuY13zH4hhNjNUU8E5CU5OnLiqg38O1otrjb+/eoZzOjdRjWwMMh69eiDOSrh7CQUbUVho6c8rmZEAihhoEvk=
+X-Received: by 2002:a05:6e02:1886:b0:36a:1725:e123 with SMTP id
+ e9e14a558f8ab-36cc14913bfmr268024205ab.14.1715959084494; Fri, 17 May 2024
+ 08:18:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCHx4dVh5LGU0dTxgZQx8ZSVUTARMWGhIXJBQOD1
-	lXWRgSC1lBWUpJS1VJS0NVSklMVUpOSFlXWRYaDxIVHRRZQVlPS0hVSk1DTExPVUpLS1VKQktLWQ
-	Y+
-X-HM-Tid: 0a8f8716f93303a1kunm2cda0920119
-X-HM-MType: 10
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MU06Cio4MzMMOTQUMQ46MAoB
-	DxYwCQxVSlVKTEpOQk5DSENDS09PVTMWGhIXVUlLSUhLS0lLQ0I7FxIVEFUPAg4PVR4fDlUYFUVZ
-	V1kSC1lBWUpJS1VJS0NVSklMVUpOSFlXWQgBWUFITUxJNwY+
+References: <20240517145302.971019-1-cleger@rivosinc.com> <20240517145302.971019-5-cleger@rivosinc.com>
+In-Reply-To: <20240517145302.971019-5-cleger@rivosinc.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Fri, 17 May 2024 20:47:51 +0530
+Message-ID: <CAAhSdy0Ft5KV5ABBPNjxhy71jY0ypF7S6vhrb7gfq892WQkv1w@mail.gmail.com>
+Subject: Re: [PATCH v5 04/16] RISC-V: KVM: Allow Zimop extension for Guest/VM
+To: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Shuah Khan <shuah@kernel.org>, 
+	Atish Patra <atishp@atishpatra.org>, linux-doc@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, kvm@vger.kernel.org, 
+	kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add translation for glossary and add it to index according to commit
-cac02cbb91f31e28 ("docs/zh_CN: Add a glossary of Chinese translation
-terms").
+On Fri, May 17, 2024 at 8:23=E2=80=AFPM Cl=C3=A9ment L=C3=A9ger <cleger@riv=
+osinc.com> wrote:
+>
+> Extend the KVM ISA extension ONE_REG interface to allow KVM user space
+> to detect and enable Zimop extension for Guest/VM.
+>
+> Signed-off-by: Cl=C3=A9ment L=C3=A9ger <cleger@rivosinc.com>
 
-Signed-off-by: Hu Haowen <2023002089@link.tyut.edu.cn>
----
- Documentation/translations/zh_TW/glossary.rst | 36 +++++++++++++++++++
- Documentation/translations/zh_TW/index.rst    |  5 +--
- 2 files changed, 39 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/translations/zh_TW/glossary.rst
+LGTM.
 
-diff --git a/Documentation/translations/zh_TW/glossary.rst b/Documentation/translations/zh_TW/glossary.rst
-new file mode 100644
-index 000000000000..6ff2a5a460ea
---- /dev/null
-+++ b/Documentation/translations/zh_TW/glossary.rst
-@@ -0,0 +1,36 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+術語表
-+======
-+
-+這不是一個完善的術語表，我們只是將有爭議的和陌生的翻譯詞彙記錄於此，
-+它的篇幅應該根據內核文檔翻譯的需求而增加。新詞條最好隨翻譯補丁一起
-+提交，且僅在以下情況下收錄新詞條：
-+
-+        - 在翻譯過程中遇到陌生詞彙，且尚無翻譯先例的；
-+        - 在審閱過程中，針對某詞條出現了不同的翻譯意見；
-+        - 使用頻率不高的詞條和首字母縮寫類型的詞條；
-+        - 已經存在且有歧義的詞條翻譯。
-+
-+
-+* atomic: 原子的，一般指不可中斷的極小的臨界區操作。
-+* DVFS: 動態電壓頻率升降。（Dynamic Voltage and Frequency Scaling）
-+* EAS: 能耗感知調度。（Energy Aware Scheduling）
-+* flush: 刷新，一般指對cache的沖洗操作。
-+* fork: 創建, 通常指父進程創建子進程。
-+* futex: 快速用戶互斥鎖。（fast user mutex）
-+* guest halt polling: 客戶機停機輪詢機制。
-+* HugePage: 巨頁。
-+* hypervisor: 虛擬機超級管理器。
-+* memory barriers: 內存屏障。
-+* MIPS: 每秒百萬指令。（Millions of Instructions Per Second）,注意與mips指令集區分開。
-+* mutex: 互斥鎖。
-+* NUMA: 非統一內存訪問。
-+* OpenCAPI: 開放相干加速器處理器接口。（Open Coherent Accelerator Processor Interface）
-+* OPP: 操作性能值。
-+* overhead: 開銷，一般指需要消耗的計算機資源。
-+* PELT: 實體負載跟蹤。（Per-Entity Load Tracking）
-+* sched domain: 調度域。
-+* semaphores: 信號量。
-+* spinlock: 自旋鎖。
-+* watermark: 水位，一般指頁表的消耗水平。
-diff --git a/Documentation/translations/zh_TW/index.rst b/Documentation/translations/zh_TW/index.rst
-index 660a74d2023c..95809012a9ef 100644
---- a/Documentation/translations/zh_TW/index.rst
-+++ b/Documentation/translations/zh_TW/index.rst
-@@ -119,9 +119,10 @@ TODOList:
- 術語表
- ------
- 
--TODOList:
-+.. toctree::
-+   :maxdepth: 1
- 
--* glossary
-+   glossary
- 
- 
- 索引和表格
--- 
-2.45.0
+Reviewed-by: Anup Patel <anup@brainfault.org>
+Acked-by: Anup Patel <anup@brainfault.org>
 
+Regards,
+Anup
+
+> ---
+>  arch/riscv/include/uapi/asm/kvm.h | 1 +
+>  arch/riscv/kvm/vcpu_onereg.c      | 2 ++
+>  2 files changed, 3 insertions(+)
+>
+> diff --git a/arch/riscv/include/uapi/asm/kvm.h b/arch/riscv/include/uapi/=
+asm/kvm.h
+> index b1c503c2959c..35a12aa1953e 100644
+> --- a/arch/riscv/include/uapi/asm/kvm.h
+> +++ b/arch/riscv/include/uapi/asm/kvm.h
+> @@ -167,6 +167,7 @@ enum KVM_RISCV_ISA_EXT_ID {
+>         KVM_RISCV_ISA_EXT_ZFA,
+>         KVM_RISCV_ISA_EXT_ZTSO,
+>         KVM_RISCV_ISA_EXT_ZACAS,
+> +       KVM_RISCV_ISA_EXT_ZIMOP,
+>         KVM_RISCV_ISA_EXT_MAX,
+>  };
+>
+> diff --git a/arch/riscv/kvm/vcpu_onereg.c b/arch/riscv/kvm/vcpu_onereg.c
+> index f4a6124d25c9..c6ee763422f2 100644
+> --- a/arch/riscv/kvm/vcpu_onereg.c
+> +++ b/arch/riscv/kvm/vcpu_onereg.c
+> @@ -60,6 +60,7 @@ static const unsigned long kvm_isa_ext_arr[] =3D {
+>         KVM_ISA_EXT_ARR(ZIHINTNTL),
+>         KVM_ISA_EXT_ARR(ZIHINTPAUSE),
+>         KVM_ISA_EXT_ARR(ZIHPM),
+> +       KVM_ISA_EXT_ARR(ZIMOP),
+>         KVM_ISA_EXT_ARR(ZKND),
+>         KVM_ISA_EXT_ARR(ZKNE),
+>         KVM_ISA_EXT_ARR(ZKNH),
+> @@ -137,6 +138,7 @@ static bool kvm_riscv_vcpu_isa_disable_allowed(unsign=
+ed long ext)
+>         case KVM_RISCV_ISA_EXT_ZIHINTNTL:
+>         case KVM_RISCV_ISA_EXT_ZIHINTPAUSE:
+>         case KVM_RISCV_ISA_EXT_ZIHPM:
+> +       case KVM_RISCV_ISA_EXT_ZIMOP:
+>         case KVM_RISCV_ISA_EXT_ZKND:
+>         case KVM_RISCV_ISA_EXT_ZKNE:
+>         case KVM_RISCV_ISA_EXT_ZKNH:
+> --
+> 2.43.0
+>
