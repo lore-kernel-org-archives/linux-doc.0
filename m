@@ -1,118 +1,153 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from phoenix.uberspace.de (phoenix.uberspace.de [95.143.172.135])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8135F2375B
-	for <linux-doc@vger.kernel.org>; Fri, 17 May 2024 09:08:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6AE71EB36
+	for <linux-doc@vger.kernel.org>; Fri, 17 May 2024 09:20:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.143.172.135
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715936925; cv=none; b=L6jSvABc/azs6urh6DZYUyBxl5r/TWJGXsWnVgMGRzSGmHak6bcmG3gXrP3mxAyxsbSZlPfDSpSWmKu7q7otIUyP4BbQi8+mHwByVooeom8zf/bBwJuFF8/LKRZsGlLL9GN5s7wNH+FgKMgh8BNj+PAGFZ3D661uqZSd8i12HZ8=
+	t=1715937645; cv=none; b=h8WP06lLh4c5i8k2Kr3F9PNGwLdFYtWXQTEKZrEJt/yAPfhT0yauaPZMc8MhX0T0ib1DA1rAU8U3d/5IUpJaA24+zSMM5x9Kij4KqgK2PUaBNmtRkqynNjiBlPMom3TsnphCKvymXhdtPQf/Gs4y+hYTUC8C8zoqtJuh5GVSVGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715936925; c=relaxed/simple;
-	bh=TEHtCpgbdlqVzF1zXyzG1Szb517FKtFzCdajAHVAtmg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d5FIIgRa1JMIef/17PXR8Yn7QCpbSqTxA1HTW2rhU1NsxXeDHvrrLmfKfxhdFkdkTeEhBCJxq8W58nAylLqPgoYJCtKWvsy6C2mvW3GBXt4MRgiA3NQnYNg9D26rkSYmVd7con6CMD9inGa1gRgqK2u4qdHVnW14xPMWUOQ87IY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nexus-software.ie; spf=none smtp.mailfrom=nexus-software.ie; dkim=pass (2048-bit key) header.d=nexus-software-ie.20230601.gappssmtp.com header.i=@nexus-software-ie.20230601.gappssmtp.com header.b=fCQKzEXp; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nexus-software.ie
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=nexus-software.ie
+	s=arc-20240116; t=1715937645; c=relaxed/simple;
+	bh=zUX5qNIfW548vNLMV3YfOWr2RVuk/rIW/JNspwwgaDA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=miOO6hXABB8WYhRafy1Bd4LdUwtvrI09mh9jefGrk0LJ+VbF5nrE1hMopsMyY3CIZSIM3lSBxjeWj+Xfh7W5mdsYjj500/O9/yOJn2BJFlSydDMw0WucBwVSZRvWdySlkHPtC9ZARWB0L5MjUkA1KIS9Rob/SJz3BSdh8zlrZ54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yshyn.com; spf=pass smtp.mailfrom=yshyn.com; dkim=pass (2048-bit key) header.d=yshyn.com header.i=@yshyn.com header.b=s8qF9X+x; arc=none smtp.client-ip=95.143.172.135
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yshyn.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yshyn.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nexus-software-ie.20230601.gappssmtp.com header.i=@nexus-software-ie.20230601.gappssmtp.com header.b="fCQKzEXp"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a59c0a6415fso443600466b.1
-        for <linux-doc@vger.kernel.org>; Fri, 17 May 2024 02:08:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nexus-software-ie.20230601.gappssmtp.com; s=20230601; t=1715936922; x=1716541722; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Xwh3lnhUhd7oHBvNUUgJZI2n83eK0ml7NC11m5y4KDs=;
-        b=fCQKzEXpavPM+TuuR2ydaqtoyHospQaCnY360d1397CsR/nVbCTa1Qy0Q6YgjGqt/L
-         tkD71mYnNkf4JPg+za0s+krI91AaiQcmsYTm4eo+hR1+6FJ+qk/r5PdHGmxxoOu+1SCX
-         F9V6iL22RWAp6X/30O+cd43S0eAmvVGbO5AUngW1ROKKRaBdzP0CjmFdyCyKzmBiHMny
-         XTxVCY32sQO2rL7jTXyskzCSalfN9RyM42mpoT51TCTfzB3+een6ul3CRmKuVeFabpZG
-         jAaJH9a6IS9HafT9TBmAZe1RcPATh6djiTWWBCIZnVzt7R7M4BGByqqfEZGdWKs9ZCyh
-         SsOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715936922; x=1716541722;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xwh3lnhUhd7oHBvNUUgJZI2n83eK0ml7NC11m5y4KDs=;
-        b=Otl+WojCbZYFAYUKMWY7LX7SNkz20lB6p35FMOJvKjt7Z5IPQtbrezds/zxilr+fN+
-         vZGkcXIeVfeQd7ZlYwCU3HCl3GFDf8noCIHMHExPO9UEcWjCArstRSV8A2swhZosgt1o
-         F8RDwOHAjmE4Mz/SzmoHhyoVEiBN0OJ2TvLcfREN2KvlV4LMzQFRYbNwA5w+P+m8tF/G
-         v6LxUu1+o+2/SSfYnGp9u5c1DI/YAG5mVBSAK6ThKGbxtU9+k9GKv45fBE+0k7H5o1vi
-         a7JvvriImvtDoyAhYI3WscQm9SaOx6/SUfz4X6i1HMnEj+BiYhmVwRfW4FpWCGWEXBzB
-         CDBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUXRIb4p1xN2mDdhiKbyJcwdmBwcGvn2ftHaWNEkO9MwLebzhwZzIjNeTZrtBumya/OwTTJQd2ScaAKsp83LWhTpIzGn3A+ofHU
-X-Gm-Message-State: AOJu0Yz9GaK1m2xyieMyId4QrdQx2dub80fNqqlq++aK1ydVIujhM2Do
-	1Jcqp/ZxoXzArMC8HpbH9kCqFqFw3+/fthvzRMF03Y+AB3RGuybyb115qvsnXrU=
-X-Google-Smtp-Source: AGHT+IEgG+ysyN5p95zBEB/teN7eTbSrbUtVmUotuv5u7b9gbXK+Nvx5y+aX5ItM1vbciitmK35z4g==
-X-Received: by 2002:a17:906:4886:b0:a59:a83b:d435 with SMTP id a640c23a62f3a-a5a2d55aa50mr1373772366b.18.1715936921554;
-        Fri, 17 May 2024 02:08:41 -0700 (PDT)
-Received: from [10.91.1.133] ([149.14.240.163])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a5a17b17886sm1097162266b.210.2024.05.17.02.08.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 May 2024 02:08:40 -0700 (PDT)
-Message-ID: <40730e9f-ae2b-4b56-89bd-f839876271fe@nexus-software.ie>
-Date: Fri, 17 May 2024 11:08:38 +0200
+	dkim=pass (2048-bit key) header.d=yshyn.com header.i=@yshyn.com header.b="s8qF9X+x"
+Received: (qmail 13005 invoked by uid 988); 17 May 2024 09:13:58 -0000
+Authentication-Results: phoenix.uberspace.de;
+	auth=pass (plain)
+Received: from unknown (HELO unkown) (::1)
+	by phoenix.uberspace.de (Haraka/3.0.1) with ESMTPSA; Fri, 17 May 2024 11:13:57 +0200
+From: Illia Ostapyshyn <illia@yshyn.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Matthew Wilcox <willy@infradead.org>
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-fsdevel@vger.kernel.org,
+	Illia Ostapyshyn <illia@yshyn.com>
+Subject: [PATCH] mm/vmscan: Update stale references to shrink_page_list
+Date: Fri, 17 May 2024 11:13:48 +0200
+Message-Id: <20240517091348.1185566-1-illia@yshyn.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/7] remoteproc: qcom_q6v5_pas: Add hwspinlock bust on
- stop
-Content-Language: en-US
-To: Chris Lew <quic_clew@quicinc.com>, Bjorn Andersson
- <andersson@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
- Boqun Feng <boqun.feng@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Mathieu Poirier <mathieu.poirier@linaro.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, Richard Maina <quic_rmaina@quicinc.com>
-References: <20240516-hwspinlock-bust-v1-0-47a90a859238@quicinc.com>
- <20240516-hwspinlock-bust-v1-6-47a90a859238@quicinc.com>
-From: Bryan O'Donoghue <pure.logic@nexus-software.ie>
-In-Reply-To: <20240516-hwspinlock-bust-v1-6-47a90a859238@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Bar: +
+X-Rspamd-Report: MID_CONTAINS_FROM(1) MIME_GOOD(-0.1) R_MISSING_CHARSET(0.5)
+X-Rspamd-Score: 1.4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=yshyn.com; s=uberspace;
+	h=from:to:cc:subject:date;
+	bh=zUX5qNIfW548vNLMV3YfOWr2RVuk/rIW/JNspwwgaDA=;
+	b=s8qF9X+xASJEWN/cMfdXpv37+eChv24TVme12xnLdvA65YeLPvsTXzosKqg8OeC49J5W76JCJG
+	jXt8b3WBCoWyHOW6ZAXTIEhwcx3HgSKo7GNhhPzlmOFAiMkpfbb/Qr2+tBLxzjpAAPK2KqHIAS3X
+	dun0Pvmwj1DQ5Ikf7ijj4Y6RxzPpcYrN9nNzeGMn0R0Thnq6Z3unRuYKkAK98CKUGmfeVqggYD8j
+	7pWiuwES3hWX1bm0vSyKHopIQGsB0IWLRKFbBd0pEPGW4zAG8AmBYKOyWdHAm1T2zG3TdRB4+fRv
+	qKhYjDH39qcYIOrnRP/Z7LvFijc0MOp8VK/n/Kiw==
 
-On 17/05/2024 00:58, Chris Lew wrote:
-> From: Richard Maina <quic_rmaina@quicinc.com>
-> 
-> When remoteproc goes down unexpectedly this results in a state where any
-> acquired hwspinlocks will remain locked possibly resulting in deadlock.
-> In order to ensure all locks are freed we include a call to
-> hwspin_lock_bust() during remoteproc shutdown.
-> 
-> For qcom_q6v5_pas remoteprocs, each remoteproc has an assigned id that
-> is used to take the hwspinlock. Remoteproc should use this id to try and
-> bust the lock on remoteproc stop.
-> 
-> This edge case only occurs with q6v5_pas watchdog crashes. The error
-> fatal case has handling to clear the hwspinlock before the error fatal
-> interrupt is triggered.
-> 
-> Signed-off-by: Richard Maina <quic_rmaina@quicinc.com>
-> Signed-off-by: Chris Lew <quic_clew@quicinc.com>
-> ---
+Commit 49fd9b6df54e ("mm/vmscan: fix a lot of comments") renamed
+shrink_page_list() to shrink_folio_list().  Fix up the remaining
+references to the old name in comments and documentation.
 
-> +	if (adsp->hwlock) {
-> +		ret = hwspin_lock_bust(adsp->hwlock, adsp->hwlock_id);
-> +		if (ret)
-> +			dev_info(adsp->dev, "failed to bust hwspinlock\n");
-
-qcom_hwspinlock_bust() already prints an error on failure, you're 
-printing a second error here.
-
-Choose at most one.
-
+Signed-off-by: Illia Ostapyshyn <illia@yshyn.com>
 ---
-bod
+ Documentation/mm/unevictable-lru.rst | 10 +++++-----
+ mm/memory.c                          |  2 +-
+ mm/swap_state.c                      |  2 +-
+ mm/truncate.c                        |  2 +-
+ 4 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/mm/unevictable-lru.rst b/Documentation/mm/unevictable-lru.rst
+index b6a07a26b10d..2feb2ed51ae2 100644
+--- a/Documentation/mm/unevictable-lru.rst
++++ b/Documentation/mm/unevictable-lru.rst
+@@ -191,13 +191,13 @@ have become evictable again (via munlock() for example) and have been "rescued"
+ from the unevictable list.  However, there may be situations where we decide,
+ for the sake of expediency, to leave an unevictable folio on one of the regular
+ active/inactive LRU lists for vmscan to deal with.  vmscan checks for such
+-folios in all of the shrink_{active|inactive|page}_list() functions and will
++folios in all of the shrink_{active|inactive|folio}_list() functions and will
+ "cull" such folios that it encounters: that is, it diverts those folios to the
+ unevictable list for the memory cgroup and node being scanned.
+ 
+ There may be situations where a folio is mapped into a VM_LOCKED VMA,
+ but the folio does not have the mlocked flag set.  Such folios will make
+-it all the way to shrink_active_list() or shrink_page_list() where they
++it all the way to shrink_active_list() or shrink_folio_list() where they
+ will be detected when vmscan walks the reverse map in folio_referenced()
+ or try_to_unmap().  The folio is culled to the unevictable list when it
+ is released by the shrinker.
+@@ -269,7 +269,7 @@ the LRU.  Such pages can be "noticed" by memory management in several places:
+ 
+  (4) in the fault path and when a VM_LOCKED stack segment is expanded; or
+ 
+- (5) as mentioned above, in vmscan:shrink_page_list() when attempting to
++ (5) as mentioned above, in vmscan:shrink_folio_list() when attempting to
+      reclaim a page in a VM_LOCKED VMA by folio_referenced() or try_to_unmap().
+ 
+ mlocked pages become unlocked and rescued from the unevictable list when:
+@@ -548,12 +548,12 @@ Some examples of these unevictable pages on the LRU lists are:
+  (3) pages still mapped into VM_LOCKED VMAs, which should be marked mlocked,
+      but events left mlock_count too low, so they were munlocked too early.
+ 
+-vmscan's shrink_inactive_list() and shrink_page_list() also divert obviously
++vmscan's shrink_inactive_list() and shrink_folio_list() also divert obviously
+ unevictable pages found on the inactive lists to the appropriate memory cgroup
+ and node unevictable list.
+ 
+ rmap's folio_referenced_one(), called via vmscan's shrink_active_list() or
+-shrink_page_list(), and rmap's try_to_unmap_one() called via shrink_page_list(),
++shrink_folio_list(), and rmap's try_to_unmap_one() called via shrink_folio_list(),
+ check for (3) pages still mapped into VM_LOCKED VMAs, and call mlock_vma_folio()
+ to correct them.  Such pages are culled to the unevictable list when released
+ by the shrinker.
+diff --git a/mm/memory.c b/mm/memory.c
+index 0201f50d8307..c58b3d92e6a8 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -4511,7 +4511,7 @@ static vm_fault_t __do_fault(struct vm_fault *vmf)
+ 	 * lock_page(B)
+ 	 *				lock_page(B)
+ 	 * pte_alloc_one
+-	 *   shrink_page_list
++	 *   shrink_folio_list
+ 	 *     wait_on_page_writeback(A)
+ 	 *				SetPageWriteback(B)
+ 	 *				unlock_page(B)
+diff --git a/mm/swap_state.c b/mm/swap_state.c
+index bfc7e8c58a6d..3d163ec1364a 100644
+--- a/mm/swap_state.c
++++ b/mm/swap_state.c
+@@ -28,7 +28,7 @@
+ 
+ /*
+  * swapper_space is a fiction, retained to simplify the path through
+- * vmscan's shrink_page_list.
++ * vmscan's shrink_folio_list.
+  */
+ static const struct address_space_operations swap_aops = {
+ 	.writepage	= swap_writepage,
+diff --git a/mm/truncate.c b/mm/truncate.c
+index 725b150e47ac..e1c352bb026b 100644
+--- a/mm/truncate.c
++++ b/mm/truncate.c
+@@ -554,7 +554,7 @@ EXPORT_SYMBOL(invalidate_mapping_pages);
+  * This is like mapping_evict_folio(), except it ignores the folio's
+  * refcount.  We do this because invalidate_inode_pages2() needs stronger
+  * invalidation guarantees, and cannot afford to leave folios behind because
+- * shrink_page_list() has a temp ref on them, or because they're transiently
++ * shrink_folio_list() has a temp ref on them, or because they're transiently
+  * sitting in the folio_add_lru() caches.
+  */
+ static int invalidate_complete_folio2(struct address_space *mapping,
+-- 
+2.39.2
+
