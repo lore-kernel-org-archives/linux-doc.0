@@ -1,105 +1,120 @@
-Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B1713E02C
-	for <linux-doc@vger.kernel.org>; Fri, 17 May 2024 17:38:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15771A2C19;
+	Fri, 17 May 2024 18:33:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715967508; cv=none; b=jUAnMIp99ZEbZhqBGppP/JCXcR4bDITHD2nEYtZU99sXqglc25Yq4MBiUJkX1msTnALxhE8RevHaaorLmKVm/z/1Dn2pImGyv6J6ZBLf3kIvAYcGc/MOcqHC6DJiKnxe7XvVigtcLs8RDYm16/ybLHQpwtAZB0Uh01JpPAaPlFw=
+	t=1715970784; cv=none; b=WtmqlXDOMEytUsNfn9+cZeUyg9kAoUT1fkESm6YKMB04q44adJ1K7pYQdd0z8iGhsfe4zCLBFKdqehWU8/cGSPKsb3o8ozKpQR6mgkRcy7IIE1qiqGu+VMA2miLzBqL9FSSSeRcwwc78ulXMeopNqO6rQos5qSv9WNRhiOzmwc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715967508; c=relaxed/simple;
-	bh=tFp0I1ixSIGjk0J3hzcghmx70zj6H8iFP/ZPi1pOWcY=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=iZ/rYVbmEF+bjqCMhBXGjyaNTJcNe5GqZjM14kHfOPWgDrN2KSBXswIsqFCsmJXi+ruiO7Nd4Ndxr/Q5nTiCFhYpmZpM2wD+qkzcbwE2a7kPPlkARY3RQwxGYPLKn4NG7CFl42VjqpGvqMLciu6S944c1ZtQ+qSA9EoSRue3sis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=nbX6VGzu; arc=none smtp.client-ip=209.85.214.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com
+	s=arc-20240116; t=1715970784; c=relaxed/simple;
+	bh=IpHKn100vUjrZafmZKJ1y8v2H5IiPMdG53S1ZMl4E+8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=JZBaN1w1C4Z15A0SGIW36kQ6DFv2+fd5nxMyLqQay5WxT+iArhHmSPFZzHjWU25SS7hNbQdiLqcQiXH3+C93mdVvuZrYBStqalYuR/8uJQ9988JfH0pSQRgZpDdMIjuO5VMnDUt8k1nYNKiy4VfmyIJBGp4kal+/LaC+RMkdzXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Vg79+cHH; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nbX6VGzu"
-Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-1ee3b4f8165so92217495ad.3
-        for <linux-doc@vger.kernel.org>; Fri, 17 May 2024 10:38:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1715967506; x=1716572306; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=v49Dj+gbnQvzNsVpnYNnWqEQpkDjTigYZ0uaaGS+wzY=;
-        b=nbX6VGzu6M7fLXpPTMD/z0uB1Rt1XV2ptbiy3vMU6d4qcD04I96ZiA1nUsWWDl2JNy
-         inEineAtgSc1IwwMxpKaJLYHRnWe/9agdqrr1ENq8xj9jssFhAseDIejwSStLtS7tHbz
-         Fpwo+0cnFVLisWqfJ29m1afBWM/SEcSybBBPBc5UlvPJou02UamqPXoIfTcC4iwJRWya
-         Vz25ydgAMMZAJtpZNk8CkbmVt+otldkxOWvBrhQ5N41upHbRpUaKJ4t598YStCP+iBxL
-         NjjbfTH5d3eeiX8H6Rgm+wIfATRLZMdIJKmQPVenzUR+uptwi1Jsb/SlVBL3CjogPFmd
-         FXKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715967506; x=1716572306;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=v49Dj+gbnQvzNsVpnYNnWqEQpkDjTigYZ0uaaGS+wzY=;
-        b=DOJp19MQdhzD3sEkgXVvF0ze5o2LvnjglKGyKgWuMNEVvZKEv53bePa4+E6giv/eUZ
-         mFrJGroYf5TE2Vq7byDu/jb3Mf8Vc570GsmeSzfy555DuucaInWow2yAlphinPapS58H
-         +G0cutkYVQXmaunlTWQugycaA1qrID1inBHhDPUa1llYxHCJRoMmmu5pB0yj17RucH3F
-         vLd+TsGrVF5HIDXPNrgpFpJ0yaQOj+6H1NkF+Jyz/QNCI1qAEt1GypZSfqKrSMkWFlnz
-         uYTV4Guy/01TxnS7ytrwGXB+kIkfpCYnzKoml+nr35CdG5DMEeRmjz0meACHO2S3saxG
-         NUhA==
-X-Forwarded-Encrypted: i=1; AJvYcCWWEhG7uQDzJkUMAt0NMm/4Ba6JVVLauFA4vnisiCVBos2+hY7t7iJB3HX0fj4XnZVrqN9g/ofvutIrh8oOt3298Uu16bVuA8sA
-X-Gm-Message-State: AOJu0Yz86x0tdg76m3AZ4VJAu1ev9knYS2BNYinFDef34yht35/1WBJj
-	uQTqspcsNyZwJRUyPyNug45Qlv3GkrKedUi+c+BtGOK56p/dTGK4jf2BNbLSUN2Fq+n/81PRsxu
-	+yGrD6FWrJt+cig==
-X-Google-Smtp-Source: AGHT+IHLSmcva4cfRRDrPAJHTSjD69JJ2b8EEkFLyON9XgY9LsefdYupK0M6dExJhHVXVKpOWInCESsGLA3vy1s=
-X-Received: from tj-virt.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5683])
- (user=tjmercier job=sendgmr) by 2002:a17:903:110d:b0:1ea:26bd:fd95 with SMTP
- id d9443c01a7336-1ef43f52f23mr5637345ad.11.1715967505898; Fri, 17 May 2024
- 10:38:25 -0700 (PDT)
-Date: Fri, 17 May 2024 17:38:03 +0000
-In-Reply-To: <20240517173805.4181349-1-tjmercier@google.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Vg79+cHH"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44H98KQL007278;
+	Fri, 17 May 2024 18:32:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=trmdsobqOMWDgc1D8NKUUfFAo9qR0PrBuwm8lSkrz3c=; b=Vg
+	79+cHHTr16tp9TBmcnGCAcEW4MomLM4m1TKiTIMTQjhQhCHjjJmqRKuVQpASP1VN
+	gxPAIarbirbphn6E+t149eDVGIc8hRdrMDvVL2EPWF0/JqMPMC+sDo22wQMCLsD9
+	TaDEpjCGVD6MyiiC+Zypj2Qh8NGx1wx/BT6qe8gGgVukepc9SfhRSypj9nwj2AXF
+	pdjF1XthSOHFf1ZIDamd8/2hyO6puG00UnQXR3gmAhQeqdI7avackgQZta38hLf+
+	F7v7kO4aoxLR8t6au8FWW0Go2wxeAf7yXaKYIS9GNA8dwVz211WwZI8AzmkmrsoI
+	kP19QtIyiZjB95ADFoOA==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3y49ge0tmx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 17 May 2024 18:32:48 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44HIWlH1005033
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 17 May 2024 18:32:47 GMT
+Received: from [10.110.126.2] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 17 May
+ 2024 11:32:46 -0700
+Message-ID: <8000851c-f3e2-4fcb-b4d4-9acaf9763fdb@quicinc.com>
+Date: Fri, 17 May 2024 11:32:45 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240517173805.4181349-1-tjmercier@google.com>
-X-Mailer: git-send-email 2.45.0.rc1.225.g2a3ae87e7f-goog
-Message-ID: <20240517173805.4181349-2-tjmercier@google.com>
-Subject: [PATCH v3 2/2] doc: swiotlb: Document SWIOTLB areas parameter
-From: "T.J. Mercier" <tjmercier@google.com>
-To: tjmercier@google.com, Thomas Gleixner <tglx@linutronix.de>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, Tianyu Lan <Tianyu.Lan@microsoft.com>
-Cc: iommu@lists.linux.dev, isaacmanjarres@google.com, robin.murphy@arm.com, 
-	will@kernel.org, joro@8bytes.org, Michael Kelley <mhklinux@outlook.com>, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/7] hwspinlock: Introduce refcount
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Bjorn Andersson
+	<andersson@kernel.org>,
+        Baolin Wang <baolin.wang@linux.alibaba.com>,
+        Peter
+ Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+        Will Deacon
+	<will@kernel.org>, Waiman Long <longman@redhat.com>,
+        Boqun Feng
+	<boqun.feng@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+        Mathieu Poirier
+	<mathieu.poirier@linaro.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof
+ Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Konrad Dybcio
+	<konrad.dybcio@linaro.org>
+CC: <linux-remoteproc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, Richard Maina <quic_rmaina@quicinc.com>
+References: <20240516-hwspinlock-bust-v1-0-47a90a859238@quicinc.com>
+ <20240516-hwspinlock-bust-v1-1-47a90a859238@quicinc.com>
+ <edfb049a-b56e-424f-bca7-556dffa6c87d@linaro.org>
+Content-Language: en-US
+From: Chris Lew <quic_clew@quicinc.com>
+In-Reply-To: <edfb049a-b56e-424f-bca7-556dffa6c87d@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: iv9sI3L20wtxJZlWpyoVobWcaFr13M2_
+X-Proofpoint-ORIG-GUID: iv9sI3L20wtxJZlWpyoVobWcaFr13M2_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.11.176.26
+ definitions=2024-05-17_08,2024-05-17_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=888
+ impostorscore=0 clxscore=1011 priorityscore=1501 phishscore=0 spamscore=0
+ mlxscore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405010000 definitions=main-2405170144
 
-Commit 20347fca71a3 ("swiotlb: split up the global swiotlb lock") added
-the ability to specify the number of SWIOTLB areas, but boot-options.rst
-was not updated as part of that commit. Also adjust the swiotlb option
-syntax to clarify that force and noforce are mutually exclusive.
 
-Reported-by: Michael Kelley <mhklinux@outlook.com>
-Fixes: 20347fca71a3 ("swiotlb: split up the global swiotlb lock")
-Signed-off-by: T.J. Mercier <tjmercier@google.com>
----
- Documentation/arch/x86/x86_64/boot-options.rst | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/arch/x86/x86_64/boot-options.rst b/Documentation/arch/x86/x86_64/boot-options.rst
-index a37139d1752f..d54e636f91f7 100644
---- a/Documentation/arch/x86/x86_64/boot-options.rst
-+++ b/Documentation/arch/x86/x86_64/boot-options.rst
-@@ -287,9 +287,11 @@ iommu options only relevant to the AMD GART hardware IOMMU:
- iommu options only relevant to the software bounce buffering (SWIOTLB) IOMMU
- implementation:
- 
--    swiotlb=<slots>[,force,noforce]
-+    swiotlb=[<slots>][,<areas>][, [force] | [noforce] ]
-       <slots>
-         Prereserve that many 2K slots for the software IO bounce buffering.
-+      <areas>
-+        Number of SWIOTLB areas with their own lock. Must be a power of 2.
-       force
-         Force all IO through the software TLB.
-         Hardware IOMMU implementations can use SWIOTLB bounce buffering in
--- 
-2.45.0.rc1.225.g2a3ae87e7f-goog
+On 5/17/2024 1:58 AM, Bryan O'Donoghue wrote:
+> On 17/05/2024 00:58, Chris Lew wrote:
+>> +    unsigned int refcnt;
+> 
+> Why int and not refcount_t ?
+> 
+> Have you an argument for or against use of one over another ?
+> 
 
+I wanted to avoid the warning if you try to do a refcount_inc on 0. In 
+this case, 0 means the the hwlock is unused but the hwlock should 
+persist while waiting for another request. It seemed like refcount_t 
+expected the associated object to be released once the count hit 0.
+
+Also the count here is serialized by hwspinlock_tree_lock so the need 
+for the atomicity provided by refcount_t was unneeded. Using unsigned 
+int here seemed simpler.
+
+> ---
+> bod
