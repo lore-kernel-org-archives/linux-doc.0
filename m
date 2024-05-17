@@ -1,196 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81C002E401;
-	Fri, 17 May 2024 12:21:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 047784C3CD
+	for <linux-doc@vger.kernel.org>; Fri, 17 May 2024 12:43:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715948490; cv=none; b=O2c5DaWgqwtxOIu7cgepBNSm0eyY5cI8U94ceWK6jhygo+4Eztg8qibqDc+tl6fNA2sviJAm5CaYlBLy9pw30+lBa8gnJjIFmbM65JbhaWvpeRwXmUagU4XtH+Y/ZCtbE8bZ0KsH6oLk8Nbzg98jhfJ2zQT6ssqtuxxdI1arWbk=
+	t=1715949794; cv=none; b=bzwJp7EpNgVGndGGGvd2nCss/p+XNv3fWDBYwTSaVhoyFVl+kBmDZsBnatXlpGzztoe5hnYO1BzhWrIbb4RvE0G63F+j43/N4E0remYWudLf03np+klggYgVsxZt+QPk0WrGyEg/GcRggH/13IjOlK6jj7DPkvuCsFICiRbCbYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715948490; c=relaxed/simple;
-	bh=0zScnIpnsGRX1Oi7eM5XsUx+A0rHJkPgN5WDQ8boGdM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=VfGXcOG8pBJJvoHOt9D9Q6vfqHBVs6C/cWOE0u0fiJPx7swOPtblL9AwCZ+MnHCdI7WdVCKBRUOv15oscDj4UztOaWofBDWN1LU1hUjN0C+7B9gUWev6eVKrV6ddKEB3T/F9NJXwh7vAYToWa5Q47QUszbqzXeF7hfQN7mAr4Fk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JCWCVB1D; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1715949794; c=relaxed/simple;
+	bh=f/aQOdnb1qPEH9OPOG9Jgx9mTvP5LMcSVmCzIweEKcc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BJyGewwixIuTwYaIUvS2orn/WlA4rOIUfcIAQz9KTc8rb28TMjl+KZazgY1TfUAGvS/b/l8H33jFdz43zTleqqMR+2LCh7G5fhJ5EdTYJ0ifTl3YlLhrwWJ+77F9tngl7hcYZP01f1rSEEYKaL1oLI4op7ApkTZ26tWueIYuc6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ferroamp.se; spf=pass smtp.mailfrom=ferroamp.se; dkim=pass (2048-bit key) header.d=ferroamp-se.20230601.gappssmtp.com header.i=@ferroamp-se.20230601.gappssmtp.com header.b=KGHJFSkZ; arc=none smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ferroamp.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ferroamp.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JCWCVB1D"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1715948488; x=1747484488;
-  h=message-id:date:mime-version:subject:to:references:from:
-   in-reply-to:content-transfer-encoding;
-  bh=0zScnIpnsGRX1Oi7eM5XsUx+A0rHJkPgN5WDQ8boGdM=;
-  b=JCWCVB1DVqfUsZ45CRol/VIaMjQxHIpT7sy2gTRRxP+gkFyxAr8kZKk3
-   MuwPJwkfWmAc37r3GXaGOTU/GZhA2A4Rez67urMm3b2U/h62acGNOCbQa
-   8SViVIfawm9XjT7AdcqqwoJu+t2cCTjfYeo6YI+XhmJEfgrA2k50cdr6M
-   4rnbQMIRD4oQr4W+/VL0opvb72qA5Njxngu0ytd1Dyzrfus0YhL/RLcNT
-   jSeN/MGo+Ob+rSHcqQ5EithKKzCRO7qHbUJFZY5Rg+OjDVGDrI3BnIUAZ
-   hw8mQGLWCT/pFz7SQzvij5Bv2kaD5fScY6zxQywqygTIlH2iUPUZStGZj
-   w==;
-X-CSE-ConnectionGUID: /wLtAbU8TAm9ztJD4aotTQ==
-X-CSE-MsgGUID: vZbVZUvQQoOyHZqcKaf+9w==
-X-IronPort-AV: E=McAfee;i="6600,9927,11074"; a="12310199"
-X-IronPort-AV: E=Sophos;i="6.08,167,1712646000"; 
-   d="scan'208";a="12310199"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2024 05:21:27 -0700
-X-CSE-ConnectionGUID: zqm/qtSYTs+/hgFOoBkEdA==
-X-CSE-MsgGUID: hjS93XpzQb2MxB2ZTGfyjg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,167,1712646000"; 
-   d="scan'208";a="32315488"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2024 05:21:18 -0700
-Message-ID: <b9cc6106-4f5e-4fd5-b5f4-bc3ed6fbe300@linux.intel.com>
-Date: Fri, 17 May 2024 14:21:15 +0200
+	dkim=pass (2048-bit key) header.d=ferroamp-se.20230601.gappssmtp.com header.i=@ferroamp-se.20230601.gappssmtp.com header.b="KGHJFSkZ"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-520f9d559f6so2479599e87.3
+        for <linux-doc@vger.kernel.org>; Fri, 17 May 2024 05:43:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ferroamp-se.20230601.gappssmtp.com; s=20230601; t=1715949791; x=1716554591; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=p4odqj3f1vqFSZ0CAbdMnpDHtOEgc8xX6bxBAUOmAh0=;
+        b=KGHJFSkZBV53d++jQ1dEqv+eW9/uhHtCxw1KWs4ZM1Fm8BjGMUzIsI4k/kxPTNT8FR
+         2mZbVn1Q9i/Nq9sCc2VWbwQUPvPpgCYFM/16hBdnsGyiQ19KZWW/9BW/t5wGhi9CKnZv
+         qxzBAsCX7dDuEbyOeoEiODn1cLDoXxHozyhm6F9aTWZx539irLHpqD6hltpZ+YHov8Yp
+         2lxSn0GzrynNx70oEALFBX2GL2EAxdDiqxCjlYaHT0323vh3+3nouy+SWLv/LJOO+cx7
+         GNJtupif8fCR7sIqcUErmOo0E9m5eTU0c63rxfJ82Sk+BaNN0fD9tNNR9+f3ufKf5Zxi
+         psZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1715949791; x=1716554591;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=p4odqj3f1vqFSZ0CAbdMnpDHtOEgc8xX6bxBAUOmAh0=;
+        b=jtRipRTkImH4bJnSd4YkWfX+xq4N7j1AuraQgfS3L6kO3I0Eez7zXld3qkoXFdd/BQ
+         UcZ9yC4V3NL46Aec0ilR0wNHQGBCqqaH6rcENAQFjZ6l4uwV5mcFhcWMFw02Nff9XF/P
+         fsbJOyhbG9Q7dmY156Xlhb8qrbvSrUTtMIUVK8jQvqyH5Z3Uf7/qrBPfyXsOovm2lubK
+         rNnlq/L6V/TKWnYcHWI43eGfoI1u7dvd+kssBKovb4tpDtUX0RLckR3aZP25GDRklDEQ
+         6cL2eFSvXwIwVt7+xPx6HbrmFsNDVxkkBXpPKjEwzoe6+08vKFodtkmKk5z/ejvwIm06
+         gBww==
+X-Forwarded-Encrypted: i=1; AJvYcCWJ6k90EO/l/vRAImw+MEBLgB23eyZPJnxo/WeesAzhqkaS9ufdL01hkda3tdPXjdytF0Gj00eTY81LKBspIc6Csl8gPHwY76U8
+X-Gm-Message-State: AOJu0Yx87j09uiJnU3uUIHgx/w+eAtWgKExu1dQhn0+sgpPZxocJaMZk
+	icVqpsIqRY5gxAl082XIDYFbQKMdCiEDG9TxRBR3Lbx1QA7bkeRIRudWiPCaHuc=
+X-Google-Smtp-Source: AGHT+IHp9p+FH7l3Piksd2SYumeoLKxIBZc1FxIo8Hbs5SbDaClaDIaOn332eu7c17A4SWqlURItxg==
+X-Received: by 2002:a05:6512:124d:b0:51e:f2bb:158a with SMTP id 2adb3069b0e04-5221006cd7cmr15851334e87.64.1715949791256;
+        Fri, 17 May 2024 05:43:11 -0700 (PDT)
+Received: from minibuilder ([185.117.107.42])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-521f35ba8f1sm3340928e87.85.2024.05.17.05.43.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 May 2024 05:43:10 -0700 (PDT)
+Date: Fri, 17 May 2024 14:43:09 +0200
+From: =?iso-8859-1?Q?Ram=F3n?= Nordin Rodriguez <ramon.nordin.rodriguez@ferroamp.se>
+To: Parthiban.Veerasooran@microchip.com
+Cc: andrew@lunn.ch, Pier.Beruto@onsemi.com, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	horms@kernel.org, saeedm@nvidia.com, anthony.l.nguyen@intel.com,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	corbet@lwn.net, linux-doc@vger.kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	devicetree@vger.kernel.org, Horatiu.Vultur@microchip.com,
+	ruanjinjie@huawei.com, Steen.Hegelund@microchip.com,
+	vladimir.oltean@nxp.com, UNGLinuxDriver@microchip.com,
+	Thorsten.Kummermehr@microchip.com, Selvamani.Rajagopal@onsemi.com,
+	Nicolas.Ferre@microchip.com, benjamin.bigler@bernformulastudent.ch
+Subject: Re: [PATCH net-next v4 05/12] net: ethernet: oa_tc6: implement error
+ interrupts unmasking
+Message-ID: <ZkdQ3eEfvikTavwZ@minibuilder>
+References: <ZjNorUP-sEyMCTG0@builder>
+ <ae801fb9-09e0-49a3-a928-8975fe25a893@microchip.com>
+ <fd5d0d2a-7562-4fb1-b552-6a11d024da2f@lunn.ch>
+ <BY5PR02MB678683EADBC47A29A4F545A59D1C2@BY5PR02MB6786.namprd02.prod.outlook.com>
+ <ZkG2Kb_1YsD8T1BF@minibuilder>
+ <708d29de-b54a-40a4-8879-67f6e246f851@lunn.ch>
+ <ZkIakC6ixYpRMiUV@minibuilder>
+ <6e4207cd-2bd5-4f5b-821f-bc87c1296367@microchip.com>
+ <ZkUtx1Pj6alRhYd6@minibuilder>
+ <e75d1bbe-0902-4ee9-8fe9-e3b7fc9bf3cb@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] ASoC: soc-pcm: Indicate warning if CPU / Codec
- availability mismatch
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Alper Nebi Yasak <alpernebiyasak@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Banajit Goswami <bgoswami@quicinc.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>, Brent Lu <brent.lu@intel.com>,
- Cezary Rojewski <cezary.rojewski@intel.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Daniel Baluta <daniel.baluta@nxp.com>, Hans de Goede <hdegoede@redhat.com>,
- Jaroslav Kysela <perex@perex.cz>, Jerome Brunet <jbrunet@baylibre.com>,
- Jiawei Wang <me@jwang.link>, Jonathan Corbet <corbet@lwn.net>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Maso Huang <maso.huang@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Shengjiu Wang <shengjiu.wang@gmail.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>,
- Vinod Koul <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
- alsa-devel@alsa-project.org, imx@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-sound@vger.kernel.org
-References: <87o79azh65.wl-kuninori.morimoto.gx@renesas.com>
- <87le4ezh53.wl-kuninori.morimoto.gx@renesas.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <87le4ezh53.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e75d1bbe-0902-4ee9-8fe9-e3b7fc9bf3cb@microchip.com>
 
-On 5/13/2024 2:31 AM, Kuninori Morimoto wrote:
-> Current DCPM is checking CPU side availability only, but it should also
-> check Codec availability. But because of long DPCM operation history,
-> it is possible that the some Codec driver check have been bypassed.
+> Thanks for the consideration. But be informed that the internal PHY 
+> initial settings are updated for the Rev.B1. But the one from the 
+> mainline still supports for Rev.B0. So that microchip_t1s.c to be 
+> updated to support Rev.B1.
+
+So I figured, thanks for making it clear.
+
 > 
-> It should be error, but let's add grace time to update driver.
+> Also I am in talk with our design team that whether the updated initial 
+> settings for B1 are also applicable for B0. If so, then we will have 
+> only one updated initial setting which supports both B0 and B1.
+
+Sounds ideal if one init procedure can cover both chip revs.
+
 > 
-> This patch indicates warning in above case. Each applicable driver need
-> to update during this grace time.
-> 
-> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> ---
->   sound/soc/soc-pcm.c | 45 +++++++++++++++++++++++++++++++++++++++++++--
->   1 file changed, 43 insertions(+), 2 deletions(-)
-> 
-> diff --git a/sound/soc/soc-pcm.c b/sound/soc/soc-pcm.c
-> index c4d80cad5982..5729912ceff9 100644
-> --- a/sound/soc/soc-pcm.c
-> +++ b/sound/soc/soc-pcm.c
-> @@ -2795,6 +2795,7 @@ static int soc_get_playback_capture(struct snd_soc_pcm_runtime *rtd,
->   {
->   	struct snd_soc_dai_link *dai_link = rtd->dai_link;
->   	struct snd_soc_dai *cpu_dai;
-> +	struct snd_soc_dai *codec_dai;
->   	struct snd_soc_dai_link_ch_map *ch_maps;
->   	int has_playback = 0;
->   	int has_capture  = 0;
-> @@ -2806,15 +2807,25 @@ static int soc_get_playback_capture(struct snd_soc_pcm_runtime *rtd,
->   	}
->   
->   	if (dai_link->dynamic || dai_link->no_pcm) {
-> +		int has_playback_both = 0;
-> +		int has_capture_both = 0;
->   
->   		for_each_rtd_ch_maps(rtd, i, ch_maps) {
->   			cpu_dai	  = snd_soc_rtd_to_cpu(rtd,   ch_maps->cpu);
-> +			codec_dai = snd_soc_rtd_to_codec(rtd, ch_maps->codec);
->   
->   			if (snd_soc_dai_stream_valid(cpu_dai, SNDRV_PCM_STREAM_PLAYBACK))
->   				has_playback = 1;
->   
->   			if (snd_soc_dai_stream_valid(cpu_dai, SNDRV_PCM_STREAM_CAPTURE))
->   				has_capture = 1;
-> +
-> +			if (snd_soc_dai_stream_valid(codec_dai, SNDRV_PCM_STREAM_PLAYBACK) &&
-> +			    snd_soc_dai_stream_valid(cpu_dai,   SNDRV_PCM_STREAM_PLAYBACK))
-> +				has_playback_both = 1;
-> +			if (snd_soc_dai_stream_valid(codec_dai, SNDRV_PCM_STREAM_CAPTURE) &&
-> +			    snd_soc_dai_stream_valid(cpu_dai,   SNDRV_PCM_STREAM_CAPTURE))
-> +				has_capture_both = 1;
->   		}
->   
->   		/*
-> @@ -2850,9 +2861,39 @@ static int soc_get_playback_capture(struct snd_soc_pcm_runtime *rtd,
->   				has_playback = 0;
->   			}
->   		}
-> -	} else {
-> -		struct snd_soc_dai *codec_dai;
->   
-> +		/*
-> +		 * REMOVE ME
-> +		 *
-> +		 * Current DPCM is checking CPU side only, but both CPU and Codec should be
-> +		 * checked. Indicate warning if there was CPU / Codec mismatch.
-> +		 * To keep compatibility, warning only for now.
-> +		 */
-> +		if ((dai_link->dpcm_playback || dai_link->playback_only) &&
-> +		    !has_playback_both)
-> +			dev_warn(rtd->card->dev,
-> +				 "System reuqsts playback, but not available (%s)."
+> Do you have any plan to update the microchip_t1s.c for Rev.B1 support OR 
+> do you want me to do it? If you want me to do it then I will prepare a 
+> separate patch series for the support?
 
-Typo: reuqsts -> requests
+I'm keen on taking a Rev.B1 chip for a spin, so I'll jump on doing doing
+the init/fixup. I can probably post it to the mailing list during the
+weekend.
+If you're planning on being faster than that I'll wait for your
+submission.
 
-> +				 " Please update Codec driver\n",
-> +				 dai_link->stream_name);
-> +		if ((dai_link->dpcm_capture || dai_link->capture_only) &&
-> +		     !has_capture_both)
-> +			dev_warn(rtd->card->dev,
-> +				 "System reuqsts capture, but not available (%s)."
+Out of curiosity do you have any insight into if the rev b1 is expected
+to behave differently?
 
-Same here.
-
-> +				 " Please update Codec driver\n",
-> +				 dai_link->stream_name);
-> +
-> +		/*
-> +		 * REMOVE ME
-> +		 *
-> +		 * In case of there was no dpcm_xxx flag, and CPU / Codec mismatch,
-> +		 * follow new style
-> +		 */
-> +		if (!dai_link->dpcm_playback && has_playback)
-> +			has_playback = has_playback_both;
-> +		if (!dai_link->dpcm_capture && has_capture)
-> +			has_capture = has_capture_both;
-> +
-> +	} else {
->   		/* Adapt stream for codec2codec links */
->   		int cpu_capture  = snd_soc_get_stream_cpu(dai_link, SNDRV_PCM_STREAM_CAPTURE);
->   		int cpu_playback = snd_soc_get_stream_cpu(dai_link, SNDRV_PCM_STREAM_PLAYBACK);
-
+R
