@@ -1,173 +1,174 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81B0D13F423;
-	Fri, 17 May 2024 19:13:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F12C839FFD;
+	Fri, 17 May 2024 21:39:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715973216; cv=none; b=ok9rZbwP6SBnQ3ydAey78g7sFx9YsB59h+E11RBBuLwU0js/izpFeK88hjflSt64LtW1H67z8BXftkpKseI3fVFkjizzfuw7w2EDzkHuqtlqsJ2lx1hlz2LFHV/tGRdB6UKrIpxSN7xam1dykkkRiZKcwCwojwykHM9ndiwNhYY=
+	t=1715981990; cv=none; b=rHrh88Q4EE9V3KRZEaOmj7EV9BtdKoQDdfdFuZ7irzR3ph/RNHuNWYe1lzHxWDeM0qaVLaQ5Np+K72j6bkWJzsnzqMIVe8ruFE9qISD3DVFhgkxWykVbx0dwrXlReG9A2UJa/jPloZKJyO5ePoad4AnKtOUDwnzrDVUpYPLHTdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715973216; c=relaxed/simple;
-	bh=cl5z+RypzfaYXGWf+rnBBjI5OlA1WYqdwNwX6Edu4uM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sBvJuDcCVC/JfYhw9pXSqQC4rCodnPr1gKmcVu4Rj7PgKS10tH5lU9t9AUyyzUT2314l2ypu6ELPrRLFMvjtNupA6tCxYGiXvwvYBUKyskW0HmuGNixCY9FJnMM9BgVUtniV+v5nuDhliYhQTgfHo9KkzrquHv+BbCPbx/t107I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=fpp/vl3D; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1715981990; c=relaxed/simple;
+	bh=2SS4RimWdSKvDc8cYyQUQTKo0de1Bc26jlHfZplTVjE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BYfSdVx/LjYw6eoxHgx4hBu7GkfhBOHwi5TCOQyw1dW+diEX749xeuOJ1+NzlN3WvpTHZxFjrXz+eDvO1MOHU3tgt/IARFuJQFhyEUP/uEIzKUKb79wMQiBk7t1rw+yaOZ+dctH/M6kXGYgFf3n93j6utxNIF+y/HwtCv9gElec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J5vEFyTp; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="fpp/vl3D"
-Received: from [10.137.106.151] (unknown [167.220.2.23])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 6FAD220B915A;
-	Fri, 17 May 2024 12:13:27 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 6FAD220B915A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1715973207;
-	bh=2p1wopyKvglG1K22JP2DhRwV85SJbq4dKxtjT1xHvtY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fpp/vl3DKUdjSDRpvAjyDgeuyiVrUyujnX4va9QRUjeu+quEuTpy1VLMWrbI1o4O2
-	 7tFT61OD7MvfnS0fygEkUh5vIkJKB8wvWKhgP7fqsqhi6YbLFLZ5KpReHrkz8TRyK5
-	 gfobGVgWsvo7PzhwRCDJDIgnL1vDR71OaQIF5phw=
-Message-ID: <234910c1-40c3-4489-94ab-6e9a5f00d93e@linux.microsoft.com>
-Date: Fri, 17 May 2024 12:13:26 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J5vEFyTp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1715981987; x=1747517987;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2SS4RimWdSKvDc8cYyQUQTKo0de1Bc26jlHfZplTVjE=;
+  b=J5vEFyTpnVvnOKkJSStUGWO9PBRkSwaPrvmipmVn0vBrOKBGuZV098+k
+   u5ns1CJ+uUeK31K9Wyw+drtCwu+E9aM0xCztDcnllKt820oX2CE+7DnvV
+   5uhD3w7uJ3L4Bfks5xa8TQBI//fbze4E0ZEyxKl8RTg28XhKDaRH5JqKj
+   rklNwTKbNfbnGORcg0DuoB/uOUWWn51m/9qKmq9q2P0ItNQRamigw7x8j
+   Om9T+NkTIRmG1wW/NotRv1YkwX3UhSyoSlEZRatY1DJvOOzFLVwthlVsA
+   yKFlMeQINo/rgX3faEzXEdXPmSe4LdCVYc8ErUYYJSZcxkM7MMf5DctLT
+   g==;
+X-CSE-ConnectionGUID: KlXoS4UxRPm+TIRTqelx9w==
+X-CSE-MsgGUID: AYwRRiQETJ2Br4KIYUvTGw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11075"; a="12356749"
+X-IronPort-AV: E=Sophos;i="6.08,168,1712646000"; 
+   d="scan'208";a="12356749"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2024 14:39:46 -0700
+X-CSE-ConnectionGUID: gkIVbgFKR4KZwf7oGFI1XQ==
+X-CSE-MsgGUID: zsKfyn7DTkeY+sy0JqMShA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,168,1712646000"; 
+   d="scan'208";a="36827114"
+Received: from unknown (HELO 108735ec233b) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 17 May 2024 14:39:41 -0700
+Received: from kbuild by 108735ec233b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s85Fv-00019g-0g;
+	Fri, 17 May 2024 21:37:44 +0000
+Date: Sat, 18 May 2024 05:34:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: ye.xingchen@zte.com.cn, davem@davemloft.net
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	corbet@lwn.net, dsahern@kernel.org, ncardwell@google.com,
+	soheil@google.com, mfreemon@cloudflare.com, lixiaoyan@google.com,
+	david.laight@aculab.com, haiyangz@microsoft.com,
+	ye.xingchen@zte.com.cn, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	xu.xin16@zte.com.cn, zhang.yunkai@zte.com.cn, fan.yu9@zte.com.cn
+Subject: Re: [PATCH net-next] icmp: Add icmp_timestamp_ignore_all to control
+ ICMP_TIMESTAMP
+Message-ID: <202405180545.RQgwvazz-lkp@intel.com>
+References: <20240517172639229ec5bN7VBV7SGEHkSK5K6f@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v18 12/21] dm: add finalize hook to target_type
-To: Mikulas Patocka <mpatocka@redhat.com>, Mike Snitzer <snitzer@kernel.org>
-Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
- tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com,
- snitzer@kernel.org, eparis@redhat.com, paul@paul-moore.com,
- linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
- linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
- linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
- audit@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1714775551-22384-1-git-send-email-wufan@linux.microsoft.com>
- <1714775551-22384-13-git-send-email-wufan@linux.microsoft.com>
- <aa767961-5e3-2ceb-1a1e-ff66a8eed649@redhat.com>
- <212b02a8-f5f0-4433-a726-1639dda61790@linux.microsoft.com>
- <bc9aa053-20a6-eaa-cbe4-344f340242b@redhat.com>
-Content-Language: en-CA
-From: Fan Wu <wufan@linux.microsoft.com>
-In-Reply-To: <bc9aa053-20a6-eaa-cbe4-344f340242b@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240517172639229ec5bN7VBV7SGEHkSK5K6f@zte.com.cn>
+
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/ye-xingchen-zte-com-cn/icmp-Add-icmp_timestamp_ignore_all-to-control-ICMP_TIMESTAMP/20240517-172903
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20240517172639229ec5bN7VBV7SGEHkSK5K6f%40zte.com.cn
+patch subject: [PATCH net-next] icmp: Add icmp_timestamp_ignore_all to control ICMP_TIMESTAMP
+config: arm-clps711x_defconfig (https://download.01.org/0day-ci/archive/20240518/202405180545.RQgwvazz-lkp@intel.com/config)
+compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project fa9b1be45088dce1e4b602d451f118128b94237b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240518/202405180545.RQgwvazz-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405180545.RQgwvazz-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from net/ipv4/icmp.c:69:
+   In file included from include/linux/inet.h:42:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/arm/include/asm/cacheflush.h:10:
+   In file included from include/linux/mm.h:2210:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> net/ipv4/icmp.c:1157:16: warning: variable 'net' is uninitialized when used here [-Wuninitialized]
+    1157 |         if (READ_ONCE(net->ipv4.sysctl_icmp_timestamp_ignore_all))
+         |                       ^~~
+   include/asm-generic/rwonce.h:50:14: note: expanded from macro 'READ_ONCE'
+      50 |         __READ_ONCE(x);                                                 \
+         |                     ^
+   include/asm-generic/rwonce.h:44:72: note: expanded from macro '__READ_ONCE'
+      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+         |                                                                         ^
+   net/ipv4/icmp.c:1155:17: note: initialize the variable 'net' to silence this warning
+    1155 |         struct net *net;
+         |                        ^
+         |                         = NULL
+   2 warnings generated.
 
 
+vim +/net +1157 net/ipv4/icmp.c
 
-On 5/9/2024 10:07 AM, Mikulas Patocka wrote:
-> 
-> 
-> On Wed, 8 May 2024, Fan Wu wrote:
-> 
->>
->>
->> On 5/8/2024 10:17 AM, Mikulas Patocka wrote:
->>>
->>>
->>> On Fri, 3 May 2024, Fan Wu wrote:
->>>
->>>> This patch adds a target finalize hook.
->>>>
->>>> The hook is triggered just before activating an inactive table of a
->>>> mapped device. If it returns an error the __bind get cancelled.
->>>>
->>>> The dm-verity target will use this hook to attach the dm-verity's
->>>> roothash metadata to the block_device struct of the mapped device.
->>>>
->>>> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
->>>
->>> Hi
->>>
->>> Why not use the preresume callback?
->>>
->>> Is there some reason why do we need a new callback instead of using the
->>> existing one?
->>>
->>> Mikulas
->> Thanks for the suggestion.
->>
->> Mike suggested the new finalize() callback. I think the reason for not using
->> the preresume() callback is that there are multiple points that can fail
->> before activating an inactive table of a mapped device which can potentially
->> lead to inconsistent state.
->>
->> In our specific case, we are trying to associate dm-verity's roothash metadata
->> with the block_device struct of the mapped device inside the callback.
->>
->> If we use the preresume() callback for the work and an error occurs between
->> the callback and the table activation, this leave the block_device struct in
->> an inconsistent state.
-> 
-> The preresume callback is the final GO/NO-GO decision point. If all the
-> targets return zero in their preresume callback, then there's no turning
-> back and the table will be activated.
-> 
->> This is because now the block device contains the roothash metadata of it's
->> inactive table due to the preresume() callback, but the activation failed so
->> the mapped device is still using the old table.
->>
->> The new finalize() callback guarantees that the callback happens just before
->> the table activation, thus avoiding the inconsistency.
-> 
-> In your patch, it doesn't guarantee that.
-> 
-> do_resume calls dm_swap_table, dm_swap_table calls __bind, __bind calls
-> ti->type->finalize. Then we go back to do_resume and call dm_resume which
-> calls __dm_resume which calls dm_table_resume_targets which calls the
-> preresume callback on all the targets. If some of them fails, it returns a
-> failure (despite the fact that ti->type->finalize succeeded), if all of
-> them succeed, it calls the resume callback on all of them.
-> 
-> So, it seems that the preresume callback provides the guarantee that you
-> looking for.
-> 
->> -Fan
-> 
-> Mikulas
+  1144	
+  1145	/*
+  1146	 *	Handle ICMP Timestamp requests.
+  1147	 *	RFC 1122: 3.2.2.8 MAY implement ICMP timestamp requests.
+  1148	 *		  SHOULD be in the kernel for minimum random latency.
+  1149	 *		  MUST be accurate to a few minutes.
+  1150	 *		  MUST be updated at least at 15Hz.
+  1151	 */
+  1152	static enum skb_drop_reason icmp_timestamp(struct sk_buff *skb)
+  1153	{
+  1154		struct icmp_bxm icmp_param;
+  1155		struct net *net;
+  1156	
+> 1157		if (READ_ONCE(net->ipv4.sysctl_icmp_timestamp_ignore_all))
+  1158			return SKB_NOT_DROPPED_YET;
+  1159	
+  1160		/*
+  1161		 *	Too short.
+  1162		 */
+  1163		if (skb->len < 4)
+  1164			goto out_err;
+  1165	
+  1166		/*
+  1167		 *	Fill in the current time as ms since midnight UT:
+  1168		 */
+  1169		icmp_param.data.times[1] = inet_current_timestamp();
+  1170		icmp_param.data.times[2] = icmp_param.data.times[1];
+  1171	
+  1172		BUG_ON(skb_copy_bits(skb, 0, &icmp_param.data.times[0], 4));
+  1173	
+  1174		icmp_param.data.icmph	   = *icmp_hdr(skb);
+  1175		icmp_param.data.icmph.type = ICMP_TIMESTAMPREPLY;
+  1176		icmp_param.data.icmph.code = 0;
+  1177		icmp_param.skb		   = skb;
+  1178		icmp_param.offset	   = 0;
+  1179		icmp_param.data_len	   = 0;
+  1180		icmp_param.head_len	   = sizeof(struct icmphdr) + 12;
+  1181		icmp_reply(&icmp_param, skb);
+  1182		return SKB_NOT_DROPPED_YET;
+  1183	
+  1184	out_err:
+  1185		__ICMP_INC_STATS(dev_net(skb_dst(skb)->dev), ICMP_MIB_INERRORS);
+  1186		return SKB_DROP_REASON_PKT_TOO_SMALL;
+  1187	}
+  1188	
 
-Thanks for the info. I have tested and verified that the preresume() 
-hook can also work for our case.
-
- From the source code 
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/md/dm-ioctl.c#n1149, 
-the whole resume process appears to be:
-
-1. Check if there is a new map for the device. If so, attempt to 
-activate the new map using dm_swap_table() (where the finalize() 
-callback occurs).
-
-2. Check if the device is suspended. If so, use dm_resume() (where the 
-preresume() callback occurs) to resume the device.
-
-3. If a new map is activated, use dm_table_destroy() to destroy the old map.
-
-For our case:
-
-- Using the finalize() callback, the metadata of the dm-verity target 
-inside the table is attached to the mapped device every time a new table 
-is activated.
-- Using the preresume() callback, the same metadata is attached every 
-time the device resumes from suspension.
-
-If I understand the code correctly, resuming from suspension is a 
-necessary step for loading a new mapping table. Thus, the preresume() 
-callback covers all conditions where the finalize() callback would be 
-triggered. However, the preresume() callback can also be triggered when 
-the device resumes from suspension without loading a new table, in which 
-case there is no new metadata in the table to attach to the mapped device.
-
-In the scenario where the finalize() callback succeeds but the 
-preresume() callback fails, it seems the device will remain in a 
-suspended state, the newly activated table will be kept, and the old 
-table will be destroyed, so it seems there is no inconsistency using 
-finalize() even preresume() potentially fails.
-
-I believe both the finalize() callback proposed by Mike and the 
-preresume() callback suggested by Mikulas can work for our case. I am 
-fine with either approach, but I would like to know which one is 
-preferred by the maintainers and would appreciate an ACK for the chosen 
-approach.
-
--Fan
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
