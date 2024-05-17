@@ -1,145 +1,128 @@
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 579F512D20C
-	for <linux-doc@vger.kernel.org>; Fri, 17 May 2024 15:18:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 988E212D77C;
+	Fri, 17 May 2024 15:21:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.240
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1715959115; cv=none; b=MORLqSVGIKhe2zvhQHl4PTNNGAToi9w4EQPWDQ4uF6EAT5A37Pmev4g2AyozGYTHXZ3CqfCKT+gUDiVzG/HlQ/tUnpKU8TwemGaL9su9TK4gaCW7BV7nqeChOuC2evqZkvfgslijwvk7og667jpC9CiSU9gtKyKvrSr++63+BxA=
+	t=1715959282; cv=none; b=PMwhTVG/W2UYCRrxUSoW6gC/K4ggkayemIzOmVvVUU5M/KNgMC2hiIoCpk++b4fuBF5lLAjCrwIq1RhrjpHOclEzwoMxfh0CgD+9TCuWORskmISZPlXGnpDxG00THFu5bFIR+MJUTGmv3JPdOZ8irY/10bNhWBNCWarw9WCgysQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1715959115; c=relaxed/simple;
-	bh=mpYs6UtAF6g4uCYv3WzchVCd0TLckL19zbzZwRq8vNI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uvJNb6J81ixMrZ/iEZgOtsaWCzdPs5vaPPFoJxMEzTX+rCkJLILDj7K/WjOCOaF37QWi4rc3sNOXUclYHXaBvTwbJ3cD+DmYRD6ZjasdpdIeO0ze91EEV7pmZOLMInFfuQcRJbCOAhzCBgffavrWMCItaFdKrLHktnrIsUdnQLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org; spf=none smtp.mailfrom=brainfault.org; dkim=pass (2048-bit key) header.d=brainfault-org.20230601.gappssmtp.com header.i=@brainfault-org.20230601.gappssmtp.com header.b=KfJGnobH; arc=none smtp.client-ip=209.85.166.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=brainfault.org
+	s=arc-20240116; t=1715959282; c=relaxed/simple;
+	bh=wOMTQcCv4RXt7oOImw1VgaZvQGn5ykZzqAP4bE+CoMU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GBcXrKDLEb0ejP2Qq9GmlCClZLuGesiwuhvmoobFJ1iguqRGZp2dbEk1WghVjkhMYE3Vst8q8uQOsa2lZQh1UWdXtHt531KjAfD27K/4ouMRgCrwOaFAmQ+XboK2aUJ950OAcWvcytTyyjOphpvHRy9dFgCBHz/8DGQv2IjTCWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=LwnM3V7e; arc=none smtp.client-ip=217.70.178.240
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brainfault-org.20230601.gappssmtp.com header.i=@brainfault-org.20230601.gappssmtp.com header.b="KfJGnobH"
-Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-36cc8dbe09aso6937955ab.2
-        for <linux-doc@vger.kernel.org>; Fri, 17 May 2024 08:18:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brainfault-org.20230601.gappssmtp.com; s=20230601; t=1715959113; x=1716563913; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1m4CFwHLpmZnHQVhxg9Ce7GcAxeNjySCi2dNUZGyOug=;
-        b=KfJGnobHwephIp5j76CaJ6cQEdiFRclnJJFhgSdFrZDnoVbnjVQmTe7GgN4IFd0Vxo
-         lRqMhihiV02kjtcq8ckGlqzQzP/tZb/yWZ8/UUFq7C1DeQ/nEaGpTl4AVGj0adpm6Em5
-         ane58fcXjmjMA2+ZwErmpxVWb4YXra4kX+WsFzouLI7BL+MzTsHIuf41YEbGlHzureB7
-         KAhqJ9EP5bAqa9z2MK0WAmjweThigKfD5Gqw3n/t0lEvKyXOPwGQUboUasRG9oVFzFuG
-         8UL+vnwa08Isf7iVVSSkygwU//mAq8b81pc3dc/c/sr9Jd7pBvC+/53Uz5tN3mmcwk/R
-         wnCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715959113; x=1716563913;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1m4CFwHLpmZnHQVhxg9Ce7GcAxeNjySCi2dNUZGyOug=;
-        b=CGgp6PSzdkeAn+KsnosHwwoSpeYO2szd76xsMiBiInQ9n5Nf2djZB+z5pY+nv8piO0
-         L3CqvT4Sdt6Ux4zKil5SiIe2C/Ai9hTy1ncfcyHUw5iWwbq8G7Zq76qO9Q5HmN9YVTxS
-         jEZTHU3MlNhPdLrdU+v1XzFkjQhx0LlvffpkPP2pssVYr3rJzqVqAgNLmXAfSUq+6zGT
-         420kFskfKJsZXVfJB73d8oNHkapcnh74f3GPFwC/V1UKgUFrfMd10CdCI8/WeZW2pdrf
-         SyPDSAm1tcst5Xx3oL0OE1nrjW8P7cTE+xNtmfPDzO8Fgd9jX41zOR9CXX05fF6ZSko9
-         +c6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXsabLOa7dKBAyFEAupuDaAHS5IRfRWHLjVGfCHNekoj0467QqUkr0vkU10DWxboFV9Fc/5ETMfqX6DrPBeiehxkrIHLH8bNXZL
-X-Gm-Message-State: AOJu0Yy232kpSHAEDT1yF/J+8i3CnrrAi0aMqgzGbWrJp7aEIPFacmOl
-	r8RPxGMc+OhT1Rg6uPBVQC/p8clTrCn6Za8HPfAiKCRva3tmLsMS+MOkL5veAcxot8S0TeUjK/j
-	VcAX/Y0fLTipGcKVoh9yqNqGmcMFxtfE4CeEePw==
-X-Google-Smtp-Source: AGHT+IGJK8XCJzTVXEsiGdlO5wjVs7wX6BOSuvwLSEKG+jooZHMnH9FoE3Bzx4WPWeKRmsJRiTZQBEo5qN0POnnENhQ=
-X-Received: by 2002:a05:6e02:16cf:b0:36d:b398:aa92 with SMTP id
- e9e14a558f8ab-36db398ac57mr108119485ab.8.1715959113504; Fri, 17 May 2024
- 08:18:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="LwnM3V7e"
+Received: from relay4-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::224])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 35ED8C3359;
+	Fri, 17 May 2024 15:13:06 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1B596E0006;
+	Fri, 17 May 2024 15:12:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1715958778;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=AeTxGtF/EgpBohuFwBuKpus55RrUZBrBwjxJhjj16pM=;
+	b=LwnM3V7eJkdBSvC60vIBB/gpmPTBTg45+MHoX5J3y8e6MIDgjtuDAaAZJ8PO2C/IkLxcT7
+	dgYAigX8S8JnySY+TiK9KFRyJ6asu9Vr9N/2FCiaz+xr0LPFBi76HAX4kqY50rxRcjf97D
+	A8kKU94tWLDMIy6Ey/QDQfO93fYSp5Hq7pqCKrKJtymojYj/tuG6J7U3mhyLW8JBzWDXux
+	bCtkutz/3IvYXnPvFFAIygoP3SvO5+iupK52xZyOdetxcgIw7p2g33CRPx59cdGfUOspqN
+	SZnpVfQ+i8F1qBDKJIKM9OJN6ho4rPhKDmk/fnQC6OIJ5LRkaY9o/f7ry0mhtg==
+Date: Fri, 17 May 2024 17:12:54 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Simon Horman <horms@kernel.org>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
+ kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
+ <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Richard Cochran <richardcochran@gmail.com>, Radu
+ Pirea <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh
+ <j.vosburgh@gmail.com>, Andy Gospodarek <andy@greyhouse.net>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
+ UNGLinuxDriver@microchip.com, Vladimir Oltean <vladimir.oltean@nxp.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>
+Subject: Re: [PATCH net-next v12 12/13] net: ethtool: tsinfo: Add support
+ for hwtstamp provider and get/set hwtstamp config
+Message-ID: <20240517171254.1e316e69@kmaincent-XPS-13-7390>
+In-Reply-To: <20240504103305.GD3167983@kernel.org>
+References: <20240430-feature_ptp_netnext-v12-0-2c5f24b6a914@bootlin.com>
+	<20240430-feature_ptp_netnext-v12-12-2c5f24b6a914@bootlin.com>
+	<20240504103305.GD3167983@kernel.org>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240517145302.971019-1-cleger@rivosinc.com> <20240517145302.971019-6-cleger@rivosinc.com>
-In-Reply-To: <20240517145302.971019-6-cleger@rivosinc.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Fri, 17 May 2024 20:48:21 +0530
-Message-ID: <CAAhSdy0XADKcLS_iFdTzpYDY+KAL2+v91xFcjWUu8LofknQWMA@mail.gmail.com>
-Subject: Re: [PATCH v5 05/16] KVM: riscv: selftests: Add Zimop extension to
- get-reg-list test
-To: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Shuah Khan <shuah@kernel.org>, 
-	Atish Patra <atishp@atishpatra.org>, linux-doc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, kvm@vger.kernel.org, 
-	kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On Fri, May 17, 2024 at 8:23=E2=80=AFPM Cl=C3=A9ment L=C3=A9ger <cleger@riv=
-osinc.com> wrote:
->
-> The KVM RISC-V allows Zimop extension for Guest/VM so add this
-> extension to get-reg-list test.
->
-> Signed-off-by: Cl=C3=A9ment L=C3=A9ger <cleger@rivosinc.com>
+On Sat, 4 May 2024 11:33:05 +0100
+Simon Horman <horms@kernel.org> wrote:
 
-LGTM.
+> Hi Kory,
+>=20
+> A few lines beyond this hunk, within the "if (hwtstamp)" block,
+> is the following:
+>=20
+> 		cfg->qualifier =3D dev->hwtstamp->qualifier;
+>=20
+> Now that dev->hwtstamp is managed using RCU, I don't think it is correct
+> to dereference it directly like this. Rather, the hwtstamp local variable,
+> which has rcu_dereference'd this pointer should be used:
+>=20
+> 		 cfg->qualifier =3D hwtstamp->qualifier;
+>=20
+> Flagged by Sparse.
 
-Reviewed-by: Anup Patel <anup@brainfault.org>
-Acked-by: Anup Patel <anup@brainfault.org>
+Yes indeed, thanks for the report.
+
+>=20
+> ...
+>=20
+> > diff --git a/net/ethtool/tsinfo.c b/net/ethtool/tsinfo.c =20
+>=20
+> ...
+>=20
+> > +static int ethnl_tsinfo_dump_one_dev(struct sk_buff *skb, struct
+> > net_device *dev,
+> > +				     struct netlink_callback *cb)
+> > +{
+> > +	struct ethnl_tsinfo_dump_ctx *ctx =3D (void *)cb->ctx;
+> > +	struct ptp_clock *ptp;
+> > +	int ret;
+> > +
+> > +	netdev_for_each_ptp_clock_start(dev, ctx->pos_phcindex, ptp,
+> > +					ctx->pos_phcindex) {
+> > +		ret =3D ethnl_tsinfo_dump_one_ptp(skb, dev, cb, ptp);
+> > +		if (ret < 0 && ret !=3D -EOPNOTSUPP)
+> > +			break;
+> > +		ctx->pos_phcqualifier =3D
+> > HWTSTAMP_PROVIDER_QUALIFIER_PRECISE;
+> > +	}
+> > +
+> > +	return ret; =20
+>=20
+> Perhaps it is not possible, but if the loop iterates zero times then
+> ret will be used uninitialised here.
+
+Yes thanks!
 
 Regards,
-Anup
-
-> ---
->  tools/testing/selftests/kvm/riscv/get-reg-list.c | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/tools/testing/selftests/kvm/riscv/get-reg-list.c b/tools/tes=
-ting/selftests/kvm/riscv/get-reg-list.c
-> index b882b7b9b785..40107bb61975 100644
-> --- a/tools/testing/selftests/kvm/riscv/get-reg-list.c
-> +++ b/tools/testing/selftests/kvm/riscv/get-reg-list.c
-> @@ -67,6 +67,7 @@ bool filter_reg(__u64 reg)
->         case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV=
-_ISA_EXT_ZIHINTNTL:
->         case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV=
-_ISA_EXT_ZIHINTPAUSE:
->         case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV=
-_ISA_EXT_ZIHPM:
-> +       case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV=
-_ISA_EXT_ZIMOP:
->         case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV=
-_ISA_EXT_ZKND:
->         case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV=
-_ISA_EXT_ZKNE:
->         case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV=
-_ISA_EXT_ZKNH:
-> @@ -432,6 +433,7 @@ static const char *isa_ext_single_id_to_str(__u64 reg=
-_off)
->                 KVM_ISA_EXT_ARR(ZIHINTNTL),
->                 KVM_ISA_EXT_ARR(ZIHINTPAUSE),
->                 KVM_ISA_EXT_ARR(ZIHPM),
-> +               KVM_ISA_EXT_ARR(ZIMOP),
->                 KVM_ISA_EXT_ARR(ZKND),
->                 KVM_ISA_EXT_ARR(ZKNE),
->                 KVM_ISA_EXT_ARR(ZKNH),
-> @@ -955,6 +957,7 @@ KVM_ISA_EXT_SIMPLE_CONFIG(zifencei, ZIFENCEI);
->  KVM_ISA_EXT_SIMPLE_CONFIG(zihintntl, ZIHINTNTL);
->  KVM_ISA_EXT_SIMPLE_CONFIG(zihintpause, ZIHINTPAUSE);
->  KVM_ISA_EXT_SIMPLE_CONFIG(zihpm, ZIHPM);
-> +KVM_ISA_EXT_SIMPLE_CONFIG(zimop, ZIMOP);
->  KVM_ISA_EXT_SIMPLE_CONFIG(zknd, ZKND);
->  KVM_ISA_EXT_SIMPLE_CONFIG(zkne, ZKNE);
->  KVM_ISA_EXT_SIMPLE_CONFIG(zknh, ZKNH);
-> @@ -1010,6 +1013,7 @@ struct vcpu_reg_list *vcpu_configs[] =3D {
->         &config_zihintntl,
->         &config_zihintpause,
->         &config_zihpm,
-> +       &config_zimop,
->         &config_zknd,
->         &config_zkne,
->         &config_zknh,
-> --
-> 2.43.0
->
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
