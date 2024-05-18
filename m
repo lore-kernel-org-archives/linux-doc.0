@@ -1,60 +1,65 @@
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+Received: from out162-62-57-252.mail.qq.com (out162-62-57-252.mail.qq.com [162.62.57.252])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FB8B7CF16;
-	Sat, 18 May 2024 12:45:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED27047F41;
+	Sat, 18 May 2024 15:58:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.252
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716036302; cv=none; b=tiWOeikWht4q/gfg7qzx6l/N8F62700a3xMUnu7BcIhFMdbVaKdx18LLbH3LI0vz9CAN8Irf5BLlCZI31GdL7cORYHFtQLVzpTyR5vDniaMGIjKJOHYrikAxsXtliiymC35kYqVCvfJ+2OlvMCvuhpqmkkCNxL0Rf8/wTmTeOCI=
+	t=1716047887; cv=none; b=t7CppZQo/ajI/zcRb4BfYkw5SCGuKNrPacrjxAvgjZg/IBkTSpE3JKGE3czqYtgL50FeCfN+04id29dQ32FdjrC+y25/beuJLuGbou0DzKvGIoOZhrR70bo1gDOHA9SY3ht02hZiOrsP/XIqgGb0fs1mNHrOK0GQCdJabFqMRts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716036302; c=relaxed/simple;
-	bh=hynyAfgRm5q+1IANofou/nprgd/BjuI4O4e6YgviSjA=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=R80z6oHbPI5QcxZIspZG6fL9+o5OwG+W4W6/YVpOdBPCxbM+3pY4KAj7xjALVG0PqeMuJhYJIXv5vxcafv2Xztd52VYSSj3S2tD6/OFY0tvVEaKUYIN3jNefI3MT+wbDT2iAOkP/8j3JLQGCtU0dT8IHX8UKlIgppW8fQHi0PBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=dthQdYTY; arc=none smtp.client-ip=198.47.19.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1716047887; c=relaxed/simple;
+	bh=T0B0o4Ahrip8acK9zV6qCGZ5vdii8VsZwX5YTddlLXo=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=rLzzzSUktcYVqdHz0kXYRkR0TvD6Xb+3rIcIKDgvBDpPyIcJf9xqL3tkkio+BAZzP6WuEuCrA1JhdSXpMCzEZ52IgrQlrFf634khceJe/li+nl+PG03JDjwN0uE5dtQ4boqmMxM10H7JbD8aSkrz/dgUuYnBRixSl6sVOgWiH/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name; spf=none smtp.mailfrom=cyyself.name; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=GGT+svEr; arc=none smtp.client-ip=162.62.57.252
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cyyself.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="dthQdYTY"
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44ICimra055098;
-	Sat, 18 May 2024 07:44:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1716036288;
-	bh=VPaREiRTmandW1VVNogQssPNjYrkxOVaQwGJoi1ZkHI=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=dthQdYTYKEVD3XytPwLMxYFpI0/p2qDVk/gPrr+k4aUKGMBysbuvG7bki2vAzEaCk
-	 MXkiXxWtBGnbo7EuaO+4xQM9Wd0z1zNnwL7JXxhXPyl2WXU6qXq7R0fOVNyqUCeaJB
-	 URShu77GUbuGADkhaU5/RULKbY7Fv+b3uNpyx3nw=
-Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44ICimT0018265
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Sat, 18 May 2024 07:44:48 -0500
-Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Sat, 18
- May 2024 07:44:48 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE101.ent.ti.com
- (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Sat, 18 May 2024 07:44:48 -0500
-Received: from uda0492258.dhcp.ti.com (uda0492258.dhcp.ti.com [172.24.227.9])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44ICgY9i041511;
-	Sat, 18 May 2024 07:44:44 -0500
-From: Siddharth Vadapalli <s-vadapalli@ti.com>
-To: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>, <corbet@lwn.net>, <rogerq@kernel.org>,
-        <danishanwar@ti.com>, <vladimir.oltean@nxp.com>
-CC: <netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        <vigneshr@ti.com>, <misael.lopez@ti.com>, <srk@ti.com>,
-        <s-vadapalli@ti.com>
-Subject: [RFC PATCH net-next 28/28] net: ethernet: ti: cpsw-proxy-client: enable client driver functionality
-Date: Sat, 18 May 2024 18:12:34 +0530
-Message-ID: <20240518124234.2671651-29-s-vadapalli@ti.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20240518124234.2671651-1-s-vadapalli@ti.com>
-References: <20240518124234.2671651-1-s-vadapalli@ti.com>
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="GGT+svEr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1716047871; bh=tAscGdrOoDFuMMheeDr7p+FqOHBXTQvTsOI3LnIgptI=;
+	h=From:To:Cc:Subject:Date;
+	b=GGT+svErobVJZ9z26eiVNtR4Y6gTBka8K7cVS2rCPErFlJYbZlMOa8GHsg7yKegNg
+	 ZDvD4Fn5gezQ3yO28YgTuh4ajfGEHSnoJHB6YRpqiiliuP2Z+JUL6OooL7Cb7a42Hg
+	 JTAdWqvKSkC8HRNtBscCH/aXYVKueWczq5bBSbII=
+Received: from cyy-pc.lan ([240e:379:227e:fc00:28c6:7f50:fe33:13fe])
+	by newxmesmtplogicsvrsza15-1.qq.com (NewEsmtp) with SMTP
+	id E6F39492; Sat, 18 May 2024 23:57:47 +0800
+X-QQ-mid: xmsmtpt1716047867td774prpc
+Message-ID: <tencent_9D721BDDF88C04DBB5151D57711D62524209@qq.com>
+X-QQ-XMAILINFO: N1L4R2fPZA3sGxWRvyML2lSmPDupt8TqlCjRvFnm+hC6uaH9gXe0Pm3XD0PSL/
+	 0erheW3tBktAEYY1aGCsZMQ+9Km7EjyMrugsV/1l1P6crb/C1CZff/eKpC/3Wa6GfdIumsU6HVkt
+	 3NZKdmpULhbB7Z1uhNU/adSopXtbLEEk6HRJ8igxn/oNXPX1mOPoWR2PHaU3b5YazgVMHIYDHNjN
+	 MPefZ91iplsmyKG5OKvi97a5lTfhCRCoLnj9VNxIKlrkLs1lPwJM+gxxJ9Vmj4PhxeNohlDZrfd6
+	 XCohexsFERKvzDLN695swbTQX1chHh3r5099is1qYNaI1qn12kd5Icf/G/nZyfICbcxZzES6WRWX
+	 8RJEo42Fkvyj+nN3Q4ZW5FzyDOlvigGNF7OZYI7v4PvRv1Y18NaqHe3aZ/hmXnF3egReKW+WN/dp
+	 cH8LEDAqI/KaCJ9AtAAifV6YOdv8lEtBPJpwq7dIGSEiEP0oWbyCptsU8f1Yk/4lIK+x9K765QyC
+	 QP4mnkX1pDMR/xyDrjtYvDeq6vbcYNLXAiKVLkelPWgsrh0VEyBTUzC7+TPqcfc9i9HCnGzNRZtL
+	 +uIdBB69Shyd9rIG6DWrWKrnu9tFQzvREOEbRxM8xR2622D/lz4+546WyvXa6BuPv/8Umnkp3p4h
+	 8M2F+ssKMuyOFlwgIeCGKAt7RGqUXVOiNngpMDt0EYGO/HruiBz5fSdUO5KjUScmBUK3+ogvESHb
+	 HV3pjo7TwfB+Ov2oNhb8G24QKviYvmn16xcaAJ41J2sA2gd1Qbg830M9VgdtcUtsJyxJRIU/Rbkb
+	 RtIm8wNJtyEL39MubshwbQKPx7kkfqmcnBoiDE7miufs0yTDawZlCrV+1XNplP+ioUY2wOK9JU6y
+	 +kbMc1oN/820cub/UlbrJvLl398C+L34JYi+yxh9d4RGRVLpdOyQ8uVzWom35seoxo4onN1gxdUF
+	 clsrI+752+eW1IvssCTQkEl1vZiv4qqtGPyqXXJx7+xDjBxcRJcedvF6vfDp4PuIb5Ta34AYOa6f
+	 n7aD+rKA==
+X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
+From: Yangyu Chen <cyy@cyyself.name>
+To: linux-riscv@lists.infradead.org
+Cc: Elliott Hughes <enh@google.com>,
+	Charlie Jenkins <charlie@rivosinc.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Evan Green <evan@rivosinc.com>,
+	=?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Yangyu Chen <cyy@cyyself.name>
+Subject: [PATCH 0/2] docs: riscv: Some clarifies on hwprobe misaligned performance
+Date: Sat, 18 May 2024 23:57:45 +0800
+X-OQ-MSGID: <20240518155745.891372-1-cyy@cyyself.name>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,142 +67,28 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Use the helpers added so far to enable the client driver functionality.
+This patchset clarifies some unclear things about hwprobe's misaligned
+performance. Including:
 
-Signed-off-by: Siddharth Vadapalli <s-vadapalli@ti.com>
----
- drivers/net/ethernet/ti/cpsw-proxy-client.c | 82 +++++++++++++++++++++
- 1 file changed, 82 insertions(+)
+- hwprobe misaligned performance is only applied to scalar from patch [1]
+- The defined keys of RISCV_HWPROBE_MISALIGNED_* are values not bitmasks
 
-diff --git a/drivers/net/ethernet/ti/cpsw-proxy-client.c b/drivers/net/ethernet/ti/cpsw-proxy-client.c
-index 90be8bb0e37d..3eccde764c17 100644
---- a/drivers/net/ethernet/ti/cpsw-proxy-client.c
-+++ b/drivers/net/ethernet/ti/cpsw-proxy-client.c
-@@ -12,6 +12,7 @@
- #include <linux/kernel.h>
- #include <linux/kmemleak.h>
- #include <linux/module.h>
-+#include <linux/of.h>
- #include <linux/rpmsg.h>
- #include <linux/dma/k3-udma-glue.h>
- 
-@@ -2227,9 +2228,33 @@ static void register_notifiers(struct cpsw_proxy_priv *proxy_priv)
- 	}
- }
- 
-+static void show_info(struct cpsw_proxy_priv *proxy_priv)
-+{
-+	struct device *dev = proxy_priv->dev;
-+	struct virtual_port *vport;
-+	u32 i;
-+
-+	dev_info(dev, "%u Virtual Switch Port(s), %u Virtual MAC Only Port(s)\n",
-+		 proxy_priv->num_switch_ports, proxy_priv->num_mac_ports);
-+
-+	for (i = 0; i < proxy_priv->num_virt_ports; i++) {
-+		vport = &proxy_priv->virt_ports[i];
-+
-+		if (vport->port_type == VIRT_SWITCH_PORT)
-+			dev_info(dev, "Virt Port: %u, Type: Switch Port, Iface: %s, Num TX: %u, Num RX: %u, Token: %u\n",
-+				 vport->port_id, vport->ndev->name, vport->num_tx_chan,
-+				 vport->num_rx_chan, vport->port_token);
-+		else
-+			dev_info(dev, "Virt Port: %u, Type: MAC Port, Iface: %s, Num TX: %u, Num RX: %u, Token: %u\n",
-+				 vport->port_id, vport->ndev->name, vport->num_tx_chan,
-+				 vport->num_rx_chan, vport->port_token);
-+	}
-+}
-+
- static int cpsw_proxy_client_probe(struct rpmsg_device *rpdev)
- {
- 	struct cpsw_proxy_priv *proxy_priv;
-+	int ret;
- 
- 	proxy_priv = devm_kzalloc(&rpdev->dev, sizeof(struct cpsw_proxy_priv), GFP_KERNEL);
- 	if (!proxy_priv)
-@@ -2237,22 +2262,79 @@ static int cpsw_proxy_client_probe(struct rpmsg_device *rpdev)
- 
- 	proxy_priv->rpdev = rpdev;
- 	proxy_priv->dev = &rpdev->dev;
-+	proxy_priv->dma_node = of_find_compatible_node(NULL, NULL,
-+						       (const char *)rpdev->id.driver_data);
- 	dev_set_drvdata(proxy_priv->dev, proxy_priv);
- 	dev_dbg(proxy_priv->dev, "driver probed\n");
- 
-+	proxy_priv->req_params.token = ETHFW_TOKEN_NONE;
-+	proxy_priv->req_params.client_id = ETHFW_LINUX_CLIENT_TOKEN;
-+	mutex_init(&proxy_priv->req_params_mutex);
-+	init_completion(&proxy_priv->wait_for_response);
-+
-+	ret = get_virtual_port_info(proxy_priv);
-+	if (ret)
-+		return -EIO;
-+
-+	ret = attach_virtual_ports(proxy_priv);
-+	if (ret)
-+		return -EIO;
-+
-+	ret = allocate_port_resources(proxy_priv);
-+	if (ret)
-+		goto err_attach;
-+
-+	ret = dma_coerce_mask_and_coherent(proxy_priv->dev, DMA_BIT_MASK(48));
-+	if (ret) {
-+		dev_err(proxy_priv->dev, "error setting dma mask: %d\n", ret);
-+		goto err_attach;
-+	}
-+
-+	ret = init_tx_chans(proxy_priv);
-+	if (ret)
-+		goto err_attach;
-+
-+	ret = init_rx_chans(proxy_priv);
-+	if (ret)
-+		goto err_attach;
-+
-+	ret = init_netdevs(proxy_priv);
-+	if (ret)
-+		goto err_attach;
-+
-+	ret = register_dma_irq_handlers(proxy_priv);
-+	if (ret)
-+		goto err_netdevs;
-+
-+	register_notifiers(proxy_priv);
-+	show_info(proxy_priv);
-+
- 	return 0;
-+
-+err_netdevs:
-+	unreg_netdevs(proxy_priv);
-+err_attach:
-+	detach_virtual_ports(proxy_priv);
-+	return ret;
- }
- 
- static void cpsw_proxy_client_remove(struct rpmsg_device *rpdev)
- {
-+	struct cpsw_proxy_priv *proxy_priv;
- 	struct device *dev = &rpdev->dev;
- 
- 	dev_dbg(dev, "driver removed\n");
-+	proxy_priv = dev_get_drvdata(&rpdev->dev);
-+	unregister_notifiers(proxy_priv);
-+	unreg_netdevs(proxy_priv);
-+	destroy_vport_wqs(proxy_priv);
-+	detach_virtual_ports(proxy_priv);
- }
- 
- static struct rpmsg_device_id cpsw_proxy_client_id_table[] = {
- 	{
- 		.name = ETHFW_SERVICE_EP_NAME,
-+		.driver_data = (kernel_ulong_t)"ti,j721e-navss-main-udmap",
- 	},
- 	{},
- };
+I cherry-picked [1] rather than write dependency because the original patch
+was submitted with a line wrapped to 80 characters. We can't directly apply
+that patch using `git am.` 
+
+[1] https://lore.kernel.org/linux-riscv/CAJgzZorn5anPH8dVPqvjVWmLKqTi5bkLDR=FH-ZAcdXFnNe8Eg@mail.gmail.com/
+
+Yangyu Chen (1):
+  docs: riscv: hwprobe: Clarify misaligned keys are values not bitmasks
+
+enh (1):
+  docs: riscv: Clarify risc-v hwprobe RISCV_HWPROBE_MISALIGNED_* docs.
+
+ Documentation/arch/riscv/hwprobe.rst | 31 ++++++++++++++++------------
+ 1 file changed, 18 insertions(+), 13 deletions(-)
+
 -- 
-2.40.1
+2.43.0
 
