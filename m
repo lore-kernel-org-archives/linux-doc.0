@@ -1,126 +1,172 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D37364
-	for <linux-doc@vger.kernel.org>; Sun, 19 May 2024 00:47:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D805FC01;
+	Sun, 19 May 2024 05:59:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716079641; cv=none; b=mMrPuurkfpTBTlYd45fzIP/RNLGz0Abqxxn6amNR7bhjn1SKB75Y/6tZfEeHeVUbzfEbYuACeRHR4d/L/bx6wehInWe9T2knX4CiP8G8bHhBY/8NJ/lXyKuAHbq34gChR5SQ3cjcpNQuhBIMNX8dxLTSBhqyahJyjD8jS41W75s=
+	t=1716098370; cv=none; b=DebI9mkb7VbXECcTaOqYeNfBsSN9K9j3qlvpMCUz00X+fI4HTYKvLrLP4mds/1jX5uMfKcUnOzZ9PXGbInJgUHAe/qQkg7W4H93trU6SF5KXysBZE22XM0chhXjnkL333dsz8QirjntOEG1+JV1Tw5WjXcC7pKeMc5l0CyuVVeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716079641; c=relaxed/simple;
-	bh=SNpQ4mbnxwRgNf7F6NglRimOUUsNGWK2lbgVZaIgvEU=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=lTB80QetqyxWLnpozGImS+nEkzCLCCC/QaOdM5hMC50yCqCx0CNhGxs0+QTDQiXhuvB+Y1Rc+LIDLi2Jd6mUJNGyJ8eRD23zBX+zO2RKVBS9lMvbUM3dI8rE3FKXp682SrpMTWuljOuF72GjvetC67JXnU/971aTl4Qfd4fAaro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KY//KQL8; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1716098370; c=relaxed/simple;
+	bh=NmN54ee38hsuoKztnpSGK2jQepru5rXH4Gp4EPxGG/s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=G6qe+lmgLHOuwBTN9KCazQ99nHQSL+rAIKhFsuqRLYoV+SvwOIwb3pPrbRtMt4EyAophut0uFJaB/b2fhfr37FT2T8QNqN9HHEJFaVoNHe+aT9nRI0dixSKGKDXsUx2M9Sn88tTc/qQZDB1AoC4O7c4+GXfpX0gRm6SeoCeUC/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UbFqS1BM; arc=none smtp.client-ip=209.85.222.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KY//KQL8"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1ee5f3123d8so56415ad.1
-        for <linux-doc@vger.kernel.org>; Sat, 18 May 2024 17:47:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UbFqS1BM"
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-792ce7a2025so52296385a.0;
+        Sat, 18 May 2024 22:59:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1716079640; x=1716684440; darn=vger.kernel.org;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UX1nBtrrqIgRr44bcjQMv++P2/YYvpyxM8Pb2Eg8Vv8=;
-        b=KY//KQL83PRTQCcdxRdzoko0cyOS0QNbb0ZUH8J8rUE64jm8oUA8RY4k1s6M0RluSn
-         vYGz0kYSFuCOGmck4fGUhrpQ8w4d+wBwQOrljCFIOEAtlqaAzm4lqAzMVRINNLlcX4N/
-         +vLGMqcjm5r2mcQBtqaFuJAgm6xq5jSQJ5FUXQOMjluDF2ffAAMJhufMtApIXKSV2w6C
-         KKFYkgooqGG+b+50Em4uBaRDcMvtB3/Qdmndx8zRYBlzt3s9S12QMJNXVhZeLbQsTZBE
-         HPp/QGYnRwZmlky4MUetx15LbtAbiw2/zJUCXqNOmF2jo2rj5qZwS2KcdqbEMJFa2aDm
-         qYeQ==
+        d=gmail.com; s=20230601; t=1716098367; x=1716703167; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l9NrPccSk3dxue6yKBry7lygPcaCTpzVb/uwrQLilDQ=;
+        b=UbFqS1BMC7a831CbLauUqd6ER0ywFqSa/ltBqGHB5qhkJdcfvfINXTcK8nJEqppPen
+         Juwjmb2iJ+bbsTrn1irzkU0eISVv84mc+l3E2WekNYVBXeNJdtXhm8RBH75DLB7ATlRH
+         qk3IH2YHNGYddUO2BLMajH5Q24jG2ySvY1q5rUwIJ/vrtK6yzL6qpqFDl41tPBa4IilF
+         60O+9ZrlFzfAAlAlsQSPMqLXS+euTo8NGxIMeSIWu4DSsxaHZu2PaOTU38XDKRSNn6sL
+         +fftRoKwGTXnkXnflldGiFrsVM+Q3eHpk/IGGCI7pgZkqtg3puGhtnyPRPTz0HMP7B3r
+         xKMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716079640; x=1716684440;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UX1nBtrrqIgRr44bcjQMv++P2/YYvpyxM8Pb2Eg8Vv8=;
-        b=iF+jI5cxIItjmKZ2QERoQWE4Kk0/vctMeK1pnM4oUD8ziNCWKnp7wBRDTNFocBShyc
-         CXaczJRwy2eTlLyOywAw7/im0CjDCuS8+RCboiPk80lmwAHJSz13GesmrFggyoD+Kcc9
-         PFQnNkZzYpORAaM1QmLtIJ8bBsQM4Mw0jbKY3v8d/kwdmdl8cB/DLXWeXQZF/ZnVoGMR
-         WnxYaipRRW423cIg1UQg+jsj2p49KG7W7r+yvdhxINNMElKNamUUG+F4fzOlkPUT7/yy
-         sVRK6hXUDVFRR+wRBxP1BlbaE8QjvnHxbGobly1SgfSvfYuQTTJl3ycbRnnHkpMclgTW
-         Vd4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW1CPlIBz0IkMNEB2miRnk3Qd/urrQYgk4sPRRuWh4EvamansRqoLXlVuAz++m68RMTK5qPj4C6grYnjkt8Um4m6bHr0PV1VfaT
-X-Gm-Message-State: AOJu0YxonscNwEogEefeyH5isELyrLdZhH0cGMXVAG1OFmWXUk0sNWaY
-	KCBe6CDBF2SkUAsaiHyHrktDy3Cl6ZPclS3iRMqYX4W9psyeCnMO+w/bFZSI/Q==
-X-Google-Smtp-Source: AGHT+IF8J6dj1OWr2XdGIAu1kA/WKtIwcErwluJyt9JiHPPvr1R0kOTpnvCHwtIhT2C2Awtmy778NQ==
-X-Received: by 2002:a17:903:2ac7:b0:1f0:99c9:ca8 with SMTP id d9443c01a7336-1f2ee0c2bbdmr1382185ad.21.1716079639149;
-        Sat, 18 May 2024 17:47:19 -0700 (PDT)
-Received: from [2620:0:1008:15:15d8:f72b:f347:b61c] ([2620:0:1008:15:15d8:f72b:f347:b61c])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-6340ca9019esm15042359a12.50.2024.05.18.17.47.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 May 2024 17:47:18 -0700 (PDT)
-Date: Sat, 18 May 2024 17:47:16 -0700 (PDT)
-From: David Rientjes <rientjes@google.com>
-To: Sourav Panda <souravpanda@google.com>
-cc: corbet@lwn.net, gregkh@linuxfoundation.org, rafael@kernel.org, 
-    akpm@linux-foundation.org, mike.kravetz@oracle.com, muchun.song@linux.dev, 
-    rppt@kernel.org, david@redhat.com, rdunlap@infradead.org, 
-    chenlinxuan@uniontech.com, yang.yang29@zte.com.cn, 
-    tomas.mudrunka@gmail.com, bhelgaas@google.com, ivan@cloudflare.com, 
-    pasha.tatashin@soleen.com, yosryahmed@google.com, hannes@cmpxchg.org, 
-    shakeelb@google.com, kirill.shutemov@linux.intel.com, 
-    wangkefeng.wang@huawei.com, adobriyan@gmail.com, vbabka@suse.cz, 
-    Liam.Howlett@oracle.com, surenb@google.com, linux-kernel@vger.kernel.org, 
-    linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
-    linux-mm@kvack.org, willy@infradead.org, weixugc@google.com
-Subject: Re: [PATCH v12] mm: report per-page metadata information
-In-Reply-To: <20240512010611.290464-1-souravpanda@google.com>
-Message-ID: <45fb4c94-dd77-94c3-f08f-81bf31e6d6d2@google.com>
-References: <20240512010611.290464-1-souravpanda@google.com>
+        d=1e100.net; s=20230601; t=1716098367; x=1716703167;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=l9NrPccSk3dxue6yKBry7lygPcaCTpzVb/uwrQLilDQ=;
+        b=cVcPXKzdQrsBHj0qrzhKlgFxIMJ3sbP1kOKQiYtzxNpTbT3qw/lDgIJ0rZQyhQriXc
+         Ytrnt3xbP5bUo6xD45AqUmWVfkSPeNX1vFrCW0ne6Tp/P1bHg//vyblEFP+wYv7/5Bib
+         xcyL52WDQMoYnDs3VZaP2lFRP5r/IDVqIONYWH8XctabUVbpqBRo9n0JLs25dlxX0hEF
+         yM6uEwqdUZ7QeNp3jE6CQpIX5AXdk8WF6LEl1T0zTFqnNmLttrvYwK/iTRUnlIfDFtfz
+         W7vjeWCS3osRboAphj8utHSfjPifm3GbNtlpkpFvf+mgu+97toGNQFUfmoWsOBRZyr7r
+         1k8w==
+X-Forwarded-Encrypted: i=1; AJvYcCUyTrTurj0C539WqrifVStZ+ga6aJiTYpQpe/I1eH4shRyte8nCmm7Atp/FvO00iPf4D/P55iQXTQShPM+bZBtqh2nnzGZ6/ltWtA57WXxWGx/9ifXO382w1PwkhV5KtW6gCFEYBrYbr6gToJkj2YaP3wqN+YQu8uzgELWB+sTtEKv0bs9HNbVjvCGSCQPJJMqNUy0Ro1+SdshUIbZOxO04QA==
+X-Gm-Message-State: AOJu0YyVO6s8d3F+rx3UN92sjdtOcKAyBEfNH3Z7nzV31/kzJU9COAgk
+	GkwCGPyWme3p67Z0tM3aL62Fp/mR+iPui15nOsCd8iQl4rZll4aBZwi222Oy0djEOJSU8dQN5G4
+	sjtLWP/UIQ4h9I2ycNZjCvpzAGt0=
+X-Google-Smtp-Source: AGHT+IH3KgC5/5RTYZFFyAgi3gGOQGkSBTIG6FnrvcN+/pNJE8X5PHNe6d/ZdqiUCwpFLg5jGKiFsKPx3NTMctwKRHM=
+X-Received: by 2002:a37:c44c:0:b0:793:343:6db5 with SMTP id
+ af79cd13be357-79303437020mr998126385a.11.1716098367007; Sat, 18 May 2024
+ 22:59:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <cover.1708709155.git.john@groves.net> <CAOQ4uxiPc5ciD_zm3jp5sVQaP4ndb40mApw5hx2DL+8BZNd==A@mail.gmail.com>
+ <CAJfpegv8XzFvty_x00UehUQxw9ai8BytvGNXE8SL03zfsTN6ag@mail.gmail.com>
+In-Reply-To: <CAJfpegv8XzFvty_x00UehUQxw9ai8BytvGNXE8SL03zfsTN6ag@mail.gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Sun, 19 May 2024 08:59:15 +0300
+Message-ID: <CAOQ4uxg9WyQ_Ayh7Za_PJ2u_h-ncVUafm5NZqT_dt4oHBMkFQg@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/20] Introduce the famfs shared-memory file system
+To: Miklos Szeredi <miklos@szeredi.hu>, John Groves <john@groves.net>
+Cc: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Dan Williams <dan.j.williams@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Matthew Wilcox <willy@infradead.org>, 
+	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	nvdimm@lists.linux.dev, john@jagalactic.com, 
+	Dave Chinner <david@fromorbit.com>, Christoph Hellwig <hch@infradead.org>, dave.hansen@linux.intel.com, 
+	gregory.price@memverge.com, Vivek Goyal <vgoyal@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 12 May 2024, Sourav Panda wrote:
+On Fri, May 17, 2024 at 12:55=E2=80=AFPM Miklos Szeredi <miklos@szeredi.hu>=
+ wrote:
+>
+> On Thu, 29 Feb 2024 at 07:52, Amir Goldstein <amir73il@gmail.com> wrote:
+>
+> > I'm not virtiofs expert, but I don't think that you are wrong about thi=
+s.
+> > IIUC, virtiofsd could map arbitrary memory region to any fuse file mmap=
+ed
+> > by virtiofs client.
+> >
+> > So what are the gaps between virtiofs and famfs that justify a new file=
+system
+> > driver and new userspace API?
+>
+> Let me try to fill in some gaps.  I've looked at the famfs driver
+> (even tried to set it up in a VM, but got stuck with the EFI stuff).
+>
+> - famfs has an extent list per file that indicates how each page
+> within the file should be mapped onto the dax device, IOW it has the
+> following mapping:
+>
+>   [famfs file, offset] -> [offset, length]
+>
+> - fuse can currently map a fuse file onto a backing file:
+>
+>   [fuse file] -> [backing file]
+>
+> The interface for the latter is
+>
+>    backing_id =3D ioctl(dev_fuse_fd, FUSE_DEV_IOC_BACKING_OPEN, backing_m=
+ap);
+> ...
+>    fuse_open_out.flags |=3D FOPEN_PASSTHROUGH;
+>    fuse_open_out.backing_id =3D backing_id;
 
-> Today, we do not have any observability of per-page metadata
-> and how much it takes away from the machine capacity. Thus,
-> we want to describe the amount of memory that is going towards
-> per-page metadata, which can vary depending on build
-> configuration, machine architecture, and system use.
-> 
-> This patch adds 2 fields to /proc/vmstat that can used as shown
-> below:
-> 
-> Accounting per-page metadata allocated by boot-allocator:
-> 	/proc/vmstat:nr_memmap_boot * PAGE_SIZE
-> 
-> Accounting per-page metadata allocated by buddy-allocator:
-> 	/proc/vmstat:nr_memmap * PAGE_SIZE
-> 
-> Accounting total Perpage metadata allocated on the machine:
-> 	(/proc/vmstat:nr_memmap_boot +
-> 	 /proc/vmstat:nr_memmap) * PAGE_SIZE
-> 
-> Utility for userspace:
-> 
-> Observability: Describe the amount of memory overhead that is
-> going to per-page metadata on the system at any given time since
-> this overhead is not currently observable.
-> 
-> Debugging: Tracking the changes or absolute value in struct pages
-> can help detect anomalies as they can be correlated with other
-> metrics in the machine (e.g., memtotal, number of huge pages,
-> etc).
-> 
-> page_ext overheads: Some kernel features such as page_owner
-> page_table_check that use page_ext can be optionally enabled via
-> kernel parameters. Having the total per-page metadata information
-> helps users precisely measure impact. Furthermore, page-metadata
-> metrics will reflect the amount of struct pages reliquished
-> (or overhead reduced) when hugetlbfs pages are reserved which
-> will vary depending on whether hugetlb vmemmap optimization is
-> enabled or not.
-> 
-> For background and results see:
-> lore.kernel.org/all/20240220214558.3377482-1-souravpanda@google.com
-> 
-> Signed-off-by: Sourav Panda <souravpanda@google.com>
-> Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+FYI, library and example code was recently merged to libfuse:
+https://github.com/libfuse/libfuse/pull/919
 
-Acked-by: David Rientjes <rientjes@google.com>
+>
+> This looks suitable for doing the famfs file - > dax device mapping as
+> well.  I wouldn't extend the ioctl with extent information, since
+> famfs can just use FUSE_DEV_IOC_BACKING_OPEN once to register the dax
+> device.  The flags field could be used to tell the kernel to treat
+> this fd as a dax device instead of a a regular file.
+>
+> Letter, when the file is opened the extent list could be sent in the
+> open reply together with the backing id.  The fuse_ext_header
+> mechanism seems suitable for this.
+>
+> And I think that's it as far as API's are concerned.
+>
+> Note: this is already more generic than the current famfs prototype,
+> since multiple dax devices could be used as backing for famfs files,
+> with the constraint that a single file can only map data from a single
+> dax device.
+>
+> As for implementing dax passthrough, I think that needs a separate
+> source file, the one used by virtiofs (fs/fuse/dax.c) does not appear
+> to have many commonalities with this one.  That could be renamed to
+> virtiofs_dax.c as it's pretty much virtiofs specific, AFAICT.
+>
+> Comments?
+
+Would probably also need to decouple CONFIG_FUSE_DAX
+from CONFIG_FUSE_VIRTIO_DAX.
+
+What about fc->dax_mode (i.e. dax=3D mount option)?
+
+What about FUSE_IS_DAX()? does it apply to both dax implementations?
+
+Sounds like a decent plan.
+John, let us know if you need help understanding the details.
+
+> Am I missing something significant?
+
+Would we need to set IS_DAX() on inode init time or can we set it
+later on first file open?
+
+Currently, iomodes enforces that all opens are either
+mapped to same backing file or none mapped to backing file:
+
+fuse_inode_uncached_io_start()
+{
+...
+        /* deny conflicting backing files on same fuse inode */
+
+The iomodes rules will need to be amended to verify that:
+- IS_DAX() inode open is always mapped to backing dax device
+- All files of the same fuse inode are mapped to the same range
+  of backing file/dax device.
+
+Thanks,
+Amir.
