@@ -1,73 +1,113 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 790F314A81;
-	Sun, 19 May 2024 15:37:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 663A514A81;
+	Sun, 19 May 2024 17:36:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716133076; cv=none; b=anY+wlgU0V4lSMgEnoyhdNJzKhxwVwz2Zks407AEFcsGzI79NEj2TH2lbLi6vJezjo8dSOZtKtlSMKbhE/dtKr9r6FLgu+XyJtcsY0oFG4RP1/8MByfUU7CqFrP7eH34Fk+JuwF5EwMZ2cwjOM1kIdKjqg5NHYVL2S5+05Ezmhw=
+	t=1716140214; cv=none; b=Pbl4tmbUowaeH/RgQqjUNEM0CGwTtZOErtnDTK7dnRaNhtN2i4HXJ68aOU9DIgprd1m7OxxIaPudX44H/M3jsGGqL9k9lmWq39CieuGSJgNTGjFFahtk3H/xWN4hBs3cbZM8y5St9Dic6o36rgxPKVNiY3iNwq7IsEIQSwO/9a8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716133076; c=relaxed/simple;
-	bh=NXeERUwyQjx2KQdGfzB24z/wueRuWMxAyk0OIBGtnOs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PTJP4CJKF/E7sXNkPVBvoh0LJtdAyEGSEn0fNdzOmPSLEgwc+rShHFkTNMBST67WspqljNzwrLcmO8elQRAVLuA0+WW+K44KiviiipWT3f8WLJequilZJcxYP8UdBlh5B4tRx+79P7uBBteCrHoXqfYIQFp6tuv/Y8gU49APi6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=p0lmc2Qq; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1716140214; c=relaxed/simple;
+	bh=21HH8WXzLEybD2y2VIp++QC2CVQcWQk6SHeek0XTQ94=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NPBEbEU1Wwmimef8wCs2AeEfBCM1M5XvkCyBLP4egep86573wLcZ7J+0UY4C+yqX9U0N+OL4VlZ2lmFuVjqSLB5q9dEAEScMnSiFaZtq9D1csIK5Ef+2SUkZiAabLmrFGlhuTPziiQQvmYema9aj/+ZAqB+9kcNrV5/ZJDmOlqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RtGQ7N+F; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="p0lmc2Qq"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=yPnxnFfwVRXtYrtep56kjTn1ZNOzZhEEVBAwe35GIWI=; b=p0lmc2Qq/5//84h/ZOoyKw8i5d
-	CTXWeKEwbvJK+gEqt69LaFX/W7o54IK4mZumoM5JcIX9KHTToXjux+pZM76MnA/TFfSqZ0vRheXBn
-	AiMJ1a8bbjn35L3L4OIcNH4FnVe+kAQ7D+o0HgKjZvnktM9jwcCbmgbBKzepTNXhpAdU=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1s8ibT-00Ff0y-7U; Sun, 19 May 2024 17:37:39 +0200
-Date: Sun, 19 May 2024 17:37:39 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Markus Elfring <Markus.Elfring@web.de>,
-	Siddharth Vadapalli <s-vadapalli@ti.com>, netdev@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	kernel-janitors@vger.kernel.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	MD Danish Anwar <danishanwar@ti.com>,
-	Paolo Abeni <pabeni@redhat.com>, Roger Quadros <rogerq@kernel.org>,
-	Vladimir Oltean <vladimir.oltean@nxp.com>,
-	LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
-	Misael Lopez Cruz <misael.lopez@ti.com>,
-	Sriramakrishnan <srk@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>
-Subject: Re: [RFC PATCH net-next 12/28] net: ethernet: ti: cpsw-proxy-client:
- add NAPI RX polling function
-Message-ID: <433ffa6c-7ad3-4e28-a2ef-de699bf0e03a@lunn.ch>
-References: <20240518124234.2671651-13-s-vadapalli@ti.com>
- <f9470c3b-5f69-41fa-b0f4-ade18053473a@web.de>
- <ZkoGCpq1XN4t7wHS@casper.infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RtGQ7N+F"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A69A8C32781;
+	Sun, 19 May 2024 17:36:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716140214;
+	bh=21HH8WXzLEybD2y2VIp++QC2CVQcWQk6SHeek0XTQ94=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=RtGQ7N+FB7NrCMWMjlPXPNI+TIjSqq9wL69w8b1BJoaAOvAgfk+GM26LM5ZRznQ1b
+	 feYTg4OsmBBOED/bv2gg26qqTtEs+Z7dNe4ufrdmQorgW9yUDsqRqI/AsYefxNrOOT
+	 ucMKo6Xz7oEn/k4t3dvseP6kev8chYG2eOWrK1wzX1YjuFTjpy9lyml01KdMyuKm/Z
+	 uhUGxE0LY9dHTkdeYtd8F3dQCRU1nDHRY/4Njr3w9sv1qtgUuiepnkYtTSUqd1fuzY
+	 v1zyi1npymvYvMZ7S15wz89u1p00xLkPzyy7/RbgujE4wdMXN13hRPJVpSE+d66ZWW
+	 prq/3CwfgukoQ==
+Message-ID: <3521519f-34b8-472d-be37-f0e64bba24fc@kernel.org>
+Date: Sun, 19 May 2024 19:36:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZkoGCpq1XN4t7wHS@casper.infradead.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/7] dt-bindings: remoteproc: qcom,pas: Add hwlocks
+To: Chris Lew <quic_clew@quicinc.com>, Bjorn Andersson
+ <andersson@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+Cc: linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20240516-hwspinlock-bust-v1-0-47a90a859238@quicinc.com>
+ <20240516-hwspinlock-bust-v1-5-47a90a859238@quicinc.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240516-hwspinlock-bust-v1-5-47a90a859238@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, May 19, 2024 at 03:00:42PM +0100, Matthew Wilcox wrote:
-> 
-> FYI, Markus can be safely ignored.  His opinions are well-established as
-> being irrelevant.
+On 17/05/2024 00:58, Chris Lew wrote:
+> Add hwlocks property to describe the hwspinlock that remoteproc can try
+> to bust on behalf of the remoteproc's smem.
 
-I personally would suggest ignoring the nit-gritty details for the
-moment, and concentrate on the big picture architecture. I suspect the
-basic architecture is wrong, and the code is going to change in big
-ways. So it is pointless reviewing the code at the moment, other than
-to understand the architecture.
+Sorry, as you wrote, the lock is part of smem, not here. Drivers do not
+crash, so if your crashes as you imply in the cover letter, then first
+fix the driver.
 
-	Andrew
+Best regards,
+Krzysztof
+
