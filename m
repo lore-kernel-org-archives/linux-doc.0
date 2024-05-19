@@ -1,113 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 663A514A81;
-	Sun, 19 May 2024 17:36:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A1850241;
+	Sun, 19 May 2024 20:25:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716140214; cv=none; b=Pbl4tmbUowaeH/RgQqjUNEM0CGwTtZOErtnDTK7dnRaNhtN2i4HXJ68aOU9DIgprd1m7OxxIaPudX44H/M3jsGGqL9k9lmWq39CieuGSJgNTGjFFahtk3H/xWN4hBs3cbZM8y5St9Dic6o36rgxPKVNiY3iNwq7IsEIQSwO/9a8=
+	t=1716150316; cv=none; b=JarNI089KMf2ry1I37D7neLRF+NguPkxr3X5FI8dOxm3DO2J4qU5Ms6IyYQCfQhN0orb7/WdTNqxr7fxpI2OqRE9zQiN3FFYXmKLyB7zpqNWUCNJnnw6R2GlV9gm/M2jgZ81/Z7aazFCgxEgkurje6ucEUyYdlA7m0Qfhk/esHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716140214; c=relaxed/simple;
-	bh=21HH8WXzLEybD2y2VIp++QC2CVQcWQk6SHeek0XTQ94=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NPBEbEU1Wwmimef8wCs2AeEfBCM1M5XvkCyBLP4egep86573wLcZ7J+0UY4C+yqX9U0N+OL4VlZ2lmFuVjqSLB5q9dEAEScMnSiFaZtq9D1csIK5Ef+2SUkZiAabLmrFGlhuTPziiQQvmYema9aj/+ZAqB+9kcNrV5/ZJDmOlqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RtGQ7N+F; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1716150316; c=relaxed/simple;
+	bh=XbjtbEE6y+QkCwnZQcjxEYutHqA57QPfgn6+mSDQKvI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=JHHs9VARRMeEW0FdosXtmXnEOoYbtGRjp6s82AWZ5BhW03t1HSgtV1m7MkZOA0NqZs+1v8Yx+t2ItiLuCENcsnUeSO/KAptGBm+8hPvtQMvqS6ECqW91n29H7xxeJcVxqD9DBz/aqSG5E5rpoFCusOGkwrHpPsgBWbIEx5+7wes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=YSZZSg8Q; arc=none smtp.client-ip=4.36.192.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RtGQ7N+F"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A69A8C32781;
-	Sun, 19 May 2024 17:36:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716140214;
-	bh=21HH8WXzLEybD2y2VIp++QC2CVQcWQk6SHeek0XTQ94=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RtGQ7N+FB7NrCMWMjlPXPNI+TIjSqq9wL69w8b1BJoaAOvAgfk+GM26LM5ZRznQ1b
-	 feYTg4OsmBBOED/bv2gg26qqTtEs+Z7dNe4ufrdmQorgW9yUDsqRqI/AsYefxNrOOT
-	 ucMKo6Xz7oEn/k4t3dvseP6kev8chYG2eOWrK1wzX1YjuFTjpy9lyml01KdMyuKm/Z
-	 uhUGxE0LY9dHTkdeYtd8F3dQCRU1nDHRY/4Njr3w9sv1qtgUuiepnkYtTSUqd1fuzY
-	 v1zyi1npymvYvMZ7S15wz89u1p00xLkPzyy7/RbgujE4wdMXN13hRPJVpSE+d66ZWW
-	 prq/3CwfgukoQ==
-Message-ID: <3521519f-34b8-472d-be37-f0e64bba24fc@kernel.org>
-Date: Sun, 19 May 2024 19:36:46 +0200
+	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="YSZZSg8Q"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
+	bh=rdMijym+G5sdTUVMU3W8p4D7kqVB/VBKMuu3j157kus=; b=YSZZSg8QPAazFVZ/fqCZhf/zyB
+	iTkKB7v72+I/GfJvYfIXLcjNr4H192NDRr7iQsi+wT6QwcIueun/RRsXdAcuMlpvT0FYTGzpibpN9
+	i+w3UOsYVSWsK/Uzlu44kGXBLyiUFFC4VuqOgDhAUbdvaY3PGOTVVBd0kHAW1cZ5AsMIaGyAGcJJz
+	EMeREFCxFiAonzpZW1WCk82F+/aCi7XOwbj/j84eBxh2Fbozp0mpzdobRP8syk942nia+1fEE8kES
+	aqeWyPNY6PxS6qSGwiQwKQEU9ae+tbp3HdQ/NyvFL5E5cQ1ipT/88Nhi4/z+ThUq4dFT4s6zqxSBK
+	4fDziHCA==;
+Received: from cw137ip160.mn.codeweavers.com ([10.69.137.160] helo=camazotz.mn.codeweavers.com)
+	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <zfigura@codeweavers.com>)
+	id 1s8n5d-008wIn-14;
+	Sun, 19 May 2024 15:25:05 -0500
+From: Elizabeth Figura <zfigura@codeweavers.com>
+To: Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	wine-devel@winehq.org,
+	=?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+	Wolfram Sang <wsa@kernel.org>,
+	Arkadiusz Hiler <ahiler@codeweavers.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andy Lutomirski <luto@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Elizabeth Figura <zfigura@codeweavers.com>
+Subject: [PATCH v5 12/28] ntsync: Introduce NTSYNC_IOC_EVENT_READ.
+Date: Sun, 19 May 2024 15:24:38 -0500
+Message-ID: <20240519202454.1192826-13-zfigura@codeweavers.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240519202454.1192826-1-zfigura@codeweavers.com>
+References: <20240519202454.1192826-1-zfigura@codeweavers.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/7] dt-bindings: remoteproc: qcom,pas: Add hwlocks
-To: Chris Lew <quic_clew@quicinc.com>, Bjorn Andersson
- <andersson@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
- Boqun Feng <boqun.feng@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Mathieu Poirier <mathieu.poirier@linaro.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20240516-hwspinlock-bust-v1-0-47a90a859238@quicinc.com>
- <20240516-hwspinlock-bust-v1-5-47a90a859238@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20240516-hwspinlock-bust-v1-5-47a90a859238@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 17/05/2024 00:58, Chris Lew wrote:
-> Add hwlocks property to describe the hwspinlock that remoteproc can try
-> to bust on behalf of the remoteproc's smem.
+This corresponds to the NT syscall NtQueryEvent().
 
-Sorry, as you wrote, the lock is part of smem, not here. Drivers do not
-crash, so if your crashes as you imply in the cover letter, then first
-fix the driver.
+This returns the signaled state of the event and whether it is manual-reset.
 
-Best regards,
-Krzysztof
+Signed-off-by: Elizabeth Figura <zfigura@codeweavers.com>
+---
+ drivers/misc/ntsync.c       | 26 ++++++++++++++++++++++++++
+ include/uapi/linux/ntsync.h |  1 +
+ 2 files changed, 27 insertions(+)
+
+diff --git a/drivers/misc/ntsync.c b/drivers/misc/ntsync.c
+index 622be0075ba4..a11fe2469841 100644
+--- a/drivers/misc/ntsync.c
++++ b/drivers/misc/ntsync.c
+@@ -633,6 +633,30 @@ static int ntsync_mutex_read(struct ntsync_obj *mutex, void __user *argp)
+ 	return ret;
+ }
+ 
++static int ntsync_event_read(struct ntsync_obj *event, void __user *argp)
++{
++	struct ntsync_event_args __user *user_args = argp;
++	struct ntsync_device *dev = event->dev;
++	struct ntsync_event_args args;
++	bool all;
++
++	if (event->type != NTSYNC_TYPE_EVENT)
++		return -EINVAL;
++
++	args.event = 0;
++
++	all = ntsync_lock_obj(dev, event);
++
++	args.manual = event->u.event.manual;
++	args.signaled = event->u.event.signaled;
++
++	ntsync_unlock_obj(dev, event, all);
++
++	if (copy_to_user(user_args, &args, sizeof(args)))
++		return -EFAULT;
++	return 0;
++}
++
+ static int ntsync_obj_release(struct inode *inode, struct file *file)
+ {
+ 	struct ntsync_obj *obj = file->private_data;
+@@ -666,6 +690,8 @@ static long ntsync_obj_ioctl(struct file *file, unsigned int cmd,
+ 		return ntsync_event_reset(obj, argp);
+ 	case NTSYNC_IOC_EVENT_PULSE:
+ 		return ntsync_event_set(obj, argp, true);
++	case NTSYNC_IOC_EVENT_READ:
++		return ntsync_event_read(obj, argp);
+ 	default:
+ 		return -ENOIOCTLCMD;
+ 	}
+diff --git a/include/uapi/linux/ntsync.h b/include/uapi/linux/ntsync.h
+index eced73d08783..74abeba832f7 100644
+--- a/include/uapi/linux/ntsync.h
++++ b/include/uapi/linux/ntsync.h
+@@ -56,5 +56,6 @@ struct ntsync_wait_args {
+ #define NTSYNC_IOC_EVENT_PULSE		_IOR ('N', 0x8a, __u32)
+ #define NTSYNC_IOC_SEM_READ		_IOR ('N', 0x8b, struct ntsync_sem_args)
+ #define NTSYNC_IOC_MUTEX_READ		_IOR ('N', 0x8c, struct ntsync_mutex_args)
++#define NTSYNC_IOC_EVENT_READ		_IOR ('N', 0x8d, struct ntsync_event_args)
+ 
+ #endif
+-- 
+2.43.0
 
