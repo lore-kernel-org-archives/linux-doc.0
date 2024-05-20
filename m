@@ -1,243 +1,239 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2068.outbound.protection.outlook.com [40.107.236.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB715337F;
-	Mon, 20 May 2024 14:22:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716214970; cv=none; b=iobF8cT/tMJR9sxnpEYEjC5xxxYAOY2mYATWHmd9lNVGhb5qdq2hyVPMmDF/ieb0hTRYrLt7vcbEtG/qRBLzNROUV703GKILYLnlbN7DUuFY+1xRx+w2aqWtzHZgfHcQg8XoU2zfiOi2KCCWNUq412XZuP1PDkoNqkZTeDNmg+E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716214970; c=relaxed/simple;
-	bh=lfTjsNqw5TQqBRgjrksLNUzWi4N2HBhLrqBEDXvv2SM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=N8/P9/tefzetu6U18uVB5LLxKSeuAD+z6bfm0cNDSm8tLayNN7ULvp2jTt0AZAdhEVfKN+QCsN2otfcMz7qYqbORZ4bFl5Qa6zWDK08avZqudjk882VljVouz1jQ0Jf5lsEdgPTltzWzvDLttOpIbsxc6voRdKbxI3oQAAmWfHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TuuH80fa; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76F1613664D;
+	Mon, 20 May 2024 14:25:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.68
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1716215128; cv=fail; b=EGIoY1nsqdm1SLJQ11/jx+0SdSwx5ckHfNItfy26IDVfQWR5AkwOsJ3zCLyIgtO/iD1WbY/L9of8qUGEWZK5SeKzfsq62szpcxQl7Rh04dMtmTOPte++lLe/o9kzBB3V6aFahB7ofWsWQasm0T6tP8WdJA2Ac1ByRhQrW1Doty0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1716215128; c=relaxed/simple;
+	bh=EFdVXlIQSSS8r23SSTRzfkQaZc+or5B/RRxQorSeLoU=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=stQW5gzLui3KJmQxe/9wXvcOB3XrFLwf4ix1gA20Zdot2H2nHMxt4rWrlY0Z0ZTe+xlmcbqVHYd2BAu3Kh8bcN7O6AhyB2TVO5ebs6kx192weWkQgW6AFzJIy90Uqml6Qbgg2WIGA7amfE7XKux8UdXpzB0NROGl4HyHEWxIzs4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Jx91jR7l; arc=fail smtp.client-ip=40.107.236.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TuuH80fa"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-6f5053dc057so1309901b3a.2;
-        Mon, 20 May 2024 07:22:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716214968; x=1716819768; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KnyB+QuDgcekYCP38DxOveF/NkYkcxkyK9rpYTfrpow=;
-        b=TuuH80faGbDpcgBXZyQodUV+i0tydKnH+YzsSjKnwop0E2A/OujtRNSaWC5bGfbiGD
-         bdMKxd+UbIMsIby9qRxucHbjyhBaZA6sTdX468UGzxsrrrQkgEiraj93RskEOW9Cy8dX
-         4swQuvQ5s4MrHSI27Z6eUGT/dMy8rkdewA80BPS1Y5qoZRb+Fmhm6brOb9niy3U4xcAl
-         H85Vui4L9VfsiRXG82e67VjXQ+Cri0xpzSHqAmPi1/adtVvbttdQ/9VewBkuK8KyR6yA
-         G7hmOSUXLSjgcpKvd3BviHtOWgBBl1oBBIp06QCWPWp+Ny3QI+y9E8VzfZuKiuR5rCRb
-         FukA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716214968; x=1716819768;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KnyB+QuDgcekYCP38DxOveF/NkYkcxkyK9rpYTfrpow=;
-        b=POW/HNEZCxf0opiyW4+A5xSo65pSRkYVZ41rwXBpDJe7vvNOWobIEv4hO1gfS1AVbW
-         Sm212cxGzT9sPDpSrAiGHG6miGeUXG6rYDndNH8qhRlm6fFKe7x9Oni90hutuGZI1VCj
-         9jMn6jUPj8BGl+uqFsJeJydOEpd4ydBGrBjQgAduYI6XTbXEuoe4g89dsLTTDayQSQJ/
-         DfAZz8bn9+3ssiOfN4KiM2Yxb8np1vOPygKYAY1RCLoQ7/NJlBRoiJ7P3yfGcUnGoh1T
-         T1d9afShkkEuf1gNQAOvu7yHyHDa+buy3oCT4/tBfd3wQEavxLURvzD1PT6/a5gNuV+/
-         1Kxg==
-X-Forwarded-Encrypted: i=1; AJvYcCUqyEi/4T4vDS5VWP1Wpwwisvgswkz1Phv6Rl8aeHPnRttaIf7gbouKoY5eKwWPlaNwKcquZ1b4fuitmBHtR2+YIz+OBzOK3NFVzRQl2vFtXzgQHhgc4HbbGoDpr5fA68ab/O7xRObLtKyn+t5LX4KzFLcWM1/FoF+m2HTEkgw9lZXz
-X-Gm-Message-State: AOJu0YybETs583onqO0Bmybj9OajLcVR9D2Kh70s/ZTFLg74Q8ZLOWtN
-	cnwmzK1zEvE8Z/fjQLvkyylx3Vc4u77cJUyqPsq6gXAMjZx0+eaL
-X-Google-Smtp-Source: AGHT+IF/6gZqu432H7xbcxsFk472HWtVgsljgcWheAUkPuK+Yse85VI0EYlsMN3s13qmJ4Zs0eRW/A==
-X-Received: by 2002:a05:6a00:1941:b0:6ed:def7:6ae2 with SMTP id d2e1a72fcca58-6f4e02981e9mr32320689b3a.6.1716214967619;
-        Mon, 20 May 2024 07:22:47 -0700 (PDT)
-Received: from [192.168.50.95] ([118.32.98.101])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2a66585sm19755579b3a.10.2024.05.20.07.22.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 May 2024 07:22:46 -0700 (PDT)
-Message-ID: <57f0d90c-4cc6-4418-ab79-6ae026d8ae09@gmail.com>
-Date: Mon, 20 May 2024 23:22:42 +0900
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Jx91jR7l"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I0l1Jgmu8oEQ4LM2ZbMQ1WmJ02Oodg+nYEpJgXzGhAtA/LyyN85CxdTNifSyYpxPYvduyDOa0+c8j7tdSyrzNQSvccmGnU0O6n04geQm3U7WBVlNKhT4dp98aInXeD+yKELYgHA4qJ5K94+elcpcAWmoxtfzgTGgQZR5E3kJUsmS1kBble0+Ds7QbLs/mbToKxxzFSk567bIOvcCKa60klnISWfPAdz5hKp7AnSkpz0R9+7M9E8yR/OIdlnyv7v3OJrPaAAB93iWpDM01hs3ZQEOlgqCNymagdvEiUE3x7LS7IFoJoeL+wQIV5y3kHXeyd1HIPzA3ILBjiZmPwfcmw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QA8J8TYyRGrDH0tyARAwBPUSNrUuHiy5lNxd4CDQ7Xc=;
+ b=B8i6J6jVHBZg7Zs4xbBxmTlxw6AOf1VBgzKC4EUVvHoT9PzC7fJRsfSIPk6Zr0ZZrPrbfXkvvuk7Qc++DZ2246Z0SXFwWR8HsIMa8h6SeEAy8QsTfTnBqeO4pbT+obUQOU1KFYKpKisWHMSJmqZyqmS6m/W06LiJaTeIdYF6PlmHEjfQKH/Uuw4xJoDjBqdBVt/6wkKT/APX/oPV9pCTUa3Q6++6Du04TZUpGtnYimit++VDQ63k/+2sU4S0nNWUzmfZAg9KfBSm4/A6ClgQfhXPHLl84Yjl1zBRHSfy/kMViR3GO62ba2UlkUIiLWtTgi8HIDjjM3BUW9H/WR7AKg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QA8J8TYyRGrDH0tyARAwBPUSNrUuHiy5lNxd4CDQ7Xc=;
+ b=Jx91jR7lIFuyltgIdhG0+KDCw+7bM1hwqU70LftigIR/h6ByODkBM0RX/35G6WNkOt5mu0a/+1Q8vUy6k71pjJ/NufDvFxqWZTuDBb+AIefBmZ/F84X92oCHb6lfK5Eh+jpBmzCZmbevJ3xFnXUBN4YjjornOcWRfGB2CmsJN7c=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by CH3PR12MB8547.namprd12.prod.outlook.com (2603:10b6:610:164::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.35; Mon, 20 May
+ 2024 14:25:21 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%4]) with mapi id 15.20.7587.030; Mon, 20 May 2024
+ 14:25:21 +0000
+Message-ID: <fae7fd93-27b7-4f94-964b-9c909f85f2fe@amd.com>
+Date: Mon, 20 May 2024 09:25:16 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [RFC PATCH v3 00/17] x86/resctrl : Support AMD Assignable
+ Bandwidth Monitoring Counters (ABMC)
+To: Peter Newman <peternewman@google.com>,
+ Reinette Chatre <reinette.chatre@intel.com>
+Cc: corbet@lwn.net, fenghua.yu@intel.com, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+ hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org,
+ peterz@infradead.org, yanjiewtw@gmail.com, kim.phillips@amd.com,
+ lukas.bulwahn@gmail.com, seanjc@google.com, jmattson@google.com,
+ leitao@debian.org, jpoimboe@kernel.org, rick.p.edgecombe@intel.com,
+ kirill.shutemov@linux.intel.com, jithu.joseph@intel.com,
+ kai.huang@intel.com, kan.liang@linux.intel.com,
+ daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
+ ilpo.jarvinen@linux.intel.com, maciej.wieczor-retman@intel.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, eranian@google.com,
+ james.morse@arm.com
+References: <cover.1711674410.git.babu.moger@amd.com>
+ <CALPaoCjZ3oLdKymJjASt0aqtd0GGOme7LavvYOtPYTb_rA-mYQ@mail.gmail.com>
+ <b35dc4e9-7e8b-42ed-9a51-ae50d521cf4b@amd.com>
+ <CALPaoChxYoJx8eR48EkSKf-hu2p2myQJLZEhj_Pq6O4R15-=5A@mail.gmail.com>
+ <6edffe1b-e9a9-4995-8172-353efc189666@amd.com>
+ <ab2a6a4b-3740-47c6-9443-e6bb7a0c1adb@intel.com>
+ <CALPaoCiYFKeASPMDwzzaHLw4JiMtBB6DTyVPgt0Voe3c3Tav_A@mail.gmail.com>
+ <b725e4ca-8602-eb26-9d47-914526621f52@amd.com>
+ <CALPaoCiu2_UHyGjsyitz28BL1N93TSn28E1r-6nhXg--bzmU+Q@mail.gmail.com>
+ <d7f3c5b1-c39d-4c66-92c3-5b096b9e0579@intel.com>
+ <CALPaoCiJ9ELXkij-zsAhxC1hx8UUR+KMPJH6i8c8AT6_mtXs+Q@mail.gmail.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <CALPaoCiJ9ELXkij-zsAhxC1hx8UUR+KMPJH6i8c8AT6_mtXs+Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SN7PR04CA0087.namprd04.prod.outlook.com
+ (2603:10b6:806:121::32) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: cve Korean translation
-To: Jinwoo Park <pmnxis@gmail.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linuxfoundation.org,
- Austin Kim <austindh.kim@gmail.com>, shjy180909@gmail.com,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240511195942.30857-1-yskelg@gmail.com>
- <fcbaeb18-41ce-47c2-8914-96345449a280@gmail.com>
-Content-Language: en-US
-From: Yunseong Kim <yskelg@gmail.com>
-In-Reply-To: <fcbaeb18-41ce-47c2-8914-96345449a280@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|CH3PR12MB8547:EE_
+X-MS-Office365-Filtering-Correlation-Id: 26eed1f4-c545-442e-1ffa-08dc78d8ae21
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|7416005|1800799015|376005;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?R1lPcTFqOGx0dVY0TERac21VUjJGOElhT2lsZWpXelh0clpubFk5aE9yOTcz?=
+ =?utf-8?B?VDNwK0U0OURweHUweDcrUDdjZ0kvZm9TZ2JYQ3NVbXd4b0lhRUNrcHVpUkx3?=
+ =?utf-8?B?Q21valk2MjZCWGJaRkVidkJ0UlM4WTU5MmF2c0hxZWFub3h3cDB6cVZHZCt5?=
+ =?utf-8?B?VS9uWmJaV2lMQ2dlRGNnNXE1SWtnMUVQTDNNcXZ3c3MveTZQVlpDUndBUm0y?=
+ =?utf-8?B?Y0NwOWhxa2djeVJWU1lwNXdRdGJyMk5jeUVqcjliRzl6S3loKzl0YWNWbE5D?=
+ =?utf-8?B?aDRZUWF0elhMNHRJODJDeUdaWVdNS3FyZVFXWVk0S3VnTG1nUVkxSE1jbG5a?=
+ =?utf-8?B?YWYzM002LzhvS1IxeVY0d1A3S2VWZTIrUmpPSFlCcW81L25tTFNxRVNNMlFZ?=
+ =?utf-8?B?d2RkY2lKelJNSXV3SEtqaTFKbUNUcDVmYVYvK2dYMjVUb1BnOGY0aVUyR2xD?=
+ =?utf-8?B?OUZlNXlkLzhhbzJZUVNtamMza1VIcEZLdTdteDk0SzdwVTJ0QlhNUkx3NFlO?=
+ =?utf-8?B?R3dLU3E5NWdKa0ZvQmhIMkFzc1R4WDRwbEtYdngvRjJtMnVCRkd3UDFUTkVk?=
+ =?utf-8?B?bG9oMzgxYWdZN3JmNmZDSllITWlpRS8rSVdCeDJ5djVtU2QwZzNVNW5JQ3l6?=
+ =?utf-8?B?MEc3NFFzS3FLQzF4OWQ2UW4vY0puTk5HTi9PdHhvNThqS3drbmFJYmUxbnk1?=
+ =?utf-8?B?RTlaazlHVm5QZEFvVEpab1hZSGNRTXhmVWRweDdVV1BoamtRc1J0UGJaNEpT?=
+ =?utf-8?B?ZWIvc2NNcVZVajBQZUFWKzgxek5hZmhVTEl2Smo0RThxTEpFUEUyNXlrT243?=
+ =?utf-8?B?cHJNZzRmNXJqNnFYWnFnUENPcEx3MnExUU9MaHBQaWc3V01mQW9RaU1vdjN4?=
+ =?utf-8?B?S2tOYm9GakRwazF3WWlNRzBxOHNnMW9mckEwVEJpaWRPMW5lZ2tWRk9IOFdl?=
+ =?utf-8?B?bFBRWmsyQ2xMOG1Vc2krSXVCNDd5ZkZoTWxRc2VDWlA1T2NqYjJuSWNWMG1j?=
+ =?utf-8?B?Ulo2Sm41N1JscTZQbmRNR2ZwalNzSDZCVG9yMjdlM3VYZnVqbTBFWXJHdGx2?=
+ =?utf-8?B?cW1idXpieUJ0RGZFVVRIME0reVBHVHZJWkkrSkZYQjdJYXFocUlzdVZrOVdm?=
+ =?utf-8?B?M2V5OEhubk5Lc2YxTmF5WWpZTUNldExhWkZPdGZWaVhOZDlsbERXdy8wdjBn?=
+ =?utf-8?B?eGNUSlRtejEzVG5pR09uMnhEVHV1dGx4ZGY2cHhaOFhMaXpReXptZ05vbzBX?=
+ =?utf-8?B?RnBoL0FUQ3RET1NRUER1MWt6WHIvTjc1OWluQXB6Q21TU1FhZ1JlWC9lSVlI?=
+ =?utf-8?B?SS9oMFZ0T0pJVzlvbjY5eWFscXA5UkFLOW40Uk1iazVmU29PNzNIUG9lRmlx?=
+ =?utf-8?B?TU1MNzl6MEcvSDZycnZieVN4Y3Fjc3VXellTUTZFV0lvdDQ3eTQ3RzBuUDZv?=
+ =?utf-8?B?NDN3UkpaR0RuU2pmUTlXanA4aDhDeGgyRjNyMThSaWJWWGZrMUFvYzMzSWpV?=
+ =?utf-8?B?d2ZqNVZWWi9aRUFrRW9GNFZaSDRFTWdtUGFUcnZYQUpnamVmZGFId2hlN3No?=
+ =?utf-8?B?OFhTM01BVkhLTnBIOTlJR3UvaHdkTG5BNFgzT2ZZSW1wamdnMWZyTWcvOXl4?=
+ =?utf-8?B?ekxZUUNSblVtMU9YMCtIS0tiVTd5bE44N1dLTFBkMHRmc29ERDN1aTNPK2Vi?=
+ =?utf-8?B?Z3BPbmRFMU93NXpjeUVtUFl6a0JjMzVGUE5rTHVQNjR0ZGVDNklRNGN3PT0=?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(7416005)(1800799015)(376005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dnpxNnB1NHNMUDB0eXQrZVM1eUZ2Wko2bjRBelFrZ2Y5bkgvYzl6NU5lUXpl?=
+ =?utf-8?B?blRYZ0dOcWZoOFhBNEdZa2hWL2d2VjhsenBwdG0rc0RVZFRGNWNLNHRSenNS?=
+ =?utf-8?B?YnRHanNqSDMxT2pjaitxS29FVXVXbUZnTHJKTytGL0JvWGdCU2RmVlpabnpX?=
+ =?utf-8?B?UzdxM3lrTkhsL0dhRGsxS0l2REZ2K3BiUUxjSllrRHdTbStrN1l0OVVXYzFN?=
+ =?utf-8?B?RldYRTViVUp4RFRYSW9rQkNlaWF6RVlpWlg2ZVluOU5OZzYzbEp3K3VaUWVC?=
+ =?utf-8?B?Z0FCZURyTkk0OFlaUTJPanN3NStUVFppcE1FM0ZZOWE4ZEUrelUrYWI5cjFB?=
+ =?utf-8?B?NzR5Y1dwQVJvRXRtUGdYemZYK0xwTmh2K3J2N0JqdUJJdkpXMEtZMXdiQi9s?=
+ =?utf-8?B?Y1lJeEk2eVQ2NWorM0o4SkozbVFFbGtUV2RyNWg5R0pGMlU0YmdzbHpyY0R6?=
+ =?utf-8?B?cFl4VVcwUUR4NXJULzRKVFRES1ZSRlJFdzRQKzhvM2pCMnFUQ3duMXNWOEkw?=
+ =?utf-8?B?UkRNcEREeU8zYmdIdk9LdUNiWnJZaStOeWM2ODZ4Nk9wNi9Ddy9WbTJ3WTMz?=
+ =?utf-8?B?YU4xdHQ5aStuZ09sbEx5dCsxbm92WHF1MXhpZ0dwaXd6UUFCa21UeFZCMHAx?=
+ =?utf-8?B?QUNOam44WmVsWmVTNTNhdGtrU2JJOFNvVDlBT2lobVZ6Tk93QkpaSXRVdHlB?=
+ =?utf-8?B?YzZEbmpRTFI3M0dudGpQcU0rdkQyK3gyWnJWazRHZk45TWJYS0N6emxzMnZI?=
+ =?utf-8?B?b0d0ZU1YcnlXLzRObVhTci9uVGxKTjh5NzB0RUREZ3JveEYvOTVhN281cXJz?=
+ =?utf-8?B?UTF6dXR2UXBLNlZ1QzI2dVJSdEVZSG9RK01jd1FON0ZrZWZHRUtsRjcvTHBP?=
+ =?utf-8?B?VXdDamZDcjNFSkREWlNmOUZvaUdlQnFyanVaaTVScEtTSDdHOEpEaEJ1V2g0?=
+ =?utf-8?B?eFRBbmhlUUIrNmxpcGd6Z3NVb25xdnFRbnNFa2gybUFoUGphOUNIRlRES3pF?=
+ =?utf-8?B?SFhHTFdOdWZ1aVZKMS9wRGdQckJxcFEzODBYTTByQU5hS05UTSsxbFpETGZi?=
+ =?utf-8?B?NzVldzJZS1BoSFpHY2VCdWZIcjVLY29VOFVzYWZJdDEzNksxUlNjdk1FaldM?=
+ =?utf-8?B?VXl2VnByQzgrLzZjWUNOeEJ2WjF3bGxsT2lZWXZjd2NLVlI0WmpOMUVPZDNy?=
+ =?utf-8?B?YlV5blFpWlN0TzdpZlBmbkpReGVOZ1A5dmNVRkNQa3NnRDBCcFFXWVdaN0Vs?=
+ =?utf-8?B?M2hraDZXSzVCQ1Z1bW5icmx2ZUw1T2RjbStnVElKZjdZb3VZWFJXaGJmak1J?=
+ =?utf-8?B?bDU3cU5KZzg4UjgrZ0NoT216T1BKWHI1VWYrbzg5UDRYM245TFpBV3FSamJO?=
+ =?utf-8?B?L3Vmb1M2YWJnSnZOa2N0YlgwZmMwdkNGZS9zYXlBS29NODdZUW0rc1dyU0ZD?=
+ =?utf-8?B?eHh3WG9DN1Q0M3h6d041Z2JUMGx4NkNxSVdBcWFPZjVkVHU5S3BLVjhRVklk?=
+ =?utf-8?B?QlNVV010NlAranVpZjh5bmxrcU1FZlpBWjdyQ204RERwc1FoazVQZnRURGRm?=
+ =?utf-8?B?RVZKb05YUlp0WTc2eHkzRXFTRmdZa1ZNc2Y0dGdnVUw0c3psaUgwTFdCNTFt?=
+ =?utf-8?B?RkM4NGozMG9hMTQrdmpzYVAyYzlnaWZmd3dTTk9sMC9Jc2wwSlFIa3hCbllV?=
+ =?utf-8?B?dEtsVm92bk11djkrWkNJdjUzY2MwVmFlQUZXYjg0b1ZJbmZBUnJNVFNocjBF?=
+ =?utf-8?B?TU5QbUVkZk5ZcUk1b1BJV2lpNzRrc0tNQ0JPa0hjZGo4TFJWTmZvNlQwQit3?=
+ =?utf-8?B?Mkg2NWxtenhEaGlKVTJ0NUhDUXdWRjFPdmVYOVFpNkR6eENiWHpRS3dUVlhz?=
+ =?utf-8?B?cytqT1dzOWhNbFJwclhvbmZlRUNkV0tWb0dSek1LNEhkNjNoTDJKbGtVMlp1?=
+ =?utf-8?B?YzNxcTlGNmdOTHhKZDUvQXJpMnV0S3RXY05YQzNHcXVTaEFoaEd0Nlk4UENV?=
+ =?utf-8?B?VGZpdEd5Umc5WFNUb2NibE5XZDBxenoxeHJoWDhrZjZ4M0JTUjdsQWFtem5h?=
+ =?utf-8?B?VGFvSUtwSU8yVU0xNGJ2MUZPNWZLK0VFczgrY0NaMHdUSmM5VUhkYU1XZjl3?=
+ =?utf-8?Q?UoWw=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 26eed1f4-c545-442e-1ffa-08dc78d8ae21
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2024 14:25:21.3720
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vwMWMyA+L/rc0C46/+zl+cUcwRVAsxxfsO+jgtyTyblUAsHb0s/xOyqEb1CTjyPU
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8547
 
+Hi Peter,
 
-
-On 5/20/24 10:58 오후, Jinwoo Park wrote:
-> On 2024. 5. 12. 오전 4:59, yskelg@gmail.com wrote:
->> From: Yunseong Kim <yskelg@gmail.com>
->>
->> This is a Documentation/process/cve korean version.
->>
->> Signed-off-by: Yunseong Kim <yskelg@gmail.com>
+On 5/17/24 16:51, Peter Newman wrote:
+> Hi Reinette, Babu,
 > 
-> Thanks for translating new Documentation/process/cve document to Korean
-> Language. Most of the Korean sentences are looks good to me. But only
-> one sentence seemed unnatural.
-
-Thank you for the review Jinwoo.
-
->> 잘못된 CVE 항목들
->> =================
+> On Fri, May 3, 2024 at 2:15 PM Reinette Chatre
+> <reinette.chatre@intel.com> wrote:
 >>
->> -해당 배포판에서 변경된 사항으로 인해 또는 해당 배포판이 더 이상
->> kernel.org
->> +특정 배포판에서 변경된 사항으로 인해 또는 해당 배포판이 더 이상
->> kernel.org
->> 지원 릴리스가 아닌 커널 버전을 지원하기 때문에 Linux 배포판에서만 지원되는
->> Linux 커널에서 보안 문제가 발견되는 경우 Linux 커널 CVE 팀에서 CVE를 할당할
->> 수 없으며 해당 Linux 배포판 자체에서 요청해야 합니다.
+>> Hi Peter,
+>>
+>> On 5/3/2024 2:00 PM, Peter Newman wrote:
+>>> Hi Babu,
+>>>
+>>> On Fri, May 3, 2024 at 1:44 PM Moger, Babu <bmoger@amd.com> wrote:
+>>>>
+>>>> Hi Peter,
+>>>>
+>>>> On 5/2/2024 7:57 PM, Peter Newman wrote:
+>>>>> Hi Reinette,
+>>>>>
+>>>>> On Thu, May 2, 2024 at 4:21 PM Reinette Chatre
+>>>>>> I do think ABMC should be enabled by default when available and it looks
+>>>>>> to be what this series aims to do [1]. The way I reason about this is
+>>>>>> that legacy user space gets more reliable monitoring behavior without
+>>>>>> needing to change behavior.
+>>>>>
+>>>>> I don't like that for a monitor assignment-aware user, following the
+>>>>> creation of new monitoring groups, there will be less monitors
+>>>>> available for assignment. If the user wants precise control over where
+>>>>> monitors are allocated, they would need to manually unassign the
+>>>>> automatically-assigned monitor after creating new groups.
+>>>>>
+>>>>> It's an annoyance, but I'm not sure if it would break any realistic
+>>>>> usage model. Maybe if the monitoring agent operates independently of
+>>>>
+>>>> Yes. Its annoyance.
+>>>>
+>>>> But if you think about it, normal users don't create too many groups.
+>>>> They wont have to worry about assign/unassign headache if we enable
+>>>> monitor assignment automatically. Also there is pqos tool which uses
+>>>> this interface. It does not have to know about assign/unassign stuff.
+>>>
+>>> Thinking about this again, I don't think it's much of a concern
+>>> because the automatic assignment on mongroup creation behavior can be
+>>> trivially disabled using a boolean flag.
+>>
+>> This could be a config option.
 > 
-> When the first modifier "해당" is first used in a Korean sentence, like
-> "the", there needs to be an explanation of what it is targeting.
+> I'd like to work out the details of this option.
+> 
+> info/L3_MON/mbm_assign_on_mkdir?
+> 
+> boolean (parsed with kstrtobool()), defaulting to true?
 
+I am thinking is not a big concern. We only have limited (32) counters.
+Automatic monitor assignment works only for first 16 groups(2 counters for
+each group). When the counters are exhausted auto assignment does not
+work. In your case(with more than 16 groups) the auto assignment does not
+work. I feel having a config option is really not necessary.
 
-You're right, that phrase was awkward in the direct translation. Thanks
-for catching that.
-
-> However, in the process of literal translation, it seems that "the"
-> became "해당" due to the difference in word order between Korean and
-> English, And since the translated sentence did not describe which "Linux
-> distributor" is being described, it would be very difficult if
-> "특정(specific)" were used instead. It seems natural.
-
-I will send version 2 patch. Thank you!
-
-Warm Regards,
-
-Yunseong Kim
-
-
->> ---
->>  .../translations/ko_KR/process/cve.rst        | 107 ++++++++++++++++++
->>  1 file changed, 107 insertions(+)
->>  create mode 100644 Documentation/translations/ko_KR/process/cve.rst
->>
->> diff --git a/Documentation/translations/ko_KR/process/cve.rst b/Documentation/translations/ko_KR/process/cve.rst
->> new file mode 100644
->> index 000000000000..26682969b2b7
->> --- /dev/null
->> +++ b/Documentation/translations/ko_KR/process/cve.rst
->> @@ -0,0 +1,107 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +:Original: Documentation/process/cve.rst
->> +:Translator: Yunseong Kim <yskelg@gmail.com>
->> +
->> +==========
->> +CVE 항목들
->> +==========
->> +
->> +공통 취약점 및 노출(CVE®) 번호는 공개적으로 발표된 보안 취약점을 식별, 정의 및
->> +목록화하기 위한 명확한 방법으로 개발되었습니다. 시간이 지남에 따라 커널
->> +프로젝트와 관련하여서는 그 유용성이 감소했으며, CVE 번호는 부적절한 방식과
->> +부적절한 이유로 할당되는 경우가 매우 많았습니다. 이로 인하여 커널 개발
->> +커뮤니티에서는 이를 기피하는 경향이 있었습니다. 그러나 커널 커뮤니티 외부의
->> +개인과 회사가 CVE 및 기타 형태의 보안 식별자를 할당하라는 지속적인 압박과
->> +지속적인 남용이 결합되면서 커널 커뮤니티가 이러한 할당에 대한 통제권을 가져야
->> +한다는 것이 분명해졌습니다.
->> +
->> +Linux 커널 개발자 팀은 잠재적인 Linux 커널 보안 문제에 대해 CVE를 할당할 수
->> +있는 권한이 있습니다. 여기서 할당은 :doc:`일반 Linux 커널 보안 버그 보고
->> +절차<../process/security-bugs>`와는 별개입니다.
->> +
->> +Linux 커널에 할당된 모든 CVE 목록은
->> +https://lore.kernel.org/linux-cve-announce/ 에 있는 Linux-CVE 메일링 리스트의
->> +아카이브에서 확인할 수 있습니다. 할당된 CVE에 대한 알림을 받으려면 해당
->> +메일링 리스트에 `구독
->> +<https://subspace.kernel.org/subscribing.html>`_ 하세요.
->> +
->> +절차
->> +====
->> +
->> +일반적인 안정 릴리스 절차의 일부로, 잠재적으로 보안 문제가 될 수 있는 커널
->> +변경 사항은 CVE 번호 할당을 담당하는 개발자가 식별하여 CVE 번호를 자동으로
->> +할당합니다. 이러한 할당은 linux-cve-announce 메일링 리스트에 공지사항으로
->> +수시로 게시됩니다.
->> +
->> +리눅스 커널이 시스템에 있는 계층으로 인해 거의 모든 버그가 커널의 보안을
->> +손상시키는 데 악용될 수 있지만 버그가 수정되면 악용 가능성이 명확하게 드러나지
->> +않는 경우가 많습니다. 이 때문에 CVE 할당 팀은 지나치게 조심스럽게 버그 수정이
->> +확인되는 모든 버그에 CVE 번호를 할당합니다.
->> +이것이 리눅스 커널 팀에서 발행하는 겉으로 보기에 많은 수의 CVE를 설명합니다.
->> +
->> +사용자가 CVE를 지정해야 한다고 생각하는 특정 수정 사항을 CVE 할당 팀이 놓친
->> +경우 <cve@kernel.org>로 이메일을 보내 주시면 해당 팀에서 함께 작업할 것입니다.
->> +이 별칭은 이미 릴리스된 커널 트리에 있는 수정 사항에 대한 CVE 할당 전용이므로
->> +잠재적인 보안 문제는 이 별칭으로 보내서는 안 됩니다.
->> +수정되지 않은 보안 문제를 발견했다고 생각되면 :doc:`일반 Linux 커널 보안
->> +버그 보고 절차<../process/security-bugs>`를 따르세요.
->> +
->> +Linux 커널에서 수정되지 않은 보안 이슈에 대해서는 CVE가 자동으로 할당되지
->> +않으며, 수정이 제공되고 안정적인 커널 트리에 적용된 후에만 자동으로 할당되며,
->> +기존 수정의 git 커밋 ID로 추적할 수 있습니다. 커밋으로 문제가 해결되기 전에
->> +CVE를 할당받고자 하는 사람은 커널 CVE 할당 팀<cve@kernel.org>에 문의하여
->> +예약된 식별자 항목들에서 식별자를 할당받으시기 바랍니다.
->> +
->> +현재 Stable/LTS 커널 팀에서 적극적으로 지원하지 않는 커널 버전에서 발견된
->> +문제에 대해서는 CVE가 할당되지 않습니다.
->> +현재 지원되는 커널 브랜치 목록은 https://kernel.org/releases.html 에서 확인할
->> +수 있습니다.
->> +
->> +할당된 CVE 항목들의 분쟁
->> +=========================
->> +
->> +특정 커널 변경에 대해 할당된 CVE에 대해 이의를 제기하거나 수정할 권한은
->> +전적으로 영향을 받는 관련 하위 시스템의 유지 관리자에게 있습니다.
->> +이 원칙은 취약점 보고에 있어 높은 수준의 정확성과 책임성을 보장합니다.
->> +하위 시스템에 대한 깊은 전문 지식과 친밀한 지식을 갖춘 사람만이 보고된
->> +취약점의 유효성과 범위를 효과적으로 평가하고 적절한 CVE 지정을 결정할 수
->> +있습니다. 이 지정된 기관 외부에서 CVE를 수정하거나 이의를 제기하려는 시도는
->> +혼란, 부정확한 보고, 궁극적으로 시스템 손상으로 이어질 수 있습니다.
->> +
->> +잘못된 CVE 항목들
->> +=================
->> +
->> +해당 배포판에서 변경된 사항으로 인해 또는 해당 배포판이 더 이상 kernel.org
->> +지원 릴리스가 아닌 커널 버전을 지원하기 때문에 Linux 배포판에서만 지원되는
->> +Linux 커널에서 보안 문제가 발견되는 경우 Linux 커널 CVE 팀에서 CVE를 할당할 수
->> +없으며 해당 Linux 배포판 자체에서 요청해야 합니다.
->> +
->> +커널 할당 CVE 팀이 아닌 다른 그룹에서 적극적으로 지원되는 커널 버전에 대해
->> +Linux 커널에 대해 할당된 CVE는 유효한 CVE로 취급해서는 안 됩니다.
->> +CNA 수정 절차를 통해 해당 항목을 무효화할 수 있도록 커널 CVE 할당 팀에
->> +<cve@kernel.org>로 알려주시기 바랍니다.
->> +
->> +특정 CVE의 적용 가능성
->> +======================
->> +
->> +Linux 커널은 외부 사용자가 다양한 방법으로 접근하거나 전혀 접근하지 않는
->> +등 다양한 방식으로 사용될 수 있으므로 특정 CVE의 적용 여부는 Linux 사용자가
->> +결정할 사항이며 CVE 할당 팀의 권한이 아닙니다. 특정 CVE의 적용 가능성을
->> +판단하기 위해 우리에게 문의하지 마시기 바랍니다.
->> +
->> +또한 소스 트리가 매우 방대하고 어떤 시스템도 소스 트리의 작은 하위 집합만
->> +사용하므로 Linux 사용자는 할당된 많은 수의 CVE가 자신의 시스템과 관련이 없다는
->> +사실을 알고 인지해야 합니다.
->> +
->> +즉, 우리는 사용자의 사용 사례를 알지 못하며 사용자가 커널의 어떤 부분을
->> +사용하는지 알 수 없으므로 특정 CVE가 사용자의 시스템과 관련이 있는지 판단할 수
->> +있는 방법이 없습니다.
->> +
->> +항상 그렇듯이 커널 변경 사항은 개별적으로 선별된 변경 사항이 아니라 많은
->> +커뮤니티 구성원이 통합된 전체에서 함께 테스트하는 것이므로 릴리스된 모든 커널
->> +변경 사항을 적용하는 것이 가장 좋습니다. 또한 많은 버그의 경우 전체 문제에
->> +대한 해결책은 단일 변경 사항이 아니라 여러 수정 사항을 모아놓고 보아야 찾을 수
->> +있다는 점에 유의하세요. 이상적으로는 모든 문제에 대한 모든 수정 사항에 CVE가
->> +할당되지만, 때로는 수정 사항을 발견하지 못하는 경우가 있으므로 CVE가 할당되지
->> +않은 일부 변경 사항이 관련성이 있을 수 있다고 가정합니다.
+ --
+Thanks
+Babu Moger
