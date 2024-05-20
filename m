@@ -1,50 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from 009.lax.mailroute.net (009.lax.mailroute.net [199.89.1.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E738A36AFE;
-	Mon, 20 May 2024 23:42:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549663B182;
+	Mon, 20 May 2024 23:43:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716248576; cv=none; b=BIKEKI+koBulGLGk/QRaocG5TH8bcfuSrQLHMUCNsIh4fAqObmlX6d+5Kg13IY5n+JwOQ0d3dKvaPxTbrzPqWjSKeLm01KS8nQIdz2g1GjH5LRGm1KjCcTkKrMUy5p+/3XOJK+Ju5LFFE3mmo3wXLgXix4AqKaV3xz4XwEBVOTY=
+	t=1716248595; cv=none; b=VKQLpVSV9gSnNfW+aAQb2XgmtkafvY+mr+BEPTbQxg46Y0MI4y2qewJxJdoQjEIAS7dcQEHscjLHEtw2XieJSP1/q8q9luA8w5s5+z5ogT+jMiQMEww1gKFreOox6VW+J0uB2Pc5+cnpvlJPZeBZcj4Iu6xMH/qaL6zK7xPTqzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716248576; c=relaxed/simple;
-	bh=LvhNE47HwRc9IiFLm1WRvgRimgtExT7XKlEYXYcZPSw=;
+	s=arc-20240116; t=1716248595; c=relaxed/simple;
+	bh=XI0ilmooLeYwpmsoKJHHHdPY4156763P5d8LFnYqgoo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=huTkjKVZMpnpldGA15bJ8zwLKJH+5tBkhotjCV4bONIeYFx66GPNERabo4UVDnAqcHQs1OJevv+g2ZSxWTuYG+Q6dfRW3ye7JfIFGrKDxzeKGIQZcCYEP7RuokpsdCsvVRKEocdTbGLTTWmkdaQqeRgTFtLaFc3ialTAHKE++wk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HWlyz+zM; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 In-Reply-To:Content-Type; b=YV/NB7vKtQD28boJSeSxTupHMFg3v4Gd+o4tt7yCSmZGawTGg28MQZfvUGHLsjBSJFT5DrqjwpYPP6qrZnF5P589pdbljl0NcuSTt62MlqzjXa/7BL5NbiXsQeorPOCYAPEBb+Bsf+8IZUKozNv5oAhET6rhkE/M98yYmxlFgG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=kCzSBQht; arc=none smtp.client-ip=199.89.1.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HWlyz+zM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716248575; x=1747784575;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=LvhNE47HwRc9IiFLm1WRvgRimgtExT7XKlEYXYcZPSw=;
-  b=HWlyz+zMEk5rJl92lP3TcRAAjveJ+FhS7nUZ3zA0TyGDkZ2ktocU4BL9
-   cUrhGJvcvgTTBAE68oF+lXNtHrvxlo8yjk8rVLSRKRXgRUDElbniE24/5
-   NX+U7ePN7B6IDQW8cJPXMdA5GwV/lYxjukCHHN83sc6dM7wI72mVsTYgc
-   45XqvYp8rEYwprWb2pX6xJk4lIvZOFVQmnGtFm7aYhHJrHqU78v7gObqS
-   tFUPYzAvSMXXkmqu+DGdxQNo+dfH7/fKwp1rWVSm86h8yczK1Q4BhHwd4
-   c2uETG4ZwmvzS3T1zmwenpOdhWv2Ap5Vsp07q0B1rMJUd68Aii8vo1qGg
-   A==;
-X-CSE-ConnectionGUID: YoGsVdb7R/aIq8qev4eRNQ==
-X-CSE-MsgGUID: S9d5D0WRRbSxCXu9YwDzKQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11078"; a="23550043"
-X-IronPort-AV: E=Sophos;i="6.08,176,1712646000"; 
-   d="scan'208";a="23550043"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2024 16:42:55 -0700
-X-CSE-ConnectionGUID: b0vyrOh3RVCjrDoQ8W4qOg==
-X-CSE-MsgGUID: kStHjqW3TkGraF/ISJU4lg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,176,1712646000"; 
-   d="scan'208";a="55952024"
-Received: from ldmartin-desk2.corp.intel.com (HELO [10.125.109.115]) ([10.125.109.115])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2024 16:42:51 -0700
-Message-ID: <7b430ea3-3ce8-4ef9-8440-bac02993f676@linux.intel.com>
-Date: Mon, 20 May 2024 18:42:49 -0500
+	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="kCzSBQht"
+Received: from localhost (localhost [127.0.0.1])
+	by 009.lax.mailroute.net (Postfix) with ESMTP id 4VjvJd4CZRzlgT1M;
+	Mon, 20 May 2024 23:43:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1716248582; x=1718840583; bh=OyFlC0B3t3C3QPALfJEi8R8r
+	d3f1cHbIyvzodAAs6QI=; b=kCzSBQhtvR/gwexX/OBMgW8+9uPM2XLI1Io3VPXA
+	ExEWQOuBhyfGPlN9tKDNhM1K5E9x0eL/9Ri9AdYtHgjzysrJytIcu7gSGlYMqkC1
+	Ca0Br0owVaLiVVu/FpxEEeojwBG57vo0FCdc3OsdSmOf3dbvEfYzJI+8HE3qe1mY
+	vWMZfvF/OU5X5BG4RLWTW0ODrCRsLtIGJvzZdTxgA+cC1AMYouzEw6foDJqXDpTK
+	uX+zra2D0UtQsL7OjinTTCVPnMzbGsRgtbIkhkpB3RbRPFifE6E+Yyl7LBzNEdmL
+	zV5OOA6ldYfH80zPuAQxjF6hg/HtlnLKdM/Dhm7yFWNcsw==
+X-Virus-Scanned: by MailRoute
+Received: from 009.lax.mailroute.net ([127.0.0.1])
+ by localhost (009.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id EgVMztfS5ec5; Mon, 20 May 2024 23:43:02 +0000 (UTC)
+Received: from [100.96.154.26] (unknown [104.132.0.90])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 009.lax.mailroute.net (Postfix) with ESMTPSA id 4VjvJH2Hf4zlgT1K;
+	Mon, 20 May 2024 23:42:54 +0000 (UTC)
+Message-ID: <2433bc0d-3867-475d-b472-0f6725f9a296@acm.org>
+Date: Mon, 20 May 2024 16:42:52 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,100 +50,119 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] ASoC: soc-pcm: Indicate warning if CPU / Codec
- availability mismatch
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Alper Nebi Yasak <alpernebiyasak@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Banajit Goswami <bgoswami@quicinc.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>, Brent Lu <brent.lu@intel.com>,
- Cezary Rojewski <cezary.rojewski@intel.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Daniel Baluta <daniel.baluta@nxp.com>, Hans de Goede <hdegoede@redhat.com>,
- Jaroslav Kysela <perex@perex.cz>, Jerome Brunet <jbrunet@baylibre.com>,
- Jiawei Wang <me@jwang.link>, Jonathan Corbet <corbet@lwn.net>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Maso Huang <maso.huang@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Shengjiu Wang <shengjiu.wang@gmail.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>,
- Vinod Koul <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
- alsa-devel@alsa-project.org, imx@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-sound@vger.kernel.org
-References: <87msole5wc.wl-kuninori.morimoto.gx@renesas.com>
- <87jzjpe5vh.wl-kuninori.morimoto.gx@renesas.com>
- <77e9221e-05d2-453f-9ce1-ff4a4b53d09d@linux.intel.com>
- <87y184cbed.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH v20 12/12] null_blk: add support for copy offload
+To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
+ Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
+ Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Cc: martin.petersen@oracle.com, david@fromorbit.com, hare@suse.de,
+ damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
+ nitheshshetty@gmail.com, gost.dev@samsung.com,
+ Vincent Fu <vincent.fu@samsung.com>, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org
+References: <20240520102033.9361-1-nj.shetty@samsung.com>
+ <CGME20240520103039epcas5p4373f7234162a32222ac225b976ae30ce@epcas5p4.samsung.com>
+ <20240520102033.9361-13-nj.shetty@samsung.com>
 Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <87y184cbed.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20240520102033.9361-13-nj.shetty@samsung.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
+On 5/20/24 03:20, Nitesh Shetty wrote:
+> +	if (blk_rq_nr_phys_segments(req) != BLK_COPY_MAX_SEGMENTS)
+> +		return status;
 
->> I mentioned in my previous feedback that this isn't quite right. There
->> are cases where the CPU dai reports capabilities that the codec DAI does
->> not support - e.g. when the AEC reference is generated in firmware on
->> the host DSP.
-> 
-> Hmm... I thought all issue was solved...
-> 
->> For those systems, trying to match CPU and codec dais is not going to
->> work. Either we skip this verification or we have an escape mechanism to
->> avoid triggering errors.
-> 
-> Sorry, but I'm not 100% understand about your situation.
-> Why Codec can't have channels_min ?
-> If the Codec can flexibly adjust to paired CPU, Codec can have full channels
-> support, like dummy DAI ? This means verification is based on CPU only.
-> Is it not enough ?  and/or Can you show me the driver ?
-> 
-> 	static struct snd_soc_dai_driver dummy_dai = {
-> 		...
-> 		.playback = {
-> =>			.channels_min	= 1,
-> =>			.channels_max	= 384,
-> 			...
-> 		},
-> 		.capture = {
-> 			...
-> =>			.channels_min	= 1,
-> =>			.channels_max	= 384,
-> 			...
-> 		 },
-> 		...
-> 	};
+Why is this check necessary?
 
-We cannot change the Maxim amplifier driver, it's used in a variety of
-usages and platforms, and there's no reason to create a fake capture dai
-just to reflect the use of a capture stream on the CPU side on some
-Chromebooks.
+> +	/*
+> +	 * First bio contains information about destination and last bio
+> +	 * contains information about source.
+> +	 */
 
-The dailinks used for amplifiers in
-sound/soc/intel/boards/sof_boards_helpers.c set dpcm_capture always
+Please check this at runtime (WARN_ON_ONCE()?).
 
-	link->dpcm_capture = 1; /* feedback stream or firmware-generated echo
-reference */
+> +	__rq_for_each_bio(bio, req) {
+> +		if (seg == blk_rq_nr_phys_segments(req)) {
+> +			sector_in = bio->bi_iter.bi_sector;
+> +			if (rem != bio->bi_iter.bi_size)
+> +				return status;
+> +		} else {
+> +			sector_out = bio->bi_iter.bi_sector;
+> +			rem = bio->bi_iter.bi_size;
+> +		}
+> +		seg++;
+> +	}
 
-which means that this test will fail:
+_rq_for_each_bio() iterates over the bios in a request. Does a copy
+offload request always have two bios - one copy destination bio and
+one copy source bio? If so, is 'seg' a bio counter? Why is that bio
+counter compared with the number of physical segments in the request?
 
-if ((dai_link->dpcm_capture || dai_link->capture_only) &&
-		     !has_capture_both)
+> +	trace_nullb_copy_op(req, sector_out << SECTOR_SHIFT,
+> +			    sector_in << SECTOR_SHIFT, rem);
+> +
+> +	spin_lock_irq(&nullb->lock);
+> +	while (rem > 0) {
+> +		chunk = min_t(size_t, nullb->dev->blocksize, rem);
+> +		offset_in = (sector_in & SECTOR_MASK) << SECTOR_SHIFT;
+> +		offset_out = (sector_out & SECTOR_MASK) << SECTOR_SHIFT;
+> +
+> +		if (null_cache_active(nullb) && !is_fua)
+> +			null_make_cache_space(nullb, PAGE_SIZE);
+> +
+> +		t_page_in = null_lookup_page(nullb, sector_in, false,
+> +					     !null_cache_active(nullb));
+> +		if (!t_page_in)
+> +			goto err;
+> +		t_page_out = null_insert_page(nullb, sector_out,
+> +					      !null_cache_active(nullb) ||
+> +					      is_fua);
+> +		if (!t_page_out)
+> +			goto err;
+> +
+> +		in = kmap_local_page(t_page_in->page);
+> +		out = kmap_local_page(t_page_out->page);
+> +
+> +		memcpy(out + offset_out, in + offset_in, chunk);
+> +		kunmap_local(out);
+> +		kunmap_local(in);
+> +		__set_bit(sector_out & SECTOR_MASK, t_page_out->bitmap);
+> +
+> +		if (is_fua)
+> +			null_free_sector(nullb, sector_out, true);
+> +
+> +		rem -= chunk;
+> +		sector_in += chunk >> SECTOR_SHIFT;
+> +		sector_out += chunk >> SECTOR_SHIFT;
+> +	}
+> +
+> +	status = 0;
+> +err:
+> +	spin_unlock_irq(&nullb->lock);
 
-I don't disagree that the unconditional use of dpcm_capture isn't very
-elegant, but it is what it is. This platform has been around since 2019
-and still has about 6 or 7 years of support, so we can't break it with
-stricter criteria.
+In the worst case, how long does this loop disable interrupts?
 
+> +TRACE_EVENT(nullb_copy_op,
+> +		TP_PROTO(struct request *req,
+> +			 sector_t dst, sector_t src, size_t len),
+> +		TP_ARGS(req, dst, src, len),
+> +		TP_STRUCT__entry(
+> +				 __array(char, disk, DISK_NAME_LEN)
+> +				 __field(enum req_op, op)
+> +				 __field(sector_t, dst)
+> +				 __field(sector_t, src)
+> +				 __field(size_t, len)
+> +		),
+
+Isn't __string() preferred over __array() since the former occupies less space
+in the trace buffer?
+
+Thanks,
+
+Bart.
