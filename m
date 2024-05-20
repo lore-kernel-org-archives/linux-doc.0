@@ -1,145 +1,172 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF456137771;
-	Mon, 20 May 2024 15:55:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 285A0F9C9
+	for <linux-doc@vger.kernel.org>; Mon, 20 May 2024 16:00:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716220544; cv=none; b=TCk+jtWtxAvcWKtpD50wiLLCEY5e0T4xi+zB1+v/FCXQ9I93gTLxhXOQcBl9Y+dT/NB769g3B/DQ5H1Jx1z1uLIbrf7nnu2wd5tzpJVhvWRoXgs8kL+Rt2rWpFCnaMyaP01synz95wAl2oIfnpPYYrE4ovSI5JqSdXTtl7sL92M=
+	t=1716220835; cv=none; b=sXHTekowxRVl6PIY5u91nQarN1P3aey/aY1cu7KvJfXSfeRhk7qK7LdlrYsQT6oNtpYB1jlHNOXNVFnXEwmZjlqpwCjFgGm4/ZGZm/9u4cVfBAbxT//ogKKXsEEpzlWh1Gj3vcqjmd0jkl/OQuHsAGKopAOszjKcUJQHpbCKHhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716220544; c=relaxed/simple;
-	bh=PKOTCzh7s/Hlw+lCPuwNY7ZQb0fnb29mRHIC+H6JoNQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=JXL8rijhoBSSyvjje1S2f6b4m3J52wjIEmaHQGhMLmMA8hRoOzYP6YNA/jq/67UIurmXRQvksKn4pwVCWcpixQSgIWAXsjKxQd+pgcCm3wHK5Zml4mmnCvTeDYh4MK/lCLo5HRMZ8Cg6BUVc6NmmvmpPikBH6WA87nLYWfc/RiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mg8M8EHo; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1716220835; c=relaxed/simple;
+	bh=74OgddEij1CdKOr7nsQpcxRgDTjS/dIJGQiYkK7+pOo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AatEX+yIz5xS+zLkDrIQu65/FFG6J75Jen0HMzmp+cO1X4lz5aXhnFAvzkPmCTNUWnzTamlArgW1rYrpMeZu36rO+JGiqVKhRU9Ky2GDDXU7eOhu1BKvwZS+rhpjnWMDyhMSfWJqMYGxlRCAC522/KGmZOn1UxEOgTCz58H+v4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=b1AeUqz0; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mg8M8EHo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716220543; x=1747756543;
-  h=message-id:date:mime-version:subject:to:references:from:
-   in-reply-to:content-transfer-encoding;
-  bh=PKOTCzh7s/Hlw+lCPuwNY7ZQb0fnb29mRHIC+H6JoNQ=;
-  b=mg8M8EHonEG9iIMfm5PudNyIRXC1T+aDIHzPF6vnvgh1jbgA8Hrpwc+i
-   9SfPSBmnTTLSZdyepGIQNyfR8l+/Yx/b8wzN73lmQLyixNwRJmUyFy44G
-   bEXptH69qz+S3oqEc19gE429RV+fvHJ7DUXl7G4mFsTzu0qX1d9cXL27z
-   3Zxsr8EChJ7OOzmGbnOoRwy9FollX4NJCsM7LzkZwCGVGVxIixBJ4RBVB
-   2BM91t1YIKdEYnznBZK7/vRkw9kYbs1uNVAS1jr9U/S09E+Nae2a4xb7L
-   4QTuv4N4voqQSnIJhTHt1U55YA1gGkMWTkFuOHzuNHZyX9ql8B9Sj3wjR
-   Q==;
-X-CSE-ConnectionGUID: 0bnxJQjJQ8yBjWzNxlYhNA==
-X-CSE-MsgGUID: MN8wevRMTjCrh4MLfDbf+Q==
-X-IronPort-AV: E=McAfee;i="6600,9927,11078"; a="12233889"
-X-IronPort-AV: E=Sophos;i="6.08,175,1712646000"; 
-   d="scan'208";a="12233889"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2024 08:55:42 -0700
-X-CSE-ConnectionGUID: Zk9AkXmXQXCmMVOXmQSITw==
-X-CSE-MsgGUID: 9ILVEuteSYeDWdkOJH4GYQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,175,1712646000"; 
-   d="scan'208";a="37346120"
-Received: from daliomra-mobl3.amr.corp.intel.com (HELO [10.125.109.51]) ([10.125.109.51])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2024 08:55:39 -0700
-Message-ID: <77e9221e-05d2-453f-9ce1-ff4a4b53d09d@linux.intel.com>
-Date: Mon, 20 May 2024 10:55:38 -0500
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="b1AeUqz0"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1eed90a926fso212785ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 20 May 2024 09:00:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1716220833; x=1716825633; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=74OgddEij1CdKOr7nsQpcxRgDTjS/dIJGQiYkK7+pOo=;
+        b=b1AeUqz02OpA8o9wkiSz8IlCJRicor/iyim0+DI9RavFz/r3c6gGcw3YFSqMthTVcZ
+         /CSK7CknBtkwjq0gpxxJmeZ8+KDkKREdX1Jv34I7C/VHCT0OQODnuQh0SGTGM9aHq3M2
+         wKFErOB6eGhaze6q/ZNBao1YrsROmLfP4zkglxKhu34uHsCja9GATPUdDuwdjgU8sXkM
+         zZJQxFuTysJLbpGNLbRp60PT4fMI03HbdSrhwNYYkoaBtLOBn9lcn9Aw/s1M9Fj3IM1t
+         +j+a7AhRZXFQ0CbOxPptYiYySlqnK2AiOTqmDRLhPNCOaB2TzFNB4G2OFw2P2/p/Xlcm
+         V98A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716220833; x=1716825633;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=74OgddEij1CdKOr7nsQpcxRgDTjS/dIJGQiYkK7+pOo=;
+        b=ME3CB/sCSZotj2wai3cr3e1MWvLUtEvUZgXib7iSjqLu8FymRxpxz8m9YGM05P8fOF
+         8hOQUO53a1P/ixEk7NsltvFef8XlnAMayniVweQGZ4v6aNFkQ3WRXyWWOBWcfluWhREU
+         QPY3V/Mhsl38906/7FD8/+xQnUIJ3ieK8u3aB5lMJZZi1FlutuMfUvl9s+xd0XUk6I5f
+         Zpva2xUzhwSTQ73a0V3yOEAXoJOokZ5CF7QvLDidPmJTHU4gxLda+pFLZ8KKCo0t501G
+         W4Z5nRhlP++wmdTZN+QN4vCXDrG7IUYG/2aujBQZ9eTGfnXGCMJo6Xun0yGaKKMC/e/E
+         TAdg==
+X-Forwarded-Encrypted: i=1; AJvYcCVbnpU4cjZXpK9pfbmlr/O8C0ZxHiwh8OjOW3oyQxsrYBMkGjchdn+bCmeazgJ2ull2rHlr9oqkDTssYZYTl04ScdAJAxHoRMkY
+X-Gm-Message-State: AOJu0YxHYn/BoPeqaF6DwQbGx6PxeC0fOWC0RRbUtI9JmlvPysGGe/8j
+	U9E+TvfhN0psN2ogTq3oxIEHGzyonPMMBqLnUv7m9rE5fCWU+fo7N2KFV/5lsIXvegbtWszEepY
+	AnNzJY9LwqGLRXWOWWAAXg2xVlHPwcuGai7vf
+X-Google-Smtp-Source: AGHT+IGpRekdWyemBibjacSQMYbn6i1xsrzO7dlG3bkZXaNFXd2FbNWPC+rVxr8FPQRubhli1F/P3H93KAkTNF16b04=
+X-Received: by 2002:a17:902:c395:b0:1e2:1955:1b1c with SMTP id
+ d9443c01a7336-1f2ee0ec936mr3283225ad.27.1716220832548; Mon, 20 May 2024
+ 09:00:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] ASoC: soc-pcm: Indicate warning if CPU / Codec
- availability mismatch
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
- =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Alper Nebi Yasak <alpernebiyasak@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Banajit Goswami <bgoswami@quicinc.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>, Brent Lu <brent.lu@intel.com>,
- Cezary Rojewski <cezary.rojewski@intel.com>,
- Charles Keepax <ckeepax@opensource.cirrus.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Daniel Baluta <daniel.baluta@nxp.com>, Hans de Goede <hdegoede@redhat.com>,
- Jaroslav Kysela <perex@perex.cz>, Jerome Brunet <jbrunet@baylibre.com>,
- Jiawei Wang <me@jwang.link>, Jonathan Corbet <corbet@lwn.net>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Maso Huang <maso.huang@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Shengjiu Wang <shengjiu.wang@gmail.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>,
- Vinod Koul <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
- alsa-devel@alsa-project.org, imx@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-sound@vger.kernel.org
-References: <87msole5wc.wl-kuninori.morimoto.gx@renesas.com>
- <87jzjpe5vh.wl-kuninori.morimoto.gx@renesas.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <87jzjpe5vh.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <cover.1711674410.git.babu.moger@amd.com> <CALPaoCjZ3oLdKymJjASt0aqtd0GGOme7LavvYOtPYTb_rA-mYQ@mail.gmail.com>
+ <b35dc4e9-7e8b-42ed-9a51-ae50d521cf4b@amd.com> <CALPaoChxYoJx8eR48EkSKf-hu2p2myQJLZEhj_Pq6O4R15-=5A@mail.gmail.com>
+ <6edffe1b-e9a9-4995-8172-353efc189666@amd.com> <ab2a6a4b-3740-47c6-9443-e6bb7a0c1adb@intel.com>
+ <CALPaoCiYFKeASPMDwzzaHLw4JiMtBB6DTyVPgt0Voe3c3Tav_A@mail.gmail.com>
+ <b725e4ca-8602-eb26-9d47-914526621f52@amd.com> <CALPaoCiu2_UHyGjsyitz28BL1N93TSn28E1r-6nhXg--bzmU+Q@mail.gmail.com>
+ <d7f3c5b1-c39d-4c66-92c3-5b096b9e0579@intel.com> <CALPaoCiJ9ELXkij-zsAhxC1hx8UUR+KMPJH6i8c8AT6_mtXs+Q@mail.gmail.com>
+ <fae7fd93-27b7-4f94-964b-9c909f85f2fe@amd.com>
+In-Reply-To: <fae7fd93-27b7-4f94-964b-9c909f85f2fe@amd.com>
+From: Peter Newman <peternewman@google.com>
+Date: Mon, 20 May 2024 09:00:19 -0700
+Message-ID: <CALPaoCihfQ9VtLYzyHB9-PsQzXLc06BW8bzhBXwj9-i+Q8RVFQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 00/17] x86/resctrl : Support AMD Assignable
+ Bandwidth Monitoring Counters (ABMC)
+To: babu.moger@amd.com
+Cc: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net, fenghua.yu@intel.com, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	paulmck@kernel.org, rdunlap@infradead.org, tj@kernel.org, 
+	peterz@infradead.org, yanjiewtw@gmail.com, kim.phillips@amd.com, 
+	lukas.bulwahn@gmail.com, seanjc@google.com, jmattson@google.com, 
+	leitao@debian.org, jpoimboe@kernel.org, rick.p.edgecombe@intel.com, 
+	kirill.shutemov@linux.intel.com, jithu.joseph@intel.com, kai.huang@intel.com, 
+	kan.liang@linux.intel.com, daniel.sneddon@linux.intel.com, 
+	pbonzini@redhat.com, sandipan.das@amd.com, ilpo.jarvinen@linux.intel.com, 
+	maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Babu,
 
+On Mon, May 20, 2024 at 7:25=E2=80=AFAM Moger, Babu <babu.moger@amd.com> wr=
+ote:
+>
+> Hi Peter,
+>
+> On 5/17/24 16:51, Peter Newman wrote:
+> > Hi Reinette, Babu,
+> >
+> > On Fri, May 3, 2024 at 2:15=E2=80=AFPM Reinette Chatre
+> > <reinette.chatre@intel.com> wrote:
+> >>
+> >> Hi Peter,
+> >>
+> >> On 5/3/2024 2:00 PM, Peter Newman wrote:
+> >>> Hi Babu,
+> >>>
+> >>> On Fri, May 3, 2024 at 1:44=E2=80=AFPM Moger, Babu <bmoger@amd.com> w=
+rote:
+> >>>>
+> >>>> Hi Peter,
+> >>>>
+> >>>> On 5/2/2024 7:57 PM, Peter Newman wrote:
+> >>>>> Hi Reinette,
+> >>>>>
+> >>>>> On Thu, May 2, 2024 at 4:21=E2=80=AFPM Reinette Chatre
+> >>>>>> I do think ABMC should be enabled by default when available and it=
+ looks
+> >>>>>> to be what this series aims to do [1]. The way I reason about this=
+ is
+> >>>>>> that legacy user space gets more reliable monitoring behavior with=
+out
+> >>>>>> needing to change behavior.
+> >>>>>
+> >>>>> I don't like that for a monitor assignment-aware user, following th=
+e
+> >>>>> creation of new monitoring groups, there will be less monitors
+> >>>>> available for assignment. If the user wants precise control over wh=
+ere
+> >>>>> monitors are allocated, they would need to manually unassign the
+> >>>>> automatically-assigned monitor after creating new groups.
+> >>>>>
+> >>>>> It's an annoyance, but I'm not sure if it would break any realistic
+> >>>>> usage model. Maybe if the monitoring agent operates independently o=
+f
+> >>>>
+> >>>> Yes. Its annoyance.
+> >>>>
+> >>>> But if you think about it, normal users don't create too many groups=
+.
+> >>>> They wont have to worry about assign/unassign headache if we enable
+> >>>> monitor assignment automatically. Also there is pqos tool which uses
+> >>>> this interface. It does not have to know about assign/unassign stuff=
+.
+> >>>
+> >>> Thinking about this again, I don't think it's much of a concern
+> >>> because the automatic assignment on mongroup creation behavior can be
+> >>> trivially disabled using a boolean flag.
+> >>
+> >> This could be a config option.
+> >
+> > I'd like to work out the details of this option.
+> >
+> > info/L3_MON/mbm_assign_on_mkdir?
+> >
+> > boolean (parsed with kstrtobool()), defaulting to true?
+>
+> I am thinking is not a big concern. We only have limited (32) counters.
+> Automatic monitor assignment works only for first 16 groups(2 counters fo=
+r
+> each group). When the counters are exhausted auto assignment does not
+> work. In your case(with more than 16 groups) the auto assignment does not
+> work. I feel having a config option is really not necessary.
 
-On 5/19/24 18:31, Kuninori Morimoto wrote:
-> Current DCPM is checking CPU side availability only, but it should also
-> check Codec availability. But because of long DPCM operation history,
-> it is possible that the some Codec driver check have been bypassed.
-> 
-> It should be error, but let's add grace time to update driver.
-> 
-> This patch indicates warning in above case. Each applicable driver need
-> to update during this grace time.
+I'm not sure I follow the argument you're trying to make because it
+doesn't sound like an argument against adding a config option. What
+exactly do you mean by "work" vs "not work"?
 
-...
+Also it doesn't address my original concern about needing to manually
+(and non-atomically) undo the auto assignment in order to account for
+where the monitors are assigned or ensure that creating a new
+monitoring group will succeed.
 
-> +		/*
-> +		 * REMOVE ME
-> +		 *
-> +		 * Current DPCM is checking CPU side only, but both CPU and Codec should be
-> +		 * checked. Indicate warning if there was CPU / Codec mismatch.
-> +		 * To keep compatibility, warning only for now.
-> +		 */
-> +		if ((dai_link->dpcm_playback || dai_link->playback_only) &&
-> +		    !has_playback_both)
-> +			dev_warn(rtd->card->dev,
-> +				 "System requests playback, but not available (%s)."
-> +				 " Please update Codec driver\n",
-> +				 dai_link->stream_name);
-> +		if ((dai_link->dpcm_capture || dai_link->capture_only) &&
-> +		     !has_capture_both)
-> +			dev_warn(rtd->card->dev,
-> +				 "System requests capture, but not available (%s)."
-> +				 " Please update Codec driver\n",
-> +				 dai_link->stream_name);
-> +
-
-I mentioned in my previous feedback that this isn't quite right. There
-are cases where the CPU dai reports capabilities that the codec DAI does
-not support - e.g. when the AEC reference is generated in firmware on
-the host DSP.
-
-And sure enough we get that warning in the first test:
-
-https://sof-ci.01.org/linuxpr/PR5005/build3040/devicetest/index.html?model=GLK_BOB_DA7219-ipc3&testcase=verify-kernel-boot-log
-
-May 20 13:35:38 jf-glk-bob-da7219-1 kernel: sof_da7219 glk_da7219_def:
-System requests capture, but not available (SSP1-Codec). Please update
-Codec driver
-
-For those systems, trying to match CPU and codec dais is not going to
-work. Either we skip this verification or we have an escape mechanism to
-avoid triggering errors.
+-Peter
