@@ -1,199 +1,436 @@
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.40])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9ED2A2D;
-	Mon, 20 May 2024 08:53:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.216.63.40
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2DB11643A
+	for <linux-doc@vger.kernel.org>; Mon, 20 May 2024 11:02:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716195235; cv=none; b=nGukT5gZVt0Db02QTG9Mk1hveDHquElxeGfPwVFwOeWuV1OjdMCN008kEWE25wi10KnPrHdRCEjzhG+l2tKBWYmRJrxJXzIskAgkZh6ToZ5kBsFTyBqO1UXjLrTTHVHk793KjYTycvAVFaxk+5/0yNP4OChuOMyAWXtHsW8M8UU=
+	t=1716202968; cv=none; b=ubC+YwVhrOwtpJE8wF4SdukGl91tS3qvzkQYlRYr7VXTEvFq4TBU22AHbaHvfg+gjTDcoc+wK6QU0cOrtQeXQooDsXFStOnb1gDMq00Xw7tn8sr6qXfCKQXJIVzghnhQwnB2cocKq4XjTK0vnrsWu7/S6zvb8WAj2S7DgG4p+Bc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716195235; c=relaxed/simple;
-	bh=KEOlMkrSPXEec/pXVkjAynLvkjTiplIQQWQgqc1mkXk=;
-	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=IOpivVlqahuBAkri9Q1D5RzhBY/mXHhNeBCqkHyLO3NSBcRsjw8i33gImfrPSMfRGcH3OnRL+nxD/1eeycYgQS28B0GSVZkNgkgoabVEz99L0DS0kn4qLHTP0k0dNNLHseU/nQ5GP0cVIgEfm6mq0bzxQAcah34LaBp+Wr0jTOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=63.216.63.40
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4VjWZF3402z8XrS7;
-	Mon, 20 May 2024 16:53:41 +0800 (CST)
-Received: from xaxapp01.zte.com.cn ([10.88.99.176])
-	by mse-fl1.zte.com.cn with SMTP id 44K8rXuL074907;
-	Mon, 20 May 2024 16:53:33 +0800 (+08)
-	(envelope-from ye.xingchen@zte.com.cn)
-Received: from mapi (xaxapp03[null])
-	by mapi (Zmail) with MAPI id mid31;
-	Mon, 20 May 2024 16:53:35 +0800 (CST)
-Date: Mon, 20 May 2024 16:53:35 +0800 (CST)
-X-Zmail-TransId: 2afb664b0f8f0c4-7d57e
-X-Mailer: Zmail v1.0
-Message-ID: <20240520165335899feIJEvG6iuT4f7FBU6ctk@zte.com.cn>
+	s=arc-20240116; t=1716202968; c=relaxed/simple;
+	bh=HfVSPCkIpBgqSPj4OEA1+CzolRA2i1yxTJWqE1IWoyY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DNzQNHIh2kZm8LKtAdC1u1cw03tUwlMTW9W6iGHiUoKcO/G0tf7J/3XeOyjnBxI56DDv9Q62iQB5YyfbkcW9ljL4MHcD3s49GeX5qLFGrMB21zdA6MfV/LqfPBiYg6GH+a2OzWgAsv3bJAYRa/bfLfj9jUdbklGp4GdReyoFtPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1s90mW-0007PH-Eo; Mon, 20 May 2024 13:02:16 +0200
+Received: from [2a0a:edc0:0:b01:1d::7b] (helo=bjornoya.blackshift.org)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1s90mT-002FDk-08; Mon, 20 May 2024 13:02:13 +0200
+Received: from pengutronix.de (unknown [172.20.34.65])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: mkl-all@blackshift.org)
+	by smtp.blackshift.org (Postfix) with ESMTPSA id 88E852D40C2;
+	Mon, 20 May 2024 11:02:12 +0000 (UTC)
+Date: Mon, 20 May 2024 13:02:12 +0200
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: Pankaj Gupta <pankaj.gupta@nxp.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "imx@lists.linux.dev" <imx@lists.linux.dev>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Subject: Re: RE: [EXT] Re: [PATCH 4/4] firmware: imx: add driver for NXP
+ EdgeLock Enclave
+Message-ID: <20240520-accurate-intrepid-kestrel-8eb361-mkl@pengutronix.de>
+References: <20240510-imx-se-if-v1-0-27c5a674916d@nxp.com>
+ <20240510-imx-se-if-v1-4-27c5a674916d@nxp.com>
+ <20240513-pretty-quartz-lemming-14d9ea-mkl@pengutronix.de>
+ <AM9PR04MB86044FBF697375EB2C8D285B95EE2@AM9PR04MB8604.eurprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <ye.xingchen@zte.com.cn>
-To: <davem@davemloft.net>
-Cc: <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
-        <corbet@lwn.net>, <dsahern@kernel.org>, <ncardwell@google.com>,
-        <soheil@google.com>, <haiyangz@microsoft.com>, <lixiaoyan@google.com>,
-        <ye.xingchen@zte.com.cn>, <mfreemon@cloudflare.com>,
-        <david.laight@aculab.com>, <netdev@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <fan.yu9@zte.com.cn>, <he.peilin@zte.com.cn>, <xu.xin16@zte.com.cn>,
-        <yang.yang29@zte.com.cn>, <yang.guang5@zte.com.cn>,
-        <zhang.yunkai@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIIG5ldC1uZXh0IHYyXSBpY21wOiBBZGQgaWNtcF90aW1lc3RhbXBfaWdub3JlX2FsbCB0byBjb250cm9sIElDTVBfVElNRVNUQU1Q?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 44K8rXuL074907
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 664B0F95.001/4VjWZF3402z8XrS7
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="dvuxbbj5nymmnkgy"
+Content-Disposition: inline
+In-Reply-To: <AM9PR04MB86044FBF697375EB2C8D285B95EE2@AM9PR04MB8604.eurprd04.prod.outlook.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-From: YeXingchen <ye.xingchen@zte.com.cn>
 
-The CVE-1999-0524 vulnerability is associated with ICMP
-timestamp messages, which can be exploited to conduct 
-a denial-of-service (DoS) attack. In the Vulnerability
-Priority Rating (VPR) system, this vulnerability was 
-rated as a medium risk in May of this year.
-Link:https://www.tenable.com/plugins/nessus/10113
+--dvuxbbj5nymmnkgy
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-To protect embedded systems that cannot run firewalls
-from attacks exploiting the CVE-1999-0524 vulnerability,
-the icmp_timestamp_ignore_all sysctl is offered as 
-an easy solution, which allows all ICMP timestamp
-messages to be ignored, effectively bypassing the 
-potential exploitation through the CVE-1999-0524 
-vulnerability. It enables these resource-constrained
-systems to disregard all ICMP timestamp messages,
-preventing potential DoS attacks, making it an ideal
-lightweight solution for such environments.
+On 17.05.2024 11:24:46, Pankaj Gupta wrote:
+> > > new file mode 100644
+> > > index 000000000000..0463f26d93c7
+> > > --- /dev/null
+> > > +++ b/drivers/firmware/imx/ele_base_msg.c
+> > > @@ -0,0 +1,287 @@
+> > > +// SPDX-License-Identifier: GPL-2.0+
+> > > +/*
+> > > + * Copyright 2024 NXP
+> > > + */
+> > > +
+> > > +#include <linux/types.h>
+> > > +#include <linux/completion.h>
+> > > +#include <linux/dma-mapping.h>
+> > > +
+> > > +#include "ele_base_msg.h"
+> > > +#include "ele_common.h"
+> > > +
+> > > +int ele_get_info(struct device *dev, struct soc_info *s_info)
+> > > +{
+> > > +	struct se_if_priv *priv =3D dev_get_drvdata(dev);
+> > > +	struct se_api_msg *tx_msg __free(kfree);
+> > > +	struct se_api_msg *rx_msg __free(kfree);
+> > > +	phys_addr_t get_info_addr;
+> > > +	u32 *get_info_data;
+> > > +	u32 status;
+> > > +	int ret;
+> > > +
+> > > +	if (!priv || !s_info)
+> > > +		goto exit;
+> >=20
+> > You should code properly, so that this doesn't happen, your cleanup is
+> > broken, it will work on uninitialized data, as Sascha already mentioned.
+>=20
+> The API(s) part of this file will be later exported and might get used by=
+ driver/crypto/ele/*.c.
+> Still if you think, this check should be removed, I will do it in v2.
 
-Signed-off-by: YeXingchen <ye.xingchen@zte.com.cn>
-Reviewed-by: xu xin <xu.xin16@zte.com.cn>
-Reviewed-by: zhang yunkai <zhang.yunkai@zte.com.cn>
-Reviewed-by: Fan Yu <fan.yu9@zte.com.cn>
-CC: he peilin <he.peilin@zte.com.cn>
-Cc: Yang Yang <yang.yang29@zte.com.cn>
-Cc: Yang Guang <yang.guang5@zte.com.cn>
----
-v1->v2
-fixes according to
-https://lore.kernel.org/all/20240517172639229ec5bN7VBV7SGEHkSK5K6f@zte.com.cn/
-1.fix the compile warning
-2.change description.
- Documentation/networking/ip-sysctl.rst                 |  6 ++++++
- .../networking/net_cachelines/netns_ipv4_sysctl.rst    |  1 +
- include/net/netns/ipv4.h                               |  1 +
- include/uapi/linux/sysctl.h                            |  1 +
- net/ipv4/icmp.c                                        | 10 ++++++++++
- net/ipv4/sysctl_net_ipv4.c                             |  9 +++++++++
- 6 files changed, 28 insertions(+)
+It makes no sense to call these functions with NULL pointers, if you do
+so, it's a mistake by the caller. If it's used by some other part of the
+ele driver that should be coded properly.
 
-diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-index bd50df6a5a42..41eb3de61659 100644
---- a/Documentation/networking/ip-sysctl.rst
-+++ b/Documentation/networking/ip-sysctl.rst
-@@ -1441,6 +1441,12 @@ icmp_ratelimit - INTEGER
+> > > +
+> > > +	memset(s_info, 0x0, sizeof(*s_info));
+> > > +
+> > > +	if (priv->mem_pool_name)
+> > > +		get_info_data =3D get_phy_buf_mem_pool(dev,
+> > > +						     priv->mem_pool_name,
+> > > +						     &get_info_addr,
+> > > +						     ELE_GET_INFO_BUFF_SZ);
+> > > +	else
+> > > +		get_info_data =3D dmam_alloc_coherent(dev,
+> > > +						    ELE_GET_INFO_BUFF_SZ,
+> > > +						    &get_info_addr,
+> > > +						    GFP_KERNEL);
+> >=20
+> > It's better style to move the init of the dma memory into the probe
+> > function.
+>=20
+> It is not DMA init. It is DMA allocation.
 
- 	Default: 1000
+It's better style to move the allocation of the dma memory into the
+probe function.
 
-+icmp_timestamp_ignore_all - BOOLEAN
-+	If set non-zero, then the kernel will ignore all ICMP TIMESTAMP
-+	requests sent to it.
-+
-+	Default: 0
-+
- icmp_msgs_per_sec - INTEGER
- 	Limit maximal number of ICMP packets sent per second from this host.
- 	Only messages whose type matches icmp_ratemask (see below) are
-diff --git a/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst b/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
-index 9b87089a84c6..ed72f67c8f72 100644
---- a/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
-+++ b/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
-@@ -38,6 +38,7 @@ u8                              sysctl_icmp_ignore_bogus_error_responses
- u8                              sysctl_icmp_errors_use_inbound_ifaddr                                                
- int                             sysctl_icmp_ratelimit                                                                
- int                             sysctl_icmp_ratemask                                                                 
-+u8                              sysctl_icmp_timestamp_ignore_all
- u32                             ip_rt_min_pmtu                               -                   -                   
- int                             ip_rt_mtu_expires                            -                   -                   
- int                             ip_rt_min_advmss                             -                   -                   
-diff --git a/include/net/netns/ipv4.h b/include/net/netns/ipv4.h
-index c356c458b340..7364c469e7eb 100644
---- a/include/net/netns/ipv4.h
-+++ b/include/net/netns/ipv4.h
-@@ -113,6 +113,7 @@ struct netns_ipv4 {
- 	u8 sysctl_icmp_echo_ignore_broadcasts;
- 	u8 sysctl_icmp_ignore_bogus_error_responses;
- 	u8 sysctl_icmp_errors_use_inbound_ifaddr;
-+	u8 sysctl_icmp_timestamp_ignore_all;
- 	int sysctl_icmp_ratelimit;
- 	int sysctl_icmp_ratemask;
 
-diff --git a/include/uapi/linux/sysctl.h b/include/uapi/linux/sysctl.h
-index 8981f00204db..ef8640947f4e 100644
---- a/include/uapi/linux/sysctl.h
-+++ b/include/uapi/linux/sysctl.h
-@@ -426,6 +426,7 @@ enum
- 	NET_TCP_ALLOWED_CONG_CONTROL=123,
- 	NET_TCP_MAX_SSTHRESH=124,
- 	NET_TCP_FRTO_RESPONSE=125,
-+	NET_IPV4_ICMP_TIMESTAMP_IGNORE_ALL = 126,
- };
+[...]
 
- enum {
-diff --git a/net/ipv4/icmp.c b/net/ipv4/icmp.c
-index ab6d0d98dbc3..2047ca62b44e 100644
---- a/net/ipv4/icmp.c
-+++ b/net/ipv4/icmp.c
-@@ -1152,6 +1152,13 @@ EXPORT_SYMBOL_GPL(icmp_build_probe);
- static enum skb_drop_reason icmp_timestamp(struct sk_buff *skb)
- {
- 	struct icmp_bxm icmp_param;
-+	struct net *net;
-+
-+	net = dev_net(skb_dst(skb)->dev);
-+
-+	if (READ_ONCE(net->ipv4.sysctl_icmp_timestamp_ignore_all))
-+		return SKB_NOT_DROPPED_YET;
-+
- 	/*
- 	 *	Too short.
- 	 */
-@@ -1469,6 +1476,9 @@ static int __net_init icmp_sk_init(struct net *net)
- 	net->ipv4.sysctl_icmp_echo_enable_probe = 0;
- 	net->ipv4.sysctl_icmp_echo_ignore_broadcasts = 1;
+> > > +	priv->rx_msg =3D rx_msg;
+> > > +	ret =3D imx_ele_msg_send_rcv(priv, tx_msg);
+> >=20
+> > This API looks strange, why put the tx_msg as a parameter the rx_msg
+> > into the private struct?
+>=20
+> The rx_msg is the populated in the interrupt context. Hence, it kept
+> as part of private structure; which is in-turn associated with
+> mbox_client.
 
-+	/* Control parameters for TIMESTAMP replies. */
-+	net->ipv4.sysctl_icmp_timestamp_ignore_all = 0;
-+
- 	/* Control parameter - ignore bogus broadcast responses? */
- 	net->ipv4.sysctl_icmp_ignore_bogus_error_responses = 1;
+These are implementation details, it just feels strange to pass one
+parameter via an arguments and put the other in the private pointer.
 
-diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
-index 162a0a3b6ba5..b002426c3d9c 100644
---- a/net/ipv4/sysctl_net_ipv4.c
-+++ b/net/ipv4/sysctl_net_ipv4.c
-@@ -651,6 +651,15 @@ static struct ctl_table ipv4_net_table[] = {
- 		.mode		= 0644,
- 		.proc_handler	= ipv4_ping_group_range,
- 	},
-+	{
-+		.procname	= "icmp_timestamp_ignore_all",
-+		.data		= &init_net.ipv4.sysctl_icmp_timestamp_ignore_all,
-+		.maxlen		= sizeof(u8),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dou8vec_minmax,
-+		.extra1		= SYSCTL_ZERO,
-+		.extra2		= SYSCTL_ONE
-+	},
- #ifdef CONFIG_NET_L3_MASTER_DEV
- 	{
- 		.procname	= "raw_l3mdev_accept",
--- 
-2.25.1
+> Though, in v2 moving the rx_msg setting to imx_ele_msg_send_rcv(priv,
+> tx_msg, rx_msg);
+
+fine
+
+[...]
+
+> > > +	if (status !=3D priv->success_tag) {
+> > > +		dev_err(dev, "Command Id[%d], Response Failure =3D 0x%x",
+> > > +			ELE_GET_INFO_REQ, status);
+> > > +		ret =3D -1;
+> > > +	}
+> > > +
+> > > +	s_info->imem_state =3D (get_info_data[ELE_IMEM_STATE_WORD]
+> > > +				& ELE_IMEM_STATE_MASK) >> 16;
+> >=20
+> > can you use a struct for get_info_data and use FIELD_GET() (if needed)
+>=20
+> Re-write the structure soc_info, matching the information provided in
+> response to this api.
+
+Looks better. Please compile the driver and check with "pahole" that the
+layout of these structures doesn't contain any unwanted padding.
+Otherwise add "__packed" and if you can guarantee "__aligned(4)".
+
+> struct dev_info {
+>         uint8_t  cmd;
+>         uint8_t  ver;
+>         uint16_t length;
+>         uint16_t soc_id;
+>         uint16_t soc_rev;
+>         uint16_t lmda_val;
+>         uint8_t  ssm_state;
+>         uint8_t  dev_atts_api_ver;
+>         uint8_t  uid[MAX_UID_SIZE];
+>         uint8_t  sha_rom_patch[DEV_GETINFO_ROM_PATCH_SHA_SZ];
+>         uint8_t  sha_fw[DEV_GETINFO_FW_SHA_SZ];
+> };
+>=20
+> struct dev_addn_info {
+>         uint8_t  oem_srkh[DEV_GETINFO_OEM_SRKH_SZ];
+>         uint8_t  trng_state;
+>         uint8_t  csal_state;
+>         uint8_t  imem_state;
+>         uint8_t  reserved2;
+> };
+>=20
+> struct soc_info {
+>         struct dev_info d_info;
+>         struct dev_addn_info d_addn_info;
+> };
+
+[...]
+
+> > > +int imx_ele_msg_send(struct se_if_priv *priv, void *mssg)
+> > > +{
+> > > +	bool is_cmd_lock_tobe_taken =3D false;
+> > > +	int err;
+> > > +
+> > > +	if (!priv->waiting_rsp_dev || priv->no_dev_ctx_used) {
+> > > +		is_cmd_lock_tobe_taken =3D true;
+> > > +		mutex_lock(&priv->se_if_cmd_lock);
+> > > +	}
+> > > +	scoped_guard(mutex, &priv->se_if_lock);
+> > > +
+> > > +	err =3D mbox_send_message(priv->tx_chan, mssg);
+> > > +	if (err < 0) {
+> > > +		dev_err(priv->dev, "Error: mbox_send_message failure.\n");
+> > > +		if (is_cmd_lock_tobe_taken)
+> > > +			mutex_unlock(&priv->se_if_cmd_lock);
+> >=20
+> > Only dropping the lock in case of failure doesn't look right to me.
+>=20
+> The callers of this function, takes the execution flow to aborting the
+> operation on getting return code < 0. No next action is expected under
+> this aborted operation. Unlocking the lock here is not an issue
+>=20
+> > It seems you should better move the lock to the callers of this functio=
+n.
+>
+> Accepted, and moved to the caller of the function for:
+>    - locking
+>    - unlocking in case of error.
+>=20
+> Unlocking in the read API, once response is successfully received and
+> read.
+
+A better design would be: imx_ele_msg_rcv() imx_ele_msg_send() are
+expected to be called locked. Add lockdep_assert_held() to these
+function to document/check this.
+
+The callers of imx_ele_msg_rcv() and imx_ele_msg_send() have to take
+care of the locking.
+
+[...]
+
+> > > +static const struct imx_se_node_info_list imx8ulp_info =3D {
+> > > +	.num_mu =3D 1,
+> > > +	.soc_id =3D SOC_ID_OF_IMX8ULP,
+> > > +	.info =3D {
+> > > +			{
+> > > +				.se_if_id =3D 2,
+> > > +				.se_if_did =3D 7,
+> > > +				.max_dev_ctx =3D 4,
+> > > +				.cmd_tag =3D 0x17,
+> > > +				.rsp_tag =3D 0xe1,
+> > > +				.success_tag =3D 0xd6,
+> > > +				.base_api_ver =3D MESSAGING_VERSION_6,
+> > > +				.fw_api_ver =3D MESSAGING_VERSION_7,
+> > > +				.se_name =3D "hsm1",
+> > > +				.mbox_tx_name =3D "tx",
+> > > +				.mbox_rx_name =3D "rx",
+> > > +				.pool_name =3D "sram",
+> > > +				.fw_name_in_rfs =3D IMX_ELE_FW_DIR\
+> >                                                                 ^
+> >                                                            not needed
+>=20
+> It is needed for i.MX8ULP, dual FW support.
+
+The backslash is not needed.
+
+>=20
+> > > +						  "mx8ulpa2ext-ahab- container.img",
+>=20
+>=20
+> > > +				.soc_register =3D true,
+> > > +				.reserved_dma_ranges =3D true,
+> > > +				.imem_mgmt =3D true,
+> > > +			},
+> > > +	},
+> > > +};
+> > > +
+> > > +static const struct imx_se_node_info_list imx93_info =3D {
+> > > +	.num_mu =3D 1,
+> > > +	.soc_id =3D SOC_ID_OF_IMX93,
+> > > +	.info =3D {
+> > > +			{
+> > > +				.se_if_id =3D 2,
+> > > +				.se_if_did =3D 3,
+> > > +				.max_dev_ctx =3D 4,
+> > > +				.cmd_tag =3D 0x17,
+> > > +				.rsp_tag =3D 0xe1,
+> > > +				.success_tag =3D 0xd6,
+> > > +				.base_api_ver =3D MESSAGING_VERSION_6,
+> > > +				.fw_api_ver =3D MESSAGING_VERSION_7,
+> > > +				.se_name =3D "hsm1",
+> > > +				.mbox_tx_name =3D "tx",
+> > > +				.mbox_rx_name =3D "rx",
+> > > +				.reserved_dma_ranges =3D true,
+> > > +				.imem_mgmt =3D true,
+> > > +				.soc_register =3D true,
+> > > +			},
+> > > +	},
+> >=20
+> >=20
+> > Some (most?) members of these structs are the same. Why do you have this
+> > abstraction if it's not needed right now?
+>
+> It is needed as the values is different for different NXP SoC
+> compatible. It will be needed for NXP i.MX95 platform, whose code will
+> be next in pipeline.
+
+How does the imx95 .info look like?
+
+[...]
+
+> > > +static int imx_fetch_soc_info(struct device *dev)
+> > > +{
+> > > +	struct se_if_priv *priv =3D dev_get_drvdata(dev);
+> > > +	struct imx_se_node_info_list *info_list;
+> > > +	const struct imx_se_node_info *info;
+> > > +	struct soc_device_attribute *attr;
+> > > +	struct soc_device *sdev;
+> > > +	struct soc_info s_info;
+> > > +	int err =3D 0;
+> > > +
+> > > +	info =3D priv->info;
+> > > +	info_list =3D (struct imx_se_node_info_list *)
+> > > +				device_get_match_data(dev->parent);
+> >=20
+> > I think cast is not needed.
+>
+> It returns memory reference with const attribute. SoC revision member
+> of 'info_list', is required to be updated. Thus type casted.
+
+Have you considered that this memory is marked as const for a reason?
+It's const, you cannot change it. Place any values that have to changed
+into your priv.
+
+> > > +	if (info_list->soc_rev)
+> > > +		return err;
+> >=20
+> > What does this check do? You'll only get data you put in the info_list
+> > in the first place.
+
+> info_list->soc_rev, is equal to zero for the first call to this
+> function. To return from this function if this function is already
+> executed.
+
+This looks wrong, see above.
+
+> > > +	err =3D ele_get_info(dev, &s_info);
+> > > +	if (err)
+> > > +		s_info.major_ver =3D DEFAULT_IMX_SOC_VER;
+> >=20
+> > Why continue here in case of error?
+>
+> To continue with SoC registration for the default values (without
+> fetching information from ELE).
+
+Have you tested the driver that it will work, if this fails?
+
+> > > +
+> > > +	info_list->soc_rev =3D s_info.soc_rev;
+> > > +
+> > > +	if (!info->soc_register)
+> > > +		return 0;
+> > > +
+> > > +	attr =3D devm_kzalloc(dev, sizeof(*attr), GFP_KERNEL);
+> > > +	if (!attr)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	if (s_info.minor_ver)
+> > > +		attr->revision =3D devm_kasprintf(dev, GFP_KERNEL, "%x.%x",
+> > > +					   s_info.major_ver,
+> > > +					   s_info.minor_ver);
+> > > +	else
+> > > +		attr->revision =3D devm_kasprintf(dev, GFP_KERNEL, "%x",
+> > > +					   s_info.major_ver);
+> > > +
+> > > +	switch (s_info.soc_id) {
+> > > +	case SOC_ID_OF_IMX8ULP:
+> > > +		attr->soc_id =3D devm_kasprintf(dev, GFP_KERNEL,
+> > > +					      "i.MX8ULP");
+> > > +		break;
+> > > +	case SOC_ID_OF_IMX93:
+> > > +		attr->soc_id =3D devm_kasprintf(dev, GFP_KERNEL,
+> > > +					      "i.MX93");
+> > > +		break;
+> > > +	}
+> > > +
+> > > +	err =3D of_property_read_string(of_root, "model",
+> > > +				      &attr->machine);
+> > > +	if (err) {
+> > > +		devm_kfree(dev, attr);
+> >=20
+> > Why do you do a manual cleanup of devm managed resources? Same applies
+> > to the other devm managed resources, too.
+> >=20
+> Used devm managed memory, as this function is called as part probe.
+> Post device registration, this devm managed memory is un-necessarily
+> blocked. It is better to release it as part of clean-up, under this
+> function only.
+
+Why do you allocate the memory with devm in the first place, if it's not
+needed after probe?
+
+> Other devm managed memory clean-up, under se_probe_cleanup, will be
+> removed, as suggested.
+
+regards,
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde          |
+Embedded Linux                   | https://www.pengutronix.de |
+Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
+
+--dvuxbbj5nymmnkgy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEUEC6huC2BN0pvD5fKDiiPnotvG8FAmZLLbEACgkQKDiiPnot
+vG+SOgf/YGBZgMjP3BeqAQYz56cPSTV61/SRUZP4EvHDzma8EH83xkVAElGkxUzy
+7yZeHijx/zqnSfe2IR5/dwTPJWXGxBPLms7psmBogYitZd3WnX4P/fgTI78ah3qC
+IO+3kt231mk5aHnOI8o3hbZeMRlUPbdLqRzl300zsZeGPy8PlsC5F3jj5pXKfkQU
+K/7N4IOajyIrsiAkWiaJxcfBvQFoPW5VA1zveDxDZvPp1uoz80xzeSSsEYWCt/zh
+WkNdyIfPw3IMXYgrirubuy9HZF1zJimFPYvTJqbx5+6bEgfU6peTwPr/NBXNaLu3
+907OtaYVSrtwVTtax03Wn9LeOLLjOw==
+=vcYe
+-----END PGP SIGNATURE-----
+
+--dvuxbbj5nymmnkgy--
