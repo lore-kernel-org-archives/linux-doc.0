@@ -1,134 +1,280 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F16754917
-	for <linux-doc@vger.kernel.org>; Tue, 21 May 2024 08:57:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9450D47A7C;
+	Tue, 21 May 2024 09:21:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716281831; cv=none; b=A0H3vsYeLJrmjQZWMHExpQFq9rz4Gf1X2c1Hrwq1qMGeUnIj1dnrmUaL4gjA+l4nA08a1RkfXbzNzazNMLoznpMWNYB3HJ9Ifvv6mJccgpMK8EI3TmGNub7t8bM36cZBHpvEw+aSSfaxsSPWCXNSZ7Lv20Qm6PWukP2ujFDIGIs=
+	t=1716283295; cv=none; b=a3H+l6p4SzcFUClz9tumWq98Jk9Sm8bICOXtawGotd1CCnfNPFz+BNGy8lmc9ZqS+rOaLJygR4fqjLahwFF9Wtj3uEJwh7DweT16U05onozUFjXo6hPN1Q4P+bbzMPuv7jVUx1JBsHw6Iu4scMsx3wW1m3HJR1mg/Q+gLdo6g1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716281831; c=relaxed/simple;
-	bh=96o9obeoQkHYpLRCBMLnAK6l7ExdwIHoAc5SDeX+7SE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=AmHvwkh2NtfQQDqsC1lmI4w9n9/01xqU/0AK25QwAUq4+HDcmuEunROP+pKDbVyqfgir8mhuoW/OLW3ddtyu03HNrVp55ARZoi+hE4NuLFt6WbNLMze3rSHZFyjnX/hdCPeqk61HOVvus8reHJ3XyYnLfmfVbYcQh6wKYX+g4RQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fg5IzGox; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1716283295; c=relaxed/simple;
+	bh=b9/Tim9UjsTQ/Ly7qH+LkANsbWjkWuDa/ghrNqz0c68=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=acY1amqv1ST8Rp11Jp9IM3HhWVwJrEsR2Mc+r17YP/12ad2IgqpijclKxeHRqKIsuxh8gBbY+RIGTtLnIdkzvFvwI9VmHiieKdLR6LpPvrw79anu06J8kK+SB9AY4AYmEdKopFkuzDxLF6vjT7ksjdi11fmKvE2HPKSK+/I7D40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=kZwEtK84; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=kZwEtK84; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fg5IzGox"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1716281828;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="kZwEtK84";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="kZwEtK84"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DC0C134632;
+	Tue, 21 May 2024 09:21:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1716283291; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=96o9obeoQkHYpLRCBMLnAK6l7ExdwIHoAc5SDeX+7SE=;
-	b=fg5IzGoxFwu3/t5Qde5OPXADkl9h5gus0GR/iXfXTX6V9JyulLMc4w+r8fKvLsx2qZO8wi
-	dR8Wq5KJj8YA6ssHerlREsNd8U+CKjGe0k5I6Cdum0Pvris0kQsGd9VvVNFAQ+qeqm0XE8
-	TE0oE4eON5TdwcGOODXFDQekwRQIETc=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-593-DW73w1IdPDCLPamFyNI--Q-1; Tue, 21 May 2024 04:57:06 -0400
-X-MC-Unique: DW73w1IdPDCLPamFyNI--Q-1
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-3502c5c5501so1535815f8f.1
-        for <linux-doc@vger.kernel.org>; Tue, 21 May 2024 01:57:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716281826; x=1716886626;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=96o9obeoQkHYpLRCBMLnAK6l7ExdwIHoAc5SDeX+7SE=;
-        b=HFv4RT1bBEizWdzop5no/4Nu9IvFo3PLWr0fER2JglRc/Azye5IWRswM85+UzM1mMi
-         UEsLptq4cT5jZjJ/HeX/h2aQfCkwEPC/11+zfJ+qXliBPevgKY4rpv5rMYrrRG+isXDn
-         IZQyeEG+hIpvqdE+Eg+LdttyGWGjTrP9br1XFlBQ1TMErz0Trw04C9mobaIC8hy8Alec
-         YAiZCC/jgZIfJri2u1CkOBHEraj+R98AKiMRVsrS85Xl0o7or7yvdkOKj5cpIAVKa+Bo
-         xw1K5xnEDDHzmepF3uxwdArK2BJVakboGerqpb+LGV8tI4TXpSw9XfGi8aT/IuA9ZWUY
-         omWw==
-X-Forwarded-Encrypted: i=1; AJvYcCVRWSZd4VdGXx8PlCb4P57c+VOzs+OVIohVWpnS5m4CfcEfxTDNFXbGmLXED/oxRyrEZZzv5cxRE79ktwjGbxhjIcsurhTYj34T
-X-Gm-Message-State: AOJu0YxBzUzs+dbeoUmygvi6sTvzDzHDRUckK8raBLieuLVR7Wx3rF2y
-	m5bNkYzZ8CueN5jykUhNKWuYhY9/1oXnvXrCJZULY9Z72TOQlhXVgIkk1/kE1EO2YEwLGWmb8ux
-	k6XeRIln5iTasbU5E6USZ8xz/Pqk7UFNI2cVGG4ZrnUwRIL3+kOflG5zw0g==
-X-Received: by 2002:a05:6000:184f:b0:354:c5d5:295b with SMTP id ffacd0b85a97d-354c5d52d27mr4428053f8f.2.1716281825744;
-        Tue, 21 May 2024 01:57:05 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFsz1FhOM8YDELlCkwmAYcps89RSC94PODvwAMsFgcN0WkXjNlPFg7VwuBZHz9FlMXNCu6e8A==
-X-Received: by 2002:a05:6000:184f:b0:354:c5d5:295b with SMTP id ffacd0b85a97d-354c5d52d27mr4428028f8f.2.1716281825250;
-        Tue, 21 May 2024 01:57:05 -0700 (PDT)
-Received: from gerbillo.redhat.com ([2a0d:3341:b094:ab10:29ae:cdc:4db4:a22a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3502b79bc3bsm31329449f8f.13.2024.05.21.01.57.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 May 2024 01:57:04 -0700 (PDT)
-Message-ID: <664d3f4f3a743315903d56a89317c19edada92a2.camel@redhat.com>
-Subject: Re: [PATCH net-next v2] icmp: Add icmp_timestamp_ignore_all to
- control ICMP_TIMESTAMP
-From: Paolo Abeni <pabeni@redhat.com>
-To: ye.xingchen@zte.com.cn, davem@davemloft.net
-Cc: edumazet@google.com, kuba@kernel.org, corbet@lwn.net,
- dsahern@kernel.org,  ncardwell@google.com, soheil@google.com,
- haiyangz@microsoft.com,  lixiaoyan@google.com, mfreemon@cloudflare.com,
- david.laight@aculab.com,  netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- fan.yu9@zte.com.cn, he.peilin@zte.com.cn, xu.xin16@zte.com.cn, 
- yang.yang29@zte.com.cn, yang.guang5@zte.com.cn, zhang.yunkai@zte.com.cn
-Date: Tue, 21 May 2024 10:57:02 +0200
-In-Reply-To: <20240520165335899feIJEvG6iuT4f7FBU6ctk@zte.com.cn>
-References: <20240520165335899feIJEvG6iuT4f7FBU6ctk@zte.com.cn>
-Autocrypt: addr=pabeni@redhat.com; prefer-encrypt=mutual; keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.4 (3.50.4-1.fc39) 
+	 in-reply-to:in-reply-to:references:references;
+	bh=M71L2bSoBNtqG+SVJil6QJgye81u3ko4WdjXqhOELEM=;
+	b=kZwEtK84QrpZg2iSi1TYEcvAyxWELlaaewrMlLIc3ljcOamatu00lwUgDEvf++P0xuL6c+
+	et+YXWKxgmG4ubpJ5BoU/7GXEQ0zUv1EmQhsnjpXNPK9OWeLWqNJSoZNJEu4sszsKqUtWk
+	kUCAS+ddEURSaPIVEoDK7c/tHZPmeII=
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1716283291; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=M71L2bSoBNtqG+SVJil6QJgye81u3ko4WdjXqhOELEM=;
+	b=kZwEtK84QrpZg2iSi1TYEcvAyxWELlaaewrMlLIc3ljcOamatu00lwUgDEvf++P0xuL6c+
+	et+YXWKxgmG4ubpJ5BoU/7GXEQ0zUv1EmQhsnjpXNPK9OWeLWqNJSoZNJEu4sszsKqUtWk
+	kUCAS+ddEURSaPIVEoDK7c/tHZPmeII=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CC57613A7A;
+	Tue, 21 May 2024 09:21:31 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id WOzAMZtnTGaZYgAAD6G6ig
+	(envelope-from <mkoutny@suse.com>); Tue, 21 May 2024 09:21:31 +0000
+From: =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>
+To: cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Cc: Tejun Heo <tj@kernel.org>,
+	Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>,
+	Muhammad Usama Anjum <usama.anjum@collabora.com>
+Subject: [PATCH v5 3/5] cgroup/pids: Add pids.events.local
+Date: Tue, 21 May 2024 11:21:28 +0200
+Message-ID: <20240521092130.7883-4-mkoutny@suse.com>
+X-Mailer: git-send-email 2.44.0
+In-Reply-To: <20240521092130.7883-1-mkoutny@suse.com>
+References: <20240521092130.7883-1-mkoutny@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -3.30
+X-Spam-Level: 
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RL6j1h7wxugqfdyj8pnx7tibp9)];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo]
 
-On Mon, 2024-05-20 at 16:53 +0800, ye.xingchen@zte.com.cn wrote:
-> From: YeXingchen <ye.xingchen@zte.com.cn>
->=20
-> The CVE-1999-0524 vulnerability is associated with ICMP
-> timestamp messages, which can be exploited to conduct=20
-> a denial-of-service (DoS) attack. In the Vulnerability
-> Priority Rating (VPR) system, this vulnerability was=20
-> rated as a medium risk in May of this year.
-> Link:https://www.tenable.com/plugins/nessus/10113
->=20
-> To protect embedded systems that cannot run firewalls
-> from attacks exploiting the CVE-1999-0524 vulnerability,
-> the icmp_timestamp_ignore_all sysctl is offered as=20
-> an easy solution, which allows all ICMP timestamp
-> messages to be ignored, effectively bypassing the=20
-> potential exploitation through the CVE-1999-0524=20
-> vulnerability. It enables these resource-constrained
-> systems to disregard all ICMP timestamp messages,
-> preventing potential DoS attacks, making it an ideal
-> lightweight solution for such environments.
->=20
-> Signed-off-by: YeXingchen <ye.xingchen@zte.com.cn>
-> Reviewed-by: xu xin <xu.xin16@zte.com.cn>
-> Reviewed-by: zhang yunkai <zhang.yunkai@zte.com.cn>
-> Reviewed-by: Fan Yu <fan.yu9@zte.com.cn>
-> CC: he peilin <he.peilin@zte.com.cn>
-> Cc: Yang Yang <yang.yang29@zte.com.cn>
-> Cc: Yang Guang <yang.guang5@zte.com.cn>
+Hierarchical counting of events is not practical for watching when a
+particular pids.max is being hit. Therefore introduce .local flavor of
+events file (akin to memory controller) that collects only events
+relevant to given cgroup.
 
-## Form letter - net-next-closed
+The file is only added to the default hierarchy.
 
-The merge window for v6.10 has begun and we have already posted our
-pull
-request. Therefore net-next is closed for new drivers, features, code
-refactoring and optimizations. We are currently accepting bug fixes
-only.
+Signed-off-by: Michal Koutný <mkoutny@suse.com>
+---
+ Documentation/admin-guide/cgroup-v2.rst |  5 ++
+ kernel/cgroup/pids.c                    | 89 ++++++++++++++++++++-----
+ 2 files changed, 76 insertions(+), 18 deletions(-)
 
-Please repost when net-next reopens after May 26th.
-
-RFC patches sent for review only are obviously welcome at any time.
-
-See:
-https://www.kernel.org/doc/html/next/process/maintainer-netdev.html#develop=
-ment-cycle
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 0b5f77104e8b..782656dcf38b 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -2211,6 +2211,11 @@ PID Interface Files
+ 		The number of times the cgroup's total number of processes hit the pids.max
+ 		limit (see also pids_localevents).
+ 
++  pids.events.local
++	Similar to pids.events but the fields in the file are local
++	to the cgroup i.e. not hierarchical. The file modified event
++	generated on this file reflects only the local events.
++
+ Organisational operations are not blocked by cgroup policies, so it is
+ possible to have pids.current > pids.max.  This can be done by either
+ setting the limit to be smaller than pids.current, or attaching enough
+diff --git a/kernel/cgroup/pids.c b/kernel/cgroup/pids.c
+index c09b744d548c..f5cb0ec45b9d 100644
+--- a/kernel/cgroup/pids.c
++++ b/kernel/cgroup/pids.c
+@@ -57,10 +57,12 @@ struct pids_cgroup {
+ 	atomic64_t			limit;
+ 	int64_t				watermark;
+ 
+-	/* Handle for "pids.events" */
++	/* Handles for pids.events[.local] */
+ 	struct cgroup_file		events_file;
++	struct cgroup_file		events_local_file;
+ 
+ 	atomic64_t			events[NR_PIDCG_EVENTS];
++	atomic64_t			events_local[NR_PIDCG_EVENTS];
+ };
+ 
+ static struct pids_cgroup *css_pids(struct cgroup_subsys_state *css)
+@@ -244,21 +246,23 @@ static void pids_event(struct pids_cgroup *pids_forking,
+ 	struct pids_cgroup *p = pids_forking;
+ 	bool limit = false;
+ 
+-	for (; parent_pids(p); p = parent_pids(p)) {
+-		/* Only log the first time limit is hit. */
+-		if (atomic64_inc_return(&p->events[PIDCG_FORKFAIL]) == 1) {
+-			pr_info("cgroup: fork rejected by pids controller in ");
+-			pr_cont_cgroup_path(p->css.cgroup);
+-			pr_cont("\n");
+-		}
+-		cgroup_file_notify(&p->events_file);
+-
+-		if (!cgroup_subsys_on_dfl(pids_cgrp_subsys) ||
+-		    cgrp_dfl_root.flags & CGRP_ROOT_PIDS_LOCAL_EVENTS)
+-			break;
++	/* Only log the first time limit is hit. */
++	if (atomic64_inc_return(&p->events_local[PIDCG_FORKFAIL]) == 1) {
++		pr_info("cgroup: fork rejected by pids controller in ");
++		pr_cont_cgroup_path(p->css.cgroup);
++		pr_cont("\n");
++	}
++	cgroup_file_notify(&p->events_local_file);
++	if (!cgroup_subsys_on_dfl(pids_cgrp_subsys) ||
++	    cgrp_dfl_root.flags & CGRP_ROOT_PIDS_LOCAL_EVENTS)
++		return;
+ 
+-		if (p == pids_over_limit)
++	for (; parent_pids(p); p = parent_pids(p)) {
++		if (p == pids_over_limit) {
+ 			limit = true;
++			atomic64_inc(&p->events_local[PIDCG_MAX]);
++			cgroup_file_notify(&p->events_local_file);
++		}
+ 		if (limit)
+ 			atomic64_inc(&p->events[PIDCG_MAX]);
+ 
+@@ -368,20 +372,68 @@ static s64 pids_peak_read(struct cgroup_subsys_state *css,
+ 	return READ_ONCE(pids->watermark);
+ }
+ 
+-static int pids_events_show(struct seq_file *sf, void *v)
++static int __pids_events_show(struct seq_file *sf, bool local)
+ {
+ 	struct pids_cgroup *pids = css_pids(seq_css(sf));
+ 	enum pidcg_event pe = PIDCG_MAX;
++	atomic64_t *events;
+ 
+ 	if (!cgroup_subsys_on_dfl(pids_cgrp_subsys) ||
+-	    cgrp_dfl_root.flags & CGRP_ROOT_PIDS_LOCAL_EVENTS)
++	    cgrp_dfl_root.flags & CGRP_ROOT_PIDS_LOCAL_EVENTS) {
+ 		pe = PIDCG_FORKFAIL;
++		local = true;
++	}
++	events = local ? pids->events_local : pids->events;
+ 
+-	seq_printf(sf, "max %lld\n", (s64)atomic64_read(&pids->events[pe]));
++	seq_printf(sf, "max %lld\n", (s64)atomic64_read(&events[pe]));
++	return 0;
++}
++
++static int pids_events_show(struct seq_file *sf, void *v)
++{
++	__pids_events_show(sf, false);
++	return 0;
++}
++
++static int pids_events_local_show(struct seq_file *sf, void *v)
++{
++	__pids_events_show(sf, true);
+ 	return 0;
+ }
+ 
+ static struct cftype pids_files[] = {
++	{
++		.name = "max",
++		.write = pids_max_write,
++		.seq_show = pids_max_show,
++		.flags = CFTYPE_NOT_ON_ROOT,
++	},
++	{
++		.name = "current",
++		.read_s64 = pids_current_read,
++		.flags = CFTYPE_NOT_ON_ROOT,
++	},
++	{
++		.name = "peak",
++		.flags = CFTYPE_NOT_ON_ROOT,
++		.read_s64 = pids_peak_read,
++	},
++	{
++		.name = "events",
++		.seq_show = pids_events_show,
++		.file_offset = offsetof(struct pids_cgroup, events_file),
++		.flags = CFTYPE_NOT_ON_ROOT,
++	},
++	{
++		.name = "events.local",
++		.seq_show = pids_events_local_show,
++		.file_offset = offsetof(struct pids_cgroup, events_local_file),
++		.flags = CFTYPE_NOT_ON_ROOT,
++	},
++	{ }	/* terminate */
++};
++
++static struct cftype pids_files_legacy[] = {
+ 	{
+ 		.name = "max",
+ 		.write = pids_max_write,
+@@ -407,6 +459,7 @@ static struct cftype pids_files[] = {
+ 	{ }	/* terminate */
+ };
+ 
++
+ struct cgroup_subsys pids_cgrp_subsys = {
+ 	.css_alloc	= pids_css_alloc,
+ 	.css_free	= pids_css_free,
+@@ -415,7 +468,7 @@ struct cgroup_subsys pids_cgrp_subsys = {
+ 	.can_fork	= pids_can_fork,
+ 	.cancel_fork	= pids_cancel_fork,
+ 	.release	= pids_release,
+-	.legacy_cftypes	= pids_files,
++	.legacy_cftypes = pids_files_legacy,
+ 	.dfl_cftypes	= pids_files,
+ 	.threaded	= true,
+ };
+-- 
+2.44.0
 
