@@ -1,181 +1,217 @@
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA08E78C80
-	for <linux-doc@vger.kernel.org>; Tue, 21 May 2024 13:08:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4AD130A54;
+	Tue, 21 May 2024 14:58:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716296897; cv=none; b=VDTbFa3dpaW9buB9SicDrEWCCNFHkRaRB6H7/+xQUcmp3HDyptGKkjWH6nOQw50VrBSfsijysAErSN9GzrUWi79vP8nE62kiykd0BObN4VPXyMW+i+l/dRWwzXv6/n0KQc8DgYsDSOdmlB0is76Myfvs45roMsNyKTYL2SEsQHw=
+	t=1716303508; cv=none; b=dtDL5id5Gs/yl85HFfzXQzi3r/FsUJYrUCt88Qb0gBex02UfPAFCkqXct/qQIu4+VmXM2X04mfoKHf1bPnHCcwO/0sBL/AXFNCgenfCMnvErQ0eneoapjBMAZtQZAeAZArDvUIoAKW4Qel2D4XDBG5zyHYfEQCXJBKB6e7lClqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716296897; c=relaxed/simple;
-	bh=w4IzJBQom6e/eg+5ubWFpWqhEhfye03AL1iiFU9y0lM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:In-Reply-To:
-	 Content-Type:References; b=HzOF3qpxjl6a+SCPmPJN8GPlhtIm8k27nQ1uZOJzqIh4twDTAUHtn7Z1kRWx901G28X+jvx42q7Iiu72ylmHcuxUIn+I8oeXtycfkt9pb/a32Oa23ozP1L1UdTci4t0PcJNITgZBf648EBstZoOZqg01QGvW668oX37xXMoflac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=doeRCQVb; arc=none smtp.client-ip=203.254.224.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1716303508; c=relaxed/simple;
+	bh=Uiscs0U341tdEUrH05/ILKU4Gt6KpnkNj6+JQX2v6Wg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=og8n/RoDpRvqSssvLlC4+E0hKDML/29w9jgsaztouFSKmtNZpymvLkwsnIUHGm0VeX8wjTzzPhG7B98IPlhniRzpNRDmbrJmusBCqQMVcUrtFeqGhz5Sw8ey5j7OGFJqQRF7nZ1VhnHRtcy93q2AWak4o2qqVgC/nz5kPTKqfdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I4TCcxKG; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="doeRCQVb"
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20240521130814epoutp010720524ae00bc5d681d969e38198bef3~Rgu6Mx19R1952319523epoutp01P
-	for <linux-doc@vger.kernel.org>; Tue, 21 May 2024 13:08:14 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20240521130814epoutp010720524ae00bc5d681d969e38198bef3~Rgu6Mx19R1952319523epoutp01P
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1716296894;
-	bh=CUX2VqrjfI/EEDqyZU4uVkkHPh5azdlSMuCxpIfmh70=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=doeRCQVbnOIa2lzDpkAPTeARfiVfov5TkfHQYT5U8PQlcv79cBywDooEV3FKi7dUr
-	 CKyrhdn7KnfZsgCKbGhDkxkMJaIy1ezXABEkOLqxIC/+HsnCCkY0CFK0fDmvzsFfC/
-	 cL1kkhZt5GrA5PQhw484fri4pwPCf03SGCHiBcgA=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-	20240521130813epcas5p4f33cd571cfdf2daa8ee1663f270202e2~Rgu5nUAr31546115461epcas5p4o;
-	Tue, 21 May 2024 13:08:13 +0000 (GMT)
-Received: from epsmges5p1new.samsung.com (unknown [182.195.38.178]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4VkF9R4XwQz4x9Pv; Tue, 21 May
-	2024 13:08:11 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	94.0C.09666.BBC9C466; Tue, 21 May 2024 22:08:11 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20240521113644epcas5p49bfa818b6040f17bad23f24e303ad269~RffB5Asan0500905009epcas5p4Q;
-	Tue, 21 May 2024 11:36:44 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240521113644epsmtrp264154696bb143f8efc50b183487f8be0~RffB3y50X0882408824epsmtrp20;
-	Tue, 21 May 2024 11:36:44 +0000 (GMT)
-X-AuditID: b6c32a49-f53fa700000025c2-46-664c9cbb21d8
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	66.AF.08390.C478C466; Tue, 21 May 2024 20:36:44 +0900 (KST)
-Received: from green245 (unknown [107.99.41.245]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20240521113640epsmtip2581da03f3a550f38dd151415706754e9~Rfe_OwQgG1086110861epsmtip2B;
-	Tue, 21 May 2024 11:36:40 +0000 (GMT)
-Date: Tue, 21 May 2024 16:59:42 +0530
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
-	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka
-	<mpatocka@redhat.com>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
-	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
-	<kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
-	Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	martin.petersen@oracle.com, bvanassche@acm.org, david@fromorbit.com,
-	damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
-	nitheshshetty@gmail.com, gost.dev@samsung.com, Vincent Fu
-	<vincent.fu@samsung.com>, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v20 04/12] block: add emulation for copy
-Message-ID: <20240521112942.f23aael3qehi4gww@green245>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I4TCcxKG"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-354cd8da8b9so1090785f8f.0;
+        Tue, 21 May 2024 07:58:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716303505; x=1716908305; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uCP0JX7AzC1ediVXRIfcPiizg+qYKlRX3WKBJgSjoaY=;
+        b=I4TCcxKGN4kx7h2tQNsaBNI9/W5l403RWVw4ZFfQOKzolLxhFWQZ9qpniyor7lR/TD
+         o4sLo7zYwuVeStKoY971v6WAavxXK2vM0xjdGReVCBHTtl89gR5iJgOeDW/e75q0sgYq
+         pg2zvplK766s0cb+m3AcYBxPqhwdjnKtwbu7uZdtY8LY6hUiAwULT1KyctiVcdXzYnpA
+         pe6EnpOnaD5G+eVkHR6XdikrSYWZiKZu5j4xk/KAJCYisAJ8lVFsmqcta9aAGB/FsDb0
+         /ab7Oj/R2jesKl8G5GM2yxjp477Sz0Dx4B2M0xdBGKjp5+axo9ndb1rJSPeRsZlZVfV4
+         KbvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716303505; x=1716908305;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=uCP0JX7AzC1ediVXRIfcPiizg+qYKlRX3WKBJgSjoaY=;
+        b=CAumdYeG+kUX8OVsM9NKpxlO6hd71BCz18Ma/gf4MrnbXeI+cYUxQj6BIJdJYX1iy8
+         JMyuYFQIcsD46oXoUwvf233H8NPzOqycAJISOat1C8vEzOes2AeIsXnAIojXDwTs0MIT
+         RUCioW4K5y/mCg3GdsxS4BPpPc6D9XjSKuNEbcaPYgyj9pu2+FEmXtNP+3iC13n4m0qJ
+         V3xlek2/hClqhOQiqeqAAFAvmRAyzieiYXr7Te9giKlvQOSWXJzEyAV3kGHLRgOgzlMY
+         lAnW3saL/HhUwjV76fPvZlMQAxlbq6SWheDWqGailo+xoSPsN+FNC2imSMjblWfR8tsB
+         Ia0g==
+X-Forwarded-Encrypted: i=1; AJvYcCVdljxvLqnEazuk28DnKyCpuQ1YfI36WsIuSE/s9yZdAS+qOvW7aUMahcaTQ/BLMCzbxqnUJygWOynALCYoLBlo3Pg1GK7r2Kb6Q1sGzsZgyAtz4hk8q/XLhpyO86kG05ScCw+xZ0lj
+X-Gm-Message-State: AOJu0YzaA5mMuyiGcSVD2dDTXht0KM57m64j0mSaUI/BP+ETeiSKTA/o
+	slvc/HulFxpX5JvmzQPK+oYVK6LNMhn/Zv/mcX9cK9+HIBWaPpPaQfX0OGbUr+KbdyNcH/8NYo1
+	K2x1Yxn4hYxuRR4w0A12pfz89UOM=
+X-Google-Smtp-Source: AGHT+IEhTPHhWH44XdUrjqpD9flq+8cQ79/myMXTedt2Biaf1H6BFKDKRWN+fCSUNcRVJ9zwxcBWyP2bsbyLtcnWSoQ=
+X-Received: by 2002:adf:f60d:0:b0:34d:aaca:2f6f with SMTP id
+ ffacd0b85a97d-3504aa667e9mr19890043f8f.69.1716303504810; Tue, 21 May 2024
+ 07:58:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <cf6929e1-0dea-4216-bbc5-c00d963372f7@suse.de>
-User-Agent: NeoMutt/20171215
-X-Brightmail-Tracker: H4sIAAAAAAAAA01TezBcZxT33bvuLtOVazE+guimnUTEYxO2n9SjUya9Bo2ZzLQNTXWH6zHW
-	7nbXIzE19ah6ZKzH5mUjraiWoMQjSjyarghWlVRIV0oy8RhliEeSFrWptWTy3+/8vt/vnPOd
-	M4eFc5qZ1qwYUTwtFQmEXMKY0dzl4ODUVhIY6VqwZIvq1HdxlF6wiaPq8XwCzXetAHRxaQ1H
-	U7ezANoYGMRR090JgErLrjKQ5nYrhtrLijB0vbobQ1cuZWCo++UCgYpUowBNjygx1DHmiK59
-	U85A7R19DDR8q4RA3/04zUQVPVoMFWaPYKhlKg2g2vmnDNQ7thdNnssGaHCzx/A9G2r4fgCl
-	LoNUq3KcSQ1O1DOo4YEEqqEqh6Aay7+iZhuLAdWmSSWo7+UKQyovY5GgWjMfGVLL02MM6mnn
-	CEHJm6oA9VvpHWawWUisZzQtiKCl9rQoXBwRI4ry4gacDPMNc+e78px4Hugdrr1IEEd7cf0C
-	g52Oxwi3JsS1TxQIE7aoYIFMxnXx9pSKE+Jp+2ixLN6LS0sihBI3ibNMECdLEEU5i+j4YzxX
-	1yPuW8LPY6OfKRS4ZIU8s/ZMwUgFV0xygRELkm7wz5liIhcYszhkG4DrqfWYPlgB8OHQBtCp
-	OOQLAFtnXznU5y7uiDoAfNQ4sBPMAPjTrAbTqRjk2zC3P5uZC1gsgnSE/S9ZOtqc5MLlLBVT
-	p8fJ3wmoqWjarmBGekJtxZNtzCb5UK44z9RjU9hXPMXQ5TEi34XDqx/qaAvSBl7+4TmuywPJ
-	CSNYsdBJ6Lvzg/eqd7EZnOtpYuqxNVxd7Njhk+D185WE3vw1gMoHSqB/8IGZ6nxch3EyGs6u
-	lOJ63hZeUNdiet4E5m1MYXqeDVu+3cX7YU1d6U4BKzj6TxqhaxqSFCysCdUPaBHA2aJsZgHY
-	p3ztb8rXyunxMZizlG6o3LLj5F5YoWXpoQOsu+VSCgyrgBUtkcVF0TJ3CU9EJ71aeLg4rgFs
-	H9Ah/xYw/njJWQUwFlAByMK55uyGJv9IDjtCcDaZlorDpAlCWqYC7lu7KsStLcLFWxcoig/j
-	uXm4uvH5fDePo3we15I9n3k1gkNGCeLpWJqW0NJdH8Yysk7FYo7u37zz5OSnv9jUlsRqQrRx
-	gkitKvig7VJe/yXtvsS1DxbfsGIP7UkKlf83Y/AgJsgxXzqigZV2g6PPB1bvvdnnNff3xycs
-	T7mY/So+m2LCyfGWj5oW35BXlR/2+cLloLzd0umvwMqaM1KxhVGEMcuA/yWOi5M37dZH/MW8
-	zy505uKJ5ZM32el7hKcOzI5HfTLeHNrX2UPdNAsJTgujsxcyFadfaPqvLXdYdJ1Qd8OaoAPF
-	FaNqXpbv4Q1nk8eqI3O8P9LzMjhFgpSw6p/HeydTmEGJ7cLkaFdT7Ud19x8OuXfHWq//62Pg
-	m1Ps5w3fUklu9HofL7ftqw+wu/y++emBIi5DFi3gHcKlMsH/dMWR5MkEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrOIsWRmVeSWpSXmKPExsWy7bCSvK5Pu0+awYxf6hbrTx1jtmia8JfZ
-	YvXdfjaL14c/MVpM+/CT2eLJgXZGi99nzzNbbDl2j9FiwaK5LBY3D+xkstizaBKTxcrVR5ks
-	Zk9vZrI4+v8tm8WkQ9cYLZ5encVksfeWtsXCtiUsFnv2nmSxuLxrDpvF/GVP2S2WH//HZDGx
-	4yqTxY4njYwW616/Z7E4cUva4nF3B6PF+b/HWR1kPC5f8fY4tUjCY+esu+we5+9tZPG4fLbU
-	Y9OqTjaPzUvqPV5snsnosftmA5vH4r7JrB69ze/YPHa23mf1+Pj0FovH+31X2Tz6tqxi9Diz
-	4Ah7gHAUl01Kak5mWWqRvl0CV8aUxq/sBUv4Kg5tKG9gfM7dxcjJISFgInGqexpTFyMXh5DA
-	bkaJVVc/sEAkJCWW/T3CDGELS6z895wdougJo8T0V2vYQRIsAqoSXac7gGwODjYBbYnT/zlA
-	wiICShIf2w+B1TMLXGKTWL5wN9ggYQEbiX/LHzGC2LwCZhJ9k6dADX3HKNF8ZjsrREJQ4uTM
-	J2BXMAMVzdv8kBlkAbOAtMTyfxwgJqeAtcTlz34gFaICMhIzln5lnsAoOAtJ8ywkzbMQmhcw
-	Mq9ilEwtKM5Nzy02LDDKSy3XK07MLS7NS9dLzs/dxAhOG1paOxj3rPqgd4iRiYPxEKMEB7OS
-	CO+mLZ5pQrwpiZVVqUX58UWlOanFhxilOViUxHm/ve5NERJITyxJzU5NLUgtgskycXBKNTCV
-	+51k8X2sq169+fjktuiPcRIfOu96K9Qejnr0yG+ZI9/N1MgDEtcXXXApTZmxs+7TV36RzyGz
-	Q0L+BE+I/NIzaa6Au3GGSNTich6Lg1Pedl5dJTx9p8yLXD33niC5Dz+Tsy1DytvK9bpsdr/f
-	0KClNanQNMt6f47bn9kb9TyFJogU+M0q+DCl8cH5w20vWVMjUzTXr616qFPZ3+8YZF6p+NKW
-	v2HeZv5lxVOYGZSdfWsfB1Uanjy29ULul2fzIysFE0x4mNbN2lbTXfLBefHz2Yf1A4Qfzw7c
-	1bR8aVWJTVv20/Ul8mkLb8S9mPmHjXP6J042xrozYXv/X8zSjHtX4PxEdpml8lwt39+H05VY
-	ijMSDbWYi4oTAVGa+qWKAwAA
-X-CMS-MailID: 20240521113644epcas5p49bfa818b6040f17bad23f24e303ad269
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_159f3_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240520102906epcas5p15b5a0b3c8edd0bf3073030a792a328bb
-References: <20240520102033.9361-1-nj.shetty@samsung.com>
-	<CGME20240520102906epcas5p15b5a0b3c8edd0bf3073030a792a328bb@epcas5p1.samsung.com>
-	<20240520102033.9361-5-nj.shetty@samsung.com>
-	<cf6929e1-0dea-4216-bbc5-c00d963372f7@suse.de>
+References: <20240516174357.26755-1-jim.cromie@gmail.com> <20240516174357.26755-20-jim.cromie@gmail.com>
+ <CALwA+NYNPfpyM8ZH3L-fbrqSpzKw61gZU+u_uxP6tjnFe7UJ-w@mail.gmail.com>
+In-Reply-To: <CALwA+NYNPfpyM8ZH3L-fbrqSpzKw61gZU+u_uxP6tjnFe7UJ-w@mail.gmail.com>
+From: jim.cromie@gmail.com
+Date: Tue, 21 May 2024 08:57:57 -0600
+Message-ID: <CAJfuBxyMBh-1BQMqgXj1GBZ=pwbFK3PuBhRDzM7DNd4ML2hSzw@mail.gmail.com>
+Subject: Re: [PATCH v8-RESEND 19/33] dyndbg-doc: add classmap info to howto
+To: =?UTF-8?Q?=C5=81ukasz_Bartosik?= <ukaszb@chromium.org>
+Cc: jbaron@akamai.com, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, linux@rasmusvillemoes.dk, joe@perches.com, 
+	mcgrof@kernel.org, daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com, 
+	jani.nikula@intel.com, ville.syrjala@linux.intel.com, seanpaul@chromium.org, 
+	robdclark@gmail.com, groeck@google.com, yanivt@google.com, bleung@google.com, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-------atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_159f3_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
-
-On 21/05/24 09:06AM, Hannes Reinecke wrote:
->On 5/20/24 12:20, Nitesh Shetty wrote:
->>For the devices which does not support copy, copy emulation is added.
->>It is required for in-kernel users like fabrics, where file descriptor is
->>not available and hence they can't use copy_file_range.
->>Copy-emulation is implemented by reading from source into memory and
->>writing to the corresponding destination.
->>At present in kernel user of emulation is fabrics.
->>
->>Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
->>Signed-off-by: Vincent Fu <vincent.fu@samsung.com>
->>Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
->>---
->>  block/blk-lib.c        | 223 +++++++++++++++++++++++++++++++++++++++++
->>  include/linux/blkdev.h |   4 +
->>  2 files changed, 227 insertions(+)
->>
->Again, I'm not sure if we need this.
->After all, copy offload _is_optional, so we need to be prepared to 
->handle systems where it's not supported. In the end, the caller might
->decide to do something else entirely; having an in-kernel emulation 
->would defeat that.
->And with adding an emulation to nullblk we already have an emulation
->target to try if people will want to start experimenting.
->So I'd rather not have this but rather let the caller deal with the
->fact that copy offload is optional.
+On Tue, May 21, 2024 at 5:57=E2=80=AFAM =C5=81ukasz Bartosik <ukaszb@chromi=
+um.org> wrote:
 >
-Unlike previous iteration, blkdev_copy_offload doesn't fallback to emulation
-incase offload fails.
-This is one more option caller/user can leverage, if for some reason
-device copy offload is not supported/optimal.
-It is upto to the caller to decide, if it wants to use copy emulation.
-Moreover we found this is very useful for fabrics scenario, where this saves
-the network bandwidth, by sending offload over the network rather than
-read+write(when target doesn't support offload).
+> On Thu, May 16, 2024 at 7:45=E2=80=AFPM Jim Cromie <jim.cromie@gmail.com>=
+ wrote:
+> >
+> > Describe the 3 API macros providing dynamic_debug's classmaps
+> >
+> > DYNDBG_CLASSMAP_DEFINE - create, exports a module's classmap
+>
+> create, exports a module's classmap - > creates and exports a module's cl=
+assmap
 
-Thank you
-Nitesh Shetty
+I was going for an imperative "thou shalt" voice,
+rather than a descriptive/passive voice
+since its an API, and thou shalt use it "this way"
+( s/creates/create/ if so)
 
-------atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_159f3_
-Content-Type: text/plain; charset="utf-8"
+Do we / linux-doc  have a preference in this regard ?
 
 
-------atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_159f3_--
+
+
+>
+> > DYNDBG_CLASSMAP_USE    - refer to exported map
+>
+> DYNDBG_CLASSMAP_USE - refers to exported map
+>
+> > DYNDBG_CLASSMAP_PARAM  - bind control param to the classmap
+>
+> bind -> binds
+>
+> > DYNDBG_CLASSMAP_PARAM_REF + use module's storage - __drm_debug
+> >
+>
+> + use module's storage - __drm_debug -> - uses module's storage (for
+> example __drm_debug)
+>
+> > cc: linux-doc@vger.kernel.org
+> > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+> > ---
+> > v5 adjustments per Randy Dunlap
+> > v7 checkpatch fixes
+> > v8 more
+> > ---
+> >  .../admin-guide/dynamic-debug-howto.rst       | 63 ++++++++++++++++++-
+> >  1 file changed, 62 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Docume=
+ntation/admin-guide/dynamic-debug-howto.rst
+> > index 6a8ce5a34382..742eb4230c6e 100644
+> > --- a/Documentation/admin-guide/dynamic-debug-howto.rst
+> > +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+> > @@ -225,7 +225,6 @@ the ``p`` flag has meaning, other flags are ignored=
+.
+> >  Note the regexp ``^[-+=3D][fslmpt_]+$`` matches a flags specification.
+> >  To clear all flags at once, use ``=3D_`` or ``-fslmpt``.
+> >
+> > -
+> >  Debug messages during Boot Process
+> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >
+> > @@ -375,3 +374,65 @@ just a shortcut for ``print_hex_dump(KERN_DEBUG)``=
+.
+> >  For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format stri=
+ng is
+> >  its ``prefix_str`` argument, if it is constant string; or ``hexdump``
+> >  in case ``prefix_str`` is built dynamically.
+> > +
+> > +Dynamic Debug classmaps
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +Dyndbg allows selection/grouping of *prdbg* callsites using structural
+> > +info: module, file, function, line.  Classmaps allow authors to add
+> > +their own domain-oriented groupings using class-names.  Classmaps are
+> > +exported, so they referencable from other modules.
+>
+> Typo referencable -> are referenceable
+>
+>
+>
+> > +
+> > +  # enable classes individually
+> > +  :#> ddcmd class DRM_UT_CORE +p
+> > +  :#> ddcmd class DRM_UT_KMS +p
+> > +  # or more selectively
+> > +  :#> ddcmd class DRM_UT_CORE module drm +p
+> > +
+> > +The "class FOO" syntax protects class'd prdbgs from generic overwrite:=
+:
+> > +
+> > +  # IOW this doesn't wipe any DRM.debug settings
+> > +  :#> ddcmd -p
+> > +
+> > +To support the DRM.debug parameter, DYNDBG_CLASSMAP_PARAM* updates all
+> > +classes in a classmap, mapping param-bits 0..N onto the classes:
+> > +DRM_UT_<*> for the DRM use-case.
+> > +
+> > +Dynamic Debug Classmap API
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> > +
+> > +DYNDBG_CLASSMAP_DEFINE - modules use this to create classmaps, naming
+> > +each of the classes (stringified enum-symbols: "DRM_UT_<*>"), and
+> > +type, and mapping the class-names to consecutive _class_ids.
+> > +
+> > +By doing so, modules tell dyndbg that they have prdbgs with those
+> > +class_ids, and they authorize dyndbg to accept "class FOO" for the
+> > +module defining the classmap, and its contained classnames.
+> > +
+> > +DYNDBG_CLASSMAP_USE - drm drivers invoke this to ref the CLASSMAP that
+> > +drm DEFINEs.  This shares the classmap definition, and authorizes
+> > +dyndbg to apply changes to the user module's class'd pr_debugs.  It
+> > +also tells dyndbg how to initialize the user's prdbgs at modprobe,
+> > +based upon the current setting of the parent's controlling param.
+> > +
+> > +There are 2 types of classmaps:
+> > +
+> > + DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like DRM.debug
+> > + DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
+> > +
+> > +DYNDBG_CLASSMAP_PARAM - modelled after module_param_cb, it refers to a
+> > +DEFINEd classmap, and associates it to the param's data-store.  This
+> > +state is then applied to DEFINEr and USEr modules when they're modprob=
+ed.
+> > +
+> > +This interface also enforces the DD_CLASS_TYPE_LEVEL_NUM relation
+> > +amongst the contained classnames; all classes are independent in the
+> > +control parser itself.
+> > +
+> > +Modules or module-groups (drm & drivers) can define multiple
+> > +classmaps, as long as they share the limited 0..62 per-module-group
+> > +_class_id range, without overlap.
+> > +
+> > +``#define DEBUG`` will enable all pr_debugs in scope, including any
+> > +class'd ones.  This won't be reflected in the PARAM readback value,
+> > +but the class'd pr_debug callsites can be forced off by toggling the
+> > +classmap-kparam all-on then all-off.
+> > --
+> > 2.45.0
+> >
