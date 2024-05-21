@@ -1,48 +1,65 @@
-Received: from 009.lax.mailroute.net (009.lax.mailroute.net [199.89.1.12])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549663B182;
-	Mon, 20 May 2024 23:43:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2B983D6A
+	for <linux-doc@vger.kernel.org>; Tue, 21 May 2024 00:32:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716248595; cv=none; b=VKQLpVSV9gSnNfW+aAQb2XgmtkafvY+mr+BEPTbQxg46Y0MI4y2qewJxJdoQjEIAS7dcQEHscjLHEtw2XieJSP1/q8q9luA8w5s5+z5ogT+jMiQMEww1gKFreOox6VW+J0uB2Pc5+cnpvlJPZeBZcj4Iu6xMH/qaL6zK7xPTqzk=
+	t=1716251575; cv=none; b=X88JaIJtzIy+LdUPu1fUgvavpfzVNzVJquwrztDV2P7zvqe4jw3te+WVs025X2VCOw4q7dprawXMSHnOd/B1rdspQWOfcmsiYzb9e6iUF7Bh27fJZxtS/riOJ2k3rAEq83wTNoYUX2szaV5rSYUKtfMPb5Znrz45/WblSplWNi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716248595; c=relaxed/simple;
-	bh=XI0ilmooLeYwpmsoKJHHHdPY4156763P5d8LFnYqgoo=;
+	s=arc-20240116; t=1716251575; c=relaxed/simple;
+	bh=fJOiTk/iNpIQGDBT8ov2FCIPhgk6zXZQNw1RaFJJ0Rk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YV/NB7vKtQD28boJSeSxTupHMFg3v4Gd+o4tt7yCSmZGawTGg28MQZfvUGHLsjBSJFT5DrqjwpYPP6qrZnF5P589pdbljl0NcuSTt62MlqzjXa/7BL5NbiXsQeorPOCYAPEBb+Bsf+8IZUKozNv5oAhET6rhkE/M98yYmxlFgG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=kCzSBQht; arc=none smtp.client-ip=199.89.1.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
+	 In-Reply-To:Content-Type; b=L4P9mhIoA9W+sIAWhSl0ajRFWg5BxhiH2zDVhqO1c3oc0R2cotQ306dCirMjTeWHYt3+FrDUdn9JcFP43tRtR+e8oJ+46w6JxJTPCHKK3oRwRWcIRBmB7dwioBopI70E4vMhwnC4+3Al/VurrXD20Lw8c2jYQbneThKAWlpM5FY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KTJjHaxp; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="kCzSBQht"
-Received: from localhost (localhost [127.0.0.1])
-	by 009.lax.mailroute.net (Postfix) with ESMTP id 4VjvJd4CZRzlgT1M;
-	Mon, 20 May 2024 23:43:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1716248582; x=1718840583; bh=OyFlC0B3t3C3QPALfJEi8R8r
-	d3f1cHbIyvzodAAs6QI=; b=kCzSBQhtvR/gwexX/OBMgW8+9uPM2XLI1Io3VPXA
-	ExEWQOuBhyfGPlN9tKDNhM1K5E9x0eL/9Ri9AdYtHgjzysrJytIcu7gSGlYMqkC1
-	Ca0Br0owVaLiVVu/FpxEEeojwBG57vo0FCdc3OsdSmOf3dbvEfYzJI+8HE3qe1mY
-	vWMZfvF/OU5X5BG4RLWTW0ODrCRsLtIGJvzZdTxgA+cC1AMYouzEw6foDJqXDpTK
-	uX+zra2D0UtQsL7OjinTTCVPnMzbGsRgtbIkhkpB3RbRPFifE6E+Yyl7LBzNEdmL
-	zV5OOA6ldYfH80zPuAQxjF6hg/HtlnLKdM/Dhm7yFWNcsw==
-X-Virus-Scanned: by MailRoute
-Received: from 009.lax.mailroute.net ([127.0.0.1])
- by localhost (009.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id EgVMztfS5ec5; Mon, 20 May 2024 23:43:02 +0000 (UTC)
-Received: from [100.96.154.26] (unknown [104.132.0.90])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 009.lax.mailroute.net (Postfix) with ESMTPSA id 4VjvJH2Hf4zlgT1K;
-	Mon, 20 May 2024 23:42:54 +0000 (UTC)
-Message-ID: <2433bc0d-3867-475d-b472-0f6725f9a296@acm.org>
-Date: Mon, 20 May 2024 16:42:52 -0700
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KTJjHaxp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1716251572;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wcLWECU84oFD1HOiYc28B9aeY6hAeWxqTdSGNd9MPRM=;
+	b=KTJjHaxpFbPcQqOZYhEEY4HQu41jEjBQYn8v2tTNw3YvjtaoT4xWfbOq0ZbuxI5/VvaX0m
+	wkTISLfdgRXSF8fSvURpr89UuMVHN8SuRec/DqReCATF139c8hzwpEHayDp/QBa+kMASg7
+	1tKVvadZqpdHOW86drWAf3DXV0+T18Y=
+Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com
+ [209.85.161.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-622-7qzFVwShPeOKS14KX4CBCA-1; Mon, 20 May 2024 20:32:50 -0400
+X-MC-Unique: 7qzFVwShPeOKS14KX4CBCA-1
+Received: by mail-oo1-f71.google.com with SMTP id 006d021491bc7-5b2bc2bd85dso10155598eaf.2
+        for <linux-doc@vger.kernel.org>; Mon, 20 May 2024 17:32:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716251570; x=1716856370;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wcLWECU84oFD1HOiYc28B9aeY6hAeWxqTdSGNd9MPRM=;
+        b=fbX6DLRh7k+XUY54SxFtZJZtu374XQApE7Wu0jwjxoVpH9w8aaljOBpfcog+0cBdbz
+         EjBJJmLM8abkoUwwhjIKpj1t6Rm9m3SLyv53X6WTe5yHwaAQID8XHTiZ6dhdiu8nBAN0
+         29qc7JscQzu6WcpzLLZizTewm9go/xYtYsBi0JnltB0cXYFIM/ed/od8XmpWUfmFXooL
+         8YlZId3xPX8YcDCROL9YISWyoAcxUMejiVgTeUfiJ/gzVq0gWT6aj0mndu6F2V0Qy+D6
+         d5m0D3IGPuauBwcSXjPCKTm2iAKQqsczFw+Q+LC8eLu9qCrcmTOW2GMDoYwlho7PSzT1
+         u2Zg==
+X-Forwarded-Encrypted: i=1; AJvYcCVe1m7g8ZYTVLpBDmfDvqHFfQ34ESlMLTX7XOiJwzMSw9cTgitCMdHA4yPkCWGL/SV00UGeE55TZesglD5/Yodp1i7vy9Znw3OH
+X-Gm-Message-State: AOJu0YzqwNmW3E9+fiL+6xrNZS096aW4kxb65+wkmyHXvNRjP7fKVqAi
+	h5bNm++BH0Djj3DvEOXVKaNCBKxf1k62bOj/q4JKOt0HqfUU8VEsDklKgFLCfEgo2S9WLMCyUIM
+	y2zT4heNwd12zgtUU2gpEoUT3C/MtwIdVUGob+bBzzQCGyJeX8PFLHwiKZQ==
+X-Received: by 2002:a05:6358:8005:b0:192:75c4:2ee2 with SMTP id e5c5f4694b2df-193bb2dd2d1mr3145967955d.32.1716251569661;
+        Mon, 20 May 2024 17:32:49 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IETh+Vbu1JPihq8Oq65XxoXIbGLDFNVTlK2XPdjV3Px478h9iyYRKBexSoEeQC/zYwFYuhl2Q==
+X-Received: by 2002:a05:6358:8005:b0:192:75c4:2ee2 with SMTP id e5c5f4694b2df-193bb2dd2d1mr3145966855d.32.1716251569220;
+        Mon, 20 May 2024 17:32:49 -0700 (PDT)
+Received: from [10.72.116.32] ([43.228.180.230])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-660ab682716sm5855077a12.88.2024.05.20.17.32.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 May 2024 17:32:48 -0700 (PDT)
+Message-ID: <5561ff7d-16b3-40e1-b9c4-7327a0dabc05@redhat.com>
+Date: Tue, 21 May 2024 08:32:43 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,119 +67,61 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v20 12/12] null_blk: add support for copy offload
-To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
- Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
- Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: martin.petersen@oracle.com, david@fromorbit.com, hare@suse.de,
- damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
- nitheshshetty@gmail.com, gost.dev@samsung.com,
- Vincent Fu <vincent.fu@samsung.com>, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org
-References: <20240520102033.9361-1-nj.shetty@samsung.com>
- <CGME20240520103039epcas5p4373f7234162a32222ac225b976ae30ce@epcas5p4.samsung.com>
- <20240520102033.9361-13-nj.shetty@samsung.com>
+Subject: Re: [PATCH] doc: ceph: update userspace command to get CephFS
+ metadata
+To: Artem Ikonnikov <artem@datacrunch.io>, linux-doc@vger.kernel.org
+Cc: Ilya Dryomov <idryomov@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ ceph-devel@vger.kernel.org
+References: <ZkkgZlRk+PbFBUOJ@kurwa>
 Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20240520102033.9361-13-nj.shetty@samsung.com>
+From: Xiubo Li <xiubli@redhat.com>
+In-Reply-To: <ZkkgZlRk+PbFBUOJ@kurwa>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 5/20/24 03:20, Nitesh Shetty wrote:
-> +	if (blk_rq_nr_phys_segments(req) != BLK_COPY_MAX_SEGMENTS)
-> +		return status;
 
-Why is this check necessary?
-
-> +	/*
-> +	 * First bio contains information about destination and last bio
-> +	 * contains information about source.
-> +	 */
-
-Please check this at runtime (WARN_ON_ONCE()?).
-
-> +	__rq_for_each_bio(bio, req) {
-> +		if (seg == blk_rq_nr_phys_segments(req)) {
-> +			sector_in = bio->bi_iter.bi_sector;
-> +			if (rem != bio->bi_iter.bi_size)
-> +				return status;
-> +		} else {
-> +			sector_out = bio->bi_iter.bi_sector;
-> +			rem = bio->bi_iter.bi_size;
-> +		}
-> +		seg++;
-> +	}
-
-_rq_for_each_bio() iterates over the bios in a request. Does a copy
-offload request always have two bios - one copy destination bio and
-one copy source bio? If so, is 'seg' a bio counter? Why is that bio
-counter compared with the number of physical segments in the request?
-
-> +	trace_nullb_copy_op(req, sector_out << SECTOR_SHIFT,
-> +			    sector_in << SECTOR_SHIFT, rem);
+On 5/19/24 05:40, Artem Ikonnikov wrote:
+> According to ceph documentation "getfattr -d /some/dir" no longer displays
+> the list of all extended attributes. Both CephFS kernel and FUSE clients
+> hide this information.
+>
+> To retrieve the information you have to specify the particular attribute
+> name e.g. "getfattr -n ceph.dir.rbytes /some/dir"
+>
+> Link: https://docs.ceph.com/en/latest/cephfs/quota/
+> Signed-off-by: Artem Ikonnikov <artem@datacrunch.io>
+> ---
+>   Documentation/filesystems/ceph.rst | 15 +++++++++------
+>   1 file changed, 9 insertions(+), 6 deletions(-)
+>
+> diff --git a/Documentation/filesystems/ceph.rst b/Documentation/filesystems/ceph.rst
+> index 085f309ece60..6d2276a87a5a 100644
+> --- a/Documentation/filesystems/ceph.rst
+> +++ b/Documentation/filesystems/ceph.rst
+> @@ -67,12 +67,15 @@ Snapshot names have two limitations:
+>     more than 255 characters, and `<node-id>` takes 13 characters, the long
+>     snapshot names can take as much as 255 - 1 - 1 - 13 = 240.
+>   
+> -Ceph also provides some recursive accounting on directories for nested
+> -files and bytes.  That is, a 'getfattr -d foo' on any directory in the
+> -system will reveal the total number of nested regular files and
+> -subdirectories, and a summation of all nested file sizes.  This makes
+> -the identification of large disk space consumers relatively quick, as
+> -no 'du' or similar recursive scan of the file system is required.
+> +Ceph also provides some recursive accounting on directories for nested files
+> +and bytes.  You can run the commands::
 > +
-> +	spin_lock_irq(&nullb->lock);
-> +	while (rem > 0) {
-> +		chunk = min_t(size_t, nullb->dev->blocksize, rem);
-> +		offset_in = (sector_in & SECTOR_MASK) << SECTOR_SHIFT;
-> +		offset_out = (sector_out & SECTOR_MASK) << SECTOR_SHIFT;
+> + getfattr -n ceph.dir.rfiles /some/dir
+> + getfattr -n ceph.dir.rbytes /some/dir
 > +
-> +		if (null_cache_active(nullb) && !is_fua)
-> +			null_make_cache_space(nullb, PAGE_SIZE);
-> +
-> +		t_page_in = null_lookup_page(nullb, sector_in, false,
-> +					     !null_cache_active(nullb));
-> +		if (!t_page_in)
-> +			goto err;
-> +		t_page_out = null_insert_page(nullb, sector_out,
-> +					      !null_cache_active(nullb) ||
-> +					      is_fua);
-> +		if (!t_page_out)
-> +			goto err;
-> +
-> +		in = kmap_local_page(t_page_in->page);
-> +		out = kmap_local_page(t_page_out->page);
-> +
-> +		memcpy(out + offset_out, in + offset_in, chunk);
-> +		kunmap_local(out);
-> +		kunmap_local(in);
-> +		__set_bit(sector_out & SECTOR_MASK, t_page_out->bitmap);
-> +
-> +		if (is_fua)
-> +			null_free_sector(nullb, sector_out, true);
-> +
-> +		rem -= chunk;
-> +		sector_in += chunk >> SECTOR_SHIFT;
-> +		sector_out += chunk >> SECTOR_SHIFT;
-> +	}
-> +
-> +	status = 0;
-> +err:
-> +	spin_unlock_irq(&nullb->lock);
+> +to get the total number of nested files and their combined size, respectively.
+> +This makes the identification of large disk space consumers relatively quick,
+> +as no 'du' or similar recursive scan of the file system is required.
+>   
+>   Finally, Ceph also allows quotas to be set on any directory in the system.
+>   The quota can restrict the number of bytes or the number of files stored
 
-In the worst case, how long does this loop disable interrupts?
+LGTM.
 
-> +TRACE_EVENT(nullb_copy_op,
-> +		TP_PROTO(struct request *req,
-> +			 sector_t dst, sector_t src, size_t len),
-> +		TP_ARGS(req, dst, src, len),
-> +		TP_STRUCT__entry(
-> +				 __array(char, disk, DISK_NAME_LEN)
-> +				 __field(enum req_op, op)
-> +				 __field(sector_t, dst)
-> +				 __field(sector_t, src)
-> +				 __field(size_t, len)
-> +		),
+Reviewed-by: Xiubo Li <xiubli@redhat.com>
 
-Isn't __string() preferred over __array() since the former occupies less space
-in the trace buffer?
-
-Thanks,
-
-Bart.
