@@ -1,48 +1,81 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 185486FDC;
-	Tue, 21 May 2024 04:09:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1902D3FB88;
+	Tue, 21 May 2024 06:57:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716264566; cv=none; b=nHYXJHnZpOIxV8N8AHOKQd5ihv1sTNstWiyFcewpZAhnV7/01EZmai6tufD9/Pr6Yh1YxaOCWWEVu7eebAkG7eW2t3BtN8T2ssuQ0/4B7hK3shOu6D6GUjkBiwDTobxQDy3w8u91Vp8MyeRqlR8l9nF3N3INb9wHbD1qtlTJOVk=
+	t=1716274656; cv=none; b=gnT+GLZR6pSL31YmNY3XbVaVThEN5/kzfgvWiQCTlgmnDueYNgw4xcPmJvYOVJRvNME7BSOfJtG5siHgYlX6srR462Svo78a2Q6/6JRTkNgLSRSsnD4kMvB7CymhlC2CAuOfjmU0giEiatpHowTEY3R+DOkuHNPGvkFToUl658Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716264566; c=relaxed/simple;
-	bh=G0RfpzHbQbPEMYGRnyOaBLmaQauY+K1fa3zLkroTKx8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=uO7vJ8DZMeNuEylUkYrI4IrH71pjxBVbNC4siwMDmJZXJeu1AYPCYQA+21GdL8t8/7+aDUZa0714X8K+sO+bSqygbriuOW/RhUVIZX/xMbgziMTnhn/kfipotQho0QQE0yU9K01C2+frCeW751Fy4MiAM50aWo43iEJktMkVrXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=CI+TuwHv; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1716274656; c=relaxed/simple;
+	bh=uJCTwK1ZJDG4yFhgFa/gd6UJfo9t9BAhN3z1/MLqmn4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=i/DfB0HUd0QVQB5esc7D+32VTgshk0r0oeWxBuCRFo8BYcmv0d9AL3id3HU/FiQ/rbWLLM734kIReV9O0VCCoSFXlmlICvK3XwUilDCVhTitjwmPnfNjjzS/1+SNy1KGhQIR2jE2Mf3qyaF2y42IYuKQ+OR0lQ7ETOGqtyR4/us=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RhSq+vUx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CBJTmn70; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RhSq+vUx; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CBJTmn70; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="CI+TuwHv"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44L2aMF2015841;
-	Tue, 21 May 2024 04:08:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	qcppdkim1; bh=iMFmbqJV/ZTR9bccmUFxM94fDgUi8bcxTAUWFmwoJEU=; b=CI
-	+TuwHv8t8B3DjGrwIxloD0ctJVkMYEM2hFEwzVL9gNH2Yoyk2Bk28xiQSxRsyoGz
-	l7f5PC+jkufTedoPNIugVyVRmNnC6/3XzUUXIGwPWWSv4pDXl1zmLmvkTAlPeSqG
-	QhqqaTSM2+LPf/Tu5d/KPDJTO/1ActyDcGrhEf6k5aTTFifvhmGzG6Y0tXyEY+j3
-	IX0TpjrQExH9wFEgYXCYinW7X+hxFRh48zKC+2EqHkNNVNXasanDQyZtf50KJStL
-	sEJmEHqC/YZUx+4BxevxwxdJCOeQwm6zAL/N4iWONovLu994B02cU7bD2ouGwkjV
-	XGTMbkiQTqEZ9klQjUog==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3y6psncsm5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 21 May 2024 04:08:54 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44L48r16026215
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 21 May 2024 04:08:53 GMT
-Received: from [10.110.15.188] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 20 May
- 2024 21:08:52 -0700
-Message-ID: <a944418a-1699-44fa-bdfc-2e57129adea1@quicinc.com>
-Date: Mon, 20 May 2024 21:08:51 -0700
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RhSq+vUx";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CBJTmn70";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RhSq+vUx";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CBJTmn70"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 3B5BF5BF04;
+	Tue, 21 May 2024 06:57:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1716274651; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=j+VwhZlVRGsZQ31AJTk6hbQBR6xrY5AOZol3gKoK0IA=;
+	b=RhSq+vUxOAApsWaToKGak6UHyRBgSUf9H0C0g9k7Fl6ajaqq+QQHNpTOfQwcnVfRh49FHb
+	saNL0fxoKDEzifyoi+nyKZzc06856OedSYAJ19H5rkoXbEbQBNaGdq2q1MhKlYmWndJT6C
+	uGb0+nHIxmQseP4fSB6dl8GgzE2muKc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1716274651;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=j+VwhZlVRGsZQ31AJTk6hbQBR6xrY5AOZol3gKoK0IA=;
+	b=CBJTmn70bf0S5kQZRZoIURJqd5rotcvDLBeunUS5A4o8J700UhdWQZ515Kc7wvcNiq2ohJ
+	iPw3uDtCquvmI1Dg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=RhSq+vUx;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=CBJTmn70
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1716274651; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=j+VwhZlVRGsZQ31AJTk6hbQBR6xrY5AOZol3gKoK0IA=;
+	b=RhSq+vUxOAApsWaToKGak6UHyRBgSUf9H0C0g9k7Fl6ajaqq+QQHNpTOfQwcnVfRh49FHb
+	saNL0fxoKDEzifyoi+nyKZzc06856OedSYAJ19H5rkoXbEbQBNaGdq2q1MhKlYmWndJT6C
+	uGb0+nHIxmQseP4fSB6dl8GgzE2muKc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1716274651;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=j+VwhZlVRGsZQ31AJTk6hbQBR6xrY5AOZol3gKoK0IA=;
+	b=CBJTmn70bf0S5kQZRZoIURJqd5rotcvDLBeunUS5A4o8J700UhdWQZ515Kc7wvcNiq2ohJ
+	iPw3uDtCquvmI1Dg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2B4E713A1E;
+	Tue, 21 May 2024 06:57:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ZimnBdpFTGbsOAAAD6G6ig
+	(envelope-from <hare@suse.de>); Tue, 21 May 2024 06:57:30 +0000
+Message-ID: <b522fbad-ef5c-479b-95e8-1dcfefcbdb02@suse.de>
+Date: Tue, 21 May 2024 08:57:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,85 +83,90 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/7] dt-bindings: remoteproc: qcom,pas: Add hwlocks
-To: Krzysztof Kozlowski <krzk@kernel.org>,
-        Bjorn Andersson
-	<andersson@kernel.org>,
-        Baolin Wang <baolin.wang@linux.alibaba.com>,
-        Peter
- Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
-        Will Deacon
-	<will@kernel.org>, Waiman Long <longman@redhat.com>,
-        Boqun Feng
-	<boqun.feng@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-        Mathieu Poirier
-	<mathieu.poirier@linaro.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof
- Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Konrad Dybcio
-	<konrad.dybcio@linaro.org>
-CC: <linux-remoteproc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>
-References: <20240516-hwspinlock-bust-v1-0-47a90a859238@quicinc.com>
- <20240516-hwspinlock-bust-v1-5-47a90a859238@quicinc.com>
- <3521519f-34b8-472d-be37-f0e64bba24fc@kernel.org>
+Subject: Re: [PATCH v20 01/12] block: Introduce queue limits and sysfs for
+ copy-offload support
 Content-Language: en-US
-From: Chris Lew <quic_clew@quicinc.com>
-In-Reply-To: <3521519f-34b8-472d-be37-f0e64bba24fc@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: lGa-4i3d4YmAMe17lVnHXa2N3V772CGJ
-X-Proofpoint-ORIG-GUID: lGa-4i3d4YmAMe17lVnHXa2N3V772CGJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
- definitions=2024-05-21_02,2024-05-17_03,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- malwarescore=0 bulkscore=0 phishscore=0 impostorscore=0 adultscore=0
- mlxlogscore=999 clxscore=1011 priorityscore=1501 suspectscore=0
- spamscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405010000 definitions=main-2405210031
+To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
+ Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
+ Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Cc: martin.petersen@oracle.com, bvanassche@acm.org, david@fromorbit.com,
+ damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
+ nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org
+References: <20240520102033.9361-1-nj.shetty@samsung.com>
+ <CGME20240520102830epcas5p27274901f3d0c2738c515709890b1dec4@epcas5p2.samsung.com>
+ <20240520102033.9361-2-nj.shetty@samsung.com>
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20240520102033.9361-2-nj.shetty@samsung.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -4.50
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 3B5BF5BF04
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.50 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[27];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[oracle.com,acm.org,fromorbit.com,opensource.wdc.com,samsung.com,gmail.com,vger.kernel.org,lists.linux.dev,lists.infradead.org];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	DKIM_TRACE(0.00)[suse.de:+];
+	R_RATELIMIT(0.00)[to_ip_from(RLghztw5pzjjmtx4kirkcu9cad)];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email]
 
-
-
-On 5/19/2024 10:36 AM, Krzysztof Kozlowski wrote:
-> On 17/05/2024 00:58, Chris Lew wrote:
->> Add hwlocks property to describe the hwspinlock that remoteproc can try
->> to bust on behalf of the remoteproc's smem.
+On 5/20/24 12:20, Nitesh Shetty wrote:
+> Add device limits as sysfs entries,
+> 	- copy_max_bytes (RW)
+> 	- copy_max_hw_bytes (RO)
 > 
-> Sorry, as you wrote, the lock is part of smem, not here. Drivers do not
-> crash, so if your crashes as you imply in the cover letter, then first
-> fix the driver.
->
-
-Hi Krzysztof,
-
-Sorry for the confusion, I dont think I meant that the smem driver will 
-ever crash. The referred to crash in the cover letter is a crash in the 
-firmware running on the remoteproc. The remoteproc could crash for any 
-unexpected reason, related or unrelated to smem, while holding the tcsr 
-mutex. I want to ensure that all resources that a remoteproc might be 
-using are released as part of remoteproc stop.
-
-The SMEM driver manages the lock/unlock operations on the tcsr mutex 
-from the Linux CPU's perspective. This case is for cleaning up from the 
-remote side's perspective.
-
-In this case it's the hwspinlock used to synchronize SMEM, but it's 
-conceivable that firmware running on the remoteproc has additional locks 
-that need to be busted in order for the system to continue executing 
-until the firmware is reinitialized.
-
-We did consider tying this to the SMEM instance, but the entitiy 
-relating to firmware is the remoteproc instance.
-
-> Best regards,
-> Krzysztof
+> Above limits help to split the copy payload in block layer.
+> copy_max_bytes: maximum total length of copy in single payload.
+> copy_max_hw_bytes: Reflects the device supported maximum limit.
 > 
+> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+> Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
+> Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+> ---
+>   Documentation/ABI/stable/sysfs-block | 23 +++++++++++++++
+>   block/blk-settings.c                 | 34 ++++++++++++++++++++--
+>   block/blk-sysfs.c                    | 43 ++++++++++++++++++++++++++++
+>   include/linux/blkdev.h               | 14 +++++++++
+>   4 files changed, 112 insertions(+), 2 deletions(-)
+> 
+Reviewed-by: Hannes Reinecke <hare@suse.de>
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
+
