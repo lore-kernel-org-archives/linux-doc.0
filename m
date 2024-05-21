@@ -1,217 +1,143 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4AD130A54;
-	Tue, 21 May 2024 14:58:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 110527EF1D;
+	Tue, 21 May 2024 15:04:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716303508; cv=none; b=dtDL5id5Gs/yl85HFfzXQzi3r/FsUJYrUCt88Qb0gBex02UfPAFCkqXct/qQIu4+VmXM2X04mfoKHf1bPnHCcwO/0sBL/AXFNCgenfCMnvErQ0eneoapjBMAZtQZAeAZArDvUIoAKW4Qel2D4XDBG5zyHYfEQCXJBKB6e7lClqo=
+	t=1716303849; cv=none; b=mGqJJ9a3brXNLSsFzbzsIGS8LPkDZ6YOqlHfgG2bQ3tt+n8TG3/jR4AZs+FJYqNOKFFjPfE2xqcPVwWtxQKei28toKDuNZYYteEiH2SrpV++37kEpuRv++K+mv6tcXoBA8mxd+wys1EB5iKfCRgEa6ERXrfGiZdNphg5rpdC0Ig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716303508; c=relaxed/simple;
-	bh=Uiscs0U341tdEUrH05/ILKU4Gt6KpnkNj6+JQX2v6Wg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=og8n/RoDpRvqSssvLlC4+E0hKDML/29w9jgsaztouFSKmtNZpymvLkwsnIUHGm0VeX8wjTzzPhG7B98IPlhniRzpNRDmbrJmusBCqQMVcUrtFeqGhz5Sw8ey5j7OGFJqQRF7nZ1VhnHRtcy93q2AWak4o2qqVgC/nz5kPTKqfdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I4TCcxKG; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1716303849; c=relaxed/simple;
+	bh=QH+jxpZJ7+q25EINDFGxXNJP1mlcv08ZKRhlur3HLdU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=krEtOWu0E2cILM6gCgsCr1HRHDoMNztBmiBMTL3K2lVppecBCqoQdrF1maHtuxCbcUKjPfn85QKjF/mUhTLTVpsdiuJ6cm9xzciW/SNAj/0QiCcaXxb3U1AoBYLFmxojyW0v4Vm4MHnWN5Ji1iB9GsXkdN+RbwSmzrIuHgYyunA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VwrDZn7I; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I4TCcxKG"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-354cd8da8b9so1090785f8f.0;
-        Tue, 21 May 2024 07:58:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716303505; x=1716908305; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uCP0JX7AzC1ediVXRIfcPiizg+qYKlRX3WKBJgSjoaY=;
-        b=I4TCcxKGN4kx7h2tQNsaBNI9/W5l403RWVw4ZFfQOKzolLxhFWQZ9qpniyor7lR/TD
-         o4sLo7zYwuVeStKoY971v6WAavxXK2vM0xjdGReVCBHTtl89gR5iJgOeDW/e75q0sgYq
-         pg2zvplK766s0cb+m3AcYBxPqhwdjnKtwbu7uZdtY8LY6hUiAwULT1KyctiVcdXzYnpA
-         pe6EnpOnaD5G+eVkHR6XdikrSYWZiKZu5j4xk/KAJCYisAJ8lVFsmqcta9aAGB/FsDb0
-         /ab7Oj/R2jesKl8G5GM2yxjp477Sz0Dx4B2M0xdBGKjp5+axo9ndb1rJSPeRsZlZVfV4
-         KbvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716303505; x=1716908305;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uCP0JX7AzC1ediVXRIfcPiizg+qYKlRX3WKBJgSjoaY=;
-        b=CAumdYeG+kUX8OVsM9NKpxlO6hd71BCz18Ma/gf4MrnbXeI+cYUxQj6BIJdJYX1iy8
-         JMyuYFQIcsD46oXoUwvf233H8NPzOqycAJISOat1C8vEzOes2AeIsXnAIojXDwTs0MIT
-         RUCioW4K5y/mCg3GdsxS4BPpPc6D9XjSKuNEbcaPYgyj9pu2+FEmXtNP+3iC13n4m0qJ
-         V3xlek2/hClqhOQiqeqAAFAvmRAyzieiYXr7Te9giKlvQOSWXJzEyAV3kGHLRgOgzlMY
-         lAnW3saL/HhUwjV76fPvZlMQAxlbq6SWheDWqGailo+xoSPsN+FNC2imSMjblWfR8tsB
-         Ia0g==
-X-Forwarded-Encrypted: i=1; AJvYcCVdljxvLqnEazuk28DnKyCpuQ1YfI36WsIuSE/s9yZdAS+qOvW7aUMahcaTQ/BLMCzbxqnUJygWOynALCYoLBlo3Pg1GK7r2Kb6Q1sGzsZgyAtz4hk8q/XLhpyO86kG05ScCw+xZ0lj
-X-Gm-Message-State: AOJu0YzaA5mMuyiGcSVD2dDTXht0KM57m64j0mSaUI/BP+ETeiSKTA/o
-	slvc/HulFxpX5JvmzQPK+oYVK6LNMhn/Zv/mcX9cK9+HIBWaPpPaQfX0OGbUr+KbdyNcH/8NYo1
-	K2x1Yxn4hYxuRR4w0A12pfz89UOM=
-X-Google-Smtp-Source: AGHT+IEhTPHhWH44XdUrjqpD9flq+8cQ79/myMXTedt2Biaf1H6BFKDKRWN+fCSUNcRVJ9zwxcBWyP2bsbyLtcnWSoQ=
-X-Received: by 2002:adf:f60d:0:b0:34d:aaca:2f6f with SMTP id
- ffacd0b85a97d-3504aa667e9mr19890043f8f.69.1716303504810; Tue, 21 May 2024
- 07:58:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VwrDZn7I"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716303848; x=1747839848;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=QH+jxpZJ7+q25EINDFGxXNJP1mlcv08ZKRhlur3HLdU=;
+  b=VwrDZn7IxqoRCbNH6t54S+mssjW0xm/0REOgo7ooUQTGp1OBfHf/uHT5
+   OfpaUEgnZRTVvNO8c4cnRTNP7Jw2LjX9Jms+rdjFGO2ZhVtHzR0YWoBiH
+   nDS0/sON1UvG0Pi+Xv9Maxy8ZP6S9nSr8FrEI1vtoBLd9Vui11NUtrMSo
+   uIsOqf5uuI/kccBCxr9cwrgGhd6TGYJSsFg2uU4Kt+4UXkJPhHqqAzNaq
+   8k3g4fTWfZbYvuO/93Ytb2+NulpcTLhWTwVDDwyEACHrh2OlvG5khM0Qr
+   w7oSdM1SANIBajKiKayIYLcivfjQLRp920+eEFoQR+HmJ9yC13a8kvMlK
+   A==;
+X-CSE-ConnectionGUID: BCbNODw7QQqTNufZaSatpQ==
+X-CSE-MsgGUID: Vty5lD6MT0i8Fo9/wXZ9Tw==
+X-IronPort-AV: E=McAfee;i="6600,9927,11078"; a="16343169"
+X-IronPort-AV: E=Sophos;i="6.08,178,1712646000"; 
+   d="scan'208";a="16343169"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2024 08:04:07 -0700
+X-CSE-ConnectionGUID: M2q3kxPiQWuVHkmLFXUSjA==
+X-CSE-MsgGUID: o4ITyljUTQKDVHRYws8yvw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,178,1712646000"; 
+   d="scan'208";a="33369001"
+Received: from rfrazer-mobl3.amr.corp.intel.com (HELO [10.125.109.138]) ([10.125.109.138])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2024 08:04:04 -0700
+Message-ID: <3e67d62d-fe08-4f55-ab5b-ece8a57154f9@linux.intel.com>
+Date: Tue, 21 May 2024 08:43:09 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240516174357.26755-1-jim.cromie@gmail.com> <20240516174357.26755-20-jim.cromie@gmail.com>
- <CALwA+NYNPfpyM8ZH3L-fbrqSpzKw61gZU+u_uxP6tjnFe7UJ-w@mail.gmail.com>
-In-Reply-To: <CALwA+NYNPfpyM8ZH3L-fbrqSpzKw61gZU+u_uxP6tjnFe7UJ-w@mail.gmail.com>
-From: jim.cromie@gmail.com
-Date: Tue, 21 May 2024 08:57:57 -0600
-Message-ID: <CAJfuBxyMBh-1BQMqgXj1GBZ=pwbFK3PuBhRDzM7DNd4ML2hSzw@mail.gmail.com>
-Subject: Re: [PATCH v8-RESEND 19/33] dyndbg-doc: add classmap info to howto
-To: =?UTF-8?Q?=C5=81ukasz_Bartosik?= <ukaszb@chromium.org>
-Cc: jbaron@akamai.com, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, linux@rasmusvillemoes.dk, joe@perches.com, 
-	mcgrof@kernel.org, daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com, 
-	jani.nikula@intel.com, ville.syrjala@linux.intel.com, seanpaul@chromium.org, 
-	robdclark@gmail.com, groeck@google.com, yanivt@google.com, bleung@google.com, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/3] ASoC: soc-pcm: Indicate warning if CPU / Codec
+ availability mismatch
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Banajit Goswami <bgoswami@quicinc.com>,
+ Bard Liao <yung-chuan.liao@linux.intel.com>, Brent Lu <brent.lu@intel.com>,
+ Cezary Rojewski <cezary.rojewski@intel.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Daniel Baluta <daniel.baluta@nxp.com>, Hans de Goede <hdegoede@redhat.com>,
+ Jaroslav Kysela <perex@perex.cz>, Jerome Brunet <jbrunet@baylibre.com>,
+ Jiawei Wang <me@jwang.link>, Jonathan Corbet <corbet@lwn.net>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Maso Huang <maso.huang@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+ Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Shengjiu Wang <shengjiu.wang@gmail.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>,
+ Vinod Koul <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
+ alsa-devel@alsa-project.org, imx@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-sound@vger.kernel.org
+References: <87msole5wc.wl-kuninori.morimoto.gx@renesas.com>
+ <87jzjpe5vh.wl-kuninori.morimoto.gx@renesas.com>
+ <77e9221e-05d2-453f-9ce1-ff4a4b53d09d@linux.intel.com>
+ <87y184cbed.wl-kuninori.morimoto.gx@renesas.com>
+ <7b430ea3-3ce8-4ef9-8440-bac02993f676@linux.intel.com>
+ <875xv8c6dn.wl-kuninori.morimoto.gx@renesas.com>
+Content-Language: en-US
+From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+In-Reply-To: <875xv8c6dn.wl-kuninori.morimoto.gx@renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, May 21, 2024 at 5:57=E2=80=AFAM =C5=81ukasz Bartosik <ukaszb@chromi=
-um.org> wrote:
->
-> On Thu, May 16, 2024 at 7:45=E2=80=AFPM Jim Cromie <jim.cromie@gmail.com>=
- wrote:
-> >
-> > Describe the 3 API macros providing dynamic_debug's classmaps
-> >
-> > DYNDBG_CLASSMAP_DEFINE - create, exports a module's classmap
->
-> create, exports a module's classmap - > creates and exports a module's cl=
-assmap
-
-I was going for an imperative "thou shalt" voice,
-rather than a descriptive/passive voice
-since its an API, and thou shalt use it "this way"
-( s/creates/create/ if so)
-
-Do we / linux-doc  have a preference in this regard ?
 
 
+On 5/20/24 20:15, Kuninori Morimoto wrote:
+> 
+> Hi Pierre-Louis, Mark
+> 
+>> We cannot change the Maxim amplifier driver, it's used in a variety of
+>> usages and platforms, and there's no reason to create a fake capture dai
+>> just to reflect the use of a capture stream on the CPU side on some
+>> Chromebooks.
+> 
+> Why cannot ??
+> There is no effect to user if Maxim driver has full channel setting same as
+> dammy DAI. It will be handled together with CPU, and system gets CPU
+> channels as-is.
 
+That would be changing the meaning and purpose of a 'dummy dai'
 
->
-> > DYNDBG_CLASSMAP_USE    - refer to exported map
->
-> DYNDBG_CLASSMAP_USE - refers to exported map
->
-> > DYNDBG_CLASSMAP_PARAM  - bind control param to the classmap
->
-> bind -> binds
->
-> > DYNDBG_CLASSMAP_PARAM_REF + use module's storage - __drm_debug
-> >
->
-> + use module's storage - __drm_debug -> - uses module's storage (for
-> example __drm_debug)
->
-> > cc: linux-doc@vger.kernel.org
-> > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
-> > ---
-> > v5 adjustments per Randy Dunlap
-> > v7 checkpatch fixes
-> > v8 more
-> > ---
-> >  .../admin-guide/dynamic-debug-howto.rst       | 63 ++++++++++++++++++-
-> >  1 file changed, 62 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Docume=
-ntation/admin-guide/dynamic-debug-howto.rst
-> > index 6a8ce5a34382..742eb4230c6e 100644
-> > --- a/Documentation/admin-guide/dynamic-debug-howto.rst
-> > +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-> > @@ -225,7 +225,6 @@ the ``p`` flag has meaning, other flags are ignored=
-.
-> >  Note the regexp ``^[-+=3D][fslmpt_]+$`` matches a flags specification.
-> >  To clear all flags at once, use ``=3D_`` or ``-fslmpt``.
-> >
-> > -
-> >  Debug messages during Boot Process
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >
-> > @@ -375,3 +374,65 @@ just a shortcut for ``print_hex_dump(KERN_DEBUG)``=
-.
-> >  For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format stri=
-ng is
-> >  its ``prefix_str`` argument, if it is constant string; or ``hexdump``
-> >  in case ``prefix_str`` is built dynamically.
-> > +
-> > +Dynamic Debug classmaps
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +Dyndbg allows selection/grouping of *prdbg* callsites using structural
-> > +info: module, file, function, line.  Classmaps allow authors to add
-> > +their own domain-oriented groupings using class-names.  Classmaps are
-> > +exported, so they referencable from other modules.
->
-> Typo referencable -> are referenceable
->
->
->
-> > +
-> > +  # enable classes individually
-> > +  :#> ddcmd class DRM_UT_CORE +p
-> > +  :#> ddcmd class DRM_UT_KMS +p
-> > +  # or more selectively
-> > +  :#> ddcmd class DRM_UT_CORE module drm +p
-> > +
-> > +The "class FOO" syntax protects class'd prdbgs from generic overwrite:=
-:
-> > +
-> > +  # IOW this doesn't wipe any DRM.debug settings
-> > +  :#> ddcmd -p
-> > +
-> > +To support the DRM.debug parameter, DYNDBG_CLASSMAP_PARAM* updates all
-> > +classes in a classmap, mapping param-bits 0..N onto the classes:
-> > +DRM_UT_<*> for the DRM use-case.
-> > +
-> > +Dynamic Debug Classmap API
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> > +
-> > +DYNDBG_CLASSMAP_DEFINE - modules use this to create classmaps, naming
-> > +each of the classes (stringified enum-symbols: "DRM_UT_<*>"), and
-> > +type, and mapping the class-names to consecutive _class_ids.
-> > +
-> > +By doing so, modules tell dyndbg that they have prdbgs with those
-> > +class_ids, and they authorize dyndbg to accept "class FOO" for the
-> > +module defining the classmap, and its contained classnames.
-> > +
-> > +DYNDBG_CLASSMAP_USE - drm drivers invoke this to ref the CLASSMAP that
-> > +drm DEFINEs.  This shares the classmap definition, and authorizes
-> > +dyndbg to apply changes to the user module's class'd pr_debugs.  It
-> > +also tells dyndbg how to initialize the user's prdbgs at modprobe,
-> > +based upon the current setting of the parent's controlling param.
-> > +
-> > +There are 2 types of classmaps:
-> > +
-> > + DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like DRM.debug
-> > + DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
-> > +
-> > +DYNDBG_CLASSMAP_PARAM - modelled after module_param_cb, it refers to a
-> > +DEFINEd classmap, and associates it to the param's data-store.  This
-> > +state is then applied to DEFINEr and USEr modules when they're modprob=
-ed.
-> > +
-> > +This interface also enforces the DD_CLASS_TYPE_LEVEL_NUM relation
-> > +amongst the contained classnames; all classes are independent in the
-> > +control parser itself.
-> > +
-> > +Modules or module-groups (drm & drivers) can define multiple
-> > +classmaps, as long as they share the limited 0..62 per-module-group
-> > +_class_id range, without overlap.
-> > +
-> > +``#define DEBUG`` will enable all pr_debugs in scope, including any
-> > +class'd ones.  This won't be reflected in the PARAM readback value,
-> > +but the class'd pr_debug callsites can be forced off by toggling the
-> > +classmap-kparam all-on then all-off.
-> > --
-> > 2.45.0
-> >
+A 'dummy dai' has historically been used when data was
+transmitted/received but the control of that DAI was done externally
+with a sideband interface.
+
+Here there is just no hardware for capture in the Maxim amp.
+
+Adding a pretend DAI for the sake of adding a stricter 'sanity check'
+does not sound good to me.
+
+>> I don't disagree that the unconditional use of dpcm_capture isn't very
+>> elegant, but it is what it is. This platform has been around since 2019
+>> and still has about 6 or 7 years of support, so we can't break it with
+>> stricter criteria.
+> 
+> My opinion is that working without channels settings is wrong.
+> I can understand that it was working in long years, but it is working with
+> wrong settings. So justify a wrong-settings is not good idea for me.
+> And I don't think it is stricter criteria, it becomes *sane* criteria, IMO.
+> 
+> Because it was working with wrong-settings, we need to makes it sane.
+> This is the reason why it has grace time.
+
+allow me to give you another counter example, beyond the AEC reference I
+mentioned earlier. It's not uncommon for CPU DAIs to have loopback
+capabilities, which are used for tests on boards where the codec has no
+capture capabilities. I think it's a feature that needs to be allowed,
+not a 'wrong setting'.
