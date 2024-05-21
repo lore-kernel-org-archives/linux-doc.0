@@ -1,171 +1,154 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D667149C72
-	for <linux-doc@vger.kernel.org>; Tue, 21 May 2024 21:13:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90D12148821;
+	Tue, 21 May 2024 21:42:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716326036; cv=none; b=pwXPSmxRNlLklVRb1UKJE4MeTjOxVs5O2vKJt/2EzmUWPj+fHrMDdu0MePMe7oUpR4MRMJ6o1hWTSQ8/7rVN/5q9jwwJchBwxbprSEkOVQBTALkoveXXTCEK4XBIdwSEbftiabq80Q7D0ZmkhJ9Zzbs+vQqZg5yUNwjbiObwhKE=
+	t=1716327770; cv=none; b=lAQiKsbORL3csm6lFm/DdOyP+KIONYpWHFrMEethpVR3BDZpH6YJmu1CCUU8LviCs9eK6JfVUZRNhQBU59u6mQV31/vmq8Z3oNlMd38/35IVGT/+X/TA1HJ4DhKYoA1++Zp5U9QaMFKs3m79kzf4aT5VtWC5eDOOjG3O9qgYVRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716326036; c=relaxed/simple;
-	bh=i37TKc1fQUsg/MZXbDEDex5DUJTdLQ3Tj3BGogak9pA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=smNxZs7mInPl5GXtNKBXwQ7xV308ubDLtCjZMsu+JZrEFQFml0797e+KeTQ2qmR1dMVaKyAg0d29rSRKV9Lv8Ueb3FfVxdAUxc2Co79BbX+OwLtzmh2kAUbGOOc7s7kamq4idQZvKO0T1JfzMGSRKJOieGcDUwvYUXlS22nWakQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=R+Zf/95d; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1716327770; c=relaxed/simple;
+	bh=u9OHQk1eGnLPF7q8QnB3x/3atmb+9wZIs5n85uU/v2c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=d9MM7xsvtqLN903geLKBlL7Ptr5pjIxAR5nNs5wW/QUUAvSHPVLvnMnuIRHV3h4HBOW+cC61ySxfdAHqjSxyfLVdoxR42EHHl8yeQ+JENPKLntuokb/MJKgLGpsIaiLIvg3go5yapjMUkft6Z5IslzH9vmhVAio//1r5b4UsaQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=pobkyxdG; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="R+Zf/95d"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-6f44a2d1e3dso857691b3a.3
-        for <linux-doc@vger.kernel.org>; Tue, 21 May 2024 14:13:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1716326034; x=1716930834; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=FC4kUSh55rUz/GL+Wk6zz4yqmj0fvdXDk4Dif5NdqwE=;
-        b=R+Zf/95dvP/0V0V+6tbrf9QgnWZKSdL0zWW00M1xhJUCrAiZ/JRddcXYBMNpmScwmk
-         2kvJJlsFiaCT5Kwc10OuNPQk+BsJaO0UJL9bbrOUgR5sxxBlVnLRDMNA/6fPVyRzghqM
-         QGltPOZ+jv8MXvuF8lFcojHP9tM4LfvuVuqDgroKetesuzwUrr54VtUS7NY2ToVLehn/
-         tC43p+hzleHKaNA+OstEPPrfCcH939lEg7e+vJkMYNnNyn7pqJAB4MrNCOMjUqo4Hy9S
-         9zEXNqX5SSHhqeWPNgp6Dk2rCgKMLc9N217sDFuPNhm05dp9FXquGjpt+O18PO/71PL3
-         Rx+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716326034; x=1716930834;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FC4kUSh55rUz/GL+Wk6zz4yqmj0fvdXDk4Dif5NdqwE=;
-        b=YiijxqkGYkGwdjYIynK0ZEbBikTIwU+hZ2iqlxEmlYkscSGTY1yPXA/cNqhZM5lOW7
-         7c+01+bkleUjZ6k9yisLDUcthslQw3dPzTByo6WlAicZbcP6JzthDS/vr9x7C6Pz21bZ
-         Ub0LJDWHxOThy7Z+NIddWt51bgKQkIz7FseGhRF1GOX+H77uyyf8A/NeP6d2mBbP8vxr
-         snW4YiNy3CstW16ScEGYBkbhfAXSHSxAgUGZR0vYIRSAuxY/cP9YxYoFNHMgk117GLNT
-         +VJ0KSCEXX5vTZC8RUVE1xR5Qtt5FG2DpuCa4YHQha+aQDrvsx6WpK/g6REbKyMwX+kj
-         U2Aw==
-X-Forwarded-Encrypted: i=1; AJvYcCXdNE0B88M1z1Gqr3FVftvSFvq/C1LBjdWg5D13mghngs3NyT2Q5Wr1NVuh/rZYozuey/5/ht6i6a8ptrz9PKfQeohiWsymIHYJ
-X-Gm-Message-State: AOJu0YzYKnT64fO5z3N7q9cCh253mPghrnWbnlTfRu1bt5Rlh3fdHODO
-	qDNR7j1NEV/+oclmCjrdXlAeejBB1tp9OBO7AILhVlXX1XXXiMTQciIC4BCz4UQ=
-X-Google-Smtp-Source: AGHT+IExOxw4dQLOtq/6oMwBUTDL+aZgZxi9IpFxyzL92tIt1l3Fojcg/3lRIxum789QUlv64lDgPg==
-X-Received: by 2002:a05:6a20:a10e:b0:1b0:1a02:4131 with SMTP id adf61e73a8af0-1b1f87f815dmr257815637.2.1716326034285;
-        Tue, 21 May 2024 14:13:54 -0700 (PDT)
-Received: from ghost ([50.145.13.30])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f4d2b254cfsm21167196b3a.200.2024.05.21.14.13.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 May 2024 14:13:53 -0700 (PDT)
-Date: Tue, 21 May 2024 14:13:50 -0700
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Evan Green <evan@rivosinc.com>
-Cc: Yangyu Chen <cyy@cyyself.name>, linux-riscv@lists.infradead.org,
-	Elliott Hughes <enh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/2] docs: riscv: hwprobe: Clarify misaligned keys are
- values not bitmasks
-Message-ID: <Zk0OjpW1nizPXHe+@ghost>
-References: <tencent_9D721BDDF88C04DBB5151D57711D62524209@qq.com>
- <tencent_338DF690631BAE788C4CC858233E9FBAE006@qq.com>
- <CALs-HssGcNso6vTfbcsiWX1h_46jgDDRcEWcfZCTpxXYnubcng@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="pobkyxdG"
+Received: from [10.137.106.151] (unknown [167.220.2.23])
+	by linux.microsoft.com (Postfix) with ESMTPSA id CCF0E2067900;
+	Tue, 21 May 2024 14:42:47 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CCF0E2067900
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1716327768;
+	bh=BUSVrQbwhWTK6SmDrPgyWJrCD0hgOdRhFqYqUq240sk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=pobkyxdGe7YVFwF3dkaJkJgWbG+KavLPiuQF6SQQN1zBASMoAM9wcAdd5EmYZaB/L
+	 61ecccz7Ow8aijjoRWVO+F98iR9BjxIC5czqVksM0Y0rMb0ZRRAKkfCOJ6tvNTRUK0
+	 vikUnzUoW2A/1EOMAGY+LrNlY0+QdhS1KLRy/ENA=
+Message-ID: <3bd4d9a8-58ce-4cb2-a91e-c0d33174d951@linux.microsoft.com>
+Date: Tue, 21 May 2024 14:42:47 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALs-HssGcNso6vTfbcsiWX1h_46jgDDRcEWcfZCTpxXYnubcng@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v18 12/21] dm: add finalize hook to target_type
+To: Mikulas Patocka <mpatocka@redhat.com>
+Cc: Mike Snitzer <snitzer@kernel.org>, corbet@lwn.net, zohar@linux.ibm.com,
+ jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, ebiggers@kernel.org,
+ axboe@kernel.dk, agk@redhat.com, eparis@redhat.com, paul@paul-moore.com,
+ linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+ linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
+ linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
+ audit@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1714775551-22384-1-git-send-email-wufan@linux.microsoft.com>
+ <1714775551-22384-13-git-send-email-wufan@linux.microsoft.com>
+ <aa767961-5e3-2ceb-1a1e-ff66a8eed649@redhat.com>
+ <212b02a8-f5f0-4433-a726-1639dda61790@linux.microsoft.com>
+ <bc9aa053-20a6-eaa-cbe4-344f340242b@redhat.com>
+ <234910c1-40c3-4489-94ab-6e9a5f00d93e@linux.microsoft.com>
+ <889a7880-8336-a44a-bea4-a4c81c5e5cce@redhat.com>
+Content-Language: en-CA
+From: Fan Wu <wufan@linux.microsoft.com>
+In-Reply-To: <889a7880-8336-a44a-bea4-a4c81c5e5cce@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, May 21, 2024 at 11:36:06AM -0700, Evan Green wrote:
-> On Sat, May 18, 2024 at 9:00 AM Yangyu Chen <cyy@cyyself.name> wrote:
-> >
-> > The original documentation says hwprobe keys are bitmasks, but actually,
-> > they are values. This patch clarifies this to avoid confusion.
-> >
-> > Signed-off-by: Yangyu Chen <cyy@cyyself.name>
-> 
-> Hm, we also have this problem in the code, since
-> hwprobe_key_is_bitmask() returns true for KEY_CPUPERF_0. This results
-> in wrong information being returned for queries using the WHICH_CPU
-> flag. If usermode asked for the set of CPUs that was specifically SLOW
-> or EMULATED, the returned cpuset would also include cpus that were
-> FAST. I believe all other queries are okay.
-> 
-> The one-liner fix is to just not return true for that key in
-> hwprobe_key_is_bitmask(). But that's technically user-visible: if some
-> software relied on the buggy behavior of FAST cpus being swept up in
-> the query for SLOW or EMULATED cpus, this change would expose that.
-> The grownups-eat-their-vegetables thing to do would be to define a new
-> key that returns this same value, but doesn't return true in
-> hwprobe_key_is_bitmask(). What do people think?
 
-I agree. A new key seems like the best option, keeping the old key for
-backward compatibility. However, perhaps instead of the new key
-returning the same value but not returning true in
-hwprobe_key_is_bitmask() it could instead be a correct bitmask so people
-would be able to have the feature of or-ing together the keys.
 
-- Charlie
+On 5/20/2024 5:31 AM, Mikulas Patocka wrote:
+> 
+> 
+> On Fri, 17 May 2024, Fan Wu wrote:
+> 
+>>> So, it seems that the preresume callback provides the guarantee that you
+>>> looking for.
+>>>
+>>>> -Fan
+>>>
+>>> Mikulas
+>>
+>> Thanks for the info. I have tested and verified that the preresume() hook can
+>> also work for our case.
+>>
+>>  From the source code
+>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/md/dm-ioctl.c#n1149,
+>> the whole resume process appears to be:
+>>
+>> 1. Check if there is a new map for the device. If so, attempt to activate the
+>> new map using dm_swap_table() (where the finalize() callback occurs).
+>>
+>> 2. Check if the device is suspended. If so, use dm_resume() (where the
+>> preresume() callback occurs) to resume the device.
+>>
+>> 3. If a new map is activated, use dm_table_destroy() to destroy the old map.
+>>
+>> For our case:
+>>
+>> - Using the finalize() callback, the metadata of the dm-verity target inside
+>> the table is attached to the mapped device every time a new table is
+>> activated.
+>> - Using the preresume() callback, the same metadata is attached every time the
+>> device resumes from suspension.
+>>
+>> If I understand the code correctly, resuming from suspension is a necessary
+>> step for loading a new mapping table. Thus, the preresume() callback covers
+>> all conditions where the finalize() callback would be triggered.
+> 
+> Yes.
+> 
+>> However, the preresume() callback can also be triggered when the device
+>> resumes from suspension without loading a new table, in which case there
+>> is no new metadata in the table to attach to the mapped device.
+> 
+> Yes.
+> 
+>> In the scenario where the finalize() callback succeeds but the preresume()
+>> callback fails, it seems the device will remain in a suspended state, the
+>> newly activated table will be kept, and the old table will be destroyed, so it
+>> seems there is no inconsistency using finalize() even preresume() potentially
+>> fails.
+> 
+> What does your security module do when the verification of the dm-verity
+> hash fails? Does it halt the whole system? Does it destroy just the
+> failing dm device? Or does it attempt to recover somehow from this
+> situation?
+>
 
+I'm not sure which hash verification is being referred to here, but it 
+could be either root hash signature verification or block-level hash 
+verification. Our security module does not intervene in these processes, 
+so the behavior remains as dm-verity currently handles it.
+
+Within the device mapper, our security module uses the device mapper 
+callback to duplicate the root hash of a dm-verity target and record the 
+signature verification state of the dm-verity target, then attach this 
+information to the security field of the block_device structure. This 
+process can only fail if the system is out of memory.
+
+With the root hash and signature verification state attached to the 
+security field of the block device, the security system can access this 
+important metadata to enforce policies. For example, these policies can 
+include only allowing files from a dm-verity volume specified by its 
+root hash to execute or only allowing files from a verified signed 
+dm-verity volume to execute.
+
+>> I believe both the finalize() callback proposed by Mike and the preresume()
+>> callback suggested by Mikulas can work for our case. I am fine with either
+>> approach, but I would like to know which one is preferred by the maintainers
+>> and would appreciate an ACK for the chosen approach.
+>>
+>> -Fan
 > 
-> -Evan
+> I would prefer preresume - we shouldn't add new callbacks unless it's
+> necessary.
 > 
-> > ---
-> >  Documentation/arch/riscv/hwprobe.rst | 31 ++++++++++++++++------------
-> >  1 file changed, 18 insertions(+), 13 deletions(-)
-> >
-> > diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-> > index 239be63f5089..4abfa3f9fe44 100644
-> > --- a/Documentation/arch/riscv/hwprobe.rst
-> > +++ b/Documentation/arch/riscv/hwprobe.rst
-> > @@ -188,25 +188,30 @@ The following keys are defined:
-> >         manual starting from commit 95cf1f9 ("Add changes requested by Ved
-> >         during signoff")
-> >
-> > -* :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: A bitmask that contains performance
-> > +* :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: A value that contains performance
-> >    information about the selected set of processors.
-> >
-> > -  * :c:macro:`RISCV_HWPROBE_MISALIGNED_UNKNOWN`: The performance of misaligned
-> > -    scalar accesses is unknown.
-> > +  * :c:macro:`RISCV_HWPROBE_MISALIGNED_MASK`: The bitmask of the misaligned
-> > +    access performance field in the value of key `RISCV_HWPROBE_KEY_CPUPERF_0`.
-> >
-> > -  * :c:macro:`RISCV_HWPROBE_MISALIGNED_EMULATED`: Misaligned scalar accesses are
-> > -    emulated via software, either in or below the kernel.  These accesses are
-> > -    always extremely slow.
-> > +    The following values (not bitmasks) in this field are defined:
-> >
-> > -  * :c:macro:`RISCV_HWPROBE_MISALIGNED_SLOW`: Misaligned scalar accesses are
-> > -    slower than equivalent byte accesses.  Misaligned accesses may be supported
-> > -    directly in hardware, or trapped and emulated by software.
-> > +    * :c:macro:`RISCV_HWPROBE_MISALIGNED_UNKNOWN`: The performance of misaligned
-> > +      scalar accesses is unknown.
-> >
-> > -  * :c:macro:`RISCV_HWPROBE_MISALIGNED_FAST`: Misaligned scalar accesses are
-> > -    faster than equivalent byte accesses.
-> > +    * :c:macro:`RISCV_HWPROBE_MISALIGNED_EMULATED`: Misaligned scalar accesses are
-> > +      emulated via software, either in or below the kernel.  These accesses are
-> > +      always extremely slow.
-> >
-> > -  * :c:macro:`RISCV_HWPROBE_MISALIGNED_UNSUPPORTED`: Misaligned scalar accesses
-> > -    are not supported at all and will generate a misaligned address fault.
-> > +    * :c:macro:`RISCV_HWPROBE_MISALIGNED_SLOW`: Misaligned scalar accesses are
-> > +      slower than equivalent byte accesses.  Misaligned accesses may be supported
-> > +      directly in hardware, or trapped and emulated by software.
-> > +
-> > +    * :c:macro:`RISCV_HWPROBE_MISALIGNED_FAST`: Misaligned scalar accesses are
-> > +      faster than equivalent byte accesses.
-> > +
-> > +    * :c:macro:`RISCV_HWPROBE_MISALIGNED_UNSUPPORTED`: Misaligned scalar accesses
-> > +      are not supported at all and will generate a misaligned address fault.
-> >
-> >  * :c:macro:`RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE`: An unsigned int which
-> >    represents the size of the Zicboz block in bytes.
-> > --
-> > 2.43.0
-> >
+> Mikulas
+>
+
+Thanks for the confirmation. I will switch to use prereume and I will 
+send a new version later this week.
+
+-Fan
