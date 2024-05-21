@@ -1,33 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 965714AEEA;
-	Tue, 21 May 2024 07:36:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E06055C2E
+	for <linux-doc@vger.kernel.org>; Tue, 21 May 2024 07:58:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716276970; cv=none; b=hGbDbzdxYAk9UsftQjDNdZNAaf3Paen2OLGmY+9WXVZlkPqfYHcnI0nNB3amTlahCqMZ2t8ZHNZ/O2Glz0kQFSfbOt8vWclJz7EF75yKqsQe8pnZMP95oyA4w4ViBAW5+5znIeMqpoknjeB3VUmvoJ0gQBvhTa+sdLSv9pmKcIg=
+	t=1716278312; cv=none; b=NpU/kV0jnHNRoQOiADJMQMXNJoasfJcpiCkJ69Z66KAraZP9PGoaXNuZ2AtVy0ftm8s9OMZugTSQ67QjaxdJPRfxRCSzFCUHStpCx/RRyxXjzKXgnkz8wzap1MEQ2WiOhPLET2dVHXf/m2hlsLtJAMfzpwvawFxBtlYdNnJn+5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716276970; c=relaxed/simple;
-	bh=TSHH3TFEnI88JgnRvSkdY7vzKnYn1JgNXRhpBIdSkVE=;
+	s=arc-20240116; t=1716278312; c=relaxed/simple;
+	bh=YbW/ijAGccFQlQTqAfJm9lN3VLgscw+sw3OGEMReWk8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CM03N9/Nlr9/L4Ra8FKpJXKzd3WzkDuGvaP2ARH82XV1q5MR51AyDvW7n0WuZBZwLAHCM9ldVMGufCutZY+lkithDn9JLoUZSrWJ4ZzNFWfaAAhRM3kKSp92PLhds+L0+PANstXnw4hPPjYnZ357uE77PW0A5pr0WQ6sgQRti/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mZNQoD+w; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=F4YeAMNlw5xqvtKL31YFqNMs2HT9N32iJyCTv+SsGvNSzcilAIeHHZLXBMd37h5O0BVcVss6c4826b9L1ErL4d5h/7WZIyxOlCImkBfifRLLXxKsPQR64J2DJZgV9evRKamYpyVk6AcpXovJs5DzQSyCaLeNBmm5or8bgFaYlew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=tRSIHZVI; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mZNQoD+w"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D08AC2BD11;
-	Tue, 21 May 2024 07:36:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716276970;
-	bh=TSHH3TFEnI88JgnRvSkdY7vzKnYn1JgNXRhpBIdSkVE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=mZNQoD+wrg2KP/FaOfxM7OJQtdwDGyPYiPGU1xhhmVtz8zj9faHSKv8zwUyRg17Ay
-	 OeYwnA34MPly41sMng9rjAnSKqlYVVE5eyadxY99cybyJXaxSn/a3/zLuWvD+aZ9Oa
-	 1Ep4+NrwfzDL9SicNe0ihPr8fhc2YPe7yHwaHJKwgpPM1goTrhJFRajAPqAgjs8bZg
-	 GYtGXjqlzL/AsM/9T/x26Jb6Fk6Gq+j+moexQrhxirhC0eI9a0CfttXeqHG/9EJMee
-	 Yq2yjh7xdql6vTDhJFM2oiF6nGEQ/5kwFIdEliJXPgCITiU9zVRcwcB4HW2qEDxZ53
-	 moaIxJeDtL1mg==
-Message-ID: <c9882ba0-bbbf-44ec-9606-ebe68bcb8866@kernel.org>
-Date: Tue, 21 May 2024 09:36:03 +0200
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="tRSIHZVI"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-354ba9ae540so128961f8f.3
+        for <linux-doc@vger.kernel.org>; Tue, 21 May 2024 00:58:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1716278307; x=1716883107; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GBb6iShuxHaV7v6bJv2LipIX1/0KjJPEPWALv2DbLcM=;
+        b=tRSIHZVIGlH4zuEM4xjxevPKjIjyEAC7TRQMEzuN/x7oZnnoRXErQdwagNObslHH9Q
+         4o/O20kCD3/rOzIDpSRuQBNHLC6F0eKPsWpJ+j2bkiBL5mY5DtjNMGfrbxOWWUN9J2f9
+         SiK0EvVLTRBDnq8+NF3PKD/iE9F0ztId7AlHJc/k8DbgtdSeAPcYAWvCBR+N4vQirYg9
+         3bQ4Aj19SyPzZo9Rh5lhxH4VhCsCEpv9kCyh985X/wmyy4hXj/tpiBZyu0pQIJShKUQf
+         D2bj4QGrUQzjNCBXlVGxfM7OHMnIIyfaUW9MNRMpvgFuDHLRDQ+eJTqTJAuMS0A2v+Mh
+         /Jrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716278307; x=1716883107;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GBb6iShuxHaV7v6bJv2LipIX1/0KjJPEPWALv2DbLcM=;
+        b=anXr3VtQVI/REMFYeTm/O0vGkCgN1tdScT+Jektg9vOjVhgzUU7YmgpbYiqiYBHwpf
+         h7HH8xEgQipGujq1+g0R0BgRtPRaxJqBGlW/CnbRke3/FsUxoKYwpEO8GCtzuZNhZU3H
+         5F940cAZ0dXN/OM5oOhUv0N7wcMJDf+bjV0nFqiu+oeBfaJN5TJlF5X6spVx2Ncih//7
+         Kwo2v1dc1DushrJeK/HUl3//G7Ogpv8ehr02AITS8pDtUrlBelADMybpd3vYx+vIY/X9
+         pU4gFgaPzRRMhUiV6WDt4ge82Dj9knidXgA45o27X1bSU6trcOQNRro6lLXKZx0ov6jf
+         vTCw==
+X-Forwarded-Encrypted: i=1; AJvYcCUIn9LrSnxE97HKxs2x+a3OSSr+fCfWtOhVSTWcwMujhegh0G4u4Jmtd5SPFppmVFf+QfPIWmW781eBIxQpitPixZw84kIuiS92
+X-Gm-Message-State: AOJu0Yx9HMlDMZxHn3tiLElc/MX2OzbnRDGyAUZYJgeAbTzwhHoo0dOp
+	GJiZGo1QkIcHNh7MvatF0JZ6z2VzkNwS2U+kUXntQyzuCVT/oLvrBpXiedoHBaw=
+X-Google-Smtp-Source: AGHT+IHfRRdzTlFAebZ7wRlj20qZMeakja/n64TG1vwKypRDd/Ir6iJk3WrsYiVjjhgxZ9RFdOvn+A==
+X-Received: by 2002:adf:eed1:0:b0:34d:7201:460a with SMTP id ffacd0b85a97d-3504a10f308mr21256806f8f.0.1716278307420;
+        Tue, 21 May 2024 00:58:27 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:999:a3a0:813a:5863:97f7:aca7? ([2a01:e0a:999:a3a0:813a:5863:97f7:aca7])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3502bbbbefdsm31017829f8f.94.2024.05.21.00.58.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 May 2024 00:58:26 -0700 (PDT)
+Message-ID: <6d2eb1ec-010d-4390-a25e-afd2fca0311d@rivosinc.com>
+Date: Tue, 21 May 2024 09:58:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,113 +61,63 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/7] dt-bindings: remoteproc: qcom,pas: Add hwlocks
-To: Chris Lew <quic_clew@quicinc.com>, Bjorn Andersson
- <andersson@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
- Boqun Feng <boqun.feng@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Mathieu Poirier <mathieu.poirier@linaro.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>
-Cc: linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20240516-hwspinlock-bust-v1-0-47a90a859238@quicinc.com>
- <20240516-hwspinlock-bust-v1-5-47a90a859238@quicinc.com>
- <3521519f-34b8-472d-be37-f0e64bba24fc@kernel.org>
- <a944418a-1699-44fa-bdfc-2e57129adea1@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v5 07/16] riscv: add ISA extensions validation callback
+To: Conor Dooley <conor@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Anup Patel <anup@brainfault.org>, Shuah Khan <shuah@kernel.org>,
+ Atish Patra <atishp@atishpatra.org>, linux-doc@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, kvm@vger.kernel.org,
+ kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
+References: <20240517145302.971019-1-cleger@rivosinc.com>
+ <20240517145302.971019-8-cleger@rivosinc.com>
+ <20240517-scrunch-palace-2f83aa8cc3ce@spud>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <a944418a-1699-44fa-bdfc-2e57129adea1@quicinc.com>
+From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
+In-Reply-To: <20240517-scrunch-palace-2f83aa8cc3ce@spud>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 21/05/2024 06:08, Chris Lew wrote:
-> 
-> 
-> On 5/19/2024 10:36 AM, Krzysztof Kozlowski wrote:
->> On 17/05/2024 00:58, Chris Lew wrote:
->>> Add hwlocks property to describe the hwspinlock that remoteproc can try
->>> to bust on behalf of the remoteproc's smem.
->>
->> Sorry, as you wrote, the lock is part of smem, not here. Drivers do not
->> crash, so if your crashes as you imply in the cover letter, then first
->> fix the driver.
->>
-> 
-> Hi Krzysztof,
-> 
-> Sorry for the confusion, I dont think I meant that the smem driver will 
-> ever crash. The referred to crash in the cover letter is a crash in the 
-> firmware running on the remoteproc. The remoteproc could crash for any 
-> unexpected reason, related or unrelated to smem, while holding the tcsr 
-> mutex. I want to ensure that all resources that a remoteproc might be 
-> using are released as part of remoteproc stop.
-> 
-> The SMEM driver manages the lock/unlock operations on the tcsr mutex 
-> from the Linux CPU's perspective. This case is for cleaning up from the 
-> remote side's perspective.
-> 
-> In this case it's the hwspinlock used to synchronize SMEM, but it's 
-> conceivable that firmware running on the remoteproc has additional locks 
-> that need to be busted in order for the system to continue executing 
-> until the firmware is reinitialized.
-> 
-> We did consider tying this to the SMEM instance, but the entitiy 
-> relating to firmware is the remoteproc instance.
 
-I still do not understand why you have to add hwlock to remoteproc, even
-though it is not directly used. Your driver problem looks like lack of
-proper driver architecture - you want to control the locks not from the
-layer took the lock, but one layer up. Sorry, no, fix the driver
-architecture.
 
-Best regards,
-Krzysztof
+On 17/05/2024 18:44, Conor Dooley wrote:
+> On Fri, May 17, 2024 at 04:52:47PM +0200, Clément Léger wrote:
+>> Since a few extensions (Zicbom/Zicboz) already needs validation and
+>> future ones will need it as well (Zc*) add a validate() callback to
+>> struct riscv_isa_ext_data. This require to rework the way extensions are
+>> parsed and split it in two phases. First phase is isa string or isa
+>> extension list parsing and consists in enabling all the extensions in a
+>> temporary bitmask (source isa) without any validation. The second step
+>> "resolves" the final isa bitmap, handling potential missing dependencies.
+>> The mechanism is quite simple and simply validate each extension
+>> described in the source bitmap before enabling it in the resolved isa
+>> bitmap. validate() callbacks can return either 0 for success,
+>> -EPROBEDEFER if extension needs to be validated again at next loop. A
+>> previous ISA bitmap is kept to avoid looping multiple times if an
+>> extension dependencies are never satisfied until we reach a stable
+>> state. In order to avoid any potential infinite looping, allow looping
+>> a maximum of the number of extension we handle. Zicboz and Zicbom
+>> extensions are modified to use this validation mechanism.
+> 
+> I wish we weren't doin' it at all, but since we have to, I think what
+> you've got here is good.
 
+Yup, this is what you got with a fast evolving architecture I guess ;)
+
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> 
+> Do you want me to send some patches for the F/V stuff we discussed
+> previously?
+
+Sure go ahead, I did not have anything written yet.
+
+Thanks,
+
+Clément
+
+> 
+> Cheers,
+> Conor.
