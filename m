@@ -1,196 +1,115 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E96174BE0
-	for <linux-doc@vger.kernel.org>; Tue, 21 May 2024 11:57:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65BB075803;
+	Tue, 21 May 2024 12:12:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716292674; cv=none; b=oO/YYiuN9MIw96BaYS8Xy1psF567vaTX8LZMZ6lwOvTgijdbSM9Rdh2ACPJYuboIN1M7BnYb0aPyhxIJurowD2334l06uOVgd1WH1soyWQY23+wkD8wI2TSPx48TBjnD7CUSKwebkr456FG25ALlT/KlNR4qYfmL/22NOzOnym0=
+	t=1716293552; cv=none; b=QpEpemPU22EpH2IBr1v0wJvNtFD6v063zDQ5jRPHxK2syYYYDRjoSTm1elL6SUgLv7K6QZoysEXkj2xEO4y5fEvo67O1rL9lXBC57gNEEPLK9TR0IpWjgTTD4tFTONledsNGerNx6GX3GgGy3zSZpSWEdUFXn4DnFsaHoUH/nfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716292674; c=relaxed/simple;
-	bh=q9fIW/kokRy/aqoKrTmpSlBLPOxD6/t6kfcGLcryXr8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I7iIriq04xPvIbJlfLQAkRCSqIhVeBOhEIh3LMo0xyMSAoRIlauu+7m2cAWmFZJRV6xBY/K78fnS8hUl4+5alQntORvDMaqiuPK+Gj2quRyJHmeYiE3fxKemqKwwIGbununZH0K5O5oT4OvLyDRKbFXtTNRBI9D/RVydBengYzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=WqDMMX7J; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1716293552; c=relaxed/simple;
+	bh=h0Oo0u4hQ+QRXSLJiXBTA++cyqDIus27IbVzDtn13Ng=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XSVMexL0LaZeXSdv4SLyVc/aKuiojoGpxmj/qWs0nTYY/qRgW886eTXCU2pw0Du3ptze3CcgkJaGAEXklfhxzKcjaEf8QjJ6u6b1wDy7O1Lf8wrMiYqiaUYfwmKp7wqO5qB26I9+tA/b+fh+sfmReFE4Q8mowU905qpMMEqfPVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=bZd2oRfu; arc=none smtp.client-ip=198.47.19.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WqDMMX7J"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-52389c1308dso4910734e87.3
-        for <linux-doc@vger.kernel.org>; Tue, 21 May 2024 04:57:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1716292670; x=1716897470; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Md6P1tR1u5fc1z/ZbkZnU+iRNw88rkv2FOhweb3h/ZA=;
-        b=WqDMMX7JyoXxig871PgfKzwjhu8LeEIg8tBUq5kK9MuHzstczsirhuahm2NgWH+nR5
-         WtS73pdIN0796DFRjuLY6KVQnmoVeVEEbjzxw6kDXa7Nsut+pDcGRI3LwNQhQN9h9A/8
-         Tn3hBPjsEHIouWgCmgt/1Pdgf3GmQuijdYs1I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716292670; x=1716897470;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Md6P1tR1u5fc1z/ZbkZnU+iRNw88rkv2FOhweb3h/ZA=;
-        b=DV2AxgKymDPe+k4BBh0oUNv8+l7UxdeloleStygWcNsCnLVncCGNQPPyRrghPng5+e
-         lPTVaYGScV+iKetV+wZRDXnoHxnuAXoh70SuuLh0NrNhCbetY/LOL5XoNnLJDs0lx+lf
-         3McdhG0BlQ2jyQCgqnAyorc8nC+/VG0Wwzn5VjoTU5zdfyTFYNmsmCl2Lv9OeSk6DZyH
-         PAg7dIqa1LIUmCX/9Ix3Emn6GVy1hHgrsP/ufusS+OCKxX8SsgmfzNQpKCbpXKUBXi84
-         ArFR9VWI7tZIZ3lu1dbeLSdnlAJrx9WhE3uDXTuu0LSIf2mFR6Xr452oVH1hggil3k7m
-         bCTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWEmOdXPzH4KJ81AYejZwFkxCgCtmrEto4+P5xYG2BIB+QIbWm6o2jX/wdLNAWC+Txy1riV8XvXjfj8ujKo8xp7vcyobMW4AVPg
-X-Gm-Message-State: AOJu0Yyd9fi9OqY0Wu+nR4jvbq3o7e+JF78HsDYqv6vCpP9f19XoSL0i
-	7KGBAEJ0XygsHyZLL9qeyA6Gqrn6VN4kcQPQj7dmJCppZnvwNyPEKpDOBNv4cKZVEG9jFQonhux
-	PvLl8LOoUvrPd+WjVLTv5G/B291TQnvZH+8c=
-X-Google-Smtp-Source: AGHT+IF8gWYCjzK4VBQThJnN/naCIuZULqmffSLif/Bdak01khAvPP2yw/yX4C7oyauFBTx6Y1In2u4yiOm9RZxiHiM=
-X-Received: by 2002:a19:641c:0:b0:517:87ba:aff3 with SMTP id
- 2adb3069b0e04-523573cfdd1mr14170012e87.43.1716292670481; Tue, 21 May 2024
- 04:57:50 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="bZd2oRfu"
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44LCC5ng103274;
+	Tue, 21 May 2024 07:12:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1716293525;
+	bh=VA+sG18CvzhI4DKfHZ9IEpAa6kujOkUdi/5UyYLhoRg=;
+	h=Date:From:To:CC:Subject:References:In-Reply-To;
+	b=bZd2oRfuR9ZwysK9K94z5AOvJ8vnnOm2KUenLR/dXrockW9bL4C0jI5fv1bxCTlqx
+	 ngO5SibvjY8HtCeJ+CPYaOfgR1/d++E4w9EPe8/jfek5VzNMAT1+U3+zRQlseqZ9Vj
+	 0gBMA5xtN5sJ0oOus/rjGKFH9aqbQIWyiab8gZIg=
+Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44LCC5Kl072918
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 21 May 2024 07:12:05 -0500
+Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 21
+ May 2024 07:12:05 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 21 May 2024 07:12:05 -0500
+Received: from localhost (uda0492258.dhcp.ti.com [172.24.227.9])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44LCC42T030983;
+	Tue, 21 May 2024 07:12:05 -0500
+Date: Tue, 21 May 2024 17:42:03 +0530
+From: Siddharth Vadapalli <s-vadapalli@ti.com>
+To: Andrew Lunn <andrew@lunn.ch>
+CC: Siddharth Vadapalli <s-vadapalli@ti.com>, <davem@davemloft.net>,
+        <edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+        <corbet@lwn.net>, <rogerq@kernel.org>, <danishanwar@ti.com>,
+        <vladimir.oltean@nxp.com>, <netdev@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <vigneshr@ti.com>,
+        <misael.lopez@ti.com>, <srk@ti.com>
+Subject: Re: [RFC PATCH net-next 01/28] docs: networking: ti: add driver doc
+ for CPSW Proxy Client
+Message-ID: <0b0c1b07-756e-439e-bfc5-53824fd2a61c@ti.com>
+References: <20240518124234.2671651-1-s-vadapalli@ti.com>
+ <20240518124234.2671651-2-s-vadapalli@ti.com>
+ <642c8217-49fe-4c54-8d62-9550202c02c9@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240516174357.26755-1-jim.cromie@gmail.com> <20240516174357.26755-20-jim.cromie@gmail.com>
-In-Reply-To: <20240516174357.26755-20-jim.cromie@gmail.com>
-From: =?UTF-8?Q?=C5=81ukasz_Bartosik?= <ukaszb@chromium.org>
-Date: Tue, 21 May 2024 13:57:38 +0200
-Message-ID: <CALwA+NYNPfpyM8ZH3L-fbrqSpzKw61gZU+u_uxP6tjnFe7UJ-w@mail.gmail.com>
-Subject: Re: [PATCH v8-RESEND 19/33] dyndbg-doc: add classmap info to howto
-To: Jim Cromie <jim.cromie@gmail.com>
-Cc: jbaron@akamai.com, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, linux@rasmusvillemoes.dk, joe@perches.com, 
-	mcgrof@kernel.org, daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com, 
-	jani.nikula@intel.com, ville.syrjala@linux.intel.com, seanpaul@chromium.org, 
-	robdclark@gmail.com, groeck@google.com, yanivt@google.com, bleung@google.com, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <642c8217-49fe-4c54-8d62-9550202c02c9@lunn.ch>
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-On Thu, May 16, 2024 at 7:45=E2=80=AFPM Jim Cromie <jim.cromie@gmail.com> w=
-rote:
->
-> Describe the 3 API macros providing dynamic_debug's classmaps
->
-> DYNDBG_CLASSMAP_DEFINE - create, exports a module's classmap
+On Sun, May 19, 2024 at 05:31:16PM +0200, Andrew Lunn wrote:
+> On Sat, May 18, 2024 at 06:12:07PM +0530, Siddharth Vadapalli wrote:
+> > The CPSW Proxy Client driver interfaces with Ethernet Switch Firmware on
+> > a remote core to enable Ethernet functionality for applications running
+> > on Linux. The Ethernet Switch Firmware (EthFw) is in control of the CPSW
+> > Ethernet Switch on the SoC and acts as the Server, offering services to
+> > Clients running on various cores.
+> 
+> I'm not sure we as a community what this architecture. We want Linux
+> to be driving the hardware, not firmware. So expect linux to be
+> running the server.
+> 
+> > +The "am65-cpsw-nuss.c" driver in Linux at:
+> > +drivers/net/ethernet/ti/am65-cpsw-nuss.c
+> > +provides Ethernet functionality for applications on Linux.
+> > +It also handles both the control-path and data-path, namely:
+> > +Control => Configuration of the CPSW Peripheral
+> > +Data => Configuration of the DMA Channels to transmit/receive data
+> 
+> So nuss is capable of controlling the hardware. nuss has an upper
+> interface which is switchdev, and a lower interface which somehow acts
+> on the hardware, maybe invoking RPCs into the firmware?
+> 
+> So it is not too big a step to put the server functionality in Linux,
+> on top of the nuss driver.
 
-create, exports a module's classmap - > creates and exports a module's clas=
-smap
+Andrew,
 
-> DYNDBG_CLASSMAP_USE    - refer to exported map
+Thank you for reviewing the patch and sharing your feedback. While I
+have come across other Switch Designs / Architecture, I am yet to go
+through the one you have mentioned below. I will go through it in detail
+and will follow up with my understanding in a future reply. This reply
+is intended to be an acknowledgment that I have read your feedback.
+I also wanted to clarify the use-case which this series targets. The
+requirements of the use-case are:
+1. Independent Ethernet Switch functionality: Switch operation and
+configuration when Linux is not functional (Fast startup, Low Power
+Mode, Safety use-cases).
+2. Dynamic Ethernet Switch configuration changes performed based on the
+applications which run on various cores.
 
-DYNDBG_CLASSMAP_USE - refers to exported map
+[...]
 
-> DYNDBG_CLASSMAP_PARAM  - bind control param to the classmap
-
-bind -> binds
-
-> DYNDBG_CLASSMAP_PARAM_REF + use module's storage - __drm_debug
->
-
-+ use module's storage - __drm_debug -> - uses module's storage (for
-example __drm_debug)
-
-> cc: linux-doc@vger.kernel.org
-> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
-> ---
-> v5 adjustments per Randy Dunlap
-> v7 checkpatch fixes
-> v8 more
-> ---
->  .../admin-guide/dynamic-debug-howto.rst       | 63 ++++++++++++++++++-
->  1 file changed, 62 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Document=
-ation/admin-guide/dynamic-debug-howto.rst
-> index 6a8ce5a34382..742eb4230c6e 100644
-> --- a/Documentation/admin-guide/dynamic-debug-howto.rst
-> +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-> @@ -225,7 +225,6 @@ the ``p`` flag has meaning, other flags are ignored.
->  Note the regexp ``^[-+=3D][fslmpt_]+$`` matches a flags specification.
->  To clear all flags at once, use ``=3D_`` or ``-fslmpt``.
->
-> -
->  Debug messages during Boot Process
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
-> @@ -375,3 +374,65 @@ just a shortcut for ``print_hex_dump(KERN_DEBUG)``.
->  For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string=
- is
->  its ``prefix_str`` argument, if it is constant string; or ``hexdump``
->  in case ``prefix_str`` is built dynamically.
-> +
-> +Dynamic Debug classmaps
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Dyndbg allows selection/grouping of *prdbg* callsites using structural
-> +info: module, file, function, line.  Classmaps allow authors to add
-> +their own domain-oriented groupings using class-names.  Classmaps are
-> +exported, so they referencable from other modules.
-
-Typo referencable -> are referenceable
-
-
-
-> +
-> +  # enable classes individually
-> +  :#> ddcmd class DRM_UT_CORE +p
-> +  :#> ddcmd class DRM_UT_KMS +p
-> +  # or more selectively
-> +  :#> ddcmd class DRM_UT_CORE module drm +p
-> +
-> +The "class FOO" syntax protects class'd prdbgs from generic overwrite::
-> +
-> +  # IOW this doesn't wipe any DRM.debug settings
-> +  :#> ddcmd -p
-> +
-> +To support the DRM.debug parameter, DYNDBG_CLASSMAP_PARAM* updates all
-> +classes in a classmap, mapping param-bits 0..N onto the classes:
-> +DRM_UT_<*> for the DRM use-case.
-> +
-> +Dynamic Debug Classmap API
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> +
-> +DYNDBG_CLASSMAP_DEFINE - modules use this to create classmaps, naming
-> +each of the classes (stringified enum-symbols: "DRM_UT_<*>"), and
-> +type, and mapping the class-names to consecutive _class_ids.
-> +
-> +By doing so, modules tell dyndbg that they have prdbgs with those
-> +class_ids, and they authorize dyndbg to accept "class FOO" for the
-> +module defining the classmap, and its contained classnames.
-> +
-> +DYNDBG_CLASSMAP_USE - drm drivers invoke this to ref the CLASSMAP that
-> +drm DEFINEs.  This shares the classmap definition, and authorizes
-> +dyndbg to apply changes to the user module's class'd pr_debugs.  It
-> +also tells dyndbg how to initialize the user's prdbgs at modprobe,
-> +based upon the current setting of the parent's controlling param.
-> +
-> +There are 2 types of classmaps:
-> +
-> + DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like DRM.debug
-> + DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
-> +
-> +DYNDBG_CLASSMAP_PARAM - modelled after module_param_cb, it refers to a
-> +DEFINEd classmap, and associates it to the param's data-store.  This
-> +state is then applied to DEFINEr and USEr modules when they're modprobed=
-.
-> +
-> +This interface also enforces the DD_CLASS_TYPE_LEVEL_NUM relation
-> +amongst the contained classnames; all classes are independent in the
-> +control parser itself.
-> +
-> +Modules or module-groups (drm & drivers) can define multiple
-> +classmaps, as long as they share the limited 0..62 per-module-group
-> +_class_id range, without overlap.
-> +
-> +``#define DEBUG`` will enable all pr_debugs in scope, including any
-> +class'd ones.  This won't be reflected in the PARAM readback value,
-> +but the class'd pr_debug callsites can be forced off by toggling the
-> +classmap-kparam all-on then all-off.
-> --
-> 2.45.0
->
+Regards,
+Siddharth.
