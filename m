@@ -1,118 +1,93 @@
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B177C13E3EB;
-	Wed, 22 May 2024 13:41:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FAC21E4AB;
+	Wed, 22 May 2024 13:45:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716385318; cv=none; b=DaRp/7PasiCz7d2gc/8P1Wgt2lOxyzZ7yiOUoiwwqNlYvZOTtDd7eBHT71mguvY2Tqtx2PxwJNgtDjhqn+29ofaD8OwUEIg2oo1Y/tCyfG+bD7Nb9c2KhHxYId46GK3K3RcLbGNp1b/wH3A9ZbRV4VW8CYataB3hONNQOR3BX0w=
+	t=1716385521; cv=none; b=NGnVe0ZSfQQWo97aQCsdas3VXqb7umX/SQFqrLLnKJzYdJy3fK4Kjyw8NdDmY33URr9koSHpFR/C8XVDTM+pzZOGb6RYKeg8Ut6AFEkoz0H6Ehl+uD6NwTWkvMKNmo76f1x0dZ/hhmZXi6Q2N90/wtG2kaK1r0/+siNcL0yjjyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716385318; c=relaxed/simple;
-	bh=5OlI2c49kc/GH5J/agNRhgbAvOiepAletVFD/jbVaP4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Rf7PGcqT5XejVkIpLLSg+2umLdznrYHCD3M7XSOhMs77GvooFPO+QfoXW3QwrI7AXUKP4nL9T3QOQ8MKuNhe3hXm5f7RO/54LUpERRXXBiocti9EWqU8sGxhOIymYScKqTw7QFj4+mbuf+sL/JKwMlZNJ7hKgJeuuOFcpbfhytE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PxpZMiGr; arc=none smtp.client-ip=209.85.161.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1716385521; c=relaxed/simple;
+	bh=1W4kFLAzSSYWvoPap3Xf2bjJpHvLN+WISbxmEp4RrVY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=m9HKI/kf9/ecLq5BSh1LANenxZecigaB8KOp8cpM1VVZqAN79uk1FoxuaJIsJW4vnNTzT9RflH1JnDh/kvQtfuSW9XpIcBJLRiSlQO9yQDkzXYKVlUaiiwV+E65DTOkfbpCe2o+TUsIfL1Iz1ydPnmEOvrQBmnaXSHoecRO8ygY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uOhXImGb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PxpZMiGr"
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-5b2733389f9so3109985eaf.1;
-        Wed, 22 May 2024 06:41:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716385316; x=1716990116; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=meJM/p/T2OemzzcD44JPElMDWWjCdDm6EvOTQof3oOM=;
-        b=PxpZMiGrd+XTa8a3+nDs8gKPzoNYoOqpjFozbjDN8zjp0mruKo9wWVd1FFZU3+c/k+
-         rlKK2b53Aie+Y+JrrQs3Vi6mzOmQ6jGjBArx1x5utVIyPydFCMka3glE1qARaq+m4UL3
-         SVhxlOLik6+O0mO0O2GAjtSTJ6Dwu/7UFJg8VKzyjfqg+z2hErwKckXG1NNbqGdboQ12
-         Y+q3UOMTLqHgNZ+l1EBj5HbUhNzw/umElWwZKnrZabXniNztsLnxS7/+U5+XKgQYoVvs
-         rVgpbYUdW8ZrUN80EjbDg6LWX+tyaI9Ab/38h3RG/ePRAbi/hKgLqm0umfYrXP3lUZej
-         b+4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716385316; x=1716990116;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=meJM/p/T2OemzzcD44JPElMDWWjCdDm6EvOTQof3oOM=;
-        b=KVuHzxcJrdArQi7mgdmfoL4Zf2U83lNZlDkCCbf9uode2hSwkAH2gt6c7HU3Dx+jWf
-         Lbr5zPH6wKYn39DJ+6NLI5mg3xP29mogvXvZ8pwsmFvhKokJ1ch3sG2DK9XaAlHAYodi
-         +qKv4ofRdqguxQiFyKDGAM1UTdRC+XwjPCmxjzEOQnK+a3bMoiMrwIcbpjIUzZA1oTMg
-         WctiJrYLeolZNTCXy3yZ7B9AAB2IB8LougSwx/8DXjr3DkLoHMqKUpZXuoih+Kn7CPBE
-         CymgkYqntmOtVy9nlE9wvEJwtuw7rNFHCLm+6qLImQN+IUwF4g6GwNWXmKa2uFFmeIyz
-         ELcg==
-X-Forwarded-Encrypted: i=1; AJvYcCVLCA7UopcqJ4L7K+BUtjDCzxTuXGfKVMm34IOUkTuD2mAWUXzjwPpSUWIy0LsNPR9K01lLP1QE4A41QhWZ+Md5A/gTbOe+qj5fhhkjNKlEH9PDhFdkftndPHPo3by5sCfS/8n68dm2N0G7g40DN+gHW2pyg3YkcS4Qo+mjyebaaSAvgpz1VW3nfHVTExnO/nzkF4fhgB+Z7IkWviJeUZgZPg==
-X-Gm-Message-State: AOJu0YxgpH6ipXc2dPlifGsmTAVSVYu0Zd/dMjWrgRqDzOITQY1UnHLk
-	OxKv/oNn+lXE8o4vZgNnVNq3vwkMgC3BXPjAhsgGm43HsLLnqOuwtaTOz+qWPQkFaAz/IToHMAr
-	GE14dxHHv2MI131iEJglbKQehSqM=
-X-Google-Smtp-Source: AGHT+IEJMItiavZC96OOn694KUn/rrJ28jg1RiM7DNQeS56X90KqY7Ko5SU2xqiymo9ES/uF8rC4UK0QhSRV4d/M7TE=
-X-Received: by 2002:a05:6358:2826:b0:186:1abe:611e with SMTP id
- e5c5f4694b2df-19791ddd866mr159774755d.30.1716385315608; Wed, 22 May 2024
- 06:41:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uOhXImGb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B5B2C2BBFC;
+	Wed, 22 May 2024 13:45:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716385521;
+	bh=1W4kFLAzSSYWvoPap3Xf2bjJpHvLN+WISbxmEp4RrVY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=uOhXImGb+N3fAigARf5tCSwGCGfUFadbRsPHhIGLyd6wHgF6eaRnXJCR3fcgNXTM4
+	 rFeSTGVpUSDqVgAbUFRZN3PXdFVeI0Qgg99IlKSDyAuXXYqd7EeA+mHAPaAioyGqNC
+	 1VZDUMuG5/dmuudCij+lg6Kl8B7Q/eViJ1iFdJCCcOxghjvWhnd6SivfV/8TpqCLvq
+	 9Z1WgVFzTGW+vdj9RdT+Gj3M9TqO6chUHkSsH/Jd6u0SpZWMnT++9IoVqF5/nJ61Ti
+	 nE1BBhie5DvUsIVXyOfgRG7hZtZrOPZvKqct7zsp0FK6OqjuJE5K20mguejIrje6rP
+	 vDrzS1VDiCFuA==
+Date: Wed, 22 May 2024 06:45:19 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Danielle Ratson <danieller@nvidia.com>
+Cc: Ido Schimmel <idosch@nvidia.com>, "netdev@vger.kernel.org"
+ <netdev@vger.kernel.org>, "davem@davemloft.net" <davem@davemloft.net>,
+ "edumazet@google.com" <edumazet@google.com>, "pabeni@redhat.com"
+ <pabeni@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>,
+ "linux@armlinux.org.uk" <linux@armlinux.org.uk>, "sdf@google.com"
+ <sdf@google.com>, "kory.maincent@bootlin.com" <kory.maincent@bootlin.com>,
+ "maxime.chevallier@bootlin.com" <maxime.chevallier@bootlin.com>,
+ "vladimir.oltean@nxp.com" <vladimir.oltean@nxp.com>,
+ "przemyslaw.kitszel@intel.com" <przemyslaw.kitszel@intel.com>,
+ "ahmed.zaki@intel.com" <ahmed.zaki@intel.com>, "richardcochran@gmail.com"
+ <richardcochran@gmail.com>, "shayagr@amazon.com" <shayagr@amazon.com>,
+ "paul.greenwalt@intel.com" <paul.greenwalt@intel.com>, "jiri@resnulli.us"
+ <jiri@resnulli.us>, "linux-doc@vger.kernel.org"
+ <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, mlxsw <mlxsw@nvidia.com>, Petr Machata
+ <petrm@nvidia.com>
+Subject: Re: [PATCH net-next v5 04/10] ethtool: Add flashing transceiver
+ modules' firmware notifications ability
+Message-ID: <20240522064519.3e980390@kernel.org>
+In-Reply-To: <DM6PR12MB451687C3C54323473716621ED8EB2@DM6PR12MB4516.namprd12.prod.outlook.com>
+References: <20240424133023.4150624-1-danieller@nvidia.com>
+	<20240424133023.4150624-5-danieller@nvidia.com>
+	<20240429201130.5fad6d05@kernel.org>
+	<DM6PR12MB45168DC7D9D9D7A5AE3E2B2DD81A2@DM6PR12MB4516.namprd12.prod.outlook.com>
+	<20240430130302.235d612d@kernel.org>
+	<ZjH1DCu0rJTL_RYz@shredder>
+	<20240501073758.3da76601@kernel.org>
+	<DM6PR12MB451687C3C54323473716621ED8EB2@DM6PR12MB4516.namprd12.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1708709155.git.john@groves.net> <CAOQ4uxiPc5ciD_zm3jp5sVQaP4ndb40mApw5hx2DL+8BZNd==A@mail.gmail.com>
- <CAJfpegv8XzFvty_x00UehUQxw9ai8BytvGNXE8SL03zfsTN6ag@mail.gmail.com>
- <CAOQ4uxg9WyQ_Ayh7Za_PJ2u_h-ncVUafm5NZqT_dt4oHBMkFQg@mail.gmail.com>
- <kejfka5wyedm76eofoziluzl7pq3prys2utvespsiqzs3uxgom@66z2vs4pe22v>
- <CAJfpegvQefgKOKMWC8qGTDAY=qRmxPvWkg2QKzNUiag1+q5L+Q@mail.gmail.com>
- <CAOQ4uxiY-qHSssaX82_LmFdjp5=mqgAhGgbkjAPSXcZ+yRecKw@mail.gmail.com> <CAJfpegvAuPtKzR1A4GdaZTB_EDqPu53wUf97D1QOUo9VKkTV9Q@mail.gmail.com>
-In-Reply-To: <CAJfpegvAuPtKzR1A4GdaZTB_EDqPu53wUf97D1QOUo9VKkTV9Q@mail.gmail.com>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Wed, 22 May 2024 16:41:43 +0300
-Message-ID: <CAOQ4uxhNWLQQ+mUED18-4Vi7XJv2hGJJ3_j1Yx+wtLZjZaX5eA@mail.gmail.com>
-Subject: Re: [RFC PATCH 00/20] Introduce the famfs shared-memory file system
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: John Groves <John@groves.net>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Dan Williams <dan.j.williams@intel.com>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Matthew Wilcox <willy@infradead.org>, linux-cxl@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, john@jagalactic.com, 
-	Dave Chinner <david@fromorbit.com>, Christoph Hellwig <hch@infradead.org>, dave.hansen@linux.intel.com, 
-	gregory.price@memverge.com, Vivek Goyal <vgoyal@redhat.com>, 
-	Bernd Schubert <bernd.schubert@fastmail.fm>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, May 22, 2024 at 2:28=E2=80=AFPM Miklos Szeredi <miklos@szeredi.hu> =
-wrote:
->
-> On Wed, 22 May 2024 at 12:16, Amir Goldstein <amir73il@gmail.com> wrote:
->
-> > The first open would cache the extent list in fuse_inode and
-> > second open would verify that the extent list matches.
-> >
-> > Last file close could clean the cache extent list or not - that
-> > is an API decision.
->
-> Well, current API clears the mapping, and I would treat the fi->fb as
-> a just a special case of the extent list.  So by default I'd keep this
-> behavior, but perhaps it would make sense to optionally allow the
-> mapping to remain after the last close.  For now this is probably not
-> relevant...
+On Wed, 22 May 2024 13:08:43 +0000 Danielle Ratson wrote:
+> 1. Add a new unicast function to netlink.c:
+> void *ethnl_unicast_put(struct sk_buff *skb, u32 portid, u32 seq, u8 cmd)
+> 
+> 2. Use it in the notification function instead of the multicast previously used along with genlmsg_unicast().
+> 'portid' and 'seq' taken from genl_info(), are added to the struct ethtool_module_fw_flash, which is accessible from the work item.
+> 
+> 3. Create a global list that holds nodes from type struct ethtool_module_fw_flash() and add it as a field in the struct ethtool_module_fw_flash.
+> Before scheduling a work, a new node is added to the list.
 
-Already in the works ;)
+Makes sense.
 
-Not tested - probably not working POC:
-https://github.com/amir73il/linux/commits/fuse-backing-inode-wip
+> 4. Add a new netlink notifier that when the relevant event takes place, deletes the node from the list, wait until the end of the work item, with cancel_work_sync() and free allocations.
 
-I am trying an API to opt into inode operation passthrough, which
-has a by-product of keeping fi->fb around after last close.
+What's the "relevant event" in this case? Closing of the socket that
+user had issued the command on?
 
-This is designed to be setup on lookup, but could also be setup on
-first open.
+Easiest way to "notice" the socket got closed would probably be to
+add some info to genl_sk_priv_*(). ->sock_priv_destroy() will get
+called. But you can also get a close notification in the family 
+->unbind callback.
 
-I have some ideas for how to return backing id with lookup
-(and readdirplus) response, but haven't tried them yet.
-But setup backing file from lookup response will surely
-stick around until inode evict.
-
-Thanks,
-Amir.
+I'm on the fence whether we should cancel the work. We could just
+mark the command as 'no socket present' and stop sending notifications.
+Not sure which is better..
