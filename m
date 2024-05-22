@@ -1,202 +1,229 @@
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173DB3BBC9
-	for <linux-doc@vger.kernel.org>; Wed, 22 May 2024 08:01:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95CDA7FBDF;
+	Wed, 22 May 2024 08:29:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716364912; cv=none; b=ULIXz7BVMic9cCqdsC2cA1CPVcqzWsIxZg9wdd9jF/k+A5NWiCeSyWM4z5Tsy8HruM11P2PSUcei8F0fnDEu0tZvOOxUG3CvZTkAw+vp/1DV3TL72YHPNypOPO+UggmC1E0kZ6Ul/MPN32pVhq3RsNqMjPSUBOFnrrTTCTsiBU0=
+	t=1716366555; cv=none; b=CQmZUz+Xf2Le6Bh6S4JAD988ECIxN/XKFIqoKcibdwi0ZYWBtuMbpd/NcbvruIxiz/li1NqVfDVCKzADwWOxW1pQar6KrIOToVY9BQ+AzCUixs38Wvzq9pj7Veg+4oHELVdVfTl9s65m+DAnpTTTyi77BXpcnxd4VKi6W529JTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716364912; c=relaxed/simple;
-	bh=3IU/Y5S5PbEM8sZoU16hx3r94ogEHRDSVQlKe9+7bN0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:In-Reply-To:
-	 Content-Type:References; b=eHQblrXTsUEYNQMFUJsIKBpU6vLabKcBqFO7TSLtJq7lk3p60nC4WQO4r1X/lhLkXLFG2jeKEOAPWaixd9iFPzSX6YDp7Pe2vwhoPwIANu5uB8CL5vxY0Kc7kuLbJV1A2tZ6dKSn3puVF+tzoRp1hFPtkEhAm8Et/+kqYMhPHGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=t0SIqXIe; arc=none smtp.client-ip=203.254.224.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1716366555; c=relaxed/simple;
+	bh=P0M8N4UnDcSqP0HJAK6Ke6QdLE32raiQx0Yb8gP5ReU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hzHFj810o+frTgTTiLd1dWwgSYV7wL+rbvXXp++Qj/KwC1YI87+XMFPEJ9TMEFQ/PHEp0w7sk5bm52tS0KVdPsv4wASKmnzRiT9HuPJlGQ91suYRNaQTQSSMcv4h9kKLeqTDPdVpKCMa5/os23d1xWmKE84gHRXzGNitxXihdVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=pylsohzq; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="t0SIqXIe"
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20240522080142epoutp049dcd8a5a7d847916c0208cacdd7ec635~RwMkAgDS73175431754epoutp04J
-	for <linux-doc@vger.kernel.org>; Wed, 22 May 2024 08:01:42 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20240522080142epoutp049dcd8a5a7d847916c0208cacdd7ec635~RwMkAgDS73175431754epoutp04J
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1716364902;
-	bh=627E9H6r3w+Yw4w0h70HH2hr5j+VfvV9NWE3+rPSikA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=t0SIqXIeAFMAMBIHtT9GgGfIo0nlEaXJEoLablJbu6Nq8eS3Eg2imD/IxF53PLYGu
-	 dY1bILQk6nurtGP9Wreazhc4n5vLq6MGaHsrDsthqu+cRBsT1HVh1OY46gbLTm6Imm
-	 5q+IhbOtZwmFo1Er9+24orKl8kJcrpMhHsrefvFI=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
-	20240522080141epcas5p465ef2f70fec9f61ce57611b3f188fc54~RwMjcp4ql1649116491epcas5p4E;
-	Wed, 22 May 2024 08:01:41 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.38.177]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4VkkKJ4nNqz4x9Q7; Wed, 22 May
-	2024 08:01:40 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
-	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	D9.0F.09688.466AD466; Wed, 22 May 2024 17:01:40 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20240522071705epcas5p23ab74d2c71948bc9e5a9b23a65146eeb~RvlnKjcwd2177421774epcas5p2s;
-	Wed, 22 May 2024 07:17:05 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240522071705epsmtrp2f47c73456f842bfd16c1f3953e503f90~RvlnJUYKI0221202212epsmtrp2e;
-	Wed, 22 May 2024 07:17:05 +0000 (GMT)
-X-AuditID: b6c32a4a-837fa700000025d8-01-664da664e987
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	09.D5.08390.1FB9D466; Wed, 22 May 2024 16:17:05 +0900 (KST)
-Received: from green245 (unknown [107.99.41.245]) by epsmtip1.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20240522071701epsmtip1ac16f31e1dcf01f686c2edd63bf915aa~RvljiHMFw3023730237epsmtip1r;
-	Wed, 22 May 2024 07:17:01 +0000 (GMT)
-Date: Wed, 22 May 2024 12:40:03 +0530
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
-	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka
-	<mpatocka@redhat.com>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
-	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
-	<kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
-	Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	martin.petersen@oracle.com, bvanassche@acm.org, david@fromorbit.com,
-	damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
-	nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v20 09/12] dm: Add support for copy offload
-Message-ID: <20240522071003.fd5oijr3jycvtws4@green245>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="pylsohzq"
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 44M7b7XW031016;
+	Wed, 22 May 2024 08:28:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=fYoR7iiLcArZtU74aSNT/rc2QYYoMKNLjO+XV8CNcUo=;
+ b=pylsohzqdyFVQwiM+iERvLNd2+IDMezd1NgPPVRzxu0n4HvX5Iw9ul8TwMlElOnlrUOY
+ wKn895KEQuUj+WGzkUWvvNzIXTjIR+EyGwqxCP4QPWCXRWDxWB2oMLNtbJ5FQLYGRiEH
+ 4BtkcPhCVeDfdv+dHqrg/BjvIq2Y1yXDkLi7gFzog6+6dn1nlDOc8/Va6Lgx3yUDVXLl
+ QV/FVCZfrsbcSm/A3REEyL5CmEqiyuT3Kbj1HbTBH4QE+K4Zf3AgP4ENqK52W8IdwdJU
+ 6JAlpKjSQqJr5mUOfxn7HUApiNWw+QzQ26wXeSErTA8VwW+mIcJLsdi4G/FORE7VQJ6S Ow== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3y9c1xg739-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 22 May 2024 08:28:54 +0000
+Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 44M8ORQP010376;
+	Wed, 22 May 2024 08:28:54 GMT
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3y9c1xg736-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 22 May 2024 08:28:54 +0000
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 44M73xHZ023565;
+	Wed, 22 May 2024 08:28:53 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3y77npawv0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 22 May 2024 08:28:53 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 44M8Sl3D50528600
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 22 May 2024 08:28:49 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 531642004D;
+	Wed, 22 May 2024 08:28:47 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 297FD20040;
+	Wed, 22 May 2024 08:28:45 +0000 (GMT)
+Received: from li-c6426e4c-27cf-11b2-a85c-95d65bc0de0e.in.ibm.com (unknown [9.204.206.66])
+	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 22 May 2024 08:28:44 +0000 (GMT)
+From: Gautam Menghani <gautam@linux.ibm.com>
+To: mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
+        aneesh.kumar@kernel.org, naveen.n.rao@linux.ibm.com, corbet@lwn.net
+Cc: Gautam Menghani <gautam@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
+        kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, stable@vger.kernel.org
+Subject: [PATCH] arch/powerpc/kvm: Fix doorbell emulation by adding DPDES support
+Date: Wed, 22 May 2024 13:58:20 +0530
+Message-ID: <20240522082838.121769-1-gautam@linux.ibm.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <0f29bcc1-e708-47cc-a562-0d1e69be6b03@suse.de>
-User-Agent: NeoMutt/20171215
-X-Brightmail-Tracker: H4sIAAAAAAAAA02TezBcdxTH53fv7nVpdG52mfxCTXQ7ndZ7N2H7k9I0IXoTIjKJVtJM2XI9
-	Brvb3UUlpvGoeDQPpC2uYAnRoCSIsVlCKUKopqxiQpsp0ampoINREbWWtv995nzP+8whcZ7W
-	yIKMkKoYhVQSJSBMOI0dNrYOITePhQpLqq1QbW8XjpKz1nBUNX6VQDMdCwB9PbeCo8m2NIBW
-	+wdw1NA1AZC6tJCDRts0GGouzcHQrapODBXkpmCoc/1PAuW0DwM0pWMx1DJmh0oulnFQc0sP
-	Bw3eu06g4ptTRqii+wWGstN1GGqaTAKoZuYZBz0Ys0QDa93cdy3pwSFvurcU0hp23IgemLjD
-	oQf7Y+i6ygyCri+7QP9enw9o7WgiQd+4co1LX06ZJWhN6i9cen5qjEM/u68j6CsNlYDuU39v
-	5Mc/E+kWzkhCGIU1Iw2WhURIw9wF3icDPQJdxEKRg8gVvSWwlkqiGXeBp4+fg1dE1MZyBNax
-	kqiYDZOfRKkUOL3jppDFqBjrcJlS5S5g5CFRcme5o1ISrYyRhjlKGdV+kVC412XDMSgyfCG/
-	w0j+yPxT7cwlIhGs78wExiSknGF1YzLIBCYkj9ICeLcvj9ALPGoBwL47XgZhCcDn3z4itiNy
-	8hqMDEILgEvaJ1sRTwGs00TrmUO9DkufjnAyAUkSlB18uE7qzWaUAM6ntW/G4lQFAZ+vj3P1
-	Ap86ANfGMzA9m1JiOJfRhht4J+zJn+To2Zh6G86UD2zazalXYF75Im5oaNYYtnb7GtgT3mbz
-	MQPz4R/d+kb1bAH/mm3ZGiAO3vryG0LfBKQ+B5D9mQUG4QBM7b2K65vGqXCYXkwazFbwq96a
-	zZw49TK8vDq5ld8UNhVt82uwula9lX83HF5O2mIa6pLrccOy+jF4Y7IRywJ72P/Nxv5Xjt0s
-	sR9mzCVzDbwHptwtwA0ulrDiBWlAG1h7z0kNiEqwm5Ero8MYpYt8r5SJ+/f0wbLoOrD5RbZH
-	m8CTX+cc2wFGgnYASVxgZlrXcCSUZxoiiT/HKGSBipgoRtkOXDbOlo1bmAfLNt5QqgoUObsK
-	ncVisbPrPrFIsMt0JrUwhEeFSVRMJMPIGcV2HEYaWyRi/PoIIt+mXHz4xHuf+MQfOrUy/5v/
-	BBHX5zvL455Mm55d2MXuOy8bLc9lOpLGpjWikUxzt7lrAeyHJbycQ+EL8Lq2SH1uVVsw9VmZ
-	5uDHKznc7vaAs4utQX4qYevy/cdvetgfD8z+QmyhflA1PTQ/zV7gt1rVgmo4Kv6o+HznQqnH
-	4nRRgu4s70hn+kWn3J/EnNO6Uc13Ow5XnhlZPh3QYf/S36WzniY/XIoqd3lfapZ5EAUN6xK6
-	4ptjC5fIdO9F01NsT/IH9Vle8dHHwx4zqZWvwhbW0cdfzQQlpJQcAzW1J5ylHvOhmPcb/B2x
-	Pz5UFtv5CkX2rGVBIXXUP+X2kICjDJeIbHGFUvIPNBNwJs4EAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuphleLIzCtJLcpLzFFi42LZdlhJTvfjbN80g73ntSzWnzrGbNE04S+z
-	xeq7/WwWrw9/YrSY9uEns8WTA+2MFr/Pnme22HLsHqPFgkVzWSxuHtjJZLFn0SQmi5WrjzJZ
-	zJ7ezGRx9P9bNotJh64xWjy9OovJYu8tbYuFbUtYLPbsPclicXnXHDaL+cueslssP/6PyWJi
-	x1Umix1PGhkt1r1+z2Jx4pa0xfm/x1kdpD0uX/H2OLVIwmPnrLvsHufvbWTxuHy21GPTqk42
-	j81L6j1ebJ7J6LH7ZgObx+K+yawevc3v2Dx2tt5n9fj49BaLx/t9V9k8+rasYvQ4s+AIe4Bw
-	FJdNSmpOZllqkb5dAldG48v7zAWPhCo2b+plbWBcy9/FyMkhIWAiMWnGFvYuRi4OIYHdjBK9
-	l/6yQSQkJZb9PcIMYQtLrPz3HKroCaPEuZ/PwIpYBFQlFj27wdLFyMHBJqAtcfo/B0hYREBJ
-	4mP7IbB6ZoHVbBK7Di1mBEkIC9hL/L3byQRi8wqYSXzoPMAMMfQsk0Tf+99sEAlBiZMzn7CA
-	2MxARfM2P2QGWcAsIC2x/B8HRFheonnrbLDjOAWsJV4vPQ9miwrISMxY+pV5AqPQLCSTZiGZ
-	NAth0iwkkxYwsqxilEwtKM5Nzy02LDDKSy3XK07MLS7NS9dLzs/dxAhOMFpaOxj3rPqgd4iR
-	iYPxEKMEB7OSCO+mLZ5pQrwpiZVVqUX58UWlOanFhxilOViUxHm/ve5NERJITyxJzU5NLUgt
-	gskycXBKNTCtbZxb5v6y/0Ow30pN5TR9Pu+qide+PdUPEfeRMo+779X6cOGtSmb753E/hD/9
-	3/j/2qRXjit7QiTvzbj9yNE33t/nUky5stWJR65CcUukdjybznZPT6muZ7X4hZ3zFcz4WRVm
-	Sp09X3znzrcZC2e/cPrO//i8iKe+QYnSjwMt02Kijzrb2v02DxGef9n+4Nyjjesf6+1RSlj1
-	aX61vwfDU8Y3O2Z9L2dlFTmzaXGJ3Kepjcqu82fe2JRhs+Dw5gPz926N2+bFVfq1f03BQ/EF
-	RW98+i8fZON7uTN524ZlfpeUX6i5Orovl/+xeILizOI5j141uP5TiTh1Tqtd6jpr7MFDke+i
-	tjZcfyAS6yN7Q4mlOCPRUIu5qDgRABcP8X2fAwAA
-X-CMS-MailID: 20240522071705epcas5p23ab74d2c71948bc9e5a9b23a65146eeb
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----Fualeei1.f5fhWGYL679EBd0hH5-OLgtfrOtH6wInDZGwDEe=_19f97_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240520103004epcas5p4a18f3f6ba0f218d57b0ab4bb84c6ff18
-References: <20240520102033.9361-1-nj.shetty@samsung.com>
-	<CGME20240520103004epcas5p4a18f3f6ba0f218d57b0ab4bb84c6ff18@epcas5p4.samsung.com>
-	<20240520102033.9361-10-nj.shetty@samsung.com>
-	<41228a01-9d0c-415d-9fef-a3d2600b1dfa@suse.de>
-	<20240521140850.m6ppy2sxv457gxgs@green245>
-	<0f29bcc1-e708-47cc-a562-0d1e69be6b03@suse.de>
-
-------Fualeei1.f5fhWGYL679EBd0hH5-OLgtfrOtH6wInDZGwDEe=_19f97_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: grk0eM8ItSChuzW7eKwq1BlMjSNV81hm
+X-Proofpoint-GUID: Im1o3r3rcrkjg4qz4uyhGHNhWtcAIdWz
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-05-22_03,2024-05-21_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 clxscore=1011
+ suspectscore=0 phishscore=0 lowpriorityscore=0 spamscore=0
+ priorityscore=1501 impostorscore=0 malwarescore=0 mlxlogscore=586
+ adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2405010000 definitions=main-2405220060
 
-On 22/05/24 08:22AM, Hannes Reinecke wrote:
->On 5/21/24 16:08, Nitesh Shetty wrote:
->>On 21/05/24 09:11AM, Hannes Reinecke wrote:
->>>On 5/20/24 12:20, Nitesh Shetty wrote:
->>>>Before enabling copy for dm target, check if underlying devices and
->>>>dm target support copy. Avoid split happening inside dm target.
->>>>Fail early if the request needs split, currently splitting copy
->>>>request is not supported.
->>>>
->>>>Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
->>>>---
->>>>@@ -397,6 +397,9 @@ struct dm_target {
->>>>      * bio_set_dev(). NOTE: ideally a target should _not_ need this.
->>>>      */
->>>>     bool needs_bio_set_dev:1;
->>>>+
->>>>+    /* copy offload is supported */
->>>>+    bool copy_offload_supported:1;
->>>> };
->>>> void *dm_per_bio_data(struct bio *bio, size_t data_size);
->>>
->>>Errm. Not sure this will work. DM tables might be arbitrarily, 
->>>requiring us to _split_ the copy offload request according to the 
->>>underlying component devices. But we explicitly disallowed a split 
->>>in one of the earlier patches.
->>>Or am I wrong?
->>>
->>Yes you are right w.r.to split, we disallow split.
->>But this flag indicates whether we support copy offload in dm-target or
->>not. At present we support copy offload only in dm-linear.
->>For other dm-target, eventhough underlaying device supports copy
->>offload, dm-target based on it wont support copy offload.
->>If the present series get merged, we can test and integrate more
->>targets.
->>
->But dm-linear can be concatenated, too; you can easily use dm-linear
->to tie several devices together.
->Which again would require a copy-offload range to be split.
->Hmm?
->
-Sorry, I dont understand the concern here. I see 3 possibilites here.
+Doorbell emulation is broken for KVM on PowerVM guests as support for
+DPDES was not added in the initial patch series. Due to this, a KVM on
+PowerVM guest cannot be booted with the XICS interrupt controller as
+doorbells are to be setup in the initial probe path when using XICS
+(pSeries_smp_probe()). Add DPDES support in the host KVM code to fix
+doorbell emulation.
 
-1. Both src and dst IO lies in same underlying device. This will succeed.
-2. src and dst lie in different devices. This will fail.
-	a. src or dst needs to be split, if one or both of them
-	spans across the underlying block device boundary. In this case we
-	fail the IO in dm layer(refer patch 9).
-	b. src and dst doesn't split in dm,
-	but they wont be merged in request later as they belong to
-	different block device.
-	Hence the request reaches the driver with single bio and will fail
-	in driver(refer patch 7)
+Fixes: 6ccbbc33f06a ("KVM: PPC: Add helper library for Guest State Buffers")
+Signed-off-by: Gautam Menghani <gautam@linux.ibm.com>
+---
+ Documentation/arch/powerpc/kvm-nested.rst     |  4 +++-
+ arch/powerpc/include/asm/guest-state-buffer.h |  3 ++-
+ arch/powerpc/include/asm/kvm_book3s.h         |  1 +
+ arch/powerpc/kvm/book3s_hv.c                  | 14 +++++++++++++-
+ arch/powerpc/kvm/book3s_hv_nestedv2.c         |  7 +++++++
+ arch/powerpc/kvm/test-guest-state-buffer.c    |  2 +-
+ 6 files changed, 27 insertions(+), 4 deletions(-)
 
-Does this address your concern, or do you have something else in mind ?
+diff --git a/Documentation/arch/powerpc/kvm-nested.rst b/Documentation/arch/powerpc/kvm-nested.rst
+index 630602a8aa00..5defd13cc6c1 100644
+--- a/Documentation/arch/powerpc/kvm-nested.rst
++++ b/Documentation/arch/powerpc/kvm-nested.rst
+@@ -546,7 +546,9 @@ table information.
+ +--------+-------+----+--------+----------------------------------+
+ | 0x1052 | 0x08  | RW |   T    | CTRL                             |
+ +--------+-------+----+--------+----------------------------------+
+-| 0x1053-|       |    |        | Reserved                         |
++| 0x1053 | 0x08  | RW |   T    | DPDES                            |
+++--------+-------+----+--------+----------------------------------+
++| 0x1054-|       |    |        | Reserved                         |
+ | 0x1FFF |       |    |        |                                  |
+ +--------+-------+----+--------+----------------------------------+
+ | 0x2000 | 0x04  | RW |   T    | CR                               |
+diff --git a/arch/powerpc/include/asm/guest-state-buffer.h b/arch/powerpc/include/asm/guest-state-buffer.h
+index 808149f31576..d107abe1468f 100644
+--- a/arch/powerpc/include/asm/guest-state-buffer.h
++++ b/arch/powerpc/include/asm/guest-state-buffer.h
+@@ -81,6 +81,7 @@
+ #define KVMPPC_GSID_HASHKEYR			0x1050
+ #define KVMPPC_GSID_HASHPKEYR			0x1051
+ #define KVMPPC_GSID_CTRL			0x1052
++#define KVMPPC_GSID_DPDES			0x1053
+ 
+ #define KVMPPC_GSID_CR				0x2000
+ #define KVMPPC_GSID_PIDR			0x2001
+@@ -110,7 +111,7 @@
+ #define KVMPPC_GSE_META_COUNT (KVMPPC_GSE_META_END - KVMPPC_GSE_META_START + 1)
+ 
+ #define KVMPPC_GSE_DW_REGS_START KVMPPC_GSID_GPR(0)
+-#define KVMPPC_GSE_DW_REGS_END KVMPPC_GSID_CTRL
++#define KVMPPC_GSE_DW_REGS_END KVMPPC_GSID_DPDES
+ #define KVMPPC_GSE_DW_REGS_COUNT \
+ 	(KVMPPC_GSE_DW_REGS_END - KVMPPC_GSE_DW_REGS_START + 1)
+ 
+diff --git a/arch/powerpc/include/asm/kvm_book3s.h b/arch/powerpc/include/asm/kvm_book3s.h
+index 3e1e2a698c9e..10618622d7ef 100644
+--- a/arch/powerpc/include/asm/kvm_book3s.h
++++ b/arch/powerpc/include/asm/kvm_book3s.h
+@@ -594,6 +594,7 @@ static inline u##size kvmppc_get_##reg(struct kvm_vcpu *vcpu)		\
+ 
+ 
+ KVMPPC_BOOK3S_VCORE_ACCESSOR(vtb, 64, KVMPPC_GSID_VTB)
++KVMPPC_BOOK3S_VCORE_ACCESSOR(dpdes, 64, KVMPPC_GSID_DPDES)
+ KVMPPC_BOOK3S_VCORE_ACCESSOR_GET(arch_compat, 32, KVMPPC_GSID_LOGICAL_PVR)
+ KVMPPC_BOOK3S_VCORE_ACCESSOR_GET(lpcr, 64, KVMPPC_GSID_LPCR)
+ KVMPPC_BOOK3S_VCORE_ACCESSOR_SET(tb_offset, 64, KVMPPC_GSID_TB_OFFSET)
+diff --git a/arch/powerpc/kvm/book3s_hv.c b/arch/powerpc/kvm/book3s_hv.c
+index 35cb014a0c51..cf285e5153ba 100644
+--- a/arch/powerpc/kvm/book3s_hv.c
++++ b/arch/powerpc/kvm/book3s_hv.c
+@@ -4116,6 +4116,11 @@ static int kvmhv_vcpu_entry_nestedv2(struct kvm_vcpu *vcpu, u64 time_limit,
+ 	int trap;
+ 	long rc;
+ 
++	if (vcpu->arch.doorbell_request) {
++		vcpu->arch.doorbell_request = 0;
++		kvmppc_set_dpdes(vcpu, 1);
++	}
++
+ 	io = &vcpu->arch.nestedv2_io;
+ 
+ 	msr = mfmsr();
+@@ -4278,9 +4283,16 @@ static int kvmhv_p9_guest_entry(struct kvm_vcpu *vcpu, u64 time_limit,
+ 	if (kvmhv_on_pseries()) {
+ 		if (kvmhv_is_nestedv1())
+ 			trap = kvmhv_vcpu_entry_p9_nested(vcpu, time_limit, lpcr, tb);
+-		else
++		else {
+ 			trap = kvmhv_vcpu_entry_nestedv2(vcpu, time_limit, lpcr, tb);
+ 
++			/* Remember doorbell if it is pending  */
++			if (kvmppc_get_dpdes(vcpu)) {
++				vcpu->arch.doorbell_request = 1;
++				kvmppc_set_dpdes(vcpu, 0);
++			}
++		}
++
+ 		/* H_CEDE has to be handled now, not later */
+ 		if (trap == BOOK3S_INTERRUPT_SYSCALL && !nested &&
+ 		    kvmppc_get_gpr(vcpu, 3) == H_CEDE) {
+diff --git a/arch/powerpc/kvm/book3s_hv_nestedv2.c b/arch/powerpc/kvm/book3s_hv_nestedv2.c
+index 8e6f5355f08b..36863fff2a99 100644
+--- a/arch/powerpc/kvm/book3s_hv_nestedv2.c
++++ b/arch/powerpc/kvm/book3s_hv_nestedv2.c
+@@ -311,6 +311,10 @@ static int gs_msg_ops_vcpu_fill_info(struct kvmppc_gs_buff *gsb,
+ 			rc = kvmppc_gse_put_u64(gsb, iden,
+ 						vcpu->arch.vcore->vtb);
+ 			break;
++		case KVMPPC_GSID_DPDES:
++			rc = kvmppc_gse_put_u64(gsb, iden,
++						vcpu->arch.vcore->dpdes);
++			break;
+ 		case KVMPPC_GSID_LPCR:
+ 			rc = kvmppc_gse_put_u64(gsb, iden,
+ 						vcpu->arch.vcore->lpcr);
+@@ -543,6 +547,9 @@ static int gs_msg_ops_vcpu_refresh_info(struct kvmppc_gs_msg *gsm,
+ 		case KVMPPC_GSID_VTB:
+ 			vcpu->arch.vcore->vtb = kvmppc_gse_get_u64(gse);
+ 			break;
++		case KVMPPC_GSID_DPDES:
++			vcpu->arch.vcore->dpdes = kvmppc_gse_get_u64(gse);
++			break;
+ 		case KVMPPC_GSID_LPCR:
+ 			vcpu->arch.vcore->lpcr = kvmppc_gse_get_u64(gse);
+ 			break;
+diff --git a/arch/powerpc/kvm/test-guest-state-buffer.c b/arch/powerpc/kvm/test-guest-state-buffer.c
+index 4720b8dc8837..91ae660cfe21 100644
+--- a/arch/powerpc/kvm/test-guest-state-buffer.c
++++ b/arch/powerpc/kvm/test-guest-state-buffer.c
+@@ -151,7 +151,7 @@ static void test_gs_bitmap(struct kunit *test)
+ 		i++;
+ 	}
+ 
+-	for (u16 iden = KVMPPC_GSID_GPR(0); iden <= KVMPPC_GSID_CTRL; iden++) {
++	for (u16 iden = KVMPPC_GSID_GPR(0); iden <= KVMPPC_GSID_DPDES; iden++) {
+ 		kvmppc_gsbm_set(&gsbm, iden);
+ 		kvmppc_gsbm_set(&gsbm1, iden);
+ 		KUNIT_EXPECT_TRUE(test, kvmppc_gsbm_test(&gsbm, iden));
+-- 
+2.45.0
 
-Thank you,
-Nitesh Shetty
-
-------Fualeei1.f5fhWGYL679EBd0hH5-OLgtfrOtH6wInDZGwDEe=_19f97_
-Content-Type: text/plain; charset="utf-8"
-
-
-------Fualeei1.f5fhWGYL679EBd0hH5-OLgtfrOtH6wInDZGwDEe=_19f97_--
