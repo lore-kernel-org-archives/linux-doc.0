@@ -1,105 +1,201 @@
-Received: from 009.lax.mailroute.net (009.lax.mailroute.net [199.89.1.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 380BC145B1D;
-	Wed, 22 May 2024 18:05:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFFB1142E8A;
+	Wed, 22 May 2024 20:26:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716401138; cv=none; b=VXe+q0EJdEHIFtK/Zjhc63rcyUR0KrPGuUr3EzmVmUj+/PYJu4yPkkxvuK9dWPYwmI5v8+YyQsv2cWOJ23kgoLoj5bli9ohx5AHCXJj5phjo1PVxqK5+QRhf8CYj8yFivMyqbpjiP32uPK6VaHHwsYgUPyQjf+91rKxBN4zjZr8=
+	t=1716409611; cv=none; b=WFvnyyxq5ouwUQXxe7/8qaJsscFIiVsvbs1CsDsPG/7qBaHBDXxit9Z55WxJaEDnj5rctehVfBh6TRedmf9f2BI7BZh/nbFGI/QwU73YkNxqKbGUmZNdnhBPAG1s9w5dCschz7trUHfnTkSyIA2KFufGCeevKPfgSKc1hXaoo50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716401138; c=relaxed/simple;
-	bh=luEwbZp5k3nkrHj86wxSaPapUg/Y1fNnfoeZAYeQvfo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=byQi1sB9fc5AKcPLDq4w9f1u8UcKVLZNgw1C/V/zR6PRsMusKYuMEqbb8vrwAdKmDHEvvCQCeUtzntRhNsTaTe1F4JcEbmHFkW6sD6fYhfkgxHuneehsRVVG+s0UlppZ3ZePoonh8xzhyyMt0PxJOwu9Q5GnHCEK4+ycbm7rjPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=w4GG+Zk5; arc=none smtp.client-ip=199.89.1.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
+	s=arc-20240116; t=1716409611; c=relaxed/simple;
+	bh=PTiOczp2mzxEYJI4MT1GuN3UIP3h3LNBOO01otwTLUY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pp2iYW/ELsxsEuHCdD5ig6avymY8w1adUxa70MKehnVip3jFI1Vj8gM/LZM5P2NLINjwBRfYRVuHrVRTWQMIE8sybLapRUw6xtPFpTg6WNlJXm9dOxmv2MQ3clsgjCN2FDf9w8Ozdy1n/1ApnuBu58/6pttyE2Dh4lcimDi8KHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FeyZGmPD; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="w4GG+Zk5"
-Received: from localhost (localhost [127.0.0.1])
-	by 009.lax.mailroute.net (Postfix) with ESMTP id 4Vkzk83zW8zlgMVN;
-	Wed, 22 May 2024 18:05:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1716401127; x=1718993128; bh=L/Z8Mp/V6Xlw6wkYa899vAJP
-	gD1/fbki4rEqLMN5kt0=; b=w4GG+Zk5K8I/0oN1UncHTyKd/Gk3/mstQgMKWu5t
-	Ny7lWh1SNsdH2k/eerNIDbR63ln2fHwadLSxbN26wlaOya/Eb7PeDC2wO1wQKjb9
-	3Kv/JR7I2jGtvACEHUtbbltKIsewEnPsGTXlFkdHY5VQDRMbOzG2Cwd8N6o6Kglt
-	VAATPhWT8TLmUPmX550QPPAX33B17Mu07oRnRQwIO7d7FhOlbWoNQaN1AFJr+alO
-	tSKLeozFvhzoY0vF+hxn0Q0phgYjUm0983n3BJ3WEMUeCawbvbeOWfDl6EKHKFRy
-	nODt7HOx9vbzAwF9c3bzRHWDHD+tlt4k1IYNX1Ev1w+wxg==
-X-Virus-Scanned: by MailRoute
-Received: from 009.lax.mailroute.net ([127.0.0.1])
- by localhost (009.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id F51LBj9xAtLQ; Wed, 22 May 2024 18:05:27 +0000 (UTC)
-Received: from [100.96.154.26] (unknown [104.132.0.90])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 009.lax.mailroute.net (Postfix) with ESMTPSA id 4Vkzjx0WdLzlgMVL;
-	Wed, 22 May 2024 18:05:24 +0000 (UTC)
-Message-ID: <97966085-d7a4-4238-a413-4cdac77af8bd@acm.org>
-Date: Wed, 22 May 2024 11:05:24 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FeyZGmPD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716409609; x=1747945609;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PTiOczp2mzxEYJI4MT1GuN3UIP3h3LNBOO01otwTLUY=;
+  b=FeyZGmPDFtYqu8pv35V2T4fkJyyfwulbxcMMQzk+ExQsGY/c/W6Mq2m+
+   GlKgSO2IoKM7kapilLqGQjD5gWS6bVDt3ItCLRpvpu4FAFyycy/lWqC4C
+   nXGRJoS+bSYkJNXm0+JzqqSLznQEoLDsbSyGD9GV7sW1xr29vZbKG8pat
+   b05uxjslsRwDsfKcFzCBJopPvzh5/XEHV7dXOpQaIA27evFXKVE+LcXaP
+   NZ774fB9hEsVHliwbY0Ynbh+eKS+OnoxD//ncf6IlspbDT7BV8RJLkOwq
+   y9eqWHPMto3U8xx8FJftAUTFT4gKGuBBT5cpOg7l2ghvFGBsnrLh28agJ
+   Q==;
+X-CSE-ConnectionGUID: PWXBMVWzSv2ePdL9cvJGlg==
+X-CSE-MsgGUID: GbAHhUTITyyrdir4KCN1OQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11080"; a="30189648"
+X-IronPort-AV: E=Sophos;i="6.08,181,1712646000"; 
+   d="scan'208";a="30189648"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2024 13:26:49 -0700
+X-CSE-ConnectionGUID: cgc9YBcSTqWKQMMmFJRK/Q==
+X-CSE-MsgGUID: NRL6tzc+Q5KVb2a3BwNPJA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,181,1712646000"; 
+   d="scan'208";a="37800567"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 22 May 2024 13:26:43 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1s9sXo-0001wn-10;
+	Wed, 22 May 2024 20:26:40 +0000
+Date: Thu, 23 May 2024 04:25:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sukrit Bhatnagar <Sukrit.Bhatnagar@sony.com>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Christoph Lameter <cl@linux-foundation.org>,
+	Pekka Enberg <penberg@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, Sukrit.Bhatnagar@sony.com
+Subject: Re: [PATCH 1/2] mm: printk: introduce new format %pGs for slab flags
+Message-ID: <202405230441.A0LFA9SY-lkp@intel.com>
+References: <20240522074629.2420423-2-Sukrit.Bhatnagar@sony.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
- and request layer.
-To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
- Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
- Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: martin.petersen@oracle.com, david@fromorbit.com, hare@suse.de,
- damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
- nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org
-References: <20240520102033.9361-1-nj.shetty@samsung.com>
- <CGME20240520102842epcas5p4949334c2587a15b8adab2c913daa622f@epcas5p4.samsung.com>
- <20240520102033.9361-3-nj.shetty@samsung.com>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <20240520102033.9361-3-nj.shetty@samsung.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240522074629.2420423-2-Sukrit.Bhatnagar@sony.com>
 
-On 5/20/24 03:20, Nitesh Shetty wrote:
-> We add two new opcode REQ_OP_COPY_DST, REQ_OP_COPY_SRC.
-> Since copy is a composite operation involving src and dst sectors/lba,
-> each needs to be represented by a separate bio to make it compatible
-> with device mapper.
-> We expect caller to take a plug and send bio with destination information,
-> followed by bio with source information.
-> Once the dst bio arrives we form a request and wait for source
-> bio. Upon arrival of source bio we merge these two bio's and send
-> corresponding request down to device driver.
-> Merging non copy offload bio is avoided by checking for copy specific
-> opcodes in merge function.
+Hi Sukrit,
 
-Plugs are per task. Can the following happen?
-* Task A calls blk_start_plug()
-* Task B calls blk_start_plug()
-* Task A submits a REQ_OP_COPY_DST bio and a REQ_OP_COPY_SRC bio.
-* Task B submits a REQ_OP_COPY_DST bio and a REQ_OP_COPY_SRC bio.
-* Task A calls blk_finish_plug()
-* Task B calls blk_finish_plug()
-* The REQ_OP_COPY_DST bio from task A and the REQ_OP_COPY_SRC bio from
-   task B are combined into a single request.
-* The REQ_OP_COPY_DST bio from task B and the REQ_OP_COPY_SRC bio from
-   task A are combined into a single request.
+kernel test robot noticed the following build warnings:
 
-Thanks,
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on akpm-mm/mm-nonmm-unstable linus/master v6.9 next-20240522]
+[cannot apply to vbabka-slab/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Bart.
+url:    https://github.com/intel-lab-lkp/linux/commits/Sukrit-Bhatnagar/mm-printk-introduce-new-format-pGs-for-slab-flags/20240522-154443
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20240522074629.2420423-2-Sukrit.Bhatnagar%40sony.com
+patch subject: [PATCH 1/2] mm: printk: introduce new format %pGs for slab flags
+config: x86_64-randconfig-123-20240522 (https://download.01.org/0day-ci/archive/20240523/202405230441.A0LFA9SY-lkp@intel.com/config)
+compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240523/202405230441.A0LFA9SY-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202405230441.A0LFA9SY-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> lib/test_printf.c:692:15: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long [addressable] [assigned] flags @@     got restricted slab_flags_t @@
+   lib/test_printf.c:692:15: sparse:     expected unsigned long [addressable] [assigned] flags
+   lib/test_printf.c:692:15: sparse:     got restricted slab_flags_t
+   lib/test_printf.c:708:49: sparse: sparse: cast from restricted gfp_t
+   lib/test_printf.c:712:58: sparse: sparse: cast from restricted gfp_t
+   lib/test_printf.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
+
+vim +692 lib/test_printf.c
+
+   656	
+   657	static void __init
+   658	flags(void)
+   659	{
+   660		unsigned long flags;
+   661		char *cmp_buffer;
+   662		gfp_t gfp;
+   663		unsigned int page_type;
+   664	
+   665		cmp_buffer = kmalloc(BUF_SIZE, GFP_KERNEL);
+   666		if (!cmp_buffer)
+   667			return;
+   668	
+   669		flags = 0;
+   670		page_flags_test(0, 0, 0, 0, 0, flags, "", cmp_buffer);
+   671	
+   672		flags = 1UL << NR_PAGEFLAGS;
+   673		page_flags_test(0, 0, 0, 0, 0, flags, "", cmp_buffer);
+   674	
+   675		flags |= 1UL << PG_uptodate | 1UL << PG_dirty | 1UL << PG_lru
+   676			| 1UL << PG_active | 1UL << PG_swapbacked;
+   677		page_flags_test(1, 1, 1, 0x1fffff, 1, flags,
+   678				"uptodate|dirty|lru|active|swapbacked",
+   679				cmp_buffer);
+   680	
+   681		flags = VM_READ | VM_EXEC | VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC;
+   682		test("read|exec|mayread|maywrite|mayexec", "%pGv", &flags);
+   683	
+   684		flags = 0;
+   685		scnprintf(cmp_buffer, BUF_SIZE, "%#x(%s)", (unsigned int) flags, "");
+   686		test(cmp_buffer, "%pGs", &flags);
+   687	
+   688		flags = 1U << _SLAB_FLAGS_LAST_BIT;
+   689		scnprintf(cmp_buffer, BUF_SIZE, "%#x(%s)", (unsigned int) flags, "");
+   690		test(cmp_buffer, "%pGs", &flags);
+   691	
+ > 692		flags = SLAB_HWCACHE_ALIGN | SLAB_PANIC | SLAB_NO_USER_FLAGS;
+   693		scnprintf(cmp_buffer, BUF_SIZE, "%#x(%s)", (unsigned int) flags,
+   694			  "HWCACHE_ALIGN|PANIC|NO_USER_FLAGS");
+   695		test(cmp_buffer, "%pGs", &flags);
+   696	
+   697		gfp = GFP_TRANSHUGE;
+   698		test("GFP_TRANSHUGE", "%pGg", &gfp);
+   699	
+   700		gfp = GFP_ATOMIC|__GFP_DMA;
+   701		test("GFP_ATOMIC|GFP_DMA", "%pGg", &gfp);
+   702	
+   703		gfp = __GFP_HIGH;
+   704		test("__GFP_HIGH", "%pGg", &gfp);
+   705	
+   706		/* Any flags not translated by the table should remain numeric */
+   707		gfp = ~__GFP_BITS_MASK;
+   708		snprintf(cmp_buffer, BUF_SIZE, "%#lx", (unsigned long) gfp);
+   709		test(cmp_buffer, "%pGg", &gfp);
+   710	
+   711		snprintf(cmp_buffer, BUF_SIZE, "__GFP_HIGH|%#lx",
+   712								(unsigned long) gfp);
+   713		gfp |= __GFP_HIGH;
+   714		test(cmp_buffer, "%pGg", &gfp);
+   715	
+   716		page_type = ~0;
+   717		page_type_test(page_type, "", cmp_buffer);
+   718	
+   719		page_type = 10;
+   720		page_type_test(page_type, "", cmp_buffer);
+   721	
+   722		page_type = ~PG_buddy;
+   723		page_type_test(page_type, "buddy", cmp_buffer);
+   724	
+   725		page_type = ~(PG_table | PG_buddy);
+   726		page_type_test(page_type, "table|buddy", cmp_buffer);
+   727	
+   728		kfree(cmp_buffer);
+   729	}
+   730	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
