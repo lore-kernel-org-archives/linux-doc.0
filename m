@@ -1,110 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 728DA13DBA4;
-	Wed, 22 May 2024 14:22:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C37551B815
+	for <linux-doc@vger.kernel.org>; Wed, 22 May 2024 15:18:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716387734; cv=none; b=uXasys1KXPcd/fJUVgWdnF9fASOO5i54/HDuUM5Hrsoe2MIPUCVmdJ7uvy/7Ty8BE8k5bOQnCZDgZ+m3lNUoHHUbY6QHZke6Jhn2UhuQvhWcFIi5Jac5JAZa0Jdff0fpyTlx9G7dNcbckNz4wJvtJq6btroeiMhdP8ZDC8bWs7Q=
+	t=1716391099; cv=none; b=E9ArxYOuRmCGSILmazodk7XHlhVgmdKL7FTag/NWsDQaZEhFclPPh27DeOOA1HECiZVKwf3D8dgdv6wKmQDtduNvhs17IECqCrkI01S7INC7ke1sRboZNpo94TkPS9LdPECSkSBgr67K03Ihl7n04bSKdUoXMYpaVDnjAOMwUyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716387734; c=relaxed/simple;
-	bh=LJl1i0W4EXotAHG6nsa5glp9lSWgRODR5PILl5J3OSg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OXINBOWXb/Bz04vcRiK3lzMy+JVcg1WG+8bzFjwS89e1mhubKohpejkHTPOI4mCaWf4O7CEN1SogqKwGdFkw5WtQHMwW1qCPYXEuTs5Cmxn9+btoja6wB2scUT0JO8XLGk6CZdaeQfg3MGIeh0IJwK4qcFkvyYQ2zRSLKwCdC8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nNFOnYu0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1716391099; c=relaxed/simple;
+	bh=sYIrj0Iso+GkGLJvhkjsCdF5mUygCRp/pk2z46+PRps=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YFYC2Gx3eTxg58E0poIstfjJxVrPrMz+TEGGmPYKcsChS2uXCGLaFDLpjgXRANFo2TBqTJ3/hzV1xAJYUWrhSCkKfcSm3CMxNOSe+dE/kFXuQG2v9UszcxABDUgnCmC+ZcgXPokTOF2wGL0awOnb8GS9aefiFXU4X7DYLUt/skU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=O5agnHKn; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nNFOnYu0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74F5AC32782;
-	Wed, 22 May 2024 14:22:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716387734;
-	bh=LJl1i0W4EXotAHG6nsa5glp9lSWgRODR5PILl5J3OSg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=nNFOnYu0LvkD8jM3Vk8qKMcoXnpxPkVdqgLyLfw+dILH0Kdt5fZXmclevA15f04kT
-	 07NipmFqpRIHZB9riYNK+1jSpi+Imnt4kMQv7dx2z6XkhiKKJ7KEf3RkdS3XXUUQCi
-	 et2ECh+Tr9FAnlKvtqx1UCkt/G/qvhK9msrujcDRcBFFs/quWOXkkdt8OiXoeSPfwF
-	 1l4pJjFbha7C5H4wnOwDL6dhHyxbjuTZ7XK9Z7VJfsh6p/JVxfI3xGIoEGVdqV1lng
-	 R2KBjPWJ8vh2ThlCZbf7ukqmkIUbBZsPxRztxFFpAnMTsgtljNhl4fp4Aik/88KiM+
-	 9Vbo26v2RIhUA==
-Date: Wed, 22 May 2024 07:22:12 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Danielle Ratson <danieller@nvidia.com>
-Cc: Ido Schimmel <idosch@nvidia.com>, "netdev@vger.kernel.org"
- <netdev@vger.kernel.org>, "davem@davemloft.net" <davem@davemloft.net>,
- "edumazet@google.com" <edumazet@google.com>, "pabeni@redhat.com"
- <pabeni@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>,
- "linux@armlinux.org.uk" <linux@armlinux.org.uk>, "sdf@google.com"
- <sdf@google.com>, "kory.maincent@bootlin.com" <kory.maincent@bootlin.com>,
- "maxime.chevallier@bootlin.com" <maxime.chevallier@bootlin.com>,
- "vladimir.oltean@nxp.com" <vladimir.oltean@nxp.com>,
- "przemyslaw.kitszel@intel.com" <przemyslaw.kitszel@intel.com>,
- "ahmed.zaki@intel.com" <ahmed.zaki@intel.com>, "richardcochran@gmail.com"
- <richardcochran@gmail.com>, "shayagr@amazon.com" <shayagr@amazon.com>,
- "paul.greenwalt@intel.com" <paul.greenwalt@intel.com>, "jiri@resnulli.us"
- <jiri@resnulli.us>, "linux-doc@vger.kernel.org"
- <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, mlxsw <mlxsw@nvidia.com>, Petr Machata
- <petrm@nvidia.com>
-Subject: Re: [PATCH net-next v5 04/10] ethtool: Add flashing transceiver
- modules' firmware notifications ability
-Message-ID: <20240522072212.7a21c84b@kernel.org>
-In-Reply-To: <DM6PR12MB451677DBA41EA8A622D3D446D8EB2@DM6PR12MB4516.namprd12.prod.outlook.com>
-References: <20240424133023.4150624-1-danieller@nvidia.com>
-	<20240424133023.4150624-5-danieller@nvidia.com>
-	<20240429201130.5fad6d05@kernel.org>
-	<DM6PR12MB45168DC7D9D9D7A5AE3E2B2DD81A2@DM6PR12MB4516.namprd12.prod.outlook.com>
-	<20240430130302.235d612d@kernel.org>
-	<ZjH1DCu0rJTL_RYz@shredder>
-	<20240501073758.3da76601@kernel.org>
-	<DM6PR12MB451687C3C54323473716621ED8EB2@DM6PR12MB4516.namprd12.prod.outlook.com>
-	<20240522064519.3e980390@kernel.org>
-	<DM6PR12MB451677DBA41EA8A622D3D446D8EB2@DM6PR12MB4516.namprd12.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="O5agnHKn"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a5a4bc9578cso980857866b.2
+        for <linux-doc@vger.kernel.org>; Wed, 22 May 2024 08:18:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1716391095; x=1716995895; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/VaHGLRs/J+Fd8zTYkJgbyVxa4bOKjtKO0wVzh6qgxg=;
+        b=O5agnHKn6hK6uZz19BkSlwfKfZF/bIBLNaxr9/rZSo3TimocCvdv2jd/A22G9gotqU
+         xOxscx4ry2cv57rz7lAwTy80hcRH+J1fDHzvME/d9Ou7ZvSAXU3rxWA9X+35LHg7Zz87
+         pszvcsErJy/gdYhexy6WF2z8CJC8A833Y+0zXYEFSXs31UHMy0z8vL5rWiOx+PZIauM2
+         zEkkijD9zzLgXf+M8lohCBGAkS+j3iz0mjxCAOIUkWA4SUCkxUxBJViasHYMY0UKOeGr
+         J92K0nTT8TCMq77igMot+zOPlc4BHVuwg6+V5BZYVdrH8VP/k/xscQcz1p0iY9ygbHmc
+         J/4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716391095; x=1716995895;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/VaHGLRs/J+Fd8zTYkJgbyVxa4bOKjtKO0wVzh6qgxg=;
+        b=c+mHy4YdNOprhuC/eZ5jMdjfPPqORXZggIGSBKEbB4xs4XGdojBl0q3z9gITDOY2ch
+         G+MYb3GKpu6+UJYxEaSaxGRJ14oUAXohi5/p4xq2T6DFA9x/5lc0O2o7WSq9Zqo5FRgp
+         gJtGE7D+Q7m09eUn1RM0rdNKYK8+XO4Ob6rnLg5Rs1DRAXj3MYdq6yPFMqu6RilpevJS
+         yOZ/t7QeDDkC1Vw7mdN7D0m9SSk1E39suwMndipyRoRZOHxii8CNjywWqmFiawyGGZBZ
+         SYDGgSFbTiun02USEXfBXFrgAdQ7ErnVSaAca8GHBfmnJM9GrgNWxISUAtWsCC0EuD1x
+         SNTw==
+X-Forwarded-Encrypted: i=1; AJvYcCV/uNuM2oTu+y9ImuF9/hiyihxK1/iV7LV/AXKc/X29KJ1AX4RXaIs/zXeqSbXxN5MQJewEtFlhlnoQ1l1E9Az8nKe/yF6jcFQ9
+X-Gm-Message-State: AOJu0YxXxnUP8YBzVEmS2EXoyxHQPoT4lqa+HcUgRErD7vHACRLfaK6x
+	UWvzrio5dLBsrTvHy9cfEB8zFCCMlKRJBYsJQknOdD0IlYzgA8NLCnWs9TPjgwg=
+X-Google-Smtp-Source: AGHT+IGhVrh0vkrvTvfbs3er6vrivFWDI/IQXfXpBK+NV3F9Nmm1m/IafyZ6ElTvE9ivt0/9AaegMg==
+X-Received: by 2002:a17:906:cc12:b0:a61:42ce:bbe4 with SMTP id a640c23a62f3a-a62280d6253mr228842666b.27.1716391095199;
+        Wed, 22 May 2024 08:18:15 -0700 (PDT)
+Received: from pathway.suse.cz ([176.114.240.50])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a5a1781d6bfsm1789227566b.31.2024.05.22.08.18.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 May 2024 08:18:14 -0700 (PDT)
+Date: Wed, 22 May 2024 17:18:13 +0200
+From: Petr Mladek <pmladek@suse.com>
+To: Sreenath Vijayan <sreenath.vijayan@sony.com>
+Cc: john.ogness@linutronix.de, corbet@lwn.net, gregkh@linuxfoundation.org,
+	jirislaby@kernel.org, rdunlap@infradead.org, rostedt@goodmis.org,
+	senozhatsky@chromium.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+	taichi.shimoyashiki@sony.com, daniel.palmer@sony.com,
+	anandakumar.balasubramaniam@sony.com
+Subject: Re: [PATCH v6 1/2] printk: Add function to replay kernel log on
+ consoles
+Message-ID: <Zk4MtXxbzGrQhSFA@pathway.suse.cz>
+References: <cover.1710220326.git.sreenath.vijayan@sony.com>
+ <90ee131c643a5033d117b556c0792de65129d4c3.1710220326.git.sreenath.vijayan@sony.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <90ee131c643a5033d117b556c0792de65129d4c3.1710220326.git.sreenath.vijayan@sony.com>
 
-On Wed, 22 May 2024 13:56:11 +0000 Danielle Ratson wrote:
-> > > 4. Add a new netlink notifier that when the relevant event takes plac=
-e, =20
-> > deletes the node from the list, wait until the end of the work item, wi=
-th
-> > cancel_work_sync() and free allocations.
-> >=20
-> > What's the "relevant event" in this case? Closing of the socket that us=
-er had
-> > issued the command on? =20
->=20
-> The event should match the below:
-> event =3D=3D NETLINK_URELEASE && notify->protocol =3D=3D NETLINK_GENERIC
->=20
-> Then iterate over the list to look for work that matches the dev and port=
-id.
-> The socket doesn=E2=80=99t close until the work is done in that case.=20
 
-Okay, good, yes. I think you can use one of the callbacks I mentioned
-below to achieve the same thing with less complexity than the notifier.
+On Wed 2024-03-13 15:50:52, Sreenath Vijayan wrote:
+> Add a generic function console_replay_all() for replaying
+> the kernel log on consoles, in any context. It would allow
+> viewing the logs on an unresponsive terminal via sysrq.
+> 
+> Reuse the existing code from console_flush_on_panic() for
+> resetting the sequence numbers, by introducing a new helper
+> function __console_rewind_all(). It is safe to be called
+> under console_lock().
+> 
+> Try to acquire lock on the console subsystem without waiting.
+> If successful, reset the sequence number to oldest available
+> record on all consoles and call console_unlock() which will
+> automatically flush the messages to the consoles.
+> 
+> --- a/kernel/printk/printk.c
+> +++ b/kernel/printk/printk.c
+> @@ -4259,6 +4271,23 @@ void kmsg_dump_rewind(struct kmsg_dump_iter *iter)
+>  }
+>  EXPORT_SYMBOL_GPL(kmsg_dump_rewind);
+>  
+> +/**
+> + * console_replay_all - replay kernel log on consoles
 
-> > Easiest way to "notice" the socket got closed would probably be to add =
-some
-> > info to genl_sk_priv_*(). ->sock_priv_destroy() will get called. But yo=
-u can also
-> > get a close notification in the family =20
-> > ->unbind callback. =20
-> >=20
-> > I'm on the fence whether we should cancel the work. We could just mark =
-the
-> > command as 'no socket present' and stop sending notifications.
-> > Not sure which is better.. =20
->=20
-> Is there a scenario that we hit this event and won't intend to cancel the=
- work?=20
+It should rather be called "console_try_replay_all()" to make it clear
+that it is just the best effort.
 
-I think it's up to us. I don't see any legit reason for user space to
-intentionally cancel the flashing. So the only option is that user space
-is either buggy or has crashed, and the socket got closed before
-flashing finished. Right?
+> + *
+> + * Try to obtain lock on console subsystem and replay all
+> + * available records in printk buffer on the consoles.
+> + * Does nothing if lock is not obtained.
+> + *
+> + * Context: Any context.
+
+This should be:
+
+ * Context: Any, except for NMI
+
+Basically only lockless code is safe in NMI which is not the case here.
+
+> + */
+> +void console_replay_all(void)
+> +{
+> +	if (console_trylock()) {
+> +		__console_rewind_all();
+> +		/* Consoles are flushed as part of console_unlock(). */
+> +		console_unlock();
+> +	}
+> +}
+>  #endif
+
+Otherwise, it looks good. With the two changes:
+
+Reviewed-by: Petr Mladek <pmladek@suse.com>
+
+I am sorry for the late review. I have been snowed under tasks.
+Also I had healthy problems.
+
+I have seen a mail that Greg has queued the patch in tty-next.
+I am not sure if it still can be fixed. It will be perfectly fine
+to change this by a followup patch.
+
+Best Regards,
+Petr
