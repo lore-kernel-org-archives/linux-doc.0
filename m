@@ -1,103 +1,82 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E77148303
-	for <linux-doc@vger.kernel.org>; Wed, 22 May 2024 22:25:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A3C43147;
+	Wed, 22 May 2024 22:47:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716416726; cv=none; b=jfTGhEfaFniv8RwTvnHKbSk5oIwd9pqzndaElBy+8gpbOOHlv3fjX/YynkD4cyc/7A7rbVLoelQFkTweR6KnKZmTa6SqvAZL744xj9+3221uyFD7ehAtn+J4dg57CG0d+lt7NSOWEX0IEFVnTwBgA2gRPGHD35MESrzNq+F+0Z0=
+	t=1716418056; cv=none; b=E4p1dc6a7PeH2XWMyTKQZvOF01YT8XPR9F15lYKobiwzsZyEF3oIK2SwusR1Nx8CiDOUxtpu5mmxuxHkgznzh6wkmTI3RNljfKNdqX4rtCnGWIPFjfNHnyE1eqaVzhxcxii1WQZCIY68HGiHBRUmFviF9UEIHwEsUqVU8C2lL4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716416726; c=relaxed/simple;
-	bh=S9gk0oHEgZRttCqVbj1YGaYY20MAg99heofbtYJxY8U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OJtWvjWUX89pZNDrEITWEvMIko1Tjsbr+B/hN9SmzQenfnSDbD99l8uvAly7a/mO/Y3C5wHlbbSHUlQmVM5zBfwKloeXoxiluQ8xq23YCt7rBlvtSGrtwa52ySx7LOy00EkwuO3hp1q4+PbTEdR83Kx0ufdNbliWcLnIXZxGFOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UB5xT2zG; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1716418056; c=relaxed/simple;
+	bh=1tQYnuBW0tCO/M95+qVez0oXwbjCD36YNuqAKFKPkjo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HVBC40/lG7c+MGhPmpD55kpmUOO6qYG8AwSyaOS4lBtLXbJXpL/MIHLwvFTvTwGW0A9qgD0xdD69hS3u/Zn4Z68b7YQFs41mN0TGVJwr/bA8ln4hbS0DLg4rCTEWqNsEqy7vWpTUwdunmUKtJzr2PUE5Y8qChRNa+Fx8Sb6HyXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Yo82asRq; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UB5xT2zG"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-51f99f9e0faso8481599e87.2
-        for <linux-doc@vger.kernel.org>; Wed, 22 May 2024 15:25:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1716416723; x=1717021523; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0B2JbRhNTxBGKVMHTsItxZYaFytK7xf2SG3yQV20MJg=;
-        b=UB5xT2zG9YRKYdY1euNfslwTxG1U0h++5NknSzdaeMmmZAeWpv0EzpLFfo40wwsYAz
-         JQgpWX50/EhiT3rcSMtptzHjeK7EnA2SCCxcwbZ9pXHg8O9mvMeTGhCQ68bq/9eF0IoW
-         xYLhwMcBzZQ0YTo/QK9tBzWJ42JmKZIpcKfglU8MrGWi8J0S5//zsUT79/mhoHOxNpYo
-         d1wvyk10z1/mN2yz8SO97UI1xsg0XgFPiABlEdo2Iy/JtyAvpTa47NpA27Gs8HfNQyLA
-         aMnz5vx1tCBYA7Oq11IGuufdJE7jyBiTfEW100IGv5EN2XagejHodxaD4nZfyfQOmFHE
-         G0ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716416723; x=1717021523;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0B2JbRhNTxBGKVMHTsItxZYaFytK7xf2SG3yQV20MJg=;
-        b=KN59PMnL4QQlkR9cjIV298dBvYm6wfv36KJDy+CVn/aI1eNAWcajHkmmAxR+0bIl0x
-         YtLOKULQRHIaF1GP/ThGM+h6NieERuVRJm1h/smeCU+hJOtmFACvg/oUXeNnkaZnWo3K
-         yygW3G6Ab4esEumYFN3xW93vEvJk2qcHdReFYjyoRphjS0QLFpgzFfy1Hh/otyhumgbi
-         UX8DX4ZP8TzNnRtgmpYJMFJKTnBlRBEhR+EoqtWasrWcDKFA9/aZJmspraKgiJbue4uA
-         yZo7EgYSUZTv/vgYehh2PvWP4eZKxT6gX2vPE6qhP4xVYlAOmvu79/S1cLT4nrYEKg8c
-         dW2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXtG5Kv6T/p5Seu+gZ7QrLW1JM6e4pA+3pDX0UhpUuopx/ok/Xa6ARVGX8Ebj/VGWuigC9K2k3EL3W6Nd2xE78RIj5p8TtGFaT4
-X-Gm-Message-State: AOJu0YyiPgG6d6ntf6NQGGldQZuQ1BnbsBJqwq6bhzEHEb3LJOxflKHA
-	kUYizc6c8ZFRJVZ1W7N2XqjV1sZRuGssI/wGHnMCDPZRxWfQYpOI8hJLdCNbMuY=
-X-Google-Smtp-Source: AGHT+IEdRcdYbBoQQzpqYVDzxkuMPcPMqGC5L1AwkkRW2Odahvetj8UXht61AaeWnM+5cMkq4/v0ww==
-X-Received: by 2002:ac2:5ded:0:b0:519:6a93:ed3a with SMTP id 2adb3069b0e04-526bd6935bfmr2114964e87.23.1716416722617;
-        Wed, 22 May 2024 15:25:22 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (dzdbxzyyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::227])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-521f35ad499sm5106336e87.20.2024.05.22.15.25.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 May 2024 15:25:22 -0700 (PDT)
-Date: Thu, 23 May 2024 01:25:20 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, 
-	Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v14 05/28] drm/connector: hdmi: Add output BPC to the
- connector state
-Message-ID: <ikljb6koxeg6urdzjyg4nbqtl6pzxs2vakavjkxjudsjhsklyp@3ib3inb2oq4s>
-References: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
- <20240521-kms-hdmi-connector-state-v14-5-51950db4fedb@kernel.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Yo82asRq"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=B60f+SkB/fbDXXMGfWZNp//l2iDgy3hxtoJM7FOinzM=; b=Yo82asRquTYyeclv+7EF8LGaaG
+	pMOvX1SPnVTWRJLyLNRwEvL1LB47kuJjOfHrPGWXaoFmKgpvDgclHhWx5EKbO9VTeVtOM6jYUTYxQ
+	Fc/za1ohTH4HajpKvuWGpIAPf0aGYy3YnqBs2N5lwv1QCGvZuemQgGlMw+uiJuH9YLMy74pVmh3c8
+	8LxUAfugpEegadeIa3zBxgen+fIxXcNKlJ87/yNW7Rfu583c08VcMpWKc2jbHiK6Vj47furftaPbt
+	pU0mQIEDOOydrrTMagpCZF/me1XkNw7eenGzWIw/dNXxa/x7I+bHXihApY0e2yO3c9Mub/I9TlcQD
+	yXts3QyQ==;
+Received: from [50.53.4.147] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1s9uk5-00000004K9L-1jjb;
+	Wed, 22 May 2024 22:47:29 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] doc-guide: kernel-doc: document Returns: spelling
+Date: Wed, 22 May 2024 15:47:26 -0700
+Message-ID: <20240522224726.10498-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240521-kms-hdmi-connector-state-v14-5-51950db4fedb@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Tue, May 21, 2024 at 12:13:38PM +0200, Maxime Ripard wrote:
-> We'll add automatic selection of the output BPC in a following patch,
-> but let's add it to the HDMI connector state already.
-> 
-> Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 20 ++++++++++++++++++++
->  drivers/gpu/drm/drm_atomic.c                    |  5 +++++
->  drivers/gpu/drm/drm_connector.c                 | 20 +++++++++++++++++++-
->  drivers/gpu/drm/tests/drm_connector_test.c      | 12 ++++++++----
->  include/drm/drm_connector.h                     | 12 +++++++++++-
->  5 files changed, 63 insertions(+), 6 deletions(-)
-> 
+scripts/kernel-doc accepts "Return:" or "Returns:" for describing the
+return value of a function or function-like macro, so document this
+alternative spelling and use it in an example.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+---
+ Documentation/doc-guide/kernel-doc.rst |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-
--- 
-With best wishes
-Dmitry
+diff -- a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
+--- a/Documentation/doc-guide/kernel-doc.rst
++++ b/Documentation/doc-guide/kernel-doc.rst
+@@ -143,7 +143,7 @@ Return values
+ ~~~~~~~~~~~~~
+ 
+ The return value, if any, should be described in a dedicated section
+-named ``Return``.
++named ``Return`` (or ``Returns``).
+ 
+ .. note::
+ 
+@@ -337,7 +337,7 @@ Typedefs with function prototypes can al
+    * Description of the type.
+    *
+    * Context: Locking context.
+-   * Return: Meaning of the return value.
++   * Returns: Meaning of the return value.
+    */
+    typedef void (*type_name)(struct v4l2_ctrl *arg1, void *arg2);
+ 
