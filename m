@@ -1,71 +1,71 @@
 Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95CDA7FBDF;
-	Wed, 22 May 2024 08:29:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173947868B;
+	Wed, 22 May 2024 08:50:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716366555; cv=none; b=CQmZUz+Xf2Le6Bh6S4JAD988ECIxN/XKFIqoKcibdwi0ZYWBtuMbpd/NcbvruIxiz/li1NqVfDVCKzADwWOxW1pQar6KrIOToVY9BQ+AzCUixs38Wvzq9pj7Veg+4oHELVdVfTl9s65m+DAnpTTTyi77BXpcnxd4VKi6W529JTI=
+	t=1716367816; cv=none; b=cE3BXl6hV/cVkAilI+3dIxUtrAloJ5bn7EN8nUpn8BqXbnir0cAHkNsfF8cmkuD3b+5y6zE0P6rqbTnNzXH34nuLn1o6R+i/R+kMF1pzJ97tYDfRhrkiup849bzdF/LQXlO6HDKVD7BMXz3+buOtRAv81AIHrQefbqoil/QYE8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716366555; c=relaxed/simple;
-	bh=P0M8N4UnDcSqP0HJAK6Ke6QdLE32raiQx0Yb8gP5ReU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hzHFj810o+frTgTTiLd1dWwgSYV7wL+rbvXXp++Qj/KwC1YI87+XMFPEJ9TMEFQ/PHEp0w7sk5bm52tS0KVdPsv4wASKmnzRiT9HuPJlGQ91suYRNaQTQSSMcv4h9kKLeqTDPdVpKCMa5/os23d1xWmKE84gHRXzGNitxXihdVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=pylsohzq; arc=none smtp.client-ip=148.163.158.5
+	s=arc-20240116; t=1716367816; c=relaxed/simple;
+	bh=yEeshlxO/0CfqQYE1FNW1skQXI/vD8pClNE0P6qCtH4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=M/uhg1jmyx0bSQFJKfU25caJkEU2DW5bw0t8GU5Jw1oGmKIyT7cZNYcGXkVdBf2SH1HBDFHGjNn1TWDUr/erTEpCmohnUKL6W1krEBEQCmKaOuewR7RTJ1JYtdx3DR0mdwAT0Z/+HOz1W478HwbdqhsX14XeEsjuvp0sK2TkpkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=aBpliW2R; arc=none smtp.client-ip=148.163.158.5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="pylsohzq"
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 44M7b7XW031016;
-	Wed, 22 May 2024 08:28:55 GMT
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="aBpliW2R"
+Received: from pps.filterd (m0353723.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 44M8Sooa030448;
+	Wed, 22 May 2024 08:50:01 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
  : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=fYoR7iiLcArZtU74aSNT/rc2QYYoMKNLjO+XV8CNcUo=;
- b=pylsohzqdyFVQwiM+iERvLNd2+IDMezd1NgPPVRzxu0n4HvX5Iw9ul8TwMlElOnlrUOY
- wKn895KEQuUj+WGzkUWvvNzIXTjIR+EyGwqxCP4QPWCXRWDxWB2oMLNtbJ5FQLYGRiEH
- 4BtkcPhCVeDfdv+dHqrg/BjvIq2Y1yXDkLi7gFzog6+6dn1nlDOc8/Va6Lgx3yUDVXLl
- QV/FVCZfrsbcSm/A3REEyL5CmEqiyuT3Kbj1HbTBH4QE+K4Zf3AgP4ENqK52W8IdwdJU
- 6JAlpKjSQqJr5mUOfxn7HUApiNWw+QzQ26wXeSErTA8VwW+mIcJLsdi4G/FORE7VQJ6S Ow== 
+ bh=Z+0PgAr/eLLew9MiU3rUy2s/5OX4IfXRIb2c/9wgeIg=;
+ b=aBpliW2RTzOiUyqEmfaCatkLa8GwnGQSAVO+XxJIP1ukznkk/BoIPLez6VPju6jAnr3J
+ RnmCvqORgNKVGdfF44O+PxODm2zvy/0pDrq3nXqIubFcckL4vgl4hvk4WazGiD8oW3JI
+ 3fpV0N+9AddnT5CTkDRpS40VhZezfEJI50ZOBVlrSzPF83/qnTobe1xKcfZlaraTgsPz
+ HVnncFk2opnI4+r1njPjFd5EQIUfc3qcxcEk+TeMCDzNadDj22WJZrrTnSC205vp+Gd9
+ BB4oG++aBjir7liRqFrLhBK7EL8xASKBMUCmHVX0Qa1ZWryDRb1CuDwiUCHDogJzwTu2 zw== 
 Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3y9c1xg739-1
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3y9d7gg22n-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 22 May 2024 08:28:54 +0000
-Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 44M8ORQP010376;
-	Wed, 22 May 2024 08:28:54 GMT
+	Wed, 22 May 2024 08:50:01 +0000
+Received: from m0353723.ppops.net (m0353723.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 44M8o0PI000625;
+	Wed, 22 May 2024 08:50:01 GMT
 Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3y9c1xg736-1
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3y9d7gg22j-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 22 May 2024 08:28:54 +0000
+	Wed, 22 May 2024 08:50:00 +0000
 Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 44M73xHZ023565;
-	Wed, 22 May 2024 08:28:53 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3y77npawv0-1
+	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 44M6P4cg023533;
+	Wed, 22 May 2024 08:50:00 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3y77npb0v8-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 22 May 2024 08:28:53 +0000
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
-	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 44M8Sl3D50528600
+	Wed, 22 May 2024 08:50:00 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 44M8nsX432113390
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 22 May 2024 08:28:49 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 531642004D;
-	Wed, 22 May 2024 08:28:47 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 297FD20040;
-	Wed, 22 May 2024 08:28:45 +0000 (GMT)
+	Wed, 22 May 2024 08:49:56 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4495B2004E;
+	Wed, 22 May 2024 08:49:54 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1261220043;
+	Wed, 22 May 2024 08:49:52 +0000 (GMT)
 Received: from li-c6426e4c-27cf-11b2-a85c-95d65bc0de0e.in.ibm.com (unknown [9.204.206.66])
-	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 22 May 2024 08:28:44 +0000 (GMT)
+	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed, 22 May 2024 08:49:51 +0000 (GMT)
 From: Gautam Menghani <gautam@linux.ibm.com>
 To: mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
         aneesh.kumar@kernel.org, naveen.n.rao@linux.ibm.com, corbet@lwn.net
 Cc: Gautam Menghani <gautam@linux.ibm.com>, linuxppc-dev@lists.ozlabs.org,
         kvm@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org, stable@vger.kernel.org
-Subject: [PATCH] arch/powerpc/kvm: Fix doorbell emulation by adding DPDES support
-Date: Wed, 22 May 2024 13:58:20 +0530
-Message-ID: <20240522082838.121769-1-gautam@linux.ibm.com>
+Subject: [PATCH v1 RESEND] arch/powerpc/kvm: Fix doorbell emulation by adding DPDES support
+Date: Wed, 22 May 2024 14:19:45 +0530
+Message-ID: <20240522084949.123148-1-gautam@linux.ibm.com>
 X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -75,16 +75,16 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: grk0eM8ItSChuzW7eKwq1BlMjSNV81hm
-X-Proofpoint-GUID: Im1o3r3rcrkjg4qz4uyhGHNhWtcAIdWz
+X-Proofpoint-GUID: 7twMTi4uoBrGCFf2IsEijlHqmFUwJa5t
+X-Proofpoint-ORIG-GUID: qdE9fAFu7Aqy0159yFHb6JtGiyF5pLuU
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
  definitions=2024-05-22_03,2024-05-21_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 clxscore=1011
- suspectscore=0 phishscore=0 lowpriorityscore=0 spamscore=0
- priorityscore=1501 impostorscore=0 malwarescore=0 mlxlogscore=586
- adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2405010000 definitions=main-2405220060
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 clxscore=1015
+ phishscore=0 lowpriorityscore=0 mlxlogscore=577 suspectscore=0
+ adultscore=0 spamscore=0 mlxscore=0 bulkscore=0 malwarescore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2405010000 definitions=main-2405220063
 
 Doorbell emulation is broken for KVM on PowerVM guests as support for
 DPDES was not added in the initial patch series. Due to this, a KVM on
@@ -94,8 +94,12 @@ doorbells are to be setup in the initial probe path when using XICS
 doorbell emulation.
 
 Fixes: 6ccbbc33f06a ("KVM: PPC: Add helper library for Guest State Buffers")
+Cc: stable@vger.kernel.org
 Signed-off-by: Gautam Menghani <gautam@linux.ibm.com>
 ---
+v1 -> v1 resend:
+1. Add the stable tag
+
  Documentation/arch/powerpc/kvm-nested.rst     |  4 +++-
  arch/powerpc/include/asm/guest-state-buffer.h |  3 ++-
  arch/powerpc/include/asm/kvm_book3s.h         |  1 +
