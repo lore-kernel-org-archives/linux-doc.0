@@ -1,213 +1,230 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2062.outbound.protection.outlook.com [40.107.244.62])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00E213F44F;
-	Wed, 22 May 2024 13:56:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.62
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716386176; cv=fail; b=Ra8HbKH68auAbgmY5+O/8Jvl26XEehjC1rSDKMMfaCCopUl5UH5zJtE1J65Mo2BLfzjRxXbx+r281I2jv3HRmOR0e/JxblOlHd7R7usDm/CBCvWO0CyBqjzhfbzh/p8T+qBGf6gIh+O/a4io4Fve8pjtjBC7ac1x+/yfeqqGgUg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716386176; c=relaxed/simple;
-	bh=NZNBD6dj6GZ4NeL49e4hYTVGalturaOLqDxPTmdMrVU=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=ZHWzXnYdjiVvdg4+pfftuDKBMLz1taHWJOPXgxzGIuoHOb43bjFlYkR8jdqJHygKf4fP3ZRijRIp1/JmDi0u2IctqTfoE4WtynJ6dtBdFMhQKkEov/tFchdt/VZCKHrHrQ4XPuBP8VEzIjTA+u6Mh1NyGjmEuvduX43z/gD4sSY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=gQu+F8Pb; arc=fail smtp.client-ip=40.107.244.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB467AD2D
+	for <linux-doc@vger.kernel.org>; Wed, 22 May 2024 14:01:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1716386521; cv=none; b=saHwAlN5Q/uq1QBz8iKZ+QpyLW8fVku8xteiTWiLYr1AinM8ypBsdwCNqXFX9o3R9NW4pAj4Gjnh4YBmEMCM2+ypHQrKe3OuvAyPlrXlvYsSU6Y7Sir3TFmP3Lt3/i0889RyFa9HKC3a7FV8n5HZSOXKMykKz6Ncj2bNAqdLEJc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1716386521; c=relaxed/simple;
+	bh=myYHA+ZviKp/pX06xhXrEgiAUMeEmoKowIRkjh6lviY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VugGV27Mdk7+XkkHAh3xR83IpXROKJpCFADZHJRtU84h9+0268+xF0fu5mKZhNzkSKIEguhacmFHdYdhsOnFS3fsn2XsPiab4SbFPwG0TyZjSxhQ4blM5wAld3Kv/E6g+teMuY6NWqa1bWJ+6wyLrswbCssenDPe9IX0aMmbznQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=XVeUk8Eq; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="gQu+F8Pb"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Avs0IzqAgt1pDA+PzRgGcxElcJl2iG57PHo2MlX5ksu1OVcdsGU/j3X3UrYpFadmQR9bNVAbAdagx6Q1YJM5+YhNzCjT/Q+hG+m6RZPUAE87AiMZPaLBj58ZWmZgOyyPxxD0g9DS5T4l5BpyoHCqOpNsrEAzvtoJ4oEuk+paCaDF9eb/UQI0vRd2wpiQ+xUEt+ChxKFBVRDZZFsO6x0faEvubP5Lmc0Z2tOAkGjEowE1JCrRzb8x/lq7wVHLKHpZOoQ8dq4jW512Ad2+pR1EVT9f8neeZVz9MUd8879zKnNBcPWMsJjXUvKu1wtiKuj3epAU7OdZCQevCYAA0bdjUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NZNBD6dj6GZ4NeL49e4hYTVGalturaOLqDxPTmdMrVU=;
- b=NjTzsacB1wkF/+JqrIcifjCEiGHfUmvENodal/V74pHqmocQXYVqd6uGM/M+b3djg/nD6C+FWJizENw9GoDXKT1PPmuwiz93QxWjxDCr9ndMlZiE8DiTujOfYD793JYpelqMy5A2t3gYoHa+ZK4FR6lrRYrlwa+yyohAQZ+aY2OTSH1BfL7aMNOS8UZh7v67MFoqUAxKXYMOH1zJFi2ASOVbd1+p+yjyG4otgbqZyX0VXYM9BdW19z5nlRCLhfiIq6vsLACrEir7eq5qBwXggOuMtx0ovzrchA5UBkIw2N8AqoaFuyGEp/TjwpdgT2mAWFNgexbNXq6DXsKXhjN8wg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NZNBD6dj6GZ4NeL49e4hYTVGalturaOLqDxPTmdMrVU=;
- b=gQu+F8PbxVLMqL+BdnT7b3c5B6hDH6FRUD/pH9GB8bHwPKduAZMKVbbB92ezTfWqETvpk7oMvIkxlcp0dpJHJNroF4HtL2R523yNpWW6h7vhbRld+y+/9fELrvMVHyxHFdmRaA3Pk/XCBIXkkiWzuZCvdzAzprAd94q21Q/NRjau5sPdVLIYo6RbHoeWc17GiT6Rfm3bVHBGgZUCc8/UTLH+lxJBrC9bbULhWAJDxrd3eSyRiumrpl+blLSxjJ89IksoUpCkLp0OYXdi4ilq/5ZIhmVfP19yp6vfqnlTybNOe8DQpDcrnUxYFRD4qbNel566/a5mM3YHDyP+DwCixA==
-Received: from DM6PR12MB4516.namprd12.prod.outlook.com (2603:10b6:5:2ac::20)
- by DM6PR12MB4058.namprd12.prod.outlook.com (2603:10b6:5:21d::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7587.35; Wed, 22 May
- 2024 13:56:12 +0000
-Received: from DM6PR12MB4516.namprd12.prod.outlook.com
- ([fe80::43e9:7b19:9e11:d6bd]) by DM6PR12MB4516.namprd12.prod.outlook.com
- ([fe80::43e9:7b19:9e11:d6bd%4]) with mapi id 15.20.7611.016; Wed, 22 May 2024
- 13:56:11 +0000
-From: Danielle Ratson <danieller@nvidia.com>
-To: Jakub Kicinski <kuba@kernel.org>
-CC: Ido Schimmel <idosch@nvidia.com>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>, "davem@davemloft.net" <davem@davemloft.net>,
-	"edumazet@google.com" <edumazet@google.com>, "pabeni@redhat.com"
-	<pabeni@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>,
-	"linux@armlinux.org.uk" <linux@armlinux.org.uk>, "sdf@google.com"
-	<sdf@google.com>, "kory.maincent@bootlin.com" <kory.maincent@bootlin.com>,
-	"maxime.chevallier@bootlin.com" <maxime.chevallier@bootlin.com>,
-	"vladimir.oltean@nxp.com" <vladimir.oltean@nxp.com>,
-	"przemyslaw.kitszel@intel.com" <przemyslaw.kitszel@intel.com>,
-	"ahmed.zaki@intel.com" <ahmed.zaki@intel.com>, "richardcochran@gmail.com"
-	<richardcochran@gmail.com>, "shayagr@amazon.com" <shayagr@amazon.com>,
-	"paul.greenwalt@intel.com" <paul.greenwalt@intel.com>, "jiri@resnulli.us"
-	<jiri@resnulli.us>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, mlxsw
-	<mlxsw@nvidia.com>, Petr Machata <petrm@nvidia.com>
-Subject: RE: [PATCH net-next v5 04/10] ethtool: Add flashing transceiver
- modules' firmware notifications ability
-Thread-Topic: [PATCH net-next v5 04/10] ethtool: Add flashing transceiver
- modules' firmware notifications ability
-Thread-Index:
- AQHalku5+CuUOiSJUkSAUJYGzVV2UbGAK5kAgAD6ZCCAACA7AIAAxpYAgABw7ACAIJB2MIAAYcqAgAAA/6A=
-Date: Wed, 22 May 2024 13:56:11 +0000
-Message-ID:
- <DM6PR12MB451677DBA41EA8A622D3D446D8EB2@DM6PR12MB4516.namprd12.prod.outlook.com>
-References: <20240424133023.4150624-1-danieller@nvidia.com>
-	<20240424133023.4150624-5-danieller@nvidia.com>
-	<20240429201130.5fad6d05@kernel.org>
-	<DM6PR12MB45168DC7D9D9D7A5AE3E2B2DD81A2@DM6PR12MB4516.namprd12.prod.outlook.com>
-	<20240430130302.235d612d@kernel.org>	<ZjH1DCu0rJTL_RYz@shredder>
-	<20240501073758.3da76601@kernel.org>
-	<DM6PR12MB451687C3C54323473716621ED8EB2@DM6PR12MB4516.namprd12.prod.outlook.com>
- <20240522064519.3e980390@kernel.org>
-In-Reply-To: <20240522064519.3e980390@kernel.org>
-Accept-Language: he-IL, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM6PR12MB4516:EE_|DM6PR12MB4058:EE_
-x-ms-office365-filtering-correlation-id: bb74d0d2-267b-45b6-8c39-08dc7a66f073
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230031|1800799015|366007|7416005|376005|38070700009;
-x-microsoft-antispam-message-info:
- =?utf-8?B?b0tOaElPWkk1bFArd3M4NWExaGNlbXNoTUlaQXZwL0drcUFiMy9sZ2c5cFQ1?=
- =?utf-8?B?TDdDWGtnelhON1dacVl4TnU2Z3AvN3pDRnhVYVV1RlYzREVVcTR5MGxFN0Z2?=
- =?utf-8?B?ZmpLMUxYQUI0S2FKbE5aK3F1UDNEMmNMdzhTSERlaGtRRGZaNUNkSHRiL0tG?=
- =?utf-8?B?SEs1ZWx5dVQwQ0ZMMkltcEROU0JEczFsS3VlSHZhNW9kOC9ncy83cm43SmtS?=
- =?utf-8?B?Q2VGSlY1aGdtMlVRUlBobEdSZnFRWEplWWJJcENUS3dFNytjVDcvOUdjcGtv?=
- =?utf-8?B?L3dha0FscEo4aHdPZmJab1NJTmhHYmpxMnFKd1QwL2taTDVGMVVmU2U5c1Jq?=
- =?utf-8?B?bVRLQ3E2R1NZc0hoMkJHaC9DbUcrZnZDdDVNK0E5eTdvWDZRL3hZZmUyaUtv?=
- =?utf-8?B?MEJGU2ZEemdWajJ0dUlVaWRnUnlHaUF6MVozanM0STZRbk9oVFdBc0FqSHlI?=
- =?utf-8?B?MkN4NytrdXNMK0tNR1EwWFhMWnFFeHkvMURQZFQrdXhydlNYSWZjOG1FMWg2?=
- =?utf-8?B?bFd6SkhOaW1WSnhBVVUwbnE3VmhBeFZNWTdEdkFUMTJOMXpGQ0NwTkFCMDJ5?=
- =?utf-8?B?R1NWV1l4Q1o4UzdrREpMVjhNUnB5VFBsYXRVNXQ4cERyOXlKTFhxNWVQWElR?=
- =?utf-8?B?b2dmUHNIOTB5c3JaU0JmRlJ6RUhLNTZsWmlyc2J2Rm9WcGJjTUxENHJMTlRh?=
- =?utf-8?B?aWcxbW4vNnppL2VUNVM0L3JkU0UxQXNob1pIL3pFVWRYV2ZyMnZob1VWMi85?=
- =?utf-8?B?Z0d6SUdIa2s5YTNEQkVKcUtYSE1xNDRtTHJybTR4Y2lFUTU1OWxHcmdib2lr?=
- =?utf-8?B?QVBUc3ZOOTlvNDZiZStXUE1FWlM5U1lGRXFYbFNtNXZJQkNqODNITnpLdzkx?=
- =?utf-8?B?cXdGVkR3YS9XRWxxL0dRZGw3dGJ4UkVzQ1MrT3ZBZ1F2dkFPY1piZC9mQ29H?=
- =?utf-8?B?UTE1aUM4NlZ0cjM3YUxMUEVKQS9BOFQ1aGtwVTVVN3UzVWJUYlVQUmxQYm5T?=
- =?utf-8?B?blhsbzU5MzNoT1ltUDIrV1QwMEZjODBPMWdwTGJFdjZpQ2pkcHo4MlhLWlU4?=
- =?utf-8?B?d0ExVy9lL3MxZURCME9Yd3F4Vmt3LzVXM3ExdzFHU1dwR1Z1amtWOWtvUXVz?=
- =?utf-8?B?RS9icXlMUnBKeWpEUVJ5ZmdXaVpTMnp3aGc3b1g2YzR2c3JFcEVpcXB3SUUy?=
- =?utf-8?B?U2swOVMyWmxML0ovZU45cTBleEtCaFl0QlpKME9yc3hEWjhHMmtLOFlGdnlD?=
- =?utf-8?B?SC9OSFp6ODFIVTFLZ2RJaThtMXdyQUhndDBWWVk2ZE04b1g5djQzU1pjcGgw?=
- =?utf-8?B?dFEvUUZTQ29kY3V5U01FTysvTVVxZVU2SEk5TWtzYlZveEJKTEI3U2gyTmtN?=
- =?utf-8?B?aWZpSjdnbTNOUHZjeGw4SVlJV3A1Mk90ZUZNdE9GVnZQUk1qb3YvblcrRklD?=
- =?utf-8?B?SGVVdzJDczZzT2E5cGtmcHFLMEViWWl0b0N2NmErM1JtenpmelU3azZldmVo?=
- =?utf-8?B?M2k3K2VwbTlYUUErc1FqQVF2ZmZjM01Qb24xSSs4MnczNFZVUWpVbERmYWV5?=
- =?utf-8?B?bXpiZVZNbW9xTW1weVExQXhYS2tWL3d2VWlGZms5UlB1L1NQcXZtejdmbnBO?=
- =?utf-8?B?cDZta3lOek16VS9kRC92a3F4VW9wbzVUQlhwMXpqVTNTSGJoVWllbWRHajNB?=
- =?utf-8?B?dnRaaEd4N1ZvckRHSVZSRldWV3VybTlVNWVTMTJ1TVN4V3lQVzAzYzhMc1ov?=
- =?utf-8?B?ZmZwRmYyU0J1T2RHeVBJOXVoT3F5UUpzS1RtWkhyY3czR2UyNkJGeG1KalEx?=
- =?utf-8?B?d05ncmpGRlY0S1F1Nk5XZz09?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4516.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(366007)(7416005)(376005)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?NmVxTVpsWjFBNlFFU1l2cnl6ai9mL2ZoU21aL1VkUlk5WDhLQUd6WXVjOG9P?=
- =?utf-8?B?Q0tJQnluSVEwMklNR1pwSnFIRyt2aGZ1R1R4S05aRGNUamFwUlo5OVMxZDhS?=
- =?utf-8?B?REh5em43dXQ1ZWNjUSs0U1liM2JBMllpVlN0dDN4Ti9PZU1YM2dYTlJZbVk0?=
- =?utf-8?B?SmdYV2tMY1JEaG1uZGpoMHNzUlA4dXVnT21EYUJkT0hQVkE2QWgvcGdacm52?=
- =?utf-8?B?S1ZsdDZvVUs5VXpkbURYNks2MHJncWFEdnY3MmQyTWRNWklka2F6a05keXhr?=
- =?utf-8?B?ZWdjNmdkaHR5WE5PRnFlZDEwZVhLZjg0WlNNWU5LSlg1YWttSWNtU09aOFdS?=
- =?utf-8?B?dlU5V0RwNUlLMXVNYWZpS2J0TnBrTjBmYkxqdVNLYWJtNW1Venh5S0gxaHBS?=
- =?utf-8?B?NCsvdmprd3czbFY4aCtlM2tSL0xlenMvQWhNME1UT2ZOeHUxNnhYU3pvWVlQ?=
- =?utf-8?B?dEtONFN4bjBKYkJSaWlqdExtMFJLTGpXdzVvQ2Y1OUs2OEd6eVRwcUJPakFO?=
- =?utf-8?B?a1ZXbWw5ek5EaVowUnBQQXc4U29adDlBUXNPWU5rNTRrT25FOUgwUkFiZmVm?=
- =?utf-8?B?STFpeU4wSENmL3BrczJSMnFjNXcrTGwrdlllR1dhMlV2LzY1dk5LYU95VVl3?=
- =?utf-8?B?UVVRcTg1VkRsT2ppTllscHBzdHd6TXlpY0xNMUZtbVJuK2FaVjFnMEVBaHNC?=
- =?utf-8?B?WDdCMDRNSkFPUm8xL0RJZFpOOURyN1ZicFlCMDk1SGJFcHA3d3haNjFPdHZn?=
- =?utf-8?B?WWlVM1ozc003ZkI5dGhlSjBHMkx4aTNvbEloSHJnTjdXbFhvVkduT3c5SnpZ?=
- =?utf-8?B?VTI5dDBRdk1ENE02TGpiOVBSUzNQM2NWSERkWnBTM3U4c2UrZFlSZXkwSjVi?=
- =?utf-8?B?U0FwdVRwejRWa3dJSTFXS1lCdk1wRVVMZ2IxTSsvYkcySFhPbXdGdVhuQktH?=
- =?utf-8?B?RWtCWjJzMDhrRTBRT0l0cE9rOWN2WW5IU2xjYmlNZ2Zpd09MYVl5UjlsT1BP?=
- =?utf-8?B?RDdBUkZFK3pNWGRnNG54eFlSclA2MWxFRXhobTNKZExKVlgrNDdNZFpxaDVS?=
- =?utf-8?B?R0RMT3hYVVYvc0ZrRStHR3ZJeGp0bmxNSVpBSk9pZjZQVzJrTG9MdU45bkdo?=
- =?utf-8?B?emRMWFpZeDBUek5lZ2dpdkg3OCt5NmdiK29JeXY1YmdrTERoQmpDY25LN3F5?=
- =?utf-8?B?OWRoTit3TWZneEl1WlUrSStyaUowa2VzVnZMa1JiMURCV2RhbCt5LzkydUlH?=
- =?utf-8?B?dWxFaHIwV2wxQ25UK2phWTI2SCt0Z2xVT1loMm9HQmY1WmRHV2daUEduamZE?=
- =?utf-8?B?d3BPZVFqWDVNVmRkMVNKOHdZNjQvQ2RkNzh0OHpLblB0cDRDMHdsYkhCa0hR?=
- =?utf-8?B?bVE1dFFBUzFTTXV2M0xxdHRvUFZsZGxtV3Z2eFZwY2owR1RZOW5ja1lKVlB3?=
- =?utf-8?B?OUxOYzV3cGtsRTJ0NDQzUjZlTUdmWXlsbklNeGNsTnpOK1A4SXdZWG1PZ0Y1?=
- =?utf-8?B?c3BsTWowdldpRDJYb1Uzc1EvT2l0MHVpUGsxdEVsdUZ3WU11bzhVdEVNdlZy?=
- =?utf-8?B?YkJtOFFkS1JiMkF6dS9jdE9FVnpQMS9weEVsRmN0TXNNTTduWk1MM2FCSnNS?=
- =?utf-8?B?KzRZTlAvcUNMV0FzcVNtaE9BRURxSHh1Yy9yTzE0SWxxU1dzR1FDZG9ZR0dT?=
- =?utf-8?B?RXdkOWJnaGkxZm1HeEJhTldJNGV2ODcvckVONEErR21yWGpyODVhWHBKSmNu?=
- =?utf-8?B?d21BaHFqWUxSWnZDWG12dXdNV2x2Q0Yycmh4emhKb1ZyMTU5ODArR2NHMUJt?=
- =?utf-8?B?aUtjVGNNZktMOUIzLzNOQ3ErTnQwWDJaZjVuN3MvVC9hN0lKR1FPN3Boemdo?=
- =?utf-8?B?SmJZWnBFMFhRa0tRcnpHaC93YWI2eHFIK3dlRUc5eFkrWUxadlAxc241dWhw?=
- =?utf-8?B?L094UEVOUVA4azRFYWRKdVM0ZjFwZ2FORThRMWE1NEtKUG5hbkNCMUhlU1ls?=
- =?utf-8?B?bUJhTUZqd2toRmNVZXNyZU81bXdhTjZkZXRUR3hXTXlQbHRTL3ZPdldxTVBj?=
- =?utf-8?B?eGtUVXcrVmtKWk1hU0xpS2t6RklJUStpRzg2UGE4M0MwNU5DZFNtWlRjeFky?=
- =?utf-8?Q?aVw7paIVFJv268FMhcxBFNXEo?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XVeUk8Eq"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-51f74fa2a82so6703173e87.0
+        for <linux-doc@vger.kernel.org>; Wed, 22 May 2024 07:01:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1716386516; x=1716991316; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YpcH2M2rE7fdWSwrlKhRsJ3VqP+ueP08PmnanHg+yOo=;
+        b=XVeUk8Eqhxg3B8sV5qGvp25BhNKN7Df5h9yzHWQIahb2SXJuBDydsfFczYzG/O54eX
+         58aj9/yNWeByAa5YyEuIulM649JRlZr42mK+2ieu9RJv3qA3pN86CgbJpEFinA65ykcT
+         gze1Uzn8VGJRMszKY3hstnQlMVM4v7EdslKyM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716386516; x=1716991316;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YpcH2M2rE7fdWSwrlKhRsJ3VqP+ueP08PmnanHg+yOo=;
+        b=Bcu75e9uUIk0U+6OND/mtyKd0emoV7iLiG2sqJNKbQFnqeSugnrD1Bnj/62KuTqMmo
+         r572eHktaqsdmbqafgiyQ5DcaG8nC+sdaOnWGUcl3Y1lkxFM5pmlu9qlOE/8NLJ4aXEE
+         mj6Lmz+O5uRBMZefSfGkzEnYLul5icRcBdEE1dbAEdf4aNRlI2z9mqWs4523PV66R9GG
+         WZ1mFMHbOx2Xqc4BL/Bn5BbiUJZZ3ymPQhqCJwW9FI9A8vCvL2usjiPSq/nfHHCoQ+aO
+         avne0DuEH/+v5JTi4sp44NJEU1rG2jEWm2oAxSmz5GL16p9MF4A1Iwz1XWAilOyXWbi+
+         4t5g==
+X-Forwarded-Encrypted: i=1; AJvYcCXMboMvADRyArAno6pJFfaRjYrEUyuIcBIsGkPZkb28VZTiwsyGCAr4ZMLBxfkyVVPVxEYVYLwreO9vBAXcTeInHii20lQvSsfF
+X-Gm-Message-State: AOJu0YyZpoMAxMqrRCjPdnkJxpCzeEK6mWxYfgGwOcwnBork1JkjXUFq
+	2k0iKRlBpB8G89mqyfBj0NbiEbaAj1PTlRfQX1cxSKIhgdGfp+wWFOm35mNNYhU1IqvUF64Uc6A
+	CaI1IaAr0RN443LpIPbJX7w9dsTDfoEYd/2E=
+X-Google-Smtp-Source: AGHT+IE6TZAaLzabvqwAwFl1mEfPwAsDXOc379Dn3LSqMCtZDjWDWgjg8bKqPdMMj1IWp9/+7WQsG4Na0ieXFGEbGjs=
+X-Received: by 2002:ac2:484c:0:b0:51b:1e76:4ea9 with SMTP id
+ 2adb3069b0e04-526beca954bmr1726704e87.4.1716386515921; Wed, 22 May 2024
+ 07:01:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4516.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bb74d0d2-267b-45b6-8c39-08dc7a66f073
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 May 2024 13:56:11.8983
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: w4HlrOvraUvKhVoyrj4ZrMLruW2GSSqdTkxXofEjI8L5ztIu8DsaB8LuGvuKYCWm2MX2l1FzegLQpayfuGbCMg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4058
+References: <20240516174357.26755-1-jim.cromie@gmail.com> <20240516174357.26755-20-jim.cromie@gmail.com>
+ <CALwA+NYNPfpyM8ZH3L-fbrqSpzKw61gZU+u_uxP6tjnFe7UJ-w@mail.gmail.com> <CAJfuBxyMBh-1BQMqgXj1GBZ=pwbFK3PuBhRDzM7DNd4ML2hSzw@mail.gmail.com>
+In-Reply-To: <CAJfuBxyMBh-1BQMqgXj1GBZ=pwbFK3PuBhRDzM7DNd4ML2hSzw@mail.gmail.com>
+From: =?UTF-8?Q?=C5=81ukasz_Bartosik?= <ukaszb@chromium.org>
+Date: Wed, 22 May 2024 16:01:44 +0200
+Message-ID: <CALwA+NaFsTx-ay=29e=6OZWCiawYPYOfFmPXkDv6xDB_odfC+A@mail.gmail.com>
+Subject: Re: [PATCH v8-RESEND 19/33] dyndbg-doc: add classmap info to howto
+To: jim.cromie@gmail.com
+Cc: jbaron@akamai.com, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, linux@rasmusvillemoes.dk, joe@perches.com, 
+	mcgrof@kernel.org, daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com, 
+	jani.nikula@intel.com, ville.syrjala@linux.intel.com, seanpaul@chromium.org, 
+	robdclark@gmail.com, groeck@google.com, yanivt@google.com, bleung@google.com, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-PiA+IDEuIEFkZCBhIG5ldyB1bmljYXN0IGZ1bmN0aW9uIHRvIG5ldGxpbmsuYzoNCj4gPiB2b2lk
-ICpldGhubF91bmljYXN0X3B1dChzdHJ1Y3Qgc2tfYnVmZiAqc2tiLCB1MzIgcG9ydGlkLCB1MzIg
-c2VxLCB1OA0KPiA+IGNtZCkNCj4gPg0KPiA+IDIuIFVzZSBpdCBpbiB0aGUgbm90aWZpY2F0aW9u
-IGZ1bmN0aW9uIGluc3RlYWQgb2YgdGhlIG11bHRpY2FzdCBwcmV2aW91c2x5IHVzZWQNCj4gYWxv
-bmcgd2l0aCBnZW5sbXNnX3VuaWNhc3QoKS4NCj4gPiAncG9ydGlkJyBhbmQgJ3NlcScgdGFrZW4g
-ZnJvbSBnZW5sX2luZm8oKSwgYXJlIGFkZGVkIHRvIHRoZSBzdHJ1Y3QNCj4gZXRodG9vbF9tb2R1
-bGVfZndfZmxhc2gsIHdoaWNoIGlzIGFjY2Vzc2libGUgZnJvbSB0aGUgd29yayBpdGVtLg0KPiA+
-DQo+ID4gMy4gQ3JlYXRlIGEgZ2xvYmFsIGxpc3QgdGhhdCBob2xkcyBub2RlcyBmcm9tIHR5cGUg
-c3RydWN0DQo+IGV0aHRvb2xfbW9kdWxlX2Z3X2ZsYXNoKCkgYW5kIGFkZCBpdCBhcyBhIGZpZWxk
-IGluIHRoZSBzdHJ1Y3QNCj4gZXRodG9vbF9tb2R1bGVfZndfZmxhc2guDQo+ID4gQmVmb3JlIHNj
-aGVkdWxpbmcgYSB3b3JrLCBhIG5ldyBub2RlIGlzIGFkZGVkIHRvIHRoZSBsaXN0Lg0KPiANCj4g
-TWFrZXMgc2Vuc2UuDQo+IA0KPiA+IDQuIEFkZCBhIG5ldyBuZXRsaW5rIG5vdGlmaWVyIHRoYXQg
-d2hlbiB0aGUgcmVsZXZhbnQgZXZlbnQgdGFrZXMgcGxhY2UsDQo+IGRlbGV0ZXMgdGhlIG5vZGUg
-ZnJvbSB0aGUgbGlzdCwgd2FpdCB1bnRpbCB0aGUgZW5kIG9mIHRoZSB3b3JrIGl0ZW0sIHdpdGgN
-Cj4gY2FuY2VsX3dvcmtfc3luYygpIGFuZCBmcmVlIGFsbG9jYXRpb25zLg0KPiANCj4gV2hhdCdz
-IHRoZSAicmVsZXZhbnQgZXZlbnQiIGluIHRoaXMgY2FzZT8gQ2xvc2luZyBvZiB0aGUgc29ja2V0
-IHRoYXQgdXNlciBoYWQNCj4gaXNzdWVkIHRoZSBjb21tYW5kIG9uPw0KDQpUaGUgZXZlbnQgc2hv
-dWxkIG1hdGNoIHRoZSBiZWxvdzoNCmV2ZW50ID09IE5FVExJTktfVVJFTEVBU0UgJiYgbm90aWZ5
-LT5wcm90b2NvbCA9PSBORVRMSU5LX0dFTkVSSUMNCg0KVGhlbiBpdGVyYXRlIG92ZXIgdGhlIGxp
-c3QgdG8gbG9vayBmb3Igd29yayB0aGF0IG1hdGNoZXMgdGhlIGRldiBhbmQgcG9ydGlkLg0KVGhl
-IHNvY2tldCBkb2VzbuKAmXQgY2xvc2UgdW50aWwgdGhlIHdvcmsgaXMgZG9uZSBpbiB0aGF0IGNh
-c2UuIA0KDQo+IA0KPiBFYXNpZXN0IHdheSB0byAibm90aWNlIiB0aGUgc29ja2V0IGdvdCBjbG9z
-ZWQgd291bGQgcHJvYmFibHkgYmUgdG8gYWRkIHNvbWUNCj4gaW5mbyB0byBnZW5sX3NrX3ByaXZf
-KigpLiAtPnNvY2tfcHJpdl9kZXN0cm95KCkgd2lsbCBnZXQgY2FsbGVkLiBCdXQgeW91IGNhbiBh
-bHNvDQo+IGdldCBhIGNsb3NlIG5vdGlmaWNhdGlvbiBpbiB0aGUgZmFtaWx5DQo+IC0+dW5iaW5k
-IGNhbGxiYWNrLg0KPiANCj4gSSdtIG9uIHRoZSBmZW5jZSB3aGV0aGVyIHdlIHNob3VsZCBjYW5j
-ZWwgdGhlIHdvcmsuIFdlIGNvdWxkIGp1c3QgbWFyayB0aGUNCj4gY29tbWFuZCBhcyAnbm8gc29j
-a2V0IHByZXNlbnQnIGFuZCBzdG9wIHNlbmRpbmcgbm90aWZpY2F0aW9ucy4NCj4gTm90IHN1cmUg
-d2hpY2ggaXMgYmV0dGVyLi4NCg0KSXMgdGhlcmUgYSBzY2VuYXJpbyB0aGF0IHdlIGhpdCB0aGlz
-IGV2ZW50IGFuZCB3b24ndCBpbnRlbmQgdG8gY2FuY2VsIHRoZSB3b3JrPyANCg0KVGhhbmtzLA0K
-RGFuaWVsbGUNCg==
+On Tue, May 21, 2024 at 4:58=E2=80=AFPM <jim.cromie@gmail.com> wrote:
+>
+> On Tue, May 21, 2024 at 5:57=E2=80=AFAM =C5=81ukasz Bartosik <ukaszb@chro=
+mium.org> wrote:
+> >
+> > On Thu, May 16, 2024 at 7:45=E2=80=AFPM Jim Cromie <jim.cromie@gmail.co=
+m> wrote:
+> > >
+> > > Describe the 3 API macros providing dynamic_debug's classmaps
+> > >
+> > > DYNDBG_CLASSMAP_DEFINE - create, exports a module's classmap
+> >
+> > create, exports a module's classmap - > creates and exports a module's =
+classmap
+>
+> I was going for an imperative "thou shalt" voice,
+> rather than a descriptive/passive voice
+> since its an API, and thou shalt use it "this way"
+> ( s/creates/create/ if so)
+>
+
+Makes sense, thanks for the explanation
+
+> Do we / linux-doc  have a preference in this regard ?
+>
+>
+>
+>
+> >
+> > > DYNDBG_CLASSMAP_USE    - refer to exported map
+> >
+> > DYNDBG_CLASSMAP_USE - refers to exported map
+> >
+> > > DYNDBG_CLASSMAP_PARAM  - bind control param to the classmap
+> >
+> > bind -> binds
+> >
+> > > DYNDBG_CLASSMAP_PARAM_REF + use module's storage - __drm_debug
+> > >
+> >
+> > + use module's storage - __drm_debug -> - uses module's storage (for
+> > example __drm_debug)
+> >
+> > > cc: linux-doc@vger.kernel.org
+> > > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+> > > ---
+> > > v5 adjustments per Randy Dunlap
+> > > v7 checkpatch fixes
+> > > v8 more
+> > > ---
+> > >  .../admin-guide/dynamic-debug-howto.rst       | 63 +++++++++++++++++=
++-
+> > >  1 file changed, 62 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Docu=
+mentation/admin-guide/dynamic-debug-howto.rst
+> > > index 6a8ce5a34382..742eb4230c6e 100644
+> > > --- a/Documentation/admin-guide/dynamic-debug-howto.rst
+> > > +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+> > > @@ -225,7 +225,6 @@ the ``p`` flag has meaning, other flags are ignor=
+ed.
+> > >  Note the regexp ``^[-+=3D][fslmpt_]+$`` matches a flags specificatio=
+n.
+> > >  To clear all flags at once, use ``=3D_`` or ``-fslmpt``.
+> > >
+> > > -
+> > >  Debug messages during Boot Process
+> > >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > >
+> > > @@ -375,3 +374,65 @@ just a shortcut for ``print_hex_dump(KERN_DEBUG)=
+``.
+> > >  For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format st=
+ring is
+> > >  its ``prefix_str`` argument, if it is constant string; or ``hexdump`=
+`
+> > >  in case ``prefix_str`` is built dynamically.
+> > > +
+> > > +Dynamic Debug classmaps
+> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+> > > +
+> > > +Dyndbg allows selection/grouping of *prdbg* callsites using structur=
+al
+> > > +info: module, file, function, line.  Classmaps allow authors to add
+> > > +their own domain-oriented groupings using class-names.  Classmaps ar=
+e
+> > > +exported, so they referencable from other modules.
+> >
+> > Typo referencable -> are referenceable
+> >
+> >
+> >
+> > > +
+> > > +  # enable classes individually
+> > > +  :#> ddcmd class DRM_UT_CORE +p
+> > > +  :#> ddcmd class DRM_UT_KMS +p
+> > > +  # or more selectively
+> > > +  :#> ddcmd class DRM_UT_CORE module drm +p
+> > > +
+> > > +The "class FOO" syntax protects class'd prdbgs from generic overwrit=
+e::
+> > > +
+> > > +  # IOW this doesn't wipe any DRM.debug settings
+> > > +  :#> ddcmd -p
+> > > +
+> > > +To support the DRM.debug parameter, DYNDBG_CLASSMAP_PARAM* updates a=
+ll
+> > > +classes in a classmap, mapping param-bits 0..N onto the classes:
+> > > +DRM_UT_<*> for the DRM use-case.
+> > > +
+> > > +Dynamic Debug Classmap API
+> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> > > +
+> > > +DYNDBG_CLASSMAP_DEFINE - modules use this to create classmaps, namin=
+g
+> > > +each of the classes (stringified enum-symbols: "DRM_UT_<*>"), and
+> > > +type, and mapping the class-names to consecutive _class_ids.
+> > > +
+> > > +By doing so, modules tell dyndbg that they have prdbgs with those
+> > > +class_ids, and they authorize dyndbg to accept "class FOO" for the
+> > > +module defining the classmap, and its contained classnames.
+> > > +
+> > > +DYNDBG_CLASSMAP_USE - drm drivers invoke this to ref the CLASSMAP th=
+at
+> > > +drm DEFINEs.  This shares the classmap definition, and authorizes
+> > > +dyndbg to apply changes to the user module's class'd pr_debugs.  It
+> > > +also tells dyndbg how to initialize the user's prdbgs at modprobe,
+> > > +based upon the current setting of the parent's controlling param.
+> > > +
+> > > +There are 2 types of classmaps:
+> > > +
+> > > + DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like DRM.debu=
+g
+> > > + DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
+> > > +
+> > > +DYNDBG_CLASSMAP_PARAM - modelled after module_param_cb, it refers to=
+ a
+> > > +DEFINEd classmap, and associates it to the param's data-store.  This
+> > > +state is then applied to DEFINEr and USEr modules when they're modpr=
+obed.
+> > > +
+> > > +This interface also enforces the DD_CLASS_TYPE_LEVEL_NUM relation
+> > > +amongst the contained classnames; all classes are independent in the
+> > > +control parser itself.
+> > > +
+> > > +Modules or module-groups (drm & drivers) can define multiple
+> > > +classmaps, as long as they share the limited 0..62 per-module-group
+> > > +_class_id range, without overlap.
+> > > +
+> > > +``#define DEBUG`` will enable all pr_debugs in scope, including any
+> > > +class'd ones.  This won't be reflected in the PARAM readback value,
+> > > +but the class'd pr_debug callsites can be forced off by toggling the
+> > > +classmap-kparam all-on then all-off.
+> > > --
+> > > 2.45.0
+> > >
