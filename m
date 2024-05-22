@@ -1,38 +1,38 @@
 Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8551B1848;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80B6F17F3;
 	Wed, 22 May 2024 00:18:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716337115; cv=none; b=SjhNWmOf5CE+yEPFUlRsQdYnORK7JERNsAh/BSh/fveasEdcmc9/me4IMWGEgNmHDw/Ah6kIxfx981peHMfr7j//Mx04UiWwdxa7hK66O5C+KvdhS6xoM+cbZz25p3DzufdZF4yULToNGJyz9RtVAGarmZWsLI3VVWRPbzQ08bg=
+	t=1716337115; cv=none; b=Xd9fIQVlDwO9dg6touEMYHTSarLvjBQYLCaJJb1TcTaMUrMrg6lXlrlDj8CxyEJp1MNVa61qU8DhhIlANNk2RNYpf2K6T8eirJGSUP+CMX7egLSqa8pa8xMxmvXNce9Ea5OVE3wUMmcyVRl5ML/6IzyE//6CQYNT9gCWk0DwR5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1716337115; c=relaxed/simple;
-	bh=iOmvqV+vbYDKZG4Z0hPkoNLgaOP2tzUKcwotb2WDGfA=;
+	bh=Zrx9q62WJW6pWUZYF2Lg4VuDOV8UN/CIkuY5rhw8cas=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AKHNtDJ96WJD7VTb+7rqArw8aEiBrxcLKxhfNXLZHxMRsTJLEwL1cRblt+/yjhZsql7gegOfWphz1HVyRzxNnlNlSr1X4GgHJiVHJwU15A/BmVAlkWYK7J9wLjKNSzjNeTcADrb3nki4cyqNxc4UOtfe6LlUZGTDvZ2SFlmBH0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=desiato.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=VWElfcsH; arc=none smtp.client-ip=90.155.92.199
+	 MIME-Version:Content-Type; b=eD8+WfQBQDxTxwSOouiXlRT9Hq/bXZYUIdZXQUs+lfmBMN+zoRVxciS/vfgXWXYd3BGq0kff8Aiiiln3sDs2ML2AFYRE5SW9nZPffyVQYjlqokF9l+gXWQeQwRzTEOxCJdOHriXGtubTUNFxey0aAoSAKU/OMLrMVzV9CxwBcq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=desiato.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=CiXQ0n79; arc=none smtp.client-ip=90.155.92.199
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VWElfcsH"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CiXQ0n79"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=vQRg8jTSE/w84X85rubENd1tTskSzNXDiSVdMmVU2k0=; b=VWElfcsH1gVcVWSD8m79ulCmcC
-	SGzPWQVxKrr69y8bkhK2I8P2x2S5EpH2XhMnIszSk6TSU89Jbhx2Nzv81fUQ0mVCP6I6G3bkUf48Q
-	D/G0oUFQYxDuOyyNtUUwc7ippw+t6lMdXXjJq78s+3SAplzr/YZzvTs0lgO39dJXcrT54yuL2qcMX
-	APSYp9VQX7z+adjGQ7Kee0hKMlctaZZKI7om07gEPjpoZW9Uvv2xppQp1XpTJC63nm5pqIXZl93W1
-	eN5OvncA92UCDBvEff3qYcUQkOTmUw+jDW2A4QUdS47xTZj2SVsNCNP9C+SlRRiIma+FZRud95kxF
-	2vQz6RLw==;
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description;
+	bh=ZpNomMRa2id5zPy3uu/7WlNQs2+Ve/lVe7RTlRU/TCQ=; b=CiXQ0n793YDWtY//ABDI/CXkOr
+	dITA8OlMBNtJ6D/2BT9QQD73WuwKPG3dhJBfI13Ho4bG8SQqoqa9PedldmvqLMRR6gJrY6OjzkeqY
+	DBY+vSt7zot88R2DpkuGuQP1Ggxfov5syhC/EO1D7J8zsxtR1LW5z6xwju7sRGqddYXceABL2LMkC
+	EliOGjun4J3UatLAzkzyvVe2tDMNGu6LTvI/2BIkyq82BDuf/LR0V0UWFhZ2E1xwAwxDpZihq882r
+	WS5kK/jQcs4YO4dk8vUxpg6F5h0jLORBx0yImLM5Kaa/YLaHO/77pbNl8tTjbEyohwzIaCK6OcLGx
+	lg8uUtJw==;
 Received: from [2001:8b0:10b:1::ebe] (helo=i7.infradead.org)
 	by desiato.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s9ZgS-000000080jM-3oHr;
-	Wed, 22 May 2024 00:18:23 +0000
+	id 1s9ZgS-000000080jU-3pFX;
+	Wed, 22 May 2024 00:18:22 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1s9ZgR-00000002b4Y-3dFS;
-	Wed, 22 May 2024 01:18:19 +0100
+	id 1s9ZgS-00000002b4u-0m1c;
+	Wed, 22 May 2024 01:18:20 +0100
 From: David Woodhouse <dwmw2@infradead.org>
 To: kvm@vger.kernel.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
@@ -62,9 +62,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 	zide.chen@intel.com,
 	Dongli Zhang <dongli.zhang@oracle.com>,
 	Chenyi Qiang <chenyi.qiang@intel.com>
-Subject: [RFC PATCH v3 06/21] KVM: x86: Explicitly disable TSC scaling without CONSTANT_TSC
-Date: Wed, 22 May 2024 01:17:01 +0100
-Message-ID: <20240522001817.619072-7-dwmw2@infradead.org>
+Subject: [RFC PATCH v3 11/21] KVM: x86: Simplify and comment kvm_get_time_scale()
+Date: Wed, 22 May 2024 01:17:06 +0100
+Message-ID: <20240522001817.619072-12-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.44.0
 In-Reply-To: <20240522001817.619072-1-dwmw2@infradead.org>
 References: <20240522001817.619072-1-dwmw2@infradead.org>
@@ -74,58 +74,118 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: David Woodhouse <dwmw2@infradead.org>
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato.infradead.org. See http://www.infradead.org/rpr.html
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-KVM does make an attempt to cope with non-constant TSC, and has notifiers
-to handle host TSC frequency changes. However, it *only* adjusts the KVM
-clock, and doesn't adjust TSC frequency scaling when the host changes.
+Commit 3ae13faac400 ("KVM: x86: pass kvm_get_time_scale arguments in hertz")
+made this function take 64-bit values in Hz rather than 32-bit kHz. Thus
+making it entrely pointless to shadow its arguments into local 64-bit
+variables. Just use scaled_hz and base_hz directly.
 
-This is presumably because non-constant TSCs were fixed in hardware long
-before TSC scaling was implemented, so there should never be real CPUs
-which have TSC scaling but *not* CONSTANT_TSC.
+Also rename the 'tps32' variable to 'base32', having utterly failed to
+think of any reason why it might have been called that in the first place.
+This could probably have been eliminated too, but it helps to make the
+code clearer and *might* just help a naïve 32-bit compiler realise that it
+doesn't need to do full 64-bit shifts.
 
-Such a combination could potentially happen in some odd L1 nesting
-environment, but it isn't worth trying to support it. Just make the
-dependency explicit.
+Having taken the time to reverse-engineer the function, add some comments
+explaining it.
+
+No functional change intended.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-Reviewed-by: Paul Durrant <paul@xen.org>
 ---
- arch/x86/kvm/svm/svm.c | 3 ++-
- arch/x86/kvm/vmx/vmx.c | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ arch/x86/kvm/x86.c | 60 ++++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 47 insertions(+), 13 deletions(-)
 
-diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
-index 0f3b59da0d4a..4d3ec1c3231e 100644
---- a/arch/x86/kvm/svm/svm.c
-+++ b/arch/x86/kvm/svm/svm.c
-@@ -5202,7 +5202,8 @@ static __init int svm_hardware_setup(void)
- 		kvm_enable_efer_bits(EFER_FFXSR);
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index e09dc44978ea..ef3cd6113037 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -2375,32 +2375,66 @@ static uint32_t div_frac(uint32_t dividend, uint32_t divisor)
+ 	return dividend;
+ }
  
- 	if (tsc_scaling) {
--		if (!boot_cpu_has(X86_FEATURE_TSCRATEMSR)) {
-+		if (!boot_cpu_has(X86_FEATURE_TSCRATEMSR) ||
-+		    !boot_cpu_has(X86_FEATURE_CONSTANT_TSC)) {
- 			tsc_scaling = false;
- 		} else {
- 			pr_info("TSC scaling supported\n");
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index 6780313914f8..bee830adf744 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -8428,7 +8428,7 @@ __init int vmx_hardware_setup(void)
- 	if (!enable_apicv || !cpu_has_vmx_ipiv())
- 		enable_ipiv = false;
++/*
++ * Calculate scaling factors to be applied with pvclock_scale_delta().
++ *
++ * The output of this function is a fixed-point factor which is used to
++ * scale a tick count at base_hz, to a tick count at scaled_hz, within
++ * the limitations of the Xen/KVM pvclock ABI.
++ *
++ * Mathematically, the factor is (*pmultiplier) >> (32 - *pshift).
++ *
++ * Working backwards, the div_frac() function divides (dividend << 32) by
++ * the given divisor, in other words giving dividend/divisor in the form
++ * of a 32-bit fixed-point fraction in the range 0 to 0x0.FFFFFFFF, which
++ * is (*pmultiplier >> 32).
++ *
++ * The rest of the function is shifting the scaled_hz and base_hz left or
++ * right as appropriate to ensure maximal precision within the constraints.
++ *
++ * The first constraint is that the result of the division *must* be less
++ * than 1, which means the dividend (derived from scaled_hz) must be greater
++ * than the divisor (derived from base_hz).
++ *
++ * The second constraint is that for optimal precision, the dividend (scaled)
++ * shouldn't be more than twice the divisor (base) — i.e. the top bit ought
++ * to be set in the resulting *pmultiplier.
++ */
+ static void kvm_get_time_scale(uint64_t scaled_hz, uint64_t base_hz,
+ 			       s8 *pshift, u32 *pmultiplier)
+ {
+-	uint64_t scaled64;
+ 	int32_t  shift = 0;
+-	uint64_t tps64;
+-	uint32_t tps32;
++	uint32_t base32;
  
--	if (cpu_has_vmx_tsc_scaling())
-+	if (cpu_has_vmx_tsc_scaling() && boot_cpu_has(X86_FEATURE_CONSTANT_TSC))
- 		kvm_caps.has_tsc_control = true;
+-	tps64 = base_hz;
+-	scaled64 = scaled_hz;
+-	while (tps64 > scaled64*2 || tps64 & 0xffffffff00000000ULL) {
+-		tps64 >>= 1;
++	/*
++	 * Start by shifting the base_hz right until it fits in 32 bits, and
++	 * is lower than double the target rate. This introduces a negative
++	 * shift value which would result in pvclock_scale_delta() shifting
++	 * the actual tick count right before performing the multiplication.
++	 */
++	while (base_hz > scaled_hz*2 || base_hz & 0xffffffff00000000ULL) {
++		base_hz >>= 1;
+ 		shift--;
+ 	}
  
- 	kvm_caps.max_tsc_scaling_ratio = KVM_VMX_TSC_MULTIPLIER_MAX;
+-	tps32 = (uint32_t)tps64;
+-	while (tps32 <= scaled64 || scaled64 & 0xffffffff00000000ULL) {
+-		if (scaled64 & 0xffffffff00000000ULL || tps32 & 0x80000000)
+-			scaled64 >>= 1;
++	/* Now the shifted base_hz fits in 32 bits, copy it to base32 */
++	base32 = (uint32_t)base_hz;
++
++	/*
++	 * Next, shift the scaled_hz right until it fits in 32 bits, and ensure
++	 * that the shifted base_hz is not larger (so that the result of the
++	 * final division also fits in 32 bits).
++	 */
++	while (base32 <= scaled_hz || scaled_hz & 0xffffffff00000000ULL) {
++		if (scaled_hz & 0xffffffff00000000ULL || base32 & 0x80000000)
++			scaled_hz >>= 1;
+ 		else
+-			tps32 <<= 1;
++			base32 <<= 1;
+ 		shift++;
+ 	}
+ 
+ 	*pshift = shift;
+-	*pmultiplier = div_frac(scaled64, tps32);
++	*pmultiplier = div_frac(scaled_hz, base32);
+ }
+ 
+ #ifdef CONFIG_X86_64
 -- 
 2.44.0
 
