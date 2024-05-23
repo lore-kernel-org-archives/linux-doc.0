@@ -1,138 +1,115 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5590E14AD1A
-	for <linux-doc@vger.kernel.org>; Thu, 23 May 2024 13:19:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B6781D545
+	for <linux-doc@vger.kernel.org>; Thu, 23 May 2024 13:23:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716470361; cv=none; b=VNhppCNlN38rck2K+9FoIv33XzTyeebuomMw9phtkL0IAsMLo0UM9jkfjYcrz0LUpg7AbCqDFjrAAEzi94r2xUMOj8e6ayzGENtdZnVTHTMnGiXKAs7aS1B/rdDCo0vRYvQXu/VUSFLLsIlgi8frokuUmu3BRBmiEuHWioZjKj0=
+	t=1716470631; cv=none; b=HEsX9I3s0KPjd3qj+H/xoy/nWhB6HXMcQaUadMHP0HnvHfCyXAXWnoGda7PV2pv1GJVzJiw5Kt6cRu0hWtpFt/VzaDeEw/jazY4J5EIPLhyZygCCKCIQBTR6V6BRsb3k2mxj/2wFeg04eT5k/gSPpKCE3tMxVxNRQ5EAuCCK4qs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716470361; c=relaxed/simple;
-	bh=BCNVEcgkU7+tO0w4DqWtv5Adc7V8KuJiUTOcc0wVbu8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=DyqtRA2SERjtDKNmg+5L+dLfLspX3F4PV9jyVsr2yoYCU+7M5ZwIRTqXQtLFv+5x/vfErY27zZ3yrKZF5slKpdn83d0m2YyHJe9EqEiBJJ8K3E36fB85LH+aPQoW5u4+l8r0htHL8ux10oDVUokmbXkR5bHk5W3pWsK12nvTvOw=
+	s=arc-20240116; t=1716470631; c=relaxed/simple;
+	bh=jfoi1eZMaRi271oO//ba6KU8TVc2gQ7Tp96Z7KExp+I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ehPnFjppR2eN6VUpyhwUk0jXapqvJt0PcuI8ut1TyAZGkhqDIs8uisZu2dcaIgAOSr1mLc01kDUKxhUqShMxJERZT3x1BNip+RW1Cl7SlZsTSJR3adaLPRszO0W/D52JSTYAfffS1HO8g1fFhVUgAOBxQF8/hGQNnUJUz19mDKE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
-	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1sA8LW-0002sd-B1; Thu, 23 May 2024 15:19:02 +0200
-Received: from [2a0a:edc0:0:1101:1d::54] (helo=dude05.red.stw.pengutronix.de)
+	(envelope-from <sha@pengutronix.de>)
+	id 1sA8Py-00046I-Ol; Thu, 23 May 2024 15:23:38 +0200
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
-	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1sA8LR-002fRe-S9; Thu, 23 May 2024 15:18:57 +0200
-Received: from localhost ([::1] helo=dude05.red.stw.pengutronix.de)
-	by dude05.red.stw.pengutronix.de with esmtp (Exim 4.96)
-	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1sA8LR-005g9l-2d;
-	Thu, 23 May 2024 15:18:57 +0200
-From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Date: Thu, 23 May 2024 15:18:29 +0200
-Subject: [PATCH] docs: crypto: async-tx-api: fix broken code example
+	(envelope-from <sha@pengutronix.de>)
+	id 1sA8Pw-002fRw-0p; Thu, 23 May 2024 15:23:36 +0200
+Received: from sha by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <sha@pengutronix.de>)
+	id 1sA8Pv-009qGA-2y;
+	Thu, 23 May 2024 15:23:35 +0200
+Date: Thu, 23 May 2024 15:23:35 +0200
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Pankaj Gupta <pankaj.gupta@nxp.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 4/5] firmware: imx: add driver for NXP EdgeLock Enclave
+Message-ID: <Zk9DV6Ko-KO0kym_@pengutronix.de>
+References: <20240523-imx-se-if-v2-0-5a6fd189a539@nxp.com>
+ <20240523-imx-se-if-v2-4-5a6fd189a539@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240523-async-dma-docs-v1-1-b900e0804e11@pengutronix.de>
-X-B4-Tracking: v=1; b=H4sIACRCT2YC/x3MMQqAMAxA0atIZgNprSBeRRxqGzWDVRoQRby7x
- fEN/z+gnIUV+uqBzKeo7KnA1BWE1aeFUWIxWLKOWtug1zsFjJvHuAdFIp5M5x2TCVCiI/Ms1z8
- cxvf9AHQBbaBgAAAA
-To: Dan Williams <dan.j.williams@intel.com>, 
- Herbert Xu <herbert@gondor.apana.org.au>, 
- "David S. Miller" <davem@davemloft.net>, Jonathan Corbet <corbet@lwn.net>, 
- Maciej Sosnowski <maciej.sosnowski@intel.com>, 
- Andre Noll <maan@systemlinux.org>
-Cc: linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, kernel@pengutronix.de, 
- Ahmad Fatoum <a.fatoum@pengutronix.de>
-X-Mailer: b4 0.13-dev
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240523-imx-se-if-v2-4-5a6fd189a539@nxp.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
+X-SA-Exim-Mail-From: sha@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-The code example fails to compile:
+On Thu, May 23, 2024 at 04:19:35PM +0530, Pankaj Gupta wrote:
+> NXP hardware IP(s) for secure-enclaves like Edgelock Enclave(ELE),
+> are embedded in the SoC to support the features like HSM, SHE & V2X,
+> using message based communication interface.
+> 
+> The secure enclave FW communicates on a dedicated messaging unit(MU)
+> based interface(s) with application core, where kernel is running.
+> It exists on specific i.MX processors. e.g. i.MX8ULP, i.MX93.
+> 
+> This patch adds the driver for communication interface to secure-enclave,
+> for exchanging messages with NXP secure enclave HW IP(s) like EdgeLock
+> Enclave (ELE) from Kernel-space, used by kernel management layers like
+> - DM-Crypt.
+> 
+> Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
+> ---
+>  drivers/firmware/imx/Kconfig        |  12 +
+>  drivers/firmware/imx/Makefile       |   2 +
+>  drivers/firmware/imx/ele_base_msg.c | 286 +++++++++++++++++++
+>  drivers/firmware/imx/ele_base_msg.h |  92 +++++++
+>  drivers/firmware/imx/ele_common.c   | 239 ++++++++++++++++
+>  drivers/firmware/imx/ele_common.h   |  43 +++
+>  drivers/firmware/imx/se_ctrl.c      | 531 ++++++++++++++++++++++++++++++++++++
+>  drivers/firmware/imx/se_ctrl.h      |  99 +++++++
+>  include/linux/firmware/imx/se_api.h |  14 +
+>  9 files changed, 1318 insertions(+)
 
-  1) ddr_conv is defined twice, once as a VLA, which have been phased out
+[...]
 
-  2) submit is not a pointer, but is still dereferenced with ->
+> 
+> +int imx_ele_msg_send(struct se_if_priv *priv, void *tx_msg)
+> +{
+> +	struct se_msg_hdr *header;
+> +	int err;
+> +
+> +	header = (struct se_msg_hdr *) tx_msg;
+> +
+> +	if (header->tag == priv->cmd_tag)
+> +		lockdep_assert_held(&priv->se_if_cmd_lock);
+> +
+> +	scoped_guard(mutex, &priv->se_if_lock);
 
-Fix these issues and while at it, make the functions static as users
-are unlikely to export them.
+scoped_guard() with an empty block doesn't make much sense. Either use
+scope_guard() { /* do something locked */ }; or guard().
 
-Fixes: 04ce9ab385dc ("async_xor: permit callers to pass in a 'dma/page scribble' region")
-Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
----
- Documentation/crypto/async-tx-api.rst | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+Sascha
 
-diff --git a/Documentation/crypto/async-tx-api.rst b/Documentation/crypto/async-tx-api.rst
-index 27c146b54d71..2fa260f2a222 100644
---- a/Documentation/crypto/async-tx-api.rst
-+++ b/Documentation/crypto/async-tx-api.rst
-@@ -150,38 +150,38 @@ of an operation.
- Perform a xor->copy->xor operation where each operation depends on the
- result from the previous operation::
- 
--    void callback(void *param)
-+    static void callback(void *param)
-     {
- 	    struct completion *cmp = param;
- 
- 	    complete(cmp);
-     }
- 
--    void run_xor_copy_xor(struct page **xor_srcs,
--			int xor_src_cnt,
--			struct page *xor_dest,
--			size_t xor_len,
--			struct page *copy_src,
--			struct page *copy_dest,
--			size_t copy_len)
-+    #define NDISKS  2
-+
-+    static void run_xor_copy_xor(struct page **xor_srcs,
-+				 struct page *xor_dest,
-+				 size_t xor_len,
-+				 struct page *copy_src,
-+				 struct page *copy_dest,
-+				 size_t copy_len)
-     {
- 	    struct dma_async_tx_descriptor *tx;
--	    addr_conv_t addr_conv[xor_src_cnt];
- 	    struct async_submit_ctl submit;
- 	    addr_conv_t addr_conv[NDISKS];
- 	    struct completion cmp;
- 
- 	    init_async_submit(&submit, ASYNC_TX_XOR_DROP_DST, NULL, NULL, NULL,
- 			    addr_conv);
--	    tx = async_xor(xor_dest, xor_srcs, 0, xor_src_cnt, xor_len, &submit)
-+	    tx = async_xor(xor_dest, xor_srcs, 0, NDISKS, xor_len, &submit);
- 
--	    submit->depend_tx = tx;
-+	    submit.depend_tx = tx;
- 	    tx = async_memcpy(copy_dest, copy_src, 0, 0, copy_len, &submit);
- 
- 	    init_completion(&cmp);
- 	    init_async_submit(&submit, ASYNC_TX_XOR_DROP_DST | ASYNC_TX_ACK, tx,
- 			    callback, &cmp, addr_conv);
--	    tx = async_xor(xor_dest, xor_srcs, 0, xor_src_cnt, xor_len, &submit);
-+	    tx = async_xor(xor_dest, xor_srcs, 0, NDISKS, xor_len, &submit);
- 
- 	    async_tx_issue_pending_all();
- 
-
----
-base-commit: a38297e3fb012ddfa7ce0321a7e5a8daeb1872b6
-change-id: 20240523-async-dma-docs-00eb18a4e01c
-
-Best regards,
 -- 
-Ahmad Fatoum <a.fatoum@pengutronix.de>
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
