@@ -1,59 +1,33 @@
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E36113B582
-	for <linux-doc@vger.kernel.org>; Thu, 23 May 2024 06:02:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3D09187F;
+	Thu, 23 May 2024 06:16:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716444179; cv=none; b=OeC5snrV6i5PeW4mLu90IP+nfSn4gTRL1X7YtKFgcpyAJ8zbLxb/cSRW+RyvebYyPTGR9pwIfhxt7rtt7kTm3muVfq5EEv1/9pjtWyhd4DCK9yQQg1yIG8TnCvNv4I5+R9wiIDA+TLNLe6lCO1y7hpuTMUaM5q48+Hm0r10ZTs0=
+	t=1716444963; cv=none; b=owhac80B7bpq14N/EqXRAJ8UvhycGW1WWmUjw1x4BZfjIYUp4DxLSsoWLYYieun5+XXouLaPT0BZtjW2hDxLbXeBVJsRmMGQW75qzjH1XzO7XnuNj+mPZ5UwI51Vpf6udpba4oTJywOKbXA6X4qOfHZY33Ohe6CifLZal6PByPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716444179; c=relaxed/simple;
-	bh=B9lGrOwbzZ9cwWP1ohGSBcMGMvcXioUh06F1RRqtc5A=;
+	s=arc-20240116; t=1716444963; c=relaxed/simple;
+	bh=2Gv4TYLp3WpuCGedr5MvVJZUKZFO/am8jSeOVS5dCaY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jM0HTGJFuHxLDILqG6vxnYpLrWKxizAHXINGJr06vMZAONVcUOV8F75egbUz1212nCG9tzBMvf+K+lLsCRmL4JvCHAvaJ58nATnjdTKXMNbiGSi/92Voht2KcqyZH0O0WuzEJflwsKVC1m2nb70QaE9njkm04FQ9DgJZ4vV0g7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk; spf=none smtp.mailfrom=davidwei.uk; dkim=pass (2048-bit key) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b=Uz2AHfik; arc=none smtp.client-ip=209.85.166.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=davidwei.uk
+	 In-Reply-To:Content-Type; b=lYqJ4n73nHt+uFaRoxMAlHkecYPTS5SwgKN1YO71oBPW+g7jBiESsUkfmgq87/XpWMHb+1qv07exUjEP9/mibsGjVLYaGPPdPRytU8OR2QDGohYS9bM1KgxFZfwqVjWw2Cz+jedo3cP1p2Ibz6qd8oRM7H4NwtJfkFKvEVdaTHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EkkYuERG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b="Uz2AHfik"
-Received: by mail-il1-f177.google.com with SMTP id e9e14a558f8ab-36c5d9d8fd5so22353135ab.2
-        for <linux-doc@vger.kernel.org>; Wed, 22 May 2024 23:02:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=davidwei-uk.20230601.gappssmtp.com; s=20230601; t=1716444176; x=1717048976; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=txOSv1K2CA1USg0Ze10vD1qMyJxbEs9Mfk9GiCoI090=;
-        b=Uz2AHfikahhuUowwWHZ/rUV3mnPgvxCUBUVLy75Ni4QVr3Zm8DMJc7X+YPT/ZlueFf
-         fM09t2fSBt5pPpQRo2M2zZC0pkRmdXI9FCcScF4/EKN/cySBOR/qDzA5ekE4ILkpPwpy
-         5mKNJ6bHDg+TEheZbQ3IkCrHP/NZCEn3hQOxoKAsaSNFqq1PjKOo0dSQD72z4WdrL11T
-         SDuOkvOaGOZFmfxRTdXg/vfbkBY5oBXpiOFGPI2dN03MwRCRVp7zTktF7l5JeFQL9kbh
-         gj4aNjvikrd9qQBAiO+5XOkySFNkgVh2QVR/GkOax5g1Q2KM/PsKBO5u3BVjXDevfa5r
-         Zpcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716444176; x=1717048976;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=txOSv1K2CA1USg0Ze10vD1qMyJxbEs9Mfk9GiCoI090=;
-        b=Va8l4caQKDolxChHEkO+2BDoJxMZ8JvIz255KwNVo2O/o4ZW2+rNm20E8KVKeAxKt0
-         J3et24HX6oVyS5H29iEOEoIvLfV6GXARfi3wOJUR7AKpliAIgoBro+cGZxZQW8JAXbS5
-         X/pjDmpdhgiLEDqUqgP0PNnwp51BZbkAWALq0BfK0p/Re5rBfCJBOKzJ3uQRqs8l2Vgy
-         RJ5OUuUzZI97XVAVC99q6rP1Qn5Fqw3o6U7q/CCwXreDWmaWgyEIwYUMSNbuiDV+ZssD
-         p1dd7J8E/XrlZM9jc0T6S4qVo48Bf0RkGVrHnZiajCgOfOTQp9yG3GXNhJ+W+isLX7+F
-         dvsg==
-X-Forwarded-Encrypted: i=1; AJvYcCUiJdjFzmFWOyRnscide44C3KfAoFjX3ZgAJ3TzAc9pocAbW+KnJDpEqWpv5DbuXUflq9V0uq2fUdJST07VXFoMSMWI4KY4Uxb+
-X-Gm-Message-State: AOJu0YztDdbQPOzl//uHrSMk6/aAjaEQeOBzzlNJ9fKshwW2AS1k66Hj
-	HAXEVKXdRoUF71SgBeWCy+7qsD7FchvFUlKrIhNtKKyics6ywSD0D2cvN4oiv4U=
-X-Google-Smtp-Source: AGHT+IEHlOqXvdbfYiugVF0TXgIiftVk0fEr87owHTsVUKSpnXRyU8iozPM5JlvqTh0LUpuxvOHGhg==
-X-Received: by 2002:a05:6e02:1447:b0:36c:7f3d:59a with SMTP id e9e14a558f8ab-371f7c80fe6mr48056835ab.4.1716444176327;
-        Wed, 22 May 2024 23:02:56 -0700 (PDT)
-Received: from [192.168.1.16] (174-21-188-197.tukw.qwest.net. [174.21.188.197])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-634117190absm23448503a12.87.2024.05.22.23.02.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 May 2024 23:02:55 -0700 (PDT)
-Message-ID: <9097e78d-0e7d-43bd-bafd-e53a4872a4d1@davidwei.uk>
-Date: Wed, 22 May 2024 23:02:54 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EkkYuERG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AB7CC2BD10;
+	Thu, 23 May 2024 06:15:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716444963;
+	bh=2Gv4TYLp3WpuCGedr5MvVJZUKZFO/am8jSeOVS5dCaY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=EkkYuERGD3hG0qRPQMKgQ9beRgl8oSx/xtG2tWdgh/f6jSIQyw88RCniPhfpwRVnD
+	 g+yJH7bN9IBfyXWMQjvXCZjCNGr7AptjBWkw1j4g5MqS2hWdQSf12qNkPp+CKkWrcd
+	 ZWlGHttv3QPXDDr/uuQ1xHltUIycrp4v4j7YzevnJnvAdgAjkiAa/iDJA7bfCKB6bh
+	 +bCtj3771bxVW9f0vbSilJdP2jPonUje+3Mnwhbw3lQAr7+1UeTgt2KvmK5yDykd1w
+	 yRjU5+j/XY6l/gZr5DH9+jELIa+P3nyk7uUc8IDdU84tbvtFJ/mWjv3UTQYAtXViPF
+	 IPz4avuZqHTVg==
+Message-ID: <aed37430-7e87-4516-86da-3997c01a8aa8@kernel.org>
+Date: Thu, 23 May 2024 08:15:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,147 +35,139 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v9 11/14] tcp: RX path for devmem TCP
-Content-Language: en-GB
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+Subject: Re: [PATCH 5/7] dt-bindings: remoteproc: qcom,pas: Add hwlocks
+To: Bjorn Andersson <quic_bjorande@quicinc.com>
+Cc: Chris Lew <quic_clew@quicinc.com>, Bjorn Andersson
+ <andersson@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>,
+ Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@linaro.org>, linux-remoteproc@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski
- <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Pavel Begunkov <asml.silence@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-References: <20240510232128.1105145-1-almasrymina@google.com>
- <20240510232128.1105145-12-almasrymina@google.com>
-From: David Wei <dw@davidwei.uk>
-In-Reply-To: <20240510232128.1105145-12-almasrymina@google.com>
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
+References: <20240516-hwspinlock-bust-v1-0-47a90a859238@quicinc.com>
+ <20240516-hwspinlock-bust-v1-5-47a90a859238@quicinc.com>
+ <3521519f-34b8-472d-be37-f0e64bba24fc@kernel.org>
+ <a944418a-1699-44fa-bdfc-2e57129adea1@quicinc.com>
+ <c9882ba0-bbbf-44ec-9606-ebe68bcb8866@kernel.org>
+ <ZkzzY311XiRigJPt@hu-bjorande-lv.qualcomm.com>
+ <92dcd555-69b1-4111-92dd-debe5107d526@kernel.org>
+ <Zk4wab/NZOOZ3hA6@hu-bjorande-lv.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <Zk4wab/NZOOZ3hA6@hu-bjorande-lv.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 2024-05-10 16:21, Mina Almasry wrote:
-> +/* On error, returns the -errno. On success, returns number of bytes sent to the
-> + * user. May not consume all of @remaining_len.
-> + */
-> +static int tcp_recvmsg_dmabuf(struct sock *sk, const struct sk_buff *skb,
-> +			      unsigned int offset, struct msghdr *msg,
-> +			      int remaining_len)
-> +{
-> +	struct dmabuf_cmsg dmabuf_cmsg = { 0 };
-> +	struct tcp_xa_pool tcp_xa_pool;
-> +	unsigned int start;
-> +	int i, copy, n;
-> +	int sent = 0;
-> +	int err = 0;
-> +
-> +	tcp_xa_pool.max = 0;
-> +	tcp_xa_pool.idx = 0;
-> +	do {
-> +		start = skb_headlen(skb);
-> +
-> +		if (skb_frags_readable(skb)) {
-> +			err = -ENODEV;
-> +			goto out;
-> +		}
-> +
-> +		/* Copy header. */
-> +		copy = start - offset;
-> +		if (copy > 0) {
-> +			copy = min(copy, remaining_len);
-> +
-> +			n = copy_to_iter(skb->data + offset, copy,
-> +					 &msg->msg_iter);
-> +			if (n != copy) {
-> +				err = -EFAULT;
-> +				goto out;
-> +			}
-> +
-> +			offset += copy;
-> +			remaining_len -= copy;
-> +
-> +			/* First a dmabuf_cmsg for # bytes copied to user
-> +			 * buffer.
-> +			 */
-> +			memset(&dmabuf_cmsg, 0, sizeof(dmabuf_cmsg));
-> +			dmabuf_cmsg.frag_size = copy;
-> +			err = put_cmsg(msg, SOL_SOCKET, SO_DEVMEM_LINEAR,
-> +				       sizeof(dmabuf_cmsg), &dmabuf_cmsg);
-> +			if (err || msg->msg_flags & MSG_CTRUNC) {
-> +				msg->msg_flags &= ~MSG_CTRUNC;
-> +				if (!err)
-> +					err = -ETOOSMALL;
-> +				goto out;
-> +			}
-> +
-> +			sent += copy;
-> +
-> +			if (remaining_len == 0)
-> +				goto out;
-> +		}
-> +
-> +		/* after that, send information of dmabuf pages through a
-> +		 * sequence of cmsg
-> +		 */
-> +		for (i = 0; i < skb_shinfo(skb)->nr_frags; i++) {
-> +			skb_frag_t *frag = &skb_shinfo(skb)->frags[i];
-> +			struct net_iov *niov;
-> +			u64 frag_offset;
-> +			int end;
-> +
-> +			/* !skb_frags_readable() should indicate that ALL the
-> +			 * frags in this skb are dmabuf net_iovs. We're checking
-> +			 * for that flag above, but also check individual frags
-> +			 * here. If the tcp stack is not setting
-> +			 * skb_frags_readable() correctly, we still don't want
-> +			 * to crash here.
-> +			 */
-> +			if (!skb_frag_net_iov(frag)) {
-> +				net_err_ratelimited("Found non-dmabuf skb with net_iov");
-> +				err = -ENODEV;
-> +				goto out;
-> +			}
-> +
-> +			niov = skb_frag_net_iov(frag);
+On 22/05/2024 19:50, Bjorn Andersson wrote:
+>>>>>
+>>>>> We did consider tying this to the SMEM instance, but the entitiy 
+>>>>> relating to firmware is the remoteproc instance.
+>>>>
+>>>> I still do not understand why you have to add hwlock to remoteproc, even
+>>>> though it is not directly used. Your driver problem looks like lack of
+>>>> proper driver architecture - you want to control the locks not from the
+>>>> layer took the lock, but one layer up. Sorry, no, fix the driver
+>>>> architecture.
+>>>>
+>>>
+>>> No, it is the firmware's reference to the lock that is represented in
+>>> the remoteproc node, while SMEM deals with Linux's reference to the lock.
+>>>
+>>> This reference would be used to release the lock - on behalf of the
+>>> firmware - in the event that the firmware held it when it
+>>> stopped/crashed.
+>>
+>> I understood, but the remoteproc driver did not acquire the hardware
+>> lock. It was taken by smem, if I got it correctly, so you should poke
+>> smem to bust the spinlock.
+>>
+> 
+> The remoteproc instance is the closest representation of the entity that
+> took the lock (i.e. the firmware). SMEM here is just another consumer of
+> the same lock.
+> 
+>> The hwlock is not a property of remote proc, because remote proc does
+>> not care, right? Other device cares... and now for every smem user you
+>> will add new binding property?
+>>
+> 
+> Right, the issue seen relates to SMEM, because the remote processor (not
+> the remoteproc driver) took the lock.
+> 
+>> No, you are adding a binding based on your driver solution.
+> 
+> Similar to how hwspinlocks are used in other platforms (e.g. TI) the
+> firmware could take multiple locks, e.g. to synchronize access to other
+> shared memory mechanism (i.e. not SMEM). While I am not aware of such
+> use case today, my expectation was that in such case we just list all
+> the hwlocks related to the firmware and bust those from the remoteproc
+> instance.
+> 
+> Having to export APIs from each one of such drivers and make the
+> remoteproc identify the relevant instances and call those APIs does
+> indeed seem inconvenient.
+> SMEM is special here because it's singleton, but this would not
+> necessarily be true for other cases.
 
-Sorry if we've already discussed this.
+I don't think that exporting such API is unreasonable, but quite
+opposite - expected. The remote processor crashed, so the remoteproc
+driver is supposed to call some sort of smem_cleanup() or
+smem_cleanup_on_crash() and call would bust/release the lock. That way
+lock handling is encapsulated entirely in one driver which already takes
+and releases the lock.
 
-We have this additional hunk:
+Just like freeing any memory. remoteproc driver does not free other
+driver's memory only because processor crashed.
 
-+ if (niov->pp->mp_ops != &dmabuf_devmem_ops) {
-+ 	err = -ENODEV;
-+ 	goto out;
-+ }
 
-In case one of our skbs end up here, skb_frag_is_net_iov() and
-!skb_frags_readable(). Does this even matter? And if so then is there a
-better way to distinguish between our two types of net_iovs?
+Best regards,
+Krzysztof
+
