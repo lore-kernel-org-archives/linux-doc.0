@@ -1,96 +1,177 @@
-Received: from out203-205-251-66.mail.qq.com (out203-205-251-66.mail.qq.com [203.205.251.66])
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE36823769;
-	Fri, 24 May 2024 03:36:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.251.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A544B38F82
+	for <linux-doc@vger.kernel.org>; Fri, 24 May 2024 03:39:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716521791; cv=none; b=rX5UjMJkgRs6iAhtUR87QiW3ndgyN6IrUeglFaO26l1jJ4L/0b1HwkahrqGITPWx5g/v6IMgRKLQ8NbS4ffpjPSnZcHCSy0++Relw3GpcfDQrYb4x/49TbLocvMktLi4kh5407+l1zhNZ1d22946qJjBhbT44P5OD0B4t1rf4kI=
+	t=1716521943; cv=none; b=qJmUKYJDm5T+1AbuyT8P4IsfeowknPeJIbMMM8x6PyShQhYtLZKS5CPXvESCLSdESFCAJY6ilvyGEeqqRwtcjnKbYLtHhn8Ba0BXVH2pcDKWGUvxChBbkJR6R5U8RVogViSTQJnFpehYX68MOCJoTG7hoNd/z5REemF98C/cg6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716521791; c=relaxed/simple;
-	bh=ek6UmWLXK8nYduHntVSxP/dsgz6IetPMTwjA0Jx7W4Q=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=tTwSGF5L2YWR2zCwC7yG4UHgQ1JP54nRHEzGNA8psSTWhq2qStzmejBv5VuiZ5CRfqHrrvG3yyCNgcM3R3JwKOm45bhIct8xVlOxvrWbdqP3wEGqPV4LQZyUhuHWY7/4RfVWWVe2OD72TenTo+Fmkktjeb8scGiLQVmyjw7TNnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name; spf=none smtp.mailfrom=cyyself.name; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=Hv/L3+R3; arc=none smtp.client-ip=203.205.251.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cyyself.name
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cyyself.name
+	s=arc-20240116; t=1716521943; c=relaxed/simple;
+	bh=Rs8KfzPFWT1KO+9dMU8ukzxtSitXVwFhV5/HmJwGcis=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:In-Reply-To:
+	 Content-Type:References; b=hc+pvvZuAx8T+zTSWEFwXcRg58ZHJa7Rw2haSjv/G0aQAWOhNrmKZnkZdVvPW+/2SkCxtRwvFZKpplfq/2ouhqVOPgcPbBFl63dxfyLEvUBRGxSt0cracXLAP/MEMHoSP82srlf6lurMc/Xc5LipayHLC6rA8HWk5c0hX1CCx5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=oO8pl/Rp; arc=none smtp.client-ip=203.254.224.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="Hv/L3+R3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1716521781; bh=KZ8llW7PPo2JKBuxKIsoxtxbFEW9rp9tvBG99x4q/wI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Hv/L3+R3eDM7YBWaB67KaJaBM0oYm4RIWRxInfhomKuM5YzIiprXmr8la56jl42ql
-	 38qhO0nM6zGXsLKIaKCkyHyBUgKiVKZcnk+WzMp8HY6BgPairH8YITjGxTSkbLTySo
-	 K66WJBdXznEvuSAd4u1+0xVuekGIFpSiDGfJRyH8=
-Received: from cyy-pc.lan ([240e:379:2259:4c00:b652:79f2:d4c3:c8a8])
-	by newxmesmtplogicsvrszb16-1.qq.com (NewEsmtp) with SMTP
-	id 90C8A481; Fri, 24 May 2024 11:36:12 +0800
-X-QQ-mid: xmsmtpt1716521778t5i4qy2rz
-Message-ID: <tencent_01F8E0050FB4B11CC170C3639E43F41A1709@qq.com>
-X-QQ-XMAILINFO: MmpliBmRb3iCDSzsEAV2QCRH5vaNsl79saeANBHcFPSmOQXivvawGLedK6zLPr
-	 C6mSD1uDd5uzWWi/YulJLDc6Pv1YEnWDxHt4Q4RMEjMcQ6DREjst3OQ50ccNhNHM6FgOCsRMidEN
-	 9d5Z1MN9U3Q0oZj1mFNak0IlCin00nFFFRlFoIMVSYP7xIWFYnhT86cetkL5bZmLw1ZubkdPOkOu
-	 AA0K5pmNaEuyVTmxrl8mJHkY1I30DjBXy5n7hHN/zGkq7HrdcXELbBfDfabAoXlX5mBONAh98Jg5
-	 0c/q8wI1fMwYEOfcNFVs0M1nAJwCGzstvrgWFgyb2Auf6S2FjwkK/PutecdhGw+dxsmbB6Figlz4
-	 tmvIGL/NDEWmVkuYayN9DjjZX7i+c2fd7GIcZsX3Q495Q3UVQDyQ5fMMVFCWONEZ80oFbop0PXEI
-	 6Yngro2Hi2QXfImfUjlw1xdvhrQIDQCe8/vZQIiLxUZ6+o1pOxtshHt/jb6iVFb3E6I9q5OTJf8y
-	 uZ9mR6XiwE84P8o6Mmq02Vc3K1SthZJPSzssHIBeoSWXtzjPKkwqsH80IwI8igtOn1W6Z4uBERu/
-	 TQjvcIHWMLhuquWvRiisgE47b9IVjH1lKDkfJDQjsyQrY68NulOIbWvdg88WUHtgpfTQBgKH2+E8
-	 BeHJp4hIbK1IiOH37zNW5i7xQhZ3EdYFFl4Lp5jNlDwIZ18DnJJgmJRsp1L81QjXPv9HFdqjb1Qt
-	 dnsI5Jj72QFS3A+mJMTyt8Vt7iiEgk0oW8Bnt5fCTKK4Gku9MU0HMYqRfmYwduvzL9aI1tljLnmu
-	 V6AAxUCpEVsrawdKD3yFfwwZOQXm4xik9Q1iNN6msSOTBJ0IixkJb9Qe4WoHUSgyiMrtIXuuTkRa
-	 xVQcH3k4SWOYt+cKyubf3VDDP5UqMN3+mFkAIblOdAQ6ElzEpJbpNxdwotl8BDWzA9vGh3KlFFWm
-	 8Ma06Pq55hrXIoB7tHKGdq7H/Ym+uz9v2GBXmsyeRBiB0wZgMbxaByOMqJGGFtoHEVkBaY3eyc6r
-	 Ij43nubzE6o+1kO38R
-X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
-From: Yangyu Chen <cyy@cyyself.name>
-To: linux-riscv@lists.infradead.org
-Cc: Elliott Hughes <enh@google.com>,
-	Charlie Jenkins <charlie@rivosinc.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Evan Green <evan@rivosinc.com>,
-	=?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Yangyu Chen <cyy@cyyself.name>
-Subject: [PATCH v2 3/3] RISC-V: hwprobe: not treat KEY_CPUPERF_0 as bitmask
-Date: Fri, 24 May 2024 11:35:59 +0800
-X-OQ-MSGID: <20240524033559.298935-3-cyy@cyyself.name>
-X-Mailer: git-send-email 2.45.1
-In-Reply-To: <tencent_1E3506F09D08066B8F3BAEE136C4F887540A@qq.com>
-References: <tencent_1E3506F09D08066B8F3BAEE136C4F887540A@qq.com>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="oO8pl/Rp"
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20240524033859epoutp0277579d118c736a3853455ffec0d34005~ST5wPgEmG1998619986epoutp02X
+	for <linux-doc@vger.kernel.org>; Fri, 24 May 2024 03:38:59 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20240524033859epoutp0277579d118c736a3853455ffec0d34005~ST5wPgEmG1998619986epoutp02X
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1716521939;
+	bh=kEUNE5DDBugp0ptyOjlNvhJs+4yUfxAjHQz7sOYY5ZI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=oO8pl/RpKAB+7hnb8+/HuUwu4GfoNyg9mfIlRSee1S4yn6MftXaxZVI9095j+T5Z7
+	 QYkRsH0CwLC2tlealGyxh9oldqrKWLLlRR/kOzKUC2lMEYqkIaJT3LWUrLvUfQlh9r
+	 q5nzNSzwGv/rvY9089VVkDawhsd5EJ79MaECwTLQ=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+	20240524033859epcas5p3ab5fb4a491caf8ca91d3b7f32528fa36~ST5vooHaQ0531105311epcas5p3S;
+	Fri, 24 May 2024 03:38:59 +0000 (GMT)
+Received: from epsmgec5p1-new.samsung.com (unknown [182.195.38.183]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4VlrPF0SpVz4x9Pq; Fri, 24 May
+	2024 03:38:57 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmgec5p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	77.94.19431.0DB00566; Fri, 24 May 2024 12:38:56 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20240523114201epcas5p35636ecdb5665cc3d792c120f43e67d96~SG2NGF_tW0305503055epcas5p30;
+	Thu, 23 May 2024 11:42:01 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20240523114201epsmtrp18a825758bc171b7a412521bf53c949f7~SG2NE_PA90370403704epsmtrp1T;
+	Thu, 23 May 2024 11:42:01 +0000 (GMT)
+X-AuditID: b6c32a50-ccbff70000004be7-5d-66500bd0a7cf
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	33.F1.08924.98B2F466; Thu, 23 May 2024 20:42:01 +0900 (KST)
+Received: from nj.shetty?samsung.com (unknown [107.99.41.245]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20240523114157epsmtip2db1c50506ea74d1d9e6f9373973e76e2~SG2JoFU973178131781epsmtip2B;
+	Thu, 23 May 2024 11:41:57 +0000 (GMT)
+Date: Thu, 23 May 2024 11:34:54 +0000
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
+	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka
+	<mpatocka@redhat.com>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
+	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
+	<kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
+	Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	martin.petersen@oracle.com, david@fromorbit.com, hare@suse.de,
+	damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
+	nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
+ and request layer.
+Message-ID: <20240523113454.6mwg6xnrkscu6yps@nj.shetty@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <97966085-d7a4-4238-a413-4cdac77af8bd@acm.org>
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0xTVxzHd+69vRQEcwfqDrANVtzC23YUdkBwCyLezC3pZuYSCasNvUAD
+	tF1bpjPZeIkKCyAoFKqM93gKExCBAZIiVqqMbTyGKNoZWCaMhxAVwmsthcX/Pr/H95zfIz82
+	blth4cCWSFWMQiqK5ZBWREuPm6vXbzsEkdyiov2oQX8bR8kX1nBUO55FoumeBYDy5pdxNNF9
+	DqCV/gEcNd9+BFBxaSGB7ne3YaijNAdD1bW9GLqsTsFQ78YMiXK0IwBNDmsw1DnmgUrOlhOo
+	o7OPQIPtV0hU9NOkBarUrWMo+/wwhlonkgCqn54j0J0xRzSwpmN95EgPDh2h9aWQbtOMW9AD
+	j64R9GB/PN1Yk0bSTeUJ9D9NBYD+5X4iSZdlXmTRGSmzJN2W+phFP5scI+i5rmGSzmyuAfS9
+	4lsWArvjMYHRjEjMKJwZaYRMLJFGBXGOHBUeFPr6cXlePH/0AcdZKopjgjghnwi8QiWxxuFw
+	nL8RxcYbXQKRUsnZdyBQIYtXMc7RMqUqiMPIxbFyvtxbKYpTxkujvKWMKoDH5b7va0w8EROt
+	Tu6ykK/sPLVa8xgkgkbrdGDJhhQfXlPPYia2pToAnBv1SQdWRl4AMOP875jZeAGgdkZrsa2o
+	6snGzYFOAKsbG4HZWATQ8EM/mQ7YbIJ6Fy5XuZqQpDzg3Q22SbuLcoUvDJWEKR2nSkj4cHQJ
+	NwXsqBNwRp/NMrENdRCOdDZt8euwr2CCML1jSe2HZdXeJi2kfrWELUlXcXNBIbBvKGeL7eCU
+	rnmrUAf4NOvsFp+E1ZeqSLP4DICaPzXAHPgQpuqzNsU4FQ3VN/O3HnoL5urrMbN/J8xYmcDM
+	fhvY+uM2u8C6hmLSzPZw5GXSZu+QouGDOifzTGYBbFheABfA25pX+tG88p2ZA2DafDJLY5Tj
+	lCOsXGeb0Q02tO8rBqwa4MDIlXFRTISvnOclZU7+v+QIWVwj2LwXd0ErqP15zVsLMDbQAsjG
+	Obtswqo/jbS1EYu+Pc0oZEJFfCyj1AJf436ycYfdETLjwUlVQh7fn8v38/Pj+/v48Thv2Eyn
+	FoptqSiRiolhGDmj2NZhbEuHREz2fRDKbedH5gsKNAkp34lOCz/7ePCer1NFl6WLRjwa0bRj
+	MF+x5+q6k7D7HUOq5Oszt8J1oZkuVVdiDO56Z4MTdmjBsuHO5Sd3XS+Fo7a8orFOn4oWu4Ki
+	ynMX1Q8VebqARY77tPdyvpXulL5ZObNiO+5oWLoZyG05+vde3bpV2vVpz9U3j/H7+Sp1tt3M
+	X32LY7rVYN0xNydB+wPn1/zL53enpQ3vfc5Kee+Ll/btxGpOcLjcvr421POrtLV/b7g9nRrv
+	qCsNOxydI2nJ9Esecv9jqkQaLDy84S8J8XxSkm+dB6xuJITtIaybrHI9Pa4Tnzv2HniWuzT5
+	/MvC41ENsjIOoYwW8dxxhVL0H2e3GjK4BAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SWUwTURSGc2em02kFHAHlQnFJY92IRQKYqyIQl2QSo7gkJi4JVjsgkVZs
+	pYhBpSqLFbFg3KoIgrIUNygqiwgCIqsEsC5EERSUCKWAxo20aG2Mvn0n3/+f83Io3PkD4UFF
+	yPezCrkkUkjyiXu1wpkLT3iFhC0qL+Sg2031ODqqteCo8M1pEg3WjgF0buQHjvqqkwAab23D
+	UUl9N0BZ2RkEelVdhqEH2ekYKih8jKFL549h6PGEiUTpNc8B6jfqMFTZ5YWuJl4j0IPKRgJ1
+	ll8mUWZuPxflPbFiKC3ZiKHSPjVAtwbNBGroEqA2yxNOsIDpfLaGacqGTJnuDZdp6y4imM7W
+	aKZYf4JkDNeOMAOGi4CpeBVPMjmpZzjMqWPDJFOW8JbDjPZ3EYz5oZFkUkv0gGnJquOud9nK
+	D5CykREqVuEduIO/e8CcQkTddDiQZjlPxgMrTwN4FKT9YH5tGq4BfMqZrgDw4btOzC7cYa6l
+	DrezCyywfuTaQ6MAZuYk/B4oiqBF8Ef+PBuStBdsnqBscVd6Hvzak0fY4jh9nYTtVeNcm3Ch
+	d0BTUxrHxo70Svi80sCx7xwGsOpjK2EXU2Djxb4/jNOL4RVDL247gNMCmGelbMijl8GcArEW
+	0Lr/Crr/Crp/hSyA64E7G6WUhcuUPlE+cjZGrJTIlNHycPGuvbJi8OcVFswvBff1I+IagFGg
+	BkAKF7o6bitYG+bsKJXEHmQVe0MV0ZGssgYIKELo5ug2cErqTIdL9rN7WDaKVfy1GMXziMdE
+	usmbzJ/N06wHeoMSUjwfreYHjQnmxqkPeXYH61SXQuLOjlqWjs8IMZY/UwXO8u3xvxL/s1L0
+	tLhEXWbJzwlZKOo++/JGwGL3oobcI++1a9GAdO6t9AumVDg81OipaR/+HpshS2px0/g2zY7e
+	5RehHfJ7EbpFl97b8dUhmO6Yrj/tyavQnPQKXGJQjVmSt08KytxZNxLzKUtlvrNH1OhW2kD5
+	D81ZJ94n6Q1OXNXitHlFs+Fo4UvlhtL13skz1C3H61MmFGpj82sn74qSqqldsaYhf2Oih5T4
+	/EW7MeDwi6TB7zuXhi3PiKuWR2TkZb53zd9w2XTX6Hsm8qrT9ZhvciQklLslPgtwhVLyCyPH
+	J1t5AwAA
+X-CMS-MailID: 20240523114201epcas5p35636ecdb5665cc3d792c120f43e67d96
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_20cab_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240520102842epcas5p4949334c2587a15b8adab2c913daa622f
+References: <20240520102033.9361-1-nj.shetty@samsung.com>
+	<CGME20240520102842epcas5p4949334c2587a15b8adab2c913daa622f@epcas5p4.samsung.com>
+	<20240520102033.9361-3-nj.shetty@samsung.com>
+	<97966085-d7a4-4238-a413-4cdac77af8bd@acm.org>
 
-Since the value in KEY_CPUPERF_0 is not bitmask, remove the wrong code
-in hwprobe.h.
+------atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_20cab_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-Signed-off-by: Yangyu Chen <cyy@cyyself.name>
----
- arch/riscv/include/asm/hwprobe.h | 1 -
- 1 file changed, 1 deletion(-)
+On 22/05/24 11:05AM, Bart Van Assche wrote:
+>On 5/20/24 03:20, Nitesh Shetty wrote:
+>>We add two new opcode REQ_OP_COPY_DST, REQ_OP_COPY_SRC.
+>>Since copy is a composite operation involving src and dst sectors/lba,
+>>each needs to be represented by a separate bio to make it compatible
+>>with device mapper.
+>>We expect caller to take a plug and send bio with destination information,
+>>followed by bio with source information.
+>>Once the dst bio arrives we form a request and wait for source
+>>bio. Upon arrival of source bio we merge these two bio's and send
+>>corresponding request down to device driver.
+>>Merging non copy offload bio is avoided by checking for copy specific
+>>opcodes in merge function.
+>
+>Plugs are per task. Can the following happen?
+We rely on per-context plugging to avoid this.
+>* Task A calls blk_start_plug()
+>* Task B calls blk_start_plug()
+>* Task A submits a REQ_OP_COPY_DST bio and a REQ_OP_COPY_SRC bio.
+Lets say this forms request A and stored in plug A
+>* Task B submits a REQ_OP_COPY_DST bio and a REQ_OP_COPY_SRC bio.
+Lets say this forms request B and stored in plug B
+>* Task A calls blk_finish_plug()
+>* Task B calls blk_finish_plug()
+>* The REQ_OP_COPY_DST bio from task A and the REQ_OP_COPY_SRC bio from
+>  task B are combined into a single request.
+Here task A picks plug A and hence request A
+>* The REQ_OP_COPY_DST bio from task B and the REQ_OP_COPY_SRC bio from
+>  task A are combined into a single request.
+same as above, request B
 
-diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hwprobe.h
-index 630507dff5ea..f24cad22bbe1 100644
---- a/arch/riscv/include/asm/hwprobe.h
-+++ b/arch/riscv/include/asm/hwprobe.h
-@@ -20,7 +20,6 @@ static inline bool hwprobe_key_is_bitmask(__s64 key)
- 	switch (key) {
- 	case RISCV_HWPROBE_KEY_BASE_BEHAVIOR:
- 	case RISCV_HWPROBE_KEY_IMA_EXT_0:
--	case RISCV_HWPROBE_KEY_CPUPERF_0:
- 		return true;
- 	}
- 
--- 
-2.45.1
+So we expect this case not to happen.
 
+Thank you,
+Nitesh Shetty
+
+------atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_20cab_
+Content-Type: text/plain; charset="utf-8"
+
+
+------atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_20cab_--
