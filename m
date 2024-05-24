@@ -1,212 +1,147 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C63328DB
-	for <linux-doc@vger.kernel.org>; Fri, 24 May 2024 07:16:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F50B273FD;
+	Fri, 24 May 2024 07:52:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716534995; cv=none; b=Hq0UZnMG0uht7HSiHIU+cgjOyOqN2ev8g7toRK2KvmYYanYPmLHxnBMZgqoPIHip+IBRD6F8DVhQx5VnN7GCeLVRaICNpRp5B2yV4fkOyhTsAaqzvjOfNmIOL8F/uDFEoFHKhDfZKZSsi5xLFAV6QvfgBYlT0qRpd15Pknj70gw=
+	t=1716537129; cv=none; b=YXl1fd/mABPEEFe7HW+bEoAgdC9LdlihOTSA+Tl3LNXdbohUNYZRjfWTDmSsai+ZdzP/Rov6DH8sKtWSgSVPBYeBZ4tbjcZxfOoIS/3hRufxTmQPKEPgEy1J20MXa1YgJL9zJythYaGs2TaXwpEy3Pgg8FmYSfXltVOFfrnoLnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716534995; c=relaxed/simple;
-	bh=L5dtxTCrzKCyV3a12hQ+4vBbPtIXGLsw+Pi3J3zri8U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LkcEoX2VcrnTTDseEELjJ2gzPeL8xDd2lYiOOwuMLsiaj881xvX02G2mCGe3NbpZ0gIcUKhrFlmXKjdSiL+lAMGPt2qjqmyzfB9QV5A/glMy/0nj/oalXiQmCHZkDJG6+rvuV02A8hWDYe7uhQdRHve3Gh6PB7HkR78sVeFr/iA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=y2ijOrSi; arc=none smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1716537129; c=relaxed/simple;
+	bh=MjBK2+dYLp1CdY6g8R/OhSJwEQPIK/CNCRXCuJFMwzE=;
+	h=Content-Type:Mime-Version:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=Wdw2sXdt2cG5IY4Cx3g0DMUNH+EGOLxkNPhYSuf+PRQdnkag7ZudVnJzgzOGCY6epLbpelR6wZYKBMZ3WdzxzJOuImuALOrBxpIRXoqmWZK15NiDt57siK7qWgyj9TJpCkX8Xs2ZGFJJ32TKXQtx4agKrRTqwnmDuQsN+mKtozk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W5WqQ140; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="y2ijOrSi"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-662aeb8d157so2783531a12.1
-        for <linux-doc@vger.kernel.org>; Fri, 24 May 2024 00:16:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W5WqQ140"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4202c1d19d5so59553855e9.2;
+        Fri, 24 May 2024 00:52:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1716534992; x=1717139792; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=G5b7QgiVlAzfw1l+FA1jhqowDIFfn6XCF4+Yt8iGQO0=;
-        b=y2ijOrSiwn8kujMA0869ALapDPpI42dWw9fvOBWqX8Y8XIpcqYXkUkkubl7IuDmmgr
-         UXgs/FYwWQ6cMuIo093RxaHWEmjtTlpcPKupttpXoO4fgnH95uo/yaxP5aiTe2K0XTK6
-         OB8Hf49CztFRHosI56opMlAGwTeRKeLa7jDUtXNV3n1p1lK8CwTzFsc2CcTBhW2OQl9c
-         y5qGjjAYEsJqZqRGr4HQu2IUQ11hKqzITyzCBxl3gLhHVB9p4BNs9O6j/HB/qLxm07aS
-         +zTKlMC5xlJAWs8LHA+/ivB1Cb7gpZt6kBbkLyaNpACXt8lTMYOy0j5JSg5MfxhV1IOJ
-         uvgg==
+        d=gmail.com; s=20230601; t=1716537127; x=1717141927; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=xpOH0pit2ctvVAA8aW14MWUGNwzhLD66U+MeS8Uxcgo=;
+        b=W5WqQ1402OjaOTTBnQxXuTUStnJvMh7CCmWmC2vW1Sv5z3NlVJG8sja3eA9047kDaI
+         kX8p8olgs3ULf/BdyxAOvcmYOYtlpvbq+MgXurwNb8qhLUwcQfnWNM8Ro1JJq1vf/BiQ
+         h4gdsvrcdKJR99twNgAogGBXPgMh9b6p8Dv2pD7jr1EegtxXSfBuczW8p8Wwxl9KrsMZ
+         u2lDVKnNHDdXBWL9CuAitmXtudUYgmXcC43423O+8ZGaJxSnze8UvNrycAlbJbFn14o8
+         yArS1kiePLiy3GsX2OvHjozCYQmtr4hPmugBG7Nn8uH1tIjmtKiPNq864GoZedSfGe1s
+         Y1mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716534992; x=1717139792;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=G5b7QgiVlAzfw1l+FA1jhqowDIFfn6XCF4+Yt8iGQO0=;
-        b=MZm3mLyihOw7R7Kl28U+6c3O1VS1azaClKlLXhOFGEn5Qu67nPsJUoDxxGW5c+3wTA
-         pTDK0ROlj4VGnvrvb2e9mzjSyFJj3Vtf2mMJCGiXJUdCQrUih3brGnttUemC9iLEzqEG
-         os15o0YZRJju3alBWjqWjmykvFfJ809fLeqqKjV00NJ6Q7/rEDU1lwzBn/M6U3sSsZcY
-         JW+J6i4f3jHnl6QqEROAam294Ea8qqhZ8giDBDCf2D+j6Hjrad1C3teohyBWGVkWnvVl
-         DJkaejmz01Ea8L/4ofobhk0YoZMx1YLAmXf7oShAQG2296ItE1DUq3Rdhij1wBJ37k2R
-         nD0g==
-X-Forwarded-Encrypted: i=1; AJvYcCW8/5rieVWrrQ2QnlIPxq1eBN27KDXcBUTIkGSExC8H7lNilyApRsXklwYc4IpIoY9JY+dckNEiJzvv9/7ZgXMTbB5MVyNrXf2Z
-X-Gm-Message-State: AOJu0YwROqiOgl+wFJVRpVMkEQBcw2W7mp1RRDuYueVfAx+ihZuya+Wz
-	g4WPnQUKInN1yMDLvES7Em33NUQ90vDVACkOX3Ev4NKVpjPcELq3Wu4DTBRsTaU=
-X-Google-Smtp-Source: AGHT+IEDTqTA76mWXJ68mdGF74fNSFi0v4c+GSsV/TK7Kq0h+0BnWlexLZoWy2cb8clnmvmHxGdpVw==
-X-Received: by 2002:a17:90a:ec12:b0:2bf:5992:31ae with SMTP id 98e67ed59e1d1-2bf5ee1cb71mr1385379a91.20.1716534992281;
-        Fri, 24 May 2024 00:16:32 -0700 (PDT)
-Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2bf5f9b28dcsm742083a91.52.2024.05.24.00.16.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 May 2024 00:16:31 -0700 (PDT)
-Date: Fri, 24 May 2024 00:16:27 -0700
-From: Deepak Gupta <debug@rivosinc.com>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Alexandre Ghiti <alex@ghiti.fr>, paul.walmsley@sifive.com,
-	rick.p.edgecombe@intel.com, broonie@kernel.org,
-	Szabolcs.Nagy@arm.com, kito.cheng@sifive.com, keescook@chromium.org,
-	ajones@ventanamicro.com, conor.dooley@microchip.com,
-	cleger@rivosinc.com, atishp@atishpatra.org, bjorn@rivosinc.com,
-	samuel.holland@sifive.com, conor@kernel.org,
-	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-mm@kvack.org, linux-arch@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, corbet@lwn.net, palmer@dabbelt.com,
-	aou@eecs.berkeley.edu, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, oleg@redhat.com,
-	akpm@linux-foundation.org, arnd@arndb.de, ebiederm@xmission.com,
-	Liam.Howlett@oracle.com, vbabka@suse.cz, lstoakes@gmail.com,
-	shuah@kernel.org, brauner@kernel.org, andy.chiu@sifive.com,
-	jerry.shih@sifive.com, hankuan.chen@sifive.com,
-	greentime.hu@sifive.com, evan@rivosinc.com, xiao.w.wang@intel.com,
-	charlie@rivosinc.com, apatel@ventanamicro.com,
-	mchitale@ventanamicro.com, dbarboza@ventanamicro.com,
-	sameo@rivosinc.com, shikemeng@huaweicloud.com, willy@infradead.org,
-	vincent.chen@sifive.com, guoren@kernel.org, samitolvanen@google.com,
-	songshuaishuai@tinylab.org, gerg@kernel.org, heiko@sntech.de,
-	bhe@redhat.com, jeeheng.sia@starfivetech.com, cyy@cyyself.name,
-	maskray@google.com, ancientmodern4@gmail.com,
-	mathis.salmen@matsal.de, cuiyunhui@bytedance.com,
-	bgray@linux.ibm.com, mpe@ellerman.id.au, baruch@tkos.co.il,
-	alx@kernel.org, david@redhat.com, catalin.marinas@arm.com,
-	revest@chromium.org, josh@joshtriplett.org, shr@devkernel.io,
-	deller@gmx.de, omosnace@redhat.com, ojeda@kernel.org,
-	jhubbard@nvidia.com
-Subject: Re: [PATCH v3 13/29] riscv mmu: write protect and shadow stack
-Message-ID: <ZlA+yxsiHtyUJ/5/@debug.ba.rivosinc.com>
-References: <20240403234054.2020347-1-debug@rivosinc.com>
- <20240403234054.2020347-14-debug@rivosinc.com>
- <276fa17b-cd62-433d-b0ec-fa98c65a46ca@ghiti.fr>
- <ZkJOs6ENmDHFsq/U@debug.ba.rivosinc.com>
- <CAHVXubhS3CJ87DxC+9+8z6CiWDV1bQ8nK+iOZUDvMiT7vszFLA@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1716537127; x=1717141927;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xpOH0pit2ctvVAA8aW14MWUGNwzhLD66U+MeS8Uxcgo=;
+        b=cEAUMtz5/EWJCGAh2nKtdJVxtyrKXnri0JUyWYc4pyLJGE6k0ROUWN3ZXY3IN+SHnp
+         txU3Vk1JjjdBXZSNm93NA3TJtRLngxLxckEUWa3IiViK32Ha8DPqF2TtwU3y3ZpXn3zd
+         ZG7pU8cV5ErKcjjXhSn/NoSi2zqO0kl4a3u598JDBmrZK29w9hBtECQikZif745nlgLH
+         l8c0l8slJ7NI5xUpnIjFBTrKmA5ghjnf/sbdQ4B8K4BYkqXHIpNWULgAWWk88bs/9EVo
+         KTaz0Z6kITeVf3ipu6oZ0lgP01J01Gwwl9HdBe6QxOjwUaqM1N2jZjsWG6fJR28CaUxs
+         UpZg==
+X-Forwarded-Encrypted: i=1; AJvYcCWJtXvV2yzvHmxger/bS3vGpatMATlkpqcwsJAXMnb+oiLRkzFD7J/X81MiFjYKgmgrOhQxOejmSyk/FU2Khh3bvGH0xKPCNNSEWXlOkZMStRqzhj3wjMyIIP35LBg2HWd8htPQRpDUFifsyZOvZi/iG1E0lc0v/F6zEkCZCNkSNeEgr8XDVAesX4d970dZd7ebWcIfbkStspiJPuDc4p0rHgYF4154z0k0O/3RxF5u0Bjat2QQWBC+OpS9cpPjZ9WfZcSsD5aUJQ8RYVnsLjKBZYTST0aT
+X-Gm-Message-State: AOJu0Yy4IU9+eI2OIegBXMl0D8M/5SeCNoKNz7mf3Nho3WOoWW2IGzDd
+	Zh3UN7k4EEcEGVokHh3DLYSDZm+EIrmijx4D6WEdrUIuufLOf67K
+X-Google-Smtp-Source: AGHT+IHycvDZr6CKJKqSZlsIR32lGvACNpCEm+RbcTm7UzKj3bS3g4IDhMzUmN0QDCQrfDu0crtpLA==
+X-Received: by 2002:a7b:cd94:0:b0:41a:f76f:3362 with SMTP id 5b1f17b1804b1-421089d3927mr10273385e9.21.1716537126410;
+        Fri, 24 May 2024 00:52:06 -0700 (PDT)
+Received: from localhost (p200300e41f162000f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f16:2000:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42100fad7ecsm45907975e9.36.2024.05.24.00.52.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 May 2024 00:52:05 -0700 (PDT)
+Content-Type: multipart/signed;
+ boundary=814b05467eb5fb3d1194dffe0bcc9ad51fe1c1889dcbffafdae7b5a67172;
+ micalg=pgp-sha256; protocol="application/pgp-signature"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHVXubhS3CJ87DxC+9+8z6CiWDV1bQ8nK+iOZUDvMiT7vszFLA@mail.gmail.com>
+Mime-Version: 1.0
+Date: Fri, 24 May 2024 09:52:04 +0200
+Message-Id: <D1HPMKUW9LW5.2UGOGXXTNBB52@gmail.com>
+Cc: <jonathanh@nvidia.com>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+ <conor+dt@kernel.org>, <corbet@lwn.net>, <andi.shyti@kernel.org>,
+ <wsa+renesas@sang-engineering.com>, <ulf.hansson@linaro.org>,
+ <adrian.hunter@intel.com>, <digetx@gmail.com>, <ldewangan@nvidia.com>,
+ <mkumard@nvidia.com>
+Subject: Re: [RFC PATCH 00/11] Introduce Tegra register config settings
+From: "Thierry Reding" <thierry.reding@gmail.com>
+To: "Krzysztof Kozlowski" <krzk@kernel.org>, "Krishna Yarlagadda"
+ <kyarlagadda@nvidia.com>, <linux-tegra@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-i2c@vger.kernel.org>, <linux-mmc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+X-Mailer: aerc 0.16.0-1-0-g560d6168f0ed-dirty
+References: <20240506225139.57647-1-kyarlagadda@nvidia.com>
+ <71c52a0d-b788-4bbd-b409-6e62e6aff222@kernel.org>
+In-Reply-To: <71c52a0d-b788-4bbd-b409-6e62e6aff222@kernel.org>
 
-On Thu, May 23, 2024 at 04:59:30PM +0200, Alexandre Ghiti wrote:
->Hi Deepak,
->
->On Mon, May 13, 2024 at 7:32 PM Deepak Gupta <debug@rivosinc.com> wrote:
->>
->> On Sun, May 12, 2024 at 06:31:24PM +0200, Alexandre Ghiti wrote:
->> >On 04/04/2024 01:35, Deepak Gupta wrote:
->> >>`fork` implements copy on write (COW) by making pages readonly in child
->> >>and parent both.
->> >>
->> >>ptep_set_wrprotect and pte_wrprotect clears _PAGE_WRITE in PTE.
->> >>Assumption is that page is readable and on fault copy on write happens.
->> >>
->> >>To implement COW on such pages,
->> >
->> >
->> >I guess you mean "shadow stack pages" here.
->>
->> Yes I meant shadow stack pages. Will fix the message.
->>
->> >
->> >
->> >>  clearing up W bit makes them XWR = 000.
->> >>This will result in wrong PTE setting which says no perms but V=1 and PFN
->> >>field pointing to final page. Instead desired behavior is to turn it into
->> >>a readable page, take an access (load/store) fault on sspush/sspop
->> >>(shadow stack) and then perform COW on such pages.
->> >>This way regular reads
->> >>would still be allowed and not lead to COW maintaining current behavior
->> >>of COW on non-shadow stack but writeable memory.
->> >>
->> >>On the other hand it doesn't interfere with existing COW for read-write
->> >>memory. Assumption is always that _PAGE_READ must have been set and thus
->> >>setting _PAGE_READ is harmless.
->> >>
->> >>Signed-off-by: Deepak Gupta <debug@rivosinc.com>
->> >>---
->> >>  arch/riscv/include/asm/pgtable.h | 12 ++++++++++--
->> >>  1 file changed, 10 insertions(+), 2 deletions(-)
->> >>
->> >>diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
->> >>index 9b837239d3e8..7a1c2a98d272 100644
->> >>--- a/arch/riscv/include/asm/pgtable.h
->> >>+++ b/arch/riscv/include/asm/pgtable.h
->> >>@@ -398,7 +398,7 @@ static inline int pte_special(pte_t pte)
->> >>  static inline pte_t pte_wrprotect(pte_t pte)
->> >>  {
->> >>-     return __pte(pte_val(pte) & ~(_PAGE_WRITE));
->> >>+     return __pte((pte_val(pte) & ~(_PAGE_WRITE)) | (_PAGE_READ));
->> >>  }
->> >>  /* static inline pte_t pte_mkread(pte_t pte) */
->> >>@@ -581,7 +581,15 @@ static inline pte_t ptep_get_and_clear(struct mm_struct *mm,
->> >>  static inline void ptep_set_wrprotect(struct mm_struct *mm,
->> >>                                    unsigned long address, pte_t *ptep)
->> >>  {
->> >>-     atomic_long_and(~(unsigned long)_PAGE_WRITE, (atomic_long_t *)ptep);
->> >>+     volatile pte_t read_pte = *ptep;
->
->Sorry I missed this ^. You need to use ptep_get() to get the value of
->a pte. 
+--814b05467eb5fb3d1194dffe0bcc9ad51fe1c1889dcbffafdae7b5a67172
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-Noted. will fix it.
+On Tue May 7, 2024 at 8:38 AM CEST, Krzysztof Kozlowski wrote:
+> On 07/05/2024 00:51, Krishna Yarlagadda wrote:
+> > =20
+> >  Patch 01: Documentation about the device tree binding for common confi=
+g framework.
+> >  Patch 02: Common parser of the device tree config setting node for Teg=
+ra SoC.
+> >  Patch 03: Device tree binding documentation for config setting.
+> >  Patch 04: Device tree binding documentation for the I2C config setting=
+.
+> >  Patch 05: Avoid config settings child node to be treated as I2C device=
+.
+> >  Patch 06: Move clock initialization code into new methods
+> >  Patch 07: Using config settings in Tegra I2C driver for interface timi=
+ng registers.
+> >  Patch 08: Add Tegra234 I2C config settings in DT.
+> >  Patch 09: Device tree binding documentation for the SDHCI config setti=
+ng.
+> >  Patch 10: Using config settings in Tegra SDHCI driver for tuning itera=
+tion.
+> >  Patch 11: Add Tegra234 SDHCI config settings in DT.
+> >=20
+> > Known Issues:
+> >  - DTC warning for config 'missing or empty reg property for I2C nodes'
+>
+> Which should stop you from sending buggy code, till you fix it.
 
->And why do you need the volatile here?
+Okay, so this RFC series was meant to solicit comments on the general
+approach of this. Fixing this known issue is fairly complicated and
+involves patching DTC, which we would be prepared to do if this was
+generally deemed acceptable, but doesn't seem like a worthwhile
+undertaking until we know we can move ahead with this.
 
-I don't remember the reason. It's probably not needed here.
-But I am sure I was debugging something and trying everything.
-And this probably slipped sanitization before sending patches.
+So rather than categorically NAKing something that was sent out as a
+proposal looking for feedback on how to improve and turn this into
+something acceptable, it'd be great to get constructive feedback on how
+we can get there.
 
-Will fix it.
->
->> >>+     /*
->> >>+      * ptep_set_wrprotect can be called for shadow stack ranges too.
->> >>+      * shadow stack memory is XWR = 010 and thus clearing _PAGE_WRITE will lead to
->> >>+      * encoding 000b which is wrong encoding with V = 1. This should lead to page fault
->> >>+      * but we dont want this wrong configuration to be set in page tables.
->> >>+      */
->> >>+     atomic_long_set((atomic_long_t *)ptep,
->> >>+                     ((pte_val(read_pte) & ~(unsigned long)_PAGE_WRITE) | _PAGE_READ));
->> >>  }
->> >>  #define __HAVE_ARCH_PTEP_CLEAR_YOUNG_FLUSH
->> >
->> >
->> >Doesn't making the shadow stack page readable allow "normal" loads to
->> >access the page? If it does, isn't that an issue (security-wise)?
->>
->> When shadow stack permissions are there (i.e. R=0, W=1, X=0), then also shadow stack is
->> readable through "normal" loads. So nothing changes when it converts into a readonly page
->> from page permissions perspective.
->>
->> Security-wise it's not a concern because from threat modeling perspective, if attacker had
->> read-write primitives (via some bug in program) available to read and write address space
->> of process/task; then they would have availiblity of return addresses on normal stack. It's
->> the write primitive that is concerning and to be protected against. And that's why shadow stack
->> is not writeable using "normal" stores.
->>
->> >
->
->Thanks for the explanation!
->
->With the use of ptep_get(), you can add:
->
->Reviewed-by: Alexandre Ghiti <alexghiti@rivosinc.com>
->
->Thanks,
->
->Alex
+Thierry
+
+--814b05467eb5fb3d1194dffe0bcc9ad51fe1c1889dcbffafdae7b5a67172
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmZQRyUACgkQ3SOs138+
+s6EYPRAApKj6TZ45ihKFbdihmJOaY25HqHqqAOmw/WIDGwBEJMrVVW41xioiMLzp
+k32CEAFP5kxE3WPay97YquvQn7Vh4qhe64qYPr/UaTsr3TeklU2e/G/E1xfsTTAt
+8jjR5dfSPG2uoCaHgQ5R+nOF1UTH5+1BLLPNF0rKacaFe90o/rLpH0YZG7lSH7Te
+jOU8AinN/cd68weuz1aRdVcylA/XSUOy62QU6uJKAPSVNgfYMp5P1RE+drnyP15V
+H5Xx9Y9QhWSfIoDVepJXLfZkz/l8MowjLxFVFg0P3On0A/rHTDilHHOntZoj1x3d
+n2xFR35NZo7DdkewHcbMHUyrUrsSzTQC4JvjD7Ecx1HmpQTjo079AabM/mFdI9te
+czUUPCzwlqr/GOyW8sIz00POG0+jzVLNXJKWKJOkbTJepXkR95EVSYS53wpcAUp0
+oOW5dHWbl64xDCZa4BFoIJZ3N8tYnPEetfGdPxFklNnjKwvGWuFqmuHyKQb9O+Js
+/bpmc+xjo4kghNnoU55N2pDzizeDahkutILnSY2pd/MdttXlfD9C7xQAYjVFPs6y
+gPPHNZ9Cz8AjV3HN8N87CqB1plGzLpF9MnXZgyPS84PYDwG+G2bJAaT4vUHznr8/
+RtYG3PwbFX06/nGAkYDQOmpkaK0A7L4Sz0sAdw+MkRS/xElALp4=
+=AtSK
+-----END PGP SIGNATURE-----
+
+--814b05467eb5fb3d1194dffe0bcc9ad51fe1c1889dcbffafdae7b5a67172--
