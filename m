@@ -1,141 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF643C47C;
-	Fri, 24 May 2024 21:06:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E7EF745D6;
+	Fri, 24 May 2024 21:27:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716584777; cv=none; b=ig1O0U7fMj/CICqAaFAotSYIyz8crm2fu+UQpwpzLKybxgUiv3hWE7DrxhY5/zI0wmmWI4bizc+cdcI+YIjLFaNSNoMY5d8DheI8/Rhj4tEiecTvaAkSGNpr0fBFe2ztprviDwuXHSxKfe/ruJZGLINqBtJ1Vp+ii7KaLKTIoCw=
+	t=1716586056; cv=none; b=V14xWwsRc5X3PERY5dYMCPyXVYeUvJn0A8PIXc1sFZLeZx0kGP8gcQimrSAL3H+X1xHlQfLbxZ2t/jRfDDJsIvPUhU12q+INOysW/3xXLJUk8+CqoGIxAAw9kJJVS/CdZ8zPO4LTG7yWvBF7cJ0tDbiHFbAbzUKaXPzfQk5oGFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716584777; c=relaxed/simple;
-	bh=i2FYvQ/BuCKRsKhUyvuotfGtwF1qiSXoUMR8uyOnvAg=;
+	s=arc-20240116; t=1716586056; c=relaxed/simple;
+	bh=rqtlw0z4hOj1gZm+shEm88N1id6NRVqqJzHHMUDNIlg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MHg5Nc78JUPZDfw9VeG8CBzoHpmn0GCfqkl2j84wybuMwqE3UKktyeiL3HmwrHKuUk9xYs2xgv/dO87kzjkt9gnjPzxIA4cQIqKYAoOwkpzuUj4KgYa0c4iKkJwp+uX3hV0MblMNqbu9QE+6qeXhpOTWtZSFOXCoaaOrdX19RT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mGsQVoaz; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=lbINSP6ufRj0vij0EVyMmH0g+9C+0XVQFRQ7q4Tyj1AvyWuuB9ELac7s7P8rjn72MaNOfEBqPKuDqNmCozN4+wwyN+swTyWHUbsEJHfOOBAjNypt7H7h3LfjqFnPd5xO+SPDhIpje3ZxX7hHzYV/Pkfuqi4M6Z8KssGFrsMhN1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=pi03JtCu; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mGsQVoaz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716584775; x=1748120775;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=i2FYvQ/BuCKRsKhUyvuotfGtwF1qiSXoUMR8uyOnvAg=;
-  b=mGsQVoazfreoJ4VR+jVsWh/U0L5a0weCmoOf0jNA4VmQ6mj7tGiDckFV
-   wYOC8SZSBmHFSXbp9zu3xznKZK7P91ntdMXeFdXm45dh4wyA4JoB/iqqc
-   N5U+JUblgIcAZbnp6NG1DNBIXNc/p/9Bb05KthJQHjizCtQ3lxiMNSnZv
-   X+SlyozcuJcSTzm44/6Rfs/vbI8FwtzyifS023UFnhjMBQwcR/BlKKbP4
-   64BpmiP/ZdEd3bAEF3D6fKdMryf6rjC6vGK3PBdrKYZIAU4j/+vnvqEJE
-   kHOnSE5FzUZ1hYZ6jo6YrF8UTBZJGDtJHjic+DIzty0v4CYen4szU2nvP
-   w==;
-X-CSE-ConnectionGUID: RwRlITcQTgWntLv1y3flew==
-X-CSE-MsgGUID: Y44mRza0TOKNicZIZ37Ezg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11082"; a="23546283"
-X-IronPort-AV: E=Sophos;i="6.08,186,1712646000"; 
-   d="scan'208";a="23546283"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2024 14:06:14 -0700
-X-CSE-ConnectionGUID: dg0+kzl/TTiFuWKJa05m+Q==
-X-CSE-MsgGUID: bBCnSzmmQreu0Xqb9a7bkQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,186,1712646000"; 
-   d="scan'208";a="34112530"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 24 May 2024 14:06:10 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sAc6x-0005ul-1D;
-	Fri, 24 May 2024 21:06:00 +0000
-Date: Sat, 25 May 2024 05:05:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Adrian Ratiu <adrian.ratiu@collabora.com>,
-	linux-fsdevel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
-	kernel@collabora.com, gbiv@google.com, ryanbeltran@google.com,
-	inglorion@google.com, ajordanr@google.com, jorgelo@chromium.org,
-	Adrian Ratiu <adrian.ratiu@collabora.com>,
-	Jann Horn <jannh@google.com>, Kees Cook <keescook@chromium.org>,
-	Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v4 1/2] proc: pass file instead of inode to proc_mem_open
-Message-ID: <202405250413.EENbErWw-lkp@intel.com>
-References: <20240524192858.3206-1-adrian.ratiu@collabora.com>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="pi03JtCu"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+	In-Reply-To:References; bh=BBvkVB+4xDDjF7vawfQZr2UKRLImlEM7McAxqrR+4QQ=; b=pi
+	03JtCuK+O664Zt74745BE9SG+BZi4cuw8JbVhwXN5fVoN2mFcTIkFBz/C9XUXbj9v0JqHQPz+UTvR
+	r0FaRjRoXNCGlerdDue5/I+KXlU5jnDOHYgp5BZcaCBXPl9NF7DNiqzZ49uGkxFyyxtOVVnolj3pX
+	l1uzrZxsjZBptVg=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1sAcRY-00Fyk0-R3; Fri, 24 May 2024 23:27:16 +0200
+Date: Fri, 24 May 2024 23:27:16 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+Cc: "Parthiban.Veerasooran@microchip.com" <Parthiban.Veerasooran@microchip.com>,
+	"davem@davemloft.net" <davem@davemloft.net>,
+	"edumazet@google.com" <edumazet@google.com>,
+	"kuba@kernel.org" <kuba@kernel.org>,
+	"pabeni@redhat.com" <pabeni@redhat.com>,
+	"horms@kernel.org" <horms@kernel.org>,
+	"saeedm@nvidia.com" <saeedm@nvidia.com>,
+	"anthony.l.nguyen@intel.com" <anthony.l.nguyen@intel.com>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"robh+dt@kernel.org" <robh+dt@kernel.org>,
+	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"Horatiu.Vultur@microchip.com" <Horatiu.Vultur@microchip.com>,
+	"ruanjinjie@huawei.com" <ruanjinjie@huawei.com>,
+	"Steen.Hegelund@microchip.com" <Steen.Hegelund@microchip.com>,
+	"vladimir.oltean@nxp.com" <vladimir.oltean@nxp.com>,
+	"UNGLinuxDriver@microchip.com" <UNGLinuxDriver@microchip.com>,
+	"Thorsten.Kummermehr@microchip.com" <Thorsten.Kummermehr@microchip.com>,
+	Piergiorgio Beruto <Pier.Beruto@onsemi.com>,
+	"Nicolas.Ferre@microchip.com" <Nicolas.Ferre@microchip.com>,
+	"benjamin.bigler@bernformulastudent.ch" <benjamin.bigler@bernformulastudent.ch>
+Subject: Re: [PATCH net-next v4 00/12] Add support for OPEN Alliance
+ 10BASE-T1x MACPHY Serial Interface
+Message-ID: <6e4c8336-2783-45dd-b907-6b31cf0dae6c@lunn.ch>
+References: <20240418125648.372526-1-Parthiban.Veerasooran@microchip.com>
+ <5f73edc0-1a25-4d03-be21-5b1aa9e933b2@lunn.ch>
+ <32160a96-c031-4e5a-bf32-fd5d4dee727e@lunn.ch>
+ <2d9f523b-99b7-485d-a20a-80d071226ac9@microchip.com>
+ <6ba7e1c8-5f89-4a0e-931f-3c117ccc7558@lunn.ch>
+ <8b9f8c10-e6bf-47df-ad83-eaf2590d8625@microchip.com>
+ <44cd0dc2-4b37-4e2f-be47-85f4c0e9f69c@lunn.ch>
+ <b941aefd-dbc5-48ea-b9f4-30611354384d@microchip.com>
+ <BYAPR02MB5958A4D667D13071E023B18F83F52@BYAPR02MB5958.namprd02.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240524192858.3206-1-adrian.ratiu@collabora.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <BYAPR02MB5958A4D667D13071E023B18F83F52@BYAPR02MB5958.namprd02.prod.outlook.com>
 
-Hi Adrian,
+> In our MDIO functions, we do certain things based on PHY ID, also
+> our driver deal with vendor specific register, MMS 12 (refer Table 6
+> in section 9.1
 
-kernel test robot noticed the following build errors:
+That is a bad design. Vendor specific PHY registers should be in MMS 4
+which is MMD 31, where the PHY driver can access them. Table 6 says:
+"PHY – Vendor Specific" for MMS 4, so clearly that is where the
+standards committee expected PHY vendor registers to be.
 
-[auto build test ERROR on kees/for-next/pstore]
-[also build test ERROR on kees/for-next/kspp linus/master v6.9 next-20240523]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Anyway, does the PHY driver actually need to access MMS 12? Or can the
+MAC driver do it? That is the same question i asked Ramón about the
+Microchip part. We really should avoid layering violations as much as
+we can, and we should not have the framework make it easy to violate
+layering. We want all such horrible hacks hidden in the MAC driver
+which needs such horrible hacks because of bad design.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Adrian-Ratiu/proc-restrict-proc-pid-mem/20240525-033201
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/pstore
-patch link:    https://lore.kernel.org/r/20240524192858.3206-1-adrian.ratiu%40collabora.com
-patch subject: [PATCH v4 1/2] proc: pass file instead of inode to proc_mem_open
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20240525/202405250413.EENbErWw-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 7aa382fd7257d9bd4f7fc50bb7078a3c26a1628c)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240525/202405250413.EENbErWw-lkp@intel.com/reproduce)
+	Andrew
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405250413.EENbErWw-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from fs/proc/task_nommu.c:3:
-   In file included from include/linux/mm.h:2208:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> fs/proc/task_nommu.c:262:27: error: incompatible pointer types passing 'struct inode *' to parameter of type 'struct file *' [-Werror,-Wincompatible-pointer-types]
-     262 |         priv->mm = proc_mem_open(inode, PTRACE_MODE_READ);
-         |                                  ^~~~~
-   fs/proc/internal.h:298:46: note: passing argument to parameter 'file' here
-     298 | struct mm_struct *proc_mem_open(struct file *file, unsigned int mode);
-         |                                              ^
-   1 warning and 1 error generated.
-
-
-vim +262 fs/proc/task_nommu.c
-
-b76437579d1344 Siddhesh Poyarekar 2012-03-21  251  
-b76437579d1344 Siddhesh Poyarekar 2012-03-21  252  static int maps_open(struct inode *inode, struct file *file,
-b76437579d1344 Siddhesh Poyarekar 2012-03-21  253  		     const struct seq_operations *ops)
-662795deb854b3 Eric W. Biederman  2006-06-26  254  {
-dbf8685c8e2140 David Howells      2006-09-27  255  	struct proc_maps_private *priv;
-dbf8685c8e2140 David Howells      2006-09-27  256  
-27692cd56e2aa6 Oleg Nesterov      2014-10-09  257  	priv = __seq_open_private(file, ops, sizeof(*priv));
-ce34fddb5bafb4 Oleg Nesterov      2014-10-09  258  	if (!priv)
-ce34fddb5bafb4 Oleg Nesterov      2014-10-09  259  		return -ENOMEM;
-ce34fddb5bafb4 Oleg Nesterov      2014-10-09  260  
-2c03376d2db005 Oleg Nesterov      2014-10-09  261  	priv->inode = inode;
-27692cd56e2aa6 Oleg Nesterov      2014-10-09 @262  	priv->mm = proc_mem_open(inode, PTRACE_MODE_READ);
-27692cd56e2aa6 Oleg Nesterov      2014-10-09  263  	if (IS_ERR(priv->mm)) {
-27692cd56e2aa6 Oleg Nesterov      2014-10-09  264  		int err = PTR_ERR(priv->mm);
-27692cd56e2aa6 Oleg Nesterov      2014-10-09  265  
-27692cd56e2aa6 Oleg Nesterov      2014-10-09  266  		seq_release_private(inode, file);
-27692cd56e2aa6 Oleg Nesterov      2014-10-09  267  		return err;
-27692cd56e2aa6 Oleg Nesterov      2014-10-09  268  	}
-27692cd56e2aa6 Oleg Nesterov      2014-10-09  269  
-ce34fddb5bafb4 Oleg Nesterov      2014-10-09  270  	return 0;
-662795deb854b3 Eric W. Biederman  2006-06-26  271  }
-662795deb854b3 Eric W. Biederman  2006-06-26  272  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
