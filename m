@@ -1,270 +1,527 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 538A53FC2
-	for <linux-doc@vger.kernel.org>; Fri, 24 May 2024 01:09:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 281012AD38;
+	Fri, 24 May 2024 02:51:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716512944; cv=none; b=URMRogaTGLhF7ObUgexQv0MosurfiHEgyIw/+ZK7aegm3Rhvld72XWlJrb7v8Mh0ZBRvsotD0mpI/+Jjw7MQODRAbNEjcyLGO2kimx4kZeb/VI4GFivHuLivy/xiF/94mb5WYYo6FJD+gwMnIT25GDkenn8O7NhuY9fynvyvhS4=
+	t=1716519112; cv=none; b=ur/v18lqRGinqmeetDLG01j4UnrkIGsWsYTrH0HuHTp/IrdE2o3nqbSK8cat8Kjbu/du8FdIZfD7DHKnzXikLXHcfPZ4RNdxvZ83Klm6l7m6DlV4pPEiUcUvgV7pX9K0mgLk9vnR+gRMeMpywyrPDyAHD8R8kvFJdMOkz+KG0NA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716512944; c=relaxed/simple;
-	bh=8XQWHJJcnaWQIBpyYzCHxp7AnnNYM9fdzlKNZ1TPWgI=;
+	s=arc-20240116; t=1716519112; c=relaxed/simple;
+	bh=S7lfU0LQOJowvwgodqk1V+XzD2xIflQoQMwKIN1DDc0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rVw22ZYEtyRxmtS/BT6jB3sd/4LQ29FHu0hdZglLQ8h/H/Q17cGR9bautL7uNwuc28i+dc4HMYPwVZRxDRVYZT1hbZWeATEuBpcDAY0kgl3yt1kNRgFzZqQ0nwJxpkF6fIaRpuKVjFi84AUA/KxpdjXVLu8PN8epj246oii8Rdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=20MK3HZS; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	 To:Cc:Content-Type; b=UCKg5S+wvQMVCrVYS04EbTZM/hpeqF/wPqugjgdfQyIJfz9jIc+3HjrrI79YzD8CUbkoNlX2Yfj8fH+JZHrp+zPqehYmacccOeecP0ep2V/2JhzaE+rC6TsQrHKpbYmla1lBqC2OGiAtQYH7rapwpyUVZ+IS2lBjQ6VZtNn8vfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kAV0vN9O; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="20MK3HZS"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a5a7d28555bso1245763666b.1
-        for <linux-doc@vger.kernel.org>; Thu, 23 May 2024 18:09:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kAV0vN9O"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1f32864bcc7so17890455ad.3;
+        Thu, 23 May 2024 19:51:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1716512940; x=1717117740; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1716519109; x=1717123909; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=d5hsurXO4+PTmTC7t5rP+UCCiN2KRr+N0eUl4vfw5Qc=;
-        b=20MK3HZSy+YIlZd/bhTnx1+hm7PuAQRmtjxEUN3Kb0dVHLsQwDmuMQ9v7jxD9GDii3
-         9bdvlQt7S2vFrPXOFb7MTdnfe/ASwd1SZ1FeWs/DAFrDIzLaI08byIixqvcMllT5x3/E
-         BPdHNcUOKWYOUFHvDBI5vPyroC+E8+bmK1U+W4pDeXN9Cb37+1bAXWWmAzG+LZK6OwDT
-         IGXi031G8W58bknM+vZanomHLYL/dY7YCh7Ww46ljKREOJCH7tj012naZSntF1i96W7u
-         +epeQpIJbXmhEtuKWFM+Ojql+qpgEAl2TDfgbwX0k8ka+XrFG54g5RM6KqldbmWkYYJ9
-         ZfPA==
+        bh=v0aIA4JbAL5o7MlZB87B0BS088s3emBdOeNgUtzCvOg=;
+        b=kAV0vN9Om8AFyzlTTqPYgLP8IdkFZhfOQyXMJ1ePnfNiOX9TU13nV7yiFdXuxsdR4h
+         b8YaDi2HYON2nKvlnEnuNicW7ivKGv31QGou2u7ejv3MVQnTXCam9mPF4Xis2HjE1Myu
+         dCh/OKq2Abri72Edk2kVW4wph2NACvOoQwVMO73uT6dleFDe12RfEpLNngZ7Lv6VSWvf
+         4iCx6BxoirHrSxIagHFL20gNjU7dx0Z+bQqhh2WM/O30b6NrCZTAqZcXgCq3l55zwH+o
+         y+1os/vsKOYMMyfKCrpu+Is3j5g13T4Us/RZJxrTJ5mSEHDv39Ad7qv0fcBhbhi2DL2O
+         1Dfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716512940; x=1717117740;
+        d=1e100.net; s=20230601; t=1716519109; x=1717123909;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=d5hsurXO4+PTmTC7t5rP+UCCiN2KRr+N0eUl4vfw5Qc=;
-        b=C8WVixdI+23w7pDiO97OfSzKhg79I750JEGoKS1YYxdy45I6eLPPzwjihqBB4a6ppQ
-         Pt+waHXK2BXBRUUSeUeTZXit4qTIzhHFyRyQZhKDAmnhO3O2vcZk1vTQhuEN8+GdiPEv
-         3zBqCV+HKf6e2ytM6DPR5SMFuJVZyqXg1wuY6izCFEqN6aK8WW49svtqVxJYX6wSOrV5
-         oMk2+92l6A/EaoV8+Q7oKvkxA+2wt5aGCWets6E1OA9As8T4jR3oyFkW3yFz1PRqg+26
-         oeXW5j30nSPCrKpAMTinpFIH1L9odZXJXfY1AOHf7tNIIj5bhY8qTZKfIwDELLkgvDoM
-         z0yw==
-X-Forwarded-Encrypted: i=1; AJvYcCVK34VWUbkT7mvuqFkG+gb5Um6BSdX3NChzm+zO5QRaya7Pr/7zjwv57uUumyCWMtpUKJwMF18TjdxKPd5M+d8DthREhhf7Fzd+
-X-Gm-Message-State: AOJu0Yzv7Rh455QwEfv+gf4fwWt/OiXTwHu0pSjyFU0ydHKJxIdEt0br
-	g4rYDHESCkX9GmWKMU/qsC+ZcGGa1vLmmokkJzSFfdffLYYojxRwjpqx1fNOhmHEcmPJaoLcfsR
-	tLrPi6fDpywrgwTlnhFDqgU5dhN0bbYpIwXHofA==
-X-Google-Smtp-Source: AGHT+IG3s/PxfkzALAwXOhQ3ekAOVPLqk+Nn0xM/k7lUsK1tJ7QFxgisyucTWB05LPZ17KPqpgslqJYxANclXkKxTGo=
-X-Received: by 2002:a17:907:3ac2:b0:a5a:2d30:b8c1 with SMTP id
- a640c23a62f3a-a62641c78c3mr40064366b.14.1716512940597; Thu, 23 May 2024
- 18:09:00 -0700 (PDT)
+        bh=v0aIA4JbAL5o7MlZB87B0BS088s3emBdOeNgUtzCvOg=;
+        b=X3tDFa4sSFkUJpufKKQOv2KsQ3K6Yh7uyhYSPo8Aa/OJEWYhxcqbOo0g8V+MmpCxcZ
+         JuwAPQz2t4P3eO5499OTLAvehw/YYAiw94wMIopFOFtz2PfoADOG6H7szfiQcKSa+juf
+         yJ4QNdcZ0HyBM/WJkZ5V+pomXQbqtyNiToLZ9KY0rvq7fyrptzf2lZ8qEE2hKTEYbF0m
+         9y1FLFP4dXA3OPmxKn1KeCXrUQmT1B44hLtFD0KKo0ozWPIP7quvq1srEWoqPNBSxl2S
+         /Hy3cNBZMYObA12f1/Z5wmkrcqopb1ThZeuJbot9XvDeVig+QQQxyqJwAzlAZJzu/prI
+         uQSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU6WWv8pBUGuvZKRobCxTou7ryQHyBl8tpHRro0BJ9TBPYHkob8tKqRyqkQh94jRB7oaxW9bVy/xp1+tZdSrkJgFq2OyMUwNqQF3cn3AoJSgeHCKSUgJx6koA4R2RwuES0VbOMLbcP6
+X-Gm-Message-State: AOJu0YyxQhT+oZigu9exAt4277k1kbvUjhB9Ysp7E+bclGtw6qXa8ZQP
+	dyRUYMlI9IDQqOw23mN3WFmEAqSuGmod9PXrSPfLyfE9lhyI++pUZnkjQdwus+LKFxnnlqcCkJv
+	QIhOKQMsM+EpFmFcB60UgcHT8pp+eGcvdLKaU
+X-Google-Smtp-Source: AGHT+IGOElhLilkLxL5XQA/v8Jeb6CklMrqwDK/92vH1KpNbF26x2h7AhubzoApQG89zXvjoOJsSwckpCnL0R8NKpmU=
+X-Received: by 2002:a17:902:cecd:b0:1f2:f4e6:cdb6 with SMTP id
+ d9443c01a7336-1f4486ed3bcmr13060685ad.23.1716519109073; Thu, 23 May 2024
+ 19:51:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <tencent_9D721BDDF88C04DBB5151D57711D62524209@qq.com>
- <tencent_338DF690631BAE788C4CC858233E9FBAE006@qq.com> <CALs-HssGcNso6vTfbcsiWX1h_46jgDDRcEWcfZCTpxXYnubcng@mail.gmail.com>
- <20240522-d110bb16f54eebb725e943c2@orel> <Zk+ygkJXUcW+H7Rl@ghost>
-In-Reply-To: <Zk+ygkJXUcW+H7Rl@ghost>
-From: Evan Green <evan@rivosinc.com>
-Date: Thu, 23 May 2024 18:08:24 -0700
-Message-ID: <CALs-HssY+UOEcM=LhahK1Ngs+=oEocLTFYZ65-Kn7=bH3qYPOg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] docs: riscv: hwprobe: Clarify misaligned keys are
- values not bitmasks
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Andrew Jones <ajones@ventanamicro.com>, Yangyu Chen <cyy@cyyself.name>, 
-	linux-riscv@lists.infradead.org, Elliott Hughes <enh@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>, 
-	Conor Dooley <conor.dooley@microchip.com>, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
+References: <20240412161000.33148-1-lostzoumo@gmail.com> <CAHfrynPTuNDH7J4=mVcya7nVMg-0ovkwewciTXbS-hSX7G1cAw@mail.gmail.com>
+ <CAHfrynM7+7RqhrGPqg=+uT8rCUH+8hvTRZg9vGz_xcSr-3Xtbw@mail.gmail.com>
+In-Reply-To: <CAHfrynM7+7RqhrGPqg=+uT8rCUH+8hvTRZg9vGz_xcSr-3Xtbw@mail.gmail.com>
+From: Mo Zou <lostzoumo@gmail.com>
+Date: Fri, 24 May 2024 10:51:37 +0800
+Message-ID: <CAHfrynPN3h=h8dhPrnN=pks=oAeD9FxRaWmOO4PekO8tbe_WbQ@mail.gmail.com>
+Subject: Re: [PATCH] Docs: fs: prove directory locking more formally
+To: viro@zeniv.linux.org.uk, brauner@kernel.org, Jan Kara <jack@suse.cz>, 
+	"corbet@lwn.net" <corbet@lwn.net>, Linus Torvalds <torvalds@linux-foundation.org>
+Cc: linux-fsdevel@vger.kernel.org, dd_nirvana@sjtu.edu.cn, 
+	mingkaidong@sjtu.edu.cn, haibochen@sjtu.edu.cn, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 23, 2024 at 2:17=E2=80=AFPM Charlie Jenkins <charlie@rivosinc.c=
-om> wrote:
+The Linux kernel currently *lacks* formal specification and proof. But
+it seems no one takes this seriously.
+
+A quote from the RefFS paper (OSDI'24):"we found this flaw (commit
+28eceeda130f) when we failed to define the dynamic layering
+specification for the scheme. Indeed, having a formal specification that
+effectively captures lock dependencies is crucial. Such a specification
+not only aids in conducting formal proofs but also enhances our
+fundamental understanding of the system. Interestingly, even without
+engaging in code proofs, the specification itself can help uncover
+practical bugs and vulnerabilities".
+
+Mo Zou <lostzoumo@gmail.com> =E4=BA=8E2024=E5=B9=B45=E6=9C=886=E6=97=A5=E5=
+=91=A8=E4=B8=80 20:29=E5=86=99=E9=81=93=EF=BC=9A
 >
-> On Wed, May 22, 2024 at 09:26:08AM +0200, Andrew Jones wrote:
-> > On Tue, May 21, 2024 at 11:36:06AM GMT, Evan Green wrote:
-> > > On Sat, May 18, 2024 at 9:00=E2=80=AFAM Yangyu Chen <cyy@cyyself.name=
-> wrote:
-> > > >
-> > > > The original documentation says hwprobe keys are bitmasks, but actu=
-ally,
-> > > > they are values. This patch clarifies this to avoid confusion.
-> > > >
-> > > > Signed-off-by: Yangyu Chen <cyy@cyyself.name>
+> > > Instead of proof by contradiction, this proof more intuitively explai=
+ns
+> > > the order that the locking rules want to enforce. If the developers w=
+ant
+> > > to update the locking rules, they would be forced to come up with the
+> > > corresponding order that justifies deadlock-freedom, otherwise, the
+> > > proof won't pass. As a evidence of effectiveness, the authors of RefF=
+S
+> > > paper firstly report the bug from commit 28eceeda130f ("fs: Lock move=
+d
+> > > directories") through this formal approach.
+> >
+> > Any comments on this proof? BTW, it would be okay to keep both the
+> > by-contradiction proof and by-order proof as both proofs may find their
+> > audience.
+>
+> Continuously seeking for comments.
+>
+> Mo Zou <lostzoumo@gmail.com> =E4=BA=8E2024=E5=B9=B44=E6=9C=8830=E6=97=A5=
+=E5=91=A8=E4=BA=8C 09:44=E5=86=99=E9=81=93=EF=BC=9A
+> >
+> > > Instead of proof by contradiction, this proof more intuitively explai=
+ns
+> > > the order that the locking rules want to enforce. If the developers w=
+ant
+> > > to update the locking rules, they would be forced to come up with the
+> > > corresponding order that justifies deadlock-freedom, otherwise, the
+> > > proof won't pass. As a evidence of effectiveness, the authors of RefF=
+S
+> > > paper firstly report the bug from commit 28eceeda130f ("fs: Lock move=
+d
+> > > directories") through this formal approach.
+> >
+> > Any comments on this proof? BTW, it would be okay to keep both the
+> > by-contradiction proof and by-order proof as both proofs may find their
+> > audience.
+> >
+> > Mo Zou <lostzoumo@gmail.com> =E4=BA=8E2024=E5=B9=B44=E6=9C=8813=E6=97=
+=A5=E5=91=A8=E5=85=AD 00:10=E5=86=99=E9=81=93=EF=BC=9A
 > > >
-> > > Hm, we also have this problem in the code, since
-> > > hwprobe_key_is_bitmask() returns true for KEY_CPUPERF_0. This results
-> > > in wrong information being returned for queries using the WHICH_CPU
-> > > flag. If usermode asked for the set of CPUs that was specifically SLO=
-W
-> > > or EMULATED, the returned cpuset would also include cpus that were
-> > > FAST. I believe all other queries are okay.
+> > > The directory locking proof should and could be made more formal.
+> > > Specifically, the locking rules for rename are very intricate and
+> > > subtle. The current proof shows deadlock-freedom by contradiction, i.=
+e.,
+> > > if a deadlock is possible, where could go wrong. There is no denying
+> > > that the proof is detailed with all possible cases considered. Howeve=
+r,
+> > > it gives less intuition on why the locking rules are correct and may =
+be
+> > > hard to maintain. Developers and even experts may still make mistakes
+> > > without realizing that the proof is no longer correct. See commit
+> > > 28eceeda130f ("fs: Lock moved directories") for such a case.
 > > >
-> > > The one-liner fix is to just not return true for that key in
-> > > hwprobe_key_is_bitmask(). But that's technically user-visible: if som=
+> > > A recent academia paper RefFS from OSDI 2024 has proposed a formal wa=
+y
+> > > to prove the correctness of locking scheme with machine-checkable pro=
+of
+> > > (see https://ipads.se.sjtu.edu.cn/projects/reffs for a preprint of th=
 e
-> > > software relied on the buggy behavior of FAST cpus being swept up in
-> > > the query for SLOW or EMULATED cpus, this change would expose that.
-> > > The grownups-eat-their-vegetables thing to do would be to define a ne=
-w
-> > > key that returns this same value, but doesn't return true in
-> > > hwprobe_key_is_bitmask(). What do people think?
-> >
-> > Even though I actually enjoy eating vegetables, I think it's unlikely
-> > that we need to be so cautious for this. I feel like kernel updates
-> > provide a bit of freedom to change results of hardware query syscalls,
-> > even when run on the same hardware. Particularly the EMULATED query,
-> > which I guess could change with a firmware update. And, even the SLOW
-> > query could change if the probing was modified directly or indirectly.
-> > IOW, applications that use the which-cpus syscall shouldn't freak out
-> > if they don't get the same cpuset after a kernel update, which means
-> > we can drop the FAST cpus from the result.
->
-> Dropping FAST does not really address the problem here. These keys are
-> being treated as a bitmap when they are in fact just values. Because
-> they are currently treated as bitmaps, it is semantically acceptable to
-> "or" two of the keys together and pass them into hwprobe. Dropping FAST
-> from the input of EMULATED | SLOW will make it appear to work, but it is
-> not reasonable to try to support or'ing of values that are not bitmaps. I=
-f a
-> key that maps to a value of 5 is ever introduced, then the input of
-> UNSUPPORTED | EMULATED will also return cpus that map to the new key.
-> If hwprobe recieves a value of 3 for CPUPERF_0 and or'ing is supported,
-> that could either be interpreted that the user is asking for cpus that ar=
+> > > paper). The core idea is to formally define the locking order of the
+> > > rules. Actually, the existing proof has the same idea but fails to
+> > > define the internal ranking for directories. The difficulty is that t=
+he
+> > > ranking for directories is not static but dynamic. In this patch, we
+> > > follow the idea from the paper to dynamically define the internal
+> > > ranking of directories and shows that operations always take director=
+ies
+> > > in order of increasing rank so that deadlocks are never possible.
+> > > Instead of proof by contradiction, this proof more intuitively explai=
+ns
+> > > the order that the locking rules want to enforce. If the developers w=
+ant
+> > > to update the locking rules, they would be forced to come up with the
+> > > corresponding order that justifies deadlock-freedom, otherwise, the
+> > > proof won't pass. As a evidence of effectiveness, the authors of RefF=
+S
+> > > paper firstly report the bug from commit 28eceeda130f ("fs: Lock move=
+d
+> > > directories") through this formal approach.
+> > >
+> > > Signed-off-by: Mo Zou <lostzoumo@gmail.com>
+> > > ---
+> > >  .../filesystems/directory-locking.rst         | 224 +++++++++-------=
+--
+> > >  1 file changed, 113 insertions(+), 111 deletions(-)
+> > >
+> > > diff --git a/Documentation/filesystems/directory-locking.rst b/Docume=
+ntation/filesystems/directory-locking.rst
+> > > index 05ea387bc9fb..94e358d71986 100644
+> > > --- a/Documentation/filesystems/directory-locking.rst
+> > > +++ b/Documentation/filesystems/directory-locking.rst
+> > > @@ -44,7 +44,7 @@ For our purposes all operations fall in 6 classes:
+> > >         * decide which of the source and target need to be locked.
+> > >           The source needs to be locked if it's a non-directory, targ=
+et - if it's
+> > >           a non-directory or about to be removed.
+> > > -       * take the locks that need to be taken (exlusive), in inode p=
+ointer order
+> > > +       * take the locks that need to be taken (exclusive), in inode =
+pointer order
+> > >           if need to take both (that can happen only when both source=
+ and target
+> > >           are non-directories - the source because it wouldn't need t=
+o be locked
+> > >           otherwise and the target because mixing directory and non-d=
+irectory is
+> > > @@ -135,12 +135,13 @@ If no directory is its own ancestor, the scheme=
+ above is deadlock-free.
+> > >  Proof:
+> > >
+> > >  There is a ranking on the locks, such that all primitives take
+> > > -them in order of non-decreasing rank.  Namely,
+> > > +them in order of increasing rank.  Namely,
+> > >
+> > >    * rank ->i_rwsem of non-directories on given filesystem in inode p=
+ointer
+> > >      order.
+> > > -  * put ->i_rwsem of all directories on a filesystem at the same ran=
+k,
+> > > -    lower than ->i_rwsem of any non-directory on the same filesystem=
+.
+> > > +  * put ->i_rwsem of all directories on a filesystem lower than ->i_=
+rwsem
+> > > +    of any non-directory on the same filesystem and the internal ran=
+king
+> > > +    of directories are defined later.
+> > >    * put ->s_vfs_rename_mutex at rank lower than that of any ->i_rwse=
+m
+> > >      on the same filesystem.
+> > >    * among the locks on different filesystems use the relative
+> > > @@ -149,92 +150,120 @@ them in order of non-decreasing rank.  Namely,
+> > >  For example, if we have NFS filesystem caching on a local one, we ha=
+ve
+> > >
+> > >    1. ->s_vfs_rename_mutex of NFS filesystem
+> > > -  2. ->i_rwsem of directories on that NFS filesystem, same rank for =
+all
+> > > +  2. ->i_rwsem of directories on that NFS filesystem, internal ranki=
+ng
+> > > +     defined later
+> > >    3. ->i_rwsem of non-directories on that filesystem, in order of
+> > >       increasing address of inode
+> > >    4. ->s_vfs_rename_mutex of local filesystem
+> > > -  5. ->i_rwsem of directories on the local filesystem, same rank for=
+ all
+> > > +  5. ->i_rwsem of directories on the local filesystem, internal rank=
+ing
+> > > +     defined later
+> > >    6. ->i_rwsem of non-directories on local filesystem, in order of
+> > >       increasing address of inode.
+> > >
+> > > -It's easy to verify that operations never take a lock with rank
+> > > -lower than that of an already held lock.
+> > > -
+> > > -Suppose deadlocks are possible.  Consider the minimal deadlocked
+> > > -set of threads.  It is a cycle of several threads, each blocked on a=
+ lock
+> > > -held by the next thread in the cycle.
+> > > -
+> > > -Since the locking order is consistent with the ranking, all
+> > > -contended locks in the minimal deadlock will be of the same rank,
+> > > -i.e. they all will be ->i_rwsem of directories on the same filesyste=
+m.
+> > > -Moreover, without loss of generality we can assume that all operatio=
+ns
+> > > -are done directly to that filesystem and none of them has actually
+> > > -reached the method call.
+> > > -
+> > > -In other words, we have a cycle of threads, T1,..., Tn,
+> > > -and the same number of directories (D1,...,Dn) such that
+> > > -
+> > > -       T1 is blocked on D1 which is held by T2
+> > > -
+> > > -       T2 is blocked on D2 which is held by T3
+> > > -
+> > > -       ...
+> > > -
+> > > -       Tn is blocked on Dn which is held by T1.
+> > > -
+> > > -Each operation in the minimal cycle must have locked at least
+> > > -one directory and blocked on attempt to lock another.  That leaves
+> > > -only 3 possible operations: directory removal (locks parent, then
+> > > -child), same-directory rename killing a subdirectory (ditto) and
+> > > -cross-directory rename of some sort.
+> > > -
+> > > -There must be a cross-directory rename in the set; indeed,
+> > > -if all operations had been of the "lock parent, then child" sort
+> > > -we would have Dn a parent of D1, which is a parent of D2, which is
+> > > -a parent of D3, ..., which is a parent of Dn.  Relationships couldn'=
+t
+> > > -have changed since the moment directory locks had been acquired,
+> > > -so they would all hold simultaneously at the deadlock time and
+> > > -we would have a loop.
+> > > -
+> > > -Since all operations are on the same filesystem, there can't be
+> > > -more than one cross-directory rename among them.  Without loss of
+> > > -generality we can assume that T1 is the one doing a cross-directory
+> > > -rename and everything else is of the "lock parent, then child" sort.
+> > > -
+> > > -In other words, we have a cross-directory rename that locked
+> > > -Dn and blocked on attempt to lock D1, which is a parent of D2, which=
+ is
+> > > -a parent of D3, ..., which is a parent of Dn.  Relationships between
+> > > -D1,...,Dn all hold simultaneously at the deadlock time.  Moreover,
+> > > -cross-directory rename does not get to locking any directories until=
+ it
+> > > -has acquired filesystem lock and verified that directories involved =
+have
+> > > -a common ancestor, which guarantees that ancestry relationships betw=
+een
+> > > -all of them had been stable.
+> > > -
+> > > -Consider the order in which directories are locked by the
+> > > -cross-directory rename; parents first, then possibly their children.
+> > > -Dn and D1 would have to be among those, with Dn locked before D1.
+> > > -Which pair could it be?
+> > > -
+> > > -It can't be the parents - indeed, since D1 is an ancestor of Dn,
+> > > -it would be the first parent to be locked.  Therefore at least one o=
+f the
+> > > -children must be involved and thus neither of them could be a descen=
+dent
+> > > -of another - otherwise the operation would not have progressed past
+> > > -locking the parents.
+> > > -
+> > > -It can't be a parent and its child; otherwise we would've had
+> > > -a loop, since the parents are locked before the children, so the par=
+ent
+> > > -would have to be a descendent of its child.
+> > > -
+> > > -It can't be a parent and a child of another parent either.
+> > > -Otherwise the child of the parent in question would've been a descen=
+dent
+> > > -of another child.
+> > > -
+> > > -That leaves only one possibility - namely, both Dn and D1 are
+> > > -among the children, in some order.  But that is also impossible, sin=
+ce
+> > > -neither of the children is a descendent of another.
+> > > -
+> > > -That concludes the proof, since the set of operations with the
+> > > -properties requiered for a minimal deadlock can not exist.
+> > > +.. _RefFS: https://ipads.se.sjtu.edu.cn/projects/reffs
+> > > +
+> > > +The ranking above is mostly static except the internal ranking of
+> > > +directories. Below we will focus on internal ranking of directories =
+on
+> > > +the same filesystem and present a way to dynamically define ranks of
+> > > +directories such that operations still take locks in order of
+> > > +increasing rank, i.e., operations always take a lock with rank highe=
+r
+> > > +than that of any already held locks. Note that the idea of dynamic
+> > > +ranking has a formal basis and more details can be found in the
+> > > +academia paper RefFS_ from OSDI 2024.
+> > > +
+> > > +
+> > > +First, without considering cross-directory renames, a directory's ra=
+nk
+> > > +is defined as its distance from the root, i.e., root directory has r=
+ank
+> > > +0 and each child directory's rank equals one plus its parent
+> > > +directory's rank. Because no directory is its own ancestor, every
+> > > +directory's rank can be uniquely determined starting from root to it=
+s
+> > > +descendants. This ranking accounts for the (locks parent, then child=
+)
+> > > +nested locking in directory removal and same-directory rename.
+> > > +
+> > > +Then, consider the most complex case in a cross-directory rename, wh=
+ere the
+> > > +most locks need to be acquired. The rename may perform the following
+> > > +nested locking (only show lock statements for convenience). Here, di=
+r1
+> > > +and dir2 are the two parents and according to the locking rules, we
+> > > +know dir2 is not ancestor to dir1. child1 and child2 are source and
+> > > +target in a order according to the rules above and may not necessari=
+ly
+> > > +correspond to the child of dir1 and dir2. Ignore things in angle
+> > > +brackets for now. The locking order here can not be predetermined. F=
+or
+> > > +instance, rename(/a/x,/b/y) and rename(/b/y,/a/x) would acquire /a a=
+nd
+> > > +/b in different order because neither parent is an ancestor of the
+> > > +other and we lock the parent of source first. But the observation is
+> > > +that after acquiring the filesystem lock, the precise locking order
+> > > +becomes known. We introduce a ghost state edge to help define the
+> > > +ranks (ghost state is a commonly used technique in verification whic=
+h
+> > > +has no influence on the program execution and its only role is to
+> > > +assist the proof).
+> > > +
+> > > +  1. lock filesystem (->s_vfs_rename_mutex);
+> > > +  2. lock dir1->i_rwsem; <set edge to (dir1, dir2)>
+> > > +  3. lock dir2->i_rwsem; <set edge to (non-parent, child1) if child1=
+ is
+> > > +     a directory and non-parent is the one in dir1 and dir2 that is =
+not
+> > > +     parent to child1, otherwise, set edge to None>
+> > > +  4. lock child1->i_rwsem; <set edge to (child1, child2) if chil1 an=
+d
+> > > +     child2 are directories, otherwise, set edge to None>
+> > > +  5. lock child2->i_rwsem; <set edge to None>
+> > > +
+> > > +The value of edge is either None or (inode1,inode2)
+> > > +representing a possible lock dependency from inode1 to inode2, i.e.,
+> > > +some thread may request lock of inode2 with lock of inode1 held. The=
+re
+> > > +is only ever one edge value in a filesystem with edge set to None wh=
+en
+> > > +the s_vfs_rename_mutex is not held and edge set to a determined valu=
 e
-> EMULATED or SLOW or FAST, or just FAST, or just EMULATED or SLOW. The
-> current implementation defines that only FAST will be returned because
-> or'ing values like this is nonsense.
-
-You're right that if usermode had taken the bitmask aspect to heart,
-they might try to ask for cpus that were SLOW | EMULATED, and expect
-to get the set of both. None of the other combinations make sense, so
-I think this is the only one worth worrying about. That case is super
-broken today as they'd get SLOW | EMULATED | FAST (basically all CPUs
-always). We have no way to distinguish whether they actually passed
-SLOW | EMULATED or FAST. I'm tempted to not worry about this case and
-assume anyone who passed 3 meant FAST, but you're right it's there.
-
->
-> Allowing an input where keys are or'd together should not be supported
-> in CPUPERF_0 since it is what is causing this issue. However, the
-> original intent seems to be to allow an or'ing of keys. The verbosity of
-> using CPUPERF_0 will be greatly increased without the ability to or keys
-> together. If an application wants to know if misaligned accesses are
-> supported, it currently needs 3 separate hwprobe calls, one for each
-> EMULATED, SLOW, and FAST. Changing CPUPERF_0 to be a true bitmap would
-> require changing the values of each of the existing keys which is not an
-> acceptable API change.
-
-Specifying CPUPERF_0 as a bitmask was a mistake (mine) in the
-documentation that got translated to code when the WHICH_CPUS flag was
-introduced and hwprobe_key_is_bitmask() showed up. It was always
-supposed to be an enum, with EMULATED being a (significant) step worse
-than SLOW.
-
-My expectation is that most software will just ask "which cpus are
-FAST" and nothing else. It's not easy to write software that somehow
-takes advantage of the difference between EMULATED and SLOW, though it
-is nice to know for reporting/telemetry purposes.
-
->
-> In my previous email I proposed a new key, which could be something like
-> RISCV_HWPROBE_KEY_CPUPERF_1, that is actually a bitmap. That way a query
-> of EMULATED | SLOW | FAST would be possible in a single hwprobe call,
-> which seems to be the original intent of CPUPERF_0.
-
-Agreed, it makes sense to me to have HWPROBE_MISALIGNED_* be the only
-value in CPUPERF_0, and add a new CPUPERF_1 key for true bitmap
-features. I currently don't have any bits to stuff into the newly
-proposed key, but when they do I agree it makes sense to put them in a
-new key.
-
--Evan
-
->
-> - Charlie
->
->
-> >
-> > Thanks,
-> > drew
-> >
+> > > +when s_vfs_rename_mutex is held. When edge is None, the ranking rule=
+s
+> > > +are the same as before (root is 0 and child is one plus its parent).
+> > > +When edge is (inode1, inode2), only the ranking rule for inode2
+> > > +changes: inode2's rank is one plus the larger rank of inode2's paren=
+t
+> > > +and inode1. Intuitively, a directory's rank is the longest distance
+> > > +from root in the filesystem tree extended with edge.
+> > > +
+> > > +Now let's check the setting of edge in angle brackets in above code =
+to
+> > > +see how it ensures cross-directory rename takes locks in increasing
+> > > +order in this case. After the lock statement at line 2, edge is set =
+to
+> > > +(dir1,dir2). Because dir2 is not ancestor to dir1, the rank of dir1
+> > > +stays the same and the rank of dir2 (as well as every other
+> > > +directories) can be uniquely determined. So at line 3, dir2's rank i=
+s
+> > > +higher than dir1's. Before the code acquires child1 at line 4, it
+> > > +already holds dir1 and dir2. We know one of dir1 and dir2 is parent =
+to
+> > > +child1, so we update edge to (the non-parent of child1, child1).
+> > > +Because child1 cannot be ancestor to dir1 or dir2, every directory's
+> > > +rank is still uniquely defined (for the same reason as above). So at
+> > > +line 4, we ensure child1 has higher rank than dir1 and dir2. Similar=
+ly,
+> > > +we update edge to (child1, child2) so that at line 5, child2 has hig=
+her
+> > > +rank than held locks (dir1, dir2 and child1). We reset edge to None
+> > > +whenever we have acquired all directory locks.
+> > > +
+> > > +In a less complex case of cross-directory rename, the code may execu=
+te
+> > > +a prefix of above lines and we always reset edge to None after havin=
+g
+> > > +acquired all directory locks.
+> > > +
+> > > +The ranking of directories may change under following cases:
+> > > +
+> > > +  * directory removal/creation: a directory's rank is removed/added
+> > > +  * rename: the effect of rename is either (1) moving a subtree unde=
+r a
+> > > +    node that is outside of the subtree (the directories in the subt=
+ree are
+> > > +    all recalculated based on the node whose rank is not influenced)
+> > > +    and potentially removing target (a directory's rank is removed) =
+or
+> > > +    (2) in case of RENAME_EXCHANGE, two subtrees exchange their
+> > > +    positions. Because source is not a descendent of the target and
+> > > +    target is not a descendent of source, the parents of the two
+> > > +    subtrees cannot not be in these subtrees so the ranks of parents
+> > > +    are not influenced. The two subtrees' ranks are recalculated bas=
+ed
+> > > +    on their parents
+> > > +  * edge updates in a cross-directory rename: setting edge to
+> > > +    (inode1,inode2) or resetting edge to None modify the ranks of th=
+e
+> > > +    inode2 subtree
+> > > +
+> > > +Initially in a filesystem, no directory is its own ancestor and
+> > > +directories' ranks can be uniquely determined. All these changes
+> > > +preserve the fact that at every time, the ranking of every directory
+> > > +can be uniquely determined. Thus no directory is its own ancestor
+> > > +(because if a directory is its own ancestor, its rank cannot be
+> > > +determined) and we prove the premise. Plus the fact that operations
+> > > +always take locks in order of increasing rank (can be easily verifie=
+d).
+> > > +We can conclude the locking rules above are deadlock-free.
+> > > +
 > > >
-> > > -Evan
+> > >  Note that the check for having a common ancestor in cross-directory
+> > >  rename is crucial - without it a deadlock would be possible.  Indeed=
+,
+> > > @@ -247,33 +276,6 @@ distant ancestor.  Add a bunch of rmdir() attemp=
+ts on all directories
+> > >  in between (all of those would fail with -ENOTEMPTY, had they ever g=
+otten
+> > >  the locks) and voila - we have a deadlock.
 > > >
-> > > > ---
-> > > >  Documentation/arch/riscv/hwprobe.rst | 31 ++++++++++++++++--------=
-----
-> > > >  1 file changed, 18 insertions(+), 13 deletions(-)
-> > > >
-> > > > diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/a=
-rch/riscv/hwprobe.rst
-> > > > index 239be63f5089..4abfa3f9fe44 100644
-> > > > --- a/Documentation/arch/riscv/hwprobe.rst
-> > > > +++ b/Documentation/arch/riscv/hwprobe.rst
-> > > > @@ -188,25 +188,30 @@ The following keys are defined:
-> > > >         manual starting from commit 95cf1f9 ("Add changes requested=
- by Ved
-> > > >         during signoff")
-> > > >
-> > > > -* :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: A bitmask that contains =
-performance
-> > > > +* :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: A value that contains pe=
-rformance
-> > > >    information about the selected set of processors.
-> > > >
-> > > > -  * :c:macro:`RISCV_HWPROBE_MISALIGNED_UNKNOWN`: The performance o=
-f misaligned
-> > > > -    scalar accesses is unknown.
-> > > > +  * :c:macro:`RISCV_HWPROBE_MISALIGNED_MASK`: The bitmask of the m=
-isaligned
-> > > > +    access performance field in the value of key `RISCV_HWPROBE_KE=
-Y_CPUPERF_0`.
-> > > >
-> > > > -  * :c:macro:`RISCV_HWPROBE_MISALIGNED_EMULATED`: Misaligned scala=
-r accesses are
-> > > > -    emulated via software, either in or below the kernel.  These a=
-ccesses are
-> > > > -    always extremely slow.
-> > > > +    The following values (not bitmasks) in this field are defined:
-> > > >
-> > > > -  * :c:macro:`RISCV_HWPROBE_MISALIGNED_SLOW`: Misaligned scalar ac=
-cesses are
-> > > > -    slower than equivalent byte accesses.  Misaligned accesses may=
- be supported
-> > > > -    directly in hardware, or trapped and emulated by software.
-> > > > +    * :c:macro:`RISCV_HWPROBE_MISALIGNED_UNKNOWN`: The performance=
- of misaligned
-> > > > +      scalar accesses is unknown.
-> > > >
-> > > > -  * :c:macro:`RISCV_HWPROBE_MISALIGNED_FAST`: Misaligned scalar ac=
-cesses are
-> > > > -    faster than equivalent byte accesses.
-> > > > +    * :c:macro:`RISCV_HWPROBE_MISALIGNED_EMULATED`: Misaligned sca=
-lar accesses are
-> > > > +      emulated via software, either in or below the kernel.  These=
- accesses are
-> > > > +      always extremely slow.
-> > > >
-> > > > -  * :c:macro:`RISCV_HWPROBE_MISALIGNED_UNSUPPORTED`: Misaligned sc=
-alar accesses
-> > > > -    are not supported at all and will generate a misaligned addres=
-s fault.
-> > > > +    * :c:macro:`RISCV_HWPROBE_MISALIGNED_SLOW`: Misaligned scalar =
-accesses are
-> > > > +      slower than equivalent byte accesses.  Misaligned accesses m=
-ay be supported
-> > > > +      directly in hardware, or trapped and emulated by software.
-> > > > +
-> > > > +    * :c:macro:`RISCV_HWPROBE_MISALIGNED_FAST`: Misaligned scalar =
-accesses are
-> > > > +      faster than equivalent byte accesses.
-> > > > +
-> > > > +    * :c:macro:`RISCV_HWPROBE_MISALIGNED_UNSUPPORTED`: Misaligned =
-scalar accesses
-> > > > +      are not supported at all and will generate a misaligned addr=
-ess fault.
-> > > >
-> > > >  * :c:macro:`RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE`: An unsigned int =
-which
-> > > >    represents the size of the Zicboz block in bytes.
-> > > > --
-> > > > 2.43.0
-> > > >
+> > > -Loop avoidance
+> > > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > -
+> > > -These operations are guaranteed to avoid loop creation.  Indeed,
+> > > -the only operation that could introduce loops is cross-directory ren=
+ame.
+> > > -Suppose after the operation there is a loop; since there hadn't been=
+ such
+> > > -loops before the operation, at least on of the nodes in that loop mu=
+st've
+> > > -had its parent changed.  In other words, the loop must be passing th=
+rough
+> > > -the source or, in case of exchange, possibly the target.
+> > > -
+> > > -Since the operation has succeeded, neither source nor target could h=
+ave
+> > > -been ancestors of each other.  Therefore the chain of ancestors star=
+ting
+> > > -in the parent of source could not have passed through the target and
+> > > -vice versa.  On the other hand, the chain of ancestors of any node c=
+ould
+> > > -not have passed through the node itself, or we would've had a loop b=
+efore
+> > > -the operation.  But everything other than source and target has kept
+> > > -the parent after the operation, so the operation does not change the
+> > > -chains of ancestors of (ex-)parents of source and target.  In partic=
+ular,
+> > > -those chains must end after a finite number of steps.
+> > > -
+> > > -Now consider the loop created by the operation.  It passes through e=
+ither
+> > > -source or target; the next node in the loop would be the ex-parent o=
+f
+> > > -target or source resp.  After that the loop would follow the chain o=
+f
+> > > -ancestors of that parent.  But as we have just shown, that chain mus=
+t
+> > > -end after a finite number of steps, which means that it can't be a p=
+art
+> > > -of any loop.  Q.E.D.
+> > > -
+> > >  While this locking scheme works for arbitrary DAGs, it relies on
+> > >  ability to check that directory is a descendent of another object.  =
+Current
+> > >  implementation assumes that directory graph is a tree.  This assumpt=
+ion is
+> > > --
+> > > 2.30.1 (Apple Git-130)
+> > >
