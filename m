@@ -1,216 +1,211 @@
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F5E55E73;
-	Fri, 24 May 2024 10:13:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEE7D85936
+	for <linux-doc@vger.kernel.org>; Fri, 24 May 2024 10:34:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716545598; cv=none; b=L5D6kvmt4x216n8YkdExl40dQrxYLyEqQRhNQgWIWXRNXgWhMCUJDNP8fgy+kkCpuapTAplXhwK7C3IKna0S5JJPv91f4rOMVcWrs672NP/hJE9ecPr3rJg6QDWmOFut/OrgPvtS68EbbYgcOiLWif+pbM/6FLuTSjHmPESGEpw=
+	t=1716546888; cv=none; b=Buae1LmBBCPScrATkPZt0adqCJWnsC2mr7BYa1H7TzRklq8HTGQ/MViOkXqcHLOmzUznusIQ5oiS2+XORXQ4IMLB2jIWKLP/VNww82LeGQoL78juA7loxpNPtqeDm+IiAH9/1+tzxEDQPEdbJbCWRYNDgGHnjA+/tm1p2YSKKU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716545598; c=relaxed/simple;
-	bh=c6TDcv5JxC0r9PYfwCFcLyrh3UD3cztzug9U0akFypY=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=LGtgaSSilzMoJJ3+qRHG9b+QbIlwak+fLdfC/dDIUcCRK0P1ej84oDNdu0J6c6+rrUCwBkSe9p8BJoinkShcPBnU5X0gsTgxMorviVYD0UCIA21cqyqs6iY3qU2EeN9hFxnkaQI0GR9oPRmNm7Quv2owhY7VhDdqhv+5/1oQ24Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=USoDXd6t; arc=none smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="USoDXd6t"
-Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44O6CEeh020201;
-	Fri, 24 May 2024 06:13:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=DKIM; bh=TweYl9Z6tYTIKENAzoHuQerH0ps
-	os/upZIovCsAyM+M=; b=USoDXd6tJK3rw+aTWEvrKSO0LQfQ7LnLj2TzPBQSr0R
-	31hWTw/EViA8NMLX07FCZIYA7Nf1JlPkXKoc4AfW7X4gbqHewSlLpGyyECg0kx0R
-	D5syJDOSVptKJy6/yg3cNQl1mI6kAE3EGCiI7AP0erxywSt8M8Oo8wQx6Wx16WXw
-	GqceZNfZfNDGQP4tFn+uNChyAGgt6aNiMgLEGL/zLtAjpG+tglG2HWcLCub6mvTb
-	4wj/hpVul/1fY1xYasEddhhIbthsKLpI27RWlxse28qDRWXaCnyyryFSnHbz+vT4
-	Jq8hjAbRowaq45x5hFsW/Xfc7KxNk/bdUwr2BarIXSw==
-Received: from nwd2mta3.analog.com ([137.71.173.56])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 3yaaaqb1j1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 24 May 2024 06:13:02 -0400 (EDT)
-Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
-	by nwd2mta3.analog.com (8.14.7/8.14.7) with ESMTP id 44OAD13T038773
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 24 May 2024 06:13:01 -0400
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.14; Fri, 24 May
- 2024 06:13:00 -0400
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server id 15.2.986.14 via Frontend
- Transport; Fri, 24 May 2024 06:13:00 -0400
-Received: from radu.ad.analog.com ([10.48.65.189])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 44OACjBH011026;
-	Fri, 24 May 2024 06:12:48 -0400
-From: Radu Sabau <radu.sabau@analog.com>
-To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, <linux-hwmon@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC: Radu Sabau <radu.sabau@analog.com>
-Subject: [PATCH v3] drivers: hwmon: max31827: Add PEC support
-Date: Fri, 24 May 2024 13:12:31 +0300
-Message-ID: <20240524101232.6295-1-radu.sabau@analog.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1716546888; c=relaxed/simple;
+	bh=qg+hQa3sjCvK1rsMinmlMmvRSQldE+iztqZn3l16GXQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U3vPPjpNerpyfbn+02NFeWPEu7tmS6wPApVRgPaCMrYNf3a3JLec1wPJSdTP8RU7gcQBJIoR2PDGfKKt+km1xLZFP+swKSD+2NoUBuXb0HxjiKVU2cR5yH0tJ9ezh1IXtFOf5uiwMp12QMp4S6E//w4z6zn+r6jGwDyNvkUsoMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <sha@pengutronix.de>)
+	id 1sASFq-0008L1-7k; Fri, 24 May 2024 12:34:30 +0200
+Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <sha@pengutronix.de>)
+	id 1sASFp-002mYJ-9k; Fri, 24 May 2024 12:34:29 +0200
+Received: from sha by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <sha@pengutronix.de>)
+	id 1sASFp-00Bdvd-0d;
+	Fri, 24 May 2024 12:34:29 +0200
+Date: Fri, 24 May 2024 12:34:29 +0200
+From: Sascha Hauer <s.hauer@pengutronix.de>
+To: Pankaj Gupta <pankaj.gupta@nxp.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 4/5] firmware: imx: add driver for NXP EdgeLock Enclave
+Message-ID: <ZlBtNSeh2VyZsVxq@pengutronix.de>
+References: <20240523-imx-se-if-v2-0-5a6fd189a539@nxp.com>
+ <20240523-imx-se-if-v2-4-5a6fd189a539@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-GUID: PD8aSPPWRgVFpKvxXWAV_6LJJjpHzDoI
-X-Proofpoint-ORIG-GUID: PD8aSPPWRgVFpKvxXWAV_6LJJjpHzDoI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
- definitions=2024-05-24_03,2024-05-23_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- priorityscore=1501 adultscore=0 mlxlogscore=999 lowpriorityscore=0
- clxscore=1015 spamscore=0 suspectscore=0 phishscore=0 bulkscore=0
- impostorscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2405240070
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240523-imx-se-if-v2-4-5a6fd189a539@nxp.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-Add support for PEC by attaching PEC attribute to the i2c device.
-Add pec_store and pec_show function for accessing the "pec" file.
+On Thu, May 23, 2024 at 04:19:35PM +0530, Pankaj Gupta wrote:
+> NXP hardware IP(s) for secure-enclaves like Edgelock Enclave(ELE),
+> are embedded in the SoC to support the features like HSM, SHE & V2X,
+> using message based communication interface.
+> 
+> The secure enclave FW communicates on a dedicated messaging unit(MU)
+> based interface(s) with application core, where kernel is running.
+> It exists on specific i.MX processors. e.g. i.MX8ULP, i.MX93.
+> 
+> This patch adds the driver for communication interface to secure-enclave,
+> for exchanging messages with NXP secure enclave HW IP(s) like EdgeLock
+> Enclave (ELE) from Kernel-space, used by kernel management layers like
+> - DM-Crypt.
+> 
+> Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
+> ---
+>  drivers/firmware/imx/Kconfig        |  12 +
+>  drivers/firmware/imx/Makefile       |   2 +
+>  drivers/firmware/imx/ele_base_msg.c | 286 +++++++++++++++++++
+>  drivers/firmware/imx/ele_base_msg.h |  92 +++++++
+>  drivers/firmware/imx/ele_common.c   | 239 ++++++++++++++++
+>  drivers/firmware/imx/ele_common.h   |  43 +++
+>  drivers/firmware/imx/se_ctrl.c      | 531 ++++++++++++++++++++++++++++++++++++
+>  drivers/firmware/imx/se_ctrl.h      |  99 +++++++
+>  include/linux/firmware/imx/se_api.h |  14 +
+>  9 files changed, 1318 insertions(+)
+> 
 
-Signed-off-by: Radu Sabau <radu.sabau@analog.com>
----
-Change log:
-v2:
- *Rebase on top of v6.9
- *Attach pec attribute only to i2c device
- *Fix bug to attach pec attribute to i2c device if the device supports it.
-v3:
- *Use only one variable to write PEC_EN bit in configuration register
- *Use regmap_set_bits to set PEC_EN bit when requested instead of
-  regmap_update_bits.
- *Fix typo in commit message.
----
- Documentation/hwmon/max31827.rst | 13 +++++--
- drivers/hwmon/max31827.c         | 63 ++++++++++++++++++++++++++++++++
- 2 files changed, 73 insertions(+), 3 deletions(-)
+> +static int se_probe_if_cleanup(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct se_if_priv *priv;
+> +	int ret = 0;
+> +
+> +	priv = dev_get_drvdata(dev);
+> +	if (!priv) {
+> +		ret = 0;
+> +		dev_dbg(dev, "SE-MU Priv data is NULL;");
+> +		return ret;
+> +	}
+> +
+> +	if (priv->tx_chan)
+> +		mbox_free_channel(priv->tx_chan);
+> +	if (priv->rx_chan)
+> +		mbox_free_channel(priv->rx_chan);
+> +
+> +	/* free the buffer in se remove, previously allocated
+> +	 * in se probe to store encrypted IMEM
+> +	 */
+> +	if (priv->imem.buf) {
+> +		dmam_free_coherent(dev,
+> +				   ELE_IMEM_SIZE,
+> +				   priv->imem.buf,
+> +				   priv->imem.phyaddr);
+> +		priv->imem.buf = NULL;
+> +	}
+> +
+> +	if (priv->flags & RESERVED_DMA_POOL) {
+> +		of_reserved_mem_device_release(dev);
 
-diff --git a/Documentation/hwmon/max31827.rst b/Documentation/hwmon/max31827.rst
-index 44ab9dc064cb..9c11a9518c67 100644
---- a/Documentation/hwmon/max31827.rst
-+++ b/Documentation/hwmon/max31827.rst
-@@ -131,7 +131,14 @@ The Fault Queue bits select how many consecutive temperature faults must occur
- before overtemperature or undertemperature faults are indicated in the
- corresponding status bits.
- 
--Notes
-------
-+PEC Support
-+-----------
-+
-+When reading a register value, the PEC byte is computed and sent by the chip.
-+
-+PEC on word data transaction respresents a signifcant increase in bandwitdh
-+usage (+33% for both write and reads) in normal conditions.
- 
--PEC is not implemented.
-+Since this operation implies there will be an extra delay to each
-+transaction, PEC can be disabled or enabled through sysfs.
-+Just write 1  to the "pec" file for enabling PEC and 0 for disabling it.
-diff --git a/drivers/hwmon/max31827.c b/drivers/hwmon/max31827.c
-index f8a13b30f100..46ddd5f8ee1c 100644
---- a/drivers/hwmon/max31827.c
-+++ b/drivers/hwmon/max31827.c
-@@ -24,6 +24,7 @@
- 
- #define MAX31827_CONFIGURATION_1SHOT_MASK	BIT(0)
- #define MAX31827_CONFIGURATION_CNV_RATE_MASK	GENMASK(3, 1)
-+#define MAX31827_CONFIGURATION_PEC_EN_MASK	BIT(4)
- #define MAX31827_CONFIGURATION_TIMEOUT_MASK	BIT(5)
- #define MAX31827_CONFIGURATION_RESOLUTION_MASK	GENMASK(7, 6)
- #define MAX31827_CONFIGURATION_ALRM_POL_MASK	BIT(8)
-@@ -475,6 +476,53 @@ static ssize_t temp1_resolution_store(struct device *dev,
- 
- static DEVICE_ATTR_RW(temp1_resolution);
- 
-+static ssize_t pec_show(struct device *dev, struct device_attribute *devattr,
-+			char *buf)
-+{
-+	struct i2c_client *client = to_i2c_client(dev);
-+
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", !!(client->flags & I2C_CLIENT_PEC));
-+}
-+
-+static ssize_t pec_store(struct device *dev, struct device_attribute *devattr,
-+			 const char *buf, size_t count)
-+{
-+	struct max31827_state *st = dev_get_drvdata(dev);
-+	struct i2c_client *client = to_i2c_client(dev);
-+	unsigned int val;
-+	int err;
-+
-+	err = kstrtouint(buf, 10, &val);
-+	if (err < 0)
-+		return err;
-+
-+	switch (val) {
-+	case 0:
-+		err = regmap_update_bits(st->regmap, MAX31827_CONFIGURATION_REG,
-+					 MAX31827_CONFIGURATION_PEC_EN_MASK,
-+					 0);
-+		if (err)
-+			return err;
-+
-+		client->flags &= ~I2C_CLIENT_PEC;
-+		break;
-+	case 1:
-+		err = regmap_set_bits(st->regmap, MAX31827_CONFIGURATION_REG,
-+				      MAX31827_CONFIGURATION_PEC_EN_MASK);
-+		if (err)
-+			return err;
-+
-+		client->flags |= I2C_CLIENT_PEC;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return count;
-+}
-+
-+static DEVICE_ATTR_RW(pec);
-+
- static struct attribute *max31827_attrs[] = {
- 	&dev_attr_temp1_resolution.attr,
- 	NULL
-@@ -578,6 +626,11 @@ static int max31827_init_client(struct max31827_state *st,
- 	return regmap_write(st->regmap, MAX31827_CONFIGURATION_REG, res);
- }
- 
-+static void max31827_remove_pec(void *dev)
-+{
-+	device_remove_file(dev, &dev_attr_pec);
-+}
-+
- static const struct hwmon_channel_info *max31827_info[] = {
- 	HWMON_CHANNEL_INFO(temp, HWMON_T_ENABLE | HWMON_T_INPUT | HWMON_T_MIN |
- 					 HWMON_T_MIN_HYST | HWMON_T_MIN_ALARM |
-@@ -627,6 +680,16 @@ static int max31827_probe(struct i2c_client *client)
- 	if (err)
- 		return err;
- 
-+	if (i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_PEC)) {
-+		err = device_create_file(dev, &dev_attr_pec);
-+		if (err)
-+			return err;
-+
-+		err = devm_add_action_or_reset(dev, max31827_remove_pec, dev);
-+		if (err)
-+			return err;
-+	}
-+
- 	hwmon_dev = devm_hwmon_device_register_with_info(dev, client->name, st,
- 							 &max31827_chip_info,
- 							 max31827_groups);
+You can call this unconditionally, no need to keep track if you called
+of_reserved_mem_device_init() successfully.
+
+> +
+> +static int se_if_probe(struct platform_device *pdev)
+> +{
+> +	struct imx_se_node_info_list *info_list;
+> +	struct device *dev = &pdev->dev;
+> +	struct imx_se_node_info *info;
+> +	struct se_if_priv *priv;
+> +	u32 idx;
+> +	int ret;
+> +
+> +	if (of_property_read_u32(dev->of_node, "reg", &idx)) {
+> +		ret = -EINVAL;
+> +		goto exit;
+> +	}
+> +
+> +	info_list = (struct imx_se_node_info_list *)
+> +			device_get_match_data(dev);
+> +	info = get_imx_se_node_info(info_list, idx);
+> +
+> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> +	if (!priv) {
+> +		ret = -ENOMEM;
+> +		goto exit;
+> +	}
+> +
+> +	dev_set_drvdata(dev, priv);
+> +
+> +	/* Mailbox client configuration */
+> +	priv->se_mb_cl.dev		= dev;
+> +	priv->se_mb_cl.tx_block		= false;
+> +	priv->se_mb_cl.knows_txdone	= true;
+> +	priv->se_mb_cl.rx_callback	= se_if_rx_callback;
+> +
+> +	ret = se_if_request_channel(dev, &priv->tx_chan,
+> +			&priv->se_mb_cl, info->mbox_tx_name);
+> +	if (ret)
+> +		goto exit;
+> +
+> +	ret = se_if_request_channel(dev, &priv->rx_chan,
+> +			&priv->se_mb_cl, info->mbox_rx_name);
+> +	if (ret)
+> +		goto exit;
+> +
+> +	priv->dev = dev;
+> +	priv->info = info;
+> +
+> +	/* Initialize the mutex. */
+> +	mutex_init(&priv->se_if_lock);
+> +	mutex_init(&priv->se_if_cmd_lock);
+> +
+> +	priv->cmd_receiver_dev = NULL;
+> +	priv->waiting_rsp_dev = NULL;
+> +	priv->max_dev_ctx = info->max_dev_ctx;
+> +	priv->cmd_tag = info->cmd_tag;
+> +	priv->rsp_tag = info->rsp_tag;
+> +	priv->mem_pool_name = info->pool_name;
+> +	priv->success_tag = info->success_tag;
+> +	priv->base_api_ver = info->base_api_ver;
+> +	priv->fw_api_ver = info->fw_api_ver;
+> +
+> +	init_completion(&priv->done);
+> +	spin_lock_init(&priv->lock);
+> +
+> +	if (info->reserved_dma_ranges) {
+> +		ret = of_reserved_mem_device_init(dev);
+> +		if (ret) {
+> +			dev_err(dev,
+> +				"failed to init reserved memory region %d\n",
+> +				ret);
+> +			priv->flags &= (~RESERVED_DMA_POOL);
+> +			goto exit;
+> +		}
+> +		priv->flags |= RESERVED_DMA_POOL;
+> +	}
+
+Can't this be optional? Why do you need to reserve memory in the device
+tree for it?
+
+Sascha
+
 -- 
-2.34.1
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
