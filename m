@@ -1,133 +1,269 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9168885266;
-	Fri, 24 May 2024 14:25:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34EB212C7FA
+	for <linux-doc@vger.kernel.org>; Fri, 24 May 2024 16:06:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716560737; cv=none; b=TubRpTW+6ztE/KK2xdGl6Y2N7ctN7xmVPJ/oFrS9X8Yntmb+Ug3MDdfhCQKeS7g9BtGRr1OKGsrzldGphYO74iAamPEi7hrfxSRZNQ+u4Zfq9pE/hy20X9dzuuQpdzq7EQtiSnEhWLa1PslxRFJsr2LzdyElEpMRawteJav/f1M=
+	t=1716566788; cv=none; b=CkV4P2hwTI/Cn96llkEvgFyJB+4B1DwW7+vTuH77AZGXVci/8zkK/Uu98yVwKDRzX1rc1yMweJauc6aLHDGxMAJ4daiqe+HhsfGpinEPTJYQTXc/2AxR1E+ckD/lWxN5dN7cNbVyrOwtGKSAQSb5mfHMV80ofmXwkYXYRHbHC6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716560737; c=relaxed/simple;
-	bh=i5T8VMX6883AD5ny1iMp8S+d+BTgiK5gX6VGoj+n/ZQ=;
-	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=fLm0iCKt4pjGcjmKw3rzbBXvi4Jh1qTsR1qKinMcB039uFCnss96SaoUpOZe3OcLA2SxPeGAKdwfV3rbuPOAVv6cz8qu/n0TBhYC9bULjBggUKcaMEB4JEl9z7IcWZVDUsb34PDUObSiC9KkDPxtuR1whT7qeCg5ML/tAlJZvCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dYQYwDMt; arc=none smtp.client-ip=209.85.208.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1716566788; c=relaxed/simple;
+	bh=82mkFygbtJaVrCjw/PUlhYzljYnOGty8J6y0Q+rtRGA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FnvYRtHAQMVvWI6o7Oxm7/Z7V7Eidunq4gUZl5EYRKVBz0EScM71DfnYy5HNQMOKp4cxU0EhxdTe8ej6yEPkh/euMDcHOudGGc9aZK+3ze4suL035/ca/BmXiHcBPYgqh4uKTOaBm9rkHqjLH7jmEUj11zNU9N0vJiX28QyNJJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=QoWtJICg; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dYQYwDMt"
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2e724bc466fso73794361fa.3;
-        Fri, 24 May 2024 07:25:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="QoWtJICg"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-57863a8f4b2so431233a12.0
+        for <linux-doc@vger.kernel.org>; Fri, 24 May 2024 09:06:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716560734; x=1717165534; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:content-language
-         :references:cc:to:subject:reply-to:user-agent:mime-version:date
-         :message-id:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=V+SbCl88kDWu5JpkM+zDsYPeWdf6fmH2eQbKUIgxY/c=;
-        b=dYQYwDMtTzgN7nTanA2cmoKu900z9FINwb1zCi3N5QOVIO0aKxtERDnQM4yBK6gVSi
-         7epuFhsm3Ydn93yu4+RVEdv+EJ6nKBOhp9vLXn4mQHaJNqYPP9UpQQ6YK6q3MGcPVtaC
-         1Y685Y3Nz9nE7dTfmgLUAKSLwVonzNJ+efacBwjCm+0wM+TGf/JjiucEPY9lkUsgCfuQ
-         rYnpMv88ISOI95LVEZZnZQriG5oQ5mcwKbbq2JnYadba8YkagZ9K7AmOeV+ds07XskC9
-         V3F3ZB+4Vp/BzVL1rtLHEGqC2OFDor14yoYV4cg8gztm4YqAGgBwVxuSLjzKVy4A1MTU
-         daXg==
+        d=suse.com; s=google; t=1716566784; x=1717171584; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=aspiAaqCZWzBnZpgjxuqliZeFnw2Ogu20iqEsAO4NRI=;
+        b=QoWtJICgt6fvk0E65a+z38VFpiCZBrikXZo4Iwdef+ISOVREVE3ygN07MRk9HN34jq
+         ZWVsnFWUUDYgALPzifasFmTDqjYruFCQs35h4mZAFsk1iMwV3WqC6BALGS18nwO0bu5o
+         fz5B5kR0TKRVKivdYDlsRz5iKpP/Qqfl5LuHEdXp9nl2NrvJV1+abAdAFu8LyNhNKDSC
+         JL2RCvpzV7ZKFwN/YrzYZmP31boL3F1mZ/qLc/GinV/a5ySZ5cyvnlxOASrMKVlgc1ic
+         R9GvFNLPZoXqZXAHHB7v3u8WHPMHSR6E2xySfaZbIZsxQH/mjB3VqXoyWuj5lBQHISpJ
+         cSyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716560734; x=1717165534;
-        h=content-transfer-encoding:in-reply-to:organization:content-language
-         :references:cc:to:subject:reply-to:user-agent:mime-version:date
-         :message-id:from:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1716566784; x=1717171584;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=V+SbCl88kDWu5JpkM+zDsYPeWdf6fmH2eQbKUIgxY/c=;
-        b=S4Nt+KXBAY0uqNk8gYDWpeLkw0DAbB5BPMqUBa97nA79TrMa7huDTtUsGKRZ4d3PTA
-         7KVGTG/lYj9+7i8UVY1+MfJxNqFWsJNPVQRukY5HVPrHrin6g/KZjiuPBp3xh1s1OIp2
-         rMUluZ1dK3ZMkZlGYe8r1BLWubAsd4S4ePyBxRq3YoHEggg3Xx7d77LHg83y5D7Iae7S
-         v6CmZF3lzUJl1T8askvuUZciWFvCcohAeGdQ4LnDsY9OmhvbChWQvWut0auAd85Ih3o6
-         oe2gWtCqb5vkVLoEydQwRr5DzCCE0tfT5Y9UMPe/eigjxI9yg6dN9OBPgM/RF+4pUeEx
-         tj+A==
-X-Forwarded-Encrypted: i=1; AJvYcCVtM5ULPEMiQb2zbZd/XpBlI7XSep/tG9T6MWmvwomUuEFGzm7azmA/IzebL40zERL/RedG/RzNx1RybsR3FRRzOT3USlE8Hr3uobvUQGCQDtiplK3i0XNp5h7Qp5IOSZkyoOzeyhPN22b2dxs0VlYaTNp1e1NU3IH8u3gO
-X-Gm-Message-State: AOJu0YyvbkS8nLKmfxQjaJF02wXeUimwYgeJ+PhkCHkG/2gdVIzbF4vl
-	kNfy7NSP9tUNDnYEa6hvsxz5v4Z/6wsbg/dVMPv07b6P6dnrT+kh
-X-Google-Smtp-Source: AGHT+IF65XQ0cUVmyUZKrF/14T3P1SnC/3B+ci8mfINEO6z/lWuS4ZdxUoexWOW1r9iA0cAXNnnNqg==
-X-Received: by 2002:a2e:ba14:0:b0:2df:1e3e:3280 with SMTP id 38308e7fff4ca-2e95b0c4febmr20430861fa.28.1716560733620;
-        Fri, 24 May 2024 07:25:33 -0700 (PDT)
-Received: from [192.168.0.200] (54-240-197-234.amazon.com. [54.240.197.234])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42100f15f66sm53951795e9.14.2024.05.24.07.25.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 May 2024 07:25:33 -0700 (PDT)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <80f8ea7b-f767-4760-8a6e-b260da637903@xen.org>
-Date: Fri, 24 May 2024 15:25:31 +0100
+        bh=aspiAaqCZWzBnZpgjxuqliZeFnw2Ogu20iqEsAO4NRI=;
+        b=GGAAWxdi4ysyZojO8Nia0zDhDOcBCR0PufYj+9REXMfKK5icJo1YCSFcUXEb5h6wvf
+         60ezfsj+EFIsUcRcZ4hGLeviIdY9JA2yYusp4FQn2n3ZTGGIcs8BTYIzqoLIyk8P7YKo
+         P4wUd/VMVYJrwQ70LLYL0izew9PupM7DLGhcdWFtoLUa9uXlK0HwnkCDUC9rGkQX1Z4B
+         gvSMOjSIrgG5lCZtOP9GV6ZKUoEVVMDZfN8TyUbFljcRCZMHKMuF31ga1YvPupZ+fcIM
+         0TOYeL8EH53fArWLcbN1BXlJ3SgWRninDNNe3JVvES/4eCXZKvIfqsTmlyM8qa0VE/ZM
+         7wQA==
+X-Forwarded-Encrypted: i=1; AJvYcCV2GYSD1Qltpf3XE2HOtSttYxIvMTLY/5PIGwOq/+sFV7EV7FL3ZHPZTVhtVQ6LQBs7PunRhj9l5DgdMP3b/9zkI27Oh1pBRsGS
+X-Gm-Message-State: AOJu0YztLOlP3xIuFVRxa6Zr58x/eW4Witz9BRVGSv64HAQhcSSE9W40
+	xmAyqdAUe0oKX5ypdKXDaTqH3Kzoo2Uuz8xU/pnRIJdWNo+ZBM8mQy53F5f56Rw=
+X-Google-Smtp-Source: AGHT+IGJGq18W0VBT2FNOdw8Qfew2OpHvlSElMx6z25jq79CzVVuHcZPGcLmm7dZXRM29/vdmZkOuQ==
+X-Received: by 2002:a50:a683:0:b0:578:55a3:8b52 with SMTP id 4fb4d7f45d1cf-57855a3a941mr1343156a12.8.1716566784464;
+        Fri, 24 May 2024 09:06:24 -0700 (PDT)
+Received: from pathway.suse.cz ([176.114.240.50])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5785233bfddsm1920135a12.3.2024.05.24.09.06.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 May 2024 09:06:24 -0700 (PDT)
+Date: Fri, 24 May 2024 18:06:21 +0200
+From: Petr Mladek <pmladek@suse.com>
+To: Tony Lindgren <tony@atomide.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	John Ogness <john.ogness@linutronix.de>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Dhruva Gole <d-gole@ti.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Vignesh Raghavendra <vigneshr@ti.com>, linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v7 1/7] printk: Save console options for
+ add_preferred_console_match()
+Message-ID: <ZlC6_Um4P4b-_WQE@pathway.suse.cz>
+References: <20240327110021.59793-1-tony@atomide.com>
+ <20240327110021.59793-2-tony@atomide.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: paul@xen.org
-Subject: Re: [RFC PATCH v3 21/21] sched/cputime: Cope with steal time going
- backwards or negative
-To: David Woodhouse <dwmw2@infradead.org>, kvm@vger.kernel.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Sean Christopherson <seanjc@google.com>, Thomas Gleixner
- <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
- Mel Gorman <mgorman@suse.de>, Daniel Bristot de Oliveira
- <bristot@redhat.com>, Valentin Schneider <vschneid@redhat.com>,
- Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, jalliste@amazon.co.uk, sveith@amazon.de,
- zide.chen@intel.com, Dongli Zhang <dongli.zhang@oracle.com>,
- Chenyi Qiang <chenyi.qiang@intel.com>
-References: <20240522001817.619072-1-dwmw2@infradead.org>
- <20240522001817.619072-22-dwmw2@infradead.org>
-Content-Language: en-US
-Organization: Xen Project
-In-Reply-To: <20240522001817.619072-22-dwmw2@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240327110021.59793-2-tony@atomide.com>
 
-On 22/05/2024 01:17, David Woodhouse wrote:
-> From: David Woodhouse <dwmw@amazon.co.uk>
-> 
-> In steal_account_process_time(), a delta is calculated between the value
-> returned by paravirt_steal_clock(), and this_rq()->prev_steal_time which
-> is assumed to be the *previous* value returned by paravirt_steal_clock().
-> 
-> However, instead of just assigning the newly-read value directly into
-> ->prev_steal_time for use in the next iteration, ->prev_steal_time is
-> *incremented* by the calculated delta.
-> 
-> This used to be roughly the same, modulo conversion to jiffies and back,
-> until commit 807e5b80687c0 ("sched/cputime: Add steal time support to
-> full dynticks CPU time accounting") started clamping that delta to a
-> maximum of the actual time elapsed. So now, if the value returned by
-> paravirt_steal_clock() jumps by a large amount, instead of a *single*
-> period of reporting 100% steal time, the system will report 100% steal
-> time for as long as it takes to "catch up" with the reported value.
-> Which is up to 584 years.
-> 
-> But there is a benefit to advancing ->prev_steal_time only by the time
-> which was *accounted* as having been stolen. It means that any extra
-> time truncated by the clamping will be accounted in the next sample
-> period rather than lost. Given the stochastic nature of the sampling,
-> that is more accurate overall.
-> 
-> So, continue to advance ->prev_steal_time by the accounted value as
-> long as the delta isn't egregiously large (for which, use maxtime * 2).
-> If the delta is more than that, just set ->prev_steal_time directly to
-> the value returned by paravirt_steal_clock().
-> 
-> Fixes: 807e5b80687c0 ("sched/cputime: Add steal time support to full dynticks CPU time accounting")
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> ---
->   kernel/sched/cputime.c | 20 ++++++++++++++------
->   1 file changed, 14 insertions(+), 6 deletions(-)
-> 
+Hi,
 
-Reviewed-by: Paul Durrant <paul@xen.org>
+I have finally found time to looks at this again.
 
+On Wed 2024-03-27 12:59:35, Tony Lindgren wrote:
+> Driver subsystems may need to translate the preferred console name to the
+> character device name used. We already do some of this in console_setup()
+> with a few hardcoded names, but that does not scale well.
+> 
+> The console options are parsed early in console_setup(), and the consoles
+> are added with __add_preferred_console(). At this point we don't know much
+> about the character device names and device drivers getting probed.
+> 
+> To allow driver subsystems to set up a preferred console, let's save the
+> kernel command line console options. To add a preferred console from a
+> driver subsystem with optional character device name translation, let's
+> add a new function add_preferred_console_match().
+> 
+> This allows the serial core layer to support console=DEVNAME:0.0 style
+> hardware based addressing in addition to the current console=ttyS0 style
+> naming. And we can start moving console_setup() character device parsing
+> to the driver subsystem specific code.
+> 
+> We use a separate array from the console_cmdline array as the character
+> device name and index may be unknown at the console_setup() time. And
+> eventually there's no need to call __add_preferred_console() until the
+> subsystem is ready to handle the console.
+>
+> Adding the console name in addition to the character device name, and a
+> flag for an added console, could be added to the struct console_cmdline.
+> And the console_cmdline array handling could be modified accordingly. But
+> that complicates things compared saving the console options, and then
+> adding the consoles when the subsystems handling the consoles are ready.
+
+Honestly, I think that the separate array was a bad decision.
+It breaks the preferred console handling.
+Also I wonder if this duplicates another matching.
+
+Let me explain this in in more details.
+
+First, about breaking the preferred console:
+
+The patchset still causes the regression with /dev/console association
+as already reported for v3, see
+https://lore.kernel.org/r/ZWnvc6-LnXdjOQLY@alley
+
+I used the following kernel command line:
+
+   earlycon=uart8250,io,0x3f8,115200 console=ttyS0,115200 console=tty0 ignore_loglevel log_buf_len=1M
+
+The patchset caused that /dev/console became associated with
+ttyS0 instead of tty0, see the "C" flag:
+
+	original # cat /proc/consoles
+	tty0                 -WU (EC    )    4:1
+	ttyS0                -W- (E  p a)    4:64
+
+   vs.
+
+	patched # cat /proc/consoles
+	ttyS0                -W- (EC p a)    4:64
+	tty0                 -WU (E     )    4:1
+
+
+I have added some debugging messages which nicely show the reason.
+In the original code, __add_preferred_console() is called twice
+when processing the command line:
+
+[    0.099312] __add_preferred_console[0]: ttyS, 0 (preferrred_console == 0)
+[    0.099982] __add_preferred_console[1]: tty, 0 (preferrred_console == 1)
+
+The patchset causes that it is called once again here:
+
+[    0.216268] __add_preferred_console: Updating preferred console: ttyS, 0 [0]
+[    0.216271] task:swapper/0       state:R  running task     stack:0     pid:0     tgid:0     ppid:0      flags:0x00000000
+[    0.216318] Call Trace:
+[    0.216327]  <TASK>
+[    0.216337]  sched_show_task.part.0+0x1dd/0x1e7
+[    0.216355]  __add_preferred_console.part.0.cold+0x29/0xa4
+[    0.216374]  add_preferred_console_match+0x8e/0xb0
+[    0.216391]  serial_base_add_prefcon+0x9c/0x140
+[    0.216408]  serial8250_isa_init_ports+0x144/0x160
+[    0.216423]  ? __pfx_univ8250_console_init+0x10/0x10
+[    0.216439]  univ8250_console_init+0x1c/0x30
+[    0.216452]  console_init+0x122/0x1c0
+[    0.216466]  start_kernel+0x44a/0x590
+[    0.216480]  x86_64_start_reservations+0x24/0x30
+[    0.216493]  x86_64_start_kernel+0x90/0x90
+[    0.216506]  common_startup_64+0x13e/0x141
+[    0.216528]  </TASK>
+
+This extra call tries to add "ttyS, 0" once again and it hits this
+code:
+
+static int __add_preferred_console(const char *name, const short idx, char *options,
+				   char *brl_options, bool user_specified)
+{
+[...]
+	/*
+	 *	See if this tty is not yet registered, and
+	 *	if we have a slot free.
+	 */
+	for (i = 0, c = console_cmdline;
+	     i < MAX_CMDLINECONSOLES && c->name[0];
+	     i++, c++) {
+		if (strcmp(c->name, name) == 0 && c->index == idx) {
+			if (!brl_options)
+---->				preferred_console = i;
+			set_user_specified(c, user_specified);
+			return 0;
+		}
+	}
+
+
+The code thinks that "ttyS0" has been mentioned on the command line
+once again. And preferred_console is _wrongly_ set back to '0'.
+
+My view:
+
+The delayed __add_preferred_console() is a way to hell.
+
+The preferences are defined by the ordering on the command line.
+All entries have to be added when the command line options are
+being proceed to keep the order.
+
+A solution might be to store "devname" separately in
+struct console_cmdline and allow empty "name". We could
+implement then a function similar to
+add_preferred_console_match() which would try to match
+"devname" and set/update "name", "index" value when matched.
+
+Note that we might also need to add some synchronization
+if it might be possible to modify struct console_cmdline
+in parallel.
+
+
+Second, about the possible duplication:
+
+I might get it wrong. IMHO, in principle, this patchset tries
+to achieve similar thing as the "match()" callback, see
+the commit c7cef0a84912cab3c9 ("console: Add extensible
+console matching").
+
+The .match() callback in struct console is to match, for example,
+console=uart8250,io,0x3f8,115200 when the uart8250 driver
+calls register_console() when it is being properly initialized
+as "ttyS".
+
+BTW: The .match() needs saved options because it internally calls
+     .setup() callback. IMHO, this is a very ugly detail
+     which complicates design of the register_console() code.
+
+
+Both approaches try to match a "driver/device-specific name" with
+the generic "ttySX".
+
+    console=uart8250,io,0x3f8,115200	=> ttyS0
+vs.
+    console=00:00:0.0,115200		=> ttyS0
+
+
+Where console=uart8250,io,0x3f8,115200 is handled by:
+
+    - "uart" is added to console_cmdline[]
+    - matched directly via newcon->match() callback
+
+vs. console=00:00:0.0,115200
+
+    - 00:00:0.0 is added to conopt[]
+    - "ttyS0" added to console_cmdline[] when "00:00:0.0" initialized
+    - "ttyS0" is then matched directly
+
+
+Question: Would it it be able to use the existing .match() callback
+	  also to match the DEVNAME?
+
+	  Or somehow reuse the approach?
+
+	  Could register_console() know how to generate possible
+	  DEVNAME for the given struct console?
+
+
+Best Regards,
+Petr
