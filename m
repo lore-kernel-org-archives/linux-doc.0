@@ -1,240 +1,113 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9056F1E49E
-	for <linux-doc@vger.kernel.org>; Fri, 24 May 2024 12:44:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E46FBEC7;
+	Fri, 24 May 2024 13:14:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716554645; cv=none; b=TiS7IX46z4Osu4PzhaLUJqr2eBmK6b7L25QF7gb5Cj/86TAMEsFRMD5r+deWHkGkOAA97SpN4e7ETKGcEQrtH9K4cGY/BPczfw2xtSNvGRx5WfWI+XB4scOh1xCxvwLeblkgupUfi7DuOdBLmaT9sGAsI92tLtJe0Dw/f8g9vew=
+	t=1716556489; cv=none; b=ilBvpdb34jMfAh5uwK+jTECC4rAaXP4+fMRvKMPmOPrlIFcXCBsnwMU94UgrbsozJLEXjGah21qL9OdGdwlrVCcqUpXG0kWRZgRjHAKwmgCjqleEJ2ml0LIdp6qS7jeoH+5F+MslYQYzXEdR2cVAW35ZEs8fxQMywlHrxy2DYx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716554645; c=relaxed/simple;
-	bh=flVEgoKN1tPvevHbNX6zdPufBNG427EtPA4EnS2rUYA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Aerg7epPu3/YrL7IUTXp2Pk66LWaXY2OHyeGDqGI/UP92cvaq69d7VeWo8P+S8cwmkI1f5UvnVzpdiFRJTRI84dtJq7r8cUO29YZ2YoLZ31zLxO3DLa1dT4tYle3MZRMojMkAY0FptrqwoE3gR0Eo5wmBRa1JTGfESkfvoW56O4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <sha@pengutronix.de>)
-	id 1sAUGz-0002rp-6u; Fri, 24 May 2024 14:43:49 +0200
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <sha@pengutronix.de>)
-	id 1sAUGy-002nP0-8I; Fri, 24 May 2024 14:43:48 +0200
-Received: from sha by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <sha@pengutronix.de>)
-	id 1sAUGy-00BiUO-0U;
-	Fri, 24 May 2024 14:43:48 +0200
-Date: Fri, 24 May 2024 14:43:48 +0200
-From: Sascha Hauer <s.hauer@pengutronix.de>
-To: Pankaj Gupta <pankaj.gupta@nxp.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [EXT] Re: [PATCH v2 5/5] firmware: imx: adds miscdev
-Message-ID: <ZlCLhPzLD6ox7iB3@pengutronix.de>
-References: <20240523-imx-se-if-v2-0-5a6fd189a539@nxp.com>
- <20240523-imx-se-if-v2-5-5a6fd189a539@nxp.com>
- <ZlBOeAnkrn4ki7Wv@pengutronix.de>
- <AM9PR04MB8604C000F464CF1F5788901995F52@AM9PR04MB8604.eurprd04.prod.outlook.com>
+	s=arc-20240116; t=1716556489; c=relaxed/simple;
+	bh=1bWP5BSJi3sN2bmMu9/wD3/5H4olW17rkTqaCPmms5E=;
+	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=mwHXp/JZ0nnlSYc6xDCd8XCY9eYJQuY46XZasG0qP3blMXR1ENFir6zuW0q2Yfb41D9EsN03FFiIGpnIX0+3q+PXe3iglLIx5j7G45sVtJHnuKBvjiaBFBx59gdioh6Lw10pajabxPnhW5C/rHDMOvQpG5UZSv9jJ1EXYf7HLCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ItkAGTu7; arc=none smtp.client-ip=209.85.208.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ItkAGTu7"
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2e538a264f7so100598931fa.0;
+        Fri, 24 May 2024 06:14:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716556486; x=1717161286; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:content-language
+         :references:cc:to:subject:reply-to:user-agent:mime-version:date
+         :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7CkrZDg9KiBlwYWcFd0hqqNHkLmgaD6TL+n9418lL9A=;
+        b=ItkAGTu7J2M4Mkd/U4YRTNkE5ebsZ6t9y7dBZ9XOWOmfOrSDJFZNVM8g78aSRN6bli
+         3tWC0IJc7fmk6Jhe/8BIc28KnIgvMXHAnAeyQE+GAYlV5fsFowrSwJRTnTYaGngMFvg0
+         hURdpZYv2GIckc1VbNjbAameDeFWCRAvUF1g73ELBnKK2NPUJxuIGmtcGTJGOGPubntK
+         oqQfc/tA7G+hPN5IZXpR38ii3Z0R+vSzn3oGMff4XFJQ4TjbEWEnQm6OV9nkqFMIw9Tj
+         NqW5KrZBwLCIMwxXkCtb4DLnuZd/xK1EPfu4HZ/rXvnGVXdS9bHr28Qipy/pX9Df/2BZ
+         qBhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716556486; x=1717161286;
+        h=content-transfer-encoding:in-reply-to:organization:content-language
+         :references:cc:to:subject:reply-to:user-agent:mime-version:date
+         :message-id:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7CkrZDg9KiBlwYWcFd0hqqNHkLmgaD6TL+n9418lL9A=;
+        b=Pr1nP6jrTh/Uof6mTNzQrDKFTBa1DSp8aBaFCN3YfzT5L9zw0v+oS9S42dXG1STZmx
+         z2TaLdWjPq2hMgquaeJOL7OgpISa8McJxoiw/xoLM8tdRg4UvYvnXFo+1CSw+qeBSfPm
+         YmqydrEMIllGmDCH3cmFpkMaIvjZYTE8zj7VBP8f9qzitj0A1fIcEijVSYNnKjN5L+vy
+         yJvjbZmyn72KUGbkZ/D2ig2EJJcMH4dKOC67AYXXvB8yAEo2v66Fe6x570oHwM7q/5I9
+         sy2QO85O9tRmx3k1HdXa379gxnBJJkICOIoGN9icKVSIXXhiPt3QTcs18BiglAIyN+Hw
+         yajw==
+X-Forwarded-Encrypted: i=1; AJvYcCUFpum8fogXkDQZEczGUzJ6Jh3PdoMxWHcCtqCax9My5sR52HhGJBCyry4DbwgtNu1rfeLJScGWSe3+kUW7ld1mqYnKJ0Lp1Lkr1PaY7ZPB8lgSqXEyfkTl17ADgUQe5cpq3gO398yvpouxHVvHf90yQtFutjSq0EdpmV8o
+X-Gm-Message-State: AOJu0Yybgz4pNR/igpjw6wPbepX6yJiu0/2+T0VktEYssFh7pONaQxK9
+	wkgag8/uB3R+CRMZNdlxSaVv6r/KR5/4XLpKkMgJvjla7DUiD43l
+X-Google-Smtp-Source: AGHT+IEpjir0nWSdDBLjVdgdmmdQivMBwqoIVBY7XITjEqSx/dWcLWlJT1Vb+Olee+Vra2Ej5aW8dA==
+X-Received: by 2002:a2e:9646:0:b0:2e1:bdfd:ce70 with SMTP id 38308e7fff4ca-2e95b096f1fmr12952091fa.6.1716556485714;
+        Fri, 24 May 2024 06:14:45 -0700 (PDT)
+Received: from [192.168.0.200] (54-240-197-234.amazon.com. [54.240.197.234])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42100fb8f56sm53281045e9.40.2024.05.24.06.14.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 May 2024 06:14:45 -0700 (PDT)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <fda6e53f-da08-4899-81e1-8e90d44a7ead@xen.org>
+Date: Fri, 24 May 2024 14:14:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <AM9PR04MB8604C000F464CF1F5788901995F52@AM9PR04MB8604.eurprd04.prod.outlook.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Reply-To: paul@xen.org
+Subject: Re: [RFC PATCH v3 04/21] UAPI: x86: Move pvclock-abi to UAPI for x86
+ platforms
+To: David Woodhouse <dwmw2@infradead.org>, kvm@vger.kernel.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Sean Christopherson <seanjc@google.com>, Thomas Gleixner
+ <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
+ Mel Gorman <mgorman@suse.de>, Daniel Bristot de Oliveira
+ <bristot@redhat.com>, Valentin Schneider <vschneid@redhat.com>,
+ Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, jalliste@amazon.co.uk, sveith@amazon.de,
+ zide.chen@intel.com, Dongli Zhang <dongli.zhang@oracle.com>,
+ Chenyi Qiang <chenyi.qiang@intel.com>
+References: <20240522001817.619072-1-dwmw2@infradead.org>
+ <20240522001817.619072-5-dwmw2@infradead.org>
+Content-Language: en-US
+Organization: Xen Project
+In-Reply-To: <20240522001817.619072-5-dwmw2@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 24, 2024 at 12:03:35PM +0000, Pankaj Gupta wrote:
+On 22/05/2024 01:16, David Woodhouse wrote:
+> From: Jack Allister <jalliste@amazon.com>
 > 
+> KVM provides a new interface for performing a fixup/correction of the KVM
+> clock against the reference TSC. The KVM_[GS]ET_CLOCK_GUEST API requires a
+> pvclock_vcpu_time_info, as such the caller must know about this definition.
 > 
-> > -----Original Message-----
-> > From: Sascha Hauer <s.hauer@pengutronix.de>
-> > Sent: Friday, May 24, 2024 1:53 PM
-> > To: Pankaj Gupta <pankaj.gupta@nxp.com>
-> > Cc: Jonathan Corbet <corbet@lwn.net>; Rob Herring <robh+dt@kernel.org>;
-> > Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>; Conor Dooley
-> > <conor+dt@kernel.org>; Shawn Guo <shawnguo@kernel.org>; Pengutronix
-> > Kernel Team <kernel@pengutronix.de>; Fabio Estevam
-> > <festevam@gmail.com>; Rob Herring <robh@kernel.org>; Krzysztof Kozlowski
-> > <krzk+dt@kernel.org>; linux-doc@vger.kernel.org; linux-
-> > kernel@vger.kernel.org; devicetree@vger.kernel.org; imx@lists.linux.dev;
-> > linux-arm-kernel@lists.infradead.org
-> > Subject: [EXT] Re: [PATCH v2 5/5] firmware: imx: adds miscdev
-> >
-> > Caution: This is an external email. Please take care when clicking links or
-> > opening attachments. When in doubt, report the message using the 'Report
-> > this email' button
-> >
-> >
-> > On Thu, May 23, 2024 at 04:19:36PM +0530, Pankaj Gupta wrote:
-> > > +int imx_ele_miscdev_msg_send(struct se_if_device_ctx *dev_ctx,
-> > > +                          void *tx_msg, int tx_msg_sz) {
-> > > +     struct se_if_priv *priv = dev_ctx->priv;
-> > > +     struct se_msg_hdr *header;
-> > > +     int err;
-> > > +
-> > > +     header = (struct se_msg_hdr *) tx_msg;
-> > > +
-> > > +     /*
-> > > +      * Check that the size passed as argument matches the size
-> > > +      * carried in the message.
-> > > +      */
-> > > +     err = header->size << 2;
-> > > +
-> > > +     if (err != tx_msg_sz) {
-> > > +             err = -EINVAL;
-> > > +             dev_err(priv->dev,
-> > > +                     "%s: User buffer too small\n",
-> > > +                             dev_ctx->miscdev.name);
-> > > +             goto exit;
-> > > +     }
-> > > +     /* Check the message is valid according to tags */
-> > > +     if (header->tag == priv->cmd_tag) {
-> > > +             mutex_lock(&priv->se_if_cmd_lock);
-> >
-> > Grabbing a mutex in a character devices write fop and releasing it in the read
-> > fop is really calling for undesired race conditions.
+> Move the definition to the UAPI folder so that it is exported to usermode
+> and also change the type definitions to use the standard for UAPI exports.
 > 
-> Condition is:
-> - Only one command is allowed to be in flight, at a time per interface.
->    -- Second command is not allowed, when one command is in flight.
-> - Duration of the flight is till the time the response is not received from the FW.
+> Signed-off-by: Jack Allister <jalliste@amazon.com>
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> ---
+>   arch/x86/include/{ => uapi}/asm/pvclock-abi.h | 24 +++++++++----------
+>   1 file changed, 12 insertions(+), 12 deletions(-)
+>   rename arch/x86/include/{ => uapi}/asm/pvclock-abi.h (83%)
 > 
-> Command lock is grabbed and then released in process context only.
-> 
-> >
-> > If sending a command and receiving the response shall be an atomic operation
-> > then you should really consider turning this into an ioctl and just not
-> > implement read/write on the character device. With this you'll be able to get
-> > rid of several oddities in this drivers locking.
-> >
-> 
-> It is not an atomic operation. It can be pre-empted.
 
-I didn't mean atomic in the sense of being non preemptable.
+Reviewed-by: Paul Durrant <paul@xen.org>
 
-> But it cannot be pre-empted to send another command on the same interface.
-> 
-> As only one command is allowed to be executed at one point in time, through an interface.
-
-I meant atomic in the sense that only one command may be in flight: Send
-a message and do not allow to send another message until the answer to
-the first one is received.
-
-Using an ioctl you can just use imx_ele_msg_send_rcv() which takes a
-mutex during the whole send/receive process and have no need for such a
-strange locking construct.
-
-> > > +     /*
-> > > +      * We may need to copy the output data to user before
-> > > +      * delivering the completion message.
-> > > +      */
-> > > +     while (!list_empty(&dev_ctx->pending_out)) {
-> > > +             b_desc = list_first_entry_or_null(&dev_ctx->pending_out,
-> > > +                                               struct se_buf_desc,
-> > > +                                               link);
-> > > +             if (!b_desc)
-> > > +                     continue;
-> >
-> > b_desc will never be NULL because otherwise you wouldn't be in the loop
-> > anymore. The usual way to iterate over a list is to use list_for_each_entry() or
-> > list_for_each_entry_safe() in case you delete entries in the loop body.
-> >
-> 
-> Will remove the NULL check.
->         if (!b_desc)
->                continue;
-
-Please don't. Use list_for_each_entry_safe() which is the normal way to
-iterate over a list.
-
-> > > +static int se_ioctl_get_mu_info(struct se_if_device_ctx *dev_ctx,
-> > > +                             u64 arg) {
-> > > +     struct se_if_priv *priv = dev_get_drvdata(dev_ctx->dev);
-> > > +     struct imx_se_node_info *if_node_info;
-> > > +     struct se_ioctl_get_if_info info;
-> > > +     int err = 0;
-> > > +
-> > > +     if_node_info = (struct imx_se_node_info *)priv->info;
-> >
-> > priv->info is of type const void *. You are casting away the the 'const'
-> > here. Either it is const, then it should stay const, or not, in which case it
-> > shouldn't be declared const. Also why isn't priv->info of type struct
-> > imx_se_node_info * in the first place?
-> 
-> This struct definition is local to the file se_ctrl.c.
-> Declaration of imx_se_node_info, is fixed by adding const in the whole file.
-
-Add a
-
-struct imx_se_node_info;
-
-to se_ctrl.h and you're done.
-
-> 
-> > > +             err = -EFAULT;
-> > > +             goto exit;
-> > > +     } else {
-> > > +             /* No specific requirement for this buffer. */
-> > > +             shared_mem = &dev_ctx->non_secure_mem;
-> > > +     }
-> > > +
-> > > +     /* Check there is enough space in the shared memory. */
-> > > +     if (shared_mem->size < shared_mem->pos
-> > > +                     || io.length >= shared_mem->size - shared_mem->pos) {
-> > > +             dev_err(dev_ctx->priv->dev,
-> > > +                     "%s: Not enough space in shared memory\n",
-> > > +                             dev_ctx->miscdev.name);
-> > > +             err = -ENOMEM;
-> > > +             goto exit;
-> > > +     }
-> > > +
-> > > +     /* Allocate space in shared memory. 8 bytes aligned. */
-> > > +     pos = shared_mem->pos;
-> > > +     shared_mem->pos += round_up(io.length, 8u);
-> >
-> > You are checking if there's enough space in the shared memory without taking
-> > this round_up into account.
-> 
-> Yes. It is initializing the local variable 'pos', with last store value of shared_mem->pos.
-
-Your check is:
-
-	if (shared_mem->size < shared_mem->pos || io.length >= shared_mem->size - shared_mem->pos)
-
-Afterwards you do a:
-
-	shared_mem->pos += round_up(io.length, 8u);
-
-This invalidates the check. You have to honor the potential padding in
-your check as well.
-
-Sascha
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
