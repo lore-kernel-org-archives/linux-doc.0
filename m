@@ -1,186 +1,212 @@
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D52B36D
-	for <linux-doc@vger.kernel.org>; Fri, 24 May 2024 07:03:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C63328DB
+	for <linux-doc@vger.kernel.org>; Fri, 24 May 2024 07:16:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716534216; cv=none; b=gEidfwcIRj10IlYQB8r7pqK/ZSxZHCzdmd++Kyq9DFVFnuPxsM2wWxEYx17JqrO/J2qBDYPfw2gFobnR95s2tGR/qSivhtRRUtvBsJOaSaQ48kxFpE3R5jlsjqC+FUCQF3t46pgkrat3uwNkOAKKbjs/I8lKM2TdC9uWhnBmEMc=
+	t=1716534995; cv=none; b=Hq0UZnMG0uht7HSiHIU+cgjOyOqN2ev8g7toRK2KvmYYanYPmLHxnBMZgqoPIHip+IBRD6F8DVhQx5VnN7GCeLVRaICNpRp5B2yV4fkOyhTsAaqzvjOfNmIOL8F/uDFEoFHKhDfZKZSsi5xLFAV6QvfgBYlT0qRpd15Pknj70gw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716534216; c=relaxed/simple;
-	bh=F2JL3Tk4mSGuw62JqOU9hci9zTtERlsnAZex134S9BI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:In-Reply-To:
-	 Content-Type:References; b=kDw1fG6lvp88GSThUdddDgRpohIm0TB7aA/cGCG1crEoPn4ojk4DSYKU3iSz+E848WvzgWzf2KT9nKlbxbuXlRJYDTd5vf47pFVV2Y+EslvHMARgy3XT1+WRJEfX6cEvTIYKFnvHzoSF3GFnr3jVhPmOqsfRAlTna6Xo9wqAa84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=GqL9tjnZ; arc=none smtp.client-ip=203.254.224.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1716534995; c=relaxed/simple;
+	bh=L5dtxTCrzKCyV3a12hQ+4vBbPtIXGLsw+Pi3J3zri8U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LkcEoX2VcrnTTDseEELjJ2gzPeL8xDd2lYiOOwuMLsiaj881xvX02G2mCGe3NbpZ0gIcUKhrFlmXKjdSiL+lAMGPt2qjqmyzfB9QV5A/glMy/0nj/oalXiQmCHZkDJG6+rvuV02A8hWDYe7uhQdRHve3Gh6PB7HkR78sVeFr/iA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=y2ijOrSi; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="GqL9tjnZ"
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20240524070331epoutp0499b027f3f120ef0845aef8086ccc5704~SWsVI2t2u3228532285epoutp04k
-	for <linux-doc@vger.kernel.org>; Fri, 24 May 2024 07:03:31 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20240524070331epoutp0499b027f3f120ef0845aef8086ccc5704~SWsVI2t2u3228532285epoutp04k
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1716534211;
-	bh=fcrs1hfVkjlHVW7bOXNOC8znpYsTD2JmXRZJGVnZaTg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=GqL9tjnZZt8X6EigF1/D5trSRVqa3CmecAJbL891GseVyUaF5ibFdJ6syZS7PAjWU
-	 EMQbagZf+nBm810/AshsWNVSYa4JK3qP+RV2Qdc7UKloK5ak50urZ1nqY2pkPP4P/i
-	 /1nMD2xnS7YlMQmDNGP+DUD4UDSHLAc1Svfk5Wa4=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20240524070330epcas5p193140b9e9c3ca20ce1044b5e97e16cc7~SWsUYtv1G2043720437epcas5p18;
-	Fri, 24 May 2024 07:03:30 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.181]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4VlwxD29VZz4x9Q6; Fri, 24 May
-	2024 07:03:28 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	43.35.09665.0CB30566; Fri, 24 May 2024 16:03:28 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20240524070201epcas5p3a398a82835799d0956448c3590544c0a~SWrBgm2e33040130401epcas5p3j;
-	Fri, 24 May 2024 07:02:01 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20240524070201epsmtrp27d72daa4f932ba34758cd2fa2e31a2ba~SWrBfF5Gm1951119511epsmtrp2S;
-	Fri, 24 May 2024 07:02:01 +0000 (GMT)
-X-AuditID: b6c32a4b-829fa700000025c1-6d-66503bc0b68a
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	BA.14.19234.96B30566; Fri, 24 May 2024 16:02:01 +0900 (KST)
-Received: from nj.shetty?samsung.com (unknown [107.99.41.245]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20240524070157epsmtip26fdc4027c3bba14725ebb809cd21c241~SWq93B5fC0925409254epsmtip2m;
-	Fri, 24 May 2024 07:01:57 +0000 (GMT)
-Date: Fri, 24 May 2024 06:54:49 +0000
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Hannes Reinecke <hare@suse.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
-	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka
-	<mpatocka@redhat.com>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
-	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
-	<kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
-	Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	martin.petersen@oracle.com, bvanassche@acm.org, david@fromorbit.com,
-	damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
-	nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
- and request layer.
-Message-ID: <20240524065449.ydfracefq77urii4@nj.shetty@samsung.com>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="y2ijOrSi"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-662aeb8d157so2783531a12.1
+        for <linux-doc@vger.kernel.org>; Fri, 24 May 2024 00:16:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1716534992; x=1717139792; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=G5b7QgiVlAzfw1l+FA1jhqowDIFfn6XCF4+Yt8iGQO0=;
+        b=y2ijOrSiwn8kujMA0869ALapDPpI42dWw9fvOBWqX8Y8XIpcqYXkUkkubl7IuDmmgr
+         UXgs/FYwWQ6cMuIo093RxaHWEmjtTlpcPKupttpXoO4fgnH95uo/yaxP5aiTe2K0XTK6
+         OB8Hf49CztFRHosI56opMlAGwTeRKeLa7jDUtXNV3n1p1lK8CwTzFsc2CcTBhW2OQl9c
+         y5qGjjAYEsJqZqRGr4HQu2IUQ11hKqzITyzCBxl3gLhHVB9p4BNs9O6j/HB/qLxm07aS
+         +zTKlMC5xlJAWs8LHA+/ivB1Cb7gpZt6kBbkLyaNpACXt8lTMYOy0j5JSg5MfxhV1IOJ
+         uvgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716534992; x=1717139792;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=G5b7QgiVlAzfw1l+FA1jhqowDIFfn6XCF4+Yt8iGQO0=;
+        b=MZm3mLyihOw7R7Kl28U+6c3O1VS1azaClKlLXhOFGEn5Qu67nPsJUoDxxGW5c+3wTA
+         pTDK0ROlj4VGnvrvb2e9mzjSyFJj3Vtf2mMJCGiXJUdCQrUih3brGnttUemC9iLEzqEG
+         os15o0YZRJju3alBWjqWjmykvFfJ809fLeqqKjV00NJ6Q7/rEDU1lwzBn/M6U3sSsZcY
+         JW+J6i4f3jHnl6QqEROAam294Ea8qqhZ8giDBDCf2D+j6Hjrad1C3teohyBWGVkWnvVl
+         DJkaejmz01Ea8L/4ofobhk0YoZMx1YLAmXf7oShAQG2296ItE1DUq3Rdhij1wBJ37k2R
+         nD0g==
+X-Forwarded-Encrypted: i=1; AJvYcCW8/5rieVWrrQ2QnlIPxq1eBN27KDXcBUTIkGSExC8H7lNilyApRsXklwYc4IpIoY9JY+dckNEiJzvv9/7ZgXMTbB5MVyNrXf2Z
+X-Gm-Message-State: AOJu0YwROqiOgl+wFJVRpVMkEQBcw2W7mp1RRDuYueVfAx+ihZuya+Wz
+	g4WPnQUKInN1yMDLvES7Em33NUQ90vDVACkOX3Ev4NKVpjPcELq3Wu4DTBRsTaU=
+X-Google-Smtp-Source: AGHT+IEDTqTA76mWXJ68mdGF74fNSFi0v4c+GSsV/TK7Kq0h+0BnWlexLZoWy2cb8clnmvmHxGdpVw==
+X-Received: by 2002:a17:90a:ec12:b0:2bf:5992:31ae with SMTP id 98e67ed59e1d1-2bf5ee1cb71mr1385379a91.20.1716534992281;
+        Fri, 24 May 2024 00:16:32 -0700 (PDT)
+Received: from debug.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2bf5f9b28dcsm742083a91.52.2024.05.24.00.16.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 May 2024 00:16:31 -0700 (PDT)
+Date: Fri, 24 May 2024 00:16:27 -0700
+From: Deepak Gupta <debug@rivosinc.com>
+To: Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc: Alexandre Ghiti <alex@ghiti.fr>, paul.walmsley@sifive.com,
+	rick.p.edgecombe@intel.com, broonie@kernel.org,
+	Szabolcs.Nagy@arm.com, kito.cheng@sifive.com, keescook@chromium.org,
+	ajones@ventanamicro.com, conor.dooley@microchip.com,
+	cleger@rivosinc.com, atishp@atishpatra.org, bjorn@rivosinc.com,
+	samuel.holland@sifive.com, conor@kernel.org,
+	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-mm@kvack.org, linux-arch@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, corbet@lwn.net, palmer@dabbelt.com,
+	aou@eecs.berkeley.edu, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, oleg@redhat.com,
+	akpm@linux-foundation.org, arnd@arndb.de, ebiederm@xmission.com,
+	Liam.Howlett@oracle.com, vbabka@suse.cz, lstoakes@gmail.com,
+	shuah@kernel.org, brauner@kernel.org, andy.chiu@sifive.com,
+	jerry.shih@sifive.com, hankuan.chen@sifive.com,
+	greentime.hu@sifive.com, evan@rivosinc.com, xiao.w.wang@intel.com,
+	charlie@rivosinc.com, apatel@ventanamicro.com,
+	mchitale@ventanamicro.com, dbarboza@ventanamicro.com,
+	sameo@rivosinc.com, shikemeng@huaweicloud.com, willy@infradead.org,
+	vincent.chen@sifive.com, guoren@kernel.org, samitolvanen@google.com,
+	songshuaishuai@tinylab.org, gerg@kernel.org, heiko@sntech.de,
+	bhe@redhat.com, jeeheng.sia@starfivetech.com, cyy@cyyself.name,
+	maskray@google.com, ancientmodern4@gmail.com,
+	mathis.salmen@matsal.de, cuiyunhui@bytedance.com,
+	bgray@linux.ibm.com, mpe@ellerman.id.au, baruch@tkos.co.il,
+	alx@kernel.org, david@redhat.com, catalin.marinas@arm.com,
+	revest@chromium.org, josh@joshtriplett.org, shr@devkernel.io,
+	deller@gmx.de, omosnace@redhat.com, ojeda@kernel.org,
+	jhubbard@nvidia.com
+Subject: Re: [PATCH v3 13/29] riscv mmu: write protect and shadow stack
+Message-ID: <ZlA+yxsiHtyUJ/5/@debug.ba.rivosinc.com>
+References: <20240403234054.2020347-1-debug@rivosinc.com>
+ <20240403234054.2020347-14-debug@rivosinc.com>
+ <276fa17b-cd62-433d-b0ec-fa98c65a46ca@ghiti.fr>
+ <ZkJOs6ENmDHFsq/U@debug.ba.rivosinc.com>
+ <CAHVXubhS3CJ87DxC+9+8z6CiWDV1bQ8nK+iOZUDvMiT7vszFLA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <f54c770c-9a14-44d3-9949-37c4a08777e7@suse.de>
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0xTdxTH97u3vS1EyLXg/FmiwzKzVMKjUNgPBcYmIdegjOwRM9wGd/QK
-	SGlry0uSKRQZoCIFEUMRQYbykIECIyCgrPKQqquGhwFE3psTeQiLZkFhrQXjf5/zPeeb8/ud
-	k8PFeVc4fG6ULJZRymipgLBkNd4WCp3adwcfcv2rcgOq1XfhSK15g6OrI9kEmrm9CFD+wn84
-	mmpPB2j5vgFHDV1PACopLWKhwfZmDLWW5mKo8monhgrPp2Koc3WWQLm6AYCm+7UYahtyRJd+
-	KWOh1rYeFuq9cYFAxVemOai8ewVDORn9GGqaSgGoZmaehe4M2SHDm262nx3V2xdI6Ush1awd
-	4VCGJ9dZVO/9OKquKpOg6suOU0/rCwDVMphMUL+eOcumslLnCKo5bZRNvZgeYlHzN/sJ6kxD
-	FaDulXRwgm1Cor0jGVrCKO0ZWbhcEiWL8BEEfh26J9TD01XkJPJCnwrsZXQM4yPw3xfsFBAl
-	NQ5HYB9PS+OMUjCtUglcfL2V8rhYxj5Sror1ETAKiVQhVjir6BhVnCzCWcbE7hK5urp5GAvD
-	oiNPZTcSiqWNiU2neclgwPoksOBCUgyzz/WzTwJLLo9sAfBpURFhDhYBPG2YZL0LJrIvYuuW
-	S6vFmDnRDODD4fE1/xKAdeNDwFTFInfA/L6zRjuXS5CO8O4q1yTbkgL4Il3HMdXjZDkBX6+O
-	sE0JGzIMzupz3rIVuQcuFtzkmHkj7CmYYpnYgtwNX3cM4iYzJP+0gPc6KzjmJ/lD7cuutefZ
-	wGfdDWs6Hy7NtRFmToCVeRWE2XwCQO0jLTAnPoNp+mzcxDgZCccznuNmfSs8p6/BzLo1zFqe
-	WmtgBZsurrMDrK4tWWuwBQ68SiFMP4YkBYerPzJPZQ7AxjsaTAO2ad/7kPa9dmbeBTMX1Gyt
-	0Y6TdrB8hWtGIay94VIC2FVgC6NQxUQwKg+Fu4xJeLflcHlMHXh7MDsDm8DE2IKzDmBcoAOQ
-	iwtsrQ5W7j/Es5LQR5MYpTxUGSdlVDrgYVxQDs7fFC43XpwsNlQk9nIVe3p6ir3cPUWCzVYz
-	aUUSHhlBxzLRDKNglOs+jGvBT8YO9vsdzg0ytAZ8KFsaqcMffuk7KdKceukU4mi937JxyeDw
-	+NXzI0sq4e8h+em3Wr9tlz7wn8u5npJE8KU1YTwgTOXrkv7OczhOb6hUu0xW3JJEz//Raqt+
-	sCeRxIJTBgK1GX0XMqPVLQe+yNn6cdpPY9cCyo7urfNiUmd+Ezf6eyc8/mqH/bP87SEBMZfz
-	/o3//oPZyw5jpT88ovJP7EWhhcMzGb4en0xOB23PCDpg4zH18+fx85K+CfpuvU/Q4ZaF6k3F
-	x+QdWVN9bpoaZ99j2470i1cCu5KD/imUlwj97N2+0Y8lFvwY3rhZGdpjqcaCNXmC72rTLbuW
-	z48S5LUkd9A8KmCpImnRTlypov8HtDMqBbkEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SaUxTWRiGOfdcbi9V9Fq2A3UZ6xZlqHZCyFGMkmgmJ1FiXWaMEpVGLrUj
-	UGwtihpBiQI1OkhRhyrKZrHgEgou7FoBBSXNTAGljogB4oLC4MTEra0pxOi/J+/zvt+vj4Wi
-	fjqEVSXt5jVJigQJI6Rv3JXMCFNFyuMXXT4lxtfaWyE+nOOEuOLpnwweuvsO4NP/fYR44HYm
-	wJ87bBBXt/YCXFhcQOOe2zUUri/OpbC5ooXCZ89kULjF/ZbBudZugAe7jBRucITioqOlNK5v
-	aKOxvfYcgy+YBgW47J6Lwiezuih8a+AQwFeHRmh83yHGNuc97ygxsXeuIu3FiNQYnwqIrbeS
-	JvYOHbGUZzOkqjSNvKzKB6SuJ50hJScM3uR4xjBDao488yajgw6ajDR2MeREdTkgDwubBXK/
-	zcKlcXyCKoXXLFwWK9zxvP9/Kvni5L3mjGMgHRRP1AMfFnHhqMh9gdIDISvibgKUZ6tkxkUw
-	Mjmb4Tj7IbPrhWC8NApQ15k6yiNobg463Wmg9YBlGS4UPXCzntifk6DRTOtYH3IVDKq1lgCP
-	8ONi0dv2k94e9uVWoHf5jQIPi7hhgJoy8Hg+BbXlD9AehlwEOl/1HHruQ06Mylxj9324SPSl
-	uQfmAM74w8L4w8L4fVEIYDkI4JO1icrE7ckyqVaRqNUlKaXb1YkWMPYHC9bdAqZrTqkVUCyw
-	AsRCib9vjDk6XuQbp0jdx2vU2zS6BF5rBWKWlgT5zkrIjhNxSsVufifPJ/Oab5ZifULSqWAe
-	TvUP/2NGgfD99NcGNTJPCI+rXViwZfmNpE2m89X2ol8OdM9c9rLaK2vpb+KYL4P/9jmalmyU
-	VjwJ2Leh744+8mBglt7vYVPdSNimna4J8o8H3N0tlr8i4q/EtslyyNyo8Murjz6bZ3ZC+YM9
-	G6JWWGbTaatjU4Tq6JDfg9fCF+v3/zRla9ixv1+nqHNRb6rpVWpgzeNHWfOvXwk6lFOy0r72
-	UkraK0NMr2SNrd9ryCJzX4/p3lUipbb8k2dV1S4Wq0vrJ+taQ6O9+JDswMrhaR1ElRe0X9pA
-	lmf+PEn/qw41KvvqlR3kzQel7smlTsPiN4fL5LJPAeoInw8OZb7rvoTW7lDIFkCNVvEVtAjO
-	T3YDAAA=
-X-CMS-MailID: 20240524070201epcas5p3a398a82835799d0956448c3590544c0a
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----0ARpVfROdpzmGW4Ln12FwIta42jNjH8le_L8dBWq-uMGoSqN=_250cc_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240520102842epcas5p4949334c2587a15b8adab2c913daa622f
-References: <20240520102033.9361-1-nj.shetty@samsung.com>
-	<CGME20240520102842epcas5p4949334c2587a15b8adab2c913daa622f@epcas5p4.samsung.com>
-	<20240520102033.9361-3-nj.shetty@samsung.com>
-	<f54c770c-9a14-44d3-9949-37c4a08777e7@suse.de>
-
-------0ARpVfROdpzmGW4Ln12FwIta42jNjH8le_L8dBWq-uMGoSqN=_250cc_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHVXubhS3CJ87DxC+9+8z6CiWDV1bQ8nK+iOZUDvMiT7vszFLA@mail.gmail.com>
 
-On 21/05/24 09:01AM, Hannes Reinecke wrote:
->On 5/20/24 12:20, Nitesh Shetty wrote:
->>We add two new opcode REQ_OP_COPY_DST, REQ_OP_COPY_SRC.
->>Since copy is a composite operation involving src and dst sectors/lba,
->>each needs to be represented by a separate bio to make it compatible
->>with device mapper.
->>We expect caller to take a plug and send bio with destination information,
->>followed by bio with source information.
->>Once the dst bio arrives we form a request and wait for source
->>bio. Upon arrival of source bio we merge these two bio's and send
->>corresponding request down to device driver.
->>Merging non copy offload bio is avoided by checking for copy specific
->>opcodes in merge function.
->>
->>Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
->>Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
->>---
->>  block/blk-core.c          |  7 +++++++
->>  block/blk-merge.c         | 41 +++++++++++++++++++++++++++++++++++++++
->>  block/blk.h               | 16 +++++++++++++++
->>  block/elevator.h          |  1 +
->>  include/linux/bio.h       |  6 +-----
->>  include/linux/blk_types.h | 10 ++++++++++
->>  6 files changed, 76 insertions(+), 5 deletions(-)
->>
->I am a bit unsure about leveraging 'merge' here. As Bart pointed out, 
->this is arguably as mis-use of the 'merge' functionality as we don't
->actually merge bios, but rather use the information from these bios to
->form the actual request.
->Wouldn't it be better to use bio_chain here, and send out the eventual
->request from the end_io function of the bio chain?
+On Thu, May 23, 2024 at 04:59:30PM +0200, Alexandre Ghiti wrote:
+>Hi Deepak,
 >
-With above bio chain approach, I see a difficulty while dealing with
-stacked/partitioned devices, as they might get remapped.
-Or am I missing something here ?
+>On Mon, May 13, 2024 at 7:32 PM Deepak Gupta <debug@rivosinc.com> wrote:
+>>
+>> On Sun, May 12, 2024 at 06:31:24PM +0200, Alexandre Ghiti wrote:
+>> >On 04/04/2024 01:35, Deepak Gupta wrote:
+>> >>`fork` implements copy on write (COW) by making pages readonly in child
+>> >>and parent both.
+>> >>
+>> >>ptep_set_wrprotect and pte_wrprotect clears _PAGE_WRITE in PTE.
+>> >>Assumption is that page is readable and on fault copy on write happens.
+>> >>
+>> >>To implement COW on such pages,
+>> >
+>> >
+>> >I guess you mean "shadow stack pages" here.
+>>
+>> Yes I meant shadow stack pages. Will fix the message.
+>>
+>> >
+>> >
+>> >>  clearing up W bit makes them XWR = 000.
+>> >>This will result in wrong PTE setting which says no perms but V=1 and PFN
+>> >>field pointing to final page. Instead desired behavior is to turn it into
+>> >>a readable page, take an access (load/store) fault on sspush/sspop
+>> >>(shadow stack) and then perform COW on such pages.
+>> >>This way regular reads
+>> >>would still be allowed and not lead to COW maintaining current behavior
+>> >>of COW on non-shadow stack but writeable memory.
+>> >>
+>> >>On the other hand it doesn't interfere with existing COW for read-write
+>> >>memory. Assumption is always that _PAGE_READ must have been set and thus
+>> >>setting _PAGE_READ is harmless.
+>> >>
+>> >>Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+>> >>---
+>> >>  arch/riscv/include/asm/pgtable.h | 12 ++++++++++--
+>> >>  1 file changed, 10 insertions(+), 2 deletions(-)
+>> >>
+>> >>diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
+>> >>index 9b837239d3e8..7a1c2a98d272 100644
+>> >>--- a/arch/riscv/include/asm/pgtable.h
+>> >>+++ b/arch/riscv/include/asm/pgtable.h
+>> >>@@ -398,7 +398,7 @@ static inline int pte_special(pte_t pte)
+>> >>  static inline pte_t pte_wrprotect(pte_t pte)
+>> >>  {
+>> >>-     return __pte(pte_val(pte) & ~(_PAGE_WRITE));
+>> >>+     return __pte((pte_val(pte) & ~(_PAGE_WRITE)) | (_PAGE_READ));
+>> >>  }
+>> >>  /* static inline pte_t pte_mkread(pte_t pte) */
+>> >>@@ -581,7 +581,15 @@ static inline pte_t ptep_get_and_clear(struct mm_struct *mm,
+>> >>  static inline void ptep_set_wrprotect(struct mm_struct *mm,
+>> >>                                    unsigned long address, pte_t *ptep)
+>> >>  {
+>> >>-     atomic_long_and(~(unsigned long)_PAGE_WRITE, (atomic_long_t *)ptep);
+>> >>+     volatile pte_t read_pte = *ptep;
+>
+>Sorry I missed this ^. You need to use ptep_get() to get the value of
+>a pte. 
 
-Bart, Hannes,
-Regarding merge, does it looks any better, if we use single request
-operation such as REQ_OP_COPY and use op_flags(REQ_COPY_DST/REQ_COPY_SRC)
-to identify dst and src bios ?
+Noted. will fix it.
 
+>And why do you need the volatile here?
 
-Regards,
-Nitesh Shetty
+I don't remember the reason. It's probably not needed here.
+But I am sure I was debugging something and trying everything.
+And this probably slipped sanitization before sending patches.
 
-------0ARpVfROdpzmGW4Ln12FwIta42jNjH8le_L8dBWq-uMGoSqN=_250cc_
-Content-Type: text/plain; charset="utf-8"
-
-
-------0ARpVfROdpzmGW4Ln12FwIta42jNjH8le_L8dBWq-uMGoSqN=_250cc_--
+Will fix it.
+>
+>> >>+     /*
+>> >>+      * ptep_set_wrprotect can be called for shadow stack ranges too.
+>> >>+      * shadow stack memory is XWR = 010 and thus clearing _PAGE_WRITE will lead to
+>> >>+      * encoding 000b which is wrong encoding with V = 1. This should lead to page fault
+>> >>+      * but we dont want this wrong configuration to be set in page tables.
+>> >>+      */
+>> >>+     atomic_long_set((atomic_long_t *)ptep,
+>> >>+                     ((pte_val(read_pte) & ~(unsigned long)_PAGE_WRITE) | _PAGE_READ));
+>> >>  }
+>> >>  #define __HAVE_ARCH_PTEP_CLEAR_YOUNG_FLUSH
+>> >
+>> >
+>> >Doesn't making the shadow stack page readable allow "normal" loads to
+>> >access the page? If it does, isn't that an issue (security-wise)?
+>>
+>> When shadow stack permissions are there (i.e. R=0, W=1, X=0), then also shadow stack is
+>> readable through "normal" loads. So nothing changes when it converts into a readonly page
+>> from page permissions perspective.
+>>
+>> Security-wise it's not a concern because from threat modeling perspective, if attacker had
+>> read-write primitives (via some bug in program) available to read and write address space
+>> of process/task; then they would have availiblity of return addresses on normal stack. It's
+>> the write primitive that is concerning and to be protected against. And that's why shadow stack
+>> is not writeable using "normal" stores.
+>>
+>> >
+>
+>Thanks for the explanation!
+>
+>With the use of ptep_get(), you can add:
+>
+>Reviewed-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+>
+>Thanks,
+>
+>Alex
