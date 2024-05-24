@@ -1,185 +1,186 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2763D531;
-	Fri, 24 May 2024 07:00:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D52B36D
+	for <linux-doc@vger.kernel.org>; Fri, 24 May 2024 07:03:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716534018; cv=none; b=KBikYoXYgegZ+S8CCxZV3ThzyK1fiW+JPF6FF0AqOYt6vY0WtW4dRw+HwpDKVZg83dG/0zzJZhpU4DLGy4ZOp2JLwGiZ1kH8hNB/awC3dooHN8zw5PL7xjM0Po+G6vgDogR7KY2NNXOE/UDoYpAcwXZ/19pgaEbwCuniNvV9J88=
+	t=1716534216; cv=none; b=gEidfwcIRj10IlYQB8r7pqK/ZSxZHCzdmd++Kyq9DFVFnuPxsM2wWxEYx17JqrO/J2qBDYPfw2gFobnR95s2tGR/qSivhtRRUtvBsJOaSaQ48kxFpE3R5jlsjqC+FUCQF3t46pgkrat3uwNkOAKKbjs/I8lKM2TdC9uWhnBmEMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716534018; c=relaxed/simple;
-	bh=/Q4wNIHNpd2hDoumqVKVM6V4/z4G0gvW+08vuommuZE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=oJ77lc+RpeA8vvEx931fOucZcZKkKIHs7VfNAJzdpjNlq9Ci2Ehb4LdAetcM2VmN9JVGPAnJZHKowOBVFpQxAQGT/fNec9AUjlrPQs3o8bebANbtAWU0qofJDsjzi56t48SCjNASLrZoOparOdmLqrOnGIF8cxvIO7R/SMB1aHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UcNs+27M; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1716534216; c=relaxed/simple;
+	bh=F2JL3Tk4mSGuw62JqOU9hci9zTtERlsnAZex134S9BI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:In-Reply-To:
+	 Content-Type:References; b=kDw1fG6lvp88GSThUdddDgRpohIm0TB7aA/cGCG1crEoPn4ojk4DSYKU3iSz+E848WvzgWzf2KT9nKlbxbuXlRJYDTd5vf47pFVV2Y+EslvHMARgy3XT1+WRJEfX6cEvTIYKFnvHzoSF3GFnr3jVhPmOqsfRAlTna6Xo9wqAa84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=GqL9tjnZ; arc=none smtp.client-ip=203.254.224.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UcNs+27M"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4202c1d19d5so59255325e9.2;
-        Fri, 24 May 2024 00:00:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716534015; x=1717138815; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=1jDrrOeeCstNF+I2pCUYZNOgXXubZuPEt1qmBzr+ubA=;
-        b=UcNs+27MVFe7TmpsV9OnzDUWaf/vKjA2mILmh3WX1JM228RvZoEV1X7f8M3JBn0CdK
-         zUNC6QekAZjOia8BPRq9ybVYJZIVn4j3Sn0MS40E5bxlkfZqNuG4zC5R7BZxmjaT/I9c
-         NT711DZMNOR5Gcc2nD1ES311X1mKK59Yv4zf7yxLQKtZA5KDSveK9trDxUDEQwT2NWb9
-         CsgPj7DwIpZZtyBQ0X6huYcRs6K3JvbebMHo/7f7hvw6OoQcG7/tPxfSJa0gFsl4GcDK
-         Xu7WOIfhgb8Uuy5UT+vzM5eyGx3qXlJO82U1Fk6OFq//J70xxvJYf0gqfXIWCUDH8FBG
-         xnig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716534015; x=1717138815;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1jDrrOeeCstNF+I2pCUYZNOgXXubZuPEt1qmBzr+ubA=;
-        b=vCrQl/8Q8id+tnf+Iws70QcI/mMB55/NlqjaDuJok17TN7vAjQN2Oq1Nxfyv3OEl6i
-         C1QvJ8m1I5DJ+YXQltvS2r3cYoMamk0bxa0wkmNFNQ/HRJ90vJ7yAheej1pYhcDwFhsD
-         7FFqNo8MP/ZMicjFLRi8L299lKH9gCHTmdkehIDTX1dlSTvK1dK+ZKTVe1qwvvYUDC8C
-         w+nBX+MG8c3Rmm2zufY7JNKyerOYJzi4ta9V+0JF1kfrC7xgc1QA3xFIOEyy8P9vQWij
-         FAUAN2TqkIbbMY7jBjRrkfMm7seZdgcGBmTC8PkMkRGzwIvn8UqhT7bxGDdLGaCyMVMU
-         PLrg==
-X-Forwarded-Encrypted: i=1; AJvYcCUjrNguvc0YsZ+r4nxn/TUWHogDNliFe8hkR6r+uSozj2jG3VX59FFnpuCa5olgOsyCp9OxC/wh8qJzs8WpRwX1eI6pEyvsFTamA3xzWzmV+BotEqEpTyJ7N7/MTIeX03zbzJBkFwmmILJlxkfullH9B6pwpXtcXQtA0t1xe58jpvG84x4=
-X-Gm-Message-State: AOJu0YxpNAtZrF/b1X0Wjh7oMnZcqGcwU9KOT5wH8P1NbvlPvp8BwtJS
-	4tCDCxe/JXml/8AsG2dfc7cual4gQO6sO36y4XgwwEYdZ+27V840
-X-Google-Smtp-Source: AGHT+IHD8KmPhpdD/4cbqFXK3z9zYCfEVbD1T+dG+fybQPZ2mYEegosbtymPbM7n/BIkWOUA3NieUQ==
-X-Received: by 2002:a05:600c:54e3:b0:41c:2499:fa0e with SMTP id 5b1f17b1804b1-421089b2388mr10645125e9.4.1716534014779;
-        Fri, 24 May 2024 00:00:14 -0700 (PDT)
-Received: from nsa.fritz.box ([2001:a61:35f9:9001:40df:88bb:5090:7ab6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42100e4a3c1sm45027685e9.0.2024.05.24.00.00.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 May 2024 00:00:14 -0700 (PDT)
-Message-ID: <58e17135b41da7eba8afd5d8fb5f25bcaffa7288.camel@gmail.com>
-Subject: Re: [PATCH v2] drivers: hwmon: max31827: Add PEC support
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>, Radu Sabau <radu.sabau@analog.com>
-Cc: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Fri, 24 May 2024 09:00:13 +0200
-In-Reply-To: <e52a86de-ead6-40d3-b652-461a90bd5942@roeck-us.net>
-References: <20240523121057.5689-1-radu.sabau@analog.com>
-	 <e52a86de-ead6-40d3-b652-461a90bd5942@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.1 (3.52.1-1.fc40) 
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="GqL9tjnZ"
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20240524070331epoutp0499b027f3f120ef0845aef8086ccc5704~SWsVI2t2u3228532285epoutp04k
+	for <linux-doc@vger.kernel.org>; Fri, 24 May 2024 07:03:31 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20240524070331epoutp0499b027f3f120ef0845aef8086ccc5704~SWsVI2t2u3228532285epoutp04k
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1716534211;
+	bh=fcrs1hfVkjlHVW7bOXNOC8znpYsTD2JmXRZJGVnZaTg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=GqL9tjnZZt8X6EigF1/D5trSRVqa3CmecAJbL891GseVyUaF5ibFdJ6syZS7PAjWU
+	 EMQbagZf+nBm810/AshsWNVSYa4JK3qP+RV2Qdc7UKloK5ak50urZ1nqY2pkPP4P/i
+	 /1nMD2xnS7YlMQmDNGP+DUD4UDSHLAc1Svfk5Wa4=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+	20240524070330epcas5p193140b9e9c3ca20ce1044b5e97e16cc7~SWsUYtv1G2043720437epcas5p18;
+	Fri, 24 May 2024 07:03:30 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.181]) by
+	epsnrtp2.localdomain (Postfix) with ESMTP id 4VlwxD29VZz4x9Q6; Fri, 24 May
+	2024 07:03:28 +0000 (GMT)
+Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
+	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	43.35.09665.0CB30566; Fri, 24 May 2024 16:03:28 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20240524070201epcas5p3a398a82835799d0956448c3590544c0a~SWrBgm2e33040130401epcas5p3j;
+	Fri, 24 May 2024 07:02:01 +0000 (GMT)
+Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240524070201epsmtrp27d72daa4f932ba34758cd2fa2e31a2ba~SWrBfF5Gm1951119511epsmtrp2S;
+	Fri, 24 May 2024 07:02:01 +0000 (GMT)
+X-AuditID: b6c32a4b-829fa700000025c1-6d-66503bc0b68a
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
+	BA.14.19234.96B30566; Fri, 24 May 2024 16:02:01 +0900 (KST)
+Received: from nj.shetty?samsung.com (unknown [107.99.41.245]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20240524070157epsmtip26fdc4027c3bba14725ebb809cd21c241~SWq93B5fC0925409254epsmtip2m;
+	Fri, 24 May 2024 07:01:57 +0000 (GMT)
+Date: Fri, 24 May 2024 06:54:49 +0000
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Hannes Reinecke <hare@suse.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
+	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka
+	<mpatocka@redhat.com>, Keith Busch <kbusch@kernel.org>, Christoph Hellwig
+	<hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni
+	<kch@nvidia.com>, Alexander Viro <viro@zeniv.linux.org.uk>, Christian
+	Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	martin.petersen@oracle.com, bvanassche@acm.org, david@fromorbit.com,
+	damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
+	nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
+ and request layer.
+Message-ID: <20240524065449.ydfracefq77urii4@nj.shetty@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+In-Reply-To: <f54c770c-9a14-44d3-9949-37c4a08777e7@suse.de>
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0xTdxTH97u3vS1EyLXg/FmiwzKzVMKjUNgPBcYmIdegjOwRM9wGd/QK
+	SGlry0uSKRQZoCIFEUMRQYbykIECIyCgrPKQqquGhwFE3psTeQiLZkFhrQXjf5/zPeeb8/ud
+	k8PFeVc4fG6ULJZRymipgLBkNd4WCp3adwcfcv2rcgOq1XfhSK15g6OrI9kEmrm9CFD+wn84
+	mmpPB2j5vgFHDV1PACopLWKhwfZmDLWW5mKo8monhgrPp2Koc3WWQLm6AYCm+7UYahtyRJd+
+	KWOh1rYeFuq9cYFAxVemOai8ewVDORn9GGqaSgGoZmaehe4M2SHDm262nx3V2xdI6Ush1awd
+	4VCGJ9dZVO/9OKquKpOg6suOU0/rCwDVMphMUL+eOcumslLnCKo5bZRNvZgeYlHzN/sJ6kxD
+	FaDulXRwgm1Cor0jGVrCKO0ZWbhcEiWL8BEEfh26J9TD01XkJPJCnwrsZXQM4yPw3xfsFBAl
+	NQ5HYB9PS+OMUjCtUglcfL2V8rhYxj5Sror1ETAKiVQhVjir6BhVnCzCWcbE7hK5urp5GAvD
+	oiNPZTcSiqWNiU2neclgwPoksOBCUgyzz/WzTwJLLo9sAfBpURFhDhYBPG2YZL0LJrIvYuuW
+	S6vFmDnRDODD4fE1/xKAdeNDwFTFInfA/L6zRjuXS5CO8O4q1yTbkgL4Il3HMdXjZDkBX6+O
+	sE0JGzIMzupz3rIVuQcuFtzkmHkj7CmYYpnYgtwNX3cM4iYzJP+0gPc6KzjmJ/lD7cuutefZ
+	wGfdDWs6Hy7NtRFmToCVeRWE2XwCQO0jLTAnPoNp+mzcxDgZCccznuNmfSs8p6/BzLo1zFqe
+	WmtgBZsurrMDrK4tWWuwBQ68SiFMP4YkBYerPzJPZQ7AxjsaTAO2ad/7kPa9dmbeBTMX1Gyt
+	0Y6TdrB8hWtGIay94VIC2FVgC6NQxUQwKg+Fu4xJeLflcHlMHXh7MDsDm8DE2IKzDmBcoAOQ
+	iwtsrQ5W7j/Es5LQR5MYpTxUGSdlVDrgYVxQDs7fFC43XpwsNlQk9nIVe3p6ir3cPUWCzVYz
+	aUUSHhlBxzLRDKNglOs+jGvBT8YO9vsdzg0ytAZ8KFsaqcMffuk7KdKceukU4mi937JxyeDw
+	+NXzI0sq4e8h+em3Wr9tlz7wn8u5npJE8KU1YTwgTOXrkv7OczhOb6hUu0xW3JJEz//Raqt+
+	sCeRxIJTBgK1GX0XMqPVLQe+yNn6cdpPY9cCyo7urfNiUmd+Ezf6eyc8/mqH/bP87SEBMZfz
+	/o3//oPZyw5jpT88ovJP7EWhhcMzGb4en0xOB23PCDpg4zH18+fx85K+CfpuvU/Q4ZaF6k3F
+	x+QdWVN9bpoaZ99j2470i1cCu5KD/imUlwj97N2+0Y8lFvwY3rhZGdpjqcaCNXmC72rTLbuW
+	z48S5LUkd9A8KmCpImnRTlypov8HtDMqBbkEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SaUxTWRiGOfdcbi9V9Fq2A3UZ6xZlqHZCyFGMkmgmJ1FiXWaMEpVGLrUj
+	UGwtihpBiQI1OkhRhyrKZrHgEgou7FoBBSXNTAGljogB4oLC4MTEra0pxOi/J+/zvt+vj4Wi
+	fjqEVSXt5jVJigQJI6Rv3JXMCFNFyuMXXT4lxtfaWyE+nOOEuOLpnwweuvsO4NP/fYR44HYm
+	wJ87bBBXt/YCXFhcQOOe2zUUri/OpbC5ooXCZ89kULjF/ZbBudZugAe7jBRucITioqOlNK5v
+	aKOxvfYcgy+YBgW47J6Lwiezuih8a+AQwFeHRmh83yHGNuc97ygxsXeuIu3FiNQYnwqIrbeS
+	JvYOHbGUZzOkqjSNvKzKB6SuJ50hJScM3uR4xjBDao488yajgw6ajDR2MeREdTkgDwubBXK/
+	zcKlcXyCKoXXLFwWK9zxvP9/Kvni5L3mjGMgHRRP1AMfFnHhqMh9gdIDISvibgKUZ6tkxkUw
+	Mjmb4Tj7IbPrhWC8NApQ15k6yiNobg463Wmg9YBlGS4UPXCzntifk6DRTOtYH3IVDKq1lgCP
+	8ONi0dv2k94e9uVWoHf5jQIPi7hhgJoy8Hg+BbXlD9AehlwEOl/1HHruQ06Mylxj9324SPSl
+	uQfmAM74w8L4w8L4fVEIYDkI4JO1icrE7ckyqVaRqNUlKaXb1YkWMPYHC9bdAqZrTqkVUCyw
+	AsRCib9vjDk6XuQbp0jdx2vU2zS6BF5rBWKWlgT5zkrIjhNxSsVufifPJ/Oab5ZifULSqWAe
+	TvUP/2NGgfD99NcGNTJPCI+rXViwZfmNpE2m89X2ol8OdM9c9rLaK2vpb+KYL4P/9jmalmyU
+	VjwJ2Leh744+8mBglt7vYVPdSNimna4J8o8H3N0tlr8i4q/EtslyyNyo8Murjz6bZ3ZC+YM9
+	G6JWWGbTaatjU4Tq6JDfg9fCF+v3/zRla9ixv1+nqHNRb6rpVWpgzeNHWfOvXwk6lFOy0r72
+	UkraK0NMr2SNrd9ryCJzX4/p3lUipbb8k2dV1S4Wq0vrJ+taQ6O9+JDswMrhaR1ElRe0X9pA
+	lmf+PEn/qw41KvvqlR3kzQel7smlTsPiN4fL5LJPAeoInw8OZb7rvoTW7lDIFkCNVvEVtAjO
+	T3YDAAA=
+X-CMS-MailID: 20240524070201epcas5p3a398a82835799d0956448c3590544c0a
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----0ARpVfROdpzmGW4Ln12FwIta42jNjH8le_L8dBWq-uMGoSqN=_250cc_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240520102842epcas5p4949334c2587a15b8adab2c913daa622f
+References: <20240520102033.9361-1-nj.shetty@samsung.com>
+	<CGME20240520102842epcas5p4949334c2587a15b8adab2c913daa622f@epcas5p4.samsung.com>
+	<20240520102033.9361-3-nj.shetty@samsung.com>
+	<f54c770c-9a14-44d3-9949-37c4a08777e7@suse.de>
 
-On Thu, 2024-05-23 at 07:19 -0700, Guenter Roeck wrote:
-> On Thu, May 23, 2024 at 03:10:56PM +0300, Radu Sabau wrote:
-> > Add support for PEC by attaching PEC attribute to the i2c device.
-> > Add pec_store and pec_show function for accesing the "pec" file.
-> >=20
-> > Signed-off-by: Radu Sabau <radu.sabau@analog.com>
-> > ---
->=20
-> Change log missing.
->=20
-> > =C2=A0Documentation/hwmon/max31827.rst | 13 +++++--
-> > =C2=A0drivers/hwmon/max31827.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 | 64 ++++++++++++++++++++++++++++++++
-> > =C2=A02 files changed, 74 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/Documentation/hwmon/max31827.rst b/Documentation/hwmon/max=
-31827.rst
-> > index 44ab9dc064cb..9c11a9518c67 100644
-> > --- a/Documentation/hwmon/max31827.rst
-> > +++ b/Documentation/hwmon/max31827.rst
-> > @@ -131,7 +131,14 @@ The Fault Queue bits select how many consecutive t=
-emperature
-> > faults must occur
-> > =C2=A0before overtemperature or undertemperature faults are indicated i=
-n the
-> > =C2=A0corresponding status bits.
-> > =C2=A0
-> > -Notes
-> > ------
-> > +PEC Support
-> > +-----------
-> > +
-> > +When reading a register value, the PEC byte is computed and sent by th=
-e chip.
-> > +
-> > +PEC on word data transaction respresents a signifcant increase in band=
-witdh
-> > +usage (+33% for both write and reads) in normal conditions.
-> > =C2=A0
-> > -PEC is not implemented.
-> > +Since this operation implies there will be an extra delay to each
-> > +transaction, PEC can be disabled or enabled through sysfs.
-> > +Just write 1=C2=A0 to the "pec" file for enabling PEC and 0 for disabl=
-ing it.
-> > diff --git a/drivers/hwmon/max31827.c b/drivers/hwmon/max31827.c
-> > index f8a13b30f100..e86f8890ee72 100644
-> > --- a/drivers/hwmon/max31827.c
-> > +++ b/drivers/hwmon/max31827.c
-> > @@ -24,6 +24,7 @@
-> > =C2=A0
-> > =C2=A0#define MAX31827_CONFIGURATION_1SHOT_MASK	BIT(0)
-> > =C2=A0#define MAX31827_CONFIGURATION_CNV_RATE_MASK	GENMASK(3, 1)
-> > +#define MAX31827_CONFIGURATION_PEC_EN_MASK	BIT(4)
-> > =C2=A0#define MAX31827_CONFIGURATION_TIMEOUT_MASK	BIT(5)
-> > =C2=A0#define MAX31827_CONFIGURATION_RESOLUTION_MASK	GENMASK(7, 6)
-> > =C2=A0#define MAX31827_CONFIGURATION_ALRM_POL_MASK	BIT(8)
-> > @@ -475,6 +476,54 @@ static ssize_t temp1_resolution_store(struct devic=
-e *dev,
-> > =C2=A0
-> > =C2=A0static DEVICE_ATTR_RW(temp1_resolution);
-> > =C2=A0
-> > +static ssize_t pec_show(struct device *dev, struct device_attribute *d=
-evattr,
-> > +			char *buf)
-> > +{
-> > +	struct i2c_client *client =3D to_i2c_client(dev);
-> > +
-> > +	return scnprintf(buf, PAGE_SIZE, "%d\n", !!(client->flags &
-> > I2C_CLIENT_PEC));
-> > +}
-> > +
-> > +static ssize_t pec_store(struct device *dev, struct device_attribute *=
-devattr,
-> > +			 const char *buf, size_t count)
-> > +{
-> > +	struct max31827_state *st =3D dev_get_drvdata(dev);
-> > +	struct i2c_client *client =3D to_i2c_client(dev);
-> > +	unsigned int val;
-> > +	int err;
-> > +
-> > +	err =3D kstrtouint(buf, 10, &val);
-> > +	if (err < 0)
-> > +		return err;
-> > +
-> > +	switch (val) {
-> > +	case 0:
-> > +		err =3D regmap_update_bits(st->regmap, MAX31827_CONFIGURATION_REG,
-> > +					 MAX31827_CONFIGURATION_PEC_EN_MASK,
-> > +					 val);
->=20
-> While correct, this is misleading. Should write 0.
->=20
-> > +		if (err)
-> > +			return err;
-> > +
-> > +		client->flags &=3D ~I2C_CLIENT_PEC;
-> > +		break;
-> > +	case 1:
-> > +		err =3D regmap_update_bits(st->regmap, MAX31827_CONFIGURATION_REG,
-> > +					 MAX31827_CONFIGURATION_PEC_EN_MASK,
-> > +					 val);
->=20
-> This is wrong. s/val/MAX31827_CONFIGURATION_PEC_EN_MASK/
->=20
->=20
+------0ARpVfROdpzmGW4Ln12FwIta42jNjH8le_L8dBWq-uMGoSqN=_250cc_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-Then, maybe use regmap_set_bits()...
+On 21/05/24 09:01AM, Hannes Reinecke wrote:
+>On 5/20/24 12:20, Nitesh Shetty wrote:
+>>We add two new opcode REQ_OP_COPY_DST, REQ_OP_COPY_SRC.
+>>Since copy is a composite operation involving src and dst sectors/lba,
+>>each needs to be represented by a separate bio to make it compatible
+>>with device mapper.
+>>We expect caller to take a plug and send bio with destination information,
+>>followed by bio with source information.
+>>Once the dst bio arrives we form a request and wait for source
+>>bio. Upon arrival of source bio we merge these two bio's and send
+>>corresponding request down to device driver.
+>>Merging non copy offload bio is avoided by checking for copy specific
+>>opcodes in merge function.
+>>
+>>Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+>>Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+>>---
+>>  block/blk-core.c          |  7 +++++++
+>>  block/blk-merge.c         | 41 +++++++++++++++++++++++++++++++++++++++
+>>  block/blk.h               | 16 +++++++++++++++
+>>  block/elevator.h          |  1 +
+>>  include/linux/bio.h       |  6 +-----
+>>  include/linux/blk_types.h | 10 ++++++++++
+>>  6 files changed, 76 insertions(+), 5 deletions(-)
+>>
+>I am a bit unsure about leveraging 'merge' here. As Bart pointed out, 
+>this is arguably as mis-use of the 'merge' functionality as we don't
+>actually merge bios, but rather use the information from these bios to
+>form the actual request.
+>Wouldn't it be better to use bio_chain here, and send out the eventual
+>request from the end_io function of the bio chain?
+>
+With above bio chain approach, I see a difficulty while dealing with
+stacked/partitioned devices, as they might get remapped.
+Or am I missing something here ?
 
-- Nuno S=C3=A1
+Bart, Hannes,
+Regarding merge, does it looks any better, if we use single request
+operation such as REQ_OP_COPY and use op_flags(REQ_COPY_DST/REQ_COPY_SRC)
+to identify dst and src bios ?
 
+
+Regards,
+Nitesh Shetty
+
+------0ARpVfROdpzmGW4Ln12FwIta42jNjH8le_L8dBWq-uMGoSqN=_250cc_
+Content-Type: text/plain; charset="utf-8"
+
+
+------0ARpVfROdpzmGW4Ln12FwIta42jNjH8le_L8dBWq-uMGoSqN=_250cc_--
