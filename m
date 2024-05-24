@@ -1,85 +1,98 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE7141C85;
-	Fri, 24 May 2024 18:32:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574B94084D
+	for <linux-doc@vger.kernel.org>; Fri, 24 May 2024 18:56:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716575535; cv=none; b=m+uzyGfEmiwDN4NWtGl06CngDHXH1nEiDC7ntx609UJUTKffBDc7RCcRwst8BdGFLhl+YWr9aIBZlWTEqgdvoR/Skp2hJTZvx/RE3PUKn3pRBmM0dSttOgWsmiSj5IStrKkc4jqIij9g63i8vehDi6QpkXf2DFCf35m5IAJtfvs=
+	t=1716576988; cv=none; b=i84SnWEWN/4NOkeXTMHtJA7V3J0YxTrqk15KCX2j9rsRlgL/+vKUD7X2ydjGS9up6OvMdTt+98eelXvEUlibWQklgOXAbrpjbFXCn3rCWEcIo/EvmOX3EQyuB+F4k2lB9Qq6JbMaCc2sgbrZSI2l6x/25KBDQ7AwA9w5mF+Ol9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716575535; c=relaxed/simple;
-	bh=ZDW6n8R+BbYSZWdXmek/HnmZttNw+oIvTXE643uclug=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IBB7v3MZp6cuFpgSbcwxh+lznojv0HHHE5ZNMt3mqKQa/G9hNTiyTpXJ+YBRPk+WwLCsHJWb2uXC15CqohFz0VMxLWNaRSkV3bUDJ8l8me7wnfRd4myt4Ly43tifRzH4geqvtQxdhxM8XCe88/qDlonN5fzLbtiLhv3eFePDaE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=ZBNDhN4m; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1716576988; c=relaxed/simple;
+	bh=EnRUwxPjMwARAQhkc9VptC1FFM+vVJDf4lE+8efMjmY=;
+	h=Subject:Date:Message-ID:MIME-Version:Cc:From:To; b=m3wzQp/wTJjQaLJQeOsv39Q+tYM3ymfOEFMlm22nWjjYUkl3qSnYpHwAUWr6ZJMfzsRRGnK5va+9N4U3GhnRFLpshyDs6M+BdAggZhuVORj6bkU6kYGhThgmQyv9NUYmdvqQncdnnynj3fL9DLCfGHpPZ1SMV9B1Tu5Ri3Z91Qg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=QsmUEuva; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="ZBNDhN4m"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=K03GNtWVmJPKVVQMTb7a854Ol2QjAiRCHfbNxrRekzI=; b=ZBNDhN4mHvJ+uJ7Nn43x5PtElC
-	zwBeXSm6fuQRM4NIbuYbs9Kl7sLYc+iR+wt45j4h7nP19aW5ivLR03hIftzsQLAEZhRvWh+1xR7iX
-	PZMUtXY2lqOGXzjbZ90YrnzQ+QS4Wddd3IHXLoojOMBK5ApH7u5Y6nSWOG5axhfStUWI=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1sAZhp-00FyHj-J9; Fri, 24 May 2024 20:31:53 +0200
-Date: Fri, 24 May 2024 20:31:53 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: =?iso-8859-1?Q?Ram=F3n?= Nordin Rodriguez <ramon.nordin.rodriguez@ferroamp.se>
-Cc: Parthiban.Veerasooran@microchip.com, Pier.Beruto@onsemi.com,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, saeedm@nvidia.com,
-	anthony.l.nguyen@intel.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, corbet@lwn.net,
-	linux-doc@vger.kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	devicetree@vger.kernel.org, Horatiu.Vultur@microchip.com,
-	ruanjinjie@huawei.com, Steen.Hegelund@microchip.com,
-	vladimir.oltean@nxp.com, UNGLinuxDriver@microchip.com,
-	Thorsten.Kummermehr@microchip.com, Selvamani.Rajagopal@onsemi.com,
-	Nicolas.Ferre@microchip.com, benjamin.bigler@bernformulastudent.ch
-Subject: Re: [PATCH net-next v4 05/12] net: ethernet: oa_tc6: implement error
- interrupts unmasking
-Message-ID: <7aaff08b-a770-4d93-b691-e89b4c40625e@lunn.ch>
-References: <ae801fb9-09e0-49a3-a928-8975fe25a893@microchip.com>
- <fd5d0d2a-7562-4fb1-b552-6a11d024da2f@lunn.ch>
- <BY5PR02MB678683EADBC47A29A4F545A59D1C2@BY5PR02MB6786.namprd02.prod.outlook.com>
- <ZkG2Kb_1YsD8T1BF@minibuilder>
- <708d29de-b54a-40a4-8879-67f6e246f851@lunn.ch>
- <ZkIakC6ixYpRMiUV@minibuilder>
- <6e4207cd-2bd5-4f5b-821f-bc87c1296367@microchip.com>
- <ZkUtx1Pj6alRhYd6@minibuilder>
- <e75d1bbe-0902-4ee9-8fe9-e3b7fc9bf3cb@microchip.com>
- <ZlDYqoMNkb-ZieSZ@minibuilder>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="QsmUEuva"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1f32b1b5429so21514235ad.2
+        for <linux-doc@vger.kernel.org>; Fri, 24 May 2024 11:56:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1716576985; x=1717181785; darn=vger.kernel.org;
+        h=to:from:cc:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:to:cc:subject:date:message-id:reply-to;
+        bh=xLUodbpWlHV/m1Bt2U9fTwJmOlm4ytnN9TrwQjmnMvY=;
+        b=QsmUEuvaApp4KX0juj4+Xy3f7J7Nx/4zsj9O2XA2CakDNg6ofjYhOc1s2dkwJrOwwa
+         yoCZOr1FGiKg4niD//zE7JhhCWu/4l+BM7dp4VMYhtdco/7nPzj6MyiVT5SYCWTOteqE
+         jkU1MuvyGd8EOvsLB/l5fet1aYRwFrwpk66cyQhLdrm+FeSQHsdcSAVNdUxrdQD5bMhr
+         Pg1vKDsbr53SUl8HQsKMEjQ/Clq6DzOnjttyOr6MG3mxJ8eOA8ASlRdlO6jbIbd0oxgA
+         MvEi3xVSj32lqATv5cqvUIwpfXs1Cwn8Y+4hAKQ7bpw/isPJ5GyRfkAojgHE64piNDXw
+         sHQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716576985; x=1717181785;
+        h=to:from:cc:content-transfer-encoding:mime-version:message-id:date
+         :subject:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xLUodbpWlHV/m1Bt2U9fTwJmOlm4ytnN9TrwQjmnMvY=;
+        b=wbIVjTp6EBBQAIycaTT5he5LDiiI4SfYsVWzLfMpu8i+uJbnlkvwr7IazLGo/aJBbz
+         Caunt2hVjFV82+2GcBYfeiAhCnVGSMtVtJPXrGRExEY3RrJSN8gT7Xrs/qKsMCa2lCYb
+         mmhrhcLf7F1zlFWZObV20bWBroh0T8hgzSXqih4t7q/GZJmz4c8mGj/Vwa9eIjzXc2oF
+         oIYHAA1ukk+h04PcKonnMQNK9wtwTUxzbe6ScwBZ5MKpMhkPWN5Lr/yhZ1fBB7WFW6ar
+         5NVH7urIKzNuyx7xgoV0hQXh8io6VKcke6wqOBJMgfPQnuW5Scy6PLwEWHVX7vF0eS8J
+         s8Tw==
+X-Forwarded-Encrypted: i=1; AJvYcCUi5e+a6q+zFW+imgGdsZ7FGQ/owrMJ5uDvJ1EE3gzGRW7TmBMzXyM6WaXBuCZtoD/m83f1/Gom7ldjGUkOIPzazY+UIWuXBbtc
+X-Gm-Message-State: AOJu0YzY/1id/Oior6dgfPu7zdvjSkC7ojRiIxVJBp2jdGDlqxVNv8cF
+	K1gxbXvAEUfOhTpyEMtBd/dKBobO8oBuX1A0lbhpv7u1Gv2KNsswBjT5HTqEzIc=
+X-Google-Smtp-Source: AGHT+IHmjdtRpnISU8MeUC5uHlVT+aFruq8xOMm5QCnc85cjYN6x/xbnArZ5Bph7B9WPdNdkHZeeug==
+X-Received: by 2002:a17:902:e746:b0:1e4:3909:47c0 with SMTP id d9443c01a7336-1f4498f0d96mr42599825ad.62.1716576985229;
+        Fri, 24 May 2024 11:56:25 -0700 (PDT)
+Received: from localhost ([192.184.165.199])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f44c9c7f32sm17084505ad.281.2024.05.24.11.56.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 May 2024 11:56:24 -0700 (PDT)
+Subject: [PATCH] Documentation: RISC-V: uabi: Only scalar misaligned loads are supported
+Date: Fri, 24 May 2024 11:56:00 -0700
+Message-ID: <20240524185600.5919-1-palmer@rivosinc.com>
+X-Mailer: git-send-email 2.45.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZlDYqoMNkb-ZieSZ@minibuilder>
+Content-Transfer-Encoding: 8bit
+Cc: corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>,
+  Palmer Dabbelt <palmer@dabbelt.com>, aou@eecs.berkeley.edu, costa.shul@redhat.com,
+  Conor Dooley <conor.dooley@microchip.com>, linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+  linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>
+From: Palmer Dabbelt <palmer@rivosinc.com>
+To:         linux-riscv@lists.infradead.org
 
-> After a considerable ammount of headscratching it seems that disabling collision
-> detection on the macphy is the only way of getting it stable.
-> When PLCA is enabled it's expected that CD causes problems, when running
-> in CSMA/CD mode it was unexpected (for me at least).
+From: Palmer Dabbelt <palmer@rivosinc.com>
 
-Now we are back to, why is your system different? What is triggering a
-collision for you, but not Parthiban?
+We're stuck supporting scalar misaligned loads in userspace because they
+were part of the ISA at the time we froze the uABI.  That wasn't the
+case for vector misaligned accesses, so depending on them
+unconditionally is a userspace bug.  All extant vector hardware traps on
+these misaligned accesses.
 
-There is nothing in the standard about reporting a collision. So this
-is a Microchip extension? So the framework is not doing anything when
-it happens, which will explain why it becomes a storm.... Until we do
-have a mechanism to handle vendor specific interrupts, the frame work
-should disable them all, to avoid this storm.
+Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+---
+ Documentation/arch/riscv/uabi.rst | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Does the datasheet document what to do on a collision? How are you
-supposed to clear the condition?
+diff --git a/Documentation/arch/riscv/uabi.rst b/Documentation/arch/riscv/uabi.rst
+index 54d199dce78b..2b420bab0527 100644
+--- a/Documentation/arch/riscv/uabi.rst
++++ b/Documentation/arch/riscv/uabi.rst
+@@ -65,4 +65,6 @@ the extension, or may have deliberately removed it from the listing.
+ Misaligned accesses
+ -------------------
+ 
+-Misaligned accesses are supported in userspace, but they may perform poorly.
++Misaligned scalar accesses are supported in userspace, but they may perform
++poorly.  Misaligned vector accesses are only supported if the Zicclsm extension
++is supported.
+-- 
+2.45.0
 
-       Andrew
