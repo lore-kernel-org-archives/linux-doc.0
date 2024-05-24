@@ -1,78 +1,83 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34EB212C7FA
-	for <linux-doc@vger.kernel.org>; Fri, 24 May 2024 16:06:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB16022616
+	for <linux-doc@vger.kernel.org>; Fri, 24 May 2024 18:13:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716566788; cv=none; b=CkV4P2hwTI/Cn96llkEvgFyJB+4B1DwW7+vTuH77AZGXVci/8zkK/Uu98yVwKDRzX1rc1yMweJauc6aLHDGxMAJ4daiqe+HhsfGpinEPTJYQTXc/2AxR1E+ckD/lWxN5dN7cNbVyrOwtGKSAQSb5mfHMV80ofmXwkYXYRHbHC6Y=
+	t=1716574385; cv=none; b=sHGlY9b+4SxdKpyD3WV82oAHGEQFm648zUPazdZzR9pPxXMvXLC+vvnfQMZOVTmE8CkWpWkeXDWGI6bGvYT0yJul4FTeKyKdnX41ECr4zWbr1pv96wT+u3TwakWoJ6PMMD27T8dZDBeFrvWmlPd2b1VYy+cmczwVRmROUX2du5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716566788; c=relaxed/simple;
-	bh=82mkFygbtJaVrCjw/PUlhYzljYnOGty8J6y0Q+rtRGA=;
+	s=arc-20240116; t=1716574385; c=relaxed/simple;
+	bh=6YjW4gPlBJUm+qGoxCi73uLtqlLtfdqeWevPkQB22lc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FnvYRtHAQMVvWI6o7Oxm7/Z7V7Eidunq4gUZl5EYRKVBz0EScM71DfnYy5HNQMOKp4cxU0EhxdTe8ej6yEPkh/euMDcHOudGGc9aZK+3ze4suL035/ca/BmXiHcBPYgqh4uKTOaBm9rkHqjLH7jmEUj11zNU9N0vJiX28QyNJJ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=QoWtJICg; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ciaF6qTIdBU7XWgKMdNwuSAVdC/jL9t+sh8hrSbTVw84J2Ht24KBFz16jsecT0FxOgetRa6NjkDryVf833N1C97z9qtFXrOXFdYdgqBttbhULfuhIzwoNTUxvl4NCmTs0F6nkx2sxu130oW7jJt2gTaYYQjKryGWmvOVZw2stZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ferroamp.se; spf=fail smtp.mailfrom=ferroamp.se; dkim=pass (2048-bit key) header.d=ferroamp-se.20230601.gappssmtp.com header.i=@ferroamp-se.20230601.gappssmtp.com header.b=gq4HrcxL; arc=none smtp.client-ip=209.85.208.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ferroamp.se
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=ferroamp.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="QoWtJICg"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-57863a8f4b2so431233a12.0
-        for <linux-doc@vger.kernel.org>; Fri, 24 May 2024 09:06:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ferroamp-se.20230601.gappssmtp.com header.i=@ferroamp-se.20230601.gappssmtp.com header.b="gq4HrcxL"
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2e724bc46bfso74632581fa.3
+        for <linux-doc@vger.kernel.org>; Fri, 24 May 2024 11:13:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1716566784; x=1717171584; darn=vger.kernel.org;
+        d=ferroamp-se.20230601.gappssmtp.com; s=20230601; t=1716574381; x=1717179181; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=aspiAaqCZWzBnZpgjxuqliZeFnw2Ogu20iqEsAO4NRI=;
-        b=QoWtJICgt6fvk0E65a+z38VFpiCZBrikXZo4Iwdef+ISOVREVE3ygN07MRk9HN34jq
-         ZWVsnFWUUDYgALPzifasFmTDqjYruFCQs35h4mZAFsk1iMwV3WqC6BALGS18nwO0bu5o
-         fz5B5kR0TKRVKivdYDlsRz5iKpP/Qqfl5LuHEdXp9nl2NrvJV1+abAdAFu8LyNhNKDSC
-         JL2RCvpzV7ZKFwN/YrzYZmP31boL3F1mZ/qLc/GinV/a5ySZ5cyvnlxOASrMKVlgc1ic
-         R9GvFNLPZoXqZXAHHB7v3u8WHPMHSR6E2xySfaZbIZsxQH/mjB3VqXoyWuj5lBQHISpJ
-         cSyA==
+        bh=PAb4E/ylNY4nYQpT5wwWxISxDYgnB6L1bhxHr5GF4gY=;
+        b=gq4HrcxLbKcxY4xGNxp/Wu5SbfLAYE356WysmVfak2yJxK1BspdOUQ+nAqg5tB0D4P
+         iv7L7bBRRealMxEwq53JkLg020P8VpKLo5M/G6x4Jzkr6uHMXWaOIwAPeF5KN0wtb7Ok
+         xvKyMrdMt6htLQmd5Axqw7miYa2HWikILGcugvB/K4k9T981yrb0cch5FM7k1csFZpgQ
+         +tOvDhJfoiyZCUq0Bm+og2RKbo6U9AWXQUwAfVs494bWacPorBIcQwmIVSzapJvG/amB
+         SjFNMzsh3ssKOvtk3udQo1MCyRIGkfXO778MlMxr1zwYTS5Fw7euwy45Xq7lGH8xQdMJ
+         GuGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716566784; x=1717171584;
+        d=1e100.net; s=20230601; t=1716574381; x=1717179181;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aspiAaqCZWzBnZpgjxuqliZeFnw2Ogu20iqEsAO4NRI=;
-        b=GGAAWxdi4ysyZojO8Nia0zDhDOcBCR0PufYj+9REXMfKK5icJo1YCSFcUXEb5h6wvf
-         60ezfsj+EFIsUcRcZ4hGLeviIdY9JA2yYusp4FQn2n3ZTGGIcs8BTYIzqoLIyk8P7YKo
-         P4wUd/VMVYJrwQ70LLYL0izew9PupM7DLGhcdWFtoLUa9uXlK0HwnkCDUC9rGkQX1Z4B
-         gvSMOjSIrgG5lCZtOP9GV6ZKUoEVVMDZfN8TyUbFljcRCZMHKMuF31ga1YvPupZ+fcIM
-         0TOYeL8EH53fArWLcbN1BXlJ3SgWRninDNNe3JVvES/4eCXZKvIfqsTmlyM8qa0VE/ZM
-         7wQA==
-X-Forwarded-Encrypted: i=1; AJvYcCV2GYSD1Qltpf3XE2HOtSttYxIvMTLY/5PIGwOq/+sFV7EV7FL3ZHPZTVhtVQ6LQBs7PunRhj9l5DgdMP3b/9zkI27Oh1pBRsGS
-X-Gm-Message-State: AOJu0YztLOlP3xIuFVRxa6Zr58x/eW4Witz9BRVGSv64HAQhcSSE9W40
-	xmAyqdAUe0oKX5ypdKXDaTqH3Kzoo2Uuz8xU/pnRIJdWNo+ZBM8mQy53F5f56Rw=
-X-Google-Smtp-Source: AGHT+IGJGq18W0VBT2FNOdw8Qfew2OpHvlSElMx6z25jq79CzVVuHcZPGcLmm7dZXRM29/vdmZkOuQ==
-X-Received: by 2002:a50:a683:0:b0:578:55a3:8b52 with SMTP id 4fb4d7f45d1cf-57855a3a941mr1343156a12.8.1716566784464;
-        Fri, 24 May 2024 09:06:24 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.50])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5785233bfddsm1920135a12.3.2024.05.24.09.06.23
+        bh=PAb4E/ylNY4nYQpT5wwWxISxDYgnB6L1bhxHr5GF4gY=;
+        b=S3YuLQsabmIN9zQlnfvsd7OgTv+lyCjzNxdqDD+1cLTsDZGUEEocxObDYEDVd9sFZz
+         YXk73q2iQkRhlUsBKkG3baNO0gy+CZ9otTTE1vjoznL/n46npcFM1vLHDR9HXWdRB1XJ
+         dGpMyjNnAE8bFjsCbyM8xq1cESP7IzEaLw1Sp5rmXLhq+ybWvTDtChpN56k4jKFJ5XI6
+         4mOxvMP5b6Cx2AEx1RrOZ1m4m2tdkeoyfQzPC+2gaT2dP2g3xdETT8dTRmwGIeSETAhy
+         Fb4SeX2/1eCyyPV8vVUMQn79HX3y1isEJMWRV+BPGYVFoI4uJlKBkkVDhipZFywW63MJ
+         SYOg==
+X-Forwarded-Encrypted: i=1; AJvYcCVaJ+UwJu77w8FGm0AU0AnIR5ILfkrJEc12ofGz6Z60YtOwu3ubUiZKJzQjHgfrSX3h7D/Rao2ppyCOi/6CiBqZGw7+6bm8c9N9
+X-Gm-Message-State: AOJu0Ywdowzupphra+ZRv5Uwtf5rFzKsg0RMO4Py3bKNrh/6nyySlf3b
+	H1amAdJmXsAVfkhlNB9DOC18G12hkYb8JBwozyq8k2PIRsqRdK+d4T3JpeAMlRE=
+X-Google-Smtp-Source: AGHT+IGquvASHix50Y6m7trq1iJckrrLIxXAt0DDnEtvLQfEYyKMu5W3KCNL43t4St1VdKAYYOiaXA==
+X-Received: by 2002:a05:651c:10a5:b0:2e7:f9a4:ee07 with SMTP id 38308e7fff4ca-2e95b280f73mr19336131fa.53.1716574380842;
+        Fri, 24 May 2024 11:13:00 -0700 (PDT)
+Received: from minibuilder (c83-249-74-52.bredband.tele2.se. [83.249.74.52])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2e95bdcd234sm2874081fa.99.2024.05.24.11.12.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 May 2024 09:06:24 -0700 (PDT)
-Date: Fri, 24 May 2024 18:06:21 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: Tony Lindgren <tony@atomide.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	John Ogness <john.ogness@linutronix.de>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Dhruva Gole <d-gole@ti.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Vignesh Raghavendra <vigneshr@ti.com>, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 1/7] printk: Save console options for
- add_preferred_console_match()
-Message-ID: <ZlC6_Um4P4b-_WQE@pathway.suse.cz>
-References: <20240327110021.59793-1-tony@atomide.com>
- <20240327110021.59793-2-tony@atomide.com>
+        Fri, 24 May 2024 11:13:00 -0700 (PDT)
+Date: Fri, 24 May 2024 20:12:58 +0200
+From: =?iso-8859-1?Q?Ram=F3n?= Nordin Rodriguez <ramon.nordin.rodriguez@ferroamp.se>
+To: Parthiban.Veerasooran@microchip.com
+Cc: andrew@lunn.ch, Pier.Beruto@onsemi.com, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	horms@kernel.org, saeedm@nvidia.com, anthony.l.nguyen@intel.com,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	corbet@lwn.net, linux-doc@vger.kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	devicetree@vger.kernel.org, Horatiu.Vultur@microchip.com,
+	ruanjinjie@huawei.com, Steen.Hegelund@microchip.com,
+	vladimir.oltean@nxp.com, UNGLinuxDriver@microchip.com,
+	Thorsten.Kummermehr@microchip.com, Selvamani.Rajagopal@onsemi.com,
+	Nicolas.Ferre@microchip.com, benjamin.bigler@bernformulastudent.ch
+Subject: Re: [PATCH net-next v4 05/12] net: ethernet: oa_tc6: implement error
+ interrupts unmasking
+Message-ID: <ZlDYqoMNkb-ZieSZ@minibuilder>
+References: <ZjNorUP-sEyMCTG0@builder>
+ <ae801fb9-09e0-49a3-a928-8975fe25a893@microchip.com>
+ <fd5d0d2a-7562-4fb1-b552-6a11d024da2f@lunn.ch>
+ <BY5PR02MB678683EADBC47A29A4F545A59D1C2@BY5PR02MB6786.namprd02.prod.outlook.com>
+ <ZkG2Kb_1YsD8T1BF@minibuilder>
+ <708d29de-b54a-40a4-8879-67f6e246f851@lunn.ch>
+ <ZkIakC6ixYpRMiUV@minibuilder>
+ <6e4207cd-2bd5-4f5b-821f-bc87c1296367@microchip.com>
+ <ZkUtx1Pj6alRhYd6@minibuilder>
+ <e75d1bbe-0902-4ee9-8fe9-e3b7fc9bf3cb@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,189 +86,57 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240327110021.59793-2-tony@atomide.com>
+In-Reply-To: <e75d1bbe-0902-4ee9-8fe9-e3b7fc9bf3cb@microchip.com>
 
-Hi,
+> >>>> Is it doing this in an endless cycle?
+> >>>
+> >>> Exactly, so what I'm seeing is when the driver livelocks the macphy is
+> >>> periodically pulling the irq pin low, the driver clears the interrupt
+> >>> and repeat.
+> >> If I understand correctly, you are keep on getting interrupt without
+> >> indicating anything in the footer?. Are you using LAN8650 Rev.B0 or B1?.
+> >> If it is B0 then can you try with Rev.B1 once?
+> >>
 
-I have finally found time to looks at this again.
+After a considerable ammount of headscratching it seems that disabling collision
+detection on the macphy is the only way of getting it stable.
+When PLCA is enabled it's expected that CD causes problems, when running
+in CSMA/CD mode it was unexpected (for me at least).
 
-On Wed 2024-03-27 12:59:35, Tony Lindgren wrote:
-> Driver subsystems may need to translate the preferred console name to the
-> character device name used. We already do some of this in console_setup()
-> with a few hardcoded names, but that does not scale well.
+Disabling collision detection was discussed here 
+https://lore.kernel.org/netdev/20231127104045.96722-1-ramon.nordin.rodriguez@ferroamp.se/
+in a patchset that I haven't gotten around to testing through properly
+and fixing up, but now it's definetly a priority.
+
+Rev.b0 and b1 gives similar results in this domain, though I'm getting
+lower throughput and it's easier/faster to get the internal error state
+on rev.b1.
+
+When CD is disabled both chip revs seems stable in all of my testing.
+
+> > 
+> > I'll check the footer content, thanks for the tip!
+> > 
+> > All testing has bee done with Rev.B0, we've located a set of B1 chips.
+> > So we'll get on resoldering and rerunning the test scenario.
+> Thanks for the consideration. But be informed that the internal PHY 
+> initial settings are updated for the Rev.B1. But the one from the 
+> mainline still supports for Rev.B0. So that microchip_t1s.c to be 
+> updated to support Rev.B1.
+
+I posted a suggestion for how to bringup rev.b1
+https://lore.kernel.org/netdev/20240524140706.359537-1-ramon.nordin.rodriguez@ferroamp.se/
+
+I should have prefaced the cover letter with 'ugly hacks ahead'.
+
 > 
-> The console options are parsed early in console_setup(), and the consoles
-> are added with __add_preferred_console(). At this point we don't know much
-> about the character device names and device drivers getting probed.
-> 
-> To allow driver subsystems to set up a preferred console, let's save the
-> kernel command line console options. To add a preferred console from a
-> driver subsystem with optional character device name translation, let's
-> add a new function add_preferred_console_match().
-> 
-> This allows the serial core layer to support console=DEVNAME:0.0 style
-> hardware based addressing in addition to the current console=ttyS0 style
-> naming. And we can start moving console_setup() character device parsing
-> to the driver subsystem specific code.
-> 
-> We use a separate array from the console_cmdline array as the character
-> device name and index may be unknown at the console_setup() time. And
-> eventually there's no need to call __add_preferred_console() until the
-> subsystem is ready to handle the console.
->
-> Adding the console name in addition to the character device name, and a
-> flag for an added console, could be added to the struct console_cmdline.
-> And the console_cmdline array handling could be modified accordingly. But
-> that complicates things compared saving the console options, and then
-> adding the consoles when the subsystems handling the consoles are ready.
+> Also I am in talk with our design team that whether the updated initial 
+> settings for B1 are also applicable for B0. If so, then we will have 
+> only one updated initial setting which supports both B0 and B1.
 
-Honestly, I think that the separate array was a bad decision.
-It breaks the preferred console handling.
-Also I wonder if this duplicates another matching.
+Any update on this?
 
-Let me explain this in in more details.
+I will submit a new revision of the lan8670 revc + disable collision
+detection pathset where CD is disabled regardless of operating mode.
 
-First, about breaking the preferred console:
-
-The patchset still causes the regression with /dev/console association
-as already reported for v3, see
-https://lore.kernel.org/r/ZWnvc6-LnXdjOQLY@alley
-
-I used the following kernel command line:
-
-   earlycon=uart8250,io,0x3f8,115200 console=ttyS0,115200 console=tty0 ignore_loglevel log_buf_len=1M
-
-The patchset caused that /dev/console became associated with
-ttyS0 instead of tty0, see the "C" flag:
-
-	original # cat /proc/consoles
-	tty0                 -WU (EC    )    4:1
-	ttyS0                -W- (E  p a)    4:64
-
-   vs.
-
-	patched # cat /proc/consoles
-	ttyS0                -W- (EC p a)    4:64
-	tty0                 -WU (E     )    4:1
-
-
-I have added some debugging messages which nicely show the reason.
-In the original code, __add_preferred_console() is called twice
-when processing the command line:
-
-[    0.099312] __add_preferred_console[0]: ttyS, 0 (preferrred_console == 0)
-[    0.099982] __add_preferred_console[1]: tty, 0 (preferrred_console == 1)
-
-The patchset causes that it is called once again here:
-
-[    0.216268] __add_preferred_console: Updating preferred console: ttyS, 0 [0]
-[    0.216271] task:swapper/0       state:R  running task     stack:0     pid:0     tgid:0     ppid:0      flags:0x00000000
-[    0.216318] Call Trace:
-[    0.216327]  <TASK>
-[    0.216337]  sched_show_task.part.0+0x1dd/0x1e7
-[    0.216355]  __add_preferred_console.part.0.cold+0x29/0xa4
-[    0.216374]  add_preferred_console_match+0x8e/0xb0
-[    0.216391]  serial_base_add_prefcon+0x9c/0x140
-[    0.216408]  serial8250_isa_init_ports+0x144/0x160
-[    0.216423]  ? __pfx_univ8250_console_init+0x10/0x10
-[    0.216439]  univ8250_console_init+0x1c/0x30
-[    0.216452]  console_init+0x122/0x1c0
-[    0.216466]  start_kernel+0x44a/0x590
-[    0.216480]  x86_64_start_reservations+0x24/0x30
-[    0.216493]  x86_64_start_kernel+0x90/0x90
-[    0.216506]  common_startup_64+0x13e/0x141
-[    0.216528]  </TASK>
-
-This extra call tries to add "ttyS, 0" once again and it hits this
-code:
-
-static int __add_preferred_console(const char *name, const short idx, char *options,
-				   char *brl_options, bool user_specified)
-{
-[...]
-	/*
-	 *	See if this tty is not yet registered, and
-	 *	if we have a slot free.
-	 */
-	for (i = 0, c = console_cmdline;
-	     i < MAX_CMDLINECONSOLES && c->name[0];
-	     i++, c++) {
-		if (strcmp(c->name, name) == 0 && c->index == idx) {
-			if (!brl_options)
----->				preferred_console = i;
-			set_user_specified(c, user_specified);
-			return 0;
-		}
-	}
-
-
-The code thinks that "ttyS0" has been mentioned on the command line
-once again. And preferred_console is _wrongly_ set back to '0'.
-
-My view:
-
-The delayed __add_preferred_console() is a way to hell.
-
-The preferences are defined by the ordering on the command line.
-All entries have to be added when the command line options are
-being proceed to keep the order.
-
-A solution might be to store "devname" separately in
-struct console_cmdline and allow empty "name". We could
-implement then a function similar to
-add_preferred_console_match() which would try to match
-"devname" and set/update "name", "index" value when matched.
-
-Note that we might also need to add some synchronization
-if it might be possible to modify struct console_cmdline
-in parallel.
-
-
-Second, about the possible duplication:
-
-I might get it wrong. IMHO, in principle, this patchset tries
-to achieve similar thing as the "match()" callback, see
-the commit c7cef0a84912cab3c9 ("console: Add extensible
-console matching").
-
-The .match() callback in struct console is to match, for example,
-console=uart8250,io,0x3f8,115200 when the uart8250 driver
-calls register_console() when it is being properly initialized
-as "ttyS".
-
-BTW: The .match() needs saved options because it internally calls
-     .setup() callback. IMHO, this is a very ugly detail
-     which complicates design of the register_console() code.
-
-
-Both approaches try to match a "driver/device-specific name" with
-the generic "ttySX".
-
-    console=uart8250,io,0x3f8,115200	=> ttyS0
-vs.
-    console=00:00:0.0,115200		=> ttyS0
-
-
-Where console=uart8250,io,0x3f8,115200 is handled by:
-
-    - "uart" is added to console_cmdline[]
-    - matched directly via newcon->match() callback
-
-vs. console=00:00:0.0,115200
-
-    - 00:00:0.0 is added to conopt[]
-    - "ttyS0" added to console_cmdline[] when "00:00:0.0" initialized
-    - "ttyS0" is then matched directly
-
-
-Question: Would it it be able to use the existing .match() callback
-	  also to match the DEVNAME?
-
-	  Or somehow reuse the approach?
-
-	  Could register_console() know how to generate possible
-	  DEVNAME for the given struct console?
-
-
-Best Regards,
-Petr
+R
