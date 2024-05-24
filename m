@@ -1,62 +1,62 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB46786120;
-	Fri, 24 May 2024 13:56:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8BF339ACC;
+	Fri, 24 May 2024 14:03:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716559019; cv=none; b=MQJ0cUAdgvoeCosu1NNfYuzwLOHXX9t8pli1Ad3hx2x273T8Hj9gCKQDhfNBk0XEIajAKchxS2tQTkUcWkdXi563j9kGjmwB12a/sdazEc13srJ2+Gk64gO2ulj48gsrHDgN16ct555iEiJR8V312GMoonx46/YywaYbBCKE0vE=
+	t=1716559422; cv=none; b=rn0eCUWGJYqVeptutU9HPPrpwo58AXqUQ1HCadeLRsPmTpXrmW1GS6IgnH+0K2Vgb1P17E1jbBJeXWcNADziXLZCEabz1x6/KK2OE+V6VbR4+G4cTX5EPkUWiKwM2SKcNw+T5NpOqzNm8q+0JKSxG28xBNEaiSwFcrXm9wqXVuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716559019; c=relaxed/simple;
-	bh=TbI1b1nQhIM/TWlonzYbHmL/h2K+W+tquMtOW1q6Oto=;
+	s=arc-20240116; t=1716559422; c=relaxed/simple;
+	bh=r24Qga0ed7HOag24vEjlFAJ6R/BjnaRDrz7HKRoHTFs=;
 	h=From:Message-ID:Date:MIME-Version:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=BkW5+4RcdIIKfCLp/bFgbtR4vt0z0ePpA0NM5b//RtHWvSky7xH7y6+Tk4ZVCgqhTzUIFYONcUwR9OfhteLljbyYBGH2dF2Gougrewc/lMRLqiAbr/9itotpxF+F6UtK0btNi2N5aOWxCQEg1l7a+NqfpfSIXvc+PRe+Al6wvig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fnv85tLf; arc=none smtp.client-ip=209.85.208.170
+	 In-Reply-To:Content-Type; b=sBsgUIIiKEk+3DCJiN1Bnlf03QmIrdlj7lkD6u+Jhwdmmep3HLd5mNuroW29USrcAQBAD12XHevo1IziA3AgqoVbns9wVp/1XHoA+4Y5E+c6aEuBdDTJtjp+75lKnbF2Ey7zRuwTCPabBfVqDsPutSZomZyWToMwfwnde2VA4lA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QRLeeLgx; arc=none smtp.client-ip=209.85.208.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fnv85tLf"
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2e538a264f7so101204591fa.0;
-        Fri, 24 May 2024 06:56:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QRLeeLgx"
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2e95a883101so11073951fa.3;
+        Fri, 24 May 2024 07:03:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716559016; x=1717163816; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1716559419; x=1717164219; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:organization:content-language
          :references:cc:to:subject:reply-to:user-agent:mime-version:date
          :message-id:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DnGCZeDgq06e4yJxv3zYBUOrTNbIwkOVZezg5gdIpJc=;
-        b=fnv85tLf9xERd7u1q6vWGyNstsJNAk/7uSIn0M+OBE2WXJizTBzl30vq06zZan7qQT
-         b5aeWNeRRzLfPCX7x0e9h/03AdIOR/k+qqdDN9RFw8rXAuiVeTFy9alegIduBNvEDy9v
-         6RpQKqMAVHSnuDvZB72eNjb6tlnss+ag/17rD6zHTucOkkirEGtYupw6gdH/NopCa8sR
-         JHsiUWRPLT0mQu4QQxt0Z0pyn5Vz8bjLzP4RCZ2y1Q2iDsqcd79WJSU5vY7T5EhwWuYs
-         LMS4ZhmTvenNP7j9hZIdVjnwa5npSJ+KJ6+zwlJzI1dNfKPXCnBjkC1HMlD43AXJA5ei
-         x3qw==
+        bh=gK/kt0+G1Gu5Dj3cp1xqTKPcVZ4x2Lbeq9ePii2LIz4=;
+        b=QRLeeLgxVCQMe62VhQiwOnXgyn38Is5I7KDRY/fxdhs8vgXwhGpGAQMUrBSy0Jee+R
+         nQV7+Shnx4Pl8Vn0NRS/b8rKTaSV1bOEehuEnbOI60j1iYDgBqqEHjcl5TRgLr/9VjLO
+         OKl9MvxWz/pLX5AgkSEPV1cM8ci9t9HniWFOpKEVcp7IHWXSSD0InhIUyBOfY0L6BdQK
+         E5O5Tuiju6g6jAP8dbNP+OGFgskNUsTSKPgQKuBE5nFJO5axDgy/zIAqlAvPsnycx89L
+         b2cA6fDtxdt3Sjt8Efw0sxn4CbxayLdLd+1opgtgTThieltouR37Dno0rq52xUhVe9wi
+         YdyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716559016; x=1717163816;
+        d=1e100.net; s=20230601; t=1716559419; x=1717164219;
         h=content-transfer-encoding:in-reply-to:organization:content-language
          :references:cc:to:subject:reply-to:user-agent:mime-version:date
          :message-id:from:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DnGCZeDgq06e4yJxv3zYBUOrTNbIwkOVZezg5gdIpJc=;
-        b=OM8eIpSeZqucTMMOtW9BTlthLu3fb4foAU3uUGpM1ZQ7XgauCWbITIfM6tb7L4rV9G
-         3c5Us51WQOj8dy1v1oQeXYMkOCTlY5gbJFLPhWQ4XxCnWWvUrA0imuzdP7ZZVQxl1OSv
-         PazLOSHYMEZSaRzVx3o6Q6Fvunh/xRjrfj5TTJ1nG1+fhDtbgHqOK7xY6MrgNBJ2xjV9
-         MSNxXntm4phMiqtl+m8/QDGZLUHPyC4zsjfneNUIkqTxd96RKYWAEv6+vVrtPtLZVusJ
-         OO218CdeKliUjZBVOdna0hbg7fN/VNqhovBNBA44SZ20cumM7MPKbYi55V5lf1T+spGV
-         sM7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWKnzUgE7t8D/l+eq3Qda/U6UGehyU+1cLTtYibu35KMfrhUEa0sz46XyKMcJ4O//8Qm12qpTgITm8FD8Uclt+9F8nTQRi1S+3YLnXE97YnDtaPvyP6yMMFQZzvoCrYnm7VfaG8pvuYnFdCl3JKivRfMtX8QhEDBl6slde1
-X-Gm-Message-State: AOJu0Yz/Lx8RLEjxl1I5N3Le3GKdQfX8KbJ8fnTd5hSHnLxvRXfbY2j3
-	RNdTDSbD9V2atItzKkxMluw3rqhBhGxJoc2BTgQcBIxanE9drYEB
-X-Google-Smtp-Source: AGHT+IHetKRmg0p6ec20FHTRXCN/whjCZU8/Nl0XsjhlMJEnyWnCU0egaJ69kA4sx+zMiu/9CyYB0Q==
-X-Received: by 2002:a2e:b3c9:0:b0:2e1:2169:a5cc with SMTP id 38308e7fff4ca-2e95b0c2343mr12132001fa.15.1716559015865;
-        Fri, 24 May 2024 06:56:55 -0700 (PDT)
+        bh=gK/kt0+G1Gu5Dj3cp1xqTKPcVZ4x2Lbeq9ePii2LIz4=;
+        b=l0i94828RU2pv043XJECrkVlfy2wm2+V77cl7gw+2haLqxv6CuYDVpF48juKeRtLIu
+         mNhDZgIQ+xE6kVXKey/IPECAOGY42oeCxUxGybeVuH9J1Ydu+8tej4VZqy3iyk4GgzQF
+         OErU/krDpDBB/QnayoNhZee05Je5QQB2QLi3vHX8Ped/MS8UMla2eJ1W92qw/EPQ3zJA
+         dpgaeGuNwIb8s609EUR2AwCUmqzsVCOU8xj1+XnZ8K7bXkynvkEEcYVchaPAjfNQ/NSU
+         FRqvZf3w5dGjV3QDaaiboixQZH+UWC2PkzsxRGdGd/17mJf8IrjVl3nh4oTK26PWgi7r
+         fedg==
+X-Forwarded-Encrypted: i=1; AJvYcCWlg1pEnVOdVkC4HD21jBndJJh8xRpdSpminYQLZX6+Iu/KQB4/PG5Z6mwUe7gstFwxl+DGcJexsduMs1k8o/PdQshV4Q0lxqWcBZIPzNBLJpJJQzYv3J/gjULXnmhRPh35bc7jtn9FbmdM5PzKDuspLpD07E2BjOOizLYk
+X-Gm-Message-State: AOJu0YwoVfu4gTbXOtDm76Wch6H726m3sDOqPU3bmfP2UX/3sqOSk62q
+	zWqXsues7rCZjeqSzjLznk6Zix03oP6LLD1aiuNuQzyVt2NU/QDn
+X-Google-Smtp-Source: AGHT+IHGurczt6IqfWzkF2qKuyA2yqPccpX12/gbuVBEgw864yeetZeX5cJUgG/EqRUsCkCHBBVSCg==
+X-Received: by 2002:a2e:a315:0:b0:2e0:a39b:2b25 with SMTP id 38308e7fff4ca-2e95b27f5cbmr16925081fa.48.1716559418969;
+        Fri, 24 May 2024 07:03:38 -0700 (PDT)
 Received: from [192.168.0.200] (54-240-197-234.amazon.com. [54.240.197.234])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42100fad970sm54296835e9.37.2024.05.24.06.56.54
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42100ee806esm54025705e9.3.2024.05.24.07.03.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 May 2024 06:56:55 -0700 (PDT)
+        Fri, 24 May 2024 07:03:37 -0700 (PDT)
 From: Paul Durrant <xadimgnik@gmail.com>
 X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <e62157f2-d691-4cf1-8cb0-717580b8a836@xen.org>
-Date: Fri, 24 May 2024 14:56:53 +0100
+Message-ID: <04ec9d6c-e761-4cfc-a2fe-a2d7d398c334@xen.org>
+Date: Fri, 24 May 2024 15:03:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -65,8 +65,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Reply-To: paul@xen.org
-Subject: Re: [RFC PATCH v3 12/21] KVM: x86: Remove implicit rdtsc() from
- kvm_compute_l1_tsc_offset()
+Subject: Re: [RFC PATCH v3 13/21] KVM: x86: Improve synchronization in
+ kvm_synchronize_tsc()
 To: David Woodhouse <dwmw2@infradead.org>, kvm@vger.kernel.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
  Sean Christopherson <seanjc@google.com>, Thomas Gleixner
@@ -84,32 +84,39 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
  zide.chen@intel.com, Dongli Zhang <dongli.zhang@oracle.com>,
  Chenyi Qiang <chenyi.qiang@intel.com>
 References: <20240522001817.619072-1-dwmw2@infradead.org>
- <20240522001817.619072-13-dwmw2@infradead.org>
+ <20240522001817.619072-14-dwmw2@infradead.org>
 Content-Language: en-US
 Organization: Xen Project
-In-Reply-To: <20240522001817.619072-13-dwmw2@infradead.org>
+In-Reply-To: <20240522001817.619072-14-dwmw2@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 22/05/2024 01:17, David Woodhouse wrote:
 > From: David Woodhouse <dwmw@amazon.co.uk>
 > 
-> Let the callers pass the host TSC value in as an explicit parameter.
+> When synchronizing to an existing TSC (either by explicitly writing zero,
+> or the legacy hack where the TSC is written within one second's worth of
+> the previously written TSC), the last_tsc_write and last_tsc_nsec values
+> were being misrecorded by __kvm_synchronize_tsc(). The *unsynchronized*
+> value of the TSC (perhaps even zero) was bring recorded, along with the
+> current time at which kvm_synchronize_tsc() was called. This could cause
+> *subsequent* writes to fail to synchronize correctly.
 > 
-> This leaves some fairly obviously stupid code, which using this function
-> to compare the guest TSC at some *other* time, with the newly-minted TSC
-> value from rdtsc(). Unless it's being used to measure *elapsed* time,
-> that isn't very sensible.
+> Fix that by resetting {data, ns} to the previous values before passing
+> them to __kvm_synchronize_tsc() when synchronization is detected. Except
+> in the case where the TSC is unstable and *has* to be synthesised from
+> the host clock, in which case attempt to create a nsec/tsc pair which is
+> on the correct line.
 > 
-> In this case, "obviously stupid" is an improvement over being non-obviously
-> so.
-> 
-> No functional change intended.
+> Furthermore, there were *three* different TSC reads used for calculating
+> the "current" time, all slightly different from each other. Fix that by
+> using kvm_get_time_and_clockread() where possible and using the same
+> host_tsc value in all cases.
 > 
 > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 > ---
->   arch/x86/kvm/x86.c | 14 ++++++++------
->   1 file changed, 8 insertions(+), 6 deletions(-)
+>   arch/x86/kvm/x86.c | 32 ++++++++++++++++++++++++++++----
+>   1 file changed, 28 insertions(+), 4 deletions(-)
 > 
 
 Reviewed-by: Paul Durrant <paul@xen.org>
