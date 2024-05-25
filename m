@@ -1,390 +1,209 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 010F9208C1
-	for <linux-doc@vger.kernel.org>; Sat, 25 May 2024 09:02:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22910B652;
+	Sat, 25 May 2024 13:54:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716627770; cv=none; b=LmsB1GzI8VcvkkBQ9hVtAfnS7m+bU5TRqe2Lx8Tw6VTMkZ+PoghGdsqdus5vBgBi6mgIjcVLtj3LhNNcRg0UkUacwUyfVYEbfIL61UpbeARP9sm2gtaIEFZcatYnYEFnKmdoY8hw/AAB2olHrn3XTW/7fcUr2itVlq2O38FS6U8=
+	t=1716645247; cv=none; b=PCLrBRP9JKwe5bi0sNKVxkebxiM0blG70frXbfw4o5Hbu8hpZZrwnUxh9/HOu4JLaoX/7MiI3Ve8o4pdy/KYFa+PhjNIcKshkktBLO5bTacQ/Eniq4XN/gd2AIZJ8+FPugWiVx6OclM0P7KFTjip2oF4mNBgSkxw+6s5+IrXnIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716627770; c=relaxed/simple;
-	bh=WXZ3aTu/mmAKPxVAoAnX/sGVd7wKZ9FD/gY3DymuZY8=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=T1IaTyKw3YwO5tM0Du1nwHPdsTk2K1TVPOidzk1ESDW0jf2S8Kg7nsEBnueWxpK0bibs+3btSFfrszgnAxVR5q7WzMBZ3DC2VcVbzvSfwle+TzWYA8wNyG32o2wbkg221rPOzo4MYGBZg02Y3IiqGuPOIkTJwyw9pAYukl0wnAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BN7VFvu6; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1716645247; c=relaxed/simple;
+	bh=ruK3wQEwWqaODhBtOr31xJg5h5bkdQKL436XahBqOMo=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=NLXTn1YVUndfSGh+1bvy2uYkE8pvp1lr47cfXN/RMw++edX5eVcrgE8Vf3ZgJUpdIK6RalH5/8m7SHqLr7TPJwXDdsCmWuy2r9VCWRhigYBMfi8lgfWTj/ByocynAT79ukDczblKa5QPhwryp7UiK0dZep9KzcshiAUK4GARtg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M1QyG3oC; arc=none smtp.client-ip=209.85.210.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BN7VFvu6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1716627767;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1J0rKNy85PKDwGmqMPeEERwZIA8DQYDYUviYS11PQQ8=;
-	b=BN7VFvu6VmVOOiBFc3iX49uiVs4NUajryx2p1z60AeymFQN1xDuyiKaWHIUTa8eHeWB6yX
-	vcrjh3D7mLl9/WUkZBFtsXyE1wirE+XLiOUBfVxmnTaaWKLFmn2is0vhnMs1gxiKwlJZ/f
-	cwWADfRBWsWIgQ2onpW/2YcgldUn5NQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-61-egEkEatAOuOAHeJGROQ6tw-1; Sat, 25 May 2024 05:02:41 -0400
-X-MC-Unique: egEkEatAOuOAHeJGROQ6tw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 67D8F101A525;
-	Sat, 25 May 2024 09:02:40 +0000 (UTC)
-Received: from file1-rdu.file-001.prod.rdu2.dc.redhat.com (unknown [10.11.5.21])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E3736200B4CF;
-	Sat, 25 May 2024 09:02:39 +0000 (UTC)
-Received: by file1-rdu.file-001.prod.rdu2.dc.redhat.com (Postfix, from userid 12668)
-	id C2A9D30C1C33; Sat, 25 May 2024 09:02:39 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by file1-rdu.file-001.prod.rdu2.dc.redhat.com (Postfix) with ESMTP id BE9F23FB52;
-	Sat, 25 May 2024 11:02:39 +0200 (CEST)
-Date: Sat, 25 May 2024 11:02:39 +0200 (CEST)
-From: Mikulas Patocka <mpatocka@redhat.com>
-To: Fan Wu <wufan@linux.microsoft.com>
-cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com, 
-    tytso@mit.edu, ebiggers@kernel.org, axboe@kernel.dk, agk@redhat.com, 
-    snitzer@kernel.org, eparis@redhat.com, paul@paul-moore.com, 
-    linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, 
-    linux-security-module@vger.kernel.org, fsverity@lists.linux.dev, 
-    linux-block@vger.kernel.org, dm-devel@lists.linux.dev, 
-    audit@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    Deven Bowers <deven.desai@linux.microsoft.com>
-Subject: Re: [PATCH v19 12/20] dm verity: expose root hash digest and signature
- data to LSMs
-In-Reply-To: <1716583609-21790-13-git-send-email-wufan@linux.microsoft.com>
-Message-ID: <fc51683b-827e-3f6c-baff-c64670ea5ab@redhat.com>
-References: <1716583609-21790-1-git-send-email-wufan@linux.microsoft.com> <1716583609-21790-13-git-send-email-wufan@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M1QyG3oC"
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6f8e18ab76fso131811a34.0;
+        Sat, 25 May 2024 06:54:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716645245; x=1717250045; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ng3YmWPDGEXrfzaDc1gDBUS5Ta9ALFQytwSKGz8W95I=;
+        b=M1QyG3oCsrw5AQ6vb5gTwzmCQf9s7ZR0ZwjJFKR26A/m/hQT/O3v9RFE/m+MoEiBpV
+         X2Dpy6XXylO9hJgSBq2t9U1jkMg1Rot8ejzRCSmu+0icEjj636OV1cQMLyRzF/84Nd5c
+         mLdu/Jcfdm9wHAD2Z5m9hbPy/tguOww/snniKvMXvMDt90cgiSrZDErFTpaxmV1fxYvJ
+         MBYK4+VN1cIMLCI3Xb5uO0yY8VHoEKedKdTHhG45JrWodNYz1gYMmASoIk/FaLbdndTT
+         AFLZtQ1HQZ8fh/5VYcIDQTetFaBmO6LOByEAcqOJSjrvr+qoypf1jII/q+SSqiHJlCFD
+         KB9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716645245; x=1717250045;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Ng3YmWPDGEXrfzaDc1gDBUS5Ta9ALFQytwSKGz8W95I=;
+        b=JuPl/XLBBSFltAx34IpregcjDzrfyDyAxvV3dvMZUOj6KuXtpDur05AAzJyLbffInk
+         Yrb+TQaD16wUWaZv8HauZ/QURkRI9kBrqCUDfp85HHiP3Z8GArLnY67gC12UVNE8opSl
+         pUxZJbPghaOqsrIkuU12LgU1Gu+R22BuNzToIkoLZWRJDLVUhfi3SDowjpUUb69I/QIY
+         FOk5WxvpnHbq2pL2KmofOOVna+wDLHlM+gl9f77A6P90GffHbZZfFv3TzaEa8Y1AynnB
+         xSQUX+aC3kTQVeQ0OAJjpvjAxzkIFv76jauoa70HFWcbYzx1HD1ae4cJTVvcs+ZLVIeI
+         wMwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXpcb1H0v2aYrfhDPS7p+/TCOKgxK4Ers++MH127StKSniewc/Y12Aal/LNh8vbswmab0PqnnxuUAc7pkwHnTBlYQN4Zcj77aaQdfI9
+X-Gm-Message-State: AOJu0YyTrDIBJ/KrS96+43YD9cptfluuX6UquA2zsmLfpuET23nnww/7
+	vvMOmc9vvzd6ouo7T2BpM4+5JNDZZ7N64PAe3PPcOsVFzMsaNtwo
+X-Google-Smtp-Source: AGHT+IGxirhhSZbiBNASwpswudlkUSWqwA/2U9s936TfXxExMC4IVFdBsMFaeiWypCDwTcs+MgBr3Q==
+X-Received: by 2002:a05:6830:1b66:b0:6f0:ad78:1b75 with SMTP id 46e09a7af769-6f8d0a86ccemr5407477a34.22.1716645244977;
+        Sat, 25 May 2024 06:54:04 -0700 (PDT)
+Received: from ?IPV6:2603:8080:2300:de:3d70:f8:6869:93de? ([2603:8080:2300:de:3d70:f8:6869:93de])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-6f8d0e7fef7sm757413a34.77.2024.05.25.06.54.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 25 May 2024 06:54:04 -0700 (PDT)
+Message-ID: <fdf68be7-875a-421d-8bc3-034a21990679@gmail.com>
+Date: Sat, 25 May 2024 08:54:03 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.6
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Jonathan Corbet <corbet@lwn.net>, bilbao@vt.edu
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+Subject: [PATCH] docs: Extend and refactor index of further kernel docs
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Reviewed-by: Mikulas Patocka <mpatocka@redhat.com>
+Extend the Index of Further Kernel Documentation by adding entries for the
+Rust for Linux website, the Linux Foundation's YouTube channel, and notes
+on the second edition of Billimoria's kernel programming book. Also,
+perform some refactoring: format the text to 75 characters per line and
+sort per-section content in chronological order of publication.
 
+Signed-off-by: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+---
+ Documentation/process/kernel-docs.rst | 68 +++++++++++++++++----------
+ 1 file changed, 44 insertions(+), 24 deletions(-)
 
-
-On Fri, 24 May 2024, Fan Wu wrote:
-
-> From: Deven Bowers <deven.desai@linux.microsoft.com>
-> 
-> dm-verity provides a strong guarantee of a block device's integrity. As
-> a generic way to check the integrity of a block device, it provides
-> those integrity guarantees to its higher layers, including the filesystem
-> level.
-> 
-> An LSM that control access to a resource on the system based on the
-> available integrity claims can use this transitive property of
-> dm-verity, by querying the underlying block_device of a particular
-> file.
-> 
-> The digest and signature information need to be stored in the block
-> device to fulfill the next requirement of authorization via LSM policy.
-> This will enable the LSM to perform revocation of devices that are still
-> mounted, prohibiting execution of files that are no longer authorized
-> by the LSM in question.
-> 
-> This patch adds two security hook calls in dm-verity to expose the
-> dm-verity roothash and the roothash signature to LSMs via preresume
-> callback. The hook calls are depended on CONFIG_SECURITY.
-> 
-> Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
-> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
-> ---
-> v2:
->   + No Changes
-> 
-> v3:
->   + No changes
-> 
-> v4:
->   + No changes
-> 
-> v5:
->   + No changes
-> 
-> v6:
->   + Fix an improper cleanup that can result in
->     a leak
-> 
-> v7:
->   + Squash patch 08/12, 10/12 to [11/16]
->   + Use part0 for block_device, to retrieve the block_device, when
->     calling security_bdev_setsecurity
-> 
-> v8:
->   + Undo squash of 08/12, 10/12 - separating drivers/md/ from
->     security/ & block/
->   + Use common-audit function for dmverity_signature.
->   + Change implementation for storing the dm-verity digest to use the
->     newly introduced dm_verity_digest structure introduced in patch
->     14/20.
->   + Create new structure, dm_verity_digest, containing digest algorithm,
->     size, and digest itself to pass to the LSM layer. V7 was missing the
->     algorithm.
->   + Create an associated public header containing this new structure and
->     the key values for the LSM hook, specific to dm-verity.
->   + Additional information added to commit, discussing the layering of
->     the changes and how the information passed will be used.
-> 
-> v9:
->   + No changes
-> 
-> v10:
->   + No changes
-> 
-> v11:
->   + Add an optional field to save signature
->   + Move the security hook call to the new finalize hook
-> 
-> v12:
->   + No changes
-> 
-> v13:
->   + No changes
-> 
-> v14:
->   + Correct code format
->   + Remove unnecessary header and switch to dm_disk()
-> 
-> v15:
->   + Refactor security_bdev_setsecurity() to security_bdev_setintegrity()
->   + Remove unnecessary headers
-> 
-> v16:
->   + Use kmemdup to duplicate signature
->   + Clean up lsm blob data in error case
-> 
-> v17:
->   + Switch to depend on CONFIG_SECURITY
->   + Use new enum name LSM_INT_DMVERITY_SIG_VALID
-> 
-> v18:
->   + Amend commit title
->   + Fix incorrect error handling
->   + Make signature exposure depends on CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG
->   + Fix inaccurate comment
->   + Remove include/linux/dm-verity.h
->   + use crypto_ahash_alg_name(v->tfm) instead of v->alg_name
-> 
-> v19:
->   + Drop finalize callback and switch to preresume callback
->   + Adding NULL check to avoid kmemdup when sig is NULL
-> ---
->  drivers/md/dm-verity-target.c | 108 ++++++++++++++++++++++++++++++++++
->  drivers/md/dm-verity.h        |   6 ++
->  include/linux/security.h      |   9 ++-
->  3 files changed, 122 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/md/dm-verity-target.c b/drivers/md/dm-verity-target.c
-> index bb5da66da4c1..0a54ce02ea53 100644
-> --- a/drivers/md/dm-verity-target.c
-> +++ b/drivers/md/dm-verity-target.c
-> @@ -22,6 +22,7 @@
->  #include <linux/scatterlist.h>
->  #include <linux/string.h>
->  #include <linux/jump_label.h>
-> +#include <linux/security.h>
->  
->  #define DM_MSG_PREFIX			"verity"
->  
-> @@ -1017,6 +1018,41 @@ static void verity_io_hints(struct dm_target *ti, struct queue_limits *limits)
->  	blk_limits_io_min(limits, limits->logical_block_size);
->  }
->  
-> +#ifdef CONFIG_SECURITY
-> +
-> +static int verity_init_sig(struct dm_verity *v, const void *sig,
-> +			   size_t sig_size)
-> +{
-> +	v->sig_size = sig_size;
-> +
-> +	if (sig) {
-> +		v->root_digest_sig = kmemdup(sig, v->sig_size, GFP_KERNEL);
-> +		if (!v->root_digest_sig)
-> +			return -ENOMEM;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void verity_free_sig(struct dm_verity *v)
-> +{
-> +	kfree(v->root_digest_sig);
-> +}
-> +
-> +#else
-> +
-> +static inline int verity_init_sig(struct dm_verity *v, const void *sig,
-> +				  size_t sig_size)
-> +{
-> +	return 0;
-> +}
-> +
-> +static inline void verity_free_sig(struct dm_verity *v)
-> +{
-> +}
-> +
-> +#endif /* CONFIG_SECURITY */
-> +
->  static void verity_dtr(struct dm_target *ti)
->  {
->  	struct dm_verity *v = ti->private;
-> @@ -1035,6 +1071,7 @@ static void verity_dtr(struct dm_target *ti)
->  	kfree(v->salt);
->  	kfree(v->root_digest);
->  	kfree(v->zero_digest);
-> +	verity_free_sig(v);
->  
->  	if (v->tfm)
->  		crypto_free_ahash(v->tfm);
-> @@ -1434,6 +1471,13 @@ static int verity_ctr(struct dm_target *ti, unsigned int argc, char **argv)
->  		ti->error = "Root hash verification failed";
->  		goto bad;
->  	}
-> +
-> +	r = verity_init_sig(v, verify_args.sig, verify_args.sig_size);
-> +	if (r < 0) {
-> +		ti->error = "Cannot allocate root digest signature";
-> +		goto bad;
-> +	}
-> +
->  	v->hash_per_block_bits =
->  		__fls((1 << v->hash_dev_block_bits) / v->digest_size);
->  
-> @@ -1584,6 +1628,67 @@ int dm_verity_get_root_digest(struct dm_target *ti, u8 **root_digest, unsigned i
->  	return 0;
->  }
->  
-> +#ifdef CONFIG_SECURITY
-> +
-> +#ifdef CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG
-> +
-> +static int verity_security_set_signature(struct block_device *bdev,
-> +					 struct dm_verity *v)
-> +{
-> +	return security_bdev_setintegrity(bdev,
-> +					  LSM_INT_DMVERITY_SIG_VALID,
-> +					  v->root_digest_sig,
-> +					  v->sig_size);
-> +}
-> +
-> +#else
-> +
-> +static inline int verity_security_set_signature(struct block_device *bdev,
-> +						struct dm_verity *v)
-> +{
-> +	return 0;
-> +}
-> +
-> +#endif /* CONFIG_DM_VERITY_VERIFY_ROOTHASH_SIG */
-> +
-> +/*
-> + * Expose verity target's root hash and signature data to LSMs before resume.
-> + *
-> + * Returns 0 on success, or -ENOMEM if the system is out of memory.
-> + */
-> +static int verity_preresume(struct dm_target *ti)
-> +{
-> +	struct block_device *bdev;
-> +	struct dm_verity_digest root_digest;
-> +	struct dm_verity *v;
-> +	int r;
-> +
-> +	v = ti->private;
-> +	bdev = dm_disk(dm_table_get_md(ti->table))->part0;
-> +	root_digest.digest = v->root_digest;
-> +	root_digest.digest_len = v->digest_size;
-> +	root_digest.alg = crypto_ahash_alg_name(v->tfm);
-> +
-> +	r = security_bdev_setintegrity(bdev, LSM_INT_DMVERITY_ROOTHASH, &root_digest,
-> +				       sizeof(root_digest));
-> +	if (r)
-> +		return r;
-> +
-> +	r =  verity_security_set_signature(bdev, v);
-> +	if (r)
-> +		goto bad;
-> +
-> +	return 0;
-> +
-> +bad:
-> +
-> +	security_bdev_setintegrity(bdev, LSM_INT_DMVERITY_ROOTHASH, NULL, 0);
-> +
-> +	return r;
-> +}
-> +
-> +#endif /* CONFIG_SECURITY */
-> +
->  static struct target_type verity_target = {
->  	.name		= "verity",
->  	.features	= DM_TARGET_SINGLETON | DM_TARGET_IMMUTABLE,
-> @@ -1596,6 +1701,9 @@ static struct target_type verity_target = {
->  	.prepare_ioctl	= verity_prepare_ioctl,
->  	.iterate_devices = verity_iterate_devices,
->  	.io_hints	= verity_io_hints,
-> +#ifdef CONFIG_SECURITY
-> +	.preresume	= verity_preresume,
-> +#endif /* CONFIG_SECURITY */
->  };
->  module_dm(verity);
->  
-> diff --git a/drivers/md/dm-verity.h b/drivers/md/dm-verity.h
-> index 20b1bcf03474..2de89e0d555b 100644
-> --- a/drivers/md/dm-verity.h
-> +++ b/drivers/md/dm-verity.h
-> @@ -43,6 +43,9 @@ struct dm_verity {
->  	u8 *root_digest;	/* digest of the root block */
->  	u8 *salt;		/* salt: its size is salt_size */
->  	u8 *zero_digest;	/* digest for a zero block */
-> +#ifdef CONFIG_SECURITY
-> +	u8 *root_digest_sig;	/* signature of the root digest */
-> +#endif /* CONFIG_SECURITY */
->  	unsigned int salt_size;
->  	sector_t data_start;	/* data offset in 512-byte sectors */
->  	sector_t hash_start;	/* hash start in blocks */
-> @@ -56,6 +59,9 @@ struct dm_verity {
->  	bool hash_failed:1;	/* set if hash of any block failed */
->  	bool use_bh_wq:1;	/* try to verify in BH wq before normal work-queue */
->  	unsigned int digest_size;	/* digest size for the current hash algorithm */
-> +#ifdef CONFIG_SECURITY
-> +	unsigned int sig_size;	/* root digest signature size */
-> +#endif /* CONFIG_SECURITY */
->  	unsigned int ahash_reqsize;/* the size of temporary space for crypto */
->  	enum verity_mode mode;	/* mode for handling verification errors */
->  	unsigned int corrupted_errs;/* Number of errors for corrupted blocks */
-> diff --git a/include/linux/security.h b/include/linux/security.h
-> index a64e83622c7c..09c80326518f 100644
-> --- a/include/linux/security.h
-> +++ b/include/linux/security.h
-> @@ -83,8 +83,15 @@ enum lsm_event {
->  	LSM_POLICY_CHANGE,
->  };
->  
-> +struct dm_verity_digest {
-> +	const char *alg;
-> +	const u8 *digest;
-> +	size_t digest_len;
-> +};
-> +
->  enum lsm_integrity_type {
-> -	__LSM_INT_MAX
-> +	LSM_INT_DMVERITY_SIG_VALID,
-> +	LSM_INT_DMVERITY_ROOTHASH,
->  };
->  
->  /*
-> -- 
-> 2.44.0
-> 
+diff --git a/Documentation/process/kernel-docs.rst
+b/Documentation/process/kernel-docs.rst
+index 8660493b91d0..6f3e290abd22 100644
+--- a/Documentation/process/kernel-docs.rst
++++ b/Documentation/process/kernel-docs.rst
+@@ -3,27 +3,27 @@
+ Index of Further Kernel Documentation
+ =====================================
+ 
+-The need for a document like this one became apparent in the
+-linux-kernel mailing list as the same questions, asking for pointers
+-to information, appeared again and again.
++The need for a document like this one became apparent in the linux-kernel
++mailing list as the same questions, asking for pointers to information,
++appeared again and again.
+ 
+-Fortunately, as more and more people get to GNU/Linux, more and more
+-get interested in the Kernel. But reading the sources is not always
+-enough. It is easy to understand the code, but miss the concepts, the
+-philosophy and design decisions behind this code.
++Fortunately, as more and more people get to GNU/Linux, more and more get
++interested in the Kernel. But reading the sources is not always enough. It
++is easy to understand the code, but miss the concepts, the philosophy and
++design decisions behind this code.
+ 
+-Unfortunately, not many documents are available for beginners to
+-start. And, even if they exist, there was no "well-known" place which
+-kept track of them. These lines try to cover this lack.
++Unfortunately, not many documents are available for beginners to start.
++And, even if they exist, there was no "well-known" place which kept track
++of them. These lines try to cover this lack.
+ 
+ PLEASE, if you know any paper not listed here or write a new document,
+ include a reference to it here, following the kernel's patch submission
+ process. Any corrections, ideas or comments are also welcome.
+ 
+ All documents are cataloged with the following fields: the document's
+-"Title", the "Author"/s, the "URL" where they can be found, some
+-"Keywords" helpful when searching for specific topics, and a brief
+-"Description" of the Document.
++"Title", the "Author"/s, the "URL" where they can be found, some "Keywords"
++helpful when searching for specific topics, and a brief "Description" of
++the Document.
+ 
+ .. note::
+ 
+@@ -72,9 +72,29 @@ On-line docs
+         programming. Lots of examples. Currently the new version is being
+         actively maintained at https://github.com/sysprog21/lkmpg.
+ 
++    * Title: **Rust for Linux**
++
++      :Author: various
++      :URL: https://rust-for-linux.com/
++      :Date: rolling version
++      :Keywords: glossary, terms, linux-kernel.
++      :Description: From the website: "Rust for Linux is the project adding
++        support for the Rust language to the Linux kernel. This website is
++        intended as a hub of links, documentation and resources related to
++        the project".
++
+ Published books
+ ---------------
+ 
++    * Title: **Practical Linux System Administration: A Guide to
+Installation, Configuration, and Management, 1st Edition**
++
++      :Author: Kenneth Hess
++      :Publisher: O'Reilly Media
++      :Date: May, 2023
++      :Pages: 246
++      :ISBN: 978-1098109035
++      :Notes: System administration
++
+     * Title: **Linux Kernel Debugging: Leverage proven tools and advanced
+techniques to effectively debug Linux kernels and kernel modules**
+ 
+       :Author: Kaiwan N Billimoria
+@@ -88,9 +108,9 @@ Published books
+ 
+       :Author: Kaiwan N Billimoria
+       :Publisher: Packt Publishing Ltd
+-      :Date: March, 2021
++      :Date: March, 2021 (Second Edition published in 2024)
+       :Pages: 754
+-      :ISBN: 978-1789953435
++      :ISBN: 978-1789953435 (Second Edition ISBN is 978-1803232225)
+ 
+     * Title: **Linux Kernel Programming Part 2 - Char Device Drivers and
+Kernel Synchronization: Create user-kernel interfaces, work with peripheral
+I/O, and handle hardware interrupts**
+ 
+@@ -118,15 +138,6 @@ Published books
+       :ISBN: 978-0672329463
+       :Notes: Foundational book
+ 
+-    * Title: **Practical Linux System Administration: A Guide to
+Installation, Configuration, and Management, 1st Edition**
+-
+-      :Author: Kenneth Hess
+-      :Publisher: O'Reilly Media
+-      :Date: May, 2023
+-      :Pages: 246
+-      :ISBN: 978-1098109035
+-      :Notes: System administration
+-
+ .. _ldd3_published:
+ 
+     * Title: **Linux Device Drivers, 3rd Edition**
+@@ -201,6 +212,15 @@ Miscellaneous
+       :Description: Some of the linux-kernel mailing list archivers. If
+         you have a better/another one, please let me know.
+ 
++    * Name: **The Linux Foundation YouTube channel**
++
++      :URL: https://www.youtube.com/user/thelinuxfoundation
++      :Keywords: linux, videos, linux-foundation, youtube.
++      :Description: The Linux Foundation uploads video recordings of their
++        collaborative events, Linux conferences including LinuxCon, and
++        other original research and content related to Linux and software
++        development.
++
+ -------
+ 
+ This document was originally based on:
+-- 
+2.43.0
 
