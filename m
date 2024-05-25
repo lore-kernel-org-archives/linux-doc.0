@@ -1,158 +1,148 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0C63B65C;
-	Sat, 25 May 2024 01:27:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0BED138E;
+	Sat, 25 May 2024 05:49:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716600453; cv=none; b=ib7jMLhFqz0DAsffBYjyZgpFhiOc+BW97knbc0/aKJgMCajCVBUigf4+j+YIlTKgKKEmpBCcIRTsDelJ2JE8EH2IOlyhEg4VpPejPDMX0pXVB+fy5/UbnIuouEKLBi3SFu45gayNzjwch+vsLAHTQKwQi4InXANAotrGEbyrcl0=
+	t=1716616203; cv=none; b=VYAC+d37bcNHyYpI/96WQ4WvOYXLnaCnR5W+rD6nxFzUu+7mCQNH5FeoNVlyMhUmQD0vIvPBYmgrD+EFkKRK2SMWT0l0yfMd0y8/8myaDO4KQ/vYYrtvZC/GBqLF+2H19Af4/BSSwC0KoSM7+ldDueWPKDY+x6fcN879xQAa4l0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716600453; c=relaxed/simple;
-	bh=KGyKqek9N12SFyAX1ClGwRar2tcSuWzMU69rdDStL7A=;
-	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=g4ZpdRQQw0xtYOrua7t4NdTwRrsu9b4VwkzLOqeyfr1yApeFffcx3j+S7Pnj3QG9U1O4npYmskEAQoE0acJ9deICAyp2OLn3N3nMfRi9v0UxuVxNvUlmbp9H+ifu9ieUxMwoiHYY8xjHL1P36P3mbxWUqWC0atK0zC1gRmACCDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=TgN4MHIj; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1716616203; c=relaxed/simple;
+	bh=VSJIf4tmyz34+ryR8Cz9iQWIiMNUye0lMZyO2dQZvMY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Iq/NeGipyNNescnUHF96TzVwbHHuDzKorDCI4JgSm5xRqdTy8jSRIOWwfxmUmxj2oFnMk8Fi1l1Rgm3ieUaRGtWjlrHmbcvVmJv/FKkBfqSqc2QOOmvvPEmcYOoK0A64MomY7rS4HmdfQcGzT/osjLEK4/GK7FVLsduLiO7Ef/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=U+5NR9Jw; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="TgN4MHIj"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44OK176w016646;
-	Sat, 25 May 2024 01:27:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=PX7zMvEfH3seIdTrZ8rcPL
-	xppd8lRunt+myMT5Q/3M0=; b=TgN4MHIjDpuQmPgK6ODJRXQCbbu0Xx7BhbuHIv
-	x9OA9lKkgm3XoFvA4Pd0io+roJPi0uFDwO0GY8sCUr8i5wOi6/KCAjixqd4oWjYb
-	KnI/sEjspbvJIR7fzYTgtXsMBqdRwR3b2qzNSjfspSk3WL9ubjPMGd08D/LF1By6
-	Ufv9+6DR6DI6H4DNmSxnkimlBqHRwYCpUBwcwr+540+C0JKaAbCVNz/J9MdYUcoW
-	B+2pn+PrTxZVsC46gAOv2SnAY/NrQJ8Wos+JNRKGQCAh5aOUsDLgU2pVpQQj98VU
-	lJqYjFmh/1CxWzrnrZiwfsl4qzQlGfBuDfV6klKkCyELTJLQ==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yb1j58btw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 25 May 2024 01:27:00 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44P1QxuQ026319
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 25 May 2024 01:26:59 GMT
-Received: from hu-clew-lv.qualcomm.com (10.49.16.6) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Fri, 24 May 2024 18:26:58 -0700
-From: Chris Lew <quic_clew@quicinc.com>
-Subject: [PATCH v2 0/4] Add support for hwspinlock bust
-Date: Fri, 24 May 2024 18:26:39 -0700
-Message-ID: <20240524-hwspinlock-bust-v2-0-fb88fd17ca0b@quicinc.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="U+5NR9Jw"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=NjAIpWnGAztCMT7g7qkBL9r84roWJZLVxyIj65a/6/g=; b=U+5NR9JwCWW91cWlPKNvy1chd+
+	u0P/4HzM54MNe7A5vcQkxEZIlUb+dWfmrzRfJBHK7ADk3m/B4A/g3f6qMV8dGnYxd3wwq55EjRizS
+	5Y+EPpe2PN/GQIounZZSCkN/jGS6Yr1LjDieV11c/QyKfnzCgNVtzXRhlxBp8T0GznxoyiwSXM5HF
+	6eUbbl0Gwi3JXDOqrdPy99p+rR/7mwSWbXPya1yElAbc1ZkSoTLh0mVeGr+5zhHJ6OFisoRLbNN5A
+	Xx4xVSxUaf6oksx+MpjfGzzO9xL5YETFCy1jlTvVuQ0v3XAO+xr7UnoGj7Fa2estAJlHRGJ7LJepO
+	6Qz1N4sw==;
+Received: from [50.53.4.147] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sAkI1-0000000ASst-1eDf;
+	Sat, 25 May 2024 05:49:57 +0000
+Message-ID: <9ce0c222-c80c-4049-8746-d74e612c3030@infradead.org>
+Date: Fri, 24 May 2024 22:49:54 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/2] proc: restrict /proc/pid/mem
+To: Adrian Ratiu <adrian.ratiu@collabora.com>, linux-fsdevel@vger.kernel.org
+Cc: linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
+ kernel@collabora.com, gbiv@google.com, ryanbeltran@google.com,
+ inglorion@google.com, ajordanr@google.com, jorgelo@chromium.org,
+ Guenter Roeck <groeck@chromium.org>, Doug Anderson <dianders@chromium.org>,
+ Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Christian Brauner <brauner@kernel.org>, Mike Frysinger <vapier@chromium.org>
+References: <20240524192858.3206-1-adrian.ratiu@collabora.com>
+ <20240524192858.3206-2-adrian.ratiu@collabora.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240524192858.3206-2-adrian.ratiu@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAE8+UWYC/2XNQQ6CMBCF4auQrq2ZFpDWlfcwLkqpMlFbbKFqC
- He3EBcalv9L5puRBOPRBLLPRuJNxIDOpuCbjOhW2Yuh2KQmHHgBJUjaPkOH9ub0ldZD6GlTyEp
- VoJnKFUlXnTdnfC3i8ZS6xdA7/14eRD6vX4vByoqcAi1rJXQhgIlGHh4DarR6q92dzFpkv8JuL
- bAkFJWSoEQpeS7+hWmaPsnsNLvyAAAA
-To: Bjorn Andersson <andersson@kernel.org>,
-        Baolin Wang
-	<baolin.wang@linux.alibaba.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "Ingo
- Molnar" <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-        Waiman Long
-	<longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
-        Jonathan Corbet
-	<corbet@lwn.net>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>,
-        Manivannan Sadhasivam
-	<manivannan.sadhasivam@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>
-CC: <linux-remoteproc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, Chris Lew <quic_clew@quicinc.com>,
-        "Richard
- Maina" <quic_rmaina@quicinc.com>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1716600418; l=2331;
- i=quic_clew@quicinc.com; s=20240508; h=from:subject:message-id;
- bh=KGyKqek9N12SFyAX1ClGwRar2tcSuWzMU69rdDStL7A=;
- b=sMmHwVtTEUrF7LQmlvEGSJ8Zw88PMA7VhggF9WQjFYI/HBFejEsZ/dlDTGRnLz4oyjlz1apfH
- xcR1mu0wTnWAMXDHQt8aIttEIcEusH/dtGXFC7hoDUX1sSUq7myZaWB
-X-Developer-Key: i=quic_clew@quicinc.com; a=ed25519;
- pk=lEYKFaL1H5dMC33BEeOULLcHAwjKyHkTLdLZQRDTKV4=
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: oM7M8pf_Qv5y29i6s2RI9rLr3FPDa-Mp
-X-Proofpoint-ORIG-GUID: oM7M8pf_Qv5y29i6s2RI9rLr3FPDa-Mp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
- definitions=2024-05-24_09,2024-05-24_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxscore=0
- spamscore=0 lowpriorityscore=0 bulkscore=0 impostorscore=0 clxscore=1015
- adultscore=0 mlxlogscore=905 suspectscore=0 priorityscore=1501
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2405250010
 
-hwspinlocks can be acquired by many devices on the SoC. If any of these
-devices go into a bad state before the device releases the hwspinlock,
-then that hwspinlock may end up in an unusable state.
+Hi--
 
-In the case of smem, each remoteproc takes a hwspinlock before trying to
-allocate an smem item. If the remoteproc were to suddenly crash without
-releasing this, it would be impossible for other remoteprocs to allocate
-any smem items.
+On 5/24/24 12:28 PM, Adrian Ratiu wrote:
+> diff --git a/security/Kconfig b/security/Kconfig
+> index 412e76f1575d..0cd73f848b5a 100644
+> --- a/security/Kconfig
+> +++ b/security/Kconfig
+> @@ -183,6 +183,74 @@ config STATIC_USERMODEHELPER_PATH
+>  	  If you wish for all usermode helper programs to be disabled,
+>  	  specify an empty string here (i.e. "").
+>  
+> +menu "Procfs mem restriction options"
+> +
+> +config PROC_MEM_RESTRICT_FOLL_FORCE_DEFAULT
+> +	bool "Restrict all FOLL_FORCE flag usage"
+> +	default n
+> +	help
+> +	  Restrict all FOLL_FORCE usage during /proc/*/mem RW.
+> +	  Debuggerg like GDB require using FOLL_FORCE for basic
 
-We propose a new api to bust a hwspinlock. A driver can use the
-the bust api if it detects the device has gone into an error state, thus
-allowing other entities in the system to use the hwspinlock.
+	  Debuggers
 
-These patches were tested on an sm8650 mtp using engineering cdsp
-firmware that triggers a watchdog with the smem hwspinlock acquired.
+> +	  functionality.
+> +
+> +config PROC_MEM_RESTRICT_FOLL_FORCE_PTRACE_DEFAULT
+> +	bool "Restrict FOLL_FORCE usage except for ptracers"
+> +	default n
+> +	help
+> +	  Restrict FOLL_FORCE usage during /proc/*/mem RW, except
+> +	  for ptracer processes. Debuggerg like GDB require using
 
-Checked for error in dt-bindings with below.
- - make DT_CHECKER_FLAGS=-m DT_SCHEMA_FILES=remoteproc/qcom,pas-common.yaml dt_binding_check
- - make qcom/sm8650-mtp.dtb CHECK_DTBS=1
+	                         Debuggers
 
-Signed-off-by: Chris Lew <quic_clew@quicinc.com>
----
-Changes in v2:
-- Remove extra print in qcom_q6v5_pas as suggested by Konrad
-- Expose SMEM API that remotproc can call to bust the smem hwlock as suggested by Krzysztof
-- Drop patches related to multiple references on a hwlock
-- Link to v1: https://lore.kernel.org/r/20240516-hwspinlock-bust-v1-0-47a90a859238@quicinc.com
+> +	  FOLL_FORCE for basic functionality.
+> +
+> +config PROC_MEM_RESTRICT_OPEN_READ_DEFAULT
+> +	bool "Restrict all open() read access"
+> +	default n
+> +	help
+> +	  Restrict all open() read access to /proc/*/mem files.
+> +	  Use with caution: this can break init systems, debuggers,
+> +	  container supervisors and other tasks using /proc/*/mem.
+> +
+> +config PROC_MEM_RESTRICT_OPEN_READ_PTRACE_DEFAULT
+> +	bool "Restrict open() for reads except for ptracers"
+> +	default n
+> +	help
+> +	  Restrict open() read access except for ptracer processes.
+> +	  Use with caution: this can break init systems, debuggers,
+> +	  container supervisors and other non-ptrace capable tasks
+> +	  using /proc/*/mem.
+> +
+> +config PROC_MEM_RESTRICT_OPEN_WRITE_DEFAULT
+> +	bool "Restrict all open() write access"
+> +	default n
+> +	help
+> +	  Restrict all open() write access to /proc/*/mem files.
+> +	  Debuggers like GDB and some container supervisors tasks
+> +	  require opening as RW and may break.
+> +
+> +config PROC_MEM_RESTRICT_OPEN_WRITE_PTRACE_DEFAULT
+> +	bool "Restrict open() for writes except for ptracers"
+> +	default n
+> +	help
+> +	  Restrict open() write access except for ptracer processes,
+> +	  usually debuggers.
+> +
+> +config PROC_MEM_RESTRICT_WRITE_DEFAULT
+> +	bool "Restrict all write() calls"
+> +	default n
+> +	help
+> +	  Restrict all /proc/*/mem direct write calls.
+> +	  Open calls with RW modes are still allowed, this blocks
+> +	  just the write() calls.
+> +
+> +config PROC_MEM_RESTRICT_WRITE_PTRACE_DEFAULT
+> +	bool "Restrict write() calls except for ptracers"
+> +	default n
+> +	help
+> +	  Restrict /proc/*/mem direct write calls except for ptracer processes.
+> +	  Open calls with RW modes are still allowed, this blocks just
+> +	  the write() calls.
+> +
+> +endmenu
 
----
-Chris Lew (1):
-      soc: qcom: smem: Add qcom_smem_bust_hwspin_lock_by_host()
-
-Richard Maina (3):
-      hwspinlock: Introduce hwspin_lock_bust()
-      hwspinlock: qcom: implement bust operation
-      remoteproc: qcom_q6v5_pas: Add hwspinlock bust on stop
-
- Documentation/locking/hwspinlock.rst     | 11 +++++++++++
- drivers/hwspinlock/hwspinlock_core.c     | 28 ++++++++++++++++++++++++++++
- drivers/hwspinlock/hwspinlock_internal.h |  3 +++
- drivers/hwspinlock/qcom_hwspinlock.c     | 25 +++++++++++++++++++++++++
- drivers/remoteproc/qcom_q6v5_pas.c       | 11 +++++++++++
- drivers/soc/qcom/smem.c                  | 28 ++++++++++++++++++++++++++++
- include/linux/hwspinlock.h               |  6 ++++++
- include/linux/soc/qcom/smem.h            |  2 ++
- 8 files changed, 114 insertions(+)
----
-base-commit: e7b4ef8fffaca247809337bb78daceb406659f2d
-change-id: 20240509-hwspinlock-bust-d497a70c1a3a
-
-Best regards,
 -- 
-Chris Lew <quic_clew@quicinc.com>
-
+#Randy
+https://people.kernel.org/tglx/notes-about-netiquette
+https://subspace.kernel.org/etiquette.html
