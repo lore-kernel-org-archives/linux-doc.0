@@ -1,201 +1,153 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79EA0F4FC;
-	Sat, 25 May 2024 16:46:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 684B1200BF
+	for <linux-doc@vger.kernel.org>; Sat, 25 May 2024 23:02:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716655562; cv=none; b=fStTkuFQa8H6ctqpBVKj2UjguF7CaFa1FvgBlqlwsrIm1OqV8Uv51Afsvjf8OHzis7HMb7bPqX8uq8/M8tiyCX/53IfLWn1x29k7cCrbpD8gpFDmtV70IAVHlbYKSJgHE8spxfrNfG0dnVRicJjXU5WjF/OzRbAp239naRI/AVI=
+	t=1716678166; cv=none; b=JQNSUPWf68R9Crjk7QTCxIm2WrE8TMyo+gLsCKnqfIr7dp44lJoziSLlVPHSxZ0rODf469dO3vIJzg4cL2Ul2SijTUB+US4sNj+L3ptbtXbl19adnEreIEtDm6FVHclvoWOEcuOsByAUXAgw8pIjtuayZoc7KVDGwY7DqrhRKis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716655562; c=relaxed/simple;
-	bh=rpJb9ufSOqQvGtI1L3Z0XIm/GwLfEIO5aOLPxpga49w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qlb2VunVICcI8j6s6pOpOJR8EOqPR1++NOGBq4jRugAdwgojrb7hQYLz5zQDj80JQmsK3wgQZM4CZbYlw6ohET7VVBoVM9ARAd/AiXNmoGO6tl2S5kDsdWiMBkCraA6xbx8MSf5twBCuswCTWYsE3txCe7N8wc6tXVMHc2Hc2Mk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SYX5D08o; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1716678166; c=relaxed/simple;
+	bh=L3hWBTMmA6viEgmlEybu5t+iS/55NiCc6jPW1Kjsoa0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MQq+KRjI9X5TTp758VwhJl30amO0TSoI5nDmrOusAO08qK/MEa+0HnI+TD+LfUg4l6JXMD2ouxdz835VIFH+VS/5b7BO6I+lileEsEWr/2+/eMsqZsmCLLCH+RZ1ZohFKuQ+BJ1ZIJLvQDx2GLkvDDYPIHAhExrak8NJF+xMrKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com; spf=pass smtp.mailfrom=fromorbit.com; dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b=upxmnVYb; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fromorbit.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SYX5D08o"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0742BC2BD11;
-	Sat, 25 May 2024 16:45:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716655562;
-	bh=rpJb9ufSOqQvGtI1L3Z0XIm/GwLfEIO5aOLPxpga49w=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=SYX5D08onJBpVQ0l1x8JMjv0c4uyhIDVRKjWvhX40JnIinzy9zsLG9+KIOqcxYTOb
-	 gqtJGmLOl//Vxb+xZySwEn1BiGFqpUV2Gy8npwPOPeYmhO8BBy9PYQGJLwGRhxzXRP
-	 VVKzo09UjONo82nh42uILilKpLIw8bha4Wsg13ce02UqWPCT7tUn2aXrOzzHI0Y1mm
-	 NIoqZjiGTONCFignxTZ1wCYxvRVUvhqncPJQg5f2zQu4SxewOtu2Z4TVIKIqweZ0ZP
-	 ged4LTMSWFkJMb4tLwu17bsbhk+yqLMEHpr62adXlIAhTMaNy3RB7HCaKi7a9q2dCa
-	 HzJB9s2E2MNdg==
-Message-ID: <27151624-0c3c-43da-9983-5de86f431d82@kernel.org>
-Date: Sat, 25 May 2024 18:45:54 +0200
+	dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b="upxmnVYb"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6f6911d16b4so4940494b3a.3
+        for <linux-doc@vger.kernel.org>; Sat, 25 May 2024 16:02:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1716678163; x=1717282963; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gic6Wo3zjudyzI0BAjsVaWRrn7WVkv86SSZTvDO7XFs=;
+        b=upxmnVYbF9XuqlhXcqNr8K+zIJ1d9TVX6Mon09OG0FFLHCqYaj7yD1Ms1Sfxu9RZpD
+         TaeFXJNQ4eJ1FqL21NTClYIV26S51nH8shM+vzjfb7KSxRYxcH0dk2Wng+cxkDpr40EH
+         hFgNR/0qWwNxlLCHQ6WGhnSpbnJLmLmN2k+/XAQdFWDFjrtPZHVdDAxS55mGnXE9Ldv8
+         NEba7m2oCj4uPOVIAKdjDZBlyNaTbGOcVUvJIH4YWzWz4WXeeb3eGs6is2FivFkODsB+
+         QOR88d4K70UUIwKaKx6rEcHOO+FDHMF8DLliEHlzPAHFkPz5aUoRlKnlUkPN6i7y5TAs
+         KzVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716678163; x=1717282963;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gic6Wo3zjudyzI0BAjsVaWRrn7WVkv86SSZTvDO7XFs=;
+        b=UIHJYjL7cb143H5vZvDJhKdYATtMFL4O7ecO4CTHS3IlkCND38Ix5KfcMoXFv5VZGs
+         PWPH94p2DTsYgmAI/5XatFhRVjUztGAWfNe5dyuEEcDl0J/ge0fZLerxAVMKihphe9PL
+         cQxZrdWjoP9X/ruLSCA8IASN4GRjVkTDLyGKE7CijGcXy/p6juzAouBZYJdNAMjn43jc
+         pH3TLynu2N+G9s6lMKqskGedeM1K0NU4z9UOqohtcGihn059NvP9zOVQga7oWeFlsVsZ
+         qAAwS6/KuIrweLk+ebL50fX2Oqq0o8WDl1JuK5KGJi0d6inV34OlaKfQYoLnHThEz0xE
+         Xj4A==
+X-Forwarded-Encrypted: i=1; AJvYcCXVVPd6ZfMuTqqHm+fvtYW9C1OxqwJBDXLusjnVKDR/elssyNfx0GC7kkgLYKRY3R4MJR+xm9L5Gmcqm0F4Ju+nXYaA/KBbgQ7r
+X-Gm-Message-State: AOJu0Ywyg2ckLPALS7y38gUR+jXHVyYd98z1zWrzAm8zxXizyCRWkLk6
+	4lRsbD6/KQI6w6eYOxcSlGYCx0OnAt4AakUs+9+yHidY5xG6vELiDnm42oE8FbY=
+X-Google-Smtp-Source: AGHT+IHkIK468Us7w5racBBbD0k32HWYTGqS9h3qKLyIaPSGj5Sg+dT6eM4UpYv8VhDI97pWq3omsw==
+X-Received: by 2002:a05:6a00:4405:b0:6f8:caf2:8f4f with SMTP id d2e1a72fcca58-6f8f45d2624mr6450954b3a.33.1716678162585;
+        Sat, 25 May 2024 16:02:42 -0700 (PDT)
+Received: from dread.disaster.area (pa49-179-32-121.pa.nsw.optusnet.com.au. [49.179.32.121])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f8fcbeaaa3sm2831749b3a.103.2024.05.25.16.02.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 May 2024 16:02:42 -0700 (PDT)
+Received: from dave by dread.disaster.area with local (Exim 4.96)
+	(envelope-from <david@fromorbit.com>)
+	id 1sB0PP-00AUdG-2E;
+	Sun, 26 May 2024 09:02:39 +1000
+Date: Sun, 26 May 2024 09:02:39 +1000
+From: Dave Chinner <david@fromorbit.com>
+To: Nitesh Shetty <nj.shetty@samsung.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+	Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	martin.petersen@oracle.com, bvanassche@acm.org, hare@suse.de,
+	damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com,
+	joshi.k@samsung.com, nitheshshetty@gmail.com, gost.dev@samsung.com,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, dm-devel@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v20 05/12] fs/read_write: Enable copy_file_range for
+ block device.
+Message-ID: <ZlJuDxhMEpJxKQHV@dread.disaster.area>
+References: <20240520102033.9361-1-nj.shetty@samsung.com>
+ <CGME20240520102917epcas5p1bda532309b9174bf2702081f6f58daf7@epcas5p1.samsung.com>
+ <20240520102033.9361-6-nj.shetty@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/7] dt-bindings: remoteproc: qcom,pas: Add hwlocks
-To: Bjorn Andersson <quic_bjorande@quicinc.com>
-Cc: Chris Lew <quic_clew@quicinc.com>, Bjorn Andersson
- <andersson@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>,
- Boqun Feng <boqun.feng@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Mathieu Poirier <mathieu.poirier@linaro.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>,
- Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
- Konrad Dybcio <konrad.dybcio@linaro.org>, linux-remoteproc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
-References: <20240516-hwspinlock-bust-v1-0-47a90a859238@quicinc.com>
- <20240516-hwspinlock-bust-v1-5-47a90a859238@quicinc.com>
- <3521519f-34b8-472d-be37-f0e64bba24fc@kernel.org>
- <a944418a-1699-44fa-bdfc-2e57129adea1@quicinc.com>
- <c9882ba0-bbbf-44ec-9606-ebe68bcb8866@kernel.org>
- <ZkzzY311XiRigJPt@hu-bjorande-lv.qualcomm.com>
- <92dcd555-69b1-4111-92dd-debe5107d526@kernel.org>
- <Zk4wab/NZOOZ3hA6@hu-bjorande-lv.qualcomm.com>
- <aed37430-7e87-4516-86da-3997c01a8aa8@kernel.org>
- <ZlDpFV8bL8/lwGOP@hu-bjorande-lv.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <ZlDpFV8bL8/lwGOP@hu-bjorande-lv.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240520102033.9361-6-nj.shetty@samsung.com>
 
-On 24/05/2024 21:23, Bjorn Andersson wrote:
-> On Thu, May 23, 2024 at 08:15:54AM +0200, Krzysztof Kozlowski wrote:
->> On 22/05/2024 19:50, Bjorn Andersson wrote:
->>>>>>>
->>>>>>> We did consider tying this to the SMEM instance, but the entitiy 
->>>>>>> relating to firmware is the remoteproc instance.
->>>>>>
->>>>>> I still do not understand why you have to add hwlock to remoteproc, even
->>>>>> though it is not directly used. Your driver problem looks like lack of
->>>>>> proper driver architecture - you want to control the locks not from the
->>>>>> layer took the lock, but one layer up. Sorry, no, fix the driver
->>>>>> architecture.
->>>>>>
->>>>>
->>>>> No, it is the firmware's reference to the lock that is represented in
->>>>> the remoteproc node, while SMEM deals with Linux's reference to the lock.
->>>>>
->>>>> This reference would be used to release the lock - on behalf of the
->>>>> firmware - in the event that the firmware held it when it
->>>>> stopped/crashed.
->>>>
->>>> I understood, but the remoteproc driver did not acquire the hardware
->>>> lock. It was taken by smem, if I got it correctly, so you should poke
->>>> smem to bust the spinlock.
->>>>
->>>
->>> The remoteproc instance is the closest representation of the entity that
->>> took the lock (i.e. the firmware). SMEM here is just another consumer of
->>> the same lock.
->>>
->>>> The hwlock is not a property of remote proc, because remote proc does
->>>> not care, right? Other device cares... and now for every smem user you
->>>> will add new binding property?
->>>>
->>>
->>> Right, the issue seen relates to SMEM, because the remote processor (not
->>> the remoteproc driver) took the lock.
->>>
->>>> No, you are adding a binding based on your driver solution.
->>>
->>> Similar to how hwspinlocks are used in other platforms (e.g. TI) the
->>> firmware could take multiple locks, e.g. to synchronize access to other
->>> shared memory mechanism (i.e. not SMEM). While I am not aware of such
->>> use case today, my expectation was that in such case we just list all
->>> the hwlocks related to the firmware and bust those from the remoteproc
->>> instance.
->>>
->>> Having to export APIs from each one of such drivers and make the
->>> remoteproc identify the relevant instances and call those APIs does
->>> indeed seem inconvenient.
->>> SMEM is special here because it's singleton, but this would not
->>> necessarily be true for other cases.
->>
->> I don't think that exporting such API is unreasonable, but quite
->> opposite - expected. The remote processor crashed, so the remoteproc
->> driver is supposed to call some sort of smem_cleanup() or
->> smem_cleanup_on_crash() and call would bust/release the lock. That way
->> lock handling is encapsulated entirely in one driver which already takes
->> and releases the lock.
->>
+On Mon, May 20, 2024 at 03:50:18PM +0530, Nitesh Shetty wrote:
+> From: Anuj Gupta <anuj20.g@samsung.com>
 > 
-> I don't agree.
+> This is a prep patch. Allow copy_file_range to work for block devices.
+> Relaxing generic_copy_file_checks allows us to reuse the existing infra,
+> instead of adding a new user interface for block copy offload.
+> Change generic_copy_file_checks to use ->f_mapping->host for both inode_in
+> and inode_out. Allow block device in generic_file_rw_checks.
 > 
-> SMEM does indeed acquire and release the same, shared, lock. But the
-> SMEM driver instance on our side is not involved in taking the lock for
-> the firmware.
+> Reviewed-by: Hannes Reinecke <hare@suse.de>
+> Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
+> Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
+> ---
+>  fs/read_write.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
 > 
-> There exist an equivalent SMEM driver instance in the firmware that
-> crashed and that's the thing that needs to be released.
+> diff --git a/fs/read_write.c b/fs/read_write.c
+> index ef6339391351..31645ca5ed58 100644
+> --- a/fs/read_write.c
+> +++ b/fs/read_write.c
+> @@ -1413,8 +1413,8 @@ static int generic_copy_file_checks(struct file *file_in, loff_t pos_in,
+>  				    struct file *file_out, loff_t pos_out,
+>  				    size_t *req_count, unsigned int flags)
+>  {
+> -	struct inode *inode_in = file_inode(file_in);
+> -	struct inode *inode_out = file_inode(file_out);
+> +	struct inode *inode_in = file_in->f_mapping->host;
+> +	struct inode *inode_out = file_out->f_mapping->host;
+>  	uint64_t count = *req_count;
+>  	loff_t size_in;
+>  	int ret;
 
-Then please include relevant explanation in the commit msg.
+Ok, so this changes from file->f_inode to file->mapping->host. No
+doubt this is because of how bdev inode mappings are munged.
+However, the first code that is run here is:
 
-> 
-> 
-> We're also not tearing down, or cleaning up anything in our SMEM
-> instance. It is simply "when remoteproc id N died, check if N is holding
-> the lock and if so force a release of the lock - so that others can grab
-> it".
-> 
->> Just like freeing any memory. remoteproc driver does not free other
->> driver's memory only because processor crashed.
->>
-> 
-> That's a good comparison. Because when the firmware running on the
-> remote processor crashes, it is indeed the job of the remoteproc driver
-> to clean up the memory allocated to run the remote processor.
+	ret = generic_file_rw_checks(file_in, file_out);
 
+and that function still uses file_inode().
 
-Best regards,
-Krzysztof
+Hence there checks:
 
+> @@ -1726,7 +1726,9 @@ int generic_file_rw_checks(struct file *file_in, struct file *file_out)
+>  	/* Don't copy dirs, pipes, sockets... */
+>  	if (S_ISDIR(inode_in->i_mode) || S_ISDIR(inode_out->i_mode))
+>  		return -EISDIR;
+> -	if (!S_ISREG(inode_in->i_mode) || !S_ISREG(inode_out->i_mode))
+> +	if (!S_ISREG(inode_in->i_mode) && !S_ISBLK(inode_in->i_mode))
+> +		return -EINVAL;
+> +	if ((inode_in->i_mode & S_IFMT) != (inode_out->i_mode & S_IFMT))
+>  		return -EINVAL;
+
+.... are being done on different inodes to the rest of
+generic_copy_file_checks() when block devices are used.
+
+Is this correct? If so, this needs a pair of comments (one for each
+function) to explain why the specific inode used for these functions
+is correct for block devices....
+
+-Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
