@@ -1,61 +1,61 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 684B1200BF
-	for <linux-doc@vger.kernel.org>; Sat, 25 May 2024 23:02:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98BA8129A9C
+	for <linux-doc@vger.kernel.org>; Sat, 25 May 2024 23:09:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716678166; cv=none; b=JQNSUPWf68R9Crjk7QTCxIm2WrE8TMyo+gLsCKnqfIr7dp44lJoziSLlVPHSxZ0rODf469dO3vIJzg4cL2Ul2SijTUB+US4sNj+L3ptbtXbl19adnEreIEtDm6FVHclvoWOEcuOsByAUXAgw8pIjtuayZoc7KVDGwY7DqrhRKis=
+	t=1716678573; cv=none; b=tjb6epekbO3/bDZgf46snoD0trmkUoO4qh8wUFVha9UMdXmHb8VRvNOL+O/5SmzFesYDpLg4GG2CU3+g8eJLuS/9mUNUbXrSQ24nZuOO/K1j0d9t+W+kpypKuNo0QaMPOlQvOsfteY2krcwEULlv4DTT0GD1M5e1RsI/X/ueMDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716678166; c=relaxed/simple;
-	bh=L3hWBTMmA6viEgmlEybu5t+iS/55NiCc6jPW1Kjsoa0=;
+	s=arc-20240116; t=1716678573; c=relaxed/simple;
+	bh=faN9rNSdcMcbjtK47u0oId+ibnqpzDbiA+nKCknSZ+g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MQq+KRjI9X5TTp758VwhJl30amO0TSoI5nDmrOusAO08qK/MEa+0HnI+TD+LfUg4l6JXMD2ouxdz835VIFH+VS/5b7BO6I+lileEsEWr/2+/eMsqZsmCLLCH+RZ1ZohFKuQ+BJ1ZIJLvQDx2GLkvDDYPIHAhExrak8NJF+xMrKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com; spf=pass smtp.mailfrom=fromorbit.com; dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b=upxmnVYb; arc=none smtp.client-ip=209.85.210.178
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y1xUchBMAAdL8Oy5jOtANAGzcAo8rliQulPk+iGsNZI+IBof+YCnhNSEFzDmxNH4UGhmQa3b7poP6TwbDmiBXcRc5IqGWSnHb1uRvAjpyULRVcS/eb/gQgJ8u9XtYyT/auJ/RT4c99lzGAyy96Ap++xa/7r7pVYAn3DpQTYJ8/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com; spf=pass smtp.mailfrom=fromorbit.com; dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b=TYAcnYSZ; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fromorbit.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fromorbit.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b="upxmnVYb"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-6f6911d16b4so4940494b3a.3
-        for <linux-doc@vger.kernel.org>; Sat, 25 May 2024 16:02:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=fromorbit-com.20230601.gappssmtp.com header.i=@fromorbit-com.20230601.gappssmtp.com header.b="TYAcnYSZ"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1f44b4404dfso14565565ad.0
+        for <linux-doc@vger.kernel.org>; Sat, 25 May 2024 16:09:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1716678163; x=1717282963; darn=vger.kernel.org;
+        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1716678571; x=1717283371; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gic6Wo3zjudyzI0BAjsVaWRrn7WVkv86SSZTvDO7XFs=;
-        b=upxmnVYbF9XuqlhXcqNr8K+zIJ1d9TVX6Mon09OG0FFLHCqYaj7yD1Ms1Sfxu9RZpD
-         TaeFXJNQ4eJ1FqL21NTClYIV26S51nH8shM+vzjfb7KSxRYxcH0dk2Wng+cxkDpr40EH
-         hFgNR/0qWwNxlLCHQ6WGhnSpbnJLmLmN2k+/XAQdFWDFjrtPZHVdDAxS55mGnXE9Ldv8
-         NEba7m2oCj4uPOVIAKdjDZBlyNaTbGOcVUvJIH4YWzWz4WXeeb3eGs6is2FivFkODsB+
-         QOR88d4K70UUIwKaKx6rEcHOO+FDHMF8DLliEHlzPAHFkPz5aUoRlKnlUkPN6i7y5TAs
-         KzVQ==
+        bh=Crh6RjgT+TcJb1jq4rCjRtTqJLBvMRyCXUhpelsfOKA=;
+        b=TYAcnYSZr305sH9XLnMvStIEDlJaWfuAxeIKJ8RHPQ2FdZChlHVw3WOedEm+oJTNqI
+         stTuZ4fQcw6UxiGfRHR90Bp74bwzaixt2GDlsFinFqwsc869LKAliJMxIv9qTmLKte90
+         sq9F8bi8bpvUJzN0IUjLPRE9fJjkfjv5gfgmowNLTuqBzw1qcIAMQNDSly1A1w3VVbGl
+         8+P7OVtW0gK8XJZGCmv5e1rowLpX51EXhR5iPw/zYbDLRoTZIL2nRgW5TTKIhnQ6151n
+         cTidOa1KmAj+ZAT11fKYV1i4bpCfpO+pzVNGRkUDuJnBIDt7bLWMHaeIDv9F1c8BEZf0
+         OwMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716678163; x=1717282963;
+        d=1e100.net; s=20230601; t=1716678571; x=1717283371;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gic6Wo3zjudyzI0BAjsVaWRrn7WVkv86SSZTvDO7XFs=;
-        b=UIHJYjL7cb143H5vZvDJhKdYATtMFL4O7ecO4CTHS3IlkCND38Ix5KfcMoXFv5VZGs
-         PWPH94p2DTsYgmAI/5XatFhRVjUztGAWfNe5dyuEEcDl0J/ge0fZLerxAVMKihphe9PL
-         cQxZrdWjoP9X/ruLSCA8IASN4GRjVkTDLyGKE7CijGcXy/p6juzAouBZYJdNAMjn43jc
-         pH3TLynu2N+G9s6lMKqskGedeM1K0NU4z9UOqohtcGihn059NvP9zOVQga7oWeFlsVsZ
-         qAAwS6/KuIrweLk+ebL50fX2Oqq0o8WDl1JuK5KGJi0d6inV34OlaKfQYoLnHThEz0xE
-         Xj4A==
-X-Forwarded-Encrypted: i=1; AJvYcCXVVPd6ZfMuTqqHm+fvtYW9C1OxqwJBDXLusjnVKDR/elssyNfx0GC7kkgLYKRY3R4MJR+xm9L5Gmcqm0F4Ju+nXYaA/KBbgQ7r
-X-Gm-Message-State: AOJu0Ywyg2ckLPALS7y38gUR+jXHVyYd98z1zWrzAm8zxXizyCRWkLk6
-	4lRsbD6/KQI6w6eYOxcSlGYCx0OnAt4AakUs+9+yHidY5xG6vELiDnm42oE8FbY=
-X-Google-Smtp-Source: AGHT+IHkIK468Us7w5racBBbD0k32HWYTGqS9h3qKLyIaPSGj5Sg+dT6eM4UpYv8VhDI97pWq3omsw==
-X-Received: by 2002:a05:6a00:4405:b0:6f8:caf2:8f4f with SMTP id d2e1a72fcca58-6f8f45d2624mr6450954b3a.33.1716678162585;
-        Sat, 25 May 2024 16:02:42 -0700 (PDT)
+        bh=Crh6RjgT+TcJb1jq4rCjRtTqJLBvMRyCXUhpelsfOKA=;
+        b=D4AjwSzphd7/pDFhhhhs247eDqrUwPhQfEAm5a1VGCekm4c5OLY0nX0CFUcUp2ikFK
+         H2VL+0+Jh4RYSILXxPQdqZIQxWc2PwycDuvU+EY+W6S7kpt/JgvPhUGppnkCrR/MXRR3
+         CVjr7tTvoYuWasP5LAEZfjPrHD90zWhT6+GCHu/BYpR8OUpiJx3CXt0M8giKBbFKpGwW
+         tL96rnoDvgKTJOB7mHTrl4BFtCCT9U8dqsz4q87Mc8W0/t/BEuwcpPPkNOcreUT72Tnz
+         t4baujpLAf1hh5gRlG33cyUv/7E3PpGtVX5f6R5Jmp8EGl/qa+Mgdz1ZgizfE+f3pwg1
+         8+eA==
+X-Forwarded-Encrypted: i=1; AJvYcCUketEDrOQKgDAL5o+4Z6iMXOlJ3pvYEArNpUvlqfrDb6tk8KNlD4MQwP0+gUHoOR3prlINuYIPWtAv4xwph3wmOzaIGEPfVke7
+X-Gm-Message-State: AOJu0YyYi8cM2ZVD/cnFAbwCbnMNUXs5u2YNS5hB7xUC0GeriqZPTqQ0
+	zmbQztbCWo8cNNfKrlmjeX9ttIVDFMUVr8u3EZ1sDOd/a2OpaO7+H8+pjAa77q8=
+X-Google-Smtp-Source: AGHT+IGYciyTBhNiI5PZlCjyMDogB+ANQNNWDCUuYjIsBj+L8eTBYhs5xE8S13XEF72yE6eBkoNGvg==
+X-Received: by 2002:a17:902:d50b:b0:1f4:768b:445e with SMTP id d9443c01a7336-1f4768b4768mr21943575ad.24.1716678570642;
+        Sat, 25 May 2024 16:09:30 -0700 (PDT)
 Received: from dread.disaster.area (pa49-179-32-121.pa.nsw.optusnet.com.au. [49.179.32.121])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f8fcbeaaa3sm2831749b3a.103.2024.05.25.16.02.42
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f44c9afba1sm34658165ad.246.2024.05.25.16.09.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 May 2024 16:02:42 -0700 (PDT)
+        Sat, 25 May 2024 16:09:30 -0700 (PDT)
 Received: from dave by dread.disaster.area with local (Exim 4.96)
 	(envelope-from <david@fromorbit.com>)
-	id 1sB0PP-00AUdG-2E;
-	Sun, 26 May 2024 09:02:39 +1000
-Date: Sun, 26 May 2024 09:02:39 +1000
+	id 1sB0Vz-00AUvI-1V;
+	Sun, 26 May 2024 09:09:27 +1000
+Date: Sun, 26 May 2024 09:09:27 +1000
 From: Dave Chinner <david@fromorbit.com>
 To: Nitesh Shetty <nj.shetty@samsung.com>
 Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
@@ -72,12 +72,12 @@ Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
 	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org, dm-devel@lists.linux.dev,
 	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v20 05/12] fs/read_write: Enable copy_file_range for
- block device.
-Message-ID: <ZlJuDxhMEpJxKQHV@dread.disaster.area>
+Subject: Re: [PATCH v20 06/12] fs, block: copy_file_range for def_blk_ops for
+ direct block device
+Message-ID: <ZlJvp47RSFKkbwRJ@dread.disaster.area>
 References: <20240520102033.9361-1-nj.shetty@samsung.com>
- <CGME20240520102917epcas5p1bda532309b9174bf2702081f6f58daf7@epcas5p1.samsung.com>
- <20240520102033.9361-6-nj.shetty@samsung.com>
+ <CGME20240520102929epcas5p2f4456f6fa0005d90769615eb2c2bf273@epcas5p2.samsung.com>
+ <20240520102033.9361-7-nj.shetty@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -86,68 +86,76 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240520102033.9361-6-nj.shetty@samsung.com>
+In-Reply-To: <20240520102033.9361-7-nj.shetty@samsung.com>
 
-On Mon, May 20, 2024 at 03:50:18PM +0530, Nitesh Shetty wrote:
-> From: Anuj Gupta <anuj20.g@samsung.com>
-> 
-> This is a prep patch. Allow copy_file_range to work for block devices.
-> Relaxing generic_copy_file_checks allows us to reuse the existing infra,
-> instead of adding a new user interface for block copy offload.
-> Change generic_copy_file_checks to use ->f_mapping->host for both inode_in
-> and inode_out. Allow block device in generic_file_rw_checks.
+On Mon, May 20, 2024 at 03:50:19PM +0530, Nitesh Shetty wrote:
+> For direct block device opened with O_DIRECT, use blkdev_copy_offload to
+> issue device copy offload, or use splice_copy_file_range in case
+> device copy offload capability is absent or the device files are not open
+> with O_DIRECT.
 > 
 > Reviewed-by: Hannes Reinecke <hare@suse.de>
 > Signed-off-by: Anuj Gupta <anuj20.g@samsung.com>
 > Signed-off-by: Nitesh Shetty <nj.shetty@samsung.com>
 > ---
->  fs/read_write.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
+>  block/fops.c | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
 > 
-> diff --git a/fs/read_write.c b/fs/read_write.c
-> index ef6339391351..31645ca5ed58 100644
-> --- a/fs/read_write.c
-> +++ b/fs/read_write.c
-> @@ -1413,8 +1413,8 @@ static int generic_copy_file_checks(struct file *file_in, loff_t pos_in,
->  				    struct file *file_out, loff_t pos_out,
->  				    size_t *req_count, unsigned int flags)
->  {
-> -	struct inode *inode_in = file_inode(file_in);
-> -	struct inode *inode_out = file_inode(file_out);
-> +	struct inode *inode_in = file_in->f_mapping->host;
-> +	struct inode *inode_out = file_out->f_mapping->host;
->  	uint64_t count = *req_count;
->  	loff_t size_in;
->  	int ret;
+> diff --git a/block/fops.c b/block/fops.c
+> index 376265935714..5a4bba4f43aa 100644
+> --- a/block/fops.c
+> +++ b/block/fops.c
+> @@ -17,6 +17,7 @@
+>  #include <linux/fs.h>
+>  #include <linux/iomap.h>
+>  #include <linux/module.h>
+> +#include <linux/splice.h>
+>  #include "blk.h"
+>  
+>  static inline struct inode *bdev_file_inode(struct file *file)
+> @@ -754,6 +755,30 @@ static ssize_t blkdev_read_iter(struct kiocb *iocb, struct iov_iter *to)
+>  	return ret;
+>  }
+>  
+> +static ssize_t blkdev_copy_file_range(struct file *file_in, loff_t pos_in,
+> +				      struct file *file_out, loff_t pos_out,
+> +				      size_t len, unsigned int flags)
+> +{
+> +	struct block_device *in_bdev = I_BDEV(bdev_file_inode(file_in));
+> +	struct block_device *out_bdev = I_BDEV(bdev_file_inode(file_out));
+> +	ssize_t copied = 0;
+> +
+> +	if ((in_bdev == out_bdev) && bdev_max_copy_sectors(in_bdev) &&
+> +	    (file_in->f_iocb_flags & IOCB_DIRECT) &&
+> +	    (file_out->f_iocb_flags & IOCB_DIRECT)) {
+> +		copied = blkdev_copy_offload(in_bdev, pos_in, pos_out, len,
+> +					     NULL, NULL, GFP_KERNEL);
+> +		if (copied < 0)
+> +			copied = 0;
+> +	} else {
+> +		copied = splice_copy_file_range(file_in, pos_in + copied,
+> +						 file_out, pos_out + copied,
+> +						 len - copied);
+> +	}
 
-Ok, so this changes from file->f_inode to file->mapping->host. No
-doubt this is because of how bdev inode mappings are munged.
-However, the first code that is run here is:
+This should not fall back to a page cache copy.
 
-	ret = generic_file_rw_checks(file_in, file_out);
+We keep being told by application developers that if the fast
+hardware/filesystem offload fails, then an error should be returned
+so the application can determine what the fallback operation should
+be.
 
-and that function still uses file_inode().
+It may well be that the application falls back to "copy through the
+page cache", but that is an application policy choice, not a
+something the kernel offload driver should be making mandatory.
 
-Hence there checks:
+Userspace has to handle copy offload failure anyway, so they a
+fallback path regardless of whether copy_file_range() works on block
+devices or not...
 
-> @@ -1726,7 +1726,9 @@ int generic_file_rw_checks(struct file *file_in, struct file *file_out)
->  	/* Don't copy dirs, pipes, sockets... */
->  	if (S_ISDIR(inode_in->i_mode) || S_ISDIR(inode_out->i_mode))
->  		return -EISDIR;
-> -	if (!S_ISREG(inode_in->i_mode) || !S_ISREG(inode_out->i_mode))
-> +	if (!S_ISREG(inode_in->i_mode) && !S_ISBLK(inode_in->i_mode))
-> +		return -EINVAL;
-> +	if ((inode_in->i_mode & S_IFMT) != (inode_out->i_mode & S_IFMT))
->  		return -EINVAL;
+Cheers,
 
-.... are being done on different inodes to the rest of
-generic_copy_file_checks() when block devices are used.
-
-Is this correct? If so, this needs a pair of comments (one for each
-function) to explain why the specific inode used for these functions
-is correct for block devices....
-
--Dave.
+Dave.
 -- 
 Dave Chinner
 david@fromorbit.com
