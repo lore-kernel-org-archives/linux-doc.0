@@ -1,95 +1,78 @@
-Received: from bee.tesarici.cz (bee.tesarici.cz [37.205.15.56])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32D51640B;
-	Mon, 27 May 2024 13:49:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.205.15.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF6A13BC3B;
+	Mon, 27 May 2024 13:50:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716817762; cv=none; b=OntCHm80soi0razQjh3UM6D0Fs0qsPp0AVVk1jNEWDKbzCV10WLVaT/qAodd+8RVMxEV+eMUIvqvcKZnmEVOhGrymWQquVeiwfaAlEPnd0ReSe5UhWpkjZzlICv/Q4DFquuHdKhbfTnuva0oMtNCvqJ+3zhNEmOYtsReMDgrvxs=
+	t=1716817823; cv=none; b=VZca92Jvn/yS4LZugnakPQIpyPdKx2uxP94N7oA+7fZMLNEptKs3GQVRW5JWeUZ5hCUTFnc+ejLVOVlHoLCdzah8OL2d2l/v22GaaX+fVCP+EKIMDAUtL2sSw7qQxx3C4b0gGtdi18eIVSUjbxlCDOYJoCeyucpZ4xMgmeSVn1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716817762; c=relaxed/simple;
-	bh=gqza+53r5VdbcAND+Hi9YfxVDyGCS9djsD4wSOb5XXI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tNygDAISHlSJrueL2AvgWRcFtE7f/pMEKFfXZjUD61Skv11MBM1dUNVznL82BbCy0RntATNB8l9q8inMuCFFNm2n7vsy9KUQfsDVdplXn/w7O8CEGJi+o3C9HB3DRLRrv0IbZxabO9CrTEmEJJsTzQWMmCl38NoCLXeAbLJtBRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz; spf=pass smtp.mailfrom=tesarici.cz; dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b=tkh5WiiA; arc=none smtp.client-ip=37.205.15.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tesarici.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tesarici.cz
+	s=arc-20240116; t=1716817823; c=relaxed/simple;
+	bh=+nP0nFvWQTGmKN1h8mBWXPdJ/NyR49065Fmlx0vf/hE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ijWs+N+I/PQttu9/4q+dtMLt/P9/gwRtBh+Ez6R7D4tVuALxE2h4udhsx8VU/vZC8pCextsW7SGB0JN83zEYHpGnA9XeDJPiAoBA0SZatVlEf0ZGC97lyC3Og3qN88kvuEKfBloGVnVGZMSNvUdUh32ZK8yiikL/IhVHaV9lVgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=KRzARuGC; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tesarici.cz header.i=@tesarici.cz header.b="tkh5WiiA"
-Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="KRzARuGC"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 44AC247C39
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1716817818; bh=JskqYYyNz3dMD01WU+7KptXTcnGKmuo6XobKIxRvLCk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=KRzARuGChKTGCcbDUHYk3ELS9q4KssOknufzQxGTvfXOYWjW45Z5x8qzsjfzSsh2a
+	 xQsNZcSAkOz3vRGzBnu1c9h9405N7mTbZSH97gBrvdKAJ5zbPrqJ0LRXGFWCyI4bhy
+	 FDHUfk9nkcQZ/AGfp+4zLcGA/t2njvkxCwpjVYm6w9ZdQraiWGHxDutSh87SC7Ldwj
+	 Me4QJzwPCFh1rk6BeYpfckdQM63R5O4KCec53FY8sYM3V8/1HQ/ZktC0rcnVtOt3Nj
+	 QJdNEEAkl8Yt3KLdp3nrBaUKQm9IA5Y/BN+bEOqnB5DhUknVa0icYvVTEeUPuKrb5D
+	 hv3NM+N13yIqg==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by bee.tesarici.cz (Postfix) with ESMTPSA id 8D9221D2C84;
-	Mon, 27 May 2024 15:40:05 +0200 (CEST)
-Authentication-Results: mail.tesarici.cz; dmarc=fail (p=quarantine dis=none) header.from=tesarici.cz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tesarici.cz; s=mail;
-	t=1716817205; bh=vzQMaKe8PWq8/rJIUTZI8C7BenHzVSRhtEQYf/oFXl0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=tkh5WiiAboiiWDCmRyyPkyqW3L3y4BGcfr2IVSnE000zAnqBVehCthCdnt5HF//Sf
-	 czWPcJDgPtMJeXWAkPQwwXCxQQYI4WGwg+p5mOVXBF+GkXoUOfuVV9qY3AoaiJXLxs
-	 e9GUxse0caC3zHiaONykC3nFyUL3lg53epva4av26V9xw0s1SBYvTDo7Qji/wa2IoI
-	 fumT5hlRv1YqUyyTPtH7ewdcG1PbAgqKxLwSAYNmZNiPFdvzI9Lv55koPkJ4oesE5v
-	 JAFFt/4bY8BqC4KrocxDMv8WX9CSCk/Hqqqufv854ToBcEuh8x4I+eO5TCCW/o9CYY
-	 QOtkOYjfT/2CA==
-Date: Mon, 27 May 2024 15:40:04 +0200
-From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
-To: Lukas Bulwahn <lbulwahn@redhat.com>
-Cc: Christoph Hellwig <hch@lst.de>, Marek Szyprowski
- <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>,
- iommu@lists.linux.dev, Michael Kelley <mhklinux@outlook.com>, Bagas Sanjaya
- <bagasdotme@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, Lukas Bulwahn <lukas.bulwahn@redhat.com>
-Subject: Re: [PATCH] Documentation/core-api: correct reference to
- SWIOTLB_DYNAMIC
-Message-ID: <20240527154004.41a41caf@meshulam.tesarici.cz>
-In-Reply-To: <20240527131314.22794-1-lukas.bulwahn@redhat.com>
-References: <20240527131314.22794-1-lukas.bulwahn@redhat.com>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-suse-linux-gnu)
+	by ms.lwn.net (Postfix) with ESMTPSA id 44AC247C39;
+	Mon, 27 May 2024 13:50:18 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Yunseong Kim <yskelg@gmail.com>
+Cc: skhan@linuxfoundation.org, Jinwoo Park <pmnxis@gmail.com>, Austin Kim
+ <austindh.kim@gmail.com>, shjy180909@gmail.com, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [PATCH v3] Documentation: cve Korean translation
+In-Reply-To: <bf37bf39-32d3-457f-abd6-115215d631af@gmail.com>
+References: <20240527103003.29318-1-yskelg@gmail.com>
+ <87ikyzpgqz.fsf@meer.lwn.net>
+ <bf37bf39-32d3-457f-abd6-115215d631af@gmail.com>
+Date: Mon, 27 May 2024 07:50:17 -0600
+Message-ID: <87o78rnz3a.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On Mon, 27 May 2024 15:13:14 +0200
-Lukas Bulwahn <lbulwahn@redhat.com> wrote:
+Yunseong Kim <yskelg@gmail.com> writes:
 
-> From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
-> 
-> Commit c93f261dfc39 ("Documentation/core-api: add swiotlb documentation")
-> accidentally refers to CONFIG_DYNAMIC_SWIOTLB in one place, while the
-> config is actually called CONFIG_SWIOTLB_DYNAMIC.
-> 
-> Correct the reference to the intended config option.
+>> 1) Why do I have three versions of it in my mailbox, sent over a period
+>>    of 13 minutes?  What changed between the versions?
+>
+> Sorry, I forgot the name of the reviewer when I first sent the
+> documentation content related patch version 2.
 
-Good catch!
+Which is fine, but...
 
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
+>>    Normally, you want to wait for reviews to come in on one version
+>>    before posting the next, and you should put a comment after the "---"
+>>    line saying what changed.
+>> 
+>> 2) When did this review from Jinwoo Park happen?  I was not copied on
+>>    that.
 
-Reviewed-by: Petr Tesarik <petr@tesarici.cz>
+You did not answer this question.  Reviews should generally be done in
+public, but that does not seem to have happened here?
 
-Petr T
+Thanks,
 
-> ---
->  Documentation/core-api/swiotlb.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/core-api/swiotlb.rst b/Documentation/core-api/swiotlb.rst
-> index 5ad2c9ca85bc..cf06bae44ff8 100644
-> --- a/Documentation/core-api/swiotlb.rst
-> +++ b/Documentation/core-api/swiotlb.rst
-> @@ -192,7 +192,7 @@ alignment larger than PAGE_SIZE.
->  
->  Dynamic swiotlb
->  ---------------
-> -When CONFIG_DYNAMIC_SWIOTLB is enabled, swiotlb can do on-demand expansion of
-> +When CONFIG_SWIOTLB_DYNAMIC is enabled, swiotlb can do on-demand expansion of
->  the amount of memory available for allocation as bounce buffers. If a bounce
->  buffer request fails due to lack of available space, an asynchronous background
->  task is kicked off to allocate memory from general system memory and turn it
-
+jon
