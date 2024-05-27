@@ -1,100 +1,168 @@
-Received: from fgw21-7.mail.saunalahti.fi (fgw21-7.mail.saunalahti.fi [62.142.5.82])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C5E115F3FA
-	for <linux-doc@vger.kernel.org>; Mon, 27 May 2024 14:38:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.142.5.82
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6C561FC0;
+	Mon, 27 May 2024 14:43:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716820725; cv=none; b=gQVtc1Tq1rPU+PYsfCUGJu4g8yxSPPfF8Nc0Pg6Ql0Zy2Y35SGuHL5ijpdyhkATUSonC8+16NAmzKu1pZCnqCAOBjFq7Z+L0VTe7mMVKzlyE5vKY8zNvzy00aQIt1vv21RyyRod+x8X/PFxK9qudubmzCJpfw7ZXEXiGlYGkxbg=
+	t=1716821037; cv=none; b=EdzGczlsohjVPgiOX70rn8Gv1JQAqHCenzGASbXiyZyzze4uSnvQXdte4Fz9gb0tM30tKgeSF3uyLRVHeJdX6edGdgm5tkix/K7N0YBzczPeqDufaUQilX6SOgehwDOP5v5hkaOQtQDQAAdOCHavP2be+8nMRj68AMdBkjt69dU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716820725; c=relaxed/simple;
-	bh=1ploEBYJ7WBfvP4vhIV1KUlO8thNKiAS5Q5PBPZZbAo=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mAVmJWcRUavrD4C9x5TktTwtU+5wVElMm8o+SLhT216ZUIW6NTKLCUdGNqeK/30q/rsrm8Gac1NElcRdNvd7DXkO6dRJRFuRMADl/gnz+7IMyJ78PdfPOCUOW2ARingHESo+RI6wOlAPmFh9vEueV5wLNMTZeKJVqvc5PC/b48Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=62.142.5.82
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
-Received: from localhost (88-113-26-230.elisa-laajakaista.fi [88.113.26.230])
-	by fgw23.mail.saunalahti.fi (Halon) with ESMTP
-	id a799409f-1c36-11ef-80bb-005056bdfda7;
-	Mon, 27 May 2024 17:37:33 +0300 (EEST)
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 27 May 2024 17:37:33 +0300
-To: "D, Lakshmi Sowjanya" <lakshmi.sowjanya.d@intel.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	"tglx@linutronix.de" <tglx@linutronix.de>,
-	"jstultz@google.com" <jstultz@google.com>,
-	"giometti@enneenne.com" <giometti@enneenne.com>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"x86@kernel.org" <x86@kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-	"Dong, Eddie" <eddie.dong@intel.com>,
-	"Hall, Christopher S" <christopher.s.hall@intel.com>,
-	"Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
-	"davem@davemloft.net" <davem@davemloft.net>,
-	"alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
-	"joabreu@synopsys.com" <joabreu@synopsys.com>,
-	"mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
-	"perex@perex.cz" <perex@perex.cz>,
-	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
-	"Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
-	"peter.hilber@opensynergy.com" <peter.hilber@opensynergy.com>,
-	"N, Pandith" <pandith.n@intel.com>,
-	"Mohan, Subramanian" <subramanian.mohan@intel.com>,
-	"T R, Thejesh Reddy" <thejesh.reddy.t.r@intel.com>
-Subject: Re: [PATCH v8 12/12] ABI: pps: Add ABI documentation for Intel TIO
-Message-ID: <ZlSarRwF1vEbfzlP@surfacebook.localdomain>
-References: <20240513103813.5666-1-lakshmi.sowjanya.d@intel.com>
- <20240513103813.5666-13-lakshmi.sowjanya.d@intel.com>
- <ZkH37Sc9LU4zmcGB@smile.fi.intel.com>
- <CY8PR11MB7364A367739AA57107DBBE6AC4F02@CY8PR11MB7364.namprd11.prod.outlook.com>
+	s=arc-20240116; t=1716821037; c=relaxed/simple;
+	bh=yZ54pHZc8pZ1llQjTF214XGFVmGuCbN++WoTXje+y18=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lZksmdWSXS0ebi2UsvlIpsUiOdrFzgqJJAkpvIHiRZiNxJ6JEXog8Ajhv13CDuyLHA+8B0w9rfAgWqJZWd3FJbOEh/fc1ok/84u0T6DwYJe+81Y2Qv69TYA4cp3bGhb6bU7LepAlG4qINzup+JIGzAqvKWKwLJPmu82Mbk6Bho4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AFrRUiES; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AFrRUiES"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1f44b45d6abso26651935ad.0;
+        Mon, 27 May 2024 07:43:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716821035; x=1717425835; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rEv9TOl2VcsNK97lEGFpOwkx9V8aOFfBaXbVSYVjqbk=;
+        b=AFrRUiES+BLBq7fGesvxpV+3Q+vgoqYbMRIhLPSdzru3X9Au92uP4BO12u3WixselN
+         pfqPVpKaENtKvdkF2exM+yMXH5w5OXilNzicuYNc1PO+0u1TbV8LpYWfsUelchsNAXzn
+         FGwDQv6cGPfAJsnXI+L9mZWkdvliPqkDuxuKIB1Kq1QlvKHKznk/wRJjAwJ6ijkB075l
+         6eEI4hxksH9Lmutwh5+/sM6arzFUVDBikCl508K/uCfqDYDPsQmu3lKi7YCcfpkY0Z7T
+         CXacCb43oBpgfClYhjfslcgGLKqgNk3D9f3alDVmROBaQTHqDj4vIfM+fFyxyn9CGogu
+         TXNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716821035; x=1717425835;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rEv9TOl2VcsNK97lEGFpOwkx9V8aOFfBaXbVSYVjqbk=;
+        b=fB5LayQ1Y294GfAjhJiyTZEr6ztm8UszeLT/sj+t8nQ9X/nXboLO1F46i7o71CZbCZ
+         zV9CRGSm12Rv9QAhSqE98gl6vDG6jlUKvM8TUVfkU6/o3/k/EezU1YZx+L2giudlFVPp
+         /hw/o/8V+CY/W3rjq9pHGDM2c9Ms/jahX/j0HZcNBLRSqU45559iHAYXex7MubncWeRB
+         1EI1dhPagdBOLUBxC6g0yAe3rnJ+7OENRRXeDo7GjR2jqX0lXqOap2O7RvkqrLnXCFdF
+         Ya9gQs7kDmqbSU7Avc/objEmb+jFNxOorMfpJrPXczZ+SfrI4ZH44MRyQe2qRb6VJy+J
+         ZLQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUK5WH4xpeTCImY6p9LqahPdG2FXEamJULAFyk/TMxzai8iLTHpda3aVrmzOg431JL10s1hqjC5mIfvXx7LOv1pBVOiV1nUQ7kc//0FyIrNOYcV3ShWFHG6bRY6pP6jVpdUd7XRrmVvuVJ1MyC9JHVihJTG7MOL0BNBxqf4U4sBnf+C
+X-Gm-Message-State: AOJu0YzBIL396jpnU9wH3CjxPZv2CxnBQIQH+WyreNWFOvSHTNIon0RA
+	KK5EgS29CqGIcwrMNzVLmCogY100bVp8Yog2yaVwEoQ6hkw0C4vo
+X-Google-Smtp-Source: AGHT+IGnAR9vdm6Qy/DLqPuX3AD8gKj8qNo/aOyJuE1HPXJCL3Up+L+CWGvNzE959PkXuAs62RPlEQ==
+X-Received: by 2002:a17:902:f68b:b0:1f4:8372:db24 with SMTP id d9443c01a7336-1f48372df16mr43806395ad.38.1716821034998;
+        Mon, 27 May 2024 07:43:54 -0700 (PDT)
+Received: from [192.168.50.95] ([118.32.98.101])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f481d5a77bsm30101805ad.298.2024.05.27.07.43.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 May 2024 07:43:54 -0700 (PDT)
+Message-ID: <8880b0ec-9315-428e-b9c4-e578690d3c08@gmail.com>
+Date: Mon, 27 May 2024 23:43:50 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CY8PR11MB7364A367739AA57107DBBE6AC4F02@CY8PR11MB7364.namprd11.prod.outlook.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] Documentation: cve Korean translation
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: skhan@linuxfoundation.org, Jinwoo Park <pmnxis@gmail.com>,
+ Austin Kim <austindh.kim@gmail.com>, shjy180909@gmail.com,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+References: <20240527103003.29318-1-yskelg@gmail.com>
+ <87ikyzpgqz.fsf@meer.lwn.net>
+ <bf37bf39-32d3-457f-abd6-115215d631af@gmail.com>
+ <87o78rnz3a.fsf@meer.lwn.net>
+Content-Language: en-US
+From: Yunseong Kim <yskelg@gmail.com>
+In-Reply-To: <87o78rnz3a.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Mon, May 27, 2024 at 11:53:07AM +0000, D, Lakshmi Sowjanya kirjoitti:
-> > -----Original Message-----
-> > From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > Sent: Monday, May 13, 2024 4:52 PM
-> > On Mon, May 13, 2024 at 04:08:13PM +0530, lakshmi.sowjanya.d@intel.com
-> > wrote:
 
-...
 
-> > > +Date:		June 2024
-> > 
-> > Is this checked by phb?
-> > 
-> > "the v6.11 kernel predictions: merge window closes on Sunday, 2024-08-04
-> > and  release on Sunday, 2024-09-29"
+On 5/27/24 10:50 오후, Jonathan Corbet wrote:
+> Yunseong Kim <yskelg@gmail.com> writes:
 > 
-> I have taken from phb but my understanding is that any probable month before
-> merge window should be added.
+>>> 1) Why do I have three versions of it in my mailbox, sent over a period
+>>>    of 13 minutes?  What changed between the versions?
+>>
+>> Sorry, I forgot the name of the reviewer when I first sent the
+>> documentation content related patch version 2.
+> 
+> Which is fine, but...
+> 
+>>>    Normally, you want to wait for reviews to come in on one version
+>>>    before posting the next, and you should put a comment after the "---"
+>>>    line saying what changed.
+>>>
+>>> 2) When did this review from Jinwoo Park happen?  I was not copied on
+>>>    that.
+> 
+> You did not answer this question.  Reviews should generally be done in
+> public, but that does not seem to have happened here?
 
-I didn't get this. You meant the merge window for the next cycle after your
-changes are expected to land?
+Oops, sorry about that, Jonathan.
 
-> I want to know if it should be the month when the merge window closes? (i.e
-> in this case August)?
+Jinwoo Park sent me the review below, and I've updated some of ambiguous
+words in patch version 2.
 
-My common sense tells me that there will be no real users (except developers)
-for any kernel that's marked as vX.Y-rcZ. Assuming that we announce the ABI in
-the release, we should use date of the estimated relase. In this case I would
-use September 2024.
+https://lore.kernel.org/linux-doc/57f0d90c-4cc6-4418-ab79-6ae026d8ae09@gmail.com/T/#t
 
-> > > +KernelVersion:	6.11
+>> Thanks for translating new Documentation/process/cve document to Korean
+>> Language. Most of the Korean sentences are looks good to me. But only
+>> one sentence seemed unnatural.
+>
+> Thank you for the review Jinwoo.
+>
+>>> 잘못된 CVE 항목들
+>>> =================
+>>>
+>>> -해당 배포판에서 변경된 사항으로 인해 또는 해당 배포판이 더 이상
+>>> kernel.org
+>>> +특정 배포판에서 변경된 사항으로 인해 또는 해당 배포판이 더 이상
+>>> kernel.org
+>>> 지원 릴리스가 아닌 커널 버전을 지원하기 때문에 Linux 배포판에서만
+지원되는
+>>> Linux 커널에서 보안 문제가 발견되는 경우 Linux 커널 CVE 팀에서 CVE를
+할당할
+>>> 수 없으며 해당 Linux 배포판 자체에서 요청해야 합니다.
+>>
+>> When the first modifier "해당" is first used in a Korean sentence, like
+>> "the", there needs to be an explanation of what it is targeting.
+>
+>
+> You're right, that phrase was awkward in the direct translation. Thanks
+> for catching that.
+>
+>> However, in the process of literal translation, it seems that "the"
+>> became "해당" due to the difference in word order between Korean and
+>> English, And since the translated sentence did not describe which "Linux
+>> distributor" is being described, it would be very difficult if
+>> "특정(specific)" were used instead. It seems natural.
+>
+> I will send version 2 patch. Thank you!
+>
+> Warm Regards,
+>
+> Yunseong Kim
 
--- 
-With Best Regards,
-Andy Shevchenko
+And I added Jinwoo as a reviewer to the documentation on patch version 3.
+
+On 5/27/24 10:21 오후, Yunseong Kim wrote:
+> I added Jinwoo's name here on version 3.
+>
+>> +:감수: 박진우 <pmnxis@gmail.com>
+> Warm Regards,
+
+Thank you for guiding me Jonathan.
+
+I'll keep the process in mind and use them to help the next person who
+translates to Korean.
+
+> Thanks,
+> 
+> jon
 
 
+Warn Regards,
+
+Yunseong Kim
