@@ -1,168 +1,101 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6C561FC0;
-	Mon, 27 May 2024 14:43:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A0D168C17
+	for <linux-doc@vger.kernel.org>; Mon, 27 May 2024 14:50:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716821037; cv=none; b=EdzGczlsohjVPgiOX70rn8Gv1JQAqHCenzGASbXiyZyzze4uSnvQXdte4Fz9gb0tM30tKgeSF3uyLRVHeJdX6edGdgm5tkix/K7N0YBzczPeqDufaUQilX6SOgehwDOP5v5hkaOQtQDQAAdOCHavP2be+8nMRj68AMdBkjt69dU=
+	t=1716821434; cv=none; b=lkxhwe2F8VFBZXQ79bnr2kN2i21RmeXJ18ODM1SxKjF36xjyzib6Ed67CzMZOz4JeqkD5yh8AboM4/TIJbrt5D2s7dtn8KY2tKOoqEfthz6jyztGvfB0qqagXLLpUujCrDsa85UUY86Nta60XMtqS63pLz2kpRyTYOGe+cvsZhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716821037; c=relaxed/simple;
-	bh=yZ54pHZc8pZ1llQjTF214XGFVmGuCbN++WoTXje+y18=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lZksmdWSXS0ebi2UsvlIpsUiOdrFzgqJJAkpvIHiRZiNxJ6JEXog8Ajhv13CDuyLHA+8B0w9rfAgWqJZWd3FJbOEh/fc1ok/84u0T6DwYJe+81Y2Qv69TYA4cp3bGhb6bU7LepAlG4qINzup+JIGzAqvKWKwLJPmu82Mbk6Bho4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AFrRUiES; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1716821434; c=relaxed/simple;
+	bh=aQmfaqRdM70dUl3sSYpYCvVuvVwmhdGi6uJkBkc+nnA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=J4axQrdDstuBJ3dUXofr1ibyc0HajWzNkXWo3BYibitNoF47a9bQzeyPqDc03xcw/lh3oZNQ5ZlnSV/Y6+ESucN3tD2Yf9HkQfaixFDxE0NgJntMN01D8pt7H9BQiJ+gKx9sKS2hAmADSOipVF4WybBxvVe5rpeeuTPF11qd53A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=j3P0PBrQ; arc=none smtp.client-ip=209.85.208.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AFrRUiES"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1f44b45d6abso26651935ad.0;
-        Mon, 27 May 2024 07:43:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="j3P0PBrQ"
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2e95a1eff78so43181831fa.0
+        for <linux-doc@vger.kernel.org>; Mon, 27 May 2024 07:50:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716821035; x=1717425835; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rEv9TOl2VcsNK97lEGFpOwkx9V8aOFfBaXbVSYVjqbk=;
-        b=AFrRUiES+BLBq7fGesvxpV+3Q+vgoqYbMRIhLPSdzru3X9Au92uP4BO12u3WixselN
-         pfqPVpKaENtKvdkF2exM+yMXH5w5OXilNzicuYNc1PO+0u1TbV8LpYWfsUelchsNAXzn
-         FGwDQv6cGPfAJsnXI+L9mZWkdvliPqkDuxuKIB1Kq1QlvKHKznk/wRJjAwJ6ijkB075l
-         6eEI4hxksH9Lmutwh5+/sM6arzFUVDBikCl508K/uCfqDYDPsQmu3lKi7YCcfpkY0Z7T
-         CXacCb43oBpgfClYhjfslcgGLKqgNk3D9f3alDVmROBaQTHqDj4vIfM+fFyxyn9CGogu
-         TXNQ==
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1716821432; x=1717426232; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iVxw+/vOj3sQMuY9pWBFSOW4TraL4Q9T9iSAPkfZRnc=;
+        b=j3P0PBrQ7oUhCTzkBaFesPbg9bVLjzZFtCCno+rU+QYkoAvpZkQRkJUKoQa2oWTCnw
+         CjS2A3lWpUGeoOznJXWYTl33FBXTdVw5uVACuTSXPxVgkjZYUcsb4f6gW4YzPCI+1A1x
+         EMzFy8eYjZFe4HVm8vKnLSDskYVz/gTSNIa5w9cJKcdG+iyPekhBUwBeePeMJLox6/Q6
+         mQlchTapVsEJcndn0sR+3mog8zsFidHfDYjSaN+6n669jOGBasaNcvjQ1XqHiQGVukCE
+         gHppnqa6TUFpST/PUpSK4Fw6Aml49trY8sS43kndr0w4FosJshOt7bYzusS5LYJVb/SP
+         fYiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716821035; x=1717425835;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rEv9TOl2VcsNK97lEGFpOwkx9V8aOFfBaXbVSYVjqbk=;
-        b=fB5LayQ1Y294GfAjhJiyTZEr6ztm8UszeLT/sj+t8nQ9X/nXboLO1F46i7o71CZbCZ
-         zV9CRGSm12Rv9QAhSqE98gl6vDG6jlUKvM8TUVfkU6/o3/k/EezU1YZx+L2giudlFVPp
-         /hw/o/8V+CY/W3rjq9pHGDM2c9Ms/jahX/j0HZcNBLRSqU45559iHAYXex7MubncWeRB
-         1EI1dhPagdBOLUBxC6g0yAe3rnJ+7OENRRXeDo7GjR2jqX0lXqOap2O7RvkqrLnXCFdF
-         Ya9gQs7kDmqbSU7Avc/objEmb+jFNxOorMfpJrPXczZ+SfrI4ZH44MRyQe2qRb6VJy+J
-         ZLQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUK5WH4xpeTCImY6p9LqahPdG2FXEamJULAFyk/TMxzai8iLTHpda3aVrmzOg431JL10s1hqjC5mIfvXx7LOv1pBVOiV1nUQ7kc//0FyIrNOYcV3ShWFHG6bRY6pP6jVpdUd7XRrmVvuVJ1MyC9JHVihJTG7MOL0BNBxqf4U4sBnf+C
-X-Gm-Message-State: AOJu0YzBIL396jpnU9wH3CjxPZv2CxnBQIQH+WyreNWFOvSHTNIon0RA
-	KK5EgS29CqGIcwrMNzVLmCogY100bVp8Yog2yaVwEoQ6hkw0C4vo
-X-Google-Smtp-Source: AGHT+IGnAR9vdm6Qy/DLqPuX3AD8gKj8qNo/aOyJuE1HPXJCL3Up+L+CWGvNzE959PkXuAs62RPlEQ==
-X-Received: by 2002:a17:902:f68b:b0:1f4:8372:db24 with SMTP id d9443c01a7336-1f48372df16mr43806395ad.38.1716821034998;
-        Mon, 27 May 2024 07:43:54 -0700 (PDT)
-Received: from [192.168.50.95] ([118.32.98.101])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f481d5a77bsm30101805ad.298.2024.05.27.07.43.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 May 2024 07:43:54 -0700 (PDT)
-Message-ID: <8880b0ec-9315-428e-b9c4-e578690d3c08@gmail.com>
-Date: Mon, 27 May 2024 23:43:50 +0900
+        d=1e100.net; s=20230601; t=1716821432; x=1717426232;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iVxw+/vOj3sQMuY9pWBFSOW4TraL4Q9T9iSAPkfZRnc=;
+        b=EqXFIg96ynBixQIZwSc4jyLdPQozX1d5FLQdkkhdqDcvyIWZ5hPgOjixSyYJ7JB2+K
+         vnpp9izsSz5Y9/C9BNH5GsiDjK1Ov3zBMmKmLliIm7OcSZBNvPuX0BascxHJbHRq72wX
+         e50xt9ri/XymCGNQ2i5yKURwAQZ3H7DTRqSwQ90ledVAbPnFioS6/4fejgH1cpRZ41aF
+         AAaDjAuXDjzDNnncpEmre3xIVGfv2hRnJY/fugJXLCrPP0EpKl+TNAv998PUks1IG8H+
+         wpgzfLCFgSbMT9nL66c/FXZZWlXa85f7x4rzpAnAmSTkgDjLfduncmJxB/ePu+0Mz9qr
+         S/1g==
+X-Forwarded-Encrypted: i=1; AJvYcCWT2E2U72MHXt5ltBC32LUVYhGVwoTIhAZO2GO1k1jSaV4qEZ6HkEDkoturBumMpGovILeT7zIPKoc8ZCyBrYapEQ1yoD+ZYtRD
+X-Gm-Message-State: AOJu0YyFJLKsZnOcxZUDkrJEirZwsIIo8PdOJz4XtplTU4bVpw7V1a0m
+	ZwhY5ovwX25DSJWK/j3vRPTXO9Ta8AKKMdTvIGRl1AR1a5HTjJ/Rhx+UH8375OM=
+X-Google-Smtp-Source: AGHT+IFMmZGrXNV5jImFthKc7UTTRRpbEBcF2dKZ0Mc60DCS5P4fb3NXNeGa5dqT0XkiXZKRTc+G3w==
+X-Received: by 2002:a2e:a308:0:b0:2e1:ae29:f28a with SMTP id 38308e7fff4ca-2e95b256324mr76970671fa.34.1716821431708;
+        Mon, 27 May 2024 07:50:31 -0700 (PDT)
+Received: from brgl-uxlite.home ([2a01:cb1d:75a:e000:c322:131e:ff9d:ef41])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-421089cc504sm111600385e9.40.2024.05.27.07.50.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 May 2024 07:50:31 -0700 (PDT)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+To: Vegard Nossum <vegard.nossum@oracle.com>,
+	Hu Haowen <2023002089@link.tyut.edu.cn>,
+	linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Alex Shi <alexs@kernel.org>,
+	Yanteng Si <siyanteng@loongson.cn>
+Subject: Re: [PATCH v1 1/1] gpio: Remove legacy API documentation
+Date: Mon, 27 May 2024 16:50:29 +0200
+Message-ID: <171682142405.156260.1185957689650199871.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240508101703.830066-1-andriy.shevchenko@linux.intel.com>
+References: <20240508101703.830066-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] Documentation: cve Korean translation
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: skhan@linuxfoundation.org, Jinwoo Park <pmnxis@gmail.com>,
- Austin Kim <austindh.kim@gmail.com>, shjy180909@gmail.com,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-References: <20240527103003.29318-1-yskelg@gmail.com>
- <87ikyzpgqz.fsf@meer.lwn.net>
- <bf37bf39-32d3-457f-abd6-115215d631af@gmail.com>
- <87o78rnz3a.fsf@meer.lwn.net>
-Content-Language: en-US
-From: Yunseong Kim <yskelg@gmail.com>
-In-Reply-To: <87o78rnz3a.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
+From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
 
-On 5/27/24 10:50 오후, Jonathan Corbet wrote:
-> Yunseong Kim <yskelg@gmail.com> writes:
+On Wed, 08 May 2024 13:17:01 +0300, Andy Shevchenko wrote:
+> In order to discourage people to use old and legacy GPIO APIs
+> remove the respective documentation completely. It also helps
+> further cleanups of the legacy GPIO API leftovers, which is
+> ongoing task.
 > 
->>> 1) Why do I have three versions of it in my mailbox, sent over a period
->>>    of 13 minutes?  What changed between the versions?
->>
->> Sorry, I forgot the name of the reviewer when I first sent the
->> documentation content related patch version 2.
 > 
-> Which is fine, but...
-> 
->>>    Normally, you want to wait for reviews to come in on one version
->>>    before posting the next, and you should put a comment after the "---"
->>>    line saying what changed.
->>>
->>> 2) When did this review from Jinwoo Park happen?  I was not copied on
->>>    that.
-> 
-> You did not answer this question.  Reviews should generally be done in
-> public, but that does not seem to have happened here?
 
-Oops, sorry about that, Jonathan.
+Applied, thanks!
 
-Jinwoo Park sent me the review below, and I've updated some of ambiguous
-words in patch version 2.
+[1/1] gpio: Remove legacy API documentation
+      commit: 447e140e66fd226350b3ce86cffc965eaae4c856
 
-https://lore.kernel.org/linux-doc/57f0d90c-4cc6-4418-ab79-6ae026d8ae09@gmail.com/T/#t
-
->> Thanks for translating new Documentation/process/cve document to Korean
->> Language. Most of the Korean sentences are looks good to me. But only
->> one sentence seemed unnatural.
->
-> Thank you for the review Jinwoo.
->
->>> 잘못된 CVE 항목들
->>> =================
->>>
->>> -해당 배포판에서 변경된 사항으로 인해 또는 해당 배포판이 더 이상
->>> kernel.org
->>> +특정 배포판에서 변경된 사항으로 인해 또는 해당 배포판이 더 이상
->>> kernel.org
->>> 지원 릴리스가 아닌 커널 버전을 지원하기 때문에 Linux 배포판에서만
-지원되는
->>> Linux 커널에서 보안 문제가 발견되는 경우 Linux 커널 CVE 팀에서 CVE를
-할당할
->>> 수 없으며 해당 Linux 배포판 자체에서 요청해야 합니다.
->>
->> When the first modifier "해당" is first used in a Korean sentence, like
->> "the", there needs to be an explanation of what it is targeting.
->
->
-> You're right, that phrase was awkward in the direct translation. Thanks
-> for catching that.
->
->> However, in the process of literal translation, it seems that "the"
->> became "해당" due to the difference in word order between Korean and
->> English, And since the translated sentence did not describe which "Linux
->> distributor" is being described, it would be very difficult if
->> "특정(specific)" were used instead. It seems natural.
->
-> I will send version 2 patch. Thank you!
->
-> Warm Regards,
->
-> Yunseong Kim
-
-And I added Jinwoo as a reviewer to the documentation on patch version 3.
-
-On 5/27/24 10:21 오후, Yunseong Kim wrote:
-> I added Jinwoo's name here on version 3.
->
->> +:감수: 박진우 <pmnxis@gmail.com>
-> Warm Regards,
-
-Thank you for guiding me Jonathan.
-
-I'll keep the process in mind and use them to help the next person who
-translates to Korean.
-
-> Thanks,
-> 
-> jon
-
-
-Warn Regards,
-
-Yunseong Kim
+Best regards,
+-- 
+Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
