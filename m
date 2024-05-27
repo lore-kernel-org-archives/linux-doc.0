@@ -1,179 +1,92 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B667679CC;
-	Mon, 27 May 2024 01:46:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F257DDA5;
+	Mon, 27 May 2024 03:13:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716774419; cv=none; b=fK7itCB2jYS5XXAHT810qJSadAxmpN/TnGoIcvv+kLziKllhhrKTCjatwTfol8HN2I61/kZi8j5NKmMzfGZ12NMCu8sqqNxvAV1yKu37RlJYfihX01CKbyvpILGCybKi5D98R17HyzN9L2GO5M7ju+hNpcQjIr48lJE7O29orQQ=
+	t=1716779623; cv=none; b=UPzdkhbg8wk67UP4AR2UlOvTi/16YR9+48w1wjBoW4qupDa/Nu7rPlalbcXMoYyFzdDlW/7lk+IszYtKiuBj2pavtU2V0kklW3gxnh+xHZ64moau0ZeeKX5Kq92NIi2EGOB898GOJ2Yhcefs0a9+nMjv8KkI90EFf/t+ErgE0g4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716774419; c=relaxed/simple;
-	bh=JsbtzFmMrXkiPE+4xeDuM6sPF/ybWU4Z8X620EBPfp4=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jdRR2/aZ2VvNoGDmG+YevfOIhtFfdSfOirQS2x06R8R2LQ+6gItMyXyYJilLx3zlJOQfjEfguC3vdxJXqwrH8KewVyCeh+P6D4oqZmRv22vATqbekA0IsNL2y54gnsl2uEY/J5t2oVdwYBxM2g4QLw0qWcLR2RWEDjAp/BDT1L8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.187
+	s=arc-20240116; t=1716779623; c=relaxed/simple;
+	bh=LQUBKtXo9O7lpjMOTq/te/3KdZL8KecWHRgyfxXZNM4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=bCmDZSbGuQCjOnF1AWfNFf8a8biBCSpAF0qirML7JHeIMR/LHwAcWqaKE+NnuEgvgFCAojlZ8d0EdcLLdICECtfRh3XoV8EOR41GoOD+rjcAwvS3wz6q1WTzeWHfd4bUSbotpnurqnU/Ep4aRRWLpWky6wFELExX20rCn2R9YGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.189
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.163.252])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4VndhF1WhLzxQCF;
-	Mon, 27 May 2024 09:43:09 +0800 (CST)
-Received: from dggpeml500022.china.huawei.com (unknown [7.185.36.66])
-	by mail.maildlp.com (Postfix) with ESMTPS id B0532180AA0;
-	Mon, 27 May 2024 09:46:55 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by dggpeml500022.china.huawei.com
- (7.185.36.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.35; Mon, 27 May
- 2024 09:46:55 +0800
-From: Hongbo Li <lihongbo22@huawei.com>
-To: <viro@zeniv.linux.org.uk>, <brauner@kernel.org>, <jack@suse.cz>,
-	<tytso@mit.edu>, <adilger.kernel@dilger.ca>
-CC: <lczerner@redhat.com>, <cmaiolino@redhat.com>,
-	<linux-fsdevel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<yi.zhang@huawei.com>, <lihongbo22@huawei.com>
-Subject: [PATCH 4/4] fs: remove fs_lookup_param and its description.
-Date: Mon, 27 May 2024 09:47:17 +0800
-Message-ID: <20240527014717.690140-5-lihongbo22@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240527014717.690140-1-lihongbo22@huawei.com>
-References: <20240527014717.690140-1-lihongbo22@huawei.com>
+Received: from mail.maildlp.com (unknown [172.19.163.174])
+	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Vngcw5MNvzPn51;
+	Mon, 27 May 2024 11:10:24 +0800 (CST)
+Received: from canpemm500001.china.huawei.com (unknown [7.192.104.163])
+	by mail.maildlp.com (Postfix) with ESMTPS id F0371140384;
+	Mon, 27 May 2024 11:13:31 +0800 (CST)
+Received: from [10.67.111.186] (10.67.111.186) by
+ canpemm500001.china.huawei.com (7.192.104.163) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Mon, 27 May 2024 11:13:31 +0800
+Message-ID: <3dffcc67-750e-c4c4-9154-99f1b1154fe0@huawei.com>
+Date: Mon, 27 May 2024 11:13:31 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.1
+Subject: Re: [PATCH v2] sched/Documentation: Add RT_RUNTIME_SHARE
+ documentation
+To: <mingo@kernel.org>, <chrubis@suse.cz>, <rostedt@goodmis.org>,
+	<bagasdotme@gmail.com>, <corbet@lwn.net>
+CC: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20240419090432.1935211-1-zhangqiao22@huawei.com>
+From: Zhang Qiao <zhangqiao22@huawei.com>
+In-Reply-To: <20240419090432.1935211-1-zhangqiao22@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpeml500022.china.huawei.com (7.185.36.66)
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ canpemm500001.china.huawei.com (7.192.104.163)
 
-After `fs_param_is_blockdev` and `fs_param_is_path` are implemented,
-there are no need to lookup the path with `fs_lookup_param`, and
-`fs_parse` is sufficient.
+Ping.
 
-Signed-off-by: Hongbo Li <lihongbo22@huawei.com>
----
- Documentation/filesystems/mount_api.rst | 17 +-------
- fs/fs_parser.c                          | 56 -------------------------
- include/linux/fs_parser.h               |  6 ---
- 3 files changed, 1 insertion(+), 78 deletions(-)
-
-diff --git a/Documentation/filesystems/mount_api.rst b/Documentation/filesystems/mount_api.rst
-index 9aaf6ef75eb5..f92d96758e57 100644
---- a/Documentation/filesystems/mount_api.rst
-+++ b/Documentation/filesystems/mount_api.rst
-@@ -253,7 +253,7 @@ manage the filesystem context.  They are as follows:
-      will have been weeded out and fc->sb_flags updated in the context.
-      Security options will also have been weeded out and fc->security updated.
- 
--     The parameter can be parsed with fs_parse() and fs_lookup_param().  Note
-+     The parameter can be parsed with fs_parse().  Note
-      that the source(s) are presented as parameters named "source".
- 
-      If successful, 0 should be returned or a negative error code otherwise.
-@@ -796,18 +796,3 @@ process the parameters it is given.
-      If the parameter isn't matched, -ENOPARAM will be returned; if the
-      parameter is matched, but the value is erroneous, -EINVAL will be
-      returned; otherwise the parameter's option number will be returned.
--
--   * ::
--
--       int fs_lookup_param(struct fs_context *fc,
--			   struct fs_parameter *value,
--			   bool want_bdev,
--			   unsigned int flags,
--			   struct path *_path);
--
--     This takes a parameter that carries a string or filename type and attempts
--     to do a path lookup on it.  If the parameter expects a blockdev, a check
--     is made that the inode actually represents one.
--
--     Returns 0 if successful and ``*_path`` will be set; returns a negative
--     error code if not.
-diff --git a/fs/fs_parser.c b/fs/fs_parser.c
-index c41a13e564c4..071c0f9d0121 100644
---- a/fs/fs_parser.c
-+++ b/fs/fs_parser.c
-@@ -133,62 +133,6 @@ int __fs_parse(struct p_log *log,
- }
- EXPORT_SYMBOL(__fs_parse);
- 
--/**
-- * fs_lookup_param - Look up a path referred to by a parameter
-- * @fc: The filesystem context to log errors through.
-- * @param: The parameter.
-- * @want_bdev: T if want a blockdev
-- * @flags: Pathwalk flags passed to filename_lookup()
-- * @_path: The result of the lookup
-- */
--int fs_lookup_param(struct fs_context *fc,
--		    struct fs_parameter *param,
--		    bool want_bdev,
--		    unsigned int flags,
--		    struct path *_path)
--{
--	struct filename *f;
--	bool put_f;
--	int ret;
--
--	switch (param->type) {
--	case fs_value_is_string:
--		f = getname_kernel(param->string);
--		if (IS_ERR(f))
--			return PTR_ERR(f);
--		put_f = true;
--		break;
--	case fs_value_is_filename:
--		f = param->name;
--		put_f = false;
--		break;
--	default:
--		return invalf(fc, "%s: not usable as path", param->key);
--	}
--
--	ret = filename_lookup(param->dirfd, f, flags, _path, NULL);
--	if (ret < 0) {
--		errorf(fc, "%s: Lookup failure for '%s'", param->key, f->name);
--		goto out;
--	}
--
--	if (want_bdev &&
--	    !S_ISBLK(d_backing_inode(_path->dentry)->i_mode)) {
--		path_put(_path);
--		_path->dentry = NULL;
--		_path->mnt = NULL;
--		errorf(fc, "%s: Non-blockdev passed as '%s'",
--		       param->key, f->name);
--		ret = -ENOTBLK;
--	}
--
--out:
--	if (put_f)
--		putname(f);
--	return ret;
--}
--EXPORT_SYMBOL(fs_lookup_param);
--
- static int fs_param_bad_value(struct p_log *log, struct fs_parameter *param)
- {
- 	return inval_plog(log, "Bad value for '%s'", param->key);
-diff --git a/include/linux/fs_parser.h b/include/linux/fs_parser.h
-index 489c71d06a5f..fa2745254818 100644
---- a/include/linux/fs_parser.h
-+++ b/include/linux/fs_parser.h
-@@ -74,12 +74,6 @@ static inline int fs_parse(struct fs_context *fc,
- 	return __fs_parse(&fc->log, desc, param, result);
- }
- 
--extern int fs_lookup_param(struct fs_context *fc,
--			   struct fs_parameter *param,
--			   bool want_bdev,
--			   unsigned int flags,
--			   struct path *_path);
--
- extern int lookup_constant(const struct constant_table tbl[], const char *name, int not_found);
- 
- #ifdef CONFIG_VALIDATE_FS_PARSER
--- 
-2.34.1
-
+在 2024/4/19 17:04, Zhang Qiao 写道:
+> RT_RUNTIME_SHARE is an important strategy for rt bandwidth, and
+> we should document this sched feature.
+> 
+> Signed-off-by: Zhang Qiao <zhangqiao22@huawei.com>
+> Improvements-suggested-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  Documentation/scheduler/sched-rt-group.rst | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/Documentation/scheduler/sched-rt-group.rst b/Documentation/scheduler/sched-rt-group.rst
+> index d685609ed3d7..eea2fc6f068f 100644
+> --- a/Documentation/scheduler/sched-rt-group.rst
+> +++ b/Documentation/scheduler/sched-rt-group.rst
+> @@ -12,6 +12,7 @@ Real-Time group scheduling
+>       2.1 System-wide settings
+>       2.2 Default behaviour
+>       2.3 Basis for grouping tasks
+> +     2.4 RT_RUNTIME_SHARE sched feature
+>     3. Future plans
+>  
+>  
+> @@ -146,6 +147,17 @@ For now, this can be simplified to just the following (but see Future plans):
+>  
+>     \Sum_{i} runtime_{i} <= global_runtime
+>  
+> +2.4 RT_RUNTIME_SHARE sched feature
+> +----------------------------------
+> +
+> +RT_RUNTIME_SHARE allows a cpu to borrow rt-runtime from other cpus if it runs
+> +out of its own rt-runtime.
+> +
+> +With this feature enabled, a rt-task may hit 100% cpu usage and can stall other
+> +per-cpu tasks like kworkers, as a result, which leads into system hang.
+> +
+> +Thus, it is advised to disable this feature by default to avoid aforementioned
+> +issue unless you know what you're doing.
+>  
+>  3. Future plans
+>  ===============
+> 
