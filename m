@@ -1,132 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC93A73473;
-	Mon, 27 May 2024 16:31:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73EED6FB0;
+	Mon, 27 May 2024 17:00:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716827461; cv=none; b=T/Uzq31ixP8j+x4V9h1x73LYNK8HIehnNAEFClY8xzZIG8hCbgcAmFlscsgQP8R8agpE6KA3Ljiz7KMeEXePIRRfToKY5KjaqqGl/R8MuBirwda0Z7bO31rBx2pVEcck5YXyrR3ijxq/16FjmWDyZAwOk6V4AJ/WIGstM9B9GRA=
+	t=1716829235; cv=none; b=Vhm0bpZQ/PeN04fSEXHW3sxUFfI7MKOBGJUkgZ3vuw5xsbNopZonOWJ6h9hyF+fOwR4gzNMD2bOs54GUEMO4OpGlJaCS/ytKbnBxE0z0vYq28smxDrlO0o+hhqieh7yXvkR9DX0NkvOVcWUjnConVz5oepVgxpMMm6r9MHNAG0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716827461; c=relaxed/simple;
-	bh=wFzYxv0fxA4PHm+U+RUFutGQw4gMcFRHBJORjFR0yQE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XBPEOEuifJknY1+ikpGbShiG8K4+dr9u58qqnuKI7lbe63eaf5xK+1eEbnDAoMfQHShoIrYOziMADuy31NhWXpKWEY/JsCYYYlWSERlQ/o1LSOmUlR9Eys7Omwr1Fn2hrxd82jW9a6hk130RxYV2qOzo+eYFdQAT5pfk1YLhMKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gxLEH86g; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1716829235; c=relaxed/simple;
+	bh=8MLNb2bRcbp/oLUAripV2zX69ZK7bOk3ntrl8bKbv7k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=P2ZhoKwUzGGa3mp+UEs3F67+Lb5VzPJPeED3igy7rL1yrPECpRcdMPAw4HyZUXWuvokewUcITymDgOqIIM3yGDEkQKnultZ8T35qLRl1tFrByE2SB6mhXueMvu6UXO5YLMTNqcc9ICli9RQ8zOpXDfFMw3COSCZphD9lY2wzRt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e6CNCGDy; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gxLEH86g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3878FC32781;
-	Mon, 27 May 2024 16:31:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716827461;
-	bh=wFzYxv0fxA4PHm+U+RUFutGQw4gMcFRHBJORjFR0yQE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=gxLEH86gxe7ZfAK5zKlZ/j7jD2Y0eX49YH9bXtJxDjJg5jP6FjDrRKuCrhqX6jHoP
-	 9nKNjpFKFfOmGWTLoQNuwgxsIsk3PIaej0kvKEkhtZbpKOv/fmvoil6O1QhbRo8DYI
-	 k1YIa3xSM0SMMvpYrkZXuaRNZVmoSkcqU0oeohtoNQPVP0DXYYWpz8DxvkjRJ5jSYk
-	 r9pryL0aDrWu3OeaX8ObokDTvhHWbcsNDAnwVWVr8nq6rwaDRaQQjAr+tATZ5QToqG
-	 P2UVj1e49JdccaR4g4zSZfqr4Lk+GDVudiRA72rKEv6EGw+S4VWeRQGY8+cLP/H/pq
-	 n0kCv9ZIrLVVQ==
-Date: Mon, 27 May 2024 09:30:59 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Ido Schimmel <idosch@nvidia.com>
-Cc: Danielle Ratson <danieller@nvidia.com>, "netdev@vger.kernel.org"
- <netdev@vger.kernel.org>, "davem@davemloft.net" <davem@davemloft.net>,
- "edumazet@google.com" <edumazet@google.com>, "pabeni@redhat.com"
- <pabeni@redhat.com>, "corbet@lwn.net" <corbet@lwn.net>,
- "linux@armlinux.org.uk" <linux@armlinux.org.uk>, "sdf@google.com"
- <sdf@google.com>, "kory.maincent@bootlin.com" <kory.maincent@bootlin.com>,
- "maxime.chevallier@bootlin.com" <maxime.chevallier@bootlin.com>,
- "vladimir.oltean@nxp.com" <vladimir.oltean@nxp.com>,
- "przemyslaw.kitszel@intel.com" <przemyslaw.kitszel@intel.com>,
- "ahmed.zaki@intel.com" <ahmed.zaki@intel.com>, "richardcochran@gmail.com"
- <richardcochran@gmail.com>, "shayagr@amazon.com" <shayagr@amazon.com>,
- "paul.greenwalt@intel.com" <paul.greenwalt@intel.com>, "jiri@resnulli.us"
- <jiri@resnulli.us>, "linux-doc@vger.kernel.org"
- <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, mlxsw <mlxsw@nvidia.com>, Petr Machata
- <petrm@nvidia.com>
-Subject: Re: [PATCH net-next v5 04/10] ethtool: Add flashing transceiver
- modules' firmware notifications ability
-Message-ID: <20240527093059.7e6e17ba@kernel.org>
-In-Reply-To: <ZlSwbTwRF6KjPfJ5@shredder>
-References: <20240424133023.4150624-5-danieller@nvidia.com>
-	<20240429201130.5fad6d05@kernel.org>
-	<DM6PR12MB45168DC7D9D9D7A5AE3E2B2DD81A2@DM6PR12MB4516.namprd12.prod.outlook.com>
-	<20240430130302.235d612d@kernel.org>
-	<ZjH1DCu0rJTL_RYz@shredder>
-	<20240501073758.3da76601@kernel.org>
-	<DM6PR12MB451687C3C54323473716621ED8EB2@DM6PR12MB4516.namprd12.prod.outlook.com>
-	<20240522064519.3e980390@kernel.org>
-	<DM6PR12MB451677DBA41EA8A622D3D446D8EB2@DM6PR12MB4516.namprd12.prod.outlook.com>
-	<20240522072212.7a21c84b@kernel.org>
-	<ZlSwbTwRF6KjPfJ5@shredder>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e6CNCGDy"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1f480624d04so13909515ad.2;
+        Mon, 27 May 2024 10:00:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716829234; x=1717434034; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pnYD2vB9if3b0Pw8B9yj3OZSPzEecAxuxqjy5zfQk70=;
+        b=e6CNCGDy8hNGGL2YZWY/ZvWRPvuMMRYYv6VePDFcYjkxkpX0dENQEhCThcSHWgmrk5
+         tYVgo+STgb7JonTXR7fXAv7t5yALRiivIOvAqTzA79lsEGCsMHuzjjvo9M15JtsbjEHb
+         iSPPzr22fNUXppwm237sbPa38ZVVLafhzKFejn8W6Qh4Fg0iK4p1vfrWOI7QzffalM84
+         PoXlpVmHFPw+dg1IJTEtu8CZhnCiHcibvUJtcn6wXIkZxH+j3uAKpLIbCtxXHO/+h7tR
+         rm9jjcF63yyQ2wZMgjt+dlhjzkLNMWjyzWJOYGt2QOzCzx1BjqY/hyjE4FPmlYbg5TMl
+         p02Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716829234; x=1717434034;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pnYD2vB9if3b0Pw8B9yj3OZSPzEecAxuxqjy5zfQk70=;
+        b=v7GwpEEloFfKMDjMe1rd6DLsDZfFY0eUdzGxzkqc0DinJBo31FcFL6c8pogMETStC5
+         g4UTgnYhWJrqKjuuZdqzdQeLo5x0IG4wIlZWa/v3ewVp/FnvckJfgTuSqLVg3uWI5V3t
+         dI2i/E2a8uFGC6lGhWMte9lyJeqIz3gtspZXwzpyFPPDYsNprRU+BdmuepYaxh9txIQ2
+         97jeT7pQEz0d52LTitpgVuU61WCLo/3Lrq8gbT0eFqRM4g9/2GYeLmQw5ZKag/p4RH/T
+         VLU//Tug6CcKz/X64lYlhVZ0DuCEceHmdp8ZyC/3y9mAFXG/Y07JXLSHPXC3auXiQ+RA
+         jK/g==
+X-Forwarded-Encrypted: i=1; AJvYcCXjeXxkIC2ov/Aqb8KokMFhkzP3wpnn/sbmGp4+78OUMSMtdBnTpEtRiLqb+LCpXBEsnWzog+bs4JMFfddU4rWX24X36T5hPebzrKVBbBBzwLdjunblyN5J5/4EfzB6nAAKWtx42LoaK6G/NDCkPFb3+2ieL0pqQjBEl/eXUQsimHDo
+X-Gm-Message-State: AOJu0YwRk3OP1zAWRMdYW2Ih1oTBJDQ+GomI/yEkl71aZZVAouwLca+3
+	fuwrfzksEcgfEj80fp7e9os5FkXRL73XBISTqLnp1ugsFx2cvM0I
+X-Google-Smtp-Source: AGHT+IGmgWeyiRNe9+u2BnAS1T0LPl+16VQSq5K+KtGP+MlwlyWvOvoH3Tc4mPXyjH2k8Qjrfmh4Hg==
+X-Received: by 2002:a17:902:c94d:b0:1f4:98f4:4763 with SMTP id d9443c01a7336-1f498f449a0mr38374615ad.53.1716829233424;
+        Mon, 27 May 2024 10:00:33 -0700 (PDT)
+Received: from [10.59.0.127] ([210.178.66.119])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f44c99d23asm65061795ad.208.2024.05.27.10.00.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 May 2024 10:00:33 -0700 (PDT)
+Message-ID: <f8a8c06a-9dcd-437f-ab75-d0ddb608662f@gmail.com>
+Date: Tue, 28 May 2024 02:00:28 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] Documentation: cve Korean translation
+Content-Language: ko
+To: Jonathan Corbet <corbet@lwn.net>, Yunseong Kim <yskelg@gmail.com>
+Cc: skhan@linuxfoundation.org, Austin Kim <austindh.kim@gmail.com>,
+ shjy180909@gmail.com, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+References: <20240527103003.29318-1-yskelg@gmail.com>
+ <87ikyzpgqz.fsf@meer.lwn.net>
+ <bf37bf39-32d3-457f-abd6-115215d631af@gmail.com>
+ <87o78rnz3a.fsf@meer.lwn.net>
+ <8880b0ec-9315-428e-b9c4-e578690d3c08@gmail.com>
+ <877cffnw2i.fsf@meer.lwn.net>
+From: Jinwoo Park <pmnxis@gmail.com>
+In-Reply-To: <877cffnw2i.fsf@meer.lwn.net>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, 27 May 2024 19:10:55 +0300 Ido Schimmel wrote:
-> On Wed, May 22, 2024 at 07:22:12AM -0700, Jakub Kicinski wrote:
-> > On Wed, 22 May 2024 13:56:11 +0000 Danielle Ratson wrote: =20
-> > > The event should match the below:
-> > > event =3D=3D NETLINK_URELEASE && notify->protocol =3D=3D NETLINK_GENE=
-RIC
-> > >=20
-> > > Then iterate over the list to look for work that matches the dev and =
-portid.
-> > > The socket doesn=E2=80=99t close until the work is done in that case.=
-  =20
-> >=20
-> > Okay, good, yes. I think you can use one of the callbacks I mentioned
-> > below to achieve the same thing with less complexity than the notifier.=
- =20
->=20
-> Danielle already has a POC with the notifier and it's not that
-> complicated. I wasn't aware of the netlink notifier, but we found it
-> when we tried to understand how other netlink families get notified
-> about a socket being closed.
->=20
-> Which advantages do you see in the sock_priv_destroy() approach? Are you
-> against the notifier approach?
 
-Notifier is not incorrect, but I worry it will result in more code,
-and basically duplication of what genl_sk_priv* does. Perhaps you
-managed to code it up very neatly - if so feel free to send the v6
-and we can discuss further if needed?
 
-> > > > Easiest way to "notice" the socket got closed would probably be to =
-add some
-> > > > info to genl_sk_priv_*(). ->sock_priv_destroy() will get called. Bu=
-t you can also
-> > > > get a close notification in the family   =20
-> > > > ->unbind callback.   =20
->=20
-> Isn't the unbind callback only for multicast (whereas we are using
-> unicast)?
+On 2024. 5. 27. 오후 11:55, Jonathan Corbet wrote:
+> It does look like the patch was reviewed, but no Reviewed-by tag was
+> offered.  *Never* apply a Reviewed-by tag that has not been explicitly
+> given to you.
+> 
+> Jinwoo, would you like to offer that tag for this patch?
 
-True, should work in practice, I think. But sock_priv is much better.
+Thank you for taking a close look at the content and flow of the patch.
+Jon, yes I want to offer and apply Reviewd-by tag for the patch.
 
-> > > Is there a scenario that we hit this event and won't intend to cancel=
- the work?  =20
-> >=20
-> > I think it's up to us. I don't see any legit reason for user space to
-> > intentionally cancel the flashing. So the only option is that user space
-> > is either buggy or has crashed, and the socket got closed before
-> > flashing finished. Right? =20
->=20
-> We don't think that closing the socket / killing the process mid
-> flashing is a legitimate scenario. We looked into it in order to avoid
-> sending unicast notifications to a socket that did not ask for them but
-> gets them because it was bound to the port ID that was used by the old
-> socket.
->=20
-> I agree that we don't need to cancel the work and can simply have the
-> work item stop sending notifications. User space will get an error if it
-> tries to flash a module that is already being flashed in the background.
-> WDYT?
-
-SGTM!
+Thanks Regards,
+Jinwoo Park
