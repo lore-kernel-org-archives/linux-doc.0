@@ -1,94 +1,181 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73EED6FB0;
-	Mon, 27 May 2024 17:00:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C6D1607A5
+	for <linux-doc@vger.kernel.org>; Mon, 27 May 2024 19:00:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716829235; cv=none; b=Vhm0bpZQ/PeN04fSEXHW3sxUFfI7MKOBGJUkgZ3vuw5xsbNopZonOWJ6h9hyF+fOwR4gzNMD2bOs54GUEMO4OpGlJaCS/ytKbnBxE0z0vYq28smxDrlO0o+hhqieh7yXvkR9DX0NkvOVcWUjnConVz5oepVgxpMMm6r9MHNAG0E=
+	t=1716836450; cv=none; b=aP1QRasHeiSoK5zBd+fV5N/K+1r16eiK2nLdQofrG4xxVwWXKOV4sNVzMththfc7M8+9FcNSntRPNY3i6XSiH+Q8SupBJxseq480Y4/VyX1VAqOGHU6DtUOC58S5+Mq77+3rokRkv3ngIK9PXfe+Qn7nccmKP4a/LXicrckU1+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716829235; c=relaxed/simple;
-	bh=8MLNb2bRcbp/oLUAripV2zX69ZK7bOk3ntrl8bKbv7k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=P2ZhoKwUzGGa3mp+UEs3F67+Lb5VzPJPeED3igy7rL1yrPECpRcdMPAw4HyZUXWuvokewUcITymDgOqIIM3yGDEkQKnultZ8T35qLRl1tFrByE2SB6mhXueMvu6UXO5YLMTNqcc9ICli9RQ8zOpXDfFMw3COSCZphD9lY2wzRt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e6CNCGDy; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1716836450; c=relaxed/simple;
+	bh=QtTJK4e+xezrmSqjZutOBCe4DS0fPdLTmIIG4CLzy38=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hYq4TECypH5+JkG5tQ1z8Wfd3HR7smzcm9IRdCD848GY2rrNuBHP6jxPYIyR4Eooe6eBwg7iM2qAGiyp1P1TCHUVKDSrNxHSodhofkZktKCwdnlUDa5Fcbm2ZGE6m7hbP0sU8SBQQq+C4P+Tjb7rZAl34YTgeUDKulPlsrseHtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=x6Lx3xLL; arc=none smtp.client-ip=209.85.219.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e6CNCGDy"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1f480624d04so13909515ad.2;
-        Mon, 27 May 2024 10:00:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="x6Lx3xLL"
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-df771bddc0dso58922276.3
+        for <linux-doc@vger.kernel.org>; Mon, 27 May 2024 12:00:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716829234; x=1717434034; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pnYD2vB9if3b0Pw8B9yj3OZSPzEecAxuxqjy5zfQk70=;
-        b=e6CNCGDy8hNGGL2YZWY/ZvWRPvuMMRYYv6VePDFcYjkxkpX0dENQEhCThcSHWgmrk5
-         tYVgo+STgb7JonTXR7fXAv7t5yALRiivIOvAqTzA79lsEGCsMHuzjjvo9M15JtsbjEHb
-         iSPPzr22fNUXppwm237sbPa38ZVVLafhzKFejn8W6Qh4Fg0iK4p1vfrWOI7QzffalM84
-         PoXlpVmHFPw+dg1IJTEtu8CZhnCiHcibvUJtcn6wXIkZxH+j3uAKpLIbCtxXHO/+h7tR
-         rm9jjcF63yyQ2wZMgjt+dlhjzkLNMWjyzWJOYGt2QOzCzx1BjqY/hyjE4FPmlYbg5TMl
-         p02Q==
+        d=linaro.org; s=google; t=1716836448; x=1717441248; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6Ja7vlfEqAriKa+FwY5Dmg/udaegLnmPF1+eRGrrskg=;
+        b=x6Lx3xLL8+EQaTx+zSZWL1QUgU5MY1zgVdw8T1xlhHKEWQcXKRdxB/wq6UATfjK23O
+         tyxIw/roNaAXLIk254luWcJXamEqqdBrmg5VxkO2jprdJmCkDazzb7Vd4SWh4J9YC3Sr
+         VHfwzuAYA0IktWtjhUlwrFvohWQWJrp4SWPnPSFTqgQIAmAzPEegs7wV3tyMUzwQyKpc
+         CxLAs5986CP3NfN3Z6Dcok7l6v9PfKt8pXGSanou3dudkkQKIPJ+yKY2WGaPrmKM8u8t
+         ZUeAz+UzrQYH4Nsjn0DBsA5ZL/lbYML9z+zMTSJ04L32u1xSzjrWIFZAXUYtHu6GIXiW
+         qvLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716829234; x=1717434034;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pnYD2vB9if3b0Pw8B9yj3OZSPzEecAxuxqjy5zfQk70=;
-        b=v7GwpEEloFfKMDjMe1rd6DLsDZfFY0eUdzGxzkqc0DinJBo31FcFL6c8pogMETStC5
-         g4UTgnYhWJrqKjuuZdqzdQeLo5x0IG4wIlZWa/v3ewVp/FnvckJfgTuSqLVg3uWI5V3t
-         dI2i/E2a8uFGC6lGhWMte9lyJeqIz3gtspZXwzpyFPPDYsNprRU+BdmuepYaxh9txIQ2
-         97jeT7pQEz0d52LTitpgVuU61WCLo/3Lrq8gbT0eFqRM4g9/2GYeLmQw5ZKag/p4RH/T
-         VLU//Tug6CcKz/X64lYlhVZ0DuCEceHmdp8ZyC/3y9mAFXG/Y07JXLSHPXC3auXiQ+RA
-         jK/g==
-X-Forwarded-Encrypted: i=1; AJvYcCXjeXxkIC2ov/Aqb8KokMFhkzP3wpnn/sbmGp4+78OUMSMtdBnTpEtRiLqb+LCpXBEsnWzog+bs4JMFfddU4rWX24X36T5hPebzrKVBbBBzwLdjunblyN5J5/4EfzB6nAAKWtx42LoaK6G/NDCkPFb3+2ieL0pqQjBEl/eXUQsimHDo
-X-Gm-Message-State: AOJu0YwRk3OP1zAWRMdYW2Ih1oTBJDQ+GomI/yEkl71aZZVAouwLca+3
-	fuwrfzksEcgfEj80fp7e9os5FkXRL73XBISTqLnp1ugsFx2cvM0I
-X-Google-Smtp-Source: AGHT+IGmgWeyiRNe9+u2BnAS1T0LPl+16VQSq5K+KtGP+MlwlyWvOvoH3Tc4mPXyjH2k8Qjrfmh4Hg==
-X-Received: by 2002:a17:902:c94d:b0:1f4:98f4:4763 with SMTP id d9443c01a7336-1f498f449a0mr38374615ad.53.1716829233424;
-        Mon, 27 May 2024 10:00:33 -0700 (PDT)
-Received: from [10.59.0.127] ([210.178.66.119])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f44c99d23asm65061795ad.208.2024.05.27.10.00.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 May 2024 10:00:33 -0700 (PDT)
-Message-ID: <f8a8c06a-9dcd-437f-ab75-d0ddb608662f@gmail.com>
-Date: Tue, 28 May 2024 02:00:28 +0900
+        d=1e100.net; s=20230601; t=1716836448; x=1717441248;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6Ja7vlfEqAriKa+FwY5Dmg/udaegLnmPF1+eRGrrskg=;
+        b=K/iqf3CrNON03f8liKjeg3Kv0MuIDEAaqUwHyCJqudPlWqLM1HJzohrUqTn5rcbLWV
+         RMNzxtVCREy8dwiZQfcgGfkEG+czn1TJOuNQN/s724FOufckyArWIF47/a5zIhRy105V
+         VZvlovnAriWvPAJ0ZJ0VHrXNfgABewhogJWfBrSjpLHpDVUgxlx8guAoZ7jh8g3LdJkp
+         zQ5Fj8jMpf1xchiv1hoqW5UGk/hkYr+YF7A7+OSzkGoNUnGjW6Evl8gR6NvNu/7h0pNq
+         WmsZvL3uzgi9GTNtS/7dcifbTWFPUQKS407eJH1j575k9OlsVLvIy6H/YPffcOheqL7g
+         Kfag==
+X-Forwarded-Encrypted: i=1; AJvYcCXPDE3ClMnZJcS1uMzqIrwKthdFwkue7ALHUgOGE0eUnGX3b11zYESEM0mffGCIeAozkPSR8qKxEvjezk4ERGJKTYjKxNywHRNy
+X-Gm-Message-State: AOJu0YzA6t3BxoWbJYNBK/bjH7C1M8a6O+aDog6LmTMEcrq6H8I5Gz0A
+	/LZqOrLEeilomsw4mAGQGDLriXHiE7j+mClaDWcOyN10MYJMQ/ReFDXoMLTLQRjMCz2mLu0lErI
+	capA+984W7bL1Z64xzo+bT6NacTU4KNfj/62n4g==
+X-Google-Smtp-Source: AGHT+IFCtPi34MiO9HbMkpVChKlNZ5PYokKGNe1Zkm5+YriPlaD5ppmt2yv+lpMdcC4aRafyvtA23o5zBngE0l9ui5s=
+X-Received: by 2002:a25:86c7:0:b0:df7:94d3:5555 with SMTP id
+ 3f1490d57ef6-df794d357fcmr5601696276.41.1716836447989; Mon, 27 May 2024
+ 12:00:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] Documentation: cve Korean translation
-Content-Language: ko
-To: Jonathan Corbet <corbet@lwn.net>, Yunseong Kim <yskelg@gmail.com>
-Cc: skhan@linuxfoundation.org, Austin Kim <austindh.kim@gmail.com>,
- shjy180909@gmail.com, workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-References: <20240527103003.29318-1-yskelg@gmail.com>
- <87ikyzpgqz.fsf@meer.lwn.net>
- <bf37bf39-32d3-457f-abd6-115215d631af@gmail.com>
- <87o78rnz3a.fsf@meer.lwn.net>
- <8880b0ec-9315-428e-b9c4-e578690d3c08@gmail.com>
- <877cffnw2i.fsf@meer.lwn.net>
-From: Jinwoo Park <pmnxis@gmail.com>
-In-Reply-To: <877cffnw2i.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240521-kms-hdmi-connector-state-v14-0-51950db4fedb@kernel.org>
+ <20240521-kms-hdmi-connector-state-v14-17-51950db4fedb@kernel.org>
+ <4n55dbl2h275z5ubebigri4xjtjsvt44w62n656srdgndcav2j@rrq5haucqx5u>
+ <20240527-adamant-just-spaniel-ebed4e@houat> <a65wtf2hy7ufimkcgo5k2c34ygvtv7erwh567ngsnuaha7qiny@nl6lx67qsjuw>
+ <20240527-colorful-orange-bug-bbeefe@houat>
+In-Reply-To: <20240527-colorful-orange-bug-bbeefe@houat>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Mon, 27 May 2024 22:00:36 +0300
+Message-ID: <CAA8EJpre5u_tD7VVnHwcjzJEV=9X_0Z+U==+gJGQBz6ie8FzFA@mail.gmail.com>
+Subject: Re: [PATCH v14 17/28] drm/connector: hdmi: Add Broadcast RGB property
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Andy Yan <andy.yan@rock-chips.com>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Wick <sebastian.wick@redhat.com>, 
+	=?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Pekka Paalanen <pekka.paalanen@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, 27 May 2024 at 16:30, Maxime Ripard <mripard@kernel.org> wrote:
+>
+> Hi,
+>
+> On Mon, May 27, 2024 at 12:43:18PM GMT, Dmitry Baryshkov wrote:
+> > On Mon, May 27, 2024 at 11:02:13AM +0200, Maxime Ripard wrote:
+> > > Hi,
+> > >
+> > > Thanks again for that thorough review :)
+> > >
+> > > On Thu, May 23, 2024 at 01:22:56PM GMT, Dmitry Baryshkov wrote:
+> > > > On Tue, May 21, 2024 at 12:13:50PM +0200, Maxime Ripard wrote:
+> > > > > The i915 driver has a property to force the RGB range of an HDMI =
+output.
+> > > > > The vc4 driver then implemented the same property with the same
+> > > > > semantics. KWin has support for it, and a PR for mutter is also t=
+here to
+> > > > > support it.
+> > > > >
+> > > > > Both drivers implementing the same property with the same semanti=
+cs,
+> > > > > plus the userspace having support for it, is proof enough that it=
+'s
+> > > > > pretty much a de-facto standard now and we can provide helpers fo=
+r it.
+> > > > >
+> > > > > Let's plumb it into the newly created HDMI connector.
+> > > > >
+> > > > > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > > > > Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+> > > > > Reviewed-by: Sebastian Wick <sebastian.wick@redhat.com>
+> > > > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > > > > ---
+> > > > >  Documentation/gpu/kms-properties.csv            |  1 -
+> > > > >  drivers/gpu/drm/display/drm_hdmi_state_helper.c |  4 +-
+> > > > >  drivers/gpu/drm/drm_atomic.c                    |  2 +
+> > > > >  drivers/gpu/drm/drm_atomic_uapi.c               |  4 ++
+> > > > >  drivers/gpu/drm/drm_connector.c                 | 88 +++++++++++=
+++++++++++++++
+> > > > >  include/drm/drm_connector.h                     | 36 ++++++++++
+> > > > >  6 files changed, 133 insertions(+), 2 deletions(-)
+> > > > >
+> > > > > diff --git a/Documentation/gpu/kms-properties.csv b/Documentation=
+/gpu/kms-properties.csv
+> > > > > index 0f9590834829..caef14c532d4 100644
+> > > > > --- a/Documentation/gpu/kms-properties.csv
+> > > > > +++ b/Documentation/gpu/kms-properties.csv
+> > > > > @@ -15,11 +15,10 @@ Owner Module/Drivers,Group,Property Name,Type=
+,Property Values,Object attached,De
+> > > > >  ,,=E2=80=9Csaturation=E2=80=9D,RANGE,"Min=3D0, Max=3D100",Connec=
+tor,TBD
+> > > > >  ,,=E2=80=9Chue=E2=80=9D,RANGE,"Min=3D0, Max=3D100",Connector,TBD
+> > > > >  ,Virtual GPU,=E2=80=9Csuggested X=E2=80=9D,RANGE,"Min=3D0, Max=
+=3D0xffffffff",Connector,property to suggest an X offset for a connector
+> > > > >  ,,=E2=80=9Csuggested Y=E2=80=9D,RANGE,"Min=3D0, Max=3D0xffffffff=
+",Connector,property to suggest an Y offset for a connector
+> > > > >  ,Optional,"""aspect ratio""",ENUM,"{ ""None"", ""4:3"", ""16:9""=
+ }",Connector,TDB
+> > > > > -i915,Generic,"""Broadcast RGB""",ENUM,"{ ""Automatic"", ""Full""=
+, ""Limited 16:235"" }",Connector,"When this property is set to Limited 16:=
+235 and CTM is set, the hardware will be programmed with the result of the =
+multiplication of CTM by the limited range matrix to ensure the pixels norm=
+ally in the range 0..1.0 are remapped to the range 16/255..235/255."
+> > > >
+> > > > Should it still be defined as a generic property?
+> > >
+> > > I'm not sure what you mean here, sorry. It's being documented as a
+> > > connector property now, so it's very much still listed as a generic
+> > > property?
+> >
+> > I didn't perform my duty well enough and I didn't check the file for
+> > other instances of the property. Now I indeed see a generic "Broadcast
+> > RGB" property, but to me it looks like having a different set of values=
+:
+> >
+> > ,,"""Broadcast RGB""",ENUM,"{ =E2=80=9Coff=E2=80=9D, =E2=80=9Cauto=E2=
+=80=9D, =E2=80=9Con=E2=80=9D }",Connector,TBD
+>
+> That's not really what I meant: that file is deprecated now and it's not
+> where we document the properties anymore. This patch has improved that
+> documentation and moved it to the new place, and removed the deprecated
+> part.
+>
+> However, this line shouldn't be there at all. I'll add a patch to remove
+> it.
+
+SG
+
+>
+> Thanks!
+> Maxime
 
 
 
-On 2024. 5. 27. 오후 11:55, Jonathan Corbet wrote:
-> It does look like the patch was reviewed, but no Reviewed-by tag was
-> offered.  *Never* apply a Reviewed-by tag that has not been explicitly
-> given to you.
-> 
-> Jinwoo, would you like to offer that tag for this patch?
-
-Thank you for taking a close look at the content and flow of the patch.
-Jon, yes I want to offer and apply Reviewd-by tag for the patch.
-
-Thanks Regards,
-Jinwoo Park
+--=20
+With best wishes
+Dmitry
