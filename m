@@ -1,98 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fgw20-7.mail.saunalahti.fi (fgw20-7.mail.saunalahti.fi [62.142.5.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EF3316C451;
-	Mon, 27 May 2024 14:32:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96AA216C6A3
+	for <linux-doc@vger.kernel.org>; Mon, 27 May 2024 14:34:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.142.5.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716820326; cv=none; b=MjMjF3X5hdtWB9qem2iKmgWWvl9E1nqM+kWVTvqXzgx68FM1f3UpPr541oI0s3JVQsX58twttort2RQhgIMIW+A9KvalIe6E3rp80/3pjCigvXWdsHcpEUvou6BBFnXwmDMAmgvxOYO9TihByrZYfv8yAYDTEzbhUZOVZCpvNpY=
+	t=1716820465; cv=none; b=AIFN99KZQF2a4L3GZ7aUkdnt8bg1ooh61PchcqXzPFxmRvAs+T/46xgK+9NV4n4Xmk/dfvyfy+jV2C1DtCAAQT0UWb30DjQAGT8nToHHY/P5nhSYlnn/YzSkcAMTQVH8r2+jgzqlfW7i298Odt+ia/OyxwYoPytvN9bjFHteOFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716820326; c=relaxed/simple;
-	bh=B2/Yvpu3lTcYaIYRID1VS9dR4on3H8GQNYqMd3PwIPo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jCKGgFH7Gsk97kHup1w/YzIODBVRXWCPYN35QIfXFA+pUE1exASzHpQfJdsXerohysBWpTBg3fKu4T48eIDH+gUhDSWZQpD6q/16D77AFarr/ZCcizvWojw7+ZGMoOYKufEdkRtAwLm7SvVrGHKgXa7D45d+/eDUqspVdNAp83I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=amW0V4La; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="amW0V4La"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74A4EC32781;
-	Mon, 27 May 2024 14:32:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716820326;
-	bh=B2/Yvpu3lTcYaIYRID1VS9dR4on3H8GQNYqMd3PwIPo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=amW0V4La5Lk+nOQaRuEglYwpsivvj5lAvv6YV85kriBK04+xrx4A3BjM7J3o2Odpy
-	 /2z3/jXr5oMo5H6fn59rgni7yLCbOff7eCfVjgaetIxk2O9wCBbGiNR0CI6bhA81Bd
-	 ++mEz47jVATIXVDfc1LiUM5hepyQkWxYhcQGgBS5ozczyx7fvxeiq7OYjwdUkuudid
-	 zhro1ODBYti+hnOgR//S/k7/4Q6O0zdMw/sppG05WBYFgiuDNSgev9NWfZdM8pzVPj
-	 61UWRgx2HzZaPJSBkwZ23xzEPNQMKXQ5wkgQhnAMZpVd+ybbTWvtz656oYMvY8SfIw
-	 chEFTUfYieD/w==
-Date: Mon, 27 May 2024 16:32:00 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Hongbo Li <lihongbo22@huawei.com>
-Cc: viro@zeniv.linux.org.uk, jack@suse.cz, tytso@mit.edu, 
-	adilger.kernel@dilger.ca, lczerner@redhat.com, cmaiolino@redhat.com, 
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, yi.zhang@huawei.com
-Subject: Re: [PATCH v2 2/4] fs: add path parser for filesystem mount option.
-Message-ID: <20240527-groll-mythisch-8580c32ab296@brauner>
-References: <20240527075854.1260981-1-lihongbo22@huawei.com>
- <20240527075854.1260981-3-lihongbo22@huawei.com>
+	s=arc-20240116; t=1716820465; c=relaxed/simple;
+	bh=HaAgE/aZ3JdMthdhWf9VMNdA6SlrHtpI51bJIvG36Bs=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mIBcCj9RqRynjufZi/HWIHL5QJYPcmxNt3F10hiobRvEuF/m2WMCw0Z91akC5EBIdJ0407iCggoBfNBRGUSOqQXn0rsa1cSMX9gGvuh0pzDTQ3ET/R/WwpJcE2DcxAdeieHqyvMmNU+PKS37Km4MOTDYuWAM8pzCFuFxQ0jr5Q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=62.142.5.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
+Received: from localhost (88-113-26-230.elisa-laajakaista.fi [88.113.26.230])
+	by fgw23.mail.saunalahti.fi (Halon) with ESMTP
+	id 33d59d03-1c36-11ef-80bb-005056bdfda7;
+	Mon, 27 May 2024 17:34:20 +0300 (EEST)
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 27 May 2024 17:34:19 +0300
+To: "D, Lakshmi Sowjanya" <lakshmi.sowjanya.d@intel.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	"tglx@linutronix.de" <tglx@linutronix.de>,
+	"jstultz@google.com" <jstultz@google.com>,
+	"giometti@enneenne.com" <giometti@enneenne.com>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"x86@kernel.org" <x86@kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+	"Dong, Eddie" <eddie.dong@intel.com>,
+	"Hall, Christopher S" <christopher.s.hall@intel.com>,
+	"Brandeburg, Jesse" <jesse.brandeburg@intel.com>,
+	"davem@davemloft.net" <davem@davemloft.net>,
+	"alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
+	"joabreu@synopsys.com" <joabreu@synopsys.com>,
+	"mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
+	"perex@perex.cz" <perex@perex.cz>,
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>,
+	"Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
+	"peter.hilber@opensynergy.com" <peter.hilber@opensynergy.com>,
+	"N, Pandith" <pandith.n@intel.com>,
+	"Mohan, Subramanian" <subramanian.mohan@intel.com>,
+	"T R, Thejesh Reddy" <thejesh.reddy.t.r@intel.com>
+Subject: Re: [PATCH v8 10/12] pps: generators: Add PPS Generator TIO Driver
+Message-ID: <ZlSZ63ST-Pj9CwCh@surfacebook.localdomain>
+References: <20240513103813.5666-1-lakshmi.sowjanya.d@intel.com>
+ <20240513103813.5666-11-lakshmi.sowjanya.d@intel.com>
+ <ZkH3GP2b9WTz9W3W@smile.fi.intel.com>
+ <CY8PR11MB7364D1C85099E4337408EBAFC4F02@CY8PR11MB7364.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240527075854.1260981-3-lihongbo22@huawei.com>
+In-Reply-To: <CY8PR11MB7364D1C85099E4337408EBAFC4F02@CY8PR11MB7364.namprd11.prod.outlook.com>
 
-On Mon, May 27, 2024 at 03:58:52PM +0800, Hongbo Li wrote:
-> `fsparam_path` uses `fs_param_is_path` to parse the option, but it
-> is currently empty. The new mount api has considered this option in
-> `fsconfig`(that is FSCONFIG_SET_PATH). Here we add general path parser
-> in filesystem layer. Currently, no filesystem uses this function to
-> parse parameters, we add `void *ptr` in `fs_parse_result` to point to
-> the target structure(such as `struct inode *`).
+Mon, May 27, 2024 at 11:48:54AM +0000, D, Lakshmi Sowjanya kirjoitti:
+> > -----Original Message-----
+> > From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > Sent: Monday, May 13, 2024 4:49 PM
+> > On Mon, May 13, 2024 at 04:08:11PM +0530, lakshmi.sowjanya.d@intel.com
+> > wrote:
+
+...
+
+> > > +static ssize_t enable_store(struct device *dev, struct device_attribute
+> > *attr, const char *buf,
+> > > +			    size_t count)
+> > > +{
+> > > +	struct pps_tio *tio = dev_get_drvdata(dev);
+> > > +	bool enable;
+> > > +	int err;
+> > 
+> > (1)
+> > 
+> > > +	err = kstrtobool(buf, &enable);
+> > > +	if (err)
+> > > +		return err;
+> > > +
+> > > +	guard(spinlock_irqsave)(&tio->lock);
+> > > +	if (enable && !tio->enabled) {
+> > 
+> > > +		if (!timekeeping_clocksource_has_base(CSID_X86_ART)) {
+> > > +			dev_err(tio->dev, "PPS cannot be started as clock is
+> > not related
+> > > +to ART");
+> > 
+> > Why not simply dev_err(dev, ...)?
+> > 
+> > > +			return -EPERM;
+> > > +		}
+> > 
+> > I'm wondering if we can move this check to (1) above.
+> > Because currently it's a good question if we are able to stop PPS which was
+> > run by somebody else without this check done.
 > 
-> Signed-off-by: Hongbo Li <lihongbo22@huawei.com>
-> ---
->  fs/fs_parser.c            | 18 ++++++++++++++++++
->  include/linux/fs_parser.h |  1 +
->  2 files changed, 19 insertions(+)
+> Do you mean can someone stop the signal without this check? 
+> Yes, this check is not required to stop.  So, I feel it need not be moved to (1).
 > 
-> diff --git a/fs/fs_parser.c b/fs/fs_parser.c
-> index 2aa208cf2027..5d0adcc514d8 100644
-> --- a/fs/fs_parser.c
-> +++ b/fs/fs_parser.c
-> @@ -367,6 +367,24 @@ EXPORT_SYMBOL(fs_param_is_blockdev);
->  int fs_param_is_path(struct p_log *log, const struct fs_parameter_spec *p,
->  		     struct fs_parameter *param, struct fs_parse_result *result)
->  {
-> +	int ret;
-> +	struct filename *f;
-> +	struct path path;
-> +
-> +	if (param->type != fs_value_is_filename)
-> +		return fs_param_bad_value(log, param);
-> +	if (!*param->string && (p->flags & fs_param_can_be_empty))
-> +		return 0;
-> +
-> +	f = param->name;
-> +	ret = filename_lookup(param->dirfd, f, LOOKUP_FOLLOW, &path, NULL);
-> +	if (ret < 0) {
-> +		error_plog(log, "%s: Lookup failure for '%s'", param->key, f->name);
-> +		return fs_param_bad_value(log, param);
-> +	}
-> +	result->ptr = d_backing_inode(path.dentry);
-> +	path_put(&path);
+> Please, correct me if my understanding is wrong.
 
-That smells like a UAF:
+So, there is a possibility to have a PPS being run (by somebody else) even if
+there is no ART provided?
 
-dfd = open("/bla");
-fsconfig(FSCONFIG_SET_PATH, dfd, "blub", 0);
-close(dfd);
-umount("/bla");
+If "yes", your check is wrong to begin with. If "no", my suggestion is correct,
+i.e. there is no need to stop something that can't be started at all.
 
-and that result->ptr now has a dangling pointer which will be triggered by:
+> > I.o.w. this sounds too weird to me and reading the code doesn't give any hint
+> > if it's even possible. And if it is, are we supposed to touch that since it was
+> > definitely *not* us who ran it.
+> 
+> Yes, we are not restricting on who can stop/start the signal. 
 
-fsconfig(FSCONFIG_CMD_CREATE);
+See above. It's not about this kind of restriction.
+
+> > > +		pps_tio_direction_output(tio);
+> > > +		hrtimer_start(&tio->timer, first_event(tio),
+> > HRTIMER_MODE_ABS);
+> > > +		tio->enabled = true;
+> > > +	} else if (!enable && tio->enabled) {
+> > > +		hrtimer_cancel(&tio->timer);
+> > > +		pps_tio_disable(tio);
+> > > +		tio->enabled = false;
+> > > +	}
+> > > +	return count;
+> > > +}
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
