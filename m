@@ -1,99 +1,46 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C96A15FD19;
-	Mon, 27 May 2024 14:55:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0068917E8E3;
+	Mon, 27 May 2024 15:00:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716821736; cv=none; b=kMeLdXWmhkO8e/hMf/TYVM7EnAObRydUaq/zreA2vbsjgCTboGh6vetIMtqV1rsiSXGUPbnpt9GKujTV0esclmdAt1O3myVK/tvI8oUEKbDYYhOwZBr9TbvqqQdJ2Kq4CwtNVOcUsyl6cutqL8H2E4H7QkGr2n2JthY0G7OVkUo=
+	t=1716822061; cv=none; b=FKYj7ioemt/FHV249qk6wIiAp9th5d7ZbsDIJiUYsSlMyIIdp5Ys9y3O2VYToOpHS/AwLJBtjCLS513kbjgJI6wbTJZUmfovlEVt5DvR/UqU4QogRoatnMQ6vQyhDtKcTX1cSwKKezdJHj6zyWpzJcb3UPkwfwrhkPUMjCTngtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716821736; c=relaxed/simple;
-	bh=WqdfSky25P014jToQJxbbx2jmpw/Y6gIbx3q5jkMXhQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=r0oXFDlfO+oXok30RXIXuKr38vstRx2h+cJ3MvyfN/I/egpHWqJyytM9bXPKuuRAWj/7QMsD0UX2uaN6wdpozc8oJ5c3YIwEtvsrXx7Vq7J/+3P/ECBO8oiV6jnIAheAxqy3UO6VM3knhRp11lqopBqelu3SYz6rYZYHs0YEknk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=OpSRQSnA; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="OpSRQSnA"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3BD0547C39
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1716821734; bh=JUk9kiyoUx5RdgIxL9VYYk1ttK/biBJXbO+frYzpI0E=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=OpSRQSnAig4IIYY8BNqix2k+Yb6FWJLwUUDh/7zJR3VliwFvSwhjOVu+Z00OWVUTi
-	 KVw4IkJcG5msbhLvlUo1sTFRWleDxOukx7T4tmzLHByyJOy6WBoMQSoE6Z4VSj5BNh
-	 wCoU4L9+TRxIe0jBtjA1q9CovmgzTdxCOQMzpRLTRj3LkpHIAEgFEA6yy5+Q2HGI0Q
-	 FM43LYmqlZedmh5NcbRxWKNjYk8UYXdxqSsRLcfqgT+CyufHyV+BJrCbjenZAOG8kO
-	 7LfrCr41ZPvqI+8bFU0s7/jDCVKQxYGIJHgACbRe+inNRNKS/hgtXKkEvGcJaSVSbY
-	 agwtFAZLmVOSA==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 3BD0547C39;
-	Mon, 27 May 2024 14:55:34 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Yunseong Kim <yskelg@gmail.com>
-Cc: skhan@linuxfoundation.org, Jinwoo Park <pmnxis@gmail.com>, Austin Kim
- <austindh.kim@gmail.com>, shjy180909@gmail.com, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH v3] Documentation: cve Korean translation
-In-Reply-To: <8880b0ec-9315-428e-b9c4-e578690d3c08@gmail.com>
-References: <20240527103003.29318-1-yskelg@gmail.com>
- <87ikyzpgqz.fsf@meer.lwn.net>
- <bf37bf39-32d3-457f-abd6-115215d631af@gmail.com>
- <87o78rnz3a.fsf@meer.lwn.net>
- <8880b0ec-9315-428e-b9c4-e578690d3c08@gmail.com>
-Date: Mon, 27 May 2024 08:55:33 -0600
-Message-ID: <877cffnw2i.fsf@meer.lwn.net>
+	s=arc-20240116; t=1716822061; c=relaxed/simple;
+	bh=oQ2Oy2vE4Y+KSIGzjxEVBp2pts3FTmVlEXlZ7nc293g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gdisPLVrMbGZvHhvTi5ud7aGvfRedvnvixLaucd+uqxL+twAS+OLTSgq26i1O7Fon+HLgxPklySlvYHTpcPcaiSqdkVbAY549nL/2G4mudVWNEwq1sKpA2Dl0Lai1roT7iQ1ll5LCIMiuRpRXE2IohF/e1IFW25GnpP+GK/qHN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id CE2DE68BFE; Mon, 27 May 2024 16:52:38 +0200 (CEST)
+Date: Mon, 27 May 2024 16:52:38 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Lukas Bulwahn <lbulwahn@redhat.com>
+Cc: Christoph Hellwig <hch@lst.de>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Robin Murphy <robin.murphy@arm.com>, iommu@lists.linux.dev,
+	Petr Tesarik <petr@tesarici.cz>,
+	Michael Kelley <mhklinux@outlook.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Lukas Bulwahn <lukas.bulwahn@redhat.com>
+Subject: Re: [PATCH] Documentation/core-api: correct reference to
+ SWIOTLB_DYNAMIC
+Message-ID: <20240527145238.GA9113@lst.de>
+References: <20240527131314.22794-1-lukas.bulwahn@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240527131314.22794-1-lukas.bulwahn@redhat.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-Yunseong Kim <yskelg@gmail.com> writes:
-
-> On 5/27/24 10:50 =EC=98=A4=ED=9B=84, Jonathan Corbet wrote:
->> Yunseong Kim <yskelg@gmail.com> writes:
->>=20
->>>> 1) Why do I have three versions of it in my mailbox, sent over a period
->>>>    of 13 minutes?  What changed between the versions?
->>>
->>> Sorry, I forgot the name of the reviewer when I first sent the
->>> documentation content related patch version 2.
->>=20
->> Which is fine, but...
->>=20
->>>>    Normally, you want to wait for reviews to come in on one version
->>>>    before posting the next, and you should put a comment after the "--=
--"
->>>>    line saying what changed.
->>>>
->>>> 2) When did this review from Jinwoo Park happen?  I was not copied on
->>>>    that.
->>=20
->> You did not answer this question.  Reviews should generally be done in
->> public, but that does not seem to have happened here?
->
-> Oops, sorry about that, Jonathan.
->
-> Jinwoo Park sent me the review below, and I've updated some of ambiguous
-> words in patch version 2.
->
-> https://lore.kernel.org/linux-doc/57f0d90c-4cc6-4418-ab79-6ae026d8ae09@gm=
-ail.com/T/#t
-
-It does look like the patch was reviewed, but no Reviewed-by tag was
-offered.  *Never* apply a Reviewed-by tag that has not been explicitly
-given to you.
-
-Jinwoo, would you like to offer that tag for this patch?
-
-Thanks,
-
-jon
+Thanks, applied.
