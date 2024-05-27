@@ -1,113 +1,141 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8771515ECCE
-	for <linux-doc@vger.kernel.org>; Mon, 27 May 2024 13:13:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB0B543AC1;
+	Mon, 27 May 2024 13:21:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716815618; cv=none; b=iZqDgHx8T2N7RTYQ8vQXKuZWo+TqTeCWyAOWvLzyNMBOrl6q6mVztcp3VBKvzCiVsVZGNN/p/9j9aVm3voLqhXZ3YB13qU3z8mC74J8xUvEICxJpGu9I0WGTKCdlFsVBogZT9fID7YwuuPyHrmdlBz89H88EnBx9egSyXgpUBQ4=
+	t=1716816110; cv=none; b=MB4GEmxUJNuQrTfX+8QDPfP1zRzIfkyle8dvIFVZc2T5gOR2dm6zj4M+u52aXuM1pui72ecoqwZ5H2k/UgPkZMPNgn0Sh7Qs8sabX2WHLJTuk3UHi6iCOIAs8WEI/IfNM8udcYdt2Ae6aLEcy9tD9KRPPkTsFJRz3VBzsdqgfOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716815618; c=relaxed/simple;
-	bh=3DuU6HAXXUEpFj1/CbH0w2NMI18Jg5p4m14poKJ7EVw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZstiKSQa1W2YDV6XOqZCCq8gRs8v4B9L222iutkPwAqnoMr+r72WEZ3P1B2qoD/ajgZZEF9qKFyBoNAtd2xdLqOT1ji8jNo7C9x+kHjcVbrj+GRSLpZblNIEH98G5/RIfTMuVyq1iPT4ZNHDSvJViYO3tp8PGjdIWQ9QVvdyVpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=E2fhVi0+; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1716816110; c=relaxed/simple;
+	bh=LhIMyM7Q1PMo3Lw0qt2I3zHR0JcJLpGAUAcCqpa58+U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NUg7xQQONgV7P5ptz1ReQra1eXcgtQ5gDDldLi1v5lkYnKKFQp+nVwEmrZ0zvCF2JHekVDl/QVajCW8Sss1Q+/b2yw78MUNcCIihQpNFRG7T/U+DnLpLCcIon5jUpl4w91LVzkEjHUihGEGQxS/R7FurmYO5EM6uoPA0JsY4D3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mflf9vpD; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="E2fhVi0+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1716815615;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ug/+QrBJ1fn4jt7nmsB6WVOTnZkvl361r4prquvMN4U=;
-	b=E2fhVi0+tLrd261oMhMod6WsCaPW8RZIXaKHrD6Q3pRmqRVBBLB62auuof8I1CDHOCggK3
-	nHLea3Mz56VLQH8chX5wWRbKexcAp/IuNtooDgFH7Xb5CxxgOHqdyEmgnQ755+1vPf8+RG
-	6Hu1FObW9hV7w5fTe+44GuoIT3pWBqM=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-115-x_VswCsWNhSSbcWXwm68KQ-1; Mon, 27 May 2024 09:13:29 -0400
-X-MC-Unique: x_VswCsWNhSSbcWXwm68KQ-1
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-6ab9e08d5f9so51732666d6.1
-        for <linux-doc@vger.kernel.org>; Mon, 27 May 2024 06:13:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mflf9vpD"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1f4a52b94c3so6605365ad.3;
+        Mon, 27 May 2024 06:21:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716816108; x=1717420908; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=csiiP32o7V0QfgwfDEwBkwjUhpQOhY+JNgQcN0UEYPc=;
+        b=Mflf9vpDisabKDkLXB6aV1fKf/HCkn9jLK/fRXe8FcoUEsOVhU2bVmm/F2PkA0iXx1
+         sSdEZNrm/pFJcSG2RDARUsoICPchEmk0fA4PCa4d/o9lGU+6dwpNFbuRkOjpAxh/xAvE
+         ZZ0mjyGdhc1QfsbXZWeHvI5HEoKBZFdhGBxb0aNpKEoOTC7btCdcObwLx4LVGGIa0LBG
+         Rv58lpol2d2xd6kC6IRYiSsFoOzKzHB27LgT/TUbm5NauQqnjV0Ny4aw15yAXQerwKsV
+         OK8mSAkWCWyBBE9ph3v5ogIUHXcBXXNrK+nO7SXbKsnoyaOOxlwNK9OIOu9s3XtybuMh
+         gHTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716815608; x=1717420408;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ug/+QrBJ1fn4jt7nmsB6WVOTnZkvl361r4prquvMN4U=;
-        b=Jnseyn4VeGxtF1+uZqjbOtuFXwuXxCpYoyo2LwkpAhRdu7SpmHKnOXB8IHeSuMYZbB
-         c/5qHcliKeq/gbGLaQIvwc1+eBXuwFSI1Bs+uK3XBg0rcnLrRJL33PGqBScHTKIF3LhP
-         ugdnrx72q/Dr8p80YcNS89egAyJJrvIToZYlfrkhLz1TklD1DSmKcAOijvdgSCIYY9w9
-         yLx2kiRqi/aZSbzF206y59v61e/jLUCEVUv3m9Y2yTjxWl2I6mDh5PSjJYLOmDKYoUHi
-         l7Kvjs2o9Y4vRvDhtlClgYTsXfhV/619aJEpNLaBY0AIukXr/G7821Nj8e748pTxv8gq
-         NLzg==
-X-Forwarded-Encrypted: i=1; AJvYcCW171vSivb7kzBg79sd+x234MNIr3OH0zuz8djBXMtOB8k6Vk2v6YHr3JYNmNTtq69iigf7WvWN0ClpjMJ87F76W51UcdOoN4Fl
-X-Gm-Message-State: AOJu0YzNtUTqrPq92O7l3cxc/LOEUjGfSquzehWER+HB5QMzo1y3TR3N
-	fWClsF5VbtBO+Lz0NYRgPcGxELLfwco8AVHXIdKma/vo4zcbvtSpY+HFJ9Z5TvjE2sToQ9dT9I+
-	9L6z9loaAFW5za1Wf3O87Ns3pG66tonxZZKBbwSSkhkZ+nuNTsTP4kySQoA==
-X-Received: by 2002:a05:6214:76b:b0:6ab:7ab4:f309 with SMTP id 6a1803df08f44-6ab8f327f9fmr190114676d6.1.1716815608538;
-        Mon, 27 May 2024 06:13:28 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFFvp62B55LpZG06oDjDs9C9JeEguHSawvpfFEUQJhPnKmdJaNhFrrUX9ZGDUsNJSeBscO1kA==
-X-Received: by 2002:a05:6214:76b:b0:6ab:7ab4:f309 with SMTP id 6a1803df08f44-6ab8f327f9fmr190114306d6.1.1716815608133;
-        Mon, 27 May 2024 06:13:28 -0700 (PDT)
-Received: from lbulwahn-thinkpadx1carbongen9.rmtde.csb ([2a02:810d:7e40:14b0:833c:88f3:25a9:d641])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6ad742b3663sm19273786d6.60.2024.05.27.06.13.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 May 2024 06:13:27 -0700 (PDT)
-From: Lukas Bulwahn <lbulwahn@redhat.com>
-X-Google-Original-From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
-To: Christoph Hellwig <hch@lst.de>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	iommu@lists.linux.dev,
-	Petr Tesarik <petr@tesarici.cz>,
-	Michael Kelley <mhklinux@outlook.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Lukas Bulwahn <lukas.bulwahn@redhat.com>
-Subject: [PATCH] Documentation/core-api: correct reference to SWIOTLB_DYNAMIC
-Date: Mon, 27 May 2024 15:13:14 +0200
-Message-ID: <20240527131314.22794-1-lukas.bulwahn@redhat.com>
-X-Mailer: git-send-email 2.45.1
+        d=1e100.net; s=20230601; t=1716816108; x=1717420908;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=csiiP32o7V0QfgwfDEwBkwjUhpQOhY+JNgQcN0UEYPc=;
+        b=B3K/ZA6JKBl+zOxL1ZMdn2wzAQiu7FqzneLALd3Hjg1RcN5x7YijsvvvcvZzZ4GbXs
+         C0dQQSgWU/BYAuPkUxQyRupxIoA0ZEgHnu6Dd9JQf/L5d4ba5A3NeXKyofYDstIYeIU5
+         xgc36Ak2J7P7Hu/Eqb9vYhPZMKMVOeLhtKRK3cLoUd3pqZJTvooHaKOw1eFoJn3ntOdN
+         XSq8r6U+6Fy3+zxScOX7YLV29v6P2/pKefDSiLyXOK4T4eD0DLHhDHk4v9saREmxnsLp
+         dAmh8tSjcZl+Bmxn3s2G9FJZBzDKS7kqpLiE5pMX4BK/52ux51RGi9PRsFNhUEOnUaZI
+         i07Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUXctR2kxuzaLOmZD1vH5yYGRYiPl6WeJojRZkoImKbDyqsK7UZ4fyMgCP1jhNmtGyE6yB3Onle7DLHT/sujyRuDUJz+9P4iHzLDitle0G8Yw91Ed1gRdSGpN1KwI5WS7mfFXyIdEbjsZA3MMGSlOY1Iz1sl5m09neJzNxluTvR9aGD
+X-Gm-Message-State: AOJu0YxI0+pNPLV7ZXujecGJBUND89SCdVzqCCaHmg9d5s+GFPNxp+PN
+	ib6zm13ESQKahynCS6O4adoFZ/7ou1KmL6qxMeP6NuJtSUqy+5qd
+X-Google-Smtp-Source: AGHT+IECc6I+wxeOCmvUlz/sds6+InCkcpa/gLRp/BqLxWTt9sf2LZk9n0dHEAlhEO+pxx48Q3Wirw==
+X-Received: by 2002:a17:902:cec1:b0:1f4:8e6d:6efc with SMTP id d9443c01a7336-1f48e6d7307mr44291085ad.5.1716816108025;
+        Mon, 27 May 2024 06:21:48 -0700 (PDT)
+Received: from [192.168.50.95] ([118.32.98.101])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f44c967925sm60465375ad.168.2024.05.27.06.21.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 May 2024 06:21:47 -0700 (PDT)
+Message-ID: <bf37bf39-32d3-457f-abd6-115215d631af@gmail.com>
+Date: Mon, 27 May 2024 22:21:44 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] Documentation: cve Korean translation
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: skhan@linuxfoundation.org, Jinwoo Park <pmnxis@gmail.com>,
+ Austin Kim <austindh.kim@gmail.com>, shjy180909@gmail.com,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+References: <20240527103003.29318-1-yskelg@gmail.com>
+ <87ikyzpgqz.fsf@meer.lwn.net>
+Content-Language: en-US
+From: Yunseong Kim <yskelg@gmail.com>
+In-Reply-To: <87ikyzpgqz.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Lukas Bulwahn <lukas.bulwahn@redhat.com>
 
-Commit c93f261dfc39 ("Documentation/core-api: add swiotlb documentation")
-accidentally refers to CONFIG_DYNAMIC_SWIOTLB in one place, while the
-config is actually called CONFIG_SWIOTLB_DYNAMIC.
 
-Correct the reference to the intended config option.
+On 5/27/24 9:43 오후, Jonathan Corbet wrote:
+> yskelg@gmail.com writes:
+> 
+>> From: Yunseong Kim <yskelg@gmail.com>
+>>
+>> This is a Documentation/process/cve korean version.
+> 
+> Thank you for working to improve our documentation.  A couple of
+> questions, though:
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@redhat.com>
----
- Documentation/core-api/swiotlb.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Jonathan, Thank you for the review.
 
-diff --git a/Documentation/core-api/swiotlb.rst b/Documentation/core-api/swiotlb.rst
-index 5ad2c9ca85bc..cf06bae44ff8 100644
---- a/Documentation/core-api/swiotlb.rst
-+++ b/Documentation/core-api/swiotlb.rst
-@@ -192,7 +192,7 @@ alignment larger than PAGE_SIZE.
- 
- Dynamic swiotlb
- ---------------
--When CONFIG_DYNAMIC_SWIOTLB is enabled, swiotlb can do on-demand expansion of
-+When CONFIG_SWIOTLB_DYNAMIC is enabled, swiotlb can do on-demand expansion of
- the amount of memory available for allocation as bounce buffers. If a bounce
- buffer request fails due to lack of available space, an asynchronous background
- task is kicked off to allocate memory from general system memory and turn it
--- 
-2.45.1
+>> Reviewed-by: Jinwoo Park <pmnxis@gmail.com>
+>> Signed-off-by: Yunseong Kim <yskelg@gmail.com>
+> 
+> 1) Why do I have three versions of it in my mailbox, sent over a period
+>    of 13 minutes?  What changed between the versions?
 
+Sorry, I forgot the name of the reviewer when I first sent the
+documentation content related patch version 2.
+
+>    Normally, you want to wait for reviews to come in on one version
+>    before posting the next, and you should put a comment after the "---"
+>    line saying what changed.
+> 
+> 2) When did this review from Jinwoo Park happen?  I was not copied on
+>    that.
+> Thanks,
+> 
+> jon
+
+Thank you for your comment.
+
+I have updated the content from version 2 to version 1 from
+Jinwoo's review.
+
+In version 3, I added the name of the reviewer I forgot in version 2.
+
+> ---
+>  .../translations/ko_KR/process/cve.rst        | 108 ++++++++++++++++++
+>  1 file changed, 108 insertions(+)
+>  create mode 100644 Documentation/translations/ko_KR/process/cve.rst
+>
+> diff --git a/Documentation/translations/ko_KR/process/cve.rst
+b/Documentation/translations/ko_KR/process/cve.rst
+> new file mode 100644
+> index 000000000000..9daacba8d445
+> --- /dev/null
+> +++ b/Documentation/translations/ko_KR/process/cve.rst
+> @@ -0,0 +1,108 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +:원문: Documentation/process/cve.rst
+> +:역자: 김윤성 <yskelg@gmail.com>
+
+I added Jinwoo's name here on version 3.
+
+> +:감수: 박진우 <pmnxis@gmail.com>
+
+Warm Regards,
+
+Yunseong Kim
