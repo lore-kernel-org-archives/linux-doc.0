@@ -1,204 +1,148 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C89422107;
-	Mon, 27 May 2024 03:23:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A45A1426C;
+	Mon, 27 May 2024 07:05:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716780186; cv=none; b=QNdI2aSPOMc0Zc6BcbvnajPOQKBHcsCdUpD+iPRPZRIJLlaeg00j1UAh+4P+04gM1Fo2PWikLiJwH4W12RtLrhggy0FeT+we9t5gKjkIjUdier2wOu3r2CZDBk+WPIz47DA6l7FlbiBkw+LH9jx6F+uiWBmnM+bk+tLnGrSy3GA=
+	t=1716793541; cv=none; b=VCcIc3sDaWzMDfy135DD/4tIwMpXWjU5e9enAe1M7pzxDzl1NOxC+Xm+vs4mfBwVE3FWIqS2TwRWYk1akIALnm0cLQcc0Ukmg3Ss7y+CPr4tjpzKemVzpF/rSCKBXvFgpenXAHMgULoguK1o0Qs3Tau7hAxJrcayTciI7++SJvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716780186; c=relaxed/simple;
-	bh=PlNvD5cU7Dxn2/QW0wAmLIuchmztNAAA6PkqIALlQgU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K/pcc066HgUPABb+WhKZdPJCV5v9j6f3TtVN9ZLsVVf1WtEBt5nxtJ2+Wh7wPtWzspmUdtwMMuJ1farIk54DebVCaDaI8vlhpswth62QukJNXae2P+trw0qqL562V0dkdjno2SNPRR9MTXTuYDg5/JbnrErH+43y2gz8MdqRE6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BD7j0/i0; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1716793541; c=relaxed/simple;
+	bh=waWFDIqHc6f9ZTq0mX02kYkS8bmFi6Uo0RTqroajRbk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=PgxE0BogmOyMuwNIkbRDe73xOoCz5R1p0BREO3qFET20r5DewJ8bsf3pbjKV9IRvZxfD3YNgEzeizzKl87xd+W3ngviREAJMorMDEgzTJ5ksSYB3b14Jp4BFiOmE7AOG/R0adscRSFpgMLFi1kxJqqQu0JFndf3bgVeWN0HTm68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZxMgO9TZ; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BD7j0/i0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1716780185; x=1748316185;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PlNvD5cU7Dxn2/QW0wAmLIuchmztNAAA6PkqIALlQgU=;
-  b=BD7j0/i0pcf8HIuHO5DcuIeWQZJtalWgY4KKG8CfSD33hFtOxeYtFHP4
-   j2tXyEVd0UzbgUVha8HxJvmp+5jB7M5S5wz93DT+mezrmPmFZU+rOXjcM
-   hqoXeYPefJrW+IF3BTefyzBiJTwp31CbkFHrlHoczFvua1NgbhAGoFCc6
-   XfxkJjPUjkB5TKmxvbJr12l9C/ofAE6iVOdgBRc9f9LRIZHlA/UqDX0uo
-   JJA84LDG5ZIZeLqJ2aRCqNo3+kLEIJBxEBSe6dIyOKtIaksaBtBvF25kH
-   ktndCibhhkPtKvu/mI0EGvauoW0nHKgGMtOikLl5CqOYoedelxRFdqcSe
-   Q==;
-X-CSE-ConnectionGUID: h99yO95SRbCkPKbg8Sg3Bw==
-X-CSE-MsgGUID: 9vBLLeumRwuvdFwJ29JoiQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11084"; a="30591046"
-X-IronPort-AV: E=Sophos;i="6.08,191,1712646000"; 
-   d="scan'208";a="30591046"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2024 20:23:05 -0700
-X-CSE-ConnectionGUID: KexBgeAnS1qAgcbMpHGXIA==
-X-CSE-MsgGUID: K2Z94t8oRZeJbwe3B8qoCg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,191,1712646000"; 
-   d="scan'208";a="35093802"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 26 May 2024 20:23:00 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sBQwr-0009IF-2b;
-	Mon, 27 May 2024 03:22:57 +0000
-Date: Mon, 27 May 2024 11:22:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hongbo Li <lihongbo22@huawei.com>, viro@zeniv.linux.org.uk,
-	brauner@kernel.org, jack@suse.cz, tytso@mit.edu,
-	adilger.kernel@dilger.ca
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	lczerner@redhat.com, cmaiolino@redhat.com,
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-	yi.zhang@huawei.com, lihongbo22@huawei.com
-Subject: Re: [PATCH 1/4] fs: add blockdev parser for filesystem mount option.
-Message-ID: <202405271100.aGNNnrKK-lkp@intel.com>
-References: <20240527014717.690140-2-lihongbo22@huawei.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZxMgO9TZ"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-57864327f6eso3170148a12.1;
+        Mon, 27 May 2024 00:05:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716793537; x=1717398337; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cuwKjSLQaKbx6in6zzTevv0Oz4E78rNc3iEadRtQmSM=;
+        b=ZxMgO9TZhuSpieak+wq9ORzUEnw6IkTs4pgtL5Mzb7riTIydbDO7IQajCi8d564+0F
+         HkHJfgUG3xwsmpYsiTxEr0MvdHy5OiMwrq9zln8JtkmxQ9p8faIl12eQakef8Hjmk9B1
+         Vzny3ZZasJZJju9tRGPLdIEtRLNdg5nEweYO9DIWH3Oc9kJHkqiCwAl4ezpeOKKDqVaN
+         BixHtQB9HBue2/7zIrz5O9ccyYMxZUiwsIyrBDor3SvvFvn7EJYtuw2FcJnq18MlHVM9
+         cStsk+HsDHBN8TkzIOyzUdyw7FsJFLPbjoE2kgSMtwZmK1ZSH/wj977RX/8jHVWMUmGu
+         vQqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716793537; x=1717398337;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cuwKjSLQaKbx6in6zzTevv0Oz4E78rNc3iEadRtQmSM=;
+        b=dY43YWhwlYZCXhiCdV6VQg79Y2cj/NRyuc5S2W30dpQCe2KBI94RovFUMKXeal9sld
+         vC6MxXIPdQHi/t5xTqAYGF5SffecPaakrBvPqo6BpTVqMzsz4PcUnhT/MMMETjYRcNWj
+         /qoB64lojOnehYbTIPahjpmKDAQgAtus+QVqkvl7gDLw6Fy+VZC4fA1XCo6ZWpwdBjO2
+         Val/vTlIsxD/gOohqotgT0iufOrxFH0QohsHvdHdi5gpr+OjtguwmTx55r/XHzw1GVgk
+         ADm+o+8L7dWiroPQOzeBNXEwWVA41g8TBVQJaI6AiESVY7jTlJqo1mPsE0aRcwJaXtQc
+         WnHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVfBsQ0x4WIl8YHje8I9whIgWWJLTm82GEjQA77t11Zh3jbhPr8NDDJ9kwZFhjFNUENZ+dScnUaeFFgocpo+a+M3xKNheXT//2ElWNDsPIyLSPqRED5wY0ZHt4IGa613MoC1JqIkBHxKuF+vR7X8YZxxgkZg2FIK7F69w4EMPve4cIjsg==
+X-Gm-Message-State: AOJu0YxSuDeL1CRhGHrHxjuW9VekvTKsCXB++EFpqY2FJ9jDvAHvbXKD
+	8dXI6b5OuNmhbIW0sP+Dy7LlKjwrGCmyT+9wLxAslLCMOBEmNm3NXj1MbfaKrqKHjUlkP/w6Qx1
+	bQif130VEwEk7gV6RKVjvbvR2UXU=
+X-Google-Smtp-Source: AGHT+IGeYBYP/clZS12weWp/XG22q1opoNsiXc6Csg6HUYMQMqdCn6+EKVCyXGWIFI5qoXT55hslsI6cypKv/6/WXvE=
+X-Received: by 2002:a50:d716:0:b0:578:c168:e513 with SMTP id
+ 4fb4d7f45d1cf-578c168e634mr4135861a12.3.1716793537404; Mon, 27 May 2024
+ 00:05:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240527014717.690140-2-lihongbo22@huawei.com>
+References: <20240514041223.800811-1-foxhoundsk.tw@gmail.com>
+In-Reply-To: <20240514041223.800811-1-foxhoundsk.tw@gmail.com>
+From: Huichun Feng <foxhoundsk.tw@gmail.com>
+Date: Mon, 27 May 2024 15:05:26 +0800
+Message-ID: <CAFbkdV175LdW_r04DhhG7pkE4xs9W5305Unk6RK06SiudvnzFQ@mail.gmail.com>
+Subject: Re: [PATCH] docs: gpio: prefer pread(2) for interrupt reading
+To: Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Jonathan Corbet <corbet@lwn.net>, Kent Gibson <warthog618@gmail.com>, linux-gpio@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Hongbo,
+Kindly ping.
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tytso-ext4/dev]
-[also build test WARNING on brauner-vfs/vfs.all linus/master v6.10-rc1 next-20240523]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hongbo-Li/fs-add-blockdev-parser-for-filesystem-mount-option/20240527-094930
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
-patch link:    https://lore.kernel.org/r/20240527014717.690140-2-lihongbo22%40huawei.com
-patch subject: [PATCH 1/4] fs: add blockdev parser for filesystem mount option.
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20240527/202405271100.aGNNnrKK-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240527/202405271100.aGNNnrKK-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405271100.aGNNnrKK-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> fs/fs_parser.c:324:8: warning: variable 'f' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-     324 |                         if (p->flags & fs_param_can_be_empty)
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/fs_parser.c:343:29: note: uninitialized use occurs here
-     343 |         ret = filename_lookup(dfd, f, LOOKUP_FOLLOW, &path, NULL);
-         |                                    ^
-   fs/fs_parser.c:324:4: note: remove the 'if' if its condition is always true
-     324 |                         if (p->flags & fs_param_can_be_empty)
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     325 |                                 return 0;
-   fs/fs_parser.c:316:20: note: initialize the variable 'f' to silence this warning
-     316 |         struct filename *f;
-         |                           ^
-         |                            = NULL
->> fs/fs_parser.c:324:8: warning: variable 'put_f' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-     324 |                         if (p->flags & fs_param_can_be_empty)
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/fs_parser.c:360:6: note: uninitialized use occurs here
-     360 |         if (put_f)
-         |             ^~~~~
-   fs/fs_parser.c:324:4: note: remove the 'if' if its condition is always true
-     324 |                         if (p->flags & fs_param_can_be_empty)
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     325 |                                 return 0;
-   fs/fs_parser.c:319:12: note: initialize the variable 'put_f' to silence this warning
-     319 |         bool put_f;
-         |                   ^
-         |                    = 0
->> fs/fs_parser.c:324:8: warning: variable 'dfd' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-     324 |                         if (p->flags & fs_param_can_be_empty)
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/fs_parser.c:343:24: note: uninitialized use occurs here
-     343 |         ret = filename_lookup(dfd, f, LOOKUP_FOLLOW, &path, NULL);
-         |                               ^~~
-   fs/fs_parser.c:324:4: note: remove the 'if' if its condition is always true
-     324 |                         if (p->flags & fs_param_can_be_empty)
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     325 |                                 return 0;
-   fs/fs_parser.c:315:9: note: initialize the variable 'dfd' to silence this warning
-     315 |         int dfd;
-         |                ^
-         |                 = 0
-   3 warnings generated.
+Sorry that the last ping wasn't sent in plain text.
 
 
-vim +324 fs/fs_parser.c
-
-   310	
-   311	int fs_param_is_blockdev(struct p_log *log, const struct fs_parameter_spec *p,
-   312			  struct fs_parameter *param, struct fs_parse_result *result)
-   313	{
-   314		int ret;
-   315		int dfd;
-   316		struct filename *f;
-   317		struct inode *dev_inode;
-   318		struct path path;
-   319		bool put_f;
-   320	
-   321		switch (param->type) {
-   322		case fs_value_is_string:
-   323			if (!*param->string) {
- > 324				if (p->flags & fs_param_can_be_empty)
-   325					return 0;
-   326				break;
-   327			}
-   328			f = getname_kernel(param->string);
-   329			if (IS_ERR(f))
-   330				return fs_param_bad_value(log, param);
-   331			dfd = AT_FDCWD;
-   332			put_f = true;
-   333			break;
-   334		case fs_value_is_filename:
-   335			f = param->name;
-   336			dfd = param->dirfd;
-   337			put_f = false;
-   338			break;
-   339		default:
-   340			return fs_param_bad_value(log, param);
-   341		}
-   342	
-   343		ret = filename_lookup(dfd, f, LOOKUP_FOLLOW, &path, NULL);
-   344		if (ret < 0) {
-   345			error_plog(log, "%s: Lookup failure for '%s'", param->key, f->name);
-   346			goto out_putname;
-   347		}
-   348	
-   349		dev_inode = d_backing_inode(path.dentry);
-   350		if (!S_ISBLK(dev_inode->i_mode)) {
-   351			error_plog(log, "%s: Non-blockdev passed as '%s'", param->key, f->name);
-   352			ret = -1;
-   353			goto out_putpath;
-   354		}
-   355		result->uint_32 = new_encode_dev(dev_inode->i_rdev);
-   356	
-   357	out_putpath:
-   358		path_put(&path);
-   359	out_putname:
-   360		if (put_f)
-   361			putname(f);
-   362	
-   363		return (ret < 0) ? fs_param_bad_value(log, param) : 0;
-   364	}
-   365	EXPORT_SYMBOL(fs_param_is_blockdev);
-   366	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Huichun Feng <foxhoundsk.tw@gmail.com> =E6=96=BC 2024=E5=B9=B45=E6=9C=8814=
+=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=8812:12=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+>
+> In legacy sysfs GPIO, when using poll(2) on the sysfs GPIO value for
+> state change awaiting, a subsequent read(2) is required for consuming
+> the event, which the doc recommends the use of lseek(2) or
+> close-and-reopen to reset the file offset afterwards.
+>
+> The recommendations however, require at least 2 syscalls to consume
+> the event. Gladly, use of pread(2) require only 1 syscall for the
+> consumption. Let's advertise this usage by prioritizing its placement.
+>
+> Signed-off-by: Huichun Feng <foxhoundsk.tw@gmail.com>
+> ---
+>  Documentation/driver-api/gpio/legacy.rst   | 6 ++++--
+>  Documentation/userspace-api/gpio/sysfs.rst | 7 ++++---
+>  2 files changed, 8 insertions(+), 5 deletions(-)
+>
+> diff --git a/Documentation/driver-api/gpio/legacy.rst b/Documentation/dri=
+ver-api/gpio/legacy.rst
+> index b6505914791c..c1a083444b0c 100644
+> --- a/Documentation/driver-api/gpio/legacy.rst
+> +++ b/Documentation/driver-api/gpio/legacy.rst
+> @@ -648,8 +648,10 @@ and have the following read/write attributes:
+>                 poll(2) will return whenever the interrupt was triggered.=
+ If
+>                 you use poll(2), set the events POLLPRI. If you use selec=
+t(2),
+>                 set the file descriptor in exceptfds. After poll(2) retur=
+ns,
+> -               either lseek(2) to the beginning of the sysfs file and re=
+ad the
+> -               new value or close the file and re-open it to read the va=
+lue.
+> +               use pread(2) to read the value at offset zero. Alternativ=
+ely,
+> +               either lseek(2) to the beginning of the sysfs file and re=
+ad
+> +               the new value or close the file and re-open it to read th=
+e
+> +               value.
+>
+>         "edge" ... reads as either "none", "rising", "falling", or
+>                 "both". Write these strings to select the signal edge(s)
+> diff --git a/Documentation/userspace-api/gpio/sysfs.rst b/Documentation/u=
+serspace-api/gpio/sysfs.rst
+> index 116921048b18..bd64896de91a 100644
+> --- a/Documentation/userspace-api/gpio/sysfs.rst
+> +++ b/Documentation/userspace-api/gpio/sysfs.rst
+> @@ -97,9 +97,10 @@ and have the following read/write attributes:
+>                 poll(2) will return whenever the interrupt was triggered.=
+ If
+>                 you use poll(2), set the events POLLPRI and POLLERR. If y=
+ou
+>                 use select(2), set the file descriptor in exceptfds. Afte=
+r
+> -               poll(2) returns, either lseek(2) to the beginning of the =
+sysfs
+> -               file and read the new value or close the file and re-open=
+ it
+> -               to read the value.
+> +               poll(2) returns, use pread(2) to read the value at offset
+> +               zero. Alternatively, either lseek(2) to the beginning of =
+the
+> +               sysfs file and read the new value or close the file and
+> +               re-open it to read the value.
+>
+>         "edge" ...
+>                 reads as either "none", "rising", "falling", or
+> --
+> 2.34.1
+>
