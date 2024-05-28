@@ -1,277 +1,228 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C0875024E;
-	Tue, 28 May 2024 19:31:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E08E44436E
+	for <linux-doc@vger.kernel.org>; Tue, 28 May 2024 20:15:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716924673; cv=none; b=t7qFkjh0kGr3YrrPgi0/obv43sA3FRBlKv3O+9g/rQBrCydVY0RJhHmI2pcxu7evrdeZ825hN3q1gDZMDoukfwdIVl0h79jMgyy2gausjz81bPoIe93OZfxvUcDY8TggRcAWzuJZoO8/16ZVbGtV0IUcWDFNz56Z1/tCKxyH6qk=
+	t=1716927310; cv=none; b=AT71jqNSpvcn5SDQ4IJGWaF59Uh5T2yGA0b2eXM5M+UDjLM0FN1NUQShLr7hIv4bUj0im+4i/uJKuvSRE8DB9W87VFF82AMEUznRgQbsiUhcD9c7pghxwqqE9J5yRLTrpQh6xbwq+6E3oHXeYRhvm/II7EmRySVVvf0LJMolMng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716924673; c=relaxed/simple;
-	bh=ZGRsY2ZQZErkGb3Ve4FDnyIZLkQj3AbizzUfJX7D1JU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Gig5GqedvCzONmHV6QqQp/UPHfOGDRgBL/ehq9sTlHCBY1aalVeuLdgC4lQoUcSVnTJCBkAmoDw8ruwwHK2l0evsO24V+Nw6jWX/J88QF+CK7x1lZat38M91mvSlGl3zyjE3j6auQAkhfY4kn37qNd5utdd04Xwd4+cwT6GyjkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZayzUQF/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1716927310; c=relaxed/simple;
+	bh=en2TGRjkuW3PBRpbSQahu96oV+wObSIdrbE7VcLSSN0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lm9lxsjcubPw4ysSuijPZ5+XLdHC82mcQWqUZvRLM5kkznCz0mw/Tbon6MS7+UohDnRmMv+AZWDRGgYdoOZRj03LpZYy5ZZjJlD4L/J48pS7W6CzLbQTbvXmJogvKU0sJmmyonKYDFqYMfSihDyPargJy41SiASMrXPh2mKWCh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=mS71ZKlz; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZayzUQF/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 057A7C3277B;
-	Tue, 28 May 2024 19:31:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716924673;
-	bh=ZGRsY2ZQZErkGb3Ve4FDnyIZLkQj3AbizzUfJX7D1JU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZayzUQF/CRwyHEDjHYOegUqd6PFEA3IZd5BZH3OyeQhARI7ku7s8PLJbxIz2x/DFv
-	 lQu9iInAWM7uPnIH+KM5mWrQYL37cocZgHQJ5WZDp9fyjWE6y/ca/t/JYB733zosP8
-	 mT8ILP083xKJBmeQtllIgtwIiFaCHUAc7DvK2uptb0HfYrG7N3SJy+kttBGHYRLfYi
-	 44iNjWoOwcAtxyFKW+iZa3LW8JGIqLxOAFE0p9grtDvqdjj2eIhR1fAvDnwHEepZOy
-	 P057DWgxD0WH4PjcKHTf11k/e2jTSFCO8ZRYFazwFlgBkl3lQw0s51mTYc+DkrRs2t
-	 YxQgeWrlEYBpQ==
-Date: Tue, 28 May 2024 12:31:10 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>,
-	Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-arch@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH 2/7] riscv: Implement cmpxchg8/16() using Zabha
-Message-ID: <20240528193110.GA2196855@thelio-3990X>
-References: <20240528151052.313031-1-alexghiti@rivosinc.com>
- <20240528151052.313031-3-alexghiti@rivosinc.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mS71ZKlz"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-1f480624d0fso10446465ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 28 May 2024 13:15:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1716927306; x=1717532106; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7qSEByr0cVqm4o+EKl2XQRiChKteOLXLt82vx/Q7ni4=;
+        b=mS71ZKlzkWqlq9IGZrt0QCLTul+8diwSr19T3kR9NEK2ctSClN3nWYEmsOutvnyqdb
+         1kUr7KAEt+9wOcGImFAsZ3b0TMI+6WD/Mb/6kfkM/AcFrTZ1ZKxPwgP+8yhvm4JSRHDw
+         owjuxPY2/4ONZ5IMOrAE7gzM2Dg7qM6Ozysck=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716927306; x=1717532106;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7qSEByr0cVqm4o+EKl2XQRiChKteOLXLt82vx/Q7ni4=;
+        b=kztBhLX/Rntlmf7Pv21TKtm6XsrzXJLDtJDKcgxfsYLf0COzQG8sIqTzJNe1SWat30
+         NRZcQ2B51udNrBm/Q4ypDp81ed/nzFR9tCp+o84Df9/z9kHtYNiINSIxwpc94SSgY8UE
+         eIZocx+ZGg7mmI12amt9AIZddB47/4EtFk93JGrzweamfmp7liazvDYmI90Zc+L5eP76
+         67C71RKNaP7375nADro21K2QXYKDjxLUMVoBKrNaNt7YN4UqWrSzMZ8sTvMboxk23Wli
+         MfNkCsJ09XtwetKHHJw7S4lJcOg1jEojD3a6RtRlG0oJDCQHipWNyjfIaISLewJ1b/PD
+         lgLg==
+X-Forwarded-Encrypted: i=1; AJvYcCXhBH3Uf4oK3vIFB0o44XS5QCn9I41FFR3EOUtoyVZRPFvHZh0vCZbslCK70QRQvtpmCSq4uGMpWjYo3qQbf/9i6Fi/2B/j0vDP
+X-Gm-Message-State: AOJu0Yy2RmF99+0rkeDjo7fJkRyOZnTCg1Y/WgPy8HgLb573+EvSNu8r
+	dcWn/LJAJLtzCD+IeV+eqZElGy3HkJaEbiES7tkokzlDibamlzRW37mvldvW3HxalVHXnDIpw+w
+	=
+X-Google-Smtp-Source: AGHT+IEiKzlWfWpEcBGksVX6M7+tC4dY4PktyKmDa3lNN8V8gnr/rWQZcBLheYpfGXu1ZhchBOJVLw==
+X-Received: by 2002:a17:902:db09:b0:1f4:6093:695 with SMTP id d9443c01a7336-1f460930c01mr134858245ad.58.1716927306066;
+        Tue, 28 May 2024 13:15:06 -0700 (PDT)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com. [209.85.214.181])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f44c96f67fsm84656075ad.154.2024.05.28.13.15.05
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 May 2024 13:15:05 -0700 (PDT)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1f339d61e78so42035ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 28 May 2024 13:15:05 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCW/tc2WjRWGz+VvB+EuEr/e+crR1/Deja0P9xo2qlrKnbKR9oXxjzhm3IQgQXnLyqainydjjT2utnDA/kT2f6FyWaLx7HrXQnAL
+X-Received: by 2002:a05:622a:1e17:b0:43f:e034:724f with SMTP id
+ d75a77b69052e-43fe1103588mr257971cf.15.1716927283572; Tue, 28 May 2024
+ 13:14:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240528151052.313031-3-alexghiti@rivosinc.com>
+References: <20240503213441.177109-1-dianders@chromium.org>
+ <CACRpkdYbtfE9RLsDewV2UwnJknCp_sFEgc+cq=OF+Qd3tkTcwA@mail.gmail.com> <CAD=FV=WoYm43SzrdrSZ1Np58iQ4nMwF0u6uamOAnZc4pqmBpsg@mail.gmail.com>
+In-Reply-To: <CAD=FV=WoYm43SzrdrSZ1Np58iQ4nMwF0u6uamOAnZc4pqmBpsg@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 28 May 2024 13:14:27 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=V-4CnU7k0W3zwPAf_aeddykmHPN6=wMnjKAzQcbwHeNA@mail.gmail.com>
+Message-ID: <CAD=FV=V-4CnU7k0W3zwPAf_aeddykmHPN6=wMnjKAzQcbwHeNA@mail.gmail.com>
+Subject: Re: [RFT PATCH v2 00/48] drm/panel: Remove most store/double-check of
+ prepared/enabled state
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
+	Chris Morgan <macromorgan@hotmail.com>, Yuran Pereira <yuran.pereira@hotmail.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	David Airlie <airlied@gmail.com>, =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
+	Jessica Zhang <quic_jesszhan@quicinc.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Ondrej Jirman <megi@xff.cz>, 
+	Purism Kernel Team <kernel@puri.sm>, Robert Chiras <robert.chiras@nxp.com>, Sam Ravnborg <sam@ravnborg.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Alexandre,
+Hi,
 
-On Tue, May 28, 2024 at 05:10:47PM +0200, Alexandre Ghiti wrote:
-> This adds runtime support for Zabha in cmpxchg8/16 operations.
-> 
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> ---
->  arch/riscv/Kconfig               | 16 ++++++++++++++++
->  arch/riscv/Makefile              | 10 ++++++++++
->  arch/riscv/include/asm/cmpxchg.h | 26 ++++++++++++++++++++++++--
->  3 files changed, 50 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-> index b443def70139..05597719bb1c 100644
-> --- a/arch/riscv/Kconfig
-> +++ b/arch/riscv/Kconfig
-> @@ -579,6 +579,22 @@ config RISCV_ISA_V_PREEMPTIVE
->  	  preemption. Enabling this config will result in higher memory
->  	  consumption due to the allocation of per-task's kernel Vector context.
->  
-> +config TOOLCHAIN_HAS_ZABHA
-> +	bool
-> +	default y
-> +	depends on !64BIT || $(cc-option,-mabi=lp64 -march=rv64ima_zabha)
-> +	depends on !32BIT || $(cc-option,-mabi=ilp32 -march=rv32ima_zabha)
+On Wed, May 8, 2024 at 2:14=E2=80=AFPM Doug Anderson <dianders@chromium.org=
+> wrote:
+>
+> > This is the right thing to do, thanks for looking into this!
+> >
+> > As for the behaviour of .remove() I doubt whether in many cases
+> > the original driver authors have even tested this themselves.
+>
+> Yeah, I'd tend to agree.
+>
+>
+> > I would say we should just apply the series as soon as it's non-RFC
+>
+> It's not actually RFC now, but "RFT" (request for testing). I don't
+> _think_ there's any need to send a version without the RFT tag before
+> landing unless someone really feels strongly about it.
+>
+>
+> > after the next merge window
+>
+> With drm-misc there's not really any specific reason to wait for the
+> merge window to open/close as we can land in drm-misc-next at any time
+> regardless of the merge window. drm-misc-next will simply stop feeding
+> linuxnext for a while.
+>
+> That all being said, I'm happy to delay landing this until after the
+> next -rc1 comes out if people would prefer that. If I don't hear
+> anything, I guess I'll just wait until -rc1 before landing any of
+> these.
+>
+>
+> > and see what happens. I doubt it
+> > will cause much trouble.
+>
+> I can land the whole series if that's what everyone agrees on. As I
+> mentioned above, I'm at least slightly worried that I did something
+> stupid _somewhere_ in this series since no automation was possible and
+> with repetitive tasks like this it's super easy to flub something up.
+> It's _probably_ fine, but I guess I still have the worry in the back
+> of my mind.
+>
+> If folks think I should just apply the whole series then I'm happy to
+> do that. If folks think I should just land parts of the series as they
+> are reviewed/tested I can do that as well. Let me know. If I don't
+> hear anything I'd tend to just land patches that are reviewed/tested.
+> Then after a month or so (hopefully) I'd send out a v2 with anything
+> left.
 
-This test does not take into account the need for
-'-menable-experimental-extensions' and '1p0' in the '-march=' value with
-clang 19, so it can never be enabled even if it is available.
+Nobody said anything, so I did what I indicated above:
 
-I am not really sure how to succinctly account for this though, other
-than duplicating and modifying the cc-option checks with a dependency on
-either CC_IS_GCC or CC_IS_CLANG. Another option is taking the same
-approach as the _SUPPORTS_DYNAMIC_FTRACE symbols and introduce
-CLANG_HAS_ZABHA and GCC_HAS_ZABHA? That might not make it too ugly.
+1. I've applied all patches that someone responded to with Linus +
+Maxime's Acks + any given tags. This includes the st7703 panels which
+Ond=C5=99ej replied to the cover letter about but didn't officially get any
+tags.
 
-I think the ZACAS patch has a similar issue, it just isn't noticeable
-with clang 19 but it should be with clang 17 and 18.
+2. I also applied patches for panels that I was personally involved
+with. This includes panel-edp, panel-simple, samsung-atna33xc20,
+boe-tv101wum-nl6.
 
-> +	depends on AS_HAS_OPTION_ARCH
-> +
-> +config RISCV_ISA_ZABHA
-> +	bool "Zabha extension support for atomic byte/half-word operations"
-> +	depends on TOOLCHAIN_HAS_ZABHA
-> +	default y
-> +	help
-> +	  Adds support to use atomic byte/half-word operations in the kernel.
-> +
-> +	  If you don't know what to do here, say Y.
-> +
->  config TOOLCHAIN_HAS_ZACAS
->  	bool
->  	default y
-> diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
-> index d5b60b87998c..f58ac921dece 100644
-> --- a/arch/riscv/Makefile
-> +++ b/arch/riscv/Makefile
-> @@ -89,6 +89,16 @@ else
->  riscv-march-$(CONFIG_TOOLCHAIN_HAS_ZACAS) := $(riscv-march-y)_zacas
->  endif
->  
-> +# Check if the toolchain supports Zabha
-> +ifdef CONFIG_AS_IS_LLVM
-> +# Support for experimental Zabha was merged in LLVM 19.
-> +KBUILD_CFLAGS += -menable-experimental-extensions
-> +KBUILD_AFLAGS += -menable-experimental-extensions
-> +riscv-march-y := $(riscv-march-y)_zabha1p0
+Anything totally unresponded to I've left unapplied. I'll wait a
+little while (at least a week) and then plan to send a v2 with
+anything still outstanding. If someone sends Tested-by/Reviewed-by for
+some panels in the meantime I'll apply them.
 
-This block should have some dependency on CONFIG_TOOLCHAIN_HAS_ZABHA as
-well right? Otherwise, the build breaks with LLVM toolchains that do not
-support zabha, like LLVM 18.1.x:
+Here are the 25 patches applied to drm-misc-next:
 
-  clang: error: invalid arch name 'rv64imac_zihintpause_zacas1p0_zabha1p0', unsupported version number 1.0 for extension 'zabha'
+[01/48] drm/panel: raydium-rm692e5: Stop tracking prepared
+        commit: 598dc42f25cc3060fd350db0f52af1075af3f500
 
-I think the zacas patch has the same bug.
+[04/48] drm/panel: boe-tv101wum-nl6: Stop tracking prepared
+        commit: 3c24e31c908eb12e99420ff33b74c01f045253fe
+[05/48] drm/panel: boe-tv101wum-nl6: Don't call unprepare+disable at
+shutdown/remove
+        commit: 1985e3512b5a3777f6a18c36e40f3926037120bb
+[06/48] drm/panel: edp: Stop tracking prepared/enabled
+        commit: 3904f317fd977533f6d7d3c4bfd75e0ac6169bb7
+[07/48] drm/panel: edp: Add a comment about unprepare+disable at shutdown/r=
+emove
+        commit: ec7629859331fb67dbfb6bcd47f887a402e390ff
+[08/48] drm/panel: innolux-p079zca: Stop tracking prepared/enabled
+        commit: f9055051292442d52092f17e191cf0a58d23d4ed
+[09/48] drm/panel: innolux-p079zca: Don't call unprepare+disable at
+shutdown/remove
+        commit: eeb133ff78476eb1e6e88154dfb75a741e8a034a
 
-I think that it would be good to consolidate the adding of
-'-menable-experimental-extensions' to the compiler and assembler flags
-to perhaps having a hidden symbol like CONFIG_EXPERIMENTAL_EXTENSIONS
-that is selected by any extension that is experimental for the
-particular toolchain version.
+[12/48] drm/panel: kingdisplay-kd097d04: Stop tracking prepared/enabled
+        commit: 157c1381780a453e06430f8b35bb8c5d439eb8c6
+[13/48] drm/panel: kingdisplay-kd097d04: Don't call unprepare+disable
+at shutdown/remove
+        commit: 68c205ef3c39edce4a3346b8a53fd2b700394a0c
+[14/48] drm/panel: ltk050h3146w: Stop tracking prepared
+        commit: f124478dd18c519544489caddce78e7c5796a758
+[15/48] drm/panel: ltk050h3146w: Don't call unprepare+disable at shutdown/r=
+emove
+        commit: b7ca446ecb53205944968617b158f073bcacaedc
+[16/48] drm/panel: ltk500hd1829: Stop tracking prepared
+        commit: 2b8c19b9d7bc9d03e8c44bd391d21e95c07a2c83
+[17/48] drm/panel: ltk500hd1829: Don't call unprepare+disable at shutdown/r=
+emove
+        commit: 3357f6f465e62c0bc5e906365063734740c9f6d4
+[18/48] drm/panel: novatek-nt36672a: Stop tracking prepared
+        commit: b605f257f386b7f4b6fc9c0f82b86b75d0579287
+[19/48] drm/panel: novatek-nt36672a: Don't call unprepare+disable at
+shutdown/remove
+        commit: 2a9487b5aa55753993fde80e4841128c8da4df71
 
-config EXPERIMENTAL_EXTENSIONS
-    bool
+[24/48] drm/panel: samsung-atna33xc20: Stop tracking prepared/enabled
+        commit: 5a847750aac8454a1604070ab99d689c0a6e4290
+[25/48] drm/panel: samsung-atna33xc20: Don't call unprepare+disable at
+shutdown/remove
+        commit: 49869668ff0e3f380858b4c20b8d0cb02b933f48
+[26/48] drm/panel: simple: Stop tracking prepared/enabled
+        commit: 2a1c99d7159b798288bfb20a76c1e665e2344126
+[27/48] drm/panel: simple: Add a comment about unprepare+disable at
+shutdown/remove
+        commit: bc62654df3c888dec735343f5db9907ac93aea60
 
-config TOOLCHAIN_HAS_ZABHA
-    def_bool y
-    select EXPERIMENTAL_EXETNSIONS if CC_IS_CLANG
-    ...
+[30/48] drm/panel: xinpeng-xpp055c272: Stop tracking prepared
+        commit: 4e5e6fa77a9d40cdf85ade7f86d07dc8929941c9
+[31/48] drm/panel: xinpeng-xpp055c272: Don't call unprepare+disable at
+shutdown/remove
+        commit: ac9e1786271f771ff1f774742602330be2d57a12
 
-config TOOLCHAIN_HAS_ZACAS
-    def_bool_y
-    # ZACAS was experimental until Clang 19: https://github.com/llvm/llvm-project/commit/95aab69c109adf29e183090c25dc95c773215746
-    select EXPERIMENTAL_EXETNSIONS if CC_IS_CLANG && CLANG_VERSION < 190000
-    ...
+[42/48] drm/panel: sitronix-st7703: Stop tracking prepared
+        commit: 3004d2e9cca5d59d25dff670a03a005d40601ded
+[43/48] drm/panel: sitronix-st7703: Don't call disable at shutdown/remove
+        commit: 718bd8a1a5ee873778a72523c06da054a89108b4
 
-Then in the Makefile:
+[46/48] drm/panel: sony-acx565akm: Don't double-check enabled state in disa=
+ble
+        commit: e28df86aeeff0b84c13e676f641ea879abbdb809
+[47/48] drm/panel: sony-acx565akm: Don't call disable at remove
+        commit: 6afebd850d1ab5518c273b32532f0b2086cc633a
 
-ifdef CONFIG_EXPERIMENTAL_EXTENSIONS
-KBUILD_AFLAGS += -menable-experimental-extensions
-KBUILD_CFLAGS += -menable-experimental-extensions
-endif
 
-> +else
-> +riscv-march-$(CONFIG_TOOLCHAIN_HAS_ZABHA) := $(riscv-march-y)_zabha
-> +endif
-> +
->  # Remove F,D,V from isa string for all. Keep extensions between "fd" and "v" by
->  # matching non-v and non-multi-letter extensions out with the filter ([^v_]*)
->  KBUILD_CFLAGS += -march=$(shell echo $(riscv-march-y) | sed -E 's/(rv32ima|rv64ima)fd([^v_]*)v?/\1\2/')
-> diff --git a/arch/riscv/include/asm/cmpxchg.h b/arch/riscv/include/asm/cmpxchg.h
-> index 1c50b4821ac8..65de9771078e 100644
-> --- a/arch/riscv/include/asm/cmpxchg.h
-> +++ b/arch/riscv/include/asm/cmpxchg.h
-> @@ -103,8 +103,14 @@
->   * indicated by comparing RETURN with OLD.
->   */
->  
-> -#define __arch_cmpxchg_masked(sc_sfx, prepend, append, r, p, o, n)	\
-> +#define __arch_cmpxchg_masked(sc_sfx, cas_sfx, prepend, append, r, p, o, n)	\
->  ({									\
-> +	__label__ zabha, end;						\
-> +									\
-> +	asm goto(ALTERNATIVE("nop", "j %[zabha]", 0,			\
-> +			     RISCV_ISA_EXT_ZABHA, 1)			\
-> +			: : : : zabha);					\
-> +									\
->  	u32 *__ptr32b = (u32 *)((ulong)(p) & ~0x3);			\
->  	ulong __s = ((ulong)(p) & (0x4 - sizeof(*p))) * BITS_PER_BYTE;	\
->  	ulong __mask = GENMASK(((sizeof(*p)) * BITS_PER_BYTE) - 1, 0)	\
-> @@ -131,6 +137,17 @@
->  		: "memory");						\
->  									\
->  	r = (__typeof__(*(p)))((__retx & __mask) >> __s);		\
-> +	goto end;							\
-> +									\
-> +zabha:									\
-> +	__asm__ __volatile__ (						\
-> +		prepend							\
-> +		"	amocas" cas_sfx " %0, %z2, %1\n"		\
-
-This should probably have some dependency on CONFIG_RISCV_ISA_ZABHA? I get the
-following with GCC 13.2.0:
-
-  include/linux/atomic/atomic-arch-fallback.h: Assembler messages:
-  include/linux/atomic/atomic-arch-fallback.h:2108: Error: unrecognized opcode `amocas.w a4,a3,0(s1)'
-
-> +		append							\
-> +		: "+&r" (r), "+A" (*(p))				\
-> +		: "rJ" (n)						\
-> +		: "memory");						\
-> +end:									\
-
-I get a lot of warnings from this statement and the one added by the
-previous patch for zacas, which is a C23 extension:
-
-  include/linux/atomic/atomic-arch-fallback.h:4234:9: warning: label at end of compound statement is a C23 extension [-Wc23-extensions]
-  include/linux/atomic/atomic-arch-fallback.h:89:29: note: expanded from macro 'raw_cmpxchg_relaxed'
-     89 | #define raw_cmpxchg_relaxed arch_cmpxchg_relaxed
-        |                             ^
-  arch/riscv/include/asm/cmpxchg.h:219:2: note: expanded from macro 'arch_cmpxchg_relaxed'
-    219 |         _arch_cmpxchg((ptr), (o), (n), "", "", "")
-        |         ^
-  arch/riscv/include/asm/cmpxchg.h:200:3: note: expanded from macro '_arch_cmpxchg'
-    200 |                 __arch_cmpxchg_masked(sc_sfx, ".h" sc_sfx,              \
-        |                 ^
-  arch/riscv/include/asm/cmpxchg.h:150:14: note: expanded from macro '__arch_cmpxchg_masked'
-    150 | end:                                                                    \
-        |                                                                         ^
-
-This resolves it:
-
-diff --git a/arch/riscv/include/asm/cmpxchg.h b/arch/riscv/include/asm/cmpxchg.h
-index ba3ffc2fcdd0..57aa4a554278 100644
---- a/arch/riscv/include/asm/cmpxchg.h
-+++ b/arch/riscv/include/asm/cmpxchg.h
-@@ -147,7 +147,7 @@ zabha:									\
- 		: "+&r" (r), "+A" (*(p))				\
- 		: "rJ" (n)						\
- 		: "memory");						\
--end:									\
-+end:;									\
- })
- 
- #define __arch_cmpxchg(lr_sfx, sc_cas_sfx, prepend, append, r, p, co, o, n)	\
-@@ -180,7 +180,7 @@ zacas:									\
- 		: "+&r" (r), "+A" (*(p))				\
- 		: "rJ" (n)						\
- 		: "memory");						\
--end:									\
-+end:;									\
- })
- 
- #define _arch_cmpxchg(ptr, old, new, sc_sfx, prepend, append)		\
-
->  })
->  
->  #define __arch_cmpxchg(lr_sfx, sc_cas_sfx, prepend, append, r, p, co, o, n)	\
-> @@ -175,8 +192,13 @@ end:									\
->  									\
->  	switch (sizeof(*__ptr)) {					\
->  	case 1:								\
-> +		__arch_cmpxchg_masked(sc_sfx, ".b" sc_sfx,		\
-> +					prepend, append,		\
-> +					__ret, __ptr, __old, __new);    \
-> +		break;							\
->  	case 2:								\
-> -		__arch_cmpxchg_masked(sc_sfx, prepend, append,		\
-> +		__arch_cmpxchg_masked(sc_sfx, ".h" sc_sfx,		\
-> +					prepend, append,		\
->  					__ret, __ptr, __old, __new);	\
->  		break;							\
->  	case 4:								\
-> -- 
-> 2.39.2
-> 
-> 
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+-Doug
