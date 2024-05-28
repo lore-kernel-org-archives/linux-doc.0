@@ -1,110 +1,102 @@
-Received: from 008.lax.mailroute.net (008.lax.mailroute.net [199.89.1.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C0C16F287;
-	Tue, 28 May 2024 14:08:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD4D916F847;
+	Tue, 28 May 2024 14:24:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716905299; cv=none; b=B54j4kq4CNJ6SCu5B07eysL3ocFYD+IPQk8YZ9k658wGWSpm8+ubdgH1oJwoIHyObZtJFIBzKrXlB/TG+ju+ZKzlGO5m2Lywrbqz2PSWFkRby0qfD4z8MAjM5zmDsXL3erKx8N330bO279r/+86ZOd4VNPmofs5v3RFWBeyALtg=
+	t=1716906281; cv=none; b=tUWqCDad4oQZjPX+lnbBEj6zD9DIp2yDrFi0s7h5YbW90F4j9gv9rKa6dBeyUfh/N7anv0O5XmAX0SvrKOBCzOjDj8aCpf/76CdLSfYPaC/1Vu2Dswxmon2eW4VWw/UAUtu5zWmnghrMyBTrzOISRb08zk8FQHpScKRL9a45RNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716905299; c=relaxed/simple;
-	bh=kH6YiGjqeAZHMKBYiAmbjv7Lv6+d0htVBeb25bHqzbE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=avtcfjkyMb9o58A44xN1+kxhD4xPwxO9wDqkyYiw/aaEPhFEKdo1HdKJLQsKlRnd3v/vSurZfl/vx4PHkTmRtsKRXlbbKPF+Wrlp8FlvPpKahpP4+qY6T9BxJ/76HoRuhm+cVpAeLRXP/ZnfZzS+yz8kGsGC19D+CWyro3o8Yyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=J54Gsd09; arc=none smtp.client-ip=199.89.1.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
+	s=arc-20240116; t=1716906281; c=relaxed/simple;
+	bh=CpNig8i04u7yArz56+Pq3EY0WGXOcEaavla8yaV6nNs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=RPIefTxD3cuu5hgyariMNG21c4TTBjinfoQPnb6+Z33A8X64/WBPjoU5bFrcHs2hSPo2Me0K0QO1PfIpLxyYn9/Jo7BnpfO5wWwmA8YMv0a8dgA+UHrglMB8/H3zwxPnGHbINH+puwW2PtfRzDjpExaoDpI2PC9uAIdStKzaHV4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iMKx7CVe; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="J54Gsd09"
-Received: from localhost (localhost [127.0.0.1])
-	by 008.lax.mailroute.net (Postfix) with ESMTP id 4VpZ9R1Qx6z6Cnk95;
-	Tue, 28 May 2024 14:08:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1716905278; x=1719497279; bh=dR3ZvbYbJLA8JqSMp6syi4ns
-	5+ck4oQr0inj5+NavnA=; b=J54Gsd09VOPGv6hpJCmRRt25qr85iKrjgG3itku7
-	MkGP8xjPTJudQuNLFqJT1JMHsU8/nRRl7T+v+gR/WZdE/ooloV46oTdCczd1PYjU
-	wPiT6Td9kKxgYjXw9gxIJ7oiywUY/Tdd9iXUMdXjgW8Jg3BHd4dZZiR5a/35/iCR
-	XgavrtZrjswPTxAARrsP5h+llv5vBIU8M6SO4EMsyY+t3fOuJjopWi00f28/NAlJ
-	4ewCx06Ky7FFI9iqLsHXAKKc2C5EhbXaAOd2MoXnTXVLKYeAWQhIdC1kr1m2cjyr
-	WvHFrsXHqBmEClwusPD2KBTERNjrTGi6oqa4aiXhx4oEKg==
-X-Virus-Scanned: by MailRoute
-Received: from 008.lax.mailroute.net ([127.0.0.1])
- by localhost (008.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id 5YpJGIeKyzj2; Tue, 28 May 2024 14:07:58 +0000 (UTC)
-Received: from [192.168.50.14] (c-73-231-117-72.hsd1.ca.comcast.net [73.231.117.72])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 008.lax.mailroute.net (Postfix) with ESMTPSA id 4VpZ974X95z6Cnk94;
-	Tue, 28 May 2024 14:07:55 +0000 (UTC)
-Message-ID: <95bcfe6a-f179-443a-92b6-98e512fec4fc@acm.org>
-Date: Tue, 28 May 2024 07:07:51 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iMKx7CVe"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-578676a1b57so455935a12.3;
+        Tue, 28 May 2024 07:24:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716906278; x=1717511078; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HxA4xy7Sm7SYGJwpfTgxEx7SddTuAL9NNNge2TQxq9g=;
+        b=iMKx7CVeHFPSo8UXn9Edvdk3bDwF869lAsnVjwFpxbxsmTdQzp2ug+ZYDgemqjyfjz
+         E90a7sI41uFNQLmLaNU/3DDSKuzz9KcknOVIaoSHhhZFYjHG4Chjm/9gWrm5bH+uy/uD
+         skeAMayzh1aNfCd6I5XSpFg8piz8JpPiWUerN/XR/JMtOvPxYWt6CAgCG6pLYLoBKWuf
+         cn2NMkzlTmrNA1iNsjyAGOWM7ykdcfuNlpwGmuzXBP6zlUCCJ4UJ+zz5ZEwiVUhsBblt
+         jZJjTYCvf4DzbhnO+KmkdmPSojSo8L2i0iqDhUZwxlfBB/toNvuQpzJryZ0CI2e+rl9r
+         38aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716906278; x=1717511078;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HxA4xy7Sm7SYGJwpfTgxEx7SddTuAL9NNNge2TQxq9g=;
+        b=CWCvvHj3picXW14g6rtK2AHcXBtHVMBjsA5k/Nis42Z5I4PJQ9/vxOsAKpvIKIbbvu
+         YL328stXbMBoHVxv+3a5y8PghiCqt4WVt1h9c3/lOzixwbcdj7KmrpzUwESg6Q3au96D
+         qKTEtJdZPQbB9IJD5wTWWJZdS/+Z3UPe5lGiaQQVT81J2n0wmpjh08PYj0qXXswIfdfL
+         bUbjkVVQT0O4pZSgQjoNOVCM/elY+COfeCyz3tg7yJYD0ZwO1J0z/TrZjpOTv2ctr6M3
+         c9++kKEF4XEVoFj52FTb89i2vd/5PsoWTwneERLYv7Z7Jx8CGA1u3s4y4+UpDdZUIvfG
+         TxmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWx5nT5As/ETnC0MhvvrUUfphkrF/zsdOlrcO0VW/nYITGYpXAoeEyOJAAIcD4NFStINifYa2O0tsawAefX24cJmCuxTwk1WwcOFd2+Vr3K0UZKj/gwsTysBoPwIm6d36pDu1lugZ487Td+Nh6q2WJTw95pLdJ8mzPuEWV9aki48g==
+X-Gm-Message-State: AOJu0YyWcByMtokgH1Sj3f1H99FORUzkOqDHcGQnTjv9X9hsBKnKnNYq
+	n5Vqcl0+jjY3M5W7A0xoCQZES4jss3i5qfmqLsPC9JJGkjul6tg9TmLtWEbgMuI=
+X-Google-Smtp-Source: AGHT+IE8Lz5RyyighE7GKU2QlcjM001GtbOPd3AVNTQ1ZIurq+Ru0m+k3HReTwDzi/nkvE6Egp1GNw==
+X-Received: by 2002:a50:9f47:0:b0:578:ac24:7f7c with SMTP id 4fb4d7f45d1cf-578ac33c79bmr7822680a12.19.1716906277498;
+        Tue, 28 May 2024 07:24:37 -0700 (PDT)
+Received: from rbolboac.. ([2a02:2f0e:350b:4500:3736:ef2a:a857:c911])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-579d7dc9efesm2495580a12.48.2024.05.28.07.24.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 May 2024 07:24:37 -0700 (PDT)
+From: Ramona Gradinariu <ramona.bolboaca13@gmail.com>
+X-Google-Original-From: Ramona Gradinariu <ramona.gradinariu@analog.com>
+To: linux-kernel@vger.kernel.org,
+	jic23@kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	corbet@lwn.net,
+	conor+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	robh@kernel.org
+Cc: Ramona Gradinariu <ramona.gradinariu@analog.com>
+Subject: [PATCH v2 0/6] Add support for adis16545/47
+Date: Tue, 28 May 2024 17:24:03 +0300
+Message-Id: <20240528142409.239187-1-ramona.gradinariu@analog.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
- and request layer.
-To: Hannes Reinecke <hare@suse.de>, Nitesh Shetty <nj.shetty@samsung.com>,
- Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
- Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
- Mikulas Patocka <mpatocka@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Jan Kara <jack@suse.cz>
-Cc: martin.petersen@oracle.com, david@fromorbit.com,
- damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
- nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org
-References: <20240520102033.9361-1-nj.shetty@samsung.com>
- <CGME20240520102842epcas5p4949334c2587a15b8adab2c913daa622f@epcas5p4.samsung.com>
- <20240520102033.9361-3-nj.shetty@samsung.com>
- <f54c770c-9a14-44d3-9949-37c4a08777e7@suse.de>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <f54c770c-9a14-44d3-9949-37c4a08777e7@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 5/21/24 00:01, Hannes Reinecke wrote:
-> On 5/20/24 12:20, Nitesh Shetty wrote:
->> We add two new opcode REQ_OP_COPY_DST, REQ_OP_COPY_SRC.
->> Since copy is a composite operation involving src and dst sectors/lba,
->> each needs to be represented by a separate bio to make it compatible
->> with device mapper.
->> We expect caller to take a plug and send bio with destination 
->> information,
->> followed by bio with source information.
->> Once the dst bio arrives we form a request and wait for source
->> bio. Upon arrival of source bio we merge these two bio's and send
->> corresponding request down to device driver.
->> Merging non copy offload bio is avoided by checking for copy specific
->> opcodes in merge function.
->>
-> I am a bit unsure about leveraging 'merge' here. As Bart pointed out, 
-> this is arguably as mis-use of the 'merge' functionality as we don't
-> actually merge bios, but rather use the information from these bios to
-> form the actual request.
-> Wouldn't it be better to use bio_chain here, and send out the eventual
-> request from the end_io function of the bio chain?
+Add support for delta angle and delta velocity channels in adis16480 driver.
+Add support for ADIS16545/47 devices in already existing adis16480 driver.
+Add documentation for adis16480 driver.
 
-Let me formulate this a bit stronger: I think this patch series abuses
-the merge functionality and also that it should use another mechanism
-for combining REQ_OP_COPY_DST and REQ_OP_COPY_SRC. See also my email
-with concerns about using the merge functionality:
-https://lore.kernel.org/linux-block/eda6c198-3a29-4da4-94db-305cfe28d3d6@acm.org/.
+Ramona Gradinariu (6):
+  iio: adis16480: make the burst_max_speed configurable
+  iio: imu: adis16480.c: Add delta angle and delta velocity channels
+  dt-bindings: iio: imu: Add ADIS16545/47 compatibles
+  iio: adis16480: add support for adis16545/7 families
+  docs: iio: add documentation for interfacing tools
+  docs: iio: add documentation for adis16480 driver
 
-Thanks,
+ .../bindings/iio/imu/adi,adis16480.yaml       |   6 +
+ Documentation/iio/adis16475.rst               |  23 +-
+ Documentation/iio/adis16480.rst               | 445 ++++++++++++++++++
+ Documentation/iio/iio_tools.rst               |  27 ++
+ Documentation/iio/index.rst                   |   2 +
+ drivers/iio/imu/adis16480.c                   | 393 ++++++++++++++--
+ 6 files changed, 825 insertions(+), 71 deletions(-)
+ create mode 100644 Documentation/iio/adis16480.rst
+ create mode 100644 Documentation/iio/iio_tools.rst
 
-Bart.
+--
+2.34.1
 
