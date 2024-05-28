@@ -1,253 +1,185 @@
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9114D2940D;
-	Tue, 28 May 2024 04:34:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1149C3D0A9;
+	Tue, 28 May 2024 05:05:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716870890; cv=none; b=jJj3n9025Ly/8+ED9Rk3if/GXVe/u+eJ2iVd2Ekz6C4vaui4xVy2YgoEikG+4cBS/2Rrn/CBPESkuAp3oOHdeLw8KH39RE2wa3Lpm/akY8IES10VoF9R4649cdcFLdt+2nWMxcBbV+G/qMkSikVO7o1H4CvtWG5ZhGzKH2CmRVE=
+	t=1716872752; cv=none; b=mgFGJX8RD1u9v7N0jOLXgEoTpcKMvcvw5BOx2kVoG6vSjBVTTUTChJ/X2O4A+eEX0CAi+zFXlUxczI03Lyz7aNyC8rltalN6kv4H6oA0/p+JNBMgruX+2rep//Apdg8enC2E1ThlUYDVdbvqQNWeyXteUrmI+TojZnnCcKSuyJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716870890; c=relaxed/simple;
-	bh=Sq6pyFcbELCx5LPO9zDGYL7eEOzI7MRS4T9tymOkNd8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ISO6OxOmaQhc/2om8pw65tXtVbmKKPC6ShHdoOuvKaQOlq/DM5Wy9qsfsrFMqtIv7Rf9x6HOCr/vjRFx0U25VeB3xCYPCv5FxX56c+p9QG4EmZUY404VU7rs0Gx5R01uHmCUpTez8V7kXlCcjBPd4NJW2FlKd5z/I+Hss+7Xujk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ea3D8alt; arc=none smtp.client-ip=209.85.161.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1716872752; c=relaxed/simple;
+	bh=Tovpx1FZiQz8QrAsCt+bRrI7/FqIEBYBeBt7CR34S4s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jTPl+RIdhDuqRwiiAwvjgUbGrhiDk9wy4nHkRhoiFSYB6d0IoPUKdRtJVR4xFxxX+0q5yLFOUoJIrb733lH6mYpl2H+Kj2XLJx7930GjlyqcIXY30TjQlxE68AYJlV36OBNoEmeVxyiNCl3nsfrJqQoeRXouPh1G3ciN0t+eQHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P0JSsi6S; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ea3D8alt"
-Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-5b96a781b63so184262eaf.1;
-        Mon, 27 May 2024 21:34:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716870888; x=1717475688; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y5YtUenkWYqRuj/8vIRZQcV5VdqpUv/GG6aiR2ClnWI=;
-        b=Ea3D8altVaf6/QDmKzbYcAqz+Jb7F3QzIyQMuSDJIkkrQG3Dz+a8uvlEkJvv+dRR+B
-         jGJxCOBTULs+0jVEACf9WHf+YisBnMki/qgvfTD6HKt26/1Ng8EWB5QWoBp7I//9Cl8c
-         5NXL5bYNiXjP6CezG1vi+BSGwNYyohCpEg1e50TItL6yBZsiUGCLujrOaUUnnalEsMFO
-         F+GBsbIQsXnMGV3rL6Q/4Z/fFHjVhSAvAFRPj3HLqwfffXtc8RaEejyp3PBfpV+wYIPc
-         mKfDZuSHhuX8vhlkIOYK9pFzDt0L4qOQJEpmD+IZgsPYZzo5HLZrliwKh2Z7GkCvra63
-         RSiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716870888; x=1717475688;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Y5YtUenkWYqRuj/8vIRZQcV5VdqpUv/GG6aiR2ClnWI=;
-        b=iFMhkjbjggeS5uJ6Z8tX5ty0c+8wdq3OROaEvLa+f2daNv7H5xhxfG+yTlMyVX3JBZ
-         IEYwO60qJOXRSdjOl4DC+xAg6JgnGX7SRELkup5O4CrOakQVkFNyo2YoF9TSUL9R71e3
-         NmabqT98mdR3mmffclAxlddmU8TUEmo6xdteYJb4/o+hBYAWoxMRkcgsu0HE3v6HxJ5L
-         sIEH6YY0ZJw7WqvbPyyuO2FbBuItOQzJVZWIrKd2xNRQL6PVnAVoZK86OiOFPbXUJ4ww
-         YMH22LUxJApZqo+X2orFZeqDYLJhw17GC1hXE48/XPklFXxz4mLtjaeYURObjoG5FLHL
-         BRNw==
-X-Forwarded-Encrypted: i=1; AJvYcCV7++wLpYcvQ3rCkG6YKcSh++Mg2L+kkJNVvDFZLIv6mr/yCeZqkVsX30yU5eSxFVxsvXcITVR1uKEnHGfWfbu1nVWYStFJBZ9RqdGuBFkIOpkO560CUyPQ2h9FNzmZRyQEyTVIvZzo
-X-Gm-Message-State: AOJu0YwY5+7I3jC3gQ5CiU8QwbNwoBjZCCn6ZB66YMyV51f+btTfxMa+
-	pkrvdKOdfGxhxgHwduWFDrmprlxfqcGRGcVqxGmpHWYo2lXcwuZM
-X-Google-Smtp-Source: AGHT+IEA5dpWIDmAdAoZnZYsMSO/exqse9ObdcYrZsrnAfhtP9a2MtPabAeewk8HJFO0ba4xb3Sn6A==
-X-Received: by 2002:a05:6871:590:b0:24f:e6a4:991e with SMTP id 586e51a60fabf-24fe6a4d0c3mr6179100fac.6.1716870887574;
-        Mon, 27 May 2024 21:34:47 -0700 (PDT)
-Received: from cbuild.srv.usb0.net (uw2.srv.usb0.net. [185.197.30.200])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-6f8fd4d57b9sm5620036b3a.193.2024.05.27.21.34.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 May 2024 21:34:47 -0700 (PDT)
-From: Takero Funaki <flintglass@gmail.com>
-To: flintglass@gmail.com,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Yosry Ahmed <yosryahmed@google.com>,
-	Nhat Pham <nphamcs@gmail.com>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Domenico Cerasuolo <cerasuolodomenico@gmail.com>
-Cc: linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] mm: zswap: proactive shrinking before pool size limit is hit
-Date: Tue, 28 May 2024 04:34:04 +0000
-Message-ID: <20240528043404.39327-5-flintglass@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240528043404.39327-2-flintglass@gmail.com>
-References: <20240528043404.39327-2-flintglass@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P0JSsi6S"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1716872751; x=1748408751;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Tovpx1FZiQz8QrAsCt+bRrI7/FqIEBYBeBt7CR34S4s=;
+  b=P0JSsi6SKENrWuzmMJTxMm4FnWkhc9zucbwuxnLNh/RhdwXJF71c3RH4
+   MOGaqOLbYQV6eJZBF6B1ovKJcDESUKTXrpuuMQim2N3AQQQ8n4fHgJr0R
+   XGVxRUFtOhDCAn6mtSd0Vlf/aUpR42J+yg4m8qpumUIVtUOcMb2IGn/PE
+   IxS651/fWLJcNcfk2e/l1Vnu1dr3+ht1roCrW7hB5mkQmjCUCGVHv8ox/
+   8ONjXsueWIjRaifBWK0sUSlWyh0YnjKt6KXnsyqYYxJAw43LilObAzroh
+   G8/1H97jh7e5i2qeDrrOEBlYcPNY1tf6TKEP0/Vj47vv+9ouBdwV2gJzn
+   g==;
+X-CSE-ConnectionGUID: M6NfgT+nQUy0HmSSmmBj+g==
+X-CSE-MsgGUID: +IMiLqP2Rp+NxaCUxv3KIg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11085"; a="23754621"
+X-IronPort-AV: E=Sophos;i="6.08,194,1712646000"; 
+   d="scan'208";a="23754621"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 22:05:51 -0700
+X-CSE-ConnectionGUID: RvDHCeTkQayOwMhelFDzFA==
+X-CSE-MsgGUID: 56kAMEmLT5Gpex9PNJZSjQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,194,1712646000"; 
+   d="scan'208";a="39476804"
+Received: from ijarvine-desk1.ger.corp.intel.com (HELO tlindgre-MOBL1) ([10.245.244.201])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2024 22:05:44 -0700
+Date: Tue, 28 May 2024 08:05:37 +0300
+From: Tony Lindgren <tony.lindgren@linux.intel.com>
+To: Petr Mladek <pmladek@suse.com>
+Cc: Tony Lindgren <tony@atomide.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	John Ogness <john.ogness@linutronix.de>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Dhruva Gole <d-gole@ti.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Vignesh Raghavendra <vigneshr@ti.com>, linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v7 1/7] printk: Save console options for
+ add_preferred_console_match()
+Message-ID: <ZlVmIcu2NQOXg9rx@tlindgre-MOBL1>
+References: <20240327110021.59793-1-tony@atomide.com>
+ <20240327110021.59793-2-tony@atomide.com>
+ <ZlC6_Um4P4b-_WQE@pathway.suse.cz>
+ <ZlRqz2b0ZrtkxScL@tlindgre-MOBL1>
+ <ZlSOc5mtbf4DdI8O@pathway.suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZlSOc5mtbf4DdI8O@pathway.suse.cz>
 
-This patch implements proactive shrinking of zswap pool before the max
-pool size limit is reached. This also changes zswap to accept new pages
-while the shrinker is running.
+On Mon, May 27, 2024 at 03:45:55PM +0200, Petr Mladek wrote:
+> On Mon 2024-05-27 14:13:19, Tony Lindgren wrote:
+> > To me it seems we can fix this by keeping track of the console position
+> > in the kernel command line. I'll send a fix for this to discuss.
+> 
+> Honestly, I would prefer some alternative solution of the whole
+> problem. From my POV, the current patchset is a kind of a hack.
+> 
+>   1. It hides console=DEVNAME:X.Y options so that register_console()
+>      does not know about them.
 
-To prevent zswap from rejecting new pages and incurring latency when
-zswap is full, this patch queues the global shrinker by a pool usage
-threshold at the middle of 100% and accept_thr_percent, instead of the
-max pool size.  The pool size will be controlled between 90% to 95% for
-the default accept_thr_percent=90.  Since the current global shrinker
-continues to shrink until accept_thr_percent, we do not need to maintain
-the hysteresis variable tracking the pool limit overage in
-zswap_store().
+OK let's make register_console() aware of the DEVNAME:X.Y options.
+I like what you're suggesting towards the end of your message for
+this.
 
-Before this patch, zswap rejected pages while the shrinker is running
-without incrementing zswap_pool_limit_hit counter. It could be a reason
-why zswap writethrough new pages before writeback old pages.  With this
-patch, zswap accepts new pages while shrinking, and zswap increments
-the counter when and only when zswap rejects pages by the max pool size.
+>   2. But wait, register_console() might then enable any random console
+>      by default when there are not console= options. For this the 3rd patch
+>      added @console_set_on_cmdline variable which would tell
+>      register_console(): "Hey, I have hidden some user preferences.
+>      I'll tell you about them when the right time comes."
 
-The name of sysfs tunable accept_thr_percent is unchanged as it is still
-the stop condition of the shrinker.
-The respective documentation is updated to describe the new behavior.
+That's to allow setting up a console when the driver is ready. So that 
+we don't need to rely on the hardcoded device name deciphering at
+console_setup() time. Maybe there's a better way to signal that though.
 
-Signed-off-by: Takero Funaki <flintglass@gmail.com>
----
- Documentation/admin-guide/mm/zswap.rst | 17 +++++----
- mm/zswap.c                             | 49 +++++++++++++++-----------
- 2 files changed, 37 insertions(+), 29 deletions(-)
+>   3. When port init matches the pattern, it adds the preferred console
+>      so that the register_console() would know about it.
+> 
+>   4. But wait, the ordering of preferred consoles is important.
+>      Which would require more hacks to preserve the ordering.
 
-diff --git a/Documentation/admin-guide/mm/zswap.rst b/Documentation/admin-guide/mm/zswap.rst
-index 3598dcd7dbe7..a1d8f167a27a 100644
---- a/Documentation/admin-guide/mm/zswap.rst
-+++ b/Documentation/admin-guide/mm/zswap.rst
-@@ -111,18 +111,17 @@ checked if it is a same-value filled page before compressing it. If true, the
- compressed length of the page is set to zero and the pattern or same-filled
- value is stored.
- 
--To prevent zswap from shrinking pool when zswap is full and there's a high
--pressure on swap (this will result in flipping pages in and out zswap pool
--without any real benefit but with a performance drop for the system), a
--special parameter has been introduced to implement a sort of hysteresis to
--refuse taking pages into zswap pool until it has sufficient space if the limit
--has been hit. To set the threshold at which zswap would start accepting pages
--again after it became full, use the sysfs ``accept_threshold_percent``
--attribute, e. g.::
-+To prevent zswap from rejecting new pages and incurring latency when zswap is
-+full, zswap initiates a worker called global shrinker that proactively evicts
-+some pages from the pool to swap devices while the pool is reaching the limit.
-+The global shrinker continues to evict pages until there is sufficient space to
-+accept new pages. To control how many pages should remain in the pool, use the
-+sysfs ``accept_threshold_percent`` attribute as a percentage of the max pool
-+size, e. g.::
- 
- 	echo 80 > /sys/module/zswap/parameters/accept_threshold_percent
- 
--Setting this parameter to 100 will disable the hysteresis.
-+Setting this parameter to 100 will disable the proactive shrinking.
- 
- Some users cannot tolerate the swapping that comes with zswap store failures
- and zswap writebacks. Swapping can be disabled entirely (without disabling
-diff --git a/mm/zswap.c b/mm/zswap.c
-index 08a6f5a6bf62..0186224be8fc 100644
---- a/mm/zswap.c
-+++ b/mm/zswap.c
-@@ -71,8 +71,6 @@ static u64 zswap_reject_kmemcache_fail;
- 
- /* Shrinker work queue */
- static struct workqueue_struct *shrink_wq;
--/* Pool limit was hit, we need to calm down */
--static bool zswap_pool_reached_full;
- 
- /*********************************
- * tunables
-@@ -118,7 +116,10 @@ module_param_cb(zpool, &zswap_zpool_param_ops, &zswap_zpool_type, 0644);
- static unsigned int zswap_max_pool_percent = 20;
- module_param_named(max_pool_percent, zswap_max_pool_percent, uint, 0644);
- 
--/* The threshold for accepting new pages after the max_pool_percent was hit */
-+/*
-+ * The percentage of pool size that the global shrinker keeps in memory.
-+ * It does not protect old pages from the dynamic shrinker.
-+ */
- static unsigned int zswap_accept_thr_percent = 90; /* of max pool size */
- module_param_named(accept_threshold_percent, zswap_accept_thr_percent,
- 		   uint, 0644);
-@@ -487,6 +488,14 @@ static unsigned long zswap_accept_thr_pages(void)
- 	return zswap_max_pages() * zswap_accept_thr_percent / 100;
- }
- 
-+/*
-+ * Returns threshold to start proactive global shrinking.
-+ */
-+static inline unsigned long zswap_shrink_start_pages(void)
-+{
-+	return zswap_max_pages() * (100 - (100 - zswap_accept_thr_percent)/2) / 100;
-+}
-+
- unsigned long zswap_total_pages(void)
- {
- 	struct zswap_pool *pool;
-@@ -504,21 +513,6 @@ unsigned long zswap_total_pages(void)
- 	return total;
- }
- 
--static bool zswap_check_limits(void)
--{
--	unsigned long cur_pages = zswap_total_pages();
--	unsigned long max_pages = zswap_max_pages();
--
--	if (cur_pages >= max_pages) {
--		zswap_pool_limit_hit++;
--		zswap_pool_reached_full = true;
--	} else if (zswap_pool_reached_full &&
--		   cur_pages <= zswap_accept_thr_pages()) {
--			zswap_pool_reached_full = false;
--	}
--	return zswap_pool_reached_full;
--}
--
- /*********************************
- * param callbacks
- **********************************/
-@@ -1475,6 +1469,8 @@ bool zswap_store(struct folio *folio)
- 	struct obj_cgroup *objcg = NULL;
- 	struct mem_cgroup *memcg = NULL;
- 	unsigned long value;
-+	unsigned long cur_pages;
-+	bool need_global_shrink = false;
- 
- 	VM_WARN_ON_ONCE(!folio_test_locked(folio));
- 	VM_WARN_ON_ONCE(!folio_test_swapcache(folio));
-@@ -1497,8 +1493,18 @@ bool zswap_store(struct folio *folio)
- 		mem_cgroup_put(memcg);
- 	}
- 
--	if (zswap_check_limits())
-+	cur_pages = zswap_total_pages();
-+
-+	if (cur_pages >= zswap_max_pages()) {
-+		zswap_pool_limit_hit++;
-+		need_global_shrink = true;
- 		goto reject;
-+	}
-+
-+	/* schedule shrink for incoming pages */
-+	if (cur_pages >= zswap_shrink_start_pages()
-+			&& !work_pending(&zswap_shrink_work))
-+		queue_work(shrink_wq, &zswap_shrink_work);
- 
- 	/* allocate entry */
- 	entry = zswap_entry_cache_alloc(GFP_KERNEL, folio_nid(folio));
-@@ -1541,6 +1547,9 @@ bool zswap_store(struct folio *folio)
- 
- 		WARN_ONCE(err != -ENOMEM, "unexpected xarray error: %d\n", err);
- 		zswap_reject_alloc_fail++;
-+
-+		/* reduce entry in array */
-+		need_global_shrink = true;
- 		goto store_failed;
- 	}
- 
-@@ -1590,7 +1599,7 @@ bool zswap_store(struct folio *folio)
- 	zswap_entry_cache_free(entry);
- reject:
- 	obj_cgroup_put(objcg);
--	if (zswap_pool_reached_full)
-+	if (need_global_shrink && !work_pending(&zswap_shrink_work))
- 		queue_work(shrink_wq, &zswap_shrink_work);
- check_old:
- 	/*
--- 
-2.43.0
+Preserving the ordering part is probably the smallest issue to deal with
+here :) I agree we should try to make things simpler though and there
+certainly are already lots of magic switches setting up the console.
 
+>   5. Also serial_base_add_prefcon() adds the preferred console
+>      with the generic name "ttyS" which is not specific
+>      for the matched device. It just hopes that the very next
+>      "register_console()" call will be the one related to
+>      the matching device. Is this really guaranteed on SMP system?
+
+Hmm not sure I get this issue though, when serial_base_add_prefcon() gets
+called we know the device name. The "ttyS" parts are needed to avoid
+relying on the hardcoded device name deciphering at console_setup() time.
+
+If you're thinking about the serial8250_isa_init_ports() related calls,
+the serial port mapping uses SERIAL_PORT_DFNS. And then a hardware
+specific 8250 may take over at some point :)
+ 
+> IMHO, the only solution would be to add a function which would
+> return "ttySX" for the fiven device name.
+
+Yes agreed, this will simplify things.
+
+> Honestly, I do not know the hiearachy of the structures in detail.
+> But the documentation in the 7th patch says:
+> 
+> +			The mapping of the serial ports to the tty instances
+> +			can be viewed with:
+> +
+> +			$ ls -d /sys/bus/serial-base/devices/*:*.*/tty/*
+> +			/sys/bus/serial-base/devices/00:04:0.0/tty/ttyS0
+> 
+> BTW: I get on my test system:
+> 
+> # ls -1 -d /sys/bus/serial-base/devices/*:*.*/tty/*
+> /sys/bus/serial-base/devices/00:00:0.0/tty/ttyS0
+> /sys/bus/serial-base/devices/serial8250:0.1/tty/ttyS1
+> /sys/bus/serial-base/devices/serial8250:0.2/tty/ttyS2
+> /sys/bus/serial-base/devices/serial8250:0.3/tty/ttyS3
+> ...
+
+OK
+
+> It looks like it should be possible to provide a function which would
+> return:
+> 
+>    "ttyS0" for "00:00:0.0"
+>    "ttyS1" for "serial8250:0.1"
+>    ...
+> 
+> 
+> This function might then be used in "register_console()"
+> to convert "console=DEVNAME:0.0" option to "ttyS" + "index".
+> 
+> The advantage would be that the relation between "DEVNAME:0.0"
+> and "ttyS0" will be clear. And the code would see the same hiearachy
+> as the user in /sys/bus/serial-base/devices/.
+
+OK makes sense to me.
+
+> Of course, I might be too naive. Maybe, the sysfs hieararchy is
+> created too late. Maybe, it is not easy to go throught the
+> hiearachy...
+> 
+> But still. I wonder if there is a straightforard way which would
+> allow translation between "ttySX" and "DEVNAME:0.0" naming schemes.
+
+We can do that on driver probe time no problem. The issues are mostly
+related to setting up things early on.
+
+Regards,
+
+Tony
