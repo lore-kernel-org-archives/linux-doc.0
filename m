@@ -1,233 +1,106 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC422E646
-	for <linux-doc@vger.kernel.org>; Tue, 28 May 2024 17:36:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CA2E3D393;
+	Tue, 28 May 2024 18:00:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716917816; cv=none; b=B7KwRpFZ4ZSpdQjwliY4JH99L1e/RGEL/4oUlUuo/aap3S6ooZtV9ltKyfnBF3gsF8MRR8ZAkne1PFWv3R6ngOCU5QQ/WMiPOH5wZ0c2UPifTG0C8/r4RfD1eeBRNgZf+9y+N5FDwLcAKVef9yA9h3Wtu4uwI7sjJOadcf7jzp8=
+	t=1716919235; cv=none; b=RaE1sJYP3HQ4iBIpt+EEGEYlenrLtIXq/liryVjXoMDOCrervH9A3zcmKfR6FNxfRuvcVlPQgGObMiQKsgq09LzcObVmti/GSEPYOS6IhAzuYrjvwM6cpVmDqE366ft1zjXebjlMZAYO8gUIxPjltYxeAjzDcvPjYNm6oezieks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716917816; c=relaxed/simple;
-	bh=5jqpjWDjCYeF0iZMmfNh1F02B5hbFSGCHFwvks87kGw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jcYQxVMeEG4QJxAIABkVwo7pclp+KhlRiX1A23iiu4p6O5tWqBK0F7sr+u1I0+wm03aidNm68xzmZ7fOPSjV2e5mHYsxrOd7Nz3UjevPFFTurgw+6rJ4SknORLYqAM+IkYL82HY32Hjcdyai0oB7xK6PbUenlP8TJNvwytJzmkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=F4p6t/tW; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1716919235; c=relaxed/simple;
+	bh=HTi4edYcJ+nU8knFjd7zyAuvpyUOEoajt4ywPw8se+E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kDAWsJTHLlUZT5NaJOObhtbH5fVYP27cP5XlvWej58kMFPSZV8zIKMcYkA6fkkvfRXJXn1C6xcddbMgR62RI/l4ic9QHDVNVif17NlYnHIPEi2f6JLLHcv01c+dZMPRyOsAo5o1V1xdml9+6i5ezFD30wM7BcaJcmdWXFTjCcL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GDnSQ7ay; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="F4p6t/tW"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a630ff4ac84so128607766b.1
-        for <linux-doc@vger.kernel.org>; Tue, 28 May 2024 10:36:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GDnSQ7ay"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5788eaf5366so1364947a12.2;
+        Tue, 28 May 2024 11:00:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1716917813; x=1717522613; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h1nTYMe9Sz2kd146CNINlSxaoddIUqGPBCQrAMYzjnQ=;
-        b=F4p6t/tWtjSOVYylJbwcLVV6UTyM4sNrgf29x/I2qiaXmlzGuSs/libx4uluVN+nqU
-         Q1wu6ZyJ+t/J5G4TTactfmH72bg+9gQMI6XUV/JPUvIcgZPTSklK6xODqYbVvKUruZsd
-         qGcZJqKk9SLen5tkhgx7pjnVQN79mjH/J3XY5cJYmSYfwEdHgeAgZgJLCWfItyd1aUlo
-         m8SST44+ucTlAuYiprzs7++Q4aRuTHjVObQuxYwumcTSK42endimDnDiRHgNYuUyIKni
-         X0y60pnKnN3oBLyeEGWlqJk5sfZxG3gqEzLBOt9HDhyBsgJwOczZkJZdgWzCHvs7ja5e
-         tsGw==
+        d=gmail.com; s=20230601; t=1716919232; x=1717524032; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/eecjvGqvQVC6ZWS6Qar373HjapbDvtdOZ42+zPeWi0=;
+        b=GDnSQ7ay5ngiQN5tO02t8xbXxZVnqIdUYb4D5qyKXpV8vVos/FKFaTXHst31gTCeuS
+         FI3e/EjTPzjluSG7hzqYzscYBm2RKwWZHUGYPZtCZ4yYNAmhG2XBSdSmaa24VgXq/N6S
+         +l5aWba5y58wxonwMqzHMjQUk7QGBK8nY3sN016R1ZtKJb0WgLBzguNNMP4F+IJB3iCk
+         dmSxApVFlWQOxmBRCenpc5J7RjrI65tt6/iq5WkcbNdCNDf7S0EvHHrZDwpy7cDZ3oN+
+         uJQ3HnWRZZ3RAPGRxQVVl8dZxir/nADmr23N8q39uBHAOERcAp49gzBP3YCVrwqwuZN8
+         6vBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716917813; x=1717522613;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=h1nTYMe9Sz2kd146CNINlSxaoddIUqGPBCQrAMYzjnQ=;
-        b=BZji8EqRbnw5NG4VtvbZFzPE4yrDvJPSyhgbaP8Xe0+yap6Jhi0sv6A6Y6qlFExV56
-         FfD/P4xqEXUni2J4Ghuw6dlE0zO2gIyTEjzEcejU7PvZCa6YzrCuisA0FijV1zsCG4nF
-         YM8mc6+wu0svUWP+G3N8YCdBgSQ21oalkq8u9lG8Fxxe3LAIIODKijsRqPbcPedESz+m
-         +nQ/m6MEicYPygRZ4niAfDA774fGYU/neeR1w5icTin0i8xnT/OKBHUSrifgHHFTPGys
-         QHaGp0iRJBpOI+H098+j1ZaY6pbcgwcZpgkIBDnUO/tYZPnW/9OKvl+8Bu1N9++FEjig
-         Zu4w==
-X-Forwarded-Encrypted: i=1; AJvYcCV1LKpejpDBylI5qw1f03GidgA6StyqjYpbEUmIR2S+BPRI57VAaPklKkTt3h5cQ5EWwKKm80+pNcOYCo4JodP5O+Ab+hP3Rh7e
-X-Gm-Message-State: AOJu0Yz5wy6rv3EVyoBCWIqD2H7wqN2MX2i0o1uVwqyj7NzOfp+X2tfW
-	KpmEuJwU59EqwF2NAlp3eFaahDbVEX/A/SeUx0HFzMI+PSmXsjiQMxW0b4M2j3BgfIRtQ/2+dZ+
-	bGi4YXF6RvphdiHnF2Y60BgzFU293S2uvbB7b
-X-Google-Smtp-Source: AGHT+IFf32eXkuapluEvlBEyoJKJxifsmiVKQ0AvF4ow+8ygeGf1col+Xo1abUwIXzRnUJhSc+Yk6CUkl0RPaD3UYic=
-X-Received: by 2002:a17:906:3c1a:b0:a63:42b6:1976 with SMTP id
- a640c23a62f3a-a6342b619f5mr156681366b.68.1716917812713; Tue, 28 May 2024
- 10:36:52 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1716919232; x=1717524032;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/eecjvGqvQVC6ZWS6Qar373HjapbDvtdOZ42+zPeWi0=;
+        b=V5t8OCnno+PO529DkFHiziZQSVHwhYUA6DS/YuYw0W+tnItZ9ax7j8hfA9ZidjNiUb
+         sclgZ0PNfqBbU+wiL0qDvI6zSDNrrb7VDDIX842xUxuaWKVpDMMaXIR2WrxYDmKEr4md
+         f7wph4ZXM4c8Tf4Otis5PJZxcpe7nsWWG4sj+2kidMOKpPP3IVQxr0bEw7e395NIooMm
+         weLb8NvqAX0oO0/LfO3+Yw26JPf3V8CZte8U2I3z0ulvrHu8ZYJHKN2iJfvVVw0xNrQi
+         I0JODbqT3lamKjHOAU4Aq3x+zRVtJHJxd5tMTLC1OBY2ekWoxBTVQbNs7fOM5TcyFPeQ
+         BccQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVxhJn5KK4ZDU9ceKtaovdSa1bvZFV2s1iosmxpCLDwFX7gqhF6ktQQG0GC1ODLkMtECyxyAGjVl3wdeCPPbn5/PyMAVT53w537eTGFIBC2qhq7Hf3GZFwZLxFHpmSF02W+k8mn6u6HEeGhM7PPt/s18Kxpa66IEDQDWFKoOUfGqJfF9g==
+X-Gm-Message-State: AOJu0Yxk00/tzX47dD026y8dMiR25VjpnR2Ro8BUz7gMZ9lkUik5QIw+
+	6yinlY0+v89g0rLflbTJvcjaTY/TqvyDGdiVefEnmF2cgHac/p2I
+X-Google-Smtp-Source: AGHT+IEO4l+HTjYGVCjXbbD0O8/ek58vjia6UWCUjps9g02FYVlxFnqF5M3Q6IdqFSApclX99EyMUA==
+X-Received: by 2002:a17:906:c20e:b0:a5a:1871:e2a1 with SMTP id a640c23a62f3a-a62649bcfebmr930552566b.33.1716919232133;
+        Tue, 28 May 2024 11:00:32 -0700 (PDT)
+Received: from andrea ([151.76.32.59])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a639ef1da1csm13068566b.147.2024.05.28.11.00.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 May 2024 11:00:31 -0700 (PDT)
+Date: Tue, 28 May 2024 20:00:26 +0200
+From: Andrea Parri <parri.andrea@gmail.com>
+To: Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>,
+	Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-arch@vger.kernel.org
+Subject: Re: [PATCH 4/7] riscv: Implement xchg8/16() using Zabha
+Message-ID: <ZlYbupL5XgzgA0MX@andrea>
+References: <20240528151052.313031-1-alexghiti@rivosinc.com>
+ <20240528151052.313031-5-alexghiti@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240510232128.1105145-1-almasrymina@google.com>
- <20240510232128.1105145-12-almasrymina@google.com> <9097e78d-0e7d-43bd-bafd-e53a4872a4d1@davidwei.uk>
-In-Reply-To: <9097e78d-0e7d-43bd-bafd-e53a4872a4d1@davidwei.uk>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 28 May 2024 10:36:40 -0700
-Message-ID: <CAHS8izOe-uYjm0ttQgHOFpvp_Tj4_oRHV6d1Y1sWJAZJdCdCBA@mail.gmail.com>
-Subject: Re: [PATCH net-next v9 11/14] tcp: RX path for devmem TCP
-To: David Wei <dw@davidwei.uk>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>, 
-	Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Pavel Begunkov <asml.silence@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
-	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, 
-	Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240528151052.313031-5-alexghiti@rivosinc.com>
 
-On Wed, May 22, 2024 at 11:02=E2=80=AFPM David Wei <dw@davidwei.uk> wrote:
->
-> On 2024-05-10 16:21, Mina Almasry wrote:
-> > +/* On error, returns the -errno. On success, returns number of bytes s=
-ent to the
-> > + * user. May not consume all of @remaining_len.
-> > + */
-> > +static int tcp_recvmsg_dmabuf(struct sock *sk, const struct sk_buff *s=
-kb,
-> > +                           unsigned int offset, struct msghdr *msg,
-> > +                           int remaining_len)
-> > +{
-> > +     struct dmabuf_cmsg dmabuf_cmsg =3D { 0 };
-> > +     struct tcp_xa_pool tcp_xa_pool;
-> > +     unsigned int start;
-> > +     int i, copy, n;
-> > +     int sent =3D 0;
-> > +     int err =3D 0;
-> > +
-> > +     tcp_xa_pool.max =3D 0;
-> > +     tcp_xa_pool.idx =3D 0;
-> > +     do {
-> > +             start =3D skb_headlen(skb);
-> > +
-> > +             if (skb_frags_readable(skb)) {
-> > +                     err =3D -ENODEV;
-> > +                     goto out;
-> > +             }
-> > +
-> > +             /* Copy header. */
-> > +             copy =3D start - offset;
-> > +             if (copy > 0) {
-> > +                     copy =3D min(copy, remaining_len);
-> > +
-> > +                     n =3D copy_to_iter(skb->data + offset, copy,
-> > +                                      &msg->msg_iter);
-> > +                     if (n !=3D copy) {
-> > +                             err =3D -EFAULT;
-> > +                             goto out;
-> > +                     }
-> > +
-> > +                     offset +=3D copy;
-> > +                     remaining_len -=3D copy;
-> > +
-> > +                     /* First a dmabuf_cmsg for # bytes copied to user
-> > +                      * buffer.
-> > +                      */
-> > +                     memset(&dmabuf_cmsg, 0, sizeof(dmabuf_cmsg));
-> > +                     dmabuf_cmsg.frag_size =3D copy;
-> > +                     err =3D put_cmsg(msg, SOL_SOCKET, SO_DEVMEM_LINEA=
-R,
-> > +                                    sizeof(dmabuf_cmsg), &dmabuf_cmsg)=
-;
-> > +                     if (err || msg->msg_flags & MSG_CTRUNC) {
-> > +                             msg->msg_flags &=3D ~MSG_CTRUNC;
-> > +                             if (!err)
-> > +                                     err =3D -ETOOSMALL;
-> > +                             goto out;
-> > +                     }
-> > +
-> > +                     sent +=3D copy;
-> > +
-> > +                     if (remaining_len =3D=3D 0)
-> > +                             goto out;
-> > +             }
-> > +
-> > +             /* after that, send information of dmabuf pages through a
-> > +              * sequence of cmsg
-> > +              */
-> > +             for (i =3D 0; i < skb_shinfo(skb)->nr_frags; i++) {
-> > +                     skb_frag_t *frag =3D &skb_shinfo(skb)->frags[i];
-> > +                     struct net_iov *niov;
-> > +                     u64 frag_offset;
-> > +                     int end;
-> > +
-> > +                     /* !skb_frags_readable() should indicate that ALL=
- the
-> > +                      * frags in this skb are dmabuf net_iovs. We're c=
-hecking
-> > +                      * for that flag above, but also check individual=
- frags
-> > +                      * here. If the tcp stack is not setting
-> > +                      * skb_frags_readable() correctly, we still don't=
- want
-> > +                      * to crash here.
-> > +                      */
-> > +                     if (!skb_frag_net_iov(frag)) {
-> > +                             net_err_ratelimited("Found non-dmabuf skb=
- with net_iov");
-> > +                             err =3D -ENODEV;
-> > +                             goto out;
-> > +                     }
-> > +
-> > +                     niov =3D skb_frag_net_iov(frag);
->
-> Sorry if we've already discussed this.
->
-> We have this additional hunk:
->
-> + if (niov->pp->mp_ops !=3D &dmabuf_devmem_ops) {
-> +       err =3D -ENODEV;
-> +       goto out;
-> + }
->
-> In case one of our skbs end up here, skb_frag_is_net_iov() and
-> !skb_frags_readable(). Does this even matter? And if so then is there a
-> better way to distinguish between our two types of net_iovs?
+> -#define __arch_xchg_masked(prepend, append, r, p, n)			\
+> +#define __arch_xchg_masked(swap_sfx, prepend, append, r, p, n)		\
 
-Thanks for bringing this up, yes, maybe we do need a way to
-distinguish, but it's not 100% critical, no? It's mostly for debug
-checking?
+This actually indicates a problem in the current (aka, no Zabha)
+implementation: without your series, xchg16() gets mapped to
 
-I would say add a helper, like net_iov_is_dmabuf() or net_iov_is_io_uring()=
-.
+  lr.w     a2,(a3)
+  and      a1,a2,a5
+  or       a1,a1,a4
+  sc.w     a1,a1,(a3)
+  bnez     a1,43c <.L0^B1>
 
-Checking for niov->pp->mp_ops seems a bit hacky to me, and may be
-outright broken. IIRC niov's can be disconnected from the page_pool
-via page_pool_clear_pp_info(), and niov->pp may be null. Abstractly
-speaking the niov type maybe should be a property of the niov itself,
-and not the pp the niov is attached to.
+which is clearly wrong... (other "fully-ordered LR/SC sequences"
+instead follow the mapping
 
-It is not immediately obvious to me what the best thing to do here is,
-maybe it's best to add a flag to niov or to use niov->pp_magic for
-this.
+  lr.w     a2,(a3)
+  and      a1,a2,a5
+  or       a1,a1,a4
+  sc.w.rl  a1,a1,(a3)
+  bnez     a1,43c <.L0^B1>
+  fence    rw,rw  )
 
-I would humbly ask that your follow up patchset takes care of this
-bit, if possible. I think mine is doing quite a bit of heavy lifting
-as is (and I think may be close to ready?), when it comes to concerns
-of devmem + io_uring coexisting if you're able to take care, awesome,
-if not, I can look into squashing some fix.
+A similar consideration for xchg8().
 
---=20
-Thanks,
-Mina
+  Andrea
