@@ -1,120 +1,190 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9416417084D
-	for <linux-doc@vger.kernel.org>; Tue, 28 May 2024 15:10:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F2F172773;
+	Tue, 28 May 2024 15:11:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716909058; cv=none; b=bZbqVyp1Givm0smBs3IJ6+m1iOhTKu0/iUsF5e8RYraq72HG5TrggSeSxQ6STB5TT/pJgnt2oHG58ihBQq67QnF37z3b/Z68e1PLQO6ZLRNT54hauK54vo9YkZOMBEVRyb2QWY67TW8i/H5Ly9Kdmnj6FF006LJsqI6IUOKt6ys=
+	t=1716909099; cv=none; b=WWj3jH2MxWgb2rTyciTy7PB5qnK3gjWljDgHuOYSRORzypLA3GkPHa3dnz9dCf5K/GNnnE+NM6oV1zrOJ8nssNH7jze25VZRUbzNp7AO44Zbq/FGZjQzAou4qhyaPIPJkleVTsz9oE4PeDgEPJ26fjW9E1IAwAGUELHu463LWG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716909058; c=relaxed/simple;
-	bh=CJR5ijuAPP0OxGC2o3LndPnStx7BgQTf9sVBO3oNvzo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ke0jrh5/IUdKxzDYZ4qIxFW6TPUV0Q669yEqOU6qDfCCD2atmORC7Lp2lyGeCmbspwdgKPOPr4w+Gd9ouB6s7HI7CNqHyewfQrKoo+3usrlzar/uJGPmX2Txo54u4u5vv2S8E+2797TFQL6axu+en3wwAOUNo+7TchyjjGreB/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=m7/NlM3S; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1716909099; c=relaxed/simple;
+	bh=tyb/05DTPxIxbf2eFGFh22eIdOGGrLEjZtXusY8lNt8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EP5gQ0iVRxco7Pll99S3Q1njf+P/eWvohTBvZiwwyuNkSDrqDx21v/V2/iRqZK0qG0VfZ4y72sG+IOvC33imBSP5HPrpccY0mnReCchv4oY9EY2QxBaZ9ir8DO7E5kyIoXXhqQd3ySnRGyiSNJgabm1I5dhr58ezMXPk8TIkmFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mp2uU/tO; arc=none smtp.client-ip=209.85.161.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="m7/NlM3S"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-42120fc8cbfso4112855e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 28 May 2024 08:10:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mp2uU/tO"
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-5b97b5822d8so419073eaf.3;
+        Tue, 28 May 2024 08:11:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1716909055; x=1717513855; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=k0AGpQFir7bYkY6Hm/qOL+w8L3+MGNDSpFH+GMgURdQ=;
-        b=m7/NlM3SphncbkbnwVkDjnP9JpIRjqVX89ff5dRcH0RkRw7lXcjxigQcCZa7prbWje
-         almcX48vDmdlcWGaA1L6APIwY6fXRs+p/oUpW6MHwRz2N8v52uAh7e1zwAHu8LnjaLWE
-         F5j13D/UKuVIeTnPYGG370f78BrGISkWKjQ31ZF26YvN88IkIIoMiJ+I35JOL8zJbIPh
-         z07WreENbZHzt3Vd8KEkKhYKO3h5TTfQ0woJyalKc7+di4j/JYUh/9gY5v7nqsug+UNa
-         zvAXPjwqBoxac8zpbuD0oKvhoLa9BD8Hf79FmfgvIaBA+1hObTptoaAOsVR6JGSZD++f
-         RPiQ==
+        d=gmail.com; s=20230601; t=1716909097; x=1717513897; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jeEH13/IspqIN0QZgGiY2O/zNhcX61BWbHyoVtOdlDs=;
+        b=Mp2uU/tOmIWicgZcPMxd2HGKywwb+4NEBh1X+TVwObKaZ40C1wypcb1/Q3tW89k2Sd
+         KQ+aD29i5ecYSj6g+6vWHYLgI2PTvFOBk54IudshOJPVCil5GU5Gzqo+fKFFY6Hh/5U2
+         xNmzhVOaTtvoPzYRzZNNqP7mIYWe1ezzaPtjjbMieZAJn8xMCceJewoeTyGCXPAM4zuj
+         RmPJ1aJ0pguZnx/cUKapHbyKekNcTQAIv3pa5f6goXW6rGxeanXuWn+zYkfhXvYWwv15
+         woSK4ypeE10ah1XsMAUupqp5TR55ISsGg2IqHLOifryVsjY3Rq6rBHvTeZjZKKvTFoCQ
+         uoGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716909055; x=1717513855;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=k0AGpQFir7bYkY6Hm/qOL+w8L3+MGNDSpFH+GMgURdQ=;
-        b=udVTb3MP9jAPLSFdhU7B56H7MM6c7H92mEaWV6lLHeoW82qAbjjZ/aRBeBGhMUQwoZ
-         2GnZ17lP+uq+fvjubHzzFgjTYGFJVwUK2qQNTO+uzdHXbFJJ5mnF54cJyqxFmRM9uumO
-         95gmgEqfB9okcQ/w4+Vd8ypnTFltVeuRemW+wJmsmBNnVPkL11x4YgpKnGWQhZO6iEO0
-         pLNz+isZKb81NeeZXaPzbfkIcfzWBGAmqXPzELIEXIoEtC2qUkNFssCQVJEF+MAdRPpA
-         D/Uh2KOEP1Kg9oVmQE5mOQ+7pfYHnLweqc+5T7nJz+PkagpncG4ErtHJxSmXGJSwOztH
-         rxiA==
-X-Forwarded-Encrypted: i=1; AJvYcCVTm2xjMxzyEh52n7QDmUQhhAhOMOPdo8v1lr1CGdGz6rg7XbaRVc31Ts6xFtumwSs4/XlGjzWRHQ9S4nFRFLXbCjBgNfiOZByC
-X-Gm-Message-State: AOJu0YxJwC1Lft/B9KJOY+cBCh1iBXwv24YoVCfJMeyTqYDSGGw7Ra2Q
-	e/rUT1hxsVIzvlqq70AZtJIKRu3H5iLFHMNgpfz0BDuFq/1SKQEZg7D+Flda6vs=
-X-Google-Smtp-Source: AGHT+IHwEZnGvgBLJ+odBijV5gGLQhEjsnEBuwZ3zDPr0k4TFSH0yVpvuN/r5/6VstbLixDjb6DW3w==
-X-Received: by 2002:a05:600c:4703:b0:420:1fab:1798 with SMTP id 5b1f17b1804b1-421089fe2c2mr95474985e9.29.1716909054785;
-        Tue, 28 May 2024 08:10:54 -0700 (PDT)
-Received: from alex-rivos.home (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35579d7da64sm12293475f8f.4.2024.05.28.08.10.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 May 2024 08:10:54 -0700 (PDT)
-From: Alexandre Ghiti <alexghiti@rivosinc.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Will Deacon <will@kernel.org>,
-	Waiman Long <longman@redhat.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Leonardo Bras <leobras@redhat.com>,
-	Guo Ren <guoren@kernel.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-arch@vger.kernel.org
-Cc: Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: [PATCH 0/7] Zacas/Zabha support and qspinlocks
-Date: Tue, 28 May 2024 17:10:45 +0200
-Message-Id: <20240528151052.313031-1-alexghiti@rivosinc.com>
-X-Mailer: git-send-email 2.39.2
+        d=1e100.net; s=20230601; t=1716909097; x=1717513897;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jeEH13/IspqIN0QZgGiY2O/zNhcX61BWbHyoVtOdlDs=;
+        b=CbXNjiRGjkQ8kjOB+p/swS8g+EkSvXwd7QgofsHva5MiiDMwrxCMeYvi/teXJBqLFV
+         bfjUn7PrBUfJjlFRBMBafyqiyihXqWILJA19h8KSdxyC/rV7NT+/rxd4XDvmpVjEjhWL
+         zAa0iFurGikjyntHmiNlxZXsz5hJc4AKgr1vmTdO2Dd3RAUKONkhFHtS7JChfPEPWNYq
+         0VsIm/GbOVWrA5olyE6wGwQM3bSoyGYbYXckGfK49WmS9NJXksCiFgQkmKfbHVEbqxfY
+         1MxAU7R8OfpfvVT52vgsxNTP4sIRPVAXx7uSnz+Mr9txUTllPEO7UWvGp8vXFMSCtWnw
+         XYEA==
+X-Forwarded-Encrypted: i=1; AJvYcCVX7Md+A4Z34JY8H0jSNNd00NEzHzG+zL7nkkUbyRioKZXwZXTNbg7lqgtI39imy6M6sNW1Cd+Crur3E8ou0+KfqT8xgJnNefE1p+AUbWoKVWvqkFTURdy0rH2AEjC4qlyzAvPHZlyF
+X-Gm-Message-State: AOJu0Yw1U6aLW9D+PHsY3TDG6lZw2JQX/t1DQ0SYGC9DRnpq2bGOiym9
+	uapvwzBQ2vbBrjdGNI8l+dfQtBlxPR2wwErp/B7HftuozXhe9dSf9aoqiG7UN8Wp/BnnNdVX0vG
+	tVA+dGYl8FDIwARaFRHec8kykZdo=
+X-Google-Smtp-Source: AGHT+IGCx7NWJ9+Jl2b5wiPsUNKoKYfa0J+bDBc8UFoMl8a0+PE+dUE+66EoIjeAUoZevVR8Ks3mh2G/I3New8Rk9l4=
+X-Received: by 2002:a05:6218:2615:b0:183:86c4:75d0 with SMTP id
+ e5c5f4694b2df-197e50d264dmr965356655d.8.1716909096666; Tue, 28 May 2024
+ 08:11:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240528043404.39327-2-flintglass@gmail.com> <20240528043404.39327-4-flintglass@gmail.com>
+In-Reply-To: <20240528043404.39327-4-flintglass@gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Tue, 28 May 2024 08:11:25 -0700
+Message-ID: <CAKEwX=NnigYafFtQ63mknr_Gi7AVG5rp514GHi0a1K5PiNUxSQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] mm: zswap: fix global shrinker error handling logic
+To: Takero Funaki <flintglass@gmail.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Yosry Ahmed <yosryahmed@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This implements [cmp]xchgXX() macros using Zacas and Zabha extensions
-and finally uses those newly introduced macros to add support for
-qspinlocks: note that this implementation of qspinlocks satisfies the
-forward progress guarantee.
+On Mon, May 27, 2024 at 9:34=E2=80=AFPM Takero Funaki <flintglass@gmail.com=
+> wrote:
+>
+> This patch fixes zswap global shrinker that did not shrink zpool as
+> expected.
+>
+> The issue it addresses is that `shrink_worker()` did not distinguish
+> between unexpected errors and expected error codes that should be
+> skipped, such as when there is no stored page in a memcg. This led to
+> the shrinking process being aborted on the expected error codes.
+>
+> The shrinker should ignore these cases and skip to the next memcg.
+> However,  skipping all memcgs presents another problem. To address this,
+> this patch tracks progress while walking the memcg tree and checks for
+> progress once the tree walk is completed.
+>
+> To handle the empty memcg case, the helper function `shrink_memcg()` is
+> modified to check if the memcg is empty and then return -ENOENT.
+>
+> Fixes: a65b0e7607cc ("zswap: make shrinking memcg-aware")
+> Signed-off-by: Takero Funaki <flintglass@gmail.com>
+> ---
+>  mm/zswap.c | 31 ++++++++++++++++++++++++++-----
+>  1 file changed, 26 insertions(+), 5 deletions(-)
+>
+> diff --git a/mm/zswap.c b/mm/zswap.c
+> index 0b1052cee36c..08a6f5a6bf62 100644
+> --- a/mm/zswap.c
+> +++ b/mm/zswap.c
+> @@ -1304,7 +1304,7 @@ static struct shrinker *zswap_alloc_shrinker(void)
+>
+>  static int shrink_memcg(struct mem_cgroup *memcg)
+>  {
+> -       int nid, shrunk =3D 0;
+> +       int nid, shrunk =3D 0, stored =3D 0;
+>
+>         if (!mem_cgroup_zswap_writeback_enabled(memcg))
+>                 return -EINVAL;
+> @@ -1319,9 +1319,16 @@ static int shrink_memcg(struct mem_cgroup *memcg)
+>         for_each_node_state(nid, N_NORMAL_MEMORY) {
+>                 unsigned long nr_to_walk =3D 1;
+>
+> +               if (!list_lru_count_one(&zswap_list_lru, nid, memcg))
+> +                       continue;
+> +               ++stored;
+>                 shrunk +=3D list_lru_walk_one(&zswap_list_lru, nid, memcg=
+,
+>                                             &shrink_memcg_cb, NULL, &nr_t=
+o_walk);
+>         }
+> +
+> +       if (!stored)
+> +               return -ENOENT;
+> +
+>         return shrunk ? 0 : -EAGAIN;
+>  }
+>
+> @@ -1329,12 +1336,18 @@ static void shrink_worker(struct work_struct *w)
+>  {
+>         struct mem_cgroup *memcg =3D NULL;
+>         struct mem_cgroup *next_memcg;
+> -       int ret, failures =3D 0;
+> +       int ret, failures =3D 0, progress;
+>         unsigned long thr;
+>
+>         /* Reclaim down to the accept threshold */
+>         thr =3D zswap_accept_thr_pages();
+>
+> +       /*
+> +        * We might start from the last memcg.
+> +        * That is not a failure.
+> +        */
+> +       progress =3D 1;
+> +
+>         /* global reclaim will select cgroup in a round-robin fashion.
+>          *
+>          * We save iteration cursor memcg into zswap_next_shrink,
+> @@ -1366,9 +1379,12 @@ static void shrink_worker(struct work_struct *w)
+>                  */
+>                 if (!memcg) {
+>                         spin_unlock(&zswap_shrink_lock);
+> -                       if (++failures =3D=3D MAX_RECLAIM_RETRIES)
+> +
+> +                       /* tree walk completed but no progress */
+> +                       if (!progress && ++failures =3D=3D MAX_RECLAIM_RE=
+TRIES)
+>                                 break;
+>
+> +                       progress =3D 0;
+>                         goto resched;
+>                 }
+>
+> @@ -1391,10 +1407,15 @@ static void shrink_worker(struct work_struct *w)
+>                 /* drop the extra reference */
+>                 mem_cgroup_put(memcg);
+>
+> -               if (ret =3D=3D -EINVAL)
+> -                       break;
+> +               /* not a writeback candidate memcg */
+> +               if (ret =3D=3D -EINVAL || ret =3D=3D -ENOENT)
+> +                       continue;
+> +
 
-Thanks to Guo and Leonardo for their work!
+Can we get into an infinite loop or a really long running loops here
+if all memcgs have their writeback disabled?
 
-Alexandre Ghiti (5):
-  riscv: Implement cmpxchg32/64() using Zacas
-  riscv: Implement cmpxchg8/16() using Zabha
-  riscv: Implement arch_cmpxchg128() using Zacas
-  riscv: Implement xchg8/16() using Zabha
-  riscv: Add qspinlock support based on Zabha extension
-
-Guo Ren (2):
-  asm-generic: ticket-lock: Reuse arch_spinlock_t of qspinlock
-  asm-generic: ticket-lock: Add separate ticket-lock.h
-
- .../locking/queued-spinlocks/arch-support.txt |   2 +-
- arch/riscv/Kconfig                            |  35 ++++++
- arch/riscv/Makefile                           |  21 ++++
- arch/riscv/include/asm/Kbuild                 |   4 +-
- arch/riscv/include/asm/cmpxchg.h              | 114 ++++++++++++++++--
- arch/riscv/include/asm/hwcap.h                |   1 +
- arch/riscv/include/asm/spinlock.h             |  39 ++++++
- arch/riscv/kernel/cpufeature.c                |   1 +
- arch/riscv/kernel/setup.c                     |  18 +++
- include/asm-generic/qspinlock.h               |   2 +
- include/asm-generic/spinlock.h                |  87 +------------
- include/asm-generic/spinlock_types.h          |  12 +-
- include/asm-generic/ticket_spinlock.h         | 105 ++++++++++++++++
- 13 files changed, 336 insertions(+), 105 deletions(-)
- create mode 100644 arch/riscv/include/asm/spinlock.h
- create mode 100644 include/asm-generic/ticket_spinlock.h
-
--- 
-2.39.2
-
+>                 if (ret && ++failures =3D=3D MAX_RECLAIM_RETRIES)
+>                         break;
+> +
+> +               ++progress;
+> +               /* reschedule as we performed some IO */
+>  resched:
+>                 cond_resched();
+>         } while (zswap_total_pages() > thr);
+> --
+> 2.43.0
+>
