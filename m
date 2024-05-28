@@ -1,406 +1,277 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC8A61C6A5;
-	Tue, 28 May 2024 18:41:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C0875024E;
+	Tue, 28 May 2024 19:31:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716921678; cv=none; b=hHR5ZYLR1wq6V6QNqEFauEm1ZBwSQoBajGNG6tlSz/1MCAQuzbyiuu749oJ9KqkdjXp7FBZyAAtCkBPfbxGBOVPyL9J4B+AmjM+qEu/8lvvCVI48WyNIy9KPgM9SyYm3ebAD1I8zOXzQclzMuxYdm9X0DMXrWfMRGqe5qMKj2iY=
+	t=1716924673; cv=none; b=t7qFkjh0kGr3YrrPgi0/obv43sA3FRBlKv3O+9g/rQBrCydVY0RJhHmI2pcxu7evrdeZ825hN3q1gDZMDoukfwdIVl0h79jMgyy2gausjz81bPoIe93OZfxvUcDY8TggRcAWzuJZoO8/16ZVbGtV0IUcWDFNz56Z1/tCKxyH6qk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716921678; c=relaxed/simple;
-	bh=tRxtb+BuCuDdZLNKVI1U9TB5LPyq6Iu++Jsg/AA08T0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aJIB7yWg1f43FVcgHN2oCeb5Tp1GlAJWCtcOEIdnOltqQduQZLSaHaqr2eoUZEM1CFfED4eSAadD0F2SfE25ZHsmOejU2z6SafLhiplheaPRn4H+dnmH5Zf2itiNFE2TEai0HtG/TL63asaTqsVX2Z/+IIf2yxsa2Qx+3v806m8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=j//TmqMe; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1716924673; c=relaxed/simple;
+	bh=ZGRsY2ZQZErkGb3Ve4FDnyIZLkQj3AbizzUfJX7D1JU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gig5GqedvCzONmHV6QqQp/UPHfOGDRgBL/ehq9sTlHCBY1aalVeuLdgC4lQoUcSVnTJCBkAmoDw8ruwwHK2l0evsO24V+Nw6jWX/J88QF+CK7x1lZat38M91mvSlGl3zyjE3j6auQAkhfY4kn37qNd5utdd04Xwd4+cwT6GyjkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZayzUQF/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="j//TmqMe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1716921674;
-	bh=tRxtb+BuCuDdZLNKVI1U9TB5LPyq6Iu++Jsg/AA08T0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=j//TmqMeTN4mfoGfnvzPENIvcpKIzu073du5X88NkHpLQ0Ph6d0qVDcjiECsR9pjP
-	 mqGFkSpX5Aexqxv9rzDJhWVjhfjWLx9N6I9yRQY7VK2kg2WYRA+Y9YQs1/ny3MrmOR
-	 YjR6FTT/Y396P/CcAln48BWUt3vKGNgrnY0yuKvuJYR43A/Os3kmB6g6mAxrUM6xXk
-	 dbxYkaSCr/3cxPoDEiOPzbIWpIYpysG/qxzfqz9Ogqxhw0yG9jYVvqBmG1ufvpKRxe
-	 0siJFcURIcsQp4CyaQChBsXe/KPtjIDPwL6TBgJrgNRqAW13cY6J9y+MuzMUHybSwT
-	 x1U9WNi0yc5ig==
-Received: from [100.95.196.182] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: andrzej.p)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 6DDF63780A0B;
-	Tue, 28 May 2024 18:41:13 +0000 (UTC)
-Message-ID: <50c62db3-060d-4b21-ae28-629003611e1a@collabora.com>
-Date: Tue, 28 May 2024 20:41:12 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZayzUQF/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 057A7C3277B;
+	Tue, 28 May 2024 19:31:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716924673;
+	bh=ZGRsY2ZQZErkGb3Ve4FDnyIZLkQj3AbizzUfJX7D1JU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZayzUQF/CRwyHEDjHYOegUqd6PFEA3IZd5BZH3OyeQhARI7ku7s8PLJbxIz2x/DFv
+	 lQu9iInAWM7uPnIH+KM5mWrQYL37cocZgHQJ5WZDp9fyjWE6y/ca/t/JYB733zosP8
+	 mT8ILP083xKJBmeQtllIgtwIiFaCHUAc7DvK2uptb0HfYrG7N3SJy+kttBGHYRLfYi
+	 44iNjWoOwcAtxyFKW+iZa3LW8JGIqLxOAFE0p9grtDvqdjj2eIhR1fAvDnwHEepZOy
+	 P057DWgxD0WH4PjcKHTf11k/e2jTSFCO8ZRYFazwFlgBkl3lQw0s51mTYc+DkrRs2t
+	 YxQgeWrlEYBpQ==
+Date: Tue, 28 May 2024 12:31:10 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>,
+	Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-arch@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH 2/7] riscv: Implement cmpxchg8/16() using Zabha
+Message-ID: <20240528193110.GA2196855@thelio-3990X>
+References: <20240528151052.313031-1-alexghiti@rivosinc.com>
+ <20240528151052.313031-3-alexghiti@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/3] tools: usb: p9_fwd: add usb gadget packet
- forwarder script
-To: Michael Grzeschik <m.grzeschik@pengutronix.de>,
- Eric Van Hensbergen <ericvh@kernel.org>, Latchesar Ionkov
- <lucho@ionkov.net>, Dominique Martinet <asmadeus@codewreck.org>,
- Christian Schoenebeck <linux_oss@crudebyte.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: v9fs@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- kernel@pengutronix.de, Jan Luebbe <jlu@pengutronix.de>
-References: <20240116-ml-topic-u9p-v5-0-5ed0abd53ef5@pengutronix.de>
- <20240116-ml-topic-u9p-v5-3-5ed0abd53ef5@pengutronix.de>
-Content-Language: en-US
-From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-In-Reply-To: <20240116-ml-topic-u9p-v5-3-5ed0abd53ef5@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240528151052.313031-3-alexghiti@rivosinc.com>
 
-Hi,
+Hi Alexandre,
 
-W dniu 28.05.2024 o 00:08, Michael Grzeschik pisze:
-> This patch is adding an small python tool to forward 9pfs requests
-> from the USB gadget to an existing 9pfs TCP server. Since currently all
-> 9pfs servers lack support for the usb transport this tool is an useful
-> helper to get started.
+On Tue, May 28, 2024 at 05:10:47PM +0200, Alexandre Ghiti wrote:
+> This adds runtime support for Zabha in cmpxchg8/16 operations.
 > 
-> Refer the Documentation section "USBG Example" in
-> Documentation/filesystems/9p.rst on how to use it.
-> 
-> Signed-off-by: Jan Luebbe <jlu@pengutronix.de>
-> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
-> 
+> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 > ---
-> v4 -> v5:
->    - updated documentation for new subcommands list/connect
->    - run ruff format
->    - make vid and pid parameterized
-
-Thanks for adding that.
-
->    - add list as subcommand to scan for devices
->    - move connect to extra subcommand
-> v3 -> v4: -
-> v2 -> v3: -
-> v1 -> v2:
->    - added usbg 9pfs detailed instructions to 9p.rst doc
-> ---
->   Documentation/filesystems/9p.rst |  41 +++++++
->   tools/usb/p9_fwd.py              | 243 +++++++++++++++++++++++++++++++++++++++
->   2 files changed, 284 insertions(+)
+>  arch/riscv/Kconfig               | 16 ++++++++++++++++
+>  arch/riscv/Makefile              | 10 ++++++++++
+>  arch/riscv/include/asm/cmpxchg.h | 26 ++++++++++++++++++++++++--
+>  3 files changed, 50 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/filesystems/9p.rst b/Documentation/filesystems/9p.rst
-> index 10cf79dc287f8..2cc85f3e8659f 100644
-> --- a/Documentation/filesystems/9p.rst
-> +++ b/Documentation/filesystems/9p.rst
-> @@ -67,6 +67,47 @@ To mount a 9p FS on a USB Host accessible via the gadget as root filesystem::
->   where <device> is the tag associated by the usb gadget transport.
->   It is defined by the configfs instance name.
->   
-> +USBG Example
-> +============
-> +
-> +The USB host exports a filesystem, while the gadget on the USB device
-> +side makes it mountable.
-> +
-> +Diod (9pfs server) and the forwarder are on the development host, where
-> +the root filesystem is actually stored. The gadget is initialized during
-> +boot (or later) on the embedded board. Then the forwarder will find it
-> +on the USB bus and start forwarding requests.
-> +
-> +In this case the 9p requests come from the device and are handled by the
-> +host. The reason is that USB device ports are normally not available on
-> +PCs, so a connection in the other direction would not work.
-> +
-> +When using the usbg transport, for now there is no native usb host
-> +service capable to handle the requests from the gadget driver. For
-> +this we have to use the extra python tool p9_fwd.py from tools/usb.
-> +
-> +Just start the 9pfs capable network server like diod/nfs-ganesha e.g.:
-> +
-> +        $ diod -f -n -d 0 -S -l 0.0.0.0:9999 -e $PWD
-> +
-> +Optionaly scan your bus if there are more then one usbg gadgets to find their path:
-> +
-> +        $ python $kernel_dir/tools/usb/p9_fwd.py list
-> +
-> +        Bus | Addr | Manufacturer     | Product          | ID        | Path
-> +        --- | ---- | ---------------- | ---------------- | --------- | ----
-> +          2 |   67 | unknown          | unknown          | 1d6b:0109 | 2-1.1.2
-> +          2 |   68 | unknown          | unknown          | 1d6b:0109 | 2-1.1.3
-> +
-> +Then start the python transport:
-> +
-> +        $ python $kernel_dir/tools/usb/p9_fwd.py --path 2-1.1.2 connect -p 9999
-> +
-> +After that the gadget driver can be used as described above.
-> +
-> +One use-case is to use it as an alternative to NFS root booting during
-> +the development of embedded Linux devices.
-> +
->   Options
->   =======
->   
-> diff --git a/tools/usb/p9_fwd.py b/tools/usb/p9_fwd.py
-> new file mode 100755
-> index 0000000000000..7bedefce75c7b
-> --- /dev/null
-> +++ b/tools/usb/p9_fwd.py
-> @@ -0,0 +1,243 @@
-> +#!/usr/bin/env python3
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +import argparse
-> +import errno
-> +import logging
-> +import socket
-> +import struct
-> +import time
-> +
-> +import usb.core
-> +import usb.util
-> +
-> +
-> +def path_from_usb_dev(dev):
-> +    """Takes a pyUSB device as argument and returns a string.
-> +    The string is a Path representation of the position of the USB device on the USB bus tree.
-> +
-> +    This path is used to find a USB device on the bus or all devices connected to a HUB.
-> +    The path is made up of the number of the USB controller followed be the ports of the HUB tree."""
-> +    if dev.port_numbers:
-> +        dev_path = ".".join(str(i) for i in dev.port_numbers)
-> +        return f"{dev.bus}-{dev_path}"
-> +    return ""
-> +
-> +
-> +HEXDUMP_FILTER = "".join(chr(x).isprintable() and chr(x) or "." for x in range(128)) + "." * 128
-> +
-> +
-> +class Forwarder:
-> +    @staticmethod
-> +    def _log_hexdump(data):
-> +        if not logging.root.isEnabledFor(logging.TRACE):
-> +            return
-> +        L = 16
-> +        for c in range(0, len(data), L):
-> +            chars = data[c : c + L]
-> +            dump = " ".join(f"{x:02x}" for x in chars)
-> +            printable = "".join(HEXDUMP_FILTER[x] for x in chars)
-> +            line = f"{c:08x}  {dump:{L*3}s} |{printable:{L}s}|"
-> +            logging.root.log(logging.TRACE, "%s", line)
-> +
-> +    def __init__(self, server, vid, pid, path):
-> +        self.stats = {
-> +            "c2s packets": 0,
-> +            "c2s bytes": 0,
-> +            "s2c packets": 0,
-> +            "s2c bytes": 0,
-> +        }
-> +        self.stats_logged = time.monotonic()
-> +
-> +        def find_filter(dev):
-> +            dev_path = path_from_usb_dev(dev)
-> +            if path is not None:
-> +                return dev_path == path
-> +            return True
-> +
-> +        dev = usb.core.find(idVendor=vid, idProduct=pid, custom_match=find_filter)
-> +        if dev is None:
-> +            raise ValueError("Device not found")
-> +
-> +        logging.info(f"found device: {dev.bus}/{dev.address} located at {path_from_usb_dev(dev)}")
-> +
-> +        # dev.set_configuration() is not necessary since g_multi has only one
-> +        usb9pfs = None
-> +        # g_multi adds 9pfs as last interface
-> +        cfg = dev.get_active_configuration()
-> +        for intf in cfg:
-> +            # we have to detach the usb-storage driver from multi gadget since
-> +            # stall option could be set, which will lead to spontaneous port
-> +            # resets and our transfers will run dead
-> +            if intf.bInterfaceClass == 0x08:
-> +                if dev.is_kernel_driver_active(intf.bInterfaceNumber):
-> +                    dev.detach_kernel_driver(intf.bInterfaceNumber)
-> +
-> +            if intf.bInterfaceClass == 0xFF and intf.bInterfaceSubClass == 0xFF and intf.bInterfaceProtocol == 0x09:
-> +                usb9pfs = intf
-> +        if usb9pfs is None:
-> +            raise ValueError("Interface not found")
-> +
-> +        logging.info(f"claiming interface:\n{usb9pfs}")
-> +        usb.util.claim_interface(dev, usb9pfs.bInterfaceNumber)
-> +        ep_out = usb.util.find_descriptor(
-> +            usb9pfs,
-> +            custom_match=lambda e: usb.util.endpoint_direction(e.bEndpointAddress) == usb.util.ENDPOINT_OUT,
-> +        )
-> +        assert ep_out is not None
-> +        ep_in = usb.util.find_descriptor(
-> +            usb9pfs,
-> +            custom_match=lambda e: usb.util.endpoint_direction(e.bEndpointAddress) == usb.util.ENDPOINT_IN,
-> +        )
-> +        assert ep_in is not None
-> +        logging.info("interface claimed")
-> +
-> +        self.ep_out = ep_out
-> +        self.ep_in = ep_in
-> +        self.dev = dev
-> +
-> +        # create and connect socket
-> +        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-> +        self.s.connect(server)
-> +
-> +        logging.info("connected to server")
-> +
-> +    def c2s(self):
-> +        """forward a request from the USB client to the TCP server"""
-> +        data = None
-> +        while data is None:
-> +            try:
-> +                logging.log(logging.TRACE, "c2s: reading")
-> +                data = self.ep_in.read(self.ep_in.wMaxPacketSize)
-> +            except usb.core.USBTimeoutError:
-> +                logging.log(logging.TRACE, "c2s: reading timed out")
-> +                continue
-> +            except usb.core.USBError as e:
-> +                if e.errno == errno.EIO:
-> +                    logging.debug("c2s: reading failed with %s, retrying", repr(e))
-> +                    time.sleep(0.5)
-> +                    continue
-> +                logging.error("c2s: reading failed with %s, aborting", repr(e))
-> +                raise
-> +        size = struct.unpack("<I", data[:4])[0]
-> +        while len(data) < size:
-> +            data += self.ep_in.read(size - len(data))
-> +        logging.log(logging.TRACE, "c2s: writing")
-> +        self._log_hexdump(data)
-> +        self.s.send(data)
-> +        logging.debug("c2s: forwarded %i bytes", size)
-> +        self.stats["c2s packets"] += 1
-> +        self.stats["c2s bytes"] += size
-> +
-> +    def s2c(self):
-> +        """forward a response from the TCP server to the USB client"""
-> +        logging.log(logging.TRACE, "s2c: reading")
-> +        data = self.s.recv(4)
-> +        size = struct.unpack("<I", data[:4])[0]
-> +        while len(data) < size:
-> +            data += self.s.recv(size - len(data))
-> +        logging.log(logging.TRACE, "s2c: writing")
-> +        self._log_hexdump(data)
-> +        while data:
-> +            written = self.ep_out.write(data)
-> +            assert written > 0
-> +            data = data[written:]
-> +        if size % self.ep_out.wMaxPacketSize == 0:
-> +            logging.log(logging.TRACE, "sending zero length packet")
-> +            self.ep_out.write(b"")
-> +        logging.debug("s2c: forwarded %i bytes", size)
-> +        self.stats["s2c packets"] += 1
-> +        self.stats["s2c bytes"] += size
-> +
-> +    def log_stats(self):
-> +        logging.info("statistics:")
-> +        for k, v in self.stats.items():
-> +            logging.info(f"  {k+':':14s} {v}")
-> +
-> +    def log_stats_interval(self, interval=5):
-> +        if (time.monotonic() - self.stats_logged) < interval:
-> +            return
-> +
-> +        self.log_stats()
-> +        self.stats_logged = time.monotonic()
-> +
-> +
-> +def try_get_usb_str(dev, name):
-> +    try:
-> +        with open(f"/sys/bus/usb/devices/{dev.bus}-{dev.address}/{name}") as f:
-> +            return f.read().strip()
-> +    except FileNotFoundError:
-> +        return None
-> +
-> +
-> +def list_usb(args):
-> +    vid, pid = [int(x, 16) for x in args.id.split(":", 1)]
-> +
-> +    print("Bus | Addr | Manufacturer     | Product          | ID        | Path")
-> +    print("--- | ---- | ---------------- | ---------------- | --------- | ----")
-> +    for dev in usb.core.find(find_all=True, idVendor=vid, idProduct=pid):
-> +        path = path_from_usb_dev(dev) or ""
-> +        manufacturer = try_get_usb_str(dev, "manufacturer") or "unknown"
-> +        product = try_get_usb_str(dev, "product") or "unknown"
-> +        print(
-> +            f"{dev.bus:3} | {dev.address:4} | {manufacturer:16} | {product:16} | {dev.idVendor:04x}:{dev.idProduct:04x} | {path:18}"
-> +        )
-> +
-> +
-> +def connect(args):
-> +    vid, pid = [int(x, 16) for x in args.id.split(":", 1)]
-> +
-> +    f = Forwarder(server=(args.server, args.port), vid=vid, pid=pid, path=args.path)
-> +
-> +    try:
-> +        while True:
-> +            f.c2s()
-> +            f.s2c()
-> +            f.log_stats_interval()
-> +    finally:
-> +        f.log_stats()
-> +
-> +
-> +def main():
-> +    parser = argparse.ArgumentParser(
-> +        description="Forward 9PFS requests from USB to TCP",
-> +    )
-> +
-> +    parser.add_argument("--id", type=str, default="1d6b:0109", help="vid:pid of target device")
-> +    parser.add_argument("--path", type=str, default="", help="path of target device")
+> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> index b443def70139..05597719bb1c 100644
+> --- a/arch/riscv/Kconfig
+> +++ b/arch/riscv/Kconfig
+> @@ -579,6 +579,22 @@ config RISCV_ISA_V_PREEMPTIVE
+>  	  preemption. Enabling this config will result in higher memory
+>  	  consumption due to the allocation of per-task's kernel Vector context.
+>  
+> +config TOOLCHAIN_HAS_ZABHA
+> +	bool
+> +	default y
+> +	depends on !64BIT || $(cc-option,-mabi=lp64 -march=rv64ima_zabha)
+> +	depends on !32BIT || $(cc-option,-mabi=ilp32 -march=rv32ima_zabha)
 
-I had to specify both --id and --path, otherwise I was getting
-"device not found".
+This test does not take into account the need for
+'-menable-experimental-extensions' and '1p0' in the '-march=' value with
+clang 19, so it can never be enabled even if it is available.
 
-Regards,
+I am not really sure how to succinctly account for this though, other
+than duplicating and modifying the cc-option checks with a dependency on
+either CC_IS_GCC or CC_IS_CLANG. Another option is taking the same
+approach as the _SUPPORTS_DYNAMIC_FTRACE symbols and introduce
+CLANG_HAS_ZABHA and GCC_HAS_ZABHA? That might not make it too ugly.
 
-Andrzej
+I think the ZACAS patch has a similar issue, it just isn't noticeable
+with clang 19 but it should be with clang 17 and 18.
 
-> +    parser.add_argument("-v", "--verbose", action="count", default=0)
+> +	depends on AS_HAS_OPTION_ARCH
 > +
-> +    subparsers = parser.add_subparsers()
-> +    subparsers.required = True
-> +    subparsers.dest = "command"
+> +config RISCV_ISA_ZABHA
+> +	bool "Zabha extension support for atomic byte/half-word operations"
+> +	depends on TOOLCHAIN_HAS_ZABHA
+> +	default y
+> +	help
+> +	  Adds support to use atomic byte/half-word operations in the kernel.
 > +
-> +    parser_list = subparsers.add_parser("list", help="List all connected 9p gadgets")
-> +    parser_list.set_defaults(func=list_usb)
+> +	  If you don't know what to do here, say Y.
 > +
-> +    parser_connect = subparsers.add_parser(
-> +        "connect", help="Forward messages between the usb9pfs gadget and the 9p server"
-> +    )
-> +    parser_connect.set_defaults(func=connect)
-> +    connect_group = parser_connect.add_argument_group()
-> +    connect_group.required = True
-> +    parser_connect.add_argument("-s", "--server", type=str, default="127.0.0.1", help="server hostname")
-> +    parser_connect.add_argument("-p", "--port", type=int, default=564, help="server port")> +
-> +    args = parser.parse_args()
+>  config TOOLCHAIN_HAS_ZACAS
+>  	bool
+>  	default y
+> diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
+> index d5b60b87998c..f58ac921dece 100644
+> --- a/arch/riscv/Makefile
+> +++ b/arch/riscv/Makefile
+> @@ -89,6 +89,16 @@ else
+>  riscv-march-$(CONFIG_TOOLCHAIN_HAS_ZACAS) := $(riscv-march-y)_zacas
+>  endif
+>  
+> +# Check if the toolchain supports Zabha
+> +ifdef CONFIG_AS_IS_LLVM
+> +# Support for experimental Zabha was merged in LLVM 19.
+> +KBUILD_CFLAGS += -menable-experimental-extensions
+> +KBUILD_AFLAGS += -menable-experimental-extensions
+> +riscv-march-y := $(riscv-march-y)_zabha1p0
+
+This block should have some dependency on CONFIG_TOOLCHAIN_HAS_ZABHA as
+well right? Otherwise, the build breaks with LLVM toolchains that do not
+support zabha, like LLVM 18.1.x:
+
+  clang: error: invalid arch name 'rv64imac_zihintpause_zacas1p0_zabha1p0', unsupported version number 1.0 for extension 'zabha'
+
+I think the zacas patch has the same bug.
+
+I think that it would be good to consolidate the adding of
+'-menable-experimental-extensions' to the compiler and assembler flags
+to perhaps having a hidden symbol like CONFIG_EXPERIMENTAL_EXTENSIONS
+that is selected by any extension that is experimental for the
+particular toolchain version.
+
+config EXPERIMENTAL_EXTENSIONS
+    bool
+
+config TOOLCHAIN_HAS_ZABHA
+    def_bool y
+    select EXPERIMENTAL_EXETNSIONS if CC_IS_CLANG
+    ...
+
+config TOOLCHAIN_HAS_ZACAS
+    def_bool_y
+    # ZACAS was experimental until Clang 19: https://github.com/llvm/llvm-project/commit/95aab69c109adf29e183090c25dc95c773215746
+    select EXPERIMENTAL_EXETNSIONS if CC_IS_CLANG && CLANG_VERSION < 190000
+    ...
+
+Then in the Makefile:
+
+ifdef CONFIG_EXPERIMENTAL_EXTENSIONS
+KBUILD_AFLAGS += -menable-experimental-extensions
+KBUILD_CFLAGS += -menable-experimental-extensions
+endif
+
+> +else
+> +riscv-march-$(CONFIG_TOOLCHAIN_HAS_ZABHA) := $(riscv-march-y)_zabha
+> +endif
 > +
-> +    logging.TRACE = logging.DEBUG - 5
-> +    logging.addLevelName(logging.TRACE, "TRACE")
-> +
-> +    if args.verbose >= 2:
-> +        level = logging.TRACE
-> +    elif args.verbose:
-> +        level = logging.DEBUG
-> +    else:
-> +        level = logging.INFO
-> +    logging.basicConfig(level=level, format="%(asctime)-15s %(levelname)-8s %(message)s")
-> +
-> +    args.func(args)
-> +
-> +
-> +if __name__ == "__main__":
-> +    main()
+>  # Remove F,D,V from isa string for all. Keep extensions between "fd" and "v" by
+>  # matching non-v and non-multi-letter extensions out with the filter ([^v_]*)
+>  KBUILD_CFLAGS += -march=$(shell echo $(riscv-march-y) | sed -E 's/(rv32ima|rv64ima)fd([^v_]*)v?/\1\2/')
+> diff --git a/arch/riscv/include/asm/cmpxchg.h b/arch/riscv/include/asm/cmpxchg.h
+> index 1c50b4821ac8..65de9771078e 100644
+> --- a/arch/riscv/include/asm/cmpxchg.h
+> +++ b/arch/riscv/include/asm/cmpxchg.h
+> @@ -103,8 +103,14 @@
+>   * indicated by comparing RETURN with OLD.
+>   */
+>  
+> -#define __arch_cmpxchg_masked(sc_sfx, prepend, append, r, p, o, n)	\
+> +#define __arch_cmpxchg_masked(sc_sfx, cas_sfx, prepend, append, r, p, o, n)	\
+>  ({									\
+> +	__label__ zabha, end;						\
+> +									\
+> +	asm goto(ALTERNATIVE("nop", "j %[zabha]", 0,			\
+> +			     RISCV_ISA_EXT_ZABHA, 1)			\
+> +			: : : : zabha);					\
+> +									\
+>  	u32 *__ptr32b = (u32 *)((ulong)(p) & ~0x3);			\
+>  	ulong __s = ((ulong)(p) & (0x4 - sizeof(*p))) * BITS_PER_BYTE;	\
+>  	ulong __mask = GENMASK(((sizeof(*p)) * BITS_PER_BYTE) - 1, 0)	\
+> @@ -131,6 +137,17 @@
+>  		: "memory");						\
+>  									\
+>  	r = (__typeof__(*(p)))((__retx & __mask) >> __s);		\
+> +	goto end;							\
+> +									\
+> +zabha:									\
+> +	__asm__ __volatile__ (						\
+> +		prepend							\
+> +		"	amocas" cas_sfx " %0, %z2, %1\n"		\
+
+This should probably have some dependency on CONFIG_RISCV_ISA_ZABHA? I get the
+following with GCC 13.2.0:
+
+  include/linux/atomic/atomic-arch-fallback.h: Assembler messages:
+  include/linux/atomic/atomic-arch-fallback.h:2108: Error: unrecognized opcode `amocas.w a4,a3,0(s1)'
+
+> +		append							\
+> +		: "+&r" (r), "+A" (*(p))				\
+> +		: "rJ" (n)						\
+> +		: "memory");						\
+> +end:									\
+
+I get a lot of warnings from this statement and the one added by the
+previous patch for zacas, which is a C23 extension:
+
+  include/linux/atomic/atomic-arch-fallback.h:4234:9: warning: label at end of compound statement is a C23 extension [-Wc23-extensions]
+  include/linux/atomic/atomic-arch-fallback.h:89:29: note: expanded from macro 'raw_cmpxchg_relaxed'
+     89 | #define raw_cmpxchg_relaxed arch_cmpxchg_relaxed
+        |                             ^
+  arch/riscv/include/asm/cmpxchg.h:219:2: note: expanded from macro 'arch_cmpxchg_relaxed'
+    219 |         _arch_cmpxchg((ptr), (o), (n), "", "", "")
+        |         ^
+  arch/riscv/include/asm/cmpxchg.h:200:3: note: expanded from macro '_arch_cmpxchg'
+    200 |                 __arch_cmpxchg_masked(sc_sfx, ".h" sc_sfx,              \
+        |                 ^
+  arch/riscv/include/asm/cmpxchg.h:150:14: note: expanded from macro '__arch_cmpxchg_masked'
+    150 | end:                                                                    \
+        |                                                                         ^
+
+This resolves it:
+
+diff --git a/arch/riscv/include/asm/cmpxchg.h b/arch/riscv/include/asm/cmpxchg.h
+index ba3ffc2fcdd0..57aa4a554278 100644
+--- a/arch/riscv/include/asm/cmpxchg.h
++++ b/arch/riscv/include/asm/cmpxchg.h
+@@ -147,7 +147,7 @@ zabha:									\
+ 		: "+&r" (r), "+A" (*(p))				\
+ 		: "rJ" (n)						\
+ 		: "memory");						\
+-end:									\
++end:;									\
+ })
+ 
+ #define __arch_cmpxchg(lr_sfx, sc_cas_sfx, prepend, append, r, p, co, o, n)	\
+@@ -180,7 +180,7 @@ zacas:									\
+ 		: "+&r" (r), "+A" (*(p))				\
+ 		: "rJ" (n)						\
+ 		: "memory");						\
+-end:									\
++end:;									\
+ })
+ 
+ #define _arch_cmpxchg(ptr, old, new, sc_sfx, prepend, append)		\
+
+>  })
+>  
+>  #define __arch_cmpxchg(lr_sfx, sc_cas_sfx, prepend, append, r, p, co, o, n)	\
+> @@ -175,8 +192,13 @@ end:									\
+>  									\
+>  	switch (sizeof(*__ptr)) {					\
+>  	case 1:								\
+> +		__arch_cmpxchg_masked(sc_sfx, ".b" sc_sfx,		\
+> +					prepend, append,		\
+> +					__ret, __ptr, __old, __new);    \
+> +		break;							\
+>  	case 2:								\
+> -		__arch_cmpxchg_masked(sc_sfx, prepend, append,		\
+> +		__arch_cmpxchg_masked(sc_sfx, ".h" sc_sfx,		\
+> +					prepend, append,		\
+>  					__ret, __ptr, __old, __new);	\
+>  		break;							\
+>  	case 4:								\
+> -- 
+> 2.39.2
 > 
-
+> 
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
