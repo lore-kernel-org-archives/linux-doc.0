@@ -1,191 +1,189 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7663954673;
-	Wed, 29 May 2024 12:17:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7518116DEB0
+	for <linux-doc@vger.kernel.org>; Wed, 29 May 2024 12:20:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716985049; cv=none; b=FCurE+S57jqoFkjFVED6RVkHDoAvoWg/Xc4DfMvEdpdRBRMIXemen6b0Qul2wMvVvXBQ9ngYhUuZBkaQ2OvPhUS8RElLl/BoRn49+2To0fORwzSZbH2s5pXn5WBn4CM07PblEiqvDTs6lPOSh8Tmk0gQEVLjamghOSFiHnOVB/g=
+	t=1716985249; cv=none; b=mB6KfvITV0SJalY9vdxHqdwRsmBA9x4kGOyk3TV05d9nHjNVoRLisrWB0EAkN3eho+QPNzA1etMRClDVksENjqURrWn3HF6EcgEQX8H4ZUMuFA/x3uafOytGtTqLMv5HynKICuvA97K1nR76A0MdTJd5iSL57L9c19tB99JTB8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716985049; c=relaxed/simple;
-	bh=sgKwjPODxzYN3p+okRqBGRJBeVvvLIorjrEYlALuRBI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cC0GGryNXISKQpJVZkmNwdQU3zhOJxv0wNnfpZgeD7ThBgfSKLn6NwjUSKm17c80HQg/2G62gWJ23kvOJMzEEmoV5lTJgHUXzQpB4eGKOV1fTxDNmnvzEhP7I8n01dal/vnn1P2YfykLtz+TRmFkHJh0A8iANLNxxy0KVeNO7QY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lqrt1BjS; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1716985249; c=relaxed/simple;
+	bh=xO5fp7uBa3XCH/X+NfgCayeQBNhqWpmgs+2sqk4vjf4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jqPk7LA4LvRYNDmlgm9ykIOy8bSdQH/5HUwZwtolEGMid8929D92l+HlZO8/9+hYOWcj+qURb3NZrOLIyTEbqce7STXRnN0nqLoVyOSlxJ+gZPyvGZwuyS9zFsbXp9SCKbx1tBo/LaFxnF6frpJFSGVt6oE1edAXfBCC9WxSHhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=12nXlH7B; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lqrt1BjS"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-6f8e98760fcso1515000b3a.1;
-        Wed, 29 May 2024 05:17:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="12nXlH7B"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a6519c6ec7bso69275266b.1
+        for <linux-doc@vger.kernel.org>; Wed, 29 May 2024 05:20:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716985048; x=1717589848; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=U+MihMHKV9dZJCXs33ES9SxmacG/nuOnOhI3+T1gT0g=;
-        b=Lqrt1BjSQklyo4+bRPo9Ca27im1VmdPHp8Ml0DeVNkCXUos36viZ9fjsoJYHAxT3M3
-         9V5RiJFxdrgjLTUCH6rVXtJjEvXT3LwupxBApeEdaXYr96mCRO+cRVfHWQIHHZP/oJhp
-         mQ/QFT+lKULdpa1cmAsvGAMBL3qMHdrRCOgMEkXJf2FtSKylkyWbKFT9cwgVDutvc1Rt
-         LVyxXF11mE/3ssK3IvtkQ4KYc0lxehiGzTYse64lvciop0p7PLhVxYR2j1YQfRjgzqvf
-         4Gmf1WdbQLvdp0RkRbG6XuMiMEgmYsCiAT0lXiAGEzd6yggsaKpHW+4HlNKAmyYOX9GG
-         qlVg==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1716985245; x=1717590045; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FyH5HBgVMHtwGihnpxCP6snZm//fPikPnLspFypYdbE=;
+        b=12nXlH7Bo3OrSn6yxeSqOSXdgebMmUrAa4XyzPp5Es1oPhwY5ZvZgrZWufKb1X/Iul
+         tyMygbId8NXTfhJMMyjp1BQbAXsEypW0XdbgHbVFB6v3WWvsvdo/gyyNHRofXvfACdrT
+         +z2VpvGTRtTMi6NolIb+FPBBVtw76p5XaZ+pADzZbs65un1LfieKVvNyqCi5c6sTRnTZ
+         yfvoaVDGBnc3Dl1RdPDt4xvW003ziyL3Ek/2zstZSPEPUoElV4SrbMUieIfPNRYZ/vqe
+         ZTz7NyhkU3lXsQM9xb+gByAAp3M8P0HelsuOnF5+p/3Ci2dEkLPYIZKRk0WR0T3tJYm0
+         RqGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716985048; x=1717589848;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=U+MihMHKV9dZJCXs33ES9SxmacG/nuOnOhI3+T1gT0g=;
-        b=s4hjJ2baLaS+OnmFQKLa90oOIJ7MOge2z5Ms+1k1m0GIZyI0fhP2/hcy52ht1ENiFN
-         F8PIgLTVINOf1f4SOVsqhWLfjI9baxP3thO+dMF+ZuyG6vzVPTW9rIl44MuP7dedwBiM
-         BygMmNpBSjkbDOeNakyxzLqi9zzag4DBnYJLaA6wd7rCIskb1TorwnDtEwxoMTZbNZTK
-         3IjN0zmslmIskI9N/qZJj468gBERW+43u5ZSN+0hwz7s+aHX/mhw6iwpwJc4s9lPZodr
-         MeD0iOMJsCARjYQdIEBjPf5J3J5bGSclSxviXziWME0K6u92sVf0rJgNiiVAI8f+JykN
-         jfIA==
-X-Forwarded-Encrypted: i=1; AJvYcCVzS9gG7ASGjiZ8KWL6bfMKJ+VZCNFLeCgr9V6q1HMOknBkGII6lii+x8vj0aiMCObS7JtNsCr9N/CH51LG+fJeMN2vQm8QDoyL58dr6/oePiOzlYgn8+etJ6HLVO1aqcOk1b28hxLW
-X-Gm-Message-State: AOJu0Yybm73SwXZvPXeoPY5BZDxQMOT2/4H9/QgKvaclNebql0/R8YCQ
-	A824ss+LBlRYD9tqOPPDd04omwnydKeGv+d/cptSoCq77HOXK7Y8
-X-Google-Smtp-Source: AGHT+IEv+/g1WObNhavH5ma7i4PTgVsskCJDAVpbKkIEhJENbKuSmCBCY+k1lfCvtbdjXyNaPoSUFA==
-X-Received: by 2002:a05:6a21:32a8:b0:1af:fb2c:fac9 with SMTP id adf61e73a8af0-1b212d0002emr23292426637.20.1716985047627;
-        Wed, 29 May 2024 05:17:27 -0700 (PDT)
-Received: from [192.168.255.10] ([43.132.141.20])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-701d70c8b35sm2424065b3a.65.2024.05.29.05.17.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 May 2024 05:17:27 -0700 (PDT)
-Message-ID: <d4e4064c-e731-4721-b815-a2e30d3af513@gmail.com>
-Date: Wed, 29 May 2024 20:17:21 +0800
+        d=1e100.net; s=20230601; t=1716985245; x=1717590045;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FyH5HBgVMHtwGihnpxCP6snZm//fPikPnLspFypYdbE=;
+        b=sHCZ6ed6M8k7IYDki4p8DVyrgIJPQlSetpLG6c51mgDSx4hO3M+LnjNM4CB68btM5v
+         9f2JI0Yeu02r3ufkmfOz1mHtENndmNcvC+gfiYOzO4+kwnY1/am1/aQWCNuc32a6MjMz
+         vWoNR/9imSp5YCvMAPtoGi6MBRB4abJbAHMEziI19hrUPZ0NhYuuIpLZRHdwMTMuRDuR
+         Uomdggjw4FilSvWL9lMATNgNw4S93pko04fLFsJX6Y6zoVic+qvYu1V8QRcWs97QWInO
+         Bm8IOaOb6cJ7JjmdI755lgunccqY4ZCiEQ0mHlo7IYiH20URSA8SoPkcX00mb69zJvCW
+         MBww==
+X-Forwarded-Encrypted: i=1; AJvYcCXXISRWX6mifgKW3ltuqH5Gs7M5ODDCsEeZ7tlEH37FS5fUD9wsE1orQsgS2N0R9wt3sumbPKRuM3fnbc7iAxKNYOkmS4kTnfFb
+X-Gm-Message-State: AOJu0Yydp4RrMnhbMWkx4u/FC/mxYvHKdyltdvwus6v3KLNdKswLzNp/
+	mGEMeCnvsa/bWgQf33uUcP7QK35Br89jEexf7gJMTfyUFCPdAE2dRHVqANYnY5z7pEqNbILieGQ
+	jOUyxjXnllDQCOag4AZ6clgtafd7xwGCNjFRoRA==
+X-Google-Smtp-Source: AGHT+IFC/KMs8gmNj6Vvn/KGAlKw45g7h3EXyl2Z0Axc2c+Mm6KjfYRkin/T4F2URBRtFg5oeh4RMhucp9mDS+H/nTM=
+X-Received: by 2002:a17:906:66c7:b0:a59:ba2b:5915 with SMTP id
+ a640c23a62f3a-a6265119463mr1826137066b.50.1716985244596; Wed, 29 May 2024
+ 05:20:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs: dt: Update overlay file extension
-To: Geert Uytterhoeven <geert+renesas@glider.be>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <siyanteng@loongson.cn>, Jonathan Corbet <corbet@lwn.net>,
- Andrew Davis <afd@ti.com>, Masahiro Yamada <masahiroy@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <977f66b9882b6150a8da5787bf94a418aa9affec.1716976241.git.geert+renesas@glider.be>
-Content-Language: en-US
-From: Alex Shi <seakeel@gmail.com>
-In-Reply-To: <977f66b9882b6150a8da5787bf94a418aa9affec.1716976241.git.geert+renesas@glider.be>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240528151052.313031-1-alexghiti@rivosinc.com>
+ <20240528151052.313031-2-alexghiti@rivosinc.com> <20240528-repaint-graffiti-ec4f0e038e5a@spud>
+In-Reply-To: <20240528-repaint-graffiti-ec4f0e038e5a@spud>
+From: Alexandre Ghiti <alexghiti@rivosinc.com>
+Date: Wed, 29 May 2024 14:20:33 +0200
+Message-ID: <CAHVXubjk-2EAJ0U08p7uATkJM1_La94SVcVNLO5yieGbfqUGYw@mail.gmail.com>
+Subject: Re: [PATCH 1/7] riscv: Implement cmpxchg32/64() using Zacas
+To: Conor Dooley <conor@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, 
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Leonardo Bras <leobras@redhat.com>, Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-arch@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-LGTM.
+Hi Conor,
 
-On 5/29/24 6:00 PM, Geert Uytterhoeven wrote:
-> Building DTB overlays from .dts files is no longer supported.
-> Update the documentation to reflect this.
-> 
-> Fixes: 81d362732bac05f6 ("kbuild: Disallow DTB overlays to built from .dts named source files")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Acked-by: Andrew Davis <afd@ti.com>
-> Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
-> ---
-> v2:
->   - Add Acked-by, Reviewed-by.
-> ---
->  Documentation/devicetree/overlay-notes.rst           | 12 ++++++------
->  .../translations/zh_CN/devicetree/overlay-notes.rst  | 12 ++++++------
->  2 files changed, 12 insertions(+), 12 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/overlay-notes.rst b/Documentation/devicetree/overlay-notes.rst
-> index e139f22b363e9f36..35e79242af9a928d 100644
-> --- a/Documentation/devicetree/overlay-notes.rst
-> +++ b/Documentation/devicetree/overlay-notes.rst
-> @@ -38,10 +38,10 @@ Lets take an example where we have a foo board with the following base tree::
->  	};
->      ---- foo.dts ---------------------------------------------------------------
->  
-> -The overlay bar.dts,
-> +The overlay bar.dtso,
->  ::
->  
-> -    ---- bar.dts - overlay target location by label ----------------------------
-> +    ---- bar.dtso - overlay target location by label ---------------------------
->  	/dts-v1/;
->  	/plugin/;
->  	&ocp {
-> @@ -51,7 +51,7 @@ The overlay bar.dts,
->  			... /* various properties and child nodes */
->  		};
->  	};
-> -    ---- bar.dts ---------------------------------------------------------------
-> +    ---- bar.dtso --------------------------------------------------------------
->  
->  when loaded (and resolved as described in [1]) should result in foo+bar.dts::
->  
-> @@ -88,9 +88,9 @@ in the base DT. In this case, the target path can be provided. The target
->  location by label syntax is preferred because the overlay can be applied to
->  any base DT containing the label, no matter where the label occurs in the DT.
->  
-> -The above bar.dts example modified to use target path syntax is::
-> +The above bar.dtso example modified to use target path syntax is::
->  
-> -    ---- bar.dts - overlay target location by explicit path --------------------
-> +    ---- bar.dtso - overlay target location by explicit path -------------------
->  	/dts-v1/;
->  	/plugin/;
->  	&{/ocp} {
-> @@ -100,7 +100,7 @@ The above bar.dts example modified to use target path syntax is::
->  			... /* various properties and child nodes */
->  		}
->  	};
-> -    ---- bar.dts ---------------------------------------------------------------
-> +    ---- bar.dtso --------------------------------------------------------------
->  
->  
->  Overlay in-kernel API
-> diff --git a/Documentation/translations/zh_CN/devicetree/overlay-notes.rst b/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
-> index 43e3c0bc5a9f8235..ba5edd05dc1e7fd2 100644
-> --- a/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
-> +++ b/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
-> @@ -43,10 +43,10 @@ Documentation/devicetree/dynamic-resolution-notes.rst[1]的配套文档。
->  	};
->      ---- foo.dts ---------------------------------------------------------------
->  
-> -覆盖bar.dts,
-> +覆盖bar.dtso,
->  ::
->  
-> -    ---- bar.dts - 按标签覆盖目标位置 ----------------------------
-> +    ---- bar.dtso - 按标签覆盖目标位置 ---------------------------
->  	/dts-v1/;
->  	/插件/;
->  	&ocp {
-> @@ -56,7 +56,7 @@ Documentation/devicetree/dynamic-resolution-notes.rst[1]的配套文档。
->  			... /* 各种属性和子节点 */
->  		};
->  	};
-> -    ---- bar.dts ---------------------------------------------------------------
-> +    ---- bar.dtso --------------------------------------------------------------
->  
->  当加载（并按照[1]中描述的方式解决）时，应该产生foo+bar.dts::
->  
-> @@ -90,9 +90,9 @@ Documentation/devicetree/dynamic-resolution-notes.rst[1]的配套文档。
->  DT中的适当位置。在这种情况下，可以提供目标路径。通过标签的目标位置的语法是比
->  较好的，因为不管标签在DT中出现在哪里，覆盖都可以被应用到任何包含标签的基础DT上。
->  
-> -上面的bar.dts例子被修改为使用目标路径语法，即为::
-> +上面的bar.dtso例子被修改为使用目标路径语法，即为::
->  
-> -    ---- bar.dts - 通过明确的路径覆盖目标位置 --------------------
-> +    ---- bar.dtso - 通过明确的路径覆盖目标位置 -------------------
->  	/dts-v1/;
->  	/插件/;
->  	&{/ocp} {
-> @@ -102,7 +102,7 @@ DT中的适当位置。在这种情况下，可以提供目标路径。通过标
->  			... /* 各种外围设备和子节点 */
->  		}
->  	};
-> -    ---- bar.dts ---------------------------------------------------------------
-> +    ---- bar.dtso --------------------------------------------------------------
->  
->  
->  内核中关于覆盖的API
+On Tue, May 28, 2024 at 5:34=E2=80=AFPM Conor Dooley <conor@kernel.org> wro=
+te:
+>
+> On Tue, May 28, 2024 at 05:10:46PM +0200, Alexandre Ghiti wrote:
+> > This adds runtime support for Zacas in cmpxchg operations.
+> >
+> > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > ---
+> >  arch/riscv/Kconfig               | 17 +++++++++++++++++
+> >  arch/riscv/Makefile              | 11 +++++++++++
+> >  arch/riscv/include/asm/cmpxchg.h | 23 ++++++++++++++++++++---
+> >  3 files changed, 48 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> > index 8a0f403432e8..b443def70139 100644
+> > --- a/arch/riscv/Kconfig
+> > +++ b/arch/riscv/Kconfig
+> > @@ -579,6 +579,23 @@ config RISCV_ISA_V_PREEMPTIVE
+> >         preemption. Enabling this config will result in higher memory
+> >         consumption due to the allocation of per-task's kernel Vector c=
+ontext.
+> >
+> > +config TOOLCHAIN_HAS_ZACAS
+> > +     bool
+> > +     default y
+> > +     depends on !64BIT || $(cc-option,-mabi=3Dlp64 -march=3Drv64ima_za=
+cas)
+> > +     depends on !32BIT || $(cc-option,-mabi=3Dilp32 -march=3Drv32ima_z=
+acas)
+> > +     depends on AS_HAS_OPTION_ARCH
+> > +
+> > +config RISCV_ISA_ZACAS
+> > +     bool "Zacas extension support for atomic CAS"
+> > +     depends on TOOLCHAIN_HAS_ZACAS
+> > +     default y
+> > +     help
+> > +       Adds support to use atomic CAS instead of LR/SC to implement ke=
+rnel
+> > +       atomic cmpxchg operation.
+>
+> If you were a person compiling a kernel, would you be able to read this
+> and realise that this is safe to enable when their system does not
+> support atomic CAS? Please take a look at other how other extensions
+> handle this, or the patch that I have been sending that tries to make
+> things clearer:
+> https://patchwork.kernel.org/project/linux-riscv/patch/20240528-varnish-s=
+tatus-9c22973093a0@spud/
+
+Ok, I will go for: "Enable the use of the Zacas ISA-extension to
+implement atomic cmpxchg operations when it is detected at boot."
+And I will do the same for Zabha.
+
+>
+> > +
+> > +       If you don't know what to do here, say Y.
+> > +
+> >  config TOOLCHAIN_HAS_ZBB
+> >       bool
+> >       default y
+> > diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
+> > index 5b3115a19852..d5b60b87998c 100644
+> > --- a/arch/riscv/Makefile
+> > +++ b/arch/riscv/Makefile
+> > @@ -78,6 +78,17 @@ endif
+> >  # Check if the toolchain supports Zihintpause extension
+> >  riscv-march-$(CONFIG_TOOLCHAIN_HAS_ZIHINTPAUSE) :=3D $(riscv-march-y)_=
+zihintpause
+> >
+> > +# Check if the toolchain supports Zacas
+> > +ifdef CONFIG_AS_IS_LLVM
+> > +# Support for experimental Zacas was merged in LLVM 17, but the remova=
+l of
+> > +# the "experimental" was merged in LLVM 19.
+> > +KBUILD_CFLAGS +=3D -menable-experimental-extensions
+> > +KBUILD_AFLAGS +=3D -menable-experimental-extensions
+> > +riscv-march-y :=3D $(riscv-march-y)_zacas1p0
+> > +else
+> > +riscv-march-$(CONFIG_TOOLCHAIN_HAS_ZACAS) :=3D $(riscv-march-y)_zacas
+> > +endif
+>
+> I'm almost certain that we discussed this before for vector and it was
+> decided to not enable experimental extensions (particularly as it is a
+> global option), and instead require the non-experimental versions.
+> This isn't even consistent with your TOOLCHAIN_HAS_ZACAS checks, that
+> will only enable the option for the ratified version.
+
+Zacas was ratified, hence the removal of "experimental" in LLVM 19.
+But unfortunately Zabha lacks such changes in LLVM, so that will make
+this inconsistent (ratified extension but still experimental).
+
+I'll remove the enablement of the experimental extensions then so that
+will fail for LLVM < 19. And for Zabha, I'll try to push the removal
+of experimental from LLVM.
+
+> I think we should
+> continue to avoid enabling experimental extensions, even if that imposes
+> a requirement of having a bleeding edge toolchain to actually use the
+> extension.
+
+Would it make sense to have a
+CONFIG_RISCV_LLVM_ENABLE_EXPERIMENTAL_EXTENSIONS or similar? So that
+people who want to play with those extensions will still be able to do
+so without patching the kernel?
+
+Thanks,
+
+Alex
+
+>
+> Thanks,
+> Conor.
