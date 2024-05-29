@@ -1,66 +1,64 @@
-Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
+Received: from mail-ua1-f74.google.com (mail-ua1-f74.google.com [209.85.222.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A6471C0DCF
-	for <linux-doc@vger.kernel.org>; Wed, 29 May 2024 18:05:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B42291A38E1
+	for <linux-doc@vger.kernel.org>; Wed, 29 May 2024 18:05:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717005922; cv=none; b=sjsqgXlusRsr8bpeZf0VPqjTlekCo40pV+nMmNGpcjCErJwRw03ViEvy34yLwHU9+gSL1j35/y3qs9dRK9FBa/wOSJ6uZ3agc5TY/LiPScvJkyXYqZWf+2yFvG1C3nIVXDGL3g4gi5nu+TWz55JzH2UjPPtPKZe3KAK5fGxXeFQ=
+	t=1717005923; cv=none; b=FaooY+9EcKMgYlFJ4WBXKkw3W/PIHv+QrQFGepjjPJBIIuheQwz+abPznqTkprV7UNaU+IBYVTWQECjOShgmKTP434m3H3EMuO0DQg6nxlrTYiYU5ytBaAzv4gN8n1Dd8sWdyGttwKcZCR7dA57lIrTXv3S2X1+umR+n8k23w3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717005922; c=relaxed/simple;
-	bh=jfgSoEk+4Gc8P3rvS4TS/ym902s/9r29FsHq9HpjNdc=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=S5mNwcQ+dgMY/WRTteMK9b3m9dy4Wp/EWVDK1PDs+rSoqizzd7PRTMfJj0ThI3MNEtUAjDJ7avFuIetqWm5QY5176kftUDZmVRgFT5RGuWp2xtQjZYRFUgfiridG1eLDMaqLRabU6GU3+cmhDj/p1/f8jE43yerGeHROwnYPPP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CyKwlrWx; arc=none smtp.client-ip=209.85.128.201
+	s=arc-20240116; t=1717005923; c=relaxed/simple;
+	bh=h8JkqpoA+/dGY56tQssLYSYz7fbc8Z61hZF9yYzrrVk=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=sTnVR8gM0ms01AH7FD9T6XiMa6OAjA3R8gfsmFJqchOrxJvxgBTbjGLccIBbXdQUvA4SP3hGu1i+UBQYh++duefxgQXg+M0jShy3nExQdqNvHdnxdiE6DdGaerP2XbFrXe8lzHYs7tkdSWr7WX3XHVmY6b+bqbQ3RQusH9j74RI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tLRWpfbG; arc=none smtp.client-ip=209.85.222.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CyKwlrWx"
-Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-62a27e501d4so35115237b3.3
-        for <linux-doc@vger.kernel.org>; Wed, 29 May 2024 11:05:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tLRWpfbG"
+Received: by mail-ua1-f74.google.com with SMTP id a1e0cc1a2514c-80ac8c7cb02so18748241.1
+        for <linux-doc@vger.kernel.org>; Wed, 29 May 2024 11:05:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1717005919; x=1717610719; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3BMYDZzpf0riy1J9SV25Sb190oVQ0fa4aF69BnMnzTA=;
-        b=CyKwlrWxbNmxinDiQPXLKQKGdvDMwrcy+RnIP3UBcm/ovwdLXjEEVjmKYesH+/tZHO
-         D9D1A8WZbXwObd9b7RPuAlcK+WJ7ddsElO2Yhgp8JdgjIIuxmJD6ykeCUqYO05SCBwke
-         EYKnxbS1e6S5LuQ7ihfhgNOg3Ncj4Zko1Wiwkl7gFiP38xoblendZ8NkezQomkB0DA2h
-         QuPbTVPR7TRAJka62FLgKYc1tCbCW4E86UbR+vEANi1MVb/iJmkfxouR5zGnNJwz9amQ
-         6jyLOxsZHV0dEfoW7Ttso/9SKZbyTkgsCe0x2YBAqqYlJIbLldPFCpXEa6fYRJwqLGJD
-         yr4w==
+        d=google.com; s=20230601; t=1717005917; x=1717610717; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=oSeK4HIzvhbzZ4+kBhyxeRArFmVuKpeUMlCOBrkyZKY=;
+        b=tLRWpfbGom0LK4rvIK0fV+2oiPGudLhbJMuEVPxaG9jqnjzkOp2rvqgebKwjHUIzu6
+         6QybeDGEtIAIR5yD7T6WgXhxdgP/WAdhCuxqhRzZ5N0+wMxzBqzRk3xYB5fhkKjVK1k5
+         XJHF3lEXkF9EzFibHmlEbsDcpoZ1gmhFnk6xMMk0m+LSsCeaAr6vV63Nqi9EGuljRGHk
+         64/UW/2GsLbMsJeh/ZA7bh2IZfku27lIEE99+yXUgLPHtW/26razedGjyTWAW0Ct+glR
+         O6zsGKJWCH/x247dAU+xCr4Pc9xfzNA5KKB/OKuGwPxSQByArJ5uF1E/x82EXR1ssTVd
+         7RBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717005919; x=1717610719;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3BMYDZzpf0riy1J9SV25Sb190oVQ0fa4aF69BnMnzTA=;
-        b=xPVTdGl1Yt5rB/ldUQtsMRxOlNyCkMv9eTgnlVCPeHJiAf9nqKeyZeecL2h0PBVEXr
-         B9RRxk5bMfc6vldeUCvpX/gBvq7M7CbwYY5d6awKJOP4HPhjqEasuiEMco6kO2Jmt3yO
-         PROlktcVb7hPBNSa25wEkp5sI4Gq+Z9nY2OPe9NQ3VvtXYE0cyVOyzr8c1Cpc2IRebmn
-         WKa6j3VV8HGeF3aaPQf8a9OZ/kgEQPVHbCcBiyXexfVeKhjrAUqq9Yv+RNCbN2/RK5Gf
-         iQ3KVWXu5X4xn5qepxhPzdjhOKs6Vei6N0QBz0zXuLnDXNL3mxMRNUnk/LSNiVIY2E91
-         goqA==
-X-Forwarded-Encrypted: i=1; AJvYcCUPbtBf+KQUE/qvlvQZne+fNA20kEyCKP8KXZqGktZp9Fy7T55vgCl0BDUoKZqo9eWlTQ4R/ulXxzGFKFNPkx+KkkQtt8JQC8wN
-X-Gm-Message-State: AOJu0Yzjcf2MKYYs4+KGQiTp9P1ibYNJU/JLiUvkpqGo96y2ce5dt1+7
-	3ANrOKyX5KTQRTUF3vSab1IWH3i5WDaJ2nlVjpfsiEj3FD7l8OFVxS9OkbqI5p6/K+e6npow5VB
-	G/f9S081hNRQnRSp5BA==
-X-Google-Smtp-Source: AGHT+IF5yrDeFyOp4siVIq2/ry1YjnMG5fFsIAa/oZWUnOkMu1R7nEWj7M0TEs/34Y02GNHwoChUWC5yxmTc6XxG
+        d=1e100.net; s=20230601; t=1717005917; x=1717610717;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oSeK4HIzvhbzZ4+kBhyxeRArFmVuKpeUMlCOBrkyZKY=;
+        b=BjHF6eDUgP8ANv4+BfGK6u7aJJd9wqxCEalRrDHk8hCyBsh3MJ5K9YoP1v/2t1W1X4
+         ttM2JQJuMOR35NuYxKQk+64YJtYSYgX3NovfnuEYhq5jtLSH65sUVvsr1I9lGfBYL/8/
+         LVibEhd1IODoaHcDl5bcTUZQzgltWI94f3DzRIxqFm9VZubnd9w/Z8DtsJC5Eluh9V52
+         D5YZ4D05FWCBxPLBMaqcZVyRplIvf8KIw9QfhI15FKWUE45MMGQiURxBBqW9D0dTlfY2
+         TSeFz6JY5UAPpZREtraVgydQscilpHdRV9Fl0000ntX6iIH0XvKM5djU/3Wn4kQUlPQr
+         Ayiw==
+X-Forwarded-Encrypted: i=1; AJvYcCWARBn5AlxeFhh+pXCe9SfBV82n7/67gncyQWS2mbIHyzAyBG1/SnOvFBVas/shnRY42lGwfgq2LvfjnJnkbeic/Vk491DJahjM
+X-Gm-Message-State: AOJu0YyLoA0KrPPGPmfR7yRxJPRdEMnDjDPh/Of9KCJovMio7Nv2jEUE
+	4556BhrI2cI8PkYVQY3S9S3yFkU9SLZRmrH6Prp/TdWE0hM1fk2xDU9+DShHyClpGLQmNHFQcEy
+	whLEKzBTLBYX6Ej3dGA==
+X-Google-Smtp-Source: AGHT+IGirSTR9frt+FMY7mEAkHJfvAwcaa/uk6kZfZAYRVHTIdMTLDcjTaGUq6V+fW4RjZ9NSYV+AI/l972bzeUv
 X-Received: from jthoughton.c.googlers.com ([fda3:e722:ac3:cc00:14:4d90:c0a8:2a4f])
- (user=jthoughton job=sendgmr) by 2002:a05:690c:25c8:b0:627:3c45:4a90 with
- SMTP id 00721157ae682-62a08dd88fcmr41559147b3.4.1717005919131; Wed, 29 May
- 2024 11:05:19 -0700 (PDT)
-Date: Wed, 29 May 2024 18:05:05 +0000
-In-Reply-To: <20240529180510.2295118-1-jthoughton@google.com>
+ (user=jthoughton job=sendgmr) by 2002:a05:6102:3f9e:b0:48a:5834:cea7 with
+ SMTP id ada2fe7eead31-48a5834e759mr882345137.7.1717005917523; Wed, 29 May
+ 2024 11:05:17 -0700 (PDT)
+Date: Wed, 29 May 2024 18:05:03 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20240529180510.2295118-1-jthoughton@google.com>
 X-Mailer: git-send-email 2.45.1.288.g0e0cd299f1-goog
-Message-ID: <20240529180510.2295118-3-jthoughton@google.com>
-Subject: [PATCH v4 2/7] mm: multi-gen LRU: Have secondary MMUs participate in aging
+Message-ID: <20240529180510.2295118-1-jthoughton@google.com>
+Subject: [PATCH v4 0/7] mm: multi-gen LRU: Walk secondary MMU page tables
+ while aging
 From: James Houghton <jthoughton@google.com>
 To: Andrew Morton <akpm@linux-foundation.org>, Paolo Bonzini <pbonzini@redhat.com>
 Cc: Albert Ou <aou@eecs.berkeley.edu>, Ankit Agrawal <ankita@nvidia.com>, 
@@ -84,442 +82,136 @@ Cc: Albert Ou <aou@eecs.berkeley.edu>, Ankit Agrawal <ankita@nvidia.com>,
 	loongarch@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-Secondary MMUs are currently consulted for access/age information at
-eviction time, but before then, we don't get accurate age information.
-That is, pages that are mostly accessed through a secondary MMU (like
-guest memory, used by KVM) will always just proceed down to the oldest
-generation, and then at eviction time, if KVM reports the page to be
-young, the page will be activated/promoted back to the youngest
-generation.
+This patchset makes it possible for MGLRU to consult secondary MMUs
+while doing aging, not just during eviction. This allows for more
+accurate reclaim decisions, which is especially important for proactive
+reclaim.
 
-Do not do look around if there is a secondary MMU we have to interact
-with.
+This series makes the necessary MMU notifier changes to MGLRU and then
+includes optimizations on top of that. This series also now includes
+changes to access_tracking_perf_test to verify that aging works properly
+for pages that are mainly used by KVM.
 
-The added feature bit (0x8), if disabled, will make MGLRU behave as if
-there are no secondary MMUs subscribed to MMU notifiers except at
-eviction time.
+access_tracking_perf_test also has a mode (-p) to check performance of
+MGLRU aging while the VM is faulting memory in. Here are some results:
 
-Suggested-by: Yu Zhao <yuzhao@google.com>
-Signed-off-by: James Houghton <jthoughton@google.com>
----
+  Testing MGLRU aging while vCPUs are faulting in memory on x86 with the
+  TDP MMU. THPs disabled.
+
+  The test results varied a decent amount from run to run. I did my best to
+  take representative averages, but nonetheless, the big picture is the
+  important part.
+
+  Main takeaways:
+  - With the optimizations, the workload is much less impacted
+    by the presence of aging.
+  - With the optimizations, MGLRU is able to do aging much more
+    quickly, especially at 8+ vCPUs on my machine.
+
+  ./access_tracking_perf_test -p -l -b 1G -v $N_VCPUS # 1G per vCPU
+
+  num_vcpus       vcpu wall time          aging avg pass time
+
+  1 (no aging)    0.878822016             n/a
+  1 (no opt)      0.938250568             0.008236007
+  1 (opt)         0.912270190             0.007314582
+
+  2 (no aging)    0.984959659             n/a
+  2 (no opt)      1.057880728             0.017989741
+  2 (opt)         1.037735641             0.013996319
+
+  4 (no aging)    1.264881581             n/a
+  4 (no opt)      1.318849182             0.056164918
+  4 (opt)         1.314653465             0.029311993
+
+  8 (no aging)    1.473883699             n/a
+  8 (no opt)      1.589441079             0.227419586s
+  8 (opt)         1.498439592             0.063857740s
+
+  16 (no aging)   2.048766096             n/a
+  16 (no opt)     2.399335597             1.247142841s
+  16 (opt)        2.000914001             0.121628689s
+
+  32 (no aging)   3.316256321             n/a
+  32 (no opt)     3.955417018             4.347290433
+  32 (opt)        3.355274507             0.250886289
+
+  64 (no aging)   6.498958516             n/a
+  64 (no opt)     7.127533884             9.815592054
+  64 (opt)        6.442582168             1.392907010
+
+  112 (no aging)  8.498029491             n/a
+  112 (no opt)    10.21372495             13.47381656
+  112 (opt)       8.896963554             2.292223850
+
+Previous versions of this series included logic in MGLRU and KVM to
+support batching the updates to secondary page tables. This version
+removes this logic, as it was complex and not necessary to enable
+proactive reclaim. This optimization, as well as the additional
+optimizations for arm64 and powerpc, can be done in a later series.
+
+Changes since v3[1]:
+ - Vastly simplified the series (thanks David). Removed mmu notifier
+   batching logic entirely.
+ - Cleaned up how locking is done for mmu_notifier_test/clear_young
+   (thanks David).
+ - Look-around is now only done when there are no secondary MMUs
+   subscribed to MMU notifiers.
+ - CONFIG_LRU_GEN_WALKS_SECONDARY_MMU has been added.
+ - Fixed the lockless implementation of kvm_{test,}age_gfn for x86
+   (thanks David).
+ - Added MGLRU functional and performance tests to
+   access_tracking_perf_test (thanks Axel).
+ - In v3, an mm would be completely ignored (for aging) if there was a
+   secondary MMU but support for secondary MMU walking was missing. Now,
+   missing secondary MMU walking support simply skips the notifier
+   calls (except for eviction).
+ - Added a sanity check for that range->lockless and range->on_lock are
+   never both provided for the memslot walk.
+
+For the changes from v2[2] to v3, see v3[1].
+
+This series applies cleanly to mm/mm-unstable and kvm/queue.
+
+[1]: https://lore.kernel.org/linux-mm/20240401232946.1837665-1-jthoughton@google.com/
+[2]: https://lore.kernel.org/kvmarm/20230526234435.662652-1-yuzhao@google.com/
+
+James Houghton (7):
+  mm/Kconfig: Add LRU_GEN_WALKS_SECONDARY_MMU
+  mm: multi-gen LRU: Have secondary MMUs participate in aging
+  KVM: Add lockless memslot walk to KVM
+  KVM: Move MMU lock acquisition for test/clear_young to architecture
+  KVM: x86: Relax locking for kvm_test_age_gfn and kvm_age_gfn
+  KVM: arm64: Relax locking for kvm_test_age_gfn and kvm_age_gfn
+  KVM: selftests: Add multi-gen LRU aging to access_tracking_perf_test
+
  Documentation/admin-guide/mm/multigen_lru.rst |   6 +-
+ arch/arm64/kvm/hyp/pgtable.c                  |   9 +-
+ arch/arm64/kvm/mmu.c                          |  30 +-
+ arch/loongarch/kvm/mmu.c                      |  20 +-
+ arch/mips/kvm/mmu.c                           |  21 +-
+ arch/powerpc/kvm/book3s.c                     |  14 +-
+ arch/riscv/kvm/mmu.c                          |  26 +-
+ arch/x86/include/asm/kvm_host.h               |   1 +
+ arch/x86/kvm/mmu/mmu.c                        |  10 +-
+ arch/x86/kvm/mmu/tdp_iter.h                   |  27 +-
+ arch/x86/kvm/mmu/tdp_mmu.c                    |  67 ++-
+ include/linux/kvm_host.h                      |   1 +
  include/linux/mmzone.h                        |   6 +-
+ mm/Kconfig                                    |   8 +
  mm/rmap.c                                     |   9 +-
- mm/vmscan.c                                   | 144 ++++++++++++++----
- 4 files changed, 123 insertions(+), 42 deletions(-)
+ mm/vmscan.c                                   | 144 +++++--
+ tools/testing/selftests/kvm/Makefile          |   1 +
+ .../selftests/kvm/access_tracking_perf_test.c | 365 ++++++++++++++--
+ .../selftests/kvm/include/lru_gen_util.h      |  55 +++
+ .../testing/selftests/kvm/lib/lru_gen_util.c  | 391 ++++++++++++++++++
+ virt/kvm/kvm_main.c                           |  38 +-
+ 21 files changed, 1104 insertions(+), 145 deletions(-)
+ create mode 100644 tools/testing/selftests/kvm/include/lru_gen_util.h
+ create mode 100644 tools/testing/selftests/kvm/lib/lru_gen_util.c
 
-diff --git a/Documentation/admin-guide/mm/multigen_lru.rst b/Documentation/admin-guide/mm/multigen_lru.rst
-index 33e068830497..1e578e0c4c0c 100644
---- a/Documentation/admin-guide/mm/multigen_lru.rst
-+++ b/Documentation/admin-guide/mm/multigen_lru.rst
-@@ -48,6 +48,10 @@ Values Components
-        verified on x86 varieties other than Intel and AMD. If it is
-        disabled, the multi-gen LRU will suffer a negligible
-        performance degradation.
-+0x0008 Continuously clear the accessed bit in secondary MMU page
-+       tables instead of waiting until eviction time. This results in
-+       accurate page age information for pages that are mainly used by
-+       a secondary MMU.
- [yYnN] Apply to all the components above.
- ====== ===============================================================
- 
-@@ -56,7 +60,7 @@ E.g.,
- 
-     echo y >/sys/kernel/mm/lru_gen/enabled
-     cat /sys/kernel/mm/lru_gen/enabled
--    0x0007
-+    0x000f
-     echo 5 >/sys/kernel/mm/lru_gen/enabled
-     cat /sys/kernel/mm/lru_gen/enabled
-     0x0005
-diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index 8f9c9590a42c..869824ef5f3b 100644
---- a/include/linux/mmzone.h
-+++ b/include/linux/mmzone.h
-@@ -400,6 +400,7 @@ enum {
- 	LRU_GEN_CORE,
- 	LRU_GEN_MM_WALK,
- 	LRU_GEN_NONLEAF_YOUNG,
-+	LRU_GEN_SECONDARY_MMU_WALK,
- 	NR_LRU_GEN_CAPS
- };
- 
-@@ -557,7 +558,7 @@ struct lru_gen_memcg {
- 
- void lru_gen_init_pgdat(struct pglist_data *pgdat);
- void lru_gen_init_lruvec(struct lruvec *lruvec);
--void lru_gen_look_around(struct page_vma_mapped_walk *pvmw);
-+bool lru_gen_look_around(struct page_vma_mapped_walk *pvmw);
- 
- void lru_gen_init_memcg(struct mem_cgroup *memcg);
- void lru_gen_exit_memcg(struct mem_cgroup *memcg);
-@@ -576,8 +577,9 @@ static inline void lru_gen_init_lruvec(struct lruvec *lruvec)
- {
- }
- 
--static inline void lru_gen_look_around(struct page_vma_mapped_walk *pvmw)
-+static inline bool lru_gen_look_around(struct page_vma_mapped_walk *pvmw)
- {
-+	return false;
- }
- 
- static inline void lru_gen_init_memcg(struct mem_cgroup *memcg)
-diff --git a/mm/rmap.c b/mm/rmap.c
-index e8fc5ecb59b2..24a3ff639919 100644
---- a/mm/rmap.c
-+++ b/mm/rmap.c
-@@ -870,13 +870,10 @@ static bool folio_referenced_one(struct folio *folio,
- 			continue;
- 		}
- 
--		if (pvmw.pte) {
--			if (lru_gen_enabled() &&
--			    pte_young(ptep_get(pvmw.pte))) {
--				lru_gen_look_around(&pvmw);
-+		if (lru_gen_enabled() && pvmw.pte) {
-+			if (lru_gen_look_around(&pvmw))
- 				referenced++;
--			}
--
-+		} else if (pvmw.pte) {
- 			if (ptep_clear_flush_young_notify(vma, address,
- 						pvmw.pte))
- 				referenced++;
-diff --git a/mm/vmscan.c b/mm/vmscan.c
-index d55e8d07ffc4..0d89f712f45c 100644
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -56,6 +56,7 @@
- #include <linux/khugepaged.h>
- #include <linux/rculist_nulls.h>
- #include <linux/random.h>
-+#include <linux/mmu_notifier.h>
- 
- #include <asm/tlbflush.h>
- #include <asm/div64.h>
-@@ -2579,6 +2580,12 @@ static bool should_clear_pmd_young(void)
- 	return arch_has_hw_nonleaf_pmd_young() && get_cap(LRU_GEN_NONLEAF_YOUNG);
- }
- 
-+static bool should_walk_secondary_mmu(void)
-+{
-+	return IS_ENABLED(CONFIG_LRU_GEN_WALKS_SECONDARY_MMU) &&
-+		get_cap(LRU_GEN_SECONDARY_MMU_WALK);
-+}
-+
- /******************************************************************************
-  *                          shorthand helpers
-  ******************************************************************************/
-@@ -3276,7 +3283,8 @@ static bool get_next_vma(unsigned long mask, unsigned long size, struct mm_walk
- 	return false;
- }
- 
--static unsigned long get_pte_pfn(pte_t pte, struct vm_area_struct *vma, unsigned long addr)
-+static unsigned long get_pte_pfn(pte_t pte, struct vm_area_struct *vma, unsigned long addr,
-+				 struct pglist_data *pgdat)
- {
- 	unsigned long pfn = pte_pfn(pte);
- 
-@@ -3291,10 +3299,15 @@ static unsigned long get_pte_pfn(pte_t pte, struct vm_area_struct *vma, unsigned
- 	if (WARN_ON_ONCE(!pfn_valid(pfn)))
- 		return -1;
- 
-+	/* try to avoid unnecessary memory loads */
-+	if (pfn < pgdat->node_start_pfn || pfn >= pgdat_end_pfn(pgdat))
-+		return -1;
-+
- 	return pfn;
- }
- 
--static unsigned long get_pmd_pfn(pmd_t pmd, struct vm_area_struct *vma, unsigned long addr)
-+static unsigned long get_pmd_pfn(pmd_t pmd, struct vm_area_struct *vma, unsigned long addr,
-+				 struct pglist_data *pgdat)
- {
- 	unsigned long pfn = pmd_pfn(pmd);
- 
-@@ -3309,6 +3322,10 @@ static unsigned long get_pmd_pfn(pmd_t pmd, struct vm_area_struct *vma, unsigned
- 	if (WARN_ON_ONCE(!pfn_valid(pfn)))
- 		return -1;
- 
-+	/* try to avoid unnecessary memory loads */
-+	if (pfn < pgdat->node_start_pfn || pfn >= pgdat_end_pfn(pgdat))
-+		return -1;
-+
- 	return pfn;
- }
- 
-@@ -3317,10 +3334,6 @@ static struct folio *get_pfn_folio(unsigned long pfn, struct mem_cgroup *memcg,
- {
- 	struct folio *folio;
- 
--	/* try to avoid unnecessary memory loads */
--	if (pfn < pgdat->node_start_pfn || pfn >= pgdat_end_pfn(pgdat))
--		return NULL;
--
- 	folio = pfn_folio(pfn);
- 	if (folio_nid(folio) != pgdat->node_id)
- 		return NULL;
-@@ -3343,6 +3356,32 @@ static bool suitable_to_scan(int total, int young)
- 	return young * n >= total;
- }
- 
-+static bool lru_gen_notifier_test_young(struct mm_struct *mm,
-+					unsigned long addr)
-+{
-+	return should_walk_secondary_mmu() && mmu_notifier_test_young(mm, addr);
-+}
-+
-+static bool lru_gen_notifier_clear_young(struct mm_struct *mm,
-+					 unsigned long start,
-+					 unsigned long end)
-+{
-+	return should_walk_secondary_mmu() &&
-+		mmu_notifier_clear_young(mm, start, end);
-+}
-+
-+static bool lru_gen_pmdp_test_and_clear_young(struct vm_area_struct *vma,
-+					      unsigned long addr,
-+					      pmd_t *pmd)
-+{
-+	bool young = pmdp_test_and_clear_young(vma, addr, pmd);
-+
-+	if (lru_gen_notifier_clear_young(vma->vm_mm, addr, addr + PMD_SIZE))
-+		young = true;
-+
-+	return young;
-+}
-+
- static bool walk_pte_range(pmd_t *pmd, unsigned long start, unsigned long end,
- 			   struct mm_walk *args)
- {
-@@ -3357,8 +3396,9 @@ static bool walk_pte_range(pmd_t *pmd, unsigned long start, unsigned long end,
- 	struct pglist_data *pgdat = lruvec_pgdat(walk->lruvec);
- 	DEFINE_MAX_SEQ(walk->lruvec);
- 	int old_gen, new_gen = lru_gen_from_seq(max_seq);
-+	struct mm_struct *mm = args->mm;
- 
--	pte = pte_offset_map_nolock(args->mm, pmd, start & PMD_MASK, &ptl);
-+	pte = pte_offset_map_nolock(mm, pmd, start & PMD_MASK, &ptl);
- 	if (!pte)
- 		return false;
- 	if (!spin_trylock(ptl)) {
-@@ -3376,11 +3416,12 @@ static bool walk_pte_range(pmd_t *pmd, unsigned long start, unsigned long end,
- 		total++;
- 		walk->mm_stats[MM_LEAF_TOTAL]++;
- 
--		pfn = get_pte_pfn(ptent, args->vma, addr);
-+		pfn = get_pte_pfn(ptent, args->vma, addr, pgdat);
- 		if (pfn == -1)
- 			continue;
- 
--		if (!pte_young(ptent)) {
-+		if (!pte_young(ptent) &&
-+		    !lru_gen_notifier_test_young(mm, addr)) {
- 			walk->mm_stats[MM_LEAF_OLD]++;
- 			continue;
- 		}
-@@ -3389,8 +3430,9 @@ static bool walk_pte_range(pmd_t *pmd, unsigned long start, unsigned long end,
- 		if (!folio)
- 			continue;
- 
--		if (!ptep_test_and_clear_young(args->vma, addr, pte + i))
--			VM_WARN_ON_ONCE(true);
-+		lru_gen_notifier_clear_young(mm, addr, addr + PAGE_SIZE);
-+		if (pte_young(ptent))
-+			ptep_test_and_clear_young(args->vma, addr, pte + i);
- 
- 		young++;
- 		walk->mm_stats[MM_LEAF_YOUNG]++;
-@@ -3456,22 +3498,25 @@ static void walk_pmd_range_locked(pud_t *pud, unsigned long addr, struct vm_area
- 		/* don't round down the first address */
- 		addr = i ? (*first & PMD_MASK) + i * PMD_SIZE : *first;
- 
--		pfn = get_pmd_pfn(pmd[i], vma, addr);
--		if (pfn == -1)
--			goto next;
--
--		if (!pmd_trans_huge(pmd[i])) {
--			if (should_clear_pmd_young())
-+		if (pmd_present(pmd[i]) && !pmd_trans_huge(pmd[i])) {
-+			if (should_clear_pmd_young() &&
-+			    !should_walk_secondary_mmu())
- 				pmdp_test_and_clear_young(vma, addr, pmd + i);
- 			goto next;
- 		}
- 
-+		pfn = get_pmd_pfn(pmd[i], vma, addr, pgdat);
-+		if (pfn == -1)
-+			goto next;
-+
- 		folio = get_pfn_folio(pfn, memcg, pgdat, walk->can_swap);
- 		if (!folio)
- 			goto next;
- 
--		if (!pmdp_test_and_clear_young(vma, addr, pmd + i))
-+		if (!lru_gen_pmdp_test_and_clear_young(vma, addr, pmd + i)) {
-+			walk->mm_stats[MM_LEAF_OLD]++;
- 			goto next;
-+		}
- 
- 		walk->mm_stats[MM_LEAF_YOUNG]++;
- 
-@@ -3528,19 +3573,18 @@ static void walk_pmd_range(pud_t *pud, unsigned long start, unsigned long end,
- 		}
- 
- 		if (pmd_trans_huge(val)) {
--			unsigned long pfn = pmd_pfn(val);
- 			struct pglist_data *pgdat = lruvec_pgdat(walk->lruvec);
-+			unsigned long pfn = get_pmd_pfn(val, vma, addr, pgdat);
- 
- 			walk->mm_stats[MM_LEAF_TOTAL]++;
- 
--			if (!pmd_young(val)) {
--				walk->mm_stats[MM_LEAF_OLD]++;
-+			if (pfn == -1)
- 				continue;
--			}
- 
--			/* try to avoid unnecessary memory loads */
--			if (pfn < pgdat->node_start_pfn || pfn >= pgdat_end_pfn(pgdat))
-+			if (!pmd_young(val) && !mm_has_notifiers(args->mm)) {
-+				walk->mm_stats[MM_LEAF_OLD]++;
- 				continue;
-+			}
- 
- 			walk_pmd_range_locked(pud, addr, vma, args, bitmap, &first);
- 			continue;
-@@ -3548,7 +3592,7 @@ static void walk_pmd_range(pud_t *pud, unsigned long start, unsigned long end,
- 
- 		walk->mm_stats[MM_NONLEAF_TOTAL]++;
- 
--		if (should_clear_pmd_young()) {
-+		if (should_clear_pmd_young() && !should_walk_secondary_mmu()) {
- 			if (!pmd_young(val))
- 				continue;
- 
-@@ -3994,6 +4038,26 @@ static void lru_gen_age_node(struct pglist_data *pgdat, struct scan_control *sc)
-  *                          rmap/PT walk feedback
-  ******************************************************************************/
- 
-+static bool should_look_around(struct vm_area_struct *vma, unsigned long addr,
-+			       pte_t *pte, int *young)
-+{
-+	bool secondary_was_young =
-+		mmu_notifier_clear_young(vma->vm_mm, addr, addr + PAGE_SIZE);
-+
-+	/*
-+	 * Look around if (1) the PTE is young and (2) we do not need to
-+	 * consult any secondary MMUs.
-+	 */
-+	if (pte_young(ptep_get(pte))) {
-+		ptep_test_and_clear_young(vma, addr, pte);
-+		*young = true;
-+		return !mm_has_notifiers(vma->vm_mm);
-+	} else if (secondary_was_young)
-+		*young = true;
-+
-+	return false;
-+}
-+
- /*
-  * This function exploits spatial locality when shrink_folio_list() walks the
-  * rmap. It scans the adjacent PTEs of a young PTE and promotes hot pages. If
-@@ -4001,7 +4065,7 @@ static void lru_gen_age_node(struct pglist_data *pgdat, struct scan_control *sc)
-  * the PTE table to the Bloom filter. This forms a feedback loop between the
-  * eviction and the aging.
-  */
--void lru_gen_look_around(struct page_vma_mapped_walk *pvmw)
-+bool lru_gen_look_around(struct page_vma_mapped_walk *pvmw)
- {
- 	int i;
- 	unsigned long start;
-@@ -4019,16 +4083,20 @@ void lru_gen_look_around(struct page_vma_mapped_walk *pvmw)
- 	struct lru_gen_mm_state *mm_state = get_mm_state(lruvec);
- 	DEFINE_MAX_SEQ(lruvec);
- 	int old_gen, new_gen = lru_gen_from_seq(max_seq);
-+	struct mm_struct *mm = pvmw->vma->vm_mm;
- 
- 	lockdep_assert_held(pvmw->ptl);
- 	VM_WARN_ON_ONCE_FOLIO(folio_test_lru(folio), folio);
- 
-+	if (!should_look_around(vma, addr, pte, &young))
-+		return young;
-+
- 	if (spin_is_contended(pvmw->ptl))
--		return;
-+		return young;
- 
- 	/* exclude special VMAs containing anon pages from COW */
- 	if (vma->vm_flags & VM_SPECIAL)
--		return;
-+		return young;
- 
- 	/* avoid taking the LRU lock under the PTL when possible */
- 	walk = current->reclaim_state ? current->reclaim_state->mm_walk : NULL;
-@@ -4036,6 +4104,9 @@ void lru_gen_look_around(struct page_vma_mapped_walk *pvmw)
- 	start = max(addr & PMD_MASK, vma->vm_start);
- 	end = min(addr | ~PMD_MASK, vma->vm_end - 1) + 1;
- 
-+	if (end - start == PAGE_SIZE)
-+		return young;
-+
- 	if (end - start > MIN_LRU_BATCH * PAGE_SIZE) {
- 		if (addr - start < MIN_LRU_BATCH * PAGE_SIZE / 2)
- 			end = start + MIN_LRU_BATCH * PAGE_SIZE;
-@@ -4049,7 +4120,7 @@ void lru_gen_look_around(struct page_vma_mapped_walk *pvmw)
- 
- 	/* folio_update_gen() requires stable folio_memcg() */
- 	if (!mem_cgroup_trylock_pages(memcg))
--		return;
-+		return young;
- 
- 	arch_enter_lazy_mmu_mode();
- 
-@@ -4059,19 +4130,21 @@ void lru_gen_look_around(struct page_vma_mapped_walk *pvmw)
- 		unsigned long pfn;
- 		pte_t ptent = ptep_get(pte + i);
- 
--		pfn = get_pte_pfn(ptent, vma, addr);
-+		pfn = get_pte_pfn(ptent, vma, addr, pgdat);
- 		if (pfn == -1)
- 			continue;
- 
--		if (!pte_young(ptent))
-+		if (!pte_young(ptent) &&
-+		    !lru_gen_notifier_test_young(mm, addr))
- 			continue;
- 
- 		folio = get_pfn_folio(pfn, memcg, pgdat, can_swap);
- 		if (!folio)
- 			continue;
- 
--		if (!ptep_test_and_clear_young(vma, addr, pte + i))
--			VM_WARN_ON_ONCE(true);
-+		lru_gen_notifier_clear_young(mm, addr, addr + PAGE_SIZE);
-+		if (pte_young(ptent))
-+			ptep_test_and_clear_young(vma, addr, pte + i);
- 
- 		young++;
- 
-@@ -4101,6 +4174,8 @@ void lru_gen_look_around(struct page_vma_mapped_walk *pvmw)
- 	/* feedback from rmap walkers to page table walkers */
- 	if (mm_state && suitable_to_scan(i, young))
- 		update_bloom_filter(mm_state, max_seq, pvmw->pmd);
-+
-+	return young;
- }
- 
- /******************************************************************************
-@@ -5137,6 +5212,9 @@ static ssize_t enabled_show(struct kobject *kobj, struct kobj_attribute *attr, c
- 	if (should_clear_pmd_young())
- 		caps |= BIT(LRU_GEN_NONLEAF_YOUNG);
- 
-+	if (should_walk_secondary_mmu())
-+		caps |= BIT(LRU_GEN_SECONDARY_MMU_WALK);
-+
- 	return sysfs_emit(buf, "0x%04x\n", caps);
- }
- 
+
+base-commit: e0cce98fe279b64f4a7d81b7f5c3a23d80b92fbc
 -- 
 2.45.1.288.g0e0cd299f1-goog
 
