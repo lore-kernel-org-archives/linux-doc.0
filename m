@@ -1,139 +1,127 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-vk1-f202.google.com (mail-vk1-f202.google.com [209.85.221.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDBB360B8A;
-	Wed, 29 May 2024 18:01:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 592A31A38F9
+	for <linux-doc@vger.kernel.org>; Wed, 29 May 2024 18:05:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717005683; cv=none; b=Em4nelmfmVvz7PvFKG35Qpk+KQO67d4N/y8QcmuQhh8zpNiPzn5/X+0qJQhumpzcCPL8aPoNLxh5VCC7EaNceIrvY/B65dqRXgJKKdcCfAsUnxJYg/cYtlmwLntOyg62nEpWaO2vLguG69N/57s0XNZgrvxAvkw3Wz28KBKpQbk=
+	t=1717005921; cv=none; b=ZgoyY6wSx2e2JYTkJGAt2ZHiQHNGeCjhAzTM2QtBfgde3XGVT6JWW+JQtcNAoR0Dp+P4MUU0ZmE3zLKTGgXHpxFVhpOJN518uFEEJT6sORTVww3ez90acl6DdmVNdYe4YA0j/NvcTmQFIoY3wKz5DiX4Fd4O8shYLEL3AxuLNno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717005683; c=relaxed/simple;
-	bh=C9bv8n2Yph9zB4abb7Qhz66pPr/f91zc6NXxwuqWJOk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=t5xeiD86+Qbqw1b4vO1o3N3MCsACMxCnQOv1NPngwri+19bSKk2ifY9KOnKTJ4Fa2QBnx411LEKLQWgGMuWL9mfOLsTzWsyoS8QiL0flVvSpOkE7Ivog+86pcdw4bLGvWRt10rq98Bikjd3BPCglKfct2l9tpcTKRrnEil2kJBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a/Y5l9hS; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1717005921; c=relaxed/simple;
+	bh=rClDOFeTBM3INZgvPf3xqhdotKn3Xjpsol6JPcgeiiY=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=dGAh8HlmrxGkIY0NCcXfz5uF7/gCPxg7qsz7A5QOWLsgjAkxwsQ7o68a2fjL/gdw0mtfttZE3SRVeRbIcaiIDK3ZlomOg3yIlH0VPlD8lWxOYfuviniAbw6qnG0ai4s5BWveV+5+eT977KY2r7L7AyPdEcKWaTD5EdgJb80yfgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CC4UcVbw; arc=none smtp.client-ip=209.85.221.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a/Y5l9hS"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-6f4603237e0so205859b3a.0;
-        Wed, 29 May 2024 11:01:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CC4UcVbw"
+Received: by mail-vk1-f202.google.com with SMTP id 71dfb90a1353d-4e4effa67adso21179e0c.1
+        for <linux-doc@vger.kernel.org>; Wed, 29 May 2024 11:05:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717005681; x=1717610481; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=7v4SBxMsVcC1Y8hf6RcuPsH7ukRGgbWwv2pnXRLZ3hs=;
-        b=a/Y5l9hSCBmKVFJYF8aHn0cGT39Wfrfa8GBM74Uh+bVmpdQMIfy7DmOUcva7+XOdFX
-         mhaibzArFQGyRZoI9/SCpUhbj+UEptR0QwFRjcIcIpPDtnw/wgss2U8Q/SCwN3uviGOO
-         rLjn+Qtn1T45HGkGiwK0/s4hAZUfEfhWhDyhmniz3F7ppHJefMLCoJLSM02mBAKk4NXz
-         XSOULwswu6Z7IlP8oylKGEl1wZbDeY7iBIAxciWmZKQllabM9GSyUjb+Oduo+kTJ+D8v
-         ADcoyyYXIrqooXRFzO/T4I2fg/xIMM3rP0s8gaKjg+/jnVBR8NU35xrpac6CLu/Ujm9t
-         tfIA==
+        d=google.com; s=20230601; t=1717005918; x=1717610718; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nPLVZGS8AMw+CagEZYqGOZQVma0bD0XI55fQjmFacis=;
+        b=CC4UcVbwULTuGVoAfXx6HOyqloX49BTtf0JjisU9VF0+bW40Ee1I0GJa9LZERIqQav
+         jZ0hGCrSf3iKYqQM+gdaqIh/H627pYv4M8orIF9963maJRklsNYZeNECH4dEjdn/0bJp
+         DFuQG38Gxpj0dI+k2CxVNgRbRTsv5BztRWfOiA75gndMG8g7IA/EsxbLX0qXPGjSucys
+         POEviCxs2pZKLFZAKzX5/EgIzi/9Vqu82w410h4g+IAB/rih/pKF4372+HacUVhg/wX2
+         8ODDZeFz1Vr08RzMm+/txHByVx7LqPO1iOGRSmSv4prndSwT91oVvkHk6vYGTxwWyAtr
+         iwfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717005681; x=1717610481;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7v4SBxMsVcC1Y8hf6RcuPsH7ukRGgbWwv2pnXRLZ3hs=;
-        b=w3231HBCHfYMdhl8tvfWWBi59L1BlhoLc3YEV2i2yLJLaJBxwT3EuoINJy/tifgDXv
-         mmBfQBXL9EE3iM9w++BSKJNLA8pt0xKas5jV/9DFM+dU1aLOUaXINiO7uMSGLeMExwLV
-         IGMDVVrTADfJIHhN0YZ1VaUBqcEx8IseyZFTwchbCY+wtLzZJ9mDS8jWo4fbIr+4ogJB
-         yc3hLjs/qnWPMjgw0IyCc8FU8VZjJz8rN0ysH49XvJHeSClGFTdTD3lFExXmCSPpIsJ2
-         dfl2EslQSmzxqMRlrAB5LnVyXTSnOfE4+QYJn0RmTi4ocrh+7xPVY7MMFj3i9WLAPVE9
-         wKOA==
-X-Forwarded-Encrypted: i=1; AJvYcCV5S9eOf0gSDDVJ5HT4AZT1eoivnHf62LnnFOm4xngoCacTT+BDwFs9V91ciGczCksDNpqV+hLEE2B7kg8DDmTDCRdqcovw4xp+qjhQ3vcaSrhHSds0tLlTncYFonIi8ReVEylK6L3xD/reTCcwTeRuzR0NTvFtWFIHLlzh8WxfiUkSR8M=
-X-Gm-Message-State: AOJu0Yxval9RlKocrTb7wm1wdwnzAl6siXGRF1CXP/jWL4Zx2QtS7sj9
-	SjUePHnQXE4VGt+pvaT/wnjYb8RIRFCVRCCOlyiU2IZOJrTwCym/xnwudw==
-X-Google-Smtp-Source: AGHT+IHqiJT/ps0cD036xFv70u0VPuwVVr1EoTm+aFNcmbJuM7L4nOzLZrp+4SENo8ldRBaO9G08vA==
-X-Received: by 2002:a05:6a00:26d7:b0:702:2b15:a1f with SMTP id d2e1a72fcca58-7022b150b97mr1162617b3a.2.1717005679460;
-        Wed, 29 May 2024 11:01:19 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7022f2425e3sm55095b3a.126.2024.05.29.11.01.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 May 2024 11:01:18 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <a3eff514-f515-41a2-bb11-603434dc38fb@roeck-us.net>
-Date: Wed, 29 May 2024 11:01:17 -0700
+        d=1e100.net; s=20230601; t=1717005918; x=1717610718;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nPLVZGS8AMw+CagEZYqGOZQVma0bD0XI55fQjmFacis=;
+        b=H97L6GPA9Q4JMIDYvnytzXVoGJEIoO1aO1Arln8f2ydiQAFU6avXxYpniJUJ5LcOut
+         yF2wee8QM2d1mjtodkZdcd1/59tQrv/7JK+FKMeeiXMR1nSJ62EQrNgGeYCX5EYmBO7e
+         nEvnTORi0mKoj14PU6L6ie8/pysEFLaEO4MSy7MSoZeUNbzhxYIjYg89PmFTpnCl/CUx
+         yC0yCHWvS6AEPCgz7Nz0oHNFPEauicfsyWMTZSuadjLMhYNqcl+hVGmxuafnGHbl5LHq
+         ykv13kFbYZbuZxlCJ/Y1sasfuApfO09TUqmdJFnnhhIQ7tAvUNG6VEaAu0pLk4esMMj7
+         P+WQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXeWuPuXTRodzI0U++XwnIXQfqtp7x8JfCFyUYimIQDoT/EVhURYbtrKk4pROellNp7mffRy0j2BxJxHmXcFDDOhCDp26BX6MKH
+X-Gm-Message-State: AOJu0Yzr/QRbHlTrY8MCOCRRlH63v1iXSR1dIPXxcfzo6tzmpYEeAGIk
+	De/QsRFhM3RYv71aU4H9WP9TrNzvsWbQxfOdG+VCIhg6UGQlaHRXusv7vi87nUdHUFJXloNy08z
+	tn5mA8Hk+jL2HW0s8mg==
+X-Google-Smtp-Source: AGHT+IHYErK4IEAw4AodIy6/uS9D/1KylfkBeNLUgQvcCMlB4bZF6bJgSfUsGpPUaVK45i5PNzhTyn3VxbK8rZqg
+X-Received: from jthoughton.c.googlers.com ([fda3:e722:ac3:cc00:14:4d90:c0a8:2a4f])
+ (user=jthoughton job=sendgmr) by 2002:a05:6122:2006:b0:4d8:797b:94e0 with
+ SMTP id 71dfb90a1353d-4e4f0112182mr502860e0c.0.1717005918294; Wed, 29 May
+ 2024 11:05:18 -0700 (PDT)
+Date: Wed, 29 May 2024 18:05:04 +0000
+In-Reply-To: <20240529180510.2295118-1-jthoughton@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] drivers: hwmon: max31827: Add PEC support
-To: Radu Sabau <radu.sabau@analog.com>, Jean Delvare <jdelvare@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240527092947.4370-1-radu.sabau@analog.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20240527092947.4370-1-radu.sabau@analog.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <20240529180510.2295118-1-jthoughton@google.com>
+X-Mailer: git-send-email 2.45.1.288.g0e0cd299f1-goog
+Message-ID: <20240529180510.2295118-2-jthoughton@google.com>
+Subject: [PATCH v4 1/7] mm/Kconfig: Add LRU_GEN_WALKS_SECONDARY_MMU
+From: James Houghton <jthoughton@google.com>
+To: Andrew Morton <akpm@linux-foundation.org>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Albert Ou <aou@eecs.berkeley.edu>, Ankit Agrawal <ankita@nvidia.com>, 
+	Anup Patel <anup@brainfault.org>, Atish Patra <atishp@atishpatra.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Bibo Mao <maobibo@loongson.cn>, 
+	Catalin Marinas <catalin.marinas@arm.com>, David Matlack <dmatlack@google.com>, 
+	David Rientjes <rientjes@google.com>, Huacai Chen <chenhuacai@kernel.org>, 
+	James Houghton <jthoughton@google.com>, James Morse <james.morse@arm.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, Oliver Upton <oliver.upton@linux.dev>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Raghavendra Rao Ananta <rananta@google.com>, Ryan Roberts <ryan.roberts@arm.com>, 
+	Sean Christopherson <seanjc@google.com>, Shaoqin Huang <shahuang@redhat.com>, Shuah Khan <shuah@kernel.org>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Tianrui Zhao <zhaotianrui@loongson.cn>, 
+	Will Deacon <will@kernel.org>, Yu Zhao <yuzhao@google.com>, Zenghui Yu <yuzenghui@huawei.com>, 
+	kvm-riscv@lists.infradead.org, kvm@vger.kernel.org, kvmarm@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-mm@kvack.org, 
+	linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, 
+	loongarch@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On 5/27/24 02:29, Radu Sabau wrote:
-> Add support for PEC by attaching PEC attribute to the i2c device.
-> Add pec_store and pec_show function for accessing the "pec" file.
-> 
-> Signed-off-by: Radu Sabau <radu.sabau@analog.com>
-> ---
+Add this option so that one building the kernel can choose whether or
+not they want to support walking the secondary MMU.
 
-Sorry for the trouble, but I decided to add PEC support to the
-hardware monitoring code. With those changes, the hwmon core creates
-the attribute and handles i2c client configuration. The driver only
-needs to configure the chip.
+We want users to be able to blindly enable all lru_gen features to have
+the best possible performance most of the time. Walking the secondary
+MMU is mainly useful for be able to do proactive reclaim, and it is
+possible that doing this can harm VM performance.
 
-I'll copy you on the patches introducing and using this functionality.
+This option should be enabled by users who run VMs and also care to do
+proactive aging/reclaim with MGLRU.
 
-Please apply the patch introducing the core changes to your system
-and rebase this patch on top of it.
+With this config option enabled, a user can still disable the
+new functionality at runtime through sysfs.
 
-Thanks,
-Guenter
+Signed-off-by: James Houghton <jthoughton@google.com>
+---
+ mm/Kconfig | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/mm/Kconfig b/mm/Kconfig
+index b4cb45255a54..3ac4b1dbf745 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -1222,6 +1222,14 @@ config LRU_GEN_STATS
+ 
+ 	  This option has a per-memcg and per-node memory overhead.
+ 
++config LRU_GEN_WALKS_SECONDARY_MMU
++	bool "Walk secondary MMUs when aging"
++	depends on LRU_GEN && LRU_GEN_WALKS_MMU
++	help
++	  This option allows multi-gen LRU to walk secondary MMU page tables
++	  when aging. This allows for proactive reclaim, but this can reduce
++	  overall performance (e.g. for a KVM VM).
++
+ config LRU_GEN_WALKS_MMU
+ 	def_bool y
+ 	depends on LRU_GEN && ARCH_HAS_HW_PTE_YOUNG
+-- 
+2.45.1.288.g0e0cd299f1-goog
 
