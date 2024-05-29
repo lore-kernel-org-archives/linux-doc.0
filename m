@@ -1,37 +1,39 @@
 Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BEB116A377;
-	Wed, 29 May 2024 09:41:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00B5B43AA0;
+	Wed, 29 May 2024 09:41:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716975706; cv=none; b=s96XQFX1s+R2hCBEMI/HlZ4wbrNA6NhtObdpxI0PqJuXHd82wnxn7v/5aFsE7mT4JYJbY8QxcBNFztddh+xXvNKahWpqf+7uhhAbIazGVHuUMJSCANbAX9fSNDcFTCFQvRqqpX19BV8Y/ixWSMlVY+HbPrbcPeNHP5CYQm1MMeQ=
+	t=1716975707; cv=none; b=oxWHhhAEMQTSCf99nNHr8nc7pxKQE8GW3xW4vvC2BoqCfqDladell6PQQAbkzO654BibxI7sLtVWUCt6fG+s42YJ7e53zCCaBrqS015synya3nUGL5cDQLPk3h7IS35lXo9uMy6f2s5W04nQGKFCKdr9T+cofDQjsZRoGwPtsGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716975706; c=relaxed/simple;
-	bh=24TmFTXURDyvGQMiH83h+PTdtXsJry4fou/MpJJP3S8=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=q64ficVDyw0qMCUQ1sfmlrCSCvoG3iPZ1cf0DHDuMAMgG4rwJrfRKFI1dmw4i1LIYFX4FIfTlGDB1c+cQeEE6+fy2XOQPZKeK0UgSIkNMZRULvxTX9o6dVCK5TKEeVTXGaXAmcvHeWHGdFJ2fNbfSBrqadAR/WXD9EL82/LJphY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=cTsLtX2Y; arc=none smtp.client-ip=217.70.183.195
+	s=arc-20240116; t=1716975707; c=relaxed/simple;
+	bh=o7E6/MViL8EDtik8CDeYmtc5dovlHET6Hl/CN1IvRDU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=oNEzJvOPbsOlju1xfoASf4wzYReZDNLeJZL/5X/PH9/e6+Babpx9jjz07Ndt0dh/GZoErZYAxbijtH907v3U2frIfv4K/Tm5kLaZFRwTHDipHRqu0Xu+W2uRmvwFBvy+FC16A77SwbqboG1LIQTELDqcbt9EVTQ4QYLKFExjQ6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=nvOake5O; arc=none smtp.client-ip=217.70.183.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="cTsLtX2Y"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0B5D26000E;
-	Wed, 29 May 2024 09:41:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="nvOake5O"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0114860011;
+	Wed, 29 May 2024 09:41:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1716975696;
+	t=1716975703;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=sK5uUXjesKasTbVZKPR3MybUoVyf8g3cgOo59NCsGK8=;
-	b=cTsLtX2Y1TXqSoVKg47U5iWNZjuZ/FtuUfLvMOv1mJ+x7KIQZebBfTWb9QgDj1UPgSKttc
-	Rtd9/zgZ6kUm0RtK9QpzfNTKTHwxc3qHABU4CgdknZQdgbTI/GgPXueecQK8S2M/2WMOnC
-	q5lZ2V+E08FU5tC8uAk2ZwMdWHRw3Whg7F8sjE3hc6c6sdVt9vTCqSmI4boH7Gut1gP9wG
-	8knI7DLC1jqjO6/sbBssIK/Z25hUV+uW+iPqbHzZIHMcS3HvqdH3lQGG2d+RW5xj8xVA3X
-	Q29Tt5hOJBA6B3N48ocTuYA2zMVRJJjMz+QCH9UGuoSuE+rc1zP9m5RDB6v9/g==
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OVYxuEiTBwGgUxoQY1vy12DKfhV+lRor9GPqMEH4OQo=;
+	b=nvOake5OTmirg/uCB8M6fjF72GueEEbwW5rCY+HsAGamW1HudD/UjKBykUuDFDtLAoG3XP
+	nlH4QBXGhmFrOvvLVBzuAMzUwasO6sxmPQpTzjqghxVrUPxS1hc2zjGUUIDlC5q97bxemv
+	L9GXh9CdqaMwhqy3dBjPQAvDUF8U83NG/Z9hWz0wR+qbX7o6bY4kGWVjZIBrlH4XftQRNM
+	CMBvA5ex9rjWHqk6mERLbODlqtfkmmZ2jETcqbYc+p5xl/6uiIzhN7rKu/W5CfmVMJMYUT
+	zfprVZsFIKTiuSzYkfgDvRyxPzklpec+LJUZ+CVkHalVZI9pYfpJwV3gaZ6uOw==
 From: Kory Maincent <kory.maincent@bootlin.com>
-Subject: [PATCH net-next v13 00/14] net: Make timestamping selectable
-Date: Wed, 29 May 2024 11:39:32 +0200
-Message-Id: <20240529-feature_ptp_netnext-v13-0-6eda4d40fa4f@bootlin.com>
+Date: Wed, 29 May 2024 11:39:37 +0200
+Subject: [PATCH net-next v13 05/14] net: Change the API of PHY default
+ timestamp to MAC
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,13 +41,10 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIANT3VmYC/3XQzW6DMAwA4Fepch5TbByS9LT3mKYqUHuNtAECh
- jpVvPtStKlMwDH++WznpnruIvfqeLipjsfYx6ZOD8ifDqq6hPqds3hOAYUac9AAmXAYvjo+tUN
- 7qnmo+TpkuaB1xjp2VKrU2XYs8TqzryoVZfcq9ZYyl9gPTfc9zxuLOf8r+015LDKdWQgiFdpSs
- 3kpm2b4iPVz1XzO4mgfCgBtKzYpZJGt9QaY9FpxfwpphGJbcUkxoIVQiEjKteIXCu4o/r6LMQW
- AIS8IawX0gyG98zGgk6MlIAdTOR/8hgMLB3HHgeQIpINAMMDZbTi4cHK942BysDKCVBbBA/13p
- mn6AW4pe4ltAgAA
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240529-feature_ptp_netnext-v13-5-6eda4d40fa4f@bootlin.com>
+References: <20240529-feature_ptp_netnext-v13-0-6eda4d40fa4f@bootlin.com>
+In-Reply-To: <20240529-feature_ptp_netnext-v13-0-6eda4d40fa4f@bootlin.com>
 To: Florian Fainelli <florian.fainelli@broadcom.com>, 
  Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
  Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
@@ -65,250 +64,252 @@ Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
  Maxime Chevallier <maxime.chevallier@bootlin.com>, 
  Rahul Rameshbabu <rrameshbabu@nvidia.com>, 
- Kory Maincent <kory.maincent@bootlin.com>, 
- Willem de Bruijn <willemb@google.com>, 
- Alexandra Winter <wintera@linux.ibm.com>
+ Kory Maincent <kory.maincent@bootlin.com>
 X-Mailer: b4 0.13.0
 X-GND-Sasl: kory.maincent@bootlin.com
 
-Up until now, there was no way to let the user select the hardware
-PTP provider at which time stamping occurs. The stack assumed that PHY time
-stamping is always preferred, but some MAC/PHY combinations were buggy.
+Change the API to select MAC default time stamping instead of the PHY.
+Indeed the PHY is closer to the wire therefore theoretically it has less
+delay than the MAC timestamping but the reality is different. Due to lower
+time stamping clock frequency, latency in the MDIO bus and no PHC hardware
+synchronization between different PHY, the PHY PTP is often less precise
+than the MAC. The exception is for PHY designed specially for PTP case but
+these devices are not very widespread. For not breaking the compatibility
+default_timestamp flag has been introduced in phy_device that is set by
+the phy driver to know we are using the old API behavior.
 
-This series updates the default MAC/PHY default timestamping and aims to
-allow the user to select the desired hwtstamp provider administratively.
-
-Changes in v13:
-- Add PTP builtin code to fix build errors when building PTP as a module.
-- Fix error spotted by smatch and sparse.
-- Link to v12: https://lore.kernel.org/r/20240430-feature_ptp_netnext-v12-0-2c5f24b6a914@bootlin.com
-
-Changes in v12:
-- Add missing return description in the kdoc.
-- Fix few nit.
-- Link to v11: https://lore.kernel.org/r/20240422-feature_ptp_netnext-v11-0-f14441f2a1d8@bootlin.com
-
-Changes in v11:
-- Add netlink examples.
-- Remove a change of my out of tree marvell_ptp patch in the patch series.
-- Remove useless extern.
-- Link to v10: https://lore.kernel.org/r/20240409-feature_ptp_netnext-v10-0-0fa2ea5c89a9@bootlin.com
-
-Changes in v10:
-- Move declarations to net/core/dev.h instead of netdevice.h
-- Add netlink documentation.
-- Add ETHTOOL_A_TSINFO_GHWTSTAMP netlink attributes instead of a bit in
-  ETHTOOL_A_TSINFO_TIMESTAMPING bitset.
-- Send "Move from simple ida to xarray" patch standalone.
-- Add tsinfo ntf command.
-- Add rcu_lock protection mechanism to avoid memory leak.
-- Fixed doc and kdoc issue.
-- Link to v9: https://lore.kernel.org/r/20240226-feature_ptp_netnext-v9-0-455611549f21@bootlin.com
-
-Changes in v9:
-- Remove the RFC prefix.
-- Correct few NIT fixes.
-- Link to v8: https://lore.kernel.org/r/20240216-feature_ptp_netnext-v8-0-510f42f444fb@bootlin.com
-
-Changes in v8:
-- Drop the 6 first patch as they are now merged.
-- Change the full implementation to not be based on the hwtstamp layer
-  (MAC/PHY) but on the hwtstamp provider which mean a ptp clock and a
-  phc qualifier.
-- Made some patch to prepare the new implementation.
-- Expand netlink tsinfo instead of a new ts command for new hwtstamp
-  configuration uAPI and for dumping tsinfo of specific hwtstamp provider.
-- Link to v7: https://lore.kernel.org/r/20231114-feature_ptp_netnext-v7-0-472e77951e40@bootlin.com
-
-Changes in v7:
-- Fix a temporary build error.
-- Link to v6: https://lore.kernel.org/r/20231019-feature_ptp_netnext-v6-0-71affc27b0e5@bootlin.com
-
-Changes in v6:
-- Few fixes from the reviews.
-- Replace the allowlist to default_timestamp flag to know which phy is
-  using old API behavior.
-- Rename the timestamping layer enum values.
-- Move to a simple enum instead of the mix between enum and bitfield.
-- Update ts_info and ts-set in software timestamping case.
-
-Changes in v5:
-- Update to ndo_hwstamp_get/set. This bring several new patches.
-- Add few patches to make the glue.
-- Convert macb to ndo_hwstamp_get/set.
-- Add netlink specs description of new ethtool commands.
-- Removed netdev notifier.
-- Split the patches that expose the timestamping to userspace to separate
-  the core and ethtool development.
-- Add description of software timestamping.
-- Convert PHYs hwtstamp callback to use kernel_hwtstamp_config.
-
-Changes in v4:
-- Move on to ethtool netlink instead of ioctl.
-- Add a netdev notifier to allow packet trapping by the MAC in case of PHY
-  time stamping.
-- Add a PHY whitelist to not break the old PHY default time-stamping
-  preference API.
-
-Changes in v3:
-- Expose the PTP choice to ethtool instead of sysfs.
-  You can test it with the ethtool source on branch feature_ptp of:
-  https://github.com/kmaincent/ethtool
-- Added a devicetree binding to select the preferred timestamp.
-
-Changes in v2:
-- Move selected_timestamping_layer variable of the concerned patch.
-- Use sysfs_streq instead of strmcmp.
-- Use the PHY timestamp only if available.
-
+Reviewed-by: Rahul Rameshbabu <rrameshbabu@nvidia.com>
 Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
 ---
-Kory Maincent (14):
-      net_tstamp: Add TIMESTAMPING SOFTWARE and HARDWARE mask
-      net: Move dev_set_hwtstamp_phylib to net/core/dev.h
-      net: Make dev_get_hwtstamp_phylib accessible
-      net: Make net_hwtstamp_validate accessible
-      net: Change the API of PHY default timestamp to MAC
-      net: net_tstamp: Add unspec field to hwtstamp_source enumeration
-      net: Add struct kernel_ethtool_ts_info
-      ptp: Add phc source and helpers to register specific PTP clock or get information
-      net: Add the possibility to support a selected hwtstamp in netdevice
-      net: netdevsim: ptp_mock: Convert to netdev_ptp_clock_register
-      net: macb: Convert to netdev_ptp_clock_register
-      net: ptp: Move ptp_clock_index() to builtin symbol
-      net: ethtool: tsinfo: Add support for hwtstamp provider and get/set hwtstamp config
-      netlink: specs: tsinfo: Enhance netlink attributes and add a set command
 
- Documentation/netlink/specs/ethtool.yaml           |  43 +-
- Documentation/networking/ethtool-netlink.rst       |  38 +-
- Documentation/networking/timestamping.rst          |  35 +-
- drivers/net/bonding/bond_main.c                    |   4 +-
- drivers/net/can/dev/dev.c                          |   2 +-
- drivers/net/can/peak_canfd/peak_canfd.c            |   2 +-
- drivers/net/can/usb/gs_usb.c                       |   2 +-
- drivers/net/can/usb/peak_usb/pcan_usb_core.c       |   2 +-
- drivers/net/can/usb/peak_usb/pcan_usb_core.h       |   2 +-
- drivers/net/dsa/hirschmann/hellcreek_hwtstamp.c    |   2 +-
- drivers/net/dsa/hirschmann/hellcreek_hwtstamp.h    |   2 +-
- drivers/net/dsa/microchip/ksz_ptp.c                |   2 +-
- drivers/net/dsa/microchip/ksz_ptp.h                |   2 +-
- drivers/net/dsa/mv88e6xxx/hwtstamp.c               |   2 +-
- drivers/net/dsa/mv88e6xxx/hwtstamp.h               |   4 +-
- drivers/net/dsa/ocelot/felix.c                     |   2 +-
- drivers/net/dsa/sja1105/sja1105_ptp.c              |   2 +-
- drivers/net/dsa/sja1105/sja1105_ptp.h              |   2 +-
- drivers/net/ethernet/amd/xgbe/xgbe-ethtool.c       |   2 +-
- .../net/ethernet/aquantia/atlantic/aq_ethtool.c    |   2 +-
- .../net/ethernet/broadcom/bnx2x/bnx2x_ethtool.c    |   2 +-
- drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c  |   2 +-
- drivers/net/ethernet/broadcom/tg3.c                |   2 +-
- drivers/net/ethernet/cadence/macb.h                |   2 +-
- drivers/net/ethernet/cadence/macb_main.c           |   4 +-
- drivers/net/ethernet/cadence/macb_ptp.c            |   2 +-
- drivers/net/ethernet/cavium/liquidio/lio_ethtool.c |   2 +-
- .../net/ethernet/cavium/thunder/nicvf_ethtool.c    |   2 +-
- drivers/net/ethernet/chelsio/cxgb4/cxgb4_ethtool.c |   2 +-
- drivers/net/ethernet/cisco/enic/enic_ethtool.c     |   2 +-
- drivers/net/ethernet/engleder/tsnep_ethtool.c      |   2 +-
- drivers/net/ethernet/freescale/dpaa/dpaa_ethtool.c |   2 +-
- .../net/ethernet/freescale/dpaa2/dpaa2-ethtool.c   |   2 +-
- .../net/ethernet/freescale/enetc/enetc_ethtool.c   |   2 +-
- drivers/net/ethernet/freescale/fec_main.c          |   2 +-
- drivers/net/ethernet/freescale/gianfar_ethtool.c   |   2 +-
- .../net/ethernet/fungible/funeth/funeth_ethtool.c  |   2 +-
- drivers/net/ethernet/hisilicon/hns3/hnae3.h        |   2 +-
- drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c |   2 +-
- .../net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.c |   2 +-
- .../net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.h |   2 +-
- drivers/net/ethernet/intel/e1000e/ethtool.c        |   2 +-
- drivers/net/ethernet/intel/i40e/i40e_ethtool.c     |   2 +-
- drivers/net/ethernet/intel/ice/ice_ethtool.c       |   2 +-
- drivers/net/ethernet/intel/igb/igb_ethtool.c       |   2 +-
- drivers/net/ethernet/intel/igc/igc_ethtool.c       |   2 +-
- drivers/net/ethernet/intel/ixgbe/ixgbe_ethtool.c   |   2 +-
- drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c    |   2 +-
- .../ethernet/marvell/octeontx2/nic/otx2_ethtool.c  |   2 +-
- drivers/net/ethernet/mellanox/mlx4/en_ethtool.c    |   2 +-
- drivers/net/ethernet/mellanox/mlx5/core/en.h       |   2 +-
- .../net/ethernet/mellanox/mlx5/core/en_ethtool.c   |   4 +-
- .../ethernet/mellanox/mlx5/core/ipoib/ethtool.c    |   2 +-
- drivers/net/ethernet/mellanox/mlxsw/spectrum.h     |   2 +-
- .../net/ethernet/mellanox/mlxsw/spectrum_ethtool.c |   2 +-
- drivers/net/ethernet/mellanox/mlxsw/spectrum_ptp.c |   4 +-
- drivers/net/ethernet/mellanox/mlxsw/spectrum_ptp.h |  10 +-
- drivers/net/ethernet/microchip/lan743x_ethtool.c   |   2 +-
- .../ethernet/microchip/lan966x/lan966x_ethtool.c   |   2 +-
- .../net/ethernet/microchip/sparx5/sparx5_ethtool.c |   2 +-
- drivers/net/ethernet/mscc/ocelot_net.c             |   2 +-
- drivers/net/ethernet/mscc/ocelot_ptp.c             |   2 +-
- .../net/ethernet/pensando/ionic/ionic_ethtool.c    |   2 +-
- drivers/net/ethernet/qlogic/qede/qede_ethtool.c    |   2 +-
- drivers/net/ethernet/qlogic/qede/qede_ptp.c        |   2 +-
- drivers/net/ethernet/qlogic/qede/qede_ptp.h        |   2 +-
- drivers/net/ethernet/renesas/ravb_main.c           |   2 +-
- drivers/net/ethernet/renesas/rswitch.c             |   2 +-
- drivers/net/ethernet/sfc/ethtool.c                 |   2 +-
- drivers/net/ethernet/sfc/falcon/nic.h              |   2 +-
- drivers/net/ethernet/sfc/ptp.c                     |   2 +-
- drivers/net/ethernet/sfc/ptp.h                     |   5 +-
- drivers/net/ethernet/sfc/siena/ethtool.c           |   2 +-
- drivers/net/ethernet/sfc/siena/ptp.c               |   2 +-
- drivers/net/ethernet/sfc/siena/ptp.h               |   4 +-
- .../net/ethernet/stmicro/stmmac/stmmac_ethtool.c   |   2 +-
- drivers/net/ethernet/ti/am65-cpsw-ethtool.c        |   2 +-
- drivers/net/ethernet/ti/cpsw_ethtool.c             |   4 +-
- drivers/net/ethernet/ti/cpsw_priv.h                |   2 +-
- drivers/net/ethernet/ti/icssg/icssg_ethtool.c      |   2 +-
- drivers/net/ethernet/ti/netcp_ethss.c              |   4 +-
- drivers/net/ethernet/xscale/ixp4xx_eth.c           |   2 +-
- drivers/net/macvlan.c                              |   2 +-
- drivers/net/netdevsim/ethtool.c                    |   2 +-
- drivers/net/netdevsim/netdev.c                     |  19 +-
- drivers/net/phy/bcm-phy-ptp.c                      |   5 +-
- drivers/net/phy/dp83640.c                          |   4 +-
- drivers/net/phy/micrel.c                           |  10 +-
- drivers/net/phy/mscc/mscc_ptp.c                    |   5 +-
- drivers/net/phy/nxp-c45-tja11xx.c                  |   5 +-
- drivers/net/phy/phy_device.c                       |  11 +
- drivers/ptp/Makefile                               |   5 +
- drivers/ptp/ptp_clock.c                            |  39 +-
- drivers/ptp/ptp_clock_consumer.c                   | 171 ++++++
- drivers/ptp/ptp_ines.c                             |   2 +-
- drivers/ptp/ptp_mock.c                             |   4 +-
- drivers/ptp/ptp_private.h                          |   7 +
- drivers/s390/net/qeth_ethtool.c                    |   2 +-
- include/linux/can/dev.h                            |   2 +-
- include/linux/ethtool.h                            |  29 +-
- include/linux/mii_timestamper.h                    |   2 +-
- include/linux/net_tstamp.h                         |  16 +
- include/linux/netdevice.h                          |   8 +-
- include/linux/phy.h                                |  21 +-
- include/linux/ptp_clock_kernel.h                   | 178 ++++++
- include/linux/ptp_mock.h                           |   4 +-
- include/net/dsa.h                                  |   2 +-
- include/soc/mscc/ocelot.h                          |   2 +-
- include/uapi/linux/ethtool_netlink.h               |  14 +
- include/uapi/linux/net_tstamp.h                    |  11 +
- net/8021q/vlan_dev.c                               |   2 +-
- net/core/dev.h                                     |   7 +
- net/core/dev_ioctl.c                               |  56 +-
- net/core/timestamping.c                            |  49 +-
- net/dsa/user.c                                     |   2 +-
- net/ethtool/common.c                               |  40 +-
- net/ethtool/common.h                               |   5 +-
- net/ethtool/ioctl.c                                |  12 +-
- net/ethtool/netlink.c                              |  16 +-
- net/ethtool/netlink.h                              |   6 +-
- net/ethtool/tsinfo.c                               | 641 ++++++++++++++++++++-
- net/sched/sch_taprio.c                             |   2 +-
- 122 files changed, 1519 insertions(+), 202 deletions(-)
+Changes in v5:
+- Extract the API change in this patch.
+- Rename whitelist to allowlist.
+- Set NETDEV_TIMESTAMPING in register_netdevice function.
+- Add software timestamping case description in ts_info.
+
+Change in v6:
+- Replace the allowlist phy with a default_timestamp flag to know which
+  phy is using old API behavior.
+- Fix dereferenced of a possible null pointer.
+- Follow timestamping layer naming update.
+- Update timestamp default set between MAC and software.
+- Update ts_info returned in case of software timestamping.
+
+Change in v8:
+- Reform the implementation to use a simple phy_is_default_hwtstamp helper
+  instead of saving the hwtstamp in the net_device struct.
+
+Change in v9:
+- Update few nit following the review.
+
+Change in v12:
+- Add missing return description in the kdoc.
 ---
-base-commit: caaa6a85f0658de87358e08fb9e3768d2daf5e01
-change-id: 20231011-feature_ptp_netnext-3f278578e84b
+ drivers/net/phy/bcm-phy-ptp.c     |  3 +++
+ drivers/net/phy/dp83640.c         |  2 ++
+ drivers/net/phy/micrel.c          |  6 ++++++
+ drivers/net/phy/mscc/mscc_ptp.c   |  3 +++
+ drivers/net/phy/nxp-c45-tja11xx.c |  3 +++
+ include/linux/phy.h               | 19 +++++++++++++++++++
+ net/core/dev_ioctl.c              |  8 +++-----
+ net/core/timestamping.c           |  5 +++--
+ net/ethtool/common.c              |  2 +-
+ 9 files changed, 43 insertions(+), 8 deletions(-)
 
-Best regards,
+diff --git a/drivers/net/phy/bcm-phy-ptp.c b/drivers/net/phy/bcm-phy-ptp.c
+index 617d384d4551..d3e825c951ee 100644
+--- a/drivers/net/phy/bcm-phy-ptp.c
++++ b/drivers/net/phy/bcm-phy-ptp.c
+@@ -931,6 +931,9 @@ struct bcm_ptp_private *bcm_ptp_probe(struct phy_device *phydev)
+ 		return ERR_CAST(clock);
+ 	priv->ptp_clock = clock;
+ 
++	/* Timestamp selected by default to keep legacy API */
++	phydev->default_timestamp = true;
++
+ 	priv->phydev = phydev;
+ 	bcm_ptp_init(priv);
+ 
+diff --git a/drivers/net/phy/dp83640.c b/drivers/net/phy/dp83640.c
+index 5c42c47dc564..d3e72d5c1472 100644
+--- a/drivers/net/phy/dp83640.c
++++ b/drivers/net/phy/dp83640.c
+@@ -1447,6 +1447,8 @@ static int dp83640_probe(struct phy_device *phydev)
+ 	for (i = 0; i < MAX_RXTS; i++)
+ 		list_add(&dp83640->rx_pool_data[i].list, &dp83640->rxpool);
+ 
++	/* Timestamp selected by default to keep legacy API */
++	phydev->default_timestamp = true;
+ 	phydev->mii_ts = &dp83640->mii_ts;
+ 	phydev->priv = dp83640;
+ 
+diff --git a/drivers/net/phy/micrel.c b/drivers/net/phy/micrel.c
+index 13e30ea7eec5..55c49f8e88cb 100644
+--- a/drivers/net/phy/micrel.c
++++ b/drivers/net/phy/micrel.c
+@@ -3691,6 +3691,9 @@ static void lan8814_ptp_init(struct phy_device *phydev)
+ 	ptp_priv->mii_ts.ts_info  = lan8814_ts_info;
+ 
+ 	phydev->mii_ts = &ptp_priv->mii_ts;
++
++	/* Timestamp selected by default to keep legacy API */
++	phydev->default_timestamp = true;
+ }
+ 
+ static int lan8814_ptp_probe_once(struct phy_device *phydev)
+@@ -5181,6 +5184,9 @@ static int lan8841_probe(struct phy_device *phydev)
+ 
+ 	phydev->mii_ts = &ptp_priv->mii_ts;
+ 
++	/* Timestamp selected by default to keep legacy API */
++	phydev->default_timestamp = true;
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/net/phy/mscc/mscc_ptp.c b/drivers/net/phy/mscc/mscc_ptp.c
+index eb0b032cb613..e66d20eff7c4 100644
+--- a/drivers/net/phy/mscc/mscc_ptp.c
++++ b/drivers/net/phy/mscc/mscc_ptp.c
+@@ -1570,6 +1570,9 @@ int vsc8584_ptp_probe(struct phy_device *phydev)
+ 		return PTR_ERR(vsc8531->load_save);
+ 	}
+ 
++	/* Timestamp selected by default to keep legacy API */
++	phydev->default_timestamp = true;
++
+ 	vsc8531->ptp->phydev = phydev;
+ 
+ 	return 0;
+diff --git a/drivers/net/phy/nxp-c45-tja11xx.c b/drivers/net/phy/nxp-c45-tja11xx.c
+index 3cf614b4cd52..d18c133e6013 100644
+--- a/drivers/net/phy/nxp-c45-tja11xx.c
++++ b/drivers/net/phy/nxp-c45-tja11xx.c
+@@ -1660,6 +1660,9 @@ static int nxp_c45_probe(struct phy_device *phydev)
+ 		priv->mii_ts.ts_info = nxp_c45_ts_info;
+ 		phydev->mii_ts = &priv->mii_ts;
+ 		ret = nxp_c45_init_ptp_clock(priv);
++
++		/* Timestamp selected by default to keep legacy API */
++		phydev->default_timestamp = true;
+ 	} else {
+ 		phydev_dbg(phydev, "PTP support not enabled even if the phy supports it");
+ 	}
+diff --git a/include/linux/phy.h b/include/linux/phy.h
+index e6e83304558e..3deba69f0d76 100644
+--- a/include/linux/phy.h
++++ b/include/linux/phy.h
+@@ -612,6 +612,8 @@ struct macsec_ops;
+  *                 handling shall be postponed until PHY has resumed
+  * @irq_rerun: Flag indicating interrupts occurred while PHY was suspended,
+  *             requiring a rerun of the interrupt handler after resume
++ * @default_timestamp: Flag indicating whether we are using the phy
++ *		       timestamp as the default one
+  * @interface: enum phy_interface_t value
+  * @possible_interfaces: bitmap if interface modes that the attached PHY
+  *			 will switch between depending on media speed.
+@@ -677,6 +679,8 @@ struct phy_device {
+ 	unsigned irq_suspended:1;
+ 	unsigned irq_rerun:1;
+ 
++	unsigned default_timestamp:1;
++
+ 	int rate_matching;
+ 
+ 	enum phy_state state;
+@@ -1621,6 +1625,21 @@ static inline void phy_txtstamp(struct phy_device *phydev, struct sk_buff *skb,
+ 	phydev->mii_ts->txtstamp(phydev->mii_ts, skb, type);
+ }
+ 
++/**
++ * phy_is_default_hwtstamp - Is the PHY hwtstamp the default timestamp
++ * @phydev: Pointer to phy_device
++ *
++ * This is used to get default timestamping device taking into account
++ * the new API choice, which is selecting the timestamping from MAC by
++ * default if the phydev does not have default_timestamp flag enabled.
++ *
++ * Return: True if phy is the default hw timestamp, false otherwise.
++ */
++static inline bool phy_is_default_hwtstamp(struct phy_device *phydev)
++{
++	return phy_has_hwtstamp(phydev) && phydev->default_timestamp;
++}
++
+ /**
+  * phy_is_internal - Convenience function for testing if a PHY is internal
+  * @phydev: the phy_device struct
+diff --git a/net/core/dev_ioctl.c b/net/core/dev_ioctl.c
+index 6aaa8326bf8f..36cea843381f 100644
+--- a/net/core/dev_ioctl.c
++++ b/net/core/dev_ioctl.c
+@@ -259,9 +259,7 @@ static int dev_eth_ioctl(struct net_device *dev,
+  * @dev: Network device
+  * @cfg: Timestamping configuration structure
+  *
+- * Helper for enforcing a common policy that phylib timestamping, if available,
+- * should take precedence in front of hardware timestamping provided by the
+- * netdev.
++ * Helper for calling the default hardware provider timestamping.
+  *
+  * Note: phy_mii_ioctl() only handles SIOCSHWTSTAMP (not SIOCGHWTSTAMP), and
+  * there only exists a phydev->mii_ts->hwtstamp() method. So this will return
+@@ -271,7 +269,7 @@ static int dev_eth_ioctl(struct net_device *dev,
+ int dev_get_hwtstamp_phylib(struct net_device *dev,
+ 			    struct kernel_hwtstamp_config *cfg)
+ {
+-	if (phy_has_hwtstamp(dev->phydev))
++	if (phy_is_default_hwtstamp(dev->phydev))
+ 		return phy_hwtstamp_get(dev->phydev, cfg);
+ 
+ 	return dev->netdev_ops->ndo_hwtstamp_get(dev, cfg);
+@@ -327,7 +325,7 @@ int dev_set_hwtstamp_phylib(struct net_device *dev,
+ 			    struct netlink_ext_ack *extack)
+ {
+ 	const struct net_device_ops *ops = dev->netdev_ops;
+-	bool phy_ts = phy_has_hwtstamp(dev->phydev);
++	bool phy_ts = phy_is_default_hwtstamp(dev->phydev);
+ 	struct kernel_hwtstamp_config old_cfg = {};
+ 	bool changed = false;
+ 	int err;
+diff --git a/net/core/timestamping.c b/net/core/timestamping.c
+index 04840697fe79..3717fb152ecc 100644
+--- a/net/core/timestamping.c
++++ b/net/core/timestamping.c
+@@ -25,7 +25,8 @@ void skb_clone_tx_timestamp(struct sk_buff *skb)
+ 	struct sk_buff *clone;
+ 	unsigned int type;
+ 
+-	if (!skb->sk)
++	if (!skb->sk || !skb->dev ||
++	    !phy_is_default_hwtstamp(skb->dev->phydev))
+ 		return;
+ 
+ 	type = classify(skb);
+@@ -47,7 +48,7 @@ bool skb_defer_rx_timestamp(struct sk_buff *skb)
+ 	struct mii_timestamper *mii_ts;
+ 	unsigned int type;
+ 
+-	if (!skb->dev || !skb->dev->phydev || !skb->dev->phydev->mii_ts)
++	if (!skb->dev || !phy_is_default_hwtstamp(skb->dev->phydev))
+ 		return false;
+ 
+ 	if (skb_headroom(skb) < ETH_HLEN)
+diff --git a/net/ethtool/common.c b/net/ethtool/common.c
+index 6b2a360dcdf0..01b7550f12c6 100644
+--- a/net/ethtool/common.c
++++ b/net/ethtool/common.c
+@@ -637,7 +637,7 @@ int __ethtool_get_ts_info(struct net_device *dev, struct ethtool_ts_info *info)
+ 	memset(info, 0, sizeof(*info));
+ 	info->cmd = ETHTOOL_GET_TS_INFO;
+ 
+-	if (phy_has_tsinfo(phydev))
++	if (phy_is_default_hwtstamp(phydev) && phy_has_tsinfo(phydev))
+ 		return phy_ts_info(phydev, info);
+ 	if (ops->get_ts_info)
+ 		return ops->get_ts_info(dev, info);
+
 -- 
-Köry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+2.34.1
 
