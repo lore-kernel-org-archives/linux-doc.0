@@ -1,379 +1,369 @@
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5A7181B83;
-	Wed, 29 May 2024 12:42:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9521522A
+	for <linux-doc@vger.kernel.org>; Wed, 29 May 2024 12:50:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716986558; cv=none; b=aafpO1LQyd7tYnDbgR/jQQXQkX7y+ZpGt4KlfR2e9+KhCu3nUFRJzSWeMVK2piq5eA/TKAH/AE/ZP5O1dyDd7/GR4BCoq9QR+xk6zLp4GqGmA0P1UsyaLArsi96FX6DJAXA9FtysXl1E9P7/ifhJjG+/HKuGEQbxCWX3QAD+TWM=
+	t=1716987014; cv=none; b=lOFPLRA8iEMzRRnJ4vZwrRWLFh33S3XXKagfjEhg/bs16sRpfXCQa4hMM7VJSV4fcdcH2ZwjaltikLWTli1dzmhHECHstFdg1XtCd3OpvXs0n5iGbRhkoAqYad7OuSNdyzfqc/RiOX5cnW1mzvYCmO72rdFveMQECa5NG309f3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716986558; c=relaxed/simple;
-	bh=rMOG4bFrDA+KX8+4P7QFD49tVIsWAJw+cw+RGJ5Z8p4=;
+	s=arc-20240116; t=1716987014; c=relaxed/simple;
+	bh=wDOh3GgxeeojaaGvJLYrqx3gp0ldmjEWoy3FOFKhGH4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VwPWLngjAJXru34EC+pxOC1TsTS5lEJqnGs1Ox13XNKxayzwEYsm9NSFNwbQfHMuOUtw5XphM5gMg/+EcLGTT5AKoWyTgwgPgIukJRUr+goFFNXX5YQ5jr28pruVbPhu03TRVv7hdBQiZGI509pHYvO3LP8n8skBRzKc9XFUVRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R2HMRmVb; arc=none smtp.client-ip=209.85.128.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=AncwHwrlMuqkNf66PHO/PV1nxlJlV5pvTafmgxPgbkmOqWbbnQtYLt8IMSqgrrIMgI1E87DVNGB7hj169Hc1l9zBEEjqBCF18CY/Vi3Iwqpf8Z4wYrAMyztM5YOz8fqHjum94+LargYQGX1UP8VHRUEvjp03OcCQtausAHv57cY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=ebZnCnLj; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R2HMRmVb"
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-627ebbefd85so21580327b3.3;
-        Wed, 29 May 2024 05:42:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="ebZnCnLj"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a621cb07d8fso229911866b.2
+        for <linux-doc@vger.kernel.org>; Wed, 29 May 2024 05:50:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716986555; x=1717591355; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1716987010; x=1717591810; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FcVvsj5wuI35cIO8lkBusWD2C94l8ZGuanLrynn79Jo=;
-        b=R2HMRmVbdoEG3zbWuM3sl2RK2SizD/U0NWazopvPIgsiCTFstskJYdGngN998TyU73
-         XlPuyW51l9HcuCBB56B2vJQNDL03D/ylIcfEl6Gr9xKS1nQZ6tmc7SkVBasnyNPyqW+A
-         Sf7WMZWTEfN4rSlpk/oy71R608ISRMslJ1ujOi3SkemLDP2KQDNGka7pihB4AxgoO6YR
-         vCYxqpgd90MglQrV19J1d6ty7fJhDJxFLu4xYrTRfxfi+9VtKnmybXt0msbSE7ZRlDgJ
-         kV0COwlz8M1TON56YXS9BFgCVS2ZSZWysZebaaknK8ehn0GLlFIopWWxvdECSdDI1NUI
-         TLBA==
+        bh=FNItZxu06YRXLGqNeIhgtHR87fPjOnrEFWQ8pXCNo7A=;
+        b=ebZnCnLjnAb8W35JdZrO/gXhF/VuzlPUlAd832zKCps8LMgrE1XbcQIagd7skiXHCR
+         MsD8+FyDvemYitHIbK8HsYzeCBQwmM2kpyDRGx2Q2WtHi8Ge8+PYotXSdKPJ4xhjTkTD
+         tMEohgMfZQCjwyqdCQB5+oq0UqUHxCrsl1FLFdxLUctVZscXZ+UwnATRBhx6j/upilW0
+         +Vg4O2pkGsDPHQzwdrPhIVDLTalQZq6qry8n7rKxQqsYRVpHRpng1ONyk6Af7h7ehfSL
+         uqvy8NJT+Vnt0CR55ogm7L67I8ZSdmWumuXSDUSIvCc/sW77MCG9NYbwMnnyyxG8qpsn
+         yp5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716986555; x=1717591355;
+        d=1e100.net; s=20230601; t=1716987010; x=1717591810;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FcVvsj5wuI35cIO8lkBusWD2C94l8ZGuanLrynn79Jo=;
-        b=p9Dcpvv8eXe8L9KOZ/lnNMc8MKtQrBYrTh2O/XtUp8NoQ4YCwModhrRaRzcVH0Wkck
-         sBTCHxpsyUbbBCY2XuVv+PNSLzS6be5FTwElNLwur63LS96IO5lwTW1Zo7iLZx2zT8mt
-         WOuFQsL/N8LwflzCt6yrMI4nzMgz0DpJHwmAbY22k/hkcScFwR/kbTMzwN9kMYxYrxjg
-         bquTSBMmsPi+d0kvWq3mP+/9kvCSXmkcRWKYINxAbeqea0BQ3cKLXj/EFlLGaJYIyiPA
-         VYhe4jgrjBoXYu9m0we9QLI5GSlPoQpOc6pg2+JV0hVgGyLL8PiF+OhwNeD960ldSWFL
-         LrkA==
-X-Forwarded-Encrypted: i=1; AJvYcCWeJ/YQN6JfSCM/APqkVg61awUc2dRUHkUPxz/PD4h0kiA42ML00MiLi8TUqNmYEKT+c32bxy1R223gw5L0nwJNWS6Wan1YPE1IW8T6rZhA3hahfGoCGnOW4xtvoj7YUNNLv0fTPvtv
-X-Gm-Message-State: AOJu0YyMKCWsOVJTQ9UwcsK8jj3LCQ0EE7gHH3soSRlOes3G1gXL44vU
-	z1L5T+SbpMfbk+lau66scOZh6EMBE3FgAKmwdNBmTbLmcrs1h4w+/s3SdWkjWfGq8hvqXMPyNXt
-	CKJEEpDKVRlTLdRnNhQ7qs2nMt8s=
-X-Google-Smtp-Source: AGHT+IGfJmkyfeAoH1PK8nD22RQ2FCOmEIRbm+9A28GZ3t1z0wsyghvBwgyVlcJpY99RjuLJaYocEx6k+23hfEkbx3M=
-X-Received: by 2002:a81:9182:0:b0:617:cb98:f9b2 with SMTP id
- 00721157ae682-62a08f2cae4mr149086817b3.43.1716986555273; Wed, 29 May 2024
- 05:42:35 -0700 (PDT)
+        bh=FNItZxu06YRXLGqNeIhgtHR87fPjOnrEFWQ8pXCNo7A=;
+        b=A97V2YbDiOsdeqoKvctGVpkp2hGVXfBTFTJD0ymiQ9DXlDWEgplEM76LpRKZggUMRB
+         Igmpd4I33s3XWJiGStyXHaOpf8TANOuaR78XWn4kIVQJT7zn9OxcG/nSzHJPDeNbtDJJ
+         DNvxSn+qDGYwSpQ7FZXTqHhrn5infiP2+FU0ZidhB4smhL3Ya4GIArDLSPcfO9TrPWgk
+         8dmXPCL1PJH1Eo01BpO6PlzOnut4k6IhG5W0EGfH7PHx5YP9+tjsp32R3dTKUSom195B
+         dkKtkr8ZsCXJ8ZHm5MwIgk0eDjnMZal1cVShTlUXpSO4pOUReDGkAO8O1KB22Zkgm/e1
+         48cg==
+X-Forwarded-Encrypted: i=1; AJvYcCUu20LHkBHWfx33AYBeqfbR4f3wzgtMDeYFgOhPb0I+m7boHAQlWYVbQd0DpF6I5XMl7oHp4is41nMX1DIspblok4dFFPn+dLtN
+X-Gm-Message-State: AOJu0Yz8B/VUFmOsWDeUwDz9uBfV6OPDOllkk9avlQv1OAkgqKQK3g52
+	KTIfHYIxCWSfo8PUvFfz9UGNnZGlDBpXSZbUjjXDCqwwngKqj0Xar2MdZpZucaOdOHM38ACPt8N
+	egLvHvO+/Kn2S2gkvINTU4CEPBjPvF4QA22RrPQ==
+X-Google-Smtp-Source: AGHT+IFo7SAqMDV9cCjNymAf4nsO+/p56SCIQeUO+4/vtGcG6LahU0XxGcz6O9HPFeYpq9htcwA09N4+2mEm7/5JEL0=
+X-Received: by 2002:a17:906:b00d:b0:a59:df1d:f5ae with SMTP id
+ a640c23a62f3a-a62641bbae3mr1046027366b.31.1716987010122; Wed, 29 May 2024
+ 05:50:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240528043404.39327-2-flintglass@gmail.com> <20240528043404.39327-3-flintglass@gmail.com>
- <CAKEwX=MwrRc43iM2050v5u-TPUK4Yn+a4G7+h6ieKhpQ7WtQ=A@mail.gmail.com>
-In-Reply-To: <CAKEwX=MwrRc43iM2050v5u-TPUK4Yn+a4G7+h6ieKhpQ7WtQ=A@mail.gmail.com>
-From: Takero Funaki <flintglass@gmail.com>
-Date: Wed, 29 May 2024 21:42:23 +0900
-Message-ID: <CAPpoddfv-c4RJUU_QyVON8A7GfAPvty2xnHB1oqPHS_9pnQfGA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] mm: zswap: fix global shrinker memcg iteration
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Yosry Ahmed <yosryahmed@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+References: <20240528151052.313031-1-alexghiti@rivosinc.com>
+ <20240528151052.313031-3-alexghiti@rivosinc.com> <20240528193110.GA2196855@thelio-3990X>
+In-Reply-To: <20240528193110.GA2196855@thelio-3990X>
+From: Alexandre Ghiti <alexghiti@rivosinc.com>
+Date: Wed, 29 May 2024 14:49:58 +0200
+Message-ID: <CAHVXubjYVjOH8RKaF1h=iogO3xBM6k+xrGwkPnc-md2oRxbxrQ@mail.gmail.com>
+Subject: Re: [PATCH 2/7] riscv: Implement cmpxchg8/16() using Zabha
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, 
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Leonardo Bras <leobras@redhat.com>, Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-arch@vger.kernel.org, llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-2024=E5=B9=B45=E6=9C=8829=E6=97=A5(=E6=B0=B4) 0:10 Nhat Pham <nphamcs@gmail=
-.com>:
+Hi Nathan,
+
+On Tue, May 28, 2024 at 9:31=E2=80=AFPM Nathan Chancellor <nathan@kernel.or=
+g> wrote:
 >
-> On Mon, May 27, 2024 at 9:34=E2=80=AFPM Takero Funaki <flintglass@gmail.c=
-om> wrote:
-> >
-> > This patch fixes an issue where the zswap global shrinker stopped
-> > iterating through the memcg tree.
+> Hi Alexandre,
 >
-> Did you observe this problem in practice?
-
-Thank you for your comments.
-
-I think this situation is rare, but I need to address this to ensure
-patch 2 will not stop at the offline memcg.
-The main issue I am seeing in version 6.9.0 to 6.10.0rc1 is that the
-shrinker did not shrink until accept_thr_percent, and the
-written_back_pages is smaller than max_limit_hit.
-This can be explained by the shrinker stopping too early or looping
-over only part of the tree.
-
+> On Tue, May 28, 2024 at 05:10:47PM +0200, Alexandre Ghiti wrote:
+> > This adds runtime support for Zabha in cmpxchg8/16 operations.
 > >
-> > The problem was that `shrink_worker()` would stop iterating when a memc=
-g
-> > was being offlined and restart from the tree root.  Now, it properly
-> > handles the offlining memcg and continues shrinking with the next memcg=
-.
-> >
-> > Fixes: a65b0e7607cc ("zswap: make shrinking memcg-aware")
-> > Signed-off-by: Takero Funaki <flintglass@gmail.com>
+> > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 > > ---
-> >  mm/zswap.c | 76 ++++++++++++++++++++++++++++++++++++++++--------------
-> >  1 file changed, 56 insertions(+), 20 deletions(-)
+> >  arch/riscv/Kconfig               | 16 ++++++++++++++++
+> >  arch/riscv/Makefile              | 10 ++++++++++
+> >  arch/riscv/include/asm/cmpxchg.h | 26 ++++++++++++++++++++++++--
+> >  3 files changed, 50 insertions(+), 2 deletions(-)
 > >
-> > diff --git a/mm/zswap.c b/mm/zswap.c
-> > index a50e2986cd2f..0b1052cee36c 100644
-> > --- a/mm/zswap.c
-> > +++ b/mm/zswap.c
-> > @@ -775,12 +775,27 @@ void zswap_folio_swapin(struct folio *folio)
-> >         }
-> >  }
+> > diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> > index b443def70139..05597719bb1c 100644
+> > --- a/arch/riscv/Kconfig
+> > +++ b/arch/riscv/Kconfig
+> > @@ -579,6 +579,22 @@ config RISCV_ISA_V_PREEMPTIVE
+> >         preemption. Enabling this config will result in higher memory
+> >         consumption due to the allocation of per-task's kernel Vector c=
+ontext.
 > >
-> > +/*
-> > + * This function should be called when a memcg is being offlined.
-> > + *
-> > + * Since the global shrinker shrink_worker() may hold a reference
-> > + * of the memcg, we must check and release the reference in
-> > + * zswap_next_shrink.
-> > + *
-> > + * shrink_worker() must handle the case where this function releases
-> > + * the reference of memcg being shrunk.
-> > + */
-> >  void zswap_memcg_offline_cleanup(struct mem_cgroup *memcg)
-> >  {
-> >         /* lock out zswap shrinker walking memcg tree */
-> >         spin_lock(&zswap_shrink_lock);
-> > -       if (zswap_next_shrink =3D=3D memcg)
-> > -               zswap_next_shrink =3D mem_cgroup_iter(NULL, zswap_next_=
-shrink, NULL);
+> > +config TOOLCHAIN_HAS_ZABHA
+> > +     bool
+> > +     default y
+> > +     depends on !64BIT || $(cc-option,-mabi=3Dlp64 -march=3Drv64ima_za=
+bha)
+> > +     depends on !32BIT || $(cc-option,-mabi=3Dilp32 -march=3Drv32ima_z=
+abha)
+>
+> This test does not take into account the need for
+> '-menable-experimental-extensions' and '1p0' in the '-march=3D' value wit=
+h
+> clang 19, so it can never be enabled even if it is available.
+
+Then I missed that, I should have checked the generated code. Is the
+extension version "1p0" in '-march=3D' only required for experimental
+extensions?
+
+>
+> I am not really sure how to succinctly account for this though, other
+> than duplicating and modifying the cc-option checks with a dependency on
+> either CC_IS_GCC or CC_IS_CLANG. Another option is taking the same
+> approach as the _SUPPORTS_DYNAMIC_FTRACE symbols and introduce
+> CLANG_HAS_ZABHA and GCC_HAS_ZABHA? That might not make it too ugly.
+>
+> I think the ZACAS patch has a similar issue, it just isn't noticeable
+> with clang 19 but it should be with clang 17 and 18.
+
+But from Conor comment here [1], we should not enable extensions that
+are only experimental. In that case, we should be good with this.
+
+[1] https://lore.kernel.org/linux-riscv/20240528151052.313031-1-alexghiti@r=
+ivosinc.com/T/#mefb283477bce852f3713cbbb4ff002252281c9d5
+
+>
+> > +     depends on AS_HAS_OPTION_ARCH
 > > +
-> > +       if (READ_ONCE(zswap_next_shrink) =3D=3D memcg) {
-> > +               /* put back reference and advance the cursor */
-> > +               memcg =3D mem_cgroup_iter(NULL, memcg, NULL);
-> > +               WRITE_ONCE(zswap_next_shrink, memcg);
-> > +       }
->
-> Hmm could you expand on how your version differs from what's existing?
-> What's the point of all these extra steps? The whole thing is done
-> under a big spin lock anyway.
-
-I agree that the code is not necessary. These ONCE are for clarifying
-what is expected and to align with shrink_worker(), where READ_ONCE is
-required to reload the shared variable.
-It can be a safeguard for me, sometimes forgetting that we must not
-read zswap_next_shrink before acquiring the lock.
-
+> > +config RISCV_ISA_ZABHA
+> > +     bool "Zabha extension support for atomic byte/half-word operation=
+s"
+> > +     depends on TOOLCHAIN_HAS_ZABHA
+> > +     default y
+> > +     help
+> > +       Adds support to use atomic byte/half-word operations in the ker=
+nel.
 > > +
-> >         spin_unlock(&zswap_shrink_lock);
-> >  }
-> >
-> > @@ -1312,25 +1327,38 @@ static int shrink_memcg(struct mem_cgroup *memc=
-g)
-> >
-> >  static void shrink_worker(struct work_struct *w)
-> >  {
-> > -       struct mem_cgroup *memcg;
-> > +       struct mem_cgroup *memcg =3D NULL;
-> > +       struct mem_cgroup *next_memcg;
-> >         int ret, failures =3D 0;
-> >         unsigned long thr;
-> >
-> >         /* Reclaim down to the accept threshold */
-> >         thr =3D zswap_accept_thr_pages();
-> >
-> > -       /* global reclaim will select cgroup in a round-robin fashion. =
-*/
-> > +       /* global reclaim will select cgroup in a round-robin fashion.
-> > +        *
-> > +        * We save iteration cursor memcg into zswap_next_shrink,
-> > +        * which can be modified by the offline memcg cleaner
-> > +        * zswap_memcg_offline_cleanup().
-> > +        */
->
-> I feel like the only difference between this loop and the old loop, is
-> that if we fail to get an online reference to memcg, we're trying from
-> the next one (given by mem_cgroup_iter()) rather than from the top
-> (NULL).
->
-> For instance, consider the first two steps:
->
-> 1. First, we check if memcg is the same as zswap_next_shrink. if not,
-> then reset it to zswap_next_shrink.
-> 2. Advance memcg, then store the result at zswap_next_shrink.
->
-> Under the big zswap_shrink_lock, this is the same as:
->
-> 1. Advance zswap_next_shrink.
-> 2. Look up zswap_next_shrink, then store it under the local memcg variabl=
-e.
->
-> which is what we were previously doing.
->
-> The next step is shared - check for null memcg (which again, is the
-> same as zswap_next_shrink now), and attempt to get an online
-> reference.
-> The only difference is when we fail to get the online reference -
-> instead of starting from the top, we advance memcg again.
->
-> Can't we just drop the lock, then add a continue statement? That will
-> reacquire the lock, advance zswap_next_shrink, look up the result and
-> store it at memcg, which is what you're trying to achieve?
->
-
-If I understand correctly, in this offlining pattern, we are not
-allowed to leave an offline memcg in zswap_next_shrink more than once.
-While offline memcg can appear in memcg_iter_next repeatedly, the
-cleaner is called only once per an offline memcg. (or is there some
-retry logic?)
-
-If the shrink_worker finds an offline memcg in iteration AFTER the
-cleaner was called, we must put back the offline memcg reference
-inside shrink_worker() BEFORE going to return/sleep.
-Otherwise, the offline memcg reference will be kept in
-zswap_next_shrink until the next shrink_worker() is requeued. There is
-no rescue chance from the cleaner again.
-
-This means the shrink_worker has to check:
-1. We get a lock. Check if the memcg is online while locked.
-2a. If online, it can be offlined while we have the lock. But the lock
-assures us that the cleaner is waiting for the lock just behind us. We
-can rely on this.
-2b. If offline, we cannot determine if the cleaner has already been
-called or is being called. We have to put back the offline memcg
-reference, assuming no cleaner is available.
-
-If we get offline memcg AND abort the shrinker by the max failure
-limit, that breaks condition 2b. Thus we need to unconditionally
-restart from the beginning of the do block.
-I will add these expected situations to the comments.
-
-For unlocking, should we rewrite,
-
-goto iternext;
-
-to
-
-spin_unlock();
-goto before_spin_lock; /* just after do{ */
-
-I think that will minimize the critical section and satisfy the condition 2=
-b.
-
-For the memcg iteration,
-> 2. Advance memcg, then store the result at zswap_next_shrink.
-should be done only if `(memcg =3D=3D zswap_next_shrink)`.
-
-Say iterating A -> B -> C and A is being offlined.
-While we have memcg=3DA and drop the lock, the cleaner may advance
-zswap_next_shrink=3DA to B.
-If we do not check `memcg !=3D next_memcg`, we advance
-zswap_next_shrink=3DB to C again, forgetting B.
-
-That is the reason I added  `(memcg !=3D next_memcg)` check.
-Although It can be negligible as it only ignores one memcg per one
-cleaner callback.
-
-This is my understanding. Am I missing any crucial points? Any
-comments or advice would be greatly appreciated.
-
-> >         do {
-> >                 spin_lock(&zswap_shrink_lock);
-> > -               zswap_next_shrink =3D mem_cgroup_iter(NULL, zswap_next_=
-shrink, NULL);
-> > -               memcg =3D zswap_next_shrink;
-> > +               next_memcg =3D READ_ONCE(zswap_next_shrink);
+> > +       If you don't know what to do here, say Y.
 > > +
-> > +               if (memcg !=3D next_memcg) {
-> > +                       /*
-> > +                        * Ours was released by offlining.
-> > +                        * Use the saved memcg reference.
-> > +                        */
-> > +                       memcg =3D next_memcg;
-> > +               } else {
-> > +iternext:
-> > +                       /* advance cursor */
-> > +                       memcg =3D mem_cgroup_iter(NULL, memcg, NULL);
-> > +                       WRITE_ONCE(zswap_next_shrink, memcg);
-> > +               }
+> >  config TOOLCHAIN_HAS_ZACAS
+> >       bool
+> >       default y
+> > diff --git a/arch/riscv/Makefile b/arch/riscv/Makefile
+> > index d5b60b87998c..f58ac921dece 100644
+> > --- a/arch/riscv/Makefile
+> > +++ b/arch/riscv/Makefile
+> > @@ -89,6 +89,16 @@ else
+> >  riscv-march-$(CONFIG_TOOLCHAIN_HAS_ZACAS) :=3D $(riscv-march-y)_zacas
+> >  endif
 > >
-> >                 /*
-> > -                * We need to retry if we have gone through a full roun=
-d trip, or if we
-> > -                * got an offline memcg (or else we risk undoing the ef=
-fect of the
-> > -                * zswap memcg offlining cleanup callback). This is not=
- catastrophic
-> > -                * per se, but it will keep the now offlined memcg host=
-age for a while.
-> > -                *
+> > +# Check if the toolchain supports Zabha
+> > +ifdef CONFIG_AS_IS_LLVM
+> > +# Support for experimental Zabha was merged in LLVM 19.
+> > +KBUILD_CFLAGS +=3D -menable-experimental-extensions
+> > +KBUILD_AFLAGS +=3D -menable-experimental-extensions
+> > +riscv-march-y :=3D $(riscv-march-y)_zabha1p0
 >
-> Why are we removing this comment?
-
-The existing comment about aborting the loop on the offlining memcg,
-is not valid on  this patch. The offline memcg will just be skipped.
-I think the new behavior is commented at the beginning of the loop and
-in the !mem_cgroup_tryget_online branch. Please let me know if you
-have any suggestions.
-
-
-> >                  * Note that if we got an online memcg, we will keep th=
-e extra
-> >                  * reference in case the original reference obtained by=
- mem_cgroup_iter
-> >                  * is dropped by the zswap memcg offlining callback, en=
-suring that the
-> > @@ -1345,16 +1373,18 @@ static void shrink_worker(struct work_struct *w=
-)
-> >                 }
-> >
-> >                 if (!mem_cgroup_tryget_online(memcg)) {
-> > -                       /* drop the reference from mem_cgroup_iter() */
-> > -                       mem_cgroup_iter_break(NULL, memcg);
-> > -                       zswap_next_shrink =3D NULL;
-> > -                       spin_unlock(&zswap_shrink_lock);
-> > -
-> > -                       if (++failures =3D=3D MAX_RECLAIM_RETRIES)
-> > -                               break;
-> > -
-> > -                       goto resched;
+> This block should have some dependency on CONFIG_TOOLCHAIN_HAS_ZABHA as
+> well right? Otherwise, the build breaks with LLVM toolchains that do not
+> support zabha, like LLVM 18.1.x:
 >
-> I think we should still increment the failure counter, to guard
-> against long running/infinite loops.
+>   clang: error: invalid arch name 'rv64imac_zihintpause_zacas1p0_zabha1p0=
+', unsupported version number 1.0 for extension 'zabha'
+>
+> I think the zacas patch has the same bug.
 
-Since we skip the offline memcg instead of restarting from the root,
-the new iteration will be terminated when it reaches tree root in
-finite steps.  I am afraid that counting this as a failure will
-terminate the shrinker too easily.
+Ok, I will fix that, thanks.
 
-I think shrinker_worker() running longer is not an issue because the
-amount of work per the while loop is limited by rescheduling. As it
-has a dedicated WQ_MEM_RECLAIM workqueue, returning from the function
-is not necessary. cond_resched() should allow the other workqueue to
-run.
-The next patch also adds a progress check per walking.
+>
+> I think that it would be good to consolidate the adding of
+> '-menable-experimental-extensions' to the compiler and assembler flags
+> to perhaps having a hidden symbol like CONFIG_EXPERIMENTAL_EXTENSIONS
+> that is selected by any extension that is experimental for the
+> particular toolchain version.
+>
+> config EXPERIMENTAL_EXTENSIONS
+>     bool
+>
+> config TOOLCHAIN_HAS_ZABHA
+>     def_bool y
+>     select EXPERIMENTAL_EXETNSIONS if CC_IS_CLANG
+>     ...
+>
+> config TOOLCHAIN_HAS_ZACAS
+>     def_bool_y
+>     # ZACAS was experimental until Clang 19: https://github.com/llvm/llvm=
+-project/commit/95aab69c109adf29e183090c25dc95c773215746
+>     select EXPERIMENTAL_EXETNSIONS if CC_IS_CLANG && CLANG_VERSION < 1900=
+00
+>     ...
+>
+> Then in the Makefile:
+>
+> ifdef CONFIG_EXPERIMENTAL_EXTENSIONS
+> KBUILD_AFLAGS +=3D -menable-experimental-extensions
+> KBUILD_CFLAGS +=3D -menable-experimental-extensions
+> endif
 
+That's a good idea to me, let's see what Conor thinks [2]
 
-> > +                       /*
-> > +                        * It is an offline memcg which we cannot shrin=
-k
-> > +                        * until its pages are reparented.
-> > +                        * Put back the memcg reference before cleanup
-> > +                        * function reads it from zswap_next_shrink.
-> > +                        */
-> > +                       goto iternext;
-> >                 }
-> > +               /*
-> > +                * We got an extra memcg reference before unlocking.
-> > +                * The cleaner cannot free it using zswap_next_shrink.
-> > +                */
-> >                 spin_unlock(&zswap_shrink_lock);
-> >
-> >                 ret =3D shrink_memcg(memcg);
-> > @@ -1368,6 +1398,12 @@ static void shrink_worker(struct work_struct *w)
-> >  resched:
-> >                 cond_resched();
-> >         } while (zswap_total_pages() > thr);
+[2] https://lore.kernel.org/linux-riscv/20240528151052.313031-1-alexghiti@r=
+ivosinc.com/T/#m1d798dfc4c27e5b6d9e14117d81b577ace123322
+
+>
+> > +else
+> > +riscv-march-$(CONFIG_TOOLCHAIN_HAS_ZABHA) :=3D $(riscv-march-y)_zabha
+> > +endif
 > > +
-> > +       /*
-> > +        * We can still hold the original memcg reference.
-> > +        * The reference is stored in zswap_next_shrink, and then reuse=
-d
-> > +        * by the next shrink_worker().
-> > +        */
-> >  }
+> >  # Remove F,D,V from isa string for all. Keep extensions between "fd" a=
+nd "v" by
+> >  # matching non-v and non-multi-letter extensions out with the filter (=
+[^v_]*)
+> >  KBUILD_CFLAGS +=3D -march=3D$(shell echo $(riscv-march-y) | sed -E 's/=
+(rv32ima|rv64ima)fd([^v_]*)v?/\1\2/')
+> > diff --git a/arch/riscv/include/asm/cmpxchg.h b/arch/riscv/include/asm/=
+cmpxchg.h
+> > index 1c50b4821ac8..65de9771078e 100644
+> > --- a/arch/riscv/include/asm/cmpxchg.h
+> > +++ b/arch/riscv/include/asm/cmpxchg.h
+> > @@ -103,8 +103,14 @@
+> >   * indicated by comparing RETURN with OLD.
+> >   */
 > >
-> >  /*********************************
+> > -#define __arch_cmpxchg_masked(sc_sfx, prepend, append, r, p, o, n)   \
+> > +#define __arch_cmpxchg_masked(sc_sfx, cas_sfx, prepend, append, r, p, =
+o, n)  \
+> >  ({                                                                   \
+> > +     __label__ zabha, end;                                           \
+> > +                                                                     \
+> > +     asm goto(ALTERNATIVE("nop", "j %[zabha]", 0,                    \
+> > +                          RISCV_ISA_EXT_ZABHA, 1)                    \
+> > +                     : : : : zabha);                                 \
+> > +                                                                     \
+> >       u32 *__ptr32b =3D (u32 *)((ulong)(p) & ~0x3);                    =
+ \
+> >       ulong __s =3D ((ulong)(p) & (0x4 - sizeof(*p))) * BITS_PER_BYTE; =
+ \
+> >       ulong __mask =3D GENMASK(((sizeof(*p)) * BITS_PER_BYTE) - 1, 0)  =
+ \
+> > @@ -131,6 +137,17 @@
+> >               : "memory");                                            \
+> >                                                                       \
+> >       r =3D (__typeof__(*(p)))((__retx & __mask) >> __s);              =
+ \
+> > +     goto end;                                                       \
+> > +                                                                     \
+> > +zabha:                                                                =
+       \
+> > +     __asm__ __volatile__ (                                          \
+> > +             prepend                                                 \
+> > +             "       amocas" cas_sfx " %0, %z2, %1\n"                \
+>
+> This should probably have some dependency on CONFIG_RISCV_ISA_ZABHA? I ge=
+t the
+> following with GCC 13.2.0:
+>
+>   include/linux/atomic/atomic-arch-fallback.h: Assembler messages:
+>   include/linux/atomic/atomic-arch-fallback.h:2108: Error: unrecognized o=
+pcode `amocas.w a4,a3,0(s1)'
+
+Indeed, my test setup lacks a few things apparently, I will fix that, thank=
+s.
+
+>
+> > +             append                                                  \
+> > +             : "+&r" (r), "+A" (*(p))                                \
+> > +             : "rJ" (n)                                              \
+> > +             : "memory");                                            \
+> > +end:                                                                 \
+>
+> I get a lot of warnings from this statement and the one added by the
+> previous patch for zacas, which is a C23 extension:
+>
+>   include/linux/atomic/atomic-arch-fallback.h:4234:9: warning: label at e=
+nd of compound statement is a C23 extension [-Wc23-extensions]
+>   include/linux/atomic/atomic-arch-fallback.h:89:29: note: expanded from =
+macro 'raw_cmpxchg_relaxed'
+>      89 | #define raw_cmpxchg_relaxed arch_cmpxchg_relaxed
+>         |                             ^
+>   arch/riscv/include/asm/cmpxchg.h:219:2: note: expanded from macro 'arch=
+_cmpxchg_relaxed'
+>     219 |         _arch_cmpxchg((ptr), (o), (n), "", "", "")
+>         |         ^
+>   arch/riscv/include/asm/cmpxchg.h:200:3: note: expanded from macro '_arc=
+h_cmpxchg'
+>     200 |                 __arch_cmpxchg_masked(sc_sfx, ".h" sc_sfx,     =
+         \
+>         |                 ^
+>   arch/riscv/include/asm/cmpxchg.h:150:14: note: expanded from macro '__a=
+rch_cmpxchg_masked'
+>     150 | end:                                                           =
+         \
+>         |                                                                =
+         ^
+>
+> This resolves it:
+>
+> diff --git a/arch/riscv/include/asm/cmpxchg.h b/arch/riscv/include/asm/cm=
+pxchg.h
+> index ba3ffc2fcdd0..57aa4a554278 100644
+> --- a/arch/riscv/include/asm/cmpxchg.h
+> +++ b/arch/riscv/include/asm/cmpxchg.h
+> @@ -147,7 +147,7 @@ zabha:                                               =
+                       \
+>                 : "+&r" (r), "+A" (*(p))                                \
+>                 : "rJ" (n)                                              \
+>                 : "memory");                                            \
+> -end:                                                                   \
+> +end:;                                                                  \
+>  })
+>
+>  #define __arch_cmpxchg(lr_sfx, sc_cas_sfx, prepend, append, r, p, co, o,=
+ n)    \
+> @@ -180,7 +180,7 @@ zacas:                                               =
+                       \
+>                 : "+&r" (r), "+A" (*(p))                                \
+>                 : "rJ" (n)                                              \
+>                 : "memory");                                            \
+> -end:                                                                   \
+> +end:;                                                                  \
+>  })
+>
+>  #define _arch_cmpxchg(ptr, old, new, sc_sfx, prepend, append)          \
+
+Weird, I missed this too, I will fix that, thanks.
+
+>
+> >  })
+> >
+> >  #define __arch_cmpxchg(lr_sfx, sc_cas_sfx, prepend, append, r, p, co, =
+o, n)  \
+> > @@ -175,8 +192,13 @@ end:                                              =
+                       \
+> >                                                                       \
+> >       switch (sizeof(*__ptr)) {                                       \
+> >       case 1:                                                         \
+> > +             __arch_cmpxchg_masked(sc_sfx, ".b" sc_sfx,              \
+> > +                                     prepend, append,                \
+> > +                                     __ret, __ptr, __old, __new);    \
+> > +             break;                                                  \
+> >       case 2:                                                         \
+> > -             __arch_cmpxchg_masked(sc_sfx, prepend, append,          \
+> > +             __arch_cmpxchg_masked(sc_sfx, ".h" sc_sfx,              \
+> > +                                     prepend, append,                \
+> >                                       __ret, __ptr, __old, __new);    \
+> >               break;                                                  \
+> >       case 4:                                                         \
 > > --
-> > 2.43.0
+> > 2.39.2
 > >
+> >
+> > _______________________________________________
+> > linux-riscv mailing list
+> > linux-riscv@lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/linux-riscv
 
+Thanks for your thorough review!
 
-
---
-
-<flintglass@gmail.com>
+Alex
