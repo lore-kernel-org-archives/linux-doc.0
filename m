@@ -1,403 +1,191 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2053.outbound.protection.outlook.com [40.107.243.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59BD217DE37;
-	Wed, 29 May 2024 11:21:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716981702; cv=fail; b=OJrtKL51YHO+AKE/mcBr7owZNhn2W463Dk9rQw8cwuiIC3RCVcF6w9ZKXNSgRcC9lBgJTYcOOqTE/45xTBWBonMFZlmaK4sWT89sDxYafu+H3l//oguUbhWwCdxdr43Re1tXJzIdmWUtxs8DpWaSvv8ISuKy3uYAqwMpnl3szt8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716981702; c=relaxed/simple;
-	bh=78YUr4DIOX54TS2ZjtIey18gr7CUo7JmbYE5LSJecNo=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oEO+qyn4KT51lZk3ANWjdLisdAXgjrN9CN+t69nR14ZzAIiZ9Zh2LDlthjQOOEWd60XhYyWkfzMN0/e38Ok8VtcOVG4jjDFdXtoEW6OvHScxWAB6BAp7Kzr/QTJOJgLuJ4qe9SHlBFU/NjAlBrVZkCBscwhO52W811ENn40eCXs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=BS8tmEue; arc=fail smtp.client-ip=40.107.243.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7663954673;
+	Wed, 29 May 2024 12:17:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1716985049; cv=none; b=FCurE+S57jqoFkjFVED6RVkHDoAvoWg/Xc4DfMvEdpdRBRMIXemen6b0Qul2wMvVvXBQ9ngYhUuZBkaQ2OvPhUS8RElLl/BoRn49+2To0fORwzSZbH2s5pXn5WBn4CM07PblEiqvDTs6lPOSh8Tmk0gQEVLjamghOSFiHnOVB/g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1716985049; c=relaxed/simple;
+	bh=sgKwjPODxzYN3p+okRqBGRJBeVvvLIorjrEYlALuRBI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cC0GGryNXISKQpJVZkmNwdQU3zhOJxv0wNnfpZgeD7ThBgfSKLn6NwjUSKm17c80HQg/2G62gWJ23kvOJMzEEmoV5lTJgHUXzQpB4eGKOV1fTxDNmnvzEhP7I8n01dal/vnn1P2YfykLtz+TRmFkHJh0A8iANLNxxy0KVeNO7QY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lqrt1BjS; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="BS8tmEue"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OcyJVOTb8vwTYdKuAUd4xmaGqWi6fi6Rn8BP2XfeqpaAimcXnxa1vek7gQ2eQ0L1nqvxgc45QyiCt92ax23CWNJ4pJARpw7VTEaaZlxqxuTNgR/Li95in9yRnS41NztPJi2vUCUczG2VqK9oR3/y6H9z9cg8uuEE/XEu6SPkUtOeEZ9Ai53bLgiFL1YjD7Pj9c/Q1nuCiAbScq9VZA7YPlstG9VfuxohUIhMWQIwlDxa6CHmxqxe7x3LI4FhMY4x4CJKm/637gWW/Iu5JqGG7RfqyMDDQqukOkNsqFe0Yty9pvH7X1cAz8iP4s3pkKWMep/Ku0R44i0dxdQv5wa4Fw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3hMuwaWGAHwyQ6AlcTr/S9YGiJd413bWQE+xDcdwuRU=;
- b=b5sO5sLRt5P69WmSL0rHmGqBza958/CCgQYin+uqcl5QS5CHM3O/s4ynC4rrFMLMjzdsGmU1QmdWwwIpJNkOVZcZwZYhggolReshTs/8rwxI1ysfWJjHcGSWjS4epmpy1yRBDNKP1z3o3AI3gcyXHZc5yT1B6jCQWYQIyzmMBPMzo3RW3wRz0anucA8Z2FKBHaoULT8VQwq8NpM1EWh++/S22QFdb7AC2buUg+wCFUHp8UuqNH/k/QmACHIylL/ph30B0huh05msIcX2bZCdjzzvaLTX4EZXMWS61AqsbrG03cXv02kPhFUPQy7VJaOh7873v8fO3Ego7TDAxomRtQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=davemloft.net smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3hMuwaWGAHwyQ6AlcTr/S9YGiJd413bWQE+xDcdwuRU=;
- b=BS8tmEueI+7Ml1+piUKYbxHoNbVZSg7FMf0dmnfqOp8b3d6bJ3XJ/3VOAwK426BOpthb6Q6mXqSM2FxN3VlrVNJIq8gFAICjNVth/H0Ju2VgP+Tf2e+jJaPhdUXMQxXvr71PS/bkctqdZeLWyUc4MIEU0OFyyTxmBS6obJ5p8D+qzwE7K8RQ6O6MZ6mjzK5opg5rFgyfT5sjst61dkyoYEzJ6VDtMMyNlFSTke7jWyayd+oGzH5D7W91d/KHAtPQOaKETbxi0EF0G6PlsarMHL5cWocYodMyNOpjvxiPFivx5gdjD5Ltgf46roVrWFDa5CXkCGQMACaH71RT/DT1+A==
-Received: from BY3PR05CA0053.namprd05.prod.outlook.com (2603:10b6:a03:39b::28)
- by MN6PR12MB8489.namprd12.prod.outlook.com (2603:10b6:208:474::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7611.29; Wed, 29 May
- 2024 11:21:37 +0000
-Received: from SJ1PEPF00002314.namprd03.prod.outlook.com
- (2603:10b6:a03:39b:cafe::ec) by BY3PR05CA0053.outlook.office365.com
- (2603:10b6:a03:39b::28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.20 via Frontend
- Transport; Wed, 29 May 2024 11:21:36 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- SJ1PEPF00002314.mail.protection.outlook.com (10.167.242.168) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7633.15 via Frontend Transport; Wed, 29 May 2024 11:21:36 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 29 May
- 2024 04:21:22 -0700
-Received: from localhost.localdomain (10.126.230.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 29 May
- 2024 04:21:17 -0700
-From: Petr Machata <petrm@nvidia.com>
-To: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
-	<edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, <netdev@vger.kernel.org>
-CC: Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>, "David
- Ahern" <dsahern@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	<linux-doc@vger.kernel.org>, Simon Horman <horms@kernel.org>
-Subject: [PATCH net-next 2/4] net: ipv4: Add a sysctl to set multipath hash seed
-Date: Wed, 29 May 2024 13:18:42 +0200
-Message-ID: <20240529111844.13330-3-petrm@nvidia.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20240529111844.13330-1-petrm@nvidia.com>
-References: <20240529111844.13330-1-petrm@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lqrt1BjS"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-6f8e98760fcso1515000b3a.1;
+        Wed, 29 May 2024 05:17:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716985048; x=1717589848; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=U+MihMHKV9dZJCXs33ES9SxmacG/nuOnOhI3+T1gT0g=;
+        b=Lqrt1BjSQklyo4+bRPo9Ca27im1VmdPHp8Ml0DeVNkCXUos36viZ9fjsoJYHAxT3M3
+         9V5RiJFxdrgjLTUCH6rVXtJjEvXT3LwupxBApeEdaXYr96mCRO+cRVfHWQIHHZP/oJhp
+         mQ/QFT+lKULdpa1cmAsvGAMBL3qMHdrRCOgMEkXJf2FtSKylkyWbKFT9cwgVDutvc1Rt
+         LVyxXF11mE/3ssK3IvtkQ4KYc0lxehiGzTYse64lvciop0p7PLhVxYR2j1YQfRjgzqvf
+         4Gmf1WdbQLvdp0RkRbG6XuMiMEgmYsCiAT0lXiAGEzd6yggsaKpHW+4HlNKAmyYOX9GG
+         qlVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716985048; x=1717589848;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=U+MihMHKV9dZJCXs33ES9SxmacG/nuOnOhI3+T1gT0g=;
+        b=s4hjJ2baLaS+OnmFQKLa90oOIJ7MOge2z5Ms+1k1m0GIZyI0fhP2/hcy52ht1ENiFN
+         F8PIgLTVINOf1f4SOVsqhWLfjI9baxP3thO+dMF+ZuyG6vzVPTW9rIl44MuP7dedwBiM
+         BygMmNpBSjkbDOeNakyxzLqi9zzag4DBnYJLaA6wd7rCIskb1TorwnDtEwxoMTZbNZTK
+         3IjN0zmslmIskI9N/qZJj468gBERW+43u5ZSN+0hwz7s+aHX/mhw6iwpwJc4s9lPZodr
+         MeD0iOMJsCARjYQdIEBjPf5J3J5bGSclSxviXziWME0K6u92sVf0rJgNiiVAI8f+JykN
+         jfIA==
+X-Forwarded-Encrypted: i=1; AJvYcCVzS9gG7ASGjiZ8KWL6bfMKJ+VZCNFLeCgr9V6q1HMOknBkGII6lii+x8vj0aiMCObS7JtNsCr9N/CH51LG+fJeMN2vQm8QDoyL58dr6/oePiOzlYgn8+etJ6HLVO1aqcOk1b28hxLW
+X-Gm-Message-State: AOJu0Yybm73SwXZvPXeoPY5BZDxQMOT2/4H9/QgKvaclNebql0/R8YCQ
+	A824ss+LBlRYD9tqOPPDd04omwnydKeGv+d/cptSoCq77HOXK7Y8
+X-Google-Smtp-Source: AGHT+IEv+/g1WObNhavH5ma7i4PTgVsskCJDAVpbKkIEhJENbKuSmCBCY+k1lfCvtbdjXyNaPoSUFA==
+X-Received: by 2002:a05:6a21:32a8:b0:1af:fb2c:fac9 with SMTP id adf61e73a8af0-1b212d0002emr23292426637.20.1716985047627;
+        Wed, 29 May 2024 05:17:27 -0700 (PDT)
+Received: from [192.168.255.10] ([43.132.141.20])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-701d70c8b35sm2424065b3a.65.2024.05.29.05.17.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 May 2024 05:17:27 -0700 (PDT)
+Message-ID: <d4e4064c-e731-4721-b815-a2e30d3af513@gmail.com>
+Date: Wed, 29 May 2024 20:17:21 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] docs: dt: Update overlay file extension
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <siyanteng@loongson.cn>, Jonathan Corbet <corbet@lwn.net>,
+ Andrew Davis <afd@ti.com>, Masahiro Yamada <masahiroy@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <977f66b9882b6150a8da5787bf94a418aa9affec.1716976241.git.geert+renesas@glider.be>
+Content-Language: en-US
+From: Alex Shi <seakeel@gmail.com>
+In-Reply-To: <977f66b9882b6150a8da5787bf94a418aa9affec.1716976241.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00002314:EE_|MN6PR12MB8489:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8c07ed15-de43-4e72-3817-08dc7fd18091
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230031|1800799015|376005|36860700004|82310400017;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?wiqUkWlV5b3ADbGzcQw+hA2ge4jkISMZTaWAw5WKsWqbQAL+8xJvVA6kxxYv?=
- =?us-ascii?Q?vbZuZE4SwkK9C/f1yPMqPKUmRAOdbiL5+Zw9J7dkMWiC4w2PuM19QlhlI1ZV?=
- =?us-ascii?Q?G9oesX591Of8yy0/y7St/QJT+E605WSZODqWuQyfW1aIBMnWRClTQIxUpjtb?=
- =?us-ascii?Q?Af2+FGegslcSgTyRUUYrA+0YKV4O/KhYtKQWjGxrHjdPi0wlTnGhbrXMeXy3?=
- =?us-ascii?Q?vpVMbqCK5k4Y90Gc5DvI2m7iOl6LCNxUxEOWo0+tgFumSS0Sq+jgE/OiOyKh?=
- =?us-ascii?Q?RC/jNJ0B7yIGnPxMzSbSfQ8CSRRsmQRb491cQjs+sRdEU6hl4GC9+//qiUTM?=
- =?us-ascii?Q?wJUmWzViIv3mwj6cGEmM7ziJzc2qQf9zYW9XdbkZZ0z40KZR0lzSojhdjZ0T?=
- =?us-ascii?Q?jO5JHhjmaZ7YUoVaKU8v9xdAkQrHzh7IIKJbpYNyH5XQ/h8KuWOK/Sp41cZv?=
- =?us-ascii?Q?8OszYUcbI3DSTio9t6SV1Hj+SX49LuonWILpeSsuoXRaOjwqLteVHmXPg3Dr?=
- =?us-ascii?Q?NGHKU20KcQ6S5SncP3eV+kuCEfwS9KfPb/Rf8/j7cXHs1CR4F53Rf5lEfXJx?=
- =?us-ascii?Q?RdSeSM2LbzBxpIwFLgaL0sA49DW2rpAKjhUlNLIp9rxCF0GON+i4/nAB9/88?=
- =?us-ascii?Q?O32srCdm+QVwMjBSFjXspbRGGK6jHf4RsEjuDMivxYW2X5crAQe+HEtC0PSv?=
- =?us-ascii?Q?TXrOF3AdoP1oZSuNv63dHtSqf8AWXsmTbXvN+edj9oEMLbV9oP2c8QYrHQIt?=
- =?us-ascii?Q?yuf/VD6oYuM2+kcw4LGUzmRr65Ld38H6ZWTPPeEPRWCLL4R9a9Np1tAkHzd2?=
- =?us-ascii?Q?7nBtRyAF3oQrjupGg0s5NPn24QoCg6WtQqaI2aatmLrhImGBfea4RYW99SQF?=
- =?us-ascii?Q?mP/wkyd3+0wFDNJspqXh01crkhWPYGxqE3uWt+FrqnBrAM+8An1pWTZIjhuE?=
- =?us-ascii?Q?42t1Lf6fFOyVNO6dz1c4ouj/Tmalr787VVef7ebH1QtXM0zJk2zDVldfAiLi?=
- =?us-ascii?Q?KgLKAnbKJtMJMEPZTREAxwfdKgmQE4vGZnBsxTCM50Zk/p53AzQzQlc7wAU/?=
- =?us-ascii?Q?8zW3yqMdtfmLK5BVly/C2S717DaKEoegJyVVjpqeUhMw54Co+y0RuZ9iYDHA?=
- =?us-ascii?Q?yQh1xchiF0UtgP5oS8P3c3Iw1SM1eWFrkz28E/7QT4hn6bD9cKeE7LmOWTOT?=
- =?us-ascii?Q?eRky1W3ErK+67WW7qihYGFclOFgaRrzDg7vdrGHoqV3X310flhk30pROuzuH?=
- =?us-ascii?Q?bxiF8Hzqfh2sNpovpC3YVKifaBLn/knyQzsNdOMAUobo6Xzg7KuOQkduZeC3?=
- =?us-ascii?Q?KqwrzxwfELEAVmpYSCX4NY9c4YKLkgJjhK3RI4pjCH1cCr2OkgZCLpo8AkAa?=
- =?us-ascii?Q?ucp7zA8=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230031)(1800799015)(376005)(36860700004)(82310400017);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2024 11:21:36.0254
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c07ed15-de43-4e72-3817-08dc7fd18091
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00002314.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR12MB8489
 
-When calculating hashes for the purpose of multipath forwarding, both IPv4
-and IPv6 code currently fall back on flow_hash_from_keys(). That uses a
-randomly-generated seed. That's a fine choice by default, but unfortunately
-some deployments may need a tighter control over the seed used.
+LGTM.
 
-In this patch, make the seed configurable by adding a new sysctl key,
-net.ipv4.fib_multipath_hash_seed to control the seed. This seed is used
-specifically for multipath forwarding and not for the other concerns that
-flow_hash_from_keys() is used for, such as queue selection. Expose the knob
-as sysctl because other such settings, such as headers to hash, are also
-handled that way. Like those, the multipath hash seed is a per-netns
-variable.
-
-Despite being placed in the net.ipv4 namespace, the multipath seed sysctl
-is used for both IPv4 and IPv6, similarly to e.g. a number of TCP
-variables.
-
-The seed used by flow_hash_from_keys() is a 128-bit quantity. However it
-seems that usually the seed is a much more modest value. 32 bits seem
-typical (Cisco, Cumulus), some systems go even lower. For that reason, and
-to decouple the user interface from implementation details, go with a
-32-bit quantity, which is then quadruplicated to form the siphash key.
-
-For locking, use RTNL instead of a custom lock. This based on feedback
-given to a patch from Pavel Balaev, which also aimed to introduce multipath
-hash seed control [0].
-
-[0] https://lore.kernel.org/netdev/20210413.161521.2301224176572441397.davem@davemloft.net/
-
-Signed-off-by: Petr Machata <petrm@nvidia.com>
-Reviewed-by: Ido Schimmel <idosch@nvidia.com>
----
-
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Cc: Simon Horman <horms@kernel.org>
-
- Documentation/networking/ip-sysctl.rst | 10 ++++
- include/net/flow_dissector.h           |  2 +
- include/net/ip_fib.h                   | 19 +++++-
- include/net/netns/ipv4.h               | 10 ++++
- net/core/flow_dissector.c              |  7 +++
- net/ipv4/sysctl_net_ipv4.c             | 82 ++++++++++++++++++++++++++
- 6 files changed, 129 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-index bd50df6a5a42..afcf3f323965 100644
---- a/Documentation/networking/ip-sysctl.rst
-+++ b/Documentation/networking/ip-sysctl.rst
-@@ -131,6 +131,16 @@ fib_multipath_hash_fields - UNSIGNED INTEGER
- 
- 	Default: 0x0007 (source IP, destination IP and IP protocol)
- 
-+fib_multipath_hash_seed - UNSIGNED INTEGER
-+	The seed value used when calculating hash for multipath routes. Applies
-+	to both IPv4 and IPv6 datapath. Only valid for kernels built with
-+	CONFIG_IP_ROUTE_MULTIPATH enabled.
-+
-+	When set to 0, the seed value used for multipath routing defaults to an
-+	internal random-generated one.
-+
-+	Default: 0 (random)
-+
- fib_sync_mem - UNSIGNED INTEGER
- 	Amount of dirty memory from fib entries that can be backlogged before
- 	synchronize_rcu is forced.
-diff --git a/include/net/flow_dissector.h b/include/net/flow_dissector.h
-index 9ab376d1a677..a5423219dee1 100644
---- a/include/net/flow_dissector.h
-+++ b/include/net/flow_dissector.h
-@@ -433,6 +433,8 @@ static inline bool flow_keys_have_l4(const struct flow_keys *keys)
- }
- 
- u32 flow_hash_from_keys(struct flow_keys *keys);
-+u32 flow_hash_from_keys_seed(struct flow_keys *keys,
-+			     const siphash_key_t *keyval);
- void skb_flow_get_icmp_tci(const struct sk_buff *skb,
- 			   struct flow_dissector_key_icmp *key_icmp,
- 			   const void *data, int thoff, int hlen);
-diff --git a/include/net/ip_fib.h b/include/net/ip_fib.h
-index b8b3c07e8f7b..785c571e2cef 100644
---- a/include/net/ip_fib.h
-+++ b/include/net/ip_fib.h
-@@ -520,13 +520,30 @@ void fib_nhc_update_mtu(struct fib_nh_common *nhc, u32 new, u32 orig);
- #ifdef CONFIG_IP_ROUTE_MULTIPATH
- int fib_multipath_hash(const struct net *net, const struct flowi4 *fl4,
- 		       const struct sk_buff *skb, struct flow_keys *flkeys);
--#endif
- 
-+static inline u32 fib_multipath_hash_from_keys(const struct net *net,
-+					       struct flow_keys *keys)
-+{
-+	struct sysctl_fib_multipath_hash_seed *mphs;
-+	u32 ret;
-+
-+	rcu_read_lock();
-+	mphs = rcu_dereference(net->ipv4.sysctl_fib_multipath_hash_seed);
-+	if (likely(!mphs))
-+		ret = flow_hash_from_keys(keys);
-+	else
-+		ret = flow_hash_from_keys_seed(keys, &mphs->seed);
-+	rcu_read_unlock();
-+
-+	return ret;
-+}
-+#else
- static inline u32 fib_multipath_hash_from_keys(const struct net *net,
- 					       struct flow_keys *keys)
- {
- 	return flow_hash_from_keys(keys);
- }
-+#endif
- 
- int fib_check_nh(struct net *net, struct fib_nh *nh, u32 table, u8 scope,
- 		 struct netlink_ext_ack *extack);
-diff --git a/include/net/netns/ipv4.h b/include/net/netns/ipv4.h
-index c356c458b340..1f5043d32cb0 100644
---- a/include/net/netns/ipv4.h
-+++ b/include/net/netns/ipv4.h
-@@ -40,6 +40,14 @@ struct inet_timewait_death_row {
- 
- struct tcp_fastopen_context;
- 
-+#ifdef CONFIG_IP_ROUTE_MULTIPATH
-+struct sysctl_fib_multipath_hash_seed {
-+	siphash_aligned_key_t	seed;
-+	u32			user_seed;
-+	struct rcu_head		rcu;
-+};
-+#endif
-+
- struct netns_ipv4 {
- 	/* Cacheline organization can be found documented in
- 	 * Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst.
-@@ -245,6 +253,8 @@ struct netns_ipv4 {
- #endif
- #endif
- #ifdef CONFIG_IP_ROUTE_MULTIPATH
-+	struct sysctl_fib_multipath_hash_seed
-+					__rcu *sysctl_fib_multipath_hash_seed;
- 	u32 sysctl_fib_multipath_hash_fields;
- 	u8 sysctl_fib_multipath_use_neigh;
- 	u8 sysctl_fib_multipath_hash_policy;
-diff --git a/net/core/flow_dissector.c b/net/core/flow_dissector.c
-index f82e9a7d3b37..7b3283ad5b39 100644
---- a/net/core/flow_dissector.c
-+++ b/net/core/flow_dissector.c
-@@ -1792,6 +1792,13 @@ u32 flow_hash_from_keys(struct flow_keys *keys)
- }
- EXPORT_SYMBOL(flow_hash_from_keys);
- 
-+u32 flow_hash_from_keys_seed(struct flow_keys *keys,
-+			     const siphash_key_t *keyval)
-+{
-+	return __flow_hash_from_keys(keys, keyval);
-+}
-+EXPORT_SYMBOL(flow_hash_from_keys_seed);
-+
- static inline u32 ___skb_get_hash(const struct sk_buff *skb,
- 				  struct flow_keys *keys,
- 				  const siphash_key_t *keyval)
-diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
-index d7892f34a15b..18fae2bf881c 100644
---- a/net/ipv4/sysctl_net_ipv4.c
-+++ b/net/ipv4/sysctl_net_ipv4.c
-@@ -464,6 +464,72 @@ static int proc_fib_multipath_hash_fields(struct ctl_table *table, int write,
- 
- 	return ret;
- }
-+
-+static void
-+proc_fib_multipath_hash_construct_seed(u32 user_seed, siphash_key_t *key)
-+{
-+	u64 user_seed_64 = user_seed;
-+
-+	key->key[0] = (user_seed_64 << 32) | user_seed_64;
-+	key->key[1] = key->key[0];
-+}
-+
-+static int proc_fib_multipath_hash_set_seed(struct net *net, u32 user_seed)
-+{
-+	struct sysctl_fib_multipath_hash_seed *mphs = NULL;
-+	struct sysctl_fib_multipath_hash_seed *old;
-+
-+	if (user_seed) {
-+		mphs = kzalloc(sizeof(*mphs), GFP_KERNEL);
-+		if (!mphs)
-+			return -ENOMEM;
-+
-+		mphs->user_seed = user_seed;
-+		proc_fib_multipath_hash_construct_seed(user_seed, &mphs->seed);
-+	}
-+
-+	rtnl_lock();
-+	old = rcu_replace_pointer_rtnl(net->ipv4.sysctl_fib_multipath_hash_seed,
-+				       mphs);
-+	rtnl_unlock();
-+
-+	if (old)
-+		kfree_rcu(old, rcu);
-+
-+	return 0;
-+}
-+
-+static int proc_fib_multipath_hash_seed(struct ctl_table *table, int write,
-+					void *buffer, size_t *lenp,
-+					loff_t *ppos)
-+{
-+	struct sysctl_fib_multipath_hash_seed *mphs;
-+	struct net *net = table->data;
-+	struct ctl_table tmp;
-+	u32 user_seed = 0;
-+	int ret;
-+
-+	rcu_read_lock();
-+	mphs = rcu_dereference(net->ipv4.sysctl_fib_multipath_hash_seed);
-+	if (mphs)
-+		user_seed = mphs->user_seed;
-+	rcu_read_unlock();
-+
-+	tmp = *table;
-+	tmp.data = &user_seed;
-+
-+	ret = proc_douintvec_minmax(&tmp, write, buffer, lenp, ppos);
-+
-+	if (write && ret == 0) {
-+		ret = proc_fib_multipath_hash_set_seed(net, user_seed);
-+		if (ret)
-+			return ret;
-+
-+		call_netevent_notifiers(NETEVENT_IPV4_MPATH_HASH_UPDATE, net);
-+	}
-+
-+	return ret;
-+}
- #endif
- 
- static struct ctl_table ipv4_table[] = {
-@@ -1072,6 +1138,13 @@ static struct ctl_table ipv4_net_table[] = {
- 		.extra1		= SYSCTL_ONE,
- 		.extra2		= &fib_multipath_hash_fields_all_mask,
- 	},
-+	{
-+		.procname	= "fib_multipath_hash_seed",
-+		.data		= &init_net,
-+		.maxlen		= sizeof(u32),
-+		.mode		= 0644,
-+		.proc_handler	= proc_fib_multipath_hash_seed,
-+	},
- #endif
- 	{
- 		.procname	= "ip_unprivileged_port_start",
-@@ -1557,6 +1630,15 @@ static __net_exit void ipv4_sysctl_exit_net(struct net *net)
- {
- 	const struct ctl_table *table;
- 
-+#ifdef CONFIG_IP_ROUTE_MULTIPATH
-+	{
-+		struct sysctl_fib_multipath_hash_seed *mphs;
-+
-+		mphs = rcu_dereference_raw(net->ipv4.sysctl_fib_multipath_hash_seed);
-+		kfree(mphs);
-+	}
-+#endif
-+
- 	kfree(net->ipv4.sysctl_local_reserved_ports);
- 	table = net->ipv4.ipv4_hdr->ctl_table_arg;
- 	unregister_net_sysctl_table(net->ipv4.ipv4_hdr);
--- 
-2.45.0
-
+On 5/29/24 6:00 PM, Geert Uytterhoeven wrote:
+> Building DTB overlays from .dts files is no longer supported.
+> Update the documentation to reflect this.
+> 
+> Fixes: 81d362732bac05f6 ("kbuild: Disallow DTB overlays to built from .dts named source files")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Acked-by: Andrew Davis <afd@ti.com>
+> Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+> ---
+> v2:
+>   - Add Acked-by, Reviewed-by.
+> ---
+>  Documentation/devicetree/overlay-notes.rst           | 12 ++++++------
+>  .../translations/zh_CN/devicetree/overlay-notes.rst  | 12 ++++++------
+>  2 files changed, 12 insertions(+), 12 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/overlay-notes.rst b/Documentation/devicetree/overlay-notes.rst
+> index e139f22b363e9f36..35e79242af9a928d 100644
+> --- a/Documentation/devicetree/overlay-notes.rst
+> +++ b/Documentation/devicetree/overlay-notes.rst
+> @@ -38,10 +38,10 @@ Lets take an example where we have a foo board with the following base tree::
+>  	};
+>      ---- foo.dts ---------------------------------------------------------------
+>  
+> -The overlay bar.dts,
+> +The overlay bar.dtso,
+>  ::
+>  
+> -    ---- bar.dts - overlay target location by label ----------------------------
+> +    ---- bar.dtso - overlay target location by label ---------------------------
+>  	/dts-v1/;
+>  	/plugin/;
+>  	&ocp {
+> @@ -51,7 +51,7 @@ The overlay bar.dts,
+>  			... /* various properties and child nodes */
+>  		};
+>  	};
+> -    ---- bar.dts ---------------------------------------------------------------
+> +    ---- bar.dtso --------------------------------------------------------------
+>  
+>  when loaded (and resolved as described in [1]) should result in foo+bar.dts::
+>  
+> @@ -88,9 +88,9 @@ in the base DT. In this case, the target path can be provided. The target
+>  location by label syntax is preferred because the overlay can be applied to
+>  any base DT containing the label, no matter where the label occurs in the DT.
+>  
+> -The above bar.dts example modified to use target path syntax is::
+> +The above bar.dtso example modified to use target path syntax is::
+>  
+> -    ---- bar.dts - overlay target location by explicit path --------------------
+> +    ---- bar.dtso - overlay target location by explicit path -------------------
+>  	/dts-v1/;
+>  	/plugin/;
+>  	&{/ocp} {
+> @@ -100,7 +100,7 @@ The above bar.dts example modified to use target path syntax is::
+>  			... /* various properties and child nodes */
+>  		}
+>  	};
+> -    ---- bar.dts ---------------------------------------------------------------
+> +    ---- bar.dtso --------------------------------------------------------------
+>  
+>  
+>  Overlay in-kernel API
+> diff --git a/Documentation/translations/zh_CN/devicetree/overlay-notes.rst b/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
+> index 43e3c0bc5a9f8235..ba5edd05dc1e7fd2 100644
+> --- a/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
+> +++ b/Documentation/translations/zh_CN/devicetree/overlay-notes.rst
+> @@ -43,10 +43,10 @@ Documentation/devicetree/dynamic-resolution-notes.rst[1]的配套文档。
+>  	};
+>      ---- foo.dts ---------------------------------------------------------------
+>  
+> -覆盖bar.dts,
+> +覆盖bar.dtso,
+>  ::
+>  
+> -    ---- bar.dts - 按标签覆盖目标位置 ----------------------------
+> +    ---- bar.dtso - 按标签覆盖目标位置 ---------------------------
+>  	/dts-v1/;
+>  	/插件/;
+>  	&ocp {
+> @@ -56,7 +56,7 @@ Documentation/devicetree/dynamic-resolution-notes.rst[1]的配套文档。
+>  			... /* 各种属性和子节点 */
+>  		};
+>  	};
+> -    ---- bar.dts ---------------------------------------------------------------
+> +    ---- bar.dtso --------------------------------------------------------------
+>  
+>  当加载（并按照[1]中描述的方式解决）时，应该产生foo+bar.dts::
+>  
+> @@ -90,9 +90,9 @@ Documentation/devicetree/dynamic-resolution-notes.rst[1]的配套文档。
+>  DT中的适当位置。在这种情况下，可以提供目标路径。通过标签的目标位置的语法是比
+>  较好的，因为不管标签在DT中出现在哪里，覆盖都可以被应用到任何包含标签的基础DT上。
+>  
+> -上面的bar.dts例子被修改为使用目标路径语法，即为::
+> +上面的bar.dtso例子被修改为使用目标路径语法，即为::
+>  
+> -    ---- bar.dts - 通过明确的路径覆盖目标位置 --------------------
+> +    ---- bar.dtso - 通过明确的路径覆盖目标位置 -------------------
+>  	/dts-v1/;
+>  	/插件/;
+>  	&{/ocp} {
+> @@ -102,7 +102,7 @@ DT中的适当位置。在这种情况下，可以提供目标路径。通过标
+>  			... /* 各种外围设备和子节点 */
+>  		}
+>  	};
+> -    ---- bar.dts ---------------------------------------------------------------
+> +    ---- bar.dtso --------------------------------------------------------------
+>  
+>  
+>  内核中关于覆盖的API
