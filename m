@@ -1,74 +1,49 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61D4B2F2A;
-	Wed, 29 May 2024 00:55:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 353A815ADA5;
+	Wed, 29 May 2024 02:03:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716944132; cv=none; b=GIFkFO3HQMK7AaHG/OLO+LDwoggPACdA5dZNu82DjljnK1DzCf1Lfc/mncsPaD6TwS7GY7bx44XrA0eMnavqs+7cc+oXGvvEzGlhvMMWlQLzWbLKQyYgeZ2C/DkEJ7eSrWUUS+jVCS25G1TsapzlfRZktilF3r/qy/TZ/e+GdC4=
+	t=1716948239; cv=none; b=h8bFYmSujbVsZL0kT8I6v+0nfuUE/EfFwINmB7/SyhL43fMkBK/q2UHrG1oeT3DhJ+GfKE8YH2irp8l6nZVtErZ02gqSZxP/Im7JxQuC4Q792St2s3kpT0DQIrInMQrKH+8wUc/6foT5WWxx3Wmv+ZxxhReiPjqzMjx5yJExZ+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716944132; c=relaxed/simple;
-	bh=zGz4gAwWFZgK44rZc0IVq8EUqO+SDwchcULLx0Sl+2A=;
+	s=arc-20240116; t=1716948239; c=relaxed/simple;
+	bh=Amd0ZaKiTq3QW1olkeBFmUIFypfq2JePdZVnQMLo0YE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DA9867z6dDqkwDY1yz0+7O6dr0RwYhn9XrxSoOVevBldkAX0xgM6OFLi1Zy4Z7mgahWVnqXt4qyV9zI2oZ9g1WQBHH6wphjwaI/cAu1p9Vu1ROlNH2jcFl94YE9D5RjqPPDsPYda+x5V1uHPNUPkPPHX0d/AqsQvK9/ia21p7DQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GqeBHGuR; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=MbSmldZhzrk8A2nRSzEYKKtOwXOwolGzNChNuFpxDoFRtxEP3LPHfnqfC/VrMnxN/ik36Gbwl01Hhr7cgQlFPg1cbmxQyaC6E2M9ABY1ktDaH1aGMgcBSMLgRqjgA2BSe304x8pqAEhF8JhKi19whMMzQ06Nd6lRAxCSiRHwkz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RKmBo7Vo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GqeBHGuR"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-354e22bc14bso1225103f8f.1;
-        Tue, 28 May 2024 17:55:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716944130; x=1717548930; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2bC53XzM+uy8PiLd8YOyk6YbyRBUin82pX9N2ZdNewo=;
-        b=GqeBHGuR4i8fl05e4P0/ZMIiQX8+r9LO168nUffsvWp8y90FGRVJBY8xwBbsoXqonX
-         109JWhdKJc2gAmVx9nLcBeNPnDaJFuIPOCaL2Zl8x89u9vbW2eneh3d3A5qaLZkCl47P
-         uRRNpt5LhapyUgL/f4BnWdECH9eToYe8dp5omSIxbZInNmz9f3YFBpEcSW4OP+/nx3Ld
-         YftwU1jCjaVfPALpPVHFgnHTy8AY1mkqxdE8OWP9RPFCPn4Sbt06RJ1r2YX8twNyum2o
-         s0oK7r2Ke7SEWsaIuXuj5CPg2M4IhETGlz4AilZVvBsPgAQbvatyUp5Dik9CNDQmyeiS
-         r8Ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716944130; x=1717548930;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2bC53XzM+uy8PiLd8YOyk6YbyRBUin82pX9N2ZdNewo=;
-        b=UCLk+urqUyL04s1QcfkuW9YMz3NeHGX8vrD6Oj+TgxlPtqHlj13vCEMdSQM67KJ1o+
-         VpK4t/7ML7CvcFW6uU9EcpXI+Nl1V6g7WtLsxj3kFWtubQLUCIK9HypOO8r70VZws29w
-         fwPRZwum5IJGZWyJy5T1Et+Oh/XIsJwA0wT+xxJEw0J9DepIPVWWhU41IX/a7CwgeC5O
-         zv1dGopFFLuCTdAV5mDUTgdXtYIg840SoU250/Yilzc16sVV0MPiwdKzzFuW7srgasI8
-         F8k6FXiNjPevMJ+YdqB8xUWD/h2HEgyxDJc3oNtw8e0O+v4xi5ENIHn0YfyH3WsVjqQF
-         sLKA==
-X-Forwarded-Encrypted: i=1; AJvYcCVTIzCff8e6/WFFiK2tlgVsY7j++ZpY9pREoYsrIYuO4x628voHRqnAUw93MRVPekKPyz9kxROuYnE7OEugT91MU6kQf41ELr828w9yXsZXzJTJDUUHEf8OerlNNdrxACNePxSvzTixU8dfWAJMM205qGi5UdBX0mKTPZZoWqdFuR4B6A==
-X-Gm-Message-State: AOJu0YzhMzFfl3z9n5hn62gAE0AE0eWA1ZxfnhgcJEC5tTpb//oBDOtZ
-	GgUEiGVsCo3BDVcfJwL+0OR/OWpQO1tNZtwoH6w9+xPXp2pCSkho
-X-Google-Smtp-Source: AGHT+IEvUEkslbEuJ36n5fUNNcqqyx4kLtZsPYT6w2lhIJyJzqT2Uw+KYtCXxmqNpjL+xf8GkG/5cA==
-X-Received: by 2002:a5d:4f04:0:b0:351:c7c7:985f with SMTP id ffacd0b85a97d-3552fe19145mr9586169f8f.53.1716944129495;
-        Tue, 28 May 2024 17:55:29 -0700 (PDT)
-Received: from andrea ([151.76.32.59])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6328c97eeesm175282766b.111.2024.05.28.17.55.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 May 2024 17:55:29 -0700 (PDT)
-Date: Wed, 29 May 2024 02:55:24 +0200
-From: Andrea Parri <parri.andrea@gmail.com>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>,
-	Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-arch@vger.kernel.org
-Subject: Re: [PATCH 7/7] riscv: Add qspinlock support based on Zabha extension
-Message-ID: <ZlZ8/Nv3QS99AgY9@andrea>
-References: <20240528151052.313031-1-alexghiti@rivosinc.com>
- <20240528151052.313031-8-alexghiti@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RKmBo7Vo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6818C3277B;
+	Wed, 29 May 2024 02:03:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716948239;
+	bh=Amd0ZaKiTq3QW1olkeBFmUIFypfq2JePdZVnQMLo0YE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RKmBo7VoZo0QWHBlk6gDCjIU+Vi6tqjPRDaI/jj5fyDXqB0+JXlv1ucllDQUfvT0y
+	 XnptGk/6BmZOa3t/7xOGuE/uO2PuMDPrI6PellP01zajSilbyRhcXG3Y9G8OiZYnXh
+	 MyizDzWOBq3+TW0H/vCARzQrQQyIz8FUf3M02U0tOqz19MQgwLTfeSKPikAXrDfLeN
+	 uAYEOYb92zyDlHN05tUy9VcNPVOdS+Rsa7QN0+6iSVSS9qb6V8OfwBqLxXvFeu8Tl0
+	 2Wu++IvFiQ/nPtgdgXqKGPbjoxBD7+Ma0zq1Ql/AoIa9NwO3d99MhOdRPLwUP+ivrV
+	 sW8yjTrb0CSOA==
+Date: Tue, 28 May 2024 19:08:41 -0700
+From: Bjorn Andersson <andersson@kernel.org>
+To: Chris Lew <quic_clew@quicinc.com>
+Cc: Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, 
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Mathieu Poirier <mathieu.poirier@linaro.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
+	Konrad Dybcio <konrad.dybcio@linaro.org>, linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: Re: [PATCH v2 3/4] soc: qcom: smem: Add
+ qcom_smem_bust_hwspin_lock_by_host()
+Message-ID: <qkdw5artkb7vz2tnjkdxivvfkwchna7fxkyo4go6nwb4kc3gv3@t7xt3rrvyvja>
+References: <20240524-hwspinlock-bust-v2-0-fb88fd17ca0b@quicinc.com>
+ <20240524-hwspinlock-bust-v2-3-fb88fd17ca0b@quicinc.com>
+ <nwoeg22jg5yd4amgqqegplygy6aickehvfc6eanmody74h6nss@cmixbwx6vpx4>
+ <f0881f3b-036b-462a-9e0c-42ca81807b86@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -77,11 +52,53 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240528151052.313031-8-alexghiti@rivosinc.com>
+In-Reply-To: <f0881f3b-036b-462a-9e0c-42ca81807b86@quicinc.com>
 
-> +	select ARCH_USE_QUEUED_SPINLOCKS if TOOLCHAIN_HAS_ZABHA
+On Tue, May 28, 2024 at 03:50:25PM -0700, Chris Lew wrote:
+> 
+> 
+> On 5/28/2024 2:55 PM, Bjorn Andersson wrote:
+> > On Fri, May 24, 2024 at 06:26:42PM GMT, Chris Lew wrote:
+> > > Add qcom_smem_bust_hwspin_lock_by_host to enable remoteproc to bust the
+> > > hwspin_lock owned by smem. In the event the remoteproc crashes
+> > > unexpectedly, the remoteproc driver can invoke this API to try and bust
+> > > the hwspin_lock and release the lock if still held by the remoteproc
+> > > device.
+> > > 
+> > > Signed-off-by: Chris Lew <quic_clew@quicinc.com>
+> > > ---
+> > >   drivers/soc/qcom/smem.c       | 28 ++++++++++++++++++++++++++++
+> > >   include/linux/soc/qcom/smem.h |  2 ++
+> > >   2 files changed, 30 insertions(+)
+> > > 
+> > > diff --git a/drivers/soc/qcom/smem.c b/drivers/soc/qcom/smem.c
+> > > index 7191fa0c087f..683599990387 100644
+> > > --- a/drivers/soc/qcom/smem.c
+> > > +++ b/drivers/soc/qcom/smem.c
+> ...
+> > > + *
+> > > + * Context: Process context.
+> > > + *
+> > > + * Returns: 0 on success, otherwise negative errno.
+> > > + */
+> > > +int qcom_smem_bust_hwspin_lock_by_host(unsigned host)
+> > > +{
+> > > +	if (!__smem)
+> > > +		return -EPROBE_DEFER;
+> > 
+> > This would be called at a time where -EPROBE_DEFER isn't appropriate,
+> > the client should invoke qcom_smem_is_available() at probe time to guard
+> > against this.
+> > 
+> 
+> Should we keep the null pointer check to prevent null pointer dereference
+> and return 0? Or would it be better to allow the null pointer deference to
+> go through so we can catch misuse of the API and ask clients to use
+> qcom_smem_is_available()?
+> 
 
-IIUC, we should make sure qspinlocks run with ARCH_WEAK_RELEASE_ACQUIRE,
-perhaps a similar select for the latter?  (not a kconfig expert)
+I like the helpful callstack you get from the NULL pointer
+dereference...
 
-  Andrea
+Regards,
+Bjorn
