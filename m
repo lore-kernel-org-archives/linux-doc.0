@@ -1,96 +1,120 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C68E015B115;
-	Wed, 29 May 2024 15:50:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CE9D180A92;
+	Wed, 29 May 2024 15:57:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716997842; cv=none; b=Ac5ipkSECrdYLpdkAk+ehCTjP9RZNjTu4Nw5g8h75XY8HPJvAB98cZPbJM0KZCwwauyuUX6NJkjd3YihKrjiEeGbLaKqx0cWNgVR6a6kI3vI9yrdNHINvqhmyRnjYOzG2btcMBB9QG6MdoExCdBEGlJUapn6rdBzKsdaQwomizo=
+	t=1716998272; cv=none; b=lb3nT1rB32hvcXskbA30Tea/7ieYoQ5tRqQA2aoO+9s3IaM1GpiVCPz0c4FFp4dXqfkkYC+OrMDZ9OKD+mVX+ImodoGOdjpPtX3YLY98+BiTz5B+V6iitdUArLuXtvha8fTUzNXIyd33AesrqsijLz0j/55m/kNUuAGhpPWGA+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716997842; c=relaxed/simple;
-	bh=RhAYFzXtfNlXMtgT1RAKcn5Jr1WKF4VqdAZ6qcmROyc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oYnuSoWTe5YbG/o1hfQ1vc1u+wexThAjbU3d6jsYp34DRrzDrmgkZk5pNWaGBsoalqcto9xO9yERDZgJj6NrorSgXZwkvxsy2gNkLF+DU7tlAUrroKRmnc4SpsBaTJZIUqyYggvgvqh3KTy1nzxvZPDbryfEsRfk93VLEJ4Ym8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jFBmb0sV; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1716998272; c=relaxed/simple;
+	bh=OYSSBejeV+h0PVcSSif4AfjAaQ8JCT/Hva0H2R4ia90=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wrc0FlSU3ULbK8a7Vzm5JdiR8fHN3Qck0ANh95CPypT7uP8vd3c2A7vj1EiMonCBhewQQ/36RUPXPPYP37SGXq8jTsJsI3cQTJVu0/rMD0FmBuVP/dEOkZZqIeEkH08n7/NVuFAIusgH8IPOBRjYMBFMkdGtgIzstCvmeAw6yjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gSkDCEhl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jFBmb0sV"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A102A1BF20A;
-	Wed, 29 May 2024 15:50:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1716997835;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RhAYFzXtfNlXMtgT1RAKcn5Jr1WKF4VqdAZ6qcmROyc=;
-	b=jFBmb0sV0ClEp3mLGt45IXoCfM5VWXz56T/1CJgcB19hyMJYPR0tn+k+k4L/t8wUPiqbd0
-	HO6jk9Em5BHNtc8mQxOfxEWSjY9TIVEvq2c55371PNPbbd324ehX5AMh5cgeKxXhclF65s
-	q2Fxk28Zh3Pjb4iITVVHXtXNp7UuW1sOTF6IJWQKZ0Z9l3441Y8MWoRm+GqME6U0MEc2+E
-	CGH86tTmYZAEU4ugb1ps7Q6HX0f45PPIGftCZ6F9yUwLbWxANOTFc/wC6ny+z9PVEtG3bH
-	Ny1Ce7z00cbHrw6wff/P9F6bSK1yFq9l4PmslSWj3EPXBWXcQZSnBDPdoI7xqw==
-Date: Wed, 29 May 2024 17:50:32 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
- kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
- <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Richard
- Cochran <richardcochran@gmail.com>, Radu Pirea
- <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
- Gospodarek <andy@greyhouse.net>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
- UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
- Oltean <vladimir.oltean@nxp.com>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>
-Subject: Re: [PATCH net-next v13 09/14] net: Add the possibility to support
- a selected hwtstamp in netdevice
-Message-ID: <20240529175032.54070c60@kmaincent-XPS-13-7390>
-In-Reply-To: <20240529082111.1a1cbf1e@kernel.org>
-References: <20240529-feature_ptp_netnext-v13-0-6eda4d40fa4f@bootlin.com>
-	<20240529-feature_ptp_netnext-v13-9-6eda4d40fa4f@bootlin.com>
-	<20240529082111.1a1cbf1e@kernel.org>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gSkDCEhl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12D28C113CC;
+	Wed, 29 May 2024 15:57:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1716998272;
+	bh=OYSSBejeV+h0PVcSSif4AfjAaQ8JCT/Hva0H2R4ia90=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gSkDCEhlOxLXGm6lJ/xoOCrEOygETBWQSbf75n62dS1s2Znq+1O1leoHDMz2n2aZk
+	 agVKmRJJ+TdsUTHtlgUe8urgEhUmDs6OE3FwnBJViKwQOVA6VRXdXqYVBVDd+aoRiR
+	 ie2zuSz4gC2mFjUrRRir6eXQlSJlDv1CPcD0yB3FbF8bKgGbc/JrSLzyNwvyYL6al9
+	 FGXEPjua7QhBRIwnCkWXHvAfxZs6hnORKrEEk87UtZP+a/Jr90ZSkmsmMrCYIiAJok
+	 TxLpSBzzFbrm0nDz6dPk4rj6tG/y7kf+Gr/uEVJHKj37mtRjYpShMY1t02dDLGCcwJ
+	 x0v3CQgkSBqjA==
+Date: Wed, 29 May 2024 08:57:49 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>,
+	Guo Ren <guoren@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-arch@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH 2/7] riscv: Implement cmpxchg8/16() using Zabha
+Message-ID: <20240529155749.GA1339768@thelio-3990X>
+References: <20240528151052.313031-1-alexghiti@rivosinc.com>
+ <20240528151052.313031-3-alexghiti@rivosinc.com>
+ <20240528193110.GA2196855@thelio-3990X>
+ <CAHVXubjYVjOH8RKaF1h=iogO3xBM6k+xrGwkPnc-md2oRxbxrQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-Sasl: kory.maincent@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHVXubjYVjOH8RKaF1h=iogO3xBM6k+xrGwkPnc-md2oRxbxrQ@mail.gmail.com>
 
-On Wed, 29 May 2024 08:21:11 -0700
-Jakub Kicinski <kuba@kernel.org> wrote:
+On Wed, May 29, 2024 at 02:49:58PM +0200, Alexandre Ghiti wrote:
+> Then I missed that, I should have checked the generated code. Is the
+> extension version "1p0" in '-march=' only required for experimental
+> extensions?
 
-> On Wed, 29 May 2024 11:39:41 +0200 Kory Maincent wrote:
-> > Introduce the description of a hwtstamp provider which is define with a
-> > ptp_clock pointer and a qualifier value.
-> >=20
-> > Add a hwtstamp provider description within the netdev structure to be a=
-ble
-> > to select the hwtstamp we want too use. By default we use the old API t=
-hat
-> > does not support hwtstamp selectability which mean the hwtstamp ptp_clo=
-ck
-> > pointer is unset. =20
->=20
-> ERROR: modpost: "ptp_clock_phydev" [drivers/net/phy/libphy.ko] undefined!
+I think so, if my understanding of the message is correct.
 
-Thanks for the report.
-Weird, it should be in builtin code.
-I will investigate.
+> But from Conor comment here [1], we should not enable extensions that
+> are only experimental. In that case, we should be good with this.
+> 
+> [1] https://lore.kernel.org/linux-riscv/20240528151052.313031-1-alexghiti@rivosinc.com/T/#mefb283477bce852f3713cbbb4ff002252281c9d5
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Yeah, I tend to agree with Conor on that front. I had not noticed that
+part of the message when I was looking at other parts of this thread. I
+could see an argument for allowing experimental extensions for
+qualification purposes but I think it does create a bit of a support
+nightmare, especially when there are breaking changes across revisions.
+
+> > config EXPERIMENTAL_EXTENSIONS
+> >     bool
+> >
+> > config TOOLCHAIN_HAS_ZABHA
+> >     def_bool y
+> >     select EXPERIMENTAL_EXETNSIONS if CC_IS_CLANG
+> >     ...
+> >
+> > config TOOLCHAIN_HAS_ZACAS
+> >     def_bool_y
+> >     # ZACAS was experimental until Clang 19: https://github.com/llvm/llvm-project/commit/95aab69c109adf29e183090c25dc95c773215746
+> >     select EXPERIMENTAL_EXETNSIONS if CC_IS_CLANG && CLANG_VERSION < 190000
+> >     ...
+> >
+> > Then in the Makefile:
+> >
+> > ifdef CONFIG_EXPERIMENTAL_EXTENSIONS
+> > KBUILD_AFLAGS += -menable-experimental-extensions
+> > KBUILD_CFLAGS += -menable-experimental-extensions
+> > endif
+
+Perhaps with that in mind, maybe EXPERIMENTAL_EXTENSIONS (or whatever)
+should be a user selectable option and the TOOLCHAIN values depend on it
+when the user has a clang version that does not support the ratified
+version.
+
+> That's a good idea to me, let's see what Conor thinks [2]
+> 
+> [2] https://lore.kernel.org/linux-riscv/20240528151052.313031-1-alexghiti@rivosinc.com/T/#m1d798dfc4c27e5b6d9e14117d81b577ace123322
+
+FWIW, I think your plan of removing support for the experimental version
+of the extension and pushing to remove the experimental status in LLVM
+(especially since it seems like it is ratified like zacas?
+https://jira.riscv.org/browse/RVS-1685) is probably the best thing going
+forward. If the LLVM folks are made aware soon, it should be easy to get
+that change into clang-19, which is branching at the end of July I
+believe.
+
+> Thanks for your thorough review!
+
+Thanks for taking LLVM support into consideration :)
+
+Cheers,
+Nathan
