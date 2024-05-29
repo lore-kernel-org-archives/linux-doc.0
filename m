@@ -1,317 +1,322 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 455B49474
-	for <linux-doc@vger.kernel.org>; Wed, 29 May 2024 13:03:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE4CF1758B;
+	Wed, 29 May 2024 13:28:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716987797; cv=none; b=aU99vKDnn+d3xlBqtK/4zwOWdppd5MfeXsk54b4VZ8XJrVAv7J0d0I394AR+Ksrtsw3HgijQyA5xRbH7/vPYDm+L89jQPHRsZTOsWMWRcg2LDfJwoYrvaQbUaEKDLGllm2LSlhBYVR3d7eQgk0iYc/hAvsGE5yLXlK7we9I6iQs=
+	t=1716989287; cv=none; b=l/JDQy6Ak236VCS9OCukE6wTGgE758S13d9GcY0iG7FJC3OBLSN6yQAgHuR2XReZ2yICe/ZA9cMs2gKg5CVmUE+eFORKppLmkxVhgMlEMa3PbY8gThMtRKF/4IR89ugM/idVE1bnx05wayN7IlVhGPSxnlpiTNxEkYY4YT4V514=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716987797; c=relaxed/simple;
-	bh=plbm0UwJrFwfzD9Dmtp+AyvK+To9bjohXCP2XDl3dNY=;
+	s=arc-20240116; t=1716989287; c=relaxed/simple;
+	bh=2D9bsF8IboVFVHlZqy8N3BUVc0dB5uLL5L7p85Qzrp0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AQTrpzRLqnIQPVhFNV6/DWcJKmuBjqzUjWiHuWB8Bd1uL7W+z0U45wX/JNDhRALgGdZiV+93yvN7TH+1oHM6YEI+jVdMQYrlrtIy0Lm5AVpiNrAwLV+JEv8K9uLD4AGHB9SdBqBjqE4K+4ZCqozimZ+PtN7Q1Bncc5FkzgGFoK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=V45Jp9Q/; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	 To:Cc:Content-Type; b=USeSj/JzdCc1z/9wIw1TUqJGIzOO2SGGJ8a3/An0CvkegPicsZ3u7OUaaetd15qzMx2aaxlQY0a3IqIxzM6JlfKTfDBnjQuWWljJCoX3TLQQ/kS79lQm3SvnIvLOe0umu/eRc70Ok7rgir4236Kz4xa0y/bNvhgMpNqcb32SdSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F2cRTPc+; arc=none smtp.client-ip=209.85.128.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="V45Jp9Q/"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-579cd80450fso1574908a12.0
-        for <linux-doc@vger.kernel.org>; Wed, 29 May 2024 06:03:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F2cRTPc+"
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-62a0849f5a8so20547727b3.2;
+        Wed, 29 May 2024 06:28:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1716987794; x=1717592594; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1716989285; x=1717594085; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eXoFBUxU8GTDCXQrYS3KoHVxekdKDuF8Uub92bjfWis=;
-        b=V45Jp9Q/75QGlURbgeBkhtD89d4/IyOF4IC9UCGS2SagOmqBaha2/7SW4onZAp1swA
-         iZvybwVLnwAOcUImNO70SqY6cIVD6DXVXmRsHRrFJ8ZGv1EN663GViVR2L7ffPhOlTG/
-         MrmWPw0GcIZ3+fZTaXhnYe4+caHF1ldIgvss4pB+DvAF4FCb0j4f324eEL3nlhSZxFtB
-         DaEEKjFuS6bEqVDHjqvEg0FdIXePrmJK5dxOn1Ml23vAsoRlMcOH/s5Ix+vsf2z4LLEW
-         yskDKi1/ioJ9g8b0/GYJUTQwRDuNRswaEVh+wWO/2gV480LvGN+EnkTaARmR212yAUTR
-         AwoA==
+        bh=feB/56QcRvQlMzL2KSQZZ9GD4whRaX0bA2BQ/DYpEpE=;
+        b=F2cRTPc+9HfkIdaoetLG2OFAbna4RVlAuFCuFM681Cv5FkknHp2L71tEtoAv9gQ/9x
+         C1aDdbGENmIJpt/5pkatdDlEXZbNz5z/3wMgKgqeGVAI6YDXL4PO1Xk2GYSn9AY9an/U
+         vKTPu2oZlzEhN28KP/qU9wbEHkSuh2ETAVSMISVUw3CmgUHb39e02OD6PPvPbZgEgpc/
+         MX2mC8dezIXm/Jq/W4ahHYyr+tUz4zHVOS8+TJPz4N+/zYwJ+C6UrIhNRUf7t+uBv3xz
+         Nm02AxLkHjg3uoTNS7pGECVww2OGoL4QXO8hNEiFORSpE4qrwGy0X+VvXkHgDAWqsBZK
+         7LSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716987794; x=1717592594;
+        d=1e100.net; s=20230601; t=1716989285; x=1717594085;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eXoFBUxU8GTDCXQrYS3KoHVxekdKDuF8Uub92bjfWis=;
-        b=UAZUT7//6DG2Ed9E7om2oZOf2zxJtmxRu67ei7arIl9duUiSnIkjrcnEYaJgqD5rMK
-         osNqA+2xRItHGS3RMsXMeEwYw5m1HciLEfL6r1HsfHre8l1/CTnrzonjtTOcBI8G/K52
-         +d+VEHdUfcnQ72VLpYaW/IupAuH3xY8RgLBn7XYp0t/pMQFwxtCOa8LUQhj+4t6YqI87
-         hwuAHYXLBWE1NwQBonHmd3wbnPf+fkpAXC5bKUbni17Iv5avDPswVJH/z6u9+rg6JP7Q
-         G7Nr3roarYUR3AydWrXr4mZBSeN6yelyjnYRK6OvUGTvUWqKAM501W67mvCWs3f3JA/H
-         Ln5A==
-X-Forwarded-Encrypted: i=1; AJvYcCXtIlkWdPkF3S84nNoKieO4w2iu/ng2ysTWL1nlU3cQ3R0YAS/XFrqp+kyGuROGaSbPrV29y2JJS9dpCtHuIS0mZfTlYujSSV6R
-X-Gm-Message-State: AOJu0YySETFFObYTDrN743zWuryprLqqHMH90NuHqJT1/IjFYbRV31Ql
-	1OZ0i0rHQy6BHHn/vlZ1tYx8ypnc9zNwb9MpuftMLh1PH56AD5LGIxmVX17l9lDHuziyXzMYScZ
-	kPRAe7F+1qrHxBldv1QKhaBdbxste4piO6K+GRw==
-X-Google-Smtp-Source: AGHT+IELUzP/aMrB1shC4uvPl7RzfKxkfOoSQkW19agD11fiCpbbz06vIPabz5DmKggjJsNuRN2YYEdhS59m6Vlln/c=
-X-Received: by 2002:a50:8719:0:b0:574:c3e4:1fa3 with SMTP id
- 4fb4d7f45d1cf-57a041388d3mr1586088a12.20.1716987793520; Wed, 29 May 2024
- 06:03:13 -0700 (PDT)
+        bh=feB/56QcRvQlMzL2KSQZZ9GD4whRaX0bA2BQ/DYpEpE=;
+        b=kL2je20yze6H+vWqAUJe5mB4te+B5QcjImB3/3nAcuEwoI+yVRwDZQqDbmjXE6bjU1
+         7K6OXlULgre+6DsKkpP2D9lUU4w0vkuLIyaE0bfLaqxVDU+JPb50s6VReDYWHcQ4kUEf
+         9cL1Fvcljz42Ycq4utsXq0sx/lZin/3Zk/xsutYSsUQemm8cc9o59ioS4ddZNn1oviEQ
+         z47sm6CFMDXlpQpAcuoFvgHTGJiXV8p7coVX8YTSJ3b6hOE1w6HzBjohCk0SsNyb+LYV
+         SZWekJWAitO3/mBOwYVgZLhlOTAIc27zKGHqeLJhQymhUCG2M+HN1ibv+UVJ1iy3xORM
+         dDlw==
+X-Forwarded-Encrypted: i=1; AJvYcCVYsCZg1NyB8v3YMiQbU9VODGZoUP2n4FRoAfRaKpH/sDEERJYuQXZk+3RmdMUYcpGaLVqlXUpcUqr/oJ+ShNNNNS8ti16ry7stYMjQqCkdQmQD4kY0EdJIu0e2Gl5nJUhVD1oMNQ0C
+X-Gm-Message-State: AOJu0YzTZ3OiRLE1kpeEF+CxMf3Pzk7NGs94dZ8EqDB73Jn9spHgd8l5
+	sZrvPkOqJ86QGEi5Foex453msbxp3O43eFT07QOYcGFXh3kRyrzqPx2QZYwb9ZeapKguH/+R6Ra
+	T1CACkMbAwLG9pOHmbzL6Cy0Zono=
+X-Google-Smtp-Source: AGHT+IFnI9mmjeBQWyXqd2gNmeCooUG1lmc3tLc06VpUQ3YLD+iLEKKuHLgn24xSsUDXY/kOhkHfBCiukUoSkgposW8=
+X-Received: by 2002:a0d:e2cd:0:b0:61b:33b6:41dd with SMTP id
+ 00721157ae682-62a08ea7e34mr149139207b3.37.1716989284656; Wed, 29 May 2024
+ 06:28:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240528151052.313031-1-alexghiti@rivosinc.com>
- <20240528151052.313031-8-alexghiti@rivosinc.com> <CAJF2gTQgg-7Fzoz9TsjWD-_8ABbS7M66aEztCsZ9Ejk8LOvmiQ@mail.gmail.com>
-In-Reply-To: <CAJF2gTQgg-7Fzoz9TsjWD-_8ABbS7M66aEztCsZ9Ejk8LOvmiQ@mail.gmail.com>
-From: Alexandre Ghiti <alexghiti@rivosinc.com>
-Date: Wed, 29 May 2024 15:03:00 +0200
-Message-ID: <CAHVXubg=T3AMER0z8-iRqqFmDQp8iEM92cXwPZcW2Sfm=_KOHQ@mail.gmail.com>
-Subject: Re: [PATCH 7/7] riscv: Add qspinlock support based on Zabha extension
-To: Guo Ren <guoren@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, 
-	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Leonardo Bras <leobras@redhat.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-arch@vger.kernel.org
+References: <20240528043404.39327-2-flintglass@gmail.com> <20240528043404.39327-5-flintglass@gmail.com>
+ <CAKEwX=NcdpgGTp8Kj_kiTkvAK=k8kzayhMo+oeaXGZFA5RuoEw@mail.gmail.com>
+In-Reply-To: <CAKEwX=NcdpgGTp8Kj_kiTkvAK=k8kzayhMo+oeaXGZFA5RuoEw@mail.gmail.com>
+From: Takero Funaki <flintglass@gmail.com>
+Date: Wed, 29 May 2024 22:27:53 +0900
+Message-ID: <CAPpoddeKguLK3paGKAXQ+jO30jC05hvdvZiro2yfVGgrZWnOeA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] mm: zswap: proactive shrinking before pool size limit
+ is hit
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Yosry Ahmed <yosryahmed@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Guo,
-
-On Wed, May 29, 2024 at 11:24=E2=80=AFAM Guo Ren <guoren@kernel.org> wrote:
+2024=E5=B9=B45=E6=9C=8829=E6=97=A5(=E6=B0=B4) 1:01 Nhat Pham <nphamcs@gmail=
+.com>:
 >
-> On Tue, May 28, 2024 at 11:18=E2=80=AFPM Alexandre Ghiti <alexghiti@rivos=
-inc.com> wrote:
+> On Mon, May 27, 2024 at 9:34=E2=80=AFPM Takero Funaki <flintglass@gmail.c=
+om> wrote:
 > >
-> > In order to produce a generic kernel, a user can select
-> > CONFIG_QUEUED_SPINLOCKS which will fallback at runtime to the ticket
-> > spinlock implementation if Zabha is not present.
+> > This patch implements proactive shrinking of zswap pool before the max
+> > pool size limit is reached. This also changes zswap to accept new pages
+> > while the shrinker is running.
 > >
-> > Note that we can't use alternatives here because the discovery of
-> > extensions is done too late and we need to start with the qspinlock
-> > implementation because the ticket spinlock implementation would pollute
-> > the spinlock value, so let's use static keys.
+> > To prevent zswap from rejecting new pages and incurring latency when
+> > zswap is full, this patch queues the global shrinker by a pool usage
+> > threshold at the middle of 100% and accept_thr_percent, instead of the
+> > max pool size.  The pool size will be controlled between 90% to 95% for
+> > the default accept_thr_percent=3D90.  Since the current global shrinker
+> > continues to shrink until accept_thr_percent, we do not need to maintai=
+n
+> > the hysteresis variable tracking the pool limit overage in
+> > zswap_store().
 > >
-> > This is largely based on Guo's work and Leonardo reviews at [1].
+> > Before this patch, zswap rejected pages while the shrinker is running
+> > without incrementing zswap_pool_limit_hit counter. It could be a reason
+> > why zswap writethrough new pages before writeback old pages.  With this
+> > patch, zswap accepts new pages while shrinking, and zswap increments
+> > the counter when and only when zswap rejects pages by the max pool size=
+.
 > >
-> > Link: https://lore.kernel.org/linux-riscv/20231225125847.2778638-1-guor=
-en@kernel.org/ [1]
-> > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > The name of sysfs tunable accept_thr_percent is unchanged as it is stil=
+l
+> > the stop condition of the shrinker.
+> > The respective documentation is updated to describe the new behavior.
+>
+> I'm a bit unsure about using this tunable. How would the user
+> determine the level at which the zswap pool should be kept empty?
+>
+> I was actually thinking of removing this knob altogether :)
+>
+
+If we see a large pool_limit_hit, that indicates we should lower the
+accept threshold to make more space proactively, to store new pages
+from active processes rather than rejecting.
+If not, we can set a higher accept threshold for swapin, s.t.
+low-activity background processes.
+That depends on one's workload, and can be tuned by the admin, I think.
+
+> >
+> > Signed-off-by: Takero Funaki <flintglass@gmail.com>
 > > ---
-> >  .../locking/queued-spinlocks/arch-support.txt |  2 +-
-> >  arch/riscv/Kconfig                            |  1 +
-> >  arch/riscv/include/asm/Kbuild                 |  4 +-
-> >  arch/riscv/include/asm/spinlock.h             | 39 +++++++++++++++++++
-> >  arch/riscv/kernel/setup.c                     | 18 +++++++++
-> >  include/asm-generic/qspinlock.h               |  2 +
-> >  include/asm-generic/ticket_spinlock.h         |  2 +
-> >  7 files changed, 66 insertions(+), 2 deletions(-)
-> >  create mode 100644 arch/riscv/include/asm/spinlock.h
+> >  Documentation/admin-guide/mm/zswap.rst | 17 +++++----
+> >  mm/zswap.c                             | 49 +++++++++++++++-----------
+> >  2 files changed, 37 insertions(+), 29 deletions(-)
 > >
-> > diff --git a/Documentation/features/locking/queued-spinlocks/arch-suppo=
-rt.txt b/Documentation/features/locking/queued-spinlocks/arch-support.txt
-> > index 22f2990392ff..cf26042480e2 100644
-> > --- a/Documentation/features/locking/queued-spinlocks/arch-support.txt
-> > +++ b/Documentation/features/locking/queued-spinlocks/arch-support.txt
-> > @@ -20,7 +20,7 @@
-> >      |    openrisc: |  ok  |
-> >      |      parisc: | TODO |
-> >      |     powerpc: |  ok  |
-> > -    |       riscv: | TODO |
-> > +    |       riscv: |  ok  |
-> >      |        s390: | TODO |
-> >      |          sh: | TODO |
-> >      |       sparc: |  ok  |
-> > diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-> > index 184a9edb04e0..ccf1703edeb9 100644
-> > --- a/arch/riscv/Kconfig
-> > +++ b/arch/riscv/Kconfig
-> > @@ -59,6 +59,7 @@ config RISCV
-> >         select ARCH_SUPPORTS_SHADOW_CALL_STACK if HAVE_SHADOW_CALL_STAC=
-K
-> >         select ARCH_USE_MEMTEST
-> >         select ARCH_USE_QUEUED_RWLOCKS
-> > +       select ARCH_USE_QUEUED_SPINLOCKS if TOOLCHAIN_HAS_ZABHA
-> Using qspinlock or not depends on real hardware capabilities, not the
-> compiler flag. That's why I introduced combo-spinlock, ticket-spinlock
-> & qspinlock three Kconfigs, and the combo-spinlock would compat all
-> hardware platforms but waste some qspinlock code size.
-
-You're right, and I think your comment matches what Conor mentioned
-about the lack of clarity with some extensions: TOOLCHAIN_HAS_ZABHA
-will allow a platform with Zabha capability to use qspinlocks. But if
-the hardware does not, it will fallback to the ticket spinlocks.
-
-But I agree that looking at the config alone may be misleading, even
-though it will work as expected at runtime. So I agree with you:
-unless anyone is strongly against the combo spinlocks, I will do what
-you suggest and add them.
-
-Thanks again for your initial work,
-
-Alex
-
->
-> >         select ARCH_USES_CFI_TRAPS if CFI_CLANG
-> >         select ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH if SMP && MMU
-> >         select ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT if MMU
-> > diff --git a/arch/riscv/include/asm/Kbuild b/arch/riscv/include/asm/Kbu=
-ild
-> > index 504f8b7e72d4..ad72f2bd4cc9 100644
-> > --- a/arch/riscv/include/asm/Kbuild
-> > +++ b/arch/riscv/include/asm/Kbuild
-> > @@ -2,10 +2,12 @@
-> >  generic-y +=3D early_ioremap.h
-> >  generic-y +=3D flat.h
-> >  generic-y +=3D kvm_para.h
-> > +generic-y +=3D mcs_spinlock.h
-> >  generic-y +=3D parport.h
-> > -generic-y +=3D spinlock.h
-> >  generic-y +=3D spinlock_types.h
-> > +generic-y +=3D ticket_spinlock.h
-> >  generic-y +=3D qrwlock.h
-> >  generic-y +=3D qrwlock_types.h
-> > +generic-y +=3D qspinlock.h
-> >  generic-y +=3D user.h
-> >  generic-y +=3D vmlinux.lds.h
-> > diff --git a/arch/riscv/include/asm/spinlock.h b/arch/riscv/include/asm=
-/spinlock.h
-> > new file mode 100644
-> > index 000000000000..e00429ac20ed
-> > --- /dev/null
-> > +++ b/arch/riscv/include/asm/spinlock.h
-> > @@ -0,0 +1,39 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +
-> > +#ifndef __ASM_RISCV_SPINLOCK_H
-> > +#define __ASM_RISCV_SPINLOCK_H
-> > +
-> > +#ifdef CONFIG_QUEUED_SPINLOCKS
-> > +#define _Q_PENDING_LOOPS       (1 << 9)
-> > +
-> > +#define __no_arch_spinlock_redefine
-> > +#include <asm/ticket_spinlock.h>
-> > +#include <asm/qspinlock.h>
-> > +#include <asm/alternative.h>
-> > +
-> > +DECLARE_STATIC_KEY_TRUE(qspinlock_key);
-> > +
-> > +#define SPINLOCK_BASE_DECLARE(op, type, type_lock)                    =
- \
-> > +static __always_inline type arch_spin_##op(type_lock lock)            =
- \
-> > +{                                                                     =
- \
-> > +       if (static_branch_unlikely(&qspinlock_key))                    =
- \
-> > +               return queued_spin_##op(lock);                         =
- \
-> > +       return ticket_spin_##op(lock);                                 =
- \
-> > +}
-> > +
-> > +SPINLOCK_BASE_DECLARE(lock, void, arch_spinlock_t *)
-> > +SPINLOCK_BASE_DECLARE(unlock, void, arch_spinlock_t *)
-> > +SPINLOCK_BASE_DECLARE(is_locked, int, arch_spinlock_t *)
-> > +SPINLOCK_BASE_DECLARE(is_contended, int, arch_spinlock_t *)
-> > +SPINLOCK_BASE_DECLARE(trylock, bool, arch_spinlock_t *)
-> > +SPINLOCK_BASE_DECLARE(value_unlocked, int, arch_spinlock_t)
-> > +
-> > +#else
-> > +
-> > +#include <asm/ticket_spinlock.h>
-> > +
-> > +#endif
-> > +
-> > +#include <asm/qrwlock.h>
-> > +
-> > +#endif /* __ASM_RISCV_SPINLOCK_H */
-> > diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
-> > index 4f73c0ae44b2..31ce75522fd4 100644
-> > --- a/arch/riscv/kernel/setup.c
-> > +++ b/arch/riscv/kernel/setup.c
-> > @@ -244,6 +244,23 @@ static void __init parse_dtb(void)
-> >  #endif
+> > diff --git a/Documentation/admin-guide/mm/zswap.rst b/Documentation/adm=
+in-guide/mm/zswap.rst
+> > index 3598dcd7dbe7..a1d8f167a27a 100644
+> > --- a/Documentation/admin-guide/mm/zswap.rst
+> > +++ b/Documentation/admin-guide/mm/zswap.rst
+> > @@ -111,18 +111,17 @@ checked if it is a same-value filled page before =
+compressing it. If true, the
+> >  compressed length of the page is set to zero and the pattern or same-f=
+illed
+> >  value is stored.
+> >
+> > -To prevent zswap from shrinking pool when zswap is full and there's a =
+high
+> > -pressure on swap (this will result in flipping pages in and out zswap =
+pool
+> > -without any real benefit but with a performance drop for the system), =
+a
+> > -special parameter has been introduced to implement a sort of hysteresi=
+s to
+> > -refuse taking pages into zswap pool until it has sufficient space if t=
+he limit
+> > -has been hit. To set the threshold at which zswap would start acceptin=
+g pages
+> > -again after it became full, use the sysfs ``accept_threshold_percent``
+> > -attribute, e. g.::
+> > +To prevent zswap from rejecting new pages and incurring latency when z=
+swap is
+> > +full, zswap initiates a worker called global shrinker that proactively=
+ evicts
+> > +some pages from the pool to swap devices while the pool is reaching th=
+e limit.
+> > +The global shrinker continues to evict pages until there is sufficient=
+ space to
+> > +accept new pages. To control how many pages should remain in the pool,=
+ use the
+> > +sysfs ``accept_threshold_percent`` attribute as a percentage of the ma=
+x pool
+> > +size, e. g.::
+> >
+> >         echo 80 > /sys/module/zswap/parameters/accept_threshold_percent
+> >
+> > -Setting this parameter to 100 will disable the hysteresis.
+> > +Setting this parameter to 100 will disable the proactive shrinking.
+> >
+> >  Some users cannot tolerate the swapping that comes with zswap store fa=
+ilures
+> >  and zswap writebacks. Swapping can be disabled entirely (without disab=
+ling
+> > diff --git a/mm/zswap.c b/mm/zswap.c
+> > index 08a6f5a6bf62..0186224be8fc 100644
+> > --- a/mm/zswap.c
+> > +++ b/mm/zswap.c
+> > @@ -71,8 +71,6 @@ static u64 zswap_reject_kmemcache_fail;
+> >
+> >  /* Shrinker work queue */
+> >  static struct workqueue_struct *shrink_wq;
+> > -/* Pool limit was hit, we need to calm down */
+> > -static bool zswap_pool_reached_full;
+> >
+> >  /*********************************
+> >  * tunables
+> > @@ -118,7 +116,10 @@ module_param_cb(zpool, &zswap_zpool_param_ops, &zs=
+wap_zpool_type, 0644);
+> >  static unsigned int zswap_max_pool_percent =3D 20;
+> >  module_param_named(max_pool_percent, zswap_max_pool_percent, uint, 064=
+4);
+> >
+> > -/* The threshold for accepting new pages after the max_pool_percent wa=
+s hit */
+> > +/*
+> > + * The percentage of pool size that the global shrinker keeps in memor=
+y.
+> > + * It does not protect old pages from the dynamic shrinker.
+> > + */
+> >  static unsigned int zswap_accept_thr_percent =3D 90; /* of max pool si=
+ze */
+> >  module_param_named(accept_threshold_percent, zswap_accept_thr_percent,
+> >                    uint, 0644);
+> > @@ -487,6 +488,14 @@ static unsigned long zswap_accept_thr_pages(void)
+> >         return zswap_max_pages() * zswap_accept_thr_percent / 100;
 > >  }
 > >
-> > +DEFINE_STATIC_KEY_TRUE(qspinlock_key);
-> > +EXPORT_SYMBOL(qspinlock_key);
-> > +
-> > +static void __init riscv_spinlock_init(void)
+> > +/*
+> > + * Returns threshold to start proactive global shrinking.
+> > + */
+> > +static inline unsigned long zswap_shrink_start_pages(void)
 > > +{
-> > +       asm goto(ALTERNATIVE("nop", "j %[qspinlock]", 0, RISCV_ISA_EXT_=
-ZABHA, 1)
-> > +                : : : : qspinlock);
-> > +
-> > +       static_branch_disable(&qspinlock_key);
-> > +       pr_info("Ticket spinlock: enabled\n");
-> > +
-> > +       return;
-> > +
-> > +qspinlock:
-> > +       pr_info("Queued spinlock: enabled\n");
+> > +       return zswap_max_pages() * (100 - (100 - zswap_accept_thr_perce=
+nt)/2) / 100;
 > > +}
 > > +
-> >  extern void __init init_rt_signal_env(void);
-> >
-> >  void __init setup_arch(char **cmdline_p)
-> > @@ -295,6 +312,7 @@ void __init setup_arch(char **cmdline_p)
-> >         riscv_set_dma_cache_alignment();
-> >
-> >         riscv_user_isa_enable();
-> > +       riscv_spinlock_init();
+> >  unsigned long zswap_total_pages(void)
+> >  {
+> >         struct zswap_pool *pool;
+> > @@ -504,21 +513,6 @@ unsigned long zswap_total_pages(void)
+> >         return total;
 > >  }
 > >
-> >  bool arch_cpu_is_hotpluggable(int cpu)
-> > diff --git a/include/asm-generic/qspinlock.h b/include/asm-generic/qspi=
-nlock.h
-> > index 0655aa5b57b2..bf47cca2c375 100644
-> > --- a/include/asm-generic/qspinlock.h
-> > +++ b/include/asm-generic/qspinlock.h
-> > @@ -136,6 +136,7 @@ static __always_inline bool virt_spin_lock(struct q=
-spinlock *lock)
-> >  }
-> >  #endif
+> > -static bool zswap_check_limits(void)
+> > -{
+> > -       unsigned long cur_pages =3D zswap_total_pages();
+> > -       unsigned long max_pages =3D zswap_max_pages();
+> > -
+> > -       if (cur_pages >=3D max_pages) {
+> > -               zswap_pool_limit_hit++;
+> > -               zswap_pool_reached_full =3D true;
+> > -       } else if (zswap_pool_reached_full &&
+> > -                  cur_pages <=3D zswap_accept_thr_pages()) {
+> > -                       zswap_pool_reached_full =3D false;
+> > -       }
+> > -       return zswap_pool_reached_full;
+> > -}
+> > -
+> >  /*********************************
+> >  * param callbacks
+> >  **********************************/
+> > @@ -1475,6 +1469,8 @@ bool zswap_store(struct folio *folio)
+> >         struct obj_cgroup *objcg =3D NULL;
+> >         struct mem_cgroup *memcg =3D NULL;
+> >         unsigned long value;
+> > +       unsigned long cur_pages;
+> > +       bool need_global_shrink =3D false;
 > >
-> > +#ifndef __no_arch_spinlock_redefine
-> >  /*
-> >   * Remapping spinlock architecture specific functions to the correspon=
-ding
-> >   * queued spinlock functions.
-> > @@ -146,5 +147,6 @@ static __always_inline bool virt_spin_lock(struct q=
-spinlock *lock)
-> >  #define arch_spin_lock(l)              queued_spin_lock(l)
-> >  #define arch_spin_trylock(l)           queued_spin_trylock(l)
-> >  #define arch_spin_unlock(l)            queued_spin_unlock(l)
-> > +#endif
+> >         VM_WARN_ON_ONCE(!folio_test_locked(folio));
+> >         VM_WARN_ON_ONCE(!folio_test_swapcache(folio));
+> > @@ -1497,8 +1493,18 @@ bool zswap_store(struct folio *folio)
+> >                 mem_cgroup_put(memcg);
+> >         }
 > >
-> >  #endif /* __ASM_GENERIC_QSPINLOCK_H */
-> > diff --git a/include/asm-generic/ticket_spinlock.h b/include/asm-generi=
-c/ticket_spinlock.h
-> > index cfcff22b37b3..325779970d8a 100644
-> > --- a/include/asm-generic/ticket_spinlock.h
-> > +++ b/include/asm-generic/ticket_spinlock.h
-> > @@ -89,6 +89,7 @@ static __always_inline int ticket_spin_is_contended(a=
-rch_spinlock_t *lock)
-> >         return (s16)((val >> 16) - (val & 0xffff)) > 1;
-> >  }
+> > -       if (zswap_check_limits())
+> > +       cur_pages =3D zswap_total_pages();
+> > +
+> > +       if (cur_pages >=3D zswap_max_pages()) {
+> > +               zswap_pool_limit_hit++;
+> > +               need_global_shrink =3D true;
+> >                 goto reject;
+> > +       }
+> > +
+> > +       /* schedule shrink for incoming pages */
+> > +       if (cur_pages >=3D zswap_shrink_start_pages()
+> > +                       && !work_pending(&zswap_shrink_work))
+> > +               queue_work(shrink_wq, &zswap_shrink_work);
+>
+> I think work_pending() check here is redundant. If you look at the
+> documentation, queue_work only succeeds if zswap_shrink_work is not
+> already on the shrink_wq workqueue.
+>
+> More specifically, if you check the code, queue_work calls
+> queue_work_on, which has this check:
+>
+> if (!test_and_set_bit(WORK_STRUCT_PENDING_BIT, work_data_bits(work)) &&
+>    !clear_pending_if_disabled(work)) {
+>
+> This is the same bit-check as work_pending, which is defined as:
+>
+> #define work_pending(work) \
+> test_bit(WORK_STRUCT_PENDING_BIT, work_data_bits(work))
+>
+
+Thanks for the review and info. I will remove the tests.
+
+>
 > >
-> > +#ifndef __no_arch_spinlock_redefine
-> >  /*
-> >   * Remapping spinlock architecture specific functions to the correspon=
-ding
-> >   * ticket spinlock functions.
-> > @@ -99,5 +100,6 @@ static __always_inline int ticket_spin_is_contended(=
-arch_spinlock_t *lock)
-> >  #define arch_spin_lock(l)              ticket_spin_lock(l)
-> >  #define arch_spin_trylock(l)           ticket_spin_trylock(l)
-> >  #define arch_spin_unlock(l)            ticket_spin_unlock(l)
-> > +#endif
+> >         /* allocate entry */
+> >         entry =3D zswap_entry_cache_alloc(GFP_KERNEL, folio_nid(folio))=
+;
+> > @@ -1541,6 +1547,9 @@ bool zswap_store(struct folio *folio)
 > >
-> >  #endif /* __ASM_GENERIC_TICKET_SPINLOCK_H */
+> >                 WARN_ONCE(err !=3D -ENOMEM, "unexpected xarray error: %=
+d\n", err);
+> >                 zswap_reject_alloc_fail++;
+> > +
+> > +               /* reduce entry in array */
+> > +               need_global_shrink =3D true;
+> >                 goto store_failed;
+> >         }
+> >
+> > @@ -1590,7 +1599,7 @@ bool zswap_store(struct folio *folio)
+> >         zswap_entry_cache_free(entry);
+> >  reject:
+> >         obj_cgroup_put(objcg);
+> > -       if (zswap_pool_reached_full)
+> > +       if (need_global_shrink && !work_pending(&zswap_shrink_work))
+> >                 queue_work(shrink_wq, &zswap_shrink_work);
+> >  check_old:
+> >         /*
 > > --
-> > 2.39.2
+> > 2.43.0
 > >
->
->
-> --
-> Best Regards
->  Guo Ren
+
+
+
+--=20
+
+<flintglass@gmail.com>
