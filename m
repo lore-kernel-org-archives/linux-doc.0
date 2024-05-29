@@ -1,217 +1,317 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4A9D23AD;
-	Wed, 29 May 2024 13:00:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 455B49474
+	for <linux-doc@vger.kernel.org>; Wed, 29 May 2024 13:03:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716987616; cv=none; b=UgJLEZZ8vPvrpwQzXfQciDJer6mOTCSLui74iUZ2rKzj9Lrh+KH3sL7h8G4JJ5KzXCLgtjSF8BFUiB7wSfgsmMBrnePAEC89yJJITQNsDtSIqomF8yg5Lq4HzdmWv6kSg7jftUizAbQ3LN4/ySP16g2hQreedg2FQPkOpij1Yjc=
+	t=1716987797; cv=none; b=aU99vKDnn+d3xlBqtK/4zwOWdppd5MfeXsk54b4VZ8XJrVAv7J0d0I394AR+Ksrtsw3HgijQyA5xRbH7/vPYDm+L89jQPHRsZTOsWMWRcg2LDfJwoYrvaQbUaEKDLGllm2LSlhBYVR3d7eQgk0iYc/hAvsGE5yLXlK7we9I6iQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716987616; c=relaxed/simple;
-	bh=+7MAXcpEI2V0dn74e9ZJ+0ezqO0as0UObbIP44gwxOc=;
+	s=arc-20240116; t=1716987797; c=relaxed/simple;
+	bh=plbm0UwJrFwfzD9Dmtp+AyvK+To9bjohXCP2XDl3dNY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rsrtzOVkA2XopI2Ax6lwWPPb5RhxpRwHp7Oxd3fW8bIlQVYzJKa2OBP3bsoXSxDeSHam4DzbZSn+NkTwOFVRkfKfzPAQDY/XHGYLbiUcI3s6zwp/BvFVl+MaCEvnO1FNgT3CoSt1qA9oP1nID4pTalxpOu7wbTwhrfoKDgRs5vw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XrEa4Tj4; arc=none smtp.client-ip=209.85.128.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=AQTrpzRLqnIQPVhFNV6/DWcJKmuBjqzUjWiHuWB8Bd1uL7W+z0U45wX/JNDhRALgGdZiV+93yvN7TH+1oHM6YEI+jVdMQYrlrtIy0Lm5AVpiNrAwLV+JEv8K9uLD4AGHB9SdBqBjqE4K+4ZCqozimZ+PtN7Q1Bncc5FkzgGFoK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=V45Jp9Q/; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XrEa4Tj4"
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-62a2424ecb8so18795737b3.1;
-        Wed, 29 May 2024 06:00:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="V45Jp9Q/"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-579cd80450fso1574908a12.0
+        for <linux-doc@vger.kernel.org>; Wed, 29 May 2024 06:03:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1716987614; x=1717592414; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1716987794; x=1717592594; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/8xSjHIJtxOZ2a/v+doe+8LgtILr0Bo4UnJUupQYDU8=;
-        b=XrEa4Tj4PUqZ6PGzlD26vI04XWCDM8KSa6Wft/miSdo+5Tx8mHRCuOvHGXE5ZTWYd/
-         rtWJ35qbFtPmoNR16FwobUe8EbV5NtTl2fxSnWZDFeMAsDwICZk9jXG7frs9/yFOWCZY
-         By843T6Ql/jVYi3DWWpgrF06ux0mL6IHt3DZkUwi5V2skT4UTWKXZuzc4HyR5/E0aug7
-         oKcDf2wh43TJ+RWnCg42Bwe1ue2rhJXEG4+m6fWBk7/l/G+1h0umkkpojqA0100BBwH0
-         X4kkfyjhoU7fipxBP0wvT2IrN8CDvDizDRYmjOdZAk9VF/CnzDPIhd/8JRM67TvOUAQ/
-         Cy4A==
+        bh=eXoFBUxU8GTDCXQrYS3KoHVxekdKDuF8Uub92bjfWis=;
+        b=V45Jp9Q/75QGlURbgeBkhtD89d4/IyOF4IC9UCGS2SagOmqBaha2/7SW4onZAp1swA
+         iZvybwVLnwAOcUImNO70SqY6cIVD6DXVXmRsHRrFJ8ZGv1EN663GViVR2L7ffPhOlTG/
+         MrmWPw0GcIZ3+fZTaXhnYe4+caHF1ldIgvss4pB+DvAF4FCb0j4f324eEL3nlhSZxFtB
+         DaEEKjFuS6bEqVDHjqvEg0FdIXePrmJK5dxOn1Ml23vAsoRlMcOH/s5Ix+vsf2z4LLEW
+         yskDKi1/ioJ9g8b0/GYJUTQwRDuNRswaEVh+wWO/2gV480LvGN+EnkTaARmR212yAUTR
+         AwoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716987614; x=1717592414;
+        d=1e100.net; s=20230601; t=1716987794; x=1717592594;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/8xSjHIJtxOZ2a/v+doe+8LgtILr0Bo4UnJUupQYDU8=;
-        b=nYrzdGPvaZpr6B0GYJBmrMIGI8DknankbS6aCtrrApmnSh+1N1JNEoQLekktzNQACp
-         LGO/09w+M7YxvhZAMZ80iJSOrYAvqJLxY0hhF5AKvuw9CUSCGP6lqo8F4AIrIG2cNNHS
-         PFUW3RKz9m9ljBGUx92CRh++voyasRkP9qJtzREL5D69S9FjS3ZrGW7xrYBlcHTCnDtA
-         g3+sXT+iD1F+gGFYHtdqMPY+vIHb3hUx3+WS7KMKX4fHMz4RCnHpqP11ykU679B+T8QA
-         RJKJ3FHJGmFwULQ3rp0PvOrrx3b8BOEuKJwRQP3Zi3f57cjuudmmujN5RixyIVlfeNHH
-         HkYA==
-X-Forwarded-Encrypted: i=1; AJvYcCU9dMmDu6gotGIeSg/YTZFEuTw6jGS+O3tJJKAWw3HvSUyA5Kcfb9w6VQyf/sQt1d9FRDsSsj2YnH5p2nSrJ9TrOqff4xItDZwULqeFo/fInhP8GkZ4gRsOOa09AvBteCw5h2DvyJdh
-X-Gm-Message-State: AOJu0YyAgGkRas4/rlw9Nhp/7TdJEJH/7oCNxntqUFUY3tgHpePb9MrA
-	w8ydqKp7mdhQAACsisdDyqEjq068HtBkPZ9IauFnAUnajnEhbSW7RpkmwSwzW+xGkxC357H/Bsu
-	Eqt7ssrRKU70DLK70A/L7ufQ34owN1FT5vVI=
-X-Google-Smtp-Source: AGHT+IHec4C5468aehPFSf+H+IRsi2KOo7M1H9KdehWrWGG2japGsiZWWYbaXE8DwyOOFQCDUWY+syODWJolEyUTa3k=
-X-Received: by 2002:a81:6cd6:0:b0:61b:6757:a3df with SMTP id
- 00721157ae682-62a08eb4a6emr145503807b3.33.1716987612935; Wed, 29 May 2024
- 06:00:12 -0700 (PDT)
+        bh=eXoFBUxU8GTDCXQrYS3KoHVxekdKDuF8Uub92bjfWis=;
+        b=UAZUT7//6DG2Ed9E7om2oZOf2zxJtmxRu67ei7arIl9duUiSnIkjrcnEYaJgqD5rMK
+         osNqA+2xRItHGS3RMsXMeEwYw5m1HciLEfL6r1HsfHre8l1/CTnrzonjtTOcBI8G/K52
+         +d+VEHdUfcnQ72VLpYaW/IupAuH3xY8RgLBn7XYp0t/pMQFwxtCOa8LUQhj+4t6YqI87
+         hwuAHYXLBWE1NwQBonHmd3wbnPf+fkpAXC5bKUbni17Iv5avDPswVJH/z6u9+rg6JP7Q
+         G7Nr3roarYUR3AydWrXr4mZBSeN6yelyjnYRK6OvUGTvUWqKAM501W67mvCWs3f3JA/H
+         Ln5A==
+X-Forwarded-Encrypted: i=1; AJvYcCXtIlkWdPkF3S84nNoKieO4w2iu/ng2ysTWL1nlU3cQ3R0YAS/XFrqp+kyGuROGaSbPrV29y2JJS9dpCtHuIS0mZfTlYujSSV6R
+X-Gm-Message-State: AOJu0YySETFFObYTDrN743zWuryprLqqHMH90NuHqJT1/IjFYbRV31Ql
+	1OZ0i0rHQy6BHHn/vlZ1tYx8ypnc9zNwb9MpuftMLh1PH56AD5LGIxmVX17l9lDHuziyXzMYScZ
+	kPRAe7F+1qrHxBldv1QKhaBdbxste4piO6K+GRw==
+X-Google-Smtp-Source: AGHT+IELUzP/aMrB1shC4uvPl7RzfKxkfOoSQkW19agD11fiCpbbz06vIPabz5DmKggjJsNuRN2YYEdhS59m6Vlln/c=
+X-Received: by 2002:a50:8719:0:b0:574:c3e4:1fa3 with SMTP id
+ 4fb4d7f45d1cf-57a041388d3mr1586088a12.20.1716987793520; Wed, 29 May 2024
+ 06:03:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240528043404.39327-2-flintglass@gmail.com> <20240528043404.39327-4-flintglass@gmail.com>
- <CAKEwX=NnigYafFtQ63mknr_Gi7AVG5rp514GHi0a1K5PiNUxSQ@mail.gmail.com>
-In-Reply-To: <CAKEwX=NnigYafFtQ63mknr_Gi7AVG5rp514GHi0a1K5PiNUxSQ@mail.gmail.com>
-From: Takero Funaki <flintglass@gmail.com>
-Date: Wed, 29 May 2024 22:00:02 +0900
-Message-ID: <CAPpodddOjhqh27Nt_Gkf=BTG0NBvWR4sxLPWQRHmPmwGOk0JAA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] mm: zswap: fix global shrinker error handling logic
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Yosry Ahmed <yosryahmed@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+References: <20240528151052.313031-1-alexghiti@rivosinc.com>
+ <20240528151052.313031-8-alexghiti@rivosinc.com> <CAJF2gTQgg-7Fzoz9TsjWD-_8ABbS7M66aEztCsZ9Ejk8LOvmiQ@mail.gmail.com>
+In-Reply-To: <CAJF2gTQgg-7Fzoz9TsjWD-_8ABbS7M66aEztCsZ9Ejk8LOvmiQ@mail.gmail.com>
+From: Alexandre Ghiti <alexghiti@rivosinc.com>
+Date: Wed, 29 May 2024 15:03:00 +0200
+Message-ID: <CAHVXubg=T3AMER0z8-iRqqFmDQp8iEM92cXwPZcW2Sfm=_KOHQ@mail.gmail.com>
+Subject: Re: [PATCH 7/7] riscv: Add qspinlock support based on Zabha extension
+To: Guo Ren <guoren@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, 
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Leonardo Bras <leobras@redhat.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-arch@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-2024=E5=B9=B45=E6=9C=8829=E6=97=A5(=E6=B0=B4) 0:11 Nhat Pham <nphamcs@gmail=
-.com>:
+Hi Guo,
+
+On Wed, May 29, 2024 at 11:24=E2=80=AFAM Guo Ren <guoren@kernel.org> wrote:
 >
-> On Mon, May 27, 2024 at 9:34=E2=80=AFPM Takero Funaki <flintglass@gmail.c=
-om> wrote:
+> On Tue, May 28, 2024 at 11:18=E2=80=AFPM Alexandre Ghiti <alexghiti@rivos=
+inc.com> wrote:
 > >
-> > This patch fixes zswap global shrinker that did not shrink zpool as
-> > expected.
+> > In order to produce a generic kernel, a user can select
+> > CONFIG_QUEUED_SPINLOCKS which will fallback at runtime to the ticket
+> > spinlock implementation if Zabha is not present.
 > >
-> > The issue it addresses is that `shrink_worker()` did not distinguish
-> > between unexpected errors and expected error codes that should be
-> > skipped, such as when there is no stored page in a memcg. This led to
-> > the shrinking process being aborted on the expected error codes.
+> > Note that we can't use alternatives here because the discovery of
+> > extensions is done too late and we need to start with the qspinlock
+> > implementation because the ticket spinlock implementation would pollute
+> > the spinlock value, so let's use static keys.
 > >
-> > The shrinker should ignore these cases and skip to the next memcg.
-> > However,  skipping all memcgs presents another problem. To address this=
-,
-> > this patch tracks progress while walking the memcg tree and checks for
-> > progress once the tree walk is completed.
+> > This is largely based on Guo's work and Leonardo reviews at [1].
 > >
-> > To handle the empty memcg case, the helper function `shrink_memcg()` is
-> > modified to check if the memcg is empty and then return -ENOENT.
-> >
-> > Fixes: a65b0e7607cc ("zswap: make shrinking memcg-aware")
-> > Signed-off-by: Takero Funaki <flintglass@gmail.com>
+> > Link: https://lore.kernel.org/linux-riscv/20231225125847.2778638-1-guor=
+en@kernel.org/ [1]
+> > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 > > ---
-> >  mm/zswap.c | 31 ++++++++++++++++++++++++++-----
-> >  1 file changed, 26 insertions(+), 5 deletions(-)
+> >  .../locking/queued-spinlocks/arch-support.txt |  2 +-
+> >  arch/riscv/Kconfig                            |  1 +
+> >  arch/riscv/include/asm/Kbuild                 |  4 +-
+> >  arch/riscv/include/asm/spinlock.h             | 39 +++++++++++++++++++
+> >  arch/riscv/kernel/setup.c                     | 18 +++++++++
+> >  include/asm-generic/qspinlock.h               |  2 +
+> >  include/asm-generic/ticket_spinlock.h         |  2 +
+> >  7 files changed, 66 insertions(+), 2 deletions(-)
+> >  create mode 100644 arch/riscv/include/asm/spinlock.h
 > >
-> > diff --git a/mm/zswap.c b/mm/zswap.c
-> > index 0b1052cee36c..08a6f5a6bf62 100644
-> > --- a/mm/zswap.c
-> > +++ b/mm/zswap.c
-> > @@ -1304,7 +1304,7 @@ static struct shrinker *zswap_alloc_shrinker(void=
-)
-> >
-> >  static int shrink_memcg(struct mem_cgroup *memcg)
-> >  {
-> > -       int nid, shrunk =3D 0;
-> > +       int nid, shrunk =3D 0, stored =3D 0;
-> >
-> >         if (!mem_cgroup_zswap_writeback_enabled(memcg))
-> >                 return -EINVAL;
-> > @@ -1319,9 +1319,16 @@ static int shrink_memcg(struct mem_cgroup *memcg=
-)
-> >         for_each_node_state(nid, N_NORMAL_MEMORY) {
-> >                 unsigned long nr_to_walk =3D 1;
-> >
-> > +               if (!list_lru_count_one(&zswap_list_lru, nid, memcg))
-> > +                       continue;
-> > +               ++stored;
-> >                 shrunk +=3D list_lru_walk_one(&zswap_list_lru, nid, mem=
-cg,
-> >                                             &shrink_memcg_cb, NULL, &nr=
-_to_walk);
-> >         }
+> > diff --git a/Documentation/features/locking/queued-spinlocks/arch-suppo=
+rt.txt b/Documentation/features/locking/queued-spinlocks/arch-support.txt
+> > index 22f2990392ff..cf26042480e2 100644
+> > --- a/Documentation/features/locking/queued-spinlocks/arch-support.txt
+> > +++ b/Documentation/features/locking/queued-spinlocks/arch-support.txt
+> > @@ -20,7 +20,7 @@
+> >      |    openrisc: |  ok  |
+> >      |      parisc: | TODO |
+> >      |     powerpc: |  ok  |
+> > -    |       riscv: | TODO |
+> > +    |       riscv: |  ok  |
+> >      |        s390: | TODO |
+> >      |          sh: | TODO |
+> >      |       sparc: |  ok  |
+> > diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> > index 184a9edb04e0..ccf1703edeb9 100644
+> > --- a/arch/riscv/Kconfig
+> > +++ b/arch/riscv/Kconfig
+> > @@ -59,6 +59,7 @@ config RISCV
+> >         select ARCH_SUPPORTS_SHADOW_CALL_STACK if HAVE_SHADOW_CALL_STAC=
+K
+> >         select ARCH_USE_MEMTEST
+> >         select ARCH_USE_QUEUED_RWLOCKS
+> > +       select ARCH_USE_QUEUED_SPINLOCKS if TOOLCHAIN_HAS_ZABHA
+> Using qspinlock or not depends on real hardware capabilities, not the
+> compiler flag. That's why I introduced combo-spinlock, ticket-spinlock
+> & qspinlock three Kconfigs, and the combo-spinlock would compat all
+> hardware platforms but waste some qspinlock code size.
+
+You're right, and I think your comment matches what Conor mentioned
+about the lack of clarity with some extensions: TOOLCHAIN_HAS_ZABHA
+will allow a platform with Zabha capability to use qspinlocks. But if
+the hardware does not, it will fallback to the ticket spinlocks.
+
+But I agree that looking at the config alone may be misleading, even
+though it will work as expected at runtime. So I agree with you:
+unless anyone is strongly against the combo spinlocks, I will do what
+you suggest and add them.
+
+Thanks again for your initial work,
+
+Alex
+
+>
+> >         select ARCH_USES_CFI_TRAPS if CFI_CLANG
+> >         select ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH if SMP && MMU
+> >         select ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT if MMU
+> > diff --git a/arch/riscv/include/asm/Kbuild b/arch/riscv/include/asm/Kbu=
+ild
+> > index 504f8b7e72d4..ad72f2bd4cc9 100644
+> > --- a/arch/riscv/include/asm/Kbuild
+> > +++ b/arch/riscv/include/asm/Kbuild
+> > @@ -2,10 +2,12 @@
+> >  generic-y +=3D early_ioremap.h
+> >  generic-y +=3D flat.h
+> >  generic-y +=3D kvm_para.h
+> > +generic-y +=3D mcs_spinlock.h
+> >  generic-y +=3D parport.h
+> > -generic-y +=3D spinlock.h
+> >  generic-y +=3D spinlock_types.h
+> > +generic-y +=3D ticket_spinlock.h
+> >  generic-y +=3D qrwlock.h
+> >  generic-y +=3D qrwlock_types.h
+> > +generic-y +=3D qspinlock.h
+> >  generic-y +=3D user.h
+> >  generic-y +=3D vmlinux.lds.h
+> > diff --git a/arch/riscv/include/asm/spinlock.h b/arch/riscv/include/asm=
+/spinlock.h
+> > new file mode 100644
+> > index 000000000000..e00429ac20ed
+> > --- /dev/null
+> > +++ b/arch/riscv/include/asm/spinlock.h
+> > @@ -0,0 +1,39 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
 > > +
-> > +       if (!stored)
-> > +               return -ENOENT;
+> > +#ifndef __ASM_RISCV_SPINLOCK_H
+> > +#define __ASM_RISCV_SPINLOCK_H
 > > +
-> >         return shrunk ? 0 : -EAGAIN;
+> > +#ifdef CONFIG_QUEUED_SPINLOCKS
+> > +#define _Q_PENDING_LOOPS       (1 << 9)
+> > +
+> > +#define __no_arch_spinlock_redefine
+> > +#include <asm/ticket_spinlock.h>
+> > +#include <asm/qspinlock.h>
+> > +#include <asm/alternative.h>
+> > +
+> > +DECLARE_STATIC_KEY_TRUE(qspinlock_key);
+> > +
+> > +#define SPINLOCK_BASE_DECLARE(op, type, type_lock)                    =
+ \
+> > +static __always_inline type arch_spin_##op(type_lock lock)            =
+ \
+> > +{                                                                     =
+ \
+> > +       if (static_branch_unlikely(&qspinlock_key))                    =
+ \
+> > +               return queued_spin_##op(lock);                         =
+ \
+> > +       return ticket_spin_##op(lock);                                 =
+ \
+> > +}
+> > +
+> > +SPINLOCK_BASE_DECLARE(lock, void, arch_spinlock_t *)
+> > +SPINLOCK_BASE_DECLARE(unlock, void, arch_spinlock_t *)
+> > +SPINLOCK_BASE_DECLARE(is_locked, int, arch_spinlock_t *)
+> > +SPINLOCK_BASE_DECLARE(is_contended, int, arch_spinlock_t *)
+> > +SPINLOCK_BASE_DECLARE(trylock, bool, arch_spinlock_t *)
+> > +SPINLOCK_BASE_DECLARE(value_unlocked, int, arch_spinlock_t)
+> > +
+> > +#else
+> > +
+> > +#include <asm/ticket_spinlock.h>
+> > +
+> > +#endif
+> > +
+> > +#include <asm/qrwlock.h>
+> > +
+> > +#endif /* __ASM_RISCV_SPINLOCK_H */
+> > diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
+> > index 4f73c0ae44b2..31ce75522fd4 100644
+> > --- a/arch/riscv/kernel/setup.c
+> > +++ b/arch/riscv/kernel/setup.c
+> > @@ -244,6 +244,23 @@ static void __init parse_dtb(void)
+> >  #endif
 > >  }
 > >
-> > @@ -1329,12 +1336,18 @@ static void shrink_worker(struct work_struct *w=
-)
-> >  {
-> >         struct mem_cgroup *memcg =3D NULL;
-> >         struct mem_cgroup *next_memcg;
-> > -       int ret, failures =3D 0;
-> > +       int ret, failures =3D 0, progress;
-> >         unsigned long thr;
-> >
-> >         /* Reclaim down to the accept threshold */
-> >         thr =3D zswap_accept_thr_pages();
-> >
-> > +       /*
-> > +        * We might start from the last memcg.
-> > +        * That is not a failure.
-> > +        */
-> > +       progress =3D 1;
+> > +DEFINE_STATIC_KEY_TRUE(qspinlock_key);
+> > +EXPORT_SYMBOL(qspinlock_key);
 > > +
-> >         /* global reclaim will select cgroup in a round-robin fashion.
-> >          *
-> >          * We save iteration cursor memcg into zswap_next_shrink,
-> > @@ -1366,9 +1379,12 @@ static void shrink_worker(struct work_struct *w)
-> >                  */
-> >                 if (!memcg) {
-> >                         spin_unlock(&zswap_shrink_lock);
-> > -                       if (++failures =3D=3D MAX_RECLAIM_RETRIES)
+> > +static void __init riscv_spinlock_init(void)
+> > +{
+> > +       asm goto(ALTERNATIVE("nop", "j %[qspinlock]", 0, RISCV_ISA_EXT_=
+ZABHA, 1)
+> > +                : : : : qspinlock);
 > > +
-> > +                       /* tree walk completed but no progress */
-> > +                       if (!progress && ++failures =3D=3D MAX_RECLAIM_=
-RETRIES)
-> >                                 break;
-> >
-> > +                       progress =3D 0;
-> >                         goto resched;
-> >                 }
-
-Here, the `progress` counter tracks how many memcgs successfully evict
-a page in a tree walking. (not per the while loop) then reset to 0.
-progress > 0 ensures there is progress.
-If we visit the tree root (NULL) without any progress, it will be a failure=
-.
-
-Before the loop starts, progress counter is initialized to 1 because
-the first tree walk might not  iterate all the memcgs, e.g. the
-previous worker was terminated at the very last memcg.
-
-
-> >
-> > @@ -1391,10 +1407,15 @@ static void shrink_worker(struct work_struct *w=
-)
-> >                 /* drop the extra reference */
-> >                 mem_cgroup_put(memcg);
-> >
-> > -               if (ret =3D=3D -EINVAL)
-> > -                       break;
-> > +               /* not a writeback candidate memcg */
-> > +               if (ret =3D=3D -EINVAL || ret =3D=3D -ENOENT)
-> > +                       continue;
+> > +       static_branch_disable(&qspinlock_key);
+> > +       pr_info("Ticket spinlock: enabled\n");
 > > +
->
-> Can we get into an infinite loop or a really long running loops here
-> if all memcgs have their writeback disabled?
->
-> >                 if (ret && ++failures =3D=3D MAX_RECLAIM_RETRIES)
-> >                         break;
+> > +       return;
 > > +
-> > +               ++progress;
-> > +               /* reschedule as we performed some IO */
-> >  resched:
-> >                 cond_resched();
-> >         } while (zswap_total_pages() > thr);
+> > +qspinlock:
+> > +       pr_info("Queued spinlock: enabled\n");
+> > +}
+> > +
+> >  extern void __init init_rt_signal_env(void);
+> >
+> >  void __init setup_arch(char **cmdline_p)
+> > @@ -295,6 +312,7 @@ void __init setup_arch(char **cmdline_p)
+> >         riscv_set_dma_cache_alignment();
+> >
+> >         riscv_user_isa_enable();
+> > +       riscv_spinlock_init();
+> >  }
+> >
+> >  bool arch_cpu_is_hotpluggable(int cpu)
+> > diff --git a/include/asm-generic/qspinlock.h b/include/asm-generic/qspi=
+nlock.h
+> > index 0655aa5b57b2..bf47cca2c375 100644
+> > --- a/include/asm-generic/qspinlock.h
+> > +++ b/include/asm-generic/qspinlock.h
+> > @@ -136,6 +136,7 @@ static __always_inline bool virt_spin_lock(struct q=
+spinlock *lock)
+> >  }
+> >  #endif
+> >
+> > +#ifndef __no_arch_spinlock_redefine
+> >  /*
+> >   * Remapping spinlock architecture specific functions to the correspon=
+ding
+> >   * queued spinlock functions.
+> > @@ -146,5 +147,6 @@ static __always_inline bool virt_spin_lock(struct q=
+spinlock *lock)
+> >  #define arch_spin_lock(l)              queued_spin_lock(l)
+> >  #define arch_spin_trylock(l)           queued_spin_trylock(l)
+> >  #define arch_spin_unlock(l)            queued_spin_unlock(l)
+> > +#endif
+> >
+> >  #endif /* __ASM_GENERIC_QSPINLOCK_H */
+> > diff --git a/include/asm-generic/ticket_spinlock.h b/include/asm-generi=
+c/ticket_spinlock.h
+> > index cfcff22b37b3..325779970d8a 100644
+> > --- a/include/asm-generic/ticket_spinlock.h
+> > +++ b/include/asm-generic/ticket_spinlock.h
+> > @@ -89,6 +89,7 @@ static __always_inline int ticket_spin_is_contended(a=
+rch_spinlock_t *lock)
+> >         return (s16)((val >> 16) - (val & 0xffff)) > 1;
+> >  }
+> >
+> > +#ifndef __no_arch_spinlock_redefine
+> >  /*
+> >   * Remapping spinlock architecture specific functions to the correspon=
+ding
+> >   * ticket spinlock functions.
+> > @@ -99,5 +100,6 @@ static __always_inline int ticket_spin_is_contended(=
+arch_spinlock_t *lock)
+> >  #define arch_spin_lock(l)              ticket_spin_lock(l)
+> >  #define arch_spin_trylock(l)           ticket_spin_trylock(l)
+> >  #define arch_spin_unlock(l)            ticket_spin_unlock(l)
+> > +#endif
+> >
+> >  #endif /* __ASM_GENERIC_TICKET_SPINLOCK_H */
 > > --
-> > 2.43.0
+> > 2.39.2
 > >
-
-
-
---=20
-
-<flintglass@gmail.com>
+>
+>
+> --
+> Best Regards
+>  Guo Ren
