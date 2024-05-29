@@ -1,86 +1,125 @@
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C9417DE14;
-	Wed, 29 May 2024 16:06:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26AD91836DF;
+	Wed, 29 May 2024 16:23:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716998765; cv=none; b=hCf5BRdB+VZfJbqeElApTHhZdUQBv6KPlhvKL+OmmXD29Uy53/PZlIMiwzkckhWYu+xxSDzeHLAeD/ZjUuGrjKstl0jgn6f9Aoc57uHkTkYZNEnsa2nXS32r7ysEtSPmWP/S6Z0FQJPSahuw924o+L9wG5gDTjsz8hbL/5DluEc=
+	t=1716999787; cv=none; b=MgO7XDz6Rz8jyX02mMPWorh9r46m3aYv9eszVRbSwopxVRGWHgDXTaVn/N0DzNdkyaoNajWbSkIJGlFdZSeDqaRCAt5gDKWGJbbXeGye3UP5fxKKbQ2HAzMgYoKGdolKQvkyGgryDuSOtaNJvG9iYUc441RaNbJnb9rqH/tyX1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716998765; c=relaxed/simple;
-	bh=CK8OAPbBbXSoOWPUjOyns04q5VfwYNuBKWySKS482EI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TsyGa+U7oIRuQ3/oSY8hvrlZy2k6LiZqsFpLHQfyeaOnbL9xIkgMsiTw85+1lZKvyEwP9U0/6DdASwgflVvKqmgGKtYPU5KUQolXDuxlPrClTukM5DHldASN3dCLZOGakx5jMeqaTY1RNBjsdIHzQCjkcDbnzpVbPAoKHWXGViE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=nOkzWmVk; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1716999787; c=relaxed/simple;
+	bh=XGj/g7iOHJl/Awga7F8/WFGN8LmsmDCvK9/ziiAot/U=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=o2HcYgSKdgXxOMIl1eFB9+rsI1WFs+h/Lonml5vrNGoWaa/GStdr8a7hfVcClgNhQzpoGWN9UpjGe83Bkuz9AHl52CRw8Bi0QNe1d6pL2nbn/uNUeBoQRAevL15ADMIFiVniu10p8+jPBV0fmGJ/mwjrhPqfqz+w+tD7uz226ts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=v40g8Krd; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="nOkzWmVk"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 84BBB60005;
-	Wed, 29 May 2024 16:05:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1716998759;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=seDn1vi/ugGwlftgDNRlK7URLt36H1AKmJnfJmt6SmQ=;
-	b=nOkzWmVkHiv5suXZbHQNJKWlM24kofPWPIRmyjduQrM9+ukK4C/yJY9l0/nTT0dAU1ZrSl
-	OCcAcu3TnwA2iohmkJfkHAHcrVGPo97acCokRvBoUlVyhPBcFnwaZsOxfex4pbuXyEMEO1
-	Pz27VosTUyOwdWuC3djd10lUeGrLSJl5NwKpV7aweNF3QdS3ciYHigwbFo02TRw8TuXV0P
-	Bebp65AInAGdRbwoECQOrz8yMmd+11GkyShRCaY8Q3BsgJMBmWAvGZ1vLlhO3YKyM5uwxa
-	ongV+jkwxhSJUEJesYbgzFLhN5aC+IedJBJIK+hf54hqHAncfw3qGyubDfgm7g==
-Date: Wed, 29 May 2024 18:05:56 +0200
-From: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, Florian Fainelli
- <florian.fainelli@broadcom.com>, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn <andrew@lunn.ch>,
- Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Richard
- Cochran <richardcochran@gmail.com>, Radu Pirea
- <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
- Gospodarek <andy@greyhouse.net>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
- UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
- Oltean <vladimir.oltean@nxp.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>
-Subject: Re: [PATCH net-next v13 09/14] net: Add the possibility to support
- a selected hwtstamp in netdevice
-Message-ID: <20240529180556.0e500675@windsurf>
-In-Reply-To: <20240529175032.54070c60@kmaincent-XPS-13-7390>
-References: <20240529-feature_ptp_netnext-v13-0-6eda4d40fa4f@bootlin.com>
-	<20240529-feature_ptp_netnext-v13-9-6eda4d40fa4f@bootlin.com>
-	<20240529082111.1a1cbf1e@kernel.org>
-	<20240529175032.54070c60@kmaincent-XPS-13-7390>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="v40g8Krd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1716999783;
+	bh=XGj/g7iOHJl/Awga7F8/WFGN8LmsmDCvK9/ziiAot/U=;
+	h=From:Subject:Date:To:Cc:From;
+	b=v40g8KrdmQ491KZ7Xniy4WCqzGAxw9T3cF3NCy5TyA/YFiq0ApiiJmAaHbJo42c1S
+	 2MMm7IYCrdeG3j8LRlredviXxwbIYQePrkXqUeWHxo+E2fg76zSVLgdLX5uDh3rYvT
+	 BCuwM/drC50hHxkiwp92ErcANu6IIl6AAgyclL4nxCWxU8QzQ43H8j1b72rGO78Xe5
+	 DWHhseSHE6QQEQaIMSbMmag1xWGtfy3OyDZWamhD5EyLB47ew4eN/DPogcVCNxJ5hS
+	 ez71p52gprzbnu9srVk9iJhZkcZbxPv6YhqgpXWo0i9RLrIGfk+UMKgbx74Rv3rRW/
+	 Lha7bPZKX/DsA==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sebastianfricke)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 4D2053782109;
+	Wed, 29 May 2024 16:23:03 +0000 (UTC)
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+Subject: [PATCH RFC 0/2] Documentation: Debugging guide
+Date: Wed, 29 May 2024 18:22:56 +0200
+Message-Id: <20240529-b4-media_docs_improve-v1-0-9ddb111c4433@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-GND-Sasl: thomas.petazzoni@bootlin.com
+X-B4-Tracking: v=1; b=H4sIAGBWV2YC/x2NywrCMBAAf6Xs2YUYI7ZehX6AV5GSx2oX2qTsY
+ hFK/93gcQaG2UBJmBSuzQZCKyuXXOF4aCCOPr8JOVUGa6wzZ9thcDhTYj+kEnXgeZGyEl468ja5
+ 1rj2BLUNXgmD+BzHWufPNFW5CL34+5894N7f4LnvP0DSKiOBAAAA
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+ hverkuil-cisco@xs4all.nl, mauro.chehab@linux.intel.com, kernel@collabora.com,
+ Sebastian Fricke <sebastian.fricke@collabora.com>
+X-Mailer: b4 0.11.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1716999782; l=2682;
+ i=sebastian.fricke@collabora.com; s=linux-media; h=from:subject:message-id;
+ bh=XGj/g7iOHJl/Awga7F8/WFGN8LmsmDCvK9/ziiAot/U=;
+ b=mC9XGCbAiXfVgn8zVFK7wfffxkYQJr/2N7cXGV68S0Sw/E5DRXgmbg5ZBxCdxaFA58W+YgFgFc29
+ 4bDMTIztBb68Jg/lNfE/rwpDNS6s5riFlxWLAcSU4EkqmTRlA48W
+X-Developer-Key: i=sebastian.fricke@collabora.com; a=ed25519;
+ pk=pYXedPwrTtErcj7ERYeo/IpTrpe4QbJuEzSB52fslBg=
 
-On Wed, 29 May 2024 17:50:32 +0200
-Kory Maincent <kory.maincent@bootlin.com> wrote:
+The RFC contains a new summary page for all media related documentation. This
+is inspired by other subsystems, which first of all allows a user to find the
+subsystem under the subsystems page and secondly eases general navigation
+through the documentation that is sprinkled onto multiple places.
 
-> > ERROR: modpost: "ptp_clock_phydev" [drivers/net/phy/libphy.ko] undefined!  
-> 
-> Thanks for the report.
-> Weird, it should be in builtin code.
+Additionally, it provides a guide on how to debug code in the media subsystem.
 
-Right, but you don't have an EXPORT_SYMBOL() for it, as far as I can see.
+WHY do we need this?
+--------------------
 
-Thomas
+For anyone without years of experience in the Linux kernel, knowing which tool
+to use or even which tools are available is not as straightforward as some
+senior developers might perceive.
+We realized that there is a general need for a kind of "start page", that
+allows especially beginners to get up-to-speed with the codebase and the
+documentation. The documentation in particular is currently quite hard to navigate
+as you mostly have to know what you are searching for to find it.
+
+WHAT do we cover?
+-----------------
+
+The document is structured into two sections:
+
+1. A problem-focused approach: This means, a developer facing an issue matching
+one of the given examples, will find suggestions for how to approach that
+problem (e.g. which tool to use) in this section
+2. A tool-focused approach: This sections highlights the available tools, with
+comparisions between the tools if sensible. The goal of this work is
+**duplicate as little as possible** from the existing documentation and
+instead provide a rough overview that provides:
+    - A link to the actual documentation
+    - A minimal example for how it can be used (from a media perspective,
+      if the usage isn't absolutely trivial like printk)
+    - A rational for why it should be used
+
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: laurent.pinchart@ideasonboard.com
+Cc: hverkuil-cisco@xs4all.nl
+Cc: mauro.chehab@linux.intel.com
+Cc: kernel@collabora.com
+Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+
+---
+Sebastian Fricke (2):
+      docs: media: Create separate documentation folder for media
+      docs: media: Debugging guide for the media subsystem
+
+ Documentation/media/guides/debugging_issues.rst | 477 ++++++++++++++++++++++++
+ Documentation/media/guides/index.rst            |  11 +
+ Documentation/media/index.rst                   |  20 +
+ Documentation/subsystem-apis.rst                |   1 +
+ 4 files changed, 509 insertions(+)
+---
+base-commit: 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0
+change-id: 20240529-b4-media_docs_improve-79ea2d480483
+
+Best regards,
 -- 
-Thomas Petazzoni, co-owner and CEO, Bootlin
-Embedded Linux and Kernel engineering and training
-https://bootlin.com
+Sebastian Fricke <sebastian.fricke@collabora.com>
