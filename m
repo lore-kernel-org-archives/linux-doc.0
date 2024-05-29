@@ -1,114 +1,164 @@
-Received: from 008.lax.mailroute.net (008.lax.mailroute.net [199.89.1.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C99C5177991;
-	Wed, 29 May 2024 22:42:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BF6E1CB32D
+	for <linux-doc@vger.kernel.org>; Wed, 29 May 2024 22:58:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717022540; cv=none; b=WcHKCL8ZfcVTz0bYP969GrXuMpXGJ3eT39srrnhk7bRmsC/r447OF3Qh8GrlFLSQCy2686kPxi/sBBq/jd3NoMyHkXo6crq1TyBjHFfY2zKy5+SXPuLdBa8Gq6bCGP4c86QSGXX+3fyNYMOVihyrQq5Y5Gut9jsDnBVcVqFfFPo=
+	t=1717023487; cv=none; b=edLngfeoTVw5PhYwIq4k3d7LAtIfB6AzYBZ03cdA9pvbZK3JUQmftr6lmWfUxYe9K8rUNV1wDmJ29iUyYQ+OLzd7nLO943VGzQ611oXJOU1d200BuyQmVoig8fseCBUBNMhOCQXbE7k4Ps6lo1CKFpjcjxJD5YEeGfJjG4f0yKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717022540; c=relaxed/simple;
-	bh=OVpH2Iy+UNqNaSBm+18bef9LK4uwfGTVFbqySkhuG4U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AfVTBBlJvWsrRwNI7KsE7Kb0p8CiwIx49MogYA2aAj0fOPoaRZrBCu3pPW0L2+UhYleA70b7o33LgBxnyPjjvZQnXyQBhzRjyrYxFt6GZTeDe5eG8STEHrdCzJU33bKUwVSEYyLl45YDzYtJjwBLNzWAf7BMFzL+FaOk+PhGqT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=PJ33HDfE; arc=none smtp.client-ip=199.89.1.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
+	s=arc-20240116; t=1717023487; c=relaxed/simple;
+	bh=ILTrqYj7gGL+uJmOCLBAjzct0EhWj0aN1ME6oQovXBA=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=gaaZEoZLWfSbzT1OOcEEQ3gmfH0GmxnPbOZIRhSHFlWW7yQulLAYGaHWXjMvYIhFZyhnK2NwGj4vxbilCbNUBACqkj+j7NkfFFa3xX5BksY8djiKwbzmlnRRV8u6NU/ByypGkqHqvT/IiJ9AwEUW2OAKYsRmfRiT12+3rJ5ClGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hQASlsLC; arc=none smtp.client-ip=209.85.128.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="PJ33HDfE"
-Received: from localhost (localhost [127.0.0.1])
-	by 008.lax.mailroute.net (Postfix) with ESMTP id 4VqPXB0kc4z6Cnk97;
-	Wed, 29 May 2024 22:42:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1717022525; x=1719614526; bh=wmqAutlJJibPd6rU+UVnuwTK
-	NEx0bdku7UkT7t6UWI8=; b=PJ33HDfElBr6B2EjMPAfwGu7bE9RZoyBwrnjF5kb
-	ldVDQ25YGiOYb3pvO+o2X4KwZcFOl2ybOFgIkCOc0Ovy3mSs/Qkku5fBtZSpDMAH
-	mo9zWgWAO/CJ+wjKd7BKsK3R35ll6PbtNTvvc0E3qu33t6NW2oxmMmYoqJ0SyYV/
-	CkMts1Kxkn0f77eR5bgC4+EQtVRK5DWNELILtuJUAh/9D3uk14Q74GoSmyK2dSs8
-	ZCbwXv16vYl8xhRpUrE/FHWvAtX/lSM95PUP8DM2HTM46/7eMAE0O6yZP9PjEk+T
-	mNqQ5EKt9zBW3jpgOkylLeHIVqfmpQAEVzpoWX4wuRTsHg==
-X-Virus-Scanned: by MailRoute
-Received: from 008.lax.mailroute.net ([127.0.0.1])
- by localhost (008.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id b0OFq5KM274R; Wed, 29 May 2024 22:42:05 +0000 (UTC)
-Received: from [192.168.3.219] (c-73-231-117-72.hsd1.ca.comcast.net [73.231.117.72])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 008.lax.mailroute.net (Postfix) with ESMTPSA id 4VqPWk5M18z6Cnk94;
-	Wed, 29 May 2024 22:41:54 +0000 (UTC)
-Message-ID: <a866d5b5-5b01-44a2-9ccb-63bf30aa8a51@acm.org>
-Date: Wed, 29 May 2024 15:41:51 -0700
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hQASlsLC"
+Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-62a0825e365so4039727b3.1
+        for <linux-doc@vger.kernel.org>; Wed, 29 May 2024 15:58:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1717023484; x=1717628284; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lXQ4aAmXpFR+Rnn+LVSp/P9w+zocv3IAjl6jcVlXHAQ=;
+        b=hQASlsLCL8kat+pj2/OkA1ZECcq0+xKl8UztvJtH9+LXg6cCfWSX0oohqQTDHgHoIb
+         J6rtEUd3mudMo4BrLifi5jjMNrb//SYmWuebakj8yeapa+M7cM5rUoZcZlx3Ve+NlJDg
+         zd/JJqHa5+YYXVp4BgXx5VQTmO3mwBsaM7h74wh90vWCuVcNEX66rVWxK5hJ7BvneDvO
+         CajLCrG7dWW7LRy2ArZt5Y6OfZjNOArR1+A54pEBICg/tKqOHQxZTurZ7Wor7jsvEqOW
+         reBjDmxC96PJzNL61dz+shkHdzwkmQRJziF8517eNEIX/mNdrh/qkIuS3DWbDtU6yAAX
+         Q/1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717023484; x=1717628284;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=lXQ4aAmXpFR+Rnn+LVSp/P9w+zocv3IAjl6jcVlXHAQ=;
+        b=j4RnSpCUr1dj+Rg4njhuIaa0RFIy2JwjVXHEoQ3Je7NaVIo6gVCJ/LpJWddjf4i+6q
+         p0Ty7lccjf08sULhU0qfjcM8IlVwbq5nKwBvtRwQ2SlSfNmwcOorj57jEn4XCXtiP56I
+         NPHNv9sIOW2Ln00d2eiyU7NLuF75n+3nz/H9X+13cxr3al6QPiqt5Q6hHMhwhgJXoJ61
+         A7kuF/IPXFYbND2z7yv8hHW5QhgiGhwfsiveJJ4tChNfxScbpvETKj3pDjj3jrWvQD5U
+         miT38ve8gnJ1tezHj/EVluYN4qC9C2n9dQUh64nYStBMzoEbIZwSjqDCoUA98aNe+nVA
+         jvrw==
+X-Forwarded-Encrypted: i=1; AJvYcCW14nBxN1jxAZKg2BcvLSsL0cZkmTuhzt0K8rHRqhKVa7HzKcKlQ6m3aX/HrHkDV2M2YSxKP6AnqF/sDDHEhAjU8DcB3hvYz/iP
+X-Gm-Message-State: AOJu0YwqNc9U4YIDjh7GJfSm2J6HrTA1hGt/AVojiiP3NxNCRWRUMoET
+	2q7YD127Ol9L/1P/8a6V8vyQP+JWvfyJaBS+TcHmDPLbjf1/qIRHSXzluNvQyxPS7/Eeb8H1M8b
+	0KA==
+X-Google-Smtp-Source: AGHT+IEcoxWAWGQljmQC1ObvPASoASZSWeSUzQr2Szq7dgxCnuAYyloQCwOCyj3B7twEp9K1BnNOHbqA4OU=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a05:6902:1007:b0:dfa:5838:b919 with SMTP id
+ 3f1490d57ef6-dfa5a68828dmr142777276.10.1717023484293; Wed, 29 May 2024
+ 15:58:04 -0700 (PDT)
+Date: Wed, 29 May 2024 15:58:02 -0700
+In-Reply-To: <CAOUHufZdEpY6ra73SMHA33DegKxKaUM=Os7A7aDBFND6NkbUmQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
- and request layer.
-To: Damien Le Moal <dlemoal@kernel.org>, Nitesh Shetty <nj.shetty@samsung.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
- Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
- Mikulas Patocka <mpatocka@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
- Chaitanya Kulkarni <kch@nvidia.com>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
- Jan Kara <jack@suse.cz>, martin.petersen@oracle.com, david@fromorbit.com,
- hare@suse.de, damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com,
- joshi.k@samsung.com, nitheshshetty@gmail.com, gost.dev@samsung.com,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, dm-devel@lists.linux.dev,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
-References: <20240520102033.9361-1-nj.shetty@samsung.com>
- <CGME20240520102842epcas5p4949334c2587a15b8adab2c913daa622f@epcas5p4.samsung.com>
- <20240520102033.9361-3-nj.shetty@samsung.com>
- <eda6c198-3a29-4da4-94db-305cfe28d3d6@acm.org>
- <20240529061736.rubnzwkkavgsgmie@nj.shetty@samsung.com>
- <9f1ec1c1-e1b8-48ac-b7ff-8efb806a1bc8@kernel.org>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <9f1ec1c1-e1b8-48ac-b7ff-8efb806a1bc8@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <20240529180510.2295118-1-jthoughton@google.com>
+ <20240529180510.2295118-3-jthoughton@google.com> <CAOUHufYFHKLwt1PWp2uS6g174GZYRZURWJAmdUWs5eaKmhEeyQ@mail.gmail.com>
+ <ZlelW93_T6P-ZuSZ@google.com> <CAOUHufZdEpY6ra73SMHA33DegKxKaUM=Os7A7aDBFND6NkbUmQ@mail.gmail.com>
+Message-ID: <Zley-u_dOlZ-S-a6@google.com>
+Subject: Re: [PATCH v4 2/7] mm: multi-gen LRU: Have secondary MMUs participate
+ in aging
+From: Sean Christopherson <seanjc@google.com>
+To: Yu Zhao <yuzhao@google.com>
+Cc: James Houghton <jthoughton@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Ankit Agrawal <ankita@nvidia.com>, Anup Patel <anup@brainfault.org>, 
+	Atish Patra <atishp@atishpatra.org>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Bibo Mao <maobibo@loongson.cn>, Catalin Marinas <catalin.marinas@arm.com>, 
+	David Matlack <dmatlack@google.com>, David Rientjes <rientjes@google.com>, 
+	Huacai Chen <chenhuacai@kernel.org>, James Morse <james.morse@arm.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, Oliver Upton <oliver.upton@linux.dev>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Raghavendra Rao Ananta <rananta@google.com>, Ryan Roberts <ryan.roberts@arm.com>, 
+	Shaoqin Huang <shahuang@redhat.com>, Shuah Khan <shuah@kernel.org>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Tianrui Zhao <zhaotianrui@loongson.cn>, 
+	Will Deacon <will@kernel.org>, Zenghui Yu <yuzenghui@huawei.com>, kvm-riscv@lists.infradead.org, 
+	kvm@vger.kernel.org, kvmarm@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-mm@kvack.org, 
+	linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, 
+	loongarch@lists.linux.dev
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 5/29/24 12:48 AM, Damien Le Moal wrote:
-> On 5/29/24 15:17, Nitesh Shetty wrote:
->> On 24/05/24 01:33PM, Bart Van Assche wrote:
->>> On 5/20/24 03:20, Nitesh Shetty wrote:
->>>> We add two new opcode REQ_OP_COPY_DST, REQ_OP_COPY_SRC.
->>>> Since copy is a composite operation involving src and dst sectors/lba,
->>>> each needs to be represented by a separate bio to make it compatible
->>>> with device mapper.
->>>> We expect caller to take a plug and send bio with destination information,
->>>> followed by bio with source information.
->>>> Once the dst bio arrives we form a request and wait for source
->>>> bio. Upon arrival of source bio we merge these two bio's and send
->>>> corresponding request down to device driver.
->>>> Merging non copy offload bio is avoided by checking for copy specific
->>>> opcodes in merge function.
->>>
->>> In this patch I don't see any changes for blk_attempt_bio_merge(). Does
->>> this mean that combining REQ_OP_COPY_DST and REQ_OP_COPY_SRC will never
->>> happen if the QUEUE_FLAG_NOMERGES request queue flag has been set?
->>>
->> Yes, in this case copy won't work, as both src and dst bio reach driver
->> as part of separate requests.
->> We will add this as part of documentation.
-> 
-> So that means that 2 major SAS HBAs which set this flag (megaraid and mpt3sas)
-> will not get support for copy offload ? Not ideal, by far.
+On Wed, May 29, 2024, Yu Zhao wrote:
+> On Wed, May 29, 2024 at 3:59=E2=80=AFPM Sean Christopherson <seanjc@googl=
+e.com> wrote:
+> >
+> > On Wed, May 29, 2024, Yu Zhao wrote:
+> > > On Wed, May 29, 2024 at 12:05=E2=80=AFPM James Houghton <jthoughton@g=
+oogle.com> wrote:
+> > > >
+> > > > Secondary MMUs are currently consulted for access/age information a=
+t
+> > > > eviction time, but before then, we don't get accurate age informati=
+on.
+> > > > That is, pages that are mostly accessed through a secondary MMU (li=
+ke
+> > > > guest memory, used by KVM) will always just proceed down to the old=
+est
+> > > > generation, and then at eviction time, if KVM reports the page to b=
+e
+> > > > young, the page will be activated/promoted back to the youngest
+> > > > generation.
+> > >
+> > > Correct, and as I explained offline, this is the only reasonable
+> > > behavior if we can't locklessly walk secondary MMUs.
+> > >
+> > > Just for the record, the (crude) analogy I used was:
+> > > Imagine a large room with many bills ($1, $5, $10, ...) on the floor,
+> > > but you are only allowed to pick up 10 of them (and put them in your
+> > > pocket). A smart move would be to survey the room *first and then*
+> > > pick up the largest ones. But if you are carrying a 500 lbs backpack,
+> > > you would just want to pick up whichever that's in front of you rathe=
+r
+> > > than walk the entire room.
+> > >
+> > > MGLRU should only scan (or lookaround) secondary MMUs if it can be
+> > > done lockless. Otherwise, it should just fall back to the existing
+> > > approach, which existed in previous versions but is removed in this
+> > > version.
+> >
+> > IIUC, by "existing approach" you mean completely ignore secondary MMUs =
+that
+> > don't implement a lockless walk?
+>=20
+> No, the existing approach only checks secondary MMUs for LRU folios,
+> i.e., those at the end of the LRU list. It might not find the best
+> candidates (the coldest ones) on the entire list, but it doesn't pay
+> as much for the locking. MGLRU can *optionally* scan MMUs (secondary
+> included) to find the best candidates, but it can only be a win if the
+> scanning incurs a relatively low overhead, e.g., done locklessly for
+> the secondary MMU. IOW, this is a balance between the cost of
+> reclaiming not-so-cold (warm) folios and that of finding the coldest
+> folios.
 
-QUEUE_FLAG_NOMERGES can also be set through sysfs (see also
-queue_nomerges_store()). This is one of the reasons why using the merge
-infrastructure for combining REQ_OP_COPY_DST and REQ_OP_COPY_SRC is
-unacceptable.
+Gotcha.
 
-Thanks,
+I tend to agree with Yu, driving the behavior via a Kconfig may generate si=
+mpler
+_code_, but I think it increases the overall system complexity.  E.g. distr=
+os
+will likely enable the Kconfig, and in my experience people using KVM with =
+a
+distro kernel usually aren't kernel experts, i.e. likely won't know that th=
+ere's
+even a decision to be made, let alone be able to make an informed decision.
 
-Bart.
+Having an mmu_notifier hook that is conditionally implemented doesn't seem =
+overly
+complex, e.g. even if there's a runtime aspect at play, it'd be easy enough=
+ for
+KVM to nullify its mmu_notifier hook during initialization.  The hardest pa=
+rt is
+likely going to be figuring out the threshold for how much overhead is too =
+much.
