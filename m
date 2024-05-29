@@ -1,113 +1,167 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBB2315CD59
-	for <linux-doc@vger.kernel.org>; Wed, 29 May 2024 18:34:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCEEE335C7;
+	Wed, 29 May 2024 19:05:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717007662; cv=none; b=LpCXJOCQWQgAYOkCm4bXaHY30J6EIILtMMqgGPMDcvEz3LdGDW/EHpG6Vx4tfR4b0Gln7IXyQbF/JhDqCLUfomeLEDjZ9fztd4mPKzuJjn8AYlvbQoGijeMPtTfucxDcZCNJzMl27yG33ZVSbzMLatmS73AMKEyXlv/fiHypLdo=
+	t=1717009543; cv=none; b=qTnlF4ROHg55Pw8KIWC1J4FKNqzUSxBjlAj2ZgOBFJEzYrRsM/vsGSpaxLm9arI32ySAertZ0HajxiZYUDslg7oCTQ0+XwaRkkbRSwSzKGmEvpP1fD+s9Jj17eZjqTTfz3DjtmJLqrY+RP3ZRcuipbiNYArSUg/iiEdJemd5Tlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717007662; c=relaxed/simple;
-	bh=/LUGPZ8sRhOa4AmLVDY/nkUbCDAoK3NG9aCU9NfcpLI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=njbylkTkwb4UHKJiY+0VY+rvo64Q3XgtINvT01YPOBVqzIgOU5MzoyJVUyMAKXmA0oG2yZDj7T6P/CRTRTxEjmUpHtIKuIz+ck2H8y1YBv+aqtuJ8VxnLY5z//qcsV+Mo4XbRbcXBAJoXLeNHx8wBWLwLESpwZF3vRq+eGpo0p0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=OgZhJ1v3; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1717009543; c=relaxed/simple;
+	bh=CGATLWRSqsNsyeIzZFHoaWASYLvWCTwMNm79CQLU8ro=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ga6tDqT/OXZT5Qfdkp2p5dEamwAZg/4Uges6nvniwARKyWSxwaL4MrCc7cBxWQzgpBXMEuN1is7mHwa4ya6LUPgXu713R0qDE/6SLHelPdzaErElfRiC0RA9rVbVpjrRU/+6eYVa0gRq8ScfGRvKblIUQA7Cpe4xqYKFZv7IVVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Vx7was3c; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="OgZhJ1v3"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a6269885572so46753266b.1
-        for <linux-doc@vger.kernel.org>; Wed, 29 May 2024 11:34:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1717007659; x=1717612459; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hD6ZFR8cVhkF2jyWECX8kqG1Td4lUwUC/HVkt49WWDc=;
-        b=OgZhJ1v3llbSl+P7ybHZpo77dFkoRJCUzreIynVyMlYFmB8JN1xCZfZtq4+H3R3kLf
-         Q87UWZtausi4A9hi4rPQ4LeW628vpUkJznLoo8zp5g2ZdlB1iZSdPnGlFxY6CuSTVkIG
-         VHnASZeLtUDC+eAqzVcx012e+3s5fLzgAmJLJeN7sNHJX8To3hLQeu0brJ9UwKgrA0E1
-         ZOx6gAs23Q6hzFNNPu+VkNNipJ7f5gNwinK9kZxKyxLTDXHDVcxjsjSMtUOGr9SdQuWq
-         VfvSda0Z3ccvlOPOp1qO22lickpvUPkjtjeZYy6r643JqSE2KET1gJ03R3hLsUYuWyH1
-         cqcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717007659; x=1717612459;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hD6ZFR8cVhkF2jyWECX8kqG1Td4lUwUC/HVkt49WWDc=;
-        b=nK8d8rjQxPA1mWL4DBNOFjseBDNq7wjCaRfpo2GeAO2yDEHvUSa797QGEp3pK+22RM
-         twayWgZVfnml7f9olMUwKLemgGsJMkgai4GJWKT//8J9qC2QCG+UGXvEfV4s5eh9S8RH
-         ERHlTDP6s2HA9hxwqJ64kKtHh/YPX6q/zQjLki9UXTCK+VPdHKitJkC/MNVlzR1NwdoC
-         O7wpnDus7GqKo//Y1Aics73vPo5RTkcEhZRitjGMYpEF07ANnF18Vjf88qFR7ba94TVY
-         jAPhSU+zp9ddoPP9QpI+V41oJvxoLTQesIs4RZuKhgC4A+CLDHdHVQEjnqzsjSZ7nMtw
-         cxQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVLScN6KAqpGnm4u41aJq4AW0bJl+4lRGzVtCSnVBot4TGeqUGTbeg0EsU9NWXY4VscUd2gCX/bBMNTZngexXtT0fzRephHV7bA
-X-Gm-Message-State: AOJu0Yw8z2TugRZ7I0VPhTHnPdZD2Ph67Wp23WZ9lYYjaCF48TgA3PU/
-	L/IbHxgigAyCe1ac2yKPh88/0PrlhPH8YVkqN+k6km5afzScRn30NhK6SiVkzgHhV1ypy3u+XQX
-	m5dDttN7wFnAy/GYMY4sSvtydcn+3Kg16oWrJzFla09FxfPjj5Ivyxw==
-X-Google-Smtp-Source: AGHT+IFfrfi+FZNye+Mi5cT1d9Y5frgn3oR/psuzmdDX57yFj6cbdF7CKYfEIUYsI39iYQu9pPkVIxjamQlqxGS+pZo=
-X-Received: by 2002:a17:906:66d0:b0:a59:be21:3587 with SMTP id
- a640c23a62f3a-a642d2780fbmr270278866b.8.1717007658800; Wed, 29 May 2024
- 11:34:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Vx7was3c"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44TALrSG009025;
+	Wed, 29 May 2024 19:05:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=22jOQiu1v/CFYTstdiv/tByh
+	NkkVK0tVz3wsh/u57YI=; b=Vx7was3cPQPfgFoUGCwc1taqjOb02cecrnqp5JQy
+	AR88t4oV9/+0laBWBBk4vkl3MDlIz4ckO1TXpbat22wl6DKxoEkYIcawE9vazmM0
+	uqn7ykG+X6Vwkl/Q8tx7IZOGjaFDDkPWHgfZ5DMkjdcSTcaaL21Oky2zbDa4B0UP
+	xvgjRJdHhFvo5A8eg+JWCiWyuusg96j+obW7PIeA6gqlU9zSPBaC6fdFZS7c14CC
+	7eoaQGIcNcjFF2hVP2PZAuMUIY3NVT4URFfVKp3axFgvEnsY9pZWZQuv3DtNouX4
+	5REhnO4M1mklhTDE93EUxzNWUz+tFnmmZTilwVZFwLu21g==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yba0ga89s-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 29 May 2024 19:05:21 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44TJ5KAN004856
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 29 May 2024 19:05:20 GMT
+Received: from hu-bjorande-lv.qualcomm.com (10.49.16.6) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Wed, 29 May 2024 12:05:19 -0700
+Date: Wed, 29 May 2024 12:05:18 -0700
+From: Bjorn Andersson <quic_bjorande@quicinc.com>
+To: Chris Lew <quic_clew@quicinc.com>
+CC: Bjorn Andersson <andersson@kernel.org>,
+        Baolin Wang
+	<baolin.wang@linux.alibaba.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "Ingo
+ Molnar" <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+        Waiman Long
+	<longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
+        Jonathan Corbet
+	<corbet@lwn.net>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>,
+        Manivannan Sadhasivam
+	<manivannan.sadhasivam@linaro.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        <linux-remoteproc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>
+Subject: Re: [PATCH v3 3/4] soc: qcom: smem: Add
+ qcom_smem_bust_hwspin_lock_by_host()
+Message-ID: <Zld8bm1HP1H98+Ws@hu-bjorande-lv.qualcomm.com>
+References: <20240529-hwspinlock-bust-v3-0-c8b924ffa5a2@quicinc.com>
+ <20240529-hwspinlock-bust-v3-3-c8b924ffa5a2@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <tencent_1E3506F09D08066B8F3BAEE136C4F887540A@qq.com> <tencent_01F8E0050FB4B11CC170C3639E43F41A1709@qq.com>
-In-Reply-To: <tencent_01F8E0050FB4B11CC170C3639E43F41A1709@qq.com>
-From: Evan Green <evan@rivosinc.com>
-Date: Wed, 29 May 2024 11:33:42 -0700
-Message-ID: <CALs-Hst_TpjuQw0t-p9GbcCY4FAwXSjWziHJJuToi3rWXo7mJw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] RISC-V: hwprobe: not treat KEY_CPUPERF_0 as bitmask
-To: Yangyu Chen <cyy@cyyself.name>
-Cc: linux-riscv@lists.infradead.org, Elliott Hughes <enh@google.com>, 
-	Charlie Jenkins <charlie@rivosinc.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	=?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>, 
-	Conor Dooley <conor.dooley@microchip.com>, Andrew Jones <ajones@ventanamicro.com>, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240529-hwspinlock-bust-v3-3-c8b924ffa5a2@quicinc.com>
+X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Xcnn4CpWbQAQz9b4jlwjWrPB46-nStHi
+X-Proofpoint-ORIG-GUID: Xcnn4CpWbQAQz9b4jlwjWrPB46-nStHi
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-05-29_15,2024-05-28_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
+ priorityscore=1501 bulkscore=0 phishscore=0 adultscore=0 spamscore=0
+ mlxlogscore=999 malwarescore=0 lowpriorityscore=0 clxscore=1015
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2405290132
 
-On Thu, May 23, 2024 at 8:36=E2=80=AFPM Yangyu Chen <cyy@cyyself.name> wrot=
-e:
->
-> Since the value in KEY_CPUPERF_0 is not bitmask, remove the wrong code
-> in hwprobe.h.
->
-> Signed-off-by: Yangyu Chen <cyy@cyyself.name>
+On Wed, May 29, 2024 at 11:09:57AM -0700, Chris Lew wrote:
+> Add qcom_smem_bust_hwspin_lock_by_host to enable remoteproc to bust the
+> hwspin_lock owned by smem. In the event the remoteproc crashes
+> unexpectedly, the remoteproc driver can invoke this API to try and bust
+> the hwspin_lock and release the lock if still held by the remoteproc
+> device.
+> 
 
-I'd expect a Fixes tag, and ideally some discussion on the reasoning
-and ramifications of this change.
+Reviewed-by: Bjorn Andersson <quic_bjorande@quicinc.com>
 
-I posted the other possible fix, declaring a new key, at [1], mostly
-so we could see the two options and discuss. I'm okay with either
-patch.
--Evan
+Regards,
+Bjorn
 
-[1] https://lore.kernel.org/lkml/20240529182649.2635123-1-evan@rivosinc.com=
-/T/#u
-
+> Signed-off-by: Chris Lew <quic_clew@quicinc.com>
 > ---
->  arch/riscv/include/asm/hwprobe.h | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hw=
-probe.h
-> index 630507dff5ea..f24cad22bbe1 100644
-> --- a/arch/riscv/include/asm/hwprobe.h
-> +++ b/arch/riscv/include/asm/hwprobe.h
-> @@ -20,7 +20,6 @@ static inline bool hwprobe_key_is_bitmask(__s64 key)
->         switch (key) {
->         case RISCV_HWPROBE_KEY_BASE_BEHAVIOR:
->         case RISCV_HWPROBE_KEY_IMA_EXT_0:
-> -       case RISCV_HWPROBE_KEY_CPUPERF_0:
->                 return true;
->         }
->
-> --
-> 2.45.1
->
+>  drivers/soc/qcom/smem.c       | 26 ++++++++++++++++++++++++++
+>  include/linux/soc/qcom/smem.h |  2 ++
+>  2 files changed, 28 insertions(+)
+> 
+> diff --git a/drivers/soc/qcom/smem.c b/drivers/soc/qcom/smem.c
+> index 7191fa0c087f..50039e983eba 100644
+> --- a/drivers/soc/qcom/smem.c
+> +++ b/drivers/soc/qcom/smem.c
+> @@ -359,6 +359,32 @@ static struct qcom_smem *__smem;
+>  /* Timeout (ms) for the trylock of remote spinlocks */
+>  #define HWSPINLOCK_TIMEOUT	1000
+>  
+> +/* The qcom hwspinlock id is always plus one from the smem host id */
+> +#define SMEM_HOST_ID_TO_HWSPINLOCK_ID(__x) ((__x) + 1)
+> +
+> +/**
+> + * qcom_smem_bust_hwspin_lock_by_host() - bust the smem hwspinlock for a host
+> + * @host:	remote processor id
+> + *
+> + * Busts the hwspin_lock for the given smem host id. This helper is intended
+> + * for remoteproc drivers that manage remoteprocs with an equivalent smem
+> + * driver instance in the remote firmware. Drivers can force a release of the
+> + * smem hwspin_lock if the rproc unexpectedly goes into a bad state.
+> + *
+> + * Context: Process context.
+> + *
+> + * Returns: 0 on success, otherwise negative errno.
+> + */
+> +int qcom_smem_bust_hwspin_lock_by_host(unsigned int host)
+> +{
+> +	/* This function is for remote procs, so ignore SMEM_HOST_APPS */
+> +	if (host == SMEM_HOST_APPS || host >= SMEM_HOST_COUNT)
+> +		return -EINVAL;
+> +
+> +	return hwspin_lock_bust(__smem->hwlock, SMEM_HOST_ID_TO_HWSPINLOCK_ID(host));
+> +}
+> +EXPORT_SYMBOL_GPL(qcom_smem_bust_hwspin_lock_by_host);
+> +
+>  /**
+>   * qcom_smem_is_available() - Check if SMEM is available
+>   *
+> diff --git a/include/linux/soc/qcom/smem.h b/include/linux/soc/qcom/smem.h
+> index a36a3b9d4929..03187bc95851 100644
+> --- a/include/linux/soc/qcom/smem.h
+> +++ b/include/linux/soc/qcom/smem.h
+> @@ -14,4 +14,6 @@ phys_addr_t qcom_smem_virt_to_phys(void *p);
+>  
+>  int qcom_smem_get_soc_id(u32 *id);
+>  
+> +int qcom_smem_bust_hwspin_lock_by_host(unsigned int host);
+> +
+>  #endif
+> 
+> -- 
+> 2.25.1
+> 
