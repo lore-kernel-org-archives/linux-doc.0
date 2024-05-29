@@ -1,34 +1,38 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992501591EC;
-	Wed, 29 May 2024 15:21:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C68E015B115;
+	Wed, 29 May 2024 15:50:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716996074; cv=none; b=eFTbk5cHBLy0K/zEnuAE/c0Rlx4cdwybOfUxdWBnjX+q2HwIt/1Q6Kwpdn+v5gqVntl7ppN6kWclWeF/IRtY0zZDQVgkroezuwjk0JCVpzJ58l7Jmz7OafkWg3SEbBVzIaCab4yeDcSxYcbxPcWIL++5H4bmZTcPnLjtcW9IPHI=
+	t=1716997842; cv=none; b=Ac5ipkSECrdYLpdkAk+ehCTjP9RZNjTu4Nw5g8h75XY8HPJvAB98cZPbJM0KZCwwauyuUX6NJkjd3YihKrjiEeGbLaKqx0cWNgVR6a6kI3vI9yrdNHINvqhmyRnjYOzG2btcMBB9QG6MdoExCdBEGlJUapn6rdBzKsdaQwomizo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716996074; c=relaxed/simple;
-	bh=WpYxKn4ArpMJZTD0XwCdmzZa63Jvde8nqvmjOxxn5hQ=;
+	s=arc-20240116; t=1716997842; c=relaxed/simple;
+	bh=RhAYFzXtfNlXMtgT1RAKcn5Jr1WKF4VqdAZ6qcmROyc=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KPdhUOrxX1TGlPh3gutahRR5pBOrmaZWaTrc7MhsfSb7ESmgV+0TC1xj/O6ZTOsxjYm+SRwa/aHd7QTSlmZWHCCb+9CRZmgsOu4544m1AWchmsMMCkCpDDFNdJwB8NM5r+dCR96QVyNKKGnyoU2fVLnfIeSnvfJttsekVi1euTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VgWn1b0Z; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=oYnuSoWTe5YbG/o1hfQ1vc1u+wexThAjbU3d6jsYp34DRrzDrmgkZk5pNWaGBsoalqcto9xO9yERDZgJj6NrorSgXZwkvxsy2gNkLF+DU7tlAUrroKRmnc4SpsBaTJZIUqyYggvgvqh3KTy1nzxvZPDbryfEsRfk93VLEJ4Ym8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jFBmb0sV; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VgWn1b0Z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA9DEC113CC;
-	Wed, 29 May 2024 15:21:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716996074;
-	bh=WpYxKn4ArpMJZTD0XwCdmzZa63Jvde8nqvmjOxxn5hQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=VgWn1b0Zidz4DDUDL6Yfj3Ly6sL4CKF0qaOXVxxBlYoq5LMcRYbpTUj663VejdRGJ
-	 mclwnr9J6Z2r9649dCYYBkXhSUjsLQ13Gls9SDfGVGHyswOqiMBHij2hwcLKvSvSiN
-	 mqFTIEGGtsgr1bpA5rn5hC6hZClVbTaKvQS15vzGUFFgfmW8lFI5FXsHqv1MqFjlKO
-	 HgqBGgwkGq29LAHTUhyp1aZYjFEcSk+DUTrkqTNFoD/N6q/oG9Imy4gwc+9b0V6INz
-	 JUgJ6AyBZH33CBPveo9/ZcuQC56hS6LMTjj9AekNlQoPrJ4yWAjCLJLYoIM3BE6+l8
-	 FB8Hr4xJvj+lA==
-Date: Wed, 29 May 2024 08:21:11 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Kory Maincent <kory.maincent@bootlin.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jFBmb0sV"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A102A1BF20A;
+	Wed, 29 May 2024 15:50:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1716997835;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RhAYFzXtfNlXMtgT1RAKcn5Jr1WKF4VqdAZ6qcmROyc=;
+	b=jFBmb0sV0ClEp3mLGt45IXoCfM5VWXz56T/1CJgcB19hyMJYPR0tn+k+k4L/t8wUPiqbd0
+	HO6jk9Em5BHNtc8mQxOfxEWSjY9TIVEvq2c55371PNPbbd324ehX5AMh5cgeKxXhclF65s
+	q2Fxk28Zh3Pjb4iITVVHXtXNp7UuW1sOTF6IJWQKZ0Z9l3441Y8MWoRm+GqME6U0MEc2+E
+	CGH86tTmYZAEU4ugb1ps7Q6HX0f45PPIGftCZ6F9yUwLbWxANOTFc/wC6ny+z9PVEtG3bH
+	Ny1Ce7z00cbHrw6wff/P9F6bSK1yFq9l4PmslSWj3EPXBWXcQZSnBDPdoI7xqw==
+Date: Wed, 29 May 2024 17:50:32 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Jakub Kicinski <kuba@kernel.org>
 Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
  kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
  <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
@@ -47,28 +51,46 @@ Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
  <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>
 Subject: Re: [PATCH net-next v13 09/14] net: Add the possibility to support
  a selected hwtstamp in netdevice
-Message-ID: <20240529082111.1a1cbf1e@kernel.org>
-In-Reply-To: <20240529-feature_ptp_netnext-v13-9-6eda4d40fa4f@bootlin.com>
+Message-ID: <20240529175032.54070c60@kmaincent-XPS-13-7390>
+In-Reply-To: <20240529082111.1a1cbf1e@kernel.org>
 References: <20240529-feature_ptp_netnext-v13-0-6eda4d40fa4f@bootlin.com>
 	<20240529-feature_ptp_netnext-v13-9-6eda4d40fa4f@bootlin.com>
+	<20240529082111.1a1cbf1e@kernel.org>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On Wed, 29 May 2024 11:39:41 +0200 Kory Maincent wrote:
-> Introduce the description of a hwtstamp provider which is define with a
-> ptp_clock pointer and a qualifier value.
-> 
-> Add a hwtstamp provider description within the netdev structure to be able
-> to select the hwtstamp we want too use. By default we use the old API that
-> does not support hwtstamp selectability which mean the hwtstamp ptp_clock
-> pointer is unset.
+On Wed, 29 May 2024 08:21:11 -0700
+Jakub Kicinski <kuba@kernel.org> wrote:
 
-ERROR: modpost: "ptp_clock_phydev" [drivers/net/phy/libphy.ko] undefined!
--- 
-pw-bot: cr
+> On Wed, 29 May 2024 11:39:41 +0200 Kory Maincent wrote:
+> > Introduce the description of a hwtstamp provider which is define with a
+> > ptp_clock pointer and a qualifier value.
+> >=20
+> > Add a hwtstamp provider description within the netdev structure to be a=
+ble
+> > to select the hwtstamp we want too use. By default we use the old API t=
+hat
+> > does not support hwtstamp selectability which mean the hwtstamp ptp_clo=
+ck
+> > pointer is unset. =20
+>=20
+> ERROR: modpost: "ptp_clock_phydev" [drivers/net/phy/libphy.ko] undefined!
+
+Thanks for the report.
+Weird, it should be in builtin code.
+I will investigate.
+
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
