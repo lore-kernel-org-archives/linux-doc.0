@@ -1,78 +1,195 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A761915AAD7;
-	Wed, 29 May 2024 02:05:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1CD315B102;
+	Wed, 29 May 2024 02:42:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1716948352; cv=none; b=Z5/i/BqDQd6BOHygaZesjmnNBWg74cU6PEeSCOIk8qTPZlGAkfV+lQdOITikPxWeOAzLDV0sxzqCEJU4pMSPAg7CI/IOyvjn0Vs157jsgLq9/XqZSQt0i47kpt36S+1DdT8zGyJb1JiA7zzaFVzrUlZNxpAzTFIoxPnVbSvLj1M=
+	t=1716950568; cv=none; b=JbRPAQBjOhGTIxe57fOBnx+xXYboRh8yNJaQlJ9a4M5zRUCF+yeM5GpWBKjZlMvHosaeT8M9Fnc0uNnTm55zCXWbfRkKu1n7TQlTh3MSU+K6D4HU0xAMC0TfgpDI9UzOHhgzO81cQWQmNNglHPowHfH2z9/i5n/goPt/TF9icv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1716948352; c=relaxed/simple;
-	bh=tshLIKDQX0zUEL0G4rPCVqyXNQad4aHwxWiAd2HUP/I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dSLbvgd5s/Esa5NXJ+y33+0ZHUuKmS1qSMdCJ9bP1TrkgO35mNTWcYsjCxkUlplwpD/T+7v+f+oMA9w3XiqGR5PvZxcnaqRgxsapVaRPF6Sjn+clIEW43WxCCq1FwB6CMIfestBVKJfeqXWc7VNs0xSNeBSO9trcj4hHQWClFDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=spPMwPRg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1716950568; c=relaxed/simple;
+	bh=Jdw6MVrlDfRwAQ4Dvlaenq+UtdPYZrI/GgT7O1G/w1I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ttxs8XeA4GFa4EEarJMKTAggkpU7mTtZMT+iCbGExkeEABOtDAPp3GcfaCG2LXudUwNQMUxbmO9QUIZFrLNawWKRLb7C1V1ORYrVaouSPUPmGpQFDHbnwuMYpuhLvqmro3rERO0EgUN+MpaI/4QqDpNvZbbQlZKZIsse7POL7J8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ETKXRptG; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="spPMwPRg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C86D7C32782;
-	Wed, 29 May 2024 02:05:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1716948352;
-	bh=tshLIKDQX0zUEL0G4rPCVqyXNQad4aHwxWiAd2HUP/I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=spPMwPRggwpE80SBC05KT7CcQelIEaFg5HbhWG2WRO9btBrx95aHWZ3kiGrKXxwSz
-	 kC7qRLQbFwrJMTd0Z0ehYgHCwtZuK0mlP7tptB2GrOPonbwQuuu1snNUb8htzfRxZp
-	 URTKwCGLH0AoDnxjjPLv9CexJKCU4GqbigUgoAbOpZZEVeG3IzSHht9qPZMPndVUec
-	 AtwbeGSh4DWOpIMzei8fJy3+fYQlkngbP7Mwd78OTu/IgYdUpD1ZQ42G1PNQTNt6A1
-	 d1Qlg+OP8KFRgi+z09gwbBb7ZT1h9RwN2RzC/tFvOoAQzbCGFvm4gFVjPzNUzuh6oH
-	 /y2lXFcJTkIjA==
-Date: Tue, 28 May 2024 19:10:34 -0700
-From: Bjorn Andersson <andersson@kernel.org>
-To: Chris Lew <quic_clew@quicinc.com>
-Cc: Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, 
-	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Mathieu Poirier <mathieu.poirier@linaro.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
-	Richard Maina <quic_rmaina@quicinc.com>
-Subject: Re: [PATCH v2 4/4] remoteproc: qcom_q6v5_pas: Add hwspinlock bust on
- stop
-Message-ID: <i6fisxbgemwx7prani3zegkcnrll2w5gexcqllk4jqbmiazdz6@tcna7sfs5j63>
-References: <20240524-hwspinlock-bust-v2-0-fb88fd17ca0b@quicinc.com>
- <20240524-hwspinlock-bust-v2-4-fb88fd17ca0b@quicinc.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ETKXRptG"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-354b722fe81so1229634f8f.3;
+        Tue, 28 May 2024 19:42:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716950565; x=1717555365; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WaUSmZ7PBffPeOQ7gcFKeRJS00p2asbGxa8dHTdLep4=;
+        b=ETKXRptGUP3WRzXGWJruTx4VieKCMCMbbQflyXyagF+8I3xrMhNH8yC+ycGZbob2ho
+         KBm8I8KOuo0z+ndzqqlETXDizzycjvFtL5dVIV9t+pem9DeZykIqViQxT+eVSA3/ewrg
+         R6m9pc7c4LWKiR7lwJjWIlIo04t5jdBSrjfIqG0xv0UeSOlLPK+EJcDBaEJDX+GDbLW4
+         FbEJMdUL2ENe1iJgMZfY5317AQdUY2rUoWkOPVIDMbs8NhivC6cHjujmM8OSsvVe5ac+
+         cSyLJN+RNnW7/1fAHtl7hpGk2KVzADz8X5zcIcyTOg4wYNi1d0ucbeDZ1i+YlL9VQKby
+         hKxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1716950565; x=1717555365;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WaUSmZ7PBffPeOQ7gcFKeRJS00p2asbGxa8dHTdLep4=;
+        b=DsgYxP4TrLwNJuC37uaHBHU56LdDDIcCE/k7qZUmHuS+2CcOC/oB6JUhBSLkrWAVE8
+         POubmHZws1uB+kDshLOOzZhJbdRbqP1Hd+Hq1JwZPykuWfM3UA69KEhqmSHxnb+6vrUh
+         3J+oIwqfGJDsRqpn32yWXQpducdT80z19czsBjoZHVtUSN5DdyKT99ddvYalLKSzTji7
+         PmbywfYjaSTCPqxLBvxnd34J3IZXSgBfpYONlsqDWVCqh6ewEqn86XyL0KeROw+MNdX7
+         BLbE+8foVeXtb0VVfFR9X5t0+YfvZL6odufrF5rE2yKlxKfqv02HxGqpyuKMvajM2ZhD
+         zu4w==
+X-Forwarded-Encrypted: i=1; AJvYcCU+xFNTt3yU2m5zHnRtwEABYtR9y5pMx2IkgB560lICrBMPoyq5IQOGmxfExGB6MxxidESn6Vto9dkaJEbPSR4TRCmWeI23ryocsF/Mdsfi67dXF9uDOSAulqIwp+zbYtHkAztn6Vp9JY7fO4tgbWZaFRQjHikFvD0gsGgRkwLOR4+pixgEMmTYFDD9eOKuKmO2TDwAT+jNgcsrTaNsL5Iw4Po9Z+dj8kNTlpuZcUwxMG7vCbU77fFY6qRxAvh3xFi3CkVpOuJHDjrczJsTCRt9SX7x6CJw32P4ZVlQ9mLNGd/3ofjc36EH22iHvZUT6lwgzvxdjZBME2IvHxVfjB3OTvinFpRNFJ4v2BMKZ7rU7Dci9Fyf40PpB8bL98Qwh0+V0/B+/KXVrKRiMTObJzoL0k61zTQ9NKfl/HJZQGZQAY3+162oTKws2w98r145NpprPcmP1PWanc1RUw8wBR0WGWu1juMwWMfdhOWkHw==
+X-Gm-Message-State: AOJu0YwiAWxCGmd0ajxweAkaVndJZKQHhjyPkvemz8iQw2HoJmDaZYaB
+	FXY2tTBmJyj7DR3aZw6etCz22nSa0hDujF5u/hskmOTxhSDpoOB2
+X-Google-Smtp-Source: AGHT+IHY3mIPt+8r+bWSLhyahH3HSb2DqvQP0sw5Fzxjvwkj4ZywRulvtF7xu0QbCHkAVDUw9UJ96A==
+X-Received: by 2002:a05:6000:1841:b0:354:c0a6:2815 with SMTP id ffacd0b85a97d-355245e30f8mr11028033f8f.4.1716950565027;
+        Tue, 28 May 2024 19:42:45 -0700 (PDT)
+Received: from [192.168.42.154] ([185.69.144.120])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35579d7d963sm13608610f8f.21.2024.05.28.19.42.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 May 2024 19:42:44 -0700 (PDT)
+Message-ID: <29464e46-e196-47aa-9ff5-23173099c95e@gmail.com>
+Date: Wed, 29 May 2024 03:42:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240524-hwspinlock-bust-v2-4-fb88fd17ca0b@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v9 11/14] tcp: RX path for devmem TCP
+To: Mina Almasry <almasrymina@google.com>, David Wei <dw@davidwei.uk>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Donald Hunter <donald.hunter@gmail.com>,
+ Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20240510232128.1105145-1-almasrymina@google.com>
+ <20240510232128.1105145-12-almasrymina@google.com>
+ <9097e78d-0e7d-43bd-bafd-e53a4872a4d1@davidwei.uk>
+ <CAHS8izOe-uYjm0ttQgHOFpvp_Tj4_oRHV6d1Y1sWJAZJdCdCBA@mail.gmail.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <CAHS8izOe-uYjm0ttQgHOFpvp_Tj4_oRHV6d1Y1sWJAZJdCdCBA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, May 24, 2024 at 06:26:43PM -0700, Chris Lew wrote:
-> From: Richard Maina <quic_rmaina@quicinc.com>
+On 5/28/24 18:36, Mina Almasry wrote:
+> On Wed, May 22, 2024 at 11:02 PM David Wei <dw@davidwei.uk> wrote:
+...
+>>> +                      */
+>>> +                     if (!skb_frag_net_iov(frag)) {
+>>> +                             net_err_ratelimited("Found non-dmabuf skb with net_iov");
+>>> +                             err = -ENODEV;
+>>> +                             goto out;
+>>> +                     }
+>>> +
+>>> +                     niov = skb_frag_net_iov(frag);
+>>
+>> Sorry if we've already discussed this.
+>>
+>> We have this additional hunk:
+>>
+>> + if (niov->pp->mp_ops != &dmabuf_devmem_ops) {
+>> +       err = -ENODEV;
+>> +       goto out;
+>> + }
+>>
+>> In case one of our skbs end up here, skb_frag_is_net_iov() and
+>> !skb_frags_readable(). Does this even matter? And if so then is there a
+>> better way to distinguish between our two types of net_iovs?
 > 
-> When remoteproc goes down unexpectedly this results in a state where any
-> acquired hwspinlocks will remain locked possibly resulting in deadlock.
-> In order to ensure all locks are freed we include a call to
-> qcom_smem_bust_hwspin_lock_by_host() during remoteproc shutdown.
-> 
-> For qcom_q6v5_pas remoteprocs, each remoteproc has an assigned smem
-> host_id. Remoteproc can pass this id to smem to try and bust the lock on
-> remoteproc stop.
-> 
-> This edge case only occurs with q6v5_pas watchdog crashes. The error
-> fatal case has handling to clear the hwspinlock before the error fatal
-> interrupt is triggered.
-> 
-> Signed-off-by: Richard Maina <quic_rmaina@quicinc.com>
-> Signed-off-by: Chris Lew <quic_clew@quicinc.com>
+> Thanks for bringing this up, yes, maybe we do need a way to
+> distinguish, but it's not 100% critical, no? It's mostly for debug
+> checking?
 
-Reviewed-by: Bjorn Andersson <andersson@kernel.org>
+Not really. io_uring definitely wouldn't want the devmem completion path
+taking an iov and basically stashing it into a socket (via refcount),
+that's a lifetime problem. Nor we'd have all the binding/chunk_owner
+parts you have and probably use there.
 
-Regards,
-Bjorn
+Same the other way around, you don't want io_uring grabbing your iov
+and locking it up, it won't even be possible to return it back. We
+also may want to have access to backing pages for different fallback
+purposes, for which we need to know the iov came from this particular
+ring.
+
+It shouldn't happen for a behaving user, but most of it would likely
+be exploitable one way or another.
+
+> I would say add a helper, like net_iov_is_dmabuf() or net_iov_is_io_uring().
+
+We're verifying that the context the iov bound to is the current
+context (e.g. io_uring instance) we're executing from. If we can
+agree that mp_priv should be a valid pointer, the check would look
+like:
+
+if (pp->mp_priv == io_uring_ifq)
+
+> Checking for niov->pp->mp_ops seems a bit hacky to me, and may be
+> outright broken. IIRC niov's can be disconnected from the page_pool
+> via page_pool_clear_pp_info(), and niov->pp may be null. Abstractly
+
+It's called in the release path like page_pool_return_page(),
+I can't imagine someone can sanely clear it while inflight ...
+
+> speaking the niov type maybe should be a property of the niov itself,
+> and not the pp the niov is attached to.
+
+... but I can just stash all that in niov->owner,
+struct dmabuf_genpool_chunk_owner you have. That might be even
+cleaner. And regardless of it I'll be making some minor changes
+to the structure to make it generic.
+
+> It is not immediately obvious to me what the best thing to do here is,
+> maybe it's best to add a flag to niov or to use niov->pp_magic for
+> this.
+> 
+> I would humbly ask that your follow up patchset takes care of this
+> bit, if possible. I think mine is doing quite a bit of heavy lifting
+> as is (and I think may be close to ready?), when it comes to concerns
+> of devmem + io_uring coexisting if you're able to take care, awesome,
+> if not, I can look into squashing some fix.
+
+Let it be this way then. It's not a problem while there is
+only one such a provider.
+
+-- 
+Pavel Begunkov
