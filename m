@@ -1,102 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EFCF80058;
-	Thu, 30 May 2024 19:21:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C66846433;
+	Thu, 30 May 2024 19:34:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717096881; cv=none; b=RsvMucVwakx+P5uvGERlJtfVnubD+KyCzF5919sDd4V0STzhC71FmdYp11vCUp9K/0kvLvEZYPYl9SBa05IPtz9AJIMXZKZNWFsPMb7HBrreiF6QXSC3oMf4aYnRJid5OXXxciG1Js+D7WAFzXmLj3L/c8nS33CDKcFxe2rSmEc=
+	t=1717097660; cv=none; b=Sss425NCmRfCQy/6ejQy0uuDdDSjwb1CIHc/ojsi+TvEZrdSYbirwyCWS66hs7c7SD7MCX2rKwb65MtX5zmgt1gerUzhNjmQ4YPSVcH1UhFQeviCrNDlJXKOUut2M+f1zkh3K5eu6TDPiJgBObc5aBGuCzOV4nw87JJMSbq+AdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717096881; c=relaxed/simple;
-	bh=yUCC865GVkukQUQ+FPFQCsjvwp7xAwGkvRS9TdW8c4o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=giC4HADI/E53GCWsbB7r2+NiTzDCm8Cn/HJZchlfV2PLTa4QN8534iVURBExAy/1bCg+qPPVG8js3aMmjnAmWrYqyUJaDIICs+ho59XcY1NHkC6ycc0UR2dXZAHQzTyeX7ZNz2rm0reNwCgtU3AZjyVSBbnoHc7CxmuBkDVSO0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i5nshUVl; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1717097660; c=relaxed/simple;
+	bh=wm/Bo5gpyU2MWACRe9RWzANZe4lLTtb4K7qdjMH+xPk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=cTsJlaFRxrsTu69cvPiu8OfKGTHidZ96D3SCz5ToXtNlfGlOWGHt57xbhwR/yyE2EQ9PfT6DTwMy4/CALxX7G/E56NeV4O3FmZfQ4Vvvki1rNubwbppYU1nhEK4NOiQyib1XDfBo5IUcgDTYpNNvDsCpJKFBh8PFJc4P5CYzibk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=OmDLroNq; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i5nshUVl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717096880; x=1748632880;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yUCC865GVkukQUQ+FPFQCsjvwp7xAwGkvRS9TdW8c4o=;
-  b=i5nshUVlEHtmDt+RSGVaLuOPq6wKhVPyFQXzIdiujvROrOQvYhic1iId
-   PsAnG86l+RHVAXTQTP9ri7kP2M1IGBojuKhCCTupW8uQxUIMZaXlZrBQU
-   a4OF4v/ypX1I8zqmkFq9RGwgaapjOy/DmQ4kFZVUwwA1ufZrLL9DlPu70
-   qixBYwDXsJipeab8kk8rD5kiz2q8GmEK8qbORTxUt4drYZZAhPMwZSB6H
-   lKQ+D32iz1+Lrr58Cv5EqyU/xIS7CgfNb9TcfdmWDEad4bVBtsiqyM8bi
-   yRLFyh+Ho8f77va2vlUhc8e1iSMpn3qhhGpCxunj8ynDnJ53VN4zxgfPx
-   Q==;
-X-CSE-ConnectionGUID: CKI5Py/gRD6v7PhGr6Baxg==
-X-CSE-MsgGUID: zSY+wgl5TzGl7y8Jm5nUfg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="13568765"
-X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; 
-   d="scan'208";a="13568765"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 12:21:19 -0700
-X-CSE-ConnectionGUID: 1Zh/9PhkSJuWw/nVSk4YmA==
-X-CSE-MsgGUID: CStSQ2MNTfG5fPUQLo+enw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,202,1712646000"; 
-   d="scan'208";a="36000356"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 12:21:13 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1sClKn-0000000CHTB-1Do8;
-	Thu, 30 May 2024 22:21:09 +0300
-Date: Thu, 30 May 2024 22:21:09 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Devarsh Thakkar <devarsht@ti.com>
-Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	benjamin.gaignard@collabora.com, sebastian.fricke@collabora.com,
-	akpm@linux-foundation.org, gregkh@linuxfoundation.org,
-	adobriyan@gmail.com, jani.nikula@intel.com, p.zabel@pengutronix.de,
-	airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
-	corbet@lwn.net, broonie@kernel.org, rdunlap@infradead.org,
-	linux-doc@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-	praneeth@ti.com, nm@ti.com, vigneshr@ti.com, a-bhatia1@ti.com,
-	j-luthra@ti.com, b-brnich@ti.com, detheridge@ti.com,
-	p-mantena@ti.com, vijayp@ti.com, andrzej.p@collabora.com,
-	nicolas@ndufresne.ca, davidgow@google.com, dlatypov@google.com
-Subject: Re: [PATCH v10 07/11] Documentation: core-api: Add math.h macros and
- functions
-Message-ID: <ZljRpSgApF6ZwGKD@smile.fi.intel.com>
-References: <20240530165925.2715837-1-devarsht@ti.com>
- <20240530171740.2763221-1-devarsht@ti.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="OmDLroNq"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6A56E47C39
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1717097652; bh=pbBSGU39oenKQ+SleKq6L+P/aT6z045AIZm5hbh/ASI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=OmDLroNqIo1PEB8by0sazTWLDGfzYd3OpBGDqH11F+bJG0LgWmPd9xc1aZzq1q5no
+	 lvku5bIrXWYb3w9W6I1HoAcfQIFT6k1nWs/yFZU2bMgxO4z4Pa7frEVYUDLovPOpFd
+	 CaNikeNRdI1hmJSZrOuQNuFphVz7JZL/iLWRnX1oIlPpOzgak3ezKAo+7yjRV6L8Wc
+	 ltMiwZwRiUsphaMT7ONBaVYe6AAaN8/UsyRZkkjo4JoB52vS362PifbfTLi64WEook
+	 wlqdS5x4pg32tWbeoYr+G052GIgg3jVN5l46n/GcysX+XMZtwvQGII/qF/04n+qqmv
+	 nR7kpkV0xHQxg==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 6A56E47C39;
+	Thu, 30 May 2024 19:34:12 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>, bilbao@vt.edu
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: Extend and refactor index of further kernel docs
+In-Reply-To: <fdf68be7-875a-421d-8bc3-034a21990679@gmail.com>
+References: <fdf68be7-875a-421d-8bc3-034a21990679@gmail.com>
+Date: Thu, 30 May 2024 13:34:11 -0600
+Message-ID: <87ikyvccwc.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240530171740.2763221-1-devarsht@ti.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 30, 2024 at 10:47:40PM +0530, Devarsh Thakkar wrote:
-> Add documentation for rounding, scaling, absolute value and difference,
-> 32-bit division related macros and functions exported by math.h header
-> file.
+Carlos Bilbao <carlos.bilbao.osdev@gmail.com> writes:
 
-...
+> Extend the Index of Further Kernel Documentation by adding entries for the
+> Rust for Linux website, the Linux Foundation's YouTube channel, and notes
+> on the second edition of Billimoria's kernel programming book. Also,
+> perform some refactoring: format the text to 75 characters per line and
+> sort per-section content in chronological order of publication.
+>
+> Signed-off-by: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+> ---
+> =C2=A0Documentation/process/kernel-docs.rst | 68 +++++++++++++++++-------=
+---
+> =C2=A01 file changed, 44 insertions(+), 24 deletions(-)
 
-> +Rounding, absolute value, scaling and 32bit division functions
-> +--------------------------------------------------------------
-> +
-> +.. kernel-doc:: include/linux/math.h
-> +   :internal:
+So I was going to apply this but ... it doesn't apply.  It looks like
+some sort of weird whitespace damage?
 
-Please, double check that this is correct keyword in this case.
-
-Otherwise LGTM.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+jon
