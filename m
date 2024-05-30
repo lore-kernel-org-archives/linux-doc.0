@@ -1,55 +1,55 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A01356BB54
-	for <linux-doc@vger.kernel.org>; Thu, 30 May 2024 03:27:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B97F5647B
+	for <linux-doc@vger.kernel.org>; Thu, 30 May 2024 03:28:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717039641; cv=none; b=o9Py64mLBf1G7q55a1fNZTT/kpeSfyCSvsmcYJM4I/1XG9iOMBoov04DFR1O8y4RJJN0/re8EV+9n4sdrM4ffCeLpKIGQtBoeSTLu/JtqeF4WbYx6TBKKJJ9GOfKsxkg7T49DyUg2wS4A6uNCu8heDSAyu422VZHaGPqj3+CU5I=
+	t=1717039704; cv=none; b=aL5T9OwnIYjv73wHr1dldTlmIra3Z3h1Er2KJip+dNuIC1iOC18GCgRXVxwm8NZNsoDckp40T9/NPJCJ6uWUsG415gxdHQLklaRvZMmg0Lfy0tES20ryiWXN7QGqVOX1id0RjS6LcHKF1C4WrrK/yuitgG2odU3f0Vteeg3cq80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717039641; c=relaxed/simple;
-	bh=xwqfvipxZXJK+B/0mrTj9cWb8eP7mVNihD2LXTHfaSk=;
+	s=arc-20240116; t=1717039704; c=relaxed/simple;
+	bh=lj90chMb5O0KncpLqzXDubS3cuPfyVvzEjua9aYNaYA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KBN4YhHkKBmcdN62Q/QcF6+8UEkEXmHNqmyuQQhtSLR0A6hOI+pko18HfzgAe0CWWL7JxeMX9pC65NVhmTpHaAdWzYfVdKXWkadOZ4MM2WTNAx1iR4o5Tp4alYooQIdd+uRIC9pe6hseMvvKiMQH8RzsC159fwv/NW9WH6qD3EY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qsEGJAf2; arc=none smtp.client-ip=209.85.160.174
+	 To:Cc:Content-Type; b=n3X3+tFmy0aBmPd2nDqQ6l2vS0m7Np48OUOF3p1QZmCHTkZGeSQAWOXpJwEtdQ0nj5LLRpJTEDp3aWxlPOs2bc5rORq1v5cXIm5xiIJKL0LY+AxuKDfguy22Ub4hb50OadCGBpOCUvi0JWbrTW8Km10tntW9vGAVv8q3H913/90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=yD0l2WJW; arc=none smtp.client-ip=209.85.160.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qsEGJAf2"
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-43e14f0bd75so110871cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 29 May 2024 20:27:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="yD0l2WJW"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-43dfe020675so187371cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 29 May 2024 20:28:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1717039638; x=1717644438; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1717039702; x=1717644502; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kzO8DZyZzCqrZIAMGt7yPpLcZJsj3wUliJt03pVmX2A=;
-        b=qsEGJAf22FtK1T9YmxDUPjIaTDS2NZnp9Fb63aWXEdLh11vy9K3GUtRHVQ2OvSxy4W
-         YOIngawcKAbQ22m7NWqo4A8AJsQ+8jNEsKEeg0cLMRtvfnisqYRy0CT841KLKkbrALaE
-         umy4gwWYR0Szf3ttiYYY2CXOia0EyA84rDpG3wbq14ytUoqM9mfqFZQ2jAsEK0K4QYYa
-         HGsYbUTAh++b/ElOnZaM8/TvE/1jF87HOOYAHzJ0j1spyV53vdz00+1WV1OfO5eaza6U
-         qSeNHoybqgSlvRqzY9z4RhStBbyyvzCLzNVZO9bmWhRKHjuj6+5t73jdH2Rdr/jpchlK
-         uU9Q==
+        bh=CyFUQdvGKe8UpOcfXmkz33OD4v6xcNcft6Wk6HjbLrw=;
+        b=yD0l2WJWsKOG1zMBscp/d+Uwbn7OEEGaETPRVGgBkPKMriKH1UX96/wnam4Nfm+FFh
+         fn9E2HHZG3aZ7+XyQdrRAqJlWSV86ARq4sg6iXkapBSUFWrj+S3pPINPwje6cHKTeENq
+         3ZYii34TdqQcBtd54afejudEW3D7apxROWnpmlhUWw7brozFBYa2CGl7dkLn2kAeOGzU
+         de35IAwvGIIwLJ86QCVBOttVDrMb1JG7GlfZk/cpeeiGF+HAE4QX5kY8R4NkG0TwF2P+
+         1V5i3O0kufjodFjqkNfHzfT0dAkaTnmcMcxwsli2zYO4tiK38yZGxx2stwXN4QPm/PFW
+         l91w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717039638; x=1717644438;
+        d=1e100.net; s=20230601; t=1717039702; x=1717644502;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kzO8DZyZzCqrZIAMGt7yPpLcZJsj3wUliJt03pVmX2A=;
-        b=rFNhU9rszbw4dcDjjTOVLVgMj2tu5k9rdNSDLXGIyoWRU9MzdgAB7MpOsIQWH2noXb
-         PcTyflwCCcM8SqHbKNKl7B9q4C9iJeaLnpcYkBuyOOJVle81bTkJsqGfIqAyMYSawukb
-         38YV51000731Z9/e/2FAzl1C+bcd2HKMDj41p5P7WmV8adUPtYFKrv4woSmcpOHLVA6e
-         ge83br7/Whxzex0RuU9EDS5OVzuN8OOZvGNSpJehgp1pJ9j1OhzzDPu3Qzjk49HKdDbC
-         xNSPgWMi6EdGCDhXkD8EmV3yIOIcFYvxOOFViI0vAYP6wHD5mUHi1Dj8voLfNa4//Spf
-         UcQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX+4j5p0JPVCoEnyzwz9vc08rCnYctfg3Td6qmwAKivHSrRPFCb5jV70n+9dWO15JOE4z7ijF5+dB/TQPcKznVt6FAzMSRMAIoW
-X-Gm-Message-State: AOJu0YzNy4kfmxhLcMQh7pmDkjFpQS9f/wCMrNcoh70d3G4Dz9lD+Gvi
-	04Ots0kcOq0lCtJXs2Wzt39BP5ZZev9gyWpDmHGTLPdiECCdn99ijVXWepq4rmUlzqbzbh3g+XT
-	NbJ/0H6k18WvQbTz5AktWBB7Aq6JH6J0qO+vD
-X-Google-Smtp-Source: AGHT+IFVU+i/PACo9p4/Bfxh1CqiMIWSQeR950pdjWP8hj1BhsXnC5rRHtunLNirP/Gyt4FL6G7AiU0HcN3VuQYeCls=
-X-Received: by 2002:a05:622a:a313:b0:43f:ebce:be50 with SMTP id
- d75a77b69052e-43febcebe65mr835941cf.16.1717039638165; Wed, 29 May 2024
- 20:27:18 -0700 (PDT)
+        bh=CyFUQdvGKe8UpOcfXmkz33OD4v6xcNcft6Wk6HjbLrw=;
+        b=vRBwJ6ZWIipKmwblk7l/XV8LoMU0eVG4s52qq3y3GS0mQe2IbDklznVCdtzBnol33w
+         Qyw6sn/r18Vzux/PiiCGVOErlhRLsc8ahxonyw6tQQfZ5PmpEyIacree11EydZR2scL7
+         7LGzu1eyVk9D4gwVUqI61/QYv6erJZdAovvkB09XoYAbid64YiuH41ZpFA4VdgPS1JUv
+         BRNRd6ulyyBxPBwb5U1cRrXV7Vg9HF4eZ7OhVzueOuURO0w7h1B+c3JsilmVOufVRHpy
+         PtZv/D1hEt8gvs/GDbOb43C+8GnKByYA16GiQk2D3rVVsLNjVGpObEvbCgRglZ3Las9O
+         FjoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXTnZY3706LuydkUU7XcrG/jnq8T6V9KGKJquiYVe2wPXoVnG/vqhf6Ou7sIr1zvEQQX1z/2J2YQkqQFbGY1+LZFTWE5ysco59/
+X-Gm-Message-State: AOJu0YyHB3zHstiStpk5DwZu5zRI7yFI+YRdp6icdsBmOIOMiDtg4RzM
+	O4+enEjgiEqOlT80BcIIHMgxP7k1zZU7E9Kjvk4Ll60y/cCKGoItJRXRx2Yr9cu4aZfkx4geOmV
+	T8JPggXOMFFk458+hT8CgU5Ylca8TGcwIi/d9
+X-Google-Smtp-Source: AGHT+IGBhNbFRaaD0WOEIsVSMflxCvd13kkSSK1hcGeX1B4TzLlXvTq7xC3rTsBmGx8uhqPHEIa2GYmfEXsD+JkYxAs=
+X-Received: by 2002:a05:622a:90e:b0:43e:cb4:1d10 with SMTP id
+ d75a77b69052e-43fe8e5f830mr1851431cf.14.1717039701993; Wed, 29 May 2024
+ 20:28:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,12 +57,13 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20240529180510.2295118-1-jthoughton@google.com>
- <20240529180510.2295118-4-jthoughton@google.com> <ZlejXCYIuJ7_DlwL@google.com>
-In-Reply-To: <ZlejXCYIuJ7_DlwL@google.com>
+ <20240529180510.2295118-5-jthoughton@google.com> <ZlekYljG7KJwblUj@google.com>
+In-Reply-To: <ZlekYljG7KJwblUj@google.com>
 From: James Houghton <jthoughton@google.com>
-Date: Wed, 29 May 2024 20:26:41 -0700
-Message-ID: <CADrL8HUa9o+G6-Yn9oWt2LUgoVYGU=sYE2-JhkpoRgrS6Wi57g@mail.gmail.com>
-Subject: Re: [PATCH v4 3/7] KVM: Add lockless memslot walk to KVM
+Date: Wed, 29 May 2024 20:27:45 -0700
+Message-ID: <CADrL8HVZxoO33F2UJBoTjF_SXpxyZmH=RTM5G3stgo_kRPjazA@mail.gmail.com>
+Subject: Re: [PATCH v4 4/7] KVM: Move MMU lock acquisition for
+ test/clear_young to architecture
 To: Sean Christopherson <seanjc@google.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>, Paolo Bonzini <pbonzini@redhat.com>, 
 	Albert Ou <aou@eecs.berkeley.edu>, Ankit Agrawal <ankita@nvidia.com>, 
@@ -86,82 +87,41 @@ Cc: Andrew Morton <akpm@linux-foundation.org>, Paolo Bonzini <pbonzini@redhat.co
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 29, 2024 at 2:51=E2=80=AFPM Sean Christopherson <seanjc@google.=
+On Wed, May 29, 2024 at 2:55=E2=80=AFPM Sean Christopherson <seanjc@google.=
 com> wrote:
 >
 > On Wed, May 29, 2024, James Houghton wrote:
-> > @@ -686,10 +694,12 @@ static __always_inline int kvm_handle_hva_range(s=
-truct mmu_notifier *mn,
-> >       return __kvm_handle_hva_range(kvm, &range).ret;
-> >  }
-> >
-> > -static __always_inline int kvm_handle_hva_range_no_flush(struct mmu_no=
-tifier *mn,
-> > -                                                      unsigned long st=
+> > For implementation mmu_notifier_{test,clear}_young, the KVM memslot
+> > walker used to take the MMU lock for us. Now make the architectures
+> > take it themselves.
+>
+> Hmm, *forcing* architectures to take mmu_lock is a step backwards.  Rathe=
+r than
+> add all of this churn, what about adding CONFIG_KVM_MMU_NOTIFIER_LOCKLESS=
+, e.g.
+>
+> static __always_inline int kvm_handle_hva_range_no_flush(struct mmu_notif=
+ier *mn,
+>                                                          unsigned long st=
 art,
-> > -                                                      unsigned long en=
+>                                                          unsigned long en=
 d,
-> > -                                                      gfn_handler_t ha=
+>                                                          gfn_handler_t ha=
 ndler)
-> > +static __always_inline int kvm_handle_hva_range_no_flush(
-> > +             struct mmu_notifier *mn,
-> > +             unsigned long start,
-> > +             unsigned long end,
-> > +             gfn_handler_t handler,
-> > +             bool lockless)
+> {
+>         struct kvm *kvm =3D mmu_notifier_to_kvm(mn);
+>         const struct kvm_mmu_notifier_range range =3D {
+>                 .start          =3D start,
+>                 .end            =3D end,
+>                 .handler        =3D handler,
+>                 .on_lock        =3D (void *)kvm_null_fn,
+>                 .flush_on_ret   =3D false,
+>                 .may_block      =3D false,
+>                 .lockless       =3D IS_ENABLED(CONFIG_KVM_MMU_NOTIFIER_LO=
+CKLESS),
+>         };
 >
-> Unnecessary and unwanted style change.
+>         return __kvm_handle_hva_range(kvm, &range).ret;
+> }
 
-Sorry -- this will be fixed.
-
->
-> >  {
-> >       struct kvm *kvm =3D mmu_notifier_to_kvm(mn);
-> >       const struct kvm_mmu_notifier_range range =3D {
-> > @@ -699,6 +709,7 @@ static __always_inline int kvm_handle_hva_range_no_=
-flush(struct mmu_notifier *mn
-> >               .on_lock        =3D (void *)kvm_null_fn,
-> >               .flush_on_ret   =3D false,
-> >               .may_block      =3D false,
-> > +             .lockless       =3D lockless,
->
-> Why add @lockess to kvm_handle_hva_range_no_flush()?  Both callers immedi=
-ately
-> pass %false, and conceptually, locking is always optional for a "no flush=
-" variant.
-
-Right, this isn't needed in this patch. But I think I need it
-eventually (like, in the next patch), so I'll move it where it is
-really needed.
-
-
-
->
-> >       };
-> >
-> >       return __kvm_handle_hva_range(kvm, &range).ret;
-> > @@ -889,7 +900,8 @@ static int kvm_mmu_notifier_clear_young(struct mmu_=
-notifier *mn,
-> >        * cadence. If we find this inaccurate, we might come up with a
-> >        * more sophisticated heuristic later.
-> >        */
-> > -     return kvm_handle_hva_range_no_flush(mn, start, end, kvm_age_gfn)=
-;
-> > +     return kvm_handle_hva_range_no_flush(mn, start, end,
-> > +                                          kvm_age_gfn, false);
-> >  }
-> >
-> >  static int kvm_mmu_notifier_test_young(struct mmu_notifier *mn,
-> > @@ -899,7 +911,7 @@ static int kvm_mmu_notifier_test_young(struct mmu_n=
-otifier *mn,
-> >       trace_kvm_test_age_hva(address);
-> >
-> >       return kvm_handle_hva_range_no_flush(mn, address, address + 1,
-> > -                                          kvm_test_age_gfn);
-> > +                                          kvm_test_age_gfn, false);
-> >  }
-> >
-> >  static void kvm_mmu_notifier_release(struct mmu_notifier *mn,
-> > --
-> > 2.45.1.288.g0e0cd299f1-goog
-> >
+Thanks Sean, yes this is a lot better. I will do this for v5.
