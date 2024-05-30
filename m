@@ -1,153 +1,201 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DEC914AD25
-	for <linux-doc@vger.kernel.org>; Thu, 30 May 2024 08:12:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3C3E176185;
+	Thu, 30 May 2024 08:39:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717056766; cv=none; b=PcJVWx+oAoC5Z58zffLCFt9j+8tukBIOg7I0TBggDMd3XP4alLRkgC7Spzbt0fKow4+tTjDdg+WruIodsqInrgTVu+1XyczwpEXnzqO10GqCas5iPKU5xynGZqiBzHLjhwgneI3hz+6NpPmqIs/h7SvY0tLRQaPkO+8cYXgM7H0=
+	t=1717058360; cv=none; b=NDNZXnJU2k6lFUlI2svnBVNcN67ud0Gv/8bWkvrwKEgI+QCiBGtF4GBtAekocX98a4QPGpJpHqafXqN1l+Bj3IU/65lb2u3sqcrd0zCqIoVeGS0LpKR4rAR2/HV2rNAAtt3Y9v6+3n2Tk/LzkGzFwkm2eBH8xrzwLDBcTKwVHoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717056766; c=relaxed/simple;
-	bh=mwYATlGqSRRpITnG8BIh7RCuTwAeiIWonLTkywmLt9Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TvFQtNbcf0Z4lLx4uvAI5uKSeg0wtq0luk/dDZYdFJ2URorIN8fcUYK8YPU2rcj/C+gRHrcp1wPtqZL/HQkmA/LfDQ/KXzuAdHuUspGY6QB22yz4QLXNnUKDFpFbXY07j+VADzDoYvkO8Y9BdoMn8R4n3YjfoRXNzBFkHvkopQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=jrGn5udO; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1717058360; c=relaxed/simple;
+	bh=oBD7vg86GXe+oDTvDJhgKE8cSH7YYaTNNz6p30fZnDY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=klitUiQMJxZW7Fr6DjIUjpjmh61NXZzq6UhQvXwMYFZ1PETVIVU3I0FsTvgt2RzwW/aORtiiDIuiKq7RtKzW+EnFnUamjlWHZzwSdz4yKUmFO+AyakNApWVXIQk2v1VqPDrNYcsdRTeHw9w5nqz/SIhzlktFJjl5PxwEeSvlLM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HW5CL7ur; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="jrGn5udO"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-52a6f05503aso46495e87.0
-        for <linux-doc@vger.kernel.org>; Thu, 30 May 2024 01:12:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HW5CL7ur"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-57a1fe63947so254558a12.1;
+        Thu, 30 May 2024 01:39:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1717056762; x=1717661562; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0RoFCn1cKvd1zoXQP5ZuJdh9HnrCwhzMajErjx8js2Q=;
-        b=jrGn5udOweDMzlyebgYMx5PKm98he5FC/bTVeFYtsgyL+SaQCkL6TIWKSd2Q8/if6T
-         bWG4M8OADBdjA1z2e56hNf81cCRwrtpJi+ZKXgUpv+sj4psmxkZsI60HUXQw+1A/qnAv
-         WpzSUOyUsYQZBW9luY2gwVOJIXm0ZJsiDqSzXMrBBbnzGOoFVFJkY7J3blQp0ffdd39i
-         eguFyN3R6XdU7P1UC1U1xGEJ5QursoDqQDZ8PmQbge1AvDeEP5wfv26O2i+uZhAo5Fyo
-         p8rvE7gsQjk5el9aUTLffp5IY0XxijSa7zzqdeDeFGirHHci69yIHawoA+UUcXK43QOa
-         I3wQ==
+        d=gmail.com; s=20230601; t=1717058357; x=1717663157; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tMJb+X5rFOm/8h5g2VHIevAuWgAsNBn0K9qQmDWI2IA=;
+        b=HW5CL7ur+OFLdF6MgA6e+kzYSqDL6fC7bySQZggl9hSqc/fC7GnKM4qsVyhxr7A0ym
+         iPSjK9pOTWGUiGXxuS1vPw2ycjNJw4ehJIrkSkAILKxELx5sgOqN1esJj3FuL0UppOLu
+         2Aj6lxkBRVHp97RxaMi53M+cxRy7pAB/pmoELlseq3M1YyFEpxFeNCfLRTYCMGNlN7dL
+         XhbUGwTtHO4MDoR0ZoIcGTnWHMqJK5w7vuxUaPlu+XdpY14cryT20Kc+XRh21sWXs/Qn
+         mvKoZmY6UK1O7/nADpxlMcKBxnnc/afPiOlwapJiQpqqpi5WbgMcREABAqX6KEW/+ZQ4
+         QY7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717056762; x=1717661562;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0RoFCn1cKvd1zoXQP5ZuJdh9HnrCwhzMajErjx8js2Q=;
-        b=HqTtvPraf9pCE51Y1gDcfdz7Bq0HQf8vbXI9XhQoIWfxnpaPvKWv2krjo5lT45PQjY
-         0O0abwD5M2kYew1BZOBSSrbYQqWNNW/QMKmLudPX9rAMWee+uwSJDRbxSRv9y3GFmvwG
-         F8Kn4/4t97w14qVmiYlBeA+xnSuDQg0p6P2bG2zpZmAtLtShdH+L//aTBKToJiq9vH9+
-         GCRy97LIe7XrHwQxVvktbvJXNBoCaXowgevORMwfucOj7aPMwcXlmHcpm0aapK0oL0Qp
-         xXw0OaqcjYFr71SL63BL/qhd3KooR1bVJgw0yjJwdXVwZit9PYgcp/0A/lqr5/lnvrRB
-         5jqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUtWxrCKYgIVjBCE4i8n1nmJd+0/RA5Pupfsf16CMyii2ZanSqSgD2brKtrAsndmnDIPG3xD6PErzMEKrtCC4J8zXS3gPX+3K5f
-X-Gm-Message-State: AOJu0Yyl1u/mcNOBUszV/VmT/4cGL5n62Jddne/iZJ/31AgNO1STfMqb
-	ytK1qDFvuSFanDChCd8Ln5HXHICRRCAK5DUMgkaKmEM4a7YcwPmDiwoJuHPHsDc=
-X-Google-Smtp-Source: AGHT+IFDH/BtR0IqfU1MMNNRmaYz2QjK/JKuYYRlqhpvwnINHfFSvpEeQs/Qm8e5sz1sHPGcXd9sFQ==
-X-Received: by 2002:a05:6512:1111:b0:51f:1bf8:3ea9 with SMTP id 2adb3069b0e04-52b7d49951fmr1181406e87.3.1717056761685;
-        Thu, 30 May 2024 01:12:41 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:999:a3a0:a3c2:7707:741:7c5c? ([2a01:e0a:999:a3a0:a3c2:7707:741:7c5c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42126fea343sm17505945e9.0.2024.05.30.01.12.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 May 2024 01:12:41 -0700 (PDT)
-Message-ID: <4d23f17e-cc1e-45e3-9ca2-a884baacf207@rivosinc.com>
-Date: Thu, 30 May 2024 10:12:39 +0200
+        d=1e100.net; s=20230601; t=1717058357; x=1717663157;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tMJb+X5rFOm/8h5g2VHIevAuWgAsNBn0K9qQmDWI2IA=;
+        b=J21yle/ozTiSXhmhboQ9iTYx21UxTG/EX02ZqbONUglOsrVD5zciWYh2ncqZiFd0G7
+         URcpwfPPfkSbaUBxTtZR4/LBdheDfRe1Gx7dOTQOJ5A4onKtFYX9CmBMeNFrV8rfRlN2
+         8tMzmZs7UUWJrN4We++O2OuR163iRpXeW5aGRMJtiDhiBR/5Sm2EOA0e0bZ79lMAXWNA
+         aG/pKYap5yQQDtvEkBAckRcTHnSR1qZPprnfn/IPnh9sV8WhO5tQKGi5S4ux5NwM77yC
+         Ckl1TlYewLTYaIkafKpWbbq0v884hDlS9So1RDsrhr3NNcS2ZlEcV3dwYM0gyTQQOcgh
+         7nrw==
+X-Forwarded-Encrypted: i=1; AJvYcCUdCsMHbuah7ddHHKbK+f1q04cUgrFMuFy/fC2ckaSviALYVMq31BuK3TeromHlyWH1rEo1pkAQpjtZQ++vqm+6WfuEsDoHyjcpuH+cb/eHDkq3CjNGb5oGdQXgiLmqiKphVLDYskFweNXwgxsPxNYkNK4IIi1hnbtSjnPEdYDxTk6DRBox0xAoFSLkHDw74qjGcW/GK2bGZ/EF10I=
+X-Gm-Message-State: AOJu0YyPAz+yzx7O3fTAaLWPe3qGhMJO5S0FZcnkeVdWkaCeUKBAmX8x
+	YmPJV+DjglSmAaEIJDQvQR94N2f6Dy/a0/MWAQ+bCjYWMxUBetkPLdmdE82tQ8HZyIC9HqHAw8n
+	h7jFy3Yx9lzS2BP1h4Km1mpdcjEU=
+X-Google-Smtp-Source: AGHT+IG7yOFBPDUV2NHqb1k6mZUOqdzgdMdSZX6ZWJyyabNzowuy9EYpTY9T3kf064PGg0Fz4wHjKlI8QOZpr/4OWWU=
+X-Received: by 2002:a17:907:11cf:b0:a59:c28a:7ec2 with SMTP id
+ a640c23a62f3a-a65e8f6f43bmr92418466b.41.1717058357020; Thu, 30 May 2024
+ 01:39:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 02/16] riscv: add ISA extension parsing for Zimop
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Anup Patel <anup@brainfault.org>, Shuah Khan <shuah@kernel.org>,
- Atish Patra <atishp@atishpatra.org>, linux-doc@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, kvm@vger.kernel.org,
- kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
-References: <20240517145302.971019-1-cleger@rivosinc.com>
- <20240517145302.971019-3-cleger@rivosinc.com> <ZlenZ+NvXxOxvqEO@ghost>
- <ZleqVUhDW+xgiTwu@ghost>
-Content-Language: en-US
-From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-In-Reply-To: <ZleqVUhDW+xgiTwu@ghost>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240513103813.5666-1-lakshmi.sowjanya.d@intel.com>
+ <20240513103813.5666-11-lakshmi.sowjanya.d@intel.com> <ZkH3GP2b9WTz9W3W@smile.fi.intel.com>
+ <CY8PR11MB7364D1C85099E4337408EBAFC4F02@CY8PR11MB7364.namprd11.prod.outlook.com>
+ <ZlSZ63ST-Pj9CwCh@surfacebook.localdomain> <CY8PR11MB7364118081A77973A9504C4CC4F32@CY8PR11MB7364.namprd11.prod.outlook.com>
+In-Reply-To: <CY8PR11MB7364118081A77973A9504C4CC4F32@CY8PR11MB7364.namprd11.prod.outlook.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 30 May 2024 11:38:40 +0300
+Message-ID: <CAHp75Vevif+oX8Lq9D90ekTSixC6Q2Mfr38HrgVhzq0ab-COyQ@mail.gmail.com>
+Subject: Re: [PATCH v8 10/12] pps: generators: Add PPS Generator TIO Driver
+To: "D, Lakshmi Sowjanya" <lakshmi.sowjanya.d@intel.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	"tglx@linutronix.de" <tglx@linutronix.de>, "jstultz@google.com" <jstultz@google.com>, 
+	"giometti@enneenne.com" <giometti@enneenne.com>, "corbet@lwn.net" <corbet@lwn.net>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "x86@kernel.org" <x86@kernel.org>, 
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>, "Dong, Eddie" <eddie.dong@intel.com>, 
+	"Hall, Christopher S" <christopher.s.hall@intel.com>, 
+	"Brandeburg, Jesse" <jesse.brandeburg@intel.com>, "davem@davemloft.net" <davem@davemloft.net>, 
+	"alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>, 
+	"joabreu@synopsys.com" <joabreu@synopsys.com>, 
+	"mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>, "perex@perex.cz" <perex@perex.cz>, 
+	"linux-sound@vger.kernel.org" <linux-sound@vger.kernel.org>, 
+	"Nguyen, Anthony L" <anthony.l.nguyen@intel.com>, 
+	"peter.hilber@opensynergy.com" <peter.hilber@opensynergy.com>, "N, Pandith" <pandith.n@intel.com>, 
+	"Mohan, Subramanian" <subramanian.mohan@intel.com>, 
+	"T R, Thejesh Reddy" <thejesh.reddy.t.r@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, May 30, 2024 at 8:52=E2=80=AFAM D, Lakshmi Sowjanya
+<lakshmi.sowjanya.d@intel.com> wrote:
+> > -----Original Message-----
+> > From: Andy Shevchenko <andy.shevchenko@gmail.com>
+> > Sent: Monday, May 27, 2024 8:04 PM
+> > Mon, May 27, 2024 at 11:48:54AM +0000, D, Lakshmi Sowjanya kirjoitti:
+> > > > -----Original Message-----
+> > > > From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > > > Sent: Monday, May 13, 2024 4:49 PM
+> > > > On Mon, May 13, 2024 at 04:08:11PM +0530,
+> > > > lakshmi.sowjanya.d@intel.com
+> > > > wrote:
 
+...
 
-On 30/05/2024 00:21, Charlie Jenkins wrote:
-> On Wed, May 29, 2024 at 03:08:39PM -0700, Charlie Jenkins wrote:
->> On Fri, May 17, 2024 at 04:52:42PM +0200, Clément Léger wrote:
->>> Add parsing for Zimop ISA extension which was ratified in commit
->>> 58220614a5f of the riscv-isa-manual.
->>>
->>> Signed-off-by: Clément Léger <cleger@rivosinc.com>
->>> ---
->>>  arch/riscv/include/asm/hwcap.h | 1 +
->>>  arch/riscv/kernel/cpufeature.c | 1 +
->>>  2 files changed, 2 insertions(+)
->>>
->>> diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
->>> index 1f2d2599c655..b1896dade74c 100644
->>> --- a/arch/riscv/include/asm/hwcap.h
->>> +++ b/arch/riscv/include/asm/hwcap.h
->>> @@ -80,6 +80,7 @@
->>>  #define RISCV_ISA_EXT_ZFA		71
->>>  #define RISCV_ISA_EXT_ZTSO		72
->>>  #define RISCV_ISA_EXT_ZACAS		73
->>> +#define RISCV_ISA_EXT_ZIMOP		74
->>
->> Since my changes for removing xandespmu haven't landed here yet I think
->> you should keep RISCV_ISA_EXT_XANDESPMU in the diff here and make
->> RISCV_ISA_EXT_ZIMOP have a key of 75. Palmer can probably resolve the
->> conflicting keys when these two series are merged.
->>
->> - Charlie
-> 
-> I missed that other patches in this series were based off my
-> xtheadvector changes. It's not in the cover letter that there is a
-> dependency though. What do you need from that series for this series to
-> work?
+> > > > > +static ssize_t enable_store(struct device *dev, struct
+> > > > > +device_attribute
+> > > > *attr, const char *buf,
+> > > > > +                           size_t count)
+> > > > > +{
+> > > > > +       struct pps_tio *tio =3D dev_get_drvdata(dev);
+> > > > > +       bool enable;
+> > > > > +       int err;
+> > > >
+> > > > (1)
+> > > >
+> > > > > +       err =3D kstrtobool(buf, &enable);
+> > > > > +       if (err)
+> > > > > +               return err;
+> > > > > +
+> > > > > +       guard(spinlock_irqsave)(&tio->lock);
+> > > > > +       if (enable && !tio->enabled) {
+> > > >
+> > > > > +               if (!timekeeping_clocksource_has_base(CSID_X86_AR=
+T)) {
+> > > > > +                       dev_err(tio->dev, "PPS cannot be started =
+as clock is
+> > > > not related
+> > > > > +to ART");
+> > > >
+> > > > Why not simply dev_err(dev, ...)?
+> > > >
+> > > > > +                       return -EPERM;
+> > > > > +               }
+> > > >
+> > > > I'm wondering if we can move this check to (1) above.
+> > > > Because currently it's a good question if we are able to stop PPS
+> > > > which was run by somebody else without this check done.
+> > >
+> > > Do you mean can someone stop the signal without this check?
+> > > Yes, this check is not required to stop.  So, I feel it need not be m=
+oved to (1).
+> > >
+> > > Please, correct me if my understanding is wrong.
+> >
+> > So, there is a possibility to have a PPS being run (by somebody else) e=
+ven if there
+> > is no ART provided?
+> >
+> > If "yes", your check is wrong to begin with. If "no", my suggestion is =
+correct, i.e.
+> > there is no need to stop something that can't be started at all.
+>
+> It is a "no", PPS doesn't start without ART.
+>
+> We can move the check to (1), but it would always be checking for ART eve=
+n in case of disable.
 
-Hey Charlie, I'm not based directly on any of your series, but on
-riscv/for-next which probably already contains your patches.
+Please do,
 
-Clément
+> Code readability is better with this approach.
+>
+>         struct pps_tio *tio =3D dev_get_drvdata(dev);
+>         bool enable;
+>         int err;
+>
+>         if (!timekeeping_clocksource_has_base(CSID_X86_ART)) {
+>                 dev_err(dev, "PPS cannot be started as clock is not relat=
+ed to ART");
 
-> 
-> - Charlie
-> 
->>
->>>  
->>>  #define RISCV_ISA_EXT_XLINUXENVCFG	127
->>>  
->>> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
->>> index 2993318b8ea2..41f8ae22e7a0 100644
->>> --- a/arch/riscv/kernel/cpufeature.c
->>> +++ b/arch/riscv/kernel/cpufeature.c
->>> @@ -241,6 +241,7 @@ const struct riscv_isa_ext_data riscv_isa_ext[] = {
->>>  	__RISCV_ISA_EXT_DATA(zihintntl, RISCV_ISA_EXT_ZIHINTNTL),
->>>  	__RISCV_ISA_EXT_DATA(zihintpause, RISCV_ISA_EXT_ZIHINTPAUSE),
->>>  	__RISCV_ISA_EXT_DATA(zihpm, RISCV_ISA_EXT_ZIHPM),
->>> +	__RISCV_ISA_EXT_DATA(zimop, RISCV_ISA_EXT_ZIMOP),
->>>  	__RISCV_ISA_EXT_DATA(zacas, RISCV_ISA_EXT_ZACAS),
->>>  	__RISCV_ISA_EXT_DATA(zfa, RISCV_ISA_EXT_ZFA),
->>>  	__RISCV_ISA_EXT_DATA(zfh, RISCV_ISA_EXT_ZFH),
->>> -- 
->>> 2.43.0
->>>
->>>
->>> _______________________________________________
->>> linux-riscv mailing list
->>> linux-riscv@lists.infradead.org
->>> http://lists.infradead.org/mailman/listinfo/linux-riscv
->>
+started --> used
+
+>                 return -EPERM;
+>         }
+>
+>         err =3D kstrtobool(buf, &enable);
+>         if (err)
+>                 return err;
+>
+> > > > I.o.w. this sounds too weird to me and reading the code doesn't giv=
+e
+> > > > any hint if it's even possible. And if it is, are we supposed to
+> > > > touch that since it was definitely *not* us who ran it.
+> > >
+> > > Yes, we are not restricting on who can stop/start the signal.
+> >
+> > See above. It's not about this kind of restriction.
+> >
+> > > > > +               pps_tio_direction_output(tio);
+> > > > > +               hrtimer_start(&tio->timer, first_event(tio),
+> > > > HRTIMER_MODE_ABS);
+> > > > > +               tio->enabled =3D true;
+> > > > > +       } else if (!enable && tio->enabled) {
+> > > > > +               hrtimer_cancel(&tio->timer);
+> > > > > +               pps_tio_disable(tio);
+> > > > > +               tio->enabled =3D false;
+> > > > > +       }
+> > > > > +       return count;
+> > > > > +}
+
+--=20
+With Best Regards,
+Andy Shevchenko
