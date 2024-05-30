@@ -1,127 +1,191 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B97F5647B
-	for <linux-doc@vger.kernel.org>; Thu, 30 May 2024 03:28:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D55E42AAB;
+	Thu, 30 May 2024 03:38:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717039704; cv=none; b=aL5T9OwnIYjv73wHr1dldTlmIra3Z3h1Er2KJip+dNuIC1iOC18GCgRXVxwm8NZNsoDckp40T9/NPJCJ6uWUsG415gxdHQLklaRvZMmg0Lfy0tES20ryiWXN7QGqVOX1id0RjS6LcHKF1C4WrrK/yuitgG2odU3f0Vteeg3cq80=
+	t=1717040325; cv=none; b=a0qncLwnf+HAUOEvD0F0HIRmbbMBEOQnywOijivfFX64gOuhIJ4xlA9Tk5YAIpjACj9pPB+Xjf4MehTLVbr5eIXp1otyZTN2gg447LD0cQJL1cAwJD7z7UbS3Td0KuHr7qRfA3d+xh5xt+Pzx6VSCEmqBxKJMEEyB3pwOhfVVR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717039704; c=relaxed/simple;
-	bh=lj90chMb5O0KncpLqzXDubS3cuPfyVvzEjua9aYNaYA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n3X3+tFmy0aBmPd2nDqQ6l2vS0m7Np48OUOF3p1QZmCHTkZGeSQAWOXpJwEtdQ0nj5LLRpJTEDp3aWxlPOs2bc5rORq1v5cXIm5xiIJKL0LY+AxuKDfguy22Ub4hb50OadCGBpOCUvi0JWbrTW8Km10tntW9vGAVv8q3H913/90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=yD0l2WJW; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1717040325; c=relaxed/simple;
+	bh=0Z+2DCu+nIujQLs3EfHQoGwPrgs21PJ6gT1bOiZx0yI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qrCz/E78RvxCLQVC+d7vkPchIrdVyLkweiN6TMmNTK6OoTNiDsgCjxqurpyITdT02BUhWdEbqra5gFddjyfoWLHujlh6E8/0FWNqXLw6WkCjgeLET4krzsVEJROoxpKDcLkaLQU9MoGd3RTc0zxc1S9/QnXyB5o4D9BmYGeRCGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=pCqjkDZk; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="yD0l2WJW"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-43dfe020675so187371cf.0
-        for <linux-doc@vger.kernel.org>; Wed, 29 May 2024 20:28:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1717039702; x=1717644502; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CyFUQdvGKe8UpOcfXmkz33OD4v6xcNcft6Wk6HjbLrw=;
-        b=yD0l2WJWsKOG1zMBscp/d+Uwbn7OEEGaETPRVGgBkPKMriKH1UX96/wnam4Nfm+FFh
-         fn9E2HHZG3aZ7+XyQdrRAqJlWSV86ARq4sg6iXkapBSUFWrj+S3pPINPwje6cHKTeENq
-         3ZYii34TdqQcBtd54afejudEW3D7apxROWnpmlhUWw7brozFBYa2CGl7dkLn2kAeOGzU
-         de35IAwvGIIwLJ86QCVBOttVDrMb1JG7GlfZk/cpeeiGF+HAE4QX5kY8R4NkG0TwF2P+
-         1V5i3O0kufjodFjqkNfHzfT0dAkaTnmcMcxwsli2zYO4tiK38yZGxx2stwXN4QPm/PFW
-         l91w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717039702; x=1717644502;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CyFUQdvGKe8UpOcfXmkz33OD4v6xcNcft6Wk6HjbLrw=;
-        b=vRBwJ6ZWIipKmwblk7l/XV8LoMU0eVG4s52qq3y3GS0mQe2IbDklznVCdtzBnol33w
-         Qyw6sn/r18Vzux/PiiCGVOErlhRLsc8ahxonyw6tQQfZ5PmpEyIacree11EydZR2scL7
-         7LGzu1eyVk9D4gwVUqI61/QYv6erJZdAovvkB09XoYAbid64YiuH41ZpFA4VdgPS1JUv
-         BRNRd6ulyyBxPBwb5U1cRrXV7Vg9HF4eZ7OhVzueOuURO0w7h1B+c3JsilmVOufVRHpy
-         PtZv/D1hEt8gvs/GDbOb43C+8GnKByYA16GiQk2D3rVVsLNjVGpObEvbCgRglZ3Las9O
-         FjoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXTnZY3706LuydkUU7XcrG/jnq8T6V9KGKJquiYVe2wPXoVnG/vqhf6Ou7sIr1zvEQQX1z/2J2YQkqQFbGY1+LZFTWE5ysco59/
-X-Gm-Message-State: AOJu0YyHB3zHstiStpk5DwZu5zRI7yFI+YRdp6icdsBmOIOMiDtg4RzM
-	O4+enEjgiEqOlT80BcIIHMgxP7k1zZU7E9Kjvk4Ll60y/cCKGoItJRXRx2Yr9cu4aZfkx4geOmV
-	T8JPggXOMFFk458+hT8CgU5Ylca8TGcwIi/d9
-X-Google-Smtp-Source: AGHT+IGBhNbFRaaD0WOEIsVSMflxCvd13kkSSK1hcGeX1B4TzLlXvTq7xC3rTsBmGx8uhqPHEIa2GYmfEXsD+JkYxAs=
-X-Received: by 2002:a05:622a:90e:b0:43e:cb4:1d10 with SMTP id
- d75a77b69052e-43fe8e5f830mr1851431cf.14.1717039701993; Wed, 29 May 2024
- 20:28:21 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="pCqjkDZk"
+Received: from [10.137.106.151] (unknown [167.220.2.23])
+	by linux.microsoft.com (Postfix) with ESMTPSA id C4B8220B915A;
+	Wed, 29 May 2024 20:38:41 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C4B8220B915A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1717040321;
+	bh=TLCa5Lp6oUMDlTzuXOnFGatDontTY5GUZPEI/tmIjEw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=pCqjkDZkF9FDZNihcL/ShWsnn+No/zPiWEf13D3v2wpDg/tTVVU0zopv71uVpLq+h
+	 Mqq06U7kuSUGZ24nO79MTV1eK87ubwB2yMbC9dvgSi2VXCbBz/t3CpZ7URhit2Ia7s
+	 icM6r86KS1HnZkw2iwTpSNwYShDoCsJ9DZKWtPZo=
+Message-ID: <aed4ed7d-9464-458a-9cc4-5d89ee9d8bb6@linux.microsoft.com>
+Date: Wed, 29 May 2024 20:38:41 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240529180510.2295118-1-jthoughton@google.com>
- <20240529180510.2295118-5-jthoughton@google.com> <ZlekYljG7KJwblUj@google.com>
-In-Reply-To: <ZlekYljG7KJwblUj@google.com>
-From: James Houghton <jthoughton@google.com>
-Date: Wed, 29 May 2024 20:27:45 -0700
-Message-ID: <CADrL8HVZxoO33F2UJBoTjF_SXpxyZmH=RTM5G3stgo_kRPjazA@mail.gmail.com>
-Subject: Re: [PATCH v4 4/7] KVM: Move MMU lock acquisition for
- test/clear_young to architecture
-To: Sean Christopherson <seanjc@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Ankit Agrawal <ankita@nvidia.com>, 
-	Anup Patel <anup@brainfault.org>, Atish Patra <atishp@atishpatra.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Bibo Mao <maobibo@loongson.cn>, 
-	Catalin Marinas <catalin.marinas@arm.com>, David Matlack <dmatlack@google.com>, 
-	David Rientjes <rientjes@google.com>, Huacai Chen <chenhuacai@kernel.org>, 
-	James Morse <james.morse@arm.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Oliver Upton <oliver.upton@linux.dev>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Raghavendra Rao Ananta <rananta@google.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Shaoqin Huang <shahuang@redhat.com>, 
-	Shuah Khan <shuah@kernel.org>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Tianrui Zhao <zhaotianrui@loongson.cn>, Will Deacon <will@kernel.org>, Yu Zhao <yuzhao@google.com>, 
-	Zenghui Yu <yuzenghui@huawei.com>, kvm-riscv@lists.infradead.org, kvm@vger.kernel.org, 
-	kvmarm@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mips@vger.kernel.org, 
-	linux-mm@kvack.org, linux-riscv@lists.infradead.org, 
-	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v19 15/20] fsverity: expose verified fsverity built-in
+ signatures to LSMs
+To: Eric Biggers <ebiggers@kernel.org>, Paul Moore <paul@paul-moore.com>
+Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org, serge@hallyn.com,
+ tytso@mit.edu, axboe@kernel.dk, agk@redhat.com, snitzer@kernel.org,
+ mpatocka@redhat.com, eparis@redhat.com, linux-doc@vger.kernel.org,
+ linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
+ fsverity@lists.linux.dev, linux-block@vger.kernel.org,
+ dm-devel@lists.linux.dev, audit@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Deven Bowers <deven.desai@linux.microsoft.com>
+References: <1716583609-21790-1-git-send-email-wufan@linux.microsoft.com>
+ <1716583609-21790-16-git-send-email-wufan@linux.microsoft.com>
+ <CAHC9VhRsnGjZATBj7-evK6Gdryr54raTTKMYO_vup8AGXLwjQg@mail.gmail.com>
+ <20240530030605.GA29189@sol.localdomain>
+Content-Language: en-US
+From: Fan Wu <wufan@linux.microsoft.com>
+In-Reply-To: <20240530030605.GA29189@sol.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 29, 2024 at 2:55=E2=80=AFPM Sean Christopherson <seanjc@google.=
-com> wrote:
->
-> On Wed, May 29, 2024, James Houghton wrote:
-> > For implementation mmu_notifier_{test,clear}_young, the KVM memslot
-> > walker used to take the MMU lock for us. Now make the architectures
-> > take it themselves.
->
-> Hmm, *forcing* architectures to take mmu_lock is a step backwards.  Rathe=
-r than
-> add all of this churn, what about adding CONFIG_KVM_MMU_NOTIFIER_LOCKLESS=
-, e.g.
->
-> static __always_inline int kvm_handle_hva_range_no_flush(struct mmu_notif=
-ier *mn,
->                                                          unsigned long st=
-art,
->                                                          unsigned long en=
-d,
->                                                          gfn_handler_t ha=
-ndler)
-> {
->         struct kvm *kvm =3D mmu_notifier_to_kvm(mn);
->         const struct kvm_mmu_notifier_range range =3D {
->                 .start          =3D start,
->                 .end            =3D end,
->                 .handler        =3D handler,
->                 .on_lock        =3D (void *)kvm_null_fn,
->                 .flush_on_ret   =3D false,
->                 .may_block      =3D false,
->                 .lockless       =3D IS_ENABLED(CONFIG_KVM_MMU_NOTIFIER_LO=
-CKLESS),
->         };
->
->         return __kvm_handle_hva_range(kvm, &range).ret;
-> }
 
-Thanks Sean, yes this is a lot better. I will do this for v5.
+
+On 5/29/2024 8:06 PM, Eric Biggers wrote:
+> On Wed, May 29, 2024 at 09:46:57PM -0400, Paul Moore wrote:
+>> On Fri, May 24, 2024 at 4:46 PM Fan Wu <wufan@linux.microsoft.com> wrote:
+>>>
+>>> This patch enhances fsverity's capabilities to support both integrity and
+>>> authenticity protection by introducing the exposure of built-in
+>>> signatures through a new LSM hook. This functionality allows LSMs,
+>>> e.g. IPE, to enforce policies based on the authenticity and integrity of
+>>> files, specifically focusing on built-in fsverity signatures. It enables
+>>> a policy enforcement layer within LSMs for fsverity, offering granular
+>>> control over the usage of authenticity claims. For instance, a policy
+>>> could be established to permit the execution of all files with verified
+>>> built-in fsverity signatures while restricting kernel module loading
+>>> from specified fsverity files via fsverity digests.
+>>>
+>>> The introduction of a security_inode_setintegrity() hook call within
+>>> fsverity's workflow ensures that the verified built-in signature of a file
+>>> is exposed to LSMs. This enables LSMs to recognize and label fsverity files
+>>> that contain a verified built-in fsverity signature. This hook is invoked
+>>> subsequent to the fsverity_verify_signature() process, guaranteeing the
+>>> signature's verification against fsverity's keyring. This mechanism is
+>>> crucial for maintaining system security, as it operates in kernel space,
+>>> effectively thwarting attempts by malicious binaries to bypass user space
+>>> stack interactions.
+>>>
+>>> The second to last commit in this patch set will add a link to the IPE
+>>> documentation in fsverity.rst.
+>>>
+>>> Signed-off-by: Deven Bowers <deven.desai@linux.microsoft.com>
+>>> Signed-off-by: Fan Wu <wufan@linux.microsoft.com>
+>>>
+>>> ---
+>>> v1-v6:
+>>>    + Not present
+>>>
+>>> v7:
+>>>    Introduced
+>>>
+>>> v8:
+>>>    + Split fs/verity/ changes and security/ changes into separate patches
+>>>    + Change signature of fsverity_create_info to accept non-const inode
+>>>    + Change signature of fsverity_verify_signature to accept non-const inode
+>>>    + Don't cast-away const from inode.
+>>>    + Digest functionality dropped in favor of:
+>>>      ("fs-verity: define a function to return the integrity protected
+>>>        file digest")
+>>>    + Reworded commit description and title to match changes.
+>>>    + Fix a bug wherein no LSM implements the particular fsverity @name
+>>>      (or LSM is disabled), and returns -EOPNOTSUPP, causing errors.
+>>>
+>>> v9:
+>>>    + No changes
+>>>
+>>> v10:
+>>>    + Rename the signature blob key
+>>>    + Cleanup redundant code
+>>>    + Make the hook call depends on CONFIG_FS_VERITY_BUILTIN_SIGNATURES
+>>>
+>>> v11:
+>>>    + No changes
+>>>
+>>> v12:
+>>>    + Add constification to the hook call
+>>>
+>>> v13:
+>>>    + No changes
+>>>
+>>> v14:
+>>>    + Add doc/comment to built-in signature verification
+>>>
+>>> v15:
+>>>    + Add more docs related to IPE
+>>>    + Switch the hook call to security_inode_setintegrity()
+>>>
+>>> v16:
+>>>    + Explicitly mention "fsverity builtin signatures" in the commit
+>>>      message
+>>>    + Amend documentation in fsverity.rst
+>>>    + Fix format issue
+>>>    + Change enum name
+>>>
+>>> v17:
+>>>    + Fix various documentation issues
+>>>    + Use new enum name LSM_INT_FSVERITY_BUILTINSIG_VALID
+>>>
+>>> v18:
+>>>    + Fix typos
+>>>    + Move the inode_setintegrity hook call into fsverity_verify_signature()
+>>>
+>>> v19:
+>>>    + Cleanup code w.r.t inode_setintegrity hook refactoring
+>>> ---
+>>>   Documentation/filesystems/fsverity.rst | 23 +++++++++++++++++++++--
+>>>   fs/verity/signature.c                  | 18 +++++++++++++++++-
+>>>   include/linux/security.h               |  1 +
+>>>   3 files changed, 39 insertions(+), 3 deletions(-)
+>>
+>> Eric, can you give this patch in particular a look to make sure you
+>> are okay with everything?  I believe Fan has addressed all of your
+>> previous comments and it would be nice to have your Ack/Review tag if
+>> you are okay with the current revision.
+> 
+> Sorry, I've just gotten a bit tired of finding so many basic issues in this
+> patchset even after years of revisions.
+> 
+> This patch in particular is finally looking better.  There are a couple issues
+> that I still see.  (BTW, you're welcome to review it too to help find these
+> things, given that you seem to have an interest in getting this landed...):
+> 
+>> +	err = security_inode_setintegrity(inode,
+>> +					  LSM_INT_FSVERITY_BUILTINSIG_VALID,
+>> +					  signature,
+>> +					  le32_to_cpu(sig_size));
+> 
+> This is doing le32_to_cpu() on a variable of type size_t, which will do the
+> wrong thing on big endian systems and will generate a 'sparse' warning.
+> 
+Sorry for the mistake. As sig_size is already converted in open.c, there 
+is indeed no need to call this function again. I will remove this 
+unnecessary conversion.
+
+> Also, the commit message still incorrectly claims that this patch allows
+> "restricting kernel module loading from specified fsverity files via fsverity
+> digests".  As I said before (sigh...), this is not correct as that can be done
+> without this patch.
+> 
+> - Eric
+
+As for the commit message, my intention was to provide an example of a 
+policy that with the patch IPE can enforce, not to claim that this 
+specific restriction requires the patch. However, I will remove it as it 
+seems to be causing confusion.
+-Fan
