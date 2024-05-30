@@ -1,122 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE94B1F947;
-	Thu, 30 May 2024 21:55:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66FD9335A7;
+	Thu, 30 May 2024 22:44:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717106110; cv=none; b=UAQg7JyL5R1sf0y3+1bN8vaHBtZDGGZjcAmY17cGXD5wVHCA3Vku44i6Pf2Ic0dkFg0CRvTGbtnVxcPvzYTnToLeto2vbvhitvncZcfTm/wvLsic/CEZ2FrNxkYLApYZzm/PviteaJPD+h8q2u2FktOFuTMg6HtuXxoeYbuTBNs=
+	t=1717109102; cv=none; b=uhDW0OvghlN9gEhY1lV5B1jBWajznPBNzQ/YSRX8jWmddqpReIRv8VpnH4M6BjCr5SiILz+etMcL7fnJM0cftcwRhSy5hZ9MHFjhe/71NrSqI9m+WRoLCGAL/PDueOU5WJHOCcV2hc6l1A9lqwXOSN1Q2BRhBVEilkJa/dMxQok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717106110; c=relaxed/simple;
-	bh=/VfaV/85ip1/Lj37F3db092taXFOC4P5Olaax8eSKGA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uK5PSkgJXNyq4oItEe3JlvGil6Gh4lW1w8mJXEH2tZVoWRisRPlA+d9KGy1PlMazf8UF8vGRAu7OrPcQbcqMqwwTztH7R+Skv0Bz99HQledrTM4/FGoByq5glxusuq0EGfX+iWBCrZ0P5ypamj1jKOenUsGvubzADNEFx19dhzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kZQ4mxtP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717109102; c=relaxed/simple;
+	bh=kdx3TMxJYojAFm5/PbyiKBq8xS46txgT5B+lf63HuzE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dk4a2u4O7nDf+Z9GtizgDL+tmjxXOG/12H7mkROVdVaDay+zci/GYg7qup3CTrqMkDK6lpvJfICweaaZqbGUuNBjO/BmySK0OTF685uN0J8oVf5XfzPLhpRUBD4Qk/GXCj0fqynKXc5SIFhqeY0UBrzAktIGFYrECJSnpyfI++8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=cgv/Q7eC; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kZQ4mxtP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9753CC2BBFC;
-	Thu, 30 May 2024 21:55:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717106109;
-	bh=/VfaV/85ip1/Lj37F3db092taXFOC4P5Olaax8eSKGA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kZQ4mxtPBvXvCeNYWUR960jdhWfNHrKSc6bPcA7sMKru1eZHTHDJKG3aKjH6LKfRq
-	 BZDEpq8uhdWWPRDT1eD7klYULUHB4lKNmmn32sNNNF00rPzBYMPrCo9UO0EZKwqVNR
-	 C7YrmeptnX5uuJD1i6wlO7W5l6P08k8ii8xOwC8Q/SfjdnSrxqt2fJjgtmtzmHcjO4
-	 gmHytnkZ3BygZJQM+iLZdI3X19qMira65xrhpnNU1o+1bQRaPII/3npFey5IGcZWg5
-	 fTcHGst5oHyNEcR897cFnzW+SF8JIF/wCALlcQB3qQMIusaYlEao9vDCA81l6iQzpG
-	 8MbaiarDzZidg==
-Date: Thu, 30 May 2024 22:55:03 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Palmer Dabbelt <palmer@dabbelt.com>
-Cc: andy.chiu@sifive.com, Paul Walmsley <paul.walmsley@sifive.com>,
-	aou@eecs.berkeley.edu, Conor Dooley <conor.dooley@microchip.com>,
-	Heiko Stuebner <heiko@sntech.de>, guoren@kernel.org,
-	robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, corbet@lwn.net,
-	Evan Green <evan@rivosinc.com>, cleger@rivosinc.com,
-	shuah@kernel.org, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org, vincent.chen@sifive.com,
-	greentime.hu@sifive.com, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v5 6/8] riscv: hwprobe: add zve Vector subextensions into
- hwprobe interface
-Message-ID: <20240530-daylong-pelican-74ccadb9811f@spud>
-References: <20240510-zve-detection-v5-6-0711bdd26c12@sifive.com>
- <mhng-0679629d-d115-44ae-a33a-bf42980c7686@palmer-ri-x1c9a>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cgv/Q7eC"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=e3NB/mDwRctn3iwAMjuc5/uFGUFjegxDUG7u7jpVJ+s=; b=cgv/Q7eC94kt5eEfPb5w5slwyv
+	RTKpG43piRHMly9hzg+YvIAsIVZI03XQ79HeT3acLdWu8BGSwE3GPOvNHhUw0hG++yfArv0aVVJfr
+	/ji7WJKmORZ0p9dNNwelSs2k4U9+LbZJbH3iQxTrHzPTX1JAS+t+wZm+ck++NOAWCmivP7PTLwCvn
+	5VkBq7r6mxrdOaxy0BM8kOx9dEIL+wxp8TV6yO5QbOsXi23inDrq/1lSo8KS9JgCspxWeTCZzeOOg
+	XMy6YPcjotgXy31GclMpcKiHeu5o+3/1/DGr9czv5/Of9674/JfkLINloooBQYADQTTjYKa7RdvN1
+	Tl3kC3pg==;
+Received: from [50.53.4.147] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sCoVu-00000008b9H-1B8a;
+	Thu, 30 May 2024 22:44:50 +0000
+Message-ID: <4951656c-2d15-49f6-89d8-aa7b5c333ec7@infradead.org>
+Date: Thu, 30 May 2024 15:44:46 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="54amDOCv5zaovVhC"
-Content-Disposition: inline
-In-Reply-To: <mhng-0679629d-d115-44ae-a33a-bf42980c7686@palmer-ri-x1c9a>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 07/11] Documentation: core-api: Add math.h macros and
+ functions
+To: Devarsh Thakkar <devarsht@ti.com>, mchehab@kernel.org,
+ hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, benjamin.gaignard@collabora.com,
+ sebastian.fricke@collabora.com, akpm@linux-foundation.org,
+ gregkh@linuxfoundation.org, andriy.shevchenko@linux.intel.com,
+ adobriyan@gmail.com, jani.nikula@intel.com, p.zabel@pengutronix.de,
+ airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ corbet@lwn.net, broonie@kernel.org, linux-doc@vger.kernel.org
+Cc: laurent.pinchart@ideasonboard.com, praneeth@ti.com, nm@ti.com,
+ vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com, b-brnich@ti.com,
+ detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com, andrzej.p@collabora.com,
+ nicolas@ndufresne.ca, davidgow@google.com, dlatypov@google.com
+References: <20240530165925.2715837-1-devarsht@ti.com>
+ <20240530171740.2763221-1-devarsht@ti.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240530171740.2763221-1-devarsht@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
---54amDOCv5zaovVhC
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 30, 2024 at 02:35:51PM -0700, Palmer Dabbelt wrote:
-> On Thu, 09 May 2024 09:26:56 PDT (-0700), andy.chiu@sifive.com wrote:
-> > diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hw=
-probe.c
-> > index 969ef3d59dbe..35390b4a5a17 100644
-> > --- a/arch/riscv/kernel/sys_hwprobe.c
-> > +++ b/arch/riscv/kernel/sys_hwprobe.c
-> > @@ -114,6 +114,11 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe =
-*pair,
-> >  		EXT_KEY(ZIHINTPAUSE);
-> >=20
-> >  		if (has_vector()) {
-> > +			EXT_KEY(ZVE32X);
-> > +			EXT_KEY(ZVE32F);
-> > +			EXT_KEY(ZVE64X);
-> > +			EXT_KEY(ZVE64F);
-> > +			EXT_KEY(ZVE64D);
-> >  			EXT_KEY(ZVBB);
-> >  			EXT_KEY(ZVBC);
-> >  			EXT_KEY(ZVKB);
->=20
-> Conor left a comment over here <https://lore.kernel.org/all/20240510-zve-=
-detection-v5-6-0711bdd26c12@sifive.com/>.
+On 5/30/24 10:17 AM, Devarsh Thakkar wrote:
+> Add documentation for rounding, scaling, absolute value and difference,
+> 32-bit division related macros and functions exported by math.h header
+> file.
+> 
+> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+> ---
+> V1->V9 (No change)
+> V10: Patch introduced
+> ---
+>  Documentation/core-api/kernel-api.rst | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
+> index ae92a2571388..fb467783d491 100644
+> --- a/Documentation/core-api/kernel-api.rst
+> +++ b/Documentation/core-api/kernel-api.rst
+> @@ -185,6 +185,12 @@ Division Functions
+>  .. kernel-doc:: lib/math/gcd.c
+>     :export:
+>  
+> +Rounding, absolute value, scaling and 32bit division functions
 
-This link is to the patch you're replying to, not anything from me.
-I commented on a bunch of stuff in v4, but not this patch - generally I
-ignore hwprobe to be honest...
+                                         32-bit
+please.
 
-> I think the best bet is to just merge this v5 on for-next now, though --
-> there's a bunch of patch sets touching ISA string parsing and IIUC that
-> sub-extension parsing stuff is a pre-existing issue, and Clement's patch =
-set
-> still has some outstanding feedback to address.
->=20
-> So I think if we just go with this we're not regressing anything, we just
-> have a bit more to clean up.  Maybe it's a little uglier now that userspa=
-ce
-> can see the sub-extensions, but I'd bet wacky ISA strings will be able to
-> confuse us for a while.
+> +--------------------------------------------------------------
+> +
+> +.. kernel-doc:: include/linux/math.h
+> +   :internal:
+> +
+>  UUID/GUID
+>  ---------
+>  
 
-I wanna do some cleanup stuff w/ Clements series applied, if that's what
-you were talking about, but I don't see much point starting that until
-the cpufeature stuff has calmed down - Charlie's and Clement's series
-really need to be in for-next for it to be worth doing.
-
-> I staged this so I can throw it at the tester, LMK if anyone has issues
-> otherwise it'll show up on for-next.
-
---54amDOCv5zaovVhC
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZlj1twAKCRB4tDGHoIJi
-0m7+AQCuLCvXdrPloK2ge546WprTaktc5AJayKqwle2CbRg+qAEAimwmspM+d7gX
-w2SCZjy28pKq6A7bDCxZ9Jlu+kWWdwM=
-=N8Bg
------END PGP SIGNATURE-----
-
---54amDOCv5zaovVhC--
+-- 
+#Randy
+https://people.kernel.org/tglx/notes-about-netiquette
+https://subspace.kernel.org/etiquette.html
