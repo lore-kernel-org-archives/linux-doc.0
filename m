@@ -1,170 +1,135 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from 008.lax.mailroute.net (008.lax.mailroute.net [199.89.1.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 967D045BE4;
-	Thu, 30 May 2024 17:07:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DC3A45BE4;
+	Thu, 30 May 2024 17:11:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717088876; cv=none; b=uZCA2Z0vOQgqliflV1//kDIRJWCUOdKtfJ9kWfolGUY0edbDv70hAnL+QH9ikmM5D609sljQx9IDRiTtSoM7aRnKgW1CI4cc3099GLK8UyMWWpju0qNSlAIUwwQg8oZDJiKQKx5Ff9EbNp6vIgGKD7NKEjeqs17GCTDjr++Ny6A=
+	t=1717089091; cv=none; b=gUdfIh8OT6X+brsgPk2x0c3TdubG9/HbDpT8UpSDJvhh+ofIIw8GTFpnVPkBP8yoyu5kY392HVG9uiLaAlyIup/OWUDnXuu9/FUrNHIGsTqn8yKjadnllQnGn02CGYP16Df0CI3MzGuYtoPCZEMX1yoB3oku19byljw6zlYq0HU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717088876; c=relaxed/simple;
-	bh=WcBgmLB800gWG14w0nx6MPzcQdMu6AzZ6ketuWKY9+s=;
-	h=Content-Type:Mime-Version:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=ibOYoVYU2TG/XUstubGx8gBpxRHsFpXoSTtnd1VVnp2VHtJjq5NKgBoKd9gxfcXofniS7YeueiRVofExwN/Pd0w1Z47aBUd65jLMxqx5wcv0Jn39RZajb0WuDtzxIEHQ9STX+Q33PEoehyEq2GzVZj35Hov4ubkuf1sqP9WJ/cE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gPSnDGvK; arc=none smtp.client-ip=209.85.208.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1717089091; c=relaxed/simple;
+	bh=go0cYzcDqydRtutKma5FUwv79zZ3P7zOWhGl/8O+3OI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CkVKFvLxaJsigiQ7RfCmp0CXKIatuPkMJ3ptN6HMGuXul6xUF3h6XZFT1jHUaR6QgZO1oJBnnDcvNGr2MwLexL2u2SSiL3EE1Wb4fjSoNtOt9UZ93vUqwPEym7NshI0Mupmx6sh1vEQm7l5bnukrFtMHSfyCSP2xsoPooxj65Dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=pDdrsLN3; arc=none smtp.client-ip=199.89.1.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gPSnDGvK"
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2e95a75a90eso11519951fa.2;
-        Thu, 30 May 2024 10:07:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717088873; x=1717693673; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=S754fL6eVqgTIUZX2+nFqHKkShFVnRKXXFJgDcc1ZDI=;
-        b=gPSnDGvKQav99DE9NlpcI4PYeaAMSdL8r8Y1cpOJfRm0qNw4EXxaE2ltpfVmiY9NQF
-         pQg3snkuEU/p9i+ylooLVLTAnPZNiGchXduEMxiEOAA18CUsSEDCECT9hVz3erYM7DTl
-         6xCAiEYAsypc3leqHyUq2mmsbS/R3SqbOKbfT+aIOCauT4lKTrn6iX/oLjfnB3ii0aq1
-         OEgpNTCe6Xr0LXI2Y8JRznyIrlZLh6p4llfPAC5DCmJoza/UHWSki1dVokG3fG9bSECX
-         fv6j6uSY3fdXM2rrxy+svePxZqLiWy7ZgvWjZ17i/nejbBxwOcHnvwrG0sPx8ohzpf99
-         J2SA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717088873; x=1717693673;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=S754fL6eVqgTIUZX2+nFqHKkShFVnRKXXFJgDcc1ZDI=;
-        b=L5s24eHkdTpnb9+euTsS0NLSwiX+/reudZnwIy1jyyJVAsizqSl+57BRiT/BVEqT1a
-         YjBBKOeG5XPOVcmyH7u4oJ+chAVX7OfJPQ1tT7NEYHDf4dpCVlJ9xuqKQDbDGkzHVVxo
-         SSETwOgWmXA30/e5EoY8CkLMF5M9BZQoDBJTEZPc1rkIqEdsqbbKt3DAhNTL0MquSk8r
-         uDNXL+LJKjdwWt1jOdNH2JkC5UE10wbFbHI1WKg/uItSz3FEJvOahtqNtmbOherkeo/c
-         tmsVj/buRKRwY5fk+tMmVSnp7MXqbspjCktSNLYWHRxiLZPZ8/HNqmkGzzI+KHQt+Ag4
-         00YQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUfMF3jv/MUAo/1OHRcEYh+RX8b0LC57SK4S0H8o/aH6j2EcbbzLoKEJVbxeKLdW98BGmzlTuTioXM1J4QZO0aLIluFe7atH5axhetQ58kPcJ5r0wUUPbXAX86lD+TmIyiXB8id7xP8Do81jorlflfufLdybUKrhN4XuVKseRpsZn29yBzG2Z8oUtZ9mAIn1VuYXOmT824iIIOPHr9UNN7zhg==
-X-Gm-Message-State: AOJu0Yx76JdIMSiL3GRTGMpB7TIqnNLwVtwTUAq5+/zwmm5pYlcIEZ/5
-	zqzikU3QLHA/O3YBXsHOI1aG5M8yTdbV3F6q8XSrvMqTIcTY9ZaB
-X-Google-Smtp-Source: AGHT+IHwjTCFVGR50yNchGzCdFfdFMN0b/atDi7Tr/wiD7aw8w8AAvWmC3KTr7YpU1+nPKK4cCRg1g==
-X-Received: by 2002:a2e:a417:0:b0:2ea:844b:1b16 with SMTP id 38308e7fff4ca-2ea84830962mr16211881fa.34.1717088872356;
-        Thu, 30 May 2024 10:07:52 -0700 (PDT)
-Received: from localhost (p200300e41f162000f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f16:2000:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-421270ad410sm30167835e9.45.2024.05.30.10.07.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 May 2024 10:07:51 -0700 (PDT)
-Content-Type: multipart/signed;
- boundary=e8d29550c8c6ecc345e96308e31e05adf5d0599eed8c116befc5ef55e617;
- micalg=pgp-sha256; protocol="application/pgp-signature"
+	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="pDdrsLN3"
+Received: from localhost (localhost [127.0.0.1])
+	by 008.lax.mailroute.net (Postfix) with ESMTP id 4Vqt812W1wz6Cnk9F;
+	Thu, 30 May 2024 17:11:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1717089079; x=1719681080; bh=Ul8tShPV3DUMrLj4E7kNdLyB
+	ZmST2o57Jd5aN0FDWYg=; b=pDdrsLN3JZPbFaUtLRbj37cnYuTv29wYsaoWbWPX
+	0jAfS4sWOekodOat3cJMbqn2RuFn9uq1dvv60rD84RsGZNOhy608uxLLU+fhbyly
+	eKTbCc9wykATpOsmXQs1/utBwypcCkWl3KNU2MCRI5q96GhEKAOJtbitLN7/YNmG
+	3Mn9taXV/EfZN1zWvkxJYjfq7QJgcsxlE8NwOH4KI1q7OAQMt6CrARV53oLIJ5CE
+	jigej7/3tFmHOi5xt9zZPOhIruRk26PiBfPzT3bdqB0Juw5GHorv14poLk5Hg7m/
+	4sx7azLGVHPrQJdDegiabUIRkEKLqqQMji0NKTMLKSNjWA==
+X-Virus-Scanned: by MailRoute
+Received: from 008.lax.mailroute.net ([127.0.0.1])
+ by localhost (008.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id T0Ifl3ssZIoq; Thu, 30 May 2024 17:11:19 +0000 (UTC)
+Received: from [100.96.154.26] (unknown [104.132.0.90])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 008.lax.mailroute.net (Postfix) with ESMTPSA id 4Vqt7l6w1zz6Cnk97;
+	Thu, 30 May 2024 17:11:15 +0000 (UTC)
+Message-ID: <abe8c209-d452-4fb5-90eb-f77b5ec1a2dc@acm.org>
+Date: Thu, 30 May 2024 10:11:15 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Date: Thu, 30 May 2024 19:07:51 +0200
-Message-Id: <D1N57DK5Z2XU.2VP8OXFUMC709@gmail.com>
-Cc: "Mauro Carvalho Chehab" <mchehab@kernel.org>, "Dmitry Baryshkov"
- <dmitry.baryshkov@linaro.org>, "Jonathan Corbet" <corbet@lwn.net>, "Abhinav
- Kumar" <quic_abhinavk@quicinc.com>, "Sean Paul" <sean@poorly.run>, "Marijn
- Suijten" <marijn.suijten@somainline.org>, <workflows@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Masahiro
- Yamada" <masahiroy@kernel.org>, <linux-arm-msm@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>
-Subject: Re: [PATCH] docs: document python version used for compilation
-From: "Thierry Reding" <thierry.reding@gmail.com>
-To: "Rob Clark" <robdclark@gmail.com>, "Jani Nikula" <jani.nikula@intel.com>
-X-Mailer: aerc 0.16.0-1-0-g560d6168f0ed-dirty
-References: <20240509-python-version-v1-1-a7dda3a95b5f@linaro.org>
- <878r0ijdh5.fsf@intel.com> <20240510102036.3ea40b37@sal.lan>
- <87o79ehtbz.fsf@intel.com>
- <CAF6AEGvTkL=JxGDaOab9XpJ4htWQnBA1dTEOUxBUTAavM0DB4w@mail.gmail.com>
-In-Reply-To: <CAF6AEGvTkL=JxGDaOab9XpJ4htWQnBA1dTEOUxBUTAavM0DB4w@mail.gmail.com>
-
---e8d29550c8c6ecc345e96308e31e05adf5d0599eed8c116befc5ef55e617
-Mime-Version: 1.0
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
+ and request layer.
+To: Nitesh Shetty <nj.shetty@samsung.com>
+Cc: Damien Le Moal <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+ Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
+ Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ martin.petersen@oracle.com, david@fromorbit.com, hare@suse.de,
+ damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
+ nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org
+References: <20240520102033.9361-1-nj.shetty@samsung.com>
+ <CGME20240520102842epcas5p4949334c2587a15b8adab2c913daa622f@epcas5p4.samsung.com>
+ <20240520102033.9361-3-nj.shetty@samsung.com>
+ <eda6c198-3a29-4da4-94db-305cfe28d3d6@acm.org>
+ <20240529061736.rubnzwkkavgsgmie@nj.shetty@samsung.com>
+ <9f1ec1c1-e1b8-48ac-b7ff-8efb806a1bc8@kernel.org>
+ <a866d5b5-5b01-44a2-9ccb-63bf30aa8a51@acm.org>
+ <665850bd.050a0220.a5e6b.5b72SMTPIN_ADDED_BROKEN@mx.google.com>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <665850bd.050a0220.a5e6b.5b72SMTPIN_ADDED_BROKEN@mx.google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
 
-On Fri May 10, 2024 at 10:04 PM CEST, Rob Clark wrote:
-> On Fri, May 10, 2024 at 3:09=E2=80=AFAM Jani Nikula <jani.nikula@intel.co=
-m> wrote:
-> >
-> > On Fri, 10 May 2024, Mauro Carvalho Chehab <mchehab@kernel.org> wrote:
-> > > Em Fri, 10 May 2024 11:08:38 +0300
-> > > Jani Nikula <jani.nikula@intel.com> escreveu:
-> > >
-> > >> On Thu, 09 May 2024, Dmitry Baryshkov <dmitry.baryshkov@linaro.org> =
-wrote:
-> > >> > The drm/msm driver had adopted using Python3 script to generate re=
-gister
-> > >> > header files instead of shipping pre-generated header files. Docum=
-ent
-> > >> > the minimal Python version supported by the script.
-> > >> >
-> > >> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> > >> > ---
-> > >> >  Documentation/process/changes.rst | 1 +
-> > >> >  1 file changed, 1 insertion(+)
-> > >> >
-> > >> > diff --git a/Documentation/process/changes.rst b/Documentation/pro=
-cess/changes.rst
-> > >> > index 5685d7bfe4d0..8d225a9f65a2 100644
-> > >> > --- a/Documentation/process/changes.rst
-> > >> > +++ b/Documentation/process/changes.rst
-> > >> > @@ -63,6 +63,7 @@ cpio                   any              cpio --v=
-ersion
-> > >> >  GNU tar                1.28             tar --version
-> > >> >  gtags (optional)       6.6.5            gtags --version
-> > >> >  mkimage (optional)     2017.01          mkimage --version
-> > >> > +Python (optional)      3.5.x            python3 --version
-> > >>
-> > >> Python 3.5 reached end-of-life 3=C2=BD years ago [1]. What's the poi=
-nt in
-> > >> using anything older than the oldest supported version of Python,
-> > >> i.e. 3.8 at this time?
-> > >
-> > > What's the point of breaking compilation with on older distros?
-> > > The idea of minimal versions here is to specify the absolute minimum
-> > > version that it is required for the build to happen. If 3.5 is
-> > > the minimal one, then be it.
-> >
-> > AFAICT 3.5 was an arbitrary rather than a deliberate choice. We should
-> > at least be aware *why* we'd be sticking to old versions.
-> >
-> > Minimum versions here also means sticking to features available in said
-> > versions, for Python just as well as for GCC or any other tool. That's
-> > not zero cost.
->
-> At this point, the cost to having a lower minimum version is pretty
-> small, so I'm not worrying too much about it.
->
-> Maybe once kernel developers discover mako, and start generating more
-> at build time, we'll have to re-evaluate. ;-)
+On 5/30/24 00:16, Nitesh Shetty wrote:
+> +static inline bool blk_copy_offload_attempt_combine(struct request_que=
+ue *q,
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+struct bio *bio)
+> +{
+> +=C2=A0=C2=A0=C2=A0 struct blk_plug *plug =3D current->plug;
+> +=C2=A0=C2=A0=C2=A0 struct request *rq;
+> +
+> +=C2=A0=C2=A0=C2=A0 if (!plug || rq_list_empty(plug->mq_list))
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return false;
+> +
+> +=C2=A0=C2=A0=C2=A0 rq_list_for_each(&plug->mq_list, rq) {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (rq->q =3D=3D q) {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if =
+(!blk_copy_offload_combine(rq, bio))
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 return true;
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bre=
+ak;
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Only keep iterating=
+ plug list for combines if we have multiple
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * queues
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!plug->multiple_queues)
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bre=
+ak;
+> +=C2=A0=C2=A0=C2=A0 }
+> +=C2=A0=C2=A0=C2=A0 return false;
+> +}
 
-You're making an interesting point. Does the build dependency here
-denote Python (& standard library) or do we assume that if people have
-Python installed that they can also install arbitrary extra packages?
-Would a Mako dependency need to be explicitly mentioned here?
+This new approach has the following two disadvantages:
+* Without plug, REQ_OP_COPY_SRC and REQ_OP_COPY_DST are not combined. The=
+se two
+   operation types are the only operation types for which not using a plu=
+g causes
+   an I/O failure.
+* A loop is required to combine the REQ_OP_COPY_SRC and REQ_OP_COPY_DST o=
+perations.
 
-Thierry
+Please switch to the approach Hannes suggested, namely bio chaining. Chai=
+ning
+REQ_OP_COPY_SRC and REQ_OP_COPY_DST bios before these are submitted elimi=
+nates the
+two disadvantages mentioned above.
 
---e8d29550c8c6ecc345e96308e31e05adf5d0599eed8c116befc5ef55e617
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks,
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmZYsmcACgkQ3SOs138+
-s6GwDhAAk7AgMlJlfnIXUZpOj/rOLWcb600MiHHFNHwSQCe4Uth9OdBvDjdFqsUH
-IOsRHerjzQEwlXmSafIOpXa2PZIdyxpGhW5b3regoBNfy9BeGgQLPyFwcQht6qh2
-VI2nrMek6YghkNYEOJgj/mR3pKgPdubbvenIHKRqjoOVO+dviJfnRCWGyBAmD/A7
-vBa21JJQ8xMZ4+uBFmwGfD6z3wzmNJejyeMTrSEspmmWzp1EouxwEy/gtUPv4xKQ
-zC1HEk/hWUEYaFgY0zgsT+HH80QhfpO2A93RM/DhcON8UPG0zkPXjNGy7PR49kAm
-8dHvyVnT42uD2ziXfp6sDAlCw5StvmPNyEDxltCBmZXWlana1DkQZarfNuBpuTBl
-Uf1C2GBc1I9AjH0Dui+jdzBurfBTRi0p5OTMh4xtfTuBKLQnNwCZ+Loc+Ft4uzX1
-ziaoZtR9q2PpElDhruxNAHH19a7DpfB71HYvcnhkrlpCH85ivsFIGditzYlMxuOK
-uoMZchMwVyzqptRpyKHsfgaIYNWffFB/vmLI27m4HrRYGl5qg4tx7te8FK9RP7cC
-mSM7KS36BA/BlJV9dLePmcKHylabI1HgJRKQ5nwFo5TyCHIh00EEpC01k7hcW/N3
-qrVTwB7kDgm0w1udks5zBp0D9+xquWiRWF9uVpwLQOvTfzcp434=
-=RSh3
------END PGP SIGNATURE-----
-
---e8d29550c8c6ecc345e96308e31e05adf5d0599eed8c116befc5ef55e617--
+Bart.
