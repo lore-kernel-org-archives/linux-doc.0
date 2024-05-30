@@ -1,216 +1,234 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11011008.outbound.protection.outlook.com [52.101.228.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC05FBE8
-	for <linux-doc@vger.kernel.org>; Thu, 30 May 2024 01:08:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717031327; cv=none; b=lM1N3MmLehRGMURXfWtILZx/NgtoKXtgzSZTo4H2lkcTIL7YVaCaEFJu3XeWA9mHfhSIsbLeJE9I5OqGy8q552yPxMORW1mn+YBh57oNUDnKcYKXR8pGe1dn7cf+L4q3gAIGsiGDqgZG3Dw5k1cjVwphGWV7cjgrRfK/gg4bqC4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717031327; c=relaxed/simple;
-	bh=HUAN0/h1uUnwVHvw5+gjjvN2wmVD3N2hYhH/W+fSmng=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tpjUns5GN0k027J71G/CByflM/nxQsukblVZ+9ykzqnj5fh3mXtfpKgw9ECUGnTltx1oqsFwRzTRXuAsFK6YkqODpoZLfhvsI7R9fivG6PTG9YA2AKz23DK84+cCBrDs2kIxjfCMIY0bps6GzgqqhIcxujNVMUPZHbVycziE4Wk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0CxcI6FD; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E38F510;
+	Thu, 30 May 2024 01:17:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.8
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717031867; cv=fail; b=EzwiJXsr5hZ/fI8m2QtprUgXESEujXGMOl5kogrsGq1tTurUCQDID40FB8u7s/g9KWpGUdUKtuAEnV0PXBaUJclp4BtkeIPFKfQmPDGS4dqtGjJo63WuB1fEtqhoM1A5hucZmcJlWcg8zPXezPNieQR1HyR5JJxxITPh0+NHtm0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717031867; c=relaxed/simple;
+	bh=2R/R23QICHuMcwSbw8H64i0DM0woqJYpwXg6mm4YtlU=;
+	h=Message-ID:To:From:Subject:Content-Type:Date:MIME-Version; b=kNj1KYrr7DQps/QdO65zioM43CsUJfCIzldAZvWSh7gFD8JfP9Qzzz6p0A7sQ2JE0mTHwPKxEh6j7GklaCH7NRDVxDOG4XDKZUo5nhXEwEFYfIOPSRKJTyH8spPHZPFmkUomZG9oIS9aCcAC5x+J2VWMT3o9lCy2gIBSTTGxEug=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=UiGkng3k; arc=fail smtp.client-ip=52.101.228.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0CxcI6FD"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-43e14f0bd75so83841cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 29 May 2024 18:08:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1717031324; x=1717636124; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RNCYiTPJ+jmwqf05JMT+AdSr7J72TbIz2CKFhve3Jy0=;
-        b=0CxcI6FDl7jFDQxcpUYxZt5vBPgkc6u9I8kDHvOF1t4nxhy5YdkqiDc92+E1QFjBKt
-         YCnld08mSd/EPuEkf9cN83p9ZGJJdSW1vvAqiO/uDlNSvEm0FQt2Jy2+4B9UXiqUcGEJ
-         OMmxgGvT/L6gqZ+1JZL5PvL6gN2g0y/Kmaeikr1QToKJV8EDaLiGXPfNpYax2gnxj1yJ
-         srEhKv09Q2KyuZNzA3YxHQ/f5WAHQYjlh24DdofT0tWdgnqQb0JPldGS8QQrXG7IqGQJ
-         wUN35PyD3tV/2alPCcwAPx4CXGaiPkWVQyS5BbJM15JNAZk9NnU+TDEmQCLy9iKPRlmS
-         u8dA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717031324; x=1717636124;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RNCYiTPJ+jmwqf05JMT+AdSr7J72TbIz2CKFhve3Jy0=;
-        b=S8/lPUtyJrGAfv/l4YfqL6Sq1T+EPN6+k/ITNhiGZTxBKWj4gHK2VEIsK7AiJ347aO
-         WpagXjYWOYqNh2I3/yw/Tpy4/txGnTBeiPfEeS371Vqe6d2edtohVAlGJfBBvkxf46zm
-         7chmbdPU+rTIhD5VGcv43zWhiGcDC+UlnU33kkHlklM9hL1LlTIvhFrdon8wynaGuHAD
-         c+dDizf16lZJJMK5EUBhbb7m5MmwAG9A5pxIUBpuMofIzbzCAp8ifpf4aEf8R4c8/kjQ
-         SDHi1T2cpuzhAMGYP27PVuS+stNBkE466RG2443uVvMz48W6Ig+RZHOh3/QkYZolxe/t
-         Ym+w==
-X-Forwarded-Encrypted: i=1; AJvYcCW0Z6LglMqERW3bkCwfU6ibTQDWfjaJax7A+s+XtAkvrNN7T5qHMhw55ntRTClSYR1H8auobatx6ie9DwZiv2VQf4NzNUS2MGfv
-X-Gm-Message-State: AOJu0Yw49fmQCDIQpO4LDhZOmXOLAG8szUnQNWtQn3uA9m4woZZrn6xF
-	eaEsVtmXeRT9pSBIelxh1WQxQopkV158XPpoudHTOkMroF/yHdXy/Gd07JOwgMgxJPRLu/OMWP4
-	nmFBgnm8tewpS2WSOQPk5wuLOhpPnE0TX945h
-X-Google-Smtp-Source: AGHT+IFJBPRQlkDyYJeSsGM/RxiiiLg1VsLLsha8SGwYsobiZXs39Abfff+lsGr1GDYLgVu96Cm8k7GvNnaVZDK3Ruk=
-X-Received: by 2002:a05:622a:5509:b0:43b:6b6:8cad with SMTP id
- d75a77b69052e-43fe8e0b1dfmr1268341cf.10.1717031323987; Wed, 29 May 2024
- 18:08:43 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="UiGkng3k"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ii4ZfS/d/F+tenI32HW57+Ea5esiugOQluSylYsHjP8q8IUPKz2rkoeZFuxja/ZjyZkNIHdORsHv3MASQCQGjUDNT1jztP2yKGoz7/pj6yiJFhkNXPM+K6RbKVEk56Uj6WpVtG7kYsEjgOK6BqJfLEWQ3QivXq+ZewlfcKUv/mS9SQ9Cys0vOi31BNU6V3EvbxqsfRelwDlPb4TsqCbq3tQEig3ueSsa5ulxiCjNv0T4r8iNhsTp7NpVRirtY1vHk6/dSjVtpngjk1+nSYGePqfzLml98OEjHqEHUqaFRCe+iS2r/Jbf7YYBkVgx9QXIrNeHr1VMswD3gFyMYmtgDQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TQW1zvp3OZfpMaa8MJ0x3F3VC0NQa+6ynogbGcPDbx4=;
+ b=ReW392dY525QSs7TV018JPfw3zXAegS6ypa+WIUIXpL3skHHXLDhkPLwmAq7Ypy7mfbrpn6xnTouu7qjeLPGMAVtSoOwy/9gvj5gyJt6MPBWlm7GTh0OQ7qT8H2MB+r43laodiiZ+ZeFqr4Ha+ShmnXY4dKKCCGasMFwbQrJKleIlQzXE4VhjioLNk3xdkcQSS/40aYWfiwK513OikGS4nLvWdfAQmts0VtiMtI1V/pJ1U9TvUBTd9MePzw3LCq+76obGqOGRn9M2KEtfjRu68efbFpkjQlyYYspfKxnSAscex9zRWoX2GraVsznHJBhzsy9xccjEFqebX2K5zmUvQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TQW1zvp3OZfpMaa8MJ0x3F3VC0NQa+6ynogbGcPDbx4=;
+ b=UiGkng3klDLFBYWK+XgovBjoc5SNKPZR5/iVyt9lqB+UJICu5zYFHZek3CnkRJcDtwBMnT4fmJ5zJgdKwCOX0zxK66uW1+mO3oQmn1CMutT7nsZ2x/VickqTKTWnKMZDsLHw6fPTtT/DbKP2/RvbItXwbABHjvQvJtYgVsqhBZ0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11) by OS3PR01MB6933.jpnprd01.prod.outlook.com
+ (2603:1096:604:12c::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.17; Thu, 30 May
+ 2024 01:17:40 +0000
+Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
+ ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.7633.018; Thu, 30 May 2024
+ 01:17:39 +0000
+Message-ID: <87bk4oqerx.wl-kuninori.morimoto.gx@renesas.com>
+To: =?ISO-8859-2?Q?=22Amadeusz_S=B3awi=F1ski=22?=
+ <amadeuszx.slawinski@linux.intel.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>,Alper Nebi Yasak
+ <alpernebiyasak@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Banajit Goswami
+ <bgoswami@quicinc.com>, Bard Liao <yung-chuan.liao@linux.intel.com>, Brent
+ Lu <brent.lu@intel.com>, Cezary Rojewski <cezary.rojewski@intel.com>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>, Claudiu Beznea
+ <claudiu.beznea@tuxon.dev>, Cristian Ciocaltea
+ <cristian.ciocaltea@collabora.com>, Daniel Baluta <daniel.baluta@nxp.com>,
+ Hans de Goede <hdegoede@redhat.com>, Jaroslav Kysela <perex@perex.cz>,
+ Jerome Brunet <jbrunet@baylibre.com>, Jiawei Wang <me@jwang.link>, Jonathan
+ Corbet <corbet@lwn.net>, Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Kevin Hilman <khilman@baylibre.com>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Maso Huang <maso.huang@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, Pierre-Louis Bossart
+ <pierre-louis.bossart@linux.intel.com>, Ranjani Sridharan
+ <ranjani.sridharan@linux.intel.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>, Shengjiu Wang <shengjiu.wang@gmail.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Sylwester Nawrocki
+ <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>, Vinod Koul
+ <vkoul@kernel.org>, Xiubo Li <Xiubo.Lee@gmail.com>,
+ alsa-devel@alsa-project.org, imx@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-sound@vger.kernel.org
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Subject: [PATCH v5 0/4] ASoC: grace time for DPCM cleanup
+User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
+Content-Type: text/plain; charset=US-ASCII
+Date: Thu, 30 May 2024 01:17:39 +0000
+X-ClientProxiedBy: TYCPR01CA0111.jpnprd01.prod.outlook.com
+ (2603:1096:405:4::27) To TYCPR01MB10914.jpnprd01.prod.outlook.com
+ (2603:1096:400:3a9::11)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240529180510.2295118-1-jthoughton@google.com>
- <20240529180510.2295118-3-jthoughton@google.com> <CAOUHufYFHKLwt1PWp2uS6g174GZYRZURWJAmdUWs5eaKmhEeyQ@mail.gmail.com>
- <ZlelW93_T6P-ZuSZ@google.com> <CAOUHufZdEpY6ra73SMHA33DegKxKaUM=Os7A7aDBFND6NkbUmQ@mail.gmail.com>
- <Zley-u_dOlZ-S-a6@google.com>
-In-Reply-To: <Zley-u_dOlZ-S-a6@google.com>
-From: James Houghton <jthoughton@google.com>
-Date: Wed, 29 May 2024 18:08:06 -0700
-Message-ID: <CADrL8HXHWg_MkApYQTngzmN21NEGNWC6KzJDw_Lm63JHJkR=5A@mail.gmail.com>
-Subject: Re: [PATCH v4 2/7] mm: multi-gen LRU: Have secondary MMUs participate
- in aging
-To: Sean Christopherson <seanjc@google.com>
-Cc: Yu Zhao <yuzhao@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Ankit Agrawal <ankita@nvidia.com>, Anup Patel <anup@brainfault.org>, 
-	Atish Patra <atishp@atishpatra.org>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Bibo Mao <maobibo@loongson.cn>, Catalin Marinas <catalin.marinas@arm.com>, 
-	David Matlack <dmatlack@google.com>, David Rientjes <rientjes@google.com>, 
-	Huacai Chen <chenhuacai@kernel.org>, James Morse <james.morse@arm.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, Oliver Upton <oliver.upton@linux.dev>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Raghavendra Rao Ananta <rananta@google.com>, Ryan Roberts <ryan.roberts@arm.com>, 
-	Shaoqin Huang <shahuang@redhat.com>, Shuah Khan <shuah@kernel.org>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Tianrui Zhao <zhaotianrui@loongson.cn>, 
-	Will Deacon <will@kernel.org>, Zenghui Yu <yuzenghui@huawei.com>, kvm-riscv@lists.infradead.org, 
-	kvm@vger.kernel.org, kvmarm@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-mm@kvack.org, 
-	linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, 
-	loongarch@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS3PR01MB6933:EE_
+X-MS-Office365-Filtering-Correlation-Id: 01ec79e3-4655-40f1-c52a-08dc80464c57
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230031|7416005|1800799015|376005|366007|52116005|921011|38350700005;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?qAUxTycg5+Ftjs+7b3V6wVVzbYwsrGt03AxufdvqPkqikenjvC+UHUNJCuUw?=
+ =?us-ascii?Q?IPLbU9d2m2H7RFffHtlaNyuNowOGIVPrD20qYTjbJ0dlI/NQVKoQOC29wyT2?=
+ =?us-ascii?Q?rTTKx8gX2pp2rXporQi3c6ex3Jo4sx6AUzq4EBSI10L+Nm+mCjodQW9hJWjk?=
+ =?us-ascii?Q?Oh2SolNRouxk9WaTxL/wmVCE2VCf7IlqDXxvWiQQIOj1ZvRgRe2eH3Cxmj8e?=
+ =?us-ascii?Q?wYNFdY8BHqM8suKDjM8hOdNnkoS/FUhxQ6loAA5k0osCbHgQmfF9cX7dVkC/?=
+ =?us-ascii?Q?GEMsbi+oy7xz/YmU42c/ykZGD62yw7/ykHj+gvsdrCF9dH4+b3Rwvy9ondwq?=
+ =?us-ascii?Q?ev9LsXZB1Ukkd14bOvYK1JevYXoJNScHmIEXLGyA+DDWKg0gbdx1qyXlJ9dJ?=
+ =?us-ascii?Q?EaNUcAJl5/+Ey/xpsQ/Yn7TzdhAw6ZD/mdGC6PQQSyYY4rxkNRpioP+LYIiz?=
+ =?us-ascii?Q?2pEDliiO+qO9PN4X1R4lqJ7rvH1pPPAmClEbWkd+n74RCIrCxcZvuJl2OKC6?=
+ =?us-ascii?Q?R3bDiFw4TsnjM5BNIwgxEH8VGBFM+PQf4lvvoqsOyBhinetbtHOYJklnNp0C?=
+ =?us-ascii?Q?5vK22rWIhfFopdf0kZAl+5sqzVLG6IyjLpfXlR6/YZ6qbuSnNYwanMp4OPX9?=
+ =?us-ascii?Q?L38zJ+F0wWutlRQjAw7+7Ayy27kXtW7YDhzU/gCwY7Zm3kamVWv9PtJEoeFR?=
+ =?us-ascii?Q?mLlxTz2XUF4hqBexTgFfwFs9QgAcxtvq9RXFL21iwjYQF72TTM2FNqu5M8O7?=
+ =?us-ascii?Q?ZULwz+bB4+XEm6piHP1Hgk2azknCfOEq087/8EqRJ0edLbxlcIYwmjEVKlVB?=
+ =?us-ascii?Q?XJeaf3WEWfwpadjjFUn+muNB6q9x/eaQhgHLd1Vq2VJD3se4YE20/aSlRws3?=
+ =?us-ascii?Q?gGzwYe6vw8+rk3ltIMUUocC1yX86t0U4NpgQMe2llxVj6K1EJxddjsv36DJu?=
+ =?us-ascii?Q?/nMo8GYU8D3ywbRfo/ymcEig8z5vXuMPnIwzXJGvUJgrsL0rXAM5QfSBEqMy?=
+ =?us-ascii?Q?UbaujqLuAzUoszbR0VWTVcdpEY96JFe76DwYs5F8KaDNdtKwHcqQuj62CqDU?=
+ =?us-ascii?Q?4nAVxQ3MbdwfOlIjAmYoFW/DyT6Lj4EuO+4ibWwPlo60zXFT9IR7SQooYFDr?=
+ =?us-ascii?Q?rHc2GO8m0Wgy/YDFeXPgDEabXVi6JovE6tIXjrziY9SL7R87/ffmAGjMldlu?=
+ =?us-ascii?Q?GuyC8TlkF339XAxdIjgxHkvOmnoZ5mYdvej/i1yUDxpFLWGuZ94vpxDBEiKw?=
+ =?us-ascii?Q?aVECf6HQP+HVZK3QAXPzpP1j6uKv2JVEyjjGHr0XMSLNuA/8AwzCLGBvGkzj?=
+ =?us-ascii?Q?hqpIMRSkJZxeVPzpf/x8qkYa?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(1800799015)(376005)(366007)(52116005)(921011)(38350700005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?dPU0rgCaV8QFfT24NYdmaHCFBYII8IOuzxdCkSYbhShnL2XlPzrP490qPpxa?=
+ =?us-ascii?Q?2PVGBSoCbyn0ZCyF9gy6fBVS40W/8pCeaOeG31neSg3KM6sGx2bUAAZ3JAC4?=
+ =?us-ascii?Q?ak8QnOnXdwPOFIQ+5+lA+Mnlk8rRJRZAM5hjAU8mnc+1uGE6tGyrJlW0MpeK?=
+ =?us-ascii?Q?vsnGuFw9zbh4XGsGuIaRFU9/1LM/4Sa9zk0RnmBk2Awq3PpWmTEaSq4fWGhg?=
+ =?us-ascii?Q?rSi0XnvfeBnjhG3IiPzc9sa1bNsngIhJgurW9frWiZLlE+cMb+HU64VgyX2i?=
+ =?us-ascii?Q?eLOYx0HJJQsRcDgclke1EmTK4ZjUohfgNocrQWr40a5vUrHTuXqB2YAsx3V+?=
+ =?us-ascii?Q?r8iMoBZb0SXIm8O0vT1VNc8J5Z0U87TjUFgIki3xLbs87EK9hGeRM53iG9XA?=
+ =?us-ascii?Q?li2QNscslLeJHxVq6dnw5NHhPxS9gnRB2uJ+CjQ5ED6Qagb09eAoGL4Y+S+Q?=
+ =?us-ascii?Q?gWUYkxJ0aaQLDIqHlxa8xItGTtKD9Gc2BnAvWdedlHoNiXRjUHFcEDWuP4Y7?=
+ =?us-ascii?Q?yzzWwI0NtEhaopfQxDaNWdisZfXGTiWAYrZqcygHYErTeEo8b9LCv5B4jcfa?=
+ =?us-ascii?Q?aIBnhMESz0JWBMe2/qKDdR9f1SPapL+QHeXsIF67IXNA6+0J/Fc1yZl4RuaP?=
+ =?us-ascii?Q?2RxbNy+DtNdZx/CiwEVaBnH57uOtO/YakHr9nRE0ewXyO0BCTkXYIKPxlNgc?=
+ =?us-ascii?Q?PBJeOLQ5JZziq830JwSQj4J1d3W9aWyWvpsMMSKbETtGu8pKd/BT5rko3AOw?=
+ =?us-ascii?Q?jeIjDALPCmWzAkhz75fCfR9j01J2olM/QgpDi8jgTDk9Lj9Ryb52jbCOKgwP?=
+ =?us-ascii?Q?SpCJCzHosFwZ3t5jBbDYA+RUT6e557blNXM/15jMvO4SsY+x0+8/kRc3v4Rz?=
+ =?us-ascii?Q?9tzGTipr1J/yxynmna8dvPHjaA0+JhxDBr/qmKpiMUpMf5cdBr07Be58sEAA?=
+ =?us-ascii?Q?/3btb5VVf9+C1qLNLZKxaBdOE7k15FL403g9BViwVDaBcXOKcAEwvlNAofhk?=
+ =?us-ascii?Q?oTDaeVtuE6HEmxyXiPTyZTUDLcSZybcSyuNC28FyFwTpeRBebKOFvUT9xejQ?=
+ =?us-ascii?Q?AFM6sgsJv5pxqFhMLoGINJnSgedIA0hTLg+79/csKD4sUxInY71HeczpPeJM?=
+ =?us-ascii?Q?DzMgMrd811pw+hhH/NdVMEBk6QhF6fAfmJOfP4/OqBdZIcMtv8YKNXJq9qHw?=
+ =?us-ascii?Q?Z+G2IETct2rzIiiDfW2SfqpNfBhVWhOqxeS0SCWI1rQTG9ADPGozqol3l8PL?=
+ =?us-ascii?Q?R8MM9klZsBR0rUBeFJYGqIFNl6fLw/PoLqzuFzPOncVXLf1EGhcmLsiAbEO3?=
+ =?us-ascii?Q?P4xzx7bfTEK9PZ6Ug+Mj3k73WXoI9UGCawNtEc1kKonNMgkgu5LjTcfScics?=
+ =?us-ascii?Q?p96VMRaJoC7iPI535FvAPk9ekb2BBvmYPhzLR/7HnekDEZHEKFx7i/o4Lo3I?=
+ =?us-ascii?Q?gvrLLacat7r2ve0qNSUwm6xeAMHoKvp9/zidyTjkkT3KnVQL7IhTbtRzFZNE?=
+ =?us-ascii?Q?4XkxZs2EsbINWDlcgrqrhgpyTrOmWYvxOdKvMmscG/9NIHebna+iqYKoQEW5?=
+ =?us-ascii?Q?DTihRXbBULKCaPzZ4s/7pokXL0pIWVR7C0wtlcj25L2Fy4pvKwZoioreOyox?=
+ =?us-ascii?Q?950LWIBuFI0zBBI79Wa80VM=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 01ec79e3-4655-40f1-c52a-08dc80464c57
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2024 01:17:39.7877
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cc/bwGdsgrnEp596cyrEQj1UcM77l8zE8NiOj8uhvAIzg43l/uf3KhObXEFPrrhHC0DQqc3K3faJjawfXbNhQTnd03SzghBxqyxtuI0CLnQDr1TxvBa6oRUTY94cexns
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB6933
 
-On Wed, May 29, 2024 at 3:58=E2=80=AFPM Sean Christopherson <seanjc@google.=
-com> wrote:
->
-> On Wed, May 29, 2024, Yu Zhao wrote:
-> > On Wed, May 29, 2024 at 3:59=E2=80=AFPM Sean Christopherson <seanjc@goo=
-gle.com> wrote:
-> > >
-> > > On Wed, May 29, 2024, Yu Zhao wrote:
-> > > > On Wed, May 29, 2024 at 12:05=E2=80=AFPM James Houghton <jthoughton=
-@google.com> wrote:
-> > > > >
-> > > > > Secondary MMUs are currently consulted for access/age information=
- at
-> > > > > eviction time, but before then, we don't get accurate age informa=
-tion.
-> > > > > That is, pages that are mostly accessed through a secondary MMU (=
-like
-> > > > > guest memory, used by KVM) will always just proceed down to the o=
-ldest
-> > > > > generation, and then at eviction time, if KVM reports the page to=
- be
-> > > > > young, the page will be activated/promoted back to the youngest
-> > > > > generation.
-> > > >
-> > > > Correct, and as I explained offline, this is the only reasonable
-> > > > behavior if we can't locklessly walk secondary MMUs.
-> > > >
-> > > > Just for the record, the (crude) analogy I used was:
-> > > > Imagine a large room with many bills ($1, $5, $10, ...) on the floo=
-r,
-> > > > but you are only allowed to pick up 10 of them (and put them in you=
-r
-> > > > pocket). A smart move would be to survey the room *first and then*
-> > > > pick up the largest ones. But if you are carrying a 500 lbs backpac=
-k,
-> > > > you would just want to pick up whichever that's in front of you rat=
-her
-> > > > than walk the entire room.
-> > > >
-> > > > MGLRU should only scan (or lookaround) secondary MMUs if it can be
-> > > > done lockless. Otherwise, it should just fall back to the existing
-> > > > approach, which existed in previous versions but is removed in this
-> > > > version.
-> > >
-> > > IIUC, by "existing approach" you mean completely ignore secondary MMU=
-s that
-> > > don't implement a lockless walk?
-> >
-> > No, the existing approach only checks secondary MMUs for LRU folios,
-> > i.e., those at the end of the LRU list. It might not find the best
-> > candidates (the coldest ones) on the entire list, but it doesn't pay
-> > as much for the locking. MGLRU can *optionally* scan MMUs (secondary
-> > included) to find the best candidates, but it can only be a win if the
-> > scanning incurs a relatively low overhead, e.g., done locklessly for
-> > the secondary MMU. IOW, this is a balance between the cost of
-> > reclaiming not-so-cold (warm) folios and that of finding the coldest
-> > folios.
->
-> Gotcha.
->
-> I tend to agree with Yu, driving the behavior via a Kconfig may generate =
-simpler
-> _code_, but I think it increases the overall system complexity.  E.g. dis=
-tros
-> will likely enable the Kconfig, and in my experience people using KVM wit=
-h a
-> distro kernel usually aren't kernel experts, i.e. likely won't know that =
-there's
-> even a decision to be made, let alone be able to make an informed decisio=
-n.
->
-> Having an mmu_notifier hook that is conditionally implemented doesn't see=
-m overly
-> complex, e.g. even if there's a runtime aspect at play, it'd be easy enou=
-gh for
-> KVM to nullify its mmu_notifier hook during initialization.  The hardest =
-part is
-> likely going to be figuring out the threshold for how much overhead is to=
-o much.
 
-Hi Yu, Sean,
+Hi Mark, Pierre-Louis, Jerome
+Cc each ASoC driver maintainer
 
-Perhaps I "simplified" this bit of the series a little bit too much.
-Being able to opportunistically do aging with KVM (even without
-setting the Kconfig) is valuable.
+This is v5 of DPCM cleanup
 
-IIUC, we have the following possibilities:
-- v4: aging with KVM is done if the new Kconfig is set.
-- v3: aging with KVM is always done.
-- v2: aging with KVM is done when the architecture reports that it can
-probably be done locklessly, set at KVM MMU init time.
-- Another possibility?: aging with KVM is only done exactly when it
-can be done locklessly (i.e., mmu_notifier_test/clear_young() called
-such that it will not grab any locks).
+As we discussed in [1], we don't need to use dpcm_playback/capture flag,
+so we remove it. But we have been using it for 10 years, some driver might
+get damage. The most likely case is that the device/driver can use both
+playback/capture, but have only one flag, and not using xxx_only flag.
+[1/3] patch indicates warning in such case.
 
-I like the v4 approach because:
-1. We can choose whether or not to do aging with KVM no matter what
-architecture we're using (without requiring userspace be aware to
-disable the feature at runtime with sysfs to avoid regressing
-performance if they don't care about proactive reclaim).
-2. If we check the new feature bit (0x8) in sysfs, we can know for
-sure if aging is meant to be working or not. The selftest changes I
-made won't work properly unless there is a way to be sure that aging
-is working with KVM.
+These adds grace time for DPCM cleanup.
+I'm not sure when dpcm_xxx will be removed, and Codec check bypass will be
+error, but maybe v6.11 or v6.12 ?
+Please check each driver by that time.
 
-For look-around at eviction time:
-- v4: done if the main mm PTE was young and no MMU notifiers are subscribed=
-.
-- v2/v3: done if the main mm PTE was young or (the SPTE was young and
-the MMU notifier was lockless/fast).
+Previous patch-set try to check both CPU and Codec in DPCM, but we noticed
+that there are some special DAI which we can't handle today [2]. So I will
+escape it in this patch-set.
 
-I made this logic change as part of removing batching.
+[1] https://lore.kernel.org/r/87edaym2cg.wl-kuninori.morimoto.gx@renesas.com
+[2] https://lore.kernel.org/all/3e67d62d-fe08-4f55-ab5b-ece8a57154f9@linux.intel.com/
 
-I'd really appreciate guidance on what the correct thing to do is.
+Link: https://lore.kernel.org/r/87edaym2cg.wl-kuninori.morimoto.gx@renesas.com
+Link: https://lore.kernel.org/r/87wmo6dyxg.wl-kuninori.morimoto.gx@renesas.com
+Link: https://lore.kernel.org/r/87msole5wc.wl-kuninori.morimoto.gx@renesas.com
+Link: https://lore.kernel.org/r/871q5tnuok.wl-kuninori.morimoto.gx@renesas.com
 
-In my mind, what would work great is: by default, do aging exactly
-when KVM can do it locklessly, and then have a Kconfig to always have
-MGLRU to do aging with KVM if a user really cares about proactive
-reclaim (when the feature bit is set). The selftest can check the
-Kconfig + feature bit to know for sure if aging will be done.
+v4 -> v5
+	- typo fix: limition -> limitation
+	- typo fix: catpure  -> capture
+	- include Intel patch
 
-I'm not sure what the exact right thing to do for look-around is.
+v3 -> v4
+	- don't check Codec on DPCM
+	- include Jerome's dpcm_xxx update patch
 
-Thanks for the quick feedback.
+v2 -> v3
+	- tidyup typo (reuqsts -> requests)
+	- add Tested-by on git-log
+
+v1 -> v2
+	- tidyup Codec check warning output condition
+
+
+Jerome Brunet (1):
+  ASoC: amlogic: do not use dpcm_playback/capture flags
+
+Kuninori Morimoto (2):
+  ASoC: soc-pcm: Indicate warning if dpcm_playback/capture were used for availability limition
+  ASoC: remove snd_soc_dai_link_set_capabilities()
+
+Pierre-Louis Bossart (1):
+  ASoC: Intel: sof_sdw: use playback/capture_only flags
+
+ include/sound/soc-dai.h               |  1 -
+ include/sound/soc.h                   |  1 +
+ sound/soc/fsl/imx-card.c              |  3 --
+ sound/soc/generic/audio-graph-card.c  |  2 -
+ sound/soc/generic/audio-graph-card2.c |  2 -
+ sound/soc/generic/simple-card.c       |  2 -
+ sound/soc/intel/boards/sof_sdw.c      |  4 +-
+ sound/soc/meson/axg-card.c            | 11 +++--
+ sound/soc/meson/gx-card.c             |  1 -
+ sound/soc/meson/meson-card-utils.c    |  4 +-
+ sound/soc/qcom/common.c               |  1 -
+ sound/soc/soc-dai.c                   | 38 ----------------
+ sound/soc/soc-pcm.c                   | 65 +++++++++++++++------------
+ 13 files changed, 47 insertions(+), 88 deletions(-)
+
+-- 
+2.43.0
+
