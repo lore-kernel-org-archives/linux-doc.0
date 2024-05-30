@@ -1,364 +1,263 @@
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C32718399A
-	for <linux-doc@vger.kernel.org>; Thu, 30 May 2024 10:11:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717063865; cv=none; b=PLHetV3x792xfw4Gxo7uc4pYMpXUO7mFGaEBzvs/iEIkZes6CjoTstNciHf3j1BbLiVTbCdBUqojtNuBnDa2TkM6AEyXaSeexskp8TUOL+Ro9d1saQDorASPfwh5ZIypYr9z3/yq9eXVBBCuUmjQWlmttWJNpj5wvTN6UILPcAE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717063865; c=relaxed/simple;
-	bh=on/JwLTxrLuV3vO1p1ll7J4Xl/lUI9BhrYuQk7Z0lfg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:In-Reply-To:
-	 Content-Type:References; b=ZaDjOOBB9xTjms9jW4NhA1SMuoro3RWjVCykMuD8Xh0pJA4NYx9RJTTs+7p9Izoj5WXZoimajQ0UZuYJXfBRz71jGP7rRRVN49eMqIZhxBfZP06AbksxzjgB/DIMUPfvApddONB53PPq+wqSeBorwktmRJtdRv2KvRiwOHtHTJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=MptEa35t; arc=none smtp.client-ip=203.254.224.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D66D33991;
+	Thu, 30 May 2024 11:23:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.156.173
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717068225; cv=fail; b=OtDQbB8pkUGYt9VPF7LjW+nBBK1RfRkKXbUXfEyFfkCtIjEKhtrx2OO1QE7H0qC2fcWzqFpKD2kM7oL/nEIFtFCpfe9zao2NoVkIZ2Nb2ZzzPHGmCcrV/JjFAM2vAAe3Hsw97wcApCt0KWP552FwYMQAtfLEAKVEXyV1C32TZU8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717068225; c=relaxed/simple;
+	bh=Ymv9/8JyVD7O2EWI2auHB5knlII+kDsx1gmuShilFE8=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=k1cUhxuHtu8Rkwi3Pp5KxiLPE3GJW0ybs8n0EXItsCqQL3Q89GIexhVXWUi76AMt3TQd7QQpwY1JJzZXiFeT6k0FhLs/VZ9ZnBURDstWn0bx7nMPOS2In20444tqQdywAy01FdD94lAQrC2FKicM49IGy7x6H2tpT9khvEKZUK8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (1024-bit key) header.d=marvell.com header.i=@marvell.com header.b=vqmtXC85; arc=fail smtp.client-ip=67.231.156.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="MptEa35t"
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20240530101101epoutp0393d27f8b444d7bf5a2f38d001c76ab0b~UPHwgxs4y2605026050epoutp030
-	for <linux-doc@vger.kernel.org>; Thu, 30 May 2024 10:11:01 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20240530101101epoutp0393d27f8b444d7bf5a2f38d001c76ab0b~UPHwgxs4y2605026050epoutp030
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1717063861;
-	bh=rCniubpfhRi+g2l6XyRehFQ5clmSAHkrG4fc8RUMS8k=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=MptEa35tnH//kE2ZSyDiuh8SPwEHLdPETxNEMAdjM2dqCBESdkfpL+mM7zOewK7g7
-	 MOfSkmDkoGlQKzsQZ5LTksCaPGkLaqU0f/4wEgmwl8UPc2oxfyactQr9magBWqCrhc
-	 mER/kOnpzWys3ZiEjsIZ11yxLnPMg50p31LmOwC4=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
-	20240530101101epcas5p1c534977e2860b97c465e67c8e0c9abd7~UPHv7LDHX0596505965epcas5p1b;
-	Thu, 30 May 2024 10:11:01 +0000 (GMT)
-Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.178]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4Vqhpq18dGz4x9Pp; Thu, 30 May
-	2024 10:10:59 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	BF.11.08853.2B058566; Thu, 30 May 2024 19:10:59 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20240530072334epcas5p2294aaf32c6fd842746a3720b79e4ae0f~UM1jSPnWa0360603606epcas5p2d;
-	Thu, 30 May 2024 07:23:34 +0000 (GMT)
-Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20240530072334epsmtrp10c020316720cd13ac5ee23b5f7e3fa95~UM1jQ6LhM2941029410epsmtrp14;
-	Thu, 30 May 2024 07:23:34 +0000 (GMT)
-X-AuditID: b6c32a44-fc3fa70000002295-f2-665850b2a045
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	7A.C0.07412.67928566; Thu, 30 May 2024 16:23:34 +0900 (KST)
-Received: from nj.shetty?samsung.com (unknown [107.99.41.245]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20240530072330epsmtip275d026b89192731ddd356c1f20d4b985~UM1fnzfni2409724097epsmtip27;
-	Thu, 30 May 2024 07:23:30 +0000 (GMT)
-Date: Thu, 30 May 2024 07:16:30 +0000
-From: Nitesh Shetty <nj.shetty@samsung.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: Damien Le Moal <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>, Mike
-	Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>, Keith
-	Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
-	<sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, Alexander Viro
-	<viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
-	<jack@suse.cz>, martin.petersen@oracle.com, david@fromorbit.com,
-	hare@suse.de, damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com,
-	joshi.k@samsung.com, nitheshshetty@gmail.com, gost.dev@samsung.com,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, dm-devel@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
- and request layer.
-Message-ID: <20240530071630.ufzrgji6z6abliqx@nj.shetty@samsung.com>
+	dkim=pass (1024-bit key) header.d=marvell.com header.i=@marvell.com header.b="vqmtXC85"
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+	by mx0b-0016f401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44U9a1RJ025821;
+	Thu, 30 May 2024 04:23:12 -0700
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2169.outbound.protection.outlook.com [104.47.55.169])
+	by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3yegkn1gn0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 30 May 2024 04:23:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MmrS6gAax2vcT6c71sBUB9izUPhfXBymGnzGkZQ8zOa+zizdjfg8Yz6aEI4JRmTeFbbgox5byrO0IZPsElBDLpuVHlKCTbp4HNn4v4KyTF3N3qWT8CO7nEEtbLCNUeWxfl41Zvq3/FQp6rmXx+Sd5PWWt0stlw4IRK7J5jCJckSM1nPHkqLPusTL1FZNmMbPMf5d7tEUyShOhuSpEFImrzJtjHj8M/v7ZH4io4NvFCKL7qxLGiFXHKf5MSXWd6atEkNZd0jDaPH2tzp1r1H6F2Xo1/64XyF0xXTnAKkRdFOW5nhg8E/BgkelCYzTy38vJ/LUgu5Cp+5UWNkjU5sNbQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ymv9/8JyVD7O2EWI2auHB5knlII+kDsx1gmuShilFE8=;
+ b=asF5YRNTPhw2cR/Ho27l1UU/74MbnmjJMFc7ZfJl/g7z5vOCokajC3DjXprl/WJUdeICvqv4bxTqly1ubylafRlAcnqqI3KUwuX0DRLT8QVx42BA5L700tvtI+wjOOpYsTU1hFrPzlGDaLrgIt4/yaRzauv+Ou1It4+RfVkDH9z97uTZnjfkW24PzFIftWRVP+vteqEvDXAlSl0mMYMCKjyq6EGh+2jNEhFoJ6T0sPIHK86jM9Xyhd6gQc2PSODpHswmQL480vxxBQ1DTy/RL704zY9xGQjhaqCc0ASFxmdIhOlguPUycORuv1IDgn/NMMbc0jQlGgM4dA7VZ2Pdtg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=marvell.com; dmarc=pass action=none header.from=marvell.com;
+ dkim=pass header.d=marvell.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ymv9/8JyVD7O2EWI2auHB5knlII+kDsx1gmuShilFE8=;
+ b=vqmtXC85fiKKM9As6o8sTRUp/iAoujEqUOcC5GFckNJIrezY3dE+yEyfiFoElb8P2Qn+fFBNPioBLOzCBJew1q7k+zPrFv/QJ878oqEvru+YBzJMhjRDhZ76vWzY5D4IR4TrsqQh4kWyGmxm/nOJ1VVxonZZH4EnorgQBOWUnOo=
+Received: from BY3PR18MB4707.namprd18.prod.outlook.com (2603:10b6:a03:3ca::23)
+ by MN6PR18MB5466.namprd18.prod.outlook.com (2603:10b6:208:470::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.17; Thu, 30 May
+ 2024 11:23:10 +0000
+Received: from BY3PR18MB4707.namprd18.prod.outlook.com
+ ([fe80::e225:5161:1478:9d30]) by BY3PR18MB4707.namprd18.prod.outlook.com
+ ([fe80::e225:5161:1478:9d30%4]) with mapi id 15.20.7633.021; Thu, 30 May 2024
+ 11:23:10 +0000
+From: Sai Krishna Gajula <saikrishnag@marvell.com>
+To: Kory Maincent <kory.maincent@bootlin.com>,
+        Florian Fainelli
+	<florian.fainelli@broadcom.com>,
+        Broadcom internal kernel review list
+	<bcm-kernel-feedback-list@broadcom.com>,
+        Andrew Lunn <andrew@lunn.ch>, Heiner
+ Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        "David
+ S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Richard Cochran
+	<richardcochran@gmail.com>,
+        Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
+        Jay
+ Vosburgh <j.vosburgh@gmail.com>,
+        Andy Gospodarek <andy@greyhouse.net>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Claudiu Beznea
+	<claudiu.beznea@tuxon.dev>,
+        Willem de Bruijn
+	<willemdebruijn.kernel@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Horatiu
+ Vultur <horatiu.vultur@microchip.com>,
+        "UNGLinuxDriver@microchip.com"
+	<UNGLinuxDriver@microchip.com>,
+        Simon Horman <horms@kernel.org>,
+        Vladimir
+ Oltean <vladimir.oltean@nxp.com>
+CC: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>,
+        Maxime Chevallier
+	<maxime.chevallier@bootlin.com>,
+        Rahul Rameshbabu <rrameshbabu@nvidia.com>
+Subject: RE:  [PATCH net-next v13 12/14] net: ptp: Move ptp_clock_index() to
+ builtin symbol
+Thread-Topic: [PATCH net-next v13 12/14] net: ptp: Move ptp_clock_index() to
+ builtin symbol
+Thread-Index: AQHasoPA+avjuvo0LUSGs8B6bWvcAg==
+Date: Thu, 30 May 2024 11:23:10 +0000
+Message-ID: 
+ <BY3PR18MB47074528CBB38F55A3F58A19A0F32@BY3PR18MB4707.namprd18.prod.outlook.com>
+References: <20240529-feature_ptp_netnext-v13-0-6eda4d40fa4f@bootlin.com>
+ <20240529-feature_ptp_netnext-v13-12-6eda4d40fa4f@bootlin.com>
+In-Reply-To: <20240529-feature_ptp_netnext-v13-12-6eda4d40fa4f@bootlin.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BY3PR18MB4707:EE_|MN6PR18MB5466:EE_
+x-ms-office365-filtering-correlation-id: d3a69422-9109-45bf-89d5-08dc809ae2f8
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230031|376005|1800799015|366007|7416005|38070700009|921011;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?M2p0M2dSWUdvbi9Ucmg3cjdwS1h1YU4xN3FsMmovcVZRQzNvTVV3ajZQeGEz?=
+ =?utf-8?B?Mjd3THJiMVVmbkN3OEdKenR6dUxnUTZ5RHVKMHg2QkpNVDhKbTNOL1ZjLytU?=
+ =?utf-8?B?d2dWMmtMUFZRdzFxMG9hMjI4S0ozS1BpaWJFbXM4amtnQ1NqWjJQS1ZZOHlq?=
+ =?utf-8?B?SktKOEg4ckZaRHNneUpMc1B4Yk5lTmRGMHdPYmZ1Y21WemlqV3g4Z09Ncnhi?=
+ =?utf-8?B?QTdEeU93TVRJWGNQSE9adTZEWktCZXgzZUc4czVqZVkvU05nd1N1U2xuZi9N?=
+ =?utf-8?B?enlIR29QRzVHenJLZmtmVFJRN1h5Tk9qSEtScS9mdjI5Z0xxck9OVVA4S0gv?=
+ =?utf-8?B?S29HWWprcUc5dzR3aHdQemxLeExLS0d1S1krL01ieXZ5Z0VqWkJRTlZ0d0xm?=
+ =?utf-8?B?OFdkQ0MrQWF6UG9kbVNhZ3NsRTk5Vjc1WVh3T1A2ZWRUamxTdEE5RXd4aS9C?=
+ =?utf-8?B?Q1RUT2xYKytJKzgzOVZmUVh5ejZrVENHKzQxMC9wKzh1TS9NK2VuZk05blRF?=
+ =?utf-8?B?TG12anZXQzRKendOZUdYZ1gwY2xKbGtPN0ZaZTBldTBnVVZUdXh6eHBWV25u?=
+ =?utf-8?B?YThzVGNWaCtZZWpIcVJrR0VQT1ZrMVB3czgyZ2xDQVpWZm9YNEVFcTB5M0Qx?=
+ =?utf-8?B?NU5JU0tVZmhxZmkyZ1pMRVl0N0orUUVJY0pCVlVrWDJrWkVKRElPR2lKWjla?=
+ =?utf-8?B?eVQvRDY2Z3EwODQvZllMWDRMa1UxaEJVTXFrZGttS0dIR3EzdjNKSzhBRDRj?=
+ =?utf-8?B?ck5VNEhUZWlKb2hub3dqbm1sWVJpU1dNOTJUVVZKTVYyNFpCZnVERnRSVndG?=
+ =?utf-8?B?Vkx6VE0xUUt1enYvWVdJUWR3WExFTFFUdVpUT0RrWEZXblA1a3ZIK3dLQ2hX?=
+ =?utf-8?B?RzFjWlUxNU05azRTTGtDaDNXZ3V5U2RlOUw5Mkk4cTAwbC84U29nZmZtVHBn?=
+ =?utf-8?B?a0RCdkFqekIvWkhLNW5NcEsvZWk5blZ0YlU1SG5NVmx2S0R2dTJhUzR3U2FQ?=
+ =?utf-8?B?RkMrN0poTjJsWTA1b2RlY3p5UFplYnM2WWxjZWJzTkN1cVJpNjRsdVdlUUFX?=
+ =?utf-8?B?UkxueGFMemdsTFcrdVVQUlRGQ003ZGtibDJOMXVUM3paVmU1TklQMFErZDFl?=
+ =?utf-8?B?bVpBdWlSUmFVaDEvRkVUVWQrYmU1TC9YeXZhYU5qOXJISUk5dHMrVVIzTG51?=
+ =?utf-8?B?cjZUYnJVNWxuRVdEaWFCY0JUTnA1ZkRNeDFLUVEwcU0vY1dpbm9SbGRHTW8r?=
+ =?utf-8?B?NklzeE04N2NYeklFSjZqVFRYdnUrSDBqWkphamIzYmVZWHNDMjFZbEhBMDJh?=
+ =?utf-8?B?ejZRdDBLS3ZEZmowSkZCWlAvdkxQZk5XQ01GcDZUK1VzSndsNmx1M2h1Z0cy?=
+ =?utf-8?B?WC9mNWs0OHAvakEza1p2MEJNNFphYThzdk9SWnQwMmlHbHRUWTI4aXdpejhw?=
+ =?utf-8?B?b1laMG1vOVRZNDkvWWY4djN5QURUSjhQQ2NDcTU2Nm1zYmQ3RHhYWXN3bE04?=
+ =?utf-8?B?U2EveHlUOWEyenhaWkp5aUQremcrT2RPVURubzZpVFg0UnZUMC9maXZITlVQ?=
+ =?utf-8?B?U2kxV1R0U0Iwb0poa1NIbWlJM2JmcUJDdjRUeXFySHRTSWJEaGJCTXRHU2lm?=
+ =?utf-8?B?S1JhazNVWkVscy9zM21MTndqNURoZHNsaklkYk11YTF6Snc0T042ekZMM2Vr?=
+ =?utf-8?B?MTFVOUdsOXBpWlZDUExLaXRjSDkvZzdpZHZrb2ZHb0ZuWVRSNXdxcmdjRC9U?=
+ =?utf-8?B?bWY1QzZhQmxkc1hudVhDdk03aVVqdm5peGR6MENEbHpWZ3BWeERMYUkzUHF3?=
+ =?utf-8?Q?D0H1Lb3nYFPLXUPJz0oGVGOiU+jOYxk2DXEj0=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY3PR18MB4707.namprd18.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(366007)(7416005)(38070700009)(921011);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?NkN6QzFna3JaNERod1ZGU0M0VjZkUCtIdi9pVmd6eXA0UUZBY0k0K3MxLzRM?=
+ =?utf-8?B?UVB0MFpCVjF6VkE2TWdXTE1vaWlWSXl3L3g0ajJ3Y3M3ZndOSWZuMlVTWjRI?=
+ =?utf-8?B?aHhiNzBBTE1vQXlxQkROam81NSs2OHBBVnRGcFJTQ0dxV1dJTEF0TjlWblha?=
+ =?utf-8?B?SlM2T25XcXVGUmpqdXlzQytHS1RVQ1BwT2tPN0ZSTjlPODgwVU9iVTJ6THgy?=
+ =?utf-8?B?VENNYkRSM3JEOThXcUFzTVAwcEFaWWVoczdjRVZzUjdZclJhOXVhUnllLytj?=
+ =?utf-8?B?d0Z4YTdLZlVBQStRUGw5VGk4citwUFNjSGRNdFFSR1lGcHU5OFpVNWZQbTN6?=
+ =?utf-8?B?Z0tRWnlqaFdHaXV0cHlRcGNsbmYrblJHTmJGa2Q4MHBzOVp6K3lxRGl6LzV6?=
+ =?utf-8?B?dW9LZXJZbitqbUZHdm4rTVl0N0RNS2Nwc3o1TlBJLzZCWG5VL0NFd3hUU040?=
+ =?utf-8?B?QTZTTVpZSkN0aXVzcSs4SGtJcUR2dlFJYTRPcFFQMjdiaWk3WVE1Y25kQnpG?=
+ =?utf-8?B?d2ExSmRQSGFiWXp6b0p1cG1ZT1BsbWVESHQ3UVM3QmxZY1MxbXk4ck0yRHZO?=
+ =?utf-8?B?VXlQR3VvMExCOStKR0Y5NkhHUnI4ZlRIUnJPYmNGQ1lSMjczekN4dEVOVGwy?=
+ =?utf-8?B?VkxGaWVJK1ZBMk5WcTFOcDRwS2dkSUI5VGRILzc2QndJcnhYMmhrc2tUdTNP?=
+ =?utf-8?B?Uk1NcGQwUzZtSXEyelV3UnJaZ2RWRzRMSWdRNnZUZTF0Y25UNWZ0NUgzd2Vu?=
+ =?utf-8?B?aENmalNkdEp1ME5HYnA1dUFyOEVWWVAxMmVBNlJJMkUzOTgwU3NCallMcUVo?=
+ =?utf-8?B?YkhnQWt0OU14Y3MzV3ZYSis2OHRXcVozb0htd0UvU0dzUzFRM2Uxc2pTZ0U2?=
+ =?utf-8?B?cXNDZjgrU0RlUFVGcEhGS0F6QjA3ZnZJbHRaR0s0T0lqbjlENE1DbjluYmVR?=
+ =?utf-8?B?NjhIMWxhVE1oTlJvY3VpYmpqelppbTVLTWNQVGcrZVBkK2laa2l2VnkyKzZi?=
+ =?utf-8?B?UGp2d3ZvYllFa2J2RFJ4T1RqR2tqYWZWMVdJTGVvU2N4SWhxL0Z5R1NIcWY3?=
+ =?utf-8?B?c1ZLUGxnSGtITnRmaWJ4bmJ2aWFCWFdreHJoS1lvT1VrenNRUEtUWTZ6VnVr?=
+ =?utf-8?B?bXNBUVdYc1kzTC85dWFrR204dnp0SE1qRVlyZ3pxZGp2ZXhCUzlYU1F4bmpP?=
+ =?utf-8?B?L1hmWU5lRzk0OU1jNm9LcnRnUlBtQ3FWdlloQ09YS1gvYlhjVjZPMWdTbXFC?=
+ =?utf-8?B?bllEMnlXTUxvNmZDTDc1OXFVK1ViM3dZeEtISTQvc0puNS9McWRlMDhNZzhF?=
+ =?utf-8?B?aFFoS2NjV0tJdktnRXRXM2lrbWhYSmM2L3RabjcxNThyemErQWhSWXpSbFRX?=
+ =?utf-8?B?N1h4dUQ3Ym5MaW1DVEVwWU1NZmJzNFFER1pvRXpxMU9ydGQ2TFRobzZRR3Jj?=
+ =?utf-8?B?SXo0OUJ3MzNTMGZPd0Rpb0FzOW9CSFd4dkhFdU10YkJaenkwNDZBUDg0bzN4?=
+ =?utf-8?B?TTdtZkF2eDhSeU96WDNwcUhXM0RkcXJVM3FsRXpxc09nWW1qTXJveTMwOWY5?=
+ =?utf-8?B?SDVKa3hSRTJHdlh6TnIvRHk2QysxaGxoQ2VicS9qNHRwUFRIRFgrWEFEaXQy?=
+ =?utf-8?B?YmxBSjFZU3M3YTRWRm90WlUvaFlxVFMzOWxtVXB2WE91eU1temViOTBaenZB?=
+ =?utf-8?B?TEd0LytpMC9sN2NWYy9nY2hvQmIybVlDalhEd0RVWTFCTG9XTmwwMUVNRU9H?=
+ =?utf-8?B?bmVZTEdvZHpLMXlHOGJnMGxZcERlVGtqRFZaMWxpQzRRSlltcUFZOHcxS2lS?=
+ =?utf-8?B?TkZHbHdaOE1yK3lGcVJZYXlISHMrbkdVdGdRdFprcUNNdXBpcG1Oa0UreGNX?=
+ =?utf-8?B?S1lZUXFYSkp5K1dNWEwwVy9IbVJzUmF6bkZjT3dwSmVCb0g3M21RU2s0L3Z0?=
+ =?utf-8?B?U1YrTmY2VWpHMmp3aGJEdzc0UmpsT2VNVGZjMjVidlpCWlJqcWgwUGxjcExp?=
+ =?utf-8?B?QU9DYzRqTDNOQmxSUEJteTZKRXdMem81K0h0dDNBV3JtWC8xS1QvbVdMbXl2?=
+ =?utf-8?B?Q0tnQmw3M2Vrd2lpdERVdzE4bjI1SWppVE9WRkpIbis1Uis4b3lvbTNvWTY0?=
+ =?utf-8?Q?bSof5aecahy39i0GE5c9O9MUr?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <a866d5b5-5b01-44a2-9ccb-63bf30aa8a51@acm.org>
-X-Brightmail-Tracker: H4sIAAAAAAAAA02TeUxUVxTGc9978+ZhM/oEtBe0QoaaAAaYkaUXy1IjkpfCHzTEtDE2MIXH
-	UmBmOjNUtLFsghVBFsHWQQQpkZ1RQMLiUALIMmKpRVZBqWVQNkEwtEqADjxo/O93vvvdfOfc
-	k0vhxnV8cypcqmIVUkmkkNxB1LXZWNvV+H0VIlpPwJBG14GjhIxVHJWPpZNopm0RoKsLb3E0
-	0XIBoJWHvTiq7XgK0PhvnqigMI9Awy0NGLpXmIWh0vL7GMr9ORFD99fnSJTVOgCQvl+NIe3I
-	IXQzuYhA97TdBOprvE6i/Ft6PiruXMNQ5k/9GKqfiAeoamaeQF0j+1Dvaifvs/1M32MfRlcI
-	mQb1GJ/pfXqHYPoeRjPVZRdJpqYolnlZcw0wTcNxJPPr5Ss8Ji3xFck0JD3jMa/1IwQz39xP
-	MpdrywDTU9DO9zM5GeEWxkqCWYUlKw2SBYdLQ92FPv4BxwKcXURiO7Er+kRoKZVEse5CL18/
-	O+/wSMMDCS2/l0RGGyQ/iVIpdPBwU8iiVaxlmEypchey8uBIuZPcXimJUkZLQ+2lrOqIWCQ6
-	7GwwBkaEvXvWwpcnucWMa5uIODAlSgFGFKSdYN7wKpECdlDGdBOAl0ZzAFcsAphwU4dzxTKA
-	L2/pse0ri2N6kjvQAtiWemnLtQRgzS+XwYaLoA/CttFug4uiSPoQfLBObcimtDVcHi/ezMPp
-	DhKWFmds+k3oQDiny+RtsIA+Bru0/TjHu2H3tQlig43oT+FfT+d5XBeTRnA21ZpjL1idt0hy
-	bAKnO2v5HJvDqfTkLT4NS7NLNruG9HkA1YNqwB14wiRd+mYYTodBtWYO5/SPYI6uCuP0nTBt
-	ZWJrfAGsv7HNVrBCU7AVbAYH/onfHBjSDHxSYcE9ShoO69cGsQxwQP3ePOr34jg+Ai8uJPA4
-	toCJd3MNOmXgfbB4jeLQBmoaHQoAWQbMWLkyKpQNcpaLpezp/zceJIuqBpsfyNarHgzlr9m3
-	AowCrQBSuNBU0JN1IsRYECw5c5ZVyAIU0ZGsshU4G3aViZvvCZIZfqBUFSB2chU5ubi4OLk6
-	uoiFHwpmkvKCjelQiYqNYFk5q9i+h1FG5nFYwcdfx5qSU8rnvBKPup5Q36OmlO52CrH0YshE
-	3XzXITV3NqOqtjrxoKtP55F/d/N83/5h1a4+fsfHcy9PW31j+uwukw+6ugQnR99crwh5sfyt
-	rGUw+tV87lD47+tXHrt6L114Uhnqb1PyzdyXxXzNghXb3PXI7GjV/gGvSq/zg47LLR7VP+Tv
-	CbR+N+lo0fjEPIh+YPtn5siuju9+lDVOZhxvP6fJmMZLWvZmTzeLBl/Gf55deSZnNSZzvbX0
-	eZ9+vbTAbygII17LPaPOpRfdXrKVKUdjvjhFdJsOzSaLy5u1qrETM5NTO/Pn1Me9BRq32KUD
-	f6842iwfO9yUfkqvs7L0f/NISCjDJGJbXKGU/Aem9kfwyQQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmphleLIzCtJLcpLzFFi42LZdlhJXrdMMyLNYPciMYv1p44xWzRN+Mts
-	sfpuP5vF68OfGC2mffjJbPHkQDujxe+z55ktthy7x2jxYL+9xYJFc1ksbh7YyWSxZ9EkJouV
-	q48yWcye3sxkcfT/WzaLSYeuMVo8vTqLyWLvLW2LhW1LWCz27D3JYnF51xw2i/nLnrJbLD/+
-	j8liYsdVJosdTxoZLda9fs9iceKWtMX5v8dZHWQ8Ll/x9ji1SMJj56y77B7n721k8bh8ttRj
-	06pONo/NS+o9Xmyeyeix+2YDm8fivsmsHr3N79g8drbeZ/X4+PQWi8f7fVfZPPq2rGL0OLPg
-	CHuAcBSXTUpqTmZZapG+XQJXxrXFK9kLpllW3Px9h7mBcbpeFyMnh4SAicSnu0/Zuhi5OIQE
-	djNKLLz5kQkiISmx7O8RZghbWGLlv+fsEEUfGSWmfJ8ElmARUJU4fOckUDcHB5uAtsTp/xwg
-	YREBDYlvD5azgNQzC5xhk5jx8AQrSEJYIEHi7amJYDavgLPEib1XmSGG9jJL3Dz/iRkiIShx
-	cuYTFhCbWcBMYt7mh8wgC5gFpCWW/+OACMtLNG+dDVbOKWAt8fDee9YJjIKzkHTPQtI9C6F7
-	FpLuBYwsqxglUwuKc9Nzkw0LDPNSy/WKE3OLS/PS9ZLzczcxghOKlsYOxnvz/+kdYmTiYDzE
-	KMHBrCTCe2ZSaJoQb0piZVVqUX58UWlOavEhRmkOFiVxXsMZs1OEBNITS1KzU1MLUotgskwc
-	nFINTCsSbv0Xr01mK5O0rxYPOv2i033Fslc9zcLKrBIbEvmMn61yaTVdcz/jCv8OUf03lccc
-	m3xudHFymkTLPJrUYmYyz3oFR8i38x4rJb98EQy0L1WLE2ytV1DNeH0n4ERd/vPkL1xm3S+2
-	Ne7K1ambuD9pYXEli6Bv5r/EPSbLLzndaGCXcTCf5fRw1vyGzk+WRS+D7hz7trDo2B/hfUJz
-	4+VyxDQV5P8KdHkfuO948/PzUJej1/dwTZ5TM23xgX4J0dsP3s/92aZ1e8GbuVu9T35/F6LE
-	NVMj6rveLtazQcut2R8/bFh0fOlc1r9ngmfWJT7O3hX1y8x054eA2gCpdqNupqw+8c2/mGeI
-	V6z2V2Ipzkg01GIuKk4EAPP8g6SXAwAA
-X-CMS-MailID: 20240530072334epcas5p2294aaf32c6fd842746a3720b79e4ae0f
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----Fualeei1.f5fhWGYL679EBd0hH5-OLgtfrOtH6wInDZGwDEe=_40f67_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20240520102842epcas5p4949334c2587a15b8adab2c913daa622f
-References: <20240520102033.9361-1-nj.shetty@samsung.com>
-	<CGME20240520102842epcas5p4949334c2587a15b8adab2c913daa622f@epcas5p4.samsung.com>
-	<20240520102033.9361-3-nj.shetty@samsung.com>
-	<eda6c198-3a29-4da4-94db-305cfe28d3d6@acm.org>
-	<20240529061736.rubnzwkkavgsgmie@nj.shetty@samsung.com>
-	<9f1ec1c1-e1b8-48ac-b7ff-8efb806a1bc8@kernel.org>
-	<a866d5b5-5b01-44a2-9ccb-63bf30aa8a51@acm.org>
+X-OriginatorOrg: marvell.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY3PR18MB4707.namprd18.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d3a69422-9109-45bf-89d5-08dc809ae2f8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 May 2024 11:23:10.0560
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 70e1fb47-1155-421d-87fc-2e58f638b6e0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: U2QSC2a2BRle9YqP7ted3yrelu9px29QOA9hsuADoCCQXOXE/X00YJLkoitCUOQvM8wvkxyyz9NJIYhbmHjJNQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR18MB5466
+X-Proofpoint-ORIG-GUID: uPu1o7VjyMI5-DG9gZgJ84Zy4PISxqj5
+X-Proofpoint-GUID: uPu1o7VjyMI5-DG9gZgJ84Zy4PISxqj5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-05-30_08,2024-05-28_01,2024-05-17_01
 
-------Fualeei1.f5fhWGYL679EBd0hH5-OLgtfrOtH6wInDZGwDEe=_40f67_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-
-On 29/05/24 03:41PM, Bart Van Assche wrote:
->On 5/29/24 12:48 AM, Damien Le Moal wrote:
->>On 5/29/24 15:17, Nitesh Shetty wrote:
->>>On 24/05/24 01:33PM, Bart Van Assche wrote:
->>>>On 5/20/24 03:20, Nitesh Shetty wrote:
->>>>>We add two new opcode REQ_OP_COPY_DST, REQ_OP_COPY_SRC.
->>>>>Since copy is a composite operation involving src and dst sectors/lba,
->>>>>each needs to be represented by a separate bio to make it compatible
->>>>>with device mapper.
->>>>>We expect caller to take a plug and send bio with destination information,
->>>>>followed by bio with source information.
->>>>>Once the dst bio arrives we form a request and wait for source
->>>>>bio. Upon arrival of source bio we merge these two bio's and send
->>>>>corresponding request down to device driver.
->>>>>Merging non copy offload bio is avoided by checking for copy specific
->>>>>opcodes in merge function.
->>>>
->>>>In this patch I don't see any changes for blk_attempt_bio_merge(). Does
->>>>this mean that combining REQ_OP_COPY_DST and REQ_OP_COPY_SRC will never
->>>>happen if the QUEUE_FLAG_NOMERGES request queue flag has been set?
->>>>
->>>Yes, in this case copy won't work, as both src and dst bio reach driver
->>>as part of separate requests.
->>>We will add this as part of documentation.
->>
->>So that means that 2 major SAS HBAs which set this flag (megaraid and mpt3sas)
->>will not get support for copy offload ? Not ideal, by far.
->
->QUEUE_FLAG_NOMERGES can also be set through sysfs (see also
->queue_nomerges_store()). This is one of the reasons why using the merge
->infrastructure for combining REQ_OP_COPY_DST and REQ_OP_COPY_SRC is
->unacceptable.
->
-
-Bart, Damien, Hannes,
-Thanks for your review.
-We tried a slightly modified approach which simplifies this patch and
-also avoids merge path.
-Also with this, we should be able to solve the QUEUE_FLAG_MERGES issue.
-Previously we also tried payload/token based approach,
-which avoids merge path and tries to combine bios in driver.
-But we received feedback that it wasn't the right approach [1].
-Do below changes look any better or do you guys have anything else in mind ?
-
-[1] https://lore.kernel.org/linux-block/ZIKphgDavKVPREnw@infradead.org/
-
-
-diff --git a/block/blk-core.c b/block/blk-core.c
-index 82c3ae22d76d..7158bac8cc57 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -122,6 +122,8 @@ static const char *const blk_op_name[] = {
-  	REQ_OP_NAME(ZONE_FINISH),
-  	REQ_OP_NAME(ZONE_APPEND),
-  	REQ_OP_NAME(WRITE_ZEROES),
-+	REQ_OP_NAME(COPY_SRC),
-+	REQ_OP_NAME(COPY_DST),
-  	REQ_OP_NAME(DRV_IN),
-  	REQ_OP_NAME(DRV_OUT),
-  };
-@@ -839,6 +841,11 @@ void submit_bio_noacct(struct bio *bio)
-  		 * requests.
-  		 */
-  		fallthrough;
-+	case REQ_OP_COPY_SRC:
-+	case REQ_OP_COPY_DST:
-+		if (!q->limits.max_copy_sectors)
-+			goto not_supported;
-+		break;
-  	default:
-  		goto not_supported;
-  	}
-diff --git a/block/blk-merge.c b/block/blk-merge.c
-index 8534c35e0497..a651e7c114d0 100644
---- a/block/blk-merge.c
-+++ b/block/blk-merge.c
-@@ -154,6 +154,20 @@ static struct bio *bio_split_write_zeroes(struct bio *bio,
-  	return bio_split(bio, lim->max_write_zeroes_sectors, GFP_NOIO, bs);
-  }
-  
-+static struct bio *bio_split_copy(struct bio *bio,
-+				  const struct queue_limits *lim,
-+				  unsigned int *nsegs)
-+{
-+	*nsegs = 1;
-+	if (bio_sectors(bio) <= lim->max_copy_sectors)
-+		return NULL;
-+	/*
-+	 * We don't support splitting for a copy bio. End it with EIO if
-+	 * splitting is required and return an error pointer.
-+	 */
-+	return ERR_PTR(-EIO);
-+}
-+
-  /*
-   * Return the maximum number of sectors from the start of a bio that may be
-   * submitted as a single request to a block device. If enough sectors remain,
-@@ -362,6 +376,12 @@ struct bio *__bio_split_to_limits(struct bio *bio,
-  	case REQ_OP_WRITE_ZEROES:
-  		split = bio_split_write_zeroes(bio, lim, nr_segs, bs);
-  		break;
-+	case REQ_OP_COPY_SRC:
-+	case REQ_OP_COPY_DST:
-+		split = bio_split_copy(bio, lim, nr_segs);
-+		if (IS_ERR(split))
-+			return NULL;
-+		break;
-  	default:
-  		split = bio_split_rw(bio, lim, nr_segs, bs,
-  				get_max_io_size(bio, lim) << SECTOR_SHIFT);
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 3b4df8e5ac9e..6d4ffbdade28 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -2833,6 +2833,63 @@ static void blk_mq_try_issue_list_directly(struct blk_mq_hw_ctx *hctx,
-  		blk_mq_commit_rqs(hctx, queued, false);
-  }
-  
-+/*
-+ * Copy offload sends a pair of bio with REQ_OP_COPY_DST and REQ_OP_COPY_SRC
-+ * operation by taking a plug.
-+ * Initially DST bio is sent which forms a request and
-+ * waits for SRC bio to arrive. Once SRC bio arrives
-+ * we combine it and send request down to driver.
-+ */
-+static inline bool blk_copy_offload_combine_ok(struct request *req,
-+					      struct bio *bio)
-+{
-+	return (req_op(req) == REQ_OP_COPY_DST &&
-+		bio_op(bio) == REQ_OP_COPY_SRC);
-+}
-+
-+static int blk_copy_offload_combine(struct request *req, struct bio *bio)
-+{
-+	if (!blk_copy_offload_combine_ok(req, bio))
-+		return 1;
-+
-+	if (req->__data_len != bio->bi_iter.bi_size)
-+		return 1;
-+
-+	req->biotail->bi_next = bio;
-+	req->biotail = bio;
-+	req->nr_phys_segments++;
-+	req->__data_len += bio->bi_iter.bi_size;
-+
-+	return 0;
-+}
-+
-+static inline bool blk_copy_offload_attempt_combine(struct request_queue *q,
-+					     struct bio *bio)
-+{
-+	struct blk_plug *plug = current->plug;
-+	struct request *rq;
-+
-+	if (!plug || rq_list_empty(plug->mq_list))
-+		return false;
-+
-+	rq_list_for_each(&plug->mq_list, rq) {
-+		if (rq->q == q) {
-+			if (!blk_copy_offload_combine(rq, bio))
-+				return true;
-+			break;
-+		}
-+
-+		/*
-+		 * Only keep iterating plug list for combines if we have multiple
-+		 * queues
-+		 */
-+		if (!plug->multiple_queues)
-+			break;
-+	}
-+	return false;
-+}
-+
-  static bool blk_mq_attempt_bio_merge(struct request_queue *q,
-  				     struct bio *bio, unsigned int nr_segs)
-  {
-@@ -2977,6 +3034,9 @@ void blk_mq_submit_bio(struct bio *bio)
-  	if (blk_mq_attempt_bio_merge(q, bio, nr_segs))
-  		goto queue_exit;
-  
-+	if (blk_copy_offload_attempt_combine(q, bio))
-+		goto queue_exit;
-+
-  	if (blk_queue_is_zoned(q) && blk_zone_plug_bio(bio, nr_segs))
-  		goto queue_exit;
-  
-diff --git a/block/blk.h b/block/blk.h
-index 189bc25beb50..112c6736f44c 100644
---- a/block/blk.h
-+++ b/block/blk.h
-@@ -323,6 +323,8 @@ static inline bool bio_may_exceed_limits(struct bio *bio,
-  	case REQ_OP_DISCARD:
-  	case REQ_OP_SECURE_ERASE:
-  	case REQ_OP_WRITE_ZEROES:
-+	case REQ_OP_COPY_SRC:
-+	case REQ_OP_COPY_DST:
-  		return true; /* non-trivial splitting decisions */
-  	default:
-  		break;
-diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-index 781c4500491b..22a08425d13e 100644
---- a/include/linux/blk_types.h
-+++ b/include/linux/blk_types.h
-@@ -342,6 +342,10 @@ enum req_op {
-  	/* reset all the zone present on the device */
-  	REQ_OP_ZONE_RESET_ALL	= (__force blk_opf_t)15,
-  
-+	/* copy offload source and destination operations */
-+	REQ_OP_COPY_SRC		= (__force blk_opf_t)18,
-+	REQ_OP_COPY_DST		= (__force blk_opf_t)19,
-+
-  	/* Driver private requests */
-  	REQ_OP_DRV_IN		= (__force blk_opf_t)34,
-  	REQ_OP_DRV_OUT		= (__force blk_opf_t)35,
---·
-2.34.1
-
-
-------Fualeei1.f5fhWGYL679EBd0hH5-OLgtfrOtH6wInDZGwDEe=_40f67_
-Content-Type: text/plain; charset="utf-8"
-
-
-------Fualeei1.f5fhWGYL679EBd0hH5-OLgtfrOtH6wInDZGwDEe=_40f67_--
+DQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEtvcnkgTWFpbmNlbnQgPGtv
+cnkubWFpbmNlbnRAYm9vdGxpbi5jb20+DQo+IFNlbnQ6IFdlZG5lc2RheSwgTWF5IDI5LCAyMDI0
+IDM6MTAgUE0NCj4gVG86IEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRj
+b20uY29tPjsgQnJvYWRjb20gaW50ZXJuYWwga2VybmVsDQo+IHJldmlldyBsaXN0IDxiY20ta2Vy
+bmVsLWZlZWRiYWNrLWxpc3RAYnJvYWRjb20uY29tPjsgQW5kcmV3IEx1bm4NCj4gPGFuZHJld0Bs
+dW5uLmNoPjsgSGVpbmVyIEthbGx3ZWl0IDxoa2FsbHdlaXQxQGdtYWlsLmNvbT47IFJ1c3NlbGwg
+S2luZw0KPiA8bGludXhAYXJtbGludXgub3JnLnVrPjsgRGF2aWQgUy4gTWlsbGVyIDxkYXZlbUBk
+YXZlbWxvZnQubmV0PjsgRXJpYw0KPiBEdW1hemV0IDxlZHVtYXpldEBnb29nbGUuY29tPjsgSmFr
+dWIgS2ljaW5za2kgPGt1YmFAa2VybmVsLm9yZz47IFBhb2xvDQo+IEFiZW5pIDxwYWJlbmlAcmVk
+aGF0LmNvbT47IFJpY2hhcmQgQ29jaHJhbiA8cmljaGFyZGNvY2hyYW5AZ21haWwuY29tPjsNCj4g
+UmFkdSBQaXJlYSA8cmFkdS1uaWNvbGFlLnBpcmVhQG9zcy5ueHAuY29tPjsgSmF5IFZvc2J1cmdo
+DQo+IDxqLnZvc2J1cmdoQGdtYWlsLmNvbT47IEFuZHkgR29zcG9kYXJlayA8YW5keUBncmV5aG91
+c2UubmV0PjsgTmljb2xhcw0KPiBGZXJyZSA8bmljb2xhcy5mZXJyZUBtaWNyb2NoaXAuY29tPjsg
+Q2xhdWRpdSBCZXpuZWENCj4gPGNsYXVkaXUuYmV6bmVhQHR1eG9uLmRldj47IFdpbGxlbSBkZSBC
+cnVpam4NCj4gPHdpbGxlbWRlYnJ1aWpuLmtlcm5lbEBnbWFpbC5jb20+OyBKb25hdGhhbiBDb3Ji
+ZXQgPGNvcmJldEBsd24ubmV0PjsNCj4gSG9yYXRpdSBWdWx0dXIgPGhvcmF0aXUudnVsdHVyQG1p
+Y3JvY2hpcC5jb20+Ow0KPiBVTkdMaW51eERyaXZlckBtaWNyb2NoaXAuY29tOyBTaW1vbiBIb3Jt
+YW4gPGhvcm1zQGtlcm5lbC5vcmc+Ow0KPiBWbGFkaW1pciBPbHRlYW4gPHZsYWRpbWlyLm9sdGVh
+bkBueHAuY29tPg0KPiBDYzogVGhvbWFzIFBldGF6em9uaSA8dGhvbWFzLnBldGF6em9uaUBib290
+bGluLmNvbT47DQo+IG5ldGRldkB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtl
+cm5lbC5vcmc7IGxpbnV4LQ0KPiBkb2NAdmdlci5rZXJuZWwub3JnOyBNYXhpbWUgQ2hldmFsbGll
+ciA8bWF4aW1lLmNoZXZhbGxpZXJAYm9vdGxpbi5jb20+Ow0KPiBSYWh1bCBSYW1lc2hiYWJ1IDxy
+cmFtZXNoYmFidUBudmlkaWEuY29tPjsgS29yeSBNYWluY2VudA0KPiA8a29yeS5tYWluY2VudEBi
+b290bGluLmNvbT4NCj4gU3ViamVjdDogW1BBVENIIG5ldC1uZXh0IHYxMyAxMi8xNF0gbmV0OiBw
+dHA6IE1vdmUNCj4gcHRwX2Nsb2NrX2luZGV4KCkgdG8gYnVpbHRpbiBzeW1ib2wNCj4gDQo+IE1v
+dmUgcHRwX2Nsb2NrX2luZGV4KCkgdG8gYnVpbHRpbiBzeW1ib2xzIHRvIHByZXBhcmUgZm9yIHN1
+cHBvcnRpbmcgZ2V0IGFuZA0KPiBzZXQgaGFyZHdhcmUgdGltZXN0YW1wcyBmcm9tIGV0aHRvb2ws
+IHdoaWNoIGlzIGJ1aWx0aW4uDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBLb3J5IE1haW5jZW50IDxr
+b3J5Lm1haW5jZW50QGJvb3RsaW4uY29tPg0KPiAtLS0NCj4gDQo+IENoYW5nZSBpbiB2MTM6DQo+
+IC0gTmV3IHBhdGNoDQo+IC0tLQ0KPiAgZHJpdmVycy9wdHAvcHRwX2Nsb2NrLmMgICAgICAgICAg
+fCA2IC0tLS0tLQ0KPiAgZHJpdmVycy9wdHAvcHRwX2Nsb2NrX2NvbnN1bWVyLmMgfCA2ICsrKysr
+Kw0KPiAgMiBmaWxlcyBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDYgZGVsZXRpb25zKC0pDQo+
+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9wdHAvcHRwX2Nsb2NrLmMgYi9kcml2ZXJzL3B0cC9w
+dHBfY2xvY2suYyBpbmRleA0KPiA1OTNiNWM5MDYzMTQuLmZjNGIyNjZhYmUxZCAxMDA2NDQNCj4g
+LS0tIGEvZHJpdmVycy9wdHAvcHRwX2Nsb2NrLmMNCj4gKysrIGIvZHJpdmVycy9wdHAvcHRwX2Ns
+b2NrLmMNCj4gQEAgLTQ2MCwxMiArNDYwLDYgQEAgdm9pZCBwdHBfY2xvY2tfZXZlbnQoc3RydWN0
+IHB0cF9jbG9jayAqcHRwLCBzdHJ1Y3QNCj4gcHRwX2Nsb2NrX2V2ZW50ICpldmVudCkgIH0gIEVY
+UE9SVF9TWU1CT0wocHRwX2Nsb2NrX2V2ZW50KTsNCj4gDQo+IC1pbnQgcHRwX2Nsb2NrX2luZGV4
+KHN0cnVjdCBwdHBfY2xvY2sgKnB0cCkgLXsNCj4gLQlyZXR1cm4gcHRwLT5pbmRleDsNCj4gLX0N
+Cj4gLUVYUE9SVF9TWU1CT0wocHRwX2Nsb2NrX2luZGV4KTsNCj4gLQ0KPiAgaW50IHB0cF9maW5k
+X3BpbihzdHJ1Y3QgcHRwX2Nsb2NrICpwdHAsDQo+ICAJCSBlbnVtIHB0cF9waW5fZnVuY3Rpb24g
+ZnVuYywgdW5zaWduZWQgaW50IGNoYW4pICB7IGRpZmYgLS1naXQNCj4gYS9kcml2ZXJzL3B0cC9w
+dHBfY2xvY2tfY29uc3VtZXIuYyBiL2RyaXZlcnMvcHRwL3B0cF9jbG9ja19jb25zdW1lci5jDQo+
+IGluZGV4IDc1OWRkNmY2MzQwNS4uMjMyMmZhNjUwNzVlIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJz
+L3B0cC9wdHBfY2xvY2tfY29uc3VtZXIuYw0KPiArKysgYi9kcml2ZXJzL3B0cC9wdHBfY2xvY2tf
+Y29uc3VtZXIuYw0KPiBAQCAtOTcsMyArOTcsOSBAQCB2b2lkIHB0cF9jbG9ja19wdXQoc3RydWN0
+IGRldmljZSAqZGV2LCBzdHJ1Y3QgcHRwX2Nsb2NrDQo+ICpwdHApDQo+ICAJcHV0X2RldmljZSgm
+cHRwLT5kZXYpOw0KPiAgCW1vZHVsZV9wdXQocHRwLT5pbmZvLT5vd25lcik7DQo+ICB9DQo+ICsN
+Cj4gK2ludCBwdHBfY2xvY2tfaW5kZXgoc3RydWN0IHB0cF9jbG9jayAqcHRwKSB7DQo+ICsJcmV0
+dXJuIHB0cC0+aW5kZXg7DQo+ICt9DQo+ICtFWFBPUlRfU1lNQk9MKHB0cF9jbG9ja19pbmRleCk7
+DQo+IA0KUGxlYXNlIGNoZWNrIHRoZSAiYnVpbGRfY2xhbmcgLSBGQUlMRUQiLCAiYnVpbGRfMzJi
+aXQgLSBGQUlMRUQiIGJ1aWxkIGVycm9ycy4NCj4gLS0NCj4gMi4zNC4xDQo+IA0KDQo=
