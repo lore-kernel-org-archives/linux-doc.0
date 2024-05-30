@@ -1,111 +1,106 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86CBB17C9ED;
-	Thu, 30 May 2024 13:07:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B189186E39;
+	Thu, 30 May 2024 14:08:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717074433; cv=none; b=R0nZE570zG+Gy3X/kVJ5/PFPm8Z9nE2m+5urSV0rILuvUmMlTn/y06KzDBYa9918ZoFo8UgNWWIZPf5v+vcGtLYQOcrLYVQo0O5QXzdh+PkvUUKpMUmmaIndQpruNRXTR6I5GReGM/xqW3i80/3IBLBrQXDV/FBzPnSYZID7oDY=
+	t=1717078083; cv=none; b=HMiN+jV7QieWAs7bksVexOiQnKwGGFyQf2NdU0+GVoSsE+XZ2kNexm//vLwqnR93zV7cfarbSFC+RX3gMXReNXuB67kGOzwUHabS6QRj/QC9AxR9vBiakLJbtQNTGwxclEKPUKt9L/VBmN73W0nW8dy04nDz6PBxCRIoKQ6eA34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717074433; c=relaxed/simple;
-	bh=gzsjYTP3/WlWKHVnMyU/5TNINiOjsAjfhSkIRf8Yo7U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y9tWQMFG/VyjKnwsQNvcna35lB+dPNJ7k0bDEYg/TaKH2o+/e1mjXCAiKZTpRopUVdxlnLBCUIAn5B/t/dNmPCJmAnVzJLaK2/NWf7/h1qXOLBRaRKPndF3VyZXeepbqbKgT7NgiJeXHLA/jO2UAgU/b+phW96y2ARdmXibtSzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=0OOtwVHB; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1717078083; c=relaxed/simple;
+	bh=nCLxw0SHqx1x703rvJNq+CGCwDIzdOix84z/8W/NPq0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=BTbN/aVpDJ/KQuXQlb18AOyCnr8IPeXpHXUbISwut4jt9rLxV4cXl9/Ekcc9xz3FMA4Y19xG6zTfGwVs/dmZcWWvANdk2bWM7oemG8T2Kczew2Q/kG17KwoWjYuKcfnqxJTSoZ0HsQMQ0k+alaFWAlqDgn3qYULV6Xwv/0NvNII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AcIxdJr8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="0OOtwVHB"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=laI44R9CkvkoWL5j55C7oR7usS/DpKOSclK7hV4WnUk=; b=0OOtwVHBs60a+zPox/sQdd+j7R
-	4bmjQkip08Y8wnmyY0Tv1JWfy6VONeDDGxl9RQuZzxekHgjLXZ/SAZY65R0/D0rdvoNud2G/eOYNA
-	nSOfKWU6wfi0ZPgrrNzM1W8NZku2IaiNbGk4OfSMlDlhRKcUnKPKTAQHOcajzcV8CcGs=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1sCfUb-00GLeo-8d; Thu, 30 May 2024 15:06:53 +0200
-Date: Thu, 30 May 2024 15:06:53 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Piergiorgio Beruto <Pier.Beruto@onsemi.com>
-Cc: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>,
-	"Parthiban.Veerasooran@microchip.com" <Parthiban.Veerasooran@microchip.com>,
-	"davem@davemloft.net" <davem@davemloft.net>,
-	"edumazet@google.com" <edumazet@google.com>,
-	"kuba@kernel.org" <kuba@kernel.org>,
-	"pabeni@redhat.com" <pabeni@redhat.com>,
-	"horms@kernel.org" <horms@kernel.org>,
-	"saeedm@nvidia.com" <saeedm@nvidia.com>,
-	"anthony.l.nguyen@intel.com" <anthony.l.nguyen@intel.com>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"robh+dt@kernel.org" <robh+dt@kernel.org>,
-	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
-	"conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"Horatiu.Vultur@microchip.com" <Horatiu.Vultur@microchip.com>,
-	"ruanjinjie@huawei.com" <ruanjinjie@huawei.com>,
-	"Steen.Hegelund@microchip.com" <Steen.Hegelund@microchip.com>,
-	"vladimir.oltean@nxp.com" <vladimir.oltean@nxp.com>,
-	"UNGLinuxDriver@microchip.com" <UNGLinuxDriver@microchip.com>,
-	"Thorsten.Kummermehr@microchip.com" <Thorsten.Kummermehr@microchip.com>,
-	"Nicolas.Ferre@microchip.com" <Nicolas.Ferre@microchip.com>,
-	"benjamin.bigler@bernformulastudent.ch" <benjamin.bigler@bernformulastudent.ch>,
-	Viliam Vozar <Viliam.Vozar@onsemi.com>,
-	Arndt Schuebel <Arndt.Schuebel@onsemi.com>
-Subject: Re: [PATCH net-next v4 00/12] Add support for OPEN Alliance
- 10BASE-T1x MACPHY Serial Interface
-Message-ID: <70cf84d1-99ad-4c30-9811-f796f21e6391@lunn.ch>
-References: <2d9f523b-99b7-485d-a20a-80d071226ac9@microchip.com>
- <6ba7e1c8-5f89-4a0e-931f-3c117ccc7558@lunn.ch>
- <8b9f8c10-e6bf-47df-ad83-eaf2590d8625@microchip.com>
- <44cd0dc2-4b37-4e2f-be47-85f4c0e9f69c@lunn.ch>
- <b941aefd-dbc5-48ea-b9f4-30611354384d@microchip.com>
- <BYAPR02MB5958A4D667D13071E023B18F83F52@BYAPR02MB5958.namprd02.prod.outlook.com>
- <6e4c8336-2783-45dd-b907-6b31cf0dae6c@lunn.ch>
- <BY5PR02MB6786619C0A0FCB2BEDC2F90D9DF52@BY5PR02MB6786.namprd02.prod.outlook.com>
- <0581b64a-dd7a-43d7-83f7-657ae93cefe5@lunn.ch>
- <BY5PR02MB6786FC4808B2947CA03977429DF32@BY5PR02MB6786.namprd02.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AcIxdJr8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7109AC2BBFC;
+	Thu, 30 May 2024 14:07:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717078082;
+	bh=nCLxw0SHqx1x703rvJNq+CGCwDIzdOix84z/8W/NPq0=;
+	h=From:Subject:Date:To:Cc:From;
+	b=AcIxdJr8pBj6BSAwOKTo+BahWxvvCYGL6MlLuHBi0rHRStmDLKSBvdWYcfs6Jr/fd
+	 rhnpV2e4EXshXZYGqvZuwKanU5Lmz4DGtkiWSBhgD8nFDddscqL66LEww00Bnvlbo6
+	 7d+astys8Bt2I6vHowdgvCkrcOXX+bNk4KFPbDhwLnKnYZamuqpAT/wbROMia/bQWw
+	 7jZH1SfO+fEc3nMYXzMxrv8cd4QUKrUMNlfOlTus4pMAIf4gWpGtTGGkx6aGpR2QJ5
+	 lnPiYSoLncU15qwivJoFGLrsC8G6RCCzTBZABRJLxS/JFXiI6B6BlzjdRohZJtreuW
+	 pG/6X8F2WPUsg==
+From: "Matthieu Baerts (NGI0)" <matttbe@kernel.org>
+Subject: [PATCH net-next v3 0/3] doc: mptcp: new general doc and fixes
+Date: Thu, 30 May 2024 16:07:29 +0200
+Message-Id: <20240530-upstream-net-20240520-mptcp-doc-v3-0-e94cdd9f2673@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BY5PR02MB6786FC4808B2947CA03977429DF32@BY5PR02MB6786.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACGIWGYC/43NQQ6CMBAF0KuQWVtTpiWgK+9hXJQyQKO0pK0EQ
+ 7i7lYXRlS7//Mz7CwTyhgIcswU8TSYYZ1MQuwx0r2xHzDQpA3KUvEDO7mOIntTALEX2vg5j1CN
+ rnGZUlEoLRJJKQ1JGT62Zt4UzvH4szREuqelNiM4/tukp3/q/V6accUZCNXiQokJdn67kLd32z
+ ncbPuEnWP0GMYGybLEpao3Uii9wXdcn671j/ioBAAA=
+To: mptcp@lists.linux.dev, Mat Martineau <martineau@kernel.org>, 
+ Geliang Tang <geliang@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Gregory Detal <gregory.detal@gmail.com>
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, "Matthieu Baerts (NGI0)" <matttbe@kernel.org>, 
+ Randy Dunlap <rdunlap@infradead.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1418; i=matttbe@kernel.org;
+ h=from:subject:message-id; bh=nCLxw0SHqx1x703rvJNq+CGCwDIzdOix84z/8W/NPq0=;
+ b=owEBbQKS/ZANAwAIAfa3gk9CaaBzAcsmYgBmWIg+9hiNPQi3hS/j24txtVKA0c4i4n3/uiOir
+ Bid2uW9l46JAjMEAAEIAB0WIQToy4X3aHcFem4n93r2t4JPQmmgcwUCZliIPgAKCRD2t4JPQmmg
+ c11PD/4kRSW5fUs+Gs392EvMInGG/OuwY5HH3GtpgZcmLydVHZa0HGRtg1d6oA+y9YQNaVnDOf6
+ bZ0WcmJQcyRZFHAaXs7ormxFjbsvAI3eu72cT8PWZJZ/0eELU1RbRzmlqAu3xJqcF8L7NNYn/CW
+ u4cvTun5M2pov/y1bNfbIbo+NzMoj/QGGCsQnCMI6QpHfMmMpvcSwJrq4Ah8LLBrmZgCSusAcca
+ XIJcuCCTZ8kkQbTjCxfYQ7OeTX36g/kVH/+uzv0SIPbzIp8wXMo41ynaHS+ZMG7mhJfIwVLcQSR
+ EV5mOMyNScKRUBwNovCwC/NCwIGgelP59xmzWUIQSkjTTAHbtwW2jygoJNu35fTW7TuC5OSaYVZ
+ X1rZK7FY/Mwb+4OyPj/Qrk4eFQiVmarm4pKa5goE0PTnt1FOr3+yL0EmaqJy2hI7WtDm8XP/owY
+ ZJ568QJ93VpV4RIwdXmEdYr0p33Y36sl2/QuEpwczriBMS9/v5y2pr+JbTm6dL5FnDBaNt17ONH
+ TEHP2TFls1JmDMCMdlEzAS9PzmZlu31ZnG6BkkkUaorzWHdgykbcg3xZ113B0+AuPv0i7b48K4s
+ VPUlKLG+etZs6Mc1sUBxE9iJiOYXLZ82JRLVPegaPppWydnc40fU19PVZR8RTtbIrrA3GqKHbF2
+ vNNPrQ9eg347Zsg==
+X-Developer-Key: i=matttbe@kernel.org; a=openpgp;
+ fpr=E8CB85F76877057A6E27F77AF6B7824F4269A073
 
-On Thu, May 30, 2024 at 09:43:56AM +0000, Piergiorgio Beruto wrote:
-> Hello Andrew,
-> 
-> I was reading back into the MACPHY specifications in OPEN Alliance, and it seems like MMS 10 to MMS 15 are actually allowed as vendor specific registers. See page 50.
-> The specifications further say that vendor specific registers of the PHY that would normally be in MMD30-31 (ie, excluding the PLCA registers and the other OPEN standard registers) would go into MMS10 to MMS15.
-> 
-> So I'm wondering, why is it bad to have vendor specific registers into MMD10 to MMD15?
-> I think the framework should allow non-standard stuff to be mapped into these, no?
+A general documentation about MPTCP was missing since its introduction
+in v5.6. The last patch adds a new 'mptcp' page in the 'networking'
+documentation.
 
-From an architecture perspicuity, PHY vendor specific registers should
-be in the PHY register address space. MAC vendor specific registers
-should be in the MAC register address space.
+The first patch is a fix for a missing sysctl entry introduced in v6.10
+rc0, and the second one reorder the sysctl entries.
 
-It seems like the Microchip device has some PHY vendor specific
-registers in the MAC address space. That is bad.
+Signed-off-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
+---
+Changes in v3:
+- Patch 3/3: Fix a few run-on sentences (Randy)
+- Link to v2: https://lore.kernel.org/r/20240528-upstream-net-20240520-mptcp-doc-v2-0-47f2d5bc2ef3@kernel.org
 
-Both your and Microchip device is a single piece of silicon. But i
-doubt there is anything in the standard which actually requires
-this. The PHY could be discrete, on the end of an MDIO bus and an MII
-bus. That is the typical design for the last 30 years, and what linux
-is built around. The MAC should not assume anything about the PHY, the
-PHY should not assume anything about the MAC, because they are
-interchangeable.
+Changes in v2:
+- Patch 3/3: fixed mptcp.dev link syntax.
+- Rebased on top of net-next (Paolo).
+- Link to v1: https://lore.kernel.org/r/20240520-upstream-net-20240520-mptcp-doc-v1-0-e3ad294382cb@kernel.org
 
-The framework does allow you to poke any register anywhere. But i
-would strongly avoid breaking the layering, it is going to cause you
-long term maintenance problems, and is ugly.
+---
+Matthieu Baerts (NGI0) (3):
+      doc: mptcp: add missing 'available_schedulers' entry
+      doc: mptcp: alphabetical order
+      doc: new 'mptcp' page in 'networking'
 
-	Andrew
+ Documentation/networking/index.rst        |   1 +
+ Documentation/networking/mptcp-sysctl.rst |  74 +++++++-------
+ Documentation/networking/mptcp.rst        | 156 ++++++++++++++++++++++++++++++
+ MAINTAINERS                               |   2 +-
+ 4 files changed, 197 insertions(+), 36 deletions(-)
+---
+base-commit: c53a46b16ce2605181688ea6af5f6c8d7fb3c9c1
+change-id: 20240520-upstream-net-20240520-mptcp-doc-e57ac322e4ac
+
+Best regards,
+-- 
+Matthieu Baerts (NGI0) <matttbe@kernel.org>
+
