@@ -1,127 +1,95 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 576361862BF
-	for <linux-doc@vger.kernel.org>; Thu, 30 May 2024 23:51:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 342054C84;
+	Fri, 31 May 2024 00:33:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717113110; cv=none; b=rsLuflTBpbad82T8Q5Jzr4irlpizLsON1Ve6nqjYx6jwKBiCgUlPlqbUtgJoAMpn+meGrgRKUEsvRCILvXSVCNaOmRHuhQP0RAVJ+JNQjn9NZDjYaqg2jnjnhbYiml1OE+m7J9UV0IyJx+yC+nEBJRepzUZUsxcLJ9ebIeEEvLg=
+	t=1717115611; cv=none; b=MXFZgSVszkQHl65Fj8i2xb9PshQI01riA27vpWlEqBy2EHkT89rfukR9DQqt+ijjq8UJYMJaznSPnu2KyL9ivRKyivlkDEYHGX21INJthTuwj1WzUwD2kuIxGAXZygknX7qblIlXBmNn5+HlQpUZAb7gGSJ7ONs1llhTk7jczdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717113110; c=relaxed/simple;
-	bh=W93FmhGSt5rN/d9ZkTtKHNbj8y2kiVp3BB6JpqBPjtM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=P6E3YhJb0JWmZmyW6WJAMa+hiWjfy+6ntLOft19OHhGbMEU54Awukp4HQAPdN9k7U70f42ViRNwXHc3HbPX78MRvX11stZtq+TT0eA2knCpI8Mb1hCdt0EpZjVUWyWvL7hDJG7y1fLZo771L9IldNNDwz2F2ZSxM2l35lcho4Ws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk; spf=none smtp.mailfrom=davidwei.uk; dkim=pass (2048-bit key) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b=QL4+RqL0; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=davidwei.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=davidwei.uk
+	s=arc-20240116; t=1717115611; c=relaxed/simple;
+	bh=gYWdRGn3AeOpnLIlUK3mnGSwl4mb6ATRHGgkB7ftO0U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DTquyJv1matC8d/lTViaZmHWEu2gcs4xpW7A+nKmH1Pb3G5DmadwU0zMxVMxVf7szivkqiynCxiqmF1FkBqonevHpEUMVV0ior0XU2AOISSSkoPiEon9n7O+pvHYyJtuNXF2jraz7Nkj/CUbAR4iMLWKftoJc2fcQFpFMXFODGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=yBW02iha; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=davidwei-uk.20230601.gappssmtp.com header.i=@davidwei-uk.20230601.gappssmtp.com header.b="QL4+RqL0"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-702492172e3so33079b3a.0
-        for <linux-doc@vger.kernel.org>; Thu, 30 May 2024 16:51:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=davidwei-uk.20230601.gappssmtp.com; s=20230601; t=1717113107; x=1717717907; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zLw2WCX7NzhXHaHBtGiNDa+0R1r9ENCFVNNCzI5O8YY=;
-        b=QL4+RqL090NmzqnmmaV35StPPgSYrm0/E5FYyEyBNDFbnjFYn4+7lynHidmbHWfEVL
-         1iBcOwtdX/+OmGH9OHA6Ly9dCXC0kAmMRNt7jsngsMzCorwTnvSYwsuvbd/30RasDM2J
-         CgWFzSw7fo3h/P0Vna2SEUkG3BW1pwRp2ZYJmicLk3iur+HVCLaN4mTrgCpO4EGR65xr
-         zvIJIWco9NeeSE1nTauAdHI2pE5kFmj0GGL6zKrRbn7msIZJ7JKuUeM9tM4Yd+OHVqGp
-         tw2mwrdzVMXg0wyfG0apx+qaFVSep6SjKcJrNGom1L34fJ84bOjAqASDJTHdFqEXjqA6
-         2XTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717113107; x=1717717907;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zLw2WCX7NzhXHaHBtGiNDa+0R1r9ENCFVNNCzI5O8YY=;
-        b=gvhponaL+MYot9/Shcmn3KuAAtXwWXq3diHkk9/ZVMDquJHnInjai7gM+MMYFqafay
-         LGki+NVoSpyPgSYnrpEcaZAJTk2T/ZRXp5cug+zCQo8nszevG84AP/82MPKfYei580I9
-         WxJ0kZ9RIui3LF8f/HDPUxguQfTzLu0rPBWoYt8Gc5B3gRCrqjCq6+YjA6RHuNpBTng/
-         c9opBBSdwdssThNRie+GmrOOSJvNpwyZlyTqLKmfwnAM84e5t7sbVjuzGw/ncQBP3Wjl
-         ZxzEBzrQ6+ZXiKSi/tLqMDV+X7WQnhKzBNRezFhD97HzR5vrcJXxcmiuvfB3tX5TLP2M
-         x/RA==
-X-Forwarded-Encrypted: i=1; AJvYcCXkxvShdfMBA6Wg0U9O3RWcnMS+rXsKEbTc68WRi9AEo3CfJHXBjYTfWE+Xn4WXqWVIBjtT9Zm/dhrkubZXiH7EQM7ei//RFozn
-X-Gm-Message-State: AOJu0YyiSZSbD/aoazscZSFsM3BHa2iXKW1UHaAOwNET81t8bWelqF1y
-	Qz203cABzvkHJRRTgM0VqdZOeBfrgdUjE8LV/CDnIGcei5eUgvDZurrnltwy59Q=
-X-Google-Smtp-Source: AGHT+IGLIircvxxELNZp6hQL4M8a4oqQMuIfbGbj5ESP+8hykh0tgC9NyJcGdtZhysmk5TffXmp10A==
-X-Received: by 2002:a05:6a21:7807:b0:1af:f23c:804a with SMTP id adf61e73a8af0-1b26f245bedmr579669637.38.1717113107315;
-        Thu, 30 May 2024 16:51:47 -0700 (PDT)
-Received: from ?IPV6:2a03:83e0:1156:1:1cbd:da2b:a9f2:881? ([2620:10d:c090:500::4:5439])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-702423c7b7esm298915b3a.13.2024.05.30.16.51.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 May 2024 16:51:46 -0700 (PDT)
-Message-ID: <49e4d52c-59f1-4321-9012-aabb1e8cc005@davidwei.uk>
-Date: Thu, 30 May 2024 16:51:41 -0700
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="yBW02iha"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=PB5NFoVidfRs5Bpnv20WWZ31imy2ZshY8HvuANuXbWk=; b=yBW02ihahmE4c+JC15qTAO1cYi
+	KC8N3DykGGU4IREbJ+gEnIm6hvU0/WoI3dB91Hxr1gYtlt+hkZOIk1ZxPpuokVm2WzIZWxT+kJMMb
+	2Cm6GMgEIlpt6sYxdEKtzx9nkVvIuWjTFmdqDC/qaVmH265D1SiKppgRkhi0LTPDW9pc=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1sCqCm-00GQ9n-Be; Fri, 31 May 2024 02:33:12 +0200
+Date: Fri, 31 May 2024 02:33:12 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Piergiorgio Beruto <Pier.Beruto@onsemi.com>
+Cc: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>,
+	"Parthiban.Veerasooran@microchip.com" <Parthiban.Veerasooran@microchip.com>,
+	"davem@davemloft.net" <davem@davemloft.net>,
+	"edumazet@google.com" <edumazet@google.com>,
+	"kuba@kernel.org" <kuba@kernel.org>,
+	"pabeni@redhat.com" <pabeni@redhat.com>,
+	"horms@kernel.org" <horms@kernel.org>,
+	"saeedm@nvidia.com" <saeedm@nvidia.com>,
+	"anthony.l.nguyen@intel.com" <anthony.l.nguyen@intel.com>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"robh+dt@kernel.org" <robh+dt@kernel.org>,
+	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"Horatiu.Vultur@microchip.com" <Horatiu.Vultur@microchip.com>,
+	"ruanjinjie@huawei.com" <ruanjinjie@huawei.com>,
+	"Steen.Hegelund@microchip.com" <Steen.Hegelund@microchip.com>,
+	"vladimir.oltean@nxp.com" <vladimir.oltean@nxp.com>,
+	"UNGLinuxDriver@microchip.com" <UNGLinuxDriver@microchip.com>,
+	"Thorsten.Kummermehr@microchip.com" <Thorsten.Kummermehr@microchip.com>,
+	"Nicolas.Ferre@microchip.com" <Nicolas.Ferre@microchip.com>,
+	"benjamin.bigler@bernformulastudent.ch" <benjamin.bigler@bernformulastudent.ch>,
+	Viliam Vozar <Viliam.Vozar@onsemi.com>,
+	Arndt Schuebel <Arndt.Schuebel@onsemi.com>
+Subject: Re: [PATCH net-next v4 00/12] Add support for OPEN Alliance
+ 10BASE-T1x MACPHY Serial Interface
+Message-ID: <1ec62bbd-dff7-4132-8d32-e186797db806@lunn.ch>
+References: <8b9f8c10-e6bf-47df-ad83-eaf2590d8625@microchip.com>
+ <44cd0dc2-4b37-4e2f-be47-85f4c0e9f69c@lunn.ch>
+ <b941aefd-dbc5-48ea-b9f4-30611354384d@microchip.com>
+ <BYAPR02MB5958A4D667D13071E023B18F83F52@BYAPR02MB5958.namprd02.prod.outlook.com>
+ <6e4c8336-2783-45dd-b907-6b31cf0dae6c@lunn.ch>
+ <BY5PR02MB6786619C0A0FCB2BEDC2F90D9DF52@BY5PR02MB6786.namprd02.prod.outlook.com>
+ <0581b64a-dd7a-43d7-83f7-657ae93cefe5@lunn.ch>
+ <BY5PR02MB6786FC4808B2947CA03977429DF32@BY5PR02MB6786.namprd02.prod.outlook.com>
+ <70cf84d1-99ad-4c30-9811-f796f21e6391@lunn.ch>
+ <BY5PR02MB678680FB7F10F1E6B9A859379DF32@BY5PR02MB6786.namprd02.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v10 01/14] netdev: add netdev_rx_queue_restart()
-Content-Language: en-GB
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Pavel Begunkov <asml.silence@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
-References: <20240530201616.1316526-1-almasrymina@google.com>
- <20240530201616.1316526-2-almasrymina@google.com>
-From: David Wei <dw@davidwei.uk>
-In-Reply-To: <20240530201616.1316526-2-almasrymina@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <BY5PR02MB678680FB7F10F1E6B9A859379DF32@BY5PR02MB6786.namprd02.prod.outlook.com>
 
-On 2024-05-30 13:16, Mina Almasry wrote:
-[...]
-> +err_start_queue:
-> +	/* Restarting the queue with old_mem should be successful as we haven't
-> +	 * changed any of the queue configuration, and there is not much we can
-> +	 * do to recover from a failure here.
-> +	 *
-> +	 * WARN if the we fail to recover the old rx queue, and at least free
-> +	 * old_mem so we don't also leak that.
-> +	 */
-> +	if (dev->queue_mgmt_ops->ndo_queue_start(dev, old_mem, rxq_idx)) {
-> +		WARN(1,
-> +		     "Failed to restart old queue in error path. RX queue %d may be unhealthy.",
-> +		     rxq_idx);
-> +		dev->queue_mgmt_ops->ndo_queue_mem_free(dev, &old_mem);
+> On that we agree. Maybe I was just misunderstanding the earlier
+> conversation where I thought you would not allow specific drivers to
+> access MMS other than 0,1,4 and the ones that map to MMDs.
 
-This should be ->ndo_queue_mem_free(dev, old_mem).
+I would be disappointed to see a driver access registers which is not
+in its address space. The LED driver can be in the MAC driver, or the
+PHY driver, depending on where its registers are. The PTP driver can
+be in the MAC driver, or the PHY driver, depending on where its
+registers are. Hopefully you don't have anything which is split over
+both addresses spaces.
+
+     Andrew
+
