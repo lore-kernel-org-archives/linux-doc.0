@@ -1,70 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE44FA3F;
-	Fri, 31 May 2024 01:00:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 302554C8F;
+	Fri, 31 May 2024 01:32:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717117236; cv=none; b=bWF7eR5oE/qu8ac4afC3AulwQiZlrHeuxUJywMRERK3SRBOtk3NUmuRw+fxZBFASptiPncpTaDNBv6ynBYTiovk/saXrMRCLgveLAClHOuMVGxyzMQhDbEK4Ku4KQpKgzhzhkYEEosHRgPIpGl1RDJaiGjoJCgQU9pqTTvdHHqs=
+	t=1717119137; cv=none; b=mJhjGzh+ltt86WmKWxfVuyKOxVSb7I70DHvqMaCupwnW24N9/Dn5v9Q6Mk7yBGAaucYhbt0bwSQmnrFawRLI2i6FsJTpxNbSjIxZsnIf2+ZOXWTQay6VunFWdnYaCEQLc5Au+1L5XtTKyTCoQdidolSkGVsn3cG60SIeXtZyZfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717117236; c=relaxed/simple;
-	bh=ES9aO4Lob9Kr+9h0GUl7IBUWqejdBMZMDC6J89Hm2MY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=W81ijT9E3HgvffHkfsxsphl7ZWDGzFEUpy7C/9RE3FP6+XEeJWumnlcu50MpdL0iNGH9vKUNCsh9RFPIEk2gK4bYQUPC+jN065j8QP27ZpFcgZI+cYABEbjEtzBGx+D3zrRUdRXi7h9m2gcHXXtAM4jE6wM5lV5m0bCSzZ3Fu6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PC3Ibh8N; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PC3Ibh8N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06C8BC2BBFC;
-	Fri, 31 May 2024 01:00:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717117235;
-	bh=ES9aO4Lob9Kr+9h0GUl7IBUWqejdBMZMDC6J89Hm2MY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=PC3Ibh8NujyIK0Q2X8jeBUuxm/rHPN5wS/ydDzk4/2qRp/MxRtFRFDb8x1Y/Snnun
-	 zx80KggrT64/xoRQO6srb0DpxpYyHSWBQ845YcbkVTlUsKpmmGrvCpbsw867mRbey7
-	 LufbeumlXfC6tpcfXtmAf7GjDyJASY/eh3EdqW+xX1iMQxYSudMkpDJtIeYDSooDIg
-	 m5l0iIENOmYC41KuRUOQEzASQg3HatyzjiQiw+QBGIE6ky7VXCbPy98Bs7RMlX51Nv
-	 ebnfw6TsxgUPKDSq3xrE1iqBsbGdoTcq+KaV0LMakXhDFDVi5w/GVJco2nrksr6nTL
-	 1e154XmheENTQ==
-Date: Thu, 30 May 2024 18:00:34 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Petr Machata <petrm@nvidia.com>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- <netdev@vger.kernel.org>, Ido Schimmel <idosch@nvidia.com>, "David Ahern"
- <dsahern@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- <linux-doc@vger.kernel.org>, Simon Horman <horms@kernel.org>
-Subject: Re: [PATCH net-next 2/4] net: ipv4: Add a sysctl to set multipath
- hash seed
-Message-ID: <20240530180034.307318fd@kernel.org>
-In-Reply-To: <20240529111844.13330-3-petrm@nvidia.com>
-References: <20240529111844.13330-1-petrm@nvidia.com>
-	<20240529111844.13330-3-petrm@nvidia.com>
+	s=arc-20240116; t=1717119137; c=relaxed/simple;
+	bh=nqgDqt5419QMyMvBEfbugMk0baBsDMSVWA5qg2N/pAs=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=AiqKxqubz7x+mHMFVHKnkgpDPUxoFqWyTdxzhdbW6hc9zKW5lMe7lDsXN6TDR1AwwU7w0BFgRt7N/UKhU99GG1ZPcu9qxliZVs+9BZSJPG96PJ4FQNTAD1N9hCjOO40vNWvBL0CficMWE2zJHExPBVH3/ls4Hk6QX4UMhdG9Muo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; arc=none smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 44UFg1A5006773;
+	Fri, 31 May 2024 01:30:41 GMT
+DKIM-Signature: =?UTF-8?Q?v=3D1;_a=3Drsa-sha256;_c=3Drelaxed/relaxed;_d=3Doracle.com;_h?=
+ =?UTF-8?Q?=3Dcc:content-transfer-encoding:date:from:in-reply-to:message-i?=
+ =?UTF-8?Q?d:mime-version:references:subject:to;_s=3Dcorp-2023-11-20;_bh?=
+ =?UTF-8?Q?=3DC529cB4SacRW7NrFUDFGM9jfyRchRmKOKw8zTRl3EW4=3D;_b=3DOtY6AaJ3?=
+ =?UTF-8?Q?p+c/PMtLIENTqVdFoMBkgc/h7t2cHJh9e06Ad1P19B6SwhvJV6Hn5Exh6QbC_7E?=
+ =?UTF-8?Q?pM2nH6qTxVQM0Y0olUkiyFjGcBo+9wgJHOVyNFrx/BuHl0YpQKglD6FNGfkwrWq?=
+ =?UTF-8?Q?1MQ_QLAA6+KiYU2Lw/EjOfAB2zbTJ1BPmzpVj39NEmr0+dwXR0L6mECiWksWZdl?=
+ =?UTF-8?Q?iBYCB63wW_cIxd3b+IByEMyfH0V37n9McKsVTLyQzfZdmL6Lm+rP/VCdQi0Yd6R?=
+ =?UTF-8?Q?ISxH1rvzwAqIVyu_cc7lDCk4ofUDaWfN/Kgs3HZm6gd8jGw1oiJSevh0ze6meXM?=
+ =?UTF-8?Q?gnZcNbVoJG6MMre1V6srZ_gw=3D=3D_?=
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3yb8p7t3gt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 31 May 2024 01:30:40 +0000
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 44V1PHdJ016250;
+	Fri, 31 May 2024 01:30:40 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3yc50t97by-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Fri, 31 May 2024 01:30:40 +0000
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 44V1SKNK027418;
+	Fri, 31 May 2024 01:30:39 GMT
+Received: from bur-virt-x6-2-100.us.oracle.com (bur-virt-x6-2-100.us.oracle.com [10.153.92.40])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3yc50t96yw-4
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Fri, 31 May 2024 01:30:39 +0000
+From: Ross Philipson <ross.philipson@oracle.com>
+To: linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
+        linux-efi@vger.kernel.org, iommu@lists.linux-foundation.org
+Cc: ross.philipson@oracle.com, dpsmith@apertussolutions.com,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        dave.hansen@linux.intel.com, ardb@kernel.org, mjg59@srcf.ucam.org,
+        James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de,
+        jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
+        nivedita@alum.mit.edu, herbert@gondor.apana.org.au,
+        davem@davemloft.net, corbet@lwn.net, ebiederm@xmission.com,
+        dwmw2@infradead.org, baolu.lu@linux.intel.com,
+        kanth.ghatraju@oracle.com, andrew.cooper3@citrix.com,
+        trenchboot-devel@googlegroups.com
+Subject: [PATCH v9 03/19] x86: Secure Launch Kconfig
+Date: Thu, 30 May 2024 18:03:15 -0700
+Message-Id: <20240531010331.134441-4-ross.philipson@oracle.com>
+X-Mailer: git-send-email 2.39.3
+In-Reply-To: <20240531010331.134441-1-ross.philipson@oracle.com>
+References: <20240531010331.134441-1-ross.philipson@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-05-30_21,2024-05-30_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 spamscore=0 suspectscore=0
+ adultscore=0 phishscore=0 malwarescore=0 mlxlogscore=999 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2405010000
+ definitions=main-2405310010
+X-Proofpoint-ORIG-GUID: Pz8sMCrjKOF9bqhSMLqH-Lz8bz61Jabq
+X-Proofpoint-GUID: Pz8sMCrjKOF9bqhSMLqH-Lz8bz61Jabq
 
-On Wed, 29 May 2024 13:18:42 +0200 Petr Machata wrote:
-> +fib_multipath_hash_seed - UNSIGNED INTEGER
-> +	The seed value used when calculating hash for multipath routes. Applies
+Initial bits to bring in Secure Launch functionality. Add Kconfig
+options for compiling in/out the Secure Launch code.
 
-nits..
+Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
+---
+ arch/x86/Kconfig | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-For RSS we call it key rather than seed, is calling it seed well
-established for ECMP?
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index bc47bc9841ff..ee8e0cbc9a3e 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -2067,6 +2067,17 @@ config EFI_RUNTIME_MAP
+ 
+ 	  See also Documentation/ABI/testing/sysfs-firmware-efi-runtime-map.
+ 
++config SECURE_LAUNCH
++	bool "Secure Launch support"
++	depends on X86_64 && X86_X2APIC && TCG_TPM && CRYPTO_LIB_SHA1 && CRYPTO_LIB_SHA256
++	help
++	   The Secure Launch feature allows a kernel to be loaded
++	   directly through an Intel TXT measured launch. Intel TXT
++	   establishes a Dynamic Root of Trust for Measurement (DRTM)
++	   where the CPU measures the kernel image. This feature then
++	   continues the measurement chain over kernel configuration
++	   information and init images.
++
+ source "kernel/Kconfig.hz"
+ 
+ config ARCH_SUPPORTS_KEXEC
+-- 
+2.39.3
 
-Can we also call out that hashing implementation is not well defined?
-
-> +	to both IPv4 and IPv6 datapath. Only valid for kernels built with
-
-s/valid/present/ ?
-
-> +	CONFIG_IP_ROUTE_MULTIPATH enabled.
-> +
-> +	When set to 0, the seed value used for multipath routing defaults to an
-> +	internal random-generated one.
