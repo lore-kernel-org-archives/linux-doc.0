@@ -1,244 +1,204 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99AF8153BC1;
-	Fri, 31 May 2024 11:09:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48062157488
+	for <linux-doc@vger.kernel.org>; Fri, 31 May 2024 11:37:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717153784; cv=none; b=dSoOcAepB5tCf2DzIPdpZMk7i7NKxL6qVm7WincRtOA6CaObNv3i1+R6X2X61LEQdWrWWi9nkb37DAoIts2B1ex9oIBOdJWz/hS+2/bo5wvi07qneyLDLDasixeQJqrr/TgmIRbyXN7aDkyUyTFjFmco1125D3erlhCux6XnFhA=
+	t=1717155472; cv=none; b=Gk5rhi7dgY8TIhttv7tcrch7Uq0qHR0eY5gd0FvSZ8qI+mDCfsxiusEKxmZJqRkePr5/EQcWtI5ZrqY75Z/V3HxCRjjWFF2toowVfhJ6o/o5Do8xU/eJwKFzJKUF/9E+XogmKnMpR8DXovp1w2p/DZ3I02PE0CvpFW6dxTDU5oQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717153784; c=relaxed/simple;
-	bh=HgtvQmhgEpL9Xbp5+KHJ6NjcuOEi7zDCX0BlPKTFvGc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PCUt4TDR8W7bg0i2j17/S2EvttU5OkJCOkg6qkpWlfCeVfPCbbn64h4qx/rqTNS7ZVt5NWB3admGnWJGCgrZBwMAhSGtyz5jse/n0OWC0w8JWhBl1hxDDMlzBohCPEx0KvJWo099NfHCa803DQzTHS1u8B4G0h93OHx65canIg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XTtk227m; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717155472; c=relaxed/simple;
+	bh=5iTMpsvzMyQ/7iNgBxDn85nSx55OLExRikQYm+HZuZw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:In-Reply-To:
+	 Content-Type:References; b=MprCzG8/xaVRmn7USsQOhp8aTD2QQHC6gO/+0t9xkXXYoGTTGr1hdFlvu2SAC4B4Eyi5Bk6Ohqx3TsPzwSeF0XGmtGpg4z6ZMsgYZF+S97ggRVkq4qGbcfoqoeiV1o+ikPIVmFjdJcqQD+ykuBjPeZqjhUR+tchx0VbZki6Kan0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=Zo5y3Tcr; arc=none smtp.client-ip=203.254.224.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XTtk227m"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E4C7C4AF16;
-	Fri, 31 May 2024 11:09:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717153784;
-	bh=HgtvQmhgEpL9Xbp5+KHJ6NjcuOEi7zDCX0BlPKTFvGc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=XTtk227mDgN9yrTK1sYIJdBwb13rZdzdiDLQf1D1lV6VYjqnNY8eoiBsb5xvjoB/k
-	 /hIe2wFsOGiTyBQSpe7LkY9o/uOJDA1Fe8LpPya6oap4IbUOcELLVBwc42sWifhHOT
-	 Yl1E907W46n5nq72q+ICSOIdWoDXNJQGOK/ynRwyU2GJfl/PLHN0aOKMK+uNNpyHa9
-	 NOFdoSVDpfpeLc5z4bV7IPCP0bm3MA2GtZqgDg3SIyjCl8yt98/ElPRJZmMU+Dxdlm
-	 S/4XoJab0vBmKRwrh2D/jXcFNGLbfx8t9ZV8b/3e1UfCkCNFd12w3AIJerl79WF6Ii
-	 ycAJwno/aDHiQ==
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2e95abc7259so20693411fa.3;
-        Fri, 31 May 2024 04:09:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUW1mCT6B0uubbrlfvHMb9kGzpWb0FjUmjnukmX/6ZlAGJGU2vpffoZL/01d0p9Pf0p2RJUxbK/z/ZBnB2L3otedeTdN6kCIcXU3bPV+6nMPOtCnBmVYjVPwbU9Gvbk0iRgRwgdg9iz9IOstsOKPA0nKtXBNw/s6qj3feZ4wMKcxTmlwg5uyinAkX9/+G0evyo3xEU3D0sGSh40SjI0OcsEBw1f
-X-Gm-Message-State: AOJu0Yzt+Z2esu9R5C1uI35QWMnEKIid9UnCJzZjBSqBQUy0h6hvXRdT
-	GDCQmkeitmSg//GHcprRJRUy8BVyrBi0kpvo5u37ENV+qd39ygc3VAfest6+6BBGt10cUxNXTQm
-	SJ6M15f6gcAn1yTRc6ITyxUL7rbs=
-X-Google-Smtp-Source: AGHT+IGTzAQXJboCZrE7ub+CPIwBrd4fT/qOP7BamuTNTLnHwWnsj6M7s6s5d6esPM1ooNMpIhnA2f1RjvhbZEhwwrw=
-X-Received: by 2002:a2e:8695:0:b0:2e9:6265:9926 with SMTP id
- 38308e7fff4ca-2ea951ddd1emr10496851fa.49.1717153782170; Fri, 31 May 2024
- 04:09:42 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="Zo5y3Tcr"
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20240531113747epoutp02beddaa64bb589533a857b5f4eb10c209~Uj8ywOmv_3220632206epoutp02i
+	for <linux-doc@vger.kernel.org>; Fri, 31 May 2024 11:37:47 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20240531113747epoutp02beddaa64bb589533a857b5f4eb10c209~Uj8ywOmv_3220632206epoutp02i
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1717155467;
+	bh=GuBJyqD/FJYmGRU68Nv2DmyeEsS9lS8noNHMcJZHInE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Zo5y3TcrmVBhdBVls+HHHYQ2JQckAPhmwsVEfAaUbEm79Dp/0WscpfUCE/jvqvuD7
+	 NM0DbkNPwSjJ5I94T9KDlwZ/GSKo6DL1lWsnzw5839PU3h7a1UGsSAnVOu9dw9UT+/
+	 F/KQTUjkgxxZ/TLQ4CvF3v7Xu1eT1YG528L0E6EI=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+	20240531113746epcas5p17564f49cdac426bcf4937b284cf1d8b0~Uj8xqSF7O2277522775epcas5p15;
+	Fri, 31 May 2024 11:37:46 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.175]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4VrLhS279dz4x9Pw; Fri, 31 May
+	2024 11:37:44 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	F6.ED.10047.886B9566; Fri, 31 May 2024 20:37:44 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20240531102425epcas5p41ac34975c3253e5892c57c1adfd985c1~Ui8vlOYLr1813818138epcas5p4H;
+	Fri, 31 May 2024 10:24:25 +0000 (GMT)
+Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20240531102425epsmtrp10f664c9827b18effa1ea05ad5456a5eb~Ui8vkDLwa1379513795epsmtrp1H;
+	Fri, 31 May 2024 10:24:25 +0000 (GMT)
+X-AuditID: b6c32a49-1d5fa7000000273f-bb-6659b688a794
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	4D.5F.08622.955A9566; Fri, 31 May 2024 19:24:25 +0900 (KST)
+Received: from nj.shetty?samsung.com (unknown [107.99.41.245]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20240531102421epsmtip279078faf44b3f9c2ecbcfc63278512ac~Ui8r7n6rH1383313833epsmtip2V;
+	Fri, 31 May 2024 10:24:21 +0000 (GMT)
+Date: Fri, 31 May 2024 10:17:21 +0000
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: Damien Le Moal <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>, Mike
+	Snitzer <snitzer@kernel.org>, Mikulas Patocka <mpatocka@redhat.com>, Keith
+	Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>, Sagi Grimberg
+	<sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, Alexander Viro
+	<viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
+	<jack@suse.cz>, martin.petersen@oracle.com, david@fromorbit.com,
+	hare@suse.de, damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com,
+	joshi.k@samsung.com, nitheshshetty@gmail.com, gost.dev@samsung.com,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, dm-devel@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
+ and request layer.
+Message-ID: <20240531101721.f3sclknsowyceszx@nj.shetty@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240531010331.134441-1-ross.philipson@oracle.com> <20240531010331.134441-20-ross.philipson@oracle.com>
-In-Reply-To: <20240531010331.134441-20-ross.philipson@oracle.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Fri, 31 May 2024 13:09:30 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXGC7a5+5at7T7M_mxBNWjqnuM4QGydG4ZEbu63y6fri3g@mail.gmail.com>
-Message-ID: <CAMj1kXGC7a5+5at7T7M_mxBNWjqnuM4QGydG4ZEbu63y6fri3g@mail.gmail.com>
-Subject: Re: [PATCH v9 19/19] x86: EFI stub DRTM launch support for Secure Launch
-To: Ross Philipson <ross.philipson@oracle.com>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org, 
-	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, kexec@lists.infradead.org, 
-	linux-efi@vger.kernel.org, iommu@lists.linux-foundation.org, 
-	dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com, mjg59@srcf.ucam.org, 
-	James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de, jarkko@kernel.org, 
-	jgg@ziepe.ca, luto@amacapital.net, nivedita@alum.mit.edu, 
-	herbert@gondor.apana.org.au, davem@davemloft.net, corbet@lwn.net, 
-	ebiederm@xmission.com, dwmw2@infradead.org, baolu.lu@linux.intel.com, 
-	kanth.ghatraju@oracle.com, andrew.cooper3@citrix.com, 
-	trenchboot-devel@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <abe8c209-d452-4fb5-90eb-f77b5ec1a2dc@acm.org>
+X-Brightmail-Tracker: H4sIAAAAAAAAA02TeVATVxzHfbubzQaHdg12fKItTBhnOIZACqSPS+votMvgHwxYa2lHSGEh
+	FEgyCWhtZyw3CgoiAhJAkdIiR0GOUg6xyH05jOVoSYtSS7DIDVWLiDZhoeN/n/f9/n7v/Y55
+	FC6s55tTYYooVq2QRYhIE6K+3cba/mz9JyGOOfdIVNXXhaO4i+s4Kh9PJ9FM+zJA2YurOJps
+	TQZo7e4gjuq67gM08fMBVFhUQKCx1kYM3Sq6hKHS8k4M5eXEY6jz1RyJLrWNAqQf0WKoRWeH
+	ricVE+hWSy+BhprySXTtez0flXS/xFDG2REMNUzGAlQ5s0CgHt0eNLjezXt/LzM07M30FUGm
+	UTvOZwbvVxPM0N1opqbsHMnUFn/D/F2bC5jmsRiS+TYtk8dciJ8nmcbEBzxmSa8jmIXbIyST
+	VlcGmIHCDr6PmX+4h5yVBbNqS1YRpAwOU4R6irz9Ag4FuEgdJfYSV/SeyFIhi2Q9RYeP+Nh/
+	EBZhGJDI8qQsItog+cg0GpHDfg+1MjqKtZQrNVGeIlYVHKFyVok1skhNtCJUrGCj3CSOju+6
+	GAIDw+X6J4NAVWv25fp5HYgBt+kUIKAg7QwTs0p4KcCEEtLNANY8SyONhpBeBrDxhg9nPDVw
+	Wj9/KyO5s5rPGS0AZtW3ENxhBcDMP1M30gl6H7ysrzdEURRJ28H+V5RR3klbw6cTJRvxON1F
+	wtKSi8BomNGBcK4vg2dkU/oQ7OlOwTjeAXtzJwkjC2h3mNQ6s1ErpKcEcHa8guRKOgy/q6ni
+	cWwGH3fXbZZqDqfTkzb5FCy9fIPkkhMA1P6qBZxxACb2peNGxmk5/Lf1DsHpb8OsvkqM09+A
+	F9YmMU43hQ1Xt9gKVlQVbhaxG44+iyWNHUOagb9XWHBTiSGgrnqcvAje0b7WkPa15zh2g+cW
+	43gcW8D4H/NwreEqnN4DS15SHNrAqiaHQkCWgd2sShMZympcVBIFe+r/jQcpI2vAxgey9WoA
+	4xOL4jaAUaANQAoX7TR9Hno8RGgaLDv9FatWBqijI1hNG3AxLCsDN38rSGn4gYqoAImzq6Oz
+	VCp1dnWSSkS7TGcSC4KFdKgsig1nWRWr3srDKIF5DOZV4b/C3Ju1Lfto4s1fwgQmc+l2/Z7n
+	m3Jyd10rW5p37yjYvmD+9XRfxD7rvH5havNe+56JgdjF5jonPzJu2HdUuvrhVH5S4oNKadfn
+	KQIPicqrouDYi/m6HWM3Y4TS6Sqn3tbrHSeviLzKpw4+SQg4Q1ox+3m+mQ5JcxPBeeYvxMnb
+	+b26tF5qySqw7reclIHh4RXxPzVtD2NXjzl0PM62sUt9pPl4KrRn+Qu+t5AZLi3q+OnRied/
+	KK+4y090f+pXdOT00Z6QfjKz7GGXcnZb8x13t9aKhDMWshJqqGctO6b9oEpfuvqZvUdVU+9f
+	R4t/yLdAjduOi31HR/z9cwNXPG4OiQiNXCaxxdUa2X/Ru+CDyQQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpileLIzCtJLcpLzFFi42LZdlhJXjdyaWSawcJJ6hbrTx1jtmia8JfZ
+	YvXdfjaL14c/MVpM+/CT2eLJgXZGi99nzzNbbDl2j9HiwX57iwWL5rJY3Dywk8liz6JJTBYr
+	Vx9lspg9vZnJ4uj/t2wWkw5dY7R4enUWk8XeW9oWC9uWsFjs2XuSxeLyrjlsFvOXPWW3WH78
+	H5PFxI6rTBY7njQyWqx7/Z7F4sQtaYvzf4+zOsh4XL7i7XFqkYTHzll32T3O39vI4nH5bKnH
+	plWdbB6bl9R7vNg8k9Fj980GNo/FfZNZPXqb37F57Gy9z+rx8ektFo/3+66yefRtWcXocWbB
+	EfYA4Sgum5TUnMyy1CJ9uwSujAOXVjIWHBGo2Hc7vIHxDW8XIyeHhICJRPvRjexdjFwcQgK7
+	GSXat3SyQSQkJZb9PcIMYQtLrPz3nB3EFhL4yCjR9iMaxGYRUJWY8nQbUJyDg01AW+L0fw6Q
+	sIiAhsS3B8tZQGYyC5xhk5jx8AQrSEJYIEHi7amJYDavgLPEieNdTBCLG1gkpvQ1sEMkBCVO
+	znzCAmIzC5hJzNv8kBlkAbOAtMTyfxwQYXmJ5q2zwW7jFLCWaDvwmnUCo+AsJN2zkHTPQuie
+	haR7ASPLKkbJ1ILi3PTcYsMCo7zUcr3ixNzi0rx0veT83E2M4GSipbWDcc+qD3qHGJk4GA8x
+	SnAwK4nw/kqPSBPiTUmsrEotyo8vKs1JLT7EKM3BoiTO++11b4qQQHpiSWp2ampBahFMlomD
+	U6qBaevs3V/fc9jP8NZ+Pm1x0nszGb9p5geCufYsFCkW+zOhR/SJ1CLd14u0KgoWFgositVj
+	uiPg+Dtu8/NrpWxHb05cwGglmiKmo/kn7JTFhQ9v9K/pH41fw/RAULnmfWX0Fq6ZpxPk/i1V
+	2anPwBL2oNZrk9qWM0/410atcXh06Fb1/tS54Vd/212/HODt9NQm4d9U28W3/2QdsbiUvMJo
+	n0HK8SKdsENNv/yEzb5VeQkk7LfZ3nJ65ZRXWy6r3znB5NO+KkNaRUxZ91tj0XaJkL4l2lsf
+	G3XsLK/6yHFCkDfo8o4tkz9xvWOQl7T+lSByqFgn9u9Bxu4Dz61E9X8U+irv8LOtm/DtafSX
+	uccT1JRYijMSDbWYi4oTAfUGRciVAwAA
+X-CMS-MailID: 20240531102425epcas5p41ac34975c3253e5892c57c1adfd985c1
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----4kURd6qQA_jt7Hem8gQqXiu1-FVD8qSeML2_RvQot6TDP4ZY=_48084_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240520102842epcas5p4949334c2587a15b8adab2c913daa622f
+References: <20240520102033.9361-1-nj.shetty@samsung.com>
+	<CGME20240520102842epcas5p4949334c2587a15b8adab2c913daa622f@epcas5p4.samsung.com>
+	<20240520102033.9361-3-nj.shetty@samsung.com>
+	<eda6c198-3a29-4da4-94db-305cfe28d3d6@acm.org>
+	<20240529061736.rubnzwkkavgsgmie@nj.shetty@samsung.com>
+	<9f1ec1c1-e1b8-48ac-b7ff-8efb806a1bc8@kernel.org>
+	<a866d5b5-5b01-44a2-9ccb-63bf30aa8a51@acm.org>
+	<665850bd.050a0220.a5e6b.5b72SMTPIN_ADDED_BROKEN@mx.google.com>
+	<abe8c209-d452-4fb5-90eb-f77b5ec1a2dc@acm.org>
 
-On Fri, 31 May 2024 at 03:32, Ross Philipson <ross.philipson@oracle.com> wrote:
+------4kURd6qQA_jt7Hem8gQqXiu1-FVD8qSeML2_RvQot6TDP4ZY=_48084_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+
+On 30/05/24 10:11AM, Bart Van Assche wrote:
+>On 5/30/24 00:16, Nitesh Shetty wrote:
+>>+static inline bool blk_copy_offload_attempt_combine(struct request_queue *q,
+>>+                         struct bio *bio)
+>>+{
+>>+    struct blk_plug *plug = current->plug;
+>>+    struct request *rq;
+>>+
+>>+    if (!plug || rq_list_empty(plug->mq_list))
+>>+        return false;
+>>+
+>>+    rq_list_for_each(&plug->mq_list, rq) {
+>>+        if (rq->q == q) {
+>>+            if (!blk_copy_offload_combine(rq, bio))
+>>+                return true;
+>>+            break;
+>>+        }
+>>+
+>>+        /*
+>>+         * Only keep iterating plug list for combines if we have multiple
+>>+         * queues
+>>+         */
+>>+        if (!plug->multiple_queues)
+>>+            break;
+>>+    }
+>>+    return false;
+>>+}
 >
-> This support allows the DRTM launch to be initiated after an EFI stub
-> launch of the Linux kernel is done. This is accomplished by providing
-> a handler to jump to when a Secure Launch is in progress. This has to be
-> called after the EFI stub does Exit Boot Services.
+>This new approach has the following two disadvantages:
+>* Without plug, REQ_OP_COPY_SRC and REQ_OP_COPY_DST are not combined. These two
+>  operation types are the only operation types for which not using a plug causes
+>  an I/O failure.
+>* A loop is required to combine the REQ_OP_COPY_SRC and REQ_OP_COPY_DST operations.
 >
-> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
-
-Just some minor remarks below. The overall approach in this patch
-looks fine now.
-
-
-> ---
->  drivers/firmware/efi/libstub/x86-stub.c | 98 +++++++++++++++++++++++++
->  1 file changed, 98 insertions(+)
+>Please switch to the approach Hannes suggested, namely bio chaining. Chaining
+>REQ_OP_COPY_SRC and REQ_OP_COPY_DST bios before these are submitted eliminates the
+>two disadvantages mentioned above.
 >
-> diff --git a/drivers/firmware/efi/libstub/x86-stub.c b/drivers/firmware/efi/libstub/x86-stub.c
-> index d5a8182cf2e1..a1143d006202 100644
-> --- a/drivers/firmware/efi/libstub/x86-stub.c
-> +++ b/drivers/firmware/efi/libstub/x86-stub.c
-> @@ -9,6 +9,8 @@
->  #include <linux/efi.h>
->  #include <linux/pci.h>
->  #include <linux/stddef.h>
-> +#include <linux/slr_table.h>
-> +#include <linux/slaunch.h>
->
->  #include <asm/efi.h>
->  #include <asm/e820/types.h>
-> @@ -830,6 +832,97 @@ static efi_status_t efi_decompress_kernel(unsigned long *kernel_entry)
->         return efi_adjust_memory_range_protection(addr, kernel_text_size);
->  }
->
-> +#if (IS_ENABLED(CONFIG_SECURE_LAUNCH))
+Bart, Hannes,
 
-IS_ENABLED() is mostly used for C conditionals not CPP ones.
+I see the following challenges with bio-chained approach.
+1. partitioned device:
+	We need to add the code which iterates over all bios and adjusts
+	the sectors offsets.
+2. dm/stacked device:
+	We need to make major changes in dm, such as allocating cloned
+	bios, IO splits, IO offset mappings. All of which need to
+	iterate over chained BIOs.
 
-It would be nice if this #if could be dropped, and replaced with ... (see below)
+Overall with chained BIOs we need to add a special handling only for copy
+to iterate over chained BIOs and do the same thing which is being done
+for single BIO at present.
+Or am I missing something here ?
 
+Thank You,
+Nitesh Shetty
 
-> +static bool efi_secure_launch_update_boot_params(struct slr_table *slrt,
-> +                                                struct boot_params *boot_params)
-> +{
-> +       struct slr_entry_intel_info *txt_info;
-> +       struct slr_entry_policy *policy;
-> +       struct txt_os_mle_data *os_mle;
-> +       bool updated = false;
-> +       int i;
-> +
-> +       txt_info = slr_next_entry_by_tag(slrt, NULL, SLR_ENTRY_INTEL_INFO);
-> +       if (!txt_info)
-> +               return false;
-> +
-> +       os_mle = txt_os_mle_data_start((void *)txt_info->txt_heap);
-> +       if (!os_mle)
-> +               return false;
-> +
-> +       os_mle->boot_params_addr = (u32)(u64)boot_params;
-> +
-
-Why is this safe?
-
-> +       policy = slr_next_entry_by_tag(slrt, NULL, SLR_ENTRY_ENTRY_POLICY);
-> +       if (!policy)
-> +               return false;
-> +
-> +       for (i = 0; i < policy->nr_entries; i++) {
-> +               if (policy->policy_entries[i].entity_type == SLR_ET_BOOT_PARAMS) {
-> +                       policy->policy_entries[i].entity = (u64)boot_params;
-> +                       updated = true;
-> +                       break;
-> +               }
-> +       }
-> +
-> +       /*
-> +        * If this is a PE entry into EFI stub the mocked up boot params will
-> +        * be missing some of the setup header data needed for the second stage
-> +        * of the Secure Launch boot.
-> +        */
-> +       if (image) {
-> +               struct setup_header *hdr = (struct setup_header *)((u8 *)image->image_base + 0x1f1);
-
-Could we use something other than a bare 0x1f1 constant here? struct
-boot_params has a struct setup_header at the correct offset, so with
-some casting of offsetof() use, we can make this look a lot more self
-explanatory.
+------4kURd6qQA_jt7Hem8gQqXiu1-FVD8qSeML2_RvQot6TDP4ZY=_48084_
+Content-Type: text/plain; charset="utf-8"
 
 
-> +               u64 cmdline_ptr, hi_val;
-> +
-> +               boot_params->hdr.setup_sects = hdr->setup_sects;
-> +               boot_params->hdr.syssize = hdr->syssize;
-> +               boot_params->hdr.version = hdr->version;
-> +               boot_params->hdr.loadflags = hdr->loadflags;
-> +               boot_params->hdr.kernel_alignment = hdr->kernel_alignment;
-> +               boot_params->hdr.min_alignment = hdr->min_alignment;
-> +               boot_params->hdr.xloadflags = hdr->xloadflags;
-> +               boot_params->hdr.init_size = hdr->init_size;
-> +               boot_params->hdr.kernel_info_offset = hdr->kernel_info_offset;
-> +               hi_val = boot_params->ext_cmd_line_ptr;
-
-We have efi_set_u64_split() for this.
-
-> +               cmdline_ptr = boot_params->hdr.cmd_line_ptr | hi_val << 32;
-> +               boot_params->hdr.cmdline_size = strlen((const char *)cmdline_ptr);;
-> +       }
-> +
-> +       return updated;
-> +}
-> +
-> +static void efi_secure_launch(struct boot_params *boot_params)
-> +{
-> +       struct slr_entry_dl_info *dlinfo;
-> +       efi_guid_t guid = SLR_TABLE_GUID;
-> +       dl_handler_func handler_callback;
-> +       struct slr_table *slrt;
-> +
-
-... a C conditional here, e.g.,
-
-if (!IS_ENABLED(CONFIG_SECURE_LAUNCH))
-    return;
-
-The difference is that all the code will get compile test coverage
-every time, instead of only in configs that enable
-CONFIG_SECURE_LAUNCH.
-
-This significantly reduces the risk that your stuff will get broken
-inadvertently.
-
-> +       /*
-> +        * The presence of this table indicated a Secure Launch
-> +        * is being requested.
-> +        */
-> +       slrt = (struct slr_table *)get_efi_config_table(guid);
-> +       if (!slrt || slrt->magic != SLR_TABLE_MAGIC)
-> +               return;
-> +
-> +       /*
-> +        * Since the EFI stub library creates its own boot_params on entry, the
-> +        * SLRT and TXT heap have to be updated with this version.
-> +        */
-> +       if (!efi_secure_launch_update_boot_params(slrt, boot_params))
-> +               return;
-> +
-> +       /* Jump through DL stub to initiate Secure Launch */
-> +       dlinfo = slr_next_entry_by_tag(slrt, NULL, SLR_ENTRY_DL_INFO);
-> +
-> +       handler_callback = (dl_handler_func)dlinfo->dl_handler;
-> +
-> +       handler_callback(&dlinfo->bl_context);
-> +
-> +       unreachable();
-> +}
-> +#endif
-> +
->  static void __noreturn enter_kernel(unsigned long kernel_addr,
->                                     struct boot_params *boot_params)
->  {
-> @@ -957,6 +1050,11 @@ void __noreturn efi_stub_entry(efi_handle_t handle,
->                 goto fail;
->         }
->
-> +#if (IS_ENABLED(CONFIG_SECURE_LAUNCH))
-
-... and drop this #if as well.
-
-> +       /* If a Secure Launch is in progress, this never returns */
-> +       efi_secure_launch(boot_params);
-> +#endif
-> +
->         /*
->          * Call the SEV init code while still running with the firmware's
->          * GDT/IDT, so #VC exceptions will be handled by EFI.
-> --
-> 2.39.3
->
+------4kURd6qQA_jt7Hem8gQqXiu1-FVD8qSeML2_RvQot6TDP4ZY=_48084_--
