@@ -1,160 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 597E117CA0B;
-	Fri, 31 May 2024 17:47:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 997957C082;
+	Fri, 31 May 2024 18:31:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717177633; cv=none; b=G/LiKh0Q7CLbGzdVtxBjpFRcD/lCIwiWCvQ+r7UDCt4rzgLGqhKV07kWGF2d/wZlrpc6xn1RbtfzQ6MaRlZjB5J1/omyE3pItCUadSx81I9V+p9pp/Djv17PyV5Yq6+qEvYpf7ryju7nuy2nnDkUKb96xFA20biGHn+A31Y6SFg=
+	t=1717180282; cv=none; b=tPbIqn68Cpc7mSupUOm/hbPDuqqqhmwwzfuR8gx81oA1XyacRnKawgAOGK7ClY9RPmhOhQEU2pKkewOLBdmNxbdYU2uXrUhmNmnGaeh8dk6h3cEk/gJ15Mu48jK4fRFLikZSjSXJrihdBOQrEq5rQb20bO7qdJ0fLmegemHi6yU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717177633; c=relaxed/simple;
-	bh=21LSgTExidJOfb9UA4FlB1VpQJ4ptiqM3M6lPGstxwE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XvPZi3xYPfoWg3lYON7LZK8LCF755Vwirer+Fn8da5Fog03MkaMzJYesmRIYQr0p8ceRHAKBPaTNGepPHigZi1r+WDuGnKHf3b+2bKHvPsdpayoCnMGa5FrKtYmpcfUd9aVGLqIYsQXRKcOfg765Imo1NWQcj7REYz7Iipif80s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M4BwxNqu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717180282; c=relaxed/simple;
+	bh=hCXSLE4r2AnTT6HxGeXdZGVQDBKoHt4v004XWnI33Dk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DvJmL+VtyLTy1X1NEk/qr7uGLapygcIE00CMbjGvrQyju8wjT15AxCkJ7Zww2CHlUoMDOyI/InwD+p5NDQI/+AGiWzbLlWozo7Y6CczcOWViKPQgeev98qFRFsjCMsB/xeIlBXlwHzIhZAKBQggrIUwKYc1H8IJytuQZGF/i//o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=JbDwwtoZ; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M4BwxNqu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C999C116B1;
-	Fri, 31 May 2024 17:47:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717177632;
-	bh=21LSgTExidJOfb9UA4FlB1VpQJ4ptiqM3M6lPGstxwE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M4BwxNquzh28rbTZt9KxjLyZLSvSTUEVYSPItGYpHKgF/llgtUdz7spzjZ1qDWfGa
-	 gKO93Wzjs8Vx+T8V7cNOyauHIs3UPX+aRXdcfko+GnDigHqMnATPDylVjCYUbIalCu
-	 mLK9weStMKWstAV1+MOMVnDgh0XnsGGB0giWmHjEA+/CpLAcZ/MnvoduJIbPJUQR47
-	 OMjgYtOyL1c0PuJ+BD+6oBCQtj7WuFB/ZZM9kuhxilKjJWYp8n0ptSfDTR2GWqS4Hy
-	 v3VLBCY65eRALsv2ivwmueMxnocgcpQHy8qIu0uRVOh2SVw9hwMi7BOqKdB89RIP2S
-	 HBkfZ4plenMPw==
-Date: Fri, 31 May 2024 10:47:10 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Paul Moore <paul@paul-moore.com>
-Cc: Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net, zohar@linux.ibm.com,
-	jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, axboe@kernel.dk,
-	agk@redhat.com, snitzer@kernel.org, mpatocka@redhat.com,
-	eparis@redhat.com, linux-doc@vger.kernel.org,
-	linux-integrity@vger.kernel.org,
-	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
-	linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
-	audit@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Deven Bowers <deven.desai@linux.microsoft.com>
-Subject: Re: [PATCH v19 15/20] fsverity: expose verified fsverity built-in
- signatures to LSMs
-Message-ID: <20240531174710.GA1199@sol.localdomain>
-References: <1716583609-21790-1-git-send-email-wufan@linux.microsoft.com>
- <1716583609-21790-16-git-send-email-wufan@linux.microsoft.com>
- <CAHC9VhRsnGjZATBj7-evK6Gdryr54raTTKMYO_vup8AGXLwjQg@mail.gmail.com>
- <20240530030605.GA29189@sol.localdomain>
- <CAHC9VhRySQ0c16UZz5xKT-y5Tn39wXxe4-f7LNjFY+ROGGxpaQ@mail.gmail.com>
- <20240531004321.GA1238@sol.localdomain>
- <CAHC9VhRRuBdnv3u2VjKZCR672p4oj_smA72P-181ysdDXGJ-AA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JbDwwtoZ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=Y29TmkHKYUwNvGcW0y3qxFwKo3onKquOFuAOIt1KwWk=; b=JbDwwtoZyGApmQT3cWI28iV9h2
+	bnK+AzMfkDP0VylFy6mrmPYJ5D6RuWSUvkn4On0u7ltxr22WqyCL8BtlOa9/GVIGHTQHmXI+G157W
+	xfNnSAHTe0PQni+yiCql0ZnAZRaolA9hMtdW6uf916xMqpg5pihKXKbEJgV+QLKxO1Ew5RkkGEJjj
+	mWuOoz9HghVXp5bwnkCfb/sOjOLh9jygymSCOjLbCnF1FbCzWbaysc4BThCbSafR4gRLUj0G09ufV
+	XVyiMikS5ndPn2JuFq1Mh6REHlN7q3Cq9XRse2Qi6WvkVJoCqwZk+eIFJUVQOcdXBqDaAcDKe1s4l
+	WXy/bi0w==;
+Received: from [50.53.4.147] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sD722-0000000B89T-2GB5;
+	Fri, 31 May 2024 18:31:14 +0000
+Message-ID: <c14215bd-96ff-4aec-83c4-e25375f6fe88@infradead.org>
+Date: Fri, 31 May 2024 11:31:13 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHC9VhRRuBdnv3u2VjKZCR672p4oj_smA72P-181ysdDXGJ-AA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 07/11] Documentation: core-api: Add math.h macros and
+ functions
+To: Devarsh Thakkar <devarsht@ti.com>, mchehab@kernel.org,
+ hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, benjamin.gaignard@collabora.com,
+ sebastian.fricke@collabora.com, akpm@linux-foundation.org,
+ gregkh@linuxfoundation.org, andriy.shevchenko@linux.intel.com,
+ adobriyan@gmail.com, jani.nikula@intel.com, p.zabel@pengutronix.de,
+ airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ corbet@lwn.net, broonie@kernel.org, linux-doc@vger.kernel.org
+Cc: laurent.pinchart@ideasonboard.com, praneeth@ti.com, nm@ti.com,
+ vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com, b-brnich@ti.com,
+ detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com, andrzej.p@collabora.com,
+ nicolas@ndufresne.ca, davidgow@google.com, dlatypov@google.com
+References: <20240531170229.1270828-1-devarsht@ti.com>
+ <20240531171220.1295881-1-devarsht@ti.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240531171220.1295881-1-devarsht@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 31, 2024 at 11:51:47AM -0400, Paul Moore wrote:
-> On Thu, May 30, 2024 at 8:43 PM Eric Biggers <ebiggers@kernel.org> wrote:
-> > On Thu, May 30, 2024 at 04:54:37PM -0400, Paul Moore wrote:
-> > > On Wed, May 29, 2024 at 11:06 PM Eric Biggers <ebiggers@kernel.org> wrote:
-> > > > On Wed, May 29, 2024 at 09:46:57PM -0400, Paul Moore wrote:
-> > > > > On Fri, May 24, 2024 at 4:46 PM Fan Wu <wufan@linux.microsoft.com> wrote:
-> > > > > >
-> > > > > > This patch enhances fsverity's capabilities to support both integrity and
-> > > > > > authenticity protection by introducing the exposure of built-in
-> > > > > > signatures through a new LSM hook. This functionality allows LSMs,
-> > > > > > e.g. IPE, to enforce policies based on the authenticity and integrity of
-> > > > > > files, specifically focusing on built-in fsverity signatures. It enables
-> > > > > > a policy enforcement layer within LSMs for fsverity, offering granular
-> > > > > > control over the usage of authenticity claims. For instance, a policy
-> > > > > > could be established to permit the execution of all files with verified
-> > > > > > built-in fsverity signatures while restricting kernel module loading
-> > > > > > from specified fsverity files via fsverity digests.
-> > >
-> > > ...
-> > >
-> > > > > Eric, can you give this patch in particular a look to make sure you
-> > > > > are okay with everything?  I believe Fan has addressed all of your
-> > > > > previous comments and it would be nice to have your Ack/Review tag if
-> > > > > you are okay with the current revision.
-> > > >
-> > > > Sorry, I've just gotten a bit tired of finding so many basic issues in this
-> > > > patchset even after years of revisions.
-> > > >
-> > > > This patch in particular is finally looking better.  There are a couple issues
-> > > > that I still see.  (BTW, you're welcome to review it too to help find these
-> > > > things, given that you seem to have an interest in getting this landed...):
-> > >
-> > > I too have been reviewing this patchset across multiple years and have
-> > > worked with Fan to fix locking issues, parsing issues, the initramfs
-> > > approach, etc.
-> >
-> > Sure, but none of the patches actually have your Reviewed-by.
-> 
-> As a general rule I don't post Acked-by/Reviewed-by tags for patches
-> that are targeting a subsystem that I maintain.  The logic being that
-> I'm going to be adding my Signed-off-by tag to the patches and arguing
-> these in front of Linus, so adding a Acked-by/Reviewed-by simply
-> creates more work later on where I have to strip them off and replace
-> them with my sign-off.
-> 
-> If the lack of a Reviewed-by tag is *really* what is preventing you
-> from reviewing the fs-verity patch, I can post that starting with the
-> next revision, but I'm guessing the lack of my tag isn't your core
-> issue (or at least I would argue it shouldn't be).
->
-> > > My interest in getting this landed is simply a
-> > > combination of fulfilling my role as LSM maintainer as well as being
-> > > Fan's coworker.  While I realize you don't work with Fan, you are
-> > > listed as the fs-verity maintainer and as such I've been looking to
-> > > you to help review and authorize the fs-verity related code.  If you
-> > > are too busy, frustrated, or <fill in the blank> to continue reviewing
-> > > this patchset it would be helpful if you could identify an authorized
-> > > fs-verity reviewer.  I don't see any besides you and Ted listed in the
-> > > MAINTAINERS file, but perhaps the fs-verity entry is dated.
-> > >
-> > > Regardless, I appreciate your time and feedback thus far and I'm sure
-> > > Fan does as well.
-> >
-> > Maintainers are expected to do reviews and acks, but not to the extent of
-> > extensive hand-holding of a half-baked submission.
-> 
-> Considering the current state of this patchset I don't believe that
-> verdict to be fair, or very considerate.
-> 
-> We clearly have different styles and approaches towards subsystem
-> maintainer roles.  I've had the good fortune to work with both hostile
-> and helpful senior developers during the early years of my time
-> working in the Linux kernel, and it helped reinforce the impact
-> patience and mentoring can have on contributors who are new to the
-> Linux kernel or perhaps system programming in general.  While I'm far
-> from perfect in this regard, I do hope and recommend that all of us in
-> maintainer, or senior developer, roles remember to exercise some
-> additional patience and education when working with new contributors.
+Hi,
+
+On 5/31/24 10:12 AM, Devarsh Thakkar wrote:
+> Add documentation for rounding, scaling, absolute value and difference,
+> 32-bit division related macros and functions exported by math.h header
+> file.
 > 
 
-It's not clear to me that you've done a close review of the verity related
-patches, including not just this one but the dm-verity related ones and the
-fsverity and dm-verity support in IPE itself, given the issues that I've been
-finding in them in the last couple months.  As I said before, I'm not too
-enthusiastic about IPE myself, for various reasons I've explained, so I've
-really been looking to the people who actually want it to help drive it forward.
+I don't see any kernel-doc for division functions in this header file.
 
-Anyway, as I also said, the fsverity and dm-verity support does seem to be
-improved now after all the rounds of feedback, and I think it's close to the
-finish line.  I just hope you can understand that I'm also a bit burnt out now,
-and getting asked for an ack on this patch again and then seeing a bug in it
-(despite it having been simplified to only a few lines now) and also still
-misleading information in the commit message that I asked to be fixed before, is
-a bit frustrating.  I think it's reasonable to expect a bit better, especially
-for a security oriented feature.
+Do some division functions get rendered somehow?
 
-Thanks,
+Thanks.
 
-- Eric
+> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
+> ---
+> V11: Fix title for math function header
+> V10: Patch introduced
+> V1->V9 (No change)
+> ---
+>  Documentation/core-api/kernel-api.rst | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
+> index ae92a2571388..7de494e76fa6 100644
+> --- a/Documentation/core-api/kernel-api.rst
+> +++ b/Documentation/core-api/kernel-api.rst
+> @@ -185,6 +185,12 @@ Division Functions
+>  .. kernel-doc:: lib/math/gcd.c
+>     :export:
+>  
+> +Rounding, absolute value, division and 32-bit scaling functions
+> +---------------------------------------------------------------
+> +
+> +.. kernel-doc:: include/linux/math.h
+> +   :internal:
+> +
+>  UUID/GUID
+>  ---------
+>  
+
+-- 
+#Randy
+https://people.kernel.org/tglx/notes-about-netiquette
+https://subspace.kernel.org/etiquette.html
