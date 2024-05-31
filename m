@@ -1,491 +1,375 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A8B95588D;
-	Fri, 31 May 2024 07:37:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54103187575
+	for <linux-doc@vger.kernel.org>; Fri, 31 May 2024 07:47:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717141049; cv=none; b=dZxEL0PsmuOILO4gq0ZF63kVch2kfU7fnmQX2ZVNDFu2xX26PZKsebzvwbS0xhkkyheQXvSKUsQziLyVgak07odYXQjgjZBz1511Jcf849n/hypVP1mzTAZnjczfRZUdDAkwr1zgMPvmQ65gjMZM19zWRBR19AwC6moylsvxenE=
+	t=1717141671; cv=none; b=DDsQH4UdmYur3wEaGwd2mIPv6zvaxq4ekRSOf+lIa4VzuH14VpwW+elFI5IP/xkeTa1EQJ2aupc/xVHZKRBNN94BCqXwV6FNl9g1BAaWKLbgXzotH+StdYaP4LF4cu23Pc0OKcT3nl0yXFmXMNSRmSp8429sDyUGxf2131U4nVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717141049; c=relaxed/simple;
-	bh=1Y1xbqjaEjTZ/pN6vHCnPOFrHlGwFVGVOqCzuduS3GE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IlfnaGexrQK/3/EefuUx/l91oIq44twqamFSqZFazk/vZ+pHWAS0CUWdS1iHJaqkTd3xe1ouJMrMBcj8iv4J530SKeA1afxNlHagelS5AmLoSlKR2NGZg9ZpWMX2tcnT0LcVENHyHR0IXVYIkGYyXPSCCby06hRu6HkY/8GCsYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=bALMnNzG; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1717141671; c=relaxed/simple;
+	bh=Ymdss32QmSRd8aylkSAC14Qall1Rzsxqjb+tuzHfEK4=;
+	h=Mime-Version:Subject:From:To:CC:Message-ID:Date:Content-Type:
+	 References; b=hMRlTMANeOi29LxYP0zuPsRa68n91ZH+lLIy/SvSCSC6K9fdlS5+Qe3a4tAWgSMohKJvOIl3n4s37ZASv/I3nUxGqPjXLy4ZmI8nra0ZveiNHjxuRxbvHvwDTaaoEENSmSjaMeCPXKZVreK3PWDQW/vun+XKYPdZGyheCe3yuOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=ecFmUJ+C; arc=none smtp.client-ip=203.254.224.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="bALMnNzG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1717141045;
-	bh=1Y1xbqjaEjTZ/pN6vHCnPOFrHlGwFVGVOqCzuduS3GE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bALMnNzG+87La+4Fs466WUM/0gwzZH5tutD5UFAi9k4OItl0klqYtVHrPAaYtMhuM
-	 g8RHqh9zzbC/ufBDRNXLNVrqGafZIdw+ZZKprmymKkkMjtLkvcCfnMy4iiDiViwz2d
-	 WtUuW5vuAiWK+yirOzMm3xWCEczaBD+mNdgXNHE5H4RyHmklvuJn726LQ6kNrfzTib
-	 3BNPvjBmfgytUB4xGjrn8Y5mPugWmGu46qqO1wivdhqgoA7B9HEPACppRoyzWz+yGw
-	 EuC9ld+76sKY1Pd4meiEz5fQOPzQP20AVUBaGxf4hXeYkSFswRE00SrEAcbQeFTZDk
-	 8EzHBf00tnDwA==
-Received: from [100.95.196.182] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: andrzej.p)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 8218937820CD;
-	Fri, 31 May 2024 07:37:24 +0000 (UTC)
-Message-ID: <a4b04982-6fac-4492-8454-0878a143d80f@collabora.com>
-Date: Fri, 31 May 2024 09:37:23 +0200
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="ecFmUJ+C"
+Received: from epcas2p2.samsung.com (unknown [182.195.41.54])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20240531074742epoutp01d3965c338c081ccda254a65e890873df~Ugz5tahS42437924379epoutp017
+	for <linux-doc@vger.kernel.org>; Fri, 31 May 2024 07:47:42 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20240531074742epoutp01d3965c338c081ccda254a65e890873df~Ugz5tahS42437924379epoutp017
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1717141662;
+	bh=fiElAEgPAsOuAdZPEUV0rRrNV7bWVFo1R7mUMhItRho=;
+	h=Subject:Reply-To:From:To:CC:Date:References:From;
+	b=ecFmUJ+CMi10bvnldsBBd0HGn+JY69U7B0jOZYIH174yWi6kub+DXT+oRCImcwpY8
+	 4uLHCHGFX2pgY1kWzvluV/xuFSGShZ68As+Xc6CiEuFjQTMXng/2weBqbmDrCBi14l
+	 W6qWWaA+vUeKazR9vGIo9sKEFRsyAOkWtXc25r98=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	epcas2p2.samsung.com (KnoxPortal) with ESMTP id
+	20240531074741epcas2p2d8ecfda1f7bcc4f8e50a8eec77f13e8d~Ugz5LeT8c1576415764epcas2p2M;
+	Fri, 31 May 2024 07:47:41 +0000 (GMT)
+Received: from epsmges2p4.samsung.com (unknown [182.195.36.88]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4VrFb06shMz4x9Py; Fri, 31 May
+	2024 07:47:40 +0000 (GMT)
+X-AuditID: b6c32a48-105fa70000002507-05-6659809c0d4d
+Received: from epcas2p1.samsung.com ( [182.195.41.53]) by
+	epsmges2p4.samsung.com (Symantec Messaging Gateway) with SMTP id
+	E0.88.09479.C9089566; Fri, 31 May 2024 16:47:40 +0900 (KST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/3] tools: usb: p9_fwd: add usb gadget packet
- forwarder script
-To: Michael Grzeschik <mgr@pengutronix.de>
-Cc: Eric Van Hensbergen <ericvh@kernel.org>,
- Latchesar Ionkov <lucho@ionkov.net>,
- Dominique Martinet <asmadeus@codewreck.org>,
- Christian Schoenebeck <linux_oss@crudebyte.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, v9fs@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, kernel@pengutronix.de,
- Jan Luebbe <jlu@pengutronix.de>
-References: <20240116-ml-topic-u9p-v5-0-5ed0abd53ef5@pengutronix.de>
- <20240116-ml-topic-u9p-v5-3-5ed0abd53ef5@pengutronix.de>
- <50c62db3-060d-4b21-ae28-629003611e1a@collabora.com>
- <ZlehszQxJ5I0AvcE@pengutronix.de>
-Content-Language: en-US
-From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-In-Reply-To: <ZlehszQxJ5I0AvcE@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Subject: [RFC PATCH] f2fs: add support single node section mode
+Reply-To: daejun7.park@samsung.com
+Sender: Daejun Park <daejun7.park@samsung.com>
+From: Daejun Park <daejun7.park@samsung.com>
+To: "jaegeuk@kernel.org" <jaegeuk@kernel.org>, "chao@kernel.org"
+	<chao@kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
+	"linux-f2fs-devel@lists.sourceforge.net"
+	<linux-f2fs-devel@lists.sourceforge.net>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+CC: Seokhwan Kim <sukka.kim@samsung.com>, Dongjin Kim
+	<dongjin_.kim@samsung.com>, Yonggil Song <yonggil.song@samsung.com>, Jaeyoon
+	Choi <j_yoon.choi@samsung.com>, Nayeon Kim <nayeoni.kim@samsung.com>, Siwoo
+	Jung <siu.jung@samsung.com>, beomsu kim <beomsu7.kim@samsung.com>, Daejun
+	Park <daejun7.park@samsung.com>
+X-Priority: 3
+X-Content-Kind-Code: NORMAL
+X-CPGS-Detection: blocking_info_exchange
+X-Drm-Type: N,general
+X-Msg-Generator: Mail
+X-Msg-Type: PERSONAL
+X-Reply-Demand: N
+Message-ID: <20240531074640epcms2p46c3cf8b7cc4e707948ae200115e28e39@epcms2p4>
+Date: Fri, 31 May 2024 16:46:40 +0900
+X-CMS-MailID: 20240531074640epcms2p46c3cf8b7cc4e707948ae200115e28e39
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+X-CPGSPASS: Y
+X-CPGSPASS: Y
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrBJsWRmVeSWpSXmKPExsWy7bCmqe6chsg0gz9b9S0uzPvIbHF66lkm
+	iycH2hktXh7StFj1INzix0kTi/7d7SwWT9bPYrZY2LaExeLSIneLy7vmsFm0/HGyOD/xNZPF
+	qo65jBZTzx9hcuD32LSqk81j94LPTB6L+yazevRtWcXo8XmTXABrVLZNRmpiSmqRQmpecn5K
+	Zl66rZJ3cLxzvKmZgaGuoaWFuZJCXmJuqq2Si0+ArltmDtClSgpliTmlQKGAxOJiJX07m6L8
+	0pJUhYz84hJbpdSClJwC8wK94sTc4tK8dL281BIrQwMDI1OgwoTsjL17VjIWNPtX/Hu1kKmB
+	8Zt9FyMnh4SAicSfydeZuxi5OIQEdjBKPDnwg7WLkYODV0BQ4u8OYZAaYQF7iRkHvzCD2EIC
+	ShLrL85ih4jrSdx6uIYRxGYT0JGYfuI+O8gcEYFTTBKHnnxkBXGYBQ4wSfw6tI4RYhuvxIz2
+	pywQtrTE9uVboeIaEj+W9TJD2KISN1e/ZYex3x+bD1UjItF67yxUjaDEg5+7oeKSErfnboKq
+	z5f4f2U5lF0jse3APChbX+Jax0awvbwCvhL7N/9gB3mSRUBVYtnueogSF4lpJ/rAypkF5CW2
+	v53DDFLCLKApsX6XPogpIaAsceQWC0QFn0TH4b/sME81bPyNlb1j3hMmCFtNYt3P9UwQY2Qk
+	bs1jnMCoNAsRzrOQrJ2FsHYBI/MqRrHUguLc9NRiowITeNQm5+duYgQnWS2PHYyz337QO8TI
+	xMF4iFGCg1lJhPdXekSaEG9KYmVValF+fFFpTmrxIUZToH8nMkuJJucD03xeSbyhiaWBiZmZ
+	obmRqYG5kjjvvda5KUIC6YklqdmpqQWpRTB9TBycUg1MJ+q6Ozeae00I1n92R+TOibcTuJhO
+	nPHdKZZ9evLOSwsrPz7Sq/b3m9tnzKn0jO/Ekw9qHw9N3a/72Gp/ZPd1rw5HQ7lJcz/1c3z1
+	v2daOy3wj0actNbDaS/4D8YLbo6ckf90lX7CvA01lx/OefuoM5vHZsMU1W8qJxq/5E60ipw5
+	U7TvTcyvQ3m5R09EJTfbdPx5oJzx3zmnIn29RsZdx/UvC39acbfMlUzpMVxuvcwr+MGtfGaj
+	y9sjTVutznrn98yqWNl9b/dsmeDnuddeMMxffeHRPe1+BcZ0v8aHGUbn1Kc/OcnyLOSO1Jzs
+	38tfP7rfcDNUJ/XrtbM/s3dWxiaxhhmIaU9+WsU4b8fGRiWW4oxEQy3mouJEAIWkUko7BAAA
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240531074640epcms2p46c3cf8b7cc4e707948ae200115e28e39
+References: <CGME20240531074640epcms2p46c3cf8b7cc4e707948ae200115e28e39@epcms2p4>
 
-Hi,
+The amount of node writes is small compared to the amount of user data
+writes in most workloads. Therefore, even if there is enough free space
+in the node section, it cannot be used by another type because the type
+for its section is fixed. When using zoned storage, the free space in
+node section issue can be a problem due to the large section.
 
-W dniu 29.05.2024 o 23:44, Michael Grzeschik pisze:
-> On Tue, May 28, 2024 at 08:41:12PM +0200, Andrzej Pietrasiewicz wrote:
->> Hi,
->>
->> W dniu 28.05.2024 o 00:08, Michael Grzeschik pisze:
->>> This patch is adding an small python tool to forward 9pfs requests
->>> from the USB gadget to an existing 9pfs TCP server. Since currently all
->>> 9pfs servers lack support for the usb transport this tool is an useful
->>> helper to get started.
->>>
->>> Refer the Documentation section "USBG Example" in
->>> Documentation/filesystems/9p.rst on how to use it.
->>>
->>> Signed-off-by: Jan Luebbe <jlu@pengutronix.de>
->>> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
->>>
->>> ---
->>> v4 -> v5:
->>>   - updated documentation for new subcommands list/connect
->>>   - run ruff format
->>>   - make vid and pid parameterized
->>
->> Thanks for adding that.
->>
->>>   - add list as subcommand to scan for devices
->>>   - move connect to extra subcommand
->>> v3 -> v4: -
->>> v2 -> v3: -
->>> v1 -> v2:
->>>   - added usbg 9pfs detailed instructions to 9p.rst doc
->>> ---
->>>  Documentation/filesystems/9p.rst |  41 +++++++
->>>  tools/usb/p9_fwd.py              | 243 +++++++++++++++++++++++++++++++++++++++
->>>  2 files changed, 284 insertions(+)
->>>
->>> diff --git a/Documentation/filesystems/9p.rst b/Documentation/filesystems/9p.rst
->>> index 10cf79dc287f8..2cc85f3e8659f 100644
->>> --- a/Documentation/filesystems/9p.rst
->>> +++ b/Documentation/filesystems/9p.rst
->>> @@ -67,6 +67,47 @@ To mount a 9p FS on a USB Host accessible via the gadget as root filesystem::
->>>  where <device> is the tag associated by the usb gadget transport.
->>>  It is defined by the configfs instance name.
->>> +USBG Example
->>> +============
->>> +
->>> +The USB host exports a filesystem, while the gadget on the USB device
->>> +side makes it mountable.
->>> +
->>> +Diod (9pfs server) and the forwarder are on the development host, where
->>> +the root filesystem is actually stored. The gadget is initialized during
->>> +boot (or later) on the embedded board. Then the forwarder will find it
->>> +on the USB bus and start forwarding requests.
->>> +
->>> +In this case the 9p requests come from the device and are handled by the
->>> +host. The reason is that USB device ports are normally not available on
->>> +PCs, so a connection in the other direction would not work.
->>> +
->>> +When using the usbg transport, for now there is no native usb host
->>> +service capable to handle the requests from the gadget driver. For
->>> +this we have to use the extra python tool p9_fwd.py from tools/usb.
->>> +
->>> +Just start the 9pfs capable network server like diod/nfs-ganesha e.g.:
->>> +
->>> +        $ diod -f -n -d 0 -S -l 0.0.0.0:9999 -e $PWD
->>> +
->>> +Optionaly scan your bus if there are more then one usbg gadgets to find their path:
->>> +
->>> +        $ python $kernel_dir/tools/usb/p9_fwd.py list
->>> +
->>> +        Bus | Addr | Manufacturer     | Product          | ID        | Path
->>> +        --- | ---- | ---------------- | ---------------- | --------- | ----
->>> +          2 |   67 | unknown          | unknown          | 1d6b:0109 | 2-1.1.2
->>> +          2 |   68 | unknown          | unknown          | 1d6b:0109 | 2-1.1.3
->>> +
->>> +Then start the python transport:
->>> +
->>> +        $ python $kernel_dir/tools/usb/p9_fwd.py --path 2-1.1.2 connect -p 9999
->>> +
->>> +After that the gadget driver can be used as described above.
->>> +
->>> +One use-case is to use it as an alternative to NFS root booting during
->>> +the development of embedded Linux devices.
->>> +
->>>  Options
->>>  =======
->>> diff --git a/tools/usb/p9_fwd.py b/tools/usb/p9_fwd.py
->>> new file mode 100755
->>> index 0000000000000..7bedefce75c7b
->>> --- /dev/null
->>> +++ b/tools/usb/p9_fwd.py
->>> @@ -0,0 +1,243 @@
->>> +#!/usr/bin/env python3
->>> +# SPDX-License-Identifier: GPL-2.0
->>> +
->>> +import argparse
->>> +import errno
->>> +import logging
->>> +import socket
->>> +import struct
->>> +import time
->>> +
->>> +import usb.core
->>> +import usb.util
->>> +
->>> +
->>> +def path_from_usb_dev(dev):
->>> +    """Takes a pyUSB device as argument and returns a string.
->>> +    The string is a Path representation of the position of the USB device on the USB bus tree.
->>> +
->>> +    This path is used to find a USB device on the bus or all devices connected to a HUB.
->>> +    The path is made up of the number of the USB controller followed be the ports of the HUB tree."""
->>> +    if dev.port_numbers:
->>> +        dev_path = ".".join(str(i) for i in dev.port_numbers)
->>> +        return f"{dev.bus}-{dev_path}"
->>> +    return ""
->>> +
->>> +
->>> +HEXDUMP_FILTER = "".join(chr(x).isprintable() and chr(x) or "." for x in range(128)) + "." * 128
->>> +
->>> +
->>> +class Forwarder:
->>> +    @staticmethod
->>> +    def _log_hexdump(data):
->>> +        if not logging.root.isEnabledFor(logging.TRACE):
->>> +            return
->>> +        L = 16
->>> +        for c in range(0, len(data), L):
->>> +            chars = data[c : c + L]
->>> +            dump = " ".join(f"{x:02x}" for x in chars)
->>> +            printable = "".join(HEXDUMP_FILTER[x] for x in chars)
->>> +            line = f"{c:08x}  {dump:{L*3}s} |{printable:{L}s}|"
->>> +            logging.root.log(logging.TRACE, "%s", line)
->>> +
->>> +    def __init__(self, server, vid, pid, path):
->>> +        self.stats = {
->>> +            "c2s packets": 0,
->>> +            "c2s bytes": 0,
->>> +            "s2c packets": 0,
->>> +            "s2c bytes": 0,
->>> +        }
->>> +        self.stats_logged = time.monotonic()
->>> +
->>> +        def find_filter(dev):
->>> +            dev_path = path_from_usb_dev(dev)
->>> +            if path is not None:
->>> +                return dev_path == path
->>> +            return True
->>> +
->>> +        dev = usb.core.find(idVendor=vid, idProduct=pid, custom_match=find_filter)
->>> +        if dev is None:
->>> +            raise ValueError("Device not found")
->>> +
->>> +        logging.info(f"found device: {dev.bus}/{dev.address} located at {path_from_usb_dev(dev)}")
->>> +
->>> +        # dev.set_configuration() is not necessary since g_multi has only one
->>> +        usb9pfs = None
->>> +        # g_multi adds 9pfs as last interface
->>> +        cfg = dev.get_active_configuration()
->>> +        for intf in cfg:
->>> +            # we have to detach the usb-storage driver from multi gadget since
->>> +            # stall option could be set, which will lead to spontaneous port
->>> +            # resets and our transfers will run dead
->>> +            if intf.bInterfaceClass == 0x08:
->>> +                if dev.is_kernel_driver_active(intf.bInterfaceNumber):
->>> +                    dev.detach_kernel_driver(intf.bInterfaceNumber)
->>> +
->>> +            if intf.bInterfaceClass == 0xFF and intf.bInterfaceSubClass == 0xFF and intf.bInterfaceProtocol == 0x09:
->>> +                usb9pfs = intf
->>> +        if usb9pfs is None:
->>> +            raise ValueError("Interface not found")
->>> +
->>> +        logging.info(f"claiming interface:\n{usb9pfs}")
->>> +        usb.util.claim_interface(dev, usb9pfs.bInterfaceNumber)
->>> +        ep_out = usb.util.find_descriptor(
->>> +            usb9pfs,
->>> +            custom_match=lambda e: usb.util.endpoint_direction(e.bEndpointAddress) == usb.util.ENDPOINT_OUT,
->>> +        )
->>> +        assert ep_out is not None
->>> +        ep_in = usb.util.find_descriptor(
->>> +            usb9pfs,
->>> +            custom_match=lambda e: usb.util.endpoint_direction(e.bEndpointAddress) == usb.util.ENDPOINT_IN,
->>> +        )
->>> +        assert ep_in is not None
->>> +        logging.info("interface claimed")
->>> +
->>> +        self.ep_out = ep_out
->>> +        self.ep_in = ep_in
->>> +        self.dev = dev
->>> +
->>> +        # create and connect socket
->>> +        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
->>> +        self.s.connect(server)
->>> +
->>> +        logging.info("connected to server")
->>> +
->>> +    def c2s(self):
->>> +        """forward a request from the USB client to the TCP server"""
->>> +        data = None
->>> +        while data is None:
->>> +            try:
->>> +                logging.log(logging.TRACE, "c2s: reading")
->>> +                data = self.ep_in.read(self.ep_in.wMaxPacketSize)
->>> +            except usb.core.USBTimeoutError:
->>> +                logging.log(logging.TRACE, "c2s: reading timed out")
->>> +                continue
->>> +            except usb.core.USBError as e:
->>> +                if e.errno == errno.EIO:
->>> +                    logging.debug("c2s: reading failed with %s, retrying", repr(e))
->>> +                    time.sleep(0.5)
->>> +                    continue
->>> +                logging.error("c2s: reading failed with %s, aborting", repr(e))
->>> +                raise
->>> +        size = struct.unpack("<I", data[:4])[0]
->>> +        while len(data) < size:
->>> +            data += self.ep_in.read(size - len(data))
->>> +        logging.log(logging.TRACE, "c2s: writing")
->>> +        self._log_hexdump(data)
->>> +        self.s.send(data)
->>> +        logging.debug("c2s: forwarded %i bytes", size)
->>> +        self.stats["c2s packets"] += 1
->>> +        self.stats["c2s bytes"] += size
->>> +
->>> +    def s2c(self):
->>> +        """forward a response from the TCP server to the USB client"""
->>> +        logging.log(logging.TRACE, "s2c: reading")
->>> +        data = self.s.recv(4)
->>> +        size = struct.unpack("<I", data[:4])[0]
->>> +        while len(data) < size:
->>> +            data += self.s.recv(size - len(data))
->>> +        logging.log(logging.TRACE, "s2c: writing")
->>> +        self._log_hexdump(data)
->>> +        while data:
->>> +            written = self.ep_out.write(data)
->>> +            assert written > 0
->>> +            data = data[written:]
->>> +        if size % self.ep_out.wMaxPacketSize == 0:
->>> +            logging.log(logging.TRACE, "sending zero length packet")
->>> +            self.ep_out.write(b"")
->>> +        logging.debug("s2c: forwarded %i bytes", size)
->>> +        self.stats["s2c packets"] += 1
->>> +        self.stats["s2c bytes"] += size
->>> +
->>> +    def log_stats(self):
->>> +        logging.info("statistics:")
->>> +        for k, v in self.stats.items():
->>> +            logging.info(f"  {k+':':14s} {v}")
->>> +
->>> +    def log_stats_interval(self, interval=5):
->>> +        if (time.monotonic() - self.stats_logged) < interval:
->>> +            return
->>> +
->>> +        self.log_stats()
->>> +        self.stats_logged = time.monotonic()
->>> +
->>> +
->>> +def try_get_usb_str(dev, name):
->>> +    try:
->>> +        with open(f"/sys/bus/usb/devices/{dev.bus}-{dev.address}/{name}") as f:
->>> +            return f.read().strip()
->>> +    except FileNotFoundError:
->>> +        return None
->>> +
->>> +
->>> +def list_usb(args):
->>> +    vid, pid = [int(x, 16) for x in args.id.split(":", 1)]
->>> +
->>> +    print("Bus | Addr | Manufacturer     | Product          | ID        | Path")
->>> +    print("--- | ---- | ---------------- | ---------------- | --------- | ----")
->>> +    for dev in usb.core.find(find_all=True, idVendor=vid, idProduct=pid):
->>> +        path = path_from_usb_dev(dev) or ""
->>> +        manufacturer = try_get_usb_str(dev, "manufacturer") or "unknown"
->>> +        product = try_get_usb_str(dev, "product") or "unknown"
->>> +        print(
->>> +            f"{dev.bus:3} | {dev.address:4} | {manufacturer:16} | {product:16} | {dev.idVendor:04x}:{dev.idProduct:04x} | {path:18}"
->>> +        )
->>> +
->>> +
->>> +def connect(args):
->>> +    vid, pid = [int(x, 16) for x in args.id.split(":", 1)]
->>> +
->>> +    f = Forwarder(server=(args.server, args.port), vid=vid, pid=pid, path=args.path)
->>> +
->>> +    try:
->>> +        while True:
->>> +            f.c2s()
->>> +            f.s2c()
->>> +            f.log_stats_interval()
->>> +    finally:
->>> +        f.log_stats()
->>> +
->>> +
->>> +def main():
->>> +    parser = argparse.ArgumentParser(
->>> +        description="Forward 9PFS requests from USB to TCP",
->>> +    )
->>> +
->>> +    parser.add_argument("--id", type=str, default="1d6b:0109", help="vid:pid of target device")
->>> +    parser.add_argument("--path", type=str, default="", help="path of target device")
->>
->> I had to specify both --id and --path, otherwise I was getting
->> "device not found".
-> 
-> This is odd. What was your list command saying about the available
-> devices?
-> 
+This patch can avoid the problem by using a single node section without
+considering the hotness of the node section. For particularly high file
+system usage, two sections can be used as free sections, which makes it
+more efficient.
 
-<snip>
+To use single node section, add the 'single_node_sec' in mount option.
 
-[ 4260.577064] usb 3-1.3.3.5.4: new high-speed USB device number 25 using xhci_hcd
-[ 4260.677769] usb 3-1.3.3.5.4: New USB device found, idVendor=abcd, idProduct=ef01, bcdDevice= 6.09
-[ 4260.677788] usb 3-1.3.3.5.4: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+Signed-off-by: Daejun Park <daejun7.park@samsung.com>
+---
+ Documentation/filesystems/f2fs.rst |  2 +
+ fs/f2fs/f2fs.h                     |  3 ++
+ fs/f2fs/recovery.c                 |  3 ++
+ fs/f2fs/segment.c                  | 77 ++++++++++++++++++++++++++++++
+ fs/f2fs/segment.h                  |  2 +
+ fs/f2fs/super.c                    | 12 +++++
+ 6 files changed, 99 insertions(+)
 
-<snip>
-
-$ sudo python3 tools/usb/p9_fwd.py --id 0xabcd:0xef01 list
-Bus | Addr | Manufacturer     | Product          | ID        | Path
---- | ---- | ---------------- | ---------------- | --------- | ----
-   3 |   25 | unknown          | unknown          | abcd:ef01 | 3-1.3.3.5.4
-
-
-$ sudo python3 tools/usb/p9_fwd.py --id 0xabcd:0xef01 connect -p 9999
-Traceback (most recent call last):
-   File "/home/ap/Collabora/kernel-rk/tools/usb/p9_fwd.py", line 243, in <module>
-     main()
-   File "/home/ap/Collabora/kernel-rk/tools/usb/p9_fwd.py", line 239, in main
-     args.func(args)
-   File "/home/ap/Collabora/kernel-rk/tools/usb/p9_fwd.py", line 190, in connect
-     f = Forwarder(server=(args.server, args.port), vid=vid, pid=pid, path=args.path)
-   File "/home/ap/Collabora/kernel-rk/tools/usb/p9_fwd.py", line 60, in __init__
-     raise ValueError("Device not found")
-ValueError: Device not found
-
-$ sudo python3 tools/usb/p9_fwd.py --path 3-1.3.3.5.4 connect -p 9999
-Traceback (most recent call last):
-   File "/home/ap/Collabora/kernel-rk/tools/usb/p9_fwd.py", line 243, in <module>
-     main()
-   File "/home/ap/Collabora/kernel-rk/tools/usb/p9_fwd.py", line 239, in main
-     args.func(args)
-   File "/home/ap/Collabora/kernel-rk/tools/usb/p9_fwd.py", line 190, in connect
-     f = Forwarder(server=(args.server, args.port), vid=vid, pid=pid, path=args.path)
-   File "/home/ap/Collabora/kernel-rk/tools/usb/p9_fwd.py", line 60, in __init__
-     raise ValueError("Device not found")
-ValueError: Device not found
-
-$ sudo python3 tools/usb/p9_fwd.py --id 0xabcd:0xef01 --path 3-1.3.3.5.4 connect -p 9999
-2024-05-31 09:34:44,047 INFO     found device: 3/25 located at 3-1.3.3.5.4
-2024-05-31 09:34:44,053 INFO     claiming interface:
-     INTERFACE 0: Vendor Specific ===========================
-      bLength            :    0x9 (9 bytes)
-      bDescriptorType    :    0x4 Interface
-      bInterfaceNumber   :    0x0
-      bAlternateSetting  :    0x0
-      bNumEndpoints      :    0x2
-      bInterfaceClass    :   0xff Vendor Specific
-      bInterfaceSubClass :   0xff
-      bInterfaceProtocol :    0x9
-      iInterface         :    0x1 usb9pfs input to output
-       ENDPOINT 0x81: Bulk IN ===============================
-        bLength          :    0x7 (7 bytes)
-        bDescriptorType  :    0x5 Endpoint
-        bEndpointAddress :   0x81 IN
-        bmAttributes     :    0x2 Bulk
-        wMaxPacketSize   :  0x200 (512 bytes)
-        bInterval        :    0x0
-       ENDPOINT 0x1: Bulk OUT ===============================
-        bLength          :    0x7 (7 bytes)
-        bDescriptorType  :    0x5 Endpoint
-        bEndpointAddress :    0x1 OUT
-        bmAttributes     :    0x2 Bulk
-        wMaxPacketSize   :  0x200 (512 bytes)
-        bInterval        :    0x0
-2024-05-31 09:34:44,054 INFO     interface claimed
-2024-05-31 09:34:44,054 INFO     connected to server
-
-Regards,
-
-Andrzej
-
-> I tested this with the default vid:pid as described above (1d6b:0109)
-> which worked fine with path alone.
-> 
-> Michael
-> 
->>> +    parser.add_argument("-v", "--verbose", action="count", default=0)
->>> +
->>> +    subparsers = parser.add_subparsers()
->>> +    subparsers.required = True
->>> +    subparsers.dest = "command"
->>> +
->>> +    parser_list = subparsers.add_parser("list", help="List all connected 9p gadgets")
->>> +    parser_list.set_defaults(func=list_usb)
->>> +
->>> +    parser_connect = subparsers.add_parser(
->>> +        "connect", help="Forward messages between the usb9pfs gadget and the 9p server"
->>> +    )
->>> +    parser_connect.set_defaults(func=connect)
->>> +    connect_group = parser_connect.add_argument_group()
->>> +    connect_group.required = True
->>> +    parser_connect.add_argument("-s", "--server", type=str, default="127.0.0.1", help="server hostname")
->>> +    parser_connect.add_argument("-p", "--port", type=int, default=564, help="server port")> +
->>> +    args = parser.parse_args()
->>> +
->>> +    logging.TRACE = logging.DEBUG - 5
->>> +    logging.addLevelName(logging.TRACE, "TRACE")
->>> +
->>> +    if args.verbose >= 2:
->>> +        level = logging.TRACE
->>> +    elif args.verbose:
->>> +        level = logging.DEBUG
->>> +    else:
->>> +        level = logging.INFO
->>> +    logging.basicConfig(level=level, format="%(asctime)-15s %(levelname)-8s %(message)s")
->>> +
->>> +    args.func(args)
->>> +
->>> +
->>> +if __name__ == "__main__":
->>> +    main()
->>>
->>
->>
-> 
+diff --git a/Documentation/filesystems/f2fs.rst b/Documentation/filesystems/f2fs.rst
+index 68a0885fb5e6..ba26b2ce4fa4 100644
+--- a/Documentation/filesystems/f2fs.rst
++++ b/Documentation/filesystems/f2fs.rst
+@@ -134,6 +134,8 @@ noacl			 Disable POSIX Access Control List. Note: acl is enabled
+ active_logs=%u		 Support configuring the number of active logs. In the
+ 			 current design, f2fs supports only 2, 4, and 6 logs.
+ 			 Default number is 6.
++single_node_sec	 Support single node section mode, it enables single active
++			 log for hot/warm/cold nodes. This is disabled by default.
+ disable_ext_identify	 Disable the extension list configured by mkfs, so f2fs
+ 			 is not aware of cold files such as media files.
+ inline_xattr		 Enable the inline xattrs feature.
+diff --git a/fs/f2fs/f2fs.h b/fs/f2fs/f2fs.h
+index 1974b6aff397..90f13a6b64ce 100644
+--- a/fs/f2fs/f2fs.h
++++ b/fs/f2fs/f2fs.h
+@@ -116,6 +116,7 @@ extern const char *f2fs_fault_name[FAULT_MAX];
+ #define	F2FS_MOUNT_GC_MERGE		0x02000000
+ #define F2FS_MOUNT_COMPRESS_CACHE	0x04000000
+ #define F2FS_MOUNT_AGE_EXTENT_CACHE	0x08000000
++#define F2FS_MOUNT_SINGLE_NODE_SEC	0x10000000
+ 
+ #define F2FS_OPTION(sbi)	((sbi)->mount_opt)
+ #define clear_opt(sbi, option)	(F2FS_OPTION(sbi).opt &= ~F2FS_MOUNT_##option)
+@@ -1655,6 +1656,8 @@ struct f2fs_sb_info {
+ 
+ 	struct f2fs_mount_info mount_opt;	/* mount options */
+ 
++	bool single_node_sec;			/* single node section */
++
+ 	/* for cleaning operations */
+ 	struct f2fs_rwsem gc_lock;		/*
+ 						 * semaphore for GC, avoid
+diff --git a/fs/f2fs/recovery.c b/fs/f2fs/recovery.c
+index 496aee53c38a..b5cdb0845ac7 100644
+--- a/fs/f2fs/recovery.c
++++ b/fs/f2fs/recovery.c
+@@ -414,6 +414,9 @@ static int find_fsync_dnodes(struct f2fs_sb_info *sbi, struct list_head *head,
+ 
+ 	/* get node pages in the current segment */
+ 	curseg = CURSEG_I(sbi, CURSEG_WARM_NODE);
++	/* check hot node if single node section mode is enabled */
++	if (sbi->single_node_sec && curseg->segno == NULL_SEGNO)
++		curseg = CURSEG_I(sbi, CURSEG_HOT_NODE);
+ 	blkaddr = NEXT_FREE_BLKADDR(sbi, curseg);
+ 	blkaddr_fast = blkaddr;
+ 
+diff --git a/fs/f2fs/segment.c b/fs/f2fs/segment.c
+index a0ce3d080f80..c1fe5c92bdfb 100644
+--- a/fs/f2fs/segment.c
++++ b/fs/f2fs/segment.c
+@@ -394,6 +394,9 @@ int f2fs_commit_atomic_write(struct inode *inode)
+ 	return err;
+ }
+ 
++static int new_curseg(struct f2fs_sb_info *sbi, int type, bool new_sec);
++static void locate_dirty_segment(struct f2fs_sb_info *sbi, unsigned int segno);
++
+ /*
+  * This function balances dirty node and dentry pages.
+  * In addition, it controls garbage collection.
+@@ -420,6 +423,58 @@ void f2fs_balance_fs(struct f2fs_sb_info *sbi, bool need)
+ 	if (has_enough_free_secs(sbi, 0, 0))
+ 		return;
+ 
++	if (test_opt(sbi, SINGLE_NODE_SEC) && !sbi->single_node_sec) {
++		int type, segno, left_blocks = 0;
++
++		for (type = CURSEG_HOT_NODE; type <= CURSEG_COLD_NODE; type++) {
++			segno = CURSEG_I(sbi, type)->segno;
++			left_blocks += CAP_BLKS_PER_SEC(sbi) -
++					get_ckpt_valid_blocks(sbi, segno, true);
++		}
++
++		/* enable single node section mode if we get 2 free sections */
++		if (left_blocks < CAP_BLKS_PER_SEC(sbi) * 2)
++			goto do_gc;
++
++		f2fs_down_read(&SM_I(sbi)->curseg_lock);
++		down_write(&SIT_I(sbi)->sentry_lock);
++
++		/* it can be enabled by others */
++		if (sbi->single_node_sec)
++			goto unlock;
++
++		/* leave current zone by allocating new section */
++		for (type = CURSEG_WARM_NODE; type <= CURSEG_COLD_NODE; type++) {
++			struct curseg_info *curseg = CURSEG_I(sbi, type);
++
++			mutex_lock(&curseg->curseg_mutex);
++			segno = curseg->segno;
++			if (new_curseg(sbi, type, true)) {
++				mutex_unlock(&curseg->curseg_mutex);
++				goto unlock;
++			}
++			locate_dirty_segment(sbi, segno);
++			mutex_unlock(&curseg->curseg_mutex);
++		}
++
++		/* clear warm node, cold node information */
++		for (type = CURSEG_WARM_NODE; type <= CURSEG_COLD_NODE; type++) {
++			struct curseg_info *curseg = CURSEG_I(sbi, type);
++
++			mutex_lock(&curseg->curseg_mutex);
++			segno = curseg->segno;
++			curseg->segno = NULL_SEGNO;
++			curseg->inited = false;
++			__set_test_and_free(sbi, segno, false);
++			mutex_unlock(&curseg->curseg_mutex);
++		}
++		f2fs_notice(sbi, "single node section mode enabled");
++		sbi->single_node_sec = true;
++unlock:
++		up_write(&SIT_I(sbi)->sentry_lock);
++		f2fs_up_read(&SM_I(sbi)->curseg_lock);
++	}
++do_gc:
+ 	if (test_opt(sbi, GC_MERGE) && sbi->gc_thread &&
+ 				sbi->gc_thread->f2fs_gc_task) {
+ 		DEFINE_WAIT(wait);
+@@ -3502,6 +3557,9 @@ static int __get_segment_type_6(struct f2fs_io_info *fio)
+ 		return f2fs_rw_hint_to_seg_type(F2FS_I_SB(inode),
+ 						inode->i_write_hint);
+ 	} else {
++		if (fio->sbi->single_node_sec)
++			return CURSEG_HOT_NODE;
++
+ 		if (IS_DNODE(fio->page))
+ 			return is_cold_node(fio->page) ? CURSEG_WARM_NODE :
+ 						CURSEG_HOT_NODE;
+@@ -4116,6 +4174,15 @@ static int read_normal_summaries(struct f2fs_sb_info *sbi, int type)
+ 							CURSEG_HOT_NODE]);
+ 		blk_off = le16_to_cpu(ckpt->cur_node_blkoff[type -
+ 							CURSEG_HOT_NODE]);
++		if (segno == NULL_SEGNO && type != CURSEG_HOT_NODE) {
++			if (!test_opt(sbi, SINGLE_NODE_SEC)) {
++				f2fs_err(sbi, "single_node_sec option required");
++				return -EFAULT;
++			}
++			sbi->single_node_sec = true;
++			return 0;
++		}
++
+ 		if (__exist_node_summaries(sbi))
+ 			blk_addr = sum_blk_addr(sbi, NR_CURSEG_NODE_TYPE,
+ 							type - CURSEG_HOT_NODE);
+@@ -4884,6 +4951,8 @@ static void init_free_segmap(struct f2fs_sb_info *sbi)
+ 		struct curseg_info *curseg_t = CURSEG_I(sbi, type);
+ 
+ 		__set_test_and_inuse(sbi, curseg_t->segno);
++		if (sbi->single_node_sec && type == CURSEG_HOT_NODE)
++			break;
+ 	}
+ }
+ 
+@@ -5027,6 +5096,10 @@ static int sanity_check_curseg(struct f2fs_sb_info *sbi)
+ 			f2fs_handle_error(sbi, ERROR_INVALID_CURSEG);
+ 			return -EFSCORRUPTED;
+ 		}
++
++		/* in single node section mode, WARM/COLD NODE are invalid */
++		if (sbi->single_node_sec && i == CURSEG_HOT_NODE)
++			break;
+ 	}
+ 	return 0;
+ }
+@@ -5153,6 +5226,10 @@ static int fix_curseg_write_pointer(struct f2fs_sb_info *sbi, int type)
+ 	if (!zbd)
+ 		return 0;
+ 
++	/* in single node section mode, WARM/COLD node are not valid */
++	if (sbi->single_node_sec && type > CURSEG_HOT_NODE)
++		return 0;
++
+ 	/* report zone for the sector the curseg points to */
+ 	zone_sector = (sector_t)(cs_zone_block - zbd->start_blk)
+ 		<< log_sectors_per_block;
+diff --git a/fs/f2fs/segment.h b/fs/f2fs/segment.h
+index e1c0f418aa11..152a07e61b5f 100644
+--- a/fs/f2fs/segment.h
++++ b/fs/f2fs/segment.h
+@@ -570,6 +570,8 @@ static inline bool has_curseg_enough_space(struct f2fs_sb_info *sbi,
+ 				get_ckpt_valid_blocks(sbi, segno, true);
+ 		if (node_blocks > left_blocks)
+ 			return false;
++		if (sbi->single_node_sec) /* check only hot node */
++			break;
+ 	}
+ 
+ 	/* check current data section for dentry blocks. */
+diff --git a/fs/f2fs/super.c b/fs/f2fs/super.c
+index 1f1b3647a998..c21eeca86b0a 100644
+--- a/fs/f2fs/super.c
++++ b/fs/f2fs/super.c
+@@ -129,6 +129,7 @@ enum {
+ 	Opt_acl,
+ 	Opt_noacl,
+ 	Opt_active_logs,
++	Opt_single_node_sec,
+ 	Opt_disable_ext_identify,
+ 	Opt_inline_xattr,
+ 	Opt_noinline_xattr,
+@@ -207,6 +208,7 @@ static match_table_t f2fs_tokens = {
+ 	{Opt_acl, "acl"},
+ 	{Opt_noacl, "noacl"},
+ 	{Opt_active_logs, "active_logs=%u"},
++	{Opt_single_node_sec, "single_node_sec"},
+ 	{Opt_disable_ext_identify, "disable_ext_identify"},
+ 	{Opt_inline_xattr, "inline_xattr"},
+ 	{Opt_noinline_xattr, "noinline_xattr"},
+@@ -803,6 +805,9 @@ static int parse_options(struct super_block *sb, char *options, bool is_remount)
+ 				return -EINVAL;
+ 			F2FS_OPTION(sbi).active_logs = arg;
+ 			break;
++		case Opt_single_node_sec:
++			set_opt(sbi, SINGLE_NODE_SEC);
++			break;
+ 		case Opt_disable_ext_identify:
+ 			set_opt(sbi, DISABLE_EXT_IDENTIFY);
+ 			break;
+@@ -2039,6 +2044,8 @@ static int f2fs_show_options(struct seq_file *seq, struct dentry *root)
+ 					F2FS_OPTION(sbi).s_resuid),
+ 				from_kgid_munged(&init_user_ns,
+ 					F2FS_OPTION(sbi).s_resgid));
++	if (test_opt(sbi, SINGLE_NODE_SEC))
++		seq_puts(seq, ",single_node_sec");
+ #ifdef CONFIG_F2FS_FAULT_INJECTION
+ 	if (test_opt(sbi, FAULT_INJECTION)) {
+ 		seq_printf(seq, ",fault_injection=%u",
+@@ -3675,6 +3682,9 @@ int f2fs_sanity_check_ckpt(struct f2fs_sb_info *sbi)
+ 	blocks_per_seg = BLKS_PER_SEG(sbi);
+ 
+ 	for (i = 0; i < NR_CURSEG_NODE_TYPE; i++) {
++		/* bypass single node section mode */
++		if (le32_to_cpu(ckpt->cur_node_segno[i] == NULL_SEGNO))
++			goto check_data;
+ 		if (le32_to_cpu(ckpt->cur_node_segno[i]) >= main_segs ||
+ 			le16_to_cpu(ckpt->cur_node_blkoff[i]) >= blocks_per_seg)
+ 			return 1;
+@@ -3823,6 +3833,8 @@ static void init_sb_info(struct f2fs_sb_info *sbi)
+ 	init_f2fs_rwsem(&sbi->io_order_lock);
+ 	spin_lock_init(&sbi->cp_lock);
+ 
++	sbi->single_node_sec = false;
++
+ 	sbi->dirty_device = 0;
+ 	spin_lock_init(&sbi->dev_lock);
+ 
+-- 
+2.25.1
 
