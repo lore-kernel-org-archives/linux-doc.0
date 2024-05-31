@@ -1,639 +1,381 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AC141E898;
-	Fri, 31 May 2024 01:33:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC75C6FB8;
+	Fri, 31 May 2024 01:57:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717119200; cv=none; b=Fluwmg3CE62r9ONaPhPs9AdJM3YKivszWy/FXsvesLXnv9cjUce5cMcr0l/YS3fmYm3tFUG8LBg4ojN6AbabWw0TnMKUCy3SN70RzWPZOXfteNzWhkrPru1uV5guizH9waZG24evMhe18B4b74/Iog1XZMTWtrLs26BZ1BaKmWQ=
+	t=1717120637; cv=none; b=YAdVybXjtPnNG7RYK2ucTJWMtP0F2h4W8siyP9F4cjciI+cRVU3DCd+Y0MknFNKYPQbYLGLWiWo9K5aLiz73YQosi5qBYvlMfkb7IzEEhEzdl11gUaqMvvOszEK40LPeHDOsafq7jXi3XNvOQdGgKfqtIJB2uSPbTdhXiowqDs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717119200; c=relaxed/simple;
-	bh=tIBH8xjnKbsM1CrpzaJH9+MFoYx52N16QQWEGxl79/Y=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=AghO+UqmA/e3vRTt5P08xkBSTHlZCvU1nhPRfl6Jf9kmb/CO+ccIeOdWA6WknPIAEG2TgcEM9/phQVkMmOlCDZUotDlABS3BlslSP8LLJx3uwax/MAVcojYzmtGvEiBIoIFtWiyRTMRxFeP2hzHoRuPrDd2XVGaBk1n7swv3arU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; arc=none smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 44UFGUst003350;
-	Fri, 31 May 2024 01:31:38 GMT
-DKIM-Signature: =?UTF-8?Q?v=3D1;_a=3Drsa-sha256;_c=3Drelaxed/relaxed;_d=3Doracle.com;_h?=
- =?UTF-8?Q?=3Dcc:content-transfer-encoding:date:from:in-reply-to:message-i?=
- =?UTF-8?Q?d:mime-version:references:subject:to;_s=3Dcorp-2023-11-20;_bh?=
- =?UTF-8?Q?=3DK4IVEYqdPaW45z4X9XDrAyDuKcS4d+hePYX6lYQHhCE=3D;_b=3DDk1qUY1+?=
- =?UTF-8?Q?nxhuagJzzNyvXdWbT3H9C/2mrC1t2M0kMeVeR8o3nA2geecZPRNFAawX0cFj_WB?=
- =?UTF-8?Q?ck4H5Uk4bWYKcpytoGRGJI3wsbt1jgsUXCYkiEF+WZcyRHJSO/l2qvz6M5pOIGq?=
- =?UTF-8?Q?D9d_JZbe8jUe+rE5bprBbtGVy9UtuhZpZw41ZgleBOttgwmAG/h7h51XNhuc/Jx?=
- =?UTF-8?Q?h2o7s/oJ5_0RXhiJYQyBhaIDtSVyVQio3GbMOxnK9yrRNg2T5N4ym4qpYdjRISi?=
- =?UTF-8?Q?fQ9UtCma9by7gSP_bO5UYmshqBDJ1qPykjIc/AcimnjS06J0ZmRhWKVcQymASmc?=
- =?UTF-8?Q?Izlpd0z3cT+MP+fbKqkf+_9A=3D=3D_?=
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3yb8hua8am-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 31 May 2024 01:31:38 +0000
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 44V14vDu016179;
-	Fri, 31 May 2024 01:31:37 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3yc50t9851-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Fri, 31 May 2024 01:31:37 +0000
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 44V1SKNo027418;
-	Fri, 31 May 2024 01:31:36 GMT
-Received: from bur-virt-x6-2-100.us.oracle.com (bur-virt-x6-2-100.us.oracle.com [10.153.92.40])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3yc50t96yw-19
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Fri, 31 May 2024 01:31:36 +0000
-From: Ross Philipson <ross.philipson@oracle.com>
-To: linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
-        linux-efi@vger.kernel.org, iommu@lists.linux-foundation.org
-Cc: ross.philipson@oracle.com, dpsmith@apertussolutions.com,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        dave.hansen@linux.intel.com, ardb@kernel.org, mjg59@srcf.ucam.org,
-        James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de,
-        jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
-        nivedita@alum.mit.edu, herbert@gondor.apana.org.au,
-        davem@davemloft.net, corbet@lwn.net, ebiederm@xmission.com,
-        dwmw2@infradead.org, baolu.lu@linux.intel.com,
-        kanth.ghatraju@oracle.com, andrew.cooper3@citrix.com,
-        trenchboot-devel@googlegroups.com
-Subject: [PATCH v9 18/19] x86: Secure Launch late initcall platform module
-Date: Thu, 30 May 2024 18:03:30 -0700
-Message-Id: <20240531010331.134441-19-ross.philipson@oracle.com>
-X-Mailer: git-send-email 2.39.3
-In-Reply-To: <20240531010331.134441-1-ross.philipson@oracle.com>
-References: <20240531010331.134441-1-ross.philipson@oracle.com>
+	s=arc-20240116; t=1717120637; c=relaxed/simple;
+	bh=poTOKhg6mDHBkqn91JI3kAiIom4wPW+umz1Rc97M5EE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bwTNNiVzgP+rNLkQ79IkXadvGwichFQE2oXiL6vSyTvkuzszTgXjHQBeV6+hceb/Z8dqSqaiSXkfbGp3jBE37a3zngFGor0G/16c/BtW8C3jRkBt6Z2u8Br4cQ6s03F250RgnEO7CuF+/38zkAT49NGFiApR0lT1yTWDRmQmefA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G5ahsF/b; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G5ahsF/b"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BB66C4AF09;
+	Fri, 31 May 2024 01:57:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717120637;
+	bh=poTOKhg6mDHBkqn91JI3kAiIom4wPW+umz1Rc97M5EE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=G5ahsF/bfOpAun+tngPfghAXQXFaYX3MFnC0mPwA3txl+pjMg/WoPajSEuC3l/htv
+	 Jc3YZngusWmQfcozgbA+9aYihtQlcP87r2oeg2kE+AhuQDz03ZlZnvRNOJrDC0TXqP
+	 XL5raRAp0O5040lcO4N34W4vzh47YwhYSqLuR+RtudkEScfpsJvKx4Qh1F9r1ms1A2
+	 d5lDfuoJY020fjeU3Y0eAu08QfcusCATY4HRI5AZ80OSJjshtY1Zuqb6g3OW0nVoda
+	 QtuQUET0xklgpFeOXZmScgvBe89i9zRDInJNMkbVWCPgfU2zegkjLuZPYnx+04eh8g
+	 ICyqvaCqNkYkw==
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-52b0d25b54eso2207473e87.3;
+        Thu, 30 May 2024 18:57:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXX3nHLE7Ng85FazX1mNUyWglccmLQhfI8bM4PQOySe++Y1FWUr2mSt0/KVguvjG8swEHis4VqpIckzKCoChuvJR/sbtucc3GkD17ElqkapYJDWXBSopOMp6aWKPDKS7Qyje8pR/uaViL0B4hEr+Mpw2fVSg0kNgaMch+n2ztS2pXVK/A==
+X-Gm-Message-State: AOJu0YwliqWPqL1tEJoDgWdjuCsl9+srSikN8RWRoxYR6CstAGHRo+bW
+	Vp0n65h6L3ifXJPFZEEk0pnEZ2EKpROqBS7gIDl/7lxNo4tXXM+5AyrIJNIn5OwZU4pNOORxiXf
+	Hj828amG5RvYiO7hUTS7uwfFCNlQ=
+X-Google-Smtp-Source: AGHT+IGU5I59nX3bs7lWUOvWwOvg0szmB5qYh1HjfaV2F2Gpph3jsAQPfHDRykUeYc7spuhTgcSUyGh7y5FDzKktT50=
+X-Received: by 2002:ac2:4e91:0:b0:522:2ada:c02e with SMTP id
+ 2adb3069b0e04-52b896aeb75mr224492e87.53.1717120635315; Thu, 30 May 2024
+ 18:57:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
- definitions=2024-05-30_21,2024-05-30_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 spamscore=0 suspectscore=0
- adultscore=0 phishscore=0 malwarescore=0 mlxlogscore=999 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2405010000
- definitions=main-2405310010
-X-Proofpoint-ORIG-GUID: 6X2K75J4UMpUgpEFvksJd9Gv9X1xcGrA
-X-Proofpoint-GUID: 6X2K75J4UMpUgpEFvksJd9Gv9X1xcGrA
+References: <20240528151052.313031-1-alexghiti@rivosinc.com>
+ <20240528151052.313031-8-alexghiti@rivosinc.com> <CAJF2gTQgg-7Fzoz9TsjWD-_8ABbS7M66aEztCsZ9Ejk8LOvmiQ@mail.gmail.com>
+ <CAHVXubg=T3AMER0z8-iRqqFmDQp8iEM92cXwPZcW2Sfm=_KOHQ@mail.gmail.com>
+ <CAJF2gTRWSZsD3vDcXvawCxt665PZcbwurUqXx3juaoZaDrdttQ@mail.gmail.com> <CAHVXubiE2_MJgTj4nq7Vkv0D60niRgZ0QkCXNz6PiNQ8h+Wy1A@mail.gmail.com>
+In-Reply-To: <CAHVXubiE2_MJgTj4nq7Vkv0D60niRgZ0QkCXNz6PiNQ8h+Wy1A@mail.gmail.com>
+From: Guo Ren <guoren@kernel.org>
+Date: Fri, 31 May 2024 09:57:03 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTTM1=cP9yB_3xs20pN_vscEe+WzuOUyTMB1UPU3aYMZEQ@mail.gmail.com>
+Message-ID: <CAJF2gTTM1=cP9yB_3xs20pN_vscEe+WzuOUyTMB1UPU3aYMZEQ@mail.gmail.com>
+Subject: Re: [PATCH 7/7] riscv: Add qspinlock support based on Zabha extension
+To: Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, 
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Leonardo Bras <leobras@redhat.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-arch@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: "Daniel P. Smith" <dpsmith@apertussolutions.com>
+On Thu, May 30, 2024 at 1:30=E2=80=AFPM Alexandre Ghiti <alexghiti@rivosinc=
+.com> wrote:
+>
+> Hi Guo,
+>
+> On Thu, May 30, 2024 at 3:55=E2=80=AFAM Guo Ren <guoren@kernel.org> wrote=
+:
+> >
+> > On Wed, May 29, 2024 at 9:03=E2=80=AFPM Alexandre Ghiti <alexghiti@rivo=
+sinc.com> wrote:
+> > >
+> > > Hi Guo,
+> > >
+> > > On Wed, May 29, 2024 at 11:24=E2=80=AFAM Guo Ren <guoren@kernel.org> =
+wrote:
+> > > >
+> > > > On Tue, May 28, 2024 at 11:18=E2=80=AFPM Alexandre Ghiti <alexghiti=
+@rivosinc.com> wrote:
+> > > > >
+> > > > > In order to produce a generic kernel, a user can select
+> > > > > CONFIG_QUEUED_SPINLOCKS which will fallback at runtime to the tic=
+ket
+> > > > > spinlock implementation if Zabha is not present.
+> > > > >
+> > > > > Note that we can't use alternatives here because the discovery of
+> > > > > extensions is done too late and we need to start with the qspinlo=
+ck
+> > > > > implementation because the ticket spinlock implementation would p=
+ollute
+> > > > > the spinlock value, so let's use static keys.
+> > > > >
+> > > > > This is largely based on Guo's work and Leonardo reviews at [1].
+> > > > >
+> > > > > Link: https://lore.kernel.org/linux-riscv/20231225125847.2778638-=
+1-guoren@kernel.org/ [1]
+> > > > > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > > > > ---
+> > > > >  .../locking/queued-spinlocks/arch-support.txt |  2 +-
+> > > > >  arch/riscv/Kconfig                            |  1 +
+> > > > >  arch/riscv/include/asm/Kbuild                 |  4 +-
+> > > > >  arch/riscv/include/asm/spinlock.h             | 39 +++++++++++++=
+++++++
+> > > > >  arch/riscv/kernel/setup.c                     | 18 +++++++++
+> > > > >  include/asm-generic/qspinlock.h               |  2 +
+> > > > >  include/asm-generic/ticket_spinlock.h         |  2 +
+> > > > >  7 files changed, 66 insertions(+), 2 deletions(-)
+> > > > >  create mode 100644 arch/riscv/include/asm/spinlock.h
+> > > > >
+> > > > > diff --git a/Documentation/features/locking/queued-spinlocks/arch=
+-support.txt b/Documentation/features/locking/queued-spinlocks/arch-support=
+.txt
+> > > > > index 22f2990392ff..cf26042480e2 100644
+> > > > > --- a/Documentation/features/locking/queued-spinlocks/arch-suppor=
+t.txt
+> > > > > +++ b/Documentation/features/locking/queued-spinlocks/arch-suppor=
+t.txt
+> > > > > @@ -20,7 +20,7 @@
+> > > > >      |    openrisc: |  ok  |
+> > > > >      |      parisc: | TODO |
+> > > > >      |     powerpc: |  ok  |
+> > > > > -    |       riscv: | TODO |
+> > > > > +    |       riscv: |  ok  |
+> > > > >      |        s390: | TODO |
+> > > > >      |          sh: | TODO |
+> > > > >      |       sparc: |  ok  |
+> > > > > diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> > > > > index 184a9edb04e0..ccf1703edeb9 100644
+> > > > > --- a/arch/riscv/Kconfig
+> > > > > +++ b/arch/riscv/Kconfig
+> > > > > @@ -59,6 +59,7 @@ config RISCV
+> > > > >         select ARCH_SUPPORTS_SHADOW_CALL_STACK if HAVE_SHADOW_CAL=
+L_STACK
+> > > > >         select ARCH_USE_MEMTEST
+> > > > >         select ARCH_USE_QUEUED_RWLOCKS
+> > > > > +       select ARCH_USE_QUEUED_SPINLOCKS if TOOLCHAIN_HAS_ZABHA
+> > > > Using qspinlock or not depends on real hardware capabilities, not t=
+he
+> > > > compiler flag. That's why I introduced combo-spinlock, ticket-spinl=
+ock
+> > > > & qspinlock three Kconfigs, and the combo-spinlock would compat all
+> > > > hardware platforms but waste some qspinlock code size.
+> > >
+> > > You're right, and I think your comment matches what Conor mentioned
+> > > about the lack of clarity with some extensions: TOOLCHAIN_HAS_ZABHA
+> > > will allow a platform with Zabha capability to use qspinlocks. But if
+> > > the hardware does not, it will fallback to the ticket spinlocks.
+> > >
+> > > But I agree that looking at the config alone may be misleading, even
+> > > though it will work as expected at runtime. So I agree with you:
+> > > unless anyone is strongly against the combo spinlocks, I will do what
+> > > you suggest and add them.
+> > The problem with the v12 combo-spinlock is using a static_branch
+> > instead of the full ALTERNATIVE. Frankly, that's a bad example that
+> > costs more code space. I found that your cmpxchg32/64 also uses a
+> > condition branch, which has a similar problem, right?
+> >
+> > Anyway, your patch series inspired me to update the v13
+> > combo-spinlock. My plan is:
+> > 1. Separate native-qspinlock out of paravirt-qspinlock.
+> > 2. Re-design an ALTERNATIVE(asm) code instead of static_branch generic
+> > ticket-lock or qspinlock.
+>
+> What's your plan to make use of alternatives here? The alternatives
+> patching depends on the discovery of the extensions, which is done too
+> late, at least after the first use of a spinlock (the printk
+> spinlock). So you'd need to find a way to first use qspinlocks (but
+> without knowing Zabha is available) and then do the correct patching:
+I do that in v12:
+1. Use qspinlock as init.
+2. Change to ticket-lock or not.
+(Only qspinlock -> ticket-lock, No reverse direction)
 
-The Secure Launch platform module is a late init module. During the
-init call, the TPM event log is read and measurements taken in the
-early boot stub code are located. These measurements are extended
-into the TPM PCRs using the mainline TPM kernel driver.
+If there is no contention, Qspinlock is okay for all platforms before
+smp bringup & no-irq environment.
 
-The platform module also registers the securityfs nodes to allow
-access to TXT register fields on Intel along with the fetching of
-and writing events to the late launch TPM log.
+> an idea here could be to add an "init" value to the alternatives and
+> let the patching process do the right thing when the extensions are
+> known.
+>
+> Another solution would be the early discovery of the extensions, but I
+> took a look and it's easy with a device tree, but not with ACPI.
+>
+> Let me know what you plan to do and how I can help!
+>
+> Thanks,
+>
+> Alex
+>
+> >
+> > What do you think?
+> >
+> >
+> > >
+> > > Thanks again for your initial work,
+> > >
+> > > Alex
+> > >
+> > > >
+> > > > >         select ARCH_USES_CFI_TRAPS if CFI_CLANG
+> > > > >         select ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH if SMP && MMU
+> > > > >         select ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT if MMU
+> > > > > diff --git a/arch/riscv/include/asm/Kbuild b/arch/riscv/include/a=
+sm/Kbuild
+> > > > > index 504f8b7e72d4..ad72f2bd4cc9 100644
+> > > > > --- a/arch/riscv/include/asm/Kbuild
+> > > > > +++ b/arch/riscv/include/asm/Kbuild
+> > > > > @@ -2,10 +2,12 @@
+> > > > >  generic-y +=3D early_ioremap.h
+> > > > >  generic-y +=3D flat.h
+> > > > >  generic-y +=3D kvm_para.h
+> > > > > +generic-y +=3D mcs_spinlock.h
+> > > > >  generic-y +=3D parport.h
+> > > > > -generic-y +=3D spinlock.h
+> > > > >  generic-y +=3D spinlock_types.h
+> > > > > +generic-y +=3D ticket_spinlock.h
+> > > > >  generic-y +=3D qrwlock.h
+> > > > >  generic-y +=3D qrwlock_types.h
+> > > > > +generic-y +=3D qspinlock.h
+> > > > >  generic-y +=3D user.h
+> > > > >  generic-y +=3D vmlinux.lds.h
+> > > > > diff --git a/arch/riscv/include/asm/spinlock.h b/arch/riscv/inclu=
+de/asm/spinlock.h
+> > > > > new file mode 100644
+> > > > > index 000000000000..e00429ac20ed
+> > > > > --- /dev/null
+> > > > > +++ b/arch/riscv/include/asm/spinlock.h
+> > > > > @@ -0,0 +1,39 @@
+> > > > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > > > +
+> > > > > +#ifndef __ASM_RISCV_SPINLOCK_H
+> > > > > +#define __ASM_RISCV_SPINLOCK_H
+> > > > > +
+> > > > > +#ifdef CONFIG_QUEUED_SPINLOCKS
+> > > > > +#define _Q_PENDING_LOOPS       (1 << 9)
+> > > > > +
+> > > > > +#define __no_arch_spinlock_redefine
+> > > > > +#include <asm/ticket_spinlock.h>
+> > > > > +#include <asm/qspinlock.h>
+> > > > > +#include <asm/alternative.h>
+> > > > > +
+> > > > > +DECLARE_STATIC_KEY_TRUE(qspinlock_key);
+> > > > > +
+> > > > > +#define SPINLOCK_BASE_DECLARE(op, type, type_lock)              =
+       \
+> > > > > +static __always_inline type arch_spin_##op(type_lock lock)      =
+       \
+> > > > > +{                                                               =
+       \
+> > > > > +       if (static_branch_unlikely(&qspinlock_key))              =
+       \
+> > > > > +               return queued_spin_##op(lock);                   =
+       \
+> > > > > +       return ticket_spin_##op(lock);                           =
+       \
+> > > > > +}
+> > > > > +
+> > > > > +SPINLOCK_BASE_DECLARE(lock, void, arch_spinlock_t *)
+> > > > > +SPINLOCK_BASE_DECLARE(unlock, void, arch_spinlock_t *)
+> > > > > +SPINLOCK_BASE_DECLARE(is_locked, int, arch_spinlock_t *)
+> > > > > +SPINLOCK_BASE_DECLARE(is_contended, int, arch_spinlock_t *)
+> > > > > +SPINLOCK_BASE_DECLARE(trylock, bool, arch_spinlock_t *)
+> > > > > +SPINLOCK_BASE_DECLARE(value_unlocked, int, arch_spinlock_t)
+> > > > > +
+> > > > > +#else
+> > > > > +
+> > > > > +#include <asm/ticket_spinlock.h>
+> > > > > +
+> > > > > +#endif
+> > > > > +
+> > > > > +#include <asm/qrwlock.h>
+> > > > > +
+> > > > > +#endif /* __ASM_RISCV_SPINLOCK_H */
+> > > > > diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.=
+c
+> > > > > index 4f73c0ae44b2..31ce75522fd4 100644
+> > > > > --- a/arch/riscv/kernel/setup.c
+> > > > > +++ b/arch/riscv/kernel/setup.c
+> > > > > @@ -244,6 +244,23 @@ static void __init parse_dtb(void)
+> > > > >  #endif
+> > > > >  }
+> > > > >
+> > > > > +DEFINE_STATIC_KEY_TRUE(qspinlock_key);
+> > > > > +EXPORT_SYMBOL(qspinlock_key);
+> > > > > +
+> > > > > +static void __init riscv_spinlock_init(void)
+> > > > > +{
+> > > > > +       asm goto(ALTERNATIVE("nop", "j %[qspinlock]", 0, RISCV_IS=
+A_EXT_ZABHA, 1)
+> > > > > +                : : : : qspinlock);
+> > > > > +
+> > > > > +       static_branch_disable(&qspinlock_key);
+> > > > > +       pr_info("Ticket spinlock: enabled\n");
+> > > > > +
+> > > > > +       return;
+> > > > > +
+> > > > > +qspinlock:
+> > > > > +       pr_info("Queued spinlock: enabled\n");
+> > > > > +}
+> > > > > +
+> > > > >  extern void __init init_rt_signal_env(void);
+> > > > >
+> > > > >  void __init setup_arch(char **cmdline_p)
+> > > > > @@ -295,6 +312,7 @@ void __init setup_arch(char **cmdline_p)
+> > > > >         riscv_set_dma_cache_alignment();
+> > > > >
+> > > > >         riscv_user_isa_enable();
+> > > > > +       riscv_spinlock_init();
+> > > > >  }
+> > > > >
+> > > > >  bool arch_cpu_is_hotpluggable(int cpu)
+> > > > > diff --git a/include/asm-generic/qspinlock.h b/include/asm-generi=
+c/qspinlock.h
+> > > > > index 0655aa5b57b2..bf47cca2c375 100644
+> > > > > --- a/include/asm-generic/qspinlock.h
+> > > > > +++ b/include/asm-generic/qspinlock.h
+> > > > > @@ -136,6 +136,7 @@ static __always_inline bool virt_spin_lock(st=
+ruct qspinlock *lock)
+> > > > >  }
+> > > > >  #endif
+> > > > >
+> > > > > +#ifndef __no_arch_spinlock_redefine
+> > > > >  /*
+> > > > >   * Remapping spinlock architecture specific functions to the cor=
+responding
+> > > > >   * queued spinlock functions.
+> > > > > @@ -146,5 +147,6 @@ static __always_inline bool virt_spin_lock(st=
+ruct qspinlock *lock)
+> > > > >  #define arch_spin_lock(l)              queued_spin_lock(l)
+> > > > >  #define arch_spin_trylock(l)           queued_spin_trylock(l)
+> > > > >  #define arch_spin_unlock(l)            queued_spin_unlock(l)
+> > > > > +#endif
+> > > > >
+> > > > >  #endif /* __ASM_GENERIC_QSPINLOCK_H */
+> > > > > diff --git a/include/asm-generic/ticket_spinlock.h b/include/asm-=
+generic/ticket_spinlock.h
+> > > > > index cfcff22b37b3..325779970d8a 100644
+> > > > > --- a/include/asm-generic/ticket_spinlock.h
+> > > > > +++ b/include/asm-generic/ticket_spinlock.h
+> > > > > @@ -89,6 +89,7 @@ static __always_inline int ticket_spin_is_conte=
+nded(arch_spinlock_t *lock)
+> > > > >         return (s16)((val >> 16) - (val & 0xffff)) > 1;
+> > > > >  }
+> > > > >
+> > > > > +#ifndef __no_arch_spinlock_redefine
+> > > > >  /*
+> > > > >   * Remapping spinlock architecture specific functions to the cor=
+responding
+> > > > >   * ticket spinlock functions.
+> > > > > @@ -99,5 +100,6 @@ static __always_inline int ticket_spin_is_cont=
+ended(arch_spinlock_t *lock)
+> > > > >  #define arch_spin_lock(l)              ticket_spin_lock(l)
+> > > > >  #define arch_spin_trylock(l)           ticket_spin_trylock(l)
+> > > > >  #define arch_spin_unlock(l)            ticket_spin_unlock(l)
+> > > > > +#endif
+> > > > >
+> > > > >  #endif /* __ASM_GENERIC_TICKET_SPINLOCK_H */
+> > > > > --
+> > > > > 2.39.2
+> > > > >
+> > > >
+> > > >
+> > > > --
+> > > > Best Regards
+> > > >  Guo Ren
+> >
+> >
+> >
+> > --
+> > Best Regards
+> >  Guo Ren
 
-Signed-off-by: Daniel P. Smith <dpsmith@apertussolutions.com>
-Signed-off-by: garnetgrimm <grimmg@ainfosec.com>
-Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
----
- arch/x86/kernel/Makefile   |   1 +
- arch/x86/kernel/slmodule.c | 513 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 514 insertions(+)
- create mode 100644 arch/x86/kernel/slmodule.c
 
-diff --git a/arch/x86/kernel/Makefile b/arch/x86/kernel/Makefile
-index b35ca99ab0a0..f2432c4a747a 100644
---- a/arch/x86/kernel/Makefile
-+++ b/arch/x86/kernel/Makefile
-@@ -77,6 +77,7 @@ obj-$(CONFIG_IA32_EMULATION)	+= tls.o
- obj-y				+= step.o
- obj-$(CONFIG_INTEL_TXT)		+= tboot.o
- obj-$(CONFIG_SECURE_LAUNCH)	+= slaunch.o
-+obj-$(CONFIG_SECURE_LAUNCH)	+= slmodule.o
- obj-$(CONFIG_ISA_DMA_API)	+= i8237.o
- obj-y				+= stacktrace.o
- obj-y				+= cpu/
-diff --git a/arch/x86/kernel/slmodule.c b/arch/x86/kernel/slmodule.c
-new file mode 100644
-index 000000000000..0e1354e3a914
---- /dev/null
-+++ b/arch/x86/kernel/slmodule.c
-@@ -0,0 +1,513 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Secure Launch late validation/setup, securityfs exposure and finalization.
-+ *
-+ * Copyright (c) 2024 Apertus Solutions, LLC
-+ * Copyright (c) 2024 Assured Information Security, Inc.
-+ * Copyright (c) 2024, Oracle and/or its affiliates.
-+ *
-+ * Co-developed-by: Garnet T. Grimm <grimmg@ainfosec.com>
-+ * Signed-off-by: Garnet T. Grimm <grimmg@ainfosec.com>
-+ * Signed-off-by: Daniel P. Smith <dpsmith@apertussolutions.com>
-+ */
-+
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+
-+#include <linux/fs.h>
-+#include <linux/init.h>
-+#include <linux/linkage.h>
-+#include <linux/mm.h>
-+#include <linux/io.h>
-+#include <linux/uaccess.h>
-+#include <linux/security.h>
-+#include <linux/memblock.h>
-+#include <linux/tpm.h>
-+#include <asm/segment.h>
-+#include <asm/sections.h>
-+#include <crypto/sha2.h>
-+#include <linux/slr_table.h>
-+#include <linux/slaunch.h>
-+
-+/*
-+ * The macro DECLARE_TXT_PUB_READ_U is used to read values from the TXT
-+ * public registers as unsigned values.
-+ */
-+#define DECLARE_TXT_PUB_READ_U(size, fmt, msg_size)			\
-+static ssize_t txt_pub_read_u##size(unsigned int offset,		\
-+		loff_t *read_offset,					\
-+		size_t read_len,					\
-+		char __user *buf)					\
-+{									\
-+	char msg_buffer[msg_size];					\
-+	u##size reg_value = 0;						\
-+	void __iomem *txt;						\
-+									\
-+	txt = ioremap(TXT_PUB_CONFIG_REGS_BASE,				\
-+			TXT_NR_CONFIG_PAGES * PAGE_SIZE);		\
-+	if (!txt)							\
-+		return -EFAULT;						\
-+	memcpy_fromio(&reg_value, txt + offset, sizeof(u##size));	\
-+	iounmap(txt);							\
-+	snprintf(msg_buffer, msg_size, fmt, reg_value);			\
-+	return simple_read_from_buffer(buf, read_len, read_offset,	\
-+			&msg_buffer, msg_size);				\
-+}
-+
-+DECLARE_TXT_PUB_READ_U(8, "%#04x\n", 6);
-+DECLARE_TXT_PUB_READ_U(32, "%#010x\n", 12);
-+DECLARE_TXT_PUB_READ_U(64, "%#018llx\n", 20);
-+
-+#define DECLARE_TXT_FOPS(reg_name, reg_offset, reg_size)		\
-+static ssize_t txt_##reg_name##_read(struct file *flip,			\
-+		char __user *buf, size_t read_len, loff_t *read_offset)	\
-+{									\
-+	return txt_pub_read_u##reg_size(reg_offset, read_offset,	\
-+			read_len, buf);					\
-+}									\
-+static const struct file_operations reg_name##_ops = {			\
-+	.read = txt_##reg_name##_read,					\
-+}
-+
-+DECLARE_TXT_FOPS(sts, TXT_CR_STS, 64);
-+DECLARE_TXT_FOPS(ests, TXT_CR_ESTS, 8);
-+DECLARE_TXT_FOPS(errorcode, TXT_CR_ERRORCODE, 32);
-+DECLARE_TXT_FOPS(didvid, TXT_CR_DIDVID, 64);
-+DECLARE_TXT_FOPS(e2sts, TXT_CR_E2STS, 64);
-+DECLARE_TXT_FOPS(ver_emif, TXT_CR_VER_EMIF, 32);
-+DECLARE_TXT_FOPS(scratchpad, TXT_CR_SCRATCHPAD, 64);
-+
-+/*
-+ * Securityfs exposure
-+ */
-+struct memfile {
-+	char *name;
-+	void *addr;
-+	size_t size;
-+};
-+
-+static struct memfile sl_evtlog = {"eventlog", NULL, 0};
-+static void *txt_heap;
-+static struct txt_heap_event_log_pointer2_1_element *evtlog20;
-+static DEFINE_MUTEX(sl_evt_log_mutex);
-+
-+static ssize_t sl_evtlog_read(struct file *file, char __user *buf,
-+			      size_t count, loff_t *pos)
-+{
-+	ssize_t size;
-+
-+	if (!sl_evtlog.addr)
-+		return 0;
-+
-+	mutex_lock(&sl_evt_log_mutex);
-+	size = simple_read_from_buffer(buf, count, pos, sl_evtlog.addr,
-+				       sl_evtlog.size);
-+	mutex_unlock(&sl_evt_log_mutex);
-+
-+	return size;
-+}
-+
-+static ssize_t sl_evtlog_write(struct file *file, const char __user *buf,
-+			       size_t datalen, loff_t *ppos)
-+{
-+	ssize_t result;
-+	char *data;
-+
-+	if (!sl_evtlog.addr)
-+		return 0;
-+
-+	/* No partial writes. */
-+	result = -EINVAL;
-+	if (*ppos != 0)
-+		goto out;
-+
-+	data = memdup_user(buf, datalen);
-+	if (IS_ERR(data)) {
-+		result = PTR_ERR(data);
-+		goto out;
-+	}
-+
-+	mutex_lock(&sl_evt_log_mutex);
-+	if (evtlog20)
-+		result = tpm20_log_event(evtlog20, sl_evtlog.addr,
-+					 sl_evtlog.size, datalen, data);
-+	else
-+		result = tpm12_log_event(sl_evtlog.addr, sl_evtlog.size,
-+					 datalen, data);
-+	mutex_unlock(&sl_evt_log_mutex);
-+
-+	kfree(data);
-+out:
-+	return result;
-+}
-+
-+static const struct file_operations sl_evtlog_ops = {
-+	.read = sl_evtlog_read,
-+	.write = sl_evtlog_write,
-+	.llseek	= default_llseek,
-+};
-+
-+struct sfs_file {
-+	const char *name;
-+	const struct file_operations *fops;
-+};
-+
-+#define SL_TXT_ENTRY_COUNT	7
-+static const struct sfs_file sl_txt_files[] = {
-+	{ "sts", &sts_ops },
-+	{ "ests", &ests_ops },
-+	{ "errorcode", &errorcode_ops },
-+	{ "didvid", &didvid_ops },
-+	{ "ver_emif", &ver_emif_ops },
-+	{ "scratchpad", &scratchpad_ops },
-+	{ "e2sts", &e2sts_ops }
-+};
-+
-+/* sysfs file handles */
-+static struct dentry *slaunch_dir;
-+static struct dentry *event_file;
-+static struct dentry *txt_dir;
-+static struct dentry *txt_entries[SL_TXT_ENTRY_COUNT];
-+
-+static long slaunch_expose_securityfs(void)
-+{
-+	long ret = 0;
-+	int i;
-+
-+	slaunch_dir = securityfs_create_dir("slaunch", NULL);
-+	if (IS_ERR(slaunch_dir))
-+		return PTR_ERR(slaunch_dir);
-+
-+	if (slaunch_get_flags() & SL_FLAG_ARCH_TXT) {
-+		txt_dir = securityfs_create_dir("txt", slaunch_dir);
-+		if (IS_ERR(txt_dir)) {
-+			ret = PTR_ERR(txt_dir);
-+			goto remove_slaunch;
-+		}
-+
-+		for (i = 0; i < ARRAY_SIZE(sl_txt_files); i++) {
-+			txt_entries[i] = securityfs_create_file(
-+						sl_txt_files[i].name, 0440,
-+						txt_dir, NULL,
-+						sl_txt_files[i].fops);
-+			if (IS_ERR(txt_entries[i])) {
-+				ret = PTR_ERR(txt_entries[i]);
-+				goto remove_files;
-+			}
-+		}
-+	}
-+
-+	if (sl_evtlog.addr) {
-+		event_file = securityfs_create_file(sl_evtlog.name, 0440,
-+						    slaunch_dir, NULL,
-+						    &sl_evtlog_ops);
-+		if (IS_ERR(event_file)) {
-+			ret = PTR_ERR(event_file);
-+			goto remove_files;
-+		}
-+	}
-+
-+	return 0;
-+
-+remove_files:
-+	if (slaunch_get_flags() & SL_FLAG_ARCH_TXT) {
-+		while (--i >= 0)
-+			securityfs_remove(txt_entries[i]);
-+		securityfs_remove(txt_dir);
-+	}
-+
-+remove_slaunch:
-+	securityfs_remove(slaunch_dir);
-+
-+	return ret;
-+}
-+
-+static void slaunch_teardown_securityfs(void)
-+{
-+	int i;
-+
-+	securityfs_remove(event_file);
-+	if (sl_evtlog.addr) {
-+		memunmap(sl_evtlog.addr);
-+		sl_evtlog.addr = NULL;
-+	}
-+	sl_evtlog.size = 0;
-+
-+	if (slaunch_get_flags() & SL_FLAG_ARCH_TXT) {
-+		for (i = 0; i < ARRAY_SIZE(sl_txt_files); i++)
-+			securityfs_remove(txt_entries[i]);
-+
-+		securityfs_remove(txt_dir);
-+
-+		if (txt_heap) {
-+			memunmap(txt_heap);
-+			txt_heap = NULL;
-+		}
-+	}
-+
-+	securityfs_remove(slaunch_dir);
-+}
-+
-+static void slaunch_intel_evtlog(void __iomem *txt)
-+{
-+	struct slr_entry_log_info *log_info;
-+	struct txt_os_mle_data *params;
-+	struct slr_table *slrt;
-+	void *os_sinit_data;
-+	u64 base, size;
-+
-+	memcpy_fromio(&base, txt + TXT_CR_HEAP_BASE, sizeof(base));
-+	memcpy_fromio(&size, txt + TXT_CR_HEAP_SIZE, sizeof(size));
-+
-+	/* now map TXT heap */
-+	txt_heap = memremap(base, size, MEMREMAP_WB);
-+	if (!txt_heap)
-+		slaunch_txt_reset(txt, "Error failed to memremap TXT heap\n",
-+				  SL_ERROR_HEAP_MAP);
-+
-+	params = (struct txt_os_mle_data *)txt_os_mle_data_start(txt_heap);
-+
-+	/* Get the SLRT and remap it */
-+	slrt = memremap(params->slrt, sizeof(*slrt), MEMREMAP_WB);
-+	if (!slrt)
-+		slaunch_txt_reset(txt, "Error failed to memremap SLR Table\n",
-+				  SL_ERROR_SLRT_MAP);
-+	size = slrt->size;
-+	memunmap(slrt);
-+
-+	slrt = memremap(params->slrt, size, MEMREMAP_WB);
-+	if (!slrt)
-+		slaunch_txt_reset(txt, "Error failed to memremap SLR Table\n",
-+				  SL_ERROR_SLRT_MAP);
-+
-+	log_info = slr_next_entry_by_tag(slrt, NULL, SLR_ENTRY_LOG_INFO);
-+	if (!log_info)
-+		slaunch_txt_reset(txt, "Error failed to memremap SLR Table\n",
-+				  SL_ERROR_SLRT_MISSING_ENTRY);
-+
-+	sl_evtlog.size = log_info->size;
-+	sl_evtlog.addr = memremap(log_info->addr, log_info->size,
-+				  MEMREMAP_WB);
-+	if (!sl_evtlog.addr)
-+		slaunch_txt_reset(txt, "Error failed to memremap TPM event log\n",
-+				  SL_ERROR_EVENTLOG_MAP);
-+
-+	memunmap(slrt);
-+
-+	/* Determine if this is TPM 1.2 or 2.0 event log */
-+	if (memcmp(sl_evtlog.addr + sizeof(struct tcg_pcr_event),
-+		    TCG_SPECID_SIG, sizeof(TCG_SPECID_SIG)))
-+		return; /* looks like it is not 2.0 */
-+
-+	/* For TPM 2.0 logs, the extended heap element must be located */
-+	os_sinit_data = txt_os_sinit_data_start(txt_heap);
-+
-+	evtlog20 = tpm20_find_log2_1_element(os_sinit_data);
-+
-+	/*
-+	 * If this fails, things are in really bad shape. Any attempt to write
-+	 * events to the log will fail.
-+	 */
-+	if (!evtlog20)
-+		slaunch_txt_reset(txt, "Error failed to find TPM20 event log element\n",
-+				  SL_ERROR_TPM_INVALID_LOG20);
-+}
-+
-+static void slaunch_tpm20_extend_event(struct tpm_chip *tpm, void __iomem *txt,
-+				       struct tcg_pcr_event2_head *event)
-+{
-+	u16 *alg_id_field = (u16 *)((u8 *)event + sizeof(struct tcg_pcr_event2_head));
-+	struct tpm_digest *digests;
-+	u8 *dptr;
-+	u32 i, j;
-+	int ret;
-+
-+	digests = kcalloc(tpm->nr_allocated_banks, sizeof(*digests),
-+			  GFP_KERNEL);
-+	if (!digests)
-+		slaunch_txt_reset(txt, "Failed to allocate array of digests\n",
-+				  SL_ERROR_GENERIC);
-+
-+	for (i = 0; i < tpm->nr_allocated_banks; i++)
-+		digests[i].alg_id = tpm->allocated_banks[i].alg_id;
-+
-+	/* Early SL code ensured there was a max count of 2 digests */
-+	for (i = 0; i < event->count; i++) {
-+		dptr = (u8 *)alg_id_field + sizeof(u16);
-+
-+		for (j = 0; j < tpm->nr_allocated_banks; j++) {
-+			if (digests[j].alg_id != *alg_id_field)
-+				continue;
-+
-+			switch (digests[j].alg_id) {
-+			case TPM_ALG_SHA256:
-+				memcpy(&digests[j].digest[0], dptr,
-+				       SHA256_DIGEST_SIZE);
-+				alg_id_field = (u16 *)((u8 *)alg_id_field +
-+					SHA256_DIGEST_SIZE + sizeof(u16));
-+				break;
-+			case TPM_ALG_SHA1:
-+				memcpy(&digests[j].digest[0], dptr,
-+				       SHA1_DIGEST_SIZE);
-+				alg_id_field = (u16 *)((u8 *)alg_id_field +
-+					SHA1_DIGEST_SIZE + sizeof(u16));
-+				break;
-+			default:
-+				break;
-+			}
-+		}
-+	}
-+
-+	ret = tpm_pcr_extend(tpm, event->pcr_idx, digests);
-+	if (ret) {
-+		pr_err("Error extending TPM20 PCR, result: %d\n", ret);
-+		slaunch_txt_reset(txt, "Failed to extend TPM20 PCR\n",
-+				  SL_ERROR_TPM_EXTEND);
-+	}
-+
-+	kfree(digests);
-+}
-+
-+static void slaunch_tpm20_extend(struct tpm_chip *tpm, void __iomem *txt)
-+{
-+	struct tcg_pcr_event *event_header;
-+	struct tcg_pcr_event2_head *event;
-+	int start = 0, end = 0, size;
-+
-+	event_header = (struct tcg_pcr_event *)(sl_evtlog.addr +
-+						evtlog20->first_record_offset);
-+
-+	/* Skip first TPM 1.2 event to get to first TPM 2.0 event */
-+	event = (struct tcg_pcr_event2_head *)((u8 *)event_header +
-+						sizeof(struct tcg_pcr_event) +
-+						event_header->event_size);
-+
-+	while ((void  *)event < sl_evtlog.addr + evtlog20->next_record_offset) {
-+		size = __calc_tpm2_event_size(event, event_header, false);
-+		if (!size)
-+			slaunch_txt_reset(txt, "TPM20 invalid event in event log\n",
-+					  SL_ERROR_TPM_INVALID_EVENT);
-+
-+		/*
-+		 * Marker events indicate where the Secure Launch early stub
-+		 * started and ended adding post launch events.
-+		 */
-+		if (event->event_type == TXT_EVTYPE_SLAUNCH_END) {
-+			end = 1;
-+			break;
-+		} else if (event->event_type == TXT_EVTYPE_SLAUNCH_START) {
-+			start = 1;
-+			goto next;
-+		}
-+
-+		if (start)
-+			slaunch_tpm20_extend_event(tpm, txt, event);
-+
-+next:
-+		event = (struct tcg_pcr_event2_head *)((u8 *)event + size);
-+	}
-+
-+	if (!start || !end)
-+		slaunch_txt_reset(txt, "Missing start or end events for extending TPM20 PCRs\n",
-+				  SL_ERROR_TPM_EXTEND);
-+}
-+
-+static void slaunch_tpm12_extend(struct tpm_chip *tpm, void __iomem *txt)
-+{
-+	struct tpm12_event_log_header *event_header;
-+	struct tcg_pcr_event *event;
-+	struct tpm_digest digest;
-+	int start = 0, end = 0;
-+	int size, ret;
-+
-+	event_header = (struct tpm12_event_log_header *)sl_evtlog.addr;
-+	event = (struct tcg_pcr_event *)((u8 *)event_header +
-+				sizeof(struct tpm12_event_log_header));
-+
-+	while ((void  *)event < sl_evtlog.addr + event_header->next_event_offset) {
-+		size = sizeof(struct tcg_pcr_event) + event->event_size;
-+
-+		/*
-+		 * Marker events indicate where the Secure Launch early stub
-+		 * started and ended adding post launch events.
-+		 */
-+		if (event->event_type == TXT_EVTYPE_SLAUNCH_END) {
-+			end = 1;
-+			break;
-+		} else if (event->event_type == TXT_EVTYPE_SLAUNCH_START) {
-+			start = 1;
-+			goto next;
-+		}
-+
-+		if (start) {
-+			memset(&digest.digest[0], 0, TPM_MAX_DIGEST_SIZE);
-+			digest.alg_id = TPM_ALG_SHA1;
-+			memcpy(&digest.digest[0], &event->digest[0],
-+			       SHA1_DIGEST_SIZE);
-+
-+			ret = tpm_pcr_extend(tpm, event->pcr_idx, &digest);
-+			if (ret) {
-+				pr_err("Error extending TPM12 PCR, result: %d\n", ret);
-+				slaunch_txt_reset(txt, "Failed to extend TPM12 PCR\n",
-+						  SL_ERROR_TPM_EXTEND);
-+			}
-+		}
-+
-+next:
-+		event = (struct tcg_pcr_event *)((u8 *)event + size);
-+	}
-+
-+	if (!start || !end)
-+		slaunch_txt_reset(txt, "Missing start or end events for extending TPM12 PCRs\n",
-+				  SL_ERROR_TPM_EXTEND);
-+}
-+
-+static void slaunch_pcr_extend(void __iomem *txt)
-+{
-+	struct tpm_chip *tpm;
-+
-+	tpm = tpm_default_chip();
-+	if (!tpm)
-+		slaunch_txt_reset(txt, "Could not get default TPM chip\n",
-+				  SL_ERROR_TPM_INIT);
-+
-+	if (!tpm_preferred_locality(tpm, 2))
-+		slaunch_txt_reset(txt, "Could not set TPM chip locality 2\n",
-+				  SL_ERROR_TPM_INIT);
-+
-+	if (evtlog20)
-+		slaunch_tpm20_extend(tpm, txt);
-+	else
-+		slaunch_tpm12_extend(tpm, txt);
-+
-+	tpm_preferred_locality(tpm, 0);
-+}
-+
-+static int __init slaunch_module_init(void)
-+{
-+	void __iomem *txt;
-+
-+	/* Check to see if Secure Launch happened */
-+	if ((slaunch_get_flags() & (SL_FLAG_ACTIVE|SL_FLAG_ARCH_TXT)) !=
-+	    (SL_FLAG_ACTIVE | SL_FLAG_ARCH_TXT))
-+		return 0;
-+
-+	txt = ioremap(TXT_PRIV_CONFIG_REGS_BASE, TXT_NR_CONFIG_PAGES *
-+		      PAGE_SIZE);
-+	if (!txt)
-+		panic("Error ioremap of TXT priv registers\n");
-+
-+	/* Only Intel TXT is supported at this point */
-+	slaunch_intel_evtlog(txt);
-+	slaunch_pcr_extend(txt);
-+	iounmap(txt);
-+
-+	return slaunch_expose_securityfs();
-+}
-+
-+static void __exit slaunch_module_exit(void)
-+{
-+	slaunch_teardown_securityfs();
-+}
-+
-+late_initcall(slaunch_module_init);
-+__exitcall(slaunch_module_exit);
--- 
-2.39.3
 
+--=20
+Best Regards
+ Guo Ren
