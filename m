@@ -1,97 +1,109 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 168E07FBAE;
-	Fri, 31 May 2024 06:54:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E3AB17E9;
+	Fri, 31 May 2024 07:01:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717138498; cv=none; b=Ip7+UhdlfVkBCv+keSJ/NzzrYK1E3K7Lt7dMcfryv8hkeJW6t92TQt+Dxm2AUMUkKbH0Q9fUESau58OAeKkC77DKRrL4KFEzjr+ildxobEN72t28BykTsjhWBx/EozHQPgy+2HZDGicP/lDOY3SvZ284WN0KJfqQ6S5UZvlEH18=
+	t=1717138913; cv=none; b=ZplfrKDdVzYFSA6HdQx3YYRAmB7UF57PJNIRimNITBZ1cwe5+MnZb9VSvV+2AOTrxyn2BcteS0W4j6i/1n3X0yhg0uyHROHtImH74P1RPhtpPUew8KVGzXPgf8Qfn1PC/+o7Qh3d1KHsXdpNjTIQK2krDGWG1ftIsYJbPsIzNv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717138498; c=relaxed/simple;
-	bh=vj/iKG5SOv70qFtt9ZacYP3jJGUG03ItpLbMK39Ejt8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mEVxeDd7GZjlvLxTzxo8mDVsPgqMbOK5QbeUCQgAbz6C4qGf1DYtcQ8L1ctag5XUTq1BTKvzwYYz938FevAz2GSQI3wJkgFbhWXnRUt2EBEb52RzgQoE27IpB8OO7jDOLNt9o/7TWuM2YEWr3zVxlU/78qE1fGL4jj8aD2Z1ZIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BcVRHzov; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1717138913; c=relaxed/simple;
+	bh=ZmP0QtArttdJbguIhN02o6hMyhO1HzCXd/u5SVJDrp4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=u2tAtiRf4pGpFE29yKPwpGtcSP1REdtal2+GFLqxF4hGZ+GoRUiAQPv66ul9oxDC947cw7eqRUm+4dnaP19ZGkbFajHNXLLdbLUhLfv0cvRYD5mjcNDeLlSIkzb3IvKT4procVaaNLtlcADIRnlfVaeTshdqLoFCFTgeckcWqhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=mQe5nKxT; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BcVRHzov"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717138497; x=1748674497;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vj/iKG5SOv70qFtt9ZacYP3jJGUG03ItpLbMK39Ejt8=;
-  b=BcVRHzovUhu8czM/PT5y8VV+EVAdY4Q8XEKIl6GWnJTrhVK7havS+Ks3
-   PYO2Djc8o4MxuAw9Aqe6M2zcL2II3uHHD7WxF8f1OttZ7NdrzPnnBEXhV
-   PL+A25/45kL0Ds01VIzxTwTuu8BK3dkCPMbDjMOI2c+MZ48GxDD7Toloa
-   dRl6PxdWVAUJYLPzxogj6nRI9bAtxUKgrYku33Dqa4BDqwS0iqaMzA+kQ
-   l1q4I+y2zouLRFkb8Ducme5lAWFy/N+FK4noGF2mI7uHoKSv/EmZyhwFg
-   +/NyRebqxboLU85oNBG/tbMZH4CIVk4VEbBt8SlefvL4iWQSiGmjL5Rax
-   w==;
-X-CSE-ConnectionGUID: 0auM96zMRDO20Koa43zoOQ==
-X-CSE-MsgGUID: 6ndYnhpjRiO1SP16efHrrg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="13507510"
-X-IronPort-AV: E=Sophos;i="6.08,203,1712646000"; 
-   d="scan'208";a="13507510"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 23:54:57 -0700
-X-CSE-ConnectionGUID: 7bYeZLVjRP201gzqW9q7GA==
-X-CSE-MsgGUID: inShIAHCT7W0bVAdMoLxrw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,203,1712646000"; 
-   d="scan'208";a="73549945"
-Received: from rrware-mobl.amr.corp.intel.com (HELO tlindgre-MOBL1) ([10.125.108.14])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2024 23:54:50 -0700
-Date: Fri, 31 May 2024 09:54:42 +0300
-From: Tony Lindgren <tony.lindgren@linux.intel.com>
-To: Petr Mladek <pmladek@suse.com>
-Cc: Tony Lindgren <tony@atomide.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	John Ogness <john.ogness@linutronix.de>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Dhruva Gole <d-gole@ti.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Vignesh Raghavendra <vigneshr@ti.com>, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 1/7] printk: Save console options for
- add_preferred_console_match()
-Message-ID: <Zll0Mg-Ovqx0n7Zd@tlindgre-MOBL1>
-References: <20240327110021.59793-1-tony@atomide.com>
- <20240327110021.59793-2-tony@atomide.com>
- <ZlC6_Um4P4b-_WQE@pathway.suse.cz>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="mQe5nKxT"
+Received: from pps.filterd (m0353723.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 44V6Urwa021365;
+	Fri, 31 May 2024 07:01:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc : content-type : date
+ : from : in-reply-to : message-id : mime-version : references : subject :
+ to; s=pp1; bh=aaBvNxIquJs2EzYvuRrhC1j6ewLwD9KjNMpikXuKNzg=;
+ b=mQe5nKxTT+CdpzPbrS0jeeIw8W86Si3gUj3MCUqv6SUYQK4TnE4x2qQhkiI5lI8s0vrC
+ PxloZHBfHWVVS7KyS00P1EzjBhGwJUWXQLmocR1wdtE254o3ENnIB6awvuMnGIP4Ocem
+ 21l85NgYf7UgtV3VrHCbQaKW3SHVei1IPWGuam8E9DNKXsZJ53aoSGrzv+K+FCu5Pi2+
+ Kmexz032cTkhctsAC7zA259bumoMkYbEqyPeyMiXfau7vVoxd9qWwtJRtf70BgjpWlxv
+ WEvgSjeENx0QfOWHMNls4URTcqNKGv86WYOtc1pqXyLe7+yEIdBOcRWOTurSu+S36hlH tw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yf8sp04pk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 31 May 2024 07:01:35 +0000
+Received: from m0353723.ppops.net (m0353723.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 44V71ZAo003390;
+	Fri, 31 May 2024 07:01:35 GMT
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yf8sp04pg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 31 May 2024 07:01:35 +0000
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 44V5O4nh026740;
+	Fri, 31 May 2024 07:01:34 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 3ydpd2xgwu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 31 May 2024 07:01:34 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 44V71UZM21561822
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 31 May 2024 07:01:32 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8575B2004E;
+	Fri, 31 May 2024 07:01:30 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6AAF920043;
+	Fri, 31 May 2024 07:01:28 +0000 (GMT)
+Received: from li-c6426e4c-27cf-11b2-a85c-95d65bc0de0e.ibm.com (unknown [9.204.206.66])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Fri, 31 May 2024 07:01:28 +0000 (GMT)
+Date: Fri, 31 May 2024 12:31:26 +0530
+From: Gautam Menghani <gautam@linux.ibm.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
+        aneesh.kumar@kernel.org, naveen.n.rao@linux.ibm.com, corbet@lwn.net,
+        linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        stable@vger.kernel.org
+Subject: Re: [PATCH] arch/powerpc/kvm: Fix doorbell emulation by adding DPDES
+ support
+Message-ID: <35ek73rjziiolk3zja3i5qayjzvjruuro72co74nc4a6ljvhhf@5tus3qlcb522>
+References: <20240522082838.121769-1-gautam@linux.ibm.com>
+ <rrsuqfqugrdowhws2f7ug7pzvimzkepx3g2cp36ijx2zhzokee@eitrr6vxp75w>
+ <2024053143-wanted-legible-ca3f@gregkh>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2024053143-wanted-legible-ca3f@gregkh>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 9BAPae-QWeiZiE9h7wdQgwkjUoJxgrhI
+X-Proofpoint-ORIG-GUID: Qrx9-h68gqIaI3Q_bqAX6RVcT_WIuh1d
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZlC6_Um4P4b-_WQE@pathway.suse.cz>
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-05-31_03,2024-05-30_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 mlxlogscore=673 bulkscore=0 adultscore=0 lowpriorityscore=0
+ suspectscore=0 impostorscore=0 spamscore=0 phishscore=0 clxscore=1011
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2405010000 definitions=main-2405310051
 
-On Fri, May 24, 2024 at 06:06:21PM +0200, Petr Mladek wrote:
-> A solution might be to store "devname" separately in
-> struct console_cmdline and allow empty "name". We could
-> implement then a function similar to
-> add_preferred_console_match() which would try to match
-> "devname" and set/update "name", "index" value when matched.
+On Fri, May 31, 2024 at 08:09:13AM GMT, Greg KH wrote:
+> On Fri, May 31, 2024 at 10:54:58AM +0530, Gautam Menghani wrote:
+> > Hello,
+> > 
+> > Please review this patch and let me know if any changes are needed.
+> 
+> There already was review comments on it, why ignore them?
 
-This sounds nice, the empty name can be used to defer consoles that
-are not known early. And on console_setup() we only set the devname
-for such cases.
+Sorry I pinged on the wrong thread, I had already addressed the stable
+tag issue in a resend - https://lore.kernel.org/linuxppc-dev/20240522084949.123148-1-gautam@linux.ibm.com/
 
-To me it seems we additionally still need to save the kernel command
-line position of the console too in struct kernel_cmdline so we can
-set the preferred_console for the deferred cases.
-
-Regards,
-
-Tony
+Thanks,
+Gautam
