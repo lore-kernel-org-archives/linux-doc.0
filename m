@@ -1,91 +1,62 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CB1924B26;
-	Fri, 31 May 2024 09:45:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27719156C61;
+	Fri, 31 May 2024 10:49:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717148733; cv=none; b=sWDPVEHmaImbdZXfO7wo0G1jyxXxdD4LdURkAt/kUTvJVjl8LxEbyY5w8+4eUvRSQ3GO5hyBaZ82S6HEUW0e0y1hdMTRWUoAtxukejcLPTQQR2OkfHAXXWQR7T0/UthDQkLJdpQ3/az30MG+EyFbWDXYEcmQ3TmQzsgTytMmOb4=
+	t=1717152574; cv=none; b=QDfc1X38PBG9cSVMXTfyvUCrE0zZUSyuxOJhzbhAObSPR4Ur4aMP2W+mseQEC9xmi7IKc1puv3N8Xx54sJJO+IzoTeOwNsCS3xpjgcNj+5+zwzID8ff973prDEkJ5xeNZvF9+z70CSB34RNIvjv7kXHHtBOL9lAnAUO6nrKywGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717148733; c=relaxed/simple;
-	bh=lERvVoyJAE/jeXnmH1j9lxgnxLnRxdAv4vYaPklDwFE=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=pTfUAMxGhIGUXn/RhdzSJ0M0qinT/whz0oAHdZ/RxOmhYITotIOK9g6Z9DJMKA20jQQ3B18nhuLG4Gsxf1KCRlmPC0O4RuS+YaOv+w0Pob9l1ApJbd3T7Gf31bUtYpCD7M0T0CbPYfwe1RuNn2XU8vRvw00mJPEsA3s8JUZy79w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iROFP+Am; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1717152574; c=relaxed/simple;
+	bh=RvBI/DO9eI7WJD7WUndKZjDzo6+ZcDcOvUjOEa8Tnzw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=NKQT7meb0fdI6R7RvvELPKlCLcHGAV6WypSpAjtz5/sSEkYoqNKqWgWXKa85KQloWoqQZFcYld/OZIsA4Ux43OZ0Fp/W0VOAFTCishrgTxCaZXMrqZm4kyEjYNOI5E+7vk+Uy05kiPWWXcnn7V4ylUOeJNmJ04YNj1q6tf5vRSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UF/4zd7t; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iROFP+Am"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a59a352bbd9so292091366b.1;
-        Fri, 31 May 2024 02:45:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717148730; x=1717753530; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lERvVoyJAE/jeXnmH1j9lxgnxLnRxdAv4vYaPklDwFE=;
-        b=iROFP+AmyemW+k/xYH1mkWxyfFqaSyg/qMbCJQOmEYICIslZLFTXc87RVj9/0MqHdS
-         NLIaynR0Q5Bb50+CZ5wRnc2FroOis5t8LeU+Nf6kbaRXrVcB/lGMGEryUHWPLK8y0oIL
-         zxfbdAWVQogZWfy5YNzBrKN2b2XuCjT5Nx+wud6p2I4IFzFfgj8yz6JGXH0MpXiDwTZi
-         LpPgyLI2l2PRD9QMPzp9vrAV980evHYPLyZBMjxy5KK5X7VIiU+5rNYbbikpz0Xe6rhz
-         p63ckITaJz5VBv4as+K06ooLnCFu/0NW0rNYQ2cr0vc4BfEUNWU+AkeXZUMm8zztRHI6
-         5W+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717148730; x=1717753530;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=lERvVoyJAE/jeXnmH1j9lxgnxLnRxdAv4vYaPklDwFE=;
-        b=BIx90/83KNPIkkutabrbUJLIaGPA3Y+Zjfmh4iLhNIsry6s4S4EgNmLApnQoUd/dpq
-         n3Yer/XcqQzNMSH5kAyipI1r3n0DGsRSsgV7wabJyqz4Dgi/UQ2lezb0kmpeg/F6bgkO
-         t2Z/Lj8P0SmoanvrXt03nc6csXZjX9Kb/YXfz4dmT4RD0B2dbqfWb921833lr+fSG167
-         IW7MTyV3WUavF/EkY18QSvlCb+0QBwYubogm31rsfWfP0rUV098/0WvQXrTd8H5pmIfe
-         8V2CbM9ZMyRR/WbueHa7b5glcIwL6ZMOWcd9/HPEJSdxAUeXu95Bk4gC6450U3pRIHKm
-         xegg==
-X-Forwarded-Encrypted: i=1; AJvYcCUY8rSzVMa8xRAqbMBLw2iX8UajxzZLUnVOhruEKVbJmvGenxBV3FACySGItOHGTnRYO5q1ll4fAwIRd7m5hBHRbGluPufzTm7GybZNCBXGuMSlpbDkAF1GmvVeW+zxJhmRaLazyOFpE8zMPL17nXdgH7AwKKEgHBzKa5rQCaMWEMLffO0=
-X-Gm-Message-State: AOJu0Yz/VbNSYszDvs/jyVaoVYrDdpfucQi+/z2MCuT+IvCbmtn74iJT
-	R75uHglyjscu7KqdUqIj/HtHoN3X5VPu9e17KMmaEUEFnaIg8e0KSDB1F0JfR7M=
-X-Google-Smtp-Source: AGHT+IFTFMH2jNPbQ/gcHw6Zpbe+myU3YyJ7m0d+2DIQGeRbcHm78hJ6xn84ifk1xVD6VmkTxOYzkg==
-X-Received: by 2002:a17:906:414d:b0:a59:c807:72d3 with SMTP id a640c23a62f3a-a681933565fmr134693866b.17.1717148729683;
-        Fri, 31 May 2024 02:45:29 -0700 (PDT)
-Received: from nsa.fritz.box ([2001:a61:35f9:9001:40df:88bb:5090:7ab6])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a682ea1e5c4sm50888966b.115.2024.05.31.02.45.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 May 2024 02:45:29 -0700 (PDT)
-Message-ID: <635356d36f5d402a3a921da12e352a95926ff03d.camel@gmail.com>
-Subject: Re: [PATCH v6 2/2] drivers: hwmon: max31827: Add PEC support
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Radu Sabau <radu.sabau@analog.com>, Jean Delvare <jdelvare@suse.com>, 
- Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
- linux-hwmon@vger.kernel.org,  linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Date: Fri, 31 May 2024 11:45:28 +0200
-In-Reply-To: <20240531084645.12935-2-radu.sabau@analog.com>
-References: <20240531084645.12935-1-radu.sabau@analog.com>
-	 <20240531084645.12935-2-radu.sabau@analog.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.1 (3.52.1-1.fc40) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UF/4zd7t"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC192C32781;
+	Fri, 31 May 2024 10:49:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717152573;
+	bh=RvBI/DO9eI7WJD7WUndKZjDzo6+ZcDcOvUjOEa8Tnzw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=UF/4zd7tDRqAnkqB4mox8pqpiNxLtNqV2OCAxS3m5sS+pZdDQoTrxqHwesjHWKaii
+	 fhFThejrqVg5XifCo2evMjzjl9ln237v277kDY9wltWD2WZWEMns66eqOMb7rZFhVk
+	 RHZDH7yepUjufwRY7gWQ5PvHbicQZZUjcyZaJ5q4NY+rHAtHbVEjNqD6HP3W9ZYJ6W
+	 MG+inZfHvYp/0/sgmEsKaBhofAxkRDfMOS7PA5KzwDwrfvkwcDmPR8GLmIzThpvoEr
+	 vC8NzkVpCpAutNq+lvdRkN/r5bMF7q+sMWXIZWfF5W/og50i1WtpCLM/73YA5qrawY
+	 dBdUwm3R+TOyg==
+From: Lee Jones <lee@kernel.org>
+To: linux-leds@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Aryabhatta Dey <aryabhattadey35@gmail.com>
+Cc: pavel@ucw.cz, lee@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, 
+ javier.carrasco.cruz@gmail.com
+In-Reply-To: <qpnx2m6qo5abvbs65o452gicumxa7n5vnw42e3hxnnm7sou4xn@fvu52tilzujc>
+References: <qpnx2m6qo5abvbs65o452gicumxa7n5vnw42e3hxnnm7sou4xn@fvu52tilzujc>
+Subject: Re: (subset) [PATCH] docs: leds: fix typo in
+ Documentation/leds/leds-blinkm.rst
+Message-Id: <171715257148.1033112.3919908889836604698.b4-ty@kernel.org>
+Date: Fri, 31 May 2024 11:49:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.12.4
 
-On Fri, 2024-05-31 at 11:46 +0300, Radu Sabau wrote:
-> Add support for PEC by configuring the chip accordingly to the hwmon core=
- PEC
-> attribute handling
-> Handle hwmon_chip_pec attribute writing in the max31827_write in the
-> hwmon_chip type switch case, approaching the same code structure
-> as for temp writing.
->=20
-> Signed-off-by: Radu Sabau <radu.sabau@analog.com>
-> ---
+On Wed, 08 May 2024 01:37:11 +0530, Aryabhatta Dey wrote:
+> Change 'dasy-chain' to 'daisy-chain'.
+> 
+> 
 
-Reviewed-by: Nuno Sa <nuno.sa@analog.com>
+Applied, thanks!
 
-- Nuno S=C3=A1
->=20
+[1/1] docs: leds: fix typo in Documentation/leds/leds-blinkm.rst
+      commit: 4324f97613d35ab3c1a3566ee4f29d863ba5f285
+
+--
+Lee Jones [李琼斯]
 
