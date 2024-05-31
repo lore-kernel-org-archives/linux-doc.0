@@ -1,60 +1,68 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F383208DA;
-	Fri, 31 May 2024 20:36:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D14CFEAE7;
+	Fri, 31 May 2024 20:40:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717187781; cv=none; b=t5dbtZZ5kGnADVHcuTHyPnkAzA6zXbYQDaPu3nq2lF4RJ2kVMntlSVgk5e3FTijyhGCvqOZvIE58L86C6DJkv90cQNZMzCgNaAPyRyFbMHiBTDkM5wpt6VuJTveUj8Xy68geZNUokZCrGIbdYYnyIRtsmbGpHO6tVD/yV4kJn5s=
+	t=1717188012; cv=none; b=mHeQC9kM+1L3FBc8cFeCYf7tg3GGS4hO11CgAUQjjI/oZvUGcXncXCTJ1U88h0RrUolGQ+3oX2E8Tk950a8cn8RgDYsMgSzwvvpYasjJ/Z/xpnvkjXep8djERmOyUuBydd0bIPf0VnYWGtSNyBn0FwilH3K0/mK60OFnJQ266EU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717187781; c=relaxed/simple;
-	bh=WdOxa9rbUS6q9NaRbl/yb1oNoDnPk7wE0Gs06YTBa5U=;
+	s=arc-20240116; t=1717188012; c=relaxed/simple;
+	bh=XWJGA7WkumqEWVF3eNR36oimqhMNBPP0r3p047diBwI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K1svYIUpLiLhpc16ehyBtzdG2xYVxKS/mEvrhMfoi8qzwLL1rG7aBeRk6GZdvhY+CHbFz7IdHSC8iESVh1fFItrJUMKw7VNjDf/En+cX2WBsxJgVe1oVwGKY0UuhbSPTWqh98WniRTbznhAv6zEe5aNwPQ4RpvBK3d7Ym2OYHUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BgzTgIjj; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=gEftkduXAz9IW019w157WZ6ZuxrIKR9+hP90N+hxfo01aBpH/MvIWYDtBjHc/lD6BLvJw/tN88EENPVywGwk6I/ii5BP8yHn9bOnicrk+ROk58Og/4oh85YP5ORUilK11lHMbfLtyGcgCw7xYNKuEo5twzFaJU1VxqIurAStWlc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h9GHoPXU; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BgzTgIjj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5434C2BD10;
-	Fri, 31 May 2024 20:36:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717187780;
-	bh=WdOxa9rbUS6q9NaRbl/yb1oNoDnPk7wE0Gs06YTBa5U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BgzTgIjjAbBDZJJ7SdGkQGn03Ke7koI9sJcvxzGG85wTTVXYUoUXrCv+9F2+Fr/p0
-	 5ann9Kudtmbhm5NuShztMv0EAjFKOaxiiV420z9fm1LqUhVPUVOjjqLne17p6ZqDO6
-	 CcaaVgkybPhHQeBRx2sqjj+RSW+PjtVnZWl+o4Vr8Oxjr9x7Bb1Cx03QlEgURZp6EG
-	 16FKupbqrEl+oHu3VZYCeT6Mx98i18EH8N3S3AP2mWIg+PYTuDZWK6dcQ/bk5MvmF6
-	 fSkyQ45BE5IcQWascYcv86qbwspWcJ21Qps/yZ3OASZ6k7bTUBrGBqENi+FNwL1/53
-	 BTJoDAANj2F2A==
-Date: Fri, 31 May 2024 21:36:12 +0100
-From: Simon Horman <horms@kernel.org>
-To: Liju-clr Chen <liju-clr.chen@mediatek.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Yingshiuan Pan <Yingshiuan.Pan@mediatek.com>,
-	Ze-yu Wang <Ze-yu.Wang@mediatek.com>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-trace-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	David Bradil <dbrazdil@google.com>,
-	Trilok Soni <quic_tsoni@quicinc.com>,
-	Shawn Hsiao <shawn.hsiao@mediatek.com>,
-	PeiLun Suei <PeiLun.Suei@mediatek.com>,
-	Chi-shen Yeh <Chi-shen.Yeh@mediatek.com>,
-	Kevenny Hsieh <Kevenny.Hsieh@mediatek.com>
-Subject: Re: [PATCH v11 08/21] virt: geniezone: Add vcpu support
-Message-ID: <20240531203612.GU491852@kernel.org>
-References: <20240529084239.11478-1-liju-clr.chen@mediatek.com>
- <20240529084239.11478-9-liju-clr.chen@mediatek.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h9GHoPXU"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-701ae8698d8so2004988b3a.0;
+        Fri, 31 May 2024 13:40:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717188010; x=1717792810; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EcSoUVjLNskF349BZzJVDHB2cNNxuuJE3IEXN9Qr/mg=;
+        b=h9GHoPXUadVKUTY9/k/VSwV4FhfgQEvP698QEFdlsMbSSc1S0iZm9zbPV9VG5JNf3A
+         Dy2SGtnGbNW1R8UGJPA7awvEmnhnJxEZIAj84szhp+4/UDIF0oY7Bp7vRnVt7TDQnTqf
+         Zimwa8gjO9ialddWgFwJ9fypl/8v2FKpFNfTUS6h/rO1vXhRnHZT0cqtkXniVM1KjQ6+
+         806fovGMH3cUrWvdFzjRXBK5rzQUGTSK/ixYH55xKXR9tIlrs2CYx6mhpuW+QEPvqkO8
+         SHaTmRNpT9Ye+2VyLbEhgt1kAZ7aq8905dnN9ZN2Msr4W3GQCWE/R7epF0qStLXrPGzC
+         +cZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717188010; x=1717792810;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EcSoUVjLNskF349BZzJVDHB2cNNxuuJE3IEXN9Qr/mg=;
+        b=NrzKfpb4G0IwiNQoLt08i/OyLE1AY0xmWm1lMaGv4ST+kb59FBumGQ7y9AKUSTHjwS
+         rcph+4H9c3v0JCNrtayM2hDSsLx7VKJ+oaYbLtdKh7xibTPqf3TYEempUeYbkmUv/8bf
+         6+vYRmHvL28y7NCskvNCuo3241wRiJi0hecwH7on8xEJMSu294z2ykTlVlzUennyMe01
+         g3HZb8RX2kWbdwGbJOG/+PW9dmoyDU2iLVEwYEaLngcFgEE5MWUGkbVYAWNBjqHpMB7H
+         4HuGTJ2Uz0rTgycPzFU/XwMoh6INiasefpCwDyhs9ti5yFWuT9zQBfpbVhWhv/hzsrpQ
+         TD6w==
+X-Forwarded-Encrypted: i=1; AJvYcCVqcdbyWGPfpmxYvpOrvvBuA8wtfFj+lPjWjXrlLIlarI2b3p2aTu8YrXkH19HIL8nSEgCP8abF8d/z+tZHRGe1lGQCwQlJCurJE6L7Ao0c9F3b6SSc//v5U8J6Zxlq47YMEnU7xzcxbJkM+Mndbh8o6lXXyS+W7VARwX1Du39U07/V3lE=
+X-Gm-Message-State: AOJu0Yy2N+oF7NP4xL0wPl5kF45A/pkAk4XTpGEQ680Z3XP5ljSVl4RI
+	n3AIUusgCLhpwLrY4WKW0T4UoPw9PTOZ7TDjWNeoSuwiEiXTRXtx
+X-Google-Smtp-Source: AGHT+IHsl1mU7gRHY5Se++eXlfsTrPYGTP4qW4HqGsRZrj8ftol6XE0ti+DxCQCDzjqx1XI3vZkrlw==
+X-Received: by 2002:a05:6a00:4388:b0:702:33a4:53a5 with SMTP id d2e1a72fcca58-7024789cccamr3371975b3a.27.1717188009902;
+        Fri, 31 May 2024 13:40:09 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70242ae88besm1774032b3a.116.2024.05.31.13.40.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 31 May 2024 13:40:09 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Fri, 31 May 2024 13:40:08 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Radu Sabau <radu.sabau@analog.com>
+Cc: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 2/2] drivers: hwmon: max31827: Add PEC support
+Message-ID: <30cc3e47-3da3-4a92-956c-d1c1cba97e09@roeck-us.net>
+References: <20240531084645.12935-1-radu.sabau@analog.com>
+ <20240531084645.12935-2-radu.sabau@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -63,120 +71,20 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240529084239.11478-9-liju-clr.chen@mediatek.com>
+In-Reply-To: <20240531084645.12935-2-radu.sabau@analog.com>
 
-On Wed, May 29, 2024 at 04:42:26PM +0800, Liju-clr Chen wrote:
-> From: Yi-De Wu <yi-de.wu@mediatek.com>
+On Fri, May 31, 2024 at 11:46:44AM +0300, Radu Sabau wrote:
+> Add support for PEC by configuring the chip accordingly to the hwmon
+> core PEC attribute handling.
 > 
-> From: "Yingshiuan Pan" <yingshiuan.pan@mediatek.com>
-
-nit: I think there should be at most one From line,
-     denoting the author of the patch. Based on the Signed-off-by
-     lines I assume that is Yingshiuan Pan.
-
-     If there are multiple authors perhaps
-     the Co-developed-by tag should be used below.
-
-     And on that note, it's not clear to me what the significance
-     of the Signed-off-by lines, other than that of
-     Yingshiuan Pan (presumed author) and Liju Chen (sender) are.
-     I'd suggest deleting them unless they are
-     accompanied by Co-developed-by tags.
-
-     And, lastly, the sender's signed-off-by line should come last.
-
-     See: https://www.kernel.org/doc/html/latest/process/submitting-patches.html#sign-your-work-the-developer-s-certificate-of-origin
-
+> Handle hwmon_chip_pec attribute writing in the max31827_write in the
+> hwmon_chip type switch case, using the same code structure as for
+> writing temperature limits. 
 > 
-> VMM use this interface to create vcpu instance which is a fd, and this
-> fd will be for any vcpu operations, such as setting vcpu registers and
-> accepts the most important ioctl GZVM_VCPU_RUN which requests GenieZone
-> hypervisor to do context switch to execute VM's vcpu context.
-> 
-> Signed-off-by: Yingshiuan Pan <yingshiuan.pan@mediatek.com>
-> Signed-off-by: Jerry Wang <ze-yu.wang@mediatek.com>
-> Signed-off-by: kevenny hsieh <kevenny.hsieh@mediatek.com>
-> Signed-off-by: Liju Chen <liju-clr.chen@mediatek.com>
-> Signed-off-by: Yi-De Wu <yi-de.wu@mediatek.com>
+> Signed-off-by: Radu Sabau <radu.sabau@analog.com>
+> Reviewed-by: Nuno Sa <nuno.sa@analog.com>
 
-...
+Applied to hwmon-next.
 
-> diff --git a/drivers/virt/geniezone/Makefile b/drivers/virt/geniezone/Makefile
-> index 25614ea3dea2..9cc453c0819b 100644
-> --- a/drivers/virt/geniezone/Makefile
-> +++ b/drivers/virt/geniezone/Makefile
-> @@ -6,4 +6,5 @@
->  
->  GZVM_DIR ?= ../../../drivers/virt/geniezone
->  
-> -gzvm-y := $(GZVM_DIR)/gzvm_main.o $(GZVM_DIR)/gzvm_vm.o
-> +gzvm-y := $(GZVM_DIR)/gzvm_main.o $(GZVM_DIR)/gzvm_vm.o \
-> +	  $(GZVM_DIR)/gzvm_vcpu.o
-> diff --git a/drivers/virt/geniezone/gzvm_vcpu.c b/drivers/virt/geniezone/gzvm_vcpu.c
-> new file mode 100644
-> index 000000000000..1aca13fef422
-> --- /dev/null
-> +++ b/drivers/virt/geniezone/gzvm_vcpu.c
-> @@ -0,0 +1,249 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2023 MediaTek Inc.
-> + */
-> +
-> +#include <asm/sysreg.h>
-
-nit: It's not clear to me that sysreg.h needs to be included in this file.
-
-> +#include <linux/anon_inodes.h>
-> +#include <linux/device.h>
-> +#include <linux/file.h>
-> +#include <linux/mm.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/slab.h>
-> +#include <linux/soc/mediatek/gzvm_drv.h>
-> +
-> +/* maximum size needed for holding an integer */
-> +#define ITOA_MAX_LEN 12
-> +
-> +static long gzvm_vcpu_update_one_reg(struct gzvm_vcpu *vcpu,
-> +				     void __user *argp,
-> +				     bool is_write)
-> +{
-> +	struct gzvm_one_reg reg;
-> +	void __user *reg_addr;
-> +	u64 data = 0;
-> +	u64 reg_size;
-> +	long ret;
-> +
-> +	if (copy_from_user(&reg, argp, sizeof(reg)))
-> +		return -EFAULT;
-> +
-> +	reg_addr = (void __user *)reg.addr;
-
-nit: Perhaps u64_to_user_ptr() is appropriate here.
-
-     Also in gzvm_vm_ioctl_create_device() in patch 09/21.
-
-> +	reg_size = (reg.id & GZVM_REG_SIZE_MASK) >> GZVM_REG_SIZE_SHIFT;
-> +	reg_size = BIT(reg_size);
-> +
-> +	if (reg_size != 1 && reg_size != 2 && reg_size != 4 && reg_size != 8)
-> +		return -EINVAL;
-> +
-> +	if (is_write) {
-> +		/* GZ hypervisor would filter out invalid vcpu register access */
-> +		if (copy_from_user(&data, reg_addr, reg_size))
-> +			return -EFAULT;
-> +	} else {
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	ret = gzvm_arch_vcpu_update_one_reg(vcpu, reg.id, is_write, &data);
-> +
-> +	if (ret)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-
-...
+Thanks,
+Guenter
