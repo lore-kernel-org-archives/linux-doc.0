@@ -1,66 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B65158862;
-	Fri, 31 May 2024 12:30:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D29A1158A37;
+	Fri, 31 May 2024 12:37:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717158639; cv=none; b=dF0BGf1SJ7YCPvlZzSsK6dLGQSobs8VvAw06pSiYf+lhrYVPpHDZnsK2LkScW5x2/V2akjTN8SN5vW1LqaZ1BVZE4ZQqsBaEMCruwXDnSLMVx28NI9LAJVvAsl/4AH5q78WijDirJocEi5sX2SjtyWcBkxuYhg+KxgDp+IW5jmE=
+	t=1717159055; cv=none; b=Xf5LbFQQODuweGdbI7RE/j2eqDZoIW7qIqH25m7bvBA8F//zJN7M0D5Lwd0RwSO/+2OTPUtpuPS3RFoV7i2VQyYMrkaa2HHvRmqxlBDlpTdxC3JVFPmeUpS7PnIIyUqaZRPuAX/fLNYbLr2OtIgWvxmaXivHZB11kDvQ0hVAy5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717158639; c=relaxed/simple;
-	bh=elMV5nlVUCpXGxL/arb3/iQCax33bq4ad5idfGKdJL8=;
+	s=arc-20240116; t=1717159055; c=relaxed/simple;
+	bh=lw5lxYGG7QNyW/AQo8G8xHIGJcPJU+mNS8IZY8Z1Elo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tzbGuvdJ3Ozqwr+u6QnXjpxvHgV7pqYUPezO7naT74O+mjVb4ftOO6bldceelTfTUVRXoCbAga2LOtNAS4fXxBDe5b9BVku+oeBKpW7H9fjMiDWHltfP8T2qL4HuCoOqwoKBYf8Evc5Laj0TqgRHvEtK25RuHmsr8AJoN363TCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U3R8Tcdz; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=qIUN6eCmdocWWFePWz9dHBq6aXMcje6AJKWnz7tBnxt734RzDa6orK+csTMkML5G4N/AA6w3XTVLnqClwCBqr1R8QSbyBzr2FjDiKi2rDRiNTjvVk73No8ppYyMiyOJunAynuxZWcHSiGdmZ/cw0qEMzXgBIbzZzWd98OULz5LA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=40hxvKXr; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U3R8Tcdz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717158638; x=1748694638;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=elMV5nlVUCpXGxL/arb3/iQCax33bq4ad5idfGKdJL8=;
-  b=U3R8TcdzJZWV8rKGKK6HC74C4JJypA+e60JfAzFF3dHyA4Vq4qtt2yuV
-   26IEGpISfc4OgDVKUxqlZopJ3rTV1VtYmBznKIJT5/7b7gWWrzke8rwuz
-   uv2CVIEI9ITvfpgSNWu5iZdb6kuhIeoHMnnguSJ0SlG2jh831L8/PIe0W
-   RwXAlbk/Ak4A67mQ5ArU4AczWouLk6xPoI7Y1hmWGqNOH8cRMuyWkotR1
-   Qd7myVd90IFnBbWj5ReL5odTSVMLTw0iyHEp1iUNaRSXuybU3NrHUdVst
-   tIhjqlFybuxsxGl9Lbqg92TALJhj65sy1JSuaTzdGuP6b8zWZGMEyCaxR
-   w==;
-X-CSE-ConnectionGUID: 0FDGtSiYQsiM/jgrw0thZg==
-X-CSE-MsgGUID: Q1q3DAzURoGm8yBpXIReJQ==
-X-IronPort-AV: E=McAfee;i="6600,9927,11088"; a="39093349"
-X-IronPort-AV: E=Sophos;i="6.08,204,1712646000"; 
-   d="scan'208";a="39093349"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2024 05:30:28 -0700
-X-CSE-ConnectionGUID: i98rGWf7SXK/HkAiegwFTA==
-X-CSE-MsgGUID: 6ibuqBWfQRe899Pf5ixvdg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,204,1712646000"; 
-   d="scan'208";a="59321521"
-Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 31 May 2024 05:30:25 -0700
-Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sD1Oo-000H4b-2B;
-	Fri, 31 May 2024 12:30:22 +0000
-Date: Fri, 31 May 2024 20:29:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Benjamin Tissoires <bentiss@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jiri Kosina <jikos@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Alexei Starovoitov <ast@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
-	Benjamin Tissoires <bentiss@kernel.org>
-Subject: Re: [PATCH HID 03/13] HID: bpf: implement HID-BPF through
- bpf_struct_ops
-Message-ID: <202405312035.U1rZN04z-lkp@intel.com>
-References: <20240528-hid_bpf_struct_ops-v1-3-8c6663df27d8@kernel.org>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="40hxvKXr"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=NwrTE5NFFBVwImdPHTY4kClZsQLoC7dc/JgAoHbMaR4=; b=40hxvKXrPYqzM6vIvfhc/ZzHk1
+	mpwPa/03mAu5dvWheuv3XnXeqokKCA3S1HKVHiBMVU1obW6dcLSReHztaUBLyM7cHlKTSP1FsGFOk
+	ADUbeWgy4N1/+6CztKY/FGVtX3pSP9diX/G5qurf5++x8DYnoqTls8m2bPIKca/SrOl4=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1sD1VS-00GStD-49; Fri, 31 May 2024 14:37:14 +0200
+Date: Fri, 31 May 2024 14:37:14 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Parthiban.Veerasooran@microchip.com
+Cc: Pier.Beruto@onsemi.com, Selvamani.Rajagopal@onsemi.com,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, horms@kernel.org, saeedm@nvidia.com,
+	anthony.l.nguyen@intel.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, corbet@lwn.net,
+	linux-doc@vger.kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	devicetree@vger.kernel.org, Horatiu.Vultur@microchip.com,
+	ruanjinjie@huawei.com, Steen.Hegelund@microchip.com,
+	vladimir.oltean@nxp.com, UNGLinuxDriver@microchip.com,
+	Thorsten.Kummermehr@microchip.com, Nicolas.Ferre@microchip.com,
+	benjamin.bigler@bernformulastudent.ch, Viliam.Vozar@onsemi.com,
+	Arndt.Schuebel@onsemi.com
+Subject: Re: [PATCH net-next v4 00/12] Add support for OPEN Alliance
+ 10BASE-T1x MACPHY Serial Interface
+Message-ID: <585d7709-bcee-4a0e-9879-612bf798ed45@lunn.ch>
+References: <6ba7e1c8-5f89-4a0e-931f-3c117ccc7558@lunn.ch>
+ <8b9f8c10-e6bf-47df-ad83-eaf2590d8625@microchip.com>
+ <44cd0dc2-4b37-4e2f-be47-85f4c0e9f69c@lunn.ch>
+ <b941aefd-dbc5-48ea-b9f4-30611354384d@microchip.com>
+ <BYAPR02MB5958A4D667D13071E023B18F83F52@BYAPR02MB5958.namprd02.prod.outlook.com>
+ <6e4c8336-2783-45dd-b907-6b31cf0dae6c@lunn.ch>
+ <BY5PR02MB6786619C0A0FCB2BEDC2F90D9DF52@BY5PR02MB6786.namprd02.prod.outlook.com>
+ <0581b64a-dd7a-43d7-83f7-657ae93cefe5@lunn.ch>
+ <BY5PR02MB6786FC4808B2947CA03977429DF32@BY5PR02MB6786.namprd02.prod.outlook.com>
+ <39a62649-813a-426c-a2a6-4991e66de36e@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,76 +64,32 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240528-hid_bpf_struct_ops-v1-3-8c6663df27d8@kernel.org>
+In-Reply-To: <39a62649-813a-426c-a2a6-4991e66de36e@microchip.com>
 
-Hi Benjamin,
+> So I would request all of you to give your comments on the existing 
+> implementation in the patch series to improve better. Once this version 
+> is mainlined we will discuss further to implement further features 
+> supported. I feel the current discussion doesn't have any impact on the 
+> existing implementation which supports basic 10Base-T1S Ethernet 
+> communication.
 
-kernel test robot noticed the following build warnings:
+Agreed. Lets focus on what we have now.
 
-[auto build test WARNING on 70ec81c2e2b4005465ad0d042e90b36087c36104]
+https://patchwork.kernel.org/project/netdevbpf/patch/20240418125648.372526-2-Parthiban.Veerasooran@microchip.com/
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Tissoires/HID-rename-struct-hid_bpf_ops-into-hid_ops/20240528-212222
-base:   70ec81c2e2b4005465ad0d042e90b36087c36104
-patch link:    https://lore.kernel.org/r/20240528-hid_bpf_struct_ops-v1-3-8c6663df27d8%40kernel.org
-patch subject: [PATCH HID 03/13] HID: bpf: implement HID-BPF through bpf_struct_ops
-config: i386-buildonly-randconfig-002-20240531 (https://download.01.org/0day-ci/archive/20240531/202405312035.U1rZN04z-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240531/202405312035.U1rZN04z-lkp@intel.com/reproduce)
+Version 4 failed to apply. So we are missing all the CI tests. We need
+a v5 which cleanly applies to net-next in order for those tests to
+run.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202405312035.U1rZN04z-lkp@intel.com/
+I think we should disable vendor interrupts by default, since we
+currently have no way to handle them.
 
-All warnings (new ones prefixed by >>):
+I had a quick look at the comments on the patches. I don't think we
+have any other big issues not agreed on. So please post a v5 with them
+all addressed and we will see what the CI says.
 
-   In file included from include/linux/bpf_verifier.h:7:0,
-                    from drivers/hid/bpf/hid_bpf_struct_ops.c:10:
-   drivers/hid/bpf/hid_bpf_struct_ops.c: In function 'hid_bpf_struct_ops_init':
->> include/linux/bpf.h:1844:50: warning: statement with no effect [-Wunused-value]
-    #define register_bpf_struct_ops(st_ops, type) ({ (void *)(st_ops); 0; })
-                                                     ^~~~~~~~~~~~~~~~
-   drivers/hid/bpf/hid_bpf_struct_ops.c:244:9: note: in expansion of macro 'register_bpf_struct_ops'
-     return register_bpf_struct_ops(&bpf_hid_bpf_ops, hid_bpf_ops);
-            ^~~~~~~~~~~~~~~~~~~~~~~
+Piergiorgio, if you have any real problems getting basic support for
+your device working with this framework, now would be a good time to
+raise the problems.
 
-
-vim +1844 include/linux/bpf.h
-
-c196906d50e360d Hou Tao          2021-10-25  1834  
-c196906d50e360d Hou Tao          2021-10-25  1835  int bpf_struct_ops_test_run(struct bpf_prog *prog, const union bpf_attr *kattr,
-c196906d50e360d Hou Tao          2021-10-25  1836  			    union bpf_attr __user *uattr);
-c196906d50e360d Hou Tao          2021-10-25  1837  #endif
-f6be98d19985411 Kui-Feng Lee     2024-01-19  1838  int bpf_struct_ops_desc_init(struct bpf_struct_ops_desc *st_ops_desc,
-f6be98d19985411 Kui-Feng Lee     2024-01-19  1839  			     struct btf *btf,
-f6be98d19985411 Kui-Feng Lee     2024-01-19  1840  			     struct bpf_verifier_log *log);
-1338b93346587a2 Kui-Feng Lee     2024-01-19  1841  void bpf_map_struct_ops_info_fill(struct bpf_map_info *info, struct bpf_map *map);
-1611603537a4b88 Kui-Feng Lee     2024-02-08  1842  void bpf_struct_ops_desc_release(struct bpf_struct_ops_desc *st_ops_desc);
-27ae7997a66174c Martin KaFai Lau 2020-01-08  1843  #else
-f6be98d19985411 Kui-Feng Lee     2024-01-19 @1844  #define register_bpf_struct_ops(st_ops, type) ({ (void *)(st_ops); 0; })
-85d33df357b6346 Martin KaFai Lau 2020-01-08  1845  static inline bool bpf_try_module_get(const void *data, struct module *owner)
-85d33df357b6346 Martin KaFai Lau 2020-01-08  1846  {
-85d33df357b6346 Martin KaFai Lau 2020-01-08  1847  	return try_module_get(owner);
-85d33df357b6346 Martin KaFai Lau 2020-01-08  1848  }
-85d33df357b6346 Martin KaFai Lau 2020-01-08  1849  static inline void bpf_module_put(const void *data, struct module *owner)
-85d33df357b6346 Martin KaFai Lau 2020-01-08  1850  {
-85d33df357b6346 Martin KaFai Lau 2020-01-08  1851  	module_put(owner);
-85d33df357b6346 Martin KaFai Lau 2020-01-08  1852  }
-85d33df357b6346 Martin KaFai Lau 2020-01-08  1853  static inline int bpf_struct_ops_map_sys_lookup_elem(struct bpf_map *map,
-85d33df357b6346 Martin KaFai Lau 2020-01-08  1854  						     void *key,
-85d33df357b6346 Martin KaFai Lau 2020-01-08  1855  						     void *value)
-85d33df357b6346 Martin KaFai Lau 2020-01-08  1856  {
-85d33df357b6346 Martin KaFai Lau 2020-01-08  1857  	return -EINVAL;
-85d33df357b6346 Martin KaFai Lau 2020-01-08  1858  }
-68b04864ca425d1 Kui-Feng Lee     2023-03-22  1859  static inline int bpf_struct_ops_link_create(union bpf_attr *attr)
-68b04864ca425d1 Kui-Feng Lee     2023-03-22  1860  {
-68b04864ca425d1 Kui-Feng Lee     2023-03-22  1861  	return -EOPNOTSUPP;
-68b04864ca425d1 Kui-Feng Lee     2023-03-22  1862  }
-1338b93346587a2 Kui-Feng Lee     2024-01-19  1863  static inline void bpf_map_struct_ops_info_fill(struct bpf_map_info *info, struct bpf_map *map)
-1338b93346587a2 Kui-Feng Lee     2024-01-19  1864  {
-1338b93346587a2 Kui-Feng Lee     2024-01-19  1865  }
-68b04864ca425d1 Kui-Feng Lee     2023-03-22  1866  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+	Andrew
