@@ -1,107 +1,93 @@
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0AAA156242;
-	Fri, 31 May 2024 17:12:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4739C176223;
+	Fri, 31 May 2024 17:41:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717175565; cv=none; b=FfZ6Dy/BAgukuc1jY1xxNmpcOHVUDRe+2N7j28zqPq5V7pRyrVGzEUN0M5Q2F4e8Ll0I5YpWugeSDjjjOeeVsBELME8mPcbDcbjT8y5vO2JoVfnACLui0eWmoPpityohrsWxhLvw8B0K1e+PjODNTibKLBvUWyanfRRweZVThvg=
+	t=1717177295; cv=none; b=aShquHmSFgSRsmGN4UjZjk5rinRQ8qm9cPyf9kC8ps1KmhluFXZscgRqElssqCvfwYFWM17q7caqsSE4nyDcN+HkRtWG+esTYkbN806vrGzKGdTDHmmSZc7iq/SLfN0Cptd9Aiy5p+eT8j6THTWIWs9UrLIe3Me8gbRYKqG43Ns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717175565; c=relaxed/simple;
-	bh=5Drjhjc40i5t20Q8+Udfpsti+apZMTrzq15BgTAyJ7E=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rUjBg+T5jamCEPEE40VVVJhbfrPRMTCwzEqRLWxiSsvBDBStMl27F2QkVgvGHPuwyVuXS9ursmXgjZ0RsfbQBxJgswSj7/6aViY7uloGO28vX3T4d7rxpe90Vn32PrCr9J7tfs36/CpHSXdxQ6YDh+o0wTDuXUoIaPJjPx5or+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=XX7TDT5g; arc=none smtp.client-ip=198.47.23.248
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1717177295; c=relaxed/simple;
+	bh=2HRzJhB6DkzhhkkR2uYIgH8e1uDb/Hk6QCHWQxk39lQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VA6IcVRItWSW5i1nPrSGvpNDl2xqmDaTZON2TU9jXN5J6xNGuu4G0QxhUZHSSEg64BBtDkL0tY5NTvhWkGfSXW7CpdE22YtNMt72ILCziaA5gFefh2zu7crdFZKj/U4Co6dRsoVfZbPIQ/QkzyTeXtruwiaExZWBZp/tIouAPZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I/LaKBFL; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="XX7TDT5g"
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 44VHCMVT034497;
-	Fri, 31 May 2024 12:12:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1717175542;
-	bh=2rNMIILgKlNzeXzRzdQgwxJkUuZXyruFMSuxEMftOW4=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=XX7TDT5gsbDbGHNz060zChdoXnucz2ixNZM98WKTloyOR8EyTLdLMSQw4r/WNSxO1
-	 nlBUcU4mD9sSZTzB+W4PNSz2gmLNs9Fr63YgOHVTFxxMokkW3MM23FJ1IYIoBxSoR2
-	 iyexsdyjtWKjT5WiGdVtwPbF28m4/KokeOF2ZT+Q=
-Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 44VHCMoG023460
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 31 May 2024 12:12:22 -0500
-Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 31
- May 2024 12:12:22 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 31 May 2024 12:12:22 -0500
-Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 44VHCLu8051240;
-	Fri, 31 May 2024 12:12:21 -0500
-From: Devarsh Thakkar <devarsht@ti.com>
-To: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>,
-        <akpm@linux-foundation.org>, <gregkh@linuxfoundation.org>,
-        <andriy.shevchenko@linux.intel.com>, <adobriyan@gmail.com>,
-        <jani.nikula@intel.com>, <p.zabel@pengutronix.de>, <airlied@gmail.com>,
-        <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>, <corbet@lwn.net>,
-        <broonie@kernel.org>, <rdunlap@infradead.org>,
-        <linux-doc@vger.kernel.org>
-CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
-        <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
-        <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
-        <vijayp@ti.com>, <devarsht@ti.com>, <andrzej.p@collabora.com>,
-        <nicolas@ndufresne.ca>, <davidgow@google.com>, <dlatypov@google.com>
-Subject: [PATCH v11 07/11] Documentation: core-api: Add math.h macros and functions
-Date: Fri, 31 May 2024 22:42:20 +0530
-Message-ID: <20240531171220.1295881-1-devarsht@ti.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20240531170229.1270828-1-devarsht@ti.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I/LaKBFL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717177294; x=1748713294;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2HRzJhB6DkzhhkkR2uYIgH8e1uDb/Hk6QCHWQxk39lQ=;
+  b=I/LaKBFLryQOV0btZlFnVjF6ZzSsRvAOZQ/M50O90iBzhN4S3b7VhW1j
+   xpGg9NbSSM0L7daAl/3KVgy2w25Gjf6PcSBsyScuvm/eL3DAIU75rtzZw
+   ENrQMMOSunto7p2/ZqKeUFgpVybXEecYIPYtEKlCiwub9QIACtOxzRxn+
+   iXEQ7CVhjS5A1LdYzZRCBPXwo6TLPNSSugIzLwP88Yv1Lg9uKeOmYH+pQ
+   CZB/W94WY/peG/lGmTshOHhrcZgRl/Be6hnwlyOSxAgN3xz+AMkssbgX1
+   a86fXPBHVwqQjtv8La5QRcKiG9S+tkpNQ21yLx/IGDts881wg8qV0QoRN
+   A==;
+X-CSE-ConnectionGUID: tT3Di7AUTnKKAAXgS14bZg==
+X-CSE-MsgGUID: hSiOuXUSSOe4gpKtZmK41A==
+X-IronPort-AV: E=McAfee;i="6600,9927,11089"; a="13925768"
+X-IronPort-AV: E=Sophos;i="6.08,205,1712646000"; 
+   d="scan'208";a="13925768"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2024 10:41:33 -0700
+X-CSE-ConnectionGUID: BZzVMnL5RcWCcpKzcVOs3w==
+X-CSE-MsgGUID: BexCsHAHSTi2YIp+Lx3NEA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,205,1712646000"; 
+   d="scan'208";a="36312479"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2024 10:41:26 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1sD6Fm-0000000CXaK-0IEU;
+	Fri, 31 May 2024 20:41:22 +0300
+Date: Fri, 31 May 2024 20:41:21 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	benjamin.gaignard@collabora.com, sebastian.fricke@collabora.com,
+	akpm@linux-foundation.org, gregkh@linuxfoundation.org,
+	adobriyan@gmail.com, jani.nikula@intel.com, p.zabel@pengutronix.de,
+	airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+	corbet@lwn.net, broonie@kernel.org, rdunlap@infradead.org,
+	linux-doc@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+	praneeth@ti.com, nm@ti.com, vigneshr@ti.com, a-bhatia1@ti.com,
+	j-luthra@ti.com, b-brnich@ti.com, detheridge@ti.com,
+	p-mantena@ti.com, vijayp@ti.com, andrzej.p@collabora.com,
+	nicolas@ndufresne.ca, davidgow@google.com, dlatypov@google.com
+Subject: Re: [PATCH v11 07/11] Documentation: core-api: Add math.h macros and
+ functions
+Message-ID: <ZloLwasJUEWR-2-L@smile.fi.intel.com>
 References: <20240531170229.1270828-1-devarsht@ti.com>
+ <20240531171220.1295881-1-devarsht@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240531171220.1295881-1-devarsht@ti.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Add documentation for rounding, scaling, absolute value and difference,
-32-bit division related macros and functions exported by math.h header
-file.
+On Fri, May 31, 2024 at 10:42:20PM +0530, Devarsh Thakkar wrote:
+> Add documentation for rounding, scaling, absolute value and difference,
+> 32-bit division related macros and functions exported by math.h header
+> file.
 
-Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
----
-V11: Fix title for math function header
-V10: Patch introduced
-V1->V9 (No change)
----
- Documentation/core-api/kernel-api.rst | 6 ++++++
- 1 file changed, 6 insertions(+)
+As long as it renders correctly, fine to me
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
-index ae92a2571388..7de494e76fa6 100644
---- a/Documentation/core-api/kernel-api.rst
-+++ b/Documentation/core-api/kernel-api.rst
-@@ -185,6 +185,12 @@ Division Functions
- .. kernel-doc:: lib/math/gcd.c
-    :export:
- 
-+Rounding, absolute value, division and 32-bit scaling functions
-+---------------------------------------------------------------
-+
-+.. kernel-doc:: include/linux/math.h
-+   :internal:
-+
- UUID/GUID
- ---------
- 
 -- 
-2.39.1
+With Best Regards,
+Andy Shevchenko
+
 
