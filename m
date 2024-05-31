@@ -1,44 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7EF2594;
-	Fri, 31 May 2024 20:45:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A140DD26A;
+	Fri, 31 May 2024 20:48:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717188321; cv=none; b=ixQ5iFw+MYXazFYUoCXb+L+wzIOOtDTWFyWFE/iaST3RcIIJPpMUDOaB6/nhdP1fCQFIU8t45d4hWuk+vg8+shyz2EHonYWx8l1WdJJKIwuHeWM4kv+E1P0KcyZfDLy8MMVFM2BJjwuLbfvxFEtuTQ6AbOMj0MPgBENMM4UW/5c=
+	t=1717188524; cv=none; b=g33iwToOGa2Sd7eJLlK2ngkQE0KbLMa/kLIJ45B7yx3JIO+8atXXd/xRgA9hAM47G6R37UOxQqO+BoTSBStQTObG7QczHVvky5cJ6SJkr9D9d/yYehtXDBn9i+46S2GV0y2rjAnjuVfYQorp7oCgVFmF1q7u+BxIZKdfopE0gc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717188321; c=relaxed/simple;
-	bh=LI7Mxc6ebEw74KTKSXniaGRNgbV1HGFMZRF0qE9uLro=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=lTDs5EEBAoaB/ETXh+abkDsjULbSI9AcU5YyOfxAwzUGRqWZijrAyMslszzVsgcMpg/1EFynJxVGMpot7gxpsPCbt0rZzaPZCy9oWtS4AABFz/qqWPsO5Xj3McDd4AjtOV+cWDIm/mo7vjp+5bmAQRxIK5DIzsprxQ6G9Lk3TNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A5d/F1wh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717188524; c=relaxed/simple;
+	bh=rFnHh2wJYNoB76Ml+22NnUsLEKD+h/GAxFGey/czVOQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u6bfn4W3V81iwPmpO3omBTG3wRIgBqaryg98uL3LOozJWOERAlX0XPNwB1L39PjP+dK1hPeCdqkI1CRcOQqzgaldGmSoX8WZlVE+uYLwsSHPXrem506APX7Q04TmgWOoRZXj7AfukOBzbMd80AmqwsYBEm2OzcZsm6TJ7Gy+UKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cCV0st2r; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A5d/F1wh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88A78C32786;
-	Fri, 31 May 2024 20:45:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cCV0st2r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16EA2C116B1;
+	Fri, 31 May 2024 20:48:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717188320;
-	bh=LI7Mxc6ebEw74KTKSXniaGRNgbV1HGFMZRF0qE9uLro=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=A5d/F1whnzZ402gKLjGwRqrGh1azcQqGb6v1b8Z0nOQS+Pb7S9CA/D/a27MYh1QEl
-	 3M7eFzQGywj5lfat7LW4VBCKh0owNQsqPCusZ1F/pUoGQRXDZhnIxyiv5Sz/eeK0YK
-	 xU3BijQQLqhovPuORhK/zCqYXFgJBJURhKMUbv38Pf16bqPzhcqWRglZ1fEz9odp5q
-	 zdCDlJ/UKnwdSJ4+2FBTtATj9Vhe1nftDmqMOsSSbuYaGb9i3jxFPFclaSNKA3zRLl
-	 wZUxEh4g+GP4NwOKsCaLayLBvRjezRCOWzlFUqpx3XWoIJcHPh0anhfXNA7Q4R68R5
-	 D9dUPHsvJCfrg==
-Date: Fri, 31 May 2024 15:45:18 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Noah Wang <noahwang.wang@outlook.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, linux@roeck-us.net,
-	conor+dt@kernel.org, jdelvare@suse.com, corbet@lwn.net,
-	Delphine_CC_Chiu@wiwynn.com, peteryin.openbmc@gmail.com,
-	javier.carrasco.cruz@gmail.com, patrick.rudolph@9elements.com,
-	luca.ceresoli@bootlin.com, chou.cosmo@gmail.com,
-	bhelgaas@google.com, lukas@wunner.de, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org
-Subject: Re: [v3,2/2] dt-bindings: hwmon: Add mps mp2891
-Message-ID: <20240531204518.GA608574@bhelgaas>
+	s=k20201202; t=1717188524;
+	bh=rFnHh2wJYNoB76Ml+22NnUsLEKD+h/GAxFGey/czVOQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cCV0st2rQscuWQRRD66py/Md9Mf8mIse5f5jZSqyArOSjheLY3FWzSZ0nnPnPNuDe
+	 dX3NKU8cFLky+rp9zE1/dWqI9QumqMPadZXRguN/uqvqIy8JCxKqaT5mNWb2ddSTOP
+	 WW3nTZoNUs3ooPHdjzSuivJ9cfYPEbub+Xi5sXHD8VdV0/X3G2UgRyohnG3NOyg4xP
+	 HLW1WEdF0saOukDjTRCAHk8oZxhEhtrC+LbbXgmEUyHYqE4kDzV8OVVj9w3J3qszx/
+	 OuZc8w6Q7BVzPPGo29tNFxZb8EPKfAFfd/Cq3VAehojM71REySKXZqSyAjrLTJO2hM
+	 NBSeyCI3HYUHQ==
+Date: Fri, 31 May 2024 20:48:42 +0000
+From: Eric Biggers <ebiggers@kernel.org>
+To: Fan Wu <wufan@linux.microsoft.com>
+Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
+	serge@hallyn.com, tytso@mit.edu, axboe@kernel.dk, agk@redhat.com,
+	snitzer@kernel.org, mpatocka@redhat.com, eparis@redhat.com,
+	paul@paul-moore.com, linux-doc@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
+	linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
+	audit@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Deven Bowers <deven.desai@linux.microsoft.com>
+Subject: Re: [PATCH v19 11/20] block,lsm: add LSM blob and new LSM hooks for
+ block device
+Message-ID: <20240531204842.GA2838215@google.com>
+References: <1716583609-21790-1-git-send-email-wufan@linux.microsoft.com>
+ <1716583609-21790-12-git-send-email-wufan@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,14 +51,96 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <SEYPR04MB64822856CA4E461787C3593BFAFC2@SEYPR04MB6482.apcprd04.prod.outlook.com>
+In-Reply-To: <1716583609-21790-12-git-send-email-wufan@linux.microsoft.com>
 
-On Fri, May 31, 2024 at 03:26:02PM +0800, Noah Wang wrote:
-> Add support for mps mp2891 controller
+On Fri, May 24, 2024 at 01:46:40PM -0700, Fan Wu wrote:
+> From: Deven Bowers <deven.desai@linux.microsoft.com>
+> 
+> Some block devices have valuable security properties that is only
+> accessible during the creation time.
+>
+> For example, when creating a dm-verity block device, the dm-verity's
+> roothash and roothash signature, which are extreme important security
+> metadata, are passed to the kernel. However, the roothash will be saved
+> privately in dm-verity, which prevents the security subsystem to easily
+> access that information. Worse, in the current implementation the
+> roothash signature will be discarded after the verification, making it
+> impossible to utilize the roothash signature by the security subsystem.
 
-s/mps/MPS/ in subject and commit log.
+This patch seems to be assuming that creating the block device == setting up
+dm-verity.  That's not how it actually works.  The way that device-mapper works
+is that first a device-mapper device is created, and then targets are loaded
+into it.  The targets can be changed later, any number of times.
 
-When you have more than one patch, it's nice if you can include a
-cover letter and send the patches as responses to it.  That helps
-tools like b4 connect them all together:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/process/5.Posting.rst?id=v6.9#n349
+So, while the creation of the block device is when the LSM blob is allocated,
+it's not when the actual contents of it are initialized.  And its contents can
+vary over the lifetime of the block device, including changing from something
+the LSM "trusts" to something it doesn't "trust".
+
+I'm not sure if this is "just" a documentation issue or if there are bugs
+resulting from not handling changes properly.  The code itself *looks* correct,
+but seeing it's not clear how much this has been considered and that getting
+this wrong would allow the LSM checks to be bypassed, I thought I'd draw
+attention to it.  This is really something that ought to be called out
+explicitly in comments, for example.
+
+> For example, LSM can use the new LSM blob to save the roothash signature of a
+> dm-verity, and LSM can make access decision based on the data inside the
+> signature, like the signer certificate.
+
+This isn't what IPE actually does, though.  So this doesn't seem like a
+particularly useful example in this context.
+
+> For example, for dm-verity, LSMs can use this hook to save
+> the roothash signature of a dm-verity into the security blob,
+> and LSMs can make access decisions based on the data inside
+> the signature, like the signer certificate.
+
+Likewise.
+
+> diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+> index 781c4500491b..eaa28f366d98 100644
+> --- a/include/linux/blk_types.h
+> +++ b/include/linux/blk_types.h
+> @@ -71,6 +71,9 @@ struct block_device {
+>  
+>  	struct partition_meta_info *bd_meta_info;
+>  	int			bd_writers;
+> +#ifdef CONFIG_SECURITY
+> +	void			*security;
+> +#endif
+
+All the other fields in struct block_device are prefixed with "bd_", so please
+use the same pattern for this new field (bd_security).
+
+> diff --git a/security/security.c b/security/security.c
+> index b419166979da..743652e5e893 100644
+> --- a/security/security.c
+> +++ b/security/security.c
+[...]
+> +/**
+> + * security_bdev_setintegrity() - Set the device's integrity data
+> + * @bdev: block device
+> + * @type: type of integrity, e.g. hash digest, signature, etc
+> + * @value: the integrity value
+> + * @size: size of the integrity value
+> + *
+> + * Register a verified integrity measurement of a bdev with LSMs.
+> + * LSMs should free the previously saved data if @value is NULL.
+> + *
+> + * Return: Returns 0 on success, negative values on failure.
+> + */
+> +int security_bdev_setintegrity(struct block_device *bdev,
+> +			       enum lsm_integrity_type type, const void *value,
+> +			       size_t size)
+> +{
+> +	return call_int_hook(bdev_setintegrity, bdev, type, value, size);
+> +}
+> +EXPORT_SYMBOL(security_bdev_setintegrity);
+
+This might be a good place to explicitly document that the block device's
+integrity properties may change over the lifetime of the block device and that
+LSMs *must* (not "should") handle all possible types of updates, including
+updates from a non-NULL value of a property to a NULL value.
+
+- Eric
