@@ -1,95 +1,112 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 342054C84;
-	Fri, 31 May 2024 00:33:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A44C8E9;
+	Fri, 31 May 2024 00:43:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717115611; cv=none; b=MXFZgSVszkQHl65Fj8i2xb9PshQI01riA27vpWlEqBy2EHkT89rfukR9DQqt+ijjq8UJYMJaznSPnu2KyL9ivRKyivlkDEYHGX21INJthTuwj1WzUwD2kuIxGAXZygknX7qblIlXBmNn5+HlQpUZAb7gGSJ7ONs1llhTk7jczdc=
+	t=1717116204; cv=none; b=XbnH2XFsGz3VYksgngGQwBo2TKEie3tMsNJbYPnwGkRZCVio8vjkXYsY2tTgrAtTxIzS6k1//oJD8SejceyNVle0oQj+7kqrVH09wy+4kNyNjtAq2Zl0x0IFGamK4vlCCSKzhy3NF1b7VIMfzavB7ZUm5EMsl76ssza7R3mqMxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717115611; c=relaxed/simple;
-	bh=gYWdRGn3AeOpnLIlUK3mnGSwl4mb6ATRHGgkB7ftO0U=;
+	s=arc-20240116; t=1717116204; c=relaxed/simple;
+	bh=Si8XOeHALztLMCNRy0WVUR6eEdJsznZcIFbxAADO+ws=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DTquyJv1matC8d/lTViaZmHWEu2gcs4xpW7A+nKmH1Pb3G5DmadwU0zMxVMxVf7szivkqiynCxiqmF1FkBqonevHpEUMVV0ior0XU2AOISSSkoPiEon9n7O+pvHYyJtuNXF2jraz7Nkj/CUbAR4iMLWKftoJc2fcQFpFMXFODGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=yBW02iha; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	 Content-Type:Content-Disposition:In-Reply-To; b=t6mFcna2KcbI4CdYz3HgExVYO6j+3xgXfT52pPWNViVMNYFZo2WXY+RuYoxenvFD9JLcaur1Gjar1JSgyNh8bRHuUftwbn3Y9YuBDIjqJlXQA1dtVHXIl6kBO7o8Gteq1WZCU5II6QFlumAV0NLnzx8+s7SWKA97H4gNAUckDcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aL+I4kcJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="yBW02iha"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=PB5NFoVidfRs5Bpnv20WWZ31imy2ZshY8HvuANuXbWk=; b=yBW02ihahmE4c+JC15qTAO1cYi
-	KC8N3DykGGU4IREbJ+gEnIm6hvU0/WoI3dB91Hxr1gYtlt+hkZOIk1ZxPpuokVm2WzIZWxT+kJMMb
-	2Cm6GMgEIlpt6sYxdEKtzx9nkVvIuWjTFmdqDC/qaVmH265D1SiKppgRkhi0LTPDW9pc=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1sCqCm-00GQ9n-Be; Fri, 31 May 2024 02:33:12 +0200
-Date: Fri, 31 May 2024 02:33:12 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Piergiorgio Beruto <Pier.Beruto@onsemi.com>
-Cc: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>,
-	"Parthiban.Veerasooran@microchip.com" <Parthiban.Veerasooran@microchip.com>,
-	"davem@davemloft.net" <davem@davemloft.net>,
-	"edumazet@google.com" <edumazet@google.com>,
-	"kuba@kernel.org" <kuba@kernel.org>,
-	"pabeni@redhat.com" <pabeni@redhat.com>,
-	"horms@kernel.org" <horms@kernel.org>,
-	"saeedm@nvidia.com" <saeedm@nvidia.com>,
-	"anthony.l.nguyen@intel.com" <anthony.l.nguyen@intel.com>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"robh+dt@kernel.org" <robh+dt@kernel.org>,
-	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
-	"conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"Horatiu.Vultur@microchip.com" <Horatiu.Vultur@microchip.com>,
-	"ruanjinjie@huawei.com" <ruanjinjie@huawei.com>,
-	"Steen.Hegelund@microchip.com" <Steen.Hegelund@microchip.com>,
-	"vladimir.oltean@nxp.com" <vladimir.oltean@nxp.com>,
-	"UNGLinuxDriver@microchip.com" <UNGLinuxDriver@microchip.com>,
-	"Thorsten.Kummermehr@microchip.com" <Thorsten.Kummermehr@microchip.com>,
-	"Nicolas.Ferre@microchip.com" <Nicolas.Ferre@microchip.com>,
-	"benjamin.bigler@bernformulastudent.ch" <benjamin.bigler@bernformulastudent.ch>,
-	Viliam Vozar <Viliam.Vozar@onsemi.com>,
-	Arndt Schuebel <Arndt.Schuebel@onsemi.com>
-Subject: Re: [PATCH net-next v4 00/12] Add support for OPEN Alliance
- 10BASE-T1x MACPHY Serial Interface
-Message-ID: <1ec62bbd-dff7-4132-8d32-e186797db806@lunn.ch>
-References: <8b9f8c10-e6bf-47df-ad83-eaf2590d8625@microchip.com>
- <44cd0dc2-4b37-4e2f-be47-85f4c0e9f69c@lunn.ch>
- <b941aefd-dbc5-48ea-b9f4-30611354384d@microchip.com>
- <BYAPR02MB5958A4D667D13071E023B18F83F52@BYAPR02MB5958.namprd02.prod.outlook.com>
- <6e4c8336-2783-45dd-b907-6b31cf0dae6c@lunn.ch>
- <BY5PR02MB6786619C0A0FCB2BEDC2F90D9DF52@BY5PR02MB6786.namprd02.prod.outlook.com>
- <0581b64a-dd7a-43d7-83f7-657ae93cefe5@lunn.ch>
- <BY5PR02MB6786FC4808B2947CA03977429DF32@BY5PR02MB6786.namprd02.prod.outlook.com>
- <70cf84d1-99ad-4c30-9811-f796f21e6391@lunn.ch>
- <BY5PR02MB678680FB7F10F1E6B9A859379DF32@BY5PR02MB6786.namprd02.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aL+I4kcJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D22D7C2BBFC;
+	Fri, 31 May 2024 00:43:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717116203;
+	bh=Si8XOeHALztLMCNRy0WVUR6eEdJsznZcIFbxAADO+ws=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aL+I4kcJ/OXypWoEww0Gcs/K6q+ipdHIFStSTPXEusvtmwsVT6Y5Gx+hB/Z8NFvcg
+	 kk0aN5Ya2M3CtobxjGIO/J8URF8KA8GPPSqmdaRS/J0LLdEfPA0O12JA7q/hQ6fGfX
+	 SwfuTm0oJ+BUOIpXNNN9GK0rAuZVJsxMYF0i/EoIwfnBnWjEOag1O0HrcFn3kbyYtd
+	 t1OTPhgcjJPrqXeKo5kubhG5AO+qWl+nsDbFvnc17W78pikT8ci40gbrCQjnnwBQH1
+	 AzakKGpI2SiDbCV3seJHFg22s50U9W40RxniIrslsdhtv3JRiZLu3+h/ThTs7xM5SB
+	 Kvdqh9bknwLeQ==
+Date: Thu, 30 May 2024 17:43:21 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Paul Moore <paul@paul-moore.com>
+Cc: Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net, zohar@linux.ibm.com,
+	jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, axboe@kernel.dk,
+	agk@redhat.com, snitzer@kernel.org, mpatocka@redhat.com,
+	eparis@redhat.com, linux-doc@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
+	linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
+	audit@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Deven Bowers <deven.desai@linux.microsoft.com>
+Subject: Re: [PATCH v19 15/20] fsverity: expose verified fsverity built-in
+ signatures to LSMs
+Message-ID: <20240531004321.GA1238@sol.localdomain>
+References: <1716583609-21790-1-git-send-email-wufan@linux.microsoft.com>
+ <1716583609-21790-16-git-send-email-wufan@linux.microsoft.com>
+ <CAHC9VhRsnGjZATBj7-evK6Gdryr54raTTKMYO_vup8AGXLwjQg@mail.gmail.com>
+ <20240530030605.GA29189@sol.localdomain>
+ <CAHC9VhRySQ0c16UZz5xKT-y5Tn39wXxe4-f7LNjFY+ROGGxpaQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <BY5PR02MB678680FB7F10F1E6B9A859379DF32@BY5PR02MB6786.namprd02.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHC9VhRySQ0c16UZz5xKT-y5Tn39wXxe4-f7LNjFY+ROGGxpaQ@mail.gmail.com>
 
-> On that we agree. Maybe I was just misunderstanding the earlier
-> conversation where I thought you would not allow specific drivers to
-> access MMS other than 0,1,4 and the ones that map to MMDs.
+On Thu, May 30, 2024 at 04:54:37PM -0400, Paul Moore wrote:
+> On Wed, May 29, 2024 at 11:06 PM Eric Biggers <ebiggers@kernel.org> wrote:
+> > On Wed, May 29, 2024 at 09:46:57PM -0400, Paul Moore wrote:
+> > > On Fri, May 24, 2024 at 4:46 PM Fan Wu <wufan@linux.microsoft.com> wrote:
+> > > >
+> > > > This patch enhances fsverity's capabilities to support both integrity and
+> > > > authenticity protection by introducing the exposure of built-in
+> > > > signatures through a new LSM hook. This functionality allows LSMs,
+> > > > e.g. IPE, to enforce policies based on the authenticity and integrity of
+> > > > files, specifically focusing on built-in fsverity signatures. It enables
+> > > > a policy enforcement layer within LSMs for fsverity, offering granular
+> > > > control over the usage of authenticity claims. For instance, a policy
+> > > > could be established to permit the execution of all files with verified
+> > > > built-in fsverity signatures while restricting kernel module loading
+> > > > from specified fsverity files via fsverity digests.
+> 
+> ...
+> 
+> > > Eric, can you give this patch in particular a look to make sure you
+> > > are okay with everything?  I believe Fan has addressed all of your
+> > > previous comments and it would be nice to have your Ack/Review tag if
+> > > you are okay with the current revision.
+> >
+> > Sorry, I've just gotten a bit tired of finding so many basic issues in this
+> > patchset even after years of revisions.
+> >
+> > This patch in particular is finally looking better.  There are a couple issues
+> > that I still see.  (BTW, you're welcome to review it too to help find these
+> > things, given that you seem to have an interest in getting this landed...):
+> 
+> I too have been reviewing this patchset across multiple years and have
+> worked with Fan to fix locking issues, parsing issues, the initramfs
+> approach, etc.  
 
-I would be disappointed to see a driver access registers which is not
-in its address space. The LED driver can be in the MAC driver, or the
-PHY driver, depending on where its registers are. The PTP driver can
-be in the MAC driver, or the PHY driver, depending on where its
-registers are. Hopefully you don't have anything which is split over
-both addresses spaces.
+Sure, but none of the patches actually have your Reviewed-by.
 
-     Andrew
+> My interest in getting this landed is simply a
+> combination of fulfilling my role as LSM maintainer as well as being
+> Fan's coworker.  While I realize you don't work with Fan, you are
+> listed as the fs-verity maintainer and as such I've been looking to
+> you to help review and authorize the fs-verity related code.  If you
+> are too busy, frustrated, or <fill in the blank> to continue reviewing
+> this patchset it would be helpful if you could identify an authorized
+> fs-verity reviewer.  I don't see any besides you and Ted listed in the
+> MAINTAINERS file, but perhaps the fs-verity entry is dated.
+> 
+> Regardless, I appreciate your time and feedback thus far and I'm sure
+> Fan does as well.
 
+Maintainers are expected to do reviews and acks, but not to the extent of
+extensive hand-holding of a half-baked submission.
+
+- Eric
