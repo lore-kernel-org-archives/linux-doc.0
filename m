@@ -1,146 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A140DD26A;
-	Fri, 31 May 2024 20:48:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A15200B7;
+	Fri, 31 May 2024 21:05:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717188524; cv=none; b=g33iwToOGa2Sd7eJLlK2ngkQE0KbLMa/kLIJ45B7yx3JIO+8atXXd/xRgA9hAM47G6R37UOxQqO+BoTSBStQTObG7QczHVvky5cJ6SJkr9D9d/yYehtXDBn9i+46S2GV0y2rjAnjuVfYQorp7oCgVFmF1q7u+BxIZKdfopE0gc4=
+	t=1717189554; cv=none; b=VtI5HfgQdVktPVYTx3O+FDcZoynikCM3+Vsnq/35wQy0OPqq0PZjDkL/XjX8gHMjIDEP0R4vj2ysgVnqlWy0PE9jh/ejFhdp/oRjrmwWIVsUPREFi/YRJ1eAwRp+7VqsxbtKC/4ZhUQzRm6gwP5r9LekrujrOj35HnE4ey/K2iw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717188524; c=relaxed/simple;
-	bh=rFnHh2wJYNoB76Ml+22NnUsLEKD+h/GAxFGey/czVOQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u6bfn4W3V81iwPmpO3omBTG3wRIgBqaryg98uL3LOozJWOERAlX0XPNwB1L39PjP+dK1hPeCdqkI1CRcOQqzgaldGmSoX8WZlVE+uYLwsSHPXrem506APX7Q04TmgWOoRZXj7AfukOBzbMd80AmqwsYBEm2OzcZsm6TJ7Gy+UKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cCV0st2r; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717189554; c=relaxed/simple;
+	bh=xvQzkBSWipn5BTguZl2ZxrNRJ+QHLeFOQPAwf48u15Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=TT0ZnR4MUYviRceoJD5iIgv6yk1Ci50nX9IS7eqpzpJcpkb2Z6201xsbmusbp806VoMqwrTtcAbemIWVhfeqLkymi/U40bX2cwPAJc29E9eARCV6nfFrlmSChK/zj/C4scLEQDrjg0l8mRHg4O51n8UTsGvbeF3iIMwwSmjL9aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Ya2NF/vA; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cCV0st2r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16EA2C116B1;
-	Fri, 31 May 2024 20:48:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717188524;
-	bh=rFnHh2wJYNoB76Ml+22NnUsLEKD+h/GAxFGey/czVOQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cCV0st2rQscuWQRRD66py/Md9Mf8mIse5f5jZSqyArOSjheLY3FWzSZ0nnPnPNuDe
-	 dX3NKU8cFLky+rp9zE1/dWqI9QumqMPadZXRguN/uqvqIy8JCxKqaT5mNWb2ddSTOP
-	 WW3nTZoNUs3ooPHdjzSuivJ9cfYPEbub+Xi5sXHD8VdV0/X3G2UgRyohnG3NOyg4xP
-	 HLW1WEdF0saOukDjTRCAHk8oZxhEhtrC+LbbXgmEUyHYqE4kDzV8OVVj9w3J3qszx/
-	 OuZc8w6Q7BVzPPGo29tNFxZb8EPKfAFfd/Cq3VAehojM71REySKXZqSyAjrLTJO2hM
-	 NBSeyCI3HYUHQ==
-Date: Fri, 31 May 2024 20:48:42 +0000
-From: Eric Biggers <ebiggers@kernel.org>
-To: Fan Wu <wufan@linux.microsoft.com>
-Cc: corbet@lwn.net, zohar@linux.ibm.com, jmorris@namei.org,
-	serge@hallyn.com, tytso@mit.edu, axboe@kernel.dk, agk@redhat.com,
-	snitzer@kernel.org, mpatocka@redhat.com, eparis@redhat.com,
-	paul@paul-moore.com, linux-doc@vger.kernel.org,
-	linux-integrity@vger.kernel.org,
-	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev,
-	linux-block@vger.kernel.org, dm-devel@lists.linux.dev,
-	audit@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Deven Bowers <deven.desai@linux.microsoft.com>
-Subject: Re: [PATCH v19 11/20] block,lsm: add LSM blob and new LSM hooks for
- block device
-Message-ID: <20240531204842.GA2838215@google.com>
-References: <1716583609-21790-1-git-send-email-wufan@linux.microsoft.com>
- <1716583609-21790-12-git-send-email-wufan@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Ya2NF/vA"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 44VJka2H032204;
+	Fri, 31 May 2024 21:05:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Yk7VA+HEcR20gkB/6v5vEyWOz+IIKZizxHjGWlqg/mc=; b=Ya2NF/vAgtLEhDjX
+	cY9FbhhnG31R0U6rbXYIV4zBouEELY8aDk0S1tLPZzn9StxnZpoNPvyfLBs7d/jA
+	e8WtI2kmni3+fPBGieuNUJrKETzFZMiGbtArrVGvlm0wVAaDqaBZxncB5XssNYSi
+	cDqUyXUFIhd6WF87FOD7mSymBV9KDR9IH1ZZSJ3nuYnqaLiC3CMtw3GmH2Us0JGN
+	hjIBsnyg4qFAPMBrKUCSQKeLBSCPMYkDxrKEPEI2TcUBsWSOAlKtTpo2lb7gxgyo
+	MOkwEo8SA9ZuBfsuKUX8NirBXiGDwqt6YmYEVulWPXDh7ygwd2+m/CPVmmT0YWay
+	XoHG2g==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yba0ggg1k-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 31 May 2024 21:05:36 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 44VL5ZoT008118
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 31 May 2024 21:05:35 GMT
+Received: from [10.226.59.182] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 31 May
+ 2024 14:05:34 -0700
+Message-ID: <f78a5c96-6a4e-f13f-c17a-984ddd8617c5@quicinc.com>
+Date: Fri, 31 May 2024 15:05:33 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1716583609-21790-12-git-send-email-wufan@linux.microsoft.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH] Documentation/accel/qaic: Fix typo 'phsyical'
+Content-Language: en-US
+To: Shuah Khan <skhan@linuxfoundation.org>,
+        Danish Prakash
+	<contact@danishpraka.sh>
+CC: Carl Vanderlip <quic_carlv@quicinc.com>,
+        Pranjal Ramajor Asha Kanojiya
+	<quic_pkanojiy@quicinc.com>,
+        Oded Gabbay <ogabbay@kernel.org>, "Jonathan
+ Corbet" <corbet@lwn.net>,
+        "open list:QUALCOMM CLOUD AI (QAIC) DRIVER"
+	<linux-arm-msm@vger.kernel.org>,
+        "open list:QUALCOMM CLOUD AI (QAIC) DRIVER"
+	<dri-devel@lists.freedesktop.org>,
+        "open list:DOCUMENTATION"
+	<linux-doc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+References: <20240531060929.5281-1-contact@danishpraka.sh>
+ <16b1bcb5-00c6-4b59-a880-188bed32d175@linuxfoundation.org>
+From: Jeffrey Hugo <quic_jhugo@quicinc.com>
+In-Reply-To: <16b1bcb5-00c6-4b59-a880-188bed32d175@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: RTucxBVNOIh-q8QTwaHEvvKuJPmq8RKO
+X-Proofpoint-ORIG-GUID: RTucxBVNOIh-q8QTwaHEvvKuJPmq8RKO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-05-31_14,2024-05-30_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
+ priorityscore=1501 bulkscore=0 phishscore=0 adultscore=0 spamscore=0
+ mlxlogscore=999 malwarescore=0 lowpriorityscore=0 clxscore=1011
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2405310161
 
-On Fri, May 24, 2024 at 01:46:40PM -0700, Fan Wu wrote:
-> From: Deven Bowers <deven.desai@linux.microsoft.com>
+On 5/31/2024 8:20 AM, Shuah Khan wrote:
+> On 5/31/24 00:09, Danish Prakash wrote:
+>> (as part of LFX Linux Mentorship program)
+>>
 > 
-> Some block devices have valuable security properties that is only
-> accessible during the creation time.
->
-> For example, when creating a dm-verity block device, the dm-verity's
-> roothash and roothash signature, which are extreme important security
-> metadata, are passed to the kernel. However, the roothash will be saved
-> privately in dm-verity, which prevents the security subsystem to easily
-> access that information. Worse, in the current implementation the
-> roothash signature will be discarded after the verification, making it
-> impossible to utilize the roothash signature by the security subsystem.
+> Please add proper commit log for this change.
 
-This patch seems to be assuming that creating the block device == setting up
-dm-verity.  That's not how it actually works.  The way that device-mapper works
-is that first a device-mapper device is created, and then targets are loaded
-into it.  The targets can be changed later, any number of times.
+Looks like a good fix, and I'd love to take it, but the commit log needs 
+some content.
 
-So, while the creation of the block device is when the LSM blob is allocated,
-it's not when the actual contents of it are initialized.  And its contents can
-vary over the lifetime of the block device, including changing from something
-the LSM "trusts" to something it doesn't "trust".
+> 
+>> Signed-off-by: Danish Prakash <contact@danishpraka.sh>
+> 
+>> ---
+>>   Documentation/accel/qaic/qaic.rst | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/accel/qaic/qaic.rst 
+>> b/Documentation/accel/qaic/qaic.rst
+>> index efb7771273bb..628bf2f7a416 100644
+>> --- a/Documentation/accel/qaic/qaic.rst
+>> +++ b/Documentation/accel/qaic/qaic.rst
+>> @@ -93,7 +93,7 @@ commands (does not impact QAIC).
+>>   uAPI
+>>   ====
+>> -QAIC creates an accel device per phsyical PCIe device. This accel 
+>> device exists
+>> +QAIC creates an accel device per physical PCIe device. This accel 
+>> device exists
+>>   for as long as the PCIe device is known to Linux.
+>>   The PCIe device may not be in the state to accept requests from 
+>> userspace at
+> 
+> thanks,
+> -- Shuah
 
-I'm not sure if this is "just" a documentation issue or if there are bugs
-resulting from not handling changes properly.  The code itself *looks* correct,
-but seeing it's not clear how much this has been considered and that getting
-this wrong would allow the LSM checks to be bypassed, I thought I'd draw
-attention to it.  This is really something that ought to be called out
-explicitly in comments, for example.
-
-> For example, LSM can use the new LSM blob to save the roothash signature of a
-> dm-verity, and LSM can make access decision based on the data inside the
-> signature, like the signer certificate.
-
-This isn't what IPE actually does, though.  So this doesn't seem like a
-particularly useful example in this context.
-
-> For example, for dm-verity, LSMs can use this hook to save
-> the roothash signature of a dm-verity into the security blob,
-> and LSMs can make access decisions based on the data inside
-> the signature, like the signer certificate.
-
-Likewise.
-
-> diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-> index 781c4500491b..eaa28f366d98 100644
-> --- a/include/linux/blk_types.h
-> +++ b/include/linux/blk_types.h
-> @@ -71,6 +71,9 @@ struct block_device {
->  
->  	struct partition_meta_info *bd_meta_info;
->  	int			bd_writers;
-> +#ifdef CONFIG_SECURITY
-> +	void			*security;
-> +#endif
-
-All the other fields in struct block_device are prefixed with "bd_", so please
-use the same pattern for this new field (bd_security).
-
-> diff --git a/security/security.c b/security/security.c
-> index b419166979da..743652e5e893 100644
-> --- a/security/security.c
-> +++ b/security/security.c
-[...]
-> +/**
-> + * security_bdev_setintegrity() - Set the device's integrity data
-> + * @bdev: block device
-> + * @type: type of integrity, e.g. hash digest, signature, etc
-> + * @value: the integrity value
-> + * @size: size of the integrity value
-> + *
-> + * Register a verified integrity measurement of a bdev with LSMs.
-> + * LSMs should free the previously saved data if @value is NULL.
-> + *
-> + * Return: Returns 0 on success, negative values on failure.
-> + */
-> +int security_bdev_setintegrity(struct block_device *bdev,
-> +			       enum lsm_integrity_type type, const void *value,
-> +			       size_t size)
-> +{
-> +	return call_int_hook(bdev_setintegrity, bdev, type, value, size);
-> +}
-> +EXPORT_SYMBOL(security_bdev_setintegrity);
-
-This might be a good place to explicitly document that the block device's
-integrity properties may change over the lifetime of the block device and that
-LSMs *must* (not "should") handle all possible types of updates, including
-updates from a non-NULL value of a property to a NULL value.
-
-- Eric
