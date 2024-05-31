@@ -1,108 +1,232 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 997957C082;
-	Fri, 31 May 2024 18:31:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 131107E0FC
+	for <linux-doc@vger.kernel.org>; Fri, 31 May 2024 18:41:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717180282; cv=none; b=tPbIqn68Cpc7mSupUOm/hbPDuqqqhmwwzfuR8gx81oA1XyacRnKawgAOGK7ClY9RPmhOhQEU2pKkewOLBdmNxbdYU2uXrUhmNmnGaeh8dk6h3cEk/gJ15Mu48jK4fRFLikZSjSXJrihdBOQrEq5rQb20bO7qdJ0fLmegemHi6yU=
+	t=1717180890; cv=none; b=r/KOzO1BX4hRhCYnOXDFb+ikGNP+LpJNmeH8qNPM/eyW+spZdYz6GDiiQ4WzzEKPV7k87Enkp3XcLrwxNsQFYdRZa4QkmQTPXOLTqcyO/omq/r0noVSW9qyc9waviwBorTsxFs+pZCVOEdVSDWltvP0/8efyT5VtVx8oQm/pGnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717180282; c=relaxed/simple;
-	bh=hCXSLE4r2AnTT6HxGeXdZGVQDBKoHt4v004XWnI33Dk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DvJmL+VtyLTy1X1NEk/qr7uGLapygcIE00CMbjGvrQyju8wjT15AxCkJ7Zww2CHlUoMDOyI/InwD+p5NDQI/+AGiWzbLlWozo7Y6CczcOWViKPQgeev98qFRFsjCMsB/xeIlBXlwHzIhZAKBQggrIUwKYc1H8IJytuQZGF/i//o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=JbDwwtoZ; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1717180890; c=relaxed/simple;
+	bh=N/Blbd63m9rqy+z4+yPkchYJqSbPLzT+F1ELjIofaUg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q3VSEk7jpizypP1zSk+l8/BLcwXl2fydTEju2F7j8OfVV8JEpyrKC3S0TMXLMLCunzF6oj+dbFM9ZGKz4F3D7t9PqnJF6ACof5PUl/csE+lNPlrM0QqYbL7+yxceA1rpTtUJWUGlMjVHvdqnVA07tjGTyiLh3SUD/1Vnox8lBEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Btrcptra; arc=none smtp.client-ip=95.215.58.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JbDwwtoZ"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=Y29TmkHKYUwNvGcW0y3qxFwKo3onKquOFuAOIt1KwWk=; b=JbDwwtoZyGApmQT3cWI28iV9h2
-	bnK+AzMfkDP0VylFy6mrmPYJ5D6RuWSUvkn4On0u7ltxr22WqyCL8BtlOa9/GVIGHTQHmXI+G157W
-	xfNnSAHTe0PQni+yiCql0ZnAZRaolA9hMtdW6uf916xMqpg5pihKXKbEJgV+QLKxO1Ew5RkkGEJjj
-	mWuOoz9HghVXp5bwnkCfb/sOjOLh9jygymSCOjLbCnF1FbCzWbaysc4BThCbSafR4gRLUj0G09ufV
-	XVyiMikS5ndPn2JuFq1Mh6REHlN7q3Cq9XRse2Qi6WvkVJoCqwZk+eIFJUVQOcdXBqDaAcDKe1s4l
-	WXy/bi0w==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sD722-0000000B89T-2GB5;
-	Fri, 31 May 2024 18:31:14 +0000
-Message-ID: <c14215bd-96ff-4aec-83c4-e25375f6fe88@infradead.org>
-Date: Fri, 31 May 2024 11:31:13 -0700
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Btrcptra"
+X-Envelope-To: yuzhao@google.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1717180886;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZrkvQ09UVgsdWxfCoZpOjcpYyls+3WTdBXC7IWp+Dfo=;
+	b=BtrcptrahIHMY/n9/AZA3DXzcLGC2SGPLvU4nGpmgpexhmeAxDztnyub/a9ACk3LuYD+jI
+	LdluBPvSaCSCX0KVcSV8bu/k0Ua9VEQflTkBfxkmAhE+NkAnYBC/j5woXAspbTVxmRtrc9
+	MlzHXFSR+9wI8QbERC3hyyKRlZW/w/A=
+X-Envelope-To: jthoughton@google.com
+X-Envelope-To: seanjc@google.com
+X-Envelope-To: akpm@linux-foundation.org
+X-Envelope-To: pbonzini@redhat.com
+X-Envelope-To: aou@eecs.berkeley.edu
+X-Envelope-To: ankita@nvidia.com
+X-Envelope-To: anup@brainfault.org
+X-Envelope-To: atishp@atishpatra.org
+X-Envelope-To: axelrasmussen@google.com
+X-Envelope-To: maobibo@loongson.cn
+X-Envelope-To: catalin.marinas@arm.com
+X-Envelope-To: dmatlack@google.com
+X-Envelope-To: rientjes@google.com
+X-Envelope-To: chenhuacai@kernel.org
+X-Envelope-To: james.morse@arm.com
+X-Envelope-To: corbet@lwn.net
+X-Envelope-To: maz@kernel.org
+X-Envelope-To: mpe@ellerman.id.au
+X-Envelope-To: npiggin@gmail.com
+X-Envelope-To: palmer@dabbelt.com
+X-Envelope-To: paul.walmsley@sifive.com
+X-Envelope-To: rananta@google.com
+X-Envelope-To: ryan.roberts@arm.com
+X-Envelope-To: shahuang@redhat.com
+X-Envelope-To: shuah@kernel.org
+X-Envelope-To: suzuki.poulose@arm.com
+X-Envelope-To: zhaotianrui@loongson.cn
+X-Envelope-To: will@kernel.org
+X-Envelope-To: yuzenghui@huawei.com
+X-Envelope-To: kvm-riscv@lists.infradead.org
+X-Envelope-To: kvm@vger.kernel.org
+X-Envelope-To: kvmarm@lists.linux.dev
+X-Envelope-To: linux-arm-kernel@lists.infradead.org
+X-Envelope-To: linux-doc@vger.kernel.org
+X-Envelope-To: linux-kernel@vger.kernel.org
+X-Envelope-To: linux-kselftest@vger.kernel.org
+X-Envelope-To: linux-mips@vger.kernel.org
+X-Envelope-To: linux-mm@kvack.org
+X-Envelope-To: linux-riscv@lists.infradead.org
+X-Envelope-To: linuxppc-dev@lists.ozlabs.org
+X-Envelope-To: loongarch@lists.linux.dev
+Date: Fri, 31 May 2024 11:41:14 -0700
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Oliver Upton <oliver.upton@linux.dev>
+To: Yu Zhao <yuzhao@google.com>
+Cc: James Houghton <jthoughton@google.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Ankit Agrawal <ankita@nvidia.com>, Anup Patel <anup@brainfault.org>,
+	Atish Patra <atishp@atishpatra.org>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Bibo Mao <maobibo@loongson.cn>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	David Matlack <dmatlack@google.com>,
+	David Rientjes <rientjes@google.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	James Morse <james.morse@arm.com>, Jonathan Corbet <corbet@lwn.net>,
+	Marc Zyngier <maz@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Raghavendra Rao Ananta <rananta@google.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Shaoqin Huang <shahuang@redhat.com>, Shuah Khan <shuah@kernel.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Tianrui Zhao <zhaotianrui@loongson.cn>,
+	Will Deacon <will@kernel.org>, Zenghui Yu <yuzenghui@huawei.com>,
+	kvm-riscv@lists.infradead.org, kvm@vger.kernel.org,
+	kvmarm@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-mips@vger.kernel.org,
+	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev
+Subject: Re: [PATCH v4 2/7] mm: multi-gen LRU: Have secondary MMUs
+ participate in aging
+Message-ID: <ZloZysAPL0ePk3bY@linux.dev>
+References: <20240529180510.2295118-1-jthoughton@google.com>
+ <20240529180510.2295118-3-jthoughton@google.com>
+ <CAOUHufYFHKLwt1PWp2uS6g174GZYRZURWJAmdUWs5eaKmhEeyQ@mail.gmail.com>
+ <ZlelW93_T6P-ZuSZ@google.com>
+ <CAOUHufZdEpY6ra73SMHA33DegKxKaUM=Os7A7aDBFND6NkbUmQ@mail.gmail.com>
+ <Zley-u_dOlZ-S-a6@google.com>
+ <CADrL8HXHWg_MkApYQTngzmN21NEGNWC6KzJDw_Lm63JHJkR=5A@mail.gmail.com>
+ <CAOUHufZq6DwpStzHtjG+TOiHaQ6FFbkTfHMCe8Yy0n_M9MKdqw@mail.gmail.com>
+ <Zll2ILUNWE-JPi9U@linux.dev>
+ <CAOUHufb_-w=B+NfHAUAo=O8bDXZBdXeeGRZD6kY=krN07srbGA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 07/11] Documentation: core-api: Add math.h macros and
- functions
-To: Devarsh Thakkar <devarsht@ti.com>, mchehab@kernel.org,
- hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, benjamin.gaignard@collabora.com,
- sebastian.fricke@collabora.com, akpm@linux-foundation.org,
- gregkh@linuxfoundation.org, andriy.shevchenko@linux.intel.com,
- adobriyan@gmail.com, jani.nikula@intel.com, p.zabel@pengutronix.de,
- airlied@gmail.com, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- corbet@lwn.net, broonie@kernel.org, linux-doc@vger.kernel.org
-Cc: laurent.pinchart@ideasonboard.com, praneeth@ti.com, nm@ti.com,
- vigneshr@ti.com, a-bhatia1@ti.com, j-luthra@ti.com, b-brnich@ti.com,
- detheridge@ti.com, p-mantena@ti.com, vijayp@ti.com, andrzej.p@collabora.com,
- nicolas@ndufresne.ca, davidgow@google.com, dlatypov@google.com
-References: <20240531170229.1270828-1-devarsht@ti.com>
- <20240531171220.1295881-1-devarsht@ti.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240531171220.1295881-1-devarsht@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAOUHufb_-w=B+NfHAUAo=O8bDXZBdXeeGRZD6kY=krN07srbGA@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-Hi,
-
-On 5/31/24 10:12 AM, Devarsh Thakkar wrote:
-> Add documentation for rounding, scaling, absolute value and difference,
-> 32-bit division related macros and functions exported by math.h header
-> file.
+On Fri, May 31, 2024 at 10:45:04AM -0600, Yu Zhao wrote:
+> On Fri, May 31, 2024 at 1:03 AM Oliver Upton <oliver.upton@linux.dev> wrote:
+> >
+> > On Fri, May 31, 2024 at 12:05:48AM -0600, Yu Zhao wrote:
 > 
-
-I don't see any kernel-doc for division functions in this header file.
-
-Do some division functions get rendered somehow?
-
-Thanks.
-
-> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
-> ---
-> V11: Fix title for math function header
-> V10: Patch introduced
-> V1->V9 (No change)
-> ---
->  Documentation/core-api/kernel-api.rst | 6 ++++++
->  1 file changed, 6 insertions(+)
+> Let me add back what I said earlier:
 > 
-> diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
-> index ae92a2571388..7de494e76fa6 100644
-> --- a/Documentation/core-api/kernel-api.rst
-> +++ b/Documentation/core-api/kernel-api.rst
-> @@ -185,6 +185,12 @@ Division Functions
->  .. kernel-doc:: lib/math/gcd.c
->     :export:
->  
-> +Rounding, absolute value, division and 32-bit scaling functions
-> +---------------------------------------------------------------
-> +
-> +.. kernel-doc:: include/linux/math.h
-> +   :internal:
-> +
->  UUID/GUID
->  ---------
->  
+>   I'm not convinced, but it doesn't mean your point of view is
+>   invalid. If you fully understand the implications of your design
+>   choice and document them, I will not object.
+
+Thanks, I appreciate the sentiment. Hopefully we can align here.
+
+> > > All optimizations in v2 were measured step by step. Even that bitmap,
+> > > which might be considered overengineered, brought a readily
+> > > measuarable 4% improvement in memcached throughput on Altra Max
+> > > swapping to Optane:
+> >
+> > That's great, but taking an iterative approach to the problem allows
+> > the reviewers and maintainers to come to their own conclusions about
+> > each optimization independently. Squashing all of that together and
+> > posting the result doesn't allow for this.
+> 
+> That's your methodology, which I respect: as I said I won't stand in your way.
+> 
+> But mine is backed by data, please do respect that as well,
+
+Data is useful and expected for changes that aim to improve the
+performance of a system in one way or another. That is, after all, the
+sole intention of the work, no?
+
+What I'm also looking for is a controlled experiment, where a single
+independent variable (e.g. locking) can be evaluated against the
+baseline. All-or-nothing data has limited usefulness.
+
+> by doing what I asked: document your justifications.
+
+The justification for a series is against the upstream tree, not some
+out-of-tree stuff. The cover letter explicitly calls out the decision
+to simplify the patch series along with performance data I can reproduce
+on my own systems.
+
+This is a perfect example of how to contribute changes upstream.
+
+> > > What I don't think is acceptable is simplifying those optimizations
+> > > out without documenting your justifications (I would even call it a
+> > > design change, rather than simplification, from v3 to v4).
+> >
+> > No, sorry, there's nothing wrong with James' approach here.
+> 
+> Sorry, are you saying "without documenting your justifications" is
+> nothing wrong? If so, please elaborate.
+
+As I mentioned above, the reasoning is adequately documented and the
+discussion that led to v4 is public. OTOH...
+
+> > The discussion that led to the design of v4 happened on list; you were
+> > on CC. The general consensus on the KVM side was that the bitmap was
+> > complicated and lacked independent justification. There was ample
+> > opportunity to voice your concerns before he spent the time on v4.
+> 
+> Please re-read my previous emails -- I never object to the removal of
+> the bitmap or James' approach.
+> 
+> And please stop making assumptions -- I did voice my concerns with
+> James privately.
+        ^~~~~~~~~
+
+If it happened in private then its no better than having said nothing at
+all.
+
+Please, keep the conversation on-list next time so we can iron out any
+disagreements there. Otherwise contributors are put in a *very* awkward
+situation of mediating the on- and off-list dialogue.
+
+> > You seriously cannot fault a contributor for respinning their work based
+> > on the provided feedback.
+> 
+> Are you saying I faulted James for taking others' feedback?
+
+No. Sufficient justification is captured in the public review feedback +
+series cover letter. Your statement that the approach was changed without
+justification is unsubstantiated.
+
+> Also what do you think about the technical flaws and inaccurate
+> understandings I pointed out? You seem to have a strong opinion on
+> your iterate approach, but I hope you didn't choose to overlook the
+> real meat of this discussion.
+
+Serious question: are you not receiving my mail or something?
+
+I re-raised my question to you from ages ago about locking on the arm64
+MMU. You didn't answer last time, I'd appreciate a reply this time
+around.
+
+Otherwise I couldn't be bothered about the color of the Kconfig bikeshed
+and don't have anything meaningful to add there. I think the three of
+you are trending in the right direction.
 
 -- 
-#Randy
-https://people.kernel.org/tglx/notes-about-netiquette
-https://subspace.kernel.org/etiquette.html
+Thanks,
+Oliver
