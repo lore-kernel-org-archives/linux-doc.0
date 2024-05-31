@@ -1,55 +1,55 @@
-Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
+Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46C9578C9C
-	for <linux-doc@vger.kernel.org>; Fri, 31 May 2024 21:34:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC3DB7407E
+	for <linux-doc@vger.kernel.org>; Fri, 31 May 2024 21:34:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717191288; cv=none; b=lIwgs9kAaPECSXf00vWNKj6xlURxxEyCWjxIahNR8BpTSHVhxMh2Lbd/zqCGfSxWE0SCPTAiVIv5UCAaQtmiDraeBhadT7t3NxR7VNTk5OUTlbVCKTHYPSmYXKAqHGQdrnmMULz7akaIGJGaoSmLZG3OsFD/k8CGLFhyMY1uSl4=
+	t=1717191291; cv=none; b=lLF4C09fhxHerxrrOv4nVATpziyLNzViljK+vn0hX2ePYLXeihnE5wOpfaBad3YbMG8j8EFNk1cLeuYHJ+N9WKGHV+U47ZNCKRk1l364sSo95XCJNC1wWVscKQnI7WrBPBmiua6PIJiHDCtCZc8hkSwuuX2PpjWvLF9e9rYeHUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717191288; c=relaxed/simple;
-	bh=XUrRCro2c3vJASjYekSxK8B3yGUY52q1KIILfYM7BZg=;
+	s=arc-20240116; t=1717191291; c=relaxed/simple;
+	bh=02UTbjLfjgvn+fb0W08wz5Qre+KmhSWe3wIJbMHnF3g=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=jV9mTrLwrXmdbbuhRUyZHjdjbG5lshzgBwl1+LC0JubJcbpHT5RMVLpXhCBQVx5myFhqsLJGQj9lm3w4vxiRsRyjXAZcVOpqznIiCogOltJ9Zv3RE9EGpaIIe+QX8tTOVkECV+5ojsYMljg4U4uJ05uRNsz0XpioTD1nxtRPd1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jEDRRnvn; arc=none smtp.client-ip=209.85.219.202
+	 To:Cc:Content-Type; b=RcNWSPGh8KyF3YGg/RqJsyeEercj9f+84yDwdBJ8ByCytY7f8SSMkd5lUOF5NEIy/pAFpWlUV69bAdSa4bR86Lf6llNxLLAHU10s9lbb3irFyqDMogC9ffZE4K/bRoRA89SxGd0aJiITtgzqHOA7B7FsttMMthSr/wiRN/YWJyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fF7lQ7OZ; arc=none smtp.client-ip=209.85.128.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jEDRRnvn"
-Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-df77196089eso3667923276.1
-        for <linux-doc@vger.kernel.org>; Fri, 31 May 2024 14:34:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fF7lQ7OZ"
+Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-627e9a500faso39775897b3.1
+        for <linux-doc@vger.kernel.org>; Fri, 31 May 2024 14:34:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1717191286; x=1717796086; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1717191289; x=1717796089; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=22c0UwDgNXgPsVV+qHmiQw5fv4pPjf+Lc0qLhHTqi88=;
-        b=jEDRRnvnGYUZnQ39Mc5nbdkTKUyNZoOlbasuTHVOHb0knCE/VxZl9tp4vDDxwhTQ6E
-         aavvNYUakc+bvxiNdYhU9NvmRgEOwfhoIzEUtxYOoTRrLwgV+pWzdgBpI6I2r8EfhbUY
-         vqnr+84fuWxP4CB4PY7/M+3UAthA4YM5Y59nFazoXPtp6A3cUs52QiaNrkwCFaHc5vW/
-         TgsU6ApM9FEArtfj1OQ9+u08xxnPLdn/fTv7uKL0IpoFoDmGMePKwTB4s9BaMRh5d9yO
-         TuRQVDG5zDZPV5RMALlQMbn96+iCNO+QJnA4ZtBvd7SvQA1xlthtF7u5/a3iFS073x3r
-         p1RQ==
+        bh=PSzGyHzMerzTaST3R5/MMuosQBVUwsZqbBH4EMH0Fg0=;
+        b=fF7lQ7OZovcbZHT9xm5N6BMkprDB3vILPJrJ/12cPS4GaLN32L2kkzIlC1GgllKZxk
+         TDvCTWDcBXghj/IqnyWDnngsjUnyreuYfXrycIEOcxC0nEfZMDbrTE0+ugkp6ArZ9I9t
+         5Cerrkez+gzS94nNopIYEPHFeGYtnNQxrtQ8AlFPtDXpXWs5YWT9hazbs4lqPRSCV/Gk
+         Vnwn0ILTQKs6vrPEYRie3KH/V9EacYRHLSLNsZLBtwtzIzOl7uI29b/0ejaY4m5Aq/xg
+         I7dvquHTPVwesFVgJh0brLWVeERctRQKwpSnlAsu4XoqXBuA+2ar+rDtzAAAmu05Tcjl
+         PsJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717191286; x=1717796086;
+        d=1e100.net; s=20230601; t=1717191289; x=1717796089;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=22c0UwDgNXgPsVV+qHmiQw5fv4pPjf+Lc0qLhHTqi88=;
-        b=IGZc2KREoNRQLzbn6I3cYiDXME73dbtCTkCV4X1AyPH4cKjyiQU3WP0QLt5szY6TeB
-         NjcUI2qrIm8otW/Nsk73nkKEiFJjoklLcoiHM79zCce3/dNLtke2r/gjGoZL7vklMDfQ
-         G2cbfRL/h9DQNC2+XQezeaKYbLvtFyADAaQ2Z7nWPg1nttxnvwzc9jZrUBgisZcKHI66
-         ObFcQJgfDkAI1MtbPS1D1HVGDX9QcAn0Vi8qSxAF3hJ/tUtkdB9+Dz+FwNAjqDSZmqX8
-         uOooxizH3nVayPk3ZSUd7uJHg/h1A+gRW6tAYkazg7iQ4hGSfv+uDZCuvm1pFIf0w6we
-         5eIg==
-X-Forwarded-Encrypted: i=1; AJvYcCWVKNqOMJhcCN2jFwl83d3AV/rRLjNWW+7/fKFELjt27b0cAOn6xK8O7sM1WM91sQc+yEWsTClEipB7u01wD8tN780eH4ktbm9y
-X-Gm-Message-State: AOJu0YzWexQ84wcaJzavZs1JLAzp9db0HBF/FROwjZMgGwB3Q4bKMhzz
-	8PEtomo3T6LjKNYBNKH0YwPhAdTysZdiU661WXG1/kAAaFBm5+C19c51XoLpqa63l5UkPvQVJ2d
-	/7sITqgMUgw==
-X-Google-Smtp-Source: AGHT+IEbPH0RxghVV8ANS15DCUTRp3o55R94/IFYmAtgmFEhINYqlUogTkNzjy7wCCu0jtBNvh0ajeeH7yA3Hw==
+        bh=PSzGyHzMerzTaST3R5/MMuosQBVUwsZqbBH4EMH0Fg0=;
+        b=eyTO79QXvNIZQigMK7bDV5+HE1SFB+LcjjmgsnIusrLIsLWS/Z9M7dn6Z1lN9YI5Y0
+         1QmMpS9hLQD+ypJdEi4EOOGbj/61tBB+OF8oHA8hVbE3y5P80NJ9piIXg8v0ApjCm5ZQ
+         I5JDDZxHyQ0MFO0arvvS/ncrYU3XULnlvrPNovM79Dft5Qs+uUVJCsrG2UOyrMm5Da89
+         r3RxDgxoZ3HDB7kf53KN1/XRKBerKeDwHMb3KC6UWqSwquqeJ6II/Rpyz1xOA1ZEB1w4
+         Kh0WrtTvkW+Ttud/A+rPMoDirZOC2rYRbRDtqJ0Uj6KZA+QZDvd71ZT2C2C4xzkv4vgI
+         jqcw==
+X-Forwarded-Encrypted: i=1; AJvYcCUoZfXZweZ3McgQ6mA++Afv8Zqba/5A2vsu3+dPRwowFGTQ9KJb8Lem6G1hqKEZ9xEKa77Gv0O4itYRbqI0xQiFtNWeZ2ag/5b5
+X-Gm-Message-State: AOJu0YyUDy0Prx/5yzp0ORCJDr5GgQuwcQ2IkfeAIAU99mRZloNXWDNJ
+	2LVINvgF+aB5dilYWQg9oV3kh615+IiO3/bcmOGHD1A88mE/PCOhhbfzlZAmaFwfk4vfEoqHJTv
+	P4SnACpiZSA==
+X-Google-Smtp-Source: AGHT+IEQi1nZ7QRqcXRTdtpnROLucQXBPkROpipk0R8nebc5FNrDvH4o9mUOqbtoIoIFxgTSbLnzJMZjzIErxw==
 X-Received: from yjq3.c.googlers.com ([fda3:e722:ac3:cc00:24:72f4:c0a8:272f])
  (user=jiaqiyan job=sendgmr) by 2002:a05:6902:1003:b0:df7:62ec:c517 with SMTP
- id 3f1490d57ef6-dfa73dba365mr150739276.11.1717191286235; Fri, 31 May 2024
- 14:34:46 -0700 (PDT)
-Date: Fri, 31 May 2024 21:34:37 +0000
+ id 3f1490d57ef6-dfa73dba365mr150746276.11.1717191288972; Fri, 31 May 2024
+ 14:34:48 -0700 (PDT)
+Date: Fri, 31 May 2024 21:34:38 +0000
 In-Reply-To: <20240531213439.2958891-1-jiaqiyan@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,9 +59,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20240531213439.2958891-1-jiaqiyan@google.com>
 X-Mailer: git-send-email 2.45.1.288.g0e0cd299f1-goog
-Message-ID: <20240531213439.2958891-2-jiaqiyan@google.com>
-Subject: [PATCH v1 1/3] mm/memory-failure: userspace controls soft-offlining
- hugetlb pages
+Message-ID: <20240531213439.2958891-3-jiaqiyan@google.com>
+Subject: [PATCH v1 2/3] selftest/mm: test softoffline_corrected_errors behaviors
 From: Jiaqi Yan <jiaqiyan@google.com>
 To: naoya.horiguchi@nec.com, muchun.song@linux.dev, linmiaohe@huawei.com
 Cc: akpm@linux-foundation.org, mike.kravetz@oracle.com, shuah@kernel.org, 
@@ -70,168 +69,332 @@ Cc: akpm@linux-foundation.org, mike.kravetz@oracle.com, shuah@kernel.org,
 	linux-doc@vger.kernel.org, Jiaqi Yan <jiaqiyan@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Correctable memory errors are very common on servers with large
-amount of memory, and are corrected by ECC. Soft offline is kernel's
-additional recovery handling for memory pages having (excessive)
-corrected memory errors. Impacted page is migrated to a healthy page
-if mapped/inuse; the original page is discarded for any future use.
+Add regression and new tests when hugepage has correctable memory
+errors, and how userspace wants to deal with it:
+* if softoffline_corrected_errors=0, mapped hugepage is soft offlined
+* if softoffline_corrected_errors=1, mapped hugepage is intact
 
-The actual policy on whether (and when) to soft offline should be
-maintained by userspace, especially in case of HugeTLB hugepages.
-Soft-offline dissolves a hugepage, either in-use or free, into
-chunks of 4K pages, reducing HugeTLB pool capacity by 1 hugepage.
-If userspace has not acknowledged such behavior, it may be surprised
-when later mmap hugepages MAP_FAILED due to lack of hugepages.
-In addition, discarding the entire 1G memory page only because of
-corrected memory errors sounds very costly and kernel better not
-doing under the hood. But today there are at least 2 such cases:
-1. GHES driver sees both GHES_SEV_CORRECTED and
-   CPER_SEC_ERROR_THRESHOLD_EXCEEDED after parsing CPER.
-2. RAS Correctable Errors Collector counts correctable errors per
-   PFN and when the counter for a PFN reaches threshold
-In both cases, userspace has no control of the soft offline performed
-by kernel's memory failure recovery.
+Free hugepages case is not explicitly covered by the tests.
 
-This commit gives userspace the control of soft-offlining HugeTLB
-pages: kernel only soft offlines hugepage if userspace has opt-ed in
-in for that specific hugepage size. The interface to userspace is a
-new sysfs entry called softoffline_corrected_errors under the
-/sys/kernel/mm/hugepages/hugepages-${size}kB directory:
-* When softoffline_corrected_errors=0, skip soft offlining for all
-  hugepages of size ${size}kB.
-* When softoffline_corrected_errors=1, soft offline as before this
-  patch series.
-
-So the granularity of the control is per hugepage size, and is kept
-in corresponding hstate. By default softoffline_corrected_errors is
-1 to preserve existing behavior in kernel.
+Hugepage having corrected memory errors is emulated with
+MADV_SOFT_OFFLINE.
 
 Signed-off-by: Jiaqi Yan <jiaqiyan@google.com>
 ---
- include/linux/hugetlb.h | 17 +++++++++++++++++
- mm/hugetlb.c            | 34 ++++++++++++++++++++++++++++++++++
- mm/memory-failure.c     |  7 +++++++
- 3 files changed, 58 insertions(+)
+ tools/testing/selftests/mm/.gitignore         |   1 +
+ tools/testing/selftests/mm/Makefile           |   1 +
+ .../selftests/mm/hugetlb-soft-offline.c       | 262 ++++++++++++++++++
+ tools/testing/selftests/mm/run_vmtests.sh     |   4 +
+ 4 files changed, 268 insertions(+)
+ create mode 100644 tools/testing/selftests/mm/hugetlb-soft-offline.c
 
-diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-index 2b3c3a404769..55f9e9593cce 100644
---- a/include/linux/hugetlb.h
-+++ b/include/linux/hugetlb.h
-@@ -685,6 +685,7 @@ struct hstate {
- 	int next_nid_to_free;
- 	unsigned int order;
- 	unsigned int demote_order;
-+	unsigned int softoffline_corrected_errors;
- 	unsigned long mask;
- 	unsigned long max_huge_pages;
- 	unsigned long nr_huge_pages;
-@@ -1029,6 +1030,16 @@ void hugetlb_unregister_node(struct node *node);
-  */
- bool is_raw_hwpoison_page_in_hugepage(struct page *page);
- 
+diff --git a/tools/testing/selftests/mm/.gitignore b/tools/testing/selftests/mm/.gitignore
+index 0b9ab987601c..064e7b125643 100644
+--- a/tools/testing/selftests/mm/.gitignore
++++ b/tools/testing/selftests/mm/.gitignore
+@@ -6,6 +6,7 @@ hugepage-shm
+ hugepage-vmemmap
+ hugetlb-madvise
+ hugetlb-read-hwpoison
++hugetlb-soft-offline
+ khugepaged
+ map_hugetlb
+ map_populate
+diff --git a/tools/testing/selftests/mm/Makefile b/tools/testing/selftests/mm/Makefile
+index 3b49bc3d0a3b..d166067d75ef 100644
+--- a/tools/testing/selftests/mm/Makefile
++++ b/tools/testing/selftests/mm/Makefile
+@@ -42,6 +42,7 @@ TEST_GEN_FILES += gup_test
+ TEST_GEN_FILES += hmm-tests
+ TEST_GEN_FILES += hugetlb-madvise
+ TEST_GEN_FILES += hugetlb-read-hwpoison
++TEST_GEN_FILES += hugetlb-soft-offline
+ TEST_GEN_FILES += hugepage-mmap
+ TEST_GEN_FILES += hugepage-mremap
+ TEST_GEN_FILES += hugepage-shm
+diff --git a/tools/testing/selftests/mm/hugetlb-soft-offline.c b/tools/testing/selftests/mm/hugetlb-soft-offline.c
+new file mode 100644
+index 000000000000..8d1d7d4a84d8
+--- /dev/null
++++ b/tools/testing/selftests/mm/hugetlb-soft-offline.c
+@@ -0,0 +1,262 @@
++// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * For certain hugepage size, when a hugepage has corrected memory error(s):
-+ * - Return 0 if userspace wants to disable soft offlining the hugepage.
-+ * - Return > 0 if userspace allows soft offlining the hugepage.
++ * Test soft offline behavior for HugeTLB pages:
++ * - if softoffline_corrected_errors = 0, hugepages should stay intact and soft
++ *   offlining failed with EINVAL.
++ * - if softoffline_corrected_errors > 0, a hugepage should be dissolved and
++ *   nr_hugepages should be reduced by 1.
++ *
++ * Before running, make sure more than 2 hugepages of default_hugepagesz
++ * are allocated. For example, if /proc/meminfo/Hugepagesize is 2048kB:
++ *   echo 8 > /sys/kernel/mm/hugepages/hugepages-2048kB/nr_hugepages
 + */
-+static inline int hugetlb_softoffline_corrected_errors(struct folio *folio)
++
++#define _GNU_SOURCE
++#include <errno.h>
++#include <stdlib.h>
++#include <stdio.h>
++#include <string.h>
++#include <unistd.h>
++
++#include <linux/magic.h>
++#include <linux/memfd.h>
++#include <sys/mman.h>
++#include <sys/statfs.h>
++#include <sys/types.h>
++
++#ifndef MADV_SOFT_OFFLINE
++#define MADV_SOFT_OFFLINE 101
++#endif
++
++#define PREFIX " ... "
++#define EPREFIX " !!! "
++
++enum test_status {
++	TEST_PASS = 0,
++	TEST_FAILED = 1,
++	// From ${ksft_skip} in run_vmtests.sh.
++	TEST_SKIPPED = 4,
++};
++
++static enum test_status do_soft_offline(int fd, size_t len, int expect_ret)
 +{
-+	return folio_hstate(folio)->softoffline_corrected_errors;
-+}
++	char *filemap = NULL;
++	char *hwp_addr = NULL;
++	const unsigned long pagesize = getpagesize();
++	int ret = 0;
++	enum test_status status = TEST_SKIPPED;
 +
- #else	/* CONFIG_HUGETLB_PAGE */
- struct hstate {};
- 
-@@ -1226,6 +1237,12 @@ static inline bool hugetlbfs_pagecache_present(
- {
- 	return false;
- }
-+
-+static inline int hugetlb_softoffline_corrected_errors(struct folio *folio)
-+{
-+	return 1;
-+}
-+
- #endif	/* CONFIG_HUGETLB_PAGE */
- 
- static inline spinlock_t *huge_pte_lock(struct hstate *h,
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 6be78e7d4f6e..a184e28ce592 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -4325,6 +4325,38 @@ static ssize_t demote_size_store(struct kobject *kobj,
- }
- HSTATE_ATTR(demote_size);
- 
-+static ssize_t softoffline_corrected_errors_show(struct kobject *kobj,
-+						 struct kobj_attribute *attr,
-+						 char *buf)
-+{
-+	struct hstate *h = kobj_to_hstate(kobj, NULL);
-+
-+	return sysfs_emit(buf, "%d\n", h->softoffline_corrected_errors);
-+}
-+
-+static ssize_t softoffline_corrected_errors_store(struct kobject *kobj,
-+						  struct kobj_attribute *attr,
-+						  const char *buf,
-+						  size_t count)
-+{
-+	int err;
-+	unsigned long input;
-+	struct hstate *h = kobj_to_hstate(kobj, NULL);
-+
-+	err = kstrtoul(buf, 10, &input);
-+	if (err)
-+		return err;
-+
-+	/* softoffline_corrected_errors is either 0 or 1. */
-+	if (input > 1)
-+		return -EINVAL;
-+
-+	h->softoffline_corrected_errors = input;
-+
-+	return count;
-+}
-+HSTATE_ATTR(softoffline_corrected_errors);
-+
- static struct attribute *hstate_attrs[] = {
- 	&nr_hugepages_attr.attr,
- 	&nr_overcommit_hugepages_attr.attr,
-@@ -4334,6 +4366,7 @@ static struct attribute *hstate_attrs[] = {
- #ifdef CONFIG_NUMA
- 	&nr_hugepages_mempolicy_attr.attr,
- #endif
-+	&softoffline_corrected_errors_attr.attr,
- 	NULL,
- };
- 
-@@ -4655,6 +4688,7 @@ void __init hugetlb_add_hstate(unsigned int order)
- 	h = &hstates[hugetlb_max_hstate++];
- 	mutex_init(&h->resize_lock);
- 	h->order = order;
-+	h->softoffline_corrected_errors = 1;
- 	h->mask = ~(huge_page_size(h) - 1);
- 	for (i = 0; i < MAX_NUMNODES; ++i)
- 		INIT_LIST_HEAD(&h->hugepage_freelists[i]);
-diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-index 16ada4fb02b7..7094fc4c62e2 100644
---- a/mm/memory-failure.c
-+++ b/mm/memory-failure.c
-@@ -2776,6 +2776,13 @@ int soft_offline_page(unsigned long pfn, int flags)
- 		return -EIO;
- 	}
- 
-+	if (PageHuge(page) &&
-+	    !hugetlb_softoffline_corrected_errors(page_folio(page))) {
-+		pr_info("soft offline: %#lx: hugetlb page is ignored\n", pfn);
-+		put_ref_page(pfn, flags);
-+		return -EINVAL;
++	if (ftruncate(fd, len) < 0) {
++		perror(EPREFIX "ftruncate to len failed");
++		return status;
 +	}
 +
- 	mutex_lock(&mf_mutex);
++	filemap = mmap(NULL, len, PROT_READ | PROT_WRITE,
++		       MAP_SHARED | MAP_POPULATE, fd, 0);
++	if (filemap == MAP_FAILED) {
++		perror(EPREFIX "mmap failed");
++		goto untruncate;
++	}
++
++	memset(filemap, 0xab, len);
++	printf(PREFIX "Allocated %#lx bytes of hugetlb pages\n", len);
++
++	hwp_addr = filemap + len / 2;
++	ret = madvise(hwp_addr, pagesize, MADV_SOFT_OFFLINE);
++	printf(PREFIX "MADV_SOFT_OFFLINE %p ret=%d, errno=%d\n",
++	       hwp_addr, ret, errno);
++	if (ret != 0)
++		perror(EPREFIX "madvise failed");
++
++	if (errno == expect_ret)
++		status = TEST_PASS;
++	else {
++		printf(EPREFIX "MADV_SOFT_OFFLINE should ret %d\n", expect_ret);
++		status = TEST_FAILED;
++	}
++
++	munmap(filemap, len);
++untruncate:
++	if (ftruncate(fd, 0) < 0)
++		perror(EPREFIX "ftruncate back to 0 failed");
++
++	return status;
++}
++
++static int set_softoffline_corrected_errors(unsigned long hugepage_size, int value)
++{
++	char cmd[256] = {0};
++	FILE *cmdfile = NULL;
++
++	if (value != 0 && value != 1)
++		return -EINVAL;
++
++	sprintf(cmd,
++		"echo %d > /sys/kernel/mm/hugepages/hugepages-%ldkB/softoffline_corrected_errors",
++		value, hugepage_size);
++	cmdfile = popen(cmd, "r");
++
++	if (cmdfile == NULL)
++		perror(EPREFIX "failed to set softoffline_corrected_errors");
++	else
++		printf(PREFIX
++		       "softoffline_corrected_errors=%d for %ldkB hugepages\n",
++		       value, hugepage_size);
++
++	pclose(cmdfile);
++	return 0;
++}
++
++static int read_nr_hugepages(unsigned long hugepage_size,
++			     unsigned long *nr_hugepages)
++{
++	char buffer[256] = {0};
++	char cmd[256] = {0};
++
++	sprintf(cmd, "cat /sys/kernel/mm/hugepages/hugepages-%ldkB/nr_hugepages",
++		hugepage_size);
++	FILE *cmdfile = popen(cmd, "r");
++
++	if (!fgets(buffer, sizeof(buffer), cmdfile)) {
++		perror(EPREFIX "failed to read nr_hugepages");
++		pclose(cmdfile);
++		return -1;
++	}
++
++	*nr_hugepages = atoll(buffer);
++	pclose(cmdfile);
++	return 0;
++}
++
++static int create_hugetlbfs_file(struct statfs *file_stat)
++{
++	int fd;
++
++	fd = memfd_create("hugetlb_tmp", MFD_HUGETLB);
++	if (fd < 0) {
++		perror(EPREFIX "could not open hugetlbfs file");
++		return -1;
++	}
++
++	memset(file_stat, 0, sizeof(*file_stat));
++	if (fstatfs(fd, file_stat)) {
++		perror(EPREFIX "fstatfs failed");
++		goto close;
++	}
++	if (file_stat->f_type != HUGETLBFS_MAGIC) {
++		printf(EPREFIX "not hugetlbfs file\n");
++		goto close;
++	}
++
++	return fd;
++close:
++	close(fd);
++	return -1;
++}
++
++static enum test_status test_soft_offline(void)
++{
++	int fd;
++	struct statfs file_stat;
++	unsigned long hugepagesize_kb = 0;
++	unsigned long nr_hugepages_before = 0;
++	unsigned long nr_hugepages_after = 0;
++	enum test_status status = TEST_SKIPPED;
++
++	printf("Test Soft Offline When softoffline_corrected_errors=1\n");
++
++	fd = create_hugetlbfs_file(&file_stat);
++	if (fd < 0) {
++		printf(EPREFIX "Failed to create hugetlbfs file\n");
++		return status;
++	}
++
++	hugepagesize_kb = file_stat.f_bsize / 1024;
++	printf(PREFIX "Hugepagesize is %ldkB\n", hugepagesize_kb);
++
++	if (set_softoffline_corrected_errors(hugepagesize_kb, 1))
++		return TEST_FAILED;
++
++	if (read_nr_hugepages(hugepagesize_kb, &nr_hugepages_before) != 0)
++		return TEST_FAILED;
++
++	printf(PREFIX "Before MADV_SOFT_OFFLINE nr_hugepages=%ld\n",
++		nr_hugepages_before);
++
++	status = do_soft_offline(fd, 2 * file_stat.f_bsize, /*expect_ret=*/0);
++
++	if (read_nr_hugepages(hugepagesize_kb, &nr_hugepages_after) != 0)
++		return TEST_FAILED;
++
++	printf(PREFIX "After MADV_SOFT_OFFLINE nr_hugepages=%ld\n",
++		nr_hugepages_after);
++
++	if (nr_hugepages_before != nr_hugepages_after + 1) {
++		printf(EPREFIX "MADV_SOFT_OFFLINE should reduced 1 hugepage\n");
++		return TEST_FAILED;
++	}
++
++	return status;
++}
++
++static enum test_status test_disable_soft_offline(void)
++{
++	int fd;
++	struct statfs file_stat;
++	unsigned long hugepagesize_kb = 0;
++	unsigned long nr_hugepages_before = 0;
++	unsigned long nr_hugepages_after = 0;
++	enum test_status status = TEST_SKIPPED;
++
++	printf("Test Soft Offline When softoffline_corrected_errors=0\n");
++
++	fd = create_hugetlbfs_file(&file_stat);
++	if (fd < 0) {
++		printf(EPREFIX "Failed to create hugetlbfs file\n");
++		return status;
++	}
++
++	hugepagesize_kb = file_stat.f_bsize / 1024;
++	printf(PREFIX "Hugepagesize is %ldkB\n", hugepagesize_kb);
++
++	if (set_softoffline_corrected_errors(hugepagesize_kb, 0))
++		return TEST_FAILED;
++
++	if (read_nr_hugepages(hugepagesize_kb, &nr_hugepages_before) != 0)
++		return TEST_FAILED;
++
++	printf(PREFIX "Before MADV_SOFT_OFFLINE nr_hugepages=%ld\n",
++		nr_hugepages_before);
++
++	status = do_soft_offline(fd, 2 * file_stat.f_bsize, /*expect_ret=*/EINVAL);
++
++	if (read_nr_hugepages(hugepagesize_kb, &nr_hugepages_after) != 0)
++		return TEST_FAILED;
++
++	printf(PREFIX "After MADV_SOFT_OFFLINE nr_hugepages=%ld\n",
++		nr_hugepages_after);
++
++	if (nr_hugepages_before != nr_hugepages_after) {
++		printf(EPREFIX "MADV_SOFT_OFFLINE reduced %lu hugepages\n",
++			nr_hugepages_before - nr_hugepages_after);
++		return TEST_FAILED;
++	}
++
++	return status;
++}
++
++int main(void)
++{
++	enum test_status status;
++
++	status = test_soft_offline();
++	if (status != TEST_PASS)
++		return status;
++
++	status = test_disable_soft_offline();
++	if (status != TEST_PASS)
++		return status;
++
++	printf("Test Soft Offline All Good!\n");
++	return TEST_PASS;
++}
+diff --git a/tools/testing/selftests/mm/run_vmtests.sh b/tools/testing/selftests/mm/run_vmtests.sh
+index 3157204b9047..91db9971ba69 100755
+--- a/tools/testing/selftests/mm/run_vmtests.sh
++++ b/tools/testing/selftests/mm/run_vmtests.sh
+@@ -332,6 +332,10 @@ CATEGORY="hugetlb" run_test ./charge_reserved_hugetlb.sh -cgroup-v2
+ CATEGORY="hugetlb" run_test ./hugetlb_reparenting_test.sh -cgroup-v2
+ if $RUN_DESTRUCTIVE; then
+ CATEGORY="hugetlb" run_test ./hugetlb-read-hwpoison
++nr_hugepages_tmp=$(cat /proc/sys/vm/nr_hugepages)
++echo 8 > /proc/sys/vm/nr_hugepages
++CATEGORY="hugetlb" run_test ./hugetlb-soft-offline
++echo "$nr_hugepages_tmp" > /proc/sys/vm/nr_hugepages
+ fi
  
- 	if (PageHWPoison(page)) {
+ if [ $VADDR64 -ne 0 ]; then
 -- 
 2.45.1.288.g0e0cd299f1-goog
 
