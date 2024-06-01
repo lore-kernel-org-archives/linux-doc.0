@@ -1,167 +1,113 @@
-Received: from smtp.smtpout.orange.fr (smtp-26.smtpout.orange.fr [80.12.242.26])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C65111AD;
-	Sat,  1 Jun 2024 08:40:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.26
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34E1113D636
+	for <linux-doc@vger.kernel.org>; Sat,  1 Jun 2024 08:46:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717231254; cv=none; b=j/EVCrayk0D44LngwfTJD0DZ5i8L4uoJGxcr1Sz5GxBcMS2psvHLJJsQ9FDP65IxRA2J49d7O9mO9F2Eirl35EJ4esHSVZxq/gD0r8FtQ3U2KdkrFyCEcBb8Zh9rYFNGJh3Js5ebCdIT1jqZU490UZ4bbTRFJ97oOOJgtYauZbY=
+	t=1717231595; cv=none; b=sCtSEurRjhlFXFUT+OOPmEg4iI5m/ocPEUJv/FEEvaxRtIb6ARuh86TKM4FOoCXiMUsSFuaCLk2GgFNvQ+zN02uulCMOy/iFzodgkyA/nSxDNtFn/WW4s7oZAOlfq2Wc15pWYhWvtouTTOati9EzwKllmPmYVMo9f/P6A0WB7jE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717231254; c=relaxed/simple;
-	bh=sF9BOyKHST//ueP1dpjJq4rkoGLKuLDyhaBu4xILE54=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MWdYyztJ63GTq+BrUshMjSpU15IKaNNMSFEu5CK65d75GPcLdDkucQcC4TyLS+P7CelZ0p4ErCB+9EPDtihrVrT0g3e6c2XZ+SgXnjA2pIky8/biJl7oFBfuhEBqW/V+mlXP7YiB+lx5TNad+hfc5g0QPZfkpp9Nn0Oq2dCjGr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=CcxAMN5w; arc=none smtp.client-ip=80.12.242.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1717231595; c=relaxed/simple;
+	bh=n39P43ilSKNrAL3vLU0xZC6c1odihG0/bwgLoJaJ2iY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=T2nsXx8LjNjLjDZHtCCGij2yCW/81OXMxbDnIVJrR/GgeaYDHJKO0X7+V/+3qpS9wGxV2uSsCeKi5PvvGFA1Ml3o3CcrRpnoOMVTEptllkiuBuoEhnVBrnoZMbnOAM8hb38bZakTFcSPVhQWEIZjht/6q60CMCJIJeQGyDCszmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BTrfWa2q; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="CcxAMN5w"
-Received: from [192.168.1.37] ([86.243.17.157])
-	by smtp.orange.fr with ESMTPA
-	id DKH2sUFIEvZ5mDKH3sPIqU; Sat, 01 Jun 2024 10:39:41 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1717231181;
-	bh=uDIWi5FqRaEs9zERfH9KwqhtLcINKRmqH7+cDO7juLM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=CcxAMN5w2n9SUWnzDnMjSIrDMG65v2mbI47yhBc7lDTBy+QT2U1zeA2Zi1+xfFA1E
-	 uovCvYQ4AVbyrGVIDqto0QFZLbqwVPyobv8ECOw9e+Qk1y/LN8ZlqLA6NRpU0Sj+sg
-	 D4jm+8QIy6/42X3QGJUj7rJHwkXYTQilB2Du8QlgWPgln7uKM9uc+vFg1+LaNERq5M
-	 Kb17JpWUQJj2K75X6Y9adyGwXBGDWQQg518Gce6Uwrfw1Eu+XC661tph7pYgrLQXNA
-	 tJC/lDguYLxMx5jvz4vYAwSb+N1RifGvitqdBNQRH2LjZQnG7dt++uCsNl1COoIKNt
-	 dlM0iW41EnxxA==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sat, 01 Jun 2024 10:39:41 +0200
-X-ME-IP: 86.243.17.157
-Message-ID: <446b396b-753c-4114-9a8c-6f84ad3a69ba@wanadoo.fr>
-Date: Sat, 1 Jun 2024 10:39:29 +0200
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BTrfWa2q"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-42133fbe137so26345e9.0
+        for <linux-doc@vger.kernel.org>; Sat, 01 Jun 2024 01:46:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1717231591; x=1717836391; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SkCBwJFH3FQQjhEGVUSmMAPZxzATBED22vdUBPssCpo=;
+        b=BTrfWa2qXiEnnSTagMvpJxdLxWXertmX+lgnjbPkpRdI1VJFf9zRpawk6NFhtcIXGV
+         CzsLA/9nSccUt4UbktXZrhhyiNI8dHVA7O/HQiHIKKMl9ipKE5ujNCl6bWW+VoEi1np4
+         HzaFoMgwgKHMbY4B4wYZsGIATcNFkBYuIHLkZi5CRskRudExzGqiw1hJRRNzhFfnSViV
+         1xdi2H76l8jBBF+fN2r2tBlcOE/Qu7Vv3pxwbEGnRjB57OeUSTXwuDmzwLHRR+lyuYGr
+         Ypbre2YEWeENeHXw0RQMuGmXl/7QyWHGB9QXf75l4wuP5TTEh8ohXNrwn/fLv8yqCQta
+         yJ4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717231591; x=1717836391;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SkCBwJFH3FQQjhEGVUSmMAPZxzATBED22vdUBPssCpo=;
+        b=IbnmealOF9rys/BoTykJvkhKf4xoZbFs4snmUu2uPVbabydh+K1vY/NIyUYMr0FVC3
+         UHfrmQC+/jxGPwXxhAfXwIlp4/Gn3d/8qlhcW/4J3U3L7eZOSUmbT1dJNWhoAT0+1/w7
+         xgrBZlLqc5l20RraHPvH4dohYbQtMI1AyHcqOCx+byTtohPLAJqfYFzczwyOkHVC1jtN
+         nMQqi34NLT/EFV4PW37gnN2TJjFPweyisg7lwIduf21+EMOJZiy5A5pKCviKG6pa4+Gf
+         uuU6azrX+Q2+JBQP0Xy/CHC+r+BM/UvLOTpsMir1P5Pd6kzU08vi8cPCSLumSFy1o5mY
+         hejQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWX9Xm24ZGYyqh4ooJw5ltTf0ijI2Puyy8faxgu/oHnbRk/LZlKM8tIHOUpBWNkohosbA0qeWXdBu8/P6kMLpDO15YnPivjz5bE
+X-Gm-Message-State: AOJu0YxglgKcuHwfi2XITeJJRzBhSE1QJOMCaJToQA+oq84637s334nj
+	lXMsDvZLldIVawUzADpYW7JJQrDwsQm7krkAbIFI5vlf2mjhlW0/JpU54HOeOzVf/WVcG721LvZ
+	9kNlc0VL0Yrxf1Z9FqcsVCW7IyF59dAJFe8cH
+X-Google-Smtp-Source: AGHT+IGqcSxJEUtmpYkzXz1v9dsUIixWDloYhRg4yMzs1O1FPjmhoX1qHONtxeNkzCEYdabvfw1JGy2vc4W7BCuX++8=
+X-Received: by 2002:a05:600c:19c8:b0:41f:9dd0:7169 with SMTP id
+ 5b1f17b1804b1-42134ed2115mr1168505e9.2.1717231591043; Sat, 01 Jun 2024
+ 01:46:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v3,1/2] hwmon: add MP2891 driver
-To: Noah Wang <noahwang.wang@outlook.com>, robh@kernel.org,
- krzk+dt@kernel.org, linux@roeck-us.net, conor+dt@kernel.org,
- jdelvare@suse.com
-Cc: corbet@lwn.net, Delphine_CC_Chiu@Wiwynn.com, peteryin.openbmc@gmail.com,
- javier.carrasco.cruz@gmail.com, patrick.rudolph@9elements.com,
- luca.ceresoli@bootlin.com, chou.cosmo@gmail.com, bhelgaas@google.com,
- lukas@wunner.de, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-i2c@vger.kernel.org
-References: <SEYPR04MB648253BF01D42B24A72B0027FAFC2@SEYPR04MB6482.apcprd04.prod.outlook.com>
-Content-Language: en-MW, en-GB
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <SEYPR04MB648253BF01D42B24A72B0027FAFC2@SEYPR04MB6482.apcprd04.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20240529111844.13330-1-petrm@nvidia.com> <20240529111844.13330-3-petrm@nvidia.com>
+In-Reply-To: <20240529111844.13330-3-petrm@nvidia.com>
+From: Eric Dumazet <edumazet@google.com>
+Date: Sat, 1 Jun 2024 10:46:16 +0200
+Message-ID: <CANn89iL8P68pHvCKy242Z6ggWsceK4_TWMr7OakS3guRok=_gw@mail.gmail.com>
+Subject: Re: [PATCH net-next 2/4] net: ipv4: Add a sysctl to set multipath
+ hash seed
+To: Petr Machata <petrm@nvidia.com>
+Cc: "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org, 
+	Ido Schimmel <idosch@nvidia.com>, David Ahern <dsahern@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-doc@vger.kernel.org, Simon Horman <horms@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Le 31/05/2024 à 09:26, Noah Wang a écrit :
-> Add support for MPS VR controller mp2891. This driver exposes
-> telemetry and limit value readings and writings.
-> 
-> Signed-off-by: Noah Wang <noahwang.wang@outlook.com>
-> ---
-
-Hi,
-
-below a few nitpicks, if it make sense to you.
-
+On Wed, May 29, 2024 at 1:21=E2=80=AFPM Petr Machata <petrm@nvidia.com> wro=
+te:
+>
+> When calculating hashes for the purpose of multipath forwarding, both IPv=
+4
+> and IPv6 code currently fall back on flow_hash_from_keys(). That uses a
+> randomly-generated seed. That's a fine choice by default, but unfortunate=
+ly
+> some deployments may need a tighter control over the seed used.
+>
+> In this patch, make the seed configurable by adding a new sysctl key,
+> net.ipv4.fib_multipath_hash_seed to control the seed. This seed is used
+> specifically for multipath forwarding and not for the other concerns that
+> flow_hash_from_keys() is used for, such as queue selection. Expose the kn=
+ob
+> as sysctl because other such settings, such as headers to hash, are also
+> handled that way. Like those, the multipath hash seed is a per-netns
+> variable.
+>
+> Despite being placed in the net.ipv4 namespace, the multipath seed sysctl
+> is used for both IPv4 and IPv6, similarly to e.g. a number of TCP
+> variables.
+>
 ...
 
-> +++ b/drivers/hwmon/pmbus/mp2891.c
-> @@ -0,0 +1,608 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Hardware monitoring driver for MPS Multi-phase Digital VR Controllers(MP2891)
-> + */
-> +
-> +#include <linux/err.h>
-> +#include <linux/i2c.h>
-> +#include <linux/init.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/bitfield.h>
-
-It is usually prefered to have includes sorted.
-
-> +#include "pmbus.h"
+> +       rtnl_lock();
+> +       old =3D rcu_replace_pointer_rtnl(net->ipv4.sysctl_fib_multipath_h=
+ash_seed,
+> +                                      mphs);
+> +       rtnl_unlock();
 > +
 
-...
+In case you keep RCU for the next version, please do not use rtnl_lock() he=
+re.
 
-> +static struct pmbus_driver_info mp2891_info = {
+A simple xchg() will work just fine.
 
-I think this could be const.
-
-> +	.pages = MP2891_PAGE_NUM,
-> +	.format[PSC_VOLTAGE_IN] = direct,
-> +	.format[PSC_CURRENT_IN] = direct,
-> +	.format[PSC_CURRENT_OUT] = direct,
-> +	.format[PSC_TEMPERATURE] = direct,
-> +	.format[PSC_POWER] = direct,
-> +	.format[PSC_VOLTAGE_OUT] = direct,
-> +
-> +	/* set vin scale 31.25mV/Lsb */
-> +	.m[PSC_VOLTAGE_IN] = 32,
-> +	.R[PSC_VOLTAGE_IN] = 0,
-> +	.b[PSC_VOLTAGE_IN] = 0,
-> +
-> +	/* set temp scale 1000m°C/Lsb */
-> +	.m[PSC_TEMPERATURE] = 1,
-> +	.R[PSC_TEMPERATURE] = 0,
-> +	.b[PSC_TEMPERATURE] = 0,
-> +
-> +	.m[PSC_CURRENT_IN] = 1,
-> +	.R[PSC_CURRENT_IN] = 0,
-> +	.b[PSC_CURRENT_IN] = 0,
-> +
-> +	.m[PSC_CURRENT_OUT] = 1,
-> +	.R[PSC_CURRENT_OUT] = 0,
-> +	.b[PSC_CURRENT_OUT] = 0,
-> +
-> +	.m[PSC_POWER] = 1,
-> +	.R[PSC_POWER] = 0,
-> +	.b[PSC_POWER] = 0,
-> +
-> +	.m[PSC_VOLTAGE_OUT] = 1,
-> +	.R[PSC_VOLTAGE_OUT] = 3,
-> +	.b[PSC_VOLTAGE_OUT] = 0,
-> +
-> +	.func[0] = MP2891_RAIL1_FUNC,
-> +	.func[1] = MP2891_RAIL2_FUNC,
-> +	.read_word_data = mp2891_read_word_data,
-> +	.write_word_data = mp2891_write_word_data,
-> +	.read_byte_data = mp2891_read_byte_data,
-> +	.identify = mp2891_identify,
-> +};
-> +
-> +static int mp2891_probe(struct i2c_client *client)
-> +{
-> +	struct pmbus_driver_info *info;
-> +	struct mp2891_data *data;
-> +
-> +	data = devm_kzalloc(&client->dev, sizeof(struct mp2891_data), GFP_KERNEL);
-
-sizeof(*data)?
-
-> +	if (!data)
-> +		return -ENOMEM;
-> +
-> +	memcpy(&data->info, &mp2891_info, sizeof(*info));
-> +	info = &data->info;
-
-'info' is not really useful. It could either be dropped, or initialised 
-1 line above, so that it can be used in the memcpy().
-
-CJ
-
-> +
-> +	return pmbus_do_probe(client, info);
-> +}
-
-...
-
+old =3D xchg((__force struct struct sysctl_fib_multipath_hash_seed
+**)&net->ipv4.sysctl_fib_multipath_hash_seed,
+                 mphs);
