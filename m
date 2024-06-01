@@ -1,59 +1,48 @@
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF0D15252E;
-	Sat,  1 Jun 2024 15:03:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C54E1DFF7;
+	Sat,  1 Jun 2024 16:42:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717254196; cv=none; b=KBhoy/bOdv8E9Qo00/6Bpexj5KY4lwU+Ya++8EqLezO8VE5jwxiBDowEnHdqcNTZeNpU8vHzfAOrRDCA7CQe27Z8i+HBC5Giw/MuzmsWH3VCJJaMtuWOgo3BevW5mxMLAWgnqjZWONKqWE9p2kk3ZJrHjYPBrnY2GzppFmslMUc=
+	t=1717260135; cv=none; b=fcIGLpvofbVyIHMv5qFtrhKUSH9kfaHt8V9BNBfhwQaxfVzjleIPLnbggpqdWjUROLM4ZvpK+7L7gMsU5C501by3hO7/uqehHZjmM8nqwazoCH0lMzq30vNwNpx6vjTn99vEFAdrdXjXTeNXLms0y2UDdwPjYGXclVFdaa5WEp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717254196; c=relaxed/simple;
-	bh=KLwdFDWoiBNLrDlb6jDOXX3QO4rfSWw4/hRf8ofFSgA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=L1tf45KblT9NFz1Cvnp+amdnIPfSCl7rNffwO5y9WyieTClK23y2Ge7wQLNhy7JIXuX2dkmCz1gVF3RS6p1nV06DKwKo23AdGCYpCc0KgW0KjCdwodd016wgFguCb10fg4hmQ2gnv8Txb/6qJ4TBmhPLNebc6XQhykrbPq7F+6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jVHiqqGe; arc=none smtp.client-ip=209.85.161.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1717260135; c=relaxed/simple;
+	bh=Xu3vkhgffNTzU2/HpNfT9+Hk1mZIlW14sUSAMdOAUcM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=SoQhUm6jk1+WQ++qoqeE98LpWiWVcouixQljEEkHzD8qaQllkFucF2ck8345UU7VetxYclKqhPJZRmmIk7eVwo7jiU15hrlTCNKjMHd3BpXwx69t+SqOneIPWa069awvYw0Sy7FbtEftXFmznF2C8Kb0DdrikCKbphSeKaUhKwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=sIS3bpZw; arc=none smtp.client-ip=198.47.23.248
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jVHiqqGe"
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5b9706c84e5so1818687eaf.1;
-        Sat, 01 Jun 2024 08:03:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717254193; x=1717858993; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yH6qSbeOIforRd3zhbUXZJKoVlYrK0Q+h1ZY9PtU0gI=;
-        b=jVHiqqGe+QtfFt1JAFrdQ1GtfHr4bT2VAKD4oxduYxYg293qoTpc1DnNvCYkb5rz66
-         GRo0xoLD0wITzIzw/C+sokWOAvFUtTV02CcA2efYDbT/cEzSRrFwFKIG1WoiiC8DQ1Q6
-         rKyyvBoxzJjFkPerJUCTxbr9O5+Bx3rWXBuqjJJvaen8UICN4e/rMoMRa08gEMLZYBq1
-         fjyqUkPfw8fU2tFb42VazQIsE22q/JM7540vUWsiI4NkRnzL4aNNylLS+95pK4hNiQV7
-         q/yZd1SQ9ZG1g//Fg8/KJOncVg8jPBaPSfGywrZsMszRTMzLcIH6nxmJ8pq52nh+Ym7/
-         LhmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717254193; x=1717858993;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yH6qSbeOIforRd3zhbUXZJKoVlYrK0Q+h1ZY9PtU0gI=;
-        b=OexcJMO93IkKhXnr2CC2OkttaNOzETZVU/8pdpfyiYBJIMOff8T+Tub7HZzJ1v49TA
-         VF365lzDnbR30uzv2ZUGSbjRHurGcw/3IcwrI2LlG04cR6bQPbJzWx84ecMtb6m3+r8I
-         A7UdyrjoPLidPhIv9ygqFeGuAO6nD+7HFMgTaw37Ij4DbI34t3HLryg8NHDjjRCwlqNI
-         Om8pFyMagFmxFKW1RevMgXouNqufeJ/Myh7idFSmNh7SdRZsSkh4wLkX93wkfApNOxqQ
-         ku690U/hAsYdMnpf7iccHvvmndbV73tc1T+VSAStFDtP/OBj/ouh/feIMDAVULu8IosS
-         7ypg==
-X-Forwarded-Encrypted: i=1; AJvYcCXAI7QnmBIb9lM8aiWsOMvlf9+UvZOVGUtz6R4qhJNa/ll6OP6vK4qLZ6Twf6PQQPcQvdDADFrxAgHUgvz54kWhuITzKZIDtTUd/1zu
-X-Gm-Message-State: AOJu0YzUGd4bbW8rfd9xiR11wuvONyzS3d9TqIY+//Kzgmf9/saxSDWc
-	LvFDqLFa8pmDU+YcSMuugTWPqs3RJiEgMrXlsg/qbTRflJLk1ppLcgkcwqKY
-X-Google-Smtp-Source: AGHT+IGwUO9COhBHyPVEMrDEU9y5GlsLUcH+M+riIxGJdfJz3ESoPNwHkgswnLlbOtVuBFB2pqyEkg==
-X-Received: by 2002:a05:6820:1518:b0:5b3:3080:14c6 with SMTP id 006d021491bc7-5ba05df4c04mr5006857eaf.9.1717254193446;
-        Sat, 01 Jun 2024 08:03:13 -0700 (PDT)
-Received: from ?IPV6:2603:8080:2300:de:3d70:f8:6869:93de? ([2603:8080:2300:de:3d70:f8:6869:93de])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-5ba004b3d54sm844449eaf.33.2024.06.01.08.03.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 01 Jun 2024 08:03:13 -0700 (PDT)
-Message-ID: <2acd884f-2f04-4d39-b559-aac99f9ae35e@gmail.com>
-Date: Sat, 1 Jun 2024 10:03:12 -0500
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="sIS3bpZw"
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 451GffZ8036681;
+	Sat, 1 Jun 2024 11:41:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1717260101;
+	bh=+ocxchH9u2Icz4prOAtSV5xvLRJJKRxfx+7US0r/Pik=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=sIS3bpZwCELHxccweU6x52eq+2O1Ue4QnQ+3wx6sWd9Ph/5SBvnFK0mTKgHaGJndb
+	 vKZsUkZ3Oe7to6ThCH6xsu0xc89qM9QE8q7nFH1EGG/+3PLTYE1IabyCy1d1zv0tG/
+	 +1848s9cQKrZRfDRz9FDEJPR6fOi8gD/x+EeypAc=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 451GffhU069778
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Sat, 1 Jun 2024 11:41:41 -0500
+Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Sat, 1
+ Jun 2024 11:41:40 -0500
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Sat, 1 Jun 2024 11:41:40 -0500
+Received: from [10.249.130.181] ([10.249.130.181])
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 451GfTpn129505;
+	Sat, 1 Jun 2024 11:41:30 -0500
+Message-ID: <1d35fe9f-79f3-4d64-81d6-97a63b333bfc@ti.com>
+Date: Sat, 1 Jun 2024 22:11:28 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,148 +50,49 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: [PATCH] docs: Extend and refactor index of further kernel docs
-To: Jonathan Corbet <corbet@lwn.net>, bilbao@vt.edu
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <fdf68be7-875a-421d-8bc3-034a21990679@gmail.com>
- <87ikyvccwc.fsf@meer.lwn.net>
+Subject: Re: [PATCH v11 07/11] Documentation: core-api: Add math.h macros and
+ functions
+To: Randy Dunlap <rdunlap@infradead.org>, <mchehab@kernel.org>,
+        <hverkuil-cisco@xs4all.nl>, <linux-media@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <benjamin.gaignard@collabora.com>,
+        <sebastian.fricke@collabora.com>, <akpm@linux-foundation.org>,
+        <gregkh@linuxfoundation.org>, <andriy.shevchenko@linux.intel.com>,
+        <adobriyan@gmail.com>, <jani.nikula@intel.com>,
+        <p.zabel@pengutronix.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+        <dri-devel@lists.freedesktop.org>, <corbet@lwn.net>,
+        <broonie@kernel.org>, <linux-doc@vger.kernel.org>
+CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
+        <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
+        <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
+        <vijayp@ti.com>, <andrzej.p@collabora.com>, <nicolas@ndufresne.ca>,
+        <davidgow@google.com>, <dlatypov@google.com>
+References: <20240531170229.1270828-1-devarsht@ti.com>
+ <20240531171220.1295881-1-devarsht@ti.com>
+ <c14215bd-96ff-4aec-83c4-e25375f6fe88@infradead.org>
 Content-Language: en-US
-From: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-In-Reply-To: <87ikyvccwc.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Devarsh Thakkar <devarsht@ti.com>
+In-Reply-To: <c14215bd-96ff-4aec-83c4-e25375f6fe88@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Extend the Index of Further Kernel Documentation by adding entries for the
-Rust for Linux website, the Linux Foundation's YouTube channel, and notes
-on the second edition of Billimoria's kernel programming book. Also,
-perform some refactoring: format the text to 75 characters per line and
-sort per-section content in chronological order of publication.
+On 01/06/24 00:01, Randy Dunlap wrote:
+> Hi,
+> 
+> On 5/31/24 10:12 AM, Devarsh Thakkar wrote:
+>> Add documentation for rounding, scaling, absolute value and difference,
+>> 32-bit division related macros and functions exported by math.h header
+>> file.
+>>
+> 
+> I don't see any kernel-doc for division functions in this header file.
+> 
+> Do some division functions get rendered somehow?
+> 
 
-Signed-off-by: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
----
- Documentation/process/kernel-docs.rst | 68 +++++++++++++++++----------
- 1 file changed, 44 insertions(+), 24 deletions(-)
+Good catch. I see couple of them having adequate documentation just
+missing the sphynx syntax, will enable for DIV_ROUND_CLOSEST and
+DIV_ROUND_CLOSEST_ULL.
 
-diff --git a/Documentation/process/kernel-docs.rst
-b/Documentation/process/kernel-docs.rst
-index 8660493b91d0..6f3e290abd22 100644
---- a/Documentation/process/kernel-docs.rst
-+++ b/Documentation/process/kernel-docs.rst
-@@ -3,27 +3,27 @@
- Index of Further Kernel Documentation
- =====================================
- 
--The need for a document like this one became apparent in the
--linux-kernel mailing list as the same questions, asking for pointers
--to information, appeared again and again.
-+The need for a document like this one became apparent in the linux-kernel
-+mailing list as the same questions, asking for pointers to information,
-+appeared again and again.
- 
--Fortunately, as more and more people get to GNU/Linux, more and more
--get interested in the Kernel. But reading the sources is not always
--enough. It is easy to understand the code, but miss the concepts, the
--philosophy and design decisions behind this code.
-+Fortunately, as more and more people get to GNU/Linux, more and more get
-+interested in the Kernel. But reading the sources is not always enough. It
-+is easy to understand the code, but miss the concepts, the philosophy and
-+design decisions behind this code.
- 
--Unfortunately, not many documents are available for beginners to
--start. And, even if they exist, there was no "well-known" place which
--kept track of them. These lines try to cover this lack.
-+Unfortunately, not many documents are available for beginners to start.
-+And, even if they exist, there was no "well-known" place which kept track
-+of them. These lines try to cover this lack.
- 
- PLEASE, if you know any paper not listed here or write a new document,
- include a reference to it here, following the kernel's patch submission
- process. Any corrections, ideas or comments are also welcome.
- 
- All documents are cataloged with the following fields: the document's
--"Title", the "Author"/s, the "URL" where they can be found, some
--"Keywords" helpful when searching for specific topics, and a brief
--"Description" of the Document.
-+"Title", the "Author"/s, the "URL" where they can be found, some "Keywords"
-+helpful when searching for specific topics, and a brief "Description" of
-+the Document.
- 
- .. note::
- 
-@@ -72,9 +72,29 @@ On-line docs
-         programming. Lots of examples. Currently the new version is being
-         actively maintained at https://github.com/sysprog21/lkmpg.
- 
-+    * Title: **Rust for Linux**
-+
-+      :Author: various
-+      :URL: https://rust-for-linux.com/
-+      :Date: rolling version
-+      :Keywords: glossary, terms, linux-kernel.
-+      :Description: From the website: "Rust for Linux is the project adding
-+        support for the Rust language to the Linux kernel. This website is
-+        intended as a hub of links, documentation and resources related to
-+        the project".
-+
- Published books
- ---------------
- 
-+    * Title: **Practical Linux System Administration: A Guide to Installation, Configuration, and Management, 1st Edition**
-+
-+      :Author: Kenneth Hess
-+      :Publisher: O'Reilly Media
-+      :Date: May, 2023
-+      :Pages: 246
-+      :ISBN: 978-1098109035
-+      :Notes: System administration
-+
-     * Title: **Linux Kernel Debugging: Leverage proven tools and advanced techniques to effectively debug Linux kernels and kernel modules**
- 
-       :Author: Kaiwan N Billimoria
-@@ -88,9 +108,9 @@ Published books
- 
-       :Author: Kaiwan N Billimoria
-       :Publisher: Packt Publishing Ltd
--      :Date: March, 2021
-+      :Date: March, 2021 (Second Edition published in 2024)
-       :Pages: 754
--      :ISBN: 978-1789953435
-+      :ISBN: 978-1789953435 (Second Edition ISBN is 978-1803232225)
- 
-     * Title: **Linux Kernel Programming Part 2 - Char Device Drivers and Kernel Synchronization: Create user-kernel interfaces, work with peripheral I/O, and handle hardware interrupts**
- 
-@@ -118,15 +138,6 @@ Published books
-       :ISBN: 978-0672329463
-       :Notes: Foundational book
- 
--    * Title: **Practical Linux System Administration: A Guide to Installation, Configuration, and Management, 1st Edition**
--
--      :Author: Kenneth Hess
--      :Publisher: O'Reilly Media
--      :Date: May, 2023
--      :Pages: 246
--      :ISBN: 978-1098109035
--      :Notes: System administration
--
- .. _ldd3_published:
- 
-     * Title: **Linux Device Drivers, 3rd Edition**
-@@ -201,6 +212,15 @@ Miscellaneous
-       :Description: Some of the linux-kernel mailing list archivers. If
-         you have a better/another one, please let me know.
- 
-+    * Name: **The Linux Foundation YouTube channel**
-+
-+      :URL: https://www.youtube.com/user/thelinuxfoundation
-+      :Keywords: linux, videos, linux-foundation, youtube.
-+      :Description: The Linux Foundation uploads video recordings of their
-+        collaborative events, Linux conferences including LinuxCon, and
-+        other original research and content related to Linux and software
-+        development.
-+
- -------
- 
- This document was originally based on:
--- 
-2.43.0
-
+Regards
+Devarsh
