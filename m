@@ -1,95 +1,103 @@
-Received: from out-15.pe-b.jellyfish.systems (out-15.pe-b.jellyfish.systems [198.54.127.81])
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3534D152533;
-	Sat,  1 Jun 2024 15:00:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.54.127.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A82C31CD3D;
+	Sat,  1 Jun 2024 15:02:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717254004; cv=none; b=rnu6oF+c6BrFPzIZIRVj6e2UUbR2+QV86chQ/vvyBA/+51vUCW3kknleZVpBPqS6JYD7iM6Z99FooM+E/Koa0w7riAxG3xw5JKWyWxYGE7w8mjmMZeYcz0l1ZXpD0QRvb3wnKNduFKKsimcb8VX00GliEl6VAZNuokcHv+BIcnE=
+	t=1717254159; cv=none; b=BV1VQhyZEeMTbCzh+6QWywh+mc95eRRHtOL/VWXuI/AEzg93aKKhcpa40+25spoPp/sT7IVdE/M3ZntJ2H5FJ8W/Odw1FUb4QpqPwzyXS/xxaowvT9hHqZdQDIemBq5D5chibLa+gCmEU9w6kS1Lxkg7Q3tuOXncQ2Lz+U4/R/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717254004; c=relaxed/simple;
-	bh=lo3WERO5Od+lCrB7tZFl4JPJAq2xflULTe7KYhW0Ip4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lQ5tsXZE/6zlFPRM4G9p80JPB2Up3iQc0nmuGX2lBcd3OCM5xRoYbfyAbbKr7IwXisZcrgNjqoyr+B9XgOsxPGedhkklecfRSmxZ0+SSTxuVC6+WeHnYMZz2rT50Xn02R5ZY/AXGsPSuMHgpJRTW4vzO8wyxU4rHho6yURZGTro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=danishpraka.sh; spf=pass smtp.mailfrom=danishpraka.sh; dkim=fail (0-bit key) header.d=danishpraka.sh header.i=@danishpraka.sh header.b=rqZM/y3i reason="key not found in DNS"; arc=none smtp.client-ip=198.54.127.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=danishpraka.sh
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=danishpraka.sh
+	s=arc-20240116; t=1717254159; c=relaxed/simple;
+	bh=qTjU/TippBIBluChZCNGHhy1DPcvvexKMAWCo0qp0Fc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MyCi0z4zPm3UE0IyZdSjfVGP1W7ghpuKNTDyGsUqDYwECgiqvWEchnPntICt/I1TMpmRkoIGuLTsbpFi9w7KO68OPhESHjMLwcch08Oz8tNnYyPLck0qwh7m+mqG0ZA0XGFbkVw+PJ5fhvTpyzWkK4/h4M0kYGJXI2sK2l48iag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TsLAK5cR; arc=none smtp.client-ip=209.85.160.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=danishpraka.sh header.i=@danishpraka.sh header.b="rqZM/y3i"
-Received: from output-router-d5c465c44-45n78 (new-01.privateemail.com [198.54.118.220])
-	by pe-b.jellyfish.systems (Postfix) with ESMTPA id 4Vs2z80JgnzGq2w;
-	Sat,  1 Jun 2024 14:52:52 +0000 (UTC)
-Received: from MTA-07.privateemail.com (unknown [10.50.14.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by NEW-01.privateemail.com (Postfix) with ESMTPS id EB84D18000D0;
-	Sat,  1 Jun 2024 10:52:51 -0400 (EDT)
-Received: from mta-07.privateemail.com (localhost [127.0.0.1])
-	by mta-07.privateemail.com (Postfix) with ESMTP id C2E2918000B0;
-	Sat,  1 Jun 2024 10:52:51 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=danishpraka.sh;
-	s=default; t=1717253571;
-	bh=lo3WERO5Od+lCrB7tZFl4JPJAq2xflULTe7KYhW0Ip4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rqZM/y3iohM9HsGn1TL+LI2bnfmZBtSDmTndpPLP5aColQqUihT4nopGxg9WBwE9Z
-	 1hB13aEVLuf3WMdV+xW4vqPvHvWIqumpiCEmpmgBJnLTYC96oxrvsPHYMhmaXbmPyb
-	 G+uNScvNqe4p9K+z360D+1exRHkQpuVoph96Ng62KovldpxMBMOFMuVmNXIWiTwZns
-	 9DAtrZ/FUnhOUfyYLe4UV1aCRL5knt3sP348n/gHXN+OdCkY4sHgemNJA4hj3/Ig1x
-	 pIoqtgNbYi17KQa9TGCUb/rd58VI+5iBaXgtVPFE8G+eqzLxb4iYb5dxBJFBjjS2LT
-	 IDXsBXgSe9ecw==
-Received: from localhost.localdomain (unknown [122.171.21.36])
-	by mta-07.privateemail.com (Postfix) with ESMTPA;
-	Sat,  1 Jun 2024 10:52:37 -0400 (EDT)
-From: Danish Prakash <contact@danishpraka.sh>
-To: 
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	Danish Prakash <contact@danishpraka.sh>,
-	Jeffrey Hugo <quic_jhugo@quicinc.com>,
-	Carl Vanderlip <quic_carlv@quicinc.com>,
-	Pranjal Ramajor Asha Kanojiya <quic_pkanojiy@quicinc.com>,
-	Oded Gabbay <ogabbay@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-arm-msm@vger.kernel.org (open list:QUALCOMM CLOUD AI (QAIC) DRIVER),
-	dri-devel@lists.freedesktop.org (open list:QUALCOMM CLOUD AI (QAIC) DRIVER),
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] Documentation/accel/qaic: Fix typo
-Date: Sat,  1 Jun 2024 20:21:24 +0530
-Message-ID: <20240601145216.32232-1-contact@danishpraka.sh>
-X-Mailer: git-send-email 2.45.1
-In-Reply-To: <16b1bcb5-00c6-4b59-a880-188bed32d175@linuxfoundation.org>
-References: <16b1bcb5-00c6-4b59-a880-188bed32d175@linuxfoundation.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TsLAK5cR"
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-24ca03ad307so1603235fac.3;
+        Sat, 01 Jun 2024 08:02:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717254157; x=1717858957; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jeHtycv1NrGcuFGlOJxaUeyL3FoJw5Lrqo8poVlugY0=;
+        b=TsLAK5cRIiie2xATT8uMB1lRd0Voi5mbYWpQWF7p13/xudRA/o+LY60H/TKR826yPU
+         7HO9SQBKAMq2r2wcB98BYdWgyOD5/d7SfjL7EdNj4n6UQf7IqXgo5DVRVx+L0Vo93O7F
+         wC7nD4RVqZAfyZ4bUXBua3wMRuVBUCfhSiscdaB30X7khclJBG/sU8+g8wkVjquTVE2D
+         yXaX9FTY/3Ie4jVo+0j0sPXMWTvomSeOzs/Dl16WowJO8tC0DGkOpYWXHGN0qfpb2LUr
+         OUSzcveX2CdM5l1cAaURPG8VYt0qBy2LO7/U1/meHqjVYjSRI8q3Poyy32GttQ96PfQL
+         F84w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717254157; x=1717858957;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jeHtycv1NrGcuFGlOJxaUeyL3FoJw5Lrqo8poVlugY0=;
+        b=tI6QA/kTeb4sFZT+FdXxUi7xate5eyBurbsz+dXz3A1kQDkMki6oEe9FZnQwLnf7FC
+         ZVZ3wpe6Y6EERHl8QZaHQthgsEeMfUlyuvKXxV9VWFs6WyQ7DpIpsbCb9KRtooOfTz7O
+         Eei+JVI0S/kEuzt+n2BZWy6sByrwDHNWJiWv7PhfrOq2udae1zBwzbnZFyKTLpwGpYtP
+         QS8pWsUz56lcW/IBrdHWUpoTk9IVYozyC+E6JQ5hNbtdLlYaEW2qIxkgf999Idikj7QV
+         kkx+fbtQq3n77iDsDEtD441v4KcZ9egafEI+WjIODZ+psjN5hUrk/wBN7fDt8vSFJXjn
+         hREg==
+X-Forwarded-Encrypted: i=1; AJvYcCV6Xu3EszxaDkHyCOMUj9o7umUmXyFGZVUZtJb2azCbtWg4icwKax9Zwo0C9840XWCZdIaF9i1nREBP59jNu1C1cN8s/oA4hIg7RyLU
+X-Gm-Message-State: AOJu0YydiV3N+VuqahUZ3uirHZNcwuf+RDdsvK5aupIpF4mIqzMs3dvJ
+	hL624+OaUS6ta+nF0qFccAC4BNpVRb1dBbkjRZA7It34qB1roC+e
+X-Google-Smtp-Source: AGHT+IFhAGP0l4w4JyaYSs0w1MZm2Y1A2crbOP/IlrChZZX6KMlnn/wb1umAaC6scLTIFeKlTLkKqA==
+X-Received: by 2002:a05:6870:b486:b0:250:1322:34c0 with SMTP id 586e51a60fabf-2508b9b843bmr5819163fac.10.1717254156568;
+        Sat, 01 Jun 2024 08:02:36 -0700 (PDT)
+Received: from ?IPV6:2603:8080:2300:de:3d70:f8:6869:93de? ([2603:8080:2300:de:3d70:f8:6869:93de])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-25085000afasm1216495fac.23.2024.06.01.08.02.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 01 Jun 2024 08:02:36 -0700 (PDT)
+Message-ID: <a97648b5-bfab-4ac7-ba8e-bb6d30b558bf@gmail.com>
+Date: Sat, 1 Jun 2024 10:02:34 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: Extend and refactor index of further kernel docs
+To: Jonathan Corbet <corbet@lwn.net>, bilbao@vt.edu
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <fdf68be7-875a-421d-8bc3-034a21990679@gmail.com>
+ <87ikyvccwc.fsf@meer.lwn.net>
+Content-Language: en-US
+From: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+In-Reply-To: <87ikyvccwc.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: ClamAV using ClamSMTP
 
-Fixed a typo in the docs where 'phsyical'
-was corrected to 'physical'.
+On 5/30/24 14:34, Jonathan Corbet wrote:
 
-Signed-off-by: Danish Prakash <contact@danishpraka.sh>
----
- Documentation/accel/qaic/qaic.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Carlos Bilbao <carlos.bilbao.osdev@gmail.com> writes:
+>
+>> Extend the Index of Further Kernel Documentation by adding entries for the
+>> Rust for Linux website, the Linux Foundation's YouTube channel, and notes
+>> on the second edition of Billimoria's kernel programming book. Also,
+>> perform some refactoring: format the text to 75 characters per line and
+>> sort per-section content in chronological order of publication.
+>>
+>> Signed-off-by: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+>> ---
+>>  Documentation/process/kernel-docs.rst | 68 +++++++++++++++++----------
+>>  1 file changed, 44 insertions(+), 24 deletions(-)
+> So I was going to apply this but ... it doesn't apply.  It looks like
+> some sort of weird whitespace damage?
 
-diff --git a/Documentation/accel/qaic/qaic.rst b/Documentation/accel/qaic/qaic.rst
-index efb7771273bb..628bf2f7a416 100644
---- a/Documentation/accel/qaic/qaic.rst
-+++ b/Documentation/accel/qaic/qaic.rst
-@@ -93,7 +93,7 @@ commands (does not impact QAIC).
- uAPI
- ====
- 
--QAIC creates an accel device per phsyical PCIe device. This accel device exists
-+QAIC creates an accel device per physical PCIe device. This accel device exists
- for as long as the PCIe device is known to Linux.
- 
- The PCIe device may not be in the state to accept requests from userspace at
--- 
-2.45.1
+
+Apologies for the inconvenience. I found the issue so this should not
+happen in future patches. Replying with the fixed patch now.
+
+
+>
+> jon
+
+
+Thanks,
+Carlos
 
