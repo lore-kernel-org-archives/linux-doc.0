@@ -1,98 +1,82 @@
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C54E1DFF7;
-	Sat,  1 Jun 2024 16:42:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.248
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC062224CC;
+	Sat,  1 Jun 2024 22:30:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717260135; cv=none; b=fcIGLpvofbVyIHMv5qFtrhKUSH9kfaHt8V9BNBfhwQaxfVzjleIPLnbggpqdWjUROLM4ZvpK+7L7gMsU5C501by3hO7/uqehHZjmM8nqwazoCH0lMzq30vNwNpx6vjTn99vEFAdrdXjXTeNXLms0y2UDdwPjYGXclVFdaa5WEp4=
+	t=1717281030; cv=none; b=HO0mpSR8ZUbBgByXEHtgRC74/mId0mK9rK6WSEiKD1sAKKN0UivLOVbRhlwQJJG9YTiS0z4N6aQyr3u8gI4D3ZAhWz0R6CifdQgveaP/LW3injYNpjHINXBbmca0f/wZaVU1KD6kRM3ZqMpnnbC3RyyKfyZWtAG/ClpEe+NMUzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717260135; c=relaxed/simple;
-	bh=Xu3vkhgffNTzU2/HpNfT9+Hk1mZIlW14sUSAMdOAUcM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=SoQhUm6jk1+WQ++qoqeE98LpWiWVcouixQljEEkHzD8qaQllkFucF2ck8345UU7VetxYclKqhPJZRmmIk7eVwo7jiU15hrlTCNKjMHd3BpXwx69t+SqOneIPWa069awvYw0Sy7FbtEftXFmznF2C8Kb0DdrikCKbphSeKaUhKwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=sIS3bpZw; arc=none smtp.client-ip=198.47.23.248
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1717281030; c=relaxed/simple;
+	bh=BxJehKDbY16NeSK4HqgSAPE5UO3fb+8pHTqhsHA8MO4=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=SSo9yth74rjKgttDorvZVEcosFaAofHpu7JuuL7Cv0WALpQHo4F0DM0y+1NvroWIKpWLfKT+GaM4CEEmkZazm6ope6EVTp+ZfYDI/NFZ1BhZxhTFKNzDAPClbDiS+/W1F7TpHp58G9O9sL4VoqbMEOcqavlQLe05Uv2GIyeG7rI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sBQvyX74; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="sIS3bpZw"
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 451GffZ8036681;
-	Sat, 1 Jun 2024 11:41:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1717260101;
-	bh=+ocxchH9u2Icz4prOAtSV5xvLRJJKRxfx+7US0r/Pik=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=sIS3bpZwCELHxccweU6x52eq+2O1Ue4QnQ+3wx6sWd9Ph/5SBvnFK0mTKgHaGJndb
-	 vKZsUkZ3Oe7to6ThCH6xsu0xc89qM9QE8q7nFH1EGG/+3PLTYE1IabyCy1d1zv0tG/
-	 +1848s9cQKrZRfDRz9FDEJPR6fOi8gD/x+EeypAc=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 451GffhU069778
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Sat, 1 Jun 2024 11:41:41 -0500
-Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Sat, 1
- Jun 2024 11:41:40 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Sat, 1 Jun 2024 11:41:40 -0500
-Received: from [10.249.130.181] ([10.249.130.181])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 451GfTpn129505;
-	Sat, 1 Jun 2024 11:41:30 -0500
-Message-ID: <1d35fe9f-79f3-4d64-81d6-97a63b333bfc@ti.com>
-Date: Sat, 1 Jun 2024 22:11:28 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sBQvyX74"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 79774C32786;
+	Sat,  1 Jun 2024 22:30:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717281029;
+	bh=BxJehKDbY16NeSK4HqgSAPE5UO3fb+8pHTqhsHA8MO4=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=sBQvyX74T8gvi7TCiLQcHq2XUMK2sntMrYZGjYjC53aCtkCDHKMD2ybf2a1R11FsE
+	 RLepBlSsPmnfIczy4pJ3jHDWyxT120e6Cc1qvIicFUJuKvHXDQwXgSz2f/eJjMVs3z
+	 qh3+sJhiPQbk/thvrw6qNLtG9zk8cdfKP42/8tTAluHp9NlQk/dEyigt6RblcIBxzQ
+	 or7za3aQp8hBt+JySpFKLBirHdx8bH8cMosnGL55//KRL2RQqjqvAlTAklG7FmZAj6
+	 nrKJo3cq1uDuqtTLFdSNE643AnQwtzamzjcK9Z/GIkLfnmdoiZtY0RQMbokBKVD+cv
+	 38pGY883t/IRQ==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 69FD6DEA711;
+	Sat,  1 Jun 2024 22:30:29 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 07/11] Documentation: core-api: Add math.h macros and
- functions
-To: Randy Dunlap <rdunlap@infradead.org>, <mchehab@kernel.org>,
-        <hverkuil-cisco@xs4all.nl>, <linux-media@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <benjamin.gaignard@collabora.com>,
-        <sebastian.fricke@collabora.com>, <akpm@linux-foundation.org>,
-        <gregkh@linuxfoundation.org>, <andriy.shevchenko@linux.intel.com>,
-        <adobriyan@gmail.com>, <jani.nikula@intel.com>,
-        <p.zabel@pengutronix.de>, <airlied@gmail.com>, <daniel@ffwll.ch>,
-        <dri-devel@lists.freedesktop.org>, <corbet@lwn.net>,
-        <broonie@kernel.org>, <linux-doc@vger.kernel.org>
-CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
-        <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
-        <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
-        <vijayp@ti.com>, <andrzej.p@collabora.com>, <nicolas@ndufresne.ca>,
-        <davidgow@google.com>, <dlatypov@google.com>
-References: <20240531170229.1270828-1-devarsht@ti.com>
- <20240531171220.1295881-1-devarsht@ti.com>
- <c14215bd-96ff-4aec-83c4-e25375f6fe88@infradead.org>
-Content-Language: en-US
-From: Devarsh Thakkar <devarsht@ti.com>
-In-Reply-To: <c14215bd-96ff-4aec-83c4-e25375f6fe88@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v3 0/3] doc: mptcp: new general doc and fixes
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <171728102943.22013.15601696646895135776.git-patchwork-notify@kernel.org>
+Date: Sat, 01 Jun 2024 22:30:29 +0000
+References: <20240530-upstream-net-20240520-mptcp-doc-v3-0-e94cdd9f2673@kernel.org>
+In-Reply-To: <20240530-upstream-net-20240520-mptcp-doc-v3-0-e94cdd9f2673@kernel.org>
+To: Matthieu Baerts <matttbe@kernel.org>
+Cc: mptcp@lists.linux.dev, martineau@kernel.org, geliang@kernel.org,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ corbet@lwn.net, gregory.detal@gmail.com, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ rdunlap@infradead.org
 
-On 01/06/24 00:01, Randy Dunlap wrote:
-> Hi,
-> 
-> On 5/31/24 10:12 AM, Devarsh Thakkar wrote:
->> Add documentation for rounding, scaling, absolute value and difference,
->> 32-bit division related macros and functions exported by math.h header
->> file.
->>
-> 
-> I don't see any kernel-doc for division functions in this header file.
-> 
-> Do some division functions get rendered somehow?
-> 
+Hello:
 
-Good catch. I see couple of them having adequate documentation just
-missing the sphynx syntax, will enable for DIV_ROUND_CLOSEST and
-DIV_ROUND_CLOSEST_ULL.
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-Regards
-Devarsh
+On Thu, 30 May 2024 16:07:29 +0200 you wrote:
+> A general documentation about MPTCP was missing since its introduction
+> in v5.6. The last patch adds a new 'mptcp' page in the 'networking'
+> documentation.
+> 
+> The first patch is a fix for a missing sysctl entry introduced in v6.10
+> rc0, and the second one reorder the sysctl entries.
+> 
+> [...]
+
+Here is the summary with links:
+  - [net-next,v3,1/3] doc: mptcp: add missing 'available_schedulers' entry
+    https://git.kernel.org/netdev/net-next/c/ccf45c92d746
+  - [net-next,v3,2/3] doc: mptcp: alphabetical order
+    https://git.kernel.org/netdev/net-next/c/a32c6966b23d
+  - [net-next,v3,3/3] doc: new 'mptcp' page in 'networking'
+    https://git.kernel.org/netdev/net-next/c/c049275f24de
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
