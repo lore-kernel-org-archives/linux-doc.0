@@ -1,150 +1,175 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38F9C2B9BE;
-	Sun,  2 Jun 2024 13:53:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A3F36FE16;
+	Sun,  2 Jun 2024 20:16:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717336385; cv=none; b=a3a0IPGrcEJbcfBcZHaZ9rclXl5nvxOjk1WOS/RVOvKpTK+RptOp8d2mmCUTY2cHWEB9tIexjJzTbDFmctNUr6GVBFQZjIuLN2EIg2Si3FCpyprNNRQbuc+lw/13xchnCaGBW4ALNRcP5lO3H/kFyFzwHYXImfgW0moHqNtTp6c=
+	t=1717359388; cv=none; b=o7FoNxxWSDORmqn7PByHmt2RRRfTxJI8R2stYmFAJCO3veZr2qsPg3rglWXfF83vLcbZeIF1j1ieEN3swYi/5Nre8w1I6ncmJ+AY3Q61aRm2HcNq5+S/YVaIIHVCqyktBinh2NU2T6nZQe2wjfFWXR+xVE7SUxTZYemumD3ClK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717336385; c=relaxed/simple;
-	bh=DeL5aeSA5tvcVCR2KVHhivWXgJ21YbHHOT6rNYrcTrw=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=m2UZBVlXpAU5NLCP9Db9gnxW3OhDurnK07D3y5bzCTclBzqTtfTlxP30f8+IapRknHuN1Q41rCcWvesojVQSO023EQ7Pc47+UjC4u4KixBWBCxy9tiMByLccpC4M3y1z/AeaYgfT9efi6sFm98FmC8Fzp+XoH8P0j3GtFI5Js8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ppHRVVz+; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ppHRVVz+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A19C5C2BBFC;
-	Sun,  2 Jun 2024 13:53:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717336384;
-	bh=DeL5aeSA5tvcVCR2KVHhivWXgJ21YbHHOT6rNYrcTrw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ppHRVVz+0PtvG8TMK054YMKaO989L5de2R+5klqf3WnUm6UADjkIf4HPjx7DigvI1
-	 uLCe934prVquN6n8DGXkBdvh6kfbmDyFiwdv2RmFDIHn/RuQ/PBXmNbkAcp0Vtt41a
-	 iS2UzoTJhHhVScZEKY028TSq82FGtZzR1k4dZjgNkJRmNy8cUWWTw30KFsGw71LTfH
-	 kr1bc2fSButlekEwjT0eig4PL+WJL24SxAwwZbxNgAxr11pk/jxC3A4Dj55ocC7Vwa
-	 wlY1wjmmyk3ojnOty1ONIOJjbOHAzaHheR/8k1O6mBrSm9yn2UisoEccEoFx+L5x/Z
-	 TgBVXbFTQPRsw==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=wait-a-minute.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1sDldu-00HZRE-3k;
-	Sun, 02 Jun 2024 14:53:02 +0100
-Date: Sun, 02 Jun 2024 14:53:02 +0100
-Message-ID: <87ikyr30zl.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: yu harry <harry.yu185@gmail.com>
-Cc: corbet@lwn.net,
-	catalin.marinas@arm.com,
-	will@kernel.org,
-	tglx@linutronix.de,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] irqchip/gic-v3: Add Allwinner sunxi001 erratum workaround
-In-Reply-To: <CAAmx-DzLh7TYub-PDSX+A7h6KuPYAr9WeBFmhknPjxAr2dPBnA@mail.gmail.com>
+	s=arc-20240116; t=1717359388; c=relaxed/simple;
+	bh=Q98W32FFwdI1cAgJFPClVn7dyNiWNwmPQZQrnQtZNLw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lnP3g1QPstRriMRMUoWMeC4hcRjqCczovC8Hyi4TH+Y6DpIN62QDObLs4Jkk3f96EXHyJgz4D4YlIXs4JLTXm9FscjaShw3Ac/bHHZEvJkoFG6Uxv77+s/glJejupWVzxRoayNcAwCAwMNitGlGuZ2CV3raSuT8dR5HZcO466Qg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9F687113E;
+	Sun,  2 Jun 2024 13:16:48 -0700 (PDT)
+Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E4BAF3F792;
+	Sun,  2 Jun 2024 13:16:22 -0700 (PDT)
+Date: Sun, 2 Jun 2024 21:15:09 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: "harry.yu185" <harry.yu185@gmail.com>
+Cc: corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org,
+ tglx@linutronix.de, maz@kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi <linux-sunxi@lists.linux.dev>
+Subject: Re: [PATCH] irqchip/gic-v3: Add Allwinner sunxi001 erratum
+ workaround
+Message-ID: <20240602211509.67df243e@minigeek.lan>
+In-Reply-To: <20240602071058.6405-1-harry.yu185@gmail.com>
 References: <20240602071058.6405-1-harry.yu185@gmail.com>
-	<86o78jlms2.wl-maz@kernel.org>
-	<CAAmx-DzLh7TYub-PDSX+A7h6KuPYAr9WeBFmhknPjxAr2dPBnA@mail.gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/28.2
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: harry.yu185@gmail.com, corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org, tglx@linutronix.de, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sun, 02 Jun 2024 14:23:43 +0100,
-yu harry <harry.yu185@gmail.com> wrote:
->=20
-> On Sun, Jun 2, 2024 at 5:25=E2=80=AFPM Marc Zyngier <maz@kernel.org> wrot=
-e:
-> >
-> > On Sun, 02 Jun 2024 08:10:58 +0100,
-> > "harry.yu185" <harry.yu185@gmail.com> wrote:
-> > >
-> > > Allwinner A523 GIC600 integration does not support the
-> > > sharability feature. So assigned Erratum ID #sunxi001 for this
-> > > issue.
-> > >
-> > > That the 0x0201643b ID is not Allwinner specific and thus
-> > > there is an extra of_machine_is_compatible() check.
-> > >
-> > > Note, because more than one soc may have this problem, the 'sunxi'
-> > > name is used instead of a fixed soc name like A523.
-> > >
-> > > Signed-off-by: harry.yu185 <harry.yu185@gmail.com>
-> >
-> > No, this is all already handled by the driver already (since 6.6).
-> >
-> > Please fix your DT to include the "dma-noncoherent" property in the
-> > GIC and ITS nodes, which should paper over the integration bug.
-> >
-> > Thanks,
-> >
-> >         M.
-> >
-> > --
-> > Without deviation from the norm, progress is not possible.
->=20
-> Thank you for your reply,
-> the method you said may not be suitable, because this SOC
-> also needs RDIST_FLAGS_FORCE_NON_SHAREABLE,
-> just like RK3588, but it is different from the RK3588 version.
+On Sun,  2 Jun 2024 15:10:58 +0800
+"harry.yu185" <harry.yu185@gmail.com> wrote:
 
-Who is talking of RK3588? Have you read what I wrote? Have you
-actually looked at what these attributes do?
+Hi,
 
-For context, here's what you're proposing:
+(please make sure to CC: the linux-sunxi mailing list on Allwinner
+related patches)
 
-+static bool __maybe_unused its_enable_sunxi001(void *data)
-+{
-+	struct its_node *its =3D data;
-+
-+	if (!of_machine_is_compatible("arm,sun55iw3p1"))
-+		return false;
-+
-+	its->flags |=3D ITS_FLAGS_FORCE_NON_SHAREABLE;
-+	gic_rdists->flags |=3D RDIST_FLAGS_FORCE_NON_SHAREABLE;
-+
-+	return true;
-+}
-+
+I do hope that this whole patch is unnecessary, as Marc pointed out, but
+just for the records some comments for future reference, since this
+patch seems either premature or out of place.
 
-"dma-noncoherent" on the GIC node provides:
+> Allwinner A523 GIC600 integration does not support the
+> sharability feature. So assigned Erratum ID #sunxi001 for this
+> issue.
+> 
+> That the 0x0201643b ID is not Allwinner specific and thus
+> there is an extra of_machine_is_compatible() check.
+> 
+> Note, because more than one soc may have this problem, the 'sunxi'
+> name is used instead of a fixed soc name like A523.
+> 
+> Signed-off-by: harry.yu185 <harry.yu185@gmail.com>
+> ---
+>  Documentation/arch/arm64/silicon-errata.rst |  2 ++
+>  arch/arm64/Kconfig                          | 10 ++++++++++
+>  drivers/irqchip/irq-gic-v3-its.c            | 21 +++++++++++++++++++++
+>  3 files changed, 33 insertions(+)
+> 
+> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
+> index eb8af8032c31..351dd6094a6c 100644
+> --- a/Documentation/arch/arm64/silicon-errata.rst
+> +++ b/Documentation/arch/arm64/silicon-errata.rst
+> @@ -242,6 +242,8 @@ stable kernels.
+>  +----------------+-----------------+-----------------+-----------------------------+
+>  | Rockchip       | RK3588          | #3588001        | ROCKCHIP_ERRATUM_3588001    |
+>  +----------------+-----------------+-----------------+-----------------------------+
+> +| Allwinner      | SUN55IW3        | #sunxi001       | ALLWINNER_ERRATUM_SUNXI001  |
 
-static bool rd_set_non_coherent(void *data)
-{
-	struct gic_chip_data *d =3D data;
+"sun55iw3" is a CPU die identifier only used in Allwinner's BSP
+kernels, mainline uses a different naming scheme.
 
-	d->rdists.flags |=3D RDIST_FLAGS_FORCE_NON_SHAREABLE;
-	return true;
-}
+Also the erratum name looks odd, at the very least I'd expect it to
+read "ALLWINNER_ERRATUM_00001" or something. But there is already some
+Allwinner timer erratum, which we boldly gave ID 1 (short of an
+official erratum number from Allwinner), so using the same number again
+will surely lead to confusion.
 
-"dma-noncoherent" on the ITS node provides:
+> ++----------------+-----------------+-----------------+-----------------------------+
+>  +----------------+-----------------+-----------------+-----------------------------+
+>  | Fujitsu        | A64FX           | E#010001        | FUJITSU_ERRATUM_010001      |
+>  +----------------+-----------------+-----------------+-----------------------------+
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index 5d91259ee7b5..5a71227d119a 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -1279,6 +1279,16 @@ config ROCKCHIP_ERRATUM_3588001
+>  
+>  	  If unsure, say Y.
+>  
+> +config ALLWINNER_ERRATUM_SUNXI001
+> +	bool "Allwinner sunxi001: GIC600 can not support shareability attributes"
+> +	default y
 
-static bool its_set_non_coherent(void *data)
-{
-	struct its_node *its =3D data;
+"default ARCH_SUNXI" would be better suited here, I think.
 
-	its->flags |=3D ITS_FLAGS_FORCE_NON_SHAREABLE;
-	return true;
-}
+> +	help
+> +	  The Allwinner GIC600 SoC integration does not support ACE/ACE-lite.
+> +	  This means, that its sharability feature may not be used, even though it
+> +	  is supported by the IP itself.
+> +
+> +	  If unsure, say Y.
+> +
+>  config SOCIONEXT_SYNQUACER_PREITS
+>  	bool "Socionext Synquacer: Workaround for GICv3 pre-ITS"
+>  	default y
+> diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v3-its.c
+> index 40ebf1726393..d93348947353 100644
+> --- a/drivers/irqchip/irq-gic-v3-its.c
+> +++ b/drivers/irqchip/irq-gic-v3-its.c
+> @@ -4775,6 +4775,19 @@ static bool __maybe_unused its_enable_rk3588001(void *data)
+>  	return true;
+>  }
+>  
+> +static bool __maybe_unused its_enable_sunxi001(void *data)
+> +{
+> +	struct its_node *its = data;
+> +
+> +	if (!of_machine_is_compatible("arm,sun55iw3p1"))
 
-So please do explain how the combination of the two isn't equivalent
-to your patch. How does it fail to provide the required workaround?
+You cannot reference a compatible name here that is not documented in
+the bindings. Which brings us to the elephant in the room: there is no
+upstream support for this SoC (family) yet. I have some
+work-in-progress series [1], but it's far from finished, mostly blocked
+by the lack of hackable hardware (hopefully fixed soon).
 
-	M.
+So what kernel is this patch supposed to be applied against? You would
+need at least a pinctrl and clock driver for even basic operation, none
+of that I have seen posted.
 
---=20
-Without deviation from the norm, progress is not possible.
+Cheers,
+Andre
+
+[1] https://github.com/apritzel/linux/commits/a523-EARLY/
+
+> +		return false;
+> +
+> +	its->flags |= ITS_FLAGS_FORCE_NON_SHAREABLE;
+> +	gic_rdists->flags |= RDIST_FLAGS_FORCE_NON_SHAREABLE;
+> +
+> +	return true;
+> +}
+> +
+>  static bool its_set_non_coherent(void *data)
+>  {
+>  	struct its_node *its = data;
+> @@ -4836,6 +4849,14 @@ static const struct gic_quirk its_quirks[] = {
+>  		.mask   = 0xffffffff,
+>  		.init   = its_enable_rk3588001,
+>  	},
+> +#endif
+> +#ifdef CONFIG_ALLWINNER_ERRATUM_SUNXI001
+> +	{
+> +		.desc   = "ITS: Allwinner erratum sunxi001",
+> +		.iidr   = 0x0201643b,
+> +		.mask   = 0xffffffff,
+> +		.init   = its_enable_sunxi001,
+> +	},
+>  #endif
+>  	{
+>  		.desc   = "ITS: non-coherent attribute",
+
