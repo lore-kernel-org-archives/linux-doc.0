@@ -1,164 +1,112 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D551C6BD;
-	Sun,  2 Jun 2024 07:11:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB8A2171D8;
+	Sun,  2 Jun 2024 07:49:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717312306; cv=none; b=IVJkb1GUZ5HIkQ2ttPDZmcUkTh42XFWE1xHvqGqlG6P//orTdg8dPukbxLQxidJefe+z8GB0zgyD2gUqbnq1P/vLto4zuKQzItyK5r0ftLDM75E4ZrhafBNWZ3SBV7DORWnnAcHmW2mAI07yS5G4dFWfg/3BA48c58UbkiK5tMY=
+	t=1717314571; cv=none; b=D4Lt9eImN6MqLZvT5AykF4EG3oHxO9FK+wx16Sv0FU7oXY/T0lQgMH9agqv3h4oyz6N7JHA74JGf8YxzJFPMhcwXfSBA3tcEPWF4AKEmK7JEiBT3hC/7ZAE+VYS7CUcPLzvoBPIvceoEV3+CffI788jvQuftsnLWpTcaFB9ETWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717312306; c=relaxed/simple;
-	bh=wAB4tvOUkBgNUE+6cjMuoVfOmFtq2IxqXUXAMrhGaIE=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=a1s5K72h18w8OjcXKyhd9luz7P6nN2OGu4CxM/LopzsV5ynp36OFZOmyZig9t3n2vGqIjQ1XYicXyhPRNKX4s921lujE6Br+fuelKu6SU7WurDzlxYjKOyoClLOwoswX/ffm1+vFpSFTVOuJyaPcNXEtWkLnYNPiSOgz2kc9d5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OY0Obn2C; arc=none smtp.client-ip=209.85.210.172
+	s=arc-20240116; t=1717314571; c=relaxed/simple;
+	bh=HXkGmZ/GnlRwvhJ8fMoCShaf1AxsyT+wSG63skO4HzY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=BqJJYDf5jmVmxti/rfRanLxEaKgpn4KPdF+BJRF8et3nc6Oe2zurmd+dejskAvvHIYkwIAVMr/qLz/7UqmY4NcMXT3XeNuzkvvLr2puEEE2B8l/TP4r/ryaAA3irwB1Abewy2Uw1HOO6exlhrJu+a9WZ+SQHyqcEOfeqSwR3GzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i42COLZ8; arc=none smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OY0Obn2C"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-70260814b2dso345521b3a.1;
-        Sun, 02 Jun 2024 00:11:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i42COLZ8"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1f661450af5so4917345ad.3;
+        Sun, 02 Jun 2024 00:49:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717312304; x=1717917104; darn=vger.kernel.org;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1717314569; x=1717919369; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MPn/0OCWIdd7hzycpNXhtZT0DRdQQFNXkDHRuDF+9OQ=;
-        b=OY0Obn2CxUDi9LhjYtmd66u08WR/ulEkK7mdxzbTDOcNmCpZSqNzAOJDGliyLf54bZ
-         58QAfVlM18oZdrwQyfJ3mtKuF1jG+PB+ZkbOMNRrMeO1Ul0IlHYRIhJD9WacBM3zP2mi
-         7y4h/VXL7QHHLuXx1wnuLCS94bZHAQhPL2BEqsAiA4XH7VDfQtDDE5ti6e3PW+tHRvWo
-         N+Q2VqeDkGb9rL/Czn4Z/qsknyh1TNvz3nJnw0d+WBg7DE9JlLAsIoiipyei2F1GtjeU
-         L1lExjl8X1U3oP/9RtU7kPBm0Tk9Z9EwMRFfOibMi4Jwzx7mOvVcOsfU8UcnJJuDacT/
-         mS4w==
+        bh=ALYWCpUDuYWk0GU9FVb+DQcrxr3IhUEIFATuvwfg2ks=;
+        b=i42COLZ8sCd0kL+N+ZtkBghdO0TmmvPG64WdwvJGTnxpXihpQkkgTglowfR95HL5Pq
+         h2l5j0MnX3onjDu02DbF9rLugQCpa8zIn/G3A02/f4iUTXk1jw4qiJ66Ia7EQTmxlWIa
+         5wHcp+aDK6r28a+yqCh2FaB538IT6l8Sv1MKyuIHdjZwNhMDyB2gjYKXq+eN7g4zlNjw
+         NNXRlwhVtYdUB2t/UoNT62a3xQ5hUpq+Jgm5jM7NKx9TgwC97t3gEcFsq1koNia1vLBi
+         5Czro4BS28AmLt89LcAE2yaTmmeydhVTEIgvWQ0Al4i6knOTBi8NEfRZB3hybkHC2+un
+         oLyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717312304; x=1717917104;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1717314569; x=1717919369;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MPn/0OCWIdd7hzycpNXhtZT0DRdQQFNXkDHRuDF+9OQ=;
-        b=tsCSPzE7iA5PY8VgIbsHINXq+TCrldafSxLlBYsrnP/hsFjDjZPIAF7o8ht3K1UEtM
-         pEO5Dbl46/pSt3BU65QQ7iPqIMDIcdblaMFOGJimj5ywI41Po/meCMgF4BeSDJu9q+K/
-         9iAPd62uj9BBSUVIdjFLIdRGeV1wvd7jDzuhZA82bSH1KtdEmfF3aVanirpqYd2AWOKh
-         bwkS2yN8x2G3OPKcwU2RwuZARnF0H/D5Y6BNmao14jnAIQom3mniLRBS1FSTyhr2f2qC
-         NQ4Cqz6ibPMmBXEDL24+LhKWdZnFQBSKCN4Si11qDdRX5ys2GZ6POQx4O8pd6dPr1Mox
-         LFfA==
-X-Forwarded-Encrypted: i=1; AJvYcCXhctiTmdPtmP52t49yRmaVKBi4hgita4OLofW3mBJ9xWhdv+Bl5crmBTUwUyLo+aItY8bn90gahTdl/ust8PuJU4iaVDHY3vxe+XJl
-X-Gm-Message-State: AOJu0Ywa2GP8AmO4YIdjcmugyfPxFadRF2RdupCYKC76ktaFivhCy1xj
-	7f3W5E9awJbP83BDt5xlN69lsJ39K8xlKTbKgfWi0UUMj2lIO4yJ
-X-Google-Smtp-Source: AGHT+IHHPi+JHmcrngHt9Q8FCOSZAQxXXVr2fikPdnBl5sp91YURqwso0LlhHlFkR4K4ZQhzhLbo2A==
-X-Received: by 2002:a05:6a00:8813:b0:702:4a1d:c4a4 with SMTP id d2e1a72fcca58-7024a1dd1camr7465347b3a.10.1717312303774;
-        Sun, 02 Jun 2024 00:11:43 -0700 (PDT)
-Received: from song.localdomain ([219.145.37.149])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7025aa3cb45sm1555822b3a.135.2024.06.02.00.11.39
+        bh=ALYWCpUDuYWk0GU9FVb+DQcrxr3IhUEIFATuvwfg2ks=;
+        b=sUcVpPj9FkrGPf2YHIYFQvw7pzNwH8qKtWn6KFUM+fXx2P074KRRIKqdwqY28dCrhL
+         /ZeeXTIVSPKl8sDkU9EaiIhubr62K0sCh77bGLO2uBDY/n4GikGE6NIWwd0g3UhcKlwp
+         kqAeJ0uM9hxmm4zxul100iH20HKUXnwLHv52fS/A9zvb4gA/dpstk0D2NhB3lfewmH9C
+         AQt/joB8ixOuHw0iOwQXuVHtmM8LXc7s0/xO7uL1wuh5rwQfl5OcXHpeWCaPxaO5kEh5
+         RmTF4yhi4r6xHCVWWQlLwqYYIj64HJVvR4PkgcQtTxwAW/bz3ToEr+IZ/wCG0bLt2rXT
+         cdhw==
+X-Forwarded-Encrypted: i=1; AJvYcCXzDAoEZYodJK8/t8x4vJMaVb0MOYeS9R7/hSUWSHut0qguwy3U1afemcmXDRiTwrXLMCtAWK81xwRUERuBocH9vw1H6jXXjqlPZ9lpCVGzxZ6M13nMwboqecM0Y4/KkinsnZpFx74JgvkkaB1sOIg+mB7c8VymJ4vpVE+FlTigQklYwQ==
+X-Gm-Message-State: AOJu0YzOuCAYovRzYUA9MFu1AwyFrxSAEwD4KfxEGJY0NL1DnWIMjS7D
+	c2Xfgg2aOqguQmUYwUV+RhRUB9h8er3TbSgfxkZ8rpPM7rJCNOoQlX6BRDG7kaA=
+X-Google-Smtp-Source: AGHT+IHJtiZeiaBOB96Skvc71cfyD3AyoB9wAMjZifP2KldTzPbqd6WEpo9DeS4TdjrTWsRnCCUriQ==
+X-Received: by 2002:a17:903:230f:b0:1f6:73a9:ec9a with SMTP id d9443c01a7336-1f673a9eff1mr3619375ad.12.1717314569021;
+        Sun, 02 Jun 2024 00:49:29 -0700 (PDT)
+Received: from Kuiu.. (220-138-66-78.dynamic-ip.hinet.net. [220.138.66.78])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f632338ca4sm43234815ad.50.2024.06.02.00.49.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Jun 2024 00:11:43 -0700 (PDT)
-From: "harry.yu185" <harry.yu185@gmail.com>
-To: corbet@lwn.net,
-	catalin.marinas@arm.com,
-	will@kernel.org,
-	tglx@linutronix.de,
-	maz@kernel.org
-Cc: linux-doc@vger.kernel.org,
+        Sun, 02 Jun 2024 00:49:28 -0700 (PDT)
+From: Huichun Feng <foxhoundsk.tw@gmail.com>
+To: brgl@bgdev.pl
+Cc: corbet@lwn.net,
+	foxhoundsk.tw@gmail.com,
+	linus.walleij@linaro.org,
+	linux-doc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	"harry.yu185" <harry.yu185@gmail.com>
-Subject: [PATCH] irqchip/gic-v3: Add Allwinner sunxi001 erratum workaround
-Date: Sun,  2 Jun 2024 15:10:58 +0800
-Message-Id: <20240602071058.6405-1-harry.yu185@gmail.com>
-X-Mailer: git-send-email 2.17.1
+	warthog618@gmail.com
+Subject: [PATCH] docs: gpio: prefer pread(2) for interrupt reading
+Date: Sun,  2 Jun 2024 15:49:25 +0800
+Message-Id: <20240602074925.2489486-1-foxhoundsk.tw@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <CAMRc=MeuHpu4_QbgW-6Kc-TGzhcBim7Eb-TZhPax6G2SZHR5iw@mail.gmail.com>
+References: <CAMRc=MeuHpu4_QbgW-6Kc-TGzhcBim7Eb-TZhPax6G2SZHR5iw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Allwinner A523 GIC600 integration does not support the
-sharability feature. So assigned Erratum ID #sunxi001 for this
-issue.
+In legacy sysfs GPIO, when using poll(2) on the sysfs GPIO value for
+state change awaiting, a subsequent read(2) is required for consuming
+the event, which the doc recommends the use of lseek(2) or
+close-and-reopen to reset the file offset afterwards.
 
-That the 0x0201643b ID is not Allwinner specific and thus
-there is an extra of_machine_is_compatible() check.
+The recommendations however, require at least 2 syscalls to consume
+the event. Gladly, use of pread(2) require only 1 syscall for the
+consumption. Let's advertise this usage by prioritizing its placement.
 
-Note, because more than one soc may have this problem, the 'sunxi'
-name is used instead of a fixed soc name like A523.
-
-Signed-off-by: harry.yu185 <harry.yu185@gmail.com>
+Signed-off-by: Huichun Feng <foxhoundsk.tw@gmail.com>
 ---
- Documentation/arch/arm64/silicon-errata.rst |  2 ++
- arch/arm64/Kconfig                          | 10 ++++++++++
- drivers/irqchip/irq-gic-v3-its.c            | 21 +++++++++++++++++++++
- 3 files changed, 33 insertions(+)
+ Documentation/userspace-api/gpio/sysfs.rst | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
-index eb8af8032c31..351dd6094a6c 100644
---- a/Documentation/arch/arm64/silicon-errata.rst
-+++ b/Documentation/arch/arm64/silicon-errata.rst
-@@ -242,6 +242,8 @@ stable kernels.
- +----------------+-----------------+-----------------+-----------------------------+
- | Rockchip       | RK3588          | #3588001        | ROCKCHIP_ERRATUM_3588001    |
- +----------------+-----------------+-----------------+-----------------------------+
-+| Allwinner      | SUN55IW3        | #sunxi001       | ALLWINNER_ERRATUM_SUNXI001  |
-++----------------+-----------------+-----------------+-----------------------------+
- +----------------+-----------------+-----------------+-----------------------------+
- | Fujitsu        | A64FX           | E#010001        | FUJITSU_ERRATUM_010001      |
- +----------------+-----------------+-----------------+-----------------------------+
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index 5d91259ee7b5..5a71227d119a 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -1279,6 +1279,16 @@ config ROCKCHIP_ERRATUM_3588001
+diff --git a/Documentation/userspace-api/gpio/sysfs.rst b/Documentation/userspace-api/gpio/sysfs.rst
+index 116921048..bd64896de 100644
+--- a/Documentation/userspace-api/gpio/sysfs.rst
++++ b/Documentation/userspace-api/gpio/sysfs.rst
+@@ -97,9 +97,10 @@ and have the following read/write attributes:
+ 		poll(2) will return whenever the interrupt was triggered. If
+ 		you use poll(2), set the events POLLPRI and POLLERR. If you
+ 		use select(2), set the file descriptor in exceptfds. After
+-		poll(2) returns, either lseek(2) to the beginning of the sysfs
+-		file and read the new value or close the file and re-open it
+-		to read the value.
++		poll(2) returns, use pread(2) to read the value at offset
++		zero. Alternatively, either lseek(2) to the beginning of the
++		sysfs file and read the new value or close the file and
++		re-open it to read the value.
  
- 	  If unsure, say Y.
- 
-+config ALLWINNER_ERRATUM_SUNXI001
-+	bool "Allwinner sunxi001: GIC600 can not support shareability attributes"
-+	default y
-+	help
-+	  The Allwinner GIC600 SoC integration does not support ACE/ACE-lite.
-+	  This means, that its sharability feature may not be used, even though it
-+	  is supported by the IP itself.
-+
-+	  If unsure, say Y.
-+
- config SOCIONEXT_SYNQUACER_PREITS
- 	bool "Socionext Synquacer: Workaround for GICv3 pre-ITS"
- 	default y
-diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v3-its.c
-index 40ebf1726393..d93348947353 100644
---- a/drivers/irqchip/irq-gic-v3-its.c
-+++ b/drivers/irqchip/irq-gic-v3-its.c
-@@ -4775,6 +4775,19 @@ static bool __maybe_unused its_enable_rk3588001(void *data)
- 	return true;
- }
- 
-+static bool __maybe_unused its_enable_sunxi001(void *data)
-+{
-+	struct its_node *its = data;
-+
-+	if (!of_machine_is_compatible("arm,sun55iw3p1"))
-+		return false;
-+
-+	its->flags |= ITS_FLAGS_FORCE_NON_SHAREABLE;
-+	gic_rdists->flags |= RDIST_FLAGS_FORCE_NON_SHAREABLE;
-+
-+	return true;
-+}
-+
- static bool its_set_non_coherent(void *data)
- {
- 	struct its_node *its = data;
-@@ -4836,6 +4849,14 @@ static const struct gic_quirk its_quirks[] = {
- 		.mask   = 0xffffffff,
- 		.init   = its_enable_rk3588001,
- 	},
-+#endif
-+#ifdef CONFIG_ALLWINNER_ERRATUM_SUNXI001
-+	{
-+		.desc   = "ITS: Allwinner erratum sunxi001",
-+		.iidr   = 0x0201643b,
-+		.mask   = 0xffffffff,
-+		.init   = its_enable_sunxi001,
-+	},
- #endif
- 	{
- 		.desc   = "ITS: non-coherent attribute",
+ 	"edge" ...
+ 		reads as either "none", "rising", "falling", or
 -- 
-2.37.2
+2.34.1
 
