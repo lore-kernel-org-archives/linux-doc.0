@@ -1,472 +1,269 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2068.outbound.protection.outlook.com [40.107.220.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A40A6136E3F;
-	Mon,  3 Jun 2024 15:53:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.68
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717430023; cv=fail; b=eUEsrySmAf4flK3kuytSjXguulrQy292t1hEuDeVlPrWP2SK9y3281JNP/WEoORf7XS5Vo7auycKLjTRJA2B2RgUxzGKw9vMAyN7cUQx/TGMRJAHnDeAmAS8TY6E9cn+qPNZ8a3dfcPl+NiDBq55t+iTvqneOK2T9DIAiUfbZhI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717430023; c=relaxed/simple;
-	bh=yzd9LFChuvNGxQtPPK1v3a5VDRZ/rTTXvAaWOf/u1bk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=hLWHjKpnnNzAn6172lYhl3GBWjBq4ZvcsT84d+oCLQ7m540+RX+Bb9qIakARGTN9PpXFOqj8LjbUK0heUgFSG1gO1EBhw+yJCOk1SM/pkWa2g1oLz/PqPgx3EMGUSbr2mYAbDoCS1yPL7Yfip8gvz+2raowZ58tfo9R0z7TwSxw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Hc2i7TyM; arc=fail smtp.client-ip=40.107.220.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4C8513667E;
+	Mon,  3 Jun 2024 16:16:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717431375; cv=none; b=opInpXczF8uQVtDapZPIif5UbpfApcSt4qqtF0YNrYDs81/e36TXQ9jxsuGVJoQZAvHEtgktLy25TBywJMCbmYVCNXnC0AZVnYSDLw4FAxTeUQT8WT1A7h+8FPcvj2jqkt7w/VGPXDbuVLWUvEtodCMTmXJtkRKjwBF1WJCchlk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717431375; c=relaxed/simple;
+	bh=R4zsvxB0y6E49xztUL915eNuzXp/7rBqKhyWGjTfa00=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Fj/tzBV7JnnKGLWeNaBuFoK3YxO86JXfIRY/SEpur761JihTIRfnypKnht6RsyauIQoAqTkUSi9vu8V2kXjeLhk/RE5ZXgTTr/MBJeAJilEntlBQIGF+8pzXKvnoU36FqxhXmloXRW8AvKMNMewJld1wKootyTAduxIcZtXcOrk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KD/Yp/8v; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Hc2i7TyM"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DAXuw43w+k9oGsT8gtDDa13ypBXfHRjVk0dOp3ADjEhGstVYgMtuMPZ2q4ezvkNOM6FhA5saAna+Mq/W8hBNRgDibuHFWS2yAXjx1WXu8hgqhN7dbqmsDtKQMebBpxwObIVoHg9w/uROaIRXIfiAafIbaDIrLjUrzK5QRRCVEmohVMubDv4OwJaIj1PVZqEBK1uDR1uHq+MfJcTr/+2Nr7isGeNheaQOsIdNoOCSdl1lg8WgdVgzMqCK96IjoTwewfwrpr/Zj0Arn8q92hG34Jt+YyaPCdmEdb/3OU6bs4T0ZizgMITyXR1/nhRklXsTMhJaFjjN+dtfvdRkjX/YFA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uGAnx4YWzQEavI8LVDlznh8j1reXAQpI6iiRXSb7ilk=;
- b=HbCRcFnelAqpeP6BNXrG94pbPwuT4SJ6SlhCHjDn4T2b6jP5T2ByadJJzLVaUvzciDRB3WyUbxJZ40LuPZe8+VPNCXAp5GeIeNZ5aCLYR9HU5YDTca8/DIGF7F7V4/zW686UuaUS5OXzoBxy/1Zn8GrGbX/dKOyWdK8aOWXDYXzlG2ZS0Trvr1O8Vv/tVApf8FwFnNB5F77g2FQy3z6Yh0wFNTgn5x9+Xdccfo3i0yWDKLZbwGIni5JlNk1ILK/vw6k8qx4p9F1G8BbQpSHoeeLhrBpop94Yt/9z2F1+01twiSRYcY04N7fMmaQdYmAZJ82ZqDyZ71BR92r0yn0/8A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uGAnx4YWzQEavI8LVDlznh8j1reXAQpI6iiRXSb7ilk=;
- b=Hc2i7TyMTuu1Tdl/c/rGI8DKDGFs/DHb3PrUAjfB5AB6/0z7cTTSwJfr3Mbt4uuxFnoRnJO47NFsexRrSAAIDZAZIUFhQ7CvGxpfosnUtaI3uOHFGCK7R+Et97EwrA3+gT6Ld9CG8gjvv6tbSVNgsEkRVp31x4rbdN6FlHRvS0EvyDLsIFyWNmHeAiGnye0eA/2NQgUSBPegFv/ytAMBK6eCIDC1lAKhJtnqEQETlNKAqMHgr33pmmOP/52SUmJAeQYuDGYeD9vJPFz4MhUA8cYBJ7JNUnxojXIcf+SiAQzJ7+7y5uJYeKXyMvRqXfOWuCdyCbzndTpSC149nq9I5w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB3849.namprd12.prod.outlook.com (2603:10b6:5:1c7::26)
- by MN0PR12MB6197.namprd12.prod.outlook.com (2603:10b6:208:3c6::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.21; Mon, 3 Jun
- 2024 15:53:31 +0000
-Received: from DM6PR12MB3849.namprd12.prod.outlook.com
- ([fe80::c296:774b:a5fc:965e]) by DM6PR12MB3849.namprd12.prod.outlook.com
- ([fe80::c296:774b:a5fc:965e%4]) with mapi id 15.20.7633.021; Mon, 3 Jun 2024
- 15:53:31 +0000
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Itay Avraham <itayavr@nvidia.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Leon Romanovsky <leon@kernel.org>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KD/Yp/8v"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2c24115469bso642516a91.0;
+        Mon, 03 Jun 2024 09:16:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717431373; x=1718036173; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=C/N2SeCGrQ/hc/PUmLOr58aWJUfdAgaipmiw4zP9hpg=;
+        b=KD/Yp/8vz5fTaq0CPa5iHZtmF8IA1ZbkRU7EYdoLK0Pj4oMdo7ybAgscxJs58VK78f
+         r7DVUy5IM4H7ttAICm7stAadAiZojjG51RiTxTfyduamw/xYgnsqedjnYjzYBBp3ziS6
+         1vMfSX1ONpNcN/zRCyC8qPT640PsxMTSVocJDoO3fhWGC0Nnp5AsrpSVc8k3Wyx6QZwN
+         KULYm9OC3/Uad3qo+geUeAk4PL0N9YN7az8jfaSmK7xco1MxaJJ9ADnqhPDXVTrNpaBz
+         buyI4IXPfmveDAYylU95hPRuQsEsgz6kvNR3WR1uo4oFrFR5Ko6z+l9IfeR7QzbF6FEZ
+         SDjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717431373; x=1718036173;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=C/N2SeCGrQ/hc/PUmLOr58aWJUfdAgaipmiw4zP9hpg=;
+        b=DwYxHnRPwvahnL3TQ38YU2h7YKngccU/iu3MFiOfP6ST2p1BS3MnoxIsQy4InRik7w
+         8/oTBuR9F7+CMZ+EnTs7mrFnOtP4W6ZaPb1cm73DBQ384J8M3FQatQWtgXYlbIfagvYE
+         DhOM0O+CmqaOxMjHTuUDhWsBTGerBIQxfI3hSX58lHyGxXLi059aaNPBNMb9Qf+C1oKt
+         U52AovvtChyPt4eXj+yKs4PmzBN7+fs+4zmzg4Cn5vewWcGexQfW4kKiI0kPqpSuUSrw
+         CMyqI5YHZgUOtfOkVv28IvUpXGtU5dGGQcrw9EUxcdfvNDfS8a7gFSCkOvKcLaN/5e+p
+         Rh6w==
+X-Forwarded-Encrypted: i=1; AJvYcCVaNG9XrKPwZwjOcfr4GcXsrlag7mWktSalZU1lABcHX8D2OCdudYXLOs4UZu1GMCaOS8gcbqGp0umxwpa30tqm+DqEVKkQES9yJlo75WZqVvEOYKA+twjbz5GdikY+d2lQMYuaHWdmRthSKiLtUDun/7uD9aTmtT3xPNLnJTNAD5+6
+X-Gm-Message-State: AOJu0YySTQg7fnY/tLBerG7mJwPpoMem+0z+LbFe4C7uYpPoc2yUEUYe
+	bA5MBJvjEkEIAhr4AGtBIWbhkhx7t6cCaDZpFQcIs3y0eTSd//Aovz9LikRhSXU=
+X-Google-Smtp-Source: AGHT+IEHgrToHEtFQ4qUID6sHHk78/MMQn6dYkUjZkvRhieZSuneVkSqSXSEEI+/NohsmEaRRVxm8g==
+X-Received: by 2002:a17:90a:d142:b0:2a4:79ef:4973 with SMTP id 98e67ed59e1d1-2c253077af4mr166664a91.14.1717431372713;
+        Mon, 03 Jun 2024 09:16:12 -0700 (PDT)
+Received: from paran-QEMU-Virtual-Machine.. ([118.32.98.101])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c1c27e577fsm6415462a91.32.2024.06.03.09.16.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Jun 2024 09:16:12 -0700 (PDT)
+From: yskelg@gmail.com
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: SeongJae Park <sj@kernel.org>,
+	Jinwoo Park <pmnxis@gmail.com>,
+	Austin Kim <austindh.kim@gmail.com>,
+	shjy180909@gmail.com,
+	workflows@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	netdev@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Tariq Toukan <tariqt@nvidia.com>
-Cc: Andy Gospodarek <andrew.gospodarek@broadcom.com>,
-	Aron Silverton <aron.silverton@oracle.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	David Ahern <dsahern@kernel.org>,
-	Christoph Hellwig <hch@infradead.org>,
-	Jiri Pirko <jiri@nvidia.com>,
-	Leonid Bloch <lbloch@nvidia.com>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	linux-cxl@vger.kernel.org,
-	patches@lists.linux.dev
-Subject: [PATCH 6/8] fwctl: Add documentation
-Date: Mon,  3 Jun 2024 12:53:22 -0300
-Message-ID: <6-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
-In-Reply-To: <0-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
-References:
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT3PR01CA0007.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:86::19) To DM6PR12MB3849.namprd12.prod.outlook.com
- (2603:10b6:5:1c7::26)
+	linux-kernel@vger.kernel.org,
+	Yunseong Kim <yskelg@gmail.com>
+Subject: [PATCH v4] Documentation: cve Korean translation
+Date: Tue,  4 Jun 2024 01:15:31 +0900
+Message-Id: <20240603161530.80789-1-yskelg@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3849:EE_|MN0PR12MB6197:EE_
-X-MS-Office365-Filtering-Correlation-Id: 593812fc-76e6-4d96-6956-08dc83e54fbe
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230031|1800799015|7416005|366007|376005|921011;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?MmNDZWVsUEJPMmhGcy9TeVhEWWlTUzM5R3hmc0tEcTRSdWtHWGsySmpTSWZD?=
- =?utf-8?B?ZEoyeGxaRkFvV2wyWTNjVnZNdGlWdHd1Q1MvSWRlamxwd2xxc3g4TXVVcUs5?=
- =?utf-8?B?UjhzcFV5d1NOZ2xjSUZWTHArVGo0cE4xSFk3WjNRUHk4UzQ0VkxQaXJncVJX?=
- =?utf-8?B?S0RERzcvQlZtMzIvbkJScXlUVVQzRW9KbENIaG1vSmw4SkkvcnRvN2tGdkNk?=
- =?utf-8?B?eE05aUdDVm9lbWE0aUN0QXprdWttck53RFlqZ0w4czJYdGMwRXJBNHJiMkJu?=
- =?utf-8?B?enZ2SXhFMnR4T1RNZmxRSTM1NEl1aDl6bGVQa1ZveG5yR2Evb3hnZXc5ckNq?=
- =?utf-8?B?SGpNYkpxQTF3NitNbk9NZ1V6U3lxRGNRNndlYkFkTk1nOGF1c0t0YWc2N1NS?=
- =?utf-8?B?cUdYVmpPallORzlzYlh6RDVoSy83SDRLdWI5V0F6MHVYSFFDWW9MTEJKSTgx?=
- =?utf-8?B?ajRNMkZQUStlY3dWOGZ6eFNIR1NsL0dvci9QYjBibWdsWjEzaVd4cFFWWFBS?=
- =?utf-8?B?cUhUVitMdkRNN3FQbWtxWjJFQWZMN2FhS0d1SmpYUVF3M3M0dGZmVUZQN2ha?=
- =?utf-8?B?d0NGcDJhaXNJWjVNN0JrYlRXQXNjZjU4MVNOKzhLaS9tL29Nem9rQWdRM0JE?=
- =?utf-8?B?RWc2YWxaazBYbXF3cVpJMmJacnplcDB6U3lBS2dTSityeU5qMHBKRXNnZ1R6?=
- =?utf-8?B?bFdpQndmbzBlRUpYOXYrK1VnVzlpSERpSXhvczV3b0dwZnpYWFBuQi93RzFT?=
- =?utf-8?B?RzA1dkkyNnl6U0w0R1VBVTJyTE9KeEpKUFNWcVoxUkFObXFFZUI5ZThsMlpm?=
- =?utf-8?B?VEQrVDc2WFNydnVQTlhFNzNtemFkL2lQTjdRK2dEdjJPTlh0N2tzbjNuZWRC?=
- =?utf-8?B?aXNGREQ0TEV2YmJXTm9WdDhpbmhocDd2Yy8vWTFLbHVkVHltemV6M0h3ODBN?=
- =?utf-8?B?Vjh1ZGo1Zm91Q201dTBKcG05NEhBVGw1UEVyQnRHYVc4SUtRVmNCV0VPSlB6?=
- =?utf-8?B?ekJObjNST2dxQVpQRXBDR3MrODAwZHpuMGF1WWduZ2hLRGdOTlhvWnhrN1Vw?=
- =?utf-8?B?VVVybVdXdjRRRVlIQ3ZlRWNlOHZFby80TSttNER4cXh1S1I3RjRPN0hEQkNO?=
- =?utf-8?B?S0JkcXdPNStOaTZDc2JNdGtpV1VxdUwvSmY1R0VGeTJEZVNoSXZ6MHVlaWNq?=
- =?utf-8?B?NWlVSUtTbTc0UkMvUC9OMGgvY1ByY3RxSStDQm92RG40eGFpSVJySVZrL1Fa?=
- =?utf-8?B?bGYvYjJBaG55OXNEWWgzdXFmdjdqM1IvWHdqcnFCa1Z3U241ZmpMTUxVVWhV?=
- =?utf-8?B?K0ZSS1ZSUjF3OUVNZU4vVGtYai92SXBIcnc0WnZCM2s3TW5yNE96ZkYrbmds?=
- =?utf-8?B?RUhZSVBBS1hBWmoreG9Tb1lVL0F1SGhKc253OE41dlYvek0zR2RwVzZTZDZT?=
- =?utf-8?B?TWJhdDFjeXE0dkNwNnFNcHp0cHB6dzVnaUxrSlFqTVhPakdwZWVpN2g5SUNy?=
- =?utf-8?B?YzE4RDJHMDBITjhpUjhZbjdrT2R5cHF3RG9TblBDbzY1L2NjSXgvMWF1N0pQ?=
- =?utf-8?B?ZDdzbThzVmY3TWRQY25sQmdxdm92ZCtqSTNsRzV3WVdoZnFqZEozaXZHM1Ir?=
- =?utf-8?B?UXJJcUxVYlZucTdjb0JZZEJHamF4MUpPM09nRHlDMkVobkdmZEN1TVVQWTdr?=
- =?utf-8?B?N3NSRlE2ZnZMUHNsa3lXMmk0SjZsU3JjeG5KYUlKQU5EZ1pCOHJheDc3QS9z?=
- =?utf-8?Q?oexziRzcmO4jfsuQRyLr+GM21xpHBwYzQos8SY/?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3849.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(7416005)(366007)(376005)(921011);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RVpwZ2pQd2pmTVZ2MC9hVGdvM24vb2ViYjNEQ1hLai9GRWlvdlVOTlo3eVIv?=
- =?utf-8?B?WS8rbU9BcysvaWhBS1E5eUZ6M0twUFlyNXlpVnk5Slc2WW4wNzRVdWJCbjZC?=
- =?utf-8?B?bGR2UmdGUjlmcWlWS0pEdGlNZTFhWlV4aWhaMjFieTB1N2xTV21DbVJPYUND?=
- =?utf-8?B?V3NFRWVmSXFEcExHNWltUVZOdlUxVk1NZnIrWnE3STYyNWFHYVJ5d05tUVNR?=
- =?utf-8?B?OTI5TzN5Z1Z3RHlMbHZSeWdTMmFGYmJtaWJNc0lJckMzRi9Ma2lwSit1emVC?=
- =?utf-8?B?VnhpcHB0c09QQUpUdDE3MVJjUFFZSjlUVk1hYkgvOGVHNjlBRis1NDNMdTBX?=
- =?utf-8?B?aS9MOCtwc1hoWVFnYjBHWUFBR2IvM2RFOUVzRTNQWWRuczNwY0ovNTBGY2U3?=
- =?utf-8?B?N210bk5FZWpxZm5VWEdSWjY4TktnaS9pVUJkZGE0YUJLSjJRZjJoRlhrZTBO?=
- =?utf-8?B?cnk3Mm5QUlp4RUtWZkNKemUxV3B3YWp4cmpaOXFkYTBQTmszVlEyZ2hDbmh6?=
- =?utf-8?B?NDVwZzJCN08xZDdQRlA2M2w5RVJtSXluQjFCcktmc2JldGdXZnNCMGtVRlFH?=
- =?utf-8?B?bTBCeWgyOEliV3ZTVGVTRG1LSjE1T1ZITnlSTTlmRG55UFlUSnFad2oreG9K?=
- =?utf-8?B?Q2FBZ3ROYnF2WEIzY24vRXJSRVh2ZE5yU0E3YUNhalpNb0ttWUdGb2x6OXFE?=
- =?utf-8?B?b0MwTE5iSi9nRFZOOXJVY1plRU82cnRobU5JcmxRZ2wxZ3FiU0RKb1Y4WVFn?=
- =?utf-8?B?YnhPUGFRbnpDL2RtQkpTYk5BdzFmTDYxd1Q1QzEwaytWOGxQSmtsOFZLOVJj?=
- =?utf-8?B?SW5zV2hhc2VJL1ZDckRRaG05WGhNTkxZMWdUTm1seEc2K2xiaENnQWNrYzJI?=
- =?utf-8?B?ZWhuWEpMNEp2Y1VyVmZnN21HRnlXeThoZWQram9xQy9qdWxLMUxSTUp1aXY4?=
- =?utf-8?B?REJrUzhYS0Q1K1I5NmQ5VmFSbUU3YUw5a1RXLzJWYmxDa1B6cjdVeFlVekVO?=
- =?utf-8?B?M25GMmF1cUxOTE9BL2swNFlZSDBnemYzeVVmNUpzTTNjTlJ0ZUYzTDZYOVB1?=
- =?utf-8?B?TUlhNDZhTTlGak9ESWFKSmo2T2Y1QytXM3JlbHN4S2x3TEkrRDNYRTJEd3RZ?=
- =?utf-8?B?KzA3UUd2S2N6RFJ1Q09RbmNCNkQ0OTNmWGk0bmVwRjR4MnRGQ3ZQSkFia29T?=
- =?utf-8?B?eUdaUFVXNEdXZkhqTEduaEJ4a09DQmpHUGFrMDlvM2drYWFJTGhDL0lLSHNR?=
- =?utf-8?B?aVhWUE9BSC96MktXSi9MeHBhMnE3ZXlmRStiMjNCQ1ZJT0VLYjk1QnY2UFJD?=
- =?utf-8?B?L1VRdTVwZ3NKbFBvS3c1REg5RjZ1Yys2VnlVZ0N4NjNRNzJ0OUpLa3N2ckRr?=
- =?utf-8?B?b3ZQY1U5aDFPaDdqcWxDSE9BcVUyaU8zTDA2bkQ5d1JBcDMrRGdkYUhxZlgv?=
- =?utf-8?B?VHoxNThrYkdHVUtuczVreXFyVldXQUxHOTd4NjhvVi9FNE9JTk5GTjVaVG1J?=
- =?utf-8?B?b2VXSVJjSy94amYrTURyL2dyYm9JV3dEL1ZBUlNJVEJnUVlvRGRLeGJhK2s3?=
- =?utf-8?B?dlpnRDFVSmpkTUw2eWFURkN4dUprWWRLZ3ZRRkViUEVTWUhHRUFMb2Rncm1Z?=
- =?utf-8?B?VVcrR1VXQUtUd3BGVHNJbDEwbGNPa2VFcTJZZFppQmtLYm5sWkU1aXdOS0lJ?=
- =?utf-8?B?TC9oS2xjdEZPYmkrQVJNdlpSeUtFMzkrQ2dnZ1JIQUVFbWVOYlZkUW5EUFNX?=
- =?utf-8?B?cXQ4UGx3bHhKYnNWOWR1SUY0WWFoMzZ5UzVDT1VETmFkRncxa09jMUVSQUVG?=
- =?utf-8?B?MnM5MFNSWDlZb3BaWWFUL2hMN2sxaUtEUUxuaHo1cmVHVzg5MEk2TFhLNHhC?=
- =?utf-8?B?cTZYU2xoTy9SMURhRkZGcCszRXhXL0Mzd3dCVlkwU01GVmxsRHk5NWEycUFR?=
- =?utf-8?B?TVlmUnVtVEdwREJrN0pIbnpRcUpiSXhiRHVGOTl1K2c2Q0lhRE9vNkVoWGdW?=
- =?utf-8?B?MHZJVWVSeFpqRDBuYUVod1BjblVBSm85dW5ydklrQ2RYNkx1V0s2TXY3SmFS?=
- =?utf-8?B?Rmc3c3RHeDRUM1FOaTlqZDRubndocE03R3FyWmlvTjhnOERwV2VDMDF1N1c3?=
- =?utf-8?Q?TOyT8YNvrg/b/zHRh3RptYf4G?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 593812fc-76e6-4d96-6956-08dc83e54fbe
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3849.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2024 15:53:29.0570
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zuNUOgAn9lQMLWeV3fNUDmaRoTkorbcV9V5IiaRpjTBtONkjb3EZCJaEAlN+3ocJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6197
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Document the purpose and rules for the fwctl subsystem.
+From: Yunseong Kim <yskelg@gmail.com>
 
-Link in kdocs to the doc tree.
+This is a Documentation/process/cve korean version.
 
-Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+The following changes have been updated based on SeongJae Park’s feedback
+and Austin Kim’s from the last v2 and v3 patches.
+
+Signed-off-by: Yunseong Kim <yskelg@gmail.com>
 ---
- Documentation/userspace-api/fwctl.rst | 269 ++++++++++++++++++++++++++
- Documentation/userspace-api/index.rst |   1 +
- 2 files changed, 270 insertions(+)
- create mode 100644 Documentation/userspace-api/fwctl.rst
+ Documentation/translations/ko_KR/index.rst    |   2 +-
+ .../translations/ko_KR/process/cve.rst        | 119 +++++++++---------
+ 2 files changed, 61 insertions(+), 60 deletions(-)
 
-diff --git a/Documentation/userspace-api/fwctl.rst b/Documentation/userspace-api/fwctl.rst
-new file mode 100644
-index 00000000000000..630e75a91838f0
---- /dev/null
-+++ b/Documentation/userspace-api/fwctl.rst
-@@ -0,0 +1,269 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===============
-+fwctl subsystem
-+===============
-+
-+:Author: Jason Gunthorpe
-+
-+Overview
-+========
-+
-+Modern devices contain extensive amounts of FW, and in many cases, are largely
-+software defined pieces of hardware. The evolution of this approach is largely a
-+reaction to Moore's Law where a chip tape out is now highly expensive, and the
-+chip design is extremely large. Replacing fixed HW logic with a flexible and
-+tightly coupled FW/HW combination is an effective risk mitigation against chip
-+respin. Problems in the HW design can be counteracted in device FW. This is
-+especially true for devices which present a stable and backwards compatible
-+interface to the operating system driver (such as NVMe).
-+
-+The FW layer in devices has grown to incredible sizes and devices frequently
-+integrate clusters of fast processors to run it. For example, mlx5 devices have
-+over 30MB of FW code, and big configurations operate with over 1GB of FW managed
-+runtime state.
-+
-+The availability of such a flexible layer has created quite a variety in the
-+industry where single pieces of silicon are now configurable software defined
-+devices and can operate in substantially different ways depending on the need.
-+Further we often see cases where specific sites wish to operate devices in ways
-+that are highly specialized and require applications that have been tailored to
-+their unique configuration.
-+
-+Further, devices have become multi-functional and integrated to the point they
-+no longer fit neatly into the kernel's division of subsystems. Modern
-+multi-functional devices have drivers, such as bnxt/ice/mlx5/pds, that span many
-+subsystems while sharing the underlying hardware using the auxiliary device
-+system.
-+
-+All together this creates a challenge for the operating system, where devices
-+have an expansive FW environment that needs robust device-specific debugging
-+support, and FW driven functionality that is not well suited to “generic”
-+interfaces. fwctl seeks to allow access to the full device functionality from
-+user space in the areas of debuggability, management, and first-boot/nth-boot
-+provisioning.
-+
-+fwctl is aimed at the common device design pattern where the OS and FW
-+communicate via an RPC message layer constructed with a queue or mailbox scheme.
-+In this case the driver will typically have some layer to deliver RPC messages
-+and collect RPC responses from device FW. The in-kernel subsystem drivers that
-+operate the device for its primary purposes will use these RPCs to build their
-+drivers, but devices also usually have a set of ancillary RPCs that don't really
-+fit into any specific subsystem. For example, a HW RAID controller is primarily
-+operated by the block layer but also comes with a set of RPCs to administer the
-+construction of drives within the HW RAID.
-+
-+In the past when devices were more single function individual subsystems would
-+grow different approaches to solving some of these common problems, for instance
-+monitoring device health, manipulating its FLASH, debugging the FW,
-+provisioning, all have various unique interfaces across the kernel.
-+
-+fwctl's purpose is to define a common set of limited rules, described below,
-+that allow user space to securely construct and execute RPCs inside device FW.
-+The rules serve as an agreement between the operating system and FW on how to
-+correctly design the RPC interface. As a uAPI the subsystem provides a thin
-+layer of discovery and a generic uAPI to deliver the RPCs and collect the
-+response. It supports a system of user space libraries and tools which will
-+use this interface to control the device using the device native protocols.
-+
-+Scope of Action
-+---------------
-+
-+fwctl drivers are strictly restricted to being a way to operate the device FW.
-+It is not an avenue to access random kernel internals, or other operating system
-+SW states.
-+
-+fwctl instances must operate on a well-defined device function, and the device
-+should have a well-defined security model for what scope within the physical
-+device the function is permitted to access. For instance, the most complex PCIe
-+device today may broadly have several function level scopes:
-+
-+ 1. A privileged function with full access to the on-device global state and
-+    configuration
-+
-+ 2. Multiple hypervisor functions with control over itself and child functions
-+    used with VMs
-+
-+ 3. Multiple VM functions tightly scoped within the VM
-+
-+The device may create a logical parent/child relationship between these scopes,
-+for instance a child VM's FW may be within the scope of the hypervisor FW. It is
-+quite common in the VFIO world that the hypervisor environment has a complex
-+provisioning/profiling/configuration responsibility for the function VFIO
-+assigns to the VM.
-+
-+Further, within the function, devices often have RPC commands that fall within
-+some general scopes of action:
-+
-+ 1. Access to function & child configuration, flash, etc that becomes live at a
-+    function reset.
-+
-+ 2. Access to function & child runtime configuration that kernel drivers can
-+    discover at runtime.
-+
-+ 3. Read only access to function debug information that may report on FW objects
-+    in the function & child, including FW objects owned by other kernel
-+    subsystems.
-+
-+ 4. Write access to function & child debug information strictly compatible with
-+    the principles of kernel lockdown and kernel integrity protection. Triggers
-+    a kernel Taint.
-+
-+ 5. Full debug device access. Triggers a kernel Taint, requires CAP_SYS_RAWIO.
-+
-+Userspace will provide a scope label on each RPC and the kernel must enforce the
-+above CAP's and taints based on that scope. A combination of kernel and FW can
-+enforce that RPCs are placed in the correct scope by userspace.
-+
-+Denied behavior
-+---------------
-+
-+There are many things this interface must not allow user space to do (without a
-+Taint or CAP), broadly derived from the principles of kernel lockdown. Some
-+examples:
-+
-+ 1. DMA to/from arbitrary memory, hang the system, run code in the device, or
-+    otherwise compromise device or system security and integrity.
-+
-+ 2. Provide an abnormal “back door” to kernel drivers. No manipulation of kernel
-+    objects owned by kernel drivers.
-+
-+ 3. Directly configure or otherwise control kernel drivers. A subsystem kernel
-+    driver can react to the device configuration at function reset/driver load
-+    time, but otherwise should not be coupled to fwctl.
-+
-+ 4. Operate the HW in a way that overlaps with the core purpose of another
-+    primary kernel subsystem, such as read/write to LBAs, send/receive of
-+    network packets, or operate an accelerator's data plane.
-+
-+fwctl is not a replacement for device direct access subsystems like uacce or
-+VFIO.
-+
-+fwctl User API
-+==============
-+
-+.. kernel-doc:: include/uapi/fwctl/fwctl.h
-+.. kernel-doc:: include/uapi/fwctl/mlx5.h
-+
-+sysfs Class
-+-----------
-+
-+fwctl has a sysfs class (/sys/class/fwctl/fwctlNN/) and character devices
-+(/dev/fwctl/fwctlNN) with a simple numbered scheme. The character device
-+operates the iotcl uAPI described above.
-+
-+fwctl devices can be related to driver components in other subsystems through
-+sysfs::
-+
-+    $ ls /sys/class/fwctl/fwctl0/device/infiniband/
-+    ibp0s10f0
-+
-+    $ ls /sys/class/infiniband/ibp0s10f0/device/fwctl/
-+    fwctl0/
-+
-+    $ ls /sys/devices/pci0000:00/0000:00:0a.0/fwctl/fwctl0
-+    dev  device  power  subsystem  uevent
-+
-+User space Community
-+--------------------
-+
-+Drawing inspiration from nvme-cli, participating in the kernel side must come
-+with a user space in a common TBD git tree, at a minimum to usefully operate the
-+kernel driver. Providing such an implementation is a pre-condition to merging a
-+kernel driver.
-+
-+The goal is to build user space community around some of the shared problems
-+we all have, and ideally develop some common user space programs with some
-+starting themes of:
-+
-+ - Device in-field debugging
-+
-+ - HW provisioning
-+
-+ - VFIO child device profiling before VM boot
-+
-+ - Confidential Compute topics (attestation, secure provisioning)
-+
-+That stretches across all subsystems in the kernel. fwupd is a great example of
-+how an excellent user space experience can emerge out of kernel-side diversity.
-+
-+fwctl Kernel API
-+================
-+
-+.. kernel-doc:: drivers/fwctl/main.c
-+   :export:
-+.. kernel-doc:: include/linux/fwctl.h
-+
-+fwctl Driver design
-+-------------------
-+
-+In many cases a fwctl driver is going to be part of a larger cross-subsystem
-+device possibly using the auxiliary_device mechanism. In that case several
-+subsystems are going to be sharing the same device and FW interface layer so the
-+device design must already provide for isolation and co-operation between kernel
-+subsystems. fwctl should fit into that same model.
-+
-+Part of the driver should include a description of how its scope restrictions
-+and security model work. The driver and FW together must ensure that RPCs
-+provided by user space are mapped to the appropriate scope. If the validation is
-+done in the driver then the validation can read a 'command effects' report from
-+the device, or hardwire the enforcement. If the validation is done in the FW,
-+then the driver should pass the fwctl_rpc_scope to the FW along with the command.
-+
-+The driver and FW must co-operate to ensure that either fwctl cannot allocate
-+any FW resources, or any resources it does allocate are freed on FD closure.  A
-+driver primarily constructed around FW RPCs may find that its core PCI function
-+and RPC layer belongs under fwctl with auxiliary devices connecting to other
-+subsystems.
-+
-+Each device type must represent a stable FW ABI, such that the userspace
-+components have the same general stability we expect from the kernel. FW upgrade
-+should not break the userspace tools.
-+
-+Security Response
-+=================
-+
-+The kernel remains the gatekeeper for this interface. If violations of the
-+scopes, security or isolation principles are found, we have options to let
-+devices fix them with a FW update, push a kernel patch to parse and block RPC
-+commands or push a kernel patch to block entire firmware versions, or devices.
-+
-+While the kernel can always directly parse and restrict RPCs, it is expected
-+that the existing kernel pattern of allowing drivers to delegate validation to
-+FW to be a useful design.
-+
-+Existing Similar Examples
-+=========================
-+
-+The approach described in this document is not a new idea. Direct, or near
-+direct device access has been offered by the kernel in different areas for
-+decades. With more devices wanting to follow this design pattern it is becoming
-+clear that it is not entirely well understood and, more importantly, the
-+security considerations are not well defined or agreed upon.
-+
-+Some examples:
-+
-+ - HW RAID controllers. This includes RPCs to do things like compose drives into
-+   a RAID volume, configure RAID parameters, monitor the HW and more.
-+
-+ - Baseboard managers. RPCs for configuring settings in the device and more
-+
-+ - NVMe vendor command capsules. nvme-cli provides access to some monitoring
-+   functions that different products have defined, but more exists.
-+
-+ - CXL also has a NVMe like vendor command system.
-+
-+ - DRM allows user space drivers to send commands to the device via kernel
-+   mediation
-+
-+ - RDMA allows user space drivers to directly push commands to the device
-+   without kernel involvement
-+
-+ - Various “raw” APIs, raw HID (SDL2), raw USB, NVMe Generic Interface, etc
-+
-+The first 4 would be examples of areas that fwctl intends to cover.
-+
-+Some key lessons learned from these past efforts are the importance of having a
-+common user space project to use as a pre-condition for obtaining a kernel
-+driver. Developing good community around useful software in user space is key to
-+getting companies to fund participation to enable their products.
-diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
-index 5926115ec0ed86..9685942fc8a21f 100644
---- a/Documentation/userspace-api/index.rst
-+++ b/Documentation/userspace-api/index.rst
-@@ -43,6 +43,7 @@ Devices and I/O
+diff --git a/Documentation/translations/ko_KR/index.rst b/Documentation/translations/ko_KR/index.rst
+index 4add6b2fe1f2..f38f0ce19a1e 100644
+--- a/Documentation/translations/ko_KR/index.rst
++++ b/Documentation/translations/ko_KR/index.rst
+@@ -12,7 +12,7 @@
+    :maxdepth: 1
  
-    accelerators/ocxl
-    dma-buf-alloc-exchange
-+   fwctl
-    gpio/index
-    iommu
-    iommufd
+    howto
+-
++   process/cve
+ 
+ 리눅스 커널 메모리 배리어
+ -------------------------
+diff --git a/Documentation/translations/ko_KR/process/cve.rst b/Documentation/translations/ko_KR/process/cve.rst
+index 94610c177f17..5a84d0d4266f 100644
+--- a/Documentation/translations/ko_KR/process/cve.rst
++++ b/Documentation/translations/ko_KR/process/cve.rst
+@@ -1,7 +1,9 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-:Original: Documentation/process/cve.rst
+-:Translator: Yunseong Kim <yskelg@gmail.com>
++:원문: Documentation/process/cve.rst
++:역자: 김윤성 <yskelg@gmail.com>
++:감수: 박진우 <pmnxis@gmail.com>, 박성재 <sj@kernel.org>,
++       김동현 <austindh.kim@gmail.com>
+ 
+ ==========
+ CVE 항목들
+@@ -16,92 +18,91 @@ CVE 항목들
+ 지속적인 남용이 결합되면서 커널 커뮤니티가 이러한 할당에 대한 통제권을 가져야
+ 한다는 것이 분명해졌습니다.
+ 
+-Linux 커널 개발자 팀은 잠재적인 Linux 커널 보안 문제에 대해 CVE를 할당할 수
+-있는 권한이 있습니다. 여기서 할당은 :doc:`일반 Linux 커널 보안 버그 보고
+-절차<../process/security-bugs>`와는 별개입니다.
++Linux 커널 개발팀은 잠재적인 Linux 커널 보안 문제에 대해 CVE를 할당할 수
++있는 권한이 있습니다. 여기서 할당은
++:doc:`일반 Linux 커널 보안 버그 보고절차</process/security-bugs>`와는
++별개입니다.
+ 
+ Linux 커널에 할당된 모든 CVE 목록은
+ https://lore.kernel.org/linux-cve-announce/ 에 있는 Linux-CVE 메일링 리스트의
+-아카이브에서 확인할 수 있습니다. 할당된 CVE에 대한 알림을 받으려면 다음의
+-메일링 리스트를 `구독
+-<https://subspace.kernel.org/subscribing.html>`_ 하세요.
++아카이브에서 확인할 수 있습니다. 할당된 CVE에 대한 알림을 받으려면 다음 메일링
++리스트를 `구독<https://subspace.kernel.org/subscribing.html>`_ 하세요.
+ 
+ 절차
+ ====
+ 
+ 일반적인 안정 릴리스 절차의 일부로, 잠재적으로 보안 문제가 될 수 있는 커널
+-변경 사항은 CVE 번호 할당을 담당하는 개발자가 식별하여 CVE 번호를 자동으로
++변경 사항은 CVE 번호 할당 담당을 하는 개발자가 식별하여 CVE 번호를 자동으로
+ 할당합니다. 이러한 할당은 linux-cve-announce 메일링 리스트에 공지사항으로
+ 수시로 게시됩니다.
+ 
+-리눅스 커널이 시스템에 있는 계층으로 인해 거의 모든 버그가 커널의 보안을
+-손상시키는 데 악용될 수 있지만 버그가 수정되면 악용 가능성이 명확하게 드러나지
+-않는 경우가 많습니다. 이 때문에 CVE 할당 팀은 지나치게 조심스럽게 버그 수정이
+-확인되는 모든 버그에 CVE 번호를 할당합니다.
+-이것이 리눅스 커널 팀에서 발행하는 겉으로 보기에 많은 수의 CVE를 설명합니다.
++리눅스 커널은 시스템의 최하단 계층에서 동작합니다. 때문에 거의 모든 버그가
++커널 보안을 취약하게 만들 수 있습니다. 하지만 버그를 수정할 때 악용 가능성을
++명확하게 파악하기 힘든 경우가 많습니다. 이 때문에 CVE 할당 팀은 지나치게
++조심스러워 보일 수도 있는 방식으로 버그 수정이 확인되는 모든 버그에 CVE 번호를
++할당합니다. 이것이 리눅스 커널 팀이 발행한 많은 수의 CVE를 설명합니다.
+ 
+ 사용자가 CVE를 지정해야 한다고 생각하는 특정 수정 사항을 CVE 할당 팀이 놓친
+ 경우에는 <cve@kernel.org>로 이메일을 보내 주시면 커널 CVE 할당 팀에서 함께
+ 작업할 것입니다. 이 별칭은 이미 릴리스된 커널 트리에 있는 수정 사항에 대한
+-CVE 할당 전용이므로 잠재적인 보안 문제는 이 별칭으로 보내서는 안 됩니다.
+-수정되지 않은 보안 문제를 발견했다고 생각되면 :doc:`일반 Linux 커널 보안
+-버그 보고 절차<../process/security-bugs>`를 따르세요.
++CVE 할당 전용이므로 잠재적인 보안 문제는 이 메일 주소로 보내서는 안 됩니다.
++수정되지 않은 보안 문제를 발견했다고 생각되면
++:doc:`일반 Linux 커널 보안 버그 보고 절차</process/security-bugs>`를 따르세요.
+ 
+ Linux 커널에서 수정되지 않은 보안 이슈에 대해서는 CVE가 자동으로 할당되지
+-않으며, 수정이 제공되고 안정적인 커널 트리에 적용된 후에만 자동으로 할당되며,
++않으며, 수정이 제공되고 stable 커널 트리에 적용된 후에만 자동으로 할당되며,
+ 기존 수정의 git 커밋 ID로 추적할 수 있습니다. 커밋으로 문제가 해결되기 전에
+ CVE를 할당받고자 하는 사람은 커널 CVE 할당 팀<cve@kernel.org>에 문의하여
+ 예약된 식별자 항목들에서 식별자를 할당받으시기 바랍니다.
+ 
+-현재 Stable/LTS 커널 팀에서 적극적으로 지원하지 않는 커널 버전에서 발견된
+-문제에 대해서는 CVE가 할당되지 않습니다.
+-현재 지원되는 커널 브랜치 목록은 https://kernel.org/releases.html 에서 확인할
+-수 있습니다.
++현재 Stable/LTS 커널 팀에서 지원하지 않는 커널 버전에서 발견된 문제에 대해서는
++CVE가 할당되지 않습니다. 현재 지원되는 커널 브랜치 목록은
++https://kernel.org/releases.html 에서 확인할 수 있습니다.
+ 
+-할당된 CVE 항목들의 분쟁
+-=========================
++CVE 항목들 할당 분쟁
++====================
+ 
+-특정 커널 변경에 대해 할당된 CVE에 대해 이의를 제기하거나 수정할 권한은
+-전적으로 영향을 받는 관련 하위 시스템의 유지 관리자에게 있습니다.
+-이 원칙은 취약점 보고에 있어 높은 수준의 정확성과 책임성을 보장합니다.
+-하위 시스템에 대한 깊은 전문 지식과 친밀한 지식을 갖춘 사람만이 보고된
+-취약점의 유효성과 범위를 효과적으로 평가하고 적절한 CVE 지정을 결정할 수
+-있습니다. 이 지정된 기관 외부에서 CVE를 수정하거나 이의를 제기하려는 시도는
+-혼란, 부정확한 보고, 궁극적으로 시스템 손상으로 이어질 수 있습니다.
++리눅스 커널 변경 사항에 할당된 CVE에 이의를 제기하거나 수정할 권한은 영향을
++받는 관련 하위 시스템의 관리자에게만 있습니다. 이 원칙은 취약점 보고의 정확성
++및 책임감을 높이기 위해 존재합니다. 하위 시스템에 대한 깊은 전문 지식과 정확한
++이해를 가진 사람만이 보고된 취약점의 유효성과 범위를 효과적으로 판단하고
++적절한 CVE를 지정할 수 있습니다. 지정된 권한 외의 다른 사람이 CVE를 수정 또는
++이의를 제기하려고 시도하면 혼란, 부정확한 보고, 그리고 궁극적으로는 시스템
++손상으로 이어질 수 있습니다.
+ 
+-잘못된 CVE 항목들
+-=================
++유효하지 않은 CVE 항목들
++========================
+ 
+-특정 배포판에서 변경된 사항 적용한 배포판은 더 이상 kernel.org 지원 릴리스가
+-아닌 커널 버전을 지원합니다. 때문에 Linux 배포판에서만 지원되는 Linux 커널에서
+-보안 문제가 발견되는 경우 Linux 커널 CVE 팀에서 CVE를 할당할 수 없습니다.
+-변경된 사항을 적용한 특정 Linux 배포판 자체에 요청해야 합니다.
++개별 배포판에서만 지원되는 커널 버전의 보안 문제가 발견된 경우, 또는 개별
++배포판에서 더 이상 kernel.org에서 지원하지 않는 커널 버전을 지원하고 있는
++경우라면, 보안 문제가 발생하는 경우에 Linux 커널 CVE 팀에서 CVE를 할당할 수
++없습니다. 변경된 사항을 적용한 개별 Linux 배포판에 직접 요청해야 합니다.
+ 
+-커널 할당 CVE 팀이 아닌 다른 그룹에서 적극적으로 지원되는 커널 버전에 대해
+-Linux 커널에 대해 할당된 CVE는 유효한 CVE로 취급해서는 안 됩니다.
+-CNA 수정 절차를 통해 특정 배포판에서 적용한 항목을 무효화할 수 있도록
+-커널 CVE 할당 팀<cve@kernel.org>으로 알려주시기 바랍니다.
++적극적으로 지원되고 있는 커널 버전에 대해 리눅스 커널 CVE 팀 외의 다른 그룹이
++CVE를 할당했다면, 이 CVE는 유효하지 않습니다. CNA 수정 절차를 통해 특정
++배포판에서 적용한 항목을 무효화할 수 있도록 커널 CVE 할당 팀<cve@kernel.org>에
++이메일을 통해 알려주시기 바랍니다.
+ 
+-특정 CVE의 적용 가능성
+-======================
++특정 CVE의 적용 범위
++====================
+ 
+-Linux 커널은 외부 사용자가 다양한 방법으로 접근하거나 전혀 접근하지 않는
+-등 다양한 방식으로 사용될 수 있으므로 특정 CVE의 적용 여부는 Linux 사용자가
+-결정할 사항이며 CVE 할당 팀의 권한이 아닙니다. 특정 CVE의 적용 가능성을
+-판단하기 위해 우리에게 문의하지 마시기 바랍니다.
++리눅스 커널은 다양한 방식으로 사용될 수 있으며, 외부 사용자가 커널에 접근하는
++방법도 여러 가지이며, 전혀 접근하지 않을 수도 있습니다. 따라서 특정 CVE의 적용
++범위는 리눅스 사용자가 결정해야 합니다. CVE 할당 팀은 이를 판단해줄 수
++없습니다. 특정 CVE의 적용 범위를 확인하기 위해 우리 팀에 문의하지 않기를
++바랍니다.
+ 
+-또한 소스 트리가 매우 방대하고 어떤 시스템도 소스 트리의 작은 하위 집합만
+-사용하므로 Linux 사용자는 할당된 많은 수의 CVE가 자신의 시스템과 관련이 없다는
+-사실을 알고 인지해야 합니다.
++또한 소스 트리는 매우 방대하고, 각 시스템은 소스 트리의 일부분만을 사용하기
++때문에 많은 사용자들이 할당된 CVE 중 상당 부분이 자신의 시스템과 관련이 없다는
++사실을 인지해야 합니다.
+ 
+ 즉, 우리는 사용자의 사용 사례를 알지 못하며 사용자가 커널의 어떤 부분을
+ 사용하는지 알 수 없으므로 특정 CVE가 사용자의 시스템과 관련이 있는지 판단할 수
+-있는 방법이 없습니다.
+-
+-항상 그렇듯이 커널 변경 사항은 개별적으로 선별된 변경 사항이 아니라 많은
+-커뮤니티 구성원이 통합된 전체에서 함께 테스트하는 것이므로 릴리스된 모든 커널
+-변경 사항을 적용하는 것이 가장 좋습니다. 또한 많은 버그의 경우 전체 문제에
+-대한 해결책은 단일 변경 사항이 아니라 여러 수정 사항을 모아놓고 보아야 찾을 수
+-있다는 점에 유의하세요. 이상적으로는 모든 문제에 대한 모든 수정 사항에 CVE가
+-할당되지만, 때로는 수정 사항을 발견하지 못하는 경우가 있으므로 CVE가 할당되지
+-않은 일부 변경 사항이 관련성이 있을 수 있다고 가정합니다.
++없습니다.
++
++여태까지 항상 그래왔듯이, 커뮤니티 구성원들의 통합된 테스트를 거친 전체 커널
++변경 사항을 적용하는 것이 좋습니다. 개별적인 부분만 선택하여 적용하는 것을
++권장하지 않습니다. 또한 많은 버그의 경우 전체적인 문제 해결은 단일 변경 사항이
++아니라 여러 수정 사항의 누적을 통해 이루어집니다. 이상적으로는 모든 문제에
++대한 모든 수정 사항에 CVE가 할당되지만, 때로는 누락될 수도 있습니다. 따라서
++CVE가 할당되지 않은 일부 변경 사항도 시스템에 적용하는 것이 중요할 수 있습니다.
 -- 
-2.45.2
+2.34.1
 
