@@ -1,140 +1,125 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F00658AC4
-	for <linux-doc@vger.kernel.org>; Mon,  3 Jun 2024 08:26:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1708952F64
+	for <linux-doc@vger.kernel.org>; Mon,  3 Jun 2024 08:32:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717403171; cv=none; b=NdigwXroiqZ/aVdsFtNIxEbyIDGa2uyqC8Aw0nUCS+nLEuEWxA0o++ywwMd4eIV7tSEaYdGr9uwJS6kj2xTut2BZNJb9lP9C1C9qPty7KHfVROZ7nuzBH8YN9cX+DQpNYaD9OyBMVMrMgQEl/K3F0xm6Jpaj6On22jTLweRcCoU=
+	t=1717403528; cv=none; b=LFSCZMfKZrt8sJH1xGsnjADe2leVuzMw6LhJxMuvlHC4HsAzWgr8MOGCahVVCvEhp/Sq/m4+ZO0ofpshN1s8ns9LKu952+drqKUXaaulS3wvyDdgXDy2/WkN48vgr21isyKtG04IQMkmG0agxE3OE1RScDgZc5C0YwNi0rwbEDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717403171; c=relaxed/simple;
-	bh=bSiPANs1zqvcKZQI2zpHQ/6pcDeUisEkCeFQwKMGNtY=;
+	s=arc-20240116; t=1717403528; c=relaxed/simple;
+	bh=YRW7PjUYem427Q9e1TQrMgKat4e5UnvaCX8B8ou59PM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WDVkwccUUf9JFg74EJPeoFjeWNUGYmqcKcjusWAm+4p9pU7IrGxiwnyqoMI93u47e1sEIS8yTF/qBIm7gwkWtevo4iuGOb/CqNnarX41WKTa6Kxd1XXmyN8SqNWkfUM4tFemR6hclwkUqg0R2nEhmdEayo8XLhdwigbwjjlqGGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fC2hui4T; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=IcbgnwpWHh7YKnc2zRFJHKS36jBEq2PLy/6bfg0gvPcaFCFItfFrcEPei5+Gw/1yAnDuWryHEPP4MahTUs2sb2tG3OwN/t6UOw4Zp2KN5wvb2l2roU2aOxLyzAsN44o5zKDY4HygTvA99SOfuYwjRwL4oUi478+Jr9wnc2RGVWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=k6ZltS/1; arc=none smtp.client-ip=209.85.208.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fC2hui4T"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5750a8737e5so15065a12.0
-        for <linux-doc@vger.kernel.org>; Mon, 03 Jun 2024 01:26:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="k6ZltS/1"
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2e6f2534e41so33005181fa.0
+        for <linux-doc@vger.kernel.org>; Mon, 03 Jun 2024 01:32:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1717403169; x=1718007969; darn=vger.kernel.org;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1717403523; x=1718008323; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=e8dFqRUzN06I6td+1eA8YESyOb42WkNK5puVp1UusMM=;
-        b=fC2hui4T3F52MLqPAbUVUUU0xfxICcCYkISNVk14KUO/WWV6RRs3QJI8aWAAuJ+TCb
-         PRbfKMhCG7Rd3bHxrk6mY4o27b//w+mYyGhsTo8Q5MeTo0MsvY7QYb7vl7sgz24L+/sA
-         VZiRfQPRVlxWp1sLOdGeiwitOUaR0TVVG5cCN1bUWkvRzOekWqLY/T+OV3AkQKMhr5q4
-         h7e9e6MiUf7+dKFcqlsQhLOukCofDzzj/GoQKcLzLTPFaC6fu9Lxf5punwIzMf1zVFyo
-         NcsDRFHsJD65Ty29jjenS6qqpiqO58mUlMGKdLIvWEKbVAqOmOGp+9KEKAot/D4+hki2
-         NSDw==
+        bh=3SR+OQhYkTg9lzBQDK1gFJ8R3TWRUSp36xtonngLD3E=;
+        b=k6ZltS/1TUQYlHTdWHBAOsvrJ6kWb3rWAGST7FpFhrsS2b1/4I0yxn1TyFbrMcTPnZ
+         9hfDiWWUmDuN9sNKrAVxuKXNhuVWh0K6N0eJzn3BPm6GDAarKkVzgNBObpVaZxJwTAjn
+         Z/ln1i+WlL4WCpPrBJ/5d2xsYA3FTHWEZgv4GDDViQ0ViswCAbrAojB+q8ABZq2wAYoD
+         vfRtQt27iBtnTB3EFElLgreiecE9vgHOv0bFhXRk0Yhlbwp8epT0JQl8xLwXvgym5sJj
+         8NFQT078BQL4pFh9jACikdOHZEcGPy4m/BqpBmqIW3skJZEGYLzEQLYm2/hNf1/A7lMf
+         OgKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717403169; x=1718007969;
+        d=1e100.net; s=20230601; t=1717403523; x=1718008323;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=e8dFqRUzN06I6td+1eA8YESyOb42WkNK5puVp1UusMM=;
-        b=cy8eStsxQpAno6HUQ19YyQQmnWGQDaC9/kb/luvi4eMCzMIBYlC8J0sv78IztjITVj
-         2mPKRjFiK8w/Tnw0vK/PNu96fv3Q4I1tOZkdX3nonvrEqAeRfbmwgeBPTDvAuvHAlkLR
-         6JpW/C+0C5AB8W252+SHD3eegWpsFau1dHWf4P7WjDAxde6u7ApI+E+iiTSeKSO0kU8Y
-         hmrxSN3E2tMTdBdZefMOK5v2XStB3lPDBSiIHUzHffUxLUXvSAYnnjJvqphcnaNxSgjB
-         08CM/OqEgDKh2/DyC3nzkDTk6F/PCg8cOXPgh1/bJco0bETHUBpfIR9hOP8t0vKeJhLz
-         /3LA==
-X-Forwarded-Encrypted: i=1; AJvYcCUBgQblMspwIEZ5E61kxN9G+Zzcj7vaTBWt3gozSLR64fpVz8vafZjlb6X2Tfll9vhZijx8h8LBK7tYyUV5huSUGYliTwPLgGtA
-X-Gm-Message-State: AOJu0Yy1bMxD2AlbhHidPh2CEhuiemBij8VeHnNrm5BwzlY/iiUUanNH
-	Ys9gUU5xRPUYTCTzzHxv86wY1gfgmwuHzOceWQtP0eSYvtNh427WJsjqtIaGudyEZhsfG2kQu2T
-	lWwKwOvwUalSGqz4o8RksW7t5jecVYJPs9xyX
-X-Google-Smtp-Source: AGHT+IGZuDthXbWoFSnEQ7MaNweVS5sD7QeK3KCUOLuZLtw+fgjft1YjRnq0rFgcK1OXGLQN/XyrGOdazbJuRadceCA=
-X-Received: by 2002:a50:ee85:0:b0:57a:22c8:2d3c with SMTP id
- 4fb4d7f45d1cf-57a45f1cde0mr245850a12.0.1717403168431; Mon, 03 Jun 2024
- 01:26:08 -0700 (PDT)
+        bh=3SR+OQhYkTg9lzBQDK1gFJ8R3TWRUSp36xtonngLD3E=;
+        b=hq3wBrJmc6uZzEY1mbnYRaUA1oeckz7wDupA5v/ub5GJTgE22JwHRVLNpVaLhtJaVK
+         yPgq8QegPWG8bbc3sYnG4v08mBqP97kgLIUpsglyv5XEn6XmBdYGL94o0qES5tK577US
+         65yTe8iJTPGa4+Ym1IaIRQVRxyDP6APyNEZxdVng646ajt0o2RkvkRlvgV0JszxyjGk+
+         sZl6u6Z98ESynMIGYFrJSQkhlWWMbAdXfdtCpiM+zyn4aYXgwfagFEwT7XL4/32mV8pO
+         7ei+rj3o1sP5qjyn7iDg+obl4yspAacrOEZjAS2vvDmJzmoDCuGXtxpR/jTCTF8sMuFo
+         ZPNw==
+X-Forwarded-Encrypted: i=1; AJvYcCVWxoZyTVOXjBiN5XS5wcAVplF4qgBktd15z9Fst4p+gVR39tAR3qSzdPSOG/oKVnnvMcIurZBjJs61TyoHYJKXbUGvke10z615
+X-Gm-Message-State: AOJu0YwKjHq6F/GVmxwFikse2s2XbAeHnUvCv1IRlodEwLX2KX3biDJQ
+	Q/DANAuj6ftEShKd/trnwW5+Ja65SevDjEQGrHFPVysK+FVpq4Xz1jW6rV06dHsSpdmcOK4o36j
+	nhg2cDm4AlL2Ii8imown8ZzsQcglwhZLoXQFxrg==
+X-Google-Smtp-Source: AGHT+IHi9yjpUlPhgtMP/rJ1TwiT9Pgl1w5h9NUwXWE9BRNbLXghRbcFU1ELKIElO3GnO3g+03dEs9aHNStPGm5fR2Q=
+X-Received: by 2002:a2e:870d:0:b0:2e9:8a16:fe31 with SMTP id
+ 38308e7fff4ca-2ea950aee36mr62217721fa.2.1717403523221; Mon, 03 Jun 2024
+ 01:32:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240529111844.13330-1-petrm@nvidia.com> <20240529111844.13330-3-petrm@nvidia.com>
- <CANn89iL8P68pHvCKy242Z6ggWsceK4_TWMr7OakS3guRok=_gw@mail.gmail.com> <875xuqiivg.fsf@toke.dk>
-In-Reply-To: <875xuqiivg.fsf@toke.dk>
-From: Eric Dumazet <edumazet@google.com>
-Date: Mon, 3 Jun 2024 10:25:54 +0200
-Message-ID: <CANn89iJ5UzQGBMNvZJqknuTCn13Ov4pXp7Rr+pq0G+BkJ53g7Q@mail.gmail.com>
-Subject: Re: [PATCH net-next 2/4] net: ipv4: Add a sysctl to set multipath
- hash seed
-To: =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@redhat.com>
-Cc: Petr Machata <petrm@nvidia.com>, "David S. Miller" <davem@davemloft.net>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org, 
-	Ido Schimmel <idosch@nvidia.com>, David Ahern <dsahern@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-doc@vger.kernel.org, Simon Horman <horms@kernel.org>
+References: <CAMRc=MeuHpu4_QbgW-6Kc-TGzhcBim7Eb-TZhPax6G2SZHR5iw@mail.gmail.com>
+ <20240602074925.2489486-1-foxhoundsk.tw@gmail.com>
+In-Reply-To: <20240602074925.2489486-1-foxhoundsk.tw@gmail.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Mon, 3 Jun 2024 10:31:52 +0200
+Message-ID: <CAMRc=Me+J89_WcrRFyfyapDN2jyeiGad3uoTRN_N3vnP2puv2Q@mail.gmail.com>
+Subject: Re: [PATCH] docs: gpio: prefer pread(2) for interrupt reading
+To: Huichun Feng <foxhoundsk.tw@gmail.com>
+Cc: corbet@lwn.net, linus.walleij@linaro.org, linux-doc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	warthog618@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 3, 2024 at 9:30=E2=80=AFAM Toke H=C3=B8iland-J=C3=B8rgensen <to=
-ke@redhat.com> wrote:
+On Sun, Jun 2, 2024 at 9:49=E2=80=AFAM Huichun Feng <foxhoundsk.tw@gmail.co=
+m> wrote:
 >
-> Eric Dumazet <edumazet@google.com> writes:
+> In legacy sysfs GPIO, when using poll(2) on the sysfs GPIO value for
+> state change awaiting, a subsequent read(2) is required for consuming
+> the event, which the doc recommends the use of lseek(2) or
+> close-and-reopen to reset the file offset afterwards.
 >
-> > On Wed, May 29, 2024 at 1:21=E2=80=AFPM Petr Machata <petrm@nvidia.com>=
- wrote:
-> >>
-> >> When calculating hashes for the purpose of multipath forwarding, both =
-IPv4
-> >> and IPv6 code currently fall back on flow_hash_from_keys(). That uses =
-a
-> >> randomly-generated seed. That's a fine choice by default, but unfortun=
-ately
-> >> some deployments may need a tighter control over the seed used.
-> >>
-> >> In this patch, make the seed configurable by adding a new sysctl key,
-> >> net.ipv4.fib_multipath_hash_seed to control the seed. This seed is use=
-d
-> >> specifically for multipath forwarding and not for the other concerns t=
-hat
-> >> flow_hash_from_keys() is used for, such as queue selection. Expose the=
- knob
-> >> as sysctl because other such settings, such as headers to hash, are al=
-so
-> >> handled that way. Like those, the multipath hash seed is a per-netns
-> >> variable.
-> >>
-> >> Despite being placed in the net.ipv4 namespace, the multipath seed sys=
-ctl
-> >> is used for both IPv4 and IPv6, similarly to e.g. a number of TCP
-> >> variables.
-> >>
-> > ...
-> >
-> >> +       rtnl_lock();
-> >> +       old =3D rcu_replace_pointer_rtnl(net->ipv4.sysctl_fib_multipat=
-h_hash_seed,
-> >> +                                      mphs);
-> >> +       rtnl_unlock();
-> >> +
-> >
-> > In case you keep RCU for the next version, please do not use rtnl_lock(=
-) here.
-> >
-> > A simple xchg() will work just fine.
-> >
-> > old =3D xchg((__force struct struct sysctl_fib_multipath_hash_seed
-> > **)&net->ipv4.sysctl_fib_multipath_hash_seed,
-> >                  mphs);
+> The recommendations however, require at least 2 syscalls to consume
+> the event. Gladly, use of pread(2) require only 1 syscall for the
+> consumption. Let's advertise this usage by prioritizing its placement.
 >
-> We added a macro to do this kind of thing without triggering any of the
-> RCU type linter warnings, in:
+> Signed-off-by: Huichun Feng <foxhoundsk.tw@gmail.com>
+> ---
+>  Documentation/userspace-api/gpio/sysfs.rst | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 >
-> 76c8eaafe4f0 ("rcu: Create an unrcu_pointer() to remove __rcu from a poin=
-ter")
+> diff --git a/Documentation/userspace-api/gpio/sysfs.rst b/Documentation/u=
+serspace-api/gpio/sysfs.rst
+> index 116921048..bd64896de 100644
+> --- a/Documentation/userspace-api/gpio/sysfs.rst
+> +++ b/Documentation/userspace-api/gpio/sysfs.rst
+> @@ -97,9 +97,10 @@ and have the following read/write attributes:
+>                 poll(2) will return whenever the interrupt was triggered.=
+ If
+>                 you use poll(2), set the events POLLPRI and POLLERR. If y=
+ou
+>                 use select(2), set the file descriptor in exceptfds. Afte=
+r
+> -               poll(2) returns, either lseek(2) to the beginning of the =
+sysfs
+> -               file and read the new value or close the file and re-open=
+ it
+> -               to read the value.
+> +               poll(2) returns, use pread(2) to read the value at offset
+> +               zero. Alternatively, either lseek(2) to the beginning of =
+the
+> +               sysfs file and read the new value or close the file and
+> +               re-open it to read the value.
 >
-> So as an alternative to open-coding the cast, something like this could
-> work - I guess it's mostly a matter of taste:
+>         "edge" ...
+>                 reads as either "none", "rising", "falling", or
+> --
+> 2.34.1
 >
-> old =3D unrcu_pointer(xchg(&net->ipv4.sysctl_fib_multipath_hash_seed, RCU=
-_INITIALIZER(mphs)));
 
-Good to know, thanks.
+Please don't send new versions of a patch as responses in an email
+thread. Otherwise tools such as b4 cannot tell if it's a new version
+or part of a larger series. Please always start a new thread with get
+send-email or - better yet - start using b4 and let it manage the
+series for you. Please resend this correctly.
 
-Not sure why __kernel qualifier has been put there.
+Bart
