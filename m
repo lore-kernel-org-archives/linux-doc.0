@@ -1,175 +1,110 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A3F36FE16;
-	Sun,  2 Jun 2024 20:16:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A632EBB;
+	Mon,  3 Jun 2024 00:41:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717359388; cv=none; b=o7FoNxxWSDORmqn7PByHmt2RRRfTxJI8R2stYmFAJCO3veZr2qsPg3rglWXfF83vLcbZeIF1j1ieEN3swYi/5Nre8w1I6ncmJ+AY3Q61aRm2HcNq5+S/YVaIIHVCqyktBinh2NU2T6nZQe2wjfFWXR+xVE7SUxTZYemumD3ClK8=
+	t=1717375305; cv=none; b=Gz0FN5BIBnEJTyk8sS7ooeiDdmhlfA69osE3AWOg6igAdFFFwLDV534Sjp88AgXZRaMkW+cNmAcZIxejk8+uaUcswGS2g4aH2edUHhBw9wyjBpz3iEfccjn9PJfB8g0N6VXI7f4x040JG2sb0QidcmhgXNkUBnGC6k1BY1m3Eu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717359388; c=relaxed/simple;
-	bh=Q98W32FFwdI1cAgJFPClVn7dyNiWNwmPQZQrnQtZNLw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lnP3g1QPstRriMRMUoWMeC4hcRjqCczovC8Hyi4TH+Y6DpIN62QDObLs4Jkk3f96EXHyJgz4D4YlIXs4JLTXm9FscjaShw3Ac/bHHZEvJkoFG6Uxv77+s/glJejupWVzxRoayNcAwCAwMNitGlGuZ2CV3raSuT8dR5HZcO466Qg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9F687113E;
-	Sun,  2 Jun 2024 13:16:48 -0700 (PDT)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E4BAF3F792;
-	Sun,  2 Jun 2024 13:16:22 -0700 (PDT)
-Date: Sun, 2 Jun 2024 21:15:09 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: "harry.yu185" <harry.yu185@gmail.com>
-Cc: corbet@lwn.net, catalin.marinas@arm.com, will@kernel.org,
- tglx@linutronix.de, maz@kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi <linux-sunxi@lists.linux.dev>
-Subject: Re: [PATCH] irqchip/gic-v3: Add Allwinner sunxi001 erratum
- workaround
-Message-ID: <20240602211509.67df243e@minigeek.lan>
-In-Reply-To: <20240602071058.6405-1-harry.yu185@gmail.com>
-References: <20240602071058.6405-1-harry.yu185@gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	s=arc-20240116; t=1717375305; c=relaxed/simple;
+	bh=zNI6H31zSexVbT2WSd9vhwqSF1Rqr5qSWm/aHU5mw9M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bePVatLnkhH9uEkFiNmAxxHdVLzUJY3+bCW9v7snNLIC7OKhNqWHQom6h1a+2sVAihMg8yBqveOEZKJBbzygSkOqPVsC4BTOWeNwFHgRXOBaNrPqRXDzmxxBUjia4O4I8alnkfKL10cqa0wHVNpUkm4WpbMc6re0KCIJaO3F7tc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CNylfbfV; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CNylfbfV"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-42139c66027so5409465e9.3;
+        Sun, 02 Jun 2024 17:41:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717375302; x=1717980102; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=B1o/b1gFrtS3NBgE2MlOGvvhrWq5km+KT0/u0XHiWDI=;
+        b=CNylfbfVVuMlK2m0uiqdmFUc/d9eTkfhQA4WXMxBbdiSg+vJUc20I6Cyxfane4vPTN
+         X3zXYA3BTROqoODPnoPMatf7N8OUIFrnUHkz0p4WssZl8wcbM/MVUEXzIqzTNF0wxwza
+         y5LxKPc8T+/U59MZa9NAhrlccbtQz6+acarQ4wH51a6r4KU6ZIX4DH22EQMfxR2HtuPG
+         1UjywgDGkZF4h/vyRpzEvVbi6SBLH8SUzkBSx87gKqixW/QMMKCI9GLlm11H8oF4AN+3
+         rG/YSwWXZ2rqcxIEv3OvgCQEYbicWXHMlRGzdWEtVy5UqpIGhLwJjCOTn3ttGO9UEuoO
+         ei4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717375302; x=1717980102;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=B1o/b1gFrtS3NBgE2MlOGvvhrWq5km+KT0/u0XHiWDI=;
+        b=cVsWXMO3auy56lqdb2BdGjYCi/Y38IxI/7iFJ7JqPGBU+zXOwcJLXkbfmbNpOGjk8I
+         RY9Lkpiwkxj4ObBM7qxDI2SA5uOJ16a9RQjekt2gBy1xbI+rV+IaRCB0P0eOYLw/nA1f
+         M4CCPl50cM+tp/GAA6aamEEHzcE8+auMmEN0mw2e29QuN+KfcLnKdyltfFiqstwVzbUk
+         HKvQDhx4kWgB+SFhMyZCbC37GbSpNi9ew6GBSWmv7N7rXHSz+ZTL2Ea9cjSg6Arx8uWD
+         KQ4wVI6BfkE8FI2/DEZe2geXxvrnQkGFusXC7eRvhEwXuhtmb3WFecYFgqNuqx+o7rSb
+         khFw==
+X-Forwarded-Encrypted: i=1; AJvYcCVyxYFz0z5ZaIljBBTCwWxhthkhymGcLBrODCFZpNp4lKZ+TiFxyJ+B30V2RzZM9YNUtP+c2HQv69GuE0HsU+b7kvocvFCf+I8N4QDRB/EYY/1PRlTtK4naMz/wu+iilos70qUEKKeDE5sYtdNWZNBz+cpE5ekF8eaGJN9gEV6AsqGfOQ==
+X-Gm-Message-State: AOJu0Ywoo8SYURqKcW1NqqCWXRKGQ1PvaLk/JSfwt7cogzo30z4Tu5LO
+	6GPmEXgb7HuzTUlVamcUIh2Y99Y+ZUPyIaBTltLslxpOhthltsX7
+X-Google-Smtp-Source: AGHT+IEKrFrvzelrpkV0lRgOFsb/p9GOQothVXAMqoQBPMn/xGvWBpPzq+U2wvFWRQYF+WD1KvBpmQ==
+X-Received: by 2002:a05:600c:8a7:b0:41b:e4dd:e320 with SMTP id 5b1f17b1804b1-4212e09b9camr55984695e9.26.1717375302255;
+        Sun, 02 Jun 2024 17:41:42 -0700 (PDT)
+Received: from andrea ([151.76.32.59])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57a6522d405sm470024a12.1.2024.06.02.17.41.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Jun 2024 17:41:41 -0700 (PDT)
+Date: Mon, 3 Jun 2024 02:41:36 +0200
+From: Andrea Parri <parri.andrea@gmail.com>
+To: Guo Ren <guoren@kernel.org>
+Cc: Alexandre Ghiti <alex@ghiti.fr>,
+	Alexandre Ghiti <alexghiti@rivosinc.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org
+Subject: Re: [PATCH 7/7] riscv: Add qspinlock support based on Zabha extension
+Message-ID: <Zl0RQC4br7KoaGlC@andrea>
+References: <20240528151052.313031-1-alexghiti@rivosinc.com>
+ <20240528151052.313031-8-alexghiti@rivosinc.com>
+ <ZlZ8/Nv3QS99AgY9@andrea>
+ <39a9b28c-2792-45ce-a8c6-1703cab0f2de@ghiti.fr>
+ <ZlnyKclZOQdrJTtU@andrea>
+ <CAJF2gTTz2H5McxgsrEcMeCNMnchS6sr3vRn53J=FWk_6HPoP6A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJF2gTTz2H5McxgsrEcMeCNMnchS6sr3vRn53J=FWk_6HPoP6A@mail.gmail.com>
 
-On Sun,  2 Jun 2024 15:10:58 +0800
-"harry.yu185" <harry.yu185@gmail.com> wrote:
-
-Hi,
-
-(please make sure to CC: the linux-sunxi mailing list on Allwinner
-related patches)
-
-I do hope that this whole patch is unnecessary, as Marc pointed out, but
-just for the records some comments for future reference, since this
-patch seems either premature or out of place.
-
-> Allwinner A523 GIC600 integration does not support the
-> sharability feature. So assigned Erratum ID #sunxi001 for this
-> issue.
+> I looked at the riscv-unprivileged ppo section, seems RISC-V .rl ->
+> .aq has RCsc annotations.
+> ref:
+> Explicit Synchronization
+>  5. has an acquire annotation
+>  6. has a release annotation
+>  7. a and b both have RCsc annotations
 > 
-> That the 0x0201643b ID is not Allwinner specific and thus
-> there is an extra of_machine_is_compatible() check.
+> And for qspinlock:
+> unlock:
+>         smp_store_release(&lock->locked, 0);
 > 
-> Note, because more than one soc may have this problem, the 'sunxi'
-> name is used instead of a fixed soc name like A523.
+> lock:
+>         if (likely(atomic_try_cmpxchg_acquire(&lock->val, &val, _Q_LOCKED_VAL)))
 > 
-> Signed-off-by: harry.yu185 <harry.yu185@gmail.com>
-> ---
->  Documentation/arch/arm64/silicon-errata.rst |  2 ++
->  arch/arm64/Kconfig                          | 10 ++++++++++
->  drivers/irqchip/irq-gic-v3-its.c            | 21 +++++++++++++++++++++
->  3 files changed, 33 insertions(+)
-> 
-> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
-> index eb8af8032c31..351dd6094a6c 100644
-> --- a/Documentation/arch/arm64/silicon-errata.rst
-> +++ b/Documentation/arch/arm64/silicon-errata.rst
-> @@ -242,6 +242,8 @@ stable kernels.
->  +----------------+-----------------+-----------------+-----------------------------+
->  | Rockchip       | RK3588          | #3588001        | ROCKCHIP_ERRATUM_3588001    |
->  +----------------+-----------------+-----------------+-----------------------------+
-> +| Allwinner      | SUN55IW3        | #sunxi001       | ALLWINNER_ERRATUM_SUNXI001  |
+> If the hardware has Store-Release and CAS instructions, they all obey
+> Explicit Synchronization rules. Then RISC-V "UNLOCK+LOCK" pairs act as
+> a full barrier, right?
 
-"sun55iw3" is a CPU die identifier only used in Allwinner's BSP
-kernels, mainline uses a different naming scheme.
+Presuming you were thinking at CAS.aq (based on your previous remarks
+above), that all seems right to me.  In fact, the (putative) Store.rl
+and an LR.aq would also do it (by the same/mentioned rules).
 
-Also the erratum name looks odd, at the very least I'd expect it to
-read "ALLWINNER_ERRATUM_00001" or something. But there is already some
-Allwinner timer erratum, which we boldly gave ID 1 (short of an
-official erratum number from Allwinner), so using the same number again
-will surely lead to confusion.
-
-> ++----------------+-----------------+-----------------+-----------------------------+
->  +----------------+-----------------+-----------------+-----------------------------+
->  | Fujitsu        | A64FX           | E#010001        | FUJITSU_ERRATUM_010001      |
->  +----------------+-----------------+-----------------+-----------------------------+
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index 5d91259ee7b5..5a71227d119a 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -1279,6 +1279,16 @@ config ROCKCHIP_ERRATUM_3588001
->  
->  	  If unsure, say Y.
->  
-> +config ALLWINNER_ERRATUM_SUNXI001
-> +	bool "Allwinner sunxi001: GIC600 can not support shareability attributes"
-> +	default y
-
-"default ARCH_SUNXI" would be better suited here, I think.
-
-> +	help
-> +	  The Allwinner GIC600 SoC integration does not support ACE/ACE-lite.
-> +	  This means, that its sharability feature may not be used, even though it
-> +	  is supported by the IP itself.
-> +
-> +	  If unsure, say Y.
-> +
->  config SOCIONEXT_SYNQUACER_PREITS
->  	bool "Socionext Synquacer: Workaround for GICv3 pre-ITS"
->  	default y
-> diff --git a/drivers/irqchip/irq-gic-v3-its.c b/drivers/irqchip/irq-gic-v3-its.c
-> index 40ebf1726393..d93348947353 100644
-> --- a/drivers/irqchip/irq-gic-v3-its.c
-> +++ b/drivers/irqchip/irq-gic-v3-its.c
-> @@ -4775,6 +4775,19 @@ static bool __maybe_unused its_enable_rk3588001(void *data)
->  	return true;
->  }
->  
-> +static bool __maybe_unused its_enable_sunxi001(void *data)
-> +{
-> +	struct its_node *its = data;
-> +
-> +	if (!of_machine_is_compatible("arm,sun55iw3p1"))
-
-You cannot reference a compatible name here that is not documented in
-the bindings. Which brings us to the elephant in the room: there is no
-upstream support for this SoC (family) yet. I have some
-work-in-progress series [1], but it's far from finished, mostly blocked
-by the lack of hackable hardware (hopefully fixed soon).
-
-So what kernel is this patch supposed to be applied against? You would
-need at least a pinctrl and clock driver for even basic operation, none
-of that I have seen posted.
-
-Cheers,
-Andre
-
-[1] https://github.com/apritzel/linux/commits/a523-EARLY/
-
-> +		return false;
-> +
-> +	its->flags |= ITS_FLAGS_FORCE_NON_SHAREABLE;
-> +	gic_rdists->flags |= RDIST_FLAGS_FORCE_NON_SHAREABLE;
-> +
-> +	return true;
-> +}
-> +
->  static bool its_set_non_coherent(void *data)
->  {
->  	struct its_node *its = data;
-> @@ -4836,6 +4849,14 @@ static const struct gic_quirk its_quirks[] = {
->  		.mask   = 0xffffffff,
->  		.init   = its_enable_rk3588001,
->  	},
-> +#endif
-> +#ifdef CONFIG_ALLWINNER_ERRATUM_SUNXI001
-> +	{
-> +		.desc   = "ITS: Allwinner erratum sunxi001",
-> +		.iidr   = 0x0201643b,
-> +		.mask   = 0xffffffff,
-> +		.init   = its_enable_sunxi001,
-> +	},
->  #endif
->  	{
->  		.desc   = "ITS: non-coherent attribute",
-
+  Andrea
