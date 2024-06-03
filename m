@@ -1,297 +1,144 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01olkn2105.outbound.protection.outlook.com [40.92.52.105])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D916777A1E;
-	Mon,  3 Jun 2024 10:07:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.240
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717409261; cv=none; b=THZlont+36FGh6VtTjMtRr+MrkRd8EajwjW9q5Jk+8uERRCVQFhyU+dTrktfH4Ja5fuqBfokVJ2ZoLP1el/mMJSjC06irT0WcmAoysVMg8AEoznyEtOYq6Tk1sgFjeQG3nRyjHA6BJHSW8oFih55lwN+GIRHtmndVzUGs1JYx+g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717409261; c=relaxed/simple;
-	bh=WkGkWlLz+ddnb+cr6XBvYh1+pFbDK5fqTU5ItH7OpJc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OGI7mUPCsQu6V23d/EouTua9ygAVTLQz1BrECH6YyoLx4nmI3eKYQCqOChTLJgnTKvAhCCPt1V42UnS5+93vSZo+jWaD2tTu1q1oQj2N5Enff59gUZOMP1INUp46Fk496wHNYuEAzkOWxZkuo+HHoeL/+UEWoLFFx6jHzMDISA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.178.240
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: from relay1-d.mail.gandi.net (unknown [217.70.183.193])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id B8881C57AD;
-	Mon,  3 Jun 2024 09:49:18 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 50B3024000D;
-	Mon,  3 Jun 2024 09:49:06 +0000 (UTC)
-Message-ID: <b6b6d273-4d57-4611-8c67-1a67d443b7d0@ghiti.fr>
-Date: Mon, 3 Jun 2024 11:49:05 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C01684A52;
+	Mon,  3 Jun 2024 10:53:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.52.105
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717412019; cv=fail; b=YsW7ds5jFytTbKZbPfbOrYV8ULG0YiiISMxOPZVds9KZUxRI/mKU0vDx4Nubt09QMkZxVAM9Pxym1hXoF2YEoC/wr4YNFm7I9sPyuZnkHaxpvA9fe6TZWuUOi+6N5+jnaYb4gJbI+fKEviLhRTU4z7PZ6JGHQUDggdP78O5NO6E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717412019; c=relaxed/simple;
+	bh=gKAQy4eyQToSJVkahniDel+kP5XuF7Cg1aVdVSWs3Dk=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=M87KdKpsbsWktLdJh6hWLocPJ8ct/1NS2CbRWquJY+H3A7gw9ZdC0rTOq3VVJb7Xp0tIH5HaeegFgxqLudFPL1wtm1RAJY7YEjlEP2Q39Gsj2WZ0h5NQOucyCukrsl8yoaUx72m++X67/ug5wC1RYR7BGQ7LfeFTZ8+rzKW3/wk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=UDt72DqO; arc=fail smtp.client-ip=40.92.52.105
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="UDt72DqO"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Jb8GBbuZbmwq/4P2Vhrh2I5aWtpkloJK3VOp+MMs97V3QJi8TD9uKQY6dvu10frtbmwIJOwUKPTwxqtB9xk/CkdjTkrjy7Bc6k+wNqTE+M1F7HFR5DZzjZZSaCv2hD1plnn8WTAxapQn4eG+SWpx4eC6Q4BLIj+dHLEWmyJCiWSEELdZxESMLBw47cbsRvi5+YAYtDnvmrCehgU2pbWlMnuCOmziWRpvgWsR1DbYCUvOju5pqCFpg8cSKKbxP7B8t71YlSqLnn5b0ddEkfEjTbSYEWsnaMCYKtLjm9qItRi9nTWqat36vWNROYTmF3i/2KjWzBFNueoC7FoGOeW6Tw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EJ8Ro3dufx/9Dpeqm4zoVoQIl2AUK+MN/JAXgu9+2iQ=;
+ b=AWe7yjySs0/ecSQfsEwVrH9DUUOb/pYhnGW13c8G0njp8mx8eOYk3sASkS88aoquMMz0Oc1T+QTDgRSkyt65h0GY7eTPTzvoGlTERymuuK8PP+iBvqaKnkpHLUI0uVJFDm34YceGrice7LzObAiI8Ifx6YCXXv+ZDTub+kkuXZIXFrHNJ4C0svxI4YYYAA40IBM9JbzPIWNjUSrl95AxmgiNQ8qP1VU7IarXsjW8qn/EsmNsUJEjnYhYOopoQAE4S2UomCmLMakvkSk7JUhNJSbkyWyPqsjzrWOWL6b/Xx5aJ1KrHrdgkUwnr4dx74c4kDPvN5ULxdt30ARxc1GwGA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EJ8Ro3dufx/9Dpeqm4zoVoQIl2AUK+MN/JAXgu9+2iQ=;
+ b=UDt72DqODIGWRfokEQIagep3T0BDoqUVv0dHgzmI3UV8UrjfGWgxjKyr9GYiHpXFPEw24q7khWVDFYCLYWX3RLsItgwWqvdtmK4P21iU8DROj+q2U3NX7nplpxn8GlzZeqz9vAcMYIsLUCCHlCMczea9bra07GDjAwsxT7pgTcpnObPYryNfq22+YhkZyvbohp9BjRWveBv4uloJHMamYRGSa0rZW1h4+rK1NdhnMImW6qBIw9JzOrfwFedTmmgj4qbCfXemsnW8ftu3+a/RDD7UIk4ckSZ6ZUIufUIY69dHCaBv+WlHF36JHBo+VqJbr0qOxjerBZjLa0qW8pLDmA==
+Received: from KL1PR0401MB6491.apcprd04.prod.outlook.com
+ (2603:1096:820:b9::14) by TYSPR04MB7967.apcprd04.prod.outlook.com
+ (2603:1096:405:88::5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.25; Mon, 3 Jun
+ 2024 10:53:31 +0000
+Received: from KL1PR0401MB6491.apcprd04.prod.outlook.com
+ ([fe80::d4b1:6b60:841e:2190]) by KL1PR0401MB6491.apcprd04.prod.outlook.com
+ ([fe80::d4b1:6b60:841e:2190%5]) with mapi id 15.20.7611.025; Mon, 3 Jun 2024
+ 10:53:30 +0000
+From: Noah Wang <noahwang.wang@outlook.com>
+To: robh@kernel.org,
+	krzk+dt@kernel.org,
+	linux@roeck-us.net,
+	conor+dt@kernel.org,
+	jdelvare@suse.com
+Cc: corbet@lwn.net,
+	Delphine_CC_Chiu@Wiwynn.com,
+	peteryin.openbmc@gmail.com,
+	javier.carrasco.cruz@gmail.com,
+	patrick.rudolph@9elements.com,
+	luca.ceresoli@bootlin.com,
+	chou.cosmo@gmail.com,
+	bhelgaas@google.com,
+	lukas@wunner.de,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	Noah Wang <noahwang.wang@outlook.com>
+Subject: [v4,0/2] hwmon: Add support for MPS mp2891 chip
+Date: Mon,  3 Jun 2024 18:53:04 +0800
+Message-ID:
+ <KL1PR0401MB649116238A245597849D9269FAFF2@KL1PR0401MB6491.apcprd04.prod.outlook.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [FL7V6KzVqSvl31S5/eMOd6FvxmabfdnU]
+X-ClientProxiedBy: TYXPR01CA0044.jpnprd01.prod.outlook.com
+ (2603:1096:403:a::14) To KL1PR0401MB6491.apcprd04.prod.outlook.com
+ (2603:1096:820:b9::14)
+X-Microsoft-Original-Message-ID:
+ <20240603105306.180874-1-noahwang.wang@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7/7] riscv: Add qspinlock support based on Zabha extension
-Content-Language: en-US
-To: Guo Ren <guoren@kernel.org>, Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
- Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
- Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org
-References: <20240528151052.313031-1-alexghiti@rivosinc.com>
- <20240528151052.313031-8-alexghiti@rivosinc.com>
- <CAJF2gTQgg-7Fzoz9TsjWD-_8ABbS7M66aEztCsZ9Ejk8LOvmiQ@mail.gmail.com>
- <CAHVXubg=T3AMER0z8-iRqqFmDQp8iEM92cXwPZcW2Sfm=_KOHQ@mail.gmail.com>
- <CAJF2gTT51oZqEq-1TV_UEUufsrq=jRr4FAbmdtrChAHyUC1rXg@mail.gmail.com>
-From: Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <CAJF2gTT51oZqEq-1TV_UEUufsrq=jRr4FAbmdtrChAHyUC1rXg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-Sasl: alex@ghiti.fr
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: KL1PR0401MB6491:EE_|TYSPR04MB7967:EE_
+X-MS-Office365-Filtering-Correlation-Id: f8bc112f-cde4-4841-4714-08dc83bb672f
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|461199019|3412199016|440099019|1710799017;
+X-Microsoft-Antispam-Message-Info:
+	aA7uRGlvubx/EqfzQpGABIYiPT2CZIWJdnxkwrtUP46jNgccIFC3HOYxbLAxb3YXHP4BYAZXY3RyGz7IOwlNaLTSfjxFoaI4QQsrAuUUVAJEyybu1bEx3FV4poBsFtO5k/YGR//w9BgPdxBbNZQTQPbBKdKnrNlnizkPULn/4Jn/d6s2H0C1olvxbr0Xm2tcPb7YZ2ZoQVqCQeZY0/3+1yF+ZxmecehV2GI21iY+KI9pLDG7cLtO/EFg83NTitfY3eSZJvptUyGGU6u4gRp39VZVNONvJJ3ifx9gIosBnxwZUVx61zovUeWJNjr9M3XjP4fo3UeD3Qbt/BxiCi0MOWTz96HbiLSX+xAKg9N1wKBM4/l7zrb1SybvtNUNP4fevsWBZyIjhj+G5tkINFciRlFSnCEL4Iaakzq0wxqnUjvh7TcdTY2jE/vOkvjU2j2DjBC8Yevck1WfLzvHpsVltNK90J7ATbJfRiIKKM6CQuqtRiFHcbfnPGjG3nKEwAaZWDHDiX0KR6nTHDVmcQg7NLA5qJFmmEorWPO4PPKJEeCBdaglzxqNJ/aYSWCT+11Y1BM6zhwzxNFIUfd+VrTuayRbYVoo+uSd44xp37seMERiw6xRCwkHJjS92SuYhhjz
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?jscMfqrdsJ4UzLB2Yc39b9rojisGNF2TP7HbZ9xd5AReWj/Ongf1BpPm0nMB?=
+ =?us-ascii?Q?hkRY1su/iRFeO+qVJeRfQwhh3TAFTCcPAHcpEe/RSO/TL6OCEgSo6UikDA4m?=
+ =?us-ascii?Q?rSFLPsxYN7MY8khVSymtMFOOOKPbuY0P4aCYwv94aAiFyQUCaCHBXbWsHA7x?=
+ =?us-ascii?Q?2o88EPJDgN7yBpQUdvVv8dKvbAaydNk9+QggwxNbhlBag8F+lsdTNChdEzY8?=
+ =?us-ascii?Q?0M2jUXmYUvPxgOcR0cLlPLGdRpYd06drNCey4HFwaKQkmrE3NbP8hFVeghCp?=
+ =?us-ascii?Q?OQbWgK48epedZPMsjJWt2cYV2p0f0wJLHDvHSjf0Rg2faWAvfw96M9Q6TPwI?=
+ =?us-ascii?Q?+ktWTqT5r+TmE800YpS4YEuSUpB7DJVVFXA/a/x9qIyqNJ1d7WPA2rJeKZg4?=
+ =?us-ascii?Q?CpiuZJEnXG7gsA8Ru0kUPV8SU6eRvkAFLwTTlJ1RNB25cm7jRVho82QCD8pu?=
+ =?us-ascii?Q?7nZJ0bJfPkwTYrgJ5tGDHQwWG59vo3yuloNJhg/iO9VU+v3KKn8b282mclC2?=
+ =?us-ascii?Q?GcIt/sAZw4azPvhMOn30yZeWydqPgro6DecL8tBm53NoofxicYXgCy3oifYz?=
+ =?us-ascii?Q?Ndd/8IUj8/+rKgkSe+1aIAPGNJKdozCd4F5geW6fEhlxNTVn7Nlj9Kkk1ctf?=
+ =?us-ascii?Q?YBLGXV7Rcv3TR2+5F90gMzXtlwJwMpzg9qt+/GwpN+SY2NHNxDVVSyS8UH3u?=
+ =?us-ascii?Q?elg+Jh/LufSr2mr0GP0MvKkEOeWA0Fc/M6vXsbdGPbIrD6baT0uALiR9on9i?=
+ =?us-ascii?Q?mnyvl9JiYEV3bKGlE6Kd9owIMg3Ny9PYItUALz6IbZm9GPdL6/WkYVqBsqDG?=
+ =?us-ascii?Q?pXbPhjqQLY9Zi6hNUxNp0uPs/HGLSHCaz6Rh7KtJuy5wxc2yow4spqSvG2B4?=
+ =?us-ascii?Q?+c22MxE4H1/oCSq/dzunoHKhI/gMSrMyzAZlkmJfDPGb+dAxRz5gGrXG8z3E?=
+ =?us-ascii?Q?dJtJnPIDBqd4/AzCpeGLbQHF8YxHLe5a4fuhWGIqWQdHL0QGssD/Jk3j/NhR?=
+ =?us-ascii?Q?YYvqAL0OxeV+3XfE6e3yVHznDwxeqbtRrgdWMEs58bo/VJYx1OX9aGCCQLly?=
+ =?us-ascii?Q?jqtwuxd6HFMtxuytwQWXJpDN7Rvy+XcXaocYasecCAw8vibjuGQcY4STCebQ?=
+ =?us-ascii?Q?1NdgJF6gBf1hWEM1fsLu6+jKZBKJlm5+TSIqxdWBofQZr8CtFf0t4WhFLMXM?=
+ =?us-ascii?Q?xPi1Z2PesaBfcddje+GTejeDUNBv88vINQ8w+QD3GUMP7MkK6wZiEzqdWcEl?=
+ =?us-ascii?Q?WAbsFRP4NrTwFSu3zaNX?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f8bc112f-cde4-4841-4714-08dc83bb672f
+X-MS-Exchange-CrossTenant-AuthSource: KL1PR0401MB6491.apcprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2024 10:53:30.0777
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR04MB7967
 
-Hi Guo,
+Add mp2891 driver in hwmon and add dt-bindings for it.
 
-On 31/05/2024 15:10, Guo Ren wrote:
-> On Wed, May 29, 2024 at 9:03 PM Alexandre Ghiti <alexghiti@rivosinc.com> wrote:
->> Hi Guo,
->>
->> On Wed, May 29, 2024 at 11:24 AM Guo Ren <guoren@kernel.org> wrote:
->>> On Tue, May 28, 2024 at 11:18 PM Alexandre Ghiti <alexghiti@rivosinc.com> wrote:
->>>> In order to produce a generic kernel, a user can select
->>>> CONFIG_QUEUED_SPINLOCKS which will fallback at runtime to the ticket
->>>> spinlock implementation if Zabha is not present.
->>>>
->>>> Note that we can't use alternatives here because the discovery of
->>>> extensions is done too late and we need to start with the qspinlock
->>>> implementation because the ticket spinlock implementation would pollute
->>>> the spinlock value, so let's use static keys.
-> Zabha is not a prerequisite for qspinlock; the prerequisite for
-> qspinlock is the *forward progress guarantee* in the atomic operation
-> loop during intense contention. Even with Zabha enabled to meet the
-> requirements of xchg_tail, that still only applies when the number of
-> CPUs is less than 16K. The qspinlock uses cmpxchg loop instead of
-> xchg_tail when the number of cores is more than 16K. Thus, hardware
-> support for Zabha does not equate to the safe use of qspinlock.
+Noah Wang (2):
+  dt-bindings: hwmon: Add MPS mp2891
+  hwmon: add MP2891 driver
 
+ .../devicetree/bindings/trivial-devices.yaml  |   2 +
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/mp2891.rst                | 179 ++++++
+ MAINTAINERS                                   |   7 +
+ drivers/hwmon/pmbus/Kconfig                   |   9 +
+ drivers/hwmon/pmbus/Makefile                  |   1 +
+ drivers/hwmon/pmbus/mp2891.c                  | 603 ++++++++++++++++++
+ 7 files changed, 802 insertions(+)
+ create mode 100644 Documentation/hwmon/mp2891.rst
+ create mode 100644 drivers/hwmon/pmbus/mp2891.c
 
-But if we have Zacas to implement cmpxchg(), we still provide the 
-"forward progress guarantee" then right? Let me know if I missed something.
+-- 
+2.25.1
 
-Thanks,
-
-Alex
-
-
->
-> Therefore, I would like to propose a new ISA extension: Zafpg(Atomic
-> Forward Progress Guarantee). If RISC-V vendors can ensure the progress
-> of LR/SC or CMPXCHG LOOP at the microarchitectural level or if cache
-> lines are sufficiently sticky, they could then claim support for this
-> extension. Linux could then select different spinlock implementations
-> based on this extension's support or not.
->
->>>> This is largely based on Guo's work and Leonardo reviews at [1].
->>>>
->>>> Link: https://lore.kernel.org/linux-riscv/20231225125847.2778638-1-guoren@kernel.org/ [1]
->>>> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
->>>> ---
->>>>   .../locking/queued-spinlocks/arch-support.txt |  2 +-
->>>>   arch/riscv/Kconfig                            |  1 +
->>>>   arch/riscv/include/asm/Kbuild                 |  4 +-
->>>>   arch/riscv/include/asm/spinlock.h             | 39 +++++++++++++++++++
->>>>   arch/riscv/kernel/setup.c                     | 18 +++++++++
->>>>   include/asm-generic/qspinlock.h               |  2 +
->>>>   include/asm-generic/ticket_spinlock.h         |  2 +
->>>>   7 files changed, 66 insertions(+), 2 deletions(-)
->>>>   create mode 100644 arch/riscv/include/asm/spinlock.h
->>>>
->>>> diff --git a/Documentation/features/locking/queued-spinlocks/arch-support.txt b/Documentation/features/locking/queued-spinlocks/arch-support.txt
->>>> index 22f2990392ff..cf26042480e2 100644
->>>> --- a/Documentation/features/locking/queued-spinlocks/arch-support.txt
->>>> +++ b/Documentation/features/locking/queued-spinlocks/arch-support.txt
->>>> @@ -20,7 +20,7 @@
->>>>       |    openrisc: |  ok  |
->>>>       |      parisc: | TODO |
->>>>       |     powerpc: |  ok  |
->>>> -    |       riscv: | TODO |
->>>> +    |       riscv: |  ok  |
->>>>       |        s390: | TODO |
->>>>       |          sh: | TODO |
->>>>       |       sparc: |  ok  |
->>>> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
->>>> index 184a9edb04e0..ccf1703edeb9 100644
->>>> --- a/arch/riscv/Kconfig
->>>> +++ b/arch/riscv/Kconfig
->>>> @@ -59,6 +59,7 @@ config RISCV
->>>>          select ARCH_SUPPORTS_SHADOW_CALL_STACK if HAVE_SHADOW_CALL_STACK
->>>>          select ARCH_USE_MEMTEST
->>>>          select ARCH_USE_QUEUED_RWLOCKS
->>>> +       select ARCH_USE_QUEUED_SPINLOCKS if TOOLCHAIN_HAS_ZABHA
->>> Using qspinlock or not depends on real hardware capabilities, not the
->>> compiler flag. That's why I introduced combo-spinlock, ticket-spinlock
->>> & qspinlock three Kconfigs, and the combo-spinlock would compat all
->>> hardware platforms but waste some qspinlock code size.
->> You're right, and I think your comment matches what Conor mentioned
->> about the lack of clarity with some extensions: TOOLCHAIN_HAS_ZABHA
->> will allow a platform with Zabha capability to use qspinlocks. But if
->> the hardware does not, it will fallback to the ticket spinlocks.
->>
->> But I agree that looking at the config alone may be misleading, even
->> though it will work as expected at runtime. So I agree with you:
->> unless anyone is strongly against the combo spinlocks, I will do what
->> you suggest and add them.
->>
->> Thanks again for your initial work,
->>
->> Alex
->>
->>>>          select ARCH_USES_CFI_TRAPS if CFI_CLANG
->>>>          select ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH if SMP && MMU
->>>>          select ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT if MMU
->>>> diff --git a/arch/riscv/include/asm/Kbuild b/arch/riscv/include/asm/Kbuild
->>>> index 504f8b7e72d4..ad72f2bd4cc9 100644
->>>> --- a/arch/riscv/include/asm/Kbuild
->>>> +++ b/arch/riscv/include/asm/Kbuild
->>>> @@ -2,10 +2,12 @@
->>>>   generic-y += early_ioremap.h
->>>>   generic-y += flat.h
->>>>   generic-y += kvm_para.h
->>>> +generic-y += mcs_spinlock.h
->>>>   generic-y += parport.h
->>>> -generic-y += spinlock.h
->>>>   generic-y += spinlock_types.h
->>>> +generic-y += ticket_spinlock.h
->>>>   generic-y += qrwlock.h
->>>>   generic-y += qrwlock_types.h
->>>> +generic-y += qspinlock.h
->>>>   generic-y += user.h
->>>>   generic-y += vmlinux.lds.h
->>>> diff --git a/arch/riscv/include/asm/spinlock.h b/arch/riscv/include/asm/spinlock.h
->>>> new file mode 100644
->>>> index 000000000000..e00429ac20ed
->>>> --- /dev/null
->>>> +++ b/arch/riscv/include/asm/spinlock.h
->>>> @@ -0,0 +1,39 @@
->>>> +/* SPDX-License-Identifier: GPL-2.0 */
->>>> +
->>>> +#ifndef __ASM_RISCV_SPINLOCK_H
->>>> +#define __ASM_RISCV_SPINLOCK_H
->>>> +
->>>> +#ifdef CONFIG_QUEUED_SPINLOCKS
->>>> +#define _Q_PENDING_LOOPS       (1 << 9)
->>>> +
->>>> +#define __no_arch_spinlock_redefine
->>>> +#include <asm/ticket_spinlock.h>
->>>> +#include <asm/qspinlock.h>
->>>> +#include <asm/alternative.h>
->>>> +
->>>> +DECLARE_STATIC_KEY_TRUE(qspinlock_key);
->>>> +
->>>> +#define SPINLOCK_BASE_DECLARE(op, type, type_lock)                     \
->>>> +static __always_inline type arch_spin_##op(type_lock lock)             \
->>>> +{                                                                      \
->>>> +       if (static_branch_unlikely(&qspinlock_key))                     \
->>>> +               return queued_spin_##op(lock);                          \
->>>> +       return ticket_spin_##op(lock);                                  \
->>>> +}
->>>> +
->>>> +SPINLOCK_BASE_DECLARE(lock, void, arch_spinlock_t *)
->>>> +SPINLOCK_BASE_DECLARE(unlock, void, arch_spinlock_t *)
->>>> +SPINLOCK_BASE_DECLARE(is_locked, int, arch_spinlock_t *)
->>>> +SPINLOCK_BASE_DECLARE(is_contended, int, arch_spinlock_t *)
->>>> +SPINLOCK_BASE_DECLARE(trylock, bool, arch_spinlock_t *)
->>>> +SPINLOCK_BASE_DECLARE(value_unlocked, int, arch_spinlock_t)
->>>> +
->>>> +#else
->>>> +
->>>> +#include <asm/ticket_spinlock.h>
->>>> +
->>>> +#endif
->>>> +
->>>> +#include <asm/qrwlock.h>
->>>> +
->>>> +#endif /* __ASM_RISCV_SPINLOCK_H */
->>>> diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
->>>> index 4f73c0ae44b2..31ce75522fd4 100644
->>>> --- a/arch/riscv/kernel/setup.c
->>>> +++ b/arch/riscv/kernel/setup.c
->>>> @@ -244,6 +244,23 @@ static void __init parse_dtb(void)
->>>>   #endif
->>>>   }
->>>>
->>>> +DEFINE_STATIC_KEY_TRUE(qspinlock_key);
->>>> +EXPORT_SYMBOL(qspinlock_key);
->>>> +
->>>> +static void __init riscv_spinlock_init(void)
->>>> +{
->>>> +       asm goto(ALTERNATIVE("nop", "j %[qspinlock]", 0, RISCV_ISA_EXT_ZABHA, 1)
->>>> +                : : : : qspinlock);
->>>> +
->>>> +       static_branch_disable(&qspinlock_key);
->>>> +       pr_info("Ticket spinlock: enabled\n");
->>>> +
->>>> +       return;
->>>> +
->>>> +qspinlock:
->>>> +       pr_info("Queued spinlock: enabled\n");
->>>> +}
->>>> +
->>>>   extern void __init init_rt_signal_env(void);
->>>>
->>>>   void __init setup_arch(char **cmdline_p)
->>>> @@ -295,6 +312,7 @@ void __init setup_arch(char **cmdline_p)
->>>>          riscv_set_dma_cache_alignment();
->>>>
->>>>          riscv_user_isa_enable();
->>>> +       riscv_spinlock_init();
->>>>   }
->>>>
->>>>   bool arch_cpu_is_hotpluggable(int cpu)
->>>> diff --git a/include/asm-generic/qspinlock.h b/include/asm-generic/qspinlock.h
->>>> index 0655aa5b57b2..bf47cca2c375 100644
->>>> --- a/include/asm-generic/qspinlock.h
->>>> +++ b/include/asm-generic/qspinlock.h
->>>> @@ -136,6 +136,7 @@ static __always_inline bool virt_spin_lock(struct qspinlock *lock)
->>>>   }
->>>>   #endif
->>>>
->>>> +#ifndef __no_arch_spinlock_redefine
->>>>   /*
->>>>    * Remapping spinlock architecture specific functions to the corresponding
->>>>    * queued spinlock functions.
->>>> @@ -146,5 +147,6 @@ static __always_inline bool virt_spin_lock(struct qspinlock *lock)
->>>>   #define arch_spin_lock(l)              queued_spin_lock(l)
->>>>   #define arch_spin_trylock(l)           queued_spin_trylock(l)
->>>>   #define arch_spin_unlock(l)            queued_spin_unlock(l)
->>>> +#endif
->>>>
->>>>   #endif /* __ASM_GENERIC_QSPINLOCK_H */
->>>> diff --git a/include/asm-generic/ticket_spinlock.h b/include/asm-generic/ticket_spinlock.h
->>>> index cfcff22b37b3..325779970d8a 100644
->>>> --- a/include/asm-generic/ticket_spinlock.h
->>>> +++ b/include/asm-generic/ticket_spinlock.h
->>>> @@ -89,6 +89,7 @@ static __always_inline int ticket_spin_is_contended(arch_spinlock_t *lock)
->>>>          return (s16)((val >> 16) - (val & 0xffff)) > 1;
->>>>   }
->>>>
->>>> +#ifndef __no_arch_spinlock_redefine
->>>>   /*
->>>>    * Remapping spinlock architecture specific functions to the corresponding
->>>>    * ticket spinlock functions.
->>>> @@ -99,5 +100,6 @@ static __always_inline int ticket_spin_is_contended(arch_spinlock_t *lock)
->>>>   #define arch_spin_lock(l)              ticket_spin_lock(l)
->>>>   #define arch_spin_trylock(l)           ticket_spin_trylock(l)
->>>>   #define arch_spin_unlock(l)            ticket_spin_unlock(l)
->>>> +#endif
->>>>
->>>>   #endif /* __ASM_GENERIC_TICKET_SPINLOCK_H */
->>>> --
->>>> 2.39.2
->>>>
->>>
->>> --
->>> Best Regards
->>>   Guo Ren
->
->
