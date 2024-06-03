@@ -1,285 +1,144 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694F447A6C;
-	Mon,  3 Jun 2024 07:09:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0600247F6B
+	for <linux-doc@vger.kernel.org>; Mon,  3 Jun 2024 07:30:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717398584; cv=none; b=PcoR3GKuXgbmpYdH/OmqV66g6mcfFBuJLULq3aWoTfWmAc2k5j+bXYflVP1HdynzcUsU5Vh4DLeWikP/T8TURLnyReUeaBK+l3AjRur3uDyGiadu/c5MX731CfFgrP7aHaacLcMUtXd2u/40vHPBHy+kJA7gn0Hq9wofV7wzzYA=
+	t=1717399808; cv=none; b=IhiGMKFQZwOmJ8c5XxsgkKepWIJE9DHqwyr6DrgSMiFy9htPm9dzdJxOEBaTi7IOprEZBNfkd42ritwOhqczMAvf7xcTIuutwA1u6YBjwkz889CQp/8UKU0Eb7Px6f9GaLPNTP7l1KFhfccA3g3m+VbpDEEy9tfajtRD5Thj4L8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717398584; c=relaxed/simple;
-	bh=MGKhftAoxpTowHiv0oeOJrpeohaKsDS4/rlu9Zcsyko=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=feHnvY6H+2WN4HunxOf6wD1jRrQHR9qNQQpiZKs0hX4B/tUHUH/5jyAnx+X9V262rrnk0pK8AqZqxKiaU5gaBDo71z0CsfUjSr7KPEz7mEFtfissKD/J5aXTxQEKZGQ95pYPnqAKjGWps8tPEPqrBYga3ogSF13rvJrC/zlzDus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=crukal6q; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1717399808; c=relaxed/simple;
+	bh=TBaGszon3mFIeXU68gQM5CDSneTfzPvNaj6TyqTP1Q8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=kH5SsVwx4J0uWPrz95iQSBjMRzQABfvAt5bqzelul5KL46rRW9zhlcGnyDwfk3U/0ZBwg/JWWUJ2rLvBFOfI0TFSXlolCORwDfD3WjRwZcpXQ1ODotXwEqhfr5qTR1+ri72Q4y+Nko1B8pbQD4PQ/O8K40HX0JAkRKnv+Te7NNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BIwU9Rs9; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="crukal6q"
-Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 4536kVEl012204;
-	Mon, 3 Jun 2024 07:09:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc : content-type : date
- : from : in-reply-to : message-id : mime-version : references : subject :
- to; s=pp1; bh=PD3QtyIGk6oeWGALWzB54J823YO78nWKEPR6OQkor9w=;
- b=crukal6q3L7fRmamiZViY4nCy7HxPQ1SzJjNWRSIKEvQgM0RavCZLtGi6Tjk27QvF1Nl
- U6i+bJ1DgoXxrjXnnrTD7RiKqxc8aUE2bphiM80b0Ktb30nIDyZY1lERrtvkdwSA1MoO
- G4WgtNXA2+Og8YJ1EIvFMc5yhlmfkq+4ORwlcNwzhbOsOsNrQNXsmPyCYKy0WdJ2dg5+
- sGRWcQxys1k8NYbRk73l+TFcgooXAIlANVg01Ukun/MvJryHlFhQ2gde0yHdmz+86qbJ
- HtEkDJqeMpl9jiR3dza3yf2iifTx5Z91PzVgcnY9pA23pIuSEfVox+qq4lLt1Zofqq6p 7g== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yh7pkr7vt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 03 Jun 2024 07:09:26 +0000
-Received: from m0353728.ppops.net (m0353728.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 45379QPc019761;
-	Mon, 3 Jun 2024 07:09:26 GMT
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yh7pkr7vr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 03 Jun 2024 07:09:26 +0000
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 4535DsRa000781;
-	Mon, 3 Jun 2024 07:09:25 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 3ygdytppc3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 03 Jun 2024 07:09:25 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
-	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 45379LK451839364
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 3 Jun 2024 07:09:23 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4C3682004F;
-	Mon,  3 Jun 2024 07:09:21 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1FD4B2004E;
-	Mon,  3 Jun 2024 07:09:19 +0000 (GMT)
-Received: from li-c6426e4c-27cf-11b2-a85c-95d65bc0de0e.ibm.com (unknown [9.204.206.66])
-	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Mon,  3 Jun 2024 07:09:18 +0000 (GMT)
-Date: Mon, 3 Jun 2024 12:39:16 +0530
-From: Gautam Menghani <gautam@linux.ibm.com>
-To: Nicholas Piggin <npiggin@gmail.com>
-Cc: mpe@ellerman.id.au, christophe.leroy@csgroup.eu, aneesh.kumar@kernel.org,
-        naveen.n.rao@linux.ibm.com, corbet@lwn.net,
-        linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        stable@vger.kernel.org
-Subject: Re: [PATCH v1 RESEND] arch/powerpc/kvm: Fix doorbell emulation by
- adding DPDES support
-Message-ID: <r74chlv6bgs5csvuf4nxxtylmgartvibftp3xuztyfuynqetp5@ythddpzo6yfi>
-References: <20240522084949.123148-1-gautam@linux.ibm.com>
- <D1Q54PY40E3B.22QS5DMQRA58N@gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BIwU9Rs9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1717399806;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ouM0sg5bJmUOXnAkDCV0pxODjPk5RxFX/OfwRyv9Vzs=;
+	b=BIwU9Rs9E9VrpAdJUoQ3kk0UxOU98k/0ml2q6Pia++0DD+JNWp5GOB5NtqowoIvyW6MfM1
+	mt5TggqCBoCisKkssvd01iu7/zYrXKe2n8lVvw4SGj44rmZGWoAVM49S4EHuJ7a7+A9mB7
+	2QIrTZEyA6tBmy4MF2UYmASrfGB72B8=
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-647-XrZpc5FmN8Oi51KsquLlZg-1; Mon, 03 Jun 2024 03:30:02 -0400
+X-MC-Unique: XrZpc5FmN8Oi51KsquLlZg-1
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-7027585e006so345864b3a.0
+        for <linux-doc@vger.kernel.org>; Mon, 03 Jun 2024 00:30:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717399801; x=1718004601;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ouM0sg5bJmUOXnAkDCV0pxODjPk5RxFX/OfwRyv9Vzs=;
+        b=DtTG3VjpEwr5nWQemIAggnKEoVSvHPL7UABGKUbFTMguRparpXltgRcPxKmCSoub6o
+         NDKPoN79CH/M53oMtQrQHpxD88s8ZtEOY/vQAsxJVfZhOTc704dRGzgT4GYZ/pIrjvhv
+         jwory8LCf7c4zWnRsfNPo7I9gymw80gVqmgaAWM9eI/N2BJvYxvlxb4HjZmgAUw280Et
+         wIZ5pya7eNVAVOT2yGVs+bgGGWv+CoddT8NzPQFbLjpJnJVk344PxCpcJNOfjq5mW8Lo
+         gSGz97Ft4YrqFLyiM3pruiHnahorbCmWCNg4Zs1ohNzVrdXM3xp49rXMK3UySGK3Vlv3
+         tb2A==
+X-Forwarded-Encrypted: i=1; AJvYcCUNoPRplz1YVufMf5B1dk8KbOXb0QfocritzelD4ujg36ogIWHp22VKghXRsdjrJbrnKezV7jDKGyO1qWD1y+jU5I/+1o6kqckJ
+X-Gm-Message-State: AOJu0YyPSbFGx/wAY3X4G+75I/YSg5PWjCbIY7FQI9NXYFLrqPeb3SU/
+	2jdePUVKG7pod02ZMnlhqsjvS/fg56WElwUWiNfd9Pp6ACreOvdk1UPkFyho1InjKg0BOfO6bm0
+	k1bXom5YHsuzlY/MF9dhni9OHmc/qnrnmStS1YJ6wtvSdJvN3lRmINrtCdg==
+X-Received: by 2002:a05:6a00:98a:b0:702:3a47:2b1b with SMTP id d2e1a72fcca58-7024780ceefmr12740152b3a.20.1717399801175;
+        Mon, 03 Jun 2024 00:30:01 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFpkWa3SzJr0Rdd/mO37tXK8peMm9jhly2t+o9IOFzY7JHX4dNSgYjdYw2iplWMW+34Bbottw==
+X-Received: by 2002:a05:6a00:98a:b0:702:3a47:2b1b with SMTP id d2e1a72fcca58-7024780ceefmr12740132b3a.20.1717399800748;
+        Mon, 03 Jun 2024 00:30:00 -0700 (PDT)
+Received: from alrua-x1.borgediget.toke.dk ([45.145.92.2])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-702423cf27fsm5085996b3a.12.2024.06.03.00.29.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Jun 2024 00:30:00 -0700 (PDT)
+Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
+	id 3728113850D8; Mon, 03 Jun 2024 09:29:55 +0200 (CEST)
+From: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+To: Eric Dumazet <edumazet@google.com>, Petr Machata <petrm@nvidia.com>
+Cc: "David S. Miller" <davem@davemloft.net>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ netdev@vger.kernel.org, Ido Schimmel <idosch@nvidia.com>, David Ahern
+ <dsahern@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, Simon Horman <horms@kernel.org>
+Subject: Re: [PATCH net-next 2/4] net: ipv4: Add a sysctl to set multipath
+ hash seed
+In-Reply-To: <CANn89iL8P68pHvCKy242Z6ggWsceK4_TWMr7OakS3guRok=_gw@mail.gmail.com>
+References: <20240529111844.13330-1-petrm@nvidia.com>
+ <20240529111844.13330-3-petrm@nvidia.com>
+ <CANn89iL8P68pHvCKy242Z6ggWsceK4_TWMr7OakS3guRok=_gw@mail.gmail.com>
+X-Clacks-Overhead: GNU Terry Pratchett
+Date: Mon, 03 Jun 2024 09:29:55 +0200
+Message-ID: <875xuqiivg.fsf@toke.dk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <D1Q54PY40E3B.22QS5DMQRA58N@gmail.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: uoAnUEoMhWz5bq3pU5HjQOk-GAk36tl3
-X-Proofpoint-GUID: DwVUpsKaAiVwLUFyfEy-lclbLHzjmCl8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
- definitions=2024-06-03_04,2024-05-30_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- mlxlogscore=508 mlxscore=0 clxscore=1015 bulkscore=0 spamscore=0
- adultscore=0 priorityscore=1501 phishscore=0 malwarescore=0
- lowpriorityscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2405010000 definitions=main-2406030058
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 03, 2024 at 03:42:22PM GMT, Nicholas Piggin wrote:
-> On Wed May 22, 2024 at 6:49 PM AEST, Gautam Menghani wrote:
-> > Doorbell emulation is broken for KVM on PowerVM guests as support for
-> > DPDES was not added in the initial patch series. Due to this, a KVM on
-> > PowerVM guest cannot be booted with the XICS interrupt controller as
-> > doorbells are to be setup in the initial probe path when using XICS
-> > (pSeries_smp_probe()). Add DPDES support in the host KVM code to fix
-> > doorbell emulation.
-> 
-> This is broken when the KVM guest has SMT > 1? Or is it broken for SMT=1
-> as well? Can you explain a bit more of what breaks if it's the latter?
+Eric Dumazet <edumazet@google.com> writes:
 
-Yes, doorbells are only setup when we use SMT>1 and interrupt controller
-is XICS. So without this patch, L2 KOP guest with XICS IC mode and SMT>1 
-does not boot. SMT 1 is fine in all cases.
+> On Wed, May 29, 2024 at 1:21=E2=80=AFPM Petr Machata <petrm@nvidia.com> w=
+rote:
+>>
+>> When calculating hashes for the purpose of multipath forwarding, both IP=
+v4
+>> and IPv6 code currently fall back on flow_hash_from_keys(). That uses a
+>> randomly-generated seed. That's a fine choice by default, but unfortunat=
+ely
+>> some deployments may need a tighter control over the seed used.
+>>
+>> In this patch, make the seed configurable by adding a new sysctl key,
+>> net.ipv4.fib_multipath_hash_seed to control the seed. This seed is used
+>> specifically for multipath forwarding and not for the other concerns that
+>> flow_hash_from_keys() is used for, such as queue selection. Expose the k=
+nob
+>> as sysctl because other such settings, such as headers to hash, are also
+>> handled that way. Like those, the multipath hash seed is a per-netns
+>> variable.
+>>
+>> Despite being placed in the net.ipv4 namespace, the multipath seed sysctl
+>> is used for both IPv4 and IPv6, similarly to e.g. a number of TCP
+>> variables.
+>>
+> ...
+>
+>> +       rtnl_lock();
+>> +       old =3D rcu_replace_pointer_rtnl(net->ipv4.sysctl_fib_multipath_=
+hash_seed,
+>> +                                      mphs);
+>> +       rtnl_unlock();
+>> +
+>
+> In case you keep RCU for the next version, please do not use rtnl_lock() =
+here.
+>
+> A simple xchg() will work just fine.
+>
+> old =3D xchg((__force struct struct sysctl_fib_multipath_hash_seed
+> **)&net->ipv4.sysctl_fib_multipath_hash_seed,
+>                  mphs);
 
-> 
-> > Fixes: 6ccbbc33f06a ("KVM: PPC: Add helper library for Guest State Buffers")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Gautam Menghani <gautam@linux.ibm.com>
-> > ---
-> > v1 -> v1 resend:
-> > 1. Add the stable tag
-> >
-> >  Documentation/arch/powerpc/kvm-nested.rst     |  4 +++-
-> >  arch/powerpc/include/asm/guest-state-buffer.h |  3 ++-
-> >  arch/powerpc/include/asm/kvm_book3s.h         |  1 +
-> >  arch/powerpc/kvm/book3s_hv.c                  | 14 +++++++++++++-
-> >  arch/powerpc/kvm/book3s_hv_nestedv2.c         |  7 +++++++
-> >  arch/powerpc/kvm/test-guest-state-buffer.c    |  2 +-
-> >  6 files changed, 27 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/Documentation/arch/powerpc/kvm-nested.rst b/Documentation/arch/powerpc/kvm-nested.rst
-> > index 630602a8aa00..5defd13cc6c1 100644
-> > --- a/Documentation/arch/powerpc/kvm-nested.rst
-> > +++ b/Documentation/arch/powerpc/kvm-nested.rst
-> > @@ -546,7 +546,9 @@ table information.
-> >  +--------+-------+----+--------+----------------------------------+
-> >  | 0x1052 | 0x08  | RW |   T    | CTRL                             |
-> >  +--------+-------+----+--------+----------------------------------+
-> > -| 0x1053-|       |    |        | Reserved                         |
-> > +| 0x1053 | 0x08  | RW |   T    | DPDES                            |
-> > ++--------+-------+----+--------+----------------------------------+
-> > +| 0x1054-|       |    |        | Reserved                         |
-> >  | 0x1FFF |       |    |        |                                  |
-> >  +--------+-------+----+--------+----------------------------------+
-> >  | 0x2000 | 0x04  | RW |   T    | CR                               |
-> > diff --git a/arch/powerpc/include/asm/guest-state-buffer.h b/arch/powerpc/include/asm/guest-state-buffer.h
-> > index 808149f31576..d107abe1468f 100644
-> > --- a/arch/powerpc/include/asm/guest-state-buffer.h
-> > +++ b/arch/powerpc/include/asm/guest-state-buffer.h
-> > @@ -81,6 +81,7 @@
-> >  #define KVMPPC_GSID_HASHKEYR			0x1050
-> >  #define KVMPPC_GSID_HASHPKEYR			0x1051
-> >  #define KVMPPC_GSID_CTRL			0x1052
-> > +#define KVMPPC_GSID_DPDES			0x1053
-> >  
-> >  #define KVMPPC_GSID_CR				0x2000
-> >  #define KVMPPC_GSID_PIDR			0x2001
-> > @@ -110,7 +111,7 @@
-> >  #define KVMPPC_GSE_META_COUNT (KVMPPC_GSE_META_END - KVMPPC_GSE_META_START + 1)
-> >  
-> >  #define KVMPPC_GSE_DW_REGS_START KVMPPC_GSID_GPR(0)
-> > -#define KVMPPC_GSE_DW_REGS_END KVMPPC_GSID_CTRL
-> > +#define KVMPPC_GSE_DW_REGS_END KVMPPC_GSID_DPDES
-> >  #define KVMPPC_GSE_DW_REGS_COUNT \
-> >  	(KVMPPC_GSE_DW_REGS_END - KVMPPC_GSE_DW_REGS_START + 1)
-> >  
-> > diff --git a/arch/powerpc/include/asm/kvm_book3s.h b/arch/powerpc/include/asm/kvm_book3s.h
-> > index 3e1e2a698c9e..10618622d7ef 100644
-> > --- a/arch/powerpc/include/asm/kvm_book3s.h
-> > +++ b/arch/powerpc/include/asm/kvm_book3s.h
-> > @@ -594,6 +594,7 @@ static inline u##size kvmppc_get_##reg(struct kvm_vcpu *vcpu)		\
-> >  
-> >  
-> >  KVMPPC_BOOK3S_VCORE_ACCESSOR(vtb, 64, KVMPPC_GSID_VTB)
-> > +KVMPPC_BOOK3S_VCORE_ACCESSOR(dpdes, 64, KVMPPC_GSID_DPDES)
-> >  KVMPPC_BOOK3S_VCORE_ACCESSOR_GET(arch_compat, 32, KVMPPC_GSID_LOGICAL_PVR)
-> >  KVMPPC_BOOK3S_VCORE_ACCESSOR_GET(lpcr, 64, KVMPPC_GSID_LPCR)
-> >  KVMPPC_BOOK3S_VCORE_ACCESSOR_SET(tb_offset, 64, KVMPPC_GSID_TB_OFFSET)
-> > diff --git a/arch/powerpc/kvm/book3s_hv.c b/arch/powerpc/kvm/book3s_hv.c
-> > index 35cb014a0c51..cf285e5153ba 100644
-> > --- a/arch/powerpc/kvm/book3s_hv.c
-> > +++ b/arch/powerpc/kvm/book3s_hv.c
-> > @@ -4116,6 +4116,11 @@ static int kvmhv_vcpu_entry_nestedv2(struct kvm_vcpu *vcpu, u64 time_limit,
-> >  	int trap;
-> >  	long rc;
-> >  
-> > +	if (vcpu->arch.doorbell_request) {
-> > +		vcpu->arch.doorbell_request = 0;
-> > +		kvmppc_set_dpdes(vcpu, 1);
-> > +	}
-> 
-> This probably looks okay... hmm, is the v1 KVM emulating doorbells
-> correctly for SMT L2 guests? I wonder if doorbell emulation isn't
-> broken there too because the L1 code looks to be passing in vc->dpdes
-> but all the POWER9 emulation code uses doorbell_request.
-> 
+We added a macro to do this kind of thing without triggering any of the
+RCU type linter warnings, in:
 
-Yes launching SMT L2 on V1 API fails with a kernel Oops, I'll see if I
-can fix that as well.
+76c8eaafe4f0 ("rcu: Create an unrcu_pointer() to remove __rcu from a pointe=
+r")
 
-> > +
-> >  	io = &vcpu->arch.nestedv2_io;
-> >  
-> >  	msr = mfmsr();
-> > @@ -4278,9 +4283,16 @@ static int kvmhv_p9_guest_entry(struct kvm_vcpu *vcpu, u64 time_limit,
-> >  	if (kvmhv_on_pseries()) {
-> >  		if (kvmhv_is_nestedv1())
-> >  			trap = kvmhv_vcpu_entry_p9_nested(vcpu, time_limit, lpcr, tb);
-> > -		else
-> > +		else {
-> >  			trap = kvmhv_vcpu_entry_nestedv2(vcpu, time_limit, lpcr, tb);
-> >  
-> > +			/* Remember doorbell if it is pending  */
-> > +			if (kvmppc_get_dpdes(vcpu)) {
-> > +				vcpu->arch.doorbell_request = 1;
-> > +				kvmppc_set_dpdes(vcpu, 0);
-> > +			}
-> 
-> This is adding an extra get state for every entry, not good. I don't
-> think it's actually needed though. I don't think the L1 cares at this
-> stage what the L2 DPDES state is. So you sholud be able to drop this
-> hunk.
-> 
-Yes ok.
+So as an alternative to open-coding the cast, something like this could
+work - I guess it's mostly a matter of taste:
 
-> > +		}
-> > +
-> >  		/* H_CEDE has to be handled now, not later */
-> >  		if (trap == BOOK3S_INTERRUPT_SYSCALL && !nested &&
-> >  		    kvmppc_get_gpr(vcpu, 3) == H_CEDE) {
-> > diff --git a/arch/powerpc/kvm/book3s_hv_nestedv2.c b/arch/powerpc/kvm/book3s_hv_nestedv2.c
-> > index 8e6f5355f08b..36863fff2a99 100644
-> > --- a/arch/powerpc/kvm/book3s_hv_nestedv2.c
-> > +++ b/arch/powerpc/kvm/book3s_hv_nestedv2.c
-> > @@ -311,6 +311,10 @@ static int gs_msg_ops_vcpu_fill_info(struct kvmppc_gs_buff *gsb,
-> >  			rc = kvmppc_gse_put_u64(gsb, iden,
-> >  						vcpu->arch.vcore->vtb);
-> >  			break;
-> > +		case KVMPPC_GSID_DPDES:
-> > +			rc = kvmppc_gse_put_u64(gsb, iden,
-> > +						vcpu->arch.vcore->dpdes);
-> > +			break;
-> >  		case KVMPPC_GSID_LPCR:
-> >  			rc = kvmppc_gse_put_u64(gsb, iden,
-> >  						vcpu->arch.vcore->lpcr);
-> > @@ -543,6 +547,9 @@ static int gs_msg_ops_vcpu_refresh_info(struct kvmppc_gs_msg *gsm,
-> >  		case KVMPPC_GSID_VTB:
-> >  			vcpu->arch.vcore->vtb = kvmppc_gse_get_u64(gse);
-> >  			break;
-> > +		case KVMPPC_GSID_DPDES:
-> > +			vcpu->arch.vcore->dpdes = kvmppc_gse_get_u64(gse);
-> > +			break;
-> >  		case KVMPPC_GSID_LPCR:
-> >  			vcpu->arch.vcore->lpcr = kvmppc_gse_get_u64(gse);
-> >  			break;
-> 
-> I would split all the wiring up of the DPDES GSID stuff into its own
-> patch, it obviously looks fine.
-> 
-Noted, will do.
+old =3D unrcu_pointer(xchg(&net->ipv4.sysctl_fib_multipath_hash_seed, RCU_I=
+NITIALIZER(mphs)));
 
-> > diff --git a/arch/powerpc/kvm/test-guest-state-buffer.c b/arch/powerpc/kvm/test-guest-state-buffer.c
-> > index 4720b8dc8837..91ae660cfe21 100644
-> > --- a/arch/powerpc/kvm/test-guest-state-buffer.c
-> > +++ b/arch/powerpc/kvm/test-guest-state-buffer.c
-> > @@ -151,7 +151,7 @@ static void test_gs_bitmap(struct kunit *test)
-> >  		i++;
-> >  	}
-> >  
-> > -	for (u16 iden = KVMPPC_GSID_GPR(0); iden <= KVMPPC_GSID_CTRL; iden++) {
-> > +	for (u16 iden = KVMPPC_GSID_GPR(0); iden <= KVMPPC_GSID_DPDES; iden++) {
-> >  		kvmppc_gsbm_set(&gsbm, iden);
-> >  		kvmppc_gsbm_set(&gsbm1, iden);
-> >  		KUNIT_EXPECT_TRUE(test, kvmppc_gsbm_test(&gsbm, iden));
-> 
-> It would be good to have a  _LAST define for such loops. It's very easy
-> to miss when adding KVMPPC_GSID_DPDES that you need to grep for
-> KVMPPC_GSID_CTRL. Very easy to see that you need to update _LAST.
-> 
-> You just need to work out a good name for it since there's a few
-> "namespaces" of numbers with similar prefix. Good luck :)
-> 
+-Toke
 
-Well we already have a "KVMPPC_GSE_DW_REGS_END" defined, just missed to
-use that. 
-
-
-> Thanks,
-> Nick
