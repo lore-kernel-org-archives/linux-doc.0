@@ -1,164 +1,347 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 353F13BBF3
-	for <linux-doc@vger.kernel.org>; Mon,  3 Jun 2024 08:58:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2C7058AA5;
+	Mon,  3 Jun 2024 09:11:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717405106; cv=none; b=BBFlDYv6l7CR8MBHqWGjxz1P0Ve/E/xc+8zp9bmhCO7Zd8sEKDWJRGXs+px1AquS/mSl8srd8YBpwzjSEfITZTTK43DqsiaTaGYoWzxL3QgUUgXO1CRHiKmcN4KfTb5OdQRfDpVmXzxeN//hTvrrn3U58Rm1R7ORFuNAo+yz0Qs=
+	t=1717405903; cv=none; b=BhrJvnenrXMuegvMgvKOgZrQJKGKuERLF8c9SzvgNjOjoZ/rFNrS51oPWxmoplcA9ZJAy+FVnV5J13g0rgMwNywMASSUVS9D6LNtohqB/WpFKbo6GjMRRpIhnkP3FqitYqbLl2N+FeUa8jpKKbUlkokzlb8xHaUZXejkgbPnXak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717405106; c=relaxed/simple;
-	bh=3i3E8RRKap5CWomximA2ZEYLluwcbVjp7hbN04PsZPM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=QMRoTGe4xgt6/uIZBhW5vtYkgkUYfwsTTwIhus6ZuOBlA1MsnjYjuos4PFXNZBD5n5TC0HLUR7SZ3qIzFxQv8vUqlREDv7C734CSyxxKEWibKlnJo7jlVmTsbi2k06lWeHi9kZzN0nJnPqPs3Ipj1Gk1JDaMEsvwL0nlbVGIox8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CIsafGUQ; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CIsafGUQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1717405104;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8Bhn4LN4Utz6rMqbLj5uOU8MQzPT/pjrzVh2Wyx//Rg=;
-	b=CIsafGUQ/EI6Zgo27QIrzqhinjwJPvvYSldTMvJtAmTI80wLXYL1nWUvq2qhqs7pMWN5Ih
-	cdJsz5avab9Lu0koHgKVCLT3chj6RIcPdkxIagwV6dWV3lEA8g33ViXcaYSFQD1iwpo9dY
-	CuuL1+52FLMUc92tYsCLMNhZ7DTNgEI=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-158-PNISxMOpN7KLPraR_4QZwA-1; Mon, 03 Jun 2024 04:58:22 -0400
-X-MC-Unique: PNISxMOpN7KLPraR_4QZwA-1
-Received: by mail-lj1-f197.google.com with SMTP id 38308e7fff4ca-2ea9429e1deso22953751fa.2
-        for <linux-doc@vger.kernel.org>; Mon, 03 Jun 2024 01:58:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717405100; x=1718009900;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8Bhn4LN4Utz6rMqbLj5uOU8MQzPT/pjrzVh2Wyx//Rg=;
-        b=XGWl7cp/D2f2eL9TVS13Q43FCZqsPVMmHDjSeguWE4iHBw5IVK9cSyjBlLDhounBHT
-         NEueP/xlnaiXvLKkIRcVfh31oiptjABACgKeTCxCph6xRk7kBmXAXz+Pm4aoDdezx2pe
-         Q9nWybtEePQBRez+GaPXkSSLqraw//qUxa3vLpoLGNBJK2VN1GIdSuFmc8lJkxHi1CeT
-         d/WDmLHWknYClGL44ZTuB7YpMEjYV5nTuok/UATCFTLSrbNfIe5iy3vFEmAy2/eLhrwp
-         21vExPMQHQF/BJA9y2YnTqJIvjDV/YRq+2HFAFc/zkcsAbGd5g8Z/TNI1I7HO2frikFK
-         qojg==
-X-Forwarded-Encrypted: i=1; AJvYcCWjn77MkuIrj9pjj/8jSHIJ/ih70mCikmbZxr9dcZqpxXK1zx4/34CF+jUsBnQLOgdLTp210273kkEbxL/APm49IY5ghXrGuIn6
-X-Gm-Message-State: AOJu0YzVOw1IeKchhszVcPK6MafEnT2R6ZYuVrx1hnD3ak4mDgSEjTvr
-	z1kcPy9Xl+eRAGmugl305lPIqLsNc4szhPy05JlnwPNffJEmkIzJP3PU6cwICyKjELZQdWupJtu
-	ZG1Z5aDffnKzjDcmItj5kBEXJGIaCSJx38qRjTBw5wgIkis1r78KPSKRS00Wg+CdpdQ==
-X-Received: by 2002:a2e:838a:0:b0:2ea:81b9:e153 with SMTP id 38308e7fff4ca-2ea950c8d73mr63251311fa.2.1717405100084;
-        Mon, 03 Jun 2024 01:58:20 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEeF+uk7RZx6wHXhL3Soq6lZ5NSqBDYCLsmw6e7dg2mCDH7a/XE5YREzi/jJNw+L+rI7UCMrA==
-X-Received: by 2002:a2e:838a:0:b0:2ea:81b9:e153 with SMTP id 38308e7fff4ca-2ea950c8d73mr63251041fa.2.1717405099580;
-        Mon, 03 Jun 2024 01:58:19 -0700 (PDT)
-Received: from alrua-x1.borgediget.toke.dk ([2a0c:4d80:42:443::2])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4212b2bc975sm111649235e9.29.2024.06.03.01.58.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jun 2024 01:58:19 -0700 (PDT)
-Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
-	id 454B61385112; Mon, 03 Jun 2024 10:58:18 +0200 (CEST)
-From: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
-To: Eric Dumazet <edumazet@google.com>, "Paul E . McKenney"
- <paulmck@kernel.org>
-Cc: Petr Machata <petrm@nvidia.com>, "David S. Miller"
- <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, netdev@vger.kernel.org, Ido Schimmel
- <idosch@nvidia.com>, David Ahern <dsahern@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, linux-doc@vger.kernel.org, Simon Horman
- <horms@kernel.org>
-Subject: Re: [PATCH net-next 2/4] net: ipv4: Add a sysctl to set multipath
- hash seed
-In-Reply-To: <CANn89iJ5UzQGBMNvZJqknuTCn13Ov4pXp7Rr+pq0G+BkJ53g7Q@mail.gmail.com>
-References: <20240529111844.13330-1-petrm@nvidia.com>
- <20240529111844.13330-3-petrm@nvidia.com>
- <CANn89iL8P68pHvCKy242Z6ggWsceK4_TWMr7OakS3guRok=_gw@mail.gmail.com>
- <875xuqiivg.fsf@toke.dk>
- <CANn89iJ5UzQGBMNvZJqknuTCn13Ov4pXp7Rr+pq0G+BkJ53g7Q@mail.gmail.com>
-X-Clacks-Overhead: GNU Terry Pratchett
-Date: Mon, 03 Jun 2024 10:58:18 +0200
-Message-ID: <8734puies5.fsf@toke.dk>
+	s=arc-20240116; t=1717405903; c=relaxed/simple;
+	bh=wBCvEwNMgjuXNYhHCcCdjJIgYvirJsMHsh0fJ+wsBJc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eqFBQChs1bZdYqRO0shRhiY6CSF+WZVcoIP5tNDQlXIPmv2UruKKg4UfEoN6+yFsKFLMGos4YwG9Ha2OsJh6ErRH8RsGRVVLmd/wv7V2cxN762P1uawMQSYIr1Z0FHWpy+ouDRizfnrCZfF1x4+9JfX8lk0tC+o4//battmLLV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8B2641042;
+	Mon,  3 Jun 2024 02:12:05 -0700 (PDT)
+Received: from [10.162.40.16] (a077893.blr.arm.com [10.162.40.16])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A97623F762;
+	Mon,  3 Jun 2024 02:11:35 -0700 (PDT)
+Message-ID: <7d765803-49ed-4847-a2d1-f0c3b3e2c79c@arm.com>
+Date: Mon, 3 Jun 2024 14:41:32 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V17 4/9] arm64/boot: Enable EL2 requirements for BRBE
+Content-Language: en-US
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ will@kernel.org, catalin.marinas@arm.com, Mark Brown <broonie@kernel.org>,
+ James Clark <james.clark@arm.com>, Rob Herring <robh@kernel.org>,
+ Marc Zyngier <maz@kernel.org>, Suzuki Poulose <suzuki.poulose@arm.com>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ linux-perf-users@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Oliver Upton <oliver.upton@linux.dev>, linux-doc@vger.kernel.org
+References: <20240405024639.1179064-1-anshuman.khandual@arm.com>
+ <20240405024639.1179064-5-anshuman.khandual@arm.com>
+ <ZlcIvJUArqDYHVFm@J2N7QTR9R3>
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <ZlcIvJUArqDYHVFm@J2N7QTR9R3>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Eric Dumazet <edumazet@google.com> writes:
 
-> On Mon, Jun 3, 2024 at 9:30=E2=80=AFAM Toke H=C3=B8iland-J=C3=B8rgensen <=
-toke@redhat.com> wrote:
->>
->> Eric Dumazet <edumazet@google.com> writes:
->>
->> > On Wed, May 29, 2024 at 1:21=E2=80=AFPM Petr Machata <petrm@nvidia.com=
-> wrote:
->> >>
->> >> When calculating hashes for the purpose of multipath forwarding, both=
- IPv4
->> >> and IPv6 code currently fall back on flow_hash_from_keys(). That uses=
- a
->> >> randomly-generated seed. That's a fine choice by default, but unfortu=
-nately
->> >> some deployments may need a tighter control over the seed used.
->> >>
->> >> In this patch, make the seed configurable by adding a new sysctl key,
->> >> net.ipv4.fib_multipath_hash_seed to control the seed. This seed is us=
-ed
->> >> specifically for multipath forwarding and not for the other concerns =
-that
->> >> flow_hash_from_keys() is used for, such as queue selection. Expose th=
-e knob
->> >> as sysctl because other such settings, such as headers to hash, are a=
-lso
->> >> handled that way. Like those, the multipath hash seed is a per-netns
->> >> variable.
->> >>
->> >> Despite being placed in the net.ipv4 namespace, the multipath seed sy=
-sctl
->> >> is used for both IPv4 and IPv6, similarly to e.g. a number of TCP
->> >> variables.
->> >>
->> > ...
->> >
->> >> +       rtnl_lock();
->> >> +       old =3D rcu_replace_pointer_rtnl(net->ipv4.sysctl_fib_multipa=
-th_hash_seed,
->> >> +                                      mphs);
->> >> +       rtnl_unlock();
->> >> +
->> >
->> > In case you keep RCU for the next version, please do not use rtnl_lock=
-() here.
->> >
->> > A simple xchg() will work just fine.
->> >
->> > old =3D xchg((__force struct struct sysctl_fib_multipath_hash_seed
->> > **)&net->ipv4.sysctl_fib_multipath_hash_seed,
->> >                  mphs);
->>
->> We added a macro to do this kind of thing without triggering any of the
->> RCU type linter warnings, in:
->>
->> 76c8eaafe4f0 ("rcu: Create an unrcu_pointer() to remove __rcu from a poi=
-nter")
->>
->> So as an alternative to open-coding the cast, something like this could
->> work - I guess it's mostly a matter of taste:
->>
->> old =3D unrcu_pointer(xchg(&net->ipv4.sysctl_fib_multipath_hash_seed, RC=
-U_INITIALIZER(mphs)));
->
-> Good to know, thanks.
->
-> Not sure why __kernel qualifier has been put there.
 
-Not sure either. Paul, care to enlighten us? :)
+On 5/29/24 16:21, Mark Rutland wrote:
+> On Fri, Apr 05, 2024 at 08:16:34AM +0530, Anshuman Khandual wrote:
+>> Fine grained trap control for BRBE registers, and instructions access need
+>> to be configured in HDFGRTR_EL2, HDFGWTR_EL2 and HFGITR_EL2 registers when
+>> kernel enters at EL1 but EL2 is present. This changes __init_el2_fgt() as
+>> required.
+>>
+>> Similarly cycle and mis-prediction capture need to be enabled in BRBCR_EL1
+>> and BRBCR_EL2 when the kernel enters either into EL1 or EL2. This adds new
+>> __init_el2_brbe() to achieve this objective.
+>>
+>> This also updates Documentation/arch/arm64/booting.rst with all the above
+>> EL2 along with MDRC_EL3.SBRBE requirements.
+>>
+>> First this replaces an existing hard encoding (1 << 62) with corresponding
+>> applicable macro HDFGRTR_EL2_nPMSNEVFR_EL1_MASK.
+>>
+>> Cc: Catalin Marinas <catalin.marinas@arm.com>
+>> Cc: Will Deacon <will@kernel.org>
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Cc: Marc Zyngier <maz@kernel.org>
+>> Cc: Oliver Upton <oliver.upton@linux.dev>
+>> Cc: linux-arm-kernel@lists.infradead.org
+>> Cc: linux-doc@vger.kernel.org
+>> Cc: linux-kernel@vger.kernel.org
+>> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+>> ----
+>> Changes in V17:
+>>
+>> - New patch added in the series
+>> - Separated out from the BRBE driver implementation patch
+>> - Dropped the comment in __init_el2_brbe()
+>> - Updated __init_el2_brbe() with BRBCR_EL2.MPRED requirements
+>> - Updated __init_el2_brbe() with __check_hvhe() constructs
+>> - Updated booting.rst regarding MPRED, MDCR_EL3 and fine grained control
+>>
+>>  Documentation/arch/arm64/booting.rst | 26 ++++++++
+>>  arch/arm64/include/asm/el2_setup.h   | 90 +++++++++++++++++++++++++++-
+>>  2 files changed, 113 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/Documentation/arch/arm64/booting.rst b/Documentation/arch/arm64/booting.rst
+>> index b57776a68f15..512210da7dd2 100644
+>> --- a/Documentation/arch/arm64/booting.rst
+>> +++ b/Documentation/arch/arm64/booting.rst
+>> @@ -349,6 +349,32 @@ Before jumping into the kernel, the following conditions must be met:
+>>  
+>>      - HWFGWTR_EL2.nSMPRI_EL1 (bit 54) must be initialised to 0b01.
+>>  
+>> +  For CPUs with feature Branch Record Buffer Extension (FEAT_BRBE):
+>> +
+>> +  - If the kernel is entered at EL2 and EL1 is present:
+>> +
+>> +    - BRBCR_EL1.CC (bit 3) must be initialised to 0b1.
+>> +    - BRBCR_EL1.MPRED (bit 4) must be initialised to 0b1.
+> 
+> IIUC this isn't necessary; if the kernel is entered at EL2, it's capable
+> of initializing the EL1 regs, and it doesn't look like this silently
+> affects something we'd need in the absence of a BRBE driver.
 
--Toke
+No, this does not affect anything other than the BRBE driver.
 
+> 
+> AFAICT the __init_el2_brbe() code you add below handles this, so I think
+> this is redundant and can be deleted.
+
+Did not understand the above. __init_el2_brbe() handles setting both BRBCR_EL2
+and BRBCR_EL1 for CC and MPRED config irrespective of whether the kernel enters
+EL2 directly or enters EL1 via EL2. But should not that be documented here for
+both those scenarios ? OR because once the kernel is in EL2, it can configure
+EL1 as required, so it is not a booting requirement anymore ?
+
+> 
+>> +  - If the kernel is entered at EL1 and EL2 is present:
+>> +
+>> +    - BRBCR_EL2.CC (bit 3) must be initialised to 0b1.
+>> +    - BRBCR_EL2.MPRED (bit 4) must be initialised to 0b1.
+>> +
+>> +    - HDFGRTR_EL2.nBRBDATA (bit 61) must be initialised to 0b1.
+>> +    - HDFGRTR_EL2.nBRBCTL  (bit 60) must be initialised to 0b1.
+>> +    - HDFGRTR_EL2.nBRBIDR  (bit 59) must be initialised to 0b1.
+>> +
+>> +    - HDFGWTR_EL2.nBRBDATA (bit 61) must be initialised to 0b1.
+>> +    - HDFGWTR_EL2.nBRBCTL  (bit 60) must be initialised to 0b1.
+>> +
+>> +    - HFGITR_EL2.nBRBIALL (bit 56) must be initialised to 0b1.
+>> +    - HFGITR_EL2.nBRBINJ  (bit 55) must be initialised to 0b1.
+>> +
+>> +  - If EL3 is present:
+>> +
+>> +    - MDCR_EL3.SBRBE (bits 33:32) must be initialised to 0b11.
+> 
+> Minor nit: please list the EL3 requirements first, that way this can be
+> read in EL3->EL2->EL1 order to match the FW boot-flow order.
+
+Makes sense, will change the order.
+
+> 
+>> +
+>>    For CPUs with the Scalable Matrix Extension FA64 feature (FEAT_SME_FA64):
+>>  
+>>    - If EL3 is present:
+>> diff --git a/arch/arm64/include/asm/el2_setup.h b/arch/arm64/include/asm/el2_setup.h
+>> index b7afaa026842..7c12a8e658d4 100644
+>> --- a/arch/arm64/include/asm/el2_setup.h
+>> +++ b/arch/arm64/include/asm/el2_setup.h
+>> @@ -154,6 +154,41 @@
+>>  .Lskip_set_cptr_\@:
+>>  .endm
+>>  
+>> +#ifdef CONFIG_ARM64_BRBE
+>> +/*
+>> + * Enable BRBE cycle count and miss-prediction
+>> + *
+>> + * BRBE requires both BRBCR_EL1.CC and BRBCR_EL2.CC fields, be set
+>> + * for the cycle counts to be available in BRBINF<N>_EL1.CC during
+>> + * branch record processing after a PMU interrupt. This enables CC
+>> + * field on both these registers while still executing inside EL2.
+> 
+> Huh, it's a bit of an oddity to do that for a register that gets the E2H
+> treatment, but that is what the ARM ARM says, looking at the pseudocode
+> in ARM DDI 0487K.a:
+> 
+> | // BRBCycleCountingEnabled()
+> | // =========================
+> | // Returns TRUE if the recording of cycle counts is allowed,
+> | // FALSE otherwise.
+> | boolean BRBCycleCountingEnabled()
+> | 	if HaveEL(EL2) && BRBCR_EL2.CC == '0' then return FALSE;
+> | 	if BRBCR_EL1.CC == '0' then return FALSE;
+> | 	return TRUE;
+> 
+> ... and likewise for MPRED:
+> 
+> | // BRBEMispredictAllowed()
+> | // =======================
+> | // Returns TRUE if the recording of branch misprediction is allowed,
+> | // FALSE otherwise.
+> | boolean BRBEMispredictAllowed()
+> | 	if HaveEL(EL2) && BRBCR_EL2.MPRED == '0' then return FALSE;
+> | 	if BRBCR_EL1.MPRED == '0' then return FALSE;
+> | 	return TRUE;
+> 
+> ... though BRBCycleCountingEnabled() isn't actually used anywhere, while
+> BRBEMispredictAllowed is used by BRBEBranch(), since that does:
+> 
+> | (ccu, cc) = BranchEncCycleCount();
+> | ...
+> | bit mispredict = if BRBEMispredictAllowed() && BranchMispredict() then '1' else '0';
+> 
+> ... where BranchEncCycleCount() is a stub that doesn't mention
+> BRBCycleCountingEnabled() at all, so it's not clear to me whether CCU is
+> guaranteed to be set.
+> 
+>> + *
+>> + * BRBE driver would still be able to toggle branch records cycle
+>> + * count support via BRBCR_EL1.CC field regardless of whether the
+>> + * kernel ends up executing in EL1 or EL2.
+>> + *
+>> + * The same principle applies for branch record mis-prediction info
+>> + * as well, thus requiring MPRED field to be set on both BRBCR_EL1
+>> + * and BRBCR_EL2 while still executing inside EL2.
+>> + */
+> 
+> I think we can clarify this comment to:
+> 
+> /*
+>  * Enable BRBE to record cycle counts and branch mispredicts.
+>  *
+>  * At any EL, to record cycle counts BRBE requires that both
+>  * BRBCR_EL2.CC=1 and BRBCR_EL1.CC=1.
+>  *
+>  * At any EL, to record branch mispredicts BRBE requires that both
+>  * BRBCR_EL2.MPRED=1 and BRBCR_EL1.MPRED=1.
+>  *
+>  * When HCR_EL2.E2H=1, the BRBCR_EL1 encoding is redirected to
+>  * BRBCR_EL2, but the {CC,MPRED} bits in the real BRBCR_EL1 register
+>  * still apply.
+>  *
+>  * Set {CC,MPRBED} in both BRBCR_EL2 and BRBCR_EL1 so that at runtime we
+>  * only need to enable/disable thse in BRBCR_EL1 regardless of whether
+>  * the kernel ends up executing in EL1 or EL2.
+>  */
+
+Sure, will update this comment.
+
+> 
+>> +.macro __init_el2_brbe
+>> +	mrs	x1, id_aa64dfr0_el1
+>> +	ubfx	x1, x1, #ID_AA64DFR0_EL1_BRBE_SHIFT, #4
+>> +	cbz	x1, .Lskip_brbe_\@
+>> +
+>> +	mov_q	x0, BRBCR_ELx_CC | BRBCR_ELx_MPRED
+>> +	msr_s	SYS_BRBCR_EL2, x0
+>> +
+>> +	__check_hvhe .Lset_brbe_nvhe_\@, x1
+>> +	msr_s	SYS_BRBCR_EL12, x0	// VHE
+>> +	b	.Lskip_brbe_\@
+>> +
+>> +.Lset_brbe_nvhe_\@:
+>> +	msr_s	SYS_BRBCR_EL1, x0	// NVHE
+>> +.Lskip_brbe_\@:
+>> +.endm
+>> +#endif /* CONFIG_ARM64_BRBE */
+>> +
+>>  /* Disable any fine grained traps */
+>>  .macro __init_el2_fgt
+>>  	mrs	x1, id_aa64mmfr0_el1
+>> @@ -161,16 +196,48 @@
+>>  	cbz	x1, .Lskip_fgt_\@
+>>  
+>>  	mov	x0, xzr
+>> +	mov	x2, xzr
+>>  	mrs	x1, id_aa64dfr0_el1
+>>  	ubfx	x1, x1, #ID_AA64DFR0_EL1_PMSVer_SHIFT, #4
+>>  	cmp	x1, #3
+>>  	b.lt	.Lset_debug_fgt_\@
+>> +
+>>  	/* Disable PMSNEVFR_EL1 read and write traps */
+>> -	orr	x0, x0, #(1 << 62)
+>> +	orr	x0, x0, #HDFGRTR_EL2_nPMSNEVFR_EL1_MASK
+>> +	orr	x2, x2, #HDFGWTR_EL2_nPMSNEVFR_EL1_MASK
+>>  
+>>  .Lset_debug_fgt_\@:
+>> +#ifdef CONFIG_ARM64_BRBE
+>> +	mrs	x1, id_aa64dfr0_el1
+>> +	ubfx	x1, x1, #ID_AA64DFR0_EL1_BRBE_SHIFT, #4
+>> +	cbz	x1, .Lskip_brbe_reg_fgt_\@
+>> +
+>> +	/*
+>> +	 * Disable read traps for the following registers
+>> +	 *
+>> +	 * [BRBSRC|BRBTGT|RBINF]_EL1
+>> +	 * [BRBSRCINJ|BRBTGTINJ|BRBINFINJ|BRBTS]_EL1
+>> +	 */
+>> +	orr	x0, x0, #HDFGRTR_EL2_nBRBDATA_MASK
+>> +
+>> +	/*
+>> +	 * Disable write traps for the following registers
+>> +	 *
+>> +	 * [BRBSRCINJ|BRBTGTINJ|BRBINFINJ|BRBTS]_EL1
+>> +	 */
+>> +	orr	x2, x2, #HDFGWTR_EL2_nBRBDATA_MASK
+>> +
+>> +	/* Disable read and write traps for [BRBCR|BRBFCR]_EL1 */
+>> +	orr	x0, x0, #HDFGRTR_EL2_nBRBCTL_MASK
+>> +	orr	x2, x2, #HDFGWTR_EL2_nBRBCTL_MASK
+>> +
+>> +	/* Disable read traps for BRBIDR_EL1 */
+>> +	orr	x0, x0, #HDFGRTR_EL2_nBRBIDR_MASK
+>> +
+>> +.Lskip_brbe_reg_fgt_\@:
+>> +#endif /* CONFIG_ARM64_BRBE */
+>>  	msr_s	SYS_HDFGRTR_EL2, x0
+>> -	msr_s	SYS_HDFGWTR_EL2, x0
+>> +	msr_s	SYS_HDFGWTR_EL2, x2
+>>  
+>>  	mov	x0, xzr
+>>  	mrs	x1, id_aa64pfr1_el1
+>> @@ -193,7 +260,21 @@
+>>  .Lset_fgt_\@:
+>>  	msr_s	SYS_HFGRTR_EL2, x0
+>>  	msr_s	SYS_HFGWTR_EL2, x0
+>> -	msr_s	SYS_HFGITR_EL2, xzr
+>> +	mov	x0, xzr
+>> +#ifdef CONFIG_ARM64_BRBE
+>> +	mrs	x1, id_aa64dfr0_el1
+>> +	ubfx	x1, x1, #ID_AA64DFR0_EL1_BRBE_SHIFT, #4
+>> +	cbz	x1, .Lskip_brbe_insn_fgt_\@
+>> +
+>> +	/* Disable traps for BRBIALL instruction */
+>> +	orr	x0, x0, #HFGITR_EL2_nBRBIALL_MASK
+>> +
+>> +	/* Disable traps for BRBINJ instruction */
+>> +	orr	x0, x0, #HFGITR_EL2_nBRBINJ_MASK
+>> +
+>> +.Lskip_brbe_insn_fgt_\@:
+>> +#endif /* CONFIG_ARM64_BRBE */
+>> +	msr_s	SYS_HFGITR_EL2, x0
+>>  
+>>  	mrs	x1, id_aa64pfr0_el1		// AMU traps UNDEF without AMU
+>>  	ubfx	x1, x1, #ID_AA64PFR0_EL1_AMU_SHIFT, #4
+>> @@ -228,6 +309,9 @@
+>>  	__init_el2_nvhe_idregs
+>>  	__init_el2_cptr
+>>  	__init_el2_fgt
+>> +#ifdef CONFIG_ARM64_BRBE
+>> +	__init_el2_brbe
+>> +#endif
+> 
+> This largely looks fine, but I note that we haven't bothered with
+> ifdeffery for PMU and SPE, so I suspect it might be worth getting rid of
+> the ifdeffery for BRBE.
+
+Sure, will drop the #ifdef
+
+> 
+> Mark.
