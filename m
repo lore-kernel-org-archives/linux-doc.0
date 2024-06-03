@@ -1,105 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from xmailer.gwdg.de (xmailer.gwdg.de [134.76.10.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EBE7137923;
-	Mon,  3 Jun 2024 19:04:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F0D374EA;
+	Mon,  3 Jun 2024 19:33:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.76.10.29
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717441480; cv=none; b=tv0QiDGivrhu5GLSUUlvnJqBo/u0WdUmEE9uK6NSGmWVCNcPGDlRojvh3g9UcHfJo22LY44p3XzVjJ6Arg+0m+m7boz0AedOE0BS9QIAzikNRVUic/VDRUzUVwJyXuTaomUYyJAFyCCkz+oj+elvCLjHMAOYzkRdBDNsL/BpsM8=
+	t=1717443204; cv=none; b=DfvIrzAcod4y2olu4UFwl0RaMECxLo6zTL25CDWV5izg5WF+eOpO+k53yVR+AXt9zzCkcyjckblCVccjJVFhv6ReEOEkp377L/UZf75CsiCd8gyemQwkskHpYT7pJofGlkh0pX9Capd0OSNy1661kv8eLjqgS3QsQ8gwcO/ouOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717441480; c=relaxed/simple;
-	bh=SiJjhq+F76gd2xYIUJnRmLkcW/pcUax1GZT5innf0yw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qrLXKE9zFrK+JZcref+Ur9RqY+W8j2Drr6f+IxLfJQvtd6vEl57ThmYQrDrGMdKW0o+STTtLGmWLuNuh1/nQneEGOsVpFxyV8XacbJvR/RjEWf5OTDPgQNDtOaWQRMlcFyFJ3Naj6Vo1ZK6NcNSATt8WGdkF5OwpBxrWHCAN7G4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mVEjz1iW; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mVEjz1iW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C3E2C4AF09;
-	Mon,  3 Jun 2024 19:04:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717441479;
-	bh=SiJjhq+F76gd2xYIUJnRmLkcW/pcUax1GZT5innf0yw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mVEjz1iWVYBbZpGBAolpFKdBtmgSZ54sICUew0JuIbETnve4H0k0gJUmsATrApj22
-	 8bWCeCg0OiCcFi8uFYMNo/cmw9Mdg40sZ37IMLuOwKlDV10UtX24GdQtamSiblknQ7
-	 N8ZkVCyqV4APP+2d/iduxIXrKn4DMTP8dQ/ahGfBmnajMRdjdlyXqtB1VaT76QmQlo
-	 LSL/mPn4tlLMwEhLzA2regmdBiIcSJT8Ez7w0fwfNO/cK5YfOO+6t9It2nEp6lThez
-	 e6YA2G3EYNY4dDwNQPVvzVNZo0dbgKD4Jp/qBlvlqBEzpZDV1paa2JMVpnOOEXq42d
-	 VfVXoXkIukNyA==
-From: SeongJae Park <sj@kernel.org>
-To: yskelg@gmail.com
-Cc: SeongJae Park <sj@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jinwoo Park <pmnxis@gmail.com>,
-	Austin Kim <austindh.kim@gmail.com>,
-	shjy180909@gmail.com,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] Documentation: cve Korean translation
-Date: Mon,  3 Jun 2024 12:04:36 -0700
-Message-Id: <20240603190436.222077-1-sj@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240603161530.80789-1-yskelg@gmail.com>
-References: 
+	s=arc-20240116; t=1717443204; c=relaxed/simple;
+	bh=ZFG0RzAoaOkp+zsaLv13A2Z5uR/A9GDeP1h90WlRyV0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZQHsKGh3tfZeqUIazFYkR6t1hAod/SiHKqUT//T0zsdGldbGICF7VUj4l7yJQe1Q8z7gc017vHdn4MTtiZam5p8NPxKPXeYnzG7URRCK2pC5vDYKbYCvQP3l03f7AVV39nIgr1NYPoHspOZcqloqxHBviISZrv8LKbO/JG9DrPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuebingen.mpg.de; spf=pass smtp.mailfrom=tuebingen.mpg.de; arc=none smtp.client-ip=134.76.10.29
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tuebingen.mpg.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuebingen.mpg.de
+Received: from mailgw.tuebingen.mpg.de ([192.124.27.5] helo=tuebingen.mpg.de)
+	by mailer.gwdg.de with esmtp (GWDG Mailer)
+	(envelope-from <maan@tuebingen.mpg.de>)
+	id 1sECtE-0005IN-0g;
+	Mon, 03 Jun 2024 20:58:40 +0200
+Received: from [10.35.40.80] (HELO mailhost.tuebingen.mpg.de)
+  by tuebingen.mpg.de (CommuniGate Pro SMTP 6.2.6)
+  with SMTP id 55632179; Mon, 03 Jun 2024 20:58:39 +0200
+Received: by mailhost.tuebingen.mpg.de (sSMTP sendmail emulation); Mon, 03 Jun 2024 20:58:39 +0200
+Date: Mon, 3 Jun 2024 20:58:39 +0200
+From: Andre Noll <maan@tuebingen.mpg.de>
+To: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc: Dan Williams <dan.j.williams@intel.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jonathan Corbet <corbet@lwn.net>, Andre Noll <maan@systemlinux.org>,
+	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kernel@pengutronix.de
+Subject: Re: [PATCH v2] docs: crypto: async-tx-api: fix broken code example
+Message-ID: <Zl4SX4mF0EFuJLnc@tuebingen.mpg.de>
+References: <20240529-async-dma-docs-v2-1-8faf87e72e6d@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240529-async-dma-docs-v2-1-8faf87e72e6d@pengutronix.de>
+User-Agent: Mutt/2.2.13 (00d56288) (2024-03-09)
+X-Spam-Level: $
+X-Virus-Scanned: (clean) by clamav
 
-On Tue,  4 Jun 2024 01:15:31 +0900 yskelg@gmail.com wrote:
-
-> From: Yunseong Kim <yskelg@gmail.com>
+On Wed, May 29, 10:08, Ahmad Fatoum wrote
+> The code example fails to compile:
 > 
-> This is a Documentation/process/cve korean version.
+>   1) addr_conv is defined twice, once as a VLA, which have been phased out
 > 
-> The following changes have been updated based on SeongJae Park’s feedback
-> and Austin Kim’s from the last v2 and v3 patches.
+>   2) submit is not a pointer, but is still dereferenced with ->
 > 
-> Signed-off-by: Yunseong Kim <yskelg@gmail.com>
+>   3) The first call to async_xor() lacked the trailing semicolon
+> 
+> Fix these issues and while at it, fix some code style nitpicks as well:
+> 
+>   1) make the functions static as users are unlikely to export them
+> 
+>   2) include the relevant header
+> 
+>   3) Shorten the example a bit by removing a redundant variable
+>      definition
+> 
+> Fixes: 04ce9ab385dc ("async_xor: permit callers to pass in a 'dma/page scribble' region")
+> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
 > ---
->  Documentation/translations/ko_KR/index.rst    |   2 +-
->  .../translations/ko_KR/process/cve.rst        | 119 +++++++++---------
->  2 files changed, 61 insertions(+), 60 deletions(-)
-> 
-> diff --git a/Documentation/translations/ko_KR/index.rst b/Documentation/translations/ko_KR/index.rst
-> index 4add6b2fe1f2..f38f0ce19a1e 100644
-> --- a/Documentation/translations/ko_KR/index.rst
-> +++ b/Documentation/translations/ko_KR/index.rst
-> @@ -12,7 +12,7 @@
->     :maxdepth: 1
->  
->     howto
-> -
+> Changes in v2:
+> - commit message: fix addr_conv typo (Andre)
+> - commit message: note addition of missing semicolon (Andre)
+> - add header include (Andre)
+> - shorten code by removing redundant variable definition (Andre)
+> - Link to v1: https://lore.kernel.org/r/20240523-async-dma-docs-v1-1-b900e0804e11@pengutronix.de
 
-I don't think you need to delete the above line.
+Looks good to me now. Feel free to add
 
-> +   process/cve
->  
->  리눅스 커널 메모리 배리어
->  -------------------------
-> diff --git a/Documentation/translations/ko_KR/process/cve.rst b/Documentation/translations/ko_KR/process/cve.rst
-> index 94610c177f17..5a84d0d4266f 100644
-> --- a/Documentation/translations/ko_KR/process/cve.rst
-> +++ b/Documentation/translations/ko_KR/process/cve.rst
-> @@ -1,7 +1,9 @@
->  .. SPDX-License-Identifier: GPL-2.0
->  
-> -:Original: Documentation/process/cve.rst
-> -:Translator: Yunseong Kim <yskelg@gmail.com>
-> +:원문: Documentation/process/cve.rst
-> +:역자: 김윤성 <yskelg@gmail.com>
-> +:감수: 박진우 <pmnxis@gmail.com>, 박성재 <sj@kernel.org>,
+	Reviewed-by: Andre Noll <maan@tuebingen.mpg.de>
 
-Thank you for adding me.  However, please don't add me here unless I ask you
-to.
-
-
-Thanks,
-SJ
-
-[...]
+Best
+Andre
+-- 
+Max Planck Institute for Biology
+Tel: (+49) 7071 601 829
+Max-Planck-Ring 5, 72076 Tübingen, Germany
+http://people.tuebingen.mpg.de/maan/
