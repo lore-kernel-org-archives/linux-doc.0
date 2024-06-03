@@ -1,237 +1,285 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70233631;
-	Mon,  3 Jun 2024 06:56:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=68.232.154.123
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717397766; cv=fail; b=VoKewSb199AhoaAJiZ2I+ZJEtsOJ43GYwWnFSiYDxAJaf28wPYkbtMFlz4R8WEUmes5l1LO8BdlQ1EDd0PQF+6+Q9QTqofT8RurmIF9O9m/i0kVoqBbp30yNJRBc1pXFBtNGMRRs4r53lAegidCAje4q9QsGpfLdjdIfbM4XRdo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717397766; c=relaxed/simple;
-	bh=O86h+R4cZdxhiTQH9HgQ/qKfCzKmk25FrOL8TuAxkiE=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=JU6GqP0k9hXxYSOp6arVo7xK2G67qAZcfuJpLZg2yxRn2QF+kF3VGTBScLMbGhcX67wcWlLie+1TkUfw8IlVPLQ104tA+YnYFX65f2jTipxoPPGv4MiYhz+wopjmF0R7MCfIRa+K4q+5qwM5X5Osn9NXisBstubIQPzRsWZElmk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=bsEcLafx; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=PZV3+RrV; arc=fail smtp.client-ip=68.232.154.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694F447A6C;
+	Mon,  3 Jun 2024 07:09:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717398584; cv=none; b=PcoR3GKuXgbmpYdH/OmqV66g6mcfFBuJLULq3aWoTfWmAc2k5j+bXYflVP1HdynzcUsU5Vh4DLeWikP/T8TURLnyReUeaBK+l3AjRur3uDyGiadu/c5MX731CfFgrP7aHaacLcMUtXd2u/40vHPBHy+kJA7gn0Hq9wofV7wzzYA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717398584; c=relaxed/simple;
+	bh=MGKhftAoxpTowHiv0oeOJrpeohaKsDS4/rlu9Zcsyko=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=feHnvY6H+2WN4HunxOf6wD1jRrQHR9qNQQpiZKs0hX4B/tUHUH/5jyAnx+X9V262rrnk0pK8AqZqxKiaU5gaBDo71z0CsfUjSr7KPEz7mEFtfissKD/J5aXTxQEKZGQ95pYPnqAKjGWps8tPEPqrBYga3ogSF13rvJrC/zlzDus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=crukal6q; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="bsEcLafx";
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="PZV3+RrV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1717397764; x=1748933764;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=O86h+R4cZdxhiTQH9HgQ/qKfCzKmk25FrOL8TuAxkiE=;
-  b=bsEcLafxnpm3Q9o3z3Vvm1c/1dNZe1VFaWPRGwauOxOn6Vr0fqL02t0f
-   wlq+hDk9ldKMRxJXd7QOyJhtiTaXq/ctduZkuv5fdQOZBuM0ZBS91izRA
-   AVZyHn55em/jGkPw8FvhB+Ks+S6Ly/irt2II+SNcXvowLJ0PUKFgn65YG
-   bxGpCJi+TPZYHXKTUWTrYDhWhEp0LPIWAZt9WLc3jgmDMVAxCPs7/Ioa7
-   FsLDqLWeaINAD2OPO46STLXPPbFLeLqCU/a8jusEGXkHxWxMmgW97F6Ar
-   wgye6RUh0qR9hb/qKwawJGRLa8aqTppCOOt70dCWxEqrPaNbXzsFaxtYQ
-   g==;
-X-CSE-ConnectionGUID: uj2khGWHT/WC9BsU25snCA==
-X-CSE-MsgGUID: xOyZSKZDSEKZam+oBH+kKw==
-X-IronPort-AV: E=Sophos;i="6.08,210,1712646000"; 
-   d="scan'208";a="27504343"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 02 Jun 2024 23:55:57 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Sun, 2 Jun 2024 23:55:28 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (10.10.215.250)
- by email.microchip.com (10.10.87.72) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Sun, 2 Jun 2024 23:55:28 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=D7nTbkWBlUgsLKMnKiExOn3ZvnKDzuL2WmcksB04pIw4fta+bNPo/ItRAs0j9ljcVRQXWSBFXyX8OCLC5BH2q/XVbdPEfG7yqANWckbbj0IaOiwMMuICiHJn+x7zuhOJvjgLjKFvifc4gYIDZCxEcka5mAOFcxDyjF4ir8TgV38DPo/sTyLFolAgcUtvhq5cGpzUZgSUdqFVkj/s/1tsEOphXWj1eMW5gBgtkbgS2hqX2S8VH1apFFK8EEkmPZfd3G1OK0xGL96JfrehzKcPCFE4HQitsSV+lfQF9xLRZtdG/fdvdzmqRBC5QGBME68e/1D6sU1a8lDVRKNO0luAkA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=O86h+R4cZdxhiTQH9HgQ/qKfCzKmk25FrOL8TuAxkiE=;
- b=FkKzeGKjG9oa0/zfIwEdq0KYnnDUD1/soi27UgaM9rrc5B658hjd9aDCtvXJPCU9xMVrvIccYXrG2ooUvRIXrtikDvHb4xqwUXZ4J7RcHZc0g19VGxILC9HKBPvNsPylVUDLupmn5isB2VUTs2hf6BVYVGGoi54+81wgCpAHZ7Ir9WB8QogS6/KaAEPEENjbcecakWjNw0G/P8og2De3D/OmruEsrKFElT8WIUVS2mL/xeBtxUh35btUDJVHIAf8z2SRlQSRTHJ3rDYdYiSolKK7okFaANfU5TotptHKb25R9HSrfz0kkwIe9l75UrPj6BZJ0zsKrHh6CWxqyVO+zw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microchip.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=O86h+R4cZdxhiTQH9HgQ/qKfCzKmk25FrOL8TuAxkiE=;
- b=PZV3+RrVq9Bar76P/4kH6XNfH1rOVM/72H/J682UrRaUtsCEwcciVMXVWKdV5zV0SYaIFQBMgUcRlgRW4fWnFumYACHr8djYiz4v/YNnXpgz+lza5dHxv5QlefGx5YiDqa0TSCjVZCIjuYHr4j85p+CHqMN/EY9cLqZdKbDg+nhgbQclQmJoxfEn71gPQX1Ft+U3THm91JkH6x2gzwPdZYyz/GmDAY+B9ROtelIJ9J2CVgnTGluXGvIzN9CZdomGqAb2DV/cklk6vgxYfX2CYkf2YzgeA9lG3blCdq5i1p56oFUqlmqW7gHlrm8YE/Rk95UBjauBRAXFaPiV5arRLw==
-Received: from SA1PR11MB8278.namprd11.prod.outlook.com (2603:10b6:806:25b::19)
- by CH0PR11MB5235.namprd11.prod.outlook.com (2603:10b6:610:e2::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.24; Mon, 3 Jun
- 2024 06:55:26 +0000
-Received: from SA1PR11MB8278.namprd11.prod.outlook.com
- ([fe80::84fa:e267:e389:fa9]) by SA1PR11MB8278.namprd11.prod.outlook.com
- ([fe80::84fa:e267:e389:fa9%4]) with mapi id 15.20.7587.030; Mon, 3 Jun 2024
- 06:55:25 +0000
-From: <Parthiban.Veerasooran@microchip.com>
-To: <andrew@lunn.ch>
-CC: <Pier.Beruto@onsemi.com>, <Selvamani.Rajagopal@onsemi.com>,
-	<davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-	<pabeni@redhat.com>, <horms@kernel.org>, <saeedm@nvidia.com>,
-	<anthony.l.nguyen@intel.com>, <netdev@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <corbet@lwn.net>,
-	<linux-doc@vger.kernel.org>, <robh+dt@kernel.org>,
-	<krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
-	<devicetree@vger.kernel.org>, <Horatiu.Vultur@microchip.com>,
-	<ruanjinjie@huawei.com>, <Steen.Hegelund@microchip.com>,
-	<vladimir.oltean@nxp.com>, <UNGLinuxDriver@microchip.com>,
-	<Thorsten.Kummermehr@microchip.com>, <Nicolas.Ferre@microchip.com>,
-	<benjamin.bigler@bernformulastudent.ch>, <Viliam.Vozar@onsemi.com>,
-	<Arndt.Schuebel@onsemi.com>
-Subject: Re: [PATCH net-next v4 00/12] Add support for OPEN Alliance
- 10BASE-T1x MACPHY Serial Interface
-Thread-Topic: [PATCH net-next v4 00/12] Add support for OPEN Alliance
- 10BASE-T1x MACPHY Serial Interface
-Thread-Index: AQHakY/2Zb5TFJZ12UCHjfgce9+PGrF0voeAgAA2YoCAGHimAIAAQu0AgAFPUYCAAH8FAIAA9qQAgBaf9gCAAAnAAIAABQ8AgAACngCACKHOAIABvDEAgAAGjwCABFd7gA==
-Date: Mon, 3 Jun 2024 06:55:25 +0000
-Message-ID: <49c4ced9-0429-4730-b0d2-1f679415a53c@microchip.com>
-References: <6ba7e1c8-5f89-4a0e-931f-3c117ccc7558@lunn.ch>
- <8b9f8c10-e6bf-47df-ad83-eaf2590d8625@microchip.com>
- <44cd0dc2-4b37-4e2f-be47-85f4c0e9f69c@lunn.ch>
- <b941aefd-dbc5-48ea-b9f4-30611354384d@microchip.com>
- <BYAPR02MB5958A4D667D13071E023B18F83F52@BYAPR02MB5958.namprd02.prod.outlook.com>
- <6e4c8336-2783-45dd-b907-6b31cf0dae6c@lunn.ch>
- <BY5PR02MB6786619C0A0FCB2BEDC2F90D9DF52@BY5PR02MB6786.namprd02.prod.outlook.com>
- <0581b64a-dd7a-43d7-83f7-657ae93cefe5@lunn.ch>
- <BY5PR02MB6786FC4808B2947CA03977429DF32@BY5PR02MB6786.namprd02.prod.outlook.com>
- <39a62649-813a-426c-a2a6-4991e66de36e@microchip.com>
- <585d7709-bcee-4a0e-9879-612bf798ed45@lunn.ch>
-In-Reply-To: <585d7709-bcee-4a0e-9879-612bf798ed45@lunn.ch>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA1PR11MB8278:EE_|CH0PR11MB5235:EE_
-x-ms-office365-filtering-correlation-id: 6acc483e-e8f7-4a72-3c72-08dc839a25a0
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230031|7416005|376005|1800799015|366007|38070700009;
-x-microsoft-antispam-message-info: =?utf-8?B?VHQ4THY5WVFocXBnMXRQeitRZlB5SVFwbzk4SWlzY2Jnd2lNcWF0RUtsMHlm?=
- =?utf-8?B?c1YrZmFOaVZhRzUzMmNwemJYTUR2T09qejlVYmY2QWlzUmxtbmMrdlRzSEpo?=
- =?utf-8?B?UGRaRXVvU3ZUcDQ0d3Q5eFRhWTZRTUpKcEs3R3Q4eTViOWIzc0drcWFjcFdo?=
- =?utf-8?B?RzQxSS9hQXNSNW5uSW12a0NIMjI2Z0xFZStkbUFkdmZidHBUODB0eWs1R3BX?=
- =?utf-8?B?dWNlWnpSRFFRTkRSWXZpaXRzaEVyS2xoSUtXR1VDMjlieU5JWTBFRGRTSEw4?=
- =?utf-8?B?NzRpMlJFWE44M3VYWnJaN1RJRmxndUFjSzRLQ1pMeTBMdEpLMEE1NklqV3VC?=
- =?utf-8?B?ZmRVRS9wUTRFSERkdXBQUEkzeUR0UFp0Y3Mvd3lOQUM4dmhMbytpTi9IeEJ0?=
- =?utf-8?B?ODdBSWxGdWdTTU1qSVZnN0RGTTFhQUVuc3VvY0dCM0pkM2MxYVNhYnpMUVFj?=
- =?utf-8?B?WmoxQVVFNi9hemZWTjEvckd1TndUVHFmUXlhQXMxUVdHaWlXUFl2SFJqYlcy?=
- =?utf-8?B?M3NaV003R1YxMnlXZlZrQkt3WmcrRDJ0amtuWFZlL3lvNnMvVUE5eklaZ2Iv?=
- =?utf-8?B?ZUcvYU5Ec3AvOWlEZWhwOU5YRHhHWENFVzlUcTRROVM1NU85c1huSUxFNkxU?=
- =?utf-8?B?MGtkVDJIMzJsbGxBL3d3dy9WN1dyYTg1bzhqdCs5S2wvNDdGcEZ1WlBTa0RG?=
- =?utf-8?B?ZUV4WkJqcCtRNmJxSFJNdW94SXNqcnN0T2dXY2MxSmZUREw4Rk1MTGlzU3NE?=
- =?utf-8?B?NnRuZ0JOUVFBR0xUSWttbGN5VThheXJZWWFOZDlmYVhIaXlremJyaGZNTi9m?=
- =?utf-8?B?LzMycDU1VFNyTzZXU2Q5N3JoOXJOd3o2ZVk1K2Z2a2NTWHhpNms0UjZZNVY2?=
- =?utf-8?B?UDB3N2hQVGN2ci9KU1BycVB5UFROcmpxd1FTNW01c0RzUW44SVRkRDNwV3B3?=
- =?utf-8?B?TzRLUjdjUnk0YzVIYURnTmIvOHgxMDVkK0xUY3V5OVNmb1M5QklYNHhtUDF5?=
- =?utf-8?B?cDhTOWxGRHBia2hzV1lFc2taVGlZSkRKcnVpczA4cFc5WGlBTmd1aFNKeU5n?=
- =?utf-8?B?U0lCSksyS3JGeEFpcExRQlJ5cStZQVFMYUNKbXNWVU56UlpKbVRmVkNteVBz?=
- =?utf-8?B?T0dMMFYzV2N1WFkrcmh5bUVUNWdoQ2FudnIzeEh4UFdHeUhlYkxFNzJNTit5?=
- =?utf-8?B?KzYyTWdScHRKYTNBRnFOanVCNDlFT2Qza3ovVkxOS2QzZDEwVWNwazRrT2Zx?=
- =?utf-8?B?WFh2d1dQYjlmelRxdm4wVzFzOXhZK24vcGwvUnNFK0Y1b1lHaHRneWhGbnJV?=
- =?utf-8?B?blovWHdROVU4UzN5K1lzL3hrR0VvMHVOK1YzdkNtdm5CV2VpeHo4Z2V0Z3Yw?=
- =?utf-8?B?WGdBSDMydjBGWk5oQ1VwMnJBMGdESHJUcGVQdnFWb0V2Q0gxcEVqbUIrMk5P?=
- =?utf-8?B?ZkJIUVh5cmcvRDkraStZS1EwZ0tja1hFR2ZmTjhZczBpRzZGbnhpa2h2Tnl6?=
- =?utf-8?B?L2QwVS95b3NBaGVKUkxBeUFvWkR6T1lWSlgxZHNjM2JsSU9lRUZvMUZWY3FI?=
- =?utf-8?B?RksyMGJKMDVUaG01U002eHJWaTErN2lkWWhDeWlFWENuY09qcjF5MFlici83?=
- =?utf-8?B?VTA3azlWUEJaMmN1YUo2YUNKNWxUQjdXM0kyOGFQYzZ2S2xhZGhuS3ZoSDk1?=
- =?utf-8?B?cjdqUlBJVFczT3JZNHVFb2JTa0loSmp4disxZENqRnFvak1kMFpIL01xYWFN?=
- =?utf-8?B?b0JTMzkwT1h3OXhybjBZdVVvZzcyU3ZzOUtHcHI4bTcxNnBxZXdDc1dzZlUr?=
- =?utf-8?B?T0wzQjI1bVNZVzBZMVdmQT09?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR11MB8278.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(376005)(1800799015)(366007)(38070700009);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TG9UWjZIQzQ4UXNTTHZ2L2h4UHNOVzJiWFBjZG9Vc3N4QmlzZThVL0Q2amFB?=
- =?utf-8?B?WCtJdGpxMk9hbjVwbmR0ako1ZnRTZ001S2xVSlhUa24wQU5XWkNKTXkyczcy?=
- =?utf-8?B?Q0VlSExicENOSFhKYm0vVXdiVVBJUDl5WDExOGZ5UUdqN0RNQWVpTUNBWjhM?=
- =?utf-8?B?bU5iUGl3SXA0RDl2dlZFaW5TQVM3b2NlQzRvNVJBUlpnTHg3VWYzb0xseVAz?=
- =?utf-8?B?Y1kyL0VxUk1UTGVQdWhnajAxbU5GVlEzVExNUVR3ZEo0WUxIcC9DUFRWdi9x?=
- =?utf-8?B?Mms1WTZRdTJoQ3BudmxQZW9RSGF3cjdOVjNPNnMrT21WVnQ1bWNMR3hVRlBP?=
- =?utf-8?B?cVFwaTJ5c045TklrMlpzQVNkL0hOVHJucUh3TUhwUVIwV0d2THEyeUVHa0t3?=
- =?utf-8?B?enVSUVl0UFA3aHBLazV1VHdTQU5OL1AwMTBKcmd2a3lNbWRuaTYxcytCRGNr?=
- =?utf-8?B?ODBISEdWRG5QUnpkNk81a2lhTFQwRTc0RFgzYnFESnZ6M2lOZUZOdXFCK0M3?=
- =?utf-8?B?S2c2S1lSN2wwRURwQW9kL1ZuZUY1TEZ2N3cwQjFYSDRLOG1zM0E2QUZnSFo4?=
- =?utf-8?B?cEtGNlNTaTl2eCtXOTZnRURUaEp1Z1VtaEZJNGoyTTJGamN2Vi9WbWhXN3ZK?=
- =?utf-8?B?bkFuN3NUSEx6cGZseXhQd2tWWnQ0b3RYeUlTZXlRRTZ0Z0VKOGsyOEFOSnZ0?=
- =?utf-8?B?OWhHbGNmVExZU0xQSWJuRFl2N09GckFYdklRZXNzbUlySEdSU0FaQkRybmsv?=
- =?utf-8?B?Q2ozdVhPYk84eFJ1WVJMcUJsa3JJOVlJV2lvVUpIN2NTMS9ucm5yRW5NMWFs?=
- =?utf-8?B?MXlqVzZOWTdDL1VSM01sWkQzU1p3ZCtCSWQ1UndJWDdIWDEyMlc2TE1RRTFI?=
- =?utf-8?B?d0ZEOXBhRTR6S00rU0lCSi9URVV4eVBIK2RWLzN4Y2N0NDdFYnQ5Z1hVak96?=
- =?utf-8?B?R1BBejlXK1NlU05uT1N1Y09xNEVKbGdtVi9qT0EvR0dqaUR2VEkyU2QybkZU?=
- =?utf-8?B?VVZGazQ1OTY3Nit3V1pwN0M0MXFyU0RkWkdpSkkrR20xa2ZjakZuOE4vWElN?=
- =?utf-8?B?OVNpajZOZVpmeFd2TVQzcmxwV2lKMVlONTVlWU9xTUtKdEpxR0NFdFlTK3NM?=
- =?utf-8?B?TC8rY0IzNVFxNHRXaEEweWtMbzkwcytRL0paeEZFTUx3UkR0eDYvNUxHR2Rs?=
- =?utf-8?B?eWREWnFqVHFtQ3JId2lvN3Q5Ry8wVmNGNFZvTnA1VEttWkozN2RKc1VnWlVm?=
- =?utf-8?B?WkpxRVBUeXlCbkxXQUNzeS9US09zbldlR1lxazNicEJKTHkwMHFPTk05OERS?=
- =?utf-8?B?MTJabnAvbXlubUFDVjFEZ29UY1o2c0JpbFJCWmJCZGI1WWUzRHpGbXEyQStG?=
- =?utf-8?B?bnloVlFzVU9JcUVJcFBJaEI4d0Zyd3hDaGh1bEV2R3REeHZpM2lUU2lmRW1G?=
- =?utf-8?B?c1dselZ0eFozZEpES25XbGorRDlKTG1ueWp0QWZxdkFZQzEwZklCZU9weTBD?=
- =?utf-8?B?YzRzTGNZYVQvdkI3b1R1SnNMMFdzbkdHcUU3aks4NERKSHJFbGhJT0txT3FH?=
- =?utf-8?B?Y2tia1g5K0xkc0tmNGoxSlhxa3owdGJSWjFnNWZ5M1dlczYwR0I2cDdSMHZF?=
- =?utf-8?B?YllGbGJnODlWVDgzUkFBa3dmem5rTDJWQU5sbVpwSHpKSlJwTDBJck1HUklT?=
- =?utf-8?B?amJpSGhGL3lxenMwL21vYWJ3KzJ5c2NOcGhzZHI0VU4zekgzd2FFb0pnUnlp?=
- =?utf-8?B?eWlsYVl0ZVpNVEE3Zk1FNlV2cHRVNGtYRHMzRTdabVBSVFJvdEhXcHBxbE1J?=
- =?utf-8?B?TE5wN3h1SzEwMHVIemQ3ckZrNDF6S0ZRWUh1dEFZRmVrZHNyclk2cnpxTS9Y?=
- =?utf-8?B?Qnhua3NyQlptQlBOdVR0WURkeXdHZDFzTXhpdjRieDArN25uLzZ5K094UVMr?=
- =?utf-8?B?enNOb0w1bE1GYW1UdDdKQTZ0cGc5dTBrVHh5NXQ0dmRGWjBINCt3RjAzelh0?=
- =?utf-8?B?VGU4c1JmVGVmRFBhMEI2UEc1TThsNVBRci9WdElOYlFMUGpFSitOcjQxcnhj?=
- =?utf-8?B?TzR2Qlo4MEpjek1YQlVtS0tmSHVXK0h2OWdQWFRTY2NKUk94bFIxbzlwUXRK?=
- =?utf-8?B?ZG96RVhRdTkyZjd5SEFhTm5mQWZoSmFNYW5SdVlJcW9vMGdDb1dzb2tScThL?=
- =?utf-8?B?NGc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <7BEA1347F082494FBB3DB556C2D65478@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="crukal6q"
+Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 4536kVEl012204;
+	Mon, 3 Jun 2024 07:09:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc : content-type : date
+ : from : in-reply-to : message-id : mime-version : references : subject :
+ to; s=pp1; bh=PD3QtyIGk6oeWGALWzB54J823YO78nWKEPR6OQkor9w=;
+ b=crukal6q3L7fRmamiZViY4nCy7HxPQ1SzJjNWRSIKEvQgM0RavCZLtGi6Tjk27QvF1Nl
+ U6i+bJ1DgoXxrjXnnrTD7RiKqxc8aUE2bphiM80b0Ktb30nIDyZY1lERrtvkdwSA1MoO
+ G4WgtNXA2+Og8YJ1EIvFMc5yhlmfkq+4ORwlcNwzhbOsOsNrQNXsmPyCYKy0WdJ2dg5+
+ sGRWcQxys1k8NYbRk73l+TFcgooXAIlANVg01Ukun/MvJryHlFhQ2gde0yHdmz+86qbJ
+ HtEkDJqeMpl9jiR3dza3yf2iifTx5Z91PzVgcnY9pA23pIuSEfVox+qq4lLt1Zofqq6p 7g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yh7pkr7vt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 03 Jun 2024 07:09:26 +0000
+Received: from m0353728.ppops.net (m0353728.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 45379QPc019761;
+	Mon, 3 Jun 2024 07:09:26 GMT
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yh7pkr7vr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 03 Jun 2024 07:09:26 +0000
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 4535DsRa000781;
+	Mon, 3 Jun 2024 07:09:25 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 3ygdytppc3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 03 Jun 2024 07:09:25 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 45379LK451839364
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 3 Jun 2024 07:09:23 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4C3682004F;
+	Mon,  3 Jun 2024 07:09:21 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1FD4B2004E;
+	Mon,  3 Jun 2024 07:09:19 +0000 (GMT)
+Received: from li-c6426e4c-27cf-11b2-a85c-95d65bc0de0e.ibm.com (unknown [9.204.206.66])
+	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Mon,  3 Jun 2024 07:09:18 +0000 (GMT)
+Date: Mon, 3 Jun 2024 12:39:16 +0530
+From: Gautam Menghani <gautam@linux.ibm.com>
+To: Nicholas Piggin <npiggin@gmail.com>
+Cc: mpe@ellerman.id.au, christophe.leroy@csgroup.eu, aneesh.kumar@kernel.org,
+        naveen.n.rao@linux.ibm.com, corbet@lwn.net,
+        linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        stable@vger.kernel.org
+Subject: Re: [PATCH v1 RESEND] arch/powerpc/kvm: Fix doorbell emulation by
+ adding DPDES support
+Message-ID: <r74chlv6bgs5csvuf4nxxtylmgartvibftp3xuztyfuynqetp5@ythddpzo6yfi>
+References: <20240522084949.123148-1-gautam@linux.ibm.com>
+ <D1Q54PY40E3B.22QS5DMQRA58N@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB8278.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6acc483e-e8f7-4a72-3c72-08dc839a25a0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jun 2024 06:55:25.8605
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: dahbS+p5nwJIrRn7HEcaw27+9XM7imKluiwCi0oHu5hVFX/zKqR7KUnbeiKkUwCpqJxHPxLTBwYydIuG9hpmYzvb6tuBIE+NrHa2NqPVzDFBsPFlYBf9E6Ns6+eC8bOH
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB5235
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <D1Q54PY40E3B.22QS5DMQRA58N@gmail.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: uoAnUEoMhWz5bq3pU5HjQOk-GAk36tl3
+X-Proofpoint-GUID: DwVUpsKaAiVwLUFyfEy-lclbLHzjmCl8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
+ definitions=2024-06-03_04,2024-05-30_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ mlxlogscore=508 mlxscore=0 clxscore=1015 bulkscore=0 spamscore=0
+ adultscore=0 priorityscore=1501 phishscore=0 malwarescore=0
+ lowpriorityscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2405010000 definitions=main-2406030058
 
-SGkgQW5kcmV3LA0KDQpPbiAzMS8wNS8yNCA2OjA3IHBtLCBBbmRyZXcgTHVubiB3cm90ZToNCj4g
-RVhURVJOQUwgRU1BSUw6IERvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVu
-bGVzcyB5b3Uga25vdyB0aGUgY29udGVudCBpcyBzYWZlDQo+IA0KPj4gU28gSSB3b3VsZCByZXF1
-ZXN0IGFsbCBvZiB5b3UgdG8gZ2l2ZSB5b3VyIGNvbW1lbnRzIG9uIHRoZSBleGlzdGluZw0KPj4g
-aW1wbGVtZW50YXRpb24gaW4gdGhlIHBhdGNoIHNlcmllcyB0byBpbXByb3ZlIGJldHRlci4gT25j
-ZSB0aGlzIHZlcnNpb24NCj4+IGlzIG1haW5saW5lZCB3ZSB3aWxsIGRpc2N1c3MgZnVydGhlciB0
-byBpbXBsZW1lbnQgZnVydGhlciBmZWF0dXJlcw0KPj4gc3VwcG9ydGVkLiBJIGZlZWwgdGhlIGN1
-cnJlbnQgZGlzY3Vzc2lvbiBkb2Vzbid0IGhhdmUgYW55IGltcGFjdCBvbiB0aGUNCj4+IGV4aXN0
-aW5nIGltcGxlbWVudGF0aW9uIHdoaWNoIHN1cHBvcnRzIGJhc2ljIDEwQmFzZS1UMVMgRXRoZXJu
-ZXQNCj4+IGNvbW11bmljYXRpb24uDQo+IA0KPiBBZ3JlZWQuIExldHMgZm9jdXMgb24gd2hhdCB3
-ZSBoYXZlIG5vdy4NCkdyZWF0LiBUaGFua3MgZm9yIHlvdXIgb3BpbmlvbiBvbiB0aGlzLg0KPiAN
-Cj4gaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9wcm9qZWN0L25ldGRldmJwZi9wYXRjaC8y
-MDI0MDQxODEyNTY0OC4zNzI1MjYtMi1QYXJ0aGliYW4uVmVlcmFzb29yYW5AbWljcm9jaGlwLmNv
-bS8NCj4gDQo+IFZlcnNpb24gNCBmYWlsZWQgdG8gYXBwbHkuIFNvIHdlIGFyZSBtaXNzaW5nIGFs
-bCB0aGUgQ0kgdGVzdHMuIFdlIG5lZWQNCj4gYSB2NSB3aGljaCBjbGVhbmx5IGFwcGxpZXMgdG8g
-bmV0LW5leHQgaW4gb3JkZXIgZm9yIHRob3NlIHRlc3RzIHRvDQo+IHJ1bi4NClN1cmUgSSB3aWxs
-IHN0YXJ0IHByZXBhcmluZyB0aGUgdjUgbm93Lg0KPiANCj4gSSB0aGluayB3ZSBzaG91bGQgZGlz
-YWJsZSB2ZW5kb3IgaW50ZXJydXB0cyBieSBkZWZhdWx0LCBzaW5jZSB3ZQ0KPiBjdXJyZW50bHkg
-aGF2ZSBubyB3YXkgdG8gaGFuZGxlIHRoZW0uDQpPSywgSSB3aWxsIHJlbW92ZSB0aGUgcGF0Y2gg
-d2hpY2ggZW5hYmxlcyB0aGUgaW50ZXJydXB0cy4NCj4gDQo+IEkgaGFkIGEgcXVpY2sgbG9vayBh
-dCB0aGUgY29tbWVudHMgb24gdGhlIHBhdGNoZXMuIEkgZG9uJ3QgdGhpbmsgd2UNCj4gaGF2ZSBh
-bnkgb3RoZXIgYmlnIGlzc3VlcyBub3QgYWdyZWVkIG9uLiBTbyBwbGVhc2UgcG9zdCBhIHY1IHdp
-dGggdGhlbQ0KPiBhbGwgYWRkcmVzc2VkIGFuZCB3ZSB3aWxsIHNlZSB3aGF0IHRoZSBDSSBzYXlz
-Lg0KU3VyZSwgdGhhbmtzIGZvciB0aGUgY29uZmlybWF0aW9uLg0KDQpCZXN0IHJlZ2FyZHMsDQpQ
-YXJ0aGliYW4gVg0KPiANCj4gUGllcmdpb3JnaW8sIGlmIHlvdSBoYXZlIGFueSByZWFsIHByb2Js
-ZW1zIGdldHRpbmcgYmFzaWMgc3VwcG9ydCBmb3INCj4geW91ciBkZXZpY2Ugd29ya2luZyB3aXRo
-IHRoaXMgZnJhbWV3b3JrLCBub3cgd291bGQgYmUgYSBnb29kIHRpbWUgdG8NCj4gcmFpc2UgdGhl
-IHByb2JsZW1zLg0KPiANCj4gICAgICAgICAgQW5kcmV3DQoNCg==
+On Mon, Jun 03, 2024 at 03:42:22PM GMT, Nicholas Piggin wrote:
+> On Wed May 22, 2024 at 6:49 PM AEST, Gautam Menghani wrote:
+> > Doorbell emulation is broken for KVM on PowerVM guests as support for
+> > DPDES was not added in the initial patch series. Due to this, a KVM on
+> > PowerVM guest cannot be booted with the XICS interrupt controller as
+> > doorbells are to be setup in the initial probe path when using XICS
+> > (pSeries_smp_probe()). Add DPDES support in the host KVM code to fix
+> > doorbell emulation.
+> 
+> This is broken when the KVM guest has SMT > 1? Or is it broken for SMT=1
+> as well? Can you explain a bit more of what breaks if it's the latter?
+
+Yes, doorbells are only setup when we use SMT>1 and interrupt controller
+is XICS. So without this patch, L2 KOP guest with XICS IC mode and SMT>1 
+does not boot. SMT 1 is fine in all cases.
+
+> 
+> > Fixes: 6ccbbc33f06a ("KVM: PPC: Add helper library for Guest State Buffers")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Gautam Menghani <gautam@linux.ibm.com>
+> > ---
+> > v1 -> v1 resend:
+> > 1. Add the stable tag
+> >
+> >  Documentation/arch/powerpc/kvm-nested.rst     |  4 +++-
+> >  arch/powerpc/include/asm/guest-state-buffer.h |  3 ++-
+> >  arch/powerpc/include/asm/kvm_book3s.h         |  1 +
+> >  arch/powerpc/kvm/book3s_hv.c                  | 14 +++++++++++++-
+> >  arch/powerpc/kvm/book3s_hv_nestedv2.c         |  7 +++++++
+> >  arch/powerpc/kvm/test-guest-state-buffer.c    |  2 +-
+> >  6 files changed, 27 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/Documentation/arch/powerpc/kvm-nested.rst b/Documentation/arch/powerpc/kvm-nested.rst
+> > index 630602a8aa00..5defd13cc6c1 100644
+> > --- a/Documentation/arch/powerpc/kvm-nested.rst
+> > +++ b/Documentation/arch/powerpc/kvm-nested.rst
+> > @@ -546,7 +546,9 @@ table information.
+> >  +--------+-------+----+--------+----------------------------------+
+> >  | 0x1052 | 0x08  | RW |   T    | CTRL                             |
+> >  +--------+-------+----+--------+----------------------------------+
+> > -| 0x1053-|       |    |        | Reserved                         |
+> > +| 0x1053 | 0x08  | RW |   T    | DPDES                            |
+> > ++--------+-------+----+--------+----------------------------------+
+> > +| 0x1054-|       |    |        | Reserved                         |
+> >  | 0x1FFF |       |    |        |                                  |
+> >  +--------+-------+----+--------+----------------------------------+
+> >  | 0x2000 | 0x04  | RW |   T    | CR                               |
+> > diff --git a/arch/powerpc/include/asm/guest-state-buffer.h b/arch/powerpc/include/asm/guest-state-buffer.h
+> > index 808149f31576..d107abe1468f 100644
+> > --- a/arch/powerpc/include/asm/guest-state-buffer.h
+> > +++ b/arch/powerpc/include/asm/guest-state-buffer.h
+> > @@ -81,6 +81,7 @@
+> >  #define KVMPPC_GSID_HASHKEYR			0x1050
+> >  #define KVMPPC_GSID_HASHPKEYR			0x1051
+> >  #define KVMPPC_GSID_CTRL			0x1052
+> > +#define KVMPPC_GSID_DPDES			0x1053
+> >  
+> >  #define KVMPPC_GSID_CR				0x2000
+> >  #define KVMPPC_GSID_PIDR			0x2001
+> > @@ -110,7 +111,7 @@
+> >  #define KVMPPC_GSE_META_COUNT (KVMPPC_GSE_META_END - KVMPPC_GSE_META_START + 1)
+> >  
+> >  #define KVMPPC_GSE_DW_REGS_START KVMPPC_GSID_GPR(0)
+> > -#define KVMPPC_GSE_DW_REGS_END KVMPPC_GSID_CTRL
+> > +#define KVMPPC_GSE_DW_REGS_END KVMPPC_GSID_DPDES
+> >  #define KVMPPC_GSE_DW_REGS_COUNT \
+> >  	(KVMPPC_GSE_DW_REGS_END - KVMPPC_GSE_DW_REGS_START + 1)
+> >  
+> > diff --git a/arch/powerpc/include/asm/kvm_book3s.h b/arch/powerpc/include/asm/kvm_book3s.h
+> > index 3e1e2a698c9e..10618622d7ef 100644
+> > --- a/arch/powerpc/include/asm/kvm_book3s.h
+> > +++ b/arch/powerpc/include/asm/kvm_book3s.h
+> > @@ -594,6 +594,7 @@ static inline u##size kvmppc_get_##reg(struct kvm_vcpu *vcpu)		\
+> >  
+> >  
+> >  KVMPPC_BOOK3S_VCORE_ACCESSOR(vtb, 64, KVMPPC_GSID_VTB)
+> > +KVMPPC_BOOK3S_VCORE_ACCESSOR(dpdes, 64, KVMPPC_GSID_DPDES)
+> >  KVMPPC_BOOK3S_VCORE_ACCESSOR_GET(arch_compat, 32, KVMPPC_GSID_LOGICAL_PVR)
+> >  KVMPPC_BOOK3S_VCORE_ACCESSOR_GET(lpcr, 64, KVMPPC_GSID_LPCR)
+> >  KVMPPC_BOOK3S_VCORE_ACCESSOR_SET(tb_offset, 64, KVMPPC_GSID_TB_OFFSET)
+> > diff --git a/arch/powerpc/kvm/book3s_hv.c b/arch/powerpc/kvm/book3s_hv.c
+> > index 35cb014a0c51..cf285e5153ba 100644
+> > --- a/arch/powerpc/kvm/book3s_hv.c
+> > +++ b/arch/powerpc/kvm/book3s_hv.c
+> > @@ -4116,6 +4116,11 @@ static int kvmhv_vcpu_entry_nestedv2(struct kvm_vcpu *vcpu, u64 time_limit,
+> >  	int trap;
+> >  	long rc;
+> >  
+> > +	if (vcpu->arch.doorbell_request) {
+> > +		vcpu->arch.doorbell_request = 0;
+> > +		kvmppc_set_dpdes(vcpu, 1);
+> > +	}
+> 
+> This probably looks okay... hmm, is the v1 KVM emulating doorbells
+> correctly for SMT L2 guests? I wonder if doorbell emulation isn't
+> broken there too because the L1 code looks to be passing in vc->dpdes
+> but all the POWER9 emulation code uses doorbell_request.
+> 
+
+Yes launching SMT L2 on V1 API fails with a kernel Oops, I'll see if I
+can fix that as well.
+
+> > +
+> >  	io = &vcpu->arch.nestedv2_io;
+> >  
+> >  	msr = mfmsr();
+> > @@ -4278,9 +4283,16 @@ static int kvmhv_p9_guest_entry(struct kvm_vcpu *vcpu, u64 time_limit,
+> >  	if (kvmhv_on_pseries()) {
+> >  		if (kvmhv_is_nestedv1())
+> >  			trap = kvmhv_vcpu_entry_p9_nested(vcpu, time_limit, lpcr, tb);
+> > -		else
+> > +		else {
+> >  			trap = kvmhv_vcpu_entry_nestedv2(vcpu, time_limit, lpcr, tb);
+> >  
+> > +			/* Remember doorbell if it is pending  */
+> > +			if (kvmppc_get_dpdes(vcpu)) {
+> > +				vcpu->arch.doorbell_request = 1;
+> > +				kvmppc_set_dpdes(vcpu, 0);
+> > +			}
+> 
+> This is adding an extra get state for every entry, not good. I don't
+> think it's actually needed though. I don't think the L1 cares at this
+> stage what the L2 DPDES state is. So you sholud be able to drop this
+> hunk.
+> 
+Yes ok.
+
+> > +		}
+> > +
+> >  		/* H_CEDE has to be handled now, not later */
+> >  		if (trap == BOOK3S_INTERRUPT_SYSCALL && !nested &&
+> >  		    kvmppc_get_gpr(vcpu, 3) == H_CEDE) {
+> > diff --git a/arch/powerpc/kvm/book3s_hv_nestedv2.c b/arch/powerpc/kvm/book3s_hv_nestedv2.c
+> > index 8e6f5355f08b..36863fff2a99 100644
+> > --- a/arch/powerpc/kvm/book3s_hv_nestedv2.c
+> > +++ b/arch/powerpc/kvm/book3s_hv_nestedv2.c
+> > @@ -311,6 +311,10 @@ static int gs_msg_ops_vcpu_fill_info(struct kvmppc_gs_buff *gsb,
+> >  			rc = kvmppc_gse_put_u64(gsb, iden,
+> >  						vcpu->arch.vcore->vtb);
+> >  			break;
+> > +		case KVMPPC_GSID_DPDES:
+> > +			rc = kvmppc_gse_put_u64(gsb, iden,
+> > +						vcpu->arch.vcore->dpdes);
+> > +			break;
+> >  		case KVMPPC_GSID_LPCR:
+> >  			rc = kvmppc_gse_put_u64(gsb, iden,
+> >  						vcpu->arch.vcore->lpcr);
+> > @@ -543,6 +547,9 @@ static int gs_msg_ops_vcpu_refresh_info(struct kvmppc_gs_msg *gsm,
+> >  		case KVMPPC_GSID_VTB:
+> >  			vcpu->arch.vcore->vtb = kvmppc_gse_get_u64(gse);
+> >  			break;
+> > +		case KVMPPC_GSID_DPDES:
+> > +			vcpu->arch.vcore->dpdes = kvmppc_gse_get_u64(gse);
+> > +			break;
+> >  		case KVMPPC_GSID_LPCR:
+> >  			vcpu->arch.vcore->lpcr = kvmppc_gse_get_u64(gse);
+> >  			break;
+> 
+> I would split all the wiring up of the DPDES GSID stuff into its own
+> patch, it obviously looks fine.
+> 
+Noted, will do.
+
+> > diff --git a/arch/powerpc/kvm/test-guest-state-buffer.c b/arch/powerpc/kvm/test-guest-state-buffer.c
+> > index 4720b8dc8837..91ae660cfe21 100644
+> > --- a/arch/powerpc/kvm/test-guest-state-buffer.c
+> > +++ b/arch/powerpc/kvm/test-guest-state-buffer.c
+> > @@ -151,7 +151,7 @@ static void test_gs_bitmap(struct kunit *test)
+> >  		i++;
+> >  	}
+> >  
+> > -	for (u16 iden = KVMPPC_GSID_GPR(0); iden <= KVMPPC_GSID_CTRL; iden++) {
+> > +	for (u16 iden = KVMPPC_GSID_GPR(0); iden <= KVMPPC_GSID_DPDES; iden++) {
+> >  		kvmppc_gsbm_set(&gsbm, iden);
+> >  		kvmppc_gsbm_set(&gsbm1, iden);
+> >  		KUNIT_EXPECT_TRUE(test, kvmppc_gsbm_test(&gsbm, iden));
+> 
+> It would be good to have a  _LAST define for such loops. It's very easy
+> to miss when adding KVMPPC_GSID_DPDES that you need to grep for
+> KVMPPC_GSID_CTRL. Very easy to see that you need to update _LAST.
+> 
+> You just need to work out a good name for it since there's a few
+> "namespaces" of numbers with similar prefix. Good luck :)
+> 
+
+Well we already have a "KVMPPC_GSE_DW_REGS_END" defined, just missed to
+use that. 
+
+
+> Thanks,
+> Nick
