@@ -1,253 +1,264 @@
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C30744688
-	for <linux-doc@vger.kernel.org>; Mon,  3 Jun 2024 01:40:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 017DD19BDC;
+	Mon,  3 Jun 2024 05:42:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717378848; cv=none; b=bkaUjLRt5pgFIVRdmj+wxu7Pt5wFzvhvilvmC1sbY9Ab0iQZw0PtkdPTRc5xd1Tqt+opyh2epIkauq/wCH67AqdJuc3EeWpxWRf+3k2GDERexzPElfM15YnVPncLF4SNwttpAIziB3C4OAPdKocse2UGaTchjUHLKJ/lS+hv2a4=
+	t=1717393353; cv=none; b=ry+6gn+pG4zB8WWXyU38dWlis/LeF0Wf2MycDeOklXM1z33Zy5VXJ590ttJz8mJZYaxw7euBxCq8t86VZEr10mYXVmj4W/42PleElg+5iaaNrIJh+kxW5BXav1Lv9kxy/iSF5v7AuBa+KFqcmo9CdUp8rfG63zqebscwE168S0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717378848; c=relaxed/simple;
-	bh=uDNSXK89staAi5wtMKyMoU94EEY42WkdDv0RK++eZMI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VUXELP3ZjKiJnsD4Smf3/M1MzXxSVG5f1f5MJeoh40jlB8t48zuPs7KvCjPOQE2eSHYAHFHmtLyZwJpvc4glJjxOd9mBQZaZ2fref0kbEdNnMmBkC1YFkblDTMzWTGlnx4spsq17gCMG1iNwn36UMtgoFNAavKrrFx3YiprOd/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=RYjQsO0D; arc=none smtp.client-ip=209.85.128.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	s=arc-20240116; t=1717393353; c=relaxed/simple;
+	bh=pKs8QoJWRmox7R0ZKcwyWP16f75KVw08okCpMXGmJcg=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=OYY4GSB7uLfbIwprcSWgPx+tVY2uNwIVL6H10nXbksXddON26CA472ugPyqdOqhBu9xxuXJ0WaIurJ2ETC7opsjGiV2/wNDIGxlv1YltbUpFWLSBq4cPaLnX6ruv7dVcdS5v46eiWIL19f7RR4hLp7HYK80D0U8PhcUB0BzgtQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a/2ZQwXd; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="RYjQsO0D"
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-627e3368394so27990977b3.2
-        for <linux-doc@vger.kernel.org>; Sun, 02 Jun 2024 18:40:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a/2ZQwXd"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1f658800344so9922125ad.0;
+        Sun, 02 Jun 2024 22:42:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1717378846; x=1717983646; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1717393351; x=1717998151; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/TDOjHWp8bXjvFuOeUFIDKGP58ph/UwrghwjNGtMBFo=;
-        b=RYjQsO0DfvgHqBCGsvHAcbAHl9HU4f0BLKGWoAhkVfLHsMzZCDlauGIcO8Zi0zsEE8
-         M7XvTDb+YCrGoMFDowYr9Yh4XYdyVmnfFufXCWm4umBfkR8jbFUQu1bpJZt+75dS68jg
-         OD8r5v+QXd4Hge4ei1NoIcL5zd8zZenWCZ873uuKAoF6Nbqf9Q7rZeJOihdC8ebvVd3H
-         29C/F08soBnYShxWQxDw3x54ov00DwutdtBZoZdvNL50Edk6qwkE6om+Q7LIfnfbeRCI
-         szNU4K+o9p4Y9kl+1PRQ+nH1LCjBgj3g51DXdOAqFietZ3FwamjP9dvQ9FOsvBynxG+y
-         hkTQ==
+        bh=vqYAbxXcZiC2cItjTqmcXMDzdjrchjWHaH7w9GA8zDM=;
+        b=a/2ZQwXdotUvKR+V7EGSvSAl2jP6tYpsbW7kvMlf2GeRSGQg/iPIB2fPJ+gdaMEM8M
+         5toeKkBqWU+rLBLw1UtLnGjjtA/SDZy/9QHle8PUNNeG8s/Gm7Q5scbpIShpiXEt7qJ3
+         z4qYfG7HB+e+RNRTv/ZBcHauGYwlQSDwVB9Mfgpb1U216crnXk+4+GuAsedrJeknM9lE
+         g4zi7vI3Gm0Xs4/xwAr7O9kE7kjC+p8bN9yVlFW0HNBMUu1J1UB8jF8GuwnIGRVFTyoh
+         yEA4pSlOn1NZCZKsIezx/rFwHZz8RiaVzOwnKR3dHeJyTJwfUQuM/JZe4hc12NBEIDGd
+         dvFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717378846; x=1717983646;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/TDOjHWp8bXjvFuOeUFIDKGP58ph/UwrghwjNGtMBFo=;
-        b=muL05741QprPs3i/biVMEnWrlQ4MkkhCK+x0SU33/FnraCfksFxXYMyLLhqbd0hvVM
-         Lfqq8SdgY3eLH84egxIu/0RQaUs9O7D3LZQLvhhFzzOE+tg6Bqz6jN3lZJ8yM53MG7bd
-         17id+UVjx209hLFbCoZn1UOziNsCtMGs7SEbZueXb2KD2KkGmIqOQfPM998cK0IA4z5b
-         gOsv/j+JRCfF7spbowgoNfgDSpHdifSAdZafgsiE/8tbgY5MzybSd1Oaxwibn24lHGxp
-         9yHEU/4THUvuCoYeHMS7tV3dHI6zolv5CIEL8gmQ/eqzuB5Ooj2R7R7N6VMueMaV8RYH
-         Lg1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVlQLbD8PiWvdee8oBFoCh4vbCB2YRbWMw8sFKi3ML6I6/nTpoliCElQVKeoA51xAoYVNJLCnQL87q7KXZsGFiSSQ73luosWwFZ
-X-Gm-Message-State: AOJu0Yy41ZAj9T+ZDYzE1reBRIRAdxx5cEbZCN3SFSUROTUpzXl5qFyE
-	GkZTP4zkUZzkD+5+zPppjycuILcbIS2aRZrUJQ511sIdRm6aGZW6z5eP7sCKQEoinuwkcicQEbR
-	+FFOaiS/U+EcuyxWA+0f5qhRosQ7u3cJ9w0A366lkjV6PUuFZIA==
-X-Google-Smtp-Source: AGHT+IFp652CCfD0M3qHSzvSxnuvYGSkS9KDgo5K/vd2UhiOAnsvsgHt4NTZTmN643EolwNgor3GheXekQ2a83RNBjY=
-X-Received: by 2002:a81:ae42:0:b0:627:e414:2f46 with SMTP id
- 00721157ae682-62c79708847mr83808507b3.28.1717378845664; Sun, 02 Jun 2024
- 18:40:45 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1717393351; x=1717998151;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=vqYAbxXcZiC2cItjTqmcXMDzdjrchjWHaH7w9GA8zDM=;
+        b=IQ1euGHYIW0IpQwIdI40lzF5F3sXMggJZC1xY4U8tGxw8iTI3stZ1SY33BFeoNnti/
+         igzxzha5vOfuzNW22o0Y4R4VwQhCiAPzA7ETwqNG86cEW/Xqxvo6xErjP/STpdmGeCzb
+         /uhR1EzSOfUvorzbuFZy3OpL+4w4Ky0wraN3TgEnAcC6STsDvOL5ZAdnCq2Fqe6+xziw
+         4gJqvjCKJFAH4E8ZjE/2eM8asY9/UECO7MNlYojHRWRaK2k0Nn6sLTswB9D8l7WR0UgW
+         1LcZ8Egp+WZVTt4Fxzd52DQgr8gd+fpXfR/dRyvEyn6zVCrTkv/DBAxq0FEabEYXCGh2
+         d8aQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWWmsegF23C/YeiqxwCBsglBf43ExAaPO3CcjZayKe4wEFVaHoUMXEaIE1ajQG03ix3YEKEWzcFj1OZp+EHJxPWMTGyxaX8krHCxfUOWAmD3MKKEcDcxIPRIwHODy8O+QjcBsOqJgi9DCoLz4QPEasWBmm/BVRKHjJU5PkQ+9c5odXxp81mLgvWVS5tp8B19QXsrkDQ
+X-Gm-Message-State: AOJu0YzbSrlZHO4mqdv2QwW0z77eVlCv3ib3n9S12AJhNVN6Op5S5e/P
+	TONm9tHJR4zt8YLUg1fjxlw+yXyXeBQZ7zQTXavm79oDi0uum0CP
+X-Google-Smtp-Source: AGHT+IFbKOdWWXidloqwMZDBr31ClzFKnCfuvB525mbYLqAvqHSEPBkL0Qe8xxXnrIDsvWatGYYa3A==
+X-Received: by 2002:a17:903:2c6:b0:1f4:b18a:3f25 with SMTP id d9443c01a7336-1f6370a3163mr101095265ad.60.1717393351163;
+        Sun, 02 Jun 2024 22:42:31 -0700 (PDT)
+Received: from localhost ([1.128.202.53])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f63232dcb6sm55868575ad.61.2024.06.02.22.42.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 02 Jun 2024 22:42:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <1716583609-21790-1-git-send-email-wufan@linux.microsoft.com>
- <1716583609-21790-16-git-send-email-wufan@linux.microsoft.com>
- <CAHC9VhRsnGjZATBj7-evK6Gdryr54raTTKMYO_vup8AGXLwjQg@mail.gmail.com>
- <20240530030605.GA29189@sol.localdomain> <CAHC9VhRySQ0c16UZz5xKT-y5Tn39wXxe4-f7LNjFY+ROGGxpaQ@mail.gmail.com>
- <20240531004321.GA1238@sol.localdomain> <CAHC9VhRRuBdnv3u2VjKZCR672p4oj_smA72P-181ysdDXGJ-AA@mail.gmail.com>
- <20240531174710.GA1199@sol.localdomain>
-In-Reply-To: <20240531174710.GA1199@sol.localdomain>
-From: Paul Moore <paul@paul-moore.com>
-Date: Sun, 2 Jun 2024 21:40:34 -0400
-Message-ID: <CAHC9VhQDPnq3X0fFOXf5zY38K_STffmZJMqHp50sVqWW6pcabw@mail.gmail.com>
-Subject: Re: [PATCH v19 15/20] fsverity: expose verified fsverity built-in
- signatures to LSMs
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Fan Wu <wufan@linux.microsoft.com>, corbet@lwn.net, zohar@linux.ibm.com, 
-	jmorris@namei.org, serge@hallyn.com, tytso@mit.edu, axboe@kernel.dk, 
-	agk@redhat.com, snitzer@kernel.org, mpatocka@redhat.com, eparis@redhat.com, 
-	linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, fsverity@lists.linux.dev, 
-	linux-block@vger.kernel.org, dm-devel@lists.linux.dev, audit@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Deven Bowers <deven.desai@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 03 Jun 2024 15:42:22 +1000
+Message-Id: <D1Q54PY40E3B.22QS5DMQRA58N@gmail.com>
+Cc: <linuxppc-dev@lists.ozlabs.org>, <kvm@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <stable@vger.kernel.org>
+Subject: Re: [PATCH v1 RESEND] arch/powerpc/kvm: Fix doorbell emulation by
+ adding DPDES support
+From: "Nicholas Piggin" <npiggin@gmail.com>
+To: "Gautam Menghani" <gautam@linux.ibm.com>, <mpe@ellerman.id.au>,
+ <christophe.leroy@csgroup.eu>, <aneesh.kumar@kernel.org>,
+ <naveen.n.rao@linux.ibm.com>, <corbet@lwn.net>
+X-Mailer: aerc 0.17.0
+References: <20240522084949.123148-1-gautam@linux.ibm.com>
+In-Reply-To: <20240522084949.123148-1-gautam@linux.ibm.com>
 
-On Fri, May 31, 2024 at 1:47=E2=80=AFPM Eric Biggers <ebiggers@kernel.org> =
-wrote:
-> On Fri, May 31, 2024 at 11:51:47AM -0400, Paul Moore wrote:
-> > On Thu, May 30, 2024 at 8:43=E2=80=AFPM Eric Biggers <ebiggers@kernel.o=
-rg> wrote:
-> > > On Thu, May 30, 2024 at 04:54:37PM -0400, Paul Moore wrote:
-> > > > On Wed, May 29, 2024 at 11:06=E2=80=AFPM Eric Biggers <ebiggers@ker=
-nel.org> wrote:
-> > > > > On Wed, May 29, 2024 at 09:46:57PM -0400, Paul Moore wrote:
-> > > > > > On Fri, May 24, 2024 at 4:46=E2=80=AFPM Fan Wu <wufan@linux.mic=
-rosoft.com> wrote:
-> > > > > > >
-> > > > > > > This patch enhances fsverity's capabilities to support both i=
-ntegrity and
-> > > > > > > authenticity protection by introducing the exposure of built-=
-in
-> > > > > > > signatures through a new LSM hook. This functionality allows =
-LSMs,
-> > > > > > > e.g. IPE, to enforce policies based on the authenticity and i=
-ntegrity of
-> > > > > > > files, specifically focusing on built-in fsverity signatures.=
- It enables
-> > > > > > > a policy enforcement layer within LSMs for fsverity, offering=
- granular
-> > > > > > > control over the usage of authenticity claims. For instance, =
-a policy
-> > > > > > > could be established to permit the execution of all files wit=
-h verified
-> > > > > > > built-in fsverity signatures while restricting kernel module =
-loading
-> > > > > > > from specified fsverity files via fsverity digests.
-> > > >
-> > > > ...
-> > > >
-> > > > > > Eric, can you give this patch in particular a look to make sure=
- you
-> > > > > > are okay with everything?  I believe Fan has addressed all of y=
-our
-> > > > > > previous comments and it would be nice to have your Ack/Review =
-tag if
-> > > > > > you are okay with the current revision.
-> > > > >
-> > > > > Sorry, I've just gotten a bit tired of finding so many basic issu=
-es in this
-> > > > > patchset even after years of revisions.
-> > > > >
-> > > > > This patch in particular is finally looking better.  There are a =
-couple issues
-> > > > > that I still see.  (BTW, you're welcome to review it too to help =
-find these
-> > > > > things, given that you seem to have an interest in getting this l=
-anded...):
-> > > >
-> > > > I too have been reviewing this patchset across multiple years and h=
-ave
-> > > > worked with Fan to fix locking issues, parsing issues, the initramf=
-s
-> > > > approach, etc.
-> > >
-> > > Sure, but none of the patches actually have your Reviewed-by.
-> >
-> > As a general rule I don't post Acked-by/Reviewed-by tags for patches
-> > that are targeting a subsystem that I maintain.  The logic being that
-> > I'm going to be adding my Signed-off-by tag to the patches and arguing
-> > these in front of Linus, so adding a Acked-by/Reviewed-by simply
-> > creates more work later on where I have to strip them off and replace
-> > them with my sign-off.
-> >
-> > If the lack of a Reviewed-by tag is *really* what is preventing you
-> > from reviewing the fs-verity patch, I can post that starting with the
-> > next revision, but I'm guessing the lack of my tag isn't your core
-> > issue (or at least I would argue it shouldn't be).
-> >
-> > > > My interest in getting this landed is simply a
-> > > > combination of fulfilling my role as LSM maintainer as well as bein=
-g
-> > > > Fan's coworker.  While I realize you don't work with Fan, you are
-> > > > listed as the fs-verity maintainer and as such I've been looking to
-> > > > you to help review and authorize the fs-verity related code.  If yo=
-u
-> > > > are too busy, frustrated, or <fill in the blank> to continue review=
-ing
-> > > > this patchset it would be helpful if you could identify an authoriz=
-ed
-> > > > fs-verity reviewer.  I don't see any besides you and Ted listed in =
-the
-> > > > MAINTAINERS file, but perhaps the fs-verity entry is dated.
-> > > >
-> > > > Regardless, I appreciate your time and feedback thus far and I'm su=
-re
-> > > > Fan does as well.
-> > >
-> > > Maintainers are expected to do reviews and acks, but not to the exten=
-t of
-> > > extensive hand-holding of a half-baked submission.
-> >
-> > Considering the current state of this patchset I don't believe that
-> > verdict to be fair, or very considerate.
-> >
-> > We clearly have different styles and approaches towards subsystem
-> > maintainer roles.  I've had the good fortune to work with both hostile
-> > and helpful senior developers during the early years of my time
-> > working in the Linux kernel, and it helped reinforce the impact
-> > patience and mentoring can have on contributors who are new to the
-> > Linux kernel or perhaps system programming in general.  While I'm far
-> > from perfect in this regard, I do hope and recommend that all of us in
-> > maintainer, or senior developer, roles remember to exercise some
-> > additional patience and education when working with new contributors.
-> >
+On Wed May 22, 2024 at 6:49 PM AEST, Gautam Menghani wrote:
+> Doorbell emulation is broken for KVM on PowerVM guests as support for
+> DPDES was not added in the initial patch series. Due to this, a KVM on
+> PowerVM guest cannot be booted with the XICS interrupt controller as
+> doorbells are to be setup in the initial probe path when using XICS
+> (pSeries_smp_probe()). Add DPDES support in the host KVM code to fix
+> doorbell emulation.
+
+This is broken when the KVM guest has SMT > 1? Or is it broken for SMT=3D1
+as well? Can you explain a bit more of what breaks if it's the latter?
+
+> Fixes: 6ccbbc33f06a ("KVM: PPC: Add helper library for Guest State Buffer=
+s")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Gautam Menghani <gautam@linux.ibm.com>
+> ---
+> v1 -> v1 resend:
+> 1. Add the stable tag
 >
-> It's not clear to me that you've done a close review of the verity relate=
-d
-> patches, including not just this one but the dm-verity related ones and t=
-he
-> fsverity and dm-verity support in IPE itself, given the issues that I've =
-been
-> finding in them in the last couple months.
+>  Documentation/arch/powerpc/kvm-nested.rst     |  4 +++-
+>  arch/powerpc/include/asm/guest-state-buffer.h |  3 ++-
+>  arch/powerpc/include/asm/kvm_book3s.h         |  1 +
+>  arch/powerpc/kvm/book3s_hv.c                  | 14 +++++++++++++-
+>  arch/powerpc/kvm/book3s_hv_nestedv2.c         |  7 +++++++
+>  arch/powerpc/kvm/test-guest-state-buffer.c    |  2 +-
+>  6 files changed, 27 insertions(+), 4 deletions(-)
+>
+> diff --git a/Documentation/arch/powerpc/kvm-nested.rst b/Documentation/ar=
+ch/powerpc/kvm-nested.rst
+> index 630602a8aa00..5defd13cc6c1 100644
+> --- a/Documentation/arch/powerpc/kvm-nested.rst
+> +++ b/Documentation/arch/powerpc/kvm-nested.rst
+> @@ -546,7 +546,9 @@ table information.
+>  +--------+-------+----+--------+----------------------------------+
+>  | 0x1052 | 0x08  | RW |   T    | CTRL                             |
+>  +--------+-------+----+--------+----------------------------------+
+> -| 0x1053-|       |    |        | Reserved                         |
+> +| 0x1053 | 0x08  | RW |   T    | DPDES                            |
+> ++--------+-------+----+--------+----------------------------------+
+> +| 0x1054-|       |    |        | Reserved                         |
+>  | 0x1FFF |       |    |        |                                  |
+>  +--------+-------+----+--------+----------------------------------+
+>  | 0x2000 | 0x04  | RW |   T    | CR                               |
+> diff --git a/arch/powerpc/include/asm/guest-state-buffer.h b/arch/powerpc=
+/include/asm/guest-state-buffer.h
+> index 808149f31576..d107abe1468f 100644
+> --- a/arch/powerpc/include/asm/guest-state-buffer.h
+> +++ b/arch/powerpc/include/asm/guest-state-buffer.h
+> @@ -81,6 +81,7 @@
+>  #define KVMPPC_GSID_HASHKEYR			0x1050
+>  #define KVMPPC_GSID_HASHPKEYR			0x1051
+>  #define KVMPPC_GSID_CTRL			0x1052
+> +#define KVMPPC_GSID_DPDES			0x1053
+> =20
+>  #define KVMPPC_GSID_CR				0x2000
+>  #define KVMPPC_GSID_PIDR			0x2001
+> @@ -110,7 +111,7 @@
+>  #define KVMPPC_GSE_META_COUNT (KVMPPC_GSE_META_END - KVMPPC_GSE_META_STA=
+RT + 1)
+> =20
+>  #define KVMPPC_GSE_DW_REGS_START KVMPPC_GSID_GPR(0)
+> -#define KVMPPC_GSE_DW_REGS_END KVMPPC_GSID_CTRL
+> +#define KVMPPC_GSE_DW_REGS_END KVMPPC_GSID_DPDES
+>  #define KVMPPC_GSE_DW_REGS_COUNT \
+>  	(KVMPPC_GSE_DW_REGS_END - KVMPPC_GSE_DW_REGS_START + 1)
+> =20
+> diff --git a/arch/powerpc/include/asm/kvm_book3s.h b/arch/powerpc/include=
+/asm/kvm_book3s.h
+> index 3e1e2a698c9e..10618622d7ef 100644
+> --- a/arch/powerpc/include/asm/kvm_book3s.h
+> +++ b/arch/powerpc/include/asm/kvm_book3s.h
+> @@ -594,6 +594,7 @@ static inline u##size kvmppc_get_##reg(struct kvm_vcp=
+u *vcpu)		\
+> =20
+> =20
+>  KVMPPC_BOOK3S_VCORE_ACCESSOR(vtb, 64, KVMPPC_GSID_VTB)
+> +KVMPPC_BOOK3S_VCORE_ACCESSOR(dpdes, 64, KVMPPC_GSID_DPDES)
+>  KVMPPC_BOOK3S_VCORE_ACCESSOR_GET(arch_compat, 32, KVMPPC_GSID_LOGICAL_PV=
+R)
+>  KVMPPC_BOOK3S_VCORE_ACCESSOR_GET(lpcr, 64, KVMPPC_GSID_LPCR)
+>  KVMPPC_BOOK3S_VCORE_ACCESSOR_SET(tb_offset, 64, KVMPPC_GSID_TB_OFFSET)
+> diff --git a/arch/powerpc/kvm/book3s_hv.c b/arch/powerpc/kvm/book3s_hv.c
+> index 35cb014a0c51..cf285e5153ba 100644
+> --- a/arch/powerpc/kvm/book3s_hv.c
+> +++ b/arch/powerpc/kvm/book3s_hv.c
+> @@ -4116,6 +4116,11 @@ static int kvmhv_vcpu_entry_nestedv2(struct kvm_vc=
+pu *vcpu, u64 time_limit,
+>  	int trap;
+>  	long rc;
+> =20
+> +	if (vcpu->arch.doorbell_request) {
+> +		vcpu->arch.doorbell_request =3D 0;
+> +		kvmppc_set_dpdes(vcpu, 1);
+> +	}
 
-I have not been able to give the fs-verify or dm-verity patches the
-same level of scrutiny as the associated subsystem maintainers simply
-because I lack the deep history and background; I rely on the
-associated maintainers to catch the important "gotchas" as we've seen
-in the patchset.
+This probably looks okay... hmm, is the v1 KVM emulating doorbells
+correctly for SMT L2 guests? I wonder if doorbell emulation isn't
+broken there too because the L1 code looks to be passing in vc->dpdes
+but all the POWER9 emulation code uses doorbell_request.
 
-> As I said before, I'm not too
-> enthusiastic about IPE myself, for various reasons I've explained, so I'v=
-e
-> really been looking to the people who actually want it to help drive it f=
-orward.
+> +
+>  	io =3D &vcpu->arch.nestedv2_io;
+> =20
+>  	msr =3D mfmsr();
+> @@ -4278,9 +4283,16 @@ static int kvmhv_p9_guest_entry(struct kvm_vcpu *v=
+cpu, u64 time_limit,
+>  	if (kvmhv_on_pseries()) {
+>  		if (kvmhv_is_nestedv1())
+>  			trap =3D kvmhv_vcpu_entry_p9_nested(vcpu, time_limit, lpcr, tb);
+> -		else
+> +		else {
+>  			trap =3D kvmhv_vcpu_entry_nestedv2(vcpu, time_limit, lpcr, tb);
+> =20
+> +			/* Remember doorbell if it is pending  */
+> +			if (kvmppc_get_dpdes(vcpu)) {
+> +				vcpu->arch.doorbell_request =3D 1;
+> +				kvmppc_set_dpdes(vcpu, 0);
+> +			}
 
-Once again, that is what I have been doing in my effort to get this to
-a point where it can be merged and sent to Linus.  I've spent numerous
-hours reviewing patches on-list (and catching quite a few issues), and
-working with Fan off-list, to ensure these patches continue to
-improve.  I'm asking you to review the fs-verity patch(es) for two
-main reasons: 1) to identify any fs-verity interaction problems, 2) as
-a courtesy since you are the fs-verity maintainer and I want you to be
-aware of this and accepting of the code being introduced in the
-subsystem you are responsible for maintaining.
+This is adding an extra get state for every entry, not good. I don't
+think it's actually needed though. I don't think the L1 cares at this
+stage what the L2 DPDES state is. So you sholud be able to drop this
+hunk.
 
-> Anyway, as I also said, the fsverity and dm-verity support does seem to b=
-e
-> improved now after all the rounds of feedback, and I think it's close to =
-the
-> finish line.
+> +		}
+> +
+>  		/* H_CEDE has to be handled now, not later */
+>  		if (trap =3D=3D BOOK3S_INTERRUPT_SYSCALL && !nested &&
+>  		    kvmppc_get_gpr(vcpu, 3) =3D=3D H_CEDE) {
+> diff --git a/arch/powerpc/kvm/book3s_hv_nestedv2.c b/arch/powerpc/kvm/boo=
+k3s_hv_nestedv2.c
+> index 8e6f5355f08b..36863fff2a99 100644
+> --- a/arch/powerpc/kvm/book3s_hv_nestedv2.c
+> +++ b/arch/powerpc/kvm/book3s_hv_nestedv2.c
+> @@ -311,6 +311,10 @@ static int gs_msg_ops_vcpu_fill_info(struct kvmppc_g=
+s_buff *gsb,
+>  			rc =3D kvmppc_gse_put_u64(gsb, iden,
+>  						vcpu->arch.vcore->vtb);
+>  			break;
+> +		case KVMPPC_GSID_DPDES:
+> +			rc =3D kvmppc_gse_put_u64(gsb, iden,
+> +						vcpu->arch.vcore->dpdes);
+> +			break;
+>  		case KVMPPC_GSID_LPCR:
+>  			rc =3D kvmppc_gse_put_u64(gsb, iden,
+>  						vcpu->arch.vcore->lpcr);
+> @@ -543,6 +547,9 @@ static int gs_msg_ops_vcpu_refresh_info(struct kvmppc=
+_gs_msg *gsm,
+>  		case KVMPPC_GSID_VTB:
+>  			vcpu->arch.vcore->vtb =3D kvmppc_gse_get_u64(gse);
+>  			break;
+> +		case KVMPPC_GSID_DPDES:
+> +			vcpu->arch.vcore->dpdes =3D kvmppc_gse_get_u64(gse);
+> +			break;
+>  		case KVMPPC_GSID_LPCR:
+>  			vcpu->arch.vcore->lpcr =3D kvmppc_gse_get_u64(gse);
+>  			break;
 
-I agree.  I appreciate your help in reviewing this patchset, and those
-that came before it.  I've seen Fan voice his appreciation too
-on-list.
+I would split all the wiring up of the DPDES GSID stuff into its own
+patch, it obviously looks fine.
 
->  I just hope you can understand that I'm also a bit burnt out now,
+> diff --git a/arch/powerpc/kvm/test-guest-state-buffer.c b/arch/powerpc/kv=
+m/test-guest-state-buffer.c
+> index 4720b8dc8837..91ae660cfe21 100644
+> --- a/arch/powerpc/kvm/test-guest-state-buffer.c
+> +++ b/arch/powerpc/kvm/test-guest-state-buffer.c
+> @@ -151,7 +151,7 @@ static void test_gs_bitmap(struct kunit *test)
+>  		i++;
+>  	}
+> =20
+> -	for (u16 iden =3D KVMPPC_GSID_GPR(0); iden <=3D KVMPPC_GSID_CTRL; iden+=
++) {
+> +	for (u16 iden =3D KVMPPC_GSID_GPR(0); iden <=3D KVMPPC_GSID_DPDES; iden=
+++) {
+>  		kvmppc_gsbm_set(&gsbm, iden);
+>  		kvmppc_gsbm_set(&gsbm1, iden);
+>  		KUNIT_EXPECT_TRUE(test, kvmppc_gsbm_test(&gsbm, iden));
 
-I can understand that, and I'm sympathetic.  I've been doing this long
-enough to have gone through my own cycles of burnout and rejuvenation
-and I know how disheartening it can be at times.
+It would be good to have a  _LAST define for such loops. It's very easy
+to miss when adding KVMPPC_GSID_DPDES that you need to grep for
+KVMPPC_GSID_CTRL. Very easy to see that you need to update _LAST.
 
-> and getting asked for an ack on this patch again and then seeing a bug in=
- it
-> (despite it having been simplified to only a few lines now) and also stil=
-l
-> misleading information in the commit message that I asked to be fixed bef=
-ore, is
-> a bit frustrating.  I think it's reasonable to expect a bit better, espec=
-ially
-> for a security oriented feature.
+You just need to work out a good name for it since there's a few
+"namespaces" of numbers with similar prefix. Good luck :)
 
-I firmly believe that no one writes perfect code, and no one performs
-a perfect review.  As far as I'm concerned, the important bit is that
-you respond, learn, and strive to do better next time.
-
---=20
-paul-moore.com
+Thanks,
+Nick
