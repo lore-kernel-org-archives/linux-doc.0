@@ -1,125 +1,164 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1708952F64
-	for <linux-doc@vger.kernel.org>; Mon,  3 Jun 2024 08:32:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 353F13BBF3
+	for <linux-doc@vger.kernel.org>; Mon,  3 Jun 2024 08:58:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717403528; cv=none; b=LFSCZMfKZrt8sJH1xGsnjADe2leVuzMw6LhJxMuvlHC4HsAzWgr8MOGCahVVCvEhp/Sq/m4+ZO0ofpshN1s8ns9LKu952+drqKUXaaulS3wvyDdgXDy2/WkN48vgr21isyKtG04IQMkmG0agxE3OE1RScDgZc5C0YwNi0rwbEDc=
+	t=1717405106; cv=none; b=BBFlDYv6l7CR8MBHqWGjxz1P0Ve/E/xc+8zp9bmhCO7Zd8sEKDWJRGXs+px1AquS/mSl8srd8YBpwzjSEfITZTTK43DqsiaTaGYoWzxL3QgUUgXO1CRHiKmcN4KfTb5OdQRfDpVmXzxeN//hTvrrn3U58Rm1R7ORFuNAo+yz0Qs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717403528; c=relaxed/simple;
-	bh=YRW7PjUYem427Q9e1TQrMgKat4e5UnvaCX8B8ou59PM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IcbgnwpWHh7YKnc2zRFJHKS36jBEq2PLy/6bfg0gvPcaFCFItfFrcEPei5+Gw/1yAnDuWryHEPP4MahTUs2sb2tG3OwN/t6UOw4Zp2KN5wvb2l2roU2aOxLyzAsN44o5zKDY4HygTvA99SOfuYwjRwL4oUi478+Jr9wnc2RGVWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=k6ZltS/1; arc=none smtp.client-ip=209.85.208.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1717405106; c=relaxed/simple;
+	bh=3i3E8RRKap5CWomximA2ZEYLluwcbVjp7hbN04PsZPM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=QMRoTGe4xgt6/uIZBhW5vtYkgkUYfwsTTwIhus6ZuOBlA1MsnjYjuos4PFXNZBD5n5TC0HLUR7SZ3qIzFxQv8vUqlREDv7C734CSyxxKEWibKlnJo7jlVmTsbi2k06lWeHi9kZzN0nJnPqPs3Ipj1Gk1JDaMEsvwL0nlbVGIox8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CIsafGUQ; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="k6ZltS/1"
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2e6f2534e41so33005181fa.0
-        for <linux-doc@vger.kernel.org>; Mon, 03 Jun 2024 01:32:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1717403523; x=1718008323; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3SR+OQhYkTg9lzBQDK1gFJ8R3TWRUSp36xtonngLD3E=;
-        b=k6ZltS/1TUQYlHTdWHBAOsvrJ6kWb3rWAGST7FpFhrsS2b1/4I0yxn1TyFbrMcTPnZ
-         9hfDiWWUmDuN9sNKrAVxuKXNhuVWh0K6N0eJzn3BPm6GDAarKkVzgNBObpVaZxJwTAjn
-         Z/ln1i+WlL4WCpPrBJ/5d2xsYA3FTHWEZgv4GDDViQ0ViswCAbrAojB+q8ABZq2wAYoD
-         vfRtQt27iBtnTB3EFElLgreiecE9vgHOv0bFhXRk0Yhlbwp8epT0JQl8xLwXvgym5sJj
-         8NFQT078BQL4pFh9jACikdOHZEcGPy4m/BqpBmqIW3skJZEGYLzEQLYm2/hNf1/A7lMf
-         OgKg==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CIsafGUQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1717405104;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8Bhn4LN4Utz6rMqbLj5uOU8MQzPT/pjrzVh2Wyx//Rg=;
+	b=CIsafGUQ/EI6Zgo27QIrzqhinjwJPvvYSldTMvJtAmTI80wLXYL1nWUvq2qhqs7pMWN5Ih
+	cdJsz5avab9Lu0koHgKVCLT3chj6RIcPdkxIagwV6dWV3lEA8g33ViXcaYSFQD1iwpo9dY
+	CuuL1+52FLMUc92tYsCLMNhZ7DTNgEI=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-158-PNISxMOpN7KLPraR_4QZwA-1; Mon, 03 Jun 2024 04:58:22 -0400
+X-MC-Unique: PNISxMOpN7KLPraR_4QZwA-1
+Received: by mail-lj1-f197.google.com with SMTP id 38308e7fff4ca-2ea9429e1deso22953751fa.2
+        for <linux-doc@vger.kernel.org>; Mon, 03 Jun 2024 01:58:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717403523; x=1718008323;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1717405100; x=1718009900;
+        h=content-transfer-encoding:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3SR+OQhYkTg9lzBQDK1gFJ8R3TWRUSp36xtonngLD3E=;
-        b=hq3wBrJmc6uZzEY1mbnYRaUA1oeckz7wDupA5v/ub5GJTgE22JwHRVLNpVaLhtJaVK
-         yPgq8QegPWG8bbc3sYnG4v08mBqP97kgLIUpsglyv5XEn6XmBdYGL94o0qES5tK577US
-         65yTe8iJTPGa4+Ym1IaIRQVRxyDP6APyNEZxdVng646ajt0o2RkvkRlvgV0JszxyjGk+
-         sZl6u6Z98ESynMIGYFrJSQkhlWWMbAdXfdtCpiM+zyn4aYXgwfagFEwT7XL4/32mV8pO
-         7ei+rj3o1sP5qjyn7iDg+obl4yspAacrOEZjAS2vvDmJzmoDCuGXtxpR/jTCTF8sMuFo
-         ZPNw==
-X-Forwarded-Encrypted: i=1; AJvYcCVWxoZyTVOXjBiN5XS5wcAVplF4qgBktd15z9Fst4p+gVR39tAR3qSzdPSOG/oKVnnvMcIurZBjJs61TyoHYJKXbUGvke10z615
-X-Gm-Message-State: AOJu0YwKjHq6F/GVmxwFikse2s2XbAeHnUvCv1IRlodEwLX2KX3biDJQ
-	Q/DANAuj6ftEShKd/trnwW5+Ja65SevDjEQGrHFPVysK+FVpq4Xz1jW6rV06dHsSpdmcOK4o36j
-	nhg2cDm4AlL2Ii8imown8ZzsQcglwhZLoXQFxrg==
-X-Google-Smtp-Source: AGHT+IHi9yjpUlPhgtMP/rJ1TwiT9Pgl1w5h9NUwXWE9BRNbLXghRbcFU1ELKIElO3GnO3g+03dEs9aHNStPGm5fR2Q=
-X-Received: by 2002:a2e:870d:0:b0:2e9:8a16:fe31 with SMTP id
- 38308e7fff4ca-2ea950aee36mr62217721fa.2.1717403523221; Mon, 03 Jun 2024
- 01:32:03 -0700 (PDT)
+        bh=8Bhn4LN4Utz6rMqbLj5uOU8MQzPT/pjrzVh2Wyx//Rg=;
+        b=XGWl7cp/D2f2eL9TVS13Q43FCZqsPVMmHDjSeguWE4iHBw5IVK9cSyjBlLDhounBHT
+         NEueP/xlnaiXvLKkIRcVfh31oiptjABACgKeTCxCph6xRk7kBmXAXz+Pm4aoDdezx2pe
+         Q9nWybtEePQBRez+GaPXkSSLqraw//qUxa3vLpoLGNBJK2VN1GIdSuFmc8lJkxHi1CeT
+         d/WDmLHWknYClGL44ZTuB7YpMEjYV5nTuok/UATCFTLSrbNfIe5iy3vFEmAy2/eLhrwp
+         21vExPMQHQF/BJA9y2YnTqJIvjDV/YRq+2HFAFc/zkcsAbGd5g8Z/TNI1I7HO2frikFK
+         qojg==
+X-Forwarded-Encrypted: i=1; AJvYcCWjn77MkuIrj9pjj/8jSHIJ/ih70mCikmbZxr9dcZqpxXK1zx4/34CF+jUsBnQLOgdLTp210273kkEbxL/APm49IY5ghXrGuIn6
+X-Gm-Message-State: AOJu0YzVOw1IeKchhszVcPK6MafEnT2R6ZYuVrx1hnD3ak4mDgSEjTvr
+	z1kcPy9Xl+eRAGmugl305lPIqLsNc4szhPy05JlnwPNffJEmkIzJP3PU6cwICyKjELZQdWupJtu
+	ZG1Z5aDffnKzjDcmItj5kBEXJGIaCSJx38qRjTBw5wgIkis1r78KPSKRS00Wg+CdpdQ==
+X-Received: by 2002:a2e:838a:0:b0:2ea:81b9:e153 with SMTP id 38308e7fff4ca-2ea950c8d73mr63251311fa.2.1717405100084;
+        Mon, 03 Jun 2024 01:58:20 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEeF+uk7RZx6wHXhL3Soq6lZ5NSqBDYCLsmw6e7dg2mCDH7a/XE5YREzi/jJNw+L+rI7UCMrA==
+X-Received: by 2002:a2e:838a:0:b0:2ea:81b9:e153 with SMTP id 38308e7fff4ca-2ea950c8d73mr63251041fa.2.1717405099580;
+        Mon, 03 Jun 2024 01:58:19 -0700 (PDT)
+Received: from alrua-x1.borgediget.toke.dk ([2a0c:4d80:42:443::2])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4212b2bc975sm111649235e9.29.2024.06.03.01.58.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Jun 2024 01:58:19 -0700 (PDT)
+Received: by alrua-x1.borgediget.toke.dk (Postfix, from userid 1000)
+	id 454B61385112; Mon, 03 Jun 2024 10:58:18 +0200 (CEST)
+From: Toke =?utf-8?Q?H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>
+To: Eric Dumazet <edumazet@google.com>, "Paul E . McKenney"
+ <paulmck@kernel.org>
+Cc: Petr Machata <petrm@nvidia.com>, "David S. Miller"
+ <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, netdev@vger.kernel.org, Ido Schimmel
+ <idosch@nvidia.com>, David Ahern <dsahern@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, linux-doc@vger.kernel.org, Simon Horman
+ <horms@kernel.org>
+Subject: Re: [PATCH net-next 2/4] net: ipv4: Add a sysctl to set multipath
+ hash seed
+In-Reply-To: <CANn89iJ5UzQGBMNvZJqknuTCn13Ov4pXp7Rr+pq0G+BkJ53g7Q@mail.gmail.com>
+References: <20240529111844.13330-1-petrm@nvidia.com>
+ <20240529111844.13330-3-petrm@nvidia.com>
+ <CANn89iL8P68pHvCKy242Z6ggWsceK4_TWMr7OakS3guRok=_gw@mail.gmail.com>
+ <875xuqiivg.fsf@toke.dk>
+ <CANn89iJ5UzQGBMNvZJqknuTCn13Ov4pXp7Rr+pq0G+BkJ53g7Q@mail.gmail.com>
+X-Clacks-Overhead: GNU Terry Pratchett
+Date: Mon, 03 Jun 2024 10:58:18 +0200
+Message-ID: <8734puies5.fsf@toke.dk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAMRc=MeuHpu4_QbgW-6Kc-TGzhcBim7Eb-TZhPax6G2SZHR5iw@mail.gmail.com>
- <20240602074925.2489486-1-foxhoundsk.tw@gmail.com>
-In-Reply-To: <20240602074925.2489486-1-foxhoundsk.tw@gmail.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Mon, 3 Jun 2024 10:31:52 +0200
-Message-ID: <CAMRc=Me+J89_WcrRFyfyapDN2jyeiGad3uoTRN_N3vnP2puv2Q@mail.gmail.com>
-Subject: Re: [PATCH] docs: gpio: prefer pread(2) for interrupt reading
-To: Huichun Feng <foxhoundsk.tw@gmail.com>
-Cc: corbet@lwn.net, linus.walleij@linaro.org, linux-doc@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	warthog618@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jun 2, 2024 at 9:49=E2=80=AFAM Huichun Feng <foxhoundsk.tw@gmail.co=
-m> wrote:
->
-> In legacy sysfs GPIO, when using poll(2) on the sysfs GPIO value for
-> state change awaiting, a subsequent read(2) is required for consuming
-> the event, which the doc recommends the use of lseek(2) or
-> close-and-reopen to reset the file offset afterwards.
->
-> The recommendations however, require at least 2 syscalls to consume
-> the event. Gladly, use of pread(2) require only 1 syscall for the
-> consumption. Let's advertise this usage by prioritizing its placement.
->
-> Signed-off-by: Huichun Feng <foxhoundsk.tw@gmail.com>
-> ---
->  Documentation/userspace-api/gpio/sysfs.rst | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/userspace-api/gpio/sysfs.rst b/Documentation/u=
-serspace-api/gpio/sysfs.rst
-> index 116921048..bd64896de 100644
-> --- a/Documentation/userspace-api/gpio/sysfs.rst
-> +++ b/Documentation/userspace-api/gpio/sysfs.rst
-> @@ -97,9 +97,10 @@ and have the following read/write attributes:
->                 poll(2) will return whenever the interrupt was triggered.=
- If
->                 you use poll(2), set the events POLLPRI and POLLERR. If y=
-ou
->                 use select(2), set the file descriptor in exceptfds. Afte=
-r
-> -               poll(2) returns, either lseek(2) to the beginning of the =
-sysfs
-> -               file and read the new value or close the file and re-open=
- it
-> -               to read the value.
-> +               poll(2) returns, use pread(2) to read the value at offset
-> +               zero. Alternatively, either lseek(2) to the beginning of =
-the
-> +               sysfs file and read the new value or close the file and
-> +               re-open it to read the value.
->
->         "edge" ...
->                 reads as either "none", "rising", "falling", or
-> --
-> 2.34.1
->
+Eric Dumazet <edumazet@google.com> writes:
 
-Please don't send new versions of a patch as responses in an email
-thread. Otherwise tools such as b4 cannot tell if it's a new version
-or part of a larger series. Please always start a new thread with get
-send-email or - better yet - start using b4 and let it manage the
-series for you. Please resend this correctly.
+> On Mon, Jun 3, 2024 at 9:30=E2=80=AFAM Toke H=C3=B8iland-J=C3=B8rgensen <=
+toke@redhat.com> wrote:
+>>
+>> Eric Dumazet <edumazet@google.com> writes:
+>>
+>> > On Wed, May 29, 2024 at 1:21=E2=80=AFPM Petr Machata <petrm@nvidia.com=
+> wrote:
+>> >>
+>> >> When calculating hashes for the purpose of multipath forwarding, both=
+ IPv4
+>> >> and IPv6 code currently fall back on flow_hash_from_keys(). That uses=
+ a
+>> >> randomly-generated seed. That's a fine choice by default, but unfortu=
+nately
+>> >> some deployments may need a tighter control over the seed used.
+>> >>
+>> >> In this patch, make the seed configurable by adding a new sysctl key,
+>> >> net.ipv4.fib_multipath_hash_seed to control the seed. This seed is us=
+ed
+>> >> specifically for multipath forwarding and not for the other concerns =
+that
+>> >> flow_hash_from_keys() is used for, such as queue selection. Expose th=
+e knob
+>> >> as sysctl because other such settings, such as headers to hash, are a=
+lso
+>> >> handled that way. Like those, the multipath hash seed is a per-netns
+>> >> variable.
+>> >>
+>> >> Despite being placed in the net.ipv4 namespace, the multipath seed sy=
+sctl
+>> >> is used for both IPv4 and IPv6, similarly to e.g. a number of TCP
+>> >> variables.
+>> >>
+>> > ...
+>> >
+>> >> +       rtnl_lock();
+>> >> +       old =3D rcu_replace_pointer_rtnl(net->ipv4.sysctl_fib_multipa=
+th_hash_seed,
+>> >> +                                      mphs);
+>> >> +       rtnl_unlock();
+>> >> +
+>> >
+>> > In case you keep RCU for the next version, please do not use rtnl_lock=
+() here.
+>> >
+>> > A simple xchg() will work just fine.
+>> >
+>> > old =3D xchg((__force struct struct sysctl_fib_multipath_hash_seed
+>> > **)&net->ipv4.sysctl_fib_multipath_hash_seed,
+>> >                  mphs);
+>>
+>> We added a macro to do this kind of thing without triggering any of the
+>> RCU type linter warnings, in:
+>>
+>> 76c8eaafe4f0 ("rcu: Create an unrcu_pointer() to remove __rcu from a poi=
+nter")
+>>
+>> So as an alternative to open-coding the cast, something like this could
+>> work - I guess it's mostly a matter of taste:
+>>
+>> old =3D unrcu_pointer(xchg(&net->ipv4.sysctl_fib_multipath_hash_seed, RC=
+U_INITIALIZER(mphs)));
+>
+> Good to know, thanks.
+>
+> Not sure why __kernel qualifier has been put there.
 
-Bart
+Not sure either. Paul, care to enlighten us? :)
+
+-Toke
+
