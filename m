@@ -1,164 +1,187 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A7A83CD6;
-	Mon,  3 Jun 2024 23:25:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30EFE137C48
+	for <linux-doc@vger.kernel.org>; Mon,  3 Jun 2024 23:55:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717457104; cv=none; b=duDPlXUZ06oOKIQsCKTvh2rKzH06JkIZfPq0eJW1apnSvfgceb9iRm2g7Oc1/GagUTcz2k/wEZDwTISIqTvUuk3/HGuP1OdcXvHOJ0IfbjTTUbwBtB66uK/sgcET0g2DfEU9WM6Ul/T53IcWbe1Hor3VMC93a8aDi2LdVChCXkQ=
+	t=1717458941; cv=none; b=OiCxaGtKwninXFhNgVNkNemU/UyKGG71Td6nwRp1LwlItBNUhyi+mGHh5p5QqwHenmExebNygqJv323DJO2x5LB/nKst7K/Db9bgT/NWYBYOYM2TVEngoYm8hDeELtSloCEGFG3pAK5Kr1fkhMtTPmu0Zui5EVnrEfizG0Gi27M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717457104; c=relaxed/simple;
-	bh=bcxSj8Z9J7RmjktPYNIzMOPv60DtDpqqHz/KdcZ02yA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=rx55/JZzPvg1zk/jKsnMaNhOI84ULGZyv0oRFRu3PiSnHD+V1pcq5aF/yTOZdwdr1I2jqhQ5wAIrshrDfYScXJM/7nWVQxMdQOxJggoIssXgtTqg6ZBxCehamIHVvdi6DMA2WXiE05rtn5zTcPLAI8LBTHKnPvdLOcB4YDFrhhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ky2BsJyO; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=zAsX5JrJ; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1717458941; c=relaxed/simple;
+	bh=FtElGgpsSSae4yBq/bi6DGunDESHxh82nwAJEBZ9Jnw=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=F759tdJeeRU6Xg5OmImo9Zs7aV/HI0uS3tfcxO5//jfscBe6rW9EBTcpAslJygOwBCD7isj6+gB1VDODhRVch0lbO7Mrn0qFsyJ/7OBTEFTwcVzkiDXsinjRIrBPDTBDclXTAIGo6rXxBupL+l10MPPyxQt8LrT703CoSByFUQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=P7A4gCMe; arc=none smtp.client-ip=209.85.215.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ky2BsJyO";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="zAsX5JrJ"
-From: John Ogness <john.ogness@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1717457100;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7wwQIXYMP7sQGXrKm7reS+lNLiSQvf56nu+6ghCbaPM=;
-	b=ky2BsJyOWTW4ECgcrsvSmWLnUuYxVlhQ+1oRAjl+tjYaSaOh8ukRpiHlAuM0/D4B6Vb5St
-	JKxQj/MejhjrKoH5qAzGJBsPBl9DcLWniFPJgxVvPcQ82OL/RbI7lA6p64K50B8r1pBlKe
-	9cvZSaJP2uHGNiPfq/iWt9Av9Hlp53uwgh243lhEvZ7WoC3GbUoG4AgMigvIB81nEovH2o
-	8SPDIazcfijqohs7ZpRkdayi2UPMwpOQnu+FRaralEEUNUbtY0fwM186GKDG6tClv6kkcD
-	J5M23o1Iur+hFgT47yba+Etdouf6y5yzeoEue40mAR4+sI9JQGdEQ83axpHhLA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1717457100;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7wwQIXYMP7sQGXrKm7reS+lNLiSQvf56nu+6ghCbaPM=;
-	b=zAsX5JrJWtbhPiqDA7nRFKV+o2E3nQHOqXddS44mXB16BTP0VwYTpdHV/x1c10ZiKyJVe2
-	lMDKAajg8wmpMiCQ==
-To: Petr Mladek <pmladek@suse.com>
-Cc: Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Xiongwei Song <xiongwei.song@windriver.com>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH printk v2 16/18] printk: Provide threadprintk boot argument
-Date: Tue,  4 Jun 2024 01:30:51 +0206
-Message-Id: <20240603232453.33992-17-john.ogness@linutronix.de>
-In-Reply-To: <20240603232453.33992-1-john.ogness@linutronix.de>
-References: <20240603232453.33992-1-john.ogness@linutronix.de>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="P7A4gCMe"
+Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-6ca1d5c4153so2128054a12.3
+        for <linux-doc@vger.kernel.org>; Mon, 03 Jun 2024 16:55:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1717458939; x=1718063739; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eyc3iUgsnRj2ylOv5YkMm98nGXjn6+X+INgnV8xLY/I=;
+        b=P7A4gCMeTbiGSmwRjOOKCx6Uc7PaIGkwgzHSkyabB9m88gom/t7jFlBzQ5cXjlTpr1
+         sZCRXXP/5iHnq3PeGqbH8gh9Sb8MFadqsAcnmBHoOLMFpc77EL1L3ZSmxiKBTpTWqqZ3
+         81103mg6bdWV/dSXDhww8o7szGSQuGdSY3HXI4ASUkSLj4jcz+C9wdfFz3qhhB3LNGhz
+         ubLt+LveEQbBAgvjnfDgv5BiF/CeDvNKJaJNQO+4468XONVO2eSDYP4JDlkYn8UWfMDe
+         V/RlPUwl+ViSWcIPVraIKCIXE93tvKz65cK3Xp2c33Kuq7WbZ8o88iK4WeMB6xvFfnkp
+         H6hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717458939; x=1718063739;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=eyc3iUgsnRj2ylOv5YkMm98nGXjn6+X+INgnV8xLY/I=;
+        b=g4rUMzDi5GPx4mpaa3Y1Eg/g8dTnUA6JP8fSbM/0PCjoxCcEI2C4x4jWWQjTwmfagR
+         7pxwg3aHXr0g1Y0uyrRHVEk0ndJI5YH5CkYtFuHe1IpoArvv96GCrbFo4di2/mT76DNC
+         NhQLnhE5iYpJxKyScsRWZdiLHISDU34LyNdkrx1BcB3Ay2r+R2hAeMB2q87SPsx/R/yA
+         O28t0hT51jvVHQ0Dco1hX8L5+mH6otAkU/kTOEzNgX1KyRZCI1ikICG28GrR0wK5DdC6
+         dghtC4pdtWi1xkdjFLp8sJboy8Thb4K/kXOIhLjlcnrnFtXHuLXyOmf8MfQxtmRliUok
+         1XEA==
+X-Forwarded-Encrypted: i=1; AJvYcCXDklVVwJlxok1ansJXDafKXyWY9pec4J0D/zZ6QdWjmvu1SLIjWhjrais0bvhdH73Thdh3qfmJ/8CT561wou9BTHjjT1QI0Ww3
+X-Gm-Message-State: AOJu0Ywd3Mo4tsNbjyQJLtjvrn+7w5JwaNcn7HK8yi+yGbXYStSubIEV
+	ey2tLG9jnQTR7qGh8rjvLrL5Ch2U1PHa6Dky//99vQL605qK+Qx/cts/sq1SUkml6suhwHrK1wY
+	a4A==
+X-Google-Smtp-Source: AGHT+IHvGku2IN33k/AODaXK54zHq/P8X6Cha2dno1rLoXXrfnJJHDtnIbcRuwwzpgSt5TkILSo1ZXTh8Yo=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a63:3752:0:b0:6bf:6fc7:53c5 with SMTP id
+ 41be03b00d2f7-6c411b757afmr27306a12.6.1717458939174; Mon, 03 Jun 2024
+ 16:55:39 -0700 (PDT)
+Date: Mon, 3 Jun 2024 16:55:37 -0700
+In-Reply-To: <ZhkKb+lgPDNRsYXa@chao-email>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20240410143446.797262-1-chao.gao@intel.com> <20240410143446.797262-2-chao.gao@intel.com>
+ <CALMp9eR294v_2-yXagKR8HM_WbqihJ5JcRwD1NTGvJxsOFsnyw@mail.gmail.com> <ZhkKb+lgPDNRsYXa@chao-email>
+Message-ID: <Zl5X-YHQL-tIUb4h@google.com>
+Subject: Re: [RFC PATCH v3 01/10] KVM: VMX: Virtualize Intel IA32_SPEC_CTRL
+From: Sean Christopherson <seanjc@google.com>
+To: Chao Gao <chao.gao@intel.com>
+Cc: Jim Mattson <jmattson@google.com>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	daniel.sneddon@linux.intel.com, pawan.kumar.gupta@linux.intel.com, 
+	Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-For PREEMPT_RT, legacy console printing is performed in a dedicated
-kthread. However, this behavior can also be interesting for other
-preemption models as it minimizes the duration of printk() calls by
-deferring all printing.
+On Fri, Apr 12, 2024, Chao Gao wrote:
+> On Thu, Apr 11, 2024 at 09:07:31PM -0700, Jim Mattson wrote:
+> >On Wed, Apr 10, 2024 at 7:35=E2=80=AFAM Chao Gao <chao.gao@intel.com> wr=
+ote:
+> >>
+> >> From: Daniel Sneddon <daniel.sneddon@linux.intel.com>
+> >>
+> >> Currently KVM disables interception of IA32_SPEC_CTRL after a non-0 is
+> >> written to IA32_SPEC_CTRL by guest. The guest is allowed to write any
+> >> value directly to hardware. There is a tertiary control for
+> >> IA32_SPEC_CTRL. This control allows for bits in IA32_SPEC_CTRL to be
+> >> masked to prevent guests from changing those bits.
+> >>
+> >> Add controls setting the mask for IA32_SPEC_CTRL and desired value for
+> >> masked bits.
+> >>
+> >> These new controls are especially helpful for protecting guests that
+> >> don't know about BHI_DIS_S and that are running on hardware that
+> >> supports it. This allows the hypervisor to set BHI_DIS_S to fully
+> >> protect the guest.
+> >>
+> >> Suggested-by: Sean Christopherson <seanjc@google.com>
+> >> Signed-off-by: Daniel Sneddon <daniel.sneddon@linux.intel.com>
+> >> Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+> >> [ add a new ioctl to report supported bits. Fix the inverted check ]
+> >> Signed-off-by: Chao Gao <chao.gao@intel.com>
+> >
+> >This looks quite Intel-centric. Isn't this feature essentially the
+> >same as AMD's V_SPEC_CTRL?
 
-Provide a new boot argument "threadprintk" that will create the
-dedicated kthread for legacy console printing for !PREEMPT_RT
-systems.
+In spirit, yes.  In practice, not really.  The implementations required for=
+ each
+end up being quite different.  I think the only bit of code that could be r=
+eused
+by SVM, and isn't already, is the generation of supported_force_spec_ctrl.
 
-The implementation is the same as the "threadirqs" boot argument.
-
-Users should be aware that if this option is enabled, the shutdown,
-reboot, and panic messages probably will not be visible on the
-legacy consoles.
-
-Non-legacy consoles (NBCON) already have their own dedicated kernel
-threads for printing and reliable shutdown, reboot, and panic
-printing. This option really only applies to legacy consoles.
-
-Users can view /proc/consoles to see if their console driver is
-legacy or not. NBCON console drivers are shown with 'N'.
-
-Signed-off-by: John Ogness <john.ogness@linutronix.de>
----
- Documentation/admin-guide/kernel-parameters.txt | 12 ++++++++++++
- kernel/printk/internal.h                        |  4 +++-
- kernel/printk/printk.c                          | 11 +++++++++++
- 3 files changed, 26 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 45d95614ec44..17977dd4fafa 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -6572,6 +6572,18 @@
- 			Force threading of all interrupt handlers except those
- 			marked explicitly IRQF_NO_THREAD.
- 
-+	threadprintk	[KNL]
-+			Force threaded printing of all legacy consoles. Be
-+			aware that with this option, the shutdown, reboot, and
-+			panic messages may not be printed on the legacy
-+			consoles. Also, earlycon/earlyprintk printing will be
-+			delayed until a regular console or the kthread is
-+			available.
++       kvm_caps.supported_force_spec_ctrl =3D 0;
 +
-+			Users can view /proc/consoles to see if their console
-+			driver is legacy or not. Non-legacy (NBCON) console
-+			drivers are already threaded and are shown with 'N'.
++       if (cpu_has_spec_ctrl_shadow()) {
++               kvm_caps.supported_force_spec_ctrl |=3D SPEC_CTRL_IBRS;
 +
- 	topology=	[S390,EARLY]
- 			Format: {off | on}
- 			Specify if the kernel should make use of the cpu
-diff --git a/kernel/printk/internal.h b/kernel/printk/internal.h
-index b66dfa865591..48c3564f95eb 100644
---- a/kernel/printk/internal.h
-+++ b/kernel/printk/internal.h
-@@ -3,6 +3,7 @@
-  * internal.h - printk internal definitions
-  */
- #include <linux/console.h>
-+#include <linux/jump_label.h>
- #include <linux/percpu.h>
- #include <linux/types.h>
- 
-@@ -24,7 +25,8 @@ int devkmsg_sysctl_set_loglvl(struct ctl_table *table, int write,
- #ifdef CONFIG_PREEMPT_RT
- # define force_printkthreads()		(true)
- #else
--# define force_printkthreads()		(false)
-+DECLARE_STATIC_KEY_FALSE(force_printkthreads_key);
-+# define force_printkthreads()		(static_branch_unlikely(&force_printkthreads_key))
- #endif
- 
- #ifdef CONFIG_PRINTK
-diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
-index 1c63fd0c1166..ea2d66152256 100644
---- a/kernel/printk/printk.c
-+++ b/kernel/printk/printk.c
-@@ -195,6 +195,17 @@ static int __init control_devkmsg(char *str)
- }
- __setup("printk.devkmsg=", control_devkmsg);
- 
-+#if !defined(CONFIG_PREEMPT_RT)
-+DEFINE_STATIC_KEY_FALSE(force_printkthreads_key);
++               if (boot_cpu_has(X86_FEATURE_STIBP))
++                       kvm_caps.supported_force_spec_ctrl |=3D SPEC_CTRL_S=
+TIBP;
 +
-+static int __init setup_forced_printkthreads(char *arg)
-+{
-+	static_branch_enable(&force_printkthreads_key);
-+	return 0;
-+}
-+early_param("threadprintk", setup_forced_printkthreads);
-+#endif
++               if (boot_cpu_has(X86_FEATURE_SSBD))
++                       kvm_caps.supported_force_spec_ctrl |=3D SPEC_CTRL_S=
+SBD;
 +
- char devkmsg_log_str[DEVKMSG_STR_MAX_SIZE] = "ratelimit";
- #if defined(CONFIG_PRINTK) && defined(CONFIG_SYSCTL)
- int devkmsg_sysctl_set_loglvl(struct ctl_table *table, int write,
--- 
-2.39.2
++               if (boot_cpu_has(X86_FEATURE_RRSBA_CTRL) &&
++                   (host_arch_capabilities & ARCH_CAP_RRSBA))
++                       kvm_caps.supported_force_spec_ctrl |=3D SPEC_CTRL_R=
+RSBA_DIS_S;
++
++               if (boot_cpu_has(X86_FEATURE_BHI_CTRL))
++                       kvm_caps.supported_force_spec_ctrl |=3D SPEC_CTRL_B=
+HI_DIS_S;
++       }
 
+> Yes. they are almost the same. one small difference is intel's version ca=
+n
+> force some bits off though I don't see how forcing bits off can be useful=
+.
+
+Another not-so-small difference is that Intel's version can also force bits=
+ *on*,
+and force them on only for the guest with minimal overhead.
+
+> >Can't we consolidate the code, rather than
+> >having completely independent implementations for AMD and Intel?
+>=20
+> We surely can consolidate the code. I will do this.
+>=20
+> I have a question about V_SPEC_CTRL. w/ V_SPEC_CTRL, the SPEC_CTRL MSR re=
+tains
+> the host's value on VM-enter:
+>=20
+> .macro RESTORE_GUEST_SPEC_CTRL
+>         /* No need to do anything if SPEC_CTRL is unset or V_SPEC_CTRL is=
+ set */
+>         ALTERNATIVE_2 "", \
+>                 "jmp 800f", X86_FEATURE_MSR_SPEC_CTRL, \
+>                 "", X86_FEATURE_V_SPEC_CTRL
+>=20
+> Does this mean all mitigations used by the host will be enabled for the g=
+uest
+> and guests cannot disable them?
+
+Yes.
+
+> Is this intentional? this looks suboptimal. Why not set SPEC_CTRL value t=
+o 0 and
+> let guest decide which features to enable? On the VMX side, we need host =
+to
+> apply certain hardware mitigations (i.e., BHI_DIS_S and RRSBA_DIS_S) for =
+guest
+> because BHI's software mitigation may be ineffective. I am not sure why S=
+VM is
+> enabling all mitigations used by the host for guests. Wouldn't it be bett=
+er to
+> enable them on an as-needed basis?
+
+AMD's V_SPEC_CTRL doesn't provide a fast context switch of SPEC_CTRL, it pe=
+rforms
+a bitwise-OR of the host and guest values.  So to load a subset (or superse=
+t) of
+the host protections, KVM would need to do an extra WRMSR before VMRUN, and=
+ again
+after VMRUN.
+
+That said, I have no idea whether or not avoiding WRMSR on AMD is optimal.
