@@ -1,151 +1,130 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A56286A6;
-	Mon,  3 Jun 2024 12:52:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77791E4A2;
+	Mon,  3 Jun 2024 13:53:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717419162; cv=none; b=hBrB8hbcAPmq+hF/yGCDQfxmNLa9t6Ynw6rz+kFGpJD8Rtf9Qk6ftm2HNE34uoU41r5m4vjeuIrlSDGN5PWL8SLZOb6tJOaemJaw/F0WW4mGi2nffMZY9BDo6kKi44z/u/kqn3fZWKKnHMwIepuFgi5+/qxsqzd7oGai4ZJCJoQ=
+	t=1717422837; cv=none; b=jDH3+o51WRS0q+NwgtH/9igK7pOItm4uY9PIkdhpdq4Nt0LRdUQDkI3G1RAHbPeTsImALlZ1KVl41HBHHx8sSb+H2j0kpfuVtOKv1s/0zdyTCCJz0T9Y31zbk01Xr8CUK16cD1/sXGvkgF9luyhlisRJsQmLq42VpHzrFl/I+0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717419162; c=relaxed/simple;
-	bh=RQVuKO8KsmnX+HwIJQMFQ5nya3BRk3afvXUxYEj9As8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JzCP0Y8JsADxqLjwPxQgrU/i+cKAnGqcPnDN2IsPm8nyjFCoq/3nzWNdJbTofF8MaPfESkHko30A+bkF27tIYu+5qN5ZPynRR24ITNlzM2VKWD2MFoOW1okzQ+klUIxZr70fmyq9ckz0Cxsa9Rvwx6amXryvMtU8wRTgJabQ9IE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TDNXqg0d; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1717422837; c=relaxed/simple;
+	bh=67N6myEhz31OreafUCQyi9SAqb0lxOP/O//o8ECIsi4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FqO/JMxXG0teg5evaD9gc0FO5dE1/r27ThQlOBBN89u8K0M4yYExhMD4zukhy1Jej9fHA0T/rLxEgSSK+xEwuDzEwth0+KI48FYqAppQV65D9pWl0Oc3z+gtJgeqj5y13iG58YV5vADe6E0u9wj+7v1dSBKjdRob0vLMNs0c4jE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=epL/ApU7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TDNXqg0d"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-57a1fe63947so3594221a12.1;
-        Mon, 03 Jun 2024 05:52:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717419159; x=1718023959; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yfniF8fjsy176YDZGpwH9nU2UAljfW8YFG1uj+a6gnk=;
-        b=TDNXqg0dX/3loM6vbYTEyr1NEGurqH87sB+5Oad9YsQO8kzzevhnRIRepwpE7gcsTD
-         e35nWwMYzenHkE5RIg/I3W++ZCaUWmCHDc1PYl8lKDIvH83bHoZYpGMASE03KWWrSjji
-         CjyrVXtKVNa7ohmdSp8PJQPjpdJzHNBGK4rUgrNIwizcuiq7I0JxYEIdqWHlzdo0/+sD
-         m/0PtAF1kQlVSAjGBJK8iuo/OnY04hxEm+FLtW3zpw3TIH9jYpFgBSJ2faayxzSEB1xe
-         uMfTNgUHmWmwXabtHngny8PAph91C3UmTyfTr7thPkahB2ma8jCLC4QZGgwTjvsohHff
-         xwqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717419159; x=1718023959;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yfniF8fjsy176YDZGpwH9nU2UAljfW8YFG1uj+a6gnk=;
-        b=u25CydszaufKfcB2/I18ZPBtqNFaIDHz1T5R9Q2Kl0Ki7T4ZKAwNzj/M5BmKD3XmCb
-         LmtTcQJKVBOXA49Q/G6C6y4FUKUlASPF79RaoLFt8v17VdN20SmptVaGVsJF3TOAL0oX
-         fZSJkRm/+oVbp2nD6Isk75sUcCqFhB5aMfWyECMu6Z9I80+ZCxvNhv9km4Qg1BF3gkQF
-         9PGsEi6DZPKeLST8SsdTU7sj0/nE7aLPsze1TmdxCT4Oi3QwUPoEN5L++3HMkEmd5mQ7
-         dQf+ZacAe324iygpFgq+2XCbCq21I+/uAhhpIzYAFfqjUCuhh0WogjstPHndOY4G7lRv
-         770g==
-X-Forwarded-Encrypted: i=1; AJvYcCWxw9rRkDB0Ogq5peLF4uM8jksb5/RtXSVu8ITqP2Etf3tLyGu+DWlW1dC+Zz2kGkoshPRsqdqePi/0fqen2YacgddH3J5glwTMXdAhjdX/agIuDjMAWLo+VY81ypL4Jt4VtnFmH/q2obWvnxz4gs0ZjwkfUrzb7Zc7fEf0eFs5YY+ab+is2zHMVlvRUNFllAoN493jnbwkorxZVc2+fG4+biCgDD3mS/Ln+w3YHUzN2q2TGVo+sgWVfkmAgYLL+njjpwQKCuIQgMMc4q+bq4l2I8yGuEQ2uTvZQG5pOX2kTlXr3OD266ValHOnniLgQlQP2pVwxa2g7Ae5Ci4WFavLWY5RbC6xgkyt/ThfdA54olLUvmuAUVgwUgGfYPZixx/GdoWPfsVf4rqEBizzCenvpeQFgLcrYpFzOkCfwEH6pd92OUltjgem5zpPQJIw0NxAKaAic4Ejs8SDNzSuHJH8jFoPJbApd6sOfZboxmIZJDYYoIQHBiEyWNSRRbwhxZx+zYD9OQ==
-X-Gm-Message-State: AOJu0YyMk7f/HGvHRoBNrtTmSTQhhL7dLdBoe3vGrkHSQvcZCq+G46QV
-	Ptgn7ehM2OwFl+HGMzvZWG329x/hS0LtTkpQ6wvQ7HDPTBfowNCy0NeWUGFe
-X-Google-Smtp-Source: AGHT+IHWekmH9nbBwxtAyBA3aP0bAtq3ZvyaOoiHlV8Yt/cXh+LsKG2d/23Eymxd3zWFCpXjqiJUYw==
-X-Received: by 2002:a50:9b19:0:b0:56e:238e:372c with SMTP id 4fb4d7f45d1cf-57a3653a3d7mr5229810a12.26.1717419158381;
-        Mon, 03 Jun 2024 05:52:38 -0700 (PDT)
-Received: from [192.168.42.59] ([163.114.131.193])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-57a31b990easm5173294a12.6.2024.06.03.05.52.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Jun 2024 05:52:38 -0700 (PDT)
-Message-ID: <fb8fd578-96b8-45b9-b6a9-fe407157122f@gmail.com>
-Date: Mon, 3 Jun 2024 13:52:41 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="epL/ApU7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5305CC2BD10;
+	Mon,  3 Jun 2024 13:53:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717422837;
+	bh=67N6myEhz31OreafUCQyi9SAqb0lxOP/O//o8ECIsi4=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=epL/ApU7gyuKSmcUfSaph/nh7OIzTDppO9H2bdra5I3PCEJ2CXD6p24p9yanbNntj
+	 oVS5QApuYyEesM3PNcE9DaLxYAMmsG6HnlvkGN1KN7mKGtIjAF7HfeZrcR+dCju7tq
+	 zb8J9puN3l/c/irehc9UBViUrzivZKd/5PNBd1BaE8ItQesELlNGvU+Jw9rGa+aWVP
+	 eZydsFnJcds18b4oN7M+6WjwoizEjEdhsEGlGK2Nh70FedUOWl1yqd4AEs7ix8YGio
+	 GaNHcnWwT79aJuEowgKKVDejAjPKXdNWHIOR5ypHALKuR/m4Acw0tLy6+pQLmKpjpm
+	 Tq28peyOwl5AA==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id EB966CE3B76; Mon,  3 Jun 2024 06:53:56 -0700 (PDT)
+Date: Mon, 3 Jun 2024 06:53:56 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@redhat.com>
+Cc: Eric Dumazet <edumazet@google.com>, Petr Machata <petrm@nvidia.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, Ido Schimmel <idosch@nvidia.com>,
+	David Ahern <dsahern@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org, Simon Horman <horms@kernel.org>
+Subject: Re: [PATCH net-next 2/4] net: ipv4: Add a sysctl to set multipath
+ hash seed
+Message-ID: <636f066d-3a32-462c-ae37-2e576fac8f2c@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20240529111844.13330-1-petrm@nvidia.com>
+ <20240529111844.13330-3-petrm@nvidia.com>
+ <CANn89iL8P68pHvCKy242Z6ggWsceK4_TWMr7OakS3guRok=_gw@mail.gmail.com>
+ <875xuqiivg.fsf@toke.dk>
+ <CANn89iJ5UzQGBMNvZJqknuTCn13Ov4pXp7Rr+pq0G+BkJ53g7Q@mail.gmail.com>
+ <8734puies5.fsf@toke.dk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v10 01/14] netdev: add netdev_rx_queue_restart()
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>,
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
-References: <20240530201616.1316526-1-almasrymina@google.com>
- <20240530201616.1316526-2-almasrymina@google.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20240530201616.1316526-2-almasrymina@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8734puies5.fsf@toke.dk>
 
-On 5/30/24 21:16, Mina Almasry wrote:
-> Add netdev_rx_queue_restart() function to netdev_rx_queue.h
+On Mon, Jun 03, 2024 at 10:58:18AM +0200, Toke Høiland-Jørgensen wrote:
+> Eric Dumazet <edumazet@google.com> writes:
 > 
-> Signed-off-by: David Wei <dw@davidwei.uk>
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> > On Mon, Jun 3, 2024 at 9:30 AM Toke Høiland-Jørgensen <toke@redhat.com> wrote:
+> >>
+> >> Eric Dumazet <edumazet@google.com> writes:
+> >>
+> >> > On Wed, May 29, 2024 at 1:21 PM Petr Machata <petrm@nvidia.com> wrote:
+> >> >>
+> >> >> When calculating hashes for the purpose of multipath forwarding, both IPv4
+> >> >> and IPv6 code currently fall back on flow_hash_from_keys(). That uses a
+> >> >> randomly-generated seed. That's a fine choice by default, but unfortunately
+> >> >> some deployments may need a tighter control over the seed used.
+> >> >>
+> >> >> In this patch, make the seed configurable by adding a new sysctl key,
+> >> >> net.ipv4.fib_multipath_hash_seed to control the seed. This seed is used
+> >> >> specifically for multipath forwarding and not for the other concerns that
+> >> >> flow_hash_from_keys() is used for, such as queue selection. Expose the knob
+> >> >> as sysctl because other such settings, such as headers to hash, are also
+> >> >> handled that way. Like those, the multipath hash seed is a per-netns
+> >> >> variable.
+> >> >>
+> >> >> Despite being placed in the net.ipv4 namespace, the multipath seed sysctl
+> >> >> is used for both IPv4 and IPv6, similarly to e.g. a number of TCP
+> >> >> variables.
+> >> >>
+> >> > ...
+> >> >
+> >> >> +       rtnl_lock();
+> >> >> +       old = rcu_replace_pointer_rtnl(net->ipv4.sysctl_fib_multipath_hash_seed,
+> >> >> +                                      mphs);
+> >> >> +       rtnl_unlock();
+> >> >> +
+> >> >
+> >> > In case you keep RCU for the next version, please do not use rtnl_lock() here.
+> >> >
+> >> > A simple xchg() will work just fine.
+> >> >
+> >> > old = xchg((__force struct struct sysctl_fib_multipath_hash_seed
+> >> > **)&net->ipv4.sysctl_fib_multipath_hash_seed,
+> >> >                  mphs);
+> >>
+> >> We added a macro to do this kind of thing without triggering any of the
+> >> RCU type linter warnings, in:
+> >>
+> >> 76c8eaafe4f0 ("rcu: Create an unrcu_pointer() to remove __rcu from a pointer")
+> >>
+> >> So as an alternative to open-coding the cast, something like this could
+> >> work - I guess it's mostly a matter of taste:
+> >>
+> >> old = unrcu_pointer(xchg(&net->ipv4.sysctl_fib_multipath_hash_seed, RCU_INITIALIZER(mphs)));
+> >
+> > Good to know, thanks.
+> >
+> > Not sure why __kernel qualifier has been put there.
 > 
-> ---
-...
-> diff --git a/net/core/netdev_rx_queue.c b/net/core/netdev_rx_queue.c
-> new file mode 100644
-> index 0000000000000..b3899358e5a9c
-> --- /dev/null
-> +++ b/net/core/netdev_rx_queue.c
-> @@ -0,0 +1,74 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +#include <linux/netdevice.h>
-> +#include <net/netdev_queues.h>
-> +#include <net/netdev_rx_queue.h>
-> +
-> +int netdev_rx_queue_restart(struct net_device *dev, unsigned int rxq_idx)
-> +{
-> +	void *new_mem, *old_mem;
-> +	int err;
+> Not sure either. Paul, care to enlighten us? :)
 
-I believe it should also do:
+Because __kernel says "just plain kernel access".  Here are the options:
 
-if (!dev->queue_mgmt_ops)
-	return -EOPNOTSUPP;
+# define __kernel       __attribute__((address_space(0)))
+# define __user         __attribute__((noderef, address_space(__user)))
+# define __iomem        __attribute__((noderef, address_space(__iomem)))
+# define __percpu       __attribute__((noderef, address_space(__percpu)))
+# define __rcu          __attribute__((noderef, address_space(__rcu)))
 
-> +
-> +	if (!dev->queue_mgmt_ops->ndo_queue_stop ||
-> +	    !dev->queue_mgmt_ops->ndo_queue_mem_free ||
-> +	    !dev->queue_mgmt_ops->ndo_queue_mem_alloc ||
-> +	    !dev->queue_mgmt_ops->ndo_queue_start)
-> +		return -EOPNOTSUPP;
-> +
-> +	DEBUG_NET_WARN_ON_ONCE(!rtnl_is_locked());
+So casting to __kernel removes the __rcu, thus avoiding the sparse
+complaint.
 
--- 
-Pavel Begunkov
+							Thanx, Paul
