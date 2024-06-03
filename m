@@ -1,130 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77791E4A2;
-	Mon,  3 Jun 2024 13:53:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52E7312E1DB
+	for <linux-doc@vger.kernel.org>; Mon,  3 Jun 2024 14:17:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717422837; cv=none; b=jDH3+o51WRS0q+NwgtH/9igK7pOItm4uY9PIkdhpdq4Nt0LRdUQDkI3G1RAHbPeTsImALlZ1KVl41HBHHx8sSb+H2j0kpfuVtOKv1s/0zdyTCCJz0T9Y31zbk01Xr8CUK16cD1/sXGvkgF9luyhlisRJsQmLq42VpHzrFl/I+0M=
+	t=1717424245; cv=none; b=Sh58ddEkSnmG7AaiKazD/z7BIbr5hJVHc9t6hWq2D0MUXAjYng69JkXGBKM/3V1aJSduvaaENSWJVEZNZ6W5elROJYKWpboDanHgO84Hbw5RniJEeDTlzid/wz0GhuUs9sIllw1qoNB+U5BVU8fcflf6HGhfoekh7nFkgg9LH1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717422837; c=relaxed/simple;
-	bh=67N6myEhz31OreafUCQyi9SAqb0lxOP/O//o8ECIsi4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FqO/JMxXG0teg5evaD9gc0FO5dE1/r27ThQlOBBN89u8K0M4yYExhMD4zukhy1Jej9fHA0T/rLxEgSSK+xEwuDzEwth0+KI48FYqAppQV65D9pWl0Oc3z+gtJgeqj5y13iG58YV5vADe6E0u9wj+7v1dSBKjdRob0vLMNs0c4jE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=epL/ApU7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717424245; c=relaxed/simple;
+	bh=HKIk/fziZZuLGu58aSs/+3iSct4B2ZtBElSDQxdl5rg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Sn59ClksE7Y/E/n9SK/UK1dHj9P9dBPkxjL1FCIy60JT7FQsQw/yT4CjTaBu14CQsyU09ASki+JC4xThukPCmjb13oAT5tj8cEW4FERyimp2PmymxGRc5MEaj1dwrnvyL2jwTsPa8QZ2Id5aNHc4R/kaxBmgriBpFri2j4N7SjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aB7uHwwR; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="epL/ApU7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5305CC2BD10;
-	Mon,  3 Jun 2024 13:53:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717422837;
-	bh=67N6myEhz31OreafUCQyi9SAqb0lxOP/O//o8ECIsi4=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=epL/ApU7gyuKSmcUfSaph/nh7OIzTDppO9H2bdra5I3PCEJ2CXD6p24p9yanbNntj
-	 oVS5QApuYyEesM3PNcE9DaLxYAMmsG6HnlvkGN1KN7mKGtIjAF7HfeZrcR+dCju7tq
-	 zb8J9puN3l/c/irehc9UBViUrzivZKd/5PNBd1BaE8ItQesELlNGvU+Jw9rGa+aWVP
-	 eZydsFnJcds18b4oN7M+6WjwoizEjEdhsEGlGK2Nh70FedUOWl1yqd4AEs7ix8YGio
-	 GaNHcnWwT79aJuEowgKKVDejAjPKXdNWHIOR5ypHALKuR/m4Acw0tLy6+pQLmKpjpm
-	 Tq28peyOwl5AA==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id EB966CE3B76; Mon,  3 Jun 2024 06:53:56 -0700 (PDT)
-Date: Mon, 3 Jun 2024 06:53:56 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <toke@redhat.com>
-Cc: Eric Dumazet <edumazet@google.com>, Petr Machata <petrm@nvidia.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org, Ido Schimmel <idosch@nvidia.com>,
-	David Ahern <dsahern@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org, Simon Horman <horms@kernel.org>
-Subject: Re: [PATCH net-next 2/4] net: ipv4: Add a sysctl to set multipath
- hash seed
-Message-ID: <636f066d-3a32-462c-ae37-2e576fac8f2c@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20240529111844.13330-1-petrm@nvidia.com>
- <20240529111844.13330-3-petrm@nvidia.com>
- <CANn89iL8P68pHvCKy242Z6ggWsceK4_TWMr7OakS3guRok=_gw@mail.gmail.com>
- <875xuqiivg.fsf@toke.dk>
- <CANn89iJ5UzQGBMNvZJqknuTCn13Ov4pXp7Rr+pq0G+BkJ53g7Q@mail.gmail.com>
- <8734puies5.fsf@toke.dk>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aB7uHwwR"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-a68b41ef3f6so199922066b.1
+        for <linux-doc@vger.kernel.org>; Mon, 03 Jun 2024 07:17:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1717424242; x=1718029042; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hX960fiFK86sEZShyroAmINX+eMw+I3MOlcUpYKxHw8=;
+        b=aB7uHwwRC7K0jUH0NEm5WyzGaXSGKbzBBXAQ/6KPLq5hvpt5gIsvpFgfO+Ff0rEtAi
+         jFQAdvKA+d/RJ2UFZ8PV41xtUcqWdMTeSLaliBueAXelYp9ptkog+SW+FezzEmmo9o9d
+         BwrDZZ+ccw3hWVXFmvqFB2pRbtAZzZP0f/yDYFTuMXWx0g9CeAg6iSPPB5H1TcvUZGho
+         uWsd8K4622fPZ85APw7Ml60GB0r4/d7flyjjdgDutm+xZWqjhAu0MvYpF0qu9XjpyYC4
+         3JsnzPJ1DDmPHBUsMLmTQbjkIB/LXXKRTnAd//N+7CaOMjZU6LKDJea6nZRDzlyQFFWR
+         7HNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717424242; x=1718029042;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hX960fiFK86sEZShyroAmINX+eMw+I3MOlcUpYKxHw8=;
+        b=AM76/pDiaKsEr13vptet09/DY/vQeVSjWsR3fb/v5CgjWHr45SNweaoHCKKbPmEk99
+         MJnTwrKbDWDzjWr3ZokMsAiX/Wbabmv8xByMvwrtP9hk3ftYjrvsEFWfGdEOeVD9wQdg
+         QN6bkT25D8m4avEme9dwZv3zqkMMO9ixjfHuNbYrna2y/wpXqeCvaCYJTqzeqzeq1fo0
+         W3QmsLU44/V0P3epurCAZpyn7OlWLkNQA7aE1LxBpoL9hUEN8d+Xy6Mp0QFl104gdlPb
+         8uNdlkMbn7hDxjDDfL+d0YSyIi5ifbRbBE29UYOE3V48m14Q2uaJgsOMsls+OFwCIqHY
+         IJPw==
+X-Forwarded-Encrypted: i=1; AJvYcCVWobwJZl8ClhbMr0Humm2jlsdtJCJoTyAyxjsRoQQ3DpGtC1QkCAp+6l5xSf2m7lYPazc96UjLJtOGHwJokZ2ut1ltPNhUSRBh
+X-Gm-Message-State: AOJu0YyOf04WAVBhQ37n3wdw1YbXLfp3ndVjYolKQkN3W4fko03IoDbz
+	YXwO6hGACH2wzXJs3qHjrtipog+ZK17tNfNYHVCw5L716komx1LxVysYlMn3ffQaEABBxTXRogS
+	oahJA0dyBP+CCQAWjzxK/c2+W9faM1I5LhSEw
+X-Google-Smtp-Source: AGHT+IF2dM971g+G40jgbxNlCnWLD2vDmcmV06zLLO0GJhjluR0VCD0WMHMSdMpVvOnlSN5qx4LmzaU7Z6g2TUlHcjM=
+X-Received: by 2002:a17:907:914e:b0:a68:9621:a93c with SMTP id
+ a640c23a62f3a-a689621ab6fmr371329366b.8.1717424241215; Mon, 03 Jun 2024
+ 07:17:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8734puies5.fsf@toke.dk>
+References: <20240530201616.1316526-1-almasrymina@google.com>
+ <20240530201616.1316526-3-almasrymina@google.com> <ZlqzER_ufrhlB28v@infradead.org>
+In-Reply-To: <ZlqzER_ufrhlB28v@infradead.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Mon, 3 Jun 2024 07:17:05 -0700
+Message-ID: <CAHS8izMU_nMEr04J9kXiX6rJqK4nQKA+W-enKLhNxvK7=H2pgA@mail.gmail.com>
+Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
+ custom page providers
+To: Christoph Hellwig <hch@infradead.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
+	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 03, 2024 at 10:58:18AM +0200, Toke Høiland-Jørgensen wrote:
-> Eric Dumazet <edumazet@google.com> writes:
-> 
-> > On Mon, Jun 3, 2024 at 9:30 AM Toke Høiland-Jørgensen <toke@redhat.com> wrote:
-> >>
-> >> Eric Dumazet <edumazet@google.com> writes:
-> >>
-> >> > On Wed, May 29, 2024 at 1:21 PM Petr Machata <petrm@nvidia.com> wrote:
-> >> >>
-> >> >> When calculating hashes for the purpose of multipath forwarding, both IPv4
-> >> >> and IPv6 code currently fall back on flow_hash_from_keys(). That uses a
-> >> >> randomly-generated seed. That's a fine choice by default, but unfortunately
-> >> >> some deployments may need a tighter control over the seed used.
-> >> >>
-> >> >> In this patch, make the seed configurable by adding a new sysctl key,
-> >> >> net.ipv4.fib_multipath_hash_seed to control the seed. This seed is used
-> >> >> specifically for multipath forwarding and not for the other concerns that
-> >> >> flow_hash_from_keys() is used for, such as queue selection. Expose the knob
-> >> >> as sysctl because other such settings, such as headers to hash, are also
-> >> >> handled that way. Like those, the multipath hash seed is a per-netns
-> >> >> variable.
-> >> >>
-> >> >> Despite being placed in the net.ipv4 namespace, the multipath seed sysctl
-> >> >> is used for both IPv4 and IPv6, similarly to e.g. a number of TCP
-> >> >> variables.
-> >> >>
-> >> > ...
-> >> >
-> >> >> +       rtnl_lock();
-> >> >> +       old = rcu_replace_pointer_rtnl(net->ipv4.sysctl_fib_multipath_hash_seed,
-> >> >> +                                      mphs);
-> >> >> +       rtnl_unlock();
-> >> >> +
-> >> >
-> >> > In case you keep RCU for the next version, please do not use rtnl_lock() here.
-> >> >
-> >> > A simple xchg() will work just fine.
-> >> >
-> >> > old = xchg((__force struct struct sysctl_fib_multipath_hash_seed
-> >> > **)&net->ipv4.sysctl_fib_multipath_hash_seed,
-> >> >                  mphs);
-> >>
-> >> We added a macro to do this kind of thing without triggering any of the
-> >> RCU type linter warnings, in:
-> >>
-> >> 76c8eaafe4f0 ("rcu: Create an unrcu_pointer() to remove __rcu from a pointer")
-> >>
-> >> So as an alternative to open-coding the cast, something like this could
-> >> work - I guess it's mostly a matter of taste:
-> >>
-> >> old = unrcu_pointer(xchg(&net->ipv4.sysctl_fib_multipath_hash_seed, RCU_INITIALIZER(mphs)));
-> >
-> > Good to know, thanks.
-> >
-> > Not sure why __kernel qualifier has been put there.
-> 
-> Not sure either. Paul, care to enlighten us? :)
+On Fri, May 31, 2024 at 10:35=E2=80=AFPM Christoph Hellwig <hch@infradead.o=
+rg> wrote:
+>
+> On Thu, May 30, 2024 at 08:16:01PM +0000, Mina Almasry wrote:
+> > I'm unsure if the discussion has been resolved yet. Sending the series
+> > anyway to get reviews/feedback on the (unrelated) rest of the series.
+>
+> As far as I'm concerned it is not.  I've not seen any convincing
+> argument for more than page/folio allocator including larger order /
+> huge page and dmabuf.
+>
 
-Because __kernel says "just plain kernel access".  Here are the options:
+Thanks Christoph, this particular patch series adds dmabuf, so I
+assume no objection there. I assume the objection is that you want the
+generic, extensible hooks removed.
 
-# define __kernel       __attribute__((address_space(0)))
-# define __user         __attribute__((noderef, address_space(__user)))
-# define __iomem        __attribute__((noderef, address_space(__iomem)))
-# define __percpu       __attribute__((noderef, address_space(__percpu)))
-# define __rcu          __attribute__((noderef, address_space(__rcu)))
+To be honest, I don't think the hooks are an integral part of the
+design, and at this point I think we've argued for them enough. I
+think we can easily achieve the same thing with just raw if statements
+in a couple of places. We can always add the hooks if and only if we
+actually justify many memory providers.
 
-So casting to __kernel removes the __rcu, thus avoiding the sparse
-complaint.
+Any objections to me removing the hooks and directing to memory
+allocations via simple if statements? Something like (very rough
+draft, doesn't compile):
 
-							Thanx, Paul
+diff --git a/net/core/page_pool.c b/net/core/page_pool.c
+index 92be1aaf18ccc..2cc986455bce6 100644
+--- a/net/core/page_pool.c
++++ b/net/core/page_pool.c
+@@ -557,8 +557,8 @@ netmem_ref page_pool_alloc_netmem(struct page_pool
+*pool, gfp_t gfp)
+                return netmem;
+
+        /* Slow-path: cache empty, do real allocation */
+-       if (static_branch_unlikely(&page_pool_mem_providers) && pool->mp_op=
+s)
+-               netmem =3D pool->mp_ops->alloc_pages(pool, gfp);
++       if (unlikely(page_pool_is_dmabuf(pool)))
++               netmem =3D mp_dmabuf_devmem_alloc_pages():
+        else
+                netmem =3D __page_pool_alloc_pages_slow(pool, gfp);
+        return netmem;
+
+
+--=20
+Thanks,
+Mina
