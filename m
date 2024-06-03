@@ -1,171 +1,197 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F45D824B7;
-	Mon,  3 Jun 2024 11:15:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 642C9481A7
+	for <linux-doc@vger.kernel.org>; Mon,  3 Jun 2024 11:17:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717413330; cv=none; b=qhUTlpM8Vd/iJEC3Nc7HAhye3COK3JI6jSwan9KTrUHYcmP8cKS22V6qZBtHEpBAvOYgoiOq+A7SN2w9tuSXXgHCkCT9lGcIGTVTj07IUIKxU9DiuU4w3E+1CEGczPvSRMY+dGeSGpwRYg0q0MyhdM2aZfr4Hrj77K2/RVQdsho=
+	t=1717413453; cv=none; b=cX3pq2kOc+vuTk6o/QgZMak+JeJ90LifE3Vj/DupZPxu24RC4qc9C3zgHeeWTKwWZNsMCto/8pJUPUBD0zHjt5Bxj42SY3nUq0ZBDrash+Xj8nBGXnKWLUY3JUtBwgvenqoTT/+b7UCDtFF8E2LhZWqqhW2MFX8UYC5KVzSHUxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717413330; c=relaxed/simple;
-	bh=wjY7xN+n0h0w5smNZ4qyZ35IsRg8ogOp205fTzMkm2Q=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=f6yYAyJnHT4LEmeD3rHntNzN1MiAFu5w0opf5CJR84EAYmQDBsUEVEYiAOoC36k5GtiRU6dAbQ542Ua02I0TRMsLzGmcNYqph06Nis/RSqE2aTLDm2nGEphm3HmSkOzKGwO0xGwZhnpReuTzX0po996JYCg9yFS2sG/YFxDszu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=qHq0Pcu2; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1717413453; c=relaxed/simple;
+	bh=X9ILtM/+5hKq9Dskgzk3jggSkTrWGbcydimSrAcZB/c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:In-Reply-To:
+	 Content-Type:References; b=PJXOA6SWSamLJLZ0a+Io2J1EtCc/H7lS0Pkx62ocETvYvSA/V/wTk+pmujyYqCKgV05dRpN3G7Grclg9m1cefsQ6XgRDYfJxwgjxPaK9wdyt8A/pPINLuf19JGlqjjlOJLJOOM4n0MtrIBClt7d4h/UdGTA/1Z1kZMBUpOp5RE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=fBCyfFmm; arc=none smtp.client-ip=203.254.224.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="qHq0Pcu2"
-Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 453Atsk2003882;
-	Mon, 3 Jun 2024 11:15:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc :
- content-transfer-encoding : content-type : date : from : in-reply-to :
- message-id : mime-version : references : subject : to; s=pp1;
- bh=QKlzMAtuKYDhNnuCA4sugLEiF2TGv+CbdEPUoVFV1CE=;
- b=qHq0Pcu2Vj56uf3re+7Q0dAEbfjEieH+SkB+QM4h54sfOnAKaGrU9N7jDwDDC1ghJM9Y
- XszJqI32SZw7CHZLdZmQnOKdHCUPAMm9oSV7i5qvLggTOxJCMSNJprWBgz05zeEEWDey
- JUyqJjOyj+wcmuCkr8aAW0XNDi9fG5Au9tt0E5Av4HPvA0a5GPHSuYA28Q0Yp/PxkNM0
- jWj8mpPJGt7FoH4pdeX9X7Zqvf7qANoq2VnSQIudkqt8sCC+VQVzg9iYvKfBuP9zI/Dg
- AjavNJQupUug4F3DcSHM8zb0EE/8vLzrfGkK9FDXoc4vPFQtL27sH04fwwEehQ2vc+V9 GQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yhccng222-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 03 Jun 2024 11:15:19 +0000
-Received: from m0353727.ppops.net (m0353727.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 453BFIwt008485;
-	Mon, 3 Jun 2024 11:15:19 GMT
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yhccng21v-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 03 Jun 2024 11:15:18 +0000
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 4538eiAv008474;
-	Mon, 3 Jun 2024 11:15:17 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3ygec0fnh5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 03 Jun 2024 11:15:17 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 453BFBVQ52429076
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 3 Jun 2024 11:15:13 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 75F0D2005A;
-	Mon,  3 Jun 2024 11:15:11 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 540FC20063;
-	Mon,  3 Jun 2024 11:15:09 +0000 (GMT)
-Received: from [172.17.0.2] (unknown [9.3.101.175])
-	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Mon,  3 Jun 2024 11:15:09 +0000 (GMT)
-Subject: [PATCH 6/6] KVM: PPC: Book3S HV: Add one-reg interface for HASHKEYR
- register
-From: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-To: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org
-Cc: pbonzini@redhat.com, naveen.n.rao@linux.ibm.com,
-        christophe.leroy@csgroup.eu, corbet@lwn.net, mpe@ellerman.id.au,
-        namhyung@kernel.org, npiggin@gmail.com, pbonzini@redhat.com,
-        sbhat@linux.ibm.com, jniethe5@gmail.com, atrajeev@linux.vnet.ibm.com,
-        linux-kernel@vger.kernel.org
-Date: Mon, 03 Jun 2024 11:15:08 +0000
-Message-ID: <171741330411.6631.10739157625274499060.stgit@linux.ibm.com>
-In-Reply-To: <171741323521.6631.11242552089199677395.stgit@linux.ibm.com>
-References: <171741323521.6631.11242552089199677395.stgit@linux.ibm.com>
-User-Agent: StGit/1.5
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="fBCyfFmm"
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20240603111728epoutp01421bbed9e0aca5dd54b1f64ca8ba4ec5~Vem6xJW4t3248732487epoutp01H
+	for <linux-doc@vger.kernel.org>; Mon,  3 Jun 2024 11:17:28 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20240603111728epoutp01421bbed9e0aca5dd54b1f64ca8ba4ec5~Vem6xJW4t3248732487epoutp01H
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1717413448;
+	bh=NdbbPTU401HPnUoOaw/F+ZPaUI8FnwtrRdYBN1GmdNc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=fBCyfFmmOdsx9UkBEa9C/gMGpiNyDk4AnmSWtZbFfDv+7gBM+/il6hdrezNZoUm6u
+	 brNd0Yu+RFdFsvyiRq3EIXyNs2rR5HOPiAJA2VvMW5i5ShY8k0rytDknHtWX3ygeiW
+	 3INEWIAMTs1GV2KS6JZWO4Og6VhdoTW05ZmMqKO8=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+	20240603111727epcas5p447c1effda385c696f1a1dab79263bc00~Vem6CshrS0313903139epcas5p4f;
+	Mon,  3 Jun 2024 11:17:27 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.182]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4VtB5f5Krnz4x9Pr; Mon,  3 Jun
+	2024 11:17:26 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	F7.39.10035.646AD566; Mon,  3 Jun 2024 20:17:26 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20240603110051epcas5p1210a0ffdd361216c504cc342c8d4f247~VeYaUA-3V1603316033epcas5p10;
+	Mon,  3 Jun 2024 11:00:51 +0000 (GMT)
+Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20240603110051epsmtrp274773a1330edafc070774ea66a2e82c2~VeYaSaTm90159301593epsmtrp2H;
+	Mon,  3 Jun 2024 11:00:51 +0000 (GMT)
+X-AuditID: b6c32a4b-b11fa70000002733-8b-665da646c938
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
+	2F.BD.18846.362AD566; Mon,  3 Jun 2024 20:00:51 +0900 (KST)
+Received: from nj.shetty?samsung.com (unknown [107.99.41.245]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20240603110042epsmtip288f7ecce5d34cdfe18b68ceb823a3cdb~VeYRdfn010474404744epsmtip2K;
+	Mon,  3 Jun 2024 11:00:41 +0000 (GMT)
+Date: Mon, 3 Jun 2024 10:53:39 +0000
+From: Nitesh Shetty <nj.shetty@samsung.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>, Alasdair
+	Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>, Mikulas Patocka
+	<mpatocka@redhat.com>, Keith Busch <kbusch@kernel.org>, Sagi Grimberg
+	<sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>, Alexander Viro
+	<viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara
+	<jack@suse.cz>, martin.petersen@oracle.com, bvanassche@acm.org,
+	david@fromorbit.com, hare@suse.de, damien.lemoal@opensource.wdc.com,
+	anuj20.g@samsung.com, joshi.k@samsung.com, nitheshshetty@gmail.com,
+	gost.dev@samsung.com, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v20 00/12] Implement copy offload support
+Message-ID: <20240603105339.keuiudmeplxdmczj@nj.shetty@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+In-Reply-To: <20240601054701.GA5613@lst.de>
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Te0xTVxzHd+5tby9OSFeQHWAyUkkcEqBVigcGbAmM3Ag69jJOY6CDKyCl
+	bdoizi1bEXDQjbeFWYExROQlRGgWysMQHjJBRhwClilDUjYGE8pLtjBgLReN/31+33N+7/xI
+	nHed40wmSFW0QiqW8IldrJ+6Pd7yCqs6fUawsroPNfbfwdHFvA0c1T3OJdBc9xJAReZ/cWTq
+	/Aag9cEhHOnvTABUXlHKQsZOA4baKwowVFPXi6GrxWkY6t16SqCCrlGApkd0GOoY90Q/Xqpk
+	ofaOuyw03FpCoB+qpjnoRt8mhvIzRzDUYkoFqGFugYV+HndBQxt97HddqOEH4VR/BaQMuscc
+	amjiFosaHkymmmqzCKq58mtqpvkKoNqMaoK6llPIprLT5gnKkPE7m1qcHmdRC7dHCCpHXwuo
+	e+U9nEj7k4mB8bQ4lla40dIYWWyCNC6IH/5RVEiUyE8g9BL6o8N8N6k4iQ7ih0ZEeoUlSCzD
+	4budE0uSLVKkWKnk+wQHKmTJKtotXqZUBfFpeaxE7iv3VoqTlMnSOG8prQoQCgQHRZaP0Ynx
+	xrV6XK53PG9Qa3A1aOBpgA0Jub5wYWOcZWUetw3A4jpPDdhl4SUAq41m4oUx3ToGNIDc9vi+
+	3IXRDQBmG9IxxlgGcLJnHLeGYnHdYeb6M8zqQHA94cAWaZUduHw4PTsIrIxztQTc0rlY2Z4b
+	BB8Z0jlWtuWGQM3NX9gMvwbvXjFtV2djCbOVVcay5oLcbhtYrF7FmRZC4dMnjzgM28PZPv0O
+	O8Pl+Q6C4RRYc7maYJzTAdSN6QDz8A7M6M/FmYriYf53uWxG3wu1/Q0Yo9vB7HUTxui2sKXs
+	Oe+D9Y3lOwmc4Oha6g5T8B9DEYuZSj2A2sJMkAdcdS91pHspH8MBMMt80cKkhV3gjU2SQQ/Y
+	2OpTDti1wImWK5PiaKVIfkhKp7xYcowsqQls38uB8BYwNWn27gIYCboAJHG+g23OV6fO8Gxj
+	xZ9foBWyKEWyhFZ2AZFlQfm4854YmeXgpKoooa+/wNfPz8/X/5CfkP+67VxGaSyPGydW0Yk0
+	LacVz/0w0sZZjb0nQidHP/6vLUtysPJIxG52WrNaqx345Bbvr0vVwYE+JZKZ/pnmtxtOzM27
+	hx6btdfrucvHg7X3H+ZoTkx0NmUeKZy3Xzmv+yJHL8j+M6YwoyAsYtgMvDP17qbotr72cyub
+	xN6JJfKD0T+qJn1MxoCzu/Ubixd0ZYtRutknzbMxqa7Hist//XDt6LPj1Gqz/5RScjXvjW+F
+	sOhU18M3Py0tM3V3hxyVgmDDkpvA10MD3/dTO4X08FJXzKU1Zx1faT1sU8ZZfjCWYzfQc+3m
+	7czeXNeUtLXl03bZX/69qBjec490d7xfMph62Ri91eiwXxTx6vXfCj+bj7Hr3L/iTU7hcxl8
+	ljJeLDyAK5Ti/wH/DoZ6uAQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0hTYRjHe897dnY0xOOsfGtFsRJKa2ZEvZGZIOWhqwZBF8yGntRyKptK
+	N0ydWY4yXVG6zKaGppKR95W3vJXpWmaGqSnaVpYsL6BdbFpzRH378/yf3+/58tBQMEQuoUPD
+	ozhZuCRMRNmSFY2i5esCc/xPrC9+vQY/fNECcUKqGeKi99coPNI4AfDNsR8QG+ovATyt00Nc
+	1tIPsCbnDonf1WsJXJ2jInBBUTOBb99SELh51kRhVcNbgI1dagLX9Lji7KR7JK6uaSVx5+NM
+	Ct/NM/Jx/rMZAqdd7iJwlSEe4OKRURI/7xFivfkZz0vIdr7Zzb7IQaxW/Z7P6vsfkWynLpot
+	KUym2NJ7F9jh0gzAPnkXR7G5Kdd57FXFV4rVXhzgsePGHpIdre2i2JSyQsC2a5r4vo5HbD2C
+	uLDQGE7m5nncNiTtzSSM/Oh4+pUpHsaBn/ZKQNOI2YjSNUIlsKUFTCVAU0kaoAQ2f+aLUZ65
+	CVqzIyqY+cS3Lo0DlParl7IUJLMKXZ6eIiwiinFFbbO0ZbyAESHjF92cBzIZFGq/K7VkR2Yb
+	6tMm8i3ZjvFGygcveVZnMUATug7KWjig1gwDaYU3oazSQWjxQ0aI8mfm/DZ/Ts0mZ5GpgFH/
+	R6j/I9T/CA2AhWAhFymXBksDI93FcolUHh0eLA6MkJaAuTdwOVAF8h6axQ2AoEEDQDQULbBL
+	iT16QmAXJDlzlpNFBMiiwzh5AxDSpMjJbmVYcpCACZZEcac4LpKT/W0J2mZJHOEcXxck2Pnj
+	RsXgMpW9h+LLPi+uT/C5XjI0lPi0dsywM9VZNfw6pm7qW1tiwOihRZPrH+gdmkM2+/Wq0n+2
+	d7tFB4bejPWpluY2yUIcYMyq4fjpiOzTwerNHU3MYdGy3pbDWr/z4+f3KHwmfHJXCCeieN6v
+	GpeuXVq+McVTW1F00XQrf/7qWuPKgYCWc7vGElCsl7D8ujIrs1vX4X7QO1Fvr1gBObHO5Jm9
+	/9jyAH/z99X9hbvNb8XqHsP4d+xrSuoe0eaNeoSehO5tNbvcPsw7g2euODlzGemyrcIhp0d1
+	8ytbJ/f2VSTlZm7ZMLCDBE8y2xNcpxy2p7sUzLvf9WtQRMpDJO4uUCaX/AYjgqMpdQMAAA==
+X-CMS-MailID: 20240603110051epcas5p1210a0ffdd361216c504cc342c8d4f247
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+	boundary="----atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_520e5_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240520102747epcas5p33497a911ca70c991e5da8e22c5d1336b
+References: <CGME20240520102747epcas5p33497a911ca70c991e5da8e22c5d1336b@epcas5p3.samsung.com>
+	<20240520102033.9361-1-nj.shetty@samsung.com> <20240601054701.GA5613@lst.de>
+
+------atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_520e5_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
+
+On 01/06/24 07:47AM, Christoph Hellwig wrote:
+>On Mon, May 20, 2024 at 03:50:13PM +0530, Nitesh Shetty wrote:
+>> So copy offload works only for request based storage drivers.
+>
+>I don't think that is actually true.  It just requires a fair amount of
+>code in a bio based driver to match the bios up.
+>
+>I'm missing any kind of information on what this patch set as-is
+>actually helps with.  What operations are sped up, for what operations
+>does it reduce resource usage?
+>
+The major benefit of this copy-offload/emulation framework is
+observed in fabrics setup, for copy workloads across the network.
+The host will send offload command over the network and actual copy
+can be achieved using emulation on the target (hence patch 4).
+This results in higher performance and lower network consumption,
+as compared to read and write travelling across the network.
+With this design of copy-offload/emulation we are able to see the
+following improvements as compared to userspace read + write on a
+NVMeOF TCP setup:
+
+Setup1: Network Speed: 1000Mb/s
+	Host PC: Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz
+	Target PC: AMD Ryzen 9 5900X 12-Core Processor
+	block size 8k:
+	Improvement in IO BW from 106 MiB/s to 360 MiB/s
+	Network utilisation drops from  97% to 6%.
+	block-size 1M:
+	Improvement in IO BW from 104 MiB/s to 2677 MiB/s
+	Network utilisation drops from 92% to 0.66%.
+
+Setup2: Network Speed: 100Gb/s
+	Server: Intel(R) Xeon(R) Gold 6240 CPU @ 2.60GHz, 72 cores
+	(host and target have the same configuration)
+	block-size 8k:
+	17.5% improvement in IO BW (794 MiB/s to 933 MiB/s).
+	Network utilisation drops from  6.75% to 0.16%.
+
+>Part of that might be that the included use case of offloading
+>copy_file_range doesn't seem particularly useful - on any advance
+>file system that would be done using reflinks anyway.
+>
+Instead of coining a new user interface just for copy,
+we thought of using existing infra for plumbing.
+When this series gets merged, we can add io-uring interface.
+
+>Have you considered hooking into dm-kcopyd which would be an
+>instant win instead?  Or into garbage collection in zoned or other
+>log structured file systems?  Those would probably really like
+>multiple source bios, though.
+>
+Our initial few version of the series had dm-kcopyd use case.
+We dropped it, to make overall series lightweight and make it
+easier to review and test.
+When the current series gets merged, we will start adding
+more in-kernel users in next phase.
+
+Thank you,
+Nitesh Shetty
+
+------atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_520e5_
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 68JkJxxICiLPUA3bCEbfjicCU0X1byGH
-X-Proofpoint-ORIG-GUID: BW3v26K-pv9usNapJah6wXNG0H35-Gcx
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.650,FMLib:17.12.28.16
- definitions=2024-06-03_07,2024-05-30_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 clxscore=1015
- bulkscore=0 mlxscore=0 phishscore=0 lowpriorityscore=0 adultscore=0
- impostorscore=0 priorityscore=1501 spamscore=0 suspectscore=0
- mlxlogscore=654 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2405010000 definitions=main-2406030094
-
-The patch adds a one-reg register identifier which can be used to
-read and set the virtual HASHKEYR for the guest during enter/exit
-with KVM_REG_PPC_HASHKEYR. The specific SPR KVM API documentation
-too updated.
-
-Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
----
- Documentation/virt/kvm/api.rst            |    1 +
- arch/powerpc/include/uapi/asm/kvm.h       |    1 +
- arch/powerpc/kvm/book3s_hv.c              |    6 ++++++
- tools/arch/powerpc/include/uapi/asm/kvm.h |    1 +
- 4 files changed, 9 insertions(+)
-
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 81077c654281..0c22cb4196d8 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -2439,6 +2439,7 @@ registers, find a list below:
-   PPC     KVM_REG_PPC_PSSCR               64
-   PPC     KVM_REG_PPC_DEC_EXPIRY          64
-   PPC     KVM_REG_PPC_PTCR                64
-+  PPC     KVM_REG_PPC_HASHKEYR            64
-   PPC     KVM_REG_PPC_DAWR1               64
-   PPC     KVM_REG_PPC_DAWRX1              64
-   PPC     KVM_REG_PPC_DEXCR               64
-diff --git a/arch/powerpc/include/uapi/asm/kvm.h b/arch/powerpc/include/uapi/asm/kvm.h
-index fcb947f65667..23a0af739c78 100644
---- a/arch/powerpc/include/uapi/asm/kvm.h
-+++ b/arch/powerpc/include/uapi/asm/kvm.h
-@@ -646,6 +646,7 @@ struct kvm_ppc_cpu_char {
- #define KVM_REG_PPC_DAWR1	(KVM_REG_PPC | KVM_REG_SIZE_U64 | 0xc4)
- #define KVM_REG_PPC_DAWRX1	(KVM_REG_PPC | KVM_REG_SIZE_U64 | 0xc5)
- #define KVM_REG_PPC_DEXCR	(KVM_REG_PPC | KVM_REG_SIZE_U64 | 0xc6)
-+#define KVM_REG_PPC_HASHKEYR	(KVM_REG_PPC | KVM_REG_SIZE_U64 | 0xc7)
- 
- /* Transactional Memory checkpointed state:
-  * This is all GPRs, all VSX regs and a subset of SPRs
-diff --git a/arch/powerpc/kvm/book3s_hv.c b/arch/powerpc/kvm/book3s_hv.c
-index 1294c6839d37..ccc9564c5a31 100644
---- a/arch/powerpc/kvm/book3s_hv.c
-+++ b/arch/powerpc/kvm/book3s_hv.c
-@@ -2352,6 +2352,9 @@ static int kvmppc_get_one_reg_hv(struct kvm_vcpu *vcpu, u64 id,
- 	case KVM_REG_PPC_DEXCR:
- 		*val = get_reg_val(id, kvmppc_get_dexcr_hv(vcpu));
- 		break;
-+	case KVM_REG_PPC_HASHKEYR:
-+		*val = get_reg_val(id, kvmppc_get_hashkeyr_hv(vcpu));
-+		break;
- 	case KVM_REG_PPC_CIABR:
- 		*val = get_reg_val(id, kvmppc_get_ciabr_hv(vcpu));
- 		break;
-@@ -2598,6 +2601,9 @@ static int kvmppc_set_one_reg_hv(struct kvm_vcpu *vcpu, u64 id,
- 	case KVM_REG_PPC_DEXCR:
- 		kvmppc_set_dexcr_hv(vcpu, set_reg_val(id, *val));
- 		break;
-+	case KVM_REG_PPC_HASHKEYR:
-+		kvmppc_set_hashkeyr_hv(vcpu, set_reg_val(id, *val));
-+		break;
- 	case KVM_REG_PPC_CIABR:
- 		kvmppc_set_ciabr_hv(vcpu, set_reg_val(id, *val));
- 		/* Don't allow setting breakpoints in hypervisor code */
-diff --git a/tools/arch/powerpc/include/uapi/asm/kvm.h b/tools/arch/powerpc/include/uapi/asm/kvm.h
-index fcb947f65667..23a0af739c78 100644
---- a/tools/arch/powerpc/include/uapi/asm/kvm.h
-+++ b/tools/arch/powerpc/include/uapi/asm/kvm.h
-@@ -646,6 +646,7 @@ struct kvm_ppc_cpu_char {
- #define KVM_REG_PPC_DAWR1	(KVM_REG_PPC | KVM_REG_SIZE_U64 | 0xc4)
- #define KVM_REG_PPC_DAWRX1	(KVM_REG_PPC | KVM_REG_SIZE_U64 | 0xc5)
- #define KVM_REG_PPC_DEXCR	(KVM_REG_PPC | KVM_REG_SIZE_U64 | 0xc6)
-+#define KVM_REG_PPC_HASHKEYR	(KVM_REG_PPC | KVM_REG_SIZE_U64 | 0xc7)
- 
- /* Transactional Memory checkpointed state:
-  * This is all GPRs, all VSX regs and a subset of SPRs
 
 
+------atUsqPFm-1W_PDIhMRaVeMNpJ8wr1jcbO3GdUizRktR65zpR=_520e5_--
