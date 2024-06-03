@@ -1,154 +1,419 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2063.outbound.protection.outlook.com [40.107.93.63])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10C107F7D1;
-	Mon,  3 Jun 2024 11:37:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.63
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717414678; cv=fail; b=SD0e+15qB5QjP8Tl8D8IUgFt+rVc/IWvCqpBpfKKieB6DAmzcpnKZHv9RGi5JuBgWRa+MeLodT4t5m7ry4sd87eanN4FnVoam8IYJxKhmpyD0IP+V5QiTN5NmWeEb7OjSsDcgIneublztoo7evoyS2orV+lpKL7segb26mOVVyM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717414678; c=relaxed/simple;
-	bh=zPTmy5eNWDt9cGvV9kPsP0F/4zNkjB+3ndc6+cuw9Ts=;
-	h=References:From:To:CC:Subject:Date:In-Reply-To:Message-ID:
-	 MIME-Version:Content-Type; b=iTuF+APKkAJ31LCd96I0fK7N9WifQgrATvKMYB0Hyl0mCwD/o16NIszjXKOrJH1BYjUxyORgB8Y+fYhEm1CbfQ0zAyB2HDOtFEE6aIpKJ586oec96DZ2MRYqr1bN6+hME1x3RSzV6lA4GQX8OUOu8rf4i4lDuCTICC7/u043XqQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ojw+d85+; arc=fail smtp.client-ip=40.107.93.63
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53D084E07;
+	Mon,  3 Jun 2024 11:44:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717415078; cv=none; b=U/J9Wi4Ginj4qQ+F1qJpg+g+M1AXeXDuMCtos3uDT8JkZkuyvrmSZrCaHrCoLSgNKNx1bNWBM9h/3qCJrlaKbVG8DXpry9t397zHIdDwO0wjZioLEUAkCUd54VrN4C8ZJjYnMyezYw4p7xYC3CFBHyoLv0HpyC6HzeESTrQ+Zo0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717415078; c=relaxed/simple;
+	bh=KunT4nlCg7911ALJa7lOcyXfpiQdVZ5znExOTbbLGV4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pS1otxpgAm1CSZ4I0VAelB+ryq8d7W5ATv6B3Xl9VrgfPxpCVFvjTGdBub5HehtyeNEOr6/bCF6RgS5deN7mZ8UrdDGH8RRv8ENPfxzecfDmNpQSBI+iqMSAHfvA1F8PjZ/2Nb27f26HJyG242vJsHNwTk/jykfvrEy9hoIoaYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ePCs3Sta; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ojw+d85+"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gSc9camWBg5HXIqOiecxQ8JdE2rSkVD2ToOaCFCVI+wREd6wfVjDeFqRnQZsQuZHzO7NIUzcHyuDC1crrdRU8yTkwZzm1FnyP5W1pCcCKziqwH7qZMrQPe6dLvpdaOKeE+l6KwVBWv+fy0RJLyyKP3pffbVQUjRVPKGy1tZG8KOkoaM/Bj2quKwGSVnfyMEzQKPfNyCnlWmjWcezQqXHtAytmNpEGR1FoquglRbHSv/UUglbCmngYd0Hdu0V+HedHoDvkn/Tb2RyMm1/aw5jWCMxILkP1CBFTVoU3acx+dqnLgdqJ75Ah1BcK+gV5kDT0n23RXbx0tsk8nE6FZvOUw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6ssLR454/KX970sI/LEhp0SJshV/y2QsnPjcbspmQ4U=;
- b=idcJ/PRZECq29PjPLsxG24OaoyyeBNt5GKq3U3QKq4aNwpTYRpVMRcSCtsKjyFiyB1Tmga/s3zoKgq3inS2jFMVGpksJwpv+zBRUSAhOc9Qx4dgfdLEzynL7G9c4CrNc1D2DUsnhkKo5RB0NXVx+ZREcMBqjT1lK1/AHP77uhbDJ+ZM11ecTsymdQt+pBW3lcQ0SG3WmStFO0gowET+em+gubdbfhooYrRQf/2Ix6QaoFsJM49YOKYIGEYKf1CGabNcRtfNLtRlkXdpGxc+UqFgbLDi/ViO+i9KNARi22WKl7f1l0KVn0n4TiwJ0/VDwmGf83xeftjJUXqoz8DRHyg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6ssLR454/KX970sI/LEhp0SJshV/y2QsnPjcbspmQ4U=;
- b=ojw+d85+QhDAF2of40bBBuFtshlBlFQ7OpfjXX5MrDtU5INdpBZdrrMuAHwFH0lHir4bedBE8JJtIyYwHdsyrktHi2/fCE/eBZ+L5i3z0URk+ZDKOXAF6cxGWwFyt/aW7rbcHs7/ZIEGwgPlIq4wd3Co1M4uMZU9kSMJzw4M+lFZ9BJ60xOhwIamDjBHKWlRPnryxAVdwBzukjlm7XskrB//edlST6KRK85BpTM8eIMz1bWIPGxjR/r3SKLMU1iwvKsQ5yy+K1Ms+HxiiBODhCcPEukdU3ISi4TEiCgskhsa1nTmhk1hOuVg0teIQvdJnN5X2Yz26ynug+C74zEC5g==
-Received: from CH5P221CA0022.NAMP221.PROD.OUTLOOK.COM (2603:10b6:610:1f2::23)
- by PH7PR12MB5736.namprd12.prod.outlook.com (2603:10b6:510:1e3::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.22; Mon, 3 Jun
- 2024 11:37:52 +0000
-Received: from CH3PEPF0000000C.namprd04.prod.outlook.com
- (2603:10b6:610:1f2:cafe::6b) by CH5P221CA0022.outlook.office365.com
- (2603:10b6:610:1f2::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.30 via Frontend
- Transport; Mon, 3 Jun 2024 11:37:52 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- CH3PEPF0000000C.mail.protection.outlook.com (10.167.244.39) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7633.15 via Frontend Transport; Mon, 3 Jun 2024 11:37:52 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 3 Jun 2024
- 04:37:38 -0700
-Received: from yaviefel (10.126.231.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 3 Jun 2024
- 04:37:33 -0700
-References: <20240529111844.13330-1-petrm@nvidia.com>
- <20240529111844.13330-3-petrm@nvidia.com>
- <20240530180034.307318fd@kernel.org> <87sexu8iaa.fsf@nvidia.com>
-User-agent: mu4e 1.8.11; emacs 29.3
-From: Petr Machata <petrm@nvidia.com>
-To: Petr Machata <petrm@nvidia.com>
-CC: Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	<netdev@vger.kernel.org>, Ido Schimmel <idosch@nvidia.com>, David Ahern
-	<dsahern@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	<linux-doc@vger.kernel.org>, Simon Horman <horms@kernel.org>
-Subject: Re: [PATCH net-next 2/4] net: ipv4: Add a sysctl to set multipath
- hash seed
-Date: Mon, 3 Jun 2024 13:37:02 +0200
-In-Reply-To: <87sexu8iaa.fsf@nvidia.com>
-Message-ID: <87o78i8dfr.fsf@nvidia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ePCs3Sta"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F941C4AF0F;
+	Mon,  3 Jun 2024 11:44:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717415078;
+	bh=KunT4nlCg7911ALJa7lOcyXfpiQdVZ5znExOTbbLGV4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=ePCs3StafjXPiSuIR3m+UDXUptsbPwB+J4owwXzQyO4HLyKwu8aRXbJbkzKZXt1xW
+	 Pja7YvCqTx3qawexmh3abjlxifBpZLBCO2P7aOzEQSeZOgnRO1Vvs5Dj6S5ZZd6mqm
+	 3RWPx1yac6MBEGh1UoseIt8s1TLZmkLkXz4e3h3afchdT2EIthZXWsXm8qbYsQjFKZ
+	 OoTrQT70nfoPWmEp+GafKXo5EKYOqZ4z5lkXnJoU13kcI/AAWNlU368p+7PhYpOw2U
+	 veeBcDi6he7jPkP3bXixb8gK+FEKuJw6MOQjru81EzfOGSetmsWcZeB3vm20wJUIjp
+	 3yRb6VLrHLahw==
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-57a2ed9af7dso4199931a12.1;
+        Mon, 03 Jun 2024 04:44:38 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUQEFn3OBuF6CvDcBtOz68IjCx7cpPDto3EPWRseBNFjck3NThvDHm8WTT9zgNJQnr/5mmi0pIREjGSQ11ghTZc3XLjlf+gehmTsTaS+w2dPnC4Q37YVxoQfMbsncWfp9hpocFW2dxcoq9Om/ppjsXD1+kAt8F60eBDXIVHs5Xm+VnsbQ==
+X-Gm-Message-State: AOJu0Yx5ITkzZJZJKSddW0DDjRwpcHJBI/If+1xAw/ghryp1wWTysDA4
+	5ld4ueAd8PsGjU4x42kV26VCiSvXpWQD8rz5XAbW9AZSKETKpTbL6NQFmmrKabcikoLt8wy7x/4
+	E4VbE/l3VaVe/KY4PfBapSt/kauc=
+X-Google-Smtp-Source: AGHT+IG7/H90hc63WWNMkeMAnOX13JzopJNEYk51UGPzqfuIlsmZ8ozivL78F9eXs+/MfUByP3kU+MuoZdk04N08DSY=
+X-Received: by 2002:a50:9e05:0:b0:57a:2400:3a56 with SMTP id
+ 4fb4d7f45d1cf-57a3651f208mr6105897a12.23.1717415076817; Mon, 03 Jun 2024
+ 04:44:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PEPF0000000C:EE_|PH7PR12MB5736:EE_
-X-MS-Office365-Filtering-Correlation-Id: b3855423-89b7-4618-ac4b-08dc83c19a71
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230031|376005|1800799015|36860700004|82310400017;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?tFw17RJprWfmlPepDdQaUGdzSFkScxoXgSfINcEk23H+/+YNSyuNlA7YNAYf?=
- =?us-ascii?Q?za+qNqYPX6aMpumMvnsjTyVPCdb9BUzAJ0h11ieXKl6l1IYE6FCT/n+lQaUM?=
- =?us-ascii?Q?ggqihd+lA886Fy9CJARe28aJl8pi+QSgOInyteyThClG0/L+WqahV3Ap40x6?=
- =?us-ascii?Q?uPu0rf03ylAOv0W7c98szem6fWUZT6xFxitEK4d3g5q0ig3t0JsTVWJkMGZg?=
- =?us-ascii?Q?lBaQ3NgHtxC3ADn460KtbQuoVWigt813E/maMkeFwtxMzSyIFd8+hdix0RHe?=
- =?us-ascii?Q?fLNpASZC0ltlQCAkj52gCb47pGwUCU0ZD7fDCCnn1aooVblayxfUazWMHw4N?=
- =?us-ascii?Q?a75CCIQh5chYXUm2zYJgJ+t838Pw6FnbTdQYk9p1LIRu7DAoheIphZbd4W2z?=
- =?us-ascii?Q?1y0SErl1iLGxiqyFkHiewAa9OU472jlmvL9SzCMjcLTVC9FAdVImKBrhe+PM?=
- =?us-ascii?Q?O0sDFQkxDgPl3x4bEiT6gQ5NVGexgfcAatSciz1tuQMNyBY+pIpTEtoexo3Z?=
- =?us-ascii?Q?GaaNyWzvXWSGrpmnBIFxgD5OFF9McXTaQuvIS7HZRgMTfw03EFE8/x+zBHd5?=
- =?us-ascii?Q?aWWXe3ZDDBVj4cogxfDNr9caJ3oI/9BhVopWTIza1pab2Da5MPHyMA9XBfnp?=
- =?us-ascii?Q?MH6rKb5bNrJKVrS9tl25/yplHvR45v6M80gmKTCF1Vyp9JniOWL5jnW7dqgc?=
- =?us-ascii?Q?QNfX5jSVX0c9bSdoli1DtZYoU98udenL9/+KR7+CiyD9TOT5V6V0WTv3KbE/?=
- =?us-ascii?Q?pyPeYRmTRUG3dIrMqAFSClEHDxYk1LIul0aDVggWsISE4tw4n347fpYiE+6+?=
- =?us-ascii?Q?VJmey1hfzqcL1/0aB8UgDBbJIS67Hiw+fVZu7W52GwaCX8ZsyWcgQqQ0gpwy?=
- =?us-ascii?Q?ubaWWJjAVQlztimsdE9eieI9JmceHepNoXE44/9zHa1id5CJqG7DrT+3ef6B?=
- =?us-ascii?Q?FX2QU3rs1V6Fy/YHaUVuLZBw7QYTi3o/xWMWnqk20YfOJapFBbhclxr/yTWD?=
- =?us-ascii?Q?FbYLRgmZsf8heZdmxtS6S21zJgSHVEV3IikvyBp6el9DY6Zm1nNMGPH4Q+ap?=
- =?us-ascii?Q?fwEiMUeL7lAWVXFCOSGq3KzOsKXy3Wvm2ybKOajLkn30WOeLXfwp87InE4nQ?=
- =?us-ascii?Q?81+y4u+lpRwOoWp1yqX+QKbQuTdLIQXa473eFZ05TYJoPUybDYMi4DVgp6i+?=
- =?us-ascii?Q?Nzd13OU2kZ515vtgfUeG8VfpWsKcqaU+L5mecFt1MSckdgymMO5F5UJUrN6z?=
- =?us-ascii?Q?uaWBDBQOq4jlw3XmDAEFdYKB2wa2Rs15T+bcd+WIxMnDTRZ8HvG31v63oKAr?=
- =?us-ascii?Q?e5+SZE7waSAhPYqk+5kvN09zEhjs86a0NCIAuVcT2YBY30p7e118MZ/to027?=
- =?us-ascii?Q?6wyD/eA=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230031)(376005)(1800799015)(36860700004)(82310400017);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2024 11:37:52.1273
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b3855423-89b7-4618-ac4b-08dc83c19a71
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH3PEPF0000000C.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5736
+References: <20240528151052.313031-1-alexghiti@rivosinc.com>
+ <20240528151052.313031-8-alexghiti@rivosinc.com> <CAJF2gTQgg-7Fzoz9TsjWD-_8ABbS7M66aEztCsZ9Ejk8LOvmiQ@mail.gmail.com>
+ <CAHVXubg=T3AMER0z8-iRqqFmDQp8iEM92cXwPZcW2Sfm=_KOHQ@mail.gmail.com>
+ <CAJF2gTT51oZqEq-1TV_UEUufsrq=jRr4FAbmdtrChAHyUC1rXg@mail.gmail.com>
+ <b6b6d273-4d57-4611-8c67-1a67d443b7d0@ghiti.fr> <CAJF2gTTiz_gkaA8OVkZynKUAFHFGij1W97qVSS3RKyMK5vkpdw@mail.gmail.com>
+ <1cb05816-6f2f-4940-8051-b645f9f52c14@ghiti.fr>
+In-Reply-To: <1cb05816-6f2f-4940-8051-b645f9f52c14@ghiti.fr>
+From: Guo Ren <guoren@kernel.org>
+Date: Mon, 3 Jun 2024 19:44:23 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTS-8KHs8LqiR70AxKQB9=sAZznXAXSbk=Q8PVwdKQSrbg@mail.gmail.com>
+Message-ID: <CAJF2gTS-8KHs8LqiR70AxKQB9=sAZznXAXSbk=Q8PVwdKQSrbg@mail.gmail.com>
+Subject: Re: [PATCH 7/7] riscv: Add qspinlock support based on Zabha extension
+To: Alexandre Ghiti <alex@ghiti.fr>
+Cc: Alexandre Ghiti <alexghiti@rivosinc.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Peter Zijlstra <peterz@infradead.org>, 
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-Petr Machata <petrm@nvidia.com> writes:
-
-> Jakub Kicinski <kuba@kernel.org> writes:
+On Mon, Jun 3, 2024 at 7:34=E2=80=AFPM Alexandre Ghiti <alex@ghiti.fr> wrot=
+e:
 >
->> On Wed, 29 May 2024 13:18:42 +0200 Petr Machata wrote:
->>> +fib_multipath_hash_seed - UNSIGNED INTEGER
->>> +	The seed value used when calculating hash for multipath routes. Applies
->>
->> nits..
->>
->> For RSS we call it key rather than seed, is calling it seed well
->> established for ECMP?
->>
->> Can we also call out that hashing implementation is not well defined?
+> On 03/06/2024 13:28, Guo Ren wrote:
+> > On Mon, Jun 3, 2024 at 5:49=E2=80=AFPM Alexandre Ghiti <alex@ghiti.fr> =
+wrote:
+> >> Hi Guo,
+> >>
+> >> On 31/05/2024 15:10, Guo Ren wrote:
+> >>> On Wed, May 29, 2024 at 9:03=E2=80=AFPM Alexandre Ghiti <alexghiti@ri=
+vosinc.com> wrote:
+> >>>> Hi Guo,
+> >>>>
+> >>>> On Wed, May 29, 2024 at 11:24=E2=80=AFAM Guo Ren <guoren@kernel.org>=
+ wrote:
+> >>>>> On Tue, May 28, 2024 at 11:18=E2=80=AFPM Alexandre Ghiti <alexghiti=
+@rivosinc.com> wrote:
+> >>>>>> In order to produce a generic kernel, a user can select
+> >>>>>> CONFIG_QUEUED_SPINLOCKS which will fallback at runtime to the tick=
+et
+> >>>>>> spinlock implementation if Zabha is not present.
+> >>>>>>
+> >>>>>> Note that we can't use alternatives here because the discovery of
+> >>>>>> extensions is done too late and we need to start with the qspinloc=
+k
+> >>>>>> implementation because the ticket spinlock implementation would po=
+llute
+> >>>>>> the spinlock value, so let's use static keys.
+> >>> Zabha is not a prerequisite for qspinlock; the prerequisite for
+> >>> qspinlock is the *forward progress guarantee* in the atomic operation
+> >>> loop during intense contention. Even with Zabha enabled to meet the
+> >>> requirements of xchg_tail, that still only applies when the number of
+> >>> CPUs is less than 16K. The qspinlock uses cmpxchg loop instead of
+> >>> xchg_tail when the number of cores is more than 16K. Thus, hardware
+> >>> support for Zabha does not equate to the safe use of qspinlock.
+> >>
+> >> But if we have Zacas to implement cmpxchg(), we still provide the
+> >> "forward progress guarantee" then right? Let me know if I missed somet=
+hing.
+> > The qspinlock needs a "forward progress guarantee," not Zacas, and
+> > Zabha could give a guarantee to qspinlock xchg_tail (CPUs < 16K) with
+> > AMOSWAP.H instruction. But, using "LR/SC pairs" also could give enough
+> > fwd guarantee that depends on the micro-arch design of the riscv core.
+> > I think the help of AMO instead of LR/SC is it could off-load AMO
+> > operations from LSU to CIU(Next Level Cache or Interconnect), which
+> > gains better performance. "LR/SC pairs" only provide Near-Atomic, but
+> > AMO gives Far-Atomic additionally.
 >
-> As others note, this seems to be industry nomenclature, so I'll keep it.
+>
+> I understand qspinlocks require forward progress and that your company's
+> LR/SC implementations provide such guarantee, I'm not arguing against
+> your new extension proposal.
+>
+> It seemed to me in your previous message that you implied that when
+> NR_CPUS > 16k, we should not use qspinlocks. My question was: "Don't
+> Zacas provide such guarantee"? I think it does, so qspinlocks should
+> actually depend on Zabha *and* Zacas. Is that correct to you?
+See kernel/locking/qspinlock.c
+#if _Q_PENDING_BITS =3D=3D 8 (NR_CPUS < 16K)
+static __always_inline u32 xchg_tail(struct qspinlock *lock, u32 tail)
+{
+        /*
+         * We can use relaxed semantics since the caller ensures that the
+         * MCS node is properly initialized before updating the tail.
+         */
+        return (u32)xchg_relaxed(&lock->tail,
+                                 tail >> _Q_TAIL_OFFSET) << _Q_TAIL_OFFSET;
+}
+#else /* NR_CPUS >=3D 16K */
+static __always_inline u32 xchg_tail(struct qspinlock *lock, u32 tail)
+{
+        u32 old, new;
 
-I meant the "seed" name, I'll mention the algorithm is undefined and
-doesn't constitute an ABI.
+        old =3D atomic_read(&lock->val);
+        do {
+                new =3D (old & _Q_LOCKED_PENDING_MASK) | tail;
+                /*
+                 * We can use relaxed semantics since the caller ensures th=
+at
+                 * the MCS node is properly initialized before updating the
+                 * tail.
+                 */
+        } while (!atomic_try_cmpxchg_relaxed(&lock->val, &old, new));
+
+        return old;
+}
+#endif
+
+Look! You, Zacas, still need an additional FWD guarantee to break the
+loop. That is, how *stickiness* your cache line is?
+
+>
+> Let me know if I misunderstood something again.
+>
+> Thanks,
+>
+> Alex
+>
+>
+> >
+> >
+> >> Thanks,
+> >>
+> >> Alex
+> >>
+> >>
+> >>> Therefore, I would like to propose a new ISA extension: Zafpg(Atomic
+> >>> Forward Progress Guarantee). If RISC-V vendors can ensure the progres=
+s
+> >>> of LR/SC or CMPXCHG LOOP at the microarchitectural level or if cache
+> >>> lines are sufficiently sticky, they could then claim support for this
+> >>> extension. Linux could then select different spinlock implementations
+> >>> based on this extension's support or not.
+> >>>
+> >>>>>> This is largely based on Guo's work and Leonardo reviews at [1].
+> >>>>>>
+> >>>>>> Link: https://lore.kernel.org/linux-riscv/20231225125847.2778638-1=
+-guoren@kernel.org/ [1]
+> >>>>>> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> >>>>>> ---
+> >>>>>>    .../locking/queued-spinlocks/arch-support.txt |  2 +-
+> >>>>>>    arch/riscv/Kconfig                            |  1 +
+> >>>>>>    arch/riscv/include/asm/Kbuild                 |  4 +-
+> >>>>>>    arch/riscv/include/asm/spinlock.h             | 39 ++++++++++++=
++++++++
+> >>>>>>    arch/riscv/kernel/setup.c                     | 18 +++++++++
+> >>>>>>    include/asm-generic/qspinlock.h               |  2 +
+> >>>>>>    include/asm-generic/ticket_spinlock.h         |  2 +
+> >>>>>>    7 files changed, 66 insertions(+), 2 deletions(-)
+> >>>>>>    create mode 100644 arch/riscv/include/asm/spinlock.h
+> >>>>>>
+> >>>>>> diff --git a/Documentation/features/locking/queued-spinlocks/arch-=
+support.txt b/Documentation/features/locking/queued-spinlocks/arch-support.=
+txt
+> >>>>>> index 22f2990392ff..cf26042480e2 100644
+> >>>>>> --- a/Documentation/features/locking/queued-spinlocks/arch-support=
+.txt
+> >>>>>> +++ b/Documentation/features/locking/queued-spinlocks/arch-support=
+.txt
+> >>>>>> @@ -20,7 +20,7 @@
+> >>>>>>        |    openrisc: |  ok  |
+> >>>>>>        |      parisc: | TODO |
+> >>>>>>        |     powerpc: |  ok  |
+> >>>>>> -    |       riscv: | TODO |
+> >>>>>> +    |       riscv: |  ok  |
+> >>>>>>        |        s390: | TODO |
+> >>>>>>        |          sh: | TODO |
+> >>>>>>        |       sparc: |  ok  |
+> >>>>>> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> >>>>>> index 184a9edb04e0..ccf1703edeb9 100644
+> >>>>>> --- a/arch/riscv/Kconfig
+> >>>>>> +++ b/arch/riscv/Kconfig
+> >>>>>> @@ -59,6 +59,7 @@ config RISCV
+> >>>>>>           select ARCH_SUPPORTS_SHADOW_CALL_STACK if HAVE_SHADOW_CA=
+LL_STACK
+> >>>>>>           select ARCH_USE_MEMTEST
+> >>>>>>           select ARCH_USE_QUEUED_RWLOCKS
+> >>>>>> +       select ARCH_USE_QUEUED_SPINLOCKS if TOOLCHAIN_HAS_ZABHA
+> >>>>> Using qspinlock or not depends on real hardware capabilities, not t=
+he
+> >>>>> compiler flag. That's why I introduced combo-spinlock, ticket-spinl=
+ock
+> >>>>> & qspinlock three Kconfigs, and the combo-spinlock would compat all
+> >>>>> hardware platforms but waste some qspinlock code size.
+> >>>> You're right, and I think your comment matches what Conor mentioned
+> >>>> about the lack of clarity with some extensions: TOOLCHAIN_HAS_ZABHA
+> >>>> will allow a platform with Zabha capability to use qspinlocks. But i=
+f
+> >>>> the hardware does not, it will fallback to the ticket spinlocks.
+> >>>>
+> >>>> But I agree that looking at the config alone may be misleading, even
+> >>>> though it will work as expected at runtime. So I agree with you:
+> >>>> unless anyone is strongly against the combo spinlocks, I will do wha=
+t
+> >>>> you suggest and add them.
+> >>>>
+> >>>> Thanks again for your initial work,
+> >>>>
+> >>>> Alex
+> >>>>
+> >>>>>>           select ARCH_USES_CFI_TRAPS if CFI_CLANG
+> >>>>>>           select ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH if SMP && MMU
+> >>>>>>           select ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT if MMU
+> >>>>>> diff --git a/arch/riscv/include/asm/Kbuild b/arch/riscv/include/as=
+m/Kbuild
+> >>>>>> index 504f8b7e72d4..ad72f2bd4cc9 100644
+> >>>>>> --- a/arch/riscv/include/asm/Kbuild
+> >>>>>> +++ b/arch/riscv/include/asm/Kbuild
+> >>>>>> @@ -2,10 +2,12 @@
+> >>>>>>    generic-y +=3D early_ioremap.h
+> >>>>>>    generic-y +=3D flat.h
+> >>>>>>    generic-y +=3D kvm_para.h
+> >>>>>> +generic-y +=3D mcs_spinlock.h
+> >>>>>>    generic-y +=3D parport.h
+> >>>>>> -generic-y +=3D spinlock.h
+> >>>>>>    generic-y +=3D spinlock_types.h
+> >>>>>> +generic-y +=3D ticket_spinlock.h
+> >>>>>>    generic-y +=3D qrwlock.h
+> >>>>>>    generic-y +=3D qrwlock_types.h
+> >>>>>> +generic-y +=3D qspinlock.h
+> >>>>>>    generic-y +=3D user.h
+> >>>>>>    generic-y +=3D vmlinux.lds.h
+> >>>>>> diff --git a/arch/riscv/include/asm/spinlock.h b/arch/riscv/includ=
+e/asm/spinlock.h
+> >>>>>> new file mode 100644
+> >>>>>> index 000000000000..e00429ac20ed
+> >>>>>> --- /dev/null
+> >>>>>> +++ b/arch/riscv/include/asm/spinlock.h
+> >>>>>> @@ -0,0 +1,39 @@
+> >>>>>> +/* SPDX-License-Identifier: GPL-2.0 */
+> >>>>>> +
+> >>>>>> +#ifndef __ASM_RISCV_SPINLOCK_H
+> >>>>>> +#define __ASM_RISCV_SPINLOCK_H
+> >>>>>> +
+> >>>>>> +#ifdef CONFIG_QUEUED_SPINLOCKS
+> >>>>>> +#define _Q_PENDING_LOOPS       (1 << 9)
+> >>>>>> +
+> >>>>>> +#define __no_arch_spinlock_redefine
+> >>>>>> +#include <asm/ticket_spinlock.h>
+> >>>>>> +#include <asm/qspinlock.h>
+> >>>>>> +#include <asm/alternative.h>
+> >>>>>> +
+> >>>>>> +DECLARE_STATIC_KEY_TRUE(qspinlock_key);
+> >>>>>> +
+> >>>>>> +#define SPINLOCK_BASE_DECLARE(op, type, type_lock)               =
+      \
+> >>>>>> +static __always_inline type arch_spin_##op(type_lock lock)       =
+      \
+> >>>>>> +{                                                                =
+      \
+> >>>>>> +       if (static_branch_unlikely(&qspinlock_key))               =
+      \
+> >>>>>> +               return queued_spin_##op(lock);                    =
+      \
+> >>>>>> +       return ticket_spin_##op(lock);                            =
+      \
+> >>>>>> +}
+> >>>>>> +
+> >>>>>> +SPINLOCK_BASE_DECLARE(lock, void, arch_spinlock_t *)
+> >>>>>> +SPINLOCK_BASE_DECLARE(unlock, void, arch_spinlock_t *)
+> >>>>>> +SPINLOCK_BASE_DECLARE(is_locked, int, arch_spinlock_t *)
+> >>>>>> +SPINLOCK_BASE_DECLARE(is_contended, int, arch_spinlock_t *)
+> >>>>>> +SPINLOCK_BASE_DECLARE(trylock, bool, arch_spinlock_t *)
+> >>>>>> +SPINLOCK_BASE_DECLARE(value_unlocked, int, arch_spinlock_t)
+> >>>>>> +
+> >>>>>> +#else
+> >>>>>> +
+> >>>>>> +#include <asm/ticket_spinlock.h>
+> >>>>>> +
+> >>>>>> +#endif
+> >>>>>> +
+> >>>>>> +#include <asm/qrwlock.h>
+> >>>>>> +
+> >>>>>> +#endif /* __ASM_RISCV_SPINLOCK_H */
+> >>>>>> diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
+> >>>>>> index 4f73c0ae44b2..31ce75522fd4 100644
+> >>>>>> --- a/arch/riscv/kernel/setup.c
+> >>>>>> +++ b/arch/riscv/kernel/setup.c
+> >>>>>> @@ -244,6 +244,23 @@ static void __init parse_dtb(void)
+> >>>>>>    #endif
+> >>>>>>    }
+> >>>>>>
+> >>>>>> +DEFINE_STATIC_KEY_TRUE(qspinlock_key);
+> >>>>>> +EXPORT_SYMBOL(qspinlock_key);
+> >>>>>> +
+> >>>>>> +static void __init riscv_spinlock_init(void)
+> >>>>>> +{
+> >>>>>> +       asm goto(ALTERNATIVE("nop", "j %[qspinlock]", 0, RISCV_ISA=
+_EXT_ZABHA, 1)
+> >>>>>> +                : : : : qspinlock);
+> >>>>>> +
+> >>>>>> +       static_branch_disable(&qspinlock_key);
+> >>>>>> +       pr_info("Ticket spinlock: enabled\n");
+> >>>>>> +
+> >>>>>> +       return;
+> >>>>>> +
+> >>>>>> +qspinlock:
+> >>>>>> +       pr_info("Queued spinlock: enabled\n");
+> >>>>>> +}
+> >>>>>> +
+> >>>>>>    extern void __init init_rt_signal_env(void);
+> >>>>>>
+> >>>>>>    void __init setup_arch(char **cmdline_p)
+> >>>>>> @@ -295,6 +312,7 @@ void __init setup_arch(char **cmdline_p)
+> >>>>>>           riscv_set_dma_cache_alignment();
+> >>>>>>
+> >>>>>>           riscv_user_isa_enable();
+> >>>>>> +       riscv_spinlock_init();
+> >>>>>>    }
+> >>>>>>
+> >>>>>>    bool arch_cpu_is_hotpluggable(int cpu)
+> >>>>>> diff --git a/include/asm-generic/qspinlock.h b/include/asm-generic=
+/qspinlock.h
+> >>>>>> index 0655aa5b57b2..bf47cca2c375 100644
+> >>>>>> --- a/include/asm-generic/qspinlock.h
+> >>>>>> +++ b/include/asm-generic/qspinlock.h
+> >>>>>> @@ -136,6 +136,7 @@ static __always_inline bool virt_spin_lock(str=
+uct qspinlock *lock)
+> >>>>>>    }
+> >>>>>>    #endif
+> >>>>>>
+> >>>>>> +#ifndef __no_arch_spinlock_redefine
+> >>>>>>    /*
+> >>>>>>     * Remapping spinlock architecture specific functions to the co=
+rresponding
+> >>>>>>     * queued spinlock functions.
+> >>>>>> @@ -146,5 +147,6 @@ static __always_inline bool virt_spin_lock(str=
+uct qspinlock *lock)
+> >>>>>>    #define arch_spin_lock(l)              queued_spin_lock(l)
+> >>>>>>    #define arch_spin_trylock(l)           queued_spin_trylock(l)
+> >>>>>>    #define arch_spin_unlock(l)            queued_spin_unlock(l)
+> >>>>>> +#endif
+> >>>>>>
+> >>>>>>    #endif /* __ASM_GENERIC_QSPINLOCK_H */
+> >>>>>> diff --git a/include/asm-generic/ticket_spinlock.h b/include/asm-g=
+eneric/ticket_spinlock.h
+> >>>>>> index cfcff22b37b3..325779970d8a 100644
+> >>>>>> --- a/include/asm-generic/ticket_spinlock.h
+> >>>>>> +++ b/include/asm-generic/ticket_spinlock.h
+> >>>>>> @@ -89,6 +89,7 @@ static __always_inline int ticket_spin_is_conten=
+ded(arch_spinlock_t *lock)
+> >>>>>>           return (s16)((val >> 16) - (val & 0xffff)) > 1;
+> >>>>>>    }
+> >>>>>>
+> >>>>>> +#ifndef __no_arch_spinlock_redefine
+> >>>>>>    /*
+> >>>>>>     * Remapping spinlock architecture specific functions to the co=
+rresponding
+> >>>>>>     * ticket spinlock functions.
+> >>>>>> @@ -99,5 +100,6 @@ static __always_inline int ticket_spin_is_conte=
+nded(arch_spinlock_t *lock)
+> >>>>>>    #define arch_spin_lock(l)              ticket_spin_lock(l)
+> >>>>>>    #define arch_spin_trylock(l)           ticket_spin_trylock(l)
+> >>>>>>    #define arch_spin_unlock(l)            ticket_spin_unlock(l)
+> >>>>>> +#endif
+> >>>>>>
+> >>>>>>    #endif /* __ASM_GENERIC_TICKET_SPINLOCK_H */
+> >>>>>> --
+> >>>>>> 2.39.2
+> >>>>>>
+> >>>>> --
+> >>>>> Best Regards
+> >>>>>    Guo Ren
+> >>>
+> >
+> >
+
+
+
+--=20
+Best Regards
+ Guo Ren
