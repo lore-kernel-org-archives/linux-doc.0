@@ -1,264 +1,88 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 017DD19BDC;
-	Mon,  3 Jun 2024 05:42:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A27A20332
+	for <linux-doc@vger.kernel.org>; Mon,  3 Jun 2024 05:46:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717393353; cv=none; b=ry+6gn+pG4zB8WWXyU38dWlis/LeF0Wf2MycDeOklXM1z33Zy5VXJ590ttJz8mJZYaxw7euBxCq8t86VZEr10mYXVmj4W/42PleElg+5iaaNrIJh+kxW5BXav1Lv9kxy/iSF5v7AuBa+KFqcmo9CdUp8rfG63zqebscwE168S0s=
+	t=1717393585; cv=none; b=WV4N+Jv/BrJSx7ezjhLsQuy46ysbxEJdyLkPpGy45kXv1LGmduwEVmchtXg1RDu92dAGlL8hZZP7j933bnDmBd3KgxxMp9zZ974OD0eOBKPpNdUZ0lYqzMnXG09Oszsjo1v9qzHyAhJcqMhJ2TPuplCUT7Xnc6j5CUP2EgedBzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717393353; c=relaxed/simple;
-	bh=pKs8QoJWRmox7R0ZKcwyWP16f75KVw08okCpMXGmJcg=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=OYY4GSB7uLfbIwprcSWgPx+tVY2uNwIVL6H10nXbksXddON26CA472ugPyqdOqhBu9xxuXJ0WaIurJ2ETC7opsjGiV2/wNDIGxlv1YltbUpFWLSBq4cPaLnX6ruv7dVcdS5v46eiWIL19f7RR4hLp7HYK80D0U8PhcUB0BzgtQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a/2ZQwXd; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1717393585; c=relaxed/simple;
+	bh=LjLWyp4EOBDJ7QhWHGJWqaDq3UDTvKSMFTwiGkg/Vcg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=H7+GAH2qi5X5B1tz8yIY4HCHJS6Ok3Ih1YTQqVGM+Be09Q77L79ebj92ZmQZK8X9sfLVHRNmp414jddTYNOwdk+jHJE3/q7CsFVqaOP0KExsO4w6uZ0+PkXX/dDJHHsR6xqDiQy3F9+4V/v/M7b6oEE2eB0rqUvpGKuEymGcGCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F8SY9gdr; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a/2ZQwXd"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1f658800344so9922125ad.0;
-        Sun, 02 Jun 2024 22:42:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717393351; x=1717998151; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vqYAbxXcZiC2cItjTqmcXMDzdjrchjWHaH7w9GA8zDM=;
-        b=a/2ZQwXdotUvKR+V7EGSvSAl2jP6tYpsbW7kvMlf2GeRSGQg/iPIB2fPJ+gdaMEM8M
-         5toeKkBqWU+rLBLw1UtLnGjjtA/SDZy/9QHle8PUNNeG8s/Gm7Q5scbpIShpiXEt7qJ3
-         z4qYfG7HB+e+RNRTv/ZBcHauGYwlQSDwVB9Mfgpb1U216crnXk+4+GuAsedrJeknM9lE
-         g4zi7vI3Gm0Xs4/xwAr7O9kE7kjC+p8bN9yVlFW0HNBMUu1J1UB8jF8GuwnIGRVFTyoh
-         yEA4pSlOn1NZCZKsIezx/rFwHZz8RiaVzOwnKR3dHeJyTJwfUQuM/JZe4hc12NBEIDGd
-         dvFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717393351; x=1717998151;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=vqYAbxXcZiC2cItjTqmcXMDzdjrchjWHaH7w9GA8zDM=;
-        b=IQ1euGHYIW0IpQwIdI40lzF5F3sXMggJZC1xY4U8tGxw8iTI3stZ1SY33BFeoNnti/
-         igzxzha5vOfuzNW22o0Y4R4VwQhCiAPzA7ETwqNG86cEW/Xqxvo6xErjP/STpdmGeCzb
-         /uhR1EzSOfUvorzbuFZy3OpL+4w4Ky0wraN3TgEnAcC6STsDvOL5ZAdnCq2Fqe6+xziw
-         4gJqvjCKJFAH4E8ZjE/2eM8asY9/UECO7MNlYojHRWRaK2k0Nn6sLTswB9D8l7WR0UgW
-         1LcZ8Egp+WZVTt4Fxzd52DQgr8gd+fpXfR/dRyvEyn6zVCrTkv/DBAxq0FEabEYXCGh2
-         d8aQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWWmsegF23C/YeiqxwCBsglBf43ExAaPO3CcjZayKe4wEFVaHoUMXEaIE1ajQG03ix3YEKEWzcFj1OZp+EHJxPWMTGyxaX8krHCxfUOWAmD3MKKEcDcxIPRIwHODy8O+QjcBsOqJgi9DCoLz4QPEasWBmm/BVRKHjJU5PkQ+9c5odXxp81mLgvWVS5tp8B19QXsrkDQ
-X-Gm-Message-State: AOJu0YzbSrlZHO4mqdv2QwW0z77eVlCv3ib3n9S12AJhNVN6Op5S5e/P
-	TONm9tHJR4zt8YLUg1fjxlw+yXyXeBQZ7zQTXavm79oDi0uum0CP
-X-Google-Smtp-Source: AGHT+IFbKOdWWXidloqwMZDBr31ClzFKnCfuvB525mbYLqAvqHSEPBkL0Qe8xxXnrIDsvWatGYYa3A==
-X-Received: by 2002:a17:903:2c6:b0:1f4:b18a:3f25 with SMTP id d9443c01a7336-1f6370a3163mr101095265ad.60.1717393351163;
-        Sun, 02 Jun 2024 22:42:31 -0700 (PDT)
-Received: from localhost ([1.128.202.53])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f63232dcb6sm55868575ad.61.2024.06.02.22.42.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 02 Jun 2024 22:42:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F8SY9gdr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717393584; x=1748929584;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LjLWyp4EOBDJ7QhWHGJWqaDq3UDTvKSMFTwiGkg/Vcg=;
+  b=F8SY9gdrYgBPoFeonLXhM3SgGvvzLTeUWz6+pT9WdMztqWI0bpVoLtkq
+   cy11cX5K5+IppHZtDPr2Zpdt7ozsTit0Km1ISHGDxPHCBoNqwHjDcght4
+   4ddH5d6CmTro7MyrbePQAH0PkhDJadwMKJ3AndVNTAzLDL5DhOOPe8Kx4
+   V07OX2kRGoT8vnJ/qo/TlIehyxyNvf6ljn6N7T7YzZX+hh8rCIJkyl6sV
+   JgjB3UAK1dyzz81yg8W7G3JtQ8Gy/9xy6aLpCP6gyaK1IGFwYj5kH86wL
+   lsZzLrE23VOsw974dVbREovPIZ9UejUXeQZO4O3j9G0r8HYjdV0FF1B3R
+   w==;
+X-CSE-ConnectionGUID: 5h3ll4sETg6dMNiuTfbO8w==
+X-CSE-MsgGUID: tHrjDFXeTESxVL3BlPaoyQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11091"; a="13712311"
+X-IronPort-AV: E=Sophos;i="6.08,210,1712646000"; 
+   d="scan'208";a="13712311"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2024 22:46:24 -0700
+X-CSE-ConnectionGUID: LSJF9tx2RrSS2bZPvvTkDw==
+X-CSE-MsgGUID: hRDvJVolSuirRuWss67oxA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,210,1712646000"; 
+   d="scan'208";a="74257339"
+Received: from unknown (HELO 0610945e7d16) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 02 Jun 2024 22:46:23 -0700
+Received: from kbuild by 0610945e7d16 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sE0VX-000L5G-1D;
+	Mon, 03 Jun 2024 05:45:46 +0000
+Date: Mon, 3 Jun 2024 13:43:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>, linux-doc@vger.kernel.org
+Subject: [linux-next:master 3415/3461] htmldocs: Warning: MAINTAINERS
+ references a file that doesn't exist: Documentation/hwmon/chros_ec_hwmon.rst
+Message-ID: <202406031357.4T4JTALQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 03 Jun 2024 15:42:22 +1000
-Message-Id: <D1Q54PY40E3B.22QS5DMQRA58N@gmail.com>
-Cc: <linuxppc-dev@lists.ozlabs.org>, <kvm@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <stable@vger.kernel.org>
-Subject: Re: [PATCH v1 RESEND] arch/powerpc/kvm: Fix doorbell emulation by
- adding DPDES support
-From: "Nicholas Piggin" <npiggin@gmail.com>
-To: "Gautam Menghani" <gautam@linux.ibm.com>, <mpe@ellerman.id.au>,
- <christophe.leroy@csgroup.eu>, <aneesh.kumar@kernel.org>,
- <naveen.n.rao@linux.ibm.com>, <corbet@lwn.net>
-X-Mailer: aerc 0.17.0
-References: <20240522084949.123148-1-gautam@linux.ibm.com>
-In-Reply-To: <20240522084949.123148-1-gautam@linux.ibm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed May 22, 2024 at 6:49 PM AEST, Gautam Menghani wrote:
-> Doorbell emulation is broken for KVM on PowerVM guests as support for
-> DPDES was not added in the initial patch series. Due to this, a KVM on
-> PowerVM guest cannot be booted with the XICS interrupt controller as
-> doorbells are to be setup in the initial probe path when using XICS
-> (pSeries_smp_probe()). Add DPDES support in the host KVM code to fix
-> doorbell emulation.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   861a3cb5a2a8480d361fa6708da24747d6fa72fe
+commit: e8665a172378986159ce8aaf45712c43472f5866 [3415/3461] hwmon: add ChromeOS EC driver
+reproduce: (https://download.01.org/0day-ci/archive/20240603/202406031357.4T4JTALQ-lkp@intel.com/reproduce)
 
-This is broken when the KVM guest has SMT > 1? Or is it broken for SMT=3D1
-as well? Can you explain a bit more of what breaks if it's the latter?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406031357.4T4JTALQ-lkp@intel.com/
 
-> Fixes: 6ccbbc33f06a ("KVM: PPC: Add helper library for Guest State Buffer=
-s")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Gautam Menghani <gautam@linux.ibm.com>
-> ---
-> v1 -> v1 resend:
-> 1. Add the stable tag
->
->  Documentation/arch/powerpc/kvm-nested.rst     |  4 +++-
->  arch/powerpc/include/asm/guest-state-buffer.h |  3 ++-
->  arch/powerpc/include/asm/kvm_book3s.h         |  1 +
->  arch/powerpc/kvm/book3s_hv.c                  | 14 +++++++++++++-
->  arch/powerpc/kvm/book3s_hv_nestedv2.c         |  7 +++++++
->  arch/powerpc/kvm/test-guest-state-buffer.c    |  2 +-
->  6 files changed, 27 insertions(+), 4 deletions(-)
->
-> diff --git a/Documentation/arch/powerpc/kvm-nested.rst b/Documentation/ar=
-ch/powerpc/kvm-nested.rst
-> index 630602a8aa00..5defd13cc6c1 100644
-> --- a/Documentation/arch/powerpc/kvm-nested.rst
-> +++ b/Documentation/arch/powerpc/kvm-nested.rst
-> @@ -546,7 +546,9 @@ table information.
->  +--------+-------+----+--------+----------------------------------+
->  | 0x1052 | 0x08  | RW |   T    | CTRL                             |
->  +--------+-------+----+--------+----------------------------------+
-> -| 0x1053-|       |    |        | Reserved                         |
-> +| 0x1053 | 0x08  | RW |   T    | DPDES                            |
-> ++--------+-------+----+--------+----------------------------------+
-> +| 0x1054-|       |    |        | Reserved                         |
->  | 0x1FFF |       |    |        |                                  |
->  +--------+-------+----+--------+----------------------------------+
->  | 0x2000 | 0x04  | RW |   T    | CR                               |
-> diff --git a/arch/powerpc/include/asm/guest-state-buffer.h b/arch/powerpc=
-/include/asm/guest-state-buffer.h
-> index 808149f31576..d107abe1468f 100644
-> --- a/arch/powerpc/include/asm/guest-state-buffer.h
-> +++ b/arch/powerpc/include/asm/guest-state-buffer.h
-> @@ -81,6 +81,7 @@
->  #define KVMPPC_GSID_HASHKEYR			0x1050
->  #define KVMPPC_GSID_HASHPKEYR			0x1051
->  #define KVMPPC_GSID_CTRL			0x1052
-> +#define KVMPPC_GSID_DPDES			0x1053
-> =20
->  #define KVMPPC_GSID_CR				0x2000
->  #define KVMPPC_GSID_PIDR			0x2001
-> @@ -110,7 +111,7 @@
->  #define KVMPPC_GSE_META_COUNT (KVMPPC_GSE_META_END - KVMPPC_GSE_META_STA=
-RT + 1)
-> =20
->  #define KVMPPC_GSE_DW_REGS_START KVMPPC_GSID_GPR(0)
-> -#define KVMPPC_GSE_DW_REGS_END KVMPPC_GSID_CTRL
-> +#define KVMPPC_GSE_DW_REGS_END KVMPPC_GSID_DPDES
->  #define KVMPPC_GSE_DW_REGS_COUNT \
->  	(KVMPPC_GSE_DW_REGS_END - KVMPPC_GSE_DW_REGS_START + 1)
-> =20
-> diff --git a/arch/powerpc/include/asm/kvm_book3s.h b/arch/powerpc/include=
-/asm/kvm_book3s.h
-> index 3e1e2a698c9e..10618622d7ef 100644
-> --- a/arch/powerpc/include/asm/kvm_book3s.h
-> +++ b/arch/powerpc/include/asm/kvm_book3s.h
-> @@ -594,6 +594,7 @@ static inline u##size kvmppc_get_##reg(struct kvm_vcp=
-u *vcpu)		\
-> =20
-> =20
->  KVMPPC_BOOK3S_VCORE_ACCESSOR(vtb, 64, KVMPPC_GSID_VTB)
-> +KVMPPC_BOOK3S_VCORE_ACCESSOR(dpdes, 64, KVMPPC_GSID_DPDES)
->  KVMPPC_BOOK3S_VCORE_ACCESSOR_GET(arch_compat, 32, KVMPPC_GSID_LOGICAL_PV=
-R)
->  KVMPPC_BOOK3S_VCORE_ACCESSOR_GET(lpcr, 64, KVMPPC_GSID_LPCR)
->  KVMPPC_BOOK3S_VCORE_ACCESSOR_SET(tb_offset, 64, KVMPPC_GSID_TB_OFFSET)
-> diff --git a/arch/powerpc/kvm/book3s_hv.c b/arch/powerpc/kvm/book3s_hv.c
-> index 35cb014a0c51..cf285e5153ba 100644
-> --- a/arch/powerpc/kvm/book3s_hv.c
-> +++ b/arch/powerpc/kvm/book3s_hv.c
-> @@ -4116,6 +4116,11 @@ static int kvmhv_vcpu_entry_nestedv2(struct kvm_vc=
-pu *vcpu, u64 time_limit,
->  	int trap;
->  	long rc;
-> =20
-> +	if (vcpu->arch.doorbell_request) {
-> +		vcpu->arch.doorbell_request =3D 0;
-> +		kvmppc_set_dpdes(vcpu, 1);
-> +	}
+All warnings (new ones prefixed by >>):
 
-This probably looks okay... hmm, is the v1 KVM emulating doorbells
-correctly for SMT L2 guests? I wonder if doorbell emulation isn't
-broken there too because the L1 code looks to be passing in vc->dpdes
-but all the POWER9 emulation code uses doorbell_request.
+   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/hwmon/chros_ec_hwmon.rst
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/exynos/
+   Using alabaster theme
 
-> +
->  	io =3D &vcpu->arch.nestedv2_io;
-> =20
->  	msr =3D mfmsr();
-> @@ -4278,9 +4283,16 @@ static int kvmhv_p9_guest_entry(struct kvm_vcpu *v=
-cpu, u64 time_limit,
->  	if (kvmhv_on_pseries()) {
->  		if (kvmhv_is_nestedv1())
->  			trap =3D kvmhv_vcpu_entry_p9_nested(vcpu, time_limit, lpcr, tb);
-> -		else
-> +		else {
->  			trap =3D kvmhv_vcpu_entry_nestedv2(vcpu, time_limit, lpcr, tb);
-> =20
-> +			/* Remember doorbell if it is pending  */
-> +			if (kvmppc_get_dpdes(vcpu)) {
-> +				vcpu->arch.doorbell_request =3D 1;
-> +				kvmppc_set_dpdes(vcpu, 0);
-> +			}
-
-This is adding an extra get state for every entry, not good. I don't
-think it's actually needed though. I don't think the L1 cares at this
-stage what the L2 DPDES state is. So you sholud be able to drop this
-hunk.
-
-> +		}
-> +
->  		/* H_CEDE has to be handled now, not later */
->  		if (trap =3D=3D BOOK3S_INTERRUPT_SYSCALL && !nested &&
->  		    kvmppc_get_gpr(vcpu, 3) =3D=3D H_CEDE) {
-> diff --git a/arch/powerpc/kvm/book3s_hv_nestedv2.c b/arch/powerpc/kvm/boo=
-k3s_hv_nestedv2.c
-> index 8e6f5355f08b..36863fff2a99 100644
-> --- a/arch/powerpc/kvm/book3s_hv_nestedv2.c
-> +++ b/arch/powerpc/kvm/book3s_hv_nestedv2.c
-> @@ -311,6 +311,10 @@ static int gs_msg_ops_vcpu_fill_info(struct kvmppc_g=
-s_buff *gsb,
->  			rc =3D kvmppc_gse_put_u64(gsb, iden,
->  						vcpu->arch.vcore->vtb);
->  			break;
-> +		case KVMPPC_GSID_DPDES:
-> +			rc =3D kvmppc_gse_put_u64(gsb, iden,
-> +						vcpu->arch.vcore->dpdes);
-> +			break;
->  		case KVMPPC_GSID_LPCR:
->  			rc =3D kvmppc_gse_put_u64(gsb, iden,
->  						vcpu->arch.vcore->lpcr);
-> @@ -543,6 +547,9 @@ static int gs_msg_ops_vcpu_refresh_info(struct kvmppc=
-_gs_msg *gsm,
->  		case KVMPPC_GSID_VTB:
->  			vcpu->arch.vcore->vtb =3D kvmppc_gse_get_u64(gse);
->  			break;
-> +		case KVMPPC_GSID_DPDES:
-> +			vcpu->arch.vcore->dpdes =3D kvmppc_gse_get_u64(gse);
-> +			break;
->  		case KVMPPC_GSID_LPCR:
->  			vcpu->arch.vcore->lpcr =3D kvmppc_gse_get_u64(gse);
->  			break;
-
-I would split all the wiring up of the DPDES GSID stuff into its own
-patch, it obviously looks fine.
-
-> diff --git a/arch/powerpc/kvm/test-guest-state-buffer.c b/arch/powerpc/kv=
-m/test-guest-state-buffer.c
-> index 4720b8dc8837..91ae660cfe21 100644
-> --- a/arch/powerpc/kvm/test-guest-state-buffer.c
-> +++ b/arch/powerpc/kvm/test-guest-state-buffer.c
-> @@ -151,7 +151,7 @@ static void test_gs_bitmap(struct kunit *test)
->  		i++;
->  	}
-> =20
-> -	for (u16 iden =3D KVMPPC_GSID_GPR(0); iden <=3D KVMPPC_GSID_CTRL; iden+=
-+) {
-> +	for (u16 iden =3D KVMPPC_GSID_GPR(0); iden <=3D KVMPPC_GSID_DPDES; iden=
-++) {
->  		kvmppc_gsbm_set(&gsbm, iden);
->  		kvmppc_gsbm_set(&gsbm1, iden);
->  		KUNIT_EXPECT_TRUE(test, kvmppc_gsbm_test(&gsbm, iden));
-
-It would be good to have a  _LAST define for such loops. It's very easy
-to miss when adding KVMPPC_GSID_DPDES that you need to grep for
-KVMPPC_GSID_CTRL. Very easy to see that you need to update _LAST.
-
-You just need to work out a good name for it since there's a few
-"namespaces" of numbers with similar prefix. Good luck :)
-
-Thanks,
-Nick
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
