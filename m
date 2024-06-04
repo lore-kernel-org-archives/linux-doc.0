@@ -1,97 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4680F1EB30;
-	Tue,  4 Jun 2024 07:39:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A4A31419AD;
+	Tue,  4 Jun 2024 08:43:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717486771; cv=none; b=FdzOn4M3TR9xulbXJGtnZrZPFYA+DHn6tVjGZvTKPouJLEDNWlGgfXyNJYITQUJA0K6VFiyDDVc8ZQK6plrPNWL7pvfLvg+xSqo2LfPF/hsMzsR+DwUPhkzmye8/nb7FnAJLmVwrYyDjlztILYUV35AsIANClfL8E7Ah3HSrS0s=
+	t=1717490630; cv=none; b=X+ALtVi9i7AU2F4ADzRe0PSzvkYc1s+hnlHv3Wf14IxV626pQmUcwXY3DN977/04kCg4zAUlVItaFuvRpi4j/06fT1eVd+msGzwetFIr9uEk0xN+aQggK28Vaww9NIBxTvvKFA14JCDDC7wWjc+WgmZWdMkjlDttiobDVej5UO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717486771; c=relaxed/simple;
-	bh=IwRk73FI7oCSvA9GoThk9eEnhOPDGRbbqcPOdPVc2Uw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qUzx9cG0SUqbRDiM/U2xVcpFMCV2roMQJ9RZOqPEBgz8PioWDzB+rSaoDmNpVStQ1YywYe+GAAGBiv0HSEN9Ok+VmmfAqFQi4lcpA4Pit7uMlqqjUcVFByDtc/GPYLT6e+hPzr51LNyZN+Us3yxgkCkz866GysabXcHyNirkuVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GI261o57; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GI261o57"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11995C32782;
-	Tue,  4 Jun 2024 07:39:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717486770;
-	bh=IwRk73FI7oCSvA9GoThk9eEnhOPDGRbbqcPOdPVc2Uw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=GI261o576gg25/lggqNDA2SfXlSJn3QRY7AGVwcyAmBUOY2+2/Skb/bS1BUCh9qWl
-	 QKz3Jh5M82o5F/6PUgsBq0Gsh7DHrbgUxYPptG+VI9WDVVcsarzvpz92mvCFUSRn4w
-	 dsA3PAUnRTIlKggNkbrr+yewxURwwu2pgA4udfQ7PsravITSz0hF0RNkvPEsXjrDW0
-	 wgwdLoaBdgKRYI4xl7pgSc9vSh2CdAzwjhxH4xcArykbw0zJHnERyQlz+xAu/TMLtL
-	 Yd9pQ9MINSEdazBen1lLjskybIkbgnHTDxCdtLFQWOH/x3vJ71IiKQwnw36Gv4Ljfd
-	 jhhldACaNEbJQ==
-Message-ID: <5441b256-494a-4344-89fd-ee8c5a073f8b@kernel.org>
-Date: Tue, 4 Jun 2024 16:39:25 +0900
+	s=arc-20240116; t=1717490630; c=relaxed/simple;
+	bh=NnCIbfJpPR643QMiYfLdkrq3WLMAz+pyh4+QEDsomYg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ZcwyxydVaZ/LURuIDyimAeIrrwwBjZ0ZHx++xpcU2cOVpiYukSuOlcCwJEd92a5h5jDXGrxjmWS9yNmQegIVl12tLV8ZKMsPB9s8I5GDHnwrcCKNswhjtoINUeXy/AH7JIBtuhGdDF0TZUn5Z1eRcX9NgLZ0/88PgSvbu8iLaAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.88.234])
+	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Vtkbm5zdhz1HD2J;
+	Tue,  4 Jun 2024 16:41:56 +0800 (CST)
+Received: from kwepemi500008.china.huawei.com (unknown [7.221.188.139])
+	by mail.maildlp.com (Postfix) with ESMTPS id 05F9414037D;
+	Tue,  4 Jun 2024 16:43:43 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
+ (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 4 Jun
+ 2024 16:43:42 +0800
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+To: <corbet@lwn.net>, <linux@armlinux.org.uk>, <ardb@kernel.org>,
+	<arnd@arndb.de>, <afd@ti.com>, <akpm@linux-foundation.org>,
+	<rmk+kernel@armlinux.org.uk>, <linus.walleij@linaro.org>,
+	<eric.devolder@oracle.com>, <robh@kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
+CC: <ruanjinjie@huawei.com>
+Subject: [PATCH] arm: Enable ARCH_HAS_DEBUG_VM_PGTABLE
+Date: Tue, 4 Jun 2024 16:45:12 +0800
+Message-ID: <20240604084512.727269-1-ruanjinjie@huawei.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v20 00/12] Implement copy offload support
-To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>,
- Nitesh Shetty <nj.shetty@samsung.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
- Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
- Mikulas Patocka <mpatocka@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- martin.petersen@oracle.com, bvanassche@acm.org, david@fromorbit.com,
- damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
- nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org
-References: <20240604043242.GC28886@lst.de>
- <393edf87-30c9-48b8-b703-4b8e514ac4d9@suse.de>
-From: Damien Le Moal <dlemoal@kernel.org>
-Content-Language: en-US
-Organization: Western Digital Research
-In-Reply-To: <393edf87-30c9-48b8-b703-4b8e514ac4d9@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ kwepemi500008.china.huawei.com (7.221.188.139)
 
-On 6/4/24 16:16, Hannes Reinecke wrote:
-> On 6/4/24 06:32, Christoph Hellwig wrote:
->> On Mon, Jun 03, 2024 at 10:53:39AM +0000, Nitesh Shetty wrote:
->>> The major benefit of this copy-offload/emulation framework is
->>> observed in fabrics setup, for copy workloads across the network.
->>> The host will send offload command over the network and actual copy
->>> can be achieved using emulation on the target (hence patch 4).
->>> This results in higher performance and lower network consumption,
->>> as compared to read and write travelling across the network.
->>> With this design of copy-offload/emulation we are able to see the
->>> following improvements as compared to userspace read + write on a
->>> NVMeOF TCP setup:
->>
->> What is the use case of this?   What workloads does raw copies a lot
->> of data inside a single block device?
->>
-> 
-> The canonical example would be VM provisioning from a master copy.
-> That's not within a single block device, mind; that's more for copying 
-> the contents of one device to another.
+arm32 kernel successfully build and run with CONFIG_DEBUG_VM_PGTABLE=y,
+enable arch support for it. This allows the pgtable tests to be built and
+allow to enable page table boot-up checks.
 
-Wouldn't such use case more likely to use file copy ?
-I have not heard a lot of cases where VM images occupy an entire block device,
-but I may be mistaken here...
+Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+---
+ Documentation/features/debug/debug-vm-pgtable/arch-support.txt | 2 +-
+ arch/arm/Kconfig                                               | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-> But I wasn't aware that this approach is limited to copying within a 
-> single block devices; that would be quite pointless indeed.
-
-Not pointless for any FS doing CoW+Rebalancing of block groups (e.g. btrfs) and
-of course GC for FSes on zoned devices. But for this use case, an API allowing
-multiple sources and one destination would be better.
-
+diff --git a/Documentation/features/debug/debug-vm-pgtable/arch-support.txt b/Documentation/features/debug/debug-vm-pgtable/arch-support.txt
+index bbf029f095cb..afb7371fb518 100644
+--- a/Documentation/features/debug/debug-vm-pgtable/arch-support.txt
++++ b/Documentation/features/debug/debug-vm-pgtable/arch-support.txt
+@@ -8,7 +8,7 @@
+     -----------------------
+     |       alpha: | TODO |
+     |         arc: |  ok  |
+-    |         arm: | TODO |
++    |         arm: |  ok  |
+     |       arm64: |  ok  |
+     |        csky: | TODO |
+     |     hexagon: | TODO |
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index ee5115252aac..955d7d182cec 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -9,6 +9,7 @@ config ARM
+ 	select ARCH_HAS_CPU_FINALIZE_INIT if MMU
+ 	select ARCH_HAS_CURRENT_STACK_POINTER
+ 	select ARCH_HAS_DEBUG_VIRTUAL if MMU
++	select ARCH_HAS_DEBUG_VM_PGTABLE
+ 	select ARCH_HAS_DMA_ALLOC if MMU
+ 	select ARCH_HAS_DMA_WRITE_COMBINE if !ARM_DMA_MEM_BUFFERABLE
+ 	select ARCH_HAS_ELF_RANDOMIZE
 -- 
-Damien Le Moal
-Western Digital Research
+2.34.1
 
