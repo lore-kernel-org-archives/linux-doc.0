@@ -1,80 +1,59 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0201384B3;
-	Tue,  4 Jun 2024 07:16:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA3C13790A
+	for <linux-doc@vger.kernel.org>; Tue,  4 Jun 2024 07:18:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717485409; cv=none; b=qMqV7Drhlw3t7U9KG8rRZKVXLTG3MgueNL6YeXXd3+jDnXAumtSbB1c0glH6Lc23Yp2ydx3eKV0QUscP2tccroRzZcPEKyNfjOSxzPTxKy5WihUrD8G8E+BUOaLO4SpNXpfddAcG9kmibEDajBR0+StM8dpD5/EWcjuGOJchYjM=
+	t=1717485525; cv=none; b=fdpP8+SmAh5J/FEym9MOnsrbawG81NaRq0ZyrTJnSeJkjZM7c5QpGU7jkkPVFvGG02KZ4nvRlSwUTf/k4qh/SUcwOp9uLZqb3k/Ya32gzE9CNSedcpl1AXoIc/SNkZNV5+cAPQcP+qPClBTXk4ZSROgpMOrkADcQLY+0pTnUFzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717485409; c=relaxed/simple;
-	bh=bBRRn4Q8xFyuLdpYYMuNlS5Dy6btxoAKS7E2El76tyI=;
+	s=arc-20240116; t=1717485525; c=relaxed/simple;
+	bh=F95EGVVxTZzrtH/iZbq5IMEiCEI5HtwHeAy8QgjRypA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EqHpCS/X6FZaTIg9t6Spaq77hVEdDLlLCAgS1la3tQw0LbpZimta1sAtwZcs2f8SDMsLMbigkkwyE+9NSgY/QeObuvONSGb3PkKMHwkmJztvQDN2+5wiDMORc/+R6oH6LJSy6+6MLD1CLYR62GgYtJ96LJEARNaWch6lMvkVN5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PeaVrnWm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xEyjkD38; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PeaVrnWm; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xEyjkD38; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	 In-Reply-To:Content-Type; b=W0Xc+U35llLzB6HkHAT1q2pZ7PIXzTvFCkmHDwkWXxWxT3yMlIPytm1sw6nYXeTxltYCTMfnQFh2GIQ1iZGbo+KMTzPrGZhj/noJG8kHDV6eGql9gOKu6jsCn6+K+v3XvhkZulIHgeNiumxoQ4sXuH65b1cxQoA9Hb4s/eBPCvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=Dyl2wM9v; arc=none smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PeaVrnWm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xEyjkD38";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PeaVrnWm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xEyjkD38"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 40D38219F6;
-	Tue,  4 Jun 2024 07:16:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1717485400; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iEbJsXJg0tltZiedNmfW574yl7kKUv3QYajAj48s+Gk=;
-	b=PeaVrnWmFeIaZb46cpPOJiQ128oEJZuC2J0qgbQpYCLF0/0gie7vAYjjfLIASP9fHyZ1Sn
-	ywGhly3CvhxL6W8eXOz6NVEGQr29+mgyvv0fDAvEj59FKvFnUJFQYFBLgY3e9g0a7e2rSh
-	JQ+5mxwxotCKdVP+ebV96Bb7yYzsXVc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1717485400;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iEbJsXJg0tltZiedNmfW574yl7kKUv3QYajAj48s+Gk=;
-	b=xEyjkD38sr1vjKaXC2qn39sYnxlDyGVRjpdi+k4ElG8uyu4urxqQIDrJcO7+G6yjDcivZ9
-	QKYni5Tl5A8UzgCA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1717485400; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iEbJsXJg0tltZiedNmfW574yl7kKUv3QYajAj48s+Gk=;
-	b=PeaVrnWmFeIaZb46cpPOJiQ128oEJZuC2J0qgbQpYCLF0/0gie7vAYjjfLIASP9fHyZ1Sn
-	ywGhly3CvhxL6W8eXOz6NVEGQr29+mgyvv0fDAvEj59FKvFnUJFQYFBLgY3e9g0a7e2rSh
-	JQ+5mxwxotCKdVP+ebV96Bb7yYzsXVc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1717485400;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iEbJsXJg0tltZiedNmfW574yl7kKUv3QYajAj48s+Gk=;
-	b=xEyjkD38sr1vjKaXC2qn39sYnxlDyGVRjpdi+k4ElG8uyu4urxqQIDrJcO7+G6yjDcivZ9
-	QKYni5Tl5A8UzgCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 668251398F;
-	Tue,  4 Jun 2024 07:16:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id NYyJFFW/XmZJfwAAD6G6ig
-	(envelope-from <hare@suse.de>); Tue, 04 Jun 2024 07:16:37 +0000
-Message-ID: <393edf87-30c9-48b8-b703-4b8e514ac4d9@suse.de>
-Date: Tue, 4 Jun 2024 09:16:36 +0200
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="Dyl2wM9v"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-6c87835b8c5so176761a12.1
+        for <linux-doc@vger.kernel.org>; Tue, 04 Jun 2024 00:18:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1717485522; x=1718090322; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IN4YotoHrJqUzJm3B5rfjHxZ9heuhTQwYjd8l3vWTCM=;
+        b=Dyl2wM9vO02Yk0ZK8NErPylRnM3dv/dvxs7yZTQ0j4jvUmSeFnr4AO6+Dkg9rl7xes
+         7UcmW/O7gvsOo8ZrGH3CiavUTxmxq6QoIzTBlBT/S1KIfyqS+WpbtgLOIjiHq75/Al7J
+         46QKWNDkn/+5ma+2BpeeoVtjW9IHl05JlGVhmU5gjhcZRqniJsXotcw8BKEwlumApz9g
+         uX95udukO788Hw39wQGuvPapteMQjs+EGw0ItrvjxPe70qxh76PXSsV+U8tafEW7zsq5
+         19LXNgtYitHN4qqk0NST5ppsBN8v/m3mBB5I2/H2Hsc/r086a28YEuR2QgaenU9koxf5
+         nr4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717485522; x=1718090322;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IN4YotoHrJqUzJm3B5rfjHxZ9heuhTQwYjd8l3vWTCM=;
+        b=R+dyLX7r44eJcaZUo7mMHUskdBHla0MdZ8/OvBy/jjbGxNufxUtlbWzvxQtC9Q5uRV
+         Uj2KVr5Hz9VCPjyUKbgk/SX3u201FHFhikS6dcLsS9kO8Bet1EjDG7xNs2IzNeUEPBLI
+         Ov4MFnYC3nCxjQEvdT2DdWKaABdBFbryuRj9bL07lrwWVMyWcogUCslI7q83K+C35xmm
+         rTfqLPQ0l+mYMr2sY7zwKANSxtA6CilbYHx8s6iuCuKTIXLvymIkFkpTHoG6UZTrhshK
+         yt6j+OGQ44xTHP8Bw5NN5r9A7YO7mW5i5rMTH1+SZsIsj6+NR4p0NpceEXa77zHxqCJn
+         Wnkg==
+X-Forwarded-Encrypted: i=1; AJvYcCVzOK2oCcwREtrM3gUoqtquDSukVB9F1PkTvXI9WdCkbqJkGukh+EuTrO7r6wzgIFZ1VJFZjTzproNcG7/0uEFxBx12cdiFiXrE
+X-Gm-Message-State: AOJu0YwlftgTYn6h3YVG4Cjf23elJQuQHPTf3dp9f84M9Bq6KI2vxaQQ
+	bYUDg4Wl/X3gCOjL8c0QlBng2P7U/WZ6PefVFzhEL90Xi8gFq/gOvuQO9BEfahw=
+X-Google-Smtp-Source: AGHT+IFWL8L1FbR0wZ7pGG9sTqaIq8MsqqTQdkXuTxrZK9vhL+JYsZ64DIfumPIQtJaghfe3mvA/Mg==
+X-Received: by 2002:a05:6a21:33a1:b0:1b2:63c3:274c with SMTP id adf61e73a8af0-1b26f35e160mr12461974637.6.1717485521635;
+        Tue, 04 Jun 2024 00:18:41 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:999:a3a0:d768:c577:5bf0:47ab? ([2a01:e0a:999:a3a0:d768:c577:5bf0:47ab])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c1aa9dce87sm8984869a91.21.2024.06.04.00.18.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Jun 2024 00:18:40 -0700 (PDT)
+Message-ID: <06d8ae43-4aad-4637-a33b-9bae91b23872@rivosinc.com>
+Date: Tue, 4 Jun 2024 09:18:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,80 +61,83 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v20 00/12] Implement copy offload support
+Subject: Re: [PATCH v5 08/16] riscv: add ISA parsing for Zca, Zcf, Zcd and Zcb
+To: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Conor Dooley <conor@kernel.org>, corbet@lwn.net,
+ Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu,
+ robh@kernel.org, krzysztof.kozlowski+dt@linaro.org, anup@brainfault.org,
+ shuah@kernel.org, atishp@atishpatra.org, linux-doc@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, kvm@vger.kernel.org,
+ kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org
+References: <mhng-d5016935-99b6-4dc6-bbd2-ed84eb834f98@palmer-ri-x1c9a>
 Content-Language: en-US
-To: Christoph Hellwig <hch@lst.de>, Nitesh Shetty <nj.shetty@samsung.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
- Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
- Mikulas Patocka <mpatocka@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- martin.petersen@oracle.com, bvanassche@acm.org, david@fromorbit.com,
- damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
- nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
- linux-fsdevel@vger.kernel.org
-References: <20240604043242.GC28886@lst.de>
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20240604043242.GC28886@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
+In-Reply-To: <mhng-d5016935-99b6-4dc6-bbd2-ed84eb834f98@palmer-ri-x1c9a>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.29 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.dk,lwn.net,redhat.com,kernel.org,grimberg.me,nvidia.com,zeniv.linux.org.uk,suse.cz,oracle.com,acm.org,fromorbit.com,opensource.wdc.com,samsung.com,gmail.com,vger.kernel.org,lists.linux.dev,lists.infradead.org];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -4.29
-X-Spam-Flag: NO
 
-On 6/4/24 06:32, Christoph Hellwig wrote:
-> On Mon, Jun 03, 2024 at 10:53:39AM +0000, Nitesh Shetty wrote:
->> The major benefit of this copy-offload/emulation framework is
->> observed in fabrics setup, for copy workloads across the network.
->> The host will send offload command over the network and actual copy
->> can be achieved using emulation on the target (hence patch 4).
->> This results in higher performance and lower network consumption,
->> as compared to read and write travelling across the network.
->> With this design of copy-offload/emulation we are able to see the
->> following improvements as compared to userspace read + write on a
->> NVMeOF TCP setup:
+
+
+On 30/05/2024 23:13, Palmer Dabbelt wrote:
+> On Wed, 22 May 2024 00:20:09 PDT (-0700), cleger@rivosinc.com wrote:
+>>
+>>
+>> On 21/05/2024 21:49, Conor Dooley wrote:
+>>> On Fri, May 17, 2024 at 04:52:48PM +0200, Clément Léger wrote:
+>>>
+>>>> +static int riscv_ext_zca_depends(const struct riscv_isa_ext_data
+>>>> *data,
+>>>> +                 const unsigned long *isa_bitmap)
+>>>> +{
+>>>> +    return __riscv_isa_extension_available(isa_bitmap,
+>>>> RISCV_ISA_EXT_ZCA) ? 0 : -EPROBE_DEFER;
+>>>> +}
+>>>> +static int riscv_ext_zcd_validate(const struct riscv_isa_ext_data
+>>>> *data,
+>>>> +                  const unsigned long *isa_bitmap)
+>>>> +{
+>>>> +    return __riscv_isa_extension_available(isa_bitmap,
+>>>> RISCV_ISA_EXT_ZCA) &&
+>>>> +           __riscv_isa_extension_available(isa_bitmap,
+>>>> RISCV_ISA_EXT_d) ? 0 : -EPROBE_DEFER;
+>>>> +}
+>>>
+>>> Could you write the logic in these out normally please? I think they'd
+>>> be more understandable (particular this second one) broken down and with
+>>> early return.
+>>
+>> Yes sure. I'll probably make the same thing for zcf_validate as well as
+>> removing the #ifdef and using IS_ENABLED():
+>>
+>> static int riscv_ext_zcf_validate(const struct riscv_isa_ext_data *data,
+>>                   const unsigned long *isa_bitmap)
+>> {
+>>     if (IS_ENABLED(CONFIG_64BIT))
+>>         return -EINVAL;
+>>
+>>     if (__riscv_isa_extension_available(isa_bitmap, RISCV_ISA_EXT_ZCA) &&
+>>         __riscv_isa_extension_available(isa_bitmap, RISCV_ISA_EXT_f))
+>>            return 0;
+>>
+>>     return -EPROBE_DEFER;
+>> }
 > 
-> What is the use case of this?   What workloads does raw copies a lot
-> of data inside a single block device?
+> Are you going to send a v6 (sorry if I missed it, I'm trying to untangle
+> all these ISA parsing patch sets).
+
+Yes, I was waiting for more feedback/Rb by it seems like I now have
+everything I need. I'll send that.
+
+Thanks,
+
+Clément
+
 > 
-
-The canonical example would be VM provisioning from a master copy.
-That's not within a single block device, mind; that's more for copying 
-the contents of one device to another.
-But I wasn't aware that this approach is limited to copying within a 
-single block devices; that would be quite pointless indeed.
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
-
+>>
+>>>
+>>> Otherwise,
+>>> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+>>>
+>>> Cheers,
+>>> Conor.
