@@ -1,111 +1,97 @@
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E38383CB4;
-	Tue,  4 Jun 2024 07:19:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.190
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4680F1EB30;
+	Tue,  4 Jun 2024 07:39:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717485587; cv=none; b=fXg1uIjz6jbDkYd97Ur122uk4NS1zwyJ4+wiR/VdX+6DYuAv7q7e4yGm1+pvg/2ZWILpy+Aa3ko28BaJWCJExppguiBG02s5yh0gn/glDkRleWci0QAiI6wwxZuKP1YD/8R50yquaIYN1KhxUa+UBTh2GkErfI8sjd5mAamSdAU=
+	t=1717486771; cv=none; b=FdzOn4M3TR9xulbXJGtnZrZPFYA+DHn6tVjGZvTKPouJLEDNWlGgfXyNJYITQUJA0K6VFiyDDVc8ZQK6plrPNWL7pvfLvg+xSqo2LfPF/hsMzsR+DwUPhkzmye8/nb7FnAJLmVwrYyDjlztILYUV35AsIANClfL8E7Ah3HSrS0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717485587; c=relaxed/simple;
-	bh=4Khl4f/DSigpRlG4ZGWov9m82cDMFFJRLjDBwlz/h0w=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=hbakC4eoIFKwehh+zdsz9ZcGQKtGnHTHfn55Z/IyQxO+9OZRkoFjKn+ex7IOaRbHJlySbtxF4l6EUoroC/JDRxpRESBlta3eJxOedJDdqLh9SNEU5wIPvhV86xGnVMiOkapxrKj6kWO6QNK+JWK4zFiXUw+yMlv+1feJVsmkmQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.190
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.214])
-	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Vthj02kJWz1ysV7;
-	Tue,  4 Jun 2024 15:16:20 +0800 (CST)
-Received: from canpemm500002.china.huawei.com (unknown [7.192.104.244])
-	by mail.maildlp.com (Postfix) with ESMTPS id 1CF0E1A016C;
-	Tue,  4 Jun 2024 15:19:36 +0800 (CST)
-Received: from [10.173.135.154] (10.173.135.154) by
- canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 4 Jun 2024 15:19:35 +0800
-Subject: Re: [PATCH v1 0/3] Userspace controls soft-offline HugeTLB pages
-To: Jiaqi Yan <jiaqiyan@google.com>, <naoya.horiguchi@nec.com>
-CC: <akpm@linux-foundation.org>, <mike.kravetz@oracle.com>,
-	<shuah@kernel.org>, <corbet@lwn.net>, <osalvador@suse.de>,
-	<rientjes@google.com>, <duenwen@google.com>, <fvdl@google.com>,
-	<linux-mm@kvack.org>, <linux-kselftest@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <muchun.song@linux.dev>
-References: <20240531213439.2958891-1-jiaqiyan@google.com>
-From: Miaohe Lin <linmiaohe@huawei.com>
-Message-ID: <21841726-6427-5a92-a3d1-8aac2687c01a@huawei.com>
-Date: Tue, 4 Jun 2024 15:19:35 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+	s=arc-20240116; t=1717486771; c=relaxed/simple;
+	bh=IwRk73FI7oCSvA9GoThk9eEnhOPDGRbbqcPOdPVc2Uw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qUzx9cG0SUqbRDiM/U2xVcpFMCV2roMQJ9RZOqPEBgz8PioWDzB+rSaoDmNpVStQ1YywYe+GAAGBiv0HSEN9Ok+VmmfAqFQi4lcpA4Pit7uMlqqjUcVFByDtc/GPYLT6e+hPzr51LNyZN+Us3yxgkCkz866GysabXcHyNirkuVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GI261o57; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GI261o57"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11995C32782;
+	Tue,  4 Jun 2024 07:39:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717486770;
+	bh=IwRk73FI7oCSvA9GoThk9eEnhOPDGRbbqcPOdPVc2Uw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=GI261o576gg25/lggqNDA2SfXlSJn3QRY7AGVwcyAmBUOY2+2/Skb/bS1BUCh9qWl
+	 QKz3Jh5M82o5F/6PUgsBq0Gsh7DHrbgUxYPptG+VI9WDVVcsarzvpz92mvCFUSRn4w
+	 dsA3PAUnRTIlKggNkbrr+yewxURwwu2pgA4udfQ7PsravITSz0hF0RNkvPEsXjrDW0
+	 wgwdLoaBdgKRYI4xl7pgSc9vSh2CdAzwjhxH4xcArykbw0zJHnERyQlz+xAu/TMLtL
+	 Yd9pQ9MINSEdazBen1lLjskybIkbgnHTDxCdtLFQWOH/x3vJ71IiKQwnw36Gv4Ljfd
+	 jhhldACaNEbJQ==
+Message-ID: <5441b256-494a-4344-89fd-ee8c5a073f8b@kernel.org>
+Date: Tue, 4 Jun 2024 16:39:25 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20240531213439.2958891-1-jiaqiyan@google.com>
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v20 00/12] Implement copy offload support
+To: Hannes Reinecke <hare@suse.de>, Christoph Hellwig <hch@lst.de>,
+ Nitesh Shetty <nj.shetty@samsung.com>
+Cc: Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+ Alasdair Kergon <agk@redhat.com>, Mike Snitzer <snitzer@kernel.org>,
+ Mikulas Patocka <mpatocka@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Sagi Grimberg <sagi@grimberg.me>, Chaitanya Kulkarni <kch@nvidia.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ martin.petersen@oracle.com, bvanassche@acm.org, david@fromorbit.com,
+ damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com, joshi.k@samsung.com,
+ nitheshshetty@gmail.com, gost.dev@samsung.com, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ dm-devel@lists.linux.dev, linux-nvme@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org
+References: <20240604043242.GC28886@lst.de>
+ <393edf87-30c9-48b8-b703-4b8e514ac4d9@suse.de>
+From: Damien Le Moal <dlemoal@kernel.org>
 Content-Language: en-US
+Organization: Western Digital Research
+In-Reply-To: <393edf87-30c9-48b8-b703-4b8e514ac4d9@suse.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- canpemm500002.china.huawei.com (7.192.104.244)
 
-On 2024/6/1 5:34, Jiaqi Yan wrote:
-> Correctable memory errors are very common on servers with large
-> amount of memory, and are corrected by ECC, but with two
-> pain points to users:
-> 1. Correction usually happens on the fly and adds latency overhead
-> 2. Not-fully-proved theory states excessive correctable memory
->    errors can develop into uncorrectable memory error.
-
-Thanks for your patch.
-
+On 6/4/24 16:16, Hannes Reinecke wrote:
+> On 6/4/24 06:32, Christoph Hellwig wrote:
+>> On Mon, Jun 03, 2024 at 10:53:39AM +0000, Nitesh Shetty wrote:
+>>> The major benefit of this copy-offload/emulation framework is
+>>> observed in fabrics setup, for copy workloads across the network.
+>>> The host will send offload command over the network and actual copy
+>>> can be achieved using emulation on the target (hence patch 4).
+>>> This results in higher performance and lower network consumption,
+>>> as compared to read and write travelling across the network.
+>>> With this design of copy-offload/emulation we are able to see the
+>>> following improvements as compared to userspace read + write on a
+>>> NVMeOF TCP setup:
+>>
+>> What is the use case of this?   What workloads does raw copies a lot
+>> of data inside a single block device?
+>>
 > 
-> Soft offline is kernel's additional solution for memory pages
-> having (excessive) corrected memory errors. Impacted page is migrated
-> to healthy page if it is in use, then the original page is discarded
-> for any future use.
-> 
-> The actual policy on whether (and when) to soft offline should be
-> maintained by userspace, especially in case of HugeTLB hugepages.
-> Soft-offline dissolves a hugepage, either in-use or free, into
-> chunks of 4K pages, reducing HugeTLB pool capacity by 1 hugepage.
-> If userspace has not acknowledged such behavior, it may be surprised
-> when later mmap hugepages MAP_FAILED due to lack of hugepages.
+> The canonical example would be VM provisioning from a master copy.
+> That's not within a single block device, mind; that's more for copying 
+> the contents of one device to another.
 
-For in use hugetlb folio case, migrate_pages() is called. The hugetlb pool
-capacity won't be modified in that case. So I assume you're referring to the
-free hugetlb folio case? The Hugetlb pool capacity is reduced in that case.
-But if we don't do that, we might encounter uncorrectable memory error later
-which will be more severe? Will it be better to add a way to compensate the
-capacity?
+Wouldn't such use case more likely to use file copy ?
+I have not heard a lot of cases where VM images occupy an entire block device,
+but I may be mistaken here...
 
-> In addition, discarding the entire 1G memory page only because of
-> corrected memory errors sounds very costly and kernel better not
-> doing under the hood. But today there are at least 2 such cases:
-> 1. GHES driver sees both GHES_SEV_CORRECTED and
->    CPER_SEC_ERROR_THRESHOLD_EXCEEDED after parsing CPER.
-> 2. RAS Correctable Errors Collector counts correctable errors per
->    PFN and when the counter for a PFN reaches threshold
-> In both cases, userspace has no control of the soft offline performed
-> by kernel's memory failure recovery.
+> But I wasn't aware that this approach is limited to copying within a 
+> single block devices; that would be quite pointless indeed.
 
-Userspace can figure out the hugetlb folio pfn range by using `page-types -b huge
--rlN` and then decide whether to soft offline the page according to it. But for
-GHES driver, I think it has to be done in the kernel. So add a control in /sys/
-seems like a good idea.
+Not pointless for any FS doing CoW+Rebalancing of block groups (e.g. btrfs) and
+of course GC for FSes on zoned devices. But for this use case, an API allowing
+multiple sources and one destination would be better.
 
-> 
-> This patch series give userspace the control of soft-offlining
-> HugeTLB pages: kernel only soft offlines hugepage if userspace has
-> opt-ed in for that specific hugepage size, and exposed to userspace
-> by a new sysfs entry called softoffline_corrected_errors under
-> /sys/kernel/mm/hugepages/hugepages-${size}kB directory:
-> * When softoffline_corrected_errors=0, skip soft offlining for all
->   hugepages of size ${size}kB.
-> * When softoffline_corrected_errors=1, soft offline as before this
+-- 
+Damien Le Moal
+Western Digital Research
 
-Will it be better to be called as "soft_offline_corrected_errors" or simplify "soft_offline_enabled"?
-
-Thanks.
-.
