@@ -1,117 +1,164 @@
-Received: from out30-98.freemail.mail.aliyun.com (out30-98.freemail.mail.aliyun.com [115.124.30.98])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BDBB8BEC;
-	Tue,  4 Jun 2024 05:31:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34C3B27735;
+	Tue,  4 Jun 2024 05:43:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717479070; cv=none; b=jXQwRD4xMMnV6AAlDk6d/dZO/0t51Mgll2ztM7qwlPoEPdK6frb9MofVKK+xwyvZ7QrBacnPffwKT2RgXvw6ld1lvDNcx6P4wFGLQitFbC7Qe7ebtneHLke/WDRINmEWPuYrv4C+5Jx3g+XsYtYhOh0FoxpvXusWhmjzPrHcUmo=
+	t=1717479796; cv=none; b=AC4YzeO+Pn9+XUKTI5nNeYupy5jp+yHXlba0Yo900G/ARqBBIw6VLTy7szx0QG6yBAYjAto88SFNPQsdgxiADRa+HMxdoB9htsfjmX1lvXVSjdl42EsiB3Z2FOXw+lQfUZhko6eNJgoAvToUoo1MZKItINjNF/AF2iv1jdm5NY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717479070; c=relaxed/simple;
-	bh=0zbgKfvHTJ/R5q9ClkCPrLlxGR7Xha84YTV21PicIHU=;
-	h=Message-ID:Subject:Date:From:To:Cc:References:In-Reply-To; b=GJOWnN+Y6AAouHRQ4vbRi+6TvoX6sSkNRMvvf2QS0Ko6kanCop+7yOuJqSuFoZ9mNAKA6I1GQ0hmG811kJhRQdoa8WPKQtvYvr+ewsrDqICIAZ63pa7BSrbpdkB5euKoqXmgepWBOpvEjdZeJ8I/jjeb4QLeQmA6tjNL1oKGAtg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=WOCOjvy4; arc=none smtp.client-ip=115.124.30.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1717479796; c=relaxed/simple;
+	bh=Wc7N0BP4LUwBJNjgaM5afps9asVwOI8idTvrQObY+LM=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=Rayco40fIY3dKhLNzSr6NTB6n1iLfJrjrxYsw4L8ZDH8Cl7RUv1aPGOI+aq4s/sLYKF/gDZvRK98Dkngdd+hESr2kQ4c1+Q6OnFzXlXporGKcBeOAHZNFBauwamHvLmlEsrjwcixgm3/raxht5HkNsf9KUGh5Esiu0EixtAUBcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mffh8IOo; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="WOCOjvy4"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1717479064; h=Message-ID:Subject:Date:From:To;
-	bh=on7QTAt93h/XfHQ169rkXSG1LnUtTKMC4HJvTpbfWk8=;
-	b=WOCOjvy4Aq8y6f9BuN6YpGq2rDn4pBCQX1TLsKKkMc0aG5SMOLDMfXbmIBzD037qiezGV9OkXI7rtkMnwaUg16F9HrZBoPbe9jbSYZok6U2G81yixDJtHC5b6Htlh3ljJd7o9nM6rA1yOs9c6IcVCnfwdAludiAbKGI/W9KVhr4=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R411e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033068173054;MF=hengqi@linux.alibaba.com;NM=1;PH=DS;RN=37;SR=0;TI=SMTPD_---0W7poCxp_1717479060;
-Received: from localhost(mailfrom:hengqi@linux.alibaba.com fp:SMTPD_---0W7poCxp_1717479060)
-          by smtp.aliyun-inc.com;
-          Tue, 04 Jun 2024 13:31:01 +0800
-Message-ID: <1717478006.038663-1-hengqi@linux.alibaba.com>
-Subject: Re: [PATCH net-next v14 3/5] ethtool: provide customized dim profile management
-Date: Tue, 4 Jun 2024 13:13:26 +0800
-From: Heng Qi <hengqi@linux.alibaba.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Huacai Chen <chenhuacai@loongson.cn>,
- Xuerui Wang <kernel@xen0n.name>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Guo Ren <guoren@kernel.org>,
- loongarch@lists.linux.dev,
- Jakub Kicinski <kuba@kernel.org>,
- "David S . Miller" <davem@davemloft.net>,
- Paolo Abeni <pabeni@redhat.com>,
- Eric Dumazet <edumazet@google.com>,
- Jason Wang <jasowang@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Brett Creeley <bcreeley@amd.com>,
- Ratheesh Kannoth <rkannoth@marvell.com>,
- Alexander Lobakin <aleksander.lobakin@intel.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- Tal Gilboa <talgi@nvidia.com>,
- Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org,
- Maxime Chevallier <maxime.chevallier@bootlin.com>,
- Jiri Pirko <jiri@resnulli.us>,
- Paul Greenwalt <paul.greenwalt@intel.com>,
- Ahmed Zaki <ahmed.zaki@intel.com>,
- Vladimir Oltean <vladimir.oltean@nxp.com>,
- Kory Maincent <kory.maincent@bootlin.com>,
- Andrew Lunn <andrew@lunn.ch>,
- justinstitt@google.com,
- donald.hunter@gmail.com,
- =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- Dragos Tatulea <dtatulea@nvidia.com>,
- Rahul Rameshbabu <rrameshbabu@nvidia.com>,
- Heiner Kallweit <hkallweit1@gmail.com>,
- netdev@vger.kernel.org,
- virtualization@lists.linux.dev
-References: <20240603154727.31998-1-hengqi@linux.alibaba.com>
- <20240603154727.31998-4-hengqi@linux.alibaba.com>
- <202406040645.6z95FW1f-lkp@intel.com>
-In-Reply-To: <202406040645.6z95FW1f-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mffh8IOo"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1f44b42d1caso39051295ad.0;
+        Mon, 03 Jun 2024 22:43:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717479794; x=1718084594; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1cPsbNHYB/deYy9oBYDkilLDFLxslyD43geIq+u0ocg=;
+        b=mffh8IOoIFqaTjCGH1k5fxmdXn2NKXTrjgkrTllwfHVi4myOwmpohZxmdj73xFWGlT
+         CaTaN1FnOrQfpm2Xjv3mNraIgsLiehV/Z5vPscLNLbO2OpALNMiJAeKPn7QMMbhuVRk9
+         nTknUe+07dnm0blrsUErPu81HHQ2r3Q+NY9sjOwO+S47WonQkfol2vgeVc/iL8vq9XSy
+         mfuAGJERWpsMpKjB0I6WbfD7WlMlLwNicCVujKeUwbJJEe9k7wx6VP3Cc3j3Uijeim+8
+         QtUR56Z96OUFVCB3D6/4nRkXvdYi49py3JrJXg3pj8UHzZbCwDbVrdqq9qYgROwYKvhJ
+         dfGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717479794; x=1718084594;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=1cPsbNHYB/deYy9oBYDkilLDFLxslyD43geIq+u0ocg=;
+        b=flczFdX/1bYVnc/btbFDqu7pBaQbfdGJ5YbBl/hNojnoJT4CGLcjxpeUDr+0WcDWvy
+         XJ/IFjUZqFE1EMv/xnPZ+CYwfUu83DJxhD+JbjRTAju9rYZ/yFJgB8t9Uqnyb85bbMJ6
+         ckwuouqkVKe464afpuL9FMYVAb1VIYaVu5+3F2+hRePsVAdxiAL5595Zll0NaYz1HHga
+         A6YfVbROB2OuuQAJbjrXFDRy+1mpDZCy2fSFSKv8aW+Z9BX8s4y8yOt57mjrtQIjT68U
+         a2wT9H85HkybcuwS4fH8/2e1LcVxNVKOoZBMqE++OrVRwEo1hNU41y6rN6u+tZh6revI
+         jtog==
+X-Forwarded-Encrypted: i=1; AJvYcCWCm8PaZWILsc0wYwTBzB0th8Ci3oCrFRFsNfwMjN+YNOCXgplkzGb5kydftIn5r4iEQM92Gj7cIjGVw8j8ty+vDZVlrvGU92hiG8QQbcELlPEW33vrHvf+NBfn0k74egS+PMQjMFKjgWPWQLB/adYBXeIckx/tEy4v/dzI
+X-Gm-Message-State: AOJu0Yx/g9GHFVNa9g2Ohksp5K2FSEqGH2SKkAKmfAkmFgwkR6QkcBcE
+	8UPzvTIlR/ZH4wWrPvD0Uh6KCMeFgkbs8/9ycTYqlGHULWkd26AG
+X-Google-Smtp-Source: AGHT+IHdULvM/UoX71VpmSro0BVG2S25hAJs5rPoN0XzL1Vuyeuwb3p6V/lc/pV9Udr55ns8zfQHzw==
+X-Received: by 2002:a17:902:d2d2:b0:1f6:857b:b5c with SMTP id d9443c01a7336-1f6857b4df3mr34853835ad.32.1717479794361;
+        Mon, 03 Jun 2024 22:43:14 -0700 (PDT)
+Received: from localhost ([1.146.11.115])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f683d1a770sm21936025ad.13.2024.06.03.22.43.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Jun 2024 22:43:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 04 Jun 2024 15:43:06 +1000
+Message-Id: <D1QZRTRK2WWI.20TJKC3RK1K9C@gmail.com>
+Cc: <pbonzini@redhat.com>, <naveen.n.rao@linux.ibm.com>,
+ <christophe.leroy@csgroup.eu>, <corbet@lwn.net>, <mpe@ellerman.id.au>,
+ <namhyung@kernel.org>, <pbonzini@redhat.com>, <jniethe5@gmail.com>,
+ <atrajeev@linux.vnet.ibm.com>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 4/6] KVM: PPC: Book3S HV: Add one-reg interface for
+ DEXCR register
+From: "Nicholas Piggin" <npiggin@gmail.com>
+To: "Shivaprasad G Bhat" <sbhat@linux.ibm.com>, <kvm@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>
+X-Mailer: aerc 0.17.0
+References: <171741323521.6631.11242552089199677395.stgit@linux.ibm.com>
+ <171741327891.6631.10339033341166150910.stgit@linux.ibm.com>
+In-Reply-To: <171741327891.6631.10339033341166150910.stgit@linux.ibm.com>
 
-On Tue, 4 Jun 2024 07:00:35 +0800, kernel test robot <lkp@intel.com> wrote:
-> Hi Heng,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on net-next/main]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Heng-Qi/linux-dim-move-useful-macros-to-h-file/20240603-235834
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/20240603154727.31998-4-hengqi%40linux.alibaba.com
-> patch subject: [PATCH net-next v14 3/5] ethtool: provide customized dim profile management
-> config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240604/202406040645.6z95FW1f-lkp@intel.com/config)
-> compiler: loongarch64-linux-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240604/202406040645.6z95FW1f-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202406040645.6z95FW1f-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> net/ethtool/coalesce.o: warning: objtool: unexpected relocation symbol type in .rela.discard.reachable
+On Mon Jun 3, 2024 at 9:14 PM AEST, Shivaprasad G Bhat wrote:
+> The patch adds a one-reg register identifier which can be used to
+> read and set the DEXCR for the guest during enter/exit with
+> KVM_REG_PPC_DEXCR. The specific SPR KVM API documentation
+> too updated.
 
+I wonder if the uapi and documentation parts should go in their
+own patch in a ppc kvm uapi topic branch? Otherwise looks okay.
 
-I'm not sure if this seems to be related to the update of loongarch[1]?
-didn't find this warning on other architectures such as arm/openrisc/x86.
+Reviewed-by: Nicholas Piggin <npiggin@gmail.com>
 
-+Cc:
-loongarch@lists.linux.dev, Guo Ren <guoren@kernel.org>,
-Xuerui Wang <kernel@xen0n.name>,
-Jiaxun Yang <jiaxun.yang@flygoat.com>,
-Huacai Chen <chenhuacai@loongson.cn>
+>
+> Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+> ---
+>  Documentation/virt/kvm/api.rst            |    1 +
+>  arch/powerpc/include/uapi/asm/kvm.h       |    1 +
+>  arch/powerpc/kvm/book3s_hv.c              |    6 ++++++
+>  tools/arch/powerpc/include/uapi/asm/kvm.h |    1 +
+>  4 files changed, 9 insertions(+)
+>
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.=
+rst
+> index a71d91978d9e..81077c654281 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -2441,6 +2441,7 @@ registers, find a list below:
+>    PPC     KVM_REG_PPC_PTCR                64
+>    PPC     KVM_REG_PPC_DAWR1               64
+>    PPC     KVM_REG_PPC_DAWRX1              64
+> +  PPC     KVM_REG_PPC_DEXCR               64
+>    PPC     KVM_REG_PPC_TM_GPR0             64
+>    ...
+>    PPC     KVM_REG_PPC_TM_GPR31            64
+> diff --git a/arch/powerpc/include/uapi/asm/kvm.h b/arch/powerpc/include/u=
+api/asm/kvm.h
+> index 1691297a766a..fcb947f65667 100644
+> --- a/arch/powerpc/include/uapi/asm/kvm.h
+> +++ b/arch/powerpc/include/uapi/asm/kvm.h
+> @@ -645,6 +645,7 @@ struct kvm_ppc_cpu_char {
+>  #define KVM_REG_PPC_SIER3	(KVM_REG_PPC | KVM_REG_SIZE_U64 | 0xc3)
+>  #define KVM_REG_PPC_DAWR1	(KVM_REG_PPC | KVM_REG_SIZE_U64 | 0xc4)
+>  #define KVM_REG_PPC_DAWRX1	(KVM_REG_PPC | KVM_REG_SIZE_U64 | 0xc5)
+> +#define KVM_REG_PPC_DEXCR	(KVM_REG_PPC | KVM_REG_SIZE_U64 | 0xc6)
+> =20
+>  /* Transactional Memory checkpointed state:
+>   * This is all GPRs, all VSX regs and a subset of SPRs
+> diff --git a/arch/powerpc/kvm/book3s_hv.c b/arch/powerpc/kvm/book3s_hv.c
+> index b576781d58d5..1294c6839d37 100644
+> --- a/arch/powerpc/kvm/book3s_hv.c
+> +++ b/arch/powerpc/kvm/book3s_hv.c
+> @@ -2349,6 +2349,9 @@ static int kvmppc_get_one_reg_hv(struct kvm_vcpu *v=
+cpu, u64 id,
+>  	case KVM_REG_PPC_DAWRX1:
+>  		*val =3D get_reg_val(id, kvmppc_get_dawrx1_hv(vcpu));
+>  		break;
+> +	case KVM_REG_PPC_DEXCR:
+> +		*val =3D get_reg_val(id, kvmppc_get_dexcr_hv(vcpu));
+> +		break;
+>  	case KVM_REG_PPC_CIABR:
+>  		*val =3D get_reg_val(id, kvmppc_get_ciabr_hv(vcpu));
+>  		break;
+> @@ -2592,6 +2595,9 @@ static int kvmppc_set_one_reg_hv(struct kvm_vcpu *v=
+cpu, u64 id,
+>  	case KVM_REG_PPC_DAWRX1:
+>  		kvmppc_set_dawrx1_hv(vcpu, set_reg_val(id, *val) & ~DAWRX_HYP);
+>  		break;
+> +	case KVM_REG_PPC_DEXCR:
+> +		kvmppc_set_dexcr_hv(vcpu, set_reg_val(id, *val));
+> +		break;
+>  	case KVM_REG_PPC_CIABR:
+>  		kvmppc_set_ciabr_hv(vcpu, set_reg_val(id, *val));
+>  		/* Don't allow setting breakpoints in hypervisor code */
+> diff --git a/tools/arch/powerpc/include/uapi/asm/kvm.h b/tools/arch/power=
+pc/include/uapi/asm/kvm.h
+> index 1691297a766a..fcb947f65667 100644
+> --- a/tools/arch/powerpc/include/uapi/asm/kvm.h
+> +++ b/tools/arch/powerpc/include/uapi/asm/kvm.h
+> @@ -645,6 +645,7 @@ struct kvm_ppc_cpu_char {
+>  #define KVM_REG_PPC_SIER3	(KVM_REG_PPC | KVM_REG_SIZE_U64 | 0xc3)
+>  #define KVM_REG_PPC_DAWR1	(KVM_REG_PPC | KVM_REG_SIZE_U64 | 0xc4)
+>  #define KVM_REG_PPC_DAWRX1	(KVM_REG_PPC | KVM_REG_SIZE_U64 | 0xc5)
+> +#define KVM_REG_PPC_DEXCR	(KVM_REG_PPC | KVM_REG_SIZE_U64 | 0xc6)
+> =20
+>  /* Transactional Memory checkpointed state:
+>   * This is all GPRs, all VSX regs and a subset of SPRs
 
-[1] https://lore.kernel.org/all/20240322135619.1423490-1-chenhuacai@loongson.cn/
-
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
