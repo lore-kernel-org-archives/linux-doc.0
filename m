@@ -1,85 +1,146 @@
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A4A31419AD;
-	Tue,  4 Jun 2024 08:43:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E0DC23776;
+	Tue,  4 Jun 2024 09:32:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717490630; cv=none; b=X+ALtVi9i7AU2F4ADzRe0PSzvkYc1s+hnlHv3Wf14IxV626pQmUcwXY3DN977/04kCg4zAUlVItaFuvRpi4j/06fT1eVd+msGzwetFIr9uEk0xN+aQggK28Vaww9NIBxTvvKFA14JCDDC7wWjc+WgmZWdMkjlDttiobDVej5UO0=
+	t=1717493544; cv=none; b=mewwhq6mDYaq71xcCB2zhVU4S2us/NSoc8zSP5F5OIhel2xaHxiDieElWFxYRoTDvJD5NBXjy3FuyNps2rgxoaex/Qq/KVkgCfGbMawlyWZIpfqoa/VW5uIpZw6tGV+FOGMcCIDArTc46bEAU1Xip0w1qRvGAT/aGpuL59n1jdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717490630; c=relaxed/simple;
-	bh=NnCIbfJpPR643QMiYfLdkrq3WLMAz+pyh4+QEDsomYg=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ZcwyxydVaZ/LURuIDyimAeIrrwwBjZ0ZHx++xpcU2cOVpiYukSuOlcCwJEd92a5h5jDXGrxjmWS9yNmQegIVl12tLV8ZKMsPB9s8I5GDHnwrcCKNswhjtoINUeXy/AH7JIBtuhGdDF0TZUn5Z1eRcX9NgLZ0/88PgSvbu8iLaAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.234])
-	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Vtkbm5zdhz1HD2J;
-	Tue,  4 Jun 2024 16:41:56 +0800 (CST)
-Received: from kwepemi500008.china.huawei.com (unknown [7.221.188.139])
-	by mail.maildlp.com (Postfix) with ESMTPS id 05F9414037D;
-	Tue,  4 Jun 2024 16:43:43 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemi500008.china.huawei.com
- (7.221.188.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 4 Jun
- 2024 16:43:42 +0800
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-To: <corbet@lwn.net>, <linux@armlinux.org.uk>, <ardb@kernel.org>,
-	<arnd@arndb.de>, <afd@ti.com>, <akpm@linux-foundation.org>,
-	<rmk+kernel@armlinux.org.uk>, <linus.walleij@linaro.org>,
-	<eric.devolder@oracle.com>, <robh@kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
-CC: <ruanjinjie@huawei.com>
-Subject: [PATCH] arm: Enable ARCH_HAS_DEBUG_VM_PGTABLE
-Date: Tue, 4 Jun 2024 16:45:12 +0800
-Message-ID: <20240604084512.727269-1-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1717493544; c=relaxed/simple;
+	bh=WbnbTofHxkrx5spG4fYxe59Me3aK8kFxL4l5hleeJcU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VcXYrPAr1qRiGyEgM+CEmckiHtVsGQXH/FKzDUGNCrWPUwHbVttAWRE7do6gFWHKNVE+ztMlLCo6BiDrSGPEgHtaCYm2g+85vUerU3dGQgf+afNrKVTb4TNTw5iRfAtPn1aD7eaJvid9qiRYmA64Hn3SyAeeqAfAbITtr9bDoLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n0jRI4mi; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n0jRI4mi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29689C2BBFC;
+	Tue,  4 Jun 2024 09:32:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717493543;
+	bh=WbnbTofHxkrx5spG4fYxe59Me3aK8kFxL4l5hleeJcU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=n0jRI4mi3EdRcQYgF9pEa/gRYlCHIf6sBhGXBmPndUxYbrsyeeLEW/8Sfm3a20Fzg
+	 MeLOvwKBiPo1OWfEl2uDOMB5FUbJ/Y4uav2hZeuNO8u9Ps+pw/Bh0cpWp+6jFxLPNp
+	 kRar1fbeX+gaqiEP4V4+r6xUT4FCaufoJKKwj9nfQhyOpJSMBExEQsOUha/7P9jj2f
+	 dYEbWrsjT69gMxDctMlj/JTo7xMp1UY0mbPIfZbbsbhzB5tPMvydaGjC5oGWQQvH+J
+	 6MLj4wLAjtZE2lONLJA49KHrh80nJyX0FPEn0tsw61x5NKwtFtN2opIVtgoN0OkRM7
+	 UPkA2bZvvIjEQ==
+Date: Tue, 4 Jun 2024 12:32:19 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>,
+	Jakub Kicinski <kuba@kernel.org>, linux-doc@vger.kernel.org,
+	linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Andy Gospodarek <andrew.gospodarek@broadcom.com>,
+	Aron Silverton <aron.silverton@oracle.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	David Ahern <dsahern@kernel.org>,
+	Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>,
+	Leonid Bloch <lbloch@nvidia.com>, linux-cxl@vger.kernel.org,
+	patches@lists.linux.dev
+Subject: Re: [PATCH 1/8] fwctl: Add basic structure for a class subsystem
+ with a cdev
+Message-ID: <20240604093219.GN3884@unreal>
+References: <0-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
+ <1-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemi500008.china.huawei.com (7.221.188.139)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
 
-arm32 kernel successfully build and run with CONFIG_DEBUG_VM_PGTABLE=y,
-enable arch support for it. This allows the pgtable tests to be built and
-allow to enable page table boot-up checks.
+On Mon, Jun 03, 2024 at 12:53:17PM -0300, Jason Gunthorpe wrote:
+> Create the class, character device and functions for a fwctl driver to
+> un/register to the subsystem.
+> 
+> A typical fwctl driver has a sysfs presence like:
+> 
+> $ ls -l /dev/fwctl/fwctl0
+> crw------- 1 root root 250, 0 Apr 25 19:16 /dev/fwctl/fwctl0
+> 
+> $ ls /sys/class/fwctl/fwctl0
+> dev  device  power  subsystem  uevent
+> 
+> $ ls /sys/class/fwctl/fwctl0/device/infiniband/
+> ibp0s10f0
+> 
+> $ ls /sys/class/infiniband/ibp0s10f0/device/fwctl/
+> fwctl0/
+> 
+> $ ls /sys/devices/pci0000:00/0000:00:0a.0/fwctl/fwctl0
+> dev  device  power  subsystem  uevent
+> 
+> Which allows userspace to link all the multi-subsystem driver components
+> together and learn the subsystem specific names for the device's
+> components.
+> 
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  MAINTAINERS            |   8 ++
+>  drivers/Kconfig        |   2 +
+>  drivers/Makefile       |   1 +
+>  drivers/fwctl/Kconfig  |   9 +++
+>  drivers/fwctl/Makefile |   4 +
+>  drivers/fwctl/main.c   | 174 +++++++++++++++++++++++++++++++++++++++++
+>  include/linux/fwctl.h  |  68 ++++++++++++++++
+>  7 files changed, 266 insertions(+)
+>  create mode 100644 drivers/fwctl/Kconfig
+>  create mode 100644 drivers/fwctl/Makefile
+>  create mode 100644 drivers/fwctl/main.c
+>  create mode 100644 include/linux/fwctl.h
 
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
----
- Documentation/features/debug/debug-vm-pgtable/arch-support.txt | 2 +-
- arch/arm/Kconfig                                               | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
+<...>
 
-diff --git a/Documentation/features/debug/debug-vm-pgtable/arch-support.txt b/Documentation/features/debug/debug-vm-pgtable/arch-support.txt
-index bbf029f095cb..afb7371fb518 100644
---- a/Documentation/features/debug/debug-vm-pgtable/arch-support.txt
-+++ b/Documentation/features/debug/debug-vm-pgtable/arch-support.txt
-@@ -8,7 +8,7 @@
-     -----------------------
-     |       alpha: | TODO |
-     |         arc: |  ok  |
--    |         arm: | TODO |
-+    |         arm: |  ok  |
-     |       arm64: |  ok  |
-     |        csky: | TODO |
-     |     hexagon: | TODO |
-diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
-index ee5115252aac..955d7d182cec 100644
---- a/arch/arm/Kconfig
-+++ b/arch/arm/Kconfig
-@@ -9,6 +9,7 @@ config ARM
- 	select ARCH_HAS_CPU_FINALIZE_INIT if MMU
- 	select ARCH_HAS_CURRENT_STACK_POINTER
- 	select ARCH_HAS_DEBUG_VIRTUAL if MMU
-+	select ARCH_HAS_DEBUG_VM_PGTABLE
- 	select ARCH_HAS_DMA_ALLOC if MMU
- 	select ARCH_HAS_DMA_WRITE_COMBINE if !ARM_DMA_MEM_BUFFERABLE
- 	select ARCH_HAS_ELF_RANDOMIZE
--- 
-2.34.1
+> +static struct fwctl_device *
+> +_alloc_device(struct device *parent, const struct fwctl_ops *ops, size_t size)
+> +{
+> +	struct fwctl_device *fwctl __free(kfree) = kzalloc(size, GFP_KERNEL);
+> +
+> +	if (!fwctl)
+> +		return NULL;
 
+<...>
+
+> +/* Drivers use the fwctl_alloc_device() wrapper */
+> +struct fwctl_device *_fwctl_alloc_device(struct device *parent,
+> +					 const struct fwctl_ops *ops,
+> +					 size_t size)
+> +{
+> +	struct fwctl_device *fwctl __free(fwctl) =
+> +		_alloc_device(parent, ops, size);
+
+I'm not a big fan of cleanup.h pattern as it hides important to me
+information about memory object lifetime and by "solving" one class of
+problems it creates another one.
+
+You didn't check if fwctl is NULL before using it.
+
+> +	int devnum;
+> +
+> +	devnum = ida_alloc_max(&fwctl_ida, FWCTL_MAX_DEVICES - 1, GFP_KERNEL);
+> +	if (devnum < 0)
+> +		return NULL;
+> +	fwctl->dev.devt = fwctl_dev + devnum;
+> +
+> +	cdev_init(&fwctl->cdev, &fwctl_fops);
+> +	fwctl->cdev.owner = THIS_MODULE;
+> +
+> +	if (dev_set_name(&fwctl->dev, "fwctl%d", fwctl->dev.devt - fwctl_dev))
+
+Did you miss ida_free() here?
+
+> +		return NULL;
+> +
+> +	fwctl->ops = ops;
+> +	return_ptr(fwctl);
+> +}
+> +EXPORT_SYMBOL_NS_GPL(_fwctl_alloc_device, FWCTL);
+
+Thanks
