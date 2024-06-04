@@ -1,95 +1,85 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9E414D28B;
-	Tue,  4 Jun 2024 23:14:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 512AE140374
+	for <linux-doc@vger.kernel.org>; Tue,  4 Jun 2024 23:30:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717542858; cv=none; b=D6JmmMSAxDgYikPKQ6IdJBOMxaapn91BuORfXuHR8gBfo9EnJSeorFQShwVEIAIkuFpCH9fZ/JFVNO+ggXJhttjaqqGXwcD1Zg5XUTE4zytrVwILGsUvqACesqzZJGWzgTlyXVp7TEdw11Vw04x5kKLI0UxkulrjiYvpFoiyo+Y=
+	t=1717543824; cv=none; b=TM0sGKwppac8Jt8eefwoO4349XH6zUct6YhIRgElnRPUIItOmvEr6uF0wBINnvMsZzSUW8Xv8olY7MeS1vj8L3zJ1U4eNnEXrz11J/c6F8Lyu9/i1OPd7qKVtKm9Ovpk2KWVb73/oyGyuIH+TiHKTXkekbxQPhbrrQKHppQJaV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717542858; c=relaxed/simple;
-	bh=y1mTtAlH2HuLUf25v/LySlH6akxKBu02tXMnW6gHWHk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=ntFaOJdBvUm8ieW9FGC8poeW5/3drXwzcJXJhnJDNGrawr1b0xeDO7XzmXn+aY+ZqCYNuMJo359hmDKyPP5ejgQDztBdxxO4RM3lCYez+Yhqqua+1nVHSBnRV7GyjlRsoUCZ5iPuOKDD1OrP+W2SPd5k4aZOqOunuTU5tqGK5sY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=SwPFvpoN; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1717543824; c=relaxed/simple;
+	bh=VjJmX34+aTYJ+9HTQ5vgX8U5z0y5Ts+H20MVJUkGYKM=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=bRCpGgcekLmDPjblCcwR2haYmR+EMxVghFZ8lAHllB9sV0QZw6sHuAqiB6kW+umJtV544H7ciUESgSRs+38XipQf43L8amH4/YixmOC/5kjP+yYTYW9qaQFGBHZgtOq0ft3auEDQjAXHvC34oh1HAWWDWJ/GBkPlyWzgifWv/3M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Lk3kajkG; arc=none smtp.client-ip=209.85.128.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="SwPFvpoN"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 454LD832000945;
-	Tue, 4 Jun 2024 23:13:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	y1mTtAlH2HuLUf25v/LySlH6akxKBu02tXMnW6gHWHk=; b=SwPFvpoNZE7dHwJc
-	ir+h/O60rTin1bD+0PHOMpC9/sUgAnNqvY9cQW4X000flKMiH3YDT9DyymYl0DwB
-	09clSjTJOetJWuB4GY3TNMPBnqVZc9+XVezXZwir6gj5oOAz8Kd9iXGxTP1zWGh3
-	dZYgkS+NFueMl8QBhbmR9g34NjdOZDx9my8PcMJMwxsF7pmHPBjo0yMhB3LjMRRe
-	7dFgx0Y3SKesHvvZB+PD5XfYgX82JwtF4qeqQpySF/c+yagt/YWd2cNJIVzNYXo6
-	L4nQtMmve4rbOmQtknGF5iMArAVUhjcC9oGIoOH22E0HZxAGVSfUdmfE5OpEiUJq
-	xwvB6w==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yjan2g5yx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 04 Jun 2024 23:13:57 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 454NDuo6025285
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 4 Jun 2024 23:13:56 GMT
-Received: from [10.48.241.109] (10.49.16.6) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 4 Jun 2024
- 16:13:55 -0700
-Message-ID: <40e65895-fc87-4754-ab5c-29d7c95b6d17@quicinc.com>
-Date: Tue, 4 Jun 2024 16:13:54 -0700
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Lk3kajkG"
+Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-627e6fe0303so105699527b3.2
+        for <linux-doc@vger.kernel.org>; Tue, 04 Jun 2024 16:30:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1717543822; x=1718148622; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xfypw/c+5RO0tQuEOThBLk/AkkGlXduiTmVxQ/7nnIE=;
+        b=Lk3kajkGkq1zw9xtCwUl23BM+hsOIduU1mq7Gx46PfXj7807AVrc7pn2mUAP6PVqS7
+         HR9ke88QLMjLGm8KoE7v5CxDZnlZzNn5a+7BldiFBgIuSPb+VJRaAbeLrOsqmDS0UgOr
+         y+J/U9NfIMXE4H20FlppvOPEUlBmAgF3FNyFhKWKy+twE9Z6SkovGq1D1VO9+m9c44ux
+         9hWQJLdcv0FWAdVmes4cpe50hYrSkdSeMoQFCJqqa76asb/2K+rd5kBb8lEa1YrJvsfV
+         rfT0bIJ7KN+A2AQpsOwqFB/SDVXEpvGgW8gL2s7vd3BllJCRFPyA1Ft7MKUmeoUgPQzi
+         khGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717543822; x=1718148622;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=xfypw/c+5RO0tQuEOThBLk/AkkGlXduiTmVxQ/7nnIE=;
+        b=UIyuQFR1WODCTqAQ14N/42ap9XqESMiugajHt3eo1rN/IrejUtbjb1Rsf6kUoTVP2K
+         i9w1IaPiC5WPyn77N5Hjdh7uWZHrb3UqXJQWIblQos1U63Qh4lJicb+uodhjKWNeqnh/
+         1qSVob2X/W/jsZ5XHRA+fTv+Ee1ZOWRnD/emS8fmGKBtIGhNMH9FPRYal1jZI67RGOq+
+         OjdQp7+utsadPeiiFieYU77ALOAlFd/utTDV6Jsf0a9WfltB6hE5hGQedZjbcLUE6PCG
+         vshprbrxZUiCQkXcGcfRIlxcnjSV5ODlB5/MF8pf+qBHyadEFXQtEKvq42nb6jmVBqoc
+         Zk5w==
+X-Forwarded-Encrypted: i=1; AJvYcCXsYA0YEwohlQEbf2jsKMT9Jtix6f6h23dyo46STgs1FK+r7y1k662G2qLZKDRpWrDWYUumOOJb0M9xx9lWCkCAlT1qCBnjw26y
+X-Gm-Message-State: AOJu0Yy90n7nOutyjWktmBTZCLPlCCTNCXlh8sKMJ0vhdXYaietOjtKL
+	uj0LaaXKU1AchB/CTUjZIcbdNpZfytDJvAq0QJ4uH1HwEcdJM4KQ27bAXuo+XNeYrEJrNO2YWzp
+	dhQ==
+X-Google-Smtp-Source: AGHT+IGYHhwobD17I6BcNx47OLoZruHxw9mWITV1BFNUGFWtzbkWqhjasbu6vT69tB03IJERpEy9c90wwX4=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a05:690c:6486:b0:622:c964:a590 with SMTP id
+ 00721157ae682-62cbb4ba98emr1679267b3.1.1717543822427; Tue, 04 Jun 2024
+ 16:30:22 -0700 (PDT)
+Date: Tue,  4 Jun 2024 16:29:25 -0700
+In-Reply-To: <20240424105616.29596-1-clopez@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v22 03/38] xhci: sideband: add initial api to register a
- sideband entity
-Content-Language: en-US
-To: Wesley Cheng <quic_wcheng@quicinc.com>, <srinivas.kandagatla@linaro.org>,
-        <mathias.nyman@intel.com>, <perex@perex.cz>, <conor+dt@kernel.org>,
-        <corbet@lwn.net>, <lgirdwood@gmail.com>, <tiwai@suse.com>,
-        <krzk+dt@kernel.org>, <Thinh.Nguyen@synopsys.com>,
-        <broonie@kernel.org>, <bgoswami@quicinc.com>, <robh@kernel.org>,
-        <gregkh@linuxfoundation.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-References: <20240524001043.10141-1-quic_wcheng@quicinc.com>
- <20240524001043.10141-4-quic_wcheng@quicinc.com>
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-In-Reply-To: <20240524001043.10141-4-quic_wcheng@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nalasex01a.na.qualcomm.com (10.47.209.196) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: vwSx6Pp3ZiBFJUsFcI3mthVu9lAH8gPT
-X-Proofpoint-ORIG-GUID: vwSx6Pp3ZiBFJUsFcI3mthVu9lAH8gPT
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-04_11,2024-06-04_02,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- phishscore=0 adultscore=0 spamscore=0 clxscore=1011 mlxscore=0
- malwarescore=0 impostorscore=0 mlxlogscore=999 bulkscore=0 suspectscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406040188
+Mime-Version: 1.0
+References: <20231116133628.5976-1-clopez@suse.de> <20240424105616.29596-1-clopez@suse.de>
+X-Mailer: git-send-email 2.45.1.288.g0e0cd299f1-goog
+Message-ID: <171754327022.2778929.14475719898493728460.b4-ty@google.com>
+Subject: Re: [PATCH v3] KVM: X86: improve documentation for KVM_CAP_X86_BUS_LOCK_EXIT
+From: Sean Christopherson <seanjc@google.com>
+To: Sean Christopherson <seanjc@google.com>, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, "=?UTF-8?q?Carlos=20L=C3=B3pez?=" <clopez@suse.de>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 5/23/2024 5:10 PM, Wesley Cheng wrote:
-> From: Mathias Nyman <mathias.nyman@linux.intel.com>
-[...]
-> +EXPORT_SYMBOL_GPL(xhci_sideband_unregister);
-> +MODULE_LICENSE("GPL");
+On Wed, 24 Apr 2024 12:56:18 +0200, Carlos L=C3=B3pez wrote:
+> Improve the description for the KVM_CAP_X86_BUS_LOCK_EXIT capability,
+> fixing a few typos, grammarm and clarifying the purpose of the ioctl.
+>=20
+>=20
 
-Please add missing MODULE_DESCRIPTION()
+Applied to kvm-x86 generic, thanks!
 
+[1/1] KVM: X86: improve documentation for KVM_CAP_X86_BUS_LOCK_EXIT
+      https://github.com/kvm-x86/linux/commit/d3f673c86c5b
+
+--
+https://github.com/kvm-x86/linux/tree/next
