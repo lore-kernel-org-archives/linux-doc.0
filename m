@@ -1,141 +1,123 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C32145322
-	for <linux-doc@vger.kernel.org>; Tue,  4 Jun 2024 22:20:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 018F728DC7;
+	Tue,  4 Jun 2024 22:32:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717539659; cv=none; b=Iovk7d/SVdCLiv7OnGlMcfXCFMzA/IAVJ0YepEBRMLlY7Wcmn3nV5Hie9MgcukB2SCdPx0XjMa7ozFJO4Oz16RVCv6PTLvvlJ0UoCqf5+Bk8iFIV26chCft91YrrtyLnFpBdCrBXt3NG89ygUacxDuM0VfJvDLEr2tJK/bJyPLA=
+	t=1717540339; cv=none; b=eBRFNxLZFE6mdV9qnUVMz8DnSGvnImyzxytFcWG6EcY8x7DGHQD9cwLhmP+T0LLcpqMIZaDOHxUTq9g6Fr9uNG9GWelPeuGMpyEaj4APrSFvw0dkW8Y3tymrWPMGHagV9p3wheO17Kxt9SH8/Gg1ppNcCIKamMAfWlqSXmBHUZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717539659; c=relaxed/simple;
-	bh=PEwtsHuB5I4aiO3jiKouMVnFQZ+bv8RQ/fbI3oGiDcE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N/S56oATL2Nqahp1ACSeQC/x6C8zFh5BCCzGnt3aEj4BgvUKwfmP91DuKsg9BanonWfL+kZo5trzBuLVOOe9PNAmuOg1iDmR3hqyeTqI1IUl0d6eZk5/4fVWmXIjPuq5yHT7NrcqwNqDeWDkt+CZ0fNx12oxfc3Bp820xPFBnEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IjcSrKxf; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1717540339; c=relaxed/simple;
+	bh=QHMdG4wTh/4cAxLzxOS5+p4F6ixCHuPUEV8qdu/4hJ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=l3i0e3AinW1LeahlthfVQyBC2kJ5t9uOKxupLecYCDm4uVlnmy3Y8i3vImTYnaAjI6DR26MSTZ3ochRdyeOVYVoYEOiDtJMfsbTbAX7LQ+VYI/iv6QryTBXlUSVkhtesYSRx0QQuB+opxE3MI4hnBdL2XOi561bkf3XjI6l785I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gut0Ft8u; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IjcSrKxf"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-44024f5271dso49751cf.1
-        for <linux-doc@vger.kernel.org>; Tue, 04 Jun 2024 15:20:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1717539657; x=1718144457; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AIBmj4SOCWbNZTcEJ36wTOG253WABX8+/zZKq57PG38=;
-        b=IjcSrKxfRJk3uZywjOPMuQgBJZZkaAq6MrvZuqnskMXBmUa9mLDxqK58Y7ke8j7ZKS
-         ZfiYkRHdaQ3i4HdpuRBVljfjCTCkovMFIVHIvU0nufnjTu3knKYur4rJX/ydnt81GY2Q
-         fObE8bR2g3LBGtIodjNa31tMSEq/DCpcRBUO73yg/d40v4HpT9dJ9WR9pN/f3zarcEaL
-         1UzsBXyClrBRkm3LFrE1MX7q/Avph1qFJXFTi+ZKMVLpib6FVS6oiah6g1O7W0gf7/Yn
-         iaqsqP8wGBIQpqaJNbtZ2Pqqzms0RIprG2xECWh6bHmU2xKLkWuI1hXo4+fV4+V8E0Wy
-         oCpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717539657; x=1718144457;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AIBmj4SOCWbNZTcEJ36wTOG253WABX8+/zZKq57PG38=;
-        b=fQLMdSCQxv9Wc1bffFgzAsYZnhRPVPCVMhZzX5co7DNW3pjCSbucf5Mt6To0hBIm/a
-         CNUb0o7mcDYiZnmfRk+/T9aqa8MT/cMHW+XMe7X4BYJ/hMTohCsw1lqzBwhIkqH6zJ28
-         197igpD08DRIeJiCi1GG/Ogu+z46s0nIHJCcB6vv+WtyEqVAeitaRGD7ZgG5kJhc/QAz
-         eHTCIFYiLFQoz6DbHUjWF1zu8K1mUvu8FiX1r3ynK5WkH2WV5+29lw61N+vXXO734ks7
-         2MdXkpy/cmCyY2Y8VjygWSoIeweA+8mzwwL0URkIpOHkwmNY3PY9apmnk61t6CRzs1m6
-         wJ1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWJ0muNvdI1ugpCrJcj/fFwSFvPlVnV48ctYewrVOhwrUIkhhYh1vsiIuuSEONcwY8MnZOdkbhAv9KSnSrPUsqnFUcEEk8hD+lB
-X-Gm-Message-State: AOJu0YyJQjU5Ak5NC1xfBMBf2a2Azk/SIsuPFG9uFcEJGc5GayBD6hqS
-	g9fgN3fhagQgHoVmE1rqeM90aO7FnPtUT8FCJYCYQmCYPvj+ICctFaJHm59vFqw0+70rrh9RHQO
-	7sUMl0jcFZrQ/LcWVS7Fh7CY0Kzi7AqQkOjQm
-X-Google-Smtp-Source: AGHT+IFqQR6wV0ldEWSB61hJVaO5R3FbfhfGJ/jL2Y1RO1QFt4uPcpp04yR87XJA3WIv/pXl4si2o71lLJw9aUuCxfc=
-X-Received: by 2002:a05:622a:5a98:b0:43d:dc3b:518c with SMTP id
- d75a77b69052e-4402ce13c55mr332451cf.11.1717539656344; Tue, 04 Jun 2024
- 15:20:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gut0Ft8u"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9647AC2BBFC;
+	Tue,  4 Jun 2024 22:32:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717540338;
+	bh=QHMdG4wTh/4cAxLzxOS5+p4F6ixCHuPUEV8qdu/4hJ4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=gut0Ft8ueLeR2XIJbV66BFcgFaOcIs3ZISZo3gfkRqqHjDfDLPwUcfNlUn7BxIwbN
+	 SW5VkKgIW9wP8m0DWmIuQ4wlRHf1aLSh1LJ2BM54QMNi8xY2A39jhAOwM4rykGaWRb
+	 0nPLtkbNdQU+EePtXvAB49zRFfkWzncye9vMaLzJO89qJ3KUGg7DqkxZUYkHd7MP0l
+	 Fwl6DHqCYhCwI4Ul/CIhDkvLl4bJLnhPbVkvfynjuRiK6u6n6p1lvsuFIBwnHeMlEA
+	 Ck6EIp39zbPSbwVUqxlpRv1tF8TE5li5OOloi03w5gmAJOKpajE+NSfr4uKihmgoP9
+	 b2xbykeru/l0g==
+Date: Tue, 4 Jun 2024 15:32:16 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Saeed Mahameed <saeed@kernel.org>
+Cc: David Ahern <dsahern@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>,
+ Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>, Leon
+ Romanovsky <leon@kernel.org>, linux-doc@vger.kernel.org,
+ linux-rdma@vger.kernel.org, netdev@vger.kernel.org, Paolo Abeni
+ <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan
+ <tariqt@nvidia.com>, Andy Gospodarek <andrew.gospodarek@broadcom.com>, Aron
+ Silverton <aron.silverton@oracle.com>, Dan Williams
+ <dan.j.williams@intel.com>, Christoph Hellwig <hch@infradead.org>, Jiri
+ Pirko <jiri@nvidia.com>, Leonid Bloch <lbloch@nvidia.com>, Leon Romanovsky
+ <leonro@nvidia.com>, linux-cxl@vger.kernel.org, patches@lists.linux.dev
+Subject: Re: [PATCH 0/8] Introduce fwctl subystem
+Message-ID: <20240604153216.1977bd90@kernel.org>
+In-Reply-To: <Zl-G5SRFztx_77a2@x130>
+References: <0-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
+	<20240603114250.5325279c@kernel.org>
+	<214d7d82-0916-4c29-9012-04590e77df73@kernel.org>
+	<20240604070451.79cfb280@kernel.org>
+	<Zl-G5SRFztx_77a2@x130>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240529180510.2295118-1-jthoughton@google.com>
- <20240529180510.2295118-7-jthoughton@google.com> <Zlog5Yk_Pjq0jQhC@linux.dev> <Zloicw4IU8_-V5Ns@linux.dev>
-In-Reply-To: <Zloicw4IU8_-V5Ns@linux.dev>
-From: James Houghton <jthoughton@google.com>
-Date: Tue, 4 Jun 2024 15:20:20 -0700
-Message-ID: <CADrL8HV4SZ9BEQg1j3ojG-v5umL_d3sa4e1k2vMQCMmBEgeFpQ@mail.gmail.com>
-Subject: Re: [PATCH v4 6/7] KVM: arm64: Relax locking for kvm_test_age_gfn and kvm_age_gfn
-To: Oliver Upton <oliver.upton@linux.dev>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Ankit Agrawal <ankita@nvidia.com>, 
-	Anup Patel <anup@brainfault.org>, Atish Patra <atishp@atishpatra.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Bibo Mao <maobibo@loongson.cn>, 
-	Catalin Marinas <catalin.marinas@arm.com>, David Matlack <dmatlack@google.com>, 
-	David Rientjes <rientjes@google.com>, Huacai Chen <chenhuacai@kernel.org>, 
-	James Morse <james.morse@arm.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Raghavendra Rao Ananta <rananta@google.com>, Ryan Roberts <ryan.roberts@arm.com>, 
-	Sean Christopherson <seanjc@google.com>, Shaoqin Huang <shahuang@redhat.com>, Shuah Khan <shuah@kernel.org>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Tianrui Zhao <zhaotianrui@loongson.cn>, 
-	Will Deacon <will@kernel.org>, Yu Zhao <yuzhao@google.com>, Zenghui Yu <yuzenghui@huawei.com>, 
-	kvm-riscv@lists.infradead.org, kvm@vger.kernel.org, kvmarm@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-mm@kvack.org, 
-	linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, 
-	loongarch@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 31, 2024 at 12:18=E2=80=AFPM Oliver Upton <oliver.upton@linux.d=
-ev> wrote:
->
-> On Fri, May 31, 2024 at 12:11:33PM -0700, Oliver Upton wrote:
-> > On Wed, May 29, 2024 at 06:05:09PM +0000, James Houghton wrote:
+On Tue, 4 Jun 2024 14:28:05 -0700 Saeed Mahameed wrote:
+> On 04 Jun 07:04, Jakub Kicinski wrote:
+> >On Mon, 3 Jun 2024 21:01:58 -0600 David Ahern wrote:  
+> >> Seriously, Jakub, how is that in any way related to this patch set?  
 > >
-> > [...]
-> >
-> > > diff --git a/arch/arm64/kvm/hyp/pgtable.c b/arch/arm64/kvm/hyp/pgtabl=
-e.c
-> > > index 9e2bbee77491..eabb07c66a07 100644
-> > > --- a/arch/arm64/kvm/hyp/pgtable.c
-> > > +++ b/arch/arm64/kvm/hyp/pgtable.c
-> > > @@ -1319,10 +1319,8 @@ static int stage2_age_walker(const struct kvm_=
-pgtable_visit_ctx *ctx,
-> > >     data->young =3D true;
-> > >
-> > >     /*
-> > > -    * stage2_age_walker() is always called while holding the MMU loc=
-k for
-> > > -    * write, so this will always succeed. Nonetheless, this delibera=
-tely
-> > > -    * follows the race detection pattern of the other stage-2 walker=
-s in
-> > > -    * case the locking mechanics of the MMU notifiers is ever change=
-d.
-> > > +    * This walk may not be exclusive; the PTE is permitted to change
-> > > +    * from under us.
-> > >      */
-> > >     if (data->mkold && !stage2_try_set_pte(ctx, new))
-> > >             return -EAGAIN;
-> >
-> > It is probably worth mentioning that if there was a race to update the
-> > PTE then the GFN is most likely young, so failing to clear AF probably
-> > isn't even consequential.
+> >Whether they admit it or not, DOCA is a major reason nVidia wants
+> >this to be standalone rather than part of RDMA.
+> 
+> No, DOCA isn't on the agenda for this new interface. But what is the point
+> in arguing?
 
-Thanks Oliver.
+I'm not arguing any point, we argued enough. But you failed to disclose
+that DOCA is very likely user of this interface. So whoever you're
+planning to submit it to should know.
 
->
-> Oh, and the WARN_ON() in kvm_pgtable_stage2_test_clear_young() is bogus
-> now. Maybe demote it to:
->
->   r =3D kvm_pgtable_walk(...);
->   WARN_ON_ONCE(r && r !=3D -EAGAIN);
+DOCA was top of mind for me because I noticed it has PSP support, and
+I wanted to take a look at the implementation.
 
-Oh, indeed, thank you. Just to make sure -- does it make sense to
-retry the cmpxchg if it fails? For example, the way I have it now for
-x86[1], we retry the cmpxchg if the spte is still a leaf, otherwise we
-move on to the next one having done nothing. Does something like that
-make sense for arm64?
+> Apparently the vendor is not credible enough in your opinion.
 
-[1]: https://lore.kernel.org/linux-mm/20240529180510.2295118-6-jthoughton@g=
-oogle.com/
+You're creating an interface where you depend on a pinky promise from
+a black box that the RPC is not a write. I trust you personally not to
+write a patch which abuses this interface. But this cannot possibly
+extend to all developers, most of who just want to ship features.
+
+> Which is an absolute outrageous grounds for a NAK.
+> 
+> Anyway I don't see your point in bringing up DOCA here, but obviously once 
+> this interface is accepted, all developers are welcome to use it,
+> including DOCA developers of course..
+
+Of course.
+
+> That being said, the why we need this is crystal clear in the 
+> cover-letter and previous submission discussions, bringing random SDKs
+> into this discussion is not objective and counter productive to the
+> technical discussion.
+> 
+> >> You are basically suggesting that if any vendor ever has an out of tree
+> >> option for its hardware every patch it sends should be considered a ruse
+> >> to enable or simplify proprietary options.
+> 
+> It's apparent that you're attributing sinister agendas to patchsets when
+> you fail to offer valid technical opinions regarding the NAK nature. Let's
+> address this outside of this patchset, as this isn't the first occurrence.
+> Consistency in evaluating patches is crucial;
+
+Exactly :| Netdev people, including multiple prominent developers from
+Mellanox/nVidia have been nacking SDK interfaces in Linux networking
+for 20 years. How are we going to look to all the companies which have
+been doing IPUs for over a decade if we change the rules for nVidia?
+
+> some, like the fbnic and idpf, seem to go unquestioned, while others
+> face scrutiny.
+
+fbnic got a nack for any core changes or uAPI not used by other drivers.
+idpf got a nack for pretending to be a standard.
+
+You keep saying that I'm nacking your interface because I have some
+hatred and distrust for you or nVidia. I really, really don't.
+Any vendor posting this would get exactly the same nack from me.
+
+If by "let's address this outside of this patchset" you mean that we
+should have a discussion about maintainer favoritism, and subsystem
+capture by vendors - you have my full support!
