@@ -1,82 +1,78 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB93613D638;
-	Tue,  4 Jun 2024 04:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A3DA13D517;
+	Tue,  4 Jun 2024 05:29:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717476050; cv=none; b=MtwLwIoSHHG9bk/Yu3ixH8dXfJVgMgIIPPMsx0y5ufuNiwCTdYrIO+sNiz/Ue0CqxFaEPX85nMXZzhlhkhkDQBUkuyPwUMKpsahqaTgsDdPXq3Om08bWSurC+/X5WB2N/gqeY3c2aw+eI5b2EwvX1FyxSSKPcBcg9hnPDF1abio=
+	t=1717478994; cv=none; b=afk3E4GboyXmNJ1DdZ+CGX21HMWxXUjtLISg7SOOqsrqVKRYyczEYrDOMFZAG/Wv9QLaq/+0DX7VrEdnKYJmjopeyDBNVDbVO3TfrXZCG972UhhO7lEFQ/eJ8YbUQiDpmTvpKnnThAgN91nl5F+otbs5N7IvUbYZUmmAdMWqyIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717476050; c=relaxed/simple;
-	bh=YspLg/oZO+NECETpz3U99drDYtBVvMb6eMXzhEQZu1I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kjoKciJKskMO8scKIxjtcD8rSfWx52AhznzPgs68r8V9pBmAub31EbPFRz5yg857F//Dv+p8s8ML6p8gyUaKryygBIkf169Ahvqq0jVQ88fjPyr334LoE4KJuOGurTqmYjiCH+Z34s2V6RQQCZdXEiumrnvYWlTSMwlrxFqS2EE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id EAF7068D12; Tue,  4 Jun 2024 06:40:42 +0200 (CEST)
-Date: Tue, 4 Jun 2024 06:40:42 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: Christoph Hellwig <hch@lst.de>, Nitesh Shetty <nj.shetty@samsung.com>,
-	Damien Le Moal <dlemoal@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
-	Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	martin.petersen@oracle.com, david@fromorbit.com, hare@suse.de,
-	damien.lemoal@opensource.wdc.com, anuj20.g@samsung.com,
-	joshi.k@samsung.com, nitheshshetty@gmail.com, gost.dev@samsung.com,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, dm-devel@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v20 02/12] Add infrastructure for copy offload in block
- and request layer.
-Message-ID: <20240604044042.GA29094@lst.de>
-References: <20240520102033.9361-1-nj.shetty@samsung.com> <CGME20240520102842epcas5p4949334c2587a15b8adab2c913daa622f@epcas5p4.samsung.com> <20240520102033.9361-3-nj.shetty@samsung.com> <eda6c198-3a29-4da4-94db-305cfe28d3d6@acm.org> <9f1ec1c1-e1b8-48ac-b7ff-8efb806a1bc8@kernel.org> <a866d5b5-5b01-44a2-9ccb-63bf30aa8a51@acm.org> <665850bd.050a0220.a5e6b.5b72SMTPIN_ADDED_BROKEN@mx.google.com> <abe8c209-d452-4fb5-90eb-f77b5ec1a2dc@acm.org> <20240601055931.GB5772@lst.de> <d7ae00c8-c038-4bed-937e-222251bc627a@acm.org>
+	s=arc-20240116; t=1717478994; c=relaxed/simple;
+	bh=8id9w4ITeGKoMSzcnkdj/XODTSZ3CBhBl9FFEYzRhqc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SFC56IHws/hySRPDvuyo4LcxMnnKSwt89pEC2Q3GwxCXxNdytbvjq4GecHLH7VofLCOaji+OLpWXdxuvzNZSDLH1AXMzqnK9ibCfMDcIiqrJe2YFI3EMrmbmu5nxVhuJ2p5juJNgaDOO1dnD7XJ4AK0y+vCBDKlFnFnBpRfD3Jw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F091C1042;
+	Mon,  3 Jun 2024 22:30:14 -0700 (PDT)
+Received: from e116581.blr.arm.com (e116581.arm.com [10.162.41.24])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 3AE113F762;
+	Mon,  3 Jun 2024 22:29:45 -0700 (PDT)
+From: Dev Jain <dev.jain@arm.com>
+To: linux-arm-kernel@lists.infradead.org,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	mark.rutland@arm.com,
+	suzuki.poulose@arm.com,
+	broonie@kernel.org,
+	ryan.roberts@arm.com,
+	James.Morse@arm.com,
+	Anshuman.Khandual@arm.com,
+	Dev Jain <dev.jain@arm.com>
+Subject: [PATCH] Documentation: Add ARM64 for reserving ZONE_MOVABLE
+Date: Tue,  4 Jun 2024 10:58:56 +0530
+Message-Id: <20240604052856.546183-1-dev.jain@arm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d7ae00c8-c038-4bed-937e-222251bc627a@acm.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 03, 2024 at 10:12:48AM -0700, Bart Van Assche wrote:
-> Consider the following use case:
-> * Task A calls blk_start_plug()
-> * Task B calls blk_start_plug()
-> * Task A submits a REQ_OP_COPY_DST bio and a REQ_OP_COPY_SRC bio.
-> * Task B submits a REQ_OP_COPY_DST bio and a REQ_OP_COPY_SRC bio.
-> * The stacking driver to which all REQ_OP_COPY_* operations have been
->   submitted processes bios asynchronusly.
-> * Task A calls blk_finish_plug()
-> * Task B calls blk_finish_plug()
-> * The REQ_OP_COPY_DST bio from task A and the REQ_OP_COPY_SRC bio from
->   task B are combined into a single request.
-> * The REQ_OP_COPY_DST bio from task B and the REQ_OP_COPY_SRC bio from
->   task A are combined into a single request.
->
-> This results in silent and hard-to-debug data corruption. Do you agree
-> that we should not restrict copy offloading to stacking drivers that
-> process bios synchronously and also that this kind of data corruption
-> should be prevented?
+kernelcore and movablecore kernel command line works for ARM64. Update
+the Documentation to reflect the same.
 
-There is no requirement to process them synchronously, there is just
-a requirement to preserve the order.  Note that my suggestion a few
-arounds ago also included a copy id to match them up.  If we don't
-need that I'm happy to leave it away.  If need it it to make stacking
-drivers' lifes easier that suggestion still stands.
+Signed-off-by: Dev Jain <dev.jain@arm.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
->
-> Thanks,
->
-> Bart.
----end quoted text---
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index b600df82669d..7282d6057e32 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2544,7 +2544,7 @@
+ 
+ 	keepinitrd	[HW,ARM] See retain_initrd.
+ 
+-	kernelcore=	[KNL,X86,IA-64,PPC,EARLY]
++	kernelcore=	[KNL,X86,IA-64,PPC,ARM64,EARLY]
+ 			Format: nn[KMGTPE] | nn% | "mirror"
+ 			This parameter specifies the amount of memory usable by
+ 			the kernel for non-movable allocations.  The requested
+@@ -3612,7 +3612,7 @@
+ 	mousedev.yres=	[MOUSE] Vertical screen resolution, used for devices
+ 			reporting absolute coordinates, such as tablets
+ 
+-	movablecore=	[KNL,X86,IA-64,PPC,EARLY]
++	movablecore=	[KNL,X86,IA-64,PPC,ARM64,EARLY]
+ 			Format: nn[KMGTPE] | nn%
+ 			This parameter is the complement to kernelcore=, it
+ 			specifies the amount of memory used for migratable
+-- 
+2.34.1
+
