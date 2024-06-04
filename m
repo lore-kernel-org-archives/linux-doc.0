@@ -1,73 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E45A6144D2E;
-	Tue,  4 Jun 2024 13:18:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54E2C14387B
+	for <linux-doc@vger.kernel.org>; Tue,  4 Jun 2024 13:31:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717507082; cv=none; b=MdVa1+ax1LfQu3ko2jbhAcKJrNXDVS84O7tGuQtlcZxckoojYGdOlj7pnHunM90s4yRM7hcD3T+V7JCYrDFW1jKL2RT5My0mXpv0/Z80hJrAtGo/Zi0D77lNOZpzYtWjSrzuTI/fLSKnX8nNLncbFk4ZMVeYFYc6oQIHvBl0RmY=
+	t=1717507909; cv=none; b=rliMqifLAeXLFoeieAIL9YAgBiBf0DZhW1eiXOAoKumZs7fXQl1fxFcXXYONpbhoXBl7wZIAtv77eujTbIHddVNWIEXqhycGx9lI5KTy1Lyrt0lAFOSgMHLX8ih+O/E1/Aau5Pt/Jr6tAmwg6rhAVCWBpnFZju/ob82hzIV9/Mk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717507082; c=relaxed/simple;
-	bh=lH1YSHW+QRtl0PgeKbxOgI/6+SHrKNvBO9ZLRDA4uzw=;
+	s=arc-20240116; t=1717507909; c=relaxed/simple;
+	bh=GOyu6VoV1+EqQHivq4531ORRicJi6ri8IsacL/5ud00=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t5zHCvnQFcX6GttsljEUCvS1BBob5oOZUW6KFdQLa2wx4REExlLWs5myRCjnw5czRlH5l8a/6vY8txzxz5FVWIzU7oIxyvTpY2o1M336V9cE8hR1c6cTWI6sbpIsNuOEjTXF0C1Mfu8INwHx4rSJE9ekJ16wcmc3vFe67oUVC00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lDoW2IOo; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=T4jmU/jysnqR5qYSzXhw3n5q7kX+akLgVUphpTZLMjgj3euK+/eV7e+2SSS/fS3tJ9bfzGQR3klPKzW3II8tV5vIkEQvrLy+QW1RzOVn9UzkkPHc6fBi3ciqLpKjOygZ7VjJcAZiKqRM3kzUcoPmCZgRIkrmH2cGDbSOBAIHrao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=K/oTgQw6; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lDoW2IOo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717507081; x=1749043081;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lH1YSHW+QRtl0PgeKbxOgI/6+SHrKNvBO9ZLRDA4uzw=;
-  b=lDoW2IOoc+MgLuenK33eRCe/PyOyz/o+KvHkp3MT96+44SVO7j3ZJHh/
-   3JaDoNK4z5RFvA/b5TndDC5CBBNVHSBTVQTP9GGuzS9aoBqTaCYgE6J8m
-   40V+IwuZWmSb87eo2CIrMFF9Ge5+5pJ7ZagJ49DN4FjxuuXAr+FFBfiUb
-   FSMq6aN3PcytviqNtRdiV9X+Dvrg1uVLYN51Kun273XeHMKMVo/LG8WKb
-   QeqxD4YpeJOe4O1LLXzOIfVErn5Kxr4E+k0hM9yHa/XSes2XvDg3jEW6A
-   6tWcYCeC13p9MvchkwC2lYn/k3SztW2c3VTKEnuIbzujRzC71gXcQxf0v
-   w==;
-X-CSE-ConnectionGUID: H6GjsBv/Q0mYKrWfFnA3yQ==
-X-CSE-MsgGUID: zBr33mITRBKwbplH7aMNgg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11093"; a="14275845"
-X-IronPort-AV: E=Sophos;i="6.08,213,1712646000"; 
-   d="scan'208";a="14275845"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2024 06:18:00 -0700
-X-CSE-ConnectionGUID: npG3c61kQDeJTyufGWscDw==
-X-CSE-MsgGUID: x8TPzEm0SRi7mLbo0hmLQw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,213,1712646000"; 
-   d="scan'208";a="60426903"
-Received: from unknown (HELO tlindgre-MOBL1) ([10.245.247.168])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2024 06:17:54 -0700
-Date: Tue, 4 Jun 2024 16:17:47 +0300
-From: Tony Lindgren <tony.lindgren@linux.intel.com>
-To: Petr Mladek <pmladek@suse.com>
-Cc: Tony Lindgren <tony@atomide.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	John Ogness <john.ogness@linutronix.de>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Dhruva Gole <d-gole@ti.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Vignesh Raghavendra <vigneshr@ti.com>, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 1/7] printk: Save console options for
- add_preferred_console_match()
-Message-ID: <Zl8T-0zpTYy5GFau@tlindgre-MOBL1>
-References: <20240327110021.59793-1-tony@atomide.com>
- <20240327110021.59793-2-tony@atomide.com>
- <ZlC6_Um4P4b-_WQE@pathway.suse.cz>
- <Zll0Mg-Ovqx0n7Zd@tlindgre-MOBL1>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="K/oTgQw6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1717507907;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8NTg4cLU414MePoyscLxCqohMFZ4JgKreHROINBa29k=;
+	b=K/oTgQw6XCsdAdrk2TbhL7AaEir+40HolDsBBfy+kZjhYMCJ5dvU7nTccP9nr1vnVpGT2B
+	jM9H0OVHBT7VCAXCGyFDpe9+nFLed9x1yhnz+bv7IlJlLdJdVImGeBhFCRnx5k2B+OETjB
+	1EVk/PPQgSuL8L1NqdNzw5N8Kz1ihCc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-669-KiXMdSnwNbaFznJMFJlDbA-1; Tue, 04 Jun 2024 09:31:46 -0400
+X-MC-Unique: KiXMdSnwNbaFznJMFJlDbA-1
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4212f105f0bso7905435e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 04 Jun 2024 06:31:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717507905; x=1718112705;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8NTg4cLU414MePoyscLxCqohMFZ4JgKreHROINBa29k=;
+        b=MkI876x+0yXz08KadznYa7p/ZaoCejjra4YUGJApcUcWmO/w+7fq4QNWS1kGbR5BR7
+         jcfm+axwNsEudMh6Q0O2wRr+Zo3HbvD/XyR8ff/E/eDY6vM31Rrd18aUZukL2/M8LoKX
+         taZtjQM9jGe8Dxu9Z9rySz558nzY+EsHrA5Gqi073A9ErpClRUttrefxeIdBvgkHnEnK
+         3B91hlbXUISj0Np1hQZawGtzwk4YA52yAlFrrwgAVFxQ0sHKovmDE1AZ/aqJgZeXTRJU
+         xe8/x5cGwqgcioxQhu6wAjMRpIBWLGIarVzR7i57QHctgniBuBLHHupWI37B/kTyiBrb
+         DB0Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWyRTDrgK6mC1ZZ2710djAQNhYFZgyRoDOhTLTbPcQTX8dfRnpJ7D2xSnvTNwO45mkJ8GEl/su4xDpYQ0/jE1GiON91nhUVJ9Py
+X-Gm-Message-State: AOJu0YwDwDjCVST1yiex3Ekq5aelgL/bKO+Sn5VvP9kOb3i+vRdVuPb3
+	HfPeqGjYtV8FxdJ0lDZXSqwlOExaEZDqCVoxcryRYXTBg2CmTHlpoeuEDIfMQeHbQXi17UBzHeM
+	6/JK7V29XsR8KtJdDX03rigYQr8TAwrNH0XR+1Uh8eWbXKhH4HSiV0DJKKQ==
+X-Received: by 2002:a05:600c:3d96:b0:41a:3868:d222 with SMTP id 5b1f17b1804b1-4212dff7d3cmr100598495e9.0.1717507904905;
+        Tue, 04 Jun 2024 06:31:44 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG7eaFWdN5jDf+LCOq1NkYpFGX7x9QehvuKgllc5QQK1pfiasQ6ZxSQSpSUhiSAG/QCorMIGA==
+X-Received: by 2002:a05:600c:3d96:b0:41a:3868:d222 with SMTP id 5b1f17b1804b1-4212dff7d3cmr100598165e9.0.1717507904444;
+        Tue, 04 Jun 2024 06:31:44 -0700 (PDT)
+Received: from jlelli-thinkpadt14gen4.remote.csb ([176.206.3.168])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4215425d599sm14468455e9.6.2024.06.04.06.31.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Jun 2024 06:31:43 -0700 (PDT)
+Date: Tue, 4 Jun 2024 15:31:41 +0200
+From: Juri Lelli <juri.lelli@redhat.com>
+To: John Ogness <john.ogness@linutronix.de>
+Cc: Petr Mladek <pmladek@suse.com>, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	Sreenath Vijayan <sreenath.vijayan@sony.com>, Shimoyashiki Taichi <taichi.shimoyashiki@sony.com>, 
+	Tomas Mudrunka <tomas.mudrunka@gmail.com>, linux-doc@vger.kernel.org, linux-serial@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, "Borislav Petkov (AMD)" <bp@alien8.de>, 
+	Xiongwei Song <xiongwei.song@windriver.com>
+Subject: Re: [PATCH printk v2 00/18] add threaded printing + the rest
+Message-ID: <aqkcpca4vgadxc3yzcu74xwq3grslj5m43f3eb5fcs23yo2gy4@gcsnqcts5tos>
+References: <20240603232453.33992-1-john.ogness@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -76,35 +80,92 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Zll0Mg-Ovqx0n7Zd@tlindgre-MOBL1>
+In-Reply-To: <20240603232453.33992-1-john.ogness@linutronix.de>
 
-On Fri, May 31, 2024 at 09:54:42AM +0300, Tony Lindgren wrote:
-> On Fri, May 24, 2024 at 06:06:21PM +0200, Petr Mladek wrote:
-> > A solution might be to store "devname" separately in
-> > struct console_cmdline and allow empty "name". We could
-> > implement then a function similar to
-> > add_preferred_console_match() which would try to match
-> > "devname" and set/update "name", "index" value when matched.
+Hi John,
+
+On 04/06/24 01:30, John Ogness wrote:
+> Hi,
 > 
-> This sounds nice, the empty name can be used to defer consoles that
-> are not known early. And on console_setup() we only set the devname
-> for such cases.
+> This is v2 of a series to implement threaded console printing as well
+> as some other minor pieces (such as proc and sysfs support). This
+> series is only a subset of the original v1 [0]. In particular, this
+> series represents patches 11, 12, 15 of the v1 series. For information
+> about the motivation of the nbcon consoles, please read the cover
+> letter of v1.
+> 
+> This series provides the remaining pieces of the printk rework. All
+> other components are either already mainline or are currently in
+> linux-next. In particular this series does:
 
-Yup reserving a slot for a devname console at console_setup() time
-in console_commandline[] allows keeping the consoles in the right
-order again :)
+Our QE reported something like the following while testing the latest
+rt-devel branch (I then could reproduce with this set applied on top of
+linux-next).
 
-> To me it seems we additionally still need to save the kernel command
-> line position of the console too in struct kernel_cmdline so we can
-> set the preferred_console for the deferred cases.
+---
+... kernel: INFO: task khugepaged:351 blocked for more than 1 seconds.
+... kernel:       Not tainted 6.9.0-thrdprintk+ #3
+... kernel: "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+... kernel: task:khugepaged      state:D stack:0     pid:351   tgid:351   ppid:2      flags:0x00004000
+... kernel: Call Trace:
+... kernel:  <TASK>
+... kernel:  __schedule+0x2bd/0x7f0
+... kernel:  ? __lock_release.isra.0+0x5e/0x170
+... kernel:  schedule+0x3d/0x100
+... kernel:  schedule_timeout+0x1ca/0x1f0
+... kernel:  ? mark_held_locks+0x49/0x80
+... kernel:  ? _raw_spin_unlock_irq+0x24/0x50
+... kernel:  ? lockdep_hardirqs_on+0x77/0x100
+... kernel:  __wait_for_common+0xb7/0x220
+... kernel:  ? __pfx_schedule_timeout+0x10/0x10
+... kernel:  __flush_work+0x70/0x90
+... kernel:  ? __pfx_wq_barrier_func+0x10/0x10
+... kernel:  __lru_add_drain_all+0x179/0x210
+... kernel:  khugepaged+0x73/0x200
+... kernel:  ? lockdep_hardirqs_on+0x77/0x100
+... kernel:  ? _raw_spin_unlock_irqrestore+0x38/0x60
+... kernel:  ? __pfx_khugepaged+0x10/0x10
+... kernel:  kthread+0xec/0x120
+... kernel:  ? __pfx_kthread+0x10/0x10
+... kernel:  ret_from_fork+0x2d/0x50
+... kernel:  ? __pfx_kthread+0x10/0x10
+... kernel:  ret_from_fork_asm+0x1a/0x30
+... kernel:  </TASK>
+... kernel:
+...         Showing all locks held in the system:
+... kernel: 1 lock held by khungtaskd/345:
+... kernel:  #0: ffffffff8cbff1c0 (rcu_read_lock){....}-{1:2}, at: debug_show_all_locks+0x32/0x1d0
+... kernel: BUG: using smp_processor_id() in preemptible [00000000] code: khungtaskd/345
+... kernel: caller is nbcon_get_cpu_emergency_nesting+0x25/0x40
+... kernel: CPU: 30 PID: 345 Comm: khungtaskd Kdump: loaded Not tainted 6.9.0-thrdprintk+ #3
+... kernel: Hardware name: Dell Inc. PowerEdge R740/04FC42, BIOS 2.10.2 02/24/2021
+... kernel: Call Trace:
+... kernel:  <TASK>
+... kernel:  dump_stack_lvl+0x7f/0xa0
+... kernel:  check_preemption_disabled+0xbf/0xe0
+... kernel:  nbcon_get_cpu_emergency_nesting+0x25/0x40
+... kernel:  nbcon_cpu_emergency_flush+0xa/0x60
+... kernel:  debug_show_all_locks+0x9d/0x1d0
+... kernel:  check_hung_uninterruptible_tasks+0x4f0/0x540
+... kernel:  ? check_hung_uninterruptible_tasks+0x185/0x540
+... kernel:  ? __pfx_watchdog+0x10/0x10
+... kernel:  watchdog+0x99/0xa0
+... kernel:  kthread+0xec/0x120
+... kernel:  ? __pfx_kthread+0x10/0x10
+... kernel:  ret_from_fork+0x2d/0x50
+... kernel:  ? __pfx_kthread+0x10/0x10
+... kernel:  ret_from_fork_asm+0x1a/0x30
+... kernel:  </TASK>
+---
 
-Then with the command line consoles in the right order, there's no need
-to save the position separately.
+It requires DEBUG_PREEMPT and LOCKDEP enabled, sched_rt_runtime_us = -1
+and a while(1) loop running at FIFO for some time (I also set sysctl
+kernel.hung_task_timeout_secs=1 to speed up reproduction).
 
-And I think then we can also revert commit b73c9cbe4f1f ("printk: Flag
-register_console() if console is set on command line"). But I need to
-test the fixes some more before sending out.
+Looks like check_hung_uninterruptible_tasks() requires some care as you
+did already in linux-next for panic, rcu and lockdep ("Make emergency
+sections ...")?
 
-Regards,
+Thanks,
+Juri
 
-Tony
