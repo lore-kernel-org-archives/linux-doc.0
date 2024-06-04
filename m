@@ -1,123 +1,87 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 018F728DC7;
-	Tue,  4 Jun 2024 22:32:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD43014C5AE;
+	Tue,  4 Jun 2024 22:36:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717540339; cv=none; b=eBRFNxLZFE6mdV9qnUVMz8DnSGvnImyzxytFcWG6EcY8x7DGHQD9cwLhmP+T0LLcpqMIZaDOHxUTq9g6Fr9uNG9GWelPeuGMpyEaj4APrSFvw0dkW8Y3tymrWPMGHagV9p3wheO17Kxt9SH8/Gg1ppNcCIKamMAfWlqSXmBHUZo=
+	t=1717540589; cv=none; b=vBDWcH56j5zVBLP7sYhbec3pbJqcXk9s+oXheTFj6mCJ71uAVa/yveCyXJZK7555FMWsfmKDtxzX/vC9XWA60obAAjJGveLDGlx640H+clJ0ZNPRcIoE/D6Px0c4GoRzIkcdMs8N72MBPrnDquEKzcd8cOu8+3O/7bmqDU5NQq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717540339; c=relaxed/simple;
-	bh=QHMdG4wTh/4cAxLzxOS5+p4F6ixCHuPUEV8qdu/4hJ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=l3i0e3AinW1LeahlthfVQyBC2kJ5t9uOKxupLecYCDm4uVlnmy3Y8i3vImTYnaAjI6DR26MSTZ3ochRdyeOVYVoYEOiDtJMfsbTbAX7LQ+VYI/iv6QryTBXlUSVkhtesYSRx0QQuB+opxE3MI4hnBdL2XOi561bkf3XjI6l785I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gut0Ft8u; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717540589; c=relaxed/simple;
+	bh=vkh29LcZuA4Sz0xUo0Giq6q/HmkTXs9ahlbNzKVYxng=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=MHkSXC+ksEis5d5AMH+OQ4QDBfr7Y26BfSm4BAyXqv5cT7qM1ZMdrGicPoXYrDIrrTACYXfhH2sOezAHcQaQQj/0WHY6/8+i70JVX//Ag7PrtjrAF0h1r2hDYba2bDiGSt2epudTKXiilVcPnQFQPtS92yd3WYWqnrht9hmPnOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wa1jwYWe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gut0Ft8u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9647AC2BBFC;
-	Tue,  4 Jun 2024 22:32:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wa1jwYWe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7037C2BBFC;
+	Tue,  4 Jun 2024 22:36:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717540338;
-	bh=QHMdG4wTh/4cAxLzxOS5+p4F6ixCHuPUEV8qdu/4hJ4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=gut0Ft8ueLeR2XIJbV66BFcgFaOcIs3ZISZo3gfkRqqHjDfDLPwUcfNlUn7BxIwbN
-	 SW5VkKgIW9wP8m0DWmIuQ4wlRHf1aLSh1LJ2BM54QMNi8xY2A39jhAOwM4rykGaWRb
-	 0nPLtkbNdQU+EePtXvAB49zRFfkWzncye9vMaLzJO89qJ3KUGg7DqkxZUYkHd7MP0l
-	 Fwl6DHqCYhCwI4Ul/CIhDkvLl4bJLnhPbVkvfynjuRiK6u6n6p1lvsuFIBwnHeMlEA
-	 Ck6EIp39zbPSbwVUqxlpRv1tF8TE5li5OOloi03w5gmAJOKpajE+NSfr4uKihmgoP9
-	 b2xbykeru/l0g==
-Date: Tue, 4 Jun 2024 15:32:16 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Saeed Mahameed <saeed@kernel.org>
-Cc: David Ahern <dsahern@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>,
- Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>, Leon
- Romanovsky <leon@kernel.org>, linux-doc@vger.kernel.org,
- linux-rdma@vger.kernel.org, netdev@vger.kernel.org, Paolo Abeni
- <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan
- <tariqt@nvidia.com>, Andy Gospodarek <andrew.gospodarek@broadcom.com>, Aron
- Silverton <aron.silverton@oracle.com>, Dan Williams
- <dan.j.williams@intel.com>, Christoph Hellwig <hch@infradead.org>, Jiri
- Pirko <jiri@nvidia.com>, Leonid Bloch <lbloch@nvidia.com>, Leon Romanovsky
- <leonro@nvidia.com>, linux-cxl@vger.kernel.org, patches@lists.linux.dev
-Subject: Re: [PATCH 0/8] Introduce fwctl subystem
-Message-ID: <20240604153216.1977bd90@kernel.org>
-In-Reply-To: <Zl-G5SRFztx_77a2@x130>
-References: <0-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
-	<20240603114250.5325279c@kernel.org>
-	<214d7d82-0916-4c29-9012-04590e77df73@kernel.org>
-	<20240604070451.79cfb280@kernel.org>
-	<Zl-G5SRFztx_77a2@x130>
+	s=k20201202; t=1717540589;
+	bh=vkh29LcZuA4Sz0xUo0Giq6q/HmkTXs9ahlbNzKVYxng=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+	b=Wa1jwYWe1gDKB/JcdKkJd5eqvpX/bLh954mEJEiY5sfp1Jsl9BzcS7gIADAcpRFQ8
+	 5b2Z+KR0PO7iC+UefSD+nWYWgv5dim7w3OceDBruFV/tyaWv7LDlGrITfKmLGoAM6a
+	 57yxX26az1npx87W6+VsZxy1l3ruChkkm4Pzk7eYQK0dOcyeNIoegwdV1vps+HxRSO
+	 FcPOpucMgOCpo9fUxHYSbyfugusoq5loIrWUAewdkYAUpoUYvEe7Kv6HTcEuWk8TxF
+	 QgIqjzR2Sq65KRa0Piil1C789ZsmBR+bfL1YZBun7IlsuINQyGQLIitVySKAf4bAbN
+	 puw6F6rCHqlBg==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 05 Jun 2024 01:36:22 +0300
+Message-Id: <D1RLBMTUKRFN.34KQXEFZTBA08@kernel.org>
+Cc: <dpsmith@apertussolutions.com>, <tglx@linutronix.de>,
+ <mingo@redhat.com>, <bp@alien8.de>, <hpa@zytor.com>,
+ <dave.hansen@linux.intel.com>, <ardb@kernel.org>, <mjg59@srcf.ucam.org>,
+ <James.Bottomley@hansenpartnership.com>, <peterhuewe@gmx.de>,
+ <jgg@ziepe.ca>, <luto@amacapital.net>, <nivedita@alum.mit.edu>,
+ <herbert@gondor.apana.org.au>, <davem@davemloft.net>, <corbet@lwn.net>,
+ <ebiederm@xmission.com>, <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>,
+ <kanth.ghatraju@oracle.com>, <andrew.cooper3@citrix.com>,
+ <trenchboot-devel@googlegroups.com>
+Subject: Re: [PATCH v9 04/19] x86: Secure Launch Resource Table header file
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: <ross.philipson@oracle.com>, <linux-kernel@vger.kernel.org>,
+ <x86@kernel.org>, <linux-integrity@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
+ <kexec@lists.infradead.org>, <linux-efi@vger.kernel.org>,
+ <iommu@lists.linux-foundation.org>
+X-Mailer: aerc 0.17.0
+References: <20240531010331.134441-1-ross.philipson@oracle.com>
+ <20240531010331.134441-5-ross.philipson@oracle.com>
+ <D1RFWFIJEYWL.2FC7V79321264@kernel.org>
+ <1eca8cb1-4b3b-402b-993b-53de7c810016@oracle.com>
+In-Reply-To: <1eca8cb1-4b3b-402b-993b-53de7c810016@oracle.com>
 
-On Tue, 4 Jun 2024 14:28:05 -0700 Saeed Mahameed wrote:
-> On 04 Jun 07:04, Jakub Kicinski wrote:
-> >On Mon, 3 Jun 2024 21:01:58 -0600 David Ahern wrote:  
-> >> Seriously, Jakub, how is that in any way related to this patch set?  
-> >
-> >Whether they admit it or not, DOCA is a major reason nVidia wants
-> >this to be standalone rather than part of RDMA.
-> 
-> No, DOCA isn't on the agenda for this new interface. But what is the point
-> in arguing?
+On Tue Jun 4, 2024 at 11:31 PM EEST,  wrote:
+> On 6/4/24 11:21 AM, Jarkko Sakkinen wrote:
+> > On Fri May 31, 2024 at 4:03 AM EEST, Ross Philipson wrote:
+> >> Introduce the Secure Launch Resource Table which forms the formal
+> >> interface between the pre and post launch code.
+> >>
+> >> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
+> >=20
+> > If a uarch specific, I'd appreciate Intel SDM reference here so that I
+> > can look it up and compare. Like in section granularity.
+>
+> This table is meant to not be architecture specific though it can=20
+> contain architecture specific sub-entities. E.g. there is a TXT specific=
+=20
+> table and in the future there will be an AMD and ARM one (and hopefully=
+=20
+> some others). I hope that addresses what you are pointing out or maybe I=
+=20
+> don't fully understand what you mean here...
 
-I'm not arguing any point, we argued enough. But you failed to disclose
-that DOCA is very likely user of this interface. So whoever you're
-planning to submit it to should know.
+At least Intel SDM has a definition of any possible architecture
+specific data structure. It is handy to also have this available
+in inline comment for any possible such structure pointing out the
+section where it is defined.
 
-DOCA was top of mind for me because I noticed it has PSP support, and
-I wanted to take a look at the implementation.
-
-> Apparently the vendor is not credible enough in your opinion.
-
-You're creating an interface where you depend on a pinky promise from
-a black box that the RPC is not a write. I trust you personally not to
-write a patch which abuses this interface. But this cannot possibly
-extend to all developers, most of who just want to ship features.
-
-> Which is an absolute outrageous grounds for a NAK.
-> 
-> Anyway I don't see your point in bringing up DOCA here, but obviously once 
-> this interface is accepted, all developers are welcome to use it,
-> including DOCA developers of course..
-
-Of course.
-
-> That being said, the why we need this is crystal clear in the 
-> cover-letter and previous submission discussions, bringing random SDKs
-> into this discussion is not objective and counter productive to the
-> technical discussion.
-> 
-> >> You are basically suggesting that if any vendor ever has an out of tree
-> >> option for its hardware every patch it sends should be considered a ruse
-> >> to enable or simplify proprietary options.
-> 
-> It's apparent that you're attributing sinister agendas to patchsets when
-> you fail to offer valid technical opinions regarding the NAK nature. Let's
-> address this outside of this patchset, as this isn't the first occurrence.
-> Consistency in evaluating patches is crucial;
-
-Exactly :| Netdev people, including multiple prominent developers from
-Mellanox/nVidia have been nacking SDK interfaces in Linux networking
-for 20 years. How are we going to look to all the companies which have
-been doing IPUs for over a decade if we change the rules for nVidia?
-
-> some, like the fbnic and idpf, seem to go unquestioned, while others
-> face scrutiny.
-
-fbnic got a nack for any core changes or uAPI not used by other drivers.
-idpf got a nack for pretending to be a standard.
-
-You keep saying that I'm nacking your interface because I have some
-hatred and distrust for you or nVidia. I really, really don't.
-Any vendor posting this would get exactly the same nack from me.
-
-If by "let's address this outside of this patchset" you mean that we
-should have a discussion about maintainer favoritism, and subsystem
-capture by vendors - you have my full support!
+BR, Jarkko
