@@ -1,132 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2086.outbound.protection.outlook.com [40.107.243.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1BF1148847;
-	Tue,  4 Jun 2024 16:43:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717519384; cv=none; b=OlCJephw07T+5wvKsyAOGxJ1edQZ/0O0T6Y4aSahpKs3XXLgB03Fo+dCHRuNOCx2SbBWc2QED+gY7rnW3Nb8Qr0ECi8rFyhe6Ct6drLDYTpekI5vclA07hkBXtZPPeKs3SYvXYjMBTR0/n5ofKPveqKYvqlldfXp50K6aOzmi1I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717519384; c=relaxed/simple;
-	bh=oPp4w96Wn+D5XlEch5Zme9OLK7LhiUVGAGTFRFKOodA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CWbYMHgM1cifiFHLmlbP09OUtTS+Ry8+r19Gr0bqFWtyd+wPaV/Cj+EygfiwmeegBBZjSvzaTldp5y96y09bPFf2cXFMEAHQQqZy3rolER7p7J/LM4AbixTbhjCSsP8BJ4KQaNo1UqHfzC91m503+RhV/tS+fKrrcNewc+/KBnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0BBAC2BBFC;
-	Tue,  4 Jun 2024 16:42:46 +0000 (UTC)
-Date: Tue, 4 Jun 2024 12:42:43 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Paolo Abeni <pabeni@redhat.com>, Mina Almasry <almasrymina@google.com>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky
- <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, Thomas
- Bogendoerfer <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
- <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>,
- Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer
- <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, Masami
- Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Arnd Bergmann <arnd@arndb.de>, Alexei
- Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
- <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
- <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
- <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
- Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa
- <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan
- <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Christian
- =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Pavel Begunkov
- <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, Yunsheng Lin
- <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
- Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
- Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
- <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, Kaiyuan
- Zhang <kaiyuanz@google.com>
-Subject: Re: [PATCH net-next v10 05/14] netdev: netdevice devmem allocator
-Message-ID: <20240604124243.66203a46@gandalf.local.home>
-In-Reply-To: <20240604163158.GB21513@ziepe.ca>
-References: <20240530201616.1316526-1-almasrymina@google.com>
-	<20240530201616.1316526-6-almasrymina@google.com>
-	<bea8b8bf1630309bb004f614e4a3c7f684a6acb6.camel@redhat.com>
-	<20240604121551.07192993@gandalf.local.home>
-	<20240604163158.GB21513@ziepe.ca>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6CAC1E501;
+	Tue,  4 Jun 2024 16:44:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.86
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717519468; cv=fail; b=jjWEwHkKeobEXrw9krvR12zU/FzjjjgS0P0qAHoskSiE4dp7PZHNZOZ98Alw9R1YYwRE6lxvcG/VjncGyvedjoYbjAiDQ2IUEVTk7RUze/rmJfSHlIAogQs2F/k801MWmUmpYrym5aMESg1DI4Ld2pwpejVHepABkGfgL4d72vA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717519468; c=relaxed/simple;
+	bh=YU0r2hPASRERY0EMn9kUsYrT9+RTJtdA8tWQqEmfP8g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=scB243Q+gOQxUf7gKL5ksmrJsyia9PiTzUPuvXljfrO2T+CBwqHlQG7WUL45igV6DSJtJSC7dQwdC4OZSCXq6JGqOotIS8zV2jJmOI7WAc4iSGNPLQspBi/4GrFp3nwQBt0A/OT0zhmIPfakcdUa29R+KmqyzsSjku94m+qs/Y4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=P63+k2qu; arc=fail smtp.client-ip=40.107.243.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="P63+k2qu"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UeOoOZgysNI1/g7QuNN7+Uk9FbSd4EV513/60sxtVtbdMf1S6EvAyDYLdLBs8IS2E0EnCHoPA1etVwcIbdgtXTessA+fnX0HfavhGhYzcppClhdIP+qIGy+lI6vMVswq0kfI512pydE5WeAAIcq+P/pgdHTumModZeX+Vr+en+C+sOcIH8vR6Aju79YppBM+zuRs0eqgL9ATxCAXTFyQgfGbIB2FtlXxrtNTCs7PvirC2Zk7uazPap+TlywAPvu/tsQGtl869vLMf3l/IL+94nEV3R0mwwsL9/qKDsnN3c1wuBe7qNPNLGlQsu+aEMEjjM86w3kEym5IDvZgPW3hbA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Q73cnQ53cgBlqIgKBYX9u3DTazkf8YWGLBWS3+KhxFc=;
+ b=EeBo2X6zBwGu/WCQyFTRUCs52AzwFu2X0/LZTSP8EwRVbOBvQXRVAM9Gj6XcoIowmLZSQGldyfG9GdCsuPVt7PRnfG6xq+jsSTZMLegFUMPAdymY7WLw1eypML893UL54BTsepANj6mCSMrhr13nk5DOK52IfNQeYs8bTq79g40ddULhvIXy1VVqeLyS6+wnH1n5tqhrnzbnS6d4EDp4Gq5TtF3HW1VDwLlYpgTGU61kLLg5OvCYk/YRfhGq6IE9NRK+h19cTt780lK5XHCs2JV0MWv+7a8bOmWcMhNPAZDwn16NB+Jp2QQzNNRxqo9L7YrlTq9ysZyOioKRdzhFAg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Q73cnQ53cgBlqIgKBYX9u3DTazkf8YWGLBWS3+KhxFc=;
+ b=P63+k2qu+MxTks1KoP60qYX7FnBSsH5QYYzDACLYjHxhS9OXT8MqSTzuTeSPlT1C0R54AWbV/JAlwSqrGSMdct+AmzdOBHc8BbFo41Eo+ZajpnKT0e4QxRbhL4ckNgpUaZ4LkYvuMEO0uwdOtvxd13s/H0aX9KCPi8JFC5UTZ77CRO6HpORNn2KudDMQjz70dgoukNDKnhtWUc5Mqz/h5sHHeZx4i032sdHnOIgTYiFYdrzgtrKsJmGx0yCVsVaglmLbg5DS+ZN21JT7tf985K4zA+bCSVWblHPm76BbGqeOcC8tDf11tlAoXBVg+inf2Yo+BGqNj7LdnUAmBWIX1A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM6PR12MB3849.namprd12.prod.outlook.com (2603:10b6:5:1c7::26)
+ by LV2PR12MB5870.namprd12.prod.outlook.com (2603:10b6:408:175::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.24; Tue, 4 Jun
+ 2024 16:44:23 +0000
+Received: from DM6PR12MB3849.namprd12.prod.outlook.com
+ ([fe80::c296:774b:a5fc:965e]) by DM6PR12MB3849.namprd12.prod.outlook.com
+ ([fe80::c296:774b:a5fc:965e%4]) with mapi id 15.20.7633.021; Tue, 4 Jun 2024
+ 16:44:22 +0000
+Date: Tue, 4 Jun 2024 13:44:20 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>,
+	Jakub Kicinski <kuba@kernel.org>, Leon Romanovsky <leon@kernel.org>,
+	linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
+	netdev@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Andy Gospodarek <andrew.gospodarek@broadcom.com>,
+	Aron Silverton <aron.silverton@oracle.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	David Ahern <dsahern@kernel.org>,
+	Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>,
+	Leonid Bloch <lbloch@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>, linux-cxl@vger.kernel.org,
+	patches@lists.linux.dev
+Subject: Re: [PATCH 1/8] fwctl: Add basic structure for a class subsystem
+ with a cdev
+Message-ID: <20240604164420.GL19897@nvidia.com>
+References: <1-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
+ <68ae1ebb-90d7-4b4b-84a2-578b7217d5c5@infradead.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <68ae1ebb-90d7-4b4b-84a2-578b7217d5c5@infradead.org>
+X-ClientProxiedBy: BLAPR03CA0076.namprd03.prod.outlook.com
+ (2603:10b6:208:329::21) To DM6PR12MB3849.namprd12.prod.outlook.com
+ (2603:10b6:5:1c7::26)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3849:EE_|LV2PR12MB5870:EE_
+X-MS-Office365-Filtering-Correlation-Id: eef6b361-b429-4463-ab7f-08dc84b59670
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|376005|1800799015|7416005|366007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?GDo0SO+pnoe9eTOKYcPs6nBr/fPAVybqIRv1TE8BiCHRSBn1wEilh14lO6pU?=
+ =?us-ascii?Q?TZ4hgSzUxA5jd4y0yvUL2FyyjOHUxqdrFJfCUNPiPzUBkBUda9o8qtGGue6f?=
+ =?us-ascii?Q?pUixQihk118qeKixZTKEnHLkIPqxGsGuDTc/FTVpme1QX8JhXv5AqzR3VSW9?=
+ =?us-ascii?Q?AndEG9DX5649CiVqTB4/zuvXcCNET5U6gGj7Sri1mUGgeKM1FqBG77ivsEZV?=
+ =?us-ascii?Q?O5BybBnkfl7w8+trxX0/nKtJXaZBnC9pOZdEb7Z3g/7zelSgTuXnxUQnn5cH?=
+ =?us-ascii?Q?6c9IlipPTHdHHBG7X3YSGYhuzeUV85TOqmDaqXAY771dbyM1OQgujVneUjOS?=
+ =?us-ascii?Q?MJCZeCgZLtEJEItFPCpnRXgwqUn9sgdtU2Z+PQSGBlc6JAH2ArngyRvR/E1q?=
+ =?us-ascii?Q?Q9Cy/uOlpWgeaql8iJwF7thWUHvG+b/4qiO6FejDca3xiBt9Ci5kvwJof/9f?=
+ =?us-ascii?Q?0G0N+0I0CLutD7TRZ/YLFDkehafajYehjgpe66KUyHKSgSlj/yhZyv8UErWf?=
+ =?us-ascii?Q?W5/L2xWDEXPCVj80MC/l/qgUaqd1YVEv1qOazwTniJ//+5JUVdvzgG3uL117?=
+ =?us-ascii?Q?qJV2mfI3+fMqCqJoflIEJeowW8T5JJH0yEq1VtG/Lw49/pJKFvzNXKt5xyji?=
+ =?us-ascii?Q?eCM9PlS6fb3p2043R0Gp81+Sj9WNI7K7T7jz9BWTA3hBUNe7g/QcO8dvdFqg?=
+ =?us-ascii?Q?LD97snGjc2GrSqkJ1k+QLQJu/EVowF5H4Mb4VzHYKoE2rSyXC5YxFfz5W8iZ?=
+ =?us-ascii?Q?p384m/JDQdT+6iFccKgHssUoxbbGp+PL5YZloP8WxRSbplKIt1AFQweeWtf2?=
+ =?us-ascii?Q?fQsMf3H9drI7kpyUcCM8Mg1mSTk21+DSBtjjA3lQ8byT2ENLUU+mhXMvzyGc?=
+ =?us-ascii?Q?12vsv9kEgtuyvHD+8anoy5lVuXhwnkz0pRnQZTWH4BU2mVREBWuYuzOt474u?=
+ =?us-ascii?Q?AoMIft1X67rzM5aY4eHNtkyuIthcSoabXIWk1SEgbRRTL/WBIOt/6K3EV0Go?=
+ =?us-ascii?Q?1P8fNU+fH0KjFY2ZlblgcXg8vJximwcUiP2dHT5ZqWdNGVJW+LwcJkoohtAi?=
+ =?us-ascii?Q?V2QtpjZQUvBlHO81YdFgxnpnsOJZJJOjWkretVN+KLlB+zP5qbyeMVIuZoJ/?=
+ =?us-ascii?Q?PL5Z7hdajBLp2laqMxpiz61E6hUfdaPPq2YDldoNaPI/o0yx7rOp1mL8o5N4?=
+ =?us-ascii?Q?SwyCG9AgHQquCIkKUC06QyOmBCShuj8XIOzmazn/xc/tnZrmXPNdeeIqxv+i?=
+ =?us-ascii?Q?Vwmz7YtDCV/NpYBzZ5L9SGCEdBRYdspU8tpQHnmTBA=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3849.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(7416005)(366007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?sa93GoABwAytPRWnCB7pCw9OLqqT0eZ6yHhVQhRTYNgKsq3w7jhvLSpUldWH?=
+ =?us-ascii?Q?D0b+JcsYGpVw+lxRtJMkqxFUv2JSyCYeiZqkIrQKMxZ7Xq79e2L208LQnUnA?=
+ =?us-ascii?Q?ceSRa5cxNy2ESZtquC7wo1eIy5ccx5LB5U4OgZ6M7kZOj4vWxhRJj9+0/3WW?=
+ =?us-ascii?Q?mD9sZIvLQPt+ycQSqUGgsLA8NTtNYLpb6jQ/l3p5+ydnTzTG3oAE0YrjjWm6?=
+ =?us-ascii?Q?lbFtJGnZVWkjbDC5sQPn5Y7zHhHzZURuLNrHHy9tJgJIZZDl0USLI2g8mHqb?=
+ =?us-ascii?Q?rTxeDPNlFREjJRgn/QQ/zu53eQWcrhxKqbpsVUrum+WG+g0J6ZtKuOoaQHsD?=
+ =?us-ascii?Q?+UzfYFDIzahnmSESSicLBdYrglZsccYGRFM+ese4Y7uld32cPclqe98WgizL?=
+ =?us-ascii?Q?MEfNYDQUSap1c1tDgr91uqDHcPgOoOp6RVfrV1ezXFMVuxW4D8Tzzl5MW9M4?=
+ =?us-ascii?Q?Yq4BzAaoso9hqC4ievnKoa6sBAPr2Lw2Vpwiu4mRd5QP2BJMHZDgwVqdIVhY?=
+ =?us-ascii?Q?BRsrBBqFCPaj30p7T482ojOZGjfKUFykZPPY1FdKNg+Qqg/ziF+9kDziPBZR?=
+ =?us-ascii?Q?3ZD99tgDen8N8n/uqjpKMjtMd/GwV2kenGe9bzZXRm07fXbsKFBBxhIyNUxr?=
+ =?us-ascii?Q?OmSVtfBmHWItHGhd7El9DbxEsCvhMb/QYRchUBAo/nj2esmeRTwGGXiZg6NX?=
+ =?us-ascii?Q?tU/WWmAgUPzfK7T4p+RCYW+pW4D9fLUTj4CqBiOjZ60ZgzrTBZkRsRraamD2?=
+ =?us-ascii?Q?4flv0DAyvRMbBVNDM+Yr9Y3kwO7okvPADpurSuUpZSBziA+g8NLj6oZYjw5C?=
+ =?us-ascii?Q?gx1k9VKTQTWzXYS2pUJmIcTZXwrhLTobuKYYmkVFpFjvGK21BupreYGXfA8r?=
+ =?us-ascii?Q?wNOSciC5tZwChteGOzwi+a5NuXJzyBcqARVsge9W10deqjmpnRk7RMHUe8ct?=
+ =?us-ascii?Q?vP4Q8q9vW0LaAYh+AbE+gLqHI75WxE4ewFSxaxxanl2cgNw84bJXLp76uZyT?=
+ =?us-ascii?Q?QalT4JVeUH8Tb9IUa2fNhHobnQn4bHDEHPFPygvAZdEs9TaQ4Lb3nGmgTafx?=
+ =?us-ascii?Q?lckNHrUBMz8ug87BaZkqu4NmHwK6MaQ8VdczDx39x8R/SHPZOiuQJmLQR3Vl?=
+ =?us-ascii?Q?BHm16xSbeLX52RO/0VdzHK26TKHjov3aYC1X3ejbo0tbPMEXbR38eeohM5TH?=
+ =?us-ascii?Q?8vFC9c3HrjAHl7co553lfv8sj1yzYMeFcRPLuAgwnd3JTXOCY3NobT6q8wkU?=
+ =?us-ascii?Q?zVNrL6sySkkaA3iyXcl8sNQ0BEsKTLBvvhQQgXERTz/pcfx4eqA+vgPu+GS0?=
+ =?us-ascii?Q?HOCVWEvrwi0YwnQMQdbvqRIuuhYnvozcGBVI4IWe7RgqBS/ZpQ+cxz5oZcOW?=
+ =?us-ascii?Q?ET67bOy/h5oSqjj3MUEPq4Iaib/d3bUfeQyD9rRDBeJMvmI6wAgtjovUc7Hj?=
+ =?us-ascii?Q?5Y4UkFOxBBGuAqmXR1FFt/yycINjY/ZDdLerX0KQe6LdVadzTP5PzHzJ1SFU?=
+ =?us-ascii?Q?sVMpt4OqkmhmlBnHpnrfLoFoQTlzKgxo+oBhnVm2xYzjcwWiclmct5uDp3Z+?=
+ =?us-ascii?Q?vvNgc9qO8/i1qOJ11x4=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: eef6b361-b429-4463-ab7f-08dc84b59670
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3849.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2024 16:44:22.9125
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +lWaNZoPoRymGFuNt4EYwOvU2k65FVwE8hs991CcCIwuyWBhQr/wuQ5bmbrPXx0d
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5870
 
-On Tue, 4 Jun 2024 13:31:58 -0300
-Jason Gunthorpe <jgg@ziepe.ca> wrote:
+On Tue, Jun 04, 2024 at 09:42:50AM -0700, Randy Dunlap wrote:
+> 
+> 
+> On 6/3/24 8:53 AM, Jason Gunthorpe wrote:
+> > diff --git a/drivers/fwctl/Kconfig b/drivers/fwctl/Kconfig
+> > new file mode 100644
+> > index 00000000000000..6ceee3347ae642
+> > --- /dev/null
+> > +++ b/drivers/fwctl/Kconfig
+> > @@ -0,0 +1,9 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +menuconfig FWCTL
+> > +        tristate "fwctl device firmware access framework"
+> 
+> Use tab above instead of spaces for indentation, please.
 
-> On Tue, Jun 04, 2024 at 12:15:51PM -0400, Steven Rostedt wrote:
-> > On Tue, 04 Jun 2024 12:13:15 +0200
-> > Paolo Abeni <pabeni@redhat.com> wrote:
-> >   
-> > > On Thu, 2024-05-30 at 20:16 +0000, Mina Almasry wrote:  
-> > > > diff --git a/net/core/devmem.c b/net/core/devmem.c
-> > > > index d82f92d7cf9ce..d5fac8edf621d 100644
-> > > > --- a/net/core/devmem.c
-> > > > +++ b/net/core/devmem.c
-> > > > @@ -32,6 +32,14 @@ static void net_devmem_dmabuf_free_chunk_owner(struct gen_pool *genpool,
-> > > >  	kfree(owner);
-> > > >  }
-> > > >  
-> > > > +static inline dma_addr_t net_devmem_get_dma_addr(const struct net_iov *niov)    
-> > > 
-> > > Minor nit: please no 'inline' keyword in c files.  
-> > 
-> > I'm curious. Is this a networking rule? I use 'inline' in my C code all the
-> > time.  
-> 
-> It mostly comes from Documentation/process/coding-style.rst:
-> 
-> 15) The inline disease
-> ----------------------
-> 
-> There appears to be a common misperception that gcc has a magic "make me
-> faster" speedup option called ``inline``. While the use of inlines can be
-> appropriate (for example as a means of replacing macros, see Chapter 12), it
-> very often is not. Abundant use of the inline keyword leads to a much bigger
-> kernel, which in turn slows the system as a whole down, due to a bigger
-> icache footprint for the CPU and simply because there is less memory
-> available for the pagecache. Just think about it; a pagecache miss causes a
-> disk seek, which easily takes 5 milliseconds. There are a LOT of cpu cycles
-> that can go into these 5 milliseconds.
-> 
-> A reasonable rule of thumb is to not put inline at functions that have more
-> than 3 lines of code in them. An exception to this rule are the cases where
-> a parameter is known to be a compiletime constant, and as a result of this
-> constantness you *know* the compiler will be able to optimize most of your
-> function away at compile time. For a good example of this later case, see
-> the kmalloc() inline function.
-> 
-> Often people argue that adding inline to functions that are static and used
-> only once is always a win since there is no space tradeoff. While this is
-> technically correct, gcc is capable of inlining these automatically without
-> help, and the maintenance issue of removing the inline when a second user
-> appears outweighs the potential value of the hint that tells gcc to do
-> something it would have done anyway.
-> 
+Thanks, done. Bit surprised checkpatch didn't flag it..
 
-Interesting, as I sped up the ftrace ring buffer by a substantial amount by
-adding strategic __always_inline, noinline, likely() and unlikely()
-throughout the code. It had to do with what was considered the fast path
-and slow path, and not actually the size of the function. gcc got it
-horribly wrong.
-
--- Steve
+Jason
