@@ -1,173 +1,190 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CA5F199A2;
-	Tue,  4 Jun 2024 22:50:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE28D14D431;
+	Tue,  4 Jun 2024 23:00:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717541435; cv=none; b=MOiVNMtSV+f8NpoIrGnx3oZATnwmk5IzlbZkrU/KO6jgAmXjCLX2PgyOnHSP1TDOyNF7BSYOC1ZXQCgl3LQ5l8Yqz1RpMbN9cas5r0RYu1DTt2hRo9S/Q4RZFW921ao51SBfF7VcbaGv468kErBXWw4RQCM35NxUaMVJRXDX7j8=
+	t=1717542044; cv=none; b=fSDehC0fjSZstFa4o4v3fm9IqieCMErNeKzFFckx4fAEIHMuH2Mw2yF/KagB9HTPgfbjSVJYhnx9MWDQ/vDqCsR0vE1ZD0cdemNzrPiAXp7LYucTefiPp7HFOa3HtRUpftbDIESJoJQDxP17EJIqrq566gMc7m53eW26dezSTTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717541435; c=relaxed/simple;
-	bh=ege4vjOJhEIvZKGgsEARopmGzWR0ra0W6Va4o3bk6Vw=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=tlXtf/Phm5Qj/tLrrj2wvBXwxRlXVqWImbmh2Dt9ah7HTWFYlKXAwq0K2dcSlMjxVMx517JrxpvGuRJB4MEpdrKmsESMk2xO4wDJGldEltjPpA8Qbb0EqWROR9yxDWt/UeP/S5R1JqPltR8sFJHwuPE/oTio/gXlpXQt3/qBy+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e1taLLy8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717542044; c=relaxed/simple;
+	bh=3aD6TtBD/gMBjuVttDp8+r2L84PgItrVAANYOy++fgs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hVCfHm+0cQOXJuHFyxyKbJ8HC3Ll3SL1DXZnR66Ha6qs2SYRcc+O6Yyd7469Ei55Zm2JrnchbNZLMtD3WkOhloq7W3ZkGdRXBqCdriSuPJ1gYlKtcK638cJH6wd5C9WnWq8m/a9yS6qUCcfIOgufYwOxDIIT6gK2kDPeH/jwdhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Y9kw/6fC; arc=none smtp.client-ip=95.215.58.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e1taLLy8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C4CCC2BBFC;
-	Tue,  4 Jun 2024 22:50:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717541435;
-	bh=ege4vjOJhEIvZKGgsEARopmGzWR0ra0W6Va4o3bk6Vw=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=e1taLLy8RGqZhbpnU0DTI33LuGV0zz2zuk65csiP3dNrr3yJHBAtjd8XlgdEMsgLo
-	 g46tIPD1lu27t1fne5zVzyp8SHX6ffTE22LZdgiadbcN1Lcxf47pWP0NBulMN2NPZP
-	 dU3/yi9BIbaakGf8OH02qkg9aqL8STP+8fgg5oygMC5cW80nzzClrecmddLZtfKZA4
-	 pxx3S9498UD/pIfFd/+MRx4dR4eIXI4XPkZXSedGq1Iu2P3WGJebjBUVEpgVSqWxAH
-	 0DK2X+qJkj0zTuggldM9iP94ULVCm7EPYs+BjUkziKPuTt8qEdBenQJRxzhWKu5uT+
-	 S2YWrHaH1SA/g==
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Y9kw/6fC"
+X-Envelope-To: jthoughton@google.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1717542038;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+MGPWWPfczYg0bV6msWVM8wo7iUe4hq2RoxquwpyNXc=;
+	b=Y9kw/6fCw7WeofkUSeTV2BTDMr5jngNUCtFMMUMXtMQwQZ57KMcePca1DBVS/t4qEWis16
+	iF4e3V2COwO/t2Yct7KRRLkVhD5NRIOHTq7i/FQgEBT9QWzcLz+QujFnkzpcYe5jZDxDJW
+	+mCbFXXZogKs/7ZLafe//WQoP8h37Tw=
+X-Envelope-To: akpm@linux-foundation.org
+X-Envelope-To: pbonzini@redhat.com
+X-Envelope-To: aou@eecs.berkeley.edu
+X-Envelope-To: ankita@nvidia.com
+X-Envelope-To: anup@brainfault.org
+X-Envelope-To: atishp@atishpatra.org
+X-Envelope-To: axelrasmussen@google.com
+X-Envelope-To: maobibo@loongson.cn
+X-Envelope-To: catalin.marinas@arm.com
+X-Envelope-To: dmatlack@google.com
+X-Envelope-To: rientjes@google.com
+X-Envelope-To: chenhuacai@kernel.org
+X-Envelope-To: james.morse@arm.com
+X-Envelope-To: corbet@lwn.net
+X-Envelope-To: maz@kernel.org
+X-Envelope-To: mpe@ellerman.id.au
+X-Envelope-To: npiggin@gmail.com
+X-Envelope-To: palmer@dabbelt.com
+X-Envelope-To: paul.walmsley@sifive.com
+X-Envelope-To: rananta@google.com
+X-Envelope-To: ryan.roberts@arm.com
+X-Envelope-To: seanjc@google.com
+X-Envelope-To: shahuang@redhat.com
+X-Envelope-To: shuah@kernel.org
+X-Envelope-To: suzuki.poulose@arm.com
+X-Envelope-To: zhaotianrui@loongson.cn
+X-Envelope-To: will@kernel.org
+X-Envelope-To: yuzhao@google.com
+X-Envelope-To: yuzenghui@huawei.com
+X-Envelope-To: kvm-riscv@lists.infradead.org
+X-Envelope-To: kvm@vger.kernel.org
+X-Envelope-To: kvmarm@lists.linux.dev
+X-Envelope-To: linux-arm-kernel@lists.infradead.org
+X-Envelope-To: linux-doc@vger.kernel.org
+X-Envelope-To: linux-kernel@vger.kernel.org
+X-Envelope-To: linux-kselftest@vger.kernel.org
+X-Envelope-To: linux-mips@vger.kernel.org
+X-Envelope-To: linux-mm@kvack.org
+X-Envelope-To: linux-riscv@lists.infradead.org
+X-Envelope-To: linuxppc-dev@lists.ozlabs.org
+X-Envelope-To: loongarch@lists.linux.dev
+Date: Tue, 4 Jun 2024 23:00:28 +0000
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Oliver Upton <oliver.upton@linux.dev>
+To: James Houghton <jthoughton@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Ankit Agrawal <ankita@nvidia.com>, Anup Patel <anup@brainfault.org>,
+	Atish Patra <atishp@atishpatra.org>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	Bibo Mao <maobibo@loongson.cn>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	David Matlack <dmatlack@google.com>,
+	David Rientjes <rientjes@google.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	James Morse <james.morse@arm.com>, Jonathan Corbet <corbet@lwn.net>,
+	Marc Zyngier <maz@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Raghavendra Rao Ananta <rananta@google.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Shaoqin Huang <shahuang@redhat.com>, Shuah Khan <shuah@kernel.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Tianrui Zhao <zhaotianrui@loongson.cn>,
+	Will Deacon <will@kernel.org>, Yu Zhao <yuzhao@google.com>,
+	Zenghui Yu <yuzenghui@huawei.com>, kvm-riscv@lists.infradead.org,
+	kvm@vger.kernel.org, kvmarm@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-mips@vger.kernel.org, linux-mm@kvack.org,
+	linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+	loongarch@lists.linux.dev
+Subject: Re: [PATCH v4 6/7] KVM: arm64: Relax locking for kvm_test_age_gfn
+ and kvm_age_gfn
+Message-ID: <Zl-cjHVKaQ0iQE5d@linux.dev>
+References: <20240529180510.2295118-1-jthoughton@google.com>
+ <20240529180510.2295118-7-jthoughton@google.com>
+ <Zlog5Yk_Pjq0jQhC@linux.dev>
+ <Zloicw4IU8_-V5Ns@linux.dev>
+ <CADrL8HV4SZ9BEQg1j3ojG-v5umL_d3sa4e1k2vMQCMmBEgeFpQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 05 Jun 2024 01:50:27 +0300
-Message-Id: <D1RLMF7VZ0BQ.1Y0SVHN39UQNN@kernel.org>
-Cc: <dpsmith@apertussolutions.com>, <tglx@linutronix.de>,
- <mingo@redhat.com>, <bp@alien8.de>, <hpa@zytor.com>,
- <dave.hansen@linux.intel.com>, <ardb@kernel.org>, <mjg59@srcf.ucam.org>,
- <James.Bottomley@hansenpartnership.com>, <peterhuewe@gmx.de>,
- <jgg@ziepe.ca>, <luto@amacapital.net>, <nivedita@alum.mit.edu>,
- <herbert@gondor.apana.org.au>, <davem@davemloft.net>, <corbet@lwn.net>,
- <ebiederm@xmission.com>, <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>,
- <kanth.ghatraju@oracle.com>, <andrew.cooper3@citrix.com>,
- <trenchboot-devel@googlegroups.com>
-Subject: Re: [PATCH v9 16/19] tpm: Add ability to set the preferred locality
- the TPM chip uses
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: <ross.philipson@oracle.com>, <linux-kernel@vger.kernel.org>,
- <x86@kernel.org>, <linux-integrity@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
- <kexec@lists.infradead.org>, <linux-efi@vger.kernel.org>,
- <iommu@lists.linux-foundation.org>
-X-Mailer: aerc 0.17.0
-References: <20240531010331.134441-1-ross.philipson@oracle.com>
- <20240531010331.134441-17-ross.philipson@oracle.com>
- <D1RIKP548WG9.Q5MM7K3FRH4P@kernel.org>
- <282fddde-d156-4bd3-906b-0318d0a3746d@oracle.com>
-In-Reply-To: <282fddde-d156-4bd3-906b-0318d0a3746d@oracle.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CADrL8HV4SZ9BEQg1j3ojG-v5umL_d3sa4e1k2vMQCMmBEgeFpQ@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Wed Jun 5, 2024 at 1:14 AM EEST,  wrote:
-> On 6/4/24 1:27 PM, Jarkko Sakkinen wrote:
-> > On Fri May 31, 2024 at 4:03 AM EEST, Ross Philipson wrote:
-> >> Curently the locality is hard coded to 0 but for DRTM support, access
-> >> is needed to localities 1 through 4.
-> >>
-> >> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
-> >> ---
-> >>   drivers/char/tpm/tpm-chip.c      | 24 +++++++++++++++++++++++-
-> >>   drivers/char/tpm/tpm-interface.c | 15 +++++++++++++++
-> >>   drivers/char/tpm/tpm.h           |  1 +
-> >>   include/linux/tpm.h              |  4 ++++
-> >>   4 files changed, 43 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/char/tpm/tpm-chip.c b/drivers/char/tpm/tpm-chip.c
-> >> index 854546000c92..73eac54d61fb 100644
-> >> --- a/drivers/char/tpm/tpm-chip.c
-> >> +++ b/drivers/char/tpm/tpm-chip.c
-> >> @@ -44,7 +44,7 @@ static int tpm_request_locality(struct tpm_chip *chi=
-p)
-> >>   	if (!chip->ops->request_locality)
-> >>   		return 0;
-> >>  =20
-> >> -	rc =3D chip->ops->request_locality(chip, 0);
-> >> +	rc =3D chip->ops->request_locality(chip, chip->pref_locality);
-> >>   	if (rc < 0)
-> >>   		return rc;
-> >>  =20
-> >> @@ -143,6 +143,27 @@ void tpm_chip_stop(struct tpm_chip *chip)
-> >>   }
-> >>   EXPORT_SYMBOL_GPL(tpm_chip_stop);
-> >>  =20
-> >> +/**
-> >> + * tpm_chip_preferred_locality() - set the TPM chip preferred localit=
-y to open
-> >> + * @chip:	a TPM chip to use
-> >> + * @locality:   the preferred locality
-> >> + *
-> >> + * Return:
-> >> + * * true      - Preferred locality set
-> >> + * * false     - Invalid locality specified
-> >> + */
-> >> +bool tpm_chip_preferred_locality(struct tpm_chip *chip, int locality)
-> >> +{
-> >> +	if (locality < 0 || locality >=3DTPM_MAX_LOCALITY)
-> >> +		return false;
-> >> +
-> >> +	mutex_lock(&chip->tpm_mutex);
-> >> +	chip->pref_locality =3D locality;
-> >> +	mutex_unlock(&chip->tpm_mutex);
-> >> +	return true;
-> >> +}
-> >> +EXPORT_SYMBOL_GPL(tpm_chip_preferred_locality);
-> >> +
-> >>   /**
-> >>    * tpm_try_get_ops() - Get a ref to the tpm_chip
-> >>    * @chip: Chip to ref
-> >> @@ -374,6 +395,7 @@ struct tpm_chip *tpm_chip_alloc(struct device *pde=
-v,
-> >>   	}
-> >>  =20
-> >>   	chip->locality =3D -1;
-> >> +	chip->pref_locality =3D 0;
-> >>   	return chip;
-> >>  =20
-> >>   out:
-> >> diff --git a/drivers/char/tpm/tpm-interface.c b/drivers/char/tpm/tpm-i=
-nterface.c
-> >> index 5da134f12c9a..35f14ccecf0e 100644
-> >> --- a/drivers/char/tpm/tpm-interface.c
-> >> +++ b/drivers/char/tpm/tpm-interface.c
-> >> @@ -274,6 +274,21 @@ int tpm_is_tpm2(struct tpm_chip *chip)
-> >>   }
-> >>   EXPORT_SYMBOL_GPL(tpm_is_tpm2);
-> >>  =20
-> >> +/**
-> >> + * tpm_preferred_locality() - set the TPM chip preferred locality to =
-open
-> >> + * @chip:	a TPM chip to use
-> >> + * @locality:   the preferred locality
-> >> + *
-> >> + * Return:
-> >> + * * true      - Preferred locality set
-> >> + * * false     - Invalid locality specified
-> >> + */
-> >> +bool tpm_preferred_locality(struct tpm_chip *chip, int locality)
-> >> +{
-> >> +	return tpm_chip_preferred_locality(chip, locality);
-> >> +}
-> >> +EXPORT_SYMBOL_GPL(tpm_preferred_locality);
-> >=20
-> >   What good does this extra wrapping do?
-> >=20
-> >   tpm_set_default_locality() and default_locality would make so much mo=
-re
-> >   sense in any case.
->
-> Are you mainly just talking about my naming choices here and in the=20
-> follow-on response? Can you clarify what you are requesting?
+On Tue, Jun 04, 2024 at 03:20:20PM -0700, James Houghton wrote:
+> On Fri, May 31, 2024 at 12:18 PM Oliver Upton <oliver.upton@linux.dev> wrote:
+> >
+> > On Fri, May 31, 2024 at 12:11:33PM -0700, Oliver Upton wrote:
+> > > On Wed, May 29, 2024 at 06:05:09PM +0000, James Houghton wrote:
+> > >
+> > > [...]
+> > >
+> > > > diff --git a/arch/arm64/kvm/hyp/pgtable.c b/arch/arm64/kvm/hyp/pgtable.c
+> > > > index 9e2bbee77491..eabb07c66a07 100644
+> > > > --- a/arch/arm64/kvm/hyp/pgtable.c
+> > > > +++ b/arch/arm64/kvm/hyp/pgtable.c
+> > > > @@ -1319,10 +1319,8 @@ static int stage2_age_walker(const struct kvm_pgtable_visit_ctx *ctx,
+> > > >     data->young = true;
+> > > >
+> > > >     /*
+> > > > -    * stage2_age_walker() is always called while holding the MMU lock for
+> > > > -    * write, so this will always succeed. Nonetheless, this deliberately
+> > > > -    * follows the race detection pattern of the other stage-2 walkers in
+> > > > -    * case the locking mechanics of the MMU notifiers is ever changed.
+> > > > +    * This walk may not be exclusive; the PTE is permitted to change
+> > > > +    * from under us.
+> > > >      */
+> > > >     if (data->mkold && !stage2_try_set_pte(ctx, new))
+> > > >             return -EAGAIN;
+> > >
+> > > It is probably worth mentioning that if there was a race to update the
+> > > PTE then the GFN is most likely young, so failing to clear AF probably
+> > > isn't even consequential.
+> 
+> Thanks Oliver.
+> 
+> >
+> > Oh, and the WARN_ON() in kvm_pgtable_stage2_test_clear_young() is bogus
+> > now. Maybe demote it to:
+> >
+> >   r = kvm_pgtable_walk(...);
+> >   WARN_ON_ONCE(r && r != -EAGAIN);
+> 
+> Oh, indeed, thank you. Just to make sure -- does it make sense to
+> retry the cmpxchg if it fails? For example, the way I have it now for
+> x86[1], we retry the cmpxchg if the spte is still a leaf, otherwise we
+> move on to the next one having done nothing. Does something like that
+> make sense for arm64?
 
-I'd prefer:
+At least for arm64 I do not see a need for retry. The only possible
+races are:
 
-1. Name the variable as default_locality.
-2. Only create a single expored to function to tpm-chip.c:
-   tpm_chip_set_default_locality().
-3. Call this function in all call sites.
+ - A stage-2 fault handler establishing / adjusting the mapping for the
+   GFN. If the guest is directly accessing the GFN in question, what's
+   the point of wiping out AF?
 
-"tpm_preferred_locality" should be just removed, as tpm_chip_*
-is exported anyway.
+   Even when returning -EAGAIN we've already primed stage2_age_data::young,
+   so we report the correct state back to the primary MMU.
 
-BR, Jarkko
+ - Another kvm_age_gfn() trying to age the same GFN. I haven't even
+   looked to see if this is possible from the primary MMU POV, but in
+   theory one of the calls will win the race and clear AF.
+
+Given Yu's concerns about making pending writers wait, we should take
+every opportunity to bail on the walk.
+
+-- 
+Thanks,
+Oliver
