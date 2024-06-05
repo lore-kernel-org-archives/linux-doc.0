@@ -1,623 +1,294 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2071.outbound.protection.outlook.com [40.107.237.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACB644963F
-	for <linux-doc@vger.kernel.org>; Wed,  5 Jun 2024 13:37:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717594656; cv=none; b=nwkJPRt/N4E6o+ms1NzlRt57e50J5axC/nmyjZ0pnUoatGkj9axZYpXzXQC7Bo2cVUy8BQ5W0mSpiUeIuhBRiPBUP+MlJs1QwxRO9LytD3YM22UlryTYUen0zjlMcPTB3hbMQ+1H4ig9MRlkCemD8YBOsx5m0GJxMy9bdOelM1w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717594656; c=relaxed/simple;
-	bh=dDH1CR3qK4c8i2ya6OhV3BwfuNZ0XL5RgsWDSNg4HYo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HHJF8H72npN0I09uO0/zs2JMjSx4/uiI+55Cd2smCY+HjMhIaI1ETH/RE6nOavNCz12r5fZfuRWaQGy11Ed0Z1HzqccZFHMnsrTnOP4Xp4DKCO+BjRLQdevmvPM/SrHieNZPI36eFVUz61EJe9IaiFohmqM5m85kWvHgMgbw4+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1sEqpO-0006va-4V; Wed, 05 Jun 2024 15:37:22 +0200
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1sEqpN-000LIW-Bu; Wed, 05 Jun 2024 15:37:21 +0200
-Received: from mgr by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1sEqpN-00B9A4-0s;
-	Wed, 05 Jun 2024 15:37:21 +0200
-Date: Wed, 5 Jun 2024 15:37:21 +0200
-From: Michael Grzeschik <mgr@pengutronix.de>
-To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc: Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Dominique Martinet <asmadeus@codewreck.org>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	v9fs@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	kernel@pengutronix.de, Jan Luebbe <jlu@pengutronix.de>
-Subject: Re: [PATCH v5 3/3] tools: usb: p9_fwd: add usb gadget packet
- forwarder script
-Message-ID: <ZmBqEbOBNS_ZsV7Y@pengutronix.de>
-References: <20240116-ml-topic-u9p-v5-0-5ed0abd53ef5@pengutronix.de>
- <20240116-ml-topic-u9p-v5-3-5ed0abd53ef5@pengutronix.de>
- <50c62db3-060d-4b21-ae28-629003611e1a@collabora.com>
- <ZlehszQxJ5I0AvcE@pengutronix.de>
- <a4b04982-6fac-4492-8454-0878a143d80f@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5933717BC9;
+	Wed,  5 Jun 2024 13:59:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.71
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717595961; cv=fail; b=iR8xdsvE0RFMouPUV6Fs5PywnvcvKxgmkIHSIiskdm8/BtY6jzl7d/bBk2hAZBqV4W0Ws5HZcAd+d17Z/BGenxhZXMrNtRFsAUCHuSVjkYpnGb90Upmc58dnTuR14Proy/yXpInRzv9vQYb2C4ftJwomW2CEo2otUpDG0Ukyy5w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717595961; c=relaxed/simple;
+	bh=uDTCEOAI2Oi90RNBCLrk66GxqaC3jVTCVbVuRVMx6O4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=LB8QC/0FTTxQ0VY2xF1B7WKQ6MHjo0Dfnq96XJANvStDPvBp8juZB1fpmZ06fwDv4ogQuVraL6awXfxkiiiNWwjnApzvC/wOgnEthhxz9JE2WCOYB/UlimKPPp9gILbt1LTb/R2rWURPSCYOyPbb1H9xCwItftCOQO9FBgWoF8U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Y2FHIguy; arc=fail smtp.client-ip=40.107.237.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Y2FHIguy"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OlcnMQAGvDDk1ubOfFPV+qo9fhUITI18CBhGaqZOZTyGpkVK2D6DClkiKb7H3N8jRucIsAxGx/Lij0o8t2ECCW6QUJcVZDv4aFmX28zDdURfTdPbKJ1QWVfBzVLqZ5SPCseW3ZOOijd/VjFPFp8J/kM3QLLE7/LGsKKawEoKW0DkSdGq5ApSmbHM5LAVTr+d4omkT2O/Sh99P0JSc5ICgCgSOaXIetJEa534H9+RJYsVuPFlwtwm1K/WRAcsbjsY2uuzc1cuLBWuGLKUNPQgr8+1S3hwRKx13wHxNSCkwIS4/sWZCGg7pbodwzo6F+C/OkF0fD6j/WSeKsCYW44rHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fRXGFmqjmfCJJ7owtvw0e1rt/HgpdYskHBsa2EVyd0Q=;
+ b=Pt3QgvbWuDUEC4bs3vHCfwen8VhI+2EZ8joZhoeRe3Iu97XKGwNG16utCFmACYC+mVGUTUhAjv0I9F7xa92hKk/DAzw6p0W6x0Re42YSDfUUavaH1aCq5tgIybqyzuG3XF1U9IJkG6H31BGjhe6qHmQTNaytJKNRjEQUI0VW8QDGVwTPEIFcoCpNN8UOnkbD8uwKy9eCNry2aSmXZdYKxqzi8XUuy+SvJGAsJv4dXZWYNbOhmB6XLV2W1NHtzSWhnJaKXK9lFk9GyveRgkDrpNZ7Itlujlyau1eLrN3GJOtJldX/zX5AMWUG+xyEHISuhZ5LeZGV/4D158YXmWXXjw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fRXGFmqjmfCJJ7owtvw0e1rt/HgpdYskHBsa2EVyd0Q=;
+ b=Y2FHIguyHCgbmI8t5vnNhRiSOeVVI070P+Pq1DRjv3c/FwdCqBXsayUNOufNkHB2A8eRjtSRa10MEufdxVNTFumnwtGQQSkQhOWNvdWWtoU93wVO/Lus/pKuP/90tf12dYk0d5uVaowiV94aD/5ZT3Oh2X0l808jAoMCOhynZ0YLLRLuPq23B8IC0BQ9XOLaBhxZ75aVM4tIKVRGYf1fbDnk93evsbo1foUoN0et/6/4QFu9K5kiR9F0PGoP1B6puDZFBaXIWxfI8t3WhDAraeQ0s60T4Rmd4nOzIhfuLmDo5JfiyD4RFopUXv5HToBCXtpesmeE6Hmtt9xvZ+e44Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM6PR12MB3849.namprd12.prod.outlook.com (2603:10b6:5:1c7::26)
+ by PH7PR12MB5593.namprd12.prod.outlook.com (2603:10b6:510:133::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.22; Wed, 5 Jun
+ 2024 13:59:13 +0000
+Received: from DM6PR12MB3849.namprd12.prod.outlook.com
+ ([fe80::c296:774b:a5fc:965e]) by DM6PR12MB3849.namprd12.prod.outlook.com
+ ([fe80::c296:774b:a5fc:965e%4]) with mapi id 15.20.7633.021; Wed, 5 Jun 2024
+ 13:59:13 +0000
+Date: Wed, 5 Jun 2024 10:59:11 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Dan Williams <dan.j.williams@intel.com>
+Cc: Jakub Kicinski <kuba@kernel.org>, David Ahern <dsahern@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>, linux-doc@vger.kernel.org,
+	linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Andy Gospodarek <andrew.gospodarek@broadcom.com>,
+	Aron Silverton <aron.silverton@oracle.com>,
+	Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>,
+	Leonid Bloch <lbloch@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>, linux-cxl@vger.kernel.org,
+	patches@lists.linux.dev
+Subject: Re: [PATCH 0/8] Introduce fwctl subystem
+Message-ID: <20240605135911.GT19897@nvidia.com>
+References: <0-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
+ <20240603114250.5325279c@kernel.org>
+ <214d7d82-0916-4c29-9012-04590e77df73@kernel.org>
+ <20240604070451.79cfb280@kernel.org>
+ <665fa9c9e69de_4a4e62941e@dwillia2-xfh.jf.intel.com.notmuch>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <665fa9c9e69de_4a4e62941e@dwillia2-xfh.jf.intel.com.notmuch>
+X-ClientProxiedBy: BL1PR13CA0431.namprd13.prod.outlook.com
+ (2603:10b6:208:2c3::16) To DM6PR12MB3849.namprd12.prod.outlook.com
+ (2603:10b6:5:1c7::26)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="KJKLLktfMCG4dMDv"
-Content-Disposition: inline
-In-Reply-To: <a4b04982-6fac-4492-8454-0878a143d80f@collabora.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3849:EE_|PH7PR12MB5593:EE_
+X-MS-Office365-Filtering-Correlation-Id: c67dc920-9f13-4d8d-d619-08dc8567ae1e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|7416005|1800799015|366007|376005;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?CeEpL8mM9tKQBe//wXE+uFysQ/zPY4rkgslU1aPjtb4d+GRZmNF7YVHG/zO6?=
+ =?us-ascii?Q?x0TVZRtXyMp1G+dXYp8KLR8MjGc1Yx/PvI6PuLrXWJmCLFcXvv3eg5ZhAxlX?=
+ =?us-ascii?Q?/oXDfwZUJyOkMJroY+1fFJSBxd/s5QHPXmF2dDKIkMfhebQebTahzn197GFx?=
+ =?us-ascii?Q?PIA2HKLtwlFj02LtL4Qh3TLMuZzz3kFAg+lHdW1gJ6peOB5l5Lo674B5+2O2?=
+ =?us-ascii?Q?c+BYXU9yPqU8ptqMkNUShv1DzTVJnDgXzN5A+rTH9sY3VbNmpjxkG+tDgVke?=
+ =?us-ascii?Q?cCQw/IFvnyzlHlIjebE+cIz4ODlqH3lrIExfmcHvyBhvCZZCcXNg8yGOWxAH?=
+ =?us-ascii?Q?J/WAo0mRpbM0hhp38VuCpNDJ6w0Y+sjykNZzEv5+OrqXx6dbhgFP985iU10Z?=
+ =?us-ascii?Q?FL2q+gPZ8YLhtWLJexeQHD4PmGGLPF37t68pq7ekvqV08Xa9Wie66ZeEqdQR?=
+ =?us-ascii?Q?silaRx2juXJA/jNZlYSUDBn62IwadATp/sYNZscynwXsH9cnyS/3Mv/vV0DT?=
+ =?us-ascii?Q?v7W+4XCbLoUS1x0v94n5H8dGmReXKbdNU8O0aNjqWNrSXVvgMSOL/SSe9h6F?=
+ =?us-ascii?Q?R0CSQ0QdzCSlc+VazGzNiUbMATmbgN02ZLVHPWYMeVuwhUj/YI0JRYj58yk8?=
+ =?us-ascii?Q?4ith5qauCArwnSq7NNlrmQT0h3gyym/bL8XkLVNXYCdr9EJYIjpliNkHYWUB?=
+ =?us-ascii?Q?cpArLFnyDGFBJ2DnfMmD4i69y4TtiEREkTQUYuKXB2J0kJ2If2tdQxMWJCrG?=
+ =?us-ascii?Q?F5M+uwQRymR0gE7vnM73+I2hHnHwlv1d3NqINfXC2z0nCWhyAJDNfnenOGHC?=
+ =?us-ascii?Q?xjuOCau/pguMrrq0b3ZqReqJcVuVQRrxXcipd2uf3zbHJVMAih8MLPdME5is?=
+ =?us-ascii?Q?F//ixvIqvKvM5risc2Sp0onIBL1wVesl7A2v4d04cpcb7iyrm8eZVdIAZ7ZJ?=
+ =?us-ascii?Q?0BKzbnhegfm8/NE/rURKxz1SORojyI7rXr3UdTIKnloI0hXsFg6zOFcnS8TL?=
+ =?us-ascii?Q?s9QThlXdbCdte7jTw+u7omSlFRh+I5EaE6ujXnOxVqDa5RsW8BssqTMHzeUp?=
+ =?us-ascii?Q?dFVrIxakEhmNnwo0DwE64yxbFif06SUBVG2PC1U75ly5sd5qGZSuLOGjgBR6?=
+ =?us-ascii?Q?lJZ0Cc6jiXlr2lk/mBrHFXPDhHjK2WvaWHsNU+ymH1XRSofpsUuszfcBZN0A?=
+ =?us-ascii?Q?zMWbRFmErjLOUMfAYLhXUgNCZp2CYmQQmQ/kdllpBGgDFrX7k46G7u1J3YuC?=
+ =?us-ascii?Q?7Exl/jJx1MeOGQ3k4FEQS8BiWeT6qSO1b9YKeXhIQqRfRfbTzCVyLdFrzlhy?=
+ =?us-ascii?Q?fEKAdhgiTKZ8cbx0Yc1pYIKX?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3849.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(1800799015)(366007)(376005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?17zLuypxL71dgcGCxLgeztNoLhk7oInwNGEyKaBvqVGwgqLxliWtOyGConDH?=
+ =?us-ascii?Q?dz4NYH/WYEAAhsUDCWphopCnj60Ho1xU7JF9dUnTBdEnk7sMIuwcZeOi96TX?=
+ =?us-ascii?Q?reNvtlJjinwdwJHd5ubHh5GXcnGb+SjudkSTff+cisD5n2mWdjBzNbRHE2N8?=
+ =?us-ascii?Q?yEjrzQjdSIjDW/wS0bpwtIjffmnp7nfOIEgq5lsc6QnTKt8zpTDTNl0YgXLj?=
+ =?us-ascii?Q?uhoZ0ZcHFPaRsBoy6NSR2LVM2wKT91NofcN6n39l0qmtM7P3gN+VXsOgn98d?=
+ =?us-ascii?Q?gR86bzr1TqWEcbKTlE4vyaZMNYIeu6+JV5K0+FRP7O5or77ZoUAs42i0IEx1?=
+ =?us-ascii?Q?wNTYTDMk2rrQJCzj9yIN0HbfqyMK8NiSsQo2EZ8u9nNhPuvkX3sIpFfKW0IZ?=
+ =?us-ascii?Q?jZa2unLT29IqGlQe44qZIYRtIkn1d9uosDqJ7NLTmsTjTj4FZcfuJN/dZyvB?=
+ =?us-ascii?Q?/xwbcLc3JymE9GGOao+Z8oAPEEhH2lzd7/OMoPzRt5LMFgW5jvUoCpz56w4B?=
+ =?us-ascii?Q?lQ3DlF03run0gJ+Ix6ou1JjGvtkcCy7pauf3mj7FX7A8EYUa6YTSJAG83i7z?=
+ =?us-ascii?Q?e52titTNg0+1aXn7gEBwvUtnSkxl8RqYOq5LujSa6uCUVDfOmgEyoQZJtqRq?=
+ =?us-ascii?Q?OCheav7kdRrv/UvBNaF2jfsBfxpOmO2AUhITQ9bTSdpAwl9gkfSDKuOfGe8N?=
+ =?us-ascii?Q?jmliYQeJ05JdJ3HMCnDbr2KTas3/lrzq6KrlOpjz3y8xwO9mVmkLLyBnE2aQ?=
+ =?us-ascii?Q?L4f6EGWghR3BvOksG3O2TVlmud4tXaSeMbviFoiyhk+TcRxaWg4D7of/9kSm?=
+ =?us-ascii?Q?Zif7AVEnkxTvvCheSY+0p+vkzhYN+M7zkPJpILWfa0jSQFsZFUuSL24SbSqf?=
+ =?us-ascii?Q?LdmcgDTir0xi/bA3b+4OOJOKUOV231cdfMx/G4pnwv4O/SAV8MQZvCEUwOvr?=
+ =?us-ascii?Q?39hTERq0BFGPnVTReLOcg7rAsNlUb+JROg40Rxj3FbHPgBiE8DbFgZJNjVJ1?=
+ =?us-ascii?Q?wc49LdPXViPWo/c8/YdQKPnYaPSiFBV7zUuehYtL0RT9ibvSENsMHBqKU4Yj?=
+ =?us-ascii?Q?YBLeTgmdoarXLuWwBE/4NlB8G1Fr1gkEdVxtB5TwXuXr8VgjECotUGSPFsZ3?=
+ =?us-ascii?Q?2vAyzcTQLypAtYMFmCgZ/yryyuiuzqiPS7lI1ciumIJdXW3jRD8O15W1FqV8?=
+ =?us-ascii?Q?pOkl5P3mMmtl+XrDIk5CG6SbqN/KSjk0dt4vHeHEgulnot2iWRKp5QY0cIoU?=
+ =?us-ascii?Q?xKsPXuZTR59AsMzBguCPrZ0Ri/zHBg01lt/O9TLsXdb2HY7DjMEoPOJSnhgD?=
+ =?us-ascii?Q?omSOJ0CIM+QvLb88QNSQG6t7+lYAtMc7qK+kZkaikUREF5j2PkWtJMpCufup?=
+ =?us-ascii?Q?u2KO7jsu4elOOI3TQoGsQBRdGEcrjdR7xmqlWGVaHu9Zuz0DqOcjOZURLL7+?=
+ =?us-ascii?Q?e7CKDC9z7NMe6YEEhcnQUMD15t1LUmsUQ/ArrnYPghfrKBw+nV25dZNuAsvK?=
+ =?us-ascii?Q?9pNDhbfmjc6ZeCENIgfWX4aY9Sq0eoYHgL90Gt0Fkm75/kt20euH9b96Vmo/?=
+ =?us-ascii?Q?vmSOgDaf23kT+dnRwkRHLxFPGOVWcPdbkZ0rfoB3?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c67dc920-9f13-4d8d-d619-08dc8567ae1e
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3849.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2024 13:59:13.0982
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2mdS6869gBCxQnemR+Omqlm3nKW6oBMOHL7jv/FiqAGHkp2VOmF1jJnOyZK5o5Mo
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5593
 
+On Tue, Jun 04, 2024 at 04:56:57PM -0700, Dan Williams wrote:
+> Jakub Kicinski wrote:
+> [..]
+> > I don't begrudge anyone building proprietary options, but leave
+> > upstream out of it.
+> 
+> So I am of 2 minds here. In general, how is upstream benefited by
+> requiring every vendor command to be wrapped by a Linux command?
 
---KJKLLktfMCG4dMDv
-Content-Type: text/plain; charset=iso-8859-15; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+People actually can use upstream :)
 
-On Fri, May 31, 2024 at 09:37:23AM +0200, Andrzej Pietrasiewicz wrote:
->Hi,
->
->W dniu 29.05.2024 o=A023:44, Michael Grzeschik pisze:
->>On Tue, May 28, 2024 at 08:41:12PM +0200, Andrzej Pietrasiewicz wrote:
->>>Hi,
->>>
->>>W dniu 28.05.2024 o=A000:08, Michael Grzeschik pisze:
->>>>This patch is adding an small python tool to forward 9pfs requests
->>>>from the USB gadget to an existing 9pfs TCP server. Since currently all
->>>>9pfs servers lack support for the usb transport this tool is an useful
->>>>helper to get started.
->>>>
->>>>Refer the Documentation section "USBG Example" in
->>>>Documentation/filesystems/9p.rst on how to use it.
->>>>
->>>>Signed-off-by: Jan Luebbe <jlu@pengutronix.de>
->>>>Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
->>>>
->>>>---
->>>>v4 -> v5:
->>>>=A0 - updated documentation for new subcommands list/connect
->>>>=A0 - run ruff format
->>>>=A0 - make vid and pid parameterized
->>>
->>>Thanks for adding that.
->>>
->>>>=A0 - add list as subcommand to scan for devices
->>>>=A0 - move connect to extra subcommand
->>>>v3 -> v4: -
->>>>v2 -> v3: -
->>>>v1 -> v2:
->>>>=A0 - added usbg 9pfs detailed instructions to 9p.rst doc
->>>>---
->>>>=A0Documentation/filesystems/9p.rst |=A0 41 +++++++
->>>>=A0tools/usb/p9_fwd.py=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 | 243 +++=
-++++++++++++++++++++++++++++++++++++
->>>>=A02 files changed, 284 insertions(+)
->>>>
->>>>diff --git a/Documentation/filesystems/9p.rst b/Documentation/filesyste=
-ms/9p.rst
->>>>index 10cf79dc287f8..2cc85f3e8659f 100644
->>>>--- a/Documentation/filesystems/9p.rst
->>>>+++ b/Documentation/filesystems/9p.rst
->>>>@@ -67,6 +67,47 @@ To mount a 9p FS on a USB Host accessible via the ga=
-dget as root filesystem::
->>>>=A0where <device> is the tag associated by the usb gadget transport.
->>>>=A0It is defined by the configfs instance name.
->>>>+USBG Example
->>>>+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>>>+
->>>>+The USB host exports a filesystem, while the gadget on the USB device
->>>>+side makes it mountable.
->>>>+
->>>>+Diod (9pfs server) and the forwarder are on the development host, where
->>>>+the root filesystem is actually stored. The gadget is initialized duri=
-ng
->>>>+boot (or later) on the embedded board. Then the forwarder will find it
->>>>+on the USB bus and start forwarding requests.
->>>>+
->>>>+In this case the 9p requests come from the device and are handled by t=
-he
->>>>+host. The reason is that USB device ports are normally not available on
->>>>+PCs, so a connection in the other direction would not work.
->>>>+
->>>>+When using the usbg transport, for now there is no native usb host
->>>>+service capable to handle the requests from the gadget driver. For
->>>>+this we have to use the extra python tool p9_fwd.py from tools/usb.
->>>>+
->>>>+Just start the 9pfs capable network server like diod/nfs-ganesha e.g.:
->>>>+
->>>>+=A0=A0=A0=A0=A0=A0=A0 $ diod -f -n -d 0 -S -l 0.0.0.0:9999 -e $PWD
->>>>+
->>>>+Optionaly scan your bus if there are more then one usbg gadgets to fin=
-d their path:
->>>>+
->>>>+=A0=A0=A0=A0=A0=A0=A0 $ python $kernel_dir/tools/usb/p9_fwd.py list
->>>>+
->>>>+=A0=A0=A0=A0=A0=A0=A0 Bus | Addr | Manufacturer=A0=A0=A0=A0 | Product=
-=A0=A0=A0=A0=A0=A0=A0=A0=A0 | ID=A0=A0=A0=A0=A0=A0=A0 | Path
->>>>+=A0=A0=A0=A0=A0=A0=A0 --- | ---- | ---------------- | ----------------=
- | --------- | ----
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0 2 |=A0=A0 67 | unknown=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0 | unknown=A0=A0=A0=A0=A0=A0=A0=A0=A0 | 1d6b:0109 | 2-1.1.2
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0 2 |=A0=A0 68 | unknown=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0 | unknown=A0=A0=A0=A0=A0=A0=A0=A0=A0 | 1d6b:0109 | 2-1.1.3
->>>>+
->>>>+Then start the python transport:
->>>>+
->>>>+=A0=A0=A0=A0=A0=A0=A0 $ python $kernel_dir/tools/usb/p9_fwd.py --path =
-2-1.1.2 connect -p 9999
->>>>+
->>>>+After that the gadget driver can be used as described above.
->>>>+
->>>>+One use-case is to use it as an alternative to NFS root booting during
->>>>+the development of embedded Linux devices.
->>>>+
->>>>=A0Options
->>>>=A0=3D=3D=3D=3D=3D=3D=3D
->>>>diff --git a/tools/usb/p9_fwd.py b/tools/usb/p9_fwd.py
->>>>new file mode 100755
->>>>index 0000000000000..7bedefce75c7b
->>>>--- /dev/null
->>>>+++ b/tools/usb/p9_fwd.py
->>>>@@ -0,0 +1,243 @@
->>>>+#!/usr/bin/env python3
->>>>+# SPDX-License-Identifier: GPL-2.0
->>>>+
->>>>+import argparse
->>>>+import errno
->>>>+import logging
->>>>+import socket
->>>>+import struct
->>>>+import time
->>>>+
->>>>+import usb.core
->>>>+import usb.util
->>>>+
->>>>+
->>>>+def path_from_usb_dev(dev):
->>>>+=A0=A0=A0 """Takes a pyUSB device as argument and returns a string.
->>>>+=A0=A0=A0 The string is a Path representation of the position of the U=
-SB device on the USB bus tree.
->>>>+
->>>>+=A0=A0=A0 This path is used to find a USB device on the bus or all dev=
-ices connected to a HUB.
->>>>+=A0=A0=A0 The path is made up of the number of the USB controller foll=
-owed be the ports of the HUB tree."""
->>>>+=A0=A0=A0 if dev.port_numbers:
->>>>+=A0=A0=A0=A0=A0=A0=A0 dev_path =3D ".".join(str(i) for i in dev.port_n=
-umbers)
->>>>+=A0=A0=A0=A0=A0=A0=A0 return f"{dev.bus}-{dev_path}"
->>>>+=A0=A0=A0 return ""
->>>>+
->>>>+
->>>>+HEXDUMP_FILTER =3D "".join(chr(x).isprintable() and chr(x) or "." for =
-x in range(128)) + "." * 128
->>>>+
->>>>+
->>>>+class Forwarder:
->>>>+=A0=A0=A0 @staticmethod
->>>>+=A0=A0=A0 def _log_hexdump(data):
->>>>+=A0=A0=A0=A0=A0=A0=A0 if not logging.root.isEnabledFor(logging.TRACE):
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return
->>>>+=A0=A0=A0=A0=A0=A0=A0 L =3D 16
->>>>+=A0=A0=A0=A0=A0=A0=A0 for c in range(0, len(data), L):
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 chars =3D data[c : c + L]
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dump =3D " ".join(f"{x:02x}" for x i=
-n chars)
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 printable =3D "".join(HEXDUMP_FILTER=
-[x] for x in chars)
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 line =3D f"{c:08x}=A0 {dump:{L*3}s} =
-|{printable:{L}s}|"
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 logging.root.log(logging.TRACE, "%s"=
-, line)
->>>>+
->>>>+=A0=A0=A0 def __init__(self, server, vid, pid, path):
->>>>+=A0=A0=A0=A0=A0=A0=A0 self.stats =3D {
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 "c2s packets": 0,
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 "c2s bytes": 0,
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 "s2c packets": 0,
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 "s2c bytes": 0,
->>>>+=A0=A0=A0=A0=A0=A0=A0 }
->>>>+=A0=A0=A0=A0=A0=A0=A0 self.stats_logged =3D time.monotonic()
->>>>+
->>>>+=A0=A0=A0=A0=A0=A0=A0 def find_filter(dev):
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev_path =3D path_from_usb_dev(dev)
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 if path is not None:
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return dev_path =3D=3D p=
-ath
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return True
->>>>+
->>>>+=A0=A0=A0=A0=A0=A0=A0 dev =3D usb.core.find(idVendor=3Dvid, idProduct=
-=3Dpid, custom_match=3Dfind_filter)
->>>>+=A0=A0=A0=A0=A0=A0=A0 if dev is None:
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 raise ValueError("Device not found")
->>>>+
->>>>+=A0=A0=A0=A0=A0=A0=A0 logging.info(f"found device: {dev.bus}/{dev.addr=
-ess} located at {path_from_usb_dev(dev)}")
->>>>+
->>>>+=A0=A0=A0=A0=A0=A0=A0 # dev.set_configuration() is not necessary since=
- g_multi has only one
->>>>+=A0=A0=A0=A0=A0=A0=A0 usb9pfs =3D None
->>>>+=A0=A0=A0=A0=A0=A0=A0 # g_multi adds 9pfs as last interface
->>>>+=A0=A0=A0=A0=A0=A0=A0 cfg =3D dev.get_active_configuration()
->>>>+=A0=A0=A0=A0=A0=A0=A0 for intf in cfg:
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 # we have to detach the usb-storage =
-driver from multi gadget since
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 # stall option could be set, which w=
-ill lead to spontaneous port
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 # resets and our transfers will run =
-dead
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 if intf.bInterfaceClass =3D=3D 0x08:
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 if dev.is_kernel_driver_=
-active(intf.bInterfaceNumber):
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev.detach_k=
-ernel_driver(intf.bInterfaceNumber)
->>>>+
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 if intf.bInterfaceClass =3D=3D 0xFF =
-and intf.bInterfaceSubClass =3D=3D 0xFF and intf.bInterfaceProtocol =3D=3D =
-0x09:
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 usb9pfs =3D intf
->>>>+=A0=A0=A0=A0=A0=A0=A0 if usb9pfs is None:
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 raise ValueError("Interface not foun=
-d")
->>>>+
->>>>+=A0=A0=A0=A0=A0=A0=A0 logging.info(f"claiming interface:\n{usb9pfs}")
->>>>+=A0=A0=A0=A0=A0=A0=A0 usb.util.claim_interface(dev, usb9pfs.bInterface=
-Number)
->>>>+=A0=A0=A0=A0=A0=A0=A0 ep_out =3D usb.util.find_descriptor(
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 usb9pfs,
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 custom_match=3Dlambda e: usb.util.en=
-dpoint_direction(e.bEndpointAddress) =3D=3D usb.util.ENDPOINT_OUT,
->>>>+=A0=A0=A0=A0=A0=A0=A0 )
->>>>+=A0=A0=A0=A0=A0=A0=A0 assert ep_out is not None
->>>>+=A0=A0=A0=A0=A0=A0=A0 ep_in =3D usb.util.find_descriptor(
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 usb9pfs,
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 custom_match=3Dlambda e: usb.util.en=
-dpoint_direction(e.bEndpointAddress) =3D=3D usb.util.ENDPOINT_IN,
->>>>+=A0=A0=A0=A0=A0=A0=A0 )
->>>>+=A0=A0=A0=A0=A0=A0=A0 assert ep_in is not None
->>>>+=A0=A0=A0=A0=A0=A0=A0 logging.info("interface claimed")
->>>>+
->>>>+=A0=A0=A0=A0=A0=A0=A0 self.ep_out =3D ep_out
->>>>+=A0=A0=A0=A0=A0=A0=A0 self.ep_in =3D ep_in
->>>>+=A0=A0=A0=A0=A0=A0=A0 self.dev =3D dev
->>>>+
->>>>+=A0=A0=A0=A0=A0=A0=A0 # create and connect socket
->>>>+=A0=A0=A0=A0=A0=A0=A0 self.s =3D socket.socket(socket.AF_INET, socket.=
-SOCK_STREAM)
->>>>+=A0=A0=A0=A0=A0=A0=A0 self.s.connect(server)
->>>>+
->>>>+=A0=A0=A0=A0=A0=A0=A0 logging.info("connected to server")
->>>>+
->>>>+=A0=A0=A0 def c2s(self):
->>>>+=A0=A0=A0=A0=A0=A0=A0 """forward a request from the USB client to the =
-TCP server"""
->>>>+=A0=A0=A0=A0=A0=A0=A0 data =3D None
->>>>+=A0=A0=A0=A0=A0=A0=A0 while data is None:
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 try:
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 logging.log(logging.TRAC=
-E, "c2s: reading")
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 data =3D self.ep_in.read=
-(self.ep_in.wMaxPacketSize)
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 except usb.core.USBTimeoutError:
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 logging.log(logging.TRAC=
-E, "c2s: reading timed out")
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 continue
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 except usb.core.USBError as e:
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 if e.errno =3D=3D errno.=
-EIO:
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 logging.debu=
-g("c2s: reading failed with %s, retrying", repr(e))
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 time.sleep(0=
-=2E5)
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 continue
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 logging.error("c2s: read=
-ing failed with %s, aborting", repr(e))
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 raise
->>>>+=A0=A0=A0=A0=A0=A0=A0 size =3D struct.unpack("<I", data[:4])[0]
->>>>+=A0=A0=A0=A0=A0=A0=A0 while len(data) < size:
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 data +=3D self.ep_in.read(size - len=
-(data))
->>>>+=A0=A0=A0=A0=A0=A0=A0 logging.log(logging.TRACE, "c2s: writing")
->>>>+=A0=A0=A0=A0=A0=A0=A0 self._log_hexdump(data)
->>>>+=A0=A0=A0=A0=A0=A0=A0 self.s.send(data)
->>>>+=A0=A0=A0=A0=A0=A0=A0 logging.debug("c2s: forwarded %i bytes", size)
->>>>+=A0=A0=A0=A0=A0=A0=A0 self.stats["c2s packets"] +=3D 1
->>>>+=A0=A0=A0=A0=A0=A0=A0 self.stats["c2s bytes"] +=3D size
->>>>+
->>>>+=A0=A0=A0 def s2c(self):
->>>>+=A0=A0=A0=A0=A0=A0=A0 """forward a response from the TCP server to the=
- USB client"""
->>>>+=A0=A0=A0=A0=A0=A0=A0 logging.log(logging.TRACE, "s2c: reading")
->>>>+=A0=A0=A0=A0=A0=A0=A0 data =3D self.s.recv(4)
->>>>+=A0=A0=A0=A0=A0=A0=A0 size =3D struct.unpack("<I", data[:4])[0]
->>>>+=A0=A0=A0=A0=A0=A0=A0 while len(data) < size:
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 data +=3D self.s.recv(size - len(dat=
-a))
->>>>+=A0=A0=A0=A0=A0=A0=A0 logging.log(logging.TRACE, "s2c: writing")
->>>>+=A0=A0=A0=A0=A0=A0=A0 self._log_hexdump(data)
->>>>+=A0=A0=A0=A0=A0=A0=A0 while data:
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 written =3D self.ep_out.write(data)
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 assert written > 0
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 data =3D data[written:]
->>>>+=A0=A0=A0=A0=A0=A0=A0 if size % self.ep_out.wMaxPacketSize =3D=3D 0:
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 logging.log(logging.TRACE, "sending =
-zero length packet")
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 self.ep_out.write(b"")
->>>>+=A0=A0=A0=A0=A0=A0=A0 logging.debug("s2c: forwarded %i bytes", size)
->>>>+=A0=A0=A0=A0=A0=A0=A0 self.stats["s2c packets"] +=3D 1
->>>>+=A0=A0=A0=A0=A0=A0=A0 self.stats["s2c bytes"] +=3D size
->>>>+
->>>>+=A0=A0=A0 def log_stats(self):
->>>>+=A0=A0=A0=A0=A0=A0=A0 logging.info("statistics:")
->>>>+=A0=A0=A0=A0=A0=A0=A0 for k, v in self.stats.items():
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 logging.info(f"=A0 {k+':':14s} {v}")
->>>>+
->>>>+=A0=A0=A0 def log_stats_interval(self, interval=3D5):
->>>>+=A0=A0=A0=A0=A0=A0=A0 if (time.monotonic() - self.stats_logged) < inte=
-rval:
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return
->>>>+
->>>>+=A0=A0=A0=A0=A0=A0=A0 self.log_stats()
->>>>+=A0=A0=A0=A0=A0=A0=A0 self.stats_logged =3D time.monotonic()
->>>>+
->>>>+
->>>>+def try_get_usb_str(dev, name):
->>>>+=A0=A0=A0 try:
->>>>+=A0=A0=A0=A0=A0=A0=A0 with open(f"/sys/bus/usb/devices/{dev.bus}-{dev.=
-address}/{name}") as f:
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return f.read().strip()
->>>>+=A0=A0=A0 except FileNotFoundError:
->>>>+=A0=A0=A0=A0=A0=A0=A0 return None
->>>>+
->>>>+
->>>>+def list_usb(args):
->>>>+=A0=A0=A0 vid, pid =3D [int(x, 16) for x in args.id.split(":", 1)]
->>>>+
->>>>+=A0=A0=A0 print("Bus | Addr | Manufacturer=A0=A0=A0=A0 | Product=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0 | ID=A0=A0=A0=A0=A0=A0=A0 | Path")
->>>>+=A0=A0=A0 print("--- | ---- | ---------------- | ---------------- | --=
-------- | ----")
->>>>+=A0=A0=A0 for dev in usb.core.find(find_all=3DTrue, idVendor=3Dvid, id=
-Product=3Dpid):
->>>>+=A0=A0=A0=A0=A0=A0=A0 path =3D path_from_usb_dev(dev) or ""
->>>>+=A0=A0=A0=A0=A0=A0=A0 manufacturer =3D try_get_usb_str(dev, "manufactu=
-rer") or "unknown"
->>>>+=A0=A0=A0=A0=A0=A0=A0 product =3D try_get_usb_str(dev, "product") or "=
-unknown"
->>>>+=A0=A0=A0=A0=A0=A0=A0 print(
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 f"{dev.bus:3} | {dev.address:4} | {m=
-anufacturer:16} | {product:16} | {dev.idVendor:04x}:{dev.idProduct:04x} | {=
-path:18}"
->>>>+=A0=A0=A0=A0=A0=A0=A0 )
->>>>+
->>>>+
->>>>+def connect(args):
->>>>+=A0=A0=A0 vid, pid =3D [int(x, 16) for x in args.id.split(":", 1)]
->>>>+
->>>>+=A0=A0=A0 f =3D Forwarder(server=3D(args.server, args.port), vid=3Dvid=
-, pid=3Dpid, path=3Dargs.path)
->>>>+
->>>>+=A0=A0=A0 try:
->>>>+=A0=A0=A0=A0=A0=A0=A0 while True:
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 f.c2s()
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 f.s2c()
->>>>+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 f.log_stats_interval()
->>>>+=A0=A0=A0 finally:
->>>>+=A0=A0=A0=A0=A0=A0=A0 f.log_stats()
->>>>+
->>>>+
->>>>+def main():
->>>>+=A0=A0=A0 parser =3D argparse.ArgumentParser(
->>>>+=A0=A0=A0=A0=A0=A0=A0 description=3D"Forward 9PFS requests from USB to=
- TCP",
->>>>+=A0=A0=A0 )
->>>>+
->>>>+=A0=A0=A0 parser.add_argument("--id", type=3Dstr, default=3D"1d6b:0109=
-", help=3D"vid:pid of target device")
->>>>+=A0=A0=A0 parser.add_argument("--path", type=3Dstr, default=3D"", help=
-=3D"path of target device")
->>>
->>>I had to specify both --id and --path, otherwise I was getting
->>>"device not found".
->>
->>This is odd. What was your list command saying about the available
->>devices?
->>
->
-><snip>
->
->[ 4260.577064] usb 3-1.3.3.5.4: new high-speed USB device number 25 using =
-xhci_hcd
->[ 4260.677769] usb 3-1.3.3.5.4: New USB device found, idVendor=3Dabcd, idP=
-roduct=3Def01, bcdDevice=3D 6.09
->[ 4260.677788] usb 3-1.3.3.5.4: New USB device strings: Mfr=3D0, Product=
-=3D0, SerialNumber=3D0
->
-><snip>
->
->$ sudo python3 tools/usb/p9_fwd.py --id 0xabcd:0xef01 list
->Bus | Addr | Manufacturer     | Product          | ID        | Path
->--- | ---- | ---------------- | ---------------- | --------- | ----
->  3 |   25 | unknown          | unknown          | abcd:ef01 | 3-1.3.3.5.4
->
->
->$ sudo python3 tools/usb/p9_fwd.py --id 0xabcd:0xef01 connect -p 9999
->Traceback (most recent call last):
->  File "/home/ap/Collabora/kernel-rk/tools/usb/p9_fwd.py", line 243, in <m=
-odule>
->    main()
->  File "/home/ap/Collabora/kernel-rk/tools/usb/p9_fwd.py", line 239, in ma=
-in
->    args.func(args)
->  File "/home/ap/Collabora/kernel-rk/tools/usb/p9_fwd.py", line 190, in co=
-nnect
->    f =3D Forwarder(server=3D(args.server, args.port), vid=3Dvid, pid=3Dpi=
-d, path=3Dargs.path)
->  File "/home/ap/Collabora/kernel-rk/tools/usb/p9_fwd.py", line 60, in __i=
-nit__
->    raise ValueError("Device not found")
->ValueError: Device not found
->
->$ sudo python3 tools/usb/p9_fwd.py --path 3-1.3.3.5.4 connect -p 9999
->Traceback (most recent call last):
->  File "/home/ap/Collabora/kernel-rk/tools/usb/p9_fwd.py", line 243, in <m=
-odule>
->    main()
->  File "/home/ap/Collabora/kernel-rk/tools/usb/p9_fwd.py", line 239, in ma=
-in
->    args.func(args)
->  File "/home/ap/Collabora/kernel-rk/tools/usb/p9_fwd.py", line 190, in co=
-nnect
->    f =3D Forwarder(server=3D(args.server, args.port), vid=3Dvid, pid=3Dpi=
-d, path=3Dargs.path)
->  File "/home/ap/Collabora/kernel-rk/tools/usb/p9_fwd.py", line 60, in __i=
-nit__
->    raise ValueError("Device not found")
->ValueError: Device not found
->
->$ sudo python3 tools/usb/p9_fwd.py --id 0xabcd:0xef01 --path 3-1.3.3.5.4 c=
-onnect -p 9999
->2024-05-31 09:34:44,047 INFO     found device: 3/25 located at 3-1.3.3.5.4
->2024-05-31 09:34:44,053 INFO     claiming interface:
->    INTERFACE 0: Vendor Specific =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->     bLength            :    0x9 (9 bytes)
->     bDescriptorType    :    0x4 Interface
->     bInterfaceNumber   :    0x0
->     bAlternateSetting  :    0x0
->     bNumEndpoints      :    0x2
->     bInterfaceClass    :   0xff Vendor Specific
->     bInterfaceSubClass :   0xff
->     bInterfaceProtocol :    0x9
->     iInterface         :    0x1 usb9pfs input to output
->      ENDPOINT 0x81: Bulk IN =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->       bLength          :    0x7 (7 bytes)
->       bDescriptorType  :    0x5 Endpoint
->       bEndpointAddress :   0x81 IN
->       bmAttributes     :    0x2 Bulk
->       wMaxPacketSize   :  0x200 (512 bytes)
->       bInterval        :    0x0
->      ENDPOINT 0x1: Bulk OUT =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->       bLength          :    0x7 (7 bytes)
->       bDescriptorType  :    0x5 Endpoint
->       bEndpointAddress :    0x1 OUT
->       bmAttributes     :    0x2 Bulk
->       wMaxPacketSize   :  0x200 (512 bytes)
->       bInterval        :    0x0
->2024-05-31 09:34:44,054 INFO     interface claimed
->2024-05-31 09:34:44,054 INFO     connected to server
+Amazingly there is inherit benefit to people being able to use the
+software we produce.
 
-Ok, there was a bug that args.path wath never None. Therefor it was
-always necessary. While there I also fixed the short window
-between gadget load and mount, where the user could actually
-use unprepared endpoints which led to some NULL pointer derefs.
+> 3 years on from that recommendation it seems no vendor has even needed
+> that level of distribution help. I.e. checking a few distro kernels
+> (Fedora, openSUSE) shows no uptake for CONFIG_CXL_MEM_RAW_COMMANDS=y in
+> their debug builds. I can only assume that locally compiled custom
+> kernel binaries are filling the need.
 
-Please try my last series v6:
+My strong advice would be to be careful about this. Android-ism where
+nobody runs the upstream kernel is a real thing. For something
+emerging like CXL there is a real risk that the hyperscale folks will
+go off and do their own OOT stuff and in-tree CXL will be something
+usuable but inferior. I've seen this happen enough times..
 
-https://lore.kernel.org/all/20240116-ml-topic-u9p-v6-0-695977d76dff@pengutr=
-onix.de/
+If people come and say we need X and the maintainer says no, they
+don't just give up and stop doing X, the go and do X anyhow out of
+tree. This has become especially true now that the center of business
+activity in server-Linux is driven by the hyperscale crowd that don't
+care much about upstream. Linux maintainer's don't actually have the
+power to force the industry to do things, though people do keep
+trying.. Maintainers can only lead, and productive leading is not done
+with a NO.
 
-Regards,
-Michael
+You will start to see this pain in maybe 5-10 years if CXL starts to
+be something deployed in an enterprise RedHat/Dell/etc sort of
+environment. Then that missing X becomes a critical issue because it
+turns out the hyperscale folks long since figured out it is really
+important but didn't do anything to enable it upstream.
 
->>I tested this with the default vid:pid as described above (1d6b:0109)
->>which worked fine with path alone.
->>
->>Michael
->>
->>>>+=A0=A0=A0 parser.add_argument("-v", "--verbose", action=3D"count", def=
-ault=3D0)
->>>>+
->>>>+=A0=A0=A0 subparsers =3D parser.add_subparsers()
->>>>+=A0=A0=A0 subparsers.required =3D True
->>>>+=A0=A0=A0 subparsers.dest =3D "command"
->>>>+
->>>>+=A0=A0=A0 parser_list =3D subparsers.add_parser("list", help=3D"List a=
-ll connected 9p gadgets")
->>>>+=A0=A0=A0 parser_list.set_defaults(func=3Dlist_usb)
->>>>+
->>>>+=A0=A0=A0 parser_connect =3D subparsers.add_parser(
->>>>+=A0=A0=A0=A0=A0=A0=A0 "connect", help=3D"Forward messages between the =
-usb9pfs gadget and the 9p server"
->>>>+=A0=A0=A0 )
->>>>+=A0=A0=A0 parser_connect.set_defaults(func=3Dconnect)
->>>>+=A0=A0=A0 connect_group =3D parser_connect.add_argument_group()
->>>>+=A0=A0=A0 connect_group.required =3D True
->>>>+=A0=A0=A0 parser_connect.add_argument("-s", "--server", type=3Dstr, de=
-fault=3D"127.0.0.1", help=3D"server hostname")
->>>>+=A0=A0=A0 parser_connect.add_argument("-p", "--port", type=3Dint, defa=
-ult=3D564, help=3D"server port")> +
->>>>+=A0=A0=A0 args =3D parser.parse_args()
->>>>+
->>>>+=A0=A0=A0 logging.TRACE =3D logging.DEBUG - 5
->>>>+=A0=A0=A0 logging.addLevelName(logging.TRACE, "TRACE")
->>>>+
->>>>+=A0=A0=A0 if args.verbose >=3D 2:
->>>>+=A0=A0=A0=A0=A0=A0=A0 level =3D logging.TRACE
->>>>+=A0=A0=A0 elif args.verbose:
->>>>+=A0=A0=A0=A0=A0=A0=A0 level =3D logging.DEBUG
->>>>+=A0=A0=A0 else:
->>>>+=A0=A0=A0=A0=A0=A0=A0 level =3D logging.INFO
->>>>+=A0=A0=A0 logging.basicConfig(level=3Dlevel, format=3D"%(asctime)-15s =
-%(levelname)-8s %(message)s")
->>>>+
->>>>+=A0=A0=A0 args.func(args)
->>>>+
->>>>+
->>>>+if __name__ =3D=3D "__main__":
->>>>+=A0=A0=A0 main()
->>>>
->>>
->>>
->>
->
->
+There is merit in upstream being something people can and do actually
+use, not just an ivory tower of architectural perfection. There is
+merit in bringing code into the community instead of forcing things to
+be OOT.
 
---=20
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+For instance the thread you linked where there was talk of needing the
+signal integrity data is a great example. Sure some of that is
+manufacturing time, but also if you deploy a million interfaces in a
+datacenter, then yes, there will be need to collect SI information
+from live systems and do some analysis on it. You wouldn't believe how
+much physically broken HW leaks out into data centers and needs
+manufacturing level debugging techniques to properly root cause :(
 
---KJKLLktfMCG4dMDv
-Content-Type: application/pgp-signature; name="signature.asc"
+> userpace-to-device-firmware tunnel?" to at least get all the various
+> concerns documented in one place, and provide guidance for how device
+> vendors should navigate this space across subsystems. 
 
------BEGIN PGP SIGNATURE-----
+This is my effort here. If we document the expectations there is a
+much better chance that a standard body or device manufacturer can
+implement their interfaces in a way that works with the OS. There is a
+much higher chance they will attract CVEs and be forced to fix it if
+the security expectations are clearly laid out. You had a good
+observation in one of those links about how they are not OS
+people. Let's help them do better.
 
-iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmZgagoACgkQC+njFXoe
-LGS+7A/7BvKk7JuuayflF7hSdbW40zF97SwqwXRHGNg0PNDL17EL98tG3h9H1Otj
-Ih8H7nFniaXnBLWrykKtDXAqKhdzxFQc8vKBNktox2TOu1roBW7IwV9ZLs9tSuBG
-E/YYHB8gLoA79ORC/c4Jxzg/LCKskVO+Y8XitKEMmEiAHcNOrncJ9va0TOoSL/sz
-iroZuLc4oiJ5VxAYTGy5IynXMtd2E5yCgMvW5rIGAPbcBiYzfk7DCsbj+Dk28YsV
-oqoarmeLqF2q8K7+J+JXKpMhVTKPBMYH5oN+7qqBn9Brvz0gU3u7t5GNsl4nGGZR
-H4GqPHzNgw6gF1+WLF3RTscjD2JmqKn5w2QoJjaaOJrB5vzOSl+QneTKuP/Bta6k
-66bK8x35/W2PkSQkIH1MT6jQbPpc3nXC+s9d5YZGsD5clbvZjwN8OyZedh7BpRuj
-wZktfrBBJojSQ5TmfI5ggP/1uhQFYYfQPBfw15mOF7bfEFThxuipxFy8D1aVKW4P
-foE/b3wH9q2th/sja7nP992/f2OUIfcgaU8gfxRx2aDH1pYweN0vVBGwYabywYX2
-tssti/yKdql3rpI/wywWCmOg1PT62kpOb3Els1WqJlyWxmyl2uHSolWFPhNJD8qz
-gV1Zy5kXQdntO4eMi6V7MAysTpb3qDwwy1e+0TOPPhJgbO7mzrs=
-=utz9
------END PGP SIGNATURE-----
+Shunt the less robust stuff to fwctl and then people can also make
+their own security choices, don't enable or load the fwctl modules and
+you get more protection. It is closer to your
+CONFIG_CXL_MEM_RAW_COMMANDS=y but at runtime.
 
---KJKLLktfMCG4dMDv--
+I think I captured most of your commentary below here in patch 6.
+
+>   Effects Log". In that "trust Command Effects" scenario the kernel still
+>   has no idea what the command is actually doing, but it can at least
+>   assert that the device does not claim that the command changes the
+>   contents of system-memory. Now, you might say, "the device can just
+>   lie", but that betrays a conceit of the kernel restriction. A device
+>   could lie that a Linux wrapped command when passed certain payloads does
+>   not in turn proxy to a restricted command.
+
+Yeah, we have to trust the device. If the device is hostile toward the
+OS then there are already big problems. We need to allow for
+unintentional defects in the devices, but we don't need to be
+paranoid.
+
+IMHO a command effects report, in conjunction with a robust OS centric
+defintion is something we can trust in.
+
+> * Introspection / validation: Subsystem community needs to be able to
+>   audit behavior after the fact.
+> 
+>   To me this means even if the kernel is letting a command through based
+>   on the stated Command Effect of "Configuration Change after Cold Reset"
+>   upstream community has a need to be able to read the vendor
+>   specification for that command. I.e. commands might be vendor-specific,
+>   but never vendor-private. I see this as similar to the requirement for
+>   open source userspace for sophisticated accelerators.
+
+I'm less hard on this. As long as reasonable open userspace exists I
+think it is fine to let other stuff through too. I can appreciate the
+DRM stance on this, but IMHO, there is meaningfully more value for open
+source in trying get an open Vulkan implementation vs blocking users
+from reading their vendor'd diagnostic SI values.
+
+I don't think we should get into some kind of extremism and insist
+that every single bit must be documented/standardized or Linux won't
+support it.
+
+This is why I envision fwctl as not being suitable for actual
+datapath/performance stuff.
+
+> * Collaboration: open standards support open driver maintenance.
+> 
+>   Without standards we end up with awkward situations like Confidential
+>   Computing where every vendor races to implement the same functionality
+>   in arbitrarily different and vendor specific ways.
+
+Standard are important. Linux is not a standards body. Linux
+maintainers can only advise, not force, the industry to make
+standards. At a certain point Linux's job is to implement software to
+support what people have built. CC is a sad example where the industry
+did not get together enough, but still Linux will support the CC mess.
+
+>   For CXL devices, and I believe the devices fwctl is targeting, there
+>   are a whole class of commands for vendor specific configuration and
+>   debug. Commands that the kernel really need not worry about.
+
+Right.
+
+>   Some subsystems may want to allow high-performance science experiments
+>   like what NVMe allows, but it seems worth asking the question if
+>   standardizing device configuration and debug is really the best use of
+>   upstream's limited time?
+
+From what I've been seeing it looks like a significant waste of
+time. For example there is minimal industry value in standardizing
+values stored in a device's boot time flash configuration. If some
+common software wants to access really generic configuration (like
+SRIOV enable) then sure there is merit, but that is really the
+minority.
+
+Jason
