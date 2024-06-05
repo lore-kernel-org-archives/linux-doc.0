@@ -1,240 +1,271 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2089.outbound.protection.outlook.com [40.107.223.89])
+Received: from e2i411.smtp2go.com (e2i411.smtp2go.com [103.2.141.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E0D8E572;
-	Wed,  5 Jun 2024 19:34:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.89
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717616050; cv=fail; b=Le6nasywSoo7MoncM7U+exqEY4DtdTEDHiejzfouhLLBVD/7IeiKaBR734ejdVU4cVnzef8ikmAMlSgU4fHaMCUjYksrJWlRb8Qw8tRTTSegzCvBn+5xD4xCzd8K5tsiW1108sRkLLtMJents3RUpE/FT28T3SWk1NxWrMWXAfk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717616050; c=relaxed/simple;
-	bh=SfJ9P6Uu2o/xjPsA7uYeu8Flf7iRmDDsFYwI6jPIghE=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=a9T6xTmjIHhvaxjc8FXa5zGiK1Kt523OaMzj27Pxt7T/Rx7qX+hO1J2ZLub3mbth7hpsuQ41LdbXEE799NIQY5bh8VGC7GOfHFGO0Ph1QPjo8poZlq9vbjwwy4hedESaCwzUyf/sDByDjEwZy+IgZBmiB94yavlRQYOi/CxkzAc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=GjrCUiUR; arc=fail smtp.client-ip=40.107.223.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62FC215533F
+	for <linux-doc@vger.kernel.org>; Wed,  5 Jun 2024 20:03:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.2.141.155
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717617845; cv=none; b=ccjaJfoyczJrtKeMEpoFToxaexKV5UeMjZFzVKfnb3JIhv4IoVL7znlLjDIISwH73C4jlPgZLAyfn3cOKO3ZnUuOX9BY2pSNxVIHnK1M4fGhw2mVZyE4tyXWSKfTk/ImRYm2scgX9MSt4swScC2ZuDCYMRfBOhSc9AfkXi60YR4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717617845; c=relaxed/simple;
+	bh=OMXHz65ianF/zdL9RSgS5h+YFr4aVzOgHGtndZuWElk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CCs5mHqx0Lv1veu5aSRpxfBcBtjz6mXWUIJ5ibu6QPMau9t5lhnTZTfPcldfq2qimDB71uQymoE7psW3O6iOudaH0HzIdTtqMNUGcfHikMQgfxGKP3YCFwgixRMspv9XrULZN+7Xp1ofAVJh+tGd/Bb+d7fJVAXXtwiqihRz/5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu; spf=pass smtp.mailfrom=em1174286.fjasle.eu; dkim=fail (0-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b=Qh+BN/bZ reason="unknown key version"; dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=mLj7rMK/; dkim=pass (1024-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b=sitLeI8N; arc=none smtp.client-ip=103.2.141.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fjasle.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em1174286.fjasle.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="GjrCUiUR"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YfD9o/FaEaUyHYZPKsge8yKtFklHpsUgiDh6qvzgzr75WBiVTPbEc460EmL2EITTAfPVwsou4k9rqRsZl+MHiCyVamStA9t6fGQ1beybijL9bAMexMBlHXMQHsxuliuY63MbcLpk3Dcg3lgpuplbyUTbg7XK/QLLHkL7VGtGjwjBAESzXypuWBSIY416vJnn8I993B9tkb240nbGMU01DpHWfbtYw5gWlGuL3QOZTt+50RjzCV6IQvuD5I72T34qRKPBWVrX/7kbFxyqldpKP/L3rRJJLQoQ1EmI6+uKLGvknGjT0PfNLF4cfWRT0ZZAphlROVQOK4UnGp+SYGfI/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WEjDw8pQbCggS4O0eRXO4vT7gbmW6sfsuyKDs6pYqv0=;
- b=KImxjKk66qilvLMU7bUB9pwhIJ3aLzmxdDa4tWaRCZ325v3TpoBPvJbJ37HBySyK3fwN36SFI41Mp02sbnfbYVeMTMtxhe9ExmqH6BVYh/Aad4xU7GZ3Ee606yp+J45eAPzYjnZ0FlRFsf6fHuF92fSfYfQiGTNFIIM5hu45CbFJoQ15CQ4hLqXQcwdaxB5XLJ4ODUu40ZOqDQbDruZ4ZQHaHZKc8TSJLwXiUMcf0PMDs60khYJP9/6L/KtVC6r44twAzKOO7AM7+YM1dMgidrfTQdSiIHm2AqT9FGTtXrJkY66MrSbYJFM+MjntNVr4h4nyOWC3YbUQAzIsTALDeA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WEjDw8pQbCggS4O0eRXO4vT7gbmW6sfsuyKDs6pYqv0=;
- b=GjrCUiURr12flCr1OlPuMMyAiyHRu6abIOK5zD1Gn2khMkKcMGQyHoAB1O7RPaMZDDjz9Koh1SQFJMcKpnvJ0wTwHMN7hgnsvAhEaf/GR7v2j64kCxm0fdrrEa808vpDHVQjF+0lC3RUYe4H/LLC26exBIZ5LlHBOb0rGHLWQ8M=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB4877.namprd12.prod.outlook.com (2603:10b6:5:1bb::24)
- by DS0PR12MB8478.namprd12.prod.outlook.com (2603:10b6:8:15a::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.31; Wed, 5 Jun
- 2024 19:34:06 +0000
-Received: from DM6PR12MB4877.namprd12.prod.outlook.com
- ([fe80::92ad:22ff:bff2:d475]) by DM6PR12MB4877.namprd12.prod.outlook.com
- ([fe80::92ad:22ff:bff2:d475%3]) with mapi id 15.20.7633.021; Wed, 5 Jun 2024
- 19:34:06 +0000
-Message-ID: <3af40110-98c6-41e2-bd19-29a999f3bdcf@amd.com>
-Date: Wed, 5 Jun 2024 14:34:04 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 6/9] PCI/TPH: Retrieve steering tag from ACPI _DSM
-To: Simon Horman <horms@kernel.org>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, netdev@vger.kernel.org, bhelgaas@google.com,
- corbet@lwn.net, davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, alex.williamson@redhat.com, gospo@broadcom.com,
- michael.chan@broadcom.com, ajit.khaparde@broadcom.com,
- somnath.kotur@broadcom.com, andrew.gospodarek@broadcom.com,
- manoj.panicker2@amd.com, Eric.VanTassell@amd.com, vadim.fedorenko@linux.dev,
- bagasdotme@gmail.com
-References: <20240531213841.3246055-1-wei.huang2@amd.com>
- <20240531213841.3246055-7-wei.huang2@amd.com>
- <20240604153028.GU491852@kernel.org>
-Content-Language: en-US
-From: Wei Huang <wei.huang2@amd.com>
-In-Reply-To: <20240604153028.GU491852@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN7PR04CA0052.namprd04.prod.outlook.com
- (2603:10b6:806:120::27) To DM6PR12MB4877.namprd12.prod.outlook.com
- (2603:10b6:5:1bb::24)
+	dkim=fail reason="unknown key version" (0-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b="Qh+BN/bZ";
+	dkim=pass (2048-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="mLj7rMK/";
+	dkim=pass (1024-bit key) header.d=fjasle.eu header.i=@fjasle.eu header.b="sitLeI8N"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=smtpservice.net; s=mp6320.a1-4.dyn; x=1717618731; h=Feedback-ID:
+	X-Smtpcorp-Track:Message-ID:Subject:To:From:Date:Reply-To:Sender:
+	List-Unsubscribe:List-Unsubscribe-Post;
+	bh=hI8PYfUa34J/pUrQBdmNc4tSBP3E/+lFN4ku65+o7DE=; b=Qh+BN/bZxI0UCu1e6IEA1OxBym
+	UK4qXqL/XR26Fhk7ZfbyfZIVAzvWdjh4trTvHvE7aryZgm4YRQRM8N8xjMzPxXEI1+VgDERl8XQER
+	o6ZCMunFG840OY3sC+BlK1MmBQ/cxfox2UpgnXI/xQeXjmhTYQmQO1WZst7Qg+t48mg6d84uX03nN
+	tVqYaJuVTh0fCMtKqfAnXNJ1kY7apWwz5Y/IWA73UEPRyhQj7A6oGTVOQjNWPkQ02WiFJRhS6pMt6
+	hJLD81DC6rRW/Gp7YQlfJAeMkutJky3JKFGaCFSz3VFzvRspCEEPrP2yG5rbFrT/GLYqAE5n4wYZy
+	PQ2FwZCw==;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fjasle.eu;
+ i=@fjasle.eu; q=dns/txt; s=s1174286; t=1717617831; h=from : subject :
+ to : message-id : date;
+ bh=hI8PYfUa34J/pUrQBdmNc4tSBP3E/+lFN4ku65+o7DE=;
+ b=mLj7rMK/2s1ktvdFAyvlGHCvdKCuezIFcTQE0ptCag+/X1Ym6QhD1FI3x9z3LH29p2iwj
+ 4YP1iXRcQ33tY4w/w/Lydr7JPjjVdTsA040GEYsCBL3pZJEPtzb3mdFO1vohrJul6QAAWCW
+ GtDEDKmOdAzZIrTPWGfnKMWnE2onoJeWwynjWUmfHoqkGRYzN49lF4A5dr72AbiUopfGWns
+ oafCiqZ72hMeJadJJOIErDGHoaxG9uh+c3MkbLnTf6RLorwebQz5WBxjte7uCesEx2faJ/T
+ ab0vciawJ2Y805kI6XZWnah4HWA/hjk/XieW6jagWEhXQe+F71ae0K0T3akw==
+Received: from [10.172.233.58] (helo=SmtpCorp) by smtpcorp.com with esmtpsa
+ (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+ (Exim 4.94.2-S2G) (envelope-from <nicolas@fjasle.eu>)
+ id 1sEwql-TRjzyF-19; Wed, 05 Jun 2024 20:03:11 +0000
+Received: from [10.85.249.164] (helo=leknes.fjasle.eu)
+ by smtpcorp.com with esmtpsa
+ (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+ (Exim 4.97.1-S2G) (envelope-from <nicolas@fjasle.eu>)
+ id 1sEwqi-FnQW0hPu2PL-mjc7; Wed, 05 Jun 2024 20:03:10 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fjasle.eu; s=mail;
+ t=1717617784; bh=OMXHz65ianF/zdL9RSgS5h+YFr4aVzOgHGtndZuWElk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=sitLeI8N6RiEuPgDGrS1wIFgN3ab4GJGMvCzN0bRnEWu/qooQVl+is3XNC8+544w9
+ 5+Pgk3ijaTsqrxar6+8VG2Q6IsbSRglw5SXWlE0LzxHWNRtGDr3OvIZcdf3ju5g5k5
+ SNvGbl7W8wpFswZNEfj7hhE0ccUQrJSQeByGeNNk=
+Received: by leknes.fjasle.eu (Postfix, from userid 1000)
+ id B6BD2449F3; Wed,  5 Jun 2024 22:03:03 +0200 (CEST)
+Date: Wed, 5 Jun 2024 22:03:03 +0200
+From: Nicolas Schier <nicolas@fjasle.eu>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>,
+ Nathan Chancellor <nathan@kernel.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/3] kconfig: remove tristate choice support
+Message-ID: <ZmDEd9KpCvnLBobT@fjasle.eu>
+References: <20240602125416.976336-1-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4877:EE_|DS0PR12MB8478:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2474dc95-d3e3-4ae8-cc22-08dc859676a0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|376005|1800799015|7416005|366007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?aW9SZTZEa1hUWFg3QkVMNGw3R0xCSnBReDU5Q21sMkFXMzJ1T2Y0T2wxRmFv?=
- =?utf-8?B?cE1BRXhhZldqT1NuVUFZUWJQTUw3WHhJTElmRnRGVFNPOEF6MmNWVmR1YmxG?=
- =?utf-8?B?eHEvaU9rWklmN3pZcVE5UkpnbDErVTZKUmF0d2g4QVhxamUzbkJQc2pTS1ln?=
- =?utf-8?B?TXA0V2J2NjJFZ2RpZ0F1blBUMEFNb0tubDRuMkNVQ3FVYlcrZ21BeDBOYVNl?=
- =?utf-8?B?SEg0L2NXOUtuaUI3YjF4NTMxSDdoQ1V0Qk1JTjVFKzdpWkxNeVJmYUNFZGcr?=
- =?utf-8?B?Z2F5Z1grU2JDSythRkNqZVk5Y3lFVWFwZkN1NklaYUZQWUFMZVlWQldNcHRJ?=
- =?utf-8?B?TXVldStwV0FYSm0vTnF3bTFpRmpYamk3VDhWQVNHc2hxczI2cnYxcS9kZ0ZQ?=
- =?utf-8?B?KzZmQmpqMDVpWHhncU9JekIzQWdXUEhwZ2dnVEVmTGhwbGN3SnBUYWFaYXZi?=
- =?utf-8?B?dkEyOTZCYTM0RmJTcHFYbW80YS80TEVvSFVuaGFONk1nekZpWi9FY2VBUm5T?=
- =?utf-8?B?aldPTk51WXFVY0toRkkrRG5qQWVlamtOVHZRbnhPRFh4SlZqTGo3bEtSNVVj?=
- =?utf-8?B?VTFlUXdwNUw2OHlRN0tJODVZRFdZS1k0ZFdQekxmd2R2a1N3TkFNOFZVRHBH?=
- =?utf-8?B?QVIyQmxEMHRaZ0NYZEEwelFqOXpxdUVlT1FZb1I4eWZwYXVxNk5YK204ODAw?=
- =?utf-8?B?SzhwZlVYRWNBRCtBUnA4OHhtVUxJclpPa0ZSS3hRQ0RYU05SSHc0TVVmOEd0?=
- =?utf-8?B?VXJTVmxNT0FzQXF5QklCK3JOVWhBdVp2UUZaUXlIUEFjczFRb092OWd0SE5o?=
- =?utf-8?B?SDk3M0owbTlOaktmc3RSeExvUkNRQk1QS3VIT1QxaEJHUEpBMjRFMTYvV2lW?=
- =?utf-8?B?Z2NUNTc3cWc1MEFqbEVYSjdXeGJQWDhST0RXdTR3ZXVDRGFTTWJzU0xNbmty?=
- =?utf-8?B?SFd2OFk0T294UnlTQ0hTNE1OY0RjV2RqUW5mYU5MYzVRbFBnUVpZZXNPZ0tw?=
- =?utf-8?B?VmhmY1hiZWxNUWU2NjQ3YmlqeXppdXA3VzloUjFNb3pDM2dMc2ZYVEJha3JF?=
- =?utf-8?B?c1VQVzZySDcwVVkvbWlteVk4cGNWNU1FUVE1dmdsRWpvWTNSK01xVjExSHVq?=
- =?utf-8?B?K3dnakZaaFlPSU5FdnA1eFNvRlFGM2o3Snhzc1BGV1VEaFRPYkFpQW04TTdP?=
- =?utf-8?B?V20zek1sMmUxelloQXBxVU1YbFBQYmFDd0RINjR2OEVKdnA3aTY3ek55NDdr?=
- =?utf-8?B?SWVFT3dseUMvT3ZlcDl6SlcyRWp4MWhTdURha3M5VEZmcW5zRGpTVDF5L2hI?=
- =?utf-8?B?bGZCZkpZelJpZkFVeStpY3pIajZQcUNnZnNNTXN5bW5TdlFPcmNhN1BpRGdx?=
- =?utf-8?B?SjdiaUtMQVpNYXNPaUtNdWxRRldGT3ptUEdGN1V6U0RETVRnVnpYRy9sNmVM?=
- =?utf-8?B?SnRjMXoyVjFrTGJuL1FDZjV6eXRxR3FZYW5NZjI0dUQ0cGJkazhwUll0dXd6?=
- =?utf-8?B?bG1Ra1hBdFpZYklObDIyaDVVQWd6ZEFSM2Q3aytwSURpS1dyY2l6L25SQ1Rx?=
- =?utf-8?B?ZUwzalFOeGE5a0lydGZzUHprM25xNHFiL0NKMVIrVXdBMThIU05wNGJadVR1?=
- =?utf-8?B?R3lubHZOa0ZwTEV4NlZQT0NIa0E3MG9KSk50c044R29TV3dOcDNaZzByaEox?=
- =?utf-8?B?elRpbTlTS2pKU2trNy84S3p1dHZ3dTIzZ1RYQlNoLzMwSm9CL08zTVZBPT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4877.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376005)(1800799015)(7416005)(366007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QjhTN1drdzcxYUhra0dPSk1wK1ZKTE5JdjNvbWNFakljMlZEK0NJQUc1WTVS?=
- =?utf-8?B?TWF5Nll0UFpvQ0VIS1UzbTRnNjk1R2E0SkV4VWhOUkxOTVUrT2NoeDJ2dU0w?=
- =?utf-8?B?M0RFSHAwKzRqVHkzRjQwZk8vWHJCQm9UYmVlYmZVeGFuZXdVZ1lDN1JyZkF6?=
- =?utf-8?B?Wk5kSW1NMWsxNHRaOVcxS0swSmVWdjh2VGtwQlpBaHBBMUJzVUJ5eDhmWFdM?=
- =?utf-8?B?OUkrZ3hZVnBVY0ZuRGF2R1NZTzhYcjlMVldvd3RjRDh4L0dxRXRKZUhGWjlQ?=
- =?utf-8?B?anZQNmNDRDdnYnNmaHFHRXp5K2M3MGY4YzdueWlzZDVNcG8zci9wU0ZXWXps?=
- =?utf-8?B?NUZneW9vSE13OWtieGZYSFk5RnJoSm91RXBDUlJnZ0ZrMy83eXlNK1VUcCt0?=
- =?utf-8?B?UmxvU0tNaGhrbVVHdDRXWVFubE9JaUNwditDWmtkckdiU0FNRmczL1NGZ0dH?=
- =?utf-8?B?Slk0OHlGaDFNeGJWSmV5aWJxL0ZtVndteEpVZm1QNCtMaXNlNEZaWE5EeTJw?=
- =?utf-8?B?NlkrTlJ3WTg3SFBKTytkQ1NMUGk1REVISndIUkgvUDNzNi9tMlZXdnQycW0r?=
- =?utf-8?B?MUUvNG1aOVphSnB3Y3M5Q3EyQWFlSUozTGNoUHFEQTk2cTdGRG9HVis2SFJT?=
- =?utf-8?B?ZFRXbUR2K0xORDhiRFcvN0gwRG1DTjRxMFZuellObkpWeU9EUlBOOVdjR2s3?=
- =?utf-8?B?N1VjZTFmbTNPZ1NleVU1QjlIK2ZNTXptcE4rYzBkcXFTazlkNXAzQXBrdCsw?=
- =?utf-8?B?eU5aa2FkMWNkV1ZYNVZ5V29OVG5MbitEcFRqY2lWd0Q5a1M3M1ZZSlpDMkxJ?=
- =?utf-8?B?cGV3Z0xseVZSUkcrNm9NWVlHQi9wRlF5YTZxdi9kcWNPY2V3bVhqR2ZoS2tF?=
- =?utf-8?B?d0E5cUJkLzkweTdlT1Rld2xEM3B4WEk4SEZVVnZlRzVJMVFDVVV4S1JsVi93?=
- =?utf-8?B?a1MyakYvQXBxUG1pZXdFZDZqVUpFcWVMZ2paMzc1YU5aZ3M1STJSamhNNmNK?=
- =?utf-8?B?YXFRNHFaQlZ5eUJiSjBhd1VETTJlL2xXNkxibzB5MVByMzFvSW1qc1JTWEEz?=
- =?utf-8?B?OE9Kb1crbHNkSGVYOXJ4Sjd2bVcrL2haQlpuNEsrak1GQS9qZlg4MEpRMUpH?=
- =?utf-8?B?MGIwd2FLNjRSMmM1Vmt6bDZLSnRzUEdoTTBrcjFvQXk5VE9zRTI1ME9VRW80?=
- =?utf-8?B?RFhqdmpMWkF4NnVlTDFZcjRNbXdJVTVSNU9ETTczbmgyOGJQVEJFYUJWK1Ez?=
- =?utf-8?B?UE56K3AxN2xLNlJ3NkYvN3RoMXFlb2NHUGVpQUlqUEpyNkc2OVJONHlBTVh4?=
- =?utf-8?B?NDZQMkNnMVkyY0p5U1I3SWt2dkJTc3Z1amlCZGN4cE9FTXVkZk15OUp2Unhp?=
- =?utf-8?B?am5GL0hyVG5qYUI0dTJka3dMZjlRZUY2dEsrL0FRZEtPdjdnVU9uRHQxZWlM?=
- =?utf-8?B?eDdHbE9JVzc4cTcwa2ZBUWdMUVFQaVNRVkhWTVR4d1NZbk5uWFhteE9JUW9M?=
- =?utf-8?B?SGVxR1A3M3crTjRlajc2UldyVUVsTG03aWNaTGl0TU9ZNnFhM2pJYlVFamJw?=
- =?utf-8?B?WTNWcFpsQ04rRmR3Y2s3MDcvZkVVRElzd0hGSUdBWVRWWEVpelkvMWMrdzEv?=
- =?utf-8?B?Yk4zekFlN0tDb0ovMTEyaU5ubEgwR1dtSjNzN2xmT2xoVHNNK1lGN2p2U0FU?=
- =?utf-8?B?QjBjZ2VXT0V6QjNCK3BaZGdtbkMxcXhISCtXY29GYUszYUJBOUxwNk9hU3Ev?=
- =?utf-8?B?Y3VwZUhaK1RGZ1lQa0VnWFk5L21ta0pDSWZjTm14OUhocnJadkpsYWZnYWd5?=
- =?utf-8?B?ZEtLZ3QxMkxqYTZzWkxabk9PR2JENkZsUis0Z2FHM1EvOEVIMGFLQ0JBWnlD?=
- =?utf-8?B?MWkzVDZTVGdtZzBSUDdVR3doamR0cW1XOTRsYnF3dUxjWUw4TnNNNzU5U0dE?=
- =?utf-8?B?OXF6NGRyNmdxdFRFVTBLZEpldDR3TzdLTzlTeTdzS0VVMGlLTkQ3YSt4MVhr?=
- =?utf-8?B?U3NKaGE5c3VLM2I4OVc4akl5Y0JxUWFVdklLQkxZRnZhQmhJKzl6ajcwWmNo?=
- =?utf-8?B?UEp0aS9qa1BmU1JUcFFiajdOdDlMM2pWSmJsU2FvWGljWlBxWm9QaTJ5OXhC?=
- =?utf-8?Q?y3jY=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2474dc95-d3e3-4ae8-cc22-08dc859676a0
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4877.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2024 19:34:06.2887
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Gj/qJ5O6xjXOwCNwZ7QgA2GcmPJB2xnv+zlmbjqEJHo05Z428cLJvmOzN94ce7HQ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8478
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="z5IY1njxa83vktCR"
+Content-Disposition: inline
+In-Reply-To: <20240602125416.976336-1-masahiroy@kernel.org>
+X-Smtpcorp-Track: FeHrazEwwDJq.1R1ZaMXSnp-j.OsO99A8D68T
+Feedback-ID: 1174286m:1174286a9YXZ7r:1174286sjF3jDkxxc
+X-Report-Abuse: Please forward a copy of this message, including all headers,
+ to <abuse-report@smtp2go.com>
+
+
+--z5IY1njxa83vktCR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sun, Jun 02, 2024 at 09:54:14PM +0900 Masahiro Yamada wrote:
+> I previously submitted a fix for a bug in the choice feature [1], where
+> I mentioned, "Another (much cleaner) approach would be to remove the
+> tristate choice support entirely".
+>=20
+> There are more issues in the tristate choice feature. For example, you
+> can observe a couple of bugs in the following test code.
+>=20
+> [Test Code]
+>=20
+>     config MODULES
+>             def_bool y
+>             modules
+>=20
+>     choice
+>             prompt "tristate choice"
+>             default A
+>=20
+>     config A
+>             tristate "A"
+>=20
+>     config B
+>             tristate "B"
+>=20
+>     endchoice
+>=20
+> [Bug 1] the 'default' property is not correctly processed
+>=20
+> 'make alldefconfig' produces:
+>=20
+>     CONFIG_MODULES=3Dy
+>     # CONFIG_A is not set
+>     # CONFIG_B is not set
+>=20
+> However, the correct output should be:
+>=20
+>     CONFIG_MODULES=3Dy
+>     CONFIG_A=3Dy
+>     # CONFIG_B is not set
+>=20
+> The unit test file, scripts/kconfig/tests/choice/alldef_expected_config,
+> is wrong as well.
+>=20
+> [Bug 2] choice members never get 'y' with randconfig
+>=20
+> For the test code above, the following combinations are possible:
+>=20
+>                A    B
+>         (1)    y    n
+>         (2)    n    y
+>         (3)    m    m
+>         (4)    m    n
+>         (5)    n    m
+>         (6)    n    n
+>=20
+> 'make randconfig' never produces (1) or (2).
+>=20
+> These bugs are fixable, but a more critical problem is the lack of a
+> sensible syntax to specify the default for the tristate choice.
+> The default for the choice must be one of the choice members, which
+> cannot specify any of the patterns (3) through (6) above.
+>=20
+> In addition, I have never seen it being used in a useful way.
+>=20
+> The following commits removed unnecessary use of tristate choices:
+>=20
+>  - df8df5e4bc37 ("usb: get rid of 'choice' for legacy gadget drivers")
+>  - bfb57ef0544a ("rapidio: remove choice for enumeration")
+>=20
+> This commit removes the tristate choice support entirely, which allows
+> me to delete a lot of code, making further refactoring easier.
+>=20
+> This includes the revert of commit fa64e5f6a35e ("kconfig/symbol.c:
+> handle choice_values that depend on 'm' symbols"). It was suspicious
+> because it did not address the root cause but introduced inconsistency
+> in visibility between choice members and other symbols.
+>=20
+> [1]: https://lore.kernel.org/linux-kbuild/20240427104231.2728905-1-masahi=
+roy@kernel.org/T/#m0a1bb6992581462ceca861b409bb33cb8fd7dbae
+>=20
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+>=20
+>  Documentation/kbuild/kconfig-language.rst     | 11 +---
+>  scripts/kconfig/conf.c                        | 56 ++-----------------
+>  scripts/kconfig/confdata.c                    | 17 +-----
+>  scripts/kconfig/gconf.c                       |  5 +-
+>  scripts/kconfig/mconf.c                       | 28 +++-------
+>  scripts/kconfig/menu.c                        | 27 ---------
+>  scripts/kconfig/nconf.c                       | 28 ++--------
+>  scripts/kconfig/parser.y                      | 23 +++++---
+>  scripts/kconfig/qconf.cc                      |  2 +-
+>  scripts/kconfig/symbol.c                      | 24 +-------
+>  scripts/kconfig/tests/choice/Kconfig          | 17 ------
+>  scripts/kconfig/tests/choice/__init__.py      | 10 ----
+>  .../tests/choice/alldef_expected_config       |  3 -
+>  .../tests/choice/allmod_expected_config       |  3 -
+>  .../tests/choice/allno_expected_config        |  3 -
+>  .../tests/choice/allyes_expected_config       |  3 -
+>  .../tests/choice/oldask0_expected_stdout      |  4 --
+>  scripts/kconfig/tests/choice/oldask1_config   |  1 -
+>  .../tests/choice/oldask1_expected_stdout      |  9 ---
+>  .../tests/choice_value_with_m_dep/Kconfig     | 21 -------
+>  .../tests/choice_value_with_m_dep/__init__.py | 16 ------
+>  .../tests/choice_value_with_m_dep/config      |  2 -
+>  .../choice_value_with_m_dep/expected_config   |  3 -
+>  .../choice_value_with_m_dep/expected_stdout   |  4 --
+>  scripts/kconfig/tests/inter_choice/Kconfig    | 25 ---------
+>  .../kconfig/tests/inter_choice/__init__.py    | 15 -----
+>  scripts/kconfig/tests/inter_choice/defconfig  |  1 -
+>  .../tests/inter_choice/expected_config        |  4 --
+>  28 files changed, 42 insertions(+), 323 deletions(-)
+>  delete mode 100644 scripts/kconfig/tests/choice/oldask1_config
+>  delete mode 100644 scripts/kconfig/tests/choice/oldask1_expected_stdout
+>  delete mode 100644 scripts/kconfig/tests/choice_value_with_m_dep/Kconfig
+>  delete mode 100644 scripts/kconfig/tests/choice_value_with_m_dep/__init_=
+_.py
+>  delete mode 100644 scripts/kconfig/tests/choice_value_with_m_dep/config
+>  delete mode 100644 scripts/kconfig/tests/choice_value_with_m_dep/expecte=
+d_config
+>  delete mode 100644 scripts/kconfig/tests/choice_value_with_m_dep/expecte=
+d_stdout
+>  delete mode 100644 scripts/kconfig/tests/inter_choice/Kconfig
+>  delete mode 100644 scripts/kconfig/tests/inter_choice/__init__.py
+>  delete mode 100644 scripts/kconfig/tests/inter_choice/defconfig
+>  delete mode 100644 scripts/kconfig/tests/inter_choice/expected_config
+>=20
+> diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kb=
+uild/kconfig-language.rst
+> index 555c2f839969..dc50b5b12577 100644
+> --- a/Documentation/kbuild/kconfig-language.rst
+> +++ b/Documentation/kbuild/kconfig-language.rst
+> @@ -399,16 +399,9 @@ choices::
+>  	"endchoice"
+> =20
+>  This defines a choice group and accepts any of the above attributes as
+> -options. A choice can only be of type bool or tristate.  If no type is
+> -specified for a choice, its type will be determined by the type of
+> -the first choice element in the group or remain unknown if none of the
+> -choice elements have a type specified, as well.
+> +options.
+> =20
+> -While a boolean choice only allows a single config entry to be
+> -selected, a tristate choice also allows any number of config entries
+> -to be set to 'm'. This can be used if multiple drivers for a single
+> -hardware exists and only a single driver can be compiled/loaded into
+> -the kernel, but all drivers can be compiled as modules.
+> +A choice only allows a single config entry to be selected.
+
+oh, I wasn't aware of that multi-selectable 'm' feature.  I think it's real=
+ly
+good to get rid of this, thanks!
+
+
+Patch looks good to me.
+
+Reviewed-by: Nicolas Schier <nicolas@fjasle.eu>
 
 
 
-On 6/4/24 10:30, Simon Horman wrote:
-> On Fri, May 31, 2024 at 04:38:38PM -0500, Wei Huang wrote:
->> According to PCI SIG ECN, calling the _DSM firmware method for a given
->> CPU_UID returns the steering tags for different types of memory
->> (volatile, non-volatile). These tags are supposed to be used in ST
->> table entry for optimal results.
->>
->> Co-developed-by: Eric Van Tassell <Eric.VanTassell@amd.com>
->> Signed-off-by: Eric Van Tassell <Eric.VanTassell@amd.com>
->> Signed-off-by: Wei Huang <wei.huang2@amd.com>
->> Reviewed-by: Ajit Khaparde <ajit.khaparde@broadcom.com>
->> Reviewed-by: Somnath Kotur <somnath.kotur@broadcom.com> 
->> Reviewed-by: Andy Gospodarek <andrew.gospodarek@broadcom.com>
-> 
-> ...
-> 
->> diff --git a/drivers/pci/pcie/tph.c b/drivers/pci/pcie/tph.c
-> 
-> ...
-> 
->> +static bool invoke_dsm(acpi_handle handle, u32 cpu_uid, u8 ph,
->> +		       u8 target_type, bool cache_ref_valid,
->> +		       u64 cache_ref, union st_info *st_out)
->> +{
->> +	union acpi_object in_obj, in_buf[3], *out_obj;
->> +
->> +	in_buf[0].integer.type = ACPI_TYPE_INTEGER;
->> +	in_buf[0].integer.value = 0; /* 0 => processor cache steering tags */
->> +
->> +	in_buf[1].integer.type = ACPI_TYPE_INTEGER;
->> +	in_buf[1].integer.value = cpu_uid;
->> +
->> +	in_buf[2].integer.type = ACPI_TYPE_INTEGER;
->> +	in_buf[2].integer.value = ph & 3;
->> +	in_buf[2].integer.value |= (target_type & 1) << 2;
->> +	in_buf[2].integer.value |= (cache_ref_valid & 1) << 3;
->> +	in_buf[2].integer.value |= (cache_ref << 32);
->> +
->> +	in_obj.type = ACPI_TYPE_PACKAGE;
->> +	in_obj.package.count = ARRAY_SIZE(in_buf);
->> +	in_obj.package.elements = in_buf;
->> +
->> +	out_obj = acpi_evaluate_dsm(handle, &pci_acpi_dsm_guid, MIN_ST_DSM_REV,
->> +				    ST_DSM_FUNC_INDEX, &in_obj);
-> 
-> Hi Wei Huang, Eric, all,
-> 
-> This seems to break builds on ARM (32bit) with multi_v7_defconfig.
-> 
->   .../tph.c:221:39: error: use of undeclared identifier 'pci_acpi_dsm_guid'
->   221 |         out_obj = acpi_evaluate_dsm(handle, &pci_acpi_dsm_guid, MIN_ST_DSM_REV,
->       |
+Kind regards,
+Nicolas
 
-Thanks for pointing it out. I will add "depends on ACPI" in Kconfig
-which solves the problem:
 
-$ make ARCH=arm CROSS_COMPILE=arm-linux-gnu- multi_v7_defconfig zImage
-modules
-  CALL    scripts/checksyscalls.sh
-  Kernel: arch/arm/boot/Image is ready
-  Kernel: arch/arm/boot/zImage is ready
+--z5IY1njxa83vktCR
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> 
-> I suspect a dependency on ACPI in Kconfig is appropriate.
-> 
->> +
->> +	if (!out_obj)
->> +		return false;
->> +
->> +	if (out_obj->type != ACPI_TYPE_BUFFER) {
->> +		pr_err("invalid return type %d from TPH _DSM\n",
->> +		       out_obj->type);
->> +		ACPI_FREE(out_obj);
->> +		return false;
->> +	}
-> 
-> ...
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEh0E3p4c3JKeBvsLGB1IKcBYmEmkFAmZgxHMACgkQB1IKcBYm
+EmndVQ/+I/hxjhcRiNRPAJ9qRVyn/3ZBwjUOjOMTPNkGV4aLvtPtnMRB9u6WpyoJ
+Rk6URdeJXpDIP8OpqexJsXCxR0gaPL2ejHaHU/TbuKab7c+SKn6/xl9FWqUdWRxu
+H9pZ76HLFddKIjGag9GhwyKABeyCS34KxPRiBCFsnjIpyA5fu3DHZhAgOn1CeNWM
+4bFAKsq6RjyCqQt7oEEnMTnIfy6yDLuUi9sCByHLAN/CN4ABea2jElTH1gANuglD
+u78qOY/iDBY/crm7xJsVQ3W9/yL/ekOBfsPyydwsG0HnhpxaMCFlQ9shFoJsHM2o
+CqyaX84nqOFizbP4UHDstJUtiXlnLJIn9P91pjZ7AIrvS24KX6avFSihD5kTwjlr
+5YeTynEpzae0OPCIW6SoGFBBTrP35FJj7MeccjTSndnAKKPAN524sZHvElbEGr55
+1xQeRioQb1oqIGP/UvXMwReCD6Bev+8JmpbZwxRgrgb1G7VguFeJwbmIPef7ctwi
+1yhx+wpntv6bc9cIc4MwaQLuAsK2HPT+KPl+PuoH/iKFv+kPI+buM75NXJuep8x1
+kUsCPvDvYeuITGfsV7ICF/qWQxLtI0NsWVvMBDwqBzLf3GwQxwyhy5a+m51V5bet
+zVf4QZbZZGTTgWhxyIxLHOU9MbUdHfKuQrZTjiBwyPzen5Ii0YE=
+=cH/K
+-----END PGP SIGNATURE-----
+
+--z5IY1njxa83vktCR--
