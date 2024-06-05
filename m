@@ -1,107 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31382BD0D;
-	Wed,  5 Jun 2024 06:22:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89EFA18F2C7
+	for <linux-doc@vger.kernel.org>; Wed,  5 Jun 2024 07:49:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717568558; cv=none; b=RxRnC80TZWtbxsqm1HNLAjWYtBBQLRbipviitObd/WfjpOxExbUGLzWuk/wJoc8e6Ky76HPN7bh8k67RY4k1RZrbXzOmcoi/cWTzQjGGILsuq+mD0LxYY0rXoQMrctxUrd6gJo0FmafVRlwPu4g29+u9gctVJfE/5TsJjx8Snno=
+	t=1717573797; cv=none; b=IrDgGzgLqx7GK0us2i1DUv56BYtb+1270dk5hjKJoeB3YsJxU+faEgEZvuIfEqZjrx8oa8i/wGDQ+8Ag7UM29zys0PmHSfiUniSq4G+EaqiD7RWRUUe3PTXgzshBJ/NKCVE3rphSN07ZfH/QpbrkwZWLFGVNJzP4XDs77LP1lCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717568558; c=relaxed/simple;
-	bh=22vGbdo3lcoqgtt6iTgodLgKpeC1H2mmwljTBZUWyNs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tMuN1kz4ll1SetiPdPh6FX5r5p+PyJBiAVafdw+187Wp2vWeUYuGoczpGapmohek+KfsJZXAiyVUOR4oHejZNo60Dz6FJfaruGgrOKWP9rg7Zink3hqC6Q4f5Y80ZsXObz7YCHQFYJBdFQLpJ588Lwadw9uM9yt6QsZpN14xfPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LuiuKYoV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717573797; c=relaxed/simple;
+	bh=FE42yrx9mX2aAvYx08lkJboDb101vHDGkEUhaTj4lJ0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UwWl4zwyeflOe+Xm9IAiVfUKrG2gDNZbu7tqCzW3IdkApwu0tdDyrbJMuV6IW/5o5fhExbtO9XwQ0UkC/ZyDuSh1cqgjUrK5m4FHef9VGoKJJz0Ng3XUB8E8rgrKLM7uIbBPno0GnyaYDfol2cvRGM/79zXWMVAf98TMY8nEUDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Zo0OKjyH; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LuiuKYoV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFA3CC3277B;
-	Wed,  5 Jun 2024 06:22:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717568557;
-	bh=22vGbdo3lcoqgtt6iTgodLgKpeC1H2mmwljTBZUWyNs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LuiuKYoVXSbCm1Dbvh0V60xcmtNnwomS1+agdGXYtSH5RlrxJbcdXsIy1lqp5wItG
-	 JJyN5q3EzSLIvKCXaYZzkbTVItVxMxvBWyqXCcRFhXNDfq7MFeCHslkWNW9Sao3nLj
-	 jNn/BbgErH5YpRHQIJ3pAF94KPw8WHbwel+G3StODSKyFX38S4hfpQC6O5crO6uFn8
-	 b6xfpTP1idOJvxSjt5esKEXWgS7Hk6s2UujbwBliTpEhdDIoHyLKAaQWyJYJKAFx9E
-	 mbEcmRhEGOU/o4xFSZxyQp1k1cqmH7XBpuHaF8vuA25/uRVG0SkaSJOftyk7bgCnxI
-	 XFYJoiZO2IcMQ==
-Date: Tue, 4 Jun 2024 23:22:34 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: David Gow <davidgow@google.com>
-Cc: Brendan Higgins <brendan.higgins@linux.dev>,
-	Rae Moar <rmoar@google.com>, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Miguel Ojeda <ojeda@kernel.org>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Richard Weinberger <richard@nod.at>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-	linux-um@lists.infradead.org, rust-for-linux@vger.kernel.org,
-	x86@kernel.org, Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@samsung.com>,
-	Alice Ryhl <aliceryhl@google.com>, linux-doc@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH] arch: um: rust: Add i386 support for Rust
-Message-ID: <20240605062234.GE279426@thelio-3990X>
-References: <20240604224052.3138504-1-davidgow@google.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Zo0OKjyH"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-57a22af919cso5693a12.1
+        for <linux-doc@vger.kernel.org>; Wed, 05 Jun 2024 00:49:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1717573794; x=1718178594; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FE42yrx9mX2aAvYx08lkJboDb101vHDGkEUhaTj4lJ0=;
+        b=Zo0OKjyHOWyak4iKzhzb/hikUeH+VVrIsCk5lH8dHes06k36NykNFew7GCgzLAp3wB
+         w11ve/gH0LYcDQnSox6EtBUj0Q4d/aYWoGJSuZaj7DSkZdc0vFApY55WyYPAJp/dQ/rd
+         MXq6y4L1qDelhx+oot7lb3Fz/g0sd2jNOl0pn//WD870oKsO75ZaQ1/tpihCyeUiqph1
+         rfoqh3M55m+rEsj+2tg6Z2JmnjrkM8WDm/PFrNcyrCS44dHdylE2Gs600Lyz3Oa2FZiU
+         DMMXP7TP8i0Ba1hgUTnNrIZFmuXyqjnpOrdX6B2bxatxN13Dsj02m7+yX5iVngEcSdJk
+         whJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717573794; x=1718178594;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FE42yrx9mX2aAvYx08lkJboDb101vHDGkEUhaTj4lJ0=;
+        b=fLoqbTHMF1gYy46bn0Y4sBmVjfafe1FwYagdrf1ANCMdrX9sc2dUqWS1mnhCHjLurV
+         BgWYFM1s7iIM29QVJLNDPl3chEADgxML6BjotBT1kjGNgnKMRm6rRnByureWqny0zqBM
+         5XezpoVy7S2tkpBUg8YI62bxxqovWICUaJiQqtPZr1fiSczPvQ68yAfqga3DhXXWYkvb
+         IqKR1trVitgPBFs8+zNY9rUg3pRBCDkLWO53JoOrTDeEHB5KTqzLKBw9DZFQo9W4Pe3i
+         vX315VIULaVTnieW52VkLAELhbqg/G995eSt34479R2Wt+WRnVLkdFhV1h2axCllZEQ0
+         5HUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUmKyeCcVqNzqiK2P4fPZUck4x0dycnUQj0LhY/6u91B6Wu9Md+U8v/Ps9K4ejOSNiPVzq7jsHm04jUdG1TUElpXSwUTBQcGmp4
+X-Gm-Message-State: AOJu0YzxB2UmQjrfnBRK05uT20rvuU7UMr3EtN0rixchrQztYJ/gjh0B
+	9SAz47xwtuPRkypyVfifViJm3VWKpa2hddJxdn8kosqu1QTowZCF4ZjpaI667PK6X6s4gzdlBLX
+	BGRRAjjQKjdPTyvzqgCCepaQJkop7fm0NLJEJ
+X-Google-Smtp-Source: AGHT+IGik7WgbEwjTVgo9/fdJG7UMvJVLbNXpxM0I5UfVI/IX9afeT3W28dWzu7Du/gl9ewBx6vSxtl2TQVra+z+mLE=
+X-Received: by 2002:a05:6402:288:b0:57a:22c8:2d3c with SMTP id
+ 4fb4d7f45d1cf-57a8d8de8bamr135300a12.0.1717573793552; Wed, 05 Jun 2024
+ 00:49:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240604224052.3138504-1-davidgow@google.com>
+References: <20240605-tcp_ao-tracepoints-v2-0-e91e161282ef@gmail.com> <20240605-tcp_ao-tracepoints-v2-1-e91e161282ef@gmail.com>
+In-Reply-To: <20240605-tcp_ao-tracepoints-v2-1-e91e161282ef@gmail.com>
+From: Eric Dumazet <edumazet@google.com>
+Date: Wed, 5 Jun 2024 09:49:39 +0200
+Message-ID: <CANn89i+BB1oZD-NScsfm-Stt7ykMNGij0b0dJYvit=PxyFOV8A@mail.gmail.com>
+Subject: Re: [PATCH net-next v2 1/6] net/tcp: Use static_branch_tcp_{md5,ao}
+ to drop ifdefs
+To: 0x7f454c46@gmail.com
+Cc: "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, David Ahern <dsahern@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Mohammad Nassiri <mnassiri@ciena.com>, Simon Horman <horms@kernel.org>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi David,
+On Wed, Jun 5, 2024 at 4:20=E2=80=AFAM Dmitry Safonov via B4 Relay
+<devnull+0x7f454c46.gmail.com@kernel.org> wrote:
+>
+> From: Dmitry Safonov <0x7f454c46@gmail.com>
+>
+> It's possible to clean-up some ifdefs by hiding that
+> tcp_{md5,ao}_needed static branch is defined and compiled only
+> under related configs, since commit 4c8530dc7d7d ("net/tcp: Only produce
+> AO/MD5 logs if there are any keys").
+>
+> Signed-off-by: Dmitry Safonov <0x7f454c46@gmail.com>
 
-Just a fly by comment on style, I don't have much to say content :)
-
-On Wed, Jun 05, 2024 at 06:40:50AM +0800, David Gow wrote:
-> At present, Rust in the kernel only supports 64-bit x86, so UML has
-> followed suit. However, it's significantly easier to support 32-bit i386
-> on UML than on bare metal, as UML does not use the -mregparm option
-> (which alters the ABI), which is not yet supported by rustc[1].
-> 
-> Add support for CONFIG_RUST on um/i386, by adding a new target config to
-> generate_rust_target, and replacing various checks on CONFIG_X86_64 to
-> also probably like  support CONFIG_X86_32.
-> 
-> We still use generate_rust_target, rather than a built-in rustc target,
-> in oPrder to match x86_64, provide a future place for -mregparm, and more
-> easily disable floating point instructions.
-> 
-> With these changes, the KUnit tests pass with:
-> kunit.py run --make_options LLVM=1 --kconfig_add CONFIG_RUST=y
-> --kconfig_add CONFIG_64BIT=n --kconfig_add CONFIG_FORTIFY_SOURCE=n
-> 
-> An earlier version of these changes was proposed on the Rust-for-Linux
-> github[2].
-> 
-> [1]: https://github.com/rust-lang/rust/issues/116972
-> [2]: https://github.com/Rust-for-Linux/linux/pull/966
-> 
-> Signed-off-by: David Gow <davidgow@google.com>
-...
-> -ifdef CONFIG_X86_64
-> +ifneq ($(or $(CONFIG_X86_64),$(CONFIG_X86_32)),)
-
-These configurations are mutually exclusive, so would it look more
-readable to have it be:
-
-
-ifeq ($(CONFIG_X86_32)$(CONFIG_X86_64),y)
-
-?
-
-Cheers.
-Nathan
+Reviewed-by: Eric Dumazet <edumazet@google.com>
