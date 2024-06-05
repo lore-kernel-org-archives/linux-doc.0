@@ -1,217 +1,130 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-118.freemail.mail.aliyun.com (out30-118.freemail.mail.aliyun.com [115.124.30.118])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED4CED51C;
-	Wed,  5 Jun 2024 01:13:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D52951EB36;
+	Wed,  5 Jun 2024 02:16:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717550016; cv=none; b=EZr9QnPzIMS8z+EWso0U6s7nmEbwRjjKdoTQZotDBqO659UuYxGLfcEuxF2lt5XRSZvGCCS9hCI38iveQIakUC2g04jd5Apq4KlwzmdKDNkGzd1W6zS/0y0nUWy8CxOPHi7anG0sdsW9k0ruD0s0f3W2gTe3X/GUpnc8H6utwpg=
+	t=1717553807; cv=none; b=hFFka/51V+mIkUXUG6vBXltYggVqnGRixtCF0s/mWaL1crnAZR0Y+/HFM8atlwdCT0UvjDgPZJrK7eD5xmufsLl7+ZNS2CD5TgkzR8YJrBmkMpITIO8Nma4LcJEfGYFlqxX6Oyo6XIO1XPv3koe5JRGdxwEx8aba7kEQYRiQpFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717550016; c=relaxed/simple;
-	bh=aeTRylefGuQHaUtMZDE+X7LC3UE9fNWSsaXvqpbrIqQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=fcutyFI4Vhl3VOi5RfYtIDG94MyeiVRcicCufSxjbQLsATKwSD3KrGcUkxpyx8S6zWqKva2pGFENpf41i1sZGGA/KNZgh8BXj9aRX1U2GmcNwiFRlSKr24cn0nvPjeSIkO/w8AFXcRYbOQyjXkG40KdeHtngPPWdAP5nBgMbUK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HCugkmDA; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1717553807; c=relaxed/simple;
+	bh=189mdYsXxsccLCMxzEslQckd9F6l5Pkg+vVbG5gSlLA=;
+	h=Message-ID:Subject:Date:From:To:Cc:References:In-Reply-To; b=HbhT5a9E7p8ZMgJsDZIuKWi3yHDpDTJzVdS2SkicZYcWzipOghoeacgSBdMgeLGf2AYMrHpunQkgU9jP0MQ46elOABLtx9igxk7UfJTG1+Cpn+nGEXWjrHbQHjvYBdAWyfK/N8YtNibbQcX0qydsVqGVOlzIdTt2jTZg2G6gTXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=jvyVgnac; arc=none smtp.client-ip=115.124.30.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HCugkmDA"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-1f44b594deeso45555925ad.2;
-        Tue, 04 Jun 2024 18:13:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717550014; x=1718154814; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tu6vsHCnxaPM2f2KKum/zLpiydGYEoGWT465e/02zAo=;
-        b=HCugkmDACu0fNsqFfXhekybmI/KjIJSAEHw/NzBhvHHTaXaO9V8CrS9VQXImHe9u0k
-         YWP/MZTbhvDArUcoJB71Z1YtnNG/BUW3sChKBd/uBW6Ei0JwbJ3k+eJdOHmy4JmHk6ha
-         DiufAr2/VxLtxWjRWAqEr7AdUfS/Tl+YY8PZ5FsqgK2W+0rTPJvxahKNnqZO5vy7O0g/
-         mdIgm+WRaUkqWpfcW3XcFsemPtfKhQObHWchRSnUrScRa1ZmkNWEqMl+J9zBzWMylsY9
-         jQ/uGYCkDXz7lYXWhKaFhR1Gg416AqbfDspDwGmiyk41HNkkKbymUAXdcbVsEeJJeGK+
-         r0iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717550014; x=1718154814;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Tu6vsHCnxaPM2f2KKum/zLpiydGYEoGWT465e/02zAo=;
-        b=tRI5vNiihJjQGhqFRkAKusRvNsO62KcR7rvpgn0STts+rLbG+9XCVwLfD0zthxw7AO
-         x3wcyirm0cHeAceOJ9qOL6ks491GDZtHDlRlqcgC7LSB60fpQIq/sakJ0MvD2+wb/LXn
-         fLa2wLrLC3dXMnjF1mABTMWv9ZFObL+ssxvgSKHfeuku+WYzwR5cwjJa2+qsaXzLxYEi
-         S8s9N2xOoy6eWW343cCJmAjmW8L7sqRoiwfb2JSjIoRbP9GVP2cOxAFAh2Qd9JaWnct5
-         abErDHYPND065y9ex5qPWIWRE31SVDiXmxaq2UMTL7MoyAqyw/suo7ZlPaYgJniWZedY
-         pLvg==
-X-Forwarded-Encrypted: i=1; AJvYcCXtqT6Kg1KIjZAwiTMk1gMTE89OPei9nRwUOMoT2RVAvlQASxqvU+XwJ3HonHG6TejjBtPQpTVvjq9PwcJ0XGwSsJSUzULH2Qfq6+9HKatZO6ipIvrCg7x9nVZpP1iRUwD9CHRKpGx1Yi5B3p1KY/su876YDzVFOh92UOISCbSfZI4w
-X-Gm-Message-State: AOJu0YzApxl4kkfyCkM/F4cR2mam/8onvbbq/YQWYgBW1KQtzfrf4NhA
-	m/ATIuw2RcFcWkN2f5y+1DL79NQ6IMOQnsavRztE8LPOwfsjlXZF
-X-Google-Smtp-Source: AGHT+IGJgM+34V9qBDcdXOjRRC6HPnlatgP+2RACljuIkhwsYwWu5xrjOtUVR/Ipe0ykdmx38saDZA==
-X-Received: by 2002:a17:902:c94a:b0:1f4:9e69:a8f9 with SMTP id d9443c01a7336-1f6a5a7a27emr13895425ad.62.1717550013931;
-        Tue, 04 Jun 2024 18:13:33 -0700 (PDT)
-Received: from paran-QEMU-Virtual-Machine.. ([118.32.98.101])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f63232dc75sm89997825ad.8.2024.06.04.18.13.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jun 2024 18:13:33 -0700 (PDT)
-From: yskelg@gmail.com
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: SeongJae Park <sj@kernel.org>,
-	Jinwoo Park <pmnxis@gmail.com>,
-	Austin Kim <austindh.kim@gmail.com>,
-	shjy180909@gmail.com,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Yunseong Kim <yskelg@gmail.com>
-Subject: [PATCH v5] Documentation: cve Korean translation
-Date: Wed,  5 Jun 2024 10:08:13 +0900
-Message-Id: <20240605010811.19445-1-yskelg@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="jvyVgnac"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1717553797; h=Message-ID:Subject:Date:From:To;
+	bh=ddRm+B+lk3X4PjmjFxIaCezOgjOl1Nl1gTwxZc1qjRA=;
+	b=jvyVgnaci7hNTu33Ryyfer/l281TFTFFufo7oysqY38Hmxzuyh9E5GifGR6crZ7bj3NFMQoK8nA3k+3m8IdAG70V7y2XMFuaFmq6OFOLfa7/0asJPmMx1BdVOFeQmLLqRos3UPInCqIIQZigq1vb4fadP4v1fmROfQpbGg7jUL8=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R281e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037067112;MF=hengqi@linux.alibaba.com;NM=1;PH=DS;RN=38;SR=0;TI=SMTPD_---0W7sUjyI_1717553793;
+Received: from localhost(mailfrom:hengqi@linux.alibaba.com fp:SMTPD_---0W7sUjyI_1717553793)
+          by smtp.aliyun-inc.com;
+          Wed, 05 Jun 2024 10:16:34 +0800
+Message-ID: <1717553610.6275685-4-hengqi@linux.alibaba.com>
+Subject: Re: [PATCH net-next v14 3/5] ethtool: provide customized dim profile management
+Date: Wed, 5 Jun 2024 10:13:30 +0800
+From: Heng Qi <hengqi@linux.alibaba.com>
+To: Heng Qi <hengqi@linux.alibaba.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Huacai Chen <chenhuacai@loongson.cn>,
+ Xuerui Wang <kernel@xen0n.name>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Guo Ren <guoren@kernel.org>,
+ loongarch@lists.linux.dev,
+ Jakub Kicinski <kuba@kernel.org>,
+ "David S . Miller" <davem@davemloft.net>,
+ Paolo Abeni <pabeni@redhat.com>,
+ Eric Dumazet <edumazet@google.com>,
+ Jason Wang <jasowang@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Brett Creeley <bcreeley@amd.com>,
+ Ratheesh Kannoth <rkannoth@marvell.com>,
+ Alexander Lobakin <aleksander.lobakin@intel.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ Tal Gilboa <talgi@nvidia.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>,
+ Jiri Pirko <jiri@resnulli.us>,
+ Paul Greenwalt <paul.greenwalt@intel.com>,
+ Ahmed Zaki <ahmed.zaki@intel.com>,
+ Vladimir Oltean <vladimir.oltean@nxp.com>,
+ Kory Maincent <kory.maincent@bootlin.com>,
+ Andrew Lunn <andrew@lunn.ch>,
+ justinstitt@google.com,
+ donald.hunter@gmail.com,
+ =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Dragos Tatulea <dtatulea@nvidia.com>,
+ Rahul Rameshbabu <rrameshbabu@nvidia.com>,
+ Heiner Kallweit <hkallweit1@gmail.com>,
+ netdev@vger.kernel.org,
+ virtualization@lists.linux.dev,
+ kernel test robot <lkp@intel.com>
+References: <20240603154727.31998-1-hengqi@linux.alibaba.com>
+ <20240603154727.31998-4-hengqi@linux.alibaba.com>
+ <202406040645.6z95FW1f-lkp@intel.com>
+ <1717478006.038663-1-hengqi@linux.alibaba.com>
+In-Reply-To: <1717478006.038663-1-hengqi@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-From: Yunseong Kim <yskelg@gmail.com>
+On Tue, 4 Jun 2024 13:13:26 +0800, Heng Qi <hengqi@linux.alibaba.com> wrote:
+> On Tue, 4 Jun 2024 07:00:35 +0800, kernel test robot <lkp@intel.com> wrote:
+> > Hi Heng,
+> > 
+> > kernel test robot noticed the following build warnings:
+> > 
+> > [auto build test WARNING on net-next/main]
+> > 
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Heng-Qi/linux-dim-move-useful-macros-to-h-file/20240603-235834
+> > base:   net-next/main
+> > patch link:    https://lore.kernel.org/r/20240603154727.31998-4-hengqi%40linux.alibaba.com
+> > patch subject: [PATCH net-next v14 3/5] ethtool: provide customized dim profile management
+> > config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240604/202406040645.6z95FW1f-lkp@intel.com/config)
+> > compiler: loongarch64-linux-gcc (GCC) 13.2.0
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240604/202406040645.6z95FW1f-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202406040645.6z95FW1f-lkp@intel.com/
+> > 
+> > All warnings (new ones prefixed by >>):
+> > 
+> > >> net/ethtool/coalesce.o: warning: objtool: unexpected relocation symbol type in .rela.discard.reachable
+> 
+> 
+> I'm not sure if this seems to be related to the update of loongarch[1]?
+> didn't find this warning on other architectures such as arm/openrisc/x86.
 
-This is a Documentation/process/cve korean version.
+I noticed that the loongarch community has submitted a fix[1], and after applying
+the fix, the robot no longer reports the warning. So the warning is specific
+to the loongarch architecture.
 
-The following changes have been updated based on SeongJae Park’s feedback
-from the last v4 patch.
+[1] https://lore.kernel.org/all/20240604150741.30252-1-xry111@xry111.site/
 
-Signed-off-by: Yunseong Kim <yskelg@gmail.com>
----
- Documentation/translations/ko_KR/index.rst    |   1 +
- .../translations/ko_KR/process/cve.rst        | 107 ++++++++++++++++++
- 2 files changed, 108 insertions(+)
- create mode 100644 Documentation/translations/ko_KR/process/cve.rst
+Thanks.
 
-diff --git a/Documentation/translations/ko_KR/index.rst b/Documentation/translations/ko_KR/index.rst
-index 4add6b2fe1f2..46cbaf5696f2 100644
---- a/Documentation/translations/ko_KR/index.rst
-+++ b/Documentation/translations/ko_KR/index.rst
-@@ -13,6 +13,7 @@
- 
-    howto
- 
-+   process/cve
- 
- 리눅스 커널 메모리 배리어
- -------------------------
-diff --git a/Documentation/translations/ko_KR/process/cve.rst b/Documentation/translations/ko_KR/process/cve.rst
-new file mode 100644
-index 000000000000..30f2fc0420d8
---- /dev/null
-+++ b/Documentation/translations/ko_KR/process/cve.rst
-@@ -0,0 +1,107 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+:원문: Documentation/process/cve.rst
-+:역자: 김윤성 <yskelg@gmail.com>
-+:감수: 박진우 <pmnxis@gmail.com>, 김동현 <austindh.kim@gmail.com>
-+
-+==========
-+CVE 항목들
-+==========
-+
-+공통 취약점 및 노출(CVE®) 번호는 공개적으로 발표된 보안 취약점을 식별, 정의 및
-+목록화하기 위한 명확한 방법으로 개발되었습니다. 시간이 지남에 따라 커널
-+프로젝트와 관련하여서는 그 유용성이 감소했으며, CVE 번호는 부적절한 방식과
-+부적절한 이유로 할당되는 경우가 매우 많았습니다. 이로 인하여 커널 개발
-+커뮤니티에서는 이를 기피하는 경향이 있었습니다. 그러나 커널 커뮤니티 외부의
-+개인과 회사가 CVE 및 기타 형태의 보안 식별자를 할당하라는 지속적인 압박과
-+지속적인 남용이 결합되면서 커널 커뮤니티가 이러한 할당에 대한 통제권을 가져야
-+한다는 것이 분명해졌습니다.
-+
-+Linux 커널 개발팀은 잠재적인 Linux 커널 보안 문제에 대해 CVE를 할당할 수
-+있는 권한이 있습니다. 여기서 할당은
-+:doc:`일반 Linux 커널 보안 버그 보고절차</process/security-bugs>`와는
-+별개입니다.
-+
-+Linux 커널에 할당된 모든 CVE 목록은
-+https://lore.kernel.org/linux-cve-announce/ 에 있는 Linux-CVE 메일링 리스트의
-+아카이브에서 확인할 수 있습니다. 할당된 CVE에 대한 알림을 받으려면 다음 메일링
-+리스트를 `구독<https://subspace.kernel.org/subscribing.html>`_ 하세요.
-+
-+절차
-+====
-+
-+일반적인 안정 릴리스 절차의 일부로, 잠재적으로 보안 문제가 될 수 있는 커널
-+변경 사항은 CVE 번호 할당 담당을 하는 개발자가 식별하여 CVE 번호를 자동으로
-+할당합니다. 이러한 할당은 linux-cve-announce 메일링 리스트에 공지사항으로
-+수시로 게시됩니다.
-+
-+리눅스 커널은 시스템의 최하단 계층에서 동작합니다. 때문에 거의 모든 버그가
-+커널 보안을 취약하게 만들 수 있습니다. 하지만 버그를 수정할 때 악용 가능성을
-+명확하게 파악하기 힘든 경우가 많습니다. 이 때문에 CVE 할당 팀은 지나치게
-+조심스러워 보일 수도 있는 방식으로 버그 수정이 확인되는 모든 버그에 CVE 번호를
-+할당합니다. 이것이 리눅스 커널 팀이 발행한 많은 수의 CVE를 설명합니다.
-+
-+사용자가 CVE를 지정해야 한다고 생각하는 특정 수정 사항을 CVE 할당 팀이 놓친
-+경우에는 <cve@kernel.org>로 이메일을 보내 주시면 커널 CVE 할당 팀에서 함께
-+작업할 것입니다. 이 별칭은 이미 릴리스된 커널 트리에 있는 수정 사항에 대한
-+CVE 할당 전용이므로 잠재적인 보안 문제는 이 메일 주소로 보내서는 안 됩니다.
-+수정되지 않은 보안 문제를 발견했다고 생각되면
-+:doc:`일반 Linux 커널 보안 버그 보고 절차</process/security-bugs>`를 따르세요.
-+
-+Linux 커널에서 수정되지 않은 보안 이슈에 대해서는 CVE가 자동으로 할당되지
-+않으며, 수정이 제공되고 stable 커널 트리에 적용된 후에만 자동으로 할당되며,
-+기존 수정의 git 커밋 ID로 추적할 수 있습니다. 커밋으로 문제가 해결되기 전에
-+CVE를 할당받고자 하는 사람은 커널 CVE 할당 팀<cve@kernel.org>에 문의하여
-+예약된 식별자 항목들에서 식별자를 할당받으시기 바랍니다.
-+
-+현재 Stable/LTS 커널 팀에서 지원하지 않는 커널 버전에서 발견된 문제에 대해서는
-+CVE가 할당되지 않습니다. 현재 지원되는 커널 브랜치 목록은
-+https://kernel.org/releases.html 에서 확인할 수 있습니다.
-+
-+CVE 항목들 할당 분쟁
-+====================
-+
-+리눅스 커널 변경 사항에 할당된 CVE에 이의를 제기하거나 수정할 권한은 영향을
-+받는 관련 하위 시스템의 관리자에게만 있습니다. 이 원칙은 취약점 보고의 정확성
-+및 책임감을 높이기 위해 존재합니다. 하위 시스템에 대한 깊은 전문 지식과 정확한
-+이해를 가진 사람만이 보고된 취약점의 유효성과 범위를 효과적으로 판단하고
-+적절한 CVE를 지정할 수 있습니다. 지정된 권한 외의 다른 사람이 CVE를 수정 또는
-+이의를 제기하려고 시도하면 혼란, 부정확한 보고, 그리고 궁극적으로는 시스템
-+손상으로 이어질 수 있습니다.
-+
-+유효하지 않은 CVE 항목들
-+========================
-+
-+개별 배포판에서만 지원되는 커널 버전의 보안 문제가 발견된 경우, 또는 개별
-+배포판에서 더 이상 kernel.org에서 지원하지 않는 커널 버전을 지원하고 있는
-+경우라면, 보안 문제가 발생하는 경우에 Linux 커널 CVE 팀에서 CVE를 할당할 수
-+없습니다. 변경된 사항을 적용한 개별 Linux 배포판에 직접 요청해야 합니다.
-+
-+적극적으로 지원되고 있는 커널 버전에 대해 리눅스 커널 CVE 팀 외의 다른 그룹이
-+CVE를 할당했다면, 이 CVE는 유효하지 않습니다. CNA 수정 절차를 통해 특정
-+배포판에서 적용한 항목을 무효화할 수 있도록 커널 CVE 할당 팀<cve@kernel.org>에
-+이메일을 통해 알려주시기 바랍니다.
-+
-+특정 CVE의 적용 범위
-+====================
-+
-+리눅스 커널은 다양한 방식으로 사용될 수 있으며, 외부 사용자가 커널에 접근하는
-+방법도 여러 가지이며, 전혀 접근하지 않을 수도 있습니다. 따라서 특정 CVE의 적용
-+범위는 리눅스 사용자가 결정해야 합니다. CVE 할당 팀은 이를 판단해줄 수
-+없습니다. 특정 CVE의 적용 범위를 확인하기 위해 우리 팀에 문의하지 않기를
-+바랍니다.
-+
-+또한 소스 트리는 매우 방대하고, 각 시스템은 소스 트리의 일부분만을 사용하기
-+때문에 많은 사용자들이 할당된 CVE 중 상당 부분이 자신의 시스템과 관련이 없다는
-+사실을 인지해야 합니다.
-+
-+즉, 우리는 사용자의 사용 사례를 알지 못하며 사용자가 커널의 어떤 부분을
-+사용하는지 알 수 없으므로 특정 CVE가 사용자의 시스템과 관련이 있는지 판단할 수
-+없습니다.
-+
-+여태까지 항상 그래왔듯이, 커뮤니티 구성원들의 통합된 테스트를 거친 전체 커널
-+변경 사항을 적용하는 것이 좋습니다. 개별적인 부분만 선택하여 적용하는 것을
-+권장하지 않습니다. 또한 많은 버그의 경우 전체적인 문제 해결은 단일 변경 사항이
-+아니라 여러 수정 사항의 누적을 통해 이루어집니다. 이상적으로는 모든 문제에
-+대한 모든 수정 사항에 CVE가 할당되지만, 때로는 누락될 수도 있습니다. 따라서
-+CVE가 할당되지 않은 일부 변경 사항도 시스템에 적용하는 것이 중요할 수 있습니다.
--- 
-2.34.1
-
+> 
+> +Cc:
+> loongarch@lists.linux.dev, Guo Ren <guoren@kernel.org>,
+> Xuerui Wang <kernel@xen0n.name>,
+> Jiaxun Yang <jiaxun.yang@flygoat.com>,
+> Huacai Chen <chenhuacai@loongson.cn>
+> 
+> [1] https://lore.kernel.org/all/20240322135619.1423490-1-chenhuacai@loongson.cn/
+> 
+> > 
+> > -- 
+> > 0-DAY CI Kernel Test Service
+> > https://github.com/intel/lkp-tests/wiki
+> 
