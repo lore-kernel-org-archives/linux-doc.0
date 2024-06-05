@@ -1,130 +1,154 @@
-Received: from out30-118.freemail.mail.aliyun.com (out30-118.freemail.mail.aliyun.com [115.124.30.118])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D52951EB36;
-	Wed,  5 Jun 2024 02:16:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.118
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05E5A1EB36;
+	Wed,  5 Jun 2024 02:20:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717553807; cv=none; b=hFFka/51V+mIkUXUG6vBXltYggVqnGRixtCF0s/mWaL1crnAZR0Y+/HFM8atlwdCT0UvjDgPZJrK7eD5xmufsLl7+ZNS2CD5TgkzR8YJrBmkMpITIO8Nma4LcJEfGYFlqxX6Oyo6XIO1XPv3koe5JRGdxwEx8aba7kEQYRiQpFU=
+	t=1717554032; cv=none; b=S3rhccI4DOWD08yUvQylXWtJdgH/57LSILMhsIdplfASr2KhmXjnEiMrImEMLugCTySq/7KlvrUacUgs6HyJImltRyrZcUPlLcyWQJyFu+0ZO4rFfSbb2eNUzh9DUbpoCwNvEWWJry7ZtcPCIUZfBNSw8TLj/bgzB2SNasvMO9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717553807; c=relaxed/simple;
-	bh=189mdYsXxsccLCMxzEslQckd9F6l5Pkg+vVbG5gSlLA=;
-	h=Message-ID:Subject:Date:From:To:Cc:References:In-Reply-To; b=HbhT5a9E7p8ZMgJsDZIuKWi3yHDpDTJzVdS2SkicZYcWzipOghoeacgSBdMgeLGf2AYMrHpunQkgU9jP0MQ46elOABLtx9igxk7UfJTG1+Cpn+nGEXWjrHbQHjvYBdAWyfK/N8YtNibbQcX0qydsVqGVOlzIdTt2jTZg2G6gTXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=jvyVgnac; arc=none smtp.client-ip=115.124.30.118
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1717554032; c=relaxed/simple;
+	bh=tJ1awYP5L69e9xHMeuSbQ2+lYWQUK2O8SQPWa5BRTF8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=bK0UiMXEkiEl42BmYccVLCJLRyUQbJl1nh6fg75XcL1oXgjb7+bU7zDbg9ol1+9OWJsJq4iVDAZHilpLRvQgyQg6/PhWrBM1I6SFxULEI6I/i8roCU/CTHdNzBxCkE62B38ww5QlyuEasM9gozi0PIWutK4/zQ6/v7c0IxXQIA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ijzrh2WK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="jvyVgnac"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1717553797; h=Message-ID:Subject:Date:From:To;
-	bh=ddRm+B+lk3X4PjmjFxIaCezOgjOl1Nl1gTwxZc1qjRA=;
-	b=jvyVgnaci7hNTu33Ryyfer/l281TFTFFufo7oysqY38Hmxzuyh9E5GifGR6crZ7bj3NFMQoK8nA3k+3m8IdAG70V7y2XMFuaFmq6OFOLfa7/0asJPmMx1BdVOFeQmLLqRos3UPInCqIIQZigq1vb4fadP4v1fmROfQpbGg7jUL8=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R281e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037067112;MF=hengqi@linux.alibaba.com;NM=1;PH=DS;RN=38;SR=0;TI=SMTPD_---0W7sUjyI_1717553793;
-Received: from localhost(mailfrom:hengqi@linux.alibaba.com fp:SMTPD_---0W7sUjyI_1717553793)
-          by smtp.aliyun-inc.com;
-          Wed, 05 Jun 2024 10:16:34 +0800
-Message-ID: <1717553610.6275685-4-hengqi@linux.alibaba.com>
-Subject: Re: [PATCH net-next v14 3/5] ethtool: provide customized dim profile management
-Date: Wed, 5 Jun 2024 10:13:30 +0800
-From: Heng Qi <hengqi@linux.alibaba.com>
-To: Heng Qi <hengqi@linux.alibaba.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Huacai Chen <chenhuacai@loongson.cn>,
- Xuerui Wang <kernel@xen0n.name>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Guo Ren <guoren@kernel.org>,
- loongarch@lists.linux.dev,
- Jakub Kicinski <kuba@kernel.org>,
- "David S . Miller" <davem@davemloft.net>,
- Paolo Abeni <pabeni@redhat.com>,
- Eric Dumazet <edumazet@google.com>,
- Jason Wang <jasowang@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Brett Creeley <bcreeley@amd.com>,
- Ratheesh Kannoth <rkannoth@marvell.com>,
- Alexander Lobakin <aleksander.lobakin@intel.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- Tal Gilboa <talgi@nvidia.com>,
- Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org,
- Maxime Chevallier <maxime.chevallier@bootlin.com>,
- Jiri Pirko <jiri@resnulli.us>,
- Paul Greenwalt <paul.greenwalt@intel.com>,
- Ahmed Zaki <ahmed.zaki@intel.com>,
- Vladimir Oltean <vladimir.oltean@nxp.com>,
- Kory Maincent <kory.maincent@bootlin.com>,
- Andrew Lunn <andrew@lunn.ch>,
- justinstitt@google.com,
- donald.hunter@gmail.com,
- =?utf-8?q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- Dragos Tatulea <dtatulea@nvidia.com>,
- Rahul Rameshbabu <rrameshbabu@nvidia.com>,
- Heiner Kallweit <hkallweit1@gmail.com>,
- netdev@vger.kernel.org,
- virtualization@lists.linux.dev,
- kernel test robot <lkp@intel.com>
-References: <20240603154727.31998-1-hengqi@linux.alibaba.com>
- <20240603154727.31998-4-hengqi@linux.alibaba.com>
- <202406040645.6z95FW1f-lkp@intel.com>
- <1717478006.038663-1-hengqi@linux.alibaba.com>
-In-Reply-To: <1717478006.038663-1-hengqi@linux.alibaba.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ijzrh2WK"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A188FC4AF07;
+	Wed,  5 Jun 2024 02:20:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717554031;
+	bh=tJ1awYP5L69e9xHMeuSbQ2+lYWQUK2O8SQPWa5BRTF8=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=Ijzrh2WKXy11ljh1pIV0fU8jJMGYie94bsdE1J+mrXaN6hUJ1Yzc/EtJcuOzUmOTC
+	 mRoF7E4kbAee8vYR6KbIxsAZxCcPqtxWtLF1EkegTfO5LsagnGjUx3PlMyPgVMO5Gt
+	 l7asv7/zL3+qzt2Ex280lRTVnuAknTqiNTJEOR7ou/MuZTryb2mnD3k6gi7BJv6v7O
+	 J/p0U7/xgJQ+ziKepEPZk+i1pT524MqNckP9/WXopryAzx3wjVe+bR+BfjeHZkenNw
+	 DM9lPShYljj4HwtvE4w3dhgCy6rijobuDg9hZSnAaKhvpkoBJsDo6N7vBStTwMscHs
+	 kIaT5G4AVetzQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C439C27C54;
+	Wed,  5 Jun 2024 02:20:31 +0000 (UTC)
+From: Dmitry Safonov via B4 Relay <devnull+0x7f454c46.gmail.com@kernel.org>
+Date: Wed, 05 Jun 2024 03:20:02 +0100
+Subject: [PATCH net-next v2 1/6] net/tcp: Use static_branch_tcp_{md5,ao} to
+ drop ifdefs
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240605-tcp_ao-tracepoints-v2-1-e91e161282ef@gmail.com>
+References: <20240605-tcp_ao-tracepoints-v2-0-e91e161282ef@gmail.com>
+In-Reply-To: <20240605-tcp_ao-tracepoints-v2-0-e91e161282ef@gmail.com>
+To: Eric Dumazet <edumazet@google.com>, 
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, David Ahern <dsahern@kernel.org>, 
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Mohammad Nassiri <mnassiri@ciena.com>, Simon Horman <horms@kernel.org>, 
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Dmitry Safonov <0x7f454c46@gmail.com>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1717554029; l=2385;
+ i=0x7f454c46@gmail.com; s=20240410; h=from:subject:message-id;
+ bh=vprIUxoXS6O+nQsZYJ0TnN8AY1IxVix3tPSqfwEiZ4I=;
+ b=vKqtpyxvZrc7sKLEyhxdDFQVM+OvC7W9pmwXl9I+h5yYG9H4K8nOFcJf4eG4CPPWPJUjb22sbl2L
+ r/7fpIdMBtXDXjHKSj60A4AvgZtm6FrU5cpHi7h+DqBsCtSeg51M
+X-Developer-Key: i=0x7f454c46@gmail.com; a=ed25519;
+ pk=cFSWovqtkx0HrT5O9jFCEC/Cef4DY8a2FPeqP4THeZQ=
+X-Endpoint-Received: by B4 Relay for 0x7f454c46@gmail.com/20240410 with
+ auth_id=152
+X-Original-From: Dmitry Safonov <0x7f454c46@gmail.com>
+Reply-To: 0x7f454c46@gmail.com
 
-On Tue, 4 Jun 2024 13:13:26 +0800, Heng Qi <hengqi@linux.alibaba.com> wrote:
-> On Tue, 4 Jun 2024 07:00:35 +0800, kernel test robot <lkp@intel.com> wrote:
-> > Hi Heng,
-> > 
-> > kernel test robot noticed the following build warnings:
-> > 
-> > [auto build test WARNING on net-next/main]
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Heng-Qi/linux-dim-move-useful-macros-to-h-file/20240603-235834
-> > base:   net-next/main
-> > patch link:    https://lore.kernel.org/r/20240603154727.31998-4-hengqi%40linux.alibaba.com
-> > patch subject: [PATCH net-next v14 3/5] ethtool: provide customized dim profile management
-> > config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20240604/202406040645.6z95FW1f-lkp@intel.com/config)
-> > compiler: loongarch64-linux-gcc (GCC) 13.2.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240604/202406040645.6z95FW1f-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202406040645.6z95FW1f-lkp@intel.com/
-> > 
-> > All warnings (new ones prefixed by >>):
-> > 
-> > >> net/ethtool/coalesce.o: warning: objtool: unexpected relocation symbol type in .rela.discard.reachable
-> 
-> 
-> I'm not sure if this seems to be related to the update of loongarch[1]?
-> didn't find this warning on other architectures such as arm/openrisc/x86.
+From: Dmitry Safonov <0x7f454c46@gmail.com>
 
-I noticed that the loongarch community has submitted a fix[1], and after applying
-the fix, the robot no longer reports the warning. So the warning is specific
-to the loongarch architecture.
+It's possible to clean-up some ifdefs by hiding that
+tcp_{md5,ao}_needed static branch is defined and compiled only
+under related configs, since commit 4c8530dc7d7d ("net/tcp: Only produce
+AO/MD5 logs if there are any keys").
 
-[1] https://lore.kernel.org/all/20240604150741.30252-1-xry111@xry111.site/
+Signed-off-by: Dmitry Safonov <0x7f454c46@gmail.com>
+---
+ include/net/tcp.h   | 14 ++++----------
+ net/ipv4/tcp_ipv4.c |  8 ++------
+ 2 files changed, 6 insertions(+), 16 deletions(-)
 
-Thanks.
+diff --git a/include/net/tcp.h b/include/net/tcp.h
+index 08c3b99501cf..f6dd035e0fa9 100644
+--- a/include/net/tcp.h
++++ b/include/net/tcp.h
+@@ -2386,21 +2386,15 @@ static inline void tcp_get_current_key(const struct sock *sk,
+ 
+ static inline bool tcp_key_is_md5(const struct tcp_key *key)
+ {
+-#ifdef CONFIG_TCP_MD5SIG
+-	if (static_branch_unlikely(&tcp_md5_needed.key) &&
+-	    key->type == TCP_KEY_MD5)
+-		return true;
+-#endif
++	if (static_branch_tcp_md5())
++		return key->type == TCP_KEY_MD5;
+ 	return false;
+ }
+ 
+ static inline bool tcp_key_is_ao(const struct tcp_key *key)
+ {
+-#ifdef CONFIG_TCP_AO
+-	if (static_branch_unlikely(&tcp_ao_needed.key) &&
+-	    key->type == TCP_KEY_AO)
+-		return true;
+-#endif
++	if (static_branch_tcp_ao())
++		return key->type == TCP_KEY_AO;
+ 	return false;
+ }
+ 
+diff --git a/net/ipv4/tcp_ipv4.c b/net/ipv4/tcp_ipv4.c
+index 04044605cadf..59c252b90b55 100644
+--- a/net/ipv4/tcp_ipv4.c
++++ b/net/ipv4/tcp_ipv4.c
+@@ -1052,12 +1052,10 @@ static void tcp_v4_timewait_ack(struct sock *sk, struct sk_buff *skb)
+ #else
+ 	if (0) {
+ #endif
+-#ifdef CONFIG_TCP_MD5SIG
+-	} else if (static_branch_unlikely(&tcp_md5_needed.key)) {
++	} else if (static_branch_tcp_md5()) {
+ 		key.md5_key = tcp_twsk_md5_key(tcptw);
+ 		if (key.md5_key)
+ 			key.type = TCP_KEY_MD5;
+-#endif
+ 	}
+ 
+ 	tcp_v4_send_ack(sk, skb,
+@@ -1126,8 +1124,7 @@ static void tcp_v4_reqsk_send_ack(const struct sock *sk, struct sk_buff *skb,
+ #else
+ 	if (0) {
+ #endif
+-#ifdef CONFIG_TCP_MD5SIG
+-	} else if (static_branch_unlikely(&tcp_md5_needed.key)) {
++	} else if (static_branch_tcp_md5()) {
+ 		const union tcp_md5_addr *addr;
+ 		int l3index;
+ 
+@@ -1136,7 +1133,6 @@ static void tcp_v4_reqsk_send_ack(const struct sock *sk, struct sk_buff *skb,
+ 		key.md5_key = tcp_md5_do_lookup(sk, l3index, addr, AF_INET);
+ 		if (key.md5_key)
+ 			key.type = TCP_KEY_MD5;
+-#endif
+ 	}
+ 
+ 	tcp_v4_send_ack(sk, skb, seq,
 
-> 
-> +Cc:
-> loongarch@lists.linux.dev, Guo Ren <guoren@kernel.org>,
-> Xuerui Wang <kernel@xen0n.name>,
-> Jiaxun Yang <jiaxun.yang@flygoat.com>,
-> Huacai Chen <chenhuacai@loongson.cn>
-> 
-> [1] https://lore.kernel.org/all/20240322135619.1423490-1-chenhuacai@loongson.cn/
-> 
-> > 
-> > -- 
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki
-> 
+-- 
+2.42.0
+
+
