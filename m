@@ -1,149 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0016f401.pphosted.com (mx0b-0016f401.pphosted.com [67.231.156.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAEB1171B0;
-	Wed,  5 Jun 2024 04:04:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D98861FC6;
+	Wed,  5 Jun 2024 04:51:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.156.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717560292; cv=none; b=hSIyzVK9Me2plBEwy3X8TT+zKMEbUd3v0u8Jvvyut2Ngq7FmLmKxiH5D0uy83/Bgf8elPjR5MXfbY2KXIzL3fWS/gZCLZRCc34BAMVgVtTI08qprIWZzF3AubUftK462XFQsQQ9/L/PZ0OVEBZh2su96rxqtxMtvF1N4BBsV4oQ=
+	t=1717563071; cv=none; b=HxqK/jhO5IUyOR4j3xLM8+KNh94PKRpex8KTVVC/dm8mqfFIeYhim1BYS6N/SefcDh/DIimSAiS11ysKjsahwaHu9U90Z5ksVqUjpU483+IusFfATyGepjQ0XKRhG/7EkHOMS5a6Fiq9kaIf5dZIimIn6c0KNLSs+N3FYHXEOtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717560292; c=relaxed/simple;
-	bh=D7YS8tUT6zoxR7+gztQhZtUYQS3g8Jha1gq4gWlWSOY=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=RiLKJm3keyvEIHE4ZRxZsUb9llrQN14DZli6q8iWpkULTsZJ8Am87z2ImqEHEmqEt42yZFUZ5NZFIV+h9e2yeXkn0RiucS72eWLimve1exK3xgSc6zfMbb1fOk9rB/dwisFifctXuAka1Z/pnOaqMUsF/bcqUyUUTOK4y03+IZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OLHBjXbj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717563071; c=relaxed/simple;
+	bh=IDc6ujVuOTHOaHdN/xtBa1iDkOFL97kXwy4RC0H8QRQ=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oHui0dFnMVP2moD1ATOFIqM3yax95kI/zFN8lrkDx9AQRQSnf/tabPQvwvHVGE5J4wiRlmc5bPSoKNee5Fgjte/4r+8tu7XW2cTbLFxPMaCOJAkaRJe7PTpT7SwXImLe3GFuUpLWqtrW2Hv/Abh1b0+IXTOl9zbhJZYBOOZcXSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com; spf=pass smtp.mailfrom=marvell.com; dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b=kwrZnMqW; arc=none smtp.client-ip=67.231.156.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marvell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marvell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OLHBjXbj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8DB9C32781;
-	Wed,  5 Jun 2024 04:04:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717560291;
-	bh=D7YS8tUT6zoxR7+gztQhZtUYQS3g8Jha1gq4gWlWSOY=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=OLHBjXbjh6nagm8wzjsU74vNbjvZwzzPO+E00JnpPO6Tulhx7zlyZpBPqdWd6WPF1
-	 0o02okbEIMvrN84g7B34RhAKA3TzXOzc9L4I4qoFW3GE5yp8iV3D161WZL+TKfivxp
-	 KDrad0HF7ReV0kat6LU5tGwJfNFBlYhDTbQ1hupt6j2nlLT061/WeQYPx4hHMJfD+e
-	 s3UlT8wgXGfl56Pk4WEwnn1M8Rxi7E20n92tqvzbrxiVE4UuJYp5DJeSWCzmnuQCx3
-	 5EXyZTzK7B8tDsB+2fAwatEU+JWnzlEaTmd4BmcudlGhxXZFypidLPXm54h7rlf+l/
-	 lF6g9OOk30l+w==
+	dkim=pass (2048-bit key) header.d=marvell.com header.i=@marvell.com header.b="kwrZnMqW"
+Received: from pps.filterd (m0045851.ppops.net [127.0.0.1])
+	by mx0b-0016f401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 454KXfJ9003930;
+	Tue, 4 Jun 2024 21:44:49 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marvell.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pfpt0220; bh=OKNIK6PQn1SUEDYPQ/4MC5ygM
+	mYXQNZukQIA+FsOkDc=; b=kwrZnMqWrvwVKrucKc6RKSWiZfEU9gx4dyqkPN9rJ
+	5aXlgh7Ub43U16sepdDCYwm7WiaQyLgNvlludMmNgSReH27HtRp8pv6Fvj47WDu5
+	N/xy8R5CymSRAK4DdRm/6C+FO10qgU9mL45YaWfuHmc8AgbFrUYsBaFMiel3y5i5
+	v8OcaH4Vwg6egSl/QEAY5o5S26+hGDMmGHHfDY60kIkLAYRyUedV635AT97LLymZ
+	QuRyM0uHZD/uo6OcA5Qzt434M0paVA7az1h0R/i3KgEUsIOCQCqtBBJYWdSlVxmZ
+	dAqSob5466SHHAh/xL51oqOz+KSlvV0PMgpN19lxMrajQ==
+Received: from dc5-exch05.marvell.com ([199.233.59.128])
+	by mx0b-0016f401.pphosted.com (PPS) with ESMTPS id 3yj167bw8k-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 04 Jun 2024 21:44:48 -0700 (PDT)
+Received: from DC5-EXCH05.marvell.com (10.69.176.209) by
+ DC5-EXCH05.marvell.com (10.69.176.209) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.4; Tue, 4 Jun 2024 21:44:47 -0700
+Received: from maili.marvell.com (10.69.176.80) by DC5-EXCH05.marvell.com
+ (10.69.176.209) with Microsoft SMTP Server id 15.2.1544.4 via Frontend
+ Transport; Tue, 4 Jun 2024 21:44:47 -0700
+Received: from maili.marvell.com (unknown [10.28.36.165])
+	by maili.marvell.com (Postfix) with SMTP id EE0DB3F7040;
+	Tue,  4 Jun 2024 21:44:42 -0700 (PDT)
+Date: Wed, 5 Jun 2024 10:14:41 +0530
+From: Ratheesh Kannoth <rkannoth@marvell.com>
+To: <0x7f454c46@gmail.com>
+CC: Eric Dumazet <edumazet@google.com>,
+        "David S. Miller"
+	<davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>,
+        David Ahern <dsahern@kernel.org>,
+        Steven Rostedt
+	<rostedt@goodmis.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Mathieu
+ Desnoyers <mathieu.desnoyers@efficios.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mohammad Nassiri <mnassiri@ciena.com>, Simon Horman <horms@kernel.org>,
+        <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-trace-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH net-next v2 1/6] net/tcp: Use static_branch_tcp_{md5,ao}
+ to drop ifdefs
+Message-ID: <20240605044441.GA3452034@maili.marvell.com>
+References: <20240605-tcp_ao-tracepoints-v2-0-e91e161282ef@gmail.com>
+ <20240605-tcp_ao-tracepoints-v2-1-e91e161282ef@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 05 Jun 2024 07:04:44 +0300
-Message-Id: <D1RSB1PB5XGS.2X032M0E1VMJW@kernel.org>
-Subject: Re: [PATCH v9 04/19] x86: Secure Launch Resource Table header file
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: <ross.philipson@oracle.com>, <linux-kernel@vger.kernel.org>,
- <x86@kernel.org>, <linux-integrity@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
- <kexec@lists.infradead.org>, <linux-efi@vger.kernel.org>,
- <iommu@lists.linux-foundation.org>
-Cc: <dpsmith@apertussolutions.com>, <tglx@linutronix.de>,
- <mingo@redhat.com>, <bp@alien8.de>, <hpa@zytor.com>,
- <dave.hansen@linux.intel.com>, <ardb@kernel.org>, <mjg59@srcf.ucam.org>,
- <James.Bottomley@hansenpartnership.com>, <peterhuewe@gmx.de>,
- <jgg@ziepe.ca>, <luto@amacapital.net>, <nivedita@alum.mit.edu>,
- <herbert@gondor.apana.org.au>, <davem@davemloft.net>, <corbet@lwn.net>,
- <ebiederm@xmission.com>, <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>,
- <kanth.ghatraju@oracle.com>, <andrew.cooper3@citrix.com>,
- <trenchboot-devel@googlegroups.com>
-X-Mailer: aerc 0.17.0
-References: <20240531010331.134441-1-ross.philipson@oracle.com>
- <20240531010331.134441-5-ross.philipson@oracle.com>
- <D1RFWFIJEYWL.2FC7V79321264@kernel.org>
- <1eca8cb1-4b3b-402b-993b-53de7c810016@oracle.com>
- <D1RLBMTUKRFN.34KQXEFZTBA08@kernel.org>
- <249a9b27-c18d-4377-8b51-9bc610b53a8b@oracle.com>
- <D1RNKV4JIE5L.1LNG82UAC916M@kernel.org>
- <f66de08f-4905-48d6-8bcf-5b1ab847492f@oracle.com>
-In-Reply-To: <f66de08f-4905-48d6-8bcf-5b1ab847492f@oracle.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20240605-tcp_ao-tracepoints-v2-1-e91e161282ef@gmail.com>
+X-Proofpoint-ORIG-GUID: gFkNoHKrv-1PWaojsDgW1P09mPHzPUGV
+X-Proofpoint-GUID: gFkNoHKrv-1PWaojsDgW1P09mPHzPUGV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-04_11,2024-06-04_02,2024-05-17_01
 
-On Wed Jun 5, 2024 at 5:33 AM EEST,  wrote:
-> On 6/4/24 5:22 PM, Jarkko Sakkinen wrote:
-> > On Wed Jun 5, 2024 at 2:00 AM EEST,  wrote:
-> >> On 6/4/24 3:36 PM, Jarkko Sakkinen wrote:
-> >>> On Tue Jun 4, 2024 at 11:31 PM EEST,  wrote:
-> >>>> On 6/4/24 11:21 AM, Jarkko Sakkinen wrote:
-> >>>>> On Fri May 31, 2024 at 4:03 AM EEST, Ross Philipson wrote:
-> >>>>>> Introduce the Secure Launch Resource Table which forms the formal
-> >>>>>> interface between the pre and post launch code.
-> >>>>>>
-> >>>>>> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
-> >>>>>
-> >>>>> If a uarch specific, I'd appreciate Intel SDM reference here so tha=
-t I
-> >>>>> can look it up and compare. Like in section granularity.
-> >>>>
-> >>>> This table is meant to not be architecture specific though it can
-> >>>> contain architecture specific sub-entities. E.g. there is a TXT spec=
-ific
-> >>>> table and in the future there will be an AMD and ARM one (and hopefu=
-lly
-> >>>> some others). I hope that addresses what you are pointing out or may=
-be I
-> >>>> don't fully understand what you mean here...
-> >>>
-> >>> At least Intel SDM has a definition of any possible architecture
-> >>> specific data structure. It is handy to also have this available
-> >>> in inline comment for any possible such structure pointing out the
-> >>> section where it is defined.
-> >>
-> >> The TXT specific structure is not defined in the SDM or the TXT dev
-> >> guide. Part of it is driven by requirements in the TXT dev guide but
-> >> that guide does not contain implementation details.
-> >>
-> >> That said, if you would like links to relevant documents in the commen=
-ts
-> >> before arch specific structures, I can add them.
-> >=20
-> > Vol. 2D 7-40, in the description of GETSEC[WAKEUP] there is in fact a
-> > description of MLE JOINT structure at least:
-> >=20
-> > 1. GDT limit (offset 0)
-> > 2. GDT base (offset 4)
-> > 3. Segment selector initializer (offset 8)
-> > 4. EIP (offset 12)
-> >=20
-> > So is this only exercised in protect mode, and not in long mode? Just
-> > wondering whether I should make a bug report on this for SDM or not.
+On 2024-06-05 at 07:50:02, Dmitry Safonov via B4 Relay (devnull+0x7f454c46.gmail.com@kernel.org) wrote:
+> From: Dmitry Safonov <0x7f454c46@gmail.com>
 >
-> I believe you can issue the SENTER instruction in long mode, compat mode=
-=20
-> or protected mode. On the other side thought, you will pop out of the=20
-> TXT initialization in protected mode. The SDM outlines what registers=20
-> will hold what values and what is valid and not valid. The APs will also=
-=20
-> vector through the join structure mentioned above to the location=20
-> specified in protected mode using the GDT information you provide.
+> It's possible to clean-up some ifdefs by hiding that
+> tcp_{md5,ao}_needed static branch is defined and compiled only
+> under related configs, since commit 4c8530dc7d7d ("net/tcp: Only produce
+> AO/MD5 logs if there are any keys").
 >
-> >=20
-> > Especially this puzzles me, given that x86s won't have protected
-> > mode in the first place...
+> Signed-off-by: Dmitry Safonov <0x7f454c46@gmail.com>
+> ---
+>  include/net/tcp.h   | 14 ++++----------
+>  net/ipv4/tcp_ipv4.c |  8 ++------
+>  2 files changed, 6 insertions(+), 16 deletions(-)
 >
-> My guess is the simplified x86 architecture will not support TXT. It is=
-=20
-> not supported on a number of CPUs/chipsets as it stands today. Just a=20
-> guess but we know only vPro systems support TXT today.
-
-I'm wondering could this bootstrap itself inside TDX or SNP, and that
-way provide path forward? AFAIK, TDX can be nested straight of the bat
-and SNP from 2nd generation EPYC's, which contain the feature.
-
-I do buy the idea of attesting the host, not just the guests, even in
-the "confidential world". That said, I'm not sure does it make sense
-to add all this infrastructure for a technology with such a short
-expiration date?
-
-I would not want to say this at v9, and it is not really your fault
-either, but for me this would make a lot more sense if the core of
-Trenchboot was redesigned around these newer technologies with a
-long-term future.
-
-The idea itself is great!
-
-BR, Jarkko
+> diff --git a/include/net/tcp.h b/include/net/tcp.h
+> index 08c3b99501cf..f6dd035e0fa9 100644
+> --- a/include/net/tcp.h
+> +++ b/include/net/tcp.h
+> @@ -2386,21 +2386,15 @@ static inline void tcp_get_current_key(const struct sock *sk,
+>
+>  static inline bool tcp_key_is_md5(const struct tcp_key *key)
+>  {
+> -#ifdef CONFIG_TCP_MD5SIG
+> -	if (static_branch_unlikely(&tcp_md5_needed.key) &&
+> -	    key->type == TCP_KEY_MD5)
+> -		return true;
+> -#endif
+> +	if (static_branch_tcp_md5())
+Seems that we lost unlikely hint. Dont we add that as well-> unlikely()
+> +		return key->type == TCP_KEY_MD5;
+>  	return false;
+>  }
+>
+>
+>
