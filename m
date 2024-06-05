@@ -1,46 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D0C3C28;
-	Wed,  5 Jun 2024 23:34:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35097167268;
+	Wed,  5 Jun 2024 23:43:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717630461; cv=none; b=cn8DGLozSRAOvAIAzrW4ivkS6UGTUURaJbS7MXx4DEHCp+ELZUYO+/eycgSSw6EamZApxRmIQn4IrwrgRqWjbpgfw8vg8Bu8TBTlGAUgjh9U7Hvxxr6poEvHaewlEs00Y5WncrrnzkWQ7HsCtyRUFITaO8r5EG8N5SKtGF/lX4c=
+	t=1717631010; cv=none; b=e4oH+JbOBEO1k1Jb46W4ikDYLxmk0EG3eB41/S54A+JAU5es7GkgKkENwhbi0rBepoRmYNnmv4Jz++VpGY3zhC4w9FNefndVAgKjAhST1gUtH0xTe1BVplXd0GGvhwfHyI2dhT/wOYQ3gJ1iAthOr/tMMzBH/jXspfJZmnaJ4Qc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717630461; c=relaxed/simple;
-	bh=xkVa3LfdqWfoH8sO5vI2Dnfc1fKimG8vZrcCCqJiAEI=;
+	s=arc-20240116; t=1717631010; c=relaxed/simple;
+	bh=iK3LAb+wliolnG3rKsU2JLIVpkEh3hwHDV0sMObCrZQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ag+0u6KMa5Rj91wXxxxJCMQxym/LhrRlZ/kKl5XrEwuyaWE1v0CMQt5Ie9F3ayVOZmjy31KYvwvuXvhmRI0HP0iq9/pUu2it+45YKguTDE9pH7zsadBX9fsBw36JfU2v1uSYkNqkKMYjiXJgDu7nBtKMZjCvecLGS3MaMIHOLk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QE4UQNOo; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=qQgxASMRsFWd6zsvYw8DXgpHhhGyH//lkGt7vgnVEq5aoqvOlSHXbN2pDxnvGo/LVOsVweRFmgkydi/4pDu+mfKKzwH8t2os0g5HDpw+gu8jhCQ2JElph/oLn14HmPiQr1pSGHMbLutwroPWzmkUJYhM+fwgqpaksxgeQyWVUgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=NAPHVF8w; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QE4UQNOo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBB15C2BD11;
-	Wed,  5 Jun 2024 23:34:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717630461;
-	bh=xkVa3LfdqWfoH8sO5vI2Dnfc1fKimG8vZrcCCqJiAEI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QE4UQNOoO7ossBm440VS33yJGVcFoZEr+rGQNRc7Z98m3t4j+VYfg7nb9TsTG0Vdn
-	 Ng4ZrsWjyuTkoZJ3xaMj3znirP3iBxj6P4WiK9XxyTagH1//GgvPV3knVqO50EE/tN
-	 4HhIo7jSV+3J8a4S6PzNtggNYdN3GXcrDdInt3z7NZNSoraBqtwzpOoYrJ64ryy6Dl
-	 CD/uD+5K52pVjFKjtOtIEN1eiAE31QUD/SnbFi7o36Yx5OP3fSt80QG+MVlhF6xYj7
-	 vWBtqajHjON1QKuZiNag3UarIMpjOaaCi1PMkh1LUD5eGSEABw4uAvu4+MFqmSA3vV
-	 H3+qgSJihlabg==
-Date: Wed, 5 Jun 2024 17:34:18 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Noah Wang <noahwang.wang@outlook.com>
-Cc: conor+dt@kernel.org, peteryin.openbmc@gmail.com, linux@roeck-us.net,
-	bhelgaas@google.com, jdelvare@suse.com,
-	javier.carrasco.cruz@gmail.com, linux-kernel@vger.kernel.org,
-	patrick.rudolph@9elements.com, linux-doc@vger.kernel.org,
-	corbet@lwn.net, luca.ceresoli@bootlin.com, chou.cosmo@gmail.com,
-	lukas@wunner.de, linux-i2c@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, Delphine_CC_Chiu@wiwynn.com,
-	devicetree@vger.kernel.org, krzk+dt@kernel.org
-Subject: Re: [v4,1/2] dt-bindings: hwmon: Add MPS mp2891
-Message-ID: <171763045572.3437734.6052550487414487020.robh@kernel.org>
-References: <20240603105306.180874-1-noahwang.wang@outlook.com>
- <KL1PR0401MB64917D1D51254FB1D6C0371CFAFF2@KL1PR0401MB6491.apcprd04.prod.outlook.com>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="NAPHVF8w"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=u2cpct7+XFJzG7wX3keUvQVf0CUO4FB1mefATz3+4Jw=; b=NAPHVF8wRn7aVlrTHb60+BQh3v
+	qp7CjSe3+zo1HV6qf8fWIjxPzGBsRU8KJzte+rHlB4+9yLfPT+Yj72wJXTItgfwJqHb9qUI8wkA6P
+	K6WQpQwKHLlOJjJcCVvkVPJqmh6pdoSwhOrFvoOM4rY9nOlRlhR/i1yyEkx27PxdM+go=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1sF0HX-00GxVp-0T; Thu, 06 Jun 2024 01:43:03 +0200
+Date: Thu, 6 Jun 2024 01:43:02 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+Cc: "Parthiban.Veerasooran@microchip.com" <Parthiban.Veerasooran@microchip.com>,
+	Piergiorgio Beruto <Pier.Beruto@onsemi.com>,
+	"davem@davemloft.net" <davem@davemloft.net>,
+	"edumazet@google.com" <edumazet@google.com>,
+	"kuba@kernel.org" <kuba@kernel.org>,
+	"pabeni@redhat.com" <pabeni@redhat.com>,
+	"horms@kernel.org" <horms@kernel.org>,
+	"saeedm@nvidia.com" <saeedm@nvidia.com>,
+	"anthony.l.nguyen@intel.com" <anthony.l.nguyen@intel.com>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"robh+dt@kernel.org" <robh+dt@kernel.org>,
+	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"Horatiu.Vultur@microchip.com" <Horatiu.Vultur@microchip.com>,
+	"ruanjinjie@huawei.com" <ruanjinjie@huawei.com>,
+	"Steen.Hegelund@microchip.com" <Steen.Hegelund@microchip.com>,
+	"vladimir.oltean@nxp.com" <vladimir.oltean@nxp.com>,
+	"UNGLinuxDriver@microchip.com" <UNGLinuxDriver@microchip.com>,
+	"Thorsten.Kummermehr@microchip.com" <Thorsten.Kummermehr@microchip.com>,
+	"Nicolas.Ferre@microchip.com" <Nicolas.Ferre@microchip.com>,
+	"benjamin.bigler@bernformulastudent.ch" <benjamin.bigler@bernformulastudent.ch>,
+	Viliam Vozar <Viliam.Vozar@onsemi.com>,
+	Arndt Schuebel <Arndt.Schuebel@onsemi.com>
+Subject: Re: [PATCH net-next v4 00/12] Add support for OPEN Alliance
+ 10BASE-T1x MACPHY Serial Interface
+Message-ID: <732ce616-9ddc-4564-ab1f-ac7bbc591292@lunn.ch>
+References: <BYAPR02MB5958A4D667D13071E023B18F83F52@BYAPR02MB5958.namprd02.prod.outlook.com>
+ <6e4c8336-2783-45dd-b907-6b31cf0dae6c@lunn.ch>
+ <BY5PR02MB6786619C0A0FCB2BEDC2F90D9DF52@BY5PR02MB6786.namprd02.prod.outlook.com>
+ <0581b64a-dd7a-43d7-83f7-657ae93cefe5@lunn.ch>
+ <BY5PR02MB6786FC4808B2947CA03977429DF32@BY5PR02MB6786.namprd02.prod.outlook.com>
+ <39a62649-813a-426c-a2a6-4991e66de36e@microchip.com>
+ <585d7709-bcee-4a0e-9879-612bf798ed45@lunn.ch>
+ <BY5PR02MB6786649AEE8D66E4472BB9679DFC2@BY5PR02MB6786.namprd02.prod.outlook.com>
+ <cbe5043b-5bb5-4b9f-ac09-5c767ceced36@microchip.com>
+ <BYAPR02MB5958BD922DAE2D31F18241B283F92@BYAPR02MB5958.namprd02.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,26 +78,44 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <KL1PR0401MB64917D1D51254FB1D6C0371CFAFF2@KL1PR0401MB6491.apcprd04.prod.outlook.com>
+In-Reply-To: <BYAPR02MB5958BD922DAE2D31F18241B283F92@BYAPR02MB5958.namprd02.prod.outlook.com>
 
 
-On Mon, 03 Jun 2024 18:53:05 +0800, Noah Wang wrote:
-> Add support for MPS mp2891 controller
+On Wed, Jun 05, 2024 at 09:40:12PM +0000, Selvamani Rajagopal wrote:
+> Parthiban/Andrew,
 > 
-> Signed-off-by: Noah Wang <noahwang.wang@outlook.com>
-> ---
-> v3 -> v4:
->     add mp2891 in alpha order
-> 
-> v2 -> v3:
->     move mp2891 dt-bindings to trivial devices
-> 
-> v1 -> v2:
->     add mp2891 dt-bindings
-> 
->  Documentation/devicetree/bindings/trivial-devices.yaml | 2 ++
->  1 file changed, 2 insertions(+)
-> 
+> Couple of requests / suggestions after completing the integration of our drivers to the current framework.
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Please configure your email client to wrap lines at about 78
+characters.
 
+
+> 
+> 1) Can we move memory map selector definitions (OA_TC6_PHY_C45_PCS_MMS2 and other 4 definitions) to the header file
+>      include/linux/oa_tc6.h?
+>      Also, if possible, could we add the MMS0, MMS1?. Our driver is using them. Of course, we could add it when we submit our driver.
+
+Interesting. So you have vendor registers outside of MMS 10-15?
+
+Or do you need to access standard registers? I would prefer to see
+your use cases before deciding this. If you want to access standard
+registers, you are probably doing stuff other vendors also want to do,
+so we should add a helper in the framework.
+
+2) If it not too late to ask, Is it possible to move interrupt
+> handler to vendor's code?
+
+I would say no, not at the moment.
+
+What we can do in the future is allow a driver to register a function
+to handle the vendor interrupts, leaving the framework to handle the
+standard interrupts, and chain into the specific driver vendor
+interrupt handler when a vendor interrupt it indicated.
+
+> This way, it will provide vendors' code an ability to deal with some
+> of the interrupts. For example, our code deals with PHYINT bit.
+
+Please explain what you are doing here? What are you doing which the
+framework does not cover.
+
+	Andrew
