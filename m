@@ -1,479 +1,113 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4640F18F2F4;
-	Wed,  5 Jun 2024 16:50:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA35813A86A;
+	Wed,  5 Jun 2024 17:30:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717606228; cv=none; b=PlUQ1lw1FksAOBIcuqqlHIt1Evajv9Mbc9US3dQ4267Grp9zUqGYvj7FstL5hDSGFJHxNbeZJjKJ/nLoP/LrpkiRH5piS8nut879XCjJIVckrz46MF5w+uzJ4ALHE/FOlCmQX498LObWRKSOR1tbNlx7TvYFfjPioxzSqwSdwxQ=
+	t=1717608610; cv=none; b=K9tVw8TPJsweq97YLS/pwgripxTngYqfWe6qx62XK5bzlntUqi3bYLP74Q373O4wQESdxz0cLKiVMbS2p6ek133J4GvYKfNDCseFDrNnM0SkDOn+GCGqUkdRHWUggXjDpRMTwNxyHEBNRR+v5s149aiu3muqbdCt32q461yCPgg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717606228; c=relaxed/simple;
-	bh=kzuN9oxg8OP/9rJGGivC7fdmn8uFhtEGTxAstmuYmJI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bvVOz/3aYNtw7PCb5LLcBVsEEJzzX674DPZK8YPGQuFCZ56POiubekbyMgAcDwlAuagbTZOkGuMW8KrnqMHF5s0KnaTuSOhme3Q/ydTBrdvPhEbjesWc+zJ4OwCFekRo+q/82OlYT7Tpahml7FVKjKGsp4DOLi7kAB0Rm3PsEEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=TX/mcEVP; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1717608610; c=relaxed/simple;
+	bh=TgPRCqa1WrwYIkeTFSrIx3FttbgFYBUrYsECYP8WLWs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Uj5ZcWg34b8l/Pptdyjy3CdM2WjcgXFxEcrRmNuow9CD71zTpWmHCLNqb5W6GPxTd8r7g/upcYV0eLsdb6KVrGNVemWc0eAKtcWNHzpbmkVf7NVVFiBLItzNd8u3R2YLJY/rxaDUvAdtOQeSR0E35YoVzqvRlZurHbJ7iaKIYHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RQTXPWP8; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="TX/mcEVP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1717606217;
-	bh=kzuN9oxg8OP/9rJGGivC7fdmn8uFhtEGTxAstmuYmJI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=TX/mcEVPsB3RBATJT6jy5psw0s2w+Eq1bx5ouZ6HJgSzomiGuxz06d5kgmHA7RY5e
-	 frDy/k1WGqDHiqceENPYK+mN1ZXQ5x4JziXf/C8zJb8U7vZaY6ke4MEwVcTkoIUE5E
-	 HQ06fl2wRr52ewIRkk8uBk87jrJhZElubRJb/kyST6YgLVBdi7TQlTM+JAJAyryf99
-	 WSsIHKdo7dZ1442G4AVBCFEvElje6VvI+xjBmNXijtZ9Mj579pXx02QdcVyEkN9ZGa
-	 zLc/wf+SDidHAN46xYID4P62WopRQfxNGVr3e4FA1RL2sMh+ThlxCie2Yb6W4WKodG
-	 uR2iRVef5WerA==
-Received: from localhost.localdomain (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: aratiu)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 87F7037821A8;
-	Wed,  5 Jun 2024 16:50:16 +0000 (UTC)
-From: Adrian Ratiu <adrian.ratiu@collabora.com>
-To: linux-fsdevel@vger.kernel.org
-Cc: linux-security-module@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	kernel@collabora.com,
-	gbiv@google.com,
-	ryanbeltran@google.com,
-	inglorion@google.com,
-	ajordanr@google.com,
-	jorgelo@chromium.org,
-	Adrian Ratiu <adrian.ratiu@collabora.com>,
-	Guenter Roeck <groeck@chromium.org>,
-	Doug Anderson <dianders@chromium.org>,
-	Kees Cook <keescook@chromium.org>,
-	Jann Horn <jannh@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Jeff Xu <jeffxu@google.com>,
-	Mike Frysinger <vapier@chromium.org>
-Subject: [PATCH v5 2/2] proc: restrict /proc/pid/mem
-Date: Wed,  5 Jun 2024 19:49:31 +0300
-Message-ID: <20240605164931.3753-2-adrian.ratiu@collabora.com>
-X-Mailer: git-send-email 2.44.1
-In-Reply-To: <20240605164931.3753-1-adrian.ratiu@collabora.com>
-References: <20240605164931.3753-1-adrian.ratiu@collabora.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RQTXPWP8"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-6c3b5c5e32cso32183a12.1;
+        Wed, 05 Jun 2024 10:30:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717608608; x=1718213408; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=b51xKkNLJiZ1CSUfBqf69L0JrUG70vj/aLl7G7R2QSU=;
+        b=RQTXPWP8eJz6p1kfb89I/QomyP1FiYE0JMc+kS/QMrAaReW0hbDLfIN2cerNn5VyGc
+         JagBQTJPdZm7klNCzNnSMzVB/lwkcwtGmaqieP0Kncejf93HUusLh0va92wF+eRO/HXO
+         iPP7n1KRXzfGPqKjV5Y/PLYwjV/tD1IcL6U96o2NjTTHlJcBJUam6kxOHBUD1huxorMM
+         eZhvtwZZ2K707e4I0vnnwv8p2i2VvSaNo3c/XPLGmIU0ehnFPqHzbw/WFlpvbkVm77Wv
+         9vHZx6qgIaBF/0rnSb6BCr7EKu/IeXjlxx6Z7oqYnUg3Ir/GO/GykqTpgiC2GdwqbUd5
+         1KAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717608608; x=1718213408;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=b51xKkNLJiZ1CSUfBqf69L0JrUG70vj/aLl7G7R2QSU=;
+        b=kFxiybDPDCWWDQr5XPu4a7772KjYs9JLhp9MiWZkM4gCxHPSctCDZvUXXSuM1hJoAJ
+         rsALU2hRBn+Nn06ctvzp9sKY1XHc3qzhD7NLiz0ByBRNpOOd1/Xj0S8qA47LeRiNCC4R
+         3Na6Sm9dpMPId/JytyVB4oIUjyBO7wyynSHCeK8+XNcPnqcSI335I2aDSKCC6Eklhph0
+         pWT2u1Q0kd/dCPRC2fmlHrTtLCa5MIuyB52hEPTB7sgAbM36cs7US11PLXZV3MSp8hmn
+         Vcj2kh81AMJAwnxdhXObCAknFh/t0DDQLV2JM1Qgqq6rQHUImSVDd3H42gO4R0GIl/Vc
+         7aBw==
+X-Forwarded-Encrypted: i=1; AJvYcCXbB/db6w5LO8/t0iavUL2FKL9n5Txndjg45NerLCB6bCb1h3F9MI6jleb76hgxg/x1em4qtwZiV/1ue9WarpHYfn4baAMHhOVH72HYlquDkUJIjjiMGth2ll58m3LbaOHlv+ctEV7QWVCa9j6szQb79JBPy8JobQzA+v3hBP43OUiAlaFlN+81uUZIgeAZhmpwcSPlemH+tRAhJ5MSNGXLe5sl
+X-Gm-Message-State: AOJu0YxSPUjOinwVF2uGxXkC/cn4LnK+y0IVEIxof5HMxWfN907msKPZ
+	5YzsS1N7Wt5X0CAoAylCwAn+ae04Vsn2QZc1FtLxmqQ6OCrfDu5s+AMKwaB4AHLbnqs6tegzvAJ
+	MOQ0stWYXGFQJQoCDjjrsn0+10Ow=
+X-Google-Smtp-Source: AGHT+IE9HyrCbwFsn9zuGO3k2O4Obewg5pVr203HIBzni+5jUKor2tYqsw9lkRRThl2ghl7DFlA0Q8qbCdhIqsgDq4s=
+X-Received: by 2002:a17:90b:1018:b0:2c1:a052:d6b4 with SMTP id
+ 98e67ed59e1d1-2c27db1fc28mr3021809a91.27.1717608607995; Wed, 05 Jun 2024
+ 10:30:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240605-tcp_ao-tracepoints-v2-0-e91e161282ef@gmail.com>
+ <20240605-tcp_ao-tracepoints-v2-1-e91e161282ef@gmail.com> <20240605044441.GA3452034@maili.marvell.com>
+In-Reply-To: <20240605044441.GA3452034@maili.marvell.com>
+From: Dmitry Safonov <0x7f454c46@gmail.com>
+Date: Wed, 5 Jun 2024 18:29:56 +0100
+Message-ID: <CAJwJo6YT6-jpomSAjs-1kwRNRQWkAYnPHDxoZF--vQxTpg2b2Q@mail.gmail.com>
+Subject: Re: [PATCH net-next v2 1/6] net/tcp: Use static_branch_tcp_{md5,ao}
+ to drop ifdefs
+To: Ratheesh Kannoth <rkannoth@marvell.com>
+Cc: Eric Dumazet <edumazet@google.com>, "David S. Miller" <davem@davemloft.net>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, David Ahern <dsahern@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Mohammad Nassiri <mnassiri@ciena.com>, Simon Horman <horms@kernel.org>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Prior to v2.6.39 write access to /proc/<pid>/mem was restricted,
-after which it got allowed in commit 198214a7ee50 ("proc: enable
-writing to /proc/pid/mem"). Famous last words from that patch:
-"no longer a security hazard". :)
+On Wed, 5 Jun 2024 at 05:50, Ratheesh Kannoth <rkannoth@marvell.com> wrote:
+>
+> On 2024-06-05 at 07:50:02, Dmitry Safonov via B4 Relay (devnull+0x7f454c46.gmail.com@kernel.org) wrote:
+> > From: Dmitry Safonov <0x7f454c46@gmail.com>
+> >
+> > It's possible to clean-up some ifdefs by hiding that
+> > tcp_{md5,ao}_needed static branch is defined and compiled only
+> > under related configs, since commit 4c8530dc7d7d ("net/tcp: Only produce
+> > AO/MD5 logs if there are any keys").
+> >
+> > Signed-off-by: Dmitry Safonov <0x7f454c46@gmail.com>
+> > ---
+> >  include/net/tcp.h   | 14 ++++----------
+> >  net/ipv4/tcp_ipv4.c |  8 ++------
+> >  2 files changed, 6 insertions(+), 16 deletions(-)
+> >
+> > diff --git a/include/net/tcp.h b/include/net/tcp.h
+> > index 08c3b99501cf..f6dd035e0fa9 100644
+> > --- a/include/net/tcp.h
+> > +++ b/include/net/tcp.h
+> > @@ -2386,21 +2386,15 @@ static inline void tcp_get_current_key(const struct sock *sk,
+> >
+> >  static inline bool tcp_key_is_md5(const struct tcp_key *key)
+> >  {
+> > -#ifdef CONFIG_TCP_MD5SIG
+> > -     if (static_branch_unlikely(&tcp_md5_needed.key) &&
+> > -         key->type == TCP_KEY_MD5)
+> > -             return true;
+> > -#endif
+> > +     if (static_branch_tcp_md5())
+> Seems that we lost unlikely hint. Dont we add that as well-> unlikely()
 
-Afterwards exploits started causing drama like [1]. The exploits
-using /proc/*/mem can be rather sophisticated like [2] which
-installed an arbitrary payload from noexec storage into a running
-process then exec'd it, which itself could include an ELF loader
-to run arbitrary code off noexec storage.
+Please, check the definition of static_branch_tcp_md5().
+This doesn't have any functional changes but hides ifdefs in
+the definition.
 
-One of the well-known problems with /proc/*/mem writes is they
-ignore page permissions via FOLL_FORCE, as opposed to writes via
-process_vm_writev which respect page permissions. These writes can
-also be used to bypass mode bits.
-
-To harden against these types of attacks, distrbutions might want
-to restrict /proc/pid/mem accesses, either entirely or partially,
-for eg. to restrict FOLL_FORCE usage.
-
-Known valid use-cases which still need these accesses are:
-
-* Debuggers which also have ptrace permissions, so they can access
-memory anyway via PTRACE_POKEDATA & co. Some debuggers like GDB
-are designed to write /proc/pid/mem for basic functionality.
-
-* Container supervisors using the seccomp notifier to intercept
-syscalls and rewrite memory of calling processes by passing
-around /proc/pid/mem file descriptors.
-
-There might be more, that's why these params default to disabled.
-
-Regarding other mechanisms which can block these accesses:
-
-* seccomp filters can be used to block mmap/mprotect calls with W|X
-perms, but they often can't block open calls as daemons want to
-read/write their runtime state and seccomp filters cannot check
-file paths, so plain write calls can't be easily blocked.
-
-* Since the mem file is part of the dynamic /proc/<pid>/ space, we
-can't run chmod once at boot to restrict it (and trying to react
-to every process and run chmod doesn't scale, and the kernel no
-longer allows chmod on any of these paths).
-
-* SELinux could be used with a rule to cover all /proc/*/mem files,
-but even then having multiple ways to deny an attack is useful in
-case one layer fails.
-
-Thus we introduce four kernel parameters to restrict /proc/*/mem
-access: open-read, open-write, write and foll_force. All these can
-be independently set to the following values:
-
-all     => restrict all access unconditionally.
-ptracer => restrict all access except for ptracer processes.
-
-If left unset, the existing behaviour is preserved, i.e. access
-is governed by basic file permissions.
-
-Examples which can be passed by bootloaders:
-
-proc_mem.restrict_foll_force=all
-proc_mem.restrict_open_write=ptracer
-proc_mem.restrict_open_read=ptracer
-proc_mem.restrict_write=all
-
-These knobs can also be enabled via Kconfig like for eg:
-
-CONFIG_PROC_MEM_RESTRICT_WRITE_PTRACE_DEFAULT=y
-CONFIG_PROC_MEM_RESTRICT_FOLL_FORCE_PTRACE_DEFAULT=y
-
-Each distribution needs to decide what restrictions to apply,
-depending on its use-cases. Embedded systems might want to do
-more, while general-purpouse distros might want a more relaxed
-policy, because for e.g. foll_force=all and write=all both break
-break GDB, so it might be a bit excessive.
-
-Based on an initial patch by Mike Frysinger <vapier@chromium.org>.
-
-Link: https://lwn.net/Articles/476947/ [1]
-Link: https://issues.chromium.org/issues/40089045 [2]
-Cc: Guenter Roeck <groeck@chromium.org>
-Cc: Doug Anderson <dianders@chromium.org>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Jann Horn <jannh@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: Christian Brauner <brauner@kernel.org>
-Cc: Jeff Xu <jeffxu@google.com>
-Co-developed-by: Mike Frysinger <vapier@chromium.org>
-Signed-off-by: Mike Frysinger <vapier@chromium.org>
-Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
----
-Changes in v5:
-* Fixed 2 typos by Randy D. (thanks!)
-* Fixed mm_access() resource leak
-* Rebased on next-20240605
----
- .../admin-guide/kernel-parameters.txt         |  38 +++++
- fs/proc/base.c                                | 130 +++++++++++++++++-
- security/Kconfig                              |  68 +++++++++
- 3 files changed, 235 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index f4f2b0ab61fae..035ed61a3e4e3 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -4814,6 +4814,44 @@
- 	printk.time=	Show timing data prefixed to each printk message line
- 			Format: <bool>  (1/Y/y=enable, 0/N/n=disable)
- 
-+	proc_mem.restrict_foll_force= [KNL]
-+			Format: {all | ptracer}
-+			Restricts the use of the FOLL_FORCE flag for /proc/*/mem access.
-+			If restricted, the FOLL_FORCE flag will not be added to vm accesses.
-+			Can be one of:
-+			- 'all' restricts all access unconditionally.
-+			- 'ptracer' allows access only for ptracer processes.
-+			If not specified, FOLL_FORCE is always used.
-+
-+	proc_mem.restrict_open_read= [KNL]
-+			Format: {all | ptracer}
-+			Allows restricting read access to /proc/*/mem files during open().
-+			Depending on restriction level, open for reads return -EACCES.
-+			Can be one of:
-+			- 'all' restricts all access unconditionally.
-+			- 'ptracer' allows access only for ptracer processes.
-+			If not specified, then basic file permissions continue to apply.
-+
-+	proc_mem.restrict_open_write= [KNL]
-+			Format: {all | ptracer}
-+			Allows restricting write access to /proc/*/mem files during open().
-+			Depending on restriction level, open for writes return -EACCES.
-+			Can be one of:
-+			- 'all' restricts all access unconditionally.
-+			- 'ptracer' allows access only for ptracer processes.
-+			If not specified, then basic file permissions continue to apply.
-+
-+	proc_mem.restrict_write= [KNL]
-+			Format: {all | ptracer}
-+			Allows restricting write access to /proc/*/mem after the files
-+			have been opened, during the actual write calls. This is useful for
-+			systems which can't block writes earlier during open().
-+			Depending on restriction level, writes will return -EACCES.
-+			Can be one of:
-+			- 'all' restricts all access unconditionally.
-+			- 'ptracer' allows access only for ptracer processes.
-+			If not specified, then basic file permissions continue to apply.
-+
- 	processor.max_cstate=	[HW,ACPI]
- 			Limit processor to maximum C-state
- 			max_cstate=9 overrides any DMI blacklist limit.
-diff --git a/fs/proc/base.c b/fs/proc/base.c
-index 4c607089f66ed..3f33c579cb65c 100644
---- a/fs/proc/base.c
-+++ b/fs/proc/base.c
-@@ -152,6 +152,30 @@ struct pid_entry {
- 		NULL, &proc_pid_attr_operations,	\
- 		{ .lsmid = LSMID })
- 
-+#define DEFINE_EARLY_PROC_MEM_RESTRICT(CFG, name)				\
-+DEFINE_STATIC_KEY_MAYBE_RO(CONFIG_PROC_MEM_RESTRICT_##CFG##_DEFAULT,		\
-+			   proc_mem_restrict_##name##_all);			\
-+DEFINE_STATIC_KEY_MAYBE_RO(CONFIG_PROC_MEM_RESTRICT_##CFG##_PTRACE_DEFAULT,	\
-+			   proc_mem_restrict_##name##_ptracer);			\
-+										\
-+static int __init early_proc_mem_restrict_##name(char *buf)			\
-+{										\
-+	if (!buf)								\
-+		return -EINVAL;							\
-+										\
-+	if (strcmp(buf, "all") == 0)						\
-+		static_key_slow_inc(&proc_mem_restrict_##name##_all.key);	\
-+	else if (strcmp(buf, "ptracer") == 0)					\
-+		static_key_slow_inc(&proc_mem_restrict_##name##_ptracer.key);	\
-+	return 0;								\
-+}										\
-+early_param("proc_mem.restrict_" #name, early_proc_mem_restrict_##name)
-+
-+DEFINE_EARLY_PROC_MEM_RESTRICT(OPEN_READ, open_read);
-+DEFINE_EARLY_PROC_MEM_RESTRICT(OPEN_WRITE, open_write);
-+DEFINE_EARLY_PROC_MEM_RESTRICT(WRITE, write);
-+DEFINE_EARLY_PROC_MEM_RESTRICT(FOLL_FORCE, foll_force);
-+
- /*
-  * Count the number of hardlinks for the pid_entry table, excluding the .
-  * and .. links.
-@@ -794,12 +818,56 @@ static const struct file_operations proc_single_file_operations = {
- };
- 
- 
-+static int __mem_open_access_permitted(struct file *file, struct task_struct *task)
-+{
-+	bool is_ptracer;
-+
-+	rcu_read_lock();
-+	is_ptracer = current == ptrace_parent(task);
-+	rcu_read_unlock();
-+
-+	if (file->f_mode & FMODE_WRITE) {
-+		/* Deny if writes are unconditionally disabled via param */
-+		if (static_branch_maybe(CONFIG_PROC_MEM_RESTRICT_OPEN_WRITE_DEFAULT,
-+					&proc_mem_restrict_open_write_all))
-+			return -EACCES;
-+
-+		/* Deny if writes are allowed only for ptracers via param */
-+		if (static_branch_maybe(CONFIG_PROC_MEM_RESTRICT_OPEN_WRITE_PTRACE_DEFAULT,
-+					&proc_mem_restrict_open_write_ptracer) &&
-+		    !is_ptracer)
-+			return -EACCES;
-+	}
-+
-+	if (file->f_mode & FMODE_READ) {
-+		/* Deny if reads are unconditionally disabled via param */
-+		if (static_branch_maybe(CONFIG_PROC_MEM_RESTRICT_OPEN_READ_DEFAULT,
-+					&proc_mem_restrict_open_read_all))
-+			return -EACCES;
-+
-+		/* Deny if reads are allowed only for ptracers via param */
-+		if (static_branch_maybe(CONFIG_PROC_MEM_RESTRICT_OPEN_READ_PTRACE_DEFAULT,
-+					&proc_mem_restrict_open_read_ptracer) &&
-+		    !is_ptracer)
-+			return -EACCES;
-+	}
-+
-+	return 0; /* R/W are not restricted */
-+}
-+
- struct mm_struct *proc_mem_open(struct file  *file, unsigned int mode)
- {
- 	struct task_struct *task = get_proc_task(file->f_inode);
- 	struct mm_struct *mm = ERR_PTR(-ESRCH);
-+	int ret;
- 
- 	if (task) {
-+		ret = __mem_open_access_permitted(file, task);
-+		if (ret) {
-+			put_task_struct(task);
-+			return ERR_PTR(ret);
-+		}
-+
- 		mm = mm_access(task, mode | PTRACE_MODE_FSCREDS);
- 		put_task_struct(task);
- 
-@@ -835,6 +903,62 @@ static int mem_open(struct inode *inode, struct file *file)
- 	return ret;
- }
- 
-+static bool __mem_rw_current_is_ptracer(struct file *file)
-+{
-+	struct inode *inode = file_inode(file);
-+	struct task_struct *task = get_proc_task(inode);
-+	struct mm_struct *mm = NULL;
-+	int is_ptracer = false, has_mm_access = false;
-+
-+	if (task) {
-+		rcu_read_lock();
-+		is_ptracer = current == ptrace_parent(task);
-+		rcu_read_unlock();
-+
-+		mm = mm_access(task, PTRACE_MODE_READ_FSCREDS);
-+		if (mm && file->private_data == mm) {
-+			has_mm_access = true;
-+			mmput(mm);
-+		}
-+
-+		put_task_struct(task);
-+	}
-+
-+	return is_ptracer && has_mm_access;
-+}
-+
-+static unsigned int __mem_rw_get_foll_force_flag(struct file *file)
-+{
-+	/* Deny if FOLL_FORCE is disabled via param */
-+	if (static_branch_maybe(CONFIG_PROC_MEM_RESTRICT_FOLL_FORCE_DEFAULT,
-+				&proc_mem_restrict_foll_force_all))
-+		return 0;
-+
-+	/* Deny if FOLL_FORCE is allowed only for ptracers via param */
-+	if (static_branch_maybe(CONFIG_PROC_MEM_RESTRICT_FOLL_FORCE_PTRACE_DEFAULT,
-+				&proc_mem_restrict_foll_force_ptracer) &&
-+	    !__mem_rw_current_is_ptracer(file))
-+		return 0;
-+
-+	return FOLL_FORCE;
-+}
-+
-+static bool __mem_rw_block_writes(struct file *file)
-+{
-+	/* Block if writes are disabled via param proc_mem.restrict_write=all */
-+	if (static_branch_maybe(CONFIG_PROC_MEM_RESTRICT_WRITE_DEFAULT,
-+				&proc_mem_restrict_write_all))
-+		return true;
-+
-+	/* Block with an exception only for ptracers */
-+	if (static_branch_maybe(CONFIG_PROC_MEM_RESTRICT_WRITE_PTRACE_DEFAULT,
-+				&proc_mem_restrict_write_ptracer) &&
-+	    !__mem_rw_current_is_ptracer(file))
-+		return true;
-+
-+	return false;
-+}
-+
- static ssize_t mem_rw(struct file *file, char __user *buf,
- 			size_t count, loff_t *ppos, int write)
- {
-@@ -847,6 +971,9 @@ static ssize_t mem_rw(struct file *file, char __user *buf,
- 	if (!mm)
- 		return 0;
- 
-+	if (write && __mem_rw_block_writes(file))
-+		return -EACCES;
-+
- 	page = (char *)__get_free_page(GFP_KERNEL);
- 	if (!page)
- 		return -ENOMEM;
-@@ -855,7 +982,8 @@ static ssize_t mem_rw(struct file *file, char __user *buf,
- 	if (!mmget_not_zero(mm))
- 		goto free;
- 
--	flags = FOLL_FORCE | (write ? FOLL_WRITE : 0);
-+	flags = (write ? FOLL_WRITE : 0);
-+	flags |= __mem_rw_get_foll_force_flag(file);
- 
- 	while (count > 0) {
- 		size_t this_len = min_t(size_t, count, PAGE_SIZE);
-diff --git a/security/Kconfig b/security/Kconfig
-index 412e76f1575d0..873f7c048a0b3 100644
---- a/security/Kconfig
-+++ b/security/Kconfig
-@@ -183,6 +183,74 @@ config STATIC_USERMODEHELPER_PATH
- 	  If you wish for all usermode helper programs to be disabled,
- 	  specify an empty string here (i.e. "").
- 
-+menu "Procfs mem restriction options"
-+
-+config PROC_MEM_RESTRICT_FOLL_FORCE_DEFAULT
-+	bool "Restrict all FOLL_FORCE flag usage"
-+	default n
-+	help
-+	  Restrict all FOLL_FORCE usage during /proc/*/mem RW.
-+	  Debuggers like GDB require using FOLL_FORCE for basic
-+	  functionality.
-+
-+config PROC_MEM_RESTRICT_FOLL_FORCE_PTRACE_DEFAULT
-+	bool "Restrict FOLL_FORCE usage except for ptracers"
-+	default n
-+	help
-+	  Restrict FOLL_FORCE usage during /proc/*/mem RW, except
-+	  for ptracer processes. Debuggers like GDB require using
-+	  FOLL_FORCE for basic functionality.
-+
-+config PROC_MEM_RESTRICT_OPEN_READ_DEFAULT
-+	bool "Restrict all open() read access"
-+	default n
-+	help
-+	  Restrict all open() read access to /proc/*/mem files.
-+	  Use with caution: this can break init systems, debuggers,
-+	  container supervisors and other tasks using /proc/*/mem.
-+
-+config PROC_MEM_RESTRICT_OPEN_READ_PTRACE_DEFAULT
-+	bool "Restrict open() for reads except for ptracers"
-+	default n
-+	help
-+	  Restrict open() read access except for ptracer processes.
-+	  Use with caution: this can break init systems, debuggers,
-+	  container supervisors and other non-ptrace capable tasks
-+	  using /proc/*/mem.
-+
-+config PROC_MEM_RESTRICT_OPEN_WRITE_DEFAULT
-+	bool "Restrict all open() write access"
-+	default n
-+	help
-+	  Restrict all open() write access to /proc/*/mem files.
-+	  Debuggers like GDB and some container supervisors tasks
-+	  require opening as RW and may break.
-+
-+config PROC_MEM_RESTRICT_OPEN_WRITE_PTRACE_DEFAULT
-+	bool "Restrict open() for writes except for ptracers"
-+	default n
-+	help
-+	  Restrict open() write access except for ptracer processes,
-+	  usually debuggers.
-+
-+config PROC_MEM_RESTRICT_WRITE_DEFAULT
-+	bool "Restrict all write() calls"
-+	default n
-+	help
-+	  Restrict all /proc/*/mem direct write calls.
-+	  Open calls with RW modes are still allowed, this blocks
-+	  just the write() calls.
-+
-+config PROC_MEM_RESTRICT_WRITE_PTRACE_DEFAULT
-+	bool "Restrict write() calls except for ptracers"
-+	default n
-+	help
-+	  Restrict /proc/*/mem direct write calls except for ptracer processes.
-+	  Open calls with RW modes are still allowed, this blocks just
-+	  the write() calls.
-+
-+endmenu
-+
- source "security/selinux/Kconfig"
- source "security/smack/Kconfig"
- source "security/tomoyo/Kconfig"
--- 
-2.30.2
-
+Thanks,
+             Dmitry
