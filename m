@@ -1,91 +1,95 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88B8B14EC6B;
-	Wed,  5 Jun 2024 20:14:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCBC527701;
+	Wed,  5 Jun 2024 21:34:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717618449; cv=none; b=PfjheDixxiDN4KNocesc2bZahxm5tutldgSoJE1zBRRc3e/PHH+6Sxwi2Ib35gr9w0LU1TSVhFRtGhJDAuJVtNDqSRwR8EW9YPCZ9dzx5+1xcawQMoIAJ6sAatQ7a/OkiLyonrqiW2A/g8xmTL8N/u3gWpAhJI1E6yRPgkUl8/0=
+	t=1717623272; cv=none; b=GC/rIMWsPYHRtAFKibKbMPHpk03pgCGCEkxN6Dlv+Eeq42wvhEpvLE0B06ricKZiJNO54UyXYcj5cPDLnei4lpPu0Yqr10oNKH8YTjNWV7Sg2YafhVW5RLDpm4MaltBhN/h2ED2WqwrQ6Qlfx3i70QOyRoEvN/cVZNvwpsrOy0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717618449; c=relaxed/simple;
-	bh=WNiQKc7XInc3wxnxvdi0iSR6wuB1eYAWWFzmkvnEe9E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=poRwW3Jwk9sGdnfWwrsIjOgzy0JfjCnXhjUypZnopV4cbNxuw8MHud8105RcIkZ8p27Igl6RGHdHiRKwbdVXTO84B1FeP4YG8AhFG9Oskskb0rK+Ra9kQWueQOgz/PvVKtiWJqUiQ2/ggr/arDSdO26NfckAj2nvCjaT8FBcp1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=iPNiSGR8; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1717623272; c=relaxed/simple;
+	bh=yMHImIVxCBBypSOWcx/4rSkwq70FtC2bn0ZTwP0QdSQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=j0Cp1Lrq+L4XqZ9o0tQKGaBNFCzMCqjfVsfTd0ZcSxUp+q+AWJFJ0gzUTd4Chl1r7bSLoWtxxYPkti1Gs0UYop2fkI41kxCLQyyOgmHfMM1unnWuIdPsOV/AjiGmrwZueGwv4R/2Qy/EUw0piIkgoO39HwtoaS2hkb6G/z1CmLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=3gmCfXiw; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=QpnqhJPM; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iPNiSGR8"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=CkQB+gxR77I5/qf64o4fg6uN7mw5H6bkQGa9rOQ77b0=; b=iPNiSGR8mNtPRiRaFZwa/2VmzT
-	0vU6b+4CxM7tACmId1uDAc4qJYb4hJ96vVOmv0ZwVYsg/KpYJGPOaYmBgQJWL31NwVvH+NiO5zln2
-	cfc7BdCoNOpUvCivmlmDagfAKeDHh98iAu/rR0fo5wC6C1o4LnBpqII2BKsm7e9owja+FoAFd1MqN
-	E3O4NBLLqSerWbWthV5ZhMl2vUisI9Kum4a1UrChwAP6zxI0rMoGPQE08sYw0UbIEzIjhiUZBLAOi
-	juRoLdlfRitSCgpZfPEOdIgunXc/iCaF8+ywOa2HTlxkEoEiA1U1I3B26WKeuz8jhTPny+moFaEti
-	OQ3TNK/g==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sEx1K-00000007QDT-3UPU;
-	Wed, 05 Jun 2024 20:14:06 +0000
-Message-ID: <29b4266b-4aed-4124-8c48-cc539302bf07@infradead.org>
-Date: Wed, 5 Jun 2024 13:14:04 -0700
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="3gmCfXiw";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="QpnqhJPM"
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1717623269;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mHQySYXE8JTB9LD5KNpQxKuCokAcjIhTMOdjiUoSfDc=;
+	b=3gmCfXiw4ZNuFxRMRAeMxEd5uCCCvG9PLznx5Cfj0FF0zLT3A3ugkj8hwA8fTkyLNo3Sth
+	wQzyPLtIBcVYHdT3GwO/Z1TEHWN8UWcpzvbOOnU/zMNSMtBpz3TZka9IdJTqRwHfwnHYbA
+	eD4tc/Lw6A8FSBAKdsRCDWlH6c9CLegIK2XmPUWo8R+64onXEIZX8pnhO7I7c7x92c8dk/
+	BO+jSNNhIvkGL5yT5HgEe6PH0vRX54QWRO90Nidt/MJCHHpIZFcglr8Ev1HOeqftefHlQR
+	St5qB+Xsnto5UMe9LizV1GNAHK/XBaRcJhus8sgi1zRfKVUy5X5GtaUK2DnsZQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1717623269;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mHQySYXE8JTB9LD5KNpQxKuCokAcjIhTMOdjiUoSfDc=;
+	b=QpnqhJPMLhhiS5ZnUufoEddkZhrdbGk9/fmparRsBpvV1R2t54M8quz2P12pZT/cn0Sqgz
+	wWDL88mNA9TS9QBA==
+To: lakshmi.sowjanya.d@intel.com, giometti@enneenne.com, corbet@lwn.net,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: gregkh@linuxfoundation.org, andriy.shevchenko@linux.intel.com,
+ eddie.dong@intel.com, christopher.s.hall@intel.com, pandith.n@intel.com,
+ subramanian.mohan@intel.com, thejesh.reddy.t.r@intel.com,
+ lakshmi.sowjanya.d@intel.com
+Subject: Re: [PATCH v9 1/3] pps: generators: Add PPS Generator TIO Driver
+In-Reply-To: <20240605153554.11584-2-lakshmi.sowjanya.d@intel.com>
+References: <20240605153554.11584-1-lakshmi.sowjanya.d@intel.com>
+ <20240605153554.11584-2-lakshmi.sowjanya.d@intel.com>
+Date: Wed, 05 Jun 2024 23:34:28 +0200
+Message-ID: <871q5b3wgr.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 6/8] fwctl: Add documentation
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>,
- Jakub Kicinski <kuba@kernel.org>, Leon Romanovsky <leon@kernel.org>,
- linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
- netdev@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
- Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>,
- Andy Gospodarek <andrew.gospodarek@broadcom.com>,
- Aron Silverton <aron.silverton@oracle.com>,
- Dan Williams <dan.j.williams@intel.com>, David Ahern <dsahern@kernel.org>,
- Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>,
- Leonid Bloch <lbloch@nvidia.com>, Leon Romanovsky <leonro@nvidia.com>,
- linux-cxl@vger.kernel.org, patches@lists.linux.dev
-References: <6-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
- <7a28cd2c-b5a8-4c06-b9e2-9b390d8c96e4@infradead.org>
- <20240605160336.GA1760942@nvidia.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240605160336.GA1760942@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
+On Wed, Jun 05 2024 at 21:05, lakshmi.sowjanya.d@intel.com wrote:
+> +static ssize_t enable_store(struct device *dev, struct device_attribute *attr, const char *buf,
+> +			    size_t count)
+> +{
+> +	struct pps_tio *tio = dev_get_drvdata(dev);
+> +	bool enable;
+> +	int err;
+> +
+> +	if (!timekeeping_clocksource_has_base(CSID_X86_ART)) {
+> +		dev_err(dev, "PPS cannot be used as clock is not related to ART");
 
+                dev_err_once() if at all
 
-On 6/5/24 9:03 AM, Jason Gunthorpe wrote:
-> On Tue, Jun 04, 2024 at 07:31:10PM -0700, Randy Dunlap wrote:
-> 
->>> +Modern devices contain extensive amounts of FW, and in many cases, are largely
->>> +software defined pieces of hardware. The evolution of this approach is largely a
->>
->>   software-defined
-> 
-> Thanks a lot Randy, I picked up all your notes.
-> 
->>> +While the kernel can always directly parse and restrict RPCs, it is expected
->>> +that the existing kernel pattern of allowing drivers to delegate validation to
->>> +FW to be a useful design.
->>
->> (and one that can be abused...)
-> 
-> I would really like to write a paragraph about this "abuse", Dan has
-> some good thoughts on this as well. Did you have a specific "abuse"
-> in your mind?
+> +		return -EPERM;
 
-No, I don't. It just seems very open (but ioctls are just as open).
+Why -EPERM? This has nothing to do with permissions.
 
--- 
-#Randy
-https://people.kernel.org/tglx/notes-about-netiquette
-https://subspace.kernel.org/etiquette.html
+ENODEV or ENOTSUPPORTED perhaps.
+
+> +static ssize_t enable_show(struct device *dev, struct device_attribute *devattr, char *buf)
+> +{
+> +	struct pps_tio *tio = dev_get_drvdata(dev);
+> +	u32 ctrl;
+> +
+> +	ctrl = pps_tio_read(tio, TIOCTL);
+> +	ctrl &= TIOCTL_EN;
+
+Why reading the hardware instead of simply using tio->enabled?
+
+> +
+> +	return sysfs_emit(buf, "%u\n", ctrl);
+> +}
+
+Thanks,
+
+        tglx
