@@ -1,136 +1,161 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from aposti.net (aposti.net [89.234.176.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BB921946D3;
-	Wed,  5 Jun 2024 11:08:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893D6190490;
+	Wed,  5 Jun 2024 11:09:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717585724; cv=none; b=V4P7y5Q2oPkXnARuR6CPeSlLpp/R+c5D+xHpKxdDzZfBCZo4wKg79spmdqjCCypEU5DSsURUQECYnYs2qy/2BLVnhYoED0fuS3uL6U+ZWr1/kxvWqiW4ZaHFDBSRGoQvknnEjIiBrWgVN9ZX4BRSbmrDNJDCITEiIyv2WWIhgco=
+	t=1717585757; cv=none; b=rhFXlgsDFebldskGJ5ncHfqIa+GT98EhOxtGxwm8Lk8T10nlCW78ZRypRZT57k1JqlQOL1KlSIHsmu7PtjBozuI/yLlMOJ5Q4YUyI6pv9ShqbAdmGZVX9ScHlklsRFq51QackKwocpGrihBPbM7xvX5YJnsfzQujUzFrE9ZYxX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717585724; c=relaxed/simple;
-	bh=l4kG0ENxp5e/iTXDU0KZBxI0YMPvJKRQAC/Xg5l2eMQ=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=P3kTy77CSKZe/wO2kq2y0+7shreRPx7175LQquEA60p4gq0Qa7gNzkm226Df1SnRInLIATeK7eyJ3NeB1KTZSiyNIM+GVoQfgcsEfwoALcZQpr/QLGbmftWkBnbOc+GlgVvrg0uwqUqwyFfpjTiF69+PrBwZxIcEiYCxIMRWbB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4VvPjH3phJz6K67M;
-	Wed,  5 Jun 2024 19:04:03 +0800 (CST)
-Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
-	by mail.maildlp.com (Postfix) with ESMTPS id 5A06E1400C9;
-	Wed,  5 Jun 2024 19:08:39 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 5 Jun
- 2024 12:08:38 +0100
-Date: Wed, 5 Jun 2024 12:08:38 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: Leon Romanovsky <leon@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Itay
- Avraham <itayavr@nvidia.com>, Jakub Kicinski <kuba@kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-	<netdev@vger.kernel.org>, Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed
-	<saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, Andy Gospodarek
-	<andrew.gospodarek@broadcom.com>, Aron Silverton <aron.silverton@oracle.com>,
-	Dan Williams <dan.j.williams@intel.com>, "David Ahern" <dsahern@kernel.org>,
-	Christoph Hellwig <hch@infradead.org>, "Jiri Pirko" <jiri@nvidia.com>, Leonid
- Bloch <lbloch@nvidia.com>, <linux-cxl@vger.kernel.org>,
-	<patches@lists.linux.dev>
-Subject: Re: [PATCH 1/8] fwctl: Add basic structure for a class subsystem
- with a cdev
-Message-ID: <20240605120838.00000da5@Huawei.com>
-In-Reply-To: <20240604185200.GN19897@nvidia.com>
-References: <0-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
-	<1-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
-	<20240604093219.GN3884@unreal>
-	<20240604155009.GJ19897@nvidia.com>
-	<20240604180555.000063c2@Huawei.com>
-	<20240604185200.GN19897@nvidia.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	s=arc-20240116; t=1717585757; c=relaxed/simple;
+	bh=u1AIWsnttLSRKtpaWK94JbuZszg9FRkieNFLz9/mkVQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=OqeYzXR+u+dAQuDjRdlPxbKL6lejuuAx07le0gUCBXx/FrGdYpWc64h3Ol3Yo78ELp7QK/Vis6cSArUcGRD0iqE/B7OEteVDba5rS6kRw+H7lIrOL7MbuiNp6d5B/44QtgwqkIzoQ1PMsLQko7YRCLD2NZ5sfbXfkfjYMzM5yH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=duOEvwmL; arc=none smtp.client-ip=89.234.176.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="duOEvwmL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1717585739;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=A+bpo9IhXlSNnyxVxTZI9wza03doX2paj+5rtqcioR4=;
+	b=duOEvwmLl9bd8EXe/ieWKxDYIPVHIJVs32vqQ7hYjjmYfzNxBznCUE+9V8uZc71TGgu4Pg
+	C8LTXVDnrE1tyki4Wf0IC1mRKHVwafp94PNFRK6SHnTinxWx+IM+xPSClfUHJCohKHIt+w
+	XpMPyzrHCKx5/6AhZYsBzzyvtZ7db5Y=
+From: Paul Cercueil <paul@crapouillou.net>
+To: Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Vinod Koul <vkoul@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Nuno Sa <nuno.sa@analog.com>,
+	linux-iio@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dmaengine@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	Paul Cercueil <paul@crapouillou.net>
+Subject: [PATCH v10 1/6] dmaengine: Add API function dmaengine_prep_peripheral_dma_vec()
+Date: Wed,  5 Jun 2024 13:08:40 +0200
+Message-ID: <20240605110845.86740-2-paul@crapouillou.net>
+In-Reply-To: <20240605110845.86740-1-paul@crapouillou.net>
+References: <20240605110845.86740-1-paul@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500002.china.huawei.com (7.191.160.78) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
+Content-Transfer-Encoding: 8bit
 
-On Tue, 4 Jun 2024 15:52:00 -0300
-Jason Gunthorpe <jgg@nvidia.com> wrote:
+This function can be used to initiate a scatter-gather DMA transfer,
+where the address and size of each segment is located in one entry of
+the dma_vec array.
 
-> On Tue, Jun 04, 2024 at 06:05:55PM +0100, Jonathan Cameron wrote:
-> 
-> > Trick for this is often to define a small function that allocates both the
-> > ida and the device. With in that micro function handle the one error path
-> > or if you only have two things to do, you can use __free() for the allocation.  
-> 
-> This style is already followed here, the _alloc_device() is the
-> function that does everything before starting reference counting (IMHO
-> it is the best pattern to use). If we move the ida allocation to that
-> function then the if inside release is not needed.
-> 
-> Like this:
+The major difference with dmaengine_prep_slave_sg() is that it supports
+specifying the lengths of each DMA transfer; as trying to override the
+length of the transfer with dmaengine_prep_slave_sg() is a very tedious
+process. The introduction of a new API function is also justified by the
+fact that scatterlists are on their way out.
 
-LGTM (this specific code, not commenting on fwctl in general yet as needs
-more thinking time!)
+Note that dmaengine_prep_interleaved_dma() is not helpful either in that
+case, as it assumes that the address of each segment will be higher than
+the one of the previous segment, which we just cannot guarantee in case
+of a scatter-gather transfer.
 
-> 
-> diff --git a/drivers/fwctl/main.c b/drivers/fwctl/main.c
-> index d25b5eb3aee73c..a26697326e6ced 100644
-> --- a/drivers/fwctl/main.c
-> +++ b/drivers/fwctl/main.c
-> @@ -267,8 +267,7 @@ static void fwctl_device_release(struct device *device)
->  	struct fwctl_device *fwctl =
->  		container_of(device, struct fwctl_device, dev);
->  
-> -	if (fwctl->dev.devt)
-> -		ida_free(&fwctl_ida, fwctl->dev.devt - fwctl_dev);
-> +	ida_free(&fwctl_ida, fwctl->dev.devt - fwctl_dev);
->  	mutex_destroy(&fwctl->uctx_list_lock);
->  	kfree(fwctl);
->  }
-> @@ -288,6 +287,7 @@ static struct fwctl_device *
->  _alloc_device(struct device *parent, const struct fwctl_ops *ops, size_t size)
->  {
->  	struct fwctl_device *fwctl __free(kfree) = kzalloc(size, GFP_KERNEL);
-> +	int devnum;
->  
->  	if (!fwctl)
->  		return NULL;
-> @@ -296,6 +296,12 @@ _alloc_device(struct device *parent, const struct fwctl_ops *ops, size_t size)
->  	init_rwsem(&fwctl->registration_lock);
->  	mutex_init(&fwctl->uctx_list_lock);
->  	INIT_LIST_HEAD(&fwctl->uctx_list);
-> +
-> +	devnum = ida_alloc_max(&fwctl_ida, FWCTL_MAX_DEVICES - 1, GFP_KERNEL);
-> +	if (devnum < 0)
-> +		return NULL;
-> +	fwctl->dev.devt = fwctl_dev + devnum;
-> +
->  	device_initialize(&fwctl->dev);
->  	return_ptr(fwctl);
->  }
-> @@ -307,16 +313,10 @@ struct fwctl_device *_fwctl_alloc_device(struct device *parent,
->  {
->  	struct fwctl_device *fwctl __free(fwctl) =
->  		_alloc_device(parent, ops, size);
-> -	int devnum;
->  
->  	if (!fwctl)
->  		return NULL;
->  
-> -	devnum = ida_alloc_max(&fwctl_ida, FWCTL_MAX_DEVICES - 1, GFP_KERNEL);
-> -	if (devnum < 0)
-> -		return NULL;
-> -	fwctl->dev.devt = fwctl_dev + devnum;
-> -
->  	cdev_init(&fwctl->cdev, &fwctl_fops);
->  	fwctl->cdev.owner = THIS_MODULE;
->  
-> Jason
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+Signed-off-by: Nuno Sa <nuno.sa@analog.com>
+
+---
+v3: New patch
+
+v5: Replace with function dmaengine_prep_slave_dma_vec(), and struct
+    'dma_vec'.
+    Note that at some point we will need to support cyclic transfers
+    using dmaengine_prep_slave_dma_vec(). Maybe with a new "flags"
+    parameter to the function?
+
+v7:
+  - Renamed *device_prep_slave_dma_vec() -> device_prep_peripheral_dma_vec();
+  - Added a new flag parameter to the function as agreed between Paul
+    and Vinod. I renamed the first parameter to prep_flags as it's supposed to
+    be used (I think) with enum dma_ctrl_flags. I'm not really sure how that API
+    can grow but I was thinking in just having a bool cyclic parameter (as the
+    first intention of the flags is to support cyclic transfers) but ended up
+    "respecting" the previously agreed approach.
+
+v10:
+  - Add kernel doc to dmaengine_prep_peripheral_dma_vec()
+  - Remove extra flags parameter
+---
+ include/linux/dmaengine.h | 33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
+
+diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
+index 752dbde4cec1..9fc03068cabc 100644
+--- a/include/linux/dmaengine.h
++++ b/include/linux/dmaengine.h
+@@ -160,6 +160,16 @@ struct dma_interleaved_template {
+ 	struct data_chunk sgl[];
+ };
+ 
++/**
++ * struct dma_vec - DMA vector
++ * @addr: Bus address of the start of the vector
++ * @len: Length in bytes of the DMA vector
++ */
++struct dma_vec {
++	dma_addr_t addr;
++	size_t len;
++};
++
+ /**
+  * enum dma_ctrl_flags - DMA flags to augment operation preparation,
+  *  control completion, and communicate status.
+@@ -910,6 +920,10 @@ struct dma_device {
+ 	struct dma_async_tx_descriptor *(*device_prep_dma_interrupt)(
+ 		struct dma_chan *chan, unsigned long flags);
+ 
++	struct dma_async_tx_descriptor *(*device_prep_peripheral_dma_vec)(
++		struct dma_chan *chan, const struct dma_vec *vecs,
++		size_t nents, enum dma_transfer_direction direction,
++		unsigned long flags);
+ 	struct dma_async_tx_descriptor *(*device_prep_slave_sg)(
+ 		struct dma_chan *chan, struct scatterlist *sgl,
+ 		unsigned int sg_len, enum dma_transfer_direction direction,
+@@ -973,6 +987,25 @@ static inline struct dma_async_tx_descriptor *dmaengine_prep_slave_single(
+ 						  dir, flags, NULL);
+ }
+ 
++/**
++ * dmaengine_prep_peripheral_dma_vec() - Prepare a DMA scatter-gather descriptor
++ * @chan: The channel to be used for this descriptor
++ * @vecs: The array of DMA vectors that should be transferred
++ * @nents: The number of DMA vectors in the array
++ * @dir: Specifies the direction of the data transfer
++ * @flags: DMA engine flags
++ */
++static inline struct dma_async_tx_descriptor *dmaengine_prep_peripheral_dma_vec(
++	struct dma_chan *chan, const struct dma_vec *vecs, size_t nents,
++	enum dma_transfer_direction dir, unsigned long flags)
++{
++	if (!chan || !chan->device || !chan->device->device_prep_peripheral_dma_vec)
++		return NULL;
++
++	return chan->device->device_prep_peripheral_dma_vec(chan, vecs, nents,
++							    dir, flags);
++}
++
+ static inline struct dma_async_tx_descriptor *dmaengine_prep_slave_sg(
+ 	struct dma_chan *chan, struct scatterlist *sgl,	unsigned int sg_len,
+ 	enum dma_transfer_direction dir, unsigned long flags)
+-- 
+2.43.0
 
