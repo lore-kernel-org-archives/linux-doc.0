@@ -1,249 +1,171 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2086.outbound.protection.outlook.com [40.107.220.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B1B1D0EDA;
-	Wed,  5 Jun 2024 12:06:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717589163; cv=none; b=jMifrcbzXbfqIiEK3Hs/syDi7vEBU23xg0ygN9SvsWEXiUlbMO0ANcaRSK47xSx86W6dHN7qhNbZ1AdHRHGIJwgwUE9LLeX4iLwhxpfTplzEim+LUsfiPN7ixjhaIgA3KE6F4BBjx0imrj/R0yB5iAYCW3JIgyb7LSxGZpWGq+Q=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717589163; c=relaxed/simple;
-	bh=HO+leHuoTR0/oIItN3ZmTrYsirgegCJgqCS8/YNX3r4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XIqwoqHHWKnk4878uZM+knWy6m3frXfD5P/SkxsB673bNjJDxdLqo/5vo41jfeWax0DSzYeWFPG65sFNn/iuO894eTQjJw1waBi+wKWWaqaxdoFKsxJT23GCN/kwGCSQQ9O1cgysJ6fryWx5y38+WR/7hJ61K4rwI0EaiBk4owA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XC6DcQwV; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12101188CCD;
+	Wed,  5 Jun 2024 12:06:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.86
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717589200; cv=fail; b=hsk9yGHjp1nulzJtWOaLT2d6LNu1MdyGpadCh+sQJL+LLT3T4aEJxzSYKu8pFHodtJ0F8y0De8K09HzkmA8MqwWiU/WSAWKIeuEghVy0ZR/vImjh1jLkcJR484xOiJgSk9j5lwg8w1S5cffHRT9T6gKcMfx5kMUjz7WmylihaVo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717589200; c=relaxed/simple;
+	bh=VMLMTtq6Fl3EQHHOtrCx01nEUdtL35Dd+lifSma72L4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=NanrHIFyq6DQ5zooPyolI9xe0vKyMMNZGs7LSYLgAUGgr+0tFuELqzVZNCVpv/WWow9+ASJNKChq4oI7DdfSofl950/qr18xnDfBq9gS63Y5QahUVl3jRzd5c2enUzU6+oPpzC3FFCmcWmrRL72yRupig0XU4zVnXNTjvtRwyIw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=FPAl4qIk; arc=fail smtp.client-ip=40.107.220.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XC6DcQwV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0DF9C4AF0C;
-	Wed,  5 Jun 2024 12:06:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717589163;
-	bh=HO+leHuoTR0/oIItN3ZmTrYsirgegCJgqCS8/YNX3r4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XC6DcQwVh7d/QYsCnYJbyry/ds5enLmRgYDuCcf1zChWwxGrvDD3wfcM+1326vJR6
-	 MSPn8tW6SwFN4Ny3IHbwWGLlJFoznfaJEfZVwLX0Q6R/Ye/ZCYs+hoKTCqQektXGy+
-	 vpxnlk/vcf8dVn6TR3yCnNEOBdH17ryVHLcdT+AYeDoAvbQ2e1MV6fkl0Z4eAQ45W5
-	 LPpgEV1VyiGvwZI6GvqPEokMVWwIgiHRICwIjiFt9KYUELjgI9d5ZJNEth5rmdrenv
-	 phx/WLNXIQjwDLEf1Nuh/ENCWUB/UGhwE3RbFEHUb6n2bCV5AZs4fSDSFJMKp3UOvv
-	 vLJd/m+MfAC7A==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Gregor Riepl <onitake@gmail.com>,
-	Sasha Levin <sashal@kernel.org>,
-	corbet@lwn.net,
-	ilpo.jarvinen@linux.intel.com,
-	paulmck@kernel.org,
-	jpoimboe@kernel.org,
-	tglx@linutronix.de,
-	bp@alien8.de,
-	xiongwei.song@windriver.com,
-	linux-doc@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 4/8] platform/x86: touchscreen_dmi: Add support for setting touchscreen properties from cmdline
-Date: Wed,  5 Jun 2024 08:05:47 -0400
-Message-ID: <20240605120554.2968012-4-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240605120554.2968012-1-sashal@kernel.org>
-References: <20240605120554.2968012-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="FPAl4qIk"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BrJn9PLAmpYpRlLgG8bF5UmyOG+sLYC0RgygRWqCr0d/l6/WuwrTpZGOcsW2/4HzAPejAusKisbTb3j7MBRHmC0mlhVvK6clBoqJ+5Wo8vwjtqfnlXqKrK3TSVWgID4Nd+1XpKh9lk6CrZg8v0/Ys8TVvn4ppdjeX2ZD8G0smj+/Jbzsa2GE3XiYA2HSPpJHt64NRX4fSYn+dU0FqFQ6iGQ/e1oGL/w4KWOtTDb8zC4B6QEay4tP9Yb7Ys4Owh1IP6sZle2lt/vOL647e9WY+eJNWdT0tcHLqiES9HRzY4/+b+OT/1++jDbvQuEG1xBEiv+FdiGw5rnBdQMxTqrbwg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LI0tZx3lBAFROE/wZAd4jqF9IN25YfATkowhSufibzo=;
+ b=n0PLnKXYUq5LDskq6kkn74gFcVCqiae9JH+YQKoqoHU+tOKlvT+GWNLs+z6wpNxPxByqzLZWI9ttLxljCZT+2k9oFw5+vMF5EoF54Zp+aCjaM4lCRzDtVa1tJ/gQNkPMyBEg2VZiqemGSNgOLipcPKkaohhxj4F9h1QYumM1BfzkoKS0wrtvSvjZJ9L68IstXxUThtCEdZktGOvJzXOtHf3T/mpVs5ujShJtUOhOOt6ZUuEVu0lihVs5QvCzSVsP6vACy46fVYAPrRc1UqHpQBr+4kwole67h4G8wejDmW5Y7FNzmt/jQIPHnJ5ng0pl9ixv27SSaj0dup0MHn7rsA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LI0tZx3lBAFROE/wZAd4jqF9IN25YfATkowhSufibzo=;
+ b=FPAl4qIkWTvWsrdkFg1NBWmqT7bOuuSVcY0JUsQ+S7mnOC1VzIZwK3HwsJzMZeJrogpJn7zFJQFPQnqabLacrK18XH1eB3qw7CjzGcB6ZqS/6uSRVoFxES/8IkQrnzVODLZ7MfxMpDodcTaElDkD6Ywr65Emu3tnO5qTxhvLD+TsQeR9k4+DIC1nnljRQaem3FbH6/TsEqMQYMXxUqcJOjr47cY6j6dCJ9Nm/f/mJT4jSW9FTHSksyyEQImv+JIuEv9j3aqo6nPJEK/uKXXAQ1JmK48/L4v28/E1vDu0E0J2ssArSFAV0KURNpoypZwPOyXHMnUIGq+E8/eJrFgITQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM6PR12MB3849.namprd12.prod.outlook.com (2603:10b6:5:1c7::26)
+ by PH7PR12MB5735.namprd12.prod.outlook.com (2603:10b6:510:1e2::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.22; Wed, 5 Jun
+ 2024 12:06:35 +0000
+Received: from DM6PR12MB3849.namprd12.prod.outlook.com
+ ([fe80::c296:774b:a5fc:965e]) by DM6PR12MB3849.namprd12.prod.outlook.com
+ ([fe80::c296:774b:a5fc:965e%4]) with mapi id 15.20.7633.021; Wed, 5 Jun 2024
+ 12:06:35 +0000
+Date: Wed, 5 Jun 2024 09:06:34 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>, linux-doc@vger.kernel.org,
+	linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Andy Gospodarek <andrew.gospodarek@broadcom.com>,
+	Aron Silverton <aron.silverton@oracle.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	David Ahern <dsahern@kernel.org>,
+	Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>,
+	Leonid Bloch <lbloch@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>, linux-cxl@vger.kernel.org,
+	patches@lists.linux.dev
+Subject: Re: [PATCH 0/8] Introduce fwctl subystem
+Message-ID: <20240605120634.GS19897@nvidia.com>
+References: <0-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
+ <20240604201103.4b2973c5@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240604201103.4b2973c5@kernel.org>
+X-ClientProxiedBy: BLAPR05CA0009.namprd05.prod.outlook.com
+ (2603:10b6:208:36e::16) To DM6PR12MB3849.namprd12.prod.outlook.com
+ (2603:10b6:5:1c7::26)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.218
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3849:EE_|PH7PR12MB5735:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4927e837-052c-431b-4c2d-08dc8557f204
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|376005|1800799015|7416005;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?YKBcJ/iU2pcle5l0Z2iSyUqbdIqlGfkPkhj+RuPu4Wp/oyF+FPFv9NMuOqjS?=
+ =?us-ascii?Q?LgIT1V3WxS6nyXQPAldlqNTtCoZTI9rbkZHvTs6E3ofsik4q4Zc+H6iBpl/B?=
+ =?us-ascii?Q?FuhamB+JEoc6aOYiOGHOctuB4DZHGmkL+K6uSxuifsxZ1XT0N0BiVBglx09g?=
+ =?us-ascii?Q?xwqJRGmNIU2eukIm73O+H5hUR8xCivT2/u175xIUowheUGruH+Q0pidC2Bv8?=
+ =?us-ascii?Q?OtpC7vshMdU+1Ys1wZGNpRbw+ud4IYml6V31kBJwnJY/8RUyL3CnTVh+Jm+3?=
+ =?us-ascii?Q?8w3Fa3F/unsywaADjBWLsFkl+XjYUWxYHOb14NtfNn7sv0g+WvL4ds0xI6h2?=
+ =?us-ascii?Q?KtrN4i2fIcr9YVWDOyfrnuHe08y9M5lFo/umi3XJPhV2P3yWc2IRqF2RLNtP?=
+ =?us-ascii?Q?E459FZwxh/L0y91WnCmR/GbITDmMNIQD5sst2VuWCSZA3WfhUWOresiLnnCz?=
+ =?us-ascii?Q?fvG8SOg/WNhuHCagLeNOTXIcmyYrbjG9VDGT9CIq7RupbHv7WWKIh/STMD+W?=
+ =?us-ascii?Q?QI5WHLpWefXsFQfmpoB3gZAsYrwb2hC8W8IQQAp5mcwh/zvHWr3Xj6z6pCAV?=
+ =?us-ascii?Q?OqoliFdjr8z6phkL6EJRurPKIjpHYmT13z3AvocM/BNnxuo0dBBE3aEQ1idI?=
+ =?us-ascii?Q?t+wdO63DGBcknhJ6DMbPZrbqjB+P50iVLM2VEIwNIObdLrUhRgz/r70KZ0kG?=
+ =?us-ascii?Q?ZgtDvgcwRZFItnngr9qSrLu/ZGrWiRPciS64zYF8WieFaiSWSGfVMs9J6G7q?=
+ =?us-ascii?Q?WjbboO34N/ZYAt0dQGJjqtqmCpwR1aMhoPc3AKW5m3Lbyr9gJe56ATb592Hv?=
+ =?us-ascii?Q?kK8uGXJpkJI0fQki6vaN2nd+OnKAdLTfwHouZdZ2WLeU3sa2knoCspvB7OS0?=
+ =?us-ascii?Q?Yi1jNPzt6zzRSIJs6wiHtnVExtbdIfFaMFMwNX+bkyDot+iZqgkvvPP371JK?=
+ =?us-ascii?Q?OiEsAQaAExSlkO9/+TV6n+/egJAJBthqTpoubNDjy+Wp3HdC2dT6QoaCMvTA?=
+ =?us-ascii?Q?gBAzCjNNmoSlZlt4nye7R/fPzHX49b4WuLPryIzIT5uziBFkOhMSExz9VYtv?=
+ =?us-ascii?Q?krkkH2PD9YyCYuwc/YElk6bP7GMf8jdS/eNKkWm92EESANz54kX7wtXaI17x?=
+ =?us-ascii?Q?+2CjOZWJwFonqRhgIIKrDtZ5RKXwn/Zp5L17pzSbi1rab6h1Ai1bLWD9rBJJ?=
+ =?us-ascii?Q?xOq114PamMgY1+nJQO7motfyfGrte3z11G/YDNCe1lDYgCy+2TRQ0a+t4B39?=
+ =?us-ascii?Q?bFlt3WG56R42my3VUVEY1gviHEHkz9nLh2Iit/ylrePrh0VZoGMzJecafcF+?=
+ =?us-ascii?Q?vuxT8kZaEY+c+xvGTcOY47tK?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3849.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(376005)(1800799015)(7416005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?misxJa7IRsRqHMq2jrmohWLV3NrtaDHp3QisFQMEkg5ytAi8CVOL0Sw6kVo6?=
+ =?us-ascii?Q?1C2XOkRFXt3GlIvqWede2xWrOkJo5DDuvhaHvWUo+IoNQzPKWUnfUsn1qyBG?=
+ =?us-ascii?Q?o3rZTiPMbyQUeOmd6r9FqoG6U/DjONyKvKUfFij5l6YYJtj3RcttL4Y/qacG?=
+ =?us-ascii?Q?6hlwf8kIfezHX1AWVsx7LjMhiPhDtvixq6Td4WW78R4ue7Ov2NxsIsuaFsgw?=
+ =?us-ascii?Q?NPpa7vz6XI2hlg5G+rcDwvk1maHTaB7rJbxweTqyegVi414R5Lv85uHr2LdJ?=
+ =?us-ascii?Q?AojMJZjlcXoPlJ4RUC6OM08AykifPsTKiMAHrXzJKKpq2TF6whlH+Ia6OmCg?=
+ =?us-ascii?Q?oGYJRZUPP89BCtota9wzmvQ3ejx7iB6v1yNQyhmH50vek1BaSzP5j2fCHgXD?=
+ =?us-ascii?Q?E5dYUDr8paI/01X0679xtcWrvZ/o0kWyyq6rseHVnMyS445VatiSOIrzwaUZ?=
+ =?us-ascii?Q?pT+QE56TE1WjSTIK1VZrpFixJqGOGFVLR8O1E3sMGhBhgyzTqc72UamzEMyt?=
+ =?us-ascii?Q?J3BjAUd7zD8qbmAmsem9wTPpXLvZ4yKPfaJ7BlZ25LWD8ZfOKsEH//XkM04h?=
+ =?us-ascii?Q?sCUHtXZC1Y1MdfXjaVF993zT0kMzGAuqe2SI9Dvi7dDp/vcHIt/AJNB4BFOg?=
+ =?us-ascii?Q?z8GDfh1KKOS5LjzKjFnCebaSbcXUkQTzLOVKF5hi6brJmJAieuYHfjLt1U8K?=
+ =?us-ascii?Q?bu+/DuGD3EDod9bzaaeapp+bmgGuFq5dp37tMjT9aupQOZjoBiRLGuzfaCbf?=
+ =?us-ascii?Q?thNS9HGrTGqysZz8hKiqgdK/cA6PBLx46kkilxuSVUsQbk6H064l2KZxckog?=
+ =?us-ascii?Q?weWSc8oj3RhVbgLXXGdmz5ydCr6zkiXDOmKL6er7AnhBtTdGUtglsdZ1Zwoz?=
+ =?us-ascii?Q?ttv40i4H3OyOzeA8LDMzYkTpZfEVRzyoR5efoaoIfLMpKWmuuz3gU6A2hGHp?=
+ =?us-ascii?Q?xGtWE1C/5T0sk0d7yoOT2d84edoh+62uar/6nxiiXS988g83x6Hq8YbuQwWN?=
+ =?us-ascii?Q?hDiMYKxT89pgmZOzWP+HbLsR7PlMQ8Ew4bEkOg3EH0qi8C8Cl9z3VJn4xgIU?=
+ =?us-ascii?Q?WaVhLBFjgE0PNFX0Fc3mje9lwnL39HUSZZiq50uHxB/72uROnBOkQWd5V8ri?=
+ =?us-ascii?Q?IuUi5pLOAzM43Rmt1Qdzt6tJCdq8IUWnycumYJJtyaadtHa+VKNpEgJf3j4g?=
+ =?us-ascii?Q?K7r+fVUYpl6jyrJf+w64KN/Tibg+4m+fjPBFABJ6HBC7Fs/p2464Vmor6B+U?=
+ =?us-ascii?Q?gOkLgpQ+EI7J3/lfXBjG9Nt9H6K7f0lQYaFUwBE7uSF9zLEvy0u3ntiaNDDX?=
+ =?us-ascii?Q?CQZcFenZkXhbRBebG0RvN86cX8EmovK09sit6pDWSbk5Ht68KjC1VhOV/8lF?=
+ =?us-ascii?Q?FOHTOEobqK/8pJ9JW8wfleETsi8+WLvAMCTwzoUKqlNmKwlIkdQMiwdbtvJ7?=
+ =?us-ascii?Q?T1SatY70wtT3G5TOrjCBKU1vyIEWjbRB3mdwKtuK/6EHDL2KPuCTDqCJy4UA?=
+ =?us-ascii?Q?Nkv7LFwUWcGEc3AyH7BdBQzpLxPjgdlHyT0iJyVR1FCyPi6n3C/VQi9yQU+B?=
+ =?us-ascii?Q?CnHKFGF98UDTtcb0dQRCbwrcKdfcYsm2d0RzxK2K?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4927e837-052c-431b-4c2d-08dc8557f204
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3849.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2024 12:06:34.9874
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: iiv0SktV7wJb+qjUcELmbKugGUkExkntvxP6Q7MvlyOdcFGZ5KjunSMi/Qg7MZ1N
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5735
 
-From: Hans de Goede <hdegoede@redhat.com>
+On Tue, Jun 04, 2024 at 08:11:03PM -0700, Jakub Kicinski wrote:
+> On Mon,  3 Jun 2024 12:53:16 -0300 Jason Gunthorpe wrote:
+> >  Broadcom Networking - https://lore.kernel.org/r/Zf2n02q0GevGdS-Z@C02YVCJELVCG
+> 
+> Please double check with Broadcom if they are still supportive, 
+> in the current form.
 
-[ Upstream commit 0b178b02673998f5acca5a0365a8858ca45beedb ]
+They are free to comment.
 
-On x86/ACPI platforms touchscreens mostly just work without needing any
-device/model specific configuration. But in some cases (mostly with Silead
-and Goodix touchscreens) it is still necessary to manually specify various
-touchscreen-properties on a per model basis.
+> Please include lore links to previous postings.
 
-touchscreen_dmi is a special place for DMI quirks for this, but it can be
-challenging for users to figure out the right property values, especially
-for Silead touchscreens where non of these can be read back from
-the touchscreen-controller.
-
-ATM users can only test touchscreen properties by editing touchscreen_dmi.c
-and then building a completely new kernel which makes it unnecessary
-difficult for users to test and submit properties when necessary for their
-laptop / tablet model.
-
-Add support for specifying properties on the kernel commandline to allow
-users to easily figure out the right settings. See the added documentation
-in kernel-parameters.txt for the commandline syntax.
-
-Cc: Gregor Riepl <onitake@gmail.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Link: https://lore.kernel.org/r/20240523143601.47555-1-hdegoede@redhat.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- .../admin-guide/kernel-parameters.txt         | 22 ++++++
- drivers/platform/x86/touchscreen_dmi.c        | 79 ++++++++++++++++++-
- 2 files changed, 98 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 8e4882bb8cf85..0d8cd0c622238 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1625,6 +1625,28 @@
- 				Format:
- 				<bus_id>,<clkrate>
+The link to mlx5ctl is already in the cover letter and Saeed linked
+from there to enough of the prior stuff.
  
-+	i2c_touchscreen_props= [HW,ACPI,X86]
-+			Set device-properties for ACPI-enumerated I2C-attached
-+			touchscreen, to e.g. fix coordinates of upside-down
-+			mounted touchscreens. If you need this option please
-+			submit a drivers/platform/x86/touchscreen_dmi.c patch
-+			adding a DMI quirk for this.
-+
-+			Format:
-+			<ACPI_HW_ID>:<prop_name>=<val>[:prop_name=val][:...]
-+			Where <val> is one of:
-+			Omit "=<val>" entirely	Set a boolean device-property
-+			Unsigned number		Set a u32 device-property
-+			Anything else		Set a string device-property
-+
-+			Examples (split over multiple lines):
-+			i2c_touchscreen_props=GDIX1001:touchscreen-inverted-x:
-+			touchscreen-inverted-y
-+
-+			i2c_touchscreen_props=MSSL1680:touchscreen-size-x=1920:
-+			touchscreen-size-y=1080:touchscreen-inverted-y:
-+			firmware-name=gsl1680-vendor-model.fw:silead,home-button
-+
- 	i8042.debug	[HW] Toggle i8042 debug mode
- 	i8042.unmask_kbd_data
- 			[HW] Enable printing of interrupt data from the KBD port
-diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-index fbaa618594628..ce03f6e9d7c67 100644
---- a/drivers/platform/x86/touchscreen_dmi.c
-+++ b/drivers/platform/x86/touchscreen_dmi.c
-@@ -9,10 +9,13 @@
-  */
- 
- #include <linux/acpi.h>
-+#include <linux/ctype.h>
- #include <linux/device.h>
- #include <linux/dmi.h>
- #include <linux/efi_embedded_fw.h>
- #include <linux/i2c.h>
-+#include <linux/init.h>
-+#include <linux/kstrtox.h>
- #include <linux/notifier.h>
- #include <linux/property.h>
- #include <linux/string.h>
-@@ -1649,7 +1652,7 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
- 	{ }
- };
- 
--static const struct ts_dmi_data *ts_data;
-+static struct ts_dmi_data *ts_data;
- 
- static void ts_dmi_add_props(struct i2c_client *client)
- {
-@@ -1684,6 +1687,64 @@ static int ts_dmi_notifier_call(struct notifier_block *nb,
- 	return 0;
- }
- 
-+#define MAX_CMDLINE_PROPS 16
-+
-+static struct property_entry ts_cmdline_props[MAX_CMDLINE_PROPS + 1];
-+
-+static struct ts_dmi_data ts_cmdline_data = {
-+	.properties = ts_cmdline_props,
-+};
-+
-+static int __init ts_parse_props(char *str)
-+{
-+	/* Save the original str to show it on syntax errors */
-+	char orig_str[256];
-+	char *name, *value;
-+	u32 u32val;
-+	int i, ret;
-+
-+	strscpy(orig_str, str, sizeof(orig_str));
-+
-+	/*
-+	 * str is part of the static_command_line from init/main.c and poking
-+	 * holes in that by writing 0 to it is allowed, as is taking long
-+	 * lasting references to it.
-+	 */
-+	ts_cmdline_data.acpi_name = strsep(&str, ":");
-+
-+	for (i = 0; i < MAX_CMDLINE_PROPS; i++) {
-+		name = strsep(&str, ":");
-+		if (!name || !name[0])
-+			break;
-+
-+		/* Replace '=' with 0 and make value point past '=' or NULL */
-+		value = name;
-+		strsep(&value, "=");
-+		if (!value) {
-+			ts_cmdline_props[i] = PROPERTY_ENTRY_BOOL(name);
-+		} else if (isdigit(value[0])) {
-+			ret = kstrtou32(value, 0, &u32val);
-+			if (ret)
-+				goto syntax_error;
-+
-+			ts_cmdline_props[i] = PROPERTY_ENTRY_U32(name, u32val);
-+		} else {
-+			ts_cmdline_props[i] = PROPERTY_ENTRY_STRING(name, value);
-+		}
-+	}
-+
-+	if (!i || str)
-+		goto syntax_error;
-+
-+	ts_data = &ts_cmdline_data;
-+	return 1;
-+
-+syntax_error:
-+	pr_err("Invalid '%s' value for 'i2c_touchscreen_props='\n", orig_str);
-+	return 1; /* "i2c_touchscreen_props=" is still a known parameter */
-+}
-+__setup("i2c_touchscreen_props=", ts_parse_props);
-+
- static struct notifier_block ts_dmi_notifier = {
- 	.notifier_call = ts_dmi_notifier_call,
- };
-@@ -1691,13 +1752,25 @@ static struct notifier_block ts_dmi_notifier = {
- static int __init ts_dmi_init(void)
- {
- 	const struct dmi_system_id *dmi_id;
-+	struct ts_dmi_data *ts_data_dmi;
- 	int error;
- 
- 	dmi_id = dmi_first_match(touchscreen_dmi_table);
--	if (!dmi_id)
-+	ts_data_dmi = dmi_id ? dmi_id->driver_data : NULL;
-+
-+	if (ts_data) {
-+		/*
-+		 * Kernel cmdline provided data takes precedence, copy over
-+		 * DMI efi_embedded_fw info if available.
-+		 */
-+		if (ts_data_dmi)
-+			ts_data->embedded_fw = ts_data_dmi->embedded_fw;
-+	} else if (ts_data_dmi) {
-+		ts_data = ts_data_dmi;
-+	} else {
- 		return 0; /* Not an error */
-+	}
- 
--	ts_data = dmi_id->driver_data;
- 	/* Some dmi table entries only provide an efi_embedded_fw_desc */
- 	if (!ts_data->properties)
- 		return 0;
--- 
-2.43.0
+> Please carry my nack on future version. At least as long as
+> the write access checks are.. good-faith-based.
 
+I will include the acks and nacks related to the general concept on
+the documentation patch 6 along with a links and mention in the PR
+when we get there.
+
+Jason
