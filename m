@@ -1,143 +1,152 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 378CD1946CB
-	for <linux-doc@vger.kernel.org>; Wed,  5 Jun 2024 09:32:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53750191475;
+	Wed,  5 Jun 2024 11:07:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717579946; cv=none; b=Lu3ImoPzAqd2/zmvFCTdPRUqfhYIgv4XXpVCOsCWTHbvakzGYNQV1l7G8GjBu/ihcIvTIWmbc9cd+SYhrnDExpaQva+Mhk824cGSXW8gZe5Tfs2N8ZQzaajk7MIUfzcHxShsXdWuLxaKIHQAk8PxgTBtEtLaZdDaC/2v6x1s8Cg=
+	t=1717585663; cv=none; b=TBWvBdRX6Lb4yANAxdahtoM1RMdek+FcNrncT1p97c09s2NgH546ab9UmW7vOaGRlI/sMxCx+5+SFtEOHzZ36EiH8wTRwX6czWtBNsjszCVExUAt/Pm72vzoECtkY7cnVrlOv43suOVe1UaXclyqYAbGbOdcf3gl8V7Ae0YUiZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717579946; c=relaxed/simple;
-	bh=A/gOzPUwckRQSfrNHNR843u/F/x3yV4eQiL9bWvwnB4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MbAgXUz2xtmYDRwcQrUtYVckVOs2ZIMiEqYBnoeyEhjiW51gFczFoqFgj6DRnF+WskU8ZmGD/BWX2EG8KeLQKjtHGhL+eiY3VM7QZCtWidrW2QJD/A+m6Rq8LqRVdD49yaHg1nN5nlyu5WccctEmnGSybWOJ6Ax2iGfAJOXXvlU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iZh0mX6a; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iZh0mX6a"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1717579944;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EIHWoHv/QvLBTsW9LF2D/X7toxaXXwp5mTAPZT4vSL4=;
-	b=iZh0mX6ap2my4ZKO6Ma6Gzw7TMiKqTnQZj6k3jdn3NUvhUjqJHtDK1ivvz2BFEVQO9aFVX
-	wXf4TnSMpmtB934u0F14f3DM0do271BaUZ4mR4jWar1qqIi03tATMOuBp9xFIUJAAPvPO/
-	lJeWcFuW3A6GVpYpVa0WDHcH/OD5fqE=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-537-oszDWSLUMIiQ0iP48kfWbQ-1; Wed, 05 Jun 2024 05:32:23 -0400
-X-MC-Unique: oszDWSLUMIiQ0iP48kfWbQ-1
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-795200bb8e4so147212085a.0
-        for <linux-doc@vger.kernel.org>; Wed, 05 Jun 2024 02:32:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717579941; x=1718184741;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EIHWoHv/QvLBTsW9LF2D/X7toxaXXwp5mTAPZT4vSL4=;
-        b=n7cRF18JygXKyTNvv98wl+v+H9PjdthMX17Kx0VOw47BgINn8e4aUbO7xzm+et7m6J
-         W1obQ4YEgNLlvLIMmmABeiuHYXQnM0KXbH3iGkZ+XZlZl4ksBeaDIGQ24HNV9bOq4FtD
-         mh5TVGaX+vutCGHPl+xG5UCKHJqjWCkKoK9uNdEu/LUlp3qiLteQ79Eh7uIvlwsPCLWz
-         3IDrx3AFGmSbMPOaFXTP9YB2Zx8ogQrvbLFwPKJdfc+22xKUecdRP/hVx/ykfbdDXGtA
-         1EvKvK+60sV01ZjiOFm83NfNIgJJgDziMTLbnHyVAIGz2RBos5zZvIg4Az4NFMCrde5r
-         yRcA==
-X-Forwarded-Encrypted: i=1; AJvYcCXhoqV/4OjrneBQMAD5D7pCYG/vMYN9tu+DDImmVq2qJBRQGUnmuHOZjs1RCSpWb+BVbk0MfeplOY9QIWPg2Q57W2nbLy3LXoWC
-X-Gm-Message-State: AOJu0Yzfoa+1otNkdcgjaHrKKf9DvZ/OytPpP+EvRHwXqKA4Q/igRO7u
-	jP5TPJ75bkftWVvXCIdurdIvoHuAih8AN1JqceaLwNvbeGu02Vrc+GyEB9mxFIyyt9K69onoZ88
-	ta65P+0j4lGYLOKdYnP1Id6sWm7bdXDoa5wDRCGjIZPdvFc6zXf6mlqWHTIC8SXx1Vg==
-X-Received: by 2002:a05:6214:3a89:b0:6af:2676:1a67 with SMTP id 6a1803df08f44-6b02bf749b2mr20745136d6.28.1717579941393;
-        Wed, 05 Jun 2024 02:32:21 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE5ikW1FE7KKc1M+K4oFqEtBv+CXhwGrhdL4tT32ka2r1ldJIrtTLooEIM1RfE/m26z2wnCxA==
-X-Received: by 2002:a05:6214:3a89:b0:6af:2676:1a67 with SMTP id 6a1803df08f44-6b02bf749b2mr20744926d6.28.1717579941039;
-        Wed, 05 Jun 2024 02:32:21 -0700 (PDT)
-Received: from jlelli-thinkpadt14gen4.remote.csb ([176.206.3.168])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6ae4b405e14sm46658136d6.80.2024.06.05.02.32.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Jun 2024 02:32:20 -0700 (PDT)
-Date: Wed, 5 Jun 2024 11:32:15 +0200
-From: Juri Lelli <juri.lelli@redhat.com>
-To: John Ogness <john.ogness@linutronix.de>
-Cc: Petr Mladek <pmladek@suse.com>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Sreenath Vijayan <sreenath.vijayan@sony.com>,
-	Shimoyashiki Taichi <taichi.shimoyashiki@sony.com>,
-	Tomas Mudrunka <tomas.mudrunka@gmail.com>,
-	linux-doc@vger.kernel.org, linux-serial@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Xiongwei Song <xiongwei.song@windriver.com>
-Subject: Re: [PATCH printk v2 00/18] add threaded printing + the rest
-Message-ID: <ZmAwn3pc5wpyA8fm@jlelli-thinkpadt14gen4.remote.csb>
-References: <20240603232453.33992-1-john.ogness@linutronix.de>
- <aqkcpca4vgadxc3yzcu74xwq3grslj5m43f3eb5fcs23yo2gy4@gcsnqcts5tos>
- <875xunx13r.fsf@jogness.linutronix.de>
+	s=arc-20240116; t=1717585663; c=relaxed/simple;
+	bh=fo7ouCkAbGykUNk6urigkRnK5QxRhvkX5PVDaVaCz44=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=U3enlAoBjGAZr7QP7w0u+3qiSBbzilPq0b/Ww7eV56wHbBI9tyWuDLT5ZY+MjzxdLnUhWxmjHaXEvGWjK6YNMjv+0I7LHx2tQTT/oExGiCT9v9VnqWcN0vvELdha71Aw4lDjfPE9o41MSaheXhmFl3bs6Fjhwwfunu9fXKK+Ang=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4VvPhS4M8Wz6JBCy;
+	Wed,  5 Jun 2024 19:03:20 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
+	by mail.maildlp.com (Postfix) with ESMTPS id C50991400C9;
+	Wed,  5 Jun 2024 19:07:38 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 5 Jun
+ 2024 12:07:38 +0100
+Date: Wed, 5 Jun 2024 12:07:37 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+CC: Leon Romanovsky <leon@kernel.org>, Zhu Yanjun <zyjzyj2000@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>, "Jakub
+ Kicinski" <kuba@kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-rdma@vger.kernel.org>, <netdev@vger.kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan
+	<tariqt@nvidia.com>, Andy Gospodarek <andrew.gospodarek@broadcom.com>, Aron
+ Silverton <aron.silverton@oracle.com>, Dan Williams
+	<dan.j.williams@intel.com>, David Ahern <dsahern@kernel.org>, "Christoph
+ Hellwig" <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>, Leonid Bloch
+	<lbloch@nvidia.com>, <linux-cxl@vger.kernel.org>, <patches@lists.linux.dev>
+Subject: Re: [PATCH 2/8] fwctl: Basic ioctl dispatch for the character
+ device
+Message-ID: <20240605120737.00007472@Huawei.com>
+In-Reply-To: <20240604165844.GM19897@nvidia.com>
+References: <2-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
+	<6cfe00ce-1860-4aba-bcb8-54f8d365d2dc@linux.dev>
+	<20240604122221.GR3884@unreal>
+	<20240604175023.000004e2@Huawei.com>
+	<20240604165844.GM19897@nvidia.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <875xunx13r.fsf@jogness.linutronix.de>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500002.china.huawei.com (7.191.160.78) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
 
-On 05/06/24 10:15, John Ogness wrote:
+On Tue, 4 Jun 2024 13:58:44 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-...
-
-> Yes, that probably is a good candidate for emergency mode.
+> On Tue, Jun 04, 2024 at 05:50:23PM +0100, Jonathan Cameron wrote:
 > 
-> However, your report is also identifying a real issue:
-> nbcon_cpu_emergency_flush() was implemented to be callable from
-> non-emergency contexts (in which case it should do nothing). However, in
-> order to check if it is an emergency context, migration needs to be
-> disabled.
-
-I see.
-
-> Perhaps the below change can be made for v2 of this series?
-
-Yes, this seems to cure it.
-
-Thanks for the super quick reply and patch!
-
-Best,
-Juri
-
-> diff --git a/kernel/printk/nbcon.c b/kernel/printk/nbcon.c
-> index 4b9645e7ed70..eeaf8465f492 100644
-> --- a/kernel/printk/nbcon.c
-> +++ b/kernel/printk/nbcon.c
-> @@ -1581,8 +1581,19 @@ void nbcon_cpu_emergency_exit(void)
->   */
->  void nbcon_cpu_emergency_flush(void)
->  {
-> +	bool is_emergency;
-> +
-> +	/*
-> +	 * If the current context is not an emergency context, preemption
-> +	 * might be enabled. To be sure, disable preemption when checking
-> +	 * if this is an emergency context.
-> +	 */
-> +	preempt_disable();
-> +	is_emergency = (*nbcon_get_cpu_emergency_nesting() != 0);
-> +	preempt_enable();
-> +
->  	/* The explicit flush is needed only in the emergency context. */
-> -	if (*(nbcon_get_cpu_emergency_nesting()) == 0)
-> +	if (!is_emergency)
->  		return;
->  
->  	nbcon_atomic_flush_pending();
+> > > > >   static int fwctl_fops_open(struct inode *inode, struct file *filp)
+> > > > >   {
+> > > > >   	struct fwctl_device *fwctl =
+> > > > >   		container_of(inode->i_cdev, struct fwctl_device, cdev);
+> > > > > +	struct fwctl_uctx *uctx __free(kfree) = NULL;
+> > > > > +	int ret;
+> > > > > +
+> > > > > +	guard(rwsem_read)(&fwctl->registration_lock);
+> > > > > +	if (!fwctl->ops)
+> > > > > +		return -ENODEV;
+> > > > > +
+> > > > > +	uctx = kzalloc(fwctl->ops->uctx_size, GFP_KERNEL |  GFP_KERNEL_ACCOUNT);
+> > > > > +	if (!uctx)
+> > > > > +		return -ENOMEM;
+> > > > > +
+> > > > > +	uctx->fwctl = fwctl;
+> > > > > +	ret = fwctl->ops->open_uctx(uctx);
+> > > > > +	if (ret)
+> > > > > +		return ret;    
+> > > > 
+> > > > When something is wrong, uctx is freed in "fwctl->ops->open_uctx(uctx);"?
+> > > > 
+> > > > If not, the allocated memory uctx leaks here.    
+> > > 
+> > > See how uctx is declared:
+> > > struct fwctl_uctx *uctx __free(kfree) = NULL;
+> > > 
+> > > It will be released automatically.
+> > > See include/linux/cleanup.h for more details.  
+> > 
+> > I'm lazy so not finding the discussion now, but Linus has been pretty clear
+> > that he doesn't like this pattern because of possibility of additional cleanup
+> > magic getting introduced and then the cleanup happening in an order that
+> > causes problems.   
 > 
+> I saw that discussion, but I thought it was talking about the macro
+> behavior - ie guard() creates a variable hidden in the macro.
+> 
+> The point about order is interesting though - notice the above will
+> free the uctx after unlocking (which is the slightly more preferred
+> order here), but it is easy to imagine cases where that order would be
+> wrong.
+> 
+> > Preferred option is drag the declaration to where is initialized so break
+> > with our tradition of declarations all at the top
+> > 
+> > struct fwctl_uctx *uctx __free(kfree) =
+> > 	kzalloc(...);  
+> 
+> I don't recall that dramatic conclusion in the discussion, but it does
+> make alot of sense to me.
+
+I'll be less lazy (and today found the search foo to track it down).
+
+https://lore.kernel.org/all/CAHk-=wicfvWPuRVDG5R1mZSxD8Xg=-0nLOiHay2T_UJ0yDX42g@mail.gmail.com/
+Linus:
+> IOW, my current thinking is "let's always have the constructor and
+> destructor together", and see how it ends up going.
+
+Not set in stone but I've not yet seen a suggestion of the opposite.
+
+The example from Bartosz that got that response was
+Bartosz:
+> void foo(void)
+> {
+>     char *s __free(kfree) = NULL;
+> 
+>     do_stuff();
+>     s = kmalloc(42, GFP_KERNEL);
+> }
+> 
+> Or does it always have to be:
+> 
+> void foo(void)
+> {
+>     do_stuff();
+>     char *s __free(kfree) = kmalloc(42, GFP_KERNEL);
+> }
+So option 2.
+
+Jonathan
+
+> 
+> Thanks,
+> Jason
 
