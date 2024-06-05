@@ -1,105 +1,99 @@
-Received: from aposti.net (aposti.net [89.234.176.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C717514B974;
-	Wed,  5 Jun 2024 11:15:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E92B919149D;
+	Wed,  5 Jun 2024 11:19:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717586156; cv=none; b=tI5qNrbKzzEr1IS5CLGnDht1AlolBma0XptRx36nA8HeMw6MjEgaVC/kSH88cMyZlyU0PiMby/t+SvwAryzJBw7G8EDjSk5S3rKCuTPZvr3n17XfKm7djCgOJATPFMKFLrFTjaDDJNHkH+U6PByB6su6En92LTLLWB9wFgG5DDA=
+	t=1717586380; cv=none; b=Ju2F2xn+EeGhaBDgduH+vgKUtZjl12Ms5551YDjQ/JMhB/hKux5QO7t07Q1LEic0UMkACS+d7pENM7dpRB4jWtwwgyngkkReNNHuaQix+ehELoD5rz0PJW7hXNCmDvQBEM+6GabNISV9ZEpE9fjfoO+3o/iZNRYeTpJ0Zr4zhr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717586156; c=relaxed/simple;
-	bh=j23cpuGAemJTmamOXD92cbvxQHnwkWvNJTIkvGKjv2U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EyyjgJFXVDVkY9ihX+6uxmb4JnUuA1oDV5my9RE1oeJ8x/I8BeszBU4phpwUPSvoNsa2Y9hVBObALJKOt/rnzH53k1XJhxfFkZHFHDUzJvreyt1jXD7fRGLni0YVnbyb2CS5smlFBRuy0A9K9e/Qe/cLUcB2joMR/f8gQU0kCnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=fnNXiWCz; arc=none smtp.client-ip=89.234.176.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="fnNXiWCz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-	s=mail; t=1717585738;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=lbF3Hr41nIth/kjABYAo6ELsT9zfo9W62/2gY+j3W6A=;
-	b=fnNXiWCz+piHjs3cCFKX5GI5TCn9Y2prcen/ET7kh9pye5qm+pIgUBf/O3bV3BnNT1h/2u
-	NyMwYH4qGWbWGr1IYazRbY6rtGSVJoiMLXi/3PHX/GFa4ahJSbYFIZ5go1Y3p1tTrpunF0
-	gFAQsaj5oi/revV7EdeAexrsKXH2qHg=
-From: Paul Cercueil <paul@crapouillou.net>
-To: Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Vinod Koul <vkoul@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Nuno Sa <nuno.sa@analog.com>,
-	linux-iio@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	dmaengine@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH v10 0/6] iio: new DMABUF based API v10
-Date: Wed,  5 Jun 2024 13:08:39 +0200
-Message-ID: <20240605110845.86740-1-paul@crapouillou.net>
+	s=arc-20240116; t=1717586380; c=relaxed/simple;
+	bh=/c9bGc9vR1qfc4FdwpglO0c+WhOKMAYNFwE89PFlW1A=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TwFSLyTVKLQLwXkUMNPOqD36bn/mS/TQ4lcXgwFYVOIlwY4Tw3J8CpXQvbShFpRELuJsAV5+ZDVRHX/Q/0CAK78iXpFxv3UuQLquaXlEmKJqNK0NykikmyovJL3mlpjp7lUuSH9Rc3Vf7Nk3pa06TB33CRW95muwGpgJL3uvcDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4VvPyD5yB2z6JBCV;
+	Wed,  5 Jun 2024 19:15:16 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
+	by mail.maildlp.com (Postfix) with ESMTPS id 0F44D140A87;
+	Wed,  5 Jun 2024 19:19:35 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 5 Jun
+ 2024 12:19:34 +0100
+Date: Wed, 5 Jun 2024 12:19:33 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Dan Williams <dan.j.williams@intel.com>
+CC: Jakub Kicinski <kuba@kernel.org>, David Ahern <dsahern@kernel.org>, Jason
+ Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, "Itay Avraham"
+	<itayavr@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+	<netdev@vger.kernel.org>, Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed
+	<saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, Andy Gospodarek
+	<andrew.gospodarek@broadcom.com>, Aron Silverton <aron.silverton@oracle.com>,
+	Christoph Hellwig <hch@infradead.org>, "Jiri Pirko" <jiri@nvidia.com>, Leonid
+ Bloch <lbloch@nvidia.com>, Leon Romanovsky <leonro@nvidia.com>,
+	<linux-cxl@vger.kernel.org>, <patches@lists.linux.dev>
+Subject: Re: [PATCH 0/8] Introduce fwctl subystem
+Message-ID: <20240605121933.000035b5@Huawei.com>
+In-Reply-To: <665fa9c9e69de_4a4e62941e@dwillia2-xfh.jf.intel.com.notmuch>
+References: <0-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
+	<20240603114250.5325279c@kernel.org>
+	<214d7d82-0916-4c29-9012-04590e77df73@kernel.org>
+	<20240604070451.79cfb280@kernel.org>
+	<665fa9c9e69de_4a4e62941e@dwillia2-xfh.jf.intel.com.notmuch>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500002.china.huawei.com (7.191.160.78) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
 
-Hi Jonathan,
 
-Here is a revised (and hopefully final?) version of my DMABUF patchset.
+>   One of the release valves in the CXL space is openly specified
+>   commands with opaque payloads, like "Read Vendor Debug Log". That is
+>   clear what it does, likely a payload the kernel need never worry
+>   about, and the "Command Effects" is empty. However, going forward there
+>   is a new class of commands called "Set/Get Feature" that allow a wide
+>   range of vendor toggles to be deployed which will need an upstream
+>   response for the driver policy to vendor-specific "Features".
 
-This v10 removes the extra "flags" parameter of
-dmaengine_prep_peripheral_dma_vec(), and adds kernel doc to the function
-as Vinod requested.
+Irrelevant rat hole time ;)
 
-As Nuno upstreamed support for output buffers, I (slightly) modified
-patch 5/6 and now output buffers are supported with the DMABUF API.
-All I did was remove a "fail if output" check really.
+I don't see those Set / Get feature as any different from other commands.
+I see them as a convenience mostly there to cut down on spec duplication
+and enforce some consistency across multiple similar commands, but they
+are just commands like any other, validation is just one step further
+into the payload.
 
-This was based on next-20240605.
+There are already a bunch of them in the main CXL spec and like you mention
+above if someone brings a well documented vendor feature (or feature from
+another standard etc), then if appropriate we could let that through the
+filter as well.
 
-Changelog:
-- [1/6]:
-  - Add kernel doc to dmaengine_prep_peripheral_dma_vec()
-  - Remove extra flags parameter
-- [2/6]:
-  - Use the new function prototype (without the extra prep_flags).
-- [5/6]:
-  - Remove extra flags parameter to dmaengine_prep_peripheral_dma_vec()
-  - Add support for TX transfers
+Same will be true of tunneled commands (I think we can ignore the cross
+host security aspect of those). Ultimately we can sanity check the payload
+much like a top level command.
 
-Cheers,
--Paul
+So I mostly agree with rest of what you've said, but think this detail
+doesn't matter.
 
-Paul Cercueil (6):
-  dmaengine: Add API function dmaengine_prep_peripheral_dma_vec()
-  dmaengine: dma-axi-dmac: Implement device_prep_peripheral_dma_vec
-  iio: core: Add new DMABUF interface infrastructure
-  iio: buffer-dma: Enable support for DMABUFs
-  iio: buffer-dmaengine: Support new DMABUF based userspace API
-  Documentation: iio: Document high-speed DMABUF based API
-
- Documentation/iio/iio_dmabuf_api.rst          |  54 ++
- Documentation/iio/index.rst                   |   1 +
- drivers/dma/dma-axi-dmac.c                    |  40 ++
- drivers/iio/Kconfig                           |   1 +
- drivers/iio/buffer/industrialio-buffer-dma.c  | 180 ++++++-
- .../buffer/industrialio-buffer-dmaengine.c    |  62 ++-
- drivers/iio/industrialio-buffer.c             | 462 ++++++++++++++++++
- include/linux/dmaengine.h                     |  33 ++
- include/linux/iio/buffer-dma.h                |  31 ++
- include/linux/iio/buffer_impl.h               |  30 ++
- include/uapi/linux/iio/buffer.h               |  22 +
- 11 files changed, 896 insertions(+), 20 deletions(-)
- create mode 100644 Documentation/iio/iio_dmabuf_api.rst
-
--- 
-2.43.0
+> 
+> So if fwctl, or something like it, can strike a balance of enforcing
+> integrity and introspection while encouraging collaboration on the
+> aspects that are worth upstream collaboration, I think that is a
+> conversation worth having.
+> 
+> [1]: http://lore.kernel.org/r/CAPcyv4gDShAYih5iWabKg_eTHhuHm54vEAei8ZkcmHnPp3B0cw@mail.gmail.com/
+> [2]: http://lore.kernel.org/r/20240321174423.00007e0d@Huawei.com
+> 
 
