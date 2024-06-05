@@ -1,112 +1,79 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7FDE15666F;
-	Wed,  5 Jun 2024 15:36:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2457119D891;
+	Wed,  5 Jun 2024 15:41:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717601776; cv=none; b=qahmhl2qZcoTyiaCYQqCk/4W7ST09oS3WsY2/R+ugt5oZ/WH4G6eRW7mVLZQ0Cvgv7Vhv3b64GoSVq9tufCruwYe6O++34hCw7BnUXiyIOmwd6+BMU6ENdeMIvFz2EhkeOLyp87sGeXErlpmY7UGtuVIHWSDVov3acNM+kN113M=
+	t=1717602087; cv=none; b=dit7B4pS07/ZC3VwF7upbAoFB3qVyo5V6xAjCAkGhZMJ7UFedsNThZLKO6A/iBkLLdrq7mhGZg9FAOTM+ruHM3PSJud8bzQJRX9c0fhx4A/bX0c0e2Uo6Pl7KrpiGD1+exA77BaIrWEjjBt1tW7hFMSmW2NbuHyMXUo/98NWgbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717601776; c=relaxed/simple;
-	bh=9z/rDhWsENdERmVUQdtCDhLPPh2i3nZGdWjTuzNIFbw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ierqjG7Z/f4PbZeVHkAMtYgVR6Ioqxc0yELQI4mPlQo6HruJn2MfC8yDRW+QPgT2cvqYczpX3prjRdZRrfgxXBJYWj4Y3SJWyMjn+cIPdL/hSij+JMkKXQGeeKyaCGn7SGUtT1IwOlTvZirnsHeZzQa8W4wrQaHG7iwSjRH7TuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WYi1rR0I; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1717602087; c=relaxed/simple;
+	bh=xWIFlsgTXg55GQa/cajK0o7zrAKmzP8cpu3iJhL5kCs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HDEmEFr4KDAXtw4zwQoQyzGXQ+O/Wr6uXxQl6clJFZYA7TsRap8QYsKVTL+90lCex5IhQLYxj0A+jMIXTrlUGjZckJRyqlTF/s/lTXVYOlSq/TdJtlPegfTtNaF+Oqefht94xnx5VImxYFZjXUlN+aYFbYzlj8VGdnJ+yFPo140=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EZ5yTugN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WYi1rR0I"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717601775; x=1749137775;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=9z/rDhWsENdERmVUQdtCDhLPPh2i3nZGdWjTuzNIFbw=;
-  b=WYi1rR0IHw4kXXmNFeznNK+xWftvkmFXHqH6MKxtcTPGqHHpgrFySKR1
-   MCI+1JrHDBVDZnZjpheLnmrotLEjTkEonnUeQ7Pq+uFTyIPZit+RHWMzD
-   93KtQj0ol1VS7iVsuDz0tcK5c0UcQKJhrSPl98Xei3iZnewMsP3RVev1C
-   bfl92QfoTxDTSdjmaOvlaaG7OZoIXBZpreJ6SspSARF3m/p0dPnvn1HjR
-   f7r+LHymdPhSEqN2Gx2nYJLKhym5uOib8SDm76VTB4l28Q1T6ZYVIE2SC
-   98ACTNNP1ybKnu59Wl2YkWYLm2HPmfFK76yRfSlxAbKWfFPd6QIMrz/T7
-   A==;
-X-CSE-ConnectionGUID: jcjPwT12Rqy0RsAKvLyk0g==
-X-CSE-MsgGUID: sEDFIe6VR6yuUNazNn5gpw==
-X-IronPort-AV: E=McAfee;i="6600,9927,11094"; a="14106039"
-X-IronPort-AV: E=Sophos;i="6.08,217,1712646000"; 
-   d="scan'208";a="14106039"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2024 08:36:14 -0700
-X-CSE-ConnectionGUID: GdnqcmzyRq+IQidqyjDRLA==
-X-CSE-MsgGUID: tyhGzpZVQ8mpTh+vh87VJw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,217,1712646000"; 
-   d="scan'208";a="37765326"
-Received: from inlubt0316.iind.intel.com ([10.191.20.213])
-  by fmviesa009.fm.intel.com with ESMTP; 05 Jun 2024 08:36:10 -0700
-From: lakshmi.sowjanya.d@intel.com
-To: tglx@linutronix.de,
-	giometti@enneenne.com,
-	corbet@lwn.net,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: gregkh@linuxfoundation.org,
-	andriy.shevchenko@linux.intel.com,
-	eddie.dong@intel.com,
-	christopher.s.hall@intel.com,
-	pandith.n@intel.com,
-	subramanian.mohan@intel.com,
-	thejesh.reddy.t.r@intel.com,
-	lakshmi.sowjanya.d@intel.com
-Subject: [PATCH v9 3/3] ABI: pps: Add ABI documentation for Intel TIO
-Date: Wed,  5 Jun 2024 21:05:54 +0530
-Message-Id: <20240605153554.11584-4-lakshmi.sowjanya.d@intel.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20240605153554.11584-1-lakshmi.sowjanya.d@intel.com>
-References: <20240605153554.11584-1-lakshmi.sowjanya.d@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EZ5yTugN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 102F9C2BD11;
+	Wed,  5 Jun 2024 15:41:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717602086;
+	bh=xWIFlsgTXg55GQa/cajK0o7zrAKmzP8cpu3iJhL5kCs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=EZ5yTugNOJhxXdVpHMeQJNO04oLdgZDjcPFZhcYGmfbWFkb6cbjAuD5NCx2ytId/M
+	 ope3I7BpydORxjgcE2zIpQgYzbIiQyEwcbvvyffDQSvBjGah6X1NPMKQnLDGMLXbmM
+	 rSW8Unz9AT1mmRhuu5vZFrn7ZlGNDE1Kxgq2ntob28CLO3r9pPN2vw+A8EOMVPgd4Y
+	 OQrnku6IRI8UHGiMFw206SBG5nfir6NELwgQHuJrjL22RujGPg2cB7PIJn9/IN++qg
+	 Uk7/yEVntaZRovfdfMjc9iwM+zxRlOn9d66+GEqzrBNXQafwTQ5zXI5sCwhUKcXdis
+	 QkbzVt+TqcgVQ==
+Date: Wed, 5 Jun 2024 08:41:25 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Saeed Mahameed <saeed@kernel.org>, David Ahern <dsahern@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>, Leon
+ Romanovsky <leon@kernel.org>, linux-doc@vger.kernel.org,
+ linux-rdma@vger.kernel.org, netdev@vger.kernel.org, Paolo Abeni
+ <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan
+ <tariqt@nvidia.com>, Andy Gospodarek <andrew.gospodarek@broadcom.com>, Aron
+ Silverton <aron.silverton@oracle.com>, Dan Williams
+ <dan.j.williams@intel.com>, Christoph Hellwig <hch@infradead.org>, Jiri
+ Pirko <jiri@nvidia.com>, Leonid Bloch <lbloch@nvidia.com>, Leon Romanovsky
+ <leonro@nvidia.com>, linux-cxl@vger.kernel.org, patches@lists.linux.dev
+Subject: Re: [PATCH 0/8] Introduce fwctl subystem
+Message-ID: <20240605084125.3ec93783@kernel.org>
+In-Reply-To: <20240605145039.GU19897@nvidia.com>
+References: <0-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
+	<20240603114250.5325279c@kernel.org>
+	<214d7d82-0916-4c29-9012-04590e77df73@kernel.org>
+	<20240604070451.79cfb280@kernel.org>
+	<Zl-G5SRFztx_77a2@x130>
+	<20240604153216.1977bd90@kernel.org>
+	<20240605145039.GU19897@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+On Wed, 5 Jun 2024 11:50:39 -0300 Jason Gunthorpe wrote:
+> On Tue, Jun 04, 2024 at 03:32:16PM -0700, Jakub Kicinski wrote:
+> > On Tue, 4 Jun 2024 14:28:05 -0700 Saeed Mahameed wrote:  
 
-Document sysfs interface for Intel Timed I/O PPS driver.
+> > > No, DOCA isn't on the agenda for this new interface. But what is the point
+> > > in arguing?  
+> > 
+> > I'm not arguing any point, we argued enough. But you failed to disclose
+> > that DOCA is very likely user of this interface. So whoever you're
+> > planning to submit it to should know.  
+> 
+> This is getting ridiculous. Did you disclose in your PSP cover letter
+> that all that work and new kernel uAPI is to support Meta's propritary
+> user space, even to the point that NO open source implementation even
+> exists yet? Let me check. Nope.
 
-Signed-off-by: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
----
- Documentation/ABI/testing/sysfs-platform-pps-tio | 7 +++++++
- MAINTAINERS                                      | 1 +
- 2 files changed, 8 insertions(+)
- create mode 100644 Documentation/ABI/testing/sysfs-platform-pps-tio
-
-diff --git a/Documentation/ABI/testing/sysfs-platform-pps-tio b/Documentation/ABI/testing/sysfs-platform-pps-tio
-new file mode 100644
-index 000000000000..e461cea12d60
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-platform-pps-tio
-@@ -0,0 +1,7 @@
-+What:		/sys/devices/platform/INTCxxxx/enable
-+Date:		September 2024
-+KernelVersion:	6.11
-+Contact:	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
-+Description:
-+		(RW) Enable or disable PPS TIO generator output, read to
-+		see the status of hardware (Enabled/Disabled).
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8754ac2c259d..5c8a443233ee 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17948,6 +17948,7 @@ M:	Rodolfo Giometti <giometti@enneenne.com>
- L:	linuxpps@ml.enneenne.com (subscribers-only)
- S:	Maintained
- W:	http://wiki.enneenne.com/index.php/LinuxPPS_support
-+F:	Documentation/ABI/testing/sysfs-platform-pps-tio
- F:	Documentation/ABI/testing/sysfs-pps
- F:	Documentation/devicetree/bindings/pps/pps-gpio.yaml
- F:	Documentation/driver-api/pps.rst
--- 
-2.35.3
-
+There is no Meta proprietary implementation. Some Meta folks who are on
+the CC of the submission are working on extending Fizz, but it's not
+ready. Fizz is here: https://github.com/facebookincubator/fizz
