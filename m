@@ -1,157 +1,124 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9B0D6E613
-	for <linux-doc@vger.kernel.org>; Wed,  5 Jun 2024 00:25:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67B604A1E;
+	Wed,  5 Jun 2024 00:27:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717547107; cv=none; b=oLgDgD9lKodUMaFM72VYcRrLawM7hspn+cKFOJPO6N4XS1GdIQYhiusBME3na02doYR/MkFberldppKFMcBx1BTjwiPC+HBVnZ7HJdY14IczNnNhcQNwzVdwhamNypbQ+cDoNosMKdWVTs7cegYI7Yw5ST3pZhoRFnONdf5ILko=
+	t=1717547236; cv=none; b=X5FNSe8/xK+9CMNQg3ycy68UI+LlvXnwhVwKtx0aX1OA5SRvZ4iNRuk2v8LWt6zbQ6XlHs7NfGbLI7vLxrTRbKHk6E6c/obCxiLkaDLoNJCuchCmkQpL73/V7Xnr1qc4D9BZ9i6myzqvt3GLIH+J9hfDxW01BucDeql2icSIOyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717547107; c=relaxed/simple;
-	bh=UvReAyJuyfxw0/X0unkA1v/ZdN1GANsk3RihvlLT4xs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pTe37/ZZbT/rGxMpUmOr4zsMZRrJokHvZQqNMUM6LhQae0xipR4TmINo9cm8PeNFxCssw2qBcVSsUvaFAVl1ViImhmL4tZe+CYYrwv+yXE+symnmjugOBh3wUf31mF4x/IP6Z7ywuDT1ZWJ4lvSqtXabcc7lbF/Cmv04qWKHGOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=OXTvFuYk; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1717547236; c=relaxed/simple;
+	bh=4912uwV8cdajJtlRg+qCEDg0Nk4Wff5MmTkSwg78oUw=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=Tp15LW1kGGUQo0HTdE9n1LS9YmTjGgG0hifcVh9voPHbCEbiY5AkxdxHdI5IXQ/SzyqLgYUfCK6vf4OURfivfWAYeSZb9Tq19/f+9fLFQ0eTw5D20y1q6jpRQE4ulWjfpnsKD2UCe1cxK2HlT5bbTtu4kNWqqAf9vipICU7pRyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dFnRrFoL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OXTvFuYk"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-1f6342c5fa8so36927075ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 04 Jun 2024 17:25:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1717547105; x=1718151905; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vlZTq3P9ASgfMnpyKeb65Qgki+yiSpyIBUooUCR0W14=;
-        b=OXTvFuYkuaEqXzsocKQVdjrwFloFQiCrfZ/paAVhYM7ixn9bGsUvnYE7EKjpJkLgzp
-         qM9LG6gYmuXxTMxc2lBAN3Rc8qriRjiadMuAdXPj307/Ut8y6+tu7dzfcdmWDgFi+uqE
-         myuhl+7cDEeB2psVgLml8+AvBWXHIdUPJ3NxU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717547105; x=1718151905;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vlZTq3P9ASgfMnpyKeb65Qgki+yiSpyIBUooUCR0W14=;
-        b=lYJf+KCi/ZZoFW2KU1QdClvrSvqttYCkJHcPDZoW7FeVPH5cVg+BQidn1i9RW2Khpa
-         B7YB1fS11X1Lt8HUM4GpngD7l1ICKKB/vszU85TlZCKfL5SqPYIXqxnYSXeGp638JgTU
-         Kf651SNCPLtbZG37kZbeMo+8XYFejBSkHjypKk+hcRVYeRKxc3mXNTQC7IEzROz1fFgA
-         bg3iaAMJafudacdPmQ9qSo2g2rJGl3y+MrqtzJXeV47qw/Hngq1paycjuTmPzFpNzLNC
-         3exW5HYrDO7gQzOnrW4CRIXvQwUbPNsmZ52M63P9TODatrVMtZDOzd1EaRXgzZSYR+BA
-         5TlQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXP+NmT8kXz5jvOnF7WhXl76dTBc4XyNudbcSOGSanLsc2VEj0wNE07VPpn/839ynP79XUjXpF+HYo9alXsn/OouWBRfnZO83EH
-X-Gm-Message-State: AOJu0YxRCxRVCXr0WzmdccTU/Bs38+7+Oi/qxLggK262HxibegENI6HA
-	hZQRtI1CPgJ0milLCD+j+kW1rnjwGpychYQCJxh5elTqvayt/SCw2cXYzZiqtA==
-X-Google-Smtp-Source: AGHT+IHCl9HTHlC9W7JWoyZsGp761gmkTX3Uui28lis3mNrYBsiyHkfuCERpgY42hnsZKMYFoOJAWQ==
-X-Received: by 2002:a17:902:ecc3:b0:1f4:8e97:de25 with SMTP id d9443c01a7336-1f6a5a6aba7mr12326755ad.44.1717547104998;
-        Tue, 04 Jun 2024 17:25:04 -0700 (PDT)
-Received: from dianders.sjc.corp.google.com ([2620:15c:9d:2:3609:ff79:4625:8a71])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6323dd862sm89032025ad.147.2024.06.04.17.25.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Jun 2024 17:25:04 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: dri-devel@lists.freedesktop.org,
-	Maxime Ripard <mripard@kernel.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Chris Morgan <macromorgan@hotmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Yuran Pereira <yuran.pereira@hotmail.com>,
-	Douglas Anderson <dianders@chromium.org>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	David Airlie <airlied@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 23/24] drm/panel: Update TODO list item for cleaning up prepared/enabled tracking
-Date: Tue,  4 Jun 2024 17:23:09 -0700
-Message-ID: <20240604172305.v3.23.I104cdece7324b0c365e552a17f9883414ffaea01@changeid>
-X-Mailer: git-send-email 2.45.1.288.g0e0cd299f1-goog
-In-Reply-To: <20240605002401.2848541-1-dianders@chromium.org>
-References: <20240605002401.2848541-1-dianders@chromium.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dFnRrFoL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCB0BC2BBFC;
+	Wed,  5 Jun 2024 00:27:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717547235;
+	bh=4912uwV8cdajJtlRg+qCEDg0Nk4Wff5MmTkSwg78oUw=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+	b=dFnRrFoLF3/EIZvvf7Lx45KFej7+drLQF6oOxWYkrAlSsPxFFHAPMi2qKBekBbJzR
+	 ujcf8NZi/mktwGwZV6IUqmV+HhO3k4khQozt0qk4+4v9SFXBQpBR4aUnAmo2EvgFP8
+	 5K42DdgGzhxORdDiCOrBYzJ8WSZRdSEGFu9AZeMAO5vRpyhg6OBGdzkbHSHPmW3qMG
+	 ysZ0T/vnOktIEVNz2OurvuUJ/Mm9/830zbL1dkW6W3Yit+qdi1Hso9WCAg4K6WGwGu
+	 9XwJprn8YNGhdx7BTbmPN2IRi0ho93rhoSmM3gFECyEdMApflMGwTNIlWVOhNjMsHh
+	 z/fUw2/8zx8IA==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 05 Jun 2024 03:27:08 +0300
+Message-Id: <D1RNOFV1R1IK.2MSSUT0CAPVMB@kernel.org>
+Cc: <dpsmith@apertussolutions.com>, <tglx@linutronix.de>,
+ <mingo@redhat.com>, <bp@alien8.de>, <hpa@zytor.com>,
+ <dave.hansen@linux.intel.com>, <ardb@kernel.org>, <mjg59@srcf.ucam.org>,
+ <James.Bottomley@hansenpartnership.com>, <peterhuewe@gmx.de>,
+ <jgg@ziepe.ca>, <luto@amacapital.net>, <nivedita@alum.mit.edu>,
+ <herbert@gondor.apana.org.au>, <davem@davemloft.net>, <corbet@lwn.net>,
+ <ebiederm@xmission.com>, <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>,
+ <kanth.ghatraju@oracle.com>, <andrew.cooper3@citrix.com>,
+ <trenchboot-devel@googlegroups.com>
+Subject: Re: [PATCH v9 04/19] x86: Secure Launch Resource Table header file
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: "Jarkko Sakkinen" <jarkko@kernel.org>, <ross.philipson@oracle.com>,
+ <linux-kernel@vger.kernel.org>, <x86@kernel.org>,
+ <linux-integrity@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-crypto@vger.kernel.org>, <kexec@lists.infradead.org>,
+ <linux-efi@vger.kernel.org>, <iommu@lists.linux-foundation.org>
+X-Mailer: aerc 0.17.0
+References: <20240531010331.134441-1-ross.philipson@oracle.com>
+ <20240531010331.134441-5-ross.philipson@oracle.com>
+ <D1RFWFIJEYWL.2FC7V79321264@kernel.org>
+ <1eca8cb1-4b3b-402b-993b-53de7c810016@oracle.com>
+ <D1RLBMTUKRFN.34KQXEFZTBA08@kernel.org>
+ <249a9b27-c18d-4377-8b51-9bc610b53a8b@oracle.com>
+ <D1RNKV4JIE5L.1LNG82UAC916M@kernel.org>
+In-Reply-To: <D1RNKV4JIE5L.1LNG82UAC916M@kernel.org>
 
-Now that most panels have been updated not to track/double-check their
-prepared/enabled state update the TODO with next steps.
+On Wed Jun 5, 2024 at 3:22 AM EEST, Jarkko Sakkinen wrote:
+> On Wed Jun 5, 2024 at 2:00 AM EEST,  wrote:
+> > On 6/4/24 3:36 PM, Jarkko Sakkinen wrote:
+> > > On Tue Jun 4, 2024 at 11:31 PM EEST,  wrote:
+> > >> On 6/4/24 11:21 AM, Jarkko Sakkinen wrote:
+> > >>> On Fri May 31, 2024 at 4:03 AM EEST, Ross Philipson wrote:
+> > >>>> Introduce the Secure Launch Resource Table which forms the formal
+> > >>>> interface between the pre and post launch code.
+> > >>>>
+> > >>>> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
+> > >>>
+> > >>> If a uarch specific, I'd appreciate Intel SDM reference here so tha=
+t I
+> > >>> can look it up and compare. Like in section granularity.
+> > >>
+> > >> This table is meant to not be architecture specific though it can
+> > >> contain architecture specific sub-entities. E.g. there is a TXT spec=
+ific
+> > >> table and in the future there will be an AMD and ARM one (and hopefu=
+lly
+> > >> some others). I hope that addresses what you are pointing out or may=
+be I
+> > >> don't fully understand what you mean here...
+> > >=20
+> > > At least Intel SDM has a definition of any possible architecture
+> > > specific data structure. It is handy to also have this available
+> > > in inline comment for any possible such structure pointing out the
+> > > section where it is defined.
+> >
+> > The TXT specific structure is not defined in the SDM or the TXT dev=20
+> > guide. Part of it is driven by requirements in the TXT dev guide but=20
+> > that guide does not contain implementation details.
+> >
+> > That said, if you would like links to relevant documents in the comment=
+s=20
+> > before arch specific structures, I can add them.
+>
+> Vol. 2D 7-40, in the description of GETSEC[WAKEUP] there is in fact a
+> description of MLE JOINT structure at least:
+>
+> 1. GDT limit (offset 0)
+> 2. GDT base (offset 4)
+> 3. Segment selector initializer (offset 8)
+> 4. EIP (offset 12)
+>
+> So is this only exercised in protect mode, and not in long mode? Just
+> wondering whether I should make a bug report on this for SDM or not.
+>
+> Especially this puzzles me, given that x86s won't have protected
+> mode in the first place...
 
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
-Acked-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
+That raises a relevant question: will this ever work in x86s? SDM does
+not really support that it would but it could be also just outdated
+information.
 
-(no changes since v1)
+I'm neither sure how or will AMD align with x86s.
 
- Documentation/gpu/todo.rst | 47 +++++++++++++++++++++-----------------
- 1 file changed, 26 insertions(+), 21 deletions(-)
+Just point out a glitch...
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 2734b8a34541..2ea6ffc9b22b 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -469,30 +469,35 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>
- 
- Level: Starter
- 
--Clean up checks for already prepared/enabled in panels
--------------------------------------------------------
--
--In a whole pile of panel drivers, we have code to make the
--prepare/unprepare/enable/disable callbacks behave as no-ops if they've already
--been called. To get some idea of the duplicated code, try::
--
--  git grep 'if.*>prepared' -- drivers/gpu/drm/panel
--  git grep 'if.*>enabled' -- drivers/gpu/drm/panel
--
--In the patch ("drm/panel: Check for already prepared/enabled in drm_panel")
--we've moved this check to the core. Now we can most definitely remove the
--check from the individual panels and save a pile of code.
--
--In adition to removing the check from the individual panels, it is believed
--that even the core shouldn't need this check and that should be considered
--an error if other code ever relies on this check. The check in the core
--currently prints a warning whenever something is relying on this check with
--dev_warn(). After a little while, we likely want to promote this to a
--WARN(1) to help encourage folks not to rely on this behavior.
-+Remove disable/unprepare in remove/shutdown in panel-simple and panel-edp
-+-------------------------------------------------------------------------
-+
-+As of commit d2aacaf07395 ("drm/panel: Check for already prepared/enabled in
-+drm_panel"), we have a check in the drm_panel core to make sure nobody
-+double-calls prepare/enable/disable/unprepare. Eventually that should probably
-+be turned into a WARN_ON() or somehow made louder, but right now we actually
-+expect it to trigger and so we don't want it to be too loud.
-+
-+Specifically, that warning will trigger for panel-edp and panel-simple at
-+shutdown time because those panels hardcode a call to drm_panel_disable()
-+and drm_panel_unprepare() at shutdown and remove time that they call regardless
-+of panel state. On systems with a properly coded DRM modeset driver that
-+calls drm_atomic_helper_shutdown() this is pretty much guaranteed to cause
-+the warning to fire.
-+
-+Unfortunately we can't safely remove the calls in panel-edp and panel-simple
-+until we're sure that all DRM modeset drivers that are used with those panels
-+properly call drm_atomic_helper_shutdown(). This TODO item is to validate
-+that all DRM modeset drivers used with panel-edp and panel-simple properly
-+call drm_atomic_helper_shutdown() and then remove the calls to
-+disable/unprepare from those panels. Alternatively, this TODO item could be
-+removed by convincing stakeholders that those calls are fine and downgrading
-+the error message in drm_panel_disable() / drm_panel_unprepare() to a
-+debug-level message.
- 
- Contact: Douglas Anderson <dianders@chromium.org>
- 
--Level: Starter/Intermediate
-+Level: Intermediate
- 
- Transition away from using mipi_dsi_*_write_seq()
- -------------------------------------------------
--- 
-2.45.1.288.g0e0cd299f1-goog
-
+BR, Jarkko
