@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 079A51CBEA9;
-	Wed,  5 Jun 2024 12:05:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D43DD1CE8E9;
+	Wed,  5 Jun 2024 12:05:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717589107; cv=none; b=YQniaSQryPPbDXX4wZ0+zM1Vi+PQK3Vo/lO3eSUUmZ98qCQc6o/1oEOL9k74Rv1hf373LQNEHEYZS+jQO6dmueGeoVrn2PofYVQf2kXeoAaDhVGx8uWpPw4NCJz4LhELz72Axf/wnfDwpEak4mOhWgDCd7Ap+mbqgD/KQe8ogos=
+	t=1717589140; cv=none; b=OuPR+1/KwLEWiREVPPawyVUnIUDDWZAsQ6LB/6TEAGhZYs9jz+HgInuy5hM5f91FfycuTJYWwf4zHVHElatePsXX6z6Qt1wHQ9O7BKWpa6E2pK/cxbk7ZIqE6f0mXrzCMsXBENZT/R47WUUZt1p/xHKJraBQ1/EgeptSC6LUlao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717589107; c=relaxed/simple;
-	bh=Ny5+1fwINUBbSkbbFC6WPxtGsZGCX5WoNpDK9gHVphc=;
+	s=arc-20240116; t=1717589140; c=relaxed/simple;
+	bh=OvIC583n7ZCd5kM6qFGnGXoNc6XTjT39GLRJwufvwyI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GDpirnH1Z9CgQlGpxqkBgxQVyVcC+C4yxdXaCJUn2NbB/nC+1uT2de8sdYCkpsfzhTmlC/LlGhscvzhFq0T31x6xUNHDMOciXmGgKqgQw6Vft0Co9+QWGCrzyQbXZP5jitLw5WzAlBy2ulXyp5u2CEEIxc4OMeXWDhn/MFRrCW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lEuWt62/; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=btQjKZXnQYmaBb1yvsdW9cjQ9LQqTQQZRNQBgyQDqDnuMKtoKIwz/Anjz9y1StYES/M0Q1y15D1E7LREoYWKKPvQGtv0A0dOLd9IztRUnXFcAS+wf4oG1q0aQ2qOSlS/SxwIFwqSlqKXp8BhxMYIPVXNMbWi+j8JHxC7323tLDY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gWVVe7fO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lEuWt62/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B526C32781;
-	Wed,  5 Jun 2024 12:05:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gWVVe7fO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2B4FC32786;
+	Wed,  5 Jun 2024 12:05:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717589106;
-	bh=Ny5+1fwINUBbSkbbFC6WPxtGsZGCX5WoNpDK9gHVphc=;
+	s=k20201202; t=1717589140;
+	bh=OvIC583n7ZCd5kM6qFGnGXoNc6XTjT39GLRJwufvwyI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lEuWt62/t1uDm/bi4guLveY3xKCtxbNA8LILqBeQvyf02lKnfugY8I13CJUxr3EXH
-	 FgIU53fjPhamtz2bYK1oeiCizqYxPFMZM8h7MfxTs4pPloBRYEwTufCG/YszNFP9Nj
-	 5K7vHwfoARIQAZK+vBSUtCy2Whxp9wgHDLdTnqbEed+GxqV9WUFnRR2lubY89FedWm
-	 ZZBYK6vgU1gXXgUrUi41pvfZ1Qz7zyCvYUm1Mttikjp5srR8gP5+Ym96zO5BUwGZlj
-	 X76SJCDakw55tvQdf7KILNodDd/VQoP9PHq0fkJVJzUH5SnDthC2ry6jRKqmGepjd+
-	 RoDf3V3b1J6IQ==
+	b=gWVVe7fOD+S39H98ft2mtxZGsDDRbBZb8L21Yrg2U5CJsXj9f/z031ZcfMedD5Z7w
+	 ZfEN2DpJIxB/RpZy+ULI/t1Gux8GUj1pd0f/qi2odqwHxpbxlD9F6OP6e7lTTIQ4uG
+	 LCOZ0GR77xmq9AW464a5Jv5rWaA/MGZiBt56p8NJuMgYuVgFp55ua/YCg6iUPAzCt/
+	 g/sb4YRACfn3pEE5jlwingANumYktj0i1agy5AJbdU/Q8YiwnkpUi3nVEv4O7UsvrK
+	 ogWEmB8ld4OGU4wZKSCE8HLScW9T/QpVg4b/0Yit4FW36n5KfIKRYxBuODk9MzFnPA
+	 nyOrsXZu+FJkg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -37,17 +37,17 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	paulmck@kernel.org,
 	tglx@linutronix.de,
 	jpoimboe@kernel.org,
-	bp@alien8.de,
+	rdunlap@infradead.org,
 	xiongwei.song@windriver.com,
 	linux-doc@vger.kernel.org,
 	linux-input@vger.kernel.org,
 	platform-driver-x86@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 06/14] platform/x86: touchscreen_dmi: Add support for setting touchscreen properties from cmdline
-Date: Wed,  5 Jun 2024 08:04:39 -0400
-Message-ID: <20240605120455.2967445-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 06/12] platform/x86: touchscreen_dmi: Add support for setting touchscreen properties from cmdline
+Date: Wed,  5 Jun 2024 08:05:16 -0400
+Message-ID: <20240605120528.2967750-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240605120455.2967445-1-sashal@kernel.org>
-References: <20240605120455.2967445-1-sashal@kernel.org>
+In-Reply-To: <20240605120528.2967750-1-sashal@kernel.org>
+References: <20240605120528.2967750-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -56,7 +56,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.92
+X-stable-base: Linux 5.15.160
 Content-Transfer-Encoding: 8bit
 
 From: Hans de Goede <hdegoede@redhat.com>
@@ -92,10 +92,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 98 insertions(+), 3 deletions(-)
 
 diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index e6f0570cf4900..82eafbe4a43f0 100644
+index e61f0d038c6d7..569b3d9f2634f 100644
 --- a/Documentation/admin-guide/kernel-parameters.txt
 +++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1831,6 +1831,28 @@
+@@ -1702,6 +1702,28 @@
  				Format:
  				<bus_id>,<clkrate>
  
@@ -125,7 +125,7 @@ index e6f0570cf4900..82eafbe4a43f0 100644
  	i8042.unmask_kbd_data
  			[HW] Enable printing of interrupt data from the KBD port
 diff --git a/drivers/platform/x86/touchscreen_dmi.c b/drivers/platform/x86/touchscreen_dmi.c
-index 399b97b54dd0f..881e251bf22e8 100644
+index 161bd19441042..0308c90db8e30 100644
 --- a/drivers/platform/x86/touchscreen_dmi.c
 +++ b/drivers/platform/x86/touchscreen_dmi.c
 @@ -9,10 +9,13 @@
@@ -142,7 +142,7 @@ index 399b97b54dd0f..881e251bf22e8 100644
  #include <linux/notifier.h>
  #include <linux/property.h>
  #include <linux/string.h>
-@@ -1777,7 +1780,7 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
+@@ -1746,7 +1749,7 @@ const struct dmi_system_id touchscreen_dmi_table[] = {
  	{ }
  };
  
@@ -151,7 +151,7 @@ index 399b97b54dd0f..881e251bf22e8 100644
  
  static void ts_dmi_add_props(struct i2c_client *client)
  {
-@@ -1812,6 +1815,64 @@ static int ts_dmi_notifier_call(struct notifier_block *nb,
+@@ -1781,6 +1784,64 @@ static int ts_dmi_notifier_call(struct notifier_block *nb,
  	return 0;
  }
  
@@ -216,7 +216,7 @@ index 399b97b54dd0f..881e251bf22e8 100644
  static struct notifier_block ts_dmi_notifier = {
  	.notifier_call = ts_dmi_notifier_call,
  };
-@@ -1819,13 +1880,25 @@ static struct notifier_block ts_dmi_notifier = {
+@@ -1788,13 +1849,25 @@ static struct notifier_block ts_dmi_notifier = {
  static int __init ts_dmi_init(void)
  {
  	const struct dmi_system_id *dmi_id;
