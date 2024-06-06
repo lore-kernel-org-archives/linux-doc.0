@@ -1,303 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3785213E035;
-	Thu,  6 Jun 2024 22:47:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B16E26292;
+	Thu,  6 Jun 2024 23:26:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717714037; cv=none; b=Dw1xGczW/7sxuBn6HG3eGS/y0ySjdre6dKG73YUAXg6ZRTb4qoYPha6qC690Dh9kc0vC23H0Jx3LuaRygjdXTrlNKxlaSORm5wcVrPUvvxbR4Mu2IfSMtwtDjtooexXKCosV7RVeMcH81essVUVDN81qhWIR/hy8S5qqKSe4WWo=
+	t=1717716374; cv=none; b=noQF4GSRJqdyAdSLv+uyx2d27nhiF4XKiz/vCMyheCrALHKWIDD3mVgkQe3XAee+szgzwDMlLXuvjiYpc2p23F2BF9xerzPO7Nr3Q41S6cqq3vGFGc5qNAZC9XvbxQi8ZSaGbvWPJ3fLGaKHK+1RfTClNUiznQu8qLzXeVsZ6zA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717714037; c=relaxed/simple;
-	bh=bJs0A7U00c7oKj2hmhzU3KoY/dE5B1Se23w5Fft/kQk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kVAtkhkf05VBK2gqj3dW/6e6vPfXWg2IAfGXm0s3BIhm4ssocDxl9z3+et5ZPCwPVVhSgLAyZiRONxrY8IwqvXH/fyZUrHoEfrRRD10CsYw2JFXbKy6P+OpOixU62eTDo3uQ5eyF1o+sXbrPvo4r2hssVX1Vkj11CWiJteGiHxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=naYe9d+U; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1717716374; c=relaxed/simple;
+	bh=M+7owuWJKB1TcQGrX6ydAUMZphqPdvJHKkUxkJgNcS0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=JstJPxbTFtheAqsUJmTnyMjhDjp6epM6s/d/gbUyVIN9I/dF35fCo9Zv3mvp5LSvqoNXiytl8CZPB1n9tIIvdq7AHbA98Vt5XK6vhjyNCnR1zYxNHOw+0SkSZoOC/fgrQvzE0XDSjwNLthKm88n/VlNvVs9sjmoGmRd+n+FXMys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XkdECwNu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="naYe9d+U"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717714036; x=1749250036;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=bJs0A7U00c7oKj2hmhzU3KoY/dE5B1Se23w5Fft/kQk=;
-  b=naYe9d+UbmHSYIPCOw1T5Q2CpZvjhbIWNjE7Qv1pM6ivKvHSA9DcP7Gc
-   BaCsITI0XjiZGwdfQfQJFtNqNLc0uJOIWdL4jldeVckWoTjpVagwOsiGI
-   fVURvO++bsAV0QBxsdI7iKYnGqalBgBeq6DFWof8KO3Mn49GzXxCNv/du
-   yP9FFIHe49t3LsUzCJHM6MM/4N0iHzpbatx16vjnnVtb0CM+na+nvEGDV
-   byoRvqr0r5GKURDiRYsGPtGCdQGCuh0JQ3SKqZOFSbqZKCcUqg0qcWy+d
-   qd5yRfgCthd7LxVEXO6R+47BovRJ9vQVu0m+k90bkRd6Qu/+94ovdqA4S
-   Q==;
-X-CSE-ConnectionGUID: wB1NjI3rTG6KYarEDq6oWA==
-X-CSE-MsgGUID: z6LRhGH7TFK+sNKzh1qS1A==
-X-IronPort-AV: E=McAfee;i="6600,9927,11095"; a="14224023"
-X-IronPort-AV: E=Sophos;i="6.08,219,1712646000"; 
-   d="scan'208";a="14224023"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 15:47:12 -0700
-X-CSE-ConnectionGUID: W0oErCYOTGmUGRXmPz73Fg==
-X-CSE-MsgGUID: UHpe3H35QQSOucNSDb8eyA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,219,1712646000"; 
-   d="scan'208";a="38243847"
-Received: from jbrandeb-spr1.jf.intel.com ([10.166.28.233])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2024 15:47:12 -0700
-From: Jesse Brandeburg <jesse.brandeburg@intel.com>
-To: netdev@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org
-Cc: Jesse Brandeburg <jesse.brandeburg@intel.com>,
-	corbet@lwn.net,
-	linux-doc@vger.kernel.org,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH iwl-next v2 5/5] ice: refactor to use helpers
-Date: Thu,  6 Jun 2024 15:46:59 -0700
-Message-ID: <20240606224701.359706-6-jesse.brandeburg@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240606224701.359706-1-jesse.brandeburg@intel.com>
-References: <20240606224701.359706-1-jesse.brandeburg@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XkdECwNu"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1610CC32781;
+	Thu,  6 Jun 2024 23:26:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717716374;
+	bh=M+7owuWJKB1TcQGrX6ydAUMZphqPdvJHKkUxkJgNcS0=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=XkdECwNufaNp2v5aRlxBq8p9Q8C+Cl5N6Zkf3YsSBupip+aOJRpcQRah0LlJuvdLk
+	 91DLjETxnCrXxXXdl35ixmy557hRxZpf9XdcvwZRHchww7tz/5irTHtZEgcqaTIvdE
+	 5cVM1h0XKpm4Kwh6pXOHgwLoUb5eMBxg2vdEWvgK5wSz4qHZkuYqEtzHK0M16UU51k
+	 b4BzCBNiokTMAw0I4+7mcB/napOuFDozd2bH42opSVgpVRxhu0grxR4BavS8YNhzJr
+	 8/RczeMj/4yvA7e8L/WtRQLhfoncAz4C8qST16+odN5gHc76JGFNDBY4cZQrLnWp/V
+	 Ii8HmanXRj62w==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02BEDC27C54;
+	Thu,  6 Jun 2024 23:26:14 +0000 (UTC)
+From: Dmitry Safonov via B4 Relay <devnull+0x7f454c46.gmail.com@kernel.org>
+Date: Fri, 07 Jun 2024 00:25:55 +0100
+Subject: [PATCH net-next v4 1/6] net/tcp: Use static_branch_tcp_{md5,ao} to
+ drop ifdefs
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20240607-tcp_ao-tracepoints-v4-1-88dc245c1f39@gmail.com>
+References: <20240607-tcp_ao-tracepoints-v4-0-88dc245c1f39@gmail.com>
+In-Reply-To: <20240607-tcp_ao-tracepoints-v4-0-88dc245c1f39@gmail.com>
+To: Eric Dumazet <edumazet@google.com>, 
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, David Ahern <dsahern@kernel.org>, 
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Mohammad Nassiri <mnassiri@ciena.com>, Simon Horman <horms@kernel.org>, 
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Dmitry Safonov <0x7f454c46@gmail.com>
+X-Mailer: b4 0.12.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1717716372; l=2434;
+ i=0x7f454c46@gmail.com; s=20240410; h=from:subject:message-id;
+ bh=A+9VHh2Wjb1Lw7NYtMOuRJG+qPpXrhu2iaF3GgBb+QE=;
+ b=w/5KE85UJNmKQBg00hYW6MZCqodcIzzoCoepeBt2fMkrGGCbgbcAkXfWJ8De5H+/UgEbIMHa7xWn
+ lA9J34nWCKr+oTFgSQhjJ0ynhsMP7wMy8mrtsua1LOXrhJV/3kkH
+X-Developer-Key: i=0x7f454c46@gmail.com; a=ed25519;
+ pk=cFSWovqtkx0HrT5O9jFCEC/Cef4DY8a2FPeqP4THeZQ=
+X-Endpoint-Received: by B4 Relay for 0x7f454c46@gmail.com/20240410 with
+ auth_id=152
+X-Original-From: Dmitry Safonov <0x7f454c46@gmail.com>
+Reply-To: 0x7f454c46@gmail.com
 
-Use the ice_netdev_to_pf() helper in more places and remove a bunch of
-boilerplate code. Not every instance could be replaced due to use of the
-netdev_priv() output or the vsi variable within a bunch of functions.
+From: Dmitry Safonov <0x7f454c46@gmail.com>
 
-Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
-Reviewed-by: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-Reviewed-by: Jakub Kicinski <kuba@kernel.org>
-Signed-off-by: Jesse Brandeburg <jesse.brandeburg@intel.com>
+It's possible to clean-up some ifdefs by hiding that
+tcp_{md5,ao}_needed static branch is defined and compiled only
+under related configs, since commit 4c8530dc7d7d ("net/tcp: Only produce
+AO/MD5 logs if there are any keys").
+
+Reviewed-by: Eric Dumazet <edumazet@google.com>
+Signed-off-by: Dmitry Safonov <0x7f454c46@gmail.com>
 ---
- drivers/net/ethernet/intel/ice/ice_ethtool.c  | 42 ++++++-------------
- .../net/ethernet/intel/ice/ice_flex_pipe.c    |  8 +---
- drivers/net/ethernet/intel/ice/ice_lag.c      |  5 +--
- drivers/net/ethernet/intel/ice/ice_main.c     |  7 +---
- drivers/net/ethernet/intel/ice/ice_sriov.c    |  3 +-
- 5 files changed, 19 insertions(+), 46 deletions(-)
+ include/net/tcp.h   | 14 ++++----------
+ net/ipv4/tcp_ipv4.c |  8 ++------
+ 2 files changed, 6 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/net/ethernet/intel/ice/ice_ethtool.c b/drivers/net/ethernet/intel/ice/ice_ethtool.c
-index 97a7a0632a1d..2d307e7d9863 100644
---- a/drivers/net/ethernet/intel/ice/ice_ethtool.c
-+++ b/drivers/net/ethernet/intel/ice/ice_ethtool.c
-@@ -469,8 +469,7 @@ static int ice_get_regs_len(struct net_device __always_unused *netdev)
- static void
- ice_get_regs(struct net_device *netdev, struct ethtool_regs *regs, void *p)
- {
--	struct ice_netdev_priv *np = netdev_priv(netdev);
--	struct ice_pf *pf = np->vsi->back;
-+	struct ice_pf *pf = ice_netdev_to_pf(netdev);
- 	struct ice_hw *hw = &pf->hw;
- 	u32 *regs_buf = (u32 *)p;
- 	unsigned int i;
-@@ -483,8 +482,7 @@ ice_get_regs(struct net_device *netdev, struct ethtool_regs *regs, void *p)
+diff --git a/include/net/tcp.h b/include/net/tcp.h
+index a70fc39090fe..e5427b05129b 100644
+--- a/include/net/tcp.h
++++ b/include/net/tcp.h
+@@ -2386,21 +2386,15 @@ static inline void tcp_get_current_key(const struct sock *sk,
  
- static u32 ice_get_msglevel(struct net_device *netdev)
+ static inline bool tcp_key_is_md5(const struct tcp_key *key)
  {
--	struct ice_netdev_priv *np = netdev_priv(netdev);
--	struct ice_pf *pf = np->vsi->back;
-+	struct ice_pf *pf = ice_netdev_to_pf(netdev);
- 
- #ifndef CONFIG_DYNAMIC_DEBUG
- 	if (pf->hw.debug_mask)
-@@ -497,8 +495,7 @@ static u32 ice_get_msglevel(struct net_device *netdev)
- 
- static void ice_set_msglevel(struct net_device *netdev, u32 data)
- {
--	struct ice_netdev_priv *np = netdev_priv(netdev);
--	struct ice_pf *pf = np->vsi->back;
-+	struct ice_pf *pf = ice_netdev_to_pf(netdev);
- 
- #ifndef CONFIG_DYNAMIC_DEBUG
- 	if (ICE_DBG_USER & data)
-@@ -512,8 +509,7 @@ static void ice_set_msglevel(struct net_device *netdev, u32 data)
- 
- static int ice_get_eeprom_len(struct net_device *netdev)
- {
--	struct ice_netdev_priv *np = netdev_priv(netdev);
--	struct ice_pf *pf = np->vsi->back;
-+	struct ice_pf *pf = ice_netdev_to_pf(netdev);
- 
- 	return (int)pf->hw.flash.flash_size;
- }
-@@ -522,9 +518,7 @@ static int
- ice_get_eeprom(struct net_device *netdev, struct ethtool_eeprom *eeprom,
- 	       u8 *bytes)
- {
--	struct ice_netdev_priv *np = netdev_priv(netdev);
--	struct ice_vsi *vsi = np->vsi;
--	struct ice_pf *pf = vsi->back;
-+	struct ice_pf *pf = ice_netdev_to_pf(netdev);
- 	struct ice_hw *hw = &pf->hw;
- 	struct device *dev;
- 	int ret;
-@@ -623,8 +617,7 @@ static u64 ice_link_test(struct net_device *netdev)
-  */
- static u64 ice_eeprom_test(struct net_device *netdev)
- {
--	struct ice_netdev_priv *np = netdev_priv(netdev);
--	struct ice_pf *pf = np->vsi->back;
-+	struct ice_pf *pf = ice_netdev_to_pf(netdev);
- 
- 	netdev_info(netdev, "EEPROM test\n");
- 	return !!(ice_nvm_validate_checksum(&pf->hw));
-@@ -938,9 +931,8 @@ static int ice_lbtest_receive_frames(struct ice_rx_ring *rx_ring)
-  */
- static u64 ice_loopback_test(struct net_device *netdev)
- {
--	struct ice_netdev_priv *np = netdev_priv(netdev);
--	struct ice_vsi *orig_vsi = np->vsi, *test_vsi;
--	struct ice_pf *pf = orig_vsi->back;
-+	struct ice_pf *pf = ice_netdev_to_pf(netdev);
-+	struct ice_vsi *test_vsi;
- 	u8 *tx_frame __free(kfree) = NULL;
- 	u8 broadcast[ETH_ALEN], ret = 0;
- 	int num_frames, valid_frames;
-@@ -1029,8 +1021,7 @@ static u64 ice_loopback_test(struct net_device *netdev)
-  */
- static u64 ice_intr_test(struct net_device *netdev)
- {
--	struct ice_netdev_priv *np = netdev_priv(netdev);
--	struct ice_pf *pf = np->vsi->back;
-+	struct ice_pf *pf = ice_netdev_to_pf(netdev);
- 	u16 swic_old = pf->sw_int_count;
- 
- 	netdev_info(netdev, "interrupt test\n");
-@@ -1058,9 +1049,8 @@ static void
- ice_self_test(struct net_device *netdev, struct ethtool_test *eth_test,
- 	      u64 *data)
- {
--	struct ice_netdev_priv *np = netdev_priv(netdev);
-+	struct ice_pf *pf = ice_netdev_to_pf(netdev);
- 	bool if_running = netif_running(netdev);
--	struct ice_pf *pf = np->vsi->back;
- 	struct device *dev;
- 
- 	dev = ice_pf_to_dev(pf);
-@@ -1384,9 +1374,7 @@ static int ice_nway_reset(struct net_device *netdev)
-  */
- static u32 ice_get_priv_flags(struct net_device *netdev)
- {
--	struct ice_netdev_priv *np = netdev_priv(netdev);
--	struct ice_vsi *vsi = np->vsi;
--	struct ice_pf *pf = vsi->back;
-+	struct ice_pf *pf = ice_netdev_to_pf(netdev);
- 	u32 i, ret_flags = 0;
- 
- 	for (i = 0; i < ICE_PRIV_FLAG_ARRAY_SIZE; i++) {
-@@ -4128,9 +4116,7 @@ static int
- ice_get_module_info(struct net_device *netdev,
- 		    struct ethtool_modinfo *modinfo)
- {
--	struct ice_netdev_priv *np = netdev_priv(netdev);
--	struct ice_vsi *vsi = np->vsi;
--	struct ice_pf *pf = vsi->back;
-+	struct ice_pf *pf = ice_netdev_to_pf(netdev);
- 	struct ice_hw *hw = &pf->hw;
- 	u8 sff8472_comp = 0;
- 	u8 sff8472_swap = 0;
-@@ -4202,12 +4188,10 @@ static int
- ice_get_module_eeprom(struct net_device *netdev,
- 		      struct ethtool_eeprom *ee, u8 *data)
- {
--	struct ice_netdev_priv *np = netdev_priv(netdev);
-+	struct ice_pf *pf = ice_netdev_to_pf(netdev);
- #define SFF_READ_BLOCK_SIZE 8
- 	u8 value[SFF_READ_BLOCK_SIZE] = { 0 };
- 	u8 addr = ICE_I2C_EEPROM_DEV_ADDR;
--	struct ice_vsi *vsi = np->vsi;
--	struct ice_pf *pf = vsi->back;
- 	struct ice_hw *hw = &pf->hw;
- 	bool is_sfp = false;
- 	unsigned int i, j;
-diff --git a/drivers/net/ethernet/intel/ice/ice_flex_pipe.c b/drivers/net/ethernet/intel/ice/ice_flex_pipe.c
-index 20d5db88c99f..4c322bed716c 100644
---- a/drivers/net/ethernet/intel/ice/ice_flex_pipe.c
-+++ b/drivers/net/ethernet/intel/ice/ice_flex_pipe.c
-@@ -574,9 +574,7 @@ ice_destroy_tunnel(struct ice_hw *hw, u16 index, enum ice_tunnel_type type,
- int ice_udp_tunnel_set_port(struct net_device *netdev, unsigned int table,
- 			    unsigned int idx, struct udp_tunnel_info *ti)
- {
--	struct ice_netdev_priv *np = netdev_priv(netdev);
--	struct ice_vsi *vsi = np->vsi;
--	struct ice_pf *pf = vsi->back;
-+	struct ice_pf *pf = ice_netdev_to_pf(netdev);
- 	enum ice_tunnel_type tnl_type;
- 	int status;
- 	u16 index;
-@@ -598,9 +596,7 @@ int ice_udp_tunnel_set_port(struct net_device *netdev, unsigned int table,
- int ice_udp_tunnel_unset_port(struct net_device *netdev, unsigned int table,
- 			      unsigned int idx, struct udp_tunnel_info *ti)
- {
--	struct ice_netdev_priv *np = netdev_priv(netdev);
--	struct ice_vsi *vsi = np->vsi;
--	struct ice_pf *pf = vsi->back;
-+	struct ice_pf *pf = ice_netdev_to_pf(netdev);
- 	enum ice_tunnel_type tnl_type;
- 	int status;
- 
-diff --git a/drivers/net/ethernet/intel/ice/ice_lag.c b/drivers/net/ethernet/intel/ice/ice_lag.c
-index 1ccb572ce285..cdb0e59aeb26 100644
---- a/drivers/net/ethernet/intel/ice/ice_lag.c
-+++ b/drivers/net/ethernet/intel/ice/ice_lag.c
-@@ -1640,11 +1640,8 @@ static void ice_lag_chk_disabled_bond(struct ice_lag *lag, void *ptr)
-  */
- static void ice_lag_disable_sriov_bond(struct ice_lag *lag)
- {
--	struct ice_netdev_priv *np;
--	struct ice_pf *pf;
-+	struct ice_pf *pf = ice_netdev_to_pf(lag->netdev);
- 
--	np = netdev_priv(lag->netdev);
--	pf = np->vsi->back;
- 	ice_clear_feature_support(pf, ICE_F_SRIOV_LAG);
+-#ifdef CONFIG_TCP_MD5SIG
+-	if (static_branch_unlikely(&tcp_md5_needed.key) &&
+-	    key->type == TCP_KEY_MD5)
+-		return true;
+-#endif
++	if (static_branch_tcp_md5())
++		return key->type == TCP_KEY_MD5;
+ 	return false;
  }
  
-diff --git a/drivers/net/ethernet/intel/ice/ice_main.c b/drivers/net/ethernet/intel/ice/ice_main.c
-index 4db3a6056f41..9d852b169ead 100644
---- a/drivers/net/ethernet/intel/ice/ice_main.c
-+++ b/drivers/net/ethernet/intel/ice/ice_main.c
-@@ -7798,8 +7798,7 @@ static int ice_change_mtu(struct net_device *netdev, int new_mtu)
-  */
- static int ice_eth_ioctl(struct net_device *netdev, struct ifreq *ifr, int cmd)
+ static inline bool tcp_key_is_ao(const struct tcp_key *key)
  {
--	struct ice_netdev_priv *np = netdev_priv(netdev);
--	struct ice_pf *pf = np->vsi->back;
-+	struct ice_pf *pf = ice_netdev_to_pf(netdev);
+-#ifdef CONFIG_TCP_AO
+-	if (static_branch_unlikely(&tcp_ao_needed.key) &&
+-	    key->type == TCP_KEY_AO)
+-		return true;
+-#endif
++	if (static_branch_tcp_ao())
++		return key->type == TCP_KEY_AO;
+ 	return false;
+ }
  
- 	switch (cmd) {
- 	case SIOCGHWTSTAMP:
-@@ -8027,9 +8026,7 @@ static int
- ice_bridge_getlink(struct sk_buff *skb, u32 pid, u32 seq,
- 		   struct net_device *dev, u32 filter_mask, int nlflags)
- {
--	struct ice_netdev_priv *np = netdev_priv(dev);
--	struct ice_vsi *vsi = np->vsi;
--	struct ice_pf *pf = vsi->back;
-+	struct ice_pf *pf = ice_netdev_to_pf(dev);
- 	u16 bmode;
+diff --git a/net/ipv4/tcp_ipv4.c b/net/ipv4/tcp_ipv4.c
+index 3613e08ca794..b36bfd64382f 100644
+--- a/net/ipv4/tcp_ipv4.c
++++ b/net/ipv4/tcp_ipv4.c
+@@ -1054,12 +1054,10 @@ static void tcp_v4_timewait_ack(struct sock *sk, struct sk_buff *skb)
+ #else
+ 	if (0) {
+ #endif
+-#ifdef CONFIG_TCP_MD5SIG
+-	} else if (static_branch_unlikely(&tcp_md5_needed.key)) {
++	} else if (static_branch_tcp_md5()) {
+ 		key.md5_key = tcp_twsk_md5_key(tcptw);
+ 		if (key.md5_key)
+ 			key.type = TCP_KEY_MD5;
+-#endif
+ 	}
  
- 	bmode = pf->first_sw->bridge_mode;
-diff --git a/drivers/net/ethernet/intel/ice/ice_sriov.c b/drivers/net/ethernet/intel/ice/ice_sriov.c
-index 067712f4923f..adcc2f967bab 100644
---- a/drivers/net/ethernet/intel/ice/ice_sriov.c
-+++ b/drivers/net/ethernet/intel/ice/ice_sriov.c
-@@ -1317,8 +1317,7 @@ ice_vf_lan_overflow_event(struct ice_pf *pf, struct ice_rq_event_info *event)
-  */
- int ice_set_vf_spoofchk(struct net_device *netdev, int vf_id, bool ena)
- {
--	struct ice_netdev_priv *np = netdev_priv(netdev);
--	struct ice_pf *pf = np->vsi->back;
-+	struct ice_pf *pf = ice_netdev_to_pf(netdev);
- 	struct ice_vsi *vf_vsi;
- 	struct device *dev;
- 	struct ice_vf *vf;
+ 	tcp_v4_send_ack(sk, skb,
+@@ -1128,8 +1126,7 @@ static void tcp_v4_reqsk_send_ack(const struct sock *sk, struct sk_buff *skb,
+ #else
+ 	if (0) {
+ #endif
+-#ifdef CONFIG_TCP_MD5SIG
+-	} else if (static_branch_unlikely(&tcp_md5_needed.key)) {
++	} else if (static_branch_tcp_md5()) {
+ 		const union tcp_md5_addr *addr;
+ 		int l3index;
+ 
+@@ -1138,7 +1135,6 @@ static void tcp_v4_reqsk_send_ack(const struct sock *sk, struct sk_buff *skb,
+ 		key.md5_key = tcp_md5_do_lookup(sk, l3index, addr, AF_INET);
+ 		if (key.md5_key)
+ 			key.type = TCP_KEY_MD5;
+-#endif
+ 	}
+ 
+ 	tcp_v4_send_ack(sk, skb, seq,
+
 -- 
-2.43.0
+2.42.0
+
 
