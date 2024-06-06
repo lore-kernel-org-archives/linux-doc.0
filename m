@@ -1,205 +1,210 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E231513A3E2;
-	Thu,  6 Jun 2024 06:58:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 876C813A898;
+	Thu,  6 Jun 2024 08:14:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717657112; cv=none; b=Wei/Bp+hpzUp+3eQf2twIzUngc/He3HtgWM3ozcPFZr6M+/rVWcXJBbOXApvZ5+wgUaT88njjK0Mbv7k4PmETShMtwa/F4KSeOF6D5WLp1aM7Mvy8IhBssZUdfYmSVeByUKX4+QRQ6OFkiypR2Yh6D3mIJa67JJRBjwZ2O66OFA=
+	t=1717661681; cv=none; b=SUmasPxUS+x6XoBoLX8fzPBYj54Yh0DbWXYpp/aMWWke52DrjYWdD9Lit93+0CyvylN3+JY113nGh7GX/p8wsEZg7BtVxMZm7WodHdyE25BS1Whsa5ecjIu0er71pUq02yMjRoL/I0bnV272Hcooep9x7hEhMkMJkBt52b3yQxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717657112; c=relaxed/simple;
-	bh=SOJoCNmYjMp2sd9tajLrhObVAMG8hZ817lMHcW9drbA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XJnWAtpycxB4cYgZmf5vN1Bo7mG1fLWqyy8jb3RSNMCvKV8S1YgkdRndRp6UiQWBBxCDzHMXwUieVz8mCEuaCqQKigFK5sTrVUGfwXSCdh8M8nvLoS11Wk3X8yKDgbElsgeHqgJx2NN1zErE2dwtMNXWMSyeaOTN6BW6+mNLycQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u+8HJfCW; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u+8HJfCW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78EB1C4AF09;
-	Thu,  6 Jun 2024 06:58:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717657111;
-	bh=SOJoCNmYjMp2sd9tajLrhObVAMG8hZ817lMHcW9drbA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=u+8HJfCWnwpS9As1djoVl2cskbTf43cGyQ+FR3IhfNp9MNDL9jkZHM6HMxjBOWN6D
-	 gIOzmbxOGgOM6QSxN5l/lU6mqOTpJoCg2Lqq7jbZ8+iInMylxkdLLQLbFB7WGKOukY
-	 FO/O+5I2Wg+c2Kae+hQRJABhCIANdK2/x63xksVIdEqSi5Zy35oOxWPgYjUDLK8eQG
-	 O6U9RZRlIH27D80bpt2Js5tRrlK7kCR6IjwXesZJDRJc/1EJghRJQKogCIRRuSPhTU
-	 MbsHRGwbJGd9tIyUzI1Jlkfx47tQLxSWd0DMDec/Im2dcqXiZB4UD4BQMem/BiwB23
-	 2KFwB10Orm+iQ==
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2eabd22d404so6434621fa.2;
-        Wed, 05 Jun 2024 23:58:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW3AYhEUs9AKzEAfNgABH9BLwU/WB8SPpMuQWC4CWSL2opcTuXKK3gMltdZRGywr7nnS9ugcVQHorsNzV+2J3M7Cw/GnDA83qGq
-X-Gm-Message-State: AOJu0YzsglZYrtqN29Sg3OZ6MMbim53c+svO/T4vLrlSEIjNt1gShi07
-	F4R71+o9baWvzs2R8LnnLyZ94oVoys6zaDQzeQFtAKiUmG/rLyrzv7dTnkCU9i3d4YLxkhl1BX/
-	6jfZ2/kZrJ5R4h+oKopWrW09kmHc=
-X-Google-Smtp-Source: AGHT+IEYXt9x3kSfaB0uu/PNNOteVOLW1PlTcOpuUwyIrOMOW8URNfAeXhZE6sBkO0+owhNd1vEjf4TdSvBaNCd4BZ0=
-X-Received: by 2002:a2e:804b:0:b0:2e5:685a:cd24 with SMTP id
- 38308e7fff4ca-2eac798a96dmr26289171fa.6.1717657110169; Wed, 05 Jun 2024
- 23:58:30 -0700 (PDT)
+	s=arc-20240116; t=1717661681; c=relaxed/simple;
+	bh=/+/BknMHLrihbmijqoFbVLzfZtNPqhWBdI3sHAuudyA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IFSvK7rEVSSc0bQOJ9G/ajvOKSwKoyBGvYhwDcyJvzOo1X8Oo8QTonHAwpnhlRdCrRuZ7Ic/4175lbqwkRhfju1L7a94P1arDnrSCm9OPEGzM2ihrkljhfrIaglBd519l2j8o9N+XZKT5dM/0WWnub6s9aYLh9QLhDR83vnvlc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
+X-IronPort-AV: E=Sophos;i="6.08,218,1712588400"; 
+   d="asc'?scan'208";a="210885326"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 06 Jun 2024 17:14:37 +0900
+Received: from [10.226.93.107] (unknown [10.226.93.107])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 72C8C41FD116;
+	Thu,  6 Jun 2024 17:14:34 +0900 (JST)
+Message-ID: <13e77ad1-7ff0-453b-b8f9-7962d15b49a1@bp.renesas.com>
+Date: Thu, 6 Jun 2024 09:14:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240602125416.976336-1-masahiroy@kernel.org>
-In-Reply-To: <20240602125416.976336-1-masahiroy@kernel.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 6 Jun 2024 15:57:54 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAT_rH1ZcL2uhwRgVRLM58rvNMYuEMikdBr2ize-XLTHuw@mail.gmail.com>
-Message-ID: <CAK7LNAT_rH1ZcL2uhwRgVRLM58rvNMYuEMikdBr2ize-XLTHuw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] kconfig: remove tristate choice support
-To: linux-kbuild@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] docs: stable-kernel-rules: provide example of
+ specifying target series
+To: Shung-Hsi Yu <shung-hsi.yu@suse.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ stable@vger.kernel.org, workflows@vger.kernel.org
+References: <20240606064311.18678-1-shung-hsi.yu@suse.com>
+Content-Language: en-GB
+From: Paul Barker <paul.barker.ct@bp.renesas.com>
+Organization: Renesas Electronics Corporation
+In-Reply-To: <20240606064311.18678-1-shung-hsi.yu@suse.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------xI3MkB3bqz4WF3eJ5X8zp2y7"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------xI3MkB3bqz4WF3eJ5X8zp2y7
+Content-Type: multipart/mixed; boundary="------------cuym2VioR9YeBxcmeIilliEz";
+ protected-headers="v1"
+From: Paul Barker <paul.barker.ct@bp.renesas.com>
+To: Shung-Hsi Yu <shung-hsi.yu@suse.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ stable@vger.kernel.org, workflows@vger.kernel.org
+Message-ID: <13e77ad1-7ff0-453b-b8f9-7962d15b49a1@bp.renesas.com>
+Subject: Re: [PATCH 1/2] docs: stable-kernel-rules: provide example of
+ specifying target series
+References: <20240606064311.18678-1-shung-hsi.yu@suse.com>
+In-Reply-To: <20240606064311.18678-1-shung-hsi.yu@suse.com>
+
+--------------cuym2VioR9YeBxcmeIilliEz
+Content-Type: multipart/mixed; boundary="------------cwYi1y9yKe2mdo4v6vJz18ui"
+
+--------------cwYi1y9yKe2mdo4v6vJz18ui
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jun 2, 2024 at 9:54=E2=80=AFPM Masahiro Yamada <masahiroy@kernel.or=
-g> wrote:
->
-> I previously submitted a fix for a bug in the choice feature [1], where
-> I mentioned, "Another (much cleaner) approach would be to remove the
-> tristate choice support entirely".
->
-> There are more issues in the tristate choice feature. For example, you
-> can observe a couple of bugs in the following test code.
->
-> [Test Code]
->
->     config MODULES
->             def_bool y
->             modules
->
->     choice
->             prompt "tristate choice"
->             default A
->
->     config A
->             tristate "A"
->
->     config B
->             tristate "B"
->
->     endchoice
->
-> [Bug 1] the 'default' property is not correctly processed
->
-> 'make alldefconfig' produces:
->
->     CONFIG_MODULES=3Dy
->     # CONFIG_A is not set
->     # CONFIG_B is not set
->
-> However, the correct output should be:
->
->     CONFIG_MODULES=3Dy
->     CONFIG_A=3Dy
->     # CONFIG_B is not set
->
-> The unit test file, scripts/kconfig/tests/choice/alldef_expected_config,
-> is wrong as well.
->
-> [Bug 2] choice members never get 'y' with randconfig
->
-> For the test code above, the following combinations are possible:
->
->                A    B
->         (1)    y    n
->         (2)    n    y
->         (3)    m    m
->         (4)    m    n
->         (5)    n    m
->         (6)    n    n
->
-> 'make randconfig' never produces (1) or (2).
->
-> These bugs are fixable, but a more critical problem is the lack of a
-> sensible syntax to specify the default for the tristate choice.
-> The default for the choice must be one of the choice members, which
-> cannot specify any of the patterns (3) through (6) above.
->
-> In addition, I have never seen it being used in a useful way.
->
-> The following commits removed unnecessary use of tristate choices:
->
->  - df8df5e4bc37 ("usb: get rid of 'choice' for legacy gadget drivers")
->  - bfb57ef0544a ("rapidio: remove choice for enumeration")
->
-> This commit removes the tristate choice support entirely, which allows
-> me to delete a lot of code, making further refactoring easier.
->
-> This includes the revert of commit fa64e5f6a35e ("kconfig/symbol.c:
-> handle choice_values that depend on 'm' symbols"). It was suspicious
-> because it did not address the root cause but introduced inconsistency
-> in visibility between choice members and other symbols.
->
-> [1]: https://lore.kernel.org/linux-kbuild/20240427104231.2728905-1-masahi=
-roy@kernel.org/T/#m0a1bb6992581462ceca861b409bb33cb8fd7dbae
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+On 06/06/2024 07:43, Shung-Hsi Yu wrote:
+> Provide a concrete example of how to specify what stable series should
+> be targeted for change inclusion. Looking around on the stable mailing
+> list this seems like a common practice already, so let's mention that i=
+n
+> the documentation as well (but worded so it is not interpreted as the
+> only way to do so).
+>=20
+> Signed-off-by: Shung-Hsi Yu <shung-hsi.yu@suse.com>
 > ---
+>  Documentation/process/stable-kernel-rules.rst | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentat=
+ion/process/stable-kernel-rules.rst
+> index edf90bbe30f4..daa542988095 100644
+> --- a/Documentation/process/stable-kernel-rules.rst
+> +++ b/Documentation/process/stable-kernel-rules.rst
+> @@ -57,10 +57,13 @@ options for cases where a mainlined patch needs adj=
+ustments to apply in older
+>  series (for example due to API changes).
+> =20
+>  When using option 2 or 3 you can ask for your change to be included in=
+ specific
+> -stable series. When doing so, ensure the fix or an equivalent is appli=
+cable,
+> -submitted, or already present in all newer stable trees still supporte=
+d. This is
+> -meant to prevent regressions that users might later encounter on updat=
+ing, if
+> -e.g. a fix merged for 5.19-rc1 would be backported to 5.10.y, but not =
+to 5.15.y.
+> +stable series, one way to do so is by specifying the target series in =
+the
+> +subject prefix (e.g. '[PATCH stable 5.15 5.10]' asks that the patch to=
+ be
 
+"that the patch is included in..." would be slightly better.
 
-I will fix a couple of mistakes.
+> +included in both 5.10.y and 5.15.y). When doing so, ensure the fix or =
+an
+> +equivalent is applicable, submitted, or already present in all newer s=
+table
+> +trees still supported. This is meant to prevent regressions that users=
+ might
+> +later encounter on updating, if e.g. a fix merged for 5.19-rc1 would b=
+e
+> +backported to 5.10.y, but not to 5.15.y.
+> =20
+>  .. _option_1:
+> =20
 
+This is a helpful clarification and I like seeing an example. With the
+trivial change above:
 
-
-> diff --git a/scripts/kconfig/gconf.c b/scripts/kconfig/gconf.c
-> index baa1c512de3c..217f85ea0910 100644
-> --- a/scripts/kconfig/gconf.c
-> +++ b/scripts/kconfig/gconf.c
-> @@ -1067,10 +1067,7 @@ static gchar **fill_row(struct menu *menu)
->                         row[COL_VALUE] =3D
->                             g_strdup(menu_get_prompt(def_menu));
->
-> -               if (sym_get_type(sym) =3D=3D S_BOOLEAN) {
-> -                       row[COL_BTNVIS] =3D GINT_TO_POINTER(FALSE);
-> -                       return row;
-> -               }
-> +               return row;
-
-
-
-I accidentally dropped
-
-  row[COL_BTNVIS] =3D GINT_TO_POINTER(FALSE);
-
-
-I will restore it.
-
-The intention is to drop the if-condition that
-is always met.
-
-
-
-
-
-
-
-
-
-> @@ -479,7 +461,7 @@ void sym_calc_value(struct symbol *sym)
->         }
->
->         sym->curr =3D newval;
-> -       if (sym_is_choice(sym) && newval.tri =3D=3D yes)
-> +       if (sym_is_choice(sym))
->                 sym->curr.val =3D sym_calc_choice(sym);
->         sym_validate_range(sym);
->
-
-
-I will keep "&& newval.tri =3D=3D yes" here.
-
-
-When a choice block is hidden by 'depends on',
-there is no need to call sym_calc_choice().
-
-
-
-
+Reviewed-by: Paul Barker <paul.barker.ct@bp.renesas.com>
 
 --=20
-Best Regards
-Masahiro Yamada
+Paul Barker
+--------------cwYi1y9yKe2mdo4v6vJz18ui
+Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+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3D
+=3DsIIN
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------cwYi1y9yKe2mdo4v6vJz18ui--
+
+--------------cuym2VioR9YeBxcmeIilliEz--
+
+--------------xI3MkB3bqz4WF3eJ5X8zp2y7
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZmFv6QUDAAAAAAAKCRDbaV4Vf/JGvWU6
+AQDSsAO3bvQOfdU4uSNy9JHsga8OyLIF2Rs7Fda7u/NyOAEAq6KIJw4g73ZA4mkNsnOM7kUpXq1+
+KcKZU1/hFlLX2wM=
+=jN5l
+-----END PGP SIGNATURE-----
+
+--------------xI3MkB3bqz4WF3eJ5X8zp2y7--
