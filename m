@@ -1,178 +1,80 @@
-Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com [210.160.252.171])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B75513BC26;
-	Thu,  6 Jun 2024 08:21:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.171
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2B0019D8B5;
+	Thu,  6 Jun 2024 08:50:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717662107; cv=none; b=Vjde6uGAsa6dOWilSzkboJa6JZR3rhVGqBiHvItSsqWCQ9vXtpltjS3HBn8J5BwZlSkcfojaunLliO9+Cpulrfw2oOKDklUFPXIyozhmMmKEE1v+Cti2rDucDmzVpeFbcDoY/dVLZT09YbjJJax1pvO/h8aPGbo+LPkjxhhdtl8=
+	t=1717663839; cv=none; b=DTxJ7vVF+m9Dm8dSSmbJdwE6sZa8Qm81H7DEPkRK3AfeWR4whUrHVS2PKAlZlDiQD2prPev5586iIKs6beea8xMeLWPIHH6lHGta2NGkpwm0NG3DcxjB1I3b0sR5EonGhpnHQN/q1W/zqmtGSqZXnmhw0s3v3biKm1F6jqgHRq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717662107; c=relaxed/simple;
-	bh=v0iwZbIiqRDl7dY9HEkqOQz6g7R3q2UqGGBh5LNYc78=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=b3nLpl7ZknKDwhqGhnCZeWk6XvwXodKyJ8ExA6f06lYGIX2WHI25eztvFnIDmuHIya5e3Q2Jt+XJjQZmcf8v+7PMCcr/JLLcSy8r+LUc2U/hQmgz2A6nod8MzhMvuy8aAG9DEe3RU/CIxcaXcNzUhh8rZ+uIhVfTntIODOvwoMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.08,218,1712588400"; 
-   d="asc'?scan'208";a="206928268"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 06 Jun 2024 17:21:43 +0900
-Received: from [10.226.93.107] (unknown [10.226.93.107])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 38969420065F;
-	Thu,  6 Jun 2024 17:21:40 +0900 (JST)
-Message-ID: <0f7d5012-99a3-485a-b500-1d79d69a64f9@bp.renesas.com>
-Date: Thu, 6 Jun 2024 09:21:39 +0100
+	s=arc-20240116; t=1717663839; c=relaxed/simple;
+	bh=lOpeMaqXRioNWzloS7xPP8YoU3oVFhf2Rg3MbuLI+7Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KlaDYF1EkQEeLcVEpYEngNZHDEQlTf9j6gBsKiWvlyNM29s5ybUK/vsTDcMwFOMJUjrpu44URrPss4Vtsv1iF+/mWwt+lEnSWDjMv8D6EcgcPI0K81o5rZ4VKXg3Wo8YjkGh6hnKWbwfAJo1FL4jveNn0lMBcvsRWtCMySVx+H0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gLcvwAcY; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gLcvwAcY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 758F3C3277B;
+	Thu,  6 Jun 2024 08:50:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717663838;
+	bh=lOpeMaqXRioNWzloS7xPP8YoU3oVFhf2Rg3MbuLI+7Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gLcvwAcYp7ZPfyI3CN9hmph4jyryPaaFuIQHwZRjQDj5wyAY7TkR8LdsbVY8Cpg+I
+	 N2Xk0hkzYofB8yup3Rmc3QwFyd00tXB29k6qDSJ3yjyr84cgOtaC+7+zWnhCnP2gwN
+	 5qdsptb3j50eYmT6IKLEHb+K/6szrdXBEM3nKUaZKeXYwGF5LqJCWOCey9YaSXKfEF
+	 uOjETHvXe8ET7tAhaZbfcMDsN9LR3HSRktmA/NjPL0+rghQs04U/5XMhKEexSE88/W
+	 GjfUoCy24KVVVBfHMIIAZPQyeBXYHC/jq5h8+X6lqtdgtZ7kog7dXKebcVY+6g9f9s
+	 KJoeCdQ+pYqgQ==
+Date: Thu, 6 Jun 2024 11:50:33 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Dan Williams <dan.j.williams@intel.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Jakub Kicinski <kuba@kernel.org>,
+	David Ahern <dsahern@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Itay Avraham <itayavr@nvidia.com>, linux-doc@vger.kernel.org,
+	linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Andy Gospodarek <andrew.gospodarek@broadcom.com>,
+	Aron Silverton <aron.silverton@oracle.com>,
+	Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>,
+	Leonid Bloch <lbloch@nvidia.com>, linux-cxl@vger.kernel.org,
+	patches@lists.linux.dev
+Subject: Re: [PATCH 0/8] Introduce fwctl subystem
+Message-ID: <20240606085033.GC13732@unreal>
+References: <0-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
+ <20240603114250.5325279c@kernel.org>
+ <214d7d82-0916-4c29-9012-04590e77df73@kernel.org>
+ <20240604070451.79cfb280@kernel.org>
+ <665fa9c9e69de_4a4e62941e@dwillia2-xfh.jf.intel.com.notmuch>
+ <20240605135911.GT19897@nvidia.com>
+ <6661416ed4334_2d412294a1@dwillia2-mobl3.amr.corp.intel.com.notmuch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] docs: stable-kernel-rules: remind reader about DCO
-Content-Language: en-GB
-To: Shung-Hsi Yu <shung-hsi.yu@suse.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- stable@vger.kernel.org, workflows@vger.kernel.org
-References: <20240606064311.18678-1-shung-hsi.yu@suse.com>
- <20240606064311.18678-2-shung-hsi.yu@suse.com>
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-Organization: Renesas Electronics Corporation
-In-Reply-To: <20240606064311.18678-2-shung-hsi.yu@suse.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------H2osBe6uDS5iMbGIAkIluqDf"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6661416ed4334_2d412294a1@dwillia2-mobl3.amr.corp.intel.com.notmuch>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------H2osBe6uDS5iMbGIAkIluqDf
-Content-Type: multipart/mixed; boundary="------------jx2MlaW4pW7XcUU0aJVXRSmE";
- protected-headers="v1"
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-To: Shung-Hsi Yu <shung-hsi.yu@suse.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- stable@vger.kernel.org, workflows@vger.kernel.org
-Message-ID: <0f7d5012-99a3-485a-b500-1d79d69a64f9@bp.renesas.com>
-Subject: Re: [PATCH 2/2] docs: stable-kernel-rules: remind reader about DCO
-References: <20240606064311.18678-1-shung-hsi.yu@suse.com>
- <20240606064311.18678-2-shung-hsi.yu@suse.com>
-In-Reply-To: <20240606064311.18678-2-shung-hsi.yu@suse.com>
+On Wed, Jun 05, 2024 at 09:56:14PM -0700, Dan Williams wrote:
+> Jason Gunthorpe wrote:
 
---------------jx2MlaW4pW7XcUU0aJVXRSmE
-Content-Type: multipart/mixed; boundary="------------qQTaesiPkzvpsYiryEyobieU"
+<...>
 
---------------qQTaesiPkzvpsYiryEyobieU
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+> So my questions to try to understand the specific sticking points more
+> are:
+> 
+> 1/ Can you think of a Command Effect that the device could enumerate to
+> address the specific shenanigan's that netdev is worried about? In other
+> words if every command a device enables has the stated effect of
+> "Configuration Change after Reset" does that cut out a significant
+> portion of the concern? 
 
-On 06/06/2024 07:43, Shung-Hsi Yu wrote:
-> When sending patch authored by someone else to stable, it is quite easy=
- for
-> the sender to forget adding the Developer's Certification of Origin (DC=
-O,
-> i.e. Signed-off-by). Mention DCO explicilty so senders are less likely =
-to
+It will prevent SR-IOV devices (or more accurate their VFs)
+to be configured through the fwctl, as they are destroyed in HW
+during reboot.
 
-s/explicilty/explicitly/
-
-> forget to do so and cause another round-trip.
->=20
-> Add a label in submitting-patches.rst so we can directly link to the DC=
-O
-> section.
->=20
-> Link: https://lore.kernel.org/stable/2024051500-underage-unfixed-5d28@g=
-regkh/
-
-Is "Link:" right here? I'd prefer to see something like "For example see
-=2E.." added to the first paragraph so it's explicit that this is a link
-to an example of this issue.
-
-Thanks,
-
---=20
-Paul Barker
---------------qQTaesiPkzvpsYiryEyobieU
-Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-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3D
-=3DsIIN
------END PGP PUBLIC KEY BLOCK-----
-
---------------qQTaesiPkzvpsYiryEyobieU--
-
---------------jx2MlaW4pW7XcUU0aJVXRSmE--
-
---------------H2osBe6uDS5iMbGIAkIluqDf
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZmFxkwUDAAAAAAAKCRDbaV4Vf/JGvYhk
-AP9YU9OAwSzVUlhMHlP7qyw1icBlmu5Dj2e0lJVVNKmcQAD9FZCCLxMQGpAa4b4wX2sryNbgjAcd
-4kFor/Rr1f+VhA4=
-=Ti8Z
------END PGP SIGNATURE-----
-
---------------H2osBe6uDS5iMbGIAkIluqDf--
+Thanks
