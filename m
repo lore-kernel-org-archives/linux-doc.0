@@ -1,94 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1063019B5AF;
-	Thu,  6 Jun 2024 15:05:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3300195802;
+	Thu,  6 Jun 2024 15:22:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717686360; cv=none; b=Dl84akiRejCVwE/PO96SkKJzvsCc01p83e4G6yezPqqLn3pyyfPHb6Hja1vlrAZC5b84oCaDH+Ur3TiI7ov3sFOuR3eOsr+966CpbJMdvc6rKYENDRsJh/qh0Mo5TzXSKtWg5nKnCps2OZ6GTHAbRJ0xYRbx9RRT+n/dkh0E7w4=
+	t=1717687366; cv=none; b=dG1juvT8AohU0dM3fj8CwIck42uVXtJjqsev5AZgf3Xqo5k/B5iTf1O7CH8aH5V7Q06qvWDQaQZJIVoQZMTA5hMYmY7mY4ADyBxcjx+Pe9UQJIG8pD5EeHU3uRu08tCkGnZQz462bGNNxyU+jOEeSQJkLa3/ymNrfbGlpXCSVL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717686360; c=relaxed/simple;
-	bh=Cx1ASgr5Lh9FnhS81vNXx9ifwngxlnqb6mSkxtlQWLo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KoZiv1i5U2riKVY3i8WIifRLxOqXqz0iXpDceKtP3TNM3hK8yFXFOCdCjrUBSuxkz9iIT1i3aj+zet4CYsJROnOaznuXkM/hdShPK09tYWFTPct9kf77kHnRaOji54TV6z7oaUrBsgGAVIQDf8qUJy4/BVWrDDMi1SYFkH0unkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LJE2V8YE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717687366; c=relaxed/simple;
+	bh=NDmh2xK9KL5BY3LXtKqrYFW8U7nU7cON6KAQh7Vw1AI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=A2B4u8ax0/WC4DPV0iwcJRjvJxuqpCHDO8dPIOfe/Q408xLGgQsRir636L2DrKq1KBtAxovVXA6ldq+R3RKGEzYN4Jw/BVY1/xOpMwAivcIeAXHHgvCqpDUv1/Av0xNtQkhxPVsF43nv1UbfDTgskPwyOI1CS6ez/yz7uDv0tp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=c52DHjTf; dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b=c52DHjTf; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LJE2V8YE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DE65C32786;
-	Thu,  6 Jun 2024 15:05:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717686359;
-	bh=Cx1ASgr5Lh9FnhS81vNXx9ifwngxlnqb6mSkxtlQWLo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=LJE2V8YEAvQg7dOKXsKEM5ZXvqkbYqfFpDavrIE6ibwGQcnoFfSGpEp8uH6O2dBXh
-	 ry6vAyt/lvcu4dyXJSiclI99AznFEB4pNXp6HGBksXMOjk30byH8gnCE5AR7SIVNSO
-	 Kg0dl7aWs5jSK0RUeDauQN0Ju+JQ+594Y3sUss5DvrhtJEsIO+8NAKaHnc/qONUpy6
-	 QVyI5Tz4Lqwh7/c3aVSsFsSevkBTGQbRV5t4hOIerNIAtSSu/LDA5j+SLQmBfCxJdI
-	 0p31Li9bp4O9xYsLd+rxa4GxL2m314+VzaGe2Q1k0q23qZ3DaiXKR2PQVg7zZ++SsW
-	 aMc6qVH8HvpOg==
-Date: Thu, 6 Jun 2024 08:05:57 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: David Ahern <dsahern@kernel.org>, Dan Williams
- <dan.j.williams@intel.com>, Jonathan Corbet <corbet@lwn.net>, Itay Avraham
- <itayavr@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
- linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
- netdev@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed
- <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, Andy Gospodarek
- <andrew.gospodarek@broadcom.com>, Aron Silverton
- <aron.silverton@oracle.com>, Christoph Hellwig <hch@infradead.org>, Jiri
- Pirko <jiri@nvidia.com>, Leonid Bloch <lbloch@nvidia.com>, Leon Romanovsky
- <leonro@nvidia.com>, linux-cxl@vger.kernel.org, patches@lists.linux.dev
-Subject: Re: [PATCH 0/8] Introduce fwctl subystem
-Message-ID: <20240606080557.00f3163e@kernel.org>
-In-Reply-To: <20240606144818.GC19897@nvidia.com>
-References: <0-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
-	<20240603114250.5325279c@kernel.org>
-	<214d7d82-0916-4c29-9012-04590e77df73@kernel.org>
-	<20240604070451.79cfb280@kernel.org>
-	<665fa9c9e69de_4a4e62941e@dwillia2-xfh.jf.intel.com.notmuch>
-	<20240605135911.GT19897@nvidia.com>
-	<d97144db-424f-4efd-bf10-513a0b895eca@kernel.org>
-	<20240606071811.34767cce@kernel.org>
-	<20240606144818.GC19897@nvidia.com>
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="c52DHjTf";
+	dkim=pass (1024-bit key) header.d=suse.com header.i=@suse.com header.b="c52DHjTf"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C7C942198C;
+	Thu,  6 Jun 2024 15:22:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1717687361; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=NVBrEhkQ/SUTCVD/ZxuFTIDe7cANiTexdjnYFfXgLAA=;
+	b=c52DHjTf3tz5dLkltT4ybFvvfqEqeP7VMxVhebZGrZjSxJZTqFA2ujwnKNLd3/PUd3aLWh
+	fmdUzRrs+qpFz5x0C5YT2Nq+hT0dbUWCkoqFNMkU6lwUpZTyvMObCWR+daUXWP38DnSQsa
+	kg2Fba2IanT4uhU1ZPr5hPAgPTSvYoE=
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1717687361; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=NVBrEhkQ/SUTCVD/ZxuFTIDe7cANiTexdjnYFfXgLAA=;
+	b=c52DHjTf3tz5dLkltT4ybFvvfqEqeP7VMxVhebZGrZjSxJZTqFA2ujwnKNLd3/PUd3aLWh
+	fmdUzRrs+qpFz5x0C5YT2Nq+hT0dbUWCkoqFNMkU6lwUpZTyvMObCWR+daUXWP38DnSQsa
+	kg2Fba2IanT4uhU1ZPr5hPAgPTSvYoE=
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B5ED913A79;
+	Thu,  6 Jun 2024 15:22:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Xy04LEHUYWbGbwAAD6G6ig
+	(envelope-from <mkoutny@suse.com>); Thu, 06 Jun 2024 15:22:41 +0000
+From: =?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>
+To: cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Cc: Tejun Heo <tj@kernel.org>,
+	Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Michal Hocko <mhocko@kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Muchun Song <muchun.song@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Jan Kratochvil (Azul)" <jkratochvil@azul.com>
+Subject: [RFC PATCH v5 0/3] Add memory.max.effective for application's allocators
+Date: Thu,  6 Jun 2024 17:22:29 +0200
+Message-ID: <20240606152232.20253-1-mkoutny@suse.com>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -1.02
+X-Spam-Level: 
+X-Spamd-Result: default: False [-1.02 / 50.00];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	BAYES_HAM(-0.72)[83.70%];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 
-On Thu, 6 Jun 2024 11:48:18 -0300 Jason Gunthorpe wrote:
-> > An argument can be made that given somewhat mixed switchdev experience
-> > we should just stay out of the way and let that happen. But just make
-> > that argument then, instead of pretending the use of this API will be
-> > limited to custom very vendor specific things.  
-> 
-> Huh?
+Some applications use memory cgroup limits to scale their own memory
+needs. Reading of the immediate membership cgroup's memory.max is not
+sufficient because of possible ancestral limits. The application could
+traverse upwards to figure out the tightest limit but this would not
+work in cgroup namespace where the view of cgroup hierarchy is
+incomplete and the limit may apply from outer world.
+Additionally, applications should respond to limit changes.
 
-I'm sorry, David as been working in netdev for a long time.
-I have a tendency to address the person I'm replying to,
-assuming their level of understanding of the problem space.
-Which makes it harder to understand for bystanders.
+(cgroup v1 used memory.stat:hierarchical_memory_limit to report the
+value but there's no such counterpart in cgroup v2 memory.stat.)
 
-> At least mlx5 already has a very robust userspace competition to
-> switchdev using RDMA APIs, available in DPDK. This is long since been
-> done and is widely deployed.
+Introduce a new memcg attribute file that contains the effective value
+of memory limit for given cgroup (following cpuset.cpus.effective
+pattern) and that sends notifications like memory.events when the
+effective limit changes.
 
-Yeah, we had this discussion multiple times
+Reasons for RFC:
+1) Should global limit be included? (And respond to memory hotplug?)
+2) Is swap.max.effective needed? (in v2 without memsw accounting)
+3) Should memory.high be also handled?
+4) What would be an alternative?
 
-> I have no idea where you get this made up idea that fwctl is somehow
-> about dataplane SDKs. The acclerated networking industry long ago
-> moved pasted netdev in upstream, it is well known to everyone. There
-> is no trick here.
-> 
-> fwctl is not some scheme to sneak dataplane SDKs into the kernel, you
-> are just making stuff up.
+My answers to RFC:
 
-By dataplane SDK you mean DOCA? I don't even want to go there.
-I just meant forwarding offload _which I said_. You didn't understand
-and now you're accusing me of "making stuff up".
+1) No (there's no memory.max in global root memcg)
+2) No (app doesn't have full control of memory that's swapped out)
+3) No (scaling the allocator against the "soft" limit could end up in
+   dynamics difficult to reason and admin)
+4)
+- PSI (too obscure for traditional users but better semantics for limit
+  shrinking)
+- memory.stat field (like v1 but separate attribute is better for
+  notifications, cpuset precedent)
 
-This whole conversation is such a damn waste of time.
+Changes from v4 (https://lore.kernel.org/r/ZcvlhOZ4VBEX9raZ@host1.jankratochvil.net)
+- split the patch for swap.max.effetive
+- add Documentation/
+- reword commit messages
+- add notification support
+
+Michal Koutný (3):
+  memcg: Add memory.max.effective attribute
+  memcg: Add memory.swap.max.effective like hierarchical_memsw_limit
+  memcg: Notify on memory.max.effective changes
+
+ Documentation/admin-guide/cgroup-v2.rst |  6 ++++
+ include/linux/memcontrol.h              |  2 ++
+ mm/memcontrol.c                         | 46 +++++++++++++++++++++++++
+ 3 files changed, 54 insertions(+)
+
+
+base-commit: 2df0193e62cf887f373995fb8a91068562784adc
+-- 
+2.45.1
+
