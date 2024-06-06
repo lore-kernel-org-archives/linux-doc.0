@@ -1,106 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9E38821;
-	Thu,  6 Jun 2024 06:02:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80F867D07E
+	for <linux-doc@vger.kernel.org>; Thu,  6 Jun 2024 06:43:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717653768; cv=none; b=tp0dkdqCZqvm3hfJBBZw1GwZDbFLvxy5/8B+sZMLm7CQ5sA4e1QLdpIIrm1w5ob1ko6i/K/yH2SKO1dP4qohN3BwWps5D/8jHJSOZ0+hmy+dK3x+tOu6lE20gm24t2Wp5C1LvRM8uHrZGwIENd0Jl9moWMYTKCeyuKyKKf8pT9g=
+	t=1717656205; cv=none; b=FtXQzPSwgH43Kb9fP8zw08+Y23N2eZUREx3EzIs/GBu3I3w0DQs3tzPR2eJ9WfNV1xq8EsNt+cu4fHLC1g8lL/aRF82T0I/YJJYz0lNDW23gtqE4oeDK5mqx8B+SOdQiOiLpT+9HqIGZGos6xpYo6ix7q6oRqrvR2naMNoCKBc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717653768; c=relaxed/simple;
-	bh=+N73ZoMcTU2eT6S1zwH3KuWbb697R2JF/05UDlnStFg=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=OMfZD5R4DfDjBhp1qXw7CkgBO1rS4HyVckVeX+3uou26oE6iLXHoBUIzG2hWabf8yIUyPN8LCuBy+yPgxj/CAtOVJH9LpuVoD5RScqNgrS7NOrkEVuBgKQxs8NEBdTIsh2dG7D5FjDI2lGhSrsBS76wq7baricMvEyNTXW/uoQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZmLynZHb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717656205; c=relaxed/simple;
+	bh=dRNutEV6Irzt0DuSYxtF3OmJPSVdRGj+rXxKF2Yers4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TNI6sRoeQ/2swkk9MG0Ym0WCgxPMKRiTGi7J/C8PEMK2+zx/eo+aAGCC+1puSIcrXvOMW65me6SQBNqp3gqPQBp9Zq7YzKHiNrkVYxrTACrFaMXTH0dHabPhB8I+rG6B7f/Ee7jZughpQDuk8D2H9s6ycTh8J5XNF5QtSYV+Ol0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=EWfcv31u; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZmLynZHb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9185C2BD10;
-	Thu,  6 Jun 2024 06:02:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717653768;
-	bh=+N73ZoMcTU2eT6S1zwH3KuWbb697R2JF/05UDlnStFg=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=ZmLynZHbI6+wxCoH1qsyPjAEaqVNs7ObvEwVHIw3vJZfJHIwRxJfcf9FU3FL6NEEi
-	 g9yD4HLhAw0LoywOGsYjq7bj/p6fVvb66y+JJBELnB9P9WEGYvqEaCXlDEachSbGHA
-	 FRaf5sPKiic7EiwGrHG5hgacpnqiYn4ByHic1mk3NhtPrm61IpuUiVVO4X4U7s04ud
-	 GWGcjFMk85/3uLd6E8wEDOs9t3QNJ7LCJGI6cZyTTZ7CLOmIbPrLmc0PYZ3FpQL6R4
-	 mmbSZBbf9uHeBP9BxtYYUfhCFOxhy9eo/RtlsfNXBCA7SAb0aoSLB7LZDYGzuDJ59Y
-	 n/Am9dYvkU9Kg==
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="EWfcv31u"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2eaccc097e2so6054181fa.0
+        for <linux-doc@vger.kernel.org>; Wed, 05 Jun 2024 23:43:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1717656201; x=1718261001; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zHyc1Tt3pV1FQtb9e1735Ph8tUakhCj1D2RUXjVww7w=;
+        b=EWfcv31ujQG+2Z8kIPY8ZXJpO7H0eRco60b90p0+RjsI3xBPnJxpa3tzZGppxSvkzm
+         7YjVi8i9zdAqlleSjt6idMdy7KIkOPmIol5HG26M5xa9Bj30eWLvyP8C1IoxZ4I9xZ8W
+         7VMFOgStFDXmMnTX8Cwoik9kv0CI5gecQVAmWWTspK9YPnMYvw9UqjCxW9gwqT80C2WY
+         PzIx6XoOeN6/BocRHq/WwAtrdPq0D6oqeJEZzo6W4pB4pNypiSVjkq2U7paicbeYWDhL
+         deYfH7x4khJC3aE+hCQvnQY7qo7OrgfuW9m895A3fLRJx04uIFGb0GuG0tACvRMQTecv
+         Zuyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717656201; x=1718261001;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zHyc1Tt3pV1FQtb9e1735Ph8tUakhCj1D2RUXjVww7w=;
+        b=Rjd4vN4Uj966AUZmhL8NZ8gPyiAr5Lm+NgxDXLxOYU/VGCYcU1PyGazGZ08Cu1NG/5
+         rx1kT9XrAAaf4z0c7Yzt3kcxvU5w284yM98ucAcmDCw6L3mKuJwxNkfbem9sbEdTS1Ff
+         q075dKeSI8L0pWqzOMCy0/0ecMtJy53OPdMjrNsbOyX8nAr2RtkqUo6rnXDUgYohZS9k
+         8b2aqUVmgLQ2SwfS+MavYz2T6I0xZyuw+AlVMvDePFKi/PtnqgA3bE7MsoZE4Ln1gy/Q
+         kJWSRAR7oZXSqNJ+DyhTCTta7SWgQXOJazRVSv/L+0l6VjivUtBhO0VTyLobhzvem0CV
+         qOBQ==
+X-Gm-Message-State: AOJu0Yzg1joU/lr0lrMmHdud2Xokk3ihvpVlWzQiOQLg/P6ZoEm+3Txe
+	foC3LqPOP3ExRUhL8KiFN1wFaoitQ5J+9sJLOwP3B0sz5QwXhij+YUt64K/julXtBUrlLJpKU6J
+	S
+X-Google-Smtp-Source: AGHT+IGAEevHPMa1Q4hJfThfhSVeLwcacpZB+ndTosr+5ZZ71YchIkHJHegUKocqZHRkD83kPgRVCA==
+X-Received: by 2002:a2e:8ed4:0:b0:2ea:7f57:5a74 with SMTP id 38308e7fff4ca-2eac7a6c3ccmr25251421fa.42.1717656200730;
+        Wed, 05 Jun 2024 23:43:20 -0700 (PDT)
+Received: from localhost ([2401:e180:8882:8af3:26fa:edbd:5679:640c])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6bd8136easm6473025ad.278.2024.06.05.23.43.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Jun 2024 23:43:20 -0700 (PDT)
+From: Shung-Hsi Yu <shung-hsi.yu@suse.com>
+To: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	stable@vger.kernel.org,
+	workflows@vger.kernel.org,
+	Shung-Hsi Yu <shung-hsi.yu@suse.com>
+Subject: [PATCH 1/2] docs: stable-kernel-rules: provide example of specifying target series
+Date: Thu,  6 Jun 2024 14:43:08 +0800
+Message-ID: <20240606064311.18678-1-shung-hsi.yu@suse.com>
+X-Mailer: git-send-email 2.45.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 06 Jun 2024 09:02:39 +0300
-Message-Id: <D1SPFVXS6FOG.IQQB3INFYEF2@kernel.org>
-Cc: <dpsmith@apertussolutions.com>, <tglx@linutronix.de>,
- <mingo@redhat.com>, <bp@alien8.de>, <hpa@zytor.com>,
- <dave.hansen@linux.intel.com>, <ardb@kernel.org>, <mjg59@srcf.ucam.org>,
- <James.Bottomley@hansenpartnership.com>, <peterhuewe@gmx.de>,
- <jgg@ziepe.ca>, <luto@amacapital.net>, <nivedita@alum.mit.edu>,
- <herbert@gondor.apana.org.au>, <davem@davemloft.net>, <corbet@lwn.net>,
- <ebiederm@xmission.com>, <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>,
- <kanth.ghatraju@oracle.com>, <andrew.cooper3@citrix.com>,
- <trenchboot-devel@googlegroups.com>
-Subject: Re: [PATCH v9 04/19] x86: Secure Launch Resource Table header file
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: <ross.philipson@oracle.com>, <linux-kernel@vger.kernel.org>,
- <x86@kernel.org>, <linux-integrity@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
- <kexec@lists.infradead.org>, <linux-efi@vger.kernel.org>,
- <iommu@lists.linux-foundation.org>
-X-Mailer: aerc 0.17.0
-References: <20240531010331.134441-1-ross.philipson@oracle.com>
- <20240531010331.134441-5-ross.philipson@oracle.com>
- <D1RFWFIJEYWL.2FC7V79321264@kernel.org>
- <1eca8cb1-4b3b-402b-993b-53de7c810016@oracle.com>
- <D1RLBMTUKRFN.34KQXEFZTBA08@kernel.org>
- <249a9b27-c18d-4377-8b51-9bc610b53a8b@oracle.com>
- <D1RNKV4JIE5L.1LNG82UAC916M@kernel.org>
- <f66de08f-4905-48d6-8bcf-5b1ab847492f@oracle.com>
- <D1RSB1PB5XGS.2X032M0E1VMJW@kernel.org>
- <a865a25c-336e-47de-9718-de4cb957e6c2@oracle.com>
-In-Reply-To: <a865a25c-336e-47de-9718-de4cb957e6c2@oracle.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed Jun 5, 2024 at 10:03 PM EEST,  wrote:
-> So I did not mean to imply that DRTM support on various=20
-> platforms/architectures has a short expiration date. In fact we are=20
-> actively working on DRTM support through the TrenchBoot project on=20
-> several platforms/architectures. Just a quick rundown here:
->
-> Intel: Plenty of Intel platforms are vPro with TXT. It is really just=20
-> the lower end systems that don't have it available (like Core i3). And=20
-> my guess was wrong about x86s. You can find the spec on the page in the=
-=20
-> following link. There is an entire subsection on SMX support on x86s and=
-=20
-> the changes to the various GETSEC instruction leaves that were made to=20
-> make it work there (see 3.15).
->
-> https://www.intel.com/content/www/us/en/developer/articles/technical/envi=
-sioning-future-simplified-architecture.html
+Provide a concrete example of how to specify what stable series should
+be targeted for change inclusion. Looking around on the stable mailing
+list this seems like a common practice already, so let's mention that in
+the documentation as well (but worded so it is not interpreted as the
+only way to do so).
 
-Happend to bump into same PDF specification and exactly the seeked
-information is "3.15 SMX Changes". So just write this down to some
-patch that starts adding SMX things.
+Signed-off-by: Shung-Hsi Yu <shung-hsi.yu@suse.com>
+---
+ Documentation/process/stable-kernel-rules.rst | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-Link: https://cdrdv2.intel.com/v1/dl/getContent/776648
+diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
+index edf90bbe30f4..daa542988095 100644
+--- a/Documentation/process/stable-kernel-rules.rst
++++ b/Documentation/process/stable-kernel-rules.rst
+@@ -57,10 +57,13 @@ options for cases where a mainlined patch needs adjustments to apply in older
+ series (for example due to API changes).
+ 
+ When using option 2 or 3 you can ask for your change to be included in specific
+-stable series. When doing so, ensure the fix or an equivalent is applicable,
+-submitted, or already present in all newer stable trees still supported. This is
+-meant to prevent regressions that users might later encounter on updating, if
+-e.g. a fix merged for 5.19-rc1 would be backported to 5.10.y, but not to 5.15.y.
++stable series, one way to do so is by specifying the target series in the
++subject prefix (e.g. '[PATCH stable 5.15 5.10]' asks that the patch to be
++included in both 5.10.y and 5.15.y). When doing so, ensure the fix or an
++equivalent is applicable, submitted, or already present in all newer stable
++trees still supported. This is meant to prevent regressions that users might
++later encounter on updating, if e.g. a fix merged for 5.19-rc1 would be
++backported to 5.10.y, but not to 5.15.y.
+ 
+ .. _option_1:
+ 
+-- 
+2.45.1
 
-So link and document, and other stuff above is not relevant from
-upstream context, only potential maintenance burden :-)
-
-For any architectures dig a similar fact:
-
-1. Is not dead.
-2. Will be there also in future.
-
-Make any architecture existentially relevant for and not too much
-coloring in the text that is easy to check.
-
-It is nearing 5k lines so you should be really good with measured
-facts too (not just launch) :-)
-
-BR, Jarkko
