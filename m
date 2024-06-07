@@ -1,104 +1,103 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674BD1940AA;
-	Fri,  7 Jun 2024 13:14:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C9B1422C6
+	for <linux-doc@vger.kernel.org>; Fri,  7 Jun 2024 13:18:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717766081; cv=none; b=JJIJpdZSYsM1oO5kLuHDP0sa0ybjCiPnMRqTSS2LhEKssKb2yffv8zno/sRaRROz7AV2mDuQKtlTEMqDbZUspCR+oVKnntxZX+09lTmNPoH+P+ILV2GpxXEgIOUQth8SuR6kvxVImMY70nNE1y277BQtSwIdnLYkYs2svn/kNDI=
+	t=1717766328; cv=none; b=iPI9+GWrx2JVcDtuuACP1b+xHxCYJHsKI1BVvcLogw33wLLzveZEjZHtQ1FZWYE0lGWYpBNCiCGz8h6ldxUf6Vq2TNcqRG44Lyu+mhss735Lsmci54v6oOCEhKKZATK9RxF613H4rQgEbHiHqYoblYpDF8sxwt3Wd8vHlrXQ3Rk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717766081; c=relaxed/simple;
-	bh=ABua8CX7aHFShIRy1tF0NN3EsSEVeFn4ti8y8bQ86LI=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=DT472yQ/NxTuez/fguHtBt/JkkLBlFKD1kDXap+6XZLRBdLgfqI3ppCdoB5ocsKtWQ4xKtIOXFYYHo3GnZ9vEbJ2j+M6HEiq+HKtSHCrrsIaHqxyFLdGxWqChWGo7sCCpoS/sqZzuCodmYCPeiENJFCyolMAGDiqZCqWl4KHAuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PgHxPZt2; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1717766328; c=relaxed/simple;
+	bh=nxrhpfJSNSOyp/3P/72Vc5v+qaFes7O1pm1nHMhjYDc=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RB73Bjyze8Y4UhScxqxdv3rPfpifSGVYCWHK6iprFYFj6mbakRo4h2bGgeCeux3bfqOOdG5xylJooow2dohHekKor0mm/RswUPG9da7YvdFUPWnu/UIisE5TxzDeNLgOcTl/WXkxK0gKobyIQZTDgFQsDu/3NC5yBx7BoVkO7vI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=gf/8G/fz; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PgHxPZt2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717766080; x=1749302080;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=ABua8CX7aHFShIRy1tF0NN3EsSEVeFn4ti8y8bQ86LI=;
-  b=PgHxPZt22JXZugfVwlbzaIYTId4dCKy3xecpLaqRw5fiY8o3nYzjHu9c
-   rwndPRfsuk2DZ6RlH179VPouCOHPe77rm7tBpoNEAc7D1NWD5b6eSE5Sz
-   jIRigo7OV/yA1gHs4V5j6GvwP3vxsz8u6ztve/1IZ9+NeWd4vd6CP9Iao
-   BZqDUw8ULjEm0rfTdzgeZsSk3v2j9xAisET8jDYW1urkjxuCBGqtu08zV
-   7+J3Zhqr2dPhgrZJkTsqOs83uiTmsZD3f/vQbYs9+g5DIRIVE2jW7Mxs+
-   +36KI7w6jPvMGl68FK0DaP1SqlKeBs5FE4VEUKX1Q453qPo3FgsnC2MJO
-   Q==;
-X-CSE-ConnectionGUID: uFKubQRRSYW8kvT8L38SLQ==
-X-CSE-MsgGUID: c5hfHB+ST1WXu42ZT1Lleg==
-X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="14439371"
-X-IronPort-AV: E=Sophos;i="6.08,221,1712646000"; 
-   d="scan'208";a="14439371"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 06:14:39 -0700
-X-CSE-ConnectionGUID: bZNr/o6LQJeUN3T2eDzpfA==
-X-CSE-MsgGUID: i+N3Z6ggQ2+Wz4+Q7tsZkA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,221,1712646000"; 
-   d="scan'208";a="38440144"
-Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.245.247.184])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 06:14:36 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Fri, 7 Jun 2024 16:14:33 +0300 (EEST)
-To: "David E. Box" <david.e.box@linux.intel.com>
-cc: linux-doc@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>, 
-    LKML <linux-kernel@vger.kernel.org>, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH V3 1/3] platform/x86/intel/sdsi: Add ioctl SPDM
- transport
-In-Reply-To: <20240606011617.557264-1-david.e.box@linux.intel.com>
-Message-ID: <b32cd809-7aed-62ed-1b6e-550221a3acbb@linux.intel.com>
-References: <20240606011617.557264-1-david.e.box@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="gf/8G/fz"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2eabd22d3f4so24552681fa.1
+        for <linux-doc@vger.kernel.org>; Fri, 07 Jun 2024 06:18:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1717766324; x=1718371124; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UNOtY9kbCwarj0NKj0Q/xsdwvI1gsG+x4nJEIzhwFBs=;
+        b=gf/8G/fzWqOlKvRriGjReem4l5AXOoPsaUxt3IW/kb4CSZUBp+9Y1wkpLIPIvi3mDk
+         nJr5wmMwbaF4MUWpLY6gDG2N+ABPBVou3Tyst4cEp40tTvAzKC8/3lc1xdzYpp5MC6H5
+         9W14vcalpgTPdni3VNLQTAPQfBBmpghzVoTxDmxuZP1KacVUpA3YC3x3EbKqGgcHGVey
+         ilkWpKbqAiuih371FW72noJDMCsYk+33SwQINTM1JHy93XNK5mKtBE2kWNti+1VSEcFW
+         BguTf3i3Np3W0QVzajdjXDPVvC/hZkcK6qY/NM4dWfXsGXo97MK+gFp/SLp8z1b7VmjI
+         wAuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717766324; x=1718371124;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UNOtY9kbCwarj0NKj0Q/xsdwvI1gsG+x4nJEIzhwFBs=;
+        b=WnNJEbU2aIBHebxpI7mzR9qcCN0SDTvsw4kg2W9/4Ef8cKn03QA5WbUVseqsPLg5mg
+         4gt3rVekcBdiXfCBHpfsTD/UJgH+ES9lR5qkKC/FIqCWjQfdyNxKoTCGU/TybA/ujy33
+         rP5/jKPtC5QnjiaWT+ScLJUkFQiBtAH40KB2GxehSdMtyLN6QoLUGnTpjBFGpK0TO2IZ
+         j1Xz6F9F3MfLFlXgrFcipPB4Lnnl0yWSRo7fw2stXgBJlLxsdDVs64dkh3ugEb+hKz/T
+         oCJZZx8/+S3sfCKkvSCXjWE0Kpl8oz/s/h4RXKVhurRwPK/8x5t/etz70OPbMN7sS80H
+         1HmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUxm1THOxGfwrnLje2V93aPau2rx1WhrOrREqW5PVe3TRhWPhEL4GLaNIX9J5OYNWZwzTU6iulgjofpQu0NTNMX3UzayHEf6f5d
+X-Gm-Message-State: AOJu0YyOO4CCIhcGt6/mNv6H++k2gyYpjKnJkumtW6Nmrloc5NAhqxGM
+	oLjDcptCIRmj4+FYJMfJdeF0BNyrUj3sVdTcGlVaPeV4Y9Nx6fjaR5PVwI2Rhiw=
+X-Google-Smtp-Source: AGHT+IEBxyjXDl9VEt7rh7TeIxG6bOvGA4j17IdvLoM+xGRwnhFMyvO9AhcxnCYNWTyb7vuvBSDlAQ==
+X-Received: by 2002:a05:651c:550:b0:2ea:e12e:bee5 with SMTP id 38308e7fff4ca-2eae12ec074mr11738031fa.4.1717766324270;
+        Fri, 07 Jun 2024 06:18:44 -0700 (PDT)
+Received: from localhost.localdomain (62.83.84.125.dyn.user.ono.com. [62.83.84.125])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42158111143sm87617865e9.20.2024.06.07.06.18.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Jun 2024 06:18:44 -0700 (PDT)
+From: Oscar Salvador <osalvador@suse.com>
+X-Google-Original-From: Oscar Salvador <osalvador@suse.de>
+Date: Fri, 7 Jun 2024 15:18:40 +0200
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v1 0/6] fs/proc: move page_mapcount() to
+ fs/proc/internal.h
+Message-ID: <ZmMIsJ4Yg2r9bT81@localhost.localdomain>
+References: <20240607122357.115423-1-david@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240607122357.115423-1-david@redhat.com>
 
-On Wed, 5 Jun 2024, David E. Box wrote:
-
-> Intel On Demand adds attestation and firmware measurement retrieval
-> services through use of the protocols defined the Security Protocols and
-> Data Measurement (SPDM) specification. SPDM messages exchanges are used to
-> authenticate On Demand hardware and to retrieve signed measurements of the
-> NVRAM state used to track feature provisioning and the NVRAM state used for
-> metering services. These allow software to verify the authenticity of the
-> On Demand hardware as well as the integrity of the reported silicon
-> configuration.
+On Fri, Jun 07, 2024 at 02:23:51PM +0200, David Hildenbrand wrote:
+> With all other page_mapcount() users in the tree gone, move
+> page_mapcount() to fs/proc/internal.h, rename it and extend the
+> documentation to prevent future (ab)use.
 > 
-> Add an ioctl interface for sending SPDM messages through the On Demand
-> mailbox. Provides commands to get a list of SPDM enabled devices, get the
-> message size limits for SPDM Requesters and Responders, and perform an SPDM
-> message exchange.
+> ... of course, I find some issues while working on that code that I sort
+> first ;)
 > 
-> Signed-off-by: David E. Box <david.e.box@linux.intel.com>
-> Link: https://www.dmtf.org/sites/default/files/standards/documents/DSP0274_1.0.1.pdf [1]
-> ---
+> We'll now only end up calling page_mapcount()
+> [now folio_precise_page_mapcount()] on pages mapped via present page table
+> entries. Except for /proc/kpagecount, that still does questionable things,
+> but we'll leave that legacy interface as is for now.
+> 
+> Did a quick sanity check. Likely we would want some better selfestest
+> for /proc/$/pagemap + smaps. I'll see if I can find some time to write
+> some more.
 
-> +static int sdsi_spdm_do_command(struct sdsi_priv *priv,
-> +				struct sdsi_spdm_command __user *argp)
-> +{
-> +	u32 req_size, rsp_size;
-> +
-> +	if (get_user(req_size, &argp->size))
-> +		return -EFAULT;
-> +
-> +	if (req_size < 4 || req_size > sizeof(struct sdsi_spdm_message))
-
-Hi David,
-
-Is that 4 actually SPDM_HEADER_SIZE?
-
-If my guess is correct, no need to send an updated version, I'll just fix 
-it while applying.
+I stumbled upon some of these issues while unifying .{pud/pmd}_entry and
+.hugetlb_entry.
+I am not sure what is the current state of pagemap/smaps selftest, but
+since I am going to need them anyway to keep me in check and making sure
+I do not break anything hugetlb-related, I might as well write some of
+them.
 
 
 -- 
- i.
-
+Oscar Salvador
+SUSE Labs
