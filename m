@@ -1,63 +1,158 @@
-Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com [188.165.51.139])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1987843AB3
-	for <linux-doc@vger.kernel.org>; Fri,  7 Jun 2024 17:45:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.165.51.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B57C190672;
+	Fri,  7 Jun 2024 17:45:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717782332; cv=none; b=ktqyk/CHThwGXirkzGGd/Kh4CAtXeivkIyuhGX+UQfgnGqI+N9KLBxdjZMv0V6Cw1qb727Ag2PLPi/EdRQgcbassH4ZwGQBZNLHn5SYdMKsk3SEkHnNYxDnaMVnT7SvyVzZdtcMRWg1ZqZQ3JjwyzKCiA2uRLME82iNeKXSDYLo=
+	t=1717782344; cv=none; b=t+HQUi4IMXaSSOg7HGHnmkYnyczVAGh/KBbWdmb1WUTw79L+8N+l9c9ejRny0zeI3VeUh6CWqpLQs++fSJwjOlM0AKa9oH8xLS/S7Xb5rQaRmNQ7h2AlfHAJm7Zy2AH7U74cBCiKDvAfJJyiu9wJdLX7Ff68MTaYCSjDRH2NBj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717782332; c=relaxed/simple;
-	bh=oQMcO4J7iTyHNZJsTJLTJXEz3spwX3ZDFn05fm4cpdY=;
-	h=Date:To:From:Subject:Message-ID:MIME-Version:Content-Type; b=eC2nBspLve4fft28beEEBuPPYgEEl8IaD5ue+nc1sF6KesH2Mt7buB1WoajWGT4m2rF3HH9ZxmVVG60QHfa49MIfYl/uS5R7M/DFcN4O2oaFA6c9unZDEd9rLP3+EeLw0MG4932MxjQQ+XVRlfoBMs60DYrnWZHxVTGtECoTd9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=Eh0CypYE; arc=none smtp.client-ip=188.165.51.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+	s=arc-20240116; t=1717782344; c=relaxed/simple;
+	bh=zCG8FQxsaI/w6vMFJhp8K3xWTo7Bswlks8CEu7zqit0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=NljP3LWWRNg9l7I3NDx+z69x+JYTD2l1jPw9gYnLW2JS0LVbWn9d6RpYrzb1bFJMZ/25FIKrvTw4tcHVbOX5bRHNgdJ6qj6ZlXi6FN3ZBy2I5equsm8HTQM5gtK1/Q7CZ0RiH8X1Pf+27LIPq7Tf8MS4o9aEmsHek05elYkKe34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xv4tADCc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="Eh0CypYE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1717782314; x=1718041514;
-	bh=oQMcO4J7iTyHNZJsTJLTJXEz3spwX3ZDFn05fm4cpdY=;
-	h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=Eh0CypYE8cun41Lx+k3fjFVYhJJxOXWxkQrqLq9Q/OOkeF7IIBYdUoC+jRs9GBk7R
-	 2Rncf/KuoSWMxLJgz8Uuz+oy2DIffmq9hD/djbloD8zu3CRii4vBAw0PEkSrYYygKB
-	 bCl6+8jhFFDKi3C8WgConYHTq7tjxHrQOCoDnSV/d8uuHnOoArkK0toMBz92d5XnyP
-	 SoAdjFrnzX8tJkB4ifYSwEAv7fnDpQWsl0/VIKTHKwFVd3jIrCPHTCpeuJhzdayNMB
-	 HF8KvF1ZmY29ik04mPc0eCUJwVKSaWF0dYUnwQo4DtBAws2C+LGTqqBsHkIIOJjYKo
-	 aikCT6zkbJuhQ==
-Date: Fri, 07 Jun 2024 17:45:10 +0000
-To: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-From: Matic Urbanija <maticurbanija@protonmail.com>
-Subject: Translation of kernel documentation
-Message-ID: <Enls7GJQSRW6Z77NFFcLl19W5U8xKlzEGyKAIOr36JDcFQMaEYewfYgYUz5WcNW3X7Xfi7btGAXNT8Ue_WMGIjaxgdDZiKTk_CcGj-fIMH0=@protonmail.com>
-Feedback-ID: 816150:user:proton
-X-Pm-Message-ID: 7003811f2511d1d1f1c752ef17972f6e26ae99d2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xv4tADCc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA6B4C2BBFC;
+	Fri,  7 Jun 2024 17:45:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717782344;
+	bh=zCG8FQxsaI/w6vMFJhp8K3xWTo7Bswlks8CEu7zqit0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=Xv4tADCcOcuqv6Lb0hkMlr6KfY8ZZAVX1NweUPXXrwO/A9LSokeflWwf5Z0CzmHZu
+	 umJynmWvTAhFDM55M84wu6wrXEpR8YwceWFTT30lGjCu3PSVSSZlhrhAoj+C9zX6Nn
+	 CRFWZF4xCvQF2jacp2/buepX4wL+H69iBxq/R3lqdiWPD6/KUfiyzCF7XvRFe3iZB/
+	 TLzCzcUtAESSSGP49tHVLU+/LJV20h+isLVpIooqd4nEHHg8nnqxmdLtASDvtkQysV
+	 7GhvJOyrbJZCb/mz+biBsFEz4ciyXk7QgVJ1xX1bQChbltDDuoH96Lf6GjTW41cKeA
+	 YsKyjLOKoo4VQ==
+Date: Fri, 7 Jun 2024 12:45:42 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Wei Huang <wei.huang2@amd.com>
+Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+	bhelgaas@google.com, corbet@lwn.net, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	alex.williamson@redhat.com, gospo@broadcom.com,
+	michael.chan@broadcom.com, ajit.khaparde@broadcom.com,
+	somnath.kotur@broadcom.com, andrew.gospodarek@broadcom.com,
+	manoj.panicker2@amd.com, Eric.VanTassell@amd.com,
+	vadim.fedorenko@linux.dev, horms@kernel.org, bagasdotme@gmail.com
+Subject: Re: [PATCH V2 5/9] PCI/TPH: Introduce API functions to manage
+ steering tags
+Message-ID: <20240607174542.GA853103@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240531213841.3246055-6-wei.huang2@amd.com>
 
-Hi,=20
+On Fri, May 31, 2024 at 04:38:37PM -0500, Wei Huang wrote:
+> This patch introduces three API functions, pcie_tph_intr_vec_supported(),
+> pcie_tph_get_st() and pcie_tph_set_st(), for a driver to query, retrieve
+> or configure device's steering tags. There are two possible locations for
+> steering tag table and the code automatically figure out the right
+> location to set the tags if pcie_tph_set_st() is called. Note the tag
+> value is always zero currently and will be extended in the follow-up
+> patches.
 
-first of all, I'm terribly sorry if this isn't the right place to ask about=
- translation. I sent an email to helpdesk but so far no answer from them.
+> +static int tph_get_reg_field_u32(struct pci_dev *dev, u8 offset, u32 mask,
+> +				 u8 shift, u32 *field)
+> +{
+> +	u32 reg_val;
+> +	int ret;
+> +
+> +	if (!dev->tph_cap)
+> +		return -EINVAL;
+> +
+> +	ret = pci_read_config_dword(dev, dev->tph_cap + offset, &reg_val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	*field = (reg_val & mask) >> shift;
+> +
+> +	return 0;
+> +}
+> +
+> +static int tph_get_table_size(struct pci_dev *dev, u16 *size_out)
+> +{
+> +	int ret;
+> +	u32 tmp;
+> +
+> +	ret = tph_get_reg_field_u32(dev, PCI_TPH_CAP,
+> +				    PCI_TPH_CAP_ST_MASK,
+> +				    PCI_TPH_CAP_ST_SHIFT, &tmp);
 
-My name is Matic Urbanija, I am a teacher at Vegova - Upper Secondary Schoo=
-l of Electrical and Computer Engineering and Technical Gymnasium Ljubljana,=
- Slovenia (https://www.vegova.si/about-us-vegova/).=20
+Just use FIELD_GET() instead.
 
-I would like to translate kernel documentation into Slovenian language. May=
-be some of my students would also like to participate.
+> +	if (ret)
+> +		return ret;
+> +
+> +	*size_out = (u16)tmp;
+> +
+> +	return 0;
+> +}
+> +
+> +/*
+> + * For a given device, return a pointer to the MSI table entry at msi_index.
 
-Are there some special requirements or procedures which have to be fulfille=
-d before starting translation project? What is the proper or recommend way =
-to start to translate the kernel documentation?
+s/MSI/MSI-X/ to avoid any possible confusion.
 
-Best regards,
+> +static void __iomem *tph_msix_table_entry(struct pci_dev *dev,
+> +					  u16 msi_index)
 
-Matic Urbanija
+> +	ret = pcie_capability_read_dword(rp, PCI_EXP_DEVCAP2, &val);
+> +	if (ret) {
+> +		pr_err("cannot read device capabilities 2 of %s\n",
+> +		       dev_name(&dev->dev));
+
+Never use pr_err() when you can use pci_err() instead.  Obviously no
+dev_name() needed with pci_err().  Other instances below.
+
+> +	val &= PCI_EXP_DEVCAP2_TPH_COMP;
+> +
+> +	return val >> PCI_EXP_DEVCAP2_TPH_COMP_SHIFT;
+
+FIELD_GET()
+
+> + * The PCI Specification version 5.0 requires the "No ST Mode" mode
+> + * be supported by any compatible device.
+
+Cite r6.0 or newer and include section number.
+
+> +	/* clear the mode select and enable fields and set new values*/
+
+Space before closing */
+
+> +	ctrl_reg &= ~(PCI_TPH_CTRL_REQ_EN_MASK);
+> +	ctrl_reg |= (((u32)req_type << PCI_TPH_CTRL_REQ_EN_SHIFT) &
+> +			PCI_TPH_CTRL_REQ_EN_MASK);
+
+FIELD_GET()/FIELD_PREP()
+
+> +static bool pcie_tph_write_st(struct pci_dev *dev, unsigned int msix_nr,
+> +			      u8 req_type, u16 tag)
+
+This function is not a predicate and testing for true/false gives no
+indication of the sense.
+
+For typical functions that do read/write/etc, returning 0 means
+success and -errno means failure.  This is the opposite.
+
+> +	/*
+> +	 * disable TPH before updating the tag to avoid potential instability
+> +	 * as cautioned about in the "ST Table Programming" of PCI-E spec
+
+s/disable/Disable/
+
+"PCIe r6.0, sec ..."
+
+> +bool pcie_tph_set_st(struct pci_dev *dev, unsigned int msix_nr,
+> +		     unsigned int cpu, enum tph_mem_type mem_type,
+> +		     u8 req_type)
+
+Should return 0 or -errno.
