@@ -1,79 +1,61 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2078.outbound.protection.outlook.com [40.107.220.78])
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2120.outbound.protection.outlook.com [40.107.102.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23D8623AD;
-	Fri,  7 Jun 2024 00:41:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 653FA10F4;
+	Fri,  7 Jun 2024 00:46:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.120
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717720881; cv=fail; b=HaAL0O43Cd4bhXYGvXXyMv9qbnCd2fuXqa1wXxlvpr5bbNk1xfWibG4K7hdW/ndLUvfM+HK3xLb3IeoWulTxpg3oheaESIe8ywStKJF7qoSssQ5URVrJdcKJlhpywiUNW8QHcddQYXyFxTB/viNHECW5CcrzFNIXKWbyaAUTBFY=
+	t=1717721185; cv=fail; b=izJfr8S6UxdLFW4JJ961BPudSJsnwxUZk7tSZjPwHx4J51dwoWWeRGlw5K4HuGB7Hww/woI+GP3cfhGc5LxEeAFFdZLuD1yCtRwhkz5WEk40TM3GGXwHM1ow2YLLxkl7jP6YoXeUBoKU0tCOOZ3zNlNvsHu2pNBo5Ep3EZslJq0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717720881; c=relaxed/simple;
-	bh=9ynxF6BRluCsl2lFYvykTEHbrwP6CFRJWxjUPWkOMow=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Zi62cUVGmSpUN7sGrSkzUkW2ZFBqm7WUgezlSouiKxVkKa1r4fE5eLFJESE9T0cIfukZmh46+Vi9VvKLtHzJVNe9hiwie2qppbFt0dL9jRK/VdpREFaIiEE+iriRQuiHvNB68/OiOXp9uuO0wOtIG8tOrtc43wvjUflbHukMvQM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=QsKleEFJ; arc=fail smtp.client-ip=40.107.220.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1717721185; c=relaxed/simple;
+	bh=GIO1Vgq+lPhs+fKGVp4gFfcxXPGyClCdkydFtF5PtLg=;
+	h=Date:From:To:cc:Subject:Message-ID:Content-Type:MIME-Version; b=VDNUxlsCUNuJzb3Nj9dGxnUbO85C8ZqyCrQL1Axw0qbpazfofvYIBlyt/1rZWRjes113L4AY8NpOeW4ivMvcRWcW89S0O/HIR8ke6GgawxJZFDJd6h7lxf6DJdlaESCES2QKMLQFRqHNPwYPkJKpyfq6HiFfSCIpNoFxUR+sxOE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com; spf=pass smtp.mailfrom=os.amperecomputing.com; dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b=U6saFYOZ; arc=fail smtp.client-ip=40.107.102.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=os.amperecomputing.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="QsKleEFJ"
+	dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b="U6saFYOZ"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TEvfnPCz6YI3TvwUy793RK7vrHb96tf1uu8coO9fTTztDyHfs96n2zPU7Js8iJPoAghWA1foA+ZYQDN0xBoXjJBApidcYPr2m7S8cOE5lrtCtCxAll6CIqn5BdZ9kJxCfdQCtjqCkH9Z74o7C4SI5YfaQvN2CpSHACTBT42SJ6pVvjNLGBUllVRIvG5eCD4w9RfQ5BL4biWBe0BW0toL2UZoThc9UB22ielOYO3CTFiakctL3WikWcuMCoSvp94mMccNk3BoVnT4YCgP6kvWT5qt/OeA/y0kLxqx4Cu+RUvty++pdgjXzl6WE/D5Qmh+rPm7AfaGkeewGlVYKwW0eg==
+ b=GxUlKDQ21chwOMMtwAoCdqUDnCdlBvrIIF/95lMQSD5voSx8g8TcwiWU1FOW9uzu+Lhj2ID/HdxCv2x2660PR4bE5DfSaxP7vxpjtnY2Ir3O2EFPBWRa+hFyj0wrvniaZj+plXiV+YfCMsYJ0pR61q3VF8lDKTGk7KfsGFXo41zriYlsvsvfnJHmiyuwzgjQLzktBRkIeZpF4+bXTkOX1kJuVGZrL4Cxt8Z57Y05QFBJZ1waFkF7AiBaBjW3fxoCeriP55wNAdGc9N5sDKh7epPOfQQh2xsvz5UrYDTwEPPX0GgUbZ8pp0XdISS1afolzUDCHZhXEmGiwR0cQ7/99Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AiiD9fsEIHYvREju3gNguDrkPsWHYSkQXegy5Zsh8QA=;
- b=gDhZkiP9xOLUyFZvxBnzDzVcPwrDkHZMlQ1xrLx3A/qiqFxDlRSD1LpyxG3pjtT0e3vIP2WqiqOHc3yfvnth0KhlZ7x5styMOWoNJsWWFMOTZoxxR7SMcvuTYyYRGmoqW62MdhtZV+F96xeFu0n4UvBNecm+Ph//5ARY8VdoL+/hLZMOCJkV2/an+DAPyW95DFaHzF0evXipL7/mvbpWbU2Kl1WwsAuE9+SVC4PnhpVuk4PrX+f1eZCvSXLy17Bl14xt+lXX6rqOgigLeA9Ruce+vJSCO9D+gGCIDWInQ0qZbrx1QFFzWYJA3KdtjzI09ZlJndJQZ0D3lvHrLU16JQ==
+ bh=+c4NPeknrN2huAh8WNjJOicmesWq/xGWo+NXuaddLr0=;
+ b=OMlp+57Iy5F1w/WRfraim5A1IQnw+qENbJ76NLHM0fWoKaHgmMEmWfqJZMCpOgxdiPe2NdUsQ7UI5q0ATfvWMivl3mDSaA9P5sbWtG4M/+sFM17cvMBKXhuaPETW/VsWx9+VN3boOw8L9RP2L9qBMUssSYWwz8Tj6UB5VE1ZQUQsisJMNTMtv2heI7juHNHWv5ZWTlUTE4o92YPfxiScFT9cXtpSH/gKjaNXK8pZ1hYjzDSVZ8bVc8zEGa7E/7O+k+UnuYZhJGsx4jJy+nNK4GvpKwIAdJiTF7kN/IUTkmMFr0m/rG7SHCGb8KDk2Z9szEEZ6AOO1UjtGJFIzLGYZg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AiiD9fsEIHYvREju3gNguDrkPsWHYSkQXegy5Zsh8QA=;
- b=QsKleEFJzl5vzu/auOUnGDhKtsshwO46zbogRszQAkN8QxGuXbXTMQMZTsc/8j+7Oadxd1VChImrmvUL3Qy1pAcPJjohXR7C829GvysKcSXmfAUdcDDroB1MHtxBy7Cndo5ZIpRpK3CGgxF20Dbn89oG9P6l/Ziq7P0LQiuNSgqBIsktFSG9lXCOwNvxjSjlsijAVSszTjMAWx/9cXaaFmaahpcq91UXJ8ckqylSUdRz+oeAlG8I/zUwclYKZBBVOe77vEotm1Jv4DRhj7nIspjzSwx9qmxaJI/dav7akJS9a/O1r+Fl2sUpyJVbAvVL1Y7B2Vd4whUCziYAwijtcg==
+ bh=+c4NPeknrN2huAh8WNjJOicmesWq/xGWo+NXuaddLr0=;
+ b=U6saFYOZEh7baQKvXuie1Mnr8oAy6LHNbd3ztQYU5XSv1ZpGMGjCUaIRLC9YvT9kkZWJ0aFa/tWpbnS/uVtJVwz89zZq9gM42AmRFB9ZVKUbrvJpaXSsVg9I+4IoB6W9z7G+CDgJ2TPr0IEvil2QvgwP1vYcsz8MwiOSeFh3D+o=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB3849.namprd12.prod.outlook.com (2603:10b6:5:1c7::26)
- by SN7PR12MB7912.namprd12.prod.outlook.com (2603:10b6:806:341::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.22; Fri, 7 Jun
- 2024 00:41:14 +0000
-Received: from DM6PR12MB3849.namprd12.prod.outlook.com
- ([fe80::c296:774b:a5fc:965e]) by DM6PR12MB3849.namprd12.prod.outlook.com
- ([fe80::c296:774b:a5fc:965e%4]) with mapi id 15.20.7633.033; Fri, 7 Jun 2024
- 00:41:11 +0000
-Date: Thu, 6 Jun 2024 21:25:36 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, David Ahern <dsahern@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>,
-	Leon Romanovsky <leon@kernel.org>, linux-doc@vger.kernel.org,
-	linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Andy Gospodarek <andrew.gospodarek@broadcom.com>,
-	Aron Silverton <aron.silverton@oracle.com>,
-	Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>,
-	Leonid Bloch <lbloch@nvidia.com>,
-	Leon Romanovsky <leonro@nvidia.com>, linux-cxl@vger.kernel.org,
-	patches@lists.linux.dev
-Subject: Re: [PATCH 0/8] Introduce fwctl subystem
-Message-ID: <20240607002536.GI19897@nvidia.com>
-References: <0-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
- <20240603114250.5325279c@kernel.org>
- <214d7d82-0916-4c29-9012-04590e77df73@kernel.org>
- <20240604070451.79cfb280@kernel.org>
- <665fa9c9e69de_4a4e62941e@dwillia2-xfh.jf.intel.com.notmuch>
- <20240605135911.GT19897@nvidia.com>
- <6661416ed4334_2d412294a1@dwillia2-mobl3.amr.corp.intel.com.notmuch>
- <20240606144102.GB19897@nvidia.com>
- <6661f0dead72_2d412294ec@dwillia2-mobl3.amr.corp.intel.com.notmuch>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6661f0dead72_2d412294ec@dwillia2-mobl3.amr.corp.intel.com.notmuch>
-X-ClientProxiedBy: MN2PR18CA0030.namprd18.prod.outlook.com
- (2603:10b6:208:23c::35) To DM6PR12MB3849.namprd12.prod.outlook.com
- (2603:10b6:5:1c7::26)
+ header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
+Received: from MN2PR01MB5902.prod.exchangelabs.com (2603:10b6:208:18e::20) by
+ LV2PR01MB7791.prod.exchangelabs.com (2603:10b6:408:170::10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7633.21; Fri, 7 Jun 2024 00:46:21 +0000
+Received: from MN2PR01MB5902.prod.exchangelabs.com
+ ([fe80::1a99:8110:f593:d3f5]) by MN2PR01MB5902.prod.exchangelabs.com
+ ([fe80::1a99:8110:f593:d3f5%2]) with mapi id 15.20.7633.033; Fri, 7 Jun 2024
+ 00:46:21 +0000
+Date: Thu, 6 Jun 2024 17:46:16 -0700 (PDT)
+From: Shubhang Kaushik <shubhang@os.amperecomputing.com>
+To: ampere-linux-kernel@lists.amperecomputing.com
+cc: linux-arm-kernel@lists.infradead.org, cl@linux.com, corbet@lwn.net, 
+    akpm@linux-foundation.org, urezki@gmail.com, linux-mm@kvack.org, 
+    guoren@kernel.org, linux-doc@vger.kernel.org, xiongwei.song@windriver.com, 
+    linux-riscv@lists.infradead.org, linux-csky@vger.kernel.org, 
+    linux-arm-kernel@lists.infradead.org, willy@infradead.org
+Subject: [PATCH v3] vmalloc: Modify the alloc_vmap_area() error message for
+ better diagnostics
+Message-ID: <8a4c62ea-f0be-1644-5c33-18072c1c82de@os.amperecomputing.com>
+Content-Type: text/plain; format=flowed; charset=US-ASCII
+X-ClientProxiedBy: CH5PR02CA0013.namprd02.prod.outlook.com
+ (2603:10b6:610:1ed::27) To MN2PR01MB5902.prod.exchangelabs.com
+ (2603:10b6:208:18e::20)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,160 +63,179 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3849:EE_|SN7PR12MB7912:EE_
-X-MS-Office365-Filtering-Correlation-Id: c0d93906-78fb-4939-969b-08dc868a8748
+X-MS-TrafficTypeDiagnostic: MN2PR01MB5902:EE_|LV2PR01MB7791:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0d1a9c45-7ecd-4b0d-beef-08dc868b3fba
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230031|366007|1800799015|376005|7416005;
+X-Microsoft-Antispam: BCL:0;ARA:13230031|1800799015|7416005|376005|366007;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?xtmFRvXg/HbK0UHjYGXrKmSZPSv12FaM8bc2znEUqtVvn6Q4uvXsqMge1V14?=
- =?us-ascii?Q?gl5v0BLpU5KoapBFarD3uu/fGAN+SpmWura78P5eAjDrS7t5NeYzBx5AVnqF?=
- =?us-ascii?Q?2Hme30jw/cLc7BK3BfLPpljUCGUX+BWoykw1VVXyUhvsB7vStsQZnngNrycj?=
- =?us-ascii?Q?pGVJa7QnYpx6cP5///bzUXfopBW2Xbs2CUSaOMiZv0E3ve6DhN4qREqvcEwu?=
- =?us-ascii?Q?x89B/k16CYEbwQO7hHOavXQH/BaStGxiN6Kmi0OsEaN28nerXqOEdMe4/Ot6?=
- =?us-ascii?Q?Xvemh98J88UbyTnaeYW84jUSCbumkPctMYzYwz5/u++rvT1miYGksjfjt7xs?=
- =?us-ascii?Q?CEEux1O3bWr0g6CloDo+8QsIUU+yU2PKWBl7wT7os5nWW3uVKRwcw7BwCUs0?=
- =?us-ascii?Q?MKFjK3sPOaX0UAY9g+CBm0ZXafuladvNF1dbKNVEDuHnVECtRJroDPoWImf0?=
- =?us-ascii?Q?jdvHID0O21TnNRURJlFvOc9l1NIceECL39s1xSM4FyBjutHEf+2MkayvtkXX?=
- =?us-ascii?Q?97X8qHpfBO6ce7uRGLEYlQHQRxTr8XJY2/NaX1P6It4lO5wC8oUrHZEZA0fl?=
- =?us-ascii?Q?DJFY5e2bL3sbEgZiagy7S0ihPtdnQOnO+egKuO/2akgE+mj16U3FS9ku2KYy?=
- =?us-ascii?Q?XWlDA4WUblCvnf6TMJ7ivQUgi3z6JVmBtO/V7PRtk/yca+fpBIqnJVUJQ3Rr?=
- =?us-ascii?Q?R4zY5ZNRgM28Jmo2VxH4XNWyG9MhS67iuashPuhm/z/QN58W4dbRZKDVcuXg?=
- =?us-ascii?Q?Kj4viswIz2WqYF4rDUV//OX1uQ4n1RSLYQwWxavmDnpm+uIcQzLkx7k9vuZr?=
- =?us-ascii?Q?FY5r07G61JMb/qxcjTrJQP2rXohlPoOKMIZYf5rxHb4D5SUJMbka8wBcJsVp?=
- =?us-ascii?Q?PDVias5pCrNbKx+fvnEZTA0mE0mg8i9mLFw8AUdeQl00HrxBb1c5W0fw5BaH?=
- =?us-ascii?Q?Sj7Ten0v6UheRqSjLHV7MgQh9fQrEUD5/EYejNLBJADXHf4Ub5vjpxxDiyCx?=
- =?us-ascii?Q?N5ePbSoGd0Exk4hoccbDtf+FQTjhOc/C+SHsRJKJckmIQlfJ/sq6VIH5aaV0?=
- =?us-ascii?Q?TmitfPTcEYjoOyYvLpO9VjJnCitCNAitZ27z5kmZquj4pj/H1IdbInfUsjjp?=
- =?us-ascii?Q?ga39NJQF6Cl4K4RiKu334AMb4IwogK80hcrNPazDGSMbiS14f/gH1zJCoYbb?=
- =?us-ascii?Q?pB2z17iUc8DfAfNls7NJe4+p+FEr5bIiYSmQjoP3IzJC0SkpAleYQ689/PBT?=
- =?us-ascii?Q?wjefualEti5nFOCWB8eRPxpqD9smg+kfPBp0npi9h3Y0PnYDKlEqXOaxB17+?=
- =?us-ascii?Q?bEr+rPk8nl6Potjblyi6eMmr?=
+	=?us-ascii?Q?l1s5J75cs4gYncDi1/bzt0PWYudntMQmape9BpR3acyLuMVJa3cRcdq2Bkl/?=
+ =?us-ascii?Q?VEurZWYub2g/4XJH58oyLIqZjDiW1hTHwdI5tPOxLlhQfxk1c5lbMfPXJg+t?=
+ =?us-ascii?Q?vYojuAZ9HssIyTi/5174PDhVaurMYGbMj96+4WDuSHZZ/MqL6eaY8ABOuI0c?=
+ =?us-ascii?Q?U49W87jVwi3fWo9nBPlICnbBcZ8NwDItuvCdwY1NpaW94lXpiLfeVp7gS6NF?=
+ =?us-ascii?Q?bCz2mXearZyEkt32nA7gWhD7wmy2ZUZtu8Rl2mQ5MzCm32Ah5QGsGLyibfbw?=
+ =?us-ascii?Q?md2wKx2oqhsnIi0mr1D2XZ2BvhyEXIhqWhbnh+WCOKEFNW8hhw02Y2hO2NPr?=
+ =?us-ascii?Q?COHbzt4a2w2+++dXDKiJVptX6w5ySDp61PcQfkpLefq+BxOtvkskty4JU/7H?=
+ =?us-ascii?Q?vrYPJNmLF3FLbwloYyr72SXBQ3qfehIfUFchkcV/t5gC1E5/b81h5YtKHIpF?=
+ =?us-ascii?Q?eQ2PzD9j3Js2xzfSwawh678CW5+Rn6QfNs5dar8IED2NTq4vibv8LO4hRHaQ?=
+ =?us-ascii?Q?ljVaTf+ttRy1czc03C7Q2mMTPu7b9LLgPHCaKVDG38b/+1N0oLQx0HORpnxm?=
+ =?us-ascii?Q?/WYcSBpmaQ8PNszD+TdSdb7LxhPBrEO9+ufK/DLYLpI9314tvVrnbdTQ+8sB?=
+ =?us-ascii?Q?ZoPtPa/+3/QLUNDm6ctEeiOZB7wj7rmpcwVvg1Ia/2peu9NBUx9BNBxRNUJ+?=
+ =?us-ascii?Q?GpEPUN3NUlA0Uboyi2zmmBB1dMjU2J9l+vLl0Omih2wxcpY8Pk5tvwwAKjsM?=
+ =?us-ascii?Q?u0amYQ/puouLIOOGSO/EbTKv8bQvOV4fpe815AeaqUmTnng+/uaVKK/F//hH?=
+ =?us-ascii?Q?9UsFhp5c7MRYhLx1VVtWJ3ayMi1Dh7Z7zmLP7zy8fjIK4a5CXEb8av+aRvB6?=
+ =?us-ascii?Q?cFttrbInrg3fZOzusR0R/3GBGrOoXbwD+Jhb27eMbBCgwPGmGx1zOHkyOl7u?=
+ =?us-ascii?Q?iw6k3QHRKoTM5SCcqqgx9KMRWQKJhR5C8/TcoLXFse/z3oh3NWRUWPe4r0hI?=
+ =?us-ascii?Q?sir+69+8g7BqcEe2vQtJNdPp7KKVgN+4aXLAsYzgNjMPPD9c9X3td7TfLl9g?=
+ =?us-ascii?Q?NwjhQTCUH4eTDC+wnbUpuJJBEQMRuZ0CnxhNwHqnile0L5hhyLYdyM+Qgj+8?=
+ =?us-ascii?Q?kqAajGtDsykmN52u2h3fjzhRdao5rXBaXyZOjYZxN2ebsN/GLFJUQw8tvQ70?=
+ =?us-ascii?Q?gvPAaxUIyY4P5F9daOiX1eCSUgU6wpSCvYw0lLxJeqsZ7saZsjO35IiX9bbi?=
+ =?us-ascii?Q?gop3DetpNdd0xacz8tWoYyuqg5SIZeJBkk177OXhi1SMvgIJtk92U2SYDL8u?=
+ =?us-ascii?Q?WhjykQD6j/7nTKzCEI2zftok?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3849.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366007)(1800799015)(376005)(7416005);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR01MB5902.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230031)(1800799015)(7416005)(376005)(366007);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?xA5Ss3Hi6fDuUUi3eDOKAuVtKcvPXDKfadbZflj2cGBfQy6KLlvUHDw5vXA0?=
- =?us-ascii?Q?HSdGLvc9yzfjZz5JWq6TUnIZQZL/x7NRf2q7DumYFi4NizROLov2DLRUJXFi?=
- =?us-ascii?Q?GzSDGQlpK0MWZm07ryvux6JSdePO+WmdVvUEBSSsdTpAFSefneZOGdP7ZzAJ?=
- =?us-ascii?Q?vXJa5tjeUKlRaGeLF49Y8uZ0PHcb+dipr/23UYUCegdnkFtifm9N7HU9EJZS?=
- =?us-ascii?Q?9fW4KrDWPHykCtTS2BcusZ1mC88qGiJEyKd8YGVtskNZ5AzDm5n/++HNu8w6?=
- =?us-ascii?Q?j5qzUesKeW9xxxbI6jtpnQvGy1iXl5l2lh9dghd9O5DERlDHMwsydaacAoBS?=
- =?us-ascii?Q?L+J+O//NLFxYOTGysg/1PLbNlV9e0wBrIbk09Wqa20QMeCz41FuXehI/Em6G?=
- =?us-ascii?Q?Cnj0/2UNSNzXnct9BuBZ8qb9gCFGQD6/Hls1p5OM/EDedFkZiL1NrfWsWhlE?=
- =?us-ascii?Q?blBbR4eCi1Sk2mzcnkUMD4kaAQkeAYs3qDTEaNzLZPmza8WXD4XtqVEJKxnh?=
- =?us-ascii?Q?ek+pFjQZMkCMQji8p2ddAfDBeWjLCDdJeYjfzYesQ3Cq6tVVYoCZ03YKLtok?=
- =?us-ascii?Q?QXWTRVd3w9Kq5XLWnEwk1ZpU54TaIEf6+YQtwxcfpOVdg8T2T97eWgMVYvHS?=
- =?us-ascii?Q?YjkOK6k8yjvl0i+U3QJSqDpCSvCD0ZrBa8OV3A2FdGU8l0CzpkytGDakLoID?=
- =?us-ascii?Q?9qD4r2ot40rACHw20CudsriNzNfGK1hNgxfzItChg69YGZ5FUnCdHwLKU6VR?=
- =?us-ascii?Q?qB9aIoop/rWKb+fkZXDJzqkLnWy1iJWdKrjtG9GfIf3adxMbH+dgpbeeAgcG?=
- =?us-ascii?Q?gHBuukjLSyrZguUcz45yKbbJZivhaz5Pak9eQI9kmUPCN5nW4iDJ8TS1z2Na?=
- =?us-ascii?Q?LhJbGc55jS9n37ATievejwLG6iFKD29Ng5uXR7HyB3AG1QV8UvEWBTaXFZrV?=
- =?us-ascii?Q?7+QMe1EtNxUSkLVZiTPG892tRDAarCLYm3kZWD9ZFp3HtsfRLMoR0vzLb+9V?=
- =?us-ascii?Q?uBZQcn2+73PrMyXwdrTwZc+7baDm2ttNuN7Sc9ujsqAwQ3fCzZq9/pmXhuzR?=
- =?us-ascii?Q?NLysH++4vWX6L1w/8VmN6QOmoHZiTISfdh+o5hc7w6jKdNwG7H/3E69IVBcx?=
- =?us-ascii?Q?17k8LIfOKI9vUhyv87jDzinq+LBtRCJZ2sANH2AMhEiYhcXa0fTqChDWzxqo?=
- =?us-ascii?Q?swKaKn2bwbAMMPo1mmsN+nqCt55G2GBuf6acoHnu8iqu2Tx280PRt10EbqCH?=
- =?us-ascii?Q?nGV7avKRH4QtBeyy288ea5Giqu/cTajjBwEefcr39FNjS4ymAyuDkN56r1w3?=
- =?us-ascii?Q?N947vS1eL0duhlMxEm0rt31HTXdGpv/jgeqIsBqfTKeqRgugorCnY0/zKA30?=
- =?us-ascii?Q?3sjG7tolLy8lKIvmZRRanlmyslBuvIbPzNQJKRVjgwxG2EZ5Z7WC+zlRW14p?=
- =?us-ascii?Q?BAXxHPwwq8bYDE92iDWO96bI6EP/6uy2SYG4YeBNPQsuzHY6nWY/A0h3IiAx?=
- =?us-ascii?Q?38y0cgvU6grjLeZ6oo7XY2Sjzv9UQXCZsUKCegKKBaY8F1qXH8tovI9mz7ZE?=
- =?us-ascii?Q?EkWlV+OVGnYjrblFoi2mcpIFshmENxPaNUjEz959?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c0d93906-78fb-4939-969b-08dc868a8748
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3849.namprd12.prod.outlook.com
+	=?us-ascii?Q?izkao55Uf7BQofY/BCUlM+6N5BbSpnumao5nWpxv1qqAvq46sdBmoZH06cSa?=
+ =?us-ascii?Q?5eQzxTm6Cg2ege9vMYPzJZOQKoy75hNK/HZ+Nw3zXeQ47C1AnWRZiKwxOY7O?=
+ =?us-ascii?Q?XijgXStc+I6BTA/FSx+1ZoPDMalRhgplbEnX3EdxaiOfr+6OZcACavDq+auH?=
+ =?us-ascii?Q?PXpzB5UIFh/k44itQJfI4Q+nOcBHDpgQ5NLEGp42q9m4Fzm7X1RA6o7EWNDp?=
+ =?us-ascii?Q?megI8YzFRt2r8ZtkIbS1JSrtU+WkvjQ79ahQfex4PXgqIIg5va7REWxnmkN8?=
+ =?us-ascii?Q?MipjWeuuohNYSxjweI8xsNBJ22L7OlQXzMLd5fqYBRskunE/FHp3ChgEnWBO?=
+ =?us-ascii?Q?6gDqBdZaKxHskxf/DH6r1DqLDTS13B0a8CyYbSPdMKKlEnXg5lvIUMnbd5Mi?=
+ =?us-ascii?Q?JDw9Z4c4vsAZCAK2E/Am0OaMSbaDxlOmVT2zjqkQ0OGMk4Grd84gaixSZL59?=
+ =?us-ascii?Q?tB4csqH2NoR6DXWvdvo45yGcKi3xo0LxOTqgJvnxRXl3FjSNbcOB2+NphaUm?=
+ =?us-ascii?Q?ltq8g5blWTx04W7h34iXuzzHSpXxpUF54nWSvKaVKSNF4fnMIC2VIg+CmFnV?=
+ =?us-ascii?Q?9/DiwIOfaHWsUPc4exHQhnLvsfEoDSCTTim33vSNrVrninGvTz5u7iOUYViN?=
+ =?us-ascii?Q?0aLZtnB9HCeAizgbcIqvWKhp300PvUqIdRXYjrk8IR2yrpn71QtBz/6B8e+U?=
+ =?us-ascii?Q?yU+rbXjetuN6lUkMFOBK2e+xlDYo4NLoEJ0JMmJ3LIDue1FrGIlQyeOncmP9?=
+ =?us-ascii?Q?Q9OfZWh+1DTK/I9zViVMy1z2TukrEGttrFgMhm3azSQk2VRtGL2uN6olPm3x?=
+ =?us-ascii?Q?cmXccxFdGMybuGlU3BQeGIfcH9pVJq6gmw7Nby7NkRZ2mrZrSa8S6rzyGa3x?=
+ =?us-ascii?Q?tSDsgw/YVMZP8qw8roz2omdu1TGXpZQxIPiV7wc/1o9tLhml/vNBbG9U6s4H?=
+ =?us-ascii?Q?OtU7uWwSntjGsl8c1NnMz4C4eHiGBrzh/eSycutYtpVMYEBurnwm5yRArcAl?=
+ =?us-ascii?Q?Zvz88iS02rGQm5Be1f3M6WJOj1tIrDZGdfv5UurrvsKbFsgYvSR5Zf8BdzRT?=
+ =?us-ascii?Q?Inr5gqlhpQhCmMfK6ZETsgIIhGcIA1If0mtJgCqB6RVoiIgIERg1NP/I/xi6?=
+ =?us-ascii?Q?/00MPhSXpv7MkD7wEQVgwNIzT6033edatPbJEggZYFMR/OeeS2+kE3cQ7vKp?=
+ =?us-ascii?Q?MweRCI3Mpz5kKo66EouwnAIESlyRltzVPJPKwT4fbX15jH9EubypzNBtwM3H?=
+ =?us-ascii?Q?A/79v9Ou/UfBItGiOKlN7miCXHLWcFoXkgiI+eDuDKMWKs3fRIbinYg/OxwO?=
+ =?us-ascii?Q?d5pEua9wSFR7Z0qqCP1FQtB+79V4yxmQBzTY8iiGfupIpjHrMIrGdEUgfsU4?=
+ =?us-ascii?Q?yedFvxYcEQxoesGHPPmSOj/JOieyr6iuhcLDCQzSVEGR8iWM5VYKQuJXnCkr?=
+ =?us-ascii?Q?2WQLrOpW4FH68M35yHfzYrrolWtP8RiTVn7O630DqAKTsI4H6VGDBqVZPL/X?=
+ =?us-ascii?Q?P+l+ddSK0Z163qHNYm9e1OgJZSrHKL/3WwwbwJvnTCzXadksHanYrBwhe+Rs?=
+ =?us-ascii?Q?hLvWBRllBXe03/8Ia6EbkV+tBt3E1q0JQlmoL9++Bg9UCOGH4C5u9wiJ8YM4?=
+ =?us-ascii?Q?++bDZDp+18q4AopEJdzXtzc=3D?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0d1a9c45-7ecd-4b0d-beef-08dc868b3fba
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR01MB5902.prod.exchangelabs.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2024 00:41:11.4232
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2024 00:46:20.8981
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Xm5LnAJxYL8izVm9I286cL1FLlLzwR1BfSc4mQAZ8Vt/3iDkD0Ygr99ZyF3/59M7
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7912
+X-MS-Exchange-CrossTenant-UserPrincipalName: Lj/cIcvztlQFZ3YVCAJMVR8nClPhNA4r7cFYIpjvjvldwsNSweIE+sKvIr0oI5TZltgx+PRw/MI2jxxeFEX1AJDBRaED6+PUzNj2Sydy9CFsAKb1wqqN5HOb3WIesEQK
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR01MB7791
 
-On Thu, Jun 06, 2024 at 10:24:46AM -0700, Dan Williams wrote:
-> Jason Gunthorpe wrote:
-> [..]
-> > > I am warming to your assertion that there is a wide array of
-> > > vendor-specific configuration and debug that are not an efficient use of
-> > > upstream's time to wrap in a shared Linux ABI. I want to explore fwctl
-> > > for CXL for that use case, I personally don't want to marshal a Linux
-> > > command to each vendor's slightly different backend CXL toggles.
-> > 
-> > Personally I think this idea to marshal/unmarshal everything in the
-> > kernel is often misguided. If it is truely obvious and actually shared
-> > multi-vendor capability then by all means go and do it.
-> > 
-> > But if you are spending weeks/months fighting about uAPI because all
-> > the vendors are so different, it isn't obvious what is "generic" then
-> > you've probably already lost. The very worst outcome is a per-device
-> > uAPI masquerading as an obfuscated "generic" uAPI that wasted ages of
-> > peoples time to argue out.
-> 
-> Certainly once you have gotten to the "months of arguing" point it begs the
-> question "was there really any generic benefit to reap in the first
-> place?"
+'vmap allocation for size %lu failed: use vmalloc=<size> to increase size'
+The above warning is seen in the kernel functionality for allocation of
+the restricted virtual memory range till exhaustion.
 
-Indeed, but I've seen, and participated, in these things many times :)
+This message is misleading because 'vmalloc=' is supported on arm32, x86 
+platforms and is not a valid kernel parameter on a number of other 
+platforms (in particular its not supported on arm64,alpha,loongarch,arc, 
+csky,hexagon,microblaze,mips,nios2,openrisc,parisc,m64k,powerpc,riscv,sh, 
+um,xtensa,s390,sparc). With the update, the output gets modified to
+include the function parameters along with the start and end of the 
+virtual memory range allowed.
 
-> That said, *some* grappling, especially when muliple vendors hit the
-> list with the similar feature at the same time, has yielded
-> collaboration in the past. 
+The warning message after fix on kernel version 6.10.0-rc1+:
 
-Absolutely! But we have also frequently done that retroactively, like
-see three examples and then consolidate the common APIs. The challenge
-is uAPI. Since we can't change uAPI people like to rush to make it
-future proof without examples. Broadly I lean towards waiting until we
-have several examples to build a standard uAPI and let the examples
-evolve on their own.
+vmalloc_node_range for size 33619968 failed: Address range restricted 
+between 0xffff800082640000 - 0xffff800084650000
 
-If there is value in the commonality then people will change over.
+Backtrace with the misleading error message:
 
-> This gets back to the unspoken conceit of the kernel restriction that I
-> mentioned earlier. At some point the kernel restriction begets a cynical
-> in-tree workaround or an out-of-tree workaround which either way means
-> upstream Linux loses.
+ 	vmap allocation for size 33619968 failed: use vmalloc=<size> to 
+increase size
+ 	insmod: vmalloc error: size 33554432, vm_struct allocation failed, 
+mode:0xcc0(GFP_KERNEL), nodemask=(null),cpuset=/,mems_allowed=0
+ 	CPU: 46 PID: 1977 Comm: insmod Tainted: G            E 
+6.10.0-rc1+ #79
+ 	Hardware name: INGRASYS Yushan Server iSystem 
+TEMP-S000141176+10/Yushan Motherboard, BIOS 2.10.20230517 (SCP: xxx) 
+yyyy/mm/dd
+ 	Call trace:
+ 		dump_backtrace+0xa0/0x128
+ 		show_stack+0x20/0x38
+ 		dump_stack_lvl+0x78/0x90
+ 		dump_stack+0x18/0x28
+ 		warn_alloc+0x12c/0x1b8
+ 		__vmalloc_node_range_noprof+0x28c/0x7e0
+ 		custom_init+0xb4/0xfff8 [test_driver]
+ 		do_one_initcall+0x60/0x290
+ 		do_init_module+0x68/0x250
+ 		load_module+0x236c/0x2428
+ 		init_module_from_file+0x8c/0xd8
+ 		__arm64_sys_finit_module+0x1b4/0x388
+ 		invoke_syscall+0x78/0x108
+ 		el0_svc_common.constprop.0+0x48/0xf0
+ 		do_el0_svc+0x24/0x38
+ 		el0_svc+0x3c/0x130
+ 		el0t_64_sync_handler+0x100/0x130
+ 		el0t_64_sync+0x190/0x198
 
-Right.. The kernel just don't have the power to say no to the
-industry. Things will just go OOT and it is really our community that
-suffers in the long run. As I said, you can't lead with NO.
+Reviewed-by: Christoph Lameter (Ampere) <cl@linux.com>
+Signed-off-by: Shubhang Kaushik <shubhang@os.amperecomputing.com>
+---
+  Documentation/admin-guide/kernel-parameters.txt | 9 ++++++---
+  mm/vmalloc.c                                    | 4 ++--
+  2 files changed, 8 insertions(+), 5 deletions(-)
 
-IHMO there has to be a really high quality reason to keep support for
-HW that people have built out of the kernel. Especially start ups and
-other more vulnerable companies. I don't think Linux maintainers
-should be choosing industry winners and losers. I sometimes feel I
-have a minority opinion here though :(
+diff --git a/Documentation/admin-guide/kernel-parameters.txt 
+b/Documentation/admin-guide/kernel-parameters.txt
+index b600df82669d..d98df8f5c448 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -7245,9 +7245,12 @@
 
-> > > So, document what each subsystem's stance towards fwctl is,
-> > > like maybe a distro only wants fwctl to front publicly documented vendor
-> > > commands, or maybe private vendor commands ok, but only with a
-> > > constrained set of Command Effects (I potentially see CXL here). 
-> > 
-> > I wouldn't say subsystem here, but techonology. I think it is
-> > reasonable that a CXL fwctl driver have some kconfig tunables like you
-> > already have. This idea works alot better if the underlying thing is
-> > already standards based.
-> 
-> True, I worry about these technologies that cross upstream maintainer
-> boundaries. When you have a composable switch that enables net, block,
-> and/or mem use cases, which upstream maintainer policy applies to the
-> fwctl posture of that thing?
+  	vmalloc=nn[KMG]	[KNL,BOOT,EARLY] Forces the vmalloc area to have 
+an
+  			exact size of <nn>. This can be used to increase
+-			the minimum size (128MB on x86). It can also be
+-			used to decrease the size and leave more room
+-			for directly mapped kernel RAM.
++			the minimum size (128MB on x86,arm32 platforms).
++			It can also be used to decrease the size and leave 
+more room
++			for directly mapped kernel RAM. Note that this 
+parameter does
++			not exist on many other platforms (including 
+arm64,alpha,
++ 
+loongarch,arc,csky,hexagon,microblaze,mips,nios2,openrisc,
++ 
+parisc,m64k,powerpc,riscv,sh,um,xtensa,s390,sparc).
 
-fwctl is intended to sit on its own. I think it is even a bad
-architecture direction that Linux has N different ways to flash FW on
-devices, N different ways to read diagnostics, etc all because each
-subsystem went on its own. With fwctl I'd like to see a greater
-consolidation of not re-inventing the low level of fw interaction
-differently in each and every subsystem.
+  	vmcp_cma=nn[MG]	[KNL,S390,EARLY]
+  			Sets the memory size reserved for contiguous 
+memory
+diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+index 5d3aa2dc88a8..75ad551e90ba 100644
+--- a/mm/vmalloc.c
++++ b/mm/vmalloc.c
+@@ -2055,8 +2055,8 @@ static struct vmap_area *alloc_vmap_area(unsigned 
+long size,
+  	}
 
-Like you mentioned CXL has its own way to program flash. How many ways
-does Linux have to update device flash now? :(
+  	if (!(gfp_mask & __GFP_NOWARN) && printk_ratelimit())
+-		pr_warn("vmap allocation for size %lu failed: use 
+vmalloc=<size> to increase size\n",
+-			size);
++		pr_warn("vmalloc_node_range for size %lu failed: Address 
+range restricted to %#lx - %#lx\n",
++				size, addr, addr+size);
 
-So, if you have a real multi-function device fwctl should be the
-central place to operate the shared PCI function and the FW
-interface. There may be some duplication in subsystems, but that is a
-side effect of our sub-system siloed development model (software
-architecture tends to follow org chart, after all)
-
-Jason
+  	kmem_cache_free(vmap_area_cachep, va);
+  	return ERR_PTR(-EBUSY);
+-- 
+2.39.2
