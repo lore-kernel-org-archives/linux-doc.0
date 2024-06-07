@@ -1,65 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C509E39FFB;
-	Fri,  7 Jun 2024 19:59:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2789114F9E9
+	for <linux-doc@vger.kernel.org>; Fri,  7 Jun 2024 21:20:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717790358; cv=none; b=B3kzl9Psu6qoc73EqLoMVTgAx2tHnsytqROVtSYagM1L+k5phy9qMIqXvgVnKxeJ+jOvTjtPm57El6xLlF/kuFwuP03jMfTExAEVQGnu76si+WgF0SZMt/gN6NG/T5n9BKSFtlZdRiRbSZIXbGNvgif8jKc54R2ts8S0NMDRb2g=
+	t=1717795213; cv=none; b=nKr74TWOzBt751YYBplrb/3iZJ+4qwtFNpS4Y0b6knhKtBCR2C3nweUYVtQHxnxvkx3vn8lorqnwWNVvWylzh+vvmVfT82YxEchHC7UNOJ9pes7fecABhS7WGPbZBBsXau8AL6UXSgI39H3EbsmOkQ+nq2IVCg66QVaxD4cSPhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717790358; c=relaxed/simple;
-	bh=CoZ61dwjEkp8sx38CmXzgu042Gq6Y2RZI+poqBTGNRY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=JaQdw26TyXHYs9Fo/WDYBRupof8wXebjv3g1Ar0ptE6CmWJGMhFLOkwuJN4lxhbfnqQemWOWndrN+5g0QVSKi6cDE0fxBi1P5IAfxnzHDxHqaqK+2mKJ7mPWyCtaFyj1wHyLS2AEAU6Z6z+cqP9UrITkRIOxAmCnflomKcVKOu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PpZz0Fk1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717795213; c=relaxed/simple;
+	bh=Jiu3xAbeO4nEFEt+N6Nvptef1YE/pXXPdfDj3I+OOuc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TQItv8pmywoGxU/OQj2wvhA+q1GeWZIoI3eWZKP+Yo+1yuPDTiQUmxR2vsOvKKmCkdC0THmECOyrXsx7z5ahtvlZ6KuFFQfZWyV5ocraiTbuIh+0KYaIh+yShQy7dEjEWfbDd8NjQ/nSgV3/qHK9p0ZadF/b++oODt80aGlNGJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=QlLlAFEI; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PpZz0Fk1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 040A9C2BBFC;
-	Fri,  7 Jun 2024 19:59:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717790358;
-	bh=CoZ61dwjEkp8sx38CmXzgu042Gq6Y2RZI+poqBTGNRY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=PpZz0Fk1qd29Dq/97R1hu02THlUUYJ1NFRfiFtIqZIf+WH3jdCae/0A+Fse0qdb2j
-	 eRLYBBDV3j9426bCf0RU+tpU7PffIXNJmkbdpiZV6JxkiHyJ+ZKaNmvEDeu+JHKzCf
-	 FvcLfAwdeau4erACKx4GOBy+wH+EElJmTzuqrd/Aw3KqT5+cFC/o7hiActdTMTWrb7
-	 IEsTcusAgUicK7B7Q6VDyddEs7BM9mPGXHeH65t68T9MnX4G7hqyNMpy6RkE10ajiF
-	 gJoGhVDPUju3jZabZSWNMXt60KLJ4rqsF8EckGHBADnE/SA2UpgUbLItAkkAE73VGl
-	 mL3kKpxofY6Cg==
-Date: Fri, 7 Jun 2024 14:59:15 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Wei Huang <wei.huang2@amd.com>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-	bhelgaas@google.com, corbet@lwn.net, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	alex.williamson@redhat.com, gospo@broadcom.com,
-	michael.chan@broadcom.com, ajit.khaparde@broadcom.com,
-	somnath.kotur@broadcom.com, andrew.gospodarek@broadcom.com,
-	manoj.panicker2@amd.com, Eric.VanTassell@amd.com,
-	vadim.fedorenko@linux.dev, horms@kernel.org, bagasdotme@gmail.com
-Subject: Re: [PATCH V2 3/9] PCI/TPH: Implement a command line option to
- disable TPH
-Message-ID: <20240607195915.GA852179@bhelgaas>
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="QlLlAFEI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=Jiu3
+	xAbeO4nEFEt+N6Nvptef1YE/pXXPdfDj3I+OOuc=; b=QlLlAFEIRKrGI7zg0yaw
+	zrUOccMiburdjHRH+MZpiAdoFTguqiKZR/AbvDt4CAcz4SY8I14gTLmLZWZSdZ2M
+	WCkerrALnVa7BZ+66ukhx9HyfpAjHWOYA5fZPNHLOQDrvRbgG1W9ZZ05Iz79HeDK
+	fDPNUKc9spatzQxVuvK/8yne4Jd0aI7tKWEWAK3xeWhQvSiQ8+Pok2y8EfEBWJPy
+	zoh/T8Gw/Fyw42OMNTdzCPxS2tlB/WXM7Js/Zh0XjVZ65JrXcRmcoZ9gOLyQT/IY
+	HMsLj64issGJHSLJnY4X2avxaIEPWLJCiYHffL41qVHQDMRUXTOF/oOQ7y7/2KHP
+	Pw==
+Received: (qmail 3445681 invoked from network); 7 Jun 2024 23:20:06 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 7 Jun 2024 23:20:06 +0200
+X-UD-Smtp-Session: l3s3148p1@x2wOXVMaxttehhrL
+Date: Fri, 7 Jun 2024 23:20:05 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Easwar Hariharan <eahariha@linux.microsoft.com>
+Cc: linux-i2c@vger.kernel.org, Andi Shyti <andi.shyti@kernel.org>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/5] docs: i2c: summary: document use of inclusive
+ language
+Message-ID: <56qtono23q4couvjk4rdovqliujkcxjnvo7xrsgb3iturplmrw@o7jjxfklfr4c>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Easwar Hariharan <eahariha@linux.microsoft.com>, linux-i2c@vger.kernel.org, Andi Shyti <andi.shyti@kernel.org>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240607111726.12678-1-wsa+renesas@sang-engineering.com>
+ <20240607111726.12678-5-wsa+renesas@sang-engineering.com>
+ <dcd7adf8-bcb6-483b-859b-06e7b2831e23@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="2pekpatlprr4tko4"
+Content-Disposition: inline
+In-Reply-To: <dcd7adf8-bcb6-483b-859b-06e7b2831e23@linux.microsoft.com>
+
+
+--2pekpatlprr4tko4
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240531213841.3246055-4-wei.huang2@amd.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 31, 2024 at 04:38:35PM -0500, Wei Huang wrote:
-> Provide a kernel option, with related helper functions, to completely
-> disable TPH so that no TPH headers are generated.
 
-If we need this option, say what the option is, why we need it, and
-include an example of how to use it in the commit log.
+> > +A **target** chip is a node that responds to communications when addre=
+ssed
+> > +by the controller. In Linux it is called a **client**. Client drivers =
+are kept
+>=20
+> Are we continuing to use client instead of local target and remote target?
 
-Include the option in the subject line, too, e.g., "Add pci=notph
-option to disable TPH".  Or maybe "prevent use of TPH"?  "Disable TPH"
-hints that BIOS might have enabled it, and this option would turn that
-off.  I haven't looked hard enough to know exactly what you intend or
-whether there's a difference.
+Nope, "client" is just the Linux word for "target". Like "adapter" for
+"controller". Historic legacy. So, in a way "local client" and "remote
+client" would also work to emphasize the distinction.
+
+This document so far only talks about "remote targets". I noticed this a
+few hours ago and concluded that another paragraph needs to be added
+explaining that Linux can be a target as well. And that this is called a
+"local target" while the other ones are "remote targets".
+
+Makes sense?
+
+
+--2pekpatlprr4tko4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZjeYEACgkQFA3kzBSg
+KbaPyw/7BisRsp9Zc7xEKDZRnF73eXTKc8ORJ0iIcRVRt6j1SA2RjCc6oSQ5tLr/
+TL3xOpKql6o7DOmTvDJu+KhUgEqiYf4VHdccWcsHysNRpk2UgpUGMx63gZ06iKDI
+AdjFrHCkqnNdeaZnYJ2Oht/VSM7ucybsgicQ8KcrlEx7WE6xfzo46qOvXZE8rGvW
+SkgB5sRawdk3Ux2OmP2jbcR0KwgINqlN/nHK9tIX1yANsm704XTWs584ggzMVMYp
+mYvgvtYc2KcC75Iom8bZVAjXjFdm5SlF+W86TvI+XSNRBnVn0hS6z+cothsBePxc
+s1u4fjPPNe2hSHL3wrX5Memq1r+IYS5RTBgGEUn4HL8BCQgLTYhfQTWFAh23sGPK
+aZXVOHid0fWEBpomP7PUAclUyWUG84n+r4+pu5PY/yDmj0jTqQxmuXezXlKW2ocm
+9CjmlgjSRUqakjamtWF+7IONskStuCdEhcCQSqPjHEGCS9l4ctngySdbXJO457ZE
+S0rMrPsEljEro2qYMmELN2A0wy9uu8gjCk7AcBOjbD5sEwXgAIArIDo2g7ZeYbhu
+upJL8eZktfgbz3l3FdoiyPYaKGNU0h4IcKty7fU/w291Swq0tHwu1Bv9pwFkptYd
+4kcKKaTbc4TMQqS/Le0VQ5MeQ90rHnlRyjJiNG3QNrb2a46aKCw=
+=Ql+c
+-----END PGP SIGNATURE-----
+
+--2pekpatlprr4tko4--
