@@ -1,194 +1,251 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E46646558
-	for <linux-doc@vger.kernel.org>; Fri,  7 Jun 2024 22:22:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ADF514533D
+	for <linux-doc@vger.kernel.org>; Fri,  7 Jun 2024 22:26:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717798978; cv=none; b=LvjtZJCQ5ppgXpKD+ORuMmFHNCbW035yjFZwu9kAHUVsUN47xjo0IckIwxsNtODZcxfeiWgyVeboATbg2AjhxMlj2H1Va1xwFU9vwT9UQjcP+Zn3VRVsHHXjFwil8MqtS6Sn3hSlPKqq9a83LptL68oNGT/c4/lWZREaKKbTP/o=
+	t=1717799191; cv=none; b=D9tNft7TaS1Wq/8iMSlgUhj3+YFgKFXeXCtWzjbKrQy2nO70X3+XTIeKE4aMJf3hNURxhsZ4WlbCaZaxczP/zIB9UaEvgJtzGsoX4Uvn6zkq4FkL2aH/PymE75ol5kNEkNaumxNudsraML7zMDAd0Fz78BAjncixGNPb/V+w3i8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717798978; c=relaxed/simple;
-	bh=2wVKyHK/feYQNkz0G4iPw4NNrwt/KNptq1W5FU2aHxI=;
+	s=arc-20240116; t=1717799191; c=relaxed/simple;
+	bh=8auu4zOjxSnRgN+53PqBdb3ZnnLuj5/n6TY1C6BVbhQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=slXpCu4aZRmw2A3fiFhHjxUg++Q1s3CJO+hbkmSpKOZTcN49oK1Z2ViI1G4BQbA8DgU4U65kTrju9fV0RbacV5JPm/d6sW62Nsh4/Vwza3ZkqBh9wKCtAIoHASGLGFhFbTdalkA9k850mwFTrk71E/viZNJmL82szY9NamyVrnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=vl2mqN1W; arc=none smtp.client-ip=209.85.128.48
+	 To:Cc:Content-Type; b=E1TdK+JuRScJV1yNKhiaRu/E65ZBIVuRjuxHnLoMFStul6cQZMeFnj7ZGTM0w0kAzA4k5ZqcwlhTuI9WlWY7UQ8QfZZwEY1LzdLVrT04AxritLn5RCxZkwTaHEQu06gQAxn8EmwOAa/Ezz0D+KXeDYh5wrGJPUHDwzIKQsP6q4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Go7BKEZV; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="vl2mqN1W"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-42163fa630aso15493705e9.3
-        for <linux-doc@vger.kernel.org>; Fri, 07 Jun 2024 15:22:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Go7BKEZV"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-35ef1e928c9so3011658f8f.3
+        for <linux-doc@vger.kernel.org>; Fri, 07 Jun 2024 15:26:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1717798975; x=1718403775; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1717799188; x=1718403988; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ouTQPU5YyVEsaf9+24FgrOmjgrgA/NCQDAtyFoUqx6w=;
-        b=vl2mqN1WEFMQFkM6HF36ACaL9yb7YBvZKLSLlu8oAlikVDYN8OuPrYD8rgolglS58r
-         i+cKjvtxqHGg4nB5m5SpQMQIbtwLkrpWQgqjMYwBvUzw5ui9bymqy4rAIrckjfDj3qV1
-         HvnszElNz2vMNfYJEJHKlTjxgw8z/XfwGevDNb30Uvxd3gBakGF7mgjiL77PEh55SwnQ
-         2lmhvVqsrPyvTlV+QCXrfbGizVNdDKlJNLz7R7x3MJV4h/GWKeaSfbwDGVTIHdG4nE+G
-         bYNcROA+jXiYrA4PC5Cp3d6NIrDRdH7dtRpHJ4elyZis0yhLwl34cbiSR176gtZbuda7
-         lZVA==
+        bh=TJ3OQQW+eHyCePm6E/J3FwFPQTGkY7d0el0lDRbI3xQ=;
+        b=Go7BKEZVPwr8B8/aMdgxQEt5PUJ6nmXMA0W8w8eusVxLPoqT60kBx9q54ZMrWrKqfh
+         2VrDV/TptjLTEn71R6a/NHXW2tJHDsdvJixoLQgX+7ozmsPp/1+R1X+GsgB/Ir/Hqkmg
+         s7mcJ4sc6aaZ1HWzcToVzE3lirNG0RSTmSvCbNb/V4uIgWfaWc6cR1SGBeZSywsfH2/H
+         UbimdRrAeowZUdW2m1pT3WbAKMrf4b+jlz2KNldsUzabamSV7iLYlACnWzV3PIUQe6ZU
+         qTLBRWH7+CR9Jw4gVK1FMYJajcFcq4ZLgZL17AC61riwpH69YLHbPCv7wqLI1oJjP3Mc
+         fMWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717798975; x=1718403775;
+        d=1e100.net; s=20230601; t=1717799188; x=1718403988;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ouTQPU5YyVEsaf9+24FgrOmjgrgA/NCQDAtyFoUqx6w=;
-        b=ZdcaEXyU8oDiECoPB7NmkzBhZKQu2qBuZqVBNVslhUjVqb7rk2uYYtaVDgc1RDXOLh
-         M2e0YcLh6eILjcQwYnX+VBsN4Arq2i0OCbGcgkbtF9ujfI2mCCkGN6sWex+Jrla/MsUB
-         tQ0bZLy74BC172ixdSnn3pV6PavzKz2TfzEWU8xUu8UnuK8ymg8rWh9Q8T8EwE95yPAB
-         XpFWR3aDySwNEl3tSL015Wdc6CbVfdKidiwhGbVd3SMMwZD9DZYJGLM0x/cbeeKb1cNF
-         +lHRZWVwqCYqZOqtDymfpPnRfqlq/YgzUR3M+XBsw0UlG+M7p12SjkD1m6ZddFNqRVZ+
-         7LDg==
-X-Forwarded-Encrypted: i=1; AJvYcCWzgCqOzMqbr8EF1h8HdUP21WBKFydd7+6/V55tFnnRM/wZQ+NSwEP5cRtUTLD7/j4M2zjShaUDLvmeXor+bjcnSPQlH0hOnjno
-X-Gm-Message-State: AOJu0YwoCeUfZv1wwrxaD2uBiNieeZuYMfhPy2ANPbJgCO3DY/4qVwKG
-	VR+L5QSDptHVcTno4JDyj1QmPySauRmM2m9czFem00UncDsGH3dDXbCbdTGrZetKYKZTciw0Ty4
-	eDlQXCrh5mhe5bVF9edBMfMdFwCiBqLPQ01aH
-X-Google-Smtp-Source: AGHT+IFPN9H9WFajQMarkR9dF71kl+7xMtyZUOalUgT1A2vw8tRER0AD6uQpeQtDgn3zXVOr+fDaQAS4f/qC9XF5hOE=
-X-Received: by 2002:adf:e543:0:b0:35e:51cf:690d with SMTP id
- ffacd0b85a97d-35efea823afmr2588117f8f.0.1717798975238; Fri, 07 Jun 2024
- 15:22:55 -0700 (PDT)
+        bh=TJ3OQQW+eHyCePm6E/J3FwFPQTGkY7d0el0lDRbI3xQ=;
+        b=NmNuWZkONMArS4FTKv5/68muGyCSmnp7M/aofo4IkuQkJzfREt1Fg4/YPOzxUYerrJ
+         ccn9al622fmMZ7oSlsxDnxshpi7JI7LuuqUYZtwdMV9Iqft00bHn8rJUenPmN7LC0DUR
+         ke3xUcrG61mXDrDCbz6J9RrYBBajs13Cgos1vDAZt6e3MBMs4o8y+tAWDTpPWJ2OAEZN
+         /N3XrYvYtBDmZjgetI76T6dC/h6TcF2fJY74uTKG87qnKJL6wzqbDuJFSCwYpJIapdyR
+         Ka5ceRLGw9RRI54VmQMJUbCHQ03LmbE9PFqvwtBT3buNoCZWvMZ8L0rLbbcU+ZdaUTJC
+         zrTw==
+X-Forwarded-Encrypted: i=1; AJvYcCWHj0IMYo8cBqie4aYNCMV1CpCOcV+1i7uh5D2Hua54TR1CYvFdxNH8Q70D2hYIuFfMt5mDbbRsn+7vjqMoYVjDaeIiZf+tgLvY
+X-Gm-Message-State: AOJu0Yz4/YKw/VTuPgunZsjqTX23O0b5FhZcto61L5SsdXIdxLSygX7C
+	+jb9lv6goSKhEgRg0xm1jThUv6Xd443m1yax4aasfn2+S0wTqc9uGOuMf6bU1k1BiLWZj/W39th
+	zHyerPyYHiCgA44YCF2Bxb0msiOBi10nSFwmh
+X-Google-Smtp-Source: AGHT+IG4fiWf2whywWOKYTELPDvRzqNwtYRFuyl5M1j+OGyfWA/hmL+B/m3tm3AJoZasegTNzzDHy4gCozES5Oz25vM=
+X-Received: by 2002:a5d:5744:0:b0:35f:e4d:f3dc with SMTP id
+ ffacd0b85a97d-35f0e4df6e3mr1309708f8f.9.1717799187682; Fri, 07 Jun 2024
+ 15:26:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240531213439.2958891-1-jiaqiyan@google.com> <21841726-6427-5a92-a3d1-8aac2687c01a@huawei.com>
-In-Reply-To: <21841726-6427-5a92-a3d1-8aac2687c01a@huawei.com>
+References: <20240531213439.2958891-1-jiaqiyan@google.com> <20240531213439.2958891-2-jiaqiyan@google.com>
+In-Reply-To: <20240531213439.2958891-2-jiaqiyan@google.com>
 From: Jiaqi Yan <jiaqiyan@google.com>
-Date: Fri, 7 Jun 2024 15:22:43 -0700
-Message-ID: <CACw3F52Ws2R-7kBbo29==tU=FOV=8aiWFZH2aL2DS_5nuTGO=w@mail.gmail.com>
-Subject: Re: [PATCH v1 0/3] Userspace controls soft-offline HugeTLB pages
-To: Miaohe Lin <linmiaohe@huawei.com>
-Cc: naoya.horiguchi@nec.com, akpm@linux-foundation.org, shuah@kernel.org, 
-	corbet@lwn.net, osalvador@suse.de, rientjes@google.com, duenwen@google.com, 
-	fvdl@google.com, linux-mm@kvack.org, linux-kselftest@vger.kernel.org, 
-	linux-doc@vger.kernel.org, muchun.song@linux.dev
+Date: Fri, 7 Jun 2024 15:26:16 -0700
+Message-ID: <CACw3F50+ZhetCbeym3fDzKQr8d+HY7WXNRYUD5jh4_gTUWWEig@mail.gmail.com>
+Subject: Re: [PATCH v1 1/3] mm/memory-failure: userspace controls
+ soft-offlining hugetlb pages
+To: naoya.horiguchi@nec.com, muchun.song@linux.dev, linmiaohe@huawei.com
+Cc: akpm@linux-foundation.org, shuah@kernel.org, corbet@lwn.net, 
+	osalvador@suse.de, rientjes@google.com, duenwen@google.com, fvdl@google.com, 
+	linux-mm@kvack.org, linux-kselftest@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Jane Chu <jane.chu@oracle.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 4, 2024 at 12:19=E2=80=AFAM Miaohe Lin <linmiaohe@huawei.com> w=
-rote:
++CC Jane.
+
+On Fri, May 31, 2024 at 2:34=E2=80=AFPM Jiaqi Yan <jiaqiyan@google.com> wro=
+te:
 >
-> On 2024/6/1 5:34, Jiaqi Yan wrote:
-> > Correctable memory errors are very common on servers with large
-> > amount of memory, and are corrected by ECC, but with two
-> > pain points to users:
-> > 1. Correction usually happens on the fly and adds latency overhead
-> > 2. Not-fully-proved theory states excessive correctable memory
-> >    errors can develop into uncorrectable memory error.
+> Correctable memory errors are very common on servers with large
+> amount of memory, and are corrected by ECC. Soft offline is kernel's
+> additional recovery handling for memory pages having (excessive)
+> corrected memory errors. Impacted page is migrated to a healthy page
+> if mapped/inuse; the original page is discarded for any future use.
 >
-> Thanks for your patch.
-
-Thanks Miaohe, sorry I missed your message (Gmail mistakenly put it in
-my spam folder).
-
+> The actual policy on whether (and when) to soft offline should be
+> maintained by userspace, especially in case of HugeTLB hugepages.
+> Soft-offline dissolves a hugepage, either in-use or free, into
+> chunks of 4K pages, reducing HugeTLB pool capacity by 1 hugepage.
+> If userspace has not acknowledged such behavior, it may be surprised
+> when later mmap hugepages MAP_FAILED due to lack of hugepages.
+> In addition, discarding the entire 1G memory page only because of
+> corrected memory errors sounds very costly and kernel better not
+> doing under the hood. But today there are at least 2 such cases:
+> 1. GHES driver sees both GHES_SEV_CORRECTED and
+>    CPER_SEC_ERROR_THRESHOLD_EXCEEDED after parsing CPER.
+> 2. RAS Correctable Errors Collector counts correctable errors per
+>    PFN and when the counter for a PFN reaches threshold
+> In both cases, userspace has no control of the soft offline performed
+> by kernel's memory failure recovery.
 >
-> >
-> > Soft offline is kernel's additional solution for memory pages
-> > having (excessive) corrected memory errors. Impacted page is migrated
-> > to healthy page if it is in use, then the original page is discarded
-> > for any future use.
-> >
-> > The actual policy on whether (and when) to soft offline should be
-> > maintained by userspace, especially in case of HugeTLB hugepages.
-> > Soft-offline dissolves a hugepage, either in-use or free, into
-> > chunks of 4K pages, reducing HugeTLB pool capacity by 1 hugepage.
-> > If userspace has not acknowledged such behavior, it may be surprised
-> > when later mmap hugepages MAP_FAILED due to lack of hugepages.
+> This commit gives userspace the control of soft-offlining HugeTLB
+> pages: kernel only soft offlines hugepage if userspace has opt-ed in
+> in for that specific hugepage size. The interface to userspace is a
+> new sysfs entry called softoffline_corrected_errors under the
+> /sys/kernel/mm/hugepages/hugepages-${size}kB directory:
+> * When softoffline_corrected_errors=3D0, skip soft offlining for all
+>   hugepages of size ${size}kB.
+> * When softoffline_corrected_errors=3D1, soft offline as before this
+>   patch series.
 >
-> For in use hugetlb folio case, migrate_pages() is called. The hugetlb poo=
-l
-> capacity won't be modified in that case. So I assume you're referring to =
-the
-
-I don't think so.
-
-For in-use hugetlb folio case, after migrate_pages, kernel will
-dissolve_free_hugetlb_folio the src hugetlb folio. At this point
-refcount of src hugetlb folio should be zero already, and
-remove_hugetlb_folio will reduce the hugetlb pool capacity (both
-nr_hugepages and free_hugepages) accordingly.
-
-For the free hugetlb folio case, dissolving also happens. But CE on
-free pages should be very rare (since no one is accessing except
-patrol scrubber).
-
-One of my test cases in patch 2/3 validates my point: the test case
-MADV_SOFT_OFFLINE a mapped page and at the point soft offline
-succeeds, both nr_hugepages and nr_freepages are reduced by 1.
-
-> free hugetlb folio case? The Hugetlb pool capacity is reduced in that cas=
-e.
-> But if we don't do that, we might encounter uncorrectable memory error la=
-ter
-
-If your concern is more correctable error will develop into more
-severe uncorrectable, your concern is absolutely valid. There is a
-tradeoff between reliability vs performance (availability of hugetlb
-pages), but IMO should be decided by userspace.
-
-> which will be more severe? Will it be better to add a way to compensate t=
-he
-> capacity?
-
-Corner cases: What if finding physically contiguous memory takes too
-long? What if we can't find any physically contiguous memory to
-compensate? (then hugetlb pool will still need to be reduced).
-
-If we treat "compensate" as an improvement to the overall soft offline
-process, it is something we can do in future and it is something
-orthogonal to this control API, right? I think if userspace explicitly
-tells kernel to soft offline, then they are also well-prepared for the
-corner cases above.
-
+> So the granularity of the control is per hugepage size, and is kept
+> in corresponding hstate. By default softoffline_corrected_errors is
+> 1 to preserve existing behavior in kernel.
 >
-> > In addition, discarding the entire 1G memory page only because of
-> > corrected memory errors sounds very costly and kernel better not
-> > doing under the hood. But today there are at least 2 such cases:
-> > 1. GHES driver sees both GHES_SEV_CORRECTED and
-> >    CPER_SEC_ERROR_THRESHOLD_EXCEEDED after parsing CPER.
-> > 2. RAS Correctable Errors Collector counts correctable errors per
-> >    PFN and when the counter for a PFN reaches threshold
-> > In both cases, userspace has no control of the soft offline performed
-> > by kernel's memory failure recovery.
+> Signed-off-by: Jiaqi Yan <jiaqiyan@google.com>
+> ---
+>  include/linux/hugetlb.h | 17 +++++++++++++++++
+>  mm/hugetlb.c            | 34 ++++++++++++++++++++++++++++++++++
+>  mm/memory-failure.c     |  7 +++++++
+>  3 files changed, 58 insertions(+)
 >
-> Userspace can figure out the hugetlb folio pfn range by using `page-types=
- -b huge
-> -rlN` and then decide whether to soft offline the page according to it. B=
-ut for
-> GHES driver, I think it has to be done in the kernel. So add a control in=
- /sys/
-> seems like a good idea.
-
-Thanks.
-
+> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+> index 2b3c3a404769..55f9e9593cce 100644
+> --- a/include/linux/hugetlb.h
+> +++ b/include/linux/hugetlb.h
+> @@ -685,6 +685,7 @@ struct hstate {
+>         int next_nid_to_free;
+>         unsigned int order;
+>         unsigned int demote_order;
+> +       unsigned int softoffline_corrected_errors;
+>         unsigned long mask;
+>         unsigned long max_huge_pages;
+>         unsigned long nr_huge_pages;
+> @@ -1029,6 +1030,16 @@ void hugetlb_unregister_node(struct node *node);
+>   */
+>  bool is_raw_hwpoison_page_in_hugepage(struct page *page);
 >
-> >
-> > This patch series give userspace the control of soft-offlining
-> > HugeTLB pages: kernel only soft offlines hugepage if userspace has
-> > opt-ed in for that specific hugepage size, and exposed to userspace
-> > by a new sysfs entry called softoffline_corrected_errors under
-> > /sys/kernel/mm/hugepages/hugepages-${size}kB directory:
-> > * When softoffline_corrected_errors=3D0, skip soft offlining for all
-> >   hugepages of size ${size}kB.
-> > * When softoffline_corrected_errors=3D1, soft offline as before this
+> +/*
+> + * For certain hugepage size, when a hugepage has corrected memory error=
+(s):
+> + * - Return 0 if userspace wants to disable soft offlining the hugepage.
+> + * - Return > 0 if userspace allows soft offlining the hugepage.
+> + */
+> +static inline int hugetlb_softoffline_corrected_errors(struct folio *fol=
+io)
+> +{
+> +       return folio_hstate(folio)->softoffline_corrected_errors;
+> +}
+> +
+>  #else  /* CONFIG_HUGETLB_PAGE */
+>  struct hstate {};
 >
-> Will it be better to be called as "soft_offline_corrected_errors" or simp=
-lify "soft_offline_enabled"?
-
-"soft_offline_enabled" is less optimal as it can't be extended to
-support something like "soft offline this PFN if something repeatedly
-requested soft offline this exact PFN x times". (although I don't
-think we need it).
-
-softoffline_corrected_errors is one char less, but if you insist,
-soft_offline_corrected_errors also works for me.
-
+> @@ -1226,6 +1237,12 @@ static inline bool hugetlbfs_pagecache_present(
+>  {
+>         return false;
+>  }
+> +
+> +static inline int hugetlb_softoffline_corrected_errors(struct folio *fol=
+io)
+> +{
+> +       return 1;
+> +}
+> +
+>  #endif /* CONFIG_HUGETLB_PAGE */
 >
-> Thanks.
-> .
+>  static inline spinlock_t *huge_pte_lock(struct hstate *h,
+> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> index 6be78e7d4f6e..a184e28ce592 100644
+> --- a/mm/hugetlb.c
+> +++ b/mm/hugetlb.c
+> @@ -4325,6 +4325,38 @@ static ssize_t demote_size_store(struct kobject *k=
+obj,
+>  }
+>  HSTATE_ATTR(demote_size);
+>
+> +static ssize_t softoffline_corrected_errors_show(struct kobject *kobj,
+> +                                                struct kobj_attribute *a=
+ttr,
+> +                                                char *buf)
+> +{
+> +       struct hstate *h =3D kobj_to_hstate(kobj, NULL);
+> +
+> +       return sysfs_emit(buf, "%d\n", h->softoffline_corrected_errors);
+> +}
+> +
+> +static ssize_t softoffline_corrected_errors_store(struct kobject *kobj,
+> +                                                 struct kobj_attribute *=
+attr,
+> +                                                 const char *buf,
+> +                                                 size_t count)
+> +{
+> +       int err;
+> +       unsigned long input;
+> +       struct hstate *h =3D kobj_to_hstate(kobj, NULL);
+> +
+> +       err =3D kstrtoul(buf, 10, &input);
+> +       if (err)
+> +               return err;
+> +
+> +       /* softoffline_corrected_errors is either 0 or 1. */
+> +       if (input > 1)
+> +               return -EINVAL;
+> +
+> +       h->softoffline_corrected_errors =3D input;
+> +
+> +       return count;
+> +}
+> +HSTATE_ATTR(softoffline_corrected_errors);
+> +
+>  static struct attribute *hstate_attrs[] =3D {
+>         &nr_hugepages_attr.attr,
+>         &nr_overcommit_hugepages_attr.attr,
+> @@ -4334,6 +4366,7 @@ static struct attribute *hstate_attrs[] =3D {
+>  #ifdef CONFIG_NUMA
+>         &nr_hugepages_mempolicy_attr.attr,
+>  #endif
+> +       &softoffline_corrected_errors_attr.attr,
+>         NULL,
+>  };
+>
+> @@ -4655,6 +4688,7 @@ void __init hugetlb_add_hstate(unsigned int order)
+>         h =3D &hstates[hugetlb_max_hstate++];
+>         mutex_init(&h->resize_lock);
+>         h->order =3D order;
+> +       h->softoffline_corrected_errors =3D 1;
+>         h->mask =3D ~(huge_page_size(h) - 1);
+>         for (i =3D 0; i < MAX_NUMNODES; ++i)
+>                 INIT_LIST_HEAD(&h->hugepage_freelists[i]);
+> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+> index 16ada4fb02b7..7094fc4c62e2 100644
+> --- a/mm/memory-failure.c
+> +++ b/mm/memory-failure.c
+> @@ -2776,6 +2776,13 @@ int soft_offline_page(unsigned long pfn, int flags=
+)
+>                 return -EIO;
+>         }
+>
+> +       if (PageHuge(page) &&
+> +           !hugetlb_softoffline_corrected_errors(page_folio(page))) {
+> +               pr_info("soft offline: %#lx: hugetlb page is ignored\n", =
+pfn);
+> +               put_ref_page(pfn, flags);
+> +               return -EINVAL;
+> +       }
+> +
+>         mutex_lock(&mf_mutex);
+>
+>         if (PageHWPoison(page)) {
+> --
+> 2.45.1.288.g0e0cd299f1-goog
 >
