@@ -1,79 +1,162 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C8E66D1B9;
-	Fri,  7 Jun 2024 16:42:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BED2E18059;
+	Fri,  7 Jun 2024 16:51:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717778535; cv=none; b=aHRaDAKs/Wok+GGT6OHX1S1yOZNFvyd+B6MLXwjPhZ7X/9hMLPoaMBivEQmRFAC+8rwQuM5gLunNt/QLKMjK1D0HP+Pouwszy3pTO5mI/zAqGLgIOv/X9YcpsRsdjiyfkwGbUtXSNYpY+++6sdLqAiuS5ZvIpSMv93C8OaKetXQ=
+	t=1717779109; cv=none; b=Jo4HEzeOKyz+BCuM32R2lljja8X6oEiD2wPqAfCYGFgMpr0iwA9tJEGAFi00kz7CCYs1KHCWSg+5uimeWwFH8uMyDjUVc6Y9kw19KO58BiLf++S4h/3RhfAgDrQ9taN2MLSgGtu/uiFMPyp+4F5QQeUjIR8Z4jDPLOQITA2/ahg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717778535; c=relaxed/simple;
-	bh=17Rm0c56+lqAAAeOiSXB/h23mSa17FdYfWjscUEGqcE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=EG925sQ010dSbh/S/uGWwViCg9P0E+CWxyTjz46EY3e3QCdvxM0WMwQmDGvkrrEpspyvWnz8gIP+R0RnsXEtfLRFx4IvLq81g+GPdZo5VFyya8zreJlY1iRNBWBSXt8lcNfZBiw24LebQJJCf9pR4o0gE4/cSmDcljW91pzYJWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EDGgMQ62; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717779109; c=relaxed/simple;
+	bh=1bJjhIo+skwf0sz4/9yRR4Oy///FQ4QnkOz9x3xs0W8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HDDH3Q9aznlwl8nvYoMfnM8rAqNchpv/6wGptXXlzWIuHpFEA+t0SHoom1784V70oxB0p6DXJ3oKagrOLJUb0UMu5butGyNvgHL1JwZ/wDjENkEZwYQkq6FsqGH24jFZrRpqks1t2ZkHNAboPjAIjbDjiJhQ3jh3xNQ7Ns6bUwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iYIY/KbL; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EDGgMQ62"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DE08C2BBFC;
-	Fri,  7 Jun 2024 16:42:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717778534;
-	bh=17Rm0c56+lqAAAeOiSXB/h23mSa17FdYfWjscUEGqcE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=EDGgMQ62bpIql3FU15A/tEqWLIIPML4B4w3AC2fWSjpVnGspn8jj9Js11rnE0kbce
-	 UZIXLzBJR+sSv/0qxeqfZvQNAQInBtwCKEpK4ckDKUXsdI83FNK+Yx34X+YGZMNC2I
-	 4VU6NNT5L2lKwGhp2m/oWrr5i9ACfm8+LmeoMHlHePUywEqHx2NHMNR69KSoZEn5rI
-	 J247YJXE5f360bADMtm8mWW5OkCcyxZojmYDCZJ0jrC/+kRMi6Co0tdrPa7ZS3endQ
-	 rKKXO44/FcuPNJDaeC3FdiBcCaWzKdFwRBZCR4ngbp5UqO0TU578oyqmtxfGooVH7s
-	 4zZULefLB1siw==
-Date: Fri, 7 Jun 2024 11:42:12 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Wei Huang <wei.huang2@amd.com>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-	bhelgaas@google.com, corbet@lwn.net, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	alex.williamson@redhat.com, gospo@broadcom.com,
-	michael.chan@broadcom.com, ajit.khaparde@broadcom.com,
-	somnath.kotur@broadcom.com, andrew.gospodarek@broadcom.com,
-	manoj.panicker2@amd.com, Eric.VanTassell@amd.com,
-	vadim.fedorenko@linux.dev, horms@kernel.org, bagasdotme@gmail.com
-Subject: Re: [PATCH V2 2/9] PCI: Add TPH related register definition
-Message-ID: <20240607164212.GA850739@bhelgaas>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iYIY/KbL"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4217926991fso2202045e9.3;
+        Fri, 07 Jun 2024 09:51:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717779106; x=1718383906; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tMxkWvAB89M9V9iTWfyILXsU7ZFICeIaKzWoaQWGLXg=;
+        b=iYIY/KbLE0cGYut2x9p1MDydEElrra8mGEnNBLXQsOuCX4SscFrVTzAPLsxxwxBQw9
+         IMfDqVb9kXYaCn7CCMi/VNkaA4DJrCLetwCzugrNfudVolr/YQvY8gNWFieYb5YEBt4G
+         gINHGn2uCCK2idUr/m2Oj2Qt0BgsrvQxjeIAkSj2CX/gIMJ5geeXoQbut6R2FMC5XDtD
+         nCop0If3qMkpkDjyPi4tIVjqh6wPtwgCQvviQpZNgXKmt5EyIHNgAK1wHhywoLlH86l5
+         zl5L8yMj2HoIGQnkknhkuBLoe4QPNbotxMphC6nmx1z8gc7VIFxz7OGEQRT4maRJNFHa
+         Aoog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717779106; x=1718383906;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tMxkWvAB89M9V9iTWfyILXsU7ZFICeIaKzWoaQWGLXg=;
+        b=r+p8zjajLpjf02uD0IDS0IZp0halm/AjFZ3NnjKmLXnLeMOrqbY8Es0HEEOY7tfCVk
+         3Ff9GVfpbVQqrT5t36ydBtE1xWcXe5OQp95EkhTIv3B3lDnPWaZTqRk6smJTCJL/VvOI
+         I5PEfCwNmgO4L8j9VQVyXfJvEbMK4+h93yROdFFtdZbGKcQIABXlaSrZkxTK7185G1Ty
+         mjtADS2q8ZEMlAKiihGn6YGVGdxZSyyw88ngobh4x2pssdJn1zwf8Qh8x29DPAu6cl2Z
+         o6pvQljS4Ukku7YN5PUTQyIJAqrexbXYtDyls4QMr3DD6GOVsulAiwy5gGHIAJ6eLtA/
+         s8xA==
+X-Forwarded-Encrypted: i=1; AJvYcCUPhk6/aK/wFPr/AXGQQkMLRVSma8he3pezNSf3SXdix8tLuHI6d4c+AEveVFg2PD9t5us0B6SZbqfTGpt8dgbsJUjXlwIbDEgxmZG5TyfvWwkvODvEBqH/lKznBQSWPUvuFRPXKrRNKTVY7Ftu3e6U0vr4dk1O3+CKHU1na5tU/wvgJgycoq4iMJzt9vmbmJhdfPyvHrufHEnbc1Zf4zxjs/9srtcY/EyrwY4XVMiySHP5DoSQHOprWC0=
+X-Gm-Message-State: AOJu0YwjsVBoDzyXGBERxwb/7oKsJ6ZsCpqBfJIWG0D82PNlJNNlPL6W
+	e/3d7hMEb7dOqJ1xG5qhb4L432DZJcVSlPUkqlP/7Q3mJWRyhDCMhs0qUydv3iVKhXVA2TMWKwj
+	MQ0znys8VqAXtoA+ks2QmG68RxG0=
+X-Google-Smtp-Source: AGHT+IHHae77jPsMRuAMp85p7UQJ8UtEsFv+8X6HMvb/PiDrhcFw4+Xw/LR9J2hf5nG4gO8ySMa1c1vDnWV9tCzVeHA=
+X-Received: by 2002:a5d:6483:0:b0:354:df59:c9a4 with SMTP id
+ ffacd0b85a97d-35efed08bd4mr2933676f8f.9.1717779105887; Fri, 07 Jun 2024
+ 09:51:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240531213841.3246055-3-wei.huang2@amd.com>
+References: <20240607-hid_bpf_struct_ops-v2-0-3f95f4d02292@kernel.org> <20240607-hid_bpf_struct_ops-v2-3-3f95f4d02292@kernel.org>
+In-Reply-To: <20240607-hid_bpf_struct_ops-v2-3-3f95f4d02292@kernel.org>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Fri, 7 Jun 2024 09:51:34 -0700
+Message-ID: <CAADnVQJo71xGQKLTW6Z1xsTLjtikN8bfemPUF4zj2c2Uvi5JMw@mail.gmail.com>
+Subject: Re: [PATCH HID v2 03/16] HID: bpf: implement HID-BPF through bpf_struct_ops
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: Shuah Khan <shuah@kernel.org>, Jiri Kosina <jikos@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Alexei Starovoitov <ast@kernel.org>, 
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	bpf <bpf@vger.kernel.org>, 
+	"open list:HID CORE LAYER" <linux-input@vger.kernel.org>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 31, 2024 at 04:38:34PM -0500, Wei Huang wrote:
-> Linux has some basic, but incomplete, definition for the TPH Requester
-> capability registers. Also the control registers of TPH Requester and
-> the TPH Completer are missing. This patch adds all required definitions
-> to support TPH enablement.
+On Fri, Jun 7, 2024 at 8:28=E2=80=AFAM Benjamin Tissoires <bentiss@kernel.o=
+rg> wrote:
+> +struct hid_bpf_ops {
+> +       /* hid_id needs to stay first so we can easily change it
+> +        * from userspace.
+> +        */
+> +       int                     hid_id;
+> +       u32                     flags;
+> +
+> +       /* private: internal use only */
+> +       struct list_head        list;
+> +
+> +       /* public: rest is public */
 
-s/This patch adds/Add/
+Didn't notice it before, but the above comments are misleading.
+The whole struct is private to the kernel and bpf prog, while
+registering, can only touch a handful.
+I'd drop "internal use" and "is public". It's not an uapi.
 
-> +#define PCI_EXP_DEVCAP2_TPH_COMP_SHIFT		12
-> +#define PCI_EXP_DEVCAP2_TPH_COMP_NONE		0x0 /* None */
-> +#define PCI_EXP_DEVCAP2_TPH_COMP_TPH_ONLY	0x1 /* TPH only */
-> +#define PCI_EXP_DEVCAP2_TPH_COMP_TPH_AND_EXT	0x3 /* TPH and Extended TPH */
+> +
+> +/* fast path fields are put first to fill one cache line */
 
-Drop the _SHIFT definitions and use FIELD_GET() and FIELD_PREP()
-instead.
+Also misleading. The whole struct fits one cache line.
 
->  /* TPH Requester */
->  #define PCI_TPH_CAP		4	/* capability register */
-> +#define  PCI_TPH_CAP_NO_ST	0x1	/* no ST mode supported */
-> +#define  PCI_TPH_CAP_NO_ST_SHIFT	0x0	/* no ST mode supported shift */
+> +
+> +       /**
+> +        * @hid_device_event: called whenever an event is coming in from =
+the device
+> +        *
+> +        * It has the following arguments:
+> +        *
+> +        * ``ctx``: The HID-BPF context as &struct hid_bpf_ctx
+> +        *
+> +        * Return: %0 on success and keep processing; a positive
+> +        * value to change the incoming size buffer; a negative
+> +        * error code to interrupt the processing of this event
+> +        *
+> +        * Context: Interrupt context.
+> +        */
+> +       int (*hid_device_event)(struct hid_bpf_ctx *ctx, enum hid_report_=
+type report_type);
+> +
+> +/* control/slow paths put last */
+> +
+> +       /**
+> +        * @hid_rdesc_fixup: called when the probe function parses the re=
+port descriptor
+> +        * of the HID device
+> +        *
+> +        * It has the following arguments:
+> +        *
+> +        * ``ctx``: The HID-BPF context as &struct hid_bpf_ctx
+> +        *
+> +        * Return: %0 on success and keep processing; a positive
+> +        * value to change the incoming size buffer; a negative
+> +        * error code to interrupt the processing of this device
+> +        */
+> +       int (*hid_rdesc_fixup)(struct hid_bpf_ctx *ctx);
+> +
+> +       /* private: internal use only */
+> +       struct hid_device *hdev;
+> +} ____cacheline_aligned_in_smp;
 
-Drop _SHIFT and show full register width for PCI_TPH_CAP_NO_ST, e.g.,
+Such alignment is an overkill.
+I don't think you can measure the difference.
 
-  #define  PCI_TPH_CAP_NO_ST 0x00000001
+> +
+>  struct hid_bpf_prog_list {
+>         u16 prog_idx[HID_BPF_MAX_PROGS_PER_DEV];
+>         u8 prog_cnt;
+> @@ -129,6 +188,10 @@ struct hid_bpf {
+>         bool destroyed;                 /* prevents the assignment of any=
+ progs */
+>
+>         spinlock_t progs_lock;          /* protects RCU update of progs *=
+/
+> +
+> +       struct hid_bpf_ops *rdesc_ops;
+> +       struct list_head prog_list;
+> +       struct mutex prog_list_lock;    /* protects RCU update of prog_li=
+st */
 
-The existing PCI_TPH_CAP_* definitions don't follow that convention,
-but the rest of the file does, and this should match.
+mutex protects rcu update... sounds very odd.
+Just say that mutex protects prog_list update, because "RCU update"
+has a different meaning. RCU logic itself is what protects Update part of r=
+cU.
+
+The rest looks good.
