@@ -1,112 +1,217 @@
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE4C215B54A;
-	Fri,  7 Jun 2024 13:36:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0001194157;
+	Fri,  7 Jun 2024 13:42:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717767416; cv=none; b=U1kDyAQsOuKe10tpq65odbEUwQ027sM5vQToY8oxB5WJEpAmJXPCjMVu/DowCb9XdG1C2vJQcYqpiLmSubOs6TfoNi7j8ndiidReIcfaz/Ej5bIXkaxsIAkIbrObxqzMJlzNOhwV4JOMKcVXZuDzPluwkCqdMf35Kerr/BuSyLQ=
+	t=1717767775; cv=none; b=D6YM7XBeFOrfNhvC3WRT6zyS5hZZcsFw1U4o4j0SN30qARcANliUu1G+WcRB+BrPc4GoOwmAjT93OVoVF0OJXq2T+I9cxUG8MFX02Uxvs7mtBBEHBOiCLw+Z7rEUiCjBxL+EmxYV05Hvhz3FVu3DV4q5mNYpIwrqvawLQPUqpCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717767416; c=relaxed/simple;
-	bh=aTqDPs2BV1TkSSf7DvtFtL1V0gHpXhKpZ4wD3WJPDVw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bF0Wguu2ifoh8AsyI8HaAtGQyaE7ignVdj/rt+b8pa1MrhA3oikaKKbM/vLaZb2pi66VCNIwJt5OOBIKcDTgJ62aNLF+AUhrwKpZ+IkRj80xJqOMcM3YbnT42A+lZAirp2Dm0IelftEn3euY/U1X8Ufw+Hjv1m9N8MXC++lpBBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=af0/R9R3; arc=none smtp.client-ip=209.85.167.179
+	s=arc-20240116; t=1717767775; c=relaxed/simple;
+	bh=SaO4qNMKQ+X9pN+adg0sAB0LFr6aV+Wq0JGv5RvFCkE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nv2Nce0Izrk87JtaR1DggSGqcCrfd4nySgx1RQ6LAwZ7IAfCv+lTAzpJs0YV0dy8HkVu8NhXtjJ7L9oDimw9qUi4ha7/X7GDttzo+knbGLsHA5+J13dE5F//pYYVY17BV92CYwW5idepzcQY+nhwjXUkqon0/M3GNbllDE+cgsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jCfMYz/Q; arc=none smtp.client-ip=209.85.218.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="af0/R9R3"
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-3d1ffa16080so317169b6e.2;
-        Fri, 07 Jun 2024 06:36:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jCfMYz/Q"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a68f1017170so276072966b.0;
+        Fri, 07 Jun 2024 06:42:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717767414; x=1718372214; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OsnPTo/8GBKfAm5hQE1/ElT4VESU6abIi/S302Yoa/A=;
-        b=af0/R9R3mDpuB8ZFPLusmdPtNUss5tCutbO17vRKBa/l3Ci5m1NVBObLZt6gqlT5h/
-         g3JJh74JUvt6jvy1qBR1M4NG6NWlBs8wdkmLD77NmM63aslXAFGktpVsMFB8q1WKvjn4
-         PhkTV9jOyJIF/7n9fLXfgezzTnAiq0MFVb3JkO4lauJVhhHjZ5K+GhTx5gwSR6un/m8+
-         skJT/vNIjwxF0J+dr7cYMRXKHjutQ6K2UR8WakfE7JyhHi/sOZwxLZahQloAWroDF9NY
-         nBfaEvbjFFFL1KNiU5S3CQ3llGubgVjifUh60m2FeAYXSMn6NKawP3qBKe8Zh6oHDef5
-         ouRQ==
+        d=gmail.com; s=20230601; t=1717767772; x=1718372572; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XQvJWXNRaDSMtIW4Jv2ND5NqVCptWS7FYEPyb+9ayJA=;
+        b=jCfMYz/Qv7M9+TJb3zYqe4WGfvHIxc9mpJeywgshd+qsrOr3dWfobOhl9U2/AfIr2Q
+         mv7osJzxDV14Va2ZngbimcgecIEHbTEZRFQNr0Mo8+0LLGKBDnHf3zpHlK+ztnxeQf0w
+         pyBbBqrHXFWFBj2J0h2et5lo2Kuy5zO62y6EKHv2Ur6wvyRuAC/WCR7ZmVm5uhNO2iZx
+         293IV7nN3X+He4nCOcEoAh/eI5TBurzTRlIs2SF5K2H5wnWOr+ohjeD667olPQXhkjdk
+         vvwFS48FEBY+yfCihRnQ3Lm82r4C2QejhEfk/WSsBfWpL3W5ntEl4tmsRaoW72DWxntS
+         LckQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717767414; x=1718372214;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OsnPTo/8GBKfAm5hQE1/ElT4VESU6abIi/S302Yoa/A=;
-        b=KDkhpr4HnspWu6Whpgxm6RZ9h8j3gT4nJfTWDmjnLYnfMh4bbWhFx5+LiLJs2JuEQ8
-         Fp9RcSeN4vpwAGAA0tzPD6rmQb48lpa1OKble4di079DX69muipdKXQzTT5TQfOwRHKM
-         HGuaYq/jzl4urebZwovL7Cr9TArXOnFSDXg+2WZ2l3/+dwo6eYh2/v11128Xyw0Ig5+e
-         urSlDUyfzrIrf6KXwUdga4vdd+VcCpWqZ1K0LM73R1pI22+aMPGImKKJfTXM2Ozfbhhi
-         4KmCkxCA9yvjHUrFcA74neAeVZjIYsEzDYuiib/NRVm2ZaXnCOwSoOIZBFLf0TpJFchs
-         NK8w==
-X-Forwarded-Encrypted: i=1; AJvYcCU8ja98orwGriMUWPd9puF1UDCkPbU1NeUnO59UbzF3AOrf3gE2i7isRKZsdCkvDvdqRvACNZDGSILDVhGRypA3XCTVHNVNiSIr0MPu1mkJfRpTtix45efoU3jJNiaIOOrOSW3lmwABTg==
-X-Gm-Message-State: AOJu0YxJTgpTTxap7NwYyi93LDur5X94px36I1WHND2b0foyAb5djc01
-	k00DMd+xyVY86jrcX/vq+B8iM77bIPGKZdwDsCDpuJafnecRUFI6M95hwm17aZZ2lxDkV9KeeO9
-	1SpXJu4hK2bAUq3AW3Cf4HSyKz7U=
-X-Google-Smtp-Source: AGHT+IEojVhe1VE2I9tkYeYFprnJEtgfGkdfoWwK5O0NK2oo8xUNetmXenf1UiYpFdw8PyEET/QaYELWmnmu1A9VAqA=
-X-Received: by 2002:a05:6808:21a0:b0:3c8:64b7:7814 with SMTP id
- 5614622812f47-3d210f98377mr2592800b6e.5.1717767413813; Fri, 07 Jun 2024
- 06:36:53 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1717767772; x=1718372572;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XQvJWXNRaDSMtIW4Jv2ND5NqVCptWS7FYEPyb+9ayJA=;
+        b=KRf+c+1v7KV/zvc7cfq5depzXaCzjy5kdmWBi+6aeKz8NxJSbKORJWbrGgHsh1d+fb
+         QK73sdjTkLJ+/BegP2n/M8g/HbamvWfepdxDYpmn8fEVEcWV9lKaEmi9LQIWtsw952N3
+         ELE8XABa8QK9BedEHDgoUtnMVUfdcQcH1tADJmO51xBl/ePcvWMK4kFyHqZlwGoPx395
+         M63lAp2jRAH15ILv+d1ty3YfQxAsXKy4uoIWoSzyvEq0z7TIpyLo3tdWNEHX8vjao9+T
+         oHVk9nCPbu/wSjVOoJniRReiKwtCAW46XG4oacxPWVVrOUZfsX4wEYkTnGX5fOGaTpW8
+         18xA==
+X-Forwarded-Encrypted: i=1; AJvYcCXPtDKS8sYlR76k3Q+C/Tegm8nIgNBuM8AaG6SKppK+RT1OIO30alkjJ3URPDTOCAJ+TfYbYQUg/HdmWiiftgylGHsDkpOmlE0bRwa964jKkUCo5ewnvwTNBzRNCHOkuYjWAybEbQwVFhkbxk685VyGhr/lIkl5rir1QaTdK46ud7dzhBFYzoJfarD16HJWfxF2D5agH4QCFqMlNx3UHGhINuXtHSvB99baTqMvKoFXQxq3iUGQGlvXlqcJbanWnK5qK0E0rupanaAztlKRtD3bPqXJqe3pNzfaDbvpSx3FAL6pvhb/qbjt6WmIP3vykqmPzlTwYHbRJXJ+ekvMDoAyH7sdP4ZrHAjanxJm+4d2dh6y4RaeYa1baDWajIyzFxxZKyKesj38YgA3e+aoYM/8UvOg1oQJcbNzyJ9KMk9fN19ktOZHMQwUN4brsPk9a44JoLhNYb88LNy7afG0p+dGiIs7Lc/9vwpHVx607n2TkxK1f4T8C2S0fAxzYLqDhs04UiTtsw==
+X-Gm-Message-State: AOJu0YxvgTDRPm7gwp8+8vkwDqfZmafEtY3bFP/Uqlxg7N4J9kCpdSvS
+	7RVoHwNF2HoCVUXsVI44j//pUnF5qIjZtLFfedHEUUClSvpFlrlfYNK0xIHj
+X-Google-Smtp-Source: AGHT+IFclc2dDyjV0e9a5PXYgUTUusiUWbxIzgPbh6TUxBel8tm9M3qb2yzcyQfG8c9PwgVnd9uoBw==
+X-Received: by 2002:a17:906:15c9:b0:a68:dff5:b153 with SMTP id a640c23a62f3a-a6cd75b3e98mr195015166b.33.1717767771673;
+        Fri, 07 Jun 2024 06:42:51 -0700 (PDT)
+Received: from [192.168.42.51] ([163.114.131.193])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6e51c85a05sm68724866b.159.2024.06.07.06.42.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 07 Jun 2024 06:42:51 -0700 (PDT)
+Message-ID: <eb237e6e-3626-4435-8af5-11ed3931b0ac@gmail.com>
+Date: Fri, 7 Jun 2024 14:42:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240607122357.115423-1-david@redhat.com> <20240607122357.115423-2-david@redhat.com>
-In-Reply-To: <20240607122357.115423-2-david@redhat.com>
-From: Lance Yang <ioworker0@gmail.com>
-Date: Fri, 7 Jun 2024 21:36:42 +0800
-Message-ID: <CABzRoyYer2Bb-yLXJAafqpxG5p+aZhnxoxq2v5KLY3JswpnX0A@mail.gmail.com>
-Subject: Re: [PATCH v1 1/6] fs/proc/task_mmu: indicate PM_FILE for PMD-mapped
- file THP
-To: David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	"Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
+ custom page providers
+To: Mina Almasry <almasrymina@google.com>
+Cc: Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
+References: <20240530201616.1316526-1-almasrymina@google.com>
+ <20240530201616.1316526-3-almasrymina@google.com>
+ <ZlqzER_ufrhlB28v@infradead.org>
+ <CAHS8izMU_nMEr04J9kXiX6rJqK4nQKA+W-enKLhNxvK7=H2pgA@mail.gmail.com>
+ <5aee4bba-ca65-443c-bd78-e5599b814a13@gmail.com>
+ <CAHS8izNmT_NzgCu1pY1RKgJh+kP2rCL_90Gqau2Pkd3-48Q1_w@mail.gmail.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <CAHS8izNmT_NzgCu1pY1RKgJh+kP2rCL_90Gqau2Pkd3-48Q1_w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jun 7, 2024 at 8:24=E2=80=AFPM David Hildenbrand <david@redhat.com>=
- wrote:
->
-> Looks like we never taught pagemap_pmd_range() about the existence of
-> PMD-mapped file THPs. Seems to date back to the times when we first added
-> support for non-anon THPs in the form of shmem THP.
->
-> Fixes: 800d8c63b2e9 ("shmem: add huge pages support")
-> Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+On 6/3/24 16:43, Mina Almasry wrote:
+> On Mon, Jun 3, 2024 at 7:52 AM Pavel Begunkov <asml.silence@gmail.com> wrote:
+>>
+>> On 6/3/24 15:17, Mina Almasry wrote:
+>>> On Fri, May 31, 2024 at 10:35 PM Christoph Hellwig <hch@infradead.org> wrote:
+>>>>
+>>>> On Thu, May 30, 2024 at 08:16:01PM +0000, Mina Almasry wrote:
+>>>>> I'm unsure if the discussion has been resolved yet. Sending the series
+>>>>> anyway to get reviews/feedback on the (unrelated) rest of the series.
+>>>>
+>>>> As far as I'm concerned it is not.  I've not seen any convincing
+>>>> argument for more than page/folio allocator including larger order /
+>>>> huge page and dmabuf.
+>>>>
+>>>
+>>> Thanks Christoph, this particular patch series adds dmabuf, so I
+>>> assume no objection there. I assume the objection is that you want the
+>>> generic, extensible hooks removed.
+>>>
+>>> To be honest, I don't think the hooks are an integral part of the
+>>> design, and at this point I think we've argued for them enough. I
+>>> think we can easily achieve the same thing with just raw if statements
+>>> in a couple of places. We can always add the hooks if and only if we
+>>> actually justify many memory providers.
+>>>
+>>> Any objections to me removing the hooks and directing to memory
+>>> allocations via simple if statements? Something like (very rough
+>>> draft, doesn't compile):
+>>
+>> The question for Christoph is what exactly is the objection here? Why we
+>> would not be using well defined ops when we know there will be more
+>> users? Repeating what I said in the last thread, for io_uring it's used
+>> to implement the flow of buffers from userspace to the kernel, the ABI,
+>> which is orthogonal to the issue of what memory type it is and how it
+>> came there. And even if you mandate unnecessary dmabuf condoms for user
+>> memory in one form or another IMHO for no clear reason, the callbacks
+>> (or yet another if-else) would still be needed.
+>>
+>> Sure, Mina can drop and hard code devmem path to easy the pain for
+>> him and delay the discussion, but then shortly after I will be
+>> re-sending same shit.
+> 
+> You don't need to re-send the same ops again, right? You can add io
+> uring support without ops. Something like:
+> 
+> diff --git a/net/core/page_pool.c b/net/core/page_pool.c
+> index 92be1aaf18ccc..2cc986455bce6 100644
+> --- a/net/core/page_pool.c
+> +++ b/net/core/page_pool.c
+> @@ -557,8 +557,8 @@ netmem_ref page_pool_alloc_netmem(struct page_pool
+> *pool, gfp_t gfp)
+>                  return netmem;
+> 
+>          /* Slow-path: cache empty, do real allocation */
+> -       if (static_branch_unlikely(&page_pool_mem_providers) && pool->mp_ops)
+> -               netmem = pool->mp_ops->alloc_pages(pool, gfp);
+> +       if (unlikely(page_pool_is_dmabuf(pool)))
+> +               netmem = mp_dmabuf_devmem_alloc_pages():
+> +       else if (unlikely(page_pool_is_iouring(pool)))
+> +               netmem = mp_io_uring_alloc_pages():
+>         else
+>                  netmem = __page_pool_alloc_pages_slow(pool, gfp);
+>          return netmem;
+> 
+> So IMO, the ops themselves, which Christoph is repeatedly nacking, are
+> not that important.
+> 
+> I humbly think the energy should be spent convincing maintainers of
+> the use case of io uring memory, not the ops. The ops are a cosmetic
 
-LGTM. Feel free to add:
-Reviewed-by: Lance Yang <ioworker0@gmail.com>
+I haven't seen any arguments against from the (net) maintainers so
+far. Nor I see any objection against callbacks from them (considering
+that either option adds an if).
 
-Thanks,
-Lance
+And just not to confuse folks, it's just user pages, not some
+weird special io_uring memory.
 
-> ---
->  fs/proc/task_mmu.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-> index 5aceb3db7565e..08465b904ced5 100644
-> --- a/fs/proc/task_mmu.c
-> +++ b/fs/proc/task_mmu.c
-> @@ -1522,6 +1522,8 @@ static int pagemap_pmd_range(pmd_t *pmdp, unsigned =
-long addr, unsigned long end,
->                 }
->  #endif
->
-> +               if (page && !PageAnon(page))
-> +                       flags |=3D PM_FILE;
->                 if (page && !migration && page_mapcount(page) =3D=3D 1)
->                         flags |=3D PM_MMAP_EXCLUSIVE;
->
-> --
-> 2.45.2
->
->
+> change to the code, and can be added later. Christoph is nacking the
+> ops because it gives people too much rope [1].
+
+Yes, it is cosmetic, just as much as removing it is a cosmetic
+change. You can apply same "too much rope" argument basically
+to anything.
+
+Take io_uring, nothing would change in the process, it'd still
+be sent to net and reviewed exactly same way, while being less
+clean, with poorer subsystem separation, allowing custom
+formats / argument list, etc. I think it's cleaner with callbacks,
+Mr. Christoph has other beliefs and keeps coercing to them,
+even though from time to time it backfires for the author, just
+personal experience.
+
+
+> But if you disagree and think the ops themselves are important for a
+> reason I missed, I'm happy waiting until agreement is reached here.
+> Sorry, just voicing my 2 cents.
+> 
+> [1] https://lore.kernel.org/netdev/ZjjHUh1eINPg1wkn@infradead.org/
+> 
+
+-- 
+Pavel Begunkov
