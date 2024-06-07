@@ -1,60 +1,60 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBBC05336A
-	for <linux-doc@vger.kernel.org>; Fri,  7 Jun 2024 06:48:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5F0014F11B
+	for <linux-doc@vger.kernel.org>; Fri,  7 Jun 2024 07:34:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717742937; cv=none; b=DD2VabeVrAzKiF3I1lPAk4DA87DOnbgVM5CfQf1oUKQ9QAjOG0QIJ+nDh1WNxLxWHgSHyd+tIV6rfq5rghdmwVrNA7oqW/53dwbIygjtukCSlT8QaQLkWjRH5nRppd+t71/2f59Er2B2beli4Ai8aR2iHBAz0ccGHDRgqirmmvo=
+	t=1717745666; cv=none; b=MLW+FAgk9okGk0yptDLzjnCi7ojN/+GQ2ehT1dTFFoQ04M3/fz/tJL+Wgrk4RIzUXYFWVtUJJWJHu1PfUilzWecyebkSBbblaWn+ySuGzM9vVwJ2uOHJjzXTsBCE3RRdqech72bMNguSpf+dryU96rr5WgRGkEtbfXkb3xwHLqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717742937; c=relaxed/simple;
-	bh=pgHe5e3ALK+cypFku6S3ieR5sW7SNUe2jaqsfcPIj20=;
+	s=arc-20240116; t=1717745666; c=relaxed/simple;
+	bh=wc7V8buAFkBh3ydPjed2ipAWNFc5GmI1OVqByAfWSWU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YLhRLlxqoZIsNLiWnaxKOtXzc19ml9rYMsu/IdeAUrDbNUzeUtU/P7N8zrq41vMJvVl0lFUFJZvTt8Q8DNqDiO1J56qZvI5v8DdfMkCUF7UzUlD42I2Z5lZmGDmgQeD91esolEVGfj5YQs4JQfQnpm4ccZjDgocjLrfbE/6rx08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=WHBNVDxL; arc=none smtp.client-ip=209.85.128.51
+	 Content-Type:Content-Disposition:In-Reply-To; b=IZkfj7awAtbyTgRR5uXdl740+qkw10UpUZwl5XYXqoZI4NjrP6LKT4GzdCva68mXVIbMBciKHNXgTq35ZAbKFX7mxTIpabNUKb4tJWpIjGnP4QUPE8/RyjFxq2Jb4XWPty13uHM8zBskf1w5TvF5r/DwVXeKXkZ/Ns84GV0w+2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=q+Pz3Mhf; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="WHBNVDxL"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4215ac379fdso16927905e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 06 Jun 2024 23:48:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="q+Pz3Mhf"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4214f52b810so21988105e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 07 Jun 2024 00:34:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1717742934; x=1718347734; darn=vger.kernel.org;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1717745662; x=1718350462; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=43B/d4gP0SHROpUeDJVVbV3eXPrnkyyO5sotvbejxE8=;
-        b=WHBNVDxLb89t4vpBlCcek1GBq9Kmstv+1AVdjO59eaYkrCWcEI9nEDP9Q4cO+AAyPJ
-         HmDSto7YIA7d11bU+l+0wUTDUOEEdshw8yc2rWamSrSdTiVK4BXiXIcdpkdxnxtTj70G
-         yX0WWgxXHpb5WW+BdqOlQ11DlXUFJFHCmFnlWKRcVzgjm9iMJj9tpjeJAeu4DCl1vcBN
-         XtTf2Zl7Scs+Y97N64LNIuPgi+uJEvDBtHjLY43u1zXwglMusYxD/y1XP7Hy31V2r0D5
-         oP16PMPj9CdMEaFS65ZlsMHa+2q4HTc/9X2dkmtzSwRMDdXvAVeoVgHPcgujfUgEHlYe
-         ImIg==
+        bh=Q9p6Ea3BEh/GCrntLXXZZkFilZ40QZybHi/QN5L8Zn8=;
+        b=q+Pz3MhfhJdXmKzduBXLRXoBo4ZJKF1Lc2nj5i8EWgeRMLJOu+Yb8ulvKkHtKd2a9b
+         oAreJr+aMnnQSewtWckAM30kjNoBouKNwZ+CB705d7ORxkv0chfReUltQNleeopnfdux
+         wOOcwtYCyqzpz7UvmJZ+gyQRgB79TgwV9mU74BgOeyRgmnmdqHC7EZ1umdjbCUwaU4n0
+         i/TpISZAlfgkWcLN4l7xAsAO0Nb5z0xE57/saHQT3wgLVWHLaQRyGHU01jvJxsXfwcFB
+         dWJJqYE/s7ccoXE54aOtHKFCOjEfcmkIbg9AAkoFvnc/oyyph69xU7LKOOBfxqz3Zv8a
+         A0jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717742934; x=1718347734;
+        d=1e100.net; s=20230601; t=1717745662; x=1718350462;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=43B/d4gP0SHROpUeDJVVbV3eXPrnkyyO5sotvbejxE8=;
-        b=vs4nAVCLWU3OnmEa0knWJRjG3jkpChUJnpXTIJ9d+c/PUU7iVCc3tY9bXP09dcZQzK
-         hg9JrQeFU8Zv5H6KtZ1PN2/PJsLeJ8iMAMUeoYOKDAXzTZCXbTag2xjYgW+RW3hBuNbP
-         AscyNzudQHEqKKsrdPDl//ouLnOjkNEm40W9GCJOlyTRQVfSflZ44wuGZFwItDooA8qm
-         w5DMx1kv3B84GoPTz0wYzbRNUgyTuQCrP+xAgAb4AC3EHtc6waEnzndBj1U4b5IU4ySn
-         6dYQEj5xOe/Q919rWZmdWcp5lbMxNjsb5gAz2q7dVFIM5/na/bAX0yEMQtNSX8c0OWgm
-         lWFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXPgZCNGCL7+0pE95oQg2a8nDbuibtKCSEtOpf/kXX5p/LW7XGyYsOSRSZYf0NtFh/cuRqh602VHRZ2NHjzafK27EHESst1pS9t
-X-Gm-Message-State: AOJu0Yy5Y6/4ZO2WDRD9pCG+9fS0KSAO6GAP8YOepNqWnjnGaR9nHl8w
-	MEXX/WZOtlp8cycseAIzsJOwoUxDldRr6cR/cVs4XvDH+ZYUTilAmFbPaMjoObk=
-X-Google-Smtp-Source: AGHT+IExgKcCS2E1XRnUmlAj3a3DUBu1u3NAJFz7KJXg88qiQxXnJkpQj85jyxqJhtNeIB0VGBuEdw==
-X-Received: by 2002:a05:600c:46cf:b0:418:969a:b316 with SMTP id 5b1f17b1804b1-421649ecb5amr16247315e9.1.1717742933988;
-        Thu, 06 Jun 2024 23:48:53 -0700 (PDT)
+        bh=Q9p6Ea3BEh/GCrntLXXZZkFilZ40QZybHi/QN5L8Zn8=;
+        b=Tzjzs+AwdZWEzIPBJ7ZlpFi9Gx2JBY+/6P6PGLlRbgjYyT+EC6j2nyzLKYW2kRbOeK
+         J71B3lZNRWaQ8Nj3OaWhZ5Hk2EtpVu6VuYsr8KlIGXHnpkoVVfYt2q1B3DoOkY5T2dU3
+         iZdNpFOVKt/48QAXIWzNUWe01AV2+oFIyPlms59TSPl3J9jMbYtQ4Sq3Vlgp8WQ6Pwav
+         Y1kkH9QbaIPb4WA5t92eJzq04A7JjjB1FmaecxFRvcRi9qxgXSmRwA/59UA5YidBdbOV
+         UeQn0apj54eBUPkcflvQ2UCk8mSFq2i7TEsf/bqwHrhl3enn7z/7i9FNhVqWszkrPhta
+         5xKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXl94VaBCKuVpb5szyZKp5Y2xXo94dGx0Kq5SL/BIn+OP24ZHKDDaD44vIDiO/lfUb1jX1RCvGJHiQS23VWWIaSDP/QiM/a/BBe
+X-Gm-Message-State: AOJu0YyNk2z/AXpRUqFMrBrmlniY0pIw1lWSOuP8+t2TjQwDzVMMa+7f
+	2QnOBXH/JhuILqaAZuiX5XKKQsU9JAlwHj9o0Xjlsb0c762ZRbgW236RonQk3e4=
+X-Google-Smtp-Source: AGHT+IH+3m7gv/wXKg1IjZX1gSf7JkbLx10qHeS1+1YDQg9+/tqA6LeQaS0aSWtLgR0eEgd8FaiPpw==
+X-Received: by 2002:a05:600c:1383:b0:420:182e:eb46 with SMTP id 5b1f17b1804b1-42164a44859mr21469665e9.38.1717745662064;
+        Fri, 07 Jun 2024 00:34:22 -0700 (PDT)
 Received: from localhost ([193.47.165.251])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4215c1aa954sm43832665e9.17.2024.06.06.23.48.52
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-421580fe3bfsm79619795e9.8.2024.06.07.00.34.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jun 2024 23:48:53 -0700 (PDT)
-Date: Fri, 7 Jun 2024 08:48:50 +0200
+        Fri, 07 Jun 2024 00:34:21 -0700 (PDT)
+Date: Fri, 7 Jun 2024 09:34:18 +0200
 From: Jiri Pirko <jiri@resnulli.us>
-To: David Ahern <dsahern@kernel.org>
-Cc: Jakub Kicinski <kuba@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>,
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: David Ahern <dsahern@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>,
 	Dan Williams <dan.j.williams@intel.com>,
 	Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>,
 	Leon Romanovsky <leon@kernel.org>, linux-doc@vger.kernel.org,
@@ -68,17 +68,15 @@ Cc: Jakub Kicinski <kuba@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>,
 	Leon Romanovsky <leonro@nvidia.com>, linux-cxl@vger.kernel.org,
 	patches@lists.linux.dev
 Subject: Re: [PATCH 0/8] Introduce fwctl subystem
-Message-ID: <ZmKtUkeKiQMUvWhi@nanopsycho.orion>
-References: <20240603114250.5325279c@kernel.org>
+Message-ID: <ZmK3-rkibH8j4ZwM@nanopsycho.orion>
+References: <0-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
+ <20240603114250.5325279c@kernel.org>
  <214d7d82-0916-4c29-9012-04590e77df73@kernel.org>
  <20240604070451.79cfb280@kernel.org>
  <665fa9c9e69de_4a4e62941e@dwillia2-xfh.jf.intel.com.notmuch>
  <20240605135911.GT19897@nvidia.com>
  <d97144db-424f-4efd-bf10-513a0b895eca@kernel.org>
  <20240606071811.34767cce@kernel.org>
- <20240606144818.GC19897@nvidia.com>
- <20240606080557.00f3163e@kernel.org>
- <4724e6a1-2da1-4275-8807-b7fe6cd9b6c1@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -87,54 +85,89 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4724e6a1-2da1-4275-8807-b7fe6cd9b6c1@kernel.org>
+In-Reply-To: <20240606071811.34767cce@kernel.org>
 
-Thu, Jun 06, 2024 at 07:47:20PM CEST, dsahern@kernel.org wrote:
->On 6/6/24 9:05 AM, Jakub Kicinski wrote:
->> On Thu, 6 Jun 2024 11:48:18 -0300 Jason Gunthorpe wrote:
->>>> An argument can be made that given somewhat mixed switchdev experience
->>>> we should just stay out of the way and let that happen. But just make
->>>> that argument then, instead of pretending the use of this API will be
->>>> limited to custom very vendor specific things.  
->>>
->>> Huh?
->> 
->> I'm sorry, David as been working in netdev for a long time.
+Thu, Jun 06, 2024 at 04:18:11PM CEST, kuba@kernel.org wrote:
+>On Wed, 5 Jun 2024 20:35:49 -0600 David Ahern wrote:
+>> Until a feature is standardized and/or commoditized, it does not make
+>> sense to create a uapi for every H/W vendor whim.
 >
->And I will continue working on Linux networking stack (netdev) while I
->also work with the IB S/W stack, fwctl, and any other part of Linux
->relevant to my job. I am not going to pick a silo (and should not be
->required to).
+>This is not about non-standard features. I work with multiple vendors
+>as my day job. I ask them how to set basic link configuration and the
+>support person gives me a link to the vendor tools! I wish I could show
+>you the emails.
+
+Even without emails seen, I believe you. Well, isn't it just natural? I
+mean, it always takes a bigger (sometimes much bigger) effort to
+implement things properly introducing/extending apis/uapis.
+Implement things in vendor tool is easy, low hanging fruit, people
+naturally pick them.
+
+I've been around in netdev for better part of second decade.
+I think, for the sake of discussion, it is worth mentioning, that
+a big part of netdev success despite complexicity is that in the
+past, any attempt of kernel bypass (I recall few) was promptly rejected.
+There was always big push for proper abstracted solution. And I believe
+it helped a lot all over the place. Is this approach depleted?
+I don't know, maybe. (And yes, I'm aware not everything could be done
+this way).
+
+I understand the reason and motivation for this patchset and what it
+will solve, don't get me wrong. I kind of like it, it will help to
+remove all painful detours we currenly have.
+
+My concern is, it opens a pandora box for netdev *for sure*.
+It that desired and anticipated?
+
+Do the gains overweight the potential losses? Will it help the
+ecosystem?
+
+What is motivation for vendor to take the hard way of using proper api
+(even existing ones) after?
+
+Moreover, wouldn't this serve for vendors to go out of leash and start
+to introduce even more H/W vendor whims?
+
+I think these are serious questions we need to ask before this is merged.
+
+
 >
->> I have a tendency to address the person I'm replying to,
->> assuming their level of understanding of the problem space.
->> Which makes it harder to understand for bystanders.
->> 
->>> At least mlx5 already has a very robust userspace competition to
->>> switchdev using RDMA APIs, available in DPDK. This is long since been
->>> done and is widely deployed.
->> 
->> Yeah, we had this discussion multiple times
+>> All of them are attempting to solve real problems; some of them will
+>> stick. We know which features are valuable when customers use them,
 >
->The switchdev / sonic comparison came to mind as well during this
->thread. The existence of a kernel way (switchdev) has not stopped sonic
->(userspace SDK) from gaining traction. In some cases the SDK is required
-
-Is this discussion technical or policital? I'm asking because it makes
-huge difference. There is no technical reason why sonic does not use
-proper in-kernel solution from what I see
-Yes, they chose technically the wrong way, a shortcut, requiring kernel
-bypass. Honestly for reasons that are beyond my understanding :/
-
-
->for device features that do not have a kernel uapi or vendors refuse to
->offer a kernel way, so it is the only option.
-
-Policical reasons.
-
-
+>Yes, once customers deploy a feature implemented via a vendor API
+>they will definitely migrate to a different API. Customers like risk
+>and wasting their engineering resources reimplementing and redeploying
+>things? And we have so much success move users to new APIs in Linux!
 >
->The bottom line to me is that these hardline, dogmatic approaches -
->resisting the recognition of reality - is only harming users. There is a
->middle ground, open source drivers and tools that offer more flexibility.
+>> ask for them and other vendors copy them. Until then it is a 1-off by
+>> a vendor basically proposing a solution.
+>
+>Certainly. Because... who exactly will ask the second vendor to
+>implement the common API? 
+>
+>And the second vendor will most certainly not mind the extra delay and
+>inconvenience having their product shipped via the publicly reviewed,
+>and slow to deploy kernel, while the first one is happily selling
+>the same feature already.
+>
+>> Not all ideas are good ideas, and we do not need the burden of a uapi
+>> or the burden of out of tree drivers.
+>
+>This API gives user space SDKs a trivial way of implementing all
+>switching, routing, filtering, QoS offloads etc.
+>An argument can be made that given somewhat mixed switchdev experience
+
+Can you elaborabe a bit more what you mean by "mixed switchdev
+experience" please?
+
+
+
+>we should just stay out of the way and let that happen. But just make
+>that argument then, instead of pretending the use of this API will be
+>limited to custom very vendor specific things.
+>
+>Again, if someone needs this to ship their custom CXL/Infiniband 
+>AI fabric magic, which is un-interoperable by design -- none of 
+>my concern. But keep TCP/IP networking out of this :|
 >
