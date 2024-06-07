@@ -1,109 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F111F15CD79;
-	Fri,  7 Jun 2024 09:28:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58FF1224D5;
+	Fri,  7 Jun 2024 10:19:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717752502; cv=none; b=dFyOrYwNQflYsxdyL5d6FvSpkGYVSrBU6MOy/RBWwkI2SnQurN5JHoz/uMDnyyVGuNATXhL3jX5IEYrd9XmaRZLT1tZDwfvMqkWS3yOKnzzzvrpQZBpaHMFpOv+oYNf8uGyUzXhRClSDZXjtiFtrey7d0xic6+u/uxIGqjrAEJE=
+	t=1717755557; cv=none; b=nelkmYV4yOW2wW/HJa7fyLK8aiMxsNEjMbK9LXLUzb3lgC0FaxYtYw8q0Yf6Uq7dnxKs6Bsf66lkwUAdex8sjB9RmI1wOUg4OhoC8NdoQizMbhC0izd7fIegBKX21eCPV/xloKa8zSRgzTs0Efx/UeLIGRKfjATjG5dEjg6WpR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717752502; c=relaxed/simple;
-	bh=ct5P4Y11PRQy71xfWfkh6sKMYVMr8DZduHddlk3kRos=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=euGZSOM2GQTWdMr1r1KBsXuSkCJr2xEi3cN7rjExCRgFYh03IhpkaT3HyEiC9A8gjkUCMBVunpifG3j5L+pqFRGHtM4h5DUfeCyxN+oqWdemCRyLJK7WRbty8lDm7giLm4VmVfp+neHmBTqXR21yhVXqnt1PQse1HzfZxAKj+1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AeE/9R5B; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717755557; c=relaxed/simple;
+	bh=QCZHpWK3iHF9Nj6nDnoKMCz5HjK1CLECoGyNt9nPBhQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cZ5lf6D02qn4gv5YKIHXNfy3sauD4aKfOXnlTtYQ1AhKmOsKTf6olOy6f5e7mdYkBeTMLUqbUB7noXV/KiaP3Hn7sN34wAPnCRHb4J+RVqU5RRkVhVQAr6B0mbnN8H2/pg1G7R6n5HRZmqop0E110kxd/cLI2kh6Ivv2catdIXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aBA4TkDI; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AeE/9R5B"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A19CC2BBFC;
-	Fri,  7 Jun 2024 09:28:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717752501;
-	bh=ct5P4Y11PRQy71xfWfkh6sKMYVMr8DZduHddlk3kRos=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=AeE/9R5B6fGSa6to672fKTviBk63IsfiFFeFnF3mvxeGLfRNNdG+6GuDF2KCV+7LJ
-	 GWvzxJId+J0ikDQXGq1WR/J/GmNbeJouxyGydCCVQlHiWjr2fZYb1mpI+rscu9ZsTa
-	 0MynxYgz6l2UUUeqc3wdhE81+IjK3EgjCJkPDLKvR9sKiNy83yQKclO8d3N2WVjLux
-	 o+1IbJeTKpJcp7xul7HW66n25zRLlbCWnQQj2Bg9zqutlmzZ5+ow8yCEeUkz2NC6ms
-	 359PkMv10KyqYBB9245GQlHtdZWpFxe24kfuF2o2uv5OYTfau+2gNhYYTLcoJNSn9G
-	 cnt4HgqD/S4aA==
-Message-ID: <a0676dd2-0bb8-469d-9565-bba03878eb0f@kernel.org>
-Date: Fri, 7 Jun 2024 11:28:15 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aBA4TkDI"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2c29c487a94so1429403a91.1;
+        Fri, 07 Jun 2024 03:19:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717755556; x=1718360356; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wxYrxOo+Bm8pOYfTxpDq7GYqUsxkUBuHF4IE+q+WX9o=;
+        b=aBA4TkDISEa8cXwk4YOzwZvvtLDS3D0Ei0w0FLY0NMN3WjFZAye9sWkihUew+YeKjJ
+         Are5tYOEZpFSFaVyKbPdKaP3CRKz0Doli8mu0xDUX1d4JQfh/M1Cy73BTLwSF8rK7A1D
+         MRk3kjdrKs0/K8Ns5A+xC+QybI8f9lP+Cnf6703wJK+78kUaHmC9v+0d/ztmAxSdJ9Ck
+         YDaEVDiTAgzhKZgTstntOfRkre0jHSfuqjS0aKW8rex7bDw+wNb4eMNxwQW7jb/bQar2
+         fekOkbs5VS/5quiQEy16XgJRWHrkXCRbl4GJTgVPtSP0s/mMjUqtezzh7pD8Kci/T0ov
+         GEoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717755556; x=1718360356;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wxYrxOo+Bm8pOYfTxpDq7GYqUsxkUBuHF4IE+q+WX9o=;
+        b=mxReJ4u+VF8/dNk+pB8pK7W3oBZnSWe0aH7UC0/Smho2yZEzKNv68K5XGygNruJi6e
+         kDoTjVjk6xZigpq0iSOoy+dkv+GfFCWGwS0VHDs/x+/pyUY+IddaRXK+kcj1noiecgP5
+         og86I3B66nLq30cZ7981wRukhRqaZAqiNCYEjay+tCWBcnuFbvsptvUJZii6O40lsETF
+         8rCh8GliHuAupqAZmSRApJLTx+B9Z+TCZdiBEPEHlEJMnhimKpVXo+BBkF6OoG9f+y58
+         uhQaUW0Pw9xndJtxzOYOCdQu3lhcQH/DnNeLQauFDcnLpdOC6hqV0EXEIgbdYPkxPWcM
+         x45A==
+X-Forwarded-Encrypted: i=1; AJvYcCVmvjCCvwc2omAaIfTkgI9NWpbCFQRhPjYGMu0wO7eymNpwF8ai2m2UXPGVa9jDfdzJp9uhLDm5Mi6scisbPcc4lKuxvWsmR/TFBpQg7MzDI9/v01Br2xAVny0shReTE47sTLKrWQhs
+X-Gm-Message-State: AOJu0YwIs7/DFsbktVDJ+1HSHTYWH9krk+XTmHMLspTjsawrClioYg8c
+	e41pIKFYrEBD/uEPTLnSmFOrBhkpg8t/R/NkaNhhQYedBcaF75GggRbXIA==
+X-Google-Smtp-Source: AGHT+IEm6c/Q5B9vJIw8FRzlSd8REJszxYs3hm4a4v+zd3OtWa6JASXKZc2z9En4cJnl7UZ+lWaQ0Q==
+X-Received: by 2002:a17:90a:bd0a:b0:2c2:b2a0:169c with SMTP id 98e67ed59e1d1-2c2bcad0d81mr1915629a91.3.1717755555453;
+        Fri, 07 Jun 2024 03:19:15 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c2a2430365sm2856187a91.54.2024.06.07.03.19.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Jun 2024 03:19:14 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 8D4A71A023F27; Fri, 07 Jun 2024 17:19:11 +0700 (WIB)
+Date: Fri, 7 Jun 2024 17:19:10 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: lakshmi.sowjanya.d@intel.com, tglx@linutronix.de, giometti@enneenne.com,
+	corbet@lwn.net, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: gregkh@linuxfoundation.org, andriy.shevchenko@linux.intel.com,
+	eddie.dong@intel.com, christopher.s.hall@intel.com,
+	pandith.n@intel.com, subramanian.mohan@intel.com,
+	thejesh.reddy.t.r@intel.com
+Subject: Re: [PATCH v9 2/3] Documentation: driver-api: pps: Add Intel Timed
+ I/O PPS generator
+Message-ID: <ZmLenotdvHdCQRcz@archie.me>
+References: <20240605153554.11584-1-lakshmi.sowjanya.d@intel.com>
+ <20240605153554.11584-3-lakshmi.sowjanya.d@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] dt-bindings: hwmon: Add MPS mp9941
-To: Noah Wang <noahwang.wang@outlook.com>, robh@kernel.org,
- krzk+dt@kernel.org, linux@roeck-us.net, conor+dt@kernel.org,
- jdelvare@suse.com
-Cc: corbet@lwn.net, Delphine_CC_Chiu@Wiwynn.com, peteryin.openbmc@gmail.com,
- javier.carrasco.cruz@gmail.com, patrick.rudolph@9elements.com,
- bhelgaas@google.com, lukas@wunner.de, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org
-References: <20240607090544.466833-1-noahwang.wang@outlook.com>
- <SEYPR04MB6482481E90D384546EE56C5CFAFB2@SEYPR04MB6482.apcprd04.prod.outlook.com>
-Content-Language: en-US
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <SEYPR04MB6482481E90D384546EE56C5CFAFB2@SEYPR04MB6482.apcprd04.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-On 07/06/2024 11:05, Noah Wang wrote:
-> Add support for MPS mp9941 controller
-> 
-> Signed-off-by: Noah Wang <noahwang.wang@outlook.com>
-> ---
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="9BD94tjZXN0vDobM"
+Content-Disposition: inline
+In-Reply-To: <20240605153554.11584-3-lakshmi.sowjanya.d@intel.com>
 
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+--9BD94tjZXN0vDobM
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Best regards,
-Krzysztof
+On Wed, Jun 05, 2024 at 09:05:53PM +0530, lakshmi.sowjanya.d@intel.com wrot=
+e:
+> +Usage of Intel Timed I/O as PPS generator:
+> +
+> +Start generating PPS signal::
+> +        $echo 1 > /sys/devices/platform/INTCxxxx\:00/enable
+> +
+> +Stop generating PPS signal::
+> +        $echo 0 > /sys/devices/platform/INTCxxxx\:00/enable
 
+You forget to separate literal blocks above:
+
+---- >8 ----
+diff --git a/Documentation/driver-api/pps.rst b/Documentation/driver-api/pp=
+s.rst
+index c812d1cb760eee..75f7b094f9635e 100644
+--- a/Documentation/driver-api/pps.rst
++++ b/Documentation/driver-api/pps.rst
+@@ -264,7 +264,9 @@ the PPS signal to an external device.
+ Usage of Intel Timed I/O as PPS generator:
+=20
+ Start generating PPS signal::
++
+         $echo 1 > /sys/devices/platform/INTCxxxx\:00/enable
+=20
+ Stop generating PPS signal::
++
+         $echo 0 > /sys/devices/platform/INTCxxxx\:00/enable
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--9BD94tjZXN0vDobM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZmLemQAKCRD2uYlJVVFO
+o8BtAP9yWtBFjjePAasesCSU8ZZwSkjdM+8zMU9DQBCtz9lQUwD+IOIeje551r1X
+MXasa+JpV4hSyT+AUSn2TK4lgVUIGgo=
+=ZdMc
+-----END PGP SIGNATURE-----
+
+--9BD94tjZXN0vDobM--
