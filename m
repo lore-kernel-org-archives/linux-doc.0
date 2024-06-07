@@ -1,304 +1,140 @@
-Received: from mx0a-00183b01.pphosted.com (mx0b-00183b01.pphosted.com [67.231.157.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE1618E28;
-	Fri,  7 Jun 2024 04:41:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.157.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717735289; cv=fail; b=Xy7HYkkRCYVvpmcksBRdjJ1BJZyWpAxwSezkoyGJjGkNzogL76o4f8qcx2Lye/Uc9Qi0dHc8+nILKdoY2zryIWon5mXhb4NzxcwWKX19ws3tz+OMSedyU8NeXzJY7L8LARW8kCBpjPu1Fb3kPy/gXBn43k5co7OHyIvLPMqr0rY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717735289; c=relaxed/simple;
-	bh=gUkeS1w01OxWAv6txt66hfXjy3UFxy2OJFFc9EVrI5Y=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=X/pJo6EEf6w6JJ3FD0DwxQSjzsnZdxSMEYEARtX2PrgKcdpYPsFschAmWFfS7eQnRDPqx4bSIhxr/JoBFqK4K+rHKvZMhTyt3d/nXzTp3haqMZCLgLHlzi2h1vRGWcVoRFO9v+Gk9HaLwh1zWaD85/FUOgnWScNxnJQgwsAQEKM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=onsemi.com; spf=pass smtp.mailfrom=onsemi.com; dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b=t06MvRPa; dkim=pass (1024-bit key) header.d=onsemi.onmicrosoft.com header.i=@onsemi.onmicrosoft.com header.b=w9Cp8j/G; arc=fail smtp.client-ip=67.231.157.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=onsemi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onsemi.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBBC05336A
+	for <linux-doc@vger.kernel.org>; Fri,  7 Jun 2024 06:48:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717742937; cv=none; b=DD2VabeVrAzKiF3I1lPAk4DA87DOnbgVM5CfQf1oUKQ9QAjOG0QIJ+nDh1WNxLxWHgSHyd+tIV6rfq5rghdmwVrNA7oqW/53dwbIygjtukCSlT8QaQLkWjRH5nRppd+t71/2f59Er2B2beli4Ai8aR2iHBAz0ccGHDRgqirmmvo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717742937; c=relaxed/simple;
+	bh=pgHe5e3ALK+cypFku6S3ieR5sW7SNUe2jaqsfcPIj20=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YLhRLlxqoZIsNLiWnaxKOtXzc19ml9rYMsu/IdeAUrDbNUzeUtU/P7N8zrq41vMJvVl0lFUFJZvTt8Q8DNqDiO1J56qZvI5v8DdfMkCUF7UzUlD42I2Z5lZmGDmgQeD91esolEVGfj5YQs4JQfQnpm4ccZjDgocjLrfbE/6rx08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=WHBNVDxL; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b="t06MvRPa";
-	dkim=pass (1024-bit key) header.d=onsemi.onmicrosoft.com header.i=@onsemi.onmicrosoft.com header.b="w9Cp8j/G"
-Received: from pps.filterd (m0059811.ppops.net [127.0.0.1])
-	by mx0b-00183b01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 456HMNrh010707;
-	Thu, 6 Jun 2024 22:40:35 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onsemi.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	pphosted-onsemi; bh=6tmu7m5XP85gJTD+USd8xENxix08xDjzRP6dbvVqfAY=; b=
-	t06MvRPap1iAfcK9srlbFsGs2g+/nJZ9bH6SphZVTw67BFW7TMDb1ZpucEFKpAT9
-	zoQaiSf6uYDEVVVEh9RZgrZ2oeTqWKbeqmrCGxyXWCXpiXSeFVd5TEsNINwZ51th
-	Su43Rw475UdV+LElumWaU+TqHJfYam0n5/dTw9XxUbzzpN7Opb9zjtXFrx0EvK69
-	if2aYzaLYjJOfh0lhwKI37phiAzjTKK40CmJ86km9EXPjRqEMX3vgmD9QaB8ITbG
-	Pbhkk9jl8WgWI7NBa3/Iyc6jdvtzvjWYIGdJl1Yzk//wStNaID+PXUpDM3lBZDPR
-	gNS15P0fWHPbzKur58cXgw==
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2174.outbound.protection.outlook.com [104.47.58.174])
-	by mx0b-00183b01.pphosted.com (PPS) with ESMTPS id 3yjrvwv74w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 06 Jun 2024 22:40:35 -0600 (MDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GpOM2FUfjHQ99H28vfBjK/9KuZXyYlyzHj1iv5DUwMfpwbDJ3gbCWsqwXumZP8H/lxf+38pkdYAHHBoLHDYXngulyw9yRv/4ZO40iG/WJxjWDpZ+bHnjgXXyunpGvG+MFgxinT5fw6oRs3D3K1fylyeTn4Krq0y/uCY5cmZhs+BsawrK/7GFvKN5Cus+aMcNJwThMEoTerQC52k8Jo2Ht8eXPNMCPkMBc6cbIxLbD43RvYQiDEEt8byheOGr98u6ZVNL6Bw8guzg3ETjtR0lgAfs+GZqaF7Ectj08ZMEGEnetoLPPHrdxPCB4hKzm6hYMeIC/NP7Ud5+t7hKDylbOQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6tmu7m5XP85gJTD+USd8xENxix08xDjzRP6dbvVqfAY=;
- b=aPGbNGdwGX+75iL1n++8za3yZNwmJNcovMmAx4v/n+5EvMpPJSlgNohFtNYvuaYhko8XD8YCuxpcUI4WdeizXfTWHhXrA8JluclAlf0YNumOmVC4f6fqDFwrW4oWVK46NlOY3WsuPQoZgj2nQicumshC1B+UdmoEFQny7c9Y1XTMaqeb1IAh42q1B7O9DxoQbCdTG7UyXjrfi4VQH/rV79EN+SIkcPdpRr2rGrjH5lrRGxfj7hdAX1MfsQ4yL1lVnhYdnmM54mBBT+Lyzeu7pNf9RV/vFAXkx7cUy4uxNZTDy9D6381OW+gj/LDeTigyOW+bRxoQQMd0pOCRbSGH+A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=onsemi.com; dmarc=pass action=none header.from=onsemi.com;
- dkim=pass header.d=onsemi.com; arc=none
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="WHBNVDxL"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4215ac379fdso16927905e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 06 Jun 2024 23:48:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=onsemi.onmicrosoft.com; s=selector2-onsemi-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6tmu7m5XP85gJTD+USd8xENxix08xDjzRP6dbvVqfAY=;
- b=w9Cp8j/Gtu9TNiTZzawftdYIJBH0+qERlsKpJHKN8r0ggUcCjf7qg8ATzqNLL7CVPgybTkTITEC4N/gwq+fkmMY2IMM5Mp2p9rMwnumPd04WylJdif2MXANP+LLrmwLBZOiL6jmM5TRy2zr2VEUMKpiU4fUumduzM5m/iQevq0c=
-Received: from BYAPR02MB5958.namprd02.prod.outlook.com (2603:10b6:a03:125::18)
- by PH0PR02MB8860.namprd02.prod.outlook.com (2603:10b6:510:103::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.34; Fri, 7 Jun
- 2024 04:40:33 +0000
-Received: from BYAPR02MB5958.namprd02.prod.outlook.com
- ([fe80::9050:b9f2:336c:edaa]) by BYAPR02MB5958.namprd02.prod.outlook.com
- ([fe80::9050:b9f2:336c:edaa%4]) with mapi id 15.20.7633.033; Fri, 7 Jun 2024
- 04:40:33 +0000
-From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
-To: Andrew Lunn <andrew@lunn.ch>
-CC: "Parthiban.Veerasooran@microchip.com"
-	<Parthiban.Veerasooran@microchip.com>,
-        Piergiorgio Beruto
-	<Pier.Beruto@onsemi.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "edumazet@google.com" <edumazet@google.com>,
-        "kuba@kernel.org"
-	<kuba@kernel.org>,
-        "pabeni@redhat.com" <pabeni@redhat.com>,
-        "horms@kernel.org" <horms@kernel.org>,
-        "saeedm@nvidia.com"
-	<saeedm@nvidia.com>,
-        "anthony.l.nguyen@intel.com"
-	<anthony.l.nguyen@intel.com>,
-        "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "robh+dt@kernel.org"
-	<robh+dt@kernel.org>,
-        "krzysztof.kozlowski+dt@linaro.org"
-	<krzysztof.kozlowski+dt@linaro.org>,
-        "conor+dt@kernel.org"
-	<conor+dt@kernel.org>,
-        "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>,
-        "Horatiu.Vultur@microchip.com"
-	<Horatiu.Vultur@microchip.com>,
-        "ruanjinjie@huawei.com"
-	<ruanjinjie@huawei.com>,
-        "Steen.Hegelund@microchip.com"
-	<Steen.Hegelund@microchip.com>,
-        "vladimir.oltean@nxp.com"
-	<vladimir.oltean@nxp.com>,
-        "UNGLinuxDriver@microchip.com"
-	<UNGLinuxDriver@microchip.com>,
-        "Thorsten.Kummermehr@microchip.com"
-	<Thorsten.Kummermehr@microchip.com>,
-        "Nicolas.Ferre@microchip.com"
-	<Nicolas.Ferre@microchip.com>,
-        "benjamin.bigler@bernformulastudent.ch"
-	<benjamin.bigler@bernformulastudent.ch>,
-        Viliam Vozar
-	<Viliam.Vozar@onsemi.com>,
-        Arndt Schuebel <Arndt.Schuebel@onsemi.com>
-Subject: RE: [PATCH net-next v4 00/12] Add support for OPEN Alliance
- 10BASE-T1x MACPHY Serial Interface
-Thread-Topic: [PATCH net-next v4 00/12] Add support for OPEN Alliance
- 10BASE-T1x MACPHY Serial Interface
-Thread-Index: 
- AQHakZAzTzY8uLDqjU+aLRkJ24TPX7F0voeAgAA2YYCAGHiwAIAAQuMAgAFPWgCAAH78AIAA9q2AgBaZtCCAAA/6AIAABQ4AgAACngCACKHOAIABvDqAgAAGhgCAACuYgIAEK/gAgAQWz/CAACdPAIAABqdggADbbICAAQMcwA==
-Date: Fri, 7 Jun 2024 04:40:33 +0000
-Message-ID: 
- <BYAPR02MB5958E09553F82C486DE8BDA483FB2@BYAPR02MB5958.namprd02.prod.outlook.com>
-References: 
- <BY5PR02MB6786619C0A0FCB2BEDC2F90D9DF52@BY5PR02MB6786.namprd02.prod.outlook.com>
- <0581b64a-dd7a-43d7-83f7-657ae93cefe5@lunn.ch>
- <BY5PR02MB6786FC4808B2947CA03977429DF32@BY5PR02MB6786.namprd02.prod.outlook.com>
- <39a62649-813a-426c-a2a6-4991e66de36e@microchip.com>
- <585d7709-bcee-4a0e-9879-612bf798ed45@lunn.ch>
- <BY5PR02MB6786649AEE8D66E4472BB9679DFC2@BY5PR02MB6786.namprd02.prod.outlook.com>
- <cbe5043b-5bb5-4b9f-ac09-5c767ceced36@microchip.com>
- <BYAPR02MB5958BD922DAE2D31F18241B283F92@BYAPR02MB5958.namprd02.prod.outlook.com>
- <732ce616-9ddc-4564-ab1f-ac7bbc591292@lunn.ch>
- <BYAPR02MB5958DE3C4FE820216153894B83FA2@BYAPR02MB5958.namprd02.prod.outlook.com>
- <79f61e42-c32f-4314-8b77-99880c2d7eeb@lunn.ch>
-In-Reply-To: <79f61e42-c32f-4314-8b77-99880c2d7eeb@lunn.ch>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BYAPR02MB5958:EE_|PH0PR02MB8860:EE_
-x-ms-office365-filtering-correlation-id: a51add4b-59d6-4178-84a6-08dc86abf791
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230031|7416005|1800799015|366007|376005|38070700009;
-x-microsoft-antispam-message-info: 
- =?us-ascii?Q?ejqeoa5AJ6z9EcFgDOaKxyUbi2wwH3teCfEZd8d6Nud43uEsLlh56DRsqbvy?=
- =?us-ascii?Q?2150rIi+WC1/gGEU+vqlW+aORcktBTcBKzfe6SpuDNL+xUxDHiyp6AxkqSFH?=
- =?us-ascii?Q?lU/n3lBF0ZdIfe4x8sZXvVIauK+8X6R6vVPq17m7Set13ymdUYrIQ1xdD5zZ?=
- =?us-ascii?Q?vgYycSvKj3AivfjFZo+pooF3/IMGTfk8xgnQacN1ICCxj2z9fDkb+OEWxh9p?=
- =?us-ascii?Q?fULp5THk9uMskim3kdPoCQmKTMeYEwCBZo36h7r08Cmq9YmFxSAMKRlAXfjn?=
- =?us-ascii?Q?DbxZCjmefNpa/zySBiEDr38X9HIC0DFc7SqmbeDujGKrR/hkzvM/JhKtWMR1?=
- =?us-ascii?Q?5BMrooduosscgUuaSd7qw8+xitrcx89C1FuyfJQIlud32AzPnX+gmC8QbzQW?=
- =?us-ascii?Q?TX61kITfXZ1wtEGQ/MlvW2CwVokvu/s75CKdM57krnZvPc+GOf46SuBgk7j0?=
- =?us-ascii?Q?iUJ0km3UZoOJGWhw+SF0fJzaohVNBMYef8rt++ywvY6DPurtaD4amZB1OiBh?=
- =?us-ascii?Q?o4yn9Qp5AtjrBmCVmXytMsLA2X1WZGx/0wfTXmJ5UxLkjs7Xc7lFvxEtpJ6Z?=
- =?us-ascii?Q?3BTbzuamTQGrR0gyKQK2lp54nQoOl5gStpmsnUohzw1tbbRtN/hRq2f/3vXO?=
- =?us-ascii?Q?j9P9kNGH4lLHqp6UG9zodKnAUfKpzWXMZDCS/jAQY0OoXH4/oGN0Y2/1cy6P?=
- =?us-ascii?Q?47qxnnqmvvCurKPNF9CQCqaG0ASFkVqXiZzBhzueqb7ECOJqhMR349MfkWsR?=
- =?us-ascii?Q?t5hd59ZZoClIUTTbS6CERg7ZQc9V7UgL9bv3SluDvZL8ZfqhNjCrinJzY6sb?=
- =?us-ascii?Q?iJft8qdqdKSa6YaDkvdke0tlF3bNAsM6CyUMpfXPs+QokT0arySnMVlTeS6H?=
- =?us-ascii?Q?7FU7cZqZKlcxSxu8fz1Ros2IRBHz5+2Xp8EzSXe/fPpesq6wy4KEYNyazBCK?=
- =?us-ascii?Q?FV2noiOIcMHgJtHqKLiivJu5UQMI9UZtKeCQ6maE66bWzT1A+fTkUEB4XXt2?=
- =?us-ascii?Q?jY3CF8UajWPhwrbYtPinJ1m4WhcVpcdsoS7+tcUWi1aYQb2K8r5Zy3/6wvY2?=
- =?us-ascii?Q?No/Ea7NU2HMRHHNJLliaaSHxz5PyiLCWbHM9+ZW3AwHUXtUOI3y1KeIY0Y3g?=
- =?us-ascii?Q?E+7CkyxPHBKiR5j07QIITY0HLc5fJnUmMhQTlUcmzHWfNJJrxNh4w8kb8pv2?=
- =?us-ascii?Q?bGwGQC6ReN4o3vq6QPpL7OpjWFL2Yk+WEps7W0KaN8lczcJTxMe6ay36sldj?=
- =?us-ascii?Q?dlcrSO4b1+e+9Mrn78XcrX25o/h00hSjSasAwTKUQncYMUmwUwpwvNXPs19t?=
- =?us-ascii?Q?Vr80frmp8WlEPHQxUuX76z1wM1sfDIbTw2YUjh5xZRd96OS1b17++0jgGw04?=
- =?us-ascii?Q?kL+MJ1U=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR02MB5958.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(1800799015)(366007)(376005)(38070700009);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?lh6x+UgYvxzUrsrmDup8b1WOR6THg6HAQODOgpVJvtaQYwHQS7ot4Y5IzvSh?=
- =?us-ascii?Q?4fv9bh5rT2EohfE1tAfisd9hqXFaVj7Aj0JzxTBprspC0S4nftevjxHNAaNf?=
- =?us-ascii?Q?bF+yw6TXyJs1jLoZpBYCNogrgnYDVTnsc1B63K7SAVR6FzeEcbllXWPf6PKP?=
- =?us-ascii?Q?QrcfAclvLrOnQEGF4kZ6ikkgRo/u+bf9PCiQ2l0rzDursWM/z6/EwNZW206F?=
- =?us-ascii?Q?uHj4UaWuvkUy/H+bIC50WK3DbDzaI2jJtyPIHEqxGwZMN0F3FXvyRiXiv02J?=
- =?us-ascii?Q?J1OnajjSjo0vhq8dPOl9N+yQDSYEMCelUzmBr80Rm+Tzvu/HpD8bOLIuUlWZ?=
- =?us-ascii?Q?kyuDTiiLu8KCdupji/PGOLQEjRBSTYN7E+ncoyZQDWFrFLqiu1FpvKV/EFKp?=
- =?us-ascii?Q?uOOHnaseb+cTJ13D9Vjvi59Lllti/WPofxcSokufUZq5YP/JDCBGKI92Z9Hb?=
- =?us-ascii?Q?bekgl32CtBqZ7CHoQwGQVcyuU6HaxzYvmmWdrfWaC2JG6vALDlxv9ZRUDCLD?=
- =?us-ascii?Q?Zk19zQol5aIQqFZurhv9AK1ub1PaCIaA2wSekJ3BFZtUMWfVqPorKZ/curCO?=
- =?us-ascii?Q?wni9CKAZH5CehPFRB1usjO4pYlyJfxxVkOj5maLul8CP+5q8SG5UQ+IPYDGM?=
- =?us-ascii?Q?X6NpgPPh3aT3GigIR57XDYuS99Why1ZSo0ouZ34emOjll0wTpF3PiLxH6tu4?=
- =?us-ascii?Q?AlVkqW+JzFvcmn2qLhxJ9TeCWUysXsHV0amjmQuV2XWvzYTI2mkglESCjaB1?=
- =?us-ascii?Q?WywRRaRhunzmW1zqyxnNpr0HFGL8MdHA6B1m0kAbucVKnegoeMDoSnz72NSX?=
- =?us-ascii?Q?ZjERo8sD6sHGgscrclsfJwyB3+bC1Upm7ht0U8oXyhHJjvjb9bStsUno81IP?=
- =?us-ascii?Q?ZPm4DNxONr64Fi4ytgspxW1GAJnC63ia0A1J6R5nll5csoBjVn1240Ihjo2C?=
- =?us-ascii?Q?MY5l5tLUL1YUUKT/fdkWRyPaEI6bZsPcic8conuW9bxOVM+amDpAG38adNUR?=
- =?us-ascii?Q?YvJJY5mMpwTEi4xJZV8tOeJx5gDCCrGqBFm1K245U2nwbrA6sGr71wrGwlBg?=
- =?us-ascii?Q?IhV80ey28t/hh4qUaGClQQR4U8KAMWENpXXQGtTdGe/pPuBVHmNCY36JPYgw?=
- =?us-ascii?Q?ZZGcUnRIkP+WP7NseuLo8PzWnnnBnsio23cftyRLdVWWL8ITbfiVI9kh0sad?=
- =?us-ascii?Q?zKmSiIP92dT6+xr0ulXcNJlPVvZ6m/duAHq72kXfVfNbE7AmZeZayttV7n/8?=
- =?us-ascii?Q?AwNMwqucwO5CkRvL8w5U4YSohMmqko2YkfUv76HGMEH0fmCKLONGIxXsjWGG?=
- =?us-ascii?Q?B+GLZoatm3CcqRbKpuUjALTJXbjWtElMp4AEBxlep9XZYAdx/PO2iYTvOQRv?=
- =?us-ascii?Q?F74lrUAi54PXFWsAzz/MDHZ5SQULYMDbMMYpgtUcVBzN/aSFpXyYvHxEDiwm?=
- =?us-ascii?Q?SJMIL1Dp2uYEn/9T0qrFGFGT1IHOJZs3UNyyjuJeUMwdXtYphGk2wzrX/hPW?=
- =?us-ascii?Q?XXM609jIwligzC9OBMVUnhJTcR1RxT3N8M12I6jQm3Xv/34x9Isg0+xuGbj9?=
- =?us-ascii?Q?RCtsUh0VySUNGwVBXiJ2SgiJdraLfDWTSvWAeCFe6AKqs9QtGzRLbxEkbW5a?=
- =?us-ascii?Q?DA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1717742934; x=1718347734; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=43B/d4gP0SHROpUeDJVVbV3eXPrnkyyO5sotvbejxE8=;
+        b=WHBNVDxLb89t4vpBlCcek1GBq9Kmstv+1AVdjO59eaYkrCWcEI9nEDP9Q4cO+AAyPJ
+         HmDSto7YIA7d11bU+l+0wUTDUOEEdshw8yc2rWamSrSdTiVK4BXiXIcdpkdxnxtTj70G
+         yX0WWgxXHpb5WW+BdqOlQ11DlXUFJFHCmFnlWKRcVzgjm9iMJj9tpjeJAeu4DCl1vcBN
+         XtTf2Zl7Scs+Y97N64LNIuPgi+uJEvDBtHjLY43u1zXwglMusYxD/y1XP7Hy31V2r0D5
+         oP16PMPj9CdMEaFS65ZlsMHa+2q4HTc/9X2dkmtzSwRMDdXvAVeoVgHPcgujfUgEHlYe
+         ImIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717742934; x=1718347734;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=43B/d4gP0SHROpUeDJVVbV3eXPrnkyyO5sotvbejxE8=;
+        b=vs4nAVCLWU3OnmEa0knWJRjG3jkpChUJnpXTIJ9d+c/PUU7iVCc3tY9bXP09dcZQzK
+         hg9JrQeFU8Zv5H6KtZ1PN2/PJsLeJ8iMAMUeoYOKDAXzTZCXbTag2xjYgW+RW3hBuNbP
+         AscyNzudQHEqKKsrdPDl//ouLnOjkNEm40W9GCJOlyTRQVfSflZ44wuGZFwItDooA8qm
+         w5DMx1kv3B84GoPTz0wYzbRNUgyTuQCrP+xAgAb4AC3EHtc6waEnzndBj1U4b5IU4ySn
+         6dYQEj5xOe/Q919rWZmdWcp5lbMxNjsb5gAz2q7dVFIM5/na/bAX0yEMQtNSX8c0OWgm
+         lWFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXPgZCNGCL7+0pE95oQg2a8nDbuibtKCSEtOpf/kXX5p/LW7XGyYsOSRSZYf0NtFh/cuRqh602VHRZ2NHjzafK27EHESst1pS9t
+X-Gm-Message-State: AOJu0Yy5Y6/4ZO2WDRD9pCG+9fS0KSAO6GAP8YOepNqWnjnGaR9nHl8w
+	MEXX/WZOtlp8cycseAIzsJOwoUxDldRr6cR/cVs4XvDH+ZYUTilAmFbPaMjoObk=
+X-Google-Smtp-Source: AGHT+IExgKcCS2E1XRnUmlAj3a3DUBu1u3NAJFz7KJXg88qiQxXnJkpQj85jyxqJhtNeIB0VGBuEdw==
+X-Received: by 2002:a05:600c:46cf:b0:418:969a:b316 with SMTP id 5b1f17b1804b1-421649ecb5amr16247315e9.1.1717742933988;
+        Thu, 06 Jun 2024 23:48:53 -0700 (PDT)
+Received: from localhost ([193.47.165.251])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4215c1aa954sm43832665e9.17.2024.06.06.23.48.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Jun 2024 23:48:53 -0700 (PDT)
+Date: Fri, 7 Jun 2024 08:48:50 +0200
+From: Jiri Pirko <jiri@resnulli.us>
+To: David Ahern <dsahern@kernel.org>
+Cc: Jakub Kicinski <kuba@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>, linux-doc@vger.kernel.org,
+	linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Andy Gospodarek <andrew.gospodarek@broadcom.com>,
+	Aron Silverton <aron.silverton@oracle.com>,
+	Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>,
+	Leonid Bloch <lbloch@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>, linux-cxl@vger.kernel.org,
+	patches@lists.linux.dev
+Subject: Re: [PATCH 0/8] Introduce fwctl subystem
+Message-ID: <ZmKtUkeKiQMUvWhi@nanopsycho.orion>
+References: <20240603114250.5325279c@kernel.org>
+ <214d7d82-0916-4c29-9012-04590e77df73@kernel.org>
+ <20240604070451.79cfb280@kernel.org>
+ <665fa9c9e69de_4a4e62941e@dwillia2-xfh.jf.intel.com.notmuch>
+ <20240605135911.GT19897@nvidia.com>
+ <d97144db-424f-4efd-bf10-513a0b895eca@kernel.org>
+ <20240606071811.34767cce@kernel.org>
+ <20240606144818.GC19897@nvidia.com>
+ <20240606080557.00f3163e@kernel.org>
+ <4724e6a1-2da1-4275-8807-b7fe6cd9b6c1@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: onsemi.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB5958.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a51add4b-59d6-4178-84a6-08dc86abf791
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jun 2024 04:40:33.0401
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 04e1674b-7af5-4d13-a082-64fc6e42384c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: W0yBgYKzcJzdDnakXGpgWVdx8ayn2Ghb1OBqEOD8LakkKHtP/aUpfcHsvCL4AAUUbs8E2m/JkYug9jF/0bF1/OeOmSUCtKwAZGwLVw4eGXg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR02MB8860
-X-Proofpoint-ORIG-GUID: 4Nhxi6JQtE2G00GG7rRnUEzXeFwFE_sI
-X-Proofpoint-GUID: 4Nhxi6JQtE2G00GG7rRnUEzXeFwFE_sI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-06_20,2024-06-06_02,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 bulkscore=0
- lowpriorityscore=0 spamscore=0 malwarescore=0 clxscore=1015
- impostorscore=0 mlxscore=0 priorityscore=1501 adultscore=0 mlxlogscore=999
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406070031
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4724e6a1-2da1-4275-8807-b7fe6cd9b6c1@kernel.org>
+
+Thu, Jun 06, 2024 at 07:47:20PM CEST, dsahern@kernel.org wrote:
+>On 6/6/24 9:05 AM, Jakub Kicinski wrote:
+>> On Thu, 6 Jun 2024 11:48:18 -0300 Jason Gunthorpe wrote:
+>>>> An argument can be made that given somewhat mixed switchdev experience
+>>>> we should just stay out of the way and let that happen. But just make
+>>>> that argument then, instead of pretending the use of this API will be
+>>>> limited to custom very vendor specific things.  
+>>>
+>>> Huh?
+>> 
+>> I'm sorry, David as been working in netdev for a long time.
+>
+>And I will continue working on Linux networking stack (netdev) while I
+>also work with the IB S/W stack, fwctl, and any other part of Linux
+>relevant to my job. I am not going to pick a silo (and should not be
+>required to).
+>
+>> I have a tendency to address the person I'm replying to,
+>> assuming their level of understanding of the problem space.
+>> Which makes it harder to understand for bystanders.
+>> 
+>>> At least mlx5 already has a very robust userspace competition to
+>>> switchdev using RDMA APIs, available in DPDK. This is long since been
+>>> done and is widely deployed.
+>> 
+>> Yeah, we had this discussion multiple times
+>
+>The switchdev / sonic comparison came to mind as well during this
+>thread. The existence of a kernel way (switchdev) has not stopped sonic
+>(userspace SDK) from gaining traction. In some cases the SDK is required
+
+Is this discussion technical or policital? I'm asking because it makes
+huge difference. There is no technical reason why sonic does not use
+proper in-kernel solution from what I see
+Yes, they chose technically the wrong way, a shortcut, requiring kernel
+bypass. Honestly for reasons that are beyond my understanding :/
 
 
+>for device features that do not have a kernel uapi or vendors refuse to
+>offer a kernel way, so it is the only option.
 
-> -----Original Message-----
-> From: Andrew Lunn <andrew@lunn.ch>
-> Sent: Thursday, June 6, 2024 6:12 AM
-> To: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
-> Cc: Parthiban.Veerasooran@microchip.com; Piergiorgio Beruto
-> <Pier.Beruto@onsemi.com>; davem@davemloft.net;
-> edumazet@google.com; kuba@kernel.org; pabeni@redhat.com;
-> horms@kernel.org; saeedm@nvidia.com; anthony.l.nguyen@intel.com;
-> netdev@vger.kernel.org; linux-kernel@vger.kernel.org; corbet@lwn.net;
-> linux-doc@vger.kernel.org; robh+dt@kernel.org;
-> krzysztof.kozlowski+dt@linaro.org; conor+dt@kernel.org;
-> devicetree@vger.kernel.org; Horatiu.Vultur@microchip.com;
-> ruanjinjie@huawei.com; Steen.Hegelund@microchip.com;
-> vladimir.oltean@nxp.com; UNGLinuxDriver@microchip.com;
-> Thorsten.Kummermehr@microchip.com; Nicolas.Ferre@microchip.com;
-> benjamin.bigler@bernformulastudent.ch; Viliam Vozar
-> <Viliam.Vozar@onsemi.com>; Arndt Schuebel
-> <Arndt.Schuebel@onsemi.com>
-> Subject: Re: [PATCH net-next v4 00/12] Add support for OPEN Alliance
-> 10BASE-T1x MACPHY Serial Interface
->=20
-> [External Email]: This email arrived from an external source - Please
-> exercise caution when opening any attachments or clicking on links.
->=20
-> > I believe my client is configured to wrap at 70th characters.
-> > Not sure why it is not doing it.
->=20
->=20
-> It could be you also send a MIME obfuscated copy which is not wrapped
-> correctly?
->=20
-> > > > 1) Can we move memory map selector definitions
-> > > (OA_TC6_PHY_C45_PCS_MMS2 and other 4 definitions) to the header
-> > > file
-> > > >      include/linux/oa_tc6.h?
-> > > >      Also, if possible, could we add the MMS0, MMS1?. Our driver is
-> > > using them. Of course, we could add it when we submit our driver.
-> > >
-> > > Interesting. So you have vendor registers outside of MMS 10-15?
-> >
-> > This is not about vendor registers. The current oa_tc6 defines
-> > MMS selector values for 2, 3, 4, 5, 6. I am asking, if 0, 1 can be adde=
-d,
-> > which are meant for "Standard Control and Status" and MAC
-> respectively,
-> > according to MMS assignment table 6 on OA standard.
->=20
-> But why would a MAC driver need access to those? Everything using
-> those registers should be defined in the standard. So the framework
-> should handle them.
->=20
-> > One example I can think of is, to handle PHYINT status bit
-> > that may be set in STATUS0 register. Another example could be,
-> > to give a vendor flexibility to not to use interrupt mode.
->=20
-> But that is part of the standard. Why would a driver need to do
-> anything, the framework should handle PHYINT, calling
-> phy_mac_interrupt(phydev).
->=20
-> I really think you need to post patches. We can then discuss each use
-> case, and i can give you concrete feedback.
+Policical reasons.
 
 
-True.  That would be better. Will work on the patches so that it is clear.
-
-
->=20
-> But in general, if it is part of the standard it should be in the
-> framework. Support for features which are not part of the standard,
-> and workarounds for where a device violates the standard, should be in
-> the MAC driver, or the PHY driver.
->=20
-> 	Andrew
+>
+>The bottom line to me is that these hardline, dogmatic approaches -
+>resisting the recognition of reality - is only harming users. There is a
+>middle ground, open source drivers and tools that offer more flexibility.
+>
