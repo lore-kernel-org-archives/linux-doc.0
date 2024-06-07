@@ -1,202 +1,304 @@
-Received: from hust.edu.cn (mail.hust.edu.cn [202.114.0.240])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34144DDC9;
-	Fri,  7 Jun 2024 03:06:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.114.0.240
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717729581; cv=none; b=ZMZmKfqp6sIzoUBAICOWEF+aV/07dAhmdWBSgIQeCLgztFkvlOu8yYNqoB/6exhDzgVM2dcXoQWIaxFm0VWP2bz1uaWrrkkLOsSAwjxA3ZnwEmAyyn3PynMoGQu798uGxbmrqL+ULSLepf9z4AthQGFPM5IGO5m7B2KONPMIq94=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717729581; c=relaxed/simple;
-	bh=r/BCZHrbUXb73Owi/ShfMwGxZYo6J6aemMtwMA69ATQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=RS8fU6NYMk8yWJe3UCl8DtF/FRtIxHZRv5Lyfhn+xfLqDVKTIp2fLBF6qjFewgJaXlfqfOsDc3BFqsXD/RBWYZYqVawQmovUrsOc0MtnXR4P6vu8Rn6GfU6QrPNVuKOIvPm7/hF4g7Dqei67MBHz8KXRtbMiBmWCF8meRuL6GiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=202.114.0.240
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app2 (Coremail) with SMTP id HwEQrAAHOMRvd2JmCPNjAQ--.45924S2;
-	Fri, 07 Jun 2024 10:58:55 +0800 (CST)
-Received: from pride-poweredge-r740.. (unknown [222.20.126.129])
-	by gateway (Coremail) with SMTP id _____wDXEFRjd2JmnmJAAA--.16835S2;
-	Fri, 07 Jun 2024 10:58:50 +0800 (CST)
-From: Dongliang Mu <dzm91@hust.edu.cn>
-To: Alex Shi <alexs@kernel.org>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/zh_CN: update the translation of security-bugs
-Date: Fri,  7 Jun 2024 10:58:26 +0800
-Message-Id: <20240607025842.24321-1-dzm91@hust.edu.cn>
-X-Mailer: git-send-email 2.34.1
+Received: from mx0a-00183b01.pphosted.com (mx0b-00183b01.pphosted.com [67.231.157.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE1618E28;
+	Fri,  7 Jun 2024 04:41:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=67.231.157.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1717735289; cv=fail; b=Xy7HYkkRCYVvpmcksBRdjJ1BJZyWpAxwSezkoyGJjGkNzogL76o4f8qcx2Lye/Uc9Qi0dHc8+nILKdoY2zryIWon5mXhb4NzxcwWKX19ws3tz+OMSedyU8NeXzJY7L8LARW8kCBpjPu1Fb3kPy/gXBn43k5co7OHyIvLPMqr0rY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1717735289; c=relaxed/simple;
+	bh=gUkeS1w01OxWAv6txt66hfXjy3UFxy2OJFFc9EVrI5Y=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=X/pJo6EEf6w6JJ3FD0DwxQSjzsnZdxSMEYEARtX2PrgKcdpYPsFschAmWFfS7eQnRDPqx4bSIhxr/JoBFqK4K+rHKvZMhTyt3d/nXzTp3haqMZCLgLHlzi2h1vRGWcVoRFO9v+Gk9HaLwh1zWaD85/FUOgnWScNxnJQgwsAQEKM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=onsemi.com; spf=pass smtp.mailfrom=onsemi.com; dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b=t06MvRPa; dkim=pass (1024-bit key) header.d=onsemi.onmicrosoft.com header.i=@onsemi.onmicrosoft.com header.b=w9Cp8j/G; arc=fail smtp.client-ip=67.231.157.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=onsemi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onsemi.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b="t06MvRPa";
+	dkim=pass (1024-bit key) header.d=onsemi.onmicrosoft.com header.i=@onsemi.onmicrosoft.com header.b="w9Cp8j/G"
+Received: from pps.filterd (m0059811.ppops.net [127.0.0.1])
+	by mx0b-00183b01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 456HMNrh010707;
+	Thu, 6 Jun 2024 22:40:35 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onsemi.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	pphosted-onsemi; bh=6tmu7m5XP85gJTD+USd8xENxix08xDjzRP6dbvVqfAY=; b=
+	t06MvRPap1iAfcK9srlbFsGs2g+/nJZ9bH6SphZVTw67BFW7TMDb1ZpucEFKpAT9
+	zoQaiSf6uYDEVVVEh9RZgrZ2oeTqWKbeqmrCGxyXWCXpiXSeFVd5TEsNINwZ51th
+	Su43Rw475UdV+LElumWaU+TqHJfYam0n5/dTw9XxUbzzpN7Opb9zjtXFrx0EvK69
+	if2aYzaLYjJOfh0lhwKI37phiAzjTKK40CmJ86km9EXPjRqEMX3vgmD9QaB8ITbG
+	Pbhkk9jl8WgWI7NBa3/Iyc6jdvtzvjWYIGdJl1Yzk//wStNaID+PXUpDM3lBZDPR
+	gNS15P0fWHPbzKur58cXgw==
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2174.outbound.protection.outlook.com [104.47.58.174])
+	by mx0b-00183b01.pphosted.com (PPS) with ESMTPS id 3yjrvwv74w-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 06 Jun 2024 22:40:35 -0600 (MDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GpOM2FUfjHQ99H28vfBjK/9KuZXyYlyzHj1iv5DUwMfpwbDJ3gbCWsqwXumZP8H/lxf+38pkdYAHHBoLHDYXngulyw9yRv/4ZO40iG/WJxjWDpZ+bHnjgXXyunpGvG+MFgxinT5fw6oRs3D3K1fylyeTn4Krq0y/uCY5cmZhs+BsawrK/7GFvKN5Cus+aMcNJwThMEoTerQC52k8Jo2Ht8eXPNMCPkMBc6cbIxLbD43RvYQiDEEt8byheOGr98u6ZVNL6Bw8guzg3ETjtR0lgAfs+GZqaF7Ectj08ZMEGEnetoLPPHrdxPCB4hKzm6hYMeIC/NP7Ud5+t7hKDylbOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6tmu7m5XP85gJTD+USd8xENxix08xDjzRP6dbvVqfAY=;
+ b=aPGbNGdwGX+75iL1n++8za3yZNwmJNcovMmAx4v/n+5EvMpPJSlgNohFtNYvuaYhko8XD8YCuxpcUI4WdeizXfTWHhXrA8JluclAlf0YNumOmVC4f6fqDFwrW4oWVK46NlOY3WsuPQoZgj2nQicumshC1B+UdmoEFQny7c9Y1XTMaqeb1IAh42q1B7O9DxoQbCdTG7UyXjrfi4VQH/rV79EN+SIkcPdpRr2rGrjH5lrRGxfj7hdAX1MfsQ4yL1lVnhYdnmM54mBBT+Lyzeu7pNf9RV/vFAXkx7cUy4uxNZTDy9D6381OW+gj/LDeTigyOW+bRxoQQMd0pOCRbSGH+A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=onsemi.com; dmarc=pass action=none header.from=onsemi.com;
+ dkim=pass header.d=onsemi.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=onsemi.onmicrosoft.com; s=selector2-onsemi-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6tmu7m5XP85gJTD+USd8xENxix08xDjzRP6dbvVqfAY=;
+ b=w9Cp8j/Gtu9TNiTZzawftdYIJBH0+qERlsKpJHKN8r0ggUcCjf7qg8ATzqNLL7CVPgybTkTITEC4N/gwq+fkmMY2IMM5Mp2p9rMwnumPd04WylJdif2MXANP+LLrmwLBZOiL6jmM5TRy2zr2VEUMKpiU4fUumduzM5m/iQevq0c=
+Received: from BYAPR02MB5958.namprd02.prod.outlook.com (2603:10b6:a03:125::18)
+ by PH0PR02MB8860.namprd02.prod.outlook.com (2603:10b6:510:103::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7633.34; Fri, 7 Jun
+ 2024 04:40:33 +0000
+Received: from BYAPR02MB5958.namprd02.prod.outlook.com
+ ([fe80::9050:b9f2:336c:edaa]) by BYAPR02MB5958.namprd02.prod.outlook.com
+ ([fe80::9050:b9f2:336c:edaa%4]) with mapi id 15.20.7633.033; Fri, 7 Jun 2024
+ 04:40:33 +0000
+From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+To: Andrew Lunn <andrew@lunn.ch>
+CC: "Parthiban.Veerasooran@microchip.com"
+	<Parthiban.Veerasooran@microchip.com>,
+        Piergiorgio Beruto
+	<Pier.Beruto@onsemi.com>,
+        "davem@davemloft.net" <davem@davemloft.net>,
+        "edumazet@google.com" <edumazet@google.com>,
+        "kuba@kernel.org"
+	<kuba@kernel.org>,
+        "pabeni@redhat.com" <pabeni@redhat.com>,
+        "horms@kernel.org" <horms@kernel.org>,
+        "saeedm@nvidia.com"
+	<saeedm@nvidia.com>,
+        "anthony.l.nguyen@intel.com"
+	<anthony.l.nguyen@intel.com>,
+        "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "robh+dt@kernel.org"
+	<robh+dt@kernel.org>,
+        "krzysztof.kozlowski+dt@linaro.org"
+	<krzysztof.kozlowski+dt@linaro.org>,
+        "conor+dt@kernel.org"
+	<conor+dt@kernel.org>,
+        "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>,
+        "Horatiu.Vultur@microchip.com"
+	<Horatiu.Vultur@microchip.com>,
+        "ruanjinjie@huawei.com"
+	<ruanjinjie@huawei.com>,
+        "Steen.Hegelund@microchip.com"
+	<Steen.Hegelund@microchip.com>,
+        "vladimir.oltean@nxp.com"
+	<vladimir.oltean@nxp.com>,
+        "UNGLinuxDriver@microchip.com"
+	<UNGLinuxDriver@microchip.com>,
+        "Thorsten.Kummermehr@microchip.com"
+	<Thorsten.Kummermehr@microchip.com>,
+        "Nicolas.Ferre@microchip.com"
+	<Nicolas.Ferre@microchip.com>,
+        "benjamin.bigler@bernformulastudent.ch"
+	<benjamin.bigler@bernformulastudent.ch>,
+        Viliam Vozar
+	<Viliam.Vozar@onsemi.com>,
+        Arndt Schuebel <Arndt.Schuebel@onsemi.com>
+Subject: RE: [PATCH net-next v4 00/12] Add support for OPEN Alliance
+ 10BASE-T1x MACPHY Serial Interface
+Thread-Topic: [PATCH net-next v4 00/12] Add support for OPEN Alliance
+ 10BASE-T1x MACPHY Serial Interface
+Thread-Index: 
+ AQHakZAzTzY8uLDqjU+aLRkJ24TPX7F0voeAgAA2YYCAGHiwAIAAQuMAgAFPWgCAAH78AIAA9q2AgBaZtCCAAA/6AIAABQ4AgAACngCACKHOAIABvDqAgAAGhgCAACuYgIAEK/gAgAQWz/CAACdPAIAABqdggADbbICAAQMcwA==
+Date: Fri, 7 Jun 2024 04:40:33 +0000
+Message-ID: 
+ <BYAPR02MB5958E09553F82C486DE8BDA483FB2@BYAPR02MB5958.namprd02.prod.outlook.com>
+References: 
+ <BY5PR02MB6786619C0A0FCB2BEDC2F90D9DF52@BY5PR02MB6786.namprd02.prod.outlook.com>
+ <0581b64a-dd7a-43d7-83f7-657ae93cefe5@lunn.ch>
+ <BY5PR02MB6786FC4808B2947CA03977429DF32@BY5PR02MB6786.namprd02.prod.outlook.com>
+ <39a62649-813a-426c-a2a6-4991e66de36e@microchip.com>
+ <585d7709-bcee-4a0e-9879-612bf798ed45@lunn.ch>
+ <BY5PR02MB6786649AEE8D66E4472BB9679DFC2@BY5PR02MB6786.namprd02.prod.outlook.com>
+ <cbe5043b-5bb5-4b9f-ac09-5c767ceced36@microchip.com>
+ <BYAPR02MB5958BD922DAE2D31F18241B283F92@BYAPR02MB5958.namprd02.prod.outlook.com>
+ <732ce616-9ddc-4564-ab1f-ac7bbc591292@lunn.ch>
+ <BYAPR02MB5958DE3C4FE820216153894B83FA2@BYAPR02MB5958.namprd02.prod.outlook.com>
+ <79f61e42-c32f-4314-8b77-99880c2d7eeb@lunn.ch>
+In-Reply-To: <79f61e42-c32f-4314-8b77-99880c2d7eeb@lunn.ch>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BYAPR02MB5958:EE_|PH0PR02MB8860:EE_
+x-ms-office365-filtering-correlation-id: a51add4b-59d6-4178-84a6-08dc86abf791
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230031|7416005|1800799015|366007|376005|38070700009;
+x-microsoft-antispam-message-info: 
+ =?us-ascii?Q?ejqeoa5AJ6z9EcFgDOaKxyUbi2wwH3teCfEZd8d6Nud43uEsLlh56DRsqbvy?=
+ =?us-ascii?Q?2150rIi+WC1/gGEU+vqlW+aORcktBTcBKzfe6SpuDNL+xUxDHiyp6AxkqSFH?=
+ =?us-ascii?Q?lU/n3lBF0ZdIfe4x8sZXvVIauK+8X6R6vVPq17m7Set13ymdUYrIQ1xdD5zZ?=
+ =?us-ascii?Q?vgYycSvKj3AivfjFZo+pooF3/IMGTfk8xgnQacN1ICCxj2z9fDkb+OEWxh9p?=
+ =?us-ascii?Q?fULp5THk9uMskim3kdPoCQmKTMeYEwCBZo36h7r08Cmq9YmFxSAMKRlAXfjn?=
+ =?us-ascii?Q?DbxZCjmefNpa/zySBiEDr38X9HIC0DFc7SqmbeDujGKrR/hkzvM/JhKtWMR1?=
+ =?us-ascii?Q?5BMrooduosscgUuaSd7qw8+xitrcx89C1FuyfJQIlud32AzPnX+gmC8QbzQW?=
+ =?us-ascii?Q?TX61kITfXZ1wtEGQ/MlvW2CwVokvu/s75CKdM57krnZvPc+GOf46SuBgk7j0?=
+ =?us-ascii?Q?iUJ0km3UZoOJGWhw+SF0fJzaohVNBMYef8rt++ywvY6DPurtaD4amZB1OiBh?=
+ =?us-ascii?Q?o4yn9Qp5AtjrBmCVmXytMsLA2X1WZGx/0wfTXmJ5UxLkjs7Xc7lFvxEtpJ6Z?=
+ =?us-ascii?Q?3BTbzuamTQGrR0gyKQK2lp54nQoOl5gStpmsnUohzw1tbbRtN/hRq2f/3vXO?=
+ =?us-ascii?Q?j9P9kNGH4lLHqp6UG9zodKnAUfKpzWXMZDCS/jAQY0OoXH4/oGN0Y2/1cy6P?=
+ =?us-ascii?Q?47qxnnqmvvCurKPNF9CQCqaG0ASFkVqXiZzBhzueqb7ECOJqhMR349MfkWsR?=
+ =?us-ascii?Q?t5hd59ZZoClIUTTbS6CERg7ZQc9V7UgL9bv3SluDvZL8ZfqhNjCrinJzY6sb?=
+ =?us-ascii?Q?iJft8qdqdKSa6YaDkvdke0tlF3bNAsM6CyUMpfXPs+QokT0arySnMVlTeS6H?=
+ =?us-ascii?Q?7FU7cZqZKlcxSxu8fz1Ros2IRBHz5+2Xp8EzSXe/fPpesq6wy4KEYNyazBCK?=
+ =?us-ascii?Q?FV2noiOIcMHgJtHqKLiivJu5UQMI9UZtKeCQ6maE66bWzT1A+fTkUEB4XXt2?=
+ =?us-ascii?Q?jY3CF8UajWPhwrbYtPinJ1m4WhcVpcdsoS7+tcUWi1aYQb2K8r5Zy3/6wvY2?=
+ =?us-ascii?Q?No/Ea7NU2HMRHHNJLliaaSHxz5PyiLCWbHM9+ZW3AwHUXtUOI3y1KeIY0Y3g?=
+ =?us-ascii?Q?E+7CkyxPHBKiR5j07QIITY0HLc5fJnUmMhQTlUcmzHWfNJJrxNh4w8kb8pv2?=
+ =?us-ascii?Q?bGwGQC6ReN4o3vq6QPpL7OpjWFL2Yk+WEps7W0KaN8lczcJTxMe6ay36sldj?=
+ =?us-ascii?Q?dlcrSO4b1+e+9Mrn78XcrX25o/h00hSjSasAwTKUQncYMUmwUwpwvNXPs19t?=
+ =?us-ascii?Q?Vr80frmp8WlEPHQxUuX76z1wM1sfDIbTw2YUjh5xZRd96OS1b17++0jgGw04?=
+ =?us-ascii?Q?kL+MJ1U=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR02MB5958.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7416005)(1800799015)(366007)(376005)(38070700009);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?lh6x+UgYvxzUrsrmDup8b1WOR6THg6HAQODOgpVJvtaQYwHQS7ot4Y5IzvSh?=
+ =?us-ascii?Q?4fv9bh5rT2EohfE1tAfisd9hqXFaVj7Aj0JzxTBprspC0S4nftevjxHNAaNf?=
+ =?us-ascii?Q?bF+yw6TXyJs1jLoZpBYCNogrgnYDVTnsc1B63K7SAVR6FzeEcbllXWPf6PKP?=
+ =?us-ascii?Q?QrcfAclvLrOnQEGF4kZ6ikkgRo/u+bf9PCiQ2l0rzDursWM/z6/EwNZW206F?=
+ =?us-ascii?Q?uHj4UaWuvkUy/H+bIC50WK3DbDzaI2jJtyPIHEqxGwZMN0F3FXvyRiXiv02J?=
+ =?us-ascii?Q?J1OnajjSjo0vhq8dPOl9N+yQDSYEMCelUzmBr80Rm+Tzvu/HpD8bOLIuUlWZ?=
+ =?us-ascii?Q?kyuDTiiLu8KCdupji/PGOLQEjRBSTYN7E+ncoyZQDWFrFLqiu1FpvKV/EFKp?=
+ =?us-ascii?Q?uOOHnaseb+cTJ13D9Vjvi59Lllti/WPofxcSokufUZq5YP/JDCBGKI92Z9Hb?=
+ =?us-ascii?Q?bekgl32CtBqZ7CHoQwGQVcyuU6HaxzYvmmWdrfWaC2JG6vALDlxv9ZRUDCLD?=
+ =?us-ascii?Q?Zk19zQol5aIQqFZurhv9AK1ub1PaCIaA2wSekJ3BFZtUMWfVqPorKZ/curCO?=
+ =?us-ascii?Q?wni9CKAZH5CehPFRB1usjO4pYlyJfxxVkOj5maLul8CP+5q8SG5UQ+IPYDGM?=
+ =?us-ascii?Q?X6NpgPPh3aT3GigIR57XDYuS99Why1ZSo0ouZ34emOjll0wTpF3PiLxH6tu4?=
+ =?us-ascii?Q?AlVkqW+JzFvcmn2qLhxJ9TeCWUysXsHV0amjmQuV2XWvzYTI2mkglESCjaB1?=
+ =?us-ascii?Q?WywRRaRhunzmW1zqyxnNpr0HFGL8MdHA6B1m0kAbucVKnegoeMDoSnz72NSX?=
+ =?us-ascii?Q?ZjERo8sD6sHGgscrclsfJwyB3+bC1Upm7ht0U8oXyhHJjvjb9bStsUno81IP?=
+ =?us-ascii?Q?ZPm4DNxONr64Fi4ytgspxW1GAJnC63ia0A1J6R5nll5csoBjVn1240Ihjo2C?=
+ =?us-ascii?Q?MY5l5tLUL1YUUKT/fdkWRyPaEI6bZsPcic8conuW9bxOVM+amDpAG38adNUR?=
+ =?us-ascii?Q?YvJJY5mMpwTEi4xJZV8tOeJx5gDCCrGqBFm1K245U2nwbrA6sGr71wrGwlBg?=
+ =?us-ascii?Q?IhV80ey28t/hh4qUaGClQQR4U8KAMWENpXXQGtTdGe/pPuBVHmNCY36JPYgw?=
+ =?us-ascii?Q?ZZGcUnRIkP+WP7NseuLo8PzWnnnBnsio23cftyRLdVWWL8ITbfiVI9kh0sad?=
+ =?us-ascii?Q?zKmSiIP92dT6+xr0ulXcNJlPVvZ6m/duAHq72kXfVfNbE7AmZeZayttV7n/8?=
+ =?us-ascii?Q?AwNMwqucwO5CkRvL8w5U4YSohMmqko2YkfUv76HGMEH0fmCKLONGIxXsjWGG?=
+ =?us-ascii?Q?B+GLZoatm3CcqRbKpuUjALTJXbjWtElMp4AEBxlep9XZYAdx/PO2iYTvOQRv?=
+ =?us-ascii?Q?F74lrUAi54PXFWsAzz/MDHZ5SQULYMDbMMYpgtUcVBzN/aSFpXyYvHxEDiwm?=
+ =?us-ascii?Q?SJMIL1Dp2uYEn/9T0qrFGFGT1IHOJZs3UNyyjuJeUMwdXtYphGk2wzrX/hPW?=
+ =?us-ascii?Q?XXM609jIwligzC9OBMVUnhJTcR1RxT3N8M12I6jQm3Xv/34x9Isg0+xuGbj9?=
+ =?us-ascii?Q?RCtsUh0VySUNGwVBXiJ2SgiJdraLfDWTSvWAeCFe6AKqs9QtGzRLbxEkbW5a?=
+ =?us-ascii?Q?DA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HwEQrAAHOMRvd2JmCPNjAQ--.45924S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoWxKFyfCw45JF4UtFyxXryDtrb_yoW3Xw15p3
-	ZFgryxKanrJ3WYkFWfKr1UGF1xGFWfC3y3Krn8Ja4fJF1kAr4vqrn8tryvgayfXryrKayD
-	ZFWFkFW3Wry2yrUanT9S1TB71UUUUj7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQab7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
-	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
-	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
-	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
-	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
-	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxVWUAVWUtw
-	CF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Y
-	z7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
-	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE
-	2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42
-	xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF
-	7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jDkucUUUUU=
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+X-OriginatorOrg: onsemi.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB5958.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a51add4b-59d6-4178-84a6-08dc86abf791
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jun 2024 04:40:33.0401
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 04e1674b-7af5-4d13-a082-64fc6e42384c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: W0yBgYKzcJzdDnakXGpgWVdx8ayn2Ghb1OBqEOD8LakkKHtP/aUpfcHsvCL4AAUUbs8E2m/JkYug9jF/0bF1/OeOmSUCtKwAZGwLVw4eGXg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR02MB8860
+X-Proofpoint-ORIG-GUID: 4Nhxi6JQtE2G00GG7rRnUEzXeFwFE_sI
+X-Proofpoint-GUID: 4Nhxi6JQtE2G00GG7rRnUEzXeFwFE_sI
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-06_20,2024-06-06_02,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 bulkscore=0
+ lowpriorityscore=0 spamscore=0 malwarescore=0 clxscore=1015
+ impostorscore=0 mlxscore=0 priorityscore=1501 adultscore=0 mlxlogscore=999
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406070031
 
-Update to commit 5928d411557e ("Documentation: Document the Linux Kernel
-CVE process")
 
-commit 0217f3944aeb ("Documentation: security-bugs.rst: linux-distros
-relaxed their rules")
-commit 3c1897ae4b6b ("Documentation: security-bugs.rst: clarify CVE
-handling")
-commit 4fee0915e649 ("Documentation: security-bugs.rst: update
-preferences when dealing with the linux-distros group")
-commit 44ac5abac86b ("Documentation/security-bugs: move from admin-guide/
-to process/")
 
-Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
----
- .../translations/zh_CN/admin-guide/index.rst  |  1 -
- .../translations/zh_CN/process/index.rst      |  3 +-
- .../zh_CN/process/security-bugs.rst           | 84 +++++++++++++++++++
- 3 files changed, 86 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/translations/zh_CN/process/security-bugs.rst
+> -----Original Message-----
+> From: Andrew Lunn <andrew@lunn.ch>
+> Sent: Thursday, June 6, 2024 6:12 AM
+> To: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+> Cc: Parthiban.Veerasooran@microchip.com; Piergiorgio Beruto
+> <Pier.Beruto@onsemi.com>; davem@davemloft.net;
+> edumazet@google.com; kuba@kernel.org; pabeni@redhat.com;
+> horms@kernel.org; saeedm@nvidia.com; anthony.l.nguyen@intel.com;
+> netdev@vger.kernel.org; linux-kernel@vger.kernel.org; corbet@lwn.net;
+> linux-doc@vger.kernel.org; robh+dt@kernel.org;
+> krzysztof.kozlowski+dt@linaro.org; conor+dt@kernel.org;
+> devicetree@vger.kernel.org; Horatiu.Vultur@microchip.com;
+> ruanjinjie@huawei.com; Steen.Hegelund@microchip.com;
+> vladimir.oltean@nxp.com; UNGLinuxDriver@microchip.com;
+> Thorsten.Kummermehr@microchip.com; Nicolas.Ferre@microchip.com;
+> benjamin.bigler@bernformulastudent.ch; Viliam Vozar
+> <Viliam.Vozar@onsemi.com>; Arndt Schuebel
+> <Arndt.Schuebel@onsemi.com>
+> Subject: Re: [PATCH net-next v4 00/12] Add support for OPEN Alliance
+> 10BASE-T1x MACPHY Serial Interface
+>=20
+> [External Email]: This email arrived from an external source - Please
+> exercise caution when opening any attachments or clicking on links.
+>=20
+> > I believe my client is configured to wrap at 70th characters.
+> > Not sure why it is not doing it.
+>=20
+>=20
+> It could be you also send a MIME obfuscated copy which is not wrapped
+> correctly?
+>=20
+> > > > 1) Can we move memory map selector definitions
+> > > (OA_TC6_PHY_C45_PCS_MMS2 and other 4 definitions) to the header
+> > > file
+> > > >      include/linux/oa_tc6.h?
+> > > >      Also, if possible, could we add the MMS0, MMS1?. Our driver is
+> > > using them. Of course, we could add it when we submit our driver.
+> > >
+> > > Interesting. So you have vendor registers outside of MMS 10-15?
+> >
+> > This is not about vendor registers. The current oa_tc6 defines
+> > MMS selector values for 2, 3, 4, 5, 6. I am asking, if 0, 1 can be adde=
+d,
+> > which are meant for "Standard Control and Status" and MAC
+> respectively,
+> > according to MMS assignment table 6 on OA standard.
+>=20
+> But why would a MAC driver need access to those? Everything using
+> those registers should be defined in the standard. So the framework
+> should handle them.
+>=20
+> > One example I can think of is, to handle PHYINT status bit
+> > that may be set in STATUS0 register. Another example could be,
+> > to give a vendor flexibility to not to use interrupt mode.
+>=20
+> But that is part of the standard. Why would a driver need to do
+> anything, the framework should handle PHYINT, calling
+> phy_mac_interrupt(phydev).
+>=20
+> I really think you need to post patches. We can then discuss each use
+> case, and i can give you concrete feedback.
 
-diff --git a/Documentation/translations/zh_CN/admin-guide/index.rst b/Documentation/translations/zh_CN/admin-guide/index.rst
-index ac2960da33e6..773c53956000 100644
---- a/Documentation/translations/zh_CN/admin-guide/index.rst
-+++ b/Documentation/translations/zh_CN/admin-guide/index.rst
-@@ -37,7 +37,6 @@ Todolist:
- 
-    reporting-issues
-    reporting-regressions
--   security-bugs
-    bug-hunting
-    bug-bisect
-    tainted-kernels
-diff --git a/Documentation/translations/zh_CN/process/index.rst b/Documentation/translations/zh_CN/process/index.rst
-index 5c6c8ccdd50d..011dc2cf583a 100644
---- a/Documentation/translations/zh_CN/process/index.rst
-+++ b/Documentation/translations/zh_CN/process/index.rst
-@@ -49,10 +49,11 @@ TODOLIST:
- 
-    embargoed-hardware-issues
-    cve
-+   security-bugs
- 
- TODOLIST:
- 
--* security-bugs
-+* handling-regressions
- 
- 其它大多数开发人员感兴趣的社区指南：
- 
-diff --git a/Documentation/translations/zh_CN/process/security-bugs.rst b/Documentation/translations/zh_CN/process/security-bugs.rst
-new file mode 100644
-index 000000000000..a8f5fcbfadc9
---- /dev/null
-+++ b/Documentation/translations/zh_CN/process/security-bugs.rst
-@@ -0,0 +1,84 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: :doc:`../../../process/security-bugs`
-+
-+:译者:
-+
-+ 吴想成 Wu XiangCheng <bobwxc@email.cn>
-+ 慕冬亮 Dongliang Mu <dzm91@hust.edu.cn>
-+
-+安全缺陷
-+=========
-+
-+Linux内核开发人员非常重视安全性。因此我们想知道何时发现了安全漏洞，以便尽快
-+修复和披露。请向Linux内核安全团队报告安全漏洞。
-+
-+联络
-+-----
-+
-+可以通过电子邮件<security@kernel.org>联系Linux内核安全团队。这是一个安全人员
-+的私有列表，他们将帮助验证错误报告并开发和发布修复程序。如果您已经有了一个
-+修复，请将其包含在您的报告中，这样可以大大加快处理进程。安全团队可能会从区域维护
-+人员那里获得额外的帮助，以理解和修复安全漏洞。
-+
-+与任何缺陷一样，提供的信息越多，诊断和修复就越容易。如果您不清楚哪些信息有用，
-+请查看“Documentation/translations/zh_CN/admin-guide/reporting-issues.rst”中
-+概述的步骤。任何利用漏洞的攻击代码都非常有用，未经报告者同意不会对外发布，
-+除非已经公开。
-+
-+请尽可能发送无附件的纯文本电子邮件。如果所有的细节都藏在附件里，那么就很难对
-+一个复杂的问题进行上下文引用的讨论。把它想象成一个
-+:doc:`常规的补丁提交 <../process/submitting-patches>` （即使你还没有补丁）：
-+描述问题和影响，列出复现步骤，然后给出一个建议的解决方案，所有这些都是纯文本的。
-+
-+披露和限制信息
-+---------------
-+
-+安全列表不是公开渠道。为此，请参见下面的协作。
-+
-+一旦开发出了健壮的补丁，发布过程就开始了。对公开的缺陷的修复会立即发布。
-+
-+尽管我们倾向于在未公开缺陷的修复可用时即发布补丁，但应报告者或受影响方的请求，
-+这可能会被推迟到发布过程开始后的7日内，如果根据缺陷的严重性需要更多的时间，
-+则可额外延长到14天。推迟发布修复的唯一有效原因是为了适应QA的逻辑和需要发布
-+协调的大规模部署。
-+
-+虽然可能与受信任的个人共享受限信息以开发修复，但未经报告者许可，此类信息不会
-+与修复程序一起发布或发布在任何其他披露渠道上。这包括但不限于原始错误报告和
-+后续讨论（如有）、漏洞、CVE信息或报告者的身份。
-+
-+换句话说，我们唯一感兴趣的是修复缺陷。提交给安全列表的所有其他资料以及对报告
-+的任何后续讨论，即使在解除限制之后，也将永久保密。
-+
-+与其他团队协调
-+--------------
-+
-+虽然内核安全团队仅关注修复漏洞，但还有其他组织关注修复发行版上的安全问题以及协调
-+操作系统厂商的漏洞披露。协调通常由 "linux-distros" 邮件列表处理，而披露则由
-+公共 "oss-security" 邮件列表进行。两者紧密关联且被展示在 linux-distros 维基：
-+<https://oss-security.openwall.org/wiki/mailing-lists/distros>
-+
-+请注意，这三个列表的各自政策和规则是不同的，因为它们追求不同的目标。内核安全团队
-+与其他团队之间的协调很困难，因为对于内核安全团队，保密期（即最大允许天数）是从补丁
-+可用时开始，而 "linux-distros" 则从首次发布到列表时开始计算，无论是否存在补丁。
-+
-+因此，内核安全团队强烈建议，作为一位潜在安全问题的报告者，在受影响代码的维护者
-+接受补丁之前，且在您阅读上述发行版维基页面并完全理解联系 "linux-distros"
-+邮件列表会对您和内核社区施加的要求之前，不要联系 "linux-distros" 邮件列表。
-+这也意味着通常情况下不要同时抄送两个邮件列表，除非在协调时有已接受但尚未合并的补丁。
-+换句话说，在补丁被接受之前，不要抄送 "linux-distros"；在修复程序被合并之后，
-+不要抄送内核安全团队。
-+
-+CVE分配
-+--------
-+
-+安全团队不分配 CVE，同时我们也不需要 CVE 来报告或修复漏洞，因为这会使过程不必要
-+的复杂化，并可能延误漏洞处理。如果报告者希望为确认的问题分配一个 CVE 编号，
-+可以联系 :doc:`内核 CVE 分配团队 <../process/cve>` 获取。
-+
-+保密协议
-+---------
-+
-+Linux内核安全团队不是一个正式的机构实体，因此无法签订任何保密协议。
--- 
-2.34.1
 
+True.  That would be better. Will work on the patches so that it is clear.
+
+
+>=20
+> But in general, if it is part of the standard it should be in the
+> framework. Support for features which are not part of the standard,
+> and workarounds for where a device violates the standard, should be in
+> the MAC driver, or the PHY driver.
+>=20
+> 	Andrew
