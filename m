@@ -1,106 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BE1D1A01B4;
-	Fri,  7 Jun 2024 15:29:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6EE171BB;
+	Fri,  7 Jun 2024 15:39:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717774150; cv=none; b=RXEDAoJtkkpOoNvAdDwpLWMuAUozTp00Bjsk8FnDvCXEKxJL3aIprf3LN7EMEWZW1hP8Mbu5e8bEZ5jOuNq23ypMOQ33cEv2siVLDzn4kwhWrOuEJwycRW5Z66nuQNQP/tnR+WOhG5v/8gogFAU9YteE8LYGqG/0BsFs8I3VMTA=
+	t=1717774742; cv=none; b=O9UIR3PghZeUdG0LPAwX20ikEuU0UWUshzMFsfoPj1pqrPH2mBI0YwziSpBXvbSK+9q6HTFbxoJm0KBTgs9lgti7W33Z70T8R+7Ek00dfobU0WF/3v308xzMPMgexOzcy4iT3BjMKt/+klagHuLu+zQlJS2iBjYVX1FDWCNRh5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717774150; c=relaxed/simple;
-	bh=19seXFGbiAkxbo+NZHKMcYfBUtAeq/ulfefjwHuSoZc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lOYICOEg4SC+Ws4gEF/JCy6CouCXk/jxaV0AZ7BLItPoV61J4W0KLui05JzC1DzgNGDJtQkWe2UVMTGzufLwZOKgETjFubPXP+mNyBwldO+tE5jMYB7ahmqBDxxvPSGjjf5pyF6kIJdEE6qKJ9jOqe/9hN/uVVrtotWxC4owrHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TgmVNW8a; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717774742; c=relaxed/simple;
+	bh=C8AdvS3D3ulp2oWqS7pqZc6JQsM874Op4YI9otLDZzQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=XNyWj4IxPuLmfMPFUGXlBlHSiFKJZ3Z+DYAo9tPvdQJK/5R8V1HCOZ68n0GfX40xglJgs6WskOrMAiFrA0jEWKuK4yFIuyh81tKVoIEv5Eyjt2odTbIgUY0kiK6vQaS9Fir/0pdMNeNGzoK9eG3qg3qb6RMRczU5fB7cKW3xraM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pmhw7Knb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TgmVNW8a"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 177EAC2BBFC;
-	Fri,  7 Jun 2024 15:29:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pmhw7Knb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1AC9C2BBFC;
+	Fri,  7 Jun 2024 15:39:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717774150;
-	bh=19seXFGbiAkxbo+NZHKMcYfBUtAeq/ulfefjwHuSoZc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=TgmVNW8afj36k/PFucIKm4wSkJ0wT6uIZ9wryBj66eNic1wapQ93QglWnjUm0Yy+f
-	 cVQutANVWh8Wi2rL14pXnIZIPPgJhf8C8dNTW8hnPBv2dLCekapSGofbI0tfP/1bNb
-	 TcNQsa5EtevZT83EPDaND05UztNHrxSz2kI5JszcY8AXwv8t/DlOXp4pWWdRLtJHdX
-	 hpYsKDpiJW7docSudPyfjTYUFxKXtHXqvLesYZlShZGk5QdGouLydjLKxZKQztVb/c
-	 42Cz/BE5ZTB/EgboJlLwRFJ7frVUIoOBhsFHIhqa5h+i6bPhVKrXiSE7XeMUDTr40l
-	 I5RYyWfr1I8Fg==
-From: Benjamin Tissoires <bentiss@kernel.org>
-Date: Fri, 07 Jun 2024 17:28:36 +0200
-Subject: [PATCH HID v2 16/16] HID: bpf: make part of struct hid_device
- writable
+	s=k20201202; t=1717774742;
+	bh=C8AdvS3D3ulp2oWqS7pqZc6JQsM874Op4YI9otLDZzQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=Pmhw7Knb5GxmpBpg5yX2ToDHR3HkLAFJLfvbw01dAm89v4WFqgvjHg9DNoWMPnrA7
+	 dds3t1eAE0HTX7MDcNzi98XzEr4f0q2BafnAOutjuDmfJ5pnADIaaF02L8ylli/0t2
+	 9W41U7gvKSP2hnq956uxjk7ZybOt2R55C0nTJ6EOD6W7fEH6cVmU2HIL1V7VgarWFM
+	 TR0VNNihgNG7fVnhsQ1jce1B5BH4x4KWjkZVrATutXc7dg5smQL4vDqsE30NA/VJ4O
+	 PYd2u/ydlvynIZXHa3vLFjgXTHlS7EPAqEbLWsvz0cHU5fWn+sGCCRtFT2IWkD9jeg
+	 IWKHyQuLh2lgw==
+Date: Fri, 7 Jun 2024 10:39:00 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Noah Wang <noahwang.wang@outlook.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, linux@roeck-us.net,
+	conor+dt@kernel.org, jdelvare@suse.com, corbet@lwn.net,
+	Delphine_CC_Chiu@wiwynn.com, peteryin.openbmc@gmail.com,
+	javier.carrasco.cruz@gmail.com, patrick.rudolph@9elements.com,
+	bhelgaas@google.com, lukas@wunner.de, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org
+Subject: Re: [PATCH 0/4] hwmon: Add support for MPS mp2993,mp9941 chip
+Message-ID: <20240607153900.GA847228@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240607-hid_bpf_struct_ops-v2-16-3f95f4d02292@kernel.org>
-References: <20240607-hid_bpf_struct_ops-v2-0-3f95f4d02292@kernel.org>
-In-Reply-To: <20240607-hid_bpf_struct_ops-v2-0-3f95f4d02292@kernel.org>
-To: Shuah Khan <shuah@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Alexei Starovoitov <ast@kernel.org>
-Cc: linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, 
- bpf@vger.kernel.org, linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
- Benjamin Tissoires <bentiss@kernel.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1717774109; l=1759;
- i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
- bh=19seXFGbiAkxbo+NZHKMcYfBUtAeq/ulfefjwHuSoZc=;
- b=zhnQpCROcnvr89ISnDPYEYndFo9rbiyiAbgUDd7dF4leBcVaODleyUtOiep9224qku8mSx+8N
- Y5lOv8YiE5tDVGQQcRaU8w+sgToskNEYh9M/ZWX7LBI6CY80q1bUMJv
-X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
- pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <SEYPR04MB64822EE797B0CB024A913DFFFAFB2@SEYPR04MB6482.apcprd04.prod.outlook.com>
 
-It is useful to change the name, the phys and/or the uniq of a
-struct hid_device during .rdesc_fixup().
+On Fri, Jun 07, 2024 at 05:05:40PM +0800, Noah Wang wrote:
+> Add mp2993,mp9941 driver in hwmon and add dt-bindings for them.
+> 
+> Noah Wang (4):
+>   dt-bindings: hwmon: Add MPS mp2993
+>   hwmon: add MP2993 driver
+>   dt-bindings: hwmon: Add MPS mp9941
+>   hwmon: add MP9941 driver
 
-For example, hid-uclogic.ko changes the uniq to store the firmware version
-to differentiate between 2 devices sharing the same PID. In the same
-way, changing the device name is useful when the device export 3 nodes,
-all with the same name.
+Don't repost just for this, but for some reason the patches in this
+series didn't get posted as responses to this cover letter.  Here's a
+link to the archive, where you can see the lack of responses, and the
+result when you try to download the series with b4:
 
-Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+  https://lore.kernel.org/all/SEYPR04MB64822EE797B0CB024A913DFFFAFB2@SEYPR04MB6482.apcprd04.prod.outlook.com/
 
----
+  $ b4 am https://lore.kernel.org/all/SEYPR04MB64822EE797B0CB024A913DFFFAFB2@SEYPR04MB6482.apcprd04.prod.outlook.com
+  Analyzing 1 messages in the thread
+  No patches found.
 
-new in v2
----
- drivers/hid/bpf/hid_bpf_struct_ops.c | 3 +++
- include/linux/hid_bpf.h              | 2 +-
- 2 files changed, 4 insertions(+), 1 deletion(-)
+Compare to this correctly threaded series and the download with b4:
 
-diff --git a/drivers/hid/bpf/hid_bpf_struct_ops.c b/drivers/hid/bpf/hid_bpf_struct_ops.c
-index 944e6d91a36b..14a4c64ae242 100644
---- a/drivers/hid/bpf/hid_bpf_struct_ops.c
-+++ b/drivers/hid/bpf/hid_bpf_struct_ops.c
-@@ -74,6 +74,9 @@ static int hid_bpf_ops_btf_struct_access(struct bpf_verifier_log *log,
- 
- 	const struct hid_bpf_offset_write_range write_ranges[] = {
- 		WRITE_RANGE(hid_bpf_ctx, retval, 0, 0),
-+		WRITE_RANGE(hid_device, name, 0, -1), /* minus 1 to ensure \0 at the end */
-+		WRITE_RANGE(hid_device, uniq, 0, -1), /* minus 1 to ensure \0 at the end */
-+		WRITE_RANGE(hid_device, phys, 0, -1), /* minus 1 to ensure \0 at the end */
- 	};
- #undef WRITE_RANGE
- 	const struct btf_type *state = NULL;
-diff --git a/include/linux/hid_bpf.h b/include/linux/hid_bpf.h
-index 88ab4925bdaa..ff30cbc0a090 100644
---- a/include/linux/hid_bpf.h
-+++ b/include/linux/hid_bpf.h
-@@ -43,7 +43,7 @@ struct hid_device;
-  * ``hid`` and ``allocated_size`` are read-only, ``size`` and ``retval`` are read-write.
-  */
- struct hid_bpf_ctx {
--	const struct hid_device *hid;
-+	struct hid_device *hid;
- 	__u32 allocated_size;
- 	union {
- 		__s32 retval;
+  https://lore.kernel.org/all/cover.1717773890.git.jani.nikula@intel.com
 
--- 
-2.44.0
-
+  $ b4 am https://lore.kernel.org/all/cover.1717773890.git.jani.nikula@intel.com
+  Grabbing thread from lore.kernel.org/all/cover.1717773890.git.jani.nikula@intel.com/t.mbox.gz
+  Analyzing 7 messages in the thread
+  Checking attestation on all messages, may take a moment...
+  ---
+    ✓ [PATCH v2 1/6] drm/i915/gvt: remove the unused end parameter from calc_index()
+    ✓ [PATCH v2 2/6] drm/i915/gvt: use proper i915_reg_t for calc_index() parameters
+    ✓ [PATCH v2 3/6] drm/i915/gvt: rename range variable to stride
+    ✓ [PATCH v2 4/6] drm/i915/gvt: do not use implict dev_priv in DSPSURF_TO_PIPE()
+    ✓ [PATCH v2 5/6] drm/i915: relocate some DSPCNTR reg bit definitions
+    ✓ [PATCH v2 6/6] drm/i915: remove unused pipe/plane B register macros
+    ---
+    ✓ Signed: DKIM/intel.com
+  ---
+  Total patches: 6
+  ---
+  Cover: ./v2_20240607_jani_nikula_drm_i915_gvt_register_macro_cleanups_unused_macro_removals.cover
+   Link: https://lore.kernel.org/r/cover.1717773890.git.jani.nikula@intel.com
+   Base: not specified
+	 git am ./v2_20240607_jani_nikula_drm_i915_gvt_register_macro_cleanups_unused_macro_removals.mbx
