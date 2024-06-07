@@ -1,79 +1,80 @@
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF7A118FC8E
-	for <linux-doc@vger.kernel.org>; Fri,  7 Jun 2024 11:17:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD9F92837F;
+	Fri,  7 Jun 2024 11:34:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717759063; cv=none; b=cihxMLd/n6UKspYzr9MCEYQlmVlN6FuZtGpd5cecUDqxCyTr8wmIJHJkSBf/OQYfYnPTdcmG+uzYGb8K9bL9Ta0UQabn4Q5Kmd4AffWsdC3jUbxEwaCdWlbeRsmkIZSXY9oaio5rBvqWA14VZOB883wgXE6Zm5XwjNqPxX3xhqc=
+	t=1717760088; cv=none; b=rpXEHnzUopFQC/sNry+2Kxw3XBnOElBXtHPGvwrTz0Z3Z2Vdj7/rwTXvhrByRxK1+NmNIS0HM9muft/gSoHKgHVOBSnMBomcrRF4uENfmQEd3eQZjL/crIXMDKyByVz9cttKXE+lVFJ428BwuhvTzeF8edGLR+96KpdF6C+eztE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717759063; c=relaxed/simple;
-	bh=odnZcUxgDH8iNZUY4fM5Fn33ZzBiYho+JebXezitud8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Fs01hfH5evqnNoL60nxdUQ6jMwWZFhQbM5dlehdSAKbRi9kne85YC71L5KUmGfzHVaCmHKfUid+BP0e5eCQhJMhU2oyP1a9JSvo4GRnaTr6gOqw19C4gBma0ZcQTlyZ+gEDPRyizbCUvp9SnPaj47czniWszTjuCTxJAqfMrP0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=DKKQptKF; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="DKKQptKF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=i/9DhNw/Sqych1Hue4MHcp9y0tLeOrdKyRgfTtEuZPI=; b=DKKQpt
-	KFyxX+Ipae+BHV1d98v+lVHf+shQ8zWgFxOdaiXzVFu0HNft3a1sdGgsW3bSuuoU
-	PSCaZV3G90qTFddBDTLp2yynxrg1UQX/Vi5Hw/CQVAuGhg8jXaRLPE8QrPjic+zu
-	5K0Z/3W+YCQx0ALqk0nGdba9Z39Q5+Hc0ds7HmouAh0adC2jjor/DF8YTR7/ddc4
-	zPEhlXYToVBoIWqsKn6PkJQHm9ze4gg5xn1oDqEDQR/27EZsa5TU1cv+zzBRcRpW
-	WzolN/5cmpOQKAK6QYLbKglvrU4ZgkJgeVqxYrPpyjOvPkxBRQIFfHm7gvRbq0t6
-	FOywwCCTxYRxLIeg==
-Received: (qmail 3292291 invoked from network); 7 Jun 2024 13:17:36 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 7 Jun 2024 13:17:36 +0200
-X-UD-Smtp-Session: l3s3148p1@FxJZ8koaMLAgAwDPXzLGAH1eNELjOc3g
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-i2c@vger.kernel.org
-Cc: Easwar Hariharan <eahariha@linux.microsoft.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	linux-doc@vger.kernel.org,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 5/5] docs: i2c: summary: rephrase paragraph explaining the figure
-Date: Fri,  7 Jun 2024 13:17:24 +0200
-Message-ID: <20240607111726.12678-6-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240607111726.12678-1-wsa+renesas@sang-engineering.com>
-References: <20240607111726.12678-1-wsa+renesas@sang-engineering.com>
+	s=arc-20240116; t=1717760088; c=relaxed/simple;
+	bh=mbG89FjHAxa1gznB6DfiZPNoSOm4l0OCZ9Vw9BRkHMk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dHXi6AZq35uO5zzNNYWawZi6nIqhgyET+JoKElEim0Dl076XrkQbM55DGw3gVBfBWh/Y6OWvaOZoFPl+MfE8ndoaU0tOLrLTqsvWhc4+KkMoJyZ4IM/hDkGC5Zfxx6tUsV3SqZ5UZ3RFSEbeJFkKUTFpK6ecrzpfLW0CxbntPBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5F2BB2F4;
+	Fri,  7 Jun 2024 04:35:10 -0700 (PDT)
+Received: from [10.57.70.246] (unknown [10.57.70.246])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 587D53F762;
+	Fri,  7 Jun 2024 04:34:44 -0700 (PDT)
+Message-ID: <8c3db3d5-8ddc-427c-8db2-980b14afb258@arm.com>
+Date: Fri, 7 Jun 2024 12:34:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: Add ARM64 for reserving ZONE_MOVABLE
+Content-Language: en-GB
+To: Dev Jain <dev.jain@arm.com>, linux-arm-kernel@lists.infradead.org,
+ catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net,
+ linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, mark.rutland@arm.com,
+ suzuki.poulose@arm.com, broonie@kernel.org, James.Morse@arm.com,
+ Anshuman.Khandual@arm.com
+References: <20240604052856.546183-1-dev.jain@arm.com>
+From: Ryan Roberts <ryan.roberts@arm.com>
+In-Reply-To: <20240604052856.546183-1-dev.jain@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Use 'controller/target' and 'adapter/client' pairs consistently.
+On 04/06/2024 06:28, Dev Jain wrote:
+> kernelcore and movablecore kernel command line works for ARM64. Update
+> the Documentation to reflect the same.
+> 
+> Signed-off-by: Dev Jain <dev.jain@arm.com>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index b600df82669d..7282d6057e32 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2544,7 +2544,7 @@
+>  
+>  	keepinitrd	[HW,ARM] See retain_initrd.
+>  
+> -	kernelcore=	[KNL,X86,IA-64,PPC,EARLY]
+> +	kernelcore=	[KNL,X86,IA-64,PPC,ARM64,EARLY]
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- Documentation/i2c/summary.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Given these are both arch-agnostic parameters, wouldn't the correct change be to
+remove all the arch-specific labels, i.e. [KNL,EARLY]? In fact, wasn't IA-64
+removed from the kernel?
 
-diff --git a/Documentation/i2c/summary.rst b/Documentation/i2c/summary.rst
-index b10b6aaafcec..1b5bc7ed46aa 100644
---- a/Documentation/i2c/summary.rst
-+++ b/Documentation/i2c/summary.rst
-@@ -55,9 +55,9 @@ in a directory specific to the feature they provide, for example
- ``drivers/media/gpio/`` for GPIO expanders and ``drivers/media/i2c/`` for
- video-related chips.
- 
--For the example configuration in figure, you will need a driver for your
--I2C adapter, and drivers for your I2C devices (usually one driver for each
--device).
-+For the example configuration in the figure above, you will need one adapter
-+driver for the I2C controller, and client drivers for your I2C targets. Usually
-+one driver for each client.
- 
- Outdated terminology
- --------------------
--- 
-2.43.0
+>  			Format: nn[KMGTPE] | nn% | "mirror"
+>  			This parameter specifies the amount of memory usable by
+>  			the kernel for non-movable allocations.  The requested
+> @@ -3612,7 +3612,7 @@
+>  	mousedev.yres=	[MOUSE] Vertical screen resolution, used for devices
+>  			reporting absolute coordinates, such as tablets
+>  
+> -	movablecore=	[KNL,X86,IA-64,PPC,EARLY]
+> +	movablecore=	[KNL,X86,IA-64,PPC,ARM64,EARLY]
+>  			Format: nn[KMGTPE] | nn%
+>  			This parameter is the complement to kernelcore=, it
+>  			specifies the amount of memory used for migratable
 
