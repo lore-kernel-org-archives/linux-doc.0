@@ -1,93 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9F85194093;
-	Fri,  7 Jun 2024 13:12:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674BD1940AA;
+	Fri,  7 Jun 2024 13:14:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717765964; cv=none; b=LQQyeY4TpwRXQ4aF49U751FTHvrmOoTpcgM18Djqv/6p1HurM3irMTNcOn+EOXARnR8D86NcG+28ptwFyiZWF4cJTnGy7w6SUbWKgHcmLGCSJPdP8FI3Iz6z0MRp11bR4N5zj9Ghsb1tRi1rjPImxi8Ep+rF3yeXDee3ghkOWLk=
+	t=1717766081; cv=none; b=JJIJpdZSYsM1oO5kLuHDP0sa0ybjCiPnMRqTSS2LhEKssKb2yffv8zno/sRaRROz7AV2mDuQKtlTEMqDbZUspCR+oVKnntxZX+09lTmNPoH+P+ILV2GpxXEgIOUQth8SuR6kvxVImMY70nNE1y277BQtSwIdnLYkYs2svn/kNDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717765964; c=relaxed/simple;
-	bh=rylabSzu0yYyi1X2s18EQkSMYt2TEokMK9Pw9zKgDUs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LmbrHSAmvnL+dQSeo/R5ksOy4QTpAM/ijZCMenlYqv7ExabkVw3sfZCrmU/sXBfmTtT8CaHR/zBgjh2zw4gswzGMvAFW/ub3xjzKu3BVWmj8eBNCvtusgOh5Ql2Cpv8YRvtlW1b9tQfK19+MPP5uZbeqyWiWoAOymZ8Un53M4ro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QpkQ0Qu1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717766081; c=relaxed/simple;
+	bh=ABua8CX7aHFShIRy1tF0NN3EsSEVeFn4ti8y8bQ86LI=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=DT472yQ/NxTuez/fguHtBt/JkkLBlFKD1kDXap+6XZLRBdLgfqI3ppCdoB5ocsKtWQ4xKtIOXFYYHo3GnZ9vEbJ2j+M6HEiq+HKtSHCrrsIaHqxyFLdGxWqChWGo7sCCpoS/sqZzuCodmYCPeiENJFCyolMAGDiqZCqWl4KHAuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PgHxPZt2; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QpkQ0Qu1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAA32C2BBFC;
-	Fri,  7 Jun 2024 13:12:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717765963;
-	bh=rylabSzu0yYyi1X2s18EQkSMYt2TEokMK9Pw9zKgDUs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QpkQ0Qu1JyafVZSOx6jiVmcGI8gLjw4vC1PitwTH2tvGUmHx/DrnAI9gcWO4wJwB7
-	 +VBQVDOi9ga0CE/9OZVBBoFOdpCQRmLloNGr1R6e0Hppmo8B1UkCx5ZFbB+GMASJSi
-	 sXtLirT7nIbLK4lUQ6opmT0uwiRLNo0srrnTq5g+0GfwafcC0wNDN2kBabLZLBXEjQ
-	 BXa68v9b65NKWLZNDKyEfCEmaKdrmaSuccyr9g4udMGrAB7zGe7x4qoYW1hE4mbN1A
-	 DQFrDQbE239GsB5vDkzzavPJubM3q9VbMX6WtAi+RAv3vvl6KSWOGDrLUseoPrSXlS
-	 egpex+6HRQ9wQ==
-Date: Fri, 7 Jun 2024 16:12:38 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, Jakub Kicinski <kuba@kernel.org>,
-	David Ahern <dsahern@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Itay Avraham <itayavr@nvidia.com>, linux-doc@vger.kernel.org,
-	linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Andy Gospodarek <andrew.gospodarek@broadcom.com>,
-	Aron Silverton <aron.silverton@oracle.com>,
-	Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>,
-	Leonid Bloch <lbloch@nvidia.com>, linux-cxl@vger.kernel.org,
-	patches@lists.linux.dev
-Subject: Re: [PATCH 0/8] Introduce fwctl subystem
-Message-ID: <20240607131238.GI13732@unreal>
-References: <0-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
- <20240603114250.5325279c@kernel.org>
- <214d7d82-0916-4c29-9012-04590e77df73@kernel.org>
- <20240604070451.79cfb280@kernel.org>
- <665fa9c9e69de_4a4e62941e@dwillia2-xfh.jf.intel.com.notmuch>
- <20240605135911.GT19897@nvidia.com>
- <6661416ed4334_2d412294a1@dwillia2-mobl3.amr.corp.intel.com.notmuch>
- <20240606085033.GC13732@unreal>
- <66623409b2653_2177294e@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PgHxPZt2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717766080; x=1749302080;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=ABua8CX7aHFShIRy1tF0NN3EsSEVeFn4ti8y8bQ86LI=;
+  b=PgHxPZt22JXZugfVwlbzaIYTId4dCKy3xecpLaqRw5fiY8o3nYzjHu9c
+   rwndPRfsuk2DZ6RlH179VPouCOHPe77rm7tBpoNEAc7D1NWD5b6eSE5Sz
+   jIRigo7OV/yA1gHs4V5j6GvwP3vxsz8u6ztve/1IZ9+NeWd4vd6CP9Iao
+   BZqDUw8ULjEm0rfTdzgeZsSk3v2j9xAisET8jDYW1urkjxuCBGqtu08zV
+   7+J3Zhqr2dPhgrZJkTsqOs83uiTmsZD3f/vQbYs9+g5DIRIVE2jW7Mxs+
+   +36KI7w6jPvMGl68FK0DaP1SqlKeBs5FE4VEUKX1Q453qPo3FgsnC2MJO
+   Q==;
+X-CSE-ConnectionGUID: uFKubQRRSYW8kvT8L38SLQ==
+X-CSE-MsgGUID: c5hfHB+ST1WXu42ZT1Lleg==
+X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="14439371"
+X-IronPort-AV: E=Sophos;i="6.08,221,1712646000"; 
+   d="scan'208";a="14439371"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 06:14:39 -0700
+X-CSE-ConnectionGUID: bZNr/o6LQJeUN3T2eDzpfA==
+X-CSE-MsgGUID: i+N3Z6ggQ2+Wz4+Q7tsZkA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,221,1712646000"; 
+   d="scan'208";a="38440144"
+Received: from ijarvine-desk1.ger.corp.intel.com (HELO localhost) ([10.245.247.184])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 06:14:36 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Fri, 7 Jun 2024 16:14:33 +0300 (EEST)
+To: "David E. Box" <david.e.box@linux.intel.com>
+cc: linux-doc@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>, 
+    LKML <linux-kernel@vger.kernel.org>, platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH V3 1/3] platform/x86/intel/sdsi: Add ioctl SPDM
+ transport
+In-Reply-To: <20240606011617.557264-1-david.e.box@linux.intel.com>
+Message-ID: <b32cd809-7aed-62ed-1b6e-550221a3acbb@linux.intel.com>
+References: <20240606011617.557264-1-david.e.box@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <66623409b2653_2177294e@dwillia2-mobl3.amr.corp.intel.com.notmuch>
+Content-Type: text/plain; charset=US-ASCII
 
-On Thu, Jun 06, 2024 at 03:11:21PM -0700, Dan Williams wrote:
-> Leon Romanovsky wrote:
-> > On Wed, Jun 05, 2024 at 09:56:14PM -0700, Dan Williams wrote:
-> > > Jason Gunthorpe wrote:
-> > 
-> > <...>
-> > 
-> > > So my questions to try to understand the specific sticking points more
-> > > are:
-> > > 
-> > > 1/ Can you think of a Command Effect that the device could enumerate to
-> > > address the specific shenanigan's that netdev is worried about? In other
-> > > words if every command a device enables has the stated effect of
-> > > "Configuration Change after Reset" does that cut out a significant
-> > > portion of the concern? 
-> > 
-> > It will prevent SR-IOV devices (or more accurate their VFs)
-> > to be configured through the fwctl, as they are destroyed in HW
-> > during reboot.
+On Wed, 5 Jun 2024, David E. Box wrote:
+
+> Intel On Demand adds attestation and firmware measurement retrieval
+> services through use of the protocols defined the Security Protocols and
+> Data Measurement (SPDM) specification. SPDM messages exchanges are used to
+> authenticate On Demand hardware and to retrieve signed measurements of the
+> NVRAM state used to track feature provisioning and the NVRAM state used for
+> metering services. These allow software to verify the authenticity of the
+> On Demand hardware as well as the integrity of the reported silicon
+> configuration.
 > 
-> Right, but between zero configurability and losing live SR-IOV
-> configurabilitiy is there still value?
+> Add an ioctl interface for sending SPDM messages through the On Demand
+> mailbox. Provides commands to get a list of SPDM enabled devices, get the
+> message size limits for SPDM Requesters and Responders, and perform an SPDM
+> message exchange.
+> 
+> Signed-off-by: David E. Box <david.e.box@linux.intel.com>
+> Link: https://www.dmtf.org/sites/default/files/standards/documents/DSP0274_1.0.1.pdf [1]
+> ---
 
-For the users that are using SR-IOV, it is a big loss. It will require
-from them to use two tools now instead of one.
+> +static int sdsi_spdm_do_command(struct sdsi_priv *priv,
+> +				struct sdsi_spdm_command __user *argp)
+> +{
+> +	u32 req_size, rsp_size;
+> +
+> +	if (get_user(req_size, &argp->size))
+> +		return -EFAULT;
+> +
+> +	if (req_size < 4 || req_size > sizeof(struct sdsi_spdm_message))
 
-My point is that we need to try and find best solution for the users
-and not "compromise variant" that will make everyone unhappy.
+Hi David,
 
-Thanks
+Is that 4 actually SPDM_HEADER_SIZE?
+
+If my guess is correct, no need to send an updated version, I'll just fix 
+it while applying.
+
+
+-- 
+ i.
+
