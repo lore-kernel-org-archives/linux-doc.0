@@ -1,45 +1,41 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117CA1CD02;
-	Fri,  7 Jun 2024 18:43:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 520F3D2E5
+	for <linux-doc@vger.kernel.org>; Fri,  7 Jun 2024 19:11:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717785804; cv=none; b=DmC4Zp0G5fs0h1wSHLM0fbObLtG6ztOS+69UzSORrP+QM4gXKZp5hW9o5oId7yyH4720ZqUDuriDZTjXFtd6hG3v9+MvUzJJJAssN8fqkhTbapVk52YjA+nIyOUoWe/ceSQpcrN0+ci2PwMOvK1HnADHTlqK3cOMtf7SwQUEUGY=
+	t=1717787470; cv=none; b=hEdqYkWXEB4nj80gM5m0jycCd5OQsnFtJirh1EdJ6LBHXCuuSfJNpCAhyQV8DaDIw3jG97kEz8drCZz70b+PV1sJggih0sPT2b6+IHQ5JkQlf7TRlpm25t5fRxAhBhwBhWcA1MW9ATSbr1+2tKyTgzl2SNVL8F95uICmpZcVZ2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717785804; c=relaxed/simple;
-	bh=OCTLuk/DIpZjCuMdEwXD4ZYH2rU5XWljSDnPfquC+XQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=A3cODvTYj5se672LrLHBqRByxqbI9jDql5JxpDuZE55g97YucYTta71OIxGuuMZ6FhBUMezFy0QXvF+7leSailW+ZpICwsxomtm621MWTxRID0bb+cZhG+A3kw/TskSi++NIUxxvmiFuTT6SPfS49kBwQE9o5FhLi/EirwHMTQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lvClyOjf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717787470; c=relaxed/simple;
+	bh=+VED5JvYxeMDfZq1jV53wtrZSb4gGg2wC3IZQPytg08=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tMlrD8Aewl7vigMKPbWtArw/vEVwMlDTxA0bOm96Y/tYE3LrRJx0v6CdmyLZJBM2z8vPI6OgkXp2qzuRpv3kfS+b3wZcvRuJQrFQaqG+GtM9qqQgLfS5IBcVAIlXw8TqKiaK25VGTSgDIDNz1frqBhIBltQaD7swpckjGvO8dBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dI2LvVTx; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lvClyOjf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 482B5C2BBFC;
-	Fri,  7 Jun 2024 18:43:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717785803;
-	bh=OCTLuk/DIpZjCuMdEwXD4ZYH2rU5XWljSDnPfquC+XQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=lvClyOjfiMvMLVUxa9M8Ra8v/0slconYbv+YKmVtK3DEaJ+0XlVZ1a5ZNQbMhHrV/
-	 zUkvlgZvjmAmvvNSKaLHuWsCmi+pIUZx/wj33h+5ulghxjxjhg2xwhgntLWGFRcQqs
-	 G0rqi3F5z8MCKS8h4laqhVbFRgZQaNHSGIMpUhZlmKUWXYTvFKtfzinZ/EuIHxMA/A
-	 fX4IwZmlBp1ZXPBM7HPFLb9MoOTUKH5zBcp9xH7ghMEiaqA1ejvioVeozxUZKIQKZb
-	 94pUicfCZMhWv8y/ln/FTP5v1WENEIgF9IP3kZ24kcj9yDWk30AKZOGH9DNs9R014x
-	 MWxhjTgsSMHCQ==
-Date: Fri, 7 Jun 2024 13:43:20 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Wei Huang <wei.huang2@amd.com>
-Cc: linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-	bhelgaas@google.com, corbet@lwn.net, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	alex.williamson@redhat.com, gospo@broadcom.com,
-	michael.chan@broadcom.com, ajit.khaparde@broadcom.com,
-	somnath.kotur@broadcom.com, andrew.gospodarek@broadcom.com,
-	manoj.panicker2@amd.com, Eric.VanTassell@amd.com,
-	vadim.fedorenko@linux.dev, horms@kernel.org, bagasdotme@gmail.com
-Subject: Re: [PATCH V2 6/9] PCI/TPH: Retrieve steering tag from ACPI _DSM
-Message-ID: <20240607184320.GA853474@bhelgaas>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dI2LvVTx"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=nJ6WKrwBWFMOMdUfUnE0cvAsDki47vMmb3hNZQips30=; b=dI2LvVTxD+1DQKQ2MAGajYRaxF
+	rL51z9O1ThsXrbhQPUfCCYlQ0rS5M95xmOBxoKGB/0PlMncY0RojH4/m2SqmgZftWQHrdPvJmf5Vi
+	ETJuULmHjI75FjGy+8LqTkTCZkzAQAevwdBLmDOF4PcWz7vEfST1OFu581DrVNvUUnbtCZ+iLsGnX
+	/611vpmtEyIxSA+tqjRs9trin1ytxnpaABXct5T83Ar/u8LdUng1QY0rsmlhfCURsq5tnE0wUswuR
+	YZlVpoLVQrX5yMkvESnoUB0PB7jytaIVoLuEVRrtpL/6o7iGd+ZpIdKCq1TlZVh3rPL+i6pX07KNo
+	9Ofj95/w==;
+Received: from willy by casper.infradead.org with local (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sFezR-00000006VGw-1FLa;
+	Fri, 07 Jun 2024 19:11:05 +0000
+Date: Fri, 7 Jun 2024 20:11:05 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Matic Urbanija <maticurbanija@protonmail.com>
+Cc: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: Translation of kernel documentation
+Message-ID: <ZmNbSZglTdsB7aTv@casper.infradead.org>
+References: <Enls7GJQSRW6Z77NFFcLl19W5U8xKlzEGyKAIOr36JDcFQMaEYewfYgYUz5WcNW3X7Xfi7btGAXNT8Ue_WMGIjaxgdDZiKTk_CcGj-fIMH0=@protonmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,75 +44,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240531213841.3246055-7-wei.huang2@amd.com>
+In-Reply-To: <Enls7GJQSRW6Z77NFFcLl19W5U8xKlzEGyKAIOr36JDcFQMaEYewfYgYUz5WcNW3X7Xfi7btGAXNT8Ue_WMGIjaxgdDZiKTk_CcGj-fIMH0=@protonmail.com>
 
-On Fri, May 31, 2024 at 04:38:38PM -0500, Wei Huang wrote:
-> According to PCI SIG ECN, calling the _DSM firmware method for a given
-> CPU_UID returns the steering tags for different types of memory
-> (volatile, non-volatile). These tags are supposed to be used in ST
-> table entry for optimal results.
+On Fri, Jun 07, 2024 at 05:45:10PM +0000, Matic Urbanija wrote:
+> Hi, 
+> 
+> first of all, I'm terribly sorry if this isn't the right place to ask about translation. I sent an email to helpdesk but so far no answer from them.
 
-Cite PCI Firmware spec if possible.  If it hasn't been incorporated
-yet, at least include the exact name of the ECN and the date it was
-approved.
+This is the right place!
 
-Say what the patch does in the commit log (in addition to the subject
-line).
+> My name is Matic Urbanija, I am a teacher at Vegova - Upper Secondary School of Electrical and Computer Engineering and Technical Gymnasium Ljubljana, Slovenia (https://www.vegova.si/about-us-vegova/). 
+> 
+> I would like to translate kernel documentation into Slovenian language. Maybe some of my students would also like to participate.
+> 
+> Are there some special requirements or procedures which have to be fulfilled before starting translation project? What is the proper or recommend way to start to translate the kernel documentation?
 
-> +#define MIN_ST_DSM_REV		7
+Start by creating Documentation/translations/sl/ (the iso639 code for Slovenian)
+Add an entry to Documentation/translations/index.rst
+Add Documentation/translations/sl/index.rst
 
-No useful value in this #define.  If the value ever changes, code
-changes will be required too.
+Now start adding documents ;-)
 
-> +#define ST_DSM_FUNC_INDEX	0xf
-
-Move to the list in pci-acpi.h with name similar to others.
-
-> +static bool invoke_dsm(acpi_handle handle, u32 cpu_uid, u8 ph,
-> +		       u8 target_type, bool cache_ref_valid,
-> +		       u64 cache_ref, union st_info *st_out)
-> +{
-
-Return 0 or -errno.  "invoke_dsm" is not a predicate with an obvious
-true/false meaning.
-
-> +	union acpi_object in_obj, in_buf[3], *out_obj;
-> +
-> +	in_buf[0].integer.type = ACPI_TYPE_INTEGER;
-> +	in_buf[0].integer.value = 0; /* 0 => processor cache steering tags */
-> +
-> +	in_buf[1].integer.type = ACPI_TYPE_INTEGER;
-> +	in_buf[1].integer.value = cpu_uid;
-> +
-> +	in_buf[2].integer.type = ACPI_TYPE_INTEGER;
-> +	in_buf[2].integer.value = ph & 3;
-> +	in_buf[2].integer.value |= (target_type & 1) << 2;
-> +	in_buf[2].integer.value |= (cache_ref_valid & 1) << 3;
-> +	in_buf[2].integer.value |= (cache_ref << 32);
-> +
-> +	in_obj.type = ACPI_TYPE_PACKAGE;
-> +	in_obj.package.count = ARRAY_SIZE(in_buf);
-> +	in_obj.package.elements = in_buf;
-
-Must check whether this _DSM function is implemented first, e.g., see
-acpi_enable_dpc().
-
-> +	out_obj = acpi_evaluate_dsm(handle, &pci_acpi_dsm_guid, MIN_ST_DSM_REV,
-> +				    ST_DSM_FUNC_INDEX, &in_obj);
-> +
-> +	if (!out_obj)
-> +		return false;
-> +
-> +	if (out_obj->type != ACPI_TYPE_BUFFER) {
-> +		pr_err("invalid return type %d from TPH _DSM\n",
-> +		       out_obj->type);
-> +		ACPI_FREE(out_obj);
-> +		return false;
-> +	}
-> +
-> +	st_out->value = *((u64 *)(out_obj->buffer.pointer));
-> +
-> +	ACPI_FREE(out_obj);
-> +
-> +	return true;
-> +}
+You can send patches to this mailing list for Jon to apply to the
+documentation tree for merging.
