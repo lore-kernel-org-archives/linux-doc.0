@@ -1,108 +1,131 @@
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97DA0194120;
-	Fri,  7 Jun 2024 13:31:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4046619413D
+	for <linux-doc@vger.kernel.org>; Fri,  7 Jun 2024 13:34:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717767102; cv=none; b=cbLJZ06Bxx0VZel9Esg+y11xFnWoB8Kcsu3Fk5oVp0bAs53wn8051kbWGwzY+EIaOIWwt6eL1rUtOVWmTMqLFk2nK0bfMYmItDc4iAv5NoNrVCCTFfmFc+Ptcc36JhnAvLjnVVD6GMump+DPjEB+YPmyd5BB444fVrjQ++NrpsA=
+	t=1717767296; cv=none; b=XKkG7s/jObvBSsc7hbpI4wrKpHaSQzyVbtVN4JBzvDGN20QLlPjg55SBT1EPztJ+6Jy6OsNVvWJDotmfVJ2sc3u29iOfUpJnYkS/G8QLHik/RiNK/OreAKDBL0tgG2+TFFPV6ThlJ8O4GH2SDETvhFRE1Qm2+uUiBV/4TouCseo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717767102; c=relaxed/simple;
-	bh=XqLBnbXePtGLuJK13oyHDSQ/geHy7iZ320cBA8k3IQU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UAMNnhPJhg2s7NHg4Q7WgvEXtt++51A57nCsnzz1EMZms8wrYN6AB2Bcnm2J214LJbuzVNbycVLbgPiqv1/6xfHYRA54USm2af3amT4FyoNK5OvxLjSoXwkeINnLxZuodU7hTGtGV1q0DWYaQN9YZ/XxkNxr2TYn5zF5BNo52wc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=SzGCP+JP; arc=none smtp.client-ip=198.47.19.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1717767296; c=relaxed/simple;
+	bh=bNufWv8vnNTuzQBP8B1FhHjZF16KL0qL0xXs56Trvbg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nApcXNIC8r1HPeZtG/FcJcGAXqya7Rf7FeeP8pvaLXNNorck6U6/DC3G313IzIU0E8YKXhsvug8inkAkPuIg6oYTpm4RxJehW+FPBUJtu2o45XQdbPNWYV5yrdeEm+Pob4k8azEUoD1NqcLnvO8ZzqHTztXJ3NSA171xt70qfHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=xXgKvdwz; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="SzGCP+JP"
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 457DVM8I117429;
-	Fri, 7 Jun 2024 08:31:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1717767082;
-	bh=Rv8Hb874Nu8V7306/erfIx0SE7TmvbbVdALGp3wOf+0=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=SzGCP+JPDSTFI+Hj+GjNiwbRof+soYCwKliXrsQiSpUkBnrgqoAXukYfX2JTXZ6FG
-	 iV6XGk2v78Gi3KIRZaJ2B7P/gX8WWzOHSE9apjdtzOdrLJzJZzoMsXhhVyMYuR/0w8
-	 O+9MlTLddRwXrsyNP4dY702rCSe+oGYtd57G8Cdk=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 457DVM0J110365
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 7 Jun 2024 08:31:22 -0500
-Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 7
- Jun 2024 08:31:21 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 7 Jun 2024 08:31:21 -0500
-Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 457DVKdt045230;
-	Fri, 7 Jun 2024 08:31:21 -0500
-From: Devarsh Thakkar <devarsht@ti.com>
-To: <mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <benjamin.gaignard@collabora.com>, <sebastian.fricke@collabora.com>,
-        <akpm@linux-foundation.org>, <gregkh@linuxfoundation.org>,
-        <andriy.shevchenko@linux.intel.com>, <adobriyan@gmail.com>,
-        <jani.nikula@intel.com>, <p.zabel@pengutronix.de>, <airlied@gmail.com>,
-        <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>, <corbet@lwn.net>,
-        <broonie@kernel.org>, <rdunlap@infradead.org>,
-        <linux-doc@vger.kernel.org>
-CC: <laurent.pinchart@ideasonboard.com>, <praneeth@ti.com>, <nm@ti.com>,
-        <vigneshr@ti.com>, <a-bhatia1@ti.com>, <j-luthra@ti.com>,
-        <b-brnich@ti.com>, <detheridge@ti.com>, <p-mantena@ti.com>,
-        <vijayp@ti.com>, <devarsht@ti.com>, <andrzej.p@collabora.com>,
-        <nicolas@ndufresne.ca>, <davidgow@google.com>, <dlatypov@google.com>
-Subject: [PATCH v13 09/13] Documentation: core-api: Add math.h macros and functions
-Date: Fri, 7 Jun 2024 19:01:20 +0530
-Message-ID: <20240607133120.3556488-1-devarsht@ti.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20240607131900.3535250-1-devarsht@ti.com>
-References: <20240607131900.3535250-1-devarsht@ti.com>
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="xXgKvdwz"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-421572bb0f0so20563175e9.0
+        for <linux-doc@vger.kernel.org>; Fri, 07 Jun 2024 06:34:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1717767292; x=1718372092; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GDmNba19JEmqtuQ0a43R5+Iq4qr0QF4IDUZLXDfPhcQ=;
+        b=xXgKvdwzdZSoeiR2KDfaYRUnfdMnqnOBtYTG6iHMYcEXG3/7a5lcaMAlmY2Cv9WMVS
+         rGDpxSG2JeCv4JlRNIVzdLAgt7b2S7pEjn5bsTzzRJBTjXZpQ6mP5QwNWGjBOsMoYJRp
+         hfGmA2LDtV6p925d3o4sAoaHuHLWgzfeXmjHUpJZDK9qjuvslNfLEq+dS88bKIr8aCE7
+         5y0Z2eI9GxuDWOZoFWTIUfR4fHxoaOoZ6rRZlvP/vts4g8gbrfDllSXYZP8bMjzI43d1
+         ZP/u6ctKk4dLzkgLn8Kc1DHIzfEORe9MgtOvM+IvhG8/d+pYw3vPgDOc/MO4LLZAsphv
+         7XCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717767292; x=1718372092;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GDmNba19JEmqtuQ0a43R5+Iq4qr0QF4IDUZLXDfPhcQ=;
+        b=o9weXPQASo339Mc+NFVQBUUwfJX/uHIugKJVy7mjHNKZqH1A42iH78ft2ODcdSkz6n
+         rTyf+Ap9rm6gIOaQdksrd0H4zRR8Pay1ek99YhAxPFa4QVJzEzrDbWTxK0W6Ogl0xkdV
+         wCdjdPQfZOS8PlLRfRGBynA6IzFsvPu1JfElkR9Zm8xmwjbD9rf5IJnrYHu/8BWtwrBn
+         tLc1W7y2ay2T7PZQ2ha+SLadnqcnm8o2F15KzIqQbCQjHqpdSh3ZIJFg63qBYv9VMD32
+         bNfFzebSOGOyLSZX1FB40XCgcHtXfp5SjqLgrQdnnxBFmuZfWTbLATiS99K54OV/LDQ8
+         Y/Pw==
+X-Forwarded-Encrypted: i=1; AJvYcCV32Br6WsycRtVg10ZFnT9uHkYqbhDO/VZ89gx5OwZI81CnAjy9+5t+AaNcliSlZds7MzWt8hXWMejhHAxT0S9dVyYIvMXGhz/u
+X-Gm-Message-State: AOJu0YzUL7iG3N5wDyw8cxeNSDQCfUNmHTuCZOy/BFVE3zes7kq2hO3Y
+	f3TgWwhoz9sfVkdsJtPsQ2IajJLfYfXypVLclm5F+yMBy6I1axxv9Mdgvl4eG3M=
+X-Google-Smtp-Source: AGHT+IHi1tHwQBfhV0uUWQFN3GhXIlVN/ECNJD2wDBwLl5ZAgAGIlbEAl/M8FEogX3A94+YwaHC0KQ==
+X-Received: by 2002:a05:600c:4f44:b0:421:205f:52de with SMTP id 5b1f17b1804b1-42164a32853mr21506065e9.26.1717767292321;
+        Fri, 07 Jun 2024 06:34:52 -0700 (PDT)
+Received: from localhost ([193.47.165.251])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-421580fe37csm88361985e9.3.2024.06.07.06.34.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Jun 2024 06:34:51 -0700 (PDT)
+Date: Fri, 7 Jun 2024 15:34:48 +0200
+From: Jiri Pirko <jiri@resnulli.us>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Jakub Kicinski <kuba@kernel.org>, David Ahern <dsahern@kernel.org>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>, linux-doc@vger.kernel.org,
+	linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Andy Gospodarek <andrew.gospodarek@broadcom.com>,
+	Aron Silverton <aron.silverton@oracle.com>,
+	Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>,
+	Leonid Bloch <lbloch@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>, linux-cxl@vger.kernel.org,
+	patches@lists.linux.dev
+Subject: Re: [PATCH 0/8] Introduce fwctl subystem
+Message-ID: <ZmMMeIuplzZl2Iyh@nanopsycho.orion>
+References: <0-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
+ <20240603114250.5325279c@kernel.org>
+ <214d7d82-0916-4c29-9012-04590e77df73@kernel.org>
+ <20240604070451.79cfb280@kernel.org>
+ <665fa9c9e69de_4a4e62941e@dwillia2-xfh.jf.intel.com.notmuch>
+ <20240605135911.GT19897@nvidia.com>
+ <d97144db-424f-4efd-bf10-513a0b895eca@kernel.org>
+ <20240606071811.34767cce@kernel.org>
+ <ZmK3-rkibH8j4ZwM@nanopsycho.orion>
+ <b023413e-d6e1-4a47-bdf2-98cc57a2e0ae@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b023413e-d6e1-4a47-bdf2-98cc57a2e0ae@lunn.ch>
 
-Add documentation for rounding, scaling, absolute value and 32-bit division
-related macros and functions exported by math.h header file.
+Fri, Jun 07, 2024 at 02:49:19PM CEST, andrew@lunn.ch wrote:
+>> >This API gives user space SDKs a trivial way of implementing all
+>> >switching, routing, filtering, QoS offloads etc.
+>> >An argument can be made that given somewhat mixed switchdev experience
+>> 
+>> Can you elaborabe a bit more what you mean by "mixed switchdev
+>> experience" please?
+>
+>I don't want to put words in Jakubs mouth but, in my opinion,
+>switchdev has been great for SoHo switches. We have over 100
+>supported, mostly implemented by the community, but some vendors also
+>supporting their own hardware.
+>
+>We have two enterprise switch families supported, each by its own
+>vendor. And we have one TOR switch family supported by the vendor.
+>
+>So i would say switchdev has worked out great for SoHo, but kernel
+>bypass is still the norm for most things bigger than SoHo.
+>
+>Why? My guess is, the products with a SoHo switch is not actually a
+>switch. It is a wifi box, with a switch. It is a cable modem, with a
+>switch. It is an inflight entertainment system, with a switch, etc.
+>It is much easier to build such multi-purpose systems when everything
+>is nicely integrated into the kernel, you don't have to fight with
+>multiple vendors supplying SDKs which only work on a disjoint set of
+>kernels, etc.
+>
+>For bigger, single purpose devices, it is just a switch, there is less
+>inconvenience of using just one vendor SDK, on top of the vendor
+>proscribed kernel.
 
-Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
-V13: No change
-V12: Add Reviewed-by
-V11: Fix title for math function header
-V10: Patch introduced
-V1->V9 (No change)
- Documentation/core-api/kernel-api.rst | 6 ++++++
- 1 file changed, 6 insertions(+)
+I'm aware of what you wrote and undertand it. I just thought Jakub's
+mixed experience is about the APIs more than the politics behind vedors
+adoptation process..
 
-diff --git a/Documentation/core-api/kernel-api.rst b/Documentation/core-api/kernel-api.rst
-index ae92a2571388..7de494e76fa6 100644
---- a/Documentation/core-api/kernel-api.rst
-+++ b/Documentation/core-api/kernel-api.rst
-@@ -185,6 +185,12 @@ Division Functions
- .. kernel-doc:: lib/math/gcd.c
-    :export:
- 
-+Rounding, absolute value, division and 32-bit scaling functions
-+---------------------------------------------------------------
-+
-+.. kernel-doc:: include/linux/math.h
-+   :internal:
-+
- UUID/GUID
- ---------
- 
--- 
-2.39.1
 
+>
+>	Andrew
+>
