@@ -1,149 +1,140 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ED32DDC9;
-	Fri,  7 Jun 2024 19:30:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FAC01CAB5;
+	Fri,  7 Jun 2024 19:47:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717788659; cv=none; b=jI+3SQg7yHfWQDJwcAA52/JDN1kZaeNsV4NffZDZ8mQ3QhUypaK2NCvfk/6w5bOey7AofzR+SwZ9NgT5FtozYPIpggwXwRsSXA1Y34ccW6iHoBgdlH3AswmmwOrJg38rJc/hkaHpR8IPxra8KG5R8DyV7J54D+o9zBSVX3JWKKE=
+	t=1717789665; cv=none; b=f5L5QWS5baqPRi/C9MUF4F+0w8WvktxL99V0SqwryXF2VRUZ6oXnNB4otsqgp8FPzU67JjNvhbQRjWWEhgGhTQKHDaD4W2F9rqMD+re+al6WwBz3b4SofOH/BSyRWOLR9G48c0GcqwgValf0lZ56nmAw0RXjzZmP01tHzqUwFbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717788659; c=relaxed/simple;
-	bh=D3j+/yjnNIGv7J2RoQZW6oh/+NmHkvPnpEUbKX+xt1I=;
+	s=arc-20240116; t=1717789665; c=relaxed/simple;
+	bh=NTZmlXTtPqo/64yJt8pRksmMIHacjeI8YFNmvRh9tBg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=Q7MLo0EDRgC+PhM95geJzIb0LKDUYg/WeuJxoLfviHFywdsFEmUuwmm4uY4M96VZXB9LVXdVtU2/SR92GQctVd1pBRI6WAoKhxgRkwwzKeEZriPfuKrcxyrsF9ZQpBd3pleCzdRcKiODtxFBm/If/RF36gD5BXofYYa+vM74uWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nt8k8nv/; arc=none smtp.client-ip=10.30.226.201
+	 Content-Disposition:In-Reply-To; b=X70pssvsfKA3CAAL/RIwv0pJsTG1PBD2WNh6PaNVcf0oyJouo0VgsIZdc9iDkpWIJj2kYio1YdqCBBlYl5Uwq3DfK0SgncwcvFPhrAnGP/D6vyLsIuHNEAZcBQ4yqhPx7xw0nA9S5KrGDBSP9owvqnobrn/ubGcx82Q9dz0OQbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WXupJrvx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nt8k8nv/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B38BC2BBFC;
-	Fri,  7 Jun 2024 19:30:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WXupJrvx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F5CFC2BBFC;
+	Fri,  7 Jun 2024 19:47:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717788658;
-	bh=D3j+/yjnNIGv7J2RoQZW6oh/+NmHkvPnpEUbKX+xt1I=;
+	s=k20201202; t=1717789664;
+	bh=NTZmlXTtPqo/64yJt8pRksmMIHacjeI8YFNmvRh9tBg=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=nt8k8nv/j9c0E53eFscg2s+72y2p8Z1M1saOXCrq5RBsOHkjTDdtObZlW5ALXU/Gt
-	 4ShFkTj4ji1MM06yyw3B2Sn2lUlfsVi5VxNXKJLPv1pKO9t/IwPUZh1Q4OPq4gWlw2
-	 TJQb9KxS1YrQwhBzH0GfcjYiNWH5N1rDv9mxqEa9YrLZyphVdtFEP7M95b3b6BEIbM
-	 cVy4tFEVCOfyKRFRR6/8WxTVkK8zc4aYgL/9eJutTEuv0U2wXj3R7N9MA/F7M1kvGV
-	 gL6xkER04J7inUbibhVa87LWNucBGnRkGIB4a4mgx7PhdiDJlZ+SPrVKgKxSWDtlJf
-	 xjve7Ue/M7LCQ==
-Date: Fri, 7 Jun 2024 14:30:55 -0500
+	b=WXupJrvxbx3FZTRQhsGfqh/xmfTxBf9mrGx8YB/ibh3OmXe1PmwVh6KKbV/8LV3X/
+	 S92NJ0dyXi8YRevQjpWcXy7hLSx0yltvssvX6qeZA0B/3gWbuLOe6080OUEYw5oKi/
+	 oiIL//yla/akXVLbI34EQjy9XOHxOmE1OyjqVithNTbv7ddlCVwDM0YIvhz4azB6iw
+	 qC+WBjz8Sb7iKhK4FGCxWNkK2bpRqwX8oUTMFu14wOCmcPQu5expC9D/B3+l9QtIaG
+	 SfdNc8y1GY06leQEuK4et0skSVtbWHpKgXj454CvuxG0itWz3bq7FZMxLr0tIyXvmW
+	 UJDMRsBx+OCng==
+Date: Fri, 7 Jun 2024 14:47:42 -0500
 From: Bjorn Helgaas <helgaas@kernel.org>
-To: Vidya Sagar <vidyas@nvidia.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, "corbet@lwn.net" <corbet@lwn.net>,
-	"bhelgaas@google.com" <bhelgaas@google.com>,
-	Gal Shalom <galshalom@nvidia.com>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	Thierry Reding <treding@nvidia.com>,
-	Jon Hunter <jonathanh@nvidia.com>,
-	Masoud Moshref Javadi <mmoshrefjava@nvidia.com>,
-	Shahaf Shuler <shahafs@nvidia.com>,
-	Vikram Sethi <vsethi@nvidia.com>,
-	Shanker Donthineni <sdonthineni@nvidia.com>,
-	Jiandi An <jan@nvidia.com>, Tushar Dave <tdave@nvidia.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Krishna Thota <kthota@nvidia.com>,
-	Manikanta Maddireddy <mmaddireddy@nvidia.com>,
-	"sagar.tv@gmail.com" <sagar.tv@gmail.com>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	"iommu@lists.linux.dev" <iommu@lists.linux.dev>
-Subject: Re: [PATCH V3] PCI: Extend ACS configurability
-Message-ID: <20240607193055.GA855605@bhelgaas>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Alex Shi <alexs@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Pawel Laszczak <pawell@cadence.com>,
+	Yanteng Si <siyanteng@loongson.cn>, linux-doc@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH] PCI: use array for .id_table consistently
+Message-ID: <20240607194742.GA857985@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <PH8PR12MB667431B8552D271F906F8F4BB8FF2@PH8PR12MB6674.namprd12.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240517120458.1260489-1-masahiroy@kernel.org>
 
-On Mon, Jun 03, 2024 at 07:50:59AM +0000, Vidya Sagar wrote:
-> Hi Bjorn,
-> Could you let me know if Jason's reply answers your question?
-> Please let me know if you are looking for any more information.
+On Fri, May 17, 2024 at 09:04:58PM +0900, Masahiro Yamada wrote:
+> While 'x' and '&x[0]' are equivalent, most of the PCI drivers use the
+> former form for the .id_table.
+> 
+> Update some drivers and documentation for consistency.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-I think we should add some of that content to the commit log.  It
-needs:
+Applied to pci/misc for v6.11, thanks!
 
-  - Subject line that advertises some good thing.
+USB folks, let me know if you'd rather that I drop your parts.
 
-  - A description of why users want this.  I have no idea what the
-    actual benefit is, but I'm looking for something at the level of
-    "The default ACS settings put A and B in different IOMMU groups,
-    preventing P2PDMA between them.  If we disable ACS X, A and B will
-    be put in the same group and P2PDMA will work".
-
-  - A primer on how users can affect IOMMU groups by enabling/
-    disabling ACS settings so they can use this without just blind
-    trial and error.  A note that this is immutable except at boot
-    time.
-
-  - A pointer to the code that determines IOMMU groups based on the
-    ACS settings.  Similar to the above, but more useful for
-    developers.
-
-If we assert "for iommu_groups to form correctly ...", a hint about
-why/where this is so would be helpful.
-
-"Correctly" is not quite the right word here; it's just a fact that
-the ACS settings determined at boot time result in certain IOMMU
-groups.  If the user desires different groups, it's not that something
-is "incorrect"; it's just that the user may have to accept less
-isolation to get the desired IOMMU groups.
-
-> > -----Original Message-----
-> > From: Jason Gunthorpe <jgg@nvidia.com>
-> > ...
-> > 
-> > On Thu, May 23, 2024 at 09:59:36AM -0500, Bjorn Helgaas wrote:
-> > > [+cc iommu folks]
-> > >
-> > > On Thu, May 23, 2024 at 12:05:28PM +0530, Vidya Sagar wrote:
-> > > > For iommu_groups to form correctly, the ACS settings in the PCIe
-> > > > fabric need to be setup early in the boot process, either via the
-> > > > BIOS or via the kernel disable_acs_redir parameter.
-> > >
-> > > Can you point to the iommu code that is involved here?  It sounds like
-> > > the iommu_groups are built at boot time and are immutable after that?
-> > 
-> > They are created when the struct device is plugged in. pci_device_group() does the
-> > logic.
-> > 
-> > Notably groups can't/don't change if details like ACS change after the groups are
-> > setup.
-> > 
-> > There are alot of instructions out there telling people to boot their servers and then
-> > manually change the ACS flags with set_pci or something, and these are not good
-> > instructions since it defeats the VFIO group based security mechanisms.
-> > 
-> > > If we need per-device ACS config that depends on the workload, it
-> > > seems kind of problematic to only be able to specify this at boot
-> > > time.  I guess we would need to reboot if we want to run a workload
-> > > that needs a different config?
-> > 
-> > Basically. The main difference I'd see is if the server is a VM host or running bare
-> > metal apps. You can get more efficicenty if you change things for the bare metal case,
-> > and often bare metal will want to turn the iommu off while a VM host often wants
-> > more of it turned on.
-> > 
-> > > Is this the iommu usage model we want in the long term?
-> > 
-> > There is some path to more dynamic behavior here, but it would require separating
-> > groups into two components - devices that are together because they are physically
-> > sharing translation (aliases and things) from devices that are together because they
-> > share a security boundary (ACS).
-> > 
-> > It is more believable we could dynamically change security group assigments for VFIO
-> > than translation group assignment. I don't know anyone interested in this right now -
-> > Alex and I have only talked about it as a possibility a while back.
-> > 
-> > FWIW I don't view patch as excluding more dynamisism in the future, but it is the best
-> > way to work with the current state of affairs, and definitely better than set_pci
-> > instructions.
-> > 
-> > Thanks,
-> > Jason
+> ---
+> 
+>  Documentation/PCI/pciebus-howto.rst                    | 2 +-
+>  Documentation/translations/zh_CN/PCI/pciebus-howto.rst | 2 +-
+>  drivers/pci/pcie/portdrv.c                             | 2 +-
+>  drivers/usb/cdns3/cdnsp-pci.c                          | 2 +-
+>  drivers/usb/gadget/udc/cdns2/cdns2-pci.c               | 2 +-
+>  5 files changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/PCI/pciebus-howto.rst b/Documentation/PCI/pciebus-howto.rst
+> index a0027e8fb0d0..f344452651e1 100644
+> --- a/Documentation/PCI/pciebus-howto.rst
+> +++ b/Documentation/PCI/pciebus-howto.rst
+> @@ -139,7 +139,7 @@ driver data structure.
+>  
+>    static struct pcie_port_service_driver root_aerdrv = {
+>      .name		= (char *)device_name,
+> -    .id_table	= &service_id[0],
+> +    .id_table	= service_id,
+>  
+>      .probe		= aerdrv_load,
+>      .remove		= aerdrv_unload,
+> diff --git a/Documentation/translations/zh_CN/PCI/pciebus-howto.rst b/Documentation/translations/zh_CN/PCI/pciebus-howto.rst
+> index 65c4301f12cd..c6ffda62af21 100644
+> --- a/Documentation/translations/zh_CN/PCI/pciebus-howto.rst
+> +++ b/Documentation/translations/zh_CN/PCI/pciebus-howto.rst
+> @@ -124,7 +124,7 @@ pcie_port_service_unregister取代了Linux驱动模型的pci_unregister_driver
+>  
+>    static struct pcie_port_service_driver root_aerdrv = {
+>      .name		= (char *)device_name,
+> -    .id_table	= &service_id[0],
+> +    .id_table	= service_id,
+>  
+>      .probe		= aerdrv_load,
+>      .remove		= aerdrv_unload,
+> diff --git a/drivers/pci/pcie/portdrv.c b/drivers/pci/pcie/portdrv.c
+> index 14a4b89a3b83..2faca06ff67c 100644
+> --- a/drivers/pci/pcie/portdrv.c
+> +++ b/drivers/pci/pcie/portdrv.c
+> @@ -786,7 +786,7 @@ static const struct pci_error_handlers pcie_portdrv_err_handler = {
+>  
+>  static struct pci_driver pcie_portdriver = {
+>  	.name		= "pcieport",
+> -	.id_table	= &port_pci_ids[0],
+> +	.id_table	= port_pci_ids,
+>  
+>  	.probe		= pcie_portdrv_probe,
+>  	.remove		= pcie_portdrv_remove,
+> diff --git a/drivers/usb/cdns3/cdnsp-pci.c b/drivers/usb/cdns3/cdnsp-pci.c
+> index 0725668ffea4..225540fc81ba 100644
+> --- a/drivers/usb/cdns3/cdnsp-pci.c
+> +++ b/drivers/usb/cdns3/cdnsp-pci.c
+> @@ -231,7 +231,7 @@ static const struct pci_device_id cdnsp_pci_ids[] = {
+>  
+>  static struct pci_driver cdnsp_pci_driver = {
+>  	.name = "cdnsp-pci",
+> -	.id_table = &cdnsp_pci_ids[0],
+> +	.id_table = cdnsp_pci_ids,
+>  	.probe = cdnsp_pci_probe,
+>  	.remove = cdnsp_pci_remove,
+>  	.driver = {
+> diff --git a/drivers/usb/gadget/udc/cdns2/cdns2-pci.c b/drivers/usb/gadget/udc/cdns2/cdns2-pci.c
+> index 1691541c9413..50c3d0974d9b 100644
+> --- a/drivers/usb/gadget/udc/cdns2/cdns2-pci.c
+> +++ b/drivers/usb/gadget/udc/cdns2/cdns2-pci.c
+> @@ -121,7 +121,7 @@ static const struct pci_device_id cdns2_pci_ids[] = {
+>  
+>  static struct pci_driver cdns2_pci_driver = {
+>  	.name = "cdns2-pci",
+> -	.id_table = &cdns2_pci_ids[0],
+> +	.id_table = cdns2_pci_ids,
+>  	.probe = cdns2_pci_probe,
+>  	.remove = cdns2_pci_remove,
+>  	.driver = {
+> -- 
+> 2.40.1
+> 
