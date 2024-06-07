@@ -1,95 +1,153 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6EE171BB;
-	Fri,  7 Jun 2024 15:39:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756A0188CBB;
+	Fri,  7 Jun 2024 15:42:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717774742; cv=none; b=O9UIR3PghZeUdG0LPAwX20ikEuU0UWUshzMFsfoPj1pqrPH2mBI0YwziSpBXvbSK+9q6HTFbxoJm0KBTgs9lgti7W33Z70T8R+7Ek00dfobU0WF/3v308xzMPMgexOzcy4iT3BjMKt/+klagHuLu+zQlJS2iBjYVX1FDWCNRh5Y=
+	t=1717774965; cv=none; b=CFYy8whEeQqn7+HRmz5hx8QzRiAzecWs0zuQ51DgN+HFEA6VZbcGJ9MBVthtzZX42bBzgOrHeSZ8lnbsAlyqXU2ZBFBxVkWRyy1AoDcpyBSZ+DR+edXDU1qV/O8jHXs+WxWmiqLAJrA9nCm+DDqzP8kLwjB7t+e4QY6IJQaJHnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717774742; c=relaxed/simple;
-	bh=C8AdvS3D3ulp2oWqS7pqZc6JQsM874Op4YI9otLDZzQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=XNyWj4IxPuLmfMPFUGXlBlHSiFKJZ3Z+DYAo9tPvdQJK/5R8V1HCOZ68n0GfX40xglJgs6WskOrMAiFrA0jEWKuK4yFIuyh81tKVoIEv5Eyjt2odTbIgUY0kiK6vQaS9Fir/0pdMNeNGzoK9eG3qg3qb6RMRczU5fB7cKW3xraM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pmhw7Knb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717774965; c=relaxed/simple;
+	bh=nHdWzRShRyplBXJ8eNVdSqljR8XbFZd5wgfSajt2/ik=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Dwz5vYEOogT0RM63BcRZauqL4wdiRYm4F4X6dq+/AQ93GFITh+QmguneTlDrT7CyBKqTcrzFuF7E53m3Y9xo5TN0tqtuWvlvSd/ScroP2diODZtpLS2smR8GZatAtcWpmOiKZEPr3ueunkV8kijsNDqAvnkH8ouXIkE/LiFxHfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LDW5t2NT; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pmhw7Knb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1AC9C2BBFC;
-	Fri,  7 Jun 2024 15:39:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717774742;
-	bh=C8AdvS3D3ulp2oWqS7pqZc6JQsM874Op4YI9otLDZzQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=Pmhw7Knb5GxmpBpg5yX2ToDHR3HkLAFJLfvbw01dAm89v4WFqgvjHg9DNoWMPnrA7
-	 dds3t1eAE0HTX7MDcNzi98XzEr4f0q2BafnAOutjuDmfJ5pnADIaaF02L8ylli/0t2
-	 9W41U7gvKSP2hnq956uxjk7ZybOt2R55C0nTJ6EOD6W7fEH6cVmU2HIL1V7VgarWFM
-	 TR0VNNihgNG7fVnhsQ1jce1B5BH4x4KWjkZVrATutXc7dg5smQL4vDqsE30NA/VJ4O
-	 PYd2u/ydlvynIZXHa3vLFjgXTHlS7EPAqEbLWsvz0cHU5fWn+sGCCRtFT2IWkD9jeg
-	 IWKHyQuLh2lgw==
-Date: Fri, 7 Jun 2024 10:39:00 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Noah Wang <noahwang.wang@outlook.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, linux@roeck-us.net,
-	conor+dt@kernel.org, jdelvare@suse.com, corbet@lwn.net,
-	Delphine_CC_Chiu@wiwynn.com, peteryin.openbmc@gmail.com,
-	javier.carrasco.cruz@gmail.com, patrick.rudolph@9elements.com,
-	bhelgaas@google.com, lukas@wunner.de, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org
-Subject: Re: [PATCH 0/4] hwmon: Add support for MPS mp2993,mp9941 chip
-Message-ID: <20240607153900.GA847228@bhelgaas>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LDW5t2NT"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-52b93370ad0so3193137e87.2;
+        Fri, 07 Jun 2024 08:42:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717774962; x=1718379762; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6ztEfaA9QN5DY5F1t7l1AL7LIdxxv5aD3SKdILYYcZ0=;
+        b=LDW5t2NT6lZWWZFs7NaHC/D1tOuBpsruVxqATiGUwYRjMd+tyHgux7Y+2pgYBkveS0
+         3iCyviEZlUAb73D7mndF7dH4VQ5auJdu6dV7nAQRbvvTAP3De5azx07r/97wTWUEwSmd
+         nvlzyHhP6WutWGBG7U8KgCKiY/UtvUwLD3JqCt24FIPgriZaShcHZmXwS/Jkrbof4x6C
+         UcUeUqCRq6NT/9oo3XT3VBVycFpWWLS77ZBQSNEgxe9QYnS/bbbrUKgl/UCpsoaT1r5C
+         eKrnxSOks9RDIF8plixzCDe6MYDnzbqYdPeBoXKnG2+hBXIyp6qieOo6jA5Pf5KtglXS
+         EnfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717774962; x=1718379762;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6ztEfaA9QN5DY5F1t7l1AL7LIdxxv5aD3SKdILYYcZ0=;
+        b=Dw03Pq2I+L7ttOHKNRquuVLzFZEcU1/LXt8v642D3RfW4yTrzXe+k7dFs0mxO3JvKP
+         dCXobR9JweYPvP5kPl3uC1P/FiKwzg+inHHxMMZZzwK+ztMD4aUZhcJD2oSHPzgJf+zn
+         xfQpcU+4ClkMlTslc1aBJzj35yB9ycph7oDeKm3uuwqUypXZXF2Be0bcU/FLntepbZ+b
+         hHC7qMppudXWwhdMQpl1DIDIC8I2CFmqqX2+FZnCW3+BwRS3qWi7+TPFQHMnZ6IEOp81
+         rM1T6G6A7ZBP6SlAk9FZdNCgD3luKnZYDmx0LX8rcUhWCygijyWgS/C8QWuMTdlTX3uO
+         DmlA==
+X-Forwarded-Encrypted: i=1; AJvYcCVZfWqMqGXXHaKAanuau6p2QHPLI2vngrMR48bYJ2nJg/XBKAjZYPu601QSNYnr9GME8VHYpD4R1RIVbOP27b9qYhjiFCG9uVsvTByfJp10a2B7A5EYoFhanEhYYAD648xCMtgVtJ1zsGKLkjSRuEA3blcYuhWZXRoEzPbDNq4g+CNmBQ9wxYpc519BXdj+8Bk1fVLBozU/2Ry0Qhz8/FsNQXlasN9B1l1HVykuW4aHCibKfkys79y4WMMEBHWo0Wxygdr2QdIAL2Q7bNeTTuqORIxQjKCiNYFYVEA+XnI3reNiOuX0ADCOlg4vU3bxivlHyTDwcOtpKQGq2QxHj2iH76QTcTMeue2rSLsVKcMc/W3qbYGOw7LFH+pK2pd89Mw3MkX4BV7++6W1hKNTBqRapQLgT1JjpfOMH1kijHz7ICtpnFUTCR5koajq8zvpNmuEBwdNOBWpkinln/aL5m2M6ygt1OMJQJ9BLl1wamvgJQwbIRwdQoi07Yd3G009smFIF1MGfw==
+X-Gm-Message-State: AOJu0YzK+V0aec0vd9NXLHEF+71QcMqsWyQT3IbZFWYh+DF3pvEa9VTq
+	qYoLFaxhX5/Vz0OlsUlxN16yy1wl4+f1H33xHnk2IOJ5x/WmQfJF
+X-Google-Smtp-Source: AGHT+IEFn+6+A9/ic4XpRfGuUMADB8GJccpGu+nMUZFNqtplHU80DwYmmylA2YOXqYyEGugmrIA8hA==
+X-Received: by 2002:a19:430f:0:b0:52b:7b8a:2d2f with SMTP id 2adb3069b0e04-52bb9f62745mr2133552e87.2.1717774961414;
+        Fri, 07 Jun 2024 08:42:41 -0700 (PDT)
+Received: from [192.168.42.206] ([163.114.131.193])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6c80582335sm264164166b.39.2024.06.07.08.42.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 07 Jun 2024 08:42:40 -0700 (PDT)
+Message-ID: <8f44ca2a-8910-418f-b4a6-ca1e051484ba@gmail.com>
+Date: Fri, 7 Jun 2024 16:42:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <SEYPR04MB64822EE797B0CB024A913DFFFAFB2@SEYPR04MB6482.apcprd04.prod.outlook.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
+ custom page providers
+To: David Ahern <dsahern@kernel.org>, Mina Almasry <almasrymina@google.com>
+Cc: Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
+References: <20240530201616.1316526-1-almasrymina@google.com>
+ <20240530201616.1316526-3-almasrymina@google.com>
+ <ZlqzER_ufrhlB28v@infradead.org>
+ <CAHS8izMU_nMEr04J9kXiX6rJqK4nQKA+W-enKLhNxvK7=H2pgA@mail.gmail.com>
+ <5aee4bba-ca65-443c-bd78-e5599b814a13@gmail.com>
+ <CAHS8izNmT_NzgCu1pY1RKgJh+kP2rCL_90Gqau2Pkd3-48Q1_w@mail.gmail.com>
+ <eb237e6e-3626-4435-8af5-11ed3931b0ac@gmail.com>
+ <be2d140f-db0f-4d15-967c-972ea6586b5c@kernel.org>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <be2d140f-db0f-4d15-967c-972ea6586b5c@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jun 07, 2024 at 05:05:40PM +0800, Noah Wang wrote:
-> Add mp2993,mp9941 driver in hwmon and add dt-bindings for them.
+On 6/7/24 15:27, David Ahern wrote:
+> On 6/7/24 7:42 AM, Pavel Begunkov wrote:
+>> I haven't seen any arguments against from the (net) maintainers so
+>> far. Nor I see any objection against callbacks from them (considering
+>> that either option adds an if).
 > 
-> Noah Wang (4):
->   dt-bindings: hwmon: Add MPS mp2993
->   hwmon: add MP2993 driver
->   dt-bindings: hwmon: Add MPS mp9941
->   hwmon: add MP9941 driver
+> I have said before I do not understand why the dmabuf paradigm is not
+> sufficient for both device memory and host memory. A less than ideal
+> control path to put hostmem in a dmabuf wrapper vs extra checks and
+> changes in the datapath. The former should always be preferred.
 
-Don't repost just for this, but for some reason the patches in this
-series didn't get posted as responses to this cover letter.  Here's a
-link to the archive, where you can see the lack of responses, and the
-result when you try to download the series with b4:
+If we're talking about types of memory specifically, I'm not strictly
+against wrapping into dmabuf in kernel, but that just doesn't give
+anything.
+But the main reason for allocations there is the difference in
+approaches to the api. With io_uring the allocation callback is
+responsible for getting buffers back from the user (via a shared
+ring). No locking for the ring, and buffers are already in the
+context (napi) where they would be consumed from. Removes some
+headaches for the user (like batching before returning buffers),
+and should go better with smaller buffers and such.
 
-  https://lore.kernel.org/all/SEYPR04MB64822EE797B0CB024A913DFFFAFB2@SEYPR04MB6482.apcprd04.prod.outlook.com/
+> I also do not understand why the ifq cache 
 
-  $ b4 am https://lore.kernel.org/all/SEYPR04MB64822EE797B0CB024A913DFFFAFB2@SEYPR04MB6482.apcprd04.prod.outlook.com
-  Analyzing 1 messages in the thread
-  No patches found.
+I'm not sure what you mean by ifq cache. Can you elaborate?
 
-Compare to this correctly threaded series and the download with b4:
+> and overloading xdp functions
 
-  https://lore.kernel.org/all/cover.1717773890.git.jani.nikula@intel.com
+Assuming it's about setup via xdp, it was marked for remaking in
+RFCs for longer than desired but it's gone now in our tree (but
+maybe not in the latest series).
 
-  $ b4 am https://lore.kernel.org/all/cover.1717773890.git.jani.nikula@intel.com
-  Grabbing thread from lore.kernel.org/all/cover.1717773890.git.jani.nikula@intel.com/t.mbox.gz
-  Analyzing 7 messages in the thread
-  Checking attestation on all messages, may take a moment...
-  ---
-    ✓ [PATCH v2 1/6] drm/i915/gvt: remove the unused end parameter from calc_index()
-    ✓ [PATCH v2 2/6] drm/i915/gvt: use proper i915_reg_t for calc_index() parameters
-    ✓ [PATCH v2 3/6] drm/i915/gvt: rename range variable to stride
-    ✓ [PATCH v2 4/6] drm/i915/gvt: do not use implict dev_priv in DSPSURF_TO_PIPE()
-    ✓ [PATCH v2 5/6] drm/i915: relocate some DSPCNTR reg bit definitions
-    ✓ [PATCH v2 6/6] drm/i915: remove unused pipe/plane B register macros
-    ---
-    ✓ Signed: DKIM/intel.com
-  ---
-  Total patches: 6
-  ---
-  Cover: ./v2_20240607_jani_nikula_drm_i915_gvt_register_macro_cleanups_unused_macro_removals.cover
-   Link: https://lore.kernel.org/r/cover.1717773890.git.jani.nikula@intel.com
-   Base: not specified
-	 git am ./v2_20240607_jani_nikula_drm_i915_gvt_register_macro_cleanups_unused_macro_removals.mbx
+> have stuck around; I always thought both were added by Jonathan to
+> simplify kernel ports during early POC days.
+
+-- 
+Pavel Begunkov
