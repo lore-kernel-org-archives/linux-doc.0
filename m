@@ -1,132 +1,144 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A3E8198E86
-	for <linux-doc@vger.kernel.org>; Fri,  7 Jun 2024 15:50:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 038BE1990D0;
+	Fri,  7 Jun 2024 15:56:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717775449; cv=none; b=VQ/zsnOWR+v/E4yT0Czpi8VXPAjAv6F1M8xhD6g9vU2JMwn6SXzty426En+QAZCRTsQtH58juD7FgDYGwboTxbEOBH7Z8loaqryx9KsSB96AZ+69ewnakUwrZEAAgE5kYdSf+ZCnZZdyImxDAVOkm32yAvr8E5edfMz8BO9wEVs=
+	t=1717775820; cv=none; b=t0/C2ByX04vB/upcauDUXdFPGdBPH54IiST/wR/PjjyBZYR5XZ6oiUX+s+MG+zNnbEnBOf2HMMNh9VidxCeOhmNmK6WctpjGrP5QXD+BKi/cwxhBiLsyqbZ32TyCy3Hphepdi3Odg1BLT6POwjyMAAZA/2eCCRtCSaARmeYHQ44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717775449; c=relaxed/simple;
-	bh=uZQQT0tWMLKpHLzpjA4+4RgpjpRE41cd6g0mqVVjBlM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lA0Z1HZ39QFko/g5I1mBZF6GY4Zpktt+zGYnmn2BqVDQN4wmQ8CZVoKHQ0A0aEioCw9QJgVJoBaDk0RucER+GqbR505TRvCZ8Q2mwdLJYtDVqqEykDaMXsuAlR6J4MxA2ml95/L4v5fek/vYDivKz/RGcHSMhvYlUT/xDNdc7/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=I1XLcZLe; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="I1XLcZLe"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4214f52b810so26969655e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 07 Jun 2024 08:50:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1717775445; x=1718380245; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8mLYWZnKH+z6ueZhuJkRBxm2z11CPZmpPTaPGv2cuj0=;
-        b=I1XLcZLeVsc6OMmjnn3QqWOxgtjpnis4rLhTWWXsO0wpAwNVCuza3LAeAv54Ln7tiQ
-         +x//nMH0a9fvHdDOfoHj0nMjAW8YahPWgsfBT76DOZHFJJneyfrkklHHsKbw5CaVlaJM
-         mPQO9SwxNlpW0lfy2nTnV7Dk/gwxaFQeT8fWjjIY/iVKPmBqmujoFsbfbsKTuT1TMHBl
-         hVV5glIw2QbN/MA5F/OmoGnFoqBobPxholl2UOsQULEKwqiGQsHKTot1S1JN5CV6aahL
-         Rc+TBVXagqrGgZBdAF5RNOScsYrEajkgo4bzCryBrIM3V8uH+3Bu/BjMsaqgK57hBIvp
-         AIxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717775445; x=1718380245;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8mLYWZnKH+z6ueZhuJkRBxm2z11CPZmpPTaPGv2cuj0=;
-        b=PiKHYno95jjlt3EHU9Rdzn0DszAFFaiIs+eLHcdOHV+Rps2wxEfKiCQtb7q+BFUoW7
-         Oq/fa/xy7ljgwNbFoSHoTAroFcxF7NupEDsVMXOZE81eXxNDI1mvvjYw53s01CHCWPmV
-         bncZF9cwjs9W73y+MNklwThxJaFwnLZT8noYjs6+zhmKcvdA6F02MydycSbar1EBCWKl
-         7wGXwSPRRNhcpHLQJyvG4ddhMNQ+r7+u6QqMzg+aP4yszXYVeXeVjH2nx/p3wUcjhHGE
-         jnyj1vIoSdDDGX3HqIQHFjoCmoiESNP9oOVml9Cset7bpEraaL/M0VSqToesS16OjRGK
-         YO3w==
-X-Forwarded-Encrypted: i=1; AJvYcCX3xTB+ZB7vRx2JEoY1y4bFVSYhM7W+i7TkC0J+B2pEP1xdKRAvKAy5Q6oz8ihvxHyu5pwpmnsY5AAPl0ie/N4Etall2ry1uVUD
-X-Gm-Message-State: AOJu0Yx+wMdtylhC2srt8jYN9nGn/F+tnYmglUsAWluk6gNjF1B8ArWl
-	qda+CJYXdIZ8VBPLaGBuNixbBBagrJwSfWoqii8YtAeBlXGFVvq+p/VFU3b6glU=
-X-Google-Smtp-Source: AGHT+IHG8WszpcEWn5y0Ergt20tKhSOz5/rJxXqP/p8U9bIooclfDP/A70icjjOiWOdZ+5jrSUBNHw==
-X-Received: by 2002:a05:600c:3496:b0:421:2429:7e46 with SMTP id 5b1f17b1804b1-421649fbb46mr33986435e9.13.1717775445415;
-        Fri, 07 Jun 2024 08:50:45 -0700 (PDT)
-Received: from localhost ([193.47.165.251])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35ef5d66cf6sm4237732f8f.49.2024.06.07.08.50.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jun 2024 08:50:44 -0700 (PDT)
-Date: Fri, 7 Jun 2024 17:50:41 +0200
-From: Jiri Pirko <jiri@resnulli.us>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: David Ahern <dsahern@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>,
-	Leon Romanovsky <leon@kernel.org>, linux-doc@vger.kernel.org,
-	linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Andy Gospodarek <andrew.gospodarek@broadcom.com>,
-	Aron Silverton <aron.silverton@oracle.com>,
-	Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>,
-	Leonid Bloch <lbloch@nvidia.com>,
-	Leon Romanovsky <leonro@nvidia.com>, linux-cxl@vger.kernel.org,
-	patches@lists.linux.dev
-Subject: Re: [PATCH 0/8] Introduce fwctl subystem
-Message-ID: <ZmMsUYFvUOndiX8g@nanopsycho.orion>
-References: <665fa9c9e69de_4a4e62941e@dwillia2-xfh.jf.intel.com.notmuch>
- <20240605135911.GT19897@nvidia.com>
- <d97144db-424f-4efd-bf10-513a0b895eca@kernel.org>
- <20240606071811.34767cce@kernel.org>
- <20240606144818.GC19897@nvidia.com>
- <20240606080557.00f3163e@kernel.org>
- <4724e6a1-2da1-4275-8807-b7fe6cd9b6c1@kernel.org>
- <ZmKtUkeKiQMUvWhi@nanopsycho.orion>
- <887d1cb7-e9e9-4b12-aebb-651addc6b01c@kernel.org>
- <20240607151451.GL19897@nvidia.com>
+	s=arc-20240116; t=1717775820; c=relaxed/simple;
+	bh=AvfwU2peuip8Rxw2RQR7kZaaaxxe71BZQ8M6oVTESCo=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=U39M26V8kTx6kJ4I317YQm9/qerNkCTkqX/n9HHPW3ZANCWc7P/oqVHwbzS8BtzCSRUfkXMeC9m6/UNDyrla7Tmc0Pm3GZvg6UEm9dcf0W0ooBbaIn12QeXRU7nShZLTh5bFe/ZvzPmoZlluABqDYH7GSjjSvCgGZkJHpwMv7fo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=Huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.216])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Vwm4r0W1zz6D94q;
+	Fri,  7 Jun 2024 23:55:40 +0800 (CST)
+Received: from lhrpeml500005.china.huawei.com (unknown [7.191.163.240])
+	by mail.maildlp.com (Postfix) with ESMTPS id 2BF87140A70;
+	Fri,  7 Jun 2024 23:56:54 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 7 Jun
+ 2024 16:56:53 +0100
+Date: Fri, 7 Jun 2024 16:56:51 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Wei Huang <wei.huang2@amd.com>
+CC: <linux-pci@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <netdev@vger.kernel.org>, <bhelgaas@google.com>,
+	<corbet@lwn.net>, <davem@davemloft.net>, <edumazet@google.com>,
+	<kuba@kernel.org>, <pabeni@redhat.com>, <alex.williamson@redhat.com>,
+	<gospo@broadcom.com>, <michael.chan@broadcom.com>,
+	<ajit.khaparde@broadcom.com>, <somnath.kotur@broadcom.com>,
+	<andrew.gospodarek@broadcom.com>, <manoj.panicker2@amd.com>,
+	<Eric.VanTassell@amd.com>, <vadim.fedorenko@linux.dev>, <horms@kernel.org>,
+	<bagasdotme@gmail.com>
+Subject: Re: [PATCH V2 1/9] PCI: Introduce PCIe TPH support framework
+Message-ID: <20240607165651.00006554@Huawei.com>
+In-Reply-To: <20240531213841.3246055-2-wei.huang2@amd.com>
+References: <20240531213841.3246055-1-wei.huang2@amd.com>
+	<20240531213841.3246055-2-wei.huang2@amd.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240607151451.GL19897@nvidia.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
 
-Fri, Jun 07, 2024 at 05:14:51PM CEST, jgg@nvidia.com wrote:
->On Fri, Jun 07, 2024 at 08:50:17AM -0600, David Ahern wrote:
->
->> Mellanox offers both with the Spectrum line and should have a pretty
->> good understanding of how many customers deploy with the SDK vs
->> switchdev. Why is that? 
->
->We offer lots of options with mlx5 switching too, and switchdev is not
->being selected by customers principally for performance reasons, in my
->view.
->
->The OVS space wants to operate the switch much like a firewall and
->this creates a high rate of database updates and exception
->packets. DPDK can operate all the same offload HW from userspace and
->avoid all the system call and other kernel overhead. It is much more
->purpose built to what OVS wants to do. In the >50Gbps space this
->matters a lot and overall DPDK performance notably wins over switchdev
->for many OVS workloads - even though the high speed path is
->near-identical.
->
->In this role DPDK is effectively a switch SDK, an open source one at
->least.
->
->Sadly I'm seeing signs that proprietary OVS focused SDKs (think
->various P4 offerings and others) are out competing open DPDK on
->merit :(
->
->For whatever reason the market for switching is not strongly motivated
->toward open SDKs, and the available open solutions are struggling a
->bit to compete.
->
->But to repeat again, fwctl is not for dataplane, it is not for
->implementing a switch SDK (go use RDMA if you want to do that). I will
+On Fri, 31 May 2024 16:38:33 -0500
+Wei Huang <wei.huang2@amd.com> wrote:
 
-switch sdk is all about control plane.
+> This patch implements the framework for PCIe TPH support. It introduces
+> tph.c source file, along with CONFIG_PCIE_TPH, to Linux PCIe subsystem.
+> A new member, named tph_cap, is also introduced in pci_dev to cache TPH
+> capability offset.
+> 
+> Co-developed-by: Eric Van Tassell <Eric.VanTassell@amd.com>
+> Signed-off-by: Eric Van Tassell <Eric.VanTassell@amd.com>
+> Signed-off-by: Wei Huang <wei.huang2@amd.com>
+> Reviewed-by: Ajit Khaparde <ajit.khaparde@broadcom.com>
+> Reviewed-by: Somnath Kotur <somnath.kotur@broadcom.com> 
+> Reviewed-by: Andy Gospodarek <andrew.gospodarek@broadcom.com>
 
 
->write here a commitment to accept patches blocking such usages if
->drivers try to abuse the purpose of the subsystem.
->
->Jason
+One trivial comment inline.
+With that fixed.
+
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+> diff --git a/drivers/pci/pcie/tph.c b/drivers/pci/pcie/tph.c
+> new file mode 100644
+> index 000000000000..5f0cc06b74bb
+> --- /dev/null
+> +++ b/drivers/pci/pcie/tph.c
+> @@ -0,0 +1,28 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * TPH (TLP Processing Hints) support
+> + *
+> + * Copyright (C) 2024 Advanced Micro Devices, Inc.
+> + *     Eric Van Tassell <Eric.VanTassell@amd.com>
+> + *     Wei Huang <wei.huang2@amd.com>
+> + */
+> +
+> +#define pr_fmt(fmt) "TPH: " fmt
+> +#define dev_fmt pr_fmt
+> +
+> +#include <linux/acpi.h>
+> +#include <uapi/linux/pci_regs.h>
+> +#include <linux/kernel.h>
+> +#include <linux/errno.h>
+> +#include <linux/msi.h>
+> +#include <linux/pci.h>
+> +#include <linux/msi.h>
+> +#include <linux/pci-acpi.h>
+
+Introduce headers as you first use them.  That way we can more
+easily see if there are unused ones in this list.
+
+
+> +
+> +#include "../pci.h"
+> +
+> +void pcie_tph_init(struct pci_dev *dev)
+> +{
+> +	dev->tph_cap = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_TPH);
+> +}
+> +
+> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+> index 15168881ec94..1f1ae55a5f83 100644
+> --- a/drivers/pci/probe.c
+> +++ b/drivers/pci/probe.c
+> @@ -2484,6 +2484,7 @@ static void pci_init_capabilities(struct pci_dev *dev)
+>  	pci_dpc_init(dev);		/* Downstream Port Containment */
+>  	pci_rcec_init(dev);		/* Root Complex Event Collector */
+>  	pci_doe_init(dev);		/* Data Object Exchange */
+> +	pcie_tph_init(dev);             /* TLP Processing Hints */
+>  
+>  	pcie_report_downtraining(dev);
+>  	pci_init_reset_methods(dev);
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index 5bece7fd11f8..d75a88ec5136 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -530,6 +530,10 @@ struct pci_dev {
+>  
+>  	/* These methods index pci_reset_fn_methods[] */
+>  	u8 reset_methods[PCI_NUM_RESET_METHODS]; /* In priority order */
+> +
+> +#ifdef CONFIG_PCIE_TPH
+> +	u16 tph_cap; /* TPH capability offset */
+> +#endif
+>  };
+>  
+>  static inline struct pci_dev *pci_physfn(struct pci_dev *dev)
+
