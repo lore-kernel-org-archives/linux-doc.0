@@ -1,129 +1,160 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC9B22BAE9;
-	Sat,  8 Jun 2024 08:52:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6702B14286;
+	Sat,  8 Jun 2024 09:01:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717836744; cv=none; b=DY3FOcUpM4AxtYMnxx9DhprzpMyUxFiA02pp2Yf1q5M6SIdWnrG1sqJ0TU8GLEqJ5te1Hac5IOd/dPZSQ9w10LolGBDnjBxQF5GTw52QAHSda71aO8xJJzlPmCQoJpW3Jg3boAbLiiboyZejwn5Iv4JlgIWNNCF7oxjegLUaOrw=
+	t=1717837282; cv=none; b=WKD/1ZOWj78d4S2bBNgPAlIsBglqoTHJtReZrwOC7zxCbUT+Il7H3151AXYKTHeL02t30rpR1lTNBouUeuHv7tOyTTnEcgLswqqJZYfr0G1iUKlmVyxx920yRggrol5WMKCBwVc5VD57+Il4ErGj1zLzDTCfHii0Qa128rC0Zvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717836744; c=relaxed/simple;
-	bh=ha7EzrpsruY6y9xDIkz/nhmxyf0XxlQ+52RUFa2ziNA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jEOSX+7az5YdCgg9bk5nMq5FDW2cGglEGtfw/AjpgX31CDFh721mDKiTiWlEkfOzy3w4ztWyz7N/pz2G1Ajn0dB+Nrdi0pRD5oHsDJqjgfJq5i4uB3qvSbnUJ/Sy3p7vw7rc1/YdBLYnJOdSMmBQhH758eEFI+gJ4evN5q16vIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HsiKKfaP; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1717837282; c=relaxed/simple;
+	bh=1/f02kDBw63jQMXEE2MyvrNXy9Fmrvsga5uyBueYldU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=VJW6X5TPYxdr4j0bV/mTR4dRSg9WIlHI4/BZF7VCo7ua6H9yUc5ksACzw16jqFsfP6knKrnzkUQTqAFkAQznlWd6lTxSaz33z4DDx7dKFDhoEjqHOu8YOkbpBKJjC3284G7Q98W47vto40dzNVucfhKQ/x0S8palH/3JOAv7+2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hH1p/iri; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HsiKKfaP"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a6e0a499687so135733066b.2;
-        Sat, 08 Jun 2024 01:52:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717836741; x=1718441541; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=w1aXjWmtgZ3e8sv722YupJkGCAHwEEWx+AcscMfS3UI=;
-        b=HsiKKfaPTpqswHjqPBp9bR6b+9ihcnsARcehS6lv5XHD1Kw3MS78BODbDfWzAq0dZG
-         JHjubAKUuxL18aUpVRM5ioRTp2bg7eWVCMDMRbmIhFvKSQ2r0QbJGZT6OBnSnMcfL9tl
-         iX88nQYpwB1ikU5FGK+UwUNcCOFyFrph1dm5ubuk4GLlCC66bhhQGTZ5fqU9RAkl/jZm
-         HiLpIx37+IHndikXl8Jt3bXp2dP8orWUB1rJSq5yeAh+PMj10P/oi0AtJp6OL9d1eKFI
-         r49VYIJz6qQehiQ8WDEYkJTRNQthXAuAvizBZuxYWH0SdX3zPYnEHcC2WDNSjYj3ax5t
-         scjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717836741; x=1718441541;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=w1aXjWmtgZ3e8sv722YupJkGCAHwEEWx+AcscMfS3UI=;
-        b=wyn//DCgspDB411wQdKWSWjnRFMjiYFbT53EGP9nkCCBflTZnB56j33fpDmf4eD6yY
-         vwOYoqfH39aXrhMmqhbllyiRHjOC9Ou1DF00qM/7yn2wEhRrPp2/SjEzDt9uwlGhkCen
-         zlIio/1wBd4CASI+nSvvCLyvzAnIEJ5DgdS+X9R05v8CX9cQdUvdDQHaPYu64wtC68zw
-         Kk/WA5k9gwUrTX9ualndJ5IorUlZqJju78hR+8/HNahpbR+Nooz1dR620mSKZQUseW67
-         21dbFpTTQi/74c0yk0uvZAebd79nqwzdveZeCL4t6K/xuHZ+BuHtP2zzxFcEqY21+65a
-         UNgw==
-X-Forwarded-Encrypted: i=1; AJvYcCUKw67NnFraa/cI0NS4jRDOwqS9CNELrLwIXzSi4CZ03E8E9aM0gpOGcV7dpW+TdLJYMyzBK4C8uZmOSWZkruoRIHYoX2as0s+DaXqSxSzo4k4yJa9d8k3Kbnfx5hDRb4v5vSPGb0A8qOcGaZuORUDZPvzTIW8oPsZeQYOSbyvWTAqTDgM=
-X-Gm-Message-State: AOJu0YwWVE2mwYILNgUOSh+3AEuUyVIleBxPK9ZQkAWZXG8i1CBsMnPs
-	ZvG2BV1XRDOovEf+OoVDCN6XbyAHTOxrMoaWg59+6ooqmNZpWgRz
-X-Google-Smtp-Source: AGHT+IFbDZmJD7JT3b/jbSma58/rkMWsWZspI9oABhrJ/uKXNK/8TzbM8H3qFUVbwUIAU2urSQtEXw==
-X-Received: by 2002:a17:906:3882:b0:a69:2025:1535 with SMTP id a640c23a62f3a-a6cd7a8abdemr323683866b.33.1717836740945;
-        Sat, 08 Jun 2024 01:52:20 -0700 (PDT)
-Received: from caracal.museclub.art (p200300cf9f200400a86c445e36ca9cbe.dip0.t-ipconnect.de. [2003:cf:9f20:400:a86c:445e:36ca:9cbe])
-        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-a6c805fa410sm359066266b.94.2024.06.08.01.52.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Jun 2024 01:52:20 -0700 (PDT)
-From: Eugene Shalygin <eugene.shalygin@gmail.com>
-To: eugene.shalygin@gmail.com
-Cc: Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/1] hwmon: (asus-ec-sensors) add ProArt X670E-CREATOR WIFI
-Date: Sat,  8 Jun 2024 10:50:05 +0200
-Message-ID: <20240608085146.572777-2-eugene.shalygin@gmail.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240608085146.572777-1-eugene.shalygin@gmail.com>
-References: <20240608085146.572777-1-eugene.shalygin@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hH1p/iri"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E931CC2BD11;
+	Sat,  8 Jun 2024 09:01:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1717837282;
+	bh=1/f02kDBw63jQMXEE2MyvrNXy9Fmrvsga5uyBueYldU=;
+	h=From:Subject:Date:To:Cc:From;
+	b=hH1p/irimyi6Aj8+wOmhstheuhfSQ3HXxSHL/C82sJETZiZW77Ng+spiOtlHkKje3
+	 Yd9tgYpPUbhe+VGLSeJNF2gG8x4iAJ6Wy/yMY4I9WzHVNklgx26KpJpCk6fhZAH4rO
+	 XHrzQKQA1jSjINJ5cnMJRQ5bpMhR0FkmNarwqwcl2ZdTJ4PVUsgehGc0NIk9Yy+OI1
+	 c2dzrbfS3Cav5wBDy6XcFjIDOK3+Z4662XWEanY45HVrMFaoip2dRzsVCTx4ZmiICw
+	 8B4j1JOT56EMMbt2HNWl+UGMgz7qyvaiK+NtkFbOpM7Dew6Raq2vg8bJiqbeVuIzUn
+	 pBMMt5e8S9oGw==
+From: Benjamin Tissoires <bentiss@kernel.org>
+Subject: [PATCH HID v3 00/16] HID: convert HID-BPF into using
+ bpf_struct_ops
+Date: Sat, 08 Jun 2024 11:01:12 +0200
+Message-Id: <20240608-hid_bpf_struct_ops-v3-0-6ac6ade58329@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANgdZGYC/23NQQ6CMBAF0KuQrq0pU1rQlQsXegZjCNIpNBpKW
+ mw0hLvb1IUxYfnnZ96fiUdn0JN9NhOHwXhjhxj4JiNt3wwdUqNiJsCgYCLntDeqvo269pN7tlN
+ tR0+RQw4NQCGEIPFxdKjNK6EXcjofyTUee+Mn695pKOSp+ppQrZkhp4xWrZSSKw2lqg53dAM+t
+ tZ1yQvwMyQrVw2IBtc7oQvFAHbwZyzL8gETBKvu/gAAAA==
+To: Shuah Khan <shuah@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Alexei Starovoitov <ast@kernel.org>
+Cc: linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ bpf@vger.kernel.org, linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Benjamin Tissoires <bentiss@kernel.org>, 
+ Peter Hutterer <peter.hutterer@who-t.net>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1717837279; l=4865;
+ i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
+ bh=1/f02kDBw63jQMXEE2MyvrNXy9Fmrvsga5uyBueYldU=;
+ b=WYrQH5UV88GmVipTdAZc3S7c0BkQKr494z3iEGoXNbpCnBRmEByfWsmN4fjuPtYo3Nz5PiwPz
+ +cJFmmeI30ACDzALB/OnLLVNPfntXCi43L0dAEtzNaK4RetlkO8SGoB
+X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
+ pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
 
-Provided and tested by a user in a GitHub PR [1].
+The purpose of this series is to rethink how HID-BPF is invoked.
+Currently it implies a jmp table, a prog fd bpf_map, a preloaded tracing
+bpf program and a lot of manual work for handling the bpf program
+lifetime and addition/removal.
 
-[1] https://github.com/zeule/asus-ec-sensors/pull/56
+OTOH, bpf_struct_ops take care of most of the bpf handling leaving us
+with a simple list of ops pointers, and we can directly call the
+struct_ops program from the kernel as a regular function.
 
-Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+The net gain right now is in term of code simplicity and lines of code
+removal (though is an API breakage), but udev-hid-bpf is able to handle
+such breakages.
+
+In the near future, we will be able to extend the HID-BPF struct_ops
+with entrypoints for hid_hw_raw_request() and hid_hw_output_report(),
+allowing for covering all of the initial use cases:
+- firewalling a HID device
+- fixing all of the HID device interactions (not just device events as
+  it is right now).
+
+The matching user-space loader (udev-hid-bpf) MR is at
+https://gitlab.freedesktop.org/libevdev/udev-hid-bpf/-/merge_requests/86
+
+I'll put it out of draft once this is merged.
+
+Cheers,
+Benjamin
+
+Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
 ---
- Documentation/hwmon/asus_ec_sensors.rst |  1 +
- drivers/hwmon/asus-ec-sensors.c         | 10 ++++++++++
- 2 files changed, 11 insertions(+)
+Changes in v3:
+- took Alexei's review into account
+- Link to v2: https://lore.kernel.org/r/20240607-hid_bpf_struct_ops-v2-0-3f95f4d02292@kernel.org
 
-diff --git a/Documentation/hwmon/asus_ec_sensors.rst b/Documentation/hwmon/asus_ec_sensors.rst
-index 0bf99ba406dd..ca38922f4ec5 100644
---- a/Documentation/hwmon/asus_ec_sensors.rst
-+++ b/Documentation/hwmon/asus_ec_sensors.rst
-@@ -8,6 +8,7 @@ Supported boards:
-  * PRIME X570-PRO
-  * Pro WS X570-ACE
-  * ProArt X570-CREATOR WIFI
-+ * ProArt X670E-CREATOR WIFI
-  * ProArt B550-CREATOR
-  * ROG CROSSHAIR VIII DARK HERO
-  * ROG CROSSHAIR VIII HERO (WI-FI)
-diff --git a/drivers/hwmon/asus-ec-sensors.c b/drivers/hwmon/asus-ec-sensors.c
-index 36f9e38000d5..6bb8d7b1d219 100644
---- a/drivers/hwmon/asus-ec-sensors.c
-+++ b/drivers/hwmon/asus-ec-sensors.c
-@@ -322,6 +322,14 @@ static const struct ec_board_info board_info_pro_art_x570_creator_wifi = {
- 	.family = family_amd_500_series,
- };
- 
-+static const struct ec_board_info board_info_pro_art_x670E_creator_wifi = {
-+	.sensors = SENSOR_TEMP_CPU | SENSOR_TEMP_CPU_PACKAGE |
-+		SENSOR_TEMP_MB | SENSOR_TEMP_VRM |
-+		SENSOR_TEMP_T_SENSOR,
-+	.mutex_path = ACPI_GLOBAL_LOCK_PSEUDO_PATH,
-+	.family = family_amd_600_series,
-+};
-+
- static const struct ec_board_info board_info_pro_art_b550_creator = {
- 	.sensors = SENSOR_SET_TEMP_CHIPSET_CPU_MB |
- 		SENSOR_TEMP_T_SENSOR |
-@@ -486,6 +494,8 @@ static const struct dmi_system_id dmi_table[] = {
- 					&board_info_prime_x570_pro),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ProArt X570-CREATOR WIFI",
- 					&board_info_pro_art_x570_creator_wifi),
-+	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ProArt X670E-CREATOR WIFI",
-+					&board_info_pro_art_x670E_creator_wifi),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("ProArt B550-CREATOR",
- 					&board_info_pro_art_b550_creator),
- 	DMI_EXACT_MATCH_ASUS_BOARD_NAME("Pro WS X570-ACE",
+Changes in v2:
+- drop HID_BPF_FLAGS enum and use BPF_F_BEFORE instead
+- fix .init_members to not open code member->offset
+- allow struct hid_device to be writeable from HID-BPF for its name,
+  uniq and phys
+- Link to v1: https://lore.kernel.org/r/20240528-hid_bpf_struct_ops-v1-0-8c6663df27d8@kernel.org
+
+---
+Benjamin Tissoires (16):
+      HID: rename struct hid_bpf_ops into hid_ops
+      HID: bpf: add hid_get/put_device() helpers
+      HID: bpf: implement HID-BPF through bpf_struct_ops
+      selftests/hid: convert the hid_bpf selftests with struct_ops
+      HID: samples: convert the 2 HID-BPF samples into struct_ops
+      HID: bpf: add defines for HID-BPF SEC in in-tree bpf fixes
+      HID: bpf: convert in-tree fixes into struct_ops
+      HID: bpf: remove tracing HID-BPF capability
+      selftests/hid: add subprog call test
+      Documentation: HID: amend HID-BPF for struct_ops
+      Documentation: HID: add a small blurb on udev-hid-bpf
+      HID: bpf: Artist24: remove unused variable
+      HID: bpf: error on warnings when compiling bpf objects
+      bpf: allow bpf helpers to be used into HID-BPF struct_ops
+      HID: bpf: rework hid_bpf_ops_btf_struct_access
+      HID: bpf: make part of struct hid_device writable
+
+ Documentation/hid/hid-bpf.rst                      | 173 ++++---
+ drivers/hid/bpf/Makefile                           |   2 +-
+ drivers/hid/bpf/entrypoints/Makefile               |  93 ----
+ drivers/hid/bpf/entrypoints/README                 |   4 -
+ drivers/hid/bpf/entrypoints/entrypoints.bpf.c      |  25 -
+ drivers/hid/bpf/entrypoints/entrypoints.lskel.h    | 248 ---------
+ drivers/hid/bpf/hid_bpf_dispatch.c                 | 266 +++-------
+ drivers/hid/bpf/hid_bpf_dispatch.h                 |  12 +-
+ drivers/hid/bpf/hid_bpf_jmp_table.c                | 565 ---------------------
+ drivers/hid/bpf/hid_bpf_struct_ops.c               | 298 +++++++++++
+ drivers/hid/bpf/progs/FR-TEC__Raptor-Mach-2.bpf.c  |   9 +-
+ drivers/hid/bpf/progs/HP__Elite-Presenter.bpf.c    |   6 +-
+ drivers/hid/bpf/progs/Huion__Kamvas-Pro-19.bpf.c   |   9 +-
+ .../hid/bpf/progs/IOGEAR__Kaliber-MMOmentum.bpf.c  |   6 +-
+ drivers/hid/bpf/progs/Makefile                     |   2 +-
+ .../hid/bpf/progs/Microsoft__XBox-Elite-2.bpf.c    |   6 +-
+ drivers/hid/bpf/progs/Wacom__ArtPen.bpf.c          |   6 +-
+ drivers/hid/bpf/progs/XPPen__Artist24.bpf.c        |  10 +-
+ drivers/hid/bpf/progs/XPPen__ArtistPro16Gen2.bpf.c |  24 +-
+ drivers/hid/bpf/progs/hid_bpf.h                    |   5 +
+ drivers/hid/hid-core.c                             |   6 +-
+ include/linux/hid_bpf.h                            | 119 +++--
+ samples/hid/Makefile                               |   5 +-
+ samples/hid/hid_bpf_attach.bpf.c                   |  18 -
+ samples/hid/hid_bpf_attach.h                       |  14 -
+ samples/hid/hid_mouse.bpf.c                        |  26 +-
+ samples/hid/hid_mouse.c                            |  39 +-
+ samples/hid/hid_surface_dial.bpf.c                 |  10 +-
+ samples/hid/hid_surface_dial.c                     |  53 +-
+ tools/testing/selftests/hid/hid_bpf.c              | 100 +++-
+ tools/testing/selftests/hid/progs/hid.c            | 100 +++-
+ .../testing/selftests/hid/progs/hid_bpf_helpers.h  |  19 +-
+ 32 files changed, 800 insertions(+), 1478 deletions(-)
+---
+base-commit: 70ec81c2e2b4005465ad0d042e90b36087c36104
+change-id: 20240513-hid_bpf_struct_ops-e3212a224555
+
+Best regards,
 -- 
-2.45.2
+Benjamin Tissoires <bentiss@kernel.org>
 
