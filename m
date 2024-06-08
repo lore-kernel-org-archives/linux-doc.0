@@ -1,109 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bmailout1.hostsharing.net (bmailout1.hostsharing.net [83.223.95.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D65917D8AB;
-	Sat,  8 Jun 2024 09:01:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6A9E57D;
+	Sat,  8 Jun 2024 12:47:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.223.95.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717837319; cv=none; b=e1nSkO9nYdaWHDb58/xIrfcV0hmuPOLgrsJaIzeUlcRaZmIhnU0dVTAzJvFsB9yuTaATIf2amj+nc/FFGk5O2wG3QVoSJkEkrUt9ZCc9hmrmOM2xE5/Nm03xtq9c9Agl4uqRN+0chOkWL74uHMcNQ7OPtqhEZm7+CBhX5IgYBBY=
+	t=1717850832; cv=none; b=Ub1gRC9bE3nWONR5PlyDDZIXghEBsotQ8KE1bJQGNoC2XK8fQ+cv8haOLCJf00XPqADiJdYFb1PJr1sKniDrzdTwuRf53eQDW5vSeCXNasu4amOYyy/1xY9gw0wsg/uwv+A39LkwPlYirXyqTtvt9w1fzpdgsZzRuYllG9ZwGY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717837319; c=relaxed/simple;
-	bh=YHolCvF3jA/DQGyy5jN6lFObu+rIHNuOu9Dmy3Vod3s=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=vAWuIfFrgPMtDd82JCM4NYweVN+JMXxDNs7ImURdwFWxd/YrHTbnxEDC9VLrA+ttRytoELiXp+n0x2+KTa4WU6kF/4I5q0XSHUlMAMZQl++YeBOKiil/s1Gm18ohF4PjoZXeDuvdeJJ94p/F2t8kDTmio0gJfFe7HK7oQWVxb/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LnGemssx; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LnGemssx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 194D5C2BD11;
-	Sat,  8 Jun 2024 09:01:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717837318;
-	bh=YHolCvF3jA/DQGyy5jN6lFObu+rIHNuOu9Dmy3Vod3s=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=LnGemssx+z+2K25Xw92Vk4C+ubNIsAfaEmFEbd0Tik3oN5d5gYJMkWvjaNImlQatE
-	 R2bP64tn3V8FknJxybCEobkZbtFtgb8mOQX3v7Lkxd2iIJFemsXckHrbCq/5OtB7Yv
-	 mFBKw3tB+ImpWCwAoZVyymfKyTUIZVCz8V1HVG9CZlgYGIbXRu03A1iHlq7DzXpwRy
-	 mlohtUSJsomVheW16NDYB+NbUJl7jrRjjMljtGsYR+8D/I3k6ricVI9XwzSHUCu0TF
-	 e1MBSPZBeJcCchnXe279kZ8wGRsZHEzMWFedMEbmpQlh6vUjfGexyePkHSxRp42lGB
-	 ok7vhLH3VXtLA==
-From: Benjamin Tissoires <bentiss@kernel.org>
-Date: Sat, 08 Jun 2024 11:01:28 +0200
-Subject: [PATCH HID v3 16/16] HID: bpf: make part of struct hid_device
- writable
+	s=arc-20240116; t=1717850832; c=relaxed/simple;
+	bh=ac9mwoDB9T++uWUEsjCagCvdVLFqoGK/o1b2Dp4iTls=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oN4CGKuMTm+5yOaV1F8bMRRSGPklq/StP0Bb1UJovnOdh8s73ft3F/4jR+YuAAs/LFJwaFfzXP1Teq1MwPtDseDA2tXZZSqnYbRlWBLclXAElYP5BvJTFKw2JgrAn6Nh+gZatlrNlXJXkm3m7dAdQPonvR8TMrLAxZBea/kXZrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=none smtp.mailfrom=h08.hostsharing.net; arc=none smtp.client-ip=83.223.95.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=h08.hostsharing.net
+Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
+	by bmailout1.hostsharing.net (Postfix) with ESMTPS id 126263000A47C;
+	Sat,  8 Jun 2024 14:46:59 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+	id E6E2A67565A; Sat,  8 Jun 2024 14:46:58 +0200 (CEST)
+Date: Sat, 8 Jun 2024 14:46:58 +0200
+From: Lukas Wunner <lukas@wunner.de>
+To: "David E. Box" <david.e.box@linux.intel.com>
+Cc: linux-doc@vger.kernel.org, ilpo.jarvinen@linux.intel.com,
+	hdegoede@redhat.com, linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH V4 1/3] platform/x86/intel/sdsi: Add ioctl SPDM transport
+Message-ID: <ZmRSwpRWEgw2GxF1@wunner.de>
+References: <20240608034247.181843-1-david.e.box@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240608-hid_bpf_struct_ops-v3-16-6ac6ade58329@kernel.org>
-References: <20240608-hid_bpf_struct_ops-v3-0-6ac6ade58329@kernel.org>
-In-Reply-To: <20240608-hid_bpf_struct_ops-v3-0-6ac6ade58329@kernel.org>
-To: Shuah Khan <shuah@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Alexei Starovoitov <ast@kernel.org>
-Cc: linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, 
- bpf@vger.kernel.org, linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
- Benjamin Tissoires <bentiss@kernel.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1717837279; l=1694;
- i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
- bh=YHolCvF3jA/DQGyy5jN6lFObu+rIHNuOu9Dmy3Vod3s=;
- b=CdyFQFSOvnA/Vvz1fzchBiZjuEjZvhWbXkEF/tt9wXTyR9zjNA+HozZMMQG0RO/2vF20g01sT
- n5qq7W2nfvgAHvK0GUkqigT7+e1KxJDjF0kSVu9OT9JFxIZKpXZ7bCL
-X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
- pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240608034247.181843-1-david.e.box@linux.intel.com>
 
-It is useful to change the name, the phys and/or the uniq of a
-struct hid_device during .rdesc_fixup().
+On Fri, Jun 07, 2024 at 08:42:45PM -0700, David E. Box wrote:
+> Intel On Demand adds attestation and firmware measurement retrieval
+> services through use of the protocols defined the Security Protocols and
+> Data Measurement (SPDM) specification. SPDM messages exchanges are used to
+> authenticate On Demand hardware and to retrieve signed measurements of the
+> NVRAM state used to track feature provisioning and the NVRAM state used for
+> metering services. These allow software to verify the authenticity of the
+> On Demand hardware as well as the integrity of the reported silicon
+> configuration.
+> 
+> Add an ioctl interface for sending SPDM messages through the On Demand
+> mailbox. Provides commands to get a list of SPDM enabled devices, get the
+> message size limits for SPDM Requesters and Responders, and perform an SPDM
+> message exchange.
 
-For example, hid-uclogic.ko changes the uniq to store the firmware version
-to differentiate between 2 devices sharing the same PID. In the same
-way, changing the device name is useful when the device export 3 nodes,
-all with the same name.
+I've amended the in-kernel SPDM implementation to expose signatures
+received from the device in sysfs, together with all ancillary data
+necessary to re-verify signatures from user space (transcript, hash
+algorithm, etc).  It is also possible to set the next requester nonce
+from user space if the kernel is mistrusted to always use a fresh nonce.
 
-Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+See the two top-most commits on this branch:
 
----
+https://github.com/l1k/linux/commits/doe
 
-changes in v3:
-- amend for new WRITE_RANGE API
+I intend to submit these patches by end of June.  There are two things
+still missing before I can resubmit:  Exposure of certificate chains in
+sysfs (currently a WIP) and expiration of older signatures (to limit the
+amount of memory consumed for their storage).  After submission, I intend
+to forward-port your measurement patch in Q3.
 
-new in v2
----
- drivers/hid/bpf/hid_bpf_struct_ops.c | 3 +++
- include/linux/hid_bpf.h              | 2 +-
- 2 files changed, 4 insertions(+), 1 deletion(-)
+I recall S3M folks rejected use of the in-kernel SPDM implementation for
+SDSi because it previously didn't allow for re-verification of signatures
+by user space.  Perhaps with the added functionality they'll reconsider?
 
-diff --git a/drivers/hid/bpf/hid_bpf_struct_ops.c b/drivers/hid/bpf/hid_bpf_struct_ops.c
-index b14eccb121e0..e28cca78e1f5 100644
---- a/drivers/hid/bpf/hid_bpf_struct_ops.c
-+++ b/drivers/hid/bpf/hid_bpf_struct_ops.c
-@@ -74,6 +74,9 @@ static int hid_bpf_ops_btf_struct_access(struct bpf_verifier_log *log,
- 
- 	const struct hid_bpf_offset_write_range write_ranges[] = {
- 		WRITE_RANGE(hid_bpf_ctx, retval, false),
-+		WRITE_RANGE(hid_device, name, true),
-+		WRITE_RANGE(hid_device, uniq, true),
-+		WRITE_RANGE(hid_device, phys, true),
- 	};
- #undef WRITE_RANGE
- 	const struct btf_type *state = NULL;
-diff --git a/include/linux/hid_bpf.h b/include/linux/hid_bpf.h
-index 1b4cc1b2c31d..65d7e0acc8c2 100644
---- a/include/linux/hid_bpf.h
-+++ b/include/linux/hid_bpf.h
-@@ -43,7 +43,7 @@ struct hid_device;
-  * ``hid`` and ``allocated_size`` are read-only, ``size`` and ``retval`` are read-write.
-  */
- struct hid_bpf_ctx {
--	const struct hid_device *hid;
-+	struct hid_device *hid;
- 	__u32 allocated_size;
- 	union {
- 		__s32 retval;
+Thanks,
 
--- 
-2.44.0
-
+Lukas
