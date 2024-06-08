@@ -1,78 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24F6CA31;
-	Sat,  8 Jun 2024 01:43:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C14420EB;
+	Sat,  8 Jun 2024 03:42:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717810999; cv=none; b=sRlEIqpytEnTBOdcMjFy4epowIYZwogt1Y61G7FFZFdPzIUHOUZZ9YRby84iC1BX3K93WQCPYsJ57USzm/P3Mt6q8JJpCRi2lHRFpqY2UeAWHgs92de/zfuBKUPUkDDY0w/3WszBK8p32Poy2n5RWRAVY4f8fmZpJFRWxsdBNs4=
+	t=1717818180; cv=none; b=ayEFTii7QvyJijKG+1pTAX+c3dajkTRcQ6CtwNnpP4UWrGezeE5lO4vPruM8f16sxMLDTsyl9JonQY48XuVwf9UOhCBhB2mBKEur56fIVC6mzAMy/DmjHuIkBGpP16s71sqlj2QiC7Qzu8xbbyFTQTFy5Ofcpi94pnkuCZIIWwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717810999; c=relaxed/simple;
-	bh=kxTnolzJBJlaeajOHehBVJOrauutsVcuiot/859aDlo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ggni0GVopScEOQPXt1dRsaVGgFf98Yqj8dx/OLcvXibotW3feSR1FNiPemtTPOybbFnQLw/RzGQJp4S7TuP75nqAU4g7kiiLlACCPl+dhHrot48tXbkwKD0F9rliDjZZ7sHmlcIeoRyIbAjVUl4KbLwbRuHREHHoyDA/mntouxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sXshVeAc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717818180; c=relaxed/simple;
+	bh=35qLqY6ILBvFLrqxgWSWe4dmulow+DU3fhDcGyF6m2Y=;
+	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=KTdjemo2uQFNF7yk77GqxPcsC4f+fuwdxo6iSg9lSuZm0iKwp/JuXZBYE43n/E3hShFcxdE/t+x50DbnakQ3THi9c6UjzvCr5Iitnu0+wvpEKNFL89Vw/OREYy5FMJgQKqDxEPa3KcTHUEDe2+ap/qw5A2Fgx8nMet0o8cRzkOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nW3AHYnD; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sXshVeAc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E43AAC2BBFC;
-	Sat,  8 Jun 2024 01:43:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717810998;
-	bh=kxTnolzJBJlaeajOHehBVJOrauutsVcuiot/859aDlo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=sXshVeAcocmJVA6la5KLNNu3RVHp9NQk0VDB+UPV198dDOeKoyGogj3JkWLiHz+kW
-	 IDSzh/fPTNSZEwpM+2UEsXu8Dwz/Y/J2enN27cwtxp1g1wD/FVR89tknEqrCmhwYSP
-	 D3Clc+Aro713f6aFdSB2WK0sS8SiYZvIVhPm54qAFDBlsfYEkKCDK2x34v2eahxFwm
-	 +1zFb/nvkDx8mOeb7pMp3lKYSsNhmwPktnpwp/TbLWpMancKW8wW6e81pio66Y7Lub
-	 YagCtiG/jQYlFWOA+Q5lqWWL/WfXL/Tbfy8IeLD3qUsxfSoM1Jh2EWjzI4H6JRmyyJ
-	 iUBuAcuo7Z2Ow==
-Date: Fri, 7 Jun 2024 18:43:16 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Jiri Pirko <jiri@resnulli.us>
-Cc: Andrew Lunn <andrew@lunn.ch>, David Ahern <dsahern@kernel.org>, Jason
- Gunthorpe <jgg@nvidia.com>, Dan Williams <dan.j.williams@intel.com>,
- Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>, Leon
- Romanovsky <leon@kernel.org>, linux-doc@vger.kernel.org,
- linux-rdma@vger.kernel.org, netdev@vger.kernel.org, Paolo Abeni
- <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan
- <tariqt@nvidia.com>, Andy Gospodarek <andrew.gospodarek@broadcom.com>, Aron
- Silverton <aron.silverton@oracle.com>, Christoph Hellwig
- <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>, Leonid Bloch
- <lbloch@nvidia.com>, Leon Romanovsky <leonro@nvidia.com>,
- linux-cxl@vger.kernel.org, patches@lists.linux.dev
-Subject: Re: [PATCH 0/8] Introduce fwctl subystem
-Message-ID: <20240607184316.1acdb3fd@kernel.org>
-In-Reply-To: <ZmMMeIuplzZl2Iyh@nanopsycho.orion>
-References: <0-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
-	<20240603114250.5325279c@kernel.org>
-	<214d7d82-0916-4c29-9012-04590e77df73@kernel.org>
-	<20240604070451.79cfb280@kernel.org>
-	<665fa9c9e69de_4a4e62941e@dwillia2-xfh.jf.intel.com.notmuch>
-	<20240605135911.GT19897@nvidia.com>
-	<d97144db-424f-4efd-bf10-513a0b895eca@kernel.org>
-	<20240606071811.34767cce@kernel.org>
-	<ZmK3-rkibH8j4ZwM@nanopsycho.orion>
-	<b023413e-d6e1-4a47-bdf2-98cc57a2e0ae@lunn.ch>
-	<ZmMMeIuplzZl2Iyh@nanopsycho.orion>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nW3AHYnD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1717818178; x=1749354178;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=35qLqY6ILBvFLrqxgWSWe4dmulow+DU3fhDcGyF6m2Y=;
+  b=nW3AHYnDteMMIOQgbrsGDNYpXrBvOgZrftC7caGexXrYklym8z6J5sVw
+   sFDQ5+9aa372kt3u+DkqYIFDoE/bT6NlMqyXcKz0mhuFRVgpWQak22Bit
+   4s/m9fyJKBga7qncovYrF8/yTSG4b5LeDtvrFu+/Hw0suFlQWeTfO9gNC
+   b5a3KclJ6ne0jVLIqO+Jai+GQu4gS5LoS94MjJbEE4WAjnKRdwZEp0o+o
+   xHB0TF3d/xfw0GhV502XOhHQetsP7K6Z5oQrmHGDv78uPzRtriQBoZoiN
+   ZzvKWOOCl5VxQFPjpvNI5R5EjyqhBxHMv0wWW37q22w5K3q7ZqNmkEQnm
+   A==;
+X-CSE-ConnectionGUID: 0LcwAikTR1+2U0DPcSXtMQ==
+X-CSE-MsgGUID: Czdt1aOTRCOq1WKOqJh05g==
+X-IronPort-AV: E=McAfee;i="6600,9927,11096"; a="17483284"
+X-IronPort-AV: E=Sophos;i="6.08,222,1712646000"; 
+   d="scan'208";a="17483284"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 20:42:52 -0700
+X-CSE-ConnectionGUID: Hgf2f9y5RTSVh/9aNfMNtw==
+X-CSE-MsgGUID: M02GoYSlSm2YNU88KLZM6Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,222,1712646000"; 
+   d="scan'208";a="43461677"
+Received: from lbattagl-mobl1.amr.corp.intel.com (HELO debox1-desk4.intel.com) ([10.209.70.26])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2024 20:42:53 -0700
+From: "David E. Box" <david.e.box@linux.intel.com>
+To: linux-doc@vger.kernel.org,
+	david.e.box@linux.intel.com,
+	ilpo.jarvinen@linux.intel.com,
+	hdegoede@redhat.com,
+	linux-kernel@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org
+Subject: [PATCH V4 2/3] tools/arch/x86/intel_sdsi: Rework Makefile
+Date: Fri,  7 Jun 2024 20:42:46 -0700
+Message-Id: <20240608034247.181843-2-david.e.box@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240608034247.181843-1-david.e.box@linux.intel.com>
+References: <20240608034247.181843-1-david.e.box@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 7 Jun 2024 15:34:48 +0200 Jiri Pirko wrote:
-> >For bigger, single purpose devices, it is just a switch, there is less
-> >inconvenience of using just one vendor SDK, on top of the vendor
-> >proscribed kernel.  
-> 
-> I'm aware of what you wrote and undertand it. I just thought Jakub's
-> mixed experience is about the APIs more than the politics behind vedors
-> adoptation process..
+In preparation for more source files, rework the Makefile to handle
+prerequisites more generically, making it easier to isolate future changes.
+Also update PHONY targets.
 
-Not the API / implementation, just that the adoption is limited.
-The benefits of using a standard Linux approach is outweighed by
-the large pool of talent with experience programming using the SDK
-of *the* vendor.
+Signed-off-by: David E. Box <david.e.box@linux.intel.com>
+---
+V4 - No change.
+
+V3 - No change.
+
+V2 - New Patch.
+
+ tools/arch/x86/intel_sdsi/Makefile | 24 ++++++++++++++----------
+ 1 file changed, 14 insertions(+), 10 deletions(-)
+
+diff --git a/tools/arch/x86/intel_sdsi/Makefile b/tools/arch/x86/intel_sdsi/Makefile
+index 5de2288cda79..47b6fd98372c 100644
+--- a/tools/arch/x86/intel_sdsi/Makefile
++++ b/tools/arch/x86/intel_sdsi/Makefile
+@@ -1,21 +1,25 @@
+ # SPDX-License-Identifier: GPL-2.0
+ # Makefile for Intel Software Defined Silicon provisioning tool
+-
+-intel_sdsi: intel_sdsi.c
+-
+-CFLAGS = -Wextra
+-
++include ../../../scripts/Makefile.include
+ BINDIR ?= /usr/sbin
+ 
+-override CFLAGS += -O2 -Wall
++SRCS = intel_sdsi.c
+ 
+-%: %.c
+-	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS)
++OBJS = $(SRCS:.c=.o)
++
++override CFLAGS += -O2 -Wall -Wextra
++
++intel_sdsi: $(OBJS)
++	$(CC) $(CFLAGS) $(OBJS) -o $@
++
++%.o: %.c
++	$(CC) $(CFLAGS) -c $< -o $@
+ 
+-.PHONY : clean
+ clean :
+-	@rm -f intel_sdsi
++	@rm -f intel_sdsi $(OBJS)
+ 
+ install : intel_sdsi
+ 	install -d  $(DESTDIR)$(BINDIR)
+ 	install -m 755 -p intel_sdsi $(DESTDIR)$(BINDIR)/intel_sdsi
++
++.PHONY : clean install
+-- 
+2.34.1
+
