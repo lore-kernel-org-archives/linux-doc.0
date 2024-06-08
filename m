@@ -1,114 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B7BE57D;
-	Sat,  8 Jun 2024 13:44:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B7651E888;
+	Sat,  8 Jun 2024 15:53:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717854288; cv=none; b=RrVzRX9STSKTKICGkmNF+C4sMjLcPXiLzdN0hAiCa0DWnrh1+V8NdXguYS4vreRw8gRGrUgPxvzgiar20pG7suFksbwWKbDcAEKr/JA33CDNo2VrnOTAHN/EVlZc/ZbiKdbVfMl3G/deYgKV4NFGri43ndgJzZXN+YYoZ/4lpOY=
+	t=1717862008; cv=none; b=Qp+iSsGwxGLpU3o7UYrDESJSuOnTKoCgmJvIW6f3SRsE+QoWU58YKN6nWxtlaTKNDuC9dLnAGZ9toCyJBB8BqfC1KTBN0UJiidjvOAcPiJyyac2kAR6G74+hPK2Z1uAZY5AujD9QPfL556qpO8PSiutj4R2X5nzswM8o3UdzgBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717854288; c=relaxed/simple;
-	bh=u+65EOg95RMG8+T/dZJMqWa8Q0VgKMhpOjWei+5HBZQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ku7CSO/jUKTGYxJpON+vQD7DccbKUjG7EDw8k8AvWHCrO0XED2SXr85Hv0/ajtJt212IRXBg8don6ZCY7CvH3ee2m99uU+9jG5AfkjtetvigvWm3oKR7WJ5eTU7JfFHuAMDhhTO6pZOwUamBDCqgzrMnI3O86bZnFRh1DoL+dEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sx6IPojJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1717862008; c=relaxed/simple;
+	bh=vOVkuXFeGSuE1OvKskDxmGpY989Qbt/a1vEPJq4FUYg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L2qV0WKUEXjM+HaJEfb/2AF3Sc6KBAQy8q5x+xUd15kIeE4PKqctKucM1cNzwuSURjcVqfe4idGM2jCCKrD8+zfk4p7L+ipPuhjvnbNlyfiObmn7vpoA8WdjZ8vyX9OuuYlaX5ooVfYBazIUQbfsShgobLMmevOi1dTbKiuAYU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eiz+M2NH; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sx6IPojJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19676C2BD11;
-	Sat,  8 Jun 2024 13:44:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1717854288;
-	bh=u+65EOg95RMG8+T/dZJMqWa8Q0VgKMhpOjWei+5HBZQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=sx6IPojJWoJf8REA79Y8x1+xWnkbHpYIiF3LkPEX5kOfst/F5URLZKKN1qo3gjDLN
-	 hf7ckuKOVZ70M5a8WOcFsbzVaTLXAhYkmqjjq8isnEoMoC8UaO+jq/lw0fn7TjIY3x
-	 oJlsMLf8dBNyUcjuK9HyNguTSgSCJBRCn9aDekvUfbTSialsSQEcBwEu4QtS4YTlqV
-	 /YaZPIKzchX4rjIVWGMqEtw0eVb7mUYM2Fs9dkRyCqW+bM2+fOnfQYZnqLCn8qhrar
-	 aHdAxoGLpQmOqa/DQb/vTm9vZQPi7BPcLkvpU42Gu0zy4kOlh3uX6RiVx5NmXBbANA
-	 qbu4ZlIWe7yOA==
-Date: Sat, 8 Jun 2024 14:44:39 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Ramona Gradinariu <ramona.bolboaca13@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-doc@vger.kernel.org, devicetree@vger.kernel.org, corbet@lwn.net,
- conor+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org, robh@kernel.org,
- Ramona Gradinariu <ramona.gradinariu@analog.com>
-Subject: Re: [PATCH v2 6/6] docs: iio: add documentation for adis16480
- driver
-Message-ID: <20240608144439.06889236@jic23-huawei>
-In-Reply-To: <20240528142409.239187-7-ramona.gradinariu@analog.com>
-References: <20240528142409.239187-1-ramona.gradinariu@analog.com>
-	<20240528142409.239187-7-ramona.gradinariu@analog.com>
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.42; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eiz+M2NH"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-7024d571d8eso2607609b3a.0;
+        Sat, 08 Jun 2024 08:53:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1717862006; x=1718466806; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=b9VRrAeGIH91nbJ+l+6EogIiaTtVPhZdGtuhQM+K29k=;
+        b=eiz+M2NHo0WXCoMozSdHeENCa3O0hSXFqlK1bZv2vP683i1Ng1JRrj/mNMmYd7xxni
+         goF1n7Sf9YBN80rkzU3o/99giDHXT46818L0UTZC/l8sDCRPe/184iLJYah888IjtsLF
+         7gK7eS4XndZQ9Z7ukwcsSj6N+99QQ+mQ6jCl5qVMrVivaMgH1pxRsWQtoMB5vR9au2kN
+         fSnCRpP0GCRS50d/jKKnjsVxjZl2QNhimPqkIPwX54dXXxJcuM2PReBUL5DkibVlWmS2
+         B5xlIASYI3ZptatUdRB/xrLeYp2opAP2eV+xuCzHSGqb54zK9OYURkuLD3KnmkFOv94L
+         p8Tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717862006; x=1718466806;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=b9VRrAeGIH91nbJ+l+6EogIiaTtVPhZdGtuhQM+K29k=;
+        b=mLxw+1RbNXWi45j2Nk1y+G9Xv8LfTZjCPC+PDSNBSyHknMcZwttPdWvXbdbaE7h2Jw
+         4iBdBaduC1YZti5OSQjqim3IH2LP6x93xwFtmGIcPkJWyswooVVnAt1MwsQp8rCIMxG1
+         NwM2USYffmxHpCHrP/0WXqL7KAChPr5d5uiIOwVDDFYMaxQC1TivHVfhr5JJa9gXbLeS
+         p9QEMu8MCAyCC5h6c9G2WeWPa1s69mPWYWbTnChhSURcMIaQGzHquNlIChrx0s1FzHsC
+         F7/Uc9206kC5lhZ/eudL25+sB1lR5rrzIQpo620GCblg0TJbDRjKz2RJ+GqxPp+SH7CB
+         05Jg==
+X-Forwarded-Encrypted: i=1; AJvYcCW+nqQ/rrkL9cImhsmUVz2YZ1JbkPGNa4MaP7/pjCFLhhblctTjk9r1Mm0lrz0IW+vTfhjR5yAs2vDKewv9TMuxSGoyZ/jdgR6AHewk4DEc2K/vlYEmfVh+j7JSrlJGcd6xmFBSvqE1
+X-Gm-Message-State: AOJu0YwMtfSs+WVpxxGstMdEiDkVwAHDqUfdOAWau1O9BOHTmQKDfeuY
+	PY6fhhscBhM83TQsQJo9rcQ78vIeMl+m65R3ZpN4C0D47iXqiUvW
+X-Google-Smtp-Source: AGHT+IFpTRsmPHwSEMhSYb9qhAwknvo0q5iq6AgwuXLmiBVIA78tWwc33X4OMQqkuR/sfFDPXkrUAA==
+X-Received: by 2002:a05:6a00:1396:b0:6ed:de30:9e43 with SMTP id d2e1a72fcca58-7040c754e29mr7200418b3a.32.1717862005667;
+        Sat, 08 Jun 2024 08:53:25 -0700 (PDT)
+Received: from cbuild.srv.usb0.net (uw2.srv.usb0.net. [185.197.30.200])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-703fd4d9d8fsm4335209b3a.149.2024.06.08.08.53.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 08 Jun 2024 08:53:25 -0700 (PDT)
+From: Takero Funaki <flintglass@gmail.com>
+To: Johannes Weiner <hannes@cmpxchg.org>,
+	Yosry Ahmed <yosryahmed@google.com>,
+	Nhat Pham <nphamcs@gmail.com>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Domenico Cerasuolo <cerasuolodomenico@gmail.com>
+Cc: Takero Funaki <flintglass@gmail.com>,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/3]  mm: zswap: global shrinker fix and proactive shrink
+Date: Sat,  8 Jun 2024 15:53:07 +0000
+Message-ID: <20240608155316.451600-1-flintglass@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Tue, 28 May 2024 17:24:09 +0300
-Ramona Gradinariu <ramona.bolboaca13@gmail.com> wrote:
+This series addresses two issues and introduces a minor improvement in
+zswap global shrinker:
 
-> Add documentation for adis16480 driver which describes the driver
-> device files and shows how the user may use the ABI for various
-> scenarios (configuration, measurement, etc.).
-> 
-> Signed-off-by: Ramona Gradinariu <ramona.gradinariu@analog.com>
+1. Fix the memcg iteration logic that breaks iteration on offline memcgs.
+2. Fix the error path that aborts on expected error codes.
+3. Add proactive shrinking at 91% full, for 90% accept threshold.
 
-> +Obtain buffered data:
-> +
-> +.. code-block:: bash
-> +
-> +        root:/sys/bus/iio/devices/iio:device0> hexdump -C /dev/iio\:device0
-> +        ...
-> +        00006aa0  09 62 00 00 ff ff fc a4  00 00 01 69 00 03 3c 08  |.b.........i..<.|
-> +        00006ab0  09 61 00 00 00 00 02 96  00 00 02 8f 00 03 37 50  |.a............7P|
-> +        00006ac0  09 61 00 00 00 00 12 3d  00 00 0b 89 00 03 2c 0b  |.a.....=......,.|
-> +        00006ad0  09 61 00 00 00 00 1e dc  00 00 16 dd 00 03 25 bf  |.a............%.|
-> +        00006ae0  09 61 00 00 00 00 1e e3  00 00 1b bf 00 03 27 0b  |.a............'.|
-> +        00006af0  09 61 00 00 00 00 15 50  00 00 19 44 00 03 30 fd  |.a.....P...D..0.|
-> +        00006b00  09 61 00 00 00 00 09 0e  00 00 14 41 00 03 3d 7f  |.a.........A..=.|
-> +        00006b10  09 61 00 00 ff ff ff f0  00 00 0e bc 00 03 48 d0  |.a............H.|
-> +        00006b20  09 63 00 00 00 00 00 9f  00 00 0f 37 00 03 4c fe  |.c.........7..L.|
-> +        00006b30  09 64 00 00 00 00 0b f6  00 00 18 92 00 03 43 22  |.d............C"|
-> +        00006b40  09 64 00 00 00 00 18 df  00 00 22 33 00 03 33 ab  |.d........"3..3.|
-> +        00006b50  09 63 00 00 00 00 1e 81  00 00 26 be 00 03 29 60  |.c........&...)`|
-> +        00006b60  09 63 00 00 00 00 1b 13  00 00 22 2f 00 03 23 91  |.c........"/..#.|
-> +        ...
-This is tripping up the docs builds on 0-day.
-I'm not going to figure out why, so for now I've just made this an unformatted text block
-via :: and an indent.
+These patches need to be applied in this order to avoid potential loops
+caused by the first issue. Patch 3 can be applied independently, but the
+two issues must be resolved to ensure the shrinker can evict pages.
 
-Documentation/iio/adis16480.rst:419: WARNING: Lexing literal_block 'root:/sys/bus/iio/devices/iio:device0> hexdump -C /dev/iio\\:device0\n...\n00006aa0  09 62 00 00 ff ff fc a4  00 00 01 69 00 03 3c 08  |.b.........i..<.|\n00006ab0  09 61 00 00 00 00 02 96  00 00 02 8f 00 03 37 50  |.a............7P|\n00006ac0  09 61 00 00 00 00 12 3d  00 00 0b 89 00 03 2c 0b  |.a.....=......,.|\n00006ad0  09 61 00 00 00 00 1e dc  00 00 16 dd 00 03 25 bf  |.a............%.|\n00006ae0  09 61 00 00 00 00 1e e3  00 00 1b bf 00 03 27 0b  |.a............\'.|\n00006af0  09 61 00 00 00 00 15 50  00 00 19 44 00 03 30 fd  |.a.....P...D..0.|\n00006b00  09 61 00 00 00 00 09 0e  00 00 14 41 00 03 3d 7f  |.a.........A..=.|\n00006b10  09 61 00 00 ff ff ff f0  00 00 0e bc 00 03 48 d0  |.a............H.|\n00006b20  09 63 00 00 00 00 00 9f  00 00 0f 37 00 03 4c fe  |.c.........7..L.|\n00006b30  09 64 00 00 00 00 0b f6  00 00 18 92 00 03 43 22  |.d............C"|\n00006b40  09 64 00 00 00 00 18 df  00 00 22 33 00 03 33 ab  |.d........"3..3.|\n00006b50  09 63 00 00 00 00 1e 81  00 00 26 be 00 03 29 60  |.c........&...)`|\n00006b60  09 63 00 00 00 00 1b 13  00 00 22 2f 00 03 23 91  |.c........"/..#.|\n...' as "bash" resulted in an error at token: "'". Retrying in relaxed mode.
+Previously, the zswap pool could be filled with old pages that the
+shrinker failed to evict, leading to zswap rejecting new pages. With
+this series applied, the shrinker will continue to evict pages until the
+pool reaches the accept_thr_percent threshold proactively, as
+documented, and maintain the pool to keep recent pages.
 
-Introduced by commit
+As a side effect of changes in the hysteresis logic, zswap will no
+longer reject pages under the max pool limit.
 
-  d6de8052f4a0 ("docs: iio: add documentation for adis16480 driver")
+With this series, reclaims smaller than the proative shrinking amount
+finish instantly and trigger background shrinking. Admins can check if
+new pages are buffered by zswap by monitoring the pool_limit_hit
+counter. 
 
-> +
-> +See ``Documentation/iio/iio_devbuf.rst`` for more information about how buffered
-> +data is structured.
-> +
-> +4. IIO Interfacing Tools
-> +========================
-> +
-> +See ``Documentation/iio/iio_tools.rst`` for the description of the available IIO
-> +interfacing tools.
-> diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
-> index 66fa69102e3a..4c13bfa2865c 100644
-> --- a/Documentation/iio/index.rst
-> +++ b/Documentation/iio/index.rst
-> @@ -19,5 +19,6 @@ Industrial I/O Kernel Drivers
-> 
->     ad7944
->     adis16475
-> +   adis16480
->     bno055
->     ep93xx_adc
-> --
-> 2.34.1
-> 
+Changes since v0:
+mm: zswap: fix global shrinker memcg iteration
+- Drop and reacquire spinlock before skipping a memcg.
+- Add some comment to clarify the locking mechanism.
+mm: zswap: proactive shrinking before pool size limit is hit
+- Remove unneeded check before scheduling work.
+- Change shrink start threshold to accept_thr_percent + 1%.
+
+Now it starts shrinking at accept_thr_percent + 1%. Previously, the
+threshold was at the midpoint of 100% to accept_threshold.
+
+If a workload needs 10% space to buffer the average reclaim amount, with
+the previous patch, it required setting the accept_thr_percent to 80%.
+For 50%, it became 0%, which is not acceptable and unclear for admins.
+We can use the accept percent as the shrink threshold directly but that
+sounds shrinker is called too frequently around the accept threshold.  I
+added 1% as a minimum gap to the shrink threshold.
+
+----
+
+Takero Funaki (3):
+  mm: zswap: fix global shrinker memcg iteration
+  mm: zswap: fix global shrinker error handling logic
+  mm: zswap: proactive shrinking before pool size limit is hit
+
+ Documentation/admin-guide/mm/zswap.rst |  17 ++-
+ mm/zswap.c                             | 172 ++++++++++++++++++-------
+ 2 files changed, 136 insertions(+), 53 deletions(-)
+
+-- 
+2.43.0
 
