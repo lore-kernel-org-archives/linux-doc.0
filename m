@@ -1,262 +1,214 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 779831E888;
-	Sat,  8 Jun 2024 15:53:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A27324B28;
+	Sat,  8 Jun 2024 23:44:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717862014; cv=none; b=tf16ugce+O1PBYH4eCzXZ5MBv8mneXkAZPryvs06l0evfzIgLv9y5qLbrOas55chna6Abf8eH+QgIXHJDurM6FILPaUqbnv/piMKHFG5p99ney1l7VcR42dvWp0X14Vs5N/GfXHbx5PfbOOS0v6QXQ8NVVz0Nz5P7i35l7CmrHA=
+	t=1717890279; cv=none; b=A4F0yiBaFk3VuA/8tsSCX9PmXupoO5mLhbeS57dr8Dle9BPgCGhNA1fZZNHoofk0PSrrV0mVYhRm2fSp/lVH9DQv0zm45aQ3Xla0OLhYV0wpVkyYWO0UkQqfm5aA3rZSKnddV3nXly5pYNqWD67wCvskmpi8Omj1Pe9W5HolI9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717862014; c=relaxed/simple;
-	bh=Snco5oqloL4GXcU+40C9q1nAQ6XQ+70U2BqTJl7GweE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Vvf2W7o0e50xpBwtRWNq8nG0aSwFPtsQluM85q4+sHjOv8MHX6lOoYhPVu1gO6EPwQ58DL8KPxkY+hDJr96AKmMc6s5mBHk3qlInSSOnKWiNcgOeF0i50bfkpgD/W+fEGICcIT7OWPhLSu1GpNBDFwmmH+xtfVfguN/YMKUxuGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UmK+Nmx+; arc=none smtp.client-ip=209.85.210.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1717890279; c=relaxed/simple;
+	bh=TfZnoATFHHsKtckujopS8nC7+AmIssqSCa1UW2djo80=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UqeAFZeJq9w6CRKhMpz65MnRyylOrZFa4/e9LN5xnspN2jfOB52uJXhx/JVeNfwJuAt285ymsAABuPpU9pjyz1Y7gJ5eb7QAVoEVtNgUD6l6KLWqQM2vtkmbiYiU905K0o/GZ3bGbR1T4eX2sBMj/PVnhMSLPJM+zcvY1HpwC+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=r5SLxSs0; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UmK+Nmx+"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-703ed15b273so2494599b3a.1;
-        Sat, 08 Jun 2024 08:53:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717862012; x=1718466812; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HrIr32TNVXDKH7oG1xumlOKq/cguM0V8sG+9FXVj9vY=;
-        b=UmK+Nmx+x+eWQwNR3vc4pir6nM8Bm5id1m8cKxsO2NpiMA/U6kFUWdj9RQgLVHOB0F
-         79CJn5ogSuL88/cI3iniNjSUYIftue4EmWwWVN+Hh8mpfG1w6GhawpA3WNVUvlb6v9Q7
-         i2R95D6Oil7zD15L3MYiSWKz+QCZMQSNOFJwZ4ay10ZuI63r2KhR/mfEp1L8qq7bHkHe
-         YtsHkngcbH6CXbfcwLxeg3xgb2Ha5e8IswYTfuytcQYiYhWATeK9zifRIb8DMf+gCh1J
-         yzZ2KK+in/MzvHSPr36T1gqDgatVMAglrx5uAkrTmROzEsuDj0T+J38sV8zMSRMDvttv
-         q4Tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717862012; x=1718466812;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HrIr32TNVXDKH7oG1xumlOKq/cguM0V8sG+9FXVj9vY=;
-        b=Z2hAL2t/j2GVFF6iN30Suo4Q5Ir3cTBBcJ2yVhR838cxnWSEFuBb5oBMMk1Go5pkBo
-         RffgivYUQH1MDdeJ0wBzvfKNCzlHnqwTTf8Mhe+9wU06Pr+RjWsvCvaLYct60H90pYY0
-         hy9NcGq/VwtK6CoaG3BZ5M0g3glNgtw9V41PD5XWj9sMTzc+12Z0SSZdy1QZiJlvFepx
-         rXTfAAuhH4r/nGqBhGXY0eFHoLbS5ZrymHYhZxBvVXewxYm48m8G2H5rbtxrpgwkaTCe
-         QRIDZVnhWIENidOZkZaaTmfmX0X379qmJS2yBdZedemlfYxwRdeYoQ2R5rXiX/0gcWC1
-         vaoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVHiUoTjxFpp8OoklnmRA8pTyLDaex/msPtvpjeyACAaEcU0SguM2l2TGcFK8g08+oFPtuWkzdLpf9Tb0bz3JY1uZuBQ+vOM0nEAMgtrCljkuDeSS0zzIJlBUEFWJD9ZfLT+XUPay4G
-X-Gm-Message-State: AOJu0YzC0kGDXYs1qPLryVY/bDO1Yo8VJwy/QaJ5pnx7yjRXz5glXgyW
-	wxBKBsizwNljsPM/pUy55MmmBK4nRYWLFtiJgJuZMi/FPAGffSgw
-X-Google-Smtp-Source: AGHT+IEteUQgfUsrWSdHev4f9MAtLQvgT4O27ZIatD/ynyxVmEqXJoDhlhnvAnSdhI3u3ENtRXai/Q==
-X-Received: by 2002:a05:6a20:43a2:b0:1b4:2a8:629 with SMTP id adf61e73a8af0-1b402a8081dmr4737912637.53.1717862011509;
-        Sat, 08 Jun 2024 08:53:31 -0700 (PDT)
-Received: from cbuild.srv.usb0.net (uw2.srv.usb0.net. [185.197.30.200])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-703fd4d9d8fsm4335209b3a.149.2024.06.08.08.53.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Jun 2024 08:53:31 -0700 (PDT)
-From: Takero Funaki <flintglass@gmail.com>
-To: Johannes Weiner <hannes@cmpxchg.org>,
-	Yosry Ahmed <yosryahmed@google.com>,
-	Nhat Pham <nphamcs@gmail.com>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Domenico Cerasuolo <cerasuolodomenico@gmail.com>
-Cc: Takero Funaki <flintglass@gmail.com>,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 3/3] mm: zswap: proactive shrinking before pool size limit is hit
-Date: Sat,  8 Jun 2024 15:53:10 +0000
-Message-ID: <20240608155316.451600-4-flintglass@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240608155316.451600-1-flintglass@gmail.com>
-References: <20240608155316.451600-1-flintglass@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="r5SLxSs0"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=V9bl0X2EUcg+/xnMVivcRgLaDT642pZxVyxB/8arGRo=; b=r5SLxSs0teVt0heVXrFiXPTwyh
+	tCLqTim0yTaGhz3n/W/2p7hFcf8NukTwA46KXmiIP0XpsC6luaUevq140h1890113yB57+n+KfNmO
+	uN+xa0Yg1MYqwi1EE/ceYNRdisVm9L3N0TJqI1n7GevQ1kmHjiPoEVZvm9wdyw1jekPEAUh0EzZgg
+	2JR88baihne8VB2a/uqyTXjLRapVYx1feB46Is8C9rdo2fEoqnTt0v3LgCZZg4K9j245kznxHtjwH
+	6glUe7oqvDFGJvTAE1RevWQtoE+rHuvfYslN2Bn6XioLEIA2LuQdU5IWXPAFzbyVXHAAvdE9ENGIw
+	gJ6u7X3Q==;
+Received: from [50.53.4.147] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sG5jW-00000001Dol-2nQv;
+	Sat, 08 Jun 2024 23:44:26 +0000
+Message-ID: <efbd5520-5eaa-49ab-817f-ae27172f8ceb@infradead.org>
+Date: Sat, 8 Jun 2024 16:44:24 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 6/6] Documentation: iio: Document high-speed DMABUF
+ based API
+To: Paul Cercueil <paul@crapouillou.net>, Jonathan Cameron
+ <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Vinod Koul <vkoul@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Nuno Sa <nuno.sa@analog.com>,
+ linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20240605110845.86740-1-paul@crapouillou.net>
+ <20240605110845.86740-7-paul@crapouillou.net>
+ <5052adab-5b5e-4ac2-902c-bb373c00bbbb@infradead.org>
+ <14d802e84cbb8d3c9610386908706f264af34726.camel@crapouillou.net>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <14d802e84cbb8d3c9610386908706f264af34726.camel@crapouillou.net>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This patch implements proactive shrinking of zswap pool before the max
-pool size limit is reached. This also changes zswap to accept new pages
-while the shrinker is running.
+Hi Paul.
 
-To prevent zswap from rejecting new pages and incurring latency when
-zswap is full, this patch queues the global shrinker by a pool usage
-threshold between 100% and accept_thr_percent, instead of the max pool
-size.  The pool size will be controlled between 90% to 91% for the
-default accept_thr_percent=90.  Since the current global shrinker
-continues to shrink until accept_thr_percent, we do not need to maintain
-the hysteresis variable tracking the pool limit overage in
-zswap_store().
+On 6/7/24 12:44 AM, Paul Cercueil wrote:
+> Hi Randy,
+> 
+> Le jeudi 06 juin 2024 à 10:32 -0700, Randy Dunlap a écrit :
+>> Hi,
+>>
+>> On 6/5/24 4:08 AM, Paul Cercueil wrote:
+>>> Document the new DMABUF based API.
+>>>
+>>> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+>>> Signed-off-by: Nuno Sa <nuno.sa@analog.com>
+>>>
+>>> ---
+>>> v2: - Explicitly state that the new interface is optional and is
+>>>       not implemented by all drivers.
+>>>     - The IOCTLs can now only be called on the buffer FD returned
+>>> by
+>>>       IIO_BUFFER_GET_FD_IOCTL.
+>>>     - Move the page up a bit in the index since it is core stuff
+>>> and not
+>>>       driver-specific.
+>>>
+>>> v3: Update the documentation to reflect the new API.
+>>>
+>>> v5: Use description lists for the documentation of the three new
+>>> IOCTLs
+>>>     instead of abusing subsections.
+>>>
+>>> v8: Renamed dmabuf_api.rst -> iio_dmabuf_api.rst, and updated
+>>> index.rst
+>>>     whose format changed in iio/togreg.
+>>> ---
+>>>  Documentation/iio/iio_dmabuf_api.rst | 54
+>>> ++++++++++++++++++++++++++++
+>>>  Documentation/iio/index.rst          |  1 +
+>>>  2 files changed, 55 insertions(+)
+>>>  create mode 100644 Documentation/iio/iio_dmabuf_api.rst
+>>>
+>>> diff --git a/Documentation/iio/iio_dmabuf_api.rst
+>>> b/Documentation/iio/iio_dmabuf_api.rst
+>>> new file mode 100644
+>>> index 000000000000..1cd6cd51a582
+>>> --- /dev/null
+>>> +++ b/Documentation/iio/iio_dmabuf_api.rst
+>>> @@ -0,0 +1,54 @@
+>>> +.. SPDX-License-Identifier: GPL-2.0
+>>> +
+>>> +===================================
+>>> +High-speed DMABUF interface for IIO
+>>> +===================================
+>>> +
+>>> +1. Overview
+>>> +===========
+>>> +
+>>> +The Industrial I/O subsystem supports access to buffers through a
+>>> +file-based interface, with read() and write() access calls through
+>>> the
+>>> +IIO device's dev node.
+>>> +
+>>> +It additionally supports a DMABUF based interface, where the
+>>> userspace
+>>> +can attach DMABUF objects (externally created) to a IIO buffer,
+>>> and
+>>
+>> I would say/write:                                to an IIO buffer,
+> 
+> Right.
+> 
+>>> +subsequently use them for data transfers.
+>>> +
+>>> +A userspace application can then use this interface to share
+>>> DMABUF
+>>> +objects between several interfaces, allowing it to transfer data
+>>> in a
+>>> +zero-copy fashion, for instance between IIO and the USB stack.
+>>> +
+>>> +The userspace application can also memory-map the DMABUF objects,
+>>> and
+>>> +access the sample data directly. The advantage of doing this vs.
+>>> the
+>>> +read() interface is that it avoids an extra copy of the data
+>>> between the
+>>> +kernel and userspace. This is particularly useful for high-speed
+>>> devices
+>>> +which produce several megabytes or even gigabytes of data per
+>>> second.
+>>> +It does however increase the userspace-kernelspace synchronization
+>>> +overhead, as the DMA_BUF_SYNC_START and DMA_BUF_SYNC_END IOCTLs
+>>> have to
+>>> +be used for data integrity.
+>>> +
+>>> +2. User API
+>>> +===========
+>>> +
+>>> +As part of this interface, three new IOCTLs have been added. These
+>>> three
+>>> +IOCTLs have to be performed on the IIO buffer's file descriptor,
+>>> +obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.
+>>> +
+>>> +  ``IIO_BUFFER_DMABUF_ATTACH_IOCTL(int)``
+>>
+>>                                      (int fd)
+>> ?
+> 
+> Yes, I can change that. Although it's very obvious what the "int" is
+> for, given the text above.
+> 
 
-Before this patch, zswap rejected pages while the shrinker is running
-without incrementing zswap_pool_limit_hit counter. It could be a reason
-why zswap writethrough new pages before writeback old pages.  With this
-patch, zswap accepts new pages while shrinking, and zswap increments
-the counter when and only when zswap rejects pages by the max pool size.
+Yes. This is just to be consistent with the text below:
 
-Now, reclaims smaller than the proactive shrinking amount finish
-instantly and trigger background shrinking.  Admins can check if new
-pages are buffered by zswap by monitoring the pool_limit_hit counter.
++  ``IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *iio_dmabuf)``
 
-The name of sysfs tunable accept_thr_percent is unchanged as it is still
-the stop condition of the shrinker.
-The respective documentation is updated to describe the new behavior.
+>>
+>>> +    Attach the DMABUF object, identified by its file descriptor,
+>>> to the
+>>> +    IIO buffer. Returns zero on success, and a negative errno
+>>> value on
+>>> +    error.
+>>> +
+>>> +  ``IIO_BUFFER_DMABUF_DETACH_IOCTL(int)``
+>>
+>> ditto.
+>>
+>>> +    Detach the given DMABUF object, identified by its file
+>>> descriptor,
+>>> +    from the IIO buffer. Returns zero on success, and a negative
+>>> errno
+>>> +    value on error.
+>>> +
+>>> +    Note that closing the IIO buffer's file descriptor will
+>>> +    automatically detach all previously attached DMABUF objects.
+>>> +
+>>> +  ``IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf
+>>> *iio_dmabuf)``
+>>> +    Enqueue a previously attached DMABUF object to the buffer
+>>> queue.
+>>> +    Enqueued DMABUFs will be read from (if output buffer) or
+>>> written to
+>>> +    (if input buffer) as long as the buffer is enabled.
+>>
+>> thanks.
+> 
+> Cheers,
+> -Paul
 
-Signed-off-by: Takero Funaki <flintglass@gmail.com>
----
- Documentation/admin-guide/mm/zswap.rst | 17 ++++----
- mm/zswap.c                             | 54 ++++++++++++++++----------
- 2 files changed, 42 insertions(+), 29 deletions(-)
-
-diff --git a/Documentation/admin-guide/mm/zswap.rst b/Documentation/admin-guide/mm/zswap.rst
-index 3598dcd7dbe7..a1d8f167a27a 100644
---- a/Documentation/admin-guide/mm/zswap.rst
-+++ b/Documentation/admin-guide/mm/zswap.rst
-@@ -111,18 +111,17 @@ checked if it is a same-value filled page before compressing it. If true, the
- compressed length of the page is set to zero and the pattern or same-filled
- value is stored.
- 
--To prevent zswap from shrinking pool when zswap is full and there's a high
--pressure on swap (this will result in flipping pages in and out zswap pool
--without any real benefit but with a performance drop for the system), a
--special parameter has been introduced to implement a sort of hysteresis to
--refuse taking pages into zswap pool until it has sufficient space if the limit
--has been hit. To set the threshold at which zswap would start accepting pages
--again after it became full, use the sysfs ``accept_threshold_percent``
--attribute, e. g.::
-+To prevent zswap from rejecting new pages and incurring latency when zswap is
-+full, zswap initiates a worker called global shrinker that proactively evicts
-+some pages from the pool to swap devices while the pool is reaching the limit.
-+The global shrinker continues to evict pages until there is sufficient space to
-+accept new pages. To control how many pages should remain in the pool, use the
-+sysfs ``accept_threshold_percent`` attribute as a percentage of the max pool
-+size, e. g.::
- 
- 	echo 80 > /sys/module/zswap/parameters/accept_threshold_percent
- 
--Setting this parameter to 100 will disable the hysteresis.
-+Setting this parameter to 100 will disable the proactive shrinking.
- 
- Some users cannot tolerate the swapping that comes with zswap store failures
- and zswap writebacks. Swapping can be disabled entirely (without disabling
-diff --git a/mm/zswap.c b/mm/zswap.c
-index 1a90f434f247..e957bfdeaf70 100644
---- a/mm/zswap.c
-+++ b/mm/zswap.c
-@@ -71,8 +71,6 @@ static u64 zswap_reject_kmemcache_fail;
- 
- /* Shrinker work queue */
- static struct workqueue_struct *shrink_wq;
--/* Pool limit was hit, we need to calm down */
--static bool zswap_pool_reached_full;
- 
- /*********************************
- * tunables
-@@ -118,7 +116,10 @@ module_param_cb(zpool, &zswap_zpool_param_ops, &zswap_zpool_type, 0644);
- static unsigned int zswap_max_pool_percent = 20;
- module_param_named(max_pool_percent, zswap_max_pool_percent, uint, 0644);
- 
--/* The threshold for accepting new pages after the max_pool_percent was hit */
-+/*
-+ * The percentage of pool size that the global shrinker keeps in memory.
-+ * It does not protect old pages from the dynamic shrinker.
-+ */
- static unsigned int zswap_accept_thr_percent = 90; /* of max pool size */
- module_param_named(accept_threshold_percent, zswap_accept_thr_percent,
- 		   uint, 0644);
-@@ -539,6 +540,20 @@ static unsigned long zswap_accept_thr_pages(void)
- 	return zswap_max_pages() * zswap_accept_thr_percent / 100;
- }
- 
-+/*
-+ * Returns threshold to start proactive global shrinking.
-+ */
-+static inline unsigned long zswap_shrink_start_pages(void)
-+{
-+	/*
-+	 * Shrinker will evict pages to the accept threshold.
-+	 * We add 1% to not schedule shrinker too frequently
-+	 * for small swapout.
-+	 */
-+	return zswap_max_pages() *
-+		min(100, zswap_accept_thr_percent + 1) / 100;
-+}
-+
- unsigned long zswap_total_pages(void)
- {
- 	struct zswap_pool *pool;
-@@ -556,21 +571,6 @@ unsigned long zswap_total_pages(void)
- 	return total;
- }
- 
--static bool zswap_check_limits(void)
--{
--	unsigned long cur_pages = zswap_total_pages();
--	unsigned long max_pages = zswap_max_pages();
--
--	if (cur_pages >= max_pages) {
--		zswap_pool_limit_hit++;
--		zswap_pool_reached_full = true;
--	} else if (zswap_pool_reached_full &&
--		   cur_pages <= zswap_accept_thr_pages()) {
--			zswap_pool_reached_full = false;
--	}
--	return zswap_pool_reached_full;
--}
--
- /*********************************
- * param callbacks
- **********************************/
-@@ -1577,6 +1577,8 @@ bool zswap_store(struct folio *folio)
- 	struct obj_cgroup *objcg = NULL;
- 	struct mem_cgroup *memcg = NULL;
- 	unsigned long value;
-+	unsigned long cur_pages;
-+	bool need_global_shrink = false;
- 
- 	VM_WARN_ON_ONCE(!folio_test_locked(folio));
- 	VM_WARN_ON_ONCE(!folio_test_swapcache(folio));
-@@ -1599,8 +1601,17 @@ bool zswap_store(struct folio *folio)
- 		mem_cgroup_put(memcg);
- 	}
- 
--	if (zswap_check_limits())
-+	cur_pages = zswap_total_pages();
-+
-+	if (cur_pages >= zswap_max_pages()) {
-+		zswap_pool_limit_hit++;
-+		need_global_shrink = true;
- 		goto reject;
-+	}
-+
-+	/* schedule shrink for incoming pages */
-+	if (cur_pages >= zswap_shrink_start_pages())
-+		queue_work(shrink_wq, &zswap_shrink_work);
- 
- 	/* allocate entry */
- 	entry = zswap_entry_cache_alloc(GFP_KERNEL, folio_nid(folio));
-@@ -1643,6 +1654,9 @@ bool zswap_store(struct folio *folio)
- 
- 		WARN_ONCE(err != -ENOMEM, "unexpected xarray error: %d\n", err);
- 		zswap_reject_alloc_fail++;
-+
-+		/* reduce entry in array */
-+		need_global_shrink = true;
- 		goto store_failed;
- 	}
- 
-@@ -1692,7 +1706,7 @@ bool zswap_store(struct folio *folio)
- 	zswap_entry_cache_free(entry);
- reject:
- 	obj_cgroup_put(objcg);
--	if (zswap_pool_reached_full)
-+	if (need_global_shrink)
- 		queue_work(shrink_wq, &zswap_shrink_work);
- check_old:
- 	/*
+thanks.
 -- 
-2.43.0
-
+#Randy
+https://people.kernel.org/tglx/notes-about-netiquette
+https://subspace.kernel.org/etiquette.html
