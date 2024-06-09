@@ -1,214 +1,103 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from out-175.mta1.migadu.com (out-175.mta1.migadu.com [95.215.58.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A27324B28;
-	Sat,  8 Jun 2024 23:44:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 114FDBE4F;
+	Sun,  9 Jun 2024 08:21:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717890279; cv=none; b=A4F0yiBaFk3VuA/8tsSCX9PmXupoO5mLhbeS57dr8Dle9BPgCGhNA1fZZNHoofk0PSrrV0mVYhRm2fSp/lVH9DQv0zm45aQ3Xla0OLhYV0wpVkyYWO0UkQqfm5aA3rZSKnddV3nXly5pYNqWD67wCvskmpi8Omj1Pe9W5HolI9s=
+	t=1717921268; cv=none; b=jhT8JkmSPBP2lNtGYniRNOgrOcH1pgutL0qT2hIgqX0xK9dBzsMgJBg4e6nF/wwnPpO6+wSkwNhTYu/flFBZsOXEpd1r8spfLuh0f/BsBuRAOZNe5B7igTz8lEpgemVVbYUHwp3F/RDv34px8iKLa1tM+1BL+y1nQDDZbmq67uI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717890279; c=relaxed/simple;
-	bh=TfZnoATFHHsKtckujopS8nC7+AmIssqSCa1UW2djo80=;
+	s=arc-20240116; t=1717921268; c=relaxed/simple;
+	bh=5DevxDXr7dBgUa1XngX1B4wwpcU5vAKWJLDm4Bc6Xe4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UqeAFZeJq9w6CRKhMpz65MnRyylOrZFa4/e9LN5xnspN2jfOB52uJXhx/JVeNfwJuAt285ymsAABuPpU9pjyz1Y7gJ5eb7QAVoEVtNgUD6l6KLWqQM2vtkmbiYiU905K0o/GZ3bGbR1T4eX2sBMj/PVnhMSLPJM+zcvY1HpwC+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=r5SLxSs0; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 In-Reply-To:Content-Type; b=YnaUrV3XqmXhmDPl2lqUH/rbpmuTLfTS3JEuD71FUZ8lZRG/omvhTmMWcN3Yi7w2JX1QR/a7lrFRsMdqzz0ewVz3S7zHzcyi9jqZhlG7P8W13BewERN+phpkp0GPVxOdojWjAACB6qw9QNKCZa2dGU+z/eOXZQY9UNDpED7slcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=fZRkQEsF; arc=none smtp.client-ip=95.215.58.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="r5SLxSs0"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=V9bl0X2EUcg+/xnMVivcRgLaDT642pZxVyxB/8arGRo=; b=r5SLxSs0teVt0heVXrFiXPTwyh
-	tCLqTim0yTaGhz3n/W/2p7hFcf8NukTwA46KXmiIP0XpsC6luaUevq140h1890113yB57+n+KfNmO
-	uN+xa0Yg1MYqwi1EE/ceYNRdisVm9L3N0TJqI1n7GevQ1kmHjiPoEVZvm9wdyw1jekPEAUh0EzZgg
-	2JR88baihne8VB2a/uqyTXjLRapVYx1feB46Is8C9rdo2fEoqnTt0v3LgCZZg4K9j245kznxHtjwH
-	6glUe7oqvDFGJvTAE1RevWQtoE+rHuvfYslN2Bn6XioLEIA2LuQdU5IWXPAFzbyVXHAAvdE9ENGIw
-	gJ6u7X3Q==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sG5jW-00000001Dol-2nQv;
-	Sat, 08 Jun 2024 23:44:26 +0000
-Message-ID: <efbd5520-5eaa-49ab-817f-ae27172f8ceb@infradead.org>
-Date: Sat, 8 Jun 2024 16:44:24 -0700
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="fZRkQEsF"
+X-Envelope-To: dzm91@hust.edu.cn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1717921260;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=p4o03/pzCQ6eaeQy5QsanEkCk2N90XxxK4ZFhqU5w5g=;
+	b=fZRkQEsFiu91Pkd2Pxhlci0bCPR1U1by4AqZxFdHkBwjJ7CqLVi0NH3Op5wN7wakh2zbu1
+	vRy8pXkX8BC8ivI70n6i6ZZ/UPe7etrVzJQKVMj5utldss5Qwa/2HFztKrbPOZW5ajdKuA
+	nQfDzWjrEZI7DaQzI7fjhALlIbNXao8=
+X-Envelope-To: alexs@kernel.org
+X-Envelope-To: siyanteng@loongson.cn
+X-Envelope-To: corbet@lwn.net
+X-Envelope-To: konstantin@linuxfoundation.org
+X-Envelope-To: linux-doc@vger.kernel.org
+X-Envelope-To: linux-kernel@vger.kernel.org
+X-Envelope-To: zenghui.yu@linux.dev
+Message-ID: <fdbbe5d0-65ea-49ef-9a4c-26fe7a691c64@linux.dev>
+Date: Sun, 9 Jun 2024 16:20:40 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 6/6] Documentation: iio: Document high-speed DMABUF
- based API
-To: Paul Cercueil <paul@crapouillou.net>, Jonathan Cameron
- <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Vinod Koul <vkoul@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Nuno Sa <nuno.sa@analog.com>,
- linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-References: <20240605110845.86740-1-paul@crapouillou.net>
- <20240605110845.86740-7-paul@crapouillou.net>
- <5052adab-5b5e-4ac2-902c-bb373c00bbbb@infradead.org>
- <14d802e84cbb8d3c9610386908706f264af34726.camel@crapouillou.net>
+Subject: Re: [PATCH] docs/zh_CN: update the translation of security-bugs
+To: Dongliang Mu <dzm91@hust.edu.cn>
+Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240607025842.24321-1-dzm91@hust.edu.cn>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <14d802e84cbb8d3c9610386908706f264af34726.camel@crapouillou.net>
-Content-Type: text/plain; charset=UTF-8
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Zenghui Yu <zenghui.yu@linux.dev>
+In-Reply-To: <20240607025842.24321-1-dzm91@hust.edu.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi Paul.
+On 2024/6/7 10:58, Dongliang Mu wrote:
+> Update to commit 5928d411557e ("Documentation: Document the Linux Kernel
+> CVE process")
+> 
+> commit 0217f3944aeb ("Documentation: security-bugs.rst: linux-distros
+> relaxed their rules")
+> commit 3c1897ae4b6b ("Documentation: security-bugs.rst: clarify CVE
+> handling")
+> commit 4fee0915e649 ("Documentation: security-bugs.rst: update
+> preferences when dealing with the linux-distros group")
+> commit 44ac5abac86b ("Documentation/security-bugs: move from admin-guide/
+> to process/")
+> 
+> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+> ---
+>  .../translations/zh_CN/admin-guide/index.rst  |  1 -
+>  .../translations/zh_CN/process/index.rst      |  3 +-
+>  .../zh_CN/process/security-bugs.rst           | 84 +++++++++++++++++++
+>  3 files changed, 86 insertions(+), 2 deletions(-)
+>  create mode 100644 Documentation/translations/zh_CN/process/security-bugs.rst
+> 
+> diff --git a/Documentation/translations/zh_CN/admin-guide/index.rst b/Documentation/translations/zh_CN/admin-guide/index.rst
+> index ac2960da33e6..773c53956000 100644
+> --- a/Documentation/translations/zh_CN/admin-guide/index.rst
+> +++ b/Documentation/translations/zh_CN/admin-guide/index.rst
+> @@ -37,7 +37,6 @@ Todolist:
+>  
+>     reporting-issues
+>     reporting-regressions
+> -   security-bugs
 
-On 6/7/24 12:44 AM, Paul Cercueil wrote:
-> Hi Randy,
-> 
-> Le jeudi 06 juin 2024 à 10:32 -0700, Randy Dunlap a écrit :
->> Hi,
->>
->> On 6/5/24 4:08 AM, Paul Cercueil wrote:
->>> Document the new DMABUF based API.
->>>
->>> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
->>> Signed-off-by: Nuno Sa <nuno.sa@analog.com>
->>>
->>> ---
->>> v2: - Explicitly state that the new interface is optional and is
->>>       not implemented by all drivers.
->>>     - The IOCTLs can now only be called on the buffer FD returned
->>> by
->>>       IIO_BUFFER_GET_FD_IOCTL.
->>>     - Move the page up a bit in the index since it is core stuff
->>> and not
->>>       driver-specific.
->>>
->>> v3: Update the documentation to reflect the new API.
->>>
->>> v5: Use description lists for the documentation of the three new
->>> IOCTLs
->>>     instead of abusing subsections.
->>>
->>> v8: Renamed dmabuf_api.rst -> iio_dmabuf_api.rst, and updated
->>> index.rst
->>>     whose format changed in iio/togreg.
->>> ---
->>>  Documentation/iio/iio_dmabuf_api.rst | 54
->>> ++++++++++++++++++++++++++++
->>>  Documentation/iio/index.rst          |  1 +
->>>  2 files changed, 55 insertions(+)
->>>  create mode 100644 Documentation/iio/iio_dmabuf_api.rst
->>>
->>> diff --git a/Documentation/iio/iio_dmabuf_api.rst
->>> b/Documentation/iio/iio_dmabuf_api.rst
->>> new file mode 100644
->>> index 000000000000..1cd6cd51a582
->>> --- /dev/null
->>> +++ b/Documentation/iio/iio_dmabuf_api.rst
->>> @@ -0,0 +1,54 @@
->>> +.. SPDX-License-Identifier: GPL-2.0
->>> +
->>> +===================================
->>> +High-speed DMABUF interface for IIO
->>> +===================================
->>> +
->>> +1. Overview
->>> +===========
->>> +
->>> +The Industrial I/O subsystem supports access to buffers through a
->>> +file-based interface, with read() and write() access calls through
->>> the
->>> +IIO device's dev node.
->>> +
->>> +It additionally supports a DMABUF based interface, where the
->>> userspace
->>> +can attach DMABUF objects (externally created) to a IIO buffer,
->>> and
->>
->> I would say/write:                                to an IIO buffer,
-> 
-> Right.
-> 
->>> +subsequently use them for data transfers.
->>> +
->>> +A userspace application can then use this interface to share
->>> DMABUF
->>> +objects between several interfaces, allowing it to transfer data
->>> in a
->>> +zero-copy fashion, for instance between IIO and the USB stack.
->>> +
->>> +The userspace application can also memory-map the DMABUF objects,
->>> and
->>> +access the sample data directly. The advantage of doing this vs.
->>> the
->>> +read() interface is that it avoids an extra copy of the data
->>> between the
->>> +kernel and userspace. This is particularly useful for high-speed
->>> devices
->>> +which produce several megabytes or even gigabytes of data per
->>> second.
->>> +It does however increase the userspace-kernelspace synchronization
->>> +overhead, as the DMA_BUF_SYNC_START and DMA_BUF_SYNC_END IOCTLs
->>> have to
->>> +be used for data integrity.
->>> +
->>> +2. User API
->>> +===========
->>> +
->>> +As part of this interface, three new IOCTLs have been added. These
->>> three
->>> +IOCTLs have to be performed on the IIO buffer's file descriptor,
->>> +obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.
->>> +
->>> +  ``IIO_BUFFER_DMABUF_ATTACH_IOCTL(int)``
->>
->>                                      (int fd)
->> ?
-> 
-> Yes, I can change that. Although it's very obvious what the "int" is
-> for, given the text above.
-> 
+It's be good to remove the old zh_CN/admin-guide/security-bugs.rst file
+as well and update all references to it:
 
-Yes. This is just to be consistent with the text below:
+% git grep "admin-guide/security-bugs.rst" Documentation/translations/zh_CN/
+Documentation/translations/zh_CN/admin-guide/reporting-issues.rst:Documentation/translations/zh_CN/admin-guide/security-bugs.rst 
+，
+Documentation/translations/zh_CN/admin-guide/reporting-issues.rst:更多信息请参见 
+Documentation/translations/zh_CN/admin-guide/security-bugs.rst 。
+Documentation/translations/zh_CN/process/submitting-patches.rst:参见 
+Documentation/translations/zh_CN/admin-guide/security-bugs.rst 。
 
-+  ``IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *iio_dmabuf)``
-
->>
->>> +    Attach the DMABUF object, identified by its file descriptor,
->>> to the
->>> +    IIO buffer. Returns zero on success, and a negative errno
->>> value on
->>> +    error.
->>> +
->>> +  ``IIO_BUFFER_DMABUF_DETACH_IOCTL(int)``
->>
->> ditto.
->>
->>> +    Detach the given DMABUF object, identified by its file
->>> descriptor,
->>> +    from the IIO buffer. Returns zero on success, and a negative
->>> errno
->>> +    value on error.
->>> +
->>> +    Note that closing the IIO buffer's file descriptor will
->>> +    automatically detach all previously attached DMABUF objects.
->>> +
->>> +  ``IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf
->>> *iio_dmabuf)``
->>> +    Enqueue a previously attached DMABUF object to the buffer
->>> queue.
->>> +    Enqueued DMABUFs will be read from (if output buffer) or
->>> written to
->>> +    (if input buffer) as long as the buffer is enabled.
->>
->> thanks.
-> 
-> Cheers,
-> -Paul
-
-thanks.
--- 
-#Randy
-https://people.kernel.org/tglx/notes-about-netiquette
-https://subspace.kernel.org/etiquette.html
+Thanks,
+Zenghui
