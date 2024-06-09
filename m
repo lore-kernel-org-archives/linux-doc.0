@@ -1,108 +1,60 @@
-Received: from flow3-smtp.messagingengine.com (flow3-smtp.messagingengine.com [103.168.172.138])
+Received: from smtp-fw-80006.amazon.com (smtp-fw-80006.amazon.com [99.78.197.217])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86EA2C181;
-	Sun,  9 Jun 2024 10:40:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2276C6AC0;
+	Sun,  9 Jun 2024 15:50:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=99.78.197.217
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717929658; cv=none; b=B88DVSSn6NFfVZKO+yOqq4igTnY/LQeok3eZWGnqrXEjX9BZsSsiYKe3sjgfsMuYu9JsFxJdddGnwp8FdxG+5Wzm+/6veE6fXsVLCFourju/b6ccc8hkp8Qr+zp56jh7eSKha8gPaETmqC2EllrJkc9yS2BYTtABuCV8TW1mSDs=
+	t=1717948229; cv=none; b=XMyT5ZabNjocFwgXWfNxoOCXBOrOpL/e8qKeqHSVRzDMn9WWdnGEmLTVteyKz/3xXbRc375u50ESQ/zLlUzXfvRvoomEZ7noq6ICZdAAIraQ/xPAUlZBpbuR0U37K3fszGYnsawXSiRcXgOMLmCFIj6Izdd3U4GigZO39XQ4AI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717929658; c=relaxed/simple;
-	bh=Te9b2tTgFLIjn+G+t41oNEnaKLeIvcknA3SYrFEQ1WA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UaAlVMZHGXpCRt6hmqsJ26uAjVL1cSedgRv6Eqxhegn0e+PHigmudChHUsaXynCzqdVzb+Og4a8SAy/iQJI1uhHYgugRww8LrwjRerzSOJfQXN0ub8hmSx5Zh4xXt+7J1nADeYx9ukx5+GpMJEG/Tamu8VAD0sp0C1654ep2Kcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=3xx0.net; spf=pass smtp.mailfrom=3xx0.net; dkim=pass (2048-bit key) header.d=3xx0.net header.i=@3xx0.net header.b=UqNy3PyQ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=mGpmevGf; arc=none smtp.client-ip=103.168.172.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=3xx0.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=3xx0.net
+	s=arc-20240116; t=1717948229; c=relaxed/simple;
+	bh=ughDwphXf3dYe4EijagZi0zfWLW6TKptPdAqN0DgPKo=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tZE5NQYzGdg8Pm4ylnR7jkMm36mL4+9Hcx11a1H0gkGjZ6e/kCNpMHC8VVPTetsnOuBYCyCRgfcIQc6+zQj6YaAOqcFW+bGyN2g1n+pDxweYpugAhdxMLI3CTByJzeP0pQdIN/VbREngx3Vz6HEe529sr/c6+TzOBFbnZ5mAMfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.es; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=Ivzuu+cK; arc=none smtp.client-ip=99.78.197.217
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.es
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=3xx0.net header.i=@3xx0.net header.b="UqNy3PyQ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="mGpmevGf"
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailflow.nyi.internal (Postfix) with ESMTP id D663B200230;
-	Sun,  9 Jun 2024 06:40:55 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Sun, 09 Jun 2024 06:40:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=3xx0.net; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1717929655; x=
-	1717933255; bh=XpZy3c6xoasiD2Syf1e7KNVl4niFLU+xqznRa2cRaQY=; b=U
-	qNy3PyQhOH732E7pX54uA3DCObeosJ+3w1bM4h6PkM2TyOXtPe/X0C7NeDBarAuo
-	bscAip/ZjGHinjSrMO965JZL9l3X+NmdjU8lc4p0JMQ1kCBtPfZzesdnYahUht/Y
-	SmpLd4vgq1rB96M7R1mpl0jYE8AeKKwqc5DVGUObjxfkeNdWEvf1P9G9MFmlOXih
-	WsmRaPVhEutfR5aL4ufVoG7BY3sxlZNu7WEaiifcC+9RTuazDpTIfhDwbyRQdU76
-	8BB1Epbsh7d5SYG4MbMELRbmH6s79Znf3/qb8BC50Bgvu74JM4HoZd8BXgz0DePe
-	BTd+aBrY9kbdKRaP4bUuw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1717929655; x=
-	1717933255; bh=XpZy3c6xoasiD2Syf1e7KNVl4niFLU+xqznRa2cRaQY=; b=m
-	GpmevGfJ6mIMqMWXF3GfuRbVuOA2qHUusWXetaTnZatmccDgLfYt9+gS8WJKZ7Vt
-	sVvca/vuyK2rJxBkV+rov0Rv9vhlzkbXlOZeQ3W7UD5V3xUr9bHqYbXdrD90kW8T
-	mfIcvLN9T/J4zqKyxGkMok8jg2c0FsbVkpZoIbqXOmOpRQOnjybVqC8UkVKGPmNB
-	mM/wMt3j1YfbluAoPiUhWXFbadxAJSCEXovKZtA+IhaBy83V4Yz/GJNv6uzAznAR
-	AFcbxiXoutSy5hAYpQ+RtGJH5UywxdNvOTOxhQssELcFsrOOyJbK2WXfuPZGUK4U
-	3mxF0P6YInPFOZp55XBhQ==
-X-ME-Sender: <xms:t4ZlZo9IflglwKsxJcGvS3ziOgS3xaFQ3VAEPAvKh2WceeCzEUNgog>
-    <xme:t4ZlZgt7v1BD6pvWbJOGxp6P5oYLtYMpFdUZy2UT3lyQgTxlsuyR0JVSY1YAGAXzp
-    KNyX13OkMH-TQlTJi0>
-X-ME-Received: <xmr:t4ZlZuCdl1nCithzrSs8q0izLPKgeIvOzF_PakLTzqgfYeSWrB_dYAsBh04Z_EpsRuex68Q2_rYYgazXh4ACiZmeU1Okl6JH5W1pMBtN3TFaVA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfedtjedgfeduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomheplfhonhgr
-    thhhrghnucevrghlmhgvlhhsuceojhgtrghlmhgvlhhsseefgiigtddrnhgvtheqnecugg
-    ftrfgrthhtvghrnheptdejhfelheejfeeutdekgeevueetkedtgfelkeejgfffhefgveet
-    teffueegvdeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepjhgtrghlmhgvlhhsseefgiigtddrnhgvth
-X-ME-Proxy: <xmx:t4ZlZofkyGw2LmydXXIp1AiE0O7P2nlor4vGHogskKoVXSarHEv-Sw>
-    <xmx:t4ZlZtNbkskkmKxSAeENTXJ02YNaLtZjd1ZaESnZb-hQYzZqXfracg>
-    <xmx:t4ZlZilHO3NbxrikZ_7DiBnaQ0YRebK71s0iefnRYqqYZFyYIlNaEw>
-    <xmx:t4ZlZvuzley0VgQKAlY8NKi0iYlWKutjzNB7QguBu32VGnSBYnHPSg>
-    <xmx:t4ZlZrvwhdkm2Bf48stWRVtlfQLTgSRRtev1LlVvhO7YtQ3-Y0YKwnfH>
-Feedback-ID: i76614979:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 9 Jun 2024 06:40:51 -0400 (EDT)
-From: Jonathan Calmels <jcalmels@3xx0.net>
-To: brauner@kernel.org,	ebiederm@xmission.com,
-	Jonathan Corbet <corbet@lwn.net>,	Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,	"Serge E. Hallyn" <serge@hallyn.com>,
-	KP Singh <kpsingh@kernel.org>,	Matt Bobrowski <mattbobrowski@google.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>,	Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@google.com>,	Hao Luo <haoluo@google.com>,
-	Jiri Olsa <jolsa@kernel.org>,	Luis Chamberlain <mcgrof@kernel.org>,
-	Kees Cook <kees@kernel.org>,	Joel Granados <j.granados@samsung.com>,
-	John Johansen <john.johansen@canonical.com>,
-	David Howells <dhowells@redhat.com>,	Jarkko Sakkinen <jarkko@kernel.org>,
-	Stephen Smalley <stephen.smalley.work@gmail.com>,
-	Ondrej Mosnacek <omosnace@redhat.com>,	Mykola Lysenko <mykolal@fb.com>,
-	Shuah Khan <shuah@kernel.org>
-Cc: containers@lists.linux.dev,
-	Jonathan Calmels <jcalmels@3xx0.net>,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	bpf@vger.kernel.org,
-	apparmor@lists.ubuntu.com,
-	keyrings@vger.kernel.org,
-	selinux@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: [PATCH v2 4/4] bpf,lsm: Allow editing capabilities in BPF-LSM hooks
-Date: Sun,  9 Jun 2024 03:43:37 -0700
-Message-ID: <20240609104355.442002-5-jcalmels@3xx0.net>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240609104355.442002-1-jcalmels@3xx0.net>
-References: <20240609104355.442002-1-jcalmels@3xx0.net>
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="Ivzuu+cK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1717948228; x=1749484228;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Z8JQDhiIHyghD/mh78yFhS3Rp61K/3MKFSXJkIVLIho=;
+  b=Ivzuu+cKyEsM1Qe7GZ2P9vNzi5PZ0JdTFtuYISPs3Y5/ir5XE8mROleP
+   YUiL8XhFW0u85nMRQdCFVf3zAXc3HT0bruMLCTejNQ0pKambXWjybD+8J
+   gx6t4KxXCDV/kv/Fo4exu0iq/UDt2CfF7QD4/MjHDKrt1u3yp/co0ghHq
+   E=;
+X-IronPort-AV: E=Sophos;i="6.08,225,1712620800"; 
+   d="scan'208";a="300979316"
+Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO smtpout.prod.us-east-1.prod.farcaster.email.amazon.dev) ([10.25.36.214])
+  by smtp-border-fw-80006.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2024 15:50:25 +0000
+Received: from EX19MTAEUB002.ant.amazon.com [10.0.43.254:59941]
+ by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.26.236:2525] with esmtp (Farcaster)
+ id 37964eda-c515-4ff2-b20a-3dd4b8262df1; Sun, 9 Jun 2024 15:50:23 +0000 (UTC)
+X-Farcaster-Flow-ID: 37964eda-c515-4ff2-b20a-3dd4b8262df1
+Received: from EX19D004EUC001.ant.amazon.com (10.252.51.190) by
+ EX19MTAEUB002.ant.amazon.com (10.252.51.79) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.34; Sun, 9 Jun 2024 15:50:23 +0000
+Received: from dev-dsk-nsaenz-1b-189b39ae.eu-west-1.amazon.com (10.13.235.138)
+ by EX19D004EUC001.ant.amazon.com (10.252.51.190) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.34; Sun, 9 Jun 2024 15:50:17 +0000
+From: Nicolas Saenz Julienne <nsaenz@amazon.com>
+To: <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>
+CC: <pbonzini@redhat.com>, <seanjc@google.com>, <vkuznets@redhat.com>,
+	<linux-doc@vger.kernel.org>, <linux-hyperv@vger.kernel.org>,
+	<linux-arch@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
+	<graf@amazon.de>, <dwmw2@infradead.org>, <paul@amazon.com>,
+	<nsaenz@amazon.com>, <mlevitsk@redhat.com>, <jgowans@amazon.com>,
+	<corbet@lwn.net>, <decui@microsoft.com>, <tglx@linutronix.de>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<x86@kernel.org>, <amoorthy@google.com>
+Subject: [PATCH 00/18] Introducing Core Building Blocks for Hyper-V VSM Emulation
+Date: Sun, 9 Jun 2024 15:49:27 +0000
+Message-ID: <20240609154945.55332-1-nsaenz@amazon.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -110,268 +62,132 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D033UWA004.ant.amazon.com (10.13.139.85) To
+ EX19D004EUC001.ant.amazon.com (10.252.51.190)
 
-This patch allows modifying the various capabilities of the struct cred
-in BPF-LSM hooks. More specifically, the userns_create hook called
-prior to creating a new user namespace.
+This series introduces core KVM functionality necessary to emulate Hyper-V's
+Virtual Secure Mode in a Virtual Machine Monitor (VMM).
 
-With the introduction of userns capabilities, this effectively provides
-a simple way for LSMs to control the capabilities granted to a user
-namespace and all its descendants.
+Hyper-V's Virtual Secure Mode (VSM) is a virtualization security feature that
+leverages the hypervisor to create secure execution environments within a
+guest. VSM is documented as part of Microsoft's Hypervisor Top Level Functional
+Specification [1]. Security features that build upon VSM, like Windows
+Credential Guard, are enabled by default on Windows 11 and are becoming a
+prerequisite in some industries.
 
-Update the selftests accordingly by dropping CAP_SYS_ADMIN in
-namespaces and checking the resulting task's bounding set.
+VSM introduces the concept of Virtual Trust Levels (VTLs). These are
+independent execution contexts, each with its own CPU architectural state,
+local APIC state, and a different view of memory. They are hierarchical, with
+more privileged VTLs having priority over the execution of lower VTLs and
+control over lower VTLs' state. Windows leverages these low-level
+paravirtualized primitives, as well as the hypervisor's higher trust base, to
+prevent guest data exfiltration even when the operating system itself has been
+compromised.
 
-Signed-off-by: Jonathan Calmels <jcalmels@3xx0.net>
+As discussed at LPC2023 and in our previous RFC [2], we decided to model each
+VTL as a distinct KVM VM. With this approach, and the RWX memory attributes
+introduced in this series, we have been able to implement VTL memory
+protections in a non-intrusive way, using generic KVM APIs. Additionally, each
+CPU's VTL is modeled as a distinct KVM vCPU, owned by the KVM VM tracking that
+VTL's state. VTL awareness is fully removed from KVM, and the responsibility
+for VTL-aware hypercalls, VTL scheduling, and state transfer is delegated to
+userspace.
+
+Series overview:
+- 1-8: Introduce a number of Hyper-V hyper-calls, all of which are VTL-aware and
+       expected to be handled in userspace. Additionally an new VTL-specifc MP
+       state is introduced.
+- 9-10: Pass the instruction length as part of the userspace fault exit data
+        in order to simplify VSM's secure intercept generation.
+- 11-17: Introduce RWX memory attributes as well as extend userspace faults.
+- 18: Introduces the main VSM CPUID bit which gates all VTL configuration and
+      runtime hypercalls.
+
+The series is accompanied by two repositories:
+ - A PoC QEMU implementation of VSM [3]: This PoC VSM implementation is capable
+   of booting Windows Server 2016 and 2019 with Credential Guard (CG) enabled
+   on VMs of any size or vCPUs number. It's generally stable, but still sees
+   its share of crashes. The PoC itself implements VSM interfaces to
+   accommodate CG's needs, and it's by no means comprehensive. All in all,
+   don't expect anything usable in production.
+
+ - VSM kvm-unit-tests [4]: They cover all VSM hypercalls, as well as KVM APIs
+   introduced by this series. But unfortunately depends on the QEMU
+   implementation.
+
+We mostly tested on an Intel machine, both with and without TDP. Basic tests
+were also run on AMD (build and kvm-unit-tests). Please note that v2 will
+include KVM self-tests to close the testing gap, and allow merging this while
+we work on the userspace bits.
+
+The series is based on 'kvm/master', that is, commit db574f2f96d0, and also
+available in github [5].
+
+This series also serves as a call-out to anyone interested in collaborating. We
+have a proven design, a working PoC, and hopefully a path forward to merge
+these KVM APIs. There is plenty to do in both QEMU and KVM still, I'll post a
+list of ideas in the future. Feel free to get in touch!
+
+Thanks,
+Nicolas
+
+[1] https://raw.githubusercontent.com/Microsoft/Virtualization-Documentation/master/tlfs/Hypervisor%20Top%20Level%20Functional%20Specification%20v6.0b.pdf
+[2] https://lore.kernel.org/lkml/20231108111806.92604-1-nsaenz@amazon.com/
+[3] https://github.com/vianpl/qemu/tree/vsm-v1
+[4] https://github.com/vianpl/kvm-unit-tests/tree/vsm-v1
+[4] https://github.com/vianpl/linux/tree/vsm-v1
+
 ---
- include/linux/lsm_hook_defs.h                 |  2 +-
- include/linux/security.h                      |  4 +-
- kernel/bpf/bpf_lsm.c                          | 55 +++++++++++++++++++
- security/apparmor/lsm.c                       |  2 +-
- security/security.c                           |  6 +-
- security/selinux/hooks.c                      |  2 +-
- .../selftests/bpf/prog_tests/deny_namespace.c | 12 ++--
- .../selftests/bpf/progs/test_deny_namespace.c |  7 ++-
- 8 files changed, 76 insertions(+), 14 deletions(-)
 
-diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
-index f804b76cde44..58d6d8f2511f 100644
---- a/include/linux/lsm_hook_defs.h
-+++ b/include/linux/lsm_hook_defs.h
-@@ -250,7 +250,7 @@ LSM_HOOK(int, -ENOSYS, task_prctl, int option, unsigned long arg2,
- 	 unsigned long arg3, unsigned long arg4, unsigned long arg5)
- LSM_HOOK(void, LSM_RET_VOID, task_to_inode, struct task_struct *p,
- 	 struct inode *inode)
--LSM_HOOK(int, 0, userns_create, const struct cred *cred)
-+LSM_HOOK(int, 0, userns_create, struct cred *cred)
- LSM_HOOK(int, 0, ipc_permission, struct kern_ipc_perm *ipcp, short flag)
- LSM_HOOK(void, LSM_RET_VOID, ipc_getsecid, struct kern_ipc_perm *ipcp,
- 	 u32 *secid)
-diff --git a/include/linux/security.h b/include/linux/security.h
-index 21cf70346b33..ffb1b0dd2aef 100644
---- a/include/linux/security.h
-+++ b/include/linux/security.h
-@@ -465,7 +465,7 @@ int security_task_kill(struct task_struct *p, struct kernel_siginfo *info,
- int security_task_prctl(int option, unsigned long arg2, unsigned long arg3,
- 			unsigned long arg4, unsigned long arg5);
- void security_task_to_inode(struct task_struct *p, struct inode *inode);
--int security_create_user_ns(const struct cred *cred);
-+int security_create_user_ns(struct cred *cred);
- int security_ipc_permission(struct kern_ipc_perm *ipcp, short flag);
- void security_ipc_getsecid(struct kern_ipc_perm *ipcp, u32 *secid);
- int security_msg_msg_alloc(struct msg_msg *msg);
-@@ -1294,7 +1294,7 @@ static inline int security_task_prctl(int option, unsigned long arg2,
- static inline void security_task_to_inode(struct task_struct *p, struct inode *inode)
- { }
- 
--static inline int security_create_user_ns(const struct cred *cred)
-+static inline int security_create_user_ns(struct cred *cred)
- {
- 	return 0;
- }
-diff --git a/kernel/bpf/bpf_lsm.c b/kernel/bpf/bpf_lsm.c
-index 68240c3c6e7d..6edba93ff883 100644
---- a/kernel/bpf/bpf_lsm.c
-+++ b/kernel/bpf/bpf_lsm.c
-@@ -382,10 +382,65 @@ bool bpf_lsm_is_trusted(const struct bpf_prog *prog)
- 	return !btf_id_set_contains(&untrusted_lsm_hooks, prog->aux->attach_btf_id);
- }
- 
-+static int bpf_lsm_btf_struct_access(struct bpf_verifier_log *log,
-+				     const struct bpf_reg_state *reg,
-+				     int off, int size)
-+{
-+	const struct btf_type *cred;
-+	const struct btf_type *t;
-+	s32 type_id;
-+	size_t end;
-+
-+	type_id = btf_find_by_name_kind(reg->btf, "cred", BTF_KIND_STRUCT);
-+	if (type_id < 0)
-+		return -EINVAL;
-+
-+	t = btf_type_by_id(reg->btf, reg->btf_id);
-+	cred = btf_type_by_id(reg->btf, type_id);
-+	if (t != cred) {
-+		bpf_log(log, "only read is supported\n");
-+		return -EACCES;
-+	}
-+
-+	switch (off) {
-+	case offsetof(struct cred, cap_inheritable):
-+		end = offsetofend(struct cred, cap_inheritable);
-+		break;
-+	case offsetof(struct cred, cap_permitted):
-+		end = offsetofend(struct cred, cap_permitted);
-+		break;
-+	case offsetof(struct cred, cap_effective):
-+		end = offsetofend(struct cred, cap_effective);
-+		break;
-+	case offsetof(struct cred, cap_bset):
-+		end = offsetofend(struct cred, cap_bset);
-+		break;
-+	case offsetof(struct cred, cap_ambient):
-+		end = offsetofend(struct cred, cap_ambient);
-+		break;
-+	case offsetof(struct cred, cap_userns):
-+		end = offsetofend(struct cred, cap_userns);
-+		break;
-+	default:
-+		bpf_log(log, "no write support to cred at off %d\n", off);
-+		return -EACCES;
-+	}
-+
-+	if (off + size > end) {
-+		bpf_log(log,
-+			"write access at off %d with size %d beyond the member of cred ended at %zu\n",
-+			off, size, end);
-+		return -EACCES;
-+	}
-+
-+	return 0;
-+}
-+
- const struct bpf_prog_ops lsm_prog_ops = {
- };
- 
- const struct bpf_verifier_ops lsm_verifier_ops = {
- 	.get_func_proto = bpf_lsm_func_proto,
- 	.is_valid_access = btf_ctx_access,
-+	.btf_struct_access = bpf_lsm_btf_struct_access,
- };
-diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
-index 6239777090c4..310c9fa3d4b4 100644
---- a/security/apparmor/lsm.c
-+++ b/security/apparmor/lsm.c
-@@ -1036,7 +1036,7 @@ static int apparmor_task_kill(struct task_struct *target, struct kernel_siginfo
- 	return error;
- }
- 
--static int apparmor_userns_create(const struct cred *cred)
-+static int apparmor_userns_create(struct cred *cred)
- {
- 	struct aa_label *label;
- 	struct aa_profile *profile;
-diff --git a/security/security.c b/security/security.c
-index e5da848c50b9..83cf2025c58e 100644
---- a/security/security.c
-+++ b/security/security.c
-@@ -3558,14 +3558,14 @@ void security_task_to_inode(struct task_struct *p, struct inode *inode)
- }
- 
- /**
-- * security_create_user_ns() - Check if creating a new userns is allowed
-+ * security_create_user_ns() - Review permissions prior to userns creation
-  * @cred: prepared creds
-  *
-- * Check permission prior to creating a new user namespace.
-+ * Check and/or modify permissions prior to creating a new user namespace.
-  *
-  * Return: Returns 0 if successful, otherwise < 0 error code.
-  */
--int security_create_user_ns(const struct cred *cred)
-+int security_create_user_ns(struct cred *cred)
- {
- 	return call_int_hook(userns_create, cred);
- }
-diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-index 7eed331e90f0..28deb9510d8e 100644
---- a/security/selinux/hooks.c
-+++ b/security/selinux/hooks.c
-@@ -4263,7 +4263,7 @@ static void selinux_task_to_inode(struct task_struct *p,
- 	spin_unlock(&isec->lock);
- }
- 
--static int selinux_userns_create(const struct cred *cred)
-+static int selinux_userns_create(struct cred *cred)
- {
- 	u32 sid = current_sid();
- 
-diff --git a/tools/testing/selftests/bpf/prog_tests/deny_namespace.c b/tools/testing/selftests/bpf/prog_tests/deny_namespace.c
-index 1bc6241b755b..1500578f9a30 100644
---- a/tools/testing/selftests/bpf/prog_tests/deny_namespace.c
-+++ b/tools/testing/selftests/bpf/prog_tests/deny_namespace.c
-@@ -5,6 +5,8 @@
- #include <sched.h>
- #include "cap_helpers.h"
- #include <stdio.h>
-+#include <stdbool.h>
-+#include <sys/prctl.h>
- 
- static int wait_for_pid(pid_t pid)
- {
-@@ -29,7 +31,7 @@ static int wait_for_pid(pid_t pid)
-  * positive return value -> userns creation failed
-  * 0                     -> userns creation succeeded
-  */
--static int create_user_ns(void)
-+static int create_user_ns(bool bpf)
- {
- 	pid_t pid;
- 
-@@ -40,6 +42,8 @@ static int create_user_ns(void)
- 	if (pid == 0) {
- 		if (unshare(CLONE_NEWUSER))
- 			_exit(EXIT_FAILURE);
-+		if (bpf && prctl(PR_CAPBSET_READ, CAP_SYS_ADMIN))
-+			_exit(EXIT_FAILURE);
- 		_exit(EXIT_SUCCESS);
- 	}
- 
-@@ -53,11 +57,11 @@ static void test_userns_create_bpf(void)
- 
- 	cap_enable_effective(cap_mask, &old_caps);
- 
--	ASSERT_OK(create_user_ns(), "priv new user ns");
-+	ASSERT_OK(create_user_ns(true), "priv new user ns");
- 
- 	cap_disable_effective(cap_mask, &old_caps);
- 
--	ASSERT_EQ(create_user_ns(), EPERM, "unpriv new user ns");
-+	ASSERT_EQ(create_user_ns(true), EPERM, "unpriv new user ns");
- 
- 	if (cap_mask & old_caps)
- 		cap_enable_effective(cap_mask, NULL);
-@@ -70,7 +74,7 @@ static void test_unpriv_userns_create_no_bpf(void)
- 
- 	cap_disable_effective(cap_mask, &old_caps);
- 
--	ASSERT_OK(create_user_ns(), "no-bpf unpriv new user ns");
-+	ASSERT_OK(create_user_ns(false), "no-bpf unpriv new user ns");
- 
- 	if (cap_mask & old_caps)
- 		cap_enable_effective(cap_mask, NULL);
-diff --git a/tools/testing/selftests/bpf/progs/test_deny_namespace.c b/tools/testing/selftests/bpf/progs/test_deny_namespace.c
-index e96b901a733c..051906f80f4c 100644
---- a/tools/testing/selftests/bpf/progs/test_deny_namespace.c
-+++ b/tools/testing/selftests/bpf/progs/test_deny_namespace.c
-@@ -9,12 +9,13 @@ typedef struct { unsigned long long val; } kernel_cap_t;
- 
- struct cred {
- 	kernel_cap_t cap_effective;
-+	kernel_cap_t cap_userns;
- } __attribute__((preserve_access_index));
- 
- char _license[] SEC("license") = "GPL";
- 
- SEC("lsm.s/userns_create")
--int BPF_PROG(test_userns_create, const struct cred *cred, int ret)
-+int BPF_PROG(test_userns_create, struct cred *cred, int ret)
- {
- 	kernel_cap_t caps = cred->cap_effective;
- 	__u64 cap_mask = 1ULL << CAP_SYS_ADMIN;
-@@ -23,8 +24,10 @@ int BPF_PROG(test_userns_create, const struct cred *cred, int ret)
- 		return 0;
- 
- 	ret = -EPERM;
--	if (caps.val & cap_mask)
-+	if (caps.val & cap_mask) {
-+		cred->cap_userns.val &= ~cap_mask;
- 		return 0;
-+	}
- 
- 	return -EPERM;
- }
+Anish Moorthy (1):
+  KVM: Define and communicate KVM_EXIT_MEMORY_FAULT RWX flags to
+    userspace
+
+Nicolas Saenz Julienne (17):
+  KVM: x86: hyper-v: Introduce XMM output support
+  KVM: x86: hyper-v: Introduce helpers to check if VSM is exposed to
+    guest
+  hyperv-tlfs: Update struct hv_send_ipi{_ex}'s declarations
+  KVM: x86: hyper-v: Introduce VTL awareness to Hyper-V's PV-IPIs
+  KVM: x86: hyper-v: Introduce MP_STATE_HV_INACTIVE_VTL
+  KVM: x86: hyper-v: Exit on Get/SetVpRegisters hcall
+  KVM: x86: hyper-v: Exit on TranslateVirtualAddress hcall
+  KVM: x86: hyper-v: Exit on StartVirtualProcessor and
+    GetVpIndexFromApicId hcalls
+  KVM: x86: Keep track of instruction length during faults
+  KVM: x86: Pass the instruction length on memory fault user-space exits
+  KVM: x86/mmu: Introduce infrastructure to handle non-executable
+    mappings
+  KVM: x86/mmu: Avoid warning when installing non-private memory
+    attributes
+  KVM: x86/mmu: Init memslot if memory attributes available
+  KVM: Introduce RWX memory attributes
+  KVM: x86: Take mem attributes into account when faulting memory
+  KVM: Introduce traces to track memory attributes modification.
+  KVM: x86: hyper-v: Handle VSM hcalls in user-space
+
+ Documentation/virt/kvm/api.rst     | 107 +++++++++++++++++++++++-
+ arch/x86/hyperv/hv_apic.c          |   3 +-
+ arch/x86/include/asm/hyperv-tlfs.h |   2 +-
+ arch/x86/kvm/Kconfig               |   1 +
+ arch/x86/kvm/hyperv.c              | 127 +++++++++++++++++++++++++++--
+ arch/x86/kvm/hyperv.h              |  18 ++++
+ arch/x86/kvm/mmu/mmu.c             |  91 +++++++++++++++++----
+ arch/x86/kvm/mmu/mmu_internal.h    |   9 +-
+ arch/x86/kvm/mmu/mmutrace.h        |  29 +++++++
+ arch/x86/kvm/mmu/paging_tmpl.h     |   2 +-
+ arch/x86/kvm/mmu/tdp_mmu.c         |   8 +-
+ arch/x86/kvm/svm/svm.c             |   7 +-
+ arch/x86/kvm/vmx/vmx.c             |  23 +++++-
+ arch/x86/kvm/x86.c                 |  17 +++-
+ include/asm-generic/hyperv-tlfs.h  |  16 +++-
+ include/linux/kvm_host.h           |  45 +++++++++-
+ include/trace/events/kvm.h         |  20 +++++
+ include/uapi/linux/kvm.h           |  15 ++++
+ virt/kvm/kvm_main.c                |  35 +++++++-
+ 19 files changed, 527 insertions(+), 48 deletions(-)
+
 -- 
-2.45.2
+2.40.1
 
