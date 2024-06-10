@@ -1,285 +1,176 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 119E314A85
-	for <linux-doc@vger.kernel.org>; Mon, 10 Jun 2024 19:16:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B42B14A85;
+	Mon, 10 Jun 2024 19:20:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718047021; cv=none; b=jicUCw5nAZxG9CkrGzYpIZoNgJYS4oP9xiYiIjL0Rx5Xpda4NcfgN0Gddc80FsAa73j4aQboS2pv/Rl+cXoLJrE3sxZ7gD6OQ0FST1VtomBY8JVo+un7H/nj/M/vC0lXECxWoYhFx2boOrNEx4FPWEzyDER5o2uuMq+kYttoKss=
+	t=1718047215; cv=none; b=WKcj9cJrciRrIjg+mlI6OrzgcOxcDVj1o5q+vWozcDEB3/PDipYaZMxjX2eoniH+xsPANZpFrEtpcYmN7xYGJpQ6dIqfEE2gtog5MqO3YE2O7B2pg5dAmlyldPokM31rE5wr9vnEAGGC4tCyg3IRkVuIcejouZLq0MUZ3TcR+m0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718047021; c=relaxed/simple;
-	bh=Us3SXEQ19OfbEtbhaX0vY3W9lAdyrg8Bej4JXSwsnTw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ay9K8dJgOZm8r2KLTJtq2KHc6jOnc2ov9csCQ2jwTsAK443Ng+OzkRcJaR9wRhhum/Fli2wOWpO0WIEMcBQiOzrGpTfg+9mnNptiC9cIM/jB+tAo+LEa9QBYcQwkyea43fUg/9QJr84ndVHzCPNpOVSUMvyaY48gDJ35J8rvfg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PW15E8QT; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1718047215; c=relaxed/simple;
+	bh=Cy140D/wRN6P1O46vTjuDRmJh0MS1NceCS6uXkJqXLk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TJT7UAGD/rqbEbEP0IS5bq980Yc4GprU8esfga8gfn+T+89/xvz9GDjjN3EsyYE4d2/4qTOa/iorrNqGPYcLOYLHD2mI/erwtF/eDIxawFp5hSw2A9OgUfPkNZM1obNGqXwaPi+UZC+a+RrGBp2iyZhvhzqFJ4GK1+wJSub6f8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=el4krPbO; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PW15E8QT"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-a6f1cf00b3aso251406066b.0
-        for <linux-doc@vger.kernel.org>; Mon, 10 Jun 2024 12:16:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="el4krPbO"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-35f27eed98aso338505f8f.2;
+        Mon, 10 Jun 2024 12:20:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718047018; x=1718651818; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xLI0BFkBBfPQ5TWI+0fPV2cVGs3g9gOOEuOzey2zZBw=;
-        b=PW15E8QTFo7AyOAKts9grleTJPA/9+E97+Wa/mKKbOOyX0vzYZuQILHWycEO1zrsd0
-         /7rujw0vT02d9Qj1DII9YFBZ35s+b0Zl3Z94G/Jb7xdSOv85+gttDDT4BR1G3CaF0HQi
-         LfrxDOnXifuQYQ0kJWW0hCzRmifUVVahSxR3ecjNUfio1qB8jnzIu6VW0Cwp93/Cofu6
-         MSnbHMqnt7tZqZBhtVpXjWcYEdomKC27QWHqtF7BWGGs1UzwscyzDf4UhNfoDfvXyDuT
-         u8o+MXPwaxEfWrOpTlB2yOUg3dWXMTJJRGl+bseqAp9s28LPiHoCG8YZDZcnuAgvnqAV
-         fc5Q==
+        d=gmail.com; s=20230601; t=1718047212; x=1718652012; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ds39/wk1Vz6prMfj1gC31qm8pnLcqbnW8HnwNU8zLQg=;
+        b=el4krPbOumDvyC9M1bKQh2oLjPIlVR0/xfL0Tvp+DhIET9QAhcdhmKTH118Yto2lnd
+         +HkbJ2b7Lr7Br9D/PwyTavSeg8h8uSIszeHJuItXQMyHyXABr1iIBu5L+ePvSy+Te6X2
+         gVfTbUTaFX6ArMv0MpTtQvZAM1GD6oykAZDwIuAc85tGsMZTT/Anro+x33Rw42jdltZF
+         qr3BSVsAS3BEf91deqHfgukGnCIggTA2+dT/v+yxQEI0fYMH74K6YCG11vlwF7Y21IaP
+         tLhAZQoaq/1mImHEoA/aIRAkHadxuYuA396ORIB64m1vfXHYiMHC+1s4FtozuCpQY1uO
+         PR5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718047018; x=1718651818;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xLI0BFkBBfPQ5TWI+0fPV2cVGs3g9gOOEuOzey2zZBw=;
-        b=Dy17eJgW9fBaTact1c70xsY62H8JXUae1i8pZHNXQNotp0HnpkvapoYDdE85khsj4m
-         UkxJTkq2bxtIYH6m792KUm+GyM4EYhQe2BS2arYPYWUdBEylrKH5XaUtTZad8jDCqwek
-         iT/+6v+8l1H3QiKNj8CyE4sZymZPeFooxYuEsRFC5PqoBaywz3eI8uUCjgtJOZJc7KBS
-         2CsRHcH2wwZghhw2seCSiDX1j1IS7AKJfwhLd+IIWQbE9bOUSdbzBbZl2OWk/0oLLrOC
-         WD0QVufk+5vvVVx5U+cf9eTlZ2gCeYeu3NQJRzOW7FpKE3Oi02uK3l0G3BLguNyBaIcN
-         utNw==
-X-Forwarded-Encrypted: i=1; AJvYcCVwJ8jI/yYxZQiVbQENsZm7NRuDYB/X+zNLk5m/7sJDJmHKy4Se/6Muf6JNONiN8gxJdq8CHzvPCb+xp7YHLysXqgxGqp0z+iw8
-X-Gm-Message-State: AOJu0Yyb5wut9c8NH8bw5DRUwJ98dquqBYujpYS6QpXRk1AqC4zxZVn6
-	pBq+xBB4EW+Cs6rQp4YX2n6Z2EnchD2kbrbSgX1WdjfD6wAudEx06+2VAWKX3xCdwIuR06/CtRD
-	Wn+oyrgEQCmHkLG/XRKLdzPgDlrjWKyEnbXLu
-X-Google-Smtp-Source: AGHT+IHEyhLEgeimAkd9GXuJSNNv7L8w7oaZQ1vPG7m7h93lU03u3PVsTB3mMqMFL13Rf1nhKFODiGTyicrEiTKjGLI=
-X-Received: by 2002:a17:906:4708:b0:a6f:dc0:904b with SMTP id
- a640c23a62f3a-a6f34d9590bmr37050366b.23.1718047018045; Mon, 10 Jun 2024
- 12:16:58 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1718047212; x=1718652012;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ds39/wk1Vz6prMfj1gC31qm8pnLcqbnW8HnwNU8zLQg=;
+        b=dtpqOd+yp9ZPGSzchk2JrrDILAPlC6D5Rz6l7DxBZGMJkkJebKEGEsS+fHnlCcpvBs
+         cTNqiVMl/zRmRXZQfm3bA/euyXaZr4C13i3BkLQ5182No3Ose7itfyyVObZ9CivGZyle
+         hnYnIcFZpDXvItzLGEE9lLXACqQ2BTuERi3oAujxt2cIhVPSb5zh9/WgZQLsF73XiUC7
+         ZquiGZvKOg+SRw/O5V7Bw+NcndcPyi0glh56sg3HdvwJF4QrUgoCOpb6Pk+HT0B6kcuj
+         baAsTUkiPXDI+Nw0Kt0lJkkiCFIBBC9alZbw9SHZjlzzh04POdjtvN0+nGe6EiVhFuoB
+         XTZA==
+X-Forwarded-Encrypted: i=1; AJvYcCVU7f9FHVVmZH+K8Pri0GKi/2fQogNnqv/veYlP0xtPWoc+CvMj8z3apWndKqTEqUArzLsZgAW/Qwl2B9iEt2oNSn8pvsY7706u/KfHtX+PTcXlXx+MUkMb3Y060XCqaqS3ZtqJ/90PPqX5J1NroYX3eD8jNdsF99e8XSBj6mmGhUAR1ZEDwz5JruF3xDkjXrgKLipS5gInvNj9cpwFGsOw+JIBAONQtqVfbPwhpQvTPOHqpZJhc6AbQ0z7pH0uUyhlGoSO45wPmpMt2vD8PRDgkZFDrDcEafkXGU6SJWcXywTaCjddQCaQwLKnNDD+AAhAYpkCcv2CZIH2yqnwRQAT/gkIQKxE4+GeHEC2YsDWKy8iMaTmDQ1iE1eFTrPg9dEcqnflZDqUQWg1Oeb0JOuyP+XCCpZyvv+liI0ltRdFGW+JSdj1atOXwyif5uB3S+dnuEj+wSY1t242eDonKoBTKny0cfhQNyRfI++bXHzWf7a0fUth5qjRLYWdUNpV0heEZ4XpqA==
+X-Gm-Message-State: AOJu0YzKMvJLxWzt36ilC2Oo1WIg0ZVBLWYxtyuen7s/Bf01vJlQ1M7T
+	k3rgvG2UMz+LvHYI7EbrB6W7buc7WoPYl7YxIcH9b54IXGfXVdq8
+X-Google-Smtp-Source: AGHT+IHtyedrk98ou29Kg6rNsqOMEn95U01t7gSYrXBTrHwwR/KGG9pYFlYAQ/YJ7hVTZ+llph15Ng==
+X-Received: by 2002:a5d:4383:0:b0:35f:2af3:7843 with SMTP id ffacd0b85a97d-35f2af37959mr455787f8f.48.1718047211545;
+        Mon, 10 Jun 2024 12:20:11 -0700 (PDT)
+Received: from [192.168.42.64] ([148.252.129.53])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35f0d512556sm8313077f8f.29.2024.06.10.12.20.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Jun 2024 12:20:11 -0700 (PDT)
+Message-ID: <00c67cf0-2bf3-4eaf-b200-ffe00d91593b@gmail.com>
+Date: Mon, 10 Jun 2024 20:20:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240608155316.451600-1-flintglass@gmail.com> <20240608155316.451600-2-flintglass@gmail.com>
-In-Reply-To: <20240608155316.451600-2-flintglass@gmail.com>
-From: Yosry Ahmed <yosryahmed@google.com>
-Date: Mon, 10 Jun 2024 12:16:19 -0700
-Message-ID: <CAJD7tkaKaMpni2tA_G6DhiRLdV+O3AmXE81JyKY=PEN54o=aAw@mail.gmail.com>
-Subject: Re: [PATCH v1 1/3] mm: zswap: fix global shrinker memcg iteration
-To: Takero Funaki <flintglass@gmail.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Nhat Pham <nphamcs@gmail.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
+ custom page providers
+To: David Ahern <dsahern@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>
+Cc: David Wei <dw@davidwei.uk>, Mina Almasry <almasrymina@google.com>,
+ Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
+References: <20240530201616.1316526-3-almasrymina@google.com>
+ <ZlqzER_ufrhlB28v@infradead.org>
+ <CAHS8izMU_nMEr04J9kXiX6rJqK4nQKA+W-enKLhNxvK7=H2pgA@mail.gmail.com>
+ <5aee4bba-ca65-443c-bd78-e5599b814a13@gmail.com>
+ <CAHS8izNmT_NzgCu1pY1RKgJh+kP2rCL_90Gqau2Pkd3-48Q1_w@mail.gmail.com>
+ <eb237e6e-3626-4435-8af5-11ed3931b0ac@gmail.com>
+ <be2d140f-db0f-4d15-967c-972ea6586b5c@kernel.org>
+ <20240607145247.GG791043@ziepe.ca>
+ <45803740-442c-4298-b47e-2d87ae5a6012@davidwei.uk>
+ <54975459-7a5a-46ff-a9ae-dc16ceffbab4@gmail.com>
+ <20240610121625.GI791043@ziepe.ca>
+ <59443d14-1f1d-42bb-8be3-73e6e4a0b683@kernel.org>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <59443d14-1f1d-42bb-8be3-73e6e4a0b683@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, Jun 8, 2024 at 8:53=E2=80=AFAM Takero Funaki <flintglass@gmail.com>=
- wrote:
->
-> This patch fixes an issue where the zswap global shrinker stopped
-> iterating through the memcg tree.
->
-> The problem was that `shrink_worker()` would stop iterating when a memcg
-> was being offlined and restart from the tree root.  Now, it properly
-> handles the offlining memcg and continues shrinking with the next memcg.
->
-> This patch also modified handing of the lock for offlined memcg cleaner
-> to adapt the change in the iteration, and avoid negligibly rare skipping
-> of a memcg from shrink iteration.
->
-> Fixes: a65b0e7607cc ("zswap: make shrinking memcg-aware")
-> Signed-off-by: Takero Funaki <flintglass@gmail.com>
-> ---
->  mm/zswap.c | 87 ++++++++++++++++++++++++++++++++++++++++++------------
->  1 file changed, 68 insertions(+), 19 deletions(-)
->
-> diff --git a/mm/zswap.c b/mm/zswap.c
-> index 80c634acb8d5..d720a42069b6 100644
-> --- a/mm/zswap.c
-> +++ b/mm/zswap.c
-> @@ -827,12 +827,27 @@ void zswap_folio_swapin(struct folio *folio)
->         }
->  }
->
-> +/*
-> + * This function should be called when a memcg is being offlined.
-> + *
-> + * Since the global shrinker shrink_worker() may hold a reference
-> + * of the memcg, we must check and release the reference in
-> + * zswap_next_shrink.
-> + *
-> + * shrink_worker() must handle the case where this function releases
-> + * the reference of memcg being shrunk.
-> + */
->  void zswap_memcg_offline_cleanup(struct mem_cgroup *memcg)
->  {
->         /* lock out zswap shrinker walking memcg tree */
->         spin_lock(&zswap_shrink_lock);
-> -       if (zswap_next_shrink =3D=3D memcg)
-> -               zswap_next_shrink =3D mem_cgroup_iter(NULL, zswap_next_sh=
-rink, NULL);
-> +
-> +       if (READ_ONCE(zswap_next_shrink) =3D=3D memcg) {
-> +               /* put back reference and advance the cursor */
-> +               memcg =3D mem_cgroup_iter(NULL, memcg, NULL);
-> +               WRITE_ONCE(zswap_next_shrink, memcg);
-> +       }
-> +
+On 6/10/24 16:16, David Ahern wrote:
+> On 6/10/24 6:16 AM, Jason Gunthorpe wrote:
+>> On Mon, Jun 10, 2024 at 02:07:01AM +0100, Pavel Begunkov wrote:
+>>> On 6/10/24 01:37, David Wei wrote:
+>>>> On 2024-06-07 17:52, Jason Gunthorpe wrote:
+>>>>> IMHO it seems to compose poorly if you can only use the io_uring
+>>>>> lifecycle model with io_uring registered memory, and not with DMABUF
+>>>>> memory registered through Mina's mechanism.
+>>>>
+>>>> By this, do you mean io_uring must be exclusively used to use this
+>>>> feature?
+>>>>
+>>>> And you'd rather see the two decoupled, so userspace can register w/ say
+>>>> dmabuf then pass it to io_uring?
+>>>
+>>> Personally, I have no clue what Jason means. You can just as
+>>> well say that it's poorly composable that write(2) to a disk
+>>> cannot post a completion into a XDP ring, or a netlink socket,
+>>> or io_uring's main completion queue, or name any other API.
+>>
+>> There is no reason you shouldn't be able to use your fast io_uring
+>> completion and lifecycle flow with DMABUF backed memory. Those are not
+>> widly different things and there is good reason they should work
+>> together.
 
-I am really finding it difficult to understand what the diff is trying
-to do. We are holding a lock that protects zswap_next_shrink. We
-always access it with the lock held. Why do we need all of this?
+Let's not mix up devmem TCP and dmabuf specifically, as I see it
+your question was concerning the latter: "... DMABUF memory registered
+through Mina's mechanism". io_uring's zcrx can trivially get dmabuf
+support in future, as mentioned it's mostly the setup side. ABI,
+buffer workflow and some details is a separate issue, and I don't
+see how further integration aside from what we're already sharing
+is beneficial, on opposite it'll complicate things.
 
-Adding READ_ONCE() and WRITE_ONCE() where they are not needed is just
-confusing imo.
+>> Pretending they are totally different just because two different
+>> people wrote them is a very siloed view.
+io_uring zcrx and devmem? They are not, nobody is saying otherwise,
+_very_ similar approaches if anything but with different API, which
+is the reason we already use common infra.
 
->         spin_unlock(&zswap_shrink_lock);
->  }
->
-> @@ -1401,25 +1416,44 @@ static int shrink_memcg(struct mem_cgroup *memcg)
->
->  static void shrink_worker(struct work_struct *w)
->  {
-> -       struct mem_cgroup *memcg;
-> +       struct mem_cgroup *memcg =3D NULL;
-> +       struct mem_cgroup *next_memcg;
->         int ret, failures =3D 0;
->         unsigned long thr;
->
->         /* Reclaim down to the accept threshold */
->         thr =3D zswap_accept_thr_pages();
->
-> -       /* global reclaim will select cgroup in a round-robin fashion. */
-> +       /* global reclaim will select cgroup in a round-robin fashion.
-> +        *
-> +        * We save iteration cursor memcg into zswap_next_shrink,
-> +        * which can be modified by the offline memcg cleaner
-> +        * zswap_memcg_offline_cleanup().
-> +        *
-> +        * Since the offline cleaner is called only once, we cannot aband=
-one
-> +        * offline memcg reference in zswap_next_shrink.
-> +        * We can rely on the cleaner only if we get online memcg under l=
-ock.
-> +        * If we get offline memcg, we cannot determine the cleaner will =
-be
-> +        * called later. We must put it before returning from this functi=
-on.
-> +        */
->         do {
-> +iternext:
->                 spin_lock(&zswap_shrink_lock);
-> -               zswap_next_shrink =3D mem_cgroup_iter(NULL, zswap_next_sh=
-rink, NULL);
-> -               memcg =3D zswap_next_shrink;
-> +               next_memcg =3D READ_ONCE(zswap_next_shrink);
-> +
-> +               if (memcg !=3D next_memcg) {
-> +                       /*
-> +                        * Ours was released by offlining.
-> +                        * Use the saved memcg reference.
-> +                        */
-> +                       memcg =3D next_memcg;
+>>> The devmem TCP callback can implement it in a way feasible to
+>>> the project, but it cannot directly post events to an unrelated
+>>> API like io_uring. And devmem attaches buffers to a socket,
+>>> for which a ring for returning buffers might even be a nuisance.
+>>
+>> If you can't compose your io_uring completion mechanism with a DMABUF
+>> provided backing store then I think it needs more work.
 
-'memcg' will always be NULL on the first iteration, so we will always
-start by shrinking 'zswap_next_shrink' for a second time before moving
-the iterator.
+As per above, it conflates devmem TCP with dmabuf.
 
-> +               } else {
-> +                       /* advance cursor */
-> +                       memcg =3D mem_cgroup_iter(NULL, memcg, NULL);
-> +                       WRITE_ONCE(zswap_next_shrink, memcg);
+> exactly. io_uring, page_pool, dmabuf - all kernel building blocks for
+> solutions. This why I was pushing for Mina's set not to be using the
+> name `devmem` - it is but one type of memory and with dmabuf it should
+> not matter if it is gpu or host (or something else later on - cxl?).
 
-Again, I don't see what this is achieving. The first iteration will
-always set 'memcg' to 'zswap_next_shrink', and then we will always
-move the iterator forward. The only difference I see is that we shrink
-'zswap_next_shrink' twice in a row now (last 'memcg' in prev call, and
-first 'memcg' in this call).
-
-> +               }
->
->                 /*
-> -                * We need to retry if we have gone through a full round =
-trip, or if we
-> -                * got an offline memcg (or else we risk undoing the effe=
-ct of the
-> -                * zswap memcg offlining cleanup callback). This is not c=
-atastrophic
-> -                * per se, but it will keep the now offlined memcg hostag=
-e for a while.
-> -                *
->                  * Note that if we got an online memcg, we will keep the =
-extra
->                  * reference in case the original reference obtained by m=
-em_cgroup_iter
->                  * is dropped by the zswap memcg offlining callback, ensu=
-ring that the
-> @@ -1434,16 +1468,25 @@ static void shrink_worker(struct work_struct *w)
->                 }
->
->                 if (!mem_cgroup_tryget_online(memcg)) {
-> -                       /* drop the reference from mem_cgroup_iter() */
-> -                       mem_cgroup_iter_break(NULL, memcg);
-> -                       zswap_next_shrink =3D NULL;
-> +                       /*
-> +                        * It is an offline memcg which we cannot shrink
-> +                        * until its pages are reparented.
-> +                        *
-> +                        * Since we cannot determine if the offline clean=
-er has
-> +                        * been already called or not, the offline memcg =
-must be
-> +                        * put back unconditonally. We cannot abort the l=
-oop while
-> +                        * zswap_next_shrink has a reference of this offl=
-ine memcg.
-> +                        */
-
-You actually deleted the code that actually puts the ref to the
-offline memcg above.
-
-Why don't you just replace mem_cgroup_iter_break(NULL, memcg) with
-mem_cgroup_iter(NULL, memcg, NULL) here? I don't understand what the
-patch is trying to do to be honest. This patch is a lot more confusing
-than it should be.
-
-Also, I would like Nhat to weigh in here. Perhaps the decision to
-reset the iterator instead of advancing it in this case was made for a
-reason that we should honor. Maybe cgroups are usually offlined
-together so we will keep running into offline cgroups here if we
-continue? I am not sure.
-
->                         spin_unlock(&zswap_shrink_lock);
-> -
-> -                       if (++failures =3D=3D MAX_RECLAIM_RETRIES)
-> -                               break;
-> -
-> -                       goto resched;
-> +                       goto iternext;
->                 }
-> +               /*
-> +                * We got an extra memcg reference before unlocking.
-> +                * The cleaner cannot free it using zswap_next_shrink.
-> +                *
-> +                * Our memcg can be offlined after we get online memcg he=
-re.
-> +                * In this case, the cleaner is waiting the lock just beh=
-ind us.
-> +                */
->                 spin_unlock(&zswap_shrink_lock);
->
->                 ret =3D shrink_memcg(memcg);
-> @@ -1457,6 +1500,12 @@ static void shrink_worker(struct work_struct *w)
->  resched:
->                 cond_resched();
->         } while (zswap_total_pages() > thr);
-> +
-> +       /*
-> +        * We can still hold the original memcg reference.
-> +        * The reference is stored in zswap_next_shrink, and then reused
-> +        * by the next shrink_worker().
-> +        */
->  }
->
->  /*********************************
-> --
-> 2.43.0
->
+-- 
+Pavel Begunkov
