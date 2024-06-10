@@ -1,148 +1,97 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E7E01876;
-	Mon, 10 Jun 2024 04:51:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E88291CF8A;
+	Mon, 10 Jun 2024 06:27:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717995082; cv=none; b=WyXODHIn0qGvezVwC9I5tCN/PFjeK01vR7aqD6btmeHH+j6QjbaSTmhoYwxvRdhDlvOo8YC3w2ySfcqEMrfk0Ob5dECXpnoQhhvGn9ILv5QM+1tPESJfotH1c0+Y/lrYgtKGd9idVtF47lSC91+gYK4znDSotnmWx/+7kocUymY=
+	t=1718000831; cv=none; b=SLt/Z6OIUvOqleFMM5APuOjH8CRStniW+ZCdNNFjPpyXBUyu+R3M5435Dk9h6mZ9R7ON7z1F/xe+jdj0Ng3YnoaTEmBte6SDozlwhWi4JxhrjgLCVeavCruefSL93ABQtvL7dJQfyoVmC2oLkdPpSQGznlWcTeLjA6PbUX7IxtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717995082; c=relaxed/simple;
-	bh=7qKPtaal4QnVDHVSx+pi8mWVmic8iCOzD3fxUS1BCcY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XMlJ+GvveqH3td6iBXefEEud0ATgSSLo984V6rMykVrYYbKerk5iBDk9DvHEZ7+wAFiN14kxo6A0nEa5codf/w4Xi0TJHePUSidSy5dUX5tAmqABqsKwzSmcj63Y5guA0HYXyKQ3r9LB8ZM0V8HYvBhuLS8yq0Rr7W4XVJfv0xE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MneOOx+1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Dpbhr+aJ; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=MneOOx+1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Dpbhr+aJ; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1718000831; c=relaxed/simple;
+	bh=46ontKYFYxBeCCy+CgEUCpaMHxEXAnXsVFaJAmuzFd4=;
+	h=Date:Content-Type:MIME-Version:From:To:Cc:In-Reply-To:References:
+	 Message-Id:Subject; b=ut5it7/ajUhfQlqjUVLNVddZH1OMeREYsWDF4pXxf9O8yAQppYOGPSXoJhdODc0gs9a2NdGSvjJMLH5f+Cfku2tN3mqFqFqFiIpEIFnbK5VOrGijCwQ4lZU0loivQg33H+LxfmU+TL+zHG1CbqFDa7edq11d1k1OvE4kKos0Qrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bzcadobU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MneOOx+1";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Dpbhr+aJ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="MneOOx+1";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Dpbhr+aJ"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 38A28219BD;
-	Mon, 10 Jun 2024 04:51:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1717995079; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Vn3iqBiy78yK0GTRpos/+icWPZatVJQ3vhkUe1A4EWM=;
-	b=MneOOx+1gNcO52wjHjbtfvSOIFd2eLO7f0JeCEkn1WWeCMuHu97X5WFutxD1M7GMvOHS/9
-	xyURXfjcjF4O/mvjDZLul8gh64AOhEI28Tg3mXu1XRpC5xnFo8Zn1J4UYpILXq8qVk8Pek
-	+5NVhqSi6QGN449xlVKByUM90ju7NcQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1717995079;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Vn3iqBiy78yK0GTRpos/+icWPZatVJQ3vhkUe1A4EWM=;
-	b=Dpbhr+aJgsRfAZ0eTMD/fBth3eN8Oab5culOdlnVfX4aZrhAvBbfqxmyksY6dBKf7CJKCD
-	MamWDYGzf1wknrDw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=MneOOx+1;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Dpbhr+aJ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1717995079; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Vn3iqBiy78yK0GTRpos/+icWPZatVJQ3vhkUe1A4EWM=;
-	b=MneOOx+1gNcO52wjHjbtfvSOIFd2eLO7f0JeCEkn1WWeCMuHu97X5WFutxD1M7GMvOHS/9
-	xyURXfjcjF4O/mvjDZLul8gh64AOhEI28Tg3mXu1XRpC5xnFo8Zn1J4UYpILXq8qVk8Pek
-	+5NVhqSi6QGN449xlVKByUM90ju7NcQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1717995079;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Vn3iqBiy78yK0GTRpos/+icWPZatVJQ3vhkUe1A4EWM=;
-	b=Dpbhr+aJgsRfAZ0eTMD/fBth3eN8Oab5culOdlnVfX4aZrhAvBbfqxmyksY6dBKf7CJKCD
-	MamWDYGzf1wknrDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BD45913A7F;
-	Mon, 10 Jun 2024 04:51:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id miCHK0aGZmbIHAAAD6G6ig
-	(envelope-from <osalvador@suse.de>); Mon, 10 Jun 2024 04:51:18 +0000
-Date: Mon, 10 Jun 2024 06:51:09 +0200
-From: Oscar Salvador <osalvador@suse.de>
-To: David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	"Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v1 3/6] fs/proc/task_mmu: properly detect
- PM_MMAP_EXCLUSIVE per page of PMD-mapped THPs
-Message-ID: <ZmaGPfSsJ1tguUry@localhost.localdomain>
-References: <20240607122357.115423-1-david@redhat.com>
- <20240607122357.115423-4-david@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bzcadobU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B88FC2BBFC;
+	Mon, 10 Jun 2024 06:27:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718000830;
+	bh=46ontKYFYxBeCCy+CgEUCpaMHxEXAnXsVFaJAmuzFd4=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=bzcadobUAHWCAsVpT480gaT0KnUkKTEceCmaDDbtm6xomykD5xW9NEl/cU9kwvlo7
+	 d/rM1rTG1tw55LKH1fWQ3/PLw4AD3TfFM4bUvU6VBrrJY1zcdULJKfPPRA5xr33SpV
+	 UKRuQkhSCjxeJtl10wwV2fQd2sEwaufKqPrRcSPDONcWRNfgOUonB3LHRPX2ioT3Fi
+	 G94UasDurkk8+B806ivHWRipGLfjuvYw+GZlnBOLschWwlYMzWVYaTNWAix4TIoljc
+	 TZ1+svjB2kHXJ6rCIqhkWPu7LFLe5pcGnQc1g0OlWvhYJa53wg2jivRsm5AEfdjTXa
+	 Hsnz9lqE3/Ryg==
+Date: Mon, 10 Jun 2024 00:27:09 -0600
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240607122357.115423-4-david@redhat.com>
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 38A28219BD
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, linux-riscv@lists.infradead.org, 
+ Jisheng Zhang <jszhang@kernel.org>, linux-kselftest@vger.kernel.org, 
+ Samuel Holland <samuel@sholland.org>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>, 
+ linux-kernel@vger.kernel.org, Andy Chiu <andy.chiu@sifive.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Shuah Khan <shuah@kernel.org>, linux-sunxi@lists.linux.dev, 
+ devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Evan Green <evan@rivosinc.com>, linux-doc@vger.kernel.org, 
+ Guo Ren <guoren@kernel.org>
+In-Reply-To: <20240609-xtheadvector-v1-2-3fe591d7f109@rivosinc.com>
+References: <20240609-xtheadvector-v1-0-3fe591d7f109@rivosinc.com>
+ <20240609-xtheadvector-v1-2-3fe591d7f109@rivosinc.com>
+Message-Id: <171800082930.1000302.5109301877296329341.robh@kernel.org>
+Subject: Re: [PATCH 02/13] dt-bindings: thead: add a vlen register length
+ property
 
-On Fri, Jun 07, 2024 at 02:23:54PM +0200, David Hildenbrand wrote:
-> We added PM_MMAP_EXCLUSIVE in 2015 via commit 77bb499bb60f ("pagemap: add
-> mmap-exclusive bit for marking pages mapped only here"), when THPs could
-> not be partially mapped and page_mapcount() returned something
-> that was true for all pages of the THP.
-> 
-> In 2016, we added support for partially mapping THPs via
-> commit 53f9263baba6 ("mm: rework mapcount accounting to enable 4k mapping
-> of THPs") but missed to determine PM_MMAP_EXCLUSIVE as well per page.
-> 
-> Checking page_mapcount() on the head page does not tell the whole story.
-> 
-> We should check each individual page. In a future without per-page
-> mapcounts it will be different, but we'll change that to be consistent
-> with PTE-mapped THPs once we deal with that.
-> 
-> Fixes: 53f9263baba6 ("mm: rework mapcount accounting to enable 4k mapping of THPs")
-> Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-Reviewed-by: Oscar Salvador <osalvador@suse.de>
+On Sun, 09 Jun 2024 21:45:07 -0700, Charlie Jenkins wrote:
+> Add a property analogous to the vlenb CSR so that software can detect
+> the vector length of each CPU prior to it being brought online.
+> Currently software has to assume that the vector length read from the
+> boot CPU applies to all possible CPUs. On T-Head CPUs implementing
+> pre-ratification vector, reading the th.vlenb CSR may produce an illegal
+> instruction trap, so this property is required on such systems.
+> 
+> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> ---
+>  Documentation/devicetree/bindings/riscv/thead.yaml | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
 
--- 
-Oscar Salvador
-SUSE Labs
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/riscv/thead.yaml: 'thead,vlenb' is not one of ['$id', '$schema', 'title', 'description', 'examples', 'required', 'allOf', 'anyOf', 'oneOf', 'definitions', '$defs', 'additionalProperties', 'dependencies', 'dependentRequired', 'dependentSchemas', 'patternProperties', 'properties', 'not', 'if', 'then', 'else', 'unevaluatedProperties', 'deprecated', 'maintainers', 'select', '$ref']
+	from schema $id: http://devicetree.org/meta-schemas/base.yaml#
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20240609-xtheadvector-v1-2-3fe591d7f109@rivosinc.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
