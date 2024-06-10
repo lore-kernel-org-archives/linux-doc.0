@@ -1,112 +1,162 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mail.hallyn.com (mail.hallyn.com [178.63.66.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B9E23A8;
-	Mon, 10 Jun 2024 02:07:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3BBF136A;
+	Mon, 10 Jun 2024 02:33:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.63.66.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717985223; cv=none; b=Bpx9+NY6TecFM/kEQzN/7RQ9T70ACFExy1IJEIDcnzImqotYINwtEJ95VV5ZedAZ6LMaR5hiT3qtwOadBfIGUy+3Y0STgaIGTJ3l4UlLGw87jgjkbTrh+5VGcLuvsaRKTWqUy1ZzYEb2KLoA2DKiMFhi22qpf0fbCTPbtq5k/6o=
+	t=1717986787; cv=none; b=owhSqJAQSOgU6vC3jGYJs6RtU2ojNK0iUa88OSYKLm3yWMEeJ4fEOzHJppSMvx8J31PNdhdjkdcpe9+r9/XfPLeC47pRZopT2m9RlzyTv/AqkSF9aJSYJjwVCkLl4u7OLPgjf+5T8uAOvXdyB2z1XtF1S8ogCt8JOd8/QwMco5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717985223; c=relaxed/simple;
-	bh=BxBGZGWx+C9rblxwyMFADPhIL0QUhuc2bQiAUmd5EGk=;
+	s=arc-20240116; t=1717986787; c=relaxed/simple;
+	bh=HbycHs7DADBVRvhki7EX2pSnnSjZWAfNBicUJiliqt8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HpaVAWKQiuXUIb0ytFfDtop3+TEpH0SjNedpstr9dL4Ap1qCSuR2WYVOr2GgDxrAYl86o1QdkydLMKW7H3DAU6LCH6cTqlvO6h3x8y9vss5LvnHTq8xmPMrX/Kfy13u/xZB+GM1pIAJF/Fq8TVP/oxAMO9rDSpStuldhSkmBv84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PU8t2yvC; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PU8t2yvC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1717985222; x=1749521222;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BxBGZGWx+C9rblxwyMFADPhIL0QUhuc2bQiAUmd5EGk=;
-  b=PU8t2yvCyrLNo85iB4NPysd+bhojPfvjLIQI62H0menCNTyr0RVo/2ha
-   +rTcn0O7SZuAXvtwUnHRKFWvo4Y3dI1LxvzfpIexpQbVqu8cNggwxSU3T
-   gTcbCUgKs1WqivPhGTlOx501w+jAZV5EADFQS97jzdgxt2fhOhAKKEGmm
-   p9cgbSTs/5hs/GNc1ybL9BqbrtHY2/pHB+MqECahb3J71vSHZhISEP8IL
-   Jmf4lWucVQevQl4qTCk82Eg2MNqprs6M0rlGdo3H12G6ue+NkXoOxO3Pq
-   gyA88IDyUqBCyW2UobYDAZJH1974OD1ClJuhwyxXyVSfzCyc66bhMob6J
-   Q==;
-X-CSE-ConnectionGUID: df8vIWVwTcCLwLsMnFxfrQ==
-X-CSE-MsgGUID: xL4AWHz5RKiAPPPFjJbuUA==
-X-IronPort-AV: E=McAfee;i="6600,9927,11098"; a="37158544"
-X-IronPort-AV: E=Sophos;i="6.08,226,1712646000"; 
-   d="scan'208";a="37158544"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2024 19:07:01 -0700
-X-CSE-ConnectionGUID: WsWdOVlBSRaV2wNn8PWhuw==
-X-CSE-MsgGUID: uPYyZUXTQcuo/3UeegYPOg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,226,1712646000"; 
-   d="scan'208";a="69699937"
-Received: from lkp-server01.sh.intel.com (HELO 8967fbab76b3) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 09 Jun 2024 19:06:59 -0700
-Received: from kbuild by 8967fbab76b3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sGUQy-0001lK-03;
-	Mon, 10 Jun 2024 02:06:56 +0000
-Date: Mon, 10 Jun 2024 10:06:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-	Hu Haowen <2023002089@link.tyut.edu.cn>,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs/zh_CN: update the translation of security-bugs
-Message-ID: <202406100911.QBMVtIpz-lkp@intel.com>
-References: <20240610003520.33839-1-dzm91@hust.edu.cn>
+	 Content-Type:Content-Disposition:In-Reply-To; b=JtY4YQLcj1Aj1Ja0JxvG905IMPg0QEv5mTgltCPzPYh8NC0JxKGtAGQo0vCPSerSycGmMe8RliNr1+jE1YbaC8rYdMqqqtcetY6Ki8l+NnsD+0tc8VpX9bmEphsqJKEG9R5UqSAs1cgQ1STDkxOC/kExeAW6vtsEtXx96RY6vSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hallyn.com; spf=pass smtp.mailfrom=mail.hallyn.com; arc=none smtp.client-ip=178.63.66.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hallyn.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.hallyn.com
+Received: by mail.hallyn.com (Postfix, from userid 1001)
+	id 63BEA234; Sun,  9 Jun 2024 21:33:01 -0500 (CDT)
+Date: Sun, 9 Jun 2024 21:33:01 -0500
+From: "Serge E. Hallyn" <serge@hallyn.com>
+To: Jonathan Calmels <jcalmels@3xx0.net>
+Cc: brauner@kernel.org, ebiederm@xmission.com,
+	Jonathan Corbet <corbet@lwn.net>, Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>, KP Singh <kpsingh@kernel.org>,
+	Matt Bobrowski <mattbobrowski@google.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
+	Kees Cook <kees@kernel.org>, Joel Granados <j.granados@samsung.com>,
+	John Johansen <john.johansen@canonical.com>,
+	David Howells <dhowells@redhat.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Ondrej Mosnacek <omosnace@redhat.com>,
+	Mykola Lysenko <mykolal@fb.com>, Shuah Khan <shuah@kernel.org>,
+	containers@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
+	apparmor@lists.ubuntu.com, keyrings@vger.kernel.org,
+	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] capabilities: Add securebit to restrict userns
+ caps
+Message-ID: <20240610023301.GA2183903@mail.hallyn.com>
+References: <20240609104355.442002-1-jcalmels@3xx0.net>
+ <20240609104355.442002-3-jcalmels@3xx0.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240610003520.33839-1-dzm91@hust.edu.cn>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240609104355.442002-3-jcalmels@3xx0.net>
 
-Hi Dongliang,
+On Sun, Jun 09, 2024 at 03:43:35AM -0700, Jonathan Calmels wrote:
+> This patch adds a new capability security bit designed to constrain a
+> task’s userns capability set to its bounding set. The reason for this is
+> twofold:
+> 
+> - This serves as a quick and easy way to lock down a set of capabilities
+>   for a task, thus ensuring that any namespace it creates will never be
+>   more privileged than itself is.
+> - This helps userspace transition to more secure defaults by not requiring
+>   specific logic for the userns capability set, or libcap support.
+> 
+> Example:
+> 
+>     # capsh --secbits=$((1 << 8)) --drop=cap_sys_rawio -- \
+>             -c 'unshare -r grep Cap /proc/self/status'
+>     CapInh: 0000000000000000
+>     CapPrm: 000001fffffdffff
+>     CapEff: 000001fffffdffff
+>     CapBnd: 000001fffffdffff
+>     CapAmb: 0000000000000000
+>     CapUNs: 000001fffffdffff
 
-kernel test robot noticed the following build warnings:
+But you are not (that I can see, in this or the previous patch)
+keeping SECURE_USERNS_STRICT_CAPS in securebits on the next
+level unshare.  Though I think it's ok, because by then both
+cap_userns and cap_bset are reduced and cap_userns can't be
+expanded.  (Sorry, just thinking aloud here)
 
-[auto build test WARNING on lwn/docs-next]
-[also build test WARNING on linus/master v6.10-rc3 next-20240607]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> Signed-off-by: Jonathan Calmels <jcalmels@3xx0.net>
+> ---
+>  include/linux/securebits.h      |  1 +
+>  include/uapi/linux/securebits.h | 11 ++++++++++-
+>  kernel/user_namespace.c         |  5 +++++
+>  3 files changed, 16 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/linux/securebits.h b/include/linux/securebits.h
+> index 656528673983..5f9d85cd69c3 100644
+> --- a/include/linux/securebits.h
+> +++ b/include/linux/securebits.h
+> @@ -5,4 +5,5 @@
+>  #include <uapi/linux/securebits.h>
+>  
+>  #define issecure(X)		(issecure_mask(X) & current_cred_xxx(securebits))
+> +#define iscredsecure(cred, X)	(issecure_mask(X) & cred->securebits)
+>  #endif /* !_LINUX_SECUREBITS_H */
+> diff --git a/include/uapi/linux/securebits.h b/include/uapi/linux/securebits.h
+> index d6d98877ff1a..2da3f4be4531 100644
+> --- a/include/uapi/linux/securebits.h
+> +++ b/include/uapi/linux/securebits.h
+> @@ -52,10 +52,19 @@
+>  #define SECBIT_NO_CAP_AMBIENT_RAISE_LOCKED \
+>  			(issecure_mask(SECURE_NO_CAP_AMBIENT_RAISE_LOCKED))
+>  
+> +/* When set, user namespace capabilities are restricted to their parent's bounding set. */
+> +#define SECURE_USERNS_STRICT_CAPS			8
+> +#define SECURE_USERNS_STRICT_CAPS_LOCKED		9  /* make bit-8 immutable */
+> +
+> +#define SECBIT_USERNS_STRICT_CAPS (issecure_mask(SECURE_USERNS_STRICT_CAPS))
+> +#define SECBIT_USERNS_STRICT_CAPS_LOCKED \
+> +			(issecure_mask(SECURE_USERNS_STRICT_CAPS_LOCKED))
+> +
+>  #define SECURE_ALL_BITS		(issecure_mask(SECURE_NOROOT) | \
+>  				 issecure_mask(SECURE_NO_SETUID_FIXUP) | \
+>  				 issecure_mask(SECURE_KEEP_CAPS) | \
+> -				 issecure_mask(SECURE_NO_CAP_AMBIENT_RAISE))
+> +				 issecure_mask(SECURE_NO_CAP_AMBIENT_RAISE) | \
+> +				 issecure_mask(SECURE_USERNS_STRICT_CAPS))
+>  #define SECURE_ALL_LOCKS	(SECURE_ALL_BITS << 1)
+>  
+>  #endif /* _UAPI_LINUX_SECUREBITS_H */
+> diff --git a/kernel/user_namespace.c b/kernel/user_namespace.c
+> index 7e624607330b..53848e2b68cd 100644
+> --- a/kernel/user_namespace.c
+> +++ b/kernel/user_namespace.c
+> @@ -10,6 +10,7 @@
+>  #include <linux/cred.h>
+>  #include <linux/securebits.h>
+>  #include <linux/security.h>
+> +#include <linux/capability.h>
+>  #include <linux/keyctl.h>
+>  #include <linux/key-type.h>
+>  #include <keys/user-type.h>
+> @@ -42,6 +43,10 @@ static void dec_user_namespaces(struct ucounts *ucounts)
+>  
+>  static void set_cred_user_ns(struct cred *cred, struct user_namespace *user_ns)
+>  {
+> +	/* Limit userns capabilities to our parent's bounding set. */
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dongliang-Mu/docs-zh_CN-update-the-translation-of-security-bugs/20240610-083729
-base:   git://git.lwn.net/linux.git docs-next
-patch link:    https://lore.kernel.org/r/20240610003520.33839-1-dzm91%40hust.edu.cn
-patch subject: [PATCH v2] docs/zh_CN: update the translation of security-bugs
-reproduce: (https://download.01.org/0day-ci/archive/20240610/202406100911.QBMVtIpz-lkp@intel.com/reproduce)
+In the case of userns_install(), it will be the target user namespace
+creator's bounding set, right?  Not "our parent's"?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406100911.QBMVtIpz-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`rt_link<../../networking/netlink_spec/rt_link>`
-   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../networking/netlink_spec/tc>`
-   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../networking/netlink_spec/tc>`
-   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
->> Warning: Documentation/translations/zh_TW/admin-guide/reporting-issues.rst references a file that doesn't exist: Documentation/translations/zh_CN/admin-guide/security-bugs.rst
->> Warning: Documentation/translations/zh_TW/admin-guide/reporting-issues.rst references a file that doesn't exist: Documentation/translations/zh_CN/admin-guide/security-bugs.rst
->> Warning: Documentation/translations/zh_TW/process/submitting-patches.rst references a file that doesn't exist: Documentation/translations/zh_CN/admin-guide/security-bugs.rst
-   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
-   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/exynos/
-   Using alabaster theme
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> +	if (iscredsecure(cred, SECURE_USERNS_STRICT_CAPS))
+> +		cred->cap_userns = cap_intersect(cred->cap_userns, cred->cap_bset);
+> +
+>  	/* Start with the capabilities defined in the userns set. */
+>  	cred->cap_bset = cred->cap_userns;
+>  	cred->cap_permitted = cred->cap_userns;
+> -- 
+> 2.45.2
