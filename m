@@ -1,47 +1,49 @@
-Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E592874058
-	for <linux-doc@vger.kernel.org>; Mon, 10 Jun 2024 08:10:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1650A3BBC5;
+	Mon, 10 Jun 2024 08:32:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718007042; cv=none; b=Urob6yfgOuPbcHFuRnE8bptNlKylPLInBVW2fwsO5Y76tMCGnq71pRwGQEpIaN/U3aodvY9s/9sPbOr+rMRb75mJ6GWqBK86LxvERd+OJCsfPXmF305U+nV3SK4waH/G52PvkysHlpu+wuRwYG06LVZ3an/WtmAYuNEmjuGg7Qo=
+	t=1718008369; cv=none; b=upUp4WDkeuqor2PgbGjdRUOgLdYIQ6Br99HEXTyWhYHCpfn46gnj9+Gg5VSQw/yUDPc1VCFTbh+FUcMqn5HR+vi7eyAQezHvrurY++x0qsYUoBxYzo6IU4wIoSlL65iJyZRonYr8a3KYgqswBgWNUFLOURxWIAVRSYXuyIAsrFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718007042; c=relaxed/simple;
-	bh=YGdvbCsehvYJDIEB2j/KPv6aBB90Bcqxnbrz1sUyXJM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=swT4ZYDLl/g9qSQc6awgRJXe//E6aHQxo/AgDV6uzzEK5Pff+T8px6yF9K0mTZ93G3rycKWbRCLyDPT8RBlraG2GK5GqmSF9mEFUctiY6p9jiZeeCBpOggECvgNp1ZqempZbN6VnmINO5fT1B1CPvlsD24vOR3dL73U7hnJC+ec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=QHAoB3qI; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1718008369; c=relaxed/simple;
+	bh=qwlTEAsrFOsgcn64/ZD8Sup2dFP172zw2LGV9PDNcEU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pddjFUD88GIZLjC6V+o2vukOtLse7Q6Cdv1Hs6bYOIxs//0dYvl8B/AfL6p1vsx/d9QGpC/xhTssSvLX0hiaB3TPcqjbBJNqDB3kyRPabDtcmxiNibQ+HzHNXQy7+V2pwUR1LoYOLci+YNlgLGOIykB22a/2Lnjj6vC6EwwlCBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=NjxkHvBS; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="QHAoB3qI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=3JXnpw5ZxCWydN83TijKpBvVC1rCL3jaX5ZlTBQ9Tn0=; b=QHAoB3
-	qIDn0AoFTW+ZRt+50jEUI+E070NwfUPUOcPZD7g2tU/+/Im9Gepibx0xjk8zbyz0
-	FwFPjWeAgbpsGC0NfhdqjrUKXVB4N06lPj0ozb3G5LhWOZqKTtv6NO3ZZkl5jcZX
-	nMdfLLm9k5BCaQGfnVKWAekN0x35PiRuKGGLoLByNF/MnNfz+0EuD2XlIvyBrWm6
-	s/ACEkmj2HE5F2U42LYrBBCsJE0huz1IRITgeCkpf6pHya+UHmZo+wDTtq/pHk4R
-	P3o6xWpaej1IkAqhKZFpQ/AgD+C9CPesJDUeTz0Q59GvR2ooipWYGjFKR/QFbh9n
-	uXI4G63UIPfxDN+g==
-Received: (qmail 4192533 invoked from network); 10 Jun 2024 10:10:30 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Jun 2024 10:10:30 +0200
-X-UD-Smtp-Session: l3s3148p1@69q/roQa8OYgAwDPXymAAHMyzy0c7Kdl
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-i2c@vger.kernel.org
-Cc: Easwar Hariharan <eahariha@linux.microsoft.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="NjxkHvBS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1718008366;
+	bh=qwlTEAsrFOsgcn64/ZD8Sup2dFP172zw2LGV9PDNcEU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=NjxkHvBSnt6ozcEI8ys9Px1t4oDvsuMqcwRDSZYUDqjnEVCaXtZiWI9pvBsaUqSed
+	 XrDPuxmeLt/nPS9vhZgEs8AkKbTOaZKiSLbW1g5R4hIGDoWsK/2r0aKMiWn/NAL+FP
+	 tm4T7pOsKabjQjqrJtEz8l5D1l7BFZWQDEty7aMXARPIglKv+QCR9ajdtA3m8kP32Q
+	 0D9m/9c0c8IFvCOZHBs5DuFZMQ51Y+/NqGi0LJiDw1LXcTcVyFERnqm90ekK6sa89f
+	 iyReNIOIqwqc8V789WoCl2JfXBKh9UnBj4t0ZAV+DqHmbPZ/xDREezLgCF2AY8N1Ki
+	 V037v+4RBt/xQ==
+Received: from localhost.localdomain (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: usama.anjum)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 7401A3782113;
+	Mon, 10 Jun 2024 08:32:44 +0000 (UTC)
+From: Muhammad Usama Anjum <usama.anjum@collabora.com>
+To: Shuah Khan <shuah@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	kernel@collabora.com,
+	linux-kselftest@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 6/6] docs: i2c: summary: rephrase paragraph explaining the figure
-Date: Mon, 10 Jun 2024 10:10:21 +0200
-Message-ID: <20240610081023.8118-7-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240610081023.8118-1-wsa+renesas@sang-engineering.com>
-References: <20240610081023.8118-1-wsa+renesas@sang-engineering.com>
+Subject: [PATCH] selftests: Add information about TAP conformance in tests
+Date: Mon, 10 Jun 2024 13:32:45 +0500
+Message-Id: <20240610083245.1938001-1-usama.anjum@collabora.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,30 +52,34 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Use 'controller/target' and 'adapter/client' pairs consistently.
+Although "TAP" word is being used already in documentation, but it hasn't
+been defined in informative way for developers that how to write TAP
+conformant tests and what are the benefits. Write a short brief about it.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
 ---
- Documentation/i2c/summary.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ Documentation/dev-tools/kselftest.rst | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/Documentation/i2c/summary.rst b/Documentation/i2c/summary.rst
-index 203f6c9b2472..da76c787a6c5 100644
---- a/Documentation/i2c/summary.rst
-+++ b/Documentation/i2c/summary.rst
-@@ -60,9 +60,9 @@ Client drivers are kept in a directory specific to the feature they
- provide, for example ``drivers/media/gpio/`` for GPIO expanders and
- ``drivers/media/i2c/`` for video-related chips.
+diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
+index dcf634e411bd9..b579f491f3e97 100644
+--- a/Documentation/dev-tools/kselftest.rst
++++ b/Documentation/dev-tools/kselftest.rst
+@@ -228,6 +228,14 @@ In general, the rules for selftests are
+  * Don't cause the top-level "make run_tests" to fail if your feature is
+    unconfigured.
  
--For the example configuration in figure, you will need a driver for your
--I2C adapter, and drivers for your I2C devices (usually one driver for each
--device).
-+For the example configuration in the figure above, you will need one adapter
-+driver for the I2C controller, and client drivers for your I2C targets. Usually
-+one driver for each client.
++ * The output of tests must conform to the TAP standard to ensure high
++   testing quality and to capture failures/errors with specific details.
++   The kselftest.h and kselftest_harness.h headers provide wrappers for
++   outputting test results such as pass, fail, or skip etc. These wrappers
++   should be used instead of reinventing the wheel or using raw printf and
++   exit statements. CI systems can easily parse TAP output messages to
++   detect test failures.
++
+ Contributing new tests (details)
+ ================================
  
- Outdated terminology
- --------------------
 -- 
-2.43.0
+2.39.2
 
