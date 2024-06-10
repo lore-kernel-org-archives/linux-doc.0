@@ -1,105 +1,128 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3548248D
-	for <linux-doc@vger.kernel.org>; Mon, 10 Jun 2024 13:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7744B85624;
+	Mon, 10 Jun 2024 13:53:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718025805; cv=none; b=kS4ldd2isrKgY/+6qciTFagVn0nP1fQIx5Z7su2Qn/WTrfDm9n+ghYKMvt5hb08UrBGDbpNamnPtyn3/O2zES4FD86XSOcHHd5rSCr/xuL46oLMhfJUdkV1Jc/yMlEo0zCg0S0VZ6y3EPmcZ/EizMKmO2UVGbyvfWeoTPOgSoQY=
+	t=1718027606; cv=none; b=ongnuZp8AvVRRZ0/eVZd5btkHncN0yZ/ZMbY1p5lfjksjA+fKsG1II2a0DcqvRXZBZjpI7lJNXngIdwCXyiy4MhCjugz1HPKPz/tyyk19yw3a3QyhNPWKInyrysHrX70E16ZUFq2vCiav/Cj8MtkJjFLk8LON8Mphvxkhl3XTGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718025805; c=relaxed/simple;
-	bh=YhHZtXtYOeqPDpUQzggSLYgS7dOxECQ9WBN80nvz9pU=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=i7P+9tKJX+MyFsL+/5p6jRCOmViB7kxgO9CQ1qqvjNA/T26sJBVvq0hexwGrtmA5oGWSh9Rw2LBBxNWaIMPQ5Tz+T2F1e3CO0KWxKshovbDwzAq+ucIyXhsNDvQ20J/2aL3haCH9x8s7YHfvjJo0RYIK5oc/DRHgt1QrtM6TknE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OOcWf35A; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1718027606; c=relaxed/simple;
+	bh=9hYa8l5lfGSwkKmbgb18J6D8KUzmTZxbQJnlzz7hNZM=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Ffp44rWIQ5KuwgRp08ATTh40mKIJYu0uMrFsY74yUro/1vSl/UnvyyjbuBxFPK96F/uCWGB+Vd1BlQL1hVdulBw/c0LINizjvpWlDyz5iZoJcdyQ/Iin0RgLo++S786MlYIPYALkDTyW7ISuQ36ZIISI5OEt5avAno0RYPIVU8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=R5dpanIH; arc=none smtp.client-ip=198.47.19.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OOcWf35A"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1718025802;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type;
-	bh=HZ01OIp6KO6+A3DggujUXEq6vyWDZMFmW9tQ8SBohTE=;
-	b=OOcWf35Ah6XwFG6+sZ4lFt9fT8Xo50FyU/v6cfwSp1oZn7RA1v7u9Ma+9KHVzuzTDuklON
-	jmwPRiFC8f8C8ZYwORgTXOzjF8YNfi94g1LN3B1W/y1dr7g83gG368/mLwA5pmGP/rXJOv
-	uaigfyyUvsc31jl3X9Z594qDvh8A1xo=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-240-9f1Rr8QsMCW28P4hg_Jl7w-1; Mon,
- 10 Jun 2024 09:23:18 -0400
-X-MC-Unique: 9f1Rr8QsMCW28P4hg_Jl7w-1
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id AE0B81955D74;
-	Mon, 10 Jun 2024 13:23:16 +0000 (UTC)
-Received: from localhost (unknown [10.22.8.210])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C5F1B19560AB;
-	Mon, 10 Jun 2024 13:23:15 +0000 (UTC)
-Date: Mon, 10 Jun 2024 10:23:14 -0300
-From: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>
-To: Steven Rostedt <rostedt@goodmis.org>,
-	Daniel Bristot de Oliveira <bristot@kernel.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH] rtla/osnoise: set the default threshold to 1us
-Message-ID: <Zmb-QhiiiI6jM9To@uudg.org>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="R5dpanIH"
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 45ADrEnM106139;
+	Mon, 10 Jun 2024 08:53:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1718027595;
+	bh=N1OeRdjzW2BDag8v1tJ9PaBomBTrv4HOdNeEt9jOvL4=;
+	h=From:To:CC:Subject:Date;
+	b=R5dpanIHD8xp+zZ9FCfRboABUCL0j8vAM+IngPcWLc5WWLJi3tWixDRewaPa9XouT
+	 xj6IwZL4zBbtIlCFWCJCGoQijtQWIlU2SCvNC9/GgcEw7XvitmqqNm08rm1I1ml3RF
+	 b1E5MJS1TlMZBC20LTH6zfu3GFmkJ6BRGRvhYa8w=
+Received: from DLEE110.ent.ti.com (dlee110.ent.ti.com [157.170.170.21])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 45ADrEWN099130
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 10 Jun 2024 08:53:14 -0500
+Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 10
+ Jun 2024 08:53:14 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Mon, 10 Jun 2024 08:53:14 -0500
+Received: from lelvsmtp5.itg.ti.com ([10.249.42.149])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 45ADrEoG032480;
+	Mon, 10 Jun 2024 08:53:14 -0500
+From: Andrew Davis <afd@ti.com>
+To: Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski
+	<brgl@bgdev.pl>, Jonathan Corbet <corbet@lwn.net>,
+        Rui Miguel Silva
+	<rmfrfs@gmail.com>, Johan Hovold <johan@kernel.org>,
+        Alex Elder
+	<elder@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: <linux-gpio@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <greybus-dev@lists.linaro.org>,
+        Andrew Davis
+	<afd@ti.com>
+Subject: [PATCH] gpiolib: Remove data-less gpiochip_add() function
+Date: Mon, 10 Jun 2024 08:53:13 -0500
+Message-ID: <20240610135313.142571-1-afd@ti.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
-Change the default threshold for osnoise to 1us, so that any noise
-equal or above this value is recorded. Let the user set a higher
-threshold if necessary.
+GPIO chips should be added with driver-private data associated with the
+chip. If none is needed, NULL can be used. All users already do this
+except one, fix that here. With no more users of the base gpiochip_add()
+we can drop this function so no more users show up later.
 
-Suggested-by: Daniel Bristot de Oliveira <bristot@kernel.org>
-Reviewed-by: Clark Williams <williams@redhat.com>
-Signed-off-by: Luis Claudio R. Goncalves <lgoncalv@redhat.com>
+Signed-off-by: Andrew Davis <afd@ti.com>
 ---
- Documentation/trace/osnoise-tracer.rst | 2 +-
- kernel/trace/trace_osnoise.c           | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ Documentation/driver-api/gpio/driver.rst | 5 ++---
+ drivers/staging/greybus/gpio.c           | 2 +-
+ include/linux/gpio/driver.h              | 4 ----
+ 3 files changed, 3 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/trace/osnoise-tracer.rst b/Documentation/trace/osnoise-tracer.rst
-index 140ef2533d26a..a520adbd34765 100644
---- a/Documentation/trace/osnoise-tracer.rst
-+++ b/Documentation/trace/osnoise-tracer.rst
-@@ -108,7 +108,7 @@ The tracer has a set of options inside the osnoise directory, they are:
-    option.
-  - tracing_threshold: the minimum delta between two time() reads to be
-    considered as noise, in us. When set to 0, the default value will
--   be used, which is currently 5 us.
-+   be used, which is currently 1 us.
-  - osnoise/options: a set of on/off options that can be enabled by
-    writing the option name to the file or disabled by writing the option
-    name preceded with the 'NO\_' prefix. For example, writing
-diff --git a/kernel/trace/trace_osnoise.c b/kernel/trace/trace_osnoise.c
-index a8e28f9b9271c..66a871553d4a1 100644
---- a/kernel/trace/trace_osnoise.c
-+++ b/kernel/trace/trace_osnoise.c
-@@ -1444,9 +1444,9 @@ static int run_osnoise(void)
- 	save_osn_sample_stats(osn_var, &s);
+diff --git a/Documentation/driver-api/gpio/driver.rst b/Documentation/driver-api/gpio/driver.rst
+index e541bd2e898b5..ae433261e11a0 100644
+--- a/Documentation/driver-api/gpio/driver.rst
++++ b/Documentation/driver-api/gpio/driver.rst
+@@ -69,9 +69,8 @@ driver code:
  
- 	/*
--	 * if threshold is 0, use the default value of 5 us.
-+	 * if threshold is 0, use the default value of 1 us.
- 	 */
--	threshold = tracing_thresh ? : 5000;
-+	threshold = tracing_thresh ? : 1000;
+ The code implementing a gpio_chip should support multiple instances of the
+ controller, preferably using the driver model. That code will configure each
+-gpio_chip and issue gpiochip_add(), gpiochip_add_data(), or
+-devm_gpiochip_add_data().  Removing a GPIO controller should be rare; use
+-gpiochip_remove() when it is unavoidable.
++gpio_chip and issue gpiochip_add_data() or devm_gpiochip_add_data(). Removing
++a GPIO controller should be rare; use gpiochip_remove() when it is unavoidable.
  
- 	/*
- 	 * Apply PREEMPT and IRQ disabled options.
+ Often a gpio_chip is part of an instance-specific structure with states not
+ exposed by the GPIO interfaces, such as addressing, power management, and more.
+diff --git a/drivers/staging/greybus/gpio.c b/drivers/staging/greybus/gpio.c
+index 2a115a8fc263f..5217aacfcf54c 100644
+--- a/drivers/staging/greybus/gpio.c
++++ b/drivers/staging/greybus/gpio.c
+@@ -579,7 +579,7 @@ static int gb_gpio_probe(struct gbphy_device *gbphy_dev,
+ 	if (ret)
+ 		goto exit_line_free;
+ 
+-	ret = gpiochip_add(gpio);
++	ret = gpiochip_add_data(gpio, NULL);
+ 	if (ret) {
+ 		dev_err(&gbphy_dev->dev, "failed to add gpio chip: %d\n", ret);
+ 		goto exit_line_free;
+diff --git a/include/linux/gpio/driver.h b/include/linux/gpio/driver.h
+index 0032bb6e7d8fe..6d31388dde0ab 100644
+--- a/include/linux/gpio/driver.h
++++ b/include/linux/gpio/driver.h
+@@ -632,10 +632,6 @@ int gpiochip_add_data_with_key(struct gpio_chip *gc, void *data,
+ 	devm_gpiochip_add_data_with_key(dev, gc, data, NULL, NULL)
+ #endif /* CONFIG_LOCKDEP */
+ 
+-static inline int gpiochip_add(struct gpio_chip *gc)
+-{
+-	return gpiochip_add_data(gc, NULL);
+-}
+ void gpiochip_remove(struct gpio_chip *gc);
+ int devm_gpiochip_add_data_with_key(struct device *dev, struct gpio_chip *gc,
+ 				    void *data, struct lock_class_key *lock_key,
 -- 
-2.45.2
+2.39.2
 
