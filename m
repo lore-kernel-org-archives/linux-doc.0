@@ -1,162 +1,116 @@
-Received: from mail.hallyn.com (mail.hallyn.com [178.63.66.53])
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3BBF136A;
-	Mon, 10 Jun 2024 02:33:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.63.66.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40C3E33EA
+	for <linux-doc@vger.kernel.org>; Mon, 10 Jun 2024 03:16:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717986787; cv=none; b=owhSqJAQSOgU6vC3jGYJs6RtU2ojNK0iUa88OSYKLm3yWMEeJ4fEOzHJppSMvx8J31PNdhdjkdcpe9+r9/XfPLeC47pRZopT2m9RlzyTv/AqkSF9aJSYJjwVCkLl4u7OLPgjf+5T8uAOvXdyB2z1XtF1S8ogCt8JOd8/QwMco5E=
+	t=1717989421; cv=none; b=tIx49PK69FW47V279clFutPr3/A75gELbAbWVPGWSN2rVxWwfYCsaXzB1SY4akCCt3oeUZwwJFS23rL8WlIeiYLZ8lySgtwK8nByFuXfYHM8ul1GOwdvAPhGn1t0gWUXL3G9s0a1LBMS6CYbMGUp585glpRUTX2zEj757v1D2oE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717986787; c=relaxed/simple;
-	bh=HbycHs7DADBVRvhki7EX2pSnnSjZWAfNBicUJiliqt8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JtY4YQLcj1Aj1Ja0JxvG905IMPg0QEv5mTgltCPzPYh8NC0JxKGtAGQo0vCPSerSycGmMe8RliNr1+jE1YbaC8rYdMqqqtcetY6Ki8l+NnsD+0tc8VpX9bmEphsqJKEG9R5UqSAs1cgQ1STDkxOC/kExeAW6vtsEtXx96RY6vSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hallyn.com; spf=pass smtp.mailfrom=mail.hallyn.com; arc=none smtp.client-ip=178.63.66.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hallyn.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.hallyn.com
-Received: by mail.hallyn.com (Postfix, from userid 1001)
-	id 63BEA234; Sun,  9 Jun 2024 21:33:01 -0500 (CDT)
-Date: Sun, 9 Jun 2024 21:33:01 -0500
-From: "Serge E. Hallyn" <serge@hallyn.com>
-To: Jonathan Calmels <jcalmels@3xx0.net>
-Cc: brauner@kernel.org, ebiederm@xmission.com,
-	Jonathan Corbet <corbet@lwn.net>, Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>, KP Singh <kpsingh@kernel.org>,
-	Matt Bobrowski <mattbobrowski@google.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
-	Jiri Olsa <jolsa@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
-	Kees Cook <kees@kernel.org>, Joel Granados <j.granados@samsung.com>,
-	John Johansen <john.johansen@canonical.com>,
-	David Howells <dhowells@redhat.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Stephen Smalley <stephen.smalley.work@gmail.com>,
-	Ondrej Mosnacek <omosnace@redhat.com>,
-	Mykola Lysenko <mykolal@fb.com>, Shuah Khan <shuah@kernel.org>,
-	containers@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
-	apparmor@lists.ubuntu.com, keyrings@vger.kernel.org,
-	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] capabilities: Add securebit to restrict userns
- caps
-Message-ID: <20240610023301.GA2183903@mail.hallyn.com>
-References: <20240609104355.442002-1-jcalmels@3xx0.net>
- <20240609104355.442002-3-jcalmels@3xx0.net>
+	s=arc-20240116; t=1717989421; c=relaxed/simple;
+	bh=QicgXxIlqpC31U/1Nxw3Hsoz4A8pKQPVMlH3jzLsGNQ=;
+	h=Mime-Version:Subject:From:To:CC:In-Reply-To:Message-ID:Date:
+	 Content-Type:References; b=aGbH6iadmVAq7hvy8niCxMn0banXDcaJp4aUby1V6CoemjOWri+336qgseC7R6RkCRdEYv6tLlrXT2dWoAMLfU9UVZVV18NF5UKTERqfbx7vGteblK4vi+R5lfgb2J/Rf4PtrIVFGxbeN8Be/QAaLk6PTMsxJOO+WFjUZYRis0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=QzY4ppZg; arc=none smtp.client-ip=203.254.224.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="QzY4ppZg"
+Received: from epcas2p4.samsung.com (unknown [182.195.41.56])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20240610031649epoutp01001d7fc362d60ced11c45b5e0f256229~XhkQIhmhI0519505195epoutp01C
+	for <linux-doc@vger.kernel.org>; Mon, 10 Jun 2024 03:16:49 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20240610031649epoutp01001d7fc362d60ced11c45b5e0f256229~XhkQIhmhI0519505195epoutp01C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1717989409;
+	bh=QicgXxIlqpC31U/1Nxw3Hsoz4A8pKQPVMlH3jzLsGNQ=;
+	h=Subject:Reply-To:From:To:CC:In-Reply-To:Date:References:From;
+	b=QzY4ppZgLQe+Ud8Am3tA80rkyoJs0DUQ2HTCOTMcxXtgOPGF69urkCgLLig/Dte5v
+	 +mxMEaHRZPWP16afaQvVyyweS9qJUu5VQ2czGCZadaAmREoPmeVqoMEoITJKLUtifO
+	 QZlhcqoKiEttw+K8eaxe0AmzwvkDMRjacp/DKRvU=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas2p4.samsung.com (KnoxPortal) with ESMTP id
+	20240610031648epcas2p4a08c957de2fbac2dd1b135cf86d8c2c1~XhkPfYPTT2295422954epcas2p4_;
+	Mon, 10 Jun 2024 03:16:48 +0000 (GMT)
+Received: from epsmges2p4.samsung.com (unknown [182.195.36.102]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4VyH5r452Pz4x9Pt; Mon, 10 Jun
+	2024 03:16:48 +0000 (GMT)
+X-AuditID: b6c32a48-105fa70000002507-11-666670209a4c
+Received: from epcas2p4.samsung.com ( [182.195.41.56]) by
+	epsmges2p4.samsung.com (Symantec Messaging Gateway) with SMTP id
+	28.E0.09479.02076666; Mon, 10 Jun 2024 12:16:48 +0900 (KST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240609104355.442002-3-jcalmels@3xx0.net>
+Mime-Version: 1.0
+Subject: RE:(2) [f2fs-dev] [RFC PATCH] f2fs: add support single node section
+ mode
+Reply-To: daejun7.park@samsung.com
+Sender: Daejun Park <daejun7.park@samsung.com>
+From: Daejun Park <daejun7.park@samsung.com>
+To: Yongpeng Yang <yangyongpeng1@oppo.com>, "jaegeuk@kernel.org"
+	<jaegeuk@kernel.org>, "chao@kernel.org" <chao@kernel.org>, "corbet@lwn.net"
+	<corbet@lwn.net>, "linux-f2fs-devel@lists.sourceforge.net"
+	<linux-f2fs-devel@lists.sourceforge.net>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+CC: Nayeon Kim <nayeoni.kim@samsung.com>, Siwoo Jung <siu.jung@samsung.com>,
+	Seokhwan Kim <sukka.kim@samsung.com>, Dongjin Kim
+	<dongjin_.kim@samsung.com>, Daejun Park <daejun7.park@samsung.com>
+X-Priority: 3
+X-Content-Kind-Code: NORMAL
+In-Reply-To: <0db07a4a-91da-402e-9601-46b196b8cf1b@oppo.com>
+X-CPGS-Detection: blocking_info_exchange
+X-Drm-Type: N,general
+X-Msg-Generator: Mail
+X-Msg-Type: PERSONAL
+X-Reply-Demand: N
+Message-ID: <20240610031547epcms2p526560bc9d2fd3a5f36615fe645640079@epcms2p5>
+Date: Mon, 10 Jun 2024 12:15:47 +0900
+X-CMS-MailID: 20240610031547epcms2p526560bc9d2fd3a5f36615fe645640079
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+X-CPGSPASS: Y
+X-CPGSPASS: Y
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrCJsWRmVeSWpSXmKPExsWy7bCmha5CQVqaQUurrMXpqWeZLJ4caGe0
+	eHlI02LVg3CLHydNLJ6sn8VssbBtCYvFpUXuFpd3zWGzaPnjZHF+4msmi1UdcxktFk36zebA
+	67FpVSebx+4Fn5k8FvdNZvV4N0vJo2/LKkaPz5vkAtiism0yUhNTUosUUvOS81My89JtlbyD
+	453jTc0MDHUNLS3MlRTyEnNTbZVcfAJ03TJzgG5UUihLzCkFCgUkFhcr6dvZFOWXlqQqZOQX
+	l9gqpRak5BSYF+gVJ+YWl+al6+WlllgZGhgYmQIVJmRnnGh7wF6wka1ixorHzA2M81i7GDk5
+	JARMJHp3rWLpYuTiEBLYwSix+cIfpi5GDg5eAUGJvzuEQWqEBYIltr+ewAZiCwkoSay/OIsd
+	Iq4ncevhGkYQm01AR2L6ifvsIHNEBD4xSZw58wFsKLPAUUaJL3ePM0Js45WY0f6UBcKWlti+
+	fCtYnFPARqL/7xeoGg2JH8t6mSFsUYmbq9+yw9jvj82HqhGRaL13FqpGUOLBz91QcUmJ23M3
+	QdXnS/y/shzKrpHYdmAelK0vca1jI9gNvAK+EhdPNTOB2CwCqhItJ44wQdS4SCx+sxCshllA
+	XmL72znMoEBhFtCUWL9LH8SUEFCWOHILqoJPouPwX3aYDxs2/sbK3jHvCdR0NYl1P9czTWBU
+	noUI6VlIds1C2LWAkXkVo1hqQXFuemqxUYEJPHKT83M3MYKTq5bHDsbZbz/oHWJk4mA8xCjB
+	wawkwiuUkZwmxJuSWFmVWpQfX1Sak1p8iNEU6MuJzFKiyfnA9J5XEm9oYmlgYmZmaG5kamCu
+	JM57r3VuipBAemJJanZqakFqEUwfEwenVAPTeofQPxEKE7Qyny5SfNmsl3990v/8zPdKJ66I
+	mf/OT0pIO3rvwn2Jux/i/db+b6mo3GV05mzxpn8VMT27rIJFp2lO6gzcsrfSvihvStzcadkK
+	lzz9A/UjX2hcPrD+2Aaf8gvdXXq/Pzsx+zdp7nafo7r6i5ta/8RV2w52L90nei3yqvz9heI7
+	lvQ96jy8ZUniXc2PN48VLWS7sYTjWqJB4b62Xr8YD/WCjYYq3suPaFTezu3MO2zzuTLOd0Jw
+	F9ez8JNGcr1GDs5Jn2Qm/mx9tISx8QejxALTrEMNXmfnOPKopwcyBeS/+ef3vaCP9UwKX8PJ
+	yffCu1O8u9fvm3b8U7e58rnMEl65+48dGY2UWIozEg21mIuKEwFOJDN7NwQAAA==
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20240531074640epcms2p46c3cf8b7cc4e707948ae200115e28e39
+References: <0db07a4a-91da-402e-9601-46b196b8cf1b@oppo.com>
+	<20240531074640epcms2p46c3cf8b7cc4e707948ae200115e28e39@epcms2p4>
+	<CGME20240531074640epcms2p46c3cf8b7cc4e707948ae200115e28e39@epcms2p5>
 
-On Sun, Jun 09, 2024 at 03:43:35AM -0700, Jonathan Calmels wrote:
-> This patch adds a new capability security bit designed to constrain a
-> task’s userns capability set to its bounding set. The reason for this is
-> twofold:
-> 
-> - This serves as a quick and easy way to lock down a set of capabilities
->   for a task, thus ensuring that any namespace it creates will never be
->   more privileged than itself is.
-> - This helps userspace transition to more secure defaults by not requiring
->   specific logic for the userns capability set, or libcap support.
-> 
-> Example:
-> 
->     # capsh --secbits=$((1 << 8)) --drop=cap_sys_rawio -- \
->             -c 'unshare -r grep Cap /proc/self/status'
->     CapInh: 0000000000000000
->     CapPrm: 000001fffffdffff
->     CapEff: 000001fffffdffff
->     CapBnd: 000001fffffdffff
->     CapAmb: 0000000000000000
->     CapUNs: 000001fffffdffff
+> Hi Daejun,
+> 1. It is not compatible with "F2FS_OPTION(sbi).active_logs == 2".
+> 2. Once has_enough_free_secs is false, F2FS cannot restore to multi-node
+> sections even after has_enough_free_secs becomes true and the filesystem
+> is unmounted and remounted. This seems unreasonable.
 
-But you are not (that I can see, in this or the previous patch)
-keeping SECURE_USERNS_STRICT_CAPS in securebits on the next
-level unshare.  Though I think it's ok, because by then both
-cap_userns and cap_bset are reduced and cap_userns can't be
-expanded.  (Sorry, just thinking aloud here)
+Hi Yongpeng Yang,
 
-> Signed-off-by: Jonathan Calmels <jcalmels@3xx0.net>
-> ---
->  include/linux/securebits.h      |  1 +
->  include/uapi/linux/securebits.h | 11 ++++++++++-
->  kernel/user_namespace.c         |  5 +++++
->  3 files changed, 16 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/linux/securebits.h b/include/linux/securebits.h
-> index 656528673983..5f9d85cd69c3 100644
-> --- a/include/linux/securebits.h
-> +++ b/include/linux/securebits.h
-> @@ -5,4 +5,5 @@
->  #include <uapi/linux/securebits.h>
->  
->  #define issecure(X)		(issecure_mask(X) & current_cred_xxx(securebits))
-> +#define iscredsecure(cred, X)	(issecure_mask(X) & cred->securebits)
->  #endif /* !_LINUX_SECUREBITS_H */
-> diff --git a/include/uapi/linux/securebits.h b/include/uapi/linux/securebits.h
-> index d6d98877ff1a..2da3f4be4531 100644
-> --- a/include/uapi/linux/securebits.h
-> +++ b/include/uapi/linux/securebits.h
-> @@ -52,10 +52,19 @@
->  #define SECBIT_NO_CAP_AMBIENT_RAISE_LOCKED \
->  			(issecure_mask(SECURE_NO_CAP_AMBIENT_RAISE_LOCKED))
->  
-> +/* When set, user namespace capabilities are restricted to their parent's bounding set. */
-> +#define SECURE_USERNS_STRICT_CAPS			8
-> +#define SECURE_USERNS_STRICT_CAPS_LOCKED		9  /* make bit-8 immutable */
-> +
-> +#define SECBIT_USERNS_STRICT_CAPS (issecure_mask(SECURE_USERNS_STRICT_CAPS))
-> +#define SECBIT_USERNS_STRICT_CAPS_LOCKED \
-> +			(issecure_mask(SECURE_USERNS_STRICT_CAPS_LOCKED))
-> +
->  #define SECURE_ALL_BITS		(issecure_mask(SECURE_NOROOT) | \
->  				 issecure_mask(SECURE_NO_SETUID_FIXUP) | \
->  				 issecure_mask(SECURE_KEEP_CAPS) | \
-> -				 issecure_mask(SECURE_NO_CAP_AMBIENT_RAISE))
-> +				 issecure_mask(SECURE_NO_CAP_AMBIENT_RAISE) | \
-> +				 issecure_mask(SECURE_USERNS_STRICT_CAPS))
->  #define SECURE_ALL_LOCKS	(SECURE_ALL_BITS << 1)
->  
->  #endif /* _UAPI_LINUX_SECUREBITS_H */
-> diff --git a/kernel/user_namespace.c b/kernel/user_namespace.c
-> index 7e624607330b..53848e2b68cd 100644
-> --- a/kernel/user_namespace.c
-> +++ b/kernel/user_namespace.c
-> @@ -10,6 +10,7 @@
->  #include <linux/cred.h>
->  #include <linux/securebits.h>
->  #include <linux/security.h>
-> +#include <linux/capability.h>
->  #include <linux/keyctl.h>
->  #include <linux/key-type.h>
->  #include <keys/user-type.h>
-> @@ -42,6 +43,10 @@ static void dec_user_namespaces(struct ucounts *ucounts)
->  
->  static void set_cred_user_ns(struct cred *cred, struct user_namespace *user_ns)
->  {
-> +	/* Limit userns capabilities to our parent's bounding set. */
+1. Yes, I will modify it so that it only applies when active_log is 6.
+2. This technique is effective when utilization is high. Therefore, in my scenario, I assumed that only heavy users would use this option. So I assumed that the free section would not be sufficiently secured even after that.
+Futhermore, if a new section is allocated to deactivate a single node whenever there is free space, then soon again insufficient free space may occur, resulting in more unnecessary GC.
 
-In the case of userns_install(), it will be the target user namespace
-creator's bounding set, right?  Not "our parent's"?
-
-> +	if (iscredsecure(cred, SECURE_USERNS_STRICT_CAPS))
-> +		cred->cap_userns = cap_intersect(cred->cap_userns, cred->cap_bset);
-> +
->  	/* Start with the capabilities defined in the userns set. */
->  	cred->cap_bset = cred->cap_userns;
->  	cred->cap_permitted = cred->cap_userns;
-> -- 
-> 2.45.2
+Thanks,
+Daejun
