@@ -1,114 +1,117 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD593F9D5;
-	Sun,  9 Jun 2024 17:37:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 774BC17C2
+	for <linux-doc@vger.kernel.org>; Mon, 10 Jun 2024 00:19:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717954654; cv=none; b=R4WaoN+IHKk1AbwfKjKkFiGORDRTDwUMsAQyeuOK4bpJcP32SZ1WCPBKngbceAunWIZicL29Eqed2MJJK3hM97PM4sSOFHOLsFSR4aKRarjTYXDMLSitvQpiwQ1yN/mAEEA4oswknpyG/ujGcbGAtpVtXjnYjKj/0bYPuOcVBR8=
+	t=1717978743; cv=none; b=qCJQ/8cL1neoPCTmsSaS43FY1cKmXvz3cXw97m0FzUPoWf4NjpFiikidEGh4kBvhz9vORRyS9cCfMjbi/oep2EMHS2rO9wbX8jR/kYskdYDiYfBzkwQBDMhGk9x/CMIQD0UyOsTvcMGAkcuyrmmc7kIuPq2zVk23FtdlpYs1QF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717954654; c=relaxed/simple;
-	bh=b8H14q1Ca6ZPnjDbPXjPmPLORlz/P+sgF9Kb32Ix6OA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=m0c/qJLfdABUb9iAmhw0PlihFSqKaB6FfPwgrcp4clIoo089leVqjDVdtkEeqxIDY7z1ROzflUq6tJurQhzDuZPWG7XJBKH2jh6mj3Sd4+3uU23M7A7UNDGYoapj2veXHdxSQKDIe40X7ah5wTz2gXwlPmlH86sAUKxxkIgnCdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dg8AkpY3; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1717978743; c=relaxed/simple;
+	bh=ouwqqZ0IrZq2p2VNSQskkMAORAvHn7/TuYsSh0/Nnes=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lN4vMpAT0G2gTa16u6sqba5QS1v204gOLaL6SdwVOiyX5iALOLz7Q8idssX4mk1mbzvNmi7w8fqXYXNMlKXkrdYwQvHHB1Jdys9S/ZT2Tibx4J9ZLh01fqO7di2dC6ATyCSnHFuwQghz5Z2/F7QgfCEbexlTHKricFhCcYQtXvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=RBSp1Q0K; arc=none smtp.client-ip=209.85.219.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dg8AkpY3"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-1f4a5344ec7so27111835ad.1;
-        Sun, 09 Jun 2024 10:37:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="RBSp1Q0K"
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-dfa727d47c1so3895659276.0
+        for <linux-doc@vger.kernel.org>; Sun, 09 Jun 2024 17:19:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1717954652; x=1718559452; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=I4Q4nkGn+FsWPFqFUmsc8Dh4Jkilm/kEj6LPCGMVCuU=;
-        b=dg8AkpY3gxg6ssKttcWcc5SYzJNzxyySmhUNeq44gE5+lv0+FUe7SmpA4GpIVj5sj1
-         L5bdRwxyxxEghWv5J/aiebi7iGcEVpe0Ym1FrdK90xl+VUJblq+aRRGQuDK062w42z0U
-         Tx57XNsj0mcmKtfC+UQPUatZWhp2Mry/Gsee2uFMT/mKdfK+oXvDdhZnb8Sk8St7ajBz
-         IrsLwj1xxaAUDd/BDC8MzS16OFI5XEf8AHSnuEuccrRCOK/NDBJBLvdOUf7HOI3nsHAV
-         ER/9kTORQZP3uvbh1lnIOJtLpwKh19ZGkBij94oAnGjz0gvblLVRW3daQ0PinVV/bmmW
-         ejlg==
+        d=paul-moore.com; s=google; t=1717978740; x=1718583540; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DaBC4lccKq90V2Qdlha3eJDRzM1Bcauqmp5mASHkKAs=;
+        b=RBSp1Q0KZSkKXckwKm0NH9KWKK5B+2YY5YU4X/4nzvQWEKPM1v55ClNvnC7+Yny4jC
+         Uc3bPfpFgjmC0zjs+fdvdjzoQDxGJuSlUEp8DCWfatyKzs6qil3gyCYvKQgcGElhOAzx
+         P1C9KAk+0vHoMGuVp1BOPlydzgjvuEhRsAEsD7kHLRwdVoJzLXtU1kFGlexxszvYLhpV
+         RW5PYCH3gr9itlXgflPMlGvcobNWzbGArbc2ztA8wDEv0N6mmfEjwRxGMV05SWDQkZ6/
+         hTer95s4MbetC8+D4CQnIjl1+EsjgEQb7pDoJCIMONxKk9D3QxuztjlH/INCSjT6GhE0
+         JqDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717954652; x=1718559452;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=I4Q4nkGn+FsWPFqFUmsc8Dh4Jkilm/kEj6LPCGMVCuU=;
-        b=ppB7W9O1RT2Oy4AoZfNkNRfUfwjRnB+GLYAsOoWbOkSt8VLYtbLZgZidguxkT1sext
-         Huqhce5XHAXjBWLNj2L2XRhYlpzAJC0cbfeV/Om7XL3EzJRQ6NN+Mps7QvpE0psFvxwz
-         6qSUOqK9GXy2RUO+F7f8zC8inZeRJACGGu7s13+r7ieF+wFLJgP4jFtYkJglNXzla5Qy
-         RrdwbaTi1/89mM0r46+7sBAN9xeFDAd4zk2Lv/a29DKy1IFZ6/07H2Y0e01GhAOp2mqi
-         myEZfqxF2iOfkbtTPGZA5uMQcqh1QTXAt1aU01B2hV9ejp8W36PAdETci5qvaYSob3BS
-         8Tdw==
-X-Forwarded-Encrypted: i=1; AJvYcCWQUdTXKA1b8mKmGOIHftOCCrGfNwamoWYYlNb8Pe8Zyi3qsHfzZ4nAv/sAVuR+5QrXDZgaiIIbtuTzg3YWiXICK1TV8Voh0/RDlXOm6PjqfHvtlWliZob1oyiYwLKayU0KaGWVcGYWx3Gi5D57s03a9cTxK6+ieQ7ablA75a2l/INPtw==
-X-Gm-Message-State: AOJu0Yw1aVrWIG/sim6i7RyszcfoUI+gHx2KVpxmM5jemy7qlWrvQho6
-	5iL40JN32P42itIk4VO1l/SmhUKnung478ypt4qn9zfHtWweLLAS
-X-Google-Smtp-Source: AGHT+IG4OWfBDH6lIF5GdoY0dg5iheqSLYxAbS4UZoZcetoPw7khebj7QQ8YLaKse4xRlD3pGuTCOw==
-X-Received: by 2002:a17:902:eccd:b0:1f4:a04e:8713 with SMTP id d9443c01a7336-1f6d01b9784mr115027815ad.28.1717954652148;
-        Sun, 09 Jun 2024 10:37:32 -0700 (PDT)
-Received: from Kuiu.lan (180-177-2-91.dynamic.kbronet.com.tw. [180.177.2.91])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6bd7cd2adsm67924615ad.174.2024.06.09.10.37.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Jun 2024 10:37:31 -0700 (PDT)
-From: Huichun Feng <foxhoundsk.tw@gmail.com>
-To: brgl@bgdev.pl
-Cc: corbet@lwn.net,
-	foxhoundsk.tw@gmail.com,
-	linus.walleij@linaro.org,
-	linux-doc@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	warthog618@gmail.com
-Subject: [PATCH v2] docs: gpio: prefer pread(2) for interrupt reading
-Date: Mon, 10 Jun 2024 01:37:28 +0800
-Message-Id: <20240609173728.2950808-1-foxhoundsk.tw@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1717978740; x=1718583540;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DaBC4lccKq90V2Qdlha3eJDRzM1Bcauqmp5mASHkKAs=;
+        b=wi3ewKUXA8QnJhcvDDxwMXKoIEhOjBOxzweA6S+BGXIEq1oR5EJIQRKeJSE14lZ1HQ
+         Vv67PholHEzvPOz4SCiSBpLXVyycCUzvGFySqdlyHbU5dGymOwT/NBYUmuxH0few8KEA
+         SH3gETJxDQTn2VqL/TYNgg2If6m/9AUQAxctiyq88G732FBS5tQBNrIIEYV/2LyGxedB
+         p+o1AHYRMSF3Bb7qya5aDdLMrH1SVFxyzG18Q9N0io/Wjqimz8It3Cc9Relcrd+FIxFA
+         VWaoBHDIkBjQnj6W4NojJGq4nSBIIFGhj3fzYwtb4Zp1xUEJ5ucyDN0/G9SJojYj+f/s
+         1Kug==
+X-Forwarded-Encrypted: i=1; AJvYcCWmtjXvoU1cMSfFenbxNVp1sS+vM/mmReB+pi85v7aWgBecokZpDXucKwsJzAcXzSEIy5/rJiT+kZ68QqXgbc3eceEjOWgJD3oc
+X-Gm-Message-State: AOJu0YzPY60PU2WZfsTS0RwjpODoHkX6CbqEMZ+D44QnbsuxJW58OpGx
+	TXgpk/LsuByOIslFSqWXby+kxUTTjw4Tt2CbD5WXcavOdsWCprbypYdj7SNSzu+8EVvCLQA8cCu
+	o1byMSnPCn07mSu4kTKRZrpW+AXW3LMY67Q0F
+X-Google-Smtp-Source: AGHT+IGUSJ9gCJQ/d525KZWGwnLKi0KTucuS2fT52NdM142pz4Cm/kHolpWE6kV3MsEu37U2P/YkyNLgVNYRzBxA+78=
+X-Received: by 2002:a5b:2ce:0:b0:dfb:308f:911 with SMTP id 3f1490d57ef6-dfb308f0b87mr1143735276.60.1717978740109;
+ Sun, 09 Jun 2024 17:19:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240609104355.442002-1-jcalmels@3xx0.net> <20240609104355.442002-5-jcalmels@3xx0.net>
+In-Reply-To: <20240609104355.442002-5-jcalmels@3xx0.net>
+From: Paul Moore <paul@paul-moore.com>
+Date: Sun, 9 Jun 2024 20:18:48 -0400
+Message-ID: <CAHC9VhT5XWbhoY2Nw5jQz4GxpDriUdHw=1YsQ4xLVUtSnFxciA@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] bpf,lsm: Allow editing capabilities in BPF-LSM hooks
+To: Jonathan Calmels <jcalmels@3xx0.net>
+Cc: brauner@kernel.org, ebiederm@xmission.com, 
+	Jonathan Corbet <corbet@lwn.net>, James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	KP Singh <kpsingh@kernel.org>, Matt Bobrowski <mattbobrowski@google.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Kees Cook <kees@kernel.org>, 
+	Joel Granados <j.granados@samsung.com>, John Johansen <john.johansen@canonical.com>, 
+	David Howells <dhowells@redhat.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
+	Mykola Lysenko <mykolal@fb.com>, Shuah Khan <shuah@kernel.org>, containers@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	bpf@vger.kernel.org, apparmor@lists.ubuntu.com, keyrings@vger.kernel.org, 
+	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-In legacy sysfs GPIO, when using poll(2) on the sysfs GPIO value for
-state change awaiting, a subsequent read(2) is required for consuming
-the event, which the doc recommends the use of lseek(2) or
-close-and-reopen to reset the file offset afterwards.
+On Sun, Jun 9, 2024 at 6:40=E2=80=AFAM Jonathan Calmels <jcalmels@3xx0.net>=
+ wrote:
+>
+> This patch allows modifying the various capabilities of the struct cred
+> in BPF-LSM hooks. More specifically, the userns_create hook called
+> prior to creating a new user namespace.
+>
+> With the introduction of userns capabilities, this effectively provides
+> a simple way for LSMs to control the capabilities granted to a user
+> namespace and all its descendants.
+>
+> Update the selftests accordingly by dropping CAP_SYS_ADMIN in
+> namespaces and checking the resulting task's bounding set.
+>
+> Signed-off-by: Jonathan Calmels <jcalmels@3xx0.net>
+> ---
+>  include/linux/lsm_hook_defs.h                 |  2 +-
+>  include/linux/security.h                      |  4 +-
+>  kernel/bpf/bpf_lsm.c                          | 55 +++++++++++++++++++
+>  security/apparmor/lsm.c                       |  2 +-
+>  security/security.c                           |  6 +-
+>  security/selinux/hooks.c                      |  2 +-
+>  .../selftests/bpf/prog_tests/deny_namespace.c | 12 ++--
+>  .../selftests/bpf/progs/test_deny_namespace.c |  7 ++-
+>  8 files changed, 76 insertions(+), 14 deletions(-)
 
-The recommendations however, require at least 2 syscalls to consume
-the event. Gladly, use of pread(2) require only 1 syscall for the
-consumption. Let's advertise this usage by prioritizing its placement.
+I'm not sure we want to go down the path of a LSM modifying the POSIX
+capabilities of a task, other than the capabilities/commoncap LSM.  It
+sets a bad precedent and could further complicate issues around LSM
+ordering.
 
-Signed-off-by: Huichun Feng <foxhoundsk.tw@gmail.com>
----
-Changes in v2:
-- rebase against the latest tree.
-
-v1 link:
-https://lore.kernel.org/linux-gpio/20240514041223.800811-1-foxhoundsk.tw@gmail.com/T/#mfa19d877e6056936d3a2025cb64ca8c5b8718644
----
- Documentation/userspace-api/gpio/sysfs.rst | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/userspace-api/gpio/sysfs.rst b/Documentation/userspace-api/gpio/sysfs.rst
-index 116921048..bd64896de 100644
---- a/Documentation/userspace-api/gpio/sysfs.rst
-+++ b/Documentation/userspace-api/gpio/sysfs.rst
-@@ -97,9 +97,10 @@ and have the following read/write attributes:
- 		poll(2) will return whenever the interrupt was triggered. If
- 		you use poll(2), set the events POLLPRI and POLLERR. If you
- 		use select(2), set the file descriptor in exceptfds. After
--		poll(2) returns, either lseek(2) to the beginning of the sysfs
--		file and read the new value or close the file and re-open it
--		to read the value.
-+		poll(2) returns, use pread(2) to read the value at offset
-+		zero. Alternatively, either lseek(2) to the beginning of the
-+		sysfs file and read the new value or close the file and
-+		re-open it to read the value.
- 
- 	"edge" ...
- 		reads as either "none", "rising", "falling", or
--- 
-2.34.1
-
+--
+paul-moore.com
