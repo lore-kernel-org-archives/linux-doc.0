@@ -1,102 +1,101 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 983C7225CE
-	for <linux-doc@vger.kernel.org>; Mon, 10 Jun 2024 07:38:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79178558BC
+	for <linux-doc@vger.kernel.org>; Mon, 10 Jun 2024 08:10:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718005121; cv=none; b=FpvaqWctXHVANFPpLcph55Nuua1i/aAAkZEekAjyWOeM3xsJ7AUFxRetffRdt8+tJ+N2AYXIQH5gcCibN8LveCtxNoSEosT62N2Qi38lZaH2xG7BbOCAcBrasiyBoz1GMVDOMXz7UDY/dnFAQnjaIsGUzH778PR5FJXFf2pn8Bg=
+	t=1718007038; cv=none; b=TCNNt2HFF4zFD6NfIm0cPr3PWuHlvSG0ixfwzxxrS+hLpxnUieg+s3gVs9FQzXRo80YcDz6d1eqlTCmuqUfWFoGJ+8sHo0LQt15B3+F7zCKvB0PTWHz+RwyErmBjKK23zHoMhmGcAmb7c6UvtlEEQ5sxt3cWugPKLGdWZT7VrxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718005121; c=relaxed/simple;
-	bh=J3TJUg5+q7YP0MGTuE4DpuCVtIoec/4jlVQ+5HhQKFQ=;
+	s=arc-20240116; t=1718007038; c=relaxed/simple;
+	bh=AaeKWFy6+MhJUSVDuiArePmxqwjpDms46lje4lfg78Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EdkUU/9YHtVJWm2dGQ4KR0AD+ouygYHHoSuCubMek5+gV7DzqXwDK/xuKqajL1y5UEPjcv66SNXvaFUCgURuyVs1ZBeA3hhbTISftSw6Aqfq7ONpK5FTZI+9zH3LC7Eyakb+IO2RP+8wczyGhuuAWtM00zexgfmmuAkqmLcUgQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=DQmSOd6N; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	 MIME-Version:Content-Type; b=Mh9gBY7n3ZX+oRS/07MLrafzLGbwOQqVLKvolSjMoWtcOgUzxxEyD6cWZGtaAAwrNxYYiglVFq5P4n7eUXnxodqewmZIoWlCvhJyysTnoCDpZdaYPJ1sWlfzz8fsOEQzzG6cpVno7nTaxXOvyhcbj5gAkFkQyprFBta26LaNFgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=YroE6mVk; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="DQmSOd6N"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4217990f8baso16130835e9.2
-        for <linux-doc@vger.kernel.org>; Mon, 10 Jun 2024 00:38:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1718005118; x=1718609918; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=m3sXZnTrFx1FLNku3UarqNq102veh5s5DlicL0ytOPY=;
-        b=DQmSOd6NrsPxmPI9wUvdC34r+48+kXctKUkQSLIt62iTcVnng2BBOajz00JROXCrIK
-         H+UiCAAg3lnkwNCVIOtEbAHd7Fojb1VMTayHugyLaUtJJpUP+tfRVaxTHr5dUJV62B0G
-         eLHT3Zz9S61VLepVcyBSsSR71apioNOFgs+jn9ZVEGn6HciNj4vbAT0un7OZ8Aigpb6t
-         yYceJYG9ZWvaMIFKXfXoMoN9cgg2ZEhzyFupzvwjGQKMID7SVoDlMb1rFeOIF9MGiWS4
-         zj/ZJPCjUDjgjW+ZeOZvqodl8leEvlBEYL9GBkFA02lZZCIcku+JFQ3LNCCMitzLGsw4
-         MSdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718005118; x=1718609918;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=m3sXZnTrFx1FLNku3UarqNq102veh5s5DlicL0ytOPY=;
-        b=ThgHh+txLjdBxSsZZ10Ss59dudNGaf07bQ+2DAnPNDJ/9Hs6W5Bfa7PTuy/7ydw8bR
-         zFWCC25cA4BSGyb5z54XqA5MCrNTPIlf7WIdkmdFkmf9SsLIl5TsVy+UaZnJQWVdlG55
-         B4wn99ZTpb6QBoxoro1/sVghEz3KoHrlXEQ51aJ5iFzcsFr8D6HilAp+Upv6rrGaznhJ
-         e41jWqkGBXij8qbwaoBZRSyrowJAH9Peq15DcyT8flBwg/YuxC48/qManqmvdj0Nugp9
-         WnK2XRwKRHmmzn2cSrTfFXU/vxNR40A9rMmC9/V/IrA6EZVIV4AWSm2H9yZloLF0FoDe
-         LUqA==
-X-Forwarded-Encrypted: i=1; AJvYcCXtUVrKTbVkYu16ICaeoTboXGqyv0KF6CH5COxzTtt3FlDPNoMcGwq6zhzp9sQi0XJrVvmNxGnZcXh8NbwnRq1oM2tT8OIy0WWs
-X-Gm-Message-State: AOJu0YwuvGUoJm+pS32oDQgW27nJ+rB0c8WeJa8AtJDqXF7eFvYue597
-	20YpUFuf8vN3MjhVYjPEqdu3y442zVUMSFe6I9LRY6OyvmWbVj3qx6cYamS+v/I=
-X-Google-Smtp-Source: AGHT+IGv6yWdP8pzscvWRA8dl/BXTGiMUSwmqHfHi0M+GCIMctO8PARtwXxuupJU4okqHnTCWtagZQ==
-X-Received: by 2002:a05:600c:3c94:b0:41a:b54a:9ad8 with SMTP id 5b1f17b1804b1-4216499c726mr75618785e9.0.1718005117749;
-        Mon, 10 Jun 2024 00:38:37 -0700 (PDT)
-Received: from brgl-uxlite.home ([2a01:cb1d:75a:e000:b790:b49b:9038:8e99])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-421580fe371sm166778035e9.1.2024.06.10.00.38.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Jun 2024 00:38:37 -0700 (PDT)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-To: brgl@bgdev.pl,
-	Huichun Feng <foxhoundsk.tw@gmail.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	corbet@lwn.net,
-	linus.walleij@linaro.org,
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="YroE6mVk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:in-reply-to:references:mime-version:content-type
+	:content-transfer-encoding; s=k1; bh=QxN9/peWzKBlFqRmDXEKD0iHTiZ
+	lunJFWOblMthWaXk=; b=YroE6mVkcVqWLUGY8X1irPIdprRlZDn5mCvhCUJAbqL
+	tCJFMlAb2NJEtMdR1SqZnpfMFJXlGm7GFfC9IfLtpEW9bdhxOYSp7K7hEjGzyo+a
+	IYyMLPWoK62hpXma+lIVmCT03UzefcMUT2Vd7tVCjCBbaBWJX2Gk3M45ONZL1R6F
+	DOzktZcEvT4Iq20Oi7CvP8POLSU4TCdDNLBzkt5rF9TWz3PbMfg1q388YgfZNV0k
+	8uuEjorBKKTu2jIvGdfw49JyqMXgekVSaIOf+ptd8bf4l3dowCgzuVbSYZSOZTWv
+	smf9YarMkyV7kIhZVM2qVMVld78y2p8qXicvZr9NBsg==
+Received: (qmail 4192401 invoked from network); 10 Jun 2024 10:10:26 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Jun 2024 10:10:26 +0200
+X-UD-Smtp-Session: l3s3148p1@tHeCroQavuYgAwDPXymAAHMyzy0c7Kdl
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-i2c@vger.kernel.org
+Cc: Easwar Hariharan <eahariha@linux.microsoft.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
 	linux-doc@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	warthog618@gmail.com
-Subject: Re: [PATCH v2] docs: gpio: prefer pread(2) for interrupt reading
-Date: Mon, 10 Jun 2024 09:38:36 +0200
-Message-ID: <171800510952.16671.14245266233040448666.b4-ty@linaro.org>
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/6] docs: i2c: summary: start sentences consistently.
+Date: Mon, 10 Jun 2024 10:10:16 +0200
+Message-ID: <20240610081023.8118-2-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240609173728.2950808-1-foxhoundsk.tw@gmail.com>
-References: <20240609173728.2950808-1-foxhoundsk.tw@gmail.com>
+In-Reply-To: <20240610081023.8118-1-wsa+renesas@sang-engineering.com>
+References: <20240610081023.8118-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Change the first paragraphs to contain only one space after the end of
+the previous sentence like in the rest of the document.
 
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Reviewed-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+---
+ Documentation/i2c/summary.rst | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-On Mon, 10 Jun 2024 01:37:28 +0800, Huichun Feng wrote:
-> In legacy sysfs GPIO, when using poll(2) on the sysfs GPIO value for
-> state change awaiting, a subsequent read(2) is required for consuming
-> the event, which the doc recommends the use of lseek(2) or
-> close-and-reopen to reset the file offset afterwards.
-> 
-> The recommendations however, require at least 2 syscalls to consume
-> the event. Gladly, use of pread(2) require only 1 syscall for the
-> consumption. Let's advertise this usage by prioritizing its placement.
-> 
-> [...]
-
-Applied, thanks!
-
-[1/1] docs: gpio: prefer pread(2) for interrupt reading
-      commit: 7f1e45f4ae7671550e15354ef87194bccd99ecec
-
-Best regards,
+diff --git a/Documentation/i2c/summary.rst b/Documentation/i2c/summary.rst
+index 786c618ba3be..28ff80a2302b 100644
+--- a/Documentation/i2c/summary.rst
++++ b/Documentation/i2c/summary.rst
+@@ -4,10 +4,10 @@ Introduction to I2C and SMBus
+ 
+ I²C (pronounce: I squared C and written I2C in the kernel documentation) is
+ a protocol developed by Philips. It is a slow two-wire protocol (variable
+-speed, up to 400 kHz), with a high speed extension (3.4 MHz).  It provides
++speed, up to 400 kHz), with a high speed extension (3.4 MHz). It provides
+ an inexpensive bus for connecting many types of devices with infrequent or
+-low bandwidth communications needs.  I2C is widely used with embedded
+-systems.  Some systems use variants that don't meet branding requirements,
++low bandwidth communications needs. I2C is widely used with embedded
++systems. Some systems use variants that don't meet branding requirements,
+ and so are not advertised as being I2C but come under different names,
+ e.g. TWI (Two Wire Interface), IIC.
+ 
+@@ -18,14 +18,14 @@ access the PDF. An older version of the specification (revision 6) is archived
+ `here <https://web.archive.org/web/20210813122132/https://www.nxp.com/docs/en/user-guide/UM10204.pdf>`_.
+ 
+ SMBus (System Management Bus) is based on the I2C protocol, and is mostly
+-a subset of I2C protocols and signaling.  Many I2C devices will work on an
++a subset of I2C protocols and signaling. Many I2C devices will work on an
+ SMBus, but some SMBus protocols add semantics beyond what is required to
+-achieve I2C branding.  Modern PC mainboards rely on SMBus.  The most common
++achieve I2C branding. Modern PC mainboards rely on SMBus. The most common
+ devices connected through SMBus are RAM modules configured using I2C EEPROMs,
+ and hardware monitoring chips.
+ 
+ Because the SMBus is mostly a subset of the generalized I2C bus, we can
+-use its protocols on many I2C systems.  However, there are systems that don't
++use its protocols on many I2C systems. However, there are systems that don't
+ meet both SMBus and I2C electrical constraints; and others which can't
+ implement all the common SMBus protocol semantics or messages.
+ 
 -- 
-Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+2.43.0
+
