@@ -1,143 +1,87 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDDF113D8BF
-	for <linux-doc@vger.kernel.org>; Mon, 10 Jun 2024 15:41:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B7F1422DF;
+	Mon, 10 Jun 2024 16:14:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718034103; cv=none; b=u91S7rMJwaT9IC+XcYQuZN9US9gGVrLPalby4sVFEgpO0OBOJ3IiLbKrYvneYKJAqnNTtuYwRweqg7c9mZBB3BnNlV/6491lT48I/K4np8qXqDIH7LhydfZ8wYfDE5MH4mDkZTY9b1p6dkcGWCwZFFziUEK5yCo0Fq5u+WajUWA=
+	t=1718036054; cv=none; b=XVs6U2YiQhhXtQ3B4/tcwyRs3tmS6JeznhWAfUDdB/mzdaB52Gtoty2LQnbYsr1qXFiq0rx/2yCvqRmD3DJTW9hy8BFc2eCnCDfuFr2lhoxLdI1uxqqVpov7jYcP0BX+A4vBFDdqNH96+FLwG9QBRYzjpJ5NnhRUNzrKSvTGo+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718034103; c=relaxed/simple;
-	bh=NH9qOe8AuGn3R+TevtlS2pqQNAL05iIcoVXpQ7CPaGI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=C7p8K6vKeTgzYtFDw0E4S/ksIrU3J/NdLdYLX+GAGLm569DFVmIxinwMK95uoVFlM0dIaBRl2TEmV3kQjXp7AuqTWFvIaxVhbXwrMpS32eYnnq155rhyF241bJwF/0dh7BO/ijuo2tyZeRB1H40vtghTncGx0PxqQb5n67gtPmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NBC3BjeV; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1718036054; c=relaxed/simple;
+	bh=Cv+JJagk8BLmUV+fkuMujuu0FTmj3/rZ+QR3a9hd414=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LmYiuUKoT9qTf5E/kNwIIoD693Mxgf7kbQPBYPN4CSGjMlIeAjlsldApTcDAMAw7+YALNV7BYjoeoOLocN43wZkIQcIh4DKWyRwGi3b9mtggenXbysukCM9ET9uCZ4/+VNDbyJ6dv44HDoKtL9Zkri7EuwTqPZJC7HpHdAoqXC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kVGkbVAE; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NBC3BjeV"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-57c83100c5fso1327318a12.3
-        for <linux-doc@vger.kernel.org>; Mon, 10 Jun 2024 08:41:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kVGkbVAE"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-70417a6c328so2351463b3a.1;
+        Mon, 10 Jun 2024 09:14:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718034100; x=1718638900; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NH9qOe8AuGn3R+TevtlS2pqQNAL05iIcoVXpQ7CPaGI=;
-        b=NBC3BjeV43Tto6rj7jzWS0apRPZAnZhJNBOou0IKmm3h/8DlAdjhG4Y5gsqiMZ3pAd
-         eHigC7Qcovtju7HZ8zQbCH+6Mddcwh9xzZyF87jwWeINqrgM1FR10aoNpM9dZICtDvyc
-         xpf/0lnr4kBXB8f4u7FUjoUTnij835IuH9nXp7+XMaRWHJ0DuFWMNuTFhWOjApFRaXYT
-         7RG3m7uf6qb1wB3E+GyK9gA7GBP6oTu3azHkQzuLULoMA/9i+b2aihNWU9FBTH7e5imH
-         Ehtos6vd4QKW9+lJTwoCRJli+5DpQDQDQZAogzlY1LO+FpPUy3lqrKWKLqAw+vVHctXA
-         UdOQ==
+        d=gmail.com; s=20230601; t=1718036052; x=1718640852; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1oeEDqmlJTD/HOHIYKYMG5NS4C/DrQ4penjrma+dFXM=;
+        b=kVGkbVAEgMUou1eSniTESWIsdaLbxq7m4IqnRFr/+c3iCSIvuCDsinfG3a8kTJP0GS
+         aksGysqaCs3ilTQ4Cg02IuoG6IUdUtYk3xVVemQqknRWjt0cQe+Dd8ZvWx1nY68Ic4Xl
+         e32XOIoxpZHb8p0qtMMemalnAo1M01GLh23UdaOvtM4bt1nserAzzKj3uNm/ZbE+ImZy
+         cUdDbVuqxH/+Inv/vCJkDpcSBWUOdcDWWOhpt3IE1sB0M/cgTn0Lyld17VVVe+nboPy7
+         wq7nJgLIQAafXdD1cRrafEQnE+cnv+8oXMPcYNA4cd4mqMUGT3XE9R61HGl40vgGdp+R
+         kC5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718034100; x=1718638900;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1718036052; x=1718640852;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NH9qOe8AuGn3R+TevtlS2pqQNAL05iIcoVXpQ7CPaGI=;
-        b=iV/3lJPFftHMncXS3JOe/W0u/dh+m6B+D5u5ZNvYZpXA+zuYjWDFxTEuBc7qlBOsRC
-         r4JxHZob5qwpaWKFhBsmkcQK0CXL9Jpgp/OskMW8iV7s1dszalzUzEyGHBKjlI9M9rum
-         efqWurSF9dVdFB21AWIBH6VpLbdHWaTgHcmiyAa1a3lokTW9NUjnkdEG7Upfgnt0GX4o
-         pA7jrQL5rz3Md0RsxzO1hmvPTMwPJ67G49PWcIXVZdwCK9HkMVic+M9XyUdRhenJ41OL
-         8PY4peZsAeUIZkxf/c2xlUY9S93ZWoItJzpZYtS2mpJJIRmm6mlFJ1lV4s7Ml5kbeooD
-         vN3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVdWR3g7dS5V7k723XP+R9gntvZ3wfJTfryUrNUfS6v8BxSHWuZAi89peCtqZ2Kkp0kLdGA+ZGUJW/xE075xQUUXJi5kZR2aANp
-X-Gm-Message-State: AOJu0Yxtl9PjdeWyKWJbJWMA3qFNRBa1W6Q4CTz9GEyjahnPHq8bUsEO
-	bduw3hJ8N4XmfbZ3qFM5uZ8uXIhXCVJVyDc+eqLSW3lbeRLoDH/yE0iH2GDcb9hqNEwufc5OqvK
-	EbRDgwMoiXFfieWNkLkVMPxl0gQGFCwc8WbJx
-X-Google-Smtp-Source: AGHT+IGhBtLDJFK2P+RcfVlyA2ZAGso96YWHpocomofOltg8xljfiwSKPnAsDJBDqZd1U8grgl7y/Dr4+a+0D+ppdnU=
-X-Received: by 2002:a17:906:8888:b0:a6f:279b:37ca with SMTP id
- a640c23a62f3a-a6f279b38b3mr91530566b.51.1718034099331; Mon, 10 Jun 2024
- 08:41:39 -0700 (PDT)
+        bh=1oeEDqmlJTD/HOHIYKYMG5NS4C/DrQ4penjrma+dFXM=;
+        b=sZs4p0h1/U27rRfXNOkvPTjgBYYrK0uClEPj1pSCxlaPTo4BZMfYwtAR5G6fcoqJl8
+         PFhYDNZvlvwDhnE5NPjMUYnveughs0bz+j6V19LBVQ06rgy6/cVbROEgrmhq6ykO5nFo
+         QYvUE/8HR7T8/3A2SvsZY1IytNMEOG2cGxfC7bNNqo4NYZxXfcTyYixk0f5wQ5Is44RF
+         Rr4zAQQJsYZj5KiRxDE3uAVx+yvULVkvf3I7YD79FfGFkhUPdGxagEARVAf2hASBjJ0r
+         YtLN5XOmVJ+1H69Dwm8izQ7tCh7Q3RfKY4DPig8IS5qT3NeLX3BZlIothNsNz4GHHdp9
+         MI9w==
+X-Forwarded-Encrypted: i=1; AJvYcCVPo7Vz+jwLE36mbasNG0Q0l98HDdbFxP6phVWFNQQ1DNlBqmrfBeyPIN+mHiz80idZS6jNJYmxkwi6QnJ4D09LIHp2NHH/0VvDdbvidSqoP8mXOEfGLufAS61N1SBEibfXfXqH+IK1GZEWwL4nVHtGovxhmaqpBLvcxsRT5rbsI5MWNWM=
+X-Gm-Message-State: AOJu0YyX+fNVjCD/W5/CH9vk/uZ2jn6oCqMGZ34+bPoeci5HUCie13pr
+	pXAWYjhpTT4VnBHEvCgCHvSPSOKLKM+Dy7QjV/x5gXIZcP188aPF
+X-Google-Smtp-Source: AGHT+IHsMUgQJcMlOw1LQHAhZ+1tTR1Kwn40VUlP7lleA0ViudEaUcDg7HydAcNiZk6izgTL5yKDZQ==
+X-Received: by 2002:a05:6a00:3d10:b0:704:1c78:4f8a with SMTP id d2e1a72fcca58-7041c785413mr7941921b3a.21.1718036052173;
+        Mon, 10 Jun 2024 09:14:12 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70432db7698sm2911920b3a.22.2024.06.10.09.14.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Jun 2024 09:14:11 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Mon, 10 Jun 2024 09:14:10 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Eugene Shalygin <eugene.shalygin@gmail.com>
+Cc: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] hwmon: (asus-ec-sensors) add ProArt X670E-CREATOR
+ WIFI
+Message-ID: <4947b799-469a-4def-88fe-d4adc86f69c0@roeck-us.net>
+References: <20240608085146.572777-1-eugene.shalygin@gmail.com>
+ <20240608085146.572777-2-eugene.shalygin@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240530201616.1316526-3-almasrymina@google.com>
- <ZlqzER_ufrhlB28v@infradead.org> <CAHS8izMU_nMEr04J9kXiX6rJqK4nQKA+W-enKLhNxvK7=H2pgA@mail.gmail.com>
- <5aee4bba-ca65-443c-bd78-e5599b814a13@gmail.com> <CAHS8izNmT_NzgCu1pY1RKgJh+kP2rCL_90Gqau2Pkd3-48Q1_w@mail.gmail.com>
- <eb237e6e-3626-4435-8af5-11ed3931b0ac@gmail.com> <be2d140f-db0f-4d15-967c-972ea6586b5c@kernel.org>
- <20240607145247.GG791043@ziepe.ca> <45803740-442c-4298-b47e-2d87ae5a6012@davidwei.uk>
- <54975459-7a5a-46ff-a9ae-dc16ceffbab4@gmail.com> <20240610121625.GI791043@ziepe.ca>
- <cdbc0d5f-bfbc-4f58-a6dd-c13b0bb5ff1c@amd.com>
-In-Reply-To: <cdbc0d5f-bfbc-4f58-a6dd-c13b0bb5ff1c@amd.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Mon, 10 Jun 2024 08:41:25 -0700
-Message-ID: <CAHS8izNwmXQTLc9VADpushYKyeJ4ZY4G9aV47W2-1St65-tKUg@mail.gmail.com>
-Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
- custom page providers
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
-	David Ahern <dsahern@kernel.org>, Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org, 
-	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
-	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Yunsheng Lin <linyunsheng@huawei.com>, 
-	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240608085146.572777-2-eugene.shalygin@gmail.com>
 
-On Mon, Jun 10, 2024 at 5:38=E2=80=AFAM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 10.06.24 um 14:16 schrieb Jason Gunthorpe:
-> > On Mon, Jun 10, 2024 at 02:07:01AM +0100, Pavel Begunkov wrote:
-> >> On 6/10/24 01:37, David Wei wrote:
-> >>> On 2024-06-07 17:52, Jason Gunthorpe wrote:
-> >>>> IMHO it seems to compose poorly if you can only use the io_uring
-> >>>> lifecycle model with io_uring registered memory, and not with DMABUF
-> >>>> memory registered through Mina's mechanism.
-> >>> By this, do you mean io_uring must be exclusively used to use this
-> >>> feature?
-> >>>
-> >>> And you'd rather see the two decoupled, so userspace can register w/ =
-say
-> >>> dmabuf then pass it to io_uring?
-> >> Personally, I have no clue what Jason means. You can just as
-> >> well say that it's poorly composable that write(2) to a disk
-> >> cannot post a completion into a XDP ring, or a netlink socket,
-> >> or io_uring's main completion queue, or name any other API.
-> > There is no reason you shouldn't be able to use your fast io_uring
-> > completion and lifecycle flow with DMABUF backed memory. Those are not
-> > widly different things and there is good reason they should work
-> > together.
->
-> Well there is the fundamental problem that you can't use io_uring to
-> implement the semantics necessary for a dma_fence.
->
-> That's why we had to reject the io_uring work on DMA-buf sharing from
-> Google a few years ago.
->
+On Sat, Jun 08, 2024 at 10:50:05AM +0200, Eugene Shalygin wrote:
+> Provided and tested by a user in a GitHub PR [1].
+> 
+> [1] https://github.com/zeule/asus-ec-sensors/pull/56
+> 
+> Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
 
-Any chance someone can link me to this? io_uring, as far as my
-primitive understanding goes, is not yet very adopted at Google, and
-I'm curious what this effort is.
+Applied.
 
---=20
 Thanks,
-Mina
+Guenter
