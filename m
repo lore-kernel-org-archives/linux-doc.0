@@ -1,95 +1,89 @@
-Received: from mout.web.de (mout.web.de [212.227.15.4])
+Received: from mail.codeweavers.com (mail.codeweavers.com [4.36.192.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCC48142E98;
-	Mon, 10 Jun 2024 17:10:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2BC477F2F;
+	Mon, 10 Jun 2024 17:15:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=4.36.192.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718039448; cv=none; b=qrVG+br6ahRzUi444U992QQ5z8mm1pr0nM8Ztd42g2LQrMPyqInMVADKYvEjRWmNuHsVrO/vCQTQvJgg5SxV0dTAuxeLcBM+HU7ZsNHJnBa7i6AuoMxhSJetAVDINUq5NQfnB9Dveck95trRLtvbwtYnBmxIy+w2YsRVBpzfZ8g=
+	t=1718039723; cv=none; b=YsXSXwMCxLfx2Y8zpyk36QUC6XDWx6WXY+dd2KnbeNV0vGvVNjzlEQOhinfgOTJpbas9V5u0I6HH2YJXXJi9ME9QNr4MXgVZIG3JYpQoFImWOgiiMzTe1T1t8ors7drKkGIEd+wDaIoHLV0hmejXtpq46j6ezHNfvATgyZo34Ak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718039448; c=relaxed/simple;
-	bh=KFZLKRJgQQZenPBAgjVr/0fLpBXVmplQTRwYwWy3zRA=;
-	h=Message-ID:Date:MIME-Version:To:References:Subject:From:Cc:
-	 In-Reply-To:Content-Type; b=KdWdpKdwxhbUFt3bG3aLzTLaJZZu+Jx0CGdBCBd3aHi9zzlCE5xwLJY3FXRO4lNCSWqY0Fu2DDaXpkKwl/D0UhC6lYmMGRYuhpVK9zQ+GGfcYdKQLUZjzlKsCmiDpM4EMdtE2tmTEzyw8lD5YbECGnS2eykV5PyEYIUgQhRwRGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=XcvL1n7f; arc=none smtp.client-ip=212.227.15.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1718039723; c=relaxed/simple;
+	bh=tZhK0yK9PUCBDyPTcAJrUy48YWTdR49HUbCN3uazuz0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TKMkTotGI9/l59H10SOz1UZ94xrFdxIR3wSgDF4Pu+b2nELB1vyKdgKyy8KKdEZhkFjTu9KJNLae0gXQ5PeK7VImHpmeNF/M4OqVdk+ug0bPLXnfyPXnAV1E0sTwfiE18nHTCCvT6Ni+/5ENB44TKZ4Kcuyy4u3iF5QDdd2iG8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com; spf=pass smtp.mailfrom=codeweavers.com; dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b=DnX772Ec; arc=none smtp.client-ip=4.36.192.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codeweavers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codeweavers.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="XcvL1n7f"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1718039398; x=1718644198; i=markus.elfring@web.de;
-	bh=PI0cKSPt9y9ms7d09bbx92IbLJG836EONN5o/9dG9ho=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:References:
-	 Subject:From:Cc:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=XcvL1n7fEkSA1yTH4Juqe4oy+/f0vZ52IzqGBSVhV3S04BJShr6KMel5nF92DuvD
-	 NDNWO3NaK2WhXTy8lBKdsV+rZRI2FKf3ZSL5YgqMKEarqtl9V6GK/VGHCOOrH933O
-	 AD0SUatgiFswk6BgLPvNnykQ8amaikbLKo/Knl7vB4IU8CSqOnH2L/ppxdoW1J4Ca
-	 JaQCR1+fh+IVlZd7DaWmdCiCSNkdx1gto5lWvGxQLdcXfwJTSZg9H5h5V56WvdRxJ
-	 J+/VuAvCtyC5sM4Vus/8skXEt5t50zBuWjJwle201qB5Kp+Kf5tQ16M9PEczxAOYb
-	 Gqt5Nkg/Upt+dFhDTw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MXGKA-1rvIQV3RD4-00NQcB; Mon, 10
- Jun 2024 19:09:57 +0200
-Message-ID: <70516ad7-fc85-4ce5-8a7f-e3e02d499d02@web.de>
-Date: Mon, 10 Jun 2024 19:09:43 +0200
+	dkim=pass (2048-bit key) header.d=codeweavers.com header.i=@codeweavers.com header.b="DnX772Ec"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=codeweavers.com; s=s1; h=Message-ID:Date:Subject:Cc:To:From:Sender;
+	bh=tZhK0yK9PUCBDyPTcAJrUy48YWTdR49HUbCN3uazuz0=; b=DnX772Ecy7Sytu4dDSC25WhQIM
+	p5J1nPDMk23g5W9HIGqwfixQXSHf83CTiGTFcbIG2EtOfYpF1nbnMN4YIecI9884NVGDBMKen38lx
+	H5A17OKO6ibWhAVY6DtoBGmmJe3P2sjGNsycECNyftwTeT74mFPKtsqkRDQ5H7m6GxIOHmcNDK8xB
+	f/ZPLptOxLwz897jhfiz716tUV14MPVge41NhrFJYrM3savy+WZ+fBG1fn2KHLi2FDuyp7Ht2MrjI
+	faduXUalJ6gir2AtcAqDE1HZu5VMSRtquUGHVqLX2x+lr7mZNrNiWJLrOzYvHJvZDHBgKyJ8MSvz5
+	6BNpqxqA==;
+Received: from [10.69.139.13] (helo=uriel.localnet)
+	by mail.codeweavers.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <zfigura@codeweavers.com>)
+	id 1sGiM6-00H4i2-0f;
+	Mon, 10 Jun 2024 11:58:50 -0500
+From: Elizabeth Figura <zfigura@codeweavers.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
+ wine-devel@winehq.org,
+ =?ISO-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+ Wolfram Sang <wsa@kernel.org>, Arkadiusz Hiler <ahiler@codeweavers.com>,
+ Andy Lutomirski <luto@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+ Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>
+Subject: Re: [PATCH v5 00/28] NT synchronization primitive driver
+Date: Mon, 10 Jun 2024 11:58:48 -0500
+Message-ID: <2325658.ElGaqSPkdT@uriel>
+In-Reply-To: <20240519202454.1192826-1-zfigura@codeweavers.com>
+References: <20240519202454.1192826-1-zfigura@codeweavers.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Noah Wang <noahwang.wang@outlook.com>, devicetree@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, =?UTF-8?B?R8O8bnRlciBSw7Zjaw==?=
- <linux@roeck-us.net>, Jean Delvare <jdelvare@suse.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>
-References: <KL1PR0401MB64911C4D68B4361C9EA97422FAFF2@KL1PR0401MB6491.apcprd04.prod.outlook.com>
-Subject: Re: [v4,2/2] hwmon: add MP2891 driver
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
- Bjorn Helgaas <bhelgaas@google.com>, Cosmo Chou <chou.cosmo@gmail.com>,
- DelphineCCChiu <delphine_cc_chiu@wiwynn.com>,
- Javier Carrasco <javier.carrasco.cruz@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Lukas Wunner <lukas@wunner.de>,
- Patrick Rudolph <patrick.rudolph@9elements.com>,
- Peter Yin <peteryin.openbmc@gmail.com>
-In-Reply-To: <KL1PR0401MB64911C4D68B4361C9EA97422FAFF2@KL1PR0401MB6491.apcprd04.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:MGcOBqdhPn6PNd+nWXDeFns0YHTOPA44mXmtXzb6LFdRmzmb79g
- sKBhtHsyP+CY1EpA7f7AWWSxB0RoNohEsHFZiynxd0ftT+tWICq5x5KcWL2Upexhf4SnwNO
- VvcCU1X9fPAX0T4/gAJuy9ZAKrczURGnW4x+ev4sNBOzvVroJkiQv7cCzfkblocdVlFBdYW
- 76CNEIO20xkyeKIlT7+Gw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:gexMoFMv7zI=;6tw9e7rsPkNJLiplCwiPpUfF4OU
- bveq/kR1QbnOfW83CVSdlF4CoAdMQjk9Mt3zZyfERfRu1LnrSew2rCnV+AKdd/mZrmo99Sfi9
- GAqmO3a5LaWvjovn7Kq7zp3mxMLplsO2RzmWDnXpgFH5duFpc/AzMxbsoLKdbY4FJTZLd/URY
- R/DZQPqhoSwnTcBQX4aE6gHoYTNgYhvO7mITaZCJ9GW22ZTP3T5/0Y5Wk2EjFWlGumBJJ1bRl
- ulvdpQ9PBaHVY7W8qcvfWdJBJ/u2jq6zll9JXWKDsvxnacTLR4NTFCq5dqHjB6ldGbvD7zYWE
- Mn/1c5d25p3iX9DLARyiFeXOYaVMajdjww9rVI9CNGzpiMulBIVZmVYRhF1ko2VDKgDeDyHRM
- h6IhbL7OqNXgcnwrtA5b0PteBwT8lSsYCQZVU0HTwYOQ2LvC1cXwa6FW4mpvJaC7W4aW2ao9H
- B7eh/MYBGd75ED02mxfoutxZwFQ9ja9SnlTOKFofku1atWT18O5xzakUzKr3v/D32T2aAZDWr
- amDTPbQEOfW/60tSWbLqlZV/FGXIikq6xPtGO9QnOdmKcBttk95aNSUQq7pxIX9wAxddCpi9F
- z0EmCBMFkoUerkhQpAkqxbM63FVg5TDSAmjTV+5qqjnT6zg4hIZ1vrfmQ554L3BHP1VBD3eRU
- ASE6tHi3DAYgw7TDqvJ1eQvOusgJX+GXB5a4JX2g1ovgmKtF4Vf1fwSekZwwOISFmv+hJRq7r
- D0NXZe7jMAuZaSmVoIGtZP1ttBPg7xwswFgOqtOQzdaC7auQyuRg8cF3Macoz1rL7/iPY0aXN
- FAySYQgtunOZUN0yMD+gRkePi0YbJRkZCxbtIzkX+0ecc=
+Content-Type: text/plain; charset="utf-8"
 
-> Add support for MPS VR controller mp2891. This driver exposes
-> telemetry and limit value readings and writtings.
+On Sunday, May 19, 2024 3:24:26=E2=80=AFPM CDT Elizabeth Figura wrote:
+> This patch series implements a new char misc driver, /dev/ntsync, which is
+> used to implement Windows NT synchronization primitives.
+>=20
+> NT synchronization primitives are unique in that the wait functions both =
+are
+> vectored, operate on multiple types of object with different behaviour
+> (mutex, semaphore, event), and affect the state of the objects they wait
+> on. This model is not compatible with existing kernel synchronization
+> objects or interfaces, and therefore the ntsync driver implements its own
+> wait queues and locking.
+>=20
+> This patch series is rebased against the "char-misc-next" branch of
+> gregkh/char-misc.git.
 
-                limits?                  writings?
+Hi Peter,
+
+Sorry to bother, but now that the Linux merge window is closed could I
+request a review of this revision of the ntsync patch set, please (or a
+review from another locking maintainer)?
+
+I believe I've addressed all of the comments from the last review,
+except those which would have changed the existing userspace API
+(although since the driver isn't really functional yet, maybe this
+would have been fine to do anyway?)
+
+Thanks,
+Zeb
 
 
-Should the presented message subjects have contained the key word =E2=80=
-=9CPATCH=E2=80=9D?
-
-Regards,
-Markus
