@@ -1,59 +1,61 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B43E61876
-	for <linux-doc@vger.kernel.org>; Mon, 10 Jun 2024 04:45:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0369DD2FA
+	for <linux-doc@vger.kernel.org>; Mon, 10 Jun 2024 04:45:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1717994738; cv=none; b=QmTKGDp2Q8m+9aB0nvHM3jdXZaijwp6esS6Jmfc9NqK39Ju0MzZwixdkkLUJurniDlPLGG5heQM8VJjox7LY8NtIR2TVwAwLEQ8s/VukiTu6KlLrhz/2LjOxtjQel+X4SzIqPNXLbgg07M+3YQYN6dR/A/su4A64U/SrkleVuXc=
+	t=1717994739; cv=none; b=PupIxR28NubgCOzHu6s2GeV5SRUNPb4XEtmgsFqlOv/sSt3QF3NUpnJ6LOKuQdJ/wahg53+48zZo5REb80pMxvC1itazJHeoSgLpHVHGVUk8peI1yPVkHazK6MjLomypkpKVXhkNJjPpA77tjDfAqBtJer3MyUF+5ZKxVlJHi1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1717994738; c=relaxed/simple;
-	bh=vkSpLdTOCKmV5IhZYXnWR8/RElz7fkjEtj2s36qYkjY=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=tgP5RwqvCjGN98ufC2CQMdyklpA4kqBRptm9wENZE/dSYWAyjBEuV6LSemY4z6L15EyCTOwLVbCoi7dE0ymWsERZfNyy5sIkFpw021IKXc6j8ezSZN7sfwCfOnAys94OWKetAKJoizhVwvTXfBgI5Z3jdegvgwSXtRvU7UAuK0o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=i5STZ3Fe; arc=none smtp.client-ip=209.85.214.172
+	s=arc-20240116; t=1717994739; c=relaxed/simple;
+	bh=BFeF/rMqjmAL/T3qO395y21tghoeF4vuGyaBxCV02tk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=A6SOYe2mizWuO73M5LjfmfWwBMhv59FUmdTmhSvpeIurGM5mS/Ov/7oRuJxH+6pJp/+k3xz0SGYqrVqHOLla+v8oQ1T3145qpEDCi0FhOjMNO/Lavly+QnIWcEHso9eVwu/0lR/JyQfV4yKGPFrKuqzs982p6J6Kg7qHxG9KtcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=yO2MlF9C; arc=none smtp.client-ip=209.85.215.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="i5STZ3Fe"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1f70131063cso7183835ad.2
-        for <linux-doc@vger.kernel.org>; Sun, 09 Jun 2024 21:45:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="yO2MlF9C"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-6eab07ae82bso667617a12.3
+        for <linux-doc@vger.kernel.org>; Sun, 09 Jun 2024 21:45:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1717994735; x=1718599535; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dN55AJF0PHuFpfwbQ/DJHVULjunoR3y3+KEw1Zkzgt0=;
-        b=i5STZ3FeaXcWmhvT5UVchXoV0MVop1kwyyYt6Cbm4CUnnSQE8ke4sr1kAqG4PJlCAU
-         phxYKIJgcCWaRWB/7i0/9LGDB1zzV3403j6BMb5LSTQX5XINYO8lLeIlNT250bonSWIv
-         Jbdks5kgz1nollG5X+mHB/DpLgiX7dNdi8oI8KARhI00yCTVi4QZIYMgPqXQ3r/6jiev
-         bLPnwU0SuYZHZXNuUYjrC/SnKeyqeXw6ZUFIJjBFbfO3l3TY4PS79T681A7XCZ5oKKYU
-         GufQaJV8C4d8eHtH/pKWHYgXSy1OXWyneT3KrIj7v2cXZ4KLg+9cCRQHlSCCegBwGf+I
-         5nxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717994735; x=1718599535;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1717994737; x=1718599537; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dN55AJF0PHuFpfwbQ/DJHVULjunoR3y3+KEw1Zkzgt0=;
-        b=dHzeCOTTdH5dSBwx8xY9CBgfWQ6mg2KrHkrqFSZ+sVLs9rnTktCGmPojtu+CHGFQm+
-         L9DOywxvgJ4L/ge2kv9hUv/dWFAvh7tnBRW7QEruv4fTmox0f/Hlg1LGgzmyFHXXgKWQ
-         7xhmd51/9pzWVM4YvuX8K401oMYhgdOZZJvXlbnrUh2yj/TkMBmArabV6+D3mRPgPaeL
-         kzrkheK/by+YD6Ws5cmIeqSggWWpgO8p07xTjaCqNNdPIZGD6VH2qqAE6/6do37MRHa0
-         XNXbqf+RR1Zi/dh6oJaomVd3IqqdCVYN+j002zvAreLS7jMiELvP/WSAb6teH90YmRRi
-         oGuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWVCWdnr9oasZEKDNk+mXXspfIXNl1Z6ZmlP3s/ms8vjKK4H5BT6cRL0NuL1mZZrMIAQ2SRqBmF4RjdXyY/iGbVqFUPhclGEwfe
-X-Gm-Message-State: AOJu0Yy4sSJB0UVSdSDxDFp1dZd3isHYyXlHnu9WdQMF6D1zDrnXAGyd
-	xILrY+gJaSAj6EoEK+H43JLDDvNtAYNJC9lz/XXdvS9E/L6lIvb86z9xmt3NS3s=
-X-Google-Smtp-Source: AGHT+IG9ZML7kOKf0moW7WjG6bvAFzHf7/IU/wowJpUgrFMvTbXgWuSVm5Gfggt/Rs9gPxYhtiFXlQ==
-X-Received: by 2002:a17:902:e811:b0:1f7:1821:77ad with SMTP id d9443c01a7336-1f718217cbemr8801395ad.14.1717994735007;
-        Sun, 09 Jun 2024 21:45:35 -0700 (PDT)
+        bh=0gP3BTCO/eMabIcPEHZlkkrT/LBtjjbwR/exXvwDsR0=;
+        b=yO2MlF9CVgV55C8zLc2mcExV9W4UOBCDf45GzbcMIFmcn/LndIaWn7JKQ50Xu1cWPS
+         H1RWv0z0xkqaEVkmf7zUViEIYseL+NM+9pEqyuLHuRCtndnGiC5UxGjqp8SxNxSPIsp6
+         ELPODX4pZ06no0YnFaagI4IfZ+TQSWgCNUxORbEHqrhocFIbWbFeBqetx4bojNIVyk5+
+         hOdgVF73DeGbmOo/aHTNoJMoBvbUfd37I+NyCXypBoWEPjz+AGF3d6b874taJOEuN5g0
+         iSZqT5sP1hWkSf2bH+/EwRun28QeOG5+gdKXa3ePtDNkQXyVbSGNgZOaXY+jXXAjvGkz
+         cerA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1717994737; x=1718599537;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0gP3BTCO/eMabIcPEHZlkkrT/LBtjjbwR/exXvwDsR0=;
+        b=oYt4tQZQOmTjjfJ5SSUE61HhPIbT10TLjTgp3MbC/5Jqbd7i9r1Mv5BmM7V3Bi1fu3
+         lf8/SuyxtJan+6pmA0S1xrnCFEhtO1e+HGsC8l5f8syDEqjyTu/OwzXBDft6H4DbX8nX
+         u/i5q+XhDSP3rJuehp4dm+/TtLplG1EiODMz4skCJCTPX47a95NcAdrrNrxTVMSn+EiX
+         3iK+WF2Mdd8xuMUa0fL57jF8zDuOaWn0iHpjH2tyHEr8LGRy4tczGuk+SGvdHBio5g5F
+         xGvAVYj0F8KhwRn7lOgBSYeMvtFNMOdh88ycsHU8CgVF+gwlkdrq2GBEQBfAqhLjCPCL
+         KEKA==
+X-Forwarded-Encrypted: i=1; AJvYcCX/oHjJftRQLX6AWtJ0v+SE++GUSOLuPMDbftKMNTC4nJ1aEJlUtTh6HdlXc6302cXsl+iaStx1vE0+2QBCZCiYeXrJOgYkJoLt
+X-Gm-Message-State: AOJu0YyQh5eao2nkcMWjpKdZHznHc7dxrnnxWNr8aPgYmIvZoa6UGepk
+	aOJm+9mFmfq06HpzBkTKOwPW8Q3szrp1OkAMsP8rMnJfMef2XuP1m2gvT4U5I80=
+X-Google-Smtp-Source: AGHT+IFWDInJoRdiv7yy4abVtD7rjRBD+5cj0P5U/4ieBFQEcEQDeMGkcWS+bxqhxTSZ6IUNdGy+uA==
+X-Received: by 2002:a05:6300:8088:b0:1af:3715:80c8 with SMTP id adf61e73a8af0-1b2f9c72398mr7890004637.46.1717994737211;
+        Sun, 09 Jun 2024 21:45:37 -0700 (PDT)
 Received: from charlie.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6bd76ce8asm73124095ad.77.2024.06.09.21.45.32
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6bd76ce8asm73124095ad.77.2024.06.09.21.45.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Jun 2024 21:45:34 -0700 (PDT)
+        Sun, 09 Jun 2024 21:45:36 -0700 (PDT)
 From: Charlie Jenkins <charlie@rivosinc.com>
-Subject: [PATCH 00/13] riscv: Add support for xtheadvector
-Date: Sun, 09 Jun 2024 21:45:05 -0700
-Message-Id: <20240609-xtheadvector-v1-0-3fe591d7f109@rivosinc.com>
+Date: Sun, 09 Jun 2024 21:45:06 -0700
+Subject: [PATCH 01/13] dt-bindings: riscv: Add xtheadvector ISA extension
+ description
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,9 +64,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIANGEZmYC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIxMDU2MD3YqSjNTElLLU5JL8Il0LY+MU4xRD8yQTI2MloJaCotS0zAqwcdG
- xtbUAHd9+x14AAAA=
+Message-Id: <20240609-xtheadvector-v1-1-3fe591d7f109@rivosinc.com>
+References: <20240609-xtheadvector-v1-0-3fe591d7f109@rivosinc.com>
+In-Reply-To: <20240609-xtheadvector-v1-0-3fe591d7f109@rivosinc.com>
 To: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Paul Walmsley <paul.walmsley@sifive.com>, 
@@ -78,121 +80,55 @@ Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
  linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
  Charlie Jenkins <charlie@rivosinc.com>, 
- Conor Dooley <conor.dooley@microchip.com>, Heiko Stuebner <heiko@sntech.de>, 
- Heiko Stuebner <heiko@sntech.de>
+ Conor Dooley <conor.dooley@microchip.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1717994732; l=5669;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1717994732; l=1767;
  i=charlie@rivosinc.com; s=20231120; h=from:subject:message-id;
- bh=vkSpLdTOCKmV5IhZYXnWR8/RElz7fkjEtj2s36qYkjY=;
- b=F8iBE/qU+gWHTYOUzgJ49eC5lJBiserczetPXroe2jYge4JeZOhpyar3pRnFA6RzDVYnQPUxO
- 91UulT4jaLZCLDyQtCbwIv10SEdkoX15vesDG1F1IZMrDbhIKYXPJyh
+ bh=BFeF/rMqjmAL/T3qO395y21tghoeF4vuGyaBxCV02tk=;
+ b=IOAoxXefLtnxcb9/gkClYMSBjiej8R99FUDNxVj9T92yij8sj0PIqkxukBdOvfHybExsRN5MX
+ 8IFqt96IbAOBrlmGCI5VVCTbG5L+9+BjW8yNnuO22FIABU2PMBnuOK/
 X-Developer-Key: i=charlie@rivosinc.com; a=ed25519;
  pk=t4RSWpMV1q5lf/NWIeR9z58bcje60/dbtxxmoSfBEcs=
 
-xtheadvector is a custom extension that is based upon riscv vector
-version 0.7.1 [1]. All of the vector routines have been modified to
-support this alternative vector version based upon whether xtheadvector
-was determined to be supported at boot.
+The xtheadvector ISA extension is described on the T-Head extension spec
+Github page [1] at commit 95358cb2cca9.
 
-vlenb is not supported on the existing xtheadvector hardware, so a
-devicetree property thead,vlenb is added to provide the vlenb to Linux.
-
-There is a new hwprobe key RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0 that is
-used to request which thead vendor extensions are supported on the
-current platform. This allows future vendors to allocate hwprobe keys
-for their vendor.
-
-Support for xtheadvector is also added to the vector kselftests.
+Link: https://github.com/T-head-Semi/thead-extension-spec/blob/95358cb2cca9489361c61d335e03d3134b14133f/xtheadvector.adoc [1]
 
 Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-
-[1] https://github.com/T-head-Semi/thead-extension-spec/blob/95358cb2cca9489361c61d335e03d3134b14133f/xtheadvector.adoc
-
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 ---
-This series is a continuation of a different series that was fragmented
-into two other series in an attempt to get part of it merged in the 6.10
-merge window. The split-off series did not get merged due to a NAK on
-the series that added the generic riscv,vlenb devicetree entry. This
-series has converted riscv,vlenb to thead,vlenb to remedy this issue.
+ Documentation/devicetree/bindings/riscv/extensions.yaml | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-The original series is titled "riscv: Support vendor extensions and
-xtheadvector" [3].
+diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Documentation/devicetree/bindings/riscv/extensions.yaml
+index 468c646247aa..99d2a9e8c52d 100644
+--- a/Documentation/devicetree/bindings/riscv/extensions.yaml
++++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
+@@ -477,6 +477,10 @@ properties:
+             latency, as ratified in commit 56ed795 ("Update
+             riscv-crypto-spec-vector.adoc") of riscv-crypto.
+ 
++        # vendor extensions, each extension sorted alphanumerically under the
++        # vendor they belong to. Vendors are sorted alphanumerically as well.
++
++        # Andes
+         - const: xandespmu
+           description:
+             The Andes Technology performance monitor extension for counter overflow
+@@ -484,5 +488,11 @@ properties:
+             Registers in the AX45MP datasheet.
+             https://www.andestech.com/wp-content/uploads/AX45MP-1C-Rev.-5.0.0-Datasheet.pdf
+ 
++        # T-HEAD
++        - const: xtheadvector
++          description:
++            The T-HEAD specific 0.7.1 vector implementation as written in
++            https://github.com/T-head-Semi/thead-extension-spec/blob/95358cb2cca9489361c61d335e03d3134b14133f/xtheadvector.adoc.
++
+ additionalProperties: true
+ ...
 
-The series titled "riscv: Extend cpufeature.c to detect vendor
-extensions" is still under development and this series is based on that
-series! [4]
-
-I have tested this with an Allwinner Nezha board. I ran into issues
-booting the board after 6.9-rc1 so I applied these patches to 6.8. There
-are a couple of minor merge conflicts that do arrise when doing that, so
-please let me know if you have been able to boot this board with a 6.9
-kernel. I used SkiffOS [1] to manage building the image, but upgraded
-the U-Boot version to Samuel Holland's more up-to-date version [2] and
-changed out the device tree used by U-Boot with the device trees that
-are present in upstream linux and this series. Thank you Samuel for all
-of the work you did to make this task possible.
-
-[1] https://github.com/skiffos/SkiffOS/tree/master/configs/allwinner/nezha
-[2] https://github.com/smaeul/u-boot/commit/2e89b706f5c956a70c989cd31665f1429e9a0b48
-[3] https://lore.kernel.org/all/20240503-dev-charlie-support_thead_vector_6_9-v6-0-cb7624e65d82@rivosinc.com/
-[4] https://lore.kernel.org/linux-riscv/20240609-support_vendor_extensions-v2-0-9a43f1fdcbb9@rivosinc.com/
-
----
-Charlie Jenkins (12):
-      dt-bindings: riscv: Add xtheadvector ISA extension description
-      dt-bindings: thead: add a vlen register length property
-      riscv: dts: allwinner: Add xtheadvector to the D1/D1s devicetree
-      riscv: Add thead and xtheadvector as a vendor extension
-      riscv: vector: Use vlenb from DT for thead
-      riscv: csr: Add CSR encodings for VCSR_VXRM/VCSR_VXSAT
-      riscv: Add xtheadvector instruction definitions
-      riscv: vector: Support xtheadvector save/restore
-      riscv: hwprobe: Add thead vendor extension probing
-      riscv: hwprobe: Document thead vendor extensions and xtheadvector extension
-      selftests: riscv: Fix vector tests
-      selftests: riscv: Support xtheadvector in vector tests
-
-Heiko Stuebner (1):
-      RISC-V: define the elements of the VCSR vector CSR
-
- Documentation/arch/riscv/hwprobe.rst               |  10 +
- .../devicetree/bindings/riscv/extensions.yaml      |  10 +
- Documentation/devicetree/bindings/riscv/thead.yaml |   7 +
- arch/riscv/Kconfig.vendor                          |  26 ++
- arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi      |   3 +-
- arch/riscv/include/asm/cpufeature.h                |   2 +
- arch/riscv/include/asm/csr.h                       |  13 +
- arch/riscv/include/asm/hwprobe.h                   |   4 +-
- arch/riscv/include/asm/switch_to.h                 |   2 +-
- arch/riscv/include/asm/vector.h                    | 249 +++++++++++++----
- arch/riscv/include/asm/vendor_extensions/thead.h   |  42 +++
- .../include/asm/vendor_extensions/thead_hwprobe.h  |  18 ++
- .../include/asm/vendor_extensions/vendor_hwprobe.h |  37 +++
- arch/riscv/include/uapi/asm/hwprobe.h              |   3 +-
- arch/riscv/include/uapi/asm/vendor/thead.h         |   3 +
- arch/riscv/kernel/cpufeature.c                     |  51 +++-
- arch/riscv/kernel/kernel_mode_vector.c             |   8 +-
- arch/riscv/kernel/process.c                        |   4 +-
- arch/riscv/kernel/signal.c                         |   6 +-
- arch/riscv/kernel/sys_hwprobe.c                    |   5 +
- arch/riscv/kernel/vector.c                         |  25 +-
- arch/riscv/kernel/vendor_extensions.c              |  10 +
- arch/riscv/kernel/vendor_extensions/Makefile       |   2 +
- arch/riscv/kernel/vendor_extensions/thead.c        |  18 ++
- .../riscv/kernel/vendor_extensions/thead_hwprobe.c |  19 ++
- tools/testing/selftests/riscv/vector/.gitignore    |   3 +-
- tools/testing/selftests/riscv/vector/Makefile      |  17 +-
- .../selftests/riscv/vector/v_exec_initval_nolibc.c |  93 +++++++
- tools/testing/selftests/riscv/vector/v_helpers.c   |  67 +++++
- tools/testing/selftests/riscv/vector/v_helpers.h   |   7 +
- tools/testing/selftests/riscv/vector/v_initval.c   |  22 ++
- .../selftests/riscv/vector/v_initval_nolibc.c      |  68 -----
- .../selftests/riscv/vector/vstate_exec_nolibc.c    |  20 +-
- .../testing/selftests/riscv/vector/vstate_prctl.c  | 295 ++++++++++++---------
- 34 files changed, 898 insertions(+), 271 deletions(-)
----
-base-commit: 11cc01d4d2af304b7288251aad7e03315db8dffc
-change-id: 20240530-xtheadvector-833d3d17b423
 -- 
-- Charlie
+2.44.0
 
