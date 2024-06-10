@@ -1,134 +1,263 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1758D14372B;
-	Mon, 10 Jun 2024 15:16:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06CDE140368
+	for <linux-doc@vger.kernel.org>; Mon, 10 Jun 2024 15:19:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718032608; cv=none; b=ZhYILebKFCMEgzSN4EGBu+fvUU5Pw6mpMCH2wztUqfRDD+DM5kxAl4Stq6eg+jkffrA6eC7VnVoj0e2lqEuV9MPPxurzMfxcXRT7MNQKfkW4sgz348FIFW26ZLlbykX1I5iDcp9wf9THCKVWRl5eRCHgHW0mAwOncAZHrKGjdmo=
+	t=1718032767; cv=none; b=u6JcZwSWr2YV4RZ44s9MV9vBjFj30WRLkBOXXdw6eGsOmnvklphFoEojL5aLTCZjvhg5PlyHpy79MzrLEgvgEkmatJc/JC+TWuGifggze27sMgI/0f3c979IXn1ZFcG9JO98HG8s+Wf1DlPwXc3J2eoUhBVm1V/eo2GLUBcehUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718032608; c=relaxed/simple;
-	bh=O4K2WVyffh0yFu7MqI9zVOz6iOMDjKw5eu0ZI4dIaVk=;
+	s=arc-20240116; t=1718032767; c=relaxed/simple;
+	bh=+urT2uxejbnWTGWDhjERLm4pJwmoHG+HNqLAz7qV5P4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XUvcn3DdELyY03D87REYHx1VY9vm+OUjg+iJsv8rYbaod2/+9Gdqt7xWt/A0+cZiZOOvSKB2wGQbjqc3c8cgdIzBKmFbKcnhjoeAG9Q+swGp7HDTQw7C8J8IME/9ne9nrJW9x6l8JWLAJJIfM96tA9lauerGIrl6OHn4OF1pdJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ETS5HpY/; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=mG9ZP3CX451MD2l90YM80KoUcxC6VJ020Th7KxBGJAQrvQi84x1q84gMYWlg+sK440uoSJpVDPEkWHGQB+dXO6k3tctwlcuIyQ8OMhod6FRUcipf7tWZKnl1AFgA5SyBBDtqKVKSVmH0jpwEdrWYhLbRfamheQlxS9Lj1mY59gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=sw2F+lfM; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ETS5HpY/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17272C32786;
-	Mon, 10 Jun 2024 15:16:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718032607;
-	bh=O4K2WVyffh0yFu7MqI9zVOz6iOMDjKw5eu0ZI4dIaVk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ETS5HpY/0Kf6xf4RQ1EeQ5ezwwa3Hu3a2SFdCj67odD7KI2UYD7Fs2d1r5g7y6wIf
-	 vTIqROSJQNRXs1n9kJDCdzxcS7+nLskAscR53y6Tg+D3s6zi6S/mSwJ7junGgMfPGz
-	 cFVN88hW7TnVgKXnCw7asGpLrZreR7IS4oFRMy+H9qtpSq3cfrL6cdUOlH8XQCjevL
-	 VdpqhB/9QWwIUedEYRuh4MevTomxzXE6ulQ6FOvNli9X5RdARoFkmIdzyPoMwtaZ2o
-	 jqiLoW+RrYZ9fTS86/FAROafJwR54RozEVCGgmVDPux00UDvaj3N87ZaAfFbOkWXsm
-	 4oYGUGuuH8ZZQ==
-Message-ID: <59443d14-1f1d-42bb-8be3-73e6e4a0b683@kernel.org>
-Date: Mon, 10 Jun 2024 09:16:43 -0600
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="sw2F+lfM"
+X-Envelope-To: oak.zeng@intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1718032762;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KKiu4qnDEEkxgkcxXe30X1MKX2KLMdPF1td6NPZnAM8=;
+	b=sw2F+lfMZ3l8HawNA7kIWr3pK0lq7HnmPavMpWgUr7rU+1zbON9Ti/U85ptK/5XBbcEv87
+	2BodlutKmiORSPlAcNIHof0xq71ZHIZgGYywZy2ISSYXzwGQnEez1TFWDIydAKJWuRKGOx
+	OIYVeRO8ue/E5ZniP4Jy+Ay+5ChRqPo=
+X-Envelope-To: jgg@ziepe.ca
+X-Envelope-To: leon@kernel.org
+X-Envelope-To: hch@lst.de
+X-Envelope-To: robin.murphy@arm.com
+X-Envelope-To: m.szyprowski@samsung.com
+X-Envelope-To: joro@8bytes.org
+X-Envelope-To: will@kernel.org
+X-Envelope-To: chaitanyak@nvidia.com
+X-Envelope-To: matthew.brost@intel.com
+X-Envelope-To: thomas.hellstrom@intel.com
+X-Envelope-To: corbet@lwn.net
+X-Envelope-To: axboe@kernel.dk
+X-Envelope-To: kbusch@kernel.org
+X-Envelope-To: sagi@grimberg.me
+X-Envelope-To: yishaih@nvidia.com
+X-Envelope-To: shameerali.kolothum.thodi@huawei.com
+X-Envelope-To: kevin.tian@intel.com
+X-Envelope-To: alex.williamson@redhat.com
+X-Envelope-To: jglisse@redhat.com
+X-Envelope-To: akpm@linux-foundation.org
+X-Envelope-To: linux-doc@vger.kernel.org
+X-Envelope-To: linux-kernel@vger.kernel.org
+X-Envelope-To: linux-block@vger.kernel.org
+X-Envelope-To: linux-rdma@vger.kernel.org
+X-Envelope-To: iommu@lists.linux.dev
+X-Envelope-To: linux-nvme@lists.infradead.org
+X-Envelope-To: kvm@vger.kernel.org
+X-Envelope-To: linux-mm@kvack.org
+X-Envelope-To: bvanassche@acm.org
+X-Envelope-To: damien.lemoal@opensource.wdc.com
+X-Envelope-To: amir73il@gmail.com
+X-Envelope-To: josef@toxicpanda.com
+X-Envelope-To: martin.petersen@oracle.com
+X-Envelope-To: daniel@iogearbox.net
+X-Envelope-To: dan.j.williams@intel.com
+X-Envelope-To: jack@suse.com
+X-Envelope-To: leonro@nvidia.com
+X-Envelope-To: krishnaiah.bommu@intel.com
+X-Envelope-To: himal.prasad.ghimiray@intel.com
+Message-ID: <e04c1b4a-2677-4db5-bcd0-15e5a3616fa3@linux.dev>
+Date: Mon, 10 Jun 2024 17:19:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
- custom page providers
+Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two steps
+To: "Zeng, Oak" <oak.zeng@intel.com>, Jason Gunthorpe <jgg@ziepe.ca>
+Cc: "leon@kernel.org" <leon@kernel.org>, Christoph Hellwig <hch@lst.de>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Chaitanya Kulkarni <chaitanyak@nvidia.com>,
+ "Brost, Matthew" <matthew.brost@intel.com>,
+ "Hellstrom, Thomas" <thomas.hellstrom@intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+ Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+ Yishai Hadas <yishaih@nvidia.com>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ "Tian, Kevin" <kevin.tian@intel.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+ "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+ "linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ Bart Van Assche <bvanassche@acm.org>,
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Amir Goldstein <amir73il@gmail.com>,
+ "josef@toxicpanda.com" <josef@toxicpanda.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ "daniel@iogearbox.net" <daniel@iogearbox.net>,
+ "Williams, Dan J" <dan.j.williams@intel.com>, "jack@suse.com"
+ <jack@suse.com>, Leon Romanovsky <leonro@nvidia.com>,
+ "Bommu, Krishnaiah" <krishnaiah.bommu@intel.com>,
+ "Ghimiray, Himal Prasad" <himal.prasad.ghimiray@intel.com>
+References: <cover.1709635535.git.leon@kernel.org>
+ <SA1PR11MB6991CB2B1398948F4241E51992182@SA1PR11MB6991.namprd11.prod.outlook.com>
+ <20240503164239.GB901876@ziepe.ca>
+ <PH7PR11MB70047236290DC1CFF9150B8592C62@PH7PR11MB7004.namprd11.prod.outlook.com>
 Content-Language: en-US
-To: Jason Gunthorpe <jgg@ziepe.ca>, Pavel Begunkov <asml.silence@gmail.com>
-Cc: David Wei <dw@davidwei.uk>, Mina Almasry <almasrymina@google.com>,
- Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
- <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
- <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
-References: <20240530201616.1316526-3-almasrymina@google.com>
- <ZlqzER_ufrhlB28v@infradead.org>
- <CAHS8izMU_nMEr04J9kXiX6rJqK4nQKA+W-enKLhNxvK7=H2pgA@mail.gmail.com>
- <5aee4bba-ca65-443c-bd78-e5599b814a13@gmail.com>
- <CAHS8izNmT_NzgCu1pY1RKgJh+kP2rCL_90Gqau2Pkd3-48Q1_w@mail.gmail.com>
- <eb237e6e-3626-4435-8af5-11ed3931b0ac@gmail.com>
- <be2d140f-db0f-4d15-967c-972ea6586b5c@kernel.org>
- <20240607145247.GG791043@ziepe.ca>
- <45803740-442c-4298-b47e-2d87ae5a6012@davidwei.uk>
- <54975459-7a5a-46ff-a9ae-dc16ceffbab4@gmail.com>
- <20240610121625.GI791043@ziepe.ca>
-From: David Ahern <dsahern@kernel.org>
-In-Reply-To: <20240610121625.GI791043@ziepe.ca>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Zhu Yanjun <yanjun.zhu@linux.dev>
+In-Reply-To: <PH7PR11MB70047236290DC1CFF9150B8592C62@PH7PR11MB7004.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On 6/10/24 6:16 AM, Jason Gunthorpe wrote:
-> On Mon, Jun 10, 2024 at 02:07:01AM +0100, Pavel Begunkov wrote:
->> On 6/10/24 01:37, David Wei wrote:
->>> On 2024-06-07 17:52, Jason Gunthorpe wrote:
->>>> IMHO it seems to compose poorly if you can only use the io_uring
->>>> lifecycle model with io_uring registered memory, and not with DMABUF
->>>> memory registered through Mina's mechanism.
->>>
->>> By this, do you mean io_uring must be exclusively used to use this
->>> feature?
->>>
->>> And you'd rather see the two decoupled, so userspace can register w/ say
->>> dmabuf then pass it to io_uring?
+
+On 10.06.24 17:12, Zeng, Oak wrote:
+> Hi Jason, Leon,
+>
+> I come back to this thread to ask a question. Per the discussion in another thread, I have integrated the new dma-mapping API (the first 6 patches of this series) to DRM subsystem. The new API seems fit pretty good to our purpose, better than scatter-gather dma-mapping. So we want to continue work with you to adopt this new API.
+>
+> Did you test the new API in RDMA subsystem? Or this RFC series was just some untested codes sending out to get people's design feedback? Do you have refined version for us to try? I ask because we are seeing some issues but not sure whether it is caused by the new API. We are debugging but it would be good to also ask at the same time.
+
+Hi, Zeng
+
+I have tested this patch series. And a patch about NVMe will cause some 
+call trace. But if you revert this patch about NVMe, the whole patches 
+can work well. You can develop your patches based on this patch series.
+
+It seems that "some agreements can not be reached" about NVMe. So NVMe 
+patch can not work well. I do not delve into this NVMe patch.
+
+Zhu Yanjun
+
+>
+> Cc Himal/Krishna who are also working/testing the new API.
+>
+> Thanks,
+> Oak
+>
+>> -----Original Message-----
+>> From: Jason Gunthorpe <jgg@ziepe.ca>
+>> Sent: Friday, May 3, 2024 12:43 PM
+>> To: Zeng, Oak <oak.zeng@intel.com>
+>> Cc: leon@kernel.org; Christoph Hellwig <hch@lst.de>; Robin Murphy
+>> <robin.murphy@arm.com>; Marek Szyprowski
+>> <m.szyprowski@samsung.com>; Joerg Roedel <joro@8bytes.org>; Will
+>> Deacon <will@kernel.org>; Chaitanya Kulkarni <chaitanyak@nvidia.com>;
+>> Brost, Matthew <matthew.brost@intel.com>; Hellstrom, Thomas
+>> <thomas.hellstrom@intel.com>; Jonathan Corbet <corbet@lwn.net>; Jens
+>> Axboe <axboe@kernel.dk>; Keith Busch <kbusch@kernel.org>; Sagi
+>> Grimberg <sagi@grimberg.me>; Yishai Hadas <yishaih@nvidia.com>;
+>> Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>; Tian, Kevin
+>> <kevin.tian@intel.com>; Alex Williamson <alex.williamson@redhat.com>;
+>> Jérôme Glisse <jglisse@redhat.com>; Andrew Morton <akpm@linux-
+>> foundation.org>; linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
+>> linux-block@vger.kernel.org; linux-rdma@vger.kernel.org;
+>> iommu@lists.linux.dev; linux-nvme@lists.infradead.org;
+>> kvm@vger.kernel.org; linux-mm@kvack.org; Bart Van Assche
+>> <bvanassche@acm.org>; Damien Le Moal
+>> <damien.lemoal@opensource.wdc.com>; Amir Goldstein
+>> <amir73il@gmail.com>; josef@toxicpanda.com; Martin K. Petersen
+>> <martin.petersen@oracle.com>; daniel@iogearbox.net; Williams, Dan J
+>> <dan.j.williams@intel.com>; jack@suse.com; Leon Romanovsky
+>> <leonro@nvidia.com>; Zhu Yanjun <zyjzyj2000@gmail.com>
+>> Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to
+>> two steps
 >>
->> Personally, I have no clue what Jason means. You can just as
->> well say that it's poorly composable that write(2) to a disk
->> cannot post a completion into a XDP ring, or a netlink socket,
->> or io_uring's main completion queue, or name any other API.
-> 
-> There is no reason you shouldn't be able to use your fast io_uring
-> completion and lifecycle flow with DMABUF backed memory. Those are not
-> widly different things and there is good reason they should work
-> together.
-> 
-> Pretending they are totally different just because two different
-> people wrote them is a very siloed view.
-> 
->> The devmem TCP callback can implement it in a way feasible to
->> the project, but it cannot directly post events to an unrelated
->> API like io_uring. And devmem attaches buffers to a socket,
->> for which a ring for returning buffers might even be a nuisance.
-> 
-> If you can't compose your io_uring completion mechanism with a DMABUF
-> provided backing store then I think it needs more work.
-> 
+>> On Thu, May 02, 2024 at 11:32:55PM +0000, Zeng, Oak wrote:
+>>
+>>>> Instead of teaching DMA to know these specific datatypes, let's separate
+>>>> existing DMA mapping routine to two steps and give an option to
+>> advanced
+>>>> callers (subsystems) perform all calculations internally in advance and
+>>>> map pages later when it is needed.
+>>> I looked into how this scheme can be applied to DRM subsystem and GPU
+>> drivers.
+>>> I figured RDMA can apply this scheme because RDMA can calculate the
+>>> iova size. Per my limited knowledge of rdma, user can register a
+>>> memory region (the reg_user_mr vfunc) and memory region's sized is
+>>> used to pre-allocate iova space. And in the RDMA use case, it seems
+>>> the user registered region can be very big, e.g., 512MiB or even GiB
+>> In RDMA the iova would be linked to the SVA granual we discussed
+>> previously.
+>>
+>>> In GPU driver, we have a few use cases where we need dma-mapping. Just
+>> name two:
+>>> 1) userptr: it is user malloc'ed/mmap'ed memory and registers to gpu
+>>> (in Intel's driver it is through a vm_bind api, similar to mmap). A
+>>> userptr can be of any random size, depending on user malloc
+>>> size. Today we use dma-map-sg for this use case. The down side of
+>>> our approach is, during userptr invalidation, even if user only
+>>> munmap partially of an userptr, we invalidate the whole userptr from
+>>> gpu page table, because there is no way for us to partially
+>>> dma-unmap the whole sg list. I think we can try your new API in this
+>>> case. The main benefit of the new approach is the partial munmap
+>>> case.
+>> Yes, this is one of the main things it will improve.
+>>
+>>> We will have to pre-allocate iova for each userptr, and we have many
+>>> userptrs of random size... So we might be not as efficient as RDMA
+>>> case where I assume user register a few big memory regions.
+>> You are already doing this. dma_map_sg() does exactly the same IOVA
+>> allocation under the covers.
+>>
+>>> 2) system allocator: it is malloc'ed/mmap'ed memory be used for GPU
+>>> program directly, without any other extra driver API call. We call
+>>> this use case system allocator.
+>>> For system allocator, driver have no knowledge of which virtual
+>>> address range is valid in advance. So when GPU access a
+>>> malloc'ed/mmap'ed address, we have a page fault. We then look up a
+>>> CPU vma which contains the fault address. I guess we can use the CPU
+>>> vma size to allocate the iova space of the same size?
+>> No. You'd follow what we discussed in the other thread.
+>>
+>> If you do a full SVA then you'd split your MM space into granuals and
+>> when a fault hits a granual you'd allocate the IOVA for the whole
+>> granual. RDMA ODP is using a 512M granual currently.
+>>
+>> If you are doing sub ranges then you'd probably allocate the IOVA for
+>> the well defined sub range (assuming the typical use case isn't huge)
+>>
+>>> But there will be a true difficulty to apply your scheme to this use
+>>> case. It is related to the STICKY flag. As I understand it, the
+>>> sticky flag is designed for driver to mark "this page/pfn has been
+>>> populated, no need to re-populate again", roughly...Unlike userptr
+>>> and RDMA use cases where the backing store of a buffer is always in
+>>> system memory, in the system allocator use case, the backing store
+>>> can be changing b/t system memory and GPU's device private
+>>> memory. Even worse, we have to assume the data migration b/t system
+>>> and GPU is dynamic. When data is migrated to GPU, we don't need
+>>> dma-map. And when migration happens to a pfn with STICKY flag, we
+>>> still need to repopulate this pfn. So you can see, it is not easy to
+>>> apply this scheme to this use case. At least I can't see an obvious
+>>> way.
+>> You are already doing this today, you are keeping the sg list around
+>> until you unmap it.
+>>
+>> Instead of keeping the sg list you'd keep a much smaller datastructure
+>> per-granual. The sticky bit is simply a convient way for ODP to manage
+>> the smaller data structure, you don't have to use it.
+>>
+>> But you do need to keep track of what pages in the granual have been
+>> DMA mapped - sg list was doing this before. This could be a simple
+>> bitmap array matching the granual size.
+>>
+>> Looking (far) forward we may be able to have a "replace" API that
+>> allows installing a new page unconditionally regardless of what is
+>> already there.
+>>
+>> Jason
 
-exactly. io_uring, page_pool, dmabuf - all kernel building blocks for
-solutions. This why I was pushing for Mina's set not to be using the
-name `devmem` - it is but one type of memory and with dmabuf it should
-not matter if it is gpu or host (or something else later on - cxl?).
+-- 
+Best Regards,
+Yanjun.Zhu
 
