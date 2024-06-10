@@ -1,33 +1,34 @@
 Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79139558B6
-	for <linux-doc@vger.kernel.org>; Mon, 10 Jun 2024 08:10:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F29274042
+	for <linux-doc@vger.kernel.org>; Mon, 10 Jun 2024 08:10:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718007040; cv=none; b=VIP8HQLcl7+HILqutyOsn7N87+fQp+Y9XQnTUahgTbPx9wjTbUlKGffNhrmC6GgW0T2CoQ0q5m2GasZsmZKQ5Aw4feWQ7f4Hk35h4Am+8eXjXv34omGjY7E97y6/VkE7WZy4k8PPSCKtlfbT3LyZB7iQWl8EhM33XvZbI2GStDI=
+	t=1718007042; cv=none; b=ImKTMxalN0nzNlduWGk2qmCgrjPM8tFVaut3yw4CN/poRCEVxOhrijHpdBOWRevLFE8OAiiJV+qqrYEBKqCkhwkCxsdONV0nRvJkvxVSg1Bz29dn4Jyesb5wDJL1Os4kVcoeDGKutFF+vB7H93lph4NUasUq7AgaaXqC0luBZdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718007040; c=relaxed/simple;
-	bh=Om3tgtvL7zx3STVEfGcFIyutGvx1ayQHvev9/xlcvdM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Y+u98C/9cmdXj7/xsp3XWPUY2j48DGjPGufFeHNlwmMrHStY3HMmCX1n4pgVk676HAz3K/QGpOIr0bhm5OsyIbNcYOX0/wBwizez1EGB3U5+CkjORzBxm3GeRWCluKklIqcAgI+EY6za6hJYipLxZLhzPdS06z+cwyN0sYZ3NN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=FdX0mw0+; arc=none smtp.client-ip=194.117.254.33
+	s=arc-20240116; t=1718007042; c=relaxed/simple;
+	bh=aSoXwM7AxjCYi4o5UPuDejbH07mKDQ5JXUxoQO258co=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=gppvtglDxM2rVy2aGLHm7DQSA/o0+Ssv2ff3uSaNptwWTImkGyTKCMp7NzL30JSsS0QiwYN1IXnkPMmweYM78GMMNaCnADmjdPQXn9Ulio8Cgl6TpftTfMuVZpn2HW2lu826E/e23WoUr6LmD1WAoSW+IaLEmudd28tvRD/RFmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=fOJ3ANdm; arc=none smtp.client-ip=194.117.254.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="FdX0mw0+"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="fOJ3ANdm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:mime-version:content-type:content-transfer-encoding; s=k1; bh=o
-	+WZ7wY84tNezlQl5CxbAAB2zMVOpXowsJm/tB2JR/k=; b=FdX0mw0+lO7O1XzDU
-	CTjTTg0UiLt6zpybDPD4iI73HmqGnIpSjzoYaSSDqhT5gORKbeiUszsK6VvB8QvR
-	2Vb7RzGxQItlAWjr4mXdN7P1hBieXVIb0IYhX6y64+WM796qtH/iJyfd+Veazlx9
-	7AIInchkuFIWHYcXKt3cJ65Zqa6r98dTFelO+5OXXNbacdk3uUC2DTRXfubExOCF
-	0NLleYl+JJgyVne3fHGztomQNhtx4fRNqNYsHQ6odS7EyAElbZl0MAY4OHiENoLc
-	+/vx8hcr++MKPkRPxZiCyqY5LiB21auctFl1VySN9qwNAa0ETZI5ZzD5J+fGIr51
-	6qe8w==
-Received: (qmail 4192364 invoked from network); 10 Jun 2024 10:10:25 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Jun 2024 10:10:25 +0200
-X-UD-Smtp-Session: l3s3148p1@Eu11roQauuYgAwDPXymAAHMyzy0c7Kdl
+	:in-reply-to:references:mime-version:content-transfer-encoding;
+	 s=k1; bh=kPW6Z47SSMaFsqhDVQlxCvLx2hDU95KMb1LtJY99czE=; b=fOJ3AN
+	dm6uYbD0EqFZCVW6nM5mULOgyWm4UJXZzb3h27EK1RrPcVFoR2gHpYDBe3cH0Onc
+	X+LgIu9H4wkOzDMwNPok/lwTreUOkjMqCfbQi4sFvXJGEFm8XtkkvemNqaXnn7T2
+	xwGfAtUAP+dH7NIAUGU6ve3VZ461n2i78NN2HnzPuzX4GPvZq68VbJAoel9k+vVV
+	EqU8slceu/iCe7lXzz4+4Ne//uVOawJhi5UvfvLaXzmxsZzt8xfiVRF0We4Ntxla
+	RvSujTwOMvGPhwPA7Pr/7gXAI84nvOqYEawnDpAWqnSMgGe44q9TS09DfbB1sePi
+	9wCJX/HqbmNuOWgQ==
+Received: (qmail 4192516 invoked from network); 10 Jun 2024 10:10:29 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Jun 2024 10:10:29 +0200
+X-UD-Smtp-Session: l3s3148p1@Kmi0roQa7OYgAwDPXymAAHMyzy0c7Kdl
 From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 To: linux-i2c@vger.kernel.org
 Cc: Easwar Hariharan <eahariha@linux.microsoft.com>,
@@ -35,42 +36,54 @@ Cc: Easwar Hariharan <eahariha@linux.microsoft.com>,
 	linux-doc@vger.kernel.org,
 	Wolfram Sang <wsa+renesas@sang-engineering.com>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/6] docs: i2c: summary: update and use inclusive wording
-Date: Mon, 10 Jun 2024 10:10:15 +0200
-Message-ID: <20240610081023.8118-1-wsa+renesas@sang-engineering.com>
+Subject: [PATCH v2 5/6] docs: i2c: summary: document 'local' and 'remote' targets
+Date: Mon, 10 Jun 2024 10:10:20 +0200
+Message-ID: <20240610081023.8118-6-wsa+renesas@sang-engineering.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240610081023.8118-1-wsa+renesas@sang-engineering.com>
+References: <20240610081023.8118-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The main motivation for this series is patch 4: switching to
-"controller/master" when defining the I2C terminology. This sets the
-base for further improvements to inclusive language within the Linux
-Kernel. The other patches are improvements found on the way.
+Because Linux can be a target as well, add terminology to differentiate
+between Linux being the target and Linux accessing targets.
 
-Changes since v1:
-* patch 5 added explaining 'remote' and 'local' targets
-* added tags from Easwar to patches 1-3
-* rebased to 6.10-rc3
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ Documentation/i2c/summary.rst | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-
-Wolfram Sang (6):
-  docs: i2c: summary: start sentences consistently.
-  docs: i2c: summary: update I2C specification link
-  docs: i2c: summary: update speed mode description
-  docs: i2c: summary: document use of inclusive language
-  docs: i2c: summary: document 'local' and 'remote' targets
-  docs: i2c: summary: rephrase paragraph explaining the figure
-
- Documentation/i2c/i2c_bus.svg | 15 +++++----
- Documentation/i2c/summary.rst | 62 +++++++++++++++++++++--------------
- 2 files changed, 46 insertions(+), 31 deletions(-)
-
+diff --git a/Documentation/i2c/summary.rst b/Documentation/i2c/summary.rst
+index b10b6aaafcec..203f6c9b2472 100644
+--- a/Documentation/i2c/summary.rst
++++ b/Documentation/i2c/summary.rst
+@@ -49,11 +49,16 @@ whole class of I2C adapters. Each specific adapter driver either depends on
+ an algorithm driver in the ``drivers/i2c/algos/`` subdirectory, or includes
+ its own implementation.
+ 
+-A **target** chip is a node that responds to communications when addressed
+-by the controller. In Linux it is called a **client**. Client drivers are kept
+-in a directory specific to the feature they provide, for example
+-``drivers/media/gpio/`` for GPIO expanders and ``drivers/media/i2c/`` for
+-video-related chips.
++A **target** chip is a node that responds to communications when addressed by a
++controller. In the Linux kernel implementation it is called a **client**. While
++targets are usually separate external chips, Linux can also act as a target
++(needs hardware support) and respond to another controller on the bus. This is
++then called a **local target**. In contrast, an external chip is called a
++**remote target**.
++
++Client drivers are kept in a directory specific to the feature they
++provide, for example ``drivers/media/gpio/`` for GPIO expanders and
++``drivers/media/i2c/`` for video-related chips.
+ 
+ For the example configuration in figure, you will need a driver for your
+ I2C adapter, and drivers for your I2C devices (usually one driver for each
 -- 
 2.43.0
 
