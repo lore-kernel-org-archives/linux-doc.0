@@ -1,80 +1,134 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 814C417B411;
-	Tue, 11 Jun 2024 11:11:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A9D13E8AE;
+	Tue, 11 Jun 2024 11:15:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718104296; cv=none; b=HBHMM4LGetG3M5zSaXd1NAPcHxtHipoRIbzZDZLHB6QTe7UlzRgWxD8nRrNV6CSCRDOpFoKfRx/HAE8ara2Czs0qh5yiSo6fPdXOC1W+VxPwRdwFwCp0GvfAZNzASN++xwwDavwAy+H8h5bBKQflikj5hnxv6Dln1+PVOEKRhzQ=
+	t=1718104553; cv=none; b=OH0unHqU2Qsymn7SVJPKZvCq7lbLtqbPzKm1GL9av36lkjCmIx71pCDNBBaDcw++YrwzcIqa2uoink9CwNfRn+WGrzjM6qlDmn6iqNKFhc9xsEccBb69x5ZjpxcisSA862ZD36B/IH/TgutN8zErR0sPmh4PLQ1EGmEWLg6senI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718104296; c=relaxed/simple;
-	bh=uRZY5++FD2Fuc5LmfxwAK2s0CFsWxxeeRmiTsm6NsmQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K+M915/R0RXR/R5GgHcd5dzqIsCXfzM668jZQ0SWdeS4dm8E43+E7x0WQ/C7jjhz5FAMCTHxuTjwBlb3OpBGl0GYDn22FBdrZroJkEJT1v7R3qA+KZ5jfcPh/4vgBeZvdAaCkiCle+ME4VtsAQR8trzSyzzxDUn++/iUwu7mmxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [112.20.112.86])
-	by gateway (Coremail) with SMTP id _____8AxHuviMGhmEaQFAA--.23038S3;
-	Tue, 11 Jun 2024 19:11:30 +0800 (CST)
-Received: from [192.168.100.8] (unknown [112.20.112.86])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8BxXcffMGhmKO4bAA--.3660S3;
-	Tue, 11 Jun 2024 19:11:28 +0800 (CST)
-Message-ID: <3931f2be-fe98-45ac-8a40-a474dd7ef61c@loongson.cn>
-Date: Tue, 11 Jun 2024 19:11:27 +0800
+	s=arc-20240116; t=1718104553; c=relaxed/simple;
+	bh=wLlEjNnzc77MHds09//3ZWA8yzW84d+3berw4cdRI4s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U64ci/ZGfgp79JWpGVkPbPPJXIcP9x5aeheM2OvNBxvJLGE1ZlTGFKof9HEVE6gsk9S8sqpVF17hCxqOaxO6aEW6iJn/9Q6MfXhmzuhj13fbA6nVFcghfcg4TaC0Oe4DjLNOy9uy9Avyzq/UlcAOw5g3rNzQZQTS/h+55QrCsps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Nqm19qzn; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Eb/6ZUfB; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Nqm19qzn; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Eb/6ZUfB; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Nqm19qzn";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Eb/6ZUfB";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Nqm19qzn";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Eb/6ZUfB"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B42B933703;
+	Tue, 11 Jun 2024 11:15:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718104549; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bXIgfjlBRvIxj2UUaKKzitcAEWvUbEosp8O96prSVHw=;
+	b=Nqm19qznq0BamDdu8undHDhi2aufLJ1iM0EIE6UGrsJ2BHKljszboE8wx4aSNoxtjufoQw
+	YHbVSEvwtYQZEkt7eL2EyBeRPrE56sCejuKUG/DjXwsIA6lqEfq5syFMBR4/rDt/HBnSAP
+	y5lAgHZO6XpZ/UpwRm8/2p+IWLgeLIU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718104549;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bXIgfjlBRvIxj2UUaKKzitcAEWvUbEosp8O96prSVHw=;
+	b=Eb/6ZUfB7XtI5PBZhSOt10RjtD7zulPGqnp+zGp4eTxG2M6lXa5hiwZAg5sezIHPzISArY
+	YO/tq9EuDka6emBA==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Nqm19qzn;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="Eb/6ZUfB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718104549; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bXIgfjlBRvIxj2UUaKKzitcAEWvUbEosp8O96prSVHw=;
+	b=Nqm19qznq0BamDdu8undHDhi2aufLJ1iM0EIE6UGrsJ2BHKljszboE8wx4aSNoxtjufoQw
+	YHbVSEvwtYQZEkt7eL2EyBeRPrE56sCejuKUG/DjXwsIA6lqEfq5syFMBR4/rDt/HBnSAP
+	y5lAgHZO6XpZ/UpwRm8/2p+IWLgeLIU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718104549;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bXIgfjlBRvIxj2UUaKKzitcAEWvUbEosp8O96prSVHw=;
+	b=Eb/6ZUfB7XtI5PBZhSOt10RjtD7zulPGqnp+zGp4eTxG2M6lXa5hiwZAg5sezIHPzISArY
+	YO/tq9EuDka6emBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4FC0B13A55;
+	Tue, 11 Jun 2024 11:15:49 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id iCXwEOUxaGaOFQAAD6G6ig
+	(envelope-from <osalvador@suse.de>); Tue, 11 Jun 2024 11:15:49 +0000
+Date: Tue, 11 Jun 2024 13:15:47 +0200
+From: Oscar Salvador <osalvador@suse.de>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v1 2/6] fs/proc/task_mmu: don't indicate
+ PM_MMAP_EXCLUSIVE without PM_PRESENT
+Message-ID: <Zmgx42q2bA7zLSJ-@localhost.localdomain>
+References: <20240607122357.115423-1-david@redhat.com>
+ <20240607122357.115423-3-david@redhat.com>
+ <ZmaFxfQX3AVMIVkp@localhost.localdomain>
+ <2b912e12-8289-4ce8-99bb-103a289a23cb@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/zh_CN: add process/researcher-guidelines Chinese
- translation
-To: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240611042515.61387-1-dzm91@hust.edu.cn>
-Content-Language: en-US
-From: Yanteng Si <siyanteng@loongson.cn>
-In-Reply-To: <20240611042515.61387-1-dzm91@hust.edu.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:AQAAf8BxXcffMGhmKO4bAA--.3660S3
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
-	ZEXasCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29K
-	BjDU0xBIdaVrnRJUUUkjb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26c
-	xKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
-	j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxV
-	AFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x02
-	67AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6x
-	ACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E
-	87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41l42xK82IYc2
-	Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s02
-	6x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0x
-	vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE
-	42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6x
-	kF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07j1YL9UUUUU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2b912e12-8289-4ce8-99bb-103a289a23cb@redhat.com>
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: B42B933703
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
 
-Hi all,
+On Tue, Jun 11, 2024 at 12:50:46PM +0200, David Hildenbrand wrote:
+> I *think* we still want that for indicating PM_FILE after patch #1.
 
-在 2024/6/11 12:25, Dongliang Mu 写道:
-> Finish the translation of researcher-guidelines and add it to the
-> index file.
-
-How about add a tag?  just like:
-
-Commit xxxxxxxxxxxx ("xxxxxxxx").
-
-This will reduce the effort of subsequent document updates.
-
-At the same time, I also noticed that Ziqiu sent an automated probe
-tool, and I think this will be useful for running scripts in the future.
-What do you think?
-
-See <https://lore.kernel.org/linux-doc/20240422065822.1441611-1-chengziqiu@hust.edu.cn/>
-
-Thanks,
-Yanteng
+Yes, we do, disregard that comment please.
 
 
+-- 
+Oscar Salvador
+SUSE Labs
