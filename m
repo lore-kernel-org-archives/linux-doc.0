@@ -1,112 +1,151 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEAF852F70;
-	Tue, 11 Jun 2024 18:05:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA1D5BAF0
+	for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 18:09:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718129143; cv=none; b=sYhFqYRc6r0574DmSOlIpHFNdA+i8WqGzBnV1yA850/VdN82Qq+13YjQTOKYCX0K3yBX0UTkoBiQxtvCaPESC/HiKUVGqW2PdTLG4FTwIH3uKblGE7CLwMkHc+t9EeEvz+Zfe5iWuXSBps4XsmofXg1XXnyC2ESunj2+fkIVyPU=
+	t=1718129374; cv=none; b=fFDt7idQWKAqQxmCUlu3TcEVBY01ARapeVsUJ6W1/v+f+AW6uiN14V7m3nYj2sZ4wJAuei0M2EZdi1y/GKO42dUOxiDkOYIu4F5MUjVaMB573rmMT85Lh+EDMkTduHqfMwRM5onSgBBtTfbu3IBb8aajUpGPch+Une1Dsei7OFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718129143; c=relaxed/simple;
-	bh=v4260zIOGMiHtURiK7ky76hfMdWXplRiNTWm7coxRYY=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=amk5zHKLKSVALIQvCwGrPsbCsCNatOwI3MIoeVE6DNEDkOdS58SU/cJ9/57CGEp5C2Y+HTmB26zKaE0tDkc8zBsD8qigRMlbB6yN4VMXz8S9tLtYSS17kC8pYi0Vm7cGCeoDgzi7EP8NZhLBi/CqfU+Hv5OTmDQX6dHQOLwFRAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HPLZ/6hz; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1718129374; c=relaxed/simple;
+	bh=+lxPetrPpHvENSTokBRC6xognbIAj4RmicEAyuXDxTU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kQM6KKznUHizFz6FOsjxLcbkk3rXmZV/rk3jSZY6SBfvHgb6fuYC2mHDaXrWImcOLgf+XpCgR26tu06G97HwamPfWt8D4iWhsX/jzUb9x/lSCZ5B2xGE+3/SxlQIdXzQMvuzEXEaS3HaEkJ3Petb0zVPCIq0oS0NBTQLXcHFo1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ORBH1T28; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HPLZ/6hz"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-52c84a21c62so3123583e87.1;
-        Tue, 11 Jun 2024 11:05:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ORBH1T28"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-57c923e03caso1608973a12.3
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 11:09:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718129140; x=1718733940; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RUohe5I/U8iYfjovsxU/qvXwQ8UTe5baG/sBR7a+0qU=;
-        b=HPLZ/6hzuJ5u06VvQKwRd+kjwk9SYaWMxPiXspf8gDWnvZDXefovErJuW3w7z0ezhg
-         TxbHeX9udq16OeLS8PCCEsncQdb3/jsT4l1EvihfY3lN+XfOBCPCUHdEiMyoA4lsdFSR
-         JTTwYi0WvfVcj7BqRfTDeNU8FU7fYfIHrR7f4YDdWSCY9WIn8Dbaq9oIGeLAO6374WTS
-         u0B12mMH698yxiy5Mu8E2iAoGOIrd4+zHjzhPXqYcOMdSXdYUwbxDMoj224GTCER6wEV
-         zTqiDayNuDhZbclZxhXw+Ks5UbyLf1Eui/cUdNFl+fCy+LFEt5UOypeZBZTWqWif+AGy
-         kcbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718129140; x=1718733940;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1718129370; x=1718734170; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RUohe5I/U8iYfjovsxU/qvXwQ8UTe5baG/sBR7a+0qU=;
-        b=Zc5m+uDVG1obqBK8cy0+tRiKgxdfRkIEy0l7Ki6xHRphrgV8xJ4Bf0f+XfORC/Zvw0
-         YTL7q5JwZrFHIPqkgOM4DXAKp0VQJ1b8mSUYGHXD48ce1zodOH6L/eGn5PM8JU7e9GZr
-         9JywiUz8G0ek6b3R7SOSdMHP8VRWWm2pCGNdQWjNh56v5RzzskkZW0l696lKG2t2L9jo
-         26FedT5pCfma5dlVB9rrgzxi2Nave/d9Jhr288WGTxZWHRRaVuAzKVC2WOlr/WHL5732
-         qF2pGAd90eC+qp0izBYm289ZJkKXRzYOJjDDWL/7ffjn71WcDM0UnhFlNVHcoDiCPkvL
-         3vkg==
-X-Forwarded-Encrypted: i=1; AJvYcCVMjgcN26Qo9UTRn4fTg/7LQpe2OMdhkfZJoBAkcoYIClWOtzKbyabuykg0A/tnBI5Rlj1W+sl8L7hAFPyjZVo8bsTmfCTUw+ea8VWfaSlDi95gMS8v1N/GqBWPsqF3t0NG/r/x8A==
-X-Gm-Message-State: AOJu0YyoEg3r4vgcjm9Z892n0LyjU9HtGY27l/FsyhXN3LaE361qwudq
-	56kh/quuv0mOzEgDzx4ce8mv0Z56ey14SHbOFmHPY0TJVKrG9XcG
-X-Google-Smtp-Source: AGHT+IE2qPhlRsFkwXDOcSqAcYHE6TUAlN0piNN/sxB8v9XWqfk1bNSlBYNdXHQRf5+2ZR64HQJHIA==
-X-Received: by 2002:a05:6512:70c:b0:52c:8a4b:f972 with SMTP id 2adb3069b0e04-52c8a4bfb11mr3484974e87.34.1718129140051;
-        Tue, 11 Jun 2024 11:05:40 -0700 (PDT)
-Received: from pc636 (host-90-233-193-23.mobileonline.telia.com. [90.233.193.23])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52bb433e22bsm2217192e87.287.2024.06.11.11.05.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jun 2024 11:05:39 -0700 (PDT)
-From: Uladzislau Rezki <urezki@gmail.com>
-X-Google-Original-From: Uladzislau Rezki <urezki@pc636>
-Date: Tue, 11 Jun 2024 20:05:37 +0200
-To: Shubhang Kaushik OS <Shubhang@os.amperecomputing.com>
-Cc: Uladzislau Rezki <urezki@gmail.com>,
-	"ampere-linux-kernel@lists.amperecomputing.com" <ampere-linux-kernel@lists.amperecomputing.com>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"cl@linux.com" <cl@linux.com>, "corbet@lwn.net" <corbet@lwn.net>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"guoren@kernel.org" <guoren@kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"xiongwei.song@windriver.com" <xiongwei.song@windriver.com>,
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-	"linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
-	"willy@infradead.org" <willy@infradead.org>
-Subject: Re: [PATCH v4] vmalloc: Modify the alloc_vmap_area() error message
- for better diagnostics
-Message-ID: <ZmiR8STlyXEahzqy@pc636>
-References: <MN2PR01MB59025CC02D1D29516527A693F5C62@MN2PR01MB5902.prod.exchangelabs.com>
- <ZmgiPTHGy-kHNe5x@pc636>
- <CH2PR01MB58942C3696E4FD0181782F4DF5C72@CH2PR01MB5894.prod.exchangelabs.com>
+        bh=+lxPetrPpHvENSTokBRC6xognbIAj4RmicEAyuXDxTU=;
+        b=ORBH1T28Kv+Gm9vfDRFh0o9KoHNuPBRhIxafHB3qgyANZSEAx+9LLa6Wv5Iv2FulVM
+         1C4r4QsMP/tolax4DaWy4QrJlMTPTRDUpbMg8JdQqiADkwRyXa1Iy11Ylt5B7YbjRIRq
+         OctBI7JiWrNqmKnqBVdhpMRueuExFqKOmwSK+7OfBSrsjK4SgORfTkvjgaMoS3DMo0Q7
+         FkTsN8QksrcUNYzFDEG1UmAfTCd8yxst6SYakYd6YSlIZ9FEq+7SBeD6XMUjZNk9BCcy
+         Wrv4JJvkiSqmCMz3b9EpLjg4cplFB6acY4gYixvwk4VoXVVCe+PzWeGjji2mognTN5AY
+         C0/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718129370; x=1718734170;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+lxPetrPpHvENSTokBRC6xognbIAj4RmicEAyuXDxTU=;
+        b=CeJbNBLEoipWRpEKcYd4XLadyXt22fBOx2wARgsPtABNopdKsIxbM2ynLfl9gPEbiE
+         e6/gZIGYGTDBkVD6wvaOVKrRY3QUrt5eBlHcshed1hl4bNm3k81d9pU6L+YnlMoHQjht
+         0IIIvmiORdpZKqrEqTvDkgGFi+EIF/iVWAtsEZ2X6fFp/VBy6Yj0Q1gHV+k/7unMADwW
+         a5EWBDp/KvmhqvQxqj4sFsnqbCTborEMM7JDkgSJhvbGSxvbYJidyrp1+Dpifpdu/xOl
+         9dBsM+GU86O00Sc2m0cAs3BgN++f6WqG0pEEHrmLITLFHd7sT2dS3UhZK4aEYpJ/Gczr
+         8hAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWErMDM+Je1gJLfTB7zp8/2597m4xfNJi6+ZuHJ96apjTQWZE2zWGRecbIjtAQe3xRFYtUOQ4A2zw9n6CFmYHBh0G3B4fcV9Swv
+X-Gm-Message-State: AOJu0Yx5HL86ibzE9MSq69+F6659OSD6W0YCPboOCTRnWmTwtPIh7EWe
+	HSQtUMus4J/DMbaYLSR0yPomsa6hnpGQN42ny30gxBVvfZvfMCqPJXv1p2eOobT+cBBW9pTD6Xu
+	ihvXheYFcI02FppmhkAa66TYJKDdJbssLMb/t
+X-Google-Smtp-Source: AGHT+IHSnbMlQQE9x/zPWpkI90JIlOTBHgyEzLn5RoXQZyiGaSSB2YwhfXwjdqq72pgI+LQF0hGDSafJjuWqavJQlB4=
+X-Received: by 2002:a17:906:4742:b0:a6f:393a:9dea with SMTP id
+ a640c23a62f3a-a6f393aa161mr132795366b.77.1718129370030; Tue, 11 Jun 2024
+ 11:09:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CH2PR01MB58942C3696E4FD0181782F4DF5C72@CH2PR01MB5894.prod.exchangelabs.com>
+References: <5aee4bba-ca65-443c-bd78-e5599b814a13@gmail.com>
+ <CAHS8izNmT_NzgCu1pY1RKgJh+kP2rCL_90Gqau2Pkd3-48Q1_w@mail.gmail.com>
+ <eb237e6e-3626-4435-8af5-11ed3931b0ac@gmail.com> <be2d140f-db0f-4d15-967c-972ea6586b5c@kernel.org>
+ <20240607145247.GG791043@ziepe.ca> <45803740-442c-4298-b47e-2d87ae5a6012@davidwei.uk>
+ <54975459-7a5a-46ff-a9ae-dc16ceffbab4@gmail.com> <20240610121625.GI791043@ziepe.ca>
+ <59443d14-1f1d-42bb-8be3-73e6e4a0b683@kernel.org> <00c67cf0-2bf3-4eaf-b200-ffe00d91593b@gmail.com>
+ <20240610221500.GN791043@ziepe.ca>
+In-Reply-To: <20240610221500.GN791043@ziepe.ca>
+From: Mina Almasry <almasrymina@google.com>
+Date: Tue, 11 Jun 2024 11:09:15 -0700
+Message-ID: <CAHS8izNRd=f=jHgrYKKfzgcU3JzkZA1NkZnbQM+hfYd8-0NyBQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
+ custom page providers
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Pavel Begunkov <asml.silence@gmail.com>, David Ahern <dsahern@kernel.org>, 
+	David Wei <dw@davidwei.uk>, Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org, 
+	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
+	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Jun 10, 2024 at 3:15=E2=80=AFPM Jason Gunthorpe <jgg@ziepe.ca> wrot=
+e:
 >
-> This is intentional.  When 'addr' equals 'vend' the overflow path is triggered, but then the 'vstart' and 'vend'
-> values are not carried in the overflow path - making them point to no address. That is the reason 'addr' is used
-> in the warning message to specify the restrictive range - that gets assigned to 'va_start' and 'va_end' in the ideal case.
-> 
-What do you mean when you say:
-"but then the 'vstart' and 'vend' values are not carried in the overflow path - making them point to no address."
+> On Mon, Jun 10, 2024 at 08:20:08PM +0100, Pavel Begunkov wrote:
+> > On 6/10/24 16:16, David Ahern wrote:
+>
+> > > > There is no reason you shouldn't be able to use your fast io_uring
+> > > > completion and lifecycle flow with DMABUF backed memory. Those are =
+not
+> > > > widly different things and there is good reason they should work
+> > > > together.
+> >
+> > Let's not mix up devmem TCP and dmabuf specifically, as I see it
+> > your question was concerning the latter: "... DMABUF memory registered
+> > through Mina's mechanism". io_uring's zcrx can trivially get dmabuf
+> > support in future, as mentioned it's mostly the setup side. ABI,
+> > buffer workflow and some details is a separate issue, and I don't
+> > see how further integration aside from what we're already sharing
+> > is beneficial, on opposite it'll complicate things.
+>
+> Again, I am talking about composability here, duplicating the DMABUF
+> stuff into io_uring is not composable, it is just duplicating things.
+>
+> It does not match the view that there should be two distinct layers
+> here, one that provides the pages and one that manages the
+> lifecycle. As HCH pushes for pages either come from the allocator and
+> get to use the struct folio or the come from a dmabuf and they
+> don't. That is it, the only two choices.
+>
+> The iouring stuff is trying to confuse the source of the pages with
+> the lifecycle - which is surely convenient, but is why Christoph is
+> opposing it.
+>
 
-From your commit message: "With the update, the output gets modified to
-include the function parameters along with the start and end of the virtual
-memory range allowed."
+Just curious: in Pavel's effort, io_uring - which is not a device - is
+trying to share memory with the page_pool, which is also not a device.
+And Pavel is being asked to wrap the memory in a dmabuf. Is dmabuf
+going to be the kernel's standard for any memory sharing between any 2
+components in the future, even when they're not devices? As in you
+expect dmabuf exporters which are not devices to be added to the
+kernel? Currently the only dmabuf exporter which is not a device
+(AFAIK) is udmabuf, which is used for testing and emulation, not
+really a production thing, I think.
 
-i see that you would like to print an allowed range. Thus an allowed
-range is specified by "vstart" and "vend", i.e.:
-
-
-      vstart  vend
-<-------|------|------> vmap spase
-
-an allocation must be served between "vstart" and "vend". So, according to
-your commit message that range should be printed in case of error.
-
-Now you print, "vend" address and "vend + size" one. I do not follow why
-you need it. Could you please explain?
-
---
-Uladzislau Rezki
+--=20
+Thanks,
+Mina
