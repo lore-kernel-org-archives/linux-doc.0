@@ -1,101 +1,111 @@
-Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50F6682490
-	for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 19:49:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C456F150993;
+	Tue, 11 Jun 2024 19:57:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718135393; cv=none; b=dwrxhK9J7945z79bVSVEuQ8FRKgoKaswtPPK1PVjAZLyvu2QIgKnzthQEVjnczNa9m1WeOqUsqd2ZLoS3I8X6oidVMU4NorRWgrzVkG7dlJ251GQ07cUSSQcvL37XVwwy8MdPDpZmc+ZXmVEoaAyV3/kDBror2J0xmw7XnCXoq4=
+	t=1718135834; cv=none; b=WUPf57mHh2Q+H6dRysE7/hSLjhcuFu8EqOvKLgbBT5mia/fXE+3cG0jllag8/nYR9XH35ukAsi1cQD5IahJsZwVAvyJYNdr5qERR/SgFRfe4U2C3qAquPcJvuuNMcCmnGl0+irGK9iJGeoGG9cE5euYoFA2j1DmlQh9w1tz9cRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718135393; c=relaxed/simple;
-	bh=/NwHUZCZvevcGs9AY7lN4MhT6WOwaqpKh7KDLpz5U4w=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Z8F6aZC39QHEwgDN9om0ToaG7Y8JvPyvQmGQw+yl7r6tGjadXuXcoeori4qMxretRN5b3Jmg4xwBgL3/bJi6YUduVzhpUTXfoXCGMNyyK903iMFZ55NbU8iPv05JzU0HiPjpl4R7ePjfW+1d4tcmMRmSrRQDt9n2j+tMSTIop+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=psDrwT0a; arc=none smtp.client-ip=209.85.128.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1718135834; c=relaxed/simple;
+	bh=6M1ebK5ksd8fFr0463WqM9S7WBIPDoIGj+N3XpTNpPc=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=KtdoH1PxXcV4KuJbZM+qDMNRUxeHPp51ICWdSdE1JYBUz3NhmQOqD0UQPbEZLG5lYNZeJXYf/QnxHhqMwTrRQA4gx2tMdPdCvln0t5JfeJv/eHkvlRz2tMW9F1Hcbdp/5ANdQnv2Ngkds6WrAlFMNIMmI4ONUD5LlAHbO0CIvmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=JXP0r93T; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="psDrwT0a"
-Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-62a3dec382eso2138387b3.1
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 12:49:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718135391; x=1718740191; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NsScqjx9mfx0RxKgLYLDE8PLKJt3i+CjnwDIOhR5gSU=;
-        b=psDrwT0aT/+zOWt7TodmD8clrHhJGj0QJNuitdF9JFwwFohoyYco0Rx8Kn66EBTbPS
-         f2nxYuWSycH/oQZJmu+e3NE3idLxOKo3e98Ld+o+DvlK4DHfP16wYnpenX3DpbuzqyGh
-         fSXMNgEckdMNyVIYf0VeELQdZNJYzNxpSC9pKC3gh9mDImV31wWcku6W+QSME/2tHxuj
-         X4R0YW3kdp77qVPukRwQ7DRO65e9bcg+Bdjv8i1fLqjrButL4e6aFb5ykpJ1T8SZtXyY
-         lg46tK6/Z4NJrEtnA3M1/P1AJss0hVT8oM/o++D5LGgB3W41FSFLFHt9AmAucUAkXUlh
-         QsXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718135391; x=1718740191;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NsScqjx9mfx0RxKgLYLDE8PLKJt3i+CjnwDIOhR5gSU=;
-        b=CeZYxzA91FinHLyLF65EBdD3Chj8q/3cRhkGAFakogIaOafcxOTxnw+DKWwCJ0NlHU
-         EA0K+/EpdCi/2REpJZpPWoGhbid4RV/wtYsKNkM3naFkPRBrWS8iZyVOQyc/pMQQ7ACi
-         mDl9aIaH2+8NTXPuASMAXQFqAM9DEQN0fwwecx2kMbs+KAI56XPmCoj9cP02X8nlIR+v
-         mbRKikHNnSTTBbdK4a4MaOPXxuquHgvJrfJcGIdKNsTrjGmOeomPfVkFuYMd1nGyJMDh
-         2XF8vehp8u0KSqmBZVQJ+odoqoiu+9O7Eb8binUgrG66+WYxY7Ae4qRY9fl1vZWkmtxi
-         iLEg==
-X-Forwarded-Encrypted: i=1; AJvYcCWhfm60DBCccCrh2GyqrNNm4Ol1PPvB6GqPEd09IKwEAXyx32QFRLfHtDc6j+G/cVKcNbMejmjyQTwB4zi/oFM2jIiTUfmuaW9j
-X-Gm-Message-State: AOJu0YxM9EN5Wx27HzgleTEmYO5W88+mPKix9oRmK3Nq8tP3nNw/oV7v
-	1iMvY0FB/unKH0mtZTcRhtL/Msd8o/iHFsL/LWpjkorur3aqsaMNF9kACUloJM+3Sl+yvtjLj06
-	mrg==
-X-Google-Smtp-Source: AGHT+IHKfAK7pE+6MrNjEhC62+VdpwmGAN149yNl7QeE40CZzlXANYBAeDvy6+hs91vFlM0KeuUkc8js0Mw=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a0d:ca09:0:b0:627:edcb:cbe2 with SMTP id
- 00721157ae682-62f171e8601mr6018567b3.5.1718135391323; Tue, 11 Jun 2024
- 12:49:51 -0700 (PDT)
-Date: Tue, 11 Jun 2024 12:49:49 -0700
-In-Reply-To: <ZmidYAWKU1HANKU6@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="JXP0r93T"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A94FFC2BD10;
+	Tue, 11 Jun 2024 19:57:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1718135834;
+	bh=6M1ebK5ksd8fFr0463WqM9S7WBIPDoIGj+N3XpTNpPc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=JXP0r93TC6EddhtLwiYV0ZjXHBBlEdNNIljuy8rPFZz9i8xvRmt12ONtRAzQCSzwt
+	 3QZdLA4TSq94RabfXvxKod5pcgr5XD4hgZFDGIRsEWmQbkgIJuYCOyP44PqHjE/an0
+	 pAiTbYjRMIfWLZcfyz6UK4G/Z28FKjxWfKWHmoCU=
+Date: Tue, 11 Jun 2024 12:57:13 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Shubhang Kaushik OS <Shubhang@os.amperecomputing.com>
+Cc: "ampere-linux-kernel@lists.amperecomputing.com"
+ <ampere-linux-kernel@lists.amperecomputing.com>, Uladzislau Rezki
+ <urezki@gmail.com>, "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "cl@linux.com" <cl@linux.com>,
+ "corbet@lwn.net" <corbet@lwn.net>, "linux-mm@kvack.org"
+ <linux-mm@kvack.org>, "guoren@kernel.org" <guoren@kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "xiongwei.song@windriver.com" <xiongwei.song@windriver.com>,
+ "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+ "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>, Matthew Wilcox
+ <willy@infradead.org>
+Subject: Re: [PATCH v5] vmalloc: Modify the alloc_vmap_area() error message
+ for better diagnostics
+Message-Id: <20240611125713.eeef88483f5a782e3df71b21@linux-foundation.org>
+In-Reply-To: <CH2PR01MB5894B0182EA0B28DF2EFB916F5C72@CH2PR01MB5894.prod.exchangelabs.com>
+References: <CH2PR01MB5894B0182EA0B28DF2EFB916F5C72@CH2PR01MB5894.prod.exchangelabs.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20240611002145.2078921-1-jthoughton@google.com>
- <20240611002145.2078921-5-jthoughton@google.com> <CAOUHufYGqbd45shZkGCpqeTV9wcBDUoo3iw1SKiDeFLmrP0+=w@mail.gmail.com>
- <CADrL8HVHcKSW3hiHzKTit07gzo36jtCZCnM9ZpueyifgNdGggw@mail.gmail.com> <ZmidYAWKU1HANKU6@linux.dev>
-Message-ID: <ZmiqXUwMXtUGanQc@google.com>
-Subject: Re: [PATCH v5 4/9] mm: Add test_clear_young_fast_only MMU notifier
-From: Sean Christopherson <seanjc@google.com>
-To: Oliver Upton <oliver.upton@linux.dev>
-Cc: James Houghton <jthoughton@google.com>, Yu Zhao <yuzhao@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Ankit Agrawal <ankita@nvidia.com>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, David Matlack <dmatlack@google.com>, 
-	David Rientjes <rientjes@google.com>, James Morse <james.morse@arm.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
-	Raghavendra Rao Ananta <rananta@google.com>, Ryan Roberts <ryan.roberts@arm.com>, 
-	Shaoqin Huang <shahuang@redhat.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Wei Xu <weixugc@google.com>, Will Deacon <will@kernel.org>, Zenghui Yu <yuzenghui@huawei.com>, 
-	kvmarm@lists.linux.dev, kvm@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 11, 2024, Oliver Upton wrote:
-> On Tue, Jun 11, 2024 at 09:49:59AM -0700, James Houghton wrote:
-> > I think consolidating the callbacks is cleanest, like you had it in
-> > v2. I really wasn't sure about this change honestly, but it was my
-> > attempt to incorporate feedback like this[3] from v4. I'll consolidate
-> > the callbacks like you had in v2.
+On Tue, 11 Jun 2024 19:38:44 +0000 Shubhang Kaushik OS <Shubhang@os.amperecomputing.com> wrote:
+
+> 'vmap allocation for size %lu failed: use vmalloc=<size> to increase size'
+> The above warning is seen in the kernel functionality for allocation of the restricted virtual memory range till exhaustion.
 > 
-> My strong preference is to have the callers expectations of the
-> secondary MMU be explicit. Having ->${BLAH}_fast_only() makes this
-> abundantly clear both at the callsite and in the implementation.
+> This message is misleading because 'vmalloc=' is supported on arm32, x86 platforms and is not a valid kernel parameter on a number of other platforms (in particular its not supported on arm64, alpha, loongarch, arc, csky, hexagon, microblaze, mips, nios2, openrisc, parisc, m64k, powerpc, riscv, sh, um, xtensa, s390, sparc). With the update, the output gets modified to include the function parameters along with the start and end of the virtual memory range allowed.
+> 
+> The warning message after fix on kernel version 6.10.0-rc1+:
+> 
+> vmalloc_node_range for size 33619968 failed: Address range restricted between 0xffff800082640000 - 0xffff800084650000
+> 
+> Backtrace with the misleading error message:
+> 
+> 	vmap allocation for size 33619968 failed: use vmalloc=<size> to increase size
+> 	insmod: vmalloc error: size 33554432, vm_struct allocation failed, mode:0xcc0(GFP_KERNEL), nodemask=(null),cpuset=/,mems_allowed=0
+> 	CPU: 46 PID: 1977 Comm: insmod Tainted: G            E      6.10.0-rc1+ #79
+> 	Hardware name: INGRASYS Yushan Server iSystem TEMP-S000141176+10/Yushan Motherboard, BIOS 2.10.20230517 (SCP: xxx) yyyy/mm/dd
+> 	Call trace:
+> 		dump_backtrace+0xa0/0x128
+> 		show_stack+0x20/0x38
+> 		dump_stack_lvl+0x78/0x90
+> 		dump_stack+0x18/0x28
+> 		warn_alloc+0x12c/0x1b8
+> 		__vmalloc_node_range_noprof+0x28c/0x7e0
+> 		custom_init+0xb4/0xfff8 [test_driver]
+> 		do_one_initcall+0x60/0x290
+> 		do_init_module+0x68/0x250
+> 		load_module+0x236c/0x2428
+> 		init_module_from_file+0x8c/0xd8
+> 		__arm64_sys_finit_module+0x1b4/0x388
+> 		invoke_syscall+0x78/0x108
+> 		el0_svc_common.constprop.0+0x48/0xf0
+> 		do_el0_svc+0x24/0x38
+> 		el0_svc+0x3c/0x130
+> 		el0t_64_sync_handler+0x100/0x130
+> 		el0t_64_sync+0x190/0x198
 
-Partially agreed.  We don't need a dedicated mmu_notifier API to achieve that
-for the callsites, e.g. ptep_clear_young_notify() passes fast_only=false, and a
-new ptep_clear_young_notify_fast_only() does the obvious.
+When sending an updated version, please describe what was changed since
+the previous version.  After the changelog's ^---$ separator is the
+usual place.
 
-On the back end, odds are very good KVM is going to squish the "fast" and "slow"
-paths back into a common helper, so IMO having dedicated fast_only() APIs for the
-mmu_notifier hooks doesn't add much value in the end.
+I'm seeing this:
 
-I'm not opposed to dedicated hooks, but I after poking around a bit, I suspect
-that passing a fast_only flag will end up being less cleaner for all parties.
+--- a/mm/vmalloc.c~vmalloc-modify-the-alloc_vmap_area-error-message-for-better-diagnostics-v5
++++ a/mm/vmalloc.c
+@@ -2057,7 +2057,7 @@ overflow:
+ 
+ 	if (!(gfp_mask & __GFP_NOWARN) && printk_ratelimit())
+ 		pr_warn("vmalloc_node_range for size %lu failed: Address range restricted to %#lx - %#lx\n",
+-				size, addr, addr+size);
++				size, vstart, vend);
+ 
+ 	kmem_cache_free(vmap_area_cachep, va);
+ 	return ERR_PTR(-EBUSY);
+_
+
+which I assume has no effect?
