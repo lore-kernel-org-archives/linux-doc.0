@@ -1,129 +1,288 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AECB017CA0B;
-	Tue, 11 Jun 2024 12:06:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from zg8tmtyylji0my4xnjeumjiw.icoremail.net (zg8tmtyylji0my4xnjeumjiw.icoremail.net [162.243.161.220])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAFCD17C7D7;
+	Tue, 11 Jun 2024 13:18:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.161.220
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718107608; cv=none; b=t11j3Xp/MslrMosrEnAr+Z5Rw+ApaxK7f3NmjOIyHtJ3Gi1A9nOVG5zAfpUZlLCxP07MFS0ZkBcDGe0YduLUiPOvig+LdklU2jMCs49fT7LtONQabMIYYzIW8fJOV1D2veBLBLb1iQqYBRW4eTyjP9X2dGgHjdlVGsT8UXXxd4s=
+	t=1718111929; cv=none; b=s7gmckgyhOrLeyOXNp9RfNVoen7y9lXk+GeXhf6IjOaG83zS00xhpogG9reY8A2/a63m+boy5Y9IcccDNQyALRXs4TYsD1Dcc3jvSCir8g+wI/0Yb0H0nb5cz9yRjUHFzPHahb/R17N+hqBJeye7ci8Gisd6qF4a+MTrWdCuSU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718107608; c=relaxed/simple;
-	bh=izbQACBXKg7/xAfr+T6NfWco5xbmu+bfnAsIHYpOdVw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iRH+V9CO0MF6s1QgUf9BzcOyx0gUv/7i4gtViyYRB1pJ3kDdpaHSbG/i1d+yeWE7O54UT98HnMkmVnzJMIQVzA4JiPU6pitqfSiasT2gq5/XTLT7V9NLa0/zx3LNHTXjt53LtOYj09/g59qQaKGE7HHITb0BZ7HpeuDdheuc+Ho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DeJj4q5+; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DeJj4q5+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ACB9C2BD10;
-	Tue, 11 Jun 2024 12:06:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718107608;
-	bh=izbQACBXKg7/xAfr+T6NfWco5xbmu+bfnAsIHYpOdVw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=DeJj4q5++zj+R3KhmhuzK4d1y38/q9RlXNvB80U8sWohX93yRvAYBbRWeNJI+hEkm
-	 k+6zKhoYuXFyb07P2kL/gMmg/FK9/y7H81SPPXOQI54Ebtv+gaujOBYPQ2BRaVYtr9
-	 4lnDhr8IOcynWAd4LHkUKBtKY+YHivapA0KcI4qKSTAzc4SDzmPp4RqbTJTVrp/i06
-	 yeFezpNqoJVDv03VNIjOBZEqJZ7lwd6ZgUNgF0gsfzovWKsFQcHGsAyw1jhVsfafjZ
-	 Lbe7woGXDn9ZOOtxQ1qkBeigUZLfV/hyl1O4hYcRLn41/8zOCV4apxu/JPqpRIYjBJ
-	 hgZeTXX2xJnaA==
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-579fa270e53so1420336a12.3;
-        Tue, 11 Jun 2024 05:06:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXbSviWFWJfPK0DRPTFHzrDVYAa3DrAB+bk4EHedGoObZXKD5al0wKx3VdNcoOsDV8TiJYo0+vNS/vq16CxTfUmQ8Aq+fgLttN9a9jPrZg1YLEL69jT3e1uHJqIua+Qvj7o8u8GlbMKETX0h+jiOy4GFoP+l1oeshbiVH5ZvqyV7MMP/nGwg05F4+wKwTc8e517Su8NUQiRLJAHm03R9akMPEDcrw==
-X-Gm-Message-State: AOJu0Yyarp9ksieeZnbCbAf8duz7DQZehWSw1BG4/KCYm81xFAJ28x5t
-	LAISqQwnKksuLLvctj4XvVfxpjWde9lbBxVQbiokmPBOhy4b+lwjPaAGtRxza8BQ2Vzy29ap6DO
-	XWWvu83SAU9GcwL+6oI/QejE27CE=
-X-Google-Smtp-Source: AGHT+IFFPTTll7ACEEwwlIU5pUww8R0bMpeHE5EPA9sRicSO1H8r8Hj10JvtLT4RCL9oaDh0AQArdk5Tw1koxKQr8oM=
-X-Received: by 2002:a17:906:b810:b0:a6f:1f66:8335 with SMTP id
- a640c23a62f3a-a6f1f66841fmr408155266b.4.1718107606517; Tue, 11 Jun 2024
- 05:06:46 -0700 (PDT)
+	s=arc-20240116; t=1718111929; c=relaxed/simple;
+	bh=ES7wp3TjBJU7oN34llmd1uzWuSryLZ3GbtLiVIHQF74=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=LxZpBhgxMoE2PjnOFqFu2BQwlPsRu9Sy6iPyQi69oOiZhzn6xCdl/Rlzafe0ertnuNPqjp181s9cXM8Gg3TbcY+tT6XZImKSr0JGvy7UAhIqsM8RQs5GXd2dt6dO5gfBK+ZnQvjK3wKn8IaQOKFPJje3Vs4YaWbNYXDWDG6ivaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=162.243.161.220
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app1 (Coremail) with SMTP id HgEQrAC3maprTmhmLNmyBw--.38643S2;
+	Tue, 11 Jun 2024 21:17:31 +0800 (CST)
+Received: from pride-poweredge-r740.. (unknown [222.20.126.129])
+	by gateway (Coremail) with SMTP id _____wAX08VnTmhmHdkDAQ--.1929S2;
+	Tue, 11 Jun 2024 21:17:28 +0800 (CST)
+From: Dongliang Mu <dzm91@hust.edu.cn>
+To: Alex Shi <alexs@kernel.org>,
+	Yanteng Si <siyanteng@loongson.cn>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: hust-os-kernel-patches@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	Cheng Ziqiu <chengziqiu@hust.edu.cn>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] scripts: add scripts/checktransupdate.py
+Date: Tue, 11 Jun 2024 21:17:16 +0800
+Message-Id: <20240611131723.53515-1-dzm91@hust.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240609-xtheadvector-v1-0-3fe591d7f109@rivosinc.com> <20240609-xtheadvector-v1-1-3fe591d7f109@rivosinc.com>
-In-Reply-To: <20240609-xtheadvector-v1-1-3fe591d7f109@rivosinc.com>
-From: Guo Ren <guoren@kernel.org>
-Date: Tue, 11 Jun 2024 20:06:34 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTTVu4ZQt+gK7pVYEDVG23Sic=jswkVvX4To=VAD0TMzxw@mail.gmail.com>
-Message-ID: <CAJF2gTTVu4ZQt+gK7pVYEDVG23Sic=jswkVvX4To=VAD0TMzxw@mail.gmail.com>
-Subject: Re: [PATCH 01/13] dt-bindings: riscv: Add xtheadvector ISA extension description
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, Evan Green <evan@rivosinc.com>, 
-	Andy Chiu <andy.chiu@sifive.com>, linux-riscv@lists.infradead.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HgEQrAC3maprTmhmLNmyBw--.38643S2
+Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoWxtFW8CF4kZFyfAFW5Cr47CFg_yoWxZr1xpa
+	45G3WIyr4rAFW7Jr4fJw4UuFy3ArnrJFWjqryIgr93Ar17K34F9FWSk34SvrZrWF1rX34a
+	ga4Fyr1jkF17uaDanT9S1TB71UUUUj7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQab7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
+	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
+	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
+	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
+	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
+	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkF7I0En4kS14v26r126r1DMx
+	AIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkE
+	bVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E74
+	80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0
+	I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04
+	k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7Cj
+	xVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jDkucUUUUU=
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-On Mon, Jun 10, 2024 at 12:45=E2=80=AFPM Charlie Jenkins <charlie@rivosinc.=
-com> wrote:
->
-> The xtheadvector ISA extension is described on the T-Head extension spec
-> Github page [1] at commit 95358cb2cca9.
->
-> Link: https://github.com/T-head-Semi/thead-extension-spec/blob/95358cb2cc=
-a9489361c61d335e03d3134b14133f/xtheadvector.adoc [1]
->
-> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
-> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-> ---
->  Documentation/devicetree/bindings/riscv/extensions.yaml | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Do=
-cumentation/devicetree/bindings/riscv/extensions.yaml
-> index 468c646247aa..99d2a9e8c52d 100644
-> --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
-> +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
-> @@ -477,6 +477,10 @@ properties:
->              latency, as ratified in commit 56ed795 ("Update
->              riscv-crypto-spec-vector.adoc") of riscv-crypto.
->
-> +        # vendor extensions, each extension sorted alphanumerically unde=
-r the
-> +        # vendor they belong to. Vendors are sorted alphanumerically as =
-well.
-> +
-> +        # Andes
->          - const: xandespmu
->            description:
->              The Andes Technology performance monitor extension for count=
-er overflow
-> @@ -484,5 +488,11 @@ properties:
->              Registers in the AX45MP datasheet.
->              https://www.andestech.com/wp-content/uploads/AX45MP-1C-Rev.-=
-5.0.0-Datasheet.pdf
->
-> +        # T-HEAD
-> +        - const: xtheadvector
-> +          description:
-> +            The T-HEAD specific 0.7.1 vector implementation as written i=
-n
-> +            https://github.com/T-head-Semi/thead-extension-spec/blob/953=
-58cb2cca9489361c61d335e03d3134b14133f/xtheadvector.adoc.
-URL changed
-https://github.com/XUANTIE-RV/thead-extension-spec/blob/95358cb2cca9489361c=
-61d335e03d3134b14133f/xtheadvector.adoc
+The checktransupdate.py script helps track the translation status of
+the documentation in different locales, e.g., zh_CN and verify if
+these documenation is up-to-date. More specially, it uses `git log`
+commit to find the latest english commit from the translation commit
+(order by author date) and the latest english commits from HEAD. If
+differences occur, report the file and commits that need to be updated.
 
-Others, LGTM.
+Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+Signed-off-by: Cheng Ziqiu <chengziqiu@hust.edu.cn>
+---
+v1->v2: revise the output format of git commits
+        add some description and usage of this script
+ scripts/checktransupdate.py | 203 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 203 insertions(+)
+ create mode 100755 scripts/checktransupdate.py
 
-> +
->  additionalProperties: true
->  ...
->
-> --
-> 2.44.0
->
+diff --git a/scripts/checktransupdate.py b/scripts/checktransupdate.py
+new file mode 100755
+index 000000000000..5a0fc99e3f93
+--- /dev/null
++++ b/scripts/checktransupdate.py
+@@ -0,0 +1,203 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0
++
++"""
++This script helps track the translation status of the documentation
++in different locales, e.g., zh_CN. More specially, it uses `git log`
++commit to find the latest english commit from the translation commit
++(order by author date) and the latest english commits from HEAD. If
++differences occur, report the file and commits that need to be updated.
++
++The usage is as follows:
++- ./scripts/checktransupdate.py -l zh_CN
++This will print all the files that need to be updated in the zh_CN locale.
++- ./scripts/checktransupdate.py Documentation/translations/zh_CN/dev-tools/testing-overview.rst
++This will only print the status of the specified file.
++
++The output is something like:
++Documentation/translations/zh_CN/dev-tools/testing-overview.rst (1 commits)
++commit 42fb9cfd5b18 ("Documentation: dev-tools: Add link to RV docs")
++"""
++
++import os
++from argparse import ArgumentParser, BooleanOptionalAction
++from datetime import datetime
++
++flag_p_c = False
++flag_p_uf = False
++flag_debug = False
++
++
++def dprint(*args, **kwargs):
++    if flag_debug:
++        print("[DEBUG] ", end="")
++        print(*args, **kwargs)
++
++
++def get_origin_path(file_path):
++    paths = file_path.split("/")
++    tidx = paths.index("translations")
++    opaths = paths[:tidx]
++    opaths += paths[tidx + 2 :]
++    return "/".join(opaths)
++
++
++def get_latest_commit_from(file_path, commit):
++    command = "git log --pretty=format:%H%n%aD%n%cD%n%n%B {} -1 -- {}".format(
++        commit, file_path
++    )
++    dprint(command)
++    pipe = os.popen(command)
++    result = pipe.read()
++    result = result.split("\n")
++    if len(result) <= 1:
++        return None
++
++    dprint("Result: {}".format(result[0]))
++
++    return {
++        "hash": result[0],
++        "author_date": datetime.strptime(result[1], "%a, %d %b %Y %H:%M:%S %z"),
++        "commit_date": datetime.strptime(result[2], "%a, %d %b %Y %H:%M:%S %z"),
++        "message": result[4:],
++    }
++
++
++def get_origin_from_trans(origin_path, t_from_head):
++    o_from_t = get_latest_commit_from(origin_path, t_from_head["hash"])
++    while o_from_t is not None and o_from_t["author_date"] > t_from_head["author_date"]:
++        o_from_t = get_latest_commit_from(origin_path, o_from_t["hash"] + "^")
++    if o_from_t is not None:
++        dprint("tracked origin commit id: {}".format(o_from_t["hash"]))
++    return o_from_t
++
++
++def get_commits_count_between(opath, commit1, commit2):
++    command = "git log --pretty=format:%H {}...{} -- {}".format(commit1, commit2, opath)
++    dprint(command)
++    pipe = os.popen(command)
++    result = pipe.read().split("\n")
++    # filter out empty lines
++    result = list(filter(lambda x: x != "", result))
++    return result
++
++
++def pretty_output(commit):
++    command = "git log --pretty='format:%h (\"%s\")' -1 {}".format(commit)
++    dprint(command)
++    pipe = os.popen(command)
++    return pipe.read()
++
++
++def check_per_file(file_path):
++    opath = get_origin_path(file_path)
++
++    if not os.path.isfile(opath):
++        dprint("Error: Cannot find the origin path for {}".format(file_path))
++        return
++
++    o_from_head = get_latest_commit_from(opath, "HEAD")
++    t_from_head = get_latest_commit_from(file_path, "HEAD")
++
++    if o_from_head is None or t_from_head is None:
++        print("Error: Cannot find the latest commit for {}".format(file_path))
++        return
++
++    o_from_t = get_origin_from_trans(opath, t_from_head)
++
++    if o_from_t is None:
++        print("Error: Cannot find the latest origin commit for {}".format(file_path))
++        return
++
++    if o_from_head["hash"] == o_from_t["hash"]:
++        if flag_p_uf:
++            print("No update needed for {}".format(file_path))
++        return
++    else:
++        print("{}".format(file_path), end="\t")
++        commits = get_commits_count_between(
++            opath, o_from_t["hash"], o_from_head["hash"]
++        )
++        print("({} commits)".format(len(commits)))
++        if flag_p_c:
++            for commit in commits:
++                msg = pretty_output(commit)
++                if "Merge tag" not in msg:
++                    print("commit", msg)
++
++
++def main():
++    script_path = os.path.dirname(os.path.abspath(__file__))
++    linux_path = os.path.join(script_path, "..")
++
++    parser = ArgumentParser(description="Check the translation update")
++    parser.add_argument(
++        "-l",
++        "--locale",
++        help="Locale to check when files are not specified",
++    )
++    parser.add_argument(
++        "--print-commits",
++        action=BooleanOptionalAction,
++        default=True,
++        help="Print commits between the origin and the translation",
++    )
++
++    parser.add_argument(
++        "--print-updated-files",
++        action=BooleanOptionalAction,
++        default=False,
++        help="Print files that do no need to be updated",
++    )
++
++    parser.add_argument(
++        "--debug",
++        action=BooleanOptionalAction,
++        help="Print debug information",
++        default=False,
++    )
++
++    parser.add_argument(
++        "files", nargs="*", help="Files to check, if not specified, check all files"
++    )
++    args = parser.parse_args()
++
++    global flag_p_c, flag_p_uf, flag_debug
++    flag_p_c = args.print_commits
++    flag_p_uf = args.print_updated_files
++    flag_debug = args.debug
++
++    # get files related to linux path
++    files = args.files
++    if len(files) == 0:
++        if args.locale is not None:
++            files = (
++                os.popen(
++                    "find {}/Documentation/translations/{} -type f".format(
++                        linux_path, args.locale
++                    )
++                )
++                .read()
++                .split("\n")
++            )
++        else:
++            files = (
++                os.popen(
++                    "find {}/Documentation/translations -type f".format(linux_path)
++                )
++                .read()
++                .split("\n")
++            )
++
++    files = list(filter(lambda x: x != "", files))
++    files = list(map(lambda x: os.path.relpath(os.path.abspath(x), linux_path), files))
++
++    # cd to linux root directory
++    os.chdir(linux_path)
++
++    for file in files:
++        check_per_file(file)
++
++
++if __name__ == "__main__":
++    main()
+-- 
+2.39.2
 
-
---=20
-Best Regards
- Guo Ren
