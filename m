@@ -1,84 +1,110 @@
-Received: from hust.edu.cn (mail.hust.edu.cn [202.114.0.240])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 259528488;
-	Tue, 11 Jun 2024 04:44:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.114.0.240
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D29617109B
+	for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 05:34:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718081062; cv=none; b=hZNWNo2T6fLJAB8LGZ64tVIBBFVx+81oDO7ngfJ3S2a3A99CWiwpc10LMgSQy+d5ZSpjoBN2eESwa+yEvYZlMJ4d4M2JCDCoy09bxK+/0F0odfY5VButvlDDn/ww4RRv6wYC813Pl3PjRc9j2Cs+ughvtoIplOmjLQaBpD0DDGQ=
+	t=1718084055; cv=none; b=VuhxYqCaeH9+Z4vxRbd2O9ERC5jHtSw71J54Gg0QRn47NsXU8d+uyxpWdbpr2FmpRNbq7aEEeWYUl7jEh3JAidOUoBCXCvSajEq+oxN1yvty0Q4BiM99T6EEYvg+qQRVVIiyETvgQdvZs9sYoJMTY4kFMhLFcKWewgFOkwZX6ME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718081062; c=relaxed/simple;
-	bh=JQDNUB4MPCgvUTSY6N7FlEkArwSpi5ZJluvqklqh7/s=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=l3WywY/MJETAB39qMZu8WwPTSvOSShpfzrFTXHtoJW+YWs1dGzmOs8c+ck6GlfssX8rBJkK+NRuqSpFS36H2JHSBQZHmx4wRHvknMJdn0FxM+dJBvowe1vOOPzs7N6sEh753A5ShkMRjgEXKhK6Dc3wzfeS2So4Af4Q78a0GjWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=202.114.0.240
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app1 (Coremail) with SMTP id HgEQrACXmikR1mdmRe6tBw--.18346S2;
-	Tue, 11 Jun 2024 12:44:01 +0800 (CST)
-Received: from pride-poweredge-r740.. (unknown [222.20.126.129])
-	by gateway (Coremail) with SMTP id _____wBnfyUQ1mdmb6sBAQ--.9264S2;
-	Tue, 11 Jun 2024 12:44:01 +0800 (CST)
-From: Dongliang Mu <dzm91@hust.edu.cn>
-To: Alex Shi <alexs@kernel.org>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Hu Haowen <2023002089@link.tyut.edu.cn>,
-	Dongliang Mu <dzm91@hust.edu.cn>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/zh_CN: Update the translation of dev-tools/testing-overview
-Date: Tue, 11 Jun 2024 12:43:55 +0800
-Message-Id: <20240611044358.25689-1-dzm91@hust.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1718084055; c=relaxed/simple;
+	bh=fR3uqfswqgPixvWJU+uzJF8SnpIWyc4DS1G+kRb9LI0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gejZ/ym8jisp9JJxAwBTPuCB4GGLiL3e8U/pDHnYX1kqBViOh34pfc8DpNF7wYiTGcxLIVoR52ZKX05oZin1v7/bL000Fddy3ty3Y4FPA8ubCoJlNtMu1v5Wta8vykQ+iBy7G61dbTPttCc6P9J3+QamBiUiZNMRqt5tIOn4Rpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lpwW606j; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lpwW606j"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-42171fa0a32so37295e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 10 Jun 2024 22:34:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1718084052; x=1718688852; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fR3uqfswqgPixvWJU+uzJF8SnpIWyc4DS1G+kRb9LI0=;
+        b=lpwW606jE/ZzmkkXql9HRf/GLNevhz4tFi0qXc88H/g4Jn7zc7Mphuj5NEIcGsoARc
+         2I0IUVgbYDqRNudR3JUzZ7L0XpXxlI4i74Zs2CkU8G8+x1ABF7L2en9cx5rL8DeytwLf
+         sAGEgwyVuXbp5/WX1YTvyzG1cwW2mFU+kZEJc/Hhh+bN+61zujYl7OcmrPZbBfyUTKAI
+         bR3vHP5RCVXnTueWGBogM7s2/FifsCGos0TiELEiOXOr3DoVhqHMC6mukUzWWOxAuuts
+         RdG3yAmO27bw2wqJiS8hyr9jOQQCkhtmaIRfdUEQf2YBOADB96ZUfFmTbpj10T9bEfLM
+         6HjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718084052; x=1718688852;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fR3uqfswqgPixvWJU+uzJF8SnpIWyc4DS1G+kRb9LI0=;
+        b=wfWTs0CIlNDUC9v3Opc8VGgsSvSBZresA/1ABwsXNOXesWmnpTkUn92OZue/YUJtsu
+         8mHq2LeoocVYtjqbuMmhMlQigjVcRFII/key3m5aXc52l2bKjDHlH+WhYcKamDsbk+qb
+         xZlXcafODmfZ2YXxn70yYj+76Os2jt4D6e5aVJeq8MGtbvvkA4eR1OXoBgOVz9nf2bji
+         lAU157VpNRe1YM5IYC5l7dCQ00mfQLuHJxD//vxjVLSmzYvp/Hgbe5qvWFUfqJaekcNt
+         F+D2hwHyMIPdVIjr/K8h/XantOeheaHJ/Qky4NxhAIV24qG3Kj/vdadx7R9YotUvLyJa
+         zwuw==
+X-Forwarded-Encrypted: i=1; AJvYcCWP3jRg50PYhfa9KSbExLTP6/iAW5q3V84QnHdpbcW3ECbGko/fX+accl/wxT2XyIY3opZL9ltUa8qn9/bWJ5y5QxNiHmTAcCws
+X-Gm-Message-State: AOJu0YzwEE3DuX0/MeMmTVJ52JUJ1eht904AS2ngnd/tRQcbXU6JxLUt
+	cpTbx+EoK3BUkyTyGlntyxD6aszKqpuOZudAajoxRLTmyZsLJgKfZpYPeI/4Op6o7bLRq/QEWuO
+	hVyUyK3/smfdSuMeYixXYJ2uvP+5GIodE/rKw
+X-Google-Smtp-Source: AGHT+IHhYq94AypC29YgE3hVmYacjlUkNo/Qo9+rQA77kfA5hlq20npia7gDojAiEDcXg8++4JZWIpCmeIjETKxk4OA=
+X-Received: by 2002:a05:600c:4e49:b0:41c:ab7:f9af with SMTP id
+ 5b1f17b1804b1-42251e64c22mr651355e9.3.1718084051642; Mon, 10 Jun 2024
+ 22:34:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HgEQrACXmikR1mdmRe6tBw--.18346S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvdXoWruF17ZF48ZFWfJrWrZw4fXwb_yoWktFg_Aw
-	s3JF4kAF43try0qrs5AF1kAFn3ua1rKr18AF4qyFs8A3sxGa97Ga4DX3sYva45WF43urW3
-	CrWkZrsaqrs2yjkaLaAFLSUrUUUU0b8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbmxYjsxI4VWxJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
-	s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
-	8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM28EF7xvwVC2
-	z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2kKe7AKxVWUAV
-	WUtwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AI
-	YIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VACjcxG62k0Y48FwI0_Gr
-	1j6F4UJwAv7VCjz48v1sIEY20_GFW3Jr1UJwAv7VCY1x0262k0Y48FwI0_Cr0_Gr1UMcvj
-	eVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04
-	k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_
-	Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
-	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0
-	cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
-	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E
-	14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUVWSoDUUUU
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+References: <20240611002145.2078921-1-jthoughton@google.com> <20240611002145.2078921-5-jthoughton@google.com>
+In-Reply-To: <20240611002145.2078921-5-jthoughton@google.com>
+From: Yu Zhao <yuzhao@google.com>
+Date: Mon, 10 Jun 2024 23:33:34 -0600
+Message-ID: <CAOUHufYGqbd45shZkGCpqeTV9wcBDUoo3iw1SKiDeFLmrP0+=w@mail.gmail.com>
+Subject: Re: [PATCH v5 4/9] mm: Add test_clear_young_fast_only MMU notifier
+To: James Houghton <jthoughton@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Ankit Agrawal <ankita@nvidia.com>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, David Matlack <dmatlack@google.com>, 
+	David Rientjes <rientjes@google.com>, James Morse <james.morse@arm.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+	Raghavendra Rao Ananta <rananta@google.com>, Ryan Roberts <ryan.roberts@arm.com>, 
+	Sean Christopherson <seanjc@google.com>, Shaoqin Huang <shahuang@redhat.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Wei Xu <weixugc@google.com>, 
+	Will Deacon <will@kernel.org>, Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev, 
+	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Update to commit 42fb9cfd5b18 ("Documentation: dev-tools:
-Add link to RV docs")
+On Mon, Jun 10, 2024 at 6:22=E2=80=AFPM James Houghton <jthoughton@google.c=
+om> wrote:
+>
+> This new notifier is for multi-gen LRU specifically
 
-Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
----
- Documentation/translations/zh_CN/dev-tools/testing-overview.rst | 2 ++
- 1 file changed, 2 insertions(+)
+Let me call it out before others do: we can't be this self-serving.
 
-diff --git a/Documentation/translations/zh_CN/dev-tools/testing-overview.rst b/Documentation/translations/zh_CN/dev-tools/testing-overview.rst
-index c91f9b60f9f1..d89d0ec1d4cc 100644
---- a/Documentation/translations/zh_CN/dev-tools/testing-overview.rst
-+++ b/Documentation/translations/zh_CN/dev-tools/testing-overview.rst
-@@ -99,6 +99,8 @@ Documentation/dev-tools/kcov.rst 是能够构建在内核之中，用于在每
-   参阅 Documentation/dev-tools/kfence.rst
- * lockdep是一个锁定正确性检测器。参阅
-   Documentation/locking/lockdep-design.rst
-+* Runtime Verification (RV) 支持检查给定子系统的特定行为。参阅
-+  Documentation/trace/rv/runtime-verification.rst。
- * 除此以外，在内核中还有一些其它的调试工具，大多数能在
-   lib/Kconfig.debug 中找到。
- 
--- 
-2.34.1
+> as it wants to be
+> able to get and clear age information from secondary MMUs only if it can
+> be done "fast".
+>
+> By having this notifier specifically created for MGLRU, what "fast"
+> means comes down to what is "fast" enough to improve MGLRU's ability to
+> reclaim most of the time.
+>
+> Signed-off-by: James Houghton <jthoughton@google.com>
 
+If we'd like this to pass other MM reviewers, especially the MMU
+notifier maintainers, we'd need to design a generic API that can
+benefit all the *existing* users: idle page tracking [1], DAMON [2]
+and MGLRU.
+
+Also I personally prefer to extend the existing callbacks by adding
+new parameters, and on top of that, I'd try to consolidate the
+existing callbacks -- it'd be less of a hard sell if my changes result
+in less code, not more.
+
+(v2 did all these, btw.)
+
+[1] https://docs.kernel.org/admin-guide/mm/idle_page_tracking.html
+[2] https://www.kernel.org/doc/html/latest/mm/damon/index.html
