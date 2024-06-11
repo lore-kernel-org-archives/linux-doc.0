@@ -1,455 +1,242 @@
-Received: from m16.mail.126.com (m16.mail.126.com [220.197.31.6])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 472D316F8E7
-	for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 07:54:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.6
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4124F17335E
+	for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 07:56:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718092476; cv=none; b=FhEOkF8amsSBhVzmiw3HK2uc6ZLTxPLOMgP/Mfu0o1h/hbRp6GWWArjKAhucxqzIaujHwVwPOk0LFL5mvO1fISdEDVcCLVZ1Yvudm0TiCx6HciVr0LCqDMkT7p3XKigPjx0+dhfiSYkKSLArnmmtSjqOZyES2xyoReiGIiKU3H4=
+	t=1718092579; cv=none; b=bH7ZdlLBAJe9dXIqa1h0P9n8zXcihSTyyc6moEkhNRc0oSJXp2uKYQQUEr5a2iPn6QyvCUGD6DwRjqewN25H2uUog7nkJwGPpz2Xs0hSf6GlRZshRRqLxvD/9SilbdAQf5LRnDKnm10wMMeQXu59BKr0w8br7vSw4FUrTNroCPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718092476; c=relaxed/simple;
-	bh=KBzdSft8bQHxMuAsNoqTzYvx0IHVKc6bsP5yRo8AjxI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=p7a551jginnCQp5tUKsj26gm30HUDpgOXhpmx6EAjYh/cTRfkCM9aKjsf+leTXxC20UT9fI3YI7sJJVasghH6hvAqdAP9sthx+NWMamhQ+/ekJja5JRf+edGe8BrONfqBlNhv99r90ATtFCcr4e1i2PZ2lSaUc4D3bs6PMTr1nE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com; spf=pass smtp.mailfrom=126.com; dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b=AI0SZLXG; arc=none smtp.client-ip=220.197.31.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=126.com
+	s=arc-20240116; t=1718092579; c=relaxed/simple;
+	bh=fz/fl1AdWD5D7YlbHf2tsLLn/LfH4RJ9gD1f59iOLB4=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=YhQANbFg5aPJXjxchf/GYfs866naw8rA2XU+m4IgU74//maTXFHM7/FVLecp6NSEfKYxmljgbVL8pt+EAaQDedkUYt9ROY5T8BsAaxRlG4Ys5hCXsgDqsXO3vaM+zCj3iFzMKiHpQkuv5oH4RiaHpQvGdJF/faw3KY8zIxA3rXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=r7Sf8Lzu; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b="AI0SZLXG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
-	s=s110527; h=From:Subject:Date:Message-ID:MIME-Version:
-	Content-Type; bh=StbhZpAqEfRTL63g9p2fX87Wy4HlzmspS3NrrGTbJUI=;
-	b=AI0SZLXGTMQ7YOGCz0pDfjkGqzU2po48cHxvsqmOwiocY3Toifp6AtBwfRUrxN
-	set30GmjcBWR8bvRCGwXLaXym6cUdd4AGzkz7zk74xewPLDalhEkgDT3C4Q2DI3x
-	KGKYY/M3AnyajUIpr/OxON6UzEPpXAula1feEGx2lHUj8=
-Received: from localhost.localdomain (unknown [39.156.73.13])
-	by gzga-smtp-mta-g0-3 (Coremail) with SMTP id _____wD3H9+XAmhmB_2uBg--.36887S2;
-	Tue, 11 Jun 2024 15:54:01 +0800 (CST)
-From: cuiyudong123@126.com
-To: siyanteng@loongson.cn
-Cc: linux-doc@vger.kernel.org,
-	cuiyudong123 <cuiyudong@kylinos.cn>
-Subject: [PATCH v2]   docs/zh_CN: Add userspace-api/mseal Chinese translation
-Date: Tue, 11 Jun 2024 15:53:48 +0800
-Message-ID: <20240611075349.1005-1-cuiyudong123@126.com>
-X-Mailer: git-send-email 2.43.0.windows.1
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="r7Sf8Lzu"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-421f4d1c057so13534935e9.3
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 00:56:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718092575; x=1718697375; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yaXeG3R9YcDyayLk5fnOo/XnkT8Q/xttYsYmH8uTJ2Y=;
+        b=r7Sf8LzuHMAw1y+Y24pJ2jaq9Eng5iCjDTzHqA33HnKz+O2S3Reyv0KjykpPR4ezEz
+         N9eKLYqI99wW64RdP7ZYne9Xw0WlAiFoIxqxZu5y8lWtdTKQUBA8m5A5gGJmhRzCJIoJ
+         wNLiZb/bDZ61fdFXouirbpIlNzkVgRn8ATh4efuxcxYbb0SRUZ20wY8k+uJW+6J4TMiS
+         bWLMblfdWJ652Y/LdnhAyIk1tjlxrymuE2F0ClRaOzhXBi9NYn+P0xv2dVnZSWVlN8Aq
+         QhhQOEFbr4K1BVFsLpaZRKyctPaHGSEA8buTOqvBIWe3NcWwmLbD3ar3EaxsRTdusvzL
+         bmcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718092575; x=1718697375;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=yaXeG3R9YcDyayLk5fnOo/XnkT8Q/xttYsYmH8uTJ2Y=;
+        b=X8vr09+EballYD+zHLVYmedeDgM1ze0tH9emSo6Kiw94XtXa84P3Qg0Ab7XU8DBHjL
+         n8Ho9QAU9+YzpqW4KSJa0CsdFMtLAuzHK4hFqJGzuD7Hk4EHlPveUeQB2tqt3ArxbGTN
+         wsaapVgFnlCVffZFIt1WWo0LTvmY+rlQyvnh2FVmfz19jLIs/kETZiqp0zKX9+x3d4av
+         mnXrR2pVHYrREcsUWuKTBKpvHdyZdGcQVEOhu7ctmnFS+xYzOCBnkHz5qxw1XzWU7lju
+         YM1jZTx6tQ3GF+s0QodMtdzhz9LjxkTcmmdp0UJN2b7TOUosDRL4H+agRjrdYr4XaHcG
+         prCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU1mCi5UFlsx9jkDRC03HPNMaz0xhvK0e0gTdY9PlT8MGvTyQaFDfERYO48s0OZU+kFuulsvzUrQtUju9DpPI7MCk2uMJ3Vh7LZ
+X-Gm-Message-State: AOJu0YyBy6CFy5T9RX8RiMXGKwcLNljXTUT7qpfD29eqtndHs2yhZKwy
+	/pnhoMUGg/7OVQ0pKxVj1FZfO7U4WbT/BWNhjSSlVXM+jaUhMJiB4Xg+KIW+cdo=
+X-Google-Smtp-Source: AGHT+IF5ErUhZ0Gir3WaEpkIMTyi5A9X1sNl7/oV0utGu6R3mmUFRlimyA8iwylUV2vLZCk0lFcIhA==
+X-Received: by 2002:a05:600c:35d3:b0:421:7fe5:12a with SMTP id 5b1f17b1804b1-4217fe50433mr49372795e9.35.1718092575454;
+        Tue, 11 Jun 2024 00:56:15 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:982:cbb0:5a4:3b2:c750:ef5c? ([2a01:e0a:982:cbb0:5a4:3b2:c750:ef5c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42158148f66sm206043675e9.32.2024.06.11.00.56.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Jun 2024 00:56:14 -0700 (PDT)
+Message-ID: <9067e697-4786-49ae-8727-603c7cc8ec5b@linaro.org>
+Date: Tue, 11 Jun 2024 09:56:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-CM-TRANSID:_____wD3H9+XAmhmB_2uBg--.36887S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW3ArWfJr47KF4UZFyDXrykGrg_yoW3AryDpa
-	4qkryfWFW5Jry7Arn2vryjgF47GF18Xay3Aryxt3WFvry5AFySvr4YyFWfW3s3WrWxCa15
-	XanY9F45C3s7K37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UyMKZUUUUU=
-X-CM-SenderInfo: 5fxl535grqwiist6ij2wof0z/1tbiJBz6tmW-PyqFSwAAs1
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: neil.armstrong@linaro.org
+Subject: Re: [PATCH v3 00/24] drm/panel: Remove most store/double-check of
+ prepared/enabled state
+To: Douglas Anderson <dianders@chromium.org>,
+ dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+ Chris Morgan <macromorgan@hotmail.com>,
+ Yuran Pereira <yuran.pereira@hotmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Robert Chiras <robert.chiras@nxp.com>, Stefan Mavrodiev <stefan@olimex.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
+References: <20240605002401.2848541-1-dianders@chromium.org>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20240605002401.2848541-1-dianders@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: cuiyudong123 <cuiyudong@kylinos.cn>
+Hi,
 
-  Translate the following documents into Chinese:
+On 05/06/2024 02:22, Douglas Anderson wrote:
+> 
+> As talked about in commit d2aacaf07395 ("drm/panel: Check for already
+> prepared/enabled in drm_panel"), we want to remove needless code from
+> panel drivers that was storing and double-checking the
+> prepared/enabled state. Even if someone was relying on the
+> double-check before, that double-check is now in the core and not
+> needed in individual drivers.
+> 
+> This series attempts to do just that. While the original grep, AKA:
+>    git grep 'if.*>prepared' -- drivers/gpu/drm/panel
+>    git grep 'if.*>enabled' -- drivers/gpu/drm/panel
+> ...still produces a few hits after my series, they are _mostly_ all
+> gone. The ones that are left are less trivial to fix.
+> 
+> One of the main reasons that many panels probably needed to store and
+> double-check their prepared/enabled appears to have been to handle
+> shutdown and/or remove. Panels drivers often wanted to force the power
+> off for panels in these cases and this was a good reason for the
+> double-check.
+> 
+> In response to my V1 series [1] we had much discussion of what to
+> do. The conclusion was that as long as DRM modeset drivers properly
+> called drm_atomic_helper_shutdown() that we should be able to remove
+> the explicit shutdown/remove handling in the panel drivers. Most of
+> the patches to improve DRM modeset drivers [2] [3] [4] have now
+> landed.
+> 
+> In contrast to my V1 series, I broke the V2 series up a lot
+> more. Since a few of the panel drivers in V1 already landed, we had
+> fewer total drivers and so we could devote a patch to each panel.
+> Also, since we were now relying on DRM modeset drivers I felt like we
+> should split the patches for each panel into two: one that's
+> definitely safe and one that could be reverted if we found a
+> problematic DRM modeset driver that we couldn't fix.
+> 
+> Many of the patches in the V2 series [5] landed, so this V3 series is
+> the patches that are left plus one new bonus patch. At this point, we
+> may want to just land the patches that are left since it seems like
+> nobody is going to test/review them and they've all been Acked by
+> Linus and Maxime.
+> 
+> NOTE: this touches _a lot_ of drivers, is repetitive, and is not
+> really possible to generate automatically. That means it's entirely
+> possible that my eyes glazed over and I did something wrong. Please
+> double-check me and don't assume that I got everything perfect, though
+> I did my best. I have at least confirmed that "allmodconfig" for arm64
+> doesn't fall on its face with this series. I haven't done a ton of
+> other testing.
+> 
+> [1] https://lore.kernel.org/r/20230804140605.RFC.4.I930069a32baab6faf46d6b234f89613b5cec0f14@changeid
+> [2] https://lore.kernel.org/r/20230901234015.566018-1-dianders@chromium.org
+> [3] https://lore.kernel.org/r/20230901234202.566951-1-dianders@chromium.org
+> [4] https://lore.kernel.org/r/20230921192749.1542462-1-dianders@chromium.org
+> [5] https://lore.kernel.org/r/20240503213441.177109-1-dianders@chromium.org/
+> 
+> Changes in v3:
+> - drm/panel: Avoid warnings w/ panel-simple/panel-edp at shutdown
+> 
+> Changes in v2:
+> - Only handle 1 panel per patch.
+> - Split removal of prepared/enabled from handling of remove/shutdown.
+> 
+> Douglas Anderson (24):
+>    drm/panel: boe-himax8279d: Stop tracking prepared/enabled
+>    drm/panel: boe-himax8279d: Don't call unprepare+disable at
+>      shutdown/remove
+>    drm/panel: khadas-ts050: Stop tracking prepared/enabled
+>    drm/panel: khadas-ts050: Don't call unprepare+disable at
+>      shutdown/remove
+>    drm/panel: olimex-lcd-olinuxino: Stop tracking prepared/enabled
+>    drm/panel: olimex-lcd-olinuxino: Don't call unprepare+disable at
+>      remove
+>    drm/panel: osd-osd101t2587-53ts: Stop tracking prepared/enabled
+>    drm/panel: osd-osd101t2587-53ts: Don't call unprepare+disable at
+>      shutdown/remove
+>    drm/panel: tdo-tl070wsh30: Stop tracking prepared
+>    drm/panel: tdo-tl070wsh30: Don't call unprepare+disable at
+>      shutdown/remove
+>    drm/panel: jdi-lt070me05000: Stop tracking prepared/enabled
+>    drm/panel: jdi-lt070me05000: Don't call disable at shutdown/remove
+>    drm/panel: panasonic-vvx10f034n00: Stop tracking prepared/enabled
+>    drm/panel: panasonic-vvx10f034n00: Don't call disable at
+>      shutdown/remove
+>    drm/panel: seiko-43wvf1g: Stop tracking prepared/enabled
+>    drm/panel: seiko-43wvf1g: Don't call disable at shutdown/remove
+>    drm/panel: sharp-lq101r1sx01: Stop tracking prepared/enabled
+>    drm/panel: sharp-lq101r1sx01: Don't call disable at shutdown/remove
+>    drm/panel: sharp-ls043t1le01: Stop tracking prepared
+>    drm/panel: sharp-ls043t1le01: Don't call disable at shutdown/remove
+>    drm/panel: raydium-rm67191: Stop tracking enabled
+>    drm/panel: raydium-rm67191: Don't call unprepare+disable at shutdown
+>    drm/panel: Update TODO list item for cleaning up prepared/enabled
+>      tracking
+>    drm/panel: Avoid warnings w/ panel-simple/panel-edp at shutdown
+> 
+>   Documentation/gpu/todo.rst                    |  47 +++---
+>   drivers/gpu/drm/drm_panel.c                   |  12 ++
+>   drivers/gpu/drm/panel/panel-boe-himax8279d.c  |  40 -----
+>   .../gpu/drm/panel/panel-drm-shutdown-check.h  | 151 ++++++++++++++++++
+>   drivers/gpu/drm/panel/panel-edp.c             |  19 +--
+>   .../gpu/drm/panel/panel-jdi-lt070me05000.c    |  35 ----
+>   drivers/gpu/drm/panel/panel-khadas-ts050.c    |  39 -----
+>   .../drm/panel/panel-olimex-lcd-olinuxino.c    |  44 -----
+>   .../drm/panel/panel-osd-osd101t2587-53ts.c    |  41 +----
+>   .../drm/panel/panel-panasonic-vvx10f034n00.c  |  47 +-----
+>   drivers/gpu/drm/panel/panel-raydium-rm67191.c |  26 ---
+>   drivers/gpu/drm/panel/panel-seiko-43wvf1g.c   |  49 ------
+>   .../gpu/drm/panel/panel-sharp-lq101r1sx01.c   |  63 +-------
+>   .../gpu/drm/panel/panel-sharp-ls043t1le01.c   |  24 ---
+>   drivers/gpu/drm/panel/panel-simple.c          |  19 +--
+>   drivers/gpu/drm/panel/panel-tdo-tl070wsh30.c  |  23 ---
+>   16 files changed, 199 insertions(+), 480 deletions(-)
+>   create mode 100644 drivers/gpu/drm/panel/panel-drm-shutdown-check.h
+> 
 
-  - userspace-api/mseal.rst
 
-Signed-off-by: cuiyudong123 <cuiyudong@kylinos.cn>
----
-V1 -> V2: Resolved compilation warnings and optimized the translation of do=
-cumentation
----
- .../zh_CN/userspace-api/index.rst             |   1 +
- .../zh_CN/userspace-api/mseal.rst             | 186 ++++++++++++++++++
- 2 files changed, 187 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/userspace-api/mseal.rst
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 
-diff --git a/Documentation/translations/zh_CN/userspace-api/index.rst b/Doc=
-umentation/translations/zh_CN/userspace-api/index.rst
-index 5b14721c8264..b7da307ec6bb 100644
---- a/Documentation/translations/zh_CN/userspace-api/index.rst
-+++ b/Documentation/translations/zh_CN/userspace-api/index.rst
-@@ -27,6 +27,7 @@ Linux =E5=86=85=E6=A0=B8=E7=94=A8=E6=88=B7=E7=A9=BA=E9=97=
-=B4API=E6=8C=87=E5=8D=97
-    ebpf/index
-    sysfs-platform_profile
-    futex2
-+   mseal
-=20
- TODOList:
-=20
-diff --git a/Documentation/translations/zh_CN/userspace-api/mseal.rst b/Doc=
-umentation/translations/zh_CN/userspace-api/mseal.rst
-new file mode 100644
-index 000000000000..598bb5f1562c
---- /dev/null
-+++ b/Documentation/translations/zh_CN/userspace-api/mseal.rst
-@@ -0,0 +1,186 @@
-+.. SPDX-License-Identifier: GPL-2.0=0D
-+.. include:: ../disclaimer-zh_CN.rst=0D
-+=0D
-+:Original: Documentation/userspace-api/mseal.rst=0D
-+=0D
-+:=E7=BF=BB=E8=AF=91:=0D
-+=0D
-+ =E5=B4=94=E7=8E=89=E6=A0=8B cuiyudong <cuiyudong@kylinos.cn>=0D
-+=0D
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0D
-+mseal =E7=AE=80=E4=BB=8B=0D
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0D
-+=0D
-+:=E4=BD=9C=E8=80=85: Jeff Xu <jeffxu@chromium.org>=0D
-+=0D
-+=E7=8E=B0=E4=BB=A3cpu=E6=94=AF=E6=8C=81=E8=AF=B8=E5=A6=82RW=E5=92=8CNX=E4=
-=BD=8D=E7=9A=84=E5=86=85=E5=AD=98=E6=9D=83=E9=99=90=E3=80=82=E8=BF=99=E4=B8=
-=AA=E5=86=85=E5=AD=98=E6=9D=83=E9=99=90=E7=89=B9=E6=80=A7=E6=8F=90=E9=AB=98=
-=E4=BA=86=E5=86=85=E5=AD=98=E6=8D=9F=E5=9D=8Fbug=E7=9A=84=E5=AE=89=E5=85=A8=
-=E6=80=A7=E3=80=82=0D
-+=E6=94=BB=E5=87=BB=E8=80=85=E4=B8=8D=E8=83=BD=E5=8F=AA=E6=98=AF=E5=86=99=
-=E5=85=A5=E4=BB=BB=E6=84=8F=E5=86=85=E5=AD=98=E5=B9=B6=E5=B0=86=E4=BB=A3=E7=
-=A0=81=E6=8C=87=E5=90=91=E5=AE=83=EF=BC=8C=E5=86=85=E5=AD=98=E5=BF=85=E9=A1=
-=BB=E7=94=A8X=E4=BD=8D=E6=A0=87=E8=AE=B0=EF=BC=8C=E5=90=A6=E5=88=99=E4=BC=
-=9A=E5=8F=91=E7=94=9F=E5=BC=82=E5=B8=B8=E3=80=82=0D
-+=0D
-+=E5=86=85=E5=AD=98=E5=B0=81=E8=A3=85=E8=BF=98=E9=A2=9D=E5=A4=96=E4=BF=9D=
-=E6=8A=A4=E4=BA=86=E6=98=A0=E5=B0=84=E6=9C=AC=E8=BA=AB=E4=B8=8D=E8=A2=AB=E4=
-=BF=AE=E6=94=B9=E3=80=82=E8=BF=99=E5=AF=B9=E4=BA=8E=E7=BC=93=E8=A7=A3=E5=86=
-=85=E5=AD=98=E6=8D=9F=E5=9D=8F=E9=97=AE=E9=A2=98=E5=BE=88=E6=9C=89=E7=94=A8=
-=EF=BC=8C=0D
-+=E5=9C=A8=E8=BF=99=E4=BA=9B=E9=97=AE=E9=A2=98=E4=B8=AD=EF=BC=8C=E4=B8=80=
-=E4=B8=AA=E6=8D=9F=E5=9D=8F=E7=9A=84=E6=8C=87=E9=92=88=E8=A2=AB=E4=BC=A0=E9=
-=80=92=E7=BB=99=E5=86=85=E5=AD=98=E7=AE=A1=E7=90=86=E7=B3=BB=E7=BB=9F=E3=80=
-=82=E4=BE=8B=E5=A6=82=EF=BC=8C=0D
-+=E8=BF=99=E6=A0=B7=E7=9A=84=E6=94=BB=E5=87=BB=E8=80=85=E5=8E=9F=E8=AF=AD=
-=E5=8F=AF=E4=BB=A5=E7=A0=B4=E5=9D=8F=E6=8E=A7=E5=88=B6=E6=B5=81=E5=AE=8C=E6=
-=95=B4=E6=80=A7=E4=BF=9D=E8=AF=81=EF=BC=8C=E5=9B=A0=E4=B8=BA=E5=BA=94=E8=AF=
-=A5=E8=A2=AB=E4=BF=A1=E4=BB=BB=E7=9A=84=E5=8F=AA=E8=AF=BB=E5=86=85=E5=AD=98=
-=E5=8F=AF=E8=83=BD=E5=8F=98=E5=BE=97=E5=8F=AF=E5=86=99=EF=BC=8C=0D
-+=E6=88=96=E8=80=85 .text =E9=A1=B5=E9=9D=A2=E5=8F=AF=E8=83=BD=E4=BC=9A=E8=
-=A2=AB=E9=87=8D=E6=96=B0=E6=98=A0=E5=B0=84=E3=80=82=E8=BF=90=E8=A1=8C=E6=97=
-=B6=E5=8A=A0=E8=BD=BD=E7=A8=8B=E5=BA=8F=E5=8F=AF=E4=BB=A5=E8=87=AA=E5=8A=A8=
-=E5=BA=94=E7=94=A8=E5=86=85=E5=AD=98=E5=AF=86=E5=B0=81=E6=9D=A5=0D
-+=E5=AF=86=E5=B0=81.text=E5=92=8C.rodata=E9=A1=B5=E9=9D=A2=EF=BC=8C=E5=B9=
-=B6=E4=B8=94=E5=BA=94=E7=94=A8=E7=A8=8B=E5=BA=8F=E5=8F=AF=E4=BB=A5=E5=9C=A8=
-=E8=BF=90=E8=A1=8C=E6=97=B6=E9=A2=9D=E5=A4=96=E5=AF=86=E5=B0=81=E5=AE=89=E5=
-=85=A8=E5=85=B3=E9=94=AE=E6=95=B0=E6=8D=AE=E3=80=82=0D
-+=0D
-+=E7=B1=BB=E4=BC=BC=E7=9A=84=E7=89=B9=E6=80=A7=E5=B7=B2=E7=BB=8F=E5=AD=98=
-=E5=9C=A8=E4=BA=8EXNU=E5=86=85=E6=A0=B8=E4=B8=AD=0D
-+VM_FLAGS_PERMANENT =E6=A0=87=E5=BF=97 [1] =E5=92=8C OpenBSD =E4=B8=8A=E7=
-=9A=84=E5=8F=AF=E5=8F=98=E7=B3=BB=E7=BB=9F=E8=B0=83=E7=94=A8 [2]=E3=80=82=0D
-+=0D
-+=E7=94=A8=E6=88=B7 API=0D
-+=3D=3D=3D=3D=3D=3D=3D=3D=0D
-+mseal()=0D
-+-----------=0D
-+The mseal() =E7=B3=BB=E7=BB=9F=E8=B0=83=E7=94=A8=E5=85=B7=E6=9C=89=E4=BB=
-=A5=E4=B8=8B=E7=AD=BE=E5=90=8D:=0D
-+=0D
-+``int mseal(void addr, size_t len, unsigned long flags)``=0D
-+=0D
-+**addr/len**: =E8=99=9A=E6=8B=9F=E5=86=85=E5=AD=98=E5=9C=B0=E5=9D=80=E8=8C=
-=83=E5=9B=B4=E3=80=82=0D
-+=0D
-+=E7=94=B1 ``addr``/``len`` =E8=AE=BE=E7=BD=AE=E7=9A=84=E5=9C=B0=E5=9D=80=
-=E8=8C=83=E5=9B=B4=E5=BF=85=E9=A1=BB=E6=BB=A1=E8=B6=B3:=0D
-+   - =E8=B5=B7=E5=A7=8B=E5=9C=B0=E5=9D=80=E5=BF=85=E9=A1=BB=E5=9C=A8=E5=B7=
-=B2=E5=88=86=E9=85=8D=E7=9A=84VMA=E4=B8=AD=E3=80=82=0D
-+   - =E8=B5=B7=E5=A7=8B=E5=9C=B0=E5=9D=80=E5=BF=85=E9=A1=BB=E4=B8=8E=E9=A1=
-=B5=E9=9D=A2=E5=AF=B9=E9=BD=90=E3=80=82=0D
-+   - =E7=BB=93=E6=9D=9F=E5=9C=B0=E5=9D=80 (``addr`` + ``len``) =E5=BF=85=
-=E9=A1=BB=E5=9C=A8=E5=B7=B2=E5=88=86=E9=85=8D=E7=9A=84VMA=E4=B8=AD=E3=80=82=
-=0D
-+   - =E8=B5=B7=E5=A7=8B=E5=9C=B0=E5=9D=80=E5=92=8C=E7=BB=93=E6=9D=9F=E5=9C=
-=B0=E5=9D=80=E4=B9=8B=E9=97=B4=E6=B2=A1=E6=9C=89=E9=97=B4=E9=9A=99 (=E6=9C=
-=AA=E5=88=86=E9=85=8D=E7=9A=84=E5=86=85=E5=AD=98) =E3=80=82=0D
-+=0D
-+=E8=BF=99=E4=B8=AA ``len`` =E5=B0=86=E7=94=B1=E5=86=85=E6=A0=B8=E9=9A=90=
-=E5=BC=8F=E5=9C=B0=E8=BF=9B=E8=A1=8C=E5=88=86=E9=A1=B5=E5=AF=B9=E9=BD=90=E3=
-=80=82=0D
-+=0D
-+**flags**: =E4=BF=9D=E7=95=99=E4=BE=9B=E5=B0=86=E6=9D=A5=E4=BD=BF=E7=94=A8=
-=E3=80=82=0D
-+=0D
-+**=E8=BF=94=E5=9B=9E=E5=80=BC**:=0D
-+=0D
-+- ``0``: =E6=88=90=E5=8A=9F=E3=80=82=0D
-+=0D
-+- ``-EINVAL``:=0D
-+    - =E6=97=A0=E6=95=88=E7=9A=84=E8=BE=93=E5=85=A5 ``flags``=E3=80=82=0D
-+    - =E8=B5=B7=E5=A7=8B=E5=9C=B0=E5=9D=80 (``addr``) =E6=9C=AA=E5=AF=B9=
-=E9=BD=90=E9=A1=B5=E3=80=82=0D
-+    - =E5=9C=B0=E5=9D=80=E8=8C=83=E5=9B=B4 (``addr`` + ``len``) =E6=BA=A2=
-=E5=87=BA=E3=80=82=0D
-+=0D
-+- ``-ENOMEM``:=0D
-+    - =E8=B5=B7=E5=A7=8B=E5=9C=B0=E5=9D=80 (``addr``) =E6=9C=AA=E5=88=86=
-=E9=85=8D=E3=80=82=0D
-+    - =E7=BB=93=E6=9D=9F=E5=9C=B0=E5=9D=80 (``addr`` + ``len``) =E6=9C=AA=
-=E5=88=86=E9=85=8D=E3=80=82=0D
-+    - =E4=B8=80=E4=B8=AA=E9=97=B4=E9=9A=99 (unallocated memory) =E8=B5=B7=
-=E5=A7=8B=E5=9C=B0=E5=9D=80=E5=92=8C=E7=BB=93=E6=9D=9F=E5=9C=B0=E5=9D=80=E4=
-=B9=8B=E9=97=B4=E3=80=82=0D
-+=0D
-+- ``-EPERM``:=0D
-+    - =E5=86=85=E5=AD=98=E5=AF=86=E5=B0=81=E4=BB=85=E5=9C=A864=E4=BD=8DCPU=
-=E4=B8=8A=E6=94=AF=E6=8C=81=EF=BC=8C32=E4=BD=8D=E4=B8=8D=E5=8F=97=E6=94=AF=
-=E6=8C=81=E3=80=82=0D
-+=0D
-+- =E5=AF=B9=E4=BA=8E=E4=B8=8A=E8=BF=B0=E9=94=99=E8=AF=AF=E6=83=85=E5=86=B5=
-=EF=BC=8C=E7=94=A8=E6=88=B7=E5=8F=AF=E4=BB=A5=E6=9C=9F=E6=9C=9B=E7=BB=99=E5=
-=AE=9A=E7=9A=84=E5=86=85=E5=AD=98=E8=8C=83=E5=9B=B4=E4=B8=BA=E6=9C=AA=E4=BF=
-=AE=E6=94=B9=EF=BC=8C=E5=8D=B3=E6=B2=A1=E6=9C=89=E9=83=A8=E5=88=86=E6=9B=B4=
-=E6=96=B0=E3=80=82=0D
-+=0D
-+- =E5=8F=AF=E8=83=BD=E8=BF=98=E6=9C=89=E5=85=B6=E4=BB=96=E6=9C=AA=E5=9C=A8=
-=E6=AD=A4=E5=A4=84=E5=88=97=E5=87=BA=E7=9A=84=E5=86=85=E9=83=A8=E9=94=99=E8=
-=AF=AF/=E6=83=85=E5=86=B5=EF=BC=8C=E4=BE=8B=E5=A6=82=EF=BC=8C=0D
-+  =E5=9C=A8=E5=90=88=E5=B9=B6/=E6=8B=86=E5=88=86VMA=EF=BC=88=E8=99=9A=E6=
-=8B=9F=E5=86=85=E5=AD=98=E5=8C=BA=E5=9F=9F=EF=BC=89=E6=97=B6=E5=8F=91=E7=94=
-=9F=E9=94=99=E8=AF=AF=EF=BC=8C=E6=88=96=E8=80=85=0D
-+  =E8=BF=9B=E7=A8=8B=E8=BE=BE=E5=88=B0=E4=BA=86=E6=94=AF=E6=8C=81=E7=9A=84=
-=E6=9C=80=E5=A4=A7VMA=E6=95=B0=E9=87=8F=E3=80=82=E5=9C=A8=E8=BF=99=E4=BA=9B=
-=E6=83=85=E5=86=B5=E4=B8=8B=EF=BC=8C=0D
-+  =E7=BB=99=E5=AE=9A=E5=86=85=E5=AD=98=E8=8C=83=E5=9B=B4=E5=8F=AF=E8=83=BD=
-=E4=BC=9A=E5=8F=91=E7=94=9F=E9=83=A8=E5=88=86=E6=9B=B4=E6=96=B0=E3=80=82=E7=
-=84=B6=E8=80=8C=EF=BC=8C=E8=BF=99=E4=BA=9B=E6=83=85=E5=86=B5=E5=BA=94=E8=AF=
-=A5=E5=BE=88=E7=BD=95=E8=A7=81=E3=80=82=0D
-+=0D
-+**=E5=86=85=E5=AD=98=E5=AF=86=E5=B0=81=E5=90=8E=E7=9A=84=E9=98=BB=E5=A1=9E=
-=E6=93=8D=E4=BD=9C**:=0D
-+    =E5=8F=96=E6=B6=88=E6=98=A0=E5=B0=84=EF=BC=8C=E7=A7=BB=E5=8A=A8=E5=88=
-=B0=E5=8F=A6=E4=B8=80=E4=B8=AA=E4=BD=8D=E7=BD=AE=EF=BC=8C=E5=B9=B6=E7=BC=A9=
-=E5=B0=8F=E5=A4=A7=E5=B0=8F=EF=BC=8C=E9=80=9A=E8=BF=87munmap()=E5=92=8Cmrem=
-ap()=EF=BC=8C=0D
-+    =E5=8F=AF=E4=BB=A5=E7=95=99=E4=B8=8B=E4=B8=80=E4=B8=AA=E7=A9=BA=E7=99=
-=BD=E7=9A=84=E7=A9=BA=E9=97=B4=EF=BC=8C=E5=9B=A0=E6=AD=A4=E5=8F=AF=E4=BB=A5=
-=E7=94=A8=E5=85=B7=E6=9C=89=E4=B8=80=E7=BB=84=E6=96=B0=E5=B1=9E=E6=80=A7=E7=
-=9A=84VMA=E6=9B=BF=E6=8D=A2=E3=80=82=0D
-+=0D
-+    =E9=80=9A=E8=BF=87mremap()=EF=BC=8C=E5=B0=86=E4=B8=8D=E5=90=8C=E7=9A=
-=84VMA=E7=A7=BB=E5=8A=A8=E6=88=96=E6=89=A9=E5=B1=95=E5=88=B0=E5=BD=93=E5=89=
-=8D=E4=BD=8D=E7=BD=AE=E3=80=82=0D
-+=0D
-+    =E9=80=9A=E8=BF=87mmap(MAP_FIXED)=E4=BF=AE=E6=94=B9VMA=E3=80=82=0D
-+=0D
-+    =E9=80=9A=E8=BF=87 mremap() =E8=BF=9B=E8=A1=8C=E7=9A=84=E5=A4=A7=E5=B0=
-=8F=E6=89=A9=E5=B1=95=E4=BC=BC=E4=B9=8E=E4=B8=8D=E4=BC=9A=E5=AF=B9=E5=B7=B2=
-=E5=AF=86=E5=B0=81=E7=9A=84 VMA=EF=BC=88=E8=99=9A=E6=8B=9F=E5=86=85=E5=AD=
-=98=E5=8C=BA=E5=9F=9F=EF=BC=89=0D
-+    =E9=80=A0=E6=88=90=E4=BB=BB=E4=BD=95=E7=89=B9=E5=AE=9A=E7=9A=84=E9=A3=
-=8E=E9=99=A9=E3=80=82=E5=B0=BD=E7=AE=A1=E5=A6=82=E6=AD=A4=EF=BC=8C=E7=94=B1=
-=E4=BA=8E=E4=BD=BF=E7=94=A8=E5=9C=BA=E6=99=AF=E4=B8=8D=E6=98=8E=E7=A1=AE=EF=
-=BC=8C=E8=BF=99=E4=B8=80=E7=82=B9=E8=BF=98=E6=98=AF=E8=A2=AB=E5=8C=85=E6=8B=
-=AC=E4=BA=86=E8=BF=9B=E6=9D=A5=E3=80=82=0D
-+    =E6=97=A0=E8=AE=BA=E5=A6=82=E4=BD=95=EF=BC=8C=E7=94=A8=E6=88=B7=E9=83=
-=BD=E5=8F=AF=E4=BB=A5=E4=BE=9D=E8=B5=96=E5=90=88=E5=B9=B6=E6=93=8D=E4=BD=9C=
-=E6=9D=A5=E6=89=A9=E5=B1=95=E5=B7=B2=E5=AF=86=E5=B0=81=E7=9A=84 VMA=E3=80=
-=82=0D
-+=0D
-+    mprotect() =E5=92=8C pkey_mprotect()=E3=80=82=0D
-+=0D
-+    =E5=AF=B9=E4=BA=8E=E5=8C=BF=E5=90=8D=E5=86=85=E5=AD=98=E4=B8=80=E4=BA=
-=9B=E7=A0=B4=E5=9D=8F=E6=80=A7=E7=9A=84 madvice() =E8=A1=8C=E4=B8=BA (=E4=
-=BE=8B=E5=A6=82 MADV_DONTNEED)=0D
-+    =E5=BD=93=E7=94=A8=E6=88=B7=E6=B2=A1=E6=9C=89=E5=AF=B9=E8=BF=99=E5=9D=
-=97=E5=86=99=E6=9D=83=E9=99=90=E6=97=B6=E3=80=82=E8=BF=99=E4=BA=9B=E8=A1=8C=
-=E4=B8=BA=E5=8F=AF=E4=BB=A5=E9=80=9A=E8=BF=87=E4=B8=A2=E5=BC=83=E9=A1=B5=E9=
-=9D=A2=E6=9D=A5=E6=94=B9=E5=8F=98=E5=8C=BA=E5=9F=9F=E5=86=85=E5=AE=B9=EF=BC=
-=8C=0D
-+    =E5=AE=9E=E9=99=85=E4=B8=8A=E6=98=AF=E5=8C=BF=E5=90=8D=E5=86=85=E5=AD=
-=98=E7=9A=84 memset(0) =E3=80=82=0D
-+=0D
-+    =E5=AF=B9=E4=BA=8E=E9=98=BB=E5=A1=9E=E7=9A=84=E6=93=8D=E4=BD=9C=EF=BC=
-=8C=E5=86=85=E6=A0=B8=E5=B0=86=E8=BF=94=E5=9B=9E -EPERM =E3=80=82=0D
-+=0D
-+    =E5=AF=B9=E4=BA=8E=E9=98=BB=E5=A1=9E=E6=93=8D=E4=BD=9C=EF=BC=8C=E5=8F=
-=AF=E4=BB=A5=E6=9C=9F=E6=9C=9B=E7=BB=99=E5=AE=9A=E7=9A=84=E5=9C=B0=E5=9D=80=
-=E4=B8=8D=E4=BC=9A=E8=A2=AB=E4=BF=AE=E6=94=B9=EF=BC=8C=0D
-+    =E5=8D=B3=E4=B8=8D=E4=BC=9A=E5=8F=91=E7=94=9F=E9=83=A8=E5=88=86=E6=9B=
-=B4=E6=96=B0=E3=80=82=E8=AF=B7=E6=B3=A8=E6=84=8F=EF=BC=8C=E8=BF=99=E4=B8=8E=
-=E7=8E=B0=E6=9C=89=E7=9A=84=E5=86=85=E5=AD=98=E7=AE=A1=E7=90=86=E7=B3=BB=E7=
-=BB=9F=E8=B0=83=E7=94=A8=E8=A1=8C=E4=B8=BA=E4=B8=8D=E5=90=8C=EF=BC=8C=0D
-+    =E5=90=8E=E8=80=85=E5=9C=A8=E5=8F=91=E7=8E=B0=E9=94=99=E8=AF=AF=E5=B9=
-=B6=E8=BF=94=E5=9B=9E=E7=BB=99=E7=94=A8=E6=88=B7=E7=A9=BA=E9=97=B4=E4=B9=8B=
-=E5=89=8D=E4=BC=9A=E8=BF=9B=E8=A1=8C=E9=83=A8=E5=88=86=E6=9B=B4=E6=96=B0=E3=
-=80=82=E4=B8=BE=E4=B8=AA=E4=BE=8B=E5=AD=90=E6=9D=A5=E8=AF=B4=EF=BC=9A=0D
-+=0D
-+    =E5=81=87=E8=AE=BE=E4=BB=A3=E7=A0=81=E5=BA=8F=E5=88=97=E5=A6=82=E4=B8=
-=8B:=0D
-+=0D
-+    - ptr =3D mmap(null, 8192, PROT_NONE);=0D
-+    - munmap(ptr + 4096, 4096);=0D
-+    - ret1 =3D mprotect(ptr, 8192, PROT_READ);=0D
-+    - mseal(ptr, 4096);=0D
-+    - ret2 =3D mprotect(ptr, 8192, PROT_NONE);=0D
-+=0D
-+    ret1 =E5=B0=86=E5=8F=98=E6=88=90 -ENOMEM, ptr=E6=8C=87=E5=90=91=E7=9A=
-=84=E9=A1=B5=E6=9B=B4=E6=96=B0=E4=B8=BAPROT_READ=E3=80=82=0D
-+=0D
-+    ret2 =E5=B0=86=E5=8F=98=E6=88=90 -EPERM, =E8=BF=99=E4=B8=AA=E9=A1=B5=
-=E9=9D=A2=E4=BB=8D=E7=84=B6=E6=98=AF PROT_READ=E3=80=82=0D
-+=0D
-+**=E6=B3=A8=E6=84=8F**:=0D
-+=0D
-+- mseal() =E4=BB=85=E9=80=82=E7=94=A8=E4=BA=8E64=E4=BD=8DCPU=EF=BC=8C=E4=
-=B8=8D=E6=94=AF=E6=8C=8132=E4=BD=8DCPU=E3=80=82=0D
-+=0D
-+- =E7=94=A8=E6=88=B7=E5=8F=AF=E4=BB=A5=E5=A4=9A=E6=AC=A1=E8=B0=83=E7=94=A8=
- mseal() , =E5=AF=B9=E5=B7=B2=E7=BB=8F=E5=AF=86=E5=B0=81=E7=9A=84=E5=86=85=
-=E5=AD=98=E6=89=A7=E8=A1=8C mseal() =E6=98=AF=E4=B8=80=E4=B8=AA=E6=97=A0=E6=
-=93=8D=E4=BD=9C=EF=BC=88=E4=B8=8D=E6=8A=A5=E9=94=99=EF=BC=89=E3=80=82=0D
-+=0D
-+- =E4=B8=8D=E6=94=AF=E6=8C=81munseal() =E3=80=82=0D
-+=0D
-+=E7=94=A8=E4=BE=8B:=0D
-+=3D=3D=3D=3D=3D=0D
-+- glibc:=0D
-+  =E5=9C=A8=E5=8A=A0=E8=BD=BD ELF =E5=8F=AF=E6=89=A7=E8=A1=8C=E6=96=87=E4=
-=BB=B6=E6=97=B6=EF=BC=8C=E5=8A=A8=E6=80=81=E9=93=BE=E6=8E=A5=E5=99=A8=E5=8F=
-=AF=E4=BB=A5=E5=AF=B9=E9=9D=9E=E5=8F=AF=E5=86=99=E5=86=85=E5=AD=98=E6=AE=B5=
-=E5=BA=94=E7=94=A8=E5=AF=86=E5=B0=81=E6=93=8D=E4=BD=9C=E3=80=82=0D
-+=0D
-+- Chrome =E6=B5=8F=E8=A7=88=E5=99=A8: =E4=BF=9D=E6=8A=A4=E9=83=A8=E5=88=86=
-=E5=AF=B9=E5=AE=89=E5=85=A8=E6=95=8F=E6=84=9F=E7=9A=84=E6=95=B0=E6=8D=AE=E7=
-=BB=93=E6=9E=84=E3=80=82=0D
-+=0D
-+=E5=85=B3=E4=BA=8E=E5=93=AA=E4=BA=9B=E5=86=85=E5=AD=98=E5=BA=94=E8=AF=A5=
-=E8=A2=AB=E5=AF=86=E5=B0=81=E7=9A=84=E6=B3=A8=E6=84=8F=E4=BA=8B=E9=A1=B9:=0D
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=0D
-+=0D
-+=E9=87=8D=E8=A6=81=E7=9A=84=E6=98=AF=E8=A6=81=E6=B3=A8=E6=84=8F=EF=BC=8C=
-=E5=AF=86=E5=B0=81=E4=BC=9A=E6=94=B9=E5=8F=98=E6=98=A0=E5=B0=84=E7=9A=84=E7=
-=94=9F=E5=91=BD=E5=91=A8=E6=9C=9F=EF=BC=8C=E5=8D=B3=E5=B7=B2=E5=AF=86=E5=B0=
-=81=E7=9A=84=E6=98=A0=E5=B0=84=E5=9C=A8=E8=BF=9B=E7=A8=8B=E7=BB=88=E6=AD=A2=
-=0D
-+=E6=88=96=E6=89=A7=E8=A1=8C exec =E7=B3=BB=E7=BB=9F=E8=B0=83=E7=94=A8=E4=
-=B9=8B=E5=89=8D=E4=B8=8D=E4=BC=9A=E8=A2=AB=E5=8F=96=E6=B6=88=E6=98=A0=E5=B0=
-=84=E3=80=82=E5=BA=94=E7=94=A8=E7=A8=8B=E5=BA=8F=E5=8F=AF=E4=BB=A5=E4=BB=8E=
-=E7=94=A8=E6=88=B7=E7=A9=BA=E9=97=B4=E5=AF=B9=E4=BB=BB=E4=BD=95=E8=99=9A=E6=
-=8B=9F=0D
-+=E5=86=85=E5=AD=98=E5=8C=BA=E5=9F=9F=E5=BA=94=E7=94=A8=E5=AF=86=E5=B0=81=
-=EF=BC=8C=E4=BD=86=E5=9C=A8=E5=BA=94=E7=94=A8=E5=AF=86=E5=B0=81=E4=B9=8B=E5=
-=89=8D=EF=BC=8C=E5=BD=BB=E5=BA=95=E5=88=86=E6=9E=90=E6=98=A0=E5=B0=84=E7=9A=
-=84=E7=94=9F=E5=91=BD=E5=91=A8=E6=9C=9F=E6=98=AF=E8=87=B3=E5=85=B3=E9=87=8D=
-=E8=A6=81=E7=9A=84=E3=80=82=0D
-+=0D
-+=E4=BE=8B=E5=A6=82:=0D
-+=0D
-+- aio/shm=0D
-+=0D
-+  aio/shm =E5=8F=AF=E4=BB=A5=E4=BB=A3=E8=A1=A8=E7=94=A8=E6=88=B7=E7=A9=BA=
-=E9=97=B4=E8=B0=83=E7=94=A8 mmap()/munmap() , =E4=BE=8B=E5=A6=82 ksys_shmdt=
-() =E5=9C=A8shm.c=E4=B8=AD=E3=80=82 =0D
-+  =E8=BF=99=E4=BA=9B=E6=98=A0=E5=B0=84=E7=9A=84=E7=94=9F=E5=91=BD=E5=91=A8=
-=E6=9C=9F=E5=B9=B6=E4=B8=8D=E4=B8=8E=E8=BF=9B=E7=A8=8B=E7=9A=84=E7=94=9F=E5=
-=91=BD=E5=91=A8=E6=9C=9F=E7=BB=91=E5=AE=9A=E3=80=82=E5=A6=82=E6=9E=9C=E8=BF=
-=99=E4=BA=9B=E5=86=85=E5=AD=98=E5=8C=BA=E5=9F=9F=E4=BB=8E=E7=94=A8=E6=88=B7=
-=E7=A9=BA=E9=97=B4=E8=A2=AB=E5=AF=86=E5=B0=81=EF=BC=8C=0D
-+  =E9=82=A3=E4=B9=88 munmap() =E5=B0=86=E5=A4=B1=E8=B4=A5=EF=BC=8C=E5=AF=
-=BC=E8=87=B4=E5=9C=A8=E8=BF=9B=E7=A8=8B=E7=9A=84=E7=94=9F=E5=91=BD=E5=91=A8=
-=E6=9C=9F=E5=86=85 VMA=EF=BC=88=E8=99=9A=E6=8B=9F=E5=86=85=E5=AD=98=E5=8C=
-=BA=E5=9F=9F=EF=BC=89=E5=9C=B0=E5=9D=80=E7=A9=BA=E9=97=B4=E4=B8=AD=0D
-+  =E5=87=BA=E7=8E=B0=E6=B3=84=E6=BC=8F=E3=80=82=0D
-+- Brk (heap)=0D
-+=0D
-+  =E7=9B=AE=E5=89=8D=EF=BC=8C=E7=94=A8=E6=88=B7=E7=A9=BA=E9=97=B4=E7=9A=84=
-=E5=BA=94=E7=94=A8=E7=A8=8B=E5=BA=8F=E5=8F=AF=E4=BB=A5=E9=80=9A=E8=BF=87=E8=
-=B0=83=E7=94=A8 malloc() =E5=92=8C mseal() =E6=9D=A5=E5=AF=86=E5=B0=81=E5=
-=A0=86=EF=BC=88heap=EF=BC=89=E7=9A=84=0D
-+  =E9=83=A8=E5=88=86=E5=86=85=E5=AD=98=E3=80=82=E8=AE=A9=E6=88=91=E4=BB=AC=
-=E5=81=87=E8=AE=BE=E4=BB=A5=E4=B8=8B=E6=9D=A5=E8=87=AA=E7=94=A8=E6=88=B7=E7=
-=A9=BA=E9=97=B4=E7=9A=84=E8=B0=83=E7=94=A8:=0D
-+=0D
-+  - ptr =3D malloc(size);=0D
-+  - mprotect(ptr, size, RO);=0D
-+  - mseal(ptr, size);=0D
-+  - free(ptr);=0D
-+=0D
-+  =E6=8A=80=E6=9C=AF=E4=B8=8A=EF=BC=8C=E5=9C=A8 mseal() =E8=A2=AB=E6=B7=BB=
-=E5=8A=A0=E4=B9=8B=E5=89=8D=EF=BC=8C=E7=94=A8=E6=88=B7=E5=8F=AF=E4=BB=A5=E9=
-=80=9A=E8=BF=87=E8=B0=83=E7=94=A8 mprotect(RO) =0D
-+  =E6=9D=A5=E6=94=B9=E5=8F=98=E5=A0=86=E7=9A=84=E4=BF=9D=E6=8A=A4=E5=B1=9E=
-=E6=80=A7=E3=80=82=E5=8F=AA=E8=A6=81=E7=94=A8=E6=88=B7=E5=9C=A8=E8=B0=83=E7=
-=94=A8 free() =E4=B9=8B=E5=89=8D=E5=B0=86=E4=BF=9D=E6=8A=A4=E5=B1=9E=E6=80=
-=A7=E6=94=B9=E5=9B=9E RW=EF=BC=88=E8=AF=BB=E5=86=99=EF=BC=89=EF=BC=8C=0D
-+  =E8=BF=99=E5=9D=97=E5=86=85=E5=AD=98=E8=8C=83=E5=9B=B4=E5=B0=B1=E5=8F=AF=
-=E4=BB=A5=E8=A2=AB=E9=87=8D=E7=94=A8=E3=80=82=0D
-+=0D
-+  =E7=84=B6=E8=80=8C=EF=BC=8C=E5=BC=95=E5=85=A5 mseal() =E4=B9=8B=E5=90=8E=
-=EF=BC=8C=E5=A0=86=E7=9A=84=E9=83=A8=E5=88=86=E5=86=85=E5=AD=98=E5=B0=86=E8=
-=A2=AB=E5=AF=86=E5=B0=81=EF=BC=8C=E7=94=A8=E6=88=B7=E4=BB=8D=E7=84=B6=E5=8F=
-=AF=E4=BB=A5=E9=87=8A=E6=94=BE=E8=BF=99=E9=83=A8=E5=88=86=E5=86=85=E5=AD=98=
-=EF=BC=8C=0D
-+  =E4=BD=86=E5=86=85=E5=AD=98=E5=B0=86=E4=BF=9D=E6=8C=81=E4=B8=BA RO=EF=BC=
-=88=E5=8F=AA=E8=AF=BB=EF=BC=89=E3=80=82=E5=A6=82=E6=9E=9C=E5=A0=86=E7=AE=A1=
-=E7=90=86=E5=99=A8=E9=87=8D=E6=96=B0=E4=BD=BF=E7=94=A8=E8=BF=99=E4=B8=AA=E5=
-=9C=B0=E5=9D=80=E6=9D=A5=E5=88=86=E9=85=8D=E5=8F=A6=E4=B8=80=E5=9D=97=E5=86=
-=85=E5=AD=98=EF=BC=8C=0D
-+  =E8=BF=9B=E7=A8=8B=E5=8F=AF=E8=83=BD=E5=9C=A8=E4=B8=8D=E4=B9=85=E5=90=8E=
-=E5=B4=A9=E6=BA=83=E3=80=82=E5=9B=A0=E6=AD=A4=EF=BC=8C=E4=B8=8D=E8=A6=81=E5=
-=AF=B9=E4=BB=BB=E4=BD=95=E5=8F=AF=E8=83=BD=E4=BC=9A=E8=A2=AB=E5=9B=9E=E6=94=
-=B6=E7=9A=84=E5=86=85=E5=AD=98=E5=BA=94=E7=94=A8=E5=AF=86=E5=B0=81=EF=BC=8C=
-=0D
-+  =E8=BF=99=E6=98=AF=E9=9D=9E=E5=B8=B8=E9=87=8D=E8=A6=81=E7=9A=84=E3=80=82=
-=0D
-+=0D
-+  =E6=AD=A4=E5=A4=96=EF=BC=8C=E5=8D=B3=E4=BD=BF=E5=BA=94=E7=94=A8=E7=A8=8B=
-=E5=BA=8F=E4=BB=8E=E6=9C=AA=E5=AF=B9=E6=8C=87=E9=92=88 ptr =E8=B0=83=E7=94=
-=A8 free()=EF=BC=8C=E5=A0=86=E7=AE=A1=E7=90=86=E5=99=A8=E4=B9=9F=E5=8F=AF=
-=E8=83=BD=E4=BC=9A=0D
-+  =E8=B0=83=E7=94=A8 brk =E7=B3=BB=E7=BB=9F=E8=B0=83=E7=94=A8=E6=9D=A5=E7=
-=BC=A9=E5=B0=8F=E5=A0=86=E7=9A=84=E5=A4=A7=E5=B0=8F=E3=80=82=E5=9C=A8=E5=86=
-=85=E6=A0=B8=E4=B8=AD=EF=BC=8Cbrk =E7=BC=A9=E5=B0=8F=E6=93=8D=E4=BD=9C=E4=
-=BC=9A=E8=B0=83=E7=94=A8 munmap()=E3=80=82=0D
-+  =E5=9B=A0=E6=AD=A4=EF=BC=8C=E6=A0=B9=E6=8D=AE ptr =E7=9A=84=E4=BD=8D=E7=
-=BD=AE=EF=BC=8Cbrk =E7=BC=A9=E5=B0=8F=E6=93=8D=E4=BD=9C=E7=9A=84=E7=BB=93=
-=E6=9E=9C=E6=98=AF=E4=B8=8D=E7=A1=AE=E5=AE=9A=E7=9A=84=E3=80=82=0D
-+=0D
-+=E5=85=B6=E4=BB=96=E8=AF=B4=E6=98=8E:=0D
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=0D
-+=E6=AD=A3=E5=A6=82 Jann Horn =E5=9C=A8 [3] =E4=B8=AD=E6=8C=87=E5=87=BA=E7=
-=9A=84=E9=82=A3=E6=A0=B7, =0D
-+=E4=BB=8D=E7=84=B6=E6=9C=89=E5=87=A0=E7=A7=8D=E6=96=B9=E6=B3=95=E5=8F=AF=
-=E4=BB=A5=E5=86=99=E5=85=A5 RO=EF=BC=88=E5=8F=AA=E8=AF=BB=EF=BC=89=E5=86=85=
-=E5=AD=98=EF=BC=8C=E8=BF=99=E5=9C=A8=E6=9F=90=E7=A7=8D=E7=A8=8B=E5=BA=A6=E4=
-=B8=8A=E6=98=AF=E8=AE=BE=E8=AE=A1=E4=B8=8A=E7=9A=84=E8=80=83=E8=99=91=E3=80=
-=82=0D
-+=E8=BF=99=E4=BA=9B=E6=83=85=E5=86=B5=E4=B8=8D=E4=BC=9A=E8=A2=AB mseal() =
-=E6=B6=B5=E7=9B=96=E3=80=82=E5=A6=82=E6=9E=9C=E5=BA=94=E7=94=A8=E7=A8=8B=E5=
-=BA=8F=E6=83=B3=E8=A6=81=E9=98=BB=E6=AD=A2=E8=BF=99=E7=B1=BB=E6=83=85=E5=86=
-=B5=EF=BC=8C=0D
-+=E5=8F=AF=E4=BB=A5=E8=80=83=E8=99=91=E4=BD=BF=E7=94=A8=E6=B2=99=E7=AE=B1=
-=E5=B7=A5=E5=85=B7=EF=BC=88=E5=A6=82 seccomp=E3=80=81LSM =E7=AD=89=EF=BC=89=
-=E3=80=82=0D
-+=0D
-+=E8=BF=99=E4=BA=9B=E6=83=85=E5=86=B5=E6=98=AF:=0D
-+=0D
-+- =E9=80=9A=E8=BF=87/proc/self/mem=E6=8E=A5=E5=8F=A3=E5=86=99=E5=85=A5=E5=
-=8F=AA=E8=AF=BB=E5=86=85=E5=AD=98=E3=80=82=0D
-+- =E9=80=9A=E8=BF=87ptrace(=E5=A6=82PTRACE_POKETEXT)=E5=86=99=E5=85=A5=E5=
-=8F=AA=E8=AF=BB=E5=86=85=E5=AD=98=E3=80=82=0D
-+- userfaultfd=E3=80=82=0D
-+=0D
-+=E8=BF=99=E4=B8=AA=E8=A1=A5=E4=B8=81=E7=9A=84=E7=81=B5=E6=84=9F=E6=9D=A5=
-=E8=87=AA=E4=BA=8E Stephen R=C3=B6ttger=E2=80=99s =E5=9C=A8 V8 CFI=EF=BC=88=
-=E6=8E=A7=E5=88=B6=E6=B5=81=E5=AE=8C=E6=95=B4=E6=80=A7=EF=BC=89=E4=B8=AD=E7=
-=9A=84=E5=B7=A5=E4=BD=9C [4]=E3=80=82=0D
-+ChromeOS=E4=B8=AD=E7=9A=84Chrome=E6=B5=8F=E8=A7=88=E5=99=A8=E5=B0=86=E6=98=
-=AF=E6=AD=A4API=E7=9A=84=E7=AC=AC=E4=B8=80=E4=B8=AA=E7=94=A8=E6=88=B7=E3=80=
-=82=0D
-+=0D
-+=E5=8F=82=E8=80=83:=0D
-+=3D=3D=3D=3D=3D=0D
-+[1] https://github.com/apple-oss-distributions/xnu/blob/1031c584a5e37aff17=
-7559b9f69dbd3c8c3fd30a/osfmk/mach/vm_statistics.h#L274=0D
-+=0D
-+[2] https://man.openbsd.org/mimmutable.2=0D
-+=0D
-+[3] https://lore.kernel.org/lkml/CAG48ez3ShUYey+ZAFsU2i1RpQn0a5eOs2hzQ426F=
-kcgnfUGLvA@mail.gmail.com=0D
-+=0D
-+[4] https://docs.google.com/document/d/1O2jwK4dxI3nRcOJuPYkonhTkNQfbmwdvxQ=
-MyXgeaRHo/edit#heading=3Dh.bvaojj9fu6hc=0D
-+=0D
---=20
-2.33.0
+for all patches, let me apply all but the last one and let us a more
+week to review it. Could you resend it as standalone patch?
+
+Thanks,
+Neil
 
