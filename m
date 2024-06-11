@@ -1,108 +1,151 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DCD6172BC4;
-	Tue, 11 Jun 2024 07:57:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1459F13A26B
+	for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 08:02:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718092623; cv=none; b=kzdzy4l/9QNa6f8K3QLHgISLG+BHcwLqFP8fPZFdiDW2K96x9v1nbTnktVCPKFX9ovisEAuAy+Rzrc7CkYJHTm16lYibiFD/ONQjSxWDTKEc9npHXrMhxpwV3X8Buu/iMp9xoiGd1OUY9Lqga/ym1deuQZEs8U8fUtyeMRumeNQ=
+	t=1718092962; cv=none; b=GPWAxlTO6lYke+BbqlswPEFv9JtL+0C46g+tkpLCo7XRFEgZBQj1vTIUvQ0fHYf2NV5/LsVNGHUC2ngiclPQTjpVJ4yCjxjsOBVg9oV+nbn9sdDKpuM342z6BO9SnsW+L1acdBsXRP4OMMKUGMzwTgNc2KGyAUMnGmC+A24s62Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718092623; c=relaxed/simple;
-	bh=egIQx8Pw2JM34Ztk3kqZ03upvd4ALAAIxbSYZXBedpU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GJt4K6C45KNCrcJy9ixEGaysNK7Lf4Z2k1X1fedEVFb+9z/MDGXqsrgqNSIWRGstdxiAeJJKQYiu2QzHqvYHmQBUjRYvGG1YsEhh2ME6Y3m1zG5IESB0u3+xFVkchMNZjWAd2aMikK5mPmokGpEl64jXF997U3JPgNY97tleEcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-1f47f07aceaso45546985ad.0;
-        Tue, 11 Jun 2024 00:57:00 -0700 (PDT)
+	s=arc-20240116; t=1718092962; c=relaxed/simple;
+	bh=DAEccbuaKAHH6mMPYkOFYIrhVLVM3wTJ1cQBj8Iqxa8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=WKwHIfdKHYUrHgd2SXqjlLq1WPAvGkwzgaBmAN1/bIrtfZwYHQ2aFGsqA92x4P2u1LUvaHa+shLw1bq2pv4x67ULOLSGRUhfg3oE7g9Do6sDq3fQopVY1q0BTLuL48hVyywSCtIqMm1LcWNK6iBdhfqMo4TKPwweettMU+0vZ4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HfPW/2f8; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HfPW/2f8"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-42189d3c7efso19655315e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 01:02:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1718092959; x=1718697759; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xaQ5c2kG2ytdMjulncJeOQcMPePJzL39OYVmshUn2sU=;
+        b=HfPW/2f8bVXGGJcmzDzdszQlKo7Z8ihBfyBLlSESwhnjs2GqYLwXOajao3KfGVZh+S
+         8hVZ40IYqpq2O32nKG7qJdNqqV/sS1FSufusXi2lcAojjMdjRKF4w7gCoknFB5ZLDzsw
+         +6bJI9DveTn5tLi2ASUgyXm+0dl6P5trcZM7oFVIXBcOjaSOMP6esLmA+wHJ25REjphI
+         jcNBDIi5T5Rt3vfEPAkDCjgm1Rq7NbCKMfwIFoMCd1MpYTbgcLt0XzQAaNcYcVT2DThN
+         X0MihFkXuVNqPN0SFJQcJlBQyCDP9aqChSMNpkyiaePhftVX0knB6eNqkrWaXhnnfJfr
+         vbFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718092619; x=1718697419;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1718092959; x=1718697759;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=B7WTB6sxQIb2HezZMplqIhvskVuAmbHkFRIiNzNqdzU=;
-        b=BIQmD5sVtP3AvioB9q+Xuii3HEZGVARYU85EBrQ9kZ2sHYx0Ta6nroFQ27/MQpQ4/n
-         ZcakhXPPQXH4LqbgkmHzgU1anYaWiy2HjJfEuMJMoZRIN2W3u3fEPz1+IiR/7WyJ+2yf
-         coL01toMUO/9L3+7NI9PeAPf4E+P6nLKZYvaiuRAovEWkSCyKsCIxDTFWRKb+orBAps1
-         TbCsqhl7d1cEcFwtG003Ie2vNgyK7ueKHL1VEEUc7I1MP9zRK2kO75k+WUmA3FdbxEkk
-         nhlfXxsXk6s5F09jcnlaKW+cDaELE8T9PBWw15i9TaGIjImvtP7joqviRoOsDkiLT7Rf
-         L+qA==
-X-Forwarded-Encrypted: i=1; AJvYcCU1U6CYSBPj4IBsBkJuTdEvH9MWfDVxG0eIf1PnNyUlrAU6p9HYpY5ax95vFxhLBFfO9A8+siSLzaFsRUiYJ74Wc7MvDhJ4IoTU10yJs+Enl7b5mUKWwmOPQ9L86cQt3inl4JJmVwQb
-X-Gm-Message-State: AOJu0YyNyREX1DWKdWffdtspdDCzcq8Wosku1xhKTnyNbrMzAHkzngDD
-	MW/E4vlKj3VaLG9sRSbO5kCvUkljcg6/1Bi8mk6VvI9XXap81Ks9vv/mxxMma+vweovGvACbBaE
-	B0Onwl8/5sqFe8kKtm1QpQ9mvonU=
-X-Google-Smtp-Source: AGHT+IEeNdLDv9/Rj1l3JJPxAWJDScZNGNGtWzqD7h1KA9MocJXkvLH8iUgeqCxMEWXpwSSGhhrNFb6+HEXGBYFwGSU=
-X-Received: by 2002:a17:902:eccb:b0:1f7:c33:aaa5 with SMTP id
- d9443c01a7336-1f70c33acf0mr64714085ad.10.1718092619305; Tue, 11 Jun 2024
- 00:56:59 -0700 (PDT)
+        bh=xaQ5c2kG2ytdMjulncJeOQcMPePJzL39OYVmshUn2sU=;
+        b=rLPYwwYlKPzuShGgpBQmffmsNOYF4RQaQz2Ea1ECcal+CyBPCe+du3H0gVF+SXl28R
+         EQA/5OH6L8dPoYirxN4sE210mUfu/7nZdZL34yQ/PSPQoaDEhUoqXBs6T+pRNV3hnmZ2
+         Wle5P+FG/T1OMYopk3zK9tqpSKGv3pDP+fuE1ium8zf1OcfpjrQUO5v+3CHH9sOiA2yY
+         4Lp47PQj/oU7PyOrRSLhDa4dC7Td3eHIcpr3tVxjT9XtChe5E9BVWuoLV9Ty6RzK36Vz
+         HpOdpT3dKvwmkkoKIvNZPZdOV2mW2cLnteuOUEH36ibmjDhnvrZ3Ap1AmBYIqytqbrJt
+         Hd0g==
+X-Forwarded-Encrypted: i=1; AJvYcCUEjxLz4UDox1e/7TP/ZSd62kJDkvUvCWgPEoPDCfQwYYWD+BAlxM3aUOHyH8XjZMyPt+c3LqPRl/UjFXs8Wc2ppAenioLG1Fwb
+X-Gm-Message-State: AOJu0YyU5SV7ebyNmwXAvwziH0ZRCMFG1BO9NmTiw/kiyOmhsEgfLbqx
+	ZFWedDAkSpSehOtftr+baNbLa69uglx4My3r95S37iItfdcejUKuNF2qcxb4Os6cdIzjqVODs1q
+	y
+X-Google-Smtp-Source: AGHT+IGN24Aa+RfBIcyXuUKjwh6U0g7ybW6UT5cPP0P3069MO/9Je7HQzSudTLcIQu+deT23iTKWJA==
+X-Received: by 2002:a05:600c:45c4:b0:421:29cd:5c95 with SMTP id 5b1f17b1804b1-421649fba60mr129661095e9.10.1718092958704;
+        Tue, 11 Jun 2024 01:02:38 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:52eb:f6ff:feb3:451a])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-421727aac08sm126706925e9.43.2024.06.11.01.02.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jun 2024 01:02:38 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+To: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
+ Douglas Anderson <dianders@chromium.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>, 
+ Chris Morgan <macromorgan@hotmail.com>, 
+ Yuran Pereira <yuran.pereira@hotmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
+ Jerry Han <hanxu5@huaqin.corp-partner.google.com>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ Robert Chiras <robert.chiras@nxp.com>, Stefan Mavrodiev <stefan@olimex.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org
+In-Reply-To: <20240605002401.2848541-1-dianders@chromium.org>
+References: <20240605002401.2848541-1-dianders@chromium.org>
+Subject: Re: (subset) [PATCH v3 00/24] drm/panel: Remove most
+ store/double-check of prepared/enabled state
+Message-Id: <171809295768.4173405.17800575669800599285.b4-ty@linaro.org>
+Date: Tue, 11 Jun 2024 10:02:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <2024061112-kilogram-poker-bacf@gregkh> <dc9a785c-f8f1-474d-ba49-31de63dc5e8d@app.fastmail.com>
-In-Reply-To: <dc9a785c-f8f1-474d-ba49-31de63dc5e8d@app.fastmail.com>
-From: Vincent MAILHOL <mailhol.vincent@wanadoo.fr>
-Date: Tue, 11 Jun 2024 16:56:47 +0900
-Message-ID: <CAMZ6RqLtc5jtfjeQO2Su8iSjw4bbPczKMsnW3mCB=SXkSufY-g@mail.gmail.com>
-Subject: Re: [PATCH] .editorconfig: move to Documentation/ directory
-To: Danny Lin <danny@kdrag0n.dev>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, masahiroy@kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	=?UTF-8?B?w43DsWlnbyBIdWd1ZXQ=?= <ihuguet@redhat.com>, 
-	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-On Tue. 11 June 2024 at 15:53, Danny Lin <danny@kdrag0n.dev> wrote:
-> On Mon, Jun 10, 2024 at 11:49 PM, Greg Kroah-Hartman wrote:
-> > Some editors (like the vim variants), when seeing "trim_whitespace"
-> > decide to do just that for all of the whitespace in the file you are
-> > saving, even if it is not on a line that you have modified.  This plays
-> > havoc with diffs and is NOT something that should be intended.
->
-> If trim_trailing_whitespace is the only rule that has actually been a pro=
-blem,
-> how about removing it and leaving the rest of .editorconfig intact?
-> The other rules are still useful to have as defaults.
+Hi,
 
-+1
+On Tue, 04 Jun 2024 17:22:46 -0700, Douglas Anderson wrote:
+> As talked about in commit d2aacaf07395 ("drm/panel: Check for already
+> prepared/enabled in drm_panel"), we want to remove needless code from
+> panel drivers that was storing and double-checking the
+> prepared/enabled state. Even if someone was relying on the
+> double-check before, that double-check is now in the core and not
+> needed in individual drivers.
+> 
+> [...]
 
-The trim_trailling_whitespace can be removed. IMHO the main point of
-the .editorconfig is to set up the correct indentation, that is to say
-the indent_style and indent_size parameters, and I don't think that
-anyone is having issues with these so far.
+Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
 
-> Thanks,
-> Danny
->
-> >
-> > As the "only trim whitespace on modified files" is not part of the
-> > editorconfig standard, just move the whole thing off to the
-> > Documentation/ directory so that those that wish to use such a thing ca=
-n
-> > pick it up from there.
-> >
-> > Cc: Danny Lin <danny@kdrag0n.dev>
-> > Cc: =C3=8D=C3=B1igo Huguet <ihuguet@redhat.com>
-> > Cc: Micka=C3=ABl Sala=C3=BCn <mic@digikod.net>
-> > Cc: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-> > Cc: Masahiro Yamada <masahiroy@kernel.org>
-> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > ---
-> >  .editorconfig =3D> Documentation/.editorconfig | 0
+[01/24] drm/panel: boe-himax8279d: Stop tracking prepared/enabled
+        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/12866fdcfb9ebbe1b175804390195b99a234d5e7
+[02/24] drm/panel: boe-himax8279d: Don't call unprepare+disable at shutdown/remove
+        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/2ccc698c68333256621abc1146de0d3fb0cc6ebd
+[03/24] drm/panel: khadas-ts050: Stop tracking prepared/enabled
+        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/2469cb5c41b4774a6fb5ed799ae53ad16b407a9a
+[04/24] drm/panel: khadas-ts050: Don't call unprepare+disable at shutdown/remove
+        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/6ac427c0cd21c7260d6b5133a70084aa35267a72
+[05/24] drm/panel: olimex-lcd-olinuxino: Stop tracking prepared/enabled
+        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/db45a6991d9e33e852419f8bb0bb8d70b8d633ac
+[06/24] drm/panel: olimex-lcd-olinuxino: Don't call unprepare+disable at remove
+        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/16661a0dd54168826edb2fe5a7b9a183cff0c69b
+[07/24] drm/panel: osd-osd101t2587-53ts: Stop tracking prepared/enabled
+        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/9a3f7eb7811a4c5f36eee93b83bbd72bf6adeac8
+[08/24] drm/panel: osd-osd101t2587-53ts: Don't call unprepare+disable at shutdown/remove
+        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/c99e387afed197c3f22d73d8649c54f7c8da30ec
+[09/24] drm/panel: tdo-tl070wsh30: Stop tracking prepared
+        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/7c9526e58f74e9d725a9607b1ec24ba675f5b00b
+[10/24] drm/panel: tdo-tl070wsh30: Don't call unprepare+disable at shutdown/remove
+        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/2098604605adf35c9a0936355252d676f4cbc38b
+[11/24] drm/panel: jdi-lt070me05000: Stop tracking prepared/enabled
+        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/698acd40aee3ab2dfff4472ec3c16ce42e70e4f3
+[12/24] drm/panel: jdi-lt070me05000: Don't call disable at shutdown/remove
+        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/c8f67cd1d931f2e61a3456d0122ffdeb90b699f7
+[13/24] drm/panel: panasonic-vvx10f034n00: Stop tracking prepared/enabled
+        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/e9864996b44e8add09fd612cb7d00d9b54cd9ef1
+[14/24] drm/panel: panasonic-vvx10f034n00: Don't call disable at shutdown/remove
+        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/f10b4577da3e8c8e457016c77ce2c2fb8d2d5023
+[15/24] drm/panel: seiko-43wvf1g: Stop tracking prepared/enabled
+        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/155739579969d9653f9c2e69141129a824cbd6b8
+[16/24] drm/panel: seiko-43wvf1g: Don't call disable at shutdown/remove
+        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/728290006afba80108b3ce9dd33018f05e454cf0
+[17/24] drm/panel: sharp-lq101r1sx01: Stop tracking prepared/enabled
+        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/316bb1473c78f415a99a10d3c903ed70e0014ae3
+[18/24] drm/panel: sharp-lq101r1sx01: Don't call disable at shutdown/remove
+        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/d7d473d8464e7b9931c0b19f68ea0df807e01b4c
+[19/24] drm/panel: sharp-ls043t1le01: Stop tracking prepared
+        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/804c4d0a20437bca3f017aaf96416f3cec7951c9
+[20/24] drm/panel: sharp-ls043t1le01: Don't call disable at shutdown/remove
+        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/b3494ccb04124ab3ae08fcd01f9571d209ce97f2
+[21/24] drm/panel: raydium-rm67191: Stop tracking enabled
+        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/b7c906d68078f235c1d017a5a820fbeac5a53904
+[22/24] drm/panel: raydium-rm67191: Don't call unprepare+disable at shutdown
+        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/78f15847bdb8fe04b1753b1fed4984c183661ef5
+[23/24] drm/panel: Update TODO list item for cleaning up prepared/enabled tracking
+        https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/8e11b23c96c694d4cb0fb6595b38d77ee5edb296
 
-This would not solve the issue, because it would still apply for
-anything under Documentation/*
+-- 
+Neil
 
-> >  1 file changed, 0 insertions(+), 0 deletions(-)
-> >  rename .editorconfig =3D> Documentation/.editorconfig (100%)
-> >
-> > diff --git a/.editorconfig b/Documentation/.editorconfig
-> > similarity index 100%
-> > rename from .editorconfig
-> > rename to Documentation/.editorconfig
-> > --
-> > 2.45.2
