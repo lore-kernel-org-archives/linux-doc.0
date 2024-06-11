@@ -1,151 +1,144 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA1D5BAF0
-	for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 18:09:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C44AC38F82;
+	Tue, 11 Jun 2024 18:10:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718129374; cv=none; b=fFDt7idQWKAqQxmCUlu3TcEVBY01ARapeVsUJ6W1/v+f+AW6uiN14V7m3nYj2sZ4wJAuei0M2EZdi1y/GKO42dUOxiDkOYIu4F5MUjVaMB573rmMT85Lh+EDMkTduHqfMwRM5onSgBBtTfbu3IBb8aajUpGPch+Une1Dsei7OFw=
+	t=1718129446; cv=none; b=Qo+W8Fjl2kA8sjQ5YLBXFKsrOXpFpHxa2mnNKVVx7TLz+l9npEa5sDIkcn/7kcxq2PtRXAa1NLWWnDnXriyi0Ou1o6G51+yZF0ND+1kIOWXEPcH3coWrw+8isSwoSNyM5XWIf7Ck3ON2ngy55SEUEV81WO3KRMUlzq0OHYcwQ/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718129374; c=relaxed/simple;
-	bh=+lxPetrPpHvENSTokBRC6xognbIAj4RmicEAyuXDxTU=;
+	s=arc-20240116; t=1718129446; c=relaxed/simple;
+	bh=/kBuMNz5xz6ybpf6jMEy9R7kpmTZY+KerEUZxX8ArSM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kQM6KKznUHizFz6FOsjxLcbkk3rXmZV/rk3jSZY6SBfvHgb6fuYC2mHDaXrWImcOLgf+XpCgR26tu06G97HwamPfWt8D4iWhsX/jzUb9x/lSCZ5B2xGE+3/SxlQIdXzQMvuzEXEaS3HaEkJ3Petb0zVPCIq0oS0NBTQLXcHFo1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ORBH1T28; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=tejGWYMbODyRY9VyNWsOz9xUB0oTzMZiGZfmsceC2GygbmYkS16B2kopuB4If9YWlJ2ZtMTKU1HhxLX/LvHteGjI9D/IjI1xi+73fU9Oc2YzTCASssUf/f3PmrnCVNNWpZMUQTLelTF93tZ9opg3oJoqQWI7h1M/xLQbJxoGo60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BUft8noa; arc=none smtp.client-ip=209.85.222.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ORBH1T28"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-57c923e03caso1608973a12.3
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 11:09:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BUft8noa"
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-797f0c49a11so26139385a.0;
+        Tue, 11 Jun 2024 11:10:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718129370; x=1718734170; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1718129444; x=1718734244; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+lxPetrPpHvENSTokBRC6xognbIAj4RmicEAyuXDxTU=;
-        b=ORBH1T28Kv+Gm9vfDRFh0o9KoHNuPBRhIxafHB3qgyANZSEAx+9LLa6Wv5Iv2FulVM
-         1C4r4QsMP/tolax4DaWy4QrJlMTPTRDUpbMg8JdQqiADkwRyXa1Iy11Ylt5B7YbjRIRq
-         OctBI7JiWrNqmKnqBVdhpMRueuExFqKOmwSK+7OfBSrsjK4SgORfTkvjgaMoS3DMo0Q7
-         FkTsN8QksrcUNYzFDEG1UmAfTCd8yxst6SYakYd6YSlIZ9FEq+7SBeD6XMUjZNk9BCcy
-         Wrv4JJvkiSqmCMz3b9EpLjg4cplFB6acY4gYixvwk4VoXVVCe+PzWeGjji2mognTN5AY
-         C0/A==
+        bh=mbopcsfn5WDDZMHTl7045YVZTo/YxkYjZ3QqPNkTqbU=;
+        b=BUft8noaB/JcKOHApMPx71DBblngbPk4064qJoXT/B/85uigZW5BPQa641YeSUPK56
+         cqXrMVGm0qR5o9ewn9XZsF1cnKQ7mVTiAo/GUdh5NaHW4wiNtMgICUyyeweKTfkSBznM
+         /Pn3Lmrt5BT2hnYzC89cZ3JPgmBFVsdfHZoAxSE5Sxd3lVU3NMcX2e/0GSLmlkJoVoib
+         /qIVTjLDo+79u8t1hUcz2MWtEWxo5J8vXDYQjP2WcgrT+LUhS4prVzOK6U4VWkJVCJI/
+         qWlWyHPQAKTFORKTbqwm4sEqRfueuvDvUZHNnyWrte2tw1fI4xuORW4vPwMCXTDHicC5
+         JUyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718129370; x=1718734170;
+        d=1e100.net; s=20230601; t=1718129444; x=1718734244;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+lxPetrPpHvENSTokBRC6xognbIAj4RmicEAyuXDxTU=;
-        b=CeJbNBLEoipWRpEKcYd4XLadyXt22fBOx2wARgsPtABNopdKsIxbM2ynLfl9gPEbiE
-         e6/gZIGYGTDBkVD6wvaOVKrRY3QUrt5eBlHcshed1hl4bNm3k81d9pU6L+YnlMoHQjht
-         0IIIvmiORdpZKqrEqTvDkgGFi+EIF/iVWAtsEZ2X6fFp/VBy6Yj0Q1gHV+k/7unMADwW
-         a5EWBDp/KvmhqvQxqj4sFsnqbCTborEMM7JDkgSJhvbGSxvbYJidyrp1+Dpifpdu/xOl
-         9dBsM+GU86O00Sc2m0cAs3BgN++f6WqG0pEEHrmLITLFHd7sT2dS3UhZK4aEYpJ/Gczr
-         8hAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWErMDM+Je1gJLfTB7zp8/2597m4xfNJi6+ZuHJ96apjTQWZE2zWGRecbIjtAQe3xRFYtUOQ4A2zw9n6CFmYHBh0G3B4fcV9Swv
-X-Gm-Message-State: AOJu0Yx5HL86ibzE9MSq69+F6659OSD6W0YCPboOCTRnWmTwtPIh7EWe
-	HSQtUMus4J/DMbaYLSR0yPomsa6hnpGQN42ny30gxBVvfZvfMCqPJXv1p2eOobT+cBBW9pTD6Xu
-	ihvXheYFcI02FppmhkAa66TYJKDdJbssLMb/t
-X-Google-Smtp-Source: AGHT+IHSnbMlQQE9x/zPWpkI90JIlOTBHgyEzLn5RoXQZyiGaSSB2YwhfXwjdqq72pgI+LQF0hGDSafJjuWqavJQlB4=
-X-Received: by 2002:a17:906:4742:b0:a6f:393a:9dea with SMTP id
- a640c23a62f3a-a6f393aa161mr132795366b.77.1718129370030; Tue, 11 Jun 2024
- 11:09:30 -0700 (PDT)
+        bh=mbopcsfn5WDDZMHTl7045YVZTo/YxkYjZ3QqPNkTqbU=;
+        b=HM7XIHTkLiNSbx3XYlyvKfOyzrpaS3ux0wT4PDRwJL/NMctmdEwq/oAORmsCKW/BcK
+         KoezOhr5HInWnYyoYtoNA8AgA3ItypYw5k6TFt9WXHuGzlysbf+0L28ZpkLKCww+vNRp
+         WNMGiPUYzlf/azfgeg/eag8PEFuisObrVu1DdM/ozMQU5FQsOgcdy4FFcvf8wfGfW/ox
+         vXBjHdUuJZK8LuecIVVS8QS/gDwRL4MSnuMfnc4drDQwYWmOqkB3MWT+8Y6jYXikXoDB
+         dexSdqAHap+Hs5vgrCMnh7vnmICN9T3Dn/sYCxKQ4xFLR5eXqEVSsnoWB1Ok4FDRjoQE
+         HlNA==
+X-Forwarded-Encrypted: i=1; AJvYcCUw6dUaFkxrUPKMzyv5Oo1qvGYH12mxdHhVm8gs17mT6ObH8fXfOFj3jf3ZbDbikzDgJRvSJZPWurXDnurTYQD/tJNkhhK4TCU13UKFCrV4s21KKaklbc4FlaoHG7RT6/7ISl4gI5Ci
+X-Gm-Message-State: AOJu0YzW9u0Z5AFxuj5KshdBsxtkSis2MPUHIWSBeJ5NlNlDpANACXYz
+	Kk5c1UyW60shMrORzI0ybsZgs+b6BsFYeIjMoYREwFoyAnAvHEdWdThCPjEo0/xU65EyTkh91t9
+	18UBX4iGzSwbhfg5u5SE87f02Wzo=
+X-Google-Smtp-Source: AGHT+IFtxEhyO1IKcnlH0FvteEBSozy4uGTfjTxz7WgpzIPVgvq9ZeYKqdI+KxU7LzWVWP9cq7CmKh14evR3+BDswrY=
+X-Received: by 2002:a05:6214:5c04:b0:6b0:9048:9801 with SMTP id
+ 6a1803df08f44-6b09048cedfmr17979356d6.39.1718129443649; Tue, 11 Jun 2024
+ 11:10:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <5aee4bba-ca65-443c-bd78-e5599b814a13@gmail.com>
- <CAHS8izNmT_NzgCu1pY1RKgJh+kP2rCL_90Gqau2Pkd3-48Q1_w@mail.gmail.com>
- <eb237e6e-3626-4435-8af5-11ed3931b0ac@gmail.com> <be2d140f-db0f-4d15-967c-972ea6586b5c@kernel.org>
- <20240607145247.GG791043@ziepe.ca> <45803740-442c-4298-b47e-2d87ae5a6012@davidwei.uk>
- <54975459-7a5a-46ff-a9ae-dc16ceffbab4@gmail.com> <20240610121625.GI791043@ziepe.ca>
- <59443d14-1f1d-42bb-8be3-73e6e4a0b683@kernel.org> <00c67cf0-2bf3-4eaf-b200-ffe00d91593b@gmail.com>
- <20240610221500.GN791043@ziepe.ca>
-In-Reply-To: <20240610221500.GN791043@ziepe.ca>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 11 Jun 2024 11:09:15 -0700
-Message-ID: <CAHS8izNRd=f=jHgrYKKfzgcU3JzkZA1NkZnbQM+hfYd8-0NyBQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
- custom page providers
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Pavel Begunkov <asml.silence@gmail.com>, David Ahern <dsahern@kernel.org>, 
-	David Wei <dw@davidwei.uk>, Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org, 
-	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
-	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
-	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
+References: <20240608155316.451600-1-flintglass@gmail.com>
+In-Reply-To: <20240608155316.451600-1-flintglass@gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Tue, 11 Jun 2024 11:10:32 -0700
+Message-ID: <CAKEwX=NZ3miH--HXKEv9Z32aJ=0Ft7k=8Q6y7u+X7iwr5ha+CA@mail.gmail.com>
+Subject: Re: [PATCH v1 0/3] mm: zswap: global shrinker fix and proactive shrink
+To: Takero Funaki <flintglass@gmail.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Yosry Ahmed <yosryahmed@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 10, 2024 at 3:15=E2=80=AFPM Jason Gunthorpe <jgg@ziepe.ca> wrot=
-e:
+On Sat, Jun 8, 2024 at 8:53=E2=80=AFAM Takero Funaki <flintglass@gmail.com>=
+ wrote:
 >
-> On Mon, Jun 10, 2024 at 08:20:08PM +0100, Pavel Begunkov wrote:
-> > On 6/10/24 16:16, David Ahern wrote:
->
-> > > > There is no reason you shouldn't be able to use your fast io_uring
-> > > > completion and lifecycle flow with DMABUF backed memory. Those are =
-not
-> > > > widly different things and there is good reason they should work
-> > > > together.
-> >
-> > Let's not mix up devmem TCP and dmabuf specifically, as I see it
-> > your question was concerning the latter: "... DMABUF memory registered
-> > through Mina's mechanism". io_uring's zcrx can trivially get dmabuf
-> > support in future, as mentioned it's mostly the setup side. ABI,
-> > buffer workflow and some details is a separate issue, and I don't
-> > see how further integration aside from what we're already sharing
-> > is beneficial, on opposite it'll complicate things.
->
-> Again, I am talking about composability here, duplicating the DMABUF
-> stuff into io_uring is not composable, it is just duplicating things.
->
-> It does not match the view that there should be two distinct layers
-> here, one that provides the pages and one that manages the
-> lifecycle. As HCH pushes for pages either come from the allocator and
-> get to use the struct folio or the come from a dmabuf and they
-> don't. That is it, the only two choices.
->
-> The iouring stuff is trying to confuse the source of the pages with
-> the lifecycle - which is surely convenient, but is why Christoph is
-> opposing it.
->
+> This series addresses two issues and introduces a minor improvement in
+> zswap global shrinker:
 
-Just curious: in Pavel's effort, io_uring - which is not a device - is
-trying to share memory with the page_pool, which is also not a device.
-And Pavel is being asked to wrap the memory in a dmabuf. Is dmabuf
-going to be the kernel's standard for any memory sharing between any 2
-components in the future, even when they're not devices? As in you
-expect dmabuf exporters which are not devices to be added to the
-kernel? Currently the only dmabuf exporter which is not a device
-(AFAIK) is udmabuf, which is used for testing and emulation, not
-really a production thing, I think.
+By the way, what is your current setup?
 
---=20
-Thanks,
-Mina
+This global shrinker loop should only be run when the global pool
+limit is hit. That *never* happens to us in production, even with the
+zswap shrinker disabled.
+
+The default pool limit is 20% of memory, which is quite a lot,
+especially if anonymous memory is well-compressed and/or has a lot of
+zero pages (which do not count towards the limit).
+
+>
+> 1. Fix the memcg iteration logic that breaks iteration on offline memcgs.
+> 2. Fix the error path that aborts on expected error codes.
+> 3. Add proactive shrinking at 91% full, for 90% accept threshold.
+>
+> These patches need to be applied in this order to avoid potential loops
+> caused by the first issue. Patch 3 can be applied independently, but the
+> two issues must be resolved to ensure the shrinker can evict pages.
+>
+> Previously, the zswap pool could be filled with old pages that the
+> shrinker failed to evict, leading to zswap rejecting new pages. With
+> this series applied, the shrinker will continue to evict pages until the
+> pool reaches the accept_thr_percent threshold proactively, as
+> documented, and maintain the pool to keep recent pages.
+>
+> As a side effect of changes in the hysteresis logic, zswap will no
+> longer reject pages under the max pool limit.
+>
+> With this series, reclaims smaller than the proative shrinking amount
+> finish instantly and trigger background shrinking. Admins can check if
+> new pages are buffered by zswap by monitoring the pool_limit_hit
+> counter.
+>
+> Changes since v0:
+> mm: zswap: fix global shrinker memcg iteration
+> - Drop and reacquire spinlock before skipping a memcg.
+> - Add some comment to clarify the locking mechanism.
+> mm: zswap: proactive shrinking before pool size limit is hit
+> - Remove unneeded check before scheduling work.
+> - Change shrink start threshold to accept_thr_percent + 1%.
+>
+> Now it starts shrinking at accept_thr_percent + 1%. Previously, the
+> threshold was at the midpoint of 100% to accept_threshold.
+>
+> If a workload needs 10% space to buffer the average reclaim amount, with
+> the previous patch, it required setting the accept_thr_percent to 80%.
+> For 50%, it became 0%, which is not acceptable and unclear for admins.
+> We can use the accept percent as the shrink threshold directly but that
+> sounds shrinker is called too frequently around the accept threshold.  I
+> added 1% as a minimum gap to the shrink threshold.
+>
+> ----
+>
+> Takero Funaki (3):
+>   mm: zswap: fix global shrinker memcg iteration
+>   mm: zswap: fix global shrinker error handling logic
+>   mm: zswap: proactive shrinking before pool size limit is hit
+>
+>  Documentation/admin-guide/mm/zswap.rst |  17 ++-
+>  mm/zswap.c                             | 172 ++++++++++++++++++-------
+>  2 files changed, 136 insertions(+), 53 deletions(-)
+>
+> --
+> 2.43.0
+>
