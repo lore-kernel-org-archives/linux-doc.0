@@ -1,156 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF7523839C;
-	Tue, 11 Jun 2024 15:45:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF7C3BBEB;
+	Tue, 11 Jun 2024 15:51:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718120721; cv=none; b=k8dDiLxjUVTQhqgbI4Ylwup1VFMw2tfssqT9KNST+pPNydLo4EPYyKLMCdUpl1HvVUu6OwhHRS4aNhEDhJN6Zx7AN2joZOVS9CCg8Lw20e+0quw3Emx3o72rPkK4+5OFxcye/UBJ1QRKmj/kRnP/8BA1QfmObOWr0l3/8MT6B9s=
+	t=1718121076; cv=none; b=cqsQWx71L+C4XXrbsRMZaVqtZBr0v98BVPWqYxaxgDEi1z7CCzDpVVkHLvKM2kTmvWURedfhnWemTJZb0Xvr8EsBStSEvxOJq59bLmZY1ulCMgztoMi6HjygnSig9gRqVuPObdKaGYR63dUCsS83lffMkPY19gcoGLGUuEv/syo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718120721; c=relaxed/simple;
-	bh=alWpFRyGJPPxpA/qvEhIVLYBDfG5gKLw2O2vjFdIXBU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=czunXMBSo9nYx1wQ169rUewIPe+WhxELmLSBnbIUgixTW/sVe7I6qhI1aAF0uciXWUg232p8cLB0KOjEPQDbkbEbw11eFheeDqVOgIqbhlr/N+3QwN4pqKnaqvG+ainypWLtptADGcMITxAVlEi6HdbrOqnvCKqlGIuyUy4hy0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Em6r9Li6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718121076; c=relaxed/simple;
+	bh=pgGuDE+XrbAgHUHE3XCxL9tGB/eU0RinDylZrRbr6yM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pGd6aVSYGQtjHlUw3ePVkgX83+KnttMxoskBIPH9VZgsms3fJu7ZKPuIvpS3QhZ1meH2xg8Z+FpjMC9e2hkBSMTjcDsgmCdfls3CM+M/1kSAuaEvjQ7ZAs1TNHCS4Q8W1u3uARieiZR24HbqXzohVkL04FqUVurWWktXT1fy5lg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nZCcpyX5; arc=none smtp.client-ip=209.85.219.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Em6r9Li6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06EE2C2BD10;
-	Tue, 11 Jun 2024 15:45:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718120719;
-	bh=alWpFRyGJPPxpA/qvEhIVLYBDfG5gKLw2O2vjFdIXBU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Em6r9Li64MS4dfA1Fm6Omrjb4w5oyfw2XsNlofj9qeCLh5G5cxfGwuZ4yQPTUgZzW
-	 6kxO2WwG1YbfeA57p9rgmFg6DOXF7B/o2lriNTV968OIdIJj6h+vJ28mFcLCklf+8k
-	 loMrtXfftGiWNK48qosW/nixEPYc2CM6BDV0pD+OBtk1iB7sMjJs6yl/UgKehavFC0
-	 ucx5PHa+Nq4Qc5SPa5Zz1cwEjWeiDWr0yVMVZnqrufT33mec/2ulkMu2y2JlMDYEFe
-	 LOKNY2IV8maq2WwEhsDrM6P7s8EXMvED5vtpoqf+uru1kkwcRDd4cMFZ+KsLRjANr5
-	 5MbGSb9lFaR2g==
-Date: Tue, 11 Jun 2024 18:45:15 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: "Zeng, Oak" <oak.zeng@intel.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Christoph Hellwig <hch@lst.de>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Chaitanya Kulkarni <chaitanyak@nvidia.com>,
-	"Brost, Matthew" <matthew.brost@intel.com>,
-	"Hellstrom, Thomas" <thomas.hellstrom@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	"Tian, Kevin" <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Amir Goldstein <amir73il@gmail.com>,
-	"josef@toxicpanda.com" <josef@toxicpanda.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	"daniel@iogearbox.net" <daniel@iogearbox.net>,
-	"Williams, Dan J" <dan.j.williams@intel.com>,
-	"jack@suse.com" <jack@suse.com>, Zhu Yanjun <zyjzyj2000@gmail.com>,
-	"Bommu, Krishnaiah" <krishnaiah.bommu@intel.com>,
-	"Ghimiray, Himal Prasad" <himal.prasad.ghimiray@intel.com>
-Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to two steps
-Message-ID: <20240611154515.GC4966@unreal>
-References: <cover.1709635535.git.leon@kernel.org>
- <SA1PR11MB6991CB2B1398948F4241E51992182@SA1PR11MB6991.namprd11.prod.outlook.com>
- <20240503164239.GB901876@ziepe.ca>
- <PH7PR11MB70047236290DC1CFF9150B8592C62@PH7PR11MB7004.namprd11.prod.outlook.com>
- <20240610161826.GA4966@unreal>
- <PH7PR11MB7004A071F27B4CF45740B87E92C62@PH7PR11MB7004.namprd11.prod.outlook.com>
- <20240610172501.GJ791043@ziepe.ca>
- <PH7PR11MB7004DDE9816D92F690A5C0B692C62@PH7PR11MB7004.namprd11.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nZCcpyX5"
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-df771959b5bso5817931276.1;
+        Tue, 11 Jun 2024 08:51:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718121073; x=1718725873; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pgGuDE+XrbAgHUHE3XCxL9tGB/eU0RinDylZrRbr6yM=;
+        b=nZCcpyX5G6f0IdSUW3uLZ9up63jEtgCHUCMWkgHtuEpmkC1EKk6RpMW5PKkZcDcCrv
+         WqrhOFOVaCJ5TD+RHHnanoAmDBTmT4PIghwLiwxtWdkYhVspSWI6FQ/YblZykoOnaYoa
+         uuyikdSOQTILpZmeRG2YPcBIQH7no1ppRZqcyUB7q0q0GlO7RYW5MpOYwarQgtaf4s7f
+         vHYeN8UACp5EibbcrGDOQmVrQHkAEiN9CRWG2yYRZvfyZP/n3GsFH6MgQT4rrMPcp1FC
+         riC/AQwbpsvjMHqYWs5Pg8uKhI62dwDC5nI1gkO+GkQw4JDYsTAp46zv3NmKrL2D2oWg
+         fbvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718121073; x=1718725873;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pgGuDE+XrbAgHUHE3XCxL9tGB/eU0RinDylZrRbr6yM=;
+        b=szgT7Giugph8OtF1IGcFg+1MVWKTTuchTA4R/lAEJB8hi/CmPqIdeNX30EUPSJKhFT
+         CiLGiQYKV+UxUxq4sLlix1ci6vdPzvmtkCswXur6ddyQlka9tEE03jIpKZp5B/UcSt4O
+         62K6hyDgCS0HyYzszixchbcCps57QhYA+Co6QBhXeX/uSj0DR5q++Bm3ddITYLlrmAIx
+         QZdGo7IeZlaQJzRG6yhAmrUz9wSnaBmPbgKfW+wod/6LbS7LS867cFzFTjAZVQbsMr+P
+         gQD1Jn7+GRaptdjHg7T3lZD+CeaYBm4hjkyCMaFpM15FJzXWJld8nUVcK/+5s+jmejfV
+         DUEA==
+X-Forwarded-Encrypted: i=1; AJvYcCXQ8WtLJxfxuvqXfsgA+YuWoaGbA8nJrw5fhmt7lcPaIiNt6P9Akm+kwG/LX0jmImoOZWa2ddlGMxo5caBeW69onHzH4BfCDDhn5Y/wjQC39Jb4sYHDDa92GUfROPXE2+z6saZftpCf
+X-Gm-Message-State: AOJu0YyT9tfsdvvuvpDe21pfFMg1EOO2Wy3yl8eQl7pPoaQ2+FAC4pkh
+	YAvfFWW/qDYhYm6pTxbI25/7yak3xk/d1IdpcgkrRjglJsYXaOJI/1CDRYH07/VThmgvAlIjbkA
+	6NX61JAkDkYds1/hjpHkm6DTs/jfZ+okV
+X-Google-Smtp-Source: AGHT+IHNNEtnsE4csjfuwepPpDKNjhB/oWwbjvYHlUleiX67QfVK6AwXQmjdNC8kRnlAGwWx3GMQw0USiyj3gZlMLaI=
+X-Received: by 2002:a25:ef45:0:b0:df7:695a:1cee with SMTP id
+ 3f1490d57ef6-dfaf66d1473mr12865314276.50.1718121073472; Tue, 11 Jun 2024
+ 08:51:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <PH7PR11MB7004DDE9816D92F690A5C0B692C62@PH7PR11MB7004.namprd11.prod.outlook.com>
+References: <20240608155316.451600-1-flintglass@gmail.com> <20240608155316.451600-3-flintglass@gmail.com>
+ <CAJD7tkZAkzUfbXY3C0QOGqCyjQZeiuGzkZac4hmogOoh=yoZsw@mail.gmail.com> <CAPpoddf0ysCG=s5ixbOZkXjmcB0t_eqLOs9xhdqZHiWnYY4_Wg@mail.gmail.com>
+In-Reply-To: <CAPpoddf0ysCG=s5ixbOZkXjmcB0t_eqLOs9xhdqZHiWnYY4_Wg@mail.gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Tue, 11 Jun 2024 08:51:02 -0700
+Message-ID: <CAKEwX=NSaRAjiKjGtYxPwh9ByBZ_DK+h3T6LS5-eNpxS4s4zPA@mail.gmail.com>
+Subject: Re: [PATCH v1 2/3] mm: zswap: fix global shrinker error handling logic
+To: Takero Funaki <flintglass@gmail.com>
+Cc: Yosry Ahmed <yosryahmed@google.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 10, 2024 at 09:28:04PM +0000, Zeng, Oak wrote:
-> Hi Jason, Leon,
-> 
-> I was able to fix the issue from my side. Things work fine now. I got two questions though:
-> 
-> 1) The value returned from dma_link_range function is not contiguous, see below print. The "linked pa" is the function return.
-> I think dma_map_sgtable API would return some contiguous dma address. Is the dma-map_sgtable api is more efficient regarding the iommu page table? i.e., try to use bigger page size, such as use 2M page size when it is possible. With your new API, does it also have such consideration? I vaguely remembered Jason mentioned such thing, but my print below doesn't look like so. Maybe I need to test bigger range (only 16 pages range in the test of below printing). Comment?
+On Tue, Jun 11, 2024 at 8:21=E2=80=AFAM Takero Funaki <flintglass@gmail.com=
+> wrote:
+>
+>
+> Since shrink_worker evicts only one page per tree walk when there is
+> only one memcg using zswap, I believe this is the intended behavior.
 
-My API gives you the flexibility to use any page size you want. You can
-use 2M pages instead of 4K pages. The API doesn't enforce any page size.
+I don't think this is the intended behavior :) It's a holdover from
+the old zswap reclaiming behaviors.
 
-> 
-> [17584.665126] drm_svm_hmmptr_map_dma_pages iova.dma_addr = 0x0, linked pa = 18ef3f000
-> [17584.665146] drm_svm_hmmptr_map_dma_pages iova.dma_addr = 0x0, linked pa = 190d00000
-> [17584.665150] drm_svm_hmmptr_map_dma_pages iova.dma_addr = 0x0, linked pa = 190024000
-> [17584.665153] drm_svm_hmmptr_map_dma_pages iova.dma_addr = 0x0, linked pa = 178e89000
-> 
-> 2) in the comment of dma_link_range function, it is said: " @dma_offset needs to be advanced by the caller with the size of previous page that was linked + DMA address returned for the previous page".
-> Is this description correct? I don't understand the part "+ DMA address returned for the previous page ".
-> In my codes, let's say I call this function to link 10 pages, the first dma_offset is 0, second is 4k, third 8k. This worked for me. I didn't add the previously returned dma address.
-> Maybe I need more test. But any comment?
+1. In the past, we used to shrink one object per shrink worker call.
+This is crazy.
 
-You did it perfectly right. This is the correct way to advance dma_offset.
+2. We then move the LRU from the allocator level to zswap level, and
+shrink one object at a time until the pool can accept new pages (i.e
+under the acceptance threshold).
 
-Thanks
+3. When we separate the LRU to per-(memcg, node), we keep the
+shrink-one-at-a-time part, but do it round-robin style on each of the
+(memcg, node) combination.
 
-> 
-> Thanks,
-> Oak
-> 
-> > -----Original Message-----
-> > From: Jason Gunthorpe <jgg@ziepe.ca>
-> > Sent: Monday, June 10, 2024 1:25 PM
-> > To: Zeng, Oak <oak.zeng@intel.com>
-> > Cc: Leon Romanovsky <leon@kernel.org>; Christoph Hellwig <hch@lst.de>;
-> > Robin Murphy <robin.murphy@arm.com>; Marek Szyprowski
-> > <m.szyprowski@samsung.com>; Joerg Roedel <joro@8bytes.org>; Will
-> > Deacon <will@kernel.org>; Chaitanya Kulkarni <chaitanyak@nvidia.com>;
-> > Brost, Matthew <matthew.brost@intel.com>; Hellstrom, Thomas
-> > <thomas.hellstrom@intel.com>; Jonathan Corbet <corbet@lwn.net>; Jens
-> > Axboe <axboe@kernel.dk>; Keith Busch <kbusch@kernel.org>; Sagi
-> > Grimberg <sagi@grimberg.me>; Yishai Hadas <yishaih@nvidia.com>;
-> > Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>; Tian, Kevin
-> > <kevin.tian@intel.com>; Alex Williamson <alex.williamson@redhat.com>;
-> > Jérôme Glisse <jglisse@redhat.com>; Andrew Morton <akpm@linux-
-> > foundation.org>; linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
-> > linux-block@vger.kernel.org; linux-rdma@vger.kernel.org;
-> > iommu@lists.linux.dev; linux-nvme@lists.infradead.org;
-> > kvm@vger.kernel.org; linux-mm@kvack.org; Bart Van Assche
-> > <bvanassche@acm.org>; Damien Le Moal
-> > <damien.lemoal@opensource.wdc.com>; Amir Goldstein
-> > <amir73il@gmail.com>; josef@toxicpanda.com; Martin K. Petersen
-> > <martin.petersen@oracle.com>; daniel@iogearbox.net; Williams, Dan J
-> > <dan.j.williams@intel.com>; jack@suse.com; Zhu Yanjun
-> > <zyjzyj2000@gmail.com>; Bommu, Krishnaiah
-> > <krishnaiah.bommu@intel.com>; Ghimiray, Himal Prasad
-> > <himal.prasad.ghimiray@intel.com>
-> > Subject: Re: [RFC RESEND 00/16] Split IOMMU DMA mapping operation to
-> > two steps
-> > 
-> > On Mon, Jun 10, 2024 at 04:40:19PM +0000, Zeng, Oak wrote:
-> > > Thanks Leon and Yanjun for the reply!
-> > >
-> > > Based on the reply, we will continue use the current version for
-> > > test (as it is tested for vfio and rdma). We will switch to v1 once
-> > > it is fully tested/reviewed.
-> > 
-> > I'm glad you are finding it useful, one of my interests with this work
-> > is to improve all the HMM users.
-> > 
-> > Jason
+It's time to optimize this. 4th time's the charm!
+
+> Even if we choose to break the loop more aggressively, it would only
+> be postponing the problem because pool_limit_hit will trigger the
+> worker again.
+>
+> I agree the existing approach is inefficient. It might be better to
+> change the 1 page in a round-robin strategy.
+
+We can play with a bigger batch.
+
+1. Most straightforward idea is to just use a bigger constant (32? 64? 128?=
+)
+
+2. We can try to shrink until accept for each memcg, hoping that the
+round robin selection maintains fairness in the long run - but this
+can be a bad idea in the short run for the memcg selected. At the very
+least, this should try to respect the protected area for each lruvec.
+This might still come into conflict with the zswap shrinker though
+(since the protection is best-effort).
+
+3. Proportional reclaim - a variant of what we're doing in
+get_scan_count() for page reclaim?
+
+scan =3D lruvec_size - lruvec_size * protection / (cgroup_size + 1);
+
+protection is derived from memory.min or memory.low of the cgroup, and
+cgroup_size is the memory usage of the cgroup. lruvec_size maybe we
+can substitute with the number of (reclaimable/unprotected?) zswap
+objects in the (node, memcg) lru?
