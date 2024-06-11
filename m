@@ -1,125 +1,110 @@
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF7C3BBEB;
-	Tue, 11 Jun 2024 15:51:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA91383BF
+	for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 15:59:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718121076; cv=none; b=cqsQWx71L+C4XXrbsRMZaVqtZBr0v98BVPWqYxaxgDEi1z7CCzDpVVkHLvKM2kTmvWURedfhnWemTJZb0Xvr8EsBStSEvxOJq59bLmZY1ulCMgztoMi6HjygnSig9gRqVuPObdKaGYR63dUCsS83lffMkPY19gcoGLGUuEv/syo=
+	t=1718121557; cv=none; b=RKv7udqyLeXJYjd+qXhBvfE0XrJbsCLqp/zQNY2iZBdSooCtCB8svYuU2L2+JilC80q3J3QJCpedz563odiRPnY9rUh/NMfC8TVUMF8av80dOMYqZPI4PSNmPGICz65JAZoW9pcvgM9cjGvX9ZMGMvhsrFbqk1+d/rBZdxqP8bc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718121076; c=relaxed/simple;
-	bh=pgGuDE+XrbAgHUHE3XCxL9tGB/eU0RinDylZrRbr6yM=;
+	s=arc-20240116; t=1718121557; c=relaxed/simple;
+	bh=HsSfwE4c9FKwzt2D18mve0ctqok3simx/c6Sk4d9mD8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pGd6aVSYGQtjHlUw3ePVkgX83+KnttMxoskBIPH9VZgsms3fJu7ZKPuIvpS3QhZ1meH2xg8Z+FpjMC9e2hkBSMTjcDsgmCdfls3CM+M/1kSAuaEvjQ7ZAs1TNHCS4Q8W1u3uARieiZR24HbqXzohVkL04FqUVurWWktXT1fy5lg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nZCcpyX5; arc=none smtp.client-ip=209.85.219.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=jyAhTqivANgWULg/+ihxQe+98tW7x1DBQ+XTxS4G6b3HEQQc3tets2G20ZTGjbbdxjmXmNBE3C7yknhX3SaJ9sALzfQgUBPzV4QQ27vOJtOsnfSu6eIur0LgStRhQXCayu6k1HFZYAtF2CEe9OuGhhVucnIRuY4p0vVD8cRvEa4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=s/ry5662; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nZCcpyX5"
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-df771959b5bso5817931276.1;
-        Tue, 11 Jun 2024 08:51:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="s/ry5662"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a6f176c5c10so143084366b.2
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 08:59:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718121073; x=1718725873; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1718121554; x=1718726354; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=pgGuDE+XrbAgHUHE3XCxL9tGB/eU0RinDylZrRbr6yM=;
-        b=nZCcpyX5G6f0IdSUW3uLZ9up63jEtgCHUCMWkgHtuEpmkC1EKk6RpMW5PKkZcDcCrv
-         WqrhOFOVaCJ5TD+RHHnanoAmDBTmT4PIghwLiwxtWdkYhVspSWI6FQ/YblZykoOnaYoa
-         uuyikdSOQTILpZmeRG2YPcBIQH7no1ppRZqcyUB7q0q0GlO7RYW5MpOYwarQgtaf4s7f
-         vHYeN8UACp5EibbcrGDOQmVrQHkAEiN9CRWG2yYRZvfyZP/n3GsFH6MgQT4rrMPcp1FC
-         riC/AQwbpsvjMHqYWs5Pg8uKhI62dwDC5nI1gkO+GkQw4JDYsTAp46zv3NmKrL2D2oWg
-         fbvw==
+        bh=7KeeLnew4Dr2lt2iWiQJB+NWU2kaX728eR1Y/pdt+oA=;
+        b=s/ry5662Ge+hWbpEAGorm7hqKMZpZcv4wxPprCcclHLcbNXybxPYxyzYt6SpTbK8lk
+         xzj/neGZvGQCCVqomCcHuBX2n2t5Sw/wma4lwmXtiUrCxkHh9ijuHpJwxy/nnyM08uvu
+         nhKM77yPVFu9B91OourqJO+UmrDMiajArZkBNTRan+yrSGUAAc4P2UoYeXT+3cn7uLzM
+         KrmG64DemnXC017Qhj749vZw5+c3BcaQlR9Lfxct3b1kgWEig7quSDiYXDVBcBPqxK6J
+         u94g/GyF0iKyegEROSXhGtbmOi72nRF2tfisVYDw9nFdq7FhW5gS/5i8SlGd0zf3euvD
+         WiHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718121073; x=1718725873;
+        d=1e100.net; s=20230601; t=1718121554; x=1718726354;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=pgGuDE+XrbAgHUHE3XCxL9tGB/eU0RinDylZrRbr6yM=;
-        b=szgT7Giugph8OtF1IGcFg+1MVWKTTuchTA4R/lAEJB8hi/CmPqIdeNX30EUPSJKhFT
-         CiLGiQYKV+UxUxq4sLlix1ci6vdPzvmtkCswXur6ddyQlka9tEE03jIpKZp5B/UcSt4O
-         62K6hyDgCS0HyYzszixchbcCps57QhYA+Co6QBhXeX/uSj0DR5q++Bm3ddITYLlrmAIx
-         QZdGo7IeZlaQJzRG6yhAmrUz9wSnaBmPbgKfW+wod/6LbS7LS867cFzFTjAZVQbsMr+P
-         gQD1Jn7+GRaptdjHg7T3lZD+CeaYBm4hjkyCMaFpM15FJzXWJld8nUVcK/+5s+jmejfV
-         DUEA==
-X-Forwarded-Encrypted: i=1; AJvYcCXQ8WtLJxfxuvqXfsgA+YuWoaGbA8nJrw5fhmt7lcPaIiNt6P9Akm+kwG/LX0jmImoOZWa2ddlGMxo5caBeW69onHzH4BfCDDhn5Y/wjQC39Jb4sYHDDa92GUfROPXE2+z6saZftpCf
-X-Gm-Message-State: AOJu0YyT9tfsdvvuvpDe21pfFMg1EOO2Wy3yl8eQl7pPoaQ2+FAC4pkh
-	YAvfFWW/qDYhYm6pTxbI25/7yak3xk/d1IdpcgkrRjglJsYXaOJI/1CDRYH07/VThmgvAlIjbkA
-	6NX61JAkDkYds1/hjpHkm6DTs/jfZ+okV
-X-Google-Smtp-Source: AGHT+IHNNEtnsE4csjfuwepPpDKNjhB/oWwbjvYHlUleiX67QfVK6AwXQmjdNC8kRnlAGwWx3GMQw0USiyj3gZlMLaI=
-X-Received: by 2002:a25:ef45:0:b0:df7:695a:1cee with SMTP id
- 3f1490d57ef6-dfaf66d1473mr12865314276.50.1718121073472; Tue, 11 Jun 2024
- 08:51:13 -0700 (PDT)
+        bh=7KeeLnew4Dr2lt2iWiQJB+NWU2kaX728eR1Y/pdt+oA=;
+        b=Nqt6+w9QOJWm+na4qRE4SYIgYRsQ/yIl64RKGCQJRRB7cRfCK8cX7aHjB0qYKI/mD0
+         k2KLBnrd5koVfnfkxl06d/GkCuFtThYCqZHRKisHWPLxne/GtCpQ3gTC4jyn0lbY0Rjx
+         h2hScU/PnSZ4KImZEINe9QDiO6ibf1LrTyFhnuarb2a6XCg90bUyg1EaSlep4EKcdtb7
+         pY4usH5ACRKoGxdDEwQk0+kS8hetevhESxOtvABlXrjbJuARgLf1OYbDeVJLDyHLUXLZ
+         hphAYbRHtCJYm5NyBAAIl/lkLn9VoXvVvsItbY0kMuVWzAVFfclVRpwg7kkC8wToGZjG
+         TRLA==
+X-Forwarded-Encrypted: i=1; AJvYcCVvecZZL48S+ve1ClXeI5MNU7XviyqxT+lszl1CQwAa5Wu9DtFtQfFKVN/P7y9lu+mWguMrTi2SAP60Ydc5DcZVsGcUXhrFV8Aj
+X-Gm-Message-State: AOJu0YxGKpw8dVutH7n9bD0+yMhkbU67Zf+66CYYwB0NWQfyOEK7TdZT
+	aCSixfEk/2diTeAotFsyTv45OXhaF40S0z7EV6o74IKMkuozUVveOMVjosmwK5+/w6D+C6ueHWm
+	YO2optQMiZLs7wj4kWVx3CnvEcvAMasMMMkpeBA==
+X-Google-Smtp-Source: AGHT+IFtN4cYhXjGsiGLi9dtTvtTxex9wzVTtZ32q9gZra1QREy0esNjyQa0xfTpDsvoF9kv8aqdxu0J/DY1HdrDZBE=
+X-Received: by 2002:a17:906:2811:b0:a6e:f7bc:dcab with SMTP id
+ a640c23a62f3a-a6ef7bcdd76mr607353666b.65.1718121553604; Tue, 11 Jun 2024
+ 08:59:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240608155316.451600-1-flintglass@gmail.com> <20240608155316.451600-3-flintglass@gmail.com>
- <CAJD7tkZAkzUfbXY3C0QOGqCyjQZeiuGzkZac4hmogOoh=yoZsw@mail.gmail.com> <CAPpoddf0ysCG=s5ixbOZkXjmcB0t_eqLOs9xhdqZHiWnYY4_Wg@mail.gmail.com>
-In-Reply-To: <CAPpoddf0ysCG=s5ixbOZkXjmcB0t_eqLOs9xhdqZHiWnYY4_Wg@mail.gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Tue, 11 Jun 2024 08:51:02 -0700
-Message-ID: <CAKEwX=NSaRAjiKjGtYxPwh9ByBZ_DK+h3T6LS5-eNpxS4s4zPA@mail.gmail.com>
-Subject: Re: [PATCH v1 2/3] mm: zswap: fix global shrinker error handling logic
-To: Takero Funaki <flintglass@gmail.com>
-Cc: Yosry Ahmed <yosryahmed@google.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+References: <20240610-xtheadvector-v2-0-97a48613ad64@rivosinc.com> <20240610-xtheadvector-v2-11-97a48613ad64@rivosinc.com>
+In-Reply-To: <20240610-xtheadvector-v2-11-97a48613ad64@rivosinc.com>
+From: Evan Green <evan@rivosinc.com>
+Date: Tue, 11 Jun 2024 08:58:37 -0700
+Message-ID: <CALs-Hsu2jFAfr7H9UfLd9VHEZvpfF7Q6Chxko3XbBZBCU94eSw@mail.gmail.com>
+Subject: Re: [PATCH v2 11/13] riscv: hwprobe: Document thead vendor extensions
+ and xtheadvector extension
+To: Charlie Jenkins <charlie@rivosinc.com>
+Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, Guo Ren <guoren@kernel.org>, 
+	Andy Chiu <andy.chiu@sifive.com>, Jessica Clarke <jrtc27@jrtc27.com>, 
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Andrew Jones <ajones@ventanamicro.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 11, 2024 at 8:21=E2=80=AFAM Takero Funaki <flintglass@gmail.com=
-> wrote:
+On Mon, Jun 10, 2024 at 3:57=E2=80=AFPM Charlie Jenkins <charlie@rivosinc.c=
+om> wrote:
 >
+> Document support for thead vendor extensions using the key
+> RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0 and xtheadvector extension using
+> the key RISCV_HWPROBE_VENDOR_EXT_XTHEADVECTOR.
 >
-> Since shrink_worker evicts only one page per tree walk when there is
-> only one memcg using zswap, I believe this is the intended behavior.
-
-I don't think this is the intended behavior :) It's a holdover from
-the old zswap reclaiming behaviors.
-
-1. In the past, we used to shrink one object per shrink worker call.
-This is crazy.
-
-2. We then move the LRU from the allocator level to zswap level, and
-shrink one object at a time until the pool can accept new pages (i.e
-under the acceptance threshold).
-
-3. When we separate the LRU to per-(memcg, node), we keep the
-shrink-one-at-a-time part, but do it round-robin style on each of the
-(memcg, node) combination.
-
-It's time to optimize this. 4th time's the charm!
-
-> Even if we choose to break the loop more aggressively, it would only
-> be postponing the problem because pool_limit_hit will trigger the
-> worker again.
+> Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> Reviewed-by: Evan Green <evan@rivosinc.com>
+> ---
+>  Documentation/arch/riscv/hwprobe.rst | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 >
-> I agree the existing approach is inefficient. It might be better to
-> change the 1 page in a round-robin strategy.
+> diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/ri=
+scv/hwprobe.rst
+> index 204cd4433af5..9c0ef8c57228 100644
+> --- a/Documentation/arch/riscv/hwprobe.rst
+> +++ b/Documentation/arch/riscv/hwprobe.rst
+> @@ -214,3 +214,13 @@ The following keys are defined:
+>
+>  * :c:macro:`RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE`: An unsigned int which
+>    represents the size of the Zicboz block in bytes.
+> +
+> +* :c:macro:`RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0`: A bitmask containing =
+the
 
-We can play with a bigger batch.
-
-1. Most straightforward idea is to just use a bigger constant (32? 64? 128?=
-)
-
-2. We can try to shrink until accept for each memcg, hoping that the
-round robin selection maintains fairness in the long run - but this
-can be a bad idea in the short run for the memcg selected. At the very
-least, this should try to respect the protected area for each lruvec.
-This might still come into conflict with the zswap shrinker though
-(since the protection is best-effort).
-
-3. Proportional reclaim - a variant of what we're doing in
-get_scan_count() for page reclaim?
-
-scan =3D lruvec_size - lruvec_size * protection / (cgroup_size + 1);
-
-protection is derived from memory.min or memory.low of the cgroup, and
-cgroup_size is the memory usage of the cgroup. lruvec_size maybe we
-can substitute with the number of (reclaimable/unprotected?) zswap
-objects in the (node, memcg) lru?
+Our recent snafoo with CPUPERF_0 popped into my memory
+when reading this. Does this work properly with the WHICH_CPUS flag?
+Specifically, we need hwprobe_key_is_bitmask() to return true for this
+key since it's a bitmask.
