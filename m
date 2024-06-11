@@ -1,251 +1,328 @@
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2094.outbound.protection.outlook.com [40.107.101.94])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D46E13A27B;
-	Tue, 11 Jun 2024 19:38:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.94
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718134729; cv=fail; b=ONZVUfT5ZGZkiAij5cPUDHuI4DysxNmB2/oCPfyAtNSAwTiRaM3jDeXED0sVlxWQHUH/hCenB+ogF0lm2J8H7gVSrIdu1e+NG1f2ewyolo8tW6vXMMzkGyq6ydz2gIKv5zgt8UDh4bgeSaTXn8vfYMkUXzMC+ycjLMOT2gGs/BQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718134729; c=relaxed/simple;
-	bh=myGKSSkrP5fRemxPB0qbPuou5X1eomQRf8ioV/6a9v8=;
-	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Dx3xoUBJUMZA5o/2rHG22h982KooAQFetXcLO/xBj499y5rJ9ZPutR1iMd/bTjCLGfj055+mKnTcunyrwGGarNcLYPdYM0cyRwXu5r52Uso4mejGK7GiuEchJ9pG6IzcpUMuBi/cOPqtM3vhnqZTpHIMtnIeX0PVALgCkHuVJPs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com; spf=pass smtp.mailfrom=os.amperecomputing.com; dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b=u35R5li/; arc=fail smtp.client-ip=40.107.101.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=os.amperecomputing.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=os.amperecomputing.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BDCF7E78B
+	for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 19:42:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1718134959; cv=none; b=XWs9yrC9RUfyCZhvw806KT8/6CBn/NHBLwh9hVgRpzPATmb4eOHvDJ1nBztOCYpAaQ/cIMQAUglYW4QyI/VUzC6J3D1AskFp3kKcCxaTKsC623MdItett7i+xRwwexEMcyNmfJWpqBKyHAyjAqy+Vp/RHXKBvqaSUhDjJbdUp4A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1718134959; c=relaxed/simple;
+	bh=TQdxOxCaPkC06wqWfqJyJfJut/pJEyI8HajgGOMWNPU=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=pP37ZBAn33I+4ypWpNTAxjLDXAKELplDKrtDHzmaMvr+HhJMoAIuZbAkqhrtG9n/6Ptgvvw14s9kmIn71aVGyd698GyVglU5slZttOMPorAaoXjRlu4izLF21Ak1AJOudbfGbf5l9kXTTaKKsjOTOwg935u9ZUmQ3ZKoamFiokE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=egkXHQzM; arc=none smtp.client-ip=209.85.214.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=os.amperecomputing.com header.i=@os.amperecomputing.com header.b="u35R5li/"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MGD8kRYHoh4j7iFTcTjBItzXOPnYVsipVK7vELg/nQDp8gg1inBWIdZqAILcmu9rqECoR6SCDjZAr1fetdALr1S0+i7x6OjmSa7NOiIQ6FtEtKTUVXGIIYJyf1X11Ne8YUsGAHehoENcQSqnX0iMLPm8jiRxzmkiadUoa6q6fNfq8YzpAfDR106H3AXxpQuHXOchcKVT8F1eJGaRu3Ymjy0vZATpD1fbFsPqHK6FX3MZeTVVw4e06KjRbCLL0Vknp7T4cOgfVaU2q0RmYpjO44aNlZYg3ykAmhTwm5qzqSiqRXnt6pIHMCzq3j2iviDWf7jIv8Z5sJE9P5ayHJ/V2g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LRjY3+M8TCpBtBDZF2UBYSgsSQHyh7HHpYnbEjfJIYM=;
- b=DvHmZlWxSVgo4zkk3C2ptFhSD1xhABwCbrYJ0Eb4v+HDK+MCunEWhq4bTEXfT0fdYvIrfL4SU0JHf+oZ0QdUKn2T3gYeIntWtMrPNimqtXcftXKPbyZFePksKms2Y2IHDkxljonFmx6X8x5xATlKbmV6fhNb1SNHmMiRtRfCjgWkc+uAZRJz2zQgk414JEgJoihwlv/OwfCfWAOC8JVCPtDo9eq9lchgOUFxA143EsHU6cfiHQk1X7rxN0RFgnCyYlqo8vwwMsvQ4vY84DO31EiHrYxGo6zGxMJ6K2qQx9c0E74avBxt/OmwAkbJvKy1X4VqG41dm52QBfow9Z6jJA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="egkXHQzM"
+Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-1f733390185so5646985ad.3
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 12:42:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LRjY3+M8TCpBtBDZF2UBYSgsSQHyh7HHpYnbEjfJIYM=;
- b=u35R5li/Tndzzz3rsfMUs6vwzfBVUe0akSBPZE/yU7Dcnl886FZ29TaxTOq8sxpQVv1HPaPMDZpd6+oYTmkNycaZ69YgfRUS3HItZEUzOi0vhDNqAREKC9Pe0Y6xk542HbeQhe+KHBgTGKN1yg+dvH7Yk8YYb1+URIHQn7xQrVo=
-Received: from CH2PR01MB5894.prod.exchangelabs.com (2603:10b6:610:45::11) by
- MW4PR01MB6323.prod.exchangelabs.com (2603:10b6:303:78::23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7633.37; Tue, 11 Jun 2024 19:38:44 +0000
-Received: from CH2PR01MB5894.prod.exchangelabs.com
- ([fe80::b5cc:1692:8c7d:8beb]) by CH2PR01MB5894.prod.exchangelabs.com
- ([fe80::b5cc:1692:8c7d:8beb%5]) with mapi id 15.20.7633.036; Tue, 11 Jun 2024
- 19:38:44 +0000
-From: Shubhang Kaushik OS <Shubhang@os.amperecomputing.com>
-To: "ampere-linux-kernel@lists.amperecomputing.com"
-	<ampere-linux-kernel@lists.amperecomputing.com>
-CC: Uladzislau Rezki <urezki@gmail.com>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "cl@linux.com" <cl@linux.com>,
-	"corbet@lwn.net" <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>, "guoren@kernel.org"
-	<guoren@kernel.org>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"xiongwei.song@windriver.com" <xiongwei.song@windriver.com>,
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-	"linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>, Matthew Wilcox
-	<willy@infradead.org>
-Subject: [PATCH v5] vmalloc: Modify the alloc_vmap_area() error message for
-  better diagnostics
-Thread-Topic: [PATCH v5] vmalloc: Modify the alloc_vmap_area() error message
- for  better diagnostics
-Thread-Index: AQHavDYcN0EphoQrWUSinj2sRxMflA==
-Date: Tue, 11 Jun 2024 19:38:44 +0000
-Message-ID:
- <CH2PR01MB5894B0182EA0B28DF2EFB916F5C72@CH2PR01MB5894.prod.exchangelabs.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
- MSIP_Label_5b82cb1d-c2e0-4643-920a-bbe7b2d7cc47_Enabled=True;MSIP_Label_5b82cb1d-c2e0-4643-920a-bbe7b2d7cc47_SiteId=3bc2b170-fd94-476d-b0ce-4229bdc904a7;MSIP_Label_5b82cb1d-c2e0-4643-920a-bbe7b2d7cc47_SetDate=2024-06-11T19:38:43.157Z;MSIP_Label_5b82cb1d-c2e0-4643-920a-bbe7b2d7cc47_Name=Confidential;MSIP_Label_5b82cb1d-c2e0-4643-920a-bbe7b2d7cc47_ContentBits=0;MSIP_Label_5b82cb1d-c2e0-4643-920a-bbe7b2d7cc47_Method=Standard;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CH2PR01MB5894:EE_|MW4PR01MB6323:EE_
-x-ms-office365-filtering-correlation-id: f6e74a85-5732-4cc7-fe6f-08dc8a4e1ae5
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230032|376006|7416006|366008|1800799016|38070700010;
-x-microsoft-antispam-message-info:
- =?iso-8859-1?Q?9oyK6SQi1lo/+yjMnfrltrSXdCOQYVWHSuXQOi+tBap3F5aXQAGQCW9HxO?=
- =?iso-8859-1?Q?gD3wjtNnqBj8Xz6HDnubiEDfm2HWVHdK1O6/4Z7yB7RADRD60agelR0J+j?=
- =?iso-8859-1?Q?tS22V85S95wify72O1h3in1SAa3+N49oe+hF7icR5ILr/Vik6IviLZLdTb?=
- =?iso-8859-1?Q?S1u+o8dvIyHxcuwmKi3JH5veXVImdSjSmzjyJbjiJLnVp0GeHmPoLEqT+/?=
- =?iso-8859-1?Q?4k+qNnHhESLt0uCH6x403Xvok5KfnCpf+WEFQE+4hdQt1RHOFtf/osZOzK?=
- =?iso-8859-1?Q?eIIJFmhEvc8zeYW0BFyZjcwci1DrmVu65tnt/tU3nMeS31VMI1H+7E+PyT?=
- =?iso-8859-1?Q?TT4rMiHIZ4hC6snH9wDkhd+Zo3+BJ3s7cw1RaPRdrMQqbixlnTa/romdvA?=
- =?iso-8859-1?Q?OfrcWkscye5j5yRhPBULSjbmXG4H9O4ScOLCXCh2byUfum+p4SAxYuf0q9?=
- =?iso-8859-1?Q?LtwrZhR4NSXxKs8u3R+4vReLwdEBngWNHSQSjBjuXcjJ48OjzW0+EV3g7k?=
- =?iso-8859-1?Q?FSRQA6zQuvrknY6KsDH/BHm1L1bXlkQGi1reEqXIedyasL1hXhc1piJ6bW?=
- =?iso-8859-1?Q?W9ls8XXg2sTHgWxrsqVyS+jOGluL12vvlccG0VfONIYBPMvHw6wog+Z7da?=
- =?iso-8859-1?Q?+HFSAr0TbP4eoTWkedcUyYL3lR5j4HcOHWtfKqB0cea9rMp6q6JntaXHQI?=
- =?iso-8859-1?Q?sxHhiqgS97q9C0eqCrn2V8+ztIOn12GKOl6IEnjIfjNtX1WOBbKln4s1CK?=
- =?iso-8859-1?Q?qlggJm+G2G1qM895fPPXCq/CsaT1zC3NL04ZRq9izaf7NH1ZHgm5rkb82p?=
- =?iso-8859-1?Q?x67MrSWX1iaeI/ncZ1tkihYt91PBJEvSFMHbFSSkFd1nFaEB+H3UW6QDrS?=
- =?iso-8859-1?Q?EvWXZPsrqWzq0c37KbfEHaVyCcfDIBQQEdTiIaytNiLwq5NHldzAEmRzLk?=
- =?iso-8859-1?Q?nH+Zah9S2lmG8vJ/cbGdZbbr6p7zG3e0H1bU+89DP2PU4T2n3Aog3BLP8E?=
- =?iso-8859-1?Q?2dO/10Emr1JJbFnk+L5ljPul/mNtYJKjA26HrMjTztyJThUO0/yYOJiqIC?=
- =?iso-8859-1?Q?amH6xn4gHtLHEuwEylqd8EcMv1XehW01bm6G0AKwFHUOYMsBygWlYEee6g?=
- =?iso-8859-1?Q?L8cZ0xZe2qyfGej5TBd5NCaoJ6Qg90gRUyXg8RKakMWyi8rElVVSCyO2vr?=
- =?iso-8859-1?Q?48Nivf7cKVHu7oIuwnGwjG39ELbTV/LX7cZ6BGDIa1jIqRlYCNZT71dggb?=
- =?iso-8859-1?Q?TKFjKXC9NDgCccZDuBxLVKrPCXfzxBEcrAMI4lQxBPsAyLWETGSCcheQIJ?=
- =?iso-8859-1?Q?84WcEgfZHoOG50WjmQE1E8ZCM39WdJsaFXldQI0j7gsrq25Py4QgZQNo9w?=
- =?iso-8859-1?Q?hK1xn/8pVNr8BKJ/vMbGR1dr81PnpOHi3v5OMf3Z17SLFiN7zZARg=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR01MB5894.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230032)(376006)(7416006)(366008)(1800799016)(38070700010);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?ur7JQTnLMjn6vsoY8kPmVAPqYUZynQ7qfJjhUs/bwn9qh8qzTQ4HUG0QbH?=
- =?iso-8859-1?Q?31HO4jIF6DNzcrajEjf+SqrcFdzz6A3khYBluPtjMrHZf1FLc0VEfBHGFF?=
- =?iso-8859-1?Q?GX2nsAO6qLWMtz8HeTG7MbAjAsviTyKptUFfeJrXKEKIWM7TaF556UG1zH?=
- =?iso-8859-1?Q?5BGGwHSwzC6aTyr6CNl9DvYlT7IVISgq/H2wd5w1uJ6lixdQOTnXbmFOrv?=
- =?iso-8859-1?Q?ph1Qgat2NW3dTr+4PIWRrjWM4BmS+9CrD4oJ/ENJRg2bIj/cUQI4OevByW?=
- =?iso-8859-1?Q?fzxU+2gc/xaye1KQH8DfyJRM2pZYgAMn4KpmvxoJxjR8O9woCnqqc2A+gD?=
- =?iso-8859-1?Q?6Ldse9TeB+1JnMmGeMtS8WlQa+ZgfroSa/Q7bE2y1nCzkDhZx4JXJUGOXs?=
- =?iso-8859-1?Q?dsvVo4eEf4YIEYDt0UOmT200ogdrsOZ81fjtDczhIcHjtgrmV96aTuqDbZ?=
- =?iso-8859-1?Q?B5KJCaIYpuTC4DcRAeyO40jJjvhFwaXLrWL+oLNwF9Pm38RFiCBTCiHaOK?=
- =?iso-8859-1?Q?65I/O5CUQKEA3vfI8bOCCkTuh3S0TKN4wF8F2D/Py47VH/tXWxu5KKYOhq?=
- =?iso-8859-1?Q?YVKiDDrgl4QTyZW08AkSzm7Tt1U3RWKTeXsdJXMK8nE+Pfu5mUcCECFJHr?=
- =?iso-8859-1?Q?sNrUMrmj61yTAgWNdjPJSp5cZzwBngQ5fKanFULI1vl2Z9+M8HCguoWOXA?=
- =?iso-8859-1?Q?A7H2MQU0oRkt/fWC8rSi7T0VxOyHedM8hJS6jiym+hysF4h6/rodKN7Png?=
- =?iso-8859-1?Q?BCvssNOxsVZXuFY/csNZElJOPw/h9aUGh6cb1AuloaNZ041mPP68TWP32+?=
- =?iso-8859-1?Q?0w9LGjZOhH59RS+X4XeOGQwUqzeH0yGbHGLUMWNRidI/dQ8SvPc7WPy2xg?=
- =?iso-8859-1?Q?UiFbtmfs+eAWgYv3xWMZVWJkvWotn2Qx2Ne1Lj6YQwdJ0gvuDGXa+4Vw72?=
- =?iso-8859-1?Q?n2rArz5OqOrMjm13vNcXX6j42cNioCS8WdDd18AMMmhcmskd1dl4rOte+E?=
- =?iso-8859-1?Q?v44no2BUQL5LkAqBe2pWFhmxxHtSh/7dbR/pT2ZNe+vAglvL8BWC1fR6n+?=
- =?iso-8859-1?Q?bmXR4elffnn5RxsQH8ZuQ52lBTrJla4uQSSRKFYsOTkmjwD4R27FuBdlJJ?=
- =?iso-8859-1?Q?jZcHtJEeWYtW/5GCagxAQLsc1vUHYuzAucQWPQvzRsYxO88UijsuvMfPkI?=
- =?iso-8859-1?Q?miIrWCl9xqQ9A6udBh6y+EplN+4aMMFm1/xDFs6F3ypzv6WJigSZ+ln9Ws?=
- =?iso-8859-1?Q?qoJ672K+/o0px01unbWojdpTqag6B94Ilg4Vxg2dhHQX8U5MP1hMFouriQ?=
- =?iso-8859-1?Q?255g31uj/8qUsMOpX5Gx+wDt5YtVRuX/AfF2euPj2uDOSDJrtWKiPtS1fI?=
- =?iso-8859-1?Q?uZRNQMaqpIBJUutF4jPdhCZnGvtyMh90zaCOSokwS1DjI+VEAGujg5W8lD?=
- =?iso-8859-1?Q?BgkpGqSNtap0UTL9DqNgZCBudYE7zxQmZ9KBC8/nxUKzT/bUVvSqzte+aQ?=
- =?iso-8859-1?Q?jz9HZ/VUmWM655pWB1/Zq2W6GM/LtOXdaijIyde5TEpm1TEbUI5xmOtJSU?=
- =?iso-8859-1?Q?b6g8D37tFU3BAwVfNUu4w3wR22OkeyGAvtyaul1g0e6EoHFaargqVzpGvR?=
- =?iso-8859-1?Q?ri8FpaqNq4vZFnetO7T4XtxWPfiUriYe4RxFEFHUBsvuyNzXudX2Q6Ew?=
- =?iso-8859-1?Q?=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        d=google.com; s=20230601; t=1718134958; x=1718739758; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wQHC8OIi/Hsd3JLuWOR0lq7d0FaWprofQPExl9Z9si0=;
+        b=egkXHQzMvapQ7vClFG9XMY5ZcjCsl9dzdwwGTza2XMhirRtSQJBfarLh35q/kKL8cn
+         V/eU3SX8/pFu6TH4IzSq3wi73sJKIurtM+dgWtN+Ivq1v8qfCnaU44zYVfEE3kHXK4Y7
+         Rp9vZYjtBusB9Fy5ABCrNvkbI8ZUCEd/g6Bj7/pzTY3ymPtQRqR26PhqyLWUdzmt4cXz
+         lE3+JhScCKUPhNlO0K6yLIH5diyZNSpuPpR5XJ8eoBxFdQUEZEPL2wCBvDzNTWWsuS9n
+         h5LNktC4klVAA4c6ria3P92VoYlBtp7Tjm4I22gQ3Cm8LEJyY8amogRdFLSckk3xhpLl
+         wAfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718134958; x=1718739758;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=wQHC8OIi/Hsd3JLuWOR0lq7d0FaWprofQPExl9Z9si0=;
+        b=T0yoZmC0xLtOjBSToF41oGLrzJzpi6OZD39rTFD17u4u7h6HvrzpKlG1Top1i0mZbF
+         t4dfDK11RFwofymBsqNRICakO+boKH3030elc5dLodmiW4czB5p6EO+0Xnbr+6ux6ktA
+         9s8fzVeh0zkv+WDpO6y4ZCh2MuofZThcZMWWdnwSPINMdgxa1HFaXWGLJHPgp33HrFMs
+         rUcWWb4tvLYtiEss5QRZzA/bbpv/SNV6C2EMTa6LufedcM3kevP+/WW39cAMXBgeAemm
+         YuSg/9PEggmnFXs6SiJQLIBIVwcKOS5TcuKJd1sl+heofFxtg5fl+juaVHnnxHMF5rss
+         pagw==
+X-Forwarded-Encrypted: i=1; AJvYcCVdPJUtTDo8G9hQMVFcuHpGdlrv9UheTtIsZPC5PMzjo9xWag+9l4k7jwubMLCtZ99Vmpz928bzDGzUlh/xWejNc4x7CiZCAjF1
+X-Gm-Message-State: AOJu0YxSGfjqff2TqeZztCsn/6eh0DzPNBLiovYoUTpjhf9QFxg1haJo
+	vNnzeraqK8mKudPoXk80jNybJr098ipTtpgsa/4ftza9oOI6+TW/TiTNNIxaDhuzLYUQTG7XEtc
+	9AA==
+X-Google-Smtp-Source: AGHT+IEPF8Tx1zPRD6hrqpXv6Mu4zzFUULaMqaPpbdSAl8Wrrff2x3ztnrpn6Pwr6Frteyuagy9bVl9rsn8=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a17:902:c401:b0:1f6:84b5:1e10 with SMTP id
+ d9443c01a7336-1f6d02bfe8emr9509095ad.1.1718134957392; Tue, 11 Jun 2024
+ 12:42:37 -0700 (PDT)
+Date: Tue, 11 Jun 2024 12:42:35 -0700
+In-Reply-To: <CADrL8HVHcKSW3hiHzKTit07gzo36jtCZCnM9ZpueyifgNdGggw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR01MB5894.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f6e74a85-5732-4cc7-fe6f-08dc8a4e1ae5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jun 2024 19:38:44.3085
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: bsQV1oKJPyHikjjNDhID4GYBtgdziLLku99ASfTCl7wbIG4fVSSj4ZX0keWlIT5FOcqufzhNs8McWJvtMa3cvbNSRXHIqV3SBjdKBoY3cHwznzLxPM5dZZMd8s8fyhew
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR01MB6323
+Mime-Version: 1.0
+References: <20240611002145.2078921-1-jthoughton@google.com>
+ <20240611002145.2078921-5-jthoughton@google.com> <CAOUHufYGqbd45shZkGCpqeTV9wcBDUoo3iw1SKiDeFLmrP0+=w@mail.gmail.com>
+ <CADrL8HVHcKSW3hiHzKTit07gzo36jtCZCnM9ZpueyifgNdGggw@mail.gmail.com>
+Message-ID: <ZmioedgEBptNoz91@google.com>
+Subject: Re: [PATCH v5 4/9] mm: Add test_clear_young_fast_only MMU notifier
+From: Sean Christopherson <seanjc@google.com>
+To: James Houghton <jthoughton@google.com>
+Cc: Yu Zhao <yuzhao@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Ankit Agrawal <ankita@nvidia.com>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	David Matlack <dmatlack@google.com>, David Rientjes <rientjes@google.com>, 
+	James Morse <james.morse@arm.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, Raghavendra Rao Ananta <rananta@google.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Shaoqin Huang <shahuang@redhat.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Wei Xu <weixugc@google.com>, 
+	Will Deacon <will@kernel.org>, Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev, 
+	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-'vmap allocation for size %lu failed: use vmalloc=3D<size> to increase size=
-'=0A=
-The above warning is seen in the kernel functionality for allocation of the=
- restricted virtual memory range till exhaustion.=0A=
-=0A=
-This message is misleading because 'vmalloc=3D' is supported on arm32, x86 =
-platforms and is not a valid kernel parameter on a number of other platform=
-s (in particular its not supported on arm64, alpha, loongarch, arc, csky, h=
-exagon, microblaze, mips, nios2, openrisc, parisc, m64k, powerpc, riscv, sh=
-, um, xtensa, s390, sparc). With the update, the output gets modified to in=
-clude the function parameters along with the start and end of the virtual m=
-emory range allowed.=0A=
-=0A=
-The warning message after fix on kernel version 6.10.0-rc1+:=0A=
-=0A=
-vmalloc_node_range for size 33619968 failed: Address range restricted betwe=
-en 0xffff800082640000 - 0xffff800084650000=0A=
-=0A=
-Backtrace with the misleading error message:=0A=
-=0A=
-	vmap allocation for size 33619968 failed: use vmalloc=3D<size> to increase=
- size=0A=
-	insmod: vmalloc error: size 33554432, vm_struct allocation failed, mode:0x=
-cc0(GFP_KERNEL), nodemask=3D(null),cpuset=3D/,mems_allowed=3D0=0A=
-	CPU: 46 PID: 1977 Comm: insmod Tainted: G            E      6.10.0-rc1+ #7=
-9=0A=
-	Hardware name: INGRASYS Yushan Server iSystem TEMP-S000141176+10/Yushan Mo=
-therboard, BIOS 2.10.20230517 (SCP: xxx) yyyy/mm/dd=0A=
-	Call trace:=0A=
-		dump_backtrace+0xa0/0x128=0A=
-		show_stack+0x20/0x38=0A=
-		dump_stack_lvl+0x78/0x90=0A=
-		dump_stack+0x18/0x28=0A=
-		warn_alloc+0x12c/0x1b8=0A=
-		__vmalloc_node_range_noprof+0x28c/0x7e0=0A=
-		custom_init+0xb4/0xfff8 [test_driver]=0A=
-		do_one_initcall+0x60/0x290=0A=
-		do_init_module+0x68/0x250=0A=
-		load_module+0x236c/0x2428=0A=
-		init_module_from_file+0x8c/0xd8=0A=
-		__arm64_sys_finit_module+0x1b4/0x388=0A=
-		invoke_syscall+0x78/0x108=0A=
-		el0_svc_common.constprop.0+0x48/0xf0=0A=
-		do_el0_svc+0x24/0x38=0A=
-		el0_svc+0x3c/0x130=0A=
-		el0t_64_sync_handler+0x100/0x130=0A=
-		el0t_64_sync+0x190/0x198=0A=
-=0A=
-Reviewed-by: Christoph Lameter (Ampere) <cl@linux.com>=0A=
-Signed-off-by: Shubhang Kaushik <shubhang@os.amperecomputing.com>=0A=
----=0A=
- Documentation/admin-guide/kernel-parameters.txt | 9 ++++++---=0A=
- mm/vmalloc.c                                    | 4 ++--=0A=
- 2 files changed, 8 insertions(+), 5 deletions(-)=0A=
-=0A=
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentatio=
-n/admin-guide/kernel-parameters.txt=0A=
-index b600df82669d..9b8f8ab90284 100644=0A=
---- a/Documentation/admin-guide/kernel-parameters.txt=0A=
-+++ b/Documentation/admin-guide/kernel-parameters.txt=0A=
-@@ -7245,9 +7245,12 @@=0A=
- =0A=
- 	vmalloc=3Dnn[KMG]	[KNL,BOOT,EARLY] Forces the vmalloc area to have an=0A=
- 			exact size of <nn>. This can be used to increase=0A=
--			the minimum size (128MB on x86). It can also be=0A=
--			used to decrease the size and leave more room=0A=
--			for directly mapped kernel RAM.=0A=
-+			the minimum size (128MB on x86, arm32 platforms).=0A=
-+			It can also be used to decrease the size and leave more room=0A=
-+			for directly mapped kernel RAM. Note that this parameter does=0A=
-+			not exist on many other platforms (including arm64, alpha,=0A=
-+			loongarch, arc, csky, hexagon, microblaze, mips, nios2, openrisc,=0A=
-+			parisc, m64k, powerpc, riscv, sh, um, xtensa, s390, sparc).=0A=
- =0A=
- 	vmcp_cma=3Dnn[MG]	[KNL,S390,EARLY]=0A=
- 			Sets the memory size reserved for contiguous memory=0A=
-diff --git a/mm/vmalloc.c b/mm/vmalloc.c=0A=
-index 45e1506d58c3..3827c4197522 100644=0A=
---- a/mm/vmalloc.c=0A=
-+++ b/mm/vmalloc.c=0A=
-@@ -2055,8 +2055,8 @@ static struct vmap_area *alloc_vmap_area(unsigned lon=
-g size,=0A=
- 	}=0A=
- =0A=
- 	if (!(gfp_mask & __GFP_NOWARN) && printk_ratelimit())=0A=
--		pr_warn("vmap allocation for size %lu failed: use vmalloc=3D<size> to in=
-crease size\n",=0A=
--			size);=0A=
-+		pr_warn("vmalloc_node_range for size %lu failed: Address range restricte=
-d to %#lx - %#lx\n",=0A=
-+				size, vstart, vend);=0A=
- =0A=
- 	kmem_cache_free(vmap_area_cachep, va);=0A=
- 	return ERR_PTR(-EBUSY);=0A=
--- =0A=
-2.39.2=0A=
+On Tue, Jun 11, 2024, James Houghton wrote:
+> On Mon, Jun 10, 2024 at 10:34=E2=80=AFPM Yu Zhao <yuzhao@google.com> wrot=
+e:
+> >
+> > On Mon, Jun 10, 2024 at 6:22=E2=80=AFPM James Houghton <jthoughton@goog=
+le.com> wrote:
+> > >
+> > > This new notifier is for multi-gen LRU specifically
+> >
+> > Let me call it out before others do: we can't be this self-serving.
+> >
+> > > as it wants to be
+> > > able to get and clear age information from secondary MMUs only if it =
+can
+> > > be done "fast".
+> > >
+> > > By having this notifier specifically created for MGLRU, what "fast"
+> > > means comes down to what is "fast" enough to improve MGLRU's ability =
+to
+> > > reclaim most of the time.
+> > >
+> > > Signed-off-by: James Houghton <jthoughton@google.com>
+> >
+> > If we'd like this to pass other MM reviewers, especially the MMU
+> > notifier maintainers, we'd need to design a generic API that can
+> > benefit all the *existing* users: idle page tracking [1], DAMON [2]
+> > and MGLRU.
+> >
+> > Also I personally prefer to extend the existing callbacks by adding
+> > new parameters, and on top of that, I'd try to consolidate the
+> > existing callbacks -- it'd be less of a hard sell if my changes result
+> > in less code, not more.
+> >
+> > (v2 did all these, btw.)
+>=20
+> I think consolidating the callbacks is cleanest, like you had it in
+> v2. I really wasn't sure about this change honestly, but it was my
+> attempt to incorporate feedback like this[3] from v4. I'll consolidate
+> the callbacks like you had in v2.
+
+James, wait for others to chime in before committing yourself to a course o=
+f
+action, otherwise you're going to get ping-ponged to hell and back.
+
+> Instead of the bitmap like you had, I imagine we'll have some kind of
+> flags argument that has bits like MMU_NOTIFIER_YOUNG_CLEAR,
+> MMU_NOTIFIER_YOUNG_FAST_ONLY, and other ones as they come up. Does
+> that sound ok?
+
+Why do we need a bundle of flags?  If we extend .clear_young() and .test_yo=
+ung()
+as Yu suggests, then we only need a single "bool fast_only".
+
+As for adding a fast_only versus dedicated APIs, I don't have a strong pref=
+erence.
+Extending will require a small amount of additional churn, e.g. to pass in =
+false,
+but that doesn't seem problematic on its own.  On the plus side, there woul=
+d be
+less copy+paste in include/linux/mmu_notifier.h (though that could be solve=
+d with
+macros :-) ).
+
+E.g.=20
+
+--
+diff --git a/mm/mmu_notifier.c b/mm/mmu_notifier.c
+index 7b77ad6cf833..07872ae00fa6 100644
+--- a/mm/mmu_notifier.c
++++ b/mm/mmu_notifier.c
+@@ -384,7 +384,8 @@ int __mmu_notifier_clear_flush_young(struct mm_struct *=
+mm,
+=20
+ int __mmu_notifier_clear_young(struct mm_struct *mm,
+                               unsigned long start,
+-                              unsigned long end)
++                              unsigned long end,
++                              bool fast_only)
+ {
+        struct mmu_notifier *subscription;
+        int young =3D 0, id;
+@@ -393,9 +394,12 @@ int __mmu_notifier_clear_young(struct mm_struct *mm,
+        hlist_for_each_entry_rcu(subscription,
+                                 &mm->notifier_subscriptions->list, hlist,
+                                 srcu_read_lock_held(&srcu)) {
+-               if (subscription->ops->clear_young)
+-                       young |=3D subscription->ops->clear_young(subscript=
+ion,
+-                                                               mm, start, =
+end);
++               if (!subscription->ops->clear_young ||
++                   fast_only && !subscription->ops->has_fast_aging)
++                       continue;
++
++               young |=3D subscription->ops->clear_young(subscription,
++                                                       mm, start, end);
+        }
+        srcu_read_unlock(&srcu, id);
+=20
+@@ -403,7 +407,8 @@ int __mmu_notifier_clear_young(struct mm_struct *mm,
+ }
+=20
+ int __mmu_notifier_test_young(struct mm_struct *mm,
+-                             unsigned long address)
++                             unsigned long address,
++                             bool fast_only)
+ {
+        struct mmu_notifier *subscription;
+        int young =3D 0, id;
+@@ -412,12 +417,15 @@ int __mmu_notifier_test_young(struct mm_struct *mm,
+        hlist_for_each_entry_rcu(subscription,
+                                 &mm->notifier_subscriptions->list, hlist,
+                                 srcu_read_lock_held(&srcu)) {
+-               if (subscription->ops->test_young) {
+-                       young =3D subscription->ops->test_young(subscriptio=
+n, mm,
+-                                                             address);
+-                       if (young)
+-                               break;
+-               }
++               if (!subscription->ops->test_young)
++                       continue;
++
++               if (fast_only && !subscription->ops->has_fast_aging)
++                       continue;
++
++               young =3D subscription->ops->test_young(subscription, mm, a=
+ddress);
++               if (young)
++                       break;
+        }
+        srcu_read_unlock(&srcu, id);
+--=20
+
+It might also require multiplexing the return value to differentiate betwee=
+n
+"young" and "failed".  Ugh, but the code already does that, just in a bespo=
+ke way.
+
+Double ugh.  Peeking ahead at the "failure" code, NAK to adding
+kvm_arch_young_notifier_likely_fast for all the same reasons I objected to
+kvm_arch_has_test_clear_young() in v1.  Please stop trying to do anything l=
+ike
+that, I will NAK each every attempt to have core mm/ code call directly int=
+o KVM.
+
+Anyways, back to this code, before we spin another version, we need to agre=
+e on
+exactly what behavior we want out of secondary MMUs.  Because to me, the be=
+havior
+proposed in this version doesn't make any sense.
+
+Signalling failure because KVM _might_ have relevant aging information in S=
+PTEs
+that require taking kvm->mmu_lock is a terrible tradeoff.  And for the test=
+_young
+case, it's flat out wrong, e.g. if a page is marked Accessed in the TDP MMU=
+, then
+KVM should return "young", not "failed".
+
+If KVM is using the TDP MMU, i.e. has_fast_aging=3Dtrue, then there will be=
+ rmaps
+if and only if L1 ran a nested VM at some point.  But as proposed, KVM does=
+n't
+actually check if there are any shadow TDP entries to process.  That could =
+be
+fixed by looking at kvm->arch.indirect_shadow_pages, but even then it's not=
+ clear
+that bailing if kvm->arch.indirect_shadow_pages > 0 makes sense.
+
+E.g. if L1 happens to be running an L2, but <10% of the VM's memory is expo=
+sed to
+L2, then "failure" is pretty much guaranteed to a false positive.  And even=
+ for
+the pages that are exposed to L2, "failure" will occur if and only if the p=
+ages
+are being accessed _only_ by L2.
+
+There most definitely are use cases where the majority of a VM's memory is =
+accessed
+only by L2.  But if those use cases are performing poorly under MGLRU, then=
+ IMO
+we should figure out a way to enhance KVM to do a fast harvest of nested TD=
+P
+Accessed information, not make MGRLU+KVM suck for a VMs that run nested VMs=
+.
+
+Oh, and calling into mmu_notifiers to do the "slow" version if the fast ver=
+sion
+fails is suboptimal.
+
+So rather than failing the fast aging, I think what we want is to know if a=
+n
+mmu_notifier found a young SPTE during a fast lookup.  E.g. something like =
+this
+in KVM, where using kvm_has_shadow_mmu_sptes() instead of kvm_memslots_have=
+_rmaps()
+is an optional optimization to avoid taking mmu_lock for write in paths whe=
+re a
+(very rare) false negative is acceptable.
+
+  static bool kvm_has_shadow_mmu_sptes(struct kvm *kvm)
+  {
+	return !tdp_mmu_enabled || READ_ONCE(kvm->arch.indirect_shadow_pages);
+  }
+
+  static int __kvm_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range,
+			 bool fast_only)
+  {
+	int young =3D 0;
+
+	if (!fast_only && kvm_has_shadow_mmu_sptes(kvm)) {
+		write_lock(&kvm->mmu_lock);
+		young =3D kvm_handle_gfn_range(kvm, range, kvm_age_rmap);
+		write_unlock(&kvm->mmu_lock);
+	}
+
+	if (tdp_mmu_enabled && kvm_tdp_mmu_age_gfn_range(kvm, range))
+		young =3D 1 | MMU_NOTIFY_WAS_FAST;
+
+	return (int)young;
+  }
+
+and then in lru_gen_look_around():
+
+	if (spin_is_contended(pvmw->ptl))
+		return false;
+
+	/* exclude special VMAs containing anon pages from COW */
+	if (vma->vm_flags & VM_SPECIAL)
+		return false;
+
+	young =3D ptep_clear_young_notify(vma, addr, pte);
+	if (!young)
+		return false;
+
+	if (!(young & MMU_NOTIFY_WAS_FAST))
+		return true;
+
+	young =3D 1;
+
+with the lookaround done using ptep_clear_young_notify_fast().
+
+The MMU_NOTIFY_WAS_FAST flag is gross, but AFAICT it would Just Work withou=
+t
+needing to update all users of ptep_clear_young_notify() and friends.
