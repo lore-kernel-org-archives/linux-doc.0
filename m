@@ -1,143 +1,164 @@
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A314C8488;
-	Tue, 11 Jun 2024 02:07:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72652BA42;
+	Tue, 11 Jun 2024 03:17:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718071668; cv=none; b=FrdLUSXByIoF7mWrs/Zh5eoA/DDPGreAlVsK702J3xfTu3A438VkL9gAO8ICLq7ESlBPLPLM+Bc4pZQpUhysrGNdMp2yevrSezNNBBKZdLeUJ4dmYBl+CiDVLuwWhn/mqGmcg3VM1BlULJmtsPVABOEHGfQlGxZTw1tP4dJDZj0=
+	t=1718075843; cv=none; b=Kc+0nl1+YoKblT/IzKsCvRc8BgehVt0B2Rt7j5N7IJt5AhQ9yUvL17rPKf/Q8S9szgPUHykZSR1C/5rhMBrT/4SCk/UI2Z8Gx1GqTlZiHAD8ghx3k9UrKfhV2RP46JvypqbsoehZozjByPoHynY9ztHb1adZlCGiFb326EZ0WLQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718071668; c=relaxed/simple;
-	bh=t+FQJsYag++4WO2qxLXgPpQ0EMcj6jfCuoNIA7zG5a8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Sho0n4QNIgpcUqwcL5a0fpN1zmVNT3eK0AJxYf3cm5hSeaodlpv5lrPHSpAWYReqTgyKAEnzUZ3ileiWzLyoprFlP0XKeF9FUS6LlhgooY0LoKZ5DIA1cl19lhEZzBuhvL4Kx/HtYgLYrzzBpHGdososLRw+FHADvT7oBDFvK1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M/yN6w78; arc=none smtp.client-ip=209.85.161.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M/yN6w78"
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-5b96a781b63so1817760eaf.1;
-        Mon, 10 Jun 2024 19:07:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718071665; x=1718676465; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=V7K602fz4gBHUWwZgz6PtHdWhG4F3fJUQgT9uMqHP2k=;
-        b=M/yN6w78Uzs9Wzo3QV21NtxxdI1QUeYTn6RVAN/XpHKW6CwFUiHYzWLvlFj2Q+Yk52
-         R8Rt5Dt6MjKyOYk/+36oQaPS5z+C4boBygL8zbRlDPTQA6ABpyVd9KXhsJ59jAjAc9Ip
-         LzGiwu4ZC+Wyz0DOCMj/s51bjjfGGorfege8fJHt+CqqAUNM00HGxfISTswAlqPKBpIJ
-         FtTirLOQZuJjYJA05GZ00ev3RRfsNNrWK6qk4J8Rt9KgyrKHPZpIkNkc1LPMHU50+yMi
-         5r9/B+Kx14qzOzBmACCMbkcePLBgycdQMgtIOgME9voHpsxs7YbniGoz+5CLAPp96Om0
-         V1hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718071665; x=1718676465;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=V7K602fz4gBHUWwZgz6PtHdWhG4F3fJUQgT9uMqHP2k=;
-        b=dbXxF61RDS5cb+QbGXZJXEwLbgWKjeXEgpttHTtgADoap039VWv4RiXhp3SpECqx1P
-         Lek7MQvx+RyFbn6j0LXUMKKBligAW24bfzLa+7P7t4Qbl2UgACL5CY1+mKZd9G8K3cxw
-         hYzq21Om/FQ8Okd1YFOS05OzCWhsBhBLqVIfMOVt3aDXEt8TgzUio0HTkgeU1erZTQUV
-         TzslK6TjV4FtVKMMrgy6+uokKLg+iBjtsk09WJV0JJdjc9OKA60po+8U7SSx4tBNEHS/
-         THaF6mNZOHKk2puFltHCjz9+7CRjngsNsSCtMhstId2H1qTc5FpoJyknE9Zs5SxeJNs+
-         zCfw==
-X-Forwarded-Encrypted: i=1; AJvYcCVoeGjvMQQMVa3QHyaXwUZzd5sIoHugfmYxnvtFVoPBzAfOoy0RsnQa8sg5hoLUiXiT/EaQM11h1WSgn/0BfMFSmvNvxVKS7flDJwJBcQHrourykTvsGg+RVmxgMGJhQpYM3X15BMrx
-X-Gm-Message-State: AOJu0Yyr7kpj5MXOyjMs5v8lLTsyI5TYfCrlziJcBwpr43zggpMLsDU4
-	pCcFE615DvBFBXAoKisZi6U6QlU9rm+Dcrj5eDgUf7j+Reu65fHr6wJ1cvKu8IkebEdc2viz53z
-	wiEPfjS+CuAc21g7op/UG0WAGXD8=
-X-Google-Smtp-Source: AGHT+IF5NJP+cpN1QZ14dVDvRLKhqj/JIMm3OyP45URA0uC4Hs/4MNcrZV5+u6AtOEjVEtzm+FJweysb15RclHZy/3E=
-X-Received: by 2002:a05:6820:1c9f:b0:5ba:e5c3:4fa6 with SMTP id
- 006d021491bc7-5bae5c35072mr6628691eaf.6.1718071665549; Mon, 10 Jun 2024
- 19:07:45 -0700 (PDT)
+	s=arc-20240116; t=1718075843; c=relaxed/simple;
+	bh=jTg1jp0c8Fovh+0yRZbaZ+CIe7vWhQquUeeZ4ruU8q0=;
+	h=Message-ID:Date:From:To:Cc:Subject:References:MIME-Version:
+	 Content-Type; b=ZvIFT0FOgklKnRqDfUinTQ2okqfU6E78DrWCqmjPEUzSWjJAY9EI67EqsLQAjPJyDO2xyVvzo2i9NBbTPAXoRUjPmAOXeXVgXlaVbjh7uS72Vb4A4lsz5Csr67JEvSycs2BAbhhzsBBVVEZ7aOepB3cWFo7AxATnTJPHPPZScqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07B51C2BBFC;
+	Tue, 11 Jun 2024 03:17:23 +0000 (UTC)
+Received: from rostedt by gandalf with local (Exim 4.97)
+	(envelope-from <rostedt@goodmis.org>)
+	id 1sGs0v-00000001Jgi-42JD;
+	Mon, 10 Jun 2024 23:17:37 -0400
+Message-ID: <20240611031737.821995106@goodmis.org>
+User-Agent: quilt/0.68
+Date: Mon, 10 Jun 2024 23:09:35 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-csky@vger.kernel.org,
+ loongarch@lists.linux.dev,
+ linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org
+Cc: Masami Hiramatsu <mhiramat@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>,
+ Guo Ren <guoren@kernel.org>,
+ Huacai Chen <chenhuacai@kernel.org>,
+ WANG Xuerui <kernel@xen0n.name>,
+ Michael Ellerman <mpe@ellerman.id.au>,
+ Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>,
+ Heiko Carstens <hca@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>,
+ Yang Li <yang.lee@linux.alibaba.com>
+Subject: [PATCH 1/2] function_graph: Fix up ftrace_graph_ret_addr()
+References: <20240611030934.162955582@goodmis.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240610003520.33839-1-dzm91@hust.edu.cn> <202406100911.QBMVtIpz-lkp@intel.com>
-In-Reply-To: <202406100911.QBMVtIpz-lkp@intel.com>
-From: Dongliang Mu <mudongliangabcd@gmail.com>
-Date: Tue, 11 Jun 2024 10:07:19 +0800
-Message-ID: <CAD-N9QXgU7_iCLmH5z0e78ydCkwgWiz2Mti6zDqQp9jnExiVAw@mail.gmail.com>
-Subject: Re: [PATCH v2] docs/zh_CN: update the translation of security-bugs
-To: kernel test robot <lkp@intel.com>
-Cc: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>, 
-	Yanteng Si <siyanteng@loongson.cn>, Jonathan Corbet <corbet@lwn.net>, 
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>, Hu Haowen <2023002089@link.tyut.edu.cn>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, oe-kbuild-all@lists.linux.dev, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, Jun 10, 2024 at 10:07=E2=80=AFAM kernel test robot <lkp@intel.com> =
-wrote:
->
-> Hi Dongliang,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on lwn/docs-next]
-> [also build test WARNING on linus/master v6.10-rc3 next-20240607]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Dongliang-Mu/docs-=
-zh_CN-update-the-translation-of-security-bugs/20240610-083729
-> base:   git://git.lwn.net/linux.git docs-next
-> patch link:    https://lore.kernel.org/r/20240610003520.33839-1-dzm91%40h=
-ust.edu.cn
-> patch subject: [PATCH v2] docs/zh_CN: update the translation of security-=
-bugs
-> reproduce: (https://download.01.org/0day-ci/archive/20240610/202406100911=
-.QBMVtIpz-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202406100911.QBMVtIpz-lkp=
-@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->    Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`rt_link<../=
-../networking/netlink_spec/rt_link>`
->    Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../ne=
-tworking/netlink_spec/tc>`
->    Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../ne=
-tworking/netlink_spec/tc>`
->    Warning: Documentation/devicetree/bindings/power/wakeup-source.txt ref=
-erences a file that doesn't exist: Documentation/devicetree/bindings/input/=
-qcom,pm8xxx-keypad.txt
->    Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm57=
-03-regulator.yaml references a file that doesn't exist: Documentation/devic=
-etree/bindings/mfd/siliconmitus,sm5703.yaml
-> >> Warning: Documentation/translations/zh_TW/admin-guide/reporting-issues=
-.rst references a file that doesn't exist: Documentation/translations/zh_CN=
-/admin-guide/security-bugs.rst
-> >> Warning: Documentation/translations/zh_TW/admin-guide/reporting-issues=
-.rst references a file that doesn't exist: Documentation/translations/zh_CN=
-/admin-guide/security-bugs.rst
-> >> Warning: Documentation/translations/zh_TW/process/submitting-patches.r=
-st references a file that doesn't exist: Documentation/translations/zh_CN/a=
-dmin-guide/security-bugs.rst
+From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
 
-Thanks for the report. I've sent a v3 patch with this issue fixed.
+Yang Li sent a patch to fix the kerneldoc of ftrace_graph_ret_addr().
+While reviewing it, I realized that the comments in the entire function
+header needed a rewrite. When doing that, I realized that @idx parameter
+was being ignored. Every time this was called by the unwinder, it would
+start the loop at the top of the shadow stack and look for the matching
+stack pointer. When it found it, it would return it. When the unwinder
+asked for the next function, it would search from the beginning again.
 
->    Warning: Documentation/userspace-api/netlink/index.rst references a fi=
-le that doesn't exist: Documentation/networking/netlink_spec/index.rst
->    Warning: Documentation/userspace-api/netlink/specs.rst references a fi=
-le that doesn't exist: Documentation/networking/netlink_spec/index.rst
->    Warning: MAINTAINERS references a file that doesn't exist: Documentati=
-on/devicetree/bindings/reserved-memory/qcom
->    Warning: MAINTAINERS references a file that doesn't exist: Documentati=
-on/devicetree/bindings/display/exynos/
->    Using alabaster theme
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+In reality, it should start from where it left off. That was the reason
+for the @idx parameter in the first place. The first time the unwinder
+calls this function, the @idx pointer would contain zero. That would mean
+to start from the top of the stack. The function was supposed to update
+the @idx with the index where it found the return address, so that the
+next time the unwinder calls this function it doesn't have to search
+through the previous addresses it found (making it O(n^2)!).
+
+This speeds up the unwinder's use of ftrace_graph_ret_addr() by an order
+of magnitude.
+
+Link: https://lore.kernel.org/linux-trace-kernel/20240610181746.656e3759@gandalf.local.home/
+
+Reported-by: Yang Li <yang.lee@linux.alibaba.com>
+Fixes: 7aa1eaef9f428 ("function_graph: Allow multiple users to attach to function graph")
+Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+---
+ kernel/trace/fgraph.c | 28 ++++++++++++++++++++--------
+ 1 file changed, 20 insertions(+), 8 deletions(-)
+
+diff --git a/kernel/trace/fgraph.c b/kernel/trace/fgraph.c
+index 63d0c2f84ce1..91f1eef256af 100644
+--- a/kernel/trace/fgraph.c
++++ b/kernel/trace/fgraph.c
+@@ -870,18 +870,24 @@ ftrace_graph_get_ret_stack(struct task_struct *task, int idx)
+ }
+ 
+ /**
+- * ftrace_graph_ret_addr - convert a potentially modified stack return address
+- *			   to its original value
++ * ftrace_graph_ret_addr - return the original value of the return address
++ * @task: The task the unwinder is being executed on
++ * @idx: An initialized pointer to the next stack index to use
++ * @ret: The current return address (likely pointing to return_handler)
++ * @retp: The address on the stack of the current return location
+  *
+  * This function can be called by stack unwinding code to convert a found stack
+- * return address ('ret') to its original value, in case the function graph
++ * return address (@ret) to its original value, in case the function graph
+  * tracer has modified it to be 'return_to_handler'.  If the address hasn't
+- * been modified, the unchanged value of 'ret' is returned.
++ * been modified, the unchanged value of @ret is returned.
+  *
+- * 'idx' is a state variable which should be initialized by the caller to zero
+- * before the first call.
++ * @idx holds the last index used to know where to start from. It should be
++ * initialized to zero for the first iteration as that will mean to start
++ * at the top of the shadow stack. If the location is found, this pointer
++ * will be assigned that location so that if called again, it will continue
++ * where it left off.
+  *
+- * 'retp' is a pointer to the return address on the stack.  It's ignored if
++ * @retp is a pointer to the return address on the stack.  It's ignored if
+  * the arch doesn't have HAVE_FUNCTION_GRAPH_RET_ADDR_PTR defined.
+  */
+ #ifdef HAVE_FUNCTION_GRAPH_RET_ADDR_PTR
+@@ -895,6 +901,10 @@ unsigned long ftrace_graph_ret_addr(struct task_struct *task, int *idx,
+ 	if (ret != return_handler)
+ 		return ret;
+ 
++	if (!idx)
++		return ret;
++
++	i = *idx ? : task->curr_ret_stack;
+ 	while (i > 0) {
+ 		ret_stack = get_ret_stack(current, i, &i);
+ 		if (!ret_stack)
+@@ -908,8 +918,10 @@ unsigned long ftrace_graph_ret_addr(struct task_struct *task, int *idx,
+ 		 * Thus we will continue to find real return address.
+ 		 */
+ 		if (ret_stack->retp == retp &&
+-		    ret_stack->ret != return_handler)
++		    ret_stack->ret != return_handler) {
++			*idx = i;
+ 			return ret_stack->ret;
++		}
+ 	}
+ 
+ 	return ret;
+-- 
+2.43.0
+
+
