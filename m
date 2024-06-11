@@ -1,127 +1,135 @@
-Received: from wfout2-smtp.messagingengine.com (wfout2-smtp.messagingengine.com [64.147.123.145])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6E1F171E74;
-	Tue, 11 Jun 2024 06:54:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E32E318643;
+	Tue, 11 Jun 2024 07:14:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718088850; cv=none; b=TQQag1sAuu70p5g4tacyfSwXtFpZzrwOPPBiNb76HpKjSpHJm51GysS5gKMS2Z/DxH9zU9SVl1FeVC8ZOjbu7Opgj++HuorclEdAWl9PUTEPZvKrV7pJVk7K2fyKLJciF+ncoK+0rl9c9GpS4NEKRz66iWmPOOk+oBL5IDeNp98=
+	t=1718090043; cv=none; b=IpTgyrqfXgqVl9uaQSi/2LGaZKdzJ41F1qfNiZ5sHn7AN/E6FMeGV/r5ANDTgfQLvw6y3+SGD1ytCbKe9+Pnw+K1Zy2d+ItK/alKFgPpW4gvNgQu3EcIYUXYg1C+S9D4a9eCyobfZiJbqDBNFJmvMS739wJKs5UjI+6xMIK8V10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718088850; c=relaxed/simple;
-	bh=/4Ld/EHeInmgDF21XSfDl2NsuMw7Ruxj36buTwtcEio=;
-	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
-	 Subject:Content-Type; b=GydEx+ZSjG/D2QV8sCuqmsb7UMC4hod7EXyGDPMv9GgMeFVTSzmsJOLzuyrckVsanO4iAwjypagwinDQlEVv/FeFe8OSlD/MHWJjKM8BoWntA5o4TnfHH542IjC3AEbcQiV9hOVr4OyydZiXEUu4E8QjhrFKgZ2wBMvaqdSrPz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kdrag0n.dev; spf=pass smtp.mailfrom=kdrag0n.dev; dkim=pass (2048-bit key) header.d=kdrag0n.dev header.i=@kdrag0n.dev header.b=UMuL3E/t; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=K9pUalFU; arc=none smtp.client-ip=64.147.123.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kdrag0n.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kdrag0n.dev
+	s=arc-20240116; t=1718090043; c=relaxed/simple;
+	bh=XeUNpSU7d3V1UZlO08Dsvz+kUONVDg04zNzZDSlTYCU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GUHpAn4uHYUyuQHnosdZKjqCj+J48FTFJ7ZHHL8UffnH1Giu848VLqPDTmDFzLMfjS46G0Fw1jJlulV8DvHqNj5RaYqUhHSKupz+7Xcl7GrIWOaA5AvmuCWbDkDz3VSpGYMH8elzO8eqfLdOY4BaRokPt4SPA/vKnVb0ytcWxBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=XKoJtDzi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=4eqAmxye; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=joOPdg0L; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hJGyDQHd; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kdrag0n.dev header.i=@kdrag0n.dev header.b="UMuL3E/t";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="K9pUalFU"
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
-	by mailfout.west.internal (Postfix) with ESMTP id 70A351C000F7;
-	Tue, 11 Jun 2024 02:54:07 -0400 (EDT)
-Received: from imap50 ([10.202.2.100])
-  by compute7.internal (MEProxy); Tue, 11 Jun 2024 02:54:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kdrag0n.dev; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1718088847;
-	 x=1718175247; bh=I8Cs+PKmoyx6Obnltn4u18ENg+YH1Z3/eoOHhpjV9GM=; b=
-	UMuL3E/tZkxieb5q+rqXq7AHIXFyA3OdWrUCnqyUbylX2ZwI9rPkPBwapWIunl+Z
-	b1uk3UGqO1OkIrx31fm3LcHRoBzDD73CCoYtrNItpEugSInOBgFBC0qMFGliyAL3
-	ZIrWwEbTC1OFypJNbr6DK+bO/PZqG83j5kcqBvh/+XDH2DDl0QzWITPdVZ/2pmZf
-	a6JRSD3TS65r/H6DUHmaCjYwvEWaxN3zIf9bDHnm/kC+DumURyLHwrfU2T9NYyAz
-	vS01TsC6f/1xwvq5sCnMLKTCKqM74yTEm6hdV6bOuCKGZqYOg3ffi1EBmDjnz/rM
-	+u4nAIU3kr2y++H1ScHPjg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1718088847; x=
-	1718175247; bh=I8Cs+PKmoyx6Obnltn4u18ENg+YH1Z3/eoOHhpjV9GM=; b=K
-	9pUalFUaBJYlCJZ/R4LobyJ5gpIxz2Z5GddGz11DDlPkSOge4L3Dl0/CVosYGc4j
-	srBWbFbrQfGMTprauCr3Z26nBOtd7fE1Mn2d/a6eHrIhU2a39cRoRboMsv/cRmhl
-	d+lupYrw69QePzlqhTdNPiIseoedGbW2HjNojX//VVwfvHaLP1ZA/SKjYcM8bSO0
-	d4nBcdAm9zMduIBjCv+1CKkhkoXQCDHc/jelxGEV+/jgctQBMmQa/nayIHgl46cl
-	n/gjphk5M92ISmGkw1CVHO1L+i1VqX1emdolUG1OKY8MJ45xQ/xlAP27nfFXLB/H
-	kXJXCTZ321yR4Hf9S9MRA==
-X-ME-Sender: <xms:jvRnZry1gY1D-TtrW_ncTpM_Mg_r0G6Nq3I758kAvAfhxgBv-pXipg>
-    <xme:jvRnZjRlx6JMEDFbPZDw0PXlszVw9MZAnK6KncLKir3sqVlf_ZA2LWvRFPxnI2Jrc
-    r09VkAImZwJrSljU_Y>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfeduuddguddtlecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedf
-    ffgrnhhnhicunfhinhdfuceouggrnhhnhieskhgurhgrghdtnhdruggvvheqnecuggftrf
-    grthhtvghrnhepjeeiuddtheelueetleehgeefhfeluddugeeliefggeetgefggfekudei
-    hfdvheevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epuggrnhhnhieskhgurhgrghdtnhdruggvvh
-X-ME-Proxy: <xmx:jvRnZlUnI8--qxwVAiETu0u9kBbqPVZByc6ze9AT0sMpa38p_PONuw>
-    <xmx:jvRnZliJjQQXD3ddVPxeJz4xCFBjvRZjp9sNx0PA1m86_hcHmhhvqQ>
-    <xmx:jvRnZtBODEPWszeaIY06kcy2j2ADTYrfKJRFESwe3mhWzXPRUkVC5A>
-    <xmx:jvRnZuIKsyPlQFv5VkzrvyhywLxl_UUfGU7QipXREDF4w_LNWxpMXA>
-    <xmx:j_RnZv0B-HXFfSRCzSBikg4PLNwC7RI_fc_v2GFK_LIYjrSMjoj6dnyn>
-Feedback-ID: i2ee147e6:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id A24BD1700093; Tue, 11 Jun 2024 02:54:06 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.11.0-alpha0-515-g87b2bad5a-fm-20240604.001-g87b2bad5
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="XKoJtDzi";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="4eqAmxye";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="joOPdg0L";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hJGyDQHd"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D10BF2051A;
+	Tue, 11 Jun 2024 07:13:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718090040; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YlL+OWuw0802KSXyQBux9dX7ezSqhAZ0pJtvU4rpMUc=;
+	b=XKoJtDzimLSS2XO4MhwrgjeJiPdUQJJe38pacnaTy4O0bzV7XRSlA/5zXBuIGUZf1vurLH
+	K0liQFiNB7QTD3jX/SnkiPh6KVn/2r0IysZ9HEkO4LfyL/RQJwy6gRnaa9m9bZhbBHnndE
+	oTFmr0RFlY7CVgfJZQZKlvTskqb8ck4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718090040;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YlL+OWuw0802KSXyQBux9dX7ezSqhAZ0pJtvU4rpMUc=;
+	b=4eqAmxyed4wxhE1zFqg6tgXXN7pXifa7iQyk6dAgrWQbSgfMQz9jd8VQt4IX9lf+23bSIf
+	8DOhOffpCMpGS9BA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=joOPdg0L;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=hJGyDQHd
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718090039; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YlL+OWuw0802KSXyQBux9dX7ezSqhAZ0pJtvU4rpMUc=;
+	b=joOPdg0LPdLvECRCbtOJCRH7QsqVJlilZj4P9jJpPHcp7HSEywvTklNyA0XJtaj6w+oCye
+	VAmbjhcQV/ReZvFcKqCr1sNHETAypZXORSgalifpwOznm5ktbhZok1l0HS5oPEwWJoVy5T
+	oC53ldNu98JCu0GxSQfSCpVkcjuaDrw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718090039;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YlL+OWuw0802KSXyQBux9dX7ezSqhAZ0pJtvU4rpMUc=;
+	b=hJGyDQHdY9CGAybVhv77JZ242gs0nHpGMaftb+NtDJj2qU4CHc836nprALYxoRveCmYcJb
+	9/9cEdWupYa8WKCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 634AF13A55;
+	Tue, 11 Jun 2024 07:13:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id rzsgFTf5Z2ZyRgAAD6G6ig
+	(envelope-from <osalvador@suse.de>); Tue, 11 Jun 2024 07:13:59 +0000
+Date: Tue, 11 Jun 2024 09:13:57 +0200
+From: Oscar Salvador <osalvador@suse.de>
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v1 2/6] fs/proc/task_mmu: don't indicate
+ PM_MMAP_EXCLUSIVE without PM_PRESENT
+Message-ID: <Zmf5NdeKewGEhYLI@localhost.localdomain>
+References: <20240607122357.115423-1-david@redhat.com>
+ <20240607122357.115423-3-david@redhat.com>
+ <ZmaDSQZlAl7Jb-wi@localhost.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <dc9a785c-f8f1-474d-ba49-31de63dc5e8d@app.fastmail.com>
-In-Reply-To: <2024061112-kilogram-poker-bacf@gregkh>
-References: <2024061112-kilogram-poker-bacf@gregkh>
-Date: Mon, 10 Jun 2024 23:53:46 -0700
-From: "Danny Lin" <danny@kdrag0n.dev>
-To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, masahiroy@kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- =?UTF-8?Q?=C3=8D=C3=B1igo_Huguet?= <ihuguet@redhat.com>,
- =?UTF-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
- "Vincent Mailhol" <mailhol.vincent@wanadoo.fr>
-Subject: Re: [PATCH] .editorconfig: move to Documentation/ directory
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZmaDSQZlAl7Jb-wi@localhost.localdomain>
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: D10BF2051A
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	MIME_TRACE(0.00)[0:+];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:email];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
 
-On Mon, Jun 10, 2024 at 11:49 PM, Greg Kroah-Hartman wrote:
-> Some editors (like the vim variants), when seeing "trim_whitespace"
-> decide to do just that for all of the whitespace in the file you are
-> saving, even if it is not on a line that you have modified.  This plays
-> havoc with diffs and is NOT something that should be intended.
+On Mon, Jun 10, 2024 at 06:38:33AM +0200, Oscar Salvador wrote:
+> Signed-off-by: Oscar Salvador <osalvador@suse.de>
 
-If trim_trailing_whitespace is the only rule that has actually been a pr=
-oblem,
-how about removing it and leaving the rest of .editorconfig intact?
-The other rules are still useful to have as defaults.
+Uh, I spaced out here, sorry.
 
-Thanks,
-Danny
+Reviewed-by: Oscar Salvador <osalvador@suse.de>
 
->
-> As the "only trim whitespace on modified files" is not part of the
-> editorconfig standard, just move the whole thing off to the
-> Documentation/ directory so that those that wish to use such a thing c=
-an
-> pick it up from there.
->
-> Cc: Danny Lin <danny@kdrag0n.dev>
-> Cc: =C3=8D=C3=B1igo Huguet <ihuguet@redhat.com>
-> Cc: Micka=C3=ABl Sala=C3=BCn <mic@digikod.net>
-> Cc: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-> Cc: Masahiro Yamada <masahiroy@kernel.org>
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> ---
->  .editorconfig =3D> Documentation/.editorconfig | 0
->  1 file changed, 0 insertions(+), 0 deletions(-)
->  rename .editorconfig =3D> Documentation/.editorconfig (100%)
->
-> diff --git a/.editorconfig b/Documentation/.editorconfig
-> similarity index 100%
-> rename from .editorconfig
-> rename to Documentation/.editorconfig
-> --=20
-> 2.45.2
+
+-- 
+Oscar Salvador
+SUSE Labs
