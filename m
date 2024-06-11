@@ -1,328 +1,122 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BDCF7E78B
-	for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 19:42:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6BE87E563
+	for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 19:47:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718134959; cv=none; b=XWs9yrC9RUfyCZhvw806KT8/6CBn/NHBLwh9hVgRpzPATmb4eOHvDJ1nBztOCYpAaQ/cIMQAUglYW4QyI/VUzC6J3D1AskFp3kKcCxaTKsC623MdItett7i+xRwwexEMcyNmfJWpqBKyHAyjAqy+Vp/RHXKBvqaSUhDjJbdUp4A=
+	t=1718135239; cv=none; b=TYmdQkiggzrKB9jOhoTv7PHzEle5I81QqnY0WcBPuG23ytKwHZIXUdPt3NHB1q9FJi76h+FWTwpCdc5ZchnXchYBWnOG7w0lT3zm0DV98pOMuCHZOIS/T2z4MmVpwktEcRRuT7ntip1DrMFykZiXI1r7oNnMHxMZUuuoaESPe1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718134959; c=relaxed/simple;
-	bh=TQdxOxCaPkC06wqWfqJyJfJut/pJEyI8HajgGOMWNPU=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=pP37ZBAn33I+4ypWpNTAxjLDXAKELplDKrtDHzmaMvr+HhJMoAIuZbAkqhrtG9n/6Ptgvvw14s9kmIn71aVGyd698GyVglU5slZttOMPorAaoXjRlu4izLF21Ak1AJOudbfGbf5l9kXTTaKKsjOTOwg935u9ZUmQ3ZKoamFiokE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=egkXHQzM; arc=none smtp.client-ip=209.85.214.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1718135239; c=relaxed/simple;
+	bh=uCNDyWcELfp1Oid3wEh3hhNBU0sDdHXgnTWH4GJUymE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rEGXTEKv5vp4h6gzVoJZAhIOBp2VtFapAvd3OEw9XcPNVIszj+fFpPROhIH2UM7elXScXg5RnZJI4HD7SkifYoOeBvhYa25sEkX4rbw7wQ9uziRyClx02PDwjmDJflo0HfdftRXkRqsD1MdlNsa6sEwo9tqaOPuYLFnHi0LanPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=DRo8Ef67; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="egkXHQzM"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-1f733390185so5646985ad.3
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 12:42:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="DRo8Ef67"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1f6c7cdec83so49178425ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 12:47:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718134958; x=1718739758; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wQHC8OIi/Hsd3JLuWOR0lq7d0FaWprofQPExl9Z9si0=;
-        b=egkXHQzMvapQ7vClFG9XMY5ZcjCsl9dzdwwGTza2XMhirRtSQJBfarLh35q/kKL8cn
-         V/eU3SX8/pFu6TH4IzSq3wi73sJKIurtM+dgWtN+Ivq1v8qfCnaU44zYVfEE3kHXK4Y7
-         Rp9vZYjtBusB9Fy5ABCrNvkbI8ZUCEd/g6Bj7/pzTY3ymPtQRqR26PhqyLWUdzmt4cXz
-         lE3+JhScCKUPhNlO0K6yLIH5diyZNSpuPpR5XJ8eoBxFdQUEZEPL2wCBvDzNTWWsuS9n
-         h5LNktC4klVAA4c6ria3P92VoYlBtp7Tjm4I22gQ3Cm8LEJyY8amogRdFLSckk3xhpLl
-         wAfA==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1718135237; x=1718740037; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=qCkTNdoWHedtO2Rublq66t6G2AvnXm+h/79qji0mlS4=;
+        b=DRo8Ef67svKZEGKbnvuzDIRbVD4BlGvPJXJXPS5BwZWv+Zty14v9Xjejn4YfIsQksI
+         5a2/OwUtOCkQFfz2RT9Uw8Q3u2iQ9to1OSG4ORCRBqut8/wwUu/Ws2tQg60kjt8N06f/
+         kiIMdiAiwvDSLmd09Jmz8v4kGtqONNdWP7E20gFBmjXis8qWc4CdqWYM9YxgtUc+Yl3o
+         4vDTNIzK/dDww9qKsCV//9o/vIS9N5tat53P80VAIIXYkMSoGv2GcdyOKPQpC4yzEBo3
+         Wbd6llY8qscNJQbz9OwkjXYRchMWutAk6UN4wQ1UnvFCZ63a4zZsrzuq3UnnfV42kwSo
+         tb3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718134958; x=1718739758;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=wQHC8OIi/Hsd3JLuWOR0lq7d0FaWprofQPExl9Z9si0=;
-        b=T0yoZmC0xLtOjBSToF41oGLrzJzpi6OZD39rTFD17u4u7h6HvrzpKlG1Top1i0mZbF
-         t4dfDK11RFwofymBsqNRICakO+boKH3030elc5dLodmiW4czB5p6EO+0Xnbr+6ux6ktA
-         9s8fzVeh0zkv+WDpO6y4ZCh2MuofZThcZMWWdnwSPINMdgxa1HFaXWGLJHPgp33HrFMs
-         rUcWWb4tvLYtiEss5QRZzA/bbpv/SNV6C2EMTa6LufedcM3kevP+/WW39cAMXBgeAemm
-         YuSg/9PEggmnFXs6SiJQLIBIVwcKOS5TcuKJd1sl+heofFxtg5fl+juaVHnnxHMF5rss
-         pagw==
-X-Forwarded-Encrypted: i=1; AJvYcCVdPJUtTDo8G9hQMVFcuHpGdlrv9UheTtIsZPC5PMzjo9xWag+9l4k7jwubMLCtZ99Vmpz928bzDGzUlh/xWejNc4x7CiZCAjF1
-X-Gm-Message-State: AOJu0YxSGfjqff2TqeZztCsn/6eh0DzPNBLiovYoUTpjhf9QFxg1haJo
-	vNnzeraqK8mKudPoXk80jNybJr098ipTtpgsa/4ftza9oOI6+TW/TiTNNIxaDhuzLYUQTG7XEtc
-	9AA==
-X-Google-Smtp-Source: AGHT+IEPF8Tx1zPRD6hrqpXv6Mu4zzFUULaMqaPpbdSAl8Wrrff2x3ztnrpn6Pwr6Frteyuagy9bVl9rsn8=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a17:902:c401:b0:1f6:84b5:1e10 with SMTP id
- d9443c01a7336-1f6d02bfe8emr9509095ad.1.1718134957392; Tue, 11 Jun 2024
- 12:42:37 -0700 (PDT)
-Date: Tue, 11 Jun 2024 12:42:35 -0700
-In-Reply-To: <CADrL8HVHcKSW3hiHzKTit07gzo36jtCZCnM9ZpueyifgNdGggw@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1718135237; x=1718740037;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qCkTNdoWHedtO2Rublq66t6G2AvnXm+h/79qji0mlS4=;
+        b=MBwWkxDTSzRPShcwwlqbwPfd7Yv+dVjbg81ZzFgZM22fnPPUyQdZ+Qub4N06V3WJZS
+         nrJyfDahIQ8eJ7wLzX/ggEY6b1dJK3w98rw7fjWPtUXSJNcHTxTbWx8exh+jJ9e9lAEK
+         KvvlIu7jLK7FMPncHUYLq2x0s2BDo4nTES1Edzc0S8rh2QhTiUEUPhJMaViKMs7Jyuds
+         bfi6m7A17RQ75VvSAnxgUzgIqbc05n2V+/oW7t/wk3tfga+yaWtSfmJbjrYScErltduS
+         ngXdF5e0j+qwi2ZdnCNq9lVLAewzybHixfs61slmz1+yopTUEREVWAC7KtE/UYO4WMJj
+         dZ3A==
+X-Forwarded-Encrypted: i=1; AJvYcCUBkYtZxMlVHBnNe+P23clOeXRweU3sXt8PFLfswoZU3SJBveDg1HaIK7UQvJPtNXBF7H0zgqbryA93CMPVQxlofIC2i6zTykT6
+X-Gm-Message-State: AOJu0YxcS0/rZD7CAQLTuQKU6JiLAhv+zaus7GIW3d0bCLnE4IEoNTop
+	yoVCQBjbZQ1oML8R9UUsx5LxvzqtRdCpm5rCTMAYDI9Is8mYWpzSCTuUQWGdRyQ=
+X-Google-Smtp-Source: AGHT+IF72CTY1GSL+psPQ685hIrEeRutg+9+b9kEwCoHappRKyYOV15sm3Zs49FEAcTiubbmLDM4gQ==
+X-Received: by 2002:a17:903:244d:b0:1f7:eb9:947e with SMTP id d9443c01a7336-1f70eb99809mr71450745ad.63.1718135236937;
+        Tue, 11 Jun 2024 12:47:16 -0700 (PDT)
+Received: from ghost ([50.145.13.30])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6ff937456sm57302045ad.243.2024.06.11.12.47.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jun 2024 12:47:16 -0700 (PDT)
+Date: Tue, 11 Jun 2024 12:47:13 -0700
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Evan Green <evan@rivosinc.com>
+Cc: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Guo Ren <guoren@kernel.org>, Andy Chiu <andy.chiu@sifive.com>,
+	Jessica Clarke <jrtc27@jrtc27.com>, linux-riscv@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Andrew Jones <ajones@ventanamicro.com>
+Subject: Re: [PATCH v2 11/13] riscv: hwprobe: Document thead vendor
+ extensions and xtheadvector extension
+Message-ID: <ZmipwVN/WBCQcJdY@ghost>
+References: <20240610-xtheadvector-v2-0-97a48613ad64@rivosinc.com>
+ <20240610-xtheadvector-v2-11-97a48613ad64@rivosinc.com>
+ <CALs-Hsu2jFAfr7H9UfLd9VHEZvpfF7Q6Chxko3XbBZBCU94eSw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240611002145.2078921-1-jthoughton@google.com>
- <20240611002145.2078921-5-jthoughton@google.com> <CAOUHufYGqbd45shZkGCpqeTV9wcBDUoo3iw1SKiDeFLmrP0+=w@mail.gmail.com>
- <CADrL8HVHcKSW3hiHzKTit07gzo36jtCZCnM9ZpueyifgNdGggw@mail.gmail.com>
-Message-ID: <ZmioedgEBptNoz91@google.com>
-Subject: Re: [PATCH v5 4/9] mm: Add test_clear_young_fast_only MMU notifier
-From: Sean Christopherson <seanjc@google.com>
-To: James Houghton <jthoughton@google.com>
-Cc: Yu Zhao <yuzhao@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Ankit Agrawal <ankita@nvidia.com>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	David Matlack <dmatlack@google.com>, David Rientjes <rientjes@google.com>, 
-	James Morse <james.morse@arm.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oliver.upton@linux.dev>, Raghavendra Rao Ananta <rananta@google.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Shaoqin Huang <shahuang@redhat.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Wei Xu <weixugc@google.com>, 
-	Will Deacon <will@kernel.org>, Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev, 
-	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALs-Hsu2jFAfr7H9UfLd9VHEZvpfF7Q6Chxko3XbBZBCU94eSw@mail.gmail.com>
 
-On Tue, Jun 11, 2024, James Houghton wrote:
-> On Mon, Jun 10, 2024 at 10:34=E2=80=AFPM Yu Zhao <yuzhao@google.com> wrot=
-e:
+On Tue, Jun 11, 2024 at 08:58:37AM -0700, Evan Green wrote:
+> On Mon, Jun 10, 2024 at 3:57 PM Charlie Jenkins <charlie@rivosinc.com> wrote:
 > >
-> > On Mon, Jun 10, 2024 at 6:22=E2=80=AFPM James Houghton <jthoughton@goog=
-le.com> wrote:
-> > >
-> > > This new notifier is for multi-gen LRU specifically
+> > Document support for thead vendor extensions using the key
+> > RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0 and xtheadvector extension using
+> > the key RISCV_HWPROBE_VENDOR_EXT_XTHEADVECTOR.
 > >
-> > Let me call it out before others do: we can't be this self-serving.
+> > Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
+> > Reviewed-by: Evan Green <evan@rivosinc.com>
+> > ---
+> >  Documentation/arch/riscv/hwprobe.rst | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
 > >
-> > > as it wants to be
-> > > able to get and clear age information from secondary MMUs only if it =
-can
-> > > be done "fast".
-> > >
-> > > By having this notifier specifically created for MGLRU, what "fast"
-> > > means comes down to what is "fast" enough to improve MGLRU's ability =
-to
-> > > reclaim most of the time.
-> > >
-> > > Signed-off-by: James Houghton <jthoughton@google.com>
+> > diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
+> > index 204cd4433af5..9c0ef8c57228 100644
+> > --- a/Documentation/arch/riscv/hwprobe.rst
+> > +++ b/Documentation/arch/riscv/hwprobe.rst
+> > @@ -214,3 +214,13 @@ The following keys are defined:
 > >
-> > If we'd like this to pass other MM reviewers, especially the MMU
-> > notifier maintainers, we'd need to design a generic API that can
-> > benefit all the *existing* users: idle page tracking [1], DAMON [2]
-> > and MGLRU.
-> >
-> > Also I personally prefer to extend the existing callbacks by adding
-> > new parameters, and on top of that, I'd try to consolidate the
-> > existing callbacks -- it'd be less of a hard sell if my changes result
-> > in less code, not more.
-> >
-> > (v2 did all these, btw.)
->=20
-> I think consolidating the callbacks is cleanest, like you had it in
-> v2. I really wasn't sure about this change honestly, but it was my
-> attempt to incorporate feedback like this[3] from v4. I'll consolidate
-> the callbacks like you had in v2.
+> >  * :c:macro:`RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE`: An unsigned int which
+> >    represents the size of the Zicboz block in bytes.
+> > +
+> > +* :c:macro:`RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0`: A bitmask containing the
+> 
+> Our recent snafoo with CPUPERF_0 popped into my memory
+> when reading this. Does this work properly with the WHICH_CPUS flag?
+> Specifically, we need hwprobe_key_is_bitmask() to return true for this
+> key since it's a bitmask.
 
-James, wait for others to chime in before committing yourself to a course o=
-f
-action, otherwise you're going to get ping-ponged to hell and back.
+Hmm yes I need to add that. Thank you.
 
-> Instead of the bitmap like you had, I imagine we'll have some kind of
-> flags argument that has bits like MMU_NOTIFIER_YOUNG_CLEAR,
-> MMU_NOTIFIER_YOUNG_FAST_ONLY, and other ones as they come up. Does
-> that sound ok?
+- Charlie
 
-Why do we need a bundle of flags?  If we extend .clear_young() and .test_yo=
-ung()
-as Yu suggests, then we only need a single "bool fast_only".
-
-As for adding a fast_only versus dedicated APIs, I don't have a strong pref=
-erence.
-Extending will require a small amount of additional churn, e.g. to pass in =
-false,
-but that doesn't seem problematic on its own.  On the plus side, there woul=
-d be
-less copy+paste in include/linux/mmu_notifier.h (though that could be solve=
-d with
-macros :-) ).
-
-E.g.=20
-
---
-diff --git a/mm/mmu_notifier.c b/mm/mmu_notifier.c
-index 7b77ad6cf833..07872ae00fa6 100644
---- a/mm/mmu_notifier.c
-+++ b/mm/mmu_notifier.c
-@@ -384,7 +384,8 @@ int __mmu_notifier_clear_flush_young(struct mm_struct *=
-mm,
-=20
- int __mmu_notifier_clear_young(struct mm_struct *mm,
-                               unsigned long start,
--                              unsigned long end)
-+                              unsigned long end,
-+                              bool fast_only)
- {
-        struct mmu_notifier *subscription;
-        int young =3D 0, id;
-@@ -393,9 +394,12 @@ int __mmu_notifier_clear_young(struct mm_struct *mm,
-        hlist_for_each_entry_rcu(subscription,
-                                 &mm->notifier_subscriptions->list, hlist,
-                                 srcu_read_lock_held(&srcu)) {
--               if (subscription->ops->clear_young)
--                       young |=3D subscription->ops->clear_young(subscript=
-ion,
--                                                               mm, start, =
-end);
-+               if (!subscription->ops->clear_young ||
-+                   fast_only && !subscription->ops->has_fast_aging)
-+                       continue;
-+
-+               young |=3D subscription->ops->clear_young(subscription,
-+                                                       mm, start, end);
-        }
-        srcu_read_unlock(&srcu, id);
-=20
-@@ -403,7 +407,8 @@ int __mmu_notifier_clear_young(struct mm_struct *mm,
- }
-=20
- int __mmu_notifier_test_young(struct mm_struct *mm,
--                             unsigned long address)
-+                             unsigned long address,
-+                             bool fast_only)
- {
-        struct mmu_notifier *subscription;
-        int young =3D 0, id;
-@@ -412,12 +417,15 @@ int __mmu_notifier_test_young(struct mm_struct *mm,
-        hlist_for_each_entry_rcu(subscription,
-                                 &mm->notifier_subscriptions->list, hlist,
-                                 srcu_read_lock_held(&srcu)) {
--               if (subscription->ops->test_young) {
--                       young =3D subscription->ops->test_young(subscriptio=
-n, mm,
--                                                             address);
--                       if (young)
--                               break;
--               }
-+               if (!subscription->ops->test_young)
-+                       continue;
-+
-+               if (fast_only && !subscription->ops->has_fast_aging)
-+                       continue;
-+
-+               young =3D subscription->ops->test_young(subscription, mm, a=
-ddress);
-+               if (young)
-+                       break;
-        }
-        srcu_read_unlock(&srcu, id);
---=20
-
-It might also require multiplexing the return value to differentiate betwee=
-n
-"young" and "failed".  Ugh, but the code already does that, just in a bespo=
-ke way.
-
-Double ugh.  Peeking ahead at the "failure" code, NAK to adding
-kvm_arch_young_notifier_likely_fast for all the same reasons I objected to
-kvm_arch_has_test_clear_young() in v1.  Please stop trying to do anything l=
-ike
-that, I will NAK each every attempt to have core mm/ code call directly int=
-o KVM.
-
-Anyways, back to this code, before we spin another version, we need to agre=
-e on
-exactly what behavior we want out of secondary MMUs.  Because to me, the be=
-havior
-proposed in this version doesn't make any sense.
-
-Signalling failure because KVM _might_ have relevant aging information in S=
-PTEs
-that require taking kvm->mmu_lock is a terrible tradeoff.  And for the test=
-_young
-case, it's flat out wrong, e.g. if a page is marked Accessed in the TDP MMU=
-, then
-KVM should return "young", not "failed".
-
-If KVM is using the TDP MMU, i.e. has_fast_aging=3Dtrue, then there will be=
- rmaps
-if and only if L1 ran a nested VM at some point.  But as proposed, KVM does=
-n't
-actually check if there are any shadow TDP entries to process.  That could =
-be
-fixed by looking at kvm->arch.indirect_shadow_pages, but even then it's not=
- clear
-that bailing if kvm->arch.indirect_shadow_pages > 0 makes sense.
-
-E.g. if L1 happens to be running an L2, but <10% of the VM's memory is expo=
-sed to
-L2, then "failure" is pretty much guaranteed to a false positive.  And even=
- for
-the pages that are exposed to L2, "failure" will occur if and only if the p=
-ages
-are being accessed _only_ by L2.
-
-There most definitely are use cases where the majority of a VM's memory is =
-accessed
-only by L2.  But if those use cases are performing poorly under MGLRU, then=
- IMO
-we should figure out a way to enhance KVM to do a fast harvest of nested TD=
-P
-Accessed information, not make MGRLU+KVM suck for a VMs that run nested VMs=
-.
-
-Oh, and calling into mmu_notifiers to do the "slow" version if the fast ver=
-sion
-fails is suboptimal.
-
-So rather than failing the fast aging, I think what we want is to know if a=
-n
-mmu_notifier found a young SPTE during a fast lookup.  E.g. something like =
-this
-in KVM, where using kvm_has_shadow_mmu_sptes() instead of kvm_memslots_have=
-_rmaps()
-is an optional optimization to avoid taking mmu_lock for write in paths whe=
-re a
-(very rare) false negative is acceptable.
-
-  static bool kvm_has_shadow_mmu_sptes(struct kvm *kvm)
-  {
-	return !tdp_mmu_enabled || READ_ONCE(kvm->arch.indirect_shadow_pages);
-  }
-
-  static int __kvm_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range,
-			 bool fast_only)
-  {
-	int young =3D 0;
-
-	if (!fast_only && kvm_has_shadow_mmu_sptes(kvm)) {
-		write_lock(&kvm->mmu_lock);
-		young =3D kvm_handle_gfn_range(kvm, range, kvm_age_rmap);
-		write_unlock(&kvm->mmu_lock);
-	}
-
-	if (tdp_mmu_enabled && kvm_tdp_mmu_age_gfn_range(kvm, range))
-		young =3D 1 | MMU_NOTIFY_WAS_FAST;
-
-	return (int)young;
-  }
-
-and then in lru_gen_look_around():
-
-	if (spin_is_contended(pvmw->ptl))
-		return false;
-
-	/* exclude special VMAs containing anon pages from COW */
-	if (vma->vm_flags & VM_SPECIAL)
-		return false;
-
-	young =3D ptep_clear_young_notify(vma, addr, pte);
-	if (!young)
-		return false;
-
-	if (!(young & MMU_NOTIFY_WAS_FAST))
-		return true;
-
-	young =3D 1;
-
-with the lookaround done using ptep_clear_young_notify_fast().
-
-The MMU_NOTIFY_WAS_FAST flag is gross, but AFAICT it would Just Work withou=
-t
-needing to update all users of ptep_clear_young_notify() and friends.
