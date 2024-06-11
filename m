@@ -1,111 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C456F150993;
-	Tue, 11 Jun 2024 19:57:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E0DE768F0
+	for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 20:04:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718135834; cv=none; b=WUPf57mHh2Q+H6dRysE7/hSLjhcuFu8EqOvKLgbBT5mia/fXE+3cG0jllag8/nYR9XH35ukAsi1cQD5IahJsZwVAvyJYNdr5qERR/SgFRfe4U2C3qAquPcJvuuNMcCmnGl0+irGK9iJGeoGG9cE5euYoFA2j1DmlQh9w1tz9cRg=
+	t=1718136244; cv=none; b=OQ9hb4Sy7I+mdtidBfhcECKSdRZdoSGr0NyH7L6uhwiHkuS/a/iJApeACPJRmkkCO3/BK9QRrHoJPrlYcHIoUPs13d/EWeo0ARTFXPJLFGRM2za+11KxaR1WyMxB1sqmgd/xQhxfU3xRWfOinL1hmWJSsJoLDvp6Pc+HlVWRoTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718135834; c=relaxed/simple;
-	bh=6M1ebK5ksd8fFr0463WqM9S7WBIPDoIGj+N3XpTNpPc=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=KtdoH1PxXcV4KuJbZM+qDMNRUxeHPp51ICWdSdE1JYBUz3NhmQOqD0UQPbEZLG5lYNZeJXYf/QnxHhqMwTrRQA4gx2tMdPdCvln0t5JfeJv/eHkvlRz2tMW9F1Hcbdp/5ANdQnv2Ngkds6WrAlFMNIMmI4ONUD5LlAHbO0CIvmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=JXP0r93T; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718136244; c=relaxed/simple;
+	bh=qRN2EUOQ2JcU8HCwMJeszwscoPyFg4yGd3WyI3IuH9k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SuPYNFaLnVApPGjEwJgKnlizUmNo1xiNGrzodng7NrKuzwKDFRH8GGMBir+Z6KYHeSKoCgbcAqQ+uFT9aN1WNAglicFYc2bfcvEO9njmw11qdT6Bwg7sQJknqCexJtfOp8xEHdXrMm5ZrfXns+c6yKBYK4mXJ/7XG7waiFbMbk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=OhCWsTCx; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="JXP0r93T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A94FFC2BD10;
-	Tue, 11 Jun 2024 19:57:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1718135834;
-	bh=6M1ebK5ksd8fFr0463WqM9S7WBIPDoIGj+N3XpTNpPc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=JXP0r93TC6EddhtLwiYV0ZjXHBBlEdNNIljuy8rPFZz9i8xvRmt12ONtRAzQCSzwt
-	 3QZdLA4TSq94RabfXvxKod5pcgr5XD4hgZFDGIRsEWmQbkgIJuYCOyP44PqHjE/an0
-	 pAiTbYjRMIfWLZcfyz6UK4G/Z28FKjxWfKWHmoCU=
-Date: Tue, 11 Jun 2024 12:57:13 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Shubhang Kaushik OS <Shubhang@os.amperecomputing.com>
-Cc: "ampere-linux-kernel@lists.amperecomputing.com"
- <ampere-linux-kernel@lists.amperecomputing.com>, Uladzislau Rezki
- <urezki@gmail.com>, "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>, "cl@linux.com" <cl@linux.com>,
- "corbet@lwn.net" <corbet@lwn.net>, "linux-mm@kvack.org"
- <linux-mm@kvack.org>, "guoren@kernel.org" <guoren@kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "xiongwei.song@windriver.com" <xiongwei.song@windriver.com>,
- "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
- "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>, Matthew Wilcox
- <willy@infradead.org>
-Subject: Re: [PATCH v5] vmalloc: Modify the alloc_vmap_area() error message
- for better diagnostics
-Message-Id: <20240611125713.eeef88483f5a782e3df71b21@linux-foundation.org>
-In-Reply-To: <CH2PR01MB5894B0182EA0B28DF2EFB916F5C72@CH2PR01MB5894.prod.exchangelabs.com>
-References: <CH2PR01MB5894B0182EA0B28DF2EFB916F5C72@CH2PR01MB5894.prod.exchangelabs.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="OhCWsTCx"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5295e488248so6777015e87.2
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 13:04:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1718136240; x=1718741040; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9n98poQy5aGF7ac0QxK3qC5mrpVCVT/V+RCk+zSOR6o=;
+        b=OhCWsTCxWTItqda0wsiH/epnV/xNs5zexgivvDBv9Qs/WidM0zcgFojvNru0T0DHvz
+         qumuvPpnStLBAnhpM6ANVNTj9Jvzxpa/axpj8RLnwF+Te5mC8/u6V29RyeYBWyKCShKN
+         2HkOaF6uG9/0MKuhN4cYSdvOI/UL4rBoZgSQ0ahS2FCc7zhM/I5T4mHDryOIr8f9PM8K
+         Bg/ILyGfUYyE+B6N1ju135d1zTFC6X569XfF2CqHWD1WDY7DC8erviRxQIJW5XCeZg9S
+         mRlCOv3UYGocT2FrCUHELBOV4h5ejacwrow8rilo4Kne/qjsdZ0vwCrTuP+2Gc3ufcsG
+         ylPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718136240; x=1718741040;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9n98poQy5aGF7ac0QxK3qC5mrpVCVT/V+RCk+zSOR6o=;
+        b=a+gfGFPS5mFHq5A5xmd+HMHCeeGIO7JVaBTjm3z8SFiRatZaly8tYylxGGTOnlDGpj
+         Q9317yx0OG2QWmRikcmQqNu8vywTn0l6c7Zo9jI2GxV+lukasvE/NO5DzbSibtNZyLyG
+         RX9D/qZYYbLYfPpvSmOYOe5UqssavuGwP5aK9vumJtBIU0Ks2jViQikVLKMGR3qLfunJ
+         wXuLqsLLshbsghcCaHTvKBDYvZkGb/hRE+3gvs/64fh0Q+tX9kpiAKXuN6ZYML9LzIS7
+         JYYeEeoMc6JiTSTM1ImNimRpQlX27Clvfo2FNy0A4q/ICKtDHH/egzGAifrOSby5bfSm
+         3sKw==
+X-Forwarded-Encrypted: i=1; AJvYcCUsS8Ji7pqOB60la4+Eg5hC4yKxQgBN0+X+/hqi4RXR0TvLlbn6eDhczaeVsdVMnkTyDrfJwhPvi44Xb1QPWlNknHeUY6274EKC
+X-Gm-Message-State: AOJu0Yzsfo97oFlkzsc9mOG9J2NWTFcgpJDH0dr0j7qsaWxGkoRxxlVI
+	TNxeX0lCkaOREHiBsLFXwfGXJ2hbKamKfl1y2JvoswhC2korlcpFG13VnHK9zaZ4zsTFQTkIkPL
+	CXXeiTXW6UcWYeCgKiK7tn+njBPUYDZfBxhxMIQ==
+X-Google-Smtp-Source: AGHT+IH/676DYtzrAxdlEhyttoUICnDM9pTxaR4uZAEP9AfETJc0j6gT8wiY7wLbTSTMXHgLlsaivegqk9f0xTZQfTY=
+X-Received: by 2002:ac2:5b50:0:b0:52b:c29e:4c50 with SMTP id
+ 2adb3069b0e04-52bc29e4cadmr6508395e87.43.1718136240422; Tue, 11 Jun 2024
+ 13:04:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+References: <20240610112700.80819-1-wsa+renesas@sang-engineering.com> <20240610112700.80819-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20240610112700.80819-2-wsa+renesas@sang-engineering.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Tue, 11 Jun 2024 22:03:49 +0200
+Message-ID: <CAMRc=MfZ11U+kAh1+K=DxtJ=QL+cY7Q_sBN4sQDF-RNgjpV0QA@mail.gmail.com>
+Subject: Re: [PATCH v9 1/1] gpio: add sloppy logic analyzer using polling
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Linus Walleij <linus.walleij@linaro.org>, Kent Gibson <warthog618@gmail.com>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 11 Jun 2024 19:38:44 +0000 Shubhang Kaushik OS <Shubhang@os.amperecomputing.com> wrote:
+On Mon, Jun 10, 2024 at 1:27=E2=80=AFPM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+>
+> This is a sloppy logic analyzer using GPIOs. It comes with a script to
+> isolate a CPU for polling. While this is definitely not a production
+> level analyzer, it can be a helpful first view when remote debugging.
+> Read the documentation for details.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
 
-> 'vmap allocation for size %lu failed: use vmalloc=<size> to increase size'
-> The above warning is seen in the kernel functionality for allocation of the restricted virtual memory range till exhaustion.
-> 
-> This message is misleading because 'vmalloc=' is supported on arm32, x86 platforms and is not a valid kernel parameter on a number of other platforms (in particular its not supported on arm64, alpha, loongarch, arc, csky, hexagon, microblaze, mips, nios2, openrisc, parisc, m64k, powerpc, riscv, sh, um, xtensa, s390, sparc). With the update, the output gets modified to include the function parameters along with the start and end of the virtual memory range allowed.
-> 
-> The warning message after fix on kernel version 6.10.0-rc1+:
-> 
-> vmalloc_node_range for size 33619968 failed: Address range restricted between 0xffff800082640000 - 0xffff800084650000
-> 
-> Backtrace with the misleading error message:
-> 
-> 	vmap allocation for size 33619968 failed: use vmalloc=<size> to increase size
-> 	insmod: vmalloc error: size 33554432, vm_struct allocation failed, mode:0xcc0(GFP_KERNEL), nodemask=(null),cpuset=/,mems_allowed=0
-> 	CPU: 46 PID: 1977 Comm: insmod Tainted: G            E      6.10.0-rc1+ #79
-> 	Hardware name: INGRASYS Yushan Server iSystem TEMP-S000141176+10/Yushan Motherboard, BIOS 2.10.20230517 (SCP: xxx) yyyy/mm/dd
-> 	Call trace:
-> 		dump_backtrace+0xa0/0x128
-> 		show_stack+0x20/0x38
-> 		dump_stack_lvl+0x78/0x90
-> 		dump_stack+0x18/0x28
-> 		warn_alloc+0x12c/0x1b8
-> 		__vmalloc_node_range_noprof+0x28c/0x7e0
-> 		custom_init+0xb4/0xfff8 [test_driver]
-> 		do_one_initcall+0x60/0x290
-> 		do_init_module+0x68/0x250
-> 		load_module+0x236c/0x2428
-> 		init_module_from_file+0x8c/0xd8
-> 		__arm64_sys_finit_module+0x1b4/0x388
-> 		invoke_syscall+0x78/0x108
-> 		el0_svc_common.constprop.0+0x48/0xf0
-> 		do_el0_svc+0x24/0x38
-> 		el0_svc+0x3c/0x130
-> 		el0t_64_sync_handler+0x100/0x130
-> 		el0t_64_sync+0x190/0x198
+I really dislike drivers being called in an ambiguous way like
+"simple" or - in this case "sloppy". I understand why it is - in fact
+- sloppy but can we call it anything else? Like
+"gpio-logic-analyzer.c"?
 
-When sending an updated version, please describe what was changed since
-the previous version.  After the changelog's ^---$ separator is the
-usual place.
+> +Setup
+> +=3D=3D=3D=3D=3D
+> +
+> +Your kernel must have CONFIG_DEBUG_FS and CONFIG_CPUSETS enabled. Ideall=
+y, your
+> +runtime environment does not utilize cpusets otherwise, then isolation o=
+f a CPU
+> +core is easiest. If you do need cpusets, check that helper script for th=
+e
+> +sloppy logic analyzer does not interfere with your other settings.
+> +
+> +Tell the kernel which GPIOs are used as probes. For a Device Tree based =
+system,
+> +you need to use the following bindings. Because these bindings are only =
+for
+> +debugging, there is no official schema::
+> +
+> +    i2c-analyzer {
+> +            compatible =3D "gpio-sloppy-logic-analyzer";
+> +            probe-gpios =3D <&gpio6 21 GPIO_OPEN_DRAIN>, <&gpio6 4 GPIO_=
+OPEN_DRAIN>;
+> +            probe-names =3D "SCL", "SDA";
+> +    };
+> +
+> +Note that you must provide a name for every GPIO specified. Currently a
+> +maximum of 8 probes are supported. 32 are likely possible but are not
+> +implemented yet.
+> +
 
-I'm seeing this:
+What happens on non-DT systems? Can you still create an analyzer in a
+different way? Can I maybe interest you in configfs for the purpose of
+device configuration like what gpio-sim and the upcoming gpio-virtuser
+does?
 
---- a/mm/vmalloc.c~vmalloc-modify-the-alloc_vmap_area-error-message-for-better-diagnostics-v5
-+++ a/mm/vmalloc.c
-@@ -2057,7 +2057,7 @@ overflow:
- 
- 	if (!(gfp_mask & __GFP_NOWARN) && printk_ratelimit())
- 		pr_warn("vmalloc_node_range for size %lu failed: Address range restricted to %#lx - %#lx\n",
--				size, addr, addr+size);
-+				size, vstart, vend);
- 
- 	kmem_cache_free(vmap_area_cachep, va);
- 	return ERR_PTR(-EBUSY);
-_
-
-which I assume has no effect?
+Bart
