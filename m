@@ -1,210 +1,221 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from wflow2-smtp.messagingengine.com (wflow2-smtp.messagingengine.com [64.147.123.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24DA52D611;
-	Tue, 11 Jun 2024 22:03:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F87438DC8;
+	Tue, 11 Jun 2024 22:15:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718143398; cv=none; b=B9OYPFvjBFgE1hXWhZIPsjmehgUbE90p+kNkI4Y+BKgWMljfxKF0dwgOudMb2cZk42co26T4zbWLMYWgC6yrho5D3arJWyjCz/Wd3qgkvkyPj5IfXCD9fbv3t1W92GycHBHagCMx399AouAfJJVV78Xa9S0HtJ5Pg6FTAoptiVA=
+	t=1718144134; cv=none; b=O0BnY08yVEVn0WAAJx0Tgfo7wIF7syl5/PfW76t90Vh5T0ZVboPxLzyRiBLo6Krze168JGofkzXjuk6nUBtuOxiQA3IGN18RsB9LkjaoXGuoYMgKXumRL2qgZWGnFyOEQ0E8/v5gwOeXbPS1+QzF/qEcKZd1ZDdCS1G5toluK5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718143398; c=relaxed/simple;
-	bh=3rPUdKbtViSdk09zudZD2AmmmcopXye5JepDpAK3whE=;
+	s=arc-20240116; t=1718144134; c=relaxed/simple;
+	bh=GdAkFK62RY/EebkDCQaRIl7vglLd8+Mimrq9+Eb15nk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GREQWS4e6dxIcRWFToJk+IEsPrlQhIj/4pqD7FCCVqnr5STrj3Fgknzppu2ZqeR/6A4X5iic9W+ryD6+KzQNJk809pc8nDOOa35B3NExfqNqfKaQu7A5p7fmeFOih3Gvwmi6kOoGvFP32a1BmlfR1q6HU+7WUixjUv7qPKbHqoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=j2383kz4; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	 Content-Type:Content-Disposition:In-Reply-To; b=bhzmLOoOn31Z6acsu8IcW5TFA2ETxenJS4iEYTKdjnONyPHnh1I6GixBrbY0WphqExCjdX0jiXGJyceOYsHDZ7tVDcRtwNT+NND655CM89iHjYe4Eo5RhhgGz97tJ5oZsp/V4l8xz7vZvPLpzn4VnKfLrXWvWzLdx56saFYDGoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=3xx0.net; spf=pass smtp.mailfrom=3xx0.net; dkim=pass (2048-bit key) header.d=3xx0.net header.i=@3xx0.net header.b=Pq9rjGAS; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ISNh/oJu; arc=none smtp.client-ip=64.147.123.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=3xx0.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=3xx0.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="j2383kz4"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=C5mPl2mcX1d8g/QBmFMcrKFqEz6OxAEd1x9a71sf7NE=; b=j2383kz4wu5qKoA1zTomzxQj5D
-	VFcTwQZ78UCVmOsfWyPtdk50P7UEz6nhKtZxdoG9SNEF7ldl0uomRqKrLM43JmPAcbJ4CCeK8yqew
-	h/c2zeRGcuvjGImKkr4N3TpWyJt1aIMlZBxvi5O83fPjb/1h+B41/2mQQQbOD8YCBDX4=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1sH9a0-00HQgJ-T3; Wed, 12 Jun 2024 00:03:00 +0200
-Date: Wed, 12 Jun 2024 00:03:00 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Siddharth Vadapalli <s-vadapalli@ti.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, corbet@lwn.net, rogerq@kernel.org,
-	danishanwar@ti.com, vladimir.oltean@nxp.com, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, vigneshr@ti.com,
-	misael.lopez@ti.com, srk@ti.com
-Subject: Re: [RFC PATCH net-next 01/28] docs: networking: ti: add driver doc
- for CPSW Proxy Client
-Message-ID: <b5d9f1ff-0b0f-4c97-9d1c-4ba4468ce6e3@lunn.ch>
-References: <20240518124234.2671651-1-s-vadapalli@ti.com>
- <20240518124234.2671651-2-s-vadapalli@ti.com>
- <642c8217-49fe-4c54-8d62-9550202c02c9@lunn.ch>
- <6e520ad0-0f9b-4fee-87fe-44477b01912b@ti.com>
- <287322d3-d3ee-4de6-9189-97067bc4835c@lunn.ch>
- <3586d2d1-1f03-47b0-94c0-258e48525a9d@ti.com>
+	dkim=pass (2048-bit key) header.d=3xx0.net header.i=@3xx0.net header.b="Pq9rjGAS";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ISNh/oJu"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailflow.west.internal (Postfix) with ESMTP id C97482CC0169;
+	Tue, 11 Jun 2024 18:15:27 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Tue, 11 Jun 2024 18:15:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=3xx0.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1718144127;
+	 x=1718147727; bh=hLoyDphzPvoA7UYBfDpLVZId/MwW/v8vWSAXuFf49/w=; b=
+	Pq9rjGAS1w/Bgo5vWiHK4C9GSmw8UEqW23zxfC6CU+LFTqGfGsPAhKcyrwHoj90O
+	2g7tjpvdho680sZED5/2pEYwnSPHE6Nyuowy4t+liSKxQFrggVMMiqon8nSX9UYe
+	oVBsXm4b6ZW6z97l0uDDa5lkmqrKrNH3jKXI/kXAvkXXFnrHwG6oKoSy/6j3AF1Y
+	8cm9z2VOiKm0Y60hTybScXH/pn1OM/r/TpGNjtGS43aretvWB4MzGA3unImRVifY
+	913jLZ1dcL0oU2fUqcd35OHYcKeVnIiStKNnfKqAViqm85MfWYGX9m8CAyZAGKTa
+	iabR1CZR/u5ovgrtmgo/zg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1718144127; x=
+	1718147727; bh=hLoyDphzPvoA7UYBfDpLVZId/MwW/v8vWSAXuFf49/w=; b=I
+	SNh/oJu/e8FBFK91pEhdVzPaxeoy0vJBcCYsFR5dTBa0eTNI52Mh6vmtzoNEnGGo
+	0nk1m7ki7/In22P/dp/EXcSDHlAz5BfLVF+KTy5T2BmEdmd9GgekK0iKTSeHoXrF
+	qgiz+C959oucHJqv+TsGRpUAUjs2GCWmVT1rVLthx5HBkCDuetmM/I23iDS5r0tT
+	W6HmZFu74Tm8QZns/LE00Y7Nh3h6HK7WrxdV+ExaadRJAJwmM9Qv5H0pqfa0EnHA
+	Pq+gmx9IfmHP/NPUS88TJZaod19sMGo6bD1rEZ6UeYk8d3P1h816uGx3p9eTi7ne
+	VZ5GqWvsh5NKbZvAPyg3A==
+X-ME-Sender: <xms:fsxoZqoVnHB2uGoc7C0A7BixBJXGpc11qlCUk3a6hvFctlK7PdBKkA>
+    <xme:fsxoZooRmtozI0oKjoRwzZnuKSw8qtfaYL--1NQiRvpNaw-gFmHdFKZpfzO16EY2q
+    Wz6KAFCvBXQU1xOAYA>
+X-ME-Received: <xmr:fsxoZvPL801GFa0JdYFCAOHyDF4GcEcnIZ4r8mQNRH4NDIvzS9R2KSXWHk7HkTFFGFWEcogO8cqqGrkZ0AEzTiM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfedufedgtdekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkefstddttdejnecuhfhrohhmpeflohhn
+    rghthhgrnhcuvegrlhhmvghlshcuoehjtggrlhhmvghlshesfeiggidtrdhnvghtqeenuc
+    ggtffrrghtthgvrhhnpeetgedutdfggeetleefhfeuhedtheduteekieduvdeigeegvdev
+    vddtieekiedvheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehjtggrlhhmvghlshesfeiggidtrdhnvght
+X-ME-Proxy: <xmx:f8xoZp6U8TxIwbBdIkAUIulkUDaDRV4oFBo0EBVqjfd1jc3IUfHrRw>
+    <xmx:f8xoZp7_TUBZagIfh40y2sdsDedvT-h5VXVtRjmhUKH4ThdVyvjDuw>
+    <xmx:f8xoZphmbJ-AsduE8UunEraJ_Nu6pDRX9sPBXVa9qb7iygs6fiB0gg>
+    <xmx:f8xoZj7QERyBvlOn4w7jLMGtV-DEUFk1T2Viw9CMO6OeJGkw-uv4eA>
+    <xmx:f8xoZkIrhrrTIB3VBMJkOqlUb0VXeh5tcuzeAhLiHln_J1A0uzp3N8Xe>
+Feedback-ID: i76614979:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 11 Jun 2024 18:15:23 -0400 (EDT)
+Date: Tue, 11 Jun 2024 15:20:33 -0700
+From: Jonathan Calmels <jcalmels@3xx0.net>
+To: Paul Moore <paul@paul-moore.com>
+Cc: John Johansen <john.johansen@canonical.com>, brauner@kernel.org,
+ 	ebiederm@xmission.com, Jonathan Corbet <corbet@lwn.net>,
+ 	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ 	KP Singh <kpsingh@kernel.org>,
+ Matt Bobrowski <mattbobrowski@google.com>,
+ 	Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ 	Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>,
+ 	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ 	Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>,
+ 	Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, 	Luis Chamberlain <mcgrof@kernel.org>,
+ Kees Cook <kees@kernel.org>, 	Joel Granados <j.granados@samsung.com>,
+ David Howells <dhowells@redhat.com>,
+ 	Jarkko Sakkinen <jarkko@kernel.org>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>,
+ 	Ondrej Mosnacek <omosnace@redhat.com>, Mykola Lysenko <mykolal@fb.com>,
+ Shuah Khan <shuah@kernel.org>, 	containers@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ 	linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
+ bpf@vger.kernel.org, 	apparmor@lists.ubuntu.com,
+ keyrings@vger.kernel.org, selinux@vger.kernel.org,
+ 	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v2 4/4] bpf,lsm: Allow editing capabilities in BPF-LSM
+ hooks
+Message-ID: <uuvwcdsy7o4ulmrdzwffr6uywfacmlkjrontmjdj44luantpok@dtatxaa6tzyv>
+References: <20240609104355.442002-1-jcalmels@3xx0.net>
+ <20240609104355.442002-5-jcalmels@3xx0.net>
+ <CAHC9VhT5XWbhoY2Nw5jQz4GxpDriUdHw=1YsQ4xLVUtSnFxciA@mail.gmail.com>
+ <z2bgjrzeq7crqx24chdbxnaanuhczbjnq6da3xw6al6omjj5xz@mqbzzzfva5sw>
+ <887a3658-2d8d-4f9e-98f2-27124bb6f8e6@canonical.com>
+ <CAHC9VhQFNPJTOct5rUv3HT6Z2S20mYdW75seiG8no5=fZd7JjA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <3586d2d1-1f03-47b0-94c0-258e48525a9d@ti.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHC9VhQFNPJTOct5rUv3HT6Z2S20mYdW75seiG8no5=fZd7JjA@mail.gmail.com>
 
-> System Architecture and Implementation Details
-> ==============================================
+On Tue, Jun 11, 2024 at 03:01:01PM GMT, Paul Moore wrote:
+> On Tue, Jun 11, 2024 at 6:32 AM John Johansen
+> <john.johansen@canonical.com> wrote:
+> >
+> > On 6/11/24 01:09, Jonathan Calmels wrote:
+> > > On Sun, Jun 09, 2024 at 08:18:48PM GMT, Paul Moore wrote:
+> > >> On Sun, Jun 9, 2024 at 6:40 AM Jonathan Calmels <jcalmels@3xx0.net> wrote:
+> > >>>
+> > >>> This patch allows modifying the various capabilities of the struct cred
+> > >>> in BPF-LSM hooks. More specifically, the userns_create hook called
+> > >>> prior to creating a new user namespace.
+> > >>>
+> > >>> With the introduction of userns capabilities, this effectively provides
+> > >>> a simple way for LSMs to control the capabilities granted to a user
+> > >>> namespace and all its descendants.
+> > >>>
+> > >>> Update the selftests accordingly by dropping CAP_SYS_ADMIN in
+> > >>> namespaces and checking the resulting task's bounding set.
+> > >>>
+> > >>> Signed-off-by: Jonathan Calmels <jcalmels@3xx0.net>
+> > >>> ---
+> > >>>   include/linux/lsm_hook_defs.h                 |  2 +-
+> > >>>   include/linux/security.h                      |  4 +-
+> > >>>   kernel/bpf/bpf_lsm.c                          | 55 +++++++++++++++++++
+> > >>>   security/apparmor/lsm.c                       |  2 +-
+> > >>>   security/security.c                           |  6 +-
+> > >>>   security/selinux/hooks.c                      |  2 +-
+> > >>>   .../selftests/bpf/prog_tests/deny_namespace.c | 12 ++--
+> > >>>   .../selftests/bpf/progs/test_deny_namespace.c |  7 ++-
+> > >>>   8 files changed, 76 insertions(+), 14 deletions(-)
+> > >>
+> > >> I'm not sure we want to go down the path of a LSM modifying the POSIX
+> > >> capabilities of a task, other than the capabilities/commoncap LSM.  It
+> > >> sets a bad precedent and could further complicate issues around LSM
+> > >> ordering.
+> > >
+> > > Well unless I'm misunderstanding, this does allow modifying the
+> > > capabilities/commoncap LSM through BTF. The reason for allowing
+> > > `userns_create` to be modified is that it is functionally very similar
+> > > to `cred_prepare` in that it operates with new creds (but specific to
+> > > user namespaces because of reasons detailed in [1]).
+> >
+> > yes
+> >
+> > > There were some concerns in previous threads that the userns caps by
+> > > themselves wouldn't be granular enough, hence the LSM integration.
+> >
+> > > Ubuntu for example, currently has to resort to a hardcoded profile
+> > > transition to achieve this [2].
+> > >
+> >
+> > The hard coded profile transition, is because the more generic solution
+> > as part of policy just wasn't ready. The hard coding will go away before
+> > it is upstreamed.
+> >
+> > But yes, updating the cred really is necessary for the flexibility needed
+> > whether it is modifying the POSIX capabilities of the task or the LSM
+> > modifying its own security blob.
+> >
+> > I do share some of Paul's concerns about the LSM modifying the POSIX
+> > capabilities of the task, but also thing the LSM here needs to be
+> > able to modify its own blob.
 > 
-> The CPSW Ethernet Switch has a single Host Port (CPU facing port) through
-> which it can receive data from the Host(s) and transmit data to the
-> Host(s).
-
-So there is a single host port, but it can support multiple hosts,
-each having a subset of the available DMA channels. Maybe it is
-explain later, but why call it a _single_ host port? Apart from the
-DMA channels, are there other things the hosts are sharing?
-
-> The exchange of data occurs via TX/RX DMA Channels (Hardware
-> Queues). These Hardware Queues are a limited resource (8 TX Channels and
-> up to 64 RX Flows). If the Operating System on any of the cores is the
-> sole user of CPSW then all of these Hardware Queues can be claimed by that
-> OS. However, when CPSW has to be shared across the Operating Systems on
-> various cores with the aim of enabling Ethernet Functionality for the
-> Applications running on different cores, it is necessary to share these
-> Hardware Queues in a manner that prevents conflicts. On the control path
-> which corresponds to the configuration of CPSW to get it up and running,
-> since there is no Integrated Processor within CPSW that can be programmed
-> with a startup configuration, either the Operating System or Firmware
-> running on one of the cores has to take the responsibility of setting it.
-> One option in this case happens to be the Ethernet Switch Firmware (EthFw)
-> which is loaded by the Bootloader on a remote core at the same time that
-> Linux and other Operating Systems begin booting. EthFw quickly powers on
-> and configures CPSW getting the Forwarding Path functional.
-
-At some point, a definition of functional will be needed. How does the
-EthFw know what is required? Should Linux care? Can Linux change it?
-
-> Once Linux and
-> other Operating Systems on various cores are ready, they can communicate
-> with EthFw to obtain details of the Hardware Queues allocated to them to
-> exchange data with CPSW.
-
-> With the knowledge of the Hardware Queues that
-> have been allocated, Linux can use the DMA APIs to setup these queues
-> to exchange data with CPSW.
-
-This might be an important point. You communicate with the CPSW. You
-don't communicate transparently through the CPSW to external ports?
-There is no mechanism for a host to say, send this packet out port X?
-It is the CPSW which decides, based on its address tables? The
-destination MAC address decides where a packet goes.
-
-> Setting up the Hardware Queues alone isn't sufficient to exchange data
-> with the external network. Consider the following example:
-> The ethX interface in userspace which has been created to transmit/receive
-> data to/from CPSW has the user-assigned MAC Address of "M". The ping
-> command is run with the destination IP of "D". This results in an ARP
-> request sent from ethX which is transmitted out of all MAC Ports of CPSW
-> since it is a Broadcast request. Assuming that "D" is a valid
-> destination IP, the ARP reply is received on one of the MAC Ports which
-> is now a Unicast reply with the destination MAC Address of "M". The ALE
-> (Address Lookup Engine) in CPSW has learnt that the MAC Address "M"
-> corresponds to the Host Port when the ARP request was sent out. So the
-> Unicast reply isn't dropped. The challenge however is determining which
-> RX DMA Channel (Flow) to send the Unicast reply on. In the case of a
-> single Operating System owning all Hardware Queues, sending it on any of
-> the RX DMA Channels would have worked. In the current case where the RX
-> DMA Channels map to different Hosts (Operating Systems and Applications),
-> the mapping between the MAC Address "M" and the RX DMA Channel has to be
-> setup to ensure that the correct Host receives the ARP reply. This
-> necessitates a method to inform the MAC Address "M" associated with the
-> interface ethX to EthFw so that EthFw can setup the MAC Address "M" to
-> RX DMA Channel map accordingly.
-
-Why not have EthFW also do learning? The broadcast ARP request tells
-you that MAC address M is associated to a TX DMA channel. EthFW should
-know the Rx DMA channel which pairs with it, and can program ALE.
-
-That is how a switch works, it learns what MAC address is where, it is
-not told.
-
-> At this point, Linux can exchange data with the external network via CPSW,
-> but no device on the external network can initiate the communication by
-> itself unless it already has the ARP entry for the IP Address of ethX.
-> That's because CPSW doesn't support packet replication implying that any
-> Broadcast/Multicast packets received on the MAC Ports can only be sent
-> on one of the RX DMA Channels.
-
-That sounds broken.
-
-And this is where we need to be very careful. It is hard to build a
-generic model when the first device using it is broken. Ethernet
-switches have always been able to replicate. Dumb hubs did nothing but
-replicate. Address learning, and forwarding out specific ports came
-later, but multicast and broadcast was always replicated. IGMP
-snooping came later still, which reduced multicast replication.
-
-And your switch cannot do replication....
-
-> So the Broadcast/Multicast packets can
-> only be received by one Host. Consider the following example:
-> A PC on the network tries to ping the IP Address of ethX. In both of the
-> following cases:
-> 1. Linux hasn't yet exchanged data with the PC via ethX.
-> 2. The MAC Address of ethX has changed.
-> the PC sends an ARP request to one of the MAC Ports on CPSW to figure
-> out the MAC Address of ethX. Since the ARP request is a Broadcast
-> request, it is not possible for CPSW to determine the correct Host,
-> since the Broadcast MAC isn't unique to any Host. So CPSW is forced
-> to send the Broadcast request to a preconfigured RX DMA Channel which
-> in this case happens to be the one mapped to EthFw. Thus, if EthFw
-> is aware of the IP Address of ethX, it can generate and send the ARP
-> reply containing the MAC Address "M" of ethX that it was informed of.
-> With this, the PC can initiate communication with Linux as well.
+> To be clear, this isn't about a generic LSM needing to update its own
+> blob (LSM state), it is about the BPF LSM updating the capability
+> sets.  While we obviously must support a LSM updating its own state,
+> I'm currently of the opinion that allowing one LSM to update the state
+> of another LSM is only going to lead to problems.  We wouldn't want to
+> allow Smack to update AppArmor state, and from my current perspective
+> allowing the BPF LSM to update the capability state is no different.
 > 
-> Similarly, in the case of Multicast packets, if Linux wishes to receive
-> certain Multicast packets, it needs to inform the same to EthFw which
-> shall then replicate the Multicast packets it received from CPSW and
-> transmit them via alternate means (Shared Memory for example) to Linux.
+> It's also important to keep in mind that if we allow one LSM to do
+> something, we need to allow all LSMs to do something.  If we allow
+> multiple LSMs to manipulate the capability sets, how do we reconcile
+> differences in the desired capability state?  Does that resolution
+> change depending on what LSMs are enabled at build time?  Enabled at
+> boot?  Similarly, what about custom LSM ordering?
+> 
+> What about those LSMs that use a task's capabilities as an input to an
+> access control decision?  If those LSMs allow an access based on a
+> given capability set only to have a LSM later in the ordering modify
+> that capability set to something which would have resulted in an
+> access denial, do we risk a security regression?
 
-This all sounds like you are working around broken behaviour, not
-something generic.
+I understand the concerns, what I fail to understand however, is how is
+it any different from say the `cred_prepare` hook today?
 
-What i actually think you need to do is hide all the broken
-behaviour. Trap all multicast/broadcast to EthFw. It can run a
-software bridge, and do learning. It will see the outgoing ARP request
-from a host and learn the host MAC address. It can then flood the
-packet out the external ports, working around the CSPW brokeness. It
-can also program the ALE, so the reply goes straight to the
-host. Incoming broadcast and multicast is also trapped to the EthFW
-and it can use its software bridge to flood the packet to all the
-hosts. It can also perform IGMP snooping, and learn which hosts are
-interested in Multicast. 
+> Our current approach to handling multiple LSMs is that each LSM is
+> limited to modifying its own state, and I'm pretty confident that we
+> stick to this model if we have any hope of preserving the sanity of
+> the LSM layer as a whole.  If you want to modify the capability set
+> you need to do so within the confines of the capability LSM and/or
+> modify the other related kernel subsystems (which I'm guessing will
+> likely necessitate a change in the LSMs, but that avenue is very
+> unclear if such an option even exists).
 
-Your switch then functions as a switch.
+What do you mean by "within the confines of the capability LSM" here?
 
-And you are then the same as the RealTek and Samsung device. Linux is
-just a plain boring host connect to a switch, which somebody else is
-managing. No new model needed.
-
-> All data between Linux (Or any Operating System) and EthFw is exchanged
-> via the Hardware Mailboxes with the help of the RPMsg framework. Since
-> all the resource allocation information comes from EthFw, the
-> vendor-specific implementation in the Linux Client is limited to the DMA
-> APIs used to setup the Hardware Queues and to transmit/receive data with
-> the Ethernet Switch. Therefore, it might be possible to move most of the
-> vendor specific implementation to the Switch Configuration Firmware
-> (similar to EthFw), to make the Linux Client implementation as generic
-> and vendor agnostic as possible. I believe that this series more or less
-> does the same, just using custom terminology which can be made generic.
-
-This is actually very similar to what your college is doing:
-
-https://lore.kernel.org/netdev/20240531064006.1223417-1-y-mallik@ti.com/
-
-The only real difference is shared memory vs DMA.
-
-	Andrew
+Arguably, if we do want fine-grained userns policies, we need LSMs to
+influence the userns capset at some point. Regardless of how or where we
+do this, it will always be subject to some sort of ordering. We could
+come up with some rules to limit surprises (e.g. caps can only be
+dropped, only possible through some hooks, etc), but at the end of the
+day, something needs to have the final word when it comes to deciding
+what the creds should be.
