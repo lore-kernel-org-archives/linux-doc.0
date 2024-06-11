@@ -1,188 +1,152 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B5704F88C
-	for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 16:52:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C48E46EB74
+	for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 16:54:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718124779; cv=none; b=UDXjJw6fpBh9RVzHnq8DnXZxROwc++GoH6BF3xvfzPe2lJpIcf3uS0vwzNZfDSjZKpwgcRIHIYaanHtV7ePZqAG9TcKdpbqjXPi011Y1vIzmJ/uIHwpNxGMQvRRDRgKI2SVXTPfz+GRXE53sDTfl1StHV/dPDloyc23jMniQ0G4=
+	t=1718124855; cv=none; b=PcH8xY4RgovcYhOIqDTWjo/aPBMk57Zprnj0Shfp/ixsV4S0/ljXd0sng4/lrprhwCK8x3oyh3REleHsYVIBYea2OfYGf47MDEXCPROlz8U86+B0cklk6IOQJnpAvCXx/M5VKGMUy3t8qgQ1RCda1YqJMYqsgDI+0n0DU0G1Wbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718124779; c=relaxed/simple;
-	bh=cUks1IzqDZ+RbXqF/1qmr4hcitIbzZ5D/+vX7HNk2w8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n+M2ywoLmt67TBl5aN1Qsow6fMb4hA+vXJTpUaR/lrD2+69zqbV1P0GOUH1TqE9lF4MbTEv0Q5isoUQ1V1s3nh8f0/6QfaAxQebavy37B+M1QbhUUPb/pmHLxJ/ueRy9Ah7VvcfD4VumNhf14BmYDfNmnB9N4Vw5GicxRWmjG4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IVzIqAnt; arc=none smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1718124855; c=relaxed/simple;
+	bh=OrAb1OwSBRL1RD+bjKynk7YcqN0JqRD4WxAvQ9xdhGM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BKNTP2b3cS8wLg5OXTewLutfTes8/0LjLP/2vqBmH+W4s3J0CbezUK34esvD2A86V9mKFHZnDCqImTYvPURDctay8n8cfc707Bb6YtZFxJm+FDwmst2t5v4hrjk78/hjFqe4frEEPYC2yodKfHWUM03Z0XskCawLqnMHSIk4nJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=YD1h3oEb; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IVzIqAnt"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-4405cf01a7fso396521cf.1
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 09:52:56 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="YD1h3oEb"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-42181803bf2so1725435e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 09:54:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718124775; x=1718729575; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dNrvkbjbmCuGBxHxb5OVsA/4jQBqGMp/CsGTWofpaJ8=;
-        b=IVzIqAntxily/mw4Rq9+/NxA4BqXIhL4kg4Q01RQi8RUzrwM0QN+RcGEWJC9bdiYyM
-         66zcFYfXSIw2BDwl1zQ7dWU0/onZmxIWCp+5ofeBcRQvcxomVPGRcJK9uET4mMRHm34J
-         rWsndsCOnykzYXUKpo3u7lw8X83QyvtNFsV9KyTOIF3By/VhwerTpTNiNK+gCujjjWJ3
-         ISD+ogAkutdizmup/Vzq4VDq4jmbqysYPRnu1xzymOrF3zUu3JL9fcwZ5zpbTDQ2DT84
-         m+3EMayQhYFq1w8TVQjOHihXpyhTZEYKIXz39Kk9+tVC+LlV488upckmyD1CEWL/hsVj
-         sYZw==
+        d=ffwll.ch; s=google; t=1718124852; x=1718729652; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hw7drFVos6OlmlZtZxQCwliUjnhCqtU/xBm51s1JLQM=;
+        b=YD1h3oEbO0gZfL7PrJffs7vcTgEtMexS0PIp5d2siPYRO//aBar0WHM6MByme+nXdC
+         D9/xmCy1oYLjvodVkaSjCICDWgeL0arTOtdLv52l+CsKDjWI4r7e8N6lprd3X61KdRrF
+         KL956dkNv1/BDoF4vyrIRFt2OtQ5+cvMQAdF0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718124775; x=1718729575;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dNrvkbjbmCuGBxHxb5OVsA/4jQBqGMp/CsGTWofpaJ8=;
-        b=fXNWESUFWoe7zggtHW0BQrFe+5IZHBCiGYMRHrIyKVxvZPUB5+rWGP8Wk4T2pSCzqN
-         NfdA0vwLI8ocYDA0PZ8ojn25uRGTpqJNc4ce3X8CR3z0smmU+F7bzef5GdcoCP69IRQb
-         fZEpJ0WUdkR4UaJ+chZXjX4FaKmuaQAph0k+puNA/f0H06o0SaGFPxMO++KvYGRRShQF
-         iaAeTRjrKtkvOXC0Z9h9bvtSzIdQL+Q/uWcL/yj98ZUlQ8oaOr+RDzwevGTLhrPrszTR
-         Te2RCjHoMh/AFiZhy80hTwwo4WiLC5nhWWUnoXecIam5o2MmL/R3EcCOMCVf9c5J61oU
-         Znfg==
-X-Forwarded-Encrypted: i=1; AJvYcCVWJiS7IhROS81q5vDQhIGgy/7FG2e0ZE2KQOvhiUVK+h/ZmaRk0jkJglpyGavX1brhcE10qpj1rpRnvjCRU2YkzrViZjsbMoP8
-X-Gm-Message-State: AOJu0Ywwe+G3TLyFS67uDJMujqGquMYcmpYihB9gdzxguHMJkTgSHuwI
-	WoRaWVPogwTh22TIc+Jq8ZR2WPhFnDdhaL9HN1vHzDIarI/FxoSEHM0Orc2hod3y0TIQzfeUN6N
-	HWzwISGme8wtaAOy6uqvCbrtLg+27LvNrUCvC
-X-Google-Smtp-Source: AGHT+IETSJr/vthLSu4M/9Ufm7UR5Sik6z7Xo2T1/mUMxnuXtcmtqz9kCiAXEk/F0m7s9fStq+7fFskXaiSQE2MAAyQ=
-X-Received: by 2002:a05:622a:550d:b0:441:3c01:d0fa with SMTP id
- d75a77b69052e-4414798d3c1mr3642241cf.23.1718124775151; Tue, 11 Jun 2024
- 09:52:55 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1718124852; x=1718729652;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Hw7drFVos6OlmlZtZxQCwliUjnhCqtU/xBm51s1JLQM=;
+        b=ehY1ZKtMSz81y/XIun3c4Lw+qJeHpccgUO3Unry3O6CAUziITPgJO7jL1sQrp1lkMf
+         PPvaupynfNXroObhcHd6FwR4k8Rw6GK9N9Fp5KK5KQ0L8sfvt/Okx2laTMB2cBKHKjo/
+         Gk06FuKacQr+CwlLR56lINoRd7KqQ+wD1o7e5AK8SBfLue2doW7ELnpWiQUy/0BJyAk2
+         ywpynHFbHJZFzySDxAgIg0Q7HUgto4gbVHyi7GFvHm149A2buAPpU9GltdlBWH6oro4t
+         e3x6D/sHfC+NGvwxWlgtZjeiUD0KtGNy5RMNYx8zfvViIsm6X44thSWhk2wvpDcFLY8a
+         vWTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU1aTBQXcyfEW8AXmMQWYuD9ftg/pUASvJB5I4f7IVQxv0S6riN1WYoV9tqvgh0C34zhtDAti4ZuSEB7ZfOXznTRRKPT+pZ7Drc
+X-Gm-Message-State: AOJu0Yz1kaSh6dc2yINvXRpvwTPgRjpoYLmfLZo6TUL3pZ44toIZVGl2
+	JHyn3IF6rcqPVDwxwiNZCd0+uUfrhKs2T18X0kUcG2+/5Fgj35ME5reQyXEgOPs=
+X-Google-Smtp-Source: AGHT+IFqYYsM2rMGUiy4YX7UaTF7NtCBy9ybwdgfBPKd11ZbCqkMYHqVBlUahONglj3MfDEkw3vRUg==
+X-Received: by 2002:a5d:464b:0:b0:35f:247e:fbcb with SMTP id ffacd0b85a97d-35f247efda6mr4003276f8f.2.1718124852018;
+        Tue, 11 Jun 2024 09:54:12 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4217f633f2asm111068895e9.28.2024.06.11.09.54.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jun 2024 09:54:11 -0700 (PDT)
+Date: Tue, 11 Jun 2024 18:54:09 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jakub Kicinski <kuba@kernel.org>, David Ahern <dsahern@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>, linux-doc@vger.kernel.org,
+	linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+	Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Andy Gospodarek <andrew.gospodarek@broadcom.com>,
+	Aron Silverton <aron.silverton@oracle.com>,
+	Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>,
+	Leonid Bloch <lbloch@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>, linux-cxl@vger.kernel.org,
+	patches@lists.linux.dev
+Subject: Re: [PATCH 0/8] Introduce fwctl subystem
+Message-ID: <ZmiBMYlJ4q2xPOEY@phenom.ffwll.local>
+References: <0-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
+ <20240603114250.5325279c@kernel.org>
+ <214d7d82-0916-4c29-9012-04590e77df73@kernel.org>
+ <20240604070451.79cfb280@kernel.org>
+ <665fa9c9e69de_4a4e62941e@dwillia2-xfh.jf.intel.com.notmuch>
+ <20240605135911.GT19897@nvidia.com>
+ <Zmhu8egti-URPFoB@phenom.ffwll.local>
+ <20240611161702.GU19897@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240611002145.2078921-1-jthoughton@google.com>
- <20240611002145.2078921-4-jthoughton@google.com> <ZmfnYnm3K_rHX_VB@linux.dev>
-In-Reply-To: <ZmfnYnm3K_rHX_VB@linux.dev>
-From: James Houghton <jthoughton@google.com>
-Date: Tue, 11 Jun 2024 09:52:17 -0700
-Message-ID: <CADrL8HUSOZumE403KF6yjdy5CVkjdDjiGHDwuhOaM7H9Jq5Cjw@mail.gmail.com>
-Subject: Re: [PATCH v5 3/9] KVM: arm64: Relax locking for kvm_test_age_gfn and kvm_age_gfn
-To: Oliver Upton <oliver.upton@linux.dev>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Ankit Agrawal <ankita@nvidia.com>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, David Matlack <dmatlack@google.com>, 
-	David Rientjes <rientjes@google.com>, James Morse <james.morse@arm.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
-	Raghavendra Rao Ananta <rananta@google.com>, Ryan Roberts <ryan.roberts@arm.com>, 
-	Sean Christopherson <seanjc@google.com>, Shaoqin Huang <shahuang@redhat.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Wei Xu <weixugc@google.com>, 
-	Will Deacon <will@kernel.org>, Yu Zhao <yuzhao@google.com>, Zenghui Yu <yuzenghui@huawei.com>, 
-	kvmarm@lists.linux.dev, kvm@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240611161702.GU19897@nvidia.com>
+X-Operating-System: Linux phenom 6.8.9-amd64 
 
-On Mon, Jun 10, 2024 at 10:58=E2=80=AFPM Oliver Upton <oliver.upton@linux.d=
-ev> wrote:
->
-> On Tue, Jun 11, 2024 at 12:21:39AM +0000, James Houghton wrote:
-> > Replace the MMU write locks (taken in the memslot iteration loop) for
-> > read locks.
-> >
-> > Grabbing the read lock instead of the write lock is safe because the
-> > only requirement we have is that the stage-2 page tables do not get
-> > deallocated while we are walking them. The stage2_age_walker() callback
-> > is safe to race with itself; update the comment to reflect the
-> > synchronization change.
-> >
-> > Signed-off-by: James Houghton <jthoughton@google.com>
-> > ---
-> >  arch/arm64/kvm/Kconfig       |  1 +
-> >  arch/arm64/kvm/hyp/pgtable.c | 15 +++++++++------
-> >  arch/arm64/kvm/mmu.c         | 26 ++++++++++++++++++++------
-> >  3 files changed, 30 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/arch/arm64/kvm/Kconfig b/arch/arm64/kvm/Kconfig
-> > index 58f09370d17e..7a1af8141c0e 100644
-> > --- a/arch/arm64/kvm/Kconfig
-> > +++ b/arch/arm64/kvm/Kconfig
-> > @@ -22,6 +22,7 @@ menuconfig KVM
-> >       select KVM_COMMON
-> >       select KVM_GENERIC_HARDWARE_ENABLING
-> >       select KVM_GENERIC_MMU_NOTIFIER
-> > +     select KVM_MMU_NOTIFIER_YOUNG_LOCKLESS
-> >       select HAVE_KVM_CPU_RELAX_INTERCEPT
-> >       select KVM_MMIO
-> >       select KVM_GENERIC_DIRTYLOG_READ_PROTECT
-> > diff --git a/arch/arm64/kvm/hyp/pgtable.c b/arch/arm64/kvm/hyp/pgtable.=
-c
-> > index 9e2bbee77491..b1b0f7148cff 100644
-> > --- a/arch/arm64/kvm/hyp/pgtable.c
-> > +++ b/arch/arm64/kvm/hyp/pgtable.c
-> > @@ -1319,10 +1319,10 @@ static int stage2_age_walker(const struct kvm_p=
-gtable_visit_ctx *ctx,
-> >       data->young =3D true;
-> >
-> >       /*
-> > -      * stage2_age_walker() is always called while holding the MMU loc=
-k for
-> > -      * write, so this will always succeed. Nonetheless, this delibera=
-tely
-> > -      * follows the race detection pattern of the other stage-2 walker=
-s in
-> > -      * case the locking mechanics of the MMU notifiers is ever change=
-d.
-> > +      * This walk may not be exclusive; the PTE is permitted to change
->
-> s/may not/is not/
+On Tue, Jun 11, 2024 at 01:17:02PM -0300, Jason Gunthorpe wrote:
+> On Tue, Jun 11, 2024 at 05:36:17PM +0200, Daniel Vetter wrote:
+> > reliablity/health reporting. That's a lot more vendor specific in nature
+> > and needs to be customized anyway per deployement. And only much higher in
+> > the stack, maybe in k8s, can a technically reasonable unification even
+> > happen.  So again we're much more lenient about infrastructure enabling
+> > and uapi than stuff applications will use directly.
+> 
+> To be clear, this is the specific niche fwctl is for. It is not for
+> GPU command submission or something like that, and as I said to Jiri I
+> would agree to agressively block such abuses.
+>  
+> > Currently that's enough of a mess in drm that I feel like enforcing
+> > something like fwctl is still too much. But maybe once fwctl is
+> > established with other subsystems/devices we can start the conversations
+> > with vendors to get this going a few years down the road.
+> 
+> I wouldn't say enforcing, but instead of having every GPU driver build
+> their own weird vendor'd way to access their debug/diagnostic stuff
+> steer them into fwctl. These data center GPUs with FW at least have
+> lots of appropriate stuff and all the vendor OOT stuff has tooling to
+> inspect the GPUs far more than DRM has code for (ie
+> rocm-smi/nvidia-smi are have some features that are potentially good
+> candidates for fwctl)
 
-Will fix.
+Yeah "enforcing" to the level we do with 3d/vulkan would be years down the
+road, if ever. Very unlikely imo for debug/diagnostics/tuning stuff.
 
->
-> > +      * from under us. If there is a race to update this PTE, then the
-> > +      * GFN is most likely young, so failing to clear the AF is likely
-> > +      * to be inconsequential.
-> >        */
-> >       if (data->mkold && !stage2_try_set_pte(ctx, new))
-> >               return -EAGAIN;
-> > @@ -1345,10 +1345,13 @@ bool kvm_pgtable_stage2_test_clear_young(struct=
- kvm_pgtable *pgt, u64 addr,
-> >       struct kvm_pgtable_walker walker =3D {
-> >               .cb             =3D stage2_age_walker,
-> >               .arg            =3D &data,
-> > -             .flags          =3D KVM_PGTABLE_WALK_LEAF,
-> > +             .flags          =3D KVM_PGTABLE_WALK_LEAF |
-> > +                               KVM_PGTABLE_WALK_SHARED,
-> >       };
-> > +     int r;
-> >
-> > -     WARN_ON(kvm_pgtable_walk(pgt, addr, size, &walker));
-> > +     r =3D kvm_pgtable_walk(pgt, addr, size, &walker);
-> > +     WARN_ON(r && r !=3D -EAGAIN);
->
-> I could've been more explicit last time around, could you please tone
-> this down to WARN_ON_ONCE() as well?
+> > In practice, it doesn't seem to be an issue, at least not beyond the
+> > intentionally pragmatic choices where we merge kernel code with known
+> > sub-par/incomplete userspace. I'm not sure why, but to my knowledge all
+> > attempts to break the spirit of our userspace rules while following the
+> > letter die in vendor-internal discussions, at least for all the
+> > established upstream driver teams.
+> 
+> I think the same is broadly true of RDMA as well, except we don't
+> bother with the kernel trying to police the command stream - direct
+> submission from userspace. I can't say it has been much of an issue.
 
-Will do, thanks.
+Maybe just a bit confusion, but all modern-ish drm drivers stopped parsing
+the command stream a while ago. We only ever did that to fill security
+gaps, never to enforce any rules about what userspace is allowed to do
+beyond that.
 
->
-> >       return data.young;
-> >  }
-> >
-> > diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
-> > index 8bcab0cc3fe9..a62c27a347ed 100644
-> > --- a/arch/arm64/kvm/mmu.c
-> > +++ b/arch/arm64/kvm/mmu.c
-> > @@ -1773,25 +1773,39 @@ bool kvm_unmap_gfn_range(struct kvm *kvm, struc=
-t kvm_gfn_range *range)
-> >  bool kvm_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range)
-> >  {
-> >       u64 size =3D (range->end - range->start) << PAGE_SHIFT;
-> > +     bool young =3D false;
-> > +
-> > +     read_lock(&kvm->mmu_lock);
-> >
-> >       if (!kvm->arch.mmu.pgt)
-> >               return false;
->
-> I'm guessing you meant to have 'goto out' here, since this early return
-> fails to drop the mmu_lock.
+The rule that the open userspace needs to be complete, for some reasonably
+pragmatic definition of "complete", is entirely a social contract. And I'm
+not aware of any real issues with enforcing that beyond just trusting the
+established vendor teams. So yeah no real issues with uabi that allows
+maximal abuse because it's entirely unchecked by the kernel code.
 
-Ah sorry! Thanks for catching this.
+Or put differently, I think we're trying to make the same point.
+
+> > tldr; fwctl as I understand it feels like a bridge to far for drm today,
+> > but I'd very much like someone else to make this happen so we could
+> > eventually push towards adoption too.
+> 
+> Hahah, okay, well, I'm pushing :)
+
+Thanks :-)
+-Sima
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
