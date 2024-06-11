@@ -1,118 +1,127 @@
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wfout2-smtp.messagingengine.com (wfout2-smtp.messagingengine.com [64.147.123.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C63F171095;
-	Tue, 11 Jun 2024 06:51:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6E1F171E74;
+	Tue, 11 Jun 2024 06:54:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718088672; cv=none; b=MAOcEc16MxOTy9IlRHP9ZRNpVW08jhmsOt8FXOAtIwz+ffxUNTf0l33DzN9C4COQsjkrizyQ/malfuoHKinsjD4QQQ/bkKrbD5PAaJYjcXBXm5j2APjCBpCqJp5oZc7wSTdCGj18QopC7b4UXwMaCl8fCwD0aVMm35EJ430wqPY=
+	t=1718088850; cv=none; b=TQQag1sAuu70p5g4tacyfSwXtFpZzrwOPPBiNb76HpKjSpHJm51GysS5gKMS2Z/DxH9zU9SVl1FeVC8ZOjbu7Opgj++HuorclEdAWl9PUTEPZvKrV7pJVk7K2fyKLJciF+ncoK+0rl9c9GpS4NEKRz66iWmPOOk+oBL5IDeNp98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718088672; c=relaxed/simple;
-	bh=rUa3je+zR3hzG/i7MDNkyCbaYObWejZJyObVPHSyKvc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IX3QOhwmY5BxebtdvpEc/yV3qAuSDIK1jAnTB1e3A+OfciVMzWr4rEtHzXBwOCyQ59ek8rjFjXrAXpLh5Rntxsjomu2oNax5fFTKjKBiIfoeg+e9m9YSSIwQ/h6npf2AUYp+b9ZVub5Wxn+eFSRYNmhPLepl6c7s2jcxfDZHZWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gKeUGnWL; arc=none smtp.client-ip=209.85.161.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1718088850; c=relaxed/simple;
+	bh=/4Ld/EHeInmgDF21XSfDl2NsuMw7Ruxj36buTwtcEio=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=GydEx+ZSjG/D2QV8sCuqmsb7UMC4hod7EXyGDPMv9GgMeFVTSzmsJOLzuyrckVsanO4iAwjypagwinDQlEVv/FeFe8OSlD/MHWJjKM8BoWntA5o4TnfHH542IjC3AEbcQiV9hOVr4OyydZiXEUu4E8QjhrFKgZ2wBMvaqdSrPz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kdrag0n.dev; spf=pass smtp.mailfrom=kdrag0n.dev; dkim=pass (2048-bit key) header.d=kdrag0n.dev header.i=@kdrag0n.dev header.b=UMuL3E/t; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=K9pUalFU; arc=none smtp.client-ip=64.147.123.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kdrag0n.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kdrag0n.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gKeUGnWL"
-Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-5b96a781b63so1868538eaf.1;
-        Mon, 10 Jun 2024 23:51:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718088670; x=1718693470; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mpnts+Nh6070QgyEiYohqxq4WT7pXn2sNWuj8PckQXM=;
-        b=gKeUGnWLxDQAtrkK9KYiHAbeRoM1HvYVZcNYhbZUSTm5gD+i7ZfvFnu2+C20L9khAx
-         +alpKjfe8YjgfiYptBMfddyDIxBW0PG+AX+XtcLn3U/5R4FWJUfboy/Q1ZCedGukLqgP
-         BpWq6bKoWOB8QYuB7fovjThW8Fmo5f75PVQoPntGDhlIAQYS46O367Pkdu1dVFIXqaPx
-         qLEt5gYe9i1hD9cMcXzg8rb5+kn17uc07JfFfGq+BnCJG250zxIV5iebJy6Y7auVBmNX
-         SFcp6PuVtQgmXetyZYWsoogfZ0T8J5hVV8STi0ttVONpiizt3gpEB+geady6A8TpFPMg
-         RK0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718088670; x=1718693470;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mpnts+Nh6070QgyEiYohqxq4WT7pXn2sNWuj8PckQXM=;
-        b=wv/EwWGHjS5r3EURALPmUF804c3/5X3ACF5LzVHW0zmbgHojHAym3hSwNv1g8aCApA
-         biawtGYkf7jIL7X7s3AqxOEMH/Q0kbWDKbdC9VfCyw6Zkf6NmQdXEALYmJtauF0kKuxl
-         lsrprzE6ndhKVXvo+QjamwrSN50oIB3dhdYYVhmATxjXQArU1aD0SqYPXQuek1itFTE6
-         uhFfIfNzEX3e4Jcs/0/xqGtXLoMJQglsrDPNZUrvodFscPGjydgQPRhUm2i03q1/mZnD
-         UAykk0zyi2nZRBvkl4JBfDTzw1c/2dprEEPbmsmDPETm15ERWJbgXJ4eTlCVI4mx8k92
-         FuPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVzhvlzwxLedsLdAmpl5gx3WcLelzhcp03cGrA+ISjERm8JEsao5UoaWAiyYdljPNMwOQfCvQOhsKKYb4YAZ9F6e7i4F3gKptkDzT1R67kGvOQG9wlah0JOJobJU8VgHqtloMFmCH7q
-X-Gm-Message-State: AOJu0Yz3lCFo3AGOCwCBkzGfwnliyQVyLlZGvLO+AY0HrR/6+rBnm9vu
-	zfB/s7SR9DMZZSYQaNtTPnk1MZ9JWkpNNStnPGxbgIXTs2BKLsU/9Xn+pONlgUPPm8KKV91KQXT
-	BBRqFzg3L0kfDOu2wikWMw/IN93Q=
-X-Google-Smtp-Source: AGHT+IHsE4jfVydcXURhpGjhqB4eEQmuD0zuPj4fmy0fAJaGVWb8puJbGIexicHThFmTVfvDvurpp8i9ibIRohfxc4A=
-X-Received: by 2002:a05:6820:229c:b0:5bb:1310:5f37 with SMTP id
- 006d021491bc7-5bb131063e5mr3400172eaf.3.1718088670145; Mon, 10 Jun 2024
- 23:51:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kdrag0n.dev header.i=@kdrag0n.dev header.b="UMuL3E/t";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="K9pUalFU"
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.48])
+	by mailfout.west.internal (Postfix) with ESMTP id 70A351C000F7;
+	Tue, 11 Jun 2024 02:54:07 -0400 (EDT)
+Received: from imap50 ([10.202.2.100])
+  by compute7.internal (MEProxy); Tue, 11 Jun 2024 02:54:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kdrag0n.dev; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1718088847;
+	 x=1718175247; bh=I8Cs+PKmoyx6Obnltn4u18ENg+YH1Z3/eoOHhpjV9GM=; b=
+	UMuL3E/tZkxieb5q+rqXq7AHIXFyA3OdWrUCnqyUbylX2ZwI9rPkPBwapWIunl+Z
+	b1uk3UGqO1OkIrx31fm3LcHRoBzDD73CCoYtrNItpEugSInOBgFBC0qMFGliyAL3
+	ZIrWwEbTC1OFypJNbr6DK+bO/PZqG83j5kcqBvh/+XDH2DDl0QzWITPdVZ/2pmZf
+	a6JRSD3TS65r/H6DUHmaCjYwvEWaxN3zIf9bDHnm/kC+DumURyLHwrfU2T9NYyAz
+	vS01TsC6f/1xwvq5sCnMLKTCKqM74yTEm6hdV6bOuCKGZqYOg3ffi1EBmDjnz/rM
+	+u4nAIU3kr2y++H1ScHPjg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1718088847; x=
+	1718175247; bh=I8Cs+PKmoyx6Obnltn4u18ENg+YH1Z3/eoOHhpjV9GM=; b=K
+	9pUalFUaBJYlCJZ/R4LobyJ5gpIxz2Z5GddGz11DDlPkSOge4L3Dl0/CVosYGc4j
+	srBWbFbrQfGMTprauCr3Z26nBOtd7fE1Mn2d/a6eHrIhU2a39cRoRboMsv/cRmhl
+	d+lupYrw69QePzlqhTdNPiIseoedGbW2HjNojX//VVwfvHaLP1ZA/SKjYcM8bSO0
+	d4nBcdAm9zMduIBjCv+1CKkhkoXQCDHc/jelxGEV+/jgctQBMmQa/nayIHgl46cl
+	n/gjphk5M92ISmGkw1CVHO1L+i1VqX1emdolUG1OKY8MJ45xQ/xlAP27nfFXLB/H
+	kXJXCTZ321yR4Hf9S9MRA==
+X-ME-Sender: <xms:jvRnZry1gY1D-TtrW_ncTpM_Mg_r0G6Nq3I758kAvAfhxgBv-pXipg>
+    <xme:jvRnZjRlx6JMEDFbPZDw0PXlszVw9MZAnK6KncLKir3sqVlf_ZA2LWvRFPxnI2Jrc
+    r09VkAImZwJrSljU_Y>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfeduuddguddtlecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedf
+    ffgrnhhnhicunfhinhdfuceouggrnhhnhieskhgurhgrghdtnhdruggvvheqnecuggftrf
+    grthhtvghrnhepjeeiuddtheelueetleehgeefhfeluddugeeliefggeetgefggfekudei
+    hfdvheevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epuggrnhhnhieskhgurhgrghdtnhdruggvvh
+X-ME-Proxy: <xmx:jvRnZlUnI8--qxwVAiETu0u9kBbqPVZByc6ze9AT0sMpa38p_PONuw>
+    <xmx:jvRnZliJjQQXD3ddVPxeJz4xCFBjvRZjp9sNx0PA1m86_hcHmhhvqQ>
+    <xmx:jvRnZtBODEPWszeaIY06kcy2j2ADTYrfKJRFESwe3mhWzXPRUkVC5A>
+    <xmx:jvRnZuIKsyPlQFv5VkzrvyhywLxl_UUfGU7QipXREDF4w_LNWxpMXA>
+    <xmx:j_RnZv0B-HXFfSRCzSBikg4PLNwC7RI_fc_v2GFK_LIYjrSMjoj6dnyn>
+Feedback-ID: i2ee147e6:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id A24BD1700093; Tue, 11 Jun 2024 02:54:06 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-515-g87b2bad5a-fm-20240604.001-g87b2bad5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240611044358.25689-1-dzm91@hust.edu.cn> <1c3c4698-c70f-4b04-ae96-a83c3b9bbc4d@gmail.com>
-In-Reply-To: <1c3c4698-c70f-4b04-ae96-a83c3b9bbc4d@gmail.com>
-From: Dongliang Mu <mudongliangabcd@gmail.com>
-Date: Tue, 11 Jun 2024 14:50:43 +0800
-Message-ID: <CAD-N9QXY8frJmxp+LWM9g2_8UdubzMushMEPGyM9Z-UFEHfN3A@mail.gmail.com>
-Subject: Re: [PATCH] docs/zh_CN: Update the translation of dev-tools/testing-overview
-To: Alex Shi <seakeel@gmail.com>
-Cc: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>, 
-	Yanteng Si <siyanteng@loongson.cn>, Jonathan Corbet <corbet@lwn.net>, 
-	Hu Haowen <2023002089@link.tyut.edu.cn>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Message-Id: <dc9a785c-f8f1-474d-ba49-31de63dc5e8d@app.fastmail.com>
+In-Reply-To: <2024061112-kilogram-poker-bacf@gregkh>
+References: <2024061112-kilogram-poker-bacf@gregkh>
+Date: Mon, 10 Jun 2024 23:53:46 -0700
+From: "Danny Lin" <danny@kdrag0n.dev>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, masahiroy@kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ =?UTF-8?Q?=C3=8D=C3=B1igo_Huguet?= <ihuguet@redhat.com>,
+ =?UTF-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
+ "Vincent Mailhol" <mailhol.vincent@wanadoo.fr>
+Subject: Re: [PATCH] .editorconfig: move to Documentation/ directory
+Content-Type: text/plain;charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 11, 2024 at 2:36=E2=80=AFPM Alex Shi <seakeel@gmail.com> wrote:
->
->
->
-> On 6/11/24 12:43 PM, Dongliang Mu wrote:
-> > Update to commit 42fb9cfd5b18 ("Documentation: dev-tools:
-> > Add link to RV docs")
-> >
-> > Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
-> > ---
-> >  Documentation/translations/zh_CN/dev-tools/testing-overview.rst | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/Documentation/translations/zh_CN/dev-tools/testing-overvie=
-w.rst b/Documentation/translations/zh_CN/dev-tools/testing-overview.rst
-> > index c91f9b60f9f1..d89d0ec1d4cc 100644
-> > --- a/Documentation/translations/zh_CN/dev-tools/testing-overview.rst
-> > +++ b/Documentation/translations/zh_CN/dev-tools/testing-overview.rst
-> > @@ -99,6 +99,8 @@ Documentation/dev-tools/kcov.rst =E6=98=AF=E8=83=BD=
-=E5=A4=9F=E6=9E=84=E5=BB=BA=E5=9C=A8=E5=86=85=E6=A0=B8=E4=B9=8B=E4=B8=AD=EF=
-=BC=8C=E7=94=A8=E4=BA=8E=E5=9C=A8=E6=AF=8F
-> >    =E5=8F=82=E9=98=85 Documentation/dev-tools/kfence.rst
-> >  * lockdep=E6=98=AF=E4=B8=80=E4=B8=AA=E9=94=81=E5=AE=9A=E6=AD=A3=E7=A1=
-=AE=E6=80=A7=E6=A3=80=E6=B5=8B=E5=99=A8=E3=80=82=E5=8F=82=E9=98=85
-> >    Documentation/locking/lockdep-design.rst
-> > +* Runtime Verification (RV) =E6=94=AF=E6=8C=81=E6=A3=80=E6=9F=A5=E7=BB=
-=99=E5=AE=9A=E5=AD=90=E7=B3=BB=E7=BB=9F=E7=9A=84=E7=89=B9=E5=AE=9A=E8=A1=8C=
-=E4=B8=BA=E3=80=82=E5=8F=82=E9=98=85
->
-> Why not translate the words 'Runtime Verification' here?
+On Mon, Jun 10, 2024 at 11:49 PM, Greg Kroah-Hartman wrote:
+> Some editors (like the vim variants), when seeing "trim_whitespace"
+> decide to do just that for all of the whitespace in the file you are
+> saving, even if it is not on a line that you have modified.  This plays
+> havoc with diffs and is NOT something that should be intended.
 
-If you translate it into "=E5=8A=A8=E6=80=81=E7=A1=AE=E8=AE=A4", this sound=
-s like a very general term.
-So I keep the original English.
+If trim_trailing_whitespace is the only rule that has actually been a pr=
+oblem,
+how about removing it and leaving the rest of .editorconfig intact?
+The other rules are still useful to have as defaults.
+
+Thanks,
+Danny
 
 >
-> Thanks!
-> Alex
-> > +  Documentation/trace/rv/runtime-verification.rst=E3=80=82
-> >  * =E9=99=A4=E6=AD=A4=E4=BB=A5=E5=A4=96=EF=BC=8C=E5=9C=A8=E5=86=85=E6=
-=A0=B8=E4=B8=AD=E8=BF=98=E6=9C=89=E4=B8=80=E4=BA=9B=E5=85=B6=E5=AE=83=E7=9A=
-=84=E8=B0=83=E8=AF=95=E5=B7=A5=E5=85=B7=EF=BC=8C=E5=A4=A7=E5=A4=9A=E6=95=B0=
-=E8=83=BD=E5=9C=A8
-> >    lib/Kconfig.debug =E4=B8=AD=E6=89=BE=E5=88=B0=E3=80=82
-> >
+> As the "only trim whitespace on modified files" is not part of the
+> editorconfig standard, just move the whole thing off to the
+> Documentation/ directory so that those that wish to use such a thing c=
+an
+> pick it up from there.
 >
+> Cc: Danny Lin <danny@kdrag0n.dev>
+> Cc: =C3=8D=C3=B1igo Huguet <ihuguet@redhat.com>
+> Cc: Micka=C3=ABl Sala=C3=BCn <mic@digikod.net>
+> Cc: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> ---
+>  .editorconfig =3D> Documentation/.editorconfig | 0
+>  1 file changed, 0 insertions(+), 0 deletions(-)
+>  rename .editorconfig =3D> Documentation/.editorconfig (100%)
+>
+> diff --git a/.editorconfig b/Documentation/.editorconfig
+> similarity index 100%
+> rename from .editorconfig
+> rename to Documentation/.editorconfig
+> --=20
+> 2.45.2
