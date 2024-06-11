@@ -1,62 +1,76 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97EE836D;
-	Tue, 11 Jun 2024 06:36:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 897BA171E43;
+	Tue, 11 Jun 2024 06:49:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718087813; cv=none; b=BCnJDUKtm7Am3QoECGs9d7ZCKebmexDqt/cGmFHvCHG6VUS4TbDhlq4Xu2gQpe116H6LuIMqPZMwz0PtPZL1LTdW1pI7feH3ag88tzTc8P5Q0FFLk7yBRld5s6EZvVm5zcisymc10ibMJv2lMfcKZHVTLEyckecaOXFPhtFENFw=
+	t=1718088559; cv=none; b=Lc0atIvva4U4vrUlladamy+zTNnvbvC2LOWsuNNeAVe6LnUKZP2F04OQoZEtyYQWhtk2B5QDIrMt/sqWU0KRsUs1sTDpTaydA2csN6AcILlw2TfWtRE0ucxN91swkYLHru9zQS9Z+N08W7tyEOvUXx25mxLTEzl1Ul9/Q4gT2/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718087813; c=relaxed/simple;
-	bh=kEYmhqsKfZ6XItxvke50j6y6sh5Pq2ilsON6dHvMVT4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uehRrLEAPNcgmayqn0EPdv8VvSEIj87YiSEhl1XZ559C6/vjS7kvLQkEvNuDRyREpP7jDOqfMb3jFgkb7bvH/KIs+AT0T76Y+k9HzZx0mlL7lgQdR5HVNmieOwiWsTHaWqk5+UmjtSb1gcUTCFD/B49NNZrbYnnY1YHdqhiWGMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=NgeLaY/f; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718088559; c=relaxed/simple;
+	bh=Oo9VKE6v5A+22PRpPP/3nDTU91SX8xn3rk0fzBYXti4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=eLi1AcNmpey7iI57yRTKLer53TAjQ8X0gnbtYYthyW7ki2utSm5gD2z5KRPqVXlJmfsoQ/K8hj9iTcxIhSyT1GhIwDLvLy0ff8QDY5YuraAbI9inYLwLeqDkmGrDLKOJsVZeelMz5u/EnwyqLObUaMzdhu9QK5+MO/b4w1UZ8fQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=UyR1qZfx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NgeLaY/f"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BDBAC2BD10;
-	Tue, 11 Jun 2024 06:36:52 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="UyR1qZfx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7777AC2BD10;
+	Tue, 11 Jun 2024 06:49:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1718087813;
-	bh=kEYmhqsKfZ6XItxvke50j6y6sh5Pq2ilsON6dHvMVT4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NgeLaY/ftYKC8OpraxqEzAj1ZftnM72wRvzEaPcRvaeQPTXDprbDqpACX2s3Ktu5w
-	 iMhacsY79VZmC787SpYwZ3WZ1bGPFZ0yM0EJ5AaSYGmgxI09klxY9baUr7xcmaMX/m
-	 bEbePZpbDgvA/3EAVenfyODU/IrRzD+HLQmli2OM=
-Date: Tue, 11 Jun 2024 08:36:50 +0200
+	s=korg; t=1718088559;
+	bh=Oo9VKE6v5A+22PRpPP/3nDTU91SX8xn3rk0fzBYXti4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=UyR1qZfx0zeP3q/o5r7vOs6rKdHpQX0ggw2JWdLfuiFALrdd+ZNzWvve1MjmAXdGW
+	 PEK5b0+AByNnrW/hyq8A7VBBtB1u2TapmJB0AjI/b9QMNCbrgiT9umpfAUoMON3MBn
+	 q/Cjy/V7XvDyMmxVazAr6n6hbCyHB+VHRvP6A+/c=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Andrew Davis <afd@ti.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, greybus-dev@lists.linaro.org
-Subject: Re: [PATCH] gpiolib: Remove data-less gpiochip_add() function
-Message-ID: <2024061143-petition-precision-ebc9@gregkh>
-References: <20240610135313.142571-1-afd@ti.com>
+To: masahiroy@kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danny Lin <danny@kdrag0n.dev>,
+	=?UTF-8?q?=C3=8D=C3=B1igo=20Huguet?= <ihuguet@redhat.com>,
+	=?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Subject: [PATCH] .editorconfig: move to Documentation/ directory
+Date: Tue, 11 Jun 2024 08:49:13 +0200
+Message-ID: <2024061112-kilogram-poker-bacf@gregkh>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240610135313.142571-1-afd@ti.com>
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1110; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=Oo9VKE6v5A+22PRpPP/3nDTU91SX8xn3rk0fzBYXti4=; b=owGbwMvMwCRo6H6F97bub03G02pJDGnpnzN6b3E3lGSu9U99/nVp6cSnTBnzNHmdVuy9NEnke mLjJIW2jlgWBkEmBlkxRZYv23iO7q84pOhlaHsaZg4rE8gQBi5OAZjIFWeG+VV/Yt8/+no4lNO5 fYpe91W5v+zZDQwL5nHUFrvvbGMoWPfksfCMvWfffhG5AQA=
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 10, 2024 at 08:53:13AM -0500, Andrew Davis wrote:
-> GPIO chips should be added with driver-private data associated with the
-> chip. If none is needed, NULL can be used. All users already do this
-> except one, fix that here. With no more users of the base gpiochip_add()
-> we can drop this function so no more users show up later.
-> 
-> Signed-off-by: Andrew Davis <afd@ti.com>
-> ---
->  Documentation/driver-api/gpio/driver.rst | 5 ++---
->  drivers/staging/greybus/gpio.c           | 2 +-
->  include/linux/gpio/driver.h              | 4 ----
->  3 files changed, 3 insertions(+), 8 deletions(-)
+Some editors (like the vim variants), when seeing "trim_whitespace"
+decide to do just that for all of the whitespace in the file you are
+saving, even if it is not on a line that you have modified.  This plays
+havoc with diffs and is NOT something that should be intended.
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+As the "only trim whitespace on modified files" is not part of the
+editorconfig standard, just move the whole thing off to the
+Documentation/ directory so that those that wish to use such a thing can
+pick it up from there.
+
+Cc: Danny Lin <danny@kdrag0n.dev>
+Cc: Íñigo Huguet <ihuguet@redhat.com>
+Cc: Mickaël Salaün <mic@digikod.net>
+Cc: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Cc: Masahiro Yamada <masahiroy@kernel.org>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ .editorconfig => Documentation/.editorconfig | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename .editorconfig => Documentation/.editorconfig (100%)
+
+diff --git a/.editorconfig b/Documentation/.editorconfig
+similarity index 100%
+rename from .editorconfig
+rename to Documentation/.editorconfig
+-- 
+2.45.2
+
