@@ -1,166 +1,140 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD6040862;
-	Tue, 11 Jun 2024 16:29:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE9DE43AAE
+	for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 16:50:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718123380; cv=none; b=PDsQ6lSkFEN+4kPO1ivlP4tX0P3x9Mibi5BCm5Hibsoi9Z2/pNbm/CqS4W/TR1OXOKD09CIqaD0eRuK0NbcdramFsYFQ4ThBNGSKqnYHHNguSya7IEvwHxbHmyNoPInn29OMmkW0+L/fcrgHHoNoZWHL2fsyD7orVXS5KTGU7Bw=
+	t=1718124640; cv=none; b=X9eDaukhXSiF7SgcRIEEnaY/Xu7iNnQ7JFmB8dtcKB884UAx5ukaY2ad7AU9Gln/NiuTvABM3H3SbsTF0ME4yx2gSIraSc8twqk8tRap8ATYGGTXzxPRCg3IXPpN2dPYxVl/XXFh5vLUP/XbYY2z+jaosenEJ8xe51KH49TR5Qc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718123380; c=relaxed/simple;
-	bh=hmGhqBlLYFKjIhkdShLu8DnQifC7QyeNbKPHY5y8jUc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ri6vSJPoPAENHucUsCn9rEXpDGBDjNxEcE5yMjJZ0hiRp3EqsShTeA3Q6oD++LbnH/h98hot56R72k0p6Lg6cdRElcj2YSJODmzF0eYZkG60Zov+mQC/hyUYG0pPXz0A65LBBSFAlIKWU1B3Ec0AfHZ7+f2baNP16tFR+yBt0HM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FIIKn4CC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718124640; c=relaxed/simple;
+	bh=ud1eQBnt2jG1UKvvjxzK8+sntVYqlePqwphUbWfbcqQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=f0LKS+YJXAPb83cv7To+4LSO4TLrdzWdXUC0J0YP5U12yZ1/KvToQJupHpo3oUUECcWTDh2QyBJlILDvJxsDH1ornDcEmMYVvCF9VXx5CoUXkHpnCnPaubkXjSS2jUCdGx2EDe2reWfthRJIriolIrR25pXnAJWPkwxgVfbKDps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YNu+MZQc; arc=none smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FIIKn4CC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B1FAC2BD10;
-	Tue, 11 Jun 2024 16:29:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718123379;
-	bh=hmGhqBlLYFKjIhkdShLu8DnQifC7QyeNbKPHY5y8jUc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FIIKn4CCQGaVdHYyf4j/HaIkw2TwSecW2j/wp+EkhDZIy6PiDP3rvrF3fgKh8VwWu
-	 +hTHZNGc3TA+9G8fu+PS13SMciC+8ZBDklx/GJhc0srsrK/9ubw49cd9i9easUiDih
-	 9xKu+NkyyS9mq6YDF28OccQ32JdYD9702GmbX5JNAEzCLjn2QefsxANcToHDT/fTJa
-	 YdYYeukCn5x3gON6FoSGjqt5PJ3RFRwnWP0PrOynCuXgcoGBmnvd+5VLeEI1HRcMX9
-	 o21m1mBO3t9RDtfiooHphGJFN0d4eDmNbP5wOCsv3LS/ZuRigAB4E9CV63roVM6ZvR
-	 kpTXgLXRlaraQ==
-Date: Tue, 11 Jun 2024 21:59:36 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jonathan Corbet <corbet@lwn.net>, Nuno Sa <nuno.sa@analog.com>,
-	linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v10 1/6] dmaengine: Add API function
- dmaengine_prep_peripheral_dma_vec()
-Message-ID: <Zmh7cFgKSamZmT4c@matsya>
-References: <20240605110845.86740-1-paul@crapouillou.net>
- <20240605110845.86740-2-paul@crapouillou.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YNu+MZQc"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4400cc0dad1so1111cf.0
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 09:50:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1718124637; x=1718729437; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ud1eQBnt2jG1UKvvjxzK8+sntVYqlePqwphUbWfbcqQ=;
+        b=YNu+MZQcgIrm0zCG3Jv14XK1IEdrEhrZAZ0xQyOSVwkVruaIvgvxITwe1gzMr+h3bq
+         tAIkglRY9ZZSywqkFFzpyWYAOd+6JiY4bFTKwIq4MDjscU7mn9ldDtva2JYzK6f3G0s6
+         dbCKw29LXoB0f1WiHSXwOPE0pY+7fzC2jiUfg782JRh12i+azV8VwlyFIWDLivBcYwb3
+         XT3YueKhACKth9Lz6eCmUpw282X99EaVRmhDOi3ROQDx8F9EloquYpeM9Yc0bVOBJeRG
+         WZTrKOEAq/f0xsQI3aHud0FP5nhz2i02aGuoI62i0HK1K/ii1jMkDCmdInIIJhqlg0Ws
+         AncA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718124637; x=1718729437;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ud1eQBnt2jG1UKvvjxzK8+sntVYqlePqwphUbWfbcqQ=;
+        b=ijTKN7evqBEywRtZ2EBFKIl++pTd/X5Mg4AxFCTWE2fEXuMlj8qlyW7J5BROgQOdpu
+         DQMCYCHF6FPmdoCOxW0rOrJ6RHcSXxN79qI69BJuHqOwh+lrEJuk2XQs6xDIZay0UB80
+         Ianfi9JoO8w7TK+Jw9qpnLY9PaQuiu780U+2nreJ7w/KLdX4x5vaSRxJqxPTYmeAJt/T
+         wJIzXbMmiV8rla/4uI+1ZppzjkPgfiLt7nFtAUfWy7vAhnKfwxDaK0XGoJu22t6Wm4E1
+         UbVuVObGNyZZ6VLRG0JwgZ9tAELvO7JyxLNsWYKYe3p39AHEvb3r7keDmPxyVaVEAfOG
+         OdVg==
+X-Forwarded-Encrypted: i=1; AJvYcCUIODPNonUjsSMhBwTVkzHIvuQ0e+sF75qVi3DHy/SMyGJ6afKFgpX/66XSKialObx6MhZ/FKowMHR62k2kVSlBROOoL1USw7Zd
+X-Gm-Message-State: AOJu0Ywanp7OaQz+LROEfLQjyE5FPGNm+E0zkWj0TYMf7J6/mqZQrXaZ
+	oek1aZUx+HdIiZf6oOzSNCUrEUVxmTuZPkvoEWyFHiKEJOfcANFYCfbtWM9p5Cq+5IfgZmlTz0Q
+	0Ci3GHG9YLxs8MWSy21PbyonSJPNpE4K42K19
+X-Google-Smtp-Source: AGHT+IFTRKU/IN2oUvb5h39ozwdgDveDjgoFuty1h8DKtr2zokbWin06W/kJ4wicF03AaijkmKBkMyI8RF9KtoZUsSE=
+X-Received: by 2002:a05:622a:6103:b0:43e:3833:c5e3 with SMTP id
+ d75a77b69052e-44146f10983mr2981601cf.11.1718124637169; Tue, 11 Jun 2024
+ 09:50:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240605110845.86740-2-paul@crapouillou.net>
+References: <20240611002145.2078921-1-jthoughton@google.com>
+ <20240611002145.2078921-5-jthoughton@google.com> <CAOUHufYGqbd45shZkGCpqeTV9wcBDUoo3iw1SKiDeFLmrP0+=w@mail.gmail.com>
+In-Reply-To: <CAOUHufYGqbd45shZkGCpqeTV9wcBDUoo3iw1SKiDeFLmrP0+=w@mail.gmail.com>
+From: James Houghton <jthoughton@google.com>
+Date: Tue, 11 Jun 2024 09:49:59 -0700
+Message-ID: <CADrL8HVHcKSW3hiHzKTit07gzo36jtCZCnM9ZpueyifgNdGggw@mail.gmail.com>
+Subject: Re: [PATCH v5 4/9] mm: Add test_clear_young_fast_only MMU notifier
+To: Yu Zhao <yuzhao@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Ankit Agrawal <ankita@nvidia.com>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, David Matlack <dmatlack@google.com>, 
+	David Rientjes <rientjes@google.com>, James Morse <james.morse@arm.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+	Raghavendra Rao Ananta <rananta@google.com>, Ryan Roberts <ryan.roberts@arm.com>, 
+	Sean Christopherson <seanjc@google.com>, Shaoqin Huang <shahuang@redhat.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Wei Xu <weixugc@google.com>, 
+	Will Deacon <will@kernel.org>, Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev, 
+	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 05-06-24, 13:08, Paul Cercueil wrote:
-> This function can be used to initiate a scatter-gather DMA transfer,
-> where the address and size of each segment is located in one entry of
-> the dma_vec array.
-> 
-> The major difference with dmaengine_prep_slave_sg() is that it supports
-> specifying the lengths of each DMA transfer; as trying to override the
-> length of the transfer with dmaengine_prep_slave_sg() is a very tedious
-> process. The introduction of a new API function is also justified by the
-> fact that scatterlists are on their way out.
-> 
-> Note that dmaengine_prep_interleaved_dma() is not helpful either in that
-> case, as it assumes that the address of each segment will be higher than
-> the one of the previous segment, which we just cannot guarantee in case
-> of a scatter-gather transfer.
+On Mon, Jun 10, 2024 at 10:34=E2=80=AFPM Yu Zhao <yuzhao@google.com> wrote:
+>
+> On Mon, Jun 10, 2024 at 6:22=E2=80=AFPM James Houghton <jthoughton@google=
+.com> wrote:
+> >
+> > This new notifier is for multi-gen LRU specifically
+>
+> Let me call it out before others do: we can't be this self-serving.
+>
+> > as it wants to be
+> > able to get and clear age information from secondary MMUs only if it ca=
+n
+> > be done "fast".
+> >
+> > By having this notifier specifically created for MGLRU, what "fast"
+> > means comes down to what is "fast" enough to improve MGLRU's ability to
+> > reclaim most of the time.
+> >
+> > Signed-off-by: James Houghton <jthoughton@google.com>
+>
+> If we'd like this to pass other MM reviewers, especially the MMU
+> notifier maintainers, we'd need to design a generic API that can
+> benefit all the *existing* users: idle page tracking [1], DAMON [2]
+> and MGLRU.
+>
+> Also I personally prefer to extend the existing callbacks by adding
+> new parameters, and on top of that, I'd try to consolidate the
+> existing callbacks -- it'd be less of a hard sell if my changes result
+> in less code, not more.
+>
+> (v2 did all these, btw.)
 
-This looks good to me, but is missing Documentation changes for this
-API, pls add that
+I think consolidating the callbacks is cleanest, like you had it in
+v2. I really wasn't sure about this change honestly, but it was my
+attempt to incorporate feedback like this[3] from v4. I'll consolidate
+the callbacks like you had in v2.
 
-> 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> Signed-off-by: Nuno Sa <nuno.sa@analog.com>
-> 
-> ---
-> v3: New patch
-> 
-> v5: Replace with function dmaengine_prep_slave_dma_vec(), and struct
->     'dma_vec'.
->     Note that at some point we will need to support cyclic transfers
->     using dmaengine_prep_slave_dma_vec(). Maybe with a new "flags"
->     parameter to the function?
-> 
-> v7:
->   - Renamed *device_prep_slave_dma_vec() -> device_prep_peripheral_dma_vec();
->   - Added a new flag parameter to the function as agreed between Paul
->     and Vinod. I renamed the first parameter to prep_flags as it's supposed to
->     be used (I think) with enum dma_ctrl_flags. I'm not really sure how that API
->     can grow but I was thinking in just having a bool cyclic parameter (as the
->     first intention of the flags is to support cyclic transfers) but ended up
->     "respecting" the previously agreed approach.
-> 
-> v10:
->   - Add kernel doc to dmaengine_prep_peripheral_dma_vec()
->   - Remove extra flags parameter
-> ---
->  include/linux/dmaengine.h | 33 +++++++++++++++++++++++++++++++++
->  1 file changed, 33 insertions(+)
-> 
-> diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
-> index 752dbde4cec1..9fc03068cabc 100644
-> --- a/include/linux/dmaengine.h
-> +++ b/include/linux/dmaengine.h
-> @@ -160,6 +160,16 @@ struct dma_interleaved_template {
->  	struct data_chunk sgl[];
->  };
->  
-> +/**
-> + * struct dma_vec - DMA vector
-> + * @addr: Bus address of the start of the vector
-> + * @len: Length in bytes of the DMA vector
-> + */
-> +struct dma_vec {
-> +	dma_addr_t addr;
-> +	size_t len;
-> +};
-> +
->  /**
->   * enum dma_ctrl_flags - DMA flags to augment operation preparation,
->   *  control completion, and communicate status.
-> @@ -910,6 +920,10 @@ struct dma_device {
->  	struct dma_async_tx_descriptor *(*device_prep_dma_interrupt)(
->  		struct dma_chan *chan, unsigned long flags);
->  
-> +	struct dma_async_tx_descriptor *(*device_prep_peripheral_dma_vec)(
-> +		struct dma_chan *chan, const struct dma_vec *vecs,
-> +		size_t nents, enum dma_transfer_direction direction,
-> +		unsigned long flags);
->  	struct dma_async_tx_descriptor *(*device_prep_slave_sg)(
->  		struct dma_chan *chan, struct scatterlist *sgl,
->  		unsigned int sg_len, enum dma_transfer_direction direction,
-> @@ -973,6 +987,25 @@ static inline struct dma_async_tx_descriptor *dmaengine_prep_slave_single(
->  						  dir, flags, NULL);
->  }
->  
-> +/**
-> + * dmaengine_prep_peripheral_dma_vec() - Prepare a DMA scatter-gather descriptor
-> + * @chan: The channel to be used for this descriptor
-> + * @vecs: The array of DMA vectors that should be transferred
-> + * @nents: The number of DMA vectors in the array
-> + * @dir: Specifies the direction of the data transfer
-> + * @flags: DMA engine flags
-> + */
-> +static inline struct dma_async_tx_descriptor *dmaengine_prep_peripheral_dma_vec(
-> +	struct dma_chan *chan, const struct dma_vec *vecs, size_t nents,
-> +	enum dma_transfer_direction dir, unsigned long flags)
-> +{
-> +	if (!chan || !chan->device || !chan->device->device_prep_peripheral_dma_vec)
-> +		return NULL;
-> +
-> +	return chan->device->device_prep_peripheral_dma_vec(chan, vecs, nents,
-> +							    dir, flags);
-> +}
-> +
->  static inline struct dma_async_tx_descriptor *dmaengine_prep_slave_sg(
->  	struct dma_chan *chan, struct scatterlist *sgl,	unsigned int sg_len,
->  	enum dma_transfer_direction dir, unsigned long flags)
-> -- 
-> 2.43.0
+Instead of the bitmap like you had, I imagine we'll have some kind of
+flags argument that has bits like MMU_NOTIFIER_YOUNG_CLEAR,
+MMU_NOTIFIER_YOUNG_FAST_ONLY, and other ones as they come up. Does
+that sound ok?
 
--- 
-~Vinod
+Do idle page tracking and DAMON need this new "fast-only" notifier? Or
+do they benefit from a generic API in other ways? Sorry if I missed
+this from some other mail.
+
+I've got feedback saying that tying the definition of "fast" to MGLRU
+specifically is helpful. So instead of MMU_NOTIFIER_YOUNG_FAST_ONLY,
+maybe MMU_NOTIFIER_YOUNG_LRU_GEN_FAST to mean "do fast-for-MGLRU
+notifier". It sounds like you'd prefer the more generic one.
+
+Thanks for the feedback -- I don't want to keep this series lingering
+on the list, so I'll try and get newer versions out sooner rather than
+later.
+
+[3]: https://lore.kernel.org/linux-mm/Zl5LqcusZ88QOGQY@google.com/
+
+>
+> [1] https://docs.kernel.org/admin-guide/mm/idle_page_tracking.html
+> [2] https://www.kernel.org/doc/html/latest/mm/damon/index.html
