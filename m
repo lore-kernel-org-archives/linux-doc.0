@@ -1,89 +1,166 @@
-Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B05F3BB48
-	for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 16:27:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD6040862;
+	Tue, 11 Jun 2024 16:29:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718123275; cv=none; b=qFXwlZQfJ8tMGsRLShh5tfNg9uHFeGoD16uCnYS+O5v5KOXeqrfp4qwOmLCSBxE1Sw1W1qt+fPtQUYkrKu+qj/v9xTLt0ofiS4CBu2FqdB/mBgeEtzHBAj/vHIYrlU/Mw0wJW+GSteqbvTlofqKmnuI8pnIyZQboCW88Ov2kSFk=
+	t=1718123380; cv=none; b=PDsQ6lSkFEN+4kPO1ivlP4tX0P3x9Mibi5BCm5Hibsoi9Z2/pNbm/CqS4W/TR1OXOKD09CIqaD0eRuK0NbcdramFsYFQ4ThBNGSKqnYHHNguSya7IEvwHxbHmyNoPInn29OMmkW0+L/fcrgHHoNoZWHL2fsyD7orVXS5KTGU7Bw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718123275; c=relaxed/simple;
-	bh=MGp0DQZa5WkAK57TrA5QegfsQz0WdtsMvA+SLqt36t8=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=PsAdwAD003zzjaxypc2iorGKYrfxXcS2y4AYCnEdAnC68RmwaY6/RyG/hNB0MEV1ue07k9VsdyHOdhBnpd5UPl/RLk6wvw5J1dei5Ir5DpWi/vHVaYQ23T+tPbV0mEuhoymWJojIQNYEnaLt2oKiFOFfgv1uOzDKNY9Pg3ZiaKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ztgaOMwM; arc=none smtp.client-ip=209.85.128.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1718123380; c=relaxed/simple;
+	bh=hmGhqBlLYFKjIhkdShLu8DnQifC7QyeNbKPHY5y8jUc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ri6vSJPoPAENHucUsCn9rEXpDGBDjNxEcE5yMjJZ0hiRp3EqsShTeA3Q6oD++LbnH/h98hot56R72k0p6Lg6cdRElcj2YSJODmzF0eYZkG60Zov+mQC/hyUYG0pPXz0A65LBBSFAlIKWU1B3Ec0AfHZ7+f2baNP16tFR+yBt0HM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FIIKn4CC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ztgaOMwM"
-Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-62f3c5f5bf7so4350027b3.0
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 09:27:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718123273; x=1718728073; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gBtW/SN1QDzI5d7VyA1ik4cNSwUHhHulrBvovSa6A18=;
-        b=ztgaOMwMbt0o4QBqLWkG4JkS3Qd9nNuhatvB/h9aC1ShHFelaWEA7iNTBKgcg6zgKz
-         mUyawT0kRhuhUuecAdpeHR0Y+z0hi5pFZvAu9BiTj/NOZ99g89BQRdneQf5kIbqA6SYZ
-         UTdEMyyO8HIDfb0/me94gLDsTsP92ZVAyQRR6sEjhmo0/XqAiK9PEmO0LN98mtgqQuo8
-         QRWWboP8LFE+i1lfA5YfNiCPhIvKsmh6H7imktgEmbSjvRMyyVOM+fQg0U9dPTh62XsL
-         EKyLYAYo+oFQNmeD0CibwiRCxnT2hE82heRar6njbCLsLP4iigNC9MwG+3v1Iy8uaC4N
-         TKcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718123273; x=1718728073;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=gBtW/SN1QDzI5d7VyA1ik4cNSwUHhHulrBvovSa6A18=;
-        b=MYOSLe7WhRjZkwIUw7GhVI7A9dGHZj/HGTuLNUi34Ff0yggwPq7Kw/ULYP7fqtkb5C
-         Y10+hwF90dU5M3V2ORKx/24qvhLSii7D9JsUQFVPl17Sogr9VLwN4aZzUqt4CqKaLVKq
-         Bsy0AUBXEPCzIxFMy1/kbxePoUB/aFnY6ipwhzNcrQ8i9O1akW+xwjbKjDAQbVCx2H/E
-         AhfO3Mui8pPv+Iw0gPcwiWvv93nHq+nh6tysPvutVm740Xqk/038nS9A9YlVbyAxlz+N
-         CZ8KrRowLS3OAvdQ5ik9SI8IhY4fuzFUAebbZjxfKEBeexqA6nVD41eWw3vHrMQc8Sbg
-         3rmA==
-X-Forwarded-Encrypted: i=1; AJvYcCWsFipFn0F6aY0YVTzSvMOCtkSGY5UjawLGV5wC+czCnrogmJ/TpHqOUL7X52/tRbfXDlNO4eXTNHvrZnWOBgzmbulkiUsdETcs
-X-Gm-Message-State: AOJu0YwTYybWsOtoFpqegNJQyI/6tGdjWQSJLhbQeu2RzBcohZTkZ/ec
-	2XV9aJdLqCQlTXO1sLJj/skpb3hVD7PuF7EkyAeY99+KG8LblR5Lcdz31doaiTGRlk8oLSWcekB
-	L5A==
-X-Google-Smtp-Source: AGHT+IFuhSWhkkj9LM8bxMHFkgYcBA/KjivjCRMjaZYzuBPm7Zi4XO4A5opP2YbmYnoSgdSpD3lgFd2vIpk=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:690c:6681:b0:62d:48f:30e8 with SMTP id
- 00721157ae682-62d048f3220mr19313147b3.1.1718123273373; Tue, 11 Jun 2024
- 09:27:53 -0700 (PDT)
-Date: Tue, 11 Jun 2024 09:27:51 -0700
-In-Reply-To: <171754327022.2778929.14475719898493728460.b4-ty@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FIIKn4CC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B1FAC2BD10;
+	Tue, 11 Jun 2024 16:29:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718123379;
+	bh=hmGhqBlLYFKjIhkdShLu8DnQifC7QyeNbKPHY5y8jUc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FIIKn4CCQGaVdHYyf4j/HaIkw2TwSecW2j/wp+EkhDZIy6PiDP3rvrF3fgKh8VwWu
+	 +hTHZNGc3TA+9G8fu+PS13SMciC+8ZBDklx/GJhc0srsrK/9ubw49cd9i9easUiDih
+	 9xKu+NkyyS9mq6YDF28OccQ32JdYD9702GmbX5JNAEzCLjn2QefsxANcToHDT/fTJa
+	 YdYYeukCn5x3gON6FoSGjqt5PJ3RFRwnWP0PrOynCuXgcoGBmnvd+5VLeEI1HRcMX9
+	 o21m1mBO3t9RDtfiooHphGJFN0d4eDmNbP5wOCsv3LS/ZuRigAB4E9CV63roVM6ZvR
+	 kpTXgLXRlaraQ==
+Date: Tue, 11 Jun 2024 21:59:36 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Paul Cercueil <paul@crapouillou.net>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>, Nuno Sa <nuno.sa@analog.com>,
+	linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v10 1/6] dmaengine: Add API function
+ dmaengine_prep_peripheral_dma_vec()
+Message-ID: <Zmh7cFgKSamZmT4c@matsya>
+References: <20240605110845.86740-1-paul@crapouillou.net>
+ <20240605110845.86740-2-paul@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20231116133628.5976-1-clopez@suse.de> <20240424105616.29596-1-clopez@suse.de>
- <171754327022.2778929.14475719898493728460.b4-ty@google.com>
-Message-ID: <Zmh7B4QImxUxMb6F@google.com>
-Subject: Re: [PATCH v3] KVM: X86: improve documentation for KVM_CAP_X86_BUS_LOCK_EXIT
-From: Sean Christopherson <seanjc@google.com>
-To: linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, "Carlos =?utf-8?B?TMOzcGV6?=" <clopez@suse.de>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240605110845.86740-2-paul@crapouillou.net>
 
-On Tue, Jun 04, 2024, Sean Christopherson wrote:
-> On Wed, 24 Apr 2024 12:56:18 +0200, Carlos L=C3=B3pez wrote:
-> > Improve the description for the KVM_CAP_X86_BUS_LOCK_EXIT capability,
-> > fixing a few typos, grammarm and clarifying the purpose of the ioctl.
-> >=20
-> >=20
->=20
-> Applied to kvm-x86 generic, thanks!
->=20
-> [1/1] KVM: X86: improve documentation for KVM_CAP_X86_BUS_LOCK_EXIT
->       https://github.com/kvm-x86/linux/commit/d3f673c86c5b
+On 05-06-24, 13:08, Paul Cercueil wrote:
+> This function can be used to initiate a scatter-gather DMA transfer,
+> where the address and size of each segment is located in one entry of
+> the dma_vec array.
+> 
+> The major difference with dmaengine_prep_slave_sg() is that it supports
+> specifying the lengths of each DMA transfer; as trying to override the
+> length of the transfer with dmaengine_prep_slave_sg() is a very tedious
+> process. The introduction of a new API function is also justified by the
+> fact that scatterlists are on their way out.
+> 
+> Note that dmaengine_prep_interleaved_dma() is not helpful either in that
+> case, as it assumes that the address of each segment will be higher than
+> the one of the previous segment, which we just cannot guarantee in case
+> of a scatter-gather transfer.
 
-FYI, I moved this to `kvm-x86 misc` to avoid a merge conflict down the road=
-.
+This looks good to me, but is missing Documentation changes for this
+API, pls add that
 
-[1/1] KVM: x86: Improve documentation for KVM_CAP_X86_BUS_LOCK_EXIT
-      https://github.com/kvm-x86/linux/commit/508f0c7bf6d5
+> 
+> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> Signed-off-by: Nuno Sa <nuno.sa@analog.com>
+> 
+> ---
+> v3: New patch
+> 
+> v5: Replace with function dmaengine_prep_slave_dma_vec(), and struct
+>     'dma_vec'.
+>     Note that at some point we will need to support cyclic transfers
+>     using dmaengine_prep_slave_dma_vec(). Maybe with a new "flags"
+>     parameter to the function?
+> 
+> v7:
+>   - Renamed *device_prep_slave_dma_vec() -> device_prep_peripheral_dma_vec();
+>   - Added a new flag parameter to the function as agreed between Paul
+>     and Vinod. I renamed the first parameter to prep_flags as it's supposed to
+>     be used (I think) with enum dma_ctrl_flags. I'm not really sure how that API
+>     can grow but I was thinking in just having a bool cyclic parameter (as the
+>     first intention of the flags is to support cyclic transfers) but ended up
+>     "respecting" the previously agreed approach.
+> 
+> v10:
+>   - Add kernel doc to dmaengine_prep_peripheral_dma_vec()
+>   - Remove extra flags parameter
+> ---
+>  include/linux/dmaengine.h | 33 +++++++++++++++++++++++++++++++++
+>  1 file changed, 33 insertions(+)
+> 
+> diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
+> index 752dbde4cec1..9fc03068cabc 100644
+> --- a/include/linux/dmaengine.h
+> +++ b/include/linux/dmaengine.h
+> @@ -160,6 +160,16 @@ struct dma_interleaved_template {
+>  	struct data_chunk sgl[];
+>  };
+>  
+> +/**
+> + * struct dma_vec - DMA vector
+> + * @addr: Bus address of the start of the vector
+> + * @len: Length in bytes of the DMA vector
+> + */
+> +struct dma_vec {
+> +	dma_addr_t addr;
+> +	size_t len;
+> +};
+> +
+>  /**
+>   * enum dma_ctrl_flags - DMA flags to augment operation preparation,
+>   *  control completion, and communicate status.
+> @@ -910,6 +920,10 @@ struct dma_device {
+>  	struct dma_async_tx_descriptor *(*device_prep_dma_interrupt)(
+>  		struct dma_chan *chan, unsigned long flags);
+>  
+> +	struct dma_async_tx_descriptor *(*device_prep_peripheral_dma_vec)(
+> +		struct dma_chan *chan, const struct dma_vec *vecs,
+> +		size_t nents, enum dma_transfer_direction direction,
+> +		unsigned long flags);
+>  	struct dma_async_tx_descriptor *(*device_prep_slave_sg)(
+>  		struct dma_chan *chan, struct scatterlist *sgl,
+>  		unsigned int sg_len, enum dma_transfer_direction direction,
+> @@ -973,6 +987,25 @@ static inline struct dma_async_tx_descriptor *dmaengine_prep_slave_single(
+>  						  dir, flags, NULL);
+>  }
+>  
+> +/**
+> + * dmaengine_prep_peripheral_dma_vec() - Prepare a DMA scatter-gather descriptor
+> + * @chan: The channel to be used for this descriptor
+> + * @vecs: The array of DMA vectors that should be transferred
+> + * @nents: The number of DMA vectors in the array
+> + * @dir: Specifies the direction of the data transfer
+> + * @flags: DMA engine flags
+> + */
+> +static inline struct dma_async_tx_descriptor *dmaengine_prep_peripheral_dma_vec(
+> +	struct dma_chan *chan, const struct dma_vec *vecs, size_t nents,
+> +	enum dma_transfer_direction dir, unsigned long flags)
+> +{
+> +	if (!chan || !chan->device || !chan->device->device_prep_peripheral_dma_vec)
+> +		return NULL;
+> +
+> +	return chan->device->device_prep_peripheral_dma_vec(chan, vecs, nents,
+> +							    dir, flags);
+> +}
+> +
+>  static inline struct dma_async_tx_descriptor *dmaengine_prep_slave_sg(
+>  	struct dma_chan *chan, struct scatterlist *sgl,	unsigned int sg_len,
+>  	enum dma_transfer_direction dir, unsigned long flags)
+> -- 
+> 2.43.0
+
+-- 
+~Vinod
