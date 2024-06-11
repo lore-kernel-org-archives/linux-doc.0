@@ -1,285 +1,192 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C22A43AD5
-	for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 18:13:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE99E4F5F9;
+	Tue, 11 Jun 2024 18:15:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718129589; cv=none; b=tAPQm8xU8AlVBDyLT7Ihuffc758ffMgGHjBeC58OKVIdWzPKyQPONkxchFWyo1K8vBkqH/QvUisy0CijvylpeOiKe4MLPHjwplv5HClEuNY1bHKRw2fX91u1iFnK129nHaV2MsxQuEHtlCbSAsmPhDEQEEynMY/vk+gbidmYg48=
+	t=1718129718; cv=none; b=bHRPgJ4HicIZQAJNTOfpgHfyrHcGOGMiGXmmCtHZpVoPCUBubx7lrwGp+fL2hHWnCYIdcddmJw+/m4TtWAG8nIKUAvd5D5yO9Ojn4ShwEmJNf1wpTNtAs9S3zwxgyBlVPFSYwFZ2aWxLrehZMloVLvEV0Ej2mqNfXID9lt7zwI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718129589; c=relaxed/simple;
-	bh=vCFN9DbXeYqnfHdOtYGCDSbVXeeLGnkorizhFNNPcD8=;
+	s=arc-20240116; t=1718129718; c=relaxed/simple;
+	bh=6ter9A29iljt2p01SMea/YwvMQNBAtZ/t4eQ1aElSTg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=d13qTbpluGNoTPi7+OOCv7NV09+PpwRSzJVSEuqX1838f898h/s4XQfNtITcDFRojihlYkzdKLpsN5cNzioROc8pNTmUlzClKcz+6hO0HmGuljSsZGDDb4sTJAPmQ/5Hu7kNfTff1lGSt+XJv/jp4Vz1oJcmKwuqaTz4HyspihY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wGG0wpqU; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=KBPyPqgi05xSB69AiZcOQUceDp+OIOYXiCO4KH1/HhA9u0PCojWOKQDmJtdunqCHJLV/en8LouqmCJtmfa5BpCh/jkYD3MeWUfmoqJ5Svyh0mWpFtSOKH825XUddbvJo/DIqOmXR7p/gJWFFFEaG9RLOXDD5ZSgak95ASgCawpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BL6/IoVb; arc=none smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wGG0wpqU"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-35f24fabb81so2143782f8f.3
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 11:13:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BL6/IoVb"
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-62a08091c2bso18855197b3.0;
+        Tue, 11 Jun 2024 11:15:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718129586; x=1718734386; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1718129716; x=1718734516; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YhMpc/bkyf85hQ35VDvGcznVMmv9iMFVbkxrvyl/q1o=;
-        b=wGG0wpqU/ssghpz/Xb6BLKTfGjiSjw+rBYCDQE3FhuVP1f7iI+xTD24DJ4dQ8mIFDg
-         pTrV4AYNqD0/WYJsW23wmP7VYiYr5ERfI2vcoeg0iKFUXkgbdp0ZSjMj3reD4YvN8/9g
-         UV98Ug0nRsW4sJ6mcEunVZlWYSux0liIyTH/sb8foNpXj7wbPXUH5EUZZZMuqV7PJpDN
-         zui3w6bpykWBstAWkBWtxcVglWgAn5JWJdLV/7HTcxJ9LWDLgqsSnqaUGOab7DmPG+uW
-         Vapd3fiR1Pd/2EA14GpFRpS+nY+rXpvB9uc25aBsEXtxyXK6nbMAIjfIcFISoD/DCht7
-         hmng==
+        bh=14f966zVBiKsoEm0nil8946zXnPreZZGrr2tPrKZ4I4=;
+        b=BL6/IoVbKoHzElZ3hLmJiwI3SaVIJbBP9NJ3xskgfbQdbQLO1kur/yhFgGH6vLErNN
+         JGtUoxycC13sPM/2a86Ehrpe3bvZamNwHQxeO/iTdvn6x2zfoggXhkWL76zUiYMfiVrU
+         BuNAcbTF6jvOAGcRwKReuFXju5ddcsO+fWPhjsGAQnPs6OxQwBXbqkJibn4wdDcUOs9Y
+         3v/7oYfCV3oQqNd2z+1hAovYc858kWxcMAyQT8ddW8omDc29F6Vd71V078S2d/KrMERT
+         YAD9FNrofEDg0bsSUZr/ZGTUZc6dlmdRBmqo4drqtwNZNhvtIL1a7wXm2gj/7b9nDMwY
+         HPFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718129586; x=1718734386;
+        d=1e100.net; s=20230601; t=1718129716; x=1718734516;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YhMpc/bkyf85hQ35VDvGcznVMmv9iMFVbkxrvyl/q1o=;
-        b=U+qOJXRkq/xezOPcL/uaFh9WMmsotz+cS10c6l6IObyg2H0y6nzMHu6N4yv9d/9k7v
-         a2/0si5VkNHDHD7SbPXUbY8uROGGY+/MfztxMe3ueixY/yxTXfKmNb1qBh/6we9rPQxu
-         VFeaXnk5mkkjgcT29wFtyZ+pfiobNkpmy5cPcaGappB617nurAATvxUiLxzQinhNkngN
-         TaffQ0XhAO/XuDsVRRuqebJkbzfx4/c/ju7vYdoSyPzNxKF0JCF9eR7edWI/m0hzhhhH
-         fDVHzz60s1QbZtpdNuvNreTRasjFKpz1kD3VXdUnH9PzMlTUBaPXsQi8o/1+3hQJCrSd
-         o1rA==
-X-Forwarded-Encrypted: i=1; AJvYcCVSzqMfQYTSiluEAn5/bfr+/+5tT+8MLFoOJehPxtmzy8cB4Xr7VDMIuE5Yl9gWoR2RNZ5eIwCcxUKUuf9ZxBZekcOp/PO4sWF2
-X-Gm-Message-State: AOJu0Ywu+pNhq3g5UWAq+aUa3gFZnD3Gi0yv+Z8Y6pZ7pck4c1WVhvDY
-	LKZ8vdAK8vvOEAQa2uW5gmFjc9ZGkz6efpA5fliPHSIgheg/kPl6I4G3uP7T66+LB0by0xcmigJ
-	gLBpRSfyCx9IEtkVOEX5e/yTN1fkHtlGzC2l3
-X-Google-Smtp-Source: AGHT+IFmvmy9iswgqOLOcDOP/y32JIWT7KzVxafuZ88HvWc86Q6Y1lF5Pfz2SbEHPCwQueonamIu49Xyo62slcy4wk8=
-X-Received: by 2002:a05:6000:e81:b0:35f:1c34:adfc with SMTP id
- ffacd0b85a97d-35f1c34bddamr5036095f8f.67.1718129585417; Tue, 11 Jun 2024
- 11:13:05 -0700 (PDT)
+        bh=14f966zVBiKsoEm0nil8946zXnPreZZGrr2tPrKZ4I4=;
+        b=BOT+rMn1f4YH4+LkmELcR6Meu83jILlMTcGhAarScqqeEzA1GtHK5tTu9aOImvmEXk
+         jsuQcJpjA2BjJAJQ31Pd29M0KrBTxR4SSNC0+PDEOQJ5nKnFqH9bKjhWIYr4Oak8vGYf
+         Yexb6xqQztATq5eLwwMonPaOy3lMYVXz6mlkcDgGtxv7nOCWNWyZssVRoKty0KLx9Svx
+         jt8rek8J/U4SbqPY6zLDIxLqm8Khix6fztObkHFy/HP0TavsUFpNHtLJrKOEEpkwam0D
+         pGoE6mvSnd6jeRf4pmXBuHaYSbOFFVAdjk0+o1yxKxriiln5mxkVWLhlTUhmBK0iaQGh
+         YH5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVLJb32fEgvk6KON9dvuzmQ8vstWkmI9ivWBrFMTxc/niRSYC4CKLK8aGF/sz+1IcUAWziQVW9Y5ZnOii0nNFXFh3R4z3Is24Z0VKpn7CxrTwun8tdHZUShdGinXo1Rcv46glASB5Xk
+X-Gm-Message-State: AOJu0YzK9NfuqRjDVaP4JLKg26rxKcJNzNK2ZOh8BmI/ViNMrxG7/pTZ
+	6rco0b3YIiZLsdgOo6kcj31HxxajOox4NXxGpl43E+Nds1gSdKOnzekeAOe2C86esue65+NtvQW
+	jQb4keF94XRgGO49mW3Qubipn23M=
+X-Google-Smtp-Source: AGHT+IGJQzKrUtwgpXTD2YBmrKy4KAaGfAg2+NxxIhvC+ziLy+gmkCGfvVZN1Osa98tYSGutnyTwYZh+/tJEx0weIaw=
+X-Received: by 2002:a81:4f87:0:b0:627:df2a:6306 with SMTP id
+ 00721157ae682-62cd55e0bb4mr127824657b3.21.1718129715813; Tue, 11 Jun 2024
+ 11:15:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240531213439.2958891-1-jiaqiyan@google.com> <21841726-6427-5a92-a3d1-8aac2687c01a@huawei.com>
- <CACw3F52Ws2R-7kBbo29==tU=FOV=8aiWFZH2aL2DS_5nuTGO=w@mail.gmail.com>
- <2738aa0e-99d8-44d7-ac81-e38fd64591b7@oracle.com> <CACw3F50rh08o0hAG1rSfUnuJ3wezjCa8_ZE4rUGRUntUfx+-OQ@mail.gmail.com>
- <f446406d-7739-4367-ac68-0a3f30c04612@oracle.com>
-In-Reply-To: <f446406d-7739-4367-ac68-0a3f30c04612@oracle.com>
-From: Jiaqi Yan <jiaqiyan@google.com>
-Date: Tue, 11 Jun 2024 11:12:51 -0700
-Message-ID: <CACw3F53489qhO+B9oxJhzwd7U_-w=GSO7AH_tbRb6fzjzovuKg@mail.gmail.com>
-Subject: Re: [PATCH v1 0/3] Userspace controls soft-offline HugeTLB pages
-To: Jane Chu <jane.chu@oracle.com>
-Cc: Miaohe Lin <linmiaohe@huawei.com>, naoya.horiguchi@nec.com, 
-	akpm@linux-foundation.org, shuah@kernel.org, corbet@lwn.net, 
-	osalvador@suse.de, rientjes@google.com, duenwen@google.com, fvdl@google.com, 
-	linux-mm@kvack.org, linux-kselftest@vger.kernel.org, 
-	linux-doc@vger.kernel.org, muchun.song@linux.dev, 
-	Kefeng Wang <wangkefeng.wang@huawei.com>
+References: <20240608155316.451600-1-flintglass@gmail.com> <20240608155316.451600-3-flintglass@gmail.com>
+ <CAJD7tkZAkzUfbXY3C0QOGqCyjQZeiuGzkZac4hmogOoh=yoZsw@mail.gmail.com>
+In-Reply-To: <CAJD7tkZAkzUfbXY3C0QOGqCyjQZeiuGzkZac4hmogOoh=yoZsw@mail.gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Tue, 11 Jun 2024 11:15:05 -0700
+Message-ID: <CAKEwX=O4VEfO8f+GFDW_LL_=Ne6xgFEby2E+dxamhXKbFj0VAg@mail.gmail.com>
+Subject: Re: [PATCH v1 2/3] mm: zswap: fix global shrinker error handling logic
+To: Yosry Ahmed <yosryahmed@google.com>
+Cc: Takero Funaki <flintglass@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 11, 2024 at 10:55=E2=80=AFAM Jane Chu <jane.chu@oracle.com> wro=
-te:
->
-> On 6/10/2024 3:55 PM, Jiaqi Yan wrote:
->
-> > Thanks for your feedback, Jane!
-> >
-> > On Mon, Jun 10, 2024 at 12:41=E2=80=AFPM Jane Chu <jane.chu@oracle.com>=
+On Mon, Jun 10, 2024 at 1:28=E2=80=AFPM Yosry Ahmed <yosryahmed@google.com>=
  wrote:
-> >> On 6/7/2024 3:22 PM, Jiaqi Yan wrote:
-> >>
-> >>> On Tue, Jun 4, 2024 at 12:19=E2=80=AFAM Miaohe Lin <linmiaohe@huawei.=
-com> wrote:
-> >>>> On 2024/6/1 5:34, Jiaqi Yan wrote:
-> >>>>> Correctable memory errors are very common on servers with large
-> >>>>> amount of memory, and are corrected by ECC, but with two
-> >>>>> pain points to users:
-> >>>>> 1. Correction usually happens on the fly and adds latency overhead
-> >>>>> 2. Not-fully-proved theory states excessive correctable memory
-> >>>>>      errors can develop into uncorrectable memory error.
-> >>>> Thanks for your patch.
-> >>> Thanks Miaohe, sorry I missed your message (Gmail mistakenly put it i=
-n
-> >>> my spam folder).
-> >>>
-> >>>>> Soft offline is kernel's additional solution for memory pages
-> >>>>> having (excessive) corrected memory errors. Impacted page is migrat=
-ed
-> >>>>> to healthy page if it is in use, then the original page is discarde=
-d
-> >>>>> for any future use.
-> >>>>>
-> >>>>> The actual policy on whether (and when) to soft offline should be
-> >>>>> maintained by userspace, especially in case of HugeTLB hugepages.
-> >>>>> Soft-offline dissolves a hugepage, either in-use or free, into
-> >>>>> chunks of 4K pages, reducing HugeTLB pool capacity by 1 hugepage.
-> >>>>> If userspace has not acknowledged such behavior, it may be surprise=
-d
-> >>>>> when later mmap hugepages MAP_FAILED due to lack of hugepages.
-> >>>> For in use hugetlb folio case, migrate_pages() is called. The hugetl=
-b pool
-> >>>> capacity won't be modified in that case. So I assume you're referrin=
-g to the
-> >>> I don't think so.
-> >>>
-> >>> For in-use hugetlb folio case, after migrate_pages, kernel will
-> >>> dissolve_free_hugetlb_folio the src hugetlb folio. At this point
-> >>> refcount of src hugetlb folio should be zero already, and
-> >>> remove_hugetlb_folio will reduce the hugetlb pool capacity (both
-> >>> nr_hugepages and free_hugepages) accordingly.
-> >>>
-> >>> For the free hugetlb folio case, dissolving also happens. But CE on
-> >>> free pages should be very rare (since no one is accessing except
-> >>> patrol scrubber).
-> >>>
-> >>> One of my test cases in patch 2/3 validates my point: the test case
-> >>> MADV_SOFT_OFFLINE a mapped page and at the point soft offline
-> >>> succeeds, both nr_hugepages and nr_freepages are reduced by 1.
-> >>>
-> >>>> free hugetlb folio case? The Hugetlb pool capacity is reduced in tha=
-t case.
-> >>>> But if we don't do that, we might encounter uncorrectable memory err=
-or later
-> >>> If your concern is more correctable error will develop into more
-> >>> severe uncorrectable, your concern is absolutely valid. There is a
-> >>> tradeoff between reliability vs performance (availability of hugetlb
-> >>> pages), but IMO should be decided by userspace.
-> >>>
-> >>>> which will be more severe? Will it be better to add a way to compens=
-ate the
-> >>>> capacity?
-> >>> Corner cases: What if finding physically contiguous memory takes too
-> >>> long? What if we can't find any physically contiguous memory to
-> >>> compensate? (then hugetlb pool will still need to be reduced).
-> >>>
-> >>> If we treat "compensate" as an improvement to the overall soft offlin=
-e
-> >>> process, it is something we can do in future and it is something
-> >>> orthogonal to this control API, right? I think if userspace explicitl=
-y
-> >>> tells kernel to soft offline, then they are also well-prepared for th=
-e
-> >>> corner cases above.
-> >>>
-> >>>>> In addition, discarding the entire 1G memory page only because of
-> >>>>> corrected memory errors sounds very costly and kernel better not
-> >>>>> doing under the hood. But today there are at least 2 such cases:
-> >>>>> 1. GHES driver sees both GHES_SEV_CORRECTED and
-> >>>>>      CPER_SEC_ERROR_THRESHOLD_EXCEEDED after parsing CPER.
-> >>>>> 2. RAS Correctable Errors Collector counts correctable errors per
-> >>>>>      PFN and when the counter for a PFN reaches threshold
-> >>>>> In both cases, userspace has no control of the soft offline perform=
-ed
-> >>>>> by kernel's memory failure recovery.
-> >>>> Userspace can figure out the hugetlb folio pfn range by using `page-=
-types -b huge
-> >>>> -rlN` and then decide whether to soft offline the page according to =
-it. But for
-> >>>> GHES driver, I think it has to be done in the kernel. So add a contr=
-ol in /sys/
-> >>>> seems like a good idea.
-> >>> Thanks.
-> >>>
-> >>>>> This patch series give userspace the control of soft-offlining
-> >>>>> HugeTLB pages: kernel only soft offlines hugepage if userspace has
-> >>>>> opt-ed in for that specific hugepage size, and exposed to userspace
-> >>>>> by a new sysfs entry called softoffline_corrected_errors under
-> >>>>> /sys/kernel/mm/hugepages/hugepages-${size}kB directory:
-> >>>>> * When softoffline_corrected_errors=3D0, skip soft offlining for al=
-l
-> >>>>>     hugepages of size ${size}kB.
-> >>>>> * When softoffline_corrected_errors=3D1, soft offline as before thi=
-s
-> >>>> Will it be better to be called as "soft_offline_corrected_errors" or=
- simplify "soft_offline_enabled"?
-> >>> "soft_offline_enabled" is less optimal as it can't be extended to
-> >>> support something like "soft offline this PFN if something repeatedly
-> >>> requested soft offline this exact PFN x times". (although I don't
-> >>> think we need it).
-> >> The "x time" thing is a threshold thing, and if your typical applicati=
-on
-> >> needs to have a say about performance(and maintaining physically
-> >> contiguous memory) over RAS, shouldn't that be baked into the driver
-> >> rather than hugetlbfs ?
-> > I mostly agree, only that I want to point out the threshold has
-> > already been maintained by some firmware. For example, CPER has
-> > something like the following defined in UEFI Spec Table N.5: Section
-> > Descriptor:
+>
+> On Sat, Jun 8, 2024 at 8:53=E2=80=AFAM Takero Funaki <flintglass@gmail.co=
+m> wrote:
 > >
-> >    Bit 3 - Error threshold exceeded: If set, OS may choose to discontin=
-ue
-> >    use of this resource.
+> > This patch fixes zswap global shrinker that did not shrink zpool as
+> > expected.
 > >
-> > In this case, I think "enable_soft_offline" is a better name for "OS
-> > choose to discontinue use of this page" (enable_soft_offline=3D1) or no=
-t
-> > (enable_soft_offline=3D0). WDYT?
->
-> Yes, as long as enable_soft_offline=3D1 is the default. Out of thought, I
-
-For sure, like this patcheset, I will ensure enable_soft_offline keeps
-the "default on" behavior.
-
-> suppose the CE count and threshold can be retrieved by the GHES driver?
-
-Unfortunately GHES doesn't have visibility to CE count and threshold
-value (RAS Correctable Errors Collector does by itself) . GHES driver
-only knows it from the CPER_SEC_ERROR_THRESHOLD_EXCEEDED bit in the
-CPER reported by some firmware.
-
-> I haven't checked. If so, maybe another way is to implement a per task
-> CE threshold: add a new field.ce_thresholdto the tsak struct, add a
-> function to prctl(2) for a user thread to specify a CE threshold, also a
-> function to retrieve the firmware defined default CE threshold, and let
-> soft_offline_page() check against the task->ce_threshold to decide
-> whether to offline the page. If you want to apply the CE threshold to
-> patrol scrub triggered soft offline, than you could define a
-> global/system wide CE threshold. That said, this might be an overblown
-> to what you need, I'm just letting it out there for the sake of brain
-> storming.
-
-Thanks for your great idea! But yeah, it sounds like an overkill for
-the current problem. I think starting with OS-wide control of whether
-to soft offline any page already gives much better flexibility to
-userspace.
-
->
+> > The issue it addresses is that `shrink_worker()` did not distinguish
+> > between unexpected errors and expected error codes that should be
+> > skipped, such as when there is no stored page in a memcg. This led to
+> > the shrinking process being aborted on the expected error codes.
 > >
-> >> Also, I am not comfortable with this being hugetlbfs specific. What is
-> >> the objection to creating a "soft_offline_enabled" switch that is
-> >> applicable to any user page size?
-> > I have no objection to making the "soft_offline_enabled" switch to
-> > apply to anything (hugetlb, transparent hugepage, raw page, etc). The
-> > only reason my current patch is hugetlb specific is because
-> > softoffline behavior is very disruptive in the hugetlb 1G page case,
-> > and I want to start with a limited scope in my first attempt.
+> > The shrinker should ignore these cases and skip to the next memcg.
+> > However,  skipping all memcgs presents another problem. To address this=
+,
+> > this patch tracks progress while walking the memcg tree and checks for
+> > progress once the tree walk is completed.
 > >
-> > If Miaohe, you, and other people are fine with making it applicable to
-> > any user pages, maybe a better interface for this could be at
-> > something like /sys/devices/system/memory/enable_soft_offline
-> > (location-wise close to /sys/devices/system/memory/soft_offline_page)?
->
-> Or, you could use /proc/sys/vm/enable_soft_offline, side by side with
-> the existing 'memory_failure_early_kill' and 'memory_failure_recovery'
-> switches.
-
-I was actually looking into this better option, but your reply beats me ;)
-
->
-> You could also make 'enable_soft_offline' a per process option, similar
-> to 'PR_MCE_KILL_EARLY' in prctl(2).*
-> *
->
-> thanks,
->
-> -jane
->
+> > To handle the empty memcg case, the helper function `shrink_memcg()` is
+> > modified to check if the memcg is empty and then return -ENOENT.
 > >
-> >> thanks,
-> >>
-> >> -jane
-> >>
-> >>> softoffline_corrected_errors is one char less, but if you insist,
-> >>> soft_offline_corrected_errors also works for me.
-> >>>
-> >>>> Thanks.
-> >>>> .
-> >>>>
+> > Fixes: a65b0e7607cc ("zswap: make shrinking memcg-aware")
+> > Signed-off-by: Takero Funaki <flintglass@gmail.com>
+> > ---
+> >  mm/zswap.c | 31 ++++++++++++++++++++++++++-----
+> >  1 file changed, 26 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/mm/zswap.c b/mm/zswap.c
+> > index d720a42069b6..1a90f434f247 100644
+> > --- a/mm/zswap.c
+> > +++ b/mm/zswap.c
+> > @@ -1393,7 +1393,7 @@ static struct shrinker *zswap_alloc_shrinker(void=
+)
+> >
+> >  static int shrink_memcg(struct mem_cgroup *memcg)
+> >  {
+> > -       int nid, shrunk =3D 0;
+> > +       int nid, shrunk =3D 0, stored =3D 0;
+> >
+> >         if (!mem_cgroup_zswap_writeback_enabled(memcg))
+> >                 return -EINVAL;
+> > @@ -1408,9 +1408,16 @@ static int shrink_memcg(struct mem_cgroup *memcg=
+)
+> >         for_each_node_state(nid, N_NORMAL_MEMORY) {
+> >                 unsigned long nr_to_walk =3D 1;
+> >
+> > +               if (!list_lru_count_one(&zswap_list_lru, nid, memcg))
+> > +                       continue;
+> > +               ++stored;
+> >                 shrunk +=3D list_lru_walk_one(&zswap_list_lru, nid, mem=
+cg,
+> >                                             &shrink_memcg_cb, NULL, &nr=
+_to_walk);
+> >         }
+> > +
+> > +       if (!stored)
+> > +               return -ENOENT;
+> > +
+>
+> Can't we just check nr_to_walk here and return -ENOENT if it remains as 1=
+?
+>
+> Something like:
+>
+> if (nr_to_walk)
+>     return -ENOENT;
+> if (!shrunk)
+>     return -EAGAIN;
+> return 0;
+>
+> >         return shrunk ? 0 : -EAGAIN;
+> >  }
+> >
+> > @@ -1418,12 +1425,18 @@ static void shrink_worker(struct work_struct *w=
+)
+> >  {
+> >         struct mem_cgroup *memcg =3D NULL;
+> >         struct mem_cgroup *next_memcg;
+> > -       int ret, failures =3D 0;
+> > +       int ret, failures =3D 0, progress;
+> >         unsigned long thr;
+> >
+> >         /* Reclaim down to the accept threshold */
+> >         thr =3D zswap_accept_thr_pages();
+> >
+> > +       /*
+> > +        * We might start from the last memcg.
+> > +        * That is not a failure.
+> > +        */
+> > +       progress =3D 1;
+> > +
+> >         /* global reclaim will select cgroup in a round-robin fashion.
+> >          *
+> >          * We save iteration cursor memcg into zswap_next_shrink,
+> > @@ -1461,9 +1474,12 @@ static void shrink_worker(struct work_struct *w)
+> >                  */
+> >                 if (!memcg) {
+> >                         spin_unlock(&zswap_shrink_lock);
+> > -                       if (++failures =3D=3D MAX_RECLAIM_RETRIES)
+> > +
+> > +                       /* tree walk completed but no progress */
+> > +                       if (!progress && ++failures =3D=3D MAX_RECLAIM_=
+RETRIES)
+> >                                 break;
+>
+> It seems like we may keep iterating the entire hierarchy a lot of
+> times as long as we are making any type of progress. This doesn't seem
+> right.
+>
+
+Ah actually, reading your comment closer then yeah the
+shrink-until-accept is the intended-ish behavior (from Domenico's
+older patches to re-work zswap reclaim). The one-page-per-attempt is
+also "intended" behavior, but not any of our's intentions - just
+something that remains from the past implementation as we rework this
+codebase one change at a time :)
