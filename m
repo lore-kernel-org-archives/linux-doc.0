@@ -1,102 +1,117 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941477F49B
-	for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 20:07:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 070E51509A6
+	for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 20:27:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718136466; cv=none; b=qfEIsdTOEJklSYEcEboTo3A7TayG1JYRyzaydSSO/M+kQUjKiO0UXZAYKEawoc0zNzqKo6o0/4YQYzt8wLsA7qi/qQ7YRwmXLpV7xf9Qvlbu3RLMYfIwW0yD5gk0yfVt7T4YaXGyoTYvgfgG84QwhJHMFCEAFQv0XRrG+5/hS04=
+	t=1718137676; cv=none; b=Rv3M61BZ4UKK7lkmbf05iUpiEYiFtoDQphqoBacb4SWp3uUiCu3ESSbeh2Dm/K+ngJQpUM4J6Y+z3tonoDfsgwB+55ZQ1qbUHWuxDwF5ben8JJv+sv8g6NRB/Dz9H1sKbqF9uztXvVW8lgxPHJEgGfUOyzoExbhcopIqvzfqfXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718136466; c=relaxed/simple;
-	bh=uReg+kfZth5tCK460EQJnSZ/+0Rb0enkBQQFyijfOd4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UYLY96ib3ij64P5HCiaebAzeiIBzGfpkPdTlRHTFUfJSv5LHavgfmzvnfLsyU+hUi+pNoAkSNy32cu8mYtRdxBtY7XIZkxEZ6ZzRNhfAif/U12qGbFF4l0hIOtzLf/nc4Ft9onwWjVLSm8l6paqH+/4ifQ3xRvPuw8Yqni8eP+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=JjJRGOyU; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1718137676; c=relaxed/simple;
+	bh=ugUCm9Yr68u8EX9EKbsRWgLfIOOy1JUUSq6pq9fS/gc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ckE8N6QThbS9L1h9RyAStoM8jY2Bw/AsWM846vnGTXYiqzreAumgoJSgeMXHQeuuE71ZZQrJdrfbGSTXS+juQSQQmqXgWe14IIRG6U5YK8Sfjvq+HVWqdiRzxHqwXRND74pmfEv5kjFb4GsROhP58D5cpR2eGSKksEsla4hiOuk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=KXdwrwqc; arc=none smtp.client-ip=209.85.219.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="JjJRGOyU"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-354be94c874so1087590f8f.3
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 13:07:44 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="KXdwrwqc"
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dfb38841f83so302730276.3
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 13:27:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1718136463; x=1718741263; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Dp0SmRihTKvCwUxjNzXPLTei6TKKBMfz5Eth2lbQK94=;
-        b=JjJRGOyU/hYfzxIUW2CWR7Va/LY7E0yRivBhjC4rpIvttPrnvL5/l5xSFkS5VhFA6m
-         snDNXnkDToWPpYzBtbxdh4nZiYsNV2bID9GlaaZ/Q65630pgG1XGFUWxUSRErudWLWgN
-         1fskKtVvIgxCIG8UHa3h3vuhAEwFTvNc6EEZfVKBew647s9hr1JtzDQ/3+AWY2hjeBm6
-         sZxXlff1s1jl8emZv+34HI3Ds2yyt2PBNfg7UuvrVZMVi5xcfzD4aJ8Mnxf9LDcbXnsc
-         VEN9mRJxFTaoYCUHeRuUIoSdSlX/vbabiUbzPDnZC55ko0EFVUxcbLf582vHlLFWDRVn
-         X3+Q==
+        d=linuxfoundation.org; s=google; t=1718137674; x=1718742474; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=th6eKAq/LATBnFfZ8l1OQ1G8HtkktsMhv2cX9FNr94k=;
+        b=KXdwrwqcCk5M6iChGThNz+ZKUxbkCpNfhpt17o6xLSYtIVnfdMW0SmceNSwOmSeFI1
+         a1F48Q1Rqa6qvDfCyeJ4oLySMBN5LyIaRs5B5jsIQF3SYuU636z5E5tMUIBXuTW/c9oG
+         pA/jpipkotPZcy5RcG3cOukp//cCtHuzaiFEk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718136463; x=1718741263;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Dp0SmRihTKvCwUxjNzXPLTei6TKKBMfz5Eth2lbQK94=;
-        b=IN75Z53hQCo2WiXA/aIe5Ik63Gz0ftJxXHVDPx4ZRzStoDXsI57oVv/1H5IOhTawLT
-         /mktzPlAp+3MwrrFR85Cnpc7j47ZrA7AiozB5haeKxn8L+pKbvzvIndWDfVAVVyqeWz4
-         xd5uME+bQEWn9QcSSNr12ie9Vh4Dsve+mn3SUsc9SwFQKrzy+Qh5z5k9FdswKvli+8OP
-         2/3T4lFIGdn041Db6qIvyhG3tz0LiNYiSv2YQ7kXP0XzIq0m9gUc0WD8YQIflHdeKowZ
-         jSuhkEfywQt3rhr9K9RrLY0qE3jMUWzimOhI2PYuc7NnDLwb7UkCASZQgEiZUPI4C9sR
-         uu5g==
-X-Forwarded-Encrypted: i=1; AJvYcCVBEHCDZjgG2ZOrY6LBCudsFysf/i1DkY8Vkw6tcy3h/M9XI7oj8g73rO7v4RWeBPLasaAn0gBM22IWEsuwr5rmbKwsQV2jUZEz
-X-Gm-Message-State: AOJu0YyDMD1bK6k0drm2qhRxternWNc3b8SKeKA3S1+wJKiYO9XEO4HT
-	TUbrnl9SqdJJRHMWbxT8eirl6/MyhHlfKaT2t8WncMLaRFXwuWYokeLEN9zXz3k=
-X-Google-Smtp-Source: AGHT+IEoQVgdK2bkmsXiS1d4mTtefIV7rHj4TW1pDs5MtgccfcO59X76nJJ3KtYzp7W9fGwE8bVGRg==
-X-Received: by 2002:a5d:67c6:0:b0:35f:c8d:3a25 with SMTP id ffacd0b85a97d-35f0c8d3b63mr8979277f8f.30.1718136462904;
-        Tue, 11 Jun 2024 13:07:42 -0700 (PDT)
-Received: from brgl-uxlite.home ([2a01:cb1d:75a:e000:38d:e428:e1bc:56b7])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35f2f67b5b8sm1919562f8f.12.2024.06.11.13.07.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jun 2024 13:07:42 -0700 (PDT)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-To: Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Davis <afd@ti.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	greybus-dev@lists.linaro.org
-Subject: Re: [PATCH] gpiolib: Remove data-less gpiochip_add() function
-Date: Tue, 11 Jun 2024 22:07:40 +0200
-Message-ID: <171813645457.70902.8503975086996719219.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240610135313.142571-1-afd@ti.com>
-References: <20240610135313.142571-1-afd@ti.com>
+        d=1e100.net; s=20230601; t=1718137674; x=1718742474;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=th6eKAq/LATBnFfZ8l1OQ1G8HtkktsMhv2cX9FNr94k=;
+        b=JIZa+1Hcp1f+XZeuAu/lUI5tHdzvTukFDbLkbj4mv3qILYpyNJNk35mJQQs7symM/3
+         DyUztHjdW/fDvgZHcey0EpqT3eNU4DTLNwkmXC0JOmZK4hW8CCQZw9Aswa4PSYBcWPCC
+         NQFxk63IzT8o7CYb3SgzZ3012kCf5C0z6BLgdySGOrv4BBjMXGzrXFjhhZLSry+zEsCs
+         L8v9D05Re3/DejHw9OPKLqsTTqmxehW3DEvXu0mG2eLIJ85NOyGaosLPT5gRDhNw7XEu
+         DkGq9I+bE4iM97xUSL3J2qiRz3ezVLJxZ1AzFPcppz6A1fszoI3jBcCkzRJEkFkEZGHU
+         09zA==
+X-Forwarded-Encrypted: i=1; AJvYcCWh9OcrrKHjtEyUE/hX3TqJNBDlTIGzlht4ZVf/twYBe3sFUJgS4yAa/E2LcdDUcc4Z9oKqv2jy5CKpcvK4K9qPvX2Ej+fb3nXu
+X-Gm-Message-State: AOJu0YwW0ohYiPZAlcIEO01pn4f4qw9KVWsNGKLGi/5V/WBPu1liebOL
+	nfaegaQqJ0YGvmS/VSM+y5q5rWiyXjQnZ1+Y1RkQIW+CeqRRHe7CM0Nw7Khbwy4=
+X-Google-Smtp-Source: AGHT+IGTW02Hlw4hL7bwC4c8R5pzfb1VoGT9mdqeIkhRdG7AQbO2+vTAHG0mI8vT422bk0QHPx7l6w==
+X-Received: by 2002:a05:6902:b27:b0:dfa:6f65:f068 with SMTP id 3f1490d57ef6-dfaf64befe7mr10269563276.2.1718137673572;
+        Tue, 11 Jun 2024 13:27:53 -0700 (PDT)
+Received: from [172.20.14.19] (ool-6c3a3e1d.static.optonline.net. [108.58.62.29])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6b06cd275b7sm38092216d6.62.2024.06.11.13.27.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Jun 2024 13:27:53 -0700 (PDT)
+Message-ID: <1f46ef8d-2435-4c73-88b0-f954d685d1a9@linuxfoundation.org>
+Date: Tue, 11 Jun 2024 14:27:52 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] selftests: Add information about TAP conformance in tests
+To: Muhammad Usama Anjum <usama.anjum@collabora.com>,
+ Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: kernel@collabora.com, linux-kselftest@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20240610083245.1938001-1-usama.anjum@collabora.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20240610083245.1938001-1-usama.anjum@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-
-
-On Mon, 10 Jun 2024 08:53:13 -0500, Andrew Davis wrote:
-> GPIO chips should be added with driver-private data associated with the
-> chip. If none is needed, NULL can be used. All users already do this
-> except one, fix that here. With no more users of the base gpiochip_add()
-> we can drop this function so no more users show up later.
+On 6/10/24 02:32, Muhammad Usama Anjum wrote:
+> Although "TAP" word is being used already in documentation, but it hasn't
+> been defined in informative way for developers that how to write TAP
+> conformant tests and what are the benefits. Write a short brief about it.
 > 
+> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
+> ---
+>   Documentation/dev-tools/kselftest.rst | 8 ++++++++
+>   1 file changed, 8 insertions(+)
 > 
+> diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
+> index dcf634e411bd9..b579f491f3e97 100644
+> --- a/Documentation/dev-tools/kselftest.rst
+> +++ b/Documentation/dev-tools/kselftest.rst
+> @@ -228,6 +228,14 @@ In general, the rules for selftests are
+>    * Don't cause the top-level "make run_tests" to fail if your feature is
+>      unconfigured.
+>   
+> + * The output of tests must conform to the TAP standard to ensure high
+> +   testing quality and to capture failures/errors with specific details.
+> +   The kselftest.h and kselftest_harness.h headers provide wrappers for
+> +   outputting test results such as pass, fail, or skip etc. These wrappers
+> +   should be used instead of reinventing the wheel or using raw printf and
 
-Applied, thanks!
+When there are multiple tests supported by a test suite, it doesn't
+make sense to convert every single print statement. That is the reason
+why we have the run_tests wrapper that prints the summary in TAP format.
 
-[1/1] gpiolib: Remove data-less gpiochip_add() function
-      commit: 3ff1180a39fbc43ae69d4238e6922c57e3278910
+I would rephrase this to say "should be used for pass, fail, exit, and
+skip messages".
 
-Best regards,
--- 
-Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+This rule is applicable to only the tests that are in the selftests Makefile
+and included in the default run.
+
+There is no need to convert every single print statement in tests.
+
+> +   exit statements. CI systems can easily parse TAP output messages to
+> +   detect test failures.
+
+I would rather see people spending energy writing new tests and fixing
+warnings. TAP conversions need to be focused if they add value.
+
+thanks,
+-- Shuah
