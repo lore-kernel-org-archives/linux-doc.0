@@ -1,66 +1,66 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486DB178CE8
-	for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 10:50:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E82DF178385
+	for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 10:51:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718103054; cv=none; b=dvOOV71ZDsPF9lsk8RKNUYDzYiFkwN3EcHR4nedO0Zf6+ESchSbZibGjPX8ZFssRJzgb8YjXXb+7fiIFP+zLvuc6ndjnJpTfWePH33NzWY3XMt2ROCtH5mOBqBHlxUnG2jJFQ0ULPxlCvKSd6VR6MxK9hJhkdyYJKJpAV/DHsks=
+	t=1718103095; cv=none; b=bolPdcxVLT/lBb7vuojxSMkarCa8Shp5qva9yuSEG/XVwPqAY30YAa38aPkPFPNYT5LrV6e6UTd/UtflOFonwzarVXd6gBSXBFW9H/dbyBEAODW7mtljymA26VhzyI4fMfmIo7NceaGV41zi5BHZYAx2zLkgfP9SEvgyiqHtARg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718103054; c=relaxed/simple;
-	bh=gEu3DeLm/Cj4KzSje6vtm9+JuOx5buAoruQTENtwymU=;
+	s=arc-20240116; t=1718103095; c=relaxed/simple;
+	bh=5jokJu+77cTy9PlFn2+XS0YSs6Y+O/ThgQSZEKuYE/E=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hzW9eFj2BZ9hxVVt20LL/trc+6kO1LCf98iXtM9ntziuf8qts6Zm9uNzfgEttU9WmNjIdgHdqEeH//7U/3nEZ6Qz5LCHlN1b7L9MpW8c300mCmTiwPiANnq1x/4ClXLrsFhwJ7q/njvGee/pIXDUdCu64n/I9Vm2eQ1UaANziKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fwlDQo2n; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=pb6z1Ws9azyb/4+STW9sGYilfEoCfrrZbDKNIm1l2bmdhDdPqNK+QAqsMrR+VU1LFASgTzLCtq8vDESD8gwDxaPVmEU1MRYUGXab2AA//dr6Aj723eQD4sOD/gyKmhJ3ULgJFFNvLY9ZbkH0vzbmDPMLjYToK57fzeCwy6t/HxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=THmFfIos; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fwlDQo2n"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="THmFfIos"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1718103051;
+	s=mimecast20190719; t=1718103092;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=3ysdFsrtDcDxrPLWReLHv5ssrGeZHQvSPRbBF339uAA=;
-	b=fwlDQo2n354FCwVJLEo+hK85AsqxtkHoU1/+Oo9HseEAyXc5qr6NAf1PVHK5/YTFza6wxr
-	uAuytm9Hlu6JrAPk3mrmNXFfnStpJrhyuhKeAZa+iKmUuaEhvn0uJBllzWzbIqrlCeHGTg
-	7NtlRu2KNM1aj+6T51T2nDH1Y8eFfwI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=xJzyOstj03OACQiOW3AK8lHNiLSnxNoCbEIihZoOnH0=;
+	b=THmFfIosxHn1ld/5HpdKltPzh6Mu1hQRya5P+GoZfHpIgijemIklyfcWpOXpp01s17URf3
+	drx/aoEh4SqAxycNRww1kNbYBjdA97z6f0f9PiirNZttnU39JuAFCnGkG9wnEGUWbnYBPl
+	CN/8j2iQl8T/Jm022dp8DOD8uX0zovk=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-626-jfmDfNsDMLeoxsGroEwVyg-1; Tue, 11 Jun 2024 06:50:50 -0400
-X-MC-Unique: jfmDfNsDMLeoxsGroEwVyg-1
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-421805fadadso18140575e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 03:50:49 -0700 (PDT)
+ us-mta-475-RAySA0f0OrSv7VVlt7SB4g-1; Tue, 11 Jun 2024 06:51:31 -0400
+X-MC-Unique: RAySA0f0OrSv7VVlt7SB4g-1
+Received: by mail-lj1-f200.google.com with SMTP id 38308e7fff4ca-2ea892f8441so7016011fa.1
+        for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 03:51:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718103049; x=1718707849;
+        d=1e100.net; s=20230601; t=1718103090; x=1718707890;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=3ysdFsrtDcDxrPLWReLHv5ssrGeZHQvSPRbBF339uAA=;
-        b=F5v+lTdUGNfqD9P98qw9UuOieRBf2Mmf9H1oi1ijqBJI44GABwYuBODwGRAdZZrGLH
-         H/DK+a75Yb2mlgSNS/3oKLDTtLw79+fROAQ+vK6jEiyilaNAbg6dMDn6BSHeMKPl/QE2
-         iA9DIJSW+MImovWi/98Typ1y8Gu86gYQAHHw06/XU4sMdXyT+llwduT/7FuZ7gLbLrYr
-         K9WDj/4ReL9eOhvunFyigpELvL5HkSQZk9DxZka8EVC2H83onm0V7p8qwbiL37mdFiHr
-         SSjb3D5FzR+nM05unNfOkk7/sU7Cy53uNdT600gzvd/ce6uGZ/+8p4/mGcbIXZOjlSxr
-         xr8g==
-X-Forwarded-Encrypted: i=1; AJvYcCXtax8N96HepFt4Xt/lbJJbDg/4MH90wqqnE5POu2rlrYKd6C7eKyZtfztslzsb6HWxJj9SeFW7Y5LBSwwvNUwEHRcJxQa9tElM
-X-Gm-Message-State: AOJu0YxzgrQ8ueWbDxdxBxrhbp7d8gZ0fWLMHfBElnXs0tSKvP09s6IE
-	qI8hWPUpZ7Wr3Y+HF7RBzSlYHUpaaPD6gYqUtHaT6Ls8shHISAuIy06gwJr7XjJ9d6N/dcXH5RG
-	t6HakiaLUZVc5QglreJgGV0zqdyTt2VPo5sHpaYRBXN0sKHM0MKQy7x5C9GlR8trcaA==
-X-Received: by 2002:a5d:5254:0:b0:35f:159e:5ec2 with SMTP id ffacd0b85a97d-35f159e6186mr5609434f8f.39.1718103048825;
-        Tue, 11 Jun 2024 03:50:48 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFXDhdkA/eYdpilHthDuW6/sqyY7YL810c3QO5B5dWAJ2pffJ1e96n0xCMflbdVhb7aOmh/NA==
-X-Received: by 2002:a5d:5254:0:b0:35f:159e:5ec2 with SMTP id ffacd0b85a97d-35f159e6186mr5609419f8f.39.1718103048419;
-        Tue, 11 Jun 2024 03:50:48 -0700 (PDT)
+        bh=xJzyOstj03OACQiOW3AK8lHNiLSnxNoCbEIihZoOnH0=;
+        b=nmoBr9y+ePMa+JEKIYmBLdLnqdasxMN+iVGbaxXU41LCuu1RLc+tnBiws6TfkD5YE3
+         V8DsqRbT6G/zMY0EwTyL/Fda5R8xyDcGrs5fJY0N+dIygiJdkKRVbepevR8b3vkgR9bH
+         Mxbvz3zcPSyxB9J+v7727pAD2tV3e2jM1zuquZpkT5OvDMGhE0dhvAvDBksPikaD8U3S
+         8Ox0xZ2YPl7IDoUk46mBpkiZTAX4fkLg7TUvLE0jDA8wRbpnKPAj9Z/UlRV/XY4oW/Jq
+         Na322k+hVoAkoqB8GqPWS4SdmcOuR8KoGsYPhRf7Dvce8mpl9++mM18kpo4U/EhHORgo
+         NzJw==
+X-Forwarded-Encrypted: i=1; AJvYcCUK5b9aNREr0mrJ7GYiwm1oVji1uxoIQwCnmdOcXkHk6X8TpDodw0RrIFWPyIE7Ryob5WKb79YdAGJK/yJDOCAk76YOvZYBHUq9
+X-Gm-Message-State: AOJu0YyOILh8SlN/tFGrMNqOTZ3LJAg2WbPrp5VRk0gfpC6AZ1MKHLG3
+	9CpYh86zd3HzL1vH3hkaTr0bB5nL1bqh/+/TiSWJBBsJfuBNrBwIynuNvGBle/BTxjXR/ekfEOA
+	FL0rN5ohqnHgwDTt8ys1Qfr0TeotPqxngup6HmzqtbiFf5xUgq36WArj/ew==
+X-Received: by 2002:a2e:968e:0:b0:2ea:eb13:daca with SMTP id 38308e7fff4ca-2eaeb13dc4bmr56084761fa.47.1718103089992;
+        Tue, 11 Jun 2024 03:51:29 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEI8M5WVGO1DoLzk1IMAmgEjhphAqPWfsq/oAwYotOI1b9XdZDhhbZgyW9zoL+yWdPtjk0DYA==
+X-Received: by 2002:a2e:968e:0:b0:2ea:eb13:daca with SMTP id 38308e7fff4ca-2eaeb13dc4bmr56084601fa.47.1718103089490;
+        Tue, 11 Jun 2024 03:51:29 -0700 (PDT)
 Received: from ?IPV6:2003:cb:c748:ba00:1c00:48ea:7b5a:c12b? (p200300cbc748ba001c0048ea7b5ac12b.dip0.t-ipconnect.de. [2003:cb:c748:ba00:1c00:48ea:7b5a:c12b])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35ef5d2e73dsm13674969f8f.16.2024.06.11.03.50.47
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-35f1b1cc3e6sm7980702f8f.34.2024.06.11.03.51.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jun 2024 03:50:48 -0700 (PDT)
-Message-ID: <2b912e12-8289-4ce8-99bb-103a289a23cb@redhat.com>
-Date: Tue, 11 Jun 2024 12:50:46 +0200
+        Tue, 11 Jun 2024 03:51:25 -0700 (PDT)
+Message-ID: <48d71064-b9a4-49dd-b933-e9891982e1c2@redhat.com>
+Date: Tue, 11 Jun 2024 12:51:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -76,7 +76,8 @@ Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>
 References: <20240607122357.115423-1-david@redhat.com>
  <20240607122357.115423-3-david@redhat.com>
- <ZmaFxfQX3AVMIVkp@localhost.localdomain>
+ <ZmaDSQZlAl7Jb-wi@localhost.localdomain>
+ <Zmf5NdeKewGEhYLI@localhost.localdomain>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -124,48 +125,21 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <ZmaFxfQX3AVMIVkp@localhost.localdomain>
+In-Reply-To: <Zmf5NdeKewGEhYLI@localhost.localdomain>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10.06.24 06:49, Oscar Salvador wrote:
-> On Fri, Jun 07, 2024 at 02:23:53PM +0200, David Hildenbrand wrote:
->> Relying on the mapcount for non-present PTEs that reference pages
->> doesn't make any sense: they are not accounted in the mapcount, so
->> page_mapcount() == 1 won't return the result we actually want to know.
->>
->> While we don't check the mapcount for migration entries already, we
->> could end up checking it for swap, hwpoison, device exclusive, ...
->> entries, which we really shouldn't.
->>
->> There is one exception: device private entries, which we consider
->> fake-present (e.g., incremented the mapcount). But we won't care about
->> that for now for PM_MMAP_EXCLUSIVE, because indicating PM_SWAP for them
->> although they are fake-present already sounds suspiciously wrong.
->>
->> Let's never indicate PM_MMAP_EXCLUSIVE without PM_PRESENT.
->>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
+On 11.06.24 09:13, Oscar Salvador wrote:
+> On Mon, Jun 10, 2024 at 06:38:33AM +0200, Oscar Salvador wrote:
+>> Signed-off-by: Oscar Salvador <osalvador@suse.de>
 > 
-> Forgot to comment on something:
+> Uh, I spaced out here, sorry.
 > 
->> @@ -1517,14 +1514,13 @@ static int pagemap_pmd_range(pmd_t *pmdp, unsigned long addr, unsigned long end,
->>   			if (pmd_swp_uffd_wp(pmd))
->>   				flags |= PM_UFFD_WP;
->>   			VM_BUG_ON(!is_pmd_migration_entry(pmd));
->> -			migration = is_migration_entry(entry);
->>   			page = pfn_swap_entry_to_page(entry);
-> 
-> We do not really need to get the page anymore here as that is the non-present
-> part.
-> 
-> Then we could get away without checking the flags as only page != NULL
-> would mean a present pmd.
-> 
-> Not that we gain much as this is far from being a hot-path, but just
-> saying..
+> Reviewed-by: Oscar Salvador <osalvador@suse.de>
 
-I *think* we still want that for indicating PM_FILE after patch #1.
+:)
+
+Thanks!
 
 -- 
 Cheers,
