@@ -1,377 +1,282 @@
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E32E1822F3;
-	Wed, 12 Jun 2024 18:13:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5F0376EC;
+	Wed, 12 Jun 2024 18:16:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718216026; cv=none; b=kqtizF+CM7sSk1l6GU7NIRE2ALwjSxPVZIOud5TjUNQ4wJU6EYvbBPvGY3KFPoG+OHa+MoBjmkzLHO3hM1lXghI5ZJxq8TdkUG+zDDKRoC6vaAeNDJ0VHIqp1ERRLT12W4NCGXlfH28yhfCdReIJf4sTM8C2o2RjuJrGGSZfkVU=
+	t=1718216216; cv=none; b=NjxdgyjyRPPjJg20/lbACqFBezkaWwEQak9N9CEetAiTK5FTCWdpa0ztotM/K2uduqEOBI9CKISE9tPlT/PC3uwU4LMP1dpVNjBr5nhK1hI5VoPjiJTiFFRcWvacHoJ3nSMziHgYKFyXPq/4lxGdmfoYvkasSaP1+aWJrVxdGro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718216026; c=relaxed/simple;
-	bh=cZp+m7GoUyD511OLhwA5NzHdSoU4z+QAg2M2yrL4/y0=;
-	h=From:In-Reply-To:Content-Type:References:Date:Cc:To:MIME-Version:
-	 Message-ID:Subject; b=dAbu+Xy4moMWf4T2MiCDU45OX8JFFdV5XrOQaeKhC8arJma4XYumLah1/RurXpG/riP/0N/wP00+ZXN6GHOLNYAo7SXXJ7Iw6Qi0hGXdnHs+n+HJx1fILoRtVagHm+kDFtucIMjYdoWZh42kjYPp8NsoiRGKeG/kkm+eODdrISc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; arc=none smtp.client-ip=46.235.227.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-Received: from harlem.collaboradmins.com (harlem.collaboradmins.com [IPv6:2a01:4f8:1c0c:5936::1])
-	by madrid.collaboradmins.com (Postfix) with ESMTP id DB9E03781139;
-	Wed, 12 Jun 2024 18:13:41 +0000 (UTC)
-From: "Adrian Ratiu" <adrian.ratiu@collabora.com>
-In-Reply-To: <202406060917.8DEE8E3@keescook>
-Content-Type: text/plain; charset="utf-8"
-X-Forward: 127.0.0.1
-References: <20240605164931.3753-1-adrian.ratiu@collabora.com>
- <20240605164931.3753-2-adrian.ratiu@collabora.com> <202406060917.8DEE8E3@keescook>
-Date: Wed, 12 Jun 2024 19:13:41 +0100
-Cc: linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org, kernel@collabora.com, gbiv@google.com, ryanbeltran@google.com, inglorion@google.com, ajordanr@google.com, jorgelo@chromium.org, "Guenter Roeck" <groeck@chromium.org>, "Doug Anderson" <dianders@chromium.org>, "Jann Horn" <jannh@google.com>, "Andrew Morton" <akpm@linux-foundation.org>, "Randy Dunlap" <rdunlap@infradead.org>, "Christian Brauner" <brauner@kernel.org>, "Jeff Xu" <jeffxu@google.com>, "Mike Frysinger" <vapier@chromium.org>
-To: "Kees Cook" <kees@kernel.org>
+	s=arc-20240116; t=1718216216; c=relaxed/simple;
+	bh=8UdL2KFJKwnafciSWWW32tPsoKO+GmqGqjDp0IMgwsk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dQ2gO1CfmR4GAgkoXKKsJ/gIB9+MnG7Nn4YDUcOJwYomsqnsA9WrVmyuJfb71L4dsUwxm9dAab/ph3f1x6TyoapgY5VbSJhxgE1HfVuSrz3rOOxpByUhi1jE+bnjlupHx0vcwaRGp9XkhXm6wqPMko4CNCiXKiD41Y4MR+qLrdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=inPNK/6G; arc=none smtp.client-ip=209.85.219.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="inPNK/6G"
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-dfe81d54db9so165713276.2;
+        Wed, 12 Jun 2024 11:16:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718216213; x=1718821013; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bTwDbvfDAEVuWYB0ESepl2sBU9bDbBMIjrrkfroH+Uw=;
+        b=inPNK/6GNryCuw7V+/HoGG0kiR9NbzVVz0iAbij1RjNIIM7TG4FOj4Z8iimjuHtv78
+         5uH29d9Sl84YAlSwKyrCWfa4JKfR+UKVVd07nUxZKVnSMTti6a0oYSGOnchlOa+aOiC0
+         exg1S9AB4Maz/Sg6cRUpeOpF3r92EPWgEDvYyh4gv2aHDEziKs2DTVdjsslXM7bJ1tyN
+         wvE1MwdlBgBSS3EZUnxjzqRSOGchDsgaER3L5nkcaONMtpcC5ln2JF5QGWOWf7KNpmnW
+         qQzCcAH3Jgd5CtUbmjOkaH4nNhhJCXOsIT6Qc5shCTas/aep0M2hyc9wCyKu7DMqNjG6
+         ZU+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718216213; x=1718821013;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bTwDbvfDAEVuWYB0ESepl2sBU9bDbBMIjrrkfroH+Uw=;
+        b=COdRCZwf+G0Cu/Z8qC5A1oM+V4FlaQsVScex8+ScrGSQ1ZV4ZJC3jXsWAaWpZot8kS
+         Kv1Se0WAAUOh0FDBhpFBjpxws+lBvXti9C76DUCcKW9D41nUMeoPk3pw82uQBB5g8Ftl
+         wlbPu8X6SwpYxAvjF3BrxABX7+1MSxmV8t4e8ecGWMluaeOK2jsk9hcRlHX2cHS+YHwl
+         rbg4KOmZRqleDKVv/3CJFkrFnZkRmZO3hQpQSvz+HKaVmA4Yu0ZOKiavKOb7ttMek3Ag
+         McyJEnH6uu+WIcD7wWV749MfnQG7Hd/YO3MxDYp5eqNksRAPam9P29CkFl+isVOz8Qni
+         JwCg==
+X-Forwarded-Encrypted: i=1; AJvYcCXEYv9MZm8WQ3G9z1/Agj4XH/9IIX+n6gVnlaflpMOMb1hD/T84L9dzBFPgX+hyHrLHggPmntYdXOEC0fk2I7Ukr2c9+Bi4sXS4NnHSfGlUA/bt+BCWICaG/0mYRvRZuQUL0ICBEMx/
+X-Gm-Message-State: AOJu0Yxvs1MU/ELfJeOYc4/I7+DnuLVzoeHUk5qG+e3XvDdl2L1w6ENt
+	aLYk7jGjMzrQY/tsCR/Fzhh6yUUZ9HDJKWtetJ1Gx6bKOTBarWB0RO6BfRLI35HGfKhvSK8Mupc
+	U9xoddIJzZ2zq7wJUsDFBiPkURHQ=
+X-Google-Smtp-Source: AGHT+IEuPoSniiMQhKZmRRgqC3SgXJOkxDhb4vEa9QopgajXXTElzjq26aqJJGOS015KIrnPvNsKb2nlr3F/PSMhC8I=
+X-Received: by 2002:a25:ac8d:0:b0:df4:dd49:7ae7 with SMTP id
+ 3f1490d57ef6-dfe6706216dmr2553240276.24.1718216213279; Wed, 12 Jun 2024
+ 11:16:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <3304e0-6669e580-9f9-33d83680@155585222>
-Subject: =?utf-8?q?Re=3A?= [PATCH v5 2/2] =?utf-8?q?proc=3A?= restrict /proc/pid/mem
-User-Agent: SOGoMail 5.10.0
+References: <20240608155316.451600-1-flintglass@gmail.com> <20240608155316.451600-2-flintglass@gmail.com>
+ <CAKEwX=P1Ojb71AEJ2gzQTrfWidFPcJZmoNxEwji7TceBN-szCg@mail.gmail.com>
+In-Reply-To: <CAKEwX=P1Ojb71AEJ2gzQTrfWidFPcJZmoNxEwji7TceBN-szCg@mail.gmail.com>
+From: Takero Funaki <flintglass@gmail.com>
+Date: Thu, 13 Jun 2024 03:16:42 +0900
+Message-ID: <CAPpoddeigM44jhTA8Ua=+J4MC1MikouBZVoPrCW2LZF+9r5YeA@mail.gmail.com>
+Subject: Re: [PATCH v1 1/3] mm: zswap: fix global shrinker memcg iteration
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Yosry Ahmed <yosryahmed@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Shakeel Butt <shakeel.butt@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thursday, June 06, 2024 20:45 EEST, Kees Cook <kees@kernel.org> wrot=
-e:
+2024=E5=B9=B46=E6=9C=8812=E6=97=A5(=E6=B0=B4) 3:26 Nhat Pham <nphamcs@gmail=
+.com>:
 
-> On Wed, Jun 05, 2024 at 07:49:31PM +0300, Adrian Ratiu wrote:
-> > +	proc=5Fmem.restrict=5Ffoll=5Fforce=3D [KNL]
-> > +			Format: {all | ptracer}
-> > +			Restricts the use of the FOLL=5FFORCE flag for /proc/*/mem acce=
-ss.
-> > +			If restricted, the FOLL=5FFORCE flag will not be added to vm ac=
-cesses.
-> > +			Can be one of:
-> > +			- 'all' restricts all access unconditionally.
-> > +			- 'ptracer' allows access only for ptracer processes.
-> > +			If not specified, FOLL=5FFORCE is always used.
->=20
-> It dawns on me that we likely need an "off" setting for these in case=
- it
-> was CONFIG-enabled...
->=20
-> > +static int =5F=5Finit early=5Fproc=5Fmem=5Frestrict=5F##name(char =
-*buf)			\
-> > +{										\
-> > +	if (!buf)								\
-> > +		return -EINVAL;							\
-> > +										\
-> > +	if (strcmp(buf, "all") =3D=3D 0)						\
-> > +		static=5Fkey=5Fslow=5Finc(&proc=5Fmem=5Frestrict=5F##name##=5Fal=
-l.key);	\
-> > +	else if (strcmp(buf, "ptracer") =3D=3D 0)					\
-> > +		static=5Fkey=5Fslow=5Finc(&proc=5Fmem=5Frestrict=5F##name##=5Fpt=
-racer.key);	\
-> > +	return 0;								\
-> > +}										\
-> > +early=5Fparam("proc=5Fmem.restrict=5F" #name, early=5Fproc=5Fmem=5F=
-restrict=5F##name)
->=20
-> Why slow=5Finc here instead of the normal static=5Fkey=5Fenable/disab=
-le?
->=20
-> And we should report misparsing too, so perhaps:
->=20
-> static int =5F=5Finit early=5Fproc=5Fmem=5Frestrict=5F##name(char *bu=
-f)			\
-> {										\
-> 	if (!buf)								\
-> 		return -EINVAL;							\
-> 										\
-> 	if (strcmp(buf, "all") =3D=3D 0) {						\
-> 		static=5Fkey=5Fenable(&proc=5Fmem=5Frestrict=5F##name##=5Fall.key);=
-		\
-> 		static=5Fkey=5Fdisable(&proc=5Fmem=5Frestrict=5F##name##=5Fptracer.=
-key);	\
-> 	} else if (strcmp(buf, "ptracer") =3D=3D 0) {				\
-> 		static=5Fkey=5Fdisable(&proc=5Fmem=5Frestrict=5F##name##=5Fall.key)=
-;	\
-> 		static=5Fkey=5Fenable(&proc=5Fmem=5Frestrict=5F##name##=5Fptracer.k=
-ey);	\
-> 	} else if (strcmp(buf, "off") =3D=3D 0) {					\
-> 		static=5Fkey=5Fdisable(&proc=5Fmem=5Frestrict=5F##name##=5Fall.key)=
-;	\
-> 		static=5Fkey=5Fdisable(&proc=5Fmem=5Frestrict=5F##name##=5Fptracer.=
-key);	\
-> 	} else									\
-> 		pr=5Fwarn("%s: ignoring unknown option '%s'\n",			\
-> 			"proc=5Fmem.restrict=5F" #name, buf);			\
-> 	return 0;								\
-> }										\
-> early=5Fparam("proc=5Fmem.restrict=5F" #name, early=5Fproc=5Fmem=5Fre=
-strict=5F##name)
->=20
-> > +static int =5F=5Fmem=5Fopen=5Faccess=5Fpermitted(struct file *file=
-, struct task=5Fstruct *task)
-> > +{
-> > +	bool is=5Fptracer;
-> > +
-> > +	rcu=5Fread=5Flock();
-> > +	is=5Fptracer =3D current =3D=3D ptrace=5Fparent(task);
-> > +	rcu=5Fread=5Funlock();
-> > +
-> > +	if (file->f=5Fmode & FMODE=5FWRITE) {
-> > +		/* Deny if writes are unconditionally disabled via param */
-> > +		if (static=5Fbranch=5Fmaybe(CONFIG=5FPROC=5FMEM=5FRESTRICT=5FOPE=
-N=5FWRITE=5FDEFAULT,
-> > +					&proc=5Fmem=5Frestrict=5Fopen=5Fwrite=5Fall))
-> > +			return -EACCES;
-> > +
-> > +		/* Deny if writes are allowed only for ptracers via param */
-> > +		if (static=5Fbranch=5Fmaybe(CONFIG=5FPROC=5FMEM=5FRESTRICT=5FOPE=
-N=5FWRITE=5FPTRACE=5FDEFAULT,
-> > +					&proc=5Fmem=5Frestrict=5Fopen=5Fwrite=5Fptracer) &&
-> > +		    !is=5Fptracer)
-> > +			return -EACCES;
-> > +	}
-> > +
-> > +	if (file->f=5Fmode & FMODE=5FREAD) {
-> > +		/* Deny if reads are unconditionally disabled via param */
-> > +		if (static=5Fbranch=5Fmaybe(CONFIG=5FPROC=5FMEM=5FRESTRICT=5FOPE=
-N=5FREAD=5FDEFAULT,
-> > +					&proc=5Fmem=5Frestrict=5Fopen=5Fread=5Fall))
-> > +			return -EACCES;
-> > +
-> > +		/* Deny if reads are allowed only for ptracers via param */
-> > +		if (static=5Fbranch=5Fmaybe(CONFIG=5FPROC=5FMEM=5FRESTRICT=5FOPE=
-N=5FREAD=5FPTRACE=5FDEFAULT,
-> > +					&proc=5Fmem=5Frestrict=5Fopen=5Fread=5Fptracer) &&
-> > +		    !is=5Fptracer)
-> > +			return -EACCES;
-> > +	}
-> > +
-> > +	return 0; /* R/W are not restricted */
-> > +}
->=20
-> Given how deeply some of these behaviors may be in userspace, it migh=
-t
-> be more friendly to report the new restrictions with a pr=5Fnotice() =
-so
-> problems can be more easily tracked down. For example:
->=20
-> static void report=5Fmem=5Frw=5Frejection(const char *action, struct =
-task=5Fstruct *task)
-> {
-> 	pr=5Fwarn=5Fratelimited("Denied %s of /proc/%d/mem (%s) by pid %d (%=
-s)\n",
-> 			    action, task=5Fpid=5Fnr(task), task->comm,
-> 			    task=5Fpid=5Fnr(current), current->comm);
-> }
->=20
-> ...
->=20
-> 	if (file->f=5Fmode & FMODE=5FWRITE) {
-> 		/* Deny if writes are unconditionally disabled via param */
-> 		if (static=5Fbranch=5Fmaybe(CONFIG=5FPROC=5FMEM=5FRESTRICT=5FOPEN=5F=
-WRITE=5FDEFAULT,
-> 					&proc=5Fmem=5Frestrict=5Fopen=5Fwrite=5Fall)) {
-> 			report=5Fmem=5Frw=5Freject("all open-for-write");
-> 			return -EACCES;
-> 		}
->=20
-> 		/* Deny if writes are allowed only for ptracers via param */
-> 		if (static=5Fbranch=5Fmaybe(CONFIG=5FPROC=5FMEM=5FRESTRICT=5FOPEN=5F=
-WRITE=5FPTRACE=5FDEFAULT,
-> 					&proc=5Fmem=5Frestrict=5Fopen=5Fwrite=5Fptracer) &&
-> 		    !is=5Fptracer)
-> 			report=5Fmem=5Frw=5Freject("non-ptracer open-for-write");
-> 			return -EACCES;
-> 	}
->=20
-> etc
->=20
-> > +static bool =5F=5Fmem=5Frw=5Fcurrent=5Fis=5Fptracer(struct file *f=
-ile)
-> > +{
-> > +	struct inode *inode =3D file=5Finode(file);
-> > +	struct task=5Fstruct *task =3D get=5Fproc=5Ftask(inode);
-> > +	struct mm=5Fstruct *mm =3D NULL;
-> > +	int is=5Fptracer =3D false, has=5Fmm=5Faccess =3D false;
-> > +
-> > +	if (task) {
-> > +		rcu=5Fread=5Flock();
-> > +		is=5Fptracer =3D current =3D=3D ptrace=5Fparent(task);
-> > +		rcu=5Fread=5Funlock();
-> > +
-> > +		mm =3D mm=5Faccess(task, PTRACE=5FMODE=5FREAD=5FFSCREDS);
-> > +		if (mm && file->private=5Fdata =3D=3D mm) {
-> > +			has=5Fmm=5Faccess =3D true;
-> > +			mmput(mm);
-> > +		}
-> > +
-> > +		put=5Ftask=5Fstruct(task);
-> > +	}
-> > +
-> > +	return is=5Fptracer && has=5Fmm=5Faccess;
-> > +}
->=20
-> Thanks; this looks right to me now!
->=20
-> > +menu "Procfs mem restriction options"
-> > +
-> > +config PROC=5FMEM=5FRESTRICT=5FFOLL=5FFORCE=5FDEFAULT
-> > +	bool "Restrict all FOLL=5FFORCE flag usage"
-> > +	default n
-> > +	help
-> > +	  Restrict all FOLL=5FFORCE usage during /proc/*/mem RW.
-> > +	  Debuggers like GDB require using FOLL=5FFORCE for basic
-> > +	  functionality.
-> > +
-> > +config PROC=5FMEM=5FRESTRICT=5FFOLL=5FFORCE=5FPTRACE=5FDEFAULT
-> > +	bool "Restrict FOLL=5FFORCE usage except for ptracers"
-> > +	default n
-> > +	help
-> > +	  Restrict FOLL=5FFORCE usage during /proc/*/mem RW, except
-> > +	  for ptracer processes. Debuggers like GDB require using
-> > +	  FOLL=5FFORCE for basic functionality.
->=20
-> Can we adjust the Kconfigs to match the bootparam arguments? i.e.
-> instead of two for each mode, how about one with 3 settings ("all",
-> "ptrace", or "off")
->=20
-> choice
-> 	prompt "Restrict /proc/pid/mem FOLL=5FFORCE usage"
-> 	default PROC=5FMEM=5FRESTRICT=5FFOLL=5FFORCE=5FOFF
-> 	help
-> 	  Reading and writing of /proc/pid/mem bypasses memory permission
-> 	  checks due to the internal use of the FOLL=5FFORCE flag. This can =
-be
-> 	  used by attackers to manipulate process memory contents that
-> 	  would have been otherwise protected. However, debuggers, like GDB,
-> 	  use this to set breakpoints, etc. To force debuggers to fall back
-> 	  to PEEK/POKE, see PROC=5FMEM=5FRESTRICT=5FOPEN=5FWRITE=5FALL.
->=20
-> 	config PROC=5FMEM=5FRESTRICT=5FFOLL=5FFORCE=5FOFF
-> 	bool "Do not restrict FOLL=5FFORCE usage with /proc/pid/mem (regular=
-)"
-> 	help
-> 	  Regular behavior: continue to use the FOLL=5FFORCE flag for
-> 	  /proc/pid/mem access.
->=20
-> 	config PROC=5FMEM=5FRESTRICT=5FFOLL=5FFORCE=5FPTRACE
-> 	bool "Only allow ptracers to use FOLL=5FFORCE with /proc/pid/mem (sa=
-fer)"
-> 	help
-> 	  Only use the FOLL=5FFORCE flag for /proc/pid/mem access when the
-> 	  current task is the active ptracer of the target task. (Safer,
-> 	  least disruptive to most usage patterns.)
->=20
-> 	config PROC=5FMEM=5FRESTRICT=5FFOLL=5FFORCE=5FALL
-> 	bool "Do not use FOLL=5FFORCE with /proc/pid/mem (safest)"
-> 	help
-> 	  Remove the FOLL=5FFORCE flag for all /proc/pid/mem accesses.
-> 	  (Safest, but may be disruptive to some usage patterns.)
-> endchoice
->=20
-> Then the static=5Fkeys can be defined like this mess (I couldn't find=
- a
-> cleaner way to do it):
->=20
-> #define DEFINE=5FSTATIC=5FKEY=5FPROC=5FMEM=5FALL(name) \
-> 	DEFINE=5FSTATIC=5FKEY=5FTRUE=5FRO(proc=5Fmem=5Frestrict=5F##name##=5F=
-all);	\
-> 	DEFINE=5FSTATIC=5FKEY=5FFALSE=5FRO(proc=5Fmem=5Frestrict=5F##name##=5F=
-ptracer);
-> #define DEFINE=5FSTATIC=5FKEY=5FPROC=5FMEM=5FPTRACE(name) \
-> 	DEFINE=5FSTATIC=5FKEY=5FFALSE=5FRO(proc=5Fmem=5Frestrict=5F##name##=5F=
-all);	\
-> 	DEFINE=5FSTATIC=5FKEY=5FTRUE=5FRO(proc=5Fmem=5Frestrict=5F##name##=5F=
-ptracer);
-> #define DEFINE=5FSTATIC=5FKEY=5FPROC=5FMEM=5FOFF(name) \
-> 	DEFINE=5FSTATIC=5FKEY=5FFALSE=5FRO(proc=5Fmem=5Frestrict=5F##name##=5F=
-all);	\
-> 	DEFINE=5FSTATIC=5FKEY=5FFALSE=5FRO(proc=5Fmem=5Frestrict=5F##name##=5F=
-ptracer);
->=20
-> #define DEFINE=5FSTATIC=5FKEY=5FPROC=5FMEM=5F0(level, name)
-> #define DEFINE=5FSTATIC=5FKEY=5FPROC=5FMEM=5F1(level, name)		\
-> 	DEFINE=5FSTATIC=5FKEY=5FPROC=5FMEM=5F##level(name)
->=20
-> #define =5FDEFINE=5FSTATIC=5FKEY=5FPROC=5FMEM=5FPICK(enabled, level, =
-name)   \
-> DEFINE=5FSTATIC=5FKEY=5FPROC=5FMEM=5F##enabled(level, name)
->=20
-> #define DEFINE=5FSTATIC=5FKEY=5FPROC=5FMEM=5FPICK(enabled, level, nam=
-e)   \
-> =5FDEFINE=5FSTATIC=5FKEY=5FPROC=5FMEM=5FPICK(enabled, level, name)
->=20
-> #define DEFINE=5FSTATIC=5FKEY=5FPROC=5FMEM(CFG, name)			\
-> DEFINE=5FSTATIC=5FKEY=5FPROC=5FMEM=5FPICK(IS=5FENABLED(CONFIG=5FPROC=5F=
-MEM=5FRESTRICT=5F##CFG##=5FALL), ALL, name)
-> DEFINE=5FSTATIC=5FKEY=5FPROC=5FMEM=5FPICK(IS=5FENABLED(CONFIG=5FPROC=5F=
-MEM=5FRESTRICT=5F##CFG##=5FPTRACE), PTRACE, name)
-> DEFINE=5FSTATIC=5FKEY=5FPROC=5FMEM=5FPICK(IS=5FENABLED(CONFIG=5FPROC=5F=
-MEM=5FRESTRICT=5F##CFG##=5FOFF), OFF, name)
->=20
-> #define DEFINE=5FEARLY=5FPROC=5FMEM=5FRESTRICT(CFG, name)				\
-> DEFINE=5FSTATIC=5FKEY=5FPROC=5FMEM(CFG, name)						\
-> static int =5F=5Finit early=5Fproc=5Fmem=5Frestrict=5F##name(char *bu=
-f)			\
-> {										\
-> 	if (!buf)								\
-> 		return -EINVAL;							\
-> 										\
-> 	if (strcmp(buf, "all") =3D=3D 0) {						\
-> 		static=5Fkey=5Fenable(&proc=5Fmem=5Frestrict=5F##name##=5Fall.key);=
-		\
-> 		static=5Fkey=5Fdisable(&proc=5Fmem=5Frestrict=5F##name##=5Fptracer.=
-key);	\
-> 	} else if (strcmp(buf, "ptracer") =3D=3D 0) {				\
-> 		static=5Fkey=5Fdisable(&proc=5Fmem=5Frestrict=5F##name##=5Fall.key)=
-;	\
-> 		static=5Fkey=5Fenable(&proc=5Fmem=5Frestrict=5F##name##=5Fptracer.k=
-ey);	\
-> 	} else if (strcmp(buf, "off") =3D=3D 0) {					\
-> 		static=5Fkey=5Fdisable(&proc=5Fmem=5Frestrict=5F##name##=5Fall.key)=
-;	\
-> 		static=5Fkey=5Fdisable(&proc=5Fmem=5Frestrict=5F##name##=5Fptracer.=
-key);	\
-> 	} else									\
-> 		pr=5Fwarn("%s: ignoring unknown option '%s'\n",			\
-> 			"proc=5Fmem.restrict=5F" #name, buf);			\
-> 	return 0;								\
-> }										\
-> early=5Fparam("proc=5Fmem.restrict=5F" #name, early=5Fproc=5Fmem=5Fre=
-strict=5F##name)
->=20
-> DEFINE=5FEARLY=5FPROC=5FMEM=5FRESTRICT(OPEN=5FREAD, open=5Fread);
-> DEFINE=5FEARLY=5FPROC=5FMEM=5FRESTRICT(OPEN=5FWRITE, open=5Fwrite);
-> DEFINE=5FEARLY=5FPROC=5FMEM=5FRESTRICT(WRITE, write);
-> DEFINE=5FEARLY=5FPROC=5FMEM=5FRESTRICT(FOLL=5FFORCE, foll=5Fforce);
+>
+> As I have noted in v0, I think this is unnecessary and makes it more conf=
+using.
+>
 
-Hello again,
+Does spin_lock() ensure that compiler optimizations do not remove
+memory access to an external variable? I think we need to use
+READ_ONCE/WRITE_ONCE for shared variable access even under a spinlock.
+For example,
+https://elixir.bootlin.com/linux/latest/source/mm/mmu_notifier.c#L234
 
-I tried very hard to make the above work these past few days and gave u=
-p.
-Couldn't find a way to get it to compile.
-Tried to also debug the compiler preprocess output and my head hurts. :=
+isn't this a common use case of READ_ONCE?
+```c
+bool shared_flag =3D false;
+spinlock_t flag_lock;
+
+void somefunc(void) {
+    for (;;) {
+        spin_lock(&flag_lock);
+        /* check external updates */
+        if (READ_ONCE(shared_flag))
+            break;
+        /* do something */
+        spin_unlock(&flag_lock);
+    }
+    spin_unlock(&flag_lock);
+}
+```
+Without READ_ONCE, the check can be extracted from the loop by optimization=
+.
+
+In shrink_worker, zswap_next_shrink is the shared_flag , which can be
+updated by concurrent cleaner threads, so it must be re-read every
+time we reacquire the lock. Am I badly misunderstanding something?
+
+> >         do {
+> > +iternext:
+> >                 spin_lock(&zswap_shrink_lock);
+> > -               zswap_next_shrink =3D mem_cgroup_iter(NULL, zswap_next_=
+shrink, NULL);
+> > -               memcg =3D zswap_next_shrink;
+> > +               next_memcg =3D READ_ONCE(zswap_next_shrink);
+> > +
+> > +               if (memcg !=3D next_memcg) {
+> > +                       /*
+> > +                        * Ours was released by offlining.
+> > +                        * Use the saved memcg reference.
+> > +                        */
+> > +                       memcg =3D next_memcg;
+> > +               } else {
+> > +                       /* advance cursor */
+> > +                       memcg =3D mem_cgroup_iter(NULL, memcg, NULL);
+> > +                       WRITE_ONCE(zswap_next_shrink, memcg);
+> > +               }
+>
+> I suppose I'm fine with not advancing the memcg when it is already
+> advanced by the memcg offlining callback.
+>
+
+For where to restart the shrinking, as Yosry pointed, my version
+starts from the last memcg (=3Dretrying failed memcg or evicting once
+more)
+I now realize that skipping the next memcg of offlined memcg is less
+likely to happen. I am reverting it to restart from the next memcg of
+zswap_next_shrink.
+Which one could be better?
+
+> >
+> >                 /*
+> > -                * We need to retry if we have gone through a full roun=
+d trip, or if we
+> > -                * got an offline memcg (or else we risk undoing the ef=
+fect of the
+> > -                * zswap memcg offlining cleanup callback). This is not=
+ catastrophic
+> > -                * per se, but it will keep the now offlined memcg host=
+age for a while.
+> > -                *
+> >                  * Note that if we got an online memcg, we will keep th=
+e extra
+> >                  * reference in case the original reference obtained by=
+ mem_cgroup_iter
+> >                  * is dropped by the zswap memcg offlining callback, en=
+suring that the
+> > @@ -1434,16 +1468,25 @@ static void shrink_worker(struct work_struct *w=
 )
+> >                 }
+> >
+> >                 if (!mem_cgroup_tryget_online(memcg)) {
+> > -                       /* drop the reference from mem_cgroup_iter() */
+> > -                       mem_cgroup_iter_break(NULL, memcg);
+> > -                       zswap_next_shrink =3D NULL;
+> > +                       /*
+> > +                        * It is an offline memcg which we cannot shrin=
+k
+> > +                        * until its pages are reparented.
+> > +                        *
+> > +                        * Since we cannot determine if the offline cle=
+aner has
+> > +                        * been already called or not, the offline memc=
+g must be
+> > +                        * put back unconditonally. We cannot abort the=
+ loop while
+> > +                        * zswap_next_shrink has a reference of this of=
+fline memcg.
+> > +                        */
+> >                         spin_unlock(&zswap_shrink_lock);
+> > -
+> > -                       if (++failures =3D=3D MAX_RECLAIM_RETRIES)
+> > -                               break;
+> > -
+> > -                       goto resched;
+> > +                       goto iternext;
+>
+> Hmmm yeah in the past, I set it to NULL to make sure we're not
+> replacing zswap_next_shrink with an offlined memcg, after that zswap
+> offlining callback for that memcg has been completed..
+>
+> I suppose we can just call mem_cgroup_iter(...) on that offlined
+> cgroup, but I'm not 100% sure what happens when we call this function
+> on a cgroup that is currently being offlined, and has gone past the
+> zswap offline callback stage. So I was just playing it safe and
+> restart from the top of the tree :)
+>
+> I think this implementation has that behavior right? We see that the
+> memcg is offlined, so we drop the lock and go to the beginning of the
+> loop. We reacquire the lock, and might see that zswap_next_shrink =3D=3D
+> memcg, so we call mem_cgroup_iter(...) on it. Is this safe?
+>
+> Note that zswap_shrink_lock only orders serializes this memcg
+> selection loop with memcg offlining after it - there's no guarantee
+> what's the behavior is for memcg offlining before it (well other than
+> one reference that we manage to acquire thanks to
+> mem_cgroup_iter(...), so that memcg has not been freed, but not sure
+> what we can guarantee regarding its place in the memcg hierarchy
+> tree?).
 
-Would macros like the following be acceptable?
-I know it's more verbose but also much easier to understand and it work=
-s.
+The locking mechanism in shrink_worker does not rely on what the next
+memcg is.sorting stability of mem_cgroup_iter does not matter
+here.
+The expectation for the iterator is that it will walk through all live
+memcgs. I believe mem_cgroup_iter uses parent-to-leaf ordering of
+cgroup and it ensures all live cgroups are walked at least once,
+regardless of its onlineness.
+https://elixir.bootlin.com/linux/v6.10-rc2/source/mm/memcontrol.c#L1368
 
-#if IS=5FENABLED(CONFIG=5FPROC=5FMEM=5FRESTRICT=5FOPEN=5FREAD=5FALL)
-DEFINE=5FSTATIC=5FKEY=5FTRUE=5FRO(proc=5Fmem=5Frestrict=5Fopen=5Fread=5F=
-all);
-DEFINE=5FSTATIC=5FKEY=5FFALSE=5FRO(proc=5Fmem=5Frestrict=5Fopen=5Fread=5F=
-ptracer);
-#elif IS=5FENABLED(CONFIG=5FPROC=5FMEM=5FRESTRICT=5FOPEN=5FREAD=5FPTRAC=
-E)
-DEFINE=5FSTATIC=5FKEY=5FFALSE=5FRO(proc=5Fmem=5Frestrict=5Fopen=5Fread=5F=
-all);
-DEFINE=5FSTATIC=5FKEY=5FTRUE=5FRO(proc=5Fmem=5Frestrict=5Fopen=5Fread=5F=
-ptracer);
-#else
-DEFINE=5FSTATIC=5FKEY=5FFALSE=5FRO(proc=5Fmem=5Frestrict=5Fopen=5Fread=5F=
-all);
-DEFINE=5FSTATIC=5FKEY=5FFALSE=5FRO(proc=5Fmem=5Frestrict=5Fopen=5Fread=5F=
-ptracer);
-#endif
+Regarding reference leak, I overlooked a scenario where a leak might
+occur in the existing cleaner. although it should be rare.
 
+When the cleaner is called on a memcg in zswap_next_shrink, the next
+memcg from mem_cgroup_iter() can be an offline already-cleaned memcg,
+resulting in a reference leak of the next memcg from the cleaner. We
+should implement the same online check in the cleaner, like this:
+
+
+```c
+void zswap_memcg_offline_cleanup(struct mem_cgroup *memcg)
+{
+        struct mem_cgroup *next;
+
+        /* lock out zswap shrinker walking memcg tree */
+        spin_lock(&zswap_shrink_lock);
+        if (zswap_next_shrink =3D=3D memcg) {
+                next =3D zswap_next_shrink;
+                do {
+                        next =3D mem_cgroup_iter(NULL, next, NULL);
+                        WRITE_ONCE(zswap_next_shrink, next);
+
+                        spin_unlock(&zswap_shrink_lock);
+                        /* zswap_next_shrink might be updated here */
+                        spin_lock(&zswap_shrink_lock);
+
+                        next =3D READ_ONCE(zswap_next_shrink);
+                        if (!next)
+                                break;
+                } while (!mem_cgroup_online(next));
+                /*
+                 * We verified the next memcg is online under lock.
+                 * Even if the next memcg is being offlined here, another
+                 * cleaner for the next memcg is waiting for our unlock jus=
+t
+                 * behind us.  We can leave the next memcg reference.
+                 */
+        }
+        spin_unlock(&zswap_shrink_lock);
+}
+```
+
+As same as in shrink_worker, we must check if the next memcg is online
+under the lock before leaving the ref in zswap_next_shrink.
+Otherwise, zswap_next_shrink might hold the ref of offlined and cleaned mem=
+cg.
+
+Or if you are concerning about temporary storing unchecked or offlined
+memcg in zswap_next_shrink, it is safe because:
+
+1. If there is no other cleaner running for zswap_next_shrink, the ref
+saved in zswap_next_shrink ensures liveness of the memcg when
+reacquired.
+2. Another cleaner thread may put back and replace zswap_next_shrink
+with its next. We will check onlineness of the new zswap_next_shrink
+under reacquired lock.
+3. Even if the verified-online memcg is being offlined concurrently,
+another cleaner thread must wait for our unlock. We can leave the
+online memcg and rely on its respective cleaner.
