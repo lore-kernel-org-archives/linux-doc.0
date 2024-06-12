@@ -1,65 +1,65 @@
-Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F40A51272BC
-	for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 22:09:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 138AF391
+	for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 22:13:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718230146; cv=none; b=IHrNH4gQllKzDB+s3DJnhn0l8rqVpWVktLPZ5nJOVA8cMB8KeQVGcI7J9HXn34la7I6uR2Xbss+t+41+rJTX1FACYX0z2oCRKfAQMA032tmHFt2PenNalPImA/ZTLrLTiy0cIYDph1dYOikYmnSMH48/sjIo5Fx/JfrZNU2fhMQ=
+	t=1718230437; cv=none; b=YCIS5z2ARHZuy936fiVhkIYqrhoHZQfNzmgYZw1IQQqKvFg6GQwClxoe6Sdii5EsEN8VDkOk1f9iGjDyyXoxzr+fl+SQPqmQcrRmD8C2y0X1SQ5O6XGNUVsRYitTDHFPkv0hGuNeubYsuAm9nWoVncxfMbNyEWUn+rv+qRdJ3xs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718230146; c=relaxed/simple;
-	bh=uf4QwjexCbqgBE5KgK6TjEHCqZfSMf9GM+zF7zleRX4=;
+	s=arc-20240116; t=1718230437; c=relaxed/simple;
+	bh=GwfBCcHjkevNkWnlhNs7s7LtsNgX3NNWwh13LjsHl2k=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=GVzqtvvCuAAHW7yoFB+EGSr9GZ0URWsQ40Gxsh552rIwLos2z93ZopgsYhhFoUKPVWfjOi/3bqHM0BR4Mg6cg/q7GAItjrRgIRVBt/KPdQpX2zSyt2DleiJ0/D5dI8k4H+fBBcdKS8Av2JZnVqwSeZ7gH2LbPIoTzLDGDqioB/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WCbft5Ps; arc=none smtp.client-ip=209.85.210.201
+	 To:Cc:Content-Type; b=bgKdr0Sp+6xeFQNf+RDoVzsIwoYKeJooL1BsoSAwsz/97hH5rZ8Clq781FJBN0V53glleP36cSasWj3QMG/MhjcTL2mTxsnzDDrKB703aUJzlqlRjSqmaTC3cREuQlUyPKnh2yw3MAv/KMAJHA5Gdk6DBBVZz/+W4O3AYyoQiTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=s//GaH7E; arc=none smtp.client-ip=209.85.219.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WCbft5Ps"
-Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-70419ef7f48so1003996b3a.1
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 15:09:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="s//GaH7E"
+Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-dfefc2c8569so652855276.3
+        for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 15:13:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718230144; x=1718834944; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1718230434; x=1718835234; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/5uG0fPgVb1UTRgqxTYPdWxSr8OQ4pJ5csv1+LzNJtI=;
-        b=WCbft5Psx+Rtd8O6uWItQynnGV0Z589CuDLIx149masc3T7X+yDJQCcAhTHs7lO1Zu
-         AUxAnSzPoOXiq2cS1a3YSvmvuPjP1VA1itDcccPnulwNyurPywAxedBEx2nSgEAwtKDk
-         /32bj91B19svsy7KO0pqKx+uv64kZm81MfNRzvt6E+Vn2QgZb8/O9/wMkHzepzAmlwgX
-         4LP5t4kEHMeaBK55loWmOqE2dMVHXE7A33csXGUtmgw+G98xAdeqvekEodIN1gLfWd6a
-         +lXW47dLoJvU+YuySCpRScl1/0eu9UcEB0h7gXtB0QxKVU7+KMW8ekU4tTd7uinP/ebR
-         CpAw==
+        bh=bPX3/Z0GWf3goqQnQ+80IAoevnNEBGSkkJOiBvmG4jY=;
+        b=s//GaH7EOLTmaXUl1rmYJN1rO/2MMS3WFL/FmLQy72muCUwpBXJdkimk4Zp+zGmG56
+         Gad94F4y7yknfrh9EMlah0PXnZfI0yM4yiuEWqCOkvDQkuQsqz7YmRxMB7kG2hpSiTW5
+         k/5rQYS36eV21ARWug4Xl8y5srpiuW9U3KmaFWunNhB6PQwPswRGB11cwmucIx9Czx4+
+         +mNaGCiLxeqkHE6yqosioiE0B9T6M4WWaubTjRMNbuymK5tR2G0BE+x/4DDcjGMgwDJT
+         8P23GTan20gqVn7DbXDn4b2mJGh//PkuDWLHI164cWS5qr+fsYCs+hcAi62efO4tWfMK
+         FfWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718230144; x=1718834944;
+        d=1e100.net; s=20230601; t=1718230434; x=1718835234;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/5uG0fPgVb1UTRgqxTYPdWxSr8OQ4pJ5csv1+LzNJtI=;
-        b=EJP5fOBmj/yTwiDhpFMNZyWQbFcA3bcjQRfu+IMvZRtxsN5TQ+CfHOi75LpQN1qrcS
-         /IWwH/jivQmXtIxCysEeqtDY4QahrMBkMsBc/F9eW0hSD7durpJ3rh8EkKzY7psiWQk3
-         8ESZqbvxouDDfTfefErRoWQq8NC5taB7s6v3dpSrkn6nvYTaBa4ZmtQ2Nz1y6XXg0H+u
-         8IuORmK1J+2UWFSYl5BxAjET9kExSE/DnxGF5upGp3rXV+AOaihg1pQBmSMrybymrJMg
-         r05MkPlwRshT6W8KXeN2TYMI2oBjquh1P/MCXBbi7subODid/frQCWaxOCDSnVP6AkqF
-         uVKw==
-X-Forwarded-Encrypted: i=1; AJvYcCVnZ9LSuSRQNncavomkkDevV7nMy/7TRMItVHMrF5mip7CMUIHHPhb5dTNSYOv1GkH3u14QFv0nsQ3po3Dy/WlZfDGu3YVJ6fbu
-X-Gm-Message-State: AOJu0YyYQm5LMgKWaFblK94I8en1M7KKYQiX2uq0JGiZ5JMnjDRYAnLc
-	o0xJTrc3nHTvZX2DXFOV2Xxu8+Ao1Us6XKuXTul4vvdUw1TwVtH2aayPGlB+2EexR56HfMVUHBr
-	MVg==
-X-Google-Smtp-Source: AGHT+IH7XsxsWv6Xxtc9WU3EA5gUAJyix8Gbpq//kNw7QeS8GpV4XLqP4J1OWQy1QXo5sNaSavBNy6s6yRI=
+        bh=bPX3/Z0GWf3goqQnQ+80IAoevnNEBGSkkJOiBvmG4jY=;
+        b=T0+mM8Y7dtIQ8Ij7taDBkSTWaM/9faSPIVKFZ5mlQQ3ruSY/WDe3mmNMAk7/TjXxUZ
+         HjvJKf+ZS9SdgvmlPYvVEL6V3l9uXO+Qmpedgoar7XcvgwCW3GMlvlixLyVMZJBo3Wp+
+         L5ctuYxE2uREEjihZ1YmgN0RKSdacnf4nrfaEFlz0nU8FW92hkCpXbs0VYciTAhkTPOX
+         FhSoM64Cbhwnqpmn8HNfL/YSJ6qLHAnOLbJ9L8xGCisVNl+MUEEaYa9S3klNdPlC6bAl
+         1jcrE/xR5HGWGvHLj03WBi66Sh9AGqbT287fwOjqnWoBt1NpZ9W1W5eA9lH5BzDxr3Yc
+         A0Vw==
+X-Forwarded-Encrypted: i=1; AJvYcCUFlChw8tHnu3eYl/BfAIRDbsbV8XFtIoWnpVxOrcHW48ElehdPlLa/G6gcoicbNbl5uExbgWGaHG1RBSRmR9FxcpkBmTqYPvsP
+X-Gm-Message-State: AOJu0Yy0DDHPeoudi/TJYhjfLemBLxtOGd29xM+C5meVFq2WKId7qdcy
+	ghZvA0etQcwzolFoq/ncNGj4ns8DtSwmG14+dizGTNNV8T3oHVPWyC3Bvlc57k2yVEne+rmEQ7v
+	pKQ==
+X-Google-Smtp-Source: AGHT+IHQk/QK4uDOLMVdbV04IdfTlJ2Btibfi42Ivx9v36nGEO3157fO4+iqYDDxzqE9oJh20Eg6PCiUsJk=
 X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:6a00:181c:b0:705:c24c:70e3 with SMTP id
- d2e1a72fcca58-705c9247ae9mr14937b3a.2.1718230144114; Wed, 12 Jun 2024
- 15:09:04 -0700 (PDT)
-Date: Wed, 12 Jun 2024 15:09:02 -0700
-In-Reply-To: <20240207172646.3981-11-xin3.li@intel.com>
+ (user=seanjc job=sendgmr) by 2002:a05:6902:150f:b0:de5:2694:45ba with SMTP id
+ 3f1490d57ef6-dfe62d1ee23mr813079276.0.1718230434092; Wed, 12 Jun 2024
+ 15:13:54 -0700 (PDT)
+Date: Wed, 12 Jun 2024 15:13:52 -0700
+In-Reply-To: <20240207172646.3981-12-xin3.li@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20240207172646.3981-1-xin3.li@intel.com> <20240207172646.3981-11-xin3.li@intel.com>
-Message-ID: <ZmocflXIH0UUsFzn@google.com>
-Subject: Re: [PATCH v2 10/25] KVM: VMX: Add support for FRED context save/restore
+References: <20240207172646.3981-1-xin3.li@intel.com> <20240207172646.3981-12-xin3.li@intel.com>
+Message-ID: <ZmodoHj_ebGza4Sj@google.com>
+Subject: Re: [PATCH v2 11/25] KVM: x86: Add kvm_is_fred_enabled()
 From: Sean Christopherson <seanjc@google.com>
 To: Xin Li <xin3.li@intel.com>
 Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
@@ -71,104 +71,52 @@ Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
 Content-Type: text/plain; charset="us-ascii"
 
 On Wed, Feb 07, 2024, Xin Li wrote:
-> diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-> index 264378c3b784..ee61d2c25cb0 100644
-> --- a/arch/x86/kvm/vmx/vmx.c
-> +++ b/arch/x86/kvm/vmx/vmx.c
-> @@ -1420,6 +1420,24 @@ static void vmx_write_guest_kernel_gs_base(struct vcpu_vmx *vmx, u64 data)
->  	preempt_enable();
->  	vmx->msr_guest_kernel_gs_base = data;
+> Add kvm_is_fred_enabled() to get if FRED is enabled on a vCPU.
+> 
+> Signed-off-by: Xin Li <xin3.li@intel.com>
+> Tested-by: Shan Kang <shan.kang@intel.com>
+> ---
+> 
+> Change since v1:
+> * Explain why it is ok to only check CR4.FRED (Chao Gao).
+> ---
+>  arch/x86/kvm/kvm_cache_regs.h | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+> 
+> diff --git a/arch/x86/kvm/kvm_cache_regs.h b/arch/x86/kvm/kvm_cache_regs.h
+> index 75eae9c4998a..1d431c703fdf 100644
+> --- a/arch/x86/kvm/kvm_cache_regs.h
+> +++ b/arch/x86/kvm/kvm_cache_regs.h
+> @@ -187,6 +187,23 @@ static __always_inline bool kvm_is_cr4_bit_set(struct kvm_vcpu *vcpu,
+>  	return !!kvm_read_cr4_bits(vcpu, cr4_bit);
 >  }
-> +
-> +static u64 vmx_read_guest_fred_rsp0(struct vcpu_vmx *vmx)
+>  
+> +/*
+> + * It's enough to check just CR4.FRED (X86_CR4_FRED) to tell if
+> + * a vCPU is running with FRED enabled, because:
+> + * 1) CR4.FRED can be set to 1 only _after_ IA32_EFER.LMA = 1.
+> + * 2) To leave IA-32e mode, CR4.FRED must be cleared first.
+> + *
+> + * More details at FRED Spec 6.0 Section 4.2 Enabling in CR4.
+> + */
+> +static __always_inline bool kvm_is_fred_enabled(struct kvm_vcpu *vcpu)
+
+Maybe just is_fred_enabled(), or even just is_fred()?  Most helpers in x86.h that
+wrap CR4/CR0 in similar ways omit the "kvm_", partly for brevity, but also because
+the check is architectural, not KVM-defined (though the state obviously comes
+from KVM).
+
 > +{
-> +	preempt_disable();
-> +	if (vmx->guest_state_loaded)
-> +		vmx->msr_guest_fred_rsp0 = read_msr(MSR_IA32_FRED_RSP0);
-> +	preempt_enable();
-> +	return vmx->msr_guest_fred_rsp0;
+> +#ifdef CONFIG_X86_64
+> +	return kvm_is_cr4_bit_set(vcpu, X86_CR4_FRED);
+> +#else
+> +	return false;
+> +#endif
 > +}
 > +
-> +static void vmx_write_guest_fred_rsp0(struct vcpu_vmx *vmx, u64 data)
-> +{
-> +	preempt_disable();
-> +	if (vmx->guest_state_loaded)
-> +		wrmsrl(MSR_IA32_FRED_RSP0, data);
-> +	preempt_enable();
-> +	vmx->msr_guest_fred_rsp0 = data;
-> +}
-
-This should be unnecessary when you switch to the user return framework.
-
-KERNEL_GS_BASE is a bit special because it needs to be reloaded if the kernel
-switches to a different task, i.e. before an exit to userspace.
-
-> @@ -1892,6 +1895,30 @@ static int __kvm_set_msr(struct kvm_vcpu *vcpu, u32 index, u64 data,
->  			return 1;
->  
->  		data = (u32)data;
-> +		break;
-> +	case MSR_IA32_FRED_RSP0 ... MSR_IA32_FRED_CONFIG:
-> +		if (index != MSR_IA32_FRED_STKLVLS && is_noncanonical_address(data, vcpu))
-> +			return 1;
-> +		if ((index >= MSR_IA32_FRED_RSP0 && index <= MSR_IA32_FRED_RSP3) &&
-> +		    (data & GENMASK_ULL(5, 0)))
-> +			return 1;
-> +		if ((index >= MSR_IA32_FRED_SSP1 && index <= MSR_IA32_FRED_SSP3) &&
-> +		    (data & GENMASK_ULL(2, 0)))
-> +			return 1;
-> +
-> +		if (host_initiated) {
-> +			if (!kvm_cpu_cap_has(X86_FEATURE_FRED))
-> +				return 1;
-> +		} else {
-> +			/*
-> +			 * Inject #GP upon FRED MSRs accesses from a non-FRED guest,
-> +			 * which also ensures no malicious guest can write to FRED
-> +			 * MSRs to corrupt host FRED MSRs.
-> +			 */
-
-Drop the comment, if someone reading KVM code doesn't grok that attempting to
-access MSRs that shouldn't exist results in #GP, then a comment probably isn't
-going to save them.
-
-This should also be bumped to the top, i.e. do the "does this exist check" first.
-
-Lastly, the direction we are taking is to NOT exempt host-initiated writes, i.e.
-userspace has to set CPUID before MSRs.  If you base the next version on top of
-this series, it should just work (and if it doesn't, I definitely want to know):
-
-https://lore.kernel.org/all/20240425181422.3250947-1-seanjc@google.com
-
-
-> +			if (!guest_can_use(vcpu, X86_FEATURE_FRED))
-> +				return 1;
-> +		}
-> +
-
-Uh, where does the value go?  Oh, this is common code.  Ah, and it's in common
-code so that VMX can avoid having to make an extra function call for every MSR.
-Neat.
-
->  		break;
->  	}
->  
-> @@ -1936,6 +1963,22 @@ int __kvm_get_msr(struct kvm_vcpu *vcpu, u32 index, u64 *data,
->  		    !guest_cpuid_has(vcpu, X86_FEATURE_RDPID))
->  			return 1;
->  		break;
-> +	case MSR_IA32_FRED_RSP0 ... MSR_IA32_FRED_CONFIG:
-> +		if (host_initiated) {
-> +			if (!kvm_cpu_cap_has(X86_FEATURE_FRED))
-> +				return 1;
-> +		} else {
-> +			/*
-> +			 * Inject #GP upon FRED MSRs accesses from a non-FRED guest,
-> +			 * which also ensures no malicious guest can write to FRED
-> +			 * MSRs to corrupt host FRED MSRs.
-> +			 */
-> +			if (!guest_can_use(vcpu, X86_FEATURE_FRED))
-> +				return 1;
-> +		}
-
-Same comments here.
+>  static inline ulong kvm_read_cr3(struct kvm_vcpu *vcpu)
+>  {
+>  	if (!kvm_register_is_available(vcpu, VCPU_EXREG_CR3))
+> -- 
+> 2.43.0
+> 
