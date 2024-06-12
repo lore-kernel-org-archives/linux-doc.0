@@ -1,65 +1,65 @@
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6234682488
-	for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 21:53:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F40A51272BC
+	for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 22:09:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718229184; cv=none; b=aq7Zt683p9vJHZdcdAws7pF98Fm4Hx4P2biM8qC/9iCGMPd4dEXbKO8l13n5vpd0YEh/ZEsQIKjeAOLXZdt/NdX6lsg1HV9QjJFjwOYXaVS3vocQSuF2GT/zblRb1O3Bnqsl6ZH2xbvRUD+Q71SrnsxqfUNv1vZE1kh6Pg4N8w8=
+	t=1718230146; cv=none; b=IHrNH4gQllKzDB+s3DJnhn0l8rqVpWVktLPZ5nJOVA8cMB8KeQVGcI7J9HXn34la7I6uR2Xbss+t+41+rJTX1FACYX0z2oCRKfAQMA032tmHFt2PenNalPImA/ZTLrLTiy0cIYDph1dYOikYmnSMH48/sjIo5Fx/JfrZNU2fhMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718229184; c=relaxed/simple;
-	bh=wusK4kc1FS+vHMjVpzL07yrjIW2g3Y3LcvsX2vuPaps=;
+	s=arc-20240116; t=1718230146; c=relaxed/simple;
+	bh=uf4QwjexCbqgBE5KgK6TjEHCqZfSMf9GM+zF7zleRX4=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=U9Hsv8vXqTDO2WWuBOcczr+ebk8ZihBSKY9F5a5WXSbE7U8jDeDT1Wh++PKmI7YLffkmCqeFS6ZrSc1poiViYD49iBt7wAnmGd0VOB01IS1YpT7I6TOq6HWBvr3NM3+5B9sgMrJQ3NH6XVmmhTjLoc1+uqjrMHFsTcb503AKVgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fB8clxDM; arc=none smtp.client-ip=209.85.216.73
+	 To:Cc:Content-Type; b=GVzqtvvCuAAHW7yoFB+EGSr9GZ0URWsQ40Gxsh552rIwLos2z93ZopgsYhhFoUKPVWfjOi/3bqHM0BR4Mg6cg/q7GAItjrRgIRVBt/KPdQpX2zSyt2DleiJ0/D5dI8k4H+fBBcdKS8Av2JZnVqwSeZ7gH2LbPIoTzLDGDqioB/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WCbft5Ps; arc=none smtp.client-ip=209.85.210.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fB8clxDM"
-Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-2c4a1c9c0e0so226203a91.1
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 14:53:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WCbft5Ps"
+Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-70419ef7f48so1003996b3a.1
+        for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 15:09:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718229183; x=1718833983; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1718230144; x=1718834944; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xc5E1XEOoOO6m8at8GOziJ7pGWON/gur52mgUSEksH0=;
-        b=fB8clxDMfQn1hS6Z2I1gxumHpNNQjaVGN3szaluSHppL6hXntf8uxhdY9Js8lzGccg
-         ggTTh5Z1SsyDNOSmoGSmxBnNJ7RqDqJPK1LD7+6QT480YauemTIvdv4pgjpMoybFHuby
-         jIsATDnv+s5qGaXHuD8ZLAX43k5JNhmEfJzUM1mCvIhBAOyY1rWbTaPKvm5XNxf5AU0E
-         ZzCe1ivh/IQrQhiiQ0RqvMIZvDjDkoAMW3hgwyWOuFsz2E8VFIAbZJCvjEK8qBfIYc4H
-         5UB94XtiRSqYWhJv6kMFgHQh6e/d2upyP2zj/BW+PzWk66CpJ5p+jF3Xu8FegBkuKfTB
-         y5vw==
+        bh=/5uG0fPgVb1UTRgqxTYPdWxSr8OQ4pJ5csv1+LzNJtI=;
+        b=WCbft5Psx+Rtd8O6uWItQynnGV0Z589CuDLIx149masc3T7X+yDJQCcAhTHs7lO1Zu
+         AUxAnSzPoOXiq2cS1a3YSvmvuPjP1VA1itDcccPnulwNyurPywAxedBEx2nSgEAwtKDk
+         /32bj91B19svsy7KO0pqKx+uv64kZm81MfNRzvt6E+Vn2QgZb8/O9/wMkHzepzAmlwgX
+         4LP5t4kEHMeaBK55loWmOqE2dMVHXE7A33csXGUtmgw+G98xAdeqvekEodIN1gLfWd6a
+         +lXW47dLoJvU+YuySCpRScl1/0eu9UcEB0h7gXtB0QxKVU7+KMW8ekU4tTd7uinP/ebR
+         CpAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718229183; x=1718833983;
+        d=1e100.net; s=20230601; t=1718230144; x=1718834944;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xc5E1XEOoOO6m8at8GOziJ7pGWON/gur52mgUSEksH0=;
-        b=H0+sejCLkzyTyh3y/B6ZiJyb5dkyi7NRwgZgAlJZWdUT2Pys3QgucIxVl2nrIMTXfN
-         Vh4ea1D/44RohQZ/5BvPlCVwsFGMm6t5otoLmPqVm6h1GTxm04Y6kESU7+PfQrcji16j
-         xq7UdPKZYrq1XLzeDbiyRNoL+qpWykeHrzisQrO33m6wz7mTiYyEphBpMO9Z4QERSo54
-         se6ZOTtwIfeHyvdaMLCKG9tXGEjfii64dWlIbsuHLBPzdUSk1wKHKp0kCplK+UVimNBa
-         J7JTUlUCu/cwYZUbEmQ/2GzMtqOlwwSC97MeG59WhdyRH6wY6gusNx493nyz5B7KOOjL
-         X9sg==
-X-Forwarded-Encrypted: i=1; AJvYcCUmdqb3X1laP7wUrqywlkUpNvSsZ29RppLDKtcWpVS9WWp1KDDJEtDgawRPCdFSCdvJ5+rElSp82til7HfEzDUp74NvvTNnG5Og
-X-Gm-Message-State: AOJu0YxFw1hISdGQ/7L1JYo2qTB0HbFstuvRwkYCtg5BjtFuUzfTskb1
-	9qFcZHmAMMYYC8I34Ds6tSgbUt4YAsK2cet0FYZPOF30leozVYAlqgvV4ljrNRQuLVExms9h+rg
-	T8g==
-X-Google-Smtp-Source: AGHT+IHbT5hnMTXfHXSrzZVzfM2ddDy1yTfVBw9Mcqt2XJ++35TEAMcRNhA5paiMB3+XTpPwciNXAbVip6c=
+        bh=/5uG0fPgVb1UTRgqxTYPdWxSr8OQ4pJ5csv1+LzNJtI=;
+        b=EJP5fOBmj/yTwiDhpFMNZyWQbFcA3bcjQRfu+IMvZRtxsN5TQ+CfHOi75LpQN1qrcS
+         /IWwH/jivQmXtIxCysEeqtDY4QahrMBkMsBc/F9eW0hSD7durpJ3rh8EkKzY7psiWQk3
+         8ESZqbvxouDDfTfefErRoWQq8NC5taB7s6v3dpSrkn6nvYTaBa4ZmtQ2Nz1y6XXg0H+u
+         8IuORmK1J+2UWFSYl5BxAjET9kExSE/DnxGF5upGp3rXV+AOaihg1pQBmSMrybymrJMg
+         r05MkPlwRshT6W8KXeN2TYMI2oBjquh1P/MCXBbi7subODid/frQCWaxOCDSnVP6AkqF
+         uVKw==
+X-Forwarded-Encrypted: i=1; AJvYcCVnZ9LSuSRQNncavomkkDevV7nMy/7TRMItVHMrF5mip7CMUIHHPhb5dTNSYOv1GkH3u14QFv0nsQ3po3Dy/WlZfDGu3YVJ6fbu
+X-Gm-Message-State: AOJu0YyYQm5LMgKWaFblK94I8en1M7KKYQiX2uq0JGiZ5JMnjDRYAnLc
+	o0xJTrc3nHTvZX2DXFOV2Xxu8+Ao1Us6XKuXTul4vvdUw1TwVtH2aayPGlB+2EexR56HfMVUHBr
+	MVg==
+X-Google-Smtp-Source: AGHT+IH7XsxsWv6Xxtc9WU3EA5gUAJyix8Gbpq//kNw7QeS8GpV4XLqP4J1OWQy1QXo5sNaSavBNy6s6yRI=
 X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a17:90a:62c9:b0:2c2:c65f:52dc with SMTP id
- 98e67ed59e1d1-2c4a770e8f6mr8577a91.6.1718229182634; Wed, 12 Jun 2024 14:53:02
- -0700 (PDT)
-Date: Wed, 12 Jun 2024 14:53:01 -0700
-In-Reply-To: <20240207172646.3981-10-xin3.li@intel.com>
+ (user=seanjc job=sendgmr) by 2002:a05:6a00:181c:b0:705:c24c:70e3 with SMTP id
+ d2e1a72fcca58-705c9247ae9mr14937b3a.2.1718230144114; Wed, 12 Jun 2024
+ 15:09:04 -0700 (PDT)
+Date: Wed, 12 Jun 2024 15:09:02 -0700
+In-Reply-To: <20240207172646.3981-11-xin3.li@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20240207172646.3981-1-xin3.li@intel.com> <20240207172646.3981-10-xin3.li@intel.com>
-Message-ID: <ZmoYvcbFBPJ5ARma@google.com>
-Subject: Re: [PATCH v2 09/25] KVM: VMX: Switch FRED RSP0 between host and guest
+References: <20240207172646.3981-1-xin3.li@intel.com> <20240207172646.3981-11-xin3.li@intel.com>
+Message-ID: <ZmocflXIH0UUsFzn@google.com>
+Subject: Re: [PATCH v2 10/25] KVM: VMX: Add support for FRED context save/restore
 From: Sean Christopherson <seanjc@google.com>
 To: Xin Li <xin3.li@intel.com>
 Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
@@ -71,82 +71,104 @@ Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
 Content-Type: text/plain; charset="us-ascii"
 
 On Wed, Feb 07, 2024, Xin Li wrote:
-> Switch MSR_IA32_FRED_RSP0 between host and guest in
-> vmx_prepare_switch_to_{host,guest}().
-> 
-> MSR_IA32_FRED_RSP0 is used during ring 3 event delivery only, thus
-> KVM, running on ring 0, can run safely with guest FRED RSP0, i.e.,
-> no need to switch between host/guest FRED RSP0 during VM entry and
-> exit.
-> 
-> KVM should switch to host FRED RSP0 before returning to user level,
-> and switch to guest FRED RSP0 before entering guest mode.
-
-Heh, if only KVM had a framework that was specifically designed for context
-switching MSRs on return to userspace.  Translation: please use the user_return_msr()
-APIs.
-
-> Signed-off-by: Xin Li <xin3.li@intel.com>
-> Tested-by: Shan Kang <shan.kang@intel.com>
-> ---
-> 
-> Changes since v1:
-> * Don't use guest_cpuid_has() in vmx_prepare_switch_to_{host,guest}(),
->   which are called from IRQ-disabled context (Chao Gao).
-> * Reset msr_guest_fred_rsp0 in __vmx_vcpu_reset() (Chao Gao).
-> ---
->  arch/x86/kvm/vmx/vmx.c | 17 +++++++++++++++++
->  arch/x86/kvm/vmx/vmx.h |  2 ++
->  2 files changed, 19 insertions(+)
-> 
 > diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-> index b7b772183ee4..264378c3b784 100644
+> index 264378c3b784..ee61d2c25cb0 100644
 > --- a/arch/x86/kvm/vmx/vmx.c
 > +++ b/arch/x86/kvm/vmx/vmx.c
-> @@ -1337,6 +1337,16 @@ void vmx_prepare_switch_to_guest(struct kvm_vcpu *vcpu)
+> @@ -1420,6 +1420,24 @@ static void vmx_write_guest_kernel_gs_base(struct vcpu_vmx *vmx, u64 data)
+>  	preempt_enable();
+>  	vmx->msr_guest_kernel_gs_base = data;
+>  }
+> +
+> +static u64 vmx_read_guest_fred_rsp0(struct vcpu_vmx *vmx)
+> +{
+> +	preempt_disable();
+> +	if (vmx->guest_state_loaded)
+> +		vmx->msr_guest_fred_rsp0 = read_msr(MSR_IA32_FRED_RSP0);
+> +	preempt_enable();
+> +	return vmx->msr_guest_fred_rsp0;
+> +}
+> +
+> +static void vmx_write_guest_fred_rsp0(struct vcpu_vmx *vmx, u64 data)
+> +{
+> +	preempt_disable();
+> +	if (vmx->guest_state_loaded)
+> +		wrmsrl(MSR_IA32_FRED_RSP0, data);
+> +	preempt_enable();
+> +	vmx->msr_guest_fred_rsp0 = data;
+> +}
+
+This should be unnecessary when you switch to the user return framework.
+
+KERNEL_GS_BASE is a bit special because it needs to be reloaded if the kernel
+switches to a different task, i.e. before an exit to userspace.
+
+> @@ -1892,6 +1895,30 @@ static int __kvm_set_msr(struct kvm_vcpu *vcpu, u32 index, u64 data,
+>  			return 1;
+>  
+>  		data = (u32)data;
+> +		break;
+> +	case MSR_IA32_FRED_RSP0 ... MSR_IA32_FRED_CONFIG:
+> +		if (index != MSR_IA32_FRED_STKLVLS && is_noncanonical_address(data, vcpu))
+> +			return 1;
+> +		if ((index >= MSR_IA32_FRED_RSP0 && index <= MSR_IA32_FRED_RSP3) &&
+> +		    (data & GENMASK_ULL(5, 0)))
+> +			return 1;
+> +		if ((index >= MSR_IA32_FRED_SSP1 && index <= MSR_IA32_FRED_SSP3) &&
+> +		    (data & GENMASK_ULL(2, 0)))
+> +			return 1;
+> +
+> +		if (host_initiated) {
+> +			if (!kvm_cpu_cap_has(X86_FEATURE_FRED))
+> +				return 1;
+> +		} else {
+> +			/*
+> +			 * Inject #GP upon FRED MSRs accesses from a non-FRED guest,
+> +			 * which also ensures no malicious guest can write to FRED
+> +			 * MSRs to corrupt host FRED MSRs.
+> +			 */
+
+Drop the comment, if someone reading KVM code doesn't grok that attempting to
+access MSRs that shouldn't exist results in #GP, then a comment probably isn't
+going to save them.
+
+This should also be bumped to the top, i.e. do the "does this exist check" first.
+
+Lastly, the direction we are taking is to NOT exempt host-initiated writes, i.e.
+userspace has to set CPUID before MSRs.  If you base the next version on top of
+this series, it should just work (and if it doesn't, I definitely want to know):
+
+https://lore.kernel.org/all/20240425181422.3250947-1-seanjc@google.com
+
+
+> +			if (!guest_can_use(vcpu, X86_FEATURE_FRED))
+> +				return 1;
+> +		}
+> +
+
+Uh, where does the value go?  Oh, this is common code.  Ah, and it's in common
+code so that VMX can avoid having to make an extra function call for every MSR.
+Neat.
+
+>  		break;
 >  	}
 >  
->  	wrmsrl(MSR_KERNEL_GS_BASE, vmx->msr_guest_kernel_gs_base);
-> +
-> +	if (guest_can_use(vcpu, X86_FEATURE_FRED)) {
-> +		/*
-> +		 * MSR_IA32_FRED_RSP0 is top of task stack, which never changes.
-> +		 * Thus it should be initialized only once.
+> @@ -1936,6 +1963,22 @@ int __kvm_get_msr(struct kvm_vcpu *vcpu, u32 index, u64 *data,
+>  		    !guest_cpuid_has(vcpu, X86_FEATURE_RDPID))
+>  			return 1;
+>  		break;
+> +	case MSR_IA32_FRED_RSP0 ... MSR_IA32_FRED_CONFIG:
+> +		if (host_initiated) {
+> +			if (!kvm_cpu_cap_has(X86_FEATURE_FRED))
+> +				return 1;
+> +		} else {
+> +			/*
+> +			 * Inject #GP upon FRED MSRs accesses from a non-FRED guest,
+> +			 * which also ensures no malicious guest can write to FRED
+> +			 * MSRs to corrupt host FRED MSRs.
+> +			 */
+> +			if (!guest_can_use(vcpu, X86_FEATURE_FRED))
+> +				return 1;
+> +		}
 
-Then grab the host value during vmx_hardware_setup().  And when you rebase on top
-of the latest kvm-x86/next, there's a handy dandy "struct kvm_host_values kvm_host"
-to track host MSR values (and similar state).
-
-You could also use that for MSR_IA32_FRED_CONFIG and MSR_IA32_FRED_STKLVLS.
-
-> +		 */
-> +		if (unlikely(vmx->msr_host_fred_rsp0 == 0))
-> +			vmx->msr_host_fred_rsp0 = read_msr(MSR_IA32_FRED_RSP0);
-> +		wrmsrl(MSR_IA32_FRED_RSP0, vmx->msr_guest_fred_rsp0);
-> +	}
->  #else
->  	savesegment(fs, fs_sel);
->  	savesegment(gs, gs_sel);
-> @@ -1381,6 +1391,11 @@ static void vmx_prepare_switch_to_host(struct vcpu_vmx *vmx)
->  	invalidate_tss_limit();
->  #ifdef CONFIG_X86_64
->  	wrmsrl(MSR_KERNEL_GS_BASE, vmx->msr_host_kernel_gs_base);
-> +
-> +	if (guest_can_use(&vmx->vcpu, X86_FEATURE_FRED)) {
-> +		vmx->msr_guest_fred_rsp0 = read_msr(MSR_IA32_FRED_RSP0);
-> +		wrmsrl(MSR_IA32_FRED_RSP0, vmx->msr_host_fred_rsp0);
-> +	}
->  #endif
->  	load_fixmap_gdt(raw_smp_processor_id());
->  	vmx->guest_state_loaded = false;
-> @@ -4889,6 +4904,8 @@ static void __vmx_vcpu_reset(struct kvm_vcpu *vcpu)
->  
->  #ifdef CONFIG_X86_64
->  	if (kvm_cpu_cap_has(X86_FEATURE_FRED)) {
-> +		vmx->msr_guest_fred_rsp0 = 0;
-
-Eh, I wouldn't bother.  Arguably it's better to use __kvm_set_msr(), and "vmx"
-is zero-allocated so this is unnecessary.
-
-The GUEST_IA32_FRED_* VMCS fields need to be explicitly initialized because the
-VMCS could (very theoretically) use a non-zero-based encoding scheme.
+Same comments here.
