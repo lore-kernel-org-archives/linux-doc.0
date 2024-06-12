@@ -1,137 +1,92 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 183778287E;
-	Wed, 12 Jun 2024 19:38:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF81839F3
+	for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 19:40:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718221114; cv=none; b=iKA6uxzFVpHKnEkU0Fok/52rOqhv/vTW4g0JWYdBBzw5ov8hu1KDjwg+puViGZb/j6YhjFzXU17beg5xfjUGSAk9TgRhEmE95qYC4hFx7bShEAIbrWT3zBzM0pne5QUZGtThMZpOIbrIWlqfZ1fhDdDG6AUAZ8TbwPwhbsp0dRw=
+	t=1718221229; cv=none; b=pCuwV+/vFaOLd2lDf1ULYwv353gFzTYPko9afWKmJymCKoyV7jGNFftCEQFL8NnxwInaUr/0wPFzZgEYIpqgdPXKhHylCJw0q50GUqcEKKhTV221P9SIdYkVEJWoQGA8KhVdlSoaXXRVo9RP0NFKB/lHJD5LtEzkqpPtEuSasZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718221114; c=relaxed/simple;
-	bh=d32MiCbVXWXFZkPey7ssf/tf/faMNZuWIlojVdCoicw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=h9YewpGNSl1xk0Mq8bLUbKayBkQZWA6XkYuTwwo/jFh5nA05AK6sZNDkSeIQypYoc7T1V1CpfEtuIWrhs/mvLALMJWIHw5IusHNtfJEhy60QNxQVAb1U+C+0Tx38ZDZUIZRB4eRMAyAd14S40TVuge0ZGvVusQEn56b3+bi1c0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=G11A0aLv; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1718221229; c=relaxed/simple;
+	bh=cSKMFEYXfnxs8boSeddh2ftPnZABvpUWL3r1pVUsXaI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tNRAhriwvmn6lMTv5adL2UxZ166oF0a/q+TRR2r3kj22uu2HBEfpB6TSX6puh+sq8XG42cqeKPsm1UMHey9Kn17f6kT84JUARh7zBu2kTenSo+Wn1nQQhpk/Hrd/han3Zpu9l9PM/5juZdzKBDAJV0mFWbCb0nISnyN6BtvPxWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=BhSR0zJc; arc=none smtp.client-ip=209.85.167.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="G11A0aLv"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45CGOH31003526;
-	Wed, 12 Jun 2024 19:38:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	skQ8Rd99Bnftz8B5vinGT/Kjrx0fdNO1wEQ3MtRhlmg=; b=G11A0aLvoPLmjU8U
-	2a3nBQzc1zEYxPMYsTtEKuZMsXFcPmSmOq8OcGtXhI9ebK8lDmaAF0fUATEX+qdR
-	2tOgGzxzm9cf+FW8hrHuGOQr3BVd7ANtTi2Z9xrVEny6tLsWBYnCq80lSk6DUJe6
-	QkXvYQx1NUNYciP2vqh9bUujI95UFAuVGmLIwdFG21k1YYE0qwQPSbQBaAVxpye7
-	7BXc2+qBdMRtpiLwUgCISALSzlNFl8ohAxA8pTXP6O1ojrcaCcobp900RDWFBvLI
-	NuN6XgsFoMGaadNXjaSkf5Naoo8slxA3XMC+48LTeGVyleOC5e1iins6p8YstF++
-	mFlMjg==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ype914wh1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 12 Jun 2024 19:38:15 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA04.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45CJcDcE013460
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 12 Jun 2024 19:38:13 GMT
-Received: from [10.110.56.180] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 12 Jun
- 2024 12:38:12 -0700
-Message-ID: <c17e6d77-8daf-30f7-700c-d8b72cacf9cc@quicinc.com>
-Date: Wed, 12 Jun 2024 12:38:12 -0700
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="BhSR0zJc"
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3d226c5a157so82346b6e.2
+        for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 12:40:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1718221226; x=1718826026; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=w5LNtnpb+cPV0IybYX1l2BPxrq2qZxhs9ZuI7HpIWdM=;
+        b=BhSR0zJc9Vy29nagRHebEf96qeTJ71fsNkJK5Whj8Q4sPt4L4CdQuXAByjLDSylTL2
+         Li3sgKMW3GTSUkh8vhNM6WwmcGllQXmNcjaCFwQDfBacok+pd1SEBhLzvngZ2/6MRbdz
+         Pv3dsYGXzbK68fEjkzP+FY9uwgE4kGCqMrdZ7IeVNhWed7L+0+qOIWu/owem8mtARq++
+         UHSKosws61j8csR3tHvgmLcUbHUo95kTnrB3hVBv9EQleUY4KxNw9TexGyXOoHxyl2vf
+         iu5o6kQyZyMYyBkoJAKGHFonxpY3bWxicO8DlUHdzRFak2dI8FfvZTeF2URlEPd/II0v
+         wcgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718221226; x=1718826026;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=w5LNtnpb+cPV0IybYX1l2BPxrq2qZxhs9ZuI7HpIWdM=;
+        b=YoGMZnKzIZtAQ9ywjpXzWP0zLwSHUS7npXbXO5NT+9PqsZBxJJJtIqPBIaEVMRUixW
+         tnuZJ7qbdwkRtPNTpyvg3zHWE8h/b5isL8WQ8JGgj53n1/5milCUecL/m8DuXN9chvFq
+         FACwb5+jKTN/RExOPNNAvBMJ2TKJH1IiavhfsbvKXntxCcO4x/kRoQEBLlTAjmePy4hX
+         8q4uAocckRoi9CT5ZPaxnvC4gBLgCVFE8Bu/H1MsVibbESjIXCn5CZFIaTSw2KgMqNHx
+         TlHW8G8ekEVKIjIGDIDQpFI3auXSHGv3viHhFHKdyyy6n5MslHsQ/Gz17pv9E0Q02FVq
+         e9oQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUWW90VBH4+HF9uCK/G8I0Qr3sXxs/ZucynBNOSXJFqYxiD6eH7YL/OZZBMySbl8M5chznu5OX8VBv2adbjeGIXLkHy2+/71xzZ
+X-Gm-Message-State: AOJu0YyowwhOkX/j8WP8dKtYysPVrbrNx10o5KXhxN522oNN482q+6lt
+	Vhbr4mDzraXF5cnlEVbk+ZaNy5X+ZDWLEtaRQ7LtP/upGuO7xEusgPjhUIdqvg0=
+X-Google-Smtp-Source: AGHT+IF6oKhV6A6Y8jPxsGC+iDd30Uo+tPSQ/KOgptYZ4SVvzSzhteTlGlt677GoxMbr0X9fXi+ZCg==
+X-Received: by 2002:a05:6808:1594:b0:3d1:fc50:1aae with SMTP id 5614622812f47-3d23dfdbe9dmr2927945b6e.7.1718221226425;
+        Wed, 12 Jun 2024 12:40:26 -0700 (PDT)
+Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3d21cac78d0sm1690192b6e.13.2024.06.12.12.40.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Jun 2024 12:40:26 -0700 (PDT)
+Message-ID: <80093c72-d0c3-4d25-8830-392324744300@baylibre.com>
+Date: Wed, 12 Jun 2024 14:40:25 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v23 00/32] Introduce QC USB SND audio offloading support
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] iio: adc: ad4695: Add driver for AD4695 and similar
+ ADCs
+To: Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: Michael Hennerich <michael.hennerich@analog.com>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Ramona Gradinariu <ramona.gradinariu@analog.com>
+References: <20240612-iio-adc-ad4695-v1-0-6a4ed251fc86@baylibre.com>
+ <20240612-iio-adc-ad4695-v1-2-6a4ed251fc86@baylibre.com>
 Content-Language: en-US
-To: =?UTF-8?Q?Amadeusz_S=c5=82awi=c5=84ski?=
-	<amadeuszx.slawinski@linux.intel.com>,
-        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <broonie@kernel.org>, <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
-        <Thinh.Nguyen@synopsys.com>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
-        <robh@kernel.org>, <gregkh@linuxfoundation.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>
-References: <20240610235808.22173-1-quic_wcheng@quicinc.com>
- <80fefd6b-0f3a-4f6a-869e-fd2225315801@linux.intel.com>
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <80fefd6b-0f3a-4f6a-869e-fd2225315801@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: HHXUBLJgdQL5MbjC7E0KsMgLBiref_Yc
-X-Proofpoint-ORIG-GUID: HHXUBLJgdQL5MbjC7E0KsMgLBiref_Yc
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-12_10,2024-06-12_02,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0 mlxscore=0
- adultscore=0 priorityscore=1501 malwarescore=0 phishscore=0 bulkscore=0
- clxscore=1015 mlxlogscore=999 impostorscore=0 suspectscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2405170001
- definitions=main-2406120138
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <20240612-iio-adc-ad4695-v1-2-6a4ed251fc86@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Amadeusz,
+On 6/12/24 2:20 PM, David Lechner wrote:
 
-On 6/12/2024 7:50 AM, Amadeusz Sławiński wrote:
-> On 6/11/2024 1:57 AM, Wesley Cheng wrote:
-> 
->> Wesley Cheng (32):
->>    ASoC: Add SOC USB APIs for adding an USB backend
->>    ASoC: dt-bindings: qcom,q6dsp-lpass-ports: Add USB_RX port
->>    ASoC: qcom: qdsp6: Introduce USB AFE port to q6dsp
->>    ASoC: qdsp6: q6afe: Increase APR timeout
->>    ASoC: qcom: qdsp6: Add USB backend ASoC driver for Q6
->>    ALSA: usb-audio: Introduce USB SND platform op callbacks
->>    ALSA: usb-audio: Export USB SND APIs for modules
->>    ALSA: usb-audio: Save UAC sample size information
->>    usb: dwc3: Specify maximum number of XHCI interrupters
->>    usb: host: xhci-plat: Set XHCI max interrupters if property is present
->>    ALSA: usb-audio: qcom: Add USB QMI definitions
->>    ALSA: usb-audio: qcom: Introduce QC USB SND offloading support
->>    ALSA: usb-audio: Check for support for requested audio format
->>    ASoC: usb: Add PCM format check API for USB backend
->>    ASoC: qcom: qdsp6: Ensure PCM format is supported by USB audio device
->>    ALSA: usb-audio: Prevent starting of audio stream if in use
->>    ALSA: usb-audio: Do not allow USB offload path if PCM device is in use
->>    ASoC: dt-bindings: Update example for enabling USB offload on SM8250
->>    ALSA: usb-audio: qcom: Populate PCM and USB chip information
->>    ASoC: qcom: qdsp6: Add support to track available USB PCM devices
->>    ASoC: Introduce SND kcontrols to select sound card and PCM device
->>    ASoC: qcom: qdsp6: Add SOC USB offload select get/put callbacks
->>    ASoC: Introduce SND kcontrols to track USB offloading state
->>    ASoC: qcom: qdsp6: Add PCM ops to track current state
->>    ASoC: usb: Create SOC USB SND jack kcontrol
->>    ASoC: qcom: qdsp6: Add headphone jack for offload connection status
->>    ASoC: usb: Fetch ASoC sound card information
->>    ALSA: usb-audio: Add USB offloading capable kcontrol
->>    ALSA: usb-audio: Allow for rediscovery of connected USB SND devices
->>    ALSA: usb-audio: qcom: Use card and PCM index from QMI request
->>    ASoC: usb: Rediscover USB SND devices on USB port add
->>    ASoC: doc: Add documentation for SOC USB
-> 
-> I'm not sure how other reviewers feel about this, but is there any 
-> chance to group patches in some logical order? It is bit hard to review 
-> when I need to jump from generic ALSA to ASoC then QCOM code and then 
-> there are dt-bindings mixed in between and back again.
-> 
 
-OK I'll see if I can re-order them to make it easier to look at between 
-layers.
+> +	ad4695_set_ref_voltage(st, st->vref_mv);
+> +	if (ret)
+> +		return ret;
+> +
+For some reason, no matter how many times I go over a patch, I
+always find something as soon as I hit send.
 
-Thanks
-Wesley Cheng
+This is missing ret =
+
