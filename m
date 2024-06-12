@@ -1,37 +1,33 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD0217C203;
-	Wed, 12 Jun 2024 15:08:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B2A1EB2A;
+	Wed, 12 Jun 2024 15:47:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718204925; cv=none; b=CBHDdl6l0BECLP5Vh4k/oQf6rDiBqyNuDdsO+9Vq+YQ4YlU0B7qcuQOBlaR+1BnIDegrnjG927nz8yAx1NH5w+lmv6uufnT1TqzG3yxV9lQL1X5kYij2oqwoYcUjNBQoTRmQhNkZf9aoL+hbly9NHuF6g6kFMA341StCl8Wby2Q=
+	t=1718207265; cv=none; b=UNsoko0/78auhNQrD8urD4Ib7rK6/elCCmCstZaFp1PutZF6iRykHAsGVCM/kJQMtnRkL2v/3QigjQduSxdqJsNJUD9xt8W3jesyFZj7Hr78F1dcg/H8i2y1ptjm4HnY3j+W9m/waF8G2xt7TyjnNuAyqQtlrBQ/F3plqa21wH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718204925; c=relaxed/simple;
-	bh=S/A9wwU/WWut3bLdZzEuYA9bHU+Ptv0rQdN+jQqAyeI=;
+	s=arc-20240116; t=1718207265; c=relaxed/simple;
+	bh=RcO8kJK1SPBxidMQCBZS6Nufe2pEKnWn1BExnfdFDhs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=u1BUBBb/AGPKaiimouthqVbGgF2ZralThyc8bbep8+1xGhkfMW59+WN99Kd6bj90XhT+uFlDB+rRUX2YeB/D+IvYyZKtlPtnNUsl4vi8WMUnfHJ5nENUyCmyBlTI0SMqZRonN31n8Hr3aYMitkv6kBkgbiCUFBojw7fwVrrflQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=QiH+ql88; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 In-Reply-To:Content-Type; b=H5RBiW4jLym8vj659wwxhgGumRTWDTtjLtvKARwuNZ+bKSnrnMR62SQGWlXoPniqOLLkA0NaAqgFd+KLtl4fmjvhlaLmKmWq+ZrYM/Vu4/V/vBHpWsr54vdG6WxebUjBEVGUJUmSxw+koReJDsrSSwBTT0+7ilvhgYfSnwk1OTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tUUDhFkB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QiH+ql88"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=FKQHO0q66SvvPBnedfd3/J8Ebod7dlEIQusHjYoxWmw=; b=QiH+ql88IDdp7u+dvcTFxgwWPC
-	kBLZWGsc+OWFl0P7XPkfxZjQZv1DZVI4QCgKIXQdW20Y1j8YmzUxizcBbLvgIRRKxEeFhdCAnUri2
-	/pflipIxGJew3nO0PYK/B5eAt7Q/AglYQKheYYwoME8OJJiltcOjy2SLZku5bwQ5Ghp9iUXambMkH
-	HslMfcWikAfKILxelgtRI/mGcWaPhC98UGPnRcAK8OTXlyyUI/nfU5gE+48kfwO3rz0ZhPCczJn+t
-	9NKyRsMz6peJU6lKOlIeqp+56pLHBoT/0Fh756ng/+3vGe2IsyRp2oRSu3P7p9H/2djLmQX6g0gcG
-	osxKBAGA==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sHPaY-0000000D6Tw-1cRE;
-	Wed, 12 Jun 2024 15:08:38 +0000
-Message-ID: <15aba00e-2adf-410d-be03-b977fc1aed0e@infradead.org>
-Date: Wed, 12 Jun 2024 08:08:36 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tUUDhFkB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8CCFC116B1;
+	Wed, 12 Jun 2024 15:47:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718207264;
+	bh=RcO8kJK1SPBxidMQCBZS6Nufe2pEKnWn1BExnfdFDhs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=tUUDhFkBvtiENrkhGjsuaqjXStFu2y4QmRyEz8Z44+BNeCUMT1FwXpmM/Z+ZWMWEt
+	 xzcTbt93S5t/Z2Gjbj8/IPxqyEriOfVzDPo8HuhM4xgnSUgcbkjoEHG3d2MQTSOFzv
+	 0qw54/7Zv6wsSjSdQQTHNp9M57WuCZdau/mlvGyNsjZNzhUF8fmviXzmsmm/taiwEh
+	 UVHIkfWuUcjER2VhozjXME73U59vBlXDJxWYNfGXzCU6uWRy+oqe9bZwHjAo8SrVfr
+	 B8TqlIFed1ii275iDSfF4yGkhIgvyJBVxzUfGA6GSAus8H08zqOCQJNpZ4tAB3Ft9h
+	 9EyHQ6Et14wWw==
+Message-ID: <12fd227b-5f6a-4929-baaa-7f657933cde6@kernel.org>
+Date: Wed, 12 Jun 2024 09:47:40 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,86 +35,91 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 3/3] ABI: pps: Add ABI documentation for Intel TIO
-To: Rodolfo Giometti <giometti@enneenne.com>, lakshmi.sowjanya.d@intel.com,
- tglx@linutronix.de, corbet@lwn.net, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Cc: gregkh@linuxfoundation.org, andriy.shevchenko@linux.intel.com,
- eddie.dong@intel.com, christopher.s.hall@intel.com, pandith.n@intel.com,
- subramanian.mohan@intel.com, thejesh.reddy.t.r@intel.com
-References: <20240612035359.7307-1-lakshmi.sowjanya.d@intel.com>
- <20240612035359.7307-4-lakshmi.sowjanya.d@intel.com>
- <8b66c491-ec6a-430f-8566-114372151c3a@infradead.org>
- <9cd3e304-48d7-4a69-a70c-8937dcb62a08@enneenne.com>
+Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
+ custom page providers
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <9cd3e304-48d7-4a69-a70c-8937dcb62a08@enneenne.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>, Mina Almasry <almasrymina@google.com>
+Cc: Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>,
+ Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
+References: <eb237e6e-3626-4435-8af5-11ed3931b0ac@gmail.com>
+ <be2d140f-db0f-4d15-967c-972ea6586b5c@kernel.org>
+ <20240607145247.GG791043@ziepe.ca>
+ <45803740-442c-4298-b47e-2d87ae5a6012@davidwei.uk>
+ <54975459-7a5a-46ff-a9ae-dc16ceffbab4@gmail.com>
+ <20240610121625.GI791043@ziepe.ca>
+ <59443d14-1f1d-42bb-8be3-73e6e4a0b683@kernel.org>
+ <00c67cf0-2bf3-4eaf-b200-ffe00d91593b@gmail.com>
+ <20240610221500.GN791043@ziepe.ca>
+ <CAHS8izNRd=f=jHgrYKKfzgcU3JzkZA1NkZnbQM+hfYd8-0NyBQ@mail.gmail.com>
+ <20240612120602.GQ791043@ziepe.ca>
+From: David Ahern <dsahern@kernel.org>
+In-Reply-To: <20240612120602.GQ791043@ziepe.ca>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-
-
-On 6/11/24 11:57 PM, Rodolfo Giometti wrote:
-> On 12/06/24 06:29, Randy Dunlap wrote:
->> Hi--
->>
->> On 6/11/24 8:53 PM, lakshmi.sowjanya.d@intel.com wrote:
->>> From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
->>>
->>> Document sysfs interface for Intel Timed I/O PPS driver.
->>>
->>> Signed-off-by: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
->>> ---
->>>   Documentation/ABI/testing/sysfs-platform-pps-tio | 7 +++++++
->>>   MAINTAINERS                                      | 1 +
->>>   2 files changed, 8 insertions(+)
->>>   create mode 100644 Documentation/ABI/testing/sysfs-platform-pps-tio
->>>
->>> diff --git a/Documentation/ABI/testing/sysfs-platform-pps-tio b/Documentation/ABI/testing/sysfs-platform-pps-tio
->>> new file mode 100644
->>> index 000000000000..e461cea12d60
->>> --- /dev/null
->>> +++ b/Documentation/ABI/testing/sysfs-platform-pps-tio
->>> @@ -0,0 +1,7 @@
->>> +What:        /sys/devices/platform/INTCxxxx/enable
->>> +Date:        September 2024
->>> +KernelVersion:    6.11
->>> +Contact:    Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
->>> +Description:
->>> +        (RW) Enable or disable PPS TIO generator output, read to
->>> +        see the status of hardware (Enabled/Disabled).
->>> diff --git a/MAINTAINERS b/MAINTAINERS
->>> index aacccb376c28..9c623f167aa9 100644
->>> --- a/MAINTAINERS
->>> +++ b/MAINTAINERS
->>> @@ -17946,6 +17946,7 @@ M:    Rodolfo Giometti <giometti@enneenne.com>
->>>   L:    linuxpps@ml.enneenne.com (subscribers-only)
-
-Is the mailing list correct?
-The linuxpps.org FAQ says that the Linux PPS mail list is discussions@linuxpps.org. 
-
->>>   S:    Maintained
->>>   W:    http://wiki.enneenne.com/index.php/LinuxPPS_support
->>
->> I can't connect to (load) that web page above (wiki...).
->> Is it correct? Does it work for other people?
+On 6/12/24 6:06 AM, Jason Gunthorpe wrote:
+> On Tue, Jun 11, 2024 at 11:09:15AM -0700, Mina Almasry wrote:
 > 
-> The LinuxPPS wiki is at http://linuxpps.org
-
-Great. Please have someone update the MAINTAINERS file.
-
-Thanks.
-
->>> +F:    Documentation/ABI/testing/sysfs-platform-pps-tio
->>>   F:    Documentation/ABI/testing/sysfs-pps
->>>   F:    Documentation/devicetree/bindings/pps/pps-gpio.yaml
->>>   F:    Documentation/driver-api/pps.rst
->>
+>> Just curious: in Pavel's effort, io_uring - which is not a device - is
+>> trying to share memory with the page_pool, which is also not a device.
+>> And Pavel is being asked to wrap the memory in a dmabuf. Is dmabuf
+>> going to be the kernel's standard for any memory sharing between any 2
+>> components in the future, even when they're not devices?
 > 
-> Ciao,
+> dmabuf is how we are refcounting non-struct page memory, there is
+> nothing about it that says it has to be MMIO memory, or even that the
+> memory doesn't have struct pages.
 > 
-> Rodolfo
+> All it says is that the memory is alive according to dmabuf
+> refcounting rules. And the importer obviously don't get to touch the
+> underlying folios, if any.
 > 
 
--- 
-~Randy
+In addition, the io_uring developers should be considering the use case
+of device memory. There is no reason for this design to be limited to
+host memory. io_uring should not care (it is not peeking inside the
+memory buffers); it is just memory references.
+
+One of io_uring's primary benefits is avoiding system calls. io_uring
+works with TCP sockets. Let it work with any dmabuf without concern of
+memory type. The performance benefits the Google crowd sees with system
+call based apps should be even better with io_uring.
+
+Focus on primitives, building blocks with solid APIs for other
+subsystems to leverage and let them be wired up in ways you cannot
+imagine today.
+
