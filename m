@@ -1,112 +1,79 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD6EF84E0A
-	for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 21:20:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF91484FCC;
+	Wed, 12 Jun 2024 21:27:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718227254; cv=none; b=qGF3z8Y3A/UgOGuUPFRbdDTRlDXmXS25VS5P/g6YXhw6WBtkWaNO1eNe9vFzdMNt647wVZ+Pji4RynK5QJ48KM1dmueEwnz72ppKho0Y6XsLsD8c2FtH1/cOoZ5Km4UjvTQmkuljsIJZjx1CL5mPXOCNEYpTWWqb5ighWDyOJ78=
+	t=1718227660; cv=none; b=aQF8RoN7lkFOHrcToBlRoiDfWM3xsENItRF4Zj+/w9kFEf7dBDgMyIM1S0p8hfOrBtSLQ22q+q00vrAhtqRm4XnA4DsWDeaBhRF0zVW5gxC3m0pwe5BZ/CfwgybP+Ooz3mt+ZTswF4gywYNZVdekfqSUihfWrnozepBc4qrV+Y4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718227254; c=relaxed/simple;
-	bh=1GcSncPwqKEQjxsMosB7/O2aygmUJPI07VDJmC37b5E=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=F4SHeKISSc1ed0UOhrghHbP5CkI+QTdE47kkYUn6knzTlS+0gXAGdxtHbuRIwUYrqTUYhyzDUPN+4wdyhWSAxrTFqpQdX6A0vJdaxzkeyhKjPbqcJlwHAR9vKkTqm2lx/jCZ2LPnfJNTD3khVECz1FtxNwaSqA63hZ1HNIYgKSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2UMGOmvp; arc=none smtp.client-ip=209.85.214.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1718227660; c=relaxed/simple;
+	bh=iNKRAVmgVPuJjkZmutjGGUinWHg9HGMQVM1k9mQiruM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=NC33ljqN5YU0+hICfoK+46Q5Low/77CdT3msMZjbesM4+N1XEECzQ5bnMmwnbc9qIudiJW7rrRu8olKOykjFz7L9TxoCP8kR1F8OOFA4BvumCLZD9tpfNJ5YW7cqd7GW7L9jWyHOcOY86QKzoTXyaicZEoL3eep4uGZJRbR0YXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=JYUbA/sH; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2UMGOmvp"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-1f72c0c4529so2332005ad.3
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 14:20:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718227252; x=1718832052; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=a4s5wFvfeNJXCJWEmUtUY237craFIfNnXh+7wQwiZM8=;
-        b=2UMGOmvpfuxZFXk9IV9IutXeotId8EYUzKxQe4/pzSKzalDUMuUMEqCZ5S5+bCP5+m
-         SSHuT//O0SB2zqV4FxFGPHmmZGLwPSP56Y1+PxVV6hhGDtQ6R2IcJwamT9EcJ7LMdEjO
-         HltO6YBhQ5oSis1c/KH9H/H/EXXqwu6pKt6rSzWzEOx+N6ioUBcRUr6UIX4Ak2hqLOS4
-         YR1Ka/kf6HBxDtfcKPPQ5TOYZ8bkDAGDxplSzY1EWkF6+3ahoxzvrmZ/5xGlAvT4BWhd
-         VQ41E3iDlGaeha/vh3q5coQbWOCCC8yQRr7AcyCV2yD1Hm9oYxHtmdEVxYp0BcielSdp
-         jVJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718227252; x=1718832052;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=a4s5wFvfeNJXCJWEmUtUY237craFIfNnXh+7wQwiZM8=;
-        b=wA+RQJqXrRNxy8N74kk00ZCcrMUTpOMrP0u85k6ItoGH+pPmGAzwzaNnIITS1TDUoq
-         UfBZOIYyDP0CxeZWgQGfPwKq89S1Z2LGsrq/sWiy1NshzR4Pes3ijZGeotnJ/R8El5eX
-         VNcWZUOrwhhMvI6DllVcfw+fUpL+m6nEDgcEJtplQQB58e1MkpVwpE4hJDVg9ucInOgM
-         l1hQDjzfQip5uuiLQ+1Bd9eVQr9NBP803JDPF+lpHQl7LgfcloM5virB6BPdgJzPLgYc
-         Pj5zakQLnmsXWlHoQFu2u2zLpWcV94Tx5VjKFOIabwakaMLoLNYDyoeki+JyaqReapn7
-         l09g==
-X-Forwarded-Encrypted: i=1; AJvYcCXJQsu9USYaOMzkh7RYY/688/425wQKQdSF+Yn0kbH65o9pu+uDimdexJBEY+yoX4aW351mDSOr9Or+ofe+gWvdpRmR+DbIV1e3
-X-Gm-Message-State: AOJu0YzfXnBcliUL0wyFlEv9fpmmoB0jnvt0LwPmXZ+yDfxoUxMkCECT
-	CFOlcRCUT5IRjHvizG367a7qq3NSQ1DITTNt5UUNanTqNvoRbYZHLQEDGZyr+IC8mE3dzX97Lo+
-	SXw==
-X-Google-Smtp-Source: AGHT+IF236fVTqan1xeFH5dPPmgc0NM7zLynRwigfEMIC3iJa54rvvA/hW7i8p+BK04gMU89grxKlGMEn9I=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a17:903:234f:b0:1f3:f8c:55d5 with SMTP id
- d9443c01a7336-1f83b55b4b7mr84625ad.2.1718227252048; Wed, 12 Jun 2024 14:20:52
- -0700 (PDT)
-Date: Wed, 12 Jun 2024 14:20:50 -0700
-In-Reply-To: <20240207172646.3981-8-xin3.li@intel.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="JYUbA/sH"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E43B745E09
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1718227658; bh=judTS4e2A9LJPkUHh8Mr7Rl655ZESyNbLNfX5WEC/0A=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=JYUbA/sHmBKyzx3Msqf+4dR2is282yF6FGJpHw+tKhq77PptEDUiZ0zgJok6KlFIX
+	 V7SiWwk1+e9W4xHb+GDZA4mb97du4cTT3Hp/FOI/ztIpNZB4YW43AxkriA2PtDstYb
+	 wkldFEGwwryXfJeJW74BvaKuAJ0zhN8tqTwN/a8BtaHDNvuh+5z9pStNVMbT8VcXzs
+	 YMg4x7IQ33nGG5xO/s0/OGh49FMSMDL9XJEtG8PuFwskqg4kw0nw/xoida52g6HJ9D
+	 PF2o95v9i18Mlwzh76X/h1rgVUaLHAHRe8uftXT2AeWBGj37ZG7yqwEXeKRG2T2FzV
+	 Yk8UKY2yclP4w==
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id E43B745E09;
+	Wed, 12 Jun 2024 21:27:37 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>, Yanteng
+ Si <siyanteng@loongson.cn>
+Cc: hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
+ Dongliang Mu <dzm91@hust.edu.cn>, Cheng Ziqiu <chengziqiu@hust.edu.cn>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] scripts: add scripts/checktransupdate.py
+In-Reply-To: <20240611131723.53515-1-dzm91@hust.edu.cn>
+References: <20240611131723.53515-1-dzm91@hust.edu.cn>
+Date: Wed, 12 Jun 2024 15:27:37 -0600
+Message-ID: <87plslonqu.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240207172646.3981-1-xin3.li@intel.com> <20240207172646.3981-8-xin3.li@intel.com>
-Message-ID: <ZmoRMp_-CXC9QqPK@google.com>
-Subject: Re: [PATCH v2 07/25] KVM: VMX: Set intercept for FRED MSRs
-From: Sean Christopherson <seanjc@google.com>
-To: Xin Li <xin3.li@intel.com>
-Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	pbonzini@redhat.com, corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	shuah@kernel.org, vkuznets@redhat.com, peterz@infradead.org, 
-	ravi.v.shankar@intel.com, xin@zytor.com
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain
 
-On Wed, Feb 07, 2024, Xin Li wrote:
-> @@ -7774,10 +7777,12 @@ static void update_intel_pt_cfg(struct kvm_vcpu *vcpu)
->  static void vmx_vcpu_config_fred_after_set_cpuid(struct kvm_vcpu *vcpu)
->  {
->  	struct vcpu_vmx *vmx = to_vmx(vcpu);
-> +	bool fred_enumerated;
->  
->  	kvm_governed_feature_check_and_set(vcpu, X86_FEATURE_FRED);
-> +	fred_enumerated = guest_can_use(vcpu, X86_FEATURE_FRED);
+Dongliang Mu <dzm91@hust.edu.cn> writes:
 
-"enumerated" isn't correct.  Userspace can enumerate FRED to the guest even if
-FRED is unsupported in KVM.
+> The checktransupdate.py script helps track the translation status of
+> the documentation in different locales, e.g., zh_CN and verify if
+> these documenation is up-to-date. More specially, it uses `git log`
+> commit to find the latest english commit from the translation commit
+> (order by author date) and the latest english commits from HEAD. If
+> differences occur, report the file and commits that need to be updated.
+>
+> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+> Signed-off-by: Cheng Ziqiu <chengziqiu@hust.edu.cn>
+> ---
+> v1->v2: revise the output format of git commits
+>         add some description and usage of this script
+>  scripts/checktransupdate.py | 203 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 203 insertions(+)
+>  create mode 100755 scripts/checktransupdate.py
 
-Planning for a future where this becomes guest_cpu_cap_has(), maybe "has_fred"?
+I have applied this, it seems like a useful tool.
 
-> -	if (guest_can_use(vcpu, X86_FEATURE_FRED)) {
-> +	if (fred_enumerated) {
->  		vm_entry_controls_setbit(vmx, VM_ENTRY_LOAD_IA32_FRED);
->  		secondary_vm_exit_controls_setbit(vmx,
->  						  SECONDARY_VM_EXIT_SAVE_IA32_FRED |
-> @@ -7788,6 +7793,16 @@ static void vmx_vcpu_config_fred_after_set_cpuid(struct kvm_vcpu *vcpu)
->  						    SECONDARY_VM_EXIT_SAVE_IA32_FRED |
->  						    SECONDARY_VM_EXIT_LOAD_IA32_FRED);
->  	}
-> +
-> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_RSP0, MSR_TYPE_RW, !fred_enumerated);
-> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_RSP1, MSR_TYPE_RW, !fred_enumerated);
-> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_RSP2, MSR_TYPE_RW, !fred_enumerated);
-> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_RSP3, MSR_TYPE_RW, !fred_enumerated);
-> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_STKLVLS, MSR_TYPE_RW, !fred_enumerated);
-> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_SSP1, MSR_TYPE_RW, !fred_enumerated);
-> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_SSP2, MSR_TYPE_RW, !fred_enumerated);
-> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_SSP3, MSR_TYPE_RW, !fred_enumerated);
-> +	vmx_set_intercept_for_msr(vcpu, MSR_IA32_FRED_CONFIG, MSR_TYPE_RW, !fred_enumerated);
->  }
->  
->  static void vmx_vcpu_after_set_cpuid(struct kvm_vcpu *vcpu)
-> -- 
-> 2.43.0
-> 
+I do wish the code looked like something a bit closer to the kernel
+coding style, but so it goes.
+
+Thanks,
+
+jon
