@@ -1,79 +1,115 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF91484FCC;
-	Wed, 12 Jun 2024 21:27:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD270839FD;
+	Wed, 12 Jun 2024 21:29:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718227660; cv=none; b=aQF8RoN7lkFOHrcToBlRoiDfWM3xsENItRF4Zj+/w9kFEf7dBDgMyIM1S0p8hfOrBtSLQ22q+q00vrAhtqRm4XnA4DsWDeaBhRF0zVW5gxC3m0pwe5BZ/CfwgybP+Ooz3mt+ZTswF4gywYNZVdekfqSUihfWrnozepBc4qrV+Y4=
+	t=1718227746; cv=none; b=Qd5FZMPCW/oLAP+sxGHkK5f/lm2KikDSvyq7k+IieSSv4scUrCmk+lg09HxMn2dzOz1I8KImgHCqw+Y+2NfEk5XEWnfgjKEdwr9pSL4RcuNIKSz+fODvr9ElmBXSijaZFevGOy2Nj0c9DbmI+sHsFE+EVKB/Ndd83NkSCZlGgqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718227660; c=relaxed/simple;
-	bh=iNKRAVmgVPuJjkZmutjGGUinWHg9HGMQVM1k9mQiruM=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=NC33ljqN5YU0+hICfoK+46Q5Low/77CdT3msMZjbesM4+N1XEECzQ5bnMmwnbc9qIudiJW7rrRu8olKOykjFz7L9TxoCP8kR1F8OOFA4BvumCLZD9tpfNJ5YW7cqd7GW7L9jWyHOcOY86QKzoTXyaicZEoL3eep4uGZJRbR0YXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=JYUbA/sH; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1718227746; c=relaxed/simple;
+	bh=/bnOscMoOnT73ooLq69T6EdwvMHqQhIB2Om/pcqfCbs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=Gw41OOy2LGzwsuu4tsqcTPXNfJ0UZOuiOfPDgvF/zg1ZsJQ4TbRAqk4mB88O1dpSU9bsxSA6YQF8d2uK1EXoEAA/Er1DLPd1Hx3WYRxqJta0movFkz3xI4QeJc9YaX3y53clMWGYi5HVvjvzwT4FnYmreC1yJ67+4IS4krJ1Ckg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C0o45hQd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="JYUbA/sH"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E43B745E09
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1718227658; bh=judTS4e2A9LJPkUHh8Mr7Rl655ZESyNbLNfX5WEC/0A=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=JYUbA/sHmBKyzx3Msqf+4dR2is282yF6FGJpHw+tKhq77PptEDUiZ0zgJok6KlFIX
-	 V7SiWwk1+e9W4xHb+GDZA4mb97du4cTT3Hp/FOI/ztIpNZB4YW43AxkriA2PtDstYb
-	 wkldFEGwwryXfJeJW74BvaKuAJ0zhN8tqTwN/a8BtaHDNvuh+5z9pStNVMbT8VcXzs
-	 YMg4x7IQ33nGG5xO/s0/OGh49FMSMDL9XJEtG8PuFwskqg4kw0nw/xoida52g6HJ9D
-	 PF2o95v9i18Mlwzh76X/h1rgVUaLHAHRe8uftXT2AeWBGj37ZG7yqwEXeKRG2T2FzV
-	 Yk8UKY2yclP4w==
-Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id E43B745E09;
-	Wed, 12 Jun 2024 21:27:37 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>, Yanteng
- Si <siyanteng@loongson.cn>
-Cc: hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
- Dongliang Mu <dzm91@hust.edu.cn>, Cheng Ziqiu <chengziqiu@hust.edu.cn>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] scripts: add scripts/checktransupdate.py
-In-Reply-To: <20240611131723.53515-1-dzm91@hust.edu.cn>
-References: <20240611131723.53515-1-dzm91@hust.edu.cn>
-Date: Wed, 12 Jun 2024 15:27:37 -0600
-Message-ID: <87plslonqu.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C0o45hQd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BD67C116B1;
+	Wed, 12 Jun 2024 21:29:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718227745;
+	bh=/bnOscMoOnT73ooLq69T6EdwvMHqQhIB2Om/pcqfCbs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:From;
+	b=C0o45hQdfV22llhx/2+h0zqBKM/QNlJWQv5Ftr6xDlRQzByjvi15+xchXc1ru1/Mg
+	 nUwtWI35sDqS7VZtdVJo0PU6JV4/8U5QfR2jXYDfCGqsMIIpWZ4SfFpw4AmmLXEpOO
+	 k1BJqBImSJ3Pg5CWaEtaO7dVV8303MJU0G1iTG0iXXvpl5FRtedzVNzioRhDSAcA5y
+	 1L/CU9+j707Wx1UCycia3NWmXvnOKyKtr4u260lP57b8Qq5sX38ctdQbI8uREUkJ8l
+	 MrslPGf2vEHCzbYWe3cF4kFpHG7omdyGRAUCV+Bky0KIyIheBKQzkZMyAMsIMuVGMO
+	 0zHklkmWmSZzA==
+Date: Wed, 12 Jun 2024 16:29:03 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Vidya Sagar <vidyas@nvidia.com>, "corbet@lwn.net" <corbet@lwn.net>,
+	"bhelgaas@google.com" <bhelgaas@google.com>,
+	Gal Shalom <galshalom@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>,
+	Thierry Reding <treding@nvidia.com>,
+	Jon Hunter <jonathanh@nvidia.com>,
+	Masoud Moshref Javadi <mmoshrefjava@nvidia.com>,
+	Shahaf Shuler <shahafs@nvidia.com>,
+	Vikram Sethi <vsethi@nvidia.com>,
+	Shanker Donthineni <sdonthineni@nvidia.com>,
+	Jiandi An <jan@nvidia.com>, Tushar Dave <tdave@nvidia.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Krishna Thota <kthota@nvidia.com>,
+	Manikanta Maddireddy <mmaddireddy@nvidia.com>,
+	"sagar.tv@gmail.com" <sagar.tv@gmail.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+	Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [PATCH V3] PCI: Extend ACS configurability
+Message-ID: <20240612212903.GA1037897@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240610113849.GO19897@nvidia.com>
 
-Dongliang Mu <dzm91@hust.edu.cn> writes:
+[+cc Alex since VFIO entered the conversation; thread at
+https://lore.kernel.org/r/20240523063528.199908-1-vidyas@nvidia.com]
 
-> The checktransupdate.py script helps track the translation status of
-> the documentation in different locales, e.g., zh_CN and verify if
-> these documenation is up-to-date. More specially, it uses `git log`
-> commit to find the latest english commit from the translation commit
-> (order by author date) and the latest english commits from HEAD. If
-> differences occur, report the file and commits that need to be updated.
->
-> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
-> Signed-off-by: Cheng Ziqiu <chengziqiu@hust.edu.cn>
-> ---
-> v1->v2: revise the output format of git commits
->         add some description and usage of this script
->  scripts/checktransupdate.py | 203 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 203 insertions(+)
->  create mode 100755 scripts/checktransupdate.py
+On Mon, Jun 10, 2024 at 08:38:49AM -0300, Jason Gunthorpe wrote:
+> On Fri, Jun 07, 2024 at 02:30:55PM -0500, Bjorn Helgaas wrote:
+> > "Correctly" is not quite the right word here; it's just a fact that
+> > the ACS settings determined at boot time result in certain IOMMU
+> > groups.  If the user desires different groups, it's not that something
+> > is "incorrect"; it's just that the user may have to accept less
+> > isolation to get the desired IOMMU groups.
+> 
+> That is not quite accurate.. There are HW configurations where ACS
+> needs to be a certain way for the HW to work with P2P at all. It isn't
+> just an optimization or the user accepts something, if they want P2P
+> at all they must get a ACS configuration appropriate for their system.
 
-I have applied this, it seems like a useful tool.
+The current wording of "For iommu_groups to form correctly, the ACS
+settings in the PCIe fabric need to be setup early" suggests that the
+way we currently configure ACS is incorrect in general, regardless of
+P2PDMA.
 
-I do wish the code looked like something a bit closer to the kernel
-coding style, but so it goes.
+But my impression is that there's a trade-off between isolation and
+the ability to do P2PDMA, and users have different requirements, and
+the preference for less isolation/more P2PDMA is no more "correct"
+than a preference for more isolation/less P2PDMA.
 
-Thanks,
+The kernel-parameters doc mentions the reduced isolation idea, but I
+think we need a little more guidance for users.  It's probably too
+much detail for kernel-parameters, but the commit log would be a good
+place.
 
-jon
+Maybe something like this:
+
+  PCIe ACS settings determine how devices are put into iommu_groups.
+  The iommu_groups in turn determine which devices can be passed
+  through to VMs and whether P2PDMA between them is possible.  The
+  iommu_groups are built at enumeration-time and are currently static.
+
+  Add a kernel command-line option to change ACS settings for specific
+  devices, which allows more devices to be put in the same
+  iommu_group, at the cost of reduced isolation between them.
+
+  ACS applies to PCIe Downstream Ports and multi-function devices.
+  The default ACS settings are XXX and cause devices below an
+  ACS-capable port to be put in an iommu_group isolated from P2PDMA
+  from outside the group.
+
+  Disabling ACS XXX at a port allows ... downstream devices to be
+  included in the same iommu_group as ...
+
+  [I don't know exactly how this works, so please make it make sense].
