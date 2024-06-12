@@ -1,122 +1,89 @@
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 138AF391
-	for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 22:13:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 498D01DFF0;
+	Wed, 12 Jun 2024 22:17:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718230437; cv=none; b=YCIS5z2ARHZuy936fiVhkIYqrhoHZQfNzmgYZw1IQQqKvFg6GQwClxoe6Sdii5EsEN8VDkOk1f9iGjDyyXoxzr+fl+SQPqmQcrRmD8C2y0X1SQ5O6XGNUVsRYitTDHFPkv0hGuNeubYsuAm9nWoVncxfMbNyEWUn+rv+qRdJ3xs=
+	t=1718230634; cv=none; b=Ie0tK3zfUGgl6ti7EztclNdwCuGCm3e5MUC0FLH9DqELoiDwjL8HRXciVN/2Kg7ZwR/BCTNyLlijfHoq8o3PcxdHWguQ7VgWmShG5HU8jgBMhB4/bp8F+KXZioRpsatrGZY/9ok/+W2I9hMl5ReJ7pyDAcT8TINYB3cD+cddIno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718230437; c=relaxed/simple;
-	bh=GwfBCcHjkevNkWnlhNs7s7LtsNgX3NNWwh13LjsHl2k=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=bgKdr0Sp+6xeFQNf+RDoVzsIwoYKeJooL1BsoSAwsz/97hH5rZ8Clq781FJBN0V53glleP36cSasWj3QMG/MhjcTL2mTxsnzDDrKB703aUJzlqlRjSqmaTC3cREuQlUyPKnh2yw3MAv/KMAJHA5Gdk6DBBVZz/+W4O3AYyoQiTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=s//GaH7E; arc=none smtp.client-ip=209.85.219.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1718230634; c=relaxed/simple;
+	bh=XKtl3fJWBAPZ7lPosHOgxWa9htLb59tXW1SBr5vShuM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KaJKvcFYBojS2Lmm5jcG+8XBT5bnmGnmv2zfVUacR+Is7wCUkMofDgA/R6AaSFUKHprgjVsUUhSfUlu453d5TS6XteqzK1LNRELvGqFEDUgahLAQ5j9wAon1MXL6VfqVfwpsZyfSmy4cu5Lwt/KarMsTg60rPURk2yJkgJM0OIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=R4F5khrM; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="s//GaH7E"
-Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-dfefc2c8569so652855276.3
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 15:13:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718230434; x=1718835234; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bPX3/Z0GWf3goqQnQ+80IAoevnNEBGSkkJOiBvmG4jY=;
-        b=s//GaH7EOLTmaXUl1rmYJN1rO/2MMS3WFL/FmLQy72muCUwpBXJdkimk4Zp+zGmG56
-         Gad94F4y7yknfrh9EMlah0PXnZfI0yM4yiuEWqCOkvDQkuQsqz7YmRxMB7kG2hpSiTW5
-         k/5rQYS36eV21ARWug4Xl8y5srpiuW9U3KmaFWunNhB6PQwPswRGB11cwmucIx9Czx4+
-         +mNaGCiLxeqkHE6yqosioiE0B9T6M4WWaubTjRMNbuymK5tR2G0BE+x/4DDcjGMgwDJT
-         8P23GTan20gqVn7DbXDn4b2mJGh//PkuDWLHI164cWS5qr+fsYCs+hcAi62efO4tWfMK
-         FfWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718230434; x=1718835234;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bPX3/Z0GWf3goqQnQ+80IAoevnNEBGSkkJOiBvmG4jY=;
-        b=T0+mM8Y7dtIQ8Ij7taDBkSTWaM/9faSPIVKFZ5mlQQ3ruSY/WDe3mmNMAk7/TjXxUZ
-         HjvJKf+ZS9SdgvmlPYvVEL6V3l9uXO+Qmpedgoar7XcvgwCW3GMlvlixLyVMZJBo3Wp+
-         L5ctuYxE2uREEjihZ1YmgN0RKSdacnf4nrfaEFlz0nU8FW92hkCpXbs0VYciTAhkTPOX
-         FhSoM64Cbhwnqpmn8HNfL/YSJ6qLHAnOLbJ9L8xGCisVNl+MUEEaYa9S3klNdPlC6bAl
-         1jcrE/xR5HGWGvHLj03WBi66Sh9AGqbT287fwOjqnWoBt1NpZ9W1W5eA9lH5BzDxr3Yc
-         A0Vw==
-X-Forwarded-Encrypted: i=1; AJvYcCUFlChw8tHnu3eYl/BfAIRDbsbV8XFtIoWnpVxOrcHW48ElehdPlLa/G6gcoicbNbl5uExbgWGaHG1RBSRmR9FxcpkBmTqYPvsP
-X-Gm-Message-State: AOJu0Yy0DDHPeoudi/TJYhjfLemBLxtOGd29xM+C5meVFq2WKId7qdcy
-	ghZvA0etQcwzolFoq/ncNGj4ns8DtSwmG14+dizGTNNV8T3oHVPWyC3Bvlc57k2yVEne+rmEQ7v
-	pKQ==
-X-Google-Smtp-Source: AGHT+IHQk/QK4uDOLMVdbV04IdfTlJ2Btibfi42Ivx9v36nGEO3157fO4+iqYDDxzqE9oJh20Eg6PCiUsJk=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:6902:150f:b0:de5:2694:45ba with SMTP id
- 3f1490d57ef6-dfe62d1ee23mr813079276.0.1718230434092; Wed, 12 Jun 2024
- 15:13:54 -0700 (PDT)
-Date: Wed, 12 Jun 2024 15:13:52 -0700
-In-Reply-To: <20240207172646.3981-12-xin3.li@intel.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="R4F5khrM"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=iIcxLlxujOaY2/FzOniBx4ritUwioZHVZDGOHoqYSgQ=; b=R4F5khrM3n1n98/9URs3iVUS+6
+	qudWHPbPAr6Nsdo6Y4i9/FOobpumY7SpWwxUC9CsCXpQj68JZPJBtmtwvS3Hf+FWxs49e/+l6xSBW
+	HE+sHbl+u+E4cJcnbDwrfknCJVKt8Qfgr7asds+JGZtUyDLX+Jul0Yy8ckTUVoZCoArCuIFk0+4hJ
+	kUEcSy0dpOlIvWof4FxWoHy6R0m3l58hH4mLOjiqfCgs5C+dJFxDSWd/Is8ClHQTBL6lda7BakcLi
+	JNi9i74qMgGyFi/fq44JVHT2ZAEex7t/1r96pdyF+AQ0S/LjFXOrUA4P48AEwV8+Jxjztz+GgQ5oR
+	+oxv0qyQ==;
+Received: from [50.53.4.147] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sHWHH-0000000EIr1-03fk;
+	Wed, 12 Jun 2024 22:17:11 +0000
+Message-ID: <53bd3bbf-0410-425e-84e7-1d34cac60412@infradead.org>
+Date: Wed, 12 Jun 2024 15:17:08 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240207172646.3981-1-xin3.li@intel.com> <20240207172646.3981-12-xin3.li@intel.com>
-Message-ID: <ZmodoHj_ebGza4Sj@google.com>
-Subject: Re: [PATCH v2 11/25] KVM: x86: Add kvm_is_fred_enabled()
-From: Sean Christopherson <seanjc@google.com>
-To: Xin Li <xin3.li@intel.com>
-Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	pbonzini@redhat.com, corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	shuah@kernel.org, vkuznets@redhat.com, peterz@infradead.org, 
-	ravi.v.shankar@intel.com, xin@zytor.com
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: Extend and refactor index of further kernel docs
+To: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, bilbao@vt.edu
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <fdf68be7-875a-421d-8bc3-034a21990679@gmail.com>
+ <87ikyvccwc.fsf@meer.lwn.net>
+ <2acd884f-2f04-4d39-b559-aac99f9ae35e@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <2acd884f-2f04-4d39-b559-aac99f9ae35e@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 07, 2024, Xin Li wrote:
-> Add kvm_is_fred_enabled() to get if FRED is enabled on a vCPU.
+
+
+On 6/1/24 8:03 AM, Carlos Bilbao wrote:
+> Extend the Index of Further Kernel Documentation by adding entries for the
+> Rust for Linux website, the Linux Foundation's YouTube channel, and notes
+> on the second edition of Billimoria's kernel programming book. Also,
+> perform some refactoring: format the text to 75 characters per line and
+> sort per-section content in chronological order of publication.
 > 
-> Signed-off-by: Xin Li <xin3.li@intel.com>
-> Tested-by: Shan Kang <shan.kang@intel.com>
+> Signed-off-by: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
 > ---
+>  Documentation/process/kernel-docs.rst | 68 +++++++++++++++++----------
+>  1 file changed, 44 insertions(+), 24 deletions(-)
 > 
-> Change since v1:
-> * Explain why it is ok to only check CR4.FRED (Chao Gao).
-> ---
->  arch/x86/kvm/kvm_cache_regs.h | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
-> 
-> diff --git a/arch/x86/kvm/kvm_cache_regs.h b/arch/x86/kvm/kvm_cache_regs.h
-> index 75eae9c4998a..1d431c703fdf 100644
-> --- a/arch/x86/kvm/kvm_cache_regs.h
-> +++ b/arch/x86/kvm/kvm_cache_regs.h
-> @@ -187,6 +187,23 @@ static __always_inline bool kvm_is_cr4_bit_set(struct kvm_vcpu *vcpu,
->  	return !!kvm_read_cr4_bits(vcpu, cr4_bit);
->  }
->  
-> +/*
-> + * It's enough to check just CR4.FRED (X86_CR4_FRED) to tell if
-> + * a vCPU is running with FRED enabled, because:
-> + * 1) CR4.FRED can be set to 1 only _after_ IA32_EFER.LMA = 1.
-> + * 2) To leave IA-32e mode, CR4.FRED must be cleared first.
-> + *
-> + * More details at FRED Spec 6.0 Section 4.2 Enabling in CR4.
-> + */
-> +static __always_inline bool kvm_is_fred_enabled(struct kvm_vcpu *vcpu)
+> diff --git a/Documentation/process/kernel-docs.rst
+> b/Documentation/process/kernel-docs.rst
 
-Maybe just is_fred_enabled(), or even just is_fred()?  Most helpers in x86.h that
-wrap CR4/CR0 in similar ways omit the "kvm_", partly for brevity, but also because
-the check is architectural, not KVM-defined (though the state obviously comes
-from KVM).
+The 2 lines above should be on one line, but fixing that doesn't fix everything.
+'patch' still says that it's a malformed patch.
 
-> +{
-> +#ifdef CONFIG_X86_64
-> +	return kvm_is_cr4_bit_set(vcpu, X86_CR4_FRED);
-> +#else
-> +	return false;
-> +#endif
-> +}
-> +
->  static inline ulong kvm_read_cr3(struct kvm_vcpu *vcpu)
->  {
->  	if (!kvm_register_is_available(vcpu, VCPU_EXREG_CR3))
-> -- 
-> 2.43.0
-> 
+Carlos, please check Documentation/process/email-clients.rst section on
+Thunderbird, especially for line length and line wrap.
+
+I'm still looking...
+
+> index 8660493b91d0..6f3e290abd22 100644
+> --- a/Documentation/process/kernel-docs.rst
+> +++ b/Documentation/process/kernel-docs.rst
+> @@ -3,27 +3,27 @@
+>  Index of Further Kernel Documentation
+>  =====================================
+
+
+-- 
+~Randy
