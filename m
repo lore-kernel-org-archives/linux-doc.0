@@ -1,105 +1,255 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE853374FF
-	for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 08:15:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from wflow5-smtp.messagingengine.com (wflow5-smtp.messagingengine.com [64.147.123.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A355416D305;
+	Wed, 12 Jun 2024 08:15:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718180147; cv=none; b=FrPzy7kGKgWFCFhZWnOGSMyFAImiLjcT8lcQzjSkJrVPOMwy8ctMhx5jTyXtftRGSkSfi6nA8k6imYVDvHk2e9kx/hSbAWWmZ3FSO2dCu2caDaTJ+ExlwvpTQD80V3k1UOjijHDSCka6ROsOuFaT/SbYgzx+IG7DslfvT5XJZns=
+	t=1718180148; cv=none; b=deuYjV9nKHnGLkYfwfED7o3lUPR0/MFNmCpqhtaDOvm4EMBvbcEOnUGBfjSRpbCZcJSZ1RYIi1EqN0ngido1OsgXDYs9h45fPWfuR62w80ykrEgkKAMVaQAQzT1nvvR2b5KE/OVCXUgwM1FGMxnCbcjt4kXC31Vc58JfCGmhFZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718180147; c=relaxed/simple;
-	bh=VEzB7v/ai/VnZMWmHCYAhgeAVV7HMum6IJA3IzllMtA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rMT+uHrPyvdgXvd+q60q4+kyEUMrNK7Q91ax9dn82ZlPu5N0vP0IG9qmwaJCvkyaoCRllo78rckqYPFEF+6zxDNMxJ/6fi5W0h0QCUpzd/i67uY2gbz+xEBN4U4M48nznBWLYkJGXbAQaTf8VLuUPlhBEiIs9fdgw5owndaCJAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [112.20.109.22])
-	by gateway (Coremail) with SMTP id _____8Cx7+ssWWlm8eoFAA--.8074S3;
-	Wed, 12 Jun 2024 16:15:40 +0800 (CST)
-Received: from [192.168.100.8] (unknown [112.20.109.22])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8BxVcUpWWlm3ewcAA--.59937S3;
-	Wed, 12 Jun 2024 16:15:38 +0800 (CST)
-Message-ID: <51206ee7-9ebc-4ad4-87fb-6efd570cb3c1@loongson.cn>
-Date: Wed, 12 Jun 2024 16:15:37 +0800
+	s=arc-20240116; t=1718180148; c=relaxed/simple;
+	bh=U6hukzBbxKrvojtraGdCUg5S848y4qN0OYQuMf0rzt8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nPBxECaVt8IPUzcE/h+brj/Pizn8iUe3t2kAg62fb/+qwW2rPShxzVf6zJ0EySVPwHHfZ0eyhGJsbcdCffXlAO3GPjnL+ds62jqBijMwMOoHFu5117epb8GpQR+LhzUFHoNfSVCcb0LsDWnz+smHkKyXonCz6SYTrQzGvHYfoZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=3xx0.net; spf=pass smtp.mailfrom=3xx0.net; dkim=pass (2048-bit key) header.d=3xx0.net header.i=@3xx0.net header.b=T/COupJO; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Q1t7Oopg; arc=none smtp.client-ip=64.147.123.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=3xx0.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=3xx0.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=3xx0.net header.i=@3xx0.net header.b="T/COupJO";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Q1t7Oopg"
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailflow.west.internal (Postfix) with ESMTP id 56FE02CC01F5;
+	Wed, 12 Jun 2024 04:15:43 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Wed, 12 Jun 2024 04:15:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=3xx0.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1718180142;
+	 x=1718183742; bh=HeipJvuPUXcxMs0ABdL536egEdVvkPwYQPNqw34NrRM=; b=
+	T/COupJOcGQBBzKb4rbSed3jgNiyDZbxjs5JEtO62DxXUNSbNnBaXJ6I3BPKd6Z+
+	6ARsd0guK71kwjXw1RDdKg5FDdOuWZkhwcyazmIZQ+0GGUiPXA//nZRmjiyKDLNQ
+	H3/FNjklRKt6S0bTwlxmBGERxBLF6m4484BT0r9L+hTKInVQ+3ZYLh5YNyhJQYXp
+	ZZZMseNCt+e5LtkzAJE90jHuYM3sIq1I7W7lunhkpVB8TAmty1La50EuAaJ2vR/x
+	PTEbGgbt62p4WoIo7bG36hXKZCWOBjYI6WmrR/4jUJFSGtN1AaNl7FrHu6maHb+C
+	adktYiXIICDWSH7ngkbRJg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1718180142; x=
+	1718183742; bh=HeipJvuPUXcxMs0ABdL536egEdVvkPwYQPNqw34NrRM=; b=Q
+	1t7OopgDslFmy8Sn7kpNoKmWbzt3Z2MGoExLH6bfO3TYPzfnfQmHEmYzcMmDYeHV
+	4dOdhWYUwwev8eBSiP2BjHKfakaj7tjqMPnm2sdSXNNRycOPLgtwenCOF46yNAyx
+	pPGsiB5WI1cN0szwAA8d9Y57IMMJlW3Ei1JOljlO9f5ryb0xDOh5eGgEy9Jj/ToU
+	J12o9vnGWKGOfi3Pf99MDmRwkD/fZLuT0kChTde7Io3QW+/d+bIpBFmWeAnhDtLL
+	Sktq4hNvnEGvGrHexapT4Ja5f4O0hdjtDsDaNSAJp70b6y8l05Fy5XHVTfs3iZLk
+	IGtT76BrLZv7Sbyt6kHjw==
+X-ME-Sender: <xms:LllpZr8xON2t8JBtvP8z2r9RPYAmVXKWxpra7VsoLzksHIWrVAqsTw>
+    <xme:LllpZnvkqHMbLn7nTwJpStwes9BHkU7PymLNoNE0gBFFBIWcXFG3r7Wg35DH8sg6E
+    Ww3SmzOnbYfBIBkWs8>
+X-ME-Received: <xmr:LllpZpAi9D44gg8B35OwmmG863qQRbZ6qMZRrXVT34TXUCAV6qQheTcH-4QZDZnznyXra_ThPng13sWtDhfFg7Y>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfedugedgtdduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkefstddttdejnecuhfhrohhmpeflohhn
+    rghthhgrnhcuvegrlhhmvghlshcuoehjtggrlhhmvghlshesfeiggidtrdhnvghtqeenuc
+    ggtffrrghtthgvrhhnpeetgedutdfggeetleefhfeuhedtheduteekieduvdeigeegvdev
+    vddtieekiedvheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehjtggrlhhmvghlshesfeiggidtrdhnvght
+X-ME-Proxy: <xmx:LllpZneDoyZ-RX3X4rVUuUmiN2s53H0HQpEPmjarSlJmdbeNsrC-cg>
+    <xmx:LllpZgOos_vdtrYhH4zy-fXOAUsMnhJPoF2-A5YI2fB8xlNbQzKhqQ>
+    <xmx:LllpZpnXG5LqLB-ZltLJVdyjPBFYDlsy8SHeGNxT_BRuOggOAb-DYg>
+    <xmx:LllpZqvTNxszjuD5ehQbJyHiu7_SOSqdldAZXDNby64nJkUiYieeqQ>
+    <xmx:LllpZquORTNviG0fl8x754yxTGr1qD6L8k5YykdTsQFtiAHXFTPbkZnD>
+Feedback-ID: i76614979:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 12 Jun 2024 04:15:38 -0400 (EDT)
+Date: Wed, 12 Jun 2024 01:20:49 -0700
+From: Jonathan Calmels <jcalmels@3xx0.net>
+To: Paul Moore <paul@paul-moore.com>
+Cc: John Johansen <john.johansen@canonical.com>, brauner@kernel.org,
+ 	ebiederm@xmission.com, Jonathan Corbet <corbet@lwn.net>,
+ 	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ 	KP Singh <kpsingh@kernel.org>,
+ Matt Bobrowski <mattbobrowski@google.com>,
+ 	Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>,
+ 	Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>,
+ 	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ 	Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>,
+ 	Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, 	Luis Chamberlain <mcgrof@kernel.org>,
+ Kees Cook <kees@kernel.org>, 	Joel Granados <j.granados@samsung.com>,
+ David Howells <dhowells@redhat.com>,
+ 	Jarkko Sakkinen <jarkko@kernel.org>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>,
+ 	Ondrej Mosnacek <omosnace@redhat.com>, Mykola Lysenko <mykolal@fb.com>,
+ Shuah Khan <shuah@kernel.org>, 	containers@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ 	linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
+ bpf@vger.kernel.org, 	apparmor@lists.ubuntu.com,
+ keyrings@vger.kernel.org, selinux@vger.kernel.org,
+ 	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v2 4/4] bpf,lsm: Allow editing capabilities in BPF-LSM
+ hooks
+Message-ID: <rgzhcsblub7wedm734n56cw2qf6czjb4jgck6l5miur6odhovo@n5tgrco74zce>
+References: <20240609104355.442002-1-jcalmels@3xx0.net>
+ <20240609104355.442002-5-jcalmels@3xx0.net>
+ <CAHC9VhT5XWbhoY2Nw5jQz4GxpDriUdHw=1YsQ4xLVUtSnFxciA@mail.gmail.com>
+ <z2bgjrzeq7crqx24chdbxnaanuhczbjnq6da3xw6al6omjj5xz@mqbzzzfva5sw>
+ <887a3658-2d8d-4f9e-98f2-27124bb6f8e6@canonical.com>
+ <CAHC9VhQFNPJTOct5rUv3HT6Z2S20mYdW75seiG8no5=fZd7JjA@mail.gmail.com>
+ <uuvwcdsy7o4ulmrdzwffr6uywfacmlkjrontmjdj44luantpok@dtatxaa6tzyv>
+ <CAHC9VhRnthf8+KgfuzFHXWEAc9RShDO0G_g0kc1OJ-UTih1ywg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs/zh_CN: Add userspace-api/mseal Chinese
- translation
-To: cuiyudong123@126.com
-Cc: linux-doc@vger.kernel.org, cuiyudong123 <cuiyudong@kylinos.cn>
-References: <20240611075349.1005-1-cuiyudong123@126.com>
-Content-Language: en-US
-From: Yanteng Si <siyanteng@loongson.cn>
-In-Reply-To: <20240611075349.1005-1-cuiyudong123@126.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:AQAAf8BxVcUpWWlm3ewcAA--.59937S3
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBj93XoW7ZFWUtr4xur4fur48trykCrX_yoW8GF48pF
-	yrCFn3Jan0yry7Cw1xurs7Ar4rWFyfXFW7tw13t3ZYyrnY9Fs2yw42vFW2ka4UJa1fu3W5
-	XF4rCFy7CasFvagCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUkjb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
-	xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
-	1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv
-	67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41l42xK82IYc2Ij64
-	vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8G
-	jcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE2I
-	x0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK
-	8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I
-	0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07j1YL9UUUUU=
+In-Reply-To: <CAHC9VhRnthf8+KgfuzFHXWEAc9RShDO0G_g0kc1OJ-UTih1ywg@mail.gmail.com>
 
-Hi Yudong
+On Tue, Jun 11, 2024 at 06:38:31PM GMT, Paul Moore wrote:
+> On Tue, Jun 11, 2024 at 6:15 PM Jonathan Calmels <jcalmels@3xx0.net> wrote:
+> > On Tue, Jun 11, 2024 at 03:01:01PM GMT, Paul Moore wrote:
+> > > On Tue, Jun 11, 2024 at 6:32 AM John Johansen
+> > > <john.johansen@canonical.com> wrote:
+> > > >
+> > > > On 6/11/24 01:09, Jonathan Calmels wrote:
+> > > > > On Sun, Jun 09, 2024 at 08:18:48PM GMT, Paul Moore wrote:
+> > > > >> On Sun, Jun 9, 2024 at 6:40 AM Jonathan Calmels <jcalmels@3xx0.net> wrote:
+> > > > >>>
+> > > > >>> This patch allows modifying the various capabilities of the struct cred
+> > > > >>> in BPF-LSM hooks. More specifically, the userns_create hook called
+> > > > >>> prior to creating a new user namespace.
+> > > > >>>
+> > > > >>> With the introduction of userns capabilities, this effectively provides
+> > > > >>> a simple way for LSMs to control the capabilities granted to a user
+> > > > >>> namespace and all its descendants.
+> > > > >>>
+> > > > >>> Update the selftests accordingly by dropping CAP_SYS_ADMIN in
+> > > > >>> namespaces and checking the resulting task's bounding set.
+> > > > >>>
+> > > > >>> Signed-off-by: Jonathan Calmels <jcalmels@3xx0.net>
+> > > > >>> ---
+> > > > >>>   include/linux/lsm_hook_defs.h                 |  2 +-
+> > > > >>>   include/linux/security.h                      |  4 +-
+> > > > >>>   kernel/bpf/bpf_lsm.c                          | 55 +++++++++++++++++++
+> > > > >>>   security/apparmor/lsm.c                       |  2 +-
+> > > > >>>   security/security.c                           |  6 +-
+> > > > >>>   security/selinux/hooks.c                      |  2 +-
+> > > > >>>   .../selftests/bpf/prog_tests/deny_namespace.c | 12 ++--
+> > > > >>>   .../selftests/bpf/progs/test_deny_namespace.c |  7 ++-
+> > > > >>>   8 files changed, 76 insertions(+), 14 deletions(-)
+> > > > >>
+> > > > >> I'm not sure we want to go down the path of a LSM modifying the POSIX
+> > > > >> capabilities of a task, other than the capabilities/commoncap LSM.  It
+> > > > >> sets a bad precedent and could further complicate issues around LSM
+> > > > >> ordering.
+> > > > >
+> > > > > Well unless I'm misunderstanding, this does allow modifying the
+> > > > > capabilities/commoncap LSM through BTF. The reason for allowing
+> > > > > `userns_create` to be modified is that it is functionally very similar
+> > > > > to `cred_prepare` in that it operates with new creds (but specific to
+> > > > > user namespaces because of reasons detailed in [1]).
+> > > >
+> > > > yes
+> > > >
+> > > > > There were some concerns in previous threads that the userns caps by
+> > > > > themselves wouldn't be granular enough, hence the LSM integration.
+> > > >
+> > > > > Ubuntu for example, currently has to resort to a hardcoded profile
+> > > > > transition to achieve this [2].
+> > > > >
+> > > >
+> > > > The hard coded profile transition, is because the more generic solution
+> > > > as part of policy just wasn't ready. The hard coding will go away before
+> > > > it is upstreamed.
+> > > >
+> > > > But yes, updating the cred really is necessary for the flexibility needed
+> > > > whether it is modifying the POSIX capabilities of the task or the LSM
+> > > > modifying its own security blob.
+> > > >
+> > > > I do share some of Paul's concerns about the LSM modifying the POSIX
+> > > > capabilities of the task, but also thing the LSM here needs to be
+> > > > able to modify its own blob.
+> > >
+> > > To be clear, this isn't about a generic LSM needing to update its own
+> > > blob (LSM state), it is about the BPF LSM updating the capability
+> > > sets.  While we obviously must support a LSM updating its own state,
+> > > I'm currently of the opinion that allowing one LSM to update the state
+> > > of another LSM is only going to lead to problems.  We wouldn't want to
+> > > allow Smack to update AppArmor state, and from my current perspective
+> > > allowing the BPF LSM to update the capability state is no different.
+> > >
+> > > It's also important to keep in mind that if we allow one LSM to do
+> > > something, we need to allow all LSMs to do something.  If we allow
+> > > multiple LSMs to manipulate the capability sets, how do we reconcile
+> > > differences in the desired capability state?  Does that resolution
+> > > change depending on what LSMs are enabled at build time?  Enabled at
+> > > boot?  Similarly, what about custom LSM ordering?
+> > >
+> > > What about those LSMs that use a task's capabilities as an input to an
+> > > access control decision?  If those LSMs allow an access based on a
+> > > given capability set only to have a LSM later in the ordering modify
+> > > that capability set to something which would have resulted in an
+> > > access denial, do we risk a security regression?
+> >
+> > I understand the concerns, what I fail to understand however, is how is
+> > it any different from say the `cred_prepare` hook today?
+> 
+> The existing cred_prepare hooks only operate on their own small
+> portion of the cred::security blob.  What you are proposing would be
+> the BPF LSM operating on the capability sets that it does not "own"
+> (they belong to the capability LSM).
+> 
+> If you see that as a minor difference, please understand that if you
+> skip past that you have all the issues I mentioned in my previous
+> message to deal with.
+> 
+> > > Our current approach to handling multiple LSMs is that each LSM is
+> > > limited to modifying its own state, and I'm pretty confident that we
+> > > stick to this model if we have any hope of preserving the sanity of
+> > > the LSM layer as a whole.  If you want to modify the capability set
+> > > you need to do so within the confines of the capability LSM and/or
+> > > modify the other related kernel subsystems (which I'm guessing will
+> > > likely necessitate a change in the LSMs, but that avenue is very
+> > > unclear if such an option even exists).
+> >
+> > What do you mean by "within the confines of the capability LSM" here?
+> 
+> Basically security/commoncap.c.  One could make a lot of arguments
+> about if it is, or isn't, a LSM, but commoncap.c registers LSM hooks
+> which is pretty much the definition of a LSM from an implementation
+> point of view.
 
-在 2024/6/11 15:53, cuiyudong123@126.com 写道:
-> From: cuiyudong123 <cuiyudong@kylinos.cn>
->
->    Translate the following documents into Chinese:
->
->    - userspace-api/mseal.rst
->
-> Signed-off-by: cuiyudong123 <cuiyudong@kylinos.cn>
-> ---
-> V1 -> V2: Resolved compilation warnings and optimized the translation of documentation
-> ---
->   .../zh_CN/userspace-api/index.rst             |   1 +
->   .../zh_CN/userspace-api/mseal.rst             | 186 ++++++++++++++++++
->   2 files changed, 187 insertions(+)
->   create mode 100644 Documentation/translations/zh_CN/userspace-api/mseal.rst
+Yes, hence the proposal to give it more fine-grained controls than
+what's currently available. But to your point, unlike the others,
+its own state (i.e. capsets) is shared, so this gets questionable.
 
-When I apply your patch, git output Warning:
+> > Arguably, if we do want fine-grained userns policies, we need LSMs to
+> > influence the userns capset at some point.
+> 
+> One could always use, or develop, a LSM that offers additional
+> controls around exercising capabilities.  There are currently four
+> in-tree LSMs, including the capabilities LSM, which supply a
+> security_capable() hook that is used by the capability-based access
+> controls in the kernel; all of these hook implementations work
+> together within the LSM framework and provide an additional level of
+> control/granularity beyond the existing capabilities.
 
-Applying: docs/zh_CN: Add userspace-api/mseal Chinese translation
-.git/rebase-apply/patch:160: trailing whitespace.
-   aio/shm 可以代表用户空间调用 mmap()/munmap() , 例如 ksys_shmdt() 
-在shm.c中。
-.git/rebase-apply/patch:174: trailing whitespace.
-   技术上，在 mseal() 被添加之前，用户可以通过调用 mprotect(RO)
-.git/rebase-apply/patch:189: trailing whitespace.
-正如 Jann Horn 在 [3] 中指出的那样,
-.git/rebase-apply/patch:212: new blank line at EOF.
-+
-warning: 4 lines add whitespace errors.
+Right, but the idea was to have a simple and easy way to reuse/trigger
+as much of the commoncap one as possible from BPF. If we're saying we
+need to reimplement and/or use a whole new framework, then there is
+little value.
 
-
-And you can run :
-
-./scripts/checkpatch.pl 
-0001-docs-zh_CN-Add-userspace-api-mseal-Chinese-translati.patch
-
-
-Then fix them.
-
-
-Thanks,
-
-Yanteng
-
-
+TBH, I don't feel strongly about this, which is why it is absent from
+v1. However, as John pointed out, we should at least be able to modify
+the blob if we want flexible userns caps policies down the road.
