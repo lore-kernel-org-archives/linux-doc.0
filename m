@@ -1,92 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpcmd0871.aruba.it (smtpcmd0871.aruba.it [62.149.156.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DBC179D8;
-	Wed, 12 Jun 2024 05:40:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EE4E1369BF
+	for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 07:00:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.149.156.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718170831; cv=none; b=JPvSCok8NBI4PFFVFBKYxB3SFpBDFe/O+VEHXGUSBVzqUgHvVJAjiOMZXpFyynORoFin78TJUt9JgP3EYJt9jT+z5EFuAxOWeteMysJ6BY2istkOSTE2OhikwalVfYmOiU1/LnjXUvqm8mAZHva/UflK7pDtDEvdmjr1ojAqxio=
+	t=1718175636; cv=none; b=lJ1Od+QIkth2hrHhuupdGHeKrfigbJVQI0bU7VRq7sH1CxogQ1FKgYvXjsbxw3f6tRULr7dyN2gvJMpV1+gnWcKMO2e9tb6DnHdLd/cCAYB3W8QYUjv2Z6FOsUSqS0om3EvyQtIE2V42/IRpRh/PJGNrfBJGut4CSvy3DzzXDAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718170831; c=relaxed/simple;
-	bh=z5DKGdkQHd6N4C5R0TvXcMTfbPbCS6uuyB3zQ/QDn24=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=CMehYYXxZAWjVk4aZcyerRl9CWXWbbAtXo8q6gFmiYEuDrUGLIziRz9uNg7XXKEjqhjbp5cKpN9B9YEEEZap/UriqBGzp2Gqi5FP+2A0/Gpugff8uXm/mBEDnMqD6PPSgMrvWCrxZxhmA62C8Ir8B33hObXr2m11N0Uj3WghewA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B0llf8ES; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718175636; c=relaxed/simple;
+	bh=AtbcNm6/nYW0sSNz4mBUhJriOMUPEe+fzfqGK4dS9xI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rvFqzdEXxlY5+FzHEa0dvvPFIwxw5TQs80Qd+6YWspKfP8MZvc1Eye819vY7uX5Zt0L83m74T7L5Xr6azYtsMlAiqERapbJbZ/6rBsv6Pna+uZ2bVtvoNELnkcPJqx1lY2AzaeBvx2Y6//dZaVtQAppWjfnUUBjW/yd2RgnUC3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com; spf=pass smtp.mailfrom=enneenne.com; dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b=MMNnY9J+; arc=none smtp.client-ip=62.149.156.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=enneenne.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=enneenne.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B0llf8ES"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 0509AC32786;
-	Wed, 12 Jun 2024 05:40:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718170831;
-	bh=z5DKGdkQHd6N4C5R0TvXcMTfbPbCS6uuyB3zQ/QDn24=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=B0llf8ES9k8QfWvbjirSJ+bEiP2L0vVMIDIFZvmAUl70BL6OxphJJHQLaTcoFvAB0
-	 zNypUlDZuPtNNhnCkbuVCLZJR9bFtejkFtMCGzt3iokIKxQ+3ML8QeZe0IBa2PXaUk
-	 g1jNhG23NLUXo11ukTFqWXphaRYHMseC/NOZTH+8YmAnqX+euU7JL0gWZAx3dXAmjw
-	 /Q+84ehJzLxGMJ8DlQyjRNYKO4him0tUKoXakwOPG1Pli3K6W30eE0hkFv2UTmVCxy
-	 M6LflOjnt+ZIkFzNaW8D7aBA6clV0aVmOy5j2UZTooZoLugJ8Yy+4FRkMUdbUji4k0
-	 hmTn0KWEqpRGA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E0465C54BB2;
-	Wed, 12 Jun 2024 05:40:30 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=aruba.it header.i=@aruba.it header.b="MMNnY9J+"
+Received: from [192.168.1.56] ([79.0.204.227])
+	by Aruba Outgoing Smtp  with ESMTPSA
+	id HHv8saXtAqLIyHHv8sEPCA; Wed, 12 Jun 2024 08:57:23 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+	t=1718175443; bh=AtbcNm6/nYW0sSNz4mBUhJriOMUPEe+fzfqGK4dS9xI=;
+	h=Date:MIME-Version:Subject:To:From:Content-Type;
+	b=MMNnY9J+FVmps1XHtQ19bcoAAOwcXBo8R3GJaexoXhr4qU1YlsD5HAlrZo12CLDBG
+	 NQ1XMqizg/sWkHXblaXNq4RYNi5lU1+gA1Ri3KB8deJ0gcMtKAVgN1x2+eLeatU3Bl
+	 1TU/qTwWWNJHuiBaor9tcfRqK48q8p1tGhyX5u1hKgO1HiOxakLJGQMnLTgmpvG7a9
+	 XtggOByJnzMEIB3LehxId3kSkHzo4zX97Mlh3Mb2RBvWw07hsp5O/pDgFsPIQBvRzo
+	 nroyD7AHrIhy7/1bcs1LHN2mbSjxxkNl4ecgLruc+jqwfLBNV+EMvGHDfdPGxmi1SU
+	 vNgGllRxdkryQ==
+Message-ID: <9cd3e304-48d7-4a69-a70c-8937dcb62a08@enneenne.com>
+Date: Wed, 12 Jun 2024 08:57:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v4 0/6] net/tcp: TCP-AO and TCP-MD5 tracepoints
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <171817083091.28312.7398867679773366981.git-patchwork-notify@kernel.org>
-Date: Wed, 12 Jun 2024 05:40:30 +0000
-References: <20240607-tcp_ao-tracepoints-v4-0-88dc245c1f39@gmail.com>
-In-Reply-To: <20240607-tcp_ao-tracepoints-v4-0-88dc245c1f39@gmail.com>
-To: Dmitry Safonov via B4 Relay <devnull+0x7f454c46.gmail.com@kernel.org>
-Cc: edumazet@google.com, davem@davemloft.net, kuba@kernel.org,
- pabeni@redhat.com, dsahern@kernel.org, rostedt@goodmis.org,
- mhiramat@kernel.org, mathieu.desnoyers@efficios.com, corbet@lwn.net,
- mnassiri@ciena.com, horms@kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, 0x7f454c46@gmail.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 3/3] ABI: pps: Add ABI documentation for Intel TIO
+To: Randy Dunlap <rdunlap@infradead.org>, lakshmi.sowjanya.d@intel.com,
+ tglx@linutronix.de, corbet@lwn.net, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Cc: gregkh@linuxfoundation.org, andriy.shevchenko@linux.intel.com,
+ eddie.dong@intel.com, christopher.s.hall@intel.com, pandith.n@intel.com,
+ subramanian.mohan@intel.com, thejesh.reddy.t.r@intel.com
+References: <20240612035359.7307-1-lakshmi.sowjanya.d@intel.com>
+ <20240612035359.7307-4-lakshmi.sowjanya.d@intel.com>
+ <8b66c491-ec6a-430f-8566-114372151c3a@infradead.org>
+From: Rodolfo Giometti <giometti@enneenne.com>
+Content-Language: en-US
+In-Reply-To: <8b66c491-ec6a-430f-8566-114372151c3a@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfFygZQhLsm+uwPE8FCAvvBLDz3F34gfCsP0Ff9On4pSYIEZPA+2S3YTw3CohXQmHvVAzZU/KHsY4MZoZCjd++YVqQGbrZo4irbSmOVgjOZkM0bsy5xNO
+ 1m/xKa3J92m1JeVQRBomLb+nVDSLwoEoNm0expMjf/HKDIBzqsvdFRYpprnzg+xpBb/kalnLSDsgCEZPN5ZWnL+xochVTS35jl1IwoaCRbaLCRRptNjnAYbs
+ HyfC5CUqNt+/x/9PWdU+pKuKYQ7ZMPHx44cDrLN4Pecp9DU7sfnaelFt9Wziv/4jaywMLT9gj4gTd1kO6BxpN14oWAVmvu81Vr0jExDPjA8dibcILxE7Nwzh
+ 5QhirSiUgpDsZR7MCzca1ULYBOCBxcgC7QsJptbr6cVuw3cnkc9ayEqF3QWTNfytsQ76fYl6SPyzIX42SrcJTWuP/lUFvkEUU0CTVvlgD+iiuIwT3tg1xAH4
+ +xIeiCA9o45ASvmMRrKTX53v+r08DJwKCnbFMTtWnu7Se33GtSzVVmH/3vrQsTCETdDP9z3DUCCcuQ5JcimuvDuc5TwuehZxBBaTKe8Rv3WZXOwedDMp4hr1
+ dSdTFHDhRG05m96skxJbHyB9hXTlU+OxZmF6GmbrLiCRqV5tp+CxJVSdOTzynF+nCDw=
 
-Hello:
-
-This series was applied to netdev/net-next.git (main)
-by David S. Miller <davem@davemloft.net>:
-
-On Fri, 07 Jun 2024 00:25:54 +0100 you wrote:
-> Signed-off-by: Dmitry Safonov <0x7f454c46@gmail.com>
-> ---
-> Changes in v4:
-> - Fix the build for CONFIG_TCP_MD5SIG=n (Matthieu Baerts, netdev dashboard)
-> - Link to v3: https://lore.kernel.org/r/20240606-tcp_ao-tracepoints-v3-0-13621988c09f@gmail.com
+On 12/06/24 06:29, Randy Dunlap wrote:
+> Hi--
 > 
-> Changes in v3:
-> - Unexported tcp_inbound_ao_hash() and made static (Eric Dumazet)
-> - Link to v2: https://lore.kernel.org/r/20240605-tcp_ao-tracepoints-v2-0-e91e161282ef@gmail.com
+> On 6/11/24 8:53 PM, lakshmi.sowjanya.d@intel.com wrote:
+>> From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+>>
+>> Document sysfs interface for Intel Timed I/O PPS driver.
+>>
+>> Signed-off-by: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+>> ---
+>>   Documentation/ABI/testing/sysfs-platform-pps-tio | 7 +++++++
+>>   MAINTAINERS                                      | 1 +
+>>   2 files changed, 8 insertions(+)
+>>   create mode 100644 Documentation/ABI/testing/sysfs-platform-pps-tio
+>>
+>> diff --git a/Documentation/ABI/testing/sysfs-platform-pps-tio b/Documentation/ABI/testing/sysfs-platform-pps-tio
+>> new file mode 100644
+>> index 000000000000..e461cea12d60
+>> --- /dev/null
+>> +++ b/Documentation/ABI/testing/sysfs-platform-pps-tio
+>> @@ -0,0 +1,7 @@
+>> +What:		/sys/devices/platform/INTCxxxx/enable
+>> +Date:		September 2024
+>> +KernelVersion:	6.11
+>> +Contact:	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+>> +Description:
+>> +		(RW) Enable or disable PPS TIO generator output, read to
+>> +		see the status of hardware (Enabled/Disabled).
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index aacccb376c28..9c623f167aa9 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -17946,6 +17946,7 @@ M:	Rodolfo Giometti <giometti@enneenne.com>
+>>   L:	linuxpps@ml.enneenne.com (subscribers-only)
+>>   S:	Maintained
+>>   W:	http://wiki.enneenne.com/index.php/LinuxPPS_support
 > 
-> [...]
+> I can't connect to (load) that web page above (wiki...).
+> Is it correct? Does it work for other people?
 
-Here is the summary with links:
-  - [net-next,v4,1/6] net/tcp: Use static_branch_tcp_{md5,ao} to drop ifdefs
-    https://git.kernel.org/netdev/net-next/c/3966a668bfee
-  - [net-next,v4,2/6] net/tcp: Add a helper tcp_ao_hdr_maclen()
-    https://git.kernel.org/netdev/net-next/c/72863087f635
-  - [net-next,v4,3/6] net/tcp: Move tcp_inbound_hash() from headers
-    https://git.kernel.org/netdev/net-next/c/811efc06e5f3
-  - [net-next,v4,4/6] net/tcp: Add tcp-md5 and tcp-ao tracepoints
-    https://git.kernel.org/netdev/net-next/c/96be3dcd013d
-  - [net-next,v4,5/6] net/tcp: Remove tcp_hash_fail()
-    https://git.kernel.org/netdev/net-next/c/78b1b27db91c
-  - [net-next,v4,6/6] Documentation/tcp-ao: Add a few lines on tracepoints
-    https://git.kernel.org/netdev/net-next/c/efe46fb18e78
+The LinuxPPS wiki is at http://linuxpps.org
 
-You are awesome, thank you!
+>> +F:	Documentation/ABI/testing/sysfs-platform-pps-tio
+>>   F:	Documentation/ABI/testing/sysfs-pps
+>>   F:	Documentation/devicetree/bindings/pps/pps-gpio.yaml
+>>   F:	Documentation/driver-api/pps.rst
+> 
+
+Ciao,
+
+Rodolfo
+
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+GNU/Linux Solutions                  e-mail: giometti@enneenne.com
+Linux Device Driver                          giometti@linux.it
+Embedded Systems                     phone:  +39 349 2432127
+UNIX programming
 
