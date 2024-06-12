@@ -1,161 +1,243 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF44321360;
-	Wed, 12 Jun 2024 22:40:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB564A34
+	for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 22:52:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718232021; cv=none; b=cjDkcaVes8ikDowcMxM47oV+Ie7LA7P4/NcXYSwo79geqWQpBlmgzCtezkjFf0yVmqS3U5oSIS8ihTifAHftySL4xr7xkhL+supQW8E6CNLmPI+fVkWNXUclqm++gdLNidgZgoppY9Kf9oI96cGwpSzon0r9DucmgBfNZmgHRPs=
+	t=1718232742; cv=none; b=tp0kO9oEdnHiQXRNxX+bsxWjDwvL6grEPRlI9g4tli8P21zOa8awXkuQ741p7UAT8qWgvXHNZ+6XkwREh00XtDE5iHVwcbZdCzxRVrvBWgODrY+f2Z08lSQL14LaJ+gTCwr7z303e5ECFQqcveZgqDhXcGyEuDnVBsAaks8S9AI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718232021; c=relaxed/simple;
-	bh=rYC+czHxcKQYzM+1xUOS8jIq0Bj1p1M06sPe50hUMaw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DhsjxSlxpQIYUMs0rAu2mr1k9/s6flL8rIODDmaHxk6FMVR+XzjWyuW5Gfrv3tKv9gbMbyINESxVNQg3yZDxC+xznioYPrdiH3mYetrcbw7SzcpfdCIiA5qzjcfOowKUsCxGi0cQC1pgCJFV10xFwPUOqdr+ABniNMRlQpSGyHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=0dbDj2M2; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1718232742; c=relaxed/simple;
+	bh=9PhuIo3IyQcw4P814d2ZMnmgCFWhfOyk4PBN98JGULk=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=akUSBposdfbiJaZ6a5idGJtiHm2m7aZbHr/qln7Wqh9M3wvQHG26JYpBDVd6lWgfU4nKj27bPOTveG/nMb5d9BtjOHt7J/1Bhlca7CCEAPC6q0paP6J3AQoqyQhKcZvz1liygE/w2AqxpPeGNy3OIXtl2VQhwyc2OBlTMOjzzpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gRPsHtDf; arc=none smtp.client-ip=209.85.216.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="0dbDj2M2"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=MsPOlnETfMLsWfJG4LxUIQ4Q97ttuBHiEzDMtNO+4XY=; b=0dbDj2M2GnzRqlZohCLFCXyshs
-	kz6a08uiUUtFwsKJ4S2VRwr9OPhKpDPxdNxpKu0COUfbC6HjPduXU3Goo3+kZiPcnNdQMdWB7BLlE
-	EAxKVaItgAYvOeTYb8i+SDEJVqxHe+Mw8S1cz5I4tSlQ3jUSgEeEK9rAcHztCh/FLPGc=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1sHWdQ-00HVWQ-4G; Thu, 13 Jun 2024 00:40:04 +0200
-Date: Thu, 13 Jun 2024 00:40:04 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Siddharth Vadapalli <s-vadapalli@ti.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, corbet@lwn.net, rogerq@kernel.org,
-	danishanwar@ti.com, vladimir.oltean@nxp.com, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, vigneshr@ti.com,
-	misael.lopez@ti.com, srk@ti.com
-Subject: Re: [RFC PATCH net-next 01/28] docs: networking: ti: add driver doc
- for CPSW Proxy Client
-Message-ID: <1a966d5f-9eca-4d6d-812b-98ac17579cd7@lunn.ch>
-References: <20240518124234.2671651-1-s-vadapalli@ti.com>
- <20240518124234.2671651-2-s-vadapalli@ti.com>
- <642c8217-49fe-4c54-8d62-9550202c02c9@lunn.ch>
- <6e520ad0-0f9b-4fee-87fe-44477b01912b@ti.com>
- <287322d3-d3ee-4de6-9189-97067bc4835c@lunn.ch>
- <3586d2d1-1f03-47b0-94c0-258e48525a9d@ti.com>
- <b5d9f1ff-0b0f-4c97-9d1c-4ba4468ce6e3@lunn.ch>
- <77267e15-b986-4b54-9e12-fb9536432ac2@ti.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gRPsHtDf"
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-2c2d6e09e62so253909a91.2
+        for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 15:52:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1718232740; x=1718837540; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=qIMdKxazuAYEMA3ljsiIyftbOZIGg9iFuuIIcdrawL4=;
+        b=gRPsHtDfrTBjQEBqcQ1gFhMBD6QElhzLJRL5nfJ1bhGAcXrtbzJFd8fETBP+NCoD2B
+         cHKeO3xW8m7natSTX7GkDXf8dfZArO8Zwulw9axQ5aMSYx7jNmdBCdCRsIPwwAgLM+af
+         s+es2dmYhvZ+PIlVH579GX+JC5unx+YUq17V4ybR9DgDQo3cL/r0vtJH8UHI+UMGiHbl
+         kLK92MT1adTxKU1sxAeszcDsj9pLg1968Z6CdBIegZ+0GbVYvhT5dgDH91LCpRAesKpj
+         Vz6auP8qaa80nHKGmKLh73DsFhNN9OGo/si1QJmLSo8LWUw2FMxlGLozw9bvOnobufji
+         HYjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718232740; x=1718837540;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qIMdKxazuAYEMA3ljsiIyftbOZIGg9iFuuIIcdrawL4=;
+        b=XR3ueye2hQJCn63FmNwC6JW9lkdtzfH/5aDH9PYQWbmB6fuOx8elYJmyVTedtOtolw
+         IwbB9LJmpPVz/0xZlyVhO9xCKZUdhmUwlxgQx0mLt2FYngW75qDhTBknz7BSmebgD0k8
+         zkGulaCwWazCCPeVtC+O63AemIfi8wAgzEHi5t8cKvO0btivE4ptUklwZvAd0YHa0kGM
+         mX1z7jzB9Kb4JYRjZqB6sDwJ4OBIF96ck1mgKaeeQFXyy7z8bzKR6rT5jJNeRvl9UQ3w
+         ol3j0bN0J5K7WVy7Se4qmEKFefiAdgY1PROCFLB9em7Vr58DiCUzl1QhhH5qFVx22nDZ
+         0UIg==
+X-Forwarded-Encrypted: i=1; AJvYcCXVPNDLRvfswGZzj39zqLyAU+bkUseEIJaazjSvlTEIRaS1lcFOipHOmObF9KjgJ7x1x/LtRYYd/Gu+QjYw79MtxawYnC6VxjlX
+X-Gm-Message-State: AOJu0Yy/vVgWwFNBlMZydHYhzAvBOxzvI0bmj/pVn/xVAnXryUhdL/zk
+	mHYE8i4ZuNxYsHykqg856tn00gZAobcGJAoc62hHMSNeyvCNGck0RrxVkr54I0KMvg/+OXnVLPh
+	VkQ==
+X-Google-Smtp-Source: AGHT+IGCAHPANQ/LEowM3vH0tyHfCNdFfhePy3s7fIN6woZGNNV+qREcLXSH6cGMz5j2YasglzwODR04zqY=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a17:90a:fb4a:b0:2c2:dffd:1d9e with SMTP id
+ 98e67ed59e1d1-2c4a7606ed2mr8825a91.1.1718232740203; Wed, 12 Jun 2024 15:52:20
+ -0700 (PDT)
+Date: Wed, 12 Jun 2024 15:52:18 -0700
+In-Reply-To: <20240207172646.3981-13-xin3.li@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <77267e15-b986-4b54-9e12-fb9536432ac2@ti.com>
+Mime-Version: 1.0
+References: <20240207172646.3981-1-xin3.li@intel.com> <20240207172646.3981-13-xin3.li@intel.com>
+Message-ID: <Zmomoj-PngmXHlxQ@google.com>
+Subject: Re: [PATCH v2 12/25] KVM: VMX: Handle FRED event data
+From: Sean Christopherson <seanjc@google.com>
+To: Xin Li <xin3.li@intel.com>
+Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	pbonzini@redhat.com, corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
+	shuah@kernel.org, vkuznets@redhat.com, peterz@infradead.org, 
+	ravi.v.shankar@intel.com, xin@zytor.com
+Content-Type: text/plain; charset="us-ascii"
 
-> The DMA Channels provide a path to/from CPSW's Host Port for each Host.
-> 
-> Please refer to the following illustration corresponding to the data
-> movement from each of the Hosts to the CPSW's Host Port via the ALE and
-> then out of the MAC Ports:
-> 
->            -------      ---------            ---------   CONTROL-PATH
->            |Linux|      |AUTOSAR|            | EthFW | -------------
->            -------      ---------            ---------             |
->             |   |         |   |               |    |               |
-> DATA       TX   RX       TX   RX              TX   RX              |
-> PATH =>     |   |         |   |               |    |               |
-> (DMA)       |   |         |   |               |    |               |
-> 	    |   |         |   |               |    |               |
-> 	    \   \         \   \               /    /               |
-> 	     \   \         \   \             /    /                |
-> 	      \   \         \   \           /    /                 |
-> 	       \   \         \   \         /    /                  |
-> 	        \   \         \   \       /    /                   |
->                 ===============================                    |
->                ||        CPSW HOST PORT       ||                   V
->                 ===============================             -----------
-> 			     	|                           |CPSW     |
-> 			     TX + RX                        |CONTROL  |
-> 			     	|                           |REGISTERS|
-> 			     	|                           -----------
-> 			     	|
->                        ===================
-> 		      ||ALE & SWITCH CORE||
->                        ===================
->                         /  |      |    \
-> 		       /   |      |     \
-> 		      /    |      |      \
-> 		    TX+RX  |       \      -------
-> 		    /      |        \            \
-> 		   /     TX+RX     TX+RX        TX+RX
->                   /        |          \            \
->         ==========    ==========    ==========    ==========
->        |MAC Port 1|  |MAC Port 2|  |MAC Port 3|  |MAC Port 4|
->         ==========    ==========    ==========    ==========
+On Wed, Feb 07, 2024, Xin Li wrote:
+> diff --git a/arch/x86/include/asm/vmx.h b/arch/x86/include/asm/vmx.h
+> index 4889754415b5..6b796c5c9c2b 100644
+> --- a/arch/x86/include/asm/vmx.h
+> +++ b/arch/x86/include/asm/vmx.h
+> @@ -256,8 +256,12 @@ enum vmcs_field {
+>  	PID_POINTER_TABLE_HIGH		= 0x00002043,
+>  	SECONDARY_VM_EXIT_CONTROLS	= 0x00002044,
+>  	SECONDARY_VM_EXIT_CONTROLS_HIGH	= 0x00002045,
+> +	INJECTED_EVENT_DATA		= 0x00002052,
+> +	INJECTED_EVENT_DATA_HIGH	= 0x00002053,
+>  	GUEST_PHYSICAL_ADDRESS          = 0x00002400,
+>  	GUEST_PHYSICAL_ADDRESS_HIGH     = 0x00002401,
+> +	ORIGINAL_EVENT_DATA		= 0x00002404,
+> +	ORIGINAL_EVENT_DATA_HIGH	= 0x00002405,
+
+Are these the actual names from the SDM?  E.g. is there no FRED_ prefix to clue
+in readers that they are FRED specific? (unless they aren't FRED specific?)
+
+>  	VMCS_LINK_POINTER               = 0x00002800,
+>  	VMCS_LINK_POINTER_HIGH          = 0x00002801,
+>  	GUEST_IA32_DEBUGCTL             = 0x00002802,
+> diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+> index ee61d2c25cb0..f622fb90a098 100644
+> --- a/arch/x86/kvm/vmx/vmx.c
+> +++ b/arch/x86/kvm/vmx/vmx.c
+> @@ -1871,9 +1871,29 @@ static void vmx_inject_exception(struct kvm_vcpu *vcpu)
+>  		vmcs_write32(VM_ENTRY_INSTRUCTION_LEN,
+>  			     vmx->vcpu.arch.event_exit_inst_len);
+>  		intr_info |= INTR_TYPE_SOFT_EXCEPTION;
+> -	} else
+> +	} else {
+>  		intr_info |= INTR_TYPE_HARD_EXCEPTION;
+>  
+> +		if (kvm_is_fred_enabled(vcpu)) {
+> +			u64 event_data = 0;
+> +
+> +			if (is_debug(intr_info))
+> +				/*
+> +				 * Compared to DR6, FRED #DB event data saved on
+> +				 * the stack frame have bits 4 ~ 11 and 16 ~ 31
+> +				 * inverted, i.e.,
+> +				 *   fred_db_event_data = dr6 ^ 0xFFFF0FF0UL
+> +				 */
+> +				event_data = vcpu->arch.dr6 ^ DR6_RESERVED;
+> +			else if (is_page_fault(intr_info))
+> +				event_data = vcpu->arch.cr2;
+> +			else if (is_nm_fault(intr_info))
+> +				event_data = to_vmx(vcpu)->fred_xfd_event_data;
+> +
+> +			vmcs_write64(INJECTED_EVENT_DATA, event_data);
+> +		}
+> +	}
+> +
+>  	vmcs_write32(VM_ENTRY_INTR_INFO_FIELD, intr_info);
+>  
+>  	vmx_clear_hlt(vcpu);
+> @@ -7082,8 +7102,11 @@ static void handle_nm_fault_irqoff(struct kvm_vcpu *vcpu)
+>  	 *
+>  	 * Queuing exception is done in vmx_handle_exit. See comment there.
+>  	 */
+> -	if (vcpu->arch.guest_fpu.fpstate->xfd)
+> +	if (vcpu->arch.guest_fpu.fpstate->xfd) {
+>  		rdmsrl(MSR_IA32_XFD_ERR, vcpu->arch.guest_fpu.xfd_err);
+> +		to_vmx(vcpu)->fred_xfd_event_data = vcpu->arch.cr0 & X86_CR0_TS
+
+kvm_is_cr0_bit_set(), don't read vcpu->arch.cr0 directly.
+
+> +			? 0 : vcpu->arch.guest_fpu.xfd_err;
+
+Maybe this?
+
+		if (kvm_is_cr0_bit_set(vcpu, X86_CR0_TS))
+			to_vmx(vcpu)->fred_xfd_event_data = 0;
+		else
+			to_vmx(vcpu)->fred_xfd_event_data = vcpu->arch.guest_fpu.xfd_err;
+
+Hmm, but why does this need to be cached _now_?  I.e. why does fred_xfd_event_data
+need to exist?  Wouldn't it be simpler and more robust to use vcpu->arch.guest_fpu.xfd_err
+directly in vmx_inject_exception()?
+
+> +	}
+>  }
+>  
+>  static void handle_exception_irqoff(struct vcpu_vmx *vmx)
+> @@ -7199,29 +7222,28 @@ static void vmx_recover_nmi_blocking(struct vcpu_vmx *vmx)
+>  					      vmx->loaded_vmcs->entry_time));
+>  }
+>  
+> -static void __vmx_complete_interrupts(struct kvm_vcpu *vcpu,
+> -				      u32 idt_vectoring_info,
+> -				      int instr_len_field,
+> -				      int error_code_field)
+> +static void __vmx_complete_interrupts(struct kvm_vcpu *vcpu, bool vectoring)
+>  {
+> -	u8 vector;
+> -	int type;
+> -	bool idtv_info_valid;
+> -
+> -	idtv_info_valid = idt_vectoring_info & VECTORING_INFO_VALID_MASK;
+> +	u32 event_id = vectoring ? to_vmx(vcpu)->idt_vectoring_info
+> +				 : vmcs_read32(VM_ENTRY_INTR_INFO_FIELD);
 
 
-So, in summary, you have one host port, and on top of that a number of
-virtual ports. Because of limitations in the ALE, those virtual ports
-don't work in the same way as real ports, replication is not possible,
-nor learning for individual virtual ports. The typical 1990 solution
-to that would be to flood packets to all hosts, and let them filter
-out the packets they are not interested in. 1990 Ethernet was a shared
-medium, you expect to see packets for other hosts. But the hardware
-also cannot do that.
+Preferred style for ternary operators is:
 
-So you have to program the classify to augment the ALE, and the
-classifier is the one that decides which virtual port a packet goes
-out. But the classifier does not perform learning. You need additional
-mechanisms to program that classifier.
+	u32 event_id = vectoring ? to_vmx(vcpu)->idt_vectoring_info :
+				   vmcs_read32(VM_ENTRY_INTR_INFO_FIELD);
 
-> Host which has registered with that MAC Address "M". This is handled by
-> EthFw. EthFw doesn't/cannot snoop on all traffic on the Host Port, since
-> it doesn't lie in between the Host Port and the other Hosts. Rather, it
-> is quite similar to a Host itself since it also has dedicated TX/RX DMA
-> Channels to exchange traffic with CPSW.
+That said, I don't think this is a net positive versus passing in all params.
+The bare true/false is somewhat inscrutable, and in this code, it's hard to
+understand why KVM looks at X instead of Y without the conext of the caller.
 
-I did not say snoop. I said trap. There is a difference. Snoop would
-be it sees the packet, as it going by. Trap means it actually gets
-passed the packet, and it needs to deal with it, decide the outgoing
-port.
+> +	int instr_len_field = vectoring ? VM_EXIT_INSTRUCTION_LEN
+> +					: VM_ENTRY_INSTRUCTION_LEN;
+> +	int error_code_field = vectoring ? IDT_VECTORING_ERROR_CODE
+> +					 : VM_ENTRY_EXCEPTION_ERROR_CODE;
+> +	int event_data_field = vectoring ? ORIGINAL_EVENT_DATA
+> +					 : INJECTED_EVENT_DATA;
+> +	u8 vector = event_id & INTR_INFO_VECTOR_MASK;
+> +	int type = event_id & INTR_INFO_INTR_TYPE_MASK;
+>  
+>  	vcpu->arch.nmi_injected = false;
+>  	kvm_clear_exception_queue(vcpu);
+>  	kvm_clear_interrupt_queue(vcpu);
+>  
+> -	if (!idtv_info_valid)
+> +	if (!(event_id & INTR_INFO_VALID_MASK))
+>  		return;
+>  
+>  	kvm_make_request(KVM_REQ_EVENT, vcpu);
+>  
+> -	vector = idt_vectoring_info & VECTORING_INFO_VECTOR_MASK;
+> -	type = idt_vectoring_info & VECTORING_INFO_TYPE_MASK;
+> -
+>  	switch (type) {
+>  	case INTR_TYPE_NMI_INTR:
+>  		vcpu->arch.nmi_injected = true;
+> @@ -7236,10 +7258,31 @@ static void __vmx_complete_interrupts(struct kvm_vcpu *vcpu,
+>  		vcpu->arch.event_exit_inst_len = vmcs_read32(instr_len_field);
+>  		fallthrough;
+>  	case INTR_TYPE_HARD_EXCEPTION:
+> -		if (idt_vectoring_info & VECTORING_INFO_DELIVER_CODE_MASK) {
+> -			u32 err = vmcs_read32(error_code_field);
+> -			kvm_requeue_exception_e(vcpu, vector, err);
+> -		} else
+> +		if (kvm_is_fred_enabled(vcpu)) {
+> +			/* Save event data for being used as injected-event data */
+> +			u64 event_data = vmcs_read64(event_data_field);
+> +
+> +			switch (vector) {
+> +			case DB_VECTOR:
+> +				/* %dr6 should be equal to (event_data ^ DR6_RESERVED) */
 
-So i would trap all broadcast and multicast from the virtual ports to
-the EthFW. Let the EthFw deal with that traffic, perform learning, and
-programming the classifier, and flood it out user ports for broadcast,
-or unicast out specific ports for multicast where IGMP snooping
-indicates it should go.
+DR6, no need to use assembly syntax, but I'd just drop this comment, as well as
+the CR2 comment.  They add no insight beyond what the code literally does.
 
-> Since that is not supported, all
-> Broadcast/Multicast traffic directed to the Host Port from the Switch Core
-> is by default placed on the RX DMA Flow corresponding to EthFw. EthFw then
-> creates copies of these in software and shares them with each Host via
-> Shared Memory for example.
-
-Why shared memory? EthFw needs to be able to direct packets out
-specific virtual ports otherwise it cannot do {R}STP, PTP, IGMP
-snooping etc. So it should just pass the packet back to the CPSW,
-which will hairpin the packet, hit the classifier, and then send it
-out the correct virtual port to the correct host.
-
-> Yes, the Shared Memory path is intended for the low-bandwidth
-> Broadcast/Multicast traffic from EthFw while the DMA path is dedicated
-> for high-bandwidth Unicast traffic. The current series implements the
-> DMA path while the other series you have referred to implements the
-> Shared Memory path. Both of them together enable the desired functionality.
-
-So i think we are agreed a new model is not needed. Linux is just a
-host connected to a managed switch. Linux has no roll in managing that
-switch, and has no idea about the ports of that switch. It is just an
-end system, running end system software.
-
-You need a 'MAC' driver in Linux, so Linux sees just a normal network
-interface. And it must see a single MAC driver, so if you really do
-need to use shared memory in parallel to DMA, you will need to combine
-that into one driver.
-
-     Andrew
+> +				vcpu->arch.dr6 = event_data ^ DR6_RESERVED;
+> +				break;
+> +			case NM_VECTOR:
+> +				to_vmx(vcpu)->fred_xfd_event_data = event_data;
+> +				break;
+> +			case PF_VECTOR:
+> +				/* %cr2 should be equal to event_data */
+> +				vcpu->arch.cr2 = event_data;
+> +				break;
+> +			default:
+> +				WARN_ON(event_data != 0);
+> +				break;
+> +			}
+> +		}
