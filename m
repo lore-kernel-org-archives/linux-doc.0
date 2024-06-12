@@ -1,71 +1,81 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BA2D8288C;
-	Wed, 12 Jun 2024 21:35:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69CFD84FD6;
+	Wed, 12 Jun 2024 21:41:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718228101; cv=none; b=Dz3WbHORiPH7biKD6pTLsKMkST4F6yBjRfL/iaoYUYcFMfuB2r7jOno8yJVIM/CV9D1xRUkIVTneKzNvHa/eXaUEaz8zte/+Ic2dzE7SXFe1FUfxBdIVhuVECtWPLBAK0WQQ8bQWaooevlqPnvGEMC4Cl1mRPod2MHcQ5WFUxPU=
+	t=1718228467; cv=none; b=ttWhKLp3BXd35zF5sV9EKypfDWBdPU3evsK0zn6tJSWct9XMeCWfhjKZZ3Ya8Y0A0FxSSTojg34NGEtEITE2WY8jt+miL70Gw6CYvDPPvhjRoI0LMM2JZvGmhxm2qiqGXUD/ej1384JUdjqIJ7QE6dlavVxq1UYbqx0rA70lXHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718228101; c=relaxed/simple;
-	bh=oKmLrfV29L06io4Kl2VwMfLYa4V+Ackek1fTDA0ZM4E=;
+	s=arc-20240116; t=1718228467; c=relaxed/simple;
+	bh=ziYzFLawczmHhgIWSrqFxQLHUdUZWpR/vS18tblY604=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=mFZl8udJ2K7vBytcVry+AtedzZFeDY9dfET9yDH2Htf9S2jNK7pTLhZvCep2+uh4qFXkpAay3ZBhpfJXz26FvuJzpjH7H/zjGf5vv3q48QvIgHmJrEiYCBzC+0YFuRSSligfghjF8g7OzEKYG32lizrMEWLby0QGKYO3TWLe8Oc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=C1hj442D; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=cVKXr/OzrtkagGuXXFoyNIgA17+jkr2+IFPD0fNWvoC9099bRrkMsJug0fgF0eLXkY4E4sCGcWa8yTpwKCCmF1lF6VBKISRhAwY6liOV6GbflHjfg4+wrqpxvQ+Xu2vU5G/Ibx1ffNc3PEG2dziXUkAq3BiAK73nzH5fdpqpzEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=hUOX1iOH; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="C1hj442D"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 778A445E09
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="hUOX1iOH"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6BBE845E2C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1718228099; bh=PWyCuv3xpZwwaaYLqnj6S829Q1/vduw8lKyGFP2raD0=;
+	t=1718228465; bh=qIc356MqW+8GvLC3z6w6lKJewxejf1SBuJ5raswiJNk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=C1hj442DpXdSmkexosDIUYoNYF6f1ELKkhouiFKhLvnp7hedK7mHnwIGilYKh5imM
-	 YB32lEJevqYYNGpGVCppj5ET86KteUf+iLtUojSt5MnwGvDUYj6Dwi2TIZrX1PZ7/r
-	 hWFNzn6gnIzUlcBHfP+dvopcWp63bxsdNHcheRWyAFlQL+dOwceTFDxmnqomoVovPT
-	 0qQxdwGM+qHgQvZx/0+eAHVQeVM/3DEKOgOS+S2sTwNILpqT6CWWxlo7Zo2N2dXiKs
-	 N3Fk/6SGZnuVg09SVJPRhGiVLrGim3f7HDKclGDU4Br4avCjAyLOaBDo3sDk5xLoiB
-	 4huyw27ZyOIEA==
+	b=hUOX1iOHRgjtb2Al4eoDjrXBk8jheHUTSOe0XcRV4PQozwJAJfhTVtwOHuv0u803c
+	 n4aCxxAAd4XyGfkueM5FNjKlJxpt1vsInQhqkMeeDcaR4St3WvNIdU340VMkEFdVP4
+	 FP03i0wvLI4x3xMfMACDYHlY4I0F3gHek8upcxi10MX4m3rySdFHnxpnx/BmnPGaNF
+	 RvbRxi27E9fQuWzWzmEXzlLfEzpx0+8GkEtR9dL7o1zc1kR+p6e2AvtqWj0t40vVNt
+	 XaKn06Z8hbfbXiCcJkcMaU+LkBHgDDPtjNiurP4wi0GT1zxupGJ3l+7ZmdQIrUKcQp
+	 mpzxjSXy/qNOQ==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 778A445E09;
-	Wed, 12 Jun 2024 21:34:59 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 6BBE845E2C;
+	Wed, 12 Jun 2024 21:41:05 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>, bilbao@vt.edu
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: Extend and refactor index of further kernel docs
-In-Reply-To: <2acd884f-2f04-4d39-b559-aac99f9ae35e@gmail.com>
-References: <fdf68be7-875a-421d-8bc3-034a21990679@gmail.com>
- <87ikyvccwc.fsf@meer.lwn.net>
- <2acd884f-2f04-4d39-b559-aac99f9ae35e@gmail.com>
-Date: Wed, 12 Jun 2024 15:34:58 -0600
-Message-ID: <87h6dxonel.fsf@trenco.lwn.net>
+To: Ahmad Fatoum <a.fatoum@pengutronix.de>, Dan Williams
+ <dan.j.williams@intel.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ "David S. Miller" <davem@davemloft.net>, Andre Noll <maan@systemlinux.org>
+Cc: linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kernel@pengutronix.de, Ahmad Fatoum
+ <a.fatoum@pengutronix.de>
+Subject: Re: [PATCH v2] docs: crypto: async-tx-api: fix broken code example
+In-Reply-To: <20240529-async-dma-docs-v2-1-8faf87e72e6d@pengutronix.de>
+References: <20240529-async-dma-docs-v2-1-8faf87e72e6d@pengutronix.de>
+Date: Wed, 12 Jun 2024 15:41:04 -0600
+Message-ID: <87cyolon4f.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Carlos Bilbao <carlos.bilbao.osdev@gmail.com> writes:
+Ahmad Fatoum <a.fatoum@pengutronix.de> writes:
 
-> Extend the Index of Further Kernel Documentation by adding entries for the
-> Rust for Linux website, the Linux Foundation's YouTube channel, and notes
-> on the second edition of Billimoria's kernel programming book. Also,
-> perform some refactoring: format the text to 75 characters per line and
-> sort per-section content in chronological order of publication.
+> The code example fails to compile:
 >
-> Signed-off-by: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-> ---
-> =C2=A0Documentation/process/kernel-docs.rst | 68 +++++++++++++++++-------=
----
-> =C2=A01 file changed, 44 insertions(+), 24 deletions(-)
+>   1) addr_conv is defined twice, once as a VLA, which have been phased out
+>
+>   2) submit is not a pointer, but is still dereferenced with ->
+>
+>   3) The first call to async_xor() lacked the trailing semicolon
+>
+> Fix these issues and while at it, fix some code style nitpicks as well:
+>
+>   1) make the functions static as users are unlikely to export them
+>
+>   2) include the relevant header
+>
+>   3) Shorten the example a bit by removing a redundant variable
+>      definition
+>
+> Fixes: 04ce9ab385dc ("async_xor: permit callers to pass in a 'dma/page scribble' region")
+> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
 
-So I still am unable to apply this.  There is some sort of whitespace
-damage, perhaps some sort of non-breaking spaces?
+It looks like nobody has picked this up, so I've applied it.
+
+Thanks,
 
 jon
