@@ -1,163 +1,101 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5E1616DEA7
-	for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 10:03:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C99C16D306
+	for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 12:03:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718186625; cv=none; b=Q7HfKfHUhg4t3kwHLkopUzWS+NnpOYkVZJA0PBLpgy9Dm5hejHvzv2Urh4wTO+fTAUW/rs3rtTfSD0TGvcFwZRKVPta7qyWFb7pq4xupM15JtJv/yQHPIhUzFnJUnaagT1vW+mt5X3dmY0Nqay5L7Xv5nue43wsAt0b1bYRN3sM=
+	t=1718193797; cv=none; b=A22S0F275TM6DCFlYYzVDuKPF1MukOnmtkkBy9ti1os6p0QHVhIvYXWZTWwBreMBxnJ20L/9unamBGO0WuLsQk3nYx1CiSZY5BUG+iulz6lS/s+KyQ1hXvsKSPGD65ZbIHaELWvHJMIV1KDS+DzGXmriETJLERfCkaWw3OazzYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718186625; c=relaxed/simple;
-	bh=+55Nvekl/FD1qqRLwZ3qbL7Jw6AMS+/quMVjAN//7LI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LVKw9IpAY70WG9N1ur8kQr45uWqzPQvznXOl2YWpEFtAm4KMnSeV+QPu4xKTZ+JoGfvhbP3tDMd+2UuJkm8w3Yp54LrqUnP5J5Do680tlVO66NTd8nPEbfI7fGxb9yqysffKTjKwF7GfGiSZC92ZXjzKdb5aecUqW47rsDldTQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Lx2HAkYr; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1718193797; c=relaxed/simple;
+	bh=GaWixcRc7cLjif3vTgrTA5TxIa1tfz6d4HCIcdoIrpE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JGNX8z+ADgIKF8KzePZa2sxvkYSHkOmdD8pBryxDALq9ZbWO/H2XMLo5t9FWkGKFUzgOmArIzYtTFJapW42FuiAUbsWXhIRSzhkYkT/wpTwMOCWAeiR3duNSbhj4M/mmw6Ubjnhf1LCPlJshk5v6lAdrotI824UG2AC3lTgjZks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=XGWRVmxP; arc=none smtp.client-ip=209.85.208.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Lx2HAkYr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=ux2s
-	acGbdN9mSTkUplQzXMjSYbFp3+/ou8CtQwUKLbE=; b=Lx2HAkYrSnEfCoMjoCjQ
-	zQxmIuwqCwpMOZaX+ieXSmIgC+2XmUdSwWMLp2XTS+uBcxjKPE5xYtgsyXq8xTst
-	eSGGJhZ+5qSoPptJLhGUlrW0MUopqGP83hTDdOpEha+Qs11PGeOTHuGDrXOouuRt
-	3YtTe2RHcPXPysDAGcqpjLdvgKEc+De9j7VdWfWpZoCDRo2qmpN/aX7Va4iVNZoa
-	Fndvmsdtb15GHINoCmIPLkAuNkzn8nOPSPDwi8aNJF1EUfOdP1nPp4ja247Q7OVn
-	90ATZM+ji77oZETfPhkAbInCvPu+j7Og5cqLLoLBvBHI2eHfqJ5st37pQLCIAEpj
-	wA==
-Received: (qmail 757851 invoked from network); 12 Jun 2024 12:03:32 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Jun 2024 12:03:32 +0200
-X-UD-Smtp-Session: l3s3148p1@oUuyfq4aUDltKPDc
-Date: Wed, 12 Jun 2024 12:03:31 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: linux-renesas-soc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Kent Gibson <warthog618@gmail.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v9 1/1] gpio: add sloppy logic analyzer using polling
-Message-ID: <wdvnbt2vpobukz3s6pxkowoizvsxjeycnb3rmfsmfbx5zsgvrp@mog64h2ogftv>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Andy Shevchenko <andy.shevchenko@gmail.com>, linux-renesas-soc@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Kent Gibson <warthog618@gmail.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
-References: <20240610112700.80819-1-wsa+renesas@sang-engineering.com>
- <20240610112700.80819-2-wsa+renesas@sang-engineering.com>
- <ZmcN6lJAGVxY3Ok2@surfacebook.localdomain>
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="XGWRVmxP"
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2e78fe9fc2bso92617981fa.3
+        for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 05:03:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1718193794; x=1718798594; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EpdvA3t0LhYQ51ruF05mfpKy9nZXuP4heggj+jgSeCE=;
+        b=XGWRVmxPaBy/wTZqxaUN+//+Y23IynV62syUqZLKwX32cxnLc1pYKZCdRcd3LlyC4Q
+         QGdtZ2t8ty4fZjuQC6FYEac8u8X8WOi3Fqn5nRet3dMf+CHUX9I71klq4+Ycnztr3kFh
+         QYp1cDAsgFEAkGqfiy4toOBmIW/6fxUosWeaYJ/Zp2b3GMWqM7BoKjmVNye+VhWwTCdX
+         I/XoLi4eAKXTZjVhCVC500EjX+xIHaNGWOMT0qp/u7fnctZekDesjJ6PRxEJ0ICOMlM1
+         owy/IT5HQ3Rv0KYw/LPSaE03xMPlOSgiff9QZ7c2URvil0lTzaUY7IjUoreJYSnDPduj
+         Zvgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718193794; x=1718798594;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EpdvA3t0LhYQ51ruF05mfpKy9nZXuP4heggj+jgSeCE=;
+        b=cB9SSrdFiDaJHUbn0CpePSfpSVfgVcjckmmyTsmmpLTXxb5cOTrlMn7ZYZUEzAs/ku
+         Htzvn5RV17Xy1GCnjEpRQciVZJpxksnq1NoqoPlFmo5cH6Lld+TenossiCqNuCEZ65C5
+         BN4znWd5MAIIPWS2CptC6LifmSvkd1s5QKJf0284PtvLgfJLA/WxkGCHNB9IGSptqDks
+         lZADAhm/9CfJPKK56qore/EAu43eS/hyAJVAGlIp3NRqX0rWTaHLM3KrUaNjDlofWPCT
+         97r+Irft06xpFm65pMgMbVLBcZLt1g1iDLJM3cMvCr9facXZ5nD+6U219VQkPtP/oyl8
+         YYng==
+X-Forwarded-Encrypted: i=1; AJvYcCWiosM84XOYfHbvDElpXg5dC3JJYe4qtOMgqHTb9ZqeHkc5198Ex2rG7BGFBnWqxUTknRTQRn1mqsbN45lj5wvuAGO3cRokQyrs
+X-Gm-Message-State: AOJu0YwzqSNkM3OMyaSCunRJDJliq898H+1SBjnv4ualEZOj+gVLIpWu
+	X3pfpD1qPyhBo9srs0GvEsnGVGYXIB6/pAugGLl/HTaorFt0flVtA6BvIDCfw/k=
+X-Google-Smtp-Source: AGHT+IEd+O1uxudQ7gtE3vp9qxZ2Su0J221EOuF2GH3ZcKozbjK871J1l8zVpbPeRgCX3nanl1tetQ==
+X-Received: by 2002:a2e:b0d8:0:b0:2ea:e773:c5a with SMTP id 38308e7fff4ca-2ebfc8fecb9mr9110811fa.9.1718193794473;
+        Wed, 12 Jun 2024 05:03:14 -0700 (PDT)
+Received: from brgl-uxlite.home ([2a01:cb1d:8d3:3800:a172:4e8b:453e:2f03])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42284d1130esm11210045e9.0.2024.06.12.05.03.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Jun 2024 05:03:14 -0700 (PDT)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+To: linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	brgl@bgdev.pl,
+	corbet@lwn.net,
+	drankinatty@gmail.com,
+	Kent Gibson <warthog618@gmail.com>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH 0/2] Documentation: gpio: clarify that line values are logical
+Date: Wed, 12 Jun 2024 14:03:12 +0200
+Message-ID: <171819379034.33019.17199591747943340340.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240610092157.9147-1-warthog618@gmail.com>
+References: <20240610092157.9147-1-warthog618@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wj5fobjlv4oflgqg"
-Content-Disposition: inline
-In-Reply-To: <ZmcN6lJAGVxY3Ok2@surfacebook.localdomain>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
 
---wj5fobjlv4oflgqg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 10 Jun 2024 17:21:55 +0800, Kent Gibson wrote:
+> The line values passed by the GPIO uAPI are logical values, and the edges
+> returned are based on changes to logical line values.  While the
+> documentation consistently uses active/inactive terminology to identify
+> the values as logical, this is never explicitly spelt out.
+> This series clarifies those points, with paricular emphasis on the
+> effect the active low flag has on values and edge polarity.
+> 
+> [...]
 
-Hi Andi,
+Applied, thanks!
 
+[1/2] Documentation: gpio: Clarify effect of active low flag on line values
+      commit: 5ca84d416e1ca82ca068906fc1386f61a57b17f2
+[2/2] Documentation: gpio: Clarify effect of active low flag on line edges
+      commit: 08d94c7428680715527757585a6c4575fcf571b9
 
-> > +#include <linux/delay.h>
->=20
-> + device.h
-> + err.h
-
-OK about the includes.
-
-> > +	mutex_lock(&priv->blob_lock);
->=20
-> guard() (from cleanup.h)?
-
-If you insist. I doesn't save an exit path, so I don't think this will
-improve readability of the code. But I don't mind...
-
-> > +static const struct file_operations fops_trigger =3D {
-> > +	.owner =3D THIS_MODULE,
-> > +	.open =3D trigger_open,
-> > +	.write =3D trigger_write,
-> > +	.llseek =3D no_llseek,
-> > +	.release =3D single_release,
-> > +};
->=20
-> Wondering if you can use DEFINE_SHOW_STORE_ATTRIBUTE(), or if it makes se=
-nse.
-> It might be that it requires to use DEFINE_SHOW_ATTRIBUTE() for the sake =
-of
-> consistency, but I don't remember if there is a difference WRT debugfs us=
-age.
-
-Well, then we can just leave it for now and change it later, if desired.
-
-> > +	mutex_init(&priv->blob_lock);
->=20
-> devm_mutex_init()
-
-OK.
-
-> > +		new_meta =3D devm_krealloc(dev, meta, meta_len + add_len, GFP_KERNEL=
-);
->=20
-> Can it be rewritten to use devm_krealloc_array()?
-
-'meta' is not an array?
-
-> > +	dev_info(dev, "initialized");
->=20
-> Do we need this? Existence of folder in debugfs is enough indication of
-> success, no?
-
-Since the script can now list instances easily, this can be argued.
-Still, I don't think this matters much for a debug-only device.
-
-> > +static const struct of_device_id gpio_la_poll_of_match[] =3D {
-> > +	{ .compatible =3D GPIO_LA_NAME, },
->=20
-> Redundant inner comma.
-
-Yes.
-
-> > +late_initcall(gpio_la_poll_init);
->=20
-> Why? Can we add a comment?
-
-Sure.
-
-> Btw, have you tried `shellcheck` against your script?
-
-We did this in one of the 8 previous iterations.
-
-All the best,
-
-   Wolfram
-
-
---wj5fobjlv4oflgqg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZpcm8ACgkQFA3kzBSg
-KbZG+Q/8DO5hqL7b1XR0sD1SMJviOoyciDYILbF19jHtnENPh96Sexa7fj5HdsfE
-k8oyoeTUPX4LPLgFOTmr5SRHmiWjEb5s6oTgtNxJZqNFeFtglEK1QWUM5tANwQoy
-L4S7bTO8J91J3WwdNChdvDQkfSLbAVGUTBvbm4iZcDihOCtGdScZCm+hGF1LqTxK
-LE/2/8mwKfFymnGSbH/siPsb+CmtXMHuJNOhJlaI0KvNLIfHINkYJpBSPwMP3flV
-v/VIqwt39AIm+5TbTPazDcrOY4NciJ9nRIjLfqHxTSnIbCZaMUfqPK/CYgLWTmD4
-oFVvFZFP77yaVpPWjdkECDJJtfI9kkCMH+DgH7p6+6YoRhb2xDFWetS1JS25xJYR
-vFodZggVj0wEsjqPb2GiaZRM+A+D6GEtjNszeDj3zlCInV6luHTcRuJ4NoNDLVNZ
-XsFdHefQWoRv0/Kv5FY79tijNUNbGcwemt5d4wi4VFqfGZti5IFCbcb+/G+h18Hw
-+EDb3KWhybHNENl3QPn0hYVCqDOAQrKInUcqVR0Ph0uYTzxMmfTLdk2wIX9I3+Li
-fF7tI/JGxDHXZaT8KiQtFv9PEXgYheqLt7EdzSkTBrbydR9rcLg5l1cSy5Np8F7u
-d+zalrnyfGKSxIxMGX16RQkMIya4Xd2R620+e64o6eTV7gV36O8=
-=EuJ1
------END PGP SIGNATURE-----
-
---wj5fobjlv4oflgqg--
+Best regards,
+-- 
+Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
