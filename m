@@ -1,99 +1,140 @@
-Received: from hust.edu.cn (unknown [202.114.0.240])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD20E180A9C;
-	Wed, 12 Jun 2024 16:19:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.114.0.240
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 411DD250EC
+	for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 17:00:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718209180; cv=none; b=dJUSGrXEbiYXeoI/LQ5daNIEXAFgWo3/q5hNihMoEAdMt5Tp9cnBYdvfQahsLH9jnWjzssTh45jzFGQujVPvTLCTMDax41MISnehIIbx9NI1F2DlJLachMKzKTUjEfzGIbp76R6rweJ/APH33PX5r9IrKNVMVWp/4XB/wsKWtOs=
+	t=1718211619; cv=none; b=LINBTLmf/8z5FUOUZ6rVbWT/1/0pDp1aNKrtBhxnjr05yxUFeifSircw/sVZBUZElWOZKbnxVMzUso1cqsinjvykkkqmIWYOAZZCFOO1UU+BNVPvaubnNIzCjCWh4NBk5kQVgfVwdjkCTeAasYwOaEAsPZV+m+CKManYyS/NS8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718209180; c=relaxed/simple;
-	bh=SGt12UU+KpiUHKlDhDGy8jBtpG3BwXdIN9I/4hIxvOg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=oinFVytvsmswTicya0Mj3umt8WhUzQ+OlVIOeH0ZA58+QlWKBoJue+pDVVKieQGOv8mxf8A1wyhSKmqCHfEgMshuN++mmR1xAF2lmcMs5QJAtXw9uEhmdzrM8uvQInPdGV+wqhwyYc1868fhZwCWG6Dibehv1Hu4G2B+SasUTLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=202.114.0.240
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app2 (Coremail) with SMTP id HwEQrAAnLvpgymlmQPRvAQ--.26353S2;
-	Thu, 13 Jun 2024 00:18:40 +0800 (CST)
-Received: from pride-poweredge-r740.. (unknown [222.20.126.129])
-	by gateway (Coremail) with SMTP id _____wB3UUZeymlmfhAbAA--.28972S2;
-	Thu, 13 Jun 2024 00:18:39 +0800 (CST)
-From: Dongliang Mu <dzm91@hust.edu.cn>
-To: Alex Shi <alexs@kernel.org>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Haoyang Liu <tttturtleruss@hust.edu.cn>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Vegard Nossum <vegard.nossum@oracle.com>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/zh_CN: Update dev-tools/index.rst
-Date: Thu, 13 Jun 2024 00:18:32 +0800
-Message-Id: <20240612161835.18931-1-dzm91@hust.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1718211619; c=relaxed/simple;
+	bh=lk6GPRb8cDY1Px2newtcG+uxRs8xIZKv4PbSRzkuVfc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GltqTn17lb5t+Dafo2HoEKXrAnzjd7QaGiq7yq8yz1lni0fkqXJNvManVZ9idpx0Shd89JoEmSmo28u0u00WWxE5yTrX37RfF4GxuMcB/I/MHNOCKL0EbD2nh7qxQ4xX9EydF2US+Sh2Fcjz527adXsSYmgQfTYfNJCjWboT4ng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=4EY30YH3; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="4EY30YH3"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-42171fa0a32so2595e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 10:00:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1718211617; x=1718816417; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HsvWeW5eyBF6ROygK9LGppgGGqUZLW2+K1PQvnJ6/gk=;
+        b=4EY30YH3vMRNy8JNBgC19o1MYijVjhS3y91omyexhuRd9v713fxMnzQD21weKFy+OB
+         ZDdgWjCJrdd/CBGUdppjr3LD1PKuk5SvhCCnwWxvLb0XNMMF4JZRoAICreryLxkiQ/gA
+         VQ+KR+hvHb5FdPCDF7sLBTgPoExQUZvt7Fa9R4TzUXFUs5M/xh8I/HZ9jfXOxKTPBrAd
+         xTF8rgL76YO96TzdlrWe0BazB+p+1ser4WPU0MC9HjpKXIPuUs2v5EW5ngGe9wdL7ttY
+         0UHri19S2EnGuifJGuOYJc6nSLE1tsbkG7QatQ6vr0jgJPcmVk0loA0HWrZ0VSMRK/En
+         2Chg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718211617; x=1718816417;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HsvWeW5eyBF6ROygK9LGppgGGqUZLW2+K1PQvnJ6/gk=;
+        b=p9FcgYjwJv3QQUhNlRwAAEr5C+xMpSvPSCdKr3uXOvOJk5LOFq3cZZ2FqM7biprqqr
+         VouFjWQ5Fd3TDuaBo3iMJ50pX2jR9w2Elstc6JcDmEkOgf6PASoWpt7FiHFRvFDLwm3h
+         PFRaUNzLrySBDXRF+D7Hz122rJTQQKglGswZqaf1Sl/xkvT4Cef8ftYLf/T1/6Mx6zfi
+         XCIwUrep92wsMtBEtrZhKukLwnYtQjPQAOvNl9kLn2lqg4doUXESRBjIc+Plv20+xtBB
+         n1KVYxBLUtC+jNSc6s4McIb5VnclPpfMTeyLSOptOgdb2c6qM4AJnFPLjhJd7KSFyi57
+         qJ3A==
+X-Forwarded-Encrypted: i=1; AJvYcCVglqfVPOLuGa3+2YF7VqlwsPI9xXxDwrAInsQXVCMSkgNz8yx/cPizdVqIxLAVE/QvbRoMa1EvQD7EhLYhKZcsUurY77wcomOR
+X-Gm-Message-State: AOJu0Yz3SliWIiudKkoZ7kr1IfXqaXdGnS1GBHAXVY2orx0U0YDk+AQ9
+	EljEczIK0E2F8R1ayUt0c+XTG4SgvLmDL+bljAa3sjcThxG6kr7fv/UK21/OHr3MNo9Fcb09avF
+	u6XDw3HU4td7gx8t6dXbPtg3IP/yMhxKCOVXB
+X-Google-Smtp-Source: AGHT+IGkC8R6gs8FWiWHpUMtbGyq+bA7RbAETq6ID+j0qnlJP6qfOP8ypwWfjR3KUBqpX/w72oFg8by83yIZWemEZcA=
+X-Received: by 2002:a05:600c:501e:b0:421:7195:43e with SMTP id
+ 5b1f17b1804b1-42280dae244mr2301425e9.0.1718211616345; Wed, 12 Jun 2024
+ 10:00:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HwEQrAAnLvpgymlmQPRvAQ--.26353S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvdXoW7Wr43GFy3Gryxur15tw1DKFg_yoWfAFb_Gw
-	s7XFWvyry3XFyIqr1rAr1kZrnYvF4Fgw18Ars0ya98J34UCwsrGFyDX34DZFW5WFWa9rW3
-	CrWkur9aqrn2yjkaLaAFLSUrUUUU0b8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbmkYjsxI4VWxJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
-	s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
-	8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E
-	87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r4UJwAaw2AFwI0_JF
-	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
-	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkF7I0En4kS14v26r126r1DMx
-	AIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkE
-	bVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E74
-	80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0
-	I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04
-	k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7Cj
-	xVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU0XVy3UUUUU==
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+References: <20240611002145.2078921-1-jthoughton@google.com>
+ <20240611002145.2078921-9-jthoughton@google.com> <ZmnGlpBR91TyI3Lt@google.com>
+In-Reply-To: <ZmnGlpBR91TyI3Lt@google.com>
+From: Yu Zhao <yuzhao@google.com>
+Date: Wed, 12 Jun 2024 10:59:38 -0600
+Message-ID: <CAOUHufYCmYNngmS=rOSAQRB0N9ai+mA0aDrB9RopBvPHEK42Ng@mail.gmail.com>
+Subject: Re: [PATCH v5 8/9] mm: multi-gen LRU: Have secondary MMUs participate
+ in aging
+To: Sean Christopherson <seanjc@google.com>
+Cc: James Houghton <jthoughton@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Ankit Agrawal <ankita@nvidia.com>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	David Matlack <dmatlack@google.com>, David Rientjes <rientjes@google.com>, 
+	James Morse <james.morse@arm.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, Raghavendra Rao Ananta <rananta@google.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Shaoqin Huang <shahuang@redhat.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Wei Xu <weixugc@google.com>, 
+	Will Deacon <will@kernel.org>, Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev, 
+	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Update to commit 8c88bc5b489e ("docs: dev-tools: Add UAPI checker
-documentation")
+On Wed, Jun 12, 2024 at 10:02=E2=80=AFAM Sean Christopherson <seanjc@google=
+.com> wrote:
+>
+> On Tue, Jun 11, 2024, James Houghton wrote:
+> > diff --git a/mm/rmap.c b/mm/rmap.c
+> > index e8fc5ecb59b2..24a3ff639919 100644
+> > --- a/mm/rmap.c
+> > +++ b/mm/rmap.c
+> > @@ -870,13 +870,10 @@ static bool folio_referenced_one(struct folio *fo=
+lio,
+> >                       continue;
+> >               }
+> >
+> > -             if (pvmw.pte) {
+> > -                     if (lru_gen_enabled() &&
+> > -                         pte_young(ptep_get(pvmw.pte))) {
+> > -                             lru_gen_look_around(&pvmw);
+> > +             if (lru_gen_enabled() && pvmw.pte) {
+> > +                     if (lru_gen_look_around(&pvmw))
+> >                               referenced++;
+> > -                     }
+> > -
+> > +             } else if (pvmw.pte) {
+> >                       if (ptep_clear_flush_young_notify(vma, address,
+> >                                               pvmw.pte))
+> >                               referenced++;
+>
+> Random question not really related to KVM/secondary MMU participation.  A=
+FAICT,
+> the MGLRU approach doesn't flush TLBs after aging pages.  How does MGLRU =
+mitigate
+> false negatives on pxx_young() due to the CPU not setting Accessed bits b=
+ecause
+> of stale TLB entries?
 
-Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
----
- Documentation/translations/zh_CN/dev-tools/index.rst | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+I do think there can be false negatives but we have not been able to
+measure their practical impacts since we disabled the flush on some
+host MMUs long ago (NOT by MGLRU), e.g., on x86 and ppc,
+ptep_clear_flush_young() is just ptep_test_andclear_young(). The
+theoretical basis is that, given the TLB coverage trend (Figure 1 in
+[1]), when a system is running out of memory, it's unlikely to have
+many long-lived entries in its TLB. IOW, if that system had a stable
+working set (hot memory) that can fit into its TLB, it wouldn't hit
+page reclaim. Again, this is based on the theory (proposition) that
+for most systems, their TLB coverages are much smaller than their
+memory sizes.
 
-diff --git a/Documentation/translations/zh_CN/dev-tools/index.rst b/Documentation/translations/zh_CN/dev-tools/index.rst
-index fa900f5beb68..c540e4a7d5db 100644
---- a/Documentation/translations/zh_CN/dev-tools/index.rst
-+++ b/Documentation/translations/zh_CN/dev-tools/index.rst
-@@ -20,18 +20,22 @@ Documentation/translations/zh_CN/dev-tools/testing-overview.rst
- 
-    testing-overview
-    sparse
-+   kcov
-    gcov
-    kasan
--   kcov
-    ubsan
-    kmemleak
-    gdb-kernel-debugging
- 
- Todolist:
- 
-+ - checkpatch
-  - coccinelle
-+ - kmsan
-  - kcsan
-  - kfence
-  - kgdb
-  - kselftest
-  - kunit/index
-+ - ktap
-+ - checkuapi
--- 
-2.34.1
+If/when the above proposition doesn't hold, the next step in the page
+reclaim path, which is to unmap the PTE, will cause a page fault. The
+fault can be minor or major (requires IO), depending on the race
+between the reclaiming and accessing threads. In this case, the
+tradeoff, in a steady state, is between the PF cost of pages we
+shouldn't reclaim and the flush cost of pages we scan. The PF cost is
+higher than the flush cost per page. But we scan many pages and only
+reclaim a few of them; pages we shouldn't reclaim are a (small)
+portion of the latter.
 
+[1] https://www.usenix.org/legacy/events/osdi02/tech/full_papers/navarro/na=
+varro.pdf
