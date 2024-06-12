@@ -1,121 +1,323 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D5517F4F9;
-	Wed, 12 Jun 2024 14:59:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66E851DDF6;
+	Wed, 12 Jun 2024 15:05:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718204395; cv=none; b=M+rQiTg7udEZDSmKiwhXWrjLlRZDKTWY0Owlr6SlTuWN9EI43L2Pjj8bT4dElg+5UlQBiT/2W8kVRQusp0mcpMo/uTU/MLrXL5k4aU1E3T3g6W6DYt7vBUbf9uCNqSLzGIIZMgcvKVmv4jWx4JHkq/Hh9zx7tMyHLLstioTZrgA=
+	t=1718204704; cv=none; b=VOIVGZ5K3Hz5qFbLeARmJ2ZvLlwhI8NhCdhk68FOAFS00WqwXKertQY/15Tl7T4CBzeDSgn7uaOcBMgee0YwMB6dTL0SpzrMk6ealbO/nxwAKe/an2a2n43dDXcZBJjQ8jS8wuGkR//VCFFDxGpvjm3AHTL5Fg8TUTY7BuwBJ70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718204395; c=relaxed/simple;
-	bh=ClXfKtrObNYFGJH3nO4MkQnRpdoJTRqan1XfI/UCRmQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oZCNyD3YmVXhsULi5lLGfan/sFT5NivtKvt6RWT0Pwoz7i+m52gtnlT1OrO/OeS/BOKzEbyy6CCHGS8RC5mqu+LBCAxI0J8dqydRIY/blI6LvZzHJB6sI2tdiHgtGTpXHKFEzjHrEcqcm6msBY+f6sy4RjtmVB0AcMVVlsv9Ix8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WGgBAM1K; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1718204704; c=relaxed/simple;
+	bh=epah42P+sM8uvP4kzVU7f5KjWHmK7c9xEz2NjI3X/2U=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=K19saVFx9qkyhYACVHDlVCd/9hB46vt44hZGhlha9ZBA6zlDyZ0j7PNax0f1wzpFtLwLlX7lZIm0R+VfqOHH6YQaOxh0VUWIU1qQcePnoDEGLs34Kn8km0UEvpO7+KaNs9WmqdchKQxoaKP+SNNRfmadB8QlQIXRik6JCk8YCwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=bPhVrpmB; arc=none smtp.client-ip=217.70.183.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WGgBAM1K"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718204394; x=1749740394;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=ClXfKtrObNYFGJH3nO4MkQnRpdoJTRqan1XfI/UCRmQ=;
-  b=WGgBAM1KGSABw5nU+48YRz4JkUvsszlwO++Gg6smvO+zM1JRju8NdE7V
-   +AnfphSmzna+rLoKI9ckaNV0ZXraMrei+Jj8Rb/5zu2D9JMXf9/IZgAZu
-   YJEVFjDpxN4Awo5T+X7QyWTpmzkXJHAC7Oc9kb2hfwc/aq1otTlI493gl
-   xnvT6i714HM5iTfvsjS463lpjqEZYs5HPv4gXwDCKpnB7tP8HPBlPj59r
-   Uyr93YzqHQt3P8v/ZAc/+SiFW9+imOKfShgYFhnE9x5VKibTkpxVz3+1e
-   bBzHrEAc9SMfjxZjgZK81A7H7HJgpZjBYZzMqWzOH2UdB35I9rQM7VRAU
-   A==;
-X-CSE-ConnectionGUID: wLJMRod/TfeyL19UeHZS4g==
-X-CSE-MsgGUID: 8qUZB+4BR1C6L/Y1p6uz+Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="25551549"
-X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; 
-   d="scan'208";a="25551549"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 07:59:54 -0700
-X-CSE-ConnectionGUID: 841aPa7dSOKPs3kKUGyVwg==
-X-CSE-MsgGUID: +1nNoP70T1e7w8bmaCZ8AQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; 
-   d="scan'208";a="44938104"
-Received: from iklimasz-mobl1.ger.corp.intel.com (HELO [10.245.246.56]) ([10.245.246.56])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 07:59:48 -0700
-Message-ID: <fabc7ac8-6c44-4395-bd16-59257a949e9b@linux.intel.com>
-Date: Wed, 12 Jun 2024 16:59:45 +0200
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="bPhVrpmB"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id B872F40003;
+	Wed, 12 Jun 2024 15:04:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1718204694;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=6CPyut8mOdwZRLb5YdR+fcA2ISmvQyq0VV4xAyUgfog=;
+	b=bPhVrpmBxegLaTH5571yBVjcgOMQK1C3PWOOfHGTagdv1mWqVSgsQFvJqdFUbUukfmazw1
+	V3qsYclWNVIux2ThEB6Vb4mLrc5jB7CexzgN5eh2cxhtcMBpjx8SzZ5mKkk1g6QUElvnOs
+	Um/sX8+sg07val9XWhrljRSa8kYRKNrVqJ1Y380ufOvH6Lxc86Go4YDodqtt+nyH/6LcJY
+	0QFAyhAW3cdKcl9pwilBWd+OqbCfGH9GKhhb4conH79mg+4wXnaMe5B8AoCebsG1jNqY3/
+	7nJn2t8MspM/dh0bBnSyV3/qHWY039c+6BJ68lVTZifzLnzqcwIyWC6pCNJacA==
+From: Kory Maincent <kory.maincent@bootlin.com>
+Subject: [PATCH net-next v15 00/14] net: Make timestamping selectable
+Date: Wed, 12 Jun 2024 17:04:00 +0200
+Message-Id: <20240612-feature_ptp_netnext-v15-0-b2a086257b63@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v23 00/32] Introduce QC USB SND audio offloading support
-To: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>, Wesley Cheng
- <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
- Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
- robh@kernel.org, gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <20240610235808.22173-1-quic_wcheng@quicinc.com>
- <80fefd6b-0f3a-4f6a-869e-fd2225315801@linux.intel.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <80fefd6b-0f3a-4f6a-869e-fd2225315801@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAOC4aWYC/3XSwW6DMAwA0F+pch5TbJyE9LT/mKYqgL0ibVABQ
+ 52q/vtctIlqhWNi5yWOfTED9w0PZr+7mJ6nZmi6VhfgnnamOqb2nbOm1g2DFnOwAJlwGr96Ppz
+ G06HlseXzmOWCoXCh4IJKoydPPUtzntlXo0nZLcu8aeTYDGPXf8/3TX6O/8pxVZ58ZrMASaTCU
+ Fp2L2XXjR9N+1x1n7M4hUUBoHUlqEIBOYTogMk+KsWfQhbBryuFKg6sEAoRSfmoxDsFN5R4e4t
+ zHsBRFIRHBezCkN34GLDqWEnIyVVFTHHFgTsHccMBdQS0IBBMUBcrDt45ud1wUB2snCCVPkWgF
+ SdfHIdbdeXqeK4T1aTlkaw4tDjebrRcR0EnJ5RePGvC/55fr9cfhdyFOP0CAAA=
+To: Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Richard Cochran <richardcochran@gmail.com>, 
+ Radu Pirea <radu-nicolae.pirea@oss.nxp.com>, 
+ Jay Vosburgh <j.vosburgh@gmail.com>, Andy Gospodarek <andy@greyhouse.net>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Horatiu Vultur <horatiu.vultur@microchip.com>, UNGLinuxDriver@microchip.com, 
+ Simon Horman <horms@kernel.org>, Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Maxime Chevallier <maxime.chevallier@bootlin.com>, 
+ Rahul Rameshbabu <rrameshbabu@nvidia.com>, 
+ Kory Maincent <kory.maincent@bootlin.com>, 
+ Willem de Bruijn <willemb@google.com>, 
+ Shannon Nelson <shannon.nelson@amd.com>, 
+ Alexandra Winter <wintera@linux.ibm.com>
+X-Mailer: b4 0.13.0
+X-GND-Sasl: kory.maincent@bootlin.com
 
+Up until now, there was no way to let the user select the hardware
+PTP provider at which time stamping occurs. The stack assumed that PHY time
+stamping is always preferred, but some MAC/PHY combinations were buggy.
 
+This series updates the default MAC/PHY default timestamping and aims to
+allow the user to select the desired hwtstamp provider administratively.
 
-On 6/12/24 16:50, Amadeusz Sławiński wrote:
-> On 6/11/2024 1:57 AM, Wesley Cheng wrote:
-> 
->> Wesley Cheng (32):
->>    ASoC: Add SOC USB APIs for adding an USB backend
->>    ASoC: dt-bindings: qcom,q6dsp-lpass-ports: Add USB_RX port
->>    ASoC: qcom: qdsp6: Introduce USB AFE port to q6dsp
->>    ASoC: qdsp6: q6afe: Increase APR timeout
->>    ASoC: qcom: qdsp6: Add USB backend ASoC driver for Q6
->>    ALSA: usb-audio: Introduce USB SND platform op callbacks
->>    ALSA: usb-audio: Export USB SND APIs for modules
->>    ALSA: usb-audio: Save UAC sample size information
->>    usb: dwc3: Specify maximum number of XHCI interrupters
->>    usb: host: xhci-plat: Set XHCI max interrupters if property is present
->>    ALSA: usb-audio: qcom: Add USB QMI definitions
->>    ALSA: usb-audio: qcom: Introduce QC USB SND offloading support
->>    ALSA: usb-audio: Check for support for requested audio format
->>    ASoC: usb: Add PCM format check API for USB backend
->>    ASoC: qcom: qdsp6: Ensure PCM format is supported by USB audio device
->>    ALSA: usb-audio: Prevent starting of audio stream if in use
->>    ALSA: usb-audio: Do not allow USB offload path if PCM device is in use
->>    ASoC: dt-bindings: Update example for enabling USB offload on SM8250
->>    ALSA: usb-audio: qcom: Populate PCM and USB chip information
->>    ASoC: qcom: qdsp6: Add support to track available USB PCM devices
->>    ASoC: Introduce SND kcontrols to select sound card and PCM device
->>    ASoC: qcom: qdsp6: Add SOC USB offload select get/put callbacks
->>    ASoC: Introduce SND kcontrols to track USB offloading state
->>    ASoC: qcom: qdsp6: Add PCM ops to track current state
->>    ASoC: usb: Create SOC USB SND jack kcontrol
->>    ASoC: qcom: qdsp6: Add headphone jack for offload connection status
->>    ASoC: usb: Fetch ASoC sound card information
->>    ALSA: usb-audio: Add USB offloading capable kcontrol
->>    ALSA: usb-audio: Allow for rediscovery of connected USB SND devices
->>    ALSA: usb-audio: qcom: Use card and PCM index from QMI request
->>    ASoC: usb: Rediscover USB SND devices on USB port add
->>    ASoC: doc: Add documentation for SOC USB
-> 
-> I'm not sure how other reviewers feel about this, but is there any
-> chance to group patches in some logical order? It is bit hard to review
-> when I need to jump from generic ALSA to ASoC then QCOM code and then
-> there are dt-bindings mixed in between and back again.
+Changes in v15:
+- Fix uninitialized ethtool_ts_info structure.
+- Link to v14: https://lore.kernel.org/r/20240604-feature_ptp_netnext-v14-0-77b6f6efea40@bootlin.com
 
-Completely agree. And splitting the 32 patches in smaller sets would
-help as well, every time I want to review I just don't have the time to
-go through 32 heavy-duty patches across USB/ALSA/ASoC.
+Changes in v14:
+- Add back an EXPORT_SYMBOL() missing.
+- Link to v13: https://lore.kernel.org/r/20240529-feature_ptp_netnext-v13-0-6eda4d40fa4f@bootlin.com
+
+Changes in v13:
+- Add PTP builtin code to fix build errors when building PTP as a module.
+- Fix error spotted by smatch and sparse.
+- Link to v12: https://lore.kernel.org/r/20240430-feature_ptp_netnext-v12-0-2c5f24b6a914@bootlin.com
+
+Changes in v12:
+- Add missing return description in the kdoc.
+- Fix few nit.
+- Link to v11: https://lore.kernel.org/r/20240422-feature_ptp_netnext-v11-0-f14441f2a1d8@bootlin.com
+
+Changes in v11:
+- Add netlink examples.
+- Remove a change of my out of tree marvell_ptp patch in the patch series.
+- Remove useless extern.
+- Link to v10: https://lore.kernel.org/r/20240409-feature_ptp_netnext-v10-0-0fa2ea5c89a9@bootlin.com
+
+Changes in v10:
+- Move declarations to net/core/dev.h instead of netdevice.h
+- Add netlink documentation.
+- Add ETHTOOL_A_TSINFO_GHWTSTAMP netlink attributes instead of a bit in
+  ETHTOOL_A_TSINFO_TIMESTAMPING bitset.
+- Send "Move from simple ida to xarray" patch standalone.
+- Add tsinfo ntf command.
+- Add rcu_lock protection mechanism to avoid memory leak.
+- Fixed doc and kdoc issue.
+- Link to v9: https://lore.kernel.org/r/20240226-feature_ptp_netnext-v9-0-455611549f21@bootlin.com
+
+Changes in v9:
+- Remove the RFC prefix.
+- Correct few NIT fixes.
+- Link to v8: https://lore.kernel.org/r/20240216-feature_ptp_netnext-v8-0-510f42f444fb@bootlin.com
+
+Changes in v8:
+- Drop the 6 first patch as they are now merged.
+- Change the full implementation to not be based on the hwtstamp layer
+  (MAC/PHY) but on the hwtstamp provider which mean a ptp clock and a
+  phc qualifier.
+- Made some patch to prepare the new implementation.
+- Expand netlink tsinfo instead of a new ts command for new hwtstamp
+  configuration uAPI and for dumping tsinfo of specific hwtstamp provider.
+- Link to v7: https://lore.kernel.org/r/20231114-feature_ptp_netnext-v7-0-472e77951e40@bootlin.com
+
+Changes in v7:
+- Fix a temporary build error.
+- Link to v6: https://lore.kernel.org/r/20231019-feature_ptp_netnext-v6-0-71affc27b0e5@bootlin.com
+
+Changes in v6:
+- Few fixes from the reviews.
+- Replace the allowlist to default_timestamp flag to know which phy is
+  using old API behavior.
+- Rename the timestamping layer enum values.
+- Move to a simple enum instead of the mix between enum and bitfield.
+- Update ts_info and ts-set in software timestamping case.
+
+Changes in v5:
+- Update to ndo_hwstamp_get/set. This bring several new patches.
+- Add few patches to make the glue.
+- Convert macb to ndo_hwstamp_get/set.
+- Add netlink specs description of new ethtool commands.
+- Removed netdev notifier.
+- Split the patches that expose the timestamping to userspace to separate
+  the core and ethtool development.
+- Add description of software timestamping.
+- Convert PHYs hwtstamp callback to use kernel_hwtstamp_config.
+
+Changes in v4:
+- Move on to ethtool netlink instead of ioctl.
+- Add a netdev notifier to allow packet trapping by the MAC in case of PHY
+  time stamping.
+- Add a PHY whitelist to not break the old PHY default time-stamping
+  preference API.
+
+Changes in v3:
+- Expose the PTP choice to ethtool instead of sysfs.
+  You can test it with the ethtool source on branch feature_ptp of:
+  https://github.com/kmaincent/ethtool
+- Added a devicetree binding to select the preferred timestamp.
+
+Changes in v2:
+- Move selected_timestamping_layer variable of the concerned patch.
+- Use sysfs_streq instead of strmcmp.
+- Use the PHY timestamp only if available.
+
+Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+---
+Kory Maincent (14):
+      net_tstamp: Add TIMESTAMPING SOFTWARE and HARDWARE mask
+      net: Move dev_set_hwtstamp_phylib to net/core/dev.h
+      net: Make dev_get_hwtstamp_phylib accessible
+      net: Make net_hwtstamp_validate accessible
+      net: Change the API of PHY default timestamp to MAC
+      net: net_tstamp: Add unspec field to hwtstamp_source enumeration
+      net: Add struct kernel_ethtool_ts_info
+      ptp: Add phc source and helpers to register specific PTP clock or get information
+      net: Add the possibility to support a selected hwtstamp in netdevice
+      net: netdevsim: ptp_mock: Convert to netdev_ptp_clock_register
+      net: macb: Convert to netdev_ptp_clock_register
+      net: ptp: Move ptp_clock_index() to builtin symbol
+      net: ethtool: tsinfo: Add support for hwtstamp provider and get/set hwtstamp config
+      netlink: specs: tsinfo: Enhance netlink attributes and add a set command
+
+ Documentation/netlink/specs/ethtool.yaml           |  43 +-
+ Documentation/networking/ethtool-netlink.rst       |  38 +-
+ Documentation/networking/timestamping.rst          |  35 +-
+ drivers/net/bonding/bond_main.c                    |   4 +-
+ drivers/net/can/dev/dev.c                          |   2 +-
+ drivers/net/can/peak_canfd/peak_canfd.c            |   2 +-
+ drivers/net/can/usb/gs_usb.c                       |   2 +-
+ drivers/net/can/usb/peak_usb/pcan_usb_core.c       |   2 +-
+ drivers/net/can/usb/peak_usb/pcan_usb_core.h       |   2 +-
+ drivers/net/dsa/hirschmann/hellcreek_hwtstamp.c    |   2 +-
+ drivers/net/dsa/hirschmann/hellcreek_hwtstamp.h    |   2 +-
+ drivers/net/dsa/microchip/ksz_ptp.c                |   2 +-
+ drivers/net/dsa/microchip/ksz_ptp.h                |   2 +-
+ drivers/net/dsa/mv88e6xxx/hwtstamp.c               |   2 +-
+ drivers/net/dsa/mv88e6xxx/hwtstamp.h               |   4 +-
+ drivers/net/dsa/ocelot/felix.c                     |   2 +-
+ drivers/net/dsa/sja1105/sja1105_ptp.c              |   2 +-
+ drivers/net/dsa/sja1105/sja1105_ptp.h              |   2 +-
+ drivers/net/ethernet/amd/xgbe/xgbe-ethtool.c       |   2 +-
+ .../net/ethernet/aquantia/atlantic/aq_ethtool.c    |   2 +-
+ .../net/ethernet/broadcom/bnx2x/bnx2x_ethtool.c    |   2 +-
+ drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c  |   2 +-
+ drivers/net/ethernet/broadcom/tg3.c                |   2 +-
+ drivers/net/ethernet/cadence/macb.h                |   2 +-
+ drivers/net/ethernet/cadence/macb_main.c           |   4 +-
+ drivers/net/ethernet/cadence/macb_ptp.c            |   2 +-
+ drivers/net/ethernet/cavium/liquidio/lio_ethtool.c |   2 +-
+ .../net/ethernet/cavium/thunder/nicvf_ethtool.c    |   2 +-
+ drivers/net/ethernet/chelsio/cxgb4/cxgb4_ethtool.c |   2 +-
+ drivers/net/ethernet/cisco/enic/enic_ethtool.c     |   2 +-
+ drivers/net/ethernet/engleder/tsnep_ethtool.c      |   2 +-
+ drivers/net/ethernet/freescale/dpaa/dpaa_ethtool.c |   2 +-
+ .../net/ethernet/freescale/dpaa2/dpaa2-ethtool.c   |   2 +-
+ .../net/ethernet/freescale/enetc/enetc_ethtool.c   |   2 +-
+ drivers/net/ethernet/freescale/fec_main.c          |   2 +-
+ drivers/net/ethernet/freescale/gianfar_ethtool.c   |   2 +-
+ .../net/ethernet/fungible/funeth/funeth_ethtool.c  |   2 +-
+ drivers/net/ethernet/hisilicon/hns3/hnae3.h        |   2 +-
+ drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c |   2 +-
+ .../net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.c |   2 +-
+ .../net/ethernet/hisilicon/hns3/hns3pf/hclge_ptp.h |   2 +-
+ drivers/net/ethernet/intel/e1000e/ethtool.c        |   2 +-
+ drivers/net/ethernet/intel/i40e/i40e_ethtool.c     |   2 +-
+ drivers/net/ethernet/intel/ice/ice_ethtool.c       |   2 +-
+ drivers/net/ethernet/intel/igb/igb_ethtool.c       |   2 +-
+ drivers/net/ethernet/intel/igc/igc_ethtool.c       |   2 +-
+ drivers/net/ethernet/intel/ixgbe/ixgbe_ethtool.c   |   2 +-
+ drivers/net/ethernet/marvell/mvpp2/mvpp2_main.c    |   2 +-
+ .../ethernet/marvell/octeontx2/nic/otx2_ethtool.c  |   2 +-
+ drivers/net/ethernet/mellanox/mlx4/en_ethtool.c    |   2 +-
+ drivers/net/ethernet/mellanox/mlx5/core/en.h       |   2 +-
+ .../net/ethernet/mellanox/mlx5/core/en_ethtool.c   |   4 +-
+ .../ethernet/mellanox/mlx5/core/ipoib/ethtool.c    |   2 +-
+ drivers/net/ethernet/mellanox/mlxsw/spectrum.h     |   2 +-
+ .../net/ethernet/mellanox/mlxsw/spectrum_ethtool.c |   2 +-
+ drivers/net/ethernet/mellanox/mlxsw/spectrum_ptp.c |   4 +-
+ drivers/net/ethernet/mellanox/mlxsw/spectrum_ptp.h |  10 +-
+ drivers/net/ethernet/microchip/lan743x_ethtool.c   |   2 +-
+ .../ethernet/microchip/lan966x/lan966x_ethtool.c   |   2 +-
+ .../net/ethernet/microchip/sparx5/sparx5_ethtool.c |   2 +-
+ drivers/net/ethernet/mscc/ocelot_net.c             |   2 +-
+ drivers/net/ethernet/mscc/ocelot_ptp.c             |   2 +-
+ .../net/ethernet/pensando/ionic/ionic_ethtool.c    |   2 +-
+ drivers/net/ethernet/qlogic/qede/qede_ethtool.c    |   2 +-
+ drivers/net/ethernet/qlogic/qede/qede_ptp.c        |   2 +-
+ drivers/net/ethernet/qlogic/qede/qede_ptp.h        |   2 +-
+ drivers/net/ethernet/renesas/ravb_main.c           |   2 +-
+ drivers/net/ethernet/renesas/rswitch.c             |   2 +-
+ drivers/net/ethernet/sfc/ethtool.c                 |   2 +-
+ drivers/net/ethernet/sfc/falcon/nic.h              |   2 +-
+ drivers/net/ethernet/sfc/ptp.c                     |   2 +-
+ drivers/net/ethernet/sfc/ptp.h                     |   5 +-
+ drivers/net/ethernet/sfc/siena/ethtool.c           |   2 +-
+ drivers/net/ethernet/sfc/siena/ptp.c               |   2 +-
+ drivers/net/ethernet/sfc/siena/ptp.h               |   4 +-
+ .../net/ethernet/stmicro/stmmac/stmmac_ethtool.c   |   2 +-
+ drivers/net/ethernet/ti/am65-cpsw-ethtool.c        |   2 +-
+ drivers/net/ethernet/ti/cpsw_ethtool.c             |   4 +-
+ drivers/net/ethernet/ti/cpsw_priv.h                |   2 +-
+ drivers/net/ethernet/ti/icssg/icssg_ethtool.c      |   2 +-
+ drivers/net/ethernet/ti/netcp_ethss.c              |   4 +-
+ drivers/net/ethernet/xscale/ixp4xx_eth.c           |   2 +-
+ drivers/net/macvlan.c                              |   2 +-
+ drivers/net/netdevsim/ethtool.c                    |   2 +-
+ drivers/net/netdevsim/netdev.c                     |  19 +-
+ drivers/net/phy/bcm-phy-ptp.c                      |   5 +-
+ drivers/net/phy/dp83640.c                          |   4 +-
+ drivers/net/phy/micrel.c                           |  10 +-
+ drivers/net/phy/mscc/mscc_ptp.c                    |   5 +-
+ drivers/net/phy/nxp-c45-tja11xx.c                  |   5 +-
+ drivers/net/phy/phy_device.c                       |  11 +
+ drivers/ptp/Makefile                               |   5 +
+ drivers/ptp/ptp_clock.c                            |  39 +-
+ drivers/ptp/ptp_clock_consumer.c                   | 172 ++++++
+ drivers/ptp/ptp_ines.c                             |   2 +-
+ drivers/ptp/ptp_mock.c                             |   4 +-
+ drivers/ptp/ptp_private.h                          |   7 +
+ drivers/s390/net/qeth_ethtool.c                    |   2 +-
+ include/linux/can/dev.h                            |   2 +-
+ include/linux/ethtool.h                            |  29 +-
+ include/linux/mii_timestamper.h                    |   2 +-
+ include/linux/net_tstamp.h                         |  16 +
+ include/linux/netdevice.h                          |   8 +-
+ include/linux/phy.h                                |  21 +-
+ include/linux/ptp_clock_kernel.h                   | 178 ++++++
+ include/linux/ptp_mock.h                           |   4 +-
+ include/net/dsa.h                                  |   2 +-
+ include/soc/mscc/ocelot.h                          |   2 +-
+ include/uapi/linux/ethtool_netlink.h               |  14 +
+ include/uapi/linux/net_tstamp.h                    |  11 +
+ net/8021q/vlan_dev.c                               |   2 +-
+ net/core/dev.h                                     |   7 +
+ net/core/dev_ioctl.c                               |  56 +-
+ net/core/timestamping.c                            |  49 +-
+ net/dsa/user.c                                     |   2 +-
+ net/ethtool/common.c                               |  40 +-
+ net/ethtool/common.h                               |   5 +-
+ net/ethtool/ioctl.c                                |  14 +-
+ net/ethtool/netlink.c                              |  16 +-
+ net/ethtool/netlink.h                              |   6 +-
+ net/ethtool/tsinfo.c                               | 641 ++++++++++++++++++++-
+ net/sched/sch_taprio.c                             |   2 +-
+ 122 files changed, 1521 insertions(+), 203 deletions(-)
+---
+base-commit: bbf3aebfc018abc1c99be01fb68930cdcd7dd59e
+change-id: 20231011-feature_ptp_netnext-3f278578e84b
+
+Best regards,
+-- 
+Köry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
