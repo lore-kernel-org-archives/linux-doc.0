@@ -1,93 +1,306 @@
-Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88338D29B
-	for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 01:21:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA00010F2;
+	Wed, 12 Jun 2024 01:34:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718155304; cv=none; b=YVrHGnHwLx3NzmKM1RetjQwiEQpKPu/+fPKP4pU42+BlJy0vkGR0jI7oNPJjOfX/0SKvFY2gDWKdRuuXR7/oG8CeOm/YBw3W8+Oc4m/m8s1WNn8Nlh9qe1tYXGoWNBQGRA32SuWB1q4xRf3cET84SaG6E1krW1OYAxwtG8HKcKY=
+	t=1718156065; cv=none; b=lJB/Ap/KYtjjp4xXgIUmChyOLwQVnXiwXGvqtUfCeURDn6X78rFi/ngLFlCNX5JgvOv80xaStKpqiUZakbD6sSkIuHSiAdq12teiEJu1lPNcinPOA4FHPXSQYNzJ7UYHgqUJM9OsCA3vQUwh7cs73DT/Ffvt3WgD3VDgA898gF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718155304; c=relaxed/simple;
-	bh=GlapdDKhTIPCCJP/VkWHjj68tVw41md0iGY6n3ryj0A=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=BDrATCu0QiFDdy1sK2BSXOTZXgnVn1X0BjF5lfn2ILnIp+7g1G5e9wkPr6OGBTMhJYgcKNsC0C/RygawoLa6jc3kBgj3ngAIM1QkUcl0sZD9AsuC6c4xaNErTrunoJsXpBRUy+PPP/vyeWcEx9/zl33zVIFZOWp2wlqm6IFXNVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dgokbjKk; arc=none smtp.client-ip=209.85.219.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1718156065; c=relaxed/simple;
+	bh=Zs3Gjos4LsBpSwXMnubnoIJmsGgPi02BZ5xWOBrRtKw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LO9ANQTmKAGjc5Miq4RqQDFvCCBnhBulBq59LwcWS0MzTLmjMkCCNaWoEaHYjguXvMbPaTeO2qq16pocXfarbnz/LMvodTHc2JFy1Mc0d8FCXaTLbd6+Q6bMxNK3Aqik5DeCsoCO212nRJAiJN/PtpBANjd1s+N1ruhxgUxGGOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F7TYBj87; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dgokbjKk"
-Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-df796aaa57dso9440837276.1
-        for <linux-doc@vger.kernel.org>; Tue, 11 Jun 2024 18:21:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F7TYBj87"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7046e87e9afso1475673b3a.0;
+        Tue, 11 Jun 2024 18:34:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718155301; x=1718760101; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=949Sco2VRHaNtzMxd2fbftK/o32Oz5QH2yGUJXRf1kk=;
-        b=dgokbjKkIQ6Lm4zfYBCgheAKFvMp2cLnqTVO4RDa32JkAVCYkW+wXDbg/xIIK9Flp5
-         ZC0VClD+tip33nOL46K4kf3mCTVmJk7x92By8aNQH99Vt12YA5LEepjdsko4Yhi1VTnB
-         fozhe5emdudhOBxMOPekPMXki4PNJW14b8uGaUV5ye61sD8sy7lj+4Q06s8w3eFBEgtN
-         l/xPHdkhvpJBJ678NAFzjhfwUEET0SBg8PJ89OHUBvvpfo9AsYqzgnh7B2BFd/LtrgWL
-         syJO9NGsNkWSlhOWMZ+5SVJBjr627DcCFRJMZmSIaFz1ver8aAwixET45MbJ1clDMWlN
-         a/wQ==
+        d=gmail.com; s=20230601; t=1718156063; x=1718760863; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IWRd6FFkLYS5WcN+M56v5OtkCFgkbR1vqPFfOWbUjbg=;
+        b=F7TYBj87vj1JL9+ar9x0tc1HhrTjKGA6VTtZsDoVvUsoUqvWE/st1MChQHMMUsXviG
+         gR18H7PQQ9T6hZa3ZVSGrd44qFEdbvau9W2vc3HKeOsPOlUcMeYuLDZDhsNokWyUSm/r
+         2G/tlQEUUel/RxcIYVKWBohickRkidXnGzipuJ+DDvI3iaP8tRW8RKx6MO7XKobp6ray
+         PBeGkcOoRYq99RuOdzcO7E7IOUlyuUiF2eWl5Cs8UkjmFMwHSictzOjeV3qGtVvjK5Rz
+         1Wvn0f5QDNULQ+0/QhPmscf4FWTXJ544RlTVt4FDYh9VkC8LaFjYst1rSZZ6zjBTqLh9
+         KN/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718155301; x=1718760101;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=949Sco2VRHaNtzMxd2fbftK/o32Oz5QH2yGUJXRf1kk=;
-        b=FtdzQks3Ho+WhAEPoKikwe7kcUBmqRTc2c19lrGblWUDaU6qokRZp9NTm9wXT7fYxq
-         R/XBY41lt4LneiaJpBRQIzmTteB3HiA2X0XhuuKi7tDwa6DUt1iDjqmWEq8QWBR7CePw
-         dUyHbgOXod8/QA3oETTeqpVkO9AY9druqd/DpCJp53wjcoQ4xqFY2XAmEEQaxENM3nE/
-         zFwD85+thVA5rHb6esILDFSHI43yeUHEdpBIVffoNKvdI4MfDQ/gvJ6eB8ZlU13k+PQR
-         /BouuO/AZMjYuFAguXM4+rR1eJNJPOfVSwwajjgUOy7khAoQb5dQtbG4ND7ljdzWfjvA
-         qeZA==
-X-Forwarded-Encrypted: i=1; AJvYcCWfDx9QLoHp8bxODM3oauljsrEhR9anCdxYtxnhn8hibBsngyDtlaU4m66lQAyzpjd0w4Tjka9I8VEZhUBXLZ1nvzryTV1iSCgr
-X-Gm-Message-State: AOJu0YzvlRZedHlzVobPBhpTFPCm9O36eBGMCQcaNUlopJFLwR2+Frha
-	LL3mkdbKgUsS0GdX4B82+NOU8D30qGrWgmp1BeWnWfnX6l3NavvFIKIMxwWV1PfgkcdqSDrmGeK
-	3aA==
-X-Google-Smtp-Source: AGHT+IEV7dvCZCTRpJ744rvbmMY7/LY4nMjTd6+1Xr4TaQMCK/If60QDgbv1vmQQIQ6r1mtLOEulyXxkmDQ=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:6902:c12:b0:dfb:210f:3ad2 with SMTP id
- 3f1490d57ef6-dfe65f78d94mr29693276.2.1718155301449; Tue, 11 Jun 2024 18:21:41
- -0700 (PDT)
-Date: Tue, 11 Jun 2024 18:18:36 -0700
-In-Reply-To: <20240508132502.184428-1-julian.stecklina@cyberus-technology.de>
+        d=1e100.net; s=20230601; t=1718156063; x=1718760863;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IWRd6FFkLYS5WcN+M56v5OtkCFgkbR1vqPFfOWbUjbg=;
+        b=tqCEaN5w3gjeBvL7WzCex25ZDbLsKjNuLeZ+MLC409TSyMmaN64XH11D2A94zV9m4h
+         LSbfbzfPxsiby+XaMO6ygTM0bzhU6swOP2aGkuJSwg36+qvA8NLgLWMobS4xFAum+uua
+         ALqKpYZrC3yjnhnvMsJ7YC7Sk1KkPWJFUpTRLFd6Nq6lwRLpCjRJ1gVNNTm0qMMzDRqJ
+         YF57CiNGTr7/+xiWtWHxydVAyh75njzKcCJFacBC7BPuxxGytYT27crVBxsDSqfi/Xk0
+         B59PW9KnprYy3rUn2TzsSO4dVOvaSmA9UCY/xOi3USzl3h3AUo7Uiqtacp5GvGCep4f1
+         CJlQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWGHvxB3KcbEvt3mnuSmKwXs+RMvrrmmvi6FeE9AHJle+MIY+YFO4cH/F/+LhT0c2umeQO3kxDJBwmKZ0TXY30XijKmxkiDobUh6QcqshbmdQzhEiWzDJ1INdkpyQTskUuTYEyyaLSI
+X-Gm-Message-State: AOJu0YyCgfag1KjR9ptsP7C6t5AuIp2cEqPMGY4umYrlEyqxmzI5x58A
+	fb9IUVhqzQtS8gJSPrUVoswTbmTo/9TOwsSz5A4z0DYLgvr/TqrMLJIn0w==
+X-Google-Smtp-Source: AGHT+IG7efEIAlIisoV784XUCgcOg9PAp9r9MU0CzAeDRDFveS7hRtA8L9J6W9JJa5rW0EMiNDrFvA==
+X-Received: by 2002:a05:6a00:1786:b0:705:b2c8:a23 with SMTP id d2e1a72fcca58-705bcdcc62bmr621989b3a.5.1718156063039;
+        Tue, 11 Jun 2024 18:34:23 -0700 (PDT)
+Received: from [192.168.255.10] ([43.132.141.24])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70431c8cb72sm5629175b3a.145.2024.06.11.18.34.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Jun 2024 18:34:22 -0700 (PDT)
+Message-ID: <6964e8bb-d2f1-4203-94db-857135cf7ecf@gmail.com>
+Date: Wed, 12 Jun 2024 09:34:19 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240508132502.184428-1-julian.stecklina@cyberus-technology.de>
-X-Mailer: git-send-email 2.45.2.505.gda0bf45e8d-goog
-Message-ID: <171814098169.327928.5071447429899645642.b4-ty@google.com>
-Subject: Re: [PATCH] KVM: x86: add KVM_RUN_X86_GUEST_MODE kvm_run flag
-From: Sean Christopherson <seanjc@google.com>
-To: Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Julian Stecklina <julian.stecklina@cyberus-technology.de>
-Cc: Thomas Prescher <thomas.prescher@cyberus-technology.de>, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] scripts: add scripts/checktransupdate.py
+To: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <siyanteng@loongson.cn>, Jonathan Corbet <corbet@lwn.net>
+Cc: hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
+ Cheng Ziqiu <chengziqiu@hust.edu.cn>, linux-kernel@vger.kernel.org
+References: <20240611131723.53515-1-dzm91@hust.edu.cn>
+Content-Language: en-US
+From: Alex Shi <seakeel@gmail.com>
+In-Reply-To: <20240611131723.53515-1-dzm91@hust.edu.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, 08 May 2024 15:25:01 +0200, Julian Stecklina wrote:
-> When a vCPU is interrupted by a signal while running a nested guest,
-> KVM will exit to userspace with L2 state. However, userspace has no
-> way to know whether it sees L1 or L2 state (besides calling
-> KVM_GET_STATS_FD, which does not have a stable ABI).
+
+
+On 6/11/24 9:17 PM, Dongliang Mu wrote:
+> The checktransupdate.py script helps track the translation status of
+> the documentation in different locales, e.g., zh_CN and verify if
+> these documenation is up-to-date. More specially, it uses `git log`
+> commit to find the latest english commit from the translation commit
+> (order by author date) and the latest english commits from HEAD. If
+> differences occur, report the file and commits that need to be updated.
 > 
-> This causes multiple problems:
+> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+> Signed-off-by: Cheng Ziqiu <chengziqiu@hust.edu.cn>
+> ---
+
+Reviewed-by: Alex Shi <alexs@kernel.org>
+
+> v1->v2: revise the output format of git commits
+>         add some description and usage of this script
+>  scripts/checktransupdate.py | 203 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 203 insertions(+)
+>  create mode 100755 scripts/checktransupdate.py
 > 
-> [...]
-
-Applied to kvm-x86 misc.  Note, the capability got number 237, as 236 was
-claimed by KVM_CAP_X86_APIC_BUS_CYCLES_NS.  The number might also change again,
-e.g. if a different arch adds a capability and x86 loses the race.
-
-Thanks!
-
-[1/1] KVM: x86: add KVM_RUN_X86_GUEST_MODE kvm_run flag
-      https://github.com/kvm-x86/linux/commit/85542adb65ec
-
---
-https://github.com/kvm-x86/linux/tree/next
+> diff --git a/scripts/checktransupdate.py b/scripts/checktransupdate.py
+> new file mode 100755
+> index 000000000000..5a0fc99e3f93
+> --- /dev/null
+> +++ b/scripts/checktransupdate.py
+> @@ -0,0 +1,203 @@
+> +#!/usr/bin/env python3
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +"""
+> +This script helps track the translation status of the documentation
+> +in different locales, e.g., zh_CN. More specially, it uses `git log`
+> +commit to find the latest english commit from the translation commit
+> +(order by author date) and the latest english commits from HEAD. If
+> +differences occur, report the file and commits that need to be updated.
+> +
+> +The usage is as follows:
+> +- ./scripts/checktransupdate.py -l zh_CN
+> +This will print all the files that need to be updated in the zh_CN locale.
+> +- ./scripts/checktransupdate.py Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+> +This will only print the status of the specified file.
+> +
+> +The output is something like:
+> +Documentation/translations/zh_CN/dev-tools/testing-overview.rst (1 commits)
+> +commit 42fb9cfd5b18 ("Documentation: dev-tools: Add link to RV docs")
+> +"""
+> +
+> +import os
+> +from argparse import ArgumentParser, BooleanOptionalAction
+> +from datetime import datetime
+> +
+> +flag_p_c = False
+> +flag_p_uf = False
+> +flag_debug = False
+> +
+> +
+> +def dprint(*args, **kwargs):
+> +    if flag_debug:
+> +        print("[DEBUG] ", end="")
+> +        print(*args, **kwargs)
+> +
+> +
+> +def get_origin_path(file_path):
+> +    paths = file_path.split("/")
+> +    tidx = paths.index("translations")
+> +    opaths = paths[:tidx]
+> +    opaths += paths[tidx + 2 :]
+> +    return "/".join(opaths)
+> +
+> +
+> +def get_latest_commit_from(file_path, commit):
+> +    command = "git log --pretty=format:%H%n%aD%n%cD%n%n%B {} -1 -- {}".format(
+> +        commit, file_path
+> +    )
+> +    dprint(command)
+> +    pipe = os.popen(command)
+> +    result = pipe.read()
+> +    result = result.split("\n")
+> +    if len(result) <= 1:
+> +        return None
+> +
+> +    dprint("Result: {}".format(result[0]))
+> +
+> +    return {
+> +        "hash": result[0],
+> +        "author_date": datetime.strptime(result[1], "%a, %d %b %Y %H:%M:%S %z"),
+> +        "commit_date": datetime.strptime(result[2], "%a, %d %b %Y %H:%M:%S %z"),
+> +        "message": result[4:],
+> +    }
+> +
+> +
+> +def get_origin_from_trans(origin_path, t_from_head):
+> +    o_from_t = get_latest_commit_from(origin_path, t_from_head["hash"])
+> +    while o_from_t is not None and o_from_t["author_date"] > t_from_head["author_date"]:
+> +        o_from_t = get_latest_commit_from(origin_path, o_from_t["hash"] + "^")
+> +    if o_from_t is not None:
+> +        dprint("tracked origin commit id: {}".format(o_from_t["hash"]))
+> +    return o_from_t
+> +
+> +
+> +def get_commits_count_between(opath, commit1, commit2):
+> +    command = "git log --pretty=format:%H {}...{} -- {}".format(commit1, commit2, opath)
+> +    dprint(command)
+> +    pipe = os.popen(command)
+> +    result = pipe.read().split("\n")
+> +    # filter out empty lines
+> +    result = list(filter(lambda x: x != "", result))
+> +    return result
+> +
+> +
+> +def pretty_output(commit):
+> +    command = "git log --pretty='format:%h (\"%s\")' -1 {}".format(commit)
+> +    dprint(command)
+> +    pipe = os.popen(command)
+> +    return pipe.read()
+> +
+> +
+> +def check_per_file(file_path):
+> +    opath = get_origin_path(file_path)
+> +
+> +    if not os.path.isfile(opath):
+> +        dprint("Error: Cannot find the origin path for {}".format(file_path))
+> +        return
+> +
+> +    o_from_head = get_latest_commit_from(opath, "HEAD")
+> +    t_from_head = get_latest_commit_from(file_path, "HEAD")
+> +
+> +    if o_from_head is None or t_from_head is None:
+> +        print("Error: Cannot find the latest commit for {}".format(file_path))
+> +        return
+> +
+> +    o_from_t = get_origin_from_trans(opath, t_from_head)
+> +
+> +    if o_from_t is None:
+> +        print("Error: Cannot find the latest origin commit for {}".format(file_path))
+> +        return
+> +
+> +    if o_from_head["hash"] == o_from_t["hash"]:
+> +        if flag_p_uf:
+> +            print("No update needed for {}".format(file_path))
+> +        return
+> +    else:
+> +        print("{}".format(file_path), end="\t")
+> +        commits = get_commits_count_between(
+> +            opath, o_from_t["hash"], o_from_head["hash"]
+> +        )
+> +        print("({} commits)".format(len(commits)))
+> +        if flag_p_c:
+> +            for commit in commits:
+> +                msg = pretty_output(commit)
+> +                if "Merge tag" not in msg:
+> +                    print("commit", msg)
+> +
+> +
+> +def main():
+> +    script_path = os.path.dirname(os.path.abspath(__file__))
+> +    linux_path = os.path.join(script_path, "..")
+> +
+> +    parser = ArgumentParser(description="Check the translation update")
+> +    parser.add_argument(
+> +        "-l",
+> +        "--locale",
+> +        help="Locale to check when files are not specified",
+> +    )
+> +    parser.add_argument(
+> +        "--print-commits",
+> +        action=BooleanOptionalAction,
+> +        default=True,
+> +        help="Print commits between the origin and the translation",
+> +    )
+> +
+> +    parser.add_argument(
+> +        "--print-updated-files",
+> +        action=BooleanOptionalAction,
+> +        default=False,
+> +        help="Print files that do no need to be updated",
+> +    )
+> +
+> +    parser.add_argument(
+> +        "--debug",
+> +        action=BooleanOptionalAction,
+> +        help="Print debug information",
+> +        default=False,
+> +    )
+> +
+> +    parser.add_argument(
+> +        "files", nargs="*", help="Files to check, if not specified, check all files"
+> +    )
+> +    args = parser.parse_args()
+> +
+> +    global flag_p_c, flag_p_uf, flag_debug
+> +    flag_p_c = args.print_commits
+> +    flag_p_uf = args.print_updated_files
+> +    flag_debug = args.debug
+> +
+> +    # get files related to linux path
+> +    files = args.files
+> +    if len(files) == 0:
+> +        if args.locale is not None:
+> +            files = (
+> +                os.popen(
+> +                    "find {}/Documentation/translations/{} -type f".format(
+> +                        linux_path, args.locale
+> +                    )
+> +                )
+> +                .read()
+> +                .split("\n")
+> +            )
+> +        else:
+> +            files = (
+> +                os.popen(
+> +                    "find {}/Documentation/translations -type f".format(linux_path)
+> +                )
+> +                .read()
+> +                .split("\n")
+> +            )
+> +
+> +    files = list(filter(lambda x: x != "", files))
+> +    files = list(map(lambda x: os.path.relpath(os.path.abspath(x), linux_path), files))
+> +
+> +    # cd to linux root directory
+> +    os.chdir(linux_path)
+> +
+> +    for file in files:
+> +        check_per_file(file)
+> +
+> +
+> +if __name__ == "__main__":
+> +    main()
