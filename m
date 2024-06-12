@@ -1,85 +1,89 @@
-Received: from hust.edu.cn (unknown [202.114.0.240])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6FE217F374;
-	Wed, 12 Jun 2024 14:52:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.114.0.240
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B225417F4F8;
+	Wed, 12 Jun 2024 14:57:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718203964; cv=none; b=jBHaX8ktCvZlpWFOTuE02up2q4DNjZwNGzCpBOOSH811DOINosH1tbdW5h6/lLCO/sSKDKfRd56Y52ctSgZEyTTBcIjfZ2P43MhjNVmywWek1N2qnTM9tO1WIXir/452eJA2OgoAMq66PThrgQo/WFe24eRtkEO3yRazd8fligQ=
+	t=1718204256; cv=none; b=Hnoi4PEUMijmodxEstz0HwyAGS7CwfXLtmhe+1kJsLQbcT6KVQCb0vd2LW3RnGbasdJMCMSQ5hEhwZVlh7s3zFjEn+4FxK980vAu8kQRO3o2qJlXYXQuS1MPp856cv6HdL3KU2LLEYyCxz889KQnoTUsHKg+vE14RivZJ6On6jk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718203964; c=relaxed/simple;
-	bh=kicZ9/XRu1MAmkWk/I+JRxn8BvTZI+30+zPvFIqGN2I=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=Sk8BYQp5UnHreVfyoPR/tSs01u4IX2viS4TykiI5kQDrWOS9JgE/kNnMhNmGmuBTGjVrVc3U+Z+BMlvY3zGpSYuPTKFTw+OtTuQEw7/lGcDSSieo3aTecEmYqTee8RkYsom/lwYOtFU3qYE3mDBmGH/U0WakzXVJoxBi/cQUNe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=202.114.0.240
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app2 (Coremail) with SMTP id HwEQrABHn8cCtmlm6cxvAQ--.12262S2;
-	Wed, 12 Jun 2024 22:51:46 +0800 (CST)
-Received: from pride-poweredge-r740.. (unknown [222.20.126.129])
-	by gateway (Coremail) with SMTP id _____wDn7sYBtmlmLq4KAQ--.11539S2;
-	Wed, 12 Jun 2024 22:51:46 +0800 (CST)
-From: Dongliang Mu <dzm91@hust.edu.cn>
-To: Alex Shi <alexs@kernel.org>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dongliang Mu <dzm91@hust.edu.cn>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/zh_CN: Update the translation of dev-tools/gdb-kernel-debugging
-Date: Wed, 12 Jun 2024 22:50:45 +0800
-Message-Id: <20240612145048.57829-1-dzm91@hust.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1718204256; c=relaxed/simple;
+	bh=Syu7BB0zsaZPs6cikFGcro90qjIg1ejbMOeCL8FHf6M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QNZ1lDzhATd/QXDJdscvJtZHnUIgsTR7OtBlTZUVbWWB1Z6yFpPGrunHD8wHwVFLD+tYzuuhiBa4nKhBMwSvTaPzekddKjMHaGGiFY7fTkHb8ib2DF5ETDtFafyz+B/zwqdLqH5gJtC6AtpG/DHo33I8EGHSqHbZB2aXMLjpVIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bFep9gm7; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bFep9gm7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718204256; x=1749740256;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=Syu7BB0zsaZPs6cikFGcro90qjIg1ejbMOeCL8FHf6M=;
+  b=bFep9gm7mBvmAb1WcwDrRaC+GjrQ+DWgW7AJwfqAkTBp1BZFyM2X1RHz
+   1tiFiGbmvHI1j07/18WoKxgq3qrv83iBSrvOj/B2nU7T/SI9ozLZz1Sa+
+   V2/GBcLVhXAfyr2OMLdxS0TQm9xfTjvDUeS3g70hqcAjjx9TuhcXNOdnU
+   HdAH6Zzds9+9gy2xqwjxUrT5wSJapQvsf1YCIP2c6T4PI06Ct3q6Ti4uk
+   8ZmFYZ7A2yM1sD588OtVmDCmtDXDsDxPawOnOOzyGW/B1TYA4ptIU7lYh
+   /S9qlgeQbRVklRBMAnjzEBH7BcmMkqSK8Mt0IH1i9yCLWrRyuYyZz3GDn
+   g==;
+X-CSE-ConnectionGUID: dZRmq3roSlKuvms0CF8hTg==
+X-CSE-MsgGUID: j2W+0gGzSm28z8nldDEwrw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="18798689"
+X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; 
+   d="scan'208";a="18798689"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 07:57:34 -0700
+X-CSE-ConnectionGUID: ZXmtThsIQQ6tImepGZ/AOw==
+X-CSE-MsgGUID: /g+wx0HGThGiYikLxyvHkA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,233,1712646000"; 
+   d="scan'208";a="39927202"
+Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 07:57:29 -0700
+Message-ID: <d5c6fff6-68ab-4248-814b-41b77d7105c8@linux.intel.com>
+Date: Wed, 12 Jun 2024 16:57:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HwEQrABHn8cCtmlm6cxvAQ--.12262S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoW7Ww1rGr48ZF48ZF15ur1DAwb_yoW8JFyxpw
-	4q9FyfG3WfZry3J345GF48GFy7Jas7GF45KFy0va4Fqryvq3yIqw4akas0qFy2q34IyFWU
-	uF4fCFyj93y093JanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUm2b7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
-	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_Jr
-	v_JF1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
-	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxAIw2
-	8IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AK
-	xVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67
-	AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI
-	42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMI
-	IF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVF
-	xhVjvjDU0xZFpf9x07jfpndUUUUU=
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v23 17/32] ALSA: usb-audio: Do not allow USB offload path
+ if PCM device is in use
+Content-Language: en-US
+To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
+ mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
+ corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
+ Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
+ robh@kernel.org, gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+ alsa-devel@alsa-project.org
+References: <20240610235808.22173-1-quic_wcheng@quicinc.com>
+ <20240610235808.22173-18-quic_wcheng@quicinc.com>
+From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
+ <amadeuszx.slawinski@linux.intel.com>
+In-Reply-To: <20240610235808.22173-18-quic_wcheng@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Update to commit 6b219431037b ("docs/scripts/gdb: add necessary
-make scripts_gdb step")
+On 6/11/2024 1:57 AM, Wesley Cheng wrote:
+> Add proper checks and updates to the USB substream once receiving a USB QMI
+> stream enable request.  If the substream is already in use from the non
+> offload path, reject the stream enable request.  In addition, update the
+> USB substream opened parameter when enabling the offload path, so the
+> non offload path can be blocked.
+> 
+> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> ---
+>   sound/usb/qcom/qc_audio_offload.c | 15 ++++++++++++++-
+>   1 file changed, 14 insertions(+), 1 deletion(-)
 
-Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
----
- .../translations/zh_CN/dev-tools/gdb-kernel-debugging.rst     | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst b/Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst
-index 17b5ce85a90c..94c15c258726 100644
---- a/Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst
-+++ b/Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst
-@@ -34,6 +34,10 @@ Kgdb内核调试器、QEMU等虚拟机管理程序或基于JTAG的硬件接口
-   但这通常仅在不依赖内核模块时才有效。有关此模式的更多详细信息，请参阅QEMU文档。
-   在这种情况下，如果架构支持KASLR，应该在禁用CONFIG_RANDOMIZE_BASE的情况下构建内核。
- 
-+- 构建gdb脚本（适用于内核v5.1版本及以上）
-+
-+    make scripts_gdb 
-+
- - 启用QEMU/KVM的gdb stub，可以通过如下方式实现
- 
-     - 在VM启动时，通过在QEMU命令行中添加“-s”参数
--- 
-2.34.1
+Patch title is missing qcom part and it clearly touches QCOM code.
+ALSA: usb-audio: qcom:
 
