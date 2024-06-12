@@ -1,120 +1,107 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A3F457CB6
-	for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 18:28:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E23C82C7E
+	for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 19:21:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718216933; cv=none; b=P+jZl1UJwOf2xkXtEpEYS5lc02w5bvKBaTUj49bsBs5l1DWGtFmboS5VrHChwb49mP40czdQsEwz0tQL/3yfMnHP1szyAkb2RQKZvtJQkHdOpLSWLYeWVkmCJ4/GNJzpWQ1C5xoj1lU7Xhym123Xx1eTJNTtl+Y5lOO6ZKJxXNo=
+	t=1718220105; cv=none; b=FbQTxCbHiAt3+e90mB+wzqsIt41Vut9T+V5v5t9WR2yVBL4qUJUy4AKj8tn3e8z2e5VCnzPdwXWYFjFuhKqODOIwZMisyRz5M2wAEBiXrpSNIrZx+GuCU5K9rBkgh3oPzgvy6ZjeNEXXW6eCESN2f1RBEo6NjYyU2owl2xBSPdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718216933; c=relaxed/simple;
-	bh=r+8ioj02E2qZnACiVmd3yOLbJ4aITomf+AjUmBBu8qY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=osNlFcwsaQyFZtaQXQKuIxhxiX1fD3rrU+c0o7vCB4KqfXAwHVnsPTkB+7R2vajOklq7cY6kQ9J11KU5XpRzNqLZ9qyFlRIE3Zbyr5r9IVG+WYl7OY7n7zNQHTcq7gDPhI9e00qRu3vwKdIzZ6MIPAMgdAuhhWJLl7rGNi68q2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OGQRxvK6; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1718220105; c=relaxed/simple;
+	bh=Uu9Gleg1ASn8Dt7yA/1zARp3BFz8u1dMTh4oQIDHX/k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=B6UeffxNUrkzBHHv1SLcoT94xOHkO493RttxcS4LE/zJ0wwgAtu0Jo/8dCdRgc0UePo1RexzZoyQkeMoXnUoJlfYD6P2TkaIpaAyoEK6s6WESY9nMzfyNxdu3rHfanU+cdqb7nUSl9sGUbMlFfoobtYoboAEmIVokD0oP/s2HyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=KcKZGMtj; arc=none smtp.client-ip=209.85.167.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OGQRxvK6"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a6f09eaf420so23316466b.3
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 11:28:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="KcKZGMtj"
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-3d22368713aso80297b6e.1
+        for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 12:21:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718216930; x=1718821730; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jrMBsq3emDIg7LGvS27o55tx+BIF7vKtFAWrOg5D1lg=;
-        b=OGQRxvK6Y9o4UqVgaAZSNlMFFWW7o2uikBq2D02M1v9wag9ScFMG1Ce+C64Sj3sJAa
-         v8mwbNfsUbinJpm3Bmu3IZSBIrgz4cqslF09uawZMrDIM+m+tBWoiShL1wxXpMjUVZfm
-         PHik+aNV4jpFfoepOtMAYUnXkeqAVqvRmGY8D9gs6ff56xKI2RPq6Q1EcXwVzwBlvnZL
-         WAC9CyweCnwIB2SwqtcTerAkqEfvnQXVessIXLl9TeHm+PYiEtfLi4IzXayH3t+QTM43
-         9PzBk6jT/nBCiMKULMHTvfPy3PddKbDUTHHkyHBFflRDaS3o8VvmeWg8F1d0BjlpcRpf
-         lavA==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1718220101; x=1718824901; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qXy7VIHll/aDTcqBYwLAggajOlv8GzK8EL/ET9q9bCA=;
+        b=KcKZGMtjmLVLw4epSZX5OqQkJsCAg+UA7HPZq6UhQd1JWuFWhrAqXCr/ajHlAhWs9/
+         eSR8B2v/5FMnnHCk/aklpVNhGJD5pAEZTxBjwUmSSUzcutRglcW+UpVGhce94o8vu28B
+         9mckY/Pg11StuYVVBUI+ES5mgb1KzRP9/iGl7Ach+VZpKFPt52OflmtlIaXJkNgRhaSR
+         ztvf7+D9D5VYTIWD5Q+tnsYByG61vX+B65+caYuWdajZGRAVYhhGWS3VyycJ4+qQQkwP
+         LIN7GX3jU4pQX0bGtBO7P3henBTrzWxen/hk/tFa9eLr4fmZkmGMjoSdYRZJx9L/hjsx
+         XPvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718216930; x=1718821730;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jrMBsq3emDIg7LGvS27o55tx+BIF7vKtFAWrOg5D1lg=;
-        b=HNJDGtHARlV5lgTrZL3wWkTMTR5CxWFHufYNHwdazF8yX2NmFbhLNIsM+uuxOibfrp
-         x/dbik9nhby1CCyWVEeoDpJO99PKEUM1qzAWo2q68nwL9af/jLCHJQqvKgeuDfRLrpjt
-         tbAvTLJJR8nXxjigx7RHROglVeNc3QOfesEVGwwiZp3Zkeyg8avpqA+Ur453xaEX/rPj
-         J+sLl0FqYO8ae7qHeaCkcv3VxL8Yc8thlDc4tK5Lg43Q9k/68QkwX3kbAy/LpJybi7wz
-         TmY6v2KIZLkhBATrkHjmRCZziPaqvK4wvei79PgEzw+D9w+ZWehep6PAdxtIMbRploLp
-         EdXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV6sWBeWn94iyJZxBAhpiz95xBpH/srHihqZSZW+SlBmGmCL5Bm7QK74tSbwIoZlelcS3C/sXzLg3LYeJJ02fLL8TZ+1ECLLLM3
-X-Gm-Message-State: AOJu0YzMNNcAhB4aG1PCB1cPwMNSnoW/1dNKff5LcKH9eS4O8Rk/cL15
-	YutvSBP91NjDVsNkwstD6GnpaU/rTcywgeTVtZ13coRFvhbUtes6A6RXY6YHb8jFBG4X6HD36Y+
-	oi5WClNF5WTk6AKasJFzFmFIOwrnvS0Y6AG1V
-X-Google-Smtp-Source: AGHT+IGdOGwuBhu3Vw6QvLllxVPqiv9YHMv1wu6O6D77zTPHDq3tNpdY9coVqD6RhMhdj998J7/GmnqgAnwKpJh9OoY=
-X-Received: by 2002:a17:906:27d3:b0:a6d:f339:f8 with SMTP id
- a640c23a62f3a-a6f47f936f4mr168588666b.31.1718216930144; Wed, 12 Jun 2024
- 11:28:50 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1718220101; x=1718824901;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qXy7VIHll/aDTcqBYwLAggajOlv8GzK8EL/ET9q9bCA=;
+        b=ZGuYhLnSsOlt5haIFFUC0T4Q/RmSiqmmtg0iZYdkqPDfiW8+EzaR1oXUK4sXIMsjK4
+         ftcRXrGjxHvazydtPqxY62sT2xCIj3TqyPf4OQHci/88KmSXUMI0UCvsgiXicDcg6zRA
+         uBzyhPzNjwYU7Ue0m4h0Iae+8wWjxPVp0DrOjnNHYfYmo/MqZ6iSp2AGywQx9EHrFhvI
+         4OAjGRpuDRISw9hp/ixIzhZfD0vDT+Hn+KzAAkSr8mKgjXoMj+zk2cJrDKFj5FlTwKlQ
+         SG2QzCbYIWtKkR798HFtOGCZ/HnXprjVRsl0sxAXDQif4HfcpSOPQK4KSRQUt20xoepN
+         X8nA==
+X-Forwarded-Encrypted: i=1; AJvYcCWUAUxBPPK+69RAbS3hPaK+f1wUnh0s0niMN9OjLAma74TJ6A5AcCtRKyj2gzQzEom/Np9wrO98J+qXcSev6AwqrX77pRHpkUw9
+X-Gm-Message-State: AOJu0YyYtyi+ZVD+G0MaFUl5BMpvzxfwlE03yJZgXJvAQHUdgyDk5r5A
+	gUwweji06jdE/QyCcF9yAB18bPLKGZVnt1g2WXj5CrC5esatGaSG8cC+hyUsc9Y=
+X-Google-Smtp-Source: AGHT+IFBYyiezdoccJIdyFcHFDAQu+3md5pmRIFWY9xx0C2Wc0lrAEmMqqvt6hKjm7tETzp01RmbeQ==
+X-Received: by 2002:a05:6808:220b:b0:3d2:2c07:c8af with SMTP id 5614622812f47-3d23e02eeb2mr3374670b6e.25.1718220101047;
+        Wed, 12 Jun 2024 12:21:41 -0700 (PDT)
+Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3d236676bfesm648795b6e.12.2024.06.12.12.21.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Jun 2024 12:21:40 -0700 (PDT)
+From: David Lechner <dlechner@baylibre.com>
+To: Jonathan Cameron <jic23@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: David Lechner <dlechner@baylibre.com>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	=?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Ramona Gradinariu <ramona.gradinariu@analog.com>
+Subject: [PATCH 0/3] iio: adc: ad4695: new driver for AD4695 and similar ADCs
+Date: Wed, 12 Jun 2024 14:20:39 -0500
+Message-ID: <20240612-iio-adc-ad4695-v1-0-6a4ed251fc86@baylibre.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240608155316.451600-1-flintglass@gmail.com> <20240608155316.451600-2-flintglass@gmail.com>
- <CAKEwX=P1Ojb71AEJ2gzQTrfWidFPcJZmoNxEwji7TceBN-szCg@mail.gmail.com> <CAPpoddeigM44jhTA8Ua=+J4MC1MikouBZVoPrCW2LZF+9r5YeA@mail.gmail.com>
-In-Reply-To: <CAPpoddeigM44jhTA8Ua=+J4MC1MikouBZVoPrCW2LZF+9r5YeA@mail.gmail.com>
-From: Yosry Ahmed <yosryahmed@google.com>
-Date: Wed, 12 Jun 2024 11:28:12 -0700
-Message-ID: <CAJD7tkYp3GbuXV9G5bAZ1DetMmepV5ynciA+ukae7CKuxpXDJQ@mail.gmail.com>
-Subject: Re: [PATCH v1 1/3] mm: zswap: fix global shrinker memcg iteration
-To: Takero Funaki <flintglass@gmail.com>
-Cc: Nhat Pham <nphamcs@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Shakeel Butt <shakeel.butt@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-Mailer: b4 0.12.4
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jun 12, 2024 at 11:16=E2=80=AFAM Takero Funaki <flintglass@gmail.co=
-m> wrote:
->
-> 2024=E5=B9=B46=E6=9C=8812=E6=97=A5(=E6=B0=B4) 3:26 Nhat Pham <nphamcs@gma=
-il.com>:
->
-> >
-> > As I have noted in v0, I think this is unnecessary and makes it more co=
-nfusing.
-> >
->
-> Does spin_lock() ensure that compiler optimizations do not remove
-> memory access to an external variable? I think we need to use
-> READ_ONCE/WRITE_ONCE for shared variable access even under a spinlock.
-> For example,
-> https://elixir.bootlin.com/linux/latest/source/mm/mmu_notifier.c#L234
+This is adding DT bindings and a new driver for the AD4695 and similar
+devices. The plan is to implement quite a few more features, but this
+is a complex chip so we're spreading out the work. To start with, we
+have a reasonably complete DT binding and a very basic driver.
 
-In this example, it seems like mmu_interval_set_seq() updates
-interval_sub->invalidate_seq locklessly using WRITE_ONCE(). I think
-this is why READ_ONCE() is required in that particular case.
+This work is being done in collaboration with Analog Devices Inc.,
+hence they listed as maintainers rather than me. The code has been
+tested on a Zedboard with an EVAL-AD4696FMCZ using the internal LDO,
+an external reference and a variety of input channel configurations.
 
->
-> isn't this a common use case of READ_ONCE?
-> ```c
-> bool shared_flag =3D false;
-> spinlock_t flag_lock;
->
-> void somefunc(void) {
->     for (;;) {
->         spin_lock(&flag_lock);
->         /* check external updates */
->         if (READ_ONCE(shared_flag))
->             break;
->         /* do something */
->         spin_unlock(&flag_lock);
->     }
->     spin_unlock(&flag_lock);
-> }
-> ```
-> Without READ_ONCE, the check can be extracted from the loop by optimizati=
-on.
+---
+David Lechner (3):
+      dt-bindings: iio: adc: add AD4695 and similar ADCs
+      iio: adc: ad4695: Add driver for AD4695 and similar ADCs
+      Documentation: iio: Document ad4695 driver
 
-According to Documentation/memory-barriers.txt, lock acquiring
-functions are implicit memory barriers. Otherwise, the compiler would
-be able to pull any memory access outside of the lock critical section
-and locking wouldn't be reliable.
+ .../devicetree/bindings/iio/adc/adi,ad4695.yaml    | 297 ++++++++
+ Documentation/iio/ad4695.rst                       | 145 ++++
+ Documentation/iio/index.rst                        |   1 +
+ MAINTAINERS                                        |  11 +
+ drivers/iio/adc/Kconfig                            |  11 +
+ drivers/iio/adc/Makefile                           |   1 +
+ drivers/iio/adc/ad4695.c                           | 804 +++++++++++++++++++++
+ 7 files changed, 1270 insertions(+)
+---
+base-commit: cc1ce839526a65620778617da0b022bd88e8a139
+change-id: 20240517-iio-adc-ad4695-ef72b2a2cf88
