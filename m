@@ -1,179 +1,103 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C27E182AF;
-	Wed, 12 Jun 2024 16:10:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F1E817B516
+	for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 16:14:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718208617; cv=none; b=p9TC2Cj7OewuM6UEivGrwTlIhqbqpNYHZFrwq9EQypC1CD4CAe3xKrheeTahPgxysjx+SJUNVxKIagb/OnKp4gZQaSp8vUc/PNC46dgT3TM0NQTMl9YNlCJDHjlA+Nd+iCJFEe7YfihMU4lGY4j2Q1w4bZx1X2vEoTt2o5sZ+Bg=
+	t=1718208901; cv=none; b=FuGd7Xv9B4CyMSTfNDSlfUpdj34fD2Q0DMtavsmVv0OpNxy5PXY/aOWmnijsE8v8ubOA29urddoTPLtEAXRFHzzHoPixKKCo9epeq1NEy6gISVTChFkAVtgaA3mglx5xN2BO3PqFk98MqsHx6Y5Qsh8pGj9Tnp3kcpxQGYeoB/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718208617; c=relaxed/simple;
-	bh=9FjkK63X7UnIqqjlNMXnOdUdp7IseXQXhp451DJFoqA=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Tqy2b9ZbEpwFqQY1AIZvDkvZS5YEZUM7C1jpYhvpEdM40s+WnHXA3aFRUGoGKrgOJ6YN+kC3PRAGTs9dzQVd8/x5PYnvrTjkdNcR6ASEGX1ui73RjiuJJAzR2rKfptFrePWP0jz4fslqvJVyjMgLXx/+22oMO8is76vmJhbeflU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=UPY3t7u/; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1718208901; c=relaxed/simple;
+	bh=7IaOkQTvZhAIxMJg8oiQzlRd8SmNiomrhY9Jtmiv2hs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fAaz+osxYpo39cfzeJmV/1GY0UrrvGiBTBQmHaEf1KVlMn1wakHOaAWippGWf0/T51a3EttJAsKpR95D3dGdt7LJI5CUSC5Peiw6vahvVPe3Y5ZxC9NWBAf1RZJejHpxaRdyMrLotvMAXpInM+0LEeyCCBcuNHyTLqsLd93+KEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=ZSi8BBPo; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="UPY3t7u/"
-Received: from [192.168.49.54] (c-73-118-245-227.hsd1.wa.comcast.net [73.118.245.227])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 656DB20B7001;
-	Wed, 12 Jun 2024 09:10:09 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 656DB20B7001
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1718208609;
-	bh=RwjazV5sA8GVLo5REZFAAJWRTt27/+09ggocg8Gt8+s=;
-	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
-	b=UPY3t7u/dFyqZbYJ9STAjRbF7OXVYcuyHIkrTcJJHpuLzxBaCJiqI4frJ6YnI/Bt6
-	 btkUf/VfpLp68lnAzl9evVqiEgFDquWxWtYbaNo2VKYhRTJcxXY0zlH4G8je6dKw94
-	 Kdzvnhm9NDvObXjQVuewOWqOUswTiAhwt7reZXxM=
-Message-ID: <cabdb509-83a2-4de7-8e10-4eea7e4c96f2@linux.microsoft.com>
-Date: Wed, 12 Jun 2024 09:10:09 -0700
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="ZSi8BBPo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=7IaO
+	kQTvZhAIxMJg8oiQzlRd8SmNiomrhY9Jtmiv2hs=; b=ZSi8BBPo3Nl2Z1779mEr
+	k8mnUOAwD8nchMo0LGNgmtS9Ofmi9+oqMRpU2Bm1owFRAseRS04PYJu3XGvAEb8F
+	fb32Ks48Q3sYSjjMG0QM9SB8hyTzeXLtbj3dixNwWthCj9eMH2THmyLMRlOC6tdL
+	Hw2X6J27apJlJhSRr/G8zkf1ywYttapd+/qc1karJktOn7G76bsoMEtJ6L7vmRn1
+	h+dfPjyvv5qmdqpZhyEHosqerGCWzZo+lc4yoJRE8D8aHLx6K5ohXFb/5tfWy1NF
+	B2I53BtYxm+NhADo8yDm9M7HQakjD/XWRAniv8uPU1kTjz2n9OUXHAosm3MExLng
+	9A==
+Received: (qmail 867536 invoked from network); 12 Jun 2024 18:14:57 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Jun 2024 18:14:57 +0200
+X-UD-Smtp-Session: l3s3148p1@Z4fvrrMauhVtKPIY
+Date: Wed, 12 Jun 2024 18:14:56 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Easwar Hariharan <eahariha@linux.microsoft.com>
+Cc: linux-i2c@vger.kernel.org, Andi Shyti <andi.shyti@kernel.org>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 4/6] docs: i2c: summary: document use of inclusive
+ language
+Message-ID: <k7skotoxoml3anejknhcofgk4qbubsxwegfa6c4wyofu7yrdcw@55ezznhofqyz>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Easwar Hariharan <eahariha@linux.microsoft.com>, linux-i2c@vger.kernel.org, Andi Shyti <andi.shyti@kernel.org>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240610081023.8118-1-wsa+renesas@sang-engineering.com>
+ <20240610081023.8118-5-wsa+renesas@sang-engineering.com>
+ <8e051ecf-a355-4aef-bc40-007f9b709ba6@linux.microsoft.com>
+ <iizkptuud2bcqnfvyvfomdbsakywyszzfmyawgsymsdvkatyyz@eze75wfqoczl>
+ <2770eb46-7322-4638-a5fe-9d994458a5c2@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: eahariha@linux.microsoft.com
-Subject: Re: [PATCH 1/1] Documentation: hyperv: Add overview of Confidential
- Computing VM support
-To: mhklinux@outlook.com, kys@microsoft.com, haiyangz@microsoft.com,
- wei.liu@kernel.org, decui@microsoft.com, corbet@lwn.net,
- linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-coco@lists.linux.dev
-References: <20240610202810.193452-1-mhklinux@outlook.com>
-Content-Language: en-US
-From: Easwar Hariharan <eahariha@linux.microsoft.com>
-In-Reply-To: <20240610202810.193452-1-mhklinux@outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="fwelgbx6weqjrtet"
+Content-Disposition: inline
+In-Reply-To: <2770eb46-7322-4638-a5fe-9d994458a5c2@linux.microsoft.com>
 
-Thank you for adding much needed documentation throughout the tree!
 
-On 6/10/2024 1:28 PM, mhkelley58@gmail.com wrote:
-> From: Michael Kelley <mhklinux@outlook.com>
-> 
-> Add documentation topic for Confidential Computing (CoCo) VM support
-> in Linux guests on Hyper-V.
-> 
-> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
-> ---
->  Documentation/virt/hyperv/coco.rst  | 258 ++++++++++++++++++++++++++++
->  Documentation/virt/hyperv/index.rst |   1 +
->  2 files changed, 259 insertions(+)
->  create mode 100644 Documentation/virt/hyperv/coco.rst
-> 
-> diff --git a/Documentation/virt/hyperv/coco.rst b/Documentation/virt/hyperv/coco.rst
-> new file mode 100644
-> index 000000000000..ffd6ba7a1d64
-> --- /dev/null
-> +++ b/Documentation/virt/hyperv/coco.rst
-> @@ -0,0 +1,258 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Confidential Computing VMs
-> +==========================
-> +Hyper-V can create and run Linux guests that are Confidential Computing
-> +(CoCo) VMs. Such VMs cooperate with the physical processor to better protect
-> +the confidentiality and integrity of data in the VM's memory, even in the
-> +face of a hypervisor/VMM that has been compromised and may behave maliciously.
-> +CoCo VMs on Hyper-V share the generic CoCo VM threat model and security
-> +objectives described in Documentation/security/snp-tdx-threat-model.rst. Note
-> +that Hyper-V specific code in Linux refers to CoCo VMs as "isolated VMs" or
-> +"isolation VMs".
+--fwelgbx6weqjrtet
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for incorporating the link to the threat model!
 
-> +
-> +A Linux CoCo VM on Hyper-V requires the cooperation and interaction of the
-> +following:
-> +
-> +* Physical hardware with a processor that supports CoCo VMs
-> +
-> +* The hardware runs a version of Windows/Hyper-V with support for CoCo VMs
-> +
-> +* The VM runs a version of Linux that supports being a CoCo VM
-> +
-> +The physical hardware requirements are as follows:
-> +
-> +* AMD processor with SEV-SNP. Hyper-V does not run guest VMs with AMD SME,
-> +  SEV, or SEV-ES encryption, and such encryption is not sufficient for a CoCo
-> +  VM on Hyper-V.
-> +
-> +* Intel processor with TDX
-> +
-> +To create a CoCo VM, the "Isolated VM" attribute must be specified to Hyper-V
-> +when the VM is created. A VM cannot be changed from a CoCo VM to a normal VM,
-> +or vice versa, after it is created.
-> +
-> +Operational Modes
-> +-----------------
-> +Hyper-V CoCo VMs can run in two modes. The mode is selected when the VM is
-> +created and cannot be changed during the life of the VM.
-> +
-> +* Fully-enlightened mode. In this mode, the guest operating system is
-> +  enlightened to understand and manage all aspects of running as a CoCo VM.
-> +
-> +* Paravisor mode. In this mode, a paravisor layer between the guest and the
-> +  host provides some operations needed to run as a CoCo VM. The guest operating
-> +  system can have fewer CoCo enlightenments than is required in the
-> +  fully-enlightened case.
-> +
-> +Conceptually, fully-enlightened mode and paravisor mode may be treated as
-> +points on a spectrum spanning the degree of guest enlightenment needed to run
-> +as a CoCo VM. Fully-enlightened mode is one end of the spectrum. A full
-> +implementation of paravisor mode is the other end of the spectrum, where all
-> +aspects of running as a CoCo VM are handled by the paravisor, and a normal
-> +guest OS with no knowledge of memory encryption or other aspects of CoCo VMs
-> +can run successfully. However, the Hyper-V implementation of paravisor mode
-> +does not go this far, and is somewhere in the middle of the spectrum. Some
-> +aspects of CoCo VMs are handled by the Hyper-V paravisor while the guest OS
-> +must be enlightened for other aspects. Unfortunately, there is no
-> +standardized enumeration of feature/functions that might be provided in the
-> +paravisor, and there is no standardized mechanism for a guest OS to query the
-> +paravisor for the feature/functions it provides. The understanding of what
-> +the paravisor provides is hard-coded in the guest OS.
-> +
-> +Paravisor mode has similarities to the Coconut project, which aims to provide
-> +a limited paravisor to provide services to the guest such as a virtual TPM.
+> I am wondering what the impact of this doc update is on my series[1]. I
+> am looking for a straightforward recommendation for what terminology I,
+> and hopefully others, should adopt *outside the i2c subsystem*, where
+> Linux (typically) has a driver for the controller and is communicating
+> with an unknown OS/firmware on the target.
+>=20
+> a) Spec-compliant "controller/target"
+> b) Linux implementation/spec hybrid "controller/client", or
+> c) Linux implementation "adapter/client"
+>=20
+> I prefer (a), FWIW, so do apparently reviewers on my series.
 
-Would it be useful to add an external link to the Coconut project here?
-https://github.com/coconut-svsm/svsm
+I also prefer (a), but people should know what (c) means when they look
+around in the kernel source. I'll see how it goes with rewording this
+patch accordingly.
 
-> +However, the Hyper-V paravisor generally handles more aspects of CoCo VMs
-> +than is currently envisioned for Coconut, and so is further toward the "no
-> +guest enlightenments required" end of the spectrum.
-> +
-> +In the CoCo VM threat model, the paravisor is in the guest security domain
-> +and must be trusted by the guest OS. By implication, the hypervisor/VMM must
-> +protect itself against a potentially malicious paravisor just like it
-> +protects against a potentially malicious guest.
 
-Tangential to this patch, can the guest provide its own paravisor since
-it needs to be trusted and apparently the only way to find out if a
-paravisor will be used is to rely on the (possibly) malicious
-hypervisor/VMM to provide a synthetic MSR?
+--fwelgbx6weqjrtet
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> +
-> +The hardware architectural approach to fully-enlightened vs. paravisor mode
-> +varies depending on the underlying processor.
-> +
-> +* With AMD SEV-SNP processors, in fully-enlightened mode the guest OS runs in
-> +  VMPL 0 and has full control of the guest context. In paravisor mode, the
-> +  guest OS runs in VMPL 2 and the paravisor runs in VMPL 0. The paravisor
-> +  running in VMPL 0 has privileges that the guest OS in VMPL 2 does not have.
-> +  Certain operations require the guest to invoke the paravisor. Furthermore, in
-> +  paravisor mode the guest OS operates in "virtual Top Of Memory" (vTOM) mode
-> +  as defined by the SEV-SNP architecture. This mode simplifies guest management
-> +  of memory encryption when a paravisor is used.
-> +
-> +* With Intel TDX processor, in fully-enlightened mode the guest OS runs in an
-> +  L1 VM. In paravisor mode, TD partitioning is used. The paravisor runs in the
-> +  L1 VM, and the guest OS runs in a nested L2 VM.
-> +
-> +Hyper-V exposes a synthetic MSR to guests that describes the CoCo mode. This
-> +MSR indicates if the underlying processor uses AMD SEV-SNP or Intel TDX, and
-> +whether a paravisor is being used. It is straightforward to build a single
-> +kernel image that can boot and run properly on either architecture, and in
-> +either mode.
-> +
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZpyYAACgkQFA3kzBSg
+KbZrnA//VDxupQph4i4nzxcFiBLijZAkRB6jbx+os4BiqInq00eKQwRGyMqQedH+
+OXXEDYLSNfDETSrn+nB17qVChFoAILTpfFxh1UWX6cr7nNo7BtOWTwVYHTw1Ot+z
+discuzXwUJgPNNGkOwIBwpiFkyAsn0TKnfy1Y9hS8MP/LpVnZUS+x52aEFPvwu3d
+7h5Uwzkkx2JlhQaqMDaed6oxfhmGhozjhHac/KyJ8aLzxpgvOCtgXh2qqBmeTkHv
+V6F8WY6YakpddQLgeD9xUOf8kG4PA13VfT8E6MzpShXJPO9jZ7Ez3J5knRhK6iju
+3URM1oCf0ZMJ/w00PEhhk+CvuP1F2tM7Qt7wG5+vjilsFEP4k+rs5+qPWYs9dEKY
+WMuMJGzZRL2e5E0dMBwc5eEnLXs2c1IRkDu6P8l1vKeysGI77gIRATCu8a68qE1U
+KhqacjhwK5QfpaajIjY+QyIBHsMaCOPCLsfuo5EkBSx/gdOcKYz8EZvzvO5sVbOg
+JfXCMeX6/qaRsseZ5nPyEDI+wtfY6DdWfZm+Gai7pK1MEYulY/3/oiiJs4u3sdVU
+qfZdYyBLjzS97Wd3JLynKcFsnh0pJ+sIGD9VDBBmPwYr3jvNsTn7EN7MtzKTJqhH
+xkc3RRl27Jm0T+UL6eqEizsIMkMiPbVaGhD9X1G2mw3/nOB0fqM=
+=7E9O
+-----END PGP SIGNATURE-----
+
+--fwelgbx6weqjrtet--
