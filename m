@@ -1,255 +1,251 @@
-Received: from wflow5-smtp.messagingengine.com (wflow5-smtp.messagingengine.com [64.147.123.140])
+Received: from fhigh3-smtp.messagingengine.com (fhigh3-smtp.messagingengine.com [103.168.172.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A355416D305;
-	Wed, 12 Jun 2024 08:15:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.147.123.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A1F116C6AF;
+	Wed, 12 Jun 2024 08:38:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718180148; cv=none; b=deuYjV9nKHnGLkYfwfED7o3lUPR0/MFNmCpqhtaDOvm4EMBvbcEOnUGBfjSRpbCZcJSZ1RYIi1EqN0ngido1OsgXDYs9h45fPWfuR62w80ykrEgkKAMVaQAQzT1nvvR2b5KE/OVCXUgwM1FGMxnCbcjt4kXC31Vc58JfCGmhFZE=
+	t=1718181507; cv=none; b=YEOhiUeqwvIwLSlyrquSh0sVB/Sb0SqBev6T5EOjJMeGP8e2J5tL4sZmboW14Dpb3q2FZogyrRwQFMon9uDeJiy47zrShQl8PpAqwUyFwtbn1BS6PnFbssEWAAxgzaDvTIPN/EUBczwCGWCsCTiDx7mXTA9rCNOSXvAkZy/r2Nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718180148; c=relaxed/simple;
-	bh=U6hukzBbxKrvojtraGdCUg5S848y4qN0OYQuMf0rzt8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nPBxECaVt8IPUzcE/h+brj/Pizn8iUe3t2kAg62fb/+qwW2rPShxzVf6zJ0EySVPwHHfZ0eyhGJsbcdCffXlAO3GPjnL+ds62jqBijMwMOoHFu5117epb8GpQR+LhzUFHoNfSVCcb0LsDWnz+smHkKyXonCz6SYTrQzGvHYfoZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=3xx0.net; spf=pass smtp.mailfrom=3xx0.net; dkim=pass (2048-bit key) header.d=3xx0.net header.i=@3xx0.net header.b=T/COupJO; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Q1t7Oopg; arc=none smtp.client-ip=64.147.123.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=3xx0.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=3xx0.net
+	s=arc-20240116; t=1718181507; c=relaxed/simple;
+	bh=YWtk753VKbXICjxbUaMpl058KAPoF0f/CE+ytNJPs8s=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=i2PfCKHlBHFKfXuZO++V6TgzoYU+MmfN2kvNBoaz7W/k7w8D9MmT2L2Jmsf7PgsqwC6jgvGkeSe78RALMsaWMwMkPL/qnkzijQ9bgp/qV3KQDCL2Cvz0Chl1eEoaKegKy3PYjQBrsdzbJvgH3y+POBSDa191/wT8VVqHyo0BKvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com; spf=pass smtp.mailfrom=flygoat.com; dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b=QR4mtu4Q; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=LV3x6O+L; arc=none smtp.client-ip=103.168.172.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=flygoat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flygoat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=3xx0.net header.i=@3xx0.net header.b="T/COupJO";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Q1t7Oopg"
+	dkim=pass (2048-bit key) header.d=flygoat.com header.i=@flygoat.com header.b="QR4mtu4Q";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="LV3x6O+L"
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailflow.west.internal (Postfix) with ESMTP id 56FE02CC01F5;
-	Wed, 12 Jun 2024 04:15:43 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Wed, 12 Jun 2024 04:15:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=3xx0.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1718180142;
-	 x=1718183742; bh=HeipJvuPUXcxMs0ABdL536egEdVvkPwYQPNqw34NrRM=; b=
-	T/COupJOcGQBBzKb4rbSed3jgNiyDZbxjs5JEtO62DxXUNSbNnBaXJ6I3BPKd6Z+
-	6ARsd0guK71kwjXw1RDdKg5FDdOuWZkhwcyazmIZQ+0GGUiPXA//nZRmjiyKDLNQ
-	H3/FNjklRKt6S0bTwlxmBGERxBLF6m4484BT0r9L+hTKInVQ+3ZYLh5YNyhJQYXp
-	ZZZMseNCt+e5LtkzAJE90jHuYM3sIq1I7W7lunhkpVB8TAmty1La50EuAaJ2vR/x
-	PTEbGgbt62p4WoIo7bG36hXKZCWOBjYI6WmrR/4jUJFSGtN1AaNl7FrHu6maHb+C
-	adktYiXIICDWSH7ngkbRJg==
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id 3E14611400C2;
+	Wed, 12 Jun 2024 04:38:24 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Wed, 12 Jun 2024 04:38:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm2; t=1718181504; x=1718267904; bh=rZ
+	avWNgK9bWUu4tKzoeFNgjPgkMNXtCWKxY3QEFPpxQ=; b=QR4mtu4QkKm/ehGlCL
+	fyS5lG9rREWk2DiZKOZs3VC2EnEYCeWHISO7eW3mGggsUNX3ZqRrD07w3SZLa2NY
+	n6rhIXrdKTBbo84unZEevvrZsaTnl+plCEy/SMo+vTqaFlrbYo3Ed8wOtUklT0v5
+	0EhYs5yOYaUK5fqfb280tTkBh8Fidg+agUgWGxBG8qn7IMaKHOG2XxSzrMuyRl3E
+	14EbeIgZOpD7ZlmCrF/8ZY2vE4hEiwz0ZvNPfhu7K5/TEwXvg8EZtzfbeUzUGipt
+	2nISveffagvUJcvdSb9eQqN9zkZEzvgyaS5B5h3PcYVtha0XkdG5wB/4d+6sTRHc
+	cZjA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1718180142; x=
-	1718183742; bh=HeipJvuPUXcxMs0ABdL536egEdVvkPwYQPNqw34NrRM=; b=Q
-	1t7OopgDslFmy8Sn7kpNoKmWbzt3Z2MGoExLH6bfO3TYPzfnfQmHEmYzcMmDYeHV
-	4dOdhWYUwwev8eBSiP2BjHKfakaj7tjqMPnm2sdSXNNRycOPLgtwenCOF46yNAyx
-	pPGsiB5WI1cN0szwAA8d9Y57IMMJlW3Ei1JOljlO9f5ryb0xDOh5eGgEy9Jj/ToU
-	J12o9vnGWKGOfi3Pf99MDmRwkD/fZLuT0kChTde7Io3QW+/d+bIpBFmWeAnhDtLL
-	Sktq4hNvnEGvGrHexapT4Ja5f4O0hdjtDsDaNSAJp70b6y8l05Fy5XHVTfs3iZLk
-	IGtT76BrLZv7Sbyt6kHjw==
-X-ME-Sender: <xms:LllpZr8xON2t8JBtvP8z2r9RPYAmVXKWxpra7VsoLzksHIWrVAqsTw>
-    <xme:LllpZnvkqHMbLn7nTwJpStwes9BHkU7PymLNoNE0gBFFBIWcXFG3r7Wg35DH8sg6E
-    Ww3SmzOnbYfBIBkWs8>
-X-ME-Received: <xmr:LllpZpAi9D44gg8B35OwmmG863qQRbZ6qMZRrXVT34TXUCAV6qQheTcH-4QZDZnznyXra_ThPng13sWtDhfFg7Y>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfedugedgtdduucetufdoteggodetrfdotf
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1718181504; x=1718267904; bh=rZavWNgK9bWUu
+	4tKzoeFNgjPgkMNXtCWKxY3QEFPpxQ=; b=LV3x6O+Lj9KkLO40kaFLQ1PNZI414
+	4CvAtsEdYX02NNL/eSeevfZfherFNXYaPwW2jA/4n5q3vg4IEoWreANMewYy/z02
+	gpFr8uPG5Xk8xpH0mWHljFzfTG7k/LRNNss5DejANTfMeYWdtmEJTClAsoWq0/FC
+	YwAXcLidWYPI098dYqCFeCzjMN6dPEIeAqB6amcxGxcvCuXA9tYMwrKq3qTTYxNr
+	2sJMP4mmknHso+NqkotHxvg6PX+9ayEX9aFnPNkfzwjSqJqxVIjKs+ZPNh6mn959
+	L2HHuukcdHyiN2JPNxcqsHRQPFMIs5YH2Yx3QOazATT3cx5RJe5usrsPw==
+X-ME-Sender: <xms:f15pZjvoP5roakX8fytarFKl5e7G8kz5ov1fsplqPSPW9hss6MQSwQ>
+    <xme:f15pZkf_NKDQ_muq9ER-o60I0S9P4DCCr5zyu8M9kvWDiq5YT18OsCL6Y2daWmkr5
+    sSWomDOYFjoIbuQqVA>
+X-ME-Received: <xmr:f15pZmzTvrLRvMmH__goRZYdW_mSLJq8GGC0erTB5rtTn59Nqr7p1RY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfedugedgtdeiucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggugfgjsehtkefstddttdejnecuhfhrohhmpeflohhn
-    rghthhgrnhcuvegrlhhmvghlshcuoehjtggrlhhmvghlshesfeiggidtrdhnvghtqeenuc
-    ggtffrrghtthgvrhhnpeetgedutdfggeetleefhfeuhedtheduteekieduvdeigeegvdev
-    vddtieekiedvheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehjtggrlhhmvghlshesfeiggidtrdhnvght
-X-ME-Proxy: <xmx:LllpZneDoyZ-RX3X4rVUuUmiN2s53H0HQpEPmjarSlJmdbeNsrC-cg>
-    <xmx:LllpZgOos_vdtrYhH4zy-fXOAUsMnhJPoF2-A5YI2fB8xlNbQzKhqQ>
-    <xmx:LllpZpnXG5LqLB-ZltLJVdyjPBFYDlsy8SHeGNxT_BRuOggOAb-DYg>
-    <xmx:LllpZqvTNxszjuD5ehQbJyHiu7_SOSqdldAZXDNby64nJkUiYieeqQ>
-    <xmx:LllpZquORTNviG0fl8x754yxTGr1qD6L8k5YykdTsQFtiAHXFTPbkZnD>
-Feedback-ID: i76614979:Fastmail
+    cujfgurhephfffufggtgfgkffvvefosehtkeertdertdejnecuhfhrohhmpeflihgrgihu
+    nhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqnecugg
+    ftrfgrthhtvghrnhepkefhueffudekhfelvdffieejheegtdeuieffveelkeevhfevvedt
+    keefhfegvddtnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehf
+    lhihghhorghtrdgtohhm
+X-ME-Proxy: <xmx:f15pZiN5pmF4ifi4rn0RZCPxi2e2pjtC6ZulOwo8EXXufZ66G_IZVQ>
+    <xmx:f15pZj_KPmd_OpczBU2GSxlKPrhQhonY4R9kHJD6uGE6fUserkadTg>
+    <xmx:f15pZiVTa_SLWLH-l8HnFDDpDPXOfG_Jf0DJSzlpJrqaec2ymP9fKw>
+    <xmx:f15pZkc2H63vGk1wJyz05tu0QeiYvFZjQ64ipVrSFAe03GkckZ_PlA>
+    <xmx:gF5pZkPpCFZuNibZW7mFHS3_SSvlUGplwVSSr6ESNwotI9g2WiYJed2Z>
+Feedback-ID: ifd894703:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 12 Jun 2024 04:15:38 -0400 (EDT)
-Date: Wed, 12 Jun 2024 01:20:49 -0700
-From: Jonathan Calmels <jcalmels@3xx0.net>
-To: Paul Moore <paul@paul-moore.com>
-Cc: John Johansen <john.johansen@canonical.com>, brauner@kernel.org,
- 	ebiederm@xmission.com, Jonathan Corbet <corbet@lwn.net>,
- 	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
- 	KP Singh <kpsingh@kernel.org>,
- Matt Bobrowski <mattbobrowski@google.com>,
- 	Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>,
- 	Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>,
- 	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- 	Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>,
- 	Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, 	Luis Chamberlain <mcgrof@kernel.org>,
- Kees Cook <kees@kernel.org>, 	Joel Granados <j.granados@samsung.com>,
- David Howells <dhowells@redhat.com>,
- 	Jarkko Sakkinen <jarkko@kernel.org>,
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- 	Ondrej Mosnacek <omosnace@redhat.com>, Mykola Lysenko <mykolal@fb.com>,
- Shuah Khan <shuah@kernel.org>, 	containers@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- 	linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
- bpf@vger.kernel.org, 	apparmor@lists.ubuntu.com,
- keyrings@vger.kernel.org, selinux@vger.kernel.org,
- 	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] bpf,lsm: Allow editing capabilities in BPF-LSM
- hooks
-Message-ID: <rgzhcsblub7wedm734n56cw2qf6czjb4jgck6l5miur6odhovo@n5tgrco74zce>
-References: <20240609104355.442002-1-jcalmels@3xx0.net>
- <20240609104355.442002-5-jcalmels@3xx0.net>
- <CAHC9VhT5XWbhoY2Nw5jQz4GxpDriUdHw=1YsQ4xLVUtSnFxciA@mail.gmail.com>
- <z2bgjrzeq7crqx24chdbxnaanuhczbjnq6da3xw6al6omjj5xz@mqbzzzfva5sw>
- <887a3658-2d8d-4f9e-98f2-27124bb6f8e6@canonical.com>
- <CAHC9VhQFNPJTOct5rUv3HT6Z2S20mYdW75seiG8no5=fZd7JjA@mail.gmail.com>
- <uuvwcdsy7o4ulmrdzwffr6uywfacmlkjrontmjdj44luantpok@dtatxaa6tzyv>
- <CAHC9VhRnthf8+KgfuzFHXWEAc9RShDO0G_g0kc1OJ-UTih1ywg@mail.gmail.com>
+ 12 Jun 2024 04:38:22 -0400 (EDT)
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Date: Wed, 12 Jun 2024 09:38:19 +0100
+Subject: [PATCH v3] MIPS: Implement ieee754 NAN2008 emulation mode
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHC9VhRnthf8+KgfuzFHXWEAc9RShDO0G_g0kc1OJ-UTih1ywg@mail.gmail.com>
+Message-Id: <20240612-mips_ieee754_emul-v3-1-2c21b450abdb@flygoat.com>
+X-B4-Tracking: v=1; b=H4sIAHpeaWYC/33NSwqDMBCA4atI1k1J4iO2q96jFAnJRAfUSGJDR
+ bx7o6sWSpnVPzDfrCSARwjkmq3EQ8SAbkyRnzKiOzW2QNGkJoKJgpVM0gGn0CAAyLJoYHj21HB
+ ZV6U1l1oyku4mDxZfh3l/pO4wzM4vx4vI9+0/LXKaxmipmeG5Vvpm+6V1aj5rN5Ddi+LD4PyXI
+ ZKhrLxUoAQHy76Nbdvevqmo6fgAAAA=
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-mips@vger.kernel.org, 
+ =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>, 
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5330;
+ i=jiaxun.yang@flygoat.com; h=from:subject:message-id;
+ bh=YWtk753VKbXICjxbUaMpl058KAPoF0f/CE+ytNJPs8s=;
+ b=owGbwMvMwCXmXMhTe71c8zDjabUkhrTMuLrqWzPuy5zXXPhvz6cYY/9F/X9a5P/vStMVr5yqK
+ mKxziOto5SFQYyLQVZMkSVEQKlvQ+PFBdcfZP2BmcPKBDKEgYtTACaysp7hv6+h2NqczuAqjbBl
+ DTcPy5i8v3FRZdnf2fFXDWS4k4tC9Rj+ipiwzY9c/FK9cuqyT3Z7ex7wr4hSmX9N2cOKIZp7pch
+ DHgA=
+X-Developer-Key: i=jiaxun.yang@flygoat.com; a=openpgp;
+ fpr=980379BEFEBFBF477EA04EF9C111949073FC0F67
 
-On Tue, Jun 11, 2024 at 06:38:31PM GMT, Paul Moore wrote:
-> On Tue, Jun 11, 2024 at 6:15 PM Jonathan Calmels <jcalmels@3xx0.net> wrote:
-> > On Tue, Jun 11, 2024 at 03:01:01PM GMT, Paul Moore wrote:
-> > > On Tue, Jun 11, 2024 at 6:32 AM John Johansen
-> > > <john.johansen@canonical.com> wrote:
-> > > >
-> > > > On 6/11/24 01:09, Jonathan Calmels wrote:
-> > > > > On Sun, Jun 09, 2024 at 08:18:48PM GMT, Paul Moore wrote:
-> > > > >> On Sun, Jun 9, 2024 at 6:40 AM Jonathan Calmels <jcalmels@3xx0.net> wrote:
-> > > > >>>
-> > > > >>> This patch allows modifying the various capabilities of the struct cred
-> > > > >>> in BPF-LSM hooks. More specifically, the userns_create hook called
-> > > > >>> prior to creating a new user namespace.
-> > > > >>>
-> > > > >>> With the introduction of userns capabilities, this effectively provides
-> > > > >>> a simple way for LSMs to control the capabilities granted to a user
-> > > > >>> namespace and all its descendants.
-> > > > >>>
-> > > > >>> Update the selftests accordingly by dropping CAP_SYS_ADMIN in
-> > > > >>> namespaces and checking the resulting task's bounding set.
-> > > > >>>
-> > > > >>> Signed-off-by: Jonathan Calmels <jcalmels@3xx0.net>
-> > > > >>> ---
-> > > > >>>   include/linux/lsm_hook_defs.h                 |  2 +-
-> > > > >>>   include/linux/security.h                      |  4 +-
-> > > > >>>   kernel/bpf/bpf_lsm.c                          | 55 +++++++++++++++++++
-> > > > >>>   security/apparmor/lsm.c                       |  2 +-
-> > > > >>>   security/security.c                           |  6 +-
-> > > > >>>   security/selinux/hooks.c                      |  2 +-
-> > > > >>>   .../selftests/bpf/prog_tests/deny_namespace.c | 12 ++--
-> > > > >>>   .../selftests/bpf/progs/test_deny_namespace.c |  7 ++-
-> > > > >>>   8 files changed, 76 insertions(+), 14 deletions(-)
-> > > > >>
-> > > > >> I'm not sure we want to go down the path of a LSM modifying the POSIX
-> > > > >> capabilities of a task, other than the capabilities/commoncap LSM.  It
-> > > > >> sets a bad precedent and could further complicate issues around LSM
-> > > > >> ordering.
-> > > > >
-> > > > > Well unless I'm misunderstanding, this does allow modifying the
-> > > > > capabilities/commoncap LSM through BTF. The reason for allowing
-> > > > > `userns_create` to be modified is that it is functionally very similar
-> > > > > to `cred_prepare` in that it operates with new creds (but specific to
-> > > > > user namespaces because of reasons detailed in [1]).
-> > > >
-> > > > yes
-> > > >
-> > > > > There were some concerns in previous threads that the userns caps by
-> > > > > themselves wouldn't be granular enough, hence the LSM integration.
-> > > >
-> > > > > Ubuntu for example, currently has to resort to a hardcoded profile
-> > > > > transition to achieve this [2].
-> > > > >
-> > > >
-> > > > The hard coded profile transition, is because the more generic solution
-> > > > as part of policy just wasn't ready. The hard coding will go away before
-> > > > it is upstreamed.
-> > > >
-> > > > But yes, updating the cred really is necessary for the flexibility needed
-> > > > whether it is modifying the POSIX capabilities of the task or the LSM
-> > > > modifying its own security blob.
-> > > >
-> > > > I do share some of Paul's concerns about the LSM modifying the POSIX
-> > > > capabilities of the task, but also thing the LSM here needs to be
-> > > > able to modify its own blob.
-> > >
-> > > To be clear, this isn't about a generic LSM needing to update its own
-> > > blob (LSM state), it is about the BPF LSM updating the capability
-> > > sets.  While we obviously must support a LSM updating its own state,
-> > > I'm currently of the opinion that allowing one LSM to update the state
-> > > of another LSM is only going to lead to problems.  We wouldn't want to
-> > > allow Smack to update AppArmor state, and from my current perspective
-> > > allowing the BPF LSM to update the capability state is no different.
-> > >
-> > > It's also important to keep in mind that if we allow one LSM to do
-> > > something, we need to allow all LSMs to do something.  If we allow
-> > > multiple LSMs to manipulate the capability sets, how do we reconcile
-> > > differences in the desired capability state?  Does that resolution
-> > > change depending on what LSMs are enabled at build time?  Enabled at
-> > > boot?  Similarly, what about custom LSM ordering?
-> > >
-> > > What about those LSMs that use a task's capabilities as an input to an
-> > > access control decision?  If those LSMs allow an access based on a
-> > > given capability set only to have a LSM later in the ordering modify
-> > > that capability set to something which would have resulted in an
-> > > access denial, do we risk a security regression?
-> >
-> > I understand the concerns, what I fail to understand however, is how is
-> > it any different from say the `cred_prepare` hook today?
-> 
-> The existing cred_prepare hooks only operate on their own small
-> portion of the cred::security blob.  What you are proposing would be
-> the BPF LSM operating on the capability sets that it does not "own"
-> (they belong to the capability LSM).
-> 
-> If you see that as a minor difference, please understand that if you
-> skip past that you have all the issues I mentioned in my previous
-> message to deal with.
-> 
-> > > Our current approach to handling multiple LSMs is that each LSM is
-> > > limited to modifying its own state, and I'm pretty confident that we
-> > > stick to this model if we have any hope of preserving the sanity of
-> > > the LSM layer as a whole.  If you want to modify the capability set
-> > > you need to do so within the confines of the capability LSM and/or
-> > > modify the other related kernel subsystems (which I'm guessing will
-> > > likely necessitate a change in the LSMs, but that avenue is very
-> > > unclear if such an option even exists).
-> >
-> > What do you mean by "within the confines of the capability LSM" here?
-> 
-> Basically security/commoncap.c.  One could make a lot of arguments
-> about if it is, or isn't, a LSM, but commoncap.c registers LSM hooks
-> which is pretty much the definition of a LSM from an implementation
-> point of view.
+Implement ieee754 NAN2008 emulation mode.
 
-Yes, hence the proposal to give it more fine-grained controls than
-what's currently available. But to your point, unlike the others,
-its own state (i.e. capsets) is shared, so this gets questionable.
+When this mode is enabled, kernel will accept ELF file
+compiled for both NaN 2008 and NaN legacy, but if hardware
+does not have capability to match ELF's NaN mode, __own_fpu
+will fail for corresponding thread and fpuemu will then kick
+in.
 
-> > Arguably, if we do want fine-grained userns policies, we need LSMs to
-> > influence the userns capset at some point.
-> 
-> One could always use, or develop, a LSM that offers additional
-> controls around exercising capabilities.  There are currently four
-> in-tree LSMs, including the capabilities LSM, which supply a
-> security_capable() hook that is used by the capability-based access
-> controls in the kernel; all of these hook implementations work
-> together within the LSM framework and provide an additional level of
-> control/granularity beyond the existing capabilities.
+This mode trade performance for correctness, while maintaining
+support for both NaN mode regardless of hardware capability.
+It is useful for multilib installation that have both types
+of binary exist in system.
 
-Right, but the idea was to have a simple and easy way to reuse/trigger
-as much of the commoncap one as possible from BPF. If we're saying we
-need to reimplement and/or use a whole new framework, then there is
-little value.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+---
+Changes in v3:
+- Fix typo in commit message
+- Collect R-b tags
+- Link to v2: https://lore.kernel.org/r/20240511-mips_ieee754_emul-v2-1-af796ea21ef0@flygoat.com
 
-TBH, I don't feel strongly about this, which is why it is absent from
-v1. However, as John pointed out, we should at least be able to modify
-the blob if we want flexible userns caps policies down the road.
+Changes in v2:
+- Fix a typo
+- Link to v1: https://lore.kernel.org/r/20240507-mips_ieee754_emul-v1-1-1dc7c0d13cac@flygoat.com
+---
+ Documentation/admin-guide/kernel-parameters.txt |  4 +++-
+ arch/mips/include/asm/fpu.h                     | 15 +++++++++++++++
+ arch/mips/kernel/elf.c                          |  4 ++++
+ arch/mips/kernel/fpu-probe.c                    |  9 ++++++++-
+ 4 files changed, 30 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 500cfa776225..dee487b03c9d 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2000,7 +2000,7 @@
+ 			for the device. By default it is set to false (0).
+ 
+ 	ieee754=	[MIPS] Select IEEE Std 754 conformance mode
+-			Format: { strict | legacy | 2008 | relaxed }
++			Format: { strict | legacy | 2008 | relaxed | emulated }
+ 			Default: strict
+ 
+ 			Choose which programs will be accepted for execution
+@@ -2020,6 +2020,8 @@
+ 				by the FPU
+ 			relaxed	accept any binaries regardless of whether
+ 				supported by the FPU
++			emulated accept any binaries but enable FPU emulator
++				if binary mode is unsupported by the FPU.
+ 
+ 			The FPU emulator is always able to support both NaN
+ 			encodings, so if no FPU hardware is present or it has
+diff --git a/arch/mips/include/asm/fpu.h b/arch/mips/include/asm/fpu.h
+index 86310d6e1035..bc5ac9887d09 100644
+--- a/arch/mips/include/asm/fpu.h
++++ b/arch/mips/include/asm/fpu.h
+@@ -129,6 +129,18 @@ static inline int __own_fpu(void)
+ 	if (ret)
+ 		return ret;
+ 
++	if (current->thread.fpu.fcr31 & FPU_CSR_NAN2008) {
++		if (!cpu_has_nan_2008) {
++			ret = SIGFPE;
++			goto failed;
++		}
++	} else {
++		if (!cpu_has_nan_legacy) {
++			ret = SIGFPE;
++			goto failed;
++		}
++	}
++
+ 	KSTK_STATUS(current) |= ST0_CU1;
+ 	if (mode == FPU_64BIT || mode == FPU_HYBRID)
+ 		KSTK_STATUS(current) |= ST0_FR;
+@@ -137,6 +149,9 @@ static inline int __own_fpu(void)
+ 
+ 	set_thread_flag(TIF_USEDFPU);
+ 	return 0;
++failed:
++	__disable_fpu();
++	return ret;
+ }
+ 
+ static inline int own_fpu_inatomic(int restore)
+diff --git a/arch/mips/kernel/elf.c b/arch/mips/kernel/elf.c
+index 7aa2c2360ff6..f0e7fe85a42a 100644
+--- a/arch/mips/kernel/elf.c
++++ b/arch/mips/kernel/elf.c
+@@ -318,6 +318,10 @@ void mips_set_personality_nan(struct arch_elf_state *state)
+ 	t->thread.fpu.fcr31 = c->fpu_csr31;
+ 	switch (state->nan_2008) {
+ 	case 0:
++		if (!(c->fpu_msk31 & FPU_CSR_NAN2008))
++			t->thread.fpu.fcr31 &= ~FPU_CSR_NAN2008;
++		if (!(c->fpu_msk31 & FPU_CSR_ABS2008))
++			t->thread.fpu.fcr31 &= ~FPU_CSR_ABS2008;
+ 		break;
+ 	case 1:
+ 		if (!(c->fpu_msk31 & FPU_CSR_NAN2008))
+diff --git a/arch/mips/kernel/fpu-probe.c b/arch/mips/kernel/fpu-probe.c
+index e689d6a83234..6bf3f19b1c33 100644
+--- a/arch/mips/kernel/fpu-probe.c
++++ b/arch/mips/kernel/fpu-probe.c
+@@ -144,7 +144,7 @@ static void cpu_set_fpu_2008(struct cpuinfo_mips *c)
+  * IEEE 754 conformance mode to use.  Affects the NaN encoding and the
+  * ABS.fmt/NEG.fmt execution mode.
+  */
+-static enum { STRICT, LEGACY, STD2008, RELAXED } ieee754 = STRICT;
++static enum { STRICT, EMULATED, LEGACY, STD2008, RELAXED } ieee754 = STRICT;
+ 
+ /*
+  * Set the IEEE 754 NaN encodings and the ABS.fmt/NEG.fmt execution modes
+@@ -160,6 +160,7 @@ static void cpu_set_nofpu_2008(struct cpuinfo_mips *c)
+ 
+ 	switch (ieee754) {
+ 	case STRICT:
++	case EMULATED:
+ 		if (c->isa_level & (MIPS_CPU_ISA_M32R1 | MIPS_CPU_ISA_M64R1 |
+ 				    MIPS_CPU_ISA_M32R2 | MIPS_CPU_ISA_M64R2 |
+ 				    MIPS_CPU_ISA_M32R5 | MIPS_CPU_ISA_M64R5 |
+@@ -204,6 +205,10 @@ static void cpu_set_nan_2008(struct cpuinfo_mips *c)
+ 		mips_use_nan_legacy = !cpu_has_nan_2008;
+ 		mips_use_nan_2008 = !!cpu_has_nan_2008;
+ 		break;
++	case EMULATED:
++		/* Pretend ABS2008/NAN2008 options are dynamic */
++		c->fpu_msk31 &= ~(FPU_CSR_NAN2008 | FPU_CSR_ABS2008);
++		fallthrough;
+ 	case RELAXED:
+ 		mips_use_nan_legacy = true;
+ 		mips_use_nan_2008 = true;
+@@ -226,6 +231,8 @@ static int __init ieee754_setup(char *s)
+ 		return -1;
+ 	else if (!strcmp(s, "strict"))
+ 		ieee754 = STRICT;
++	else if (!strcmp(s, "emulated"))
++		ieee754 = EMULATED;
+ 	else if (!strcmp(s, "legacy"))
+ 		ieee754 = LEGACY;
+ 	else if (!strcmp(s, "2008"))
+
+---
+base-commit: 93a39e4766083050ca0ecd6a3548093a3b9eb60c
+change-id: 20240507-mips_ieee754_emul-d17865fd9870
+
+Best regards,
+-- 
+Jiaxun Yang <jiaxun.yang@flygoat.com>
+
