@@ -1,70 +1,71 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3DD021360;
-	Wed, 12 Jun 2024 21:32:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BA2D8288C;
+	Wed, 12 Jun 2024 21:35:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718227947; cv=none; b=jZJqz/L4mazuuBbPzLB1zmtncmCBQRetdEIPskCqDdmwn6Z7fDYNVWWoJKsovly7wHZttyrWAq8D9rrq1KWIjCo3l9RcjOTUkgMgqxJ+L3GAdoe6a2HqWRAOCQk3qxfnGhoYEbOS8yN2eIwHLUOPWldXAYuLkoknBbrerYcsxkc=
+	t=1718228101; cv=none; b=Dz3WbHORiPH7biKD6pTLsKMkST4F6yBjRfL/iaoYUYcFMfuB2r7jOno8yJVIM/CV9D1xRUkIVTneKzNvHa/eXaUEaz8zte/+Ic2dzE7SXFe1FUfxBdIVhuVECtWPLBAK0WQQ8bQWaooevlqPnvGEMC4Cl1mRPod2MHcQ5WFUxPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718227947; c=relaxed/simple;
-	bh=EOKbcnt6rurpfvI1kMjeCMyOhouYKbzIbHo7o2o1e0Q=;
+	s=arc-20240116; t=1718228101; c=relaxed/simple;
+	bh=oKmLrfV29L06io4Kl2VwMfLYa4V+Ackek1fTDA0ZM4E=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=lA9EGR5g08yPPLbEXkIdjn8U8nguQk8ITQhsRwiBPOzKy2ssfJ3yqt0b16lSZsq4hzqMk9Jmipc2HZE/YH6WYuxw792cKhsLpdLwqgbdODb8fv6yNPwDc+QS/zsC0VdEbXYvzTzZ5AJ2Wv/AJaRn1yGhb5izATNT2YuVSiqItbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=oo2oEiyy; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=mFZl8udJ2K7vBytcVry+AtedzZFeDY9dfET9yDH2Htf9S2jNK7pTLhZvCep2+uh4qFXkpAay3ZBhpfJXz26FvuJzpjH7H/zjGf5vv3q48QvIgHmJrEiYCBzC+0YFuRSSligfghjF8g7OzEKYG32lizrMEWLby0QGKYO3TWLe8Oc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=C1hj442D; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="oo2oEiyy"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E7E7845E09
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="C1hj442D"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 778A445E09
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1718227945; bh=efWY5Xij91b91tKq7ztvtBG+eCPq3ycx19cYryj8860=;
+	t=1718228099; bh=PWyCuv3xpZwwaaYLqnj6S829Q1/vduw8lKyGFP2raD0=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=oo2oEiyyL3ZzhorBWkO098Y8kGjUikJSut6adZZ+QuiVg9sD6pBwlNbtD8xdO86g7
-	 VjhAzclNtXZ6eEwjezQtZcaAL5gLkX15SIY+XSQa9CkdpjOa1+selaXInvIT3vc1kD
-	 hCtr5Jm5IhZz7QgkCyVz2mGQNGzSIcrVlPBbS8lOSxCosy8WlhPR7BAt0qB6mPWKyS
-	 wDKXtMJtO2lZOZjZT4DbgQTV88zRh5PuOneeDWSymSxvWOG8LDFhoi++hJAQt+S2uM
-	 4/GjdttlcfdLOcR+2mN/rNrzpZ9sDrx8Yj6nEHM8HUFeNzReqjGivLn18id3IA6Qpy
-	 WEEJ+dVHuju7w==
+	b=C1hj442DpXdSmkexosDIUYoNYF6f1ELKkhouiFKhLvnp7hedK7mHnwIGilYKh5imM
+	 YB32lEJevqYYNGpGVCppj5ET86KteUf+iLtUojSt5MnwGvDUYj6Dwi2TIZrX1PZ7/r
+	 hWFNzn6gnIzUlcBHfP+dvopcWp63bxsdNHcheRWyAFlQL+dOwceTFDxmnqomoVovPT
+	 0qQxdwGM+qHgQvZx/0+eAHVQeVM/3DEKOgOS+S2sTwNILpqT6CWWxlo7Zo2N2dXiKs
+	 N3Fk/6SGZnuVg09SVJPRhGiVLrGim3f7HDKclGDU4Br4avCjAyLOaBDo3sDk5xLoiB
+	 4huyw27ZyOIEA==
 Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id E7E7845E09;
-	Wed, 12 Jun 2024 21:32:24 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 778A445E09;
+	Wed, 12 Jun 2024 21:34:59 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Jinjie Ruan <ruanjinjie@huawei.com>, paul.walmsley@sifive.com,
- palmer@dabbelt.com, aou@eecs.berkeley.edu, paulmck@kernel.org,
- jpoimboe@kernel.org, tglx@linutronix.de, rdunlap@infradead.org,
- xiongwei.song@windriver.com, wangkefeng.wang@huawei.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org
-Cc: ruanjinjie@huawei.com
-Subject: Re: [PATCH] Documentation: kernel-parameters: Add RISCV for nohlt
-In-Reply-To: <20240604114005.875609-1-ruanjinjie@huawei.com>
-References: <20240604114005.875609-1-ruanjinjie@huawei.com>
-Date: Wed, 12 Jun 2024 15:32:24 -0600
-Message-ID: <87le39oniv.fsf@trenco.lwn.net>
+To: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>, bilbao@vt.edu
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: Extend and refactor index of further kernel docs
+In-Reply-To: <2acd884f-2f04-4d39-b559-aac99f9ae35e@gmail.com>
+References: <fdf68be7-875a-421d-8bc3-034a21990679@gmail.com>
+ <87ikyvccwc.fsf@meer.lwn.net>
+ <2acd884f-2f04-4d39-b559-aac99f9ae35e@gmail.com>
+Date: Wed, 12 Jun 2024 15:34:58 -0600
+Message-ID: <87h6dxonel.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Jinjie Ruan <ruanjinjie@huawei.com> writes:
+Carlos Bilbao <carlos.bilbao.osdev@gmail.com> writes:
 
-> Since commit bcf11b5e99b2 ("riscv: Enable idle generic idle loop") enable
-> idle generic idle loop for RISCV, but the document is not updated
-> synchronously, so update RISCV support for nohlt.
+> Extend the Index of Further Kernel Documentation by adding entries for the
+> Rust for Linux website, the Linux Foundation's YouTube channel, and notes
+> on the second edition of Billimoria's kernel programming book. Also,
+> perform some refactoring: format the text to 75 characters per line and
+> sort per-section content in chronological order of publication.
 >
-> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-> Fixes: bcf11b5e99b2 ("riscv: Enable idle generic idle loop")
+> Signed-off-by: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
 > ---
->  Documentation/admin-guide/kernel-parameters.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> =C2=A0Documentation/process/kernel-docs.rst | 68 +++++++++++++++++-------=
+---
+> =C2=A01 file changed, 44 insertions(+), 24 deletions(-)
 
-Applied, thanks.
+So I still am unable to apply this.  There is some sort of whitespace
+damage, perhaps some sort of non-breaking spaces?
 
 jon
