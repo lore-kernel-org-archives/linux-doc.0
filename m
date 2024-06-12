@@ -1,234 +1,182 @@
-Received: from zg8tmja5ljk3lje4ms43mwaa.icoremail.net (zg8tmja5ljk3lje4ms43mwaa.icoremail.net [209.97.181.73])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E00DF3BB27;
-	Wed, 12 Jun 2024 02:19:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.97.181.73
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C656171C4;
+	Wed, 12 Jun 2024 03:54:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718158783; cv=none; b=Z/f/N3tW8L5sFN5Jxx8QDYqynjubGv+k3i++YVW0r6u/wuLw/XIhKOOWBIO4WsinE7jjbOm1P9Tyor0KRj/5aes5AAgt3D/em3RuDPgkE4oZ8MuaSWNWiXIpSOy81Hd5uz39XiM/PQAcYEzrQeX1HWrEgajt0WQ2zUhm0uMxPO0=
+	t=1718164447; cv=none; b=fKJkH8YA0ZkOJ+mlsJPNjNaG3WUvfKnaXslnudX93Q4Zam/d3VUT4PQ/W4PNTeFXz05EZs5bTaifPIBxD3X7Sj3C9slDBCaq3w544W/7Slr9Y3GXi0tQ/WUQ993R1RbKV1AstG5spE1vvXN0Fy8E+tg5sALj2gfrpOhJWiLiPXU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718158783; c=relaxed/simple;
-	bh=HQyNBwDw0RHW/ctKsvYApcFb+k2YDtV9suyRlW3M5lM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=u00rt+KHzPc2kNifODwxJm4LhljcBm4qohvWJyQLxXhOR8Tiz9gEA5dHdecwN2O8fN9vIrlDrkJ1Jmwo15GkWQeO6L/TMsXJNJtvl/l/VFzKifov6AvEPSE+jeg50Sg75pfwnFPfn1vpho3XweMX+nvNHYTXw1sQPhBAvnq2DU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=209.97.181.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app1 (Coremail) with SMTP id HgEQrACXmSiLBWlm0R27Bw--.40908S2;
-	Wed, 12 Jun 2024 10:18:51 +0800 (CST)
-Received: from pride-poweredge-r740.. (unknown [222.20.126.129])
-	by gateway (Coremail) with SMTP id _____wBHVySFBWlmM1cHAQ--.6809S2;
-	Wed, 12 Jun 2024 10:18:46 +0800 (CST)
-From: Dongliang Mu <dzm91@hust.edu.cn>
-To: Alex Shi <alexs@kernel.org>,
-	Yanteng Si <siyanteng@loongson.cn>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] docs/zh_CN: add process/researcher-guidelines Chinese translation
-Date: Wed, 12 Jun 2024 10:18:25 +0800
-Message-Id: <20240612021845.12036-1-dzm91@hust.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1718164447; c=relaxed/simple;
+	bh=uqrIClmGMFcFul1lrpFR1LsBQa8RW8p3+YKpsa24SYo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GIb9vSAy3CqlM33g2tQWE4mgt/4r3FxqoI8zeGicDVj5W1iAiPJy2uSK6M3BLsK/51+qmPvRNeFMqeg+Z84BFCd1fo12NQFENdHkaxew9wc7N5T6u1OESCI4I/OA24/uxwpRf+jw9BimgQBmyMTBNcI4ya70nJ80hhn8nJUVbik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PgopbII7; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PgopbII7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718164445; x=1749700445;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=uqrIClmGMFcFul1lrpFR1LsBQa8RW8p3+YKpsa24SYo=;
+  b=PgopbII7pMAdPyLEBnXCYYHSUW6f/TBUbPebt11vAnwvH4MHfqp3A+c+
+   kZd/9R9J9NuvMjJffUb9JBoA4ZOxmP6A1vbewYw1kNYG7wF6Iz1/QslUk
+   +kFPn/GR5b4FPa1RX0EyMTemUUfJlxKxaAeZQJa4HD1SruONwkpHRL+30
+   F4FtqvnY7FY6CwD2wy8KglepXEfar32Mby65n1Qp3hyI6mEFr9caTxoPh
+   4s6c2JXqT0afKoWjhyqxF/V8inWc1kJLSgIMME8pKQrSm9Zk7UtYuNGXz
+   cZ5mYNCv12aDiIhUwMgg2Bo+bFM0gfElwM9uL+2LNxF26W0CtS4tHv5Mb
+   A==;
+X-CSE-ConnectionGUID: UgnkcvPvRcy/SHGsT7UBRg==
+X-CSE-MsgGUID: Rh2kNj5TTner1UkdyJZWDQ==
+X-IronPort-AV: E=McAfee;i="6600,9927,11100"; a="37433722"
+X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; 
+   d="scan'208";a="37433722"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2024 20:54:04 -0700
+X-CSE-ConnectionGUID: nGZVKc52R9S+9+3DFvxQLA==
+X-CSE-MsgGUID: ku/+nzujRB6ticoE4gE00g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,232,1712646000"; 
+   d="scan'208";a="39758566"
+Received: from inlubt0316.iind.intel.com ([10.191.20.213])
+  by fmviesa009.fm.intel.com with ESMTP; 11 Jun 2024 20:54:00 -0700
+From: lakshmi.sowjanya.d@intel.com
+To: tglx@linutronix.de,
+	giometti@enneenne.com,
+	corbet@lwn.net,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: gregkh@linuxfoundation.org,
+	andriy.shevchenko@linux.intel.com,
+	eddie.dong@intel.com,
+	christopher.s.hall@intel.com,
+	pandith.n@intel.com,
+	subramanian.mohan@intel.com,
+	thejesh.reddy.t.r@intel.com,
+	lakshmi.sowjanya.d@intel.com
+Subject: [PATCH v10 0/3] Add support for Intel PPS Generator
+Date: Wed, 12 Jun 2024 09:23:56 +0530
+Message-Id: <20240612035359.7307-1-lakshmi.sowjanya.d@intel.com>
+X-Mailer: git-send-email 2.35.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HgEQrACXmSiLBWlm0R27Bw--.40908S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoWxtF4xXF1rKry8tw4DtryrZwb_yoWDXr1fpF
-	ZFgas3ta1xKFn7J3yfGF1IgF4rWFZ7CFW7K3WkJFyrAwn3Ar92qa17t34SvFW3W340ya4U
-	ZrWj9rWrCr1Iva7anT9S1TB71UUUUj7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQab7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
-	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
-	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
-	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
-	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
-	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxVWUAVWUtw
-	CF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Y
-	z7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
-	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE
-	2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42
-	xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF
-	7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jhcTQUUUUU=
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-Finish the translation of researcher-guidelines and add it to the
-index file.
+From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
 
-Update to commit 27103dddc2da ("Documentation: update mailing list
-addresses")
+The goal of the PPS (Pulse Per Second) hardware/software is to generate a
+signal from the system on a wire so that some third-party hardware can
+observe that signal and judge how close the system's time is to another
+system or piece of hardware.
 
-Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
----
-v1->v2: Revise description suggested by Alex Shi
-        Add a commit id to keep track of the translation status
-        Add a new line at the end of researcher-guidelines.rst
- .../translations/zh_CN/process/index.rst      |   2 +-
- .../zh_CN/process/researcher-guidelines.rst   | 129 ++++++++++++++++++
- 2 files changed, 130 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/process/researcher-guidelines.rst
+Existing methods (like parallel ports) require software to flip a bit at
+just the right time to create a PPS signal. Many things can prevent
+software from doing this precisely. This (Timed I/O) method is better
+because software only "arms" the hardware in advance and then depends on
+the hardware to "fire" and flip the signal at just the right time.
 
-diff --git a/Documentation/translations/zh_CN/process/index.rst b/Documentation/translations/zh_CN/process/index.rst
-index 5c6c8ccdd50d..5a5cd7c01c62 100644
---- a/Documentation/translations/zh_CN/process/index.rst
-+++ b/Documentation/translations/zh_CN/process/index.rst
-@@ -64,6 +64,7 @@ TODOLIST:
-    management-style
-    stable-kernel-rules
-    submit-checklist
-+   researcher-guidelines
+To generate a PPS signal with this new hardware, the kernel wakes up
+twice a second, once for 1->0 edge and other for the 0->1 edge. It does
+this shortly (~10ms) before the actual change in the signal needs to be
+made. It computes the TSC value at which edge will happen, convert to a
+value hardware understands and program this value to Timed I/O hardware.
+The actual edge transition happens without any further action from the
+kernel.
+
+The result here is a signal coming out of the system that is roughly
+1,000 times more accurate than the old methods. If the system is heavily
+loaded, the difference in accuracy is larger in old methods.
+
+Application Interface:
+The API to use Timed I/O is very simple. It is enabled and disabled by
+writing a '1' or '0' value to the sysfs enable attribute associated with
+the Timed I/O PPS device. Each Timed I/O pin is represented by a PPS
+device. When enabled, a pulse-per-second (PPS) synchronized with the
+system clock is continuously produced on the Timed I/O pin, otherwise it
+is pulled low.
+
+The Timed I/O signal on the motherboard is enabled in the BIOS setup.
+Intel Advanced Menu -> PCH IO Configuration -> Timed I/O <Enable>
+
+References:
+https://en.wikipedia.org/wiki/Pulse-per-second_signal
+https://drive.google.com/file/d/1vkBRRDuELmY8I3FlfOZaEBp-DxLW6t_V/view
+https://youtu.be/JLUTT-lrDqw
  
- TODOLIST:
- 
-@@ -71,7 +72,6 @@ TODOLIST:
- * kernel-docs
- * deprecated
- * maintainers
--* researcher-guidelines
- * contribution-maturity-model
- 
- 
-diff --git a/Documentation/translations/zh_CN/process/researcher-guidelines.rst b/Documentation/translations/zh_CN/process/researcher-guidelines.rst
-new file mode 100644
-index 000000000000..66e4840f208a
---- /dev/null
-+++ b/Documentation/translations/zh_CN/process/researcher-guidelines.rst
-@@ -0,0 +1,129 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+.. _cn_submittingpatches:
-+
-+:Original: Documentation/process/researcher-guidelines.rst
-+
-+:译者:
-+ - 慕冬亮 Dongliang Mu <dzm91@hust.edu.cn>
-+
-+研究人员指南
-++++++++++++++++++++++
-+
-+Linux 内核社区欢迎对 Linux 内核及其开发过程中涉及的活动与任何其他副产品
-+进行透明的研究。Linux 从这种研究中受益匪浅，其多方面均由某种形式的研究所推动。
-+
-+社区非常感谢研究人员在公开研究结果之前能分享初步发现，特别是涉及安全的研究。
-+早期参与有助于提高研究质量并使 Linux 受益。无论如何，推荐研究人员与社区分享
-+已发表研究的开放访问副本。
-+
-+本文旨在澄清研究开展过程中 Linux 内核社区认可与不认可的一些做法。至少，这类
-+研究及相关活动应遵循标准的研究伦理规则。有关研究伦理、技术伦理以及开发者社区
-+研究的更多背景信息，请查阅：
-+
-+* `研究伦理史 <https://www.unlv.edu/research/ORI-HSR/history-ethics>`_
-+* `IEEE 伦理 <https://www.ieee.org/about/ethics/index.html>`_
-+* `开发者和研究人员对开源项目实验伦理的看法 <https://arxiv.org/pdf/2112.13217.pdf>`_
-+
-+Linux 内核社区期望与项目互动的每个人都是真诚地为了使 Linux 变得更好。
-+对 Linux 内核社区产生的任何公开可用的成果（包括但不限于源代码）的研究
-+是受欢迎的，对开发者的研究如若要开展，则必须要明确说明，获得（开发者）同意。
-+
-+完全基于公开可用资源（包括公共邮件列表的帖子和公开代码库的提交）的被动研究
-+显然是允许的。不过，和任何研究一样，仍需遵循标准伦理。
-+
-+然而，针对开发者行为的主动研究必须在获得相关开发者的明确同意和完全披露的情况下进行。
-+未经同意，不得与开发者互动或对其进行实验；这也是标准的研究伦理。
-+
-+调查
-+=======
-+
-+研究通常采用调查问卷的形式发送给维护者或贡献者。然而，内核社区通常从这些调查问卷中获益
-+甚少。内核开发过程之所以有效，是因为每个开发者都从中受益，即使与目标不同的人一起工作。
-+而回应调查则是对繁忙开发者的单向需求，对他们自己或整个内核社区没有相应的好处。因此，
-+这种研究方法不被鼓励。
-+
-+内核社区成员已经收到过多的电子邮件，可能会将调查请求视为对他们时间的又一要求。发送
-+此类请求会剥夺社区宝贵的贡献者时间，且不太可能产生有统计意义的回应。
-+
-+作为替代，研究人员应考虑参加开发者活动，举办研讨会来介绍研究项目及其对参与者的益处，
-+并直接与社区互动。该方式获得的信息将比电子邮件调查问卷丰富得多，且社区也能从中学习
-+到您的见解。
-+
-+补丁
-+=======
-+
-+澄清：向开发者发送补丁**是**与他们互动，但他们已经同意接收**善意贡献**。故意发送有缺陷/
-+有漏洞的补丁或在讨论中提供误导信息是不被同意的。这种交流会对开发者造成损害
-+（例如，消耗时间、精力和士气），并通过破坏整个开发者社区对贡献者（及其所在组织）
-+的信任而损害项目，削弱为贡献者提供建设性反馈的努力，并使最终用户面临软件缺陷的风险。
-+
-+研究人员参与 Linux 本身的开发与其他人一样受到欢迎和鼓励。研究 Linux 代码是常见
-+做法，尤其是在开发或运行可产生可操作结果的分析工具时。
-+
-+在与开发者社区互动时，发送补丁历来是产生影响的最佳方式。Linux 已经有很多已知的
-+漏洞 -- 更有帮助的是经过审核的修复。在贡献之前，请仔细阅读相关文档：
-+
-+* Documentation/process/development-process.rst
-+* Documentation/process/submitting-patches.rst
-+* Documentation/admin-guide/reporting-issues.rst
-+* Documentation/process/security-bugs.rst
-+
-+然后发送补丁（包括所有如下详细信息的提交日志）并跟进其他开发者的任何反馈。
-+
-+当发送因研究而产生的补丁时，提交日志应至少包含以下详细信息，以便开发者有适当的上下文
-+来理解贡献。回答：
-+
-+* 找到了什么具体问题？
-+* 在运行系统上如何触发这个问题？
-+* 遇到这个问题对系统会有什么影响？
-+* 如何发现这个问题？具体包括任何测试、静态或动态分析程序及其他用于执行工作的工具或方法的详细信息。
-+* 在哪个版本的 Linux 上发现了这个问题？强烈推荐使用最新的发布版本或最近的 linux-next 分支（参见 Documentation/process/howto.rst）。
-+* 进行了哪些更改来修复这个问题，为什么认为这些更改是正确的？
-+* 如何进行构建测试和运行时测试？
-+* 此更改修复了哪个先前的提交？这应该在 "Fixes:" 标签中，如文档所述。
-+* 还有谁审查了这个补丁？这应该在适当的 "Reviewed-by:" 标签中注明；见下文。
-+
-+例如::
-+
-+  From: Author <author@email>
-+  Subject: [PATCH] drivers/foo_bar: Add missing kfree()
-+
-+  The error path in foo_bar driver does not correctly free the allocated
-+  struct foo_bar_info. This can happen if the attached foo_bar device
-+  rejects the initialization packets sent during foo_bar_probe(). This
-+  would result in a 64 byte slab memory leak once per device attach,
-+  wasting memory resources over time.
-+
-+  This flaw was found using an experimental static analysis tool we are
-+  developing, LeakMagic[1], which reported the following warning when
-+  analyzing the v5.15 kernel release:
-+
-+   path/to/foo_bar.c:187: missing kfree() call?
-+
-+  Add the missing kfree() to the error path. No other references to
-+  this memory exist outside the probe function, so this is the only
-+  place it can be freed.
-+
-+  x86_64 and arm64 defconfig builds with CONFIG_FOO_BAR=y using GCC
-+  11.2 show no new warnings, and LeakMagic no longer warns about this
-+  code path. As we don't have a FooBar device to test with, no runtime
-+  testing was able to be performed.
-+
-+  [1] https://url/to/leakmagic/details
-+
-+  Reported-by: Researcher <researcher@email>
-+  Fixes: aaaabbbbccccdddd ("Introduce support for FooBar")
-+  Signed-off-by: Author <author@email>
-+  Reviewed-by: Reviewer <reviewer@email>
-+
-+如果您是第一次参与贡献，建议在补丁在发布到公共列表前请其他人私下进行审核。（如果明确
-+告诉您补丁需要更仔细的内部审查，则这是必需的。）这些人预计会在最终的补丁中包含他们的
-+"Reviewed-by" 标签。找到熟悉 Linux 贡献的其他开发者，特别是您自己组织内的开发者，
-+并在将补丁发送到公共邮件列表前请他们帮助审核，往往会显著提高补丁的质量，从而减少
-+其他开发者的负担。
-+
-+如果你找不到人内部审核补丁且需要帮助找到这样的人，或者如果您对本文档和开发者社区的期望
-+有任何其他问题，请联系技术咨询委员会私有邮件列表：<tech-board@groups.linuxfoundation.org>。
+Patch 1 adds the pps(pulse per second) generator tio driver to the pps
+subsystem.
+Patch 2 documentation and usage of the pps tio generator module.
+Patch 3 includes documentation for sysfs interface.
+
+These patches are based on the timers/core branch:
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/?h=timers/core
+These changes are dependent on patches that are merged in [1].
+
+Please help to review the changes.
+
+Thanks in advance,
+Sowjanya
+
+Changes from v2:
+ - Split patch 1 to remove the functions in later stages.
+ - Include required headers in pps_gen_tio.
+
+Changes from v3:
+ - Corrections in Documentation.
+ - Introducing non-RFC version of the patch series.
+
+Changes from v4:
+ - Setting id in ice_ptp
+ - Modified conversion logic in convert_base_to_cs.
+ - Included the usage of the APIs in the commit message of 2nd patch.
+
+Changes from v5:
+ - Change nsecs variable to use_nsecs.
+ - Change order of 1&2 patches and modify the commit message.
+ - Add sysfs abi file entry in MAINTAINERS file.
+ - Add check to find if any event is missed and disable hardware
+   accordingly.
+
+Changes from v6:
+ - Split patch 1 into 1&2 patches.
+ - Add check for overflow in convert_ns_to_cs().
+ - Refine commit messages.
+
+Changes from v7:
+ - Split the if condition and return error if current time exceeds
+   expire time.
+ - Update kernel version and month in ABI file.
+
+Changes from v8:
+ - Add function to enable Timed I/O.
+ - Changed the updating of tio->enabled to a centralized place in
+   disable and enable functions.
+
+Changes from v9:
+ - use tio->enabled instead of reading ctrl register.
+ - change error code in enable_store to -ENODEV.
+
+Lakshmi Sowjanya D (3):
+  pps: generators: Add PPS Generator TIO Driver
+  Documentation: driver-api: pps: Add Intel Timed I/O PPS generator
+  ABI: pps: Add ABI documentation for Intel TIO
+
+ .../ABI/testing/sysfs-platform-pps-tio        |   7 +
+ Documentation/driver-api/pps.rst              |  24 ++
+ MAINTAINERS                                   |   1 +
+ drivers/pps/generators/Kconfig                |  16 ++
+ drivers/pps/generators/Makefile               |   1 +
+ drivers/pps/generators/pps_gen_tio.c          | 264 ++++++++++++++++++
+ 6 files changed, 313 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-platform-pps-tio
+ create mode 100644 drivers/pps/generators/pps_gen_tio.c
+
 -- 
-2.34.1
+2.35.3
 
