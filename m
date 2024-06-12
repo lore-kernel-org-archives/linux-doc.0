@@ -1,77 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45D5391;
-	Wed, 12 Jun 2024 18:23:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A3F457CB6
+	for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 18:28:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718216629; cv=none; b=ntfLsxMakvDag+130bxCOQJ8WsfmMN9LgOhBoKd9TVRBtIT8Gi7YfiapRhoz5iUJ797XPcs7180xTG96Ld557/kv8CUVQPV4ZPB485k3oSLH26QOzwRUHUxZWPZjsPk6AWjh7tID19wpfYKHdnfHSgdtggoOS4hHC+jn8dOQ75c=
+	t=1718216933; cv=none; b=P+jZl1UJwOf2xkXtEpEYS5lc02w5bvKBaTUj49bsBs5l1DWGtFmboS5VrHChwb49mP40czdQsEwz0tQL/3yfMnHP1szyAkb2RQKZvtJQkHdOpLSWLYeWVkmCJ4/GNJzpWQ1C5xoj1lU7Xhym123Xx1eTJNTtl+Y5lOO6ZKJxXNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718216629; c=relaxed/simple;
-	bh=Tl9nyuzjb2pxEQcV7FhW1PIM12LMWMgzHS0CNeblVFM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MUGol8g4LyqnvP1m+BSnaAVsWF9drJ4n7YSNsKOxioydAc33Z3o6psadCHjjJ6LTRFXqWzd1CBJxaaySrDJxJz4qzeDyG3ng/YSwyR+8JkaxZ/dIDuPvMiwfYFAcCHV1MWyMoDLHrJlOsFhMKjZlYKQHYss79OKxk5K417U44Pc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=osHdSw87; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718216933; c=relaxed/simple;
+	bh=r+8ioj02E2qZnACiVmd3yOLbJ4aITomf+AjUmBBu8qY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=osNlFcwsaQyFZtaQXQKuIxhxiX1fD3rrU+c0o7vCB4KqfXAwHVnsPTkB+7R2vajOklq7cY6kQ9J11KU5XpRzNqLZ9qyFlRIE3Zbyr5r9IVG+WYl7OY7n7zNQHTcq7gDPhI9e00qRu3vwKdIzZ6MIPAMgdAuhhWJLl7rGNi68q2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OGQRxvK6; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="osHdSw87"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89C32C116B1;
-	Wed, 12 Jun 2024 18:23:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718216628;
-	bh=Tl9nyuzjb2pxEQcV7FhW1PIM12LMWMgzHS0CNeblVFM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=osHdSw87Cm8MGSp+pdRD0gXU3j/5xUcHgwEiJYwiIjkxQR2qufAumWRxZok/xEj7+
-	 ywWkOmSJWsgVK0huS2vcqDdovTWWcg/7weEVtZ0VUXx3+Nbn0pt+Ol8e1y2N/7MFfu
-	 HYnRFtcv7pqCOn3ipjnNUjy0uaRriIK2knOlK1PgG2b4bm8tj9W0Fc+3ANQup5pzFI
-	 m4z5t5jr2HiyvlsuHy9AxckoeL5PkTRZMFK3jm+Ronn7TW4MAlt/q/5SejBEfFN59S
-	 3nho1Upyw2KmhISPvKV2E88Hf3ty/Ly00WMq5t5mHyNIaMKZzo99MTAVaRHpPjw2uX
-	 nhMo/E5Qs0f8A==
-Date: Wed, 12 Jun 2024 11:23:48 -0700
-From: Kees Cook <kees@kernel.org>
-To: Adrian Ratiu <adrian.ratiu@collabora.com>
-Cc: linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-	linux-doc@vger.kernel.org, kernel@collabora.com, gbiv@google.com,
-	ryanbeltran@google.com, inglorion@google.com, ajordanr@google.com,
-	jorgelo@chromium.org, Guenter Roeck <groeck@chromium.org>,
-	Doug Anderson <dianders@chromium.org>, Jann Horn <jannh@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Christian Brauner <brauner@kernel.org>, Jeff Xu <jeffxu@google.com>,
-	Mike Frysinger <vapier@chromium.org>
-Subject: Re: [PATCH v5 2/2] proc: restrict /proc/pid/mem
-Message-ID: <202406121123.B0F60E91E@keescook>
-References: <20240605164931.3753-1-adrian.ratiu@collabora.com>
- <20240605164931.3753-2-adrian.ratiu@collabora.com>
- <202406060917.8DEE8E3@keescook>
- <3304e0-6669e580-9f9-33d83680@155585222>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OGQRxvK6"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a6f09eaf420so23316466b.3
+        for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 11:28:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1718216930; x=1718821730; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jrMBsq3emDIg7LGvS27o55tx+BIF7vKtFAWrOg5D1lg=;
+        b=OGQRxvK6Y9o4UqVgaAZSNlMFFWW7o2uikBq2D02M1v9wag9ScFMG1Ce+C64Sj3sJAa
+         v8mwbNfsUbinJpm3Bmu3IZSBIrgz4cqslF09uawZMrDIM+m+tBWoiShL1wxXpMjUVZfm
+         PHik+aNV4jpFfoepOtMAYUnXkeqAVqvRmGY8D9gs6ff56xKI2RPq6Q1EcXwVzwBlvnZL
+         WAC9CyweCnwIB2SwqtcTerAkqEfvnQXVessIXLl9TeHm+PYiEtfLi4IzXayH3t+QTM43
+         9PzBk6jT/nBCiMKULMHTvfPy3PddKbDUTHHkyHBFflRDaS3o8VvmeWg8F1d0BjlpcRpf
+         lavA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718216930; x=1718821730;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jrMBsq3emDIg7LGvS27o55tx+BIF7vKtFAWrOg5D1lg=;
+        b=HNJDGtHARlV5lgTrZL3wWkTMTR5CxWFHufYNHwdazF8yX2NmFbhLNIsM+uuxOibfrp
+         x/dbik9nhby1CCyWVEeoDpJO99PKEUM1qzAWo2q68nwL9af/jLCHJQqvKgeuDfRLrpjt
+         tbAvTLJJR8nXxjigx7RHROglVeNc3QOfesEVGwwiZp3Zkeyg8avpqA+Ur453xaEX/rPj
+         J+sLl0FqYO8ae7qHeaCkcv3VxL8Yc8thlDc4tK5Lg43Q9k/68QkwX3kbAy/LpJybi7wz
+         TmY6v2KIZLkhBATrkHjmRCZziPaqvK4wvei79PgEzw+D9w+ZWehep6PAdxtIMbRploLp
+         EdXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV6sWBeWn94iyJZxBAhpiz95xBpH/srHihqZSZW+SlBmGmCL5Bm7QK74tSbwIoZlelcS3C/sXzLg3LYeJJ02fLL8TZ+1ECLLLM3
+X-Gm-Message-State: AOJu0YzMNNcAhB4aG1PCB1cPwMNSnoW/1dNKff5LcKH9eS4O8Rk/cL15
+	YutvSBP91NjDVsNkwstD6GnpaU/rTcywgeTVtZ13coRFvhbUtes6A6RXY6YHb8jFBG4X6HD36Y+
+	oi5WClNF5WTk6AKasJFzFmFIOwrnvS0Y6AG1V
+X-Google-Smtp-Source: AGHT+IGdOGwuBhu3Vw6QvLllxVPqiv9YHMv1wu6O6D77zTPHDq3tNpdY9coVqD6RhMhdj998J7/GmnqgAnwKpJh9OoY=
+X-Received: by 2002:a17:906:27d3:b0:a6d:f339:f8 with SMTP id
+ a640c23a62f3a-a6f47f936f4mr168588666b.31.1718216930144; Wed, 12 Jun 2024
+ 11:28:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3304e0-6669e580-9f9-33d83680@155585222>
+References: <20240608155316.451600-1-flintglass@gmail.com> <20240608155316.451600-2-flintglass@gmail.com>
+ <CAKEwX=P1Ojb71AEJ2gzQTrfWidFPcJZmoNxEwji7TceBN-szCg@mail.gmail.com> <CAPpoddeigM44jhTA8Ua=+J4MC1MikouBZVoPrCW2LZF+9r5YeA@mail.gmail.com>
+In-Reply-To: <CAPpoddeigM44jhTA8Ua=+J4MC1MikouBZVoPrCW2LZF+9r5YeA@mail.gmail.com>
+From: Yosry Ahmed <yosryahmed@google.com>
+Date: Wed, 12 Jun 2024 11:28:12 -0700
+Message-ID: <CAJD7tkYp3GbuXV9G5bAZ1DetMmepV5ynciA+ukae7CKuxpXDJQ@mail.gmail.com>
+Subject: Re: [PATCH v1 1/3] mm: zswap: fix global shrinker memcg iteration
+To: Takero Funaki <flintglass@gmail.com>
+Cc: Nhat Pham <nphamcs@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Shakeel Butt <shakeel.butt@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 12, 2024 at 07:13:41PM +0100, Adrian Ratiu wrote:
-> Would macros like the following be acceptable?
-> I know it's more verbose but also much easier to understand and it works.
-> 
-> #if IS_ENABLED(CONFIG_PROC_MEM_RESTRICT_OPEN_READ_ALL)
-> DEFINE_STATIC_KEY_TRUE_RO(proc_mem_restrict_open_read_all);
-> DEFINE_STATIC_KEY_FALSE_RO(proc_mem_restrict_open_read_ptracer);
-> #elif IS_ENABLED(CONFIG_PROC_MEM_RESTRICT_OPEN_READ_PTRACE)
-> DEFINE_STATIC_KEY_FALSE_RO(proc_mem_restrict_open_read_all);
-> DEFINE_STATIC_KEY_TRUE_RO(proc_mem_restrict_open_read_ptracer);
-> #else
-> DEFINE_STATIC_KEY_FALSE_RO(proc_mem_restrict_open_read_all);
-> DEFINE_STATIC_KEY_FALSE_RO(proc_mem_restrict_open_read_ptracer);
-> #endif
+On Wed, Jun 12, 2024 at 11:16=E2=80=AFAM Takero Funaki <flintglass@gmail.co=
+m> wrote:
+>
+> 2024=E5=B9=B46=E6=9C=8812=E6=97=A5(=E6=B0=B4) 3:26 Nhat Pham <nphamcs@gma=
+il.com>:
+>
+> >
+> > As I have noted in v0, I think this is unnecessary and makes it more co=
+nfusing.
+> >
+>
+> Does spin_lock() ensure that compiler optimizations do not remove
+> memory access to an external variable? I think we need to use
+> READ_ONCE/WRITE_ONCE for shared variable access even under a spinlock.
+> For example,
+> https://elixir.bootlin.com/linux/latest/source/mm/mmu_notifier.c#L234
 
-Yeah, that'd be fine by me. I was a little concerned I was
-over-generalizing those macros. :P
+In this example, it seems like mmu_interval_set_seq() updates
+interval_sub->invalidate_seq locklessly using WRITE_ONCE(). I think
+this is why READ_ONCE() is required in that particular case.
 
--- 
-Kees Cook
+>
+> isn't this a common use case of READ_ONCE?
+> ```c
+> bool shared_flag =3D false;
+> spinlock_t flag_lock;
+>
+> void somefunc(void) {
+>     for (;;) {
+>         spin_lock(&flag_lock);
+>         /* check external updates */
+>         if (READ_ONCE(shared_flag))
+>             break;
+>         /* do something */
+>         spin_unlock(&flag_lock);
+>     }
+>     spin_unlock(&flag_lock);
+> }
+> ```
+> Without READ_ONCE, the check can be extracted from the loop by optimizati=
+on.
+
+According to Documentation/memory-barriers.txt, lock acquiring
+functions are implicit memory barriers. Otherwise, the compiler would
+be able to pull any memory access outside of the lock critical section
+and locking wouldn't be reliable.
