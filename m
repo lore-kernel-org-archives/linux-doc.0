@@ -1,59 +1,59 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA00010F2;
-	Wed, 12 Jun 2024 01:34:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E39363BF;
+	Wed, 12 Jun 2024 01:36:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718156065; cv=none; b=lJB/Ap/KYtjjp4xXgIUmChyOLwQVnXiwXGvqtUfCeURDn6X78rFi/ngLFlCNX5JgvOv80xaStKpqiUZakbD6sSkIuHSiAdq12teiEJu1lPNcinPOA4FHPXSQYNzJ7UYHgqUJM9OsCA3vQUwh7cs73DT/Ffvt3WgD3VDgA898gF8=
+	t=1718156186; cv=none; b=MtCet8Wki5kjz21XKNf6+gnl0bP7fA8L6zsJNpl35TLBgR0w1c199q+2vghn+fbICc7AqGK8dioD93gdr8PL91IqO/fjHoZKUY03NsCEyl8YCaXqP2GRXucODeou6L1j8+QFeBUOOF+OTwF9RVUGkddxd8TQi9Xs70qodQFl3AU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718156065; c=relaxed/simple;
-	bh=Zs3Gjos4LsBpSwXMnubnoIJmsGgPi02BZ5xWOBrRtKw=;
+	s=arc-20240116; t=1718156186; c=relaxed/simple;
+	bh=K6BKv4LjR1+g983yeFe0wOKlJGVHwpBlqXDjuG38I/M=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LO9ANQTmKAGjc5Miq4RqQDFvCCBnhBulBq59LwcWS0MzTLmjMkCCNaWoEaHYjguXvMbPaTeO2qq16pocXfarbnz/LMvodTHc2JFy1Mc0d8FCXaTLbd6+Q6bMxNK3Aqik5DeCsoCO212nRJAiJN/PtpBANjd1s+N1ruhxgUxGGOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F7TYBj87; arc=none smtp.client-ip=209.85.210.181
+	 In-Reply-To:Content-Type; b=GYsP8CkW3l+lIS9kGotR/EU8BWazXaR3wakWanx5E+j5R6t7iO9juVxIRwRIRFvWuWueXy0kKJsWj2QBme5LGj5zLOhKYc8k/PV+xNnhhGcGL7ED5B94dnNK9bXTEENaejnhiZnrr6mE4caiFLzT9pFRTbq/NAahdjsUWXtat2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DdO/Fv0E; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F7TYBj87"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7046e87e9afso1475673b3a.0;
-        Tue, 11 Jun 2024 18:34:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DdO/Fv0E"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1f6fada63a6so27648765ad.3;
+        Tue, 11 Jun 2024 18:36:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718156063; x=1718760863; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1718156183; x=1718760983; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=IWRd6FFkLYS5WcN+M56v5OtkCFgkbR1vqPFfOWbUjbg=;
-        b=F7TYBj87vj1JL9+ar9x0tc1HhrTjKGA6VTtZsDoVvUsoUqvWE/st1MChQHMMUsXviG
-         gR18H7PQQ9T6hZa3ZVSGrd44qFEdbvau9W2vc3HKeOsPOlUcMeYuLDZDhsNokWyUSm/r
-         2G/tlQEUUel/RxcIYVKWBohickRkidXnGzipuJ+DDvI3iaP8tRW8RKx6MO7XKobp6ray
-         PBeGkcOoRYq99RuOdzcO7E7IOUlyuUiF2eWl5Cs8UkjmFMwHSictzOjeV3qGtVvjK5Rz
-         1Wvn0f5QDNULQ+0/QhPmscf4FWTXJ544RlTVt4FDYh9VkC8LaFjYst1rSZZ6zjBTqLh9
-         KN/w==
+        bh=FzozW17kq7wTzk1ggk4+JCXlo/GoqamN6TK/nxUtA8A=;
+        b=DdO/Fv0EAvOXdSExaNCjEuGot+1AWuw6EuZhRZgmT7t9evXQ4N43vSZyakSbgqnGu/
+         3lK5DYEsVY1vlVgJC8Mh8phgipUUmDJ5m6XfoeXfi1MIQ5x7fVdfI+88J71FYJIC+H1x
+         EXbhPR0TV9o2AO4NnKAOlox6SRzDyC5nQ+9Ya1oOUN1aHjBPrJbwt10oUIPBnJNHaoQR
+         wdWumpCIqtB3qegYBtMp0btA3nUQvJjENF2l3PeaJsH2lVd9U8OtcigqNAAON/K5UfGa
+         KIHe9gBMcsZIC63y2qUPrGqCgH0uC+pxtm6Xlo+9vtKK+CkJkDnOk3Mc/iqYv9qJm+Ca
+         c8VQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718156063; x=1718760863;
+        d=1e100.net; s=20230601; t=1718156183; x=1718760983;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IWRd6FFkLYS5WcN+M56v5OtkCFgkbR1vqPFfOWbUjbg=;
-        b=tqCEaN5w3gjeBvL7WzCex25ZDbLsKjNuLeZ+MLC409TSyMmaN64XH11D2A94zV9m4h
-         LSbfbzfPxsiby+XaMO6ygTM0bzhU6swOP2aGkuJSwg36+qvA8NLgLWMobS4xFAum+uua
-         ALqKpYZrC3yjnhnvMsJ7YC7Sk1KkPWJFUpTRLFd6Nq6lwRLpCjRJ1gVNNTm0qMMzDRqJ
-         YF57CiNGTr7/+xiWtWHxydVAyh75njzKcCJFacBC7BPuxxGytYT27crVBxsDSqfi/Xk0
-         B59PW9KnprYy3rUn2TzsSO4dVOvaSmA9UCY/xOi3USzl3h3AUo7Uiqtacp5GvGCep4f1
-         CJlQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWGHvxB3KcbEvt3mnuSmKwXs+RMvrrmmvi6FeE9AHJle+MIY+YFO4cH/F/+LhT0c2umeQO3kxDJBwmKZ0TXY30XijKmxkiDobUh6QcqshbmdQzhEiWzDJ1INdkpyQTskUuTYEyyaLSI
-X-Gm-Message-State: AOJu0YyCgfag1KjR9ptsP7C6t5AuIp2cEqPMGY4umYrlEyqxmzI5x58A
-	fb9IUVhqzQtS8gJSPrUVoswTbmTo/9TOwsSz5A4z0DYLgvr/TqrMLJIn0w==
-X-Google-Smtp-Source: AGHT+IG7efEIAlIisoV784XUCgcOg9PAp9r9MU0CzAeDRDFveS7hRtA8L9J6W9JJa5rW0EMiNDrFvA==
-X-Received: by 2002:a05:6a00:1786:b0:705:b2c8:a23 with SMTP id d2e1a72fcca58-705bcdcc62bmr621989b3a.5.1718156063039;
-        Tue, 11 Jun 2024 18:34:23 -0700 (PDT)
+        bh=FzozW17kq7wTzk1ggk4+JCXlo/GoqamN6TK/nxUtA8A=;
+        b=lzdTL8Kq7QivmeVSAsFt0f9rvFBvK5aUE7pcdwp1UJhJxlmccXuXp9eFKW58jJGO3v
+         gy/+bJzIKBtsQD9U3jfFSo1Nbs1W2zVbNi5yU1UBmstomWTcw4vy1XMsE9MrYnpK67wZ
+         4yDIfxM8BkIGLBcAFKQF3NAYnwr4BUsw27E+wN1YKZ2WIpqgsXucEDEPTJWMiM1JYj/n
+         z5XpOAN0+0kAtUuPZGcogWsRmFKozrThuyThI3/ElLxBclq46eXuV3qUCgi5EPvdNWZ6
+         EcHIA4czRsuRYRTeyZ+RXjXD0eU7wUQ65oc3hWZ263OoDzJUoh5VPFb89ci3SbU/pbRs
+         WEeQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWeUCz9o3z30KQbriJKzIrqXmRrQ4isDKI6j5y1zD9sbithgI364Jlte5TdbxuyeWM2DsteJ+2BbJ0vxrxD7UG+H5llHgs8A+V8Mb6R69/VlvrTkY+9Zwz6FZwv9U07A0zCrDpplIBI
+X-Gm-Message-State: AOJu0YycOb2fBE5WisJNuEgDINKOp86EHQOCVRyfTe6AIRLTdYp3YF9H
+	rdKH+9WWUlOdtpoY23dAmc/7OZLTWn6gMIVXowU1adA/pqwpvl3Z
+X-Google-Smtp-Source: AGHT+IF6kcxVfe2CgnQ4I5h1Z43glCxZSpNlQiyocYEfsPAz5meXYHfzh2e3NSne7y82gtXwCtnIrw==
+X-Received: by 2002:a17:903:1c9:b0:1f7:908:964a with SMTP id d9443c01a7336-1f83b56a77emr5329605ad.2.1718156183485;
+        Tue, 11 Jun 2024 18:36:23 -0700 (PDT)
 Received: from [192.168.255.10] ([43.132.141.24])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-70431c8cb72sm5629175b3a.145.2024.06.11.18.34.20
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f6bd76cf28sm109892745ad.97.2024.06.11.18.36.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jun 2024 18:34:22 -0700 (PDT)
-Message-ID: <6964e8bb-d2f1-4203-94db-857135cf7ecf@gmail.com>
-Date: Wed, 12 Jun 2024 09:34:19 +0800
+        Tue, 11 Jun 2024 18:36:23 -0700 (PDT)
+Message-ID: <5961a584-dbb5-40e7-8e25-69eb7aefcdb1@gmail.com>
+Date: Wed, 12 Jun 2024 09:36:20 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,246 +61,61 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] scripts: add scripts/checktransupdate.py
-To: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <siyanteng@loongson.cn>, Jonathan Corbet <corbet@lwn.net>
-Cc: hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
- Cheng Ziqiu <chengziqiu@hust.edu.cn>, linux-kernel@vger.kernel.org
-References: <20240611131723.53515-1-dzm91@hust.edu.cn>
+Subject: Re: [PATCH] docs/zh_CN: Update the translation of
+ dev-tools/testing-overview
+To: Dongliang Mu <mudongliangabcd@gmail.com>
+Cc: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <siyanteng@loongson.cn>, Jonathan Corbet <corbet@lwn.net>,
+ Hu Haowen <2023002089@link.tyut.edu.cn>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240611044358.25689-1-dzm91@hust.edu.cn>
+ <1c3c4698-c70f-4b04-ae96-a83c3b9bbc4d@gmail.com>
+ <CAD-N9QXY8frJmxp+LWM9g2_8UdubzMushMEPGyM9Z-UFEHfN3A@mail.gmail.com>
 Content-Language: en-US
 From: Alex Shi <seakeel@gmail.com>
-In-Reply-To: <20240611131723.53515-1-dzm91@hust.edu.cn>
+In-Reply-To: <CAD-N9QXY8frJmxp+LWM9g2_8UdubzMushMEPGyM9Z-UFEHfN3A@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 
 
-On 6/11/24 9:17 PM, Dongliang Mu wrote:
-> The checktransupdate.py script helps track the translation status of
-> the documentation in different locales, e.g., zh_CN and verify if
-> these documenation is up-to-date. More specially, it uses `git log`
-> commit to find the latest english commit from the translation commit
-> (order by author date) and the latest english commits from HEAD. If
-> differences occur, report the file and commits that need to be updated.
+On 6/11/24 2:50 PM, Dongliang Mu wrote:
+> On Tue, Jun 11, 2024 at 2:36 PM Alex Shi <seakeel@gmail.com> wrote:
+>>
+>>
+>>
+>> On 6/11/24 12:43 PM, Dongliang Mu wrote:
+>>> Update to commit 42fb9cfd5b18 ("Documentation: dev-tools:
+>>> Add link to RV docs")
+>>>
+>>> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+>>> ---
+>>>  Documentation/translations/zh_CN/dev-tools/testing-overview.rst | 2 ++
+>>>  1 file changed, 2 insertions(+)
+>>>
+>>> diff --git a/Documentation/translations/zh_CN/dev-tools/testing-overview.rst b/Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+>>> index c91f9b60f9f1..d89d0ec1d4cc 100644
+>>> --- a/Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+>>> +++ b/Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+>>> @@ -99,6 +99,8 @@ Documentation/dev-tools/kcov.rst 是能够构建在内核之中，用于在每
+>>>    参阅 Documentation/dev-tools/kfence.rst
+>>>  * lockdep是一个锁定正确性检测器。参阅
+>>>    Documentation/locking/lockdep-design.rst
+>>> +* Runtime Verification (RV) 支持检查给定子系统的特定行为。参阅
+>>
+>> Why not translate the words 'Runtime Verification' here?
 > 
-> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
-> Signed-off-by: Cheng Ziqiu <chengziqiu@hust.edu.cn>
-> ---
+> If you translate it into "动态确认", this sounds like a very general term.
+> So I keep the original English.
 
-Reviewed-by: Alex Shi <alexs@kernel.org>
+Runtime is often translated as '运行时', so could be ‘运行时确认’
 
-> v1->v2: revise the output format of git commits
->         add some description and usage of this script
->  scripts/checktransupdate.py | 203 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 203 insertions(+)
->  create mode 100755 scripts/checktransupdate.py
 > 
-> diff --git a/scripts/checktransupdate.py b/scripts/checktransupdate.py
-> new file mode 100755
-> index 000000000000..5a0fc99e3f93
-> --- /dev/null
-> +++ b/scripts/checktransupdate.py
-> @@ -0,0 +1,203 @@
-> +#!/usr/bin/env python3
-> +# SPDX-License-Identifier: GPL-2.0
-> +
-> +"""
-> +This script helps track the translation status of the documentation
-> +in different locales, e.g., zh_CN. More specially, it uses `git log`
-> +commit to find the latest english commit from the translation commit
-> +(order by author date) and the latest english commits from HEAD. If
-> +differences occur, report the file and commits that need to be updated.
-> +
-> +The usage is as follows:
-> +- ./scripts/checktransupdate.py -l zh_CN
-> +This will print all the files that need to be updated in the zh_CN locale.
-> +- ./scripts/checktransupdate.py Documentation/translations/zh_CN/dev-tools/testing-overview.rst
-> +This will only print the status of the specified file.
-> +
-> +The output is something like:
-> +Documentation/translations/zh_CN/dev-tools/testing-overview.rst (1 commits)
-> +commit 42fb9cfd5b18 ("Documentation: dev-tools: Add link to RV docs")
-> +"""
-> +
-> +import os
-> +from argparse import ArgumentParser, BooleanOptionalAction
-> +from datetime import datetime
-> +
-> +flag_p_c = False
-> +flag_p_uf = False
-> +flag_debug = False
-> +
-> +
-> +def dprint(*args, **kwargs):
-> +    if flag_debug:
-> +        print("[DEBUG] ", end="")
-> +        print(*args, **kwargs)
-> +
-> +
-> +def get_origin_path(file_path):
-> +    paths = file_path.split("/")
-> +    tidx = paths.index("translations")
-> +    opaths = paths[:tidx]
-> +    opaths += paths[tidx + 2 :]
-> +    return "/".join(opaths)
-> +
-> +
-> +def get_latest_commit_from(file_path, commit):
-> +    command = "git log --pretty=format:%H%n%aD%n%cD%n%n%B {} -1 -- {}".format(
-> +        commit, file_path
-> +    )
-> +    dprint(command)
-> +    pipe = os.popen(command)
-> +    result = pipe.read()
-> +    result = result.split("\n")
-> +    if len(result) <= 1:
-> +        return None
-> +
-> +    dprint("Result: {}".format(result[0]))
-> +
-> +    return {
-> +        "hash": result[0],
-> +        "author_date": datetime.strptime(result[1], "%a, %d %b %Y %H:%M:%S %z"),
-> +        "commit_date": datetime.strptime(result[2], "%a, %d %b %Y %H:%M:%S %z"),
-> +        "message": result[4:],
-> +    }
-> +
-> +
-> +def get_origin_from_trans(origin_path, t_from_head):
-> +    o_from_t = get_latest_commit_from(origin_path, t_from_head["hash"])
-> +    while o_from_t is not None and o_from_t["author_date"] > t_from_head["author_date"]:
-> +        o_from_t = get_latest_commit_from(origin_path, o_from_t["hash"] + "^")
-> +    if o_from_t is not None:
-> +        dprint("tracked origin commit id: {}".format(o_from_t["hash"]))
-> +    return o_from_t
-> +
-> +
-> +def get_commits_count_between(opath, commit1, commit2):
-> +    command = "git log --pretty=format:%H {}...{} -- {}".format(commit1, commit2, opath)
-> +    dprint(command)
-> +    pipe = os.popen(command)
-> +    result = pipe.read().split("\n")
-> +    # filter out empty lines
-> +    result = list(filter(lambda x: x != "", result))
-> +    return result
-> +
-> +
-> +def pretty_output(commit):
-> +    command = "git log --pretty='format:%h (\"%s\")' -1 {}".format(commit)
-> +    dprint(command)
-> +    pipe = os.popen(command)
-> +    return pipe.read()
-> +
-> +
-> +def check_per_file(file_path):
-> +    opath = get_origin_path(file_path)
-> +
-> +    if not os.path.isfile(opath):
-> +        dprint("Error: Cannot find the origin path for {}".format(file_path))
-> +        return
-> +
-> +    o_from_head = get_latest_commit_from(opath, "HEAD")
-> +    t_from_head = get_latest_commit_from(file_path, "HEAD")
-> +
-> +    if o_from_head is None or t_from_head is None:
-> +        print("Error: Cannot find the latest commit for {}".format(file_path))
-> +        return
-> +
-> +    o_from_t = get_origin_from_trans(opath, t_from_head)
-> +
-> +    if o_from_t is None:
-> +        print("Error: Cannot find the latest origin commit for {}".format(file_path))
-> +        return
-> +
-> +    if o_from_head["hash"] == o_from_t["hash"]:
-> +        if flag_p_uf:
-> +            print("No update needed for {}".format(file_path))
-> +        return
-> +    else:
-> +        print("{}".format(file_path), end="\t")
-> +        commits = get_commits_count_between(
-> +            opath, o_from_t["hash"], o_from_head["hash"]
-> +        )
-> +        print("({} commits)".format(len(commits)))
-> +        if flag_p_c:
-> +            for commit in commits:
-> +                msg = pretty_output(commit)
-> +                if "Merge tag" not in msg:
-> +                    print("commit", msg)
-> +
-> +
-> +def main():
-> +    script_path = os.path.dirname(os.path.abspath(__file__))
-> +    linux_path = os.path.join(script_path, "..")
-> +
-> +    parser = ArgumentParser(description="Check the translation update")
-> +    parser.add_argument(
-> +        "-l",
-> +        "--locale",
-> +        help="Locale to check when files are not specified",
-> +    )
-> +    parser.add_argument(
-> +        "--print-commits",
-> +        action=BooleanOptionalAction,
-> +        default=True,
-> +        help="Print commits between the origin and the translation",
-> +    )
-> +
-> +    parser.add_argument(
-> +        "--print-updated-files",
-> +        action=BooleanOptionalAction,
-> +        default=False,
-> +        help="Print files that do no need to be updated",
-> +    )
-> +
-> +    parser.add_argument(
-> +        "--debug",
-> +        action=BooleanOptionalAction,
-> +        help="Print debug information",
-> +        default=False,
-> +    )
-> +
-> +    parser.add_argument(
-> +        "files", nargs="*", help="Files to check, if not specified, check all files"
-> +    )
-> +    args = parser.parse_args()
-> +
-> +    global flag_p_c, flag_p_uf, flag_debug
-> +    flag_p_c = args.print_commits
-> +    flag_p_uf = args.print_updated_files
-> +    flag_debug = args.debug
-> +
-> +    # get files related to linux path
-> +    files = args.files
-> +    if len(files) == 0:
-> +        if args.locale is not None:
-> +            files = (
-> +                os.popen(
-> +                    "find {}/Documentation/translations/{} -type f".format(
-> +                        linux_path, args.locale
-> +                    )
-> +                )
-> +                .read()
-> +                .split("\n")
-> +            )
-> +        else:
-> +            files = (
-> +                os.popen(
-> +                    "find {}/Documentation/translations -type f".format(linux_path)
-> +                )
-> +                .read()
-> +                .split("\n")
-> +            )
-> +
-> +    files = list(filter(lambda x: x != "", files))
-> +    files = list(map(lambda x: os.path.relpath(os.path.abspath(x), linux_path), files))
-> +
-> +    # cd to linux root directory
-> +    os.chdir(linux_path)
-> +
-> +    for file in files:
-> +        check_per_file(file)
-> +
-> +
-> +if __name__ == "__main__":
-> +    main()
+>>
+>> Thanks!
+>> Alex
+>>> +  Documentation/trace/rv/runtime-verification.rst。
+>>>  * 除此以外，在内核中还有一些其它的调试工具，大多数能在
+>>>    lib/Kconfig.debug 中找到。
+>>>
+>>
