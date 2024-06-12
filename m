@@ -1,101 +1,146 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C99C16D306
-	for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 12:03:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4354B16F286
+	for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 12:06:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718193797; cv=none; b=A22S0F275TM6DCFlYYzVDuKPF1MukOnmtkkBy9ti1os6p0QHVhIvYXWZTWwBreMBxnJ20L/9unamBGO0WuLsQk3nYx1CiSZY5BUG+iulz6lS/s+KyQ1hXvsKSPGD65ZbIHaELWvHJMIV1KDS+DzGXmriETJLERfCkaWw3OazzYc=
+	t=1718193969; cv=none; b=LPr/D/1M3VxjSEkHXCt37+h4Izu+119foQlXkkQXK548b3H3n+ttQrEaOVrcTtbUE3e88qQL2Nv0FMG9u3MfqFD3kD2eHCpdmZXnJ6/23YgdxCSghjLzZ60cmR9bHUJekVU1BrQLLwN7lo8EaDLi6Hc/JC+BJMlwI93SUbmHMJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718193797; c=relaxed/simple;
-	bh=GaWixcRc7cLjif3vTgrTA5TxIa1tfz6d4HCIcdoIrpE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JGNX8z+ADgIKF8KzePZa2sxvkYSHkOmdD8pBryxDALq9ZbWO/H2XMLo5t9FWkGKFUzgOmArIzYtTFJapW42FuiAUbsWXhIRSzhkYkT/wpTwMOCWAeiR3duNSbhj4M/mmw6Ubjnhf1LCPlJshk5v6lAdrotI824UG2AC3lTgjZks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=XGWRVmxP; arc=none smtp.client-ip=209.85.208.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1718193969; c=relaxed/simple;
+	bh=654VBwTTZj6O5cwvd+Nmv/nVSh8Rktw+YZv2YfH5NqU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f4llldoQbKj8A/Dlst1rQf3tdiegOJmKV8eLTjrx5xE/f+S5L3uczlslHwKBYUct5Pct8tF18yfugwW051rf62KUF4ZTQKRP3fYcVCZfBZ9ptwxKkrCGZO1oVOC3o2wSfDMkbQV52zXZqu7QQ+YPfJR8cmA3nqKUOCNzoDOAYIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=b+K+9yut; arc=none smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="XGWRVmxP"
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2e78fe9fc2bso92617981fa.3
-        for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 05:03:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="b+K+9yut"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-440655e64bdso20148141cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 12 Jun 2024 05:06:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1718193794; x=1718798594; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EpdvA3t0LhYQ51ruF05mfpKy9nZXuP4heggj+jgSeCE=;
-        b=XGWRVmxPaBy/wTZqxaUN+//+Y23IynV62syUqZLKwX32cxnLc1pYKZCdRcd3LlyC4Q
-         QGdtZ2t8ty4fZjuQC6FYEac8u8X8WOi3Fqn5nRet3dMf+CHUX9I71klq4+Ycnztr3kFh
-         QYp1cDAsgFEAkGqfiy4toOBmIW/6fxUosWeaYJ/Zp2b3GMWqM7BoKjmVNye+VhWwTCdX
-         I/XoLi4eAKXTZjVhCVC500EjX+xIHaNGWOMT0qp/u7fnctZekDesjJ6PRxEJ0ICOMlM1
-         owy/IT5HQ3Rv0KYw/LPSaE03xMPlOSgiff9QZ7c2URvil0lTzaUY7IjUoreJYSnDPduj
-         Zvgg==
+        d=ziepe.ca; s=google; t=1718193967; x=1718798767; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=654VBwTTZj6O5cwvd+Nmv/nVSh8Rktw+YZv2YfH5NqU=;
+        b=b+K+9yutIZvL7EhYnDc9PCqyJQyg2rNZnBSM82DUh/mVjbpDQy0AjlTT1QxvPywdj1
+         5x3Bd9/ca2iYboUwAHk3ommKdZwLtidiIZFwneX47/uHtGfpvI9RYqChNL0+zSjfMHo1
+         eLjMobFz+Qu1oy3MVyvb4rEeOUKTLSjore47JD2UdH3oqgTIkXqhVcGm+UYAEnMiQ+T5
+         RK5UP92BF1rCkwKJet0x6kGN6ceBNfxoJL/qrz8UJcsTrQpKGIJJ91JIlvqFFjM3nnYj
+         7adAlrkKUSp2YwiQ+JcrIa0p91XG2fUzPI4njv/lY/djRSEZJX+zpmehJwwsBOi4fkfY
+         pCDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718193794; x=1718798594;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EpdvA3t0LhYQ51ruF05mfpKy9nZXuP4heggj+jgSeCE=;
-        b=cB9SSrdFiDaJHUbn0CpePSfpSVfgVcjckmmyTsmmpLTXxb5cOTrlMn7ZYZUEzAs/ku
-         Htzvn5RV17Xy1GCnjEpRQciVZJpxksnq1NoqoPlFmo5cH6Lld+TenossiCqNuCEZ65C5
-         BN4znWd5MAIIPWS2CptC6LifmSvkd1s5QKJf0284PtvLgfJLA/WxkGCHNB9IGSptqDks
-         lZADAhm/9CfJPKK56qore/EAu43eS/hyAJVAGlIp3NRqX0rWTaHLM3KrUaNjDlofWPCT
-         97r+Irft06xpFm65pMgMbVLBcZLt1g1iDLJM3cMvCr9facXZ5nD+6U219VQkPtP/oyl8
-         YYng==
-X-Forwarded-Encrypted: i=1; AJvYcCWiosM84XOYfHbvDElpXg5dC3JJYe4qtOMgqHTb9ZqeHkc5198Ex2rG7BGFBnWqxUTknRTQRn1mqsbN45lj5wvuAGO3cRokQyrs
-X-Gm-Message-State: AOJu0YwzqSNkM3OMyaSCunRJDJliq898H+1SBjnv4ualEZOj+gVLIpWu
-	X3pfpD1qPyhBo9srs0GvEsnGVGYXIB6/pAugGLl/HTaorFt0flVtA6BvIDCfw/k=
-X-Google-Smtp-Source: AGHT+IEd+O1uxudQ7gtE3vp9qxZ2Su0J221EOuF2GH3ZcKozbjK871J1l8zVpbPeRgCX3nanl1tetQ==
-X-Received: by 2002:a2e:b0d8:0:b0:2ea:e773:c5a with SMTP id 38308e7fff4ca-2ebfc8fecb9mr9110811fa.9.1718193794473;
-        Wed, 12 Jun 2024 05:03:14 -0700 (PDT)
-Received: from brgl-uxlite.home ([2a01:cb1d:8d3:3800:a172:4e8b:453e:2f03])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42284d1130esm11210045e9.0.2024.06.12.05.03.13
+        d=1e100.net; s=20230601; t=1718193967; x=1718798767;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=654VBwTTZj6O5cwvd+Nmv/nVSh8Rktw+YZv2YfH5NqU=;
+        b=l0Pm+oaGzP+u7r7lVbvSzDyePu3QQ9QYQdKJ5xfmFELZRoXCAGjghYcJ/pLXtSdDxy
+         0qwb+ZwziOTWWC2sonu4CU8003JqeCPWMSU/1AnnaJ4NdsI8rh19QsbsoDtVluugRGfx
+         g3JFP6fsvn1sTshGhjHVm6ZMCZev0CZGsetOrPKY+H3X6Xs1SiErKGjiOFxWyHHxQ1as
+         B/GFyI1k2ivKGdm89sdKWpdITxhSxFbR5KPAr3h9ZXRyjS6+C0AEAw9BxzjLib1tiLCI
+         0mxeMy1ibLiRclcL5ngBkBijOribULFtp+8kYfoYZDCrOheHY8HZgxCc5rgfOGQ5DGyy
+         HViQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXmHp06Wz8YBYtOgy/7ght47N2RSJjwsvt+5d1tjmRAtW29rI9rp4HOW5MvoncPEpL9UXUBQe+hXuZPM01fWMc21s5D8lMGtXtD
+X-Gm-Message-State: AOJu0YwsehDpW/AJHfpXmno8tqW9F35RN4fA7NF+UOss2bh2pqd/bmS2
+	bNt4kerCW/Goy7Q5vNtuVDrmocSjGnVwbpX5P09cDYDnajpaT+BzAWpJdU78s/0=
+X-Google-Smtp-Source: AGHT+IElu+dk9DZ7aij8c0y6F8TXy6i5LV0OSLpqQpTgGbv9PZ9NHP5JfFSWjv6MHZMgeDua9fHUGQ==
+X-Received: by 2002:a05:622a:30f:b0:440:5de2:2a03 with SMTP id d75a77b69052e-4415abae5a3mr13859041cf.1.1718193967008;
+        Wed, 12 Jun 2024 05:06:07 -0700 (PDT)
+Received: from ziepe.ca ([128.77.69.89])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-44152b1585bsm12849751cf.27.2024.06.12.05.06.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jun 2024 05:03:14 -0700 (PDT)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-To: linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	brgl@bgdev.pl,
-	corbet@lwn.net,
-	drankinatty@gmail.com,
-	Kent Gibson <warthog618@gmail.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH 0/2] Documentation: gpio: clarify that line values are logical
-Date: Wed, 12 Jun 2024 14:03:12 +0200
-Message-ID: <171819379034.33019.17199591747943340340.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240610092157.9147-1-warthog618@gmail.com>
-References: <20240610092157.9147-1-warthog618@gmail.com>
+        Wed, 12 Jun 2024 05:06:06 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.95)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1sHMjq-008UjB-Tl;
+	Wed, 12 Jun 2024 09:06:02 -0300
+Date: Wed, 12 Jun 2024 09:06:02 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Mina Almasry <almasrymina@google.com>
+Cc: Pavel Begunkov <asml.silence@gmail.com>,
+	David Ahern <dsahern@kernel.org>, David Wei <dw@davidwei.uk>,
+	Christoph Hellwig <hch@infradead.org>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+	linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+	Matt Turner <mattst88@gmail.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Yunsheng Lin <linyunsheng@huawei.com>,
+	Shailend Chand <shailend@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Shakeel Butt <shakeel.butt@linux.dev>,
+	Jeroen de Borst <jeroendb@google.com>,
+	Praveen Kaligineedi <pkaligineedi@google.com>
+Subject: Re: [PATCH net-next v10 02/14] net: page_pool: create hooks for
+ custom page providers
+Message-ID: <20240612120602.GQ791043@ziepe.ca>
+References: <eb237e6e-3626-4435-8af5-11ed3931b0ac@gmail.com>
+ <be2d140f-db0f-4d15-967c-972ea6586b5c@kernel.org>
+ <20240607145247.GG791043@ziepe.ca>
+ <45803740-442c-4298-b47e-2d87ae5a6012@davidwei.uk>
+ <54975459-7a5a-46ff-a9ae-dc16ceffbab4@gmail.com>
+ <20240610121625.GI791043@ziepe.ca>
+ <59443d14-1f1d-42bb-8be3-73e6e4a0b683@kernel.org>
+ <00c67cf0-2bf3-4eaf-b200-ffe00d91593b@gmail.com>
+ <20240610221500.GN791043@ziepe.ca>
+ <CAHS8izNRd=f=jHgrYKKfzgcU3JzkZA1NkZnbQM+hfYd8-0NyBQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHS8izNRd=f=jHgrYKKfzgcU3JzkZA1NkZnbQM+hfYd8-0NyBQ@mail.gmail.com>
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+On Tue, Jun 11, 2024 at 11:09:15AM -0700, Mina Almasry wrote:
 
+> Just curious: in Pavel's effort, io_uring - which is not a device - is
+> trying to share memory with the page_pool, which is also not a device.
+> And Pavel is being asked to wrap the memory in a dmabuf. Is dmabuf
+> going to be the kernel's standard for any memory sharing between any 2
+> components in the future, even when they're not devices?
 
-On Mon, 10 Jun 2024 17:21:55 +0800, Kent Gibson wrote:
-> The line values passed by the GPIO uAPI are logical values, and the edges
-> returned are based on changes to logical line values.  While the
-> documentation consistently uses active/inactive terminology to identify
-> the values as logical, this is never explicitly spelt out.
-> This series clarifies those points, with paricular emphasis on the
-> effect the active low flag has on values and edge polarity.
-> 
-> [...]
+dmabuf is how we are refcounting non-struct page memory, there is
+nothing about it that says it has to be MMIO memory, or even that the
+memory doesn't have struct pages.
 
-Applied, thanks!
+All it says is that the memory is alive according to dmabuf
+refcounting rules. And the importer obviously don't get to touch the
+underlying folios, if any.
 
-[1/2] Documentation: gpio: Clarify effect of active low flag on line values
-      commit: 5ca84d416e1ca82ca068906fc1386f61a57b17f2
-[2/2] Documentation: gpio: Clarify effect of active low flag on line edges
-      commit: 08d94c7428680715527757585a6c4575fcf571b9
-
-Best regards,
--- 
-Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Jason
