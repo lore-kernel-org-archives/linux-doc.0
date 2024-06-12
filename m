@@ -1,102 +1,92 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3969764A;
-	Wed, 12 Jun 2024 04:29:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DBC179D8;
+	Wed, 12 Jun 2024 05:40:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718166569; cv=none; b=d0OwgEeSbrhi+15xcag1+PokLToO4NXO7uoDQPopYiiYniQ55oPwcaVKCz99RHFroUDX83XoAO3izWCNtumzxBhHK9cNjKoIv+2sxzFyVEDh+Gr291CVUxiPZtnYw21KBjYW/4l0qt6jiC3qnxAMkNRg4xxtJVmqI03nx0+EPsM=
+	t=1718170831; cv=none; b=JPvSCok8NBI4PFFVFBKYxB3SFpBDFe/O+VEHXGUSBVzqUgHvVJAjiOMZXpFyynORoFin78TJUt9JgP3EYJt9jT+z5EFuAxOWeteMysJ6BY2istkOSTE2OhikwalVfYmOiU1/LnjXUvqm8mAZHva/UflK7pDtDEvdmjr1ojAqxio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718166569; c=relaxed/simple;
-	bh=qbMh0+pf2SPeD3Kjln8qLzxtLjXV8v02l3LAkjQVDyM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eBx8ZGW/+P/xuPqdlIzbfZj76mVFLiKgEsrtoxdPBU4Ws+k5Z3Qo+AbHiEUDjj0RhulyOarWs0o5Mz1EypDgMmexA6EpS8jzOsVHmeWc1Yph3ikXYn6AecjBM+ARphB2j1bfCrgUaEibReE0kVR1eonQ1uyeN3J2nI1TALCtsH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FdmUU+DV; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1718170831; c=relaxed/simple;
+	bh=z5DKGdkQHd6N4C5R0TvXcMTfbPbCS6uuyB3zQ/QDn24=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=CMehYYXxZAWjVk4aZcyerRl9CWXWbbAtXo8q6gFmiYEuDrUGLIziRz9uNg7XXKEjqhjbp5cKpN9B9YEEEZap/UriqBGzp2Gqi5FP+2A0/Gpugff8uXm/mBEDnMqD6PPSgMrvWCrxZxhmA62C8Ir8B33hObXr2m11N0Uj3WghewA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B0llf8ES; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FdmUU+DV"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=DUVnrezAAabhLkyXkeIE6MKzW6donbVmDcF5Y3z7MHI=; b=FdmUU+DVgDEttgjLj+4RxQ0bZA
-	tviaev38EhPBLr63OK5PQUupTvTyfCOSlPW9tJ5mhQa8idu9/Bqmfo7lJgVB6bysG/SJIUO7vhCzR
-	w8A7ujfqMgQJldJqgO/bOqYhKiElMPdFeTRoHyRCCHat/KGTOpLND7Zz665kXgoa03MG5Kv65eUAR
-	k28R5R4B6U1OfRrVOnGh44BWCQg1PX3YbYu6nlPy34dWXx4wYVrhYyGRb5Y5k7IAI+eII0bARTwrD
-	2jJSXNMIuQrnlWmZ1Lrx9yAFDATXWR724DXw09FW6RgMKStwrtWIdJUik1ppQ5T4stI/mn+5OfgSX
-	ATldFxOg==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sHFbu-0000000B1YS-0tjz;
-	Wed, 12 Jun 2024 04:29:22 +0000
-Message-ID: <8b66c491-ec6a-430f-8566-114372151c3a@infradead.org>
-Date: Tue, 11 Jun 2024 21:29:17 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B0llf8ES"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 0509AC32786;
+	Wed, 12 Jun 2024 05:40:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718170831;
+	bh=z5DKGdkQHd6N4C5R0TvXcMTfbPbCS6uuyB3zQ/QDn24=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=B0llf8ES9k8QfWvbjirSJ+bEiP2L0vVMIDIFZvmAUl70BL6OxphJJHQLaTcoFvAB0
+	 zNypUlDZuPtNNhnCkbuVCLZJR9bFtejkFtMCGzt3iokIKxQ+3ML8QeZe0IBa2PXaUk
+	 g1jNhG23NLUXo11ukTFqWXphaRYHMseC/NOZTH+8YmAnqX+euU7JL0gWZAx3dXAmjw
+	 /Q+84ehJzLxGMJ8DlQyjRNYKO4him0tUKoXakwOPG1Pli3K6W30eE0hkFv2UTmVCxy
+	 M6LflOjnt+ZIkFzNaW8D7aBA6clV0aVmOy5j2UZTooZoLugJ8Yy+4FRkMUdbUji4k0
+	 hmTn0KWEqpRGA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id E0465C54BB2;
+	Wed, 12 Jun 2024 05:40:30 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 3/3] ABI: pps: Add ABI documentation for Intel TIO
-To: lakshmi.sowjanya.d@intel.com, tglx@linutronix.de, giometti@enneenne.com,
- corbet@lwn.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: gregkh@linuxfoundation.org, andriy.shevchenko@linux.intel.com,
- eddie.dong@intel.com, christopher.s.hall@intel.com, pandith.n@intel.com,
- subramanian.mohan@intel.com, thejesh.reddy.t.r@intel.com
-References: <20240612035359.7307-1-lakshmi.sowjanya.d@intel.com>
- <20240612035359.7307-4-lakshmi.sowjanya.d@intel.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240612035359.7307-4-lakshmi.sowjanya.d@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v4 0/6] net/tcp: TCP-AO and TCP-MD5 tracepoints
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <171817083091.28312.7398867679773366981.git-patchwork-notify@kernel.org>
+Date: Wed, 12 Jun 2024 05:40:30 +0000
+References: <20240607-tcp_ao-tracepoints-v4-0-88dc245c1f39@gmail.com>
+In-Reply-To: <20240607-tcp_ao-tracepoints-v4-0-88dc245c1f39@gmail.com>
+To: Dmitry Safonov via B4 Relay <devnull+0x7f454c46.gmail.com@kernel.org>
+Cc: edumazet@google.com, davem@davemloft.net, kuba@kernel.org,
+ pabeni@redhat.com, dsahern@kernel.org, rostedt@goodmis.org,
+ mhiramat@kernel.org, mathieu.desnoyers@efficios.com, corbet@lwn.net,
+ mnassiri@ciena.com, horms@kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, 0x7f454c46@gmail.com
 
-Hi--
+Hello:
 
-On 6/11/24 8:53 PM, lakshmi.sowjanya.d@intel.com wrote:
-> From: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
-> 
-> Document sysfs interface for Intel Timed I/O PPS driver.
-> 
-> Signed-off-by: Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
+This series was applied to netdev/net-next.git (main)
+by David S. Miller <davem@davemloft.net>:
+
+On Fri, 07 Jun 2024 00:25:54 +0100 you wrote:
+> Signed-off-by: Dmitry Safonov <0x7f454c46@gmail.com>
 > ---
->  Documentation/ABI/testing/sysfs-platform-pps-tio | 7 +++++++
->  MAINTAINERS                                      | 1 +
->  2 files changed, 8 insertions(+)
->  create mode 100644 Documentation/ABI/testing/sysfs-platform-pps-tio
+> Changes in v4:
+> - Fix the build for CONFIG_TCP_MD5SIG=n (Matthieu Baerts, netdev dashboard)
+> - Link to v3: https://lore.kernel.org/r/20240606-tcp_ao-tracepoints-v3-0-13621988c09f@gmail.com
 > 
-> diff --git a/Documentation/ABI/testing/sysfs-platform-pps-tio b/Documentation/ABI/testing/sysfs-platform-pps-tio
-> new file mode 100644
-> index 000000000000..e461cea12d60
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-platform-pps-tio
-> @@ -0,0 +1,7 @@
-> +What:		/sys/devices/platform/INTCxxxx/enable
-> +Date:		September 2024
-> +KernelVersion:	6.11
-> +Contact:	Lakshmi Sowjanya D <lakshmi.sowjanya.d@intel.com>
-> +Description:
-> +		(RW) Enable or disable PPS TIO generator output, read to
-> +		see the status of hardware (Enabled/Disabled).
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index aacccb376c28..9c623f167aa9 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -17946,6 +17946,7 @@ M:	Rodolfo Giometti <giometti@enneenne.com>
->  L:	linuxpps@ml.enneenne.com (subscribers-only)
->  S:	Maintained
->  W:	http://wiki.enneenne.com/index.php/LinuxPPS_support
+> Changes in v3:
+> - Unexported tcp_inbound_ao_hash() and made static (Eric Dumazet)
+> - Link to v2: https://lore.kernel.org/r/20240605-tcp_ao-tracepoints-v2-0-e91e161282ef@gmail.com
+> 
+> [...]
 
-I can't connect to (load) that web page above (wiki...).
-Is it correct? Does it work for other people?
+Here is the summary with links:
+  - [net-next,v4,1/6] net/tcp: Use static_branch_tcp_{md5,ao} to drop ifdefs
+    https://git.kernel.org/netdev/net-next/c/3966a668bfee
+  - [net-next,v4,2/6] net/tcp: Add a helper tcp_ao_hdr_maclen()
+    https://git.kernel.org/netdev/net-next/c/72863087f635
+  - [net-next,v4,3/6] net/tcp: Move tcp_inbound_hash() from headers
+    https://git.kernel.org/netdev/net-next/c/811efc06e5f3
+  - [net-next,v4,4/6] net/tcp: Add tcp-md5 and tcp-ao tracepoints
+    https://git.kernel.org/netdev/net-next/c/96be3dcd013d
+  - [net-next,v4,5/6] net/tcp: Remove tcp_hash_fail()
+    https://git.kernel.org/netdev/net-next/c/78b1b27db91c
+  - [net-next,v4,6/6] Documentation/tcp-ao: Add a few lines on tracepoints
+    https://git.kernel.org/netdev/net-next/c/efe46fb18e78
 
-
-> +F:	Documentation/ABI/testing/sysfs-platform-pps-tio
->  F:	Documentation/ABI/testing/sysfs-pps
->  F:	Documentation/devicetree/bindings/pps/pps-gpio.yaml
->  F:	Documentation/driver-api/pps.rst
-
+You are awesome, thank you!
 -- 
-~Randy
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
