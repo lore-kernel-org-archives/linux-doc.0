@@ -1,132 +1,65 @@
-Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D286425632;
-	Thu, 13 Jun 2024 06:28:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.79.184
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CD69137761;
+	Thu, 13 Jun 2024 06:38:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718260134; cv=none; b=L9lQDB1TtDjBRNSABIAylAbihFMNZurF+XKaTvmpRtLRQk1jA8ejkKTHbY+v8qATLp//W8p4Iky2zEnaaLTIcQOj4zn5RmqKwNyHaQvxhQ8/5o7LURFgWG9zbNyYjCOXpSYuWH6hr4LYG69Qg9sjqC2jU3qGHRC2Orsb3FlXWXM=
+	t=1718260702; cv=none; b=gIGIv4K/UX6nF13vU8tblAaP33eVdew/q/nrM3ltGagj5TLs/yWz/ZSCVjU6pIycrAHeAUaXAOpMmoaRkyqUIfPVQC1SlQA08eb87pdEO/S+vxzHvaDm1Sgk0W3td+6gKqmQ70jm8fOqWRqPj7j1TG3iWd1W/DzNFRN/rUaMogg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718260134; c=relaxed/simple;
-	bh=sElRb+gr2z38VzPOs6tSW0eRkwueqHTVt4PboxtTrbI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=J4QJG/5GIz+8thDCGvY7sdFIMJroh6KQkRbgV9Y5znTuFtll/El2uirRQpV/wt9taHJLk1kP5YFJwstkbLwu5qMKbHtI4sB2AZ7ca5XU8ucrwBUYOlX8yvFZ8Bp4DLHt/5x+BKOhAMKRyawlUTOZWOZC/rVIbMllf/g84q2mgNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=206.189.79.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app1 (Coremail) with SMTP id HgEQrAAHD4NckWpm8sXMBw--.61145S2;
-	Thu, 13 Jun 2024 14:27:40 +0800 (CST)
-Received: from [10.12.169.238] (unknown [10.12.169.238])
-	by gateway (Coremail) with SMTP id _____wBnoU5akWpmKZgeAA--.32816S2;
-	Thu, 13 Jun 2024 14:27:39 +0800 (CST)
-Message-ID: <c6da52be-087a-4f28-8a8c-d61196922cb7@hust.edu.cn>
-Date: Thu, 13 Jun 2024 14:27:37 +0800
+	s=arc-20240116; t=1718260702; c=relaxed/simple;
+	bh=m5NQR9vSNe9jt7EoYjpT9WHDiMr0ksjsMitObOWrQqU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bGlV6MFGmvJNu8e79B/r7brkuV9rQSRZUwG+8yXz8y4IX6vX5LPMEf04DziFUVL9az3MsczsTRXC/SHqyYsWI/7vMi6j9JznHRbFKOZtvtwOLdlJEVYm7eJ0qzLaDdMhoMoBRsGsmkkrsf+QYPRJu4oHKp0ESkm/VpaI4fbXmls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=v2M4YfBt; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="v2M4YfBt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA7E2C2BBFC;
+	Thu, 13 Jun 2024 06:38:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1718260702;
+	bh=m5NQR9vSNe9jt7EoYjpT9WHDiMr0ksjsMitObOWrQqU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=v2M4YfBtHQtTr2a5QFGMyOnfDx5boMbf3A8zQDJfXJbh+8B40y8+0KoJduOjRsN6D
+	 1A/fJPCwbTKz3c7zeNF+nVBu6ImMIkLg7tmBoofIxdTV3ZfWo8+AMdm+06UUKrXQ2m
+	 g/upZWtAnlxHwL0kz04j/gpUzmz4KaRJBizVpM6I=
+Date: Thu, 13 Jun 2024 08:38:19 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: masahiroy@kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Danny Lin <danny@kdrag0n.dev>,
+	=?iso-8859-1?B?zfFpZ28=?= Huguet <ihuguet@redhat.com>,
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Subject: Re: [PATCH v2] .editorconfig: remove trim_trailing_whitespace option
+Message-ID: <2024061340-chair-reliably-7b65@gregkh>
+References: <2024061137-jawless-dipped-e789@gregkh>
+ <877cetjrkh.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs/zh_CN: add process/researcher-guidelines Chinese
- translation
-To: Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <siyanteng@loongson.cn>,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240612021845.12036-1-dzm91@hust.edu.cn>
- <87tthxoo3u.fsf@trenco.lwn.net>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <87tthxoo3u.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:HgEQrAAHD4NckWpm8sXMBw--.61145S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoWxAr47WryUuFWxWr4fWryfWFg_yoW5GrWfpF
-	y8KF93Ka1xJw1UC3yxur1jgF1fJ3Z7Ca9xtw12qw1Sqrn0yrn2qr9xtrZ8Kas3WrW8Za4U
-	Xr4YgrWUur17Z3DanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUm0b7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
-	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
-	1Y6r17M2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
-	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
-	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVWxJVW8Jr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcV
-	Cjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWU
-	XVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
-	kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY
-	6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0x
-	vEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVj
-	vjDU0xZFpf9x07j6VbkUUUUU=
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <877cetjrkh.fsf@intel.com>
 
+On Thu, Jun 13, 2024 at 09:16:14AM +0300, Jani Nikula wrote:
+> On Tue, 11 Jun 2024, Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+> > Some editors (like the vim variants), when seeing "trim_whitespace"
+> > decide to do just that for all of the whitespace in the file you are
+> > saving, even if it is not on a line that you have modified.  This plays
+> > havoc with diffs and is NOT something that should be intended.
+> >
+> > As the "only trim whitespace on modified files" is not part of the
+> 
+> Do you mean s/files/lines/?
 
-On 2024/6/13 05:19, Jonathan Corbet wrote:
-> Dongliang Mu <dzm91@hust.edu.cn> writes:
->
->> Finish the translation of researcher-guidelines and add it to the
->> index file.
->>
->> Update to commit 27103dddc2da ("Documentation: update mailing list
->> addresses")
->>
->> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
->> ---
->> v1->v2: Revise description suggested by Alex Shi
->>          Add a commit id to keep track of the translation status
->>          Add a new line at the end of researcher-guidelines.rst
->>   .../translations/zh_CN/process/index.rst      |   2 +-
->>   .../zh_CN/process/researcher-guidelines.rst   | 129 ++++++++++++++++++
->>   2 files changed, 130 insertions(+), 1 deletion(-)
->>   create mode 100644 Documentation/translations/zh_CN/process/researcher-guidelines.rst
->>
->> diff --git a/Documentation/translations/zh_CN/process/index.rst b/Documentation/translations/zh_CN/process/index.rst
->> index 5c6c8ccdd50d..5a5cd7c01c62 100644
->> --- a/Documentation/translations/zh_CN/process/index.rst
->> +++ b/Documentation/translations/zh_CN/process/index.rst
->> @@ -64,6 +64,7 @@ TODOLIST:
->>      management-style
->>      stable-kernel-rules
->>      submit-checklist
->> +   researcher-guidelines
->>   
->>   TODOLIST:
->>   
->> @@ -71,7 +72,6 @@ TODOLIST:
->>   * kernel-docs
->>   * deprecated
->>   * maintainers
->> -* researcher-guidelines
->>   * contribution-maturity-model
->>   
->>   
->> diff --git a/Documentation/translations/zh_CN/process/researcher-guidelines.rst b/Documentation/translations/zh_CN/process/researcher-guidelines.rst
->> new file mode 100644
->> index 000000000000..66e4840f208a
->> --- /dev/null
->> +++ b/Documentation/translations/zh_CN/process/researcher-guidelines.rst
->> @@ -0,0 +1,129 @@
->> +.. SPDX-License-Identifier: GPL-2.0-or-later
->> +
->> +.. include:: ../disclaimer-zh_CN.rst
->> +
->> +.. _cn_submittingpatches:
-> This label here ^^^ adds a new warning to the docs build:
->
->> Documentation/translations/zh_CN/process/researcher-guidelines.rst:7: WARNING: duplicate label cn_submittingpatches, other instance in Documentation/translations/zh_CN/process/submitting-patches.rst
-> This is a fairly obvious error, and one you should have seen when you
-> did your own docs build.  Please be a bit more careful.
+Yes.  I'll edit this when I commit it as it's driving me crazy already
+and I think it needs to get to Linus "soon" before we start to see lots
+of busted patches sent to maintainers...
 
+thanks,
 
-Sorry about this. I did build documents(make htmldocs) in my local 
-environment. It seems that this warning slipped out of my eyes :(
-
-I will be more careful about kernel commits in the future. Will send a 
-v3 patch today or tomorrow.
-
-Dongliang Mu
-
-
->
-> jon
-
+greg k-h
