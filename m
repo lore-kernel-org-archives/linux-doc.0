@@ -1,260 +1,172 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2053.outbound.protection.outlook.com [40.107.92.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED2F9155CBE;
-	Thu, 13 Jun 2024 23:32:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718321571; cv=none; b=JfW6bK/6rtEg0cM/NWpXnshrHj87sKyC1lW4AOMkxFnjEpjMmBU2IbWI4jIBTttMngZaPeHsBg4N3WUWT5EUuxL+0X1YoPet2kLxOS6e5czKKNXFFxCCA++R6JnMZsrT+B/jdfH4CSVPegDskhS0BPfcXQi0hmcRNKnHLe4LEeU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718321571; c=relaxed/simple;
-	bh=M8o41hq2y/cLCRJOH2p4sk/4nnWqpAlctqY1GvPsGqQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Fd0LfhURlDfZja/ljsIhBiqBcItZ9M1xonSsuvdW4L8aJVgDMYzzAVv76Np7ptM7Clq5a5WN+26E4st+cf7xJ09lsUXSEtnppOaPIt0pSY/fYGaKdU9UFHeiW7wt/nRgi+5n5onaPXv7KlQQpBuscpALCzZwD5WfwM4VwlgV3Rk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Etfs7nim; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B2AF14375B;
+	Thu, 13 Jun 2024 23:36:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1718321776; cv=fail; b=UpwJyr4WVIfnf095rUZmuearCXFg4Y6CQzzZhYkZcD6vNc3Bu7+/Ep1ilnxmMylg9CSDJVrc+WLi2qNR39pofZicQ6rjtJ6p8ohBGLyEOkXiXGnEH33+LbO2BMGqCZzhqS9d8LfVnfoiEIdwCWO8aeOT4HyWqVdC6IqFo7Eiy9U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1718321776; c=relaxed/simple;
+	bh=vwBQRE6TO/jFDbFbux/Go3FcjmZEdHOJimCPn3c7AcY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=pV6owWG8R3nyTJ4QyAefi44q3S0nHdxQYip/U/Oz8IVEr110mHJDR+/0pYXo2oTsYKKPdFlzBTPwlB0qpVn2W2BPQhS0q12lyfzxYjxVl3kePVxHXgwx0mlYJ6URgwqe444YC4mRVKSnQDiFNZKqFvbRKHK3XLvbEJWQ1qeUVfM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=S4be/DiC; arc=fail smtp.client-ip=40.107.92.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Etfs7nim"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718321568; x=1749857568;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=M8o41hq2y/cLCRJOH2p4sk/4nnWqpAlctqY1GvPsGqQ=;
-  b=Etfs7nimWfOGysal62eGhEH0YtXUotXHp+gUX+L7ICKiUsyACEQ/1EnO
-   kOwixTLEQ6P4tkffa/XrD0PgukV7yiMeWSVfzC4e4CeWVmo1B0znJHSGi
-   juqjU2DCokNSUB00AfMU/RSQIgRZgCVHqi8F5hb1pgofFZch/RKs7LvPr
-   pnr7/Ca7AejvWMITNaYZARNQpmm2KVL41M4kJfmizeY7X6Dn8bHwFjVdY
-   OXkDFEEmm9hh6iLKuAasIaC151VqH5pAk4tLTu5fC6QPjxb5W1/2ucMJb
-   pIEJ+jFEAp+46G/tGdTvbbtUO/qcN4stsw8HdFNkUwewogI5v5gmVRMXH
-   A==;
-X-CSE-ConnectionGUID: iBSSWmzHQTKXbrJd7/6I3w==
-X-CSE-MsgGUID: 3FCla71jQRaNzMQpQ5s+Cg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="40600287"
-X-IronPort-AV: E=Sophos;i="6.08,236,1712646000"; 
-   d="scan'208";a="40600287"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 16:32:47 -0700
-X-CSE-ConnectionGUID: 6CCGTarnRZGv3VPNn1kTfg==
-X-CSE-MsgGUID: euhTvjf/Q9iUmBVZzwfelg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,236,1712646000"; 
-   d="scan'208";a="40272567"
-Received: from djiang5-mobl3.amr.corp.intel.com (HELO [10.125.111.43]) ([10.125.111.43])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 16:32:45 -0700
-Message-ID: <358d2e11-59e2-46eb-a7f4-3c69e6befe02@intel.com>
-Date: Thu, 13 Jun 2024 16:32:44 -0700
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="S4be/DiC"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ePLCyjucdhBk0kOTOZfEUZ5OeZAfALQR8Y5oCLNc+sgfqHS4fjOD/B9X+KewNTnRH+QtDx6xhfahoXf8m/EE8/koJfUK1IvjvLJUSpkiGwTSaUYcP0KPqggmVtna5Kkux5nnVLXcGltJzPApMhnOvTFiggylTzYQwUuU+y0NEZANAslBY7In6CdiuKFEgBE+Cn1rq0aYXb4vnxhN/eoS5D8BMRPBRq5JqXwpl72lfZherCeJd+/Kt1vo7Mm9ODG4nqekiSoPefPmAu9tvF6Xl9LRZn/Y3/ofr9fMyVSytICOBjC9BJp1EWQ3h8bWhYwuzttdphKmSEfJ9H8BienpBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=r0YeTOdOXsVvNXuzErwCMoT8c62jUQ32TEyZHd46ZuA=;
+ b=VhwE5lxBAs+I9yw0NxX5FLKbpPpuDgiAmeHJkdwxELQkqcE8HL9nrpo3hCbaOH9HW7m6s2uhiydtqNlocmeVovzQ2A1X9qU04JNoWgLoS6AD/6sgWGqZk6fYkjz1cnBKT13lPkXHbG0C5KNKf7cQlnpM7xCvggQpL0+9OwoY/jtPCNBBrpW3LgfSBzBaYda2FUKJ6ygfKT0Qnm+WNu5rLg6PSNVYDDe5r1nNId+S6SaZnefxjavXuU+v1eV+oYIzGHyrq5IYypC6cz/ntSOVSVQsYZANxCdfcHjRqUB9WNyH29ymT4oAwxxR53SxCGj7j2RiOmYKikrqNuIR4MvYuA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=r0YeTOdOXsVvNXuzErwCMoT8c62jUQ32TEyZHd46ZuA=;
+ b=S4be/DiCuMTqh9hZLioDj5pCCgM0LjCJIs/xkEh4pE19g7bTJ59OEym1E/akddvIOhNUBM0s8H0scvPqL6d3b8eUUBvmylF+xCDfmiyklFomGrwO+aca/ZC0RVSbkJEoQVzLYGfWbpx6d94mqzeviA8uYmvta6vFnrcouhanTb9ey3l27qxBzXX+unXcUzp994PCe0H+E99qTdkhnqU2XnzgZbktotN4QWEhhh5oaQRUgzpGLY7vkTd/fGmm+PNzzvAaVieqZfWsTwh7LBj1SdikgXTo12lkIiWTQV7UOciZ5smE+vaaEIXCnM/7yPb4uugM5GcEYtLfGj3LDf32ag==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM6PR12MB3849.namprd12.prod.outlook.com (2603:10b6:5:1c7::26)
+ by PH0PR12MB5646.namprd12.prod.outlook.com (2603:10b6:510:143::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.25; Thu, 13 Jun
+ 2024 23:36:08 +0000
+Received: from DM6PR12MB3849.namprd12.prod.outlook.com
+ ([fe80::c296:774b:a5fc:965e]) by DM6PR12MB3849.namprd12.prod.outlook.com
+ ([fe80::c296:774b:a5fc:965e%4]) with mapi id 15.20.7677.024; Thu, 13 Jun 2024
+ 23:36:07 +0000
+Date: Thu, 13 Jun 2024 20:36:05 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Vidya Sagar <vidyas@nvidia.com>, "corbet@lwn.net" <corbet@lwn.net>,
+	"bhelgaas@google.com" <bhelgaas@google.com>,
+	Gal Shalom <galshalom@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>,
+	Thierry Reding <treding@nvidia.com>,
+	Jon Hunter <jonathanh@nvidia.com>,
+	Masoud Moshref Javadi <mmoshrefjava@nvidia.com>,
+	Shahaf Shuler <shahafs@nvidia.com>,
+	Vikram Sethi <vsethi@nvidia.com>,
+	Shanker Donthineni <sdonthineni@nvidia.com>,
+	Jiandi An <jan@nvidia.com>, Tushar Dave <tdave@nvidia.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Krishna Thota <kthota@nvidia.com>,
+	Manikanta Maddireddy <mmaddireddy@nvidia.com>,
+	"sagar.tv@gmail.com" <sagar.tv@gmail.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+	Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [PATCH V3] PCI: Extend ACS configurability
+Message-ID: <20240613233605.GG19897@nvidia.com>
+References: <20240612232301.GB19897@nvidia.com>
+ <20240613220520.GA1085981@bhelgaas>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240613220520.GA1085981@bhelgaas>
+X-ClientProxiedBy: MN2PR20CA0042.namprd20.prod.outlook.com
+ (2603:10b6:208:235::11) To DM6PR12MB3849.namprd12.prod.outlook.com
+ (2603:10b6:5:1c7::26)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/8] fwctl: FWCTL_INFO to return basic information about
- the device
-To: Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
- Itay Avraham <itayavr@nvidia.com>, Jakub Kicinski <kuba@kernel.org>,
- Leon Romanovsky <leon@kernel.org>, linux-doc@vger.kernel.org,
- linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
- Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>,
- Tariq Toukan <tariqt@nvidia.com>
-Cc: Andy Gospodarek <andrew.gospodarek@broadcom.com>,
- Aron Silverton <aron.silverton@oracle.com>,
- Dan Williams <dan.j.williams@intel.com>, David Ahern <dsahern@kernel.org>,
- Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>,
- Leonid Bloch <lbloch@nvidia.com>, Leon Romanovsky <leonro@nvidia.com>,
- linux-cxl@vger.kernel.org, patches@lists.linux.dev
-References: <3-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <3-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3849:EE_|PH0PR12MB5646:EE_
+X-MS-Office365-Filtering-Correlation-Id: a3ef3e29-6c6c-436b-224e-08dc8c019936
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230035|1800799019|366011|7416009|376009;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?wmyVB2lWrAxsGJ6VNt/t9Y4rPaTTGhfziii6ovWHHo1c+aQIcV0D1P0ZwKUh?=
+ =?us-ascii?Q?2aVCciw49M4Jn0JbpgMbN0Rciw8g7urz43l4MOt5efZb3kDmwHVhsLveYnY7?=
+ =?us-ascii?Q?pRlwDHsQ5yYKbqK3F4hRl1v7Y3KT8GoylsD6Q8DPTmWKJiCBkkdI+CWjMtjc?=
+ =?us-ascii?Q?bXRL3DvXU1BIBA/TmGCJjSKDqPquNiwqFtNqHMdrwVEYTYjSu0iE5OaUJKAk?=
+ =?us-ascii?Q?zCdu8l0a1uSp5nWgzsU+WBzV8aCIsZKAclkOjwDnvs9LSkjQtyVnZHhFLnRi?=
+ =?us-ascii?Q?RZjxGW50o9KXce0y42hE71QYj3dND/b4dP+7p1yT4Xdipzm3Enmndm75aMkE?=
+ =?us-ascii?Q?cNiYN27ApRWyDxnnxxgAfwyHmfUWMGUXZIkWNEu9s/eUVWG74xodqLzgeTSY?=
+ =?us-ascii?Q?tPGcAMPpJ+26Gr/sO4B7gSivzUifba1KRPW7e6d8je7BEdJBwnyXdlXCeKUz?=
+ =?us-ascii?Q?mG5M6iAe6NnaVPEEy1iN2Q++W5O45FLq0JKBISDPcCH31VrMCKUFNfKsjb56?=
+ =?us-ascii?Q?Vm0ozAzPX2JB7/Vu9BQ2EIK6R4WCyWlzhtoUrnKIYAoAKtlwDi8hnfCqQpWP?=
+ =?us-ascii?Q?4FNOHMjuKgIv57QR/SAtyphAmqQ87BcbjzRZljsbCAn9a9IjDKejJLTY8GdH?=
+ =?us-ascii?Q?pD/Wh+LTqIBI0lNwtjHzh1GTO1zT+97MSHK54pbXkchnYs1SQ+gz0iO8zu0h?=
+ =?us-ascii?Q?o3KEage5tvYgf/ENqdnhnU3J+QsWyKyLP2x4POX7+g+ylqAkpK6m8+f+9uh5?=
+ =?us-ascii?Q?Z9sVSo8Gj9DibPiKreeKP5R5tcihpjXcacisktKMgdHEgcdjtbbcwKhfsQ/Z?=
+ =?us-ascii?Q?h05LOLBszDKWKUJ5bz3t0zLvlm5GEgrfz7ocpV5tWie0RinmDBnKXqjD2XAo?=
+ =?us-ascii?Q?0/+gEU3swQhj27T6mhc+PioRzpxfNlG5gfBQZm7PvfQBaxPFcLJ30q467YFZ?=
+ =?us-ascii?Q?VMS8ICO/HwGTDXa/rERssIGDYZJmq+XRgzCp0pvgOHWe85KtohKPGAL9PNip?=
+ =?us-ascii?Q?gk2Mjt7w9OOXER9mAv7daQZyoUoMFP/Mb8i7YcnysvMbOxGtV65qeHcGVEez?=
+ =?us-ascii?Q?fVtjcV3JL9YIB/Ep7siy0mBnZMdTRdgC/YAkVkPMHIsxAaFNR1n+ejCNvkul?=
+ =?us-ascii?Q?wQTS3OuozAtZopK1xfy2UCbPTnxc8u11O9cJrgHYtw3ZsVogsrUiz46s7uam?=
+ =?us-ascii?Q?T7wknNytR9Fqm4yNrZVnysyrj5h10OvQxBaXs1iWxD7CrehqaSQ+pE/rp1J5?=
+ =?us-ascii?Q?16UJXMcV25m7+aGXyBJ/RNbp2vofhNcimHwaYxdj2W2XB7hgm8opBXUKOCRW?=
+ =?us-ascii?Q?k+4Mh6u9RZHeEHugeMTbwwMz?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3849.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230035)(1800799019)(366011)(7416009)(376009);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?0dPeEdq7lu/kTBYkFaqprEjfI5acMmBSyRiBL6sT19SSpQKjArtIwjAtn1Hw?=
+ =?us-ascii?Q?VdmzMdpWVy1UvZ6q8R1slsJG7lhnzyR0GbTT1nLQQxYTEJFgYQqAyW1dwyqf?=
+ =?us-ascii?Q?54c86R2QPX+cuNm59RwUrhDtpQ2r4qGkYvtOWE93QSSXOqP/IysEuj9n4mRy?=
+ =?us-ascii?Q?f8SudeTwnrSHMeMqLOhsLlbcN4l/9opuIrLFYnV4A/6qOpkNxUpsk62v1IOD?=
+ =?us-ascii?Q?Yq8GnzrgMsyktjs4CILUYq4YAiUWcCiHHntAqdcvEFKNLZC8zDFLS8yv6RpZ?=
+ =?us-ascii?Q?YvwkMaFONo8xAUNlhVpA8de+t5lb/I3mGzeKOCaM9LEzZ+brU0RssIJlBEoF?=
+ =?us-ascii?Q?w5QMvXfhXP1kPb+cq/GhC6R0E5vg/RQwOZTiAN39GclMjmvumPcU2L+Lr3i6?=
+ =?us-ascii?Q?oOleaU4stYq3N6cvS/bcxtJZqu0uZopkkI/kWZnvvXEOJ60y2O4alIjSUY4A?=
+ =?us-ascii?Q?WoiBjtdLpQETadZuMI108QKB5US573mmcb57LfdTLpBxMWDp8mCXKQacGbYM?=
+ =?us-ascii?Q?HPqKANGcX3GCRV6gs/eDjGg8+XkyIMtYgCt9tpR1o5Q27kyn7O+P4uTlDOL9?=
+ =?us-ascii?Q?Q/FVq2INzC3gOyNyCO8PKRdxdn+FcHU0/s0Q0D1RK4/YbLxfD+zemeqWGj7K?=
+ =?us-ascii?Q?jx1I/0rzd888hFKZRK0AjmPN3UUyOdsRoeN2fKX+AOZrHFdxcWMyNg/gIE8i?=
+ =?us-ascii?Q?snjI2E4iUDKk/egLMwhRXrbUZomCkkLVf0UhKvjwB52bH3J08YND7zdtKonO?=
+ =?us-ascii?Q?PPxlaVOJgt7f6XjQGdsBzjoMq6XW5sqEfiHI1QzujHNLgnl4JA1kZ/h+M67y?=
+ =?us-ascii?Q?HgzW8qBwD7rbX/P1vVVFHzWy6Ailx1JxfXit5DM+s9ZzlA/bkEIIEnblj59y?=
+ =?us-ascii?Q?YOVnpSnq9rkH/4T6bjktz8DlZWB3aq7QTCN0e+Dl3E43+EUCg+fCLG0jifyX?=
+ =?us-ascii?Q?SnSZ809RdS2XBPrz8yh1bNff05e1WW9Yfk6VphcBB7/v4ykvbEszKqQAaC3H?=
+ =?us-ascii?Q?VrV4fKjrI9E3uXv/tyu7nPAsJlrMYzN7+N+jAIo6a1xCsuQPkcxP8MlCRjgQ?=
+ =?us-ascii?Q?yNgssgAQi1XorMwbKp3R6RBoLhLc9lWsj8ELAkIoyAqQnG7MZvbpz0x7EImF?=
+ =?us-ascii?Q?ImC7b24fPCkKeAm23aiqifatwRkMKZhVWATMQ/f5Pye1dG5cAKNcQ12VVuHM?=
+ =?us-ascii?Q?+396ePGsQ4GfvMIAxZeYYXVZZddtP/D3cFkMVdwX0WwCM+B9w0XOcZvw1uhM?=
+ =?us-ascii?Q?2zD6XmWy2FtrlxuE4ZqSLc+UY+pI4PYmE6d7lqC1c8QHzyvuo9bgB6pTYh6R?=
+ =?us-ascii?Q?yRCwZH8u/IDm4MyXAOTZZx+DBvMrkeAmE1l0AmNdtIftaFn6MaAjB7YQx8ev?=
+ =?us-ascii?Q?vTRoUbwBiHJVmOGVCDWcubO5Af/j+ver9FuqtNzwFPTV06sn66Im2WKVvsYx?=
+ =?us-ascii?Q?KH/C+O3V0pAuRZljPTLcdmNmpwLBrUbqP6pVaNmqpffo1A1JsEDJ2xOZBZce?=
+ =?us-ascii?Q?H34R/OBRjquHYZBnCewuLwkM5pEHN47r8oeA0VCCqbNzIYkm7klqXDaehPDn?=
+ =?us-ascii?Q?H+Z1wPpxLiglfjSiHSW6keQgU1/lrG4omjO+ktxy?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a3ef3e29-6c6c-436b-224e-08dc8c019936
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3849.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2024 23:36:07.4867
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2ZY/cU1Tlsnr2m0nXSJBHqJYYNz0k5IoWCl8n3G8i+lqIawYNm5PjmKXF0ECul0E
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB5646
 
+On Thu, Jun 13, 2024 at 05:05:20PM -0500, Bjorn Helgaas wrote:
 
+> It's unfortunate that this requires so much expert knowledge to use,
+> but I guess we don't really have a good alternative.  The only way I
+> can think of to help would be some kind of white paper or examples in
+> Documentation/PCI/.
 
-On 6/3/24 8:53 AM, Jason Gunthorpe wrote:
-> Userspace will need to know some details about the fwctl interface being
-> used to locate the correct userspace code to communicate with the
-> kernel. Provide a simple device_type enum indicating what the kernel
-> driver is.
-> 
-> Allow the device to provide a device specific info struct that contains
-> any additional information that the driver may need to provide to
-> userspace.
-> 
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->  drivers/fwctl/main.c       | 54 ++++++++++++++++++++++++++++++++++++++
->  include/linux/fwctl.h      |  8 ++++++
->  include/uapi/fwctl/fwctl.h | 29 ++++++++++++++++++++
->  3 files changed, 91 insertions(+)
-> 
-> diff --git a/drivers/fwctl/main.c b/drivers/fwctl/main.c
-> index 7ecdabdd9dcb1e..10e3f504893892 100644
-> --- a/drivers/fwctl/main.c
-> +++ b/drivers/fwctl/main.c
-> @@ -17,6 +17,8 @@ enum {
->  static dev_t fwctl_dev;
->  static DEFINE_IDA(fwctl_ida);
->  
-> +DEFINE_FREE(kfree_errptr, void *, if (!IS_ERR_OR_NULL(_T)) kfree(_T));
-> +
->  struct fwctl_ucmd {
->  	struct fwctl_uctx *uctx;
->  	void __user *ubuffer;
-> @@ -24,8 +26,59 @@ struct fwctl_ucmd {
->  	u32 user_size;
->  };
->  
-> +static int ucmd_respond(struct fwctl_ucmd *ucmd, size_t cmd_len)
-> +{
-> +	if (copy_to_user(ucmd->ubuffer, ucmd->cmd,
-> +			 min_t(size_t, ucmd->user_size, cmd_len)))
-> +		return -EFAULT;
-> +	return 0;
-> +}
-> +
-> +static int copy_to_user_zero_pad(void __user *to, const void *from,
-> +				 size_t from_len, size_t user_len)
-> +{
-> +	size_t copy_len;
-> +
-> +	copy_len = min(from_len, user_len);
-> +	if (copy_to_user(to, from, copy_len))
-> +		return -EFAULT;
-> +	if (copy_len < user_len) {
-> +		if (clear_user(to + copy_len, user_len - copy_len))
-> +			return -EFAULT;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int fwctl_cmd_info(struct fwctl_ucmd *ucmd)
-> +{
-> +	struct fwctl_device *fwctl = ucmd->uctx->fwctl;
-> +	struct fwctl_info *cmd = ucmd->cmd;
-> +	size_t driver_info_len = 0;
-> +
-> +	if (cmd->flags)
-> +		return -EOPNOTSUPP;
-> +
-> +	if (cmd->device_data_len) {
-> +		void *driver_info __free(kfree_errptr) = NULL;
-> +
-> +		driver_info = fwctl->ops->info(ucmd->uctx, &driver_info_len);
+So far I am seeing the system supplier supply the appropriate
+instructions.. It is already this way for set_pci, and yes, it is a
+huge PITA.
 
-Hi Jason,
-Are you open to pass in potential user input for the info query? I'm working on plumbing fwctl for CXL. The current CXL query command [1] takes a number of commands as input for its ioctl. For fwctl_cmd_info(), the current implementation is when ->info() is called no information about the user buffer length or an input buffer is provided. To make things work I can just return everything each ioctl call and user can sort it out by calling the ioctl twice and provide a u32 size buffer first to figure out the total number of commands and then provide a larger buffer for all the command info. Just trying to see if you are open to something a bit more cleaner than depending on a side effect of the ioctl to retrieve all the information.  
+At one point Steven Bates was talking about some ACPI tables to give
+the OS more information but I don't think that went anywhere..
 
-[1] https://elixir.bootlin.com/linux/v6.10-rc3/source/drivers/cxl/core/mbox.c#L526
-
-DJ
-
-> +		if (IS_ERR(driver_info))
-> +			return PTR_ERR(driver_info);
-> +
-> +		if (copy_to_user_zero_pad(u64_to_user_ptr(cmd->out_device_data),
-> +					  driver_info, driver_info_len,
-> +					  cmd->device_data_len))
-> +			return -EFAULT;
-> +	}
-> +
-> +	cmd->out_device_type = fwctl->ops->device_type;
-> +	cmd->device_data_len = driver_info_len;
-> +	return ucmd_respond(ucmd, sizeof(*cmd));
-> +}
-> +
->  /* On stack memory for the ioctl structs */
->  union ucmd_buffer {
-> +	struct fwctl_info info;
->  };
->  
->  struct fwctl_ioctl_op {
-> @@ -45,6 +98,7 @@ struct fwctl_ioctl_op {
->  		.execute = _fn,                                       \
->  	}
->  static const struct fwctl_ioctl_op fwctl_ioctl_ops[] = {
-> +	IOCTL_OP(FWCTL_INFO, fwctl_cmd_info, struct fwctl_info, out_device_data),
->  };
->  
->  static long fwctl_fops_ioctl(struct file *filp, unsigned int cmd,
-> diff --git a/include/linux/fwctl.h b/include/linux/fwctl.h
-> index 1d9651de92fc19..9a906b861acf3a 100644
-> --- a/include/linux/fwctl.h
-> +++ b/include/linux/fwctl.h
-> @@ -7,12 +7,14 @@
->  #include <linux/device.h>
->  #include <linux/cdev.h>
->  #include <linux/cleanup.h>
-> +#include <uapi/fwctl/fwctl.h>
->  
->  struct fwctl_device;
->  struct fwctl_uctx;
->  
->  /**
->   * struct fwctl_ops - Driver provided operations
-> + * @device_type: The drivers assigned device_type number. This is uABI
->   * @uctx_size: The size of the fwctl_uctx struct to allocate. The first
->   *	bytes of this memory will be a fwctl_uctx. The driver can use the
->   *	remaining bytes as its private memory.
-> @@ -20,11 +22,17 @@ struct fwctl_uctx;
->   *	used.
->   * @close_uctx: Called when the uctx is destroyed, usually when the FD is
->   *	closed.
-> + * @info: Implement FWCTL_INFO. Return a kmalloc() memory that is copied to
-> + *	out_device_data. On input length indicates the size of the user buffer
-> + *	on output it indicates the size of the memory. The driver can ignore
-> + *	length on input, the core code will handle everything.
->   */
->  struct fwctl_ops {
-> +	enum fwctl_device_type device_type;
->  	size_t uctx_size;
->  	int (*open_uctx)(struct fwctl_uctx *uctx);
->  	void (*close_uctx)(struct fwctl_uctx *uctx);
-> +	void *(*info)(struct fwctl_uctx *uctx, size_t *length);
->  };
->  
->  /**
-> diff --git a/include/uapi/fwctl/fwctl.h b/include/uapi/fwctl/fwctl.h
-> index 0bdce95b6d69d9..39db9f09f8068e 100644
-> --- a/include/uapi/fwctl/fwctl.h
-> +++ b/include/uapi/fwctl/fwctl.h
-> @@ -36,6 +36,35 @@
->   */
->  enum {
->  	FWCTL_CMD_BASE = 0,
-> +	FWCTL_CMD_INFO = 0,
-> +	FWCTL_CMD_RPC = 1,
->  };
->  
-> +enum fwctl_device_type {
-> +	FWCTL_DEVICE_TYPE_ERROR = 0,
-> +};
-> +
-> +/**
-> + * struct fwctl_info - ioctl(FWCTL_INFO)
-> + * @size: sizeof(struct fwctl_info)
-> + * @flags: Must be 0
-> + * @out_device_type: Returns the type of the device from enum fwctl_device_type
-> + * @device_data_len: On input the length of the out_device_data memory. On
-> + *	output the size of the kernel's device_data which may be larger or
-> + *	smaller than the input. Maybe 0 on input.
-> + * @out_device_data: Pointer to a memory of device_data_len bytes. Kernel will
-> + *	fill the entire memory, zeroing as required.
-> + *
-> + * Returns basic information about this fwctl instance, particularly what driver
-> + * is being used to define the device_data format.
-> + */
-> +struct fwctl_info {
-> +	__u32 size;
-> +	__u32 flags;
-> +	__u32 out_device_type;
-> +	__u32 device_data_len;
-> +	__aligned_u64 out_device_data;
-> +};
-> +#define FWCTL_INFO _IO(FWCTL_TYPE, FWCTL_CMD_INFO)
-> +
->  #endif
+Jason
