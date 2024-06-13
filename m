@@ -1,194 +1,260 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E06A14BFBF
-	for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2024 22:38:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED2F9155CBE;
+	Thu, 13 Jun 2024 23:32:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718318298; cv=none; b=I/0M3hrrT+SprUZcZ2xv9R9iVsQPEbFZPy6OIsU/AUJwGIJ8yctDQyVO0P1ogHL0vyL6lMtgM5tgm3I3cVTJM1q2AGxgABsgXIJf9yvXcjQsCueMviS4qFZk2w4rxZRACoW1K7ol/4INDch18uIHkvaHUUHHGSzXnbhKmpEwJEM=
+	t=1718321571; cv=none; b=JfW6bK/6rtEg0cM/NWpXnshrHj87sKyC1lW4AOMkxFnjEpjMmBU2IbWI4jIBTttMngZaPeHsBg4N3WUWT5EUuxL+0X1YoPet2kLxOS6e5czKKNXFFxCCA++R6JnMZsrT+B/jdfH4CSVPegDskhS0BPfcXQi0hmcRNKnHLe4LEeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718318298; c=relaxed/simple;
-	bh=2u1VP7eGoXAMtgev4KjobLhkIzKXvMU3NlBQ+3wtuyQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bu3JTnMfDn2F5NVQV7CNY4mKZjmQJfBngFGE3XKIx4gkBatKJo0zMat7vbT1Gkyws3A7TBZJWz1TTWbvhEP9WnwAA878qX3inJGJAMvfoxtx5wEncj6pidlEb1n3Polr1TF7GO4yN/KAhr/cLB+XzmA7h1gYQ42awyq470igUK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XPHRIDvG; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1718321571; c=relaxed/simple;
+	bh=M8o41hq2y/cLCRJOH2p4sk/4nnWqpAlctqY1GvPsGqQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Fd0LfhURlDfZja/ljsIhBiqBcItZ9M1xonSsuvdW4L8aJVgDMYzzAVv76Np7ptM7Clq5a5WN+26E4st+cf7xJ09lsUXSEtnppOaPIt0pSY/fYGaKdU9UFHeiW7wt/nRgi+5n5onaPXv7KlQQpBuscpALCzZwD5WfwM4VwlgV3Rk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Etfs7nim; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XPHRIDvG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1718318295;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=he5Yx1jWujWUE+IXddJY2r++ndCMDeeVF1A9UEVm79M=;
-	b=XPHRIDvGeLrAnSIWNW0RfxwLCQYv4Sjg45kXUTCBBbEVUwch7buPot8u+FFoVhPP6DdbON
-	g38swApzvJhWirHWhb9IOUqlZ20k+LGqeLt+xlBf+zhEVKTkq9wM8BVd0ik3AN65977U7e
-	STNecEgIo3N72uaBOHW1lwwV9VJLIAY=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-637-J8rAOv1kMwqE0hdCtM00nw-1; Thu, 13 Jun 2024 18:38:14 -0400
-X-MC-Unique: J8rAOv1kMwqE0hdCtM00nw-1
-Received: by mail-io1-f69.google.com with SMTP id ca18e2360f4ac-7eb21854dcdso123338939f.0
-        for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2024 15:38:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718318293; x=1718923093;
-        h=content-transfer-encoding:mime-version:organization:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=he5Yx1jWujWUE+IXddJY2r++ndCMDeeVF1A9UEVm79M=;
-        b=djiO0ZSiX45LU0ejOAik+wThUZD+NqGH0G2exppDdwxE3QA3i/32byqjIu3LPJzGCt
-         BVGnXpiekqWkhzH4ui/eGqmc6yvzLChAYvFmQQfkFRKIlMa8kxXa8dlj7HRqnPpmZwEy
-         bw4Cq+g6Em0daNMspWWoxSMEKvwtdWWTzAJqhiiaGjhRigGRC/zilFzUBa/xUelrL9nq
-         W4UMC3SqiR/ww1fVwB4cguB4OxW8LI1C8Sd4qYldp4yis/5P+4AywaGpL8KsumDbciP0
-         5ACiJj3P3T+ddPfeztu9JC8wPY+4uuslOWcXIsII5wUB49/PXDcbO69oQ6G2UVPoY+th
-         dzIg==
-X-Forwarded-Encrypted: i=1; AJvYcCXNzYy90I6/DXwmIglylBAH/F691Q6ULk2vsLhi9dFgtheWooqRMBe0MhLWbRuMolKL4MSKkthfCGRLLZsb96IBH9Ys9p3ZtuPK
-X-Gm-Message-State: AOJu0YwzrGs4spHNrz/85rVNSjJ4jjjR0aeAhc+XxDzxRX1tanVnc3MV
-	6JWGHuvA3M/uuJXSEzS8QjtDWnTwP/EgmDE3N38Vl4S1vbfkrA2qV6wAea3tgSjheJaW8+evJQL
-	pHi8I1fb1DT2pf1Xz4iRA8ECmfa4h2cmZBC1n9ZHBCuhBtahsVDL9/PHH81blVf/ivQ==
-X-Received: by 2002:a5d:878f:0:b0:7eb:7c78:9bac with SMTP id ca18e2360f4ac-7ebd8eeeacbmr291418639f.7.1718318292759;
-        Thu, 13 Jun 2024 15:38:12 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHC5Q3qOf+xsCvCjrf11Bh2sb1u4xb0WsNH89tM/d7UXwv+XdN3cXQh9lfpTz/dBnTH+uebWQ==
-X-Received: by 2002:a5d:878f:0:b0:7eb:7c78:9bac with SMTP id ca18e2360f4ac-7ebd8eeeacbmr291418039f.7.1718318292355;
-        Thu, 13 Jun 2024 15:38:12 -0700 (PDT)
-Received: from redhat.com ([38.15.36.11])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4b956a4e7b9sm567073173.156.2024.06.13.15.38.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jun 2024 15:38:11 -0700 (PDT)
-Date: Thu, 13 Jun 2024 16:38:09 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, Vidya Sagar <vidyas@nvidia.com>,
- "corbet@lwn.net" <corbet@lwn.net>, "bhelgaas@google.com"
- <bhelgaas@google.com>, Gal Shalom <galshalom@nvidia.com>, Leon Romanovsky
- <leonro@nvidia.com>, Thierry Reding <treding@nvidia.com>, Jon Hunter
- <jonathanh@nvidia.com>, Masoud Moshref Javadi <mmoshrefjava@nvidia.com>,
- Shahaf Shuler <shahafs@nvidia.com>, Vikram Sethi <vsethi@nvidia.com>,
- Shanker Donthineni <sdonthineni@nvidia.com>, Jiandi An <jan@nvidia.com>,
- Tushar Dave <tdave@nvidia.com>, "linux-doc@vger.kernel.org"
- <linux-doc@vger.kernel.org>, "linux-pci@vger.kernel.org"
- <linux-pci@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, Krishna Thota <kthota@nvidia.com>,
- Manikanta Maddireddy <mmaddireddy@nvidia.com>, "sagar.tv@gmail.com"
- <sagar.tv@gmail.com>, Joerg Roedel <joro@8bytes.org>, Will Deacon
- <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- "iommu@lists.linux.dev" <iommu@lists.linux.dev>
-Subject: Re: [PATCH V3] PCI: Extend ACS configurability
-Message-ID: <20240613163809.12f0334b.alex.williamson@redhat.com>
-In-Reply-To: <20240612232301.GB19897@nvidia.com>
-References: <20240610113849.GO19897@nvidia.com>
-	<20240612212903.GA1037897@bhelgaas>
-	<20240612232301.GB19897@nvidia.com>
-Organization: Red Hat
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Etfs7nim"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718321568; x=1749857568;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=M8o41hq2y/cLCRJOH2p4sk/4nnWqpAlctqY1GvPsGqQ=;
+  b=Etfs7nimWfOGysal62eGhEH0YtXUotXHp+gUX+L7ICKiUsyACEQ/1EnO
+   kOwixTLEQ6P4tkffa/XrD0PgukV7yiMeWSVfzC4e4CeWVmo1B0znJHSGi
+   juqjU2DCokNSUB00AfMU/RSQIgRZgCVHqi8F5hb1pgofFZch/RKs7LvPr
+   pnr7/Ca7AejvWMITNaYZARNQpmm2KVL41M4kJfmizeY7X6Dn8bHwFjVdY
+   OXkDFEEmm9hh6iLKuAasIaC151VqH5pAk4tLTu5fC6QPjxb5W1/2ucMJb
+   pIEJ+jFEAp+46G/tGdTvbbtUO/qcN4stsw8HdFNkUwewogI5v5gmVRMXH
+   A==;
+X-CSE-ConnectionGUID: iBSSWmzHQTKXbrJd7/6I3w==
+X-CSE-MsgGUID: 3FCla71jQRaNzMQpQ5s+Cg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="40600287"
+X-IronPort-AV: E=Sophos;i="6.08,236,1712646000"; 
+   d="scan'208";a="40600287"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 16:32:47 -0700
+X-CSE-ConnectionGUID: 6CCGTarnRZGv3VPNn1kTfg==
+X-CSE-MsgGUID: euhTvjf/Q9iUmBVZzwfelg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,236,1712646000"; 
+   d="scan'208";a="40272567"
+Received: from djiang5-mobl3.amr.corp.intel.com (HELO [10.125.111.43]) ([10.125.111.43])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 16:32:45 -0700
+Message-ID: <358d2e11-59e2-46eb-a7f4-3c69e6befe02@intel.com>
+Date: Thu, 13 Jun 2024 16:32:44 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/8] fwctl: FWCTL_INFO to return basic information about
+ the device
+To: Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+ Itay Avraham <itayavr@nvidia.com>, Jakub Kicinski <kuba@kernel.org>,
+ Leon Romanovsky <leon@kernel.org>, linux-doc@vger.kernel.org,
+ linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+ Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>,
+ Tariq Toukan <tariqt@nvidia.com>
+Cc: Andy Gospodarek <andrew.gospodarek@broadcom.com>,
+ Aron Silverton <aron.silverton@oracle.com>,
+ Dan Williams <dan.j.williams@intel.com>, David Ahern <dsahern@kernel.org>,
+ Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>,
+ Leonid Bloch <lbloch@nvidia.com>, Leon Romanovsky <leonro@nvidia.com>,
+ linux-cxl@vger.kernel.org, patches@lists.linux.dev
+References: <3-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <3-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Wed, 12 Jun 2024 20:23:01 -0300
-Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-> On Wed, Jun 12, 2024 at 04:29:03PM -0500, Bjorn Helgaas wrote:
-> > [+cc Alex since VFIO entered the conversation; thread at
-> > https://lore.kernel.org/r/20240523063528.199908-1-vidyas@nvidia.com]
-> > 
-> > On Mon, Jun 10, 2024 at 08:38:49AM -0300, Jason Gunthorpe wrote:  
-> > > On Fri, Jun 07, 2024 at 02:30:55PM -0500, Bjorn Helgaas wrote:  
-> > > > "Correctly" is not quite the right word here; it's just a fact that
-> > > > the ACS settings determined at boot time result in certain IOMMU
-> > > > groups.  If the user desires different groups, it's not that something
-> > > > is "incorrect"; it's just that the user may have to accept less
-> > > > isolation to get the desired IOMMU groups.  
-> > > 
-> > > That is not quite accurate.. There are HW configurations where ACS
-> > > needs to be a certain way for the HW to work with P2P at all. It isn't
-> > > just an optimization or the user accepts something, if they want P2P
-> > > at all they must get a ACS configuration appropriate for their system.  
-> > 
-> > The current wording of "For iommu_groups to form correctly, the ACS
-> > settings in the PCIe fabric need to be setup early" suggests that the
-> > way we currently configure ACS is incorrect in general, regardless of
-> > P2PDMA.  
+
+On 6/3/24 8:53 AM, Jason Gunthorpe wrote:
+> Userspace will need to know some details about the fwctl interface being
+> used to locate the correct userspace code to communicate with the
+> kernel. Provide a simple device_type enum indicating what the kernel
+> driver is.
 > 
-> Yes, I'd agree with this. We don't have enough information to
-> configurate it properly in the kernel in an automatic way. We don't
-> know if pairs of devices even have SW enablement to do P2P in the
-> kernel and we don't accurately know what issues the root complex
-> has. All of this information goes into choosing the right ACS bits.
+> Allow the device to provide a device specific info struct that contains
+> any additional information that the driver may need to provide to
+> userspace.
 > 
-> > But my impression is that there's a trade-off between isolation and
-> > the ability to do P2PDMA, and users have different requirements, and
-> > the preference for less isolation/more P2PDMA is no more "correct"
-> > than a preference for more isolation/less P2PDMA.  
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  drivers/fwctl/main.c       | 54 ++++++++++++++++++++++++++++++++++++++
+>  include/linux/fwctl.h      |  8 ++++++
+>  include/uapi/fwctl/fwctl.h | 29 ++++++++++++++++++++
+>  3 files changed, 91 insertions(+)
 > 
-> Sure, that makes sense
+> diff --git a/drivers/fwctl/main.c b/drivers/fwctl/main.c
+> index 7ecdabdd9dcb1e..10e3f504893892 100644
+> --- a/drivers/fwctl/main.c
+> +++ b/drivers/fwctl/main.c
+> @@ -17,6 +17,8 @@ enum {
+>  static dev_t fwctl_dev;
+>  static DEFINE_IDA(fwctl_ida);
 >  
-> > Maybe something like this:
-> > 
-> >   PCIe ACS settings determine how devices are put into iommu_groups.
-> >   The iommu_groups in turn determine which devices can be passed
-> >   through to VMs and whether P2PDMA between them is possible.  The
-> >   iommu_groups are built at enumeration-time and are currently static.  
-> 
-> Not quite, the iommu_groups don't have alot to do with the P2P. Even
-> devices in the same kernel group can still have non working P2P.
-> 
-> Maybe:
-> 
->  PCIe ACS settings control the level of isolation and the possible P2P
->  paths between devices. With greater isolation the kernel will create
->  smaller iommu_groups and with less isolation there is more HW that
->  can achieve P2P transfers. From a virtualization perspective all
->  devices in the same iommu_group must be assigned to the same VM as
->  they lack security isolation.
-> 
->  There is no way for the kernel to automatically know the correct
->  ACS settings for any given system and workload. Existing command line
->  options allow only for large scale change, disabling all
->  isolation, but this is not sufficient for more complex cases.
-> 
->  Add a kernel command-line option to directly control all the ACS bits
->  for specific devices, which allows the operator to setup the right
->  level of isolation to achieve the desired P2P configuration. The
->  definition is future proof, when new ACS bits are added to the spec
->  the open syntax can be extended.
-> 
->  ACS needs to be setup early in the kernel boot as the ACS settings
->  effect how iommu_groups are formed. iommu_group formation is a one
->  time event during initial device discovery, changing ACS bits after
->  kernel boot can result in an inaccurate view of the iommu_groups
->  compared to the current isolation configuration.
+> +DEFINE_FREE(kfree_errptr, void *, if (!IS_ERR_OR_NULL(_T)) kfree(_T));
+> +
+>  struct fwctl_ucmd {
+>  	struct fwctl_uctx *uctx;
+>  	void __user *ubuffer;
+> @@ -24,8 +26,59 @@ struct fwctl_ucmd {
+>  	u32 user_size;
+>  };
 >  
->  ACS applies to PCIe Downstream Ports and multi-function devices.
->  The default ACS settings are strict and deny any direct traffic
->  between two functions. This results in the smallest iommu_group the
->  HW can support. Frequently these values result in slow or
->  non-working P2PDMA.
-> 
->  ACS offers a range of security choices controlling how traffic is
->  allowed to go directly between two devices. Some popular choices:
->    - Full prevention
->    - Translated requests can be direct, with various options
->    - Asymetric direct traffic, A can reach B but not the reverse
->    - All traffic can be direct
->  Along with some other less common ones for special topologies.
-> 
->  The intention is that this option would be used with expert knowledge
->  of the HW capability and workload to achieve the desired
->  configuration.
+> +static int ucmd_respond(struct fwctl_ucmd *ucmd, size_t cmd_len)
+> +{
+> +	if (copy_to_user(ucmd->ubuffer, ucmd->cmd,
+> +			 min_t(size_t, ucmd->user_size, cmd_len)))
+> +		return -EFAULT;
+> +	return 0;
+> +}
+> +
+> +static int copy_to_user_zero_pad(void __user *to, const void *from,
+> +				 size_t from_len, size_t user_len)
+> +{
+> +	size_t copy_len;
+> +
+> +	copy_len = min(from_len, user_len);
+> +	if (copy_to_user(to, from, copy_len))
+> +		return -EFAULT;
+> +	if (copy_len < user_len) {
+> +		if (clear_user(to + copy_len, user_len - copy_len))
+> +			return -EFAULT;
+> +	}
+> +	return 0;
+> +}
+> +
+> +static int fwctl_cmd_info(struct fwctl_ucmd *ucmd)
+> +{
+> +	struct fwctl_device *fwctl = ucmd->uctx->fwctl;
+> +	struct fwctl_info *cmd = ucmd->cmd;
+> +	size_t driver_info_len = 0;
+> +
+> +	if (cmd->flags)
+> +		return -EOPNOTSUPP;
+> +
+> +	if (cmd->device_data_len) {
+> +		void *driver_info __free(kfree_errptr) = NULL;
+> +
+> +		driver_info = fwctl->ops->info(ucmd->uctx, &driver_info_len);
 
-FWIW, this sounds good to me too.  There certainly needed to be some
-clarification that this controls the isolation of devices and IOMMU
-groups are determined by aspects of that isolation rather than this
-option directly and exclusively being used to configure grouping.  I
-think this does that.  Thanks,
+Hi Jason,
+Are you open to pass in potential user input for the info query? I'm working on plumbing fwctl for CXL. The current CXL query command [1] takes a number of commands as input for its ioctl. For fwctl_cmd_info(), the current implementation is when ->info() is called no information about the user buffer length or an input buffer is provided. To make things work I can just return everything each ioctl call and user can sort it out by calling the ioctl twice and provide a u32 size buffer first to figure out the total number of commands and then provide a larger buffer for all the command info. Just trying to see if you are open to something a bit more cleaner than depending on a side effect of the ioctl to retrieve all the information.  
 
-Alex
+[1] https://elixir.bootlin.com/linux/v6.10-rc3/source/drivers/cxl/core/mbox.c#L526
 
+DJ
+
+> +		if (IS_ERR(driver_info))
+> +			return PTR_ERR(driver_info);
+> +
+> +		if (copy_to_user_zero_pad(u64_to_user_ptr(cmd->out_device_data),
+> +					  driver_info, driver_info_len,
+> +					  cmd->device_data_len))
+> +			return -EFAULT;
+> +	}
+> +
+> +	cmd->out_device_type = fwctl->ops->device_type;
+> +	cmd->device_data_len = driver_info_len;
+> +	return ucmd_respond(ucmd, sizeof(*cmd));
+> +}
+> +
+>  /* On stack memory for the ioctl structs */
+>  union ucmd_buffer {
+> +	struct fwctl_info info;
+>  };
+>  
+>  struct fwctl_ioctl_op {
+> @@ -45,6 +98,7 @@ struct fwctl_ioctl_op {
+>  		.execute = _fn,                                       \
+>  	}
+>  static const struct fwctl_ioctl_op fwctl_ioctl_ops[] = {
+> +	IOCTL_OP(FWCTL_INFO, fwctl_cmd_info, struct fwctl_info, out_device_data),
+>  };
+>  
+>  static long fwctl_fops_ioctl(struct file *filp, unsigned int cmd,
+> diff --git a/include/linux/fwctl.h b/include/linux/fwctl.h
+> index 1d9651de92fc19..9a906b861acf3a 100644
+> --- a/include/linux/fwctl.h
+> +++ b/include/linux/fwctl.h
+> @@ -7,12 +7,14 @@
+>  #include <linux/device.h>
+>  #include <linux/cdev.h>
+>  #include <linux/cleanup.h>
+> +#include <uapi/fwctl/fwctl.h>
+>  
+>  struct fwctl_device;
+>  struct fwctl_uctx;
+>  
+>  /**
+>   * struct fwctl_ops - Driver provided operations
+> + * @device_type: The drivers assigned device_type number. This is uABI
+>   * @uctx_size: The size of the fwctl_uctx struct to allocate. The first
+>   *	bytes of this memory will be a fwctl_uctx. The driver can use the
+>   *	remaining bytes as its private memory.
+> @@ -20,11 +22,17 @@ struct fwctl_uctx;
+>   *	used.
+>   * @close_uctx: Called when the uctx is destroyed, usually when the FD is
+>   *	closed.
+> + * @info: Implement FWCTL_INFO. Return a kmalloc() memory that is copied to
+> + *	out_device_data. On input length indicates the size of the user buffer
+> + *	on output it indicates the size of the memory. The driver can ignore
+> + *	length on input, the core code will handle everything.
+>   */
+>  struct fwctl_ops {
+> +	enum fwctl_device_type device_type;
+>  	size_t uctx_size;
+>  	int (*open_uctx)(struct fwctl_uctx *uctx);
+>  	void (*close_uctx)(struct fwctl_uctx *uctx);
+> +	void *(*info)(struct fwctl_uctx *uctx, size_t *length);
+>  };
+>  
+>  /**
+> diff --git a/include/uapi/fwctl/fwctl.h b/include/uapi/fwctl/fwctl.h
+> index 0bdce95b6d69d9..39db9f09f8068e 100644
+> --- a/include/uapi/fwctl/fwctl.h
+> +++ b/include/uapi/fwctl/fwctl.h
+> @@ -36,6 +36,35 @@
+>   */
+>  enum {
+>  	FWCTL_CMD_BASE = 0,
+> +	FWCTL_CMD_INFO = 0,
+> +	FWCTL_CMD_RPC = 1,
+>  };
+>  
+> +enum fwctl_device_type {
+> +	FWCTL_DEVICE_TYPE_ERROR = 0,
+> +};
+> +
+> +/**
+> + * struct fwctl_info - ioctl(FWCTL_INFO)
+> + * @size: sizeof(struct fwctl_info)
+> + * @flags: Must be 0
+> + * @out_device_type: Returns the type of the device from enum fwctl_device_type
+> + * @device_data_len: On input the length of the out_device_data memory. On
+> + *	output the size of the kernel's device_data which may be larger or
+> + *	smaller than the input. Maybe 0 on input.
+> + * @out_device_data: Pointer to a memory of device_data_len bytes. Kernel will
+> + *	fill the entire memory, zeroing as required.
+> + *
+> + * Returns basic information about this fwctl instance, particularly what driver
+> + * is being used to define the device_data format.
+> + */
+> +struct fwctl_info {
+> +	__u32 size;
+> +	__u32 flags;
+> +	__u32 out_device_type;
+> +	__u32 device_data_len;
+> +	__aligned_u64 out_device_data;
+> +};
+> +#define FWCTL_INFO _IO(FWCTL_TYPE, FWCTL_CMD_INFO)
+> +
+>  #endif
