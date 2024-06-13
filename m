@@ -1,121 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3817814C583;
-	Thu, 13 Jun 2024 19:43:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7591B77620
+	for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2024 19:52:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718307806; cv=none; b=L8PfqO7Jw8WWJj2ComnHeIRbn0Hp7POQLjgXWbLUU37ibyxsdpA1hJG/1PHQg2gHo74qZOFLzCIjZftOy2fRty+wkhj3jdd07DXV09hZFXF/7mUQntw7V/XODn2obNXhH1iWdvTSTrvRGkL6aT6NUGCVtldobns6Vsy6L6+Zx84=
+	t=1718308342; cv=none; b=hfaX+nxMTwDUb0kFCH2aS0wfj/QL+XTwfMGbdZx65VOgkhYbyA4PlC7ILectmmde4+zbo9SX1vCFOpbFcY48W7WWLXJ2bqRYtKh8O3obJfskleDNaIYEgpdC3HAcKczsglfNdwWKZcQYgWcBmqKqMwQa49XZn0ruiqh/Wh++O9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718307806; c=relaxed/simple;
-	bh=3qzuHXwUXJC4kkCUpeSCcm2xbDApMYoDwGK0LWJk20E=;
+	s=arc-20240116; t=1718308342; c=relaxed/simple;
+	bh=KFvrXf67RTEBCYQPpIVoPpW00n6DFoY1qOKUUMRVFhw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l8J/T4BPSt1CzvAk3J8YXMT3AkyL5qT25VjLJh932eiC6JRXbYd8/7BXbeYo6Y2yIKh8afnVTTvwnefzPIavUU627fc9wWBLCpyPb6Cb2nu82Cbqb6YYjq8Hw5GGkwIVrlrRRnN1MphxslwWA3aw0NF9Oi+1a1mEmkS9klkSmGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p3HiMHlO; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=DM91Tczd3dP8t5akFsRoXO5b3dq9AQNiwAExDPQpI7wn/ZhH/D4PbJlXKcQUd5lqLjL8u08ecLBUDPm8oeU4In0RNpgXcHgYUFAJhYsljYTuaOMy//E4xwMiXYwh8pxFZY8Wl6uYDXlA8DY1V7h9lTjRso+0+y2wwxC9Xcwcvmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=fIrj4a6P; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p3HiMHlO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AF99C2BBFC;
-	Thu, 13 Jun 2024 19:43:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718307805;
-	bh=3qzuHXwUXJC4kkCUpeSCcm2xbDApMYoDwGK0LWJk20E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=p3HiMHlOXnYU2dP9n7a5VV3QwL33dfCFvq8F5qed1A0yQ0wCsuNDwTPHTPsnluh1b
-	 pYKFSG5MTvUuqHvib2wAw+VOgRO398l/34dMk0SzbPAGmxN5K/qmeIBldxvoIeuz6t
-	 AQU+rZBFAuksis+xsm/9mOu+NZSFd6Nxfwb2dHFT9mK448l4f79UlMn8bjKVJS0i27
-	 6dfqM18+vgpUmfsh1MxuvPB9t7lLNNEp0CrKlxpiE1SpDG9fUblOmD74AS2e3gdwxX
-	 ieI7j3MWHhUUB+QdUal6Vc6vTtDEeuze30Z71qF7ZzeD2bUVYiBGyDwdRKwLmCZNit
-	 yx1NZK8jbAJUA==
-Date: Thu, 13 Jun 2024 13:43:24 -0600
-From: Rob Herring <robh@kernel.org>
-To: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-Cc: David Lechner <dlechner@baylibre.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: iio: adc: add AD4695 and similar ADCs
-Message-ID: <20240613194324.GA2352022-robh@kernel.org>
-References: <20240612-iio-adc-ad4695-v1-0-6a4ed251fc86@baylibre.com>
- <20240612-iio-adc-ad4695-v1-1-6a4ed251fc86@baylibre.com>
- <94448c2c-e7b2-4191-858c-529b254994f1@kernel.org>
- <f765ef30-a777-4dfc-8f93-0f15b46f91ae@baylibre.com>
- <e09fecf4-bde2-4feb-8312-22c530c6a960@kernel.org>
- <b6b52b1e-847b-44ca-87f9-095a78164771@baylibre.com>
- <5f0776ba5163578453e26352763ff1b4687bcf87.camel@gmail.com>
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="fIrj4a6P"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=KFvr
+	Xf67RTEBCYQPpIVoPpW00n6DFoY1qOKUUMRVFhw=; b=fIrj4a6P5X5mKjhJlPjb
+	xpwhdFMdeWwkfdwt3+qq3u1tW0Iz+MiOg0vzvsR9bBQr6CTlyi0bPju5wo7BuacB
+	OzJMAVS/dNAF/mY8N7GFT/foi9LZ+6oTCBx0UAaJIHpYQz66vz1BQyk1rUnd6SpI
+	t6U0Q7qyUrgs/ksJsQOveTNrXbestG9l6qAEW9NzDoY7Hy8LaiuQfq099u1JBrZB
+	IZGc1aX7m4a1wMihU33mc+qj00xb+m+7ECZLBCzjp0p9rHGjedPjXFKDDX+WXNiP
+	XTXjBUhIO6Xnrbh0adihsxQMDNx9Cop8jMdX7pFsl/uUwV+zFHAjms2jnjUfFiMJ
+	pw==
+Received: (qmail 1285280 invoked from network); 13 Jun 2024 21:52:16 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 13 Jun 2024 21:52:16 +0200
+X-UD-Smtp-Session: l3s3148p1@D1kD1soatMFehh9j
+Date: Thu, 13 Jun 2024 21:52:16 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Easwar Hariharan <eahariha@linux.microsoft.com>
+Cc: linux-i2c@vger.kernel.org, Andi Shyti <andi.shyti@kernel.org>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 4/6] docs: i2c: summary: document use of inclusive
+ language
+Message-ID: <z7j5debqyetpts7xdufguiprzqvd4swupnbdenhl7brx4dtt3j@j67j5ufyzrtn>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Easwar Hariharan <eahariha@linux.microsoft.com>, linux-i2c@vger.kernel.org, Andi Shyti <andi.shyti@kernel.org>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240610081023.8118-1-wsa+renesas@sang-engineering.com>
+ <20240610081023.8118-5-wsa+renesas@sang-engineering.com>
+ <8e051ecf-a355-4aef-bc40-007f9b709ba6@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="gyl7wq2x5obpwocp"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5f0776ba5163578453e26352763ff1b4687bcf87.camel@gmail.com>
+In-Reply-To: <8e051ecf-a355-4aef-bc40-007f9b709ba6@linux.microsoft.com>
 
-On Thu, Jun 13, 2024 at 05:11:48PM +0200, Nuno Sá wrote:
-> On Thu, 2024-06-13 at 09:39 -0500, David Lechner wrote:
-> > On 6/13/24 9:18 AM, Krzysztof Kozlowski wrote:
-> > > On 13/06/2024 15:57, David Lechner wrote:
-> > > > 
-> > > > > 
-> > > > > > +          - const: adi,ad4695
-> > > > > > +      - items:
-> > > > > > +          - const: adi,ad4697-wlcsp
-> > > > > > +          - const: adi,ad4697
-> > > > > > +      # same chips with higher max sample rate
-> > > > 
-> > > > I suppose one could make the argument that the programming model is
-> > > > the same on these too, but the maximum sampling frequency does seem
-> > > > like an important bit of information so that you don't try to set
-> > > > the conversion trigger rate too high.
-> > > > 
-> > > 
-> > > which property is that? I don't see differences in the driver, so I
-> > > don't get how these wlcsp compatibles allow you to control value of
-> > > conversion trigger.
-> > 
-> > This comment is unrelated to the package type (WLCSP or LFCSP).
-> > 
-> > What I mean is that e.g. AD4695 and AD4696 are virtually identical
-> > other than the maximum allowable sample rate (500 kSPS or 1 MSPS).
-> > 
-> > So my thinking was that it would make sense to have:
-> > 
-> > 	compatible = "ad4695";
-> > 
-> > for the lower sample rate chip and
-> > 
-> > 	compatible = "ad4696", "ad4695";
-> > 
-> > for the higher sample rate chip since ad4696 can do everything
-> > that ad4695 does plus a bit more.
-> > 
-> 
-> IMO, that would make sense yes. If the higher sample rate chip fallsback, it will
-> still work but not at full speed. The other way around is the one that we can't allow
-> naturally.
-> 
-> But possibly dumb question now... since both devices will be supported at the same
-> time, do we actually care about having the fallback compatible? My understanding of
-> the fallback story is that we may load a DTS in an older kernel where chip A is
-> supported but chip B is not and it is ok for chip B to fallback to chip A. Since
-> these devices will be supported at the same time, do we need to care? Unless out of
-> tree stuff enters the equation?
 
-Yeah, it doesn't really matter much in that case.
+--gyl7wq2x5obpwocp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> Or is there another usecase that I'm not aware about (or maybe it just makes sense to
-> document properly...)?
 
-Somewhat I guess. Perhaps if there's a 3rd chip with higher rate, then 
-it will be more obvious what to do and we don't have to have this 
-discussion again for it. :)
+> > +Outdated terminology
+> > +--------------------
+> > +
+> > +Historically, controller was named "master" and client was named "slave". These
 
-Rob
+Ahhh, while reworking the series I finally saw that I wrote "client" in
+the line above. That was an oversight, it should have been "target", of
+course. Next time, please quote directly below the errornous line, that
+makes it easier for me to understand what we are talking about.
+
+Nonetheless, the rework is not in vain. I think the texts have gotten a
+tad better.
+
+
+--gyl7wq2x5obpwocp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZrTewACgkQFA3kzBSg
+KbZggA/9HEci6D5G4Hzeuv5wNp0PKU/K5dEE3ujqwPK3MstPwDeqdPYEYz77cxQl
+6VitfxdO5jYh0ycGZHZXv3C5LRM/VlMz3Q5CHNmDUxybIAtNVVzbs3pe5mdtSK1B
+hTbY5SJHKHVzVTLXxc8TM4f3tCV2izy28RiMpDBQbPH07YZjY+Ds6+7XK72BUzQp
+BYNMWCVEXmsMKdbsxgEAGvgq3PoEIBUleZ/xvYIIRQEFGZmWShB4u1UsG7Z6WypI
+BQsT6tFFogRSzXqI5KpvkOSWQxfER3GLf1YzLj61FFC6bgHgiD1SdbjJPA38WNiz
+1gAKaxKe5SM2G2Jf2TW48kLOLr4BspUiCLuTRoWLLhp2TjeAyGNQ7ERrYwBT2NzB
+dVC1PkKYAlHpCrQfhu90/ST13eIhK52bpE1lwc6gdMC4z3Y8bf2o2Run08p9Nqt/
+tbPf2ixUcNDHGQtrHxam1N4qcZdXkatf0H7cuHbt8Se9e0mgNBE5BukFobmucSSz
+xE7KmbsqDcNwrfbI+QZvx1G7ZjUO8FVdGcd6CUjk7Nw9E8cU3fCGFR8vsyyXWpYo
+kc1E2mY5BDuOxyHgSKnNhztX5x9cj8EZhNJ0aS9JfTxg9CYVmbChVwZC0p03T/EQ
+6fqHxT8djanPPHKvcbHSHIo+b9Jo7HYZ0DabwBXSlfP1cSsbgLU=
+=AGnG
+-----END PGP SIGNATURE-----
+
+--gyl7wq2x5obpwocp--
