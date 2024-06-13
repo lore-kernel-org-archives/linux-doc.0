@@ -1,124 +1,269 @@
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5202137911
-	for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2024 06:53:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC5DB1384AB;
+	Thu, 13 Jun 2024 07:11:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718261586; cv=none; b=t4WPmBXSLEblQFzFiA0QMZ65nt4OhTYPmc75qbF8RlYPdxmiEOmbYzqIZahAO+xbPE3xYgAcZBGdgls0bFDDzw+R2uTsKog9uT+6A2BtZKgbfBGeWiZwLVqucXVgOgPfE3N/2E5Cfq9i6RnwlQRUgZyVhXvJRQT8AAADj6kucms=
+	t=1718262705; cv=none; b=vAckQ0lxy9CkictrV9sdevbzk3IGnp1NQ5ZA3mryRcvF5z8Xtxt4e+LAU1KYaiXziyY501vrLqZw75SpH/IUZdaoY8TCCLrjUBm8J23q4nwsHwiSp07ev1lCy5QmS106oXuF/Yt3reBh0ZFD/0EXQjNKOYEdzQtFZpRB+boUCdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718261586; c=relaxed/simple;
-	bh=yraTjogu4eOqUCyxiyu0hsjap40zvHzUuM2vZuXA884=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lfEqcQnX8QeKa1sYOnNi6ZICyoO+aob98z/r7ZncLO9EqUGc6nhK4FcbV3osfaf9nlH8o835Rp0hBSrQdzR+wTmZn7gXeIU5KqLaAc9ZlDNSJeeFeX28rIR/RIUCIzVdSwXY/h+arkn28z3+EwA8aBO2JRruiBriSLNfoHYJlTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=E2YkpHhg; arc=none smtp.client-ip=95.215.58.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1718262705; c=relaxed/simple;
+	bh=OslM3kkku1MDWJpYN4HLaJZ3olMNC5OUngm/2NELu/Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CqTErAwt4jYaFO3lubZJqqocWBmhyw+/COhbtL1uLWLg7tcCbL+9P7rAb5ofitjkQOg1IgUWIw5m399v9KnoEjuELh+DpulSf1z4L6rJU6mJC/gU7uiU2wNPuGGsU6NnFXt/uyy2e6RrFtdjHpKo1n3wjBV255sd1el1Y+YYbPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j42W6Jhv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="E2YkpHhg"
-X-Envelope-To: seanjc@google.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1718261582;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Pob+bbjOFf7h6fV5Z73fEIqJzbiI/6j+uQH9c0cAzHg=;
-	b=E2YkpHhg9Fmt6ybwKMqAQ8YYVGNLeh+hnNDYUUgtnxXsZt8FPeY8y4asORfx9UtpBGDdgW
-	f89IxPl8BPGmssOaYtFNoF4Ne/Nort9q7LMc+MCYF/csuZLtAUXsUTYi9NWg2lq3NtdWXS
-	n7jRAHCQzaqnHvPxkt9oahMQUtNWoPk=
-X-Envelope-To: jthoughton@google.com
-X-Envelope-To: yuzhao@google.com
-X-Envelope-To: akpm@linux-foundation.org
-X-Envelope-To: pbonzini@redhat.com
-X-Envelope-To: ankita@nvidia.com
-X-Envelope-To: axelrasmussen@google.com
-X-Envelope-To: catalin.marinas@arm.com
-X-Envelope-To: dmatlack@google.com
-X-Envelope-To: rientjes@google.com
-X-Envelope-To: james.morse@arm.com
-X-Envelope-To: corbet@lwn.net
-X-Envelope-To: maz@kernel.org
-X-Envelope-To: rananta@google.com
-X-Envelope-To: ryan.roberts@arm.com
-X-Envelope-To: shahuang@redhat.com
-X-Envelope-To: suzuki.poulose@arm.com
-X-Envelope-To: weixugc@google.com
-X-Envelope-To: will@kernel.org
-X-Envelope-To: yuzenghui@huawei.com
-X-Envelope-To: kvmarm@lists.linux.dev
-X-Envelope-To: kvm@vger.kernel.org
-X-Envelope-To: linux-arm-kernel@lists.infradead.org
-X-Envelope-To: linux-doc@vger.kernel.org
-X-Envelope-To: linux-kernel@vger.kernel.org
-X-Envelope-To: linux-mm@kvack.org
-Date: Wed, 12 Jun 2024 23:52:54 -0700
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Oliver Upton <oliver.upton@linux.dev>
-To: Sean Christopherson <seanjc@google.com>
-Cc: James Houghton <jthoughton@google.com>, Yu Zhao <yuzhao@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Axel Rasmussen <axelrasmussen@google.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	David Matlack <dmatlack@google.com>,
-	David Rientjes <rientjes@google.com>,
-	James Morse <james.morse@arm.com>, Jonathan Corbet <corbet@lwn.net>,
-	Marc Zyngier <maz@kernel.org>,
-	Raghavendra Rao Ananta <rananta@google.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Shaoqin Huang <shahuang@redhat.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Wei Xu <weixugc@google.com>, Will Deacon <will@kernel.org>,
-	Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev,
-	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH v5 4/9] mm: Add test_clear_young_fast_only MMU notifier
-Message-ID: <ZmqXRhFSoE38foh6@linux.dev>
-References: <20240611002145.2078921-1-jthoughton@google.com>
- <20240611002145.2078921-5-jthoughton@google.com>
- <CAOUHufYGqbd45shZkGCpqeTV9wcBDUoo3iw1SKiDeFLmrP0+=w@mail.gmail.com>
- <CADrL8HVHcKSW3hiHzKTit07gzo36jtCZCnM9ZpueyifgNdGggw@mail.gmail.com>
- <ZmidYAWKU1HANKU6@linux.dev>
- <ZmiqXUwMXtUGanQc@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j42W6Jhv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 657AFC2BBFC;
+	Thu, 13 Jun 2024 07:11:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718262704;
+	bh=OslM3kkku1MDWJpYN4HLaJZ3olMNC5OUngm/2NELu/Q=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=j42W6JhvQzwh3evAHkcis301+xm4+w2IsrLOmt83a1O2r5maTl1y1wXlYmji3/Yi+
+	 gYefiRTwdGKNdXW+U6kc7e3iP9DGR2Shhk1pjRS5k6cp5k9qM2wpvnvYOhLnuCm7YA
+	 a/EXe6Q141fxibH/3znijXCqR4YviSISJ5OIy/7Zr/qIXRwpqBOwaEu6dxUv4cNEDf
+	 64aqM4bPsjeI9VcC9e5mwfQQKoqV6Nd8+ADOliDikmz8FserW76ExvSTLnrULIBEQv
+	 2+cbHVE93IULJ6GDvHHcQOAA+1xgfl1ofJxW8SBC22ycDmIxsz0/gNdtJLZrgYGfqK
+	 Wk6FG3TxHSXww==
+Message-ID: <94448c2c-e7b2-4191-858c-529b254994f1@kernel.org>
+Date: Thu, 13 Jun 2024 09:11:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZmiqXUwMXtUGanQc@google.com>
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] dt-bindings: iio: adc: add AD4695 and similar ADCs
+To: David Lechner <dlechner@baylibre.com>, Jonathan Cameron
+ <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: Michael Hennerich <michael.hennerich@analog.com>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20240612-iio-adc-ad4695-v1-0-6a4ed251fc86@baylibre.com>
+ <20240612-iio-adc-ad4695-v1-1-6a4ed251fc86@baylibre.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20240612-iio-adc-ad4695-v1-1-6a4ed251fc86@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 11, 2024 at 12:49:49PM -0700, Sean Christopherson wrote:
-> On Tue, Jun 11, 2024, Oliver Upton wrote:
-> > On Tue, Jun 11, 2024 at 09:49:59AM -0700, James Houghton wrote:
-> > > I think consolidating the callbacks is cleanest, like you had it in
-> > > v2. I really wasn't sure about this change honestly, but it was my
-> > > attempt to incorporate feedback like this[3] from v4. I'll consolidate
-> > > the callbacks like you had in v2.
-> > 
-> > My strong preference is to have the callers expectations of the
-> > secondary MMU be explicit. Having ->${BLAH}_fast_only() makes this
-> > abundantly clear both at the callsite and in the implementation.
+On 12/06/2024 21:20, David Lechner wrote:
+> Add device tree bindings for AD4695 and similar ADCs.
 > 
-> Partially agreed.  We don't need a dedicated mmu_notifier API to achieve that
-> for the callsites, e.g. ptep_clear_young_notify() passes fast_only=false, and a
-> new ptep_clear_young_notify_fast_only() does the obvious.
+> Signed-off-by: David Lechner <dlechner@baylibre.com>
+> ---
+>  .../devicetree/bindings/iio/adc/adi,ad4695.yaml    | 297 +++++++++++++++++++++
+>  MAINTAINERS                                        |   9 +
+>  2 files changed, 306 insertions(+)
 > 
-> On the back end, odds are very good KVM is going to squish the "fast" and "slow"
-> paths back into a common helper, so IMO having dedicated fast_only() APIs for the
-> mmu_notifier hooks doesn't add much value in the end.
-> 
-> I'm not opposed to dedicated hooks, but I after poking around a bit, I suspect
-> that passing a fast_only flag will end up being less cleaner for all parties.
+> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad4695.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad4695.yaml
+> new file mode 100644
+> index 000000000000..8ff5bbbbef9f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad4695.yaml
+> @@ -0,0 +1,297 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/iio/adc/adi,ad4695.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Analog Devices Easy Drive Multiplexed SAR Analog to Digital Converters
+> +
+> +maintainers:
+> +  - Michael Hennerich <Michael.Hennerich@analog.com>
+> +  - Nuno Sá <nuno.sa@analog.com>
+> +
+> +description: |
+> +  A family of similar multi-channel analog to digital converters with SPI bus.
+> +
+> +  * https://www.analog.com/en/products/ad4695.html
+> +  * https://www.analog.com/en/products/ad4696.html
+> +  * https://www.analog.com/en/products/ad4697.html
+> +  * https://www.analog.com/en/products/ad4698.html
+> +
+> +$ref: /schemas/spi/spi-peripheral-props.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - enum:
+> +          - adi,ad4695
+> +          - adi,ad4697
+> +      # same chips in WLCSP package with more pins
+> +      - items:
+> +          - const: adi,ad4695-wlcsp
 
-Yeah, I think I'm headed in the same direction after actually reading
-the MM side of this, heh.
+Usually we do not add compatibles for such differences. Programming
+model is the same. Same for all other wlcsp. Unless something differs?
 
--- 
-Thanks,
-Oliver
+> +          - const: adi,ad4695
+> +      - items:
+> +          - const: adi,ad4697-wlcsp
+> +          - const: adi,ad4697
+> +      # same chips with higher max sample rate
+> +      - items:
+> +          - const: adi,ad4696
+
+Anyway, keep all fallbacked variants in one entry, so enum with const
+fallback.
+
+> +          - const: adi,ad4695
+> +      - items:
+> +          - const: adi,ad4698
+> +          - const: adi,ad4697
+> +      # same chips with higher max sample rate in WLCSP package
+> +      - items:
+> +          - const: adi,ad4696-wlcsp
+> +          - const: adi,ad4696
+
+That's wrong. ad4696 is compatible with 4695 as stated before. It is not
+compatible with ad4695-wlcsp.
+
+> +          - const: adi,ad4695-wlcsp
+> +          - const: adi,ad4695
+> +      - items:
+> +          - const: adi,ad4698-wlcsp
+> +          - const: adi,ad4698
+> +          - const: adi,ad4697-wlcsp
+> +          - const: adi,ad4697
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  spi-max-frequency:
+> +    maximum: 80000000
+> +
+> +  spi-cpol: true
+> +  spi-cpha: true
+> +
+> +  spi-rx-bus-width:
+> +    minimum: 1
+> +    maximum: 4
+> +
+> +  avdd-supply:
+> +    description: A 2.7 V to 5.5 V supply that powers the analog circuitry.
+> +
+> +  ldo-in-supply:
+> +    description: A 2.4 V to 5.5 V supply connected to the internal LDO input.
+> +
+> +  vdd-supply:
+> +    description: A 1.8V supply that powers the core circuitry.
+> +
+> +  vio-supply:
+> +    description: A 1.2V to 1.8V supply for the digital inputs and outputs.
+> +
+> +  ref-supply:
+> +    description: A 2.4 V to 5.1 V supply for the external reference voltage.
+> +
+> +  refin-supply:
+> +    description: A 2.4 V to 5.1 V supply for the internal reference buffer input.
+> +
+> +  com-supply:
+> +    description: Common voltage supply for pseudo-differential analog inputs.
+> +
+> +  adi,no-ref-current-limit:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description:
+> +      When this flag is present, the REF Overvoltage Reduced Current protection
+> +      is disabled.
+> +
+> +  adi,no-ref-high-z:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description:
+> +      Enable this flag if the ref-supply requires Reference Input High-Z Mode
+> +      to be disabled for proper operation.
+> +
+> +  cnv-gpios:
+> +    description: The Convert Input (CNV). If omitted, CNV is tied to SPI CS.
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    description: The Reset Input (RESET). Should be configured GPIO_ACTIVE_LOW.
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    minItems: 1
+> +    items:
+> +      - description:
+> +          Signal coming from the BSY_ALT_GP0 or GP3 pin that indicates a busy
+> +          condition.
+> +      - description:
+> +          Signal coming from the BSY_ALT_GP0 or GP2 pin that indicates an alert
+> +          condition.
+> +
+> +  interrupt-names:
+> +    minItems: 1
+> +    items:
+> +      - const: busy
+> +      - const: alert
+> +
+> +  gpio-controller: true
+> +
+> +  "#gpio-cells":
+> +    const: 2
+> +    description: |
+> +      The first cell is the GPn number: 0 to 3.
+> +      The second cell takes standard GPIO flags.
+> +
+> +  "#address-cells":
+> +    const: 1
+
+Blank line
+
+> +  "#size-cells":
+> +    const: 0
+> +
+
+
+Best regards,
+Krzysztof
+
