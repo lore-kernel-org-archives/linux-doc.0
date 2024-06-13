@@ -1,271 +1,86 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0A8612C53D;
-	Thu, 13 Jun 2024 07:46:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E9D13C8E8;
+	Thu, 13 Jun 2024 07:54:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718264772; cv=none; b=FZbnxcOw5mbKytMb2c4ydEwn+nM9obc5U20WUHQGWnBdmVFZK0+jcTdW4cfEzLOyC7iCQbnKSW16LFuK7GyXML23UV2KM3z5famEseSsOOE8wVWH9TiaiHpbhzVHuzbyUDpa5tCzqHEc2IY3JbfNW5TWeFMH9oaWn3aH9hIpyh4=
+	t=1718265301; cv=none; b=MpsdkSgVnukQWvkhIUAMEPWr8FcIIjVrob+Dg/X+rtcytfIFLcW+o88VfedUiinnZ/D4dsKZtZboadUhAsn36ncucCkAcTJeMwNmWjKuWWr7mkMkg0b59KfWmQbP6sk+sfvrRNSzdUghHulw22+ymjk6edQxd0h0ozUNHKSOl+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718264772; c=relaxed/simple;
-	bh=SWhtuMvx4uGhi/2J1+eQKjWpE4vQF+jCSZC4acIXW4M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CgFbWilGJY76HqJ1Xs4XQsad5B16RHWsJJqwx3kF4IhEFoElqCAPGRTW/6zCqqy7qdzzYcuAcWze1kLo87rBQGH8ZZPw0E5MjTlZBlbpo7w4JWYflcE5Yw2cz4fnZKTAmQ9gd6WMBFd4xSmdti9OCOUVbCMGPdCVuEK64tMhJrc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ksBQEiMU; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1718265301; c=relaxed/simple;
+	bh=IlUPSgkK7p1HuO+/td3WBezslkq7GVsamNMvlKZWO84=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rOsu18TW0SB8JsTr6aJlu6WIVZx/u/hG57G8OxD6nFBM0TrTiAqFucMYKf/JHPvAJ3LTfruE4F3yT6YmdfoAXa8OkM9MSLftROVPBMStqSqENHhAIlpM/b5jAR0fzZ98SvZNqhvH9CRD3Cp0C4bgMBXkHZ/xGUJAtq9OG9seE/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=J6hNF/eB; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ksBQEiMU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718264771; x=1749800771;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=SWhtuMvx4uGhi/2J1+eQKjWpE4vQF+jCSZC4acIXW4M=;
-  b=ksBQEiMU6ObEeJUh1KTfgWEMaecgtqhaXA2V7S2Hl+cixsk8uITos3nL
-   gQ71+0rVpfu6OOSpclJrWToX9lq6Seo7PGIQ7KqFF8IqhRhJIh/j98EyH
-   lJw9LNlW9DDFpFZUjfxqctzHMEN3bOPTqP5PqrZbu5VtiAh67/+L4fyyr
-   rxD00PGw17hRHjmNJkD6I6iWORqfbCdGAF2IQ+2LJ1oyeXb61AXFv3x+b
-   KTgESQGtBumiPoUaHBghz0C9glyMnIt2h/vbZty90256HyNzbPzCbMgZg
-   J7OK533FtBJfunvKJGh+xMFoEp6JNXssw3TehTq0rVx8EDN1qguPAsF9a
-   Q==;
-X-CSE-ConnectionGUID: ej8fp6anS6S6gypilpwu/g==
-X-CSE-MsgGUID: VPTleWmCTLiW+S8pkVZewA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="32555152"
-X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
-   d="scan'208";a="32555152"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 00:46:10 -0700
-X-CSE-ConnectionGUID: G7+f6gn+QjydAvijR9Jdfg==
-X-CSE-MsgGUID: I60iyNO4Qg2NYql1SQsh2g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
-   d="scan'208";a="71264693"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.8.107]) ([10.94.8.107])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2024 00:46:04 -0700
-Message-ID: <ca1e1063-e1bd-4e03-a7cd-91985e9954e9@linux.intel.com>
-Date: Thu, 13 Jun 2024 09:46:02 +0200
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="J6hNF/eB"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=B3aRTXsDCKGjz5H0M1vcgLuL/l8L7HFeO7Ru892md5A=; b=J6hNF/eBSwlcxxvuHLCJgTtrpY
+	VE86/JVsrj51j2BA9f3Q4uaN/XWazpq8ZzELbOdqz2ygRpj3LrrxuVbaNBkHw45JuXSqSeh07BIHO
+	vBCANAwXYGDM7oGTkeEIpBiRRHLvusdB3X78kVNEswRnJNgbDQvp+3A1KaG5/WZhf0VgR5j2QnsnN
+	NyU7NTDBhbjeE+96uTGuxwErtdGC7BLkjMC5LyNIjqqQvIitc5evuimHOShtJVec4Zuw7dvcYaTAY
+	P4jgm7Ii9BGBxtoXpHTOz0tVPqVo3TlC4YuvqUujJeMECXwZn924osFQ/hccOOO98q+iQWvjUP9T7
+	Vq58hLGQ==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:50602)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1sHfI8-0005jK-18;
+	Thu, 13 Jun 2024 08:54:40 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1sHfI7-000145-31; Thu, 13 Jun 2024 08:54:39 +0100
+Date: Thu, 13 Jun 2024 08:54:38 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Luo Jie <quic_luoj@quicinc.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, andrew@lunn.ch, hkallweit1@gmail.com,
+	corbet@lwn.net, vladimir.oltean@nxp.com, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next 1/2] net: phy: introduce core support for
+ phy-mode = "10g-qxgmii"
+Message-ID: <Zmqlvn2gOlxoy5Gm@shell.armlinux.org.uk>
+References: <20240612095317.1261855-1-quic_luoj@quicinc.com>
+ <20240612095317.1261855-2-quic_luoj@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v23 32/32] ASoC: doc: Add documentation for SOC USB
-Content-Language: en-US
-To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
- Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
- robh@kernel.org, gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <20240610235808.22173-1-quic_wcheng@quicinc.com>
- <20240610235808.22173-33-quic_wcheng@quicinc.com>
- <5be51e1f-70c9-4bbc-96fa-1e50e441bd35@linux.intel.com>
- <408d9e8e-0f40-7e66-54be-2f8d2c0783a3@quicinc.com>
-From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <408d9e8e-0f40-7e66-54be-2f8d2c0783a3@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240612095317.1261855-2-quic_luoj@quicinc.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On 6/12/2024 9:28 PM, Wesley Cheng wrote:
-> Hi Amadeusz,
-> 
-> On 6/12/2024 7:47 AM, Amadeusz Sławiński wrote:
->> On 6/11/2024 1:58 AM, Wesley Cheng wrote:
->>
->> (...)
->>
->>> +In the case where the USB offload driver is unbounded, while USB SND is
->>
->> unbounded -> unbound
->>
->> (...)
->>
->>> +SOC USB and USB Sound Kcontrols
->>> +===============================
->>> +Details
->>> +-------
->>> +SOC USB and USB sound expose a set of SND kcontrols for applications 
->>> to select
->>> +and fetch the current offloading status for the ASoC platform sound 
->>> card. Kcontrols
->>> +are split between two layers:
->>> +
->>> +    - USB sound - Notifies the sound card number for the ASoC 
->>> platform sound
->>> +      card that it is registered to for supporting audio offload.
->>> +
->>> +    - SOC USB - Maintains the current status of the offload path, 
->>> and device
->>> +      (USB sound card and PCM device) information.  This would be 
->>> the main
->>> +      card that applications can read to determine offloading 
->>> capabilities.
->>> +
->>> +Implementation
->>> +--------------
->>> +
->>> +**Example:**
->>> +
->>> +  **Sound Cards**:
->>> +
->>> +    ::
->>> +
->>> +      0 [SM8250MTPWCD938]: sm8250 - SM8250-MTP-WCD9380-WSA8810-VA-D
->>> +                     SM8250-MTP-WCD9380-WSA8810-VA-DMIC
->>> +      1 [C320M          ]: USB-Audio - Plantronics C320-M
->>> +                     Plantronics Plantronics C320-M at 
->>> usb-xhci-hcd.1.auto-1, full speed
->>> +
->>> +
->>> +  **Platform Sound Card** - card#0:
->>> +
->>> +    ::
->>> +
->>> +      USB Offload Playback Route Card Select  1 (range -1->32)
->>> +      USB Offload Playback Route PCM Select   0 (range -1->255)
->>> +      USB Offload Playback Route Card Status  -1 (range -1->32)
->>> +      USB Offload Playback Route PCM Status   -1 (range -1->255)
->>> +
->>> +
->>> +  **USB Sound Card** - card#1:
->>> +
->>> +    ::
->>> +
->>> +      USB Offload Playback Capable Card         0 (range -1->32)
->>> +
->>> +
->>> +The platform sound card(card#0) kcontrols are created as part of 
->>> adding the SOC
->>> +USB device using **snd_soc_usb_add_port()**.  The following 
->>> kcontrols are defined
->>> +as:
->>> +
->>> +  - ``USB Offload Playback Route Card Status`` **(R)**: USB sound 
->>> card device index
->>> +    that defines which USB SND resources are currently offloaded.  
->>> If -1 is seen, it
->>> +    signifies that offload is not active.
->>> +  - ``USB Offload Playback Route PCM Status`` **(R)**: USB PCM 
->>> device index
->>> +    that defines which USB SND resources are currently offloaded.  
->>> If -1 is seen, it
->>> +    signifies that offload is not active.
->>> +  - ``USB Offload Playback Route Card Select`` **(R/W)**: USB sound 
->>> card index which
->>> +    selects the USB device to initiate offloading on.  If no value 
->>> is written to the
->>> +    kcontrol, then the last USB device discovered card index will be 
->>> chosen.
->>
->> I see only one kcontrol, what if hardware is capable of offloading on 
->> more cards, is it possible to do offloading on more than one device?
->>
->>> +  - ``USB Offload Playback Route PCM Select`` **(R/W)**: USB PCM 
->>> index which selects
->>> +    the USB device to initiate offloading on.  If no value is 
->>> written to the
->>> +    kcontrol, then the last USB device discovered PCM zero index 
->>> will be chosen.
->>> +
->>> +The USB sound card(card#1) kcontrols are created as USB audio 
->>> devices are plugged
->>> +into the physical USB port and enumerated.  The kcontrols are 
->>> defined as:
->>> +
->>> +  - ``USB Offload Playback Capable Card`` **(R)**: Provides the 
->>> sound card
->>> +    number/index that supports USB offloading.  Further/follow up 
->>> queries about
->>> +    the current offload state can be handled by reading the offload 
->>> status
->>> +    kcontrol exposed by the platform card.
->>> +
->>
->>
->> Why do we need to some magic between cards? I feel like whole kcontrol 
->> thing is overengineered a bit - I'm not sure I understand the need to 
->> do linking between cards. It would feel a lot simpler if USB card 
->> exposed one "USB Offload" kcontrol on USB card if USB controller 
->> supports offloading and allowed to set it to true/false to allow user 
->> to choose if they want to do offloading on device.
->>
->> (...)
-> 
-> Based on feedback from Pierre, what I understood is that for some 
-> applications, there won't be an order on which sound card is 
-> queried/opened first.
-> 
+On Wed, Jun 12, 2024 at 05:53:16PM +0800, Luo Jie wrote:
+> @@ -1865,7 +1872,8 @@ static int phylink_validate_phy(struct phylink *pl, struct phy_device *phy,
+>  	if (phy->is_c45 && state->rate_matching == RATE_MATCH_NONE &&
+>  	    state->interface != PHY_INTERFACE_MODE_RXAUI &&
+>  	    state->interface != PHY_INTERFACE_MODE_XAUI &&
+> -	    state->interface != PHY_INTERFACE_MODE_USXGMII)
+> +	    state->interface != PHY_INTERFACE_MODE_USXGMII &&
+> +	    state->interface != PHY_INTERFACE_MODE_10G_QXGMII)
+>  		state->interface = PHY_INTERFACE_MODE_NA;
 
-Yes if you have multiple cards, they are probed in random order.
+It would be better, rather than extending this workaround, instead to
+have the PHY driver set phy->possible_interfaces in its .config_init
+method. phy->possible_interfaces should be the set of interfaces that
+the PHY _will_ use given its configuration for the different media
+speeds. I think that means just PHY_INTERFACE_MODE_10G_QXGMII for
+your configuration.
 
-> So the end use case example given was if an application opened the USB 
-> sound card first, it can see if there is an offload path available.  If 
-> there is then it can enable the offload path on the corresponding card 
-> if desired.
-> 
+Thanks.
 
-This still doesn't explain why you need to link cards using controls. 
-What would not work with simple "Enable Offload" with true/false values 
-on USB card that works while you do have above routing controls?
-
->>> +Mixer Examples
->>> +--------------
->>> +
->>> +    ::
->>> +
->>> +      tinymix -D 0 set 'USB Offload Playback Route Card Select' 2
->>> +      tinymix -D 0 set 'USB Offload Playback Route PCM Select' 0
->>> +
->>> +
->>> +    ::
->>> +
->>> +      tinymix -D 0 get 'USB Offload Playback Route Card Select'
->>> +      --> 2 (range -1->32)
->>> +      tinymix -D 0 get 'USB Offload Playback Route PCM Select'
->>> +      --> 0 (range -1->255)
->>> +
->>> +    ::
->>> +
->>> +      tinymix -D 0 get 'USB Offload Playback Route Card Status'
->>> +      --> 2 (range -1->32)   [OFFLD active]
->>> +      --> -1 (range -1->32) [OFFLD idle]
->>> +      tinymix -D 0 get 'USB Offload Playback Route PCM Status'
->>> +      --> 0 (range -1->255)   [OFFLD active]
->>> +      --> -1 (range -1->255) [OFFLD idle]
->>> +
->>> +    ::
->>> +
->>> +      tinymix -D 1 get 'USB Offload Playback Capable Card'
->>> +      --> 0 (range -1->32)
->>>
->>
->> Yes, looking at examples again, I'm still not sure I understand. There 
->> are two cards and you do linking between them, this feels broken by 
->> design. From my point of view USB Offload should be property of USB 
->> card and not involve any other card in a system.
->>
-> 
-> Main benefit to having two cards (keeping one for USB SND and another 
-> for the ASoC platform sound card) is that current applications won't 
-> break.  The behavior is the same, in that if something opens the USB 
-> sound card, it will go through the same non-offloaded path.  During 
-> initial reviews, I think this was a big point where folks wanted the USB 
-> PCM path to still be an option.
-> 
-
-I'm not against having two cards, in fact I hope that USB card looks and 
-behaves the same as before this patch set, with only difference being 
-controls for enabling offload.
-
-> If applications want to add the offload capabilities to its environment, 
-> they can enable it as an additional feature.
-
-That sounds fine to me.
-
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
