@@ -1,141 +1,151 @@
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB026148FFF;
-	Thu, 13 Jun 2024 15:04:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 422B31474A8;
+	Thu, 13 Jun 2024 15:11:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718291093; cv=none; b=LHQCnG+XnzuqcgA3stEnjb5F4p4603umDtFttuMCrlopn1j1BTeyOIRkjbJvEWxfHkmWEi9p4odZHIgqPBU3W5oxGPEKA7VzjEjtV4evG1xoqpzteNVXxM8DWU1RzUmoWOYqnSPentZP2sDJy5A9rpj/T8OrjLEKMZFP9apJ4OA=
+	t=1718291512; cv=none; b=UWaIUdHWWx1EAhcj9qoAEtk9vJWImUxsbcJEFDynDCOyL5sFAL/Aqc4NsuKgqDLwE3/PSEy3Ho0W+TuYdlyNyHgKCtY9ikyVLfSjGAGf5OHuXYXHKHXEgI4MkdyguhFTGU4FoPxlEWH0Mv8NDjrNvgHqRZMwvqilKywJ0o9yJLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718291093; c=relaxed/simple;
-	bh=VuyCLVw5xrGKJGG2faecvFsFbDGJjg+31wyzeWw+FRw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YfY8vq9i0XHoF+AcpMrt6Dew31bueMycLOeTPa/tfvDWlXeJtP8TjlFS/5WJ6JLlthuZBKgCJTjKM0AjOPNSfL5TC1Bt5s3aNfXdRyznBrnFF3xdsyoYIt+k3fd+BDeCX647iMawlCiDAYRPDPVp0mElS98cKEsnvXYwGyiNTGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ak7SMJ9v; arc=none smtp.client-ip=209.85.219.54
+	s=arc-20240116; t=1718291512; c=relaxed/simple;
+	bh=z+795azhnXvc7Z8d96JFT7XZ4xKMWAHclN8bCJF7dyU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Us71fH4zVCILkheG/nsb1i72RjF30PDxxCGVw9rE7TD142d4SmUk1bN4pUI4HxUp90pl0r0ygo31Wxae5NRegaDn+s2mY+r6MX1L3YmBxpkBaO+LSCSqIHe9jk0PSuNjAxP5z7Ivxq0XcvIYHeBtS7wc62uyglcEQ+cciIaOzGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AyjHaTj6; arc=none smtp.client-ip=209.85.208.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ak7SMJ9v"
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6b05c9db85fso6217626d6.2;
-        Thu, 13 Jun 2024 08:04:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AyjHaTj6"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-57a44c2ce80so1255932a12.0;
+        Thu, 13 Jun 2024 08:11:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718291091; x=1718895891; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=APrVAMfdz5UzlM6te+OQj7RDwISoPjhwoAJLzTA+Yb4=;
-        b=ak7SMJ9v54LvlVgk3VVCwc2aFxcHFmeVu5Pcpk53CKyhctgHcOO31suS8fgYqkK06q
-         Fyj5nNIiHzBmkQI4m73us1I+lhbkEDVzqdpxDckLALqfzvmeUNZNqoLexvFt2X+Ufqzx
-         PRugmZHFoTbumj55ktS6cFCsHrLlM6/YLzw69jqGlj/RbMwUwpyw7vJ4CZ4N4vPCXYIm
-         LAkzURDAt6d1+1fgXYd4bsa716gBwia7crDb3QZQIJ5lOemxw+VBmhWoJDbAZJpqwjEk
-         DpZj3CctcyGJ9r9nTvP3wduiG1V6yzumjbq4++6Hi6XcamBCO9L0d29qzp4dipOqaaSf
-         wNOg==
+        d=gmail.com; s=20230601; t=1718291509; x=1718896309; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=ZUuL7vfd80QBwFOZreuafWnuEJtkpQEboZUkkpavjoY=;
+        b=AyjHaTj6GPCnc81AsScic4bGJtgR1YkRSG0HxJPM/x5R08rYPh1HwTE3Iiu1M3e4qi
+         rjuqZr2W6AdA4voMwEnjseOK7LHLos7xhWxbWn1TijZ4Susx+WD/qI+/FNSUGNBnEgmn
+         iRk8cWiQbBKMZsOgWB2wRcwbEgCPz146r3i6ODsW7pWJbyMeEKY71hYtyS+ovvxi6Od2
+         U8dGGGW1kkFElMKiS/mvLRgx8AbwfxaKrcrZkUDiVF6WxN7xboYFcliSC5xGIsmfiaAO
+         Q5WEyaezGnq4b1YUQcmQTzemFR1KPdLH+N8PORk3kgAnSUfVIvpIpchfvC2HcYyyJayD
+         P6+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718291091; x=1718895891;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=APrVAMfdz5UzlM6te+OQj7RDwISoPjhwoAJLzTA+Yb4=;
-        b=rGeDf4Nw1GXvKSQRxUkjTikkS6xSf3vEAU54I3TJ3fe8m6UelXsk4896MgRpHD2Vr+
-         BHg0NuROffkiSZS0HFIT4LUnjc1Y8EYun6bo+zHYI9XRzmLVpaklFMthV5z2Nh4HlJrk
-         hcyezBaGH6JadOjE+sb/umG6Z1umL6xaRQ2QA25B+7HmQ9FHnaDVCaA96gqcwBrK9+/V
-         GZAArEpqtygI/gAxVydzfvCs4VsDXGgGdKDQUI08JjR06aEtEPlgSn+7JXaapOtpmMwk
-         RL3/K3u72b7q7e9h8lxUgm3egXBjYcqEQlq0xfZQHwkOVfLjix8zc/rtqZOm/8XYroPV
-         PLlA==
-X-Forwarded-Encrypted: i=1; AJvYcCUmHDM+eAkc29er0yFdKq4Gl4TjfYQKY39lMTz8YMzhrYHEqyvp8hK/YMkawtdQilBclu0aqqWI5bBiWlI119zrwZGOX1xdG01Mc3chEGnDrbgQu0N01rYYxa2vbgbEhLTwgEzaSiTA
-X-Gm-Message-State: AOJu0YyKn9lgdLu+viq9sSDFuSEf9mMxvTOLQ2xXRAHJQohPb3i6+Q3r
-	VgUBgH5L8/icfCFLSIJ9fEYOG4MLO/snIGlhIvoLvx+K1LqM7tBNZ75Aph+Xdzm912b4OXLQCGh
-	j613j4tJNbgY969GiqS/4Kz2u6Tc=
-X-Google-Smtp-Source: AGHT+IGU/QEpuTi/kwbsmlS2WdrVWU0zL2Qu2R/VLvOWuGqq4KLKtnVAdbBgWWeLmr1OLqdFCN9jK78F3SRfXTZlqgw=
-X-Received: by 2002:a05:6214:311d:b0:6b0:80f4:4505 with SMTP id
- 6a1803df08f44-6b1a64907d8mr51601676d6.33.1718291090593; Thu, 13 Jun 2024
- 08:04:50 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1718291509; x=1718896309;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZUuL7vfd80QBwFOZreuafWnuEJtkpQEboZUkkpavjoY=;
+        b=EqzogsAtn/ecv4BlYAXv05JjEAYbBGuR3T2i6j0NR4IYwcYDMiyJf2Nc1wcpnUj+DV
+         D81aoUeOKWrxSfJQbWY6nOA8zDIMED19SQre/55xteSNU47xlK/qyOfLQ3as08xeoC5B
+         NhGIGM28djA1j775Gr63kWc0dq4nUfkrGmaSvf/RBqS1P+s+OJpRkxxZV+Q3IuCPYF3f
+         mJC19bwh3Pevl9nE3uV2J2yfq392KT0cRNfgkHzuGgEIJTD9S6o4sokhgaGQTodsRtWO
+         4EoRcb2apnITmvtWH4MLbAlqnsW4kie+Nlebh3zQ0rJcz2M1WjdPbiWxojCOZu6rI5zB
+         KCow==
+X-Forwarded-Encrypted: i=1; AJvYcCUr512oNZN4BPas6t1ExF92KOs1KnodaqUYpgkAHIo1p39HBp29rSmPULJwgmbR0s7hk4a3Y5Tz/BapDpkLaWgyUW0IqDJaGKxP65A1iaJLoyPR2+EAxMSMQCrgTZCgmCh0PiAQXnJIJhUcY/3KcZ0JTpImM7E9ObZAY44V9WM4TPF12llpIrrn6BY/HKAArcyaURtZG5Gef7ahOaM9/Q==
+X-Gm-Message-State: AOJu0YwNPnzgsCGj3Sl0Q4mWerQw9fKTSOZ2FKAKUNo5/xs7t4LtdoKK
+	p7zmUtygO1DEdtD9plNd0jiUhTgUJA+aJVArq1Kd9Eyj7lg0Lr30
+X-Google-Smtp-Source: AGHT+IHvS3n0XhSSsilqaBsUgJPu+uCF+nXcgUDyisRM+IjvDSTJs6bj4z/Gic9iov+SFd1Ia0o0hw==
+X-Received: by 2002:a17:906:68ca:b0:a6f:59dc:4ed1 with SMTP id a640c23a62f3a-a6f60cf2d33mr4132966b.14.1718291509171;
+        Thu, 13 Jun 2024 08:11:49 -0700 (PDT)
+Received: from nsa.fritz.box ([2001:a61:35f9:9001:40df:88bb:5090:7ab6])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f56f41655sm81149666b.169.2024.06.13.08.11.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Jun 2024 08:11:48 -0700 (PDT)
+Message-ID: <5f0776ba5163578453e26352763ff1b4687bcf87.camel@gmail.com>
+Subject: Re: [PATCH 1/3] dt-bindings: iio: adc: add AD4695 and similar ADCs
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: David Lechner <dlechner@baylibre.com>, Krzysztof Kozlowski
+ <krzk@kernel.org>,  Jonathan Cameron <jic23@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>
+Cc: Michael Hennerich <michael.hennerich@analog.com>, Nuno
+ =?ISO-8859-1?Q?S=E1?=
+	 <nuno.sa@analog.com>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Date: Thu, 13 Jun 2024 17:11:48 +0200
+In-Reply-To: <b6b52b1e-847b-44ca-87f9-095a78164771@baylibre.com>
+References: <20240612-iio-adc-ad4695-v1-0-6a4ed251fc86@baylibre.com>
+	 <20240612-iio-adc-ad4695-v1-1-6a4ed251fc86@baylibre.com>
+	 <94448c2c-e7b2-4191-858c-529b254994f1@kernel.org>
+	 <f765ef30-a777-4dfc-8f93-0f15b46f91ae@baylibre.com>
+	 <e09fecf4-bde2-4feb-8312-22c530c6a960@kernel.org>
+	 <b6b52b1e-847b-44ca-87f9-095a78164771@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.1 (3.52.1-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240608155316.451600-1-flintglass@gmail.com> <20240608155316.451600-2-flintglass@gmail.com>
- <CAKEwX=P1Ojb71AEJ2gzQTrfWidFPcJZmoNxEwji7TceBN-szCg@mail.gmail.com>
- <CAPpoddeigM44jhTA8Ua=+J4MC1MikouBZVoPrCW2LZF+9r5YeA@mail.gmail.com>
- <CAJD7tkYp3GbuXV9G5bAZ1DetMmepV5ynciA+ukae7CKuxpXDJQ@mail.gmail.com>
- <CAPpoddfj1EdfXfTUT8bLaNxat0hYiE4X9=qG38gPgRgmmVOjcw@mail.gmail.com>
- <CAJD7tkZTSGz1bpo-pMNP_=11O-7RrhubWonqhUJwrt+TB=Ougg@mail.gmail.com>
- <CAPpoddcp9rVvg77WapsuiMdMzFrV0UioJ+VbQuJbKNY7-=nvVw@mail.gmail.com> <CAJD7tkY0=0yKSmEz=E5dL7GLRsO8r6ESWyzF+HdgK0wnMpzLKg@mail.gmail.com>
-In-Reply-To: <CAJD7tkY0=0yKSmEz=E5dL7GLRsO8r6ESWyzF+HdgK0wnMpzLKg@mail.gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Thu, 13 Jun 2024 08:04:39 -0700
-Message-ID: <CAKEwX=PF=a2+pUBM3xEHBMu6VJY2Q64eTmVwo7vb4YmJQpK_DA@mail.gmail.com>
-Subject: Re: [PATCH v1 1/3] mm: zswap: fix global shrinker memcg iteration
-To: Yosry Ahmed <yosryahmed@google.com>
-Cc: Takero Funaki <flintglass@gmail.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Shakeel Butt <shakeel.butt@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 12, 2024 at 7:58=E2=80=AFPM Yosry Ahmed <yosryahmed@google.com>=
- wrote:
->
-> On Wed, Jun 12, 2024 at 7:36=E2=80=AFPM Takero Funaki <flintglass@gmail.c=
-om> wrote:
-> >
-> > 2024=E5=B9=B46=E6=9C=8813=E6=97=A5(=E6=9C=A8) 11:18 Yosry Ahmed <yosrya=
-hmed@google.com>:
-> >
-> > > > The corrected version of the cleaner should be:
-> > > > ```c
-> > > > void zswap_memcg_offline_cleanup(struct mem_cgroup *memcg)
-> > > > {
-> > > >         /* lock out zswap shrinker walking memcg tree */
-> > > >         spin_lock(&zswap_shrink_lock);
-> > > >         if (zswap_next_shrink =3D=3D memcg) {
-> > > >                 do {
-> > > >                         zswap_next_shrink =3D mem_cgroup_iter(NULL,
-> > > >                                         zswap_next_shrink, NULL);
-> > > >                         spin_unlock(&zswap_shrink_lock);
-> > > >                         spin_lock(&zswap_shrink_lock);
-> > > >                         if (!zswap_next_shrink)
-> > > >                                 break;
-> > > >                 } while (!mem_cgroup_online(zswap_next_shrink));
-> > > >         }
-> > > >         spin_unlock(&zswap_shrink_lock);
-> > > > }
-> > > > ```
-> > >
-> > > Is the idea here to avoid moving the iterator to another offline memc=
-g
-> > > that zswap_memcg_offline_cleanup() was already called for, to avoid
-> > > holding a ref on that memcg until the next run of zswap shrinking?
-> > >
-> > > If yes, I think it's probably worth doing. But why do we need to
-> > > release and reacquire the lock in the loop above?
-> >
-> > Yes, the existing cleaner might leave the offline, already-cleaned memc=
-g.
-> >
-> > The reacquiring lock is to not loop inside the critical section.
-> > In shrink_worker of v0 patch, the loop was restarted on offline memcg
-> > without releasing the lock. Nhat pointed out that we should drop the
-> > lock after every mem_cgroup_iter() call. v1 was changed to reacquire
-> > once per iteration like the cleaner code above.
->
-> I am not sure how often we'll run into a situation where we'll be
-> holding the lock for too long tbh. It should be unlikely to keep
-> encountering offline memcgs for a long time.
->
-> Nhat, do you think this could cause a problem in practice?
+On Thu, 2024-06-13 at 09:39 -0500, David Lechner wrote:
+> On 6/13/24 9:18 AM, Krzysztof Kozlowski wrote:
+> > On 13/06/2024 15:57, David Lechner wrote:
+> > >=20
+> > > >=20
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: =
+adi,ad4695
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - items:
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: =
+adi,ad4697-wlcsp
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: =
+adi,ad4697
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # same chips with higher max samp=
+le rate
+> > >=20
+> > > I suppose one could make the argument that the programming model is
+> > > the same on these too, but the maximum sampling frequency does seem
+> > > like an important bit of information so that you don't try to set
+> > > the conversion trigger rate too high.
+> > >=20
+> >=20
+> > which property is that? I don't see differences in the driver, so I
+> > don't get how these wlcsp compatibles allow you to control value of
+> > conversion trigger.
+>=20
+> This comment is unrelated to the package type (WLCSP or LFCSP).
+>=20
+> What I mean is that e.g. AD4695 and AD4696 are virtually identical
+> other than the maximum allowable sample rate (500 kSPS or 1 MSPS).
+>=20
+> So my thinking was that it would make sense to have:
+>=20
+> 	compatible =3D "ad4695";
+>=20
+> for the lower sample rate chip and
+>=20
+> 	compatible =3D "ad4696", "ad4695";
+>=20
+> for the higher sample rate chip since ad4696 can do everything
+> that ad4695 does plus a bit more.
+>=20
 
-I don't remember prescribing anything to be honest :) I think I was
-just asking why can't we just drop the lock, then "continue;". This is
-mostly for simplicity's sake.
+IMO, that would make sense yes. If the higher sample rate chip fallsback, i=
+t will
+still work but not at full speed. The other way around is the one that we c=
+an't allow
+naturally.
 
-https://lore.kernel.org/linux-mm/CAKEwX=3DMwrRc43iM2050v5u-TPUK4Yn+a4G7+h6i=
-eKhpQ7WtQ=3DA@mail.gmail.com/
+But possibly dumb question now... since both devices will be supported at t=
+he same
+time, do we actually care about having the fallback compatible? My understa=
+nding of
+the fallback story is that we may load a DTS in an older kernel where chip =
+A is
+supported but chip B is not and it is ok for chip B to fallback to chip A. =
+Since
+these devices will be supported at the same time, do we need to care? Unles=
+s out of
+tree stuff enters the equation?
 
-But I think as Takero pointed out, it would still skip over the memcg
-that was (concurrently) updated to zswap_next_shrink by the memcg
-offline callback.
+Or is there another usecase that I'm not aware about (or maybe it just make=
+s sense to
+document properly...)?
+
+- Nuno S=C3=A1
+>=20
+
