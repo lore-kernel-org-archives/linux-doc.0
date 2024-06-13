@@ -1,65 +1,66 @@
-Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02FB614A622
-	for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2024 18:11:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47B161482E9
+	for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2024 18:16:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718302305; cv=none; b=pprxVG+qwwM713pQUWcRSxdlyE6G1mEYdWRiSLHW4plgw3eJAphe5Ud4joQqI3C2Oaq45+7zD+6OkOlYyNNL9CxQtDU09JXg6S2yQVYyGF/oz6dkP4NG9OJ5MX6ndTzaziZyi05o3IBIt5oO8V3xyxo69nzB43oymp0Sm6sIfy4=
+	t=1718302585; cv=none; b=ku3vNkO6InaV8JWaZKUkPo2CB6JeXS0ahczOAa75i74Lmug/jYzHl80pMKesLJTpVoxubUT6p5YJhKZIZ0ai3D040KRBxyrW+6szICmnSqOIeZHar5WZb89kXw9ou1lGl5n2xNp38yVWnsObJ1npmd11bgeLKq0NVS69NNAeW/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718302305; c=relaxed/simple;
-	bh=Uu68SQerv1eT74j5km+BfiY4zyB89y2nPa1tlbQp+kI=;
+	s=arc-20240116; t=1718302585; c=relaxed/simple;
+	bh=VMV5npPvx2LlJ/v0Vts5oDRx4jTMhD7qJPkKX8wCExc=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=G+pAxXTpqHK4svbz415pWXeEoeqEE9fKNfBndOIPWZEzdcT5YVJh3/c4smgz0EluEMkNPuNhEp84/QdvXd87/qRdv9CaGr9nB5xQ2LSX+QmjLP9j7/eqbbn5Z7zLhUXEEYB3jN9Ll7s5bkmaTBocaDErnhSVrTYGjZGCz992dTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=g7UtXrQm; arc=none smtp.client-ip=209.85.210.201
+	 To:Cc:Content-Type; b=dquCKiCTSWeAeDjw0xuZaY5cECvE6hKk0l4fvfN3ANAdC21rsyZP+FaFDAZsfOMKHNGfpZx8G8Fgh9vnCfBrJQaJDfo3vylu9JegdNSsScFSjWXAF6m0n1wYfz9me+91YUOdWc46RBuYLiAirT8vmMUgdZRgME1BCMGgIKMzuC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MHTItqr0; arc=none smtp.client-ip=209.85.219.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="g7UtXrQm"
-Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-7043008f4beso1106671b3a.2
-        for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2024 11:11:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MHTItqr0"
+Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-dfdddb9b425so2618095276.2
+        for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2024 11:16:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718302303; x=1718907103; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1718302583; x=1718907383; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Gk7J+8BbLxtOtkAajMM7yjvy9BH01Nbjlz3KRlct3ug=;
-        b=g7UtXrQm37ym/wAOavx/bPMBWS7ssUaYMUDUwpr+tR/XZdGaOER/npNTx2JrRc9n0w
-         RI2Jp74o9jAAAeIk2iRi/7U58jINPT+Mv9Yo2OVG8zr6MQKm7QIzejEY9+SRwGALcFyt
-         29LA80kFZ5Xq+vf75Yp9wSAGzmZ52OH9Vau+QlCT22m2xCYAAfacgcV9o9MEBcN2YRoj
-         m5lwH2AUeuQ1uzJGaaL6gwhb9DOW+VDwNyLUvmcATZvZD0mV7WWlIX+1tetA1oaC3CFs
-         a8zF0bm9Y5pQYKusS8FxwGOyYW5vGL2WrQEgoTKWf2uId48sPDhH/Kqij/i+vROuTiGb
-         UYiA==
+        bh=HubYKewLWWkCbdNX6Kwg7NPcQhWO6deKo+vfavaox7o=;
+        b=MHTItqr0GeqGwp1JpLq43jq01LcN4VRBo2IuHaYCbElbTmbcu5vo21tyGQ760OpBDe
+         OwPuKRcDxssUN6/U7pCNfsCzweWVCBgbPITtOsGghjEBpNiJ6zxif7+qbE5C7pnT6FWe
+         yZTOAtnKzMWzuRnlDAaMZlHblH6S5X4Pb5YStYpK+YW8DF+QY0F4xUNxH6QZuxKp3BuM
+         0u+RDEWMzylCRj9KJhXUUeuKmS5eG8BhS5XLRVWfMbwDiBQz2EILzMdcs1ZF67rylWOp
+         5kLP15leUAqStIXqFuEn32fvJU0Wtn2Ex7K04SWC4PN2Dc4OmcYyZEi4sfdBlsKDuQzp
+         mCXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718302303; x=1718907103;
+        d=1e100.net; s=20230601; t=1718302583; x=1718907383;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Gk7J+8BbLxtOtkAajMM7yjvy9BH01Nbjlz3KRlct3ug=;
-        b=MTzl700SbgIfdO4fI8PuTw3+GslWBeD/xKmN0xc/8LkpqYbHGMXwdgEJHJRLeg2RtA
-         tdELTv9qVeZcpz6w8e0NgO0J3N7DWV81sxN0fl2xW525FM6OnAtMi7gObr/nRD4tVGJN
-         gBpKmi0+iwIR/CjvJ0Gj0HxLW3I16biTnF+OHw9hO/W3NeiPJ6mOYSMIevc0XhHVoMi+
-         kV6pOIaTU/MbobCv9Ui4bysoRd/fo2H18ria2WTor26D5PocG8fI0N6Uv1Ohc+Dm/ADR
-         MV3JAL1CnsYt0Eifh75CSL57Do4HSx81+ec4mVsuYanQJ9EnR0ysJuTZFDNot4T7KrMX
-         VJyA==
-X-Forwarded-Encrypted: i=1; AJvYcCU54uVgy4f2YaQY38WYmkE1XlTEeVS5FwlPXH46sQ65bREDKf0Q0pTOqglXYb/V30mTpCwssgJCgOiaXn/uPDlG4pO8QVSq+BLC
-X-Gm-Message-State: AOJu0Yz+DNLSPv/Wb8zXel7smGNulo18TmHfBOzVFU8rU9Ro3xtvyhzW
-	1mz39vklCg3Bch46zDcGiV4+5l4kF6bCtMEevZ5e8p+MAn6YcdarjwxHC016hn90AnotutEQd2n
-	RWA==
-X-Google-Smtp-Source: AGHT+IGpMP0YQDlOCYIQIVWZSRBk825/2I3DscRy5g+RvmAsPoOTYF5t3/qW64MoZp/92K3S7nX8p21Z3KE=
+        bh=HubYKewLWWkCbdNX6Kwg7NPcQhWO6deKo+vfavaox7o=;
+        b=six6LcwP7oA4TtZariezZNe1gDDsHRcy0/gPaTA1tqHO2YKu7L9zIHAiYy3bkK0y23
+         RxuyalqoR9p3h32ofl3m/Ccb5eJg0s/GnEMKApbTmV3k3FKFVsEQ7OWrbck4gQSuccD7
+         jCm3lzufpbncAKmMJcrRFz6qKHYZFZ6/D1bKE4MCdTaf7FgqvpOsPiSaGJQdFk2KaYjF
+         Pt1Eo5jdOYDe3jcP+TsiqdgS4uPxP5VGMg5wqNo53dKQiARYy2QprDGdcbR5PkhYRG+P
+         VvzS07cZXxSXDVLGZajXRM5u727CqEV4S5uiJi3jeYAJevb9928HJUToansiz14+dapo
+         BS7g==
+X-Forwarded-Encrypted: i=1; AJvYcCVKMAEVoEVk3SPncjWtpp8S58WxToTLIvRcs41TzzbAufln4XxT8yU0tRyYrSsFVjeucsnbVAwArU0hMFdhfugMwOcq8OMilc1R
+X-Gm-Message-State: AOJu0YwQExGCDAwxyEcOkBOyfeKpdoBIiLuhKs4c282WqzozC3QsxmnS
+	NeuLsAFJvZgQTvi55k5hIydBoc6B5XzWYb90mOhJDQwUd/KlbYRLYLfvVeDJsvDo9urc38Swgvn
+	idg==
+X-Google-Smtp-Source: AGHT+IEpFkCu5iSBXcf5Bl0AwgjGARJpjeA/2ZZwxq9LggA19KheODvNkc7FkwL6B4GvsjAsggv5UiEcpBo=
 X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:6a00:2da1:b0:705:d750:83f4 with SMTP id
- d2e1a72fcca58-705d7508823mr1219b3a.3.1718302303033; Thu, 13 Jun 2024 11:11:43
- -0700 (PDT)
-Date: Thu, 13 Jun 2024 11:11:41 -0700
-In-Reply-To: <20240207172646.3981-18-xin3.li@intel.com>
+ (user=seanjc job=sendgmr) by 2002:a05:6902:706:b0:dff:ee8:14d6 with SMTP id
+ 3f1490d57ef6-dff15454a8bmr84096276.10.1718302583316; Thu, 13 Jun 2024
+ 11:16:23 -0700 (PDT)
+Date: Thu, 13 Jun 2024 11:16:21 -0700
+In-Reply-To: <20240207172646.3981-19-xin3.li@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20240207172646.3981-1-xin3.li@intel.com> <20240207172646.3981-18-xin3.li@intel.com>
-Message-ID: <Zms2XcFS5Ve0XLUa@google.com>
-Subject: Re: [PATCH v2 17/25] KVM: nVMX: Add support for the secondary VM exit controls
+References: <20240207172646.3981-1-xin3.li@intel.com> <20240207172646.3981-19-xin3.li@intel.com>
+Message-ID: <Zms3dVgcuObZOwRR@google.com>
+Subject: Re: [PATCH v2 18/25] KVM: nVMX: Add a prerequisite to
+ SHADOW_FIELD_R[OW] macros
 From: Sean Christopherson <seanjc@google.com>
 To: Xin Li <xin3.li@intel.com>
 Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
@@ -71,43 +72,99 @@ Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
 Content-Type: text/plain; charset="us-ascii"
 
 On Wed, Feb 07, 2024, Xin Li wrote:
-> @@ -6856,13 +6865,17 @@ static void nested_vmx_setup_exit_ctls(struct vmcs_config *vmcs_conf,
->  		VM_EXIT_HOST_ADDR_SPACE_SIZE |
->  #endif
->  		VM_EXIT_LOAD_IA32_PAT | VM_EXIT_SAVE_IA32_PAT |
-> -		VM_EXIT_CLEAR_BNDCFGS;
-> +		VM_EXIT_CLEAR_BNDCFGS | VM_EXIT_ACTIVATE_SECONDARY_CONTROLS;
->  	msrs->exit_ctls_high |=
->  		VM_EXIT_ALWAYSON_WITHOUT_TRUE_MSR |
->  		VM_EXIT_LOAD_IA32_EFER | VM_EXIT_SAVE_IA32_EFER |
->  		VM_EXIT_SAVE_VMX_PREEMPTION_TIMER | VM_EXIT_ACK_INTR_ON_EXIT |
->  		VM_EXIT_LOAD_IA32_PERF_GLOBAL_CTRL;
+> @@ -32,48 +32,48 @@ BUILD_BUG_ON(1)
+>   */
 >  
-> +	/* secondary exit controls */
+>  /* 16-bits */
+> -SHADOW_FIELD_RW(GUEST_INTR_STATUS, guest_intr_status)
+> -SHADOW_FIELD_RW(GUEST_PML_INDEX, guest_pml_index)
+> -SHADOW_FIELD_RW(HOST_FS_SELECTOR, host_fs_selector)
+> -SHADOW_FIELD_RW(HOST_GS_SELECTOR, host_gs_selector)
+> +SHADOW_FIELD_RW(GUEST_INTR_STATUS, guest_intr_status, cpu_has_vmx_apicv())
+> +SHADOW_FIELD_RW(GUEST_PML_INDEX, guest_pml_index, cpu_has_vmx_pml())
+> +SHADOW_FIELD_RW(HOST_FS_SELECTOR, host_fs_selector, true)
+> +SHADOW_FIELD_RW(HOST_GS_SELECTOR, host_gs_selector, true)
+>  
+>  /* 32-bits */
+> -SHADOW_FIELD_RO(VM_EXIT_REASON, vm_exit_reason)
+> -SHADOW_FIELD_RO(VM_EXIT_INTR_INFO, vm_exit_intr_info)
+> -SHADOW_FIELD_RO(VM_EXIT_INSTRUCTION_LEN, vm_exit_instruction_len)
+> -SHADOW_FIELD_RO(IDT_VECTORING_INFO_FIELD, idt_vectoring_info_field)
+> -SHADOW_FIELD_RO(IDT_VECTORING_ERROR_CODE, idt_vectoring_error_code)
+> -SHADOW_FIELD_RO(VM_EXIT_INTR_ERROR_CODE, vm_exit_intr_error_code)
+> -SHADOW_FIELD_RO(GUEST_CS_AR_BYTES, guest_cs_ar_bytes)
+> -SHADOW_FIELD_RO(GUEST_SS_AR_BYTES, guest_ss_ar_bytes)
+> -SHADOW_FIELD_RW(CPU_BASED_VM_EXEC_CONTROL, cpu_based_vm_exec_control)
+> -SHADOW_FIELD_RW(PIN_BASED_VM_EXEC_CONTROL, pin_based_vm_exec_control)
+> -SHADOW_FIELD_RW(EXCEPTION_BITMAP, exception_bitmap)
+> -SHADOW_FIELD_RW(VM_ENTRY_EXCEPTION_ERROR_CODE, vm_entry_exception_error_code)
+> -SHADOW_FIELD_RW(VM_ENTRY_INTR_INFO_FIELD, vm_entry_intr_info_field)
+> -SHADOW_FIELD_RW(VM_ENTRY_INSTRUCTION_LEN, vm_entry_instruction_len)
+> -SHADOW_FIELD_RW(TPR_THRESHOLD, tpr_threshold)
+> -SHADOW_FIELD_RW(GUEST_INTERRUPTIBILITY_INFO, guest_interruptibility_info)
+> -SHADOW_FIELD_RW(VMX_PREEMPTION_TIMER_VALUE, vmx_preemption_timer_value)
+> +SHADOW_FIELD_RO(VM_EXIT_REASON, vm_exit_reason, true)
+> +SHADOW_FIELD_RO(VM_EXIT_INTR_INFO, vm_exit_intr_info, true)
+> +SHADOW_FIELD_RO(VM_EXIT_INSTRUCTION_LEN, vm_exit_instruction_len, true)
+> +SHADOW_FIELD_RO(VM_EXIT_INTR_ERROR_CODE, vm_exit_intr_error_code, true)
+> +SHADOW_FIELD_RO(IDT_VECTORING_INFO_FIELD, idt_vectoring_info_field, true)
+> +SHADOW_FIELD_RO(IDT_VECTORING_ERROR_CODE, idt_vectoring_error_code, true)
+> +SHADOW_FIELD_RO(GUEST_CS_AR_BYTES, guest_cs_ar_bytes, true)
+> +SHADOW_FIELD_RO(GUEST_SS_AR_BYTES, guest_ss_ar_bytes, true)
+> +SHADOW_FIELD_RW(CPU_BASED_VM_EXEC_CONTROL, cpu_based_vm_exec_control, true)
+> +SHADOW_FIELD_RW(PIN_BASED_VM_EXEC_CONTROL, pin_based_vm_exec_control, true)
+> +SHADOW_FIELD_RW(EXCEPTION_BITMAP, exception_bitmap, true)
+> +SHADOW_FIELD_RW(VM_ENTRY_EXCEPTION_ERROR_CODE, vm_entry_exception_error_code, true)
+> +SHADOW_FIELD_RW(VM_ENTRY_INTR_INFO_FIELD, vm_entry_intr_info_field, true)
+> +SHADOW_FIELD_RW(VM_ENTRY_INSTRUCTION_LEN, vm_entry_instruction_len, true)
+> +SHADOW_FIELD_RW(TPR_THRESHOLD, tpr_threshold, true)
+> +SHADOW_FIELD_RW(GUEST_INTERRUPTIBILITY_INFO, guest_interruptibility_info, true)
+> +SHADOW_FIELD_RW(VMX_PREEMPTION_TIMER_VALUE, vmx_preemption_timer_value, cpu_has_vmx_preemption_timer())
+>  
+>  /* Natural width */
+> -SHADOW_FIELD_RO(EXIT_QUALIFICATION, exit_qualification)
+> -SHADOW_FIELD_RO(GUEST_LINEAR_ADDRESS, guest_linear_address)
+> -SHADOW_FIELD_RW(GUEST_RIP, guest_rip)
+> -SHADOW_FIELD_RW(GUEST_RSP, guest_rsp)
+> -SHADOW_FIELD_RW(GUEST_CR0, guest_cr0)
+> -SHADOW_FIELD_RW(GUEST_CR3, guest_cr3)
+> -SHADOW_FIELD_RW(GUEST_CR4, guest_cr4)
+> -SHADOW_FIELD_RW(GUEST_RFLAGS, guest_rflags)
+> -SHADOW_FIELD_RW(CR0_GUEST_HOST_MASK, cr0_guest_host_mask)
+> -SHADOW_FIELD_RW(CR0_READ_SHADOW, cr0_read_shadow)
+> -SHADOW_FIELD_RW(CR4_READ_SHADOW, cr4_read_shadow)
+> -SHADOW_FIELD_RW(HOST_FS_BASE, host_fs_base)
+> -SHADOW_FIELD_RW(HOST_GS_BASE, host_gs_base)
+> +SHADOW_FIELD_RO(EXIT_QUALIFICATION, exit_qualification, true)
+> +SHADOW_FIELD_RO(GUEST_LINEAR_ADDRESS, guest_linear_address, true)
+> +SHADOW_FIELD_RW(GUEST_RIP, guest_rip, true)
+> +SHADOW_FIELD_RW(GUEST_RSP, guest_rsp, true)
+> +SHADOW_FIELD_RW(GUEST_CR0, guest_cr0, true)
+> +SHADOW_FIELD_RW(GUEST_CR3, guest_cr3, true)
+> +SHADOW_FIELD_RW(GUEST_CR4, guest_cr4, true)
+> +SHADOW_FIELD_RW(GUEST_RFLAGS, guest_rflags, true)
+> +SHADOW_FIELD_RW(CR0_GUEST_HOST_MASK, cr0_guest_host_mask, true)
+> +SHADOW_FIELD_RW(CR0_READ_SHADOW, cr0_read_shadow, true)
+> +SHADOW_FIELD_RW(CR4_READ_SHADOW, cr4_read_shadow, true)
+> +SHADOW_FIELD_RW(HOST_FS_BASE, host_fs_base, true)
+> +SHADOW_FIELD_RW(HOST_GS_BASE, host_gs_base, true)
+>  
+>  /* 64-bit */
+> -SHADOW_FIELD_RO(GUEST_PHYSICAL_ADDRESS, guest_physical_address)
+> -SHADOW_FIELD_RO(GUEST_PHYSICAL_ADDRESS_HIGH, guest_physical_address)
+> +SHADOW_FIELD_RO(GUEST_PHYSICAL_ADDRESS, guest_physical_address, true)
+> +SHADOW_FIELD_RO(GUEST_PHYSICAL_ADDRESS_HIGH, guest_physical_address, true)
 
-Drop the comment, it's pretty obvious what field is being setup.
+This is not a net postive for readability or maintability.  I don't hate the
+idea, it just needs MOAR MACROs :-)  E.g. add a layer for the common case where
+the field unconditionally exists.
 
-> +	if (msrs->exit_ctls_high & VM_EXIT_ACTIVATE_SECONDARY_CONTROLS)
-> +		rdmsrl(MSR_IA32_VMX_EXIT_CTLS2, msrs->secondary_exit_ctls);
+#ifndef __SHADOW_FIELD_RO
+#define __SHADOW_FIELD_RO(x, y, c)
+#endif
+#ifndef __SHADOW_FIELD_RW
+#define __SHADOW_FIELD_RW(x, y, c)
+#endif
 
-This is wrong, the resulting msrs->secondary_exit_ctls needs to be sanitized
-based on what KVM supports for nVMX.
-
-On a very related topic, this should not do a raw RDMSR.  One of the reasons why
-KVM uses vmcs_config as the base is to avoid advertising features to L1 that KVM
-itself doesn't support, e.g. because the expected entry+exit pairs aren't
-supported.
-
-And by pulling state from vmcs_conf->secondary_exit_ctls there's no need to check
-the activation bit.
-
-I.e. literaly just this:
-
-	msrs->secondary_exit_ctls = vmcs_conf->secondary_exit_ctls;
-	msrs->secondary_exit_ctls &= 0;
-
-and then when nVMX FRED support is ready, it becomes:
-
-	msrs->secondary_exit_ctls = vmcs_conf->secondary_exit_ctls;
-	msrs->secondary_exit_ctls &= SECONDARY_VM_EXIT_SAVE_IA32_FRED |
-				     SECONDARY_VM_EXIT_LOAD_IA32_FRED;
+#define SHADOW_FIELD_RO(x, y) __SHADOW_FIELD_RO(x, y, true)
+#define SHADOW_FIELD_RW(x, y) __SHADOW_FIELD_RW(x, y, true)
