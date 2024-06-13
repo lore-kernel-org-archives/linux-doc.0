@@ -1,140 +1,121 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483F114EC5E
-	for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2024 19:18:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3817814C583;
+	Thu, 13 Jun 2024 19:43:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718306285; cv=none; b=VNcsPzrs64/Z02n78cHVscLj7wCMK8DF1RdJTZvYg/l/ci6pqEWdhe6iR5XbglbS1qJlZ7qi5mNcebAs5/9nhDDum6sKaKiUgf2mrqD8tfuD+VC2S/11Ofz9JgiUHV4RARKJUuOSU+Pe4Yy8ENKKH2714Fgz5IMfgQVC742+MhY=
+	t=1718307806; cv=none; b=L8PfqO7Jw8WWJj2ComnHeIRbn0Hp7POQLjgXWbLUU37ibyxsdpA1hJG/1PHQg2gHo74qZOFLzCIjZftOy2fRty+wkhj3jdd07DXV09hZFXF/7mUQntw7V/XODn2obNXhH1iWdvTSTrvRGkL6aT6NUGCVtldobns6Vsy6L6+Zx84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718306285; c=relaxed/simple;
-	bh=ce4Q/NufruI5urXZ7chvDXPvs3yC6pJfyCeEUEbRjjk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JOg8umUfljIz8D9FWS6KIvJP6x0acYU17PgxAykxbvaXmCfgtrm0PhCCCgTV9XGyrbX+XUTjZH+ADrUQ9SvTK0KVozxgJBRZ8UuFNiHfGAE59WgYy2QyShGVxcs99FMQ5OGRvD3nNV4rOEABpfLRDxpu1oSyi6sRgjr9ohjtHN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=w/JZTemT; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1718307806; c=relaxed/simple;
+	bh=3qzuHXwUXJC4kkCUpeSCcm2xbDApMYoDwGK0LWJk20E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l8J/T4BPSt1CzvAk3J8YXMT3AkyL5qT25VjLJh932eiC6JRXbYd8/7BXbeYo6Y2yIKh8afnVTTvwnefzPIavUU627fc9wWBLCpyPb6Cb2nu82Cbqb6YYjq8Hw5GGkwIVrlrRRnN1MphxslwWA3aw0NF9Oi+1a1mEmkS9klkSmGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p3HiMHlO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="w/JZTemT"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1f717608231so11061235ad.2
-        for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2024 12:18:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1718306283; x=1718911083; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lznOWuT3zuZ+7YZNo94Ic++y7Z2ydYmmMFGw8gZ0Wmk=;
-        b=w/JZTemTCsVzzfSSQW90F/em0dnvxk8R6ksBQaHsAgHtVW9M9LF+b02MOkkRdhEpVI
-         Z8GearT0rh/SIqS+PRTgSuV0c85/xcM1PUeLyBnd55rKxU1xSxZaj9SpIbHsQJvmH58+
-         DT0LkLOvYp+mqxcuD+Vl5A6SVKdd2GC4PVDf84QIh0KjDelGTb/Lwkb0sQ/XqmrlDgeb
-         unA8eUQ9iLFDlWTvkrmu3gAHDBCSYFdEU3fiUPvw3S95P+3U2vvYpnNp98ztN63dXx42
-         l8oos9WUytiefc/YPXM1Lc+V4wsPBH3v3bzHeUNwdETi8EhQ6yQDx86jxt/TiYj0bhT6
-         0m6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718306283; x=1718911083;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lznOWuT3zuZ+7YZNo94Ic++y7Z2ydYmmMFGw8gZ0Wmk=;
-        b=ICpKjDf1XFBrarW/M3AbKYF5iH7ywthNBUt0QDISbRRO/bsaCGzYA72coTG4TjvvPA
-         nvxHBK4VZTIpm0batDQPkjuhLwEilx5K2uAITMq+Z5HX9WLl0sL49M0Rulk3QEmtXxgQ
-         +tdCCiIeXUHSvHr6ecvD39QGaFyEI/B5Rd7rUzovU6Xi1CA/6wAKgTOKWCuySaETPm3d
-         rxOnzDKUTQAOdlTVgDhJKsUuQi8dDfkI+GOwvHRhCXI2SjNTLPwIfhzfTM8hcETY5ZXt
-         th8NU11QS0Wno6ro8WBRw/256x9rj0ytmyfoQE4JvhdfSz+RvGUqt0/MivhIs01Qg6vk
-         MLyA==
-X-Forwarded-Encrypted: i=1; AJvYcCWzbaIMWoPL0o6VgfHFantcdsVyDChI8VB/Bw+AEjeNaiQFyiFmZGkzZ4f8WnMED4n7nxCotRkADu1v9ffcRQ/pqPK7D7x4fyKw
-X-Gm-Message-State: AOJu0YzUVV1rrd56wxFGhoFAVYiJy72C4Dtzs2aMLz+ENScXj1IObG9Z
-	TPHZSE/lMUr6kmQD5IXY2zZyaYXiS6VQAvdiw8EKM9aXOgGxFelQbIqGoiKNrL8=
-X-Google-Smtp-Source: AGHT+IH16Z30xWnnVCPD+SWE8CuZmhFACgLpQTZU9/kCBeM9FuPyEaJYp2X2ogoYFLKkXmxabg3ZrQ==
-X-Received: by 2002:a17:902:f68b:b0:1f7:1706:25ba with SMTP id d9443c01a7336-1f8625cf2b0mr6158425ad.15.1718306283241;
-        Thu, 13 Jun 2024 12:18:03 -0700 (PDT)
-Received: from jesse-desktop.. (pool-108-26-179-17.bstnma.fios.verizon.net. [108.26.179.17])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855e7ca78sm17471015ad.106.2024.06.13.12.17.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jun 2024 12:18:02 -0700 (PDT)
-From: Jesse Taube <jesse@rivosinc.com>
-To: linux-riscv@lists.infradead.org
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p3HiMHlO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AF99C2BBFC;
+	Thu, 13 Jun 2024 19:43:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718307805;
+	bh=3qzuHXwUXJC4kkCUpeSCcm2xbDApMYoDwGK0LWJk20E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=p3HiMHlOXnYU2dP9n7a5VV3QwL33dfCFvq8F5qed1A0yQ0wCsuNDwTPHTPsnluh1b
+	 pYKFSG5MTvUuqHvib2wAw+VOgRO398l/34dMk0SzbPAGmxN5K/qmeIBldxvoIeuz6t
+	 AQU+rZBFAuksis+xsm/9mOu+NZSFd6Nxfwb2dHFT9mK448l4f79UlMn8bjKVJS0i27
+	 6dfqM18+vgpUmfsh1MxuvPB9t7lLNNEp0CrKlxpiE1SpDG9fUblOmD74AS2e3gdwxX
+	 ieI7j3MWHhUUB+QdUal6Vc6vTtDEeuze30Z71qF7ZzeD2bUVYiBGyDwdRKwLmCZNit
+	 yx1NZK8jbAJUA==
+Date: Thu, 13 Jun 2024 13:43:24 -0600
+From: Rob Herring <robh@kernel.org>
+To: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+Cc: David Lechner <dlechner@baylibre.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	=?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
-	Evan Green <evan@rivosinc.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Jesse Taube <jesse@rivosinc.com>,
-	Charlie Jenkins <charlie@rivosinc.com>,
-	Xiao Wang <xiao.w.wang@intel.com>,
-	Andy Chiu <andy.chiu@sifive.com>,
-	Eric Biggers <ebiggers@google.com>,
-	Greentime Hu <greentime.hu@sifive.com>,
-	=?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@rivosinc.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Costa Shulyupin <costa.shul@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Baoquan He <bhe@redhat.com>,
-	Anup Patel <apatel@ventanamicro.com>,
-	Zong Li <zong.li@sifive.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Ben Dooks <ben.dooks@codethink.co.uk>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Erick Archer <erick.archer@gmx.com>,
-	Joel Granados <j.granados@samsung.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH v2 6/6] RISC-V: hwprobe: Document unaligned vector perf key
-Date: Thu, 13 Jun 2024 15:16:15 -0400
-Message-ID: <20240613191616.2101821-7-jesse@rivosinc.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240613191616.2101821-1-jesse@rivosinc.com>
-References: <20240613191616.2101821-1-jesse@rivosinc.com>
+	Conor Dooley <conor+dt@kernel.org>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: iio: adc: add AD4695 and similar ADCs
+Message-ID: <20240613194324.GA2352022-robh@kernel.org>
+References: <20240612-iio-adc-ad4695-v1-0-6a4ed251fc86@baylibre.com>
+ <20240612-iio-adc-ad4695-v1-1-6a4ed251fc86@baylibre.com>
+ <94448c2c-e7b2-4191-858c-529b254994f1@kernel.org>
+ <f765ef30-a777-4dfc-8f93-0f15b46f91ae@baylibre.com>
+ <e09fecf4-bde2-4feb-8312-22c530c6a960@kernel.org>
+ <b6b52b1e-847b-44ca-87f9-095a78164771@baylibre.com>
+ <5f0776ba5163578453e26352763ff1b4687bcf87.camel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <5f0776ba5163578453e26352763ff1b4687bcf87.camel@gmail.com>
 
-Document key for reporting the speed of unaligned vector accesses.
-The descriptions are the same as the scalar equivalent values.
+On Thu, Jun 13, 2024 at 05:11:48PM +0200, Nuno Sá wrote:
+> On Thu, 2024-06-13 at 09:39 -0500, David Lechner wrote:
+> > On 6/13/24 9:18 AM, Krzysztof Kozlowski wrote:
+> > > On 13/06/2024 15:57, David Lechner wrote:
+> > > > 
+> > > > > 
+> > > > > > +          - const: adi,ad4695
+> > > > > > +      - items:
+> > > > > > +          - const: adi,ad4697-wlcsp
+> > > > > > +          - const: adi,ad4697
+> > > > > > +      # same chips with higher max sample rate
+> > > > 
+> > > > I suppose one could make the argument that the programming model is
+> > > > the same on these too, but the maximum sampling frequency does seem
+> > > > like an important bit of information so that you don't try to set
+> > > > the conversion trigger rate too high.
+> > > > 
+> > > 
+> > > which property is that? I don't see differences in the driver, so I
+> > > don't get how these wlcsp compatibles allow you to control value of
+> > > conversion trigger.
+> > 
+> > This comment is unrelated to the package type (WLCSP or LFCSP).
+> > 
+> > What I mean is that e.g. AD4695 and AD4696 are virtually identical
+> > other than the maximum allowable sample rate (500 kSPS or 1 MSPS).
+> > 
+> > So my thinking was that it would make sense to have:
+> > 
+> > 	compatible = "ad4695";
+> > 
+> > for the lower sample rate chip and
+> > 
+> > 	compatible = "ad4696", "ad4695";
+> > 
+> > for the higher sample rate chip since ad4696 can do everything
+> > that ad4695 does plus a bit more.
+> > 
+> 
+> IMO, that would make sense yes. If the higher sample rate chip fallsback, it will
+> still work but not at full speed. The other way around is the one that we can't allow
+> naturally.
+> 
+> But possibly dumb question now... since both devices will be supported at the same
+> time, do we actually care about having the fallback compatible? My understanding of
+> the fallback story is that we may load a DTS in an older kernel where chip A is
+> supported but chip B is not and it is ok for chip B to fallback to chip A. Since
+> these devices will be supported at the same time, do we need to care? Unless out of
+> tree stuff enters the equation?
 
-Signed-off-by: Jesse Taube <jesse@rivosinc.com>
----
-V1 -> V2:
-  - New patch
----
- Documentation/arch/riscv/hwprobe.rst | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+Yeah, it doesn't really matter much in that case.
 
-diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-index 7085a694b801..344bea1e21bd 100644
---- a/Documentation/arch/riscv/hwprobe.rst
-+++ b/Documentation/arch/riscv/hwprobe.rst
-@@ -236,3 +236,19 @@ The following keys are defined:
- 
- * :c:macro:`RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE`: An unsigned int which
-   represents the size of the Zicboz block in bytes.
-+
-+* :c:macro:`RISCV_HWPROBE_KEY_VEC_MISALIGNED_PERF`: An enum value describing the
-+  performance of misaligned vector accesses on the selected set of processors.
-+
-+  * :c:macro:`RISCV_HWPROBE_VEC_MISALIGNED_UNKNOWN`: The performance of misaligned
-+    accesses is unknown.
-+
-+  * :c:macro:`RISCV_HWPROBE_VEC_MISALIGNED_SLOW`: Misaligned accesses are slower
-+    than equivalent byte accesses.  Misaligned accesses may be supported
-+    directly in hardware, or trapped and emulated by software.
-+
-+  * :c:macro:`RISCV_HWPROBE_VEC_MISALIGNED_FAST`: Misaligned accesses are faster
-+    than equivalent byte accesses.
-+
-+  * :c:macro:`RISCV_HWPROBE_VEC_MISALIGNED_UNSUPPORTED`: Misaligned accesses are
-+    not supported at all and will generate a misaligned address fault.
--- 
-2.43.0
+> Or is there another usecase that I'm not aware about (or maybe it just makes sense to
+> document properly...)?
 
+Somewhat I guess. Perhaps if there's a 3rd chip with higher rate, then 
+it will be more obvious what to do and we don't have to have this 
+discussion again for it. :)
+
+Rob
