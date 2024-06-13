@@ -1,55 +1,55 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E4B313DDD7
-	for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2024 08:27:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D018D84A24
+	for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2024 08:30:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718267280; cv=none; b=WMeOjJmaOpZoDHYz6o9480RpnbvBTi9zB+iVYeqaDF/KsiyMwKBrqlQq7zOpd9TAFJBVT94anQCIvZEBhL+mNrGZNhrnbA9kEqEYL1l8lbKvCJjQZr20fzg1tEnJBLWXRdRfieodR/gSi2Ydl3NKXSxuz4GNhZJlWqSPQNeYeV4=
+	t=1718267418; cv=none; b=B9Mmf8k3S1ZjteqkWKRjUiQ1OAZa9MpvrDvD14UIRW3cIVQvB02HS4tQDdxzI39WwRDdkfJGU2xN1OzsH5EF+Yygr22aA8GcPUGgqTx92zZN99do664UOS8hfA79F1WhA8C0NBWAHcAB6ASlUVGc7QxnoXxusRB0gYSZfbF+FC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718267280; c=relaxed/simple;
-	bh=kgwdFkT5jQVkbTkpifsZnVL3/ED3qR6JJb2HD5RT8aU=;
+	s=arc-20240116; t=1718267418; c=relaxed/simple;
+	bh=zam1WrTcB2a6hkMQ4oXaEjlytSYEYESNLp+E26hWmRs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=c77lZGheAnQ8A80emrzHGBNWgCNrz/I22aTAu5XYc9Pr9XRCcoy2c/VPJjaalLOo3mDdNEeJ7LMvZYy4DLBPSrMFqYf5NhEXdo4g+ULg76RkM4EB7xdrEjTra3ZgnxLVmxLPGRti9wGZmZMiXpH0kJ8AeW/fWr5RYh2N4/5aBww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uGRv3Xdo; arc=none smtp.client-ip=209.85.208.173
+	 To:Content-Type; b=Y1JGqt6MTflO5FJr0IXDlh9J+K+PeegVh8j28MA1z06CW8t2aPGr1fpdcev8PY37XFhWOLMARdnqF1K6/H+IAoSx5XlIRys+hDx7xPnSGCasmnm6mEfYM+lkLMbvy6LAxbakuYFDlHVGzVinQhnSlb9nCANsCxHoBTk5P6B/oek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=luL7cXI2; arc=none smtp.client-ip=209.85.208.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uGRv3Xdo"
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2eabd22d441so9940341fa.2
-        for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2024 01:27:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="luL7cXI2"
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2ebec2f11b7so6419951fa.2
+        for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2024 01:30:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1718267277; x=1718872077; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+        d=linaro.org; s=google; t=1718267415; x=1718872215; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kgwdFkT5jQVkbTkpifsZnVL3/ED3qR6JJb2HD5RT8aU=;
-        b=uGRv3XdoYYbiI7j635aKGfcIP0UtjnUKUzdm4386EtkGPl804e98RERXJXoqu1IZeK
-         XnTJFLPb+HCWj7Ldw4NhodFPQrJurzisZ5fO5PL1IqbeHg+DHPVYvgXNDA8jGxSxUyB1
-         8eyYMZ+qi3spfpUcJ9dAcovSnAES/h4FcrjwLX3hJ36LKMqpwA8NSVcsSHLrRQ2q3MeG
-         1787AZ3f43fnCX8nCUglolB+skffrqqNA9Ee3/wLhG77KPaSDF5w/r/VjUirX3qr6xND
-         ePrnug4ITFThi/EHSsn/+T2TLxsHEXDfNEseKF+O6pD0tPJ4COgnP3oH3Jnvud0sm6Sx
-         A+cQ==
+        bh=zam1WrTcB2a6hkMQ4oXaEjlytSYEYESNLp+E26hWmRs=;
+        b=luL7cXI2uXReVUpyONbENCMEi7I9yoLTix+iLnOkFpkrA/V4JUuAuSoDMGTWH1Wy8N
+         PXxa3LAa/kbSSZny2qmZ0mOJ/365zW4j+kBDKYhrfKvYdnLOAquY1TeRvlck0TZIEEvd
+         914TUsc+Yo+49WfyOo8o9uJDDa4P4ICEIPf6viBYg8XEJlqB9B7uz9b1IFEAuOw9NP8s
+         XYbCuPk9LtLmsYJxr1Zptm5KYjUbdL7ygzSLDedtaYLEvozmj/tnui8sORAT/7oJDapz
+         1Vp9IwKJkqnyKUzP9MT6v1sTZOfcukL9+XkROz6xIBXj0u96Ui3z/5LG4NLzuiMpZnI2
+         ZFEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718267277; x=1718872077;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+        d=1e100.net; s=20230601; t=1718267415; x=1718872215;
+        h=content-transfer-encoding:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kgwdFkT5jQVkbTkpifsZnVL3/ED3qR6JJb2HD5RT8aU=;
-        b=W+4SVlwUWI5zyYEyhckAPZsHUIhf1RlN5Lr4x/0S4c1CdNZPB8I3Asr79rIZDuT7aO
-         D9lWH/AgoDRaYxD9VKrd6kHVcmM3ekX7Os5pZXlNqAIxHITvbvE6LtkL/eu0qPzhWsHU
-         VWMkBmR9BnIJ+u6lpbNrPfvGMfW8pmL3Na0hY419YaH56kcSpI/JWYJ3gWc0zK5O/5lQ
-         otFkhjtC1m4DyoBcfoiKy/aUMSb3TrUL1NuKrtLwDmBX4y30KAtCtdEaHq9J4DdrNSPh
-         beZ76oRTDl4PITZ2pzqFDzS/k+Zjnq5rGvnGY6sBan6PGZ0uUYauFE7CYlyGNIgmAK/V
-         XReg==
-X-Forwarded-Encrypted: i=1; AJvYcCWsFhrW1RLzbMRDRjBEVC+l3hXuxxNeUD7/v332UqnofznMxyu3Zi8Pjg36cug1/3fDn+InvaKnlTTi+qDmlECMUsCAEnvBhhUk
-X-Gm-Message-State: AOJu0Yy5NTn9jYKhDgdxLLU+WKzpKHLOXCBkFL1O5J68N9mxLDP4MFmx
-	81XnHJ2Z0A1Ja82XPJwVLNwl1KsYzVVNdhm17OERuZh5y9wAe6zXUvd6yvP3BTgJeU9/D42mY+R
-	AaeAlltOS0AfVu/kfe3LNHH7IlihKyMNFfBk9hw==
-X-Google-Smtp-Source: AGHT+IG0JvsAd5xth/BC3tgv5lcQ9QX9U+ULp08rdR1sfnVOy3PCLMQDJg6DqKJ9H0ledN+9SoWOONpzWoG9MmPcd48=
-X-Received: by 2002:a2e:9b19:0:b0:2ea:e2d2:6231 with SMTP id
- 38308e7fff4ca-2ebfca34160mr32949851fa.33.1718267276747; Thu, 13 Jun 2024
- 01:27:56 -0700 (PDT)
+        bh=zam1WrTcB2a6hkMQ4oXaEjlytSYEYESNLp+E26hWmRs=;
+        b=OP+Hethc4NXHywcz21BTKIWrQpGZuubs8KaqpPgCxLOpKhwFHg8tHOaBeScF8NaJRo
+         Q5EIZr3laIwGTi48vv0CudP7sUD+EJEZhO8Evqt9TbFvYlZH+QR/5DH2QefaMiCAsndU
+         CnDdBYFKzfTz2u040sdydRmkbkfX2vExHGIyXxNq+kb9sTn42KHRNq9xwmBcZjvSLVVI
+         JA/2w6I7vplPQAa37K12CeAwZJ08tdmLkCYOi5POxJ+xfvsqMg7eXxejoC1/rVbbz6cH
+         GnVbfRqM3x9Ls6jATwhFF210sZLWyXx8aEnEAMOpZORqB3yg/G/0xJqYDU90LQ6adifq
+         spNg==
+X-Forwarded-Encrypted: i=1; AJvYcCWiPIXvMU5mpn//HFX6UBMAC5m7EyPoDU8nr9iy/qGfKYrq8bKX41Poo1A9tIcw09afHdcITBivBChnE4rdHtlpdGRDcO4OOJ6n
+X-Gm-Message-State: AOJu0YzfnvuOu1P7kcrF8LeaKPdOUe0gNlfxVN51ZGM/ERnxTTQPjEla
+	W5ca5QY3AqCYqfbWvBLuvR8oOR7QP/iFqaMeh7zBw5bNHLq7oLi93HNeUAJGEqqInPzSQNyZCdX
+	WLv/Ha3g0v+u7A6Z20PbeQsqE2Pzu7qgf40DfcA==
+X-Google-Smtp-Source: AGHT+IF9f/c3s4Qe7ACe43UALugVI7gRig0w/mlgAWUWAzqd6KqBUe7rTJtYZn5+66dcrw87a/NrWnfZ6ZkrDnaAHOg=
+X-Received: by 2002:a2e:9185:0:b0:2eb:e542:cab0 with SMTP id
+ 38308e7fff4ca-2ebfc9d020cmr22506241fa.14.1718267415106; Thu, 13 Jun 2024
+ 01:30:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -58,37 +58,40 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20240610112700.80819-1-wsa+renesas@sang-engineering.com>
  <20240610112700.80819-2-wsa+renesas@sang-engineering.com> <CAMRc=MfZ11U+kAh1+K=DxtJ=QL+cY7Q_sBN4sQDF-RNgjpV0QA@mail.gmail.com>
- <jvnvx7a4pn6evrp5ehfrt4qsiuprq6ogvrue2a3uupwtydmgcm@2rvat7ibvgb4> <CAMRc=Mc4__0zzJZG3BPnmbua88SLuEbX=Wk=EZnKH5HQvB+JPg@mail.gmail.com>
-In-Reply-To: <CAMRc=Mc4__0zzJZG3BPnmbua88SLuEbX=Wk=EZnKH5HQvB+JPg@mail.gmail.com>
+ <jvnvx7a4pn6evrp5ehfrt4qsiuprq6ogvrue2a3uupwtydmgcm@2rvat7ibvgb4>
+In-Reply-To: <jvnvx7a4pn6evrp5ehfrt4qsiuprq6ogvrue2a3uupwtydmgcm@2rvat7ibvgb4>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 13 Jun 2024 10:27:45 +0200
-Message-ID: <CACRpkda==5S75Bw6F3ZLUmf7kwgi_JkByiizR=m-61nrMDWuvQ@mail.gmail.com>
+Date: Thu, 13 Jun 2024 10:30:03 +0200
+Message-ID: <CACRpkdYYy_0QnzO-qPusYPFK2qFs=NG-t-X=GRjLg5DHX_k82w@mail.gmail.com>
 Subject: Re: [PATCH v9 1/1] gpio: add sloppy logic analyzer using polling
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-renesas-soc@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, Kent Gibson <warthog618@gmail.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	Arnd Bergmann <arnd@arndb.de>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	linux-renesas-soc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Linus Walleij <linus.walleij@linaro.org>, Kent Gibson <warthog618@gmail.com>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 13, 2024 at 10:17=E2=80=AFAM Bartosz Golaszewski <brgl@bgdev.pl=
-> wrote:
+On Wed, Jun 12, 2024 at 6:03=E2=80=AFPM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
 
-> On second thought
-> though: are you sure drivers/gpio/ is the right place for it?
+> [Bart]
+> > I really dislike drivers being called in an ambiguous way like
+> > "simple" or - in this case "sloppy". I understand why it is - in fact
+> > - sloppy but can we call it anything else? Like
+> > "gpio-logic-analyzer.c"?
+>
+> Sure, we can if you prefer. I named it like this to make the limitations
+> super-clear. And even with that in place, I still got a private email
+> where someone wanted to build a 400MHz-RPi-based logic analyzer device
+> with it. Which would not only have the latency problems, but also
+> likely have a max sampling speed of whopping 400kHz.
 
-Actually that is something I requested.
+What about "gpio-low-fidelity-logic-analyzer.c"
 
-I think it fits in drivers/gpio as it is such a clear cut usage of GPIO
-lines, and it doesn't really fit into any other subsystem.
+(+/- Kconfig etc adjusted accordingly)
 
-> May I suggest moving it over to drivers/misc/?
-
-Misc is a bit...
-messy. I remember Arnd being very sceptical about putting stuff there
-rather than creating new subsystems, so since I've tried to avoid it,
-albeit recently more and more stuff gets merged there again :/
+It says what it is, not really sloppy but really low-fi.
 
 Yours,
 Linus Walleij
