@@ -1,25 +1,25 @@
-Received: from zg8tmja5ljk3lje4ms43mwaa.icoremail.net (zg8tmja5ljk3lje4ms43mwaa.icoremail.net [209.97.181.73])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24F75136E2A;
-	Thu, 13 Jun 2024 06:06:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.97.181.73
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [207.46.229.174])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18489137914;
+	Thu, 13 Jun 2024 06:14:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.46.229.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718258811; cv=none; b=SZJjVOQqtphWlCqee2yfuX8+LpwWhyDiS3DWRf5oozUgvWamjjkTw4fpCvwgRa+ICsjkbtubU+ugcNlgXRKaAVkSnSIHkjlszNT5QYnKTjVI6CClKTpqaFtnRo7hFabeM7MRcqn6PI172HqA+X8iDorMsz5uCZ00U1l9BRScxfs=
+	t=1718259290; cv=none; b=OreXJALMytFKxhQuRYjaykCT1I1Zq59nsQnIMY8ICutCFqUUUGhokrDlz2qUJho+O/5D+Y59/IgNUTgBvHwoYztr+OvfLuds/cHBe2vlXApNb1Sy9TiOK46hPWIN8HUOO6g6x1VKsRelVTLUlgzeO3JPwZfESEPZw7EWshOzfjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718258811; c=relaxed/simple;
-	bh=tQuruoBPJkmyTST/kNkyaOSE113hO9dTS2VsCm0j+SM=;
+	s=arc-20240116; t=1718259290; c=relaxed/simple;
+	bh=/NPEZDTSboUNyHHYCssTCB8+lPpXpoNQ9QHlCkgKOnM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RO/KJGwtrR+zbS78rgNC979Z6skQouEzzQFmaq08y5+D9DxH3w7EyZMKGflY9HMSR/SMRyRHVYjq45tsIBRVp/GfB7EqBqQbPpLm4EzATe0amdqU28M2zLSZYb/djvcPPdHzG5LloxPSnBrx34nwqkdkGP8fDVng5cdOn0LbUjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=209.97.181.73
+	 In-Reply-To:Content-Type; b=TSWq1pyahym2sHJjnTL3O9W8f6AO7QnM/pGoe7DsmPM4ge2b9a8/FO03oBOEGclrCLLydfYSuRB8xkYYHca31WK4Ke79WtxeKgt9nzwaMCXvCBjM0NtF0lc/jqHBN33UL8nu9whRd3Nc3Ed3EAaCJbqPK9ijAavq2iCwXUGL+r4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=207.46.229.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
 Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app2 (Coremail) with SMTP id HwEQrAAHX8dZjGpmPkNxAQ--.8099S2;
-	Thu, 13 Jun 2024 14:06:17 +0800 (CST)
+	by app1 (Coremail) with SMTP id HgEQrACXmShLjmpmoqTMBw--.62950S2;
+	Thu, 13 Jun 2024 14:14:35 +0800 (CST)
 Received: from [10.12.169.238] (unknown [10.12.169.238])
-	by gateway (Coremail) with SMTP id _____wDHokRWjGpm+X0eAA--.577S2;
-	Thu, 13 Jun 2024 14:06:16 +0800 (CST)
-Message-ID: <43d7cf37-8f7f-4004-a5d1-15fcc9189016@hust.edu.cn>
-Date: Thu, 13 Jun 2024 14:06:14 +0800
+	by gateway (Coremail) with SMTP id _____wAnYk9KjmpmQIceAA--.32707S2;
+	Thu, 13 Jun 2024 14:14:34 +0800 (CST)
+Message-ID: <25a6d1e3-5965-4a51-ab9a-4489c519e10b@hust.edu.cn>
+Date: Thu, 13 Jun 2024 14:14:34 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -27,68 +27,92 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] scripts: add scripts/checktransupdate.py
+Subject: Re: [PATCH] docs/zh_CN: Update dev-tools/index.rst
 To: Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <siyanteng@loongson.cn>
-Cc: hust-os-kernel-patches@googlegroups.com, linux-doc@vger.kernel.org,
- Cheng Ziqiu <chengziqiu@hust.edu.cn>, linux-kernel@vger.kernel.org
-References: <20240611131723.53515-1-dzm91@hust.edu.cn>
- <87plslonqu.fsf@trenco.lwn.net>
+ Yanteng Si <siyanteng@loongson.cn>, Haoyang Liu <tttturtleruss@hust.edu.cn>,
+ Vegard Nossum <vegard.nossum@oracle.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240612161835.18931-1-dzm91@hust.edu.cn>
+ <871q51q2zq.fsf@trenco.lwn.net>
 From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <87plslonqu.fsf@trenco.lwn.net>
+In-Reply-To: <871q51q2zq.fsf@trenco.lwn.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:HwEQrAAHX8dZjGpmPkNxAQ--.8099S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoW7Gw4xXrW8GrW5JFyUuF1rZwb_yoW8JF15pa
-	4j9F1aywn8Kr1xCF4fKw1vqFWrJF1IyFWFqry2qr1rXrn8tr1xGF4avw45ur1UurW8Jw1Y
-	yFyjkFZrK3W5CFJanT9S1TB71UUUUj7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQFb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+X-CM-TRANSID:HgEQrACXmShLjmpmoqTMBw--.62950S2
+Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoW7Ar4kXrWUZw47CrWUXr47Arb_yoW8XF1xpF
+	409FySka4rXry3C342gF1jgFy8KF1xWw4DGF1qq3ZYqrn8XFs7tFsxtr9I9FyfXrWfAayr
+	AF4IgFy5W34jka7anT9S1TB71UUUUj7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQYb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
 	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
-	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
-	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
-	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
-	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVWxJVW8Jr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r126r1DMxAIw2
-	8IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWU
-	JVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
-	vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IY
-	x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
-	xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAF
-	wI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07j6FALUUUUU=
+	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
+	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
+	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
+	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
+	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26F4j6r4UJwAm
+	72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82
+	IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s026xCaFVCjc4AY6r1j
+	6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
+	AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv2
+	0xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4
+	v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AK
+	xVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0_uctUUUUU==
 X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
 
-On 2024/6/13 05:27, Jonathan Corbet wrote:
+On 2024/6/13 05:12, Jonathan Corbet wrote:
 > Dongliang Mu <dzm91@hust.edu.cn> writes:
 >
->> The checktransupdate.py script helps track the translation status of
->> the documentation in different locales, e.g., zh_CN and verify if
->> these documenation is up-to-date. More specially, it uses `git log`
->> commit to find the latest english commit from the translation commit
->> (order by author date) and the latest english commits from HEAD. If
->> differences occur, report the file and commits that need to be updated.
+>> Update to commit 8c88bc5b489e ("docs: dev-tools: Add UAPI checker
+>> documentation")
 >>
 >> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
->> Signed-off-by: Cheng Ziqiu <chengziqiu@hust.edu.cn>
 >> ---
->> v1->v2: revise the output format of git commits
->>          add some description and usage of this script
->>   scripts/checktransupdate.py | 203 ++++++++++++++++++++++++++++++++++++
->>   1 file changed, 203 insertions(+)
->>   create mode 100755 scripts/checktransupdate.py
-> I have applied this, it seems like a useful tool.
-Thanks, jon.
-> I do wish the code looked like something a bit closer to the kernel
-> coding style, but so it goes.
+>>   Documentation/translations/zh_CN/dev-tools/index.rst | 6 +++++-
+>>   1 file changed, 5 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/translations/zh_CN/dev-tools/index.rst b/Documentation/translations/zh_CN/dev-tools/index.rst
+>> index fa900f5beb68..c540e4a7d5db 100644
+>> --- a/Documentation/translations/zh_CN/dev-tools/index.rst
+>> +++ b/Documentation/translations/zh_CN/dev-tools/index.rst
+>> @@ -20,18 +20,22 @@ Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+>>   
+>>      testing-overview
+>>      sparse
+>> +   kcov
+>>      gcov
+>>      kasan
+>> -   kcov
+>>      ubsan
+>>      kmemleak
+>>      gdb-kernel-debugging
+>>   
+>>   Todolist:
+>>   
+>> + - checkpatch
+>>    - coccinelle
+>> + - kmsan
+>>    - kcsan
+>>    - kfence
+>>    - kgdb
+>>    - kselftest
+>>    - kunit/index
+>> + - ktap
+>> + - checkuapi
+> So I have to say that the changelog here is not particularly helpful.
+> You have *not* updated the translation to that commit, so it doesn't
+> seem like you should say that you did.  "Add several newish documents to
+> the todo list" is appropriate for something like this.
 
-Linux kernel does have coding style for C language. Any reference to 
-python coding style?
 
-I can refer to these materials to revise this script.
+Yes, I should use another commit message to describe what I am doing.
 
-Dongliang Mu
+
+> I've applied the patch, but with the changed commit message.
+
+
+Thanks very much.
+
 
 >
 > Thanks,
