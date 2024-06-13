@@ -1,68 +1,67 @@
 Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F6AF145FE2;
-	Thu, 13 Jun 2024 15:13:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9979D13CF85;
+	Thu, 13 Jun 2024 15:22:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718291605; cv=none; b=BQcWvnNjK5YHgxw0wlAPJqCRBEEubD5Za9z3SuVLH/PZt1gVGTUiLk79NXbRJuI1oJ/4rtpiVRAvxWpSqH/uvY+xVlgMg2CbTxR/aUxJfXQtd8F8tLlon+1K+nQxuc5+wMmRTMi32nyXvhkUC1baunhN/jaUTjh2NbP119BSnHw=
+	t=1718292163; cv=none; b=XCeSp5iYFO66TtLMavRLCLofjxT6muwkNMuqplLZdnuKT6Ms69EoFPMSVF7kZi1lcf44SA8jTRpF5fSVuWjQ1S/98FeDoUtPbSiiKNdoqiSGAHNlEhtc6LUHYcxwnQT+qyqcytVvRd+cnnjoMtmqJzjJ9UIN3tD8c7atag6GcJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718291605; c=relaxed/simple;
-	bh=9H+YgTYmKGS5O+3bHXS0T2zCyE2mUBQG7mMq+T/+KDY=;
+	s=arc-20240116; t=1718292163; c=relaxed/simple;
+	bh=CEBQAjiRo/TKvvFGnyTMJIOZsXYkblZxmpcpwTGBhXA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SD3ksbtNgy/4agKDefjYJXJ7HVnlNzMhzNsyJM/roiOZhY8/DebP8pcCwaXfh6CEQgqDE2OJM2sIUQAEVNnAftVn6+yb5NTDWJN7GoDSSDdqk1QEylvvOAGQw8+sIlumgEdmiKseKG6Hs5wQyaxxYNC6ZANch+gvvCJ782B8nUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rhhb8UeS; arc=none smtp.client-ip=209.85.219.54
+	 To:Cc:Content-Type; b=mlt9yOQfEXGmp+c2K0FB8pifT118HeNp0X+uxXO53A3u89mqC98QJi0gvOVxMEQGzyWWsJ0PchMJlXm2Ze33o9uY2Wq1v4KY3dpGhzaXZfzn8KE/EP53ZHMAFTyKwa0jeRi/TmgMpg0eLthKBfQgeFwmh93+RlG5MZY4AFBbaOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rcb0NWMf; arc=none smtp.client-ip=209.85.219.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rhhb8UeS"
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6b08d661dbaso20559466d6.0;
-        Thu, 13 Jun 2024 08:13:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rcb0NWMf"
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6b0645351ebso4898806d6.2;
+        Thu, 13 Jun 2024 08:22:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718291603; x=1718896403; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1718292160; x=1718896960; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tD51o0Y1ksGPreKO2RCSDyc0HAD564QL05nYWkEYiaE=;
-        b=Rhhb8UeS/F8142gK3yBwxQS3q8EKL5XBH4pZLTtMPdRAnuCHOg6qLEyGwOB1n+vp3R
-         o67CjEGKc7Czmyn/m6rFmgxHpnMXM8Nv3JrxSk1G8BROf6T75BG4EmnyI3CJPCJ9ix1u
-         9umLF1h38iJCvg9H3w19YBsR/OJEXrrQE2Vl76Fbpufr85BKukBnVC7Z6+cI5p5i768i
-         7nEfp+ye0b5OHnB3FiJZglqG9nyxoM9u16wUz9OP/O86LMuluHO+b7dWQQ2bplTxvVvq
-         N2u7dFvwBcwE4AX5nakZ8QAxZyvi7Wg4EgsFDh30Sy+E2vFdngC56zXAMsME7eRybzHs
-         HFRA==
+        bh=CEBQAjiRo/TKvvFGnyTMJIOZsXYkblZxmpcpwTGBhXA=;
+        b=Rcb0NWMfKEuufQrZOebllzYFwbQi1mq4rnb2Xf5Jpo73QYhXxolFXkVmHLAqyadCAv
+         JrQ6Wo1QY/6/Gm2dCJ8NzLkdc2a80cklrESC9LXv3xgXZLEMOS+I/FjUvvHeBp78iZ8n
+         AWBOJZ+4GhF3hltUR05aCY16FP9awAoBAU1KeE7XKWUVWHbu+mWwkF5rGDTAPmq0dUV8
+         eh4X5oRYqZribmXDf27sBZ+bxiKkmnjqt2XfugSL0nNBFPfnR8KzhSnqC5JTi3bkHe26
+         S3tZpnY/rdcStyW//IdIufQQ+6ueti22M7FnSgeSUOdns2sMMlyCNfpehvcAkyDsI8Q9
+         kLEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718291603; x=1718896403;
+        d=1e100.net; s=20230601; t=1718292160; x=1718896960;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tD51o0Y1ksGPreKO2RCSDyc0HAD564QL05nYWkEYiaE=;
-        b=ffVtc4YA7sRle42qgQU9rAl4TseL8dfIQJX9VH+rE17u9t2rZHPJKDv/fOhNSZoAmb
-         0N3VATVYud2UJ9BrGewCOpGMbyD7hgOJtCacmqi5/kIBnZO4trkpxDMA/VwpU/ZUxyIy
-         K6sbkCqHaHfh6cCsnNwCNkvuTX+N7LwUJHgmMDLlem9N3SuPFPtTiJpn9hqmFQ6Nms16
-         sOaftPAw+O7HCgn+K5EoCkIqU8qlXkA2JJHeSWhqBiHi9P6fjWvlCWmLfTpg4DgSkIjo
-         AqoC+c5NO/ty0P+LuHiVkEbri9dIZEklQpJT18YNUlJqVuu0huG3MjYe4hNgmgXfFX6d
-         RPEg==
-X-Forwarded-Encrypted: i=1; AJvYcCV543eJq4InAz1QgzjWnVya7LKOygmnQFgDPOS7u1KYivcz0c5fkwDGAya7MgkTP8XDZI90QQUh+29f343Laa4j6yYtGDgzPyVb+St13fQHnpN44Hew0MGufKDXgAmWQmeAr3oz2iuy
-X-Gm-Message-State: AOJu0Yy1CAvvmRYSJ6oTWGAhCOHKEVWkagSExr+gPaeawE7yWqM40P31
-	ZnF0iCNOqQIQBEsE+xUJN7Oq4d6Iz/i1z/UBj9LgYUPZ+a9DB8dB8Br0LZCKaEIKB8mHyaF4lN9
-	woRMNffiUNWoMIhikNbOFSowMO0U=
-X-Google-Smtp-Source: AGHT+IGW6rnw+BQabFawV0pm/2GpvLPrBzbXMkIgKzqD4lNHr4ky/rvWXSuj65jR7lHLZQPMM59NAef8eQa9ZzeUTRI=
-X-Received: by 2002:a05:6214:130d:b0:6ad:753d:45cb with SMTP id
- 6a1803df08f44-6b2a343d2b7mr49824026d6.20.1718291603122; Thu, 13 Jun 2024
- 08:13:23 -0700 (PDT)
+        bh=CEBQAjiRo/TKvvFGnyTMJIOZsXYkblZxmpcpwTGBhXA=;
+        b=dGPmLpjERlrabz5qVjWwi6aoZg5Gw7izWOk00KBcX8HygR3iy+pejgteJjt14pGRHj
+         EaGdh3jNUEW6qG0a9ynbGOUMeuK2gYlXlBtiPWY62A39pFuAB4iWmF9HW6jMQOEjvJf0
+         XDgLrx4nvD0Ihzsvv5antzcGbC50hQxXdBTaLL52D9qkgB48zPmaWF+pnfdABDBiygyx
+         B+mG4s8ZwhzDykwaiwxruyh3zx44Yg4X5KCaui7solhr0TI8bcHl8KGwRxTjH7aLLsVT
+         +eYqH+v9Q7gchG0tFBRQDhi68cA7nCgnZ2go7xStI7zIAz/EQ+mSpVNYMV878pN+uG1g
+         H81Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWBZR8/IGSHHJvcMGM7iquy0T71+WDQ5bsUc/juu2i+7TNfdORNCTc42LFznfcRBWpfPqPOU0WUIdKeEr38UzxTHUwq+gW+ese5Kd5xZAbNGTvAVI44uRrg2OrTA/fM0mXStPY7w2j9
+X-Gm-Message-State: AOJu0YyKQqQWjilKxwX8ZTHYjk3Luh2Z2qkgTkuDBlu5CcrFIGcGd2V0
+	7r39KQEe9oGkf4+eGYRlFmAtRWpeytg58EIKfE2NKkTaLjzc2oPUY8TZqGOEMgD4t7SCw0Wq85i
+	YVm6VwEdOlriWnLG9JVWE/PSyvsc=
+X-Google-Smtp-Source: AGHT+IE/ygyf7skvdyjkp6u4fVTWMS18X5hrk9EBnRVC2RpU6E2VcfVM8UNh2Vt8DEvottgUjiUNHsyu6mKzeEDUlsM=
+X-Received: by 2002:a05:6214:320f:b0:6b0:82cc:5e7a with SMTP id
+ 6a1803df08f44-6b192028b71mr52266956d6.21.1718292160516; Thu, 13 Jun 2024
+ 08:22:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240608155316.451600-1-flintglass@gmail.com> <20240608155316.451600-4-flintglass@gmail.com>
-In-Reply-To: <20240608155316.451600-4-flintglass@gmail.com>
+References: <20240608155316.451600-1-flintglass@gmail.com>
+In-Reply-To: <20240608155316.451600-1-flintglass@gmail.com>
 From: Nhat Pham <nphamcs@gmail.com>
-Date: Thu, 13 Jun 2024 08:13:11 -0700
-Message-ID: <CAKEwX=M4pKhWs_d9ZGvvG7N3g2RFggFj5DEidyzjHe2pivr5UA@mail.gmail.com>
-Subject: Re: [PATCH v1 3/3] mm: zswap: proactive shrinking before pool size
- limit is hit
+Date: Thu, 13 Jun 2024 08:22:29 -0700
+Message-ID: <CAKEwX=PsmuPQUvrsOO7a+JGd=gDmjP5_XDGD+z-0R6dBea+BOg@mail.gmail.com>
+Subject: Re: [PATCH v1 0/3] mm: zswap: global shrinker fix and proactive shrink
 To: Takero Funaki <flintglass@gmail.com>
 Cc: Johannes Weiner <hannes@cmpxchg.org>, Yosry Ahmed <yosryahmed@google.com>, 
 	Chengming Zhou <chengming.zhou@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
@@ -75,41 +74,41 @@ Content-Transfer-Encoding: quoted-printable
 On Sat, Jun 8, 2024 at 8:53=E2=80=AFAM Takero Funaki <flintglass@gmail.com>=
  wrote:
 >
-> This patch implements proactive shrinking of zswap pool before the max
-> pool size limit is reached. This also changes zswap to accept new pages
-> while the shrinker is running.
+> This series addresses two issues and introduces a minor improvement in
+> zswap global shrinker:
 >
-> To prevent zswap from rejecting new pages and incurring latency when
-> zswap is full, this patch queues the global shrinker by a pool usage
-> threshold between 100% and accept_thr_percent, instead of the max pool
-> size.  The pool size will be controlled between 90% to 91% for the
-> default accept_thr_percent=3D90.  Since the current global shrinker
-> continues to shrink until accept_thr_percent, we do not need to maintain
-> the hysteresis variable tracking the pool limit overage in
-> zswap_store().
+> 1. Fix the memcg iteration logic that breaks iteration on offline memcgs.
+> 2. Fix the error path that aborts on expected error codes.
+> 3. Add proactive shrinking at 91% full, for 90% accept threshold.
 >
-> Before this patch, zswap rejected pages while the shrinker is running
-> without incrementing zswap_pool_limit_hit counter. It could be a reason
-> why zswap writethrough new pages before writeback old pages.  With this
-> patch, zswap accepts new pages while shrinking, and zswap increments
-> the counter when and only when zswap rejects pages by the max pool size.
->
-> Now, reclaims smaller than the proactive shrinking amount finish
-> instantly and trigger background shrinking.  Admins can check if new
-> pages are buffered by zswap by monitoring the pool_limit_hit counter.
->
-> The name of sysfs tunable accept_thr_percent is unchanged as it is still
-> the stop condition of the shrinker.
-> The respective documentation is updated to describe the new behavior.
->
-> Signed-off-by: Takero Funaki <flintglass@gmail.com>
 
-Taking a step back, could you benchmark and include relevant
-userspace-visible metrics to show:
+Taking a step back from the correctness conversation, could you
+include in the changelog of the patches and cover letter a realistic
+scenario, along with user space-visible metrics that show (ideally all
+4, but at least some of the following):
 
-a) This is a problem happening in realistic-ish workloads.
-b) The solution shows improvements over the status quo.
+1. A user problem (that affects performance, or usability, etc.) is happeni=
+ng.
 
-before we justify any extra complexity? This goes for pretty much the
-whole series (i.e why are we fixing this), but for this patch
-specifically, since we are optimizing things.
+2. The root cause is what we are trying to fix (for e.g in patch 1, we
+are skipping over memcgs unnecessarily in the global shrinker loop).
+
+3. The fix alleviates the root cause in b)
+
+4. The userspace-visible problem goes away or is less serious.
+
+I have already hinted in a previous response, but global shrinker is
+rarely triggered in production. There are lots of factors that would
+prevent this from triggering:
+
+1. Max zswap pool size 20% of memory by default, which is a lot.
+
+2. Swapfile size also limits the size of the amount of data storable
+in the zswap pool.
+
+3. Other cgroup constraints (memory.max, memory.zswap.max,
+memory.swap.max) also limit a cgroup's zswap usage.
+
+I do agree that patch 1 at least is fixing a problem, and probably
+patch 2 too but please justify why we are investing in the extra
+complexity to fix this problem in the first place.
