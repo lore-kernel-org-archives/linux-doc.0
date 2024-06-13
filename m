@@ -1,66 +1,65 @@
-Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
+Received: from mail-yb1-f202.google.com (mail-yb1-f202.google.com [209.85.219.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47B161482E9
-	for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2024 18:16:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25A8414AD20
+	for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2024 18:29:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718302585; cv=none; b=ku3vNkO6InaV8JWaZKUkPo2CB6JeXS0ahczOAa75i74Lmug/jYzHl80pMKesLJTpVoxubUT6p5YJhKZIZ0ai3D040KRBxyrW+6szICmnSqOIeZHar5WZb89kXw9ou1lGl5n2xNp38yVWnsObJ1npmd11bgeLKq0NVS69NNAeW/w=
+	t=1718303378; cv=none; b=kC++qoIUoHArG7gQ/nkkWtkccUdW2gn17dGrHYgmogNFvl4T3jmwGhLTypNwx3BfTBTXcytNLt5UYGqAAG4af/0zKr8xNdsicJTpShXmOfViEyLMusCkUUOL3idrLrhr6JVq4b93DFsYnkB3z8PIrarh7NdTGHja5Gx3wWtdogU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718302585; c=relaxed/simple;
-	bh=VMV5npPvx2LlJ/v0Vts5oDRx4jTMhD7qJPkKX8wCExc=;
+	s=arc-20240116; t=1718303378; c=relaxed/simple;
+	bh=GZUo36Np0gui5iMC3kWaWJvqb8+ie9cBFLRdcmIQb2A=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=dquCKiCTSWeAeDjw0xuZaY5cECvE6hKk0l4fvfN3ANAdC21rsyZP+FaFDAZsfOMKHNGfpZx8G8Fgh9vnCfBrJQaJDfo3vylu9JegdNSsScFSjWXAF6m0n1wYfz9me+91YUOdWc46RBuYLiAirT8vmMUgdZRgME1BCMGgIKMzuC4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MHTItqr0; arc=none smtp.client-ip=209.85.219.201
+	 To:Cc:Content-Type; b=jzPY0FtEwlI1gKFcgagoGsZ1EFKN451dKTEOArH7WQ1+QkEs0iu6IM+wPVapabR+COoyUREU7UtKrYaV5/p63eX95a7iJbpr6yMb67x8DHC4rUBH0zJcebBJutAwYuCdpBiSF+2wJIhS+hh8t+nhGhhyyOvdMfiozQtuq9yxXI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BT3/a0o8; arc=none smtp.client-ip=209.85.219.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MHTItqr0"
-Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-dfdddb9b425so2618095276.2
-        for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2024 11:16:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BT3/a0o8"
+Received: by mail-yb1-f202.google.com with SMTP id 3f1490d57ef6-dfa73db88dcso1926893276.0
+        for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2024 11:29:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718302583; x=1718907383; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1718303376; x=1718908176; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HubYKewLWWkCbdNX6Kwg7NPcQhWO6deKo+vfavaox7o=;
-        b=MHTItqr0GeqGwp1JpLq43jq01LcN4VRBo2IuHaYCbElbTmbcu5vo21tyGQ760OpBDe
-         OwPuKRcDxssUN6/U7pCNfsCzweWVCBgbPITtOsGghjEBpNiJ6zxif7+qbE5C7pnT6FWe
-         yZTOAtnKzMWzuRnlDAaMZlHblH6S5X4Pb5YStYpK+YW8DF+QY0F4xUNxH6QZuxKp3BuM
-         0u+RDEWMzylCRj9KJhXUUeuKmS5eG8BhS5XLRVWfMbwDiBQz2EILzMdcs1ZF67rylWOp
-         5kLP15leUAqStIXqFuEn32fvJU0Wtn2Ex7K04SWC4PN2Dc4OmcYyZEi4sfdBlsKDuQzp
-         mCXg==
+        bh=xow6eF8EcU1B/jVaJ9RrJxjk/wXRNzAI1C7xG3uJG5s=;
+        b=BT3/a0o8kiFR3KS6Jw+JNm1v4tsfs31+bLWpuKqiuvTodoNvmFwEQdlRLj+92K7je4
+         okcIuYGwxsSjSsNhJjHSEypbJR8wbZymYZg3iI4kIx2kh1/PuNmdkwJoewkh9Vqk0ksE
+         lWTAe/S1dBPD6rz92JTN/zJpFso2bEYdGIKQUztFMmK22dLvV25CmWEaNHIcEae4DuK/
+         rr+kwhvxBpnvnGXt4l42J3CGe1qc+vHPClhcQcEYVW26EcBoVsmiH6bt6l2YxIydgZeQ
+         0GHrDoYqRNYzTlY/czTNV0H4aSM4MvAO4aJW5liIdSRhI/UkXmXr3AOBsOoPi4uTAbzv
+         LkdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718302583; x=1718907383;
+        d=1e100.net; s=20230601; t=1718303376; x=1718908176;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HubYKewLWWkCbdNX6Kwg7NPcQhWO6deKo+vfavaox7o=;
-        b=six6LcwP7oA4TtZariezZNe1gDDsHRcy0/gPaTA1tqHO2YKu7L9zIHAiYy3bkK0y23
-         RxuyalqoR9p3h32ofl3m/Ccb5eJg0s/GnEMKApbTmV3k3FKFVsEQ7OWrbck4gQSuccD7
-         jCm3lzufpbncAKmMJcrRFz6qKHYZFZ6/D1bKE4MCdTaf7FgqvpOsPiSaGJQdFk2KaYjF
-         Pt1Eo5jdOYDe3jcP+TsiqdgS4uPxP5VGMg5wqNo53dKQiARYy2QprDGdcbR5PkhYRG+P
-         VvzS07cZXxSXDVLGZajXRM5u727CqEV4S5uiJi3jeYAJevb9928HJUToansiz14+dapo
-         BS7g==
-X-Forwarded-Encrypted: i=1; AJvYcCVKMAEVoEVk3SPncjWtpp8S58WxToTLIvRcs41TzzbAufln4XxT8yU0tRyYrSsFVjeucsnbVAwArU0hMFdhfugMwOcq8OMilc1R
-X-Gm-Message-State: AOJu0YwQExGCDAwxyEcOkBOyfeKpdoBIiLuhKs4c282WqzozC3QsxmnS
-	NeuLsAFJvZgQTvi55k5hIydBoc6B5XzWYb90mOhJDQwUd/KlbYRLYLfvVeDJsvDo9urc38Swgvn
-	idg==
-X-Google-Smtp-Source: AGHT+IEpFkCu5iSBXcf5Bl0AwgjGARJpjeA/2ZZwxq9LggA19KheODvNkc7FkwL6B4GvsjAsggv5UiEcpBo=
+        bh=xow6eF8EcU1B/jVaJ9RrJxjk/wXRNzAI1C7xG3uJG5s=;
+        b=StXzqsuNoPM6yCYFp99PVuNFHgENFMCpSlKo4ICzq+KwhLK/qs1C2ctT74A6zIRied
+         SbiuwHlOMKAhVRbPh5oTWNGoA09LmWIkvq7yCD9fOjUZYXb8iirHmJ3hrz4WtoocMKiR
+         7HwTY24qarpPFqFOQJlOC4HrX8T8N2Kns6yIdvt0OhgZbW5r6TCFTEI0XhgWgb+Y6jjY
+         2yRLlmSNi46C4EIYd2I/bKsxJgWTzXlRpW+yUEyjOAeORvtqdFut022HUOMWBB+FvLrL
+         72XbE1rckiypHbXavIu5FZOc78bDAS7sykPcxdkMz8631GuXncS7a2/Hm7cbYIgMf6Jl
+         Ab2g==
+X-Forwarded-Encrypted: i=1; AJvYcCWaIMYMWFPY6KfEXzFL0RC6nIpYmAwnB7vTpr+fUopexZUQm0vIehk3NdgDT7Hsc/M/ux7q/qip+DfJiIqWbcIw46awlyJ2mKT6
+X-Gm-Message-State: AOJu0Yx2OdpRPIh0KgCP2VYRGZJlJl9MMazUfzBppK8cp/XT0KFJeDBd
+	h91i0vu1xSuHaVJwkExdhauaWF9bhYlB/HO/oHOsIbxVKoePgoZjqrkwEfvTzUkoNRxFYr491cn
+	K+A==
+X-Google-Smtp-Source: AGHT+IG91HpLCnnwC8Q/bXtEbXPRdHVg8w/5EMMy6Rwz3/ZrZ8oSfH4Lia4V0jH/RUzaGYDn5LN4B1K1TeA=
 X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a05:6902:706:b0:dff:ee8:14d6 with SMTP id
- 3f1490d57ef6-dff15454a8bmr84096276.10.1718302583316; Thu, 13 Jun 2024
- 11:16:23 -0700 (PDT)
-Date: Thu, 13 Jun 2024 11:16:21 -0700
-In-Reply-To: <20240207172646.3981-19-xin3.li@intel.com>
+ (user=seanjc job=sendgmr) by 2002:a05:6902:e89:b0:dff:9dc:7e41 with SMTP id
+ 3f1490d57ef6-dff154ac5fcmr12681276.11.1718303376176; Thu, 13 Jun 2024
+ 11:29:36 -0700 (PDT)
+Date: Thu, 13 Jun 2024 11:29:34 -0700
+In-Reply-To: <20240207172646.3981-20-xin3.li@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20240207172646.3981-1-xin3.li@intel.com> <20240207172646.3981-19-xin3.li@intel.com>
-Message-ID: <Zms3dVgcuObZOwRR@google.com>
-Subject: Re: [PATCH v2 18/25] KVM: nVMX: Add a prerequisite to
- SHADOW_FIELD_R[OW] macros
+References: <20240207172646.3981-1-xin3.li@intel.com> <20240207172646.3981-20-xin3.li@intel.com>
+Message-ID: <Zms6jkwA9PfvXCGv@google.com>
+Subject: Re: [PATCH v2 19/25] KVM: nVMX: Add FRED VMCS fields
 From: Sean Christopherson <seanjc@google.com>
 To: Xin Li <xin3.li@intel.com>
 Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
@@ -72,99 +71,278 @@ Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
 Content-Type: text/plain; charset="us-ascii"
 
 On Wed, Feb 07, 2024, Xin Li wrote:
-> @@ -32,48 +32,48 @@ BUILD_BUG_ON(1)
->   */
->  
->  /* 16-bits */
-> -SHADOW_FIELD_RW(GUEST_INTR_STATUS, guest_intr_status)
-> -SHADOW_FIELD_RW(GUEST_PML_INDEX, guest_pml_index)
-> -SHADOW_FIELD_RW(HOST_FS_SELECTOR, host_fs_selector)
-> -SHADOW_FIELD_RW(HOST_GS_SELECTOR, host_gs_selector)
-> +SHADOW_FIELD_RW(GUEST_INTR_STATUS, guest_intr_status, cpu_has_vmx_apicv())
-> +SHADOW_FIELD_RW(GUEST_PML_INDEX, guest_pml_index, cpu_has_vmx_pml())
-> +SHADOW_FIELD_RW(HOST_FS_SELECTOR, host_fs_selector, true)
-> +SHADOW_FIELD_RW(HOST_GS_SELECTOR, host_gs_selector, true)
->  
->  /* 32-bits */
-> -SHADOW_FIELD_RO(VM_EXIT_REASON, vm_exit_reason)
-> -SHADOW_FIELD_RO(VM_EXIT_INTR_INFO, vm_exit_intr_info)
-> -SHADOW_FIELD_RO(VM_EXIT_INSTRUCTION_LEN, vm_exit_instruction_len)
-> -SHADOW_FIELD_RO(IDT_VECTORING_INFO_FIELD, idt_vectoring_info_field)
-> -SHADOW_FIELD_RO(IDT_VECTORING_ERROR_CODE, idt_vectoring_error_code)
-> -SHADOW_FIELD_RO(VM_EXIT_INTR_ERROR_CODE, vm_exit_intr_error_code)
-> -SHADOW_FIELD_RO(GUEST_CS_AR_BYTES, guest_cs_ar_bytes)
-> -SHADOW_FIELD_RO(GUEST_SS_AR_BYTES, guest_ss_ar_bytes)
-> -SHADOW_FIELD_RW(CPU_BASED_VM_EXEC_CONTROL, cpu_based_vm_exec_control)
-> -SHADOW_FIELD_RW(PIN_BASED_VM_EXEC_CONTROL, pin_based_vm_exec_control)
-> -SHADOW_FIELD_RW(EXCEPTION_BITMAP, exception_bitmap)
-> -SHADOW_FIELD_RW(VM_ENTRY_EXCEPTION_ERROR_CODE, vm_entry_exception_error_code)
-> -SHADOW_FIELD_RW(VM_ENTRY_INTR_INFO_FIELD, vm_entry_intr_info_field)
-> -SHADOW_FIELD_RW(VM_ENTRY_INSTRUCTION_LEN, vm_entry_instruction_len)
-> -SHADOW_FIELD_RW(TPR_THRESHOLD, tpr_threshold)
-> -SHADOW_FIELD_RW(GUEST_INTERRUPTIBILITY_INFO, guest_interruptibility_info)
-> -SHADOW_FIELD_RW(VMX_PREEMPTION_TIMER_VALUE, vmx_preemption_timer_value)
-> +SHADOW_FIELD_RO(VM_EXIT_REASON, vm_exit_reason, true)
-> +SHADOW_FIELD_RO(VM_EXIT_INTR_INFO, vm_exit_intr_info, true)
-> +SHADOW_FIELD_RO(VM_EXIT_INSTRUCTION_LEN, vm_exit_instruction_len, true)
-> +SHADOW_FIELD_RO(VM_EXIT_INTR_ERROR_CODE, vm_exit_intr_error_code, true)
-> +SHADOW_FIELD_RO(IDT_VECTORING_INFO_FIELD, idt_vectoring_info_field, true)
-> +SHADOW_FIELD_RO(IDT_VECTORING_ERROR_CODE, idt_vectoring_error_code, true)
-> +SHADOW_FIELD_RO(GUEST_CS_AR_BYTES, guest_cs_ar_bytes, true)
-> +SHADOW_FIELD_RO(GUEST_SS_AR_BYTES, guest_ss_ar_bytes, true)
-> +SHADOW_FIELD_RW(CPU_BASED_VM_EXEC_CONTROL, cpu_based_vm_exec_control, true)
-> +SHADOW_FIELD_RW(PIN_BASED_VM_EXEC_CONTROL, pin_based_vm_exec_control, true)
-> +SHADOW_FIELD_RW(EXCEPTION_BITMAP, exception_bitmap, true)
-> +SHADOW_FIELD_RW(VM_ENTRY_EXCEPTION_ERROR_CODE, vm_entry_exception_error_code, true)
-> +SHADOW_FIELD_RW(VM_ENTRY_INTR_INFO_FIELD, vm_entry_intr_info_field, true)
-> +SHADOW_FIELD_RW(VM_ENTRY_INSTRUCTION_LEN, vm_entry_instruction_len, true)
-> +SHADOW_FIELD_RW(TPR_THRESHOLD, tpr_threshold, true)
-> +SHADOW_FIELD_RW(GUEST_INTERRUPTIBILITY_INFO, guest_interruptibility_info, true)
-> +SHADOW_FIELD_RW(VMX_PREEMPTION_TIMER_VALUE, vmx_preemption_timer_value, cpu_has_vmx_preemption_timer())
->  
->  /* Natural width */
-> -SHADOW_FIELD_RO(EXIT_QUALIFICATION, exit_qualification)
-> -SHADOW_FIELD_RO(GUEST_LINEAR_ADDRESS, guest_linear_address)
-> -SHADOW_FIELD_RW(GUEST_RIP, guest_rip)
-> -SHADOW_FIELD_RW(GUEST_RSP, guest_rsp)
-> -SHADOW_FIELD_RW(GUEST_CR0, guest_cr0)
-> -SHADOW_FIELD_RW(GUEST_CR3, guest_cr3)
-> -SHADOW_FIELD_RW(GUEST_CR4, guest_cr4)
-> -SHADOW_FIELD_RW(GUEST_RFLAGS, guest_rflags)
-> -SHADOW_FIELD_RW(CR0_GUEST_HOST_MASK, cr0_guest_host_mask)
-> -SHADOW_FIELD_RW(CR0_READ_SHADOW, cr0_read_shadow)
-> -SHADOW_FIELD_RW(CR4_READ_SHADOW, cr4_read_shadow)
-> -SHADOW_FIELD_RW(HOST_FS_BASE, host_fs_base)
-> -SHADOW_FIELD_RW(HOST_GS_BASE, host_gs_base)
-> +SHADOW_FIELD_RO(EXIT_QUALIFICATION, exit_qualification, true)
-> +SHADOW_FIELD_RO(GUEST_LINEAR_ADDRESS, guest_linear_address, true)
-> +SHADOW_FIELD_RW(GUEST_RIP, guest_rip, true)
-> +SHADOW_FIELD_RW(GUEST_RSP, guest_rsp, true)
-> +SHADOW_FIELD_RW(GUEST_CR0, guest_cr0, true)
-> +SHADOW_FIELD_RW(GUEST_CR3, guest_cr3, true)
-> +SHADOW_FIELD_RW(GUEST_CR4, guest_cr4, true)
-> +SHADOW_FIELD_RW(GUEST_RFLAGS, guest_rflags, true)
-> +SHADOW_FIELD_RW(CR0_GUEST_HOST_MASK, cr0_guest_host_mask, true)
-> +SHADOW_FIELD_RW(CR0_READ_SHADOW, cr0_read_shadow, true)
-> +SHADOW_FIELD_RW(CR4_READ_SHADOW, cr4_read_shadow, true)
-> +SHADOW_FIELD_RW(HOST_FS_BASE, host_fs_base, true)
-> +SHADOW_FIELD_RW(HOST_GS_BASE, host_gs_base, true)
->  
->  /* 64-bit */
-> -SHADOW_FIELD_RO(GUEST_PHYSICAL_ADDRESS, guest_physical_address)
-> -SHADOW_FIELD_RO(GUEST_PHYSICAL_ADDRESS_HIGH, guest_physical_address)
-> +SHADOW_FIELD_RO(GUEST_PHYSICAL_ADDRESS, guest_physical_address, true)
-> +SHADOW_FIELD_RO(GUEST_PHYSICAL_ADDRESS_HIGH, guest_physical_address, true)
+> Add FRED VMCS fields to nested VMX context management.
+> 
+> Todo: change VMCS12_REVISION, as struct vmcs12 is changed.
 
-This is not a net postive for readability or maintability.  I don't hate the
-idea, it just needs MOAR MACROs :-)  E.g. add a layer for the common case where
-the field unconditionally exists.
+It actually doesn't, the comment is just stale.  At this point, KVM must _never_
+change VMCS12_REVISION as doing so will break backwards compatibility.
 
-#ifndef __SHADOW_FIELD_RO
-#define __SHADOW_FIELD_RO(x, y, c)
-#endif
-#ifndef __SHADOW_FIELD_RW
-#define __SHADOW_FIELD_RW(x, y, c)
-#endif
+I'll post this once I've written a changelog:
 
-#define SHADOW_FIELD_RO(x, y) __SHADOW_FIELD_RO(x, y, true)
-#define SHADOW_FIELD_RW(x, y) __SHADOW_FIELD_RW(x, y, true)
+---
+ arch/x86/kvm/vmx/vmcs12.h | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/arch/x86/kvm/vmx/vmcs12.h b/arch/x86/kvm/vmx/vmcs12.h
+index edf7fcef8ccf..d67bebb9f1c2 100644
+--- a/arch/x86/kvm/vmx/vmcs12.h
++++ b/arch/x86/kvm/vmx/vmcs12.h
+@@ -207,11 +207,9 @@ struct __packed vmcs12 {
+ };
+ 
+ /*
+- * VMCS12_REVISION is an arbitrary id that should be changed if the content or
+- * layout of struct vmcs12 is changed. MSR_IA32_VMX_BASIC returns this id, and
+- * VMPTRLD verifies that the VMCS region that L1 is loading contains this id.
++ * VMCS12_REVISION is KVM's arbitrary id for the layout of struct vmcs12.
+  *
+- * IMPORTANT: Changing this value will break save/restore compatibility with
++ * DO NOT change this value, as it will break save/restore compatibility with
+  * older kvm releases.
+  */
+ #define VMCS12_REVISION 0x11e57ed0
+@@ -225,7 +223,8 @@ struct __packed vmcs12 {
+ #define VMCS12_SIZE		KVM_STATE_NESTED_VMX_VMCS_SIZE
+ 
+ /*
+- * For save/restore compatibility, the vmcs12 field offsets must not change.
++ * For save/restore compatibility, the vmcs12 field offsets must not change,
++ * although appending fields and/or filling gaps is obviously allowed.
+  */
+ #define CHECK_OFFSET(field, loc) \
+ 	ASSERT_STRUCT_OFFSET(struct vmcs12, field, loc)
+
+base-commit: 878fe4c2f7eead383f2b306cbafd300006dd518c
+-- 
+
+> Signed-off-by: Xin Li <xin3.li@intel.com>
+> Tested-by: Shan Kang <shan.kang@intel.com>
+> ---
+> 
+> Change since v1:
+> * Remove hyperv TLFS related changes (Jeremi Piotrowski).
+> * Use kvm_cpu_cap_has() instead of cpu_feature_enabled() (Chao Gao).
+> ---
+>  Documentation/virt/kvm/x86/nested-vmx.rst | 18 +++++
+>  arch/x86/kvm/vmx/nested.c                 | 91 +++++++++++++++++++----
+>  arch/x86/kvm/vmx/vmcs12.c                 | 18 +++++
+>  arch/x86/kvm/vmx/vmcs12.h                 | 36 +++++++++
+>  arch/x86/kvm/vmx/vmcs_shadow_fields.h     |  4 +
+>  5 files changed, 152 insertions(+), 15 deletions(-)
+> 
+> diff --git a/Documentation/virt/kvm/x86/nested-vmx.rst b/Documentation/virt/kvm/x86/nested-vmx.rst
+> index e64ef231f310..87fa9f3877ab 100644
+> --- a/Documentation/virt/kvm/x86/nested-vmx.rst
+> +++ b/Documentation/virt/kvm/x86/nested-vmx.rst
+> @@ -218,6 +218,24 @@ struct shadow_vmcs is ever changed.
+>  		u16 host_gs_selector;
+>  		u16 host_tr_selector;
+>  		u64 secondary_vm_exit_controls;
+> +		u64 guest_ia32_fred_config;
+> +		u64 guest_ia32_fred_rsp1;
+> +		u64 guest_ia32_fred_rsp2;
+> +		u64 guest_ia32_fred_rsp3;
+> +		u64 guest_ia32_fred_stklvls;
+> +		u64 guest_ia32_fred_ssp1;
+> +		u64 guest_ia32_fred_ssp2;
+> +		u64 guest_ia32_fred_ssp3;
+> +		u64 host_ia32_fred_config;
+> +		u64 host_ia32_fred_rsp1;
+> +		u64 host_ia32_fred_rsp2;
+> +		u64 host_ia32_fred_rsp3;
+> +		u64 host_ia32_fred_stklvls;
+> +		u64 host_ia32_fred_ssp1;
+> +		u64 host_ia32_fred_ssp2;
+> +		u64 host_ia32_fred_ssp3;
+> +		u64 injected_event_data;
+> +		u64 original_event_data;
+>  	};
+>  
+>  
+> diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
+> index 94da6a0a2f81..f9c1fbeac302 100644
+> --- a/arch/x86/kvm/vmx/nested.c
+> +++ b/arch/x86/kvm/vmx/nested.c
+> @@ -686,6 +686,9 @@ static inline bool nested_vmx_prepare_msr_bitmap(struct kvm_vcpu *vcpu,
+>  
+>  	nested_vmx_set_intercept_for_msr(vmx, msr_bitmap_l1, msr_bitmap_l0,
+>  					 MSR_KERNEL_GS_BASE, MSR_TYPE_RW);
+> +
+> +	nested_vmx_set_intercept_for_msr(vmx, msr_bitmap_l1, msr_bitmap_l0,
+> +					 MSR_IA32_FRED_RSP0, MSR_TYPE_RW);
+>  #endif
+>  	nested_vmx_set_intercept_for_msr(vmx, msr_bitmap_l1, msr_bitmap_l0,
+>  					 MSR_IA32_SPEC_CTRL, MSR_TYPE_RW);
+> @@ -2498,6 +2501,8 @@ static void prepare_vmcs02_early(struct vcpu_vmx *vmx, struct loaded_vmcs *vmcs0
+>  			     vmcs12->vm_entry_instruction_len);
+>  		vmcs_write32(GUEST_INTERRUPTIBILITY_INFO,
+>  			     vmcs12->guest_interruptibility_info);
+> +		if (kvm_cpu_cap_has(X86_FEATURE_FRED))
+
+This is wrong, vmcs02 should be set from vmcs12 if and only if the field is enabled
+in L1's VMX configuration, i.e. iff nested_cpu_has(vmcs12, ???).
+
+Note, the ??? should be tied to whatever VMX MSR feature flag enumerates
+INJECTED_EVENT_DATA.  KVM's clearing of X86_FEATURE_FRED when one or more pieces
+is missing is a software decision, i.e. not archictectural.
+
+> +			vmcs_write64(INJECTED_EVENT_DATA, vmcs12->injected_event_data);
+>  		vmx->loaded_vmcs->nmi_known_unmasked =
+>  			!(vmcs12->guest_interruptibility_info & GUEST_INTR_STATE_NMI);
+>  	} else {
+> @@ -2548,6 +2553,17 @@ static void prepare_vmcs02_rare(struct vcpu_vmx *vmx, struct vmcs12 *vmcs12)
+>  		vmcs_writel(GUEST_GDTR_BASE, vmcs12->guest_gdtr_base);
+>  		vmcs_writel(GUEST_IDTR_BASE, vmcs12->guest_idtr_base);
+>  
+> +		if (kvm_cpu_cap_has(X86_FEATURE_FRED)) {
+
+Same thing here.
+
+> +			vmcs_write64(GUEST_IA32_FRED_CONFIG, vmcs12->guest_ia32_fred_config);
+> +			vmcs_write64(GUEST_IA32_FRED_RSP1, vmcs12->guest_ia32_fred_rsp1);
+> +			vmcs_write64(GUEST_IA32_FRED_RSP2, vmcs12->guest_ia32_fred_rsp2);
+> +			vmcs_write64(GUEST_IA32_FRED_RSP3, vmcs12->guest_ia32_fred_rsp3);
+> +			vmcs_write64(GUEST_IA32_FRED_STKLVLS, vmcs12->guest_ia32_fred_stklvls);
+> +			vmcs_write64(GUEST_IA32_FRED_SSP1, vmcs12->guest_ia32_fred_ssp1);
+> +			vmcs_write64(GUEST_IA32_FRED_SSP2, vmcs12->guest_ia32_fred_ssp2);
+> +			vmcs_write64(GUEST_IA32_FRED_SSP3, vmcs12->guest_ia32_fred_ssp3);
+> +		}
+> +
+>  		vmx->segment_cache.bitmask = 0;
+>  	}
+>  
+> @@ -3835,6 +3851,22 @@ vmcs12_guest_cr4(struct kvm_vcpu *vcpu, struct vmcs12 *vmcs12)
+>  			vcpu->arch.cr4_guest_owned_bits));
+>  }
+>  
+> +static inline unsigned long
+> +nested_vmx_get_event_data(struct kvm_vcpu *vcpu, bool for_ex_vmexit)
+
+Heh, two form letters for the price of one:
+
+#1
+Do not use "inline" for functions that are visible only to the local compilation
+unit.  "inline" is just a hint, and modern compilers are smart enough to inline
+functions when appropriate without a hint.
+
+A longer explanation/rant here: https://lore.kernel.org/all/ZAdfX+S323JVWNZC@google.com
+
+#2
+Do not wrap before the function name.  Linus has a nice explanation/rant on this[*].
+
+[*] https://lore.kernel.org/all/CAHk-=wjoLAYG446ZNHfg=GhjSY6nFmuB_wA8fYd5iLBNXjo9Bw@mail.gmail.com
+
+> +{
+> +	struct kvm_queued_exception *ex = for_ex_vmexit ?
+> +		&vcpu->arch.exception_vmexit : &vcpu->arch.exception;
+> +
+> +	if (ex->has_payload)
+> +		return ex->payload;
+> +	else if (ex->vector == PF_VECTOR)
+> +		return vcpu->arch.cr2;
+> +	else if (ex->vector == DB_VECTOR)
+> +		return (vcpu->arch.dr6 & ~DR6_BT) ^ DR6_ACTIVE_LOW;
+> +	else
+> +		return 0;
+
+I'll circle back to this on the next version, i.e. after it's reworked to account
+for the suggested payload changes.  I highly doubt it's correct as-is.
+
+>  static void vmcs12_save_pending_event(struct kvm_vcpu *vcpu,
+>  				      struct vmcs12 *vmcs12,
+>  				      u32 vm_exit_reason, u32 exit_intr_info)
+> @@ -3842,6 +3874,8 @@ static void vmcs12_save_pending_event(struct kvm_vcpu *vcpu,
+>  	u32 idt_vectoring;
+>  	unsigned int nr;
+>  
+> +	vmcs12->original_event_data = 0;
+> +
+>  	/*
+>  	 * Per the SDM, VM-Exits due to double and triple faults are never
+>  	 * considered to occur during event delivery, even if the double/triple
+> @@ -3880,6 +3914,12 @@ static void vmcs12_save_pending_event(struct kvm_vcpu *vcpu,
+>  				vcpu->arch.exception.error_code;
+>  		}
+>  
+> +		idt_vectoring |= vcpu->arch.exception.nested ?
+> +				INTR_INFO_NESTED_EXCEPTION_MASK : 0;
+
+Please stop using ternary operators this way.  It's less readable and the same
+number of lines as:
+
+		if (vcpu->arch.exception.nested)
+			idt_vectoring |= INTR_INFO_NESTED_EXCEPTION_MASK;
+
+> +
+> +		vmcs12->original_event_data =
+> +			nested_vmx_get_event_data(vcpu, false);
+> +
+>  		vmcs12->idt_vectoring_info_field = idt_vectoring;
+>  	} else if (vcpu->arch.nmi_injected) {
+>  		vmcs12->idt_vectoring_info_field =
+> @@ -3970,19 +4010,7 @@ static void nested_vmx_inject_exception_vmexit(struct kvm_vcpu *vcpu)
+>  	struct kvm_queued_exception *ex = &vcpu->arch.exception_vmexit;
+>  	u32 intr_info = ex->vector | INTR_INFO_VALID_MASK;
+>  	struct vmcs12 *vmcs12 = get_vmcs12(vcpu);
+> -	unsigned long exit_qual;
+> -
+> -	if (ex->has_payload) {
+> -		exit_qual = ex->payload;
+> -	} else if (ex->vector == PF_VECTOR) {
+> -		exit_qual = vcpu->arch.cr2;
+> -	} else if (ex->vector == DB_VECTOR) {
+> -		exit_qual = vcpu->arch.dr6;
+> -		exit_qual &= ~DR6_BT;
+> -		exit_qual ^= DR6_ACTIVE_LOW;
+> -	} else {
+> -		exit_qual = 0;
+> -	}
+> +	unsigned long exit_qual = nested_vmx_get_event_data(vcpu, true);
+
+This can't possibly be correct, EXIT_QUAL and EVENT_DATA aren't equivalent, e.g.
+the former doesn't have XFD_ERR, but the latter does.
+
+>  	/*
+>  	 * Unlike AMD's Paged Real Mode, which reports an error code on #PF
+> @@ -4003,10 +4031,12 @@ static void nested_vmx_inject_exception_vmexit(struct kvm_vcpu *vcpu)
+>  		intr_info |= INTR_INFO_DELIVER_CODE_MASK;
+>  	}
+>  
+> -	if (kvm_exception_is_soft(ex->vector))
+> +	if (kvm_exception_is_soft(ex->vector)) {
+>  		intr_info |= INTR_TYPE_SOFT_EXCEPTION;
+> -	else
+> +	} else {
+>  		intr_info |= INTR_TYPE_HARD_EXCEPTION;
+> +		intr_info |= ex->nested ? INTR_INFO_NESTED_EXCEPTION_MASK : 0;
+
+Again,
+
+		if (ex->nested)
+			intr_info |= INTR_INFO_NESTED_EXCEPTION_MASK;
+
+> +	if (kvm_cpu_cap_has(X86_FEATURE_FRED)) {
+
+And here
+
+> +		vmcs12->guest_ia32_fred_config = vmcs_read64(GUEST_IA32_FRED_CONFIG);
+> +		vmcs12->guest_ia32_fred_rsp1 = vmcs_read64(GUEST_IA32_FRED_RSP1);
+> +		vmcs12->guest_ia32_fred_rsp2 = vmcs_read64(GUEST_IA32_FRED_RSP2);
+> +		vmcs12->guest_ia32_fred_rsp3 = vmcs_read64(GUEST_IA32_FRED_RSP3);
+> +		vmcs12->guest_ia32_fred_stklvls = vmcs_read64(GUEST_IA32_FRED_STKLVLS);
+> +		vmcs12->guest_ia32_fred_ssp1 = vmcs_read64(GUEST_IA32_FRED_SSP1);
+> +		vmcs12->guest_ia32_fred_ssp2 = vmcs_read64(GUEST_IA32_FRED_SSP2);
+> +		vmcs12->guest_ia32_fred_ssp3 = vmcs_read64(GUEST_IA32_FRED_SSP3);
+> +	}
+> +
+>  	vmcs12->guest_pending_dbg_exceptions =
+>  		vmcs_readl(GUEST_PENDING_DBG_EXCEPTIONS);
+>  
+> @@ -4625,6 +4675,17 @@ static void load_vmcs12_host_state(struct kvm_vcpu *vcpu,
+>  	vmcs_write32(GUEST_IDTR_LIMIT, 0xFFFF);
+>  	vmcs_write32(GUEST_GDTR_LIMIT, 0xFFFF);
+>  
+> +	if (kvm_cpu_cap_has(X86_FEATURE_FRED)) {
+
+And here
