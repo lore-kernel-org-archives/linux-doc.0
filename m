@@ -1,158 +1,95 @@
-Received: from wind.enjellic.com (wind.enjellic.com [76.10.64.91])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06DAB137C25;
-	Thu, 13 Jun 2024 10:46:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=76.10.64.91
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95FC113C9C0
+	for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2024 11:18:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718275596; cv=none; b=Zb8mOEiiqoXAw47nrbxpL2tlvE9WlQgDOuwDcJgpwwYDwHJzdRJLawVGgny8cz6TRsePa/YTYS8W+eNZS7TVmGpfOBDMzXP2seFENsJHwEn/XCjIwqPE7Q8QT/71pa31G9bZY50yvZH5uz631QF1DynXeVFtcdMq14MSPeMvFiU=
+	t=1718277506; cv=none; b=F4HG9kFKdMQYmjuOUL5dBTq+VZQ41BiY/dTIgFrS2TTSh7mQa/v8+30P67JTBAmrxrNp+xse08bc1WO7pOAYl+f5+cYxQvQPm+kjV9ihgovgbq206iFIRwV9kmTxrrZdPjrr0FVbKSTvyd3QoWoh3s740huo71lvn9yp8doDtqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718275596; c=relaxed/simple;
-	bh=NNoLj6NG7+/lmRKiScF9b/hfIGCzN5rkCrwpdxpZr1Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Mime-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kG1Le8SS6adOcmmB1k7GI0L1yFL4wiYCwqlEDde+nC0HM0cj8W9qVczZFEFPQYTJXgmxwiPYpzXBbgDycXZLPjpFQEn/TKqV8ccwcSue+GEiAlhrPQlXDBB2aGbFXT51AtXltmCdgPsq+jlQlsiXpeOUvkn+nKInqNlBvcdVmIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enjellic.com; spf=pass smtp.mailfrom=wind.enjellic.com; arc=none smtp.client-ip=76.10.64.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=enjellic.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wind.enjellic.com
-Received: from wind.enjellic.com (localhost [127.0.0.1])
-	by wind.enjellic.com (8.15.2/8.15.2) with ESMTP id 45DAjF41023155;
-	Thu, 13 Jun 2024 05:45:15 -0500
-Received: (from greg@localhost)
-	by wind.enjellic.com (8.15.2/8.15.2/Submit) id 45DAjC98023150;
-	Thu, 13 Jun 2024 05:45:12 -0500
-Date: Thu, 13 Jun 2024 05:45:12 -0500
-From: "Dr. Greg" <greg@enjellic.com>
-To: John Johansen <john.johansen@canonical.com>
-Cc: Paul Moore <paul@paul-moore.com>, Jonathan Calmels <jcalmels@3xx0.net>,
-        brauner@kernel.org, ebiederm@xmission.com,
-        Jonathan Corbet <corbet@lwn.net>, James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>, KP Singh <kpsingh@kernel.org>,
-        Matt Bobrowski <mattbobrowski@google.com>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <martin.lau@linux.dev>,
-        Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-        Yonghong Song <yonghong.song@linux.dev>,
-        John Fastabend <john.fastabend@gmail.com>,
-        Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
-        Jiri Olsa <jolsa@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <kees@kernel.org>, Joel Granados <j.granados@samsung.com>,
-        David Howells <dhowells@redhat.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Ondrej Mosnacek <omosnace@redhat.com>, Mykola Lysenko <mykolal@fb.com>,
-        Shuah Khan <shuah@kernel.org>, containers@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
-        bpf@vger.kernel.org, apparmor@lists.ubuntu.com,
-        keyrings@vger.kernel.org, selinux@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] bpf,lsm: Allow editing capabilities in BPF-LSM hooks
-Message-ID: <20240613104512.GA22971@wind.enjellic.com>
-Reply-To: "Dr. Greg" <greg@enjellic.com>
-References: <20240609104355.442002-5-jcalmels@3xx0.net> <CAHC9VhT5XWbhoY2Nw5jQz4GxpDriUdHw=1YsQ4xLVUtSnFxciA@mail.gmail.com> <z2bgjrzeq7crqx24chdbxnaanuhczbjnq6da3xw6al6omjj5xz@mqbzzzfva5sw> <887a3658-2d8d-4f9e-98f2-27124bb6f8e6@canonical.com> <CAHC9VhQFNPJTOct5rUv3HT6Z2S20mYdW75seiG8no5=fZd7JjA@mail.gmail.com> <uuvwcdsy7o4ulmrdzwffr6uywfacmlkjrontmjdj44luantpok@dtatxaa6tzyv> <CAHC9VhRnthf8+KgfuzFHXWEAc9RShDO0G_g0kc1OJ-UTih1ywg@mail.gmail.com> <rgzhcsblub7wedm734n56cw2qf6czjb4jgck6l5miur6odhovo@n5tgrco74zce> <CAHC9VhRGJTND25MFk4gR-FGxoLhMmgUrMpz_YoMFOwL6kr28zQ@mail.gmail.com> <ba8d88c8-a251-4c1f-8653-1082b0a101dd@canonical.com>
+	s=arc-20240116; t=1718277506; c=relaxed/simple;
+	bh=HBFcO3MnDbEgvd9n1zufKisPAvQ+5EkOfA3eyt/cemA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=futBZ/jnR6kC/y8qADuQRB8pnCorPWpCBzQO0dqV+kL8E9mAuh0untooR9Q96q/iwGod/HS9kjlmhIfHgdR2PX+njHe7B1HFI29DoeUTgUxzuaNFn50Tg9IMUBgVw8OttmxdJ7Y/tsTvKnajMFXTbP0nNhVzABN5kbJ7/z9Wkdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=NVPA4wvU; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="NVPA4wvU"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-52bc3130ae6so1037269e87.3
+        for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2024 04:18:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1718277503; x=1718882303; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HBFcO3MnDbEgvd9n1zufKisPAvQ+5EkOfA3eyt/cemA=;
+        b=NVPA4wvUQ6PZGYycD7ersd3mzlNbhyMnJuiEascfPCY+WdRa+vGieO2XPZITu4iTnA
+         ic+xnl9MqTgGnyAxu70Fnt1UMVo+G98EwhMh5raKtjuHVN9grDRiSFEKiqVmGc+BS6yI
+         EeJkQwZynWdNqFx3JVScoMiPn2ZqkipMRy/wd4CGi1jBr4G9hV27PMNUU15L0Bn4lszK
+         MiwuiDqqHDDlbZWHT4+xG0flTt8DvddWTXaiJTj4/rG2EI/uJz13Hk8mr7xDecZg+gVE
+         BrQqEuVN7daXlkOTSCPrsnMuu/clBxl1e3PcYjtc1cRvcnxPtPqFF7yKRBsbY8Wkny1s
+         gV7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718277503; x=1718882303;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HBFcO3MnDbEgvd9n1zufKisPAvQ+5EkOfA3eyt/cemA=;
+        b=TFAGlzIoOSAU1ScSR2sJ9rM4/Kry++ZAxLHxpd3n2EqUQ5vIZPKkKMTZI2r/g6oNJI
+         JxPQjPwP9lxq8gAWtL5bxT7lBMXG5tNMAWRFvRWWYPpqLK4GNurgiglzcRVrm3Ho5dox
+         RhGbb+Zp8yytp9cJzAaHzCyMDFaKN4KzYVikybCF0q03/DXYRKM0W52H+anQ4tQnbNou
+         YJDuVr6EAEzaviTyhw6oATzJ9IzRxQjCjE9+Apye0vFTEXcOOg0lLwuBwi1A7vzVXVjz
+         kcxl/1zQyTWANtsWOgOuJgEv9mTFiPclb+5oaFNfHsooG9mG3dvuWOR7PwGDhKOxIgPs
+         Hsfw==
+X-Forwarded-Encrypted: i=1; AJvYcCWLI1Xp99Np6/Oeqzymr65EWxk3ED18fpFYoNP4PYs3S2pWgFgHrIs2XPpX1OPrsd0EQs4koVoKZXVaCDzE2F8cNwLuO3dB63Ka
+X-Gm-Message-State: AOJu0YwqBFdwWvSuqZJ9OWc7QPQpAGegg2LOM0il+lJUIjUhphUNRRTd
+	Sxn/lk+cNOSpyPerfKYAmgcCNmWWzl6Gy42enKYXLHGQI7tjS4l5hLQIKanc1TBcrNbFX0PzIJs
+	Wuo+31MPlryEIwXKghK4Cuvx2nyD8iz4CXnR0Pg==
+X-Google-Smtp-Source: AGHT+IH+kLDQa0quCXRnsDwlpEst6OqWiTKg4mLICk/r9wtgXQ3OKkeStQzc8ULsG04CJKTsmjwSqQNEA4SjszvNw2Q=
+X-Received: by 2002:a05:6512:3ca4:b0:52c:a465:c61f with SMTP id
+ 2adb3069b0e04-52ca465c7d1mr482771e87.56.1718277502785; Thu, 13 Jun 2024
+ 04:18:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ba8d88c8-a251-4c1f-8653-1082b0a101dd@canonical.com>
-User-Agent: Mutt/1.4i
-X-Greylist: Sender passed SPF test, not delayed by milter-greylist-4.2.3 (wind.enjellic.com [127.0.0.1]); Thu, 13 Jun 2024 05:45:15 -0500 (CDT)
+MIME-Version: 1.0
+References: <20240613092830.15761-1-brgl@bgdev.pl> <20240613092830.15761-2-brgl@bgdev.pl>
+ <2024061330-clarinet-favorable-02da@gregkh>
+In-Reply-To: <2024061330-clarinet-favorable-02da@gregkh>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Thu, 13 Jun 2024 13:18:11 +0200
+Message-ID: <CAMRc=MfzVxucpLBn4fdOghBvLQFazc28Q8Zt+wzuKbrkrnzW4w@mail.gmail.com>
+Subject: Re: [PATCH v8 1/2] drivers: export to_ext_attr()
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Jonathan Corbet <corbet@lwn.net>, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, linux-gpio@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 12, 2024 at 08:54:28PM -0700, John Johansen wrote:
-
-Good morning, I hope the day is going well for everyone.
-
-> On 6/12/24 10:29, Paul Moore wrote:
-> >On Wed, Jun 12, 2024 at 4:15???AM Jonathan Calmels <jcalmels@3xx0.net> 
-> >wrote:
-> >>On Tue, Jun 11, 2024 at 06:38:31PM GMT, Paul Moore wrote:
-> >>>On Tue, Jun 11, 2024 at 6:15???PM Jonathan Calmels <jcalmels@3xx0.net> 
-> >>>wrote:
+On Thu, Jun 13, 2024 at 12:02=E2=80=AFPM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Thu, Jun 13, 2024 at 11:28:29AM +0200, Bartosz Golaszewski wrote:
+> > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 > >
-> >...
-> >
-> >>>>Arguably, if we do want fine-grained userns policies, we need LSMs to
-> >>>>influence the userns capset at some point.
-> >>>
-> >>>One could always use, or develop, a LSM that offers additional
-> >>>controls around exercising capabilities.  There are currently four
-> >>>in-tree LSMs, including the capabilities LSM, which supply a
-> >>>security_capable() hook that is used by the capability-based access
-> >>>controls in the kernel; all of these hook implementations work
-> >>>together within the LSM framework and provide an additional level of
-> >>>control/granularity beyond the existing capabilities.
-> >>
-> >>Right, but the idea was to have a simple and easy way to reuse/trigger
-> >>as much of the commoncap one as possible from BPF. If we're saying we
-> >>need to reimplement and/or use a whole new framework, then there is
-> >>little value.
-> >
-> >I can appreciate how allowing direct manipulation of capability bits
-> >from a BPF LSM looks attractive, but my hope is that our discussion
-> >here revealed that as you look deeper into making it work there are a
-> >number of pitfalls which prevent this from being a safe option for
-> >generalized systems.
-> >
-> >>TBH, I don't feel strongly about this, which is why it is absent from
-> >>v1. However, as John pointed out, we should at least be able to modify
-> >>the blob if we want flexible userns caps policies down the road.
-> >
-> >As discussed in this thread, there are existing ways to provide fine
-> >grained control over exercising capabilities that can be safely used
-> >within the LSM framework.  I don't want to speak to what John is
-> >envisioning, but he should be aware of these mechanisms, and if I
-> >recall he did voice a level of concern about the same worries I
-> >mentioned.
-> >
-> 
-> sorry, I should have been more clear. I envision LSMs being able to
-> update their own state in the userns hook.
-> 
-> Basically the portion of the patch that removes const from the
-> userns hook.
-> 
-> An LSM updating the capset is worrysome for all the reasons you
-> pointed out, and I think a few more. I haven't had a chance to really
-> look at v2 yet, so I didn't want to speak directly on the bpf part of
-> the patch without first giving a good once over.
-> 
-> >I'm happy to discuss ways in which we can adjust the LSM hooks/layer
-> >to support different approaches to capability controls, but one LSM
-> >directly manipulating the state of another is going to be a no vote
-> >from me.
-> >
-> I might not be as hard no as Paul here, I am always willing to listen
-> to arguments, but it would have to be a really good argument to
-> modify the capset, when there are multiple LSMs in play on a system.
+> > Make to_ext_attr() available to code that wants to reuse struct
+> > dev_ext_attribute. While at it: make it into a static inline function.
+>
+> Please don't use this, why is it needed?
+>
+> thanks,
+>
+> greg k-h
 
-Putting my pragmatic operations hat on, it isn't just the impact on
-multiple LSM's.
+I had a struct in the gpio-virtuser module that consisted of a
+device_attribute and a void pointer. Andy suggested reusing struct
+dev_ext_attribute for that but I need this macro to access it when
+only having the embedded struct device_attribute address.
 
-The security vendors, CrowdStrike's Falcon comes immediately to mind,
-are installing BPF hooks as part of their agent systems.
-
-Given that the issue of signing BPF programs is still an open
-question, allowing the ability of a BPF program to modify the security
-capabilities of a process opens the door to supply chain attacks that
-would seem unbounded in scope.
-
-On the other side of the fence, installing a BPF program is a
-privileged operation.  If a decision is made to allow that kind of
-privilege on a system the argument can be made that you get to keep
-both pieces.
-
-Of course that needs to be paired against the fact that system's
-administrators are not given any choice as to the wisdom of that type
-of permission being afforded to security applications.
-
-Best wishes for a productive remainder of the week.
-
-As always,
-Dr. Greg
-
-The Quixote Project - Flailing at the Travails of Cybersecurity
-              https://github.com/Quixote-Project
+Bart
