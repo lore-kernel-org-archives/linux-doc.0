@@ -1,151 +1,115 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 422B31474A8;
-	Thu, 13 Jun 2024 15:11:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F6AF145FE2;
+	Thu, 13 Jun 2024 15:13:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718291512; cv=none; b=UWaIUdHWWx1EAhcj9qoAEtk9vJWImUxsbcJEFDynDCOyL5sFAL/Aqc4NsuKgqDLwE3/PSEy3Ho0W+TuYdlyNyHgKCtY9ikyVLfSjGAGf5OHuXYXHKHXEgI4MkdyguhFTGU4FoPxlEWH0Mv8NDjrNvgHqRZMwvqilKywJ0o9yJLI=
+	t=1718291605; cv=none; b=BQcWvnNjK5YHgxw0wlAPJqCRBEEubD5Za9z3SuVLH/PZt1gVGTUiLk79NXbRJuI1oJ/4rtpiVRAvxWpSqH/uvY+xVlgMg2CbTxR/aUxJfXQtd8F8tLlon+1K+nQxuc5+wMmRTMi32nyXvhkUC1baunhN/jaUTjh2NbP119BSnHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718291512; c=relaxed/simple;
-	bh=z+795azhnXvc7Z8d96JFT7XZ4xKMWAHclN8bCJF7dyU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Us71fH4zVCILkheG/nsb1i72RjF30PDxxCGVw9rE7TD142d4SmUk1bN4pUI4HxUp90pl0r0ygo31Wxae5NRegaDn+s2mY+r6MX1L3YmBxpkBaO+LSCSqIHe9jk0PSuNjAxP5z7Ivxq0XcvIYHeBtS7wc62uyglcEQ+cciIaOzGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AyjHaTj6; arc=none smtp.client-ip=209.85.208.52
+	s=arc-20240116; t=1718291605; c=relaxed/simple;
+	bh=9H+YgTYmKGS5O+3bHXS0T2zCyE2mUBQG7mMq+T/+KDY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SD3ksbtNgy/4agKDefjYJXJ7HVnlNzMhzNsyJM/roiOZhY8/DebP8pcCwaXfh6CEQgqDE2OJM2sIUQAEVNnAftVn6+yb5NTDWJN7GoDSSDdqk1QEylvvOAGQw8+sIlumgEdmiKseKG6Hs5wQyaxxYNC6ZANch+gvvCJ782B8nUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rhhb8UeS; arc=none smtp.client-ip=209.85.219.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AyjHaTj6"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-57a44c2ce80so1255932a12.0;
-        Thu, 13 Jun 2024 08:11:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rhhb8UeS"
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6b08d661dbaso20559466d6.0;
+        Thu, 13 Jun 2024 08:13:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718291509; x=1718896309; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ZUuL7vfd80QBwFOZreuafWnuEJtkpQEboZUkkpavjoY=;
-        b=AyjHaTj6GPCnc81AsScic4bGJtgR1YkRSG0HxJPM/x5R08rYPh1HwTE3Iiu1M3e4qi
-         rjuqZr2W6AdA4voMwEnjseOK7LHLos7xhWxbWn1TijZ4Susx+WD/qI+/FNSUGNBnEgmn
-         iRk8cWiQbBKMZsOgWB2wRcwbEgCPz146r3i6ODsW7pWJbyMeEKY71hYtyS+ovvxi6Od2
-         U8dGGGW1kkFElMKiS/mvLRgx8AbwfxaKrcrZkUDiVF6WxN7xboYFcliSC5xGIsmfiaAO
-         Q5WEyaezGnq4b1YUQcmQTzemFR1KPdLH+N8PORk3kgAnSUfVIvpIpchfvC2HcYyyJayD
-         P6+g==
+        d=gmail.com; s=20230601; t=1718291603; x=1718896403; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tD51o0Y1ksGPreKO2RCSDyc0HAD564QL05nYWkEYiaE=;
+        b=Rhhb8UeS/F8142gK3yBwxQS3q8EKL5XBH4pZLTtMPdRAnuCHOg6qLEyGwOB1n+vp3R
+         o67CjEGKc7Czmyn/m6rFmgxHpnMXM8Nv3JrxSk1G8BROf6T75BG4EmnyI3CJPCJ9ix1u
+         9umLF1h38iJCvg9H3w19YBsR/OJEXrrQE2Vl76Fbpufr85BKukBnVC7Z6+cI5p5i768i
+         7nEfp+ye0b5OHnB3FiJZglqG9nyxoM9u16wUz9OP/O86LMuluHO+b7dWQQ2bplTxvVvq
+         N2u7dFvwBcwE4AX5nakZ8QAxZyvi7Wg4EgsFDh30Sy+E2vFdngC56zXAMsME7eRybzHs
+         HFRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718291509; x=1718896309;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZUuL7vfd80QBwFOZreuafWnuEJtkpQEboZUkkpavjoY=;
-        b=EqzogsAtn/ecv4BlYAXv05JjEAYbBGuR3T2i6j0NR4IYwcYDMiyJf2Nc1wcpnUj+DV
-         D81aoUeOKWrxSfJQbWY6nOA8zDIMED19SQre/55xteSNU47xlK/qyOfLQ3as08xeoC5B
-         NhGIGM28djA1j775Gr63kWc0dq4nUfkrGmaSvf/RBqS1P+s+OJpRkxxZV+Q3IuCPYF3f
-         mJC19bwh3Pevl9nE3uV2J2yfq392KT0cRNfgkHzuGgEIJTD9S6o4sokhgaGQTodsRtWO
-         4EoRcb2apnITmvtWH4MLbAlqnsW4kie+Nlebh3zQ0rJcz2M1WjdPbiWxojCOZu6rI5zB
-         KCow==
-X-Forwarded-Encrypted: i=1; AJvYcCUr512oNZN4BPas6t1ExF92KOs1KnodaqUYpgkAHIo1p39HBp29rSmPULJwgmbR0s7hk4a3Y5Tz/BapDpkLaWgyUW0IqDJaGKxP65A1iaJLoyPR2+EAxMSMQCrgTZCgmCh0PiAQXnJIJhUcY/3KcZ0JTpImM7E9ObZAY44V9WM4TPF12llpIrrn6BY/HKAArcyaURtZG5Gef7ahOaM9/Q==
-X-Gm-Message-State: AOJu0YwNPnzgsCGj3Sl0Q4mWerQw9fKTSOZ2FKAKUNo5/xs7t4LtdoKK
-	p7zmUtygO1DEdtD9plNd0jiUhTgUJA+aJVArq1Kd9Eyj7lg0Lr30
-X-Google-Smtp-Source: AGHT+IHvS3n0XhSSsilqaBsUgJPu+uCF+nXcgUDyisRM+IjvDSTJs6bj4z/Gic9iov+SFd1Ia0o0hw==
-X-Received: by 2002:a17:906:68ca:b0:a6f:59dc:4ed1 with SMTP id a640c23a62f3a-a6f60cf2d33mr4132966b.14.1718291509171;
-        Thu, 13 Jun 2024 08:11:49 -0700 (PDT)
-Received: from nsa.fritz.box ([2001:a61:35f9:9001:40df:88bb:5090:7ab6])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f56f41655sm81149666b.169.2024.06.13.08.11.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jun 2024 08:11:48 -0700 (PDT)
-Message-ID: <5f0776ba5163578453e26352763ff1b4687bcf87.camel@gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: iio: adc: add AD4695 and similar ADCs
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: David Lechner <dlechner@baylibre.com>, Krzysztof Kozlowski
- <krzk@kernel.org>,  Jonathan Cameron <jic23@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>
-Cc: Michael Hennerich <michael.hennerich@analog.com>, Nuno
- =?ISO-8859-1?Q?S=E1?=
-	 <nuno.sa@analog.com>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Date: Thu, 13 Jun 2024 17:11:48 +0200
-In-Reply-To: <b6b52b1e-847b-44ca-87f9-095a78164771@baylibre.com>
-References: <20240612-iio-adc-ad4695-v1-0-6a4ed251fc86@baylibre.com>
-	 <20240612-iio-adc-ad4695-v1-1-6a4ed251fc86@baylibre.com>
-	 <94448c2c-e7b2-4191-858c-529b254994f1@kernel.org>
-	 <f765ef30-a777-4dfc-8f93-0f15b46f91ae@baylibre.com>
-	 <e09fecf4-bde2-4feb-8312-22c530c6a960@kernel.org>
-	 <b6b52b1e-847b-44ca-87f9-095a78164771@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.1 (3.52.1-1.fc40) 
+        d=1e100.net; s=20230601; t=1718291603; x=1718896403;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tD51o0Y1ksGPreKO2RCSDyc0HAD564QL05nYWkEYiaE=;
+        b=ffVtc4YA7sRle42qgQU9rAl4TseL8dfIQJX9VH+rE17u9t2rZHPJKDv/fOhNSZoAmb
+         0N3VATVYud2UJ9BrGewCOpGMbyD7hgOJtCacmqi5/kIBnZO4trkpxDMA/VwpU/ZUxyIy
+         K6sbkCqHaHfh6cCsnNwCNkvuTX+N7LwUJHgmMDLlem9N3SuPFPtTiJpn9hqmFQ6Nms16
+         sOaftPAw+O7HCgn+K5EoCkIqU8qlXkA2JJHeSWhqBiHi9P6fjWvlCWmLfTpg4DgSkIjo
+         AqoC+c5NO/ty0P+LuHiVkEbri9dIZEklQpJT18YNUlJqVuu0huG3MjYe4hNgmgXfFX6d
+         RPEg==
+X-Forwarded-Encrypted: i=1; AJvYcCV543eJq4InAz1QgzjWnVya7LKOygmnQFgDPOS7u1KYivcz0c5fkwDGAya7MgkTP8XDZI90QQUh+29f343Laa4j6yYtGDgzPyVb+St13fQHnpN44Hew0MGufKDXgAmWQmeAr3oz2iuy
+X-Gm-Message-State: AOJu0Yy1CAvvmRYSJ6oTWGAhCOHKEVWkagSExr+gPaeawE7yWqM40P31
+	ZnF0iCNOqQIQBEsE+xUJN7Oq4d6Iz/i1z/UBj9LgYUPZ+a9DB8dB8Br0LZCKaEIKB8mHyaF4lN9
+	woRMNffiUNWoMIhikNbOFSowMO0U=
+X-Google-Smtp-Source: AGHT+IGW6rnw+BQabFawV0pm/2GpvLPrBzbXMkIgKzqD4lNHr4ky/rvWXSuj65jR7lHLZQPMM59NAef8eQa9ZzeUTRI=
+X-Received: by 2002:a05:6214:130d:b0:6ad:753d:45cb with SMTP id
+ 6a1803df08f44-6b2a343d2b7mr49824026d6.20.1718291603122; Thu, 13 Jun 2024
+ 08:13:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20240608155316.451600-1-flintglass@gmail.com> <20240608155316.451600-4-flintglass@gmail.com>
+In-Reply-To: <20240608155316.451600-4-flintglass@gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Thu, 13 Jun 2024 08:13:11 -0700
+Message-ID: <CAKEwX=M4pKhWs_d9ZGvvG7N3g2RFggFj5DEidyzjHe2pivr5UA@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] mm: zswap: proactive shrinking before pool size
+ limit is hit
+To: Takero Funaki <flintglass@gmail.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>, Yosry Ahmed <yosryahmed@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2024-06-13 at 09:39 -0500, David Lechner wrote:
-> On 6/13/24 9:18 AM, Krzysztof Kozlowski wrote:
-> > On 13/06/2024 15:57, David Lechner wrote:
-> > >=20
-> > > >=20
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: =
-adi,ad4695
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - items:
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: =
-adi,ad4697-wlcsp
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: =
-adi,ad4697
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # same chips with higher max samp=
-le rate
-> > >=20
-> > > I suppose one could make the argument that the programming model is
-> > > the same on these too, but the maximum sampling frequency does seem
-> > > like an important bit of information so that you don't try to set
-> > > the conversion trigger rate too high.
-> > >=20
-> >=20
-> > which property is that? I don't see differences in the driver, so I
-> > don't get how these wlcsp compatibles allow you to control value of
-> > conversion trigger.
->=20
-> This comment is unrelated to the package type (WLCSP or LFCSP).
->=20
-> What I mean is that e.g. AD4695 and AD4696 are virtually identical
-> other than the maximum allowable sample rate (500 kSPS or 1 MSPS).
->=20
-> So my thinking was that it would make sense to have:
->=20
-> 	compatible =3D "ad4695";
->=20
-> for the lower sample rate chip and
->=20
-> 	compatible =3D "ad4696", "ad4695";
->=20
-> for the higher sample rate chip since ad4696 can do everything
-> that ad4695 does plus a bit more.
->=20
+On Sat, Jun 8, 2024 at 8:53=E2=80=AFAM Takero Funaki <flintglass@gmail.com>=
+ wrote:
+>
+> This patch implements proactive shrinking of zswap pool before the max
+> pool size limit is reached. This also changes zswap to accept new pages
+> while the shrinker is running.
+>
+> To prevent zswap from rejecting new pages and incurring latency when
+> zswap is full, this patch queues the global shrinker by a pool usage
+> threshold between 100% and accept_thr_percent, instead of the max pool
+> size.  The pool size will be controlled between 90% to 91% for the
+> default accept_thr_percent=3D90.  Since the current global shrinker
+> continues to shrink until accept_thr_percent, we do not need to maintain
+> the hysteresis variable tracking the pool limit overage in
+> zswap_store().
+>
+> Before this patch, zswap rejected pages while the shrinker is running
+> without incrementing zswap_pool_limit_hit counter. It could be a reason
+> why zswap writethrough new pages before writeback old pages.  With this
+> patch, zswap accepts new pages while shrinking, and zswap increments
+> the counter when and only when zswap rejects pages by the max pool size.
+>
+> Now, reclaims smaller than the proactive shrinking amount finish
+> instantly and trigger background shrinking.  Admins can check if new
+> pages are buffered by zswap by monitoring the pool_limit_hit counter.
+>
+> The name of sysfs tunable accept_thr_percent is unchanged as it is still
+> the stop condition of the shrinker.
+> The respective documentation is updated to describe the new behavior.
+>
+> Signed-off-by: Takero Funaki <flintglass@gmail.com>
 
-IMO, that would make sense yes. If the higher sample rate chip fallsback, i=
-t will
-still work but not at full speed. The other way around is the one that we c=
-an't allow
-naturally.
+Taking a step back, could you benchmark and include relevant
+userspace-visible metrics to show:
 
-But possibly dumb question now... since both devices will be supported at t=
-he same
-time, do we actually care about having the fallback compatible? My understa=
-nding of
-the fallback story is that we may load a DTS in an older kernel where chip =
-A is
-supported but chip B is not and it is ok for chip B to fallback to chip A. =
-Since
-these devices will be supported at the same time, do we need to care? Unles=
-s out of
-tree stuff enters the equation?
+a) This is a problem happening in realistic-ish workloads.
+b) The solution shows improvements over the status quo.
 
-Or is there another usecase that I'm not aware about (or maybe it just make=
-s sense to
-document properly...)?
-
-- Nuno S=C3=A1
->=20
-
+before we justify any extra complexity? This goes for pretty much the
+whole series (i.e why are we fixing this), but for this patch
+specifically, since we are optimizing things.
