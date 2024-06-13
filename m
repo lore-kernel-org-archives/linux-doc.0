@@ -1,121 +1,86 @@
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [207.46.229.174])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18489137914;
-	Thu, 13 Jun 2024 06:14:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.46.229.174
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D55E11369BC;
+	Thu, 13 Jun 2024 06:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718259290; cv=none; b=OreXJALMytFKxhQuRYjaykCT1I1Zq59nsQnIMY8ICutCFqUUUGhokrDlz2qUJho+O/5D+Y59/IgNUTgBvHwoYztr+OvfLuds/cHBe2vlXApNb1Sy9TiOK46hPWIN8HUOO6g6x1VKsRelVTLUlgzeO3JPwZfESEPZw7EWshOzfjM=
+	t=1718259383; cv=none; b=I8CIC/Q8tQVDvWlLIFb3Wlif3TZuJLsR+N0aaVGRbkS/rnH3zS0Pn9CBmBndOcSkzYQX9AzH4b7t9ubh7z+XAjRgAj0nWNhreDaOlspvLo/5Bi8hCeGDpBq7mALGk3G28eiyE4zgCT3uWnCZCcNzMorWr4zUc6J8yd/zi6thRPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718259290; c=relaxed/simple;
-	bh=/NPEZDTSboUNyHHYCssTCB8+lPpXpoNQ9QHlCkgKOnM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TSWq1pyahym2sHJjnTL3O9W8f6AO7QnM/pGoe7DsmPM4ge2b9a8/FO03oBOEGclrCLLydfYSuRB8xkYYHca31WK4Ke79WtxeKgt9nzwaMCXvCBjM0NtF0lc/jqHBN33UL8nu9whRd3Nc3Ed3EAaCJbqPK9ijAavq2iCwXUGL+r4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=207.46.229.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app1 (Coremail) with SMTP id HgEQrACXmShLjmpmoqTMBw--.62950S2;
-	Thu, 13 Jun 2024 14:14:35 +0800 (CST)
-Received: from [10.12.169.238] (unknown [10.12.169.238])
-	by gateway (Coremail) with SMTP id _____wAnYk9KjmpmQIceAA--.32707S2;
-	Thu, 13 Jun 2024 14:14:34 +0800 (CST)
-Message-ID: <25a6d1e3-5965-4a51-ab9a-4489c519e10b@hust.edu.cn>
-Date: Thu, 13 Jun 2024 14:14:34 +0800
+	s=arc-20240116; t=1718259383; c=relaxed/simple;
+	bh=gGtIVYGg22wLtYzNDK/SjLScQH7VyamnEbat5FMLgyk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=rY+IIbpevSrb59Uu9zHpZV8I+BCqQN8MinU9mh8nAa9MfzD9dmDkoGh8SegT4waFxZyTNtAFfkT0kzHI+AfakbPgbUKnlV2A6naZhKlNqZxpE3y/tEw9MjuAfA8XaGaEqMCseT6PAr0kdVDBtWzdgjebrKQvzkuPXw/GuESSPx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gx17ErcU; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gx17ErcU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718259382; x=1749795382;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=gGtIVYGg22wLtYzNDK/SjLScQH7VyamnEbat5FMLgyk=;
+  b=gx17ErcUlw/pjo9HfhuNO/F309quZPMiTX8tZ0W0u3aAy6ymLonA6pEg
+   RlTT8hbGx+u6XyAW2Ycvvrj2PzJ5EqMI24Twe+DxCpUjgiMw//lQ7kCri
+   E9qUTWdPKQ4AQI/Sx3HAIsKi2K8cuVeZkq2HDNdtO9qf/D65yasUsa/W0
+   P7vPx+gEzTv9pIVd/7PKoOckxeRygG7AgYOHvDoQSKNqDolfTlETbF9hh
+   fRRYYHu3NwhC4hFmhkaqSlQH5eKZRwrEIQcdlGlBjg628/UK1HHjGTWy3
+   NINckoxYvHmMqF3eMCst/SOtA9zvP4/WMKaN0llX5CTolKDy2iZBKx5/i
+   g==;
+X-CSE-ConnectionGUID: ZTZjNM+0S7OVg6oAyF/oag==
+X-CSE-MsgGUID: 6/OgpurdTj6CzImb+3FmsA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="15022951"
+X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
+   d="scan'208";a="15022951"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 23:16:22 -0700
+X-CSE-ConnectionGUID: MgXS/vLmTcafwv7Jw1NbKQ==
+X-CSE-MsgGUID: hY+fhsZTR1ujavD+nYkliA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
+   d="scan'208";a="71236673"
+Received: from iklimasz-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.112])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 23:16:17 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, masahiroy@kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Danny Lin <danny@kdrag0n.dev>,
+ =?utf-8?B?w43DsWlnbw==?= Huguet <ihuguet@redhat.com>, =?utf-8?Q?Micka?=
+ =?utf-8?Q?=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
+ Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Subject: Re: [PATCH v2] .editorconfig: remove trim_trailing_whitespace option
+In-Reply-To: <2024061137-jawless-dipped-e789@gregkh>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <2024061137-jawless-dipped-e789@gregkh>
+Date: Thu, 13 Jun 2024 09:16:14 +0300
+Message-ID: <877cetjrkh.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/zh_CN: Update dev-tools/index.rst
-To: Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <siyanteng@loongson.cn>, Haoyang Liu <tttturtleruss@hust.edu.cn>,
- Vegard Nossum <vegard.nossum@oracle.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240612161835.18931-1-dzm91@hust.edu.cn>
- <871q51q2zq.fsf@trenco.lwn.net>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <871q51q2zq.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:HgEQrACXmShLjmpmoqTMBw--.62950S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoW7Ar4kXrWUZw47CrWUXr47Arb_yoW8XF1xpF
-	409FySka4rXry3C342gF1jgFy8KF1xWw4DGF1qq3ZYqrn8XFs7tFsxtr9I9FyfXrWfAayr
-	AF4IgFy5W34jka7anT9S1TB71UUUUj7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQYb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
-	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
-	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
-	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26F4j6r4UJwAm
-	72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82
-	IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s026xCaFVCjc4AY6r1j
-	6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
-	AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv2
-	0xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4
-	v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AK
-	xVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0_uctUUUUU==
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+Content-Type: text/plain
 
-
-On 2024/6/13 05:12, Jonathan Corbet wrote:
-> Dongliang Mu <dzm91@hust.edu.cn> writes:
+On Tue, 11 Jun 2024, Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+> Some editors (like the vim variants), when seeing "trim_whitespace"
+> decide to do just that for all of the whitespace in the file you are
+> saving, even if it is not on a line that you have modified.  This plays
+> havoc with diffs and is NOT something that should be intended.
 >
->> Update to commit 8c88bc5b489e ("docs: dev-tools: Add UAPI checker
->> documentation")
->>
->> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
->> ---
->>   Documentation/translations/zh_CN/dev-tools/index.rst | 6 +++++-
->>   1 file changed, 5 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/translations/zh_CN/dev-tools/index.rst b/Documentation/translations/zh_CN/dev-tools/index.rst
->> index fa900f5beb68..c540e4a7d5db 100644
->> --- a/Documentation/translations/zh_CN/dev-tools/index.rst
->> +++ b/Documentation/translations/zh_CN/dev-tools/index.rst
->> @@ -20,18 +20,22 @@ Documentation/translations/zh_CN/dev-tools/testing-overview.rst
->>   
->>      testing-overview
->>      sparse
->> +   kcov
->>      gcov
->>      kasan
->> -   kcov
->>      ubsan
->>      kmemleak
->>      gdb-kernel-debugging
->>   
->>   Todolist:
->>   
->> + - checkpatch
->>    - coccinelle
->> + - kmsan
->>    - kcsan
->>    - kfence
->>    - kgdb
->>    - kselftest
->>    - kunit/index
->> + - ktap
->> + - checkuapi
-> So I have to say that the changelog here is not particularly helpful.
-> You have *not* updated the translation to that commit, so it doesn't
-> seem like you should say that you did.  "Add several newish documents to
-> the todo list" is appropriate for something like this.
+> As the "only trim whitespace on modified files" is not part of the
 
+Do you mean s/files/lines/?
 
-Yes, I should use another commit message to describe what I am doing.
+BR,
+Jani.
 
+> editorconfig standard yet, just delete these lines from the
+> .editorconfig file so that we don't end up with diffs that are
+> automatically rejected by maintainers for containing things they
+> shouldn't.
 
-> I've applied the patch, but with the changed commit message.
-
-
-Thanks very much.
-
-
->
-> Thanks,
->
-> jon
-
+-- 
+Jani Nikula, Intel
