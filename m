@@ -1,188 +1,254 @@
-Received: from smtp-relay-canonical-0.canonical.com (smtp-relay-canonical-0.canonical.com [185.125.188.120])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3D3F130ACF;
-	Thu, 13 Jun 2024 03:54:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.125.188.120
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718250892; cv=none; b=OX7nPdXEVOf8cetP099JitcjBA0m9uHOzXjQYG1hQB06D8N4tXj+kJwb4woWC+Ck5uTwnNhCx2YEoSci9K8KXtcUPfwz/yjvhV8J3ZngjvUC0HvAf9P99ABdRIju0xg+V6a1LFHPYdCx0yNBk/+HhxbE1lsSLEFnk7wnSf98qPQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718250892; c=relaxed/simple;
-	bh=4IRlCB/4nUSbZwsJUsWYdboTwZ+C4w4yUEx925ojR84=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sHuCGAHKnmZvQ+1iH1Rq70d4vnhArf9XB0M8t/TfbDMMNrd6nuy+mjHRq45y62hdkq5u2+O79LdgRiAZLqJjHe+Bc4XYuL1ZTrsE41/1jv0AaaQVSwd+miGYidCFPCS6FBg9WSPkqgGIclbTod7GUX6d3b4ELBMYlohC2cFTI8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com; spf=pass smtp.mailfrom=canonical.com; dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b=An6aC73w; arc=none smtp.client-ip=185.125.188.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canonical.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canonical.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E79BF210FF;
+	Thu, 13 Jun 2024 05:29:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1718256570; cv=fail; b=T4N9yJM270DYG8+cVNUXkSPw5ZoIKf0SADBLqZbyZTPOMDsQgiqzLHnWjy8+M35SR3UWrMntVV26rS0wGHWYF4XDenOsALBu3NpFohil64Ua8DqwwWk9oAee7L/TRWN/n1cLAUkASCcoyHgrYN2EOnPzEgTOzI7jglEH5TSBsCU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1718256570; c=relaxed/simple;
+	bh=D2JIQUqp8sRY9UzsMWoWL8ML+yaA2s7g0QZ1eN5LN/o=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=nVmCNJPz9XJTWSyACp6nv63vIzbo5vW5pHHZ1GhJAlytcSFJjabjrgWnglkp5KjgHKAr0q4nJvv0O7VtUi2yXh9X3XSvfMl8Y/5SrtmIy/bF5mLtG929vMRdbMZ58ojJKXIPcXeyH+lDbdv2hI1ExVEwnR+fQp1BsgD5rVwa25A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bwFlX5Xr; arc=fail smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canonical.com header.i=@canonical.com header.b="An6aC73w"
-Received: from [192.168.192.83] (unknown [50.39.103.33])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id CF5353F2CF;
-	Thu, 13 Jun 2024 03:54:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1718250879;
-	bh=xYQFrwIswvtW1GDA70qHgG50RX/kaBNY/JfSUQQLhR4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type;
-	b=An6aC73w/ZU7OmxOvSuz+41Bk29n1RzGYRS+uRav0+cXNZDYiw0ei2+4KT0DLIQmR
-	 9MPSEbJLAQuXnRU2l1p5K7g/ngtisXCiqJY7+DpIcX5gf4NxXTNZ2gQBcyTwkHaWl2
-	 an0g3lTyh8FUBr/bb/bwBKK+Xtp76qqkp6BMD6e2lqrSMqPfvZYNBGaxIdZEzNL8GV
-	 tBGXvU3Wtn4rdYuAH+yDwsroZEcMpfJlu5/xnvb9ExOtXOW8NG1DzWyKKjscsSy82e
-	 fJk1rQRpk9QlhZcG88cuwit7OGlxxr/aGxauV5NxUS3y54lAajmfI41kRTr0kmKwzQ
-	 Vl+U1To6ETOYA==
-Message-ID: <ba8d88c8-a251-4c1f-8653-1082b0a101dd@canonical.com>
-Date: Wed, 12 Jun 2024 20:54:28 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bwFlX5Xr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718256569; x=1749792569;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=D2JIQUqp8sRY9UzsMWoWL8ML+yaA2s7g0QZ1eN5LN/o=;
+  b=bwFlX5XrRjs5/OCA67Nol2RhNT4Rhi68fxkUYt8eVQXS9w957aL/73Ek
+   aE1BNKwpPUBGHkkTKkTETYHsXR5SNUE2pyo5lZRCr4jyVTTCTCv37MV5z
+   OFb1gi43lS59VFG0P3SvJJ80CBeG3a1LRMiRq46bY/CDRcMEBuAxL0hsl
+   VlPK3kmsGlRGo1JYDExrlYIZ5TGqrOsSUPEVAKRvudlN6YqspizooEIyk
+   O0IVeGY5ZXBd9b8zUhui4rjOkTr5DoIZialuSEZHJ2RCr7ou7m43Xpi0I
+   zxnLLzkeeAE4a56HBYUzX7uhfOHvLfT/dnjD9axee8NkZWFfPd4CZtQKW
+   w==;
+X-CSE-ConnectionGUID: ERHg9qY9TN2ZDpsPpX10UA==
+X-CSE-MsgGUID: 0wYJlXkMTYGD1sX8eXZtHQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11101"; a="25632741"
+X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
+   d="scan'208";a="25632741"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2024 22:29:28 -0700
+X-CSE-ConnectionGUID: LPqBeL83TX6fi2eYW7iSjQ==
+X-CSE-MsgGUID: eJLw/JGYRICx31Y4gXeiGQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,234,1712646000"; 
+   d="scan'208";a="39943566"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orviesa010.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 12 Jun 2024 22:29:27 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Wed, 12 Jun 2024 22:29:26 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Wed, 12 Jun 2024 22:29:26 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.177)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Wed, 12 Jun 2024 22:29:26 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RAmpon4ore193RrhDPR7Y6Q++gL9ot+fUAzPsa03m309Zc069emwCBJk/8liGVNYnnK4hSDB1ihg7nwnH36Tl7byzCDBSMcxnY/PhNvHONc4TmcObr8TuPOuLoAw64Q2FHeL3Pza6TQnpO2orn4qNUFl28YcliJDJ1XPA8sVu+QlNgmYy4NWSAggQQ72k+xjY7GxCDoOkStcOV08fkExk5iGphTqFd23aeGNbwZIEa/20KrAM2CIZjKAWvXfaiXDdVULCKUbOY9gObarBxkdyPn6rDny5MU5D4vSq37/E6ypjPdCCcBREDM944gObVXHU3jnFN43A/Szglne+HSb9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=K6CEGsdCxkM01RlHD2dzYnAawMyddQaIgwXlqnd6CBM=;
+ b=GFJqsBOCGOlnvev2G7xkNEnUkaGHBgHwBbRnLpiRp3nUQDtGXxOAl4RGDdYfo1zYQrSEJbtSaow+cTGmrLbhAjlH5w8e0OgpIzL7e6v3b0OXZbDCAofvPHAhNPXOKvYFVe9aBwy3Jc9FduZpaLy8fjoshYQZyf6SbfBVRaEFwuGnAs2RxMNx+o8wwGO2J344DXxdF/7+k+SFdHDjdiPQZcxC51X8enipG/511A015bslkSVY0uHF3NCNNhIrz1YovlG5LHfqwpdA7Rygx+c+4leydNX+8oWabOkkjhDtRnoufw4Ruu/uTFI76fRhvEDDFHbOrCIT/djkNnRLTs9BMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB8665.namprd11.prod.outlook.com (2603:10b6:8:1b8::6) by
+ CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.7633.37; Thu, 13 Jun 2024 05:29:24 +0000
+Received: from DS0PR11MB8665.namprd11.prod.outlook.com
+ ([fe80::8e7e:4f8:f7e4:3955]) by DS0PR11MB8665.namprd11.prod.outlook.com
+ ([fe80::8e7e:4f8:f7e4:3955%3]) with mapi id 15.20.7677.019; Thu, 13 Jun 2024
+ 05:29:24 +0000
+Date: Thu, 13 Jun 2024 13:29:11 +0800
+From: Chao Gao <chao.gao@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+CC: Xin3 Li <xin3.li@intel.com>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+	"pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net"
+	<corbet@lwn.net>, "tglx@linutronix.de" <tglx@linutronix.de>,
+	"mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org"
+	<x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>, "shuah@kernel.org"
+	<shuah@kernel.org>, "vkuznets@redhat.com" <vkuznets@redhat.com>,
+	"peterz@infradead.org" <peterz@infradead.org>, Ravi V Shankar
+	<ravi.v.shankar@intel.com>, "xin@zytor.com" <xin@zytor.com>
+Subject: Re: [PATCH v2 12/25] KVM: VMX: Handle FRED event data
+Message-ID: <ZmqDp/dpCfT6qc3l@chao-email>
+References: <20240207172646.3981-1-xin3.li@intel.com>
+ <20240207172646.3981-13-xin3.li@intel.com>
+ <ZjBiLDJ4SdQ0p5xm@chao-email>
+ <SA1PR11MB6734740F9B6085E0997A4179A8E72@SA1PR11MB6734.namprd11.prod.outlook.com>
+ <Zj7f+JWbVfIBIK8h@chao-email>
+ <Zmov1x2KFtoMN3Vm@google.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <Zmov1x2KFtoMN3Vm@google.com>
+X-ClientProxiedBy: SI1PR02CA0016.apcprd02.prod.outlook.com
+ (2603:1096:4:1f4::17) To DS0PR11MB8665.namprd11.prod.outlook.com
+ (2603:10b6:8:1b8::6)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] bpf,lsm: Allow editing capabilities in BPF-LSM
- hooks
-To: Paul Moore <paul@paul-moore.com>, Jonathan Calmels <jcalmels@3xx0.net>
-Cc: brauner@kernel.org, ebiederm@xmission.com,
- Jonathan Corbet <corbet@lwn.net>, James Morris <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>, KP Singh <kpsingh@kernel.org>,
- Matt Bobrowski <mattbobrowski@google.com>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
- <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>,
- Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>,
- Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
- Kees Cook <kees@kernel.org>, Joel Granados <j.granados@samsung.com>,
- David Howells <dhowells@redhat.com>, Jarkko Sakkinen <jarkko@kernel.org>,
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Ondrej Mosnacek <omosnace@redhat.com>, Mykola Lysenko <mykolal@fb.com>,
- Shuah Khan <shuah@kernel.org>, containers@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-security-module@vger.kernel.org,
- bpf@vger.kernel.org, apparmor@lists.ubuntu.com, keyrings@vger.kernel.org,
- selinux@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20240609104355.442002-1-jcalmels@3xx0.net>
- <20240609104355.442002-5-jcalmels@3xx0.net>
- <CAHC9VhT5XWbhoY2Nw5jQz4GxpDriUdHw=1YsQ4xLVUtSnFxciA@mail.gmail.com>
- <z2bgjrzeq7crqx24chdbxnaanuhczbjnq6da3xw6al6omjj5xz@mqbzzzfva5sw>
- <887a3658-2d8d-4f9e-98f2-27124bb6f8e6@canonical.com>
- <CAHC9VhQFNPJTOct5rUv3HT6Z2S20mYdW75seiG8no5=fZd7JjA@mail.gmail.com>
- <uuvwcdsy7o4ulmrdzwffr6uywfacmlkjrontmjdj44luantpok@dtatxaa6tzyv>
- <CAHC9VhRnthf8+KgfuzFHXWEAc9RShDO0G_g0kc1OJ-UTih1ywg@mail.gmail.com>
- <rgzhcsblub7wedm734n56cw2qf6czjb4jgck6l5miur6odhovo@n5tgrco74zce>
- <CAHC9VhRGJTND25MFk4gR-FGxoLhMmgUrMpz_YoMFOwL6kr28zQ@mail.gmail.com>
-Content-Language: en-US
-From: John Johansen <john.johansen@canonical.com>
-Autocrypt: addr=john.johansen@canonical.com; keydata=
- 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 lT9Q
-Organization: Canonical
-In-Reply-To: <CAHC9VhRGJTND25MFk4gR-FGxoLhMmgUrMpz_YoMFOwL6kr28zQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB8665:EE_|CY5PR11MB6139:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1fd97861-3c65-4afa-4425-08dc8b69c924
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230034|376008|1800799018|366010|7416008;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?aSy5B0ttSfc6vIFzstluPRv7wI9L8mkS/KHp40Y0fcm/OoWLCWuLCYmmDohm?=
+ =?us-ascii?Q?zllQ4wue1YnqEdyJKPfyK5Nt5KYYPQOtdjQ52lA2l9r53rMZAn3XGn4xBLQ0?=
+ =?us-ascii?Q?fKCtw5SjvxF7cdJxHIY0AymA7wago+xd2H5h45YECprMwu6AtiAEuLJd9FU9?=
+ =?us-ascii?Q?kOS5EWBGWuZk9Ly1tOSYo9o04OZ/pwq2eHOkANBZ3QplQOUwx4ECTJ6jtb99?=
+ =?us-ascii?Q?dtdpukEwfNaC0zyEoAPh4+KtXjVK07lgH22ZZObYY+yHQ/iK2OCOGFmtp3q8?=
+ =?us-ascii?Q?dFo2kF4JKwAZ95agXayVJQ75Wb17Lwb+NZ47o+k7f7mrJi+NWUuOEQW7p8Yt?=
+ =?us-ascii?Q?My4TQtj2aS7b2sqhX1QWtOUA/OAVG31JxXWdS+z9fgrel7OG1qbYZ4FQaAa0?=
+ =?us-ascii?Q?8/c15pqmk0m3jNfozWI+/Mc0vnunjN5hHu4H4dMe3c4VUrJsjfRLqBs0d5VW?=
+ =?us-ascii?Q?eR94Sfppg6x2GqMwcbQ5E2fjBYwdSLoJbgOiP4c7SOfAJCorjkN0lH3f3Kyo?=
+ =?us-ascii?Q?3vrwWSObRPXBzMUszIH+BVfI8Y1WJ5dXMgCV3IO4ZrfYI9Myqqm0C8y+4ZiV?=
+ =?us-ascii?Q?71FbhkVtc3huf4QRbzynTT3slurOO0NXtcH0s+uAysYPXXwLcmbk34h5GFgm?=
+ =?us-ascii?Q?duaUJE2Yze8e/cc1q20ZziiPD/znjurzmMzpTALOqdLop5V8NieGolg0SeUp?=
+ =?us-ascii?Q?FxtLFoQy7+0n9UnnjxVmt1gvQNCS+VwmBWd1fvL7OgrLAxq5lExAp6vc8HML?=
+ =?us-ascii?Q?UZ3VXjqUli8QlDrPr46Z2L023CNsBjCypeFOuFQqPQmCkUKSUx6vFjd0cqgd?=
+ =?us-ascii?Q?TgyCxZE4jZsGBgIE5b6zUkFlcWtdX03Qt3j1j/wxfxnjIXuQ2fvMc8dEEgtJ?=
+ =?us-ascii?Q?uIDhd2KVNNs9Y5LNGvsei+3HrmO6XANbQi4tCf1Uk2JILDSrzZOqlmFAGzRR?=
+ =?us-ascii?Q?fncuRi45zNSawHGBu5pgnTJbwel96+Lx7XvIE/gBHVdqLaeXY5E4FJU+/JsP?=
+ =?us-ascii?Q?SKOPmkB445kFOWqaAI+X0+1JqEk+t3anbDoP9MFrZ98OOu/uKEgTS3IpDjJl?=
+ =?us-ascii?Q?dZ5zSPF5KGme/l5EkKGPxRudVqvFZGkGAo9iTIPKAwwOi+T6FC+hgYsi0ko8?=
+ =?us-ascii?Q?1qbY4G5rjl4GmDmS2jDaHDuJStwRHtCsFsfyHgSL6aOPaMYJg8O2dVadNnVt?=
+ =?us-ascii?Q?C9avcpgVG6w96etw1Du1BKSNkdm4JioaRVeScqAImtH1+OrxlmMoD+tnd+Am?=
+ =?us-ascii?Q?N+q46X2J9tp7LN9UsAzeaIKBUpY+P1ld4fpTxgaKJ1okLaME3EOnSRuLRMGD?=
+ =?us-ascii?Q?erYRYrLK2Zyge28+lldUepeA?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB8665.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230034)(376008)(1800799018)(366010)(7416008);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1qWeanwwoyyrxlmUl+XTElRazm6WPXGnvOIXZPJrZRJLTNUpOgO8e45ELkai?=
+ =?us-ascii?Q?rSeClNAbGROyMsfbqsy6QBq46wX1pRAzyOr8dU8taBGzLQQ7Dp+E2WhOf+jr?=
+ =?us-ascii?Q?w4W/BGYpbkmtMKT2eC7Ofp1f2c8gbK2qnO6rXRrY1+pxjbJ7+UxoKBvPJgCq?=
+ =?us-ascii?Q?yRyfRztHxTVngqqjFn4FQBQEP98mut35HeFsNmjGg/fUIeJMz/4R3lxMc/Ie?=
+ =?us-ascii?Q?axJbEBf5gmVCYVBCC1P+F10yhej1sKyOOUS29vCSxTGAE8Q2WVvuSwjV530D?=
+ =?us-ascii?Q?HnxPlgRFkBfsXGIpDcybE9cnPyFcWIWSkXk1t2pJ7BZsFxtAaTt4MBHBhJDx?=
+ =?us-ascii?Q?zYOWMpT6szJrpxcPJWQmzKsIIBzLHTD41v0SlclZxCoSEMtapBxYkOW7czbS?=
+ =?us-ascii?Q?esQr3B0iZ+KwS567DuarsO+PcKfSqjGH20NMJQBbRK01raZ/4WvwcS2UGIxJ?=
+ =?us-ascii?Q?PfTNNGeep4Evw6vCIK9FR78y9bkJFUnr7S+ZsHXpkgzT+jfxQWA4zq2denET?=
+ =?us-ascii?Q?gJYs0rPPy6HKRfLRCVdYFFhNpzJUm5MhElts2mvi1/nywuzA/OhVuHrRzQw9?=
+ =?us-ascii?Q?hneKsGRUpO2gF0qMc79gcQvV8aAZi/S4BaL8DkjMCw25DYf9EV/4bA7HPjNR?=
+ =?us-ascii?Q?n0AH1gzLAFMa+LUeZ/k308XDrbTKN8bizVMii5EndLmVH9m5QVahiZ1+Rcqo?=
+ =?us-ascii?Q?8gT7DiitcBLHgW0sarQRvwP5KKS5KqWXufX8GljN4+J7PD+3l0oo0OEo1SG7?=
+ =?us-ascii?Q?uEBnOEqk3B6gbHdK69tRH9OVyrOMEtho+oruS2/4aegBhOPU4GFtLOV1vAbh?=
+ =?us-ascii?Q?EJ+IhKZw/FNUkf8jGsp/Y/kk1sZgZw5g/z0dTkH381D5OiPzF8lIbvZqHu2V?=
+ =?us-ascii?Q?obtjEJj76G/o3t/Ln4J7bhr4Nb0j7s+s825SFI5Y3dVjNF1U+jkIzOTdeIj7?=
+ =?us-ascii?Q?jcwkOjQgq8qJfWqC1LEoz5ssl1wgp6c1vbPxXvZy8u3C3Pm69SapyO87F/LX?=
+ =?us-ascii?Q?MSSQpf+zDry7XU/gYF8PT4EE35zKCehQWWOBhSnFhH39AKsns43Cj9EYTwzU?=
+ =?us-ascii?Q?9jwQVLQqclyvvfgDA4TroEPtg68OP4Cry8RkfaoiZxYmFbqp/bh/qFV3SZEo?=
+ =?us-ascii?Q?Bz6bxBVJMst5jepTjqHFYeFPrGrS9Vv5/0B4xDygU+mPlGeo8R4emIXtWgVH?=
+ =?us-ascii?Q?fZH7O/SBHKtRay4AZOAurzHeRFhDDuOIJ4HdyIZJ1s/bkANvPEgu9nhDHa0u?=
+ =?us-ascii?Q?lJZGU+U7Mol1UzMKJWQvJe3p7cWogCoYYq2Zh5pgbSzBNGRdT3LAEo9Y9wvC?=
+ =?us-ascii?Q?/D+ms6DJL6UEskheSA5spJbUgLS3mz3U2uQ+4Z138WDAMT+c7D3sJblx9pJa?=
+ =?us-ascii?Q?pzlUO8XlKlX+3sixFNYn5KlcJ7+7YltetMJ7gqSIhHpRrDxdpNR/hw5e2+rr?=
+ =?us-ascii?Q?Zz41iVUTU88iNW/frSLCSUafGkLWX8z8eUIHqE0oLjd5coXwl8QfNENdiFc0?=
+ =?us-ascii?Q?vtSlXrAxuoC7vqWyfQcKNeF8P609zQdTiYUKORo/5qti1OqQlmTXEPNjLekr?=
+ =?us-ascii?Q?lq+FGXNRq3h75NtydRdva19IbzWQ/5dk2ZV02E2c?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1fd97861-3c65-4afa-4425-08dc8b69c924
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB8665.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2024 05:29:24.5574
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WRcBffFdfVfqvAqiLBKhNyXJgvgO31ffJPnP1qUyG4YF7KAQwoj+U9VbEpGqsFBGu1DX04yALRkwSZGMybseqg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6139
+X-OriginatorOrg: intel.com
 
-On 6/12/24 10:29, Paul Moore wrote:
-> On Wed, Jun 12, 2024 at 4:15 AM Jonathan Calmels <jcalmels@3xx0.net> wrote:
->> On Tue, Jun 11, 2024 at 06:38:31PM GMT, Paul Moore wrote:
->>> On Tue, Jun 11, 2024 at 6:15 PM Jonathan Calmels <jcalmels@3xx0.net> wrote:
-> 
-> ...
-> 
->>>> Arguably, if we do want fine-grained userns policies, we need LSMs to
->>>> influence the userns capset at some point.
->>>
->>> One could always use, or develop, a LSM that offers additional
->>> controls around exercising capabilities.  There are currently four
->>> in-tree LSMs, including the capabilities LSM, which supply a
->>> security_capable() hook that is used by the capability-based access
->>> controls in the kernel; all of these hook implementations work
->>> together within the LSM framework and provide an additional level of
->>> control/granularity beyond the existing capabilities.
->>
->> Right, but the idea was to have a simple and easy way to reuse/trigger
->> as much of the commoncap one as possible from BPF. If we're saying we
->> need to reimplement and/or use a whole new framework, then there is
->> little value.
-> 
-> I can appreciate how allowing direct manipulation of capability bits
-> from a BPF LSM looks attractive, but my hope is that our discussion
-> here revealed that as you look deeper into making it work there are a
-> number of pitfalls which prevent this from being a safe option for
-> generalized systems.
-> 
->> TBH, I don't feel strongly about this, which is why it is absent from
->> v1. However, as John pointed out, we should at least be able to modify
->> the blob if we want flexible userns caps policies down the road.
-> 
-> As discussed in this thread, there are existing ways to provide fine
-> grained control over exercising capabilities that can be safely used
-> within the LSM framework.  I don't want to speak to what John is
-> envisioning, but he should be aware of these mechanisms, and if I
-> recall he did voice a level of concern about the same worries I
-> mentioned.
-> 
+On Wed, Jun 12, 2024 at 04:31:35PM -0700, Sean Christopherson wrote:
+>On Sat, May 11, 2024, Chao Gao wrote:
+>> On Fri, May 10, 2024 at 05:36:03PM +0800, Li, Xin3 wrote:
+>> >> >+               if (kvm_is_fred_enabled(vcpu)) {
+>> >> >+                       u64 event_data = 0;
+>> >> >+
+>> >> >+                       if (is_debug(intr_info))
+>> >> >+                               /*
+>> >> >+                                * Compared to DR6, FRED #DB event data saved on
+>> >> >+                                * the stack frame have bits 4 ~ 11 and 16 ~ 31
+>> >> >+                                * inverted, i.e.,
+>> >> >+                                *   fred_db_event_data = dr6 ^ 0xFFFF0FF0UL
+>> >> >+                                */
+>> >> >+                               event_data = vcpu->arch.dr6 ^ DR6_RESERVED;
+>> >> >+                       else if (is_page_fault(intr_info))
+>> >> >+                               event_data = vcpu->arch.cr2;
+>> >> >+                       else if (is_nm_fault(intr_info))
+>> >> >+                               event_data =
+>> >> >+ to_vmx(vcpu)->fred_xfd_event_data;
+>> >> >+
+>> >> 
+>> >> IMO, deriving an event_data from CR2/DR6 is a little short-sighted because the
+>> >> event_data and CR2/DR6 __can__ be different, e.g., L1 VMM __can__ set CR2 to A
+>> >> and event_data field to B (!=A) when injecting #PF.
+>> >
+>> >VMM should guarantee a FRED guest _sees_ consistent values in CR6/DR6
+>> >and event data. If not it's just a VMM bug that we need to fix.
+>> 
+>> I don't get why VMM should.
+>> 
+>> I know the hardware will guarantee this. And likely KVM will also do this.
+>> but I don't think it is necessary for KVM to assume L1 VMM will guarantee
+>> this. because as long as L2 guest is enlightened to read event_data from stack
+>> only, the ABI between L1 VMM and L2 guest can be: CR2/DR6 may be out of sync
+>> with the event_data. I am not saying it is good that L1 VMM deviates from the
+>> real hardware behavior. But how L1 VMM defines this ABI with L2 has nothing to
+>> do with KVM as L0. KVM shouldn't make assumptions on that.
+>
+>Right, but in that case the propagation of event_data would be from vmcs12 =>
+>vmcs02, which is handled by prepare_vmcs02_early().
 
-sorry, I should have been more clear. I envision LSMs being able to
-update their own state in the userns hook.
+Yes. But delivering this event to L2 may cause VM-exit. So, L0 KVM may need to
+re-inject this event ...
 
-Basically the portion of the patch that removes const from the
-userns hook.
+>
+>For this flow, it specifically handles exception injection from _L0 KVM_, in which
+>case KVM should always follow the architectural behavior.
 
-An LSM updating the capset is worrysome for all the reasons you
-pointed out, and I think a few more. I haven't had a chance to really
-look at v2 yet, so I didn't want to speak directly on the bpf part of
-the patch without first giving a good once over.
+... and go through this exception injection flow. For such an event, there is no
+guarantee that the associated event data is consistent with the vCPU's
+DR6/CR2/XFD_ERR.
 
-> I'm happy to discuss ways in which we can adjust the LSM hooks/layer
-> to support different approaches to capability controls, but one LSM
-> directly manipulating the state of another is going to be a no vote
-> from me.
-> 
-I might not be as hard no as Paul here, I am always willing to listen
-to arguments, but it would have to be a really good argument to
-modify the capset, when there are multiple LSMs in play on a system.
+>
+>Ahh, but the code in with __vmx_complete_interrupts() is wrong.  Overwriting
+>vcpu->arch.{dr6,cr2} is wrong, because theres no telling what was in vmcs02.
+>And even if vmcs02 holds DR6/CR2 values, those might be L2 values, i.e. shouldn't
+>clobber the vCPU state.
 
+Exactly.
 
+>
+>It's not clear to me that we need to do anything new for FRED in
+>__vmx_complete_interrupts().  The relevant VMCS fields should already hold the
+>correct values, there's no reason to clobber vCPU state.  The reason KVM grabs
+
+The whole point is to cache the ORIGINAL_EVENT_DATA VMCS field so that KVM can
+set it back to the INJECTED_EVENT_DATA VMCS field when reinjecting the pending
+event in IDT-vectoring information.
+
+>things like instruction length and error code is because that information is
+>visible to other aspects of injection, e.g. to adjust RIP and pushed the error
+>code on the stack.
