@@ -1,55 +1,57 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E8813E03A
-	for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2024 09:28:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31C4813E3F5
+	for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2024 09:28:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718270923; cv=none; b=E0rHhm6jk3GMWN+RE7W3p29QL1SVq081ZhRUK37KV8kdePLLsK6LybZ6MiR8WUozLwJSSPDrb8oRkTmDfCb4w3MmQZWPf1a5DbszzA9TXqR8xJ9j/IWQ2rS63Ogu498BfYgW/IjVpHdwllUXx3Yxo1Rth1JIfxbHFhm/KKJ/0y8=
+	t=1718270925; cv=none; b=sYw9MrIR1URysVtfJwSkjwVf03TgH5X81RHH23xD/Qqy7WZE4sgs7yeFHk6HxlAo5M0w1wKfGniMGV6GlUyASJn3IdBxxa+gxGCjsTBXvhWgsnJp9BWaJjdFqbtSMC/49OCXJL6HqvtdAahYtiDuCKYlamaNL+FJddB3uCy1US4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718270923; c=relaxed/simple;
-	bh=vG4qRDV6pQg/Th6atlB32vTGlz7L1/BU8b4zcWJlXT8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TgRsiq9ImwjNXyBMeNo9+KpCm0zdDCx2+Gz6orrVyC3GafIcE5ksP0rybMmP6l/URie5qFn52Wd5q2rvLeOb41gh/LzD+5ftKMnqJuAhcAbqEvDUHDVbkRFtWlKNl/XGdcgibdnrCBwXH6z+5RDBc7H1V+EHePzgD0UcRsD2IuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=GNKFMSUW; arc=none smtp.client-ip=209.85.128.51
+	s=arc-20240116; t=1718270925; c=relaxed/simple;
+	bh=5pgijTNOHSq33kNFeZWgVCJ/+J4jPXvn/88PeX7JNp8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=UW/k2bFMhgqOQRnQ0l6QDB/1dmBe3JMhy4HYgG5fCzRluhEIeDPdroVLtCJ95zY1G6XBw+QpW7i1r+tczAEOrhtxHhjp5hbRh2xw0eq3kx8RaNuM22KGyCuxGERSEeHPCub/YtzD25Qy8NKoFGFtbPl2W2FC+ljwTF9Qd0wAmPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=2GrKfy1S; arc=none smtp.client-ip=209.85.167.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="GNKFMSUW"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4217d808034so8238125e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2024 02:28:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="2GrKfy1S"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-52c7fbad011so997415e87.0
+        for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2024 02:28:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1718270920; x=1718875720; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xTL7AN68DXuCJK85qnCP9b24mcfMbuTgeoppKNKx4+E=;
-        b=GNKFMSUWkWy9RL8bJX1e55EBLWJlwKz5eK28rqMTmbqIHWBldOxrDsAoKr1g82bOxm
-         59j3NULqHmCmQBrBWcl/hpGwE820D2JbCK10zP+9U5Sdx7UmjdRbGK/AzyYtHs2QZB+L
-         qgBMFOkX4Th+MK3Tsky9obDv8umao1dsDel6hzmbfqBBn3iCsDmxH+eSnOuR16oAoplS
-         kygN/W1NjIoF8MJBOhFeQB9SCxMINt8vKeoZ2WYfHz8Q02DMdpjIAA4enKv/swlqLEmE
-         bjTPVkOCu6++iiLhY7JNok4KV636NfrppOACCyOjRDz0CICQSPyVg1ujdF+nxkDfD9K+
-         pNTg==
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1718270921; x=1718875721; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xc2jSE+iPH8VTD+ljhWwIl7lvYVzx0ufmLaVO0qarUQ=;
+        b=2GrKfy1Sz+intGFuG4F24LI9SkM4Cbwlz2euNcknSZ/UyUv2a7b2znLTSPZnuv88D6
+         YLyHeS+cTHL/6NrHAu5pF9D0mxBhQfNuDF5VWinli7hus6owEyahk6QfY2ymW03428Cq
+         MmZ6G43hy4+nsJKg0DPjTC2QJUvB85/RTgUCMfiiLDFjtFCc7PayYSpAeRC/qoU9CcEF
+         ZbjluU2KhGBBqgaXbxwS/j3A427NfpDzIVbNI6xZHiYQJVbhwbbu8kOBaI9bAEA886Th
+         g1Z3AcltZo4xCelVpEIl0+Pp0xZOwZISNZBM7RGRxviEYhV5AsVtWFMoZVSvwhptUy8w
+         iLQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718270920; x=1718875720;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xTL7AN68DXuCJK85qnCP9b24mcfMbuTgeoppKNKx4+E=;
-        b=V0s/E5iT64ZNjXbmysU6txx9tZALd1biuPp5ADTu3Zgqmpu7iCZWoUMdyMnRSfpsIM
-         UO3pPQhCD3OxhfMH/Ef8vVDsFRO/NnicpfW0gU1qVddB4M4fQOh6Lm7SW+Cqz4uexraI
-         BmM+q/PKFz+9oLbxqehfJkXYasezzz1eWXigvidTeeOz8S8VQat9npnAXsO2Q22xh2a8
-         VM9REkFmNfWK3qLS4RH/0I/9mK+gusoXxoVU3kq3Th0avojMQ9t5FufScwkQeBIYJvIl
-         bpywBJNrq2kYNQ11cLHArN6qokbdTXX2M3gLeJ2s69tbJFkOHZk/Gxut7W+d/xmEyiWt
-         0kVg==
-X-Forwarded-Encrypted: i=1; AJvYcCUwmqBptxUFwQYbdei7G25L2Yi3C0vpk1/bUpxq99PvvtjJoEc9CcDTwWsfyBNIS5P25eckjUPcXJ1GADDVyCh+0bKCNy2VrzuO
-X-Gm-Message-State: AOJu0YyCmZDcsNGGdyx6dnmTAWXmmslso6oBxafM5DVviZtyDE/Jz9Mq
-	a9SB7DJ54w2cbtK41k3nI7sVyLH1j++GfozRWuytlzQ+uyUv6whj35oPTLIyde4=
-X-Google-Smtp-Source: AGHT+IHyJhmfHkwmz+c60I80UBc53UKeGLW66TsVm0UYMnuExWwyR8x8YdHhjF4yErR5gdcvD6NbTg==
-X-Received: by 2002:a05:600c:470b:b0:422:52c3:7fe0 with SMTP id 5b1f17b1804b1-422864aef80mr42455395e9.22.1718270920108;
-        Thu, 13 Jun 2024 02:28:40 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1718270921; x=1718875721;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xc2jSE+iPH8VTD+ljhWwIl7lvYVzx0ufmLaVO0qarUQ=;
+        b=ZIEpkwU4pgJ4v2WXVleEndyyUFJNWfGdqXTQQOQsVk5fi+Ah90kXS5GPULjMVeoiH6
+         moiLa09MnoO2osGTyFhd5dOVXdSrbeXmFyS2rXWRqgAmg5dU+xC0jvkkpV5BLgHaVPOc
+         REANFrIMfJNU0q92ZaqVBnhC2BIJDh9TT8iZdKVIksyEZE4bUuwu7ROY8HxWM5BNgfu9
+         /7guZG+w/6GWyMI4BA1/wb+ny6TnY0CtCJ8nblAU2I8EGvkwO0FyP2T5G9rZFUYqclN4
+         F2V90sVeMbn0eDqILEfshGGuRFlpHUv2yadcPyI5qV8GvKrut1zyjP7BV2SNKAoZU1mk
+         rByg==
+X-Forwarded-Encrypted: i=1; AJvYcCX9lZZyRF49USAkMEcV4KpkZ/hPhRmu4BRj6pYo6hMm4WUbuAyKS22WV3IGzeuRpIdM5qTVRCvYS0aV18qRtaV5MLbQF4nvLe5K
+X-Gm-Message-State: AOJu0YxPP7rNOzhkOw+rcJjByJvhQxj/pFyGWVzKekcUaseAtPe6NzLU
+	sMMv90Q0UDMWnTu4YN3DO4RO+uhyBWJziK6EANIQnLDq3VM+51kAypDu9pnP6U0=
+X-Google-Smtp-Source: AGHT+IFkLo+cbc6Zg/KlLxxSJQydQmIB8foYzgTBu2MYiW9llbTP9u+6JKlPeX49yob/xdyL4IQdkw==
+X-Received: by 2002:a05:6512:3994:b0:52b:bee3:dcc6 with SMTP id 2adb3069b0e04-52c9a3fcc4emr2896885e87.51.1718270921194;
+        Thu, 13 Jun 2024 02:28:41 -0700 (PDT)
 Received: from brgl-uxlite.home ([2a01:cb1d:8d3:3800:875c:e292:3280:ccac])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422874e73e8sm54990205e9.43.2024.06.13.02.28.39
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422874e73e8sm54990205e9.43.2024.06.13.02.28.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Jun 2024 02:28:39 -0700 (PDT)
+        Thu, 13 Jun 2024 02:28:40 -0700 (PDT)
 From: Bartosz Golaszewski <brgl@bgdev.pl>
 To: Linus Walleij <linus.walleij@linaro.org>,
 	Jonathan Corbet <corbet@lwn.net>,
@@ -61,10 +63,12 @@ Cc: linux-gpio@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: [PATCH v8 0/2] misc: add a virtual driver for testing the GPIO API
-Date: Thu, 13 Jun 2024 11:28:28 +0200
-Message-ID: <20240613092830.15761-1-brgl@bgdev.pl>
+Subject: [PATCH v8 1/2] drivers: export to_ext_attr()
+Date: Thu, 13 Jun 2024 11:28:29 +0200
+Message-ID: <20240613092830.15761-2-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240613092830.15761-1-brgl@bgdev.pl>
+References: <20240613092830.15761-1-brgl@bgdev.pl>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,84 +79,45 @@ Content-Transfer-Encoding: 8bit
 
 From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
-The GPIO subsystem used to have a serious problem with undefined behavior
-and use-after-free bugs on hot-unplug of GPIO chips. This can be
-considered a corner-case by some as most GPIO controllers are enabled
-early in the boot process and live until the system goes down but most
-GPIO drivers do allow unbind over sysfs, many are loadable modules that
-can be (force) unloaded and there are also GPIO devices that can be
-dynamically detached, for instance CP2112 which is a USB GPIO expender.
+Make to_ext_attr() available to code that wants to reuse struct
+dev_ext_attribute. While at it: make it into a static inline function.
 
-Bugs can be triggered both from user-space as well as by in-kernel users.
-We have the means of testing it from user-space via the character device
-but the issues manifest themselves differently in the kernel.
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+---
+ drivers/base/core.c    | 2 --
+ include/linux/device.h | 6 ++++++
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-This is a proposition of adding a new virtual driver - a configurable
-GPIO consumer that can be configured over configfs (similarly to
-gpio-sim) or described on the device-tree.
-
-This driver is aimed as a helper in spotting any regressions in
-hot-unplug handling in GPIOLIB.
-
-v7 -> v8:
-- move the driver to drivers/misc/ as it's not a GPIO provider and so
-  its place is not in drivers/gpio/
-- rework the data structures to make them more compact using unions
-- use correct string helpers for given use-cases
-- drop dependency on the gpio/driver.h, string.h and kernel.h headers
-- add a patch exporting to_ext_attribute() to be used by this driver
-- various minor improvements suggested by Andy
-Link to v7: https://lore.kernel.org/linux-gpio/20240527144054.155503-1-brgl@bgdev.pl/
-
-v6 -> v7:
-- this is a complete rewrite of the original idea, the entire interface
-  has changed so it warrants a new round of reviews
-Link to v6: https://lore.kernel.org/linux-gpio/20230817184356.25020-1-brgl@bgdev.pl/
-
-v5 -> v6:
-- initialize the flags temp variables at declaration and hopefully make
-  Andy happy finally :)
-
-v4 -> v5:
-- add the gpio-consumer docs to the admin-guide/gpio/ index (reported
-  by kernel test robot <lkp@intel.com>)
-
-v3 -> v4:
-- fix the toggle value assignment
-- use guard(mutex)() wherever we can return directly from the subsequent
-  function call
-- use skip_spaces() + strim() to avoid having to do a memmove() when
-  stripping strings off whitespaces
-- DON'T try to save a couple LOC in ifdefs if that makes them less
-  readable (Andy :) )
-
-v2 -> v3:
-- use cleanup.h interfaces
-- add some clarifying commets
-- more minor code tweaks
-
-RFC -> v2:
-- add documentation
-- fix various issues pointed out by Andy: use struct_size() where
-  applicable, improve the logic when storing the 'live' property,
-  improve log messages, remove commas in terminators, etc.
-
-Bartosz Golaszewski (2):
-  drivers: export to_ext_attr()
-  misc: gpio-virtuser: new virtual testing driver for the GPIO API
-
- .../admin-guide/gpio/gpio-virtuser.rst        |  176 ++
- Documentation/admin-guide/gpio/index.rst      |    1 +
- MAINTAINERS                                   |    8 +
- drivers/base/core.c                           |    2 -
- drivers/misc/Kconfig                          |    8 +
- drivers/misc/Makefile                         |    1 +
- drivers/misc/gpio-virtuser.c                  | 1790 +++++++++++++++++
- include/linux/device.h                        |    6 +
- 8 files changed, 1990 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/admin-guide/gpio/gpio-virtuser.rst
- create mode 100644 drivers/misc/gpio-virtuser.c
-
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index 131d96c6090b..d51e7f05d15a 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -2459,8 +2459,6 @@ static const struct sysfs_ops dev_sysfs_ops = {
+ 	.store	= dev_attr_store,
+ };
+ 
+-#define to_ext_attr(x) container_of(x, struct dev_ext_attribute, attr)
+-
+ ssize_t device_store_ulong(struct device *dev,
+ 			   struct device_attribute *attr,
+ 			   const char *buf, size_t size)
+diff --git a/include/linux/device.h b/include/linux/device.h
+index fc3bd7116ab9..f7957ec918a3 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -120,6 +120,12 @@ struct dev_ext_attribute {
+ 	void *var;
+ };
+ 
++static inline struct dev_ext_attribute *
++to_ext_attr(struct device_attribute *attr)
++{
++	return container_of(attr, struct dev_ext_attribute, attr);
++}
++
+ ssize_t device_show_ulong(struct device *dev, struct device_attribute *attr,
+ 			  char *buf);
+ ssize_t device_store_ulong(struct device *dev, struct device_attribute *attr,
 -- 
 2.43.0
 
