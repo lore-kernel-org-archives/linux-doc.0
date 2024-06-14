@@ -1,51 +1,51 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 809F21474CB;
-	Fri, 14 Jun 2024 08:07:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AAB11836DE;
+	Fri, 14 Jun 2024 08:09:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718352436; cv=none; b=INla4od6iLQ6HG4uzFRT2b8I6em/y+ZDp3/5TCsW2d4IzjvUSY7zBX/mK2Scfjr7MVDurhLAileqR9BD/5zr7Vkw5K1RGpUU5tkaRQOHtBd2uY4OKgXOV7pEKfx0fvRzSEiViF4IuAz17VR9DJhPBcyLqJDxBS+ss0pPJCi74T8=
+	t=1718352598; cv=none; b=PBsPWHx0S5m8nFiTC43JuNmPFmQLkhC05QODi+wnbdnrbedMt7bey2zTwTrUjEsSEg5ki/+Z+ZL+dqj7THP6OmznYmhRt5Pm2Csd+pgFSz96C41CNp3bsOU4hI5stvSVTLs2a3xZYsDZQPTyw+FzIGJBFiN/LWSNWzKDVkKBmd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718352436; c=relaxed/simple;
-	bh=DMK+CWELdQnDrMQO/JKXFNX+z8myFs0IXh6Wo0q7b5Q=;
+	s=arc-20240116; t=1718352598; c=relaxed/simple;
+	bh=tdyxMi9MCtjeyNj6V3YguqessosZYjypEXDKgngR3k4=;
 	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HOrE56/QzktxFhIG10BlHRiKsHnoo/QV/sHOjSxR0sy8kdyQK9XzDUPl5mF42YhbZreZgUDyp3nXCO/nQdqbuapg9jgMNh3mibsxtX88Sm/5J3Y43U9tBcCke9Hl/RPG5DhvMllQS5VInaMDe4vBH3TGqAJqqMYV4ibpLI+3itQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=pU4lSOlz; arc=none smtp.client-ip=68.232.154.123
+	 Content-Type:Content-Disposition:In-Reply-To; b=pQaqpjaspWA92HgrpAkmLqCoWeb6BJUcJUUCWHea1pegZIn8qc6D+4ntVS2Y/SyjKgkye31L37ZNw5fW/rh/6Zb5/B+EE+7G2dSDQThoM+TgKOC3aaZTWpt1DUDhkPQ+mfdd3v1OjN+J74eTq8EGXY2HR5fQ+m449XklB8hAZ08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=CpGYsKCo; arc=none smtp.client-ip=68.232.153.233
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="pU4lSOlz"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="CpGYsKCo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1718352433; x=1749888433;
+  t=1718352596; x=1749888596;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=DMK+CWELdQnDrMQO/JKXFNX+z8myFs0IXh6Wo0q7b5Q=;
-  b=pU4lSOlzut6VVA7JXsuFGTlpFTE1wSSNimx9oKzC2IO/x9EAfBrmUwrA
-   dUBz0NVYEvSkXwhrNXrJnOZr+mp2aRV+CdMenPtXowvODmx+jBqj1XrBu
-   wS9sWzPhSmAliBuTosLuX8XAiQ5bDDSIgoHbja/9Hv0RQtG7/a4JRU6Zl
-   cI5OeaXunW1FhXKiowGkmrjfmfySCrRSsbQFr/+BwsPJVTScHzQLTepcw
-   YdBsT517D3XbNHFzvLHkWKbdSDUsjRxh4EjlTj/ad1nu2EeEo0xVj2TGY
-   net5hz4gCoKTMLRf0YSczWNcSucJJ+G3kWK8WOafQeTy9Nhvg8SUEsHG+
+  bh=tdyxMi9MCtjeyNj6V3YguqessosZYjypEXDKgngR3k4=;
+  b=CpGYsKCoW4PGUZpLpT7vHazzPvsz70Vi+l44fuLr234xepsHKyQJGlyM
+   NsgcbgvwJwEAgMKvr11Fa4fcCAhePZHKD9ME7jEpTZYmafq0aHzi4vWFJ
+   yva9mD2X9zAL8rcNhLNpUCzAWhpFDfo0Xw/WhorH85quBqMaUb22xgJFr
+   QUsjL1n0HEoxqNMWTqvE+cVLXfeHdowDaa+h+43i7xoAAQsX3W0LRRJmT
+   pJb7kYsdujmXacIlfnhh9GvBpTpqMmDBTEyhV0n5KlDpLH5FFwHCvF+M4
+   BotzoBLk6PmnEmldqkngkJEzBAEIlxI/U6mJfadA6M45AS6Bkj//0vuQX
    w==;
-X-CSE-ConnectionGUID: E0Y3hlcORKiEqud2JIoT4A==
-X-CSE-MsgGUID: hXS/9NvCRrK8U4zhnOg3vw==
+X-CSE-ConnectionGUID: MPaymeoARIu6VK5pumub+w==
+X-CSE-MsgGUID: Uq74KbUuSymUnT1JBSATOA==
 X-IronPort-AV: E=Sophos;i="6.08,237,1712646000"; 
-   d="asc'?scan'208";a="28157199"
+   d="asc'?scan'208";a="29987298"
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 14 Jun 2024 01:07:12 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+  by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 14 Jun 2024 01:09:54 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
  chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 14 Jun 2024 01:06:43 -0700
-Received: from wendy (10.10.85.11) by chn-vm-ex04.mchp-main.com (10.10.85.152)
+ 15.1.2507.35; Fri, 14 Jun 2024 01:09:38 -0700
+Received: from wendy (10.10.85.11) by chn-vm-ex01.mchp-main.com (10.10.85.143)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
- Transport; Fri, 14 Jun 2024 01:06:38 -0700
-Date: Fri, 14 Jun 2024 09:06:20 +0100
+ Transport; Fri, 14 Jun 2024 01:09:33 -0700
+Date: Fri, 14 Jun 2024 09:09:15 +0100
 From: Conor Dooley <conor.dooley@microchip.com>
 To: Jesse Taube <jesse@rivosinc.com>
 CC: <linux-riscv@lists.infradead.org>, Jonathan Corbet <corbet@lwn.net>, Paul
@@ -66,11 +66,10 @@ CC: <linux-riscv@lists.infradead.org>, Jonathan Corbet <corbet@lwn.net>, Paul
 	<erick.archer@gmx.com>, Joel Granados <j.granados@samsung.com>,
 	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
 	<devicetree@vger.kernel.org>
-Subject: Re: [PATCH v2 2/6] dt-bindings: riscv: Add Zicclsm ISA extension
- description.
-Message-ID: <20240614-broaden-bluish-8b2fe892db55@wendy>
+Subject: Re: [PATCH v2 1/6] RISC-V: Add Zicclsm to cpufeature and hwprobe
+Message-ID: <20240614-oyster-ditch-80e8f00fd91b@wendy>
 References: <20240613191616.2101821-1-jesse@rivosinc.com>
- <20240613191616.2101821-3-jesse@rivosinc.com>
+ <20240613191616.2101821-2-jesse@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -78,65 +77,46 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="6rVBoByRG8F88jlI"
+	protocol="application/pgp-signature"; boundary="OQKmvcs8HRT7+PY2"
 Content-Disposition: inline
-In-Reply-To: <20240613191616.2101821-3-jesse@rivosinc.com>
+In-Reply-To: <20240613191616.2101821-2-jesse@rivosinc.com>
 
---6rVBoByRG8F88jlI
+--OQKmvcs8HRT7+PY2
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 13, 2024 at 03:16:11PM -0400, Jesse Taube wrote:
-> Add description for Zicclsm ISA extension.
+On Thu, Jun 13, 2024 at 03:16:10PM -0400, Jesse Taube wrote:
+> > Zicclsm Misaligned loads and stores to main memory regions with both
+> > the cacheability and coherence PMAs must be supported.
+> > Note:
+> > This introduces a new extension name for this feature.
+> > This requires misaligned support for all regular load and store
+> > instructions (including scalar and vector) but not AMOs or other
+> > specialized forms of memory access. Even though mandated, misaligned
+> > loads and stores might execute extremely slowly. Standard software
+> > distributions should assume their existence only for correctness,
+> > not for performance.
+>=20
+> Detecing zicclsm allows the kernel to report if the
+> hardware supports misaligned accesses even if support wasn't probed.
+>=20
+> This is useful for usermode to know if vector misaligned accesses are
+> supported.
 >=20
 > Signed-off-by: Jesse Taube <jesse@rivosinc.com>
-> ---
-> V1 -> V2:
->  - New patch
-> ---
->  Documentation/devicetree/bindings/riscv/extensions.yaml | 7 +++++++
->  1 file changed, 7 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Do=
-cumentation/devicetree/bindings/riscv/extensions.yaml
-> index cfed80ad5540..9f6aae1f5b65 100644
-> --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
-> +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
-> @@ -317,6 +317,13 @@ properties:
->              The standard Zicboz extension for cache-block zeroing as rat=
-ified
->              in commit 3dd606f ("Create cmobase-v1.0.pdf") of riscv-CMOs.
-> =20
-> +        - const: zicclsm
-> +          description:
-> +            The standard Zicclsm extension for misaligned support for al=
-l regular
-> +            load and store instructions (including scalar and vector) bu=
-t not AMOs
-> +            or other specialized forms of memory access. Defined in the
-> +            RISC-V RVA Profiles Specification.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
-> +
->          - const: zicntr
->            description:
->              The standard Zicntr extension for base counters and timers, =
-as
-> --=20
-> 2.43.0
->=20
-
---6rVBoByRG8F88jlI
+--OQKmvcs8HRT7+PY2
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZmv57wAKCRB4tDGHoIJi
-0v0FAP9mwX36VWSnRozk96nyVM3RIf8dHyi71Dw0gJMNUha3GgEA3nQVPysOqYVF
-bZxE5DpI/lku06/oD+G/uESgN8mlDQw=
-=89e4
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZmv6qwAKCRB4tDGHoIJi
+0mzaAP9YBq9BuQ1DEPPsxpTTaIEq91WxQdesurCAlXQCERPNnQEA5hS94j7obJ9J
+hv52wvk6In81vYzmCTh9UFDBJVVc9gw=
+=TSBq
 -----END PGP SIGNATURE-----
 
---6rVBoByRG8F88jlI--
+--OQKmvcs8HRT7+PY2--
