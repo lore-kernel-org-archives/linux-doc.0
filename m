@@ -1,88 +1,97 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53CFF7F492
-	for <linux-doc@vger.kernel.org>; Fri, 14 Jun 2024 10:15:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C88FC1922F6;
+	Fri, 14 Jun 2024 10:35:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718360141; cv=none; b=kTerFZRBx829Sul28EpFPW7bYOe7MCG9eQrURLAKPabRHjiCBcNotrzpaiGKtuChVoTFl/vKj8odwCZ8k0TxSpX3BgKOy5358BXUNWm753G22SMsKKJSfNTDfxbu8JjmjyftLLHPDxkAkbRCUXJWh9avi7pS/70voQbb72mKd+s=
+	t=1718361335; cv=none; b=O7YsG1bt3WU9RF58nz3GxgMM1ag16n4YKuVsBW3/em286otkIMFIqPSZMXBaz40Q+5hxq0Rc03KoFAKaSboxHQLdCeCCc8+uXW/FcKstzE/KgslvIOjYI3QEZyYJb1U2if1P5kwTJs07ryOmmTzn7fSygZzLcDcUeCv9ofLeJgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718360141; c=relaxed/simple;
-	bh=H95pmbNj0ML+Fnqx6V2x2Ozfv9WQFP0tjgrUogpJDl0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mVL7tRlXVGq7W/U2Qw6jXTgN3jIepZM+uzYMP/89bMrvub9WonZyXivrWJv5zSP2FA77QTVZs50C2/ZL0G646n1rjytGJba0ai9uXahGDFCJ20Hmw81QQoEq/7Kv8x7StMb17CxarZm/HiUl3RcggBUHx1VAT7KDZRnLl8pFgTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=g2DAhynd; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1718361335; c=relaxed/simple;
+	bh=nmbY+YrSTZFPVTA1p0a3HbRHJgnxgNGMOb8cyV6ZNrg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u1L9VnS/BjbyJmqp7Ux6KrXttcLCh3eZtV2/GzQ3MFmfU8lKsTH84zgmJVE8Qx0u+KSVV7SARCbeomcPzW11KNDrTHwh3OKIjXHDUbsZfZyDS/bjq8EcokUtvB3H2p/C3w2XCT6LQs5moq+xnCbOOEYe63Pw1WaL5Xc3f2I1Z3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NMOttC+p; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="g2DAhynd"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-35f1e35156cso1915135f8f.1
-        for <linux-doc@vger.kernel.org>; Fri, 14 Jun 2024 03:15:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1718360137; x=1718964937; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xnY/+74tWYlZxEsSqL+HDQLdC8+fmHiAEMhvpD2qAiQ=;
-        b=g2DAhyndYiZtuDQl/T0+oQUq1E+q7WLi3BIgSm0rvcMMdvJZj+y2qcI9OxPLLPZlnH
-         x6u1RLTFErfQMFu5iWPdVDlz39e7TGvT9/9ArkDCubBoNWscv/X7Uh9B0xcBwDAtoN5T
-         FrSZCs0QjjrITb0gwAAK7/aLTbUwBOFBpltTtXE8vaGpj+Q+SaHkSsm9e1CCDqJxksyI
-         LMId9Q+c8rCBbOx7NLcw6A044DrKo+9kX1fGWGexffCQTBor8+VFGPyFTT2p97Dkloes
-         rKsRSWLPgVe2Kh7IEVyRqOHQoeA4UWxpWpDvVCDCwIpH8AAPvMPzFaVaenpF7qzwAR4q
-         K8bQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718360137; x=1718964937;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xnY/+74tWYlZxEsSqL+HDQLdC8+fmHiAEMhvpD2qAiQ=;
-        b=nKnexnpCwxFe06cFGCGCKHnKn+E5Yz6jbx8Jh/c2fGBMffQStIc+4WAvr1BH1HFMqz
-         5sRwJpSUgSQpANsaPj8FAzJRMJCuneIloo+DuVwoYAT8EEWDakhOZxOM27NrHxVu7xSc
-         3QlcYmIQyIqYF3x2FcLx+kv6u8pGE+KI02nWjcmYASTa51v3WjTigsHxQk3rPtlPv76e
-         183OCAQJr4azy02715T2KKMqaxpgRLFxObquRv3Jw+dMJ5xRMVYxhfS6Fl02YeL9MfWW
-         KImTEzyNYiZ4cni0hI07zmh24NtaerG3rGmUuYO0DuPbfcz6EQvfWqeK+4NURERBdV2z
-         Dpaw==
-X-Forwarded-Encrypted: i=1; AJvYcCUCO5+75QfqJbg0HHJVsQy31S3blJYYuYjcDj/qSa7FBQpreK2/KH32B8gyVKnqDHOy2JcdVo5sKSAAXLRhl4bVQo8WFHsOFWcL
-X-Gm-Message-State: AOJu0Yzy8JFAtxrvEzi3NSqolyCvGqUD8GcSHlBlNfK4N70UAuu4OwDH
-	TfdJ1kS31pZI0DfsTvcAvCSVdL1w07P2fApw0g6SU1IfOJRGQAl9DiFTsa9KzUY=
-X-Google-Smtp-Source: AGHT+IGIvQCmkwnaeXjLDSm++FQaHtPzQYPDkTGLsPH1o0VHg9LXBUm8rlKViWgfL6ZmPCd/p5fi1Q==
-X-Received: by 2002:a5d:5917:0:b0:35f:296c:27b2 with SMTP id ffacd0b85a97d-3607a7b6255mr1639807f8f.22.1718360137566;
-        Fri, 14 Jun 2024 03:15:37 -0700 (PDT)
-Received: from ?IPV6:2a10:bac0:b000:7579:7285:c2ff:fedd:7e3a? ([2a10:bac0:b000:7579:7285:c2ff:fedd:7e3a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3607509c7e5sm4012447f8f.30.2024.06.14.03.15.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Jun 2024 03:15:37 -0700 (PDT)
-Message-ID: <98af49ab-2d82-4ced-ad95-2a6fb24f3a83@suse.com>
-Date: Fri, 14 Jun 2024 13:15:35 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NMOttC+p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A38B0C2BD10;
+	Fri, 14 Jun 2024 10:35:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718361335;
+	bh=nmbY+YrSTZFPVTA1p0a3HbRHJgnxgNGMOb8cyV6ZNrg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NMOttC+p1sLncB5MngCgxwOxznz/W1nhBecTQZSwBq/ZJ0nhWrGQW3iA9Wr37yBf6
+	 SpGG2Im4aksxrK18YsyNdt4aZSrTWcuWrS3wf6+O0pc5UhM/I/YsHa1wC8cosq88tD
+	 hYg8vYZapLLqMFzSOqxjMe57TBvED4mKxyWqoCLR5rQmiDmetsY5eDJaVLFULy9PH1
+	 dG5nrzXeGNzWL71veELbFA+4aFVKMlNtojQS0VnNzmJuzMDxSE2csOGugSjxMzBqfi
+	 9wFdeM/HW4RJF2B0XZ4AXDoy5TdTkY/KKaSCZuLXxaDQ1k+OwMtq4jakH7Ire+zDGT
+	 /6uROvWxzPzew==
+Date: Fri, 14 Jun 2024 11:35:31 +0100
+From: Simon Horman <horms@kernel.org>
+To: Jesse Brandeburg <jesse.brandeburg@intel.com>
+Cc: netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+	corbet@lwn.net, linux-doc@vger.kernel.org,
+	Jacob Keller <jacob.e.keller@intel.com>,
+	Jakub Kicinski <kuba@kernel.org>
+Subject: Re: [PATCH iwl-next v2 3/5] ice: add tracking of good transmit
+ timestamps
+Message-ID: <20240614103531.GA8447@kernel.org>
+References: <20240606224701.359706-1-jesse.brandeburg@intel.com>
+ <20240606224701.359706-4-jesse.brandeburg@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: Remove "mfgpt_irq=" from the
- kernel-parameters.txt file
-To: Thomas Huth <thuth@redhat.com>, linux-doc@vger.kernel.org,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org
-Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- "H. Peter Anvin" <hpa@zytor.com>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20240614090306.561464-1-thuth@redhat.com>
-Content-Language: en-US
-From: Nikolay Borisov <nik.borisov@suse.com>
-In-Reply-To: <20240614090306.561464-1-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240606224701.359706-4-jesse.brandeburg@intel.com>
 
-
-
-On 14.06.24 г. 12:03 ч., Thomas Huth wrote:
-> The kernel parameter mfgpt_irq has been removed in 2009 already in the
-> commit c95d1e53ed89 ("cs5535: drop the Geode-specific MFGPT/GPIO code").
-> Time to remove it from the documentation now, too.
+On Thu, Jun 06, 2024 at 03:46:57PM -0700, Jesse Brandeburg wrote:
+> As a pre-requisite to implementing timestamp statistics, start tracking
+> successful PTP timestamps. There already existed a trace event, but
+> add a counter as well so it can be displayed by the next patch.
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Good count is a u64 as it is much more likely to be incremented. The
+> existing error stats are all u32 as before, and are less likely so will
+> wrap less.
+> 
+> Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
+> Reviewed-by: Jakub Kicinski <kuba@kernel.org>
+> Signed-off-by: Jesse Brandeburg <jesse.brandeburg@intel.com>
 
-Reviewed-by: Nikolay Borisov <nik.borisov@suse.com>
+Hi Jesse,
+
+The minor nit below notwithstanding, this looks good for me.
+
+Reviewed-by: Simon Horman <horms@kernel.org>
+
+...
+
+> diff --git a/drivers/net/ethernet/intel/ice/ice_ptp.h b/drivers/net/ethernet/intel/ice/ice_ptp.h
+> index 3af20025043a..2b15f2b58789 100644
+> --- a/drivers/net/ethernet/intel/ice/ice_ptp.h
+> +++ b/drivers/net/ethernet/intel/ice/ice_ptp.h
+> @@ -253,6 +253,7 @@ struct ice_ptp {
+>  	struct ptp_clock *clock;
+>  	struct hwtstamp_config tstamp_config;
+>  	u64 reset_time;
+> +	u64 tx_hwtstamp_good;
+
+nit: There should be an entry for @tx_hwtstamp_good added to the Kernel doc
+     for this structure.
+
+Also, not strictly related to this patch, but related to Kernel doc.
+It would be very nice, IMHO, if some work could be done to add
+Return: sections to Kernel docs for the ice and moreover Intel Wired
+Ethernet drivers. These are flagged by kernel-doc -none -Wall,
+which was recently enabled for NIPA. And there are a lot of them.
+
+>  	u32 tx_hwtstamp_skipped;
+>  	u32 tx_hwtstamp_timeouts;
+>  	u32 tx_hwtstamp_flushed;
+> -- 
+> 2.43.0
+> 
+> 
