@@ -1,109 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5255449638;
-	Fri, 14 Jun 2024 16:42:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2065519D89C;
+	Fri, 14 Jun 2024 17:46:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718383326; cv=none; b=cG5uWAEVCXDlla8pMFqgX7vplGUCzncMLK8N+N4Ptd0eXw1adt7Ir5dx3tcOxgOaVr4W0GqBHFYBSJZrDefnNjDXbRCt2GGyow+7/kS+0szpo4WTq5Sv0FekiunKClm7p0hDjMvFZvTcf3UylEK1Ad/5Iimsjz+ibP+v3kIQpQI=
+	t=1718387203; cv=none; b=N7uOnnq6SBOYRvbaKkXxblMlO0A1csuA2xA82qlMfMlM7G8Zb9MWvYsqAU44aYrpMbMh1jM1JJVWaSo5DSevl5j/sgx2NPe9iKql9WcQZwupRjuFTVeqy2WGV8A5Gw9HnHcrGhBiM2ffSUd/pumavvGxtrS2gT0OHNR9CaWsctI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718383326; c=relaxed/simple;
-	bh=Tu5NT+/HC6v33/UcbBllxGhe377ayPb6xdMlPgPUz4Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ed9I+dUdLGIICsWmyzB2whKsBJZnR9LsTyhgjcpGuxJylRBSUu7wdlxKjpGGecK6NDTa46eAn2nY9P+g2kgn2EGRDgXkAQrsUEUS2M/8kwPrfVEdA0SdhA2qoEhsxHbGL3t6zqBQ3oZQaoQBQ1+l+c7tn4zpRyIOv/1T80f1ks8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=da2wXT2I; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1718387203; c=relaxed/simple;
+	bh=FUhw5QSPT52a+n51aUGW5MWySfTN62An4zO5LFmLXlg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gmNLvPD69xIC7OUX4yqWTShiFnQuTT32QrmcKiUUyiwAnjyyYO/T7WwFnHZEy+2SizAc6CYKnpPSliMlnnw7hKU6cUmqWqLHHGnWsQjwBwniiAc1wnqSqt1ILwbKFoSY/5Z0Nhiwg/XC6WDoIAue2pRKIxfZE9lyu6NmG8IIMSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=RyFScOOv; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="da2wXT2I"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718383324; x=1749919324;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=Tu5NT+/HC6v33/UcbBllxGhe377ayPb6xdMlPgPUz4Q=;
-  b=da2wXT2I8MdrDCYJS4zeeHNOSEZcIvYFOhgLWQJcjg/Wcm7QPG2vRz2T
-   ff+R48K2QZEjNztk/nnXQJR86CMFqweFVzlybziNFWtxjPfgVKAbeR0H1
-   Z1Ko+Kh1eDFLpAx8NJQlBtiL9aI7IU1COWCODrha4bQpif2q1aX1A1R/K
-   JoFVFHADXPik/2zG5b4mtUNZPAPLLl3pMIYq03fXxBb5MNTPPtfPT7CWI
-   HiTkmXTSEVms658Lhz18hfcdWVONwFBjgxf+KbQGfRD2sAbBPH1qSGKw7
-   ZXf2teVb1wbYhnn3tS1/L9CVMvsdtzCuXbFaOcFktVAj8rdsFsG7I60jO
-   g==;
-X-CSE-ConnectionGUID: LX1TCqNpTfOjjRl/Q9DCBw==
-X-CSE-MsgGUID: pEvqF8N/QoKPZiRtmZZJrw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="15114716"
-X-IronPort-AV: E=Sophos;i="6.08,238,1712646000"; 
-   d="scan'208";a="15114716"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2024 09:37:53 -0700
-X-CSE-ConnectionGUID: xAAM0oc6R0qoOzVa51X18A==
-X-CSE-MsgGUID: MWl63vUuR+mg54xeFXB5wg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,238,1712646000"; 
-   d="scan'208";a="44921621"
-Received: from djiang5-mobl3.amr.corp.intel.com (HELO [10.125.111.95]) ([10.125.111.95])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2024 09:37:51 -0700
-Message-ID: <8078be0c-58cb-4288-bbee-639483675501@intel.com>
-Date: Fri, 14 Jun 2024 09:37:50 -0700
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="RyFScOOv"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=VLp0XKh59OcMtWOpegZjhoT2Uyd2kf1eZygBpGw1rsc=; b=RyFScOOv02S+cmpl/z+zry8jWZ
+	4Ql+RZ9Ko1bSpLGTcwpEN7SHVwBt3hfQp5iAPTG88/4v6NGFkMHHVmI69NYq6tDmIlb+5W08BsY/q
+	XrhqmI6yU6sapMPi4VwjK9ViJDsz7BeG+/vSo/acrDoAb2MeqJObWoT4PMD0j82D/M/VFi0s4chHR
+	DURdpOET2UoxjeoYxfgMp9gCNWoPxARX9i4TxvfPw9i75IOVWSnPgw6TElfepHCPCQZ11xVkvjhWR
+	UYVXOeOKjb+rngRSVfsZzjwzWtpgGnwJZaYlMAMGNlksAy4DDi+JbLmcN8mRTx9uAJ1ko/qBek0bX
+	NyW8uHrg==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:59072)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1sIB0C-000280-0u;
+	Fri, 14 Jun 2024 18:46:16 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1sIB09-0002Jc-8R; Fri, 14 Jun 2024 18:46:13 +0100
+Date: Fri, 14 Jun 2024 18:46:13 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Paolo Abeni <pabeni@redhat.com>
+Cc: Kory Maincent <kory.maincent@bootlin.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Radu Pirea <radu-nicolae.pirea@oss.nxp.com>,
+	Jay Vosburgh <j.vosburgh@gmail.com>,
+	Andy Gospodarek <andy@greyhouse.net>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Horatiu Vultur <horatiu.vultur@microchip.com>,
+	UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Rahul Rameshbabu <rrameshbabu@nvidia.com>,
+	Shannon Nelson <shannon.nelson@amd.com>,
+	Alexandra Winter <wintera@linux.ibm.com>
+Subject: Re: [PATCH net-next v15 07/14] net: Add struct kernel_ethtool_ts_info
+Message-ID: <ZmyB5cUz6zWcw4nr@shell.armlinux.org.uk>
+References: <20240612-feature_ptp_netnext-v15-0-b2a086257b63@bootlin.com>
+ <20240612-feature_ptp_netnext-v15-7-b2a086257b63@bootlin.com>
+ <19d5b8f250979c7c244e7b5b08d12783667576ee.camel@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/8] fwctl: FWCTL_INFO to return basic information about
- the device
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>,
- Jakub Kicinski <kuba@kernel.org>, Leon Romanovsky <leon@kernel.org>,
- linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
- netdev@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
- Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>,
- Andy Gospodarek <andrew.gospodarek@broadcom.com>,
- Aron Silverton <aron.silverton@oracle.com>,
- Dan Williams <dan.j.williams@intel.com>, David Ahern <dsahern@kernel.org>,
- Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>,
- Leonid Bloch <lbloch@nvidia.com>, Leon Romanovsky <leonro@nvidia.com>,
- linux-cxl@vger.kernel.org, patches@lists.linux.dev
-References: <3-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
- <358d2e11-59e2-46eb-a7f4-3c69e6befe02@intel.com>
- <20240613234002.GH19897@nvidia.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <20240613234002.GH19897@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <19d5b8f250979c7c244e7b5b08d12783667576ee.camel@redhat.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
+On Fri, Jun 14, 2024 at 04:02:04PM +0200, Paolo Abeni wrote:
+> On Wed, 2024-06-12 at 17:04 +0200, Kory Maincent wrote:
+> > In prevision to add new UAPI for hwtstamp we will be limited to the struct
+> > ethtool_ts_info that is currently passed in fixed binary format through the
+> > ETHTOOL_GET_TS_INFO ethtool ioctl. It would be good if new kernel code
+> > already started operating on an extensible kernel variant of that
+> > structure, similar in concept to struct kernel_hwtstamp_config vs struct
+> > hwtstamp_config.
+> > 
+> > Since struct ethtool_ts_info is in include/uapi/linux/ethtool.h, here
+> > we introduce the kernel-only structure in include/linux/ethtool.h.
+> > The manual copy is then made in the function called by ETHTOOL_GET_TS_INFO.
+> > 
+> > Acked-by: Shannon Nelson <shannon.nelson@amd.com>
+> > Acked-by: Alexandra Winter <wintera@linux.ibm.com>
+> > Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+> 
+> I think it would be nice if a few more vendors could actually step-in
+> and test/ack the driver specific bits.
 
+Well, in part this series was triggered because of an issue having
+PTP support in Marvell's PP2 driver, and then the issue that if we
+add it to the Marvell PHY driver, the platforms that are currently
+using the PP2 based PTP support were forced into the weird situation
+that some of the PTP calls hit the PP2 driver and others hit the
+PHY driver.
 
-On 6/13/24 4:40 PM, Jason Gunthorpe wrote:
-> On Thu, Jun 13, 2024 at 04:32:44PM -0700, Dave Jiang wrote:
-> 
->> Are you open to pass in potential user input for the info query? I'm
->> working on plumbing fwctl for CXL. 
-> 
-> Neat!
-> 
->> The current CXL query command [1] takes a number of commands as
->> input for its ioctl. For fwctl_cmd_info(), the current
->> implementation is when ->info() is called no information about the
->> user buffer length or an input buffer is provided. 
-> 
-> Right, the purpose of info is to report information about the fwctl
-> driver. It is to allow the userspace to connect to the correct
-> userspace driver. It shouldn't be doing much with the device.
-> 
-> If you want to execute a info command *to the fw* then I'd expect
-> you'd execute the command through the normal RPC channel? Does
-> something prevent this?
+I had sent Kory an email a couple of weeks ago saying that I'm
+unlikely to be able to test this out in that setup any time soon,
+I've had high work pressure for the last seven-ish weeks, and I
+would need to be in front of the hardware, which is fairly rare
+at the moment, and I'm not going to be in front of the hardware
+until August. So I'm just not going to be able to test it in a
+reasonable time scale.
 
-Ok that makes sense. I should be able to do it through RPC with some tweaks. 
+There's not a lot I can do about that, sorry.
 
-> 
-> This is how the mlx5 driver is working where there are many info
-> (called CAP) commands that return data, and they all run over the rpc
-> channel.
-> 
-> Thanks,
-> Jason
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
