@@ -1,102 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F1D813CF9E;
-	Fri, 14 Jun 2024 09:26:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0BCD192B78
+	for <linux-doc@vger.kernel.org>; Fri, 14 Jun 2024 09:43:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718357176; cv=none; b=I+Wv40XxKnrP8bNS+HXs5WEhwIwEIm86ETVv7SyckQC9hvm9lVh6SQCLe7gkKb08kyCcmQLJn0QKm4nMXcidcOmxLeCaQuKw9J7zGU8yE5qvQ/C0+XUxfg/zYdzjJCL/0V/HJ5iYE27Hl0SOKLs8nH57KHGPURZbF4Tgq/MwqW8=
+	t=1718358194; cv=none; b=IenlR6OIUbyaUjLDa0u1sjPX5eL+r2ay7WS2omwX6p9w2yNBhLE1OEWytMNugFw1b/BBJafqjxTPmTYLOFrMAswNcG1hXSPZHPeO1Tw5cj3L0XLmNzWT8nzpinlLiH+nAtZguSSrVybhDQtvI8lSZwQCwkanMYWyvCMxlLeTjck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718357176; c=relaxed/simple;
-	bh=RjYVsVZeskO22hC0XBoe6PRuahJdiNbuYlh8UW4q9Ec=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=T3zZwS0t/jo/w4uv2W2dtEaDpwuQEWGqEkJJocGXpogLMACkqYGHaZwm6ciegGHteCtQizm/75e0VPkLf3MqUeTT8Np+iGdvNozXdjmz0zbO7AW32eg80CpuQOHVhKqKqJPMoUe85cS8xn+fo8FD4ehmcvuq2oSqmIl5jSI5zWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GfraxG/q; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718358194; c=relaxed/simple;
+	bh=tLQgAiSqIKd8Fr/cSViZ1UALzCWG3iDxmInXrEl5pr8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ilJoUtqtwkL+a/BHFPK+Z9SueWjzMDwpP7fO/5WuCuK6pNt9Q/b8rGLKOwFAxK445nUjGFtiDwuE7aKavUUHxg5KBACH/5wATMyhG30stUEcSNhMaFiI4JWkuxUHtrwxE0fCK5BbZqPsbBXbTigT251NVJSxuYiZFGbVCPhGQl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mEYuxDYT; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GfraxG/q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC6FFC2BD10;
-	Fri, 14 Jun 2024 09:26:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718357175;
-	bh=RjYVsVZeskO22hC0XBoe6PRuahJdiNbuYlh8UW4q9Ec=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=GfraxG/qnai6WqVA80nwF7muZOesCiDzZ+eUnImSYE5OGqTAUyilOspk8wO/qTtnL
-	 xX2pdKAOy1LTLgnMMuOclxWhZZGgYZGmmWokMWZ72uDXAKnLJQ7lHQmZzx0vdTK8yo
-	 xMn1i8Ks4VfHCal5SZ6mH+S/UGCIpPxFGP9P2uhlKO2TQIYQc/dI0Z8dKo4fJaavvB
-	 NLmDGEDPPuXbSQ8lFbFT92yqiQBU0yGiVpTsDpcp1FUbR+rnM1Sad96/P0kLbRsLIH
-	 t+bBTlPtqWMrkzcxzS/WLyAF48b//KdIBxFiYaFravb5cWH83jNbJT2vWClqtWdssC
-	 c6ne2G/9BLbsg==
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Shuah Khan <shuah@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Alexei Starovoitov <ast@kernel.org>, 
- Benjamin Tissoires <bentiss@kernel.org>
-Cc: linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, 
- bpf@vger.kernel.org, linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
- Peter Hutterer <peter.hutterer@who-t.net>
-In-Reply-To: <20240608-hid_bpf_struct_ops-v3-0-6ac6ade58329@kernel.org>
-References: <20240608-hid_bpf_struct_ops-v3-0-6ac6ade58329@kernel.org>
-Subject: Re: [PATCH HID v3 00/16] HID: convert HID-BPF into using
- bpf_struct_ops
-Message-Id: <171835717356.456783.6239687806060827051.b4-ty@kernel.org>
-Date: Fri, 14 Jun 2024 11:26:13 +0200
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mEYuxDYT"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-57a16f4b8bfso12640a12.0
+        for <linux-doc@vger.kernel.org>; Fri, 14 Jun 2024 02:43:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1718358191; x=1718962991; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tLQgAiSqIKd8Fr/cSViZ1UALzCWG3iDxmInXrEl5pr8=;
+        b=mEYuxDYTGkcb+LpOwFZdoMmdKeAT0qXZBHdA7gW3HmyuQw1EW4yhXGppW+jtels5AK
+         sUCMTpKZmYgc70c09qQmkMPbr9HtHfwxiMsSKHM2ha1Y6YnVC4lSadtgAL6U9e/k83Bh
+         /nqRbDgxBns1FemuLtBm0ZeokLXTl4Rt8aBqjlNY0I+tOveot12vMaJySH0yPVYzJu1P
+         EWI5nLqADRfWwNOXgAM8aLI23ymDpwzsoFj4EGhONJ9991YSPd4VR0WgUljDC/u1zCGF
+         g8T6mtNo1PTP9b+ldD7DtE4CAjOV6vxqoQ6NSSgHkkxrXVrEgP6RShxSseXbXCoWC3CM
+         n3oA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718358191; x=1718962991;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tLQgAiSqIKd8Fr/cSViZ1UALzCWG3iDxmInXrEl5pr8=;
+        b=EIyNjlxD93+6+TFzgp9Nd6EbZbB/G4lEoeMtJ88LxczcEmXQ2c5Fnfxp14ilXyyF6n
+         Uxa4rc4zhpeX5olRenVPwBTQOndmWOmx5/R+2T1D0RpZ27Pqv0yJotfIF+xv+VmH2ce5
+         voyArHBuODMYOEMbTuJq7xukD2WQuLe9GjaNWip2B7TKYnqM+W6FZOZquQg5HXqsJpWR
+         QMRZPi7th2aZOcnt3EXJlDI0aVjNRg12MWUSAGqrbaaIa6nLu8ZUv72zRN6LAch0bsVH
+         55FR/S2NmpmKn3FhatGLC62OXgtwaecz738QWkvmUl6BGaRp6C6aofGkXie+Yq3WlfdI
+         lnDw==
+X-Gm-Message-State: AOJu0Yx6xtaC+jzIqTNuAy5UKj3PPF+NAdOrRXhpCa0YE5SDYXdXsqyU
+	BZ3J5jTYKB44YAqGhaTfU0rdAJU9sJgqIpoXp+ji5Oxay8JxE375ettfWIvfjckj49CntzDWaz1
+	WQQ7VmW3CJwHmmEvqdglA3REpQtYD0WW4TU1T
+X-Google-Smtp-Source: AGHT+IFvDUJj2XIdgBgpDYCy46upILTWlHhD1AvsiHaBR7J8BVYYLQKdVBGYSCjJmIzXS9M7jGMzR7holN3E0CkL1bE=
+X-Received: by 2002:a05:6402:4301:b0:57c:ae72:ff00 with SMTP id
+ 4fb4d7f45d1cf-57cc0a85d52mr107336a12.5.1718358190869; Fri, 14 Jun 2024
+ 02:43:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.12.4
+References: <20240614092134.563082-1-thuth@redhat.com>
+In-Reply-To: <20240614092134.563082-1-thuth@redhat.com>
+From: Eric Dumazet <edumazet@google.com>
+Date: Fri, 14 Jun 2024 11:42:59 +0200
+Message-ID: <CANn89iJafAvVot3_AgGGj8pwc6FTRMkZ2X3ZqsOV5J_XDSWPQg@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: Remove the "rhash_entries=" from kernel-parameters.txt
+To: Thomas Huth <thuth@redhat.com>
+Cc: linux-doc@vger.kernel.org, netdev@vger.kernel.org, 
+	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 08 Jun 2024 11:01:12 +0200, Benjamin Tissoires wrote:
-> The purpose of this series is to rethink how HID-BPF is invoked.
-> Currently it implies a jmp table, a prog fd bpf_map, a preloaded tracing
-> bpf program and a lot of manual work for handling the bpf program
-> lifetime and addition/removal.
-> 
-> OTOH, bpf_struct_ops take care of most of the bpf handling leaving us
-> with a simple list of ops pointers, and we can directly call the
-> struct_ops program from the kernel as a regular function.
-> 
-> [...]
+On Fri, Jun 14, 2024 at 11:21=E2=80=AFAM Thomas Huth <thuth@redhat.com> wro=
+te:
+>
+> "rhash_entries" belonged to the routing cache that has been removed in
+> commit 89aef8921bfb ("ipv4: Delete routing cache.").
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-Applied to hid/hid.git (for-6.11/bpf), thanks!
-
-[01/16] HID: rename struct hid_bpf_ops into hid_ops
-        https://git.kernel.org/hid/hid/c/146a06a0d225
-[02/16] HID: bpf: add hid_get/put_device() helpers
-        https://git.kernel.org/hid/hid/c/99b40bf8053f
-[03/16] HID: bpf: implement HID-BPF through bpf_struct_ops
-        https://git.kernel.org/hid/hid/c/ebc0d8093e8c
-[04/16] selftests/hid: convert the hid_bpf selftests with struct_ops
-        https://git.kernel.org/hid/hid/c/d7696738d66b
-[05/16] HID: samples: convert the 2 HID-BPF samples into struct_ops
-        https://git.kernel.org/hid/hid/c/e342d6f6f7d8
-[06/16] HID: bpf: add defines for HID-BPF SEC in in-tree bpf fixes
-        https://git.kernel.org/hid/hid/c/df67602fb8d5
-[07/16] HID: bpf: convert in-tree fixes into struct_ops
-        https://git.kernel.org/hid/hid/c/50fe0fc6e206
-[08/16] HID: bpf: remove tracing HID-BPF capability
-        https://git.kernel.org/hid/hid/c/4a86220e046d
-[09/16] selftests/hid: add subprog call test
-        https://git.kernel.org/hid/hid/c/05b3b8f19441
-[10/16] Documentation: HID: amend HID-BPF for struct_ops
-        https://git.kernel.org/hid/hid/c/c5958697a5fa
-[11/16] Documentation: HID: add a small blurb on udev-hid-bpf
-        https://git.kernel.org/hid/hid/c/5f42e19de53f
-[12/16] HID: bpf: Artist24: remove unused variable
-        https://git.kernel.org/hid/hid/c/26ba1e0a982b
-[13/16] HID: bpf: error on warnings when compiling bpf objects
-        https://git.kernel.org/hid/hid/c/c94ae2189aca
-[14/16] bpf: allow bpf helpers to be used into HID-BPF struct_ops
-        https://git.kernel.org/hid/hid/c/bd0747543b3d
-[15/16] HID: bpf: rework hid_bpf_ops_btf_struct_access
-        https://git.kernel.org/hid/hid/c/f1a5fb6c7cf6
-[16/16] HID: bpf: make part of struct hid_device writable
-        https://git.kernel.org/hid/hid/c/33c0fb85b571
-
-Cheers,
--- 
-Benjamin Tissoires <bentiss@kernel.org>
-
+Reviewed-by: Eric Dumazet <edumazet@google.com>
