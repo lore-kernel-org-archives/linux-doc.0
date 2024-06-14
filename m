@@ -1,203 +1,140 @@
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5436E146582;
-	Fri, 14 Jun 2024 04:40:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A627A146D73
+	for <linux-doc@vger.kernel.org>; Fri, 14 Jun 2024 04:40:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718340010; cv=none; b=SN6IRXXQDbn2Miih+Sqr2/f7cD8MGpY7RQppTMnm8tT6kNDjuRf1K9peWWCrxVonvru1wsX1TmG1MFcGcq0srpcCaA5yjp+2Ys5u7uem9CoMBMX3yiMJMiKLeBppSwaCwhrGhKYADVIojltVLeErS6YBIAiPDiijoGOg+6ykcI8=
+	t=1718340040; cv=none; b=nO7auRl0CdzVrMkxb7Rg9atT62Q3z0yeui3aFO3BPV2paYodKyGtdqXEFqG/fnRmGuP+jSw6//kieuHba04y5Mj90mFmiw+WmYKdf/c+l/Vx2tHXtBxodNDNENtMUsiDWBmZJcqRJ1Xwi9qYlLORyA8mdvdh9MOCuHM2h8ntf0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718340010; c=relaxed/simple;
-	bh=Cj5KzMMadXsRnndd+TlVK0BUb+fjbSscqj3uM4ytUuo=;
+	s=arc-20240116; t=1718340040; c=relaxed/simple;
+	bh=eNn5sF/0OujnxZsAQT7n4zaO4fElnsdrJ3NYPpfOQHs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rueTXhA5c1Dost4p6RTi8HRtGag4G9gDo2SNTp6iAuMqVbGsavyPvE5ho+57NxVB0Wnp2+Cv0BzSKd9rxrDF+4jpfdwA5kkhq1gk8sycFfrMlkc5n141tIgGjiAEk1oWU4RFd5dnMYUimlgp97ht4Ml4QXPzIM4oAJZ41AYMCG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HBU3qLBW; arc=none smtp.client-ip=209.85.219.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=slvEtx1G32GmXzdTh+Vx5LyDn8oeX+bhUV5CLqx8S7aIaULe8lx4rSPoTk1LaYY7G34agVSeVnfP/Xxv8/4nw7dgV3ntqXn2WgsIki/0ew1XPzRUX2LYC40p4NRa4BJZeDX5T9FnFzvrOa1+YQ1u8ymbB5sXeIpGZ1pvv0OqhJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MrXkLg84; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HBU3qLBW"
-Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-dfac121b6a6so1406996276.0;
-        Thu, 13 Jun 2024 21:40:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MrXkLg84"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-52bc29c79fdso2387543e87.1
+        for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2024 21:40:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718340008; x=1718944808; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1718340037; x=1718944837; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lbtquG4p0hVvqKFk1U/Le3nDHhfbk+WM+GokVxGfK54=;
-        b=HBU3qLBWlZqRg9Nnhj8P6lwfiVE9T2AHErZAmSPQ0Rs5eQyw18AQgP0vnX6HAsAfwg
-         kgwYCzMDg4nb0d2+FW5NsdytcKqB2oBzniMMtPhucGI5sDGxRatRlK+1+88+d9MQLilc
-         Sk6Tc+8fpBYsMM3lLgX/8sggKnAiZOnOTPbBP9k0B+bk1krhiU/l03C8MWuBy1tiLBHs
-         4oAstZJe2L1i6K7q1ILP7f7Dcdv7NaVWE38EPU/LDk7QOQtT2y2he9cEFACDnWVA8HjO
-         I3EXskF63ElXl7ZZB835QwJuOJsZxEho2CrVqcK+M1XAJ7adZqxWYSyiSkU8u2usCvUY
-         OdXQ==
+        bh=kR7b6aZyZ2ErhsA0LvgqlgbPkmTng+vkDIc2255311w=;
+        b=MrXkLg84ZY8N2IswP1VtCmWEMTWgpWhAr/qg3y8gs/+8Wx/oebkTeiuJu+6sJ1EvEw
+         YD+tIMD0SMCaEoPpULoSZLbbWootuBMNRs9rOQF1RUN1mihgSq5XfzJQ7aVPG8BaWahT
+         FqvAnprGnMXDtl7l2CZ0Zy5UyQRJ/oINfqieGSf2YX2j724AcEsQSRKj2jHxlAGXBSNl
+         8jkIVFH9GtMS2wGn5UfBZ4Ziqg9DgOtozLEmmt0Xv/uLq6j72M6kfLPFfEe9qkYaeNV7
+         6M8cPpy9I8Hm4BN12Z9kO8m5CdMyJ2SOzblaIDSJ6wuinw8Oz/OD5Rl4ertjC0OOVXI5
+         zuWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718340008; x=1718944808;
+        d=1e100.net; s=20230601; t=1718340037; x=1718944837;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lbtquG4p0hVvqKFk1U/Le3nDHhfbk+WM+GokVxGfK54=;
-        b=f1PmQgmvTkO4/iXefA1wiOOAyp6q7cPETfxAKcKQRhxFWfDA6xIfpRSBxoJNhVY3GO
-         uCqFHsbqHv7l/PlzjHz64HvxMAzGGjBVn6hIAR8a2lH/oIvhTXIAcLnnkw9alHP5LLT0
-         /BekzH5/WD1V969QemkUCjkN+7+xvtjxdrWTJn5U5B2xWUYszrxbFlaeSwuROd8P0skK
-         QMz6IXgqFfHsl6b0lomX6ssjnRsq7DAZdkO+XG581MR6TonelCoQ9sZt5mrpSni0lXcd
-         Uw+QOeplj6b79cONRjs0Bq4P51S0btlLshfTb13asjY6U6PegJLTduFLdKfn0O+EAMDX
-         XuTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXIm4W5GM4vK54QuL5T9FICdzxJ9HtCgfALS/OXJ68unzvEhsmVaoFRa5ZDzZEuyHnrwziFHT0d7Mf5z2NRXeech56Idu9xdz2A3VUAijq/iHGPUxhpzGZzmGVl+gZXppHsyGcggXOu
-X-Gm-Message-State: AOJu0YyUXuhU8zyh7CPgg2Zh9fEczbti0MqbDxmgwTS16vgPHT5uylGO
-	CzyZU7BZMXSfSLxI/IwPSozOYGPN7eYWq526a7tZBlNBU1xaMmWKv2yxwnU1soGGjSiIf99yCyX
-	dC+ei2iMew3a/8KTo60uVhcbJ4MWiokYar6Q9MA==
-X-Google-Smtp-Source: AGHT+IHBsx4z2qtUMxZdNHJ7rhea/P9NlQ3RdnormcjNH+YUFkeA2RwUCdIJnmNFgrDo65EOWOo2cUHVGvpZXlOKNQU=
-X-Received: by 2002:a25:abb2:0:b0:dfb:f8c:39f2 with SMTP id
- 3f1490d57ef6-dfefebc9ca9mr2619063276.5.1718340008223; Thu, 13 Jun 2024
- 21:40:08 -0700 (PDT)
+        bh=kR7b6aZyZ2ErhsA0LvgqlgbPkmTng+vkDIc2255311w=;
+        b=Gzis3NGRKWZlZMOMYFKIgXxrG/sm+htYOxFjSRPXmEFfcKLG9IekYMTzsz0GVQbALW
+         os3jRNKcxGT0tQkPkcJDIxoBVvLLNwm8wrsXshhEsyyr9/eaCCaUIUKmT2P0wZhiAHVB
+         W+wRaHQR7CHY80dZJ+Jv7oKs6Df5ZOEcly7YX40/DydR2RC26yhR6RHjjNUzxIvirsVZ
+         nXdBgw4Vjd18BCO5HjndZnyxlAZN9YCVM9ToUANkn9FRrHf1odsUsW2jKRM4CU/J/i7O
+         VQNNBJX+oYqN2VABo2aLz86ythJa2Qgol2yiuxRbDbYzIrvQ4Q4K/TxRr0GtCN6KSMRA
+         D5xA==
+X-Forwarded-Encrypted: i=1; AJvYcCXtIZ8BUYWJvjtLczh28kQRrsIzmiu/DdZZuDyNDJo536eZbw9lwSVErEWaJ7JWQF/TgImvt29t7djWeFTl44bas5FM0/tsVXIQ
+X-Gm-Message-State: AOJu0YyrhHBunA/dlnKCNlESqHqB1jYMm0z6XhpYoe0bos0ozL73WpBB
+	XRL4xvEnfEWjVxIHrv5cWAr9Hr70o3C7tjf6gBwh6TRkW+MX7YFppQBzUt3zQaxl5pIFqJUdeCn
+	zRQ6ISRhZiwdn80SIzeBbFfLG0YZnqMPtHpQ3
+X-Google-Smtp-Source: AGHT+IF+QwVsnGgzoMf0Qw+xtz4R8CDXmuxU4LRGzv8WS6/BQHNgwgM8v9u52HDoANwX7UmBcb4VUEBhXtKfrjHouB0=
+X-Received: by 2002:a19:6449:0:b0:52c:84ac:8fa2 with SMTP id
+ 2adb3069b0e04-52ca6e56eb8mr1005405e87.7.1718340036348; Thu, 13 Jun 2024
+ 21:40:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240608155316.451600-1-flintglass@gmail.com> <20240608155316.451600-2-flintglass@gmail.com>
- <CAKEwX=P1Ojb71AEJ2gzQTrfWidFPcJZmoNxEwji7TceBN-szCg@mail.gmail.com>
- <CAPpoddeigM44jhTA8Ua=+J4MC1MikouBZVoPrCW2LZF+9r5YeA@mail.gmail.com>
- <CAJD7tkYp3GbuXV9G5bAZ1DetMmepV5ynciA+ukae7CKuxpXDJQ@mail.gmail.com>
- <CAPpoddfj1EdfXfTUT8bLaNxat0hYiE4X9=qG38gPgRgmmVOjcw@mail.gmail.com>
- <CAJD7tkZTSGz1bpo-pMNP_=11O-7RrhubWonqhUJwrt+TB=Ougg@mail.gmail.com>
- <CAPpoddcp9rVvg77WapsuiMdMzFrV0UioJ+VbQuJbKNY7-=nvVw@mail.gmail.com>
- <CAJD7tkY0=0yKSmEz=E5dL7GLRsO8r6ESWyzF+HdgK0wnMpzLKg@mail.gmail.com>
- <CAKEwX=PF=a2+pUBM3xEHBMu6VJY2Q64eTmVwo7vb4YmJQpK_DA@mail.gmail.com> <pezgvebjcykwgawtmvymqwktul25pgw5orxvvrbm24hjc3sizv@3yg7tbpwnlnf>
-In-Reply-To: <pezgvebjcykwgawtmvymqwktul25pgw5orxvvrbm24hjc3sizv@3yg7tbpwnlnf>
-From: Takero Funaki <flintglass@gmail.com>
-Date: Fri, 14 Jun 2024 13:39:57 +0900
-Message-ID: <CAPpoddcQRJ5EYFVaUhM+f5pV-RMtq=1kzkTuWQ2GRkcux-Yzcg@mail.gmail.com>
-Subject: Re: [PATCH v1 1/3] mm: zswap: fix global shrinker memcg iteration
-To: Shakeel Butt <shakeel.butt@linux.dev>
-Cc: Nhat Pham <nphamcs@gmail.com>, Yosry Ahmed <yosryahmed@google.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Chengming Zhou <chengming.zhou@linux.dev>, 
-	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, 
-	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+References: <20240613013557.1169171-1-almasrymina@google.com> <20240613183453.2423e23b@kernel.org>
+In-Reply-To: <20240613183453.2423e23b@kernel.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Thu, 13 Jun 2024 21:40:24 -0700
+Message-ID: <CAHS8izNqMOAONExpBwtJBqseRnyv+ukw5LbFdevQXD4zc+7thg@mail.gmail.com>
+Subject: Re: [PATCH net-next v12 00/13] Device Memory TCP
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
+	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Sergey Shtylyov <s.shtylyov@omp.ru>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+	Nikolay Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
+	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
+	Praveen Kaligineedi <pkaligineedi@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-2024=E5=B9=B46=E6=9C=8814=E6=97=A5(=E9=87=91) 1:49 Shakeel Butt <shakeel.bu=
-tt@linux.dev>:
+On Thu, Jun 13, 2024 at 6:35=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
+ote:
 >
-> On Thu, Jun 13, 2024 at 08:04:39AM GMT, Nhat Pham wrote:
-> [...]
-> > > > >
-> > > > > Is the idea here to avoid moving the iterator to another offline =
-memcg
-> > > > > that zswap_memcg_offline_cleanup() was already called for, to avo=
-id
-> > > > > holding a ref on that memcg until the next run of zswap shrinking=
-?
-> > > > >
-> > > > > If yes, I think it's probably worth doing. But why do we need to
-> > > > > release and reacquire the lock in the loop above?
-> > > >
-> > > > Yes, the existing cleaner might leave the offline, already-cleaned =
-memcg.
-> > > >
-> > > > The reacquiring lock is to not loop inside the critical section.
-> > > > In shrink_worker of v0 patch, the loop was restarted on offline mem=
-cg
-> > > > without releasing the lock. Nhat pointed out that we should drop th=
-e
-> > > > lock after every mem_cgroup_iter() call. v1 was changed to reacquir=
-e
-> > > > once per iteration like the cleaner code above.
-> > >
-> > > I am not sure how often we'll run into a situation where we'll be
-> > > holding the lock for too long tbh. It should be unlikely to keep
-> > > encountering offline memcgs for a long time.
-> > >
-> > > Nhat, do you think this could cause a problem in practice?
-> >
-> > I don't remember prescribing anything to be honest :) I think I was
-> > just asking why can't we just drop the lock, then "continue;". This is
-> > mostly for simplicity's sake.
-> >
-> > https://lore.kernel.org/linux-mm/CAKEwX=3DMwrRc43iM2050v5u-TPUK4Yn+a4G7=
-+h6ieKhpQ7WtQ=3DA@mail.gmail.com/
-
-I apologize for misinterpreting your comments. Removing release/reacquire.
-
-> >
-> > But I think as Takero pointed out, it would still skip over the memcg
-> > that was (concurrently) updated to zswap_next_shrink by the memcg
-> > offline callback.
+> On Thu, 13 Jun 2024 01:35:37 +0000 Mina Almasry wrote:
+> > v12: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D8597=
+47&state=3D*
 >
-> What's the issue with keep traversing until an online memcg is found?
-> Something like the following:
+> patches 5 and 6 transiently break the build
 >
+> ../include/trace/events/page_pool.h:65:23: error: use of undeclared ident=
+ifier 'NET_IOV'
+>    65 |                   __entry->netmem & NET_IOV, __entry->pfn, __entr=
+y->release)
+>       |                                     ^
+> ../include/trace/events/page_pool.h:91:23: error: use of undeclared ident=
+ifier 'NET_IOV'
+>    91 |                   __entry->netmem & NET_IOV, __entry->pfn, __entr=
+y->hold)
+>       |                                     ^
 >
->         spin_lock(&zswap_shrink_lock);
->         do {
->                 zswap_next_shrink =3D mem_cgroup_iter(NULL, zswap_next_sh=
-rink, NULL);
->         } while (zswap_next_shrink && !mem_cgroup_online(zswap_next_shrin=
-k));
+> Looking at NIPA status the builders are 12h behind, so please don't
+> repost immediately. This series takes a lot of compute cycles to build.
 >
->         if (!zswap_next_shrink)
->                 zswap_next_shrink =3D mem_cgroup_iter(NULL, NULL, NULL);
->         ....
+> FWIW there is a docker version of NIPA checks in the nipa repo.
 >
-> Is the concern that there can a lot of offlined memcgs which may cause
-> need resched warnings?
+> https://github.com/linux-netdev/nipa/tree/main/docker
+>
+> IDK if it still works, but could help avoid mistakes..
 
-To avoid using the goto-based loop, here's the new version, including
-Shakeel's suggestion:
-```c
-    do {
-        spin_lock(&zswap_shrink_lock);
-        /*
-         * Advance the cursor to start shrinking from the next memcg
-         * after zswap_next_shrink.  One memcg might be skipped from
-         * shrinking if the cleaner also advanced the cursor, but it
-         * will happen at most once per offlining memcg.
-         */
-        do {
-            zswap_next_shrink =3D mem_cgroup_iter(NULL,
-                    zswap_next_shrink, NULL);
-            memcg =3D zswap_next_shrink;
-        } while (memcg && !mem_cgroup_tryget_online(memcg));
+My sincere apologies. I have trouble with the patch-by-patch
+allmodconfig build being very slow on my setup with the headers I'm
+touching, and I've been running into false positives with the C=3D1 &
+W=3D1 checks. I've been trying to look at the nipa scripts and porting
+them over to my setup. I'll take a look at the docker image and if
+not, at least make sure the patch-by-patch allmodconfig with C=3D1 and
+W=3D1 is working.
 
-        if (!memcg) {
-            spin_unlock(&zswap_shrink_lock);
-```
-We can add or remove  `spin_unlock();spin_lock();` just after
-mem_cgroup_iter(), if needed.
-I believe the behavior is identical to v1 except for the starting
-point of iteration.
-
-For Naht's comment, 2. No skipping over zswap_next_shrink updated by
-the memcg offline cleaner.
-While this was true for v1, I'm moved to accept this skipping as it's
-negligibly rare. As Yorsy commented, v1 retried the last memcg from
-the last shrink_worker() run.
-
-There are several options for shrink_worker where to start with:
-1. Starting from the next memcg after zswap_next_shrink: It might skip
-one memcg, but this is quite rare. It is the current behavior before
-patch.
-
-2. Starting from zswap_next_shrink: It might shrink one more page from
-the memcg in addition to the one by the last shrink_worker() run. This
-should also be rare, but probably more frequent than option 1. This is
-the v0 patch behavior.
-
-3. Addressing both: Save the last memcg as well. The worker checks if
-it has been modified by the cleaner and advances only if it hasn't.
-Like this:
-```c
-        do {
-            if (zswap_last_shrink =3D=3D zswap_next_shrink) {
-                zswap_next_shrink =3D mem_cgroup_iter(NULL,
-                        zswap_next_shrink, NULL);
-            }
-            memcg =3D zswap_next_shrink;
-        } while (memcg && !mem_cgroup_tryget_online(memcg));
-        zswap_last_shrink =3D memcg;
-```
-
-Which one would be better? or any other idea?
+--=20
+Thanks,
+Mina
