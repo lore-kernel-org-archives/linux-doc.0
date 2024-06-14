@@ -1,231 +1,174 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8C33185086;
-	Fri, 14 Jun 2024 08:23:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4B0B190044;
+	Fri, 14 Jun 2024 08:35:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718353426; cv=none; b=H/Ggq3YxikW8Tb8RG5Ya/HqSTVGO2eeow2/cSDVIEps4FDdQipPm8jxoHK176gHxjR+krNnXDbgfTsc8BO5KFddfKhwN7Ei0bgUymwQPB4gkz83j30hrdB7DTrjTblGNnhypyDOhAAGTJETmEbZzU3e/ghTg0iupOhYVZ4Etl/Q=
+	t=1718354123; cv=none; b=HHEwvY/JjJKyAwzXyHY9jlB2MuW1/ajuepz8D4wQpPDXMMcfzzdEtGLjd8ApJrTsT+UDAeOB+/ayAYF2luESv1F2SZ78tX45t4SPRZ0c5pNaj4NqTtGSxjcZTQ1jnBUNU0+mZ/Khi+tr7sU2FNbkV7xyQUdD7L8jthv/uJIh05U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718353426; c=relaxed/simple;
-	bh=I30+svJG/M7AzUfaUajhNLsiziVDSGelWON1BY08RRA=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b0Uth3DvHHivK2PdYx0uIAbQ/6anVrfMCYIdob9q9BuQOaeynzmr/ca2NV0mj6oKVwajqPPlPFqj0nxb8+l0smgRtyJSKZqrOT/u8vN7hicI+mE4oQTbXEVggf3uD/3SUuPamjQG+fhD3VcV/J44+b0QrqTAywfz87gd0XPnN4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=TAt6VB/3; arc=none smtp.client-ip=68.232.154.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1718354123; c=relaxed/simple;
+	bh=a5UwVV67a2jLUz2GPxUMVFlQhY06wFG1TwJdC7MdDFA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OIemyxWxxyFg16SZqNQIF7traYozctxlp/d9ncTY6rgCPQcrJJTUJ03uVkBV8wJFS7sogwSCkLrhEaOEkSNXS3994WmJi8rc4rMhh48pkzfsQufa2EchQUB7yGd7tpM3fpJMdPqYvLubzzreQ5PYmXVDLRS9vpyE/TZGnSU+vgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QEadpkbK; arc=none smtp.client-ip=209.85.221.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="TAt6VB/3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1718353424; x=1749889424;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=I30+svJG/M7AzUfaUajhNLsiziVDSGelWON1BY08RRA=;
-  b=TAt6VB/3Ywffc6PCn87J4eM6zebeVDQf1/nM7gU3lOUNhB8QaqQEDrzu
-   7muhMQvKwzKyWLzo2qqxaLNHD2qNFjtX/mljPrtZiGoCYKgvxyaCLsyn6
-   ZwLt1FhoegUCyFpylHlA0f7d1lOQAWBKXz971JOuSPmowQUj97GSOJWwY
-   3ETjFowZLSFANNwo0dw45p1bZDHAyUKzhz6XPBJPPA34kPUtCL1LXMlqY
-   GndNOVHt179KUmAnHmXGPyCEoxjTHv2a2Cc3WOF6XcJVwpPa8f9jl8+nu
-   rG2f9b13zI69Z88qH5LgSBPdXOXAf7/Vh0n/CZyRfA/3kJwDf3TKfDabN
-   A==;
-X-CSE-ConnectionGUID: lGiPpL1eRHKZ9zuhk1c1dA==
-X-CSE-MsgGUID: t41bSOBzQEqKWlfjgFpvSQ==
-X-IronPort-AV: E=Sophos;i="6.08,237,1712646000"; 
-   d="asc'?scan'208";a="28158885"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 14 Jun 2024 01:23:42 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Fri, 14 Jun 2024 01:23:10 -0700
-Received: from wendy (10.10.85.11) by chn-vm-ex03.mchp-main.com (10.10.85.151)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
- Transport; Fri, 14 Jun 2024 01:23:05 -0700
-Date: Fri, 14 Jun 2024 09:22:47 +0100
-From: Conor Dooley <conor.dooley@microchip.com>
-To: Jesse Taube <jesse@rivosinc.com>
-CC: <linux-riscv@lists.infradead.org>, Jonathan Corbet <corbet@lwn.net>, Paul
- Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>, Evan Green
-	<evan@rivosinc.com>, Andrew Jones <ajones@ventanamicro.com>, Charlie Jenkins
-	<charlie@rivosinc.com>, Xiao Wang <xiao.w.wang@intel.com>, Andy Chiu
-	<andy.chiu@sifive.com>, Eric Biggers <ebiggers@google.com>, Greentime Hu
-	<greentime.hu@sifive.com>, =?iso-8859-1?Q?Bj=F6rn_T=F6pel?=
-	<bjorn@rivosinc.com>, Heiko Stuebner <heiko@sntech.de>, Costa Shulyupin
-	<costa.shul@redhat.com>, Andrew Morton <akpm@linux-foundation.org>, Baoquan
- He <bhe@redhat.com>, Anup Patel <apatel@ventanamicro.com>, Zong Li
-	<zong.li@sifive.com>, Sami Tolvanen <samitolvanen@google.com>, Ben Dooks
-	<ben.dooks@codethink.co.uk>, Alexandre Ghiti <alexghiti@rivosinc.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Erick Archer
-	<erick.archer@gmx.com>, Joel Granados <j.granados@samsung.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<devicetree@vger.kernel.org>
-Subject: Re: [PATCH v2 3/6] RISC-V: Check scalar unaligned access on all CPUs
-Message-ID: <20240614-padded-mammal-d956735c1293@wendy>
-References: <20240613191616.2101821-1-jesse@rivosinc.com>
- <20240613191616.2101821-4-jesse@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QEadpkbK"
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-4ed09e0141bso77220e0c.2;
+        Fri, 14 Jun 2024 01:35:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718354120; x=1718958920; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UBD23S6qCIO944R+FXPTl9o8IozbKBuB6Ed3Es8CaDg=;
+        b=QEadpkbKsGDLcBPXmZuVWLLsC+th99e5eei1yFkASESzCgW2H3wjTTDCSXWyx8kRFE
+         hLWrZY4i/ewGqMgxq7REYw8bG75+SDbmsMu40WW17IMINC4VIbbuX1A4zyN4CjlY0PYQ
+         /lFGHPToNCdi5y0vwIKIoWiF/PYz/GqvH9Re28+Ir+Anco4YrBiN80Olo7S77BSqIYmU
+         623Dfb1LFMpbWpSjqmgtbVfv66XBVhcBs1DOFgR1AfiRLDJrcY4iipbZTpWVye8gbp6y
+         8zshWBICwx530+7smbWUrl+c/ED9ZGilFIQTr3iRx9UBlNfrZOnGY92IkS0Q8KlzpaGM
+         d/1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718354120; x=1718958920;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UBD23S6qCIO944R+FXPTl9o8IozbKBuB6Ed3Es8CaDg=;
+        b=PHuHDJtkbxuL7QLxkNR/71NncFPLITHGqWRY4FJGUBy8kuOkdA2LSevRhvUJQyK7hO
+         xGOqp98RsOxS41SWqfoVbxZ3kyZXibHbFcW4mDadoL/R5pIlqC5HJ/IHUeE0cRgv7kWh
+         2ibYrcEEQRq1MTLLVIvu5UrZHDbf/ybz+dr+EBA/Rir7VjwZ78EciaEP8QfcGxdO9K6j
+         TY6dmsxYPUy9vLMUWhkkzIO3+oWFp8IKBx8ch9jsfjNko7Yp5Gyc786MnnDZrGtkwpnx
+         o3tPU6c6twwu5KSDOxgSWx7oUgLjlNyIairNIUJOv7Yp/GLJtBWR+yYBx+tMzC6DHJax
+         +Cmg==
+X-Forwarded-Encrypted: i=1; AJvYcCWaBv1py8K9ZAAKdYtOFtgbhHolJ3aXK0Q09iW8Qgfk33KHJ5HuNyCgNEQ/mvE1Zv7plQo55u3iyut1Eabs07BlBWI/CgFu1k0ha9+QzSjYF2Oa9M/Lj0Kx8TW5QJu+NzqXkGnZY6S9+aJ6
+X-Gm-Message-State: AOJu0YxS3nt25SpkzdvLcWBiNSMD6O8YWoa91aqvBAZfQxXm4mA+BuPn
+	xlEr3Eu/r4Iu6585NJQj/osWQoGPNSR4VOcjj/6xi8K30EZAaIEDKCDfk3GlYwnkCqJcyOGGS6M
+	16cOatN76NmvtRLBg66zj7HL2Veo=
+X-Google-Smtp-Source: AGHT+IHAmjFbkdS+fr6ZkZVORCPbzkeRgK12X1TuMm6vxt/E1AeV5iBgZCISuEWwsLGiP5eLuFDQttNR3nt1R6jEfL0=
+X-Received: by 2002:a05:6102:1610:b0:48d:b0a3:fe34 with SMTP id
+ ada2fe7eead31-48db0a40226mr1249530137.2.1718354120499; Fri, 14 Jun 2024
+ 01:35:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="5roV/dfZvNvEhY/C"
-Content-Disposition: inline
-In-Reply-To: <20240613191616.2101821-4-jesse@rivosinc.com>
-
---5roV/dfZvNvEhY/C
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20240611215544.2105970-1-jiaqiyan@google.com> <20240611215544.2105970-2-jiaqiyan@google.com>
+In-Reply-To: <20240611215544.2105970-2-jiaqiyan@google.com>
+From: Lance Yang <ioworker0@gmail.com>
+Date: Fri, 14 Jun 2024 16:35:09 +0800
+Message-ID: <CABzRoyYGY2EgT5wC9o98Vn_auh59poQ-OOnKceCiWQAJrbZoBw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] mm/memory-failure: userspace controls
+ soft-offlining pages
+To: Jiaqi Yan <jiaqiyan@google.com>
+Cc: nao.horiguchi@gmail.com, linmiaohe@huawei.com, jane.chu@oracle.com, 
+	muchun.song@linux.dev, akpm@linux-foundation.org, shuah@kernel.org, 
+	corbet@lwn.net, osalvador@suse.de, rientjes@google.com, duenwen@google.com, 
+	fvdl@google.com, linux-mm@kvack.org, linux-kselftest@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 13, 2024 at 03:16:12PM -0400, Jesse Taube wrote:
-> Originally, the check_unaligned_access_emulated_all_cpus function
-> only checked the boot hart. This fixes the function to check all
-> harts.
+Hi Jiaqi,
 
-This seems like it should be split out and get a Fixes: tag & a cc:
-stable.
+On Wed, Jun 12, 2024 at 5:56=E2=80=AFAM Jiaqi Yan <jiaqiyan@google.com> wro=
+te:
+>
+> Correctable memory errors are very common on servers with large
+> amount of memory, and are corrected by ECC. Soft offline is kernel's
+> additional recovery handling for memory pages having (excessive)
+> corrected memory errors. Impacted page is migrated to a healthy page
+> if inuse; the original page is discarded for any future use.
+>
+> The actual policy on whether (and when) to soft offline should be
+> maintained by userspace, especially in case of an 1G HugeTLB page.
+> Soft-offline dissolves the HugeTLB page, either in-use or free, into
+> chunks of 4K pages, reducing HugeTLB pool capacity by 1 hugepage.
+> If userspace has not acknowledged such behavior, it may be surprised
+> when later mmap hugepages MAP_FAILED due to lack of hugepages.
+> In case of a transparent hugepage, it will be split into 4K pages
+> as well; userspace will stop enjoying the transparent performance.
+>
+> In addition, discarding the entire 1G HugeTLB page only because of
+> corrected memory errors sounds very costly and kernel better not
+> doing under the hood. But today there are at least 2 such cases:
+> 1. GHES driver sees both GHES_SEV_CORRECTED and
+>    CPER_SEC_ERROR_THRESHOLD_EXCEEDED after parsing CPER.
+> 2. RAS Correctable Errors Collector counts correctable errors per
+>    PFN and when the counter for a PFN reaches threshold
+> In both cases, userspace has no control of the soft offline performed
+> by kernel's memory failure recovery.
+>
+> This commit gives userspace the control of softofflining any page:
+> kernel only soft offlines raw page / transparent hugepage / HugeTLB
+> hugepage if userspace has agreed to. The interface to userspace is a
+> new sysctl called enable_soft_offline under /proc/sys/vm. By default
+> enable_soft_line is 1 to preserve existing behavior in kernel.
 
-> Check for Zicclsm before checking for unaligned access. This will
-> greatly reduce the boot up time as finding the access speed is no longer
-> necessary.
->=20
-> Signed-off-by: Jesse Taube <jesse@rivosinc.com>
+s/enable_soft_line/enable_soft_offline
+
+>
+> Signed-off-by: Jiaqi Yan <jiaqiyan@google.com>
 > ---
-> V1 -> V2:
->  - New patch
-> ---
->  arch/riscv/kernel/traps_misaligned.c       | 23 ++++++----------------
->  arch/riscv/kernel/unaligned_access_speed.c | 23 +++++++++++++---------
->  2 files changed, 20 insertions(+), 26 deletions(-)
->=20
-> diff --git a/arch/riscv/kernel/traps_misaligned.c b/arch/riscv/kernel/tra=
-ps_misaligned.c
-> index b62d5a2f4541..8fadbe00dd62 100644
-> --- a/arch/riscv/kernel/traps_misaligned.c
-> +++ b/arch/riscv/kernel/traps_misaligned.c
-> @@ -526,31 +526,17 @@ int handle_misaligned_store(struct pt_regs *regs)
->  	return 0;
->  }
-> =20
-> -static bool check_unaligned_access_emulated(int cpu)
-> +static void check_unaligned_access_emulated(struct work_struct *unused)
->  {
-> +	int cpu =3D smp_processor_id();
->  	long *mas_ptr =3D per_cpu_ptr(&misaligned_access_speed, cpu);
->  	unsigned long tmp_var, tmp_val;
-> -	bool misaligned_emu_detected;
-> =20
->  	*mas_ptr =3D RISCV_HWPROBE_MISALIGNED_UNKNOWN;
-> =20
->  	__asm__ __volatile__ (
->  		"       "REG_L" %[tmp], 1(%[ptr])\n"
->  		: [tmp] "=3Dr" (tmp_val) : [ptr] "r" (&tmp_var) : "memory");
-> -
-> -	misaligned_emu_detected =3D (*mas_ptr =3D=3D RISCV_HWPROBE_MISALIGNED_E=
-MULATED);
-> -	/*
-> -	 * If unaligned_ctl is already set, this means that we detected that all
-> -	 * CPUS uses emulated misaligned access at boot time. If that changed
-> -	 * when hotplugging the new cpu, this is something we don't handle.
-> -	 */
-> -	if (unlikely(unaligned_ctl && !misaligned_emu_detected)) {
-> -		pr_crit("CPU misaligned accesses non homogeneous (expected all emulate=
-d)\n");
-> -		while (true)
-> -			cpu_relax();
-> -	}
-> -
-> -	return misaligned_emu_detected;
->  }
-> =20
->  bool check_unaligned_access_emulated_all_cpus(void)
-> @@ -562,8 +548,11 @@ bool check_unaligned_access_emulated_all_cpus(void)
->  	 * accesses emulated since tasks requesting such control can run on any
->  	 * CPU.
->  	 */
-> +	schedule_on_each_cpu(check_unaligned_access_emulated);
+>  mm/memory-failure.c | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+>
+> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+> index d3c830e817e3..23415fe03318 100644
+> --- a/mm/memory-failure.c
+> +++ b/mm/memory-failure.c
+> @@ -68,6 +68,8 @@ static int sysctl_memory_failure_early_kill __read_most=
+ly;
+>
+>  static int sysctl_memory_failure_recovery __read_mostly =3D 1;
+>
+> +static int sysctl_enable_soft_offline __read_mostly =3D 1;
 > +
->  	for_each_online_cpu(cpu)
-> -		if (!check_unaligned_access_emulated(cpu))
-> +		if (per_cpu(misaligned_access_speed, cpu)
-> +		    !=3D RISCV_HWPROBE_MISALIGNED_EMULATED)
->  			return false;
-> =20
->  	unaligned_ctl =3D true;
-> diff --git a/arch/riscv/kernel/unaligned_access_speed.c b/arch/riscv/kern=
-el/unaligned_access_speed.c
-> index a9a6bcb02acf..70c1588fc353 100644
-> --- a/arch/riscv/kernel/unaligned_access_speed.c
-> +++ b/arch/riscv/kernel/unaligned_access_speed.c
-> @@ -259,23 +259,28 @@ static int check_unaligned_access_speed_all_cpus(vo=
-id)
->  	kfree(bufs);
->  	return 0;
->  }
-> +#endif /* CONFIG_RISCV_PROBE_UNALIGNED_ACCESS */
-> =20
->  static int check_unaligned_access_all_cpus(void)
->  {
-> -	bool all_cpus_emulated =3D check_unaligned_access_emulated_all_cpus();
-> +	bool all_cpus_emulated;
-> +	int cpu;
-> =20
-> +	if (riscv_has_extension_unlikely(RISCV_ISA_EXT_ZICCLSM)) {
-> +		for_each_online_cpu(cpu) {
-> +			per_cpu(misaligned_access_speed, cpu) =3D RISCV_HWPROBE_MISALIGNED_FA=
-ST;
-> +		}
-> +		return 0;
-> +	}
-> +
-> +	all_cpus_emulated =3D check_unaligned_access_emulated_all_cpus();
-> +
-> +#ifdef CONFIG_RISCV_PROBE_UNALIGNED_ACCESS
+>  atomic_long_t num_poisoned_pages __read_mostly =3D ATOMIC_LONG_INIT(0);
+>
+>  static bool hw_memory_failure __read_mostly =3D false;
+> @@ -141,6 +143,15 @@ static struct ctl_table memory_failure_table[] =3D {
+>                 .extra1         =3D SYSCTL_ZERO,
+>                 .extra2         =3D SYSCTL_ONE,
+>         },
+> +       {
+> +               .procname       =3D "enable_soft_offline",
+> +               .data           =3D &sysctl_enable_soft_offline,
+> +               .maxlen         =3D sizeof(sysctl_enable_soft_offline),
+> +               .mode           =3D 0644,
+> +               .proc_handler   =3D proc_dointvec_minmax,
+> +               .extra1         =3D SYSCTL_ZERO,
+> +               .extra2         =3D SYSCTL_ONE,
+> +       }
+>  };
+>
+>  /*
+> @@ -2771,6 +2782,11 @@ int soft_offline_page(unsigned long pfn, int flags=
+)
+>         bool try_again =3D true;
+>         struct page *page;
+>
+> +       if (!sysctl_enable_soft_offline) {
+> +               pr_info("soft offline: %#lx: OS-wide disabled\n", pfn);
+> +               return -EINVAL;
 
-Can we make this an IS_ENABLED() please?
+IMO, "-EPERM" might sound better ;)
 
+Using "-EPERM" indicates that the operation is not permitted due to
+the OS-wide configuration.
 
 Thanks,
-Conor.
+Lance
 
->  	if (!all_cpus_emulated)
->  		return check_unaligned_access_speed_all_cpus();
-> +#endif
-> =20
->  	return 0;
->  }
-> -#else /* CONFIG_RISCV_PROBE_UNALIGNED_ACCESS */
-> -static int check_unaligned_access_all_cpus(void)
-> -{
-> -	check_unaligned_access_emulated_all_cpus();
-> -
-> -	return 0;
-> -}
-> -#endif
-> =20
->  arch_initcall(check_unaligned_access_all_cpus);
-> --=20
-> 2.43.0
->=20
-
---5roV/dfZvNvEhY/C
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZmv91wAKCRB4tDGHoIJi
-0reHAQDJzCDTih2CT5+8AGBLj1gklSGmS/R+h5QMKj0uL8S0zQEAqTT7zZH5px5I
-8XwHyIp3NfUTa9Qm5JgQqXy58YGrLgQ=
-=jw9t
------END PGP SIGNATURE-----
-
---5roV/dfZvNvEhY/C--
+> +       }
+> +
+>         if (!pfn_valid(pfn)) {
+>                 WARN_ON_ONCE(flags & MF_COUNT_INCREASED);
+>                 return -ENXIO;
+> --
+> 2.45.2.505.gda0bf45e8d-goog
+>
+>
