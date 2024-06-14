@@ -1,47 +1,59 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D1B6187343
-	for <linux-doc@vger.kernel.org>; Fri, 14 Jun 2024 08:12:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4E41862AC
+	for <linux-doc@vger.kernel.org>; Fri, 14 Jun 2024 08:14:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718352779; cv=none; b=FA8pwZZUCKzUYRG6ES2FX1dmrAURo9gJmZRJhqpfOt2ClpntrL+JsxX7dSYeH9Y9lpBcstaTVBGQNFto6o+R4GNF2Hjk7QwXj8ze63cOtCq7CKqsuVJbeToRU5RXz0fEitGEQUlhzWZEAAmZ49uFhejAL+N9jBizfTKlEUzwXzA=
+	t=1718352897; cv=none; b=lWKCmEcu83c1yzLpyTFjws67tFxYCBYgLde+X8N6ffp3Q+p/tj3l/JZz87v3zVNkaQzkfYJOMsJDJ/J/oVZ38r65RGOySdsyT1SMFiKpaTRNYZoB0ztzmW9GWDCxwwNukoMw4awqfOfjfgcsMfzJ7ZzkZ9lDaABQ5zcQKThID9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718352779; c=relaxed/simple;
-	bh=BVEwSEZWW70n3zK43WnEFFNovrnrFP6C9VNMi4Zg6mM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=acCjwo0BDrFcxCBym1gWDGhxYF3ACJa9oU5K31z3nRiBiXEfBXIoUCu3i+0dZrJxM4SXnRomuPYegLFNZGbGiSAegaozSAPQLOJTStZQIDNFMSLohZTnwiCisOGmrdutarl02OFrs2AGgYeKnY5xFdz2jJ27OwAd0XRA7ObZn3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=PX3Vsfla; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1718352897; c=relaxed/simple;
+	bh=AJr56AIyxw1AV+8imWQzB4XZoQsJAgsK6sLrW1PzyvM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TDj2/XedZFCreeD2CbvnvSl7wkCvd8e4h3YtiForOyuXr6DmsLlolaDf2Wsv4KfBQsgyiSmmVfsoFo3cch8ATel2+CuDslOIj3zg35mBuhNxbYp0+TIgA147emCmYjiPWJnu2nMInEw1VEVD+FN04ZgZvxOtBp2Wx4L27o6KgwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bqpbfCPK; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="PX3Vsfla"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=x+OirvJmm2z8OY7TiPcj0ELlgpYDPQ+Seo1lKvUO+VI=; b=PX3Vsf
-	laINXXGy3e3zub0bL77RqjsZYszfE483pUzNdyKQdEEvpy6I9/Mtr6t/pVGqWb/R
-	dvaPM3v2WhJ9KefQ/ritD72/2c4eubbeE+PKAF93EoYbgnOzOLrD51nFjMIvhw5r
-	b5CVo2SsGSagW+NEgkJa9tOliyu3sPBf7EY55Oe5Qxdr/N8I0YNRp5yBHXV3VuCe
-	bE6aKjND8v0eLk7qyS0fI5IVAvkkpTjnmQ9kBfKjCltaGe5yLnbPL+aPNXrsOQW4
-	vajav7vusIciE4k2MuWTSjaOBGOezzRqEAz9Rp7Kqg/LIUF9vqHGmznNAZds7uiG
-	TfrbPUzL/Fi2yGNQ==
-Received: (qmail 1438219 invoked from network); 14 Jun 2024 10:12:51 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Jun 2024 10:12:51 +0200
-X-UD-Smtp-Session: l3s3148p1@wNCFLtUaNIIgAwDPXzjQABqqX1QYyOSW
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-i2c@vger.kernel.org
-Cc: Easwar Hariharan <eahariha@linux.microsoft.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH v3 6/6] docs: i2c: summary: be clearer with 'controller/target' and 'adapter/client' pairs
-Date: Fri, 14 Jun 2024 10:12:44 +0200
-Message-ID: <20240614081239.7128-14-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240614081239.7128-8-wsa+renesas@sang-engineering.com>
-References: <20240614081239.7128-8-wsa+renesas@sang-engineering.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bqpbfCPK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1718352895;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=kpIVMcrxNUuot3WrmRIeXJx5cyzexiU4T4G3Mxhn+Fo=;
+	b=bqpbfCPKmMAIe3rMCu1jIO4mCSlf299PWKjs6moSAlE+mU627SEU/iQEOO9kpgIdK/V0up
+	9cD83+7zSnhZcQ3lKlF+Y8h4XLdn1c/6cNA63wic7pfO6NbvWEXdUM0LcnDmSZRD0oVSli
+	+XzbVTMxO9QRgQ6igLyes1oi0q+/xts=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-608-QPyfIbc7Np-25l__XOO7DQ-1; Fri,
+ 14 Jun 2024 04:14:47 -0400
+X-MC-Unique: QPyfIbc7Np-25l__XOO7DQ-1
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C0BBC19560AE;
+	Fri, 14 Jun 2024 08:14:45 +0000 (UTC)
+Received: from thuth-p1g4.redhat.com (unknown [10.39.193.73])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id F2DDA19560BF;
+	Fri, 14 Jun 2024 08:14:40 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: linux-doc@vger.kernel.org,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Janosch Frank <frankja@linux.ibm.com>,
+	Claudio Imbrenda <imbrenda@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	linux-s390@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sven Schnelle <svens@linux.ibm.com>
+Subject: [PATCH] Documentation: Add "S390" to the swiotlb kernel parameter
+Date: Fri, 14 Jun 2024 10:14:38 +0200
+Message-ID: <20240614081438.553160-1-thuth@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,76 +61,32 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-This not only includes rewording, but also where to put which emphasis
-on terms in this document.
+The "swiotlb" kernel parameter is used on s390 for protected virt since
+commit 64e1f0c531d1 ("s390/mm: force swiotlb for protected virtualization")
+and thus should be marked in kernel-parameters.txt accordingly.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- Documentation/i2c/summary.rst | 33 ++++++++++++++++++++-------------
- 1 file changed, 20 insertions(+), 13 deletions(-)
+ PS: I wonder whether we could remove IA-64 nowadays...?
 
-diff --git a/Documentation/i2c/summary.rst b/Documentation/i2c/summary.rst
-index ff8bda32b9c3..90f46f1504fe 100644
---- a/Documentation/i2c/summary.rst
-+++ b/Documentation/i2c/summary.rst
-@@ -31,9 +31,7 @@ implement all the common SMBus protocol semantics or messages.
- Terminology
- ===========
+ Documentation/admin-guide/kernel-parameters.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index b600df82669d..423427bf6e49 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6548,7 +6548,7 @@
+ 			This parameter controls use of the Protected
+ 			Execution Facility on pSeries.
  
--The I2C bus connects one or more *controller* chips and one or more *target*
--chips.
--
-+The I2C bus connects one or more controller chips and one or more target chips.
- 
- .. kernel-figure::  i2c_bus.svg
-    :alt:    Simple I2C bus with one controller and 3 targets
-@@ -41,16 +39,16 @@ chips.
-    Simple I2C bus
- 
- A **controller** chip is a node that starts communications with targets. In the
--Linux kernel implementation it is called an **adapter** or bus. Adapter
--drivers are in the ``drivers/i2c/busses/`` subdirectory.
-+Linux kernel implementation it is called an "adapter" or "bus". Controller
-+drivers are usually in the ``drivers/i2c/busses/`` subdirectory.
- 
--An **algorithm** contains general code that can be used to implement a
--whole class of I2C adapters. Each specific adapter driver either depends on
--an algorithm driver in the ``drivers/i2c/algos/`` subdirectory, or includes
--its own implementation.
-+An **algorithm** contains general code that can be used to implement a whole
-+class of I2C controllers. Each specific controller driver either depends on an
-+algorithm driver in the ``drivers/i2c/algos/`` subdirectory, or includes its
-+own implementation.
- 
- A **target** chip is a node that responds to communications when addressed by a
--controller. In the Linux kernel implementation it is called a **client**. While
-+controller. In the Linux kernel implementation it is called a "client". While
- targets are usually separate external chips, Linux can also act as a target
- (needs hardware support) and respond to another controller on the bus. This is
- then called a **local target**. In contrast, an external chip is called a
-@@ -60,9 +58,18 @@ Target drivers are kept in a directory specific to the feature they provide,
- for example ``drivers/gpio/`` for GPIO expanders and ``drivers/media/i2c/`` for
- video-related chips.
- 
--For the example configuration in figure, you will need a driver for your
--I2C adapter, and drivers for your I2C devices (usually one driver for each
--device).
-+For the example configuration in the figure above, you will need one driver for
-+the I2C controller, and drivers for your I2C targets. Usually one driver for
-+each target.
-+
-+Synonyms
-+--------
-+
-+As mentioned above, the Linux I2C implementation historically uses the terms
-+"adapter" for controller and "client" for target. A number of data structures
-+have these synonyms in their name. So, to discuss implementation details, it
-+might be easier to use these terms. If speaking about I2C in general, the
-+official terminology is preferred.
- 
- Outdated terminology
- --------------------
+-	swiotlb=	[ARM,IA-64,PPC,MIPS,X86,EARLY]
++	swiotlb=	[ARM,IA-64,PPC,MIPS,X86,S390,EARLY]
+ 			Format: { <int> [,<int>] | force | noforce }
+ 			<int> -- Number of I/O TLB slabs
+ 			<int> -- Second integer after comma. Number of swiotlb
 -- 
-2.43.0
+2.45.2
 
