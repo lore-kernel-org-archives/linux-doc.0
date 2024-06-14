@@ -1,248 +1,324 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0CCC61FE7;
-	Fri, 14 Jun 2024 15:13:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6628D146A9D
+	for <linux-doc@vger.kernel.org>; Fri, 14 Jun 2024 16:13:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718378033; cv=none; b=RP+htRELevwm1uNv1vWqeUSRqArUIy0Y1DsZONi0I5d9vGlhUxY09jJVlUbaP4H1A6fr0PEKEEclSc8+2T2Y9RXWrLQPlaroc13q5pDSgwkp73aoLuTD+aqGA4eX+tfDlSVtGh6DMl0QR12Jcoyq5XypP7gt3WpiAog+oGWQIX0=
+	t=1718381583; cv=none; b=HWoM5V7Aj1nbAiLRqDyZ1smisMyFYXIovTqyRB4qYL43/P9E5+tqzcjVaBjFE3iDRpX41+GvkD/7+ShxMshH78C7Y2Za3rATzfcey2+7dw+C6MGdrJfH+RTVoud5WB04WORSiqK7t5WFyFvm0VxkHtswby0iBTUnq1tteJk8cW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718378033; c=relaxed/simple;
-	bh=kdKKu//V/JDY1w85ohlNPYuN8+Zb6e4jCyerEC54//g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=co5RBr9HPH41qnw/qSck6yIjv8pYcKuDbdm41FXGcJ276v14jcIklTwD7ddYUZt11sxiAePWgjGh6TgS9UkN+EkSaxPLa2ys90Kp8+fvg+VKqyC67BihkA8MNXlk94oPfO9CPiuvoc7r+76/mOPaAu8+H0r84RrA9h1YfdvCVn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=B98Kx3N8; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1718381583; c=relaxed/simple;
+	bh=LgYcFufJoudAo/kd1BCZymlGqrmupX//kefrk1Xqs/8=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=NdpEYxEg1mPB80tA6Uqr7YQDqZ3boJPh7e89ER4MQcG61U+QH2pG3OmnBmaX8knYFUlVLLSb7UOqCnLIRAfT6nZ1r93TA0qpirGupaq6SnMk4cyi25joDMxyRPX2DyLvmdl9yRXTHSRvKsEzBi8PF+rHU1nR8QI6IR4FZKC4haA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JshK+I1U; arc=none smtp.client-ip=209.85.216.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="B98Kx3N8"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=deIBNATut27wpMnCOaCssM9eor3bEzumeemqFygW8TY=; b=B98Kx3N8kXudY+xIUMWAuXyS34
-	Cb3ySf95PPGJcL5tONbFUNUpyXzeLkbdV7B4OzImHpv9rnaezC/PRQzPlSEA5PABiEV1cl8VuccUA
-	MC2Gv+5ZCES+ZOp6KczaeLlLKKZGyHfOAaPGQ+3b+76s4D/wHsZKlgERRFuvFphricZHkLA/HVgP4
-	MWdvA7wiA1vHibSUOvHHzbx7EcwL1DOdvQUZynZ5p0xCOL24GHkcH04tf+w732TnhTmLkECB0yyd8
-	qMY3TVSKEyl94B5OSfuYgJsfncOom5M9BqJQvwzIWxjGcPmhXCf9jwKCx62dvNpyickzbmv4GRHeP
-	cXBWK6Rg==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sI8cf-00000003C7i-2r4S;
-	Fri, 14 Jun 2024 15:13:49 +0000
-Message-ID: <36039474-367e-44d9-9cc5-54b327e5a8d9@infradead.org>
-Date: Fri, 14 Jun 2024 08:13:48 -0700
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JshK+I1U"
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-2c2fe3c4133so2164886a91.3
+        for <linux-doc@vger.kernel.org>; Fri, 14 Jun 2024 09:13:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1718381581; x=1718986381; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7gUwZpSkwFU+FWUT8qGAdEg7M+9bZN02qOvPWnijOmA=;
+        b=JshK+I1UgdSV/H+n97loPtXf0HjpozqJ5LcHlIcADkPszGiftLamByPqQg0OkBYm/6
+         BI79mFR4nHIDCcTlQsQQxKbzxlNRKwzZEYN1o9avpfcz5273g4z67jlsTmaKi/1mfzVg
+         805mbJmRhMMsMDRrWKVnMhHrjKIbWyyyBXopm+2q6kEeoOVW2hXCGRAfnoffWyqH2zwT
+         3kBcgUkY2TKeWWN0fnyntPd7YRApd4k+2POk0PqPDye+G+oudvPYzFbP5AZlGKV8s34K
+         XnCifU/x4xN0Vc+GKn1V9V+1HsYP9aS3TZTNlmz1tXFniowz0aKwR0Sf6LqJL2AWMlIZ
+         B+cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718381581; x=1718986381;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=7gUwZpSkwFU+FWUT8qGAdEg7M+9bZN02qOvPWnijOmA=;
+        b=VWaABFCaZz3ss5+CmjnpuUuQ3ebbmW/gCUf7TIHOBm9RHK3VTxTGlpgjlQ7P3k+Ee6
+         DXPOZwAAKBMCIOOi8aD+mQ3TjJucxrGLjqqvaIfvMM1nMey3E0fWKaZ+8CaM8cHXugbQ
+         hcZ8G9UUtyQDTudekvI4dXMI/oHj21V2UplShlPE028D/uhCSvEhjxIiucHff/6yYlKX
+         r/+Tt5gWU0eNnSFYGAnjZKkqdLfN0qFyXrPLN5zLI/SuTIHcKL1b2sxJXmO5YXHKiCSH
+         8XJAC7rRuzgrNv/X+mDA0EW+MTLQrME6UQk9vG+PJLefvkkanMyB6YaooKXlkmAgz4Ni
+         1dHg==
+X-Forwarded-Encrypted: i=1; AJvYcCUig62VU8iMeE2NOfT5L/hAxLJwL9cMSyqdBCTqLdR85U6HJwsNOC7qTSSJsuyNciLUviWrZauXqz/YdHXlfmTH1DUlVvw9vtw1
+X-Gm-Message-State: AOJu0Ywk0XlXWx6UwGbq0CWhAiPLuGvOlMo1Xn0jlwuqLE+Er+ZZybxb
+	n1zQ4K3b7FAciG7m7ZZEoOXx+euQvA1Vn5Tt185jgIyiYX+2kzeHG74UGJhMtZzsfcR3ECU8vSa
+	sFA==
+X-Google-Smtp-Source: AGHT+IGlVfs98G7fCfwtsxB7s1pHGkpT0a32/JmIPXufrERUYhHEg26qK2yxEIeC4poHP/k7VOCg4R/uWRE=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a17:90a:4294:b0:2c2:c6fa:c05d with SMTP id
+ 98e67ed59e1d1-2c4dbf336famr123419a91.9.1718381580584; Fri, 14 Jun 2024
+ 09:13:00 -0700 (PDT)
+Date: Fri, 14 Jun 2024 09:12:59 -0700
+In-Reply-To: <CADrL8HUW2q79F0FsEjhGW0ujij6+FfCqas5UpQp27Epfjc94Nw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] doc-guide: add help documention checktransupdate.rst
-To: Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
- Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240614055328.778041-1-dzm91@hust.edu.cn>
- <20240614055328.778041-2-dzm91@hust.edu.cn>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240614055328.778041-2-dzm91@hust.edu.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20240611002145.2078921-1-jthoughton@google.com>
+ <20240611002145.2078921-5-jthoughton@google.com> <CAOUHufYGqbd45shZkGCpqeTV9wcBDUoo3iw1SKiDeFLmrP0+=w@mail.gmail.com>
+ <CADrL8HVHcKSW3hiHzKTit07gzo36jtCZCnM9ZpueyifgNdGggw@mail.gmail.com>
+ <ZmioedgEBptNoz91@google.com> <CADrL8HU_FKHTz_6d=xhVLZFDQ_zQo-zdB2rqdpa2CKusa1uo+A@mail.gmail.com>
+ <ZmjtEBH42u7NUWRc@google.com> <CADrL8HUW2q79F0FsEjhGW0ujij6+FfCqas5UpQp27Epfjc94Nw@mail.gmail.com>
+Message-ID: <ZmxsCwu4uP1lGsWz@google.com>
+Subject: Re: [PATCH v5 4/9] mm: Add test_clear_young_fast_only MMU notifier
+From: Sean Christopherson <seanjc@google.com>
+To: James Houghton <jthoughton@google.com>
+Cc: Yu Zhao <yuzhao@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Ankit Agrawal <ankita@nvidia.com>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	David Matlack <dmatlack@google.com>, David Rientjes <rientjes@google.com>, 
+	James Morse <james.morse@arm.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, Raghavendra Rao Ananta <rananta@google.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Shaoqin Huang <shahuang@redhat.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Wei Xu <weixugc@google.com>, 
+	Will Deacon <will@kernel.org>, Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev, 
+	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fix Subject: "documentation"
+On Thu, Jun 13, 2024, James Houghton wrote:
+> On Tue, Jun 11, 2024 at 5:34=E2=80=AFPM Sean Christopherson <seanjc@googl=
+e.com> wrote:
+> > A flag would also avoid an indirect call and thus a RETPOLINE when CONF=
+IG_RETPOLINE=3Dy,
+> > i.e. would be a minor optimization when KVM doesn't suppport fast aging=
+.  But that's
+> > probably a pretty unlikely combination, so it's probably not a valid ar=
+gument.
+> >
+> > So, I guess I don't have a strong opinion?
+>=20
+> (Sorry for the somewhat delayed response... spent some time actually
+> writing what this would look like.)
+>=20
+> I see what you mean, thanks! So has_fast_aging might be set by KVM if
+> the architecture sets a Kconfig saying that it understands the concept
+> of fast aging, basically what the presence of this v5's
+> test_clear_young_fast_only() indicates.
 
-On 6/13/24 10:53 PM, Dongliang Mu wrote:
-> This commit adds help documents - Documentation/doc-guide/checktransupdate.rst
-> for scripts/checktransupdate.py, including English and Chinese versions
-> 
-> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
-> ---
->  Documentation/doc-guide/checktransupdate.rst  | 63 +++++++++++++++++++
->  Documentation/doc-guide/index.rst             |  1 +
->  .../zh_CN/doc-guide/checktransupdate.rst      | 62 ++++++++++++++++++
->  .../translations/zh_CN/doc-guide/index.rst    |  1 +
->  4 files changed, 127 insertions(+)
->  create mode 100644 Documentation/doc-guide/checktransupdate.rst
->  create mode 100644 Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
-> 
-> diff --git a/Documentation/doc-guide/checktransupdate.rst b/Documentation/doc-guide/checktransupdate.rst
-> new file mode 100644
-> index 000000000000..ec218c883b31
-> --- /dev/null
-> +++ b/Documentation/doc-guide/checktransupdate.rst
-> @@ -0,0 +1,63 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Check translation update
-> +==========================
-> +
-> +This script helps track the translation status of the documentation in
-> +different locales, i.e., whether the documentation is update-to-date with
+It would need to be a runtime setting, because KVM x86-64 with tdp_mmu_enab=
+led=3Dfalse
+doesn't support fast aging (uses the shadow MMU even for TDP).
 
-                                                         up-to-date with
+> > I don't understand where the "must check shadow MMU" in #4 comes from. =
+ I also
+> > don't think it's necessary; see below.
+>=20
+> I just meant `kvm_has_shadow_mmu_sptes()` or
+> `kvm_memslots_have_rmaps()`. I like the logic you suggest below. :)
+>=20
+> > > Some of this reordering (and maybe a change from
+> > > kvm_shadow_root_allocated() to checking indirect_shadow_pages or
+> > > something else) can be done in its own patch.
+>=20
+> So just to be clear, for test_young(), I intend to have a patch in v6
+> to elide the shadow MMU check if the TDP MMU indicates Accessed. Seems
+> like a pure win; no reason not to include it if we're making logic
+> changes here anyway.
 
-> +the English conterpart.
+I don't think that's correct.  The initial fast_only=3Dfalse aging should p=
+rocess
+shadow MMUs (nested TDP) and TDP MMUs, otherwise a future fast_only=3Dfalse=
+ would
+get a false positive on young due to failing to clear the Accessed bit in t=
+he
+shadow MMU.  E.g. if page X is accessed by both L1 and L2, then aged, and n=
+ever
+accessed again, the Accessed bit would still be set in the page tables for =
+L2.
 
-               counterpart.
+My thought for MMU_NOTIFY_WAS_FAST below (which again is a bad name) is to
+communicate to MGLRU that the page was found to be young in an MMU that sup=
+ports
+fast aging, i.e. that looking around at other SPTEs is worth doing.
 
-> +
-> +How it works
-> +------------
-> +
-> +It uses ``git log`` command to track the latest English commit from the
-> +translation commit (order by author date) and the latest English commits
-> +from HEAD. If any differences occur, the file is considered as out-of-date,
-> +then commits that need to be updated will be collected and reported.
-> +
-> +Features implemented
-> +--------------------
-> +
-> +-  check all files in a certain locale
-> +-  check a single file or a set of files
-> +-  provide options to change output format
-> +
-> +Usage
-> +-----
-> +
-> +::
-> +
-> +   checktransupdate.py [-h] [-l LOCALE] [--print-commits | --no-print-commits] [--print-updated-files | --no-print-updated-files] [--debug | --no-debug] [files ...]
-> +
-> +Options
-> +~~~~~~~
-> +
-> +-  ``-l``, ``--locale``: locale to check when file is not specified
-> +-  ``--[no-]print-commits``: whether to print commits between origin and
-> +   translation
-> +-  ``--[no-]print-updated-files``: whether to print files that do no
-> +   need to be updated
-> +-  ``files``: files to check, if this option is specified, the locale
-> +   option will be ignored.
-> +
-> +Samples
-> +~~~~~~~
-> +
-> +-  ``./scripts/checktransupdate.py -l zh_CN``
-> +   This will print all the files that need to be updated in the zh_CN locale.
-> +-  ``./scripts/checktransupdate.py Documentation/translations/zh_CN/process/coding-style.rst``
-> +   This will only print the status of the specified file.
-> +
-> +Then the output is something like:
-> +
-> +::
-> +
-> +    Documentation/translations/zh_CN/process/coding-style.rst       (2 commits)
-> +    commit 6813216bbdba ("Documentation: coding-style: ask function-like macros to evaluate parameters")
-> +    commit 185ea7676ef3 ("Documentation: coding-style: Update syntax highlighting for code-blocks")
-> +
-> +Features to be implemented
-> +----------------------------
-> +
-> +- track the translation status of files that have no translation
-> +- files can be a folder instead of only a file
-> \ No newline at end of file
+> > > > So rather than failing the fast aging, I think what we want is to k=
+now if an
+> > > > mmu_notifier found a young SPTE during a fast lookup.  E.g. somethi=
+ng like this
+> > > > in KVM, where using kvm_has_shadow_mmu_sptes() instead of kvm_memsl=
+ots_have_rmaps()
+> > > > is an optional optimization to avoid taking mmu_lock for write in p=
+aths where a
+> > > > (very rare) false negative is acceptable.
+> > > >
+> > > >   static bool kvm_has_shadow_mmu_sptes(struct kvm *kvm)
+> > > >   {
+> > > >         return !tdp_mmu_enabled || READ_ONCE(kvm->arch.indirect_sha=
+dow_pages);
+> > > >   }
+> > > >
+> > > >   static int __kvm_age_gfn(struct kvm *kvm, struct kvm_gfn_range *r=
+ange,
+> > > >                          bool fast_only)
+> > > >   {
+> > > >         int young =3D 0;
+> > > >
+> > > >         if (!fast_only && kvm_has_shadow_mmu_sptes(kvm)) {
+> > > >                 write_lock(&kvm->mmu_lock);
+> > > >                 young =3D kvm_handle_gfn_range(kvm, range, kvm_age_=
+rmap);
+> > > >                 write_unlock(&kvm->mmu_lock);
+> > > >         }
+> > > >
+> > > >         if (tdp_mmu_enabled && kvm_tdp_mmu_age_gfn_range(kvm, range=
+))
+> > > >                 young =3D 1 | MMU_NOTIFY_WAS_FAST;
+>=20
+> The most straightforward way (IMHO) to return something like `1 |
+> MMU_NOTIFY_WAS_FAST` up to the MMU notifier itself is to make
+> gfn_handler_t return int instead of bool.
 
-add a newline.
+Hrm, all the options are unpleasant.  Modifying gfn_handler_t to return an =
+int
+will require an absurd amount of churn (all implementations in all archictu=
+res),
+and I don't love that the APIs that return true/false to indicate "flush" w=
+ould
+lose their boolean-ness.
 
-> diff --git a/Documentation/doc-guide/index.rst b/Documentation/doc-guide/index.rst
-> index 7c7d97784626..24d058faa75c 100644
-> --- a/Documentation/doc-guide/index.rst
-> +++ b/Documentation/doc-guide/index.rst
-> @@ -12,6 +12,7 @@ How to write kernel documentation
->     parse-headers
->     contributing
->     maintainer-profile
-> +   checktransupdate
->  
->  .. only::  subproject and html
->  
-> diff --git a/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst b/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
-> new file mode 100644
-> index 000000000000..ce1165de1343
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
-> @@ -0,0 +1,62 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/doc-guide/checktransupdate.rst
-> +
-> +:译者: 慕冬亮 Dongliang Mu <dzm91@hust.edu.cn>
-> +
-> +检查翻译更新
-> +=============
-> +
-> +这个脚本帮助跟踪不同语言的文档翻译状态，即文档是否与对应的英文版本保持更新。
-> +
-> +工作原理
-> +------------
-> +
-> +它使用 ``git log`` 命令来跟踪翻译提交的最新英文提交（按作者日期排序）和英文文档的
-> +最新提交。如果有任何差异，则该文件被认为是过期的，然后需要更新的提交将被收集并报告。
-> +
-> +实现的功能
-> +--------------------
-> +
-> +- 检查特定语言中的所有文件
-> +- 检查单个文件或一组文件
-> +- 提供更改输出格式的选项
-> +
-> +用法
-> +-----
-> +
-> +::
-> +
-> +   checktransupdate.py [-h] [-l LOCALE] [--print-commits | --no-print-commits] [--print-updated-files | --no-print-updated-files] [--debug | --no-debug] [files ...]
-> +
-> +选项
-> +~~~~~~~
-> +
-> +-  ``-l``, ``--locale``: 检查指定的文件语言，如果未指定文件
-> +-  ``--[no-]print-commits``: 是否打印英文原始版本和翻译版本之间的提交
-> +-  ``--[no-]print-updated-files``: 是否打印无需更新的文件
-> +-  ``files``: 要检查的文件，如果指定了此选项，将忽略语言选项
-> +
-> +示例
-> +~~~~~~~
-> +
-> +-  ``./scripts/checktransupdate.py -l zh_CN``
-> +   这将打印 zh_CN 语言中需要更新的所有文件。
-> +-  ``./scripts/checktransupdate.py Documentation/translations/zh_CN/process/coding-style.rst``
-> +   这将只打印指定文件的状态。
-> +
-> +然后输出类似如下的内容：
-> +
-> +::
-> +
-> +    Documentation/translations/zh_CN/process/coding-style.rst       (2 commits)
-> +    commit 6813216bbdba ("Documentation: coding-style: ask function-like macros to evaluate parameters")
-> +    commit 185ea7676ef3 ("Documentation: coding-style: Update syntax highlighting for code-blocks")
-> +
-> +待实现的功能
-> +-------------
-> +
-> +- 跟踪没有翻译过的文件的翻译状态
-> +- 文件参数可以是文件夹而不仅仅是单个文件
-> \ No newline at end of file
+One idea would be to add kvm_mmu_notifier_arg.aging_was_fast or so, and the=
+n
+refactor kvm_handle_hva_range_no_flush() into a dedicated aging helper, and=
+ have
+it morph the KVM-internal flag into an MMU_NOTIFIER flag.  It's not perect =
+either,
+but it requires far less churn and keeps some of the KVM<=3D>mmu_notifer de=
+tails in
+common KVM code.
 
-add a newline.
+diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+index 7b9d2633a931..c11a359b6ff5 100644
+--- a/include/linux/kvm_host.h
++++ b/include/linux/kvm_host.h
+@@ -258,6 +258,7 @@ int kvm_async_pf_wakeup_all(struct kvm_vcpu *vcpu);
+ #ifdef CONFIG_KVM_GENERIC_MMU_NOTIFIER
+ union kvm_mmu_notifier_arg {
+        unsigned long attributes;
++       bool aging_was_fast;
+ };
+=20
+ struct kvm_gfn_range {
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index 436ca41f61e5..a936f6bedd97 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -685,10 +685,10 @@ static __always_inline int kvm_handle_hva_range(struc=
+t mmu_notifier *mn,
+        return __kvm_handle_hva_range(kvm, &range).ret;
+ }
+=20
+-static __always_inline int kvm_handle_hva_range_no_flush(struct mmu_notifi=
+er *mn,
+-                                                        unsigned long star=
+t,
+-                                                        unsigned long end,
+-                                                        gfn_handler_t hand=
+ler)
++static __always_inline int kvm_age_hva_range(struct mmu_notifier *mn,
++                                            unsigned long start,
++                                            unsigned long end,
++                                            bool flush_if_young)
+ {
+        struct kvm *kvm =3D mmu_notifier_to_kvm(mn);
+        const struct kvm_mmu_notifier_range range =3D {
+@@ -696,11 +696,14 @@ static __always_inline int kvm_handle_hva_range_no_fl=
+ush(struct mmu_notifier *mn
+                .end            =3D end,
+                .handler        =3D handler,
+                .on_lock        =3D (void *)kvm_null_fn,
+-               .flush_on_ret   =3D false,
++               .flush_on_ret   =3D flush_if_young,
+                .may_block      =3D false,
++               .aging_was_fast =3D false,
+        };
+=20
+-       return __kvm_handle_hva_range(kvm, &range).ret;
++       bool young =3D __kvm_handle_hva_range(kvm, &range).ret;
++
++       return (int)young | (range.aging_was_fast ? MMU_NOTIFIER_FAST_AGING=
+ : 0);
+ }
+=20
+ void kvm_mmu_invalidate_begin(struct kvm *kvm)
+@@ -865,7 +868,7 @@ static int kvm_mmu_notifier_clear_flush_young(struct mm=
+u_notifier *mn,
+ {
+        trace_kvm_age_hva(start, end);
+=20
+-       return kvm_handle_hva_range(mn, start, end, kvm_age_gfn);
++       return kvm_age_hva_range(mn, start, end, true);
+ }
+=20
+ static int kvm_mmu_notifier_clear_young(struct mmu_notifier *mn,
+@@ -875,20 +878,7 @@ static int kvm_mmu_notifier_clear_young(struct mmu_not=
+ifier *mn,
+ {
+        trace_kvm_age_hva(start, end);
+=20
+-       /*
+-        * Even though we do not flush TLB, this will still adversely
+-        * affect performance on pre-Haswell Intel EPT, where there is
+-        * no EPT Access Bit to clear so that we have to tear down EPT
+-        * tables instead. If we find this unacceptable, we can always
+-        * add a parameter to kvm_age_hva so that it effectively doesn't
+-        * do anything on clear_young.
+-        *
+-        * Also note that currently we never issue secondary TLB flushes
+-        * from clear_young, leaving this job up to the regular system
+-        * cadence. If we find this inaccurate, we might come up with a
+-        * more sophisticated heuristic later.
+-        */
+-       return kvm_handle_hva_range_no_flush(mn, start, end, kvm_age_gfn);
++       return kvm_age_hva_range(mn, start, end, false);
+ }
+=20
+ static int kvm_mmu_notifier_test_young(struct mmu_notifier *mn,
+@@ -897,8 +887,7 @@ static int kvm_mmu_notifier_test_young(struct mmu_notif=
+ier *mn,
+ {
+        trace_kvm_test_age_hva(address);
+=20
+-       return kvm_handle_hva_range_no_flush(mn, address, address + 1,
+-                                            kvm_test_age_gfn);
++       return kvm_age_hva_range(mn, address, address + 1, false);
+ }
+=20
+ static void kvm_mmu_notifier_release(struct mmu_notifier *mn,
 
-> diff --git a/Documentation/translations/zh_CN/doc-guide/index.rst b/Documentation/translations/zh_CN/doc-guide/index.rst
-> index 78c2e9a1697f..0ac1fc9315ea 100644
-> --- a/Documentation/translations/zh_CN/doc-guide/index.rst
-> +++ b/Documentation/translations/zh_CN/doc-guide/index.rst
-> @@ -18,6 +18,7 @@
->     parse-headers
->     contributing
->     maintainer-profile
-> +   checktransupdate
->  
->  .. only::  subproject and html
->  
 
-thanks.
--- 
-~Randy
+> > The change, relative to v5, that I am proposing is that MGLRU looks aro=
+und if
+> > the page was young in _a_ "fast" secondary MMU, whereas v5 looks around=
+ if and
+> > only if _all_ secondary MMUs are fast.
+> >
+> > In other words, if a fast MMU had a young SPTE, look around _that_ MMU,=
+ via the
+> > fast_only flag.
+>=20
+> Oh, yeah, that's a lot more intelligent than what I had. I think I
+> fully understand your suggestion; I guess we'll see in v6. :)
+>=20
+> I wonder if this still makes sense if whether or not an MMU is "fast"
+> is determined by how contended some lock(s) are at the time.
+
+No.  Just because a lock wasn't contended on the initial aging doesn't mean=
+ it
+won't be contended on the next round.  E.g. when using KVM x86's shadow MMU=
+, which
+takes mmu_lock for write for all operations, an aging operation could get l=
+ucky
+and sneak in while mmu_lock happened to be free, but then get stuck behind =
+a large
+queue of operations.
+
+The fast-ness needs to be predictable and all but guaranteed, i.e. lockless=
+ or in
+an MMU that takes mmu_lock for read in all but the most rare paths.
