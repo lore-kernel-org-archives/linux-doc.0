@@ -1,116 +1,142 @@
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDAA820317;
-	Fri, 14 Jun 2024 07:15:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 809F21474CB;
+	Fri, 14 Jun 2024 08:07:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718349327; cv=none; b=Plbkv994v7vCqPUB0pvJejsNXWYgSm+JKEfsTatbkmMQvGe97kcWk8NWBbStM+BDJG0waku6c+LL1FJhmwb2yS7eClYjmlV/vAtOSYL+hqCsrXCh9Zop2drokitlUFK2VDjGHNDvVrM0Wp1aym2muzacYkBMMw9od3OAIMOVloY=
+	t=1718352436; cv=none; b=INla4od6iLQ6HG4uzFRT2b8I6em/y+ZDp3/5TCsW2d4IzjvUSY7zBX/mK2Scfjr7MVDurhLAileqR9BD/5zr7Vkw5K1RGpUU5tkaRQOHtBd2uY4OKgXOV7pEKfx0fvRzSEiViF4IuAz17VR9DJhPBcyLqJDxBS+ss0pPJCi74T8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718349327; c=relaxed/simple;
-	bh=v5AMpN5DYyM3f+Xn84fM+3GMWQHLMCXOB6gjmmA7s24=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rRMvmQkkYRAH3K2Y1lxsLWmlJHBA0AhdF4VRsMqM5oJm6soR3N6KvFhylmhqnrsSfzh7RRH+Krv1omGhStpJjNo7WG4dK9fcsgj8XVN5xXKR6YTqFnnUNUsPzvhaqHPAr4YlDwf0/0rL4iI+8N3+b/tjE5rpSpju1JP/NL8qgas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=TQ8oKK6L; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+	s=arc-20240116; t=1718352436; c=relaxed/simple;
+	bh=DMK+CWELdQnDrMQO/JKXFNX+z8myFs0IXh6Wo0q7b5Q=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HOrE56/QzktxFhIG10BlHRiKsHnoo/QV/sHOjSxR0sy8kdyQK9XzDUPl5mF42YhbZreZgUDyp3nXCO/nQdqbuapg9jgMNh3mibsxtX88Sm/5J3Y43U9tBcCke9Hl/RPG5DhvMllQS5VInaMDe4vBH3TGqAJqqMYV4ibpLI+3itQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=pU4lSOlz; arc=none smtp.client-ip=68.232.154.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="TQ8oKK6L"
-X-UUID: dc4a37d22a1d11efa54bbfbb386b949c-20240614
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=Tfh75ueWVlJEBbGX4eUx02SwpuikQxjyrP+FXeiLmzA=;
-	b=TQ8oKK6LlxcocHVmcOEI/yQwV9APQgc+MtQeCBLazXYLzWRBgSSa3WVUT7rXvLF+8Ujs1LRPp/ncLtcwz9CuTzsiGWhnwaxfAsqTLADrzddOz3Lp+JKbi8Hq6lX4+hFVTRgJhlUnZtFvZhLWYuBsrPNZK33gkGe+EQBU/axwF5I=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.39,REQID:77a28801-640e-4f6c-b9d5-89c618b5d2d8,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:393d96e,CLOUDID:ed579244-4544-4d06-b2b2-d7e12813c598,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,
-	SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: dc4a37d22a1d11efa54bbfbb386b949c-20240614
-Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by mailgw01.mediatek.com
-	(envelope-from <mark-pk.tsai@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 587594635; Fri, 14 Jun 2024 15:15:21 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 14 Jun 2024 00:15:20 -0700
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Fri, 14 Jun 2024 15:15:20 +0800
-From: Mark-PK Tsai <mark-pk.tsai@mediatek.com>
-To: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
-	<nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet
-	<corbet@lwn.net>, Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino
- Del Regno <angelogioacchino.delregno@collabora.com>
-CC: <yj.chiang@mediatek.com>, <mark-pk.tsai@mediatek.com>,
-	<linux-kbuild@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-mediatek@lists.infradead.org>
-Subject: [PATCH] kbuild: doc: Update default INSTALL_MOD_DIR from extra to updates
-Date: Fri, 14 Jun 2024 15:15:02 +0800
-Message-ID: <20240614071507.11359-1-mark-pk.tsai@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="pU4lSOlz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1718352433; x=1749888433;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DMK+CWELdQnDrMQO/JKXFNX+z8myFs0IXh6Wo0q7b5Q=;
+  b=pU4lSOlzut6VVA7JXsuFGTlpFTE1wSSNimx9oKzC2IO/x9EAfBrmUwrA
+   dUBz0NVYEvSkXwhrNXrJnOZr+mp2aRV+CdMenPtXowvODmx+jBqj1XrBu
+   wS9sWzPhSmAliBuTosLuX8XAiQ5bDDSIgoHbja/9Hv0RQtG7/a4JRU6Zl
+   cI5OeaXunW1FhXKiowGkmrjfmfySCrRSsbQFr/+BwsPJVTScHzQLTepcw
+   YdBsT517D3XbNHFzvLHkWKbdSDUsjRxh4EjlTj/ad1nu2EeEo0xVj2TGY
+   net5hz4gCoKTMLRf0YSczWNcSucJJ+G3kWK8WOafQeTy9Nhvg8SUEsHG+
+   w==;
+X-CSE-ConnectionGUID: E0Y3hlcORKiEqud2JIoT4A==
+X-CSE-MsgGUID: hXS/9NvCRrK8U4zhnOg3vw==
+X-IronPort-AV: E=Sophos;i="6.08,237,1712646000"; 
+   d="asc'?scan'208";a="28157199"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 14 Jun 2024 01:07:12 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Fri, 14 Jun 2024 01:06:43 -0700
+Received: from wendy (10.10.85.11) by chn-vm-ex04.mchp-main.com (10.10.85.152)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
+ Transport; Fri, 14 Jun 2024 01:06:38 -0700
+Date: Fri, 14 Jun 2024 09:06:20 +0100
+From: Conor Dooley <conor.dooley@microchip.com>
+To: Jesse Taube <jesse@rivosinc.com>
+CC: <linux-riscv@lists.infradead.org>, Jonathan Corbet <corbet@lwn.net>, Paul
+ Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>, Evan Green
+	<evan@rivosinc.com>, Andrew Jones <ajones@ventanamicro.com>, Charlie Jenkins
+	<charlie@rivosinc.com>, Xiao Wang <xiao.w.wang@intel.com>, Andy Chiu
+	<andy.chiu@sifive.com>, Eric Biggers <ebiggers@google.com>, Greentime Hu
+	<greentime.hu@sifive.com>, =?iso-8859-1?Q?Bj=F6rn_T=F6pel?=
+	<bjorn@rivosinc.com>, Heiko Stuebner <heiko@sntech.de>, Costa Shulyupin
+	<costa.shul@redhat.com>, Andrew Morton <akpm@linux-foundation.org>, Baoquan
+ He <bhe@redhat.com>, Anup Patel <apatel@ventanamicro.com>, Zong Li
+	<zong.li@sifive.com>, Sami Tolvanen <samitolvanen@google.com>, Ben Dooks
+	<ben.dooks@codethink.co.uk>, Alexandre Ghiti <alexghiti@rivosinc.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, Erick Archer
+	<erick.archer@gmx.com>, Joel Granados <j.granados@samsung.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<devicetree@vger.kernel.org>
+Subject: Re: [PATCH v2 2/6] dt-bindings: riscv: Add Zicclsm ISA extension
+ description.
+Message-ID: <20240614-broaden-bluish-8b2fe892db55@wendy>
+References: <20240613191616.2101821-1-jesse@rivosinc.com>
+ <20240613191616.2101821-3-jesse@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="6rVBoByRG8F88jlI"
+Content-Disposition: inline
+In-Reply-To: <20240613191616.2101821-3-jesse@rivosinc.com>
 
-The default INSTALL_MOD_DIR was changed from 'extra' to
-'updates' in commit b74d7bb7ca24 ("kbuild: Modify default
-INSTALL_MOD_DIR from extra to updates").
+--6rVBoByRG8F88jlI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This commit updates the documentation to align with the
-latest kernel.
+On Thu, Jun 13, 2024 at 03:16:11PM -0400, Jesse Taube wrote:
+> Add description for Zicclsm ISA extension.
+>=20
+> Signed-off-by: Jesse Taube <jesse@rivosinc.com>
+> ---
+> V1 -> V2:
+>  - New patch
+> ---
+>  Documentation/devicetree/bindings/riscv/extensions.yaml | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Do=
+cumentation/devicetree/bindings/riscv/extensions.yaml
+> index cfed80ad5540..9f6aae1f5b65 100644
+> --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
+> +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
+> @@ -317,6 +317,13 @@ properties:
+>              The standard Zicboz extension for cache-block zeroing as rat=
+ified
+>              in commit 3dd606f ("Create cmobase-v1.0.pdf") of riscv-CMOs.
+> =20
+> +        - const: zicclsm
+> +          description:
+> +            The standard Zicclsm extension for misaligned support for al=
+l regular
+> +            load and store instructions (including scalar and vector) bu=
+t not AMOs
+> +            or other specialized forms of memory access. Defined in the
+> +            RISC-V RVA Profiles Specification.
 
-Signed-off-by: Mark-PK Tsai <mark-pk.tsai@mediatek.com>
----
- Documentation/kbuild/modules.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-diff --git a/Documentation/kbuild/modules.rst b/Documentation/kbuild/modules.rst
-index a1f3eb7a43e2..131863142cbb 100644
---- a/Documentation/kbuild/modules.rst
-+++ b/Documentation/kbuild/modules.rst
-@@ -128,7 +128,7 @@ executed to make module versioning work.
- 
- 	modules_install
- 		Install the external module(s). The default location is
--		/lib/modules/<kernel_release>/extra/, but a prefix may
-+		/lib/modules/<kernel_release>/updates/, but a prefix may
- 		be added with INSTALL_MOD_PATH (discussed in section 5).
- 
- 	clean
-@@ -417,7 +417,7 @@ directory:
- 
- And external modules are installed in:
- 
--	/lib/modules/$(KERNELRELEASE)/extra/
-+	/lib/modules/$(KERNELRELEASE)/updates/
- 
- 5.1 INSTALL_MOD_PATH
- --------------------
-@@ -438,10 +438,10 @@ And external modules are installed in:
- -------------------
- 
- 	External modules are by default installed to a directory under
--	/lib/modules/$(KERNELRELEASE)/extra/, but you may wish to
-+	/lib/modules/$(KERNELRELEASE)/updates/, but you may wish to
- 	locate modules for a specific functionality in a separate
- 	directory. For this purpose, use INSTALL_MOD_DIR to specify an
--	alternative name to "extra."::
-+	alternative name to "updates."::
- 
- 		$ make INSTALL_MOD_DIR=gandalf -C $KDIR \
- 		       M=$PWD modules_install
--- 
-2.18.0
+> +
+>          - const: zicntr
+>            description:
+>              The standard Zicntr extension for base counters and timers, =
+as
+> --=20
+> 2.43.0
+>=20
 
+--6rVBoByRG8F88jlI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZmv57wAKCRB4tDGHoIJi
+0v0FAP9mwX36VWSnRozk96nyVM3RIf8dHyi71Dw0gJMNUha3GgEA3nQVPysOqYVF
+bZxE5DpI/lku06/oD+G/uESgN8mlDQw=
+=89e4
+-----END PGP SIGNATURE-----
+
+--6rVBoByRG8F88jlI--
