@@ -1,176 +1,203 @@
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292FB26AF1;
-	Fri, 14 Jun 2024 04:09:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5436E146582;
+	Fri, 14 Jun 2024 04:40:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718338171; cv=none; b=VL0J9AJCleKBeJdZKtFjKsbbb2cckVf3ylt+lwKR92CNIyP0ulVjm3+umHU/gcy0GrslunkRyYkzq4iFLt1Yzrehepou+0DcmHYZa5IKrLx94JzJ8F/0Q89NitB7Tq0uOnkkdiiBpHe73v/gOp5WoKV8IGdByasUjIo5JBSq4U8=
+	t=1718340010; cv=none; b=SN6IRXXQDbn2Miih+Sqr2/f7cD8MGpY7RQppTMnm8tT6kNDjuRf1K9peWWCrxVonvru1wsX1TmG1MFcGcq0srpcCaA5yjp+2Ys5u7uem9CoMBMX3yiMJMiKLeBppSwaCwhrGhKYADVIojltVLeErS6YBIAiPDiijoGOg+6ykcI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718338171; c=relaxed/simple;
-	bh=POoCvNScEn7uvRtPbXAQQxMPU1qNK7rBg/b98obT5bo=;
+	s=arc-20240116; t=1718340010; c=relaxed/simple;
+	bh=Cj5KzMMadXsRnndd+TlVK0BUb+fjbSscqj3uM4ytUuo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=maAVGcOsumPaDxOezOo6jNWbE4/oRACVXg8qBPuf+Rd5Abw5OKXnc3dRKCv6ug3zJQbmSxH1yl63pSRxhbjDI+vK+Xz5ZiQFKDNjTfj8ccVU2hfqRnWPYaa4b+f+2tmL1BSJeF85CzR4noQ5To8lI1J4ZGxU+LZV10QykJITIhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dK7UISCw; arc=none smtp.client-ip=209.85.219.179
+	 To:Cc:Content-Type; b=rueTXhA5c1Dost4p6RTi8HRtGag4G9gDo2SNTp6iAuMqVbGsavyPvE5ho+57NxVB0Wnp2+Cv0BzSKd9rxrDF+4jpfdwA5kkhq1gk8sycFfrMlkc5n141tIgGjiAEk1oWU4RFd5dnMYUimlgp97ht4Ml4QXPzIM4oAJZ41AYMCG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HBU3qLBW; arc=none smtp.client-ip=209.85.219.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dK7UISCw"
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-df481bf6680so1982754276.3;
-        Thu, 13 Jun 2024 21:09:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HBU3qLBW"
+Received: by mail-yb1-f177.google.com with SMTP id 3f1490d57ef6-dfac121b6a6so1406996276.0;
+        Thu, 13 Jun 2024 21:40:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718338169; x=1718942969; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1718340008; x=1718944808; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=POoCvNScEn7uvRtPbXAQQxMPU1qNK7rBg/b98obT5bo=;
-        b=dK7UISCwT/SVq8NBLW50StWiH1GhlbqoozDSvQubJDQehrOjv//muBduPMmFgrB/B4
-         814nEY+nKBCeyQayr42HfdVFiACUNDxn9L+lJM0TRGGVd8jOdoJyuElKQa9/Geb/Dexc
-         WucAC4+oy7M0yBq0i8YZ7+J1/60eAtjDZon1wblYRq9zqW/anFHlDU0YH3GAdq7JYQG6
-         OgQvSMucdQXznM+Lae2ciER6Rikkb/Vy9MUSL2A4CMNrlP8a4hBi3i0oofYU7i0rAoi3
-         yF3V8LVz9JfK6BYwHCg/golpHvFQ4jP539dBEb1aIol8CuIfQruxIhWZ+xXwUWCWXbQm
-         k1lA==
+        bh=lbtquG4p0hVvqKFk1U/Le3nDHhfbk+WM+GokVxGfK54=;
+        b=HBU3qLBWlZqRg9Nnhj8P6lwfiVE9T2AHErZAmSPQ0Rs5eQyw18AQgP0vnX6HAsAfwg
+         kgwYCzMDg4nb0d2+FW5NsdytcKqB2oBzniMMtPhucGI5sDGxRatRlK+1+88+d9MQLilc
+         Sk6Tc+8fpBYsMM3lLgX/8sggKnAiZOnOTPbBP9k0B+bk1krhiU/l03C8MWuBy1tiLBHs
+         4oAstZJe2L1i6K7q1ILP7f7Dcdv7NaVWE38EPU/LDk7QOQtT2y2he9cEFACDnWVA8HjO
+         I3EXskF63ElXl7ZZB835QwJuOJsZxEho2CrVqcK+M1XAJ7adZqxWYSyiSkU8u2usCvUY
+         OdXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718338169; x=1718942969;
+        d=1e100.net; s=20230601; t=1718340008; x=1718944808;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=POoCvNScEn7uvRtPbXAQQxMPU1qNK7rBg/b98obT5bo=;
-        b=fWoJOQ1rbUBq1FZs4rbAof6EHVvcwjR5utEM5ii4cd/IR3LzKGcCG6MJCU2hhstbhS
-         9/aCP/4YCw/4u7WjO1er1lfGfe44SKKtLk2Gle/8NlBmaBA90W3RIeTCjQVv/u2y9ErJ
-         BL8wr5bXszeTkUPzLCwBuUM3lHD5oMrcSoOYHu9vT0lopl1+G/0HVaNUCU+9246Z8mmD
-         5zarbGcFdUvjtLIwUs+guTJx97SEE2e+aplT0RHm4q5hccGAa3Mh8pdHwJkzOSMA85aB
-         NkWVmks6qTBCMnB2Z4K4ysqCsOGIgcUVtFCStm10O/c5KFBIWGsFnoWDOYbNnZjUmqDl
-         JVEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWnna7XSxunt3NqfKsgss0qzxHdm62IjLaPP6+kUnljgUywAAzg9RsLo8py8/yIK6eecDCzcEd5yAX7u9QFIfybB5wbqnWxlRgq1uD15XbXvBi/oHY5ja9tN6N6sDiyDG+hD6q6T7+P
-X-Gm-Message-State: AOJu0YwgU8f5odSyrbsku/pd1zhtUw9pZFhFRBnBpd1PAv6eAM7cRhR5
-	i/SCFFUGfGXZ0EaqCVhn2jxQOnTiSP3GPR8nGf81i2gG5uiZJJ8s/eLRhHnWlupbCplNCcRwx8Y
-	rsvIuNVJUn28y5X/6neC3DLEmk/c=
-X-Google-Smtp-Source: AGHT+IGoC87N1rv3FOus3VP01cyHvXpUOzqyU4Vw+jNvBJpFIY32fE1ic9hLLfpXpWxripiKdm8/L1pV2HCZrUMyyas=
-X-Received: by 2002:a25:cecd:0:b0:de4:738b:c2e4 with SMTP id
- 3f1490d57ef6-dff153ac241mr1260762276.28.1718338168895; Thu, 13 Jun 2024
- 21:09:28 -0700 (PDT)
+        bh=lbtquG4p0hVvqKFk1U/Le3nDHhfbk+WM+GokVxGfK54=;
+        b=f1PmQgmvTkO4/iXefA1wiOOAyp6q7cPETfxAKcKQRhxFWfDA6xIfpRSBxoJNhVY3GO
+         uCqFHsbqHv7l/PlzjHz64HvxMAzGGjBVn6hIAR8a2lH/oIvhTXIAcLnnkw9alHP5LLT0
+         /BekzH5/WD1V969QemkUCjkN+7+xvtjxdrWTJn5U5B2xWUYszrxbFlaeSwuROd8P0skK
+         QMz6IXgqFfHsl6b0lomX6ssjnRsq7DAZdkO+XG581MR6TonelCoQ9sZt5mrpSni0lXcd
+         Uw+QOeplj6b79cONRjs0Bq4P51S0btlLshfTb13asjY6U6PegJLTduFLdKfn0O+EAMDX
+         XuTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXIm4W5GM4vK54QuL5T9FICdzxJ9HtCgfALS/OXJ68unzvEhsmVaoFRa5ZDzZEuyHnrwziFHT0d7Mf5z2NRXeech56Idu9xdz2A3VUAijq/iHGPUxhpzGZzmGVl+gZXppHsyGcggXOu
+X-Gm-Message-State: AOJu0YyUXuhU8zyh7CPgg2Zh9fEczbti0MqbDxmgwTS16vgPHT5uylGO
+	CzyZU7BZMXSfSLxI/IwPSozOYGPN7eYWq526a7tZBlNBU1xaMmWKv2yxwnU1soGGjSiIf99yCyX
+	dC+ei2iMew3a/8KTo60uVhcbJ4MWiokYar6Q9MA==
+X-Google-Smtp-Source: AGHT+IHBsx4z2qtUMxZdNHJ7rhea/P9NlQ3RdnormcjNH+YUFkeA2RwUCdIJnmNFgrDo65EOWOo2cUHVGvpZXlOKNQU=
+X-Received: by 2002:a25:abb2:0:b0:dfb:f8c:39f2 with SMTP id
+ 3f1490d57ef6-dfefebc9ca9mr2619063276.5.1718340008223; Thu, 13 Jun 2024
+ 21:40:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240608155316.451600-1-flintglass@gmail.com> <CAKEwX=PsmuPQUvrsOO7a+JGd=gDmjP5_XDGD+z-0R6dBea+BOg@mail.gmail.com>
-In-Reply-To: <CAKEwX=PsmuPQUvrsOO7a+JGd=gDmjP5_XDGD+z-0R6dBea+BOg@mail.gmail.com>
+References: <20240608155316.451600-1-flintglass@gmail.com> <20240608155316.451600-2-flintglass@gmail.com>
+ <CAKEwX=P1Ojb71AEJ2gzQTrfWidFPcJZmoNxEwji7TceBN-szCg@mail.gmail.com>
+ <CAPpoddeigM44jhTA8Ua=+J4MC1MikouBZVoPrCW2LZF+9r5YeA@mail.gmail.com>
+ <CAJD7tkYp3GbuXV9G5bAZ1DetMmepV5ynciA+ukae7CKuxpXDJQ@mail.gmail.com>
+ <CAPpoddfj1EdfXfTUT8bLaNxat0hYiE4X9=qG38gPgRgmmVOjcw@mail.gmail.com>
+ <CAJD7tkZTSGz1bpo-pMNP_=11O-7RrhubWonqhUJwrt+TB=Ougg@mail.gmail.com>
+ <CAPpoddcp9rVvg77WapsuiMdMzFrV0UioJ+VbQuJbKNY7-=nvVw@mail.gmail.com>
+ <CAJD7tkY0=0yKSmEz=E5dL7GLRsO8r6ESWyzF+HdgK0wnMpzLKg@mail.gmail.com>
+ <CAKEwX=PF=a2+pUBM3xEHBMu6VJY2Q64eTmVwo7vb4YmJQpK_DA@mail.gmail.com> <pezgvebjcykwgawtmvymqwktul25pgw5orxvvrbm24hjc3sizv@3yg7tbpwnlnf>
+In-Reply-To: <pezgvebjcykwgawtmvymqwktul25pgw5orxvvrbm24hjc3sizv@3yg7tbpwnlnf>
 From: Takero Funaki <flintglass@gmail.com>
-Date: Fri, 14 Jun 2024 13:09:18 +0900
-Message-ID: <CAPpoddcgmZs6=s1MrzLgOAJxoVW5_bLa4CGxHq3KhF3GOi8VBw@mail.gmail.com>
-Subject: Re: [PATCH v1 0/3] mm: zswap: global shrinker fix and proactive shrink
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>, Yosry Ahmed <yosryahmed@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
+Date: Fri, 14 Jun 2024 13:39:57 +0900
+Message-ID: <CAPpoddcQRJ5EYFVaUhM+f5pV-RMtq=1kzkTuWQ2GRkcux-Yzcg@mail.gmail.com>
+Subject: Re: [PATCH v1 1/3] mm: zswap: fix global shrinker memcg iteration
+To: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Nhat Pham <nphamcs@gmail.com>, Yosry Ahmed <yosryahmed@google.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, 
 	Domenico Cerasuolo <cerasuolodomenico@gmail.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-2024=E5=B9=B46=E6=9C=8814=E6=97=A5(=E9=87=91) 0:22 Nhat Pham <nphamcs@gmail=
-.com>:
+2024=E5=B9=B46=E6=9C=8814=E6=97=A5(=E9=87=91) 1:49 Shakeel Butt <shakeel.bu=
+tt@linux.dev>:
 >
-> Taking a step back from the correctness conversation, could you
-> include in the changelog of the patches and cover letter a realistic
-> scenario, along with user space-visible metrics that show (ideally all
-> 4, but at least some of the following):
+> On Thu, Jun 13, 2024 at 08:04:39AM GMT, Nhat Pham wrote:
+> [...]
+> > > > >
+> > > > > Is the idea here to avoid moving the iterator to another offline =
+memcg
+> > > > > that zswap_memcg_offline_cleanup() was already called for, to avo=
+id
+> > > > > holding a ref on that memcg until the next run of zswap shrinking=
+?
+> > > > >
+> > > > > If yes, I think it's probably worth doing. But why do we need to
+> > > > > release and reacquire the lock in the loop above?
+> > > >
+> > > > Yes, the existing cleaner might leave the offline, already-cleaned =
+memcg.
+> > > >
+> > > > The reacquiring lock is to not loop inside the critical section.
+> > > > In shrink_worker of v0 patch, the loop was restarted on offline mem=
+cg
+> > > > without releasing the lock. Nhat pointed out that we should drop th=
+e
+> > > > lock after every mem_cgroup_iter() call. v1 was changed to reacquir=
+e
+> > > > once per iteration like the cleaner code above.
+> > >
+> > > I am not sure how often we'll run into a situation where we'll be
+> > > holding the lock for too long tbh. It should be unlikely to keep
+> > > encountering offline memcgs for a long time.
+> > >
+> > > Nhat, do you think this could cause a problem in practice?
+> >
+> > I don't remember prescribing anything to be honest :) I think I was
+> > just asking why can't we just drop the lock, then "continue;". This is
+> > mostly for simplicity's sake.
+> >
+> > https://lore.kernel.org/linux-mm/CAKEwX=3DMwrRc43iM2050v5u-TPUK4Yn+a4G7=
++h6ieKhpQ7WtQ=3DA@mail.gmail.com/
+
+I apologize for misinterpreting your comments. Removing release/reacquire.
+
+> >
+> > But I think as Takero pointed out, it would still skip over the memcg
+> > that was (concurrently) updated to zswap_next_shrink by the memcg
+> > offline callback.
 >
-> 1. A user problem (that affects performance, or usability, etc.) is happe=
-ning.
+> What's the issue with keep traversing until an online memcg is found?
+> Something like the following:
 >
-> 2. The root cause is what we are trying to fix (for e.g in patch 1, we
-> are skipping over memcgs unnecessarily in the global shrinker loop).
 >
-> 3. The fix alleviates the root cause in b)
+>         spin_lock(&zswap_shrink_lock);
+>         do {
+>                 zswap_next_shrink =3D mem_cgroup_iter(NULL, zswap_next_sh=
+rink, NULL);
+>         } while (zswap_next_shrink && !mem_cgroup_online(zswap_next_shrin=
+k));
 >
-> 4. The userspace-visible problem goes away or is less serious.
+>         if (!zswap_next_shrink)
+>                 zswap_next_shrink =3D mem_cgroup_iter(NULL, NULL, NULL);
+>         ....
 >
+> Is the concern that there can a lot of offlined memcgs which may cause
+> need resched warnings?
 
-Thank you for your suggestions.
-For quick response before submitting v2,
+To avoid using the goto-based loop, here's the new version, including
+Shakeel's suggestion:
+```c
+    do {
+        spin_lock(&zswap_shrink_lock);
+        /*
+         * Advance the cursor to start shrinking from the next memcg
+         * after zswap_next_shrink.  One memcg might be skipped from
+         * shrinking if the cleaner also advanced the cursor, but it
+         * will happen at most once per offlining memcg.
+         */
+        do {
+            zswap_next_shrink =3D mem_cgroup_iter(NULL,
+                    zswap_next_shrink, NULL);
+            memcg =3D zswap_next_shrink;
+        } while (memcg && !mem_cgroup_tryget_online(memcg));
 
-1.
-The visible issue is that pageout/in operations from active processes
-are slow when zswap is near its max pool size. This is particularly
-significant on small memory systems, where total swap usage exceeds
-what zswap can store. This means that old pages occupy most of the
-zswap pool space, and recent pages use swap disk directly.
+        if (!memcg) {
+            spin_unlock(&zswap_shrink_lock);
+```
+We can add or remove  `spin_unlock();spin_lock();` just after
+mem_cgroup_iter(), if needed.
+I believe the behavior is identical to v1 except for the starting
+point of iteration.
 
-2.
-This issue is caused by zswap keeping the pool size near 100%. Since
-the shrinker fails to shrink the pool to accept_thr_percent and zswap
-rejects incoming pages, rejection occurs more frequently than it
-should. The rejected pages are directly written to disk while zswap
-protects old pages from eviction, leading to slow pageout/in
-performance for recent pages on the swap disk.
+For Naht's comment, 2. No skipping over zswap_next_shrink updated by
+the memcg offline cleaner.
+While this was true for v1, I'm moved to accept this skipping as it's
+negligibly rare. As Yorsy commented, v1 retried the last memcg from
+the last shrink_worker() run.
 
-3.
-If the pool size were shrunk proactively, rejection by pool limit hits
-would be less likely. New incoming pages could be accepted as the pool
-gains some space in advance, while older pages are written back in the
-background. zswap would then be filled with recent pages, as expected
-in the LRU logic.
+There are several options for shrink_worker where to start with:
+1. Starting from the next memcg after zswap_next_shrink: It might skip
+one memcg, but this is quite rare. It is the current behavior before
+patch.
 
-Patch 1 and 2 make the shrinker reduce the pool to accept_thr_percent.
-Patch 3 makes zswap_store trigger the shrinker before reaching the max
-pool size. With this series, zswap will prepare some space to reduce
-the probability of problematic pool_limit_hit situation, thus reducing
-slow reclaim and the page priority inversion against LRU.
+2. Starting from zswap_next_shrink: It might shrink one more page from
+the memcg in addition to the one by the last shrink_worker() run. This
+should also be rare, but probably more frequent than option 1. This is
+the v0 patch behavior.
 
-4.
-Once proactive shrinking reduces the pool size, pageouts complete
-instantly as long as the space prepared by shrinking can store the
-direct reclaim. If an admin sees a large pool_limit_hit, lowering
-accept_threshold_percent will improve active process performance.
+3. Addressing both: Save the last memcg as well. The worker checks if
+it has been modified by the cleaner and advances only if it hasn't.
+Like this:
+```c
+        do {
+            if (zswap_last_shrink =3D=3D zswap_next_shrink) {
+                zswap_next_shrink =3D mem_cgroup_iter(NULL,
+                        zswap_next_shrink, NULL);
+            }
+            memcg =3D zswap_next_shrink;
+        } while (memcg && !mem_cgroup_tryget_online(memcg));
+        zswap_last_shrink =3D memcg;
+```
 
-
-> I have already hinted in a previous response, but global shrinker is
-> rarely triggered in production. There are lots of factors that would
-> prevent this from triggering:
->
-> 1. Max zswap pool size 20% of memory by default, which is a lot.
->
-> 2. Swapfile size also limits the size of the amount of data storable
-> in the zswap pool.
->
-> 3. Other cgroup constraints (memory.max, memory.zswap.max,
-> memory.swap.max) also limit a cgroup's zswap usage.
->
-> I do agree that patch 1 at least is fixing a problem, and probably
-> patch 2 too but please justify why we are investing in the extra
-> complexity to fix this problem in the first place.
-
-Regarding the production workload, I believe we are facing different situat=
-ions.
-
-My intended workload is low-activity services distributed on small
-system like t2.nano, with 0.5G to 1G of RAM. There are a significant
-number of pool_limit_hits and the zswap pool usage sometimes stays
-near 100% filled by background service processes.
-
-When I evaluated zswap and zramswap, zswap performed well. I suppose
-this was because of its LRU. Once old pages occupied zramswap, there
-was no way to move pages from zramswap to the swap disk. zswap could
-adapt to this situation by writing back old pages in LRU order. We
-could benefit from compressed swap storing recent pages and also
-utilize overcommit backed by a large swap on disk.
-
-I think if a system has never seen a pool limit hit, there is no need
-to manage the costly LRU. In such cases, I will try zramswap.
-
-I am developing these patches by testing with artificially allocating
-large memory to fill the zswap pool (emulating background services),
-and then invoking another allocation to trigger direct reclaim
-(emulating short-live active process).
-On real devices, seeing much less pool_limit_hit by lower
-accept_thr_percent=3D50 and higher max_pool_percent=3D25.
-Note that before patch 3, zswap_store() did not count some of the
-rejection as pool_limit_hit properly (underestimated). we cannot
-compare the counter directly.
-
-I will try to create a more reproducible realistic benchmark, but it
-might not be realistic for your workload.
+Which one would be better? or any other idea?
