@@ -1,184 +1,109 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05D594EB55
-	for <linux-doc@vger.kernel.org>; Fri, 14 Jun 2024 16:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5255449638;
+	Fri, 14 Jun 2024 16:42:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718383250; cv=none; b=l9unsKEbBjvIdUHd6x4GVtDZeXwN3aV+FxrsJcaf7hAzVt9N2dcyQaAdDPp8EyJHVNXc7hwMoal+gVjz3zvXDP9tLH/wW5uP/29YlI0Nw2jDFm0hzyWfckI/kfonC0ns912ulvtMCQHWxA2Yn+O1N09N9Sd2sPWqMneMkO3K7RI=
+	t=1718383326; cv=none; b=cG5uWAEVCXDlla8pMFqgX7vplGUCzncMLK8N+N4Ptd0eXw1adt7Ir5dx3tcOxgOaVr4W0GqBHFYBSJZrDefnNjDXbRCt2GGyow+7/kS+0szpo4WTq5Sv0FekiunKClm7p0hDjMvFZvTcf3UylEK1Ad/5Iimsjz+ibP+v3kIQpQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718383250; c=relaxed/simple;
-	bh=VbCxgURpkKyzBtAXqrIatdiU7Sj96ybvb6ZXbDGuWnA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ph5GgGqcjqKyBrlKahfzWGkNeAOvBi0Yp2pqQzEFc+HR+7gVGovgO7Sw9lFbK+sdFDoO0IQnlwy0x0HX96LVwq0faFGviKgjPGoHy/DU08DFlCx6g7WCK2wli2XecW6stewePLfgiTStZMXqEDCvol9pAxUXl60RlA8C6e/HIAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NQJMfCr6; arc=none smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1718383326; c=relaxed/simple;
+	bh=Tu5NT+/HC6v33/UcbBllxGhe377ayPb6xdMlPgPUz4Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ed9I+dUdLGIICsWmyzB2whKsBJZnR9LsTyhgjcpGuxJylRBSUu7wdlxKjpGGecK6NDTa46eAn2nY9P+g2kgn2EGRDgXkAQrsUEUS2M/8kwPrfVEdA0SdhA2qoEhsxHbGL3t6zqBQ3oZQaoQBQ1+l+c7tn4zpRyIOv/1T80f1ks8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=da2wXT2I; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NQJMfCr6"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2ebeefb9a6eso23528141fa.1
-        for <linux-doc@vger.kernel.org>; Fri, 14 Jun 2024 09:40:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718383247; x=1718988047; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6N6pWwte8VFmLbcY/vhwWLg5RRbCqF65dXNS8n7ZcdA=;
-        b=NQJMfCr6IktVcTwHU1FWYGHk8lFDSD+gLwUV6emxqROeFyuPel/ANbigDaYB3IUq1g
-         CBHYOT05jeJNJPl7Jn14mC0wwRxHYgHwDH71AD94ptvMWW0OsqI4u5SjcMwrbZRe2y82
-         k6IblGJedPHB2t5M/xHpgx4vJz3eb5qjzxjcIp+KIV7dQDzW9LlbjOiMC53+793kgKHq
-         Jy9LDdX5/IHS6SbqNz9xgk23SFoi+OI8BDaSy44+3T7EW3qGbjm55EjAz1H9iG5T0FDP
-         zS48WAlalPcyTcYuWiMoyBJrZqETiloTnN7neYRTu7iFTImi0kLw0GBxvGUj+0WcjEce
-         oIbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718383247; x=1718988047;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6N6pWwte8VFmLbcY/vhwWLg5RRbCqF65dXNS8n7ZcdA=;
-        b=GsHVLMpOz+a0k/xmT0KjMD/JZA2RuU1fDwujjb4YhgI2bEIA9Lmt/HsOlOZuGYwLtR
-         vHCPS1CQKg5btn5Actd7fKddS4D6H30R91GUb7o5cVAStSkznen55qqIXuXGVBq6rReK
-         wcmKP6npdrMN7lPwDdwNFXM6J6ZTbEV2bAT3DoicxiOZYIpqfatb7B5S4Z5EeZcK3T2I
-         GXzARYfMvt+r1T5gMs9KLLS4HQT6BHbee8oQbyUtfWMtuwNE8zHQ+lCCLilbeubOFHbI
-         /i8s5OH0Lmju8bAec6imHPDsx2d/C/Nz6IfDOccIIaqbJHp9EAArxT92W+Ho6nJaJ7Cb
-         WD5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVfBRdlAjEuS0klN8muE7jdi99mYOCBbX/5WjIkmytSSykHFJ4xj+WAg17384Rp4MqcaRA+r2DC5M838gUJtJVGUyQKaneFaB8x
-X-Gm-Message-State: AOJu0YzjGpAvYpmejjqyjQ5OOYFm5Wr+geQ4ez4Yo4Yu4tau3YwIEqcV
-	EbxkvhKMOKSqcQbCumXdRJ22UJLdd1Omia5UUZcWcGyE6zPcW4FaK+Ag50jItNFsIa63iT2r+kX
-	7kC0jXzP0vW5VHXtJZMcysdHXKmYTZ85yG5P+
-X-Google-Smtp-Source: AGHT+IH4PaRix9qpyJ1JsEJsH3dIxJd3lDLxxYmObDN8Ly1c+eahxQ5IY2EEyAYetWZChHlpR8fSMk+66JC39s4R/Bo=
-X-Received: by 2002:a2e:9dd4:0:b0:2ec:453:e46e with SMTP id
- 38308e7fff4ca-2ec0e5a0442mr21871161fa.42.1718383246745; Fri, 14 Jun 2024
- 09:40:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="da2wXT2I"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718383324; x=1749919324;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=Tu5NT+/HC6v33/UcbBllxGhe377ayPb6xdMlPgPUz4Q=;
+  b=da2wXT2I8MdrDCYJS4zeeHNOSEZcIvYFOhgLWQJcjg/Wcm7QPG2vRz2T
+   ff+R48K2QZEjNztk/nnXQJR86CMFqweFVzlybziNFWtxjPfgVKAbeR0H1
+   Z1Ko+Kh1eDFLpAx8NJQlBtiL9aI7IU1COWCODrha4bQpif2q1aX1A1R/K
+   JoFVFHADXPik/2zG5b4mtUNZPAPLLl3pMIYq03fXxBb5MNTPPtfPT7CWI
+   HiTkmXTSEVms658Lhz18hfcdWVONwFBjgxf+KbQGfRD2sAbBPH1qSGKw7
+   ZXf2teVb1wbYhnn3tS1/L9CVMvsdtzCuXbFaOcFktVAj8rdsFsG7I60jO
+   g==;
+X-CSE-ConnectionGUID: LX1TCqNpTfOjjRl/Q9DCBw==
+X-CSE-MsgGUID: pEvqF8N/QoKPZiRtmZZJrw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="15114716"
+X-IronPort-AV: E=Sophos;i="6.08,238,1712646000"; 
+   d="scan'208";a="15114716"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2024 09:37:53 -0700
+X-CSE-ConnectionGUID: xAAM0oc6R0qoOzVa51X18A==
+X-CSE-MsgGUID: MWl63vUuR+mg54xeFXB5wg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,238,1712646000"; 
+   d="scan'208";a="44921621"
+Received: from djiang5-mobl3.amr.corp.intel.com (HELO [10.125.111.95]) ([10.125.111.95])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2024 09:37:51 -0700
+Message-ID: <8078be0c-58cb-4288-bbee-639483675501@intel.com>
+Date: Fri, 14 Jun 2024 09:37:50 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240611215544.2105970-1-jiaqiyan@google.com> <20240611215544.2105970-2-jiaqiyan@google.com>
- <1e6ecf75-c489-7711-3289-e4a396ca9484@huawei.com>
-In-Reply-To: <1e6ecf75-c489-7711-3289-e4a396ca9484@huawei.com>
-From: Jiaqi Yan <jiaqiyan@google.com>
-Date: Fri, 14 Jun 2024 09:40:35 -0700
-Message-ID: <CACw3F52SU=z-nBgSQpmKA43eFz71F1OJ655fsdjNEVP0Pzpihw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] mm/memory-failure: userspace controls
- soft-offlining pages
-To: Miaohe Lin <linmiaohe@huawei.com>
-Cc: muchun.song@linux.dev, akpm@linux-foundation.org, shuah@kernel.org, 
-	corbet@lwn.net, osalvador@suse.de, rientjes@google.com, duenwen@google.com, 
-	fvdl@google.com, linux-mm@kvack.org, linux-kselftest@vger.kernel.org, 
-	linux-doc@vger.kernel.org, nao.horiguchi@gmail.com, jane.chu@oracle.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/8] fwctl: FWCTL_INFO to return basic information about
+ the device
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Itay Avraham <itayavr@nvidia.com>,
+ Jakub Kicinski <kuba@kernel.org>, Leon Romanovsky <leon@kernel.org>,
+ linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
+ netdev@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
+ Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>,
+ Andy Gospodarek <andrew.gospodarek@broadcom.com>,
+ Aron Silverton <aron.silverton@oracle.com>,
+ Dan Williams <dan.j.williams@intel.com>, David Ahern <dsahern@kernel.org>,
+ Christoph Hellwig <hch@infradead.org>, Jiri Pirko <jiri@nvidia.com>,
+ Leonid Bloch <lbloch@nvidia.com>, Leon Romanovsky <leonro@nvidia.com>,
+ linux-cxl@vger.kernel.org, patches@lists.linux.dev
+References: <3-v1-9912f1a11620+2a-fwctl_jgg@nvidia.com>
+ <358d2e11-59e2-46eb-a7f4-3c69e6befe02@intel.com>
+ <20240613234002.GH19897@nvidia.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <20240613234002.GH19897@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jun 13, 2024 at 8:28=E2=80=AFPM Miaohe Lin <linmiaohe@huawei.com> w=
-rote:
->
-> On 2024/6/12 5:55, Jiaqi Yan wrote:
-> > Correctable memory errors are very common on servers with large
-> > amount of memory, and are corrected by ECC. Soft offline is kernel's
-> > additional recovery handling for memory pages having (excessive)
-> > corrected memory errors. Impacted page is migrated to a healthy page
-> > if inuse; the original page is discarded for any future use.
-> >
->
-> Thanks for your update.
->
-> > The actual policy on whether (and when) to soft offline should be
-> > maintained by userspace, especially in case of an 1G HugeTLB page.
-> > Soft-offline dissolves the HugeTLB page, either in-use or free, into
-> > chunks of 4K pages, reducing HugeTLB pool capacity by 1 hugepage.
-> > If userspace has not acknowledged such behavior, it may be surprised
-> > when later mmap hugepages MAP_FAILED due to lack of hugepages.
->
-> s/mmap hugepages MAP_FAILED/fails to mmap hugepages/ ?
->
-> > In case of a transparent hugepage, it will be split into 4K pages
-> > as well; userspace will stop enjoying the transparent performance.
-> >
-> > In addition, discarding the entire 1G HugeTLB page only because of
-> > corrected memory errors sounds very costly and kernel better not
-> > doing under the hood. But today there are at least 2 such cases:
->
-> s/doing/doing so/ ?
->
-> > 1. GHES driver sees both GHES_SEV_CORRECTED and
-> >    CPER_SEC_ERROR_THRESHOLD_EXCEEDED after parsing CPER.
-> > 2. RAS Correctable Errors Collector counts correctable errors per
-> >    PFN and when the counter for a PFN reaches threshold
-> > In both cases, userspace has no control of the soft offline performed
-> > by kernel's memory failure recovery.
-> >
-> > This commit gives userspace the control of softofflining any page:
-> > kernel only soft offlines raw page / transparent hugepage / HugeTLB
-> > hugepage if userspace has agreed to. The interface to userspace is a
-> > new sysctl called enable_soft_offline under /proc/sys/vm. By default
-> > enable_soft_line is 1 to preserve existing behavior in kernel.
->
-> s/enable_soft_line/enable_soft_offline/
 
-Will fix these 3 typos in v3.
 
->
-> >
-> > Signed-off-by: Jiaqi Yan <jiaqiyan@google.com>
-> > ---
-> >  mm/memory-failure.c | 16 ++++++++++++++++
-> >  1 file changed, 16 insertions(+)
-> >
-> > diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-> > index d3c830e817e3..23415fe03318 100644
-> > --- a/mm/memory-failure.c
-> > +++ b/mm/memory-failure.c
-> > @@ -68,6 +68,8 @@ static int sysctl_memory_failure_early_kill __read_mo=
-stly;
-> >
-> >  static int sysctl_memory_failure_recovery __read_mostly =3D 1;
-> >
-> > +static int sysctl_enable_soft_offline __read_mostly =3D 1;
-> > +
-> >  atomic_long_t num_poisoned_pages __read_mostly =3D ATOMIC_LONG_INIT(0)=
-;
-> >
-> >  static bool hw_memory_failure __read_mostly =3D false;
-> > @@ -141,6 +143,15 @@ static struct ctl_table memory_failure_table[] =3D=
- {
-> >               .extra1         =3D SYSCTL_ZERO,
-> >               .extra2         =3D SYSCTL_ONE,
-> >       },
-> > +     {
-> > +             .procname       =3D "enable_soft_offline",
-> > +             .data           =3D &sysctl_enable_soft_offline,
-> > +             .maxlen         =3D sizeof(sysctl_enable_soft_offline),
-> > +             .mode           =3D 0644,
-> > +             .proc_handler   =3D proc_dointvec_minmax,
-> > +             .extra1         =3D SYSCTL_ZERO,
-> > +             .extra2         =3D SYSCTL_ONE,
-> > +     }
-> >  };
-> >
-> >  /*
-> > @@ -2771,6 +2782,11 @@ int soft_offline_page(unsigned long pfn, int fla=
-gs)
-> >       bool try_again =3D true;
-> >       struct page *page;
-> >
-> > +     if (!sysctl_enable_soft_offline) {
-> > +             pr_info("soft offline: %#lx: OS-wide disabled\n", pfn);
-> > +             return -EINVAL;
-> > +     }
-> > +
->
-> IMHO, callers might reach here with page refcnt increased. So we have to =
-take care of releasing it first?
+On 6/13/24 4:40 PM, Jason Gunthorpe wrote:
+> On Thu, Jun 13, 2024 at 04:32:44PM -0700, Dave Jiang wrote:
+> 
+>> Are you open to pass in potential user input for the info query? I'm
+>> working on plumbing fwctl for CXL. 
+> 
+> Neat!
+> 
+>> The current CXL query command [1] takes a number of commands as
+>> input for its ioctl. For fwctl_cmd_info(), the current
+>> implementation is when ->info() is called no information about the
+>> user buffer length or an input buffer is provided. 
+> 
+> Right, the purpose of info is to report information about the fwctl
+> driver. It is to allow the userspace to connect to the correct
+> userspace driver. It shouldn't be doing much with the device.
+> 
+> If you want to execute a info command *to the fw* then I'd expect
+> you'd execute the command through the normal RPC channel? Does
+> something prevent this?
 
-Ah, I think you are right when MF_COUNT_INCREASED.
+Ok that makes sense. I should be able to do it through RPC with some tweaks. 
 
-I will move this after the pfn_to_online_page check, and release if disable=
-d.
-
-> Also will it be better to return -EOPNOTSUPP or some other better errno?
->
-> Thanks.
-> .
+> 
+> This is how the mlx5 driver is working where there are many info
+> (called CAP) commands that return data, and they all run over the rpc
+> channel.
+> 
+> Thanks,
+> Jason
