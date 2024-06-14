@@ -1,120 +1,125 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from fout4-smtp.messagingengine.com (fout4-smtp.messagingengine.com [103.168.172.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F341190477;
-	Fri, 14 Jun 2024 11:43:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 469911DFED;
+	Fri, 14 Jun 2024 11:59:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718365412; cv=none; b=GeC1ZfhTqTZ1oi/CDC6KADwOEKEFzPvFqHk6U2xOzWtLSv9ZoBlVghqHdhO2JMlNCcRJUCPRgtGZzGEEMM7lbZtVRsvI71quzvGJjxwdiVtuoT8er68p3S/h9hAACP1q39/WLUBw+FY/9byUXZOlOpCBycXk87oj35B/r1RaN6I=
+	t=1718366354; cv=none; b=QNT2PZsC1zm2ZGynN0uwyYdeBqNhwjuIFT7u+yvNOcB/MhQU0WSn1hcRlX90Izv6HwIQSsfZW+bUNPujBQr88eD2SxgN5ircbgkFrOPF3W7poSH75fKE8pj1lSetJvGMedpbkVj/ZY1RAakx3miHVEx4js4efuf+7sw8OSr01Fs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718365412; c=relaxed/simple;
-	bh=k4jOz68cr3QBxL7jfiU33d7ijkFWxyUA+lWLMTbTPew=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=hLFBLM+tENEXlwoRuD5WKBh+sm4nMRKZQe5eSPVZz5udpuw4Dz8EWkaX4rcA86Bl9Ig3V/O540MPlCpad5RKs5sh8qf9c2Qzbq7oEStbUFrKnDsd4PNltuONw3xkvXalvSXsmoknZJZSHhzD53yFt1/gCBWCT+Oa+QJ554yhg/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=O/PecpHq; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1718366354; c=relaxed/simple;
+	bh=FZ7oU3Tvb+cR/zcsfVum+Isg4olsT4e3Ap9YPQa4Pgs=;
+	h=MIME-Version:Message-Id:In-Reply-To:References:Date:From:To:Cc:
+	 Subject:Content-Type; b=LcZMU/t5ZIAeogyVb1TabfwRASOKlvpjEJsVz9yUiTHTjkHR4QldEM/c0PcrmBbbYvjr0FGRGtS60x/coOOzoohJGTG+u1lmiKknxDGIW7cWjoODjjnK6O4LUruwK1zlvwKIjPA0WWtVuqUXPldOHcjAdH0UQKeP85bC/6V6CAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=0BOFF8xk; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=khq5QuRQ; arc=none smtp.client-ip=103.168.172.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="O/PecpHq"
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45E8qgmD029245;
-	Fri, 14 Jun 2024 11:43:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	5A4qaAHQTdpQy2ZjCteC8YaOj/mS8IZfor+Tma9QTGU=; b=O/PecpHqRfCKkCNt
-	rBHjQBgsvqIfBbKRKYhWJYzPOYV58qmmz8lRtO9hRDhrgpk2jSNXKa8ST0alBUWF
-	jc1xsVwNpvUK3aDsZC3NG09HdjY0+jcd5W+TEh6Azg1W0ehfRI41C2umdJAqt+0U
-	+c2Kc31zODMDzfHM3NBsbEj5YUeOeUVfjbY8dqMib3dsReZsZEf0Fn4nbKO2Puna
-	XuhSm1N/MV4ayPznA8cufLGNFqTm8yVsQIFmvKkpe+LU+Nbn7WGWIQ3Yj86Lw0Fy
-	xfRPK1WEB2Z541sQJ43vvz+dv0sQlet3lNGpPxFiUcLOAgtsIbaSFfI45PdmUY+e
-	K2ipHQ==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3yr6q29r9e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 14 Jun 2024 11:43:05 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA02.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45EBh34k027519
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 14 Jun 2024 11:43:03 GMT
-Received: from [10.253.35.41] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 14 Jun
- 2024 04:43:00 -0700
-Message-ID: <7f54113a-e2b4-4b7f-91fb-7e60af9ec2cf@quicinc.com>
-Date: Fri, 14 Jun 2024 19:42:57 +0800
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="0BOFF8xk";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="khq5QuRQ"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 3525713805E2;
+	Fri, 14 Jun 2024 07:59:11 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Fri, 14 Jun 2024 07:59:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1718366351; x=1718452751; bh=7b44UsTTnI
+	wI+o5WpcLnCvfHXK4AEkMV5k8wm0K0jxg=; b=0BOFF8xk3KuQzvyKSCxjq7MNh/
+	SFw5xQ8D0C5Ida9m9tVEQjF7KQ002CChQSu+d/jfrvyjdQqITLpt4CBntFrsiKRt
+	uGa8qN+pjEFO/QafVsLVrKjRugqwPehfFKkgCPBLsPKpBPI5Xu36DmKeqp9A+HrI
+	82gwTv8Vcsox5Ko8T1CHYuTrsSEaGtNNmmYwdssz8FIMuNYRAu0PrZypueoDjy9V
+	u/EWrgYyCpsGNESNemOs4Zx4DZMESjq8xny9yPjVNjpef1FFvdNAzZL6xX7v7Qvp
+	L3tvL52LFWYFeMMNO7doShLnQUEz4nWFOAKnLrGYUKde9Ks5Ba5L+VttnLJQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1718366351; x=1718452751; bh=7b44UsTTnIwI+o5WpcLnCvfHXK4A
+	EkMV5k8wm0K0jxg=; b=khq5QuRQ67A17Cqm/uDAbYb/2IxFAYYxcI1a/yN0VIzI
+	d70yYdP4osCGVIYzhB4Jz5xwY/hC9+Po06loxGvds+8I3sFox5X4N28+aqK0CA3P
+	FjpwiuprjIgN4cGWwmsfTivEUE9AhAu0L+M47kZ90/+ffEFb6aVWIR1BkllvO/Ro
+	aECLXQG5FU/1M0krMTKRYObFQTMAzoKsEb/x12+2l+y54ZCvuOt+o6x9f8uu9aZR
+	rEK9fKnFw7HKuZjpDPhCBUPOWn9Bgi00H77v4JIhotGdhrDX512R9Pz7NKg5mxho
+	LnidyQjT0xpy7OcdJ4SC71+vubwMAkWnvJz6rn/FDQ==
+X-ME-Sender: <xms:jjBsZgt-hMXVDwEQnW1-snDAT8hIBeH3mjvVy5bdJTeF2B0CSS88kg>
+    <xme:jjBsZteowSYZjFrOEHKR_YX8N_xv12tDNgusTXhMjO9mjY3KR0dMoE9zW6bD3PLM0
+    aLQ4wMbpXnKeSbUtk0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfeduledggeeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:jjBsZrxluo1xiiOY3bSI-FgBhTAceQ8BGRIACqNEuVM8f4ao3dPAew>
+    <xmx:jjBsZjOl9-X2GlsX20lMpl4_CtnpHbYRzOhODyCKKx7UhngaI8RWzA>
+    <xmx:jjBsZg_tJCqPx2rboY0j48ROw2PQN_0Wz9ii_QhOzNuaLMWwtZ3yMw>
+    <xmx:jjBsZrUFbyvV3IB2hLbcJ-RVbPTHITG0d5vVh_NsYzfFx2F_5H8u3A>
+    <xmx:jzBsZkQ1_kH-hdIS-568YWEaXxPBv7Lu36z-ZHOVW0xGP3lavId79nVc>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 9CE1FB6008D; Fri, 14 Jun 2024 07:59:10 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-515-g87b2bad5a-fm-20240604.001-g87b2bad5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 1/2] net: phy: introduce core support for
- phy-mode = "10g-qxgmii"
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-CC: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-        <conor+dt@kernel.org>, <andrew@lunn.ch>, <hkallweit1@gmail.com>,
-        <corbet@lwn.net>, <vladimir.oltean@nxp.com>, <netdev@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>
-References: <20240612095317.1261855-1-quic_luoj@quicinc.com>
- <20240612095317.1261855-2-quic_luoj@quicinc.com>
- <Zmqlvn2gOlxoy5Gm@shell.armlinux.org.uk>
-Content-Language: en-US
-From: Jie Luo <quic_luoj@quicinc.com>
-In-Reply-To: <Zmqlvn2gOlxoy5Gm@shell.armlinux.org.uk>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 2NzmHcTlbFTFW6drlpWeEcwMADFybwRz
-X-Proofpoint-ORIG-GUID: 2NzmHcTlbFTFW6drlpWeEcwMADFybwRz
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-14_08,2024-06-14_03,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
- bulkscore=0 clxscore=1015 lowpriorityscore=0 impostorscore=0 adultscore=0
- malwarescore=0 mlxlogscore=999 suspectscore=0 spamscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2405170001
- definitions=main-2406140081
+Message-Id: <3bb9b39c-c15f-49e3-987b-26cd47e05f3e@app.fastmail.com>
+In-Reply-To: 
+ <slpwvai5q24qwymh7nktihvykmlhi5j3nhqjxruxb6yacruu47@27b7rhykw2f3>
+References: <20240610112700.80819-2-wsa+renesas@sang-engineering.com>
+ <CAMRc=MfZ11U+kAh1+K=DxtJ=QL+cY7Q_sBN4sQDF-RNgjpV0QA@mail.gmail.com>
+ <jvnvx7a4pn6evrp5ehfrt4qsiuprq6ogvrue2a3uupwtydmgcm@2rvat7ibvgb4>
+ <CAMRc=Mc4__0zzJZG3BPnmbua88SLuEbX=Wk=EZnKH5HQvB+JPg@mail.gmail.com>
+ <CACRpkda==5S75Bw6F3ZLUmf7kwgi_JkByiizR=m-61nrMDWuvQ@mail.gmail.com>
+ <ce1d8150-c595-44d5-b19a-040920481709@app.fastmail.com>
+ <CAMRc=McpRjQO8mUrOA4bU_YqO8Tc9-Ujytfy1fcjGUEgH9NW0A@mail.gmail.com>
+ <CACRpkdYtLDA3518uSYiTpu1PJuqNErHr9YMAKuar0CeFbfECPA@mail.gmail.com>
+ <CAMRc=Mem6HN13FOA_Ru8zC-GqGGLTsQiktLWs5bN4JD1aM3gHQ@mail.gmail.com>
+ <a7463c6e-2801-4d0e-b723-fc1cf77a04ed@app.fastmail.com>
+ <slpwvai5q24qwymh7nktihvykmlhi5j3nhqjxruxb6yacruu47@27b7rhykw2f3>
+Date: Fri, 14 Jun 2024 13:58:46 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Wolfram Sang" <wsa+renesas@sang-engineering.com>
+Cc: "Bartosz Golaszewski" <brgl@bgdev.pl>,
+ "Linus Walleij" <linus.walleij@linaro.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Kent Gibson" <warthog618@gmail.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Subject: Re: [PATCH v9 1/1] gpio: add sloppy logic analyzer using polling
+Content-Type: text/plain
 
+On Fri, Jun 14, 2024, at 12:03, Wolfram Sang wrote:
+> Hi Arnd, everyone,
+>
+>> I could imagine treating both gpio-virtuser and this code as
+>> a gpiolib extension rather than a consumer (which is usually
+>> part of some other subsystem's driver).
+>
+> I have difficulties seeing this. For the analyzer, at least. It does not
+> extend gpiolib in a way another consumer could make use of it?
 
+That's the same as the chardev support in gpiolib: it doesn't
+provide functionality to in-kernel consumers but does give
+an interface to userspace.
 
-On 6/13/2024 3:54 PM, Russell King (Oracle) wrote:
-> On Wed, Jun 12, 2024 at 05:53:16PM +0800, Luo Jie wrote:
->> @@ -1865,7 +1872,8 @@ static int phylink_validate_phy(struct phylink *pl, struct phy_device *phy,
->>   	if (phy->is_c45 && state->rate_matching == RATE_MATCH_NONE &&
->>   	    state->interface != PHY_INTERFACE_MODE_RXAUI &&
->>   	    state->interface != PHY_INTERFACE_MODE_XAUI &&
->> -	    state->interface != PHY_INTERFACE_MODE_USXGMII)
->> +	    state->interface != PHY_INTERFACE_MODE_USXGMII &&
->> +	    state->interface != PHY_INTERFACE_MODE_10G_QXGMII)
->>   		state->interface = PHY_INTERFACE_MODE_NA;
-> 
-> It would be better, rather than extending this workaround, instead to
-> have the PHY driver set phy->possible_interfaces in its .config_init
-> method. phy->possible_interfaces should be the set of interfaces that
-> the PHY _will_ use given its configuration for the different media
-> speeds. I think that means just PHY_INTERFACE_MODE_10G_QXGMII for
-> your configuration.
-> 
-> Thanks.
-> 
+Arguably, integrating the logic analyzer into the chardev
+device itself would make sense from an interface, as you
+could define it as ioctls and mmap instead of the debugfs
+interface.
 
-Hi Russell,
+Of course we don't want to make it a first-class interface
+because of the reasons you explain in the cover letter,
+but it would totally make sense to me to call it a
+debugging feature of libgpio instead of calling it a
+standalone driver.
 
-Yes, for QCA8084(pure PHY chip), only PHY_INTERFACE_MODE_10G_QXGMII will
-be set to the phy->possible_interfaces when it works on the interface
-mode PHY_INTERFACE_MODE_10G_QXGMII.
-
-I will push a new patch series to remove PHY_INTERFACE_MODE_10G_QXGMII
-from this work-around validation here.
-
-Thanks,
-Jie
-
-
+     Arnd
