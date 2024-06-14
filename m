@@ -1,94 +1,92 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D998419D07B;
-	Fri, 14 Jun 2024 20:09:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC4B81A3BAA
+	for <linux-doc@vger.kernel.org>; Fri, 14 Jun 2024 20:12:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718395763; cv=none; b=l+9v+dNvKj6TNtKkhqetoF3XyCo4/pWTHWNqtDprS7NLjsOh+izEvQ7CmOisODXs1vBFnJkW6u2KBCyM4UG/pCfPPQlmCXwtNK09nPm3z/Na7XtHg4UXq4V4ymcTqlN0YXrELlcTs4bdL84kReO5xLME7mmM4lYwEKEHXsIcThM=
+	t=1718395964; cv=none; b=uPbilP9VObOmRObgDjoVeCnPbBZlrIDAwlU1IkGMf3yBASL1bQnLicvsLshUPo81HltvyRIIOF9k7MeZzxtIzNVnK5KULEZ2nPzuSrY+OMjG8ijrzW4mrubVV0pVzsC1WnBn3pIowl9EGpmL0h8HWWuu0UAJiYICKW4k88D/ph0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718395763; c=relaxed/simple;
-	bh=NQ1+I7H6g1HJVnqrPK31doiyQDEadhBACK6vAZij3AA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sU9gmbdTt6O/CJBhSyc4c4VWslV94hNBTA1eRjeQ49mGB/ACmfLXVHAR2pxrH9wtnKmvWF23cX88YwafYLvBzZcT2I5s0jJuaQbZCATGn6/O6g4J+c8ZPhgZ3cl5C/tvWQtghYc3uDEGXwoqkZHyIjBbczhYpzyLvNZSxuq5edw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=32N5DGh/; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1718395964; c=relaxed/simple;
+	bh=oZjsCzFCbJSD90TB64x6dRc25o9iotk3a8IHULwKXow=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NsufDqfax5DrNo8HliH8mSLIuFKYAyU9kkWqR8ZiyOa32dj18PQkKxA7Xpm658k9S/Qo2zadJoobEeEQ2XQynCBWLbMQDc/CWcDoedp1Hkpefn6Q9NL1BTxEzeE//ROc+uKP6pPHdWrV6iKr6uXHOjttaShk5eveg6da6cttU4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=syFJwenP; arc=none smtp.client-ip=91.218.175.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="32N5DGh/"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=l3lNYKR1L7w3mEw1XoiTN28FqkTkymXTBgQQ68foobc=; b=32N5DGh/6McUeDwwb78pUo2+rm
-	GeZ59n95IMvOjlkYzat+RtLVpA/8tApZiku8nTk2/KFxx5ZrLeNL9ZcnFvlCuO3ikJwBvuxPTNTAB
-	+/xENIPqeJhrqxbx9IQyNbYmRAZLhXSAlVCY9BYafDKafO1XcxlWgbLGozJPmdEjpa12phZF/fKO/
-	dMIcVDdOITrLQq7KEPu8cbMk/oNcMAtg9RRI50+7vH+qKbyRFcsufs7BRRLQFDzFj3uitkgf1qyUS
-	XjO7KlPpbHnWyJlDMt5+7Lbw8LW6ijhfcMyFRjsUpxCuyA92zQ+qGbcICIkyUmx+5DiTPofoH5ceB
-	me2rIivA==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sIDEf-00000003x5E-0ql1;
-	Fri, 14 Jun 2024 20:09:21 +0000
-Message-ID: <e459e0eb-40a7-406b-b5d4-cfd937796177@infradead.org>
-Date: Fri, 14 Jun 2024 13:09:20 -0700
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="syFJwenP"
+X-Envelope-To: kvm@vger.kernel.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1718395959;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JlzAV0tmpVS9NuQqVdxMb9B5p//nrTOGvG6Ai4IvREs=;
+	b=syFJwenPeeak7hSSMKMLwZL81m+ePkBBHaS88KUSdJ3IhWHgAvtbK4RaSAd5ksvuUokrBu
+	JCaO8vOXIjvQAZux9Bv5r2803jHdojWysiGeEFXCu/St5gty1Fhv2gF++eqRrM9e/Ou7hK
+	rxahccN/Lz37K1s2xv2ayoNXr5bTd+I=
+X-Envelope-To: coltonlewis@google.com
+X-Envelope-To: oliver.upton@linux.dev
+X-Envelope-To: yuzenghui@huawei.com
+X-Envelope-To: linux-doc@vger.kernel.org
+X-Envelope-To: catalin.marinas@arm.com
+X-Envelope-To: corbet@lwn.net
+X-Envelope-To: linux-kernel@vger.kernel.org
+X-Envelope-To: suzuki.poulose@arm.com
+X-Envelope-To: linux-arm-kernel@lists.infradead.org
+X-Envelope-To: james.morse@arm.com
+X-Envelope-To: maz@kernel.org
+X-Envelope-To: will@kernel.org
+X-Envelope-To: kvmarm@lists.linux.dev
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Oliver Upton <oliver.upton@linux.dev>
+To: kvm@vger.kernel.org,
+	Colton Lewis <coltonlewis@google.com>
+Cc: Oliver Upton <oliver.upton@linux.dev>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	linux-doc@vger.kernel.org,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-kernel@vger.kernel.org,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	James Morse <james.morse@arm.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	kvmarm@lists.linux.dev
+Subject: Re: [PATCH v6] KVM: arm64: Add early_param to control WFx trapping
+Date: Fri, 14 Jun 2024 20:12:27 +0000
+Message-ID: <171839594069.633615.6902666817551787618.b4-ty@linux.dev>
+In-Reply-To: <20240523174056.1565133-1-coltonlewis@google.com>
+References: <20240523174056.1565133-1-coltonlewis@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: Remove unused "nps_mtm_hs_ctr" from
- kernel-parameters.txt
-To: Thomas Huth <thuth@redhat.com>, linux-doc@vger.kernel.org,
- Vineet Gupta <vgupta@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- linux-snps-arc@lists.infradead.org
-References: <20240614190804.602970-1-thuth@redhat.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240614190804.602970-1-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-
-
-On 6/14/24 12:08 PM, Thomas Huth wrote:
-> The "nps_mtm_hs_ctr" parameter has been removed in commit dd7c7ab01a04
-> ("ARC: [plat-eznps]: Drop support for EZChip NPS platform"). Remove it
-> from the documentation now, too.
+On Thu, 23 May 2024 17:40:55 +0000, Colton Lewis wrote:
+> Add an early_params to control WFI and WFE trapping. This is to
+> control the degree guests can wait for interrupts on their own without
+> being trapped by KVM. Options for each param are trap and notrap. trap
+> enables the trap. notrap disables the trap. Note that when enabled,
+> traps are allowed but not guaranteed by the CPU architecture. Absent
+> an explicitly set policy, default to current behavior: disabling the
+> trap if only a single task is running and enabling otherwise.
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> [...]
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Thanks.
+Applied to kvmarm/next, thanks!
 
+[1/1] KVM: arm64: Add early_param to control WFx trapping
+      https://git.kernel.org/kvmarm/kvmarm/c/0b5afe05377d
 
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 9 ---------
->  1 file changed, 9 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index dd8436c98735..f58001338860 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -4143,15 +4143,6 @@
->  			parameter, xsave area per process might occupy more
->  			memory on xsaves enabled systems.
->  
-> -	nps_mtm_hs_ctr=	[KNL,ARC]
-> -			This parameter sets the maximum duration, in
-> -			cycles, each HW thread of the CTOP can run
-> -			without interruptions, before HW switches it.
-> -			The actual maximum duration is 16 times this
-> -			parameter's value.
-> -			Format: integer between 1 and 255
-> -			Default: 255
-> -
->  	nptcg=		[IA-64] Override max number of concurrent global TLB
->  			purges which is reported from either PAL_VM_SUMMARY or
->  			SAL PALO.
-
--- 
-~Randy
+--
+Best,
+Oliver
