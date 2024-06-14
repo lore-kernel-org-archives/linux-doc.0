@@ -1,108 +1,101 @@
-Received: from esa1.hc1455-7.c3s2.iphmx.com (esa1.hc1455-7.c3s2.iphmx.com [207.54.90.47])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AED166FB0;
-	Fri, 14 Jun 2024 01:00:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.54.90.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 872431773D;
+	Fri, 14 Jun 2024 01:34:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718326848; cv=none; b=VQjjdVCqGnkxma2pq2RZWjz8f4PYoQx2InB21Fs1kI51Y1HMrnvORMuE83xyTzFM5QUyoGgPJVK6Lao94rBN2+fmjaIXJk4Baj1J8HLPuVmaXdpxLUzWtIaBW+7t1oo6xsYZH0lBtJ4oyuTKuPpKBCTtzgFeSIoy5qmJkvGDokA=
+	t=1718328897; cv=none; b=VsHrwmH5eYxeiKZFTbnBcWzlULoydE+R7s6cx1jJa8c0Ccth2DsEIxMIH9nHk4a9IH9RD01S/Pk4IPQ+WD/KR570Xa5XYQGDp6oxp9G/KjvqL9QdJdHM3Vszn1XrX8cMTaGXhxOAstp5A/rWavqEs63mJk4VS1VevaXQNjp4rSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718326848; c=relaxed/simple;
-	bh=58DWKisnhrHdCz55eXANJnDLMcyfb2It2isJmC5H1Aw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Xpk9mWiGH9vhjQr72BXaHIGKWNRkgBLEPdl643WkFqnUIIHzwo4T/26JH17f4JN6o5wsWOW9yAdQzWWmvuMoNMCDOk+24LwmclAJCbhquWh264ua6ul6nt8a5uTnFc9N4XB5L2iu5rz3asvjp1W13Ms1Wx2ngK+ktQULlEahdXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fujitsu.com; spf=pass smtp.mailfrom=fujitsu.com; dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b=QLqtJfbS; arc=none smtp.client-ip=207.54.90.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fujitsu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
+	s=arc-20240116; t=1718328897; c=relaxed/simple;
+	bh=CYOxmE4ntQW4bNMvxq9UIlsEBzTRL4qLB1FV48Xatv4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=USAUY/NF7f9lomUFU0/3qPvQFhIc5mrecPjwbnTHMK6Ruj5KN6zhnD0kQWa7XUT8H7DTvXi24TGeT5fFQ/5ScIs7yqdZcsE0rumG+c9rCTUfme+LP9Q6HJ0SIHzXqIqsEIOosy1u+qd6OimLeN+3c5iD+j7F/h9+2UI6gYg0ovU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sg9ZtS8y; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b="QLqtJfbS"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1718326845; x=1749862845;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=58DWKisnhrHdCz55eXANJnDLMcyfb2It2isJmC5H1Aw=;
-  b=QLqtJfbSgqekF/o7LSAq2VynsUzCIn7MGBjboaVCUi9SoJkZN8u1FGGi
-   shrWMB2bUH7uulZTksGJ/tICYqWulaRW6saxgUhHG1FzX6hBCN4MWs46j
-   J+W8aux+58rRN1wr7C4YT2pUa2zLFIeS9kQMCTar2n8d0zXF0FQg4BOls
-   YAnOnhewKI6FGmcOPutiIsE0+pPVSgo9nuJJDYUVo8y/PUcxxxBQnskH8
-   mra0fkFm0pzfN42MfvmYSnWC78rHMTxFvjuLv2Fds2l6QpzfYrV0sSYtj
-   DWEXS4vYTgPPpyOVTyUprYPFdwk1audvL19mWMbTr7pmUwpgWI00ydc7u
-   Q==;
-X-IronPort-AV: E=McAfee;i="6700,10204,11102"; a="163059450"
-X-IronPort-AV: E=Sophos;i="6.08,236,1712588400"; 
-   d="scan'208";a="163059450"
-Received: from unknown (HELO yto-r4.gw.nic.fujitsu.com) ([218.44.52.220])
-  by esa1.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2024 10:00:36 +0900
-Received: from yto-m3.gw.nic.fujitsu.com (yto-nat-yto-m3.gw.nic.fujitsu.com [192.168.83.66])
-	by yto-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id EA548CD6E4;
-	Fri, 14 Jun 2024 10:00:33 +0900 (JST)
-Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
-	by yto-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id 2BD7E2552F;
-	Fri, 14 Jun 2024 10:00:33 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id A660E20081310;
-	Fri, 14 Jun 2024 10:00:32 +0900 (JST)
-Received: from localhost.localdomain (unknown [10.167.226.45])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 5E2881A0002;
-	Fri, 14 Jun 2024 09:00:31 +0800 (CST)
-From: Li Zhijian <lizhijian@fujitsu.com>
-To: linux-doc@vger.kernel.org
-Cc: tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	x86@kernel.org,
-	corbet@lwn.net,
-	hpa@zytor.com,
-	linux-kernel@vger.kernel.org,
-	Li Zhijian <lizhijian@fujitsu.com>
-Subject: [PATCH] Documentation: exception-tables.rst: Fix the wrong steps referenced
-Date: Fri, 14 Jun 2024 09:00:28 +0800
-Message-Id: <20240614010028.48262-1-lizhijian@fujitsu.com>
-X-Mailer: git-send-email 2.31.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sg9ZtS8y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61242C2BBFC;
+	Fri, 14 Jun 2024 01:34:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718328897;
+	bh=CYOxmE4ntQW4bNMvxq9UIlsEBzTRL4qLB1FV48Xatv4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=sg9ZtS8yEezxbjTVPI568a2KvEHqvKq8ud8+uPe6dGMbTueQSEMPMAgj2PCgXuIB9
+	 Il047nqeXnP6P/oSYmAKQCAxosjwrgYOaHdSYN8DpizcnGRlWkldLzTTe90OSa9FGv
+	 MBAW9iL444FGaNr9FcdswWY3pHc51pXPD6UDrHaFRQu/JWFwS+m0CctYfvcTP+Y/us
+	 3tPXqBkvjF/1WlqhH8l2wOQHXRcCWEIeW4JHfm3b/MLKWXXuS8tFi+ZMZi3LlOasMl
+	 Pv1svqR65L1eeiVLZrRKEQMiPGyOnYtk2TTlgDn5OVb4lEV9805bZIfH/6hgbdu1Gs
+	 S7zj/D1FRPg8w==
+Date: Thu, 13 Jun 2024 18:34:53 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ sparclinux@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
+ Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Richard Henderson
+ <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+ Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer
+ <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
+ Andreas Larsson <andreas@gaisler.com>, Sergey Shtylyov <s.shtylyov@omp.ru>,
+ Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas
+ <ilias.apalodimas@linaro.org>, Steven Rostedt <rostedt@goodmis.org>, Masami
+ Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Arnd Bergmann <arnd@arndb.de>, Alexei
+ Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
+ <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
+ <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
+ <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
+ Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, Jiri Olsa
+ <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan
+ <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, "Christian
+ =?UTF-8?B?S8O2bmln?=" <christian.koenig@amd.com>, Bagas Sanjaya
+ <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, Nikolay
+ Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>,
+ David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin
+ <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, Harshitha
+ Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>,
+ Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi
+ <pkaligineedi@google.com>
+Subject: Re: [PATCH net-next v12 00/13] Device Memory TCP
+Message-ID: <20240613183453.2423e23b@kernel.org>
+In-Reply-To: <20240613013557.1169171-1-almasrymina@google.com>
+References: <20240613013557.1169171-1-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28452.003
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28452.003
-X-TMASE-Result: 10--5.000200-10.000000
-X-TMASE-MatchedRID: TWQD+6s80gMDCEXfCfH5DHnLJGGZe5swTSz0JdEAJbTVjNsehGf0vb8F
-	Hrw7frluf146W0iUu2uQfYjCMFqIHif7ZnjOtvquRcGHEV0WBxCxXA8wqNmbVodlrZzkVCoONMj
-	Eju2qSFCr1jKm0SUrl9EOCxfTciM35UcZtwNsCroURSScn+QSXpjDMT0TyDk5+gtHj7OwNO0LH2
-	qjGZLbHT83Ey36k4b1h5odYtrQJ1Hbf9E1FWPAGoo+LwLI3KU0
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-When it was in text format, it correctly hardcoded steps 8a to 8c.
-However, after it was converted to RST, the sequence numbers were
-auto-generated during rendering and became incorrect after some
-steps were inserted.
+On Thu, 13 Jun 2024 01:35:37 +0000 Mina Almasry wrote:
+> v12: https://patchwork.kernel.org/project/netdevbpf/list/?series=859747&state=*
 
-Change it to refer to steps a to c in a relative way.
+patches 5 and 6 transiently break the build
 
-Signed-off-by: Li Zhijian <lizhijian@fujitsu.com>
----
- Documentation/arch/x86/exception-tables.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+../include/trace/events/page_pool.h:65:23: error: use of undeclared identifier 'NET_IOV'
+   65 |                   __entry->netmem & NET_IOV, __entry->pfn, __entry->release)
+      |                                     ^
+../include/trace/events/page_pool.h:91:23: error: use of undeclared identifier 'NET_IOV'
+   91 |                   __entry->netmem & NET_IOV, __entry->pfn, __entry->hold)
+      |                                     ^
 
-diff --git a/Documentation/arch/x86/exception-tables.rst b/Documentation/arch/x86/exception-tables.rst
-index efde1fef4fbd..562d1bc6d448 100644
---- a/Documentation/arch/x86/exception-tables.rst
-+++ b/Documentation/arch/x86/exception-tables.rst
-@@ -297,7 +297,7 @@ vma occurs?
-    c) execution continues at local label 2 (address of the
-       instruction immediately after the faulting user access).
- 
--The steps 8a to 8c in a certain way emulate the faulting instruction.
-+The steps a to c above in a certain way emulate the faulting instruction.
- 
- That's it, mostly. If you look at our example, you might ask why
- we set EAX to -EFAULT in the exception handler code. Well, the
--- 
-2.29.2
+Looking at NIPA status the builders are 12h behind, so please don't
+repost immediately. This series takes a lot of compute cycles to build.
 
+FWIW there is a docker version of NIPA checks in the nipa repo.
+
+https://github.com/linux-netdev/nipa/tree/main/docker
+
+IDK if it still works, but could help avoid mistakes..
