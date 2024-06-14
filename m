@@ -1,182 +1,399 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C6D1482E8
-	for <linux-doc@vger.kernel.org>; Fri, 14 Jun 2024 23:16:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9587187562
+	for <linux-doc@vger.kernel.org>; Fri, 14 Jun 2024 23:17:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718406972; cv=none; b=LJBBMMqdskEYXTZAfjvl4HIuvgRHuLLnWkcAZjEcQ6PjlbVE4Otl5AHy/iFlfm5AOxZF4dbOLIf+81hTgBrI1PrfS88ZW3A/4TXVq4uH/TxM2H0o/wFFq1YKRd5PLFv42Unl9zAubRIx9Q4TBGb/+sQCLMJbSi9MEEIbDdsExT8=
+	t=1718407078; cv=none; b=eZGKcg7SrgShwQq51MFk0AABU/YZqbJ1gw2zc41OXJ3eiGK1Zy0I81EeKk9U0uVSF5PU7yqXeVj4Uy+0/V1TGSgH6M7iX02KWL6ehUEhSZCkQar8IQSLHY4o9MT6LbaGs8JhrOa4S+qtclamCU+pKkHckrIco2AXSw49Yh2hakE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718406972; c=relaxed/simple;
-	bh=1PXiu3XyrGn6eioRMQi+2p0r/15GuzVsN093zgKL+z0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cRak18Ofc2rigaWnCxgeho+2+5Yqb9SzovV8BmlFF1kOPgOQFmeWQ2lcxi8KdaCaUPUrEk9ILRYzhfIWCg+XZdhDkTcZn1mQHQD/E8ddLLu3heUkvOEAxCLSJxqtBCIUc9G11/nJZ7ethrMNWFIgygpEIq+4yVZ1BsmrnnxeBIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WEIlC0cb; arc=none smtp.client-ip=209.85.221.51
+	s=arc-20240116; t=1718407078; c=relaxed/simple;
+	bh=GxPpqWMg7Qw+KH+laN3j9zDFH85/MQwodFiM32k6C2Q=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=gW97qYgrAkbU+Le1wpIVeSQBDsYEjjoxIfIf68JQt//dfn3rJurgB78f/HeaCa3bC52vMlWryemnFxM5OPWJC1YDbxW9fe5I5GssNj8MC7RS2mSmu97swnEuPiSEPlX7/wdnNHzstCyIl0IreuMf9z1o5Z9V6LXDAUJAQfRmG/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dhpi91VK; arc=none smtp.client-ip=209.85.128.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WEIlC0cb"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-35f0d6255bdso2398486f8f.1
-        for <linux-doc@vger.kernel.org>; Fri, 14 Jun 2024 16:16:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dhpi91VK"
+Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-62a080977a5so44343297b3.0
+        for <linux-doc@vger.kernel.org>; Fri, 14 Jun 2024 16:17:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718406969; x=1719011769; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LahH6YvliG7eYlUbvikNbUEjbap7UqWjJYCEVPQs1io=;
-        b=WEIlC0cbjlsU29zG3suUH6LAoVVZBEU9a+RoHqxwLlF9WMXTCvBWjj1O+m4cr+MgF3
-         NSR+KXgyc8tId+UVSbfEIa9SxnD37TvpMnLBEGjDioXbj014iJ6P97MiaV51zK3EE3gi
-         mW4zpXDK3IVxEi7JhHUS8gCaqWE4hcrLMc2Q9sYOonHEgYT01uvld8OA0wIFpokNwGEm
-         lZBuJmyS2RAGZpBRRngt5hMaONIkjxYiyrViMmnv7j/b2rCD4qfyyJHEZFZM2qCp7BHd
-         fXv4ZhJ1cn/uE26Le/5pQG4vfkxEh4lRI2RXkYeihAMRDLHKp5pLVU7EdiGS4UkeNO8m
-         W2nw==
+        d=google.com; s=20230601; t=1718407075; x=1719011875; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Of1/APUBbAKdtL3qvNUh6RP4QfUxQKIPvJrZrNb83Wo=;
+        b=dhpi91VKVtLPMDil8lDM9ArGzUKLclY1kMLyqvobzX8/mIUypu9q/xN/t5geniUpd9
+         GeJfVCCvcmNpepqaHIj9eNR33v1n7rj/eHuJUnHp8w6IW+jDME0O0J/aCBNPLUBQ5aRL
+         X9kut2yQ7/MgBfVRFSWlET5DjREnQkscvUC33CJQ4uJZUBFcEYan/MXDHijRi2aGMvLi
+         EAs5UFMLj8AjYy6IXF5A2mJqx/vKxxYyuYgN9sPjfrIuVF1MZ3o5DvEfH/zhxU4EuX2Z
+         1Xx7bXnwGiak48cmKzKeWV0Ocoh2E61VYkNZubOsBdBA0HvOy0wdTRjdnzph/Jtw4Jja
+         Taew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718406969; x=1719011769;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LahH6YvliG7eYlUbvikNbUEjbap7UqWjJYCEVPQs1io=;
-        b=st+t2gzOprOIcF7KmYTXyEXhwdMaj4c/GuOPh+SZSdxbtCgmounTbCFFZn4AR6gCaO
-         UMQX2+mS/cRluZrMiBQxhVWVD3TB+nl54i2ZSy+Pxfxb6Ds58XBBXGHgBBGi4EXURFB/
-         oeu2l5PotipQgfT56sEAFY2CBRdbSxR2l1BE7cU9QtZUNqs1bROiTicaT45F+s6M5uaZ
-         7DFkSjRhvx/pB9SD1ZMCwlR8G+qYfcxl+4MhA8vlJx1SWN7XRTN+tZwqFACF5RdIZK/j
-         aQjuZLQ78N0bAAeP7s5dyeDGDUozVBHiYhcBfEUQHtahSm6ZsJ66mb/7Vbw0xPeB5yCT
-         uvDw==
-X-Forwarded-Encrypted: i=1; AJvYcCWH7HhxqSFCQxu2uo/32Ib6cHL5fgZf2wyIn4LtHDJs6m3cKe5peVsj9OgJFvSyo3mMS1tOx8d8g+4cpZsp5zaHNvbTmk1rD+H/
-X-Gm-Message-State: AOJu0YxiBCJN/VzALkc9g0h5lnnAq6wvI8m+AxU4i9gKgXEdnrdMBxqp
-	WHJ6YExi4+uxVdMOqzMLF2eFoDId3OVZEjHxguRjUR7k+Ug9/OxcBw4MUTCoYW//o0gGEUMKZpI
-	6XwW/Dsa6R7MpfeZ/qi+swTXIpv2myLutyQ2H
-X-Google-Smtp-Source: AGHT+IGSGeWdWrHeyLBhi8ahJUOIBOV4p81XB0K8UtbxXZp0W1Hbsh5/A+lYxE2gXbWBKN4sXqq0XRi16MlYhpjbjow=
-X-Received: by 2002:a05:6000:4583:b0:360:8768:8dda with SMTP id
- ffacd0b85a97d-36087688e20mr695294f8f.7.1718406968805; Fri, 14 Jun 2024
- 16:16:08 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1718407075; x=1719011875;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Of1/APUBbAKdtL3qvNUh6RP4QfUxQKIPvJrZrNb83Wo=;
+        b=wNL91BJLA64DgfV3bV8v1brWhsBB2COVd8LYdLM7NM9ujulvJUjmfUoDDMQwQrDuq+
+         ivVi4jdtszANwFCnj9ual5HfS7fNUFft9tOFUZUaSShT+ihmbhlwEmvQ+92EsiXPalXF
+         os2awPhpWbwS4HHmnmqzNTDnDuoPg/7YbKXZdVG6B0C5YpJk7LqXvPPPnIAF6MfcoJLG
+         SsaroSpAtLq2xvSozQZcQeipVczNSTWrFZzh5s71akORjwMO5/z3635Z9kup6/ipnF6d
+         YzLt6doIXB7kENXcYFBPgS9xf6ig/C5iPMQ1YZf6nD0004AMbg5ZalPHXjLVdtEYFUDL
+         p5Uw==
+X-Forwarded-Encrypted: i=1; AJvYcCXZKKQM6/pncr7uJmwk9c7meSmSVWFaSM/EUyWPiDJh6suyoe+bHv9Kdm3WMXclCh+TJBNXdjTJggyV6sY/yIx/6pTNT91UbUWF
+X-Gm-Message-State: AOJu0YxXGxTEt47F/cFFromTC7M+ZcFUUxp/Aos1pvTs6GQ5BZWV2p+X
+	Ee1pNa1hWiK1qJ4my9vZg+Fi3KkbJAInMDP23eykeXMlzb53VSQRbgEYf33U1KfklmaHBMjZRBV
+	xew==
+X-Google-Smtp-Source: AGHT+IFf04V+NzFpQ2I3NWK+rQ7QUB1fuzeDCHCZBIuJOjTEyb5oX0HI/aAQHZ5FG+/pVHLQj8M1yQSGuys=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a05:690c:700e:b0:627:a962:4252 with SMTP id
+ 00721157ae682-63224613c12mr8916887b3.7.1718407074918; Fri, 14 Jun 2024
+ 16:17:54 -0700 (PDT)
+Date: Fri, 14 Jun 2024 16:17:53 -0700
+In-Reply-To: <CADrL8HVDZ+m_-jUCaXf_DWJ92N30oqS=_9wNZwRvoSp5fo7asg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20240611215544.2105970-1-jiaqiyan@google.com> <20240611215544.2105970-4-jiaqiyan@google.com>
- <9461874d-e2d6-25fc-813c-9c9bb0ad1aec@google.com>
-In-Reply-To: <9461874d-e2d6-25fc-813c-9c9bb0ad1aec@google.com>
-From: Jiaqi Yan <jiaqiyan@google.com>
-Date: Fri, 14 Jun 2024 16:15:56 -0700
-Message-ID: <CACw3F525-4w9N5wSVrbTnSz=g=4SxvXD=dWL9nsf1iQuaYj8OQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] docs: mm: add enable_soft_offline sysctl
-To: David Rientjes <rientjes@google.com>
-Cc: nao.horiguchi@gmail.com, linmiaohe@huawei.com, jane.chu@oracle.com, 
-	muchun.song@linux.dev, akpm@linux-foundation.org, shuah@kernel.org, 
-	corbet@lwn.net, osalvador@suse.de, duenwen@google.com, fvdl@google.com, 
-	linux-mm@kvack.org, linux-kselftest@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Lance Yang <ioworker0@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+References: <20240611002145.2078921-1-jthoughton@google.com>
+ <20240611002145.2078921-5-jthoughton@google.com> <CAOUHufYGqbd45shZkGCpqeTV9wcBDUoo3iw1SKiDeFLmrP0+=w@mail.gmail.com>
+ <CADrL8HVHcKSW3hiHzKTit07gzo36jtCZCnM9ZpueyifgNdGggw@mail.gmail.com>
+ <ZmioedgEBptNoz91@google.com> <CADrL8HU_FKHTz_6d=xhVLZFDQ_zQo-zdB2rqdpa2CKusa1uo+A@mail.gmail.com>
+ <ZmjtEBH42u7NUWRc@google.com> <CADrL8HUW2q79F0FsEjhGW0ujij6+FfCqas5UpQp27Epfjc94Nw@mail.gmail.com>
+ <ZmxsCwu4uP1lGsWz@google.com> <CADrL8HVDZ+m_-jUCaXf_DWJ92N30oqS=_9wNZwRvoSp5fo7asg@mail.gmail.com>
+Message-ID: <ZmzPoW7K5GIitQ8B@google.com>
+Subject: Re: [PATCH v5 4/9] mm: Add test_clear_young_fast_only MMU notifier
+From: Sean Christopherson <seanjc@google.com>
+To: James Houghton <jthoughton@google.com>
+Cc: Yu Zhao <yuzhao@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Ankit Agrawal <ankita@nvidia.com>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	David Matlack <dmatlack@google.com>, David Rientjes <rientjes@google.com>, 
+	James Morse <james.morse@arm.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, Raghavendra Rao Ananta <rananta@google.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Shaoqin Huang <shahuang@redhat.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Wei Xu <weixugc@google.com>, 
+	Will Deacon <will@kernel.org>, Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev, 
+	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-Thanks for your questions, David!
-
-On Tue, Jun 11, 2024 at 5:25=E2=80=AFPM David Rientjes <rientjes@google.com=
-> wrote:
->
-> On Tue, 11 Jun 2024, Jiaqi Yan wrote:
->
-> > @@ -267,6 +268,20 @@ used::
-> >  These are informational only.  They do not mean that anything is wrong
-> >  with your system.  To disable them, echo 4 (bit 2) into drop_caches.
+On Fri, Jun 14, 2024, James Houghton wrote:
+> On Fri, Jun 14, 2024 at 9:13=E2=80=AFAM Sean Christopherson <seanjc@googl=
+e.com> wrote:
 > >
-> > +enable_soft_offline
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +Control whether to soft offline memory pages that have (excessive) cor=
-rectable
-> > +memory errors.  It is your call to choose between reliability (stay aw=
-ay from
-> > +fragile physical memory) vs performance (brought by HugeTLB or transpa=
-rent
-> > +hugepages).
-> > +
->
-> Could you expand upon the relevance of HugeTLB or THP in this
-> documentation?  I understand the need in some cases to soft offline memor=
-y
-> after a number of correctable memory errors, but it's not clear how the
-> performance implications plays into this.  The paragraph below goes into =
-a
+> > On Thu, Jun 13, 2024, James Houghton wrote:
+> > > On Tue, Jun 11, 2024 at 5:34=E2=80=AFPM Sean Christopherson <seanjc@g=
+oogle.com> wrote:
+> > > > A flag would also avoid an indirect call and thus a RETPOLINE when =
+CONFIG_RETPOLINE=3Dy,
+> > > > i.e. would be a minor optimization when KVM doesn't suppport fast a=
+ging.  But that's
+> > > > probably a pretty unlikely combination, so it's probably not a vali=
+d argument.
+> > > >
+> > > > So, I guess I don't have a strong opinion?
+> > >
+> > > (Sorry for the somewhat delayed response... spent some time actually
+> > > writing what this would look like.)
+> > >
+> > > I see what you mean, thanks! So has_fast_aging might be set by KVM if
+> > > the architecture sets a Kconfig saying that it understands the concep=
+t
+> > > of fast aging, basically what the presence of this v5's
+> > > test_clear_young_fast_only() indicates.
+> >
+> > It would need to be a runtime setting, because KVM x86-64 with tdp_mmu_=
+enabled=3Dfalse
+> > doesn't support fast aging (uses the shadow MMU even for TDP).
+>=20
+> I see. I'm not sure if it makes sense to put this in `ops` as you
+> originally had it then (it seems like a bit of a pain anyway). I could
+> just make it a member of `struct mmu_notifier` itself.
 
-To be accurate, I should say soft offlining transparent hugepage
-impacts performance, and soft offlining hugetlb hugepage impacts
-capacity. It may be clearer to first explain soft-offline's behaviors
-and implications, so that user knows what is the cost of soft-offline,
-then talks about the behavior of enable_soft_offline:
+Ah, right, because the ops are const.  Yeah, losing the const just to set a=
+ flag
+would be unfortunate.
 
-  Correctable memory errors are very common on servers. Soft-offline is ker=
-nel's
-  handling for memory pages having (excessive) corrected memory errors.
+> > > So just to be clear, for test_young(), I intend to have a patch in v6
+> > > to elide the shadow MMU check if the TDP MMU indicates Accessed. Seem=
+s
+> > > like a pure win; no reason not to include it if we're making logic
+> > > changes here anyway.
+> >
+> > I don't think that's correct.  The initial fast_only=3Dfalse aging shou=
+ld process
+> > shadow MMUs (nested TDP) and TDP MMUs, otherwise a future fast_only=3Df=
+alse would
+> > get a false positive on young due to failing to clear the Accessed bit =
+in the
+> > shadow MMU.  E.g. if page X is accessed by both L1 and L2, then aged, a=
+nd never
+> > accessed again, the Accessed bit would still be set in the page tables =
+for L2.
+>=20
+> For clear_young(fast_only=3Dfalse), yeah we need to check and clear
+> Accessed for both MMUs. But for test_young(fast_only=3Dfalse), I don't
+> see why we couldn't just return early if the TDP MMU reports young.
 
-  For different types of page, soft-offline has different behaviors / costs=
-.
-  - For a raw error page, soft-offline migrates the in-use page's content t=
-o
-    a new raw page.
-  - For a page that is part of a transparent hugepage, soft-offline splits =
-the
-    transparent hugepage into raw pages, then migrates only the raw error p=
-age.
-    As a result, user is transparently backed by 1 less hugepage, impacting
-    memory access performance.
-  - For a page that is part of a HugeTLB hugepage, soft-offline first migra=
-tes
-    the entire HugeTLB hugepage, during which a free hugepage will be consu=
-med
-    as migration target. Then the original hugepage is dissolved into raw
-    pages without compensation, reducing the capacity of the HugeTLB pool b=
-y 1.
+Ooh, good point.
 
-  It is user's call to choose between reliability (staying away from fragil=
-e
-  physical memory) vs performance / capacity implications in transparent an=
+> > > Oh, yeah, that's a lot more intelligent than what I had. I think I
+> > > fully understand your suggestion; I guess we'll see in v6. :)
+> > >
+> > > I wonder if this still makes sense if whether or not an MMU is "fast"
+> > > is determined by how contended some lock(s) are at the time.
+> >
+> > No.  Just because a lock wasn't contended on the initial aging doesn't =
+mean it
+> > won't be contended on the next round.  E.g. when using KVM x86's shadow=
+ MMU, which
+> > takes mmu_lock for write for all operations, an aging operation could g=
+et lucky
+> > and sneak in while mmu_lock happened to be free, but then get stuck beh=
+ind a large
+> > queue of operations.
+> >
+> > The fast-ness needs to be predictable and all but guaranteed, i.e. lock=
+less or in
+> > an MMU that takes mmu_lock for read in all but the most rare paths.
+>=20
+> Aging and look-around themselves only use the fast-only notifiers, so
+> they won't ever wait on a lock (well... provided KVM is written like
+> that, which I think is a given).
+
+Regarding aging, is that actually the behavior that we want?  I thought the=
+ plan
+is to have the initial test look at all MMUs, i.e. be potentially slow, but=
+ only
+do the lookaround if it can be fast.  IIUC, that was Yu's intent (and peeki=
+ng back
+at v2, that is indeed the case, unless I'm misreading the code).
+
+If KVM _never_ consults shadow (nested TDP) MMUs, then a VM running an L2 w=
+ill
+end up with hot pages (used by L2) swapped out.
+
+Or are you saying that the "test" could be slow, but not "clear"?  That's a=
+lso
+suboptimal, because any pages accessed by L2 will always appear hot.
+
+> should_look_around() will use the slow notifier because it (despite its n=
+ame)
+> is responsible for accurately determining if a page is young lest we evic=
+t a
+> young page.
+>=20
+> So in this case where "fast" means "lock not contended for now",
+
+No.  In KVM, "fast" needs to be a property of the MMU, not a reflection of =
+system
+state at some random snapshot in time.
+
+> I don't think it's necessarily wrong for MGLRU to attempt to find young
+> pages, even if sometimes it will bail out because a lock is contended/hel=
 d
-  HugeTLB cases.
 
-> difference in the splitting behavior, are hugepage users the only ones
-> that should be concerned with this?
+lru_gen_look_around() skips lookaround if something else is waiting on the =
+page
+table lock, but that is a far cry from what KVM would be doing.  (a) the PT=
+L is
+already held, and (b) it is scoped precisely to the range being processed. =
+ Not
+looking around makes sense because there's a high probability of the PTEs i=
+n
+question being modified by a different task, i.e. of the look around being =
+a
+waste of time.
 
-If the cost of migrating a raw page is negligible, then yes, only
-hugepage users should be concerned and think about should they disable
-soft offline.
+In KVM, mmu_lock is not yet held, so KVM would need to use try-lock to avoi=
+d
+waiting, and would need to bail from the middle of the aging walk if a diff=
+erent
+task contends mmu_lock.
 
->
-> > +When setting to 1, kernel attempts to soft offline the page when it th=
-inks
-> > +needed.  For in-use page, page content will be migrated to a new page.=
-  If
-> > +the oringinal hugepage is a HugeTLB hugepage, regardless of in-use or =
-free,
->
-> s/oringinal/original/
+I agree that's not "wrong", but in part because mmu_lock is scoped to the e=
+ntire
+VM, it risks ending up with semi-random, hard to debug behavior.  E.g. a us=
+er
+could see intermittent "failures" that come and go based on seemingly unrel=
+ated
+behavior in KVM.  And implementing the "bail" behavior in the shadow MMU wo=
+uld
+require non-trivial changes.
 
-To fix in v3.
+In other words, I would very strongly prefer that the shadow MMU be all or =
+nothing,
+i.e. is either part of look-around or isn't.  And if nested TDP doesn't fai=
+r well
+with MGLRU, then we (or whoever cares) can spend the time+effort to make it=
+ work
+with fast-aging.
 
->
-> > +it will be dissolved into raw pages, and the capacity of the HugeTLB p=
-ool
-> > +will reduce by 1.  If the original hugepage is a transparent hugepage,=
- it
-> > +will be split into raw pages.  When setting to 0, kernel won't attempt=
- to
-> > +soft offline the page.  Its default value is 1.
-> >
->
-> This behavior is the same for all architectures?
->
+Ooh!  Actually, after fiddling a bit to see how feasible fast-aging in the =
+shadow
+MMU would be, I'm pretty sure we can do straight there for nested TDP.  Or =
+rather,
+I suspect/hope we can get close enough for an initial merge, which would al=
+low
+aging_is_fast to be a property of the mmu_notifier, i.e. would simplify thi=
+ngs
+because KVM wouldn't need to communicate MMU_NOTIFY_WAS_FAST for each notif=
+ication.
 
-Yes, enable_soft_offline has the same behavior for all architectures,
-and default=3D1.
+Walking KVM's rmaps requires mmu_lock because adding/removing rmap entries =
+is done
+in such a way that a lockless walk would be painfully complex.  But if ther=
+e is
+exactly _one_ rmap entry for a gfn, then slot->arch.rmap[...] points direct=
+ly at
+that one SPTE.  And with nested TDP, unless L1 is doing something uncommon,=
+ e.g.
+mapping the same page into multiple L2s, that overwhelming vast majority of=
+ rmaps
+have only one entry.  That's not the case for legacy shadow paging because =
+kernels
+almost always map a pfn using multiple virtual addresses, e.g. Linux's dire=
+ct map
+along with any userspace mappings.
 
-It may be worth mentioning that setting enable_soft_offline to 0 means:
-- If RAS Correctable Errors Collector is running, its request to soft
-offline pages will be ignored.
-- On ARM, the request to soft offline pages from GHES driver will be ignore=
-d.
-- On PARISC, the request to soft offline pages from Page Deallocation
-Table will be ignored.
+E.g. with a QEMU+KVM setup running Linux as L2, in my setup, only one gfn h=
+as
+multiple rmap entries (IIRC, it's from QEMU remapping BIOS into low memory =
+during
+boot).
 
-I can add these clarifications in v3 if they are valuable.
+So, if we bifurcate aging behavior based on whether or not the TDP MMU is e=
+nabled,
+then whether or not aging is fast is constant (after KVM loads).  Rougly, t=
+he KVM
+side of things would be the below, plus a bunch of conversions to WRITE_ONC=
+E() to
+ensure a stable rmap value (KVM already plays nice with lockless accesses t=
+o SPTEs,
+thanks to the fast page fault path).
+
+If KVM adds an rmap entry after the READ_ONCE(), then functionally all is s=
+till
+well because the original SPTE pointer is still valid.  If the rmap entry i=
+s
+removed, then KVM just needs to ensure the owning page table isn't freed.  =
+That
+could be done either with a cmpxchg() (KVM zaps leafs SPTE before freeing p=
+age
+tables, and the rmap stuff doesn't actually walk upper level entries), or b=
+y
+enhancing the shadow MMU's lockless walk logic to allow lockless walks from
+non-vCPU tasks.
+
+And in the (hopefully) unlikely scenario someone has a use case where L1 ma=
+ps a
+gfn into multiple L2s (or aliases in bizarre ways), then we can tackle maki=
+ng the
+nested TDP shadow MMU rmap walks always lockless.
+
+E.g. again very roughly, if we went with the latter:
+
+@@ -1629,22 +1629,45 @@ static void rmap_add(struct kvm_vcpu *vcpu, const s=
+truct kvm_memory_slot *slot,
+        __rmap_add(vcpu->kvm, cache, slot, spte, gfn, access);
+ }
+=20
++static __always_inline bool kvm_handle_gfn_range_lockless(struct kvm *kvm,
++                                                         struct kvm_gfn_ra=
+nge *range,
++                                                         typedefme handler=
+)
++{
++       gfn_t gfn;
++       int level;
++       u64 *spte;
++       bool ret;
++
++       walk_shadow_page_lockless_begin(???);
++
++       for (gfn =3D range->start; gfn < range->end; gfn++) {
++               for (level =3D PG_LEVEL_4K; level <=3D KVM_MAX_HUGEPAGE_LEV=
+EL; level++) {
++                       spte =3D (void *)READ_ONCE(gfn_to_rmap(gfn, level, =
+range->slot)->val);
++
++                       /* Skip the gfn if there are multiple SPTEs. */
++                       if ((unsigned long)spte & 1)
++                               continue;
++
++                       ret |=3D handler(spte);
++               }
++       }
++
++       walk_shadow_page_lockless_end(???);
++}
++
+ static int __kvm_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range,
+                         bool fast_only)
+ {
+        bool young =3D false;
+=20
+-       if (kvm_memslots_have_rmaps(kvm)) {
+-               if (fast_only)
+-                       return -1;
+-
+-               write_lock(&kvm->mmu_lock);
+-               young =3D kvm_handle_gfn_range(kvm, range, kvm_age_rmap);
+-               write_unlock(&kvm->mmu_lock);
+-       }
+-
+-       if (tdp_mmu_enabled)
++       if (tdp_mmu_enabled) {
+                young |=3D kvm_tdp_mmu_age_gfn_range(kvm, range);
++               young |=3D kvm_handle_gfn_range_lockless(kvm, range, kvm_ag=
+e_rmap_fast);
++       } else if (!fast_only) {
++               write_lock(&kvm->mmu_lock);
++               young =3D kvm_handle_gfn_range(kvm, range, kvm_age_rmap);
++               write_unlock(&kvm->mmu_lock);
++       }
+=20
+        return (int)young;
+ }
+
+> for a few or even a majority of the pages. Not doing look-around is the s=
+ame
+> as doing look-around and finding that no pages are young.
+
+No, because the former is deterministic and predictable, the latter is not.
+
+> Anyway, I don't think this bit is really all that important unless we
+> can demonstrate that KVM participating like this actually results in a
+> measurable win.
+
+Participating like what?  You've lost me a bit.  Are we talking past each o=
+ther?
+
+What I am saying is that we do this (note that this is slightly different t=
+han
+an earlier sketch; I botched the ordering of spin_is_contend() in that one,=
+ and
+didn't account for the page being young in the primary MMU).
+
+	if (pte_young(ptep_get(pte)))
+		young =3D 1 | MMU_NOTIFY_WAS_FAST;
+
+        young |=3D ptep_clear_young_notify(vma, addr, pte);
+        if (!young)
+                return false;
+
+        if (!(young & MMU_NOTIFY_WAS_FAST))
+                return true;
+
+        if (spin_is_contended(pvmw->ptl))
+                return false;
+
+        /* exclude special VMAs containing anon pages from COW */
+        if (vma->vm_flags & VM_SPECIAL)
+                return false;
