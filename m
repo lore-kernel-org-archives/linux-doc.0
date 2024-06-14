@@ -1,102 +1,91 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42785158A17
-	for <linux-doc@vger.kernel.org>; Fri, 14 Jun 2024 15:00:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B851116C438;
+	Fri, 14 Jun 2024 15:06:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718377210; cv=none; b=mtExe3h4tYDiRomlkADUVwI3BSjRq5ks7zdHaf6WaY+zXXixfAXtuW+5QKGYKZ4PlHTxsqu/X//Fy9ezW5UqbRgXDdxArrBAWVg3qqepCKK1wHzNZzfXK4/Rmp+mNBXqL6mmma4thV+eocmjt/4/BvVzE7/RvO30Vk0fvB1hPP4=
+	t=1718377582; cv=none; b=WyDg/4bfFLcpwsUh+kNuh3cNEkQPymPOJJ/0P/OP5sQsdnz0mk3PuIedBbXz89KtT9AYllnC40lsvPHo2xQp0ENqvTTEg8lrduUhc99jY0hu4Y2yrFjMzfMDl2dIeglIaBfUaJyN9EUIAASviJm8KUShgB/zx1HKm1gn9as/uOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718377210; c=relaxed/simple;
-	bh=3F2knH2K1LJ/XJ6dM6L+kEtyFuqdZt9D2ei175bUrWU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gMcYo1tW5LzIqyzjndADDHo/MQpNaqbAdtyQlsk25xU8amumw3IEF1xIRDvXZ7g+594zO1pQpY3PJgO2RH8mVFlCDmpWEzwduwxeWYBINeJuluWUrQCK2qxEFaosihmiYWqZGupwf0wYz1CtYbAaBsFcSybO+Lbo0l8tA8h/avM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HNor18Iq; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1718377582; c=relaxed/simple;
+	bh=34ohSfG/19qWn2etFbhp9iM+FQgkPY8fkgZFPwCTa0Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sg6NSQzEgGUiAummkXLjxRuwo6FqdsO7Llxrg41vr95nxA6xBYa1vskSTXS4kbpIQrFYAN+gzINRYmvIVR2Fecf0mTj7cRYXwFDKC0fZ00LnOEY4qV7Bb3vgp02y44qPR9YI/PKmyQFX8efIbVNmoL9+Jcv8DrxVcM10r4oTrvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=m+GJT4R1; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HNor18Iq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718377207; x=1749913207;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3F2knH2K1LJ/XJ6dM6L+kEtyFuqdZt9D2ei175bUrWU=;
-  b=HNor18IqlraZWCdDya4Sseb5EwKMpALnt9IjAvV+6sV0uhaAFbgffXSj
-   HOWa1uQScDMGIaoLw/+sLs9yXOpOzI6fQBmIgDA1QNA/bc0vd0iA09SvF
-   FbRHTeDuxd+Nc5nOXA4aj/qPozGAuJWFprTZ7bHSeprmqC/LiWX91qu5v
-   njBRbtgxqDWFt3hlElirvz76lL6gvEggcV60BdXhD5e8ur44J+/7MAESt
-   Blkt55hf41o4LwV0Hd6VGxFYRL+SLCJKPDLMAOjc7bP5Jl0krpnQC2Bfe
-   OVW1kZydB6GUEtnlm7eS0DQLrkoa/52U5crlFbyHjKcRkZZGPl/S2QMRF
-   w==;
-X-CSE-ConnectionGUID: zcs7DmXgTmqvN2sYz1dD/w==
-X-CSE-MsgGUID: k7t+9qRbTHWPbNXowC2Ahw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="26662646"
-X-IronPort-AV: E=Sophos;i="6.08,238,1712646000"; 
-   d="scan'208";a="26662646"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2024 08:00:06 -0700
-X-CSE-ConnectionGUID: KgSADDZWTuuDv/8hK3xINA==
-X-CSE-MsgGUID: +DQ9X1eGQ+GiQNAtnrYZkQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,238,1712646000"; 
-   d="scan'208";a="40655809"
-Received: from lkp-server01.sh.intel.com (HELO 9e3ee4e9e062) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 14 Jun 2024 08:00:05 -0700
-Received: from kbuild by 9e3ee4e9e062 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sI8PL-0001Qn-09;
-	Fri, 14 Jun 2024 15:00:03 +0000
-Date: Fri, 14 Jun 2024 22:59:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: James Morse <james.morse@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-doc@vger.kernel.org
-Subject: [morse:mpam/snapshot/v6.10-rc1 95/114]
- drivers/platform/arm64/mpam/mpam_resctrl.c:33: warning: This comment starts
- with '/**', but isn't a kernel-doc comment. Refer
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202406142227.9SGqPIPG-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="m+GJT4R1"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=TPWeQET4FCKXxDGX1xF4koHOa0ZvF4mNa6FEu8k1Afo=; b=m+GJT4R19N7iFPs+QEnUVDnoI0
+	QHj72LwHtAWCxFgRBHh5R2WW82+URvw6y6pjl4wJbX0yFQm22cJ0E7T7bDP6z6a/lvOwppc2+VNSm
+	w+JaUFORMm0qz65yJb7Oz6Fl2sBeranqE4qXNYEkkEyjlCtgqcx8HS1NyL+xbDNjw+gcf1VzKemNI
+	DxOQXGeSiNbDiCgOsOySVd57JvCi4Zn5P90UxzxH+PfaiL0ZHNjk/Lqjpp5R1ZlQ8qF19Q385AlQK
+	XgtjDh1i44L19MjE/6dYtlJOXtc0uV5Vcps5tiLjMeSLhpqKysqVZ8+dPibjtUF7h/gNDP++aYeY1
+	iLQOJq9g==;
+Received: from [50.53.4.147] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sI8VM-000000039lw-476j;
+	Fri, 14 Jun 2024 15:06:17 +0000
+Message-ID: <cb3613ed-210f-4fd2-bca3-28542c1b961c@infradead.org>
+Date: Fri, 14 Jun 2024 08:06:12 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/snapshot/v6.10-rc1
-head:   d9ba67a1a8dc6551a0b3254a8f2ee9993ad17957
-commit: b3015be71d9bb40b55d832bdcc6b4641cbce3ba1 [95/114] untested: arm_mpam: resctrl: Add support for csu counters
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20240614/202406142227.9SGqPIPG-lkp@intel.com/config)
-compiler: clang version 19.0.0git (https://github.com/llvm/llvm-project 78ee473784e5ef6f0b19ce4cb111fb6e4d23c6b2)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240614/202406142227.9SGqPIPG-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406142227.9SGqPIPG-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/platform/arm64/mpam/mpam_resctrl.c:33: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * The classes we've picked to map to resctrl events.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: Remove "ltpc=" from the
+ kernel-parameters.txt
+To: Thomas Huth <thuth@redhat.com>, linux-doc@vger.kernel.org,
+ netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
+References: <20240614084633.560069-1-thuth@redhat.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240614084633.560069-1-thuth@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
-vim +33 drivers/platform/arm64/mpam/mpam_resctrl.c
 
-    31	
-    32	/**
-  > 33	 * The classes we've picked to map to resctrl events.
-    34	 * Resctrl believes all the worlds a Xeon, and these are all on the L3. This
-    35	 * array lets us find the actual class backing the event counters. e.g.
-    36	 * the only memory bandwith counters may be on the memory controller, but to
-    37	 * make use of them, we pretend they are on L3.
-    38	 * Class pointer may be NULL.
-    39	 */
-    40	static struct mpam_class *mpam_resctrl_counters[QOS_NUM_EVENTS];
-    41	
+On 6/14/24 1:46 AM, Thomas Huth wrote:
+> The string "ltpc" cannot be found in the source code anymore. This
+> kernel parameter likely belonged to the LocalTalk PC card module
+> which has been removed in commit 03dcb90dbf62 ("net: appletalk:
+> remove Apple/Farallon LocalTalk PC support"), so we should remove
+> it from kernel-parameters.txt now, too.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 423427bf6e49..a9b905bbc8ca 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -3184,9 +3184,6 @@
+>  			unlikely, in the extreme case this might damage your
+>  			hardware.
+>  
+> -	ltpc=		[NET]
+> -			Format: <io>,<irq>,<dma>
+> -
+>  	lsm.debug	[SECURITY] Enable LSM initialization debugging output.
+>  
+>  	lsm=lsm1,...,lsmN
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+~Randy
