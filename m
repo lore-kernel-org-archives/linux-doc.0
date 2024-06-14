@@ -1,92 +1,145 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8098614A4CF;
-	Fri, 14 Jun 2024 20:33:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39387A954;
+	Fri, 14 Jun 2024 21:17:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718397194; cv=none; b=RHugzJf/hr6gaw8C40V8bO7B/4aHmhZxfHC3k27xTjREJ0EcUHPDFICGrju6F7GmKt523ZPgCKzM3iOsza4agzI6EqOR2RMME2+OF/cH0q3EUg8xU10mirwzbtKbNyLQESHXe0Yuqxysthzz176DpGjHVo5ZKDI2woezFokM8Rg=
+	t=1718399846; cv=none; b=PEVRAyI167vf0AgQMPRZHGM4wVmgvXsNYkyEyajgXuvD85MMDH8TACML6iYFONE2V+zzIdF8IOIEWNzDb3OZ4BRMyfoIYa4C8fO4sOHMPTHgiFArHannTeo4y6NmRFIfD2fw3E+D1VxIA5pzB0dNHIPfGTega8SuYFbYDy6tz28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718397194; c=relaxed/simple;
-	bh=SrGQawhOHAt457GSz0TS370IrGd04m3neidTOhOoNRc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NujPResWFzUCHGLPYXV6UXfRuL7iV4tT5lP1ChHB2WjQwFF8lcbAwr5ExAEN7N6kVqW061jgtk8XmAzfnnfNb+mC/UH22gdk6gdfpkjNZFzoZa4lnuBQiJxpPR/Ihcy/BTtoJWSlF9olFapaSW5JOH8+hcIhr1ZlsXRBzVuEujc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=r5hIFyDr; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1718399846; c=relaxed/simple;
+	bh=McBTJ+sltYsxBktEenpEv8nVR5RGDdPc4GIejXNQ7GQ=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Gpg7JF45X+L+iAjUaliSxNEY5RQd5OZCZkgiKnJ2YikVr0twNjV2/L4lLdmHj8nIxn4r/+0ALLWgCPXbndavmwuB0Y3m5TDBQaSfp31OFEIE6TPpDUWVge3RHCW8qi7Iqif/fnr1+A2fN9X/9JTeS9VzRIH33yAQyXl9Nx9O8lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QRD5gNqg; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="r5hIFyDr"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=Cpw5+2dcDOhDIommnV7v8AYXOFdFgYf0SjEsdScsFTw=; b=r5hIFyDrIjPgp34N/pO+OPmmRE
-	dhLoLl/KGFHizzLnG3cL+gLl+w1cIyxmVMgpEo+vYJJ/mKaw5AuY36ZiuyJcp184RAmYG8BL0vxFD
-	mw6vnJXgyPk+1Veoi9ku7+vpG0y3qmD0ukEORYGpjmE2xAcyJgkGhusKHM02aXG1Oh4inhDBbvWfq
-	LV2PxkaYbxctUzTkJAEyo54+JL+Zt/9ULsxcPKSrhbkKHUtYd4m2Wn5O+ZB/9Ie6ZogNY9f8FXdj1
-	/1nyuwivrizYyHc66fb8oigP1dgXxRWBGQIfqV42kmtAU7/7Qd1p0ZkIeS4UuPk+bGLB9JIPgTe+x
-	4HNPATOw==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sIDbj-000000040Hw-0A7O;
-	Fri, 14 Jun 2024 20:33:11 +0000
-Message-ID: <621856c3-50be-44d4-aafd-f08338f1c639@infradead.org>
-Date: Fri, 14 Jun 2024 13:33:09 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QRD5gNqg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718399845; x=1749935845;
+  h=message-id:subject:from:reply-to:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=McBTJ+sltYsxBktEenpEv8nVR5RGDdPc4GIejXNQ7GQ=;
+  b=QRD5gNqg+C7DKcsMZuycq8QqRuFtOOpEyrr9d23RDy10OSHfJpeUWRZC
+   14cB5dr/N2Xg/GIpMGpbVc/H4mTpLtZjhwvuxF5j/4DYvuiWRGGDXKeWT
+   sYxoVRCzXkXzUfUNk4JzjU/n2xy2RupNJiPxR9YdD30+vLK+Q/jlJilwM
+   REI0j8cb0FstatdJ+jU80uy3OVC5P51aPd3hXsUot6V0DTR5u1p6at24O
+   PcphnS04MlNhPUOh8cYt+sEy8rhlazOXhEtIPNwMTxIuI5zi7H37QvdpH
+   8JwmFkxZe3CzSBD3cU2VIeX+G1dG9qnblB3HG3zynLikF5uwzzS6JdV5u
+   w==;
+X-CSE-ConnectionGUID: UZwarCG9Rc+oWntG4qpRKg==
+X-CSE-MsgGUID: i7aELlDaQAShZsrIJOPVoQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11103"; a="19090581"
+X-IronPort-AV: E=Sophos;i="6.08,238,1712646000"; 
+   d="scan'208";a="19090581"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2024 14:17:24 -0700
+X-CSE-ConnectionGUID: eWxmCZTOQWO5V/nWb63gTA==
+X-CSE-MsgGUID: Nm2hoDPzTV64lh3kZKJFkA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,238,1712646000"; 
+   d="scan'208";a="45721702"
+Received: from mabueed-mobl.amr.corp.intel.com ([10.209.6.246])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2024 14:17:24 -0700
+Message-ID: <c58a850758d106f9613c9ba5882e9988712394de.camel@linux.intel.com>
+Subject: Re: [PATCH V4 1/3] platform/x86/intel/sdsi: Add ioctl SPDM transport
+From: "David E. Box" <david.e.box@linux.intel.com>
+Reply-To: david.e.box@linux.intel.com
+To: Lukas Wunner <lukas@wunner.de>
+Cc: linux-doc@vger.kernel.org, ilpo.jarvinen@linux.intel.com, 
+	hdegoede@redhat.com, linux-kernel@vger.kernel.org, 
+	platform-driver-x86@vger.kernel.org
+Date: Fri, 14 Jun 2024 14:17:23 -0700
+In-Reply-To: <ZmRSwpRWEgw2GxF1@wunner.de>
+References: <20240608034247.181843-1-david.e.box@linux.intel.com>
+	 <ZmRSwpRWEgw2GxF1@wunner.de>
+Organization: David E. Box
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: Remove unused "mtdset=" from
- kernel-parameters.txt
-To: Thomas Huth <thuth@redhat.com>, linux-doc@vger.kernel.org,
- Krzysztof Kozlowski <krzk@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Alim Akhtar <alim.akhtar@samsung.com>, Russell King <linux@armlinux.org.uk>,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- arnd@arndb.de
-References: <20240614182508.600113-1-thuth@redhat.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240614182508.600113-1-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
+Hi Lukas,
 
+On Sat, 2024-06-08 at 14:46 +0200, Lukas Wunner wrote:
+> > On Fri, Jun 07, 2024 at 08:42:45PM -0700, David E. Box wrote:
+> > > > Intel On Demand adds attestation and firmware measurement retrieval
+> > > > services through use of the protocols defined the Security Protocol=
+s and
+> > > > Data Measurement (SPDM) specification. SPDM messages exchanges are =
+used
+> > > > to
+> > > > authenticate On Demand hardware and to retrieve signed measurements=
+ of
+> > > > the
+> > > > NVRAM state used to track feature provisioning and the NVRAM state =
+used
+> > > > for
+> > > > metering services. These allow software to verify the authenticity =
+of
+> > > > the
+> > > > On Demand hardware as well as the integrity of the reported silicon
+> > > > configuration.
+> > > >=20
+> > > > Add an ioctl interface for sending SPDM messages through the On Dem=
+and
+> > > > mailbox. Provides commands to get a list of SPDM enabled devices, g=
+et
+> > > > the
+> > > > message size limits for SPDM Requesters and Responders, and perform=
+ an
+> > > > SPDM
+> > > > message exchange.
+> >=20
+> > I've amended the in-kernel SPDM implementation to expose signatures
+> > received from the device in sysfs, together with all ancillary data
+> > necessary to re-verify signatures from user space (transcript, hash
+> > algorithm, etc).=C2=A0 It is also possible to set the next requester no=
+nce
+> > from user space if the kernel is mistrusted to always use a fresh nonce=
+.
+> >=20
+> > See the two top-most commits on this branch:
+> >=20
+> > https://github.com/l1k/linux/commits/doe
+> >=20
+> > I intend to submit these patches by end of June.=C2=A0 There are two th=
+ings
+> > still missing before I can resubmit:=C2=A0 Exposure of certificate chai=
+ns in
+> > sysfs (currently a WIP) and expiration of older signatures (to limit th=
+e
+> > amount of memory consumed for their storage).=C2=A0 After submission, I=
+ intend
+> > to forward-port your measurement patch in Q3.
+> >=20
+> > I recall S3M folks rejected use of the in-kernel SPDM implementation fo=
+r
+> > SDSi because it previously didn't allow for re-verification of signatur=
+es
+> > by user space.
 
-On 6/14/24 11:25 AM, Thomas Huth wrote:
-> The kernel parameter "mtdset" has been removed two years ago in
-> commit 61b7f8920b17 ("ARM: s3c: remove all s3c24xx support") and
-> thus should be removed from the documentation now, too.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+Yes, this was the main reason for not going with the in-kernel solution.
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> > =C2=A0 Perhaps with the added functionality they'll reconsider?
 
-Thanks.
+Q3 is too late for their needs. They want to proceed with the driver soluti=
+on.
+We can push for using the in-kernel solution when it is upstreamed. I think=
+ this
+will be possible when they extend support beyond SPDM v1.0.
 
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 5 -----
->  1 file changed, 5 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 87d5bee924fe..ff02e1a02e12 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -3631,11 +3631,6 @@
->  	mtdparts=	[MTD]
->  			See drivers/mtd/parsers/cmdlinepart.c
->  
-> -	mtdset=		[ARM]
-> -			ARM/S3C2412 JIVE boot control
-> -
-> -			See arch/arm/mach-s3c/mach-jive.c
-> -
->  	mtouchusb.raw_coordinates=
->  			[HW] Make the MicroTouch USB driver use raw coordinates
->  			('y', default) or cooked coordinates ('n')
+David
 
--- 
-~Randy
+> >=20
+> > Thanks,
+> >=20
+> > Lukas
+
