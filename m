@@ -1,140 +1,241 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A627A146D73
-	for <linux-doc@vger.kernel.org>; Fri, 14 Jun 2024 04:40:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+Received: from hust.edu.cn (unknown [202.114.0.240])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B665145B34;
+	Fri, 14 Jun 2024 05:54:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.114.0.240
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718340040; cv=none; b=nO7auRl0CdzVrMkxb7Rg9atT62Q3z0yeui3aFO3BPV2paYodKyGtdqXEFqG/fnRmGuP+jSw6//kieuHba04y5Mj90mFmiw+WmYKdf/c+l/Vx2tHXtBxodNDNENtMUsiDWBmZJcqRJ1Xwi9qYlLORyA8mdvdh9MOCuHM2h8ntf0s=
+	t=1718344493; cv=none; b=HiKFrCJY8FkCOkqLLSQhLMAza8GnDcCrsyaRkRZE2WhKRM5W0wN+DeD62CoSTycexEq5wBqvA+43XH6wl0EcKpy+G20nc0ROIqZpdT9pzzPhlyKL1ylcz1Ks0SvdOK/8nLj8PyZR0qBFUTtoxY0tnhbwgFTzgHUUfV+SugO/txE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718340040; c=relaxed/simple;
-	bh=eNn5sF/0OujnxZsAQT7n4zaO4fElnsdrJ3NYPpfOQHs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=slvEtx1G32GmXzdTh+Vx5LyDn8oeX+bhUV5CLqx8S7aIaULe8lx4rSPoTk1LaYY7G34agVSeVnfP/Xxv8/4nw7dgV3ntqXn2WgsIki/0ew1XPzRUX2LYC40p4NRa4BJZeDX5T9FnFzvrOa1+YQ1u8ymbB5sXeIpGZ1pvv0OqhJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MrXkLg84; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MrXkLg84"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-52bc29c79fdso2387543e87.1
-        for <linux-doc@vger.kernel.org>; Thu, 13 Jun 2024 21:40:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718340037; x=1718944837; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kR7b6aZyZ2ErhsA0LvgqlgbPkmTng+vkDIc2255311w=;
-        b=MrXkLg84ZY8N2IswP1VtCmWEMTWgpWhAr/qg3y8gs/+8Wx/oebkTeiuJu+6sJ1EvEw
-         YD+tIMD0SMCaEoPpULoSZLbbWootuBMNRs9rOQF1RUN1mihgSq5XfzJQ7aVPG8BaWahT
-         FqvAnprGnMXDtl7l2CZ0Zy5UyQRJ/oINfqieGSf2YX2j724AcEsQSRKj2jHxlAGXBSNl
-         8jkIVFH9GtMS2wGn5UfBZ4Ziqg9DgOtozLEmmt0Xv/uLq6j72M6kfLPFfEe9qkYaeNV7
-         6M8cPpy9I8Hm4BN12Z9kO8m5CdMyJ2SOzblaIDSJ6wuinw8Oz/OD5Rl4ertjC0OOVXI5
-         zuWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718340037; x=1718944837;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kR7b6aZyZ2ErhsA0LvgqlgbPkmTng+vkDIc2255311w=;
-        b=Gzis3NGRKWZlZMOMYFKIgXxrG/sm+htYOxFjSRPXmEFfcKLG9IekYMTzsz0GVQbALW
-         os3jRNKcxGT0tQkPkcJDIxoBVvLLNwm8wrsXshhEsyyr9/eaCCaUIUKmT2P0wZhiAHVB
-         W+wRaHQR7CHY80dZJ+Jv7oKs6Df5ZOEcly7YX40/DydR2RC26yhR6RHjjNUzxIvirsVZ
-         nXdBgw4Vjd18BCO5HjndZnyxlAZN9YCVM9ToUANkn9FRrHf1odsUsW2jKRM4CU/J/i7O
-         VQNNBJX+oYqN2VABo2aLz86ythJa2Qgol2yiuxRbDbYzIrvQ4Q4K/TxRr0GtCN6KSMRA
-         D5xA==
-X-Forwarded-Encrypted: i=1; AJvYcCXtIZ8BUYWJvjtLczh28kQRrsIzmiu/DdZZuDyNDJo536eZbw9lwSVErEWaJ7JWQF/TgImvt29t7djWeFTl44bas5FM0/tsVXIQ
-X-Gm-Message-State: AOJu0YyrhHBunA/dlnKCNlESqHqB1jYMm0z6XhpYoe0bos0ozL73WpBB
-	XRL4xvEnfEWjVxIHrv5cWAr9Hr70o3C7tjf6gBwh6TRkW+MX7YFppQBzUt3zQaxl5pIFqJUdeCn
-	zRQ6ISRhZiwdn80SIzeBbFfLG0YZnqMPtHpQ3
-X-Google-Smtp-Source: AGHT+IF+QwVsnGgzoMf0Qw+xtz4R8CDXmuxU4LRGzv8WS6/BQHNgwgM8v9u52HDoANwX7UmBcb4VUEBhXtKfrjHouB0=
-X-Received: by 2002:a19:6449:0:b0:52c:84ac:8fa2 with SMTP id
- 2adb3069b0e04-52ca6e56eb8mr1005405e87.7.1718340036348; Thu, 13 Jun 2024
- 21:40:36 -0700 (PDT)
+	s=arc-20240116; t=1718344493; c=relaxed/simple;
+	bh=melpIGiybzqIL7gUJqXh2BV13U6xWySUjgQnFJKEXy8=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Y2mbMJU5k88DXKqkyIBBZUCJnk28fQn0kn/zz1vuamrP05Q05u5Rf1v0PSvdyn4q9bF6cTF7z65Z8ImAk6gM8AUMCPR8THJsu4oN2nlwsXGtEsc+BXzmoBnBfcvjXkMOQaqV901ig11NOu3NBXDKlKDLlKKMGJSuhGlXA9BoFl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=202.114.0.240
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.50])
+	by app2 (Coremail) with SMTP id HwEQrAD3Tsf_2mtmX6tzAQ--.23480S2;
+	Fri, 14 Jun 2024 13:54:07 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.12.164.29])
+	by gateway (Coremail) with SMTP id _____wCnMN_k2mtmS_QkAA--.8520S3;
+	Fri, 14 Jun 2024 13:54:04 +0800 (CST)
+From: Dongliang Mu <dzm91@hust.edu.cn>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Alex Shi <alexs@kernel.org>,
+	Yanteng Si <siyanteng@loongson.cn>,
+	Dongliang Mu <dzm91@hust.edu.cn>
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] doc-guide: add help documention checktransupdate.rst
+Date: Fri, 14 Jun 2024 13:53:21 +0800
+Message-Id: <20240614055328.778041-2-dzm91@hust.edu.cn>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240614055328.778041-1-dzm91@hust.edu.cn>
+References: <20240614055328.778041-1-dzm91@hust.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240613013557.1169171-1-almasrymina@google.com> <20240613183453.2423e23b@kernel.org>
-In-Reply-To: <20240613183453.2423e23b@kernel.org>
-From: Mina Almasry <almasrymina@google.com>
-Date: Thu, 13 Jun 2024 21:40:24 -0700
-Message-ID: <CAHS8izNqMOAONExpBwtJBqseRnyv+ukw5LbFdevQXD4zc+7thg@mail.gmail.com>
-Subject: Re: [PATCH net-next v12 00/13] Device Memory TCP
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Richard Henderson <richard.henderson@linaro.org>, 
-	Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner <mattst88@gmail.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Sergey Shtylyov <s.shtylyov@omp.ru>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
-	Nikolay Aleksandrov <razor@blackwall.org>, Pavel Begunkov <asml.silence@gmail.com>, David Wei <dw@davidwei.uk>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>, 
-	Shailend Chand <shailend@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HwEQrAD3Tsf_2mtmX6tzAQ--.23480S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoW3Gw1DWr4DXw1fZw1UZFWUurg_yoWxCry7pa
+	43KryxJ3WkK34jyr1fK34DZr15Aa1xCa12gF1Iq3ZYqrn8AwnYqrW7t34rKrWDGryrZayY
+	qFWYkrW0krWSva7anT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUm2b7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
+	1Y6r17M2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVWxJVW8Jr1l
+	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxAIw2
+	8IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AK
+	xVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67
+	AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI
+	42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMI
+	IF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVF
+	xhVjvjDU0xZFpf9x07jq1v3UUUUU=
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-On Thu, Jun 13, 2024 at 6:35=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
->
-> On Thu, 13 Jun 2024 01:35:37 +0000 Mina Almasry wrote:
-> > v12: https://patchwork.kernel.org/project/netdevbpf/list/?series=3D8597=
-47&state=3D*
->
-> patches 5 and 6 transiently break the build
->
-> ../include/trace/events/page_pool.h:65:23: error: use of undeclared ident=
-ifier 'NET_IOV'
->    65 |                   __entry->netmem & NET_IOV, __entry->pfn, __entr=
-y->release)
->       |                                     ^
-> ../include/trace/events/page_pool.h:91:23: error: use of undeclared ident=
-ifier 'NET_IOV'
->    91 |                   __entry->netmem & NET_IOV, __entry->pfn, __entr=
-y->hold)
->       |                                     ^
->
-> Looking at NIPA status the builders are 12h behind, so please don't
-> repost immediately. This series takes a lot of compute cycles to build.
->
-> FWIW there is a docker version of NIPA checks in the nipa repo.
->
-> https://github.com/linux-netdev/nipa/tree/main/docker
->
-> IDK if it still works, but could help avoid mistakes..
+This commit adds help documents - Documentation/doc-guide/checktransupdate.rst
+for scripts/checktransupdate.py, including English and Chinese versions
 
-My sincere apologies. I have trouble with the patch-by-patch
-allmodconfig build being very slow on my setup with the headers I'm
-touching, and I've been running into false positives with the C=3D1 &
-W=3D1 checks. I've been trying to look at the nipa scripts and porting
-them over to my setup. I'll take a look at the docker image and if
-not, at least make sure the patch-by-patch allmodconfig with C=3D1 and
-W=3D1 is working.
+Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+---
+ Documentation/doc-guide/checktransupdate.rst  | 63 +++++++++++++++++++
+ Documentation/doc-guide/index.rst             |  1 +
+ .../zh_CN/doc-guide/checktransupdate.rst      | 62 ++++++++++++++++++
+ .../translations/zh_CN/doc-guide/index.rst    |  1 +
+ 4 files changed, 127 insertions(+)
+ create mode 100644 Documentation/doc-guide/checktransupdate.rst
+ create mode 100644 Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
 
---=20
-Thanks,
-Mina
+diff --git a/Documentation/doc-guide/checktransupdate.rst b/Documentation/doc-guide/checktransupdate.rst
+new file mode 100644
+index 000000000000..ec218c883b31
+--- /dev/null
++++ b/Documentation/doc-guide/checktransupdate.rst
+@@ -0,0 +1,63 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Check translation update
++==========================
++
++This script helps track the translation status of the documentation in
++different locales, i.e., whether the documentation is update-to-date with
++the English conterpart.
++
++How it works
++------------
++
++It uses ``git log`` command to track the latest English commit from the
++translation commit (order by author date) and the latest English commits
++from HEAD. If any differences occur, the file is considered as out-of-date,
++then commits that need to be updated will be collected and reported.
++
++Features implemented
++--------------------
++
++-  check all files in a certain locale
++-  check a single file or a set of files
++-  provide options to change output format
++
++Usage
++-----
++
++::
++
++   checktransupdate.py [-h] [-l LOCALE] [--print-commits | --no-print-commits] [--print-updated-files | --no-print-updated-files] [--debug | --no-debug] [files ...]
++
++Options
++~~~~~~~
++
++-  ``-l``, ``--locale``: locale to check when file is not specified
++-  ``--[no-]print-commits``: whether to print commits between origin and
++   translation
++-  ``--[no-]print-updated-files``: whether to print files that do no
++   need to be updated
++-  ``files``: files to check, if this option is specified, the locale
++   option will be ignored.
++
++Samples
++~~~~~~~
++
++-  ``./scripts/checktransupdate.py -l zh_CN``
++   This will print all the files that need to be updated in the zh_CN locale.
++-  ``./scripts/checktransupdate.py Documentation/translations/zh_CN/process/coding-style.rst``
++   This will only print the status of the specified file.
++
++Then the output is something like:
++
++::
++
++    Documentation/translations/zh_CN/process/coding-style.rst       (2 commits)
++    commit 6813216bbdba ("Documentation: coding-style: ask function-like macros to evaluate parameters")
++    commit 185ea7676ef3 ("Documentation: coding-style: Update syntax highlighting for code-blocks")
++
++Features to be implemented
++----------------------------
++
++- track the translation status of files that have no translation
++- files can be a folder instead of only a file
+\ No newline at end of file
+diff --git a/Documentation/doc-guide/index.rst b/Documentation/doc-guide/index.rst
+index 7c7d97784626..24d058faa75c 100644
+--- a/Documentation/doc-guide/index.rst
++++ b/Documentation/doc-guide/index.rst
+@@ -12,6 +12,7 @@ How to write kernel documentation
+    parse-headers
+    contributing
+    maintainer-profile
++   checktransupdate
+ 
+ .. only::  subproject and html
+ 
+diff --git a/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst b/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
+new file mode 100644
+index 000000000000..ce1165de1343
+--- /dev/null
++++ b/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
+@@ -0,0 +1,62 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/doc-guide/checktransupdate.rst
++
++:译者: 慕冬亮 Dongliang Mu <dzm91@hust.edu.cn>
++
++检查翻译更新
++=============
++
++这个脚本帮助跟踪不同语言的文档翻译状态，即文档是否与对应的英文版本保持更新。
++
++工作原理
++------------
++
++它使用 ``git log`` 命令来跟踪翻译提交的最新英文提交（按作者日期排序）和英文文档的
++最新提交。如果有任何差异，则该文件被认为是过期的，然后需要更新的提交将被收集并报告。
++
++实现的功能
++--------------------
++
++- 检查特定语言中的所有文件
++- 检查单个文件或一组文件
++- 提供更改输出格式的选项
++
++用法
++-----
++
++::
++
++   checktransupdate.py [-h] [-l LOCALE] [--print-commits | --no-print-commits] [--print-updated-files | --no-print-updated-files] [--debug | --no-debug] [files ...]
++
++选项
++~~~~~~~
++
++-  ``-l``, ``--locale``: 检查指定的文件语言，如果未指定文件
++-  ``--[no-]print-commits``: 是否打印英文原始版本和翻译版本之间的提交
++-  ``--[no-]print-updated-files``: 是否打印无需更新的文件
++-  ``files``: 要检查的文件，如果指定了此选项，将忽略语言选项
++
++示例
++~~~~~~~
++
++-  ``./scripts/checktransupdate.py -l zh_CN``
++   这将打印 zh_CN 语言中需要更新的所有文件。
++-  ``./scripts/checktransupdate.py Documentation/translations/zh_CN/process/coding-style.rst``
++   这将只打印指定文件的状态。
++
++然后输出类似如下的内容：
++
++::
++
++    Documentation/translations/zh_CN/process/coding-style.rst       (2 commits)
++    commit 6813216bbdba ("Documentation: coding-style: ask function-like macros to evaluate parameters")
++    commit 185ea7676ef3 ("Documentation: coding-style: Update syntax highlighting for code-blocks")
++
++待实现的功能
++-------------
++
++- 跟踪没有翻译过的文件的翻译状态
++- 文件参数可以是文件夹而不仅仅是单个文件
+\ No newline at end of file
+diff --git a/Documentation/translations/zh_CN/doc-guide/index.rst b/Documentation/translations/zh_CN/doc-guide/index.rst
+index 78c2e9a1697f..0ac1fc9315ea 100644
+--- a/Documentation/translations/zh_CN/doc-guide/index.rst
++++ b/Documentation/translations/zh_CN/doc-guide/index.rst
+@@ -18,6 +18,7 @@
+    parse-headers
+    contributing
+    maintainer-profile
++   checktransupdate
+ 
+ .. only::  subproject and html
+ 
+-- 
+2.39.2
+
