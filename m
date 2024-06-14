@@ -1,79 +1,121 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0BCD192B78
-	for <linux-doc@vger.kernel.org>; Fri, 14 Jun 2024 09:43:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A07D12F5A0
+	for <linux-doc@vger.kernel.org>; Fri, 14 Jun 2024 10:03:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718358194; cv=none; b=IenlR6OIUbyaUjLDa0u1sjPX5eL+r2ay7WS2omwX6p9w2yNBhLE1OEWytMNugFw1b/BBJafqjxTPmTYLOFrMAswNcG1hXSPZHPeO1Tw5cj3L0XLmNzWT8nzpinlLiH+nAtZguSSrVybhDQtvI8lSZwQCwkanMYWyvCMxlLeTjck=
+	t=1718359385; cv=none; b=aLOk4eCv95MGEQD9I72YHoXAq05p6nU7yK9vpllhRrFm9+LFzmCluhnnD8WK7e7LaVSkob95IK5RN8V5+l1+9ZUdUDhwJxAKe2DQ8xWH10KTwi2LqBuZt3DAS6vss5Os8tCzKsJzC+cfT57D5v68/xhgaiZ/37IitTpZhyM8k/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718358194; c=relaxed/simple;
-	bh=tLQgAiSqIKd8Fr/cSViZ1UALzCWG3iDxmInXrEl5pr8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ilJoUtqtwkL+a/BHFPK+Z9SueWjzMDwpP7fO/5WuCuK6pNt9Q/b8rGLKOwFAxK445nUjGFtiDwuE7aKavUUHxg5KBACH/5wATMyhG30stUEcSNhMaFiI4JWkuxUHtrwxE0fCK5BbZqPsbBXbTigT251NVJSxuYiZFGbVCPhGQl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mEYuxDYT; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1718359385; c=relaxed/simple;
+	bh=pAHj4WCEYsPaZ7guGi86eSiZcgNHGNgnhFZ2CmMHITg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ILtBdm7zu4ncRrnr97SC0BAosfl8gVdWnDRHA4GWmz1O2IQKAqREJD9a4P42pwc/rC4Bp1JEGLFPq+XfIIWs6bYNhmV+Ur6QD5eUQCmkTUCs6RFDNSs9AF3efUWtGHtIZ+jV+luWaKfw8/WAqvYtKuU2lgKZy1isPHeJLnD6zKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=RVVKhdFD; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mEYuxDYT"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-57a16f4b8bfso12640a12.0
-        for <linux-doc@vger.kernel.org>; Fri, 14 Jun 2024 02:43:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718358191; x=1718962991; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tLQgAiSqIKd8Fr/cSViZ1UALzCWG3iDxmInXrEl5pr8=;
-        b=mEYuxDYTGkcb+LpOwFZdoMmdKeAT0qXZBHdA7gW3HmyuQw1EW4yhXGppW+jtels5AK
-         sUCMTpKZmYgc70c09qQmkMPbr9HtHfwxiMsSKHM2ha1Y6YnVC4lSadtgAL6U9e/k83Bh
-         /nqRbDgxBns1FemuLtBm0ZeokLXTl4Rt8aBqjlNY0I+tOveot12vMaJySH0yPVYzJu1P
-         EWI5nLqADRfWwNOXgAM8aLI23ymDpwzsoFj4EGhONJ9991YSPd4VR0WgUljDC/u1zCGF
-         g8T6mtNo1PTP9b+ldD7DtE4CAjOV6vxqoQ6NSSgHkkxrXVrEgP6RShxSseXbXCoWC3CM
-         n3oA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718358191; x=1718962991;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tLQgAiSqIKd8Fr/cSViZ1UALzCWG3iDxmInXrEl5pr8=;
-        b=EIyNjlxD93+6+TFzgp9Nd6EbZbB/G4lEoeMtJ88LxczcEmXQ2c5Fnfxp14ilXyyF6n
-         Uxa4rc4zhpeX5olRenVPwBTQOndmWOmx5/R+2T1D0RpZ27Pqv0yJotfIF+xv+VmH2ce5
-         voyArHBuODMYOEMbTuJq7xukD2WQuLe9GjaNWip2B7TKYnqM+W6FZOZquQg5HXqsJpWR
-         QMRZPi7th2aZOcnt3EXJlDI0aVjNRg12MWUSAGqrbaaIa6nLu8ZUv72zRN6LAch0bsVH
-         55FR/S2NmpmKn3FhatGLC62OXgtwaecz738QWkvmUl6BGaRp6C6aofGkXie+Yq3WlfdI
-         lnDw==
-X-Gm-Message-State: AOJu0Yx6xtaC+jzIqTNuAy5UKj3PPF+NAdOrRXhpCa0YE5SDYXdXsqyU
-	BZ3J5jTYKB44YAqGhaTfU0rdAJU9sJgqIpoXp+ji5Oxay8JxE375ettfWIvfjckj49CntzDWaz1
-	WQQ7VmW3CJwHmmEvqdglA3REpQtYD0WW4TU1T
-X-Google-Smtp-Source: AGHT+IFvDUJj2XIdgBgpDYCy46upILTWlHhD1AvsiHaBR7J8BVYYLQKdVBGYSCjJmIzXS9M7jGMzR7holN3E0CkL1bE=
-X-Received: by 2002:a05:6402:4301:b0:57c:ae72:ff00 with SMTP id
- 4fb4d7f45d1cf-57cc0a85d52mr107336a12.5.1718358190869; Fri, 14 Jun 2024
- 02:43:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="RVVKhdFD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=loN7
+	xuHi36pMgxaqPgnIzslD2U5A+TOaD28E3/1x6Ds=; b=RVVKhdFD+NkRoGgOVfhE
+	QZUxLm2TrdYiGbmJySXLGpCK5h8caN2C3vQtXw13AY0A/nAqRQB+IJWAuW0W9xrK
+	qpNV2hqOxEz8mEOaAqwWlq+oBH9d6fYTqUEaXKdHj32+eRq3BKjudgPWAel9qQdV
+	FsjQmxZ+ttJymHjkOdq7747/GmyBF+Ses+umqrOj7jpgTvRLQSFQaWwpAUfMiZFl
+	yzwQVvLtpXrRzmkIbEpt2fWBXn6shhJBPsRY9PQdgehA/G1wrHQ5pAmS6hSzMfvv
+	o4VuZjQeZ1m1+y/xrKiuRxPFhfnFTe8xSX9cGa5SaNM2JU3lzvt90jYPJUsdKiZN
+	Lw==
+Received: (qmail 1473055 invoked from network); 14 Jun 2024 12:03:01 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 14 Jun 2024 12:03:01 +0200
+X-UD-Smtp-Session: l3s3148p1@jqF7uNYavs4gAwDPXzjQABqqX1QYyOSW
+Date: Fri, 14 Jun 2024 12:03:00 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Linus Walleij <linus.walleij@linaro.org>, Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Kent Gibson <warthog618@gmail.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Subject: Re: [PATCH v9 1/1] gpio: add sloppy logic analyzer using polling
+Message-ID: <slpwvai5q24qwymh7nktihvykmlhi5j3nhqjxruxb6yacruu47@27b7rhykw2f3>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Linus Walleij <linus.walleij@linaro.org>, Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Kent Gibson <warthog618@gmail.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+References: <20240610112700.80819-2-wsa+renesas@sang-engineering.com>
+ <CAMRc=MfZ11U+kAh1+K=DxtJ=QL+cY7Q_sBN4sQDF-RNgjpV0QA@mail.gmail.com>
+ <jvnvx7a4pn6evrp5ehfrt4qsiuprq6ogvrue2a3uupwtydmgcm@2rvat7ibvgb4>
+ <CAMRc=Mc4__0zzJZG3BPnmbua88SLuEbX=Wk=EZnKH5HQvB+JPg@mail.gmail.com>
+ <CACRpkda==5S75Bw6F3ZLUmf7kwgi_JkByiizR=m-61nrMDWuvQ@mail.gmail.com>
+ <ce1d8150-c595-44d5-b19a-040920481709@app.fastmail.com>
+ <CAMRc=McpRjQO8mUrOA4bU_YqO8Tc9-Ujytfy1fcjGUEgH9NW0A@mail.gmail.com>
+ <CACRpkdYtLDA3518uSYiTpu1PJuqNErHr9YMAKuar0CeFbfECPA@mail.gmail.com>
+ <CAMRc=Mem6HN13FOA_Ru8zC-GqGGLTsQiktLWs5bN4JD1aM3gHQ@mail.gmail.com>
+ <a7463c6e-2801-4d0e-b723-fc1cf77a04ed@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240614092134.563082-1-thuth@redhat.com>
-In-Reply-To: <20240614092134.563082-1-thuth@redhat.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Fri, 14 Jun 2024 11:42:59 +0200
-Message-ID: <CANn89iJafAvVot3_AgGGj8pwc6FTRMkZ2X3ZqsOV5J_XDSWPQg@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: Remove the "rhash_entries=" from kernel-parameters.txt
-To: Thomas Huth <thuth@redhat.com>
-Cc: linux-doc@vger.kernel.org, netdev@vger.kernel.org, 
-	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="pliq7sursgqwq3ih"
+Content-Disposition: inline
+In-Reply-To: <a7463c6e-2801-4d0e-b723-fc1cf77a04ed@app.fastmail.com>
 
-On Fri, Jun 14, 2024 at 11:21=E2=80=AFAM Thomas Huth <thuth@redhat.com> wro=
-te:
->
-> "rhash_entries" belonged to the routing cache that has been removed in
-> commit 89aef8921bfb ("ipv4: Delete routing cache.").
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-Reviewed-by: Eric Dumazet <edumazet@google.com>
+--pliq7sursgqwq3ih
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Arnd, everyone,
+
+> I could imagine treating both gpio-virtuser and this code as
+> a gpiolib extension rather than a consumer (which is usually
+> part of some other subsystem's driver).
+
+I have difficulties seeing this. For the analyzer, at least. It does not
+extend gpiolib in a way another consumer could make use of it?
+
+> It would also make sense to me to separate gpio providers
+> from gpiolib in a way, moving one or both of them into a
+> subdirectory of drivers/gpio/.
+
+I'd also like 'drivers/gpio/providers' and leave the core stuff (incl.
+the analyzer) in 'drivers/gpio'. But I am biased, I2C looks like this :)
+And yes, this is some churn and git-history spoiling.
+
+> gpiolib-virtuser.c and gpiolib-sloppy-logic-analyzer.c
+
+'gpio-tool-sloppy-logic-analyzer.c' ? Based on what gets added to
+Kconfig with this patch:
+
+	+menu "GPIO hardware hacking tools"
+
+Happy hacking,
+
+   Wolfram
+
+
+--pliq7sursgqwq3ih
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZsFVAACgkQFA3kzBSg
+Kba/oxAAoALsBaGmooDy9SxIKUxN/zuU3Fqq20YNihd6wcLFYb1sKfj7o8UvACJ5
+6b/QdYLkdZ3hKhgzsOZjwkAMzTDuf2p4imhUHqlPqIeN6JApeARFqdPtYqZN9uo6
+zc/x4zM0ilGB0vRqgDfbqLLoBeCHDsthPesjZ2tyxGVkpG0hj0VtSf9zXQrRgm7Z
+aQ/Sh4w+yRocVIp7oEAR2Zpr6oCF0ftwEf+3XXL178KqPBrcgzDYX3vC+gxL+fcE
+7lu88kOEygxT9J7cJXBexLiLv3vaw0uQUPVtsQilf0ia1ncTg0JQ0G/uyr4qlzng
+m7rhL4XazEGwt/P+AipoKxLG+zGnH11OaCwPlsmIJLYz0U3+d6IjSb8t7pYef/3n
+RRkDxAR6vlc0r/jOJXnRR0OEasGN/6euX5mNaTFU8zZ0blSHG70w6x0tnHjY49ps
+H4Z4iCWQF93/j8Lfrt0lnNqRswD8NJMubpoLFF+pJbR/Os0/2BPBC4OT1aa9xmdK
+xJsYU3/h2ZNcY9s1DYm6+F8yYIgsw6ONIhHKV/pKP0bJ1GAdnt3sRt7DHdXtrvea
+WppKuPaEcz+Y9bV8u9GbUVjx64iZyNvWM/KcYBM3yi5PzXtUt2wrVGiUqYNo5ohG
+K0zTz++edy/WL49/uJKw02dWILZgY7kTARC3IZ2+CiYDS4RHZbk=
+=OEh3
+-----END PGP SIGNATURE-----
+
+--pliq7sursgqwq3ih--
