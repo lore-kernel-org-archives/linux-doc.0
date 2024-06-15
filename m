@@ -1,128 +1,241 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC0EDDDC
-	for <linux-doc@vger.kernel.org>; Sat, 15 Jun 2024 02:04:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [20.231.56.155])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 703F213FFC;
+	Sat, 15 Jun 2024 03:54:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=20.231.56.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718417050; cv=none; b=jo/1CUxqYNjPhK/TAGwLvBJuhKOcod18O/9/1Rop5ZzEYXTmik0o/wg0xWMltwSaKuPh6rvvqp6+0vHUr6lFXKYcd6xLakTV6dHLU1BV8RdlbTr2eFMTgPVQMT+xYJy5Jv09ftDFg62d6sj/UHMPpGkk2bxE5/onmPUJ6bsBwaY=
+	t=1718423700; cv=none; b=tK7ui/Fy8am2lHSc+OsVyLl1WCaJxI96InqNcc+ULj0nXlqvAGej7SYn2TcmniZEsjXo8F6baBduX65yD6Xgg8VSZbytvv6Gh/Z474cGWBLxrRt6lPpO4jSy+Q8BD8e0mM4RoZTChDSYdt7uH498p9Zozvnd7/3iWc68k7O+KIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718417050; c=relaxed/simple;
-	bh=ZJXPz5gCNl9GBaTas9ASxCkMJYYMS3RsF4GomEl8KIc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=clj8SbL4hQzDIr91hvgroxy1lT2QXROOjVpRx4L7W11EFu4mFEfBQYIYqnVt2W+V6DSGr0UoGPxFrfrOJHGDYd9Aej4VW44cETDZ7H7IUc9FRXw7KZkns2zytTmz1JvMpsYrXcGEmCQ2gCdUDHvF1oQ7vd6KJVtKnNVqIL7LHhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=NNQ4OetP; arc=none smtp.client-ip=209.85.208.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="NNQ4OetP"
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2ebe785b234so26396151fa.1
-        for <linux-doc@vger.kernel.org>; Fri, 14 Jun 2024 19:04:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1718417046; x=1719021846; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tfSbDHLdI7lOPenyweve9pVzyLtMzcxM7OcWqFRyfTI=;
-        b=NNQ4OetP+nwwHux/QR0AFDlW0dkAy9LJi4woDXkvhJEFoWFyzKrtzMsCjopMKpvVjP
-         Ep++NnFC9XBdan3K3fZEnfJn0h5cOCT1kXZBrCFMQfSuI+LiVjFfioPchqUzVCq/2eEr
-         shyHaswvwYRyo0He38XBnSB9ErH3wxMgwefyquEPMZ0JvDkxvV84fch/Bo48UnbbAp0B
-         J/FpxYTg7gsgavPRRO7X2XidE52sbgGnJG+Czc7ngmSoLd9M6CvOepJOT9kO+y3cm0qC
-         jrY0E8iMaWk3bdI/V3X8azdhE3T9M3lThM1Lot0HTGe8/Muu0X5nr8PkwenvYtVN7X2g
-         eK2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718417046; x=1719021846;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tfSbDHLdI7lOPenyweve9pVzyLtMzcxM7OcWqFRyfTI=;
-        b=gmX5+6g6uGo2vLn0ZmVwOTw/QApAUKXfNW1aYEkMRnen6+VX5CkEdbKvAgObxc849M
-         /nCrFD6oihfaD3HLmUHo1LEZ2rQRxqR3Uau5zXdQ82qzvH4UHl1gwRLeJ51xDOZEoRut
-         Xox+xhFb1/6GDPggaEOffEUDoY5vS2rcRH9Z2PFhge8+kcyzAgFfdBYBlzRaJ16oqbVa
-         qtaUYDu8l5NqCX3s9mgJfvb3eURT3obZOESm1hoeASu1689yhVrGcecA42aPw1OEWtrm
-         Il+ajaDTNuWU8FrDaMwnKylhzuIi+sY2Gn2y660I0mwPlcX0To/XTL6L3D9R6Pc7wfIK
-         kZYQ==
-X-Gm-Message-State: AOJu0Yydy7cQ/DU1VwyJl7CqPX0m5DVesdX3QFJIKXFIbaCMjhuBVYe7
-	0tKvJNROOTN6dXiooJYIH9uQ9UfEBjRwQWqjkHIS7W9YDpGW2lArPNKbMQyxGw0zD2rod0NjjYf
-	Pwt0=
-X-Google-Smtp-Source: AGHT+IFVZyTcIvbtfJNPKvIZp7JacqXXipNTuJKgpKnVmt5m4hY8RAbm4Kv1RRfvuizzzR8z8W4hkg==
-X-Received: by 2002:a2e:818e:0:b0:2eb:dc60:6ca9 with SMTP id 38308e7fff4ca-2ec0e46deddmr28169721fa.21.1718417045953;
-        Fri, 14 Jun 2024 19:04:05 -0700 (PDT)
-Received: from localhost (2001-b011-fa04-32f9-b2dc-efff-fee8-7e7a.dynamic-ip6.hinet.net. [2001:b011:fa04:32f9:b2dc:efff:fee8:7e7a])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-705ccb6b9c9sm3722443b3a.160.2024.06.14.19.04.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Jun 2024 19:04:05 -0700 (PDT)
-From: Shung-Hsi Yu <shung-hsi.yu@suse.com>
-To: linux-doc@vger.kernel.org,
+	s=arc-20240116; t=1718423700; c=relaxed/simple;
+	bh=d4xQmrJzQAImK1kFa1DIvwPLDygpJt4uPZkRziqo6WI=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=g+In288U6/Sp3uKdlxDuXjrR4019M0w65RvgPFgmgCWO5XOUPgFQ6PB52kk1xAwax4Ds6KvP8gFku5k5Ahzsf4XtLPn6HZmyX4mw/PjeUzbWN3KnwTOzvyFpjWpSdVl31LTHPuYK8sDZvCuPZnV+gc7HFBMZEs+lIQ+y+wi9RKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=20.231.56.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.50])
+	by app1 (Coremail) with SMTP id HgEQrAD3_oJWEG1mxH3oBw--.28136S2;
+	Sat, 15 Jun 2024 11:53:58 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.12.164.29])
+	by gateway (Coremail) with SMTP id _____wBnYN8_EG1mKgQrAA--.4979S3;
+	Sat, 15 Jun 2024 11:53:58 +0800 (CST)
+From: Dongliang Mu <dzm91@hust.edu.cn>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Alex Shi <alexs@kernel.org>,
+	Yanteng Si <siyanteng@loongson.cn>,
+	Dongliang Mu <dzm91@hust.edu.cn>
+Cc: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	stable@vger.kernel.org,
-	workflows@vger.kernel.org,
-	Paul Barker <paul.barker.ct@bp.renesas.com>,
-	Shung-Hsi Yu <shung-hsi.yu@suse.com>
-Subject: [PATCH v2 2/2] docs: stable-kernel-rules: remind reader about DCO
-Date: Sat, 15 Jun 2024 10:03:51 +0800
-Message-ID: <20240615020356.5595-2-shung-hsi.yu@suse.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240615020356.5595-1-shung-hsi.yu@suse.com>
-References: <20240615020356.5595-1-shung-hsi.yu@suse.com>
+Subject: [PATCH v2 2/2] doc-guide: add help documentation checktransupdate.rst
+Date: Sat, 15 Jun 2024 11:53:17 +0800
+Message-Id: <20240615035323.909650-2-dzm91@hust.edu.cn>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240615035323.909650-1-dzm91@hust.edu.cn>
+References: <20240615035323.909650-1-dzm91@hust.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HgEQrAD3_oJWEG1mxH3oBw--.28136S2
+Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoW3Gw1DWr4DXw1fZw1UZFWUurg_yoWxCw18pa
+	43KryxJ3WkK34Yyr1fKryDZr15AayxCa1jgF1Iq3ZYqrn0ywnYqrW7t34rKrWDGryrZayY
+	qFWYkrW0krWSva7anT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUmFb7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
+	1Y6r17M2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8JVWxJwAm
+	72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l42xK82
+	IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v2
+	6r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17
+	CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF
+	0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIx
+	AIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2
+	KfnxnUUI43ZEXa7IU0f9NDUUUUU==
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-When sending patch authored by someone else to stable, it is quite easy for the
-sender to forget adding the Developer's Certification of Origin (DCO, i.e.
-Signed-off-by). An example of such can be seen in the link below. Mention DCO
-explicitly so senders are less likely to forget to do so and cause another
-round-trip.
+This commit adds help documents - Documentation/doc-guide/checktransupdate.rst
+and Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
+for scripts/checktransupdate.py, including English and Chinese versions
 
-Add a label in submitting-patches.rst so we can directly link to the DCO
-section.
-
-Link: https://lore.kernel.org/stable/2024051500-underage-unfixed-5d28@gregkh/
-Signed-off-by: Shung-Hsi Yu <shung-hsi.yu@suse.com>
+Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
 ---
-Change from v1:
-- explicitly refer to the link as an example in the 1st paragraph (Paul)
-- commit message typo fix s/explicilty/explicitly/ (Paul)
----
- Documentation/process/stable-kernel-rules.rst | 4 ++++
- Documentation/process/submitting-patches.rst  | 1 +
- 2 files changed, 5 insertions(+)
+v1->v2: fix some issues according to Randy
+ Documentation/doc-guide/checktransupdate.rst  | 63 +++++++++++++++++++
+ Documentation/doc-guide/index.rst             |  1 +
+ .../zh_CN/doc-guide/checktransupdate.rst      | 62 ++++++++++++++++++
+ .../translations/zh_CN/doc-guide/index.rst    |  1 +
+ 4 files changed, 127 insertions(+)
+ create mode 100644 Documentation/doc-guide/checktransupdate.rst
+ create mode 100644 Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
 
-diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
-index d22aa2280f6e..85a91fd40da9 100644
---- a/Documentation/process/stable-kernel-rules.rst
-+++ b/Documentation/process/stable-kernel-rules.rst
-@@ -168,6 +168,10 @@ If the submitted patch deviates from the original upstream patch (for example
- because it had to be adjusted for the older API), this must be very clearly
- documented and justified in the patch description.
- 
-+Be sure to also include a :ref:`Developer's Certificate of Origin
-+<sign_your_work>` (i.e. ``Signed-off-by``) when sending patches that you did
-+not author yourself.
+diff --git a/Documentation/doc-guide/checktransupdate.rst b/Documentation/doc-guide/checktransupdate.rst
+new file mode 100644
+index 000000000000..4ece330882d6
+--- /dev/null
++++ b/Documentation/doc-guide/checktransupdate.rst
+@@ -0,0 +1,63 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
++Check translation update
++==========================
++
++This script helps track the translation status of the documentation in
++different locales, i.e., whether the documentation is up-to-date with
++the English counterpart.
++
++How it works
++------------
++
++It uses ``git log`` command to track the latest English commit from the
++translation commit (order by author date) and the latest English commits
++from HEAD. If any differences occur, the file is considered as out-of-date,
++then commits that need to be updated will be collected and reported.
++
++Features implemented
++--------------------
++
++-  check all files in a certain locale
++-  check a single file or a set of files
++-  provide options to change output format
++
++Usage
++-----
++
++::
++
++   checktransupdate.py [-h] [-l LOCALE] [--print-commits | --no-print-commits] [--print-updated-files | --no-print-updated-files] [--debug | --no-debug] [files ...]
++
++Options
++~~~~~~~
++
++-  ``-l``, ``--locale``: locale to check when file is not specified
++-  ``--[no-]print-commits``: whether to print commits between origin and
++   translation
++-  ``--[no-]print-updated-files``: whether to print files that do no
++   need to be updated
++-  ``files``: files to check, if this option is specified, the locale
++   option will be ignored.
++
++Samples
++~~~~~~~
++
++-  ``./scripts/checktransupdate.py -l zh_CN``
++   This will print all the files that need to be updated in the zh_CN locale.
++-  ``./scripts/checktransupdate.py Documentation/translations/zh_CN/process/coding-style.rst``
++   This will only print the status of the specified file.
++
++Then the output is something like:
++
++::
++
++    Documentation/translations/zh_CN/process/coding-style.rst       (2 commits)
++    commit 6813216bbdba ("Documentation: coding-style: ask function-like macros to evaluate parameters")
++    commit 185ea7676ef3 ("Documentation: coding-style: Update syntax highlighting for code-blocks")
++
++Features to be implemented
++----------------------------
++
++- track the translation status of files that have no translation
++- files can be a folder instead of only a file
+diff --git a/Documentation/doc-guide/index.rst b/Documentation/doc-guide/index.rst
+index 7c7d97784626..24d058faa75c 100644
+--- a/Documentation/doc-guide/index.rst
++++ b/Documentation/doc-guide/index.rst
+@@ -12,6 +12,7 @@ How to write kernel documentation
+    parse-headers
+    contributing
+    maintainer-profile
++   checktransupdate
  
- Following the submission
- ------------------------
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index 66029999b587..98f1c8d8b429 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -394,6 +394,7 @@ e-mail discussions.
+ .. only::  subproject and html
  
- ``git send-email`` will do this for you automatically.
+diff --git a/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst b/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
+new file mode 100644
+index 000000000000..37c0bb518ab8
+--- /dev/null
++++ b/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
+@@ -0,0 +1,62 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/doc-guide/checktransupdate.rst
++
++:译者: 慕冬亮 Dongliang Mu <dzm91@hust.edu.cn>
++
++检查翻译更新
++=============
++
++这个脚本帮助跟踪不同语言的文档翻译状态，即文档是否与对应的英文版本保持更新。
++
++工作原理
++------------
++
++它使用 ``git log`` 命令来跟踪翻译提交的最新英文提交（按作者日期排序）和英文文档的
++最新提交。如果有任何差异，则该文件被认为是过期的，然后需要更新的提交将被收集并报告。
++
++实现的功能
++--------------------
++
++- 检查特定语言中的所有文件
++- 检查单个文件或一组文件
++- 提供更改输出格式的选项
++
++用法
++-----
++
++::
++
++   checktransupdate.py [-h] [-l LOCALE] [--print-commits | --no-print-commits] [--print-updated-files | --no-print-updated-files] [--debug | --no-debug] [files ...]
++
++选项
++~~~~~~~
++
++-  ``-l``, ``--locale``: 检查指定的文件语言，如果未指定文件
++-  ``--[no-]print-commits``: 是否打印英文原始版本和翻译版本之间的提交
++-  ``--[no-]print-updated-files``: 是否打印无需更新的文件
++-  ``files``: 要检查的文件，如果指定了此选项，将忽略语言选项
++
++示例
++~~~~~~~
++
++-  ``./scripts/checktransupdate.py -l zh_CN``
++   这将打印 zh_CN 语言中需要更新的所有文件。
++-  ``./scripts/checktransupdate.py Documentation/translations/zh_CN/process/coding-style.rst``
++   这将只打印指定文件的状态。
++
++然后输出类似如下的内容：
++
++::
++
++    Documentation/translations/zh_CN/process/coding-style.rst       (2 commits)
++    commit 6813216bbdba ("Documentation: coding-style: ask function-like macros to evaluate parameters")
++    commit 185ea7676ef3 ("Documentation: coding-style: Update syntax highlighting for code-blocks")
++
++待实现的功能
++-------------
++
++- 跟踪没有翻译过的文件的翻译状态
++- 文件参数可以是文件夹而不仅仅是单个文件
+diff --git a/Documentation/translations/zh_CN/doc-guide/index.rst b/Documentation/translations/zh_CN/doc-guide/index.rst
+index 78c2e9a1697f..0ac1fc9315ea 100644
+--- a/Documentation/translations/zh_CN/doc-guide/index.rst
++++ b/Documentation/translations/zh_CN/doc-guide/index.rst
+@@ -18,6 +18,7 @@
+    parse-headers
+    contributing
+    maintainer-profile
++   checktransupdate
  
-+.. _sign_your_work:
+ .. only::  subproject and html
  
- Sign your work - the Developer's Certificate of Origin
- ------------------------------------------------------
 -- 
-2.45.2
+2.39.2
 
