@@ -1,110 +1,175 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26DD2481AB;
-	Sat, 15 Jun 2024 12:01:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1F453C062;
+	Sat, 15 Jun 2024 12:25:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718452884; cv=none; b=u26tB2UbzXwpjGHe4amu6XWq73+Ke53wIvHBgSn9c+rUHTbkYWw7UEKIBST1XsbnftdQyXmd0jmjupXPj+DfrPa7f3IkC1tX2TC8VmqIzxIE3GaoA+h2Nn5JccTXqf9ujLUqNtsjz6BAe6dP3LbLqd2EfLUcfsejmqOqE45CX4A=
+	t=1718454320; cv=none; b=LAUUYXQ89XIvEkoYtXxifxR1rzzob40fcHvwiTl/zQLOxv2Qe5qdDAzOGp2IYVa7sEnEgCQpRZyiWvNy/sjl7RlDSvwsBVXmdREuMrii42TVAAp5UxzbnxgFuGFeJtxuq714NaavldYAHXmWb5WcxW27voHcTIYKET+Kg+g8jAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718452884; c=relaxed/simple;
-	bh=1KEWyFoCMTmoTcxSTlV4zMfEojOLQmrzSBfJGBmPpLE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uTwsmMIbEaRJAi3FrJiKpGiB3+HTii3TwecSyM/fjIjyJY29n31awovjgc16vtzu2UINFE/MvG3DiXVCVY3RgH8/d4CMnmkh7VXJrFggC3z+ZGYWeO4FG5VpD2p1FEh4mAYNIMyS3+YtKDAmJsNKr/8GogLiVlRyUV6R1ipg9Ys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=aEeMXd21; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1718454320; c=relaxed/simple;
+	bh=ISVbu2fxZ1eV2uEqGAczzn9y7Z8gAktw7YuOOBLJ0/E=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Q5eyTMqfOol8AFaBwTC4Q1E/IBjJYKKC5JP2brbJoh1fs+YGJtAInjYeRIKkMOm/eZcimOjGwRNp3EgpkUJPMJTKp4Fbl5XAGv8RezORh9UlWdxc6Fo6SzBs/JLlPf3+nNrPExMjEk2oQR+8lD/wawZn16yzhc++UWMzCwgZ7HA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tNBwABJ2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="aEeMXd21"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45FBUJEW016513;
-	Sat, 15 Jun 2024 12:00:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	lBymZgJFy/4Nwqfcncss78bsklXX4SxvhrH9q6SaQZY=; b=aEeMXd21vADXl703
-	Il1kNPWMNF9q+CYl5Q48vjjgg6TZ+WKApvNs2P0mZjrkxCanW+VNOmfUcfp9RHOY
-	ORxH6JRwJ6z1byWgkj2hvYKtY1mlp3KV+ROlXhGtpw8VpgpLlMmDNNf/QtB3ibV9
-	HZf8fOyvXcABUuTWPXNAWRpCOfIHzp5X98jfT0nlPPubzkxTn5Om38WjzRnnm2jz
-	CSGBSj4+SePBW5ZnnTijLoZj3rgstNZr/hK8JTrmCbAndtKQTnBWXbsjOLpOVPNW
-	Yt9QD1+KVCgWV/t6mhf/3Ek7pHUZtcXjUFz3TA1vC7+UnQPl8bscHxtet0UkxOuS
-	1tzXtA==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ys1y6rmad-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 15 Jun 2024 12:00:57 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA01.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45FC0tt1014197
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 15 Jun 2024 12:00:55 GMT
-Received: from luoj-gv.qualcomm.com (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sat, 15 Jun
- 2024 05:00:47 -0700
-From: Luo Jie <quic_luoj@quicinc.com>
-To: <davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-        <conor+dt@kernel.org>, <andrew@lunn.ch>, <hkallweit1@gmail.com>,
-        <linux@armlinux.org.uk>, <corbet@lwn.net>, <vladimir.oltean@nxp.com>
-CC: <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        Conor Dooley
-	<conor.dooley@microchip.com>
-Subject: [PATCH net-next v2 2/2] dt-bindings: net: ethernet-controller: add 10g-qxgmii mode
-Date: Sat, 15 Jun 2024 20:00:28 +0800
-Message-ID: <20240615120028.2384732-3-quic_luoj@quicinc.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240615120028.2384732-1-quic_luoj@quicinc.com>
-References: <20240615120028.2384732-1-quic_luoj@quicinc.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tNBwABJ2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 749AAC116B1;
+	Sat, 15 Jun 2024 12:25:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718454320;
+	bh=ISVbu2fxZ1eV2uEqGAczzn9y7Z8gAktw7YuOOBLJ0/E=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=tNBwABJ2oDk9VHb+Z0px0Kw7I7IDolqlz/RlhNdk5Scfth6uJX/MjndFF5MnzWiv2
+	 7PuMRFdxklKAqxN272F8XBrWQgunsSa5x80VTCr1okVpkjub3Z7immYWPrY2ou4f7W
+	 ueWqgb8tdne8zvFFqTK7zDdjlH7YjGlkX6slkbjhuHiL26Ss9awVaFsQLi+BQi7OIP
+	 oFwD7QYYz/GIfEnQYzpYwRYrXqbMFJbiAvDsx/4FlshZMXO3AwTPMNjKK4KsuWfyTx
+	 ChCaxri55Dx1TdW6I6VYJVYEXYLK+jcJSqwexyYhG0kGJEZRRIREnUeU7X9Fa1Dxh2
+	 wYpGDoMMa5ckw==
+Date: Sat, 15 Jun 2024 13:25:10 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Rob Herring <robh@kernel.org>, Nuno =?UTF-8?B?U8Oh?=
+ <noname.nuno@gmail.com>, Krzysztof Kozlowski <krzk@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Michael
+ Hennerich <michael.hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: iio: adc: add AD4695 and similar ADCs
+Message-ID: <20240615132510.2575b65a@jic23-huawei>
+In-Reply-To: <d802086d-5f88-49c3-996c-ada251043187@baylibre.com>
+References: <20240612-iio-adc-ad4695-v1-0-6a4ed251fc86@baylibre.com>
+	<20240612-iio-adc-ad4695-v1-1-6a4ed251fc86@baylibre.com>
+	<94448c2c-e7b2-4191-858c-529b254994f1@kernel.org>
+	<f765ef30-a777-4dfc-8f93-0f15b46f91ae@baylibre.com>
+	<e09fecf4-bde2-4feb-8312-22c530c6a960@kernel.org>
+	<b6b52b1e-847b-44ca-87f9-095a78164771@baylibre.com>
+	<5f0776ba5163578453e26352763ff1b4687bcf87.camel@gmail.com>
+	<20240613194324.GA2352022-robh@kernel.org>
+	<d802086d-5f88-49c3-996c-ada251043187@baylibre.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: QnXwXMQqWjNSTlHeOntmevy0lgoacB6O
-X-Proofpoint-ORIG-GUID: QnXwXMQqWjNSTlHeOntmevy0lgoacB6O
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-15_08,2024-06-14_03,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- adultscore=0 impostorscore=0 mlxscore=0 bulkscore=0 clxscore=1015
- lowpriorityscore=0 spamscore=0 mlxlogscore=999 suspectscore=0 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406150092
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-From: Vladimir Oltean <vladimir.oltean@nxp.com>
+On Thu, 13 Jun 2024 15:09:40 -0500
+David Lechner <dlechner@baylibre.com> wrote:
 
-Add the new interface mode 10g-qxgmii, which is similar to
-usxgmii but extend to 4 channels to support maximum of 4
-ports with the link speed 10M/100M/1G/2.5G.
+> On 6/13/24 2:43 PM, Rob Herring wrote:
+> > On Thu, Jun 13, 2024 at 05:11:48PM +0200, Nuno S=C3=A1 wrote: =20
+> >> On Thu, 2024-06-13 at 09:39 -0500, David Lechner wrote: =20
+> >>> On 6/13/24 9:18 AM, Krzysztof Kozlowski wrote: =20
+> >>>> On 13/06/2024 15:57, David Lechner wrote: =20
+> >>>>> =20
+> >>>>>> =20
+> >>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: =
+adi,ad4695
+> >>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - items:
+> >>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: =
+adi,ad4697-wlcsp
+> >>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: =
+adi,ad4697
+> >>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # same chips with higher max samp=
+le rate =20
+> >>>>>
+> >>>>> I suppose one could make the argument that the programming model is
+> >>>>> the same on these too, but the maximum sampling frequency does seem
+> >>>>> like an important bit of information so that you don't try to set
+> >>>>> the conversion trigger rate too high.
+> >>>>> =20
+> >>>>
+> >>>> which property is that? I don't see differences in the driver, so I
+> >>>> don't get how these wlcsp compatibles allow you to control value of
+> >>>> conversion trigger. =20
+> >>>
+> >>> This comment is unrelated to the package type (WLCSP or LFCSP).
+> >>>
+> >>> What I mean is that e.g. AD4695 and AD4696 are virtually identical
+> >>> other than the maximum allowable sample rate (500 kSPS or 1 MSPS).
+> >>>
+> >>> So my thinking was that it would make sense to have:
+> >>>
+> >>> 	compatible =3D "ad4695";
+> >>>
+> >>> for the lower sample rate chip and
+> >>>
+> >>> 	compatible =3D "ad4696", "ad4695";
+> >>>
+> >>> for the higher sample rate chip since ad4696 can do everything
+> >>> that ad4695 does plus a bit more.
+> >>> =20
+> >>
+> >> IMO, that would make sense yes. If the higher sample rate chip fallsba=
+ck, it will
+> >> still work but not at full speed. The other way around is the one that=
+ we can't allow
+> >> naturally.
+> >>
+> >> But possibly dumb question now... since both devices will be supported=
+ at the same
+> >> time, do we actually care about having the fallback compatible? My und=
+erstanding of
+> >> the fallback story is that we may load a DTS in an older kernel where =
+chip A is
+> >> supported but chip B is not and it is ok for chip B to fallback to chi=
+p A. Since
+> >> these devices will be supported at the same time, do we need to care? =
+Unless out of
+> >> tree stuff enters the equation? =20
+> >=20
+> > Yeah, it doesn't really matter much in that case.
+> >  =20
+> >> Or is there another usecase that I'm not aware about (or maybe it just=
+ makes sense to
+> >> document properly...)? =20
+> >=20
+> > Somewhat I guess. Perhaps if there's a 3rd chip with higher rate, then=
+=20
+> > it will be more obvious what to do and we don't have to have this=20
+> > discussion again for it. :)
+> >=20
+> > Rob =20
+>=20
+> It sounds like maybe the best thing to do here then is just keep it simpl=
+e?
+>=20
+> Like this:
+>=20
+>   compatible:
+>     enum:
+>       - adi,ad4695
+>       - adi,ad4696
+>       - adi,ad4697
+>       - adi,ad4698
+>=20
+Quick comments late in discussion.=20
 
-Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
-Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
----
- Documentation/devicetree/bindings/net/ethernet-controller.yaml | 1 +
- 1 file changed, 1 insertion(+)
+Simply compatible list is fine as they are all coming together (though that
+may in theory not be true on some other OS!)
 
-diff --git a/Documentation/devicetree/bindings/net/ethernet-controller.yaml b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
-index b2785b03139f..45819b235800 100644
---- a/Documentation/devicetree/bindings/net/ethernet-controller.yaml
-+++ b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
-@@ -103,6 +103,7 @@ properties:
-       - usxgmii
-       - 10gbase-r
-       - 25gbase-r
-+      - 10g-qxgmii
- 
-   phy-mode:
-     $ref: "#/properties/phy-connection-type"
--- 
-2.34.1
+I'm also fine with the fallback as you discussed so less capable
+chip is the one we fall back to.
 
+Definitely need to differentiate chips with different possible ranges of
+a parameter as that goes straight through to userspace as
+sampling_frequency_available and userspace is going to get confused
+if it gets told it can do things that silently don't work.
+
+This sort of thing is why I always want to see chip IDs listed even
+if we think they'll just work with another one.
+a) Documents hardware right and people expect to see the ID of the chip
+   on the BoM
+b) Lets us deal with cases where we have missed subtle differences
+   in capabilities because the driver didn't support them yet.
+
+So in conclusion either option you proposed is fine (as above, or
+fallback to the part we think is a subset of functionality.)
+
+Jonathan
+ =20
