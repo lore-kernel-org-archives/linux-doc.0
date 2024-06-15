@@ -1,262 +1,60 @@
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B56611DA21
-	for <linux-doc@vger.kernel.org>; Sat, 15 Jun 2024 15:23:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9860F173;
+	Sat, 15 Jun 2024 17:47:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718465017; cv=none; b=gWXuyJBVrgSOAkWN46xrihKdQzo52mc4SgW4CqPwrgas3cnik/MXCNmsNvWXg2QNa1Lg7wj3XEzYp0279DAW9yrt357VgQ+jxLvvXmPghediMmY1kwwX3Hwfd2M3vVuogd/yPXK+U5tridZ8jeHTUAjIBq6dPXjJZdTUirJd+RU=
+	t=1718473675; cv=none; b=O5HChAN2gLaYD4Sp4rG2LRNtC34qH0yqKx39tlyafk8jdAXAPTnGrIzX6BUDfth5iq1eOMIcaBoxu0dhDUlSwbZOOkFSLgpBxTS4CIguJ6Q2bBweF+kJdBwM1QpdhM45hpRkOxB8bVn6vrEDWR7ogSZiiOinu+DiqlyGJXy1kgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718465017; c=relaxed/simple;
-	bh=Zi1DG4/ToLpRr7sD8ntJhw8rvmFS29+RyXeCAK4BCxw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LhBYlqz7tl8U4ZBQyof9zgwwu/H78kf0g/NoQXhvCE1fDtUgRa1MpAdSOM74It3zIApoR/6Cf/rItg5mab76UMzg0TT/+nJYOyxyYnlsP0UyJgMnDhEuwYc9M2jjvybjmWrTJ+MfQb88ilAlTWFRuwsq0LwElksUl3GjaikfAtA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=B0Kps+OA; arc=none smtp.client-ip=209.85.160.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1718473675; c=relaxed/simple;
+	bh=Hg0vuQu5W6fCl7TQjwa8P0i6cV1Qe8Nzbfm+KW3HCTg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QX2zhz+qbjmv0mP7hJAZHv94xsDkvUwh6MV+9GPVRY82UXX1TydTLT8CjkeVsHUmI3DxNNNdsYkui1qzID83IfM0fXsWjoNyCG2Msh7nA9cgpw1EZJLxFi1eXuha0wdxzPG0U2XXBav6H9BrRtPXwbikwW4cYzeqQuME1u5ZvSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sYF6XMe/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="B0Kps+OA"
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-24c9f91242dso1287785fac.2
-        for <linux-doc@vger.kernel.org>; Sat, 15 Jun 2024 08:23:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1718465013; x=1719069813; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZsBU5Xj8M4QV9IJdKvhDoz3IvGILgPk2VkuCu/9X5xc=;
-        b=B0Kps+OAe2ZNG5UWLJxvX6FhLnLNoKczrnqsJ2FM8/O6h3ZTa5Iwr8Z0xiY/vw1QJP
-         7kpjRYZC9mQMVOmcgJc/ffR5HfdwjW9i+u9HpLA2QpkLfd//i3tWAms79q9MrUc/xr1k
-         4XkAUTs4SItGwSeJe7FocLFsmIfyorKRxsP1qYLLEaEPiwDf8cL5k7QRwPuvFihkEVu6
-         lNGhkueSOF8OqX/NiD7JOh/0Py6gQG+zQV2F0Gh3gjoF35xlQnnZ9hX46tcfdoPqa93/
-         ggoacpXA5/C+ibYeLupwul5ytGwSaCC4sqLf4EOH5xN61bC3ynJ0aT3paYi3Jn7VQ4hv
-         ye8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718465013; x=1719069813;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZsBU5Xj8M4QV9IJdKvhDoz3IvGILgPk2VkuCu/9X5xc=;
-        b=m9gVV3AoADp7oafmY1/qxgHtfHLvzeuJ3DAwwawBaOWIKLj5uHtRwev6tDi3HWKRjV
-         Iwbq6KoGJd8VC1Ruz7JgggBfXNk2EadEMan2Xhvn9LTWdIs5+3+L3B4nFMRyLMJ6X7ec
-         gCzvKpX3rhQCDgZIQR9NsSSnThYP+nfhVs0Syi2iIQQB/bpmbF0AaeMqwXOZ9h4MjPB4
-         95L0fA3gVgvm7cCUAc+9A31MvEHepR8LKFtOjm1UknrF/mHomSsmwGnw/ZMB7zcW8QCj
-         KXxuKekr1CsdJIKyPw3goTVL5lntLeWULLQYKf8mVWe0jkUtQEh/6dGHZLMEQvrj1bjG
-         E5bQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUkI72ZJyk4ryoWS8wH0iuCVQcu2Xp5Lvg2DRzCG07wcCkckXRz5babavNYSw7r9CXFgS0NR10Mn4DP+x7fhVQ1YS+aqunuEVTX
-X-Gm-Message-State: AOJu0YzSTh07txJcelQVke3o04ZhqhwO1ugC7Y7uttTl6ekpLV+C3khT
-	KLwO/n58p4XsrqlteUt5/mVV57yhRxIzyG0AITN6t8Rye+Sr1S8zuoXzu20Z3us=
-X-Google-Smtp-Source: AGHT+IFOzQRVl1DUGBTfZM7ghSRRJsI7JpxmxAUM+zQNjPRb5PgTpOYBtuSfwJltE2YwPuuPMXZD5Q==
-X-Received: by 2002:a05:6870:b14a:b0:254:d05e:4cd5 with SMTP id 586e51a60fabf-25842b73c65mr5811615fac.38.1718465013582;
-        Sat, 15 Jun 2024 08:23:33 -0700 (PDT)
-Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2567a9a7fd9sm1583505fac.15.2024.06.15.08.23.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 15 Jun 2024 08:23:33 -0700 (PDT)
-Message-ID: <2d9a1405-4b8d-401b-99c4-434ac4b57f6e@baylibre.com>
-Date: Sat, 15 Jun 2024 10:23:31 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sYF6XMe/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D938C116B1;
+	Sat, 15 Jun 2024 17:47:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718473675;
+	bh=Hg0vuQu5W6fCl7TQjwa8P0i6cV1Qe8Nzbfm+KW3HCTg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sYF6XMe/uKXnP2oPzM+dxq8V5qJKtEj4tTJifQxJOD5gWyzePDn7iv+9GBNJzpgrO
+	 kRyCNpbrLiRuim6u3khhqd6/7YHEgTvnpMY+ZSS7SYqqOa1EgVu0bJ6les1gyMAjrd
+	 /41cgGosXg7l5HanBxFmuKN/WWFmHSZJFcafiuZb8/ErvQtuzcNooFAyo8RL14Q12k
+	 cGF5JeXLp1iPc+1FhNCFwPc/gkDrqbHeIOPbinzzyTDvVrqTXnrg8+PdwnGe+RiRRZ
+	 3jxUK99odxNQn/0lJ1J4+RyqqGeBLgxsknCv4tSC9GaRDfIk6xXdYwrNuodscnFI5S
+	 mwiRbW7yXSyGQ==
+Date: Sat, 15 Jun 2024 19:47:50 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-i2c@vger.kernel.org, 
+	Easwar Hariharan <eahariha@linux.microsoft.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/6] docs: i2c: summary: start sentences consistently.
+Message-ID: <h6v2qyc5x5fhhu5jk2jx5dh5ljnaulgoj6hgbunmudcyc4pnn5@3slccuj7tafa>
+References: <20240614081239.7128-8-wsa+renesas@sang-engineering.com>
+ <20240614081239.7128-9-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dt-bindings: iio: adc: add AD4695 and similar ADCs
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Michael Hennerich <michael.hennerich@analog.com>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20240612-iio-adc-ad4695-v1-0-6a4ed251fc86@baylibre.com>
- <20240612-iio-adc-ad4695-v1-1-6a4ed251fc86@baylibre.com>
- <20240615134106.40e55e16@jic23-huawei>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20240615134106.40e55e16@jic23-huawei>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240614081239.7128-9-wsa+renesas@sang-engineering.com>
 
-On 6/15/24 7:41 AM, Jonathan Cameron wrote:
-> On Wed, 12 Jun 2024 14:20:40 -0500
-> David Lechner <dlechner@baylibre.com> wrote:
+Hi Wolfram,
+
+On Fri, Jun 14, 2024 at 10:12:39AM GMT, Wolfram Sang wrote:
+> Change the first paragraphs to contain only one space after the end of
+> the previous sentence like in the rest of the document.
 > 
->> Add device tree bindings for AD4695 and similar ADCs.
->>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Reviewed-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 
-...
+Reviewed-by: Andi Shyti <andi.shyti@kernel.org>
 
->> +
->> +  avdd-supply:
->> +    description: A 2.7 V to 5.5 V supply that powers the analog circuitry.
-> 
-> I'm a cynic.  Do we care about the supported voltages in this binding doc?
-> Feels just somewhere we might make a mistake.
-
-Not especially useful, I suppose. I'll clean these up a bit.
-
-> 
->> +
->> +  ldo-in-supply:
->> +    description: A 2.4 V to 5.5 V supply connected to the internal LDO input.
->> +
->> +  vdd-supply:
->> +    description: A 1.8V supply that powers the core circuitry.
->> +
->> +  vio-supply:
->> +    description: A 1.2V to 1.8V supply for the digital inputs and outputs.
->> +
->> +  ref-supply:
->> +    description: A 2.4 V to 5.1 V supply for the external reference voltage.
->> +
->> +  refin-supply:
->> +    description: A 2.4 V to 5.1 V supply for the internal reference buffer input.
->> +
->> +  com-supply:
->> +    description: Common voltage supply for pseudo-differential analog inputs.
-> 
-> These last few have more info in them so definitely good to have the descriptions
-> 
-
-...
-
->> +
->> +patternProperties:
->> +  "^channel@[0-9a-f]$":
->> +    type: object
->> +    $ref: adc.yaml
->> +    unevaluatedProperties: false
->> +    description:
->> +      Describes each individual channel. In addition the properties defined
->> +      below, bipolar from adc.yaml is also supported.
->> +
->> +    properties:
->> +      reg:
->> +        maximum: 15
->> +        description: Input pin number (INx).
-> 
-> I'd drop this description as the pin pairing makes it messy.
-> If you switch to diff-channels etc, just leave it as a index value not
-> connected to the pin numbers.
-> 
->> +
->> +      adi,pin-pairing:
->> +        description: |
->> +          The input pin pairing for the negative input. This can be:
->> +          - REFGND, normally 0V (single-ended)
->> +          - COM, normally V_REF/2, see com-supply (pseudo-differential)
->> +          - For even numbered pins, the next odd numbered pin (differential)
->> +        $ref: /schemas/types.yaml#/definitions/string
->> +        enum: [refgnd, com, next]
-> 
-> Next is full on differential, just provide both channels via
-> diff-channels. You can constrain the particular combinations in the binding.
-> 
-> Refcnd is normal single ended.  Probably want to use the new single-channel
-> property for that as we are mixing differential and single ended channels
-> so reg is pretty much just an index.
-> 
-> Hmm. For comm we haven't had done a recent binding for a chip with the option
-> of pseudo differential that is per channel, they've been whole device only.
-> That feels like it will be common enough we need to support it cleanly
-> with a 'general' scheme.
-
-I think we have. :-)
-
-https://lore.kernel.org/linux-iio/adc6cba9-2e79-475f-9c24-039fe9d3345d@baylibre.com/T/#mcbc1ce3a2541db502bf7870b7ea8574626a46312
-
-> 
-> Problem is I know someone will have a chip with 2 vincom pins and selecting
-> between them, so we can't just have pseudo-differential as a boolean and adc.yaml
-> 
-> There are horrible solutions like a magic channel number that changes the
-> meaning of diff-channels but that's ugly.
-> Maybe pseudo-differential for now and we have to later we add
-> pseudo-differential-comm  = <0> etc?
-> 
-
-I was trying to keep things simple with 1 property instead of 3, but we
-can drop adi,pin-pairing and use the standard diff-channels, single-channel
-and common-mode-channel properties.
-
-
-> 
->> +        default: refgnd
->> +
->> +      adi,no-high-z:
->> +        $ref: /schemas/types.yaml#/definitions/flag
->> +        description: |
-> 
-> Do we need the | given not really formatted?
-
-No. Was probably copy/paste.
-
-> 
->> +          Enable this flag if the input pin requires the Analog Input High-Z
->> +          Mode to be disabled for proper operation.
->> +
-
-...
-
->> +examples:
->> +  - |
->> +    #include <dt-bindings/gpio/gpio.h>
->> +
->> +    spi {
->> +        #address-cells = <1>;
->> +        #size-cells = <0>;
->> +
->> +        adc@0 {
->> +            compatible = "adi,ad4695";
->> +            reg = <0>;
->> +            spi-cpol;
->> +            spi-cpha;
->> +            spi-max-frequency = <80000000>;
->> +            avdd-supply = <&supply_2_5V>;
->> +            vdd-supply = <&supply_1_8V>;
->> +            vio-supply = <&supply_1_2V>;
->> +            ref-supply = <&supply_5V>;
->> +            reset-gpios = <&gpio 1 GPIO_ACTIVE_LOW>;
->> +
->> +            #address-cells = <1>;
->> +            #size-cells = <0>;
->> +
-
-Using the standard adc.yaml properties, these would now be:
-
->> +            /* Differential channel between IN0 and IN1. */
->> +            channel@0 {
->> +                reg = <0>;
-
-                    diff-channels = <0>, <1>;
-
->> +                bipolar;
->> +            };
->> +
->> +            /* Single-ended channel between IN2 and REFGND. */
->> +            channel@2 {
->> +                reg = <2>;
-
-                    single-channel = <2>;
-		    common-mode-channel = <0>;
-
->> +            };
->> +
->> +            /* Pseudo-differential channel between IN3 and COM. */
->> +            channel@f {
->> +                reg = <3>;
-
-                    single-channel = <3>;
-                    common-mode-channel = <1>;
-
->> +                bipolar;
->> +            };
->> +        };
->> +    };
-> 
-
-And I will add a header file with macros for the common mode
-channel values.
-
+Thanks,
+Andi
