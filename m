@@ -1,255 +1,253 @@
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
+Received: from aposti.net (aposti.net [89.234.176.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91D6317BC9
-	for <linux-doc@vger.kernel.org>; Sat, 15 Jun 2024 10:53:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD583D96A;
+	Sat, 15 Jun 2024 11:16:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718448804; cv=none; b=jqrjBTO+yaj59my/gtbio5Z7cMKcpJc2j1sKCRmqtpX+oIBd/kCCgjbeDL7Nora4xKrZpIM9q7ddhQEsZ9FSaJORLLijCimRlrcXkfzKEpiHX55Mm/f9a/Q6KOighcJ3at1YCSxdPvEmVfDNFMHH0+dHSFGKmci3S7jZAGdkLWw=
+	t=1718450189; cv=none; b=NpvYvRRbBfc5jjlGnBtDcCdzXMdicqb+jYWGA2412M4+VoEzrRl9VoM2G728FaRn2k04QB/39SD+Y1dPlv/P5DZG41gca3y4xOXgmvsBFcHWKTbkJIs1ik1qinRuQ336CUNJLueg6PAOMUyAXHiF8oxwVkVC5lx+3FrhpxRKsUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718448804; c=relaxed/simple;
-	bh=VPF5vShawg1Kh9c87nuYNLGr6BziV6uT/5Vc+gR6CfE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZS+ReLPLBBIFstAjXQupZVwVtQK+NcoicVHryxE6Z2Vooo4fKsPwGQDL+8pLM0kqNHRg91UqxfW5w1krHUnrR9qbcD7snsUQ1IuTOSpcbUc72GP87lxQcETkvnN2b+VEv88sk5tKANsMdqUmGVkmSvOsrj+IDvOjzUXcYWzvgEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YGXR7cLX; arc=none smtp.client-ip=209.85.161.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1718450189; c=relaxed/simple;
+	bh=+qHT3f+/AOb9YgCvAG8VMXIyyDSdraW1NCKmyVQT+/E=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Kv9BU5zVAMkiPSKNyiiNeCSo7LR7n6OH2L4eTHc79FEpizlviRB++yACeVbLEjw+ZAX1wxMo61oCx+EpDDtHhScVbAgtZlJLdqhoIzPa/1xHrEA5A5ilg8P0XFLhNO5EdZ+S9nh2NlzvYNGVDpLBNS+9Iz6oxWeeOTE1ULarSgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=xOkvf8bk; arc=none smtp.client-ip=89.234.176.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YGXR7cLX"
-Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-5baeab9fd60so1472474eaf.2
-        for <linux-doc@vger.kernel.org>; Sat, 15 Jun 2024 03:53:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718448801; x=1719053601; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VPF5vShawg1Kh9c87nuYNLGr6BziV6uT/5Vc+gR6CfE=;
-        b=YGXR7cLXgUAja1FT37U3t6rr7xQP/sH1AiZwyjTEnPRVSOxO+hQBXXWtblKZo4JEOE
-         osqZXIuBBuD45ezWUou52phtQNLM01Fl1mY4paz4UJEEDPwSRmFhr9jC8jEKXAQjiiDW
-         vhJa/AzWPQFsYRqsLqJh7nzpql2z7xTdKkD2WblV1S6Novtn7KLSQ+1KoFOtuQFebip2
-         xA2HS3eYzKuVGIpG1o2PyV1fr+3K+0xd52hFy4GfVtpBdYaLzfksIqxoYNwiGrbQ2fGw
-         QacaWMSCsSXG70PyEAQiwovHcmx/mA4ORilwAStstL4PppE1JBhqLk0NZfsCuAcyb3C3
-         6QWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718448801; x=1719053601;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VPF5vShawg1Kh9c87nuYNLGr6BziV6uT/5Vc+gR6CfE=;
-        b=RPX9lnHHka9sH4n8uQvo1ZsaweFysoa8qw5sMTA0o0WpLQcIoAldJH0dFkjzsx9Bas
-         aJzdmCF4LckjS237P+1sXp3MpUfSvsFqaSpgL+cV2AAbHtbH8U+fHkApvwkUCmiRSxMi
-         vuBt9lJncaZfTtArJnYi+vYjcpJdOh+KxxbwX5cGoocxkXHHtkGYY6JeaGbWKnNRTEDq
-         ofEFjU/oCDuDqZZguR9eHmnKRSCDY645tLCRJ3av6ft2Xxmnxnz4BB/gyTxrebS2tNI1
-         UyEUuMeF+X21c6pIOQ3eLXEWWDXhml6NV9JFjdESCa3pU27yVcgr44leKHScY6InEb+f
-         oTsA==
-X-Forwarded-Encrypted: i=1; AJvYcCXYHEoo5KOA7XEmOjBC+2BMth6Tye0ccpnc9MSPaWHpFPuK5Fp86kY4jdBondVfz/YWrw2xQhouMai7gT0Q3PxAEVCnfm5Pt/v2
-X-Gm-Message-State: AOJu0YyKSr1MPPJDAcptkrWZLehc20ZjX2bXeDNdqvXey5fb4vmnhO5l
-	70pcMSKuOJjMmeabCN4KA8BSWsKlLgZbQO7jwnfy8nbqeK0Bhk7a3EL+STy3ZunmwLsssWICaUR
-	Zdxd0Ye5n6Y0Hr72h0vPNL5sbFOzF3RKtFu2MNn+w
-X-Google-Smtp-Source: AGHT+IF/CgAl0fJzkA8xQkg6CXyWxtl7uQ02wHPIiak3wKt+fvUQtj9VGN5amw10VXFiWbTE+OILBCKXQBfAPS5ltwg=
-X-Received: by 2002:a05:6820:1ca5:b0:5bd:a078:aba2 with SMTP id
- 006d021491bc7-5bdadb6f7c8mr5375415eaf.2.1718448801210; Sat, 15 Jun 2024
- 03:53:21 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="xOkvf8bk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1718449679;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=eE9dplccZ2IeUfRMWTD1T9OavWFDEd5FuUtuIlbIm48=;
+	b=xOkvf8bkCrpq2IaS1Ixz5oCY3xoo4+sPUB3J1Vgi3F5n8lrhY0e2cJezGW4bYSxzgzo5YH
+	zWxDPcXHUGpw34CyuKIBuN0g2hdVCkA9sP4V2AokcJD10YLd1epRDiNLCC8OTzsJaM7hgC
+	3GoD4JmHyWcDyfyqBw2Z4I/eJZV/Lzc=
+Message-ID: <0cdcf83a1ab7c199244d4a00157f6fa8979ef819.camel@crapouillou.net>
+Subject: Re: [PATCH v10 3/6] iio: core: Add new DMABUF interface
+ infrastructure
+From: Paul Cercueil <paul@crapouillou.net>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul <vkoul@kernel.org>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>,  Jonathan Corbet <corbet@lwn.net>, Nuno Sa
+ <nuno.sa@analog.com>, linux-iio@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ dmaengine@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Date: Sat, 15 Jun 2024 13:07:58 +0200
+In-Reply-To: <20240609105302.07de907a@jic23-huawei>
+References: <20240605110845.86740-1-paul@crapouillou.net>
+	 <20240605110845.86740-4-paul@crapouillou.net>
+	 <20240609105302.07de907a@jic23-huawei>
+Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
+ keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZM
+ LQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5Uz
+ FZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtN
+ z8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe
+ +rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY
+ 3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr
+ 1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f
+ 33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIP
+ dlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET
+ 4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7U
+ rf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KF
+ lBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFC
+ qaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IWYXnd
+ JO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN70
+ 62DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOt
+ X0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEA
+ AYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/
+ Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmc
+ Gu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2z
+ McLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/
+ 7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2c
+ LUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240614062633.1294-1-cuiyudong123@126.com>
-In-Reply-To: <20240614062633.1294-1-cuiyudong123@126.com>
-From: Dongliang Mu <mudongliangabcd@gmail.com>
-Date: Sat, 15 Jun 2024 18:52:54 +0800
-Message-ID: <CAD-N9QVG7=5kk9=xfQp4cK-bo4AK-4awQaXj3cmDjN-vmrs7Pg@mail.gmail.com>
-Subject: Re: [PATCH v3] docs/zh_CN: Add userspace-api/mseal Chinese translation
-To: cuiyudong123@126.com
-Cc: siyanteng@loongson.cn, linux-doc@vger.kernel.org, 
-	Yudong Cui <cuiyudong@kylinos.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
 
-LS0NCg0KDQoNCk9uIEZyaSwgSnVuIDE0LCAyMDI0IGF0IDM6MTLigK9QTSA8Y3VpeXVkb25nMTIz
-QDEyNi5jb20+IHdyb3RlOg0KPg0KPiBGcm9tOiBZdWRvbmcgQ3VpIDxjdWl5dWRvbmdAa3lsaW5v
-cy5jbj4NCj4NCj4gICBUcmFuc2xhdGUgdGhlIGZvbGxvd2luZyBkb2N1bWVudHMgaW50byBDaGlu
-ZXNlOg0KPg0KPiAgIC0gdXNlcnNwYWNlLWFwaS9tc2VhbC5yc3QNCj4NCj4gU2lnbmVkLW9mZi1i
-eTogWXVkb25nIEN1aSA8Y3VpeXVkb25nQGt5bGlub3MuY24+DQo+DQo+IC0tLQ0KPiBWMSAtPiBW
-MjogUmVzb2x2ZWQgY29tcGlsYXRpb24gd2FybmluZ3MgYW5kIG9wdGltaXplZCB0aGUgdHJhbnNs
-YXRpb24gb2YgZG9jdW1lbnRhdGlvbg0KPiBWMiAtPiBWMzogRml4IGNvZGUgZm9ybWF0dGluZyBl
-cnJvcnMNCj4gLS0tDQo+IC0tLQ0KPiAgLi4uL3poX0NOL3VzZXJzcGFjZS1hcGkvaW5kZXgucnN0
-ICAgICAgICAgICAgIHwgICAxICsNCj4gIC4uLi96aF9DTi91c2Vyc3BhY2UtYXBpL21zZWFsLnJz
-dCAgICAgICAgICAgICB8IDE4NiArKysrKysrKysrKysrKysrKysNCj4gIDIgZmlsZXMgY2hhbmdl
-ZCwgMTg3IGluc2VydGlvbnMoKykNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9u
-L3RyYW5zbGF0aW9ucy96aF9DTi91c2Vyc3BhY2UtYXBpL21zZWFsLnJzdA0KPg0KPiBkaWZmIC0t
-Z2l0IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdXNlcnNwYWNlLWFwaS9pbmRl
-eC5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi91c2Vyc3BhY2UtYXBpL2lu
-ZGV4LnJzdA0KPiBpbmRleCA1YjE0NzIxYzgyNjQuLmI3ZGEzMDdlYzZiYiAxMDA2NDQNCj4gLS0t
-IGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdXNlcnNwYWNlLWFwaS9pbmRleC5y
-c3QNCj4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdXNlcnNwYWNlLWFw
-aS9pbmRleC5yc3QNCj4gQEAgLTI3LDYgKzI3LDcgQEAgTGludXgg5YaF5qC455So5oi356m66Ze0
-QVBJ5oyH5Y2XDQo+ICAgICBlYnBmL2luZGV4DQo+ICAgICBzeXNmcy1wbGF0Zm9ybV9wcm9maWxl
-DQo+ICAgICBmdXRleDINCj4gKyAgIG1zZWFsDQo+DQo+ICBUT0RPTGlzdDoNCj4NCj4gZGlmZiAt
-LWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL3VzZXJzcGFjZS1hcGkvbXNl
-YWwucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vdXNlcnNwYWNlLWFwaS9t
-c2VhbC5yc3QNCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gaW5kZXggMDAwMDAwMDAwMDAwLi41
-OThiYjVmMTU2MmMNCj4gLS0tIC9kZXYvbnVsbA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5z
-bGF0aW9ucy96aF9DTi91c2Vyc3BhY2UtYXBpL21zZWFsLnJzdA0KPiBAQCAtMCwwICsxLDE4NSBA
-QA0KPiArLi4gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjANCj4gKy4uIGluY2x1ZGU6
-OiAuLi9kaXNjbGFpbWVyLXpoX0NOLnJzdA0KPiArDQo+ICs6T3JpZ2luYWw6IERvY3VtZW50YXRp
-b24vdXNlcnNwYWNlLWFwaS9tc2VhbC5yc3QNCj4gKw0KPiArOue/u+ivkToNCj4gKw0KPiArIOW0
-lOeOieagiyBjdWl5dWRvbmcgPGN1aXl1ZG9uZ0BreWxpbm9zLmNuPg0KPiArDQo+ICs9PT09PT09
-PT09DQo+ICttc2VhbCDnroDku4sNCj4gKz09PT09PT09PT0NCj4gKw0KPiArOuS9nOiAhTogSmVm
-ZiBYdSA8amVmZnh1QGNocm9taXVtLm9yZz4NCj4gKw0KPiAr546w5LujY3B15pSv5oyB6K+45aaC
-UlflkoxOWOS9jeeahOWGheWtmOadg+mZkOOAgui/meS4quWGheWtmOadg+mZkOeJueaAp+aPkOmr
-mOS6huWGheWtmOaNn+Wdj2J1Z+eahOWuieWFqOaAp+OAgg0KPiAr5pS75Ye76ICF5LiN6IO95Y+q
-5piv5YaZ5YWl5Lu75oSP5YaF5a2Y5bm25bCG5Luj56CB5oyH5ZCR5a6D77yM5YaF5a2Y5b+F6aG7
-55SoWOS9jeagh+iusO+8jOWQpuWImeS8muWPkeeUn+W8guW4uOOAgg0KDQpIb3cgYWJvdXQgdGhl
-IGZvbGxvd2luZyB0cmFuc2xhdGlvbu+8nw0KDQrnjrDku6PlpITnkIblmajmlK/mjIHor7jlpoJS
-V+WSjE5Y5L2N55qE5YaF5a2Y5p2D6ZmQ44CC6L+Z5Liq5YaF5a2Y5p2D6ZmQ54m55oCn5o+Q6auY
-5LqG5YaF5a2Y56C05Z2P5ryP5rSe77yIbWVtb3J5IGNvcnJ1cHRpb24gYnVn77yJ55qE5Yip55So
-6Zeo5qeb44CCDQrkuLrkuobpmLLmraLmlLvlh7vogIXml6Dms5XlhpnlhaXku7vmhI/lhoXlrZjl
-ubbov5vooYzmiafooYzvvIzlhoXlrZjlv4XpobvmoIforrDkuoZOWOS9je+8jOWQpuWImeS8muWP
-keeUn+W8guW4uOOAgg0KDQrov5nph4zmiJHop6Pph4rkuIDkuIvvvIxOWCDkvY3mmK/kuLrkuobp
-mLLmraLkuIDnp43ml6nmnJ/nmoTmlLvlh7vjgILml6nmnJ/lhoXlrZjpu5jorqTluKbmnIlSV1jm
-nYPpmZDjgILmlLvlh7vogIXlj6/lnKjmn5DlhoXlrZjljLrln5/lhpnlhaXmgbbmhI/ku6PnoIHv
-vIwNCuW5tuWwhueoi+W6j+aJp+ihjOa1geWvvOWQkeivpeWGheWtmOWMuuWfn+S7juiAjOWPkei1
-t+aUu+WHu+OAguiAjCBOWCDkvY3nmoTkvZznlKjmmK/pmZDliLblhoXlrZjlj6rog73luKZSVyDm
-iJYgWCDmnYPpmZDvvIwNCuS7juiAjOmYsuatouivpeaUu+WHu+OAguaJgOS7peaIkeinieW+l+aI
-keS7rOi/memDqOWIhuimgeaEj+ivkeOAgg0KDQpSZWZlciB0byBkZXRhaWxzIGluIGh0dHBzOi8v
-ZW4ud2lraXBlZGlhLm9yZy93aWtpL05YX2JpdC4NCg0KTW9yZW92ZXIsIEkgcHJlZmVyIHRvIHRy
-YW5zbGF0ZSBtZW1vcnkgY29ycnVwdGlvbiBidWcgdG8gIuWGheWtmOegtOWdj+a8j+a0niIsDQpp
-LmUuLCBhIGdlbmVyYWwgdnVsbmVyYWJpbGl0eSB3aXRoIGhpZ2ggc2V2ZXJpdHkuDQoNCj4gKw0K
-PiAr5YaF5a2Y5bCB6KOF6L+Y6aKd5aSW5L+d5oqk5LqG5pig5bCE5pys6Lqr5LiN6KKr5L+u5pS5
-44CC6L+Z5a+55LqO57yT6Kej5YaF5a2Y5o2f5Z2P6Zeu6aKY5b6I5pyJ55So77yMDQoNCmRpdHRv
-LCAi5YaF5a2Y56C05Z2P5ryP5rSeIg0KDQo+ICvlnKjov5nkupvpl67popjkuK3vvIzkuIDkuKrm
-jZ/lnY/nmoTmjIfpkojooqvkvKDpgJLnu5nlhoXlrZjnrqHnkIbns7vnu5/jgILkvovlpoLvvIwN
-Cj4gK+i/meagt+eahOaUu+WHu+iAheWOn+ivreWPr+S7peegtOWdj+aOp+WItua1geWujOaVtOaA
-p+S/neivge+8jOWboOS4uuW6lOivpeiiq+S/oeS7u+eahOWPquivu+WGheWtmOWPr+iDveWPmOW+
-l+WPr+WGme+8jA0KPiAr5oiW6ICFIC50ZXh0IOmhtemdouWPr+iDveS8muiiq+mHjeaWsOaYoOWw
-hOOAgui/kOihjOaXtuWKoOi9veeoi+W6j+WPr+S7peiHquWKqOW6lOeUqOWGheWtmOWvhuWwgead
-pQ0KPiAr5a+G5bCBLnRleHTlkowucm9kYXRh6aG16Z2i77yM5bm25LiU5bqU55So56iL5bqP5Y+v
-5Lul5Zyo6L+Q6KGM5pe26aKd5aSW5a+G5bCB5a6J5YWo5YWz6ZSu5pWw5o2u44CCDQo+ICsNCj4g
-K+exu+S8vOeahOeJueaAp+W3sue7j+WtmOWcqOS6jlhOVeWGheaguOS4rQ0KPiArVk1fRkxBR1Nf
-UEVSTUFORU5UIOagh+W/lyBbMV0g5ZKMIE9wZW5CU0Qg5LiK55qE5Y+v5Y+Y57O757uf6LCD55So
-IFsyXeOAgg0KPiArDQo+ICvnlKjmiLcgQVBJDQo+ICs9PT09PT09PQ0KPiArbXNlYWwoKQ0KPiAr
-LS0tLS0tLS0tLS0NCj4gK1RoZSBtc2VhbCgpIOezu+e7n+iwg+eUqOWFt+acieS7peS4i+etvuWQ
-jToNCj4gKw0KPiArYGBpbnQgbXNlYWwodm9pZCBhZGRyLCBzaXplX3QgbGVuLCB1bnNpZ25lZCBs
-b25nIGZsYWdzKWBgDQo+ICsNCj4gKyoqYWRkci9sZW4qKjog6Jma5ouf5YaF5a2Y5Zyw5Z2A6IyD
-5Zu044CCDQo+ICsNCj4gK+eUsSBgYGFkZHJgYC9gYGxlbmBgIOiuvue9rueahOWcsOWdgOiMg+Wb
-tOW/hemhu+a7oei2szoNCj4gKyAgIC0g6LW35aeL5Zyw5Z2A5b+F6aG75Zyo5bey5YiG6YWN55qE
-Vk1B5Lit44CCDQo+ICsgICAtIOi1t+Wni+WcsOWdgOW/hemhu+S4jumhtemdouWvuem9kOOAgg0K
-PiArICAgLSDnu5PmnZ/lnLDlnYAgKGBgYWRkcmBgICsgYGBsZW5gYCkg5b+F6aG75Zyo5bey5YiG
-6YWN55qEVk1B5Lit44CCDQo+ICsgICAtIOi1t+Wni+WcsOWdgOWSjOe7k+adn+WcsOWdgOS5i+mX
-tOayoeaciemXtOmamSAo5pyq5YiG6YWN55qE5YaF5a2YKSDjgIINCj4gKw0KPiAr6L+Z5LiqIGBg
-bGVuYGAg5bCG55Sx5YaF5qC46ZqQ5byP5Zyw6L+b6KGM5YiG6aG15a+56b2Q44CCDQo+ICsNCj4g
-KyoqZmxhZ3MqKjog5L+d55WZ5L6b5bCG5p2l5L2/55So44CCDQo+ICsNCj4gKyoq6L+U5Zue5YC8
-Kio6DQo+ICsNCj4gKy0gYGAwYGA6IOaIkOWKn+OAgg0KPiArDQo+ICstIGBgLUVJTlZBTGBgOg0K
-PiArICAgIC0g5peg5pWI55qE6L6T5YWlIGBgZmxhZ3NgYOOAgg0KPiArICAgIC0g6LW35aeL5Zyw
-5Z2AIChgYGFkZHJgYCkg5pyq5a+56b2Q6aG144CCDQo+ICsgICAgLSDlnLDlnYDojIPlm7QgKGBg
-YWRkcmBgICsgYGBsZW5gYCkg5rqi5Ye644CCDQo+ICsNCj4gKy0gYGAtRU5PTUVNYGA6DQo+ICsg
-ICAgLSDotbflp4vlnLDlnYAgKGBgYWRkcmBgKSDmnKrliIbphY3jgIINCj4gKyAgICAtIOe7k+ad
-n+WcsOWdgCAoYGBhZGRyYGAgKyBgYGxlbmBgKSDmnKrliIbphY3jgIINCj4gKyAgICAtIOS4gOS4
-qumXtOmamSAodW5hbGxvY2F0ZWQgbWVtb3J5KSDotbflp4vlnLDlnYDlkoznu5PmnZ/lnLDlnYDk
-uYvpl7TjgIINCj4gKw0KPiArLSBgYC1FUEVSTWBgOg0KPiArICAgIC0g5YaF5a2Y5a+G5bCB5LuF
-5ZyoNjTkvY1DUFXkuIrmlK/mjIHvvIwzMuS9jeS4jeWPl+aUr+aMgeOAgg0KPiArDQo+ICstIOWv
-ueS6juS4iui/sOmUmeivr+aDheWGte+8jOeUqOaIt+WPr+S7peacn+acm+e7meWumueahOWGheWt
-mOiMg+WbtOS4uuacquS/ruaUue+8jOWNs+ayoeaciemDqOWIhuabtOaWsOOAgg0KPiArDQo+ICst
-IOWPr+iDvei/mOacieWFtuS7luacquWcqOatpOWkhOWIl+WHuueahOWGhemDqOmUmeivry/mg4Xl
-hrXvvIzkvovlpoLvvIwNCj4gKyAg5Zyo5ZCI5bm2L+aLhuWIhlZNQe+8iOiZmuaLn+WGheWtmOWM
-uuWfn++8ieaXtuWPkeeUn+mUmeivr++8jOaIluiAhQ0KPiArICDov5vnqIvovr7liLDkuobmlK/m
-jIHnmoTmnIDlpKdWTUHmlbDph4/jgILlnKjov5nkupvmg4XlhrXkuIvvvIwNCj4gKyAg57uZ5a6a
-5YaF5a2Y6IyD5Zu05Y+v6IO95Lya5Y+R55Sf6YOo5YiG5pu05paw44CC54S26ICM77yM6L+Z5Lqb
-5oOF5Ya15bqU6K+l5b6I572V6KeB44CCDQo+ICsNCj4gKyoq5YaF5a2Y5a+G5bCB5ZCO55qE6Zi7
-5aGe5pON5L2cKio6DQo+ICsgICAg5Y+W5raI5pig5bCE77yM56e75Yqo5Yiw5Y+m5LiA5Liq5L2N
-572u77yM5bm257yp5bCP5aSn5bCP77yM6YCa6L+HbXVubWFwKCnlkoxtcmVtYXAoKe+8jA0KPiAr
-ICAgIOWPr+S7peeVmeS4i+S4gOS4quepuueZveeahOepuumXtO+8jOWboOatpOWPr+S7peeUqOWF
-t+acieS4gOe7hOaWsOWxnuaAp+eahFZNQeabv+aNouOAgg0KPiArDQo+ICsgICAg6YCa6L+HbXJl
-bWFwKCnvvIzlsIbkuI3lkIznmoRWTUHnp7vliqjmiJbmianlsZXliLDlvZPliY3kvY3nva7jgIIN
-Cj4gKw0KPiArICAgIOmAmui/h21tYXAoTUFQX0ZJWEVEKeS/ruaUuVZNQeOAgg0KPiArDQo+ICsg
-ICAg6YCa6L+HIG1yZW1hcCgpIOi/m+ihjOeahOWkp+Wwj+aJqeWxleS8vOS5juS4jeS8muWvueW3
-suWvhuWwgeeahCBWTUHvvIjomZrmi5/lhoXlrZjljLrln5/vvIkNCj4gKyAgICDpgKDmiJDku7vk
-vZXnibnlrprnmoTpo47pmanjgILlsL3nrqHlpoLmraTvvIznlLHkuo7kvb/nlKjlnLrmma/kuI3m
-mI7noa7vvIzov5nkuIDngrnov5jmmK/ooqvljIXmi6zkuobov5vmnaXjgIINCj4gKyAgICDml6Do
-rrrlpoLkvZXvvIznlKjmiLfpg73lj6/ku6Xkvp3otZblkIjlubbmk43kvZzmnaXmianlsZXlt7Ll
-r4blsIHnmoQgVk1B44CCDQo+ICsNCj4gKyAgICBtcHJvdGVjdCgpIOWSjCBwa2V5X21wcm90ZWN0
-KCnjgIINCj4gKw0KPiArICAgIOWvueS6juWMv+WQjeWGheWtmOS4gOS6m+egtOWdj+aAp+eahCBt
-YWR2aWNlKCkg6KGM5Li6ICjkvovlpoIgTUFEVl9ET05UTkVFRCkNCj4gKyAgICDlvZPnlKjmiLfm
-sqHmnInlr7nov5nlnZflhpnmnYPpmZDml7bjgILov5nkupvooYzkuLrlj6/ku6XpgJrov4fkuKLl
-vIPpobXpnaLmnaXmlLnlj5jljLrln5/lhoXlrrnvvIwNCj4gKyAgICDlrp7pmYXkuIrmmK/ljL/l
-kI3lhoXlrZjnmoQgbWVtc2V0KDApIOOAgg0KPiArDQo+ICsgICAg5a+55LqO6Zi75aGe55qE5pON
-5L2c77yM5YaF5qC45bCG6L+U5ZueIC1FUEVSTSDjgIINCj4gKw0KPiArICAgIOWvueS6jumYu+Wh
-nuaTjeS9nO+8jOWPr+S7peacn+acm+e7meWumueahOWcsOWdgOS4jeS8muiiq+S/ruaUue+8jA0K
-PiArICAgIOWNs+S4jeS8muWPkeeUn+mDqOWIhuabtOaWsOOAguivt+azqOaEj++8jOi/meS4jueO
-sOacieeahOWGheWtmOeuoeeQhuezu+e7n+iwg+eUqOihjOS4uuS4jeWQjO+8jA0KPiArICAgIOWQ
-juiAheWcqOWPkeeOsOmUmeivr+W5tui/lOWbnue7meeUqOaIt+epuumXtOS5i+WJjeS8mui/m+ih
-jOmDqOWIhuabtOaWsOOAguS4vuS4quS+i+WtkOadpeivtO+8mg0KPiArDQo+ICsgICAg5YGH6K6+
-5Luj56CB5bqP5YiX5aaC5LiLOg0KPiArDQo+ICsgICAgLSBwdHIgPSBtbWFwKG51bGwsIDgxOTIs
-IFBST1RfTk9ORSk7DQo+ICsgICAgLSBtdW5tYXAocHRyICsgNDA5NiwgNDA5Nik7DQo+ICsgICAg
-LSByZXQxID0gbXByb3RlY3QocHRyLCA4MTkyLCBQUk9UX1JFQUQpOw0KPiArICAgIC0gbXNlYWwo
-cHRyLCA0MDk2KTsNCj4gKyAgICAtIHJldDIgPSBtcHJvdGVjdChwdHIsIDgxOTIsIFBST1RfTk9O
-RSk7DQo+ICsNCj4gKyAgICByZXQxIOWwhuWPmOaIkCAtRU5PTUVNLCBwdHLmjIflkJHnmoTpobXm
-m7TmlrDkuLpQUk9UX1JFQUTjgIINCj4gKw0KPiArICAgIHJldDIg5bCG5Y+Y5oiQIC1FUEVSTSwg
-6L+Z5Liq6aG16Z2i5LuN54S25pivIFBST1RfUkVBROOAgg0KPiArDQo+ICsqKuazqOaEjyoqOg0K
-PiArDQo+ICstIG1zZWFsKCkg5LuF6YCC55So5LqONjTkvY1DUFXvvIzkuI3mlK/mjIEzMuS9jUNQ
-VeOAgg0KPiArDQo+ICstIOeUqOaIt+WPr+S7peWkmuasoeiwg+eUqCBtc2VhbCgpICwg5a+55bey
-57uP5a+G5bCB55qE5YaF5a2Y5omn6KGMIG1zZWFsKCkg5piv5LiA5Liq5peg5pON5L2c77yI5LiN
-5oql6ZSZ77yJ44CCDQo+ICsNCj4gKy0g5LiN5pSv5oyBbXVuc2VhbCgpIOOAgg0KPiArDQo+ICvn
-lKjkvos6DQo+ICs9PT09PQ0KPiArLSBnbGliYzoNCj4gKyAg5Zyo5Yqg6L29IEVMRiDlj6/miafo
-oYzmlofku7bml7bvvIzliqjmgIHpk77mjqXlmajlj6/ku6Xlr7npnZ7lj6/lhpnlhoXlrZjmrrXl
-upTnlKjlr4blsIHmk43kvZzjgIINCj4gKw0KPiArLSBDaHJvbWUg5rWP6KeI5ZmoOiDkv53miqTp
-g6jliIblr7nlronlhajmlY/mhJ/nmoTmlbDmja7nu5PmnoTjgIINCj4gKw0KPiAr5YWz5LqO5ZOq
-5Lqb5YaF5a2Y5bqU6K+l6KKr5a+G5bCB55qE5rOo5oSP5LqL6aG5Og0KPiArPT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09DQo+ICsNCj4gK+mHjeimgeeahOaYr+imgeazqOaEj++8jOWv
-huWwgeS8muaUueWPmOaYoOWwhOeahOeUn+WRveWRqOacn++8jOWNs+W3suWvhuWwgeeahOaYoOWw
-hOWcqOi/m+eoi+e7iOatog0KPiAr5oiW5omn6KGMIGV4ZWMg57O757uf6LCD55So5LmL5YmN5LiN
-5Lya6KKr5Y+W5raI5pig5bCE44CC5bqU55So56iL5bqP5Y+v5Lul5LuO55So5oi356m66Ze05a+5
-5Lu75L2V6Jma5oufDQo+ICvlhoXlrZjljLrln5/lupTnlKjlr4blsIHvvIzkvYblnKjlupTnlKjl
-r4blsIHkuYvliY3vvIzlvbvlupXliIbmnpDmmKDlsITnmoTnlJ/lkb3lkajmnJ/mmK/oh7PlhbPp
-h43opoHnmoTjgIINCj4gKw0KPiAr5L6L5aaCOg0KPiArDQo+ICstIGFpby9zaG0NCj4gKw0KPiAr
-ICBhaW8vc2htIOWPr+S7peS7o+ihqOeUqOaIt+epuumXtOiwg+eUqCBtbWFwKCkvbXVubWFwKCkg
-LCDkvovlpoIga3N5c19zaG1kdCgpIOWcqHNobS5j5Lit44CCDQo+ICsgIOi/meS6m+aYoOWwhOea
-hOeUn+WRveWRqOacn+W5tuS4jeS4jui/m+eoi+eahOeUn+WRveWRqOacn+e7keWumuOAguWmguae
-nOi/meS6m+WGheWtmOWMuuWfn+S7jueUqOaIt+epuumXtOiiq+WvhuWwge+8jA0KPiArICDpgqPk
-uYggbXVubWFwKCkg5bCG5aSx6LSl77yM5a+86Ie05Zyo6L+b56iL55qE55Sf5ZG95ZGo5pyf5YaF
-IFZNQe+8iOiZmuaLn+WGheWtmOWMuuWfn++8ieWcsOWdgOepuumXtOS4rQ0KPiArICDlh7rnjrDm
-s4TmvI/jgIINCj4gKy0gQnJrIChoZWFwKQ0KPiArDQo+ICsgIOebruWJje+8jOeUqOaIt+epuumX
-tOeahOW6lOeUqOeoi+W6j+WPr+S7pemAmui/h+iwg+eUqCBtYWxsb2MoKSDlkowgbXNlYWwoKSDm
-naXlr4blsIHloIbvvIhoZWFw77yJ55qEDQo+ICsgIOmDqOWIhuWGheWtmOOAguiuqeaIkeS7rOWB
-h+iuvuS7peS4i+adpeiHqueUqOaIt+epuumXtOeahOiwg+eUqDoNCj4gKw0KPiArICAtIHB0ciA9
-IG1hbGxvYyhzaXplKTsNCj4gKyAgLSBtcHJvdGVjdChwdHIsIHNpemUsIFJPKTsNCj4gKyAgLSBt
-c2VhbChwdHIsIHNpemUpOw0KPiArICAtIGZyZWUocHRyKTsNCj4gKw0KPiArICDmioDmnK/kuIrv
-vIzlnKggbXNlYWwoKSDooqvmt7vliqDkuYvliY3vvIznlKjmiLflj6/ku6XpgJrov4fosIPnlKgg
-bXByb3RlY3QoUk8pDQo+ICsgIOadpeaUueWPmOWghueahOS/neaKpOWxnuaAp+OAguWPquimgeeU
-qOaIt+WcqOiwg+eUqCBmcmVlKCkg5LmL5YmN5bCG5L+d5oqk5bGe5oCn5pS55ZueIFJX77yI6K+7
-5YaZ77yJ77yMDQo+ICsgIOi/meWdl+WGheWtmOiMg+WbtOWwseWPr+S7peiiq+mHjeeUqOOAgg0K
-PiArDQo+ICsgIOeEtuiAjO+8jOW8leWFpSBtc2VhbCgpIOS5i+WQju+8jOWghueahOmDqOWIhuWG
-heWtmOWwhuiiq+WvhuWwge+8jOeUqOaIt+S7jeeEtuWPr+S7pemHiuaUvui/memDqOWIhuWGheWt
-mO+8jA0KPiArICDkvYblhoXlrZjlsIbkv53mjIHkuLogUk/vvIjlj6ror7vvvInjgILlpoLmnpzl
-oIbnrqHnkIblmajph43mlrDkvb/nlKjov5nkuKrlnLDlnYDmnaXliIbphY3lj6bkuIDlnZflhoXl
-rZjvvIwNCj4gKyAg6L+b56iL5Y+v6IO95Zyo5LiN5LmF5ZCO5bSp5rqD44CC5Zug5q2k77yM5LiN
-6KaB5a+55Lu75L2V5Y+v6IO95Lya6KKr5Zue5pS255qE5YaF5a2Y5bqU55So5a+G5bCB77yMDQo+
-ICsgIOi/meaYr+mdnuW4uOmHjeimgeeahOOAgg0KPiArDQo+ICsgIOatpOWklu+8jOWNs+S9v+W6
-lOeUqOeoi+W6j+S7juacquWvueaMh+mSiCBwdHIg6LCD55SoIGZyZWUoKe+8jOWghueuoeeQhuWZ
-qOS5n+WPr+iDveS8mg0KPiArICDosIPnlKggYnJrIOezu+e7n+iwg+eUqOadpee8qeWwj+Wghuea
-hOWkp+Wwj+OAguWcqOWGheaguOS4re+8jGJyayDnvKnlsI/mk43kvZzkvJrosIPnlKggbXVubWFw
-KCnjgIINCj4gKyAg5Zug5q2k77yM5qC55o2uIHB0ciDnmoTkvY3nva7vvIxicmsg57yp5bCP5pON
-5L2c55qE57uT5p6c5piv5LiN56Gu5a6a55qE44CCDQo+ICsNCj4gK+WFtuS7luivtOaYjjoNCj4g
-Kz09PT09PT09PQ0KPiAr5q2j5aaCIEphbm4gSG9ybiDlnKggWzNdIOS4reaMh+WHuueahOmCo+ag
-tywNCj4gK+S7jeeEtuacieWHoOenjeaWueazleWPr+S7peWGmeWFpSBST++8iOWPquivu++8ieWG
-heWtmO+8jOi/meWcqOafkOenjeeoi+W6puS4iuaYr+iuvuiuoeS4iueahOiAg+iZkeOAgg0KPiAr
-6L+Z5Lqb5oOF5Ya15LiN5Lya6KKrIG1zZWFsKCkg5ra155uW44CC5aaC5p6c5bqU55So56iL5bqP
-5oOz6KaB6Zi75q2i6L+Z57G75oOF5Ya177yMDQo+ICvlj6/ku6XogIPomZHkvb/nlKjmspnnrrHl
-t6XlhbfvvIjlpoIgc2VjY29tcOOAgUxTTSDnrYnvvInjgIINCj4gKw0KPiAr6L+Z5Lqb5oOF5Ya1
-5pivOg0KPiArDQo+ICstIOmAmui/hy9wcm9jL3NlbGYvbWVt5o6l5Y+j5YaZ5YWl5Y+q6K+75YaF
-5a2Y44CCDQo+ICstIOmAmui/h3B0cmFjZSjlpoJQVFJBQ0VfUE9LRVRFWFQp5YaZ5YWl5Y+q6K+7
-5YaF5a2Y44CCDQo+ICstIHVzZXJmYXVsdGZk44CCDQo+ICsNCj4gK+i/meS4quihpeS4geeahOeB
-teaEn+adpeiHquS6jiBTdGVwaGVuIFLDtnR0Z2Vy4oCZcyDlnKggVjggQ0ZJ77yI5o6n5Yi25rWB
-5a6M5pW05oCn77yJ5Lit55qE5bel5L2cIFs0XeOAgg0KPiArQ2hyb21lT1PkuK3nmoRDaHJvbWXm
-tY/op4jlmajlsIbmmK/mraRBUEnnmoTnrKzkuIDkuKrnlKjmiLfjgIINCj4gKw0KPiAr5Y+C6ICD
-Og0KPiArPT09PT0NCj4gK1sxXSBodHRwczovL2dpdGh1Yi5jb20vYXBwbGUtb3NzLWRpc3RyaWJ1
-dGlvbnMveG51L2Jsb2IvMTAzMWM1ODRhNWUzN2FmZjE3NzU1OWI5ZjY5ZGJkM2M4YzNmZDMwYS9v
-c2Ztay9tYWNoL3ZtX3N0YXRpc3RpY3MuaCNMMjc0DQo+ICsNCj4gK1syXSBodHRwczovL21hbi5v
-cGVuYnNkLm9yZy9taW1tdXRhYmxlLjINCj4gKw0KPiArWzNdIGh0dHBzOi8vbG9yZS5rZXJuZWwu
-b3JnL2xrbWwvQ0FHNDhlejNTaFVZZXkrWkFGc1UyaTFScFFuMGE1ZU9zMmh6UTQyNkZrY2duZlVH
-THZBQG1haWwuZ21haWwuY29tDQo+ICsNCj4gK1s0XSBodHRwczovL2RvY3MuZ29vZ2xlLmNvbS9k
-b2N1bWVudC9kLzFPMmp3SzRkeEkzblJjT0p1UFlrb25oVGtOUWZibXdkdnhRTXlYZ2VhUkhvL2Vk
-aXQjaGVhZGluZz1oLmJ2YW9qajlmdTZoYw0KPiAtLQ0KPiAyLjMzLjANCj4NCj4NCg==
+Le dimanche 09 juin 2024 =C3=A0 10:53 +0100, Jonathan Cameron a =C3=A9crit=
+=C2=A0:
+> On Wed,=C2=A0 5 Jun 2024 13:08:42 +0200
+> Paul Cercueil <paul@crapouillou.net> wrote:
+>=20
+> > Add the necessary infrastructure to the IIO core to support a new
+> > optional DMABUF based interface.
+> >=20
+> > With this new interface, DMABUF objects (externally created) can be
+> > attached to a IIO buffer, and subsequently used for data transfer.
+> >=20
+> > A userspace application can then use this interface to share DMABUF
+> > objects between several interfaces, allowing it to transfer data in
+> > a
+> > zero-copy fashion, for instance between IIO and the USB stack.
+> >=20
+> > The userspace application can also memory-map the DMABUF objects,
+> > and
+> > access the sample data directly. The advantage of doing this vs.
+> > the
+> > read() interface is that it avoids an extra copy of the data
+> > between the
+> > kernel and userspace. This is particularly userful for high-speed
+> > devices which produce several megabytes or even gigabytes of data
+> > per
+> > second.
+> >=20
+> > As part of the interface, 3 new IOCTLs have been added:
+> >=20
+> > IIO_BUFFER_DMABUF_ATTACH_IOCTL(int fd):
+> > =C2=A0Attach the DMABUF object identified by the given file descriptor
+> > to the
+> > =C2=A0buffer.
+> >=20
+> > IIO_BUFFER_DMABUF_DETACH_IOCTL(int fd):
+> > =C2=A0Detach the DMABUF object identified by the given file descriptor
+> > from
+> > =C2=A0the buffer. Note that closing the IIO buffer's file descriptor
+> > will
+> > =C2=A0automatically detach all previously attached DMABUF objects.
+> >=20
+> > IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *):
+> > =C2=A0Request a data transfer to/from the given DMABUF object. Its file
+> > =C2=A0descriptor, as well as the transfer size and flags are provided i=
+n
+> > the
+> > =C2=A0"iio_dmabuf" structure.
+> >=20
+> > These three IOCTLs have to be performed on the IIO buffer's file
+> > descriptor, obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.
+> >=20
+> > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> > Signed-off-by: Nuno Sa <nuno.sa@analog.com>
+>=20
+> Need a brief note on the sign off chain.
+> What is Nuno's role in this series as he's not sending the emails and
+> not
+> marked with Co-developed-by=20
+
+That's a good question. I think he sent one revision of the patchset
+(v7 or something like that) so he added his SoB.
+
+(Nuno: you confirm?)
+
+I'll add his Co-developed-by then.
+
+Cheers,
+-Paul
+
+> I gave this a much more thorough look in earlier versions than I have
+> today but
+> a few really minor things inline (that I might have fixed up whilst
+> applying)
+> but looks like you'll be done a v11 for Randy's docs comments anyway
+> :(
+>=20
+> Jonathan
+>=20
+>=20
+> > diff --git a/drivers/iio/industrialio-buffer.c
+> > b/drivers/iio/industrialio-buffer.c
+> > index 0138b21b244f..c98c8ac83785 100644
+> > --- a/drivers/iio/industrialio-buffer.c
+> > +++ b/drivers/iio/industrialio-buffer.c
+>=20
+> > +struct iio_dmabuf_priv {
+> > +	struct list_head entry;
+> > +	struct kref ref;
+> > +
+> > +	struct iio_buffer *buffer;
+> > +	struct iio_dma_buffer_block *block;
+> > +
+> > +	u64 context;
+> > +	spinlock_t lock;
+>=20
+> Given you are going to have a v11, please add a comment to this lock
+> to say what data it is protecting.=20
+>=20
+> > +
+> > +	struct dma_buf_attachment *attach;
+> > +	struct sg_table *sgt;
+> > +	enum dma_data_direction dir;
+> > +	atomic_t seqno;
+> > +};
+>=20
+>=20
+> > diff --git a/include/linux/iio/buffer_impl.h
+> > b/include/linux/iio/buffer_impl.h
+> > index 89c3fd7c29ca..1a221c1d7736 100644
+> > --- a/include/linux/iio/buffer_impl.h
+> > +++ b/include/linux/iio/buffer_impl.h
+> > @@ -9,8 +9,12 @@
+> > =C2=A0#include <uapi/linux/iio/buffer.h>
+> > =C2=A0#include <linux/iio/buffer.h>
+> > =C2=A0
+> > +struct dma_buf_attachment;
+> > +struct dma_fence;
+> > =C2=A0struct iio_dev;
+> > +struct iio_dma_buffer_block;
+> > =C2=A0struct iio_buffer;
+> > +struct sg_table;
+> > =C2=A0
+> > =C2=A0/**
+> > =C2=A0 * INDIO_BUFFER_FLAG_FIXED_WATERMARK - Watermark level of the
+> > buffer can not be
+> > @@ -39,6 +43,13 @@ struct iio_buffer;
+> > =C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 device stop=
+s sampling. Calles are balanced
+> > with @enable.
+> > =C2=A0 * @release:		called when the last reference to the
+> > buffer is dropped,
+> > =C2=A0 *			should free all resources allocated by the
+> > buffer.
+> > + * @attach_dmabuf:	called from userspace via ioctl to attach
+> > one external
+> > + *			DMABUF.
+> > + * @detach_dmabuf:	called from userspace via ioctl to detach
+> > one previously
+> > + *			attached DMABUF.
+> > + * @enqueue_dmabuf:	called from userspace via ioctl to queue
+> > this DMABUF
+> > + *			object to this buffer. Requires a valid
+> > DMABUF fd, that
+> > + *			was previouly attached to this buffer.
+>=20
+> Missing docs for lock_queue() and unlock_queue()
+>=20
+> Kernel-doc must be complete or bots are going to moan at us :(
+>=20
+> > =C2=A0 * @modes:		Supported operating modes by this buffer
+> > type
+> > =C2=A0 * @flags:		A bitmask combination of
+> > INDIO_BUFFER_FLAG_*
+> > =C2=A0 *
+> > @@ -68,6 +79,17 @@ struct iio_buffer_access_funcs {
+> > =C2=A0
+> > =C2=A0	void (*release)(struct iio_buffer *buffer);
+> > =C2=A0
+> > +	struct iio_dma_buffer_block * (*attach_dmabuf)(struct
+> > iio_buffer *buffer,
+> > +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct
+> > dma_buf_attachment *attach);
+> > +	void (*detach_dmabuf)(struct iio_buffer *buffer,
+> > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct iio_dma_buffer_block *block);
+> > +	int (*enqueue_dmabuf)(struct iio_buffer *buffer,
+> > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct iio_dma_buffer_block *block,
+> > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct dma_fence *fence, struct
+> > sg_table *sgt,
+> > +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 size_t size, bool cyclic);
+> > +	void (*lock_queue)(struct iio_buffer *buffer);
+> > +	void (*unlock_queue)(struct iio_buffer *buffer);
+> > +
+>=20
+>=20
+
