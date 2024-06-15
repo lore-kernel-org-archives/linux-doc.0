@@ -1,62 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.hallyn.com (mail.hallyn.com [178.63.66.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D82A19D8A2;
-	Sat, 15 Jun 2024 13:12:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE602179BC;
+	Sat, 15 Jun 2024 15:19:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.63.66.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718457141; cv=none; b=PXewILoyXi74PK9ZSLPYbjSRilBQuikSgiQdSgtsfZqqbZPzrRqxFAFRbpYZ4BcOx9lGbnv0KWH3DWzFK5+QpKeK6BtCcVV1oLQahlCu1IDN+EpFfze3GefQBkM0TNnCBCchp//Eux1rZCtlalFzFu1oJigeQBz3+VP48gUgQT0=
+	t=1718464759; cv=none; b=ccHWVuY8eaYBZgGXgDVwgpIA8VACA7tIBgLwFwICFkUaWuOx5trAicMFg+s/6rZuooK6Mc0RtRH0MOCIAKMLGOocSXR5f5DAYeZreJxNePcvNWWAlaUr8JwtjeF5Zl4y9OKSfdHsUEkevgkjNa26zBdeP2ZPqOCl3sXvCVORMZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718457141; c=relaxed/simple;
-	bh=sCaajyoF5wt1RmM5a76ZgBP/wcHHTkocUYQlIPgRzqw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XDVUx/QX/ibtN1cL5JJt0atD/mC5bJ/AlOMydKbr2OosoNkZ9L34uzf62ZkJv5C0SvakHau7+tPFQtKEakI/fstvBvCCPJ2khtHdNqxy3R62yl83PosCO70a/IosXOQ00e1pdKkCCsyMyhZimx8mQNfxCTxjLBB+uUPWLWKjJSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G5iqrECv; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G5iqrECv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6F0BC116B1;
-	Sat, 15 Jun 2024 13:12:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718457141;
-	bh=sCaajyoF5wt1RmM5a76ZgBP/wcHHTkocUYQlIPgRzqw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=G5iqrECvqEiBak/YajBDOg6u7XkU5bhJmgb6xzfZ7zs6gokFtJBiGzTO4/939iaSe
-	 cQJJxSvYo6sEc4TzE2uE7IJGUdv8PYb+A/krUrv4dghkjnGVtaoEiBXBO6fq9UwX4h
-	 Eli9IssMx73DOKAV1bV6Rn/vbBfoCW9wOTRcgtw4Kp6qOZt1249HYnJX+0RbIKrpJU
-	 ww/ZAYb363AKch3dlZcp6YXyni6k9visprkUjuOn8oWZoldL7FakeBEJPCNiyYtYpO
-	 jx3TAycD/ePD2vkPPCcawbCY4tHl58vXRDw4pcN35jTdoH4/izL+y7x1UoKyB2cXg9
-	 LTdDLFnPA2c+w==
-Date: Sat, 15 Jun 2024 14:12:15 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Michael Hennerich
- <michael.hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH 3/3] Documentation: iio: Document ad4695 driver
-Message-ID: <20240615141215.3579ba8c@jic23-huawei>
-In-Reply-To: <20240612-iio-adc-ad4695-v1-3-6a4ed251fc86@baylibre.com>
-References: <20240612-iio-adc-ad4695-v1-0-6a4ed251fc86@baylibre.com>
-	<20240612-iio-adc-ad4695-v1-3-6a4ed251fc86@baylibre.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1718464759; c=relaxed/simple;
+	bh=1zDuwRl/lX9dBCJ3NnMtmQCVtCwygvYkw+bI7CIvKEg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ut4e2njVUCH0DSKaYG8avLBul5tEjQw1kMu77HZD7bB9AVQjkhBWI5DXNy2QoftBx4Q+GxEzA1HO52IQ4uIZsB5sCfCy4XpVStU5uIMi/wYtCSlm4/RcaZixtiifg7QGrtOkqZEl0aHyy1/Uch2kOy0uZxb63BxxWKXqIRyN4dA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hallyn.com; spf=pass smtp.mailfrom=mail.hallyn.com; arc=none smtp.client-ip=178.63.66.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hallyn.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.hallyn.com
+Received: by mail.hallyn.com (Postfix, from userid 1001)
+	id B241C66D; Sat, 15 Jun 2024 10:19:08 -0500 (CDT)
+Date: Sat, 15 Jun 2024 10:19:08 -0500
+From: "Serge E. Hallyn" <serge@hallyn.com>
+To: Jonathan Calmels <jcalmels@3xx0.net>
+Cc: "Serge E. Hallyn" <serge@hallyn.com>, Andrew Morgan <morgan@kernel.org>,
+	brauner@kernel.org, ebiederm@xmission.com,
+	Jonathan Corbet <corbet@lwn.net>, Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>, KP Singh <kpsingh@kernel.org>,
+	Matt Bobrowski <mattbobrowski@google.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
+	Kees Cook <kees@kernel.org>, Joel Granados <j.granados@samsung.com>,
+	John Johansen <john.johansen@canonical.com>,
+	David Howells <dhowells@redhat.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Stephen Smalley <stephen.smalley.work@gmail.com>,
+	Ondrej Mosnacek <omosnace@redhat.com>,
+	Mykola Lysenko <mykolal@fb.com>, Shuah Khan <shuah@kernel.org>,
+	containers@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-security-module@vger.kernel.org, bpf@vger.kernel.org,
+	apparmor@lists.ubuntu.com, keyrings@vger.kernel.org,
+	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] capabilities: Add user namespace capabilities
+Message-ID: <20240615151908.GA44653@mail.hallyn.com>
+References: <20240609104355.442002-1-jcalmels@3xx0.net>
+ <20240609104355.442002-2-jcalmels@3xx0.net>
+ <20240610130057.GB2193924@mail.hallyn.com>
+ <o5llgu7tzei7g2alssdqvy4g2gn66b73tcsir3xqktfqs765ke@wyofd2abvdbj>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <o5llgu7tzei7g2alssdqvy4g2gn66b73tcsir3xqktfqs765ke@wyofd2abvdbj>
 
-On Wed, 12 Jun 2024 14:20:42 -0500
-David Lechner <dlechner@baylibre.com> wrote:
+On Tue, Jun 11, 2024 at 01:20:40AM -0700, Jonathan Calmels wrote:
+> On Mon, Jun 10, 2024 at 08:00:57AM GMT, Serge E. Hallyn wrote:
+> > 
+> > Now, one thing that does occur to me here is that there is a
+> > very mild form of sendmail-capabilities vulnerability that
+> > could happen here.  Unpriv user joe can drop CAP_SYS_ADMIN
+> > from cap_userns, then run a setuid-root program which starts
+> > a container which expects CAP_SYS_ADMIN.  This could be a
+> > shared container, and so joe could be breaking expected
+> > behavior there.
+> > 
+> > I *think* we want to say we don't care about this case, but
+> > if we did, I suppose we could say that the normal cap raise
+> > rules on setuid should apply to cap_userns?
+> > 
+> 
+> Right, good catch. If we do want to fix it, we could just check for
+> setuid no? Or do we want to follow the normal root inheritance rules
+> too? Essentially something like this:
+> 
+> pU' = is_suid(root) ? X : pU
 
-> The Analog Devices Inc. AD4695 (and similar chips) are complex ADCs that
-> will benefit from a detailed driver documentation.
-> 
-> This documents the current features supported by the driver.
-> 
-> Signed-off-by: David Lechner <dlechner@baylibre.com>
-LGTM.
+Yeah, I think that makes sense.  Thanks.
+
+-serge
