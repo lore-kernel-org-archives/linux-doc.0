@@ -1,489 +1,438 @@
-Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCEE817555
-	for <linux-doc@vger.kernel.org>; Sat, 15 Jun 2024 07:57:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
+Received: from zg8tmja2lje4os4yms4ymjma.icoremail.net (zg8tmja2lje4os4yms4ymjma.icoremail.net [206.189.21.223])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27E8DBE68;
+	Sat, 15 Jun 2024 08:25:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.21.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718438234; cv=none; b=N+Gk2YDMr3mhK66olGXRTFnBZu5sgyaIomSUmdzFbwN+QnWnUtiTQTPjFfl/2BLGDkKpyFAgxH7puUF4sa7PUQ4MhUH3g2/XBeoJbfIwi3SJj1Rxj9li6zPd/kguWXQ72obBYKilDxwr4qhltEhrLoCBw6B9NbX9PPTkHXZ1uyE=
+	t=1718439913; cv=none; b=QEYuKbQU+WYrUUoZN49NQvj9PyEWWnQc9lm3FtFHG5i219/bAXrILDKEupbej2wQzEy5NDA6ySOkkO3GUeXdITMSb2F32choLuuvhN5dpI24RNjjlSH7uSCiMXzs4Dym96sMrdOR6uC2VJRHexe5wW1Ez0PNzJTm1HuatpC1Lpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718438234; c=relaxed/simple;
-	bh=c/bOb9NWDptsEULHZ+RqVk523GacMXCf7Q2K9ZJNfxs=;
-	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
-	 In-Reply-To:References; b=PfF0oTO24RmQ3OV6h5sPlpY+zMx3lSISnisHosCxDBzhH6u/dwxbWjhJhYECLae0gxQToTRo4PqM+L8iLFrBHyLQg+axKLyUXmzyKnbRRtvo0/ib0qCcWuo0K8XC/iAZehYoXq2L8nZpnIKpZAgftrBCDwt33cS7ndEdk9CNxoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=FPF2jJnc; arc=none smtp.client-ip=95.215.58.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="FPF2jJnc"
-X-Envelope-To: dzm91@hust.edu.cn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1718438228;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eVSXAEAYYJ5QMyoR3fNbtOAlxOQo54TXyZi3+aaydQ4=;
-	b=FPF2jJncCwta4T01EGeYfiY17UD3oqcYrkY0qszUYvgdmBM2W8rwa4hFxJytza2w4YEfzR
-	oT4m1ncc5mts+2whQq9g18S7ME5XLtF4EYuqyvuG+uPdE5da/oS5ILtiM0T0256lVMD28S
-	ixwACTRpkqV9bD1WsUXaiHOzC9cgH90=
-X-Envelope-To: corbet@lwn.net
-X-Envelope-To: alexs@kernel.org
-X-Envelope-To: siyanteng@loongson.cn
-X-Envelope-To: linux-doc@vger.kernel.org
-X-Envelope-To: linux-kernel@vger.kernel.org
+	s=arc-20240116; t=1718439913; c=relaxed/simple;
+	bh=IlnUBEHlUTDilPI8TWHODx0HU1aDoU75blv08V81wVI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MSefItI7UXAFNaJfJ22Gi+VrIVhmu2K48iRsJURAAcCUQRS0osuWSgQ1KXemT+UAo8r0dMCRu/UVQ21YOkiOv9KLQDsSXzcGZ8fDQ3gv9q66ZAmpYzJav9Y339ARYEFdwLYSCIuDSGKodJ1I5sL/3tcpLdHnMqUh2cJqq4/SALE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=206.189.21.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app1 (Coremail) with SMTP id HgEQrADn74O_T21mNNvrBw--.52314S2;
+	Sat, 15 Jun 2024 16:24:31 +0800 (CST)
+Received: from [10.12.169.238] (unknown [10.12.169.238])
+	by gateway (Coremail) with SMTP id _____wAHZi67T21mDCUdAQ--.56296S2;
+	Sat, 15 Jun 2024 16:24:29 +0800 (CST)
+Message-ID: <5351308d-6fb7-4179-b0a0-32107d8244b7@hust.edu.cn>
+Date: Sat, 15 Jun 2024 16:24:27 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Sat, 15 Jun 2024 07:57:05 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: si.yanteng@linux.dev
-Message-ID: <4da91d0b2a0dc580ffaa7c67ab1860c310387e10@linux.dev>
-TLS-Required: No
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 2/2] doc-guide: add help documentation
  checktransupdate.rst
-To: "Dongliang Mu" <dzm91@hust.edu.cn>, "Jonathan Corbet" <corbet@lwn.net>,
- "Alex Shi" <alexs@kernel.org>, "Yanteng Si" <siyanteng@loongson.cn>
+To: si.yanteng@linux.dev, Jonathan Corbet <corbet@lwn.net>,
+ Alex Shi <alexs@kernel.org>, Yanteng Si <siyanteng@loongson.cn>
 Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20240615035323.909650-2-dzm91@hust.edu.cn>
 References: <20240615035323.909650-1-dzm91@hust.edu.cn>
  <20240615035323.909650-2-dzm91@hust.edu.cn>
-X-Migadu-Flow: FLOW_OUT
-
-2024=E5=B9=B46=E6=9C=8815=E6=97=A5 11:53, "Dongliang Mu" <dzm91@hust.edu.=
-cn> =E5=86=99=E5=88=B0:
-
-
-
->=20
->=20This commit adds help documents - Documentation/doc-guide/checktransu=
-pdate.rst
->=20
->=20and Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
->=20
->=20for scripts/checktransupdate.py, including English and Chinese versio=
-ns
->=20
->=20Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
->=20
->=20---
->=20
->=20v1->v2: fix some issues according to Randy
->=20
->=20 Documentation/doc-guide/checktransupdate.rst | 63 ++++++++++++++++++=
-+
->=20
->=20 Documentation/doc-guide/index.rst | 1 +
->=20
->=20 .../zh_CN/doc-guide/checktransupdate.rst | 62 ++++++++++++++++++
->=20
->=20 .../translations/zh_CN/doc-guide/index.rst | 1 +
->=20
->=20 4 files changed, 127 insertions(+)
->=20
->=20 create mode 100644 Documentation/doc-guide/checktransupdate.rst
->=20
->=20 create mode 100644 Documentation/translations/zh_CN/doc-guide/checkt=
-ransupdate.rst
->=20
->=20diff --git a/Documentation/doc-guide/checktransupdate.rst b/Documenta=
-tion/doc-guide/checktransupdate.rst
->=20
->=20new file mode 100644
->=20
->=20index 000000000000..4ece330882d6
->=20
->=20--- /dev/null
->=20
->=20+++ b/Documentation/doc-guide/checktransupdate.rst
->=20
->=20@@ -0,0 +1,63 @@
->=20
->=20+.. SPDX-License-Identifier: GPL-2.0
->=20
->=20+
->=20
->=20+Check translation update
->=20
->=20+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-Let's get rid of unnecessary symbols.
->=20
->=20+
->=20
->=20+This script helps track the translation status of the documentation =
-in
->=20
->=20+different locales, i.e.,=C2=A0whether the documentation is up-to-dat=
-e with
->=20
->=20+the English counterpart.
->=20
->=20+
->=20
->=20+How it works
->=20
->=20+------------
->=20
->=20+
->=20
->=20+It uses ``git log`` command to track the latest English commit from =
-the
->=20
->=20+translation commit (order by author date) and the latest English com=
-mits
->=20
->=20+from HEAD. If any differences occur, the file is considered as out-o=
-f-date,
->=20
->=20+then commits that need to be updated will be collected and reported.
->=20
->=20+
->=20
->=20+Features implemented
->=20
->=20+--------------------
->=20
->=20+
->=20
->=20+- check all files in a certain locale
->=20
->=20+- check a single file or a set of files
->=20
->=20+- provide options to change output format
->=20
->=20+
->=20
->=20+Usage
->=20
->=20+-----
->=20
->=20+
->=20
->=20+::
->=20
->=20+
->=20
->=20+ checktransupdate.py [-h] [-l LOCALE] [--print-commits | --no-print-=
-commits] [--print-updated-files | --no-print-updated-files] [--debug | --=
-no-debug] [files ...]
->=20
->=20+
->=20
->=20+Options
->=20
->=20+~~~~~~~
->=20
->=20+
->=20
->=20+- ``-l``, ``--locale``: locale to check when file is not specified
->=20
->=20+- ``--[no-]print-commits``: whether to print commits between origin =
-and
->=20
->=20+ translation
->=20
->=20+- ``--[no-]print-updated-files``: whether to print files that do no
->=20
->=20+ need to be updated
->=20
->=20+- ``files``: files to check, if this option is specified, the locale
->=20
->=20+ option will be ignored.
->=20
->=20+
->=20
->=20+Samples
->=20
->=20+~~~~~~~
->=20
->=20+
->=20
->=20+- ``./scripts/checktransupdate.py -l zh_CN``
->=20
->=20+ This will print all the files that need to be updated in the zh_CN =
-locale.
->=20
->=20+- ``./scripts/checktransupdate.py Documentation/translations/zh_CN/p=
-rocess/coding-style.rst``
->=20
->=20+ This will only print the status of the specified file.
->=20
->=20+
->=20
->=20+Then the output is something like:
->=20
->=20+
->=20
->=20+::
->=20
->=20+
->=20
->=20+ Documentation/translations/zh_CN/process/coding-style.rst (2 commit=
-s)
->=20
->=20+ commit 6813216bbdba ("Documentation: coding-style: ask function-lik=
-e macros to evaluate parameters")
->=20
->=20+ commit 185ea7676ef3 ("Documentation: coding-style: Update syntax hi=
-ghlighting for code-blocks")
->=20
->=20+
->=20
->=20+Features to be implemented
->=20
->=20+----------------------------
-ditto
-
->=20
->=20+
->=20
->=20+- track the translation status of files that have no translation
->=20
->=20+- files can be a folder instead of only a file
->=20
->=20diff --git a/Documentation/doc-guide/index.rst b/Documentation/doc-gu=
-ide/index.rst
->=20
->=20index 7c7d97784626..24d058faa75c 100644
->=20
->=20--- a/Documentation/doc-guide/index.rst
->=20
->=20+++ b/Documentation/doc-guide/index.rst
->=20
->=20@@ -12,6 +12,7 @@ How to write kernel documentation
->=20
->=20 parse-headers
->=20
->=20 contributing
->=20
->=20 maintainer-profile
->=20
->=20+ checktransupdate
->=20
->=20=20
->=20
->  .. only:: subproject and html
->=20
->=20=20
->=20
-> diff --git a/Documentation/translations/zh_CN/doc-guide/checktransupdat=
-e.rst b/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
->=20
->=20new file mode 100644
->=20
->=20index 000000000000..37c0bb518ab8
->=20
->=20--- /dev/null
->=20
->=20+++ b/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
->=20
->=20@@ -0,0 +1,62 @@
->=20
->=20+.. SPDX-License-Identifier: GPL-2.0
->=20
->=20+
->=20
->=20+.. include:: ../disclaimer-zh_CN.rst
->=20
->=20+
->=20
->=20+:Original: Documentation/doc-guide/checktransupdate.rst
->=20
->=20+
->=20
->=20+:=E8=AF=91=E8=80=85: =E6=85=95=E5=86=AC=E4=BA=AE Dongliang Mu <dzm91=
-@hust.edu.cn>
->=20
->=20+
->=20
->=20+=E6=A3=80=E6=9F=A5=E7=BF=BB=E8=AF=91=E6=9B=B4=E6=96=B0
->=20
->=20+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-ditto
->=20
->=20+
->=20
->=20+=E8=BF=99=E4=B8=AA=E8=84=9A=E6=9C=AC=E5=B8=AE=E5=8A=A9=E8=B7=9F=E8=
-=B8=AA=E4=B8=8D=E5=90=8C=E8=AF=AD=E8=A8=80=E7=9A=84=E6=96=87=E6=A1=A3=E7=
-=BF=BB=E8=AF=91=E7=8A=B6=E6=80=81=EF=BC=8C=E5=8D=B3=E6=96=87=E6=A1=A3=E6=
-=98=AF=E5=90=A6=E4=B8=8E=E5=AF=B9=E5=BA=94=E7=9A=84=E8=8B=B1=E6=96=87=E7=
-=89=88=E6=9C=AC=E4=BF=9D=E6=8C=81=E6=9B=B4=E6=96=B0=E3=80=82
->=20
->=20+
->=20
->=20+=E5=B7=A5=E4=BD=9C=E5=8E=9F=E7=90=86
->=20
->=20+------------
->=20
->=20+
->=20
->=20+=E5=AE=83=E4=BD=BF=E7=94=A8 ``git log`` =E5=91=BD=E4=BB=A4=E6=9D=A5=
-=E8=B7=9F=E8=B8=AA=E7=BF=BB=E8=AF=91=E6=8F=90=E4=BA=A4=E7=9A=84=E6=9C=80=
-=E6=96=B0=E8=8B=B1=E6=96=87=E6=8F=90=E4=BA=A4=EF=BC=88=E6=8C=89=E4=BD=9C=
-=E8=80=85=E6=97=A5=E6=9C=9F=E6=8E=92=E5=BA=8F=EF=BC=89=E5=92=8C=E8=8B=B1=
-=E6=96=87=E6=96=87=E6=A1=A3=E7=9A=84
->=20
->=20+=E6=9C=80=E6=96=B0=E6=8F=90=E4=BA=A4=E3=80=82=E5=A6=82=E6=9E=9C=E6=
-=9C=89=E4=BB=BB=E4=BD=95=E5=B7=AE=E5=BC=82=EF=BC=8C=E5=88=99=E8=AF=A5=E6=
-=96=87=E4=BB=B6=E8=A2=AB=E8=AE=A4=E4=B8=BA=E6=98=AF=E8=BF=87=E6=9C=9F=E7=
-=9A=84=EF=BC=8C=E7=84=B6=E5=90=8E=E9=9C=80=E8=A6=81=E6=9B=B4=E6=96=B0=E7=
-=9A=84=E6=8F=90=E4=BA=A4=E5=B0=86=E8=A2=AB=E6=94=B6=E9=9B=86=E5=B9=B6=E6=
-=8A=A5=E5=91=8A=E3=80=82
->=20
->=20+
->=20
->=20+=E5=AE=9E=E7=8E=B0=E7=9A=84=E5=8A=9F=E8=83=BD
->=20
->=20+--------------------
-ditto
-
-...
-
->=20
->=20+
->=20
->=20+- =E6=A3=80=E6=9F=A5=E7=89=B9=E5=AE=9A=E8=AF=AD=E8=A8=80=E4=B8=AD=E7=
-=9A=84=E6=89=80=E6=9C=89=E6=96=87=E4=BB=B6
->=20
->=20+- =E6=A3=80=E6=9F=A5=E5=8D=95=E4=B8=AA=E6=96=87=E4=BB=B6=E6=88=96=E4=
-=B8=80=E7=BB=84=E6=96=87=E4=BB=B6
->=20
->=20+- =E6=8F=90=E4=BE=9B=E6=9B=B4=E6=94=B9=E8=BE=93=E5=87=BA=E6=A0=BC=E5=
-=BC=8F=E7=9A=84=E9=80=89=E9=A1=B9
->=20
->=20+
->=20
->=20+=E7=94=A8=E6=B3=95
->=20
->=20+-----
->=20
->=20+
->=20
->=20+::
->=20
->=20+
->=20
->=20+ checktransupdate.py [-h] [-l LOCALE] [--print-commits | --no-print-=
-commits] [--print-updated-files | --no-print-updated-files] [--debug | --=
-no-debug] [files ...]
->=20
->=20+
->=20
->=20+=E9=80=89=E9=A1=B9
->=20
->=20+~~~~~~~
->=20
->=20+
->=20
->=20+- ``-l``, ``--locale``: =E6=A3=80=E6=9F=A5=E6=8C=87=E5=AE=9A=E7=9A=
-=84=E6=96=87=E4=BB=B6=E8=AF=AD=E8=A8=80=EF=BC=8C=E5=A6=82=E6=9E=9C=E6=9C=
-=AA=E6=8C=87=E5=AE=9A=E6=96=87=E4=BB=B6
->=20
->=20+- ``--[no-]print-commits``: =E6=98=AF=E5=90=A6=E6=89=93=E5=8D=B0=E8=
-=8B=B1=E6=96=87=E5=8E=9F=E5=A7=8B=E7=89=88=E6=9C=AC=E5=92=8C=E7=BF=BB=E8=
-=AF=91=E7=89=88=E6=9C=AC=E4=B9=8B=E9=97=B4=E7=9A=84=E6=8F=90=E4=BA=A4
->=20
->=20+- ``--[no-]print-updated-files``: =E6=98=AF=E5=90=A6=E6=89=93=E5=8D=
-=B0=E6=97=A0=E9=9C=80=E6=9B=B4=E6=96=B0=E7=9A=84=E6=96=87=E4=BB=B6
->=20
->=20+- ``files``: =E8=A6=81=E6=A3=80=E6=9F=A5=E7=9A=84=E6=96=87=E4=BB=B6=
-=EF=BC=8C=E5=A6=82=E6=9E=9C=E6=8C=87=E5=AE=9A=E4=BA=86=E6=AD=A4=E9=80=89=
-=E9=A1=B9=EF=BC=8C=E5=B0=86=E5=BF=BD=E7=95=A5=E8=AF=AD=E8=A8=80=E9=80=89=
-=E9=A1=B9
->=20
->=20+
->=20
->=20+=E7=A4=BA=E4=BE=8B
->=20
->=20+~~~~~~~
-
-ditto
+ <4da91d0b2a0dc580ffaa7c67ab1860c310387e10@linux.dev>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <4da91d0b2a0dc580ffaa7c67ab1860c310387e10@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HgEQrADn74O_T21mNNvrBw--.52314S2
+Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoW3XFy7Cr1kCw1kCF48Gw48JFb_yoW3CF4Upa
+	43GFWxJan2q345tr1Ig34jvrnIyF1xCa1jgr17Kw1vqrn0yrn7JF43tryFgrWkJryrAayU
+	ZFWjyry7uryrZFDanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUmYb7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
+	1Y6r17M2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCF04k20xvY0x0EwIxGrwCF04k20x
+	vE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_
+	JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1V
+	AY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAI
+	cVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42
+	IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIev
+	Ja73UjIFyTuYvjxUV9N3UUUUU
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
 
-Thanks,
-Yanteng
->=20
->=20+
->=20
->=20+- ``./scripts/checktransupdate.py -l zh_CN``
->=20
->=20+ =E8=BF=99=E5=B0=86=E6=89=93=E5=8D=B0 zh_CN =E8=AF=AD=E8=A8=80=E4=B8=
-=AD=E9=9C=80=E8=A6=81=E6=9B=B4=E6=96=B0=E7=9A=84=E6=89=80=E6=9C=89=E6=96=
-=87=E4=BB=B6=E3=80=82
->=20
->=20+- ``./scripts/checktransupdate.py Documentation/translations/zh_CN/p=
-rocess/coding-style.rst``
->=20
->=20+ =E8=BF=99=E5=B0=86=E5=8F=AA=E6=89=93=E5=8D=B0=E6=8C=87=E5=AE=9A=E6=
-=96=87=E4=BB=B6=E7=9A=84=E7=8A=B6=E6=80=81=E3=80=82
->=20
->=20+
->=20
->=20+=E7=84=B6=E5=90=8E=E8=BE=93=E5=87=BA=E7=B1=BB=E4=BC=BC=E5=A6=82=E4=
-=B8=8B=E7=9A=84=E5=86=85=E5=AE=B9=EF=BC=9A
->=20
->=20+
->=20
->=20+::
->=20
->=20+
->=20
->=20+ Documentation/translations/zh_CN/process/coding-style.rst (2 commit=
-s)
->=20
->=20+ commit 6813216bbdba ("Documentation: coding-style: ask function-lik=
-e macros to evaluate parameters")
->=20
->=20+ commit 185ea7676ef3 ("Documentation: coding-style: Update syntax hi=
-ghlighting for code-blocks")
->=20
->=20+
->=20
->=20+=E5=BE=85=E5=AE=9E=E7=8E=B0=E7=9A=84=E5=8A=9F=E8=83=BD
->=20
->=20+-------------
->=20
->=20+
->=20
->=20+- =E8=B7=9F=E8=B8=AA=E6=B2=A1=E6=9C=89=E7=BF=BB=E8=AF=91=E8=BF=87=E7=
-=9A=84=E6=96=87=E4=BB=B6=E7=9A=84=E7=BF=BB=E8=AF=91=E7=8A=B6=E6=80=81
->=20
->=20+- =E6=96=87=E4=BB=B6=E5=8F=82=E6=95=B0=E5=8F=AF=E4=BB=A5=E6=98=AF=E6=
-=96=87=E4=BB=B6=E5=A4=B9=E8=80=8C=E4=B8=8D=E4=BB=85=E4=BB=85=E6=98=AF=E5=
-=8D=95=E4=B8=AA=E6=96=87=E4=BB=B6
->=20
->=20diff --git a/Documentation/translations/zh_CN/doc-guide/index.rst b/D=
-ocumentation/translations/zh_CN/doc-guide/index.rst
->=20
->=20index 78c2e9a1697f..0ac1fc9315ea 100644
->=20
->=20--- a/Documentation/translations/zh_CN/doc-guide/index.rst
->=20
->=20+++ b/Documentation/translations/zh_CN/doc-guide/index.rst
->=20
->=20@@ -18,6 +18,7 @@
->=20
->=20 parse-headers
->=20
->=20 contributing
->=20
->=20 maintainer-profile
->=20
->=20+ checktransupdate
->=20
->=20=20
->=20
->  .. only:: subproject and html
->=20
->=20=20
->=20
-> --=20
->=20
-> 2.39.2
+On 2024/6/15 15:57, si.yanteng@linux.dev wrote:
+> 2024年6月15日 11:53, "Dongliang Mu" <dzm91@hust.edu.cn> 写到:
 >
+>
+>
+>> This commit adds help documents - Documentation/doc-guide/checktransupdate.rst
+>>
+>> and Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
+>>
+>> for scripts/checktransupdate.py, including English and Chinese versions
+>>
+>> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
+>>
+>> ---
+>>
+>> v1->v2: fix some issues according to Randy
+>>
+>>   Documentation/doc-guide/checktransupdate.rst | 63 +++++++++++++++++++
+>>
+>>   Documentation/doc-guide/index.rst | 1 +
+>>
+>>   .../zh_CN/doc-guide/checktransupdate.rst | 62 ++++++++++++++++++
+>>
+>>   .../translations/zh_CN/doc-guide/index.rst | 1 +
+>>
+>>   4 files changed, 127 insertions(+)
+>>
+>>   create mode 100644 Documentation/doc-guide/checktransupdate.rst
+>>
+>>   create mode 100644 Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
+>>
+>> diff --git a/Documentation/doc-guide/checktransupdate.rst b/Documentation/doc-guide/checktransupdate.rst
+>>
+>> new file mode 100644
+>>
+>> index 000000000000..4ece330882d6
+>>
+>> --- /dev/null
+>>
+>> +++ b/Documentation/doc-guide/checktransupdate.rst
+>>
+>> @@ -0,0 +1,63 @@
+>>
+>> +.. SPDX-License-Identifier: GPL-2.0
+>>
+>> +
+>>
+>> +Check translation update
+>>
+>> +==========================
+> Let's get rid of unnecessary symbols.
+>> +
+>>
+>> +This script helps track the translation status of the documentation in
+>>
+>> +different locales, i.e., whether the documentation is up-to-date with
+>>
+>> +the English counterpart.
+>>
+>> +
+>>
+>> +How it works
+>>
+>> +------------
+>>
+>> +
+>>
+>> +It uses ``git log`` command to track the latest English commit from the
+>>
+>> +translation commit (order by author date) and the latest English commits
+>>
+>> +from HEAD. If any differences occur, the file is considered as out-of-date,
+>>
+>> +then commits that need to be updated will be collected and reported.
+>>
+>> +
+>>
+>> +Features implemented
+>>
+>> +--------------------
+>>
+>> +
+>>
+>> +- check all files in a certain locale
+>>
+>> +- check a single file or a set of files
+>>
+>> +- provide options to change output format
+>>
+>> +
+>>
+>> +Usage
+>>
+>> +-----
+>>
+>> +
+>>
+>> +::
+>>
+>> +
+>>
+>> + checktransupdate.py [-h] [-l LOCALE] [--print-commits | --no-print-commits] [--print-updated-files | --no-print-updated-files] [--debug | --no-debug] [files ...]
+>>
+>> +
+>>
+>> +Options
+>>
+>> +~~~~~~~
+>>
+>> +
+>>
+>> +- ``-l``, ``--locale``: locale to check when file is not specified
+>>
+>> +- ``--[no-]print-commits``: whether to print commits between origin and
+>>
+>> + translation
+>>
+>> +- ``--[no-]print-updated-files``: whether to print files that do no
+>>
+>> + need to be updated
+>>
+>> +- ``files``: files to check, if this option is specified, the locale
+>>
+>> + option will be ignored.
+>>
+>> +
+>>
+>> +Samples
+>>
+>> +~~~~~~~
+>>
+>> +
+>>
+>> +- ``./scripts/checktransupdate.py -l zh_CN``
+>>
+>> + This will print all the files that need to be updated in the zh_CN locale.
+>>
+>> +- ``./scripts/checktransupdate.py Documentation/translations/zh_CN/process/coding-style.rst``
+>>
+>> + This will only print the status of the specified file.
+>>
+>> +
+>>
+>> +Then the output is something like:
+>>
+>> +
+>>
+>> +::
+>>
+>> +
+>>
+>> + Documentation/translations/zh_CN/process/coding-style.rst (2 commits)
+>>
+>> + commit 6813216bbdba ("Documentation: coding-style: ask function-like macros to evaluate parameters")
+>>
+>> + commit 185ea7676ef3 ("Documentation: coding-style: Update syntax highlighting for code-blocks")
+>>
+>> +
+>>
+>> +Features to be implemented
+>>
+>> +----------------------------
+> ditto
+>
+>> +
+>>
+>> +- track the translation status of files that have no translation
+>>
+>> +- files can be a folder instead of only a file
+>>
+>> diff --git a/Documentation/doc-guide/index.rst b/Documentation/doc-guide/index.rst
+>>
+>> index 7c7d97784626..24d058faa75c 100644
+>>
+>> --- a/Documentation/doc-guide/index.rst
+>>
+>> +++ b/Documentation/doc-guide/index.rst
+>>
+>> @@ -12,6 +12,7 @@ How to write kernel documentation
+>>
+>>   parse-headers
+>>
+>>   contributing
+>>
+>>   maintainer-profile
+>>
+>> + checktransupdate
+>>
+>>   
+>>
+>>   .. only:: subproject and html
+>>
+>>   
+>>
+>> diff --git a/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst b/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
+>>
+>> new file mode 100644
+>>
+>> index 000000000000..37c0bb518ab8
+>>
+>> --- /dev/null
+>>
+>> +++ b/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
+>>
+>> @@ -0,0 +1,62 @@
+>>
+>> +.. SPDX-License-Identifier: GPL-2.0
+>>
+>> +
+>>
+>> +.. include:: ../disclaimer-zh_CN.rst
+>>
+>> +
+>>
+>> +:Original: Documentation/doc-guide/checktransupdate.rst
+>>
+>> +
+>>
+>> +:译者: 慕冬亮 Dongliang Mu <dzm91@hust.edu.cn>
+>>
+>> +
+>>
+>> +检查翻译更新
+>>
+>> +=============
+> ditto
+>> +
+>>
+>> +这个脚本帮助跟踪不同语言的文档翻译状态，即文档是否与对应的英文版本保持更新。
+>>
+>> +
+>>
+>> +工作原理
+>>
+>> +------------
+>>
+>> +
+>>
+>> +它使用 ``git log`` 命令来跟踪翻译提交的最新英文提交（按作者日期排序）和英文文档的
+>>
+>> +最新提交。如果有任何差异，则该文件被认为是过期的，然后需要更新的提交将被收集并报告。
+>>
+>> +
+>>
+>> +实现的功能
+>>
+>> +--------------------
+> ditto
+>
+> ...
+>
+>> +
+>>
+>> +- 检查特定语言中的所有文件
+>>
+>> +- 检查单个文件或一组文件
+>>
+>> +- 提供更改输出格式的选项
+>>
+>> +
+>>
+>> +用法
+>>
+>> +-----
+>>
+>> +
+>>
+>> +::
+>>
+>> +
+>>
+>> + checktransupdate.py [-h] [-l LOCALE] [--print-commits | --no-print-commits] [--print-updated-files | --no-print-updated-files] [--debug | --no-debug] [files ...]
+>>
+>> +
+>>
+>> +选项
+>>
+>> +~~~~~~~
+>>
+>> +
+>>
+>> +- ``-l``, ``--locale``: 检查指定的文件语言，如果未指定文件
+>>
+>> +- ``--[no-]print-commits``: 是否打印英文原始版本和翻译版本之间的提交
+>>
+>> +- ``--[no-]print-updated-files``: 是否打印无需更新的文件
+>>
+>> +- ``files``: 要检查的文件，如果指定了此选项，将忽略语言选项
+>>
+>> +
+>>
+>> +示例
+>>
+>> +~~~~~~~
+> ditto
+
+
+Yanteng,
+
+the requested changes does not match between English and Chinse translation.
+
+Dongliang Mu
+
+
+>
+>
+> Thanks,
+> Yanteng
+>> +
+>>
+>> +- ``./scripts/checktransupdate.py -l zh_CN``
+>>
+>> + 这将打印 zh_CN 语言中需要更新的所有文件。
+>>
+>> +- ``./scripts/checktransupdate.py Documentation/translations/zh_CN/process/coding-style.rst``
+>>
+>> + 这将只打印指定文件的状态。
+>>
+>> +
+>>
+>> +然后输出类似如下的内容：
+>>
+>> +
+>>
+>> +::
+>>
+>> +
+>>
+>> + Documentation/translations/zh_CN/process/coding-style.rst (2 commits)
+>>
+>> + commit 6813216bbdba ("Documentation: coding-style: ask function-like macros to evaluate parameters")
+>>
+>> + commit 185ea7676ef3 ("Documentation: coding-style: Update syntax highlighting for code-blocks")
+>>
+>> +
+>>
+>> +待实现的功能
+>>
+>> +-------------
+>>
+>> +
+>>
+>> +- 跟踪没有翻译过的文件的翻译状态
+>>
+>> +- 文件参数可以是文件夹而不仅仅是单个文件
+>>
+>> diff --git a/Documentation/translations/zh_CN/doc-guide/index.rst b/Documentation/translations/zh_CN/doc-guide/index.rst
+>>
+>> index 78c2e9a1697f..0ac1fc9315ea 100644
+>>
+>> --- a/Documentation/translations/zh_CN/doc-guide/index.rst
+>>
+>> +++ b/Documentation/translations/zh_CN/doc-guide/index.rst
+>>
+>> @@ -18,6 +18,7 @@
+>>
+>>   parse-headers
+>>
+>>   contributing
+>>
+>>   maintainer-profile
+>>
+>> + checktransupdate
+>>
+>>   
+>>
+>>   .. only:: subproject and html
+>>
+>>   
+>>
+>> -- 
+>>
+>> 2.39.2
+>>
+
