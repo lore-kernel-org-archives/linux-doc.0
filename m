@@ -1,90 +1,226 @@
-Received: from mail-io1-f73.google.com (mail-io1-f73.google.com [209.85.166.73])
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58767225AE
-	for <linux-doc@vger.kernel.org>; Mon, 17 Jun 2024 18:22:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28EE5194C6B
+	for <linux-doc@vger.kernel.org>; Mon, 17 Jun 2024 18:37:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718648568; cv=none; b=H3Zcbwmvx5/QXMCM2JDTpJVXj3pj34F8Db9mwiofpTZp+5dK/3Ml5burC4XVVUaLNcVcAJ/BEcrfaOq+vNRC5eYBa/qE0wQIzWh7G1h+gtRxuTHQ0qlJnYLk/VSEjMh64DdK1Q6u53VYVTpB9NzMiv5CjED7MZYF4uz6zQU+U6Y=
+	t=1718649457; cv=none; b=AJkManR+r29OR1J8j0ejHgPQNvEg/2AEAfU1NldgBZPWpMp+PZpfGJcjGwC56wLCIDrQqwOutlViwFxVMG00tTSz7cIWYH7VYoZFm+6BLhid0gLkdDI3Yt6rDaX+ZTwRDEkfLUWlEqGv/PI3yiML8rqMEXJMt9WrQ0RB4g8cwQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718648568; c=relaxed/simple;
-	bh=qhSM1PBvU7joTxqhlWMSmcyf1OdS106mDM5IHpvzoPw=;
-	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=mKvjiNYJWK+HevjhveYGmQyJ7JvLFe3GB8xI726pvq6Cqy0OLYtaJyhzfrgYvTQKLgIQ9jUkB3YMX1M8+U7WowORBtKimHhPanS/SjMJwaYV10VfxVIGbqPVI185ThWj3soj2Wj9PLMtgdY5rmnSUqmZtwFx3hpTEOFHEk9tH2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XRAmVA3F; arc=none smtp.client-ip=209.85.166.73
+	s=arc-20240116; t=1718649457; c=relaxed/simple;
+	bh=fyrpp2yF4aIYKTN8cDgvs3STrDN8prieilqUnx09/SI=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=sL6BjLqwPJZ4mDH660V4EWD/F+ioDEOhQOQJtDOH32N8PQQpg8TDR1cgLvgnrgCWQAGE1LZycuMPkLK0Qll+d5UdJaF0tcO6rZklnFOaKkYghG6aBxGVT54/YpXfSixNjgxUKHbNmFY2IbruFvwOM+ngjpASi6OpzfUJsPDcEHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fcWV5tXU; arc=none smtp.client-ip=209.85.216.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XRAmVA3F"
-Received: by mail-io1-f73.google.com with SMTP id ca18e2360f4ac-7ebea0e968eso488533639f.3
-        for <linux-doc@vger.kernel.org>; Mon, 17 Jun 2024 11:22:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fcWV5tXU"
+Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-2c2dd8026dbso4517502a91.0
+        for <linux-doc@vger.kernel.org>; Mon, 17 Jun 2024 11:37:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718648565; x=1719253365; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=pny2UzPtVZNTzHF4IsxaYZ+f2GCEeGNxOUJXm/PCpXQ=;
-        b=XRAmVA3FhMsS0UU3/qdRDH9NESEccDgFX/R4F484VsbxHaZh5b8eWHSG8bfjsXuzmP
-         uAP4hzjNxnAyTOOKPk8KduS9cr2ir8qKRpTCiykVHxJPWw1eL61JHRy0ZtgM9Z8xn/OW
-         ZgcIl5U1Iopuc9YzmAaSLAmzvwX6gfwkwdopTVmEb/SEbEKfa11gN589hKvcbIiY3TkD
-         yqp89AyTTZGWi0c+ABmiFx59orZAG+VEciaLtXujWl0rsBnD12z5j10bdsLijjVFV41e
-         3rciAvwxOYn+bi94JStgdJj8XTDmbJAEO2Cd5+M/Q5Omr8WY+fEqEqagO//ormMLplMx
-         Az0g==
+        d=google.com; s=20230601; t=1718649455; x=1719254255; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VVb9bJW/yXgkQj+PV0cMLcdHxyPeYBELQ67LgqP0P74=;
+        b=fcWV5tXUiqEpCzFRoxZr+WucJQG5JRNMWYy+mP0FN5rW+jApKOlh6e1fEckgnXrRP4
+         q1zN/SJFJEtROdXdxseB9eJDlOZ1Adsry2kg9XJvpXlEbJWekudlATEWDdLsCjEeGawF
+         pBkNR4jwy1TqYBy5fepgkJlCeLBcp2YNzI/UN7A9OkTNBQvMzen0Hko/JlgO7642Nbct
+         Ff8sCteaptJYKoys5nuvBwzhr6mkMd+isTozXWyqc2Y5NMLS1XylCXlUPVYFedVGEIFG
+         GkwuqcroRFmjbTnY7ZZ1u4Mp6EEiB+VaOj5FGCxHcDu9zimudPTA7tSCqJhObWXv6mgG
+         b5CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718648565; x=1719253365;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pny2UzPtVZNTzHF4IsxaYZ+f2GCEeGNxOUJXm/PCpXQ=;
-        b=ImdIp3+lhQWz9AyAGkVLsv4gHE+rjD+/WBL+sfH6s8+aCIpqAMqKaLDO5YD7zOHGKr
-         K/MZwudIm7fX45csLWil3UKEXlT/Biw6eb/d13ZMzHyUFnLere2mnucocletwIFJR1kl
-         I23m8q9nfWXCLUa7DQi4PaYBEo4Oe6evPkwdS9TSK7PpbFNYs17Qp8nxuCo4RKsGlFqP
-         0EK8RbumuV+xkn+Qns53akp0g9HCKgUT5cvVK2kiqxuvafcMVYYBTUDZ61b/jiFZqKH7
-         c9Hom4Ak2Y47tFsIruJvAjCCnFdT0IPYSTfeUajZCbxJ4wUvPQEs77iXlmJnh8CsDb97
-         SLBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXZhDV2vfaOuy8zFM1CKSsKJ4fm5NURV+GAdeTsY4z3b95a3bo5Q3V/T0XwuyJyqvnyD84Aj9zbgjUGtAPOg/lM2M8CTH9vuTnV
-X-Gm-Message-State: AOJu0YxW6fZh5oziJnlBa1WTSibWy10bLNFxDM5K4QxiGdVuKM5uJKIL
-	L+RA6PLoSHFqeB4tP8k3j8xFsVTYYKw0Y0TQn8qO/SwkraTcGgU0960QkDQFMXR4fxN+drf9azH
-	qsQAm357JIGWoCc2fC2vEdA==
-X-Google-Smtp-Source: AGHT+IEjud4xQdH2Jdh7XuNPZ20RXq/rHRZKEIbMLpx/a0M5UDBisxWRfV6ZxH0660BmRU4E5fKorzt/Ng9lgPN54A==
-X-Received: from coltonlewis-kvm.c.googlers.com ([fda3:e722:ac3:cc00:2b:ff92:c0a8:14ce])
- (user=coltonlewis job=sendgmr) by 2002:a05:6602:3f87:b0:7eb:823b:9583 with
- SMTP id ca18e2360f4ac-7ebeb638b3cmr21918139f.3.1718648565639; Mon, 17 Jun
- 2024 11:22:45 -0700 (PDT)
-Date: Mon, 17 Jun 2024 18:22:44 +0000
-In-Reply-To: <171839594069.633615.6902666817551787618.b4-ty@linux.dev>
- (message from Oliver Upton on Fri, 14 Jun 2024 20:12:27 +0000)
+        d=1e100.net; s=20230601; t=1718649455; x=1719254255;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=VVb9bJW/yXgkQj+PV0cMLcdHxyPeYBELQ67LgqP0P74=;
+        b=G0wK/tE38G+e+fVY/r8fHaNVIzK1+WjL9mvz6iOT+ZhrCsLmuJAN4e6+qRoZtxmqUf
+         bv90QMKu5m4XCrhtX3fIEDa0Sg34k+WMdWMiIWnvVHjnblw1lJrAd9D/TjkYOmh1esqT
+         Tq+ZvkgCvxeE6jkJqdYnFRYlGgqCz4Zt8wanDaz0nxaG0yvlKdDknDOutVS8LkL+9PnK
+         u7fNkgKnuVn3dS5PIJVGJ/hsyl3O2JYKxRJzU7Ylk98vvSP0XLh/ZNT2E3fTDHZo5V7L
+         IoxA0J35hDZqYSPplII4S6RUT6327Z0X9nAOTTAoT7eORDupAsYVlUWLnXxntMfHy8tL
+         8xhA==
+X-Forwarded-Encrypted: i=1; AJvYcCW1WBfJGGhTrl4gPv+n6X8P4QVXUQbfF/FiX5JX6ZcrGAQoNKvr0FW5rWJ219voLk5EOqbDcNem18yxEQQlo02b9+F7FTD9kuph
+X-Gm-Message-State: AOJu0YzS/CcUUh/oZsuCZpZBklLUZGf7AQT5C6G6itTWkViYD6ACYC8H
+	aibGY1vaNRD8IJRaGKlfizCnE8FZx1/TOovYoYC0P4QgT2vO71b/3edcldfCRY1DXC09Nw+QLXT
+	Sxw==
+X-Google-Smtp-Source: AGHT+IF3ovJSiOKecScB3AmrwPx3A35/rUgMT/905FvA0ZGLjFKkhGdKFyVMw2sGINH1wDrN4Gap7jytJ8g=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a17:90a:9cb:b0:2c4:e074:de83 with SMTP id
+ 98e67ed59e1d1-2c6c9221593mr1951a91.2.1718649455060; Mon, 17 Jun 2024 11:37:35
+ -0700 (PDT)
+Date: Mon, 17 Jun 2024 11:37:27 -0700
+In-Reply-To: <CADrL8HW3rZ5xgbyGa+FXk50QQzF4B1=sYL8zhBepj6tg0EiHYA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-Message-ID: <gsntplsf5szv.fsf@coltonlewis-kvm.c.googlers.com>
-Subject: Re: [PATCH v6] KVM: arm64: Add early_param to control WFx trapping
-From: Colton Lewis <coltonlewis@google.com>
-To: Oliver Upton <oliver.upton@linux.dev>
-Cc: kvm@vger.kernel.org, oliver.upton@linux.dev, yuzenghui@huawei.com, 
-	linux-doc@vger.kernel.org, catalin.marinas@arm.com, corbet@lwn.net, 
-	linux-kernel@vger.kernel.org, suzuki.poulose@arm.com, 
-	linux-arm-kernel@lists.infradead.org, james.morse@arm.com, maz@kernel.org, 
-	will@kernel.org, kvmarm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+References: <CAOUHufYGqbd45shZkGCpqeTV9wcBDUoo3iw1SKiDeFLmrP0+=w@mail.gmail.com>
+ <CADrL8HVHcKSW3hiHzKTit07gzo36jtCZCnM9ZpueyifgNdGggw@mail.gmail.com>
+ <ZmioedgEBptNoz91@google.com> <CADrL8HU_FKHTz_6d=xhVLZFDQ_zQo-zdB2rqdpa2CKusa1uo+A@mail.gmail.com>
+ <ZmjtEBH42u7NUWRc@google.com> <CADrL8HUW2q79F0FsEjhGW0ujij6+FfCqas5UpQp27Epfjc94Nw@mail.gmail.com>
+ <ZmxsCwu4uP1lGsWz@google.com> <CADrL8HVDZ+m_-jUCaXf_DWJ92N30oqS=_9wNZwRvoSp5fo7asg@mail.gmail.com>
+ <ZmzPoW7K5GIitQ8B@google.com> <CADrL8HW3rZ5xgbyGa+FXk50QQzF4B1=sYL8zhBepj6tg0EiHYA@mail.gmail.com>
+Message-ID: <ZnCCZ5gQnA3zMQtv@google.com>
+Subject: Re: [PATCH v5 4/9] mm: Add test_clear_young_fast_only MMU notifier
+From: Sean Christopherson <seanjc@google.com>
+To: James Houghton <jthoughton@google.com>
+Cc: Yu Zhao <yuzhao@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Ankit Agrawal <ankita@nvidia.com>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	David Matlack <dmatlack@google.com>, David Rientjes <rientjes@google.com>, 
+	James Morse <james.morse@arm.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, Raghavendra Rao Ananta <rananta@google.com>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Shaoqin Huang <shahuang@redhat.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Wei Xu <weixugc@google.com>, 
+	Will Deacon <will@kernel.org>, Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev, 
+	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Oliver Upton <oliver.upton@linux.dev> writes:
+On Mon, Jun 17, 2024, James Houghton wrote:
+> On Fri, Jun 14, 2024 at 4:17=E2=80=AFPM Sean Christopherson <seanjc@googl=
+e.com> wrote:
+> >
+> > On Fri, Jun 14, 2024, James Houghton wrote:
+> > > On Fri, Jun 14, 2024 at 9:13=E2=80=AFAM Sean Christopherson <seanjc@g=
+oogle.com> wrote:
+> > > >
+> > > > On Thu, Jun 13, 2024, James Houghton wrote:
+> > > > > I wonder if this still makes sense if whether or not an MMU is "f=
+ast"
+> > > > > is determined by how contended some lock(s) are at the time.
+> > > >
+> > > > No.  Just because a lock wasn't contended on the initial aging does=
+n't mean it
+> > > > won't be contended on the next round.  E.g. when using KVM x86's sh=
+adow MMU, which
+> > > > takes mmu_lock for write for all operations, an aging operation cou=
+ld get lucky
+> > > > and sneak in while mmu_lock happened to be free, but then get stuck=
+ behind a large
+> > > > queue of operations.
+> > > >
+> > > > The fast-ness needs to be predictable and all but guaranteed, i.e. =
+lockless or in
+> > > > an MMU that takes mmu_lock for read in all but the most rare paths.
+> > >
+> > > Aging and look-around themselves only use the fast-only notifiers, so
+> > > they won't ever wait on a lock (well... provided KVM is written like
+> > > that, which I think is a given).
+> >
+> > Regarding aging, is that actually the behavior that we want?  I thought=
+ the plan
+> > is to have the initial test look at all MMUs, i.e. be potentially slow,=
+ but only
+> > do the lookaround if it can be fast.  IIUC, that was Yu's intent (and p=
+eeking back
+> > at v2, that is indeed the case, unless I'm misreading the code).
+>=20
+> I believe what I said is correct. There are three separate things going o=
+n here:
+>=20
+> 1. Aging (when we hit the low watermark, scan PTEs to find young pages)
+> 2. Eviction (pick a page to evict; if it is definitely not young, evict i=
+t)
+> 3. Look-around (upon finding a page is young upon attempted eviction,
+> check adjacent pages if they are young too)
 
-> On Thu, 23 May 2024 17:40:55 +0000, Colton Lewis wrote:
->> Add an early_params to control WFI and WFE trapping. This is to
->> control the degree guests can wait for interrupts on their own without
->> being trapped by KVM. Options for each param are trap and notrap. trap
->> enables the trap. notrap disables the trap. Note that when enabled,
->> traps are allowed but not guaranteed by the CPU architecture. Absent
->> an explicitly set policy, default to current behavior: disabling the
->> trap if only a single task is running and enabling otherwise.
+Ah, I now see the difference between #1 and #2, and your responses make a l=
+ot more
+sense.  Thanks!
 
->> [...]
+> > If KVM _never_ consults shadow (nested TDP) MMUs, then a VM running an =
+L2 will
+> > end up with hot pages (used by L2) swapped out.
+>=20
+> The shadow MMU is consulted at eviction time -- only at eviction time.
+> So pages used by L2 won't be swapped out unless they're still cold at
+> eviction time.
+>=20
+> In my (and Yu's) head, not being able to do aging for nested TDP is ok
+> because running nested VMs is much more rare than running non-nested
+> VMs. And in the non-nested case, being able to do aging is a strict
+> improvement over what we have now.
 
-> Applied to kvmarm/next, thanks!
+Yes and no.  Running nested VMs is indeed rare when viewing them as a perce=
+ntage
+of all VMs in the fleet, but for many use cases, the primary workload of a =
+VM is
+to run nested VMs.  E.g. say x% of VMs in the fleet run nested VMs, where '=
+x' is
+likely very small, but for those x% VMs, they run nested VMs 99% of the tim=
+e
+(completely made up number).
 
-> [1/1] KVM: arm64: Add early_param to control WFx trapping
->        https://git.kernel.org/kvmarm/kvmarm/c/0b5afe05377d
+So yes, I completely agree that aging for non-nested VMs is a strict improv=
+ement,
+but I also think don't think we should completely dismiss nested VMs as a p=
+roblem
+not worth solving.
 
-Thank you! And I will keep your comments in mind in the future.
+> We could look into being able to do aging with the shadow MMU, but I
+> don't think that should necessarily block this series.
+
+...
+
+> > Ooh!  Actually, after fiddling a bit to see how feasible fast-aging in =
+the shadow
+> > MMU would be, I'm pretty sure we can do straight there for nested TDP. =
+ Or rather,
+> > I suspect/hope we can get close enough for an initial merge, which woul=
+d allow
+> > aging_is_fast to be a property of the mmu_notifier, i.e. would simplify=
+ things
+> > because KVM wouldn't need to communicate MMU_NOTIFY_WAS_FAST for each n=
+otification.
+> >
+> > Walking KVM's rmaps requires mmu_lock because adding/removing rmap entr=
+ies is done
+> > in such a way that a lockless walk would be painfully complex.  But if =
+there is
+> > exactly _one_ rmap entry for a gfn, then slot->arch.rmap[...] points di=
+rectly at
+> > that one SPTE.  And with nested TDP, unless L1 is doing something uncom=
+mon, e.g.
+> > mapping the same page into multiple L2s, that overwhelming vast majorit=
+y of rmaps
+> > have only one entry.  That's not the case for legacy shadow paging beca=
+use kernels
+> > almost always map a pfn using multiple virtual addresses, e.g. Linux's =
+direct map
+> > along with any userspace mappings.
+=20
+...
+
+> Hmm, interesting. I need to spend a little bit more time digesting this.
+>=20
+> Would you like to see this included in v6? (It'd be nice to avoid the
+> WAS_FAST stuff....) Should we leave it for a later series? I haven't
+> formed my own opinion yet.
+
+I would say it depends on the viability and complexity of my idea.  E.g. if=
+ it
+pans out more or less like my rough sketch, then it's probably worth taking=
+ on
+the extra code+complexity in KVM to avoid the whole WAS_FAST goo.
+
+Note, if we do go this route, the implementation would need to be tweaked t=
+o
+handle the difference in behavior between aging and last-minute checks for =
+eviction,
+which I obviously didn't understand when I threw together that hack-a-patch=
+.
+
+I need to think more about how best to handle that though, e.g. skipping GF=
+Ns with
+multiple mappings is probably the worst possible behavior, as we'd risk evi=
+cting
+hot pages.  But falling back to taking mmu_lock for write isn't all that de=
+sirable
+either.
