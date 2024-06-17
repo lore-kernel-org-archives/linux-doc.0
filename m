@@ -1,134 +1,204 @@
-Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2508216A941
-	for <linux-doc@vger.kernel.org>; Mon, 17 Jun 2024 17:05:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34D8343165;
+	Mon, 17 Jun 2024 17:52:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718643956; cv=none; b=cA4OZD8QRFNHkhOPaax3Ox8QSXCS9ebmf/5y7yV+cjZc7AQj7tjysZpJepfpsZJVCEKR2sa54L45cz4dv4B2r5WmCoB0FEEUZ5u4UTU+I2VORRGRYzTSQKaY1CdVn/JiF+XOccjS5D/KSv4mucoGf5z4a6BoLVAK48EzAQdifOc=
+	t=1718646777; cv=none; b=FUrOZCmUNjwSlHb13tz7fZ+djJc5O99SH78kfJ6q70FQCAYfnP8Ll+lwAK0yJKBajjp6ugg7KbV8WEhNMlznvl1Gj98A8HqdJE1dilr44rv+3YbIkkDA7WN+aOTGkQPMDpNPkghyrTw9FxF27YkrilcOlyVa7pAyvkP/eI2QiTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718643956; c=relaxed/simple;
-	bh=7hzTI7JNlDxEfLjvpOlOkZQ3nAyRsfeAGvDyTxr2TWY=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=t36DZpnlFTItU73yte3co7cL9vL6jYZlQ53WbVfzXjEjia/IK4Z8D2skDsw5P1FN0QuH8mHm0SU6wbNijzPQfbC1vC72jRbrqxFS4f59swDs1Le+irXeTCbK3pF4B5VgWvyhvB4/VWf1/alNoMnSTKiBPUYfW4oJ0SG5/2em1KE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Uo/XVCIQ; arc=none smtp.client-ip=209.85.128.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com
+	s=arc-20240116; t=1718646777; c=relaxed/simple;
+	bh=4gsJQl6qIuVWg7RhN46VmapVAsYSwUdCY7u3dkVR+gE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tqYtZ/zRxVmlUjtsDeLgqJfU/ZE9OrN6nRW296lYXdplr72SO1kLbEW6sxTDcJfjef2V0Vf9o61vmvkfMOK36sjRwnqMOpM//8nA26sx8aTwPRhOuY8nX8ZsL4svMwWNbEd//i+XzHDc8p4g50pqceomdpkebEK+scYpr4oLS9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OJvI+Jbl; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Uo/XVCIQ"
-Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-62fb36d7f5fso92251747b3.1
-        for <linux-doc@vger.kernel.org>; Mon, 17 Jun 2024 10:05:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OJvI+Jbl"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-35f22d3abf1so4200228f8f.1;
+        Mon, 17 Jun 2024 10:52:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718643954; x=1719248754; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=lmqa+eDYiknLWtQ9zaPVQYbfuHlo6Q/kAey0Pd/nR7w=;
-        b=Uo/XVCIQPfuYsEv4bvrS/dswcbUZjZj05wMhw35lhxI6H4h6Yh+/MonDuokF9enzeY
-         o7cCZJlmYUT/CiW2lUcsHbV3Y2d0+3kSJRTFQs7f6XqR/0pec5hkfg+HEbU4b31t4Ed+
-         kRQescCA8jaClcFv/RoniWGjTdNej4Rp/khKl+5hFBi1bObqsDJsILqpu/i9JWJbDYbi
-         BEQhw7qjQk9l/zrIVuaqF2iJF4DyQKb34a+3/BuweS1vTPFEY74ceYMTBNKgida5iFOf
-         0cuP+obFHy9iLqWmTtuSnMy2DcrOfWoa+7ajWF294lwmmqZu3SyRSavmdTqk+xUEvCIG
-         /QIA==
+        d=gmail.com; s=20230601; t=1718646774; x=1719251574; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TpAELCdjsBD+JrbERWD7mTd4OMlGherBa7u+JgUwCuU=;
+        b=OJvI+JblguvKGVK+cKS5/Y1J+iPdmCU6EpTZkh1BJcQvrf4hencWnze+98rj0W+5EE
+         qGX4gcd8av+qUlxqfVvmzsNb0XSWNEycXVYsVAY4M6LuViV0jK1EYRaaYmEm7GwlYxLd
+         a1EGKm9hqQ+pZ6Vit4jwiDVdbkCbmsK8EmMXCsY1WiFBAAFp8273ciC7TCogfcwKghVS
+         y/mpn6AkrEi/sJuPtXfkAkI8vvO2MBWq61H/JgfJv2x52bZymVhg7DwGZAIowjKIIVjy
+         LkxDpB2WDlFl6SjGTTrylP/X8O/HTE4h0vrF3cS5rNwTh/HAjkjwGr51BBnpLvWQoZ/F
+         diYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718643954; x=1719248754;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lmqa+eDYiknLWtQ9zaPVQYbfuHlo6Q/kAey0Pd/nR7w=;
-        b=LG4XyPKQgQJjLGDXxsZIp9WfFNyIQjs4pqF4WXRH43pz0UKPDxtrOsybylVsZ0KPIB
-         YnTOzCJNWZE8kmV59HILm8fP7uuBcQ14s51j/uY3KMu9bQqP4epElQZXh7DxkBuvcytS
-         Knxw70FG36g0kTp5V3o2dlze8+PRniOolo5b9+NwP7gkBmzxy5p8tRmFVC0gCP+2hI4/
-         Isfpx+dgwVSd0V/KMBT4vV6bR3SGwJqvvpmP8F7B63buzGq8A/DYi5g4ZN8ikAAFy9Y4
-         vAdUCG2sB7hIz5r0gGVo7IXTdqmDN2sZipDWKo0R15Y7YqVHVeW7ISVfIL5AbFT5MX2D
-         iaNg==
-X-Forwarded-Encrypted: i=1; AJvYcCWSjZeHX+E9Vtmhsh+kjKoq+O5lHtRFnH9YigNr9TikVa9nE89ulqgfDwVlTPQMiIILXDElJBTr7ds/vftJOQr5lcRpa8HnUS4t
-X-Gm-Message-State: AOJu0Yz8dyCVVtrplr3iwNQS1L1JTUqpbV6LrTc5jzl76udNqHPpL+2D
-	RCynrnfu1/uMdDdoE4BSHx9jHBijGx5qukSc/nTpcggWm27IvztCX1qQZx9wTYRQhKI8GNq4InB
-	rCQ6KEDfo2A==
-X-Google-Smtp-Source: AGHT+IHINQQBbNRf7KhELYqBt0/Q0yNW0Gm7Uiwvy1m/YHP63sxC+8TwS3fjRLwHObbkJ8tAXyAlcAdEODvV0g==
-X-Received: from yjq3.c.googlers.com ([fda3:e722:ac3:cc00:24:72f4:c0a8:272f])
- (user=jiaqiyan job=sendgmr) by 2002:a05:6902:1007:b0:dff:7d1:33a7 with SMTP
- id 3f1490d57ef6-dff1552cbabmr2952019276.12.1718643954195; Mon, 17 Jun 2024
- 10:05:54 -0700 (PDT)
-Date: Mon, 17 Jun 2024 17:05:45 +0000
-In-Reply-To: <20240617170545.3820912-1-jiaqiyan@google.com>
+        d=1e100.net; s=20230601; t=1718646774; x=1719251574;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TpAELCdjsBD+JrbERWD7mTd4OMlGherBa7u+JgUwCuU=;
+        b=F6ih09aXGXTy7yoMigH3gvPEBfTp3yqOj+F1D4PKIL3JLpo81n2YdG62xnEx+c9Ncm
+         tp7N82jf95NmoJtFVqfn6wRtUr603E2+L90Bdh1kcaSdcJfbRmLClwZvWBJqgiZTRXCo
+         6UFqqVGddzKbzrH7qGOQz+fFf6Znki26drKBXLMLSThmhILMDBWytkke3W5YKO74qd65
+         APCwF5mTRTXjdEEGsExScVAqG83lmXUPhMsdiA/6BPqFG3O+3VM4Bof5+3LCVHkNS47X
+         5lw/TH1VIHJNi9Wi4MyfzwTPF6uV9hVzCT4YWJ6kiCE4oTd19W+vy/JBRmwxmk1cMhy+
+         QUMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW8yw/wfKSJRj4jH9Ifto4+AA5apFJgxD7BANjXfKGfH57fCUy1Dm0aU+L0mchmVGn/hCX5uVSS30NSygzzmLoggDJ99T7QCUklYWOXxR6GavhmmHnSpnIBWOaVnhAqQ4RBOh0yLIp/QN6TBLWBGrsDwqX4bX+eEBxT9hFaxHJqwy0zGPYEdXqYD0a3Y8TeTAuEIhEBk0ou98Hw//2g5Ky6Z3qqfL0eMpHQwt5VMwUIwvkhoaS07xFGrBNoixIoy9YnqQ8xil0SHSb253Q+O5H5cgohsT/pxqpxFYDI8Ks2VOAm0g9CXsQyPiwh+81eg276FiBiMLqHZ3z/9n/HtAnyclUjt712Zq8fnFNvLviGQ0TjbohHNkNGoCYdIyrQh7p8/CUXGYptegbLI8SiHYeKGrjbyVyer7oa77HVGttP6cZOuAOvvHn2TR4c6y5a7sfZUUMVbfFu3+0kAoCKGyM2B9AOAUP7LyHVw+wvrwzgc5UzQ6DR9KDJtUDkCBG56vYnA2R7uOFwiHYibatwIRE5cej2kSp+h9KKvitnQlAbToLyDbU2iWjf
+X-Gm-Message-State: AOJu0YyKeXhR7A9hqsPVjUq989Kx9dNfyHtCYgr67TOAlaOoqnNpOoi6
+	Dejxd+7677Vhm3vnqBQIqie1pfBRs1SRjR4aWgAv9Lw64y3RwIMR
+X-Google-Smtp-Source: AGHT+IGl45hl8z5GTV7cP0mMya2j77Ernk+fngMh6lTe4ik8n3cM/4R8lGNxKRhI8iXovlNIXIeAXQ==
+X-Received: by 2002:adf:efc9:0:b0:35f:219d:e529 with SMTP id ffacd0b85a97d-3607a78338cmr10492439f8f.47.1718646774132;
+        Mon, 17 Jun 2024 10:52:54 -0700 (PDT)
+Received: from [192.168.42.223] ([163.114.131.193])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f56ecdce5sm531595666b.108.2024.06.17.10.52.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Jun 2024 10:52:53 -0700 (PDT)
+Message-ID: <fa9f8d25-9f68-4f63-a070-639e23917827@gmail.com>
+Date: Mon, 17 Jun 2024 18:52:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20240617170545.3820912-1-jiaqiyan@google.com>
-X-Mailer: git-send-email 2.45.2.627.g7a2c4fd464-goog
-Message-ID: <20240617170545.3820912-4-jiaqiyan@google.com>
-Subject: [PATCH v3 3/3] docs: mm: add enable_soft_offline sysctl
-From: Jiaqi Yan <jiaqiyan@google.com>
-To: nao.horiguchi@gmail.com, linmiaohe@huawei.com, jane.chu@oracle.com, 
-	ioworker0@gmail.com
-Cc: muchun.song@linux.dev, akpm@linux-foundation.org, shuah@kernel.org, 
-	corbet@lwn.net, osalvador@suse.de, rientjes@google.com, duenwen@google.com, 
-	fvdl@google.com, linux-mm@kvack.org, linux-kselftest@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Jiaqi Yan <jiaqiyan@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v12 05/13] page_pool: convert to use netmem
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Sergey Shtylyov <s.shtylyov@omp.ru>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
+ Nikolay Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ linux-mm@kvack.org, Matthew Wilcox <willy@infradead.org>
+References: <20240613013557.1169171-1-almasrymina@google.com>
+ <20240613013557.1169171-6-almasrymina@google.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20240613013557.1169171-6-almasrymina@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add the documentation for soft offline behaviors / costs, and what
-the new enable_soft_offline sysctl is for.
+On 6/13/24 02:35, Mina Almasry wrote:
+> Abstrace the memory type from the page_pool so we can later add support
+> for new memory types. Convert the page_pool to use the new netmem type
+> abstraction, rather than use struct page directly.
+> 
+> As of this patch the netmem type is a no-op abstraction: it's always a
+> struct page underneath. All the page pool internals are converted to
+> use struct netmem instead of struct page, and the page pool now exports
+> 2 APIs:
+> 
+> 1. The existing struct page API.
+> 2. The new struct netmem API.
 
-Signed-off-by: Jiaqi Yan <jiaqiyan@google.com>
----
- Documentation/admin-guide/sysctl/vm.rst | 33 +++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+nits below,
 
-diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-index e86c968a7a0e..fc62fc272fc5 100644
---- a/Documentation/admin-guide/sysctl/vm.rst
-+++ b/Documentation/admin-guide/sysctl/vm.rst
-@@ -36,6 +36,7 @@ Currently, these files are in /proc/sys/vm:
- - dirtytime_expire_seconds
- - dirty_writeback_centisecs
- - drop_caches
-+- enable_soft_offline
- - extfrag_threshold
- - highmem_is_dirtyable
- - hugetlb_shm_group
-@@ -267,6 +268,38 @@ used::
- These are informational only.  They do not mean that anything is wrong
- with your system.  To disable them, echo 4 (bit 2) into drop_caches.
- 
-+enable_soft_offline
-+===================
-+Correctable memory errors are very common on servers. Soft-offline is kernel's
-+solution for memory pages having (excessive) corrected memory errors.
-+
-+For different types of page, soft-offline has different behaviors / costs.
-+- For a raw error page, soft-offline migrates the in-use page's content to
-+  a new raw page.
-+- For a page that is part of a transparent hugepage,  soft-offline splits the
-+  transparent hugepage into raw pages, then migrates only the raw error page.
-+  As a result, user is transparently backed by 1 less hugepage, impacting
-+  memory access performance.
-+- For a page that is part of a HugeTLB hugepage, soft-offline first migrates
-+  the entire HugeTLB hugepage, during which a free hugepage will be consumed
-+  as migration target.  Then the original hugepage is dissolved into raw
-+  pages without compensation, reducing the capacity of the HugeTLB pool by 1.
-+
-+It is user's call to choose between reliability (staying away from fragile
-+physical memory) vs performance / capacity implications in transparent and
-+HugeTLB cases.
-+
-+For all architectures, enable_soft_offline controls whether to soft offline
-+memory pages.  When setting to 1, kernel attempts to soft offline the pages
-+whenever it thinks needed.  When setting to 0, kernel returns EOPNOTSUPP to
-+the request to soft offline the pages.  Its default value is 1.
-+
-+It is worth mentioning that after setting enable_soft_offline to 0:
-+- If RAS Correctable Errors Collector is running, its request to soft offline
-+  pages will fail.
-+- On ARM, the request to soft offline pages from GHES driver will fail.
-+- On PARISC, the request to soft offline pages from Page Deallocation Table
-+  will fail.
- 
- extfrag_threshold
- =================
+Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
+
+
+> Keeping the existing API is transitional; we do not want to refactor all
+> the current drivers using the page pool at once.
+> 
+> The netmem abstraction is currently a no-op. The page_pool uses
+> page_to_netmem() to convert allocated pages to netmem, and uses
+> netmem_to_page() to convert the netmem back to pages to pass to mm APIs,
+> 
+> Follow up patches to this series add non-paged netmem support to the
+> page_pool. This change is factored out on its own to limit the code
+> churn to this 1 patch, for ease of code review.
+> 
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+>   #endif /* _NET_NETMEM_H */
+> diff --git a/include/net/page_pool/helpers.h b/include/net/page_pool/helpers.h
+> index 873631c79ab16..5e129d5304f53 100644
+> --- a/include/net/page_pool/helpers.h
+> +++ b/include/net/page_pool/helpers.h
+> @@ -55,6 +55,8 @@
+>   #include <linux/dma-mapping.h>
+>   
+>   #include <net/page_pool/types.h>
+> +#include <net/net_debug.h>
+> +#include <net/netmem.h>
+>   
+>   #ifdef CONFIG_PAGE_POOL_STATS
+>   /* Deprecated driver-facing API, use netlink instead */
+> @@ -103,7 +105,7 @@ static inline struct page *page_pool_dev_alloc_pages(struct page_pool *pool)
+>    * Get a page fragment from the page allocator or page_pool caches.
+>    *
+>    * Return:
+> - * Return allocated page fragment, otherwise return NULL.
+> + * Return allocated page fragment, otherwise return 0.
+
+It's a page_pool_dev_alloc_frag()'s comment, and the function
+still returns a pointer.
+
+...
+>   static inline void *page_pool_alloc_va(struct page_pool *pool,
+> @@ -172,7 +174,8 @@ static inline void *page_pool_alloc_va(struct page_pool *pool,
+>   	struct page *page;
+>   
+>   	/* Mask off __GFP_HIGHMEM to ensure we can use page_address() */
+> -	page = page_pool_alloc(pool, &offset, size, gfp & ~__GFP_HIGHMEM);
+> +	page = netmem_to_page(
+> +		page_pool_alloc(pool, &offset, size, gfp & ~__GFP_HIGHMEM));
+>   	if (unlikely(!page))
+>   		return NULL;
+>   
+> @@ -189,7 +192,7 @@ static inline void *page_pool_alloc_va(struct page_pool *pool,
+>    * it returns va of the allocated page or page fragment.
+>    *
+>    * Return:
+> - * Return the va for the allocated page or page fragment, otherwise return NULL.
+> + * Return the va for the allocated page or page fragment, otherwise return 0.
+
+ditto
+
+>    */
+>   static inline void *page_pool_dev_alloc_va(struct page_pool *pool,
+>   					   unsigned int *size)
+> @@ -212,6 +215,11 @@ page_pool_get_dma_dir(const struct page_pool *pool)
+>   	return pool->p.dma_dir;
+>   }
+>   
+> +static inline void page_pool_fragment_netmem(netmem_ref netmem, long nr)
+> +{
+> +	atomic_long_set(&netmem_to_page(netmem)->pp_ref_count, nr);
+> +}
+...
+
 -- 
-2.45.2.627.g7a2c4fd464-goog
-
+Pavel Begunkov
