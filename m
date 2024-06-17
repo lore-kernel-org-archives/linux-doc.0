@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE0E219ADB8;
-	Mon, 17 Jun 2024 13:23:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1002221C165;
+	Mon, 17 Jun 2024 13:25:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718630594; cv=none; b=aJoTHChR30m61Clc6bjwJdV/dS8+m7d2TMLoj1qQmGH1gOm3AwW5ucr23BAN2XaVT2ibM8cy4IA7tOkUwFPYPJWAi9ShOFjhPKEHXDP/TqzMFvu3VlthyCkDOvKWaHcJpY3qE5zwDCv05hScI/XKoLqcne76xlEg+izihhZkgJc=
+	t=1718630701; cv=none; b=hHKgB0Rt0/QETJSzejR1/qzLQ3TG3jAT8bZsApJkV0vny9VJF2eLJAos8fB/rsTM/QpQ6zCEQRxpxsGj/GtLUcLH07x93KmdL02sdjNJCJ40IEG1g0ElTri5bh5N4aheFX2iLaa6qiaKj2gTPrii8LcW2/qTRpZ7FzBzAUKVpiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718630594; c=relaxed/simple;
-	bh=ooe+NfCkDLbyZzNacuckmn0L8ElUEGAsDuJ8Pl8gFyk=;
+	s=arc-20240116; t=1718630701; c=relaxed/simple;
+	bh=mZS4iEgWmq4UTYPGUb12ZROIU354esBXCi9U25ad9Kw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Q6ROuCrX22Hh4ouFpSYYoHUH1QieNtxlKogVkEWNXK59SLrCVTeJheeQhTlilkulXYdyLdU8sC3O3zwbtF09p2QVCoLicKgHRdfbDkKhrfMlsxqbIeZMKfBE6WtDxWhQMFEoLUC7gB8xwJxrAzI8EpBD68Y83M59L/LsKYyyBOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IdM3cnuq; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=Kq/8fX9GwFzZogPkQxRJiQkDvYyuDAY7MyBFS2v+Bfsks0znFRZZLt5Sfdft+yejAmcH15cF8myqIXaWqWEOmHMvt/wiDmyOk8FPR5ujvwsV5y5Wjn8LO7I8uoio0ATUatn08af6eTjxRwDR21vhgdd0xZW5lzZqRHMnEpT+qtA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SNQB278x; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IdM3cnuq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4A87C4AF1D;
-	Mon, 17 Jun 2024 13:23:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SNQB278x"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78485C4AF48;
+	Mon, 17 Jun 2024 13:24:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718630594;
-	bh=ooe+NfCkDLbyZzNacuckmn0L8ElUEGAsDuJ8Pl8gFyk=;
+	s=k20201202; t=1718630700;
+	bh=mZS4iEgWmq4UTYPGUb12ZROIU354esBXCi9U25ad9Kw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=IdM3cnuqm9eyXbWnKr/yS7DvHkGPA0e8y+N4/iW1ArVweqOoGK6qYDfFLdeR3LiUW
-	 +MoZBILeF9lPdiiXxYgGbAvW0HQbrcmHLTdWN800E5SKeqjb65AawM9BZdrNY1Us7k
-	 MjdWyu6POEON5qE2Eo4Sur/1SIdAny3vZiYyTZQGhdtI3yPjxQB3dZOXcUrg7MKu6x
-	 wyHXOe2q4vgWHa7kEO/FFuUIEUB759Q16cvsWa+l+sIkmx26BPFid+qTgbZ5+6B6L/
-	 ziggsfHgm3fSzS6X25Pjh2GichbB66GDnjToFb5TcIqg9nSNf7z4L/0W4QyREWDEnY
-	 TLUwpcb+sqgxw==
+	b=SNQB278x83fzF4bpfO7S9LkdMFcMR5hYvYUDYq7r7NzUw5jcDUyOtyE5Rut6/IZIY
+	 jkMzR8/hnZxBxwBKkyoVvHWdL76GlhnZrzAIDRvbUc/cyRmrjKvoBVRTti4zSXQegv
+	 iZyLkwU3WchQBuN7TIcihgXS0myfhrQA+5Kq5EJe+rhBuhgLKgfy9vNjRFYuzfnDFK
+	 X/70mml387bCAUPuMpaorAu+AHIcz6vhjp+Coz/3ZpKviIT338v3Gan3na13nnZZ71
+	 3+O7KWiLwT94JyMZb+diz46NQEpLausaJV8lFMAC8lVRSSiu2GSb2qRBzmclcB/lwD
+	 IyM9VxG2Vp2Rg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -41,12 +41,12 @@ Cc: Justin Stitt <justinstitt@google.com>,
 	linux-doc@vger.kernel.org,
 	linux-scsi@vger.kernel.org,
 	llvm@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.6 02/35] scsi: sr: Fix unintentional arithmetic wraparound
-Date: Mon, 17 Jun 2024 09:22:00 -0400
-Message-ID: <20240617132309.2588101-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 02/29] scsi: sr: Fix unintentional arithmetic wraparound
+Date: Mon, 17 Jun 2024 09:24:06 -0400
+Message-ID: <20240617132456.2588952-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240617132309.2588101-1-sashal@kernel.org>
-References: <20240617132309.2588101-1-sashal@kernel.org>
+In-Reply-To: <20240617132456.2588952-1-sashal@kernel.org>
+References: <20240617132456.2588952-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,7 +55,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.6.34
+X-stable-base: Linux 6.1.94
 Content-Transfer-Encoding: 8bit
 
 From: Justin Stitt <justinstitt@google.com>
@@ -154,10 +154,10 @@ index 1175f2e213b56..dc899277b3a44 100644
  
  int sr_is_xa(Scsi_CD *);
 diff --git a/drivers/scsi/sr_ioctl.c b/drivers/scsi/sr_ioctl.c
-index 5b0b35e60e61f..a0d2556a27bba 100644
+index fbdb5124d7f7d..7034b4126d421 100644
 --- a/drivers/scsi/sr_ioctl.c
 +++ b/drivers/scsi/sr_ioctl.c
-@@ -425,11 +425,14 @@ int sr_reset(struct cdrom_device_info *cdi)
+@@ -422,11 +422,14 @@ int sr_reset(struct cdrom_device_info *cdi)
  	return 0;
  }
  
@@ -174,10 +174,10 @@ index 5b0b35e60e61f..a0d2556a27bba 100644
  		speed = 0xffff;	/* set to max */
  	else
 diff --git a/include/linux/cdrom.h b/include/linux/cdrom.h
-index 98c6fd0b39b63..fdfb61ccf55ae 100644
+index 67caa909e3e61..24fe410492006 100644
 --- a/include/linux/cdrom.h
 +++ b/include/linux/cdrom.h
-@@ -77,7 +77,7 @@ struct cdrom_device_ops {
+@@ -76,7 +76,7 @@ struct cdrom_device_ops {
  				      unsigned int clearing, int slot);
  	int (*tray_move) (struct cdrom_device_info *, int);
  	int (*lock_door) (struct cdrom_device_info *, int);
