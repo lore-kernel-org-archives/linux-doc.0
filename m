@@ -1,87 +1,144 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB869191473
-	for <linux-doc@vger.kernel.org>; Mon, 17 Jun 2024 07:33:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48165186289;
+	Mon, 17 Jun 2024 07:51:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718609615; cv=none; b=dpoc1gm11GrFKYAKSc+cJqnG1XV9CPwqx/uHHP7zVXqqc+9HEH/D12l5rHYsJNuHko1zfaYFIJO2MtwPbllFbnmvpcNBsxOREHIV55zSZNwskx9n8sXma6c5vBojuNxFahYCqkp3/fpSurof6Kf80XxrpbCx8wYg6CRUJEd5Cww=
+	t=1718610666; cv=none; b=qEpDwp+9QmNKt/68qxG04MUeTmGzx5jjkERdHux+sJV/lYo7EB88ofjDZLBX32ulqUnnAF1nbSggyNAIuCb0ll2AYID22sGHUW0EUxPruHqETC+nR/jCALd2XhEa3IL19shPXvC/9cMzdyrXlzxmFTZyJQM8q6knBjugT7LPWaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718609615; c=relaxed/simple;
-	bh=6Be1VBuJBuQx5WhlORRWbQbz/9PnkOafd1jCoOL3EyY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L30Fb7HLxbUL2BwD+uY9VmD2G/lPMy1f9/exITZVUWtu2gFBhVWpaWZh3+bXTcz8XYpTXcTS/A0T6hU6KqeX2jV5JNf2BfDmojp0c42Ir2i8BD/BSSlmXq0nyznlwHl7rdMOpYEKVUEw901Yb2X9hKQSLXReWm/XKaOnnxrJI+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ealPVXtB; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1718610666; c=relaxed/simple;
+	bh=lpEsqv3Iuh1v6vt2Pdjq+Ggr2dkRSrpQL2k4c9li7eg=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=qKMYExiyPCqnft2Q9wdk8p66HO8K7NHkakaXFd8Rpp7nv4zZZ4kCA08DQUWbotM7M0LhM2O+pLEyKyJBCSmYi8DORZ1jXhbC755G27ib8WxMo123nzSX4nznX/V4M4ApEHgs24QmFUHqG5xur6ZS2GxkoLxPnoM9BhPccMr8AOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Vts3//Kh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LYFCS2cO; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Vts3//Kh; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LYFCS2cO; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ealPVXtB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1718609612;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=VGyu5AtFOjrYW0RzXt8zeng+1SKzDJmAJ+4VL1VE6fw=;
-	b=ealPVXtBqE51+lBpSiBX7pV7OgTc9t3Ja5rbH++lJgg84tydnCbn6jsgOqMbyOgFIAk88J
-	M8TmldMC24MAiin7ekHAoVZ/yWwYxTJteN01/vf/gNzDkQ5z0kZWkaFPl69SJ4dOfVJ95W
-	aBfCKP8rw16stUBYoHPcigqeem0UWJM=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-586-uM0S3oo2On6hmLCXvq3YQA-1; Mon,
- 17 Jun 2024 03:33:30 -0400
-X-MC-Unique: uM0S3oo2On6hmLCXvq3YQA-1
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Vts3//Kh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LYFCS2cO";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Vts3//Kh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LYFCS2cO"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D64B819560B3;
-	Mon, 17 Jun 2024 07:33:28 +0000 (UTC)
-Received: from thuth-p1g4.redhat.com (unknown [10.39.192.120])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 068F31956087;
-	Mon, 17 Jun 2024 07:33:24 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: linux-doc@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>
-Cc: linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Adrian Bunk <bunk@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-block@vger.kernel.org
-Subject: [PATCH] Documentation: Remove the unused "tp720" from kernel-parameters.txt
-Date: Mon, 17 Jun 2024 09:33:22 +0200
-Message-ID: <20240617073322.40679-1-thuth@redhat.com>
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5353A5FAE8;
+	Mon, 17 Jun 2024 07:51:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718610661; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YB8qKAak6FbWzN+Q55abT6Qil3tIS9mK+/WBrQ5pDek=;
+	b=Vts3//Khim+bi5OrQ/oXh/fnuJMuJooTbtwiVjAPIDchA/MuTm6AvqWzQIPi+zxuqoHSj4
+	QH+8uo6Eds9MDtv1ViM2WLhvl2bWhyHr+xEeUkivODVt7NnCK6w1UMtjFJHay63GxSSt/j
+	qUs0L20d0cWkIt4D4PYPk94ubUAwBNM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718610661;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YB8qKAak6FbWzN+Q55abT6Qil3tIS9mK+/WBrQ5pDek=;
+	b=LYFCS2cOJ07VRiUI/brDhZyBgO6rZyqVUhcoezewVpk3rbilEunAZEMRl5hBRr3DW49QaF
+	3MpvhaXrGVkvxwCQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1718610661; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YB8qKAak6FbWzN+Q55abT6Qil3tIS9mK+/WBrQ5pDek=;
+	b=Vts3//Khim+bi5OrQ/oXh/fnuJMuJooTbtwiVjAPIDchA/MuTm6AvqWzQIPi+zxuqoHSj4
+	QH+8uo6Eds9MDtv1ViM2WLhvl2bWhyHr+xEeUkivODVt7NnCK6w1UMtjFJHay63GxSSt/j
+	qUs0L20d0cWkIt4D4PYPk94ubUAwBNM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1718610661;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YB8qKAak6FbWzN+Q55abT6Qil3tIS9mK+/WBrQ5pDek=;
+	b=LYFCS2cOJ07VRiUI/brDhZyBgO6rZyqVUhcoezewVpk3rbilEunAZEMRl5hBRr3DW49QaF
+	3MpvhaXrGVkvxwCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3E98B139AB;
+	Mon, 17 Jun 2024 07:51:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id fIY0D+Xqb2byVQAAD6G6ig
+	(envelope-from <osalvador@suse.de>); Mon, 17 Jun 2024 07:51:01 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+Date: Mon, 17 Jun 2024 09:51:01 +0200
+From: Oscar Salvador <osalvador@suse.de>
+To: Miaohe Lin <linmiaohe@huawei.com>
+Cc: Jiaqi Yan <jiaqiyan@google.com>, nao.horiguchi@gmail.com,
+ jane.chu@oracle.com, muchun.song@linux.dev, akpm@linux-foundation.org,
+ shuah@kernel.org, corbet@lwn.net, rientjes@google.com, duenwen@google.com,
+ fvdl@google.com, linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+ linux-doc@vger.kernel.org, Lance Yang <ioworker0@gmail.com>
+Subject: Re: [PATCH v2 1/3] mm/memory-failure: userspace controls
+ soft-offlining pages
+In-Reply-To: <786a08ff-aa7e-49d5-f589-0a405c7e1a34@huawei.com>
+References: <20240611215544.2105970-1-jiaqiyan@google.com>
+ <20240611215544.2105970-2-jiaqiyan@google.com>
+ <CABzRoyYGY2EgT5wC9o98Vn_auh59poQ-OOnKceCiWQAJrbZoBw@mail.gmail.com>
+ <CACw3F5134NmmLNr4zXHV1h0sLMTGcAJLpApQ7Fv_-DtUieD7zw@mail.gmail.com>
+ <786a08ff-aa7e-49d5-f589-0a405c7e1a34@huawei.com>
+User-Agent: Roundcube Webmail
+Message-ID: <ea8c5e390bd18c532b768dd9eeaa105a@suse.de>
+X-Sender: osalvador@suse.de
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -2.79
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-2.79 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	RCVD_TLS_ALL(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[google.com,gmail.com,oracle.com,linux.dev,linux-foundation.org,kernel.org,lwn.net,kvack.org,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_SOME(0.00)[]
 
-The "tp720" switch once belonged to the ps2esdi driver, but this
-driver has been removed a long time ago in 2008 in the commit
-2af3e6017e53 ("The ps2esdi driver was marked as BROKEN more than two years ago due to being no longer working for some time.")
-already, so let's remove it from the documentation now, too.
+On 2024-06-17 09:31, Miaohe Lin wrote:
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 2 --
- 1 file changed, 2 deletions(-)
+> IMHO, it might not be suitable to use EAGAIN. Because it means
+> "Resource temporarily unavailable" and
+> this can be solved by simply retry later without any further actions
+> taken. But I might be wrong.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index b75852f1a789..89b784ec5ab1 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -6619,8 +6619,6 @@
- 	torture.verbose_sleep_duration= [KNL]
- 			Duration of each verbose-printk() sleep in jiffies.
- 
--	tp720=		[HW,PS2]
--
- 	tpm_suspend_pcr=[HW,TPM]
- 			Format: integer pcr id
- 			Specify that at suspend time, the tpm driver
+We usually use 'EOPNOTSUPP' when we fail due to a setting not being set.
+EPERM is more for a capability matter.
+
+
 -- 
-2.45.2
-
+Oscar Salvador
+SUSE Labs
