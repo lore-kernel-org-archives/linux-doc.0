@@ -1,226 +1,112 @@
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28EE5194C6B
-	for <linux-doc@vger.kernel.org>; Mon, 17 Jun 2024 18:37:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55F62161305;
+	Mon, 17 Jun 2024 19:13:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718649457; cv=none; b=AJkManR+r29OR1J8j0ejHgPQNvEg/2AEAfU1NldgBZPWpMp+PZpfGJcjGwC56wLCIDrQqwOutlViwFxVMG00tTSz7cIWYH7VYoZFm+6BLhid0gLkdDI3Yt6rDaX+ZTwRDEkfLUWlEqGv/PI3yiML8rqMEXJMt9WrQ0RB4g8cwQg=
+	t=1718651630; cv=none; b=oe6A3B7efc28WeuPqXgENJtgV+86adiE1pElV/tBj6CNZS2IzCdwX8yNWDChkNv7AwsPqGVGxJYKUvDUvL8wEioYfwgwU56CjR7jf+eG/2FOgHtXJKy7jqKTZ8ewuh4lB20KEBqOl7NEqPfidTchKmXvEyWy36r3duLyka6ROEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718649457; c=relaxed/simple;
-	bh=fyrpp2yF4aIYKTN8cDgvs3STrDN8prieilqUnx09/SI=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=sL6BjLqwPJZ4mDH660V4EWD/F+ioDEOhQOQJtDOH32N8PQQpg8TDR1cgLvgnrgCWQAGE1LZycuMPkLK0Qll+d5UdJaF0tcO6rZklnFOaKkYghG6aBxGVT54/YpXfSixNjgxUKHbNmFY2IbruFvwOM+ngjpASi6OpzfUJsPDcEHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fcWV5tXU; arc=none smtp.client-ip=209.85.216.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1718651630; c=relaxed/simple;
+	bh=pbHUlH2855XEpgnVeBq3l1Gg1yHC8Uzv+j4aS6wtmU8=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=o/BC29FUi45T7N25NG8id1YdOIS4a58XyHsR7m17PeEWXpewGmX+L8BfOX3XluBDRCRBu/8e6mnJRtO1u5v9sHmT78c6kGz2J9sMsAbeF+lUbimdLaGljyyWJio2WAidfCCxkAT7JnjQc/78zUFmKDDET/NsVE458jeiN5R6jao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=sPaoe0iC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fcWV5tXU"
-Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-2c2dd8026dbso4517502a91.0
-        for <linux-doc@vger.kernel.org>; Mon, 17 Jun 2024 11:37:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718649455; x=1719254255; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VVb9bJW/yXgkQj+PV0cMLcdHxyPeYBELQ67LgqP0P74=;
-        b=fcWV5tXUiqEpCzFRoxZr+WucJQG5JRNMWYy+mP0FN5rW+jApKOlh6e1fEckgnXrRP4
-         q1zN/SJFJEtROdXdxseB9eJDlOZ1Adsry2kg9XJvpXlEbJWekudlATEWDdLsCjEeGawF
-         pBkNR4jwy1TqYBy5fepgkJlCeLBcp2YNzI/UN7A9OkTNBQvMzen0Hko/JlgO7642Nbct
-         Ff8sCteaptJYKoys5nuvBwzhr6mkMd+isTozXWyqc2Y5NMLS1XylCXlUPVYFedVGEIFG
-         GkwuqcroRFmjbTnY7ZZ1u4Mp6EEiB+VaOj5FGCxHcDu9zimudPTA7tSCqJhObWXv6mgG
-         b5CQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718649455; x=1719254255;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=VVb9bJW/yXgkQj+PV0cMLcdHxyPeYBELQ67LgqP0P74=;
-        b=G0wK/tE38G+e+fVY/r8fHaNVIzK1+WjL9mvz6iOT+ZhrCsLmuJAN4e6+qRoZtxmqUf
-         bv90QMKu5m4XCrhtX3fIEDa0Sg34k+WMdWMiIWnvVHjnblw1lJrAd9D/TjkYOmh1esqT
-         Tq+ZvkgCvxeE6jkJqdYnFRYlGgqCz4Zt8wanDaz0nxaG0yvlKdDknDOutVS8LkL+9PnK
-         u7fNkgKnuVn3dS5PIJVGJ/hsyl3O2JYKxRJzU7Ylk98vvSP0XLh/ZNT2E3fTDHZo5V7L
-         IoxA0J35hDZqYSPplII4S6RUT6327Z0X9nAOTTAoT7eORDupAsYVlUWLnXxntMfHy8tL
-         8xhA==
-X-Forwarded-Encrypted: i=1; AJvYcCW1WBfJGGhTrl4gPv+n6X8P4QVXUQbfF/FiX5JX6ZcrGAQoNKvr0FW5rWJ219voLk5EOqbDcNem18yxEQQlo02b9+F7FTD9kuph
-X-Gm-Message-State: AOJu0YzS/CcUUh/oZsuCZpZBklLUZGf7AQT5C6G6itTWkViYD6ACYC8H
-	aibGY1vaNRD8IJRaGKlfizCnE8FZx1/TOovYoYC0P4QgT2vO71b/3edcldfCRY1DXC09Nw+QLXT
-	Sxw==
-X-Google-Smtp-Source: AGHT+IF3ovJSiOKecScB3AmrwPx3A35/rUgMT/905FvA0ZGLjFKkhGdKFyVMw2sGINH1wDrN4Gap7jytJ8g=
-X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
- (user=seanjc job=sendgmr) by 2002:a17:90a:9cb:b0:2c4:e074:de83 with SMTP id
- 98e67ed59e1d1-2c6c9221593mr1951a91.2.1718649455060; Mon, 17 Jun 2024 11:37:35
- -0700 (PDT)
-Date: Mon, 17 Jun 2024 11:37:27 -0700
-In-Reply-To: <CADrL8HW3rZ5xgbyGa+FXk50QQzF4B1=sYL8zhBepj6tg0EiHYA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="sPaoe0iC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70D91C2BD10;
+	Mon, 17 Jun 2024 19:13:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1718651629;
+	bh=pbHUlH2855XEpgnVeBq3l1Gg1yHC8Uzv+j4aS6wtmU8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=sPaoe0iCBL6l1jMwgoXW+7ht0mqJDc8JbDNIYNbFYatzNU0799AiQvF1Vpf+6XMMM
+	 uZ1aShqucnLu5uwuDau6b/+jvxUubZTI2KIERBxaG3E9KBMjbptcgqsWY2x+b877H9
+	 IMvYpDE1CNiHdz6ujhieDf8Sn6zbhQt8m+yRQdXI=
+Date: Mon, 17 Jun 2024 12:13:48 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Jiaqi Yan <jiaqiyan@google.com>
+Cc: nao.horiguchi@gmail.com, linmiaohe@huawei.com, jane.chu@oracle.com,
+ ioworker0@gmail.com, muchun.song@linux.dev, shuah@kernel.org,
+ corbet@lwn.net, osalvador@suse.de, rientjes@google.com, duenwen@google.com,
+ fvdl@google.com, linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] mm/memory-failure: userspace controls
+ soft-offlining pages
+Message-Id: <20240617121348.4ee672a1d6bc9202b3ad0e08@linux-foundation.org>
+In-Reply-To: <20240617170545.3820912-2-jiaqiyan@google.com>
+References: <20240617170545.3820912-1-jiaqiyan@google.com>
+	<20240617170545.3820912-2-jiaqiyan@google.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <CAOUHufYGqbd45shZkGCpqeTV9wcBDUoo3iw1SKiDeFLmrP0+=w@mail.gmail.com>
- <CADrL8HVHcKSW3hiHzKTit07gzo36jtCZCnM9ZpueyifgNdGggw@mail.gmail.com>
- <ZmioedgEBptNoz91@google.com> <CADrL8HU_FKHTz_6d=xhVLZFDQ_zQo-zdB2rqdpa2CKusa1uo+A@mail.gmail.com>
- <ZmjtEBH42u7NUWRc@google.com> <CADrL8HUW2q79F0FsEjhGW0ujij6+FfCqas5UpQp27Epfjc94Nw@mail.gmail.com>
- <ZmxsCwu4uP1lGsWz@google.com> <CADrL8HVDZ+m_-jUCaXf_DWJ92N30oqS=_9wNZwRvoSp5fo7asg@mail.gmail.com>
- <ZmzPoW7K5GIitQ8B@google.com> <CADrL8HW3rZ5xgbyGa+FXk50QQzF4B1=sYL8zhBepj6tg0EiHYA@mail.gmail.com>
-Message-ID: <ZnCCZ5gQnA3zMQtv@google.com>
-Subject: Re: [PATCH v5 4/9] mm: Add test_clear_young_fast_only MMU notifier
-From: Sean Christopherson <seanjc@google.com>
-To: James Houghton <jthoughton@google.com>
-Cc: Yu Zhao <yuzhao@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Ankit Agrawal <ankita@nvidia.com>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	David Matlack <dmatlack@google.com>, David Rientjes <rientjes@google.com>, 
-	James Morse <james.morse@arm.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oliver.upton@linux.dev>, Raghavendra Rao Ananta <rananta@google.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Shaoqin Huang <shahuang@redhat.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Wei Xu <weixugc@google.com>, 
-	Will Deacon <will@kernel.org>, Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev, 
-	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 17, 2024, James Houghton wrote:
-> On Fri, Jun 14, 2024 at 4:17=E2=80=AFPM Sean Christopherson <seanjc@googl=
-e.com> wrote:
-> >
-> > On Fri, Jun 14, 2024, James Houghton wrote:
-> > > On Fri, Jun 14, 2024 at 9:13=E2=80=AFAM Sean Christopherson <seanjc@g=
-oogle.com> wrote:
-> > > >
-> > > > On Thu, Jun 13, 2024, James Houghton wrote:
-> > > > > I wonder if this still makes sense if whether or not an MMU is "f=
-ast"
-> > > > > is determined by how contended some lock(s) are at the time.
-> > > >
-> > > > No.  Just because a lock wasn't contended on the initial aging does=
-n't mean it
-> > > > won't be contended on the next round.  E.g. when using KVM x86's sh=
-adow MMU, which
-> > > > takes mmu_lock for write for all operations, an aging operation cou=
-ld get lucky
-> > > > and sneak in while mmu_lock happened to be free, but then get stuck=
- behind a large
-> > > > queue of operations.
-> > > >
-> > > > The fast-ness needs to be predictable and all but guaranteed, i.e. =
-lockless or in
-> > > > an MMU that takes mmu_lock for read in all but the most rare paths.
-> > >
-> > > Aging and look-around themselves only use the fast-only notifiers, so
-> > > they won't ever wait on a lock (well... provided KVM is written like
-> > > that, which I think is a given).
-> >
-> > Regarding aging, is that actually the behavior that we want?  I thought=
- the plan
-> > is to have the initial test look at all MMUs, i.e. be potentially slow,=
- but only
-> > do the lookaround if it can be fast.  IIUC, that was Yu's intent (and p=
-eeking back
-> > at v2, that is indeed the case, unless I'm misreading the code).
->=20
-> I believe what I said is correct. There are three separate things going o=
-n here:
->=20
-> 1. Aging (when we hit the low watermark, scan PTEs to find young pages)
-> 2. Eviction (pick a page to evict; if it is definitely not young, evict i=
-t)
-> 3. Look-around (upon finding a page is young upon attempted eviction,
-> check adjacent pages if they are young too)
+On Mon, 17 Jun 2024 17:05:43 +0000 Jiaqi Yan <jiaqiyan@google.com> wrote:
 
-Ah, I now see the difference between #1 and #2, and your responses make a l=
-ot more
-sense.  Thanks!
+> Correctable memory errors are very common on servers with large
+> amount of memory, and are corrected by ECC. Soft offline is kernel's
+> additional recovery handling for memory pages having (excessive)
+> corrected memory errors. Impacted page is migrated to a healthy page
+> if it is in-use; the original page is discarded for any future use.
+> 
+> The actual policy on whether (and when) to soft offline should be
+> maintained by userspace, especially in case of an 1G HugeTLB page.
+> Soft-offline dissolves the HugeTLB page, either in-use or free, into
+> chunks of 4K pages, reducing HugeTLB pool capacity by 1 hugepage.
+> If userspace has not acknowledged such behavior, it may be surprised
+> when later failed to mmap hugepages due to lack of hugepages.
+> In case of a transparent hugepage, it will be split into 4K pages
+> as well; userspace will stop enjoying the transparent performance.
+> 
+> In addition, discarding the entire 1G HugeTLB page only because of
+> corrected memory errors sounds very costly and kernel better not
+> doing under the hood. But today there are at least 2 such cases
+> doing so:
+> 1. GHES driver sees both GHES_SEV_CORRECTED and
+>    CPER_SEC_ERROR_THRESHOLD_EXCEEDED after parsing CPER.
+> 2. RAS Correctable Errors Collector counts correctable errors per
+>    PFN and when the counter for a PFN reaches threshold
+> In both cases, userspace has no control of the soft offline performed
+> by kernel's memory failure recovery.
+> 
+> This commit gives userspace the control of softofflining any page:
+> kernel only soft offlines raw page / transparent hugepage / HugeTLB
+> hugepage if userspace has agreed to. The interface to userspace is a
+> new sysctl at /proc/sys/vm/enable_soft_offline. By default its value
+> is set to 1 to preserve existing behavior in kernel. When set to 0,
+> soft-offline (e.g. MADV_SOFT_OFFLINE) will fail with EOPNOTSUPP.
+> 
 
-> > If KVM _never_ consults shadow (nested TDP) MMUs, then a VM running an =
-L2 will
-> > end up with hot pages (used by L2) swapped out.
->=20
-> The shadow MMU is consulted at eviction time -- only at eviction time.
-> So pages used by L2 won't be swapped out unless they're still cold at
-> eviction time.
->=20
-> In my (and Yu's) head, not being able to do aging for nested TDP is ok
-> because running nested VMs is much more rare than running non-nested
-> VMs. And in the non-nested case, being able to do aging is a strict
-> improvement over what we have now.
+Seems reasonable.  A very simple patch.
 
-Yes and no.  Running nested VMs is indeed rare when viewing them as a perce=
-ntage
-of all VMs in the fleet, but for many use cases, the primary workload of a =
-VM is
-to run nested VMs.  E.g. say x% of VMs in the fleet run nested VMs, where '=
-x' is
-likely very small, but for those x% VMs, they run nested VMs 99% of the tim=
-e
-(completely made up number).
+Is there sufficient instrumentation in place for userspace to be able
+to know that these errors are occurring?  To be able to generally
+monitor the machine's health?
 
-So yes, I completely agree that aging for non-nested VMs is a strict improv=
-ement,
-but I also think don't think we should completely dismiss nested VMs as a p=
-roblem
-not worth solving.
+> @@ -2783,6 +2795,12 @@ int soft_offline_page(unsigned long pfn, int flags)
+>  		return -EIO;
+>  	}
+>  
+> +	if (!sysctl_enable_soft_offline) {
+> +		pr_info("%#lx: OS-wide disabled\n", pfn);
 
-> We could look into being able to do aging with the shadow MMU, but I
-> don't think that should necessarily block this series.
+This doesn't seem a very good message.  There's no indication that it
+comes from the memory failure code at all.  If the sysadmin sees this
+come out in the kernels logs, he/she will have to grep the kernel
+sources just to figure out where the message came from.  Perhaps we can
+be more helpful here..
 
-...
+> +		put_ref_page(pfn, flags);
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+>  	mutex_lock(&mf_mutex);
+>  
 
-> > Ooh!  Actually, after fiddling a bit to see how feasible fast-aging in =
-the shadow
-> > MMU would be, I'm pretty sure we can do straight there for nested TDP. =
- Or rather,
-> > I suspect/hope we can get close enough for an initial merge, which woul=
-d allow
-> > aging_is_fast to be a property of the mmu_notifier, i.e. would simplify=
- things
-> > because KVM wouldn't need to communicate MMU_NOTIFY_WAS_FAST for each n=
-otification.
-> >
-> > Walking KVM's rmaps requires mmu_lock because adding/removing rmap entr=
-ies is done
-> > in such a way that a lockless walk would be painfully complex.  But if =
-there is
-> > exactly _one_ rmap entry for a gfn, then slot->arch.rmap[...] points di=
-rectly at
-> > that one SPTE.  And with nested TDP, unless L1 is doing something uncom=
-mon, e.g.
-> > mapping the same page into multiple L2s, that overwhelming vast majorit=
-y of rmaps
-> > have only one entry.  That's not the case for legacy shadow paging beca=
-use kernels
-> > almost always map a pfn using multiple virtual addresses, e.g. Linux's =
-direct map
-> > along with any userspace mappings.
-=20
-...
 
-> Hmm, interesting. I need to spend a little bit more time digesting this.
->=20
-> Would you like to see this included in v6? (It'd be nice to avoid the
-> WAS_FAST stuff....) Should we leave it for a later series? I haven't
-> formed my own opinion yet.
-
-I would say it depends on the viability and complexity of my idea.  E.g. if=
- it
-pans out more or less like my rough sketch, then it's probably worth taking=
- on
-the extra code+complexity in KVM to avoid the whole WAS_FAST goo.
-
-Note, if we do go this route, the implementation would need to be tweaked t=
-o
-handle the difference in behavior between aging and last-minute checks for =
-eviction,
-which I obviously didn't understand when I threw together that hack-a-patch=
-.
-
-I need to think more about how best to handle that though, e.g. skipping GF=
-Ns with
-multiple mappings is probably the worst possible behavior, as we'd risk evi=
-cting
-hot pages.  But falling back to taking mmu_lock for write isn't all that de=
-sirable
-either.
