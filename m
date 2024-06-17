@@ -1,1050 +1,406 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8339513BAC4;
-	Mon, 17 Jun 2024 16:22:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B45015D5CA;
+	Mon, 17 Jun 2024 16:36:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718641329; cv=none; b=tWs2YgZFhwBEe6pOvA66pXrhUcgaUQHV+He6zuDEshPVaZoCRVb9Hfc56SHyZ7TWud4oJOFkYXYU3A0Uz+3l81aUHs6Z1BtYqOABaofMRUTcvl2dRdYgPqXdqEcZ5tNfL9MQVzaje5r2ygHX5nyCP4InAhn9qgT59tliX7V+DwY=
+	t=1718642188; cv=none; b=fLLApEuCTC3UiB3v2mCYw53LGdwqFFnEBDulR6y43dE99b8BUVGtxFPQj1La5Eq6LU2LyXFOMbYG7WpXWfcTKDcs5lP1YR/WbZTxX1rocp0cfaiOFNLDuGorJLIu/ebCMe5INUi8xDYJe2vQKAMENWt5yg+QpwswX2FtRRsPRoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718641329; c=relaxed/simple;
-	bh=NbORyknaNTt6qGSvCRGY8ymzgeHLJyudVhDE30LmKGE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o4JoVvL18GUw0UHkH/pELImvchW2UCdZTae9BVnsRX4rDPRmiZCfyYINtI/y9+pqumf2DSqSiXe15W86mvG3ZB1FPkO55bNNBSBCmNapxTfrFjwMX3ITxCPxT4dTZ4muwNWHoe87BxY9u/x7u6s97/rXjbJWinYzVWr+DBKF40I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 902E2DA7;
-	Mon, 17 Jun 2024 09:22:28 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 99D2D3F64C;
-	Mon, 17 Jun 2024 09:22:01 -0700 (PDT)
-Date: Mon, 17 Jun 2024 17:21:59 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Peng Fan <peng.fan@nxp.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 1/6] Documentation: firmware-guide: add NXP i.MX95
- SCMI documentation
-Message-ID: <ZnBip_XY1PAkTEbB@pluto>
-References: <20240524-imx95-bbm-misc-v2-v4-0-dc456995d590@nxp.com>
- <20240524-imx95-bbm-misc-v2-v4-1-dc456995d590@nxp.com>
+	s=arc-20240116; t=1718642188; c=relaxed/simple;
+	bh=xiRRxg/KZQBTdrB1E+lOHTQF1uDvnOoFY+wqe+bREkA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OwNEYRG9a7XATzoOn/0+GP5WGhKVqqY3WTH9eqLhxFQ9cJmmXbAJrBBz0k87owkGtTHMh9ArIJ03z7UiXiGMJaaMiDe+rPRpVxszHcgKiWct9Bb1hPKjMAP928/CyMnXOQTFG3e4kY9QOBodMYLSHFrCOwYQEXRZbwNQUQDH524=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kFJd7FBL; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kFJd7FBL"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a6265d3ba8fso528564366b.0;
+        Mon, 17 Jun 2024 09:36:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718642184; x=1719246984; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=53J7WI/sxMq7DMs+aYMSjnkpgSP1OKUPbBpcZiQTHx4=;
+        b=kFJd7FBLCGOapx4/PAhavNBKnY47QfuhgUAOd/DZ2nllXci/kN4WXd9vHmE87giPc5
+         nHsm1IjS2c8S9EDMQ5VaKl3CfRO1v52JP7pTtmRQPP/RNvpXJv4PWeKoqrZXqGMTPu2a
+         rfPHduhqHKtAJN36Nf/OpHUkUK6L8R4PzR4NmwLKqIm8I3N9LBwYhctcbdpBNVwExxzu
+         i4xxPc/PQ3hHw/lFYEZtM5+b7wKsM10tagF4to2cLbLEP3I8O/6HB3MSr12ecd4FxCL3
+         3EmzHNcMlhzaltWJwONT7YKWIJ4yV1m7ugAY9/glyc5KAThqg0gatakiOC3IhKROV1/g
+         UW8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718642184; x=1719246984;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=53J7WI/sxMq7DMs+aYMSjnkpgSP1OKUPbBpcZiQTHx4=;
+        b=m3777DKXhjqtdOQV3Jf3wnsejv7h1SGDK66ZkkasKy8GqDt6F8hgczQKo3JINOENh6
+         QTKyjRO2tT9CNfDCMQRnU/ov5iCVmdLvQD3reUryha6Dywly8BWmytULfem3mU7NZNyU
+         y5L/ophC2tL9KzbcL8AyRJ1alNmveJDUrAgMSuSMvjsIV7eIFKLep8eVSu69BO6MRPqn
+         LmTiZ2J+FSKJuW/TVcJx54YKdhi2xfYvt32abDO2Xum8moN/ec4xaD9kTligFPnQ5FDh
+         M+toCC4300lgM+Crc1CAQpkpgeTCmLAcFkMvgJxcz60eEzEoRk2MuTsEdd5AnEhKfmaJ
+         QzQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVfJv/cL9SwEWuqwnSYPUGWEPxD/tk2UNC++7YHDWO9QOSqjcvEsVbS/ofV7mQ/YTJ6kRnyYhaU0zu8QqwTHBl4wAQr/gATWcvYtNWH4tVADlHCroAWGmoSvAtj2Mhng1V0xA8aBxAp5Y0W6mxBzlPWbdFqTCyv3DPxb6tl13gYU7Gvtvd9WnmE5dHkauVfikeG0uV+7xaQquj9oivWfuN43Eo48+FinGxY0qlS44pOZ1lho88fQhgmXFJaritO6mHE0zQDXaxIi89H8mlqaqkabExaNJFNeAwDehC4EM/qiGil+9GmRFfaTM3IWyghVhY3hJWDJJvu+pYOo4ndIAmRLoU9g1CrceU/ETURL1969dsDhWag3sQ0CtWBsJdWi1XLlnPcLAKSlxBqC2hIiEQ+3dVRDRLl4I0A0+6Rh2rgM+yRyfXOyC/aFKekBTqiaGHB5g7VUtibko9CfkyxFP1wbs1EOrvZhlo+MYRCt3WI79NNbj5RXmeRMoo5hwbGJklrPj8Uie6dIkwMeRTDMawwCZ8uQt48gbnfFwqASL8UKeSmOAhsDGw3
+X-Gm-Message-State: AOJu0Ywt8D2/V4AncS641NXxtWZvtfLMzkd2RZw5tgTq+5u0oHrlVE0G
+	pD73uDBL2CBYePp2CU5dSoOxE0mCmUfuavAULMcfaeyz336r6Eok
+X-Google-Smtp-Source: AGHT+IEgIhSMoPO6IwzcFhQmUpnLu6gYo3keWNhjJiuidTn6zLGnPgWojVWeQQr2lo9qk89rXkkVsg==
+X-Received: by 2002:a17:906:4341:b0:a6f:5c91:7be3 with SMTP id a640c23a62f3a-a6f60dc1fa8mr632023166b.56.1718642184123;
+        Mon, 17 Jun 2024 09:36:24 -0700 (PDT)
+Received: from [192.168.42.188] ([163.114.131.193])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f6a64a3efsm391222566b.173.2024.06.17.09.36.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Jun 2024 09:36:23 -0700 (PDT)
+Message-ID: <20a6a727-d9f2-495c-bf75-72c27740dd82@gmail.com>
+Date: Mon, 17 Jun 2024 17:36:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240524-imx95-bbm-misc-v2-v4-1-dc456995d590@nxp.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v12 10/13] tcp: RX path for devmem TCP
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Sergey Shtylyov <s.shtylyov@omp.ru>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
+ Nikolay Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20240613013557.1169171-1-almasrymina@google.com>
+ <20240613013557.1169171-11-almasrymina@google.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20240613013557.1169171-11-almasrymina@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 24, 2024 at 04:56:43PM +0800, Peng Fan (OSS) wrote:
-> From: Peng Fan <peng.fan@nxp.com>
+On 6/13/24 02:35, Mina Almasry wrote:
+> In tcp_recvmsg_locked(), detect if the skb being received by the user
+> is a devmem skb. In this case - if the user provided the MSG_SOCK_DEVMEM
+> flag - pass it to tcp_recvmsg_devmem() for custom handling.
 > 
-> Add NXP i.MX95 System Control Management Interface(SCMI) vendor
-> extensions protocol documentation.
+> tcp_recvmsg_devmem() copies any data in the skb header to the linear
+> buffer, and returns a cmsg to the user indicating the number of bytes
+> returned in the linear buffer.
 > 
-
-Hi Peng, 
-
-thanks for adding this iMX SCMI vendor-protocols extensions docs; I am
-not totally sure if we will end up placing this SCMI related stuff at this
-level inside Documentation/firmware-guide, but these are details that can be
-ironed out later...a few comments down below.
-
-> Signed-off-by: Peng Fan <peng.fan@nxp.com>
-> ---
->  Documentation/firmware-guide/index.rst          |  10 +
->  Documentation/firmware-guide/nxp/imx95-scmi.rst | 877 ++++++++++++++++++++++++
->  Documentation/firmware-guide/nxp/index.rst      |  10 +
->  3 files changed, 897 insertions(+)
+> tcp_recvmsg_devmem() then loops over the unaccessible devmem skb frags,
+> and returns to the user a cmsg_devmem indicating the location of the
+> data in the dmabuf device memory. cmsg_devmem contains this information:
 > 
-> diff --git a/Documentation/firmware-guide/index.rst b/Documentation/firmware-guide/index.rst
-> index 5355784ca0a2..8f66ae31337e 100644
-> --- a/Documentation/firmware-guide/index.rst
-> +++ b/Documentation/firmware-guide/index.rst
-> @@ -4,6 +4,9 @@
->  The Linux kernel firmware guide
->  ===============================
->  
-> +ACPI subsystem
-> +==============
-> +
->  This section describes the ACPI subsystem in Linux from firmware perspective.
->  
->  .. toctree::
-> @@ -11,3 +14,10 @@ This section describes the ACPI subsystem in Linux from firmware perspective.
->  
->     acpi/index
->  
-> +NXP firmware
-> +============
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
-> +   nxp/index
-> diff --git a/Documentation/firmware-guide/nxp/imx95-scmi.rst b/Documentation/firmware-guide/nxp/imx95-scmi.rst
-> new file mode 100644
-> index 000000000000..bd87a961e4a5
-> --- /dev/null
-> +++ b/Documentation/firmware-guide/nxp/imx95-scmi.rst
-> @@ -0,0 +1,877 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +.. include:: <isonum.txt>
-> +
-> +===============================================================================
-> +i.MX95 System Control and Management Interface(SCMI) Vendor Protocols Extension
-> +===============================================================================
-> +
-> +:Copyright: |copy| 2024 NXP
-> +
-> +:Author: Peng Fan <peng.fan@nxp.com>
-> +
-> +The System Manager (SM) is a low-level system function which runs on a System
-> +Control Processor (SCP) to support isolation and management of power domains,
-> +clocks, resets, sensors, pins, etc. on complex application processors. It often
-> +runs on a Cortex-M processor and provides an abstraction to many of the
-> +underlying features of the hardware. The primary purpose of the SM is to allow
-> +isolation between software running on different cores in the SoC. It does this
-> +by having exclusive access to critical resources such as those controlling
-> +power, clocks, reset, PMIC, etc. and then providing an RPC interface to those
-> +clients. This allows the SM to provide access control, arbitration, and
-> +aggregation policies for those shared critical resources.
-> +
-> +This document covers all the information necessary to understand, maintain,
-> +port, and deploy the SM on supported processors.
-> +
-> +The SM implements an interface compliant with the Arm SCMI 3.2 Specification
+> 1. the offset into the dmabuf where the payload starts. 'frag_offset'.
+> 2. the size of the frag. 'frag_size'.
+> 3. an opaque token 'frag_token' to return to the kernel when the buffer
+> is to be released.
+> 
+> The pages awaiting freeing are stored in the newly added
+> sk->sk_user_frags, and each page passed to userspace is get_page()'d.
+> This reference is dropped once the userspace indicates that it is
+> done reading this page.  All pages are released when the socket is
+> destroyed.
 
-I would not specify the exact version, since the SCMI protocol is anyway
-completely discoverable and in case you evolve your support you will
-have to update endlessly the doc.
-
-> +with vendor specific extensions.
-
- with additional vendor specific extensions.
-
-> +
-> +SCMI_BBM: System Control and Management Interface Driver (BBM)
-
-SCMI_BBM: System Control and Management BBM Vendor Protocol
+One small concern is that if the pool gets destroyed (i.e.
+page_pool_destroy) before sockets holding netiov, page pool will
+semi-busily poll until the sockets die or such and will spam with
+pr_warn(). E.g. when a user drops the nl but leaks data sockets
+and continues with its userspace business. You can probably do
+it in a loop and create dozens of such pending
+page_pool_release_retry().
 
 
-> +==============================================================
+> Signed-off-by: Willem de Bruijn <willemb@google.com>
+> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> 
+...
+> +static int tcp_xa_pool_refill(struct sock *sk, struct tcp_xa_pool *p,
+> +			      unsigned int max_frags)
+> +{
+> +	int err, k;
 > +
-> +This protocol is intended provide access to the battery-backed module. This
-> +contains persistent storage (GPR), an RTC, and the ON/OFF button. The protocol
-> +can also provide access to similar functions implemented via external board
-> +components. The BBM protocol provides functions to:
+> +	if (p->idx < p->max)
+> +		return 0;
 > +
-> +- Describe the protocol version.
-> +- Discover implementation attributes.
-> +- Read/write GPR
-> +- Discover the RTCs available in the system.
-> +- Read/write the RTC time in seconds and ticks
-> +- Set an alarm (per LM) in seconds
+> +	xa_lock_bh(&sk->sk_user_frags);
+> +
+> +	tcp_xa_pool_commit_locked(sk, p);
+> +
+> +	for (k = 0; k < max_frags; k++) {
+> +		err = __xa_alloc(&sk->sk_user_frags, &p->tokens[k],
+> +				 XA_ZERO_ENTRY, xa_limit_31b, GFP_KERNEL);
+> +		if (err)
+> +			break;
+> +	}
+> +
+> +	xa_unlock_bh(&sk->sk_user_frags);
+> +
+> +	p->max = k;
+> +	p->idx = 0;
+> +	return k ? 0 : err;
+> +}
 
-what is an LM ? maybe a worth a note about it above in the intro
-
-> +- Get notifications on RTC update, alarm, or rollover.
-> +- Get notification on ON/OFF button activity.
-> +
-> +For most SoC, there is one on-chip RTC (e.g. in BBNSM) and this is RTC ID 0.
-> +Board code can add additional GPR and RTC.
-> +
-> +GPR are not aggregated. The RTC time is also not aggregated. Setting these
-> +sets for all so normally exclusive access would be granted to one agent for
-> +each. However, RTC alarms are maintained for each LM and the hardware is
-> +programmed with the next nearest alarm time. So only one agent in an LM should
-> +be given access rights to set an RTC alarm.
-> +
-> +Commands:
-> +_________
-> +
-> +PROTOCOL_VERSION
-> +~~~~~~~~~~~~~~~~
-> +
-> +message_id: 0x0
-> +protocol_id: 0x81
-> +
-> ++---------------+--------------------------------------------------------------+
-> +|Return values                                                                 |
-> ++---------------+--------------------------------------------------------------+
-> +|Name           |Description                                                   |
-> ++---------------+--------------------------------------------------------------+
-> +|int32 status   | See ARM SCMI Specification v3.2 section 4.1.4 for status     |
-> +|               | code definitions.                                            |
-
-I understand that you want to mention a specific table in a specific
-document for a well-defined version, BUT I would drop here and all over this
-versioning and refs and just generically say 
-
-| See ARM SCMI Specification for status code definitions.                         |
-
-to avoid all the future churn in keeping the refs updated here, since,
-as said, all versions and features are discoverable and the Linux
-kernel SCMI stack takes care usually to downgrade to match the detected
-protocol version.
+Personally, I'd prefer this optimisation to be in a separate patch,
+especially since there is some degree of hackiness to it.
 
 
-> ++---------------+--------------------------------------------------------------+
-> +|uint32 version | For this revision of the specification, this value must be   |
-> +|               | 0x10000.                                                     |
-> ++---------------+--------------------------------------------------------------+
 > +
-> +PROTOCOL_ATTRIBUTES
-> +~~~~~~~~~~~~~~~~~~~
+> +/* On error, returns the -errno. On success, returns number of bytes sent to the
+> + * user. May not consume all of @remaining_len.
+> + */
+> +static int tcp_recvmsg_dmabuf(struct sock *sk, const struct sk_buff *skb,
+> +			      unsigned int offset, struct msghdr *msg,
+> +			      int remaining_len)
+> +{
+> +	struct dmabuf_cmsg dmabuf_cmsg = { 0 };
+> +	struct tcp_xa_pool tcp_xa_pool;
+> +	unsigned int start;
+> +	int i, copy, n;
+> +	int sent = 0;
+> +	int err = 0;
 > +
-> +message_id: 0x1
-> +protocol_id: 0x81
+> +	tcp_xa_pool.max = 0;
+> +	tcp_xa_pool.idx = 0;
+> +	do {
+> +		start = skb_headlen(skb);
 > +
-> ++---------------+--------------------------------------------------------------+
-> +|Return values                                                                 |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|int32 status      | See ARM SCMI Specification v3.2 section 4.1.4 for status  |
-> +|                  | code definitions.                                         |
+> +		if (skb_frags_readable(skb)) {
+> +			err = -ENODEV;
+> +			goto out;
+> +		}
+> +
+> +		/* Copy header. */
+> +		copy = start - offset;
+> +		if (copy > 0) {
+> +			copy = min(copy, remaining_len);
+> +
+> +			n = copy_to_iter(skb->data + offset, copy,
+> +					 &msg->msg_iter);
+> +			if (n != copy) {
+> +				err = -EFAULT;
+> +				goto out;
+> +			}
+> +
+> +			offset += copy;
+> +			remaining_len -= copy;
+> +
+> +			/* First a dmabuf_cmsg for # bytes copied to user
+> +			 * buffer.
+> +			 */
+> +			memset(&dmabuf_cmsg, 0, sizeof(dmabuf_cmsg));
+> +			dmabuf_cmsg.frag_size = copy;
+> +			err = put_cmsg(msg, SOL_SOCKET, SO_DEVMEM_LINEAR,
+> +				       sizeof(dmabuf_cmsg), &dmabuf_cmsg);
+> +			if (err || msg->msg_flags & MSG_CTRUNC) {
+> +				msg->msg_flags &= ~MSG_CTRUNC;
+> +				if (!err)
+> +					err = -ETOOSMALL;
+> +				goto out;
+> +			}
+> +
+> +			sent += copy;
+> +
+> +			if (remaining_len == 0)
+> +				goto out;
+> +		}
+> +
+> +		/* after that, send information of dmabuf pages through a
+> +		 * sequence of cmsg
+> +		 */
+> +		for (i = 0; i < skb_shinfo(skb)->nr_frags; i++) {
+> +			skb_frag_t *frag = &skb_shinfo(skb)->frags[i];
+> +			struct net_iov *niov;
+> +			u64 frag_offset;
+> +			int end;
+> +
+> +			/* !skb_frags_readable() should indicate that ALL the
+> +			 * frags in this skb are dmabuf net_iovs. We're checking
+> +			 * for that flag above, but also check individual frags
+> +			 * here. If the tcp stack is not setting
+> +			 * skb_frags_readable() correctly, we still don't want
+> +			 * to crash here.
+> +			 */
+> +			if (!skb_frag_net_iov(frag)) {
+> +				net_err_ratelimited("Found non-dmabuf skb with net_iov");
+> +				err = -ENODEV;
+> +				goto out;
+> +			}
+> +
+> +			niov = skb_frag_net_iov(frag);
+> +			end = start + skb_frag_size(frag);
+> +			copy = end - offset;
+> +
+> +			if (copy > 0) {
+> +				copy = min(copy, remaining_len);
+> +
+> +				frag_offset = net_iov_virtual_addr(niov) +
+> +					      skb_frag_off(frag) + offset -
+> +					      start;
+> +				dmabuf_cmsg.frag_offset = frag_offset;
+> +				dmabuf_cmsg.frag_size = copy;
+> +				err = tcp_xa_pool_refill(sk, &tcp_xa_pool,
+> +							 skb_shinfo(skb)->nr_frags - i);
+> +				if (err)
+> +					goto out;
+> +
+> +				/* Will perform the exchange later */
+> +				dmabuf_cmsg.frag_token = tcp_xa_pool.tokens[tcp_xa_pool.idx];
+> +				dmabuf_cmsg.dmabuf_id = net_iov_binding_id(niov);
+> +
+> +				offset += copy;
+> +				remaining_len -= copy;
+> +
+> +				err = put_cmsg(msg, SOL_SOCKET,
+> +					       SO_DEVMEM_DMABUF,
+> +					       sizeof(dmabuf_cmsg),
+> +					       &dmabuf_cmsg);
+> +				if (err || msg->msg_flags & MSG_CTRUNC) {
+> +					msg->msg_flags &= ~MSG_CTRUNC;
+> +					if (!err)
+> +						err = -ETOOSMALL;
+> +					goto out;
+> +				}
+> +
+> +				atomic_long_inc(&niov->pp_ref_count);
+> +				tcp_xa_pool.netmems[tcp_xa_pool.idx++] = skb_frag_netmem(frag);
+> +
+> +				sent += copy;
+> +
+> +				if (remaining_len == 0)
+> +					goto out;
+> +			}
+> +			start = end;
+> +		}
+> +
+> +		tcp_xa_pool_commit(sk, &tcp_xa_pool);
+> +		if (!remaining_len)
+> +			goto out;
+> +
+> +		/* if remaining_len is not satisfied yet, we need to go to the
+> +		 * next frag in the frag_list to satisfy remaining_len.
+> +		 */
+> +		skb = skb_shinfo(skb)->frag_list ?: skb->next;
+> +
+> +		offset = offset - start;
 
-Ditto.
+It's an offset into the current skb, isn't it? Wouldn't
+offset = 0; be less confusing?
 
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 attributes | Bits[31:8] Number of RTCs.                                |
-> +|                  | Bits[15:0] Number of persistent storage (GPR) words.      |
-> ++------------------+-----------------------------------------------------------+
+> +	} while (skb);
 > +
-> +PROTOCOL_MESSAGE_ATTRIBUTES
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +message_id: 0x2
-> +protocol_id: 0x81
-> +
-> ++---------------+--------------------------------------------------------------+
-> +|Return values                                                                 |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|int32 status      |SUCCESS: in case the message is implemented and available  |
-> +|                  |to use.                                                    |
-> +|                  |NOT_FOUND: if the message identified by message_id is      |
-> +|                  |invalid or not implemented                                 |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 attributes |Flags that are associated with a specific function in the  |
-> +|                  |protocol. For all functions in this protocol, this         |
-> +|                  |parameter has a value of 0                                 |
-> ++------------------+-----------------------------------------------------------+
-> +
-> +BBM_GPR_SET
-> +~~~~~~~~~~~
-> +
-> +message_id: 0x3
-> +protocol_id: 0x81
-> +
-> ++------------------+-----------------------------------------------------------+
-> +|Parameters                                                                    |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 index      |Index of GPR to write                                      |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 value      |32-bit value to write to the GPR                           |
-> ++------------------+-----------------------------------------------------------+
-> +|Return values                                                                 |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|int32 status      |SUCCESS: if the GPR was successfully written.              |
-> +|                  |NOT_FOUND: if the index is not valid.                      |
-> +|                  |DENIED: if the agent does not have permission to write     |
-> +|                  |the specified GPR                                          |
-> ++------------------+-----------------------------------------------------------+
-> +
-> +BBM_GPR_GET
-> +~~~~~~~~~~~
-> +
-> +message_id: 0x4
-> +protocol_id: 0x81
-> +
-> ++------------------+-----------------------------------------------------------+
-> +|Parameters                                                                    |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 index      |Index of GPR to read                                       |
-> ++------------------+-----------------------------------------------------------+
-> +|Return values                                                                 |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|int32 status      |SUCCESS: if the GPR was successfully written.              |
+> +	if (remaining_len) {
+> +		err = -EFAULT;
+> +		goto out;
+> +	}
 
-read
+Having data left is not a fault, and to get here you
+need to get an skb with no data left, which shouldn't
+happen. Seems like everything you need is covered by
+the "!sent" check below.
 
-> +|                  |NOT_FOUND: if the index is not valid.                      |
-> +|                  |DENIED: if the agent does not have permission to write     |
-
- to read (if it make sense to deny the read...)
-
-> +|                  |the specified GPR.                                         |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 value      |32-bit value read from the GPR                             |
-> ++------------------+-----------------------------------------------------------+
-> +
-> +BBM_RTC_ATTRIBUTES
-> +~~~~~~~~~~~~~~~~~~
-> +
-> +message_id: 0x5
-> +protocol_id: 0x81
-> +
-> ++------------------+-----------------------------------------------------------+
-> +|Parameters                                                                    |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 index      |Index of RTC                                               |
-> ++------------------+-----------------------------------------------------------+
-> +|Return values                                                                 |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|int32 status      |SUCCESS: returned the attributes.                          |
-> +|                  |NOT_FOUND: Index is invalid.                               |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 attributes |Bit[31:24] Bit width of RTC seconds.                       |
-> +|                  |Bit[23:16] Bit width of RTC ticks.                         |
-> +|                  |Bits[15:0] RTC ticks per second                            |
-> ++------------------+-----------------------------------------------------------+
-> +|uint8 name[16]    |Null-terminated ASCII string of up to 16 bytes in length   |
-> +|                  |describing the RTC name                                    |
-> ++------------------+-----------------------------------------------------------+
-> +
-> +BBM_RTC_TIME_SET
-> +~~~~~~~~~~~~~~~~
-> +
-> +message_id: 0x6
-> +protocol_id: 0x81
-> +
-> ++------------------+-----------------------------------------------------------+
-> +|Parameters                                                                    |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 index      |Index of RTC                                               |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 flags      |Bits[31:1] Reserved, must be zero.                         |
-> +|                  |Bit[0] RTC time format:                                    |
-> +|                  |Set to 1 if the time is in ticks.                          |
-> +|                  |Set to 0 if the time is in seconds                         |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 time[2]    |Lower word: Lower 32 bits of the time in seconds/ticks.    |
-> +|                  |Upper word: Upper 32 bits of the time in seconds/ticks.    |
-> ++------------------+-----------------------------------------------------------+
-> +|Return values                                                                 |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|int32 status      |SUCCESS: RTC time was successfully set.                    |
-> +|                  |NOT_FOUND: rtcId pertains to a non-existent RTC.           |
-> +|                  |INVALID_PARAMETERS: time is not valid                      |
-> +|                  |(beyond the range of the RTC).                             |
-> +|                  |DENIED: the agent does not have permission to set the RTC. |
-> ++------------------+-----------------------------------------------------------+
-> +
-> +BBM_RTC_TIME_GET
-> +~~~~~~~~~~~~~~~~
-> +
-> +message_id: 0x7
-> +protocol_id: 0x81
-> +
-> ++------------------+-----------------------------------------------------------+
-> +|Parameters                                                                    |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 index      |Index of RTC                                               |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 flags      |Bits[31:1] Reserved, must be zero.                         |
-> +|                  |Bit[0] RTC time format:                                    |
-> +|                  |Set to 1 if the time is in ticks.                          |
-> +|                  |Set to 0 if the time is in seconds                         |
-> ++------------------+-----------------------------------------------------------+
-> +|Return values                                                                 |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|int32 status      |SUCCESS: RTC time was successfully set.                    |
-
-get
-
-> +|                  |NOT_FOUND: rtcId pertains to a non-existent RTC.           |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 time[2]    |Lower word: Lower 32 bits of the time in seconds/ticks.    |
-> +|                  |Upper word: Upper 32 bits of the time in seconds/ticks.    |
-> ++------------------+-----------------------------------------------------------+
-> +
-> +BBM_RTC_ALARM_SET
-> +~~~~~~~~~~~~~~~~~
-> +
-> +message_id: 0x8
-> +protocol_id: 0x81
-> +
-> ++------------------+-----------------------------------------------------------+
-> +|Parameters                                                                    |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 index      |Index of RTC                                               |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 flags      |Bits[31:1] Reserved, must be zero.                         |
-> +|                  |Bit[0] RTC enable flag:                                    |
-> +|                  |Set to 1 if the RTC alarm should be enabled.               |
-> +|                  |Set to 0 if the RTC alarm should be disabled               |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 time[2]    |Lower word: Lower 32 bits of the time in seconds.          |
-> +|                  |Upper word: Upper 32 bits of the time in seconds.          |
-> ++------------------+-----------------------------------------------------------+
-> +|Return values                                                                 |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|int32 status      |SUCCESS: RTC time was successfully set.                    |
-> +|                  |NOT_FOUND: rtcId pertains to a non-existent RTC.           |
-> +|                  |INVALID_PARAMETERS: time is not valid                      |
-> +|                  |(beyond the range of the RTC).                             |
-> +|                  |DENIED: the agent does not have permission to set the RTC  |
-> +|                  |alarm                                                      |
-> ++------------------+-----------------------------------------------------------+
-> +
-> +BBM_BUTTON_GET
-> +~~~~~~~~~~~~~~
-> +
-> +message_id: 0x9
-> +protocol_id: 0x81
-> +
-> ++------------------+-----------------------------------------------------------+
-> +|Return values                                                                 |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|int32 status      |SUCCESS: if the button status was read.                    |
-> +|                  |Other value: ARM SCMI Specification v3.2 section 4.1.4.    |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 state      |State of the ON/OFF button                                 |
-> ++------------------+-----------------------------------------------------------+
-
-How the states are codified ? 0/1 ? with the remaining bits reserevd ?
 
 > +
-> +BBM_RTC_NOTIFY
-> +~~~~~~~~~~~~~~
+> +out:
+> +	tcp_xa_pool_commit(sk, &tcp_xa_pool);
+> +	if (!sent)
+> +		sent = err;
 > +
-> +message_id: 0xA
-> +protocol_id: 0x81
+> +	return sent;
+> +}
 > +
-> ++------------------+-----------------------------------------------------------+
-> +|Parameters                                                                    |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 index      |Index of RTC                                               |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 flags      |Notification flags                                         |
-> +|                  |Bits[31:3] Reserved, must be zero.                         |
-> +|                  |Bit[2] Update enable:                                      |
-> +|                  |Set to 1 to send notification.                             |
-> +|                  |Set to 0 if no notification.                               |
-> +|                  |Bit[1] Rollover enable:                                    |
-> +|                  |Set to 1 to send notification.                             |
-> +|                  |Set to 0 if no notification.                               |
-> +|                  |Bit[0] Alarm enable:                                       |
-> +|                  |Set to 1 to send notification.                             |
-> +|                  |Set to 0 if no notification                                |
-> ++------------------+-----------------------------------------------------------+
-> +|Return values                                                                 |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|int32 status      |SUCCESS: notification configuration was successfully       |
-> +|                  |updated.                                                   |
-> +|                  |NOT_FOUND: rtcId pertains to a non-existent RTC.           |
-> +|                  |DENIED: the agent does not have permission to request RTC  |
-> +|                  |notifications.                                             |
-> ++------------------+-----------------------------------------------------------+
-> +
-> +BBM_BUTTON_NOTIFY
-> +~~~~~~~~~~~~~~~~~
-> +
-> +message_id: 0xB
-> +protocol_id: 0x81
-> +
-> ++------------------+-----------------------------------------------------------+
-> +|Parameters                                                                    |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 flags      |Notification flags                                         |
-> +|                  |Bits[31:1] Reserved, must be zero.                         |
-> +|                  |Bit[0] Enable button:                                      |
-> +|                  |Set to 1 to send notification.                             |
-> +|                  |Set to 0 if no notification                                |
-> ++------------------+-----------------------------------------------------------+
-> +|Return values                                                                 |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|int32 status      |SUCCESS: notification configuration was successfully       |
-> +|                  |updated.                                                   |
-> +|                  |DENIED: the agent does not have permission to request      |
-> +|                  |button notifications.                                      |
-> ++------------------+-----------------------------------------------------------+
-> +
-> +NEGOTIATE_PROTOCOL_VERSION
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +message_id: 0x10
-> +protocol_id: 0x81
-> +
-> ++--------------------+---------------------------------------------------------+
-> +|Parameters                                                                    |
-> ++--------------------+---------------------------------------------------------+
-> +|Name                |Description                                              |
-> ++--------------------+---------------------------------------------------------+
-> +|uint32 version      |The negotiated protocol version the agent intends to use |
-> ++--------------------+---------------------------------------------------------+
-> +|Return values                                                                 |
-> ++--------------------+---------------------------------------------------------+
-> +|Name                |Description                                              |
-> ++--------------------+---------------------------------------------------------+
-> +|int32 status        |SUCCESS: if the negotiated protocol version is supported |
-> +|                    |by the platform. All commands, responses, and            |
-> +|                    |notifications post successful return of this command must|
-> +|                    |comply with the negotiated version.                      |
-> +|                    |NOT_SUPPORTED: if the protocol version is not supported. |
-> ++--------------------+---------------------------------------------------------+
-> +
-> +Notifications
-> +_____________
-> +
-> +BBM_RTC_EVENT
-> +~~~~~~~~~~~~~
-> +
-> +message_id: 0x0
-> +protocol_id: 0x81
-> +
-> ++------------------+-----------------------------------------------------------+
-> +|Parameters                                                                    |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 flags      |RTC events:                                                |
-> +|                  |Bits[31:2] Reserved, must be zero.                         |
-> +|                  |Bit[1] RTC rollover notification:                          |
-> +|                  |1 RTC rollover detected.                                   |
-> +|                  |0 no RTC rollover detected.                                |
-> +|                  |Bit[0] RTC alarm notification:                             |
-> +|                  |1 RTC alarm generated.                                     |
-> +|                  |0 no RTC alarm generated.                                  |
-> ++------------------+-----------------------------------------------------------+
-> +
-> +BBM_BUTTON_EVENT
-> +~~~~~~~~~~~~~~~~
-> +
-> +message_id: 0x1
-> +protocol_id: 0x81
-> +
-> ++------------------+-----------------------------------------------------------+
-> +|Parameters                                                                    |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 flags      |RTC events:                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|                  |Button events:                                             |
-> +|                  |Bits[31:1] Reserved, must be zero.                         |
-> +|                  |Bit[0] Button notification:                                |
-> +|                  |1 button change detected.                                  |
-> +|                  |0 no button change detected.                               |
-> ++------------------+-----------------------------------------------------------+
-> +
-> +SCMI_MISC: System Control and Management Interface Driver (MISC)
+...
+> diff --git a/net/ipv4/tcp_ipv4.c b/net/ipv4/tcp_ipv4.c
+> index de0c8f43448ab..57e48b75ac02a 100644
+> --- a/net/ipv4/tcp_ipv4.c
+> +++ b/net/ipv4/tcp_ipv4.c
+> @@ -79,6 +79,7 @@
+>   #include <linux/seq_file.h>
+>   #include <linux/inetdevice.h>
+>   #include <linux/btf_ids.h>
+> +#include <linux/skbuff_ref.h>
+>   
+>   #include <crypto/hash.h>
+>   #include <linux/scatterlist.h>
+> @@ -2503,6 +2504,15 @@ static void tcp_md5sig_info_free_rcu(struct rcu_head *head)
+>   void tcp_v4_destroy_sock(struct sock *sk)
+>   {
+>   	struct tcp_sock *tp = tcp_sk(sk);
+> +	__maybe_unused unsigned long index;
+> +	__maybe_unused void *netmem;
 
-SCMI_MISC: System Control and Management MISC Vendor Protocol
+How about adding a function to get rid of __maybe_unused?.
 
-Miscellaneous
-> +================================================================
-> +
-> +Provides misc. functions. This includes controls that are misc. settings/actions
+static void sock_release_devmem_frags() {
+#ifdef PP
+	unsigned index;
+	...
+#endif PP
+}
 
-miscellaneous
-
-> +that must be exposed from the SM to agents. They are device specific and are
-> +usually define to access bit fields in various mix block control modules,
-> +IOMUX_GPR, and other GPR/CSR owned by the SM. This protocol supports the
-> +following functions:
-> +
-> +- Describe the protocol version.
-> +- Discover implementation attributes.
-> +- Set/Get a control.
-> +- Initiate an action on a control.
-> +- Obtain platform (i.e. SM) build information.
-> +- Obtain ROM passover data.
-> +- Read boot/shutdown/reset information for the LM or the system.
-> +
-> +Commands:
-> +_________
-> +
-> +PROTOCOL_VERSION
-> +~~~~~~~~~~~~~~~~
-> +
-> +message_id: 0x0
-> +protocol_id: 0x84
-> +
-> ++---------------+--------------------------------------------------------------+
-> +|Return values                                                                 |
-> ++---------------+--------------------------------------------------------------+
-> +|Name           |Description                                                   |
-> ++---------------+--------------------------------------------------------------+
-> +|int32 status   | See ARM SCMI Specification v3.2 section 4.1.4 for status     |
-> +|               | code definitions.                                            |
-
-Ditto.
-
-> ++---------------+--------------------------------------------------------------+
-> +|uint32 version | For this revision of the specification, this value must be   |
-> +|               | 0x10000.                                                     |
-> ++---------------+--------------------------------------------------------------+
-> +
-> +PROTOCOL_ATTRIBUTES
-> +~~~~~~~~~~~~~~~~~~~
-> +
-> +message_id: 0x1
-> +protocol_id: 0x84
-> +
-> ++------------------+-----------------------------------------------------------+
-> +|Return values                                                                 |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|int32 status      |See ARM SCMI Specification v3.2 section 4.1.4 for status   |
-> +|                  |code definitions.                                          |
-> ++------------------+-----------------------------------------------------------+
-
-Ditto
-
-> +|uint32 attributes |Protocol attributes:                                       |
-> +|                  |Bits[31:24] Reserved, must be zero.                        |
-> +|                  |Bits[23:16] Number of reasons.                             |
-
-here and all the occurences down below... is it 'reason' or 'region' ?
-In case it is indeed 'reasons' I am not sure ot understand what is the
-usage of reason IDs in the protoocol...
-
-> +|                  |Bits[15:0] Number of controls                              |
-> ++------------------+-----------------------------------------------------------+
-> +
-> +PROTOCOL_MESSAGE_ATTRIBUTES
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +message_id: 0x2
-> +protocol_id: 0x84
-> +
-> ++------------------+-----------------------------------------------------------+
-> +|Return values                                                                 |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|int32 status      |SUCCESS: in case the message is implemented and available  |
-> +|                  |to use.                                                    |
-> +|                  |NOT_FOUND: if the message identified by message_id is      |
-> +|                  |invalid or not implemented                                 |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 attributes |Flags that are associated with a specific function in the  |
-> +|                  |protocol. For all functions in this protocol, this         |
-> +|                  |parameter has a value of 0                                 |
-> ++------------------+-----------------------------------------------------------+
-> +
-> +MISC_CONTROL_SET
-> +~~~~~~~~~~~~~~~~
-> +
-> +message_id: 0x3
-> +protocol_id: 0x84
-> +
-> ++------------------+-----------------------------------------------------------+
-> +|Parameters                                                                    |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 index      |Index of the control                                       |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 num        |Size of the value data in words                            |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 val[8]     |value data array                                           |
-> ++------------------+-----------------------------------------------------------+
-> +|Return values                                                                 |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|int32 status      |SUCCESS: if the control was set successfully.              |
-> +|                  |NOT_FOUND: if the index is not valid.                      |
-> +|                  |DENIED: if the agent does not have permission to set the   |
-> +|                  |control                                                    |
-> ++------------------+-----------------------------------------------------------+
-> +
-> +MISC_CONTROL_GET
-> +~~~~~~~~~~~~~~~~
-> +
-> +message_id: 0x4
-> +protocol_id: 0x84
-> +
-> ++------------------+-----------------------------------------------------------+
-> +|Parameters                                                                    |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 index      |Index of the control                                       |
-> ++------------------+-----------------------------------------------------------+
-> +|Return values                                                                 |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|int32 status      |SUCCESS: if the control was set successfully.              |
-
-get
-
-> +|                  |NOT_FOUND: if the index is not valid.                      |
-> +|                  |DENIED: if the agent does not have permission to get the   |
-> +|                  |control                                                    |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 num        |Size of the return data in words                           |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 val[8]     |value data array                                           |
-> ++------------------+-----------------------------------------------------------+
-> +
-> +MISC_CONTROL_ACTION
-> +~~~~~~~~~~~~~~~~~~~
-> +
-> +message_id: 0x5
-> +protocol_id: 0x84
-> +
-> ++------------------+-----------------------------------------------------------+
-> +|Parameters                                                                    |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 index      |Index of the control                                       |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 action	   |Action for the control                                     |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 numarg	   |Size of the argument data                                  |
-
-Max 8, it seems...please specify
-
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 arg[8]	   |Argument data array                                        |
-
-arg[N] with N in [0, numarg -1] ?
-
-... a bit of formatting issues too above...
-
-> ++------------------+-----------------------------------------------------------+
-> +|Return values                                                                 |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|int32 status      |SUCCESS: if the action was set successfully.               |
-> +|                  |NOT_FOUND: if the index is not valid.                      |
-> +|                  |DENIED: if the agent does not have permission to get the   |
-> +|                  |control                                                    |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 num        |Size of the return data in words                           |
-
-max 8 ?
-
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 val[8]     |value data array                                           |
-> ++------------------+-----------------------------------------------------------+
-
-val[N] with N in [0, num -1] as above ... I suppose
+Also, even though you wire it up for TCP, since ->sk_user_frags
+is in struct sock I'd expect the release to be somewhere in the
+generic sock path like __sk_destruct(), and same for init.
+Perhpas, it's better to leave it for later.
 
 > +
-> +MISC_DISCOVER_BUILD_INFO
-> +~~~~~~~~~~~~~~~~~~~~~~~~
+> +#ifdef CONFIG_PAGE_POOL
+> +	xa_for_each(&sk->sk_user_frags, index, netmem)
+> +		WARN_ON_ONCE(!napi_pp_put_page((__force netmem_ref)netmem));
+> +#endif
 > +
+> +	xa_destroy(&sk->sk_user_frags);
+>   
+>   	trace_tcp_destroy_sock(sk);
+>   
+> diff --git a/net/ipv4/tcp_minisocks.c b/net/ipv4/tcp_minisocks.c
+> index bc67f6b9efae4..5d563312efe14 100644
+> --- a/net/ipv4/tcp_minisocks.c
+> +++ b/net/ipv4/tcp_minisocks.c
+> @@ -624,6 +624,8 @@ struct sock *tcp_create_openreq_child(const struct sock *sk,
+>   
+>   	__TCP_INC_STATS(sock_net(sk), TCP_MIB_PASSIVEOPENS);
+>   
+> +	xa_init_flags(&newsk->sk_user_frags, XA_FLAGS_ALLOC1);
+> +
+>   	return newsk;
+>   }
+>   EXPORT_SYMBOL(tcp_create_openreq_child);
 
-Which build version this refers to ? the SM fw build version and metadata ?
-
-> +message_id: 0x6
-> +protocol_id: 0x84
-> +
-> ++------------------+-----------------------------------------------------------+
-> +|Return values                                                                 |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|int32 status      |SUCCESS: if the build info was got successfully.           |
-> +|                  |NOT_SUPPORTED: if the data is not available.               |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 buildnum   |Build number                                               |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 buildcommit|Most significant 32 bits of the git commit hash            |
-> ++------------------+-----------------------------------------------------------+
-> +|uint8 date[16]    |Date of build. Null terminated ASCII string of up to 16    |
-> +|                  |bytes in length                                            |
-> ++------------------+-----------------------------------------------------------+
-> +|uint8 time[16]    |Time of build. Null terminated ASCII string of up to 16    |
-> +|                  |bytes in length                                            |
-> ++------------------+-----------------------------------------------------------+
-> +
-> +MISC_ROM_PASSOVER_GET
-> +~~~~~~~~~~~~~~~~~~~~~
-> +
-> +This function is used to obtain the ROM passover data. The returned block of
-> +words is structured as defined in the ROM passover section in the SoC RM.
-> +
-
-what is a ROM passover exactly ?
-
-> +message_id: 0x7
-> +protocol_id: 0x84
-> +
-> ++------------------+-----------------------------------------------------------+
-> +|Return values                                                                 |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|int32 status      |SUCCESS: if the data was got successfully.                 |
-> +|                  |NOT_SUPPORTED: if the data is not available.               |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 num        |Size of the passover data in words                         |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32_t data[8]  |Passover data array                                        |
-> ++------------------+-----------------------------------------------------------+
-> +
-> +MISC_CONTROL_NOTIFY
-> +~~~~~~~~~~~~~~~~~~~
-> +
-> +message_id: 0x8
-> +protocol_id: 0x84
-> +
-> ++------------------+-----------------------------------------------------------+
-> +|Parameters                                                                    |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 index      |Index of control                                           |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 flags      |Notification flags, varies by control                      |
-
-So basically this is to somehow enable notifs on the specified index
-BUT the flag field syntax is completely opaque and varies by the control type...
-...how is this even used in the code ? there should be at least a bit
-dedicatd to enable/disable right ?
-
-> ++------------------+-----------------------------------------------------------+
-> +|Return values                                                                 |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|int32 status      |SUCCESS: notification configuration was successfully       |
-> +|                  |updated.                                                   |
-> +|                  |NOT_FOUND: control id not exists.                          |
-> +|                  |INVALID_PARAMETERS: if the input attributes flag specifies |
-> +|                  |unsupported or invalid configurations..                    |
-> +|                  |DENIED: if the calling agent is not permitted to request   |
-> +|                  |the notification.                                          |
-> ++------------------+-----------------------------------------------------------+
-> +
-> +MISC_REASON_ATTRIBUTES
-> +~~~~~~~~~~~~~~~~~~~~~~
-
-? as above said... REASON ?
-
-> +
-> +message_id: 0x9
-> +protocol_id: 0x84
-> +
-> ++------------------+-----------------------------------------------------------+
-> +|Parameters                                                                    |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 reasonid   |Identifier for the reason                                  |
-> ++------------------+-----------------------------------------------------------+
-> +|Return values                                                                 |
-> ++------------------+-----------------------------------------------------------+
-> +|Name              |Description                                                |
-> ++------------------+-----------------------------------------------------------+
-> +|int32 status      |SUCCESS: if valid reason attributes are returned           |
-> +|                  |NOT_FOUND: if reasonId pertains to a non-existent reason.  |
-> ++------------------+-----------------------------------------------------------+
-> +|uint32 attributes |Reason attributes. This parameter has the following        |
-> +|                  |format: Bits[31:0] Reserved, must be zero                  |
-> +|                  |Bits[15:0] Number of persistent storage (GPR) words.       |
-> ++------------------+-----------------------------------------------------------+
-> +|uint8 name[16]    |Null-terminated ASCII string of up to 16 bytes in length   |
-> +|                  |describing the reason                                      |
-> ++------------------+-----------------------------------------------------------+
-> +
-> +MISC_RESET_REASON
-> +~~~~~~~~~~~~~~~~~
-> +
-> +message_id: 0xA
-> +protocol_id: 0x84
-> +
-
-So is this a GET ? MISC_RESET_REASON_GET ?
-
-> ++--------------------+---------------------------------------------------------+
-> +|Parameters                                                                    |
-> ++--------------------+---------------------------------------------------------+
-> +|Name                |Description                                              |
-> ++--------------------+---------------------------------------------------------+
-> +|uint32 flags        |Reason flags. This parameter has the following format:   |
-> +|                    |Bits[31:1] Reserved, must be zero.                       |
-> +|                    |Bit[0] System:                                           |
-> +|                    |Set to 1 to return the system reason.                    |
-> +|                    |Set to 0 to return the LM reason                         |
-> ++--------------------+---------------------------------------------------------+
-> +|Return values                                                                 |
-> ++--------------------+---------------------------------------------------------+
-> +|Name                |Description                                              |
-> ++--------------------+---------------------------------------------------------+
-> +|int32 status        |SUCCESS: reset reason return                             |
-> ++--------------------+---------------------------------------------------------+
-> +|uint32 bootflags    |Boot reason flags. This parameter has the format:        |
-> +|                    |Bits[31] Valid.                                          |
-> +|                    |Set to 1 if the entire reason is valid.                  |
-> +|                    |Set to 0 if the entire reason is not valid.              |
-> +|                    |Bits[30:29] Reserved, must be zero.                      |
-> +|                    |Bit[28] Valid origin:                                    |
-> +|                    |Set to 1 if the origin field is valid.                   |
-> +|                    |Set to 0 if the origin field is not valid.               |
-> +|                    |Bits[27:24] Origin.                                      |
-> +|                    |Bit[23] Valid err ID:                                    |
-> +|                    |Set to 1 if the error ID field is valid.                 |
-> +|                    |Set to 0 if the error ID field is not valid.             |
-> +|                    |Bits[22:8] Error ID.                                     |
-> +|                    |Bit[7:0] Reason                                          |
-> ++--------------------+---------------------------------------------------------+
-> +|uint32 shutdownflags|Shutdown reason flags. This parameter has the format:    |
-> +|                    |Bits[31] Valid.                                          |
-> +|                    |Set to 1 if the entire reason is valid.                  |
-> +|                    |Set to 0 if the entire reason is not valid.              |
-> +|                    |Bits[30:29] Number of valid extended info words.         |
-> +|                    |Bit[28] Valid origin:                                    |
-> +|                    |Set to 1 if the origin field is valid.                   |
-> +|                    |Set to 0 if the origin field is not valid.               |
-> +|                    |Bits[27:24] Origin.                                      |
-> +|                    |Bit[23] Valid err ID:                                    |
-> +|                    |Set to 1 if the error ID field is valid.                 |
-> +|                    |Set to 0 if the error ID field is not valid.             |
-> +|                    |Bits[22:8] Error ID.                                     |
-> +|                    |Bit[7:0] Reason                                          |
-> ++--------------------+---------------------------------------------------------+
-> +|uint32 extinfo[8]   |Array of extended info words                             |
-> ++--------------------+---------------------------------------------------------+
-> +
-> +MISC_SI_INFO
-> +~~~~~~~~~~~~
-> +
-
-MISC_SI_INFO_GET ?
-
-> +message_id: 0xB
-> +ROM passoverprotocol_id: 0x84
-> +
-> ++--------------------+---------------------------------------------------------+
-> +|Return values                                                                 |
-> ++--------------------+---------------------------------------------------------+
-> +|Name                |Description                                              |
-> ++--------------------+---------------------------------------------------------+
-> +|int32 status        |SUCCESS: silicon info return                             |
-> ++--------------------+---------------------------------------------------------+
-> +|uint32 deviceid     |Silicon specific device ID                               |
-> ++--------------------+---------------------------------------------------------+
-> +|uint32 sirev        |Silicon specific revision                                |
-> ++--------------------+---------------------------------------------------------+
-> +|uint32 partnum      |Silicon specific part number                             |
-> ++--------------------+---------------------------------------------------------+
-> +|uint8 siname[16]    |Silicon name/revision. Null terminated ASCII string of up|
-> +|                    |to 16 bytes in length                                    |
-> ++--------------------+---------------------------------------------------------+
-> +
-> +MISC_CFG_INFO
-> +~~~~~~~~~~~~~
-> +
-
-MISC_CFG_INFO_GET
-
-> +message_id: 0xC
-> +protocol_id: 0x84
-> +
-> ++--------------------+---------------------------------------------------------+
-> +|Return values                                                                 |
-> ++--------------------+---------------------------------------------------------+
-> +|Name                |Description                                              |
-> ++--------------------+---------------------------------------------------------+
-> +|int32 status        |SUCCESS: config name return                              |
-> +|                    |NOT_SUPPORTED: name not available                        |
-> ++--------------------+---------------------------------------------------------+
-> +|uint32 msel         |Mode selector value                                      |
-> ++--------------------+---------------------------------------------------------+
-> +|uint8 cfgname[16]   |config file basename. Null terminated ASCII string of up |
-> +|                    |to 16 bytes in length                                    |
-> ++--------------------+---------------------------------------------------------+
-> +
-> +MISC_SYSLOG
-> +~~~~~~~~~~~
-> +
-> +message_id: 0xD
-> +protocol_id: 0x84
-> +
-> ++--------------------+---------------------------------------------------------+
-> +|Parameters                                                                    |
-> ++--------------------+---------------------------------------------------------+
-> +|Name                |Description                                              |
-> ++--------------------+---------------------------------------------------------+
-> +|uint32 flags        |Device specific flags that might impact the data returned|
-> +|                    |or clearing of the data                                  |
-> ++--------------------+---------------------------------------------------------+
-> +|uint32 logindex     |Index to the first log word. Will be the first element in|
-> +|                    |the return array                                         |
-> ++--------------------+---------------------------------------------------------+
-> +|Return values                                                                 |
-> ++--------------------+---------------------------------------------------------+
-> +|Name                |Description                                              |
-> ++--------------------+---------------------------------------------------------+
-> +|int32 status        |SUCCESS: reset reason return                             |
-
-??
-
-> ++--------------------+---------------------------------------------------------+
-> +|uint32 numLogflags  |Descriptor for the log data returned by this call.       |
-> +|                    |Bits[31:20] Number of remaining log words.               |
-> +|                    |Bits[15:12] Reserved, must be zero.                      |
-> +|                    |Bits[11:0] Number of log words that are returned by this |
-> +|                    |call                                                     |
-> ++--------------------+---------------------------------------------------------+
-> +|uint32 syslog[16]   |Log data array                                           |
-> ++--------------------+---------------------------------------------------------+
-
-This should be syslog[N} with N defined by bits[11:0] in numLogflags, by
-the definition itself of multi-part SCMI command...the number of returned
-entries is limited by the platform dinamically based on the max size that
-the configure underlying transport allows....it could be more OR less
-than 16...this way is seems that you always carry around 16 bytes max,
-potentially with unused bytes if returned words are far less...
-
-Thanks,
-Cristian
+-- 
+Pavel Begunkov
