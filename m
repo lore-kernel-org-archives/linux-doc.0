@@ -1,132 +1,523 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D7A16B39D
-	for <linux-doc@vger.kernel.org>; Mon, 17 Jun 2024 16:45:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 368D617C8;
+	Mon, 17 Jun 2024 16:48:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718642729; cv=none; b=nnjZM9KSyLS5tgBpO2YXX2eIKpyS8JMk2XL76Pfm350G5MpsjvPvyXkeFwX5wmZiyAE2z/UzByWA3uNrCJUyC0AdWeH7ydzMR6rbqHd5997jipHP78bv/d4QYhLjAiPBt/aS6p3aVtlXwE9TwJPfGCsEi/OwGyu0j8Mr1/ybKt4=
+	t=1718642939; cv=none; b=kG99nCvAwbxBRI9E9bnO7hFJYSaBEpZH3AJ/ela0rBgDK8VKiEM5QM2hNwAF8Ha2P64kg8oY6X2qxVVQoQRBSjFEi6qyNuZ0cVCt9Mf99iuBGTe5eR6+q5zNw8ONxvsXRQh4autscEUEOPOwVX+AH/zDW4KejlKVfmGbo7GRl/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718642729; c=relaxed/simple;
-	bh=JF0DRVdvDrP/X63k/t+c0ChsmTu8fE208dmE5UAaqJU=;
+	s=arc-20240116; t=1718642939; c=relaxed/simple;
+	bh=Sw4WMbh4MR37Sjul7GaT+1B0IUYI69+si4+4QmM1hIk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GUztZVgQFGI3FPVzGyzov1c/M7scg/RtWaDt8kL64pJUfU6+qJlcH1UVKb+KT18krPwnKP+/IA5IZVGgNW5/+J5YEv6qjfUz7mgy53YXFEJH2drV2USpcjqmIpFGDGwF1A883mCOD27nzNmR95MX5UgbDuAB9Y1hDIQwHO1+N14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=efi+96RD; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="efi+96RD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=BbrA
-	mQRWzGJDhWszxc7y+nTSszXSsCm9K0tXqx6rv4o=; b=efi+96RDtVB4BJnrqr7O
-	6Rqi120Ip6IDqJBQ93KM75t40Oamx2nEsr1emGQtybSMOEJI7T2PtnJUIc+SRizY
-	PESjNJ/kzJFGhqGjFNDXxR78Y2SSS1aJBWS1czF3JH8HArq7v3TogW/6ncq37hw/
-	jjOuTWFym5GQEcDC4DHKcMmWXsZ8gvgGF+2qiVSTxQ8D+TfqYrvjoTgGn/Zy/QTA
-	HLG5xh1TTMxVhJ3TLa8rxTZ0JQCsmXkqhv03KW9aOkotz07PgKGbwd/F/A7/w+fD
-	ku5houZctoWcksRXlp3zCK9VYeJKnD69LV43IUxV/GgipRbytXzWMc+sgR0dRm09
-	wA==
-Received: (qmail 2400428 invoked from network); 17 Jun 2024 18:45:17 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 17 Jun 2024 18:45:17 +0200
-X-UD-Smtp-Session: l3s3148p1@hYmmsBgbwqNehh9j
-Date: Mon, 17 Jun 2024 18:45:16 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Andi Shyti <andi.shyti@kernel.org>
-Cc: linux-i2c@vger.kernel.org, 
-	Easwar Hariharan <eahariha@linux.microsoft.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 5/6] docs: i2c: summary: document 'local' and 'remote'
- targets
-Message-ID: <ir47gr6evieqekm5ws6stmaqqc5td6o35s6orus4nqhgw27o2n@ex6bqs3yuejm>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Andi Shyti <andi.shyti@kernel.org>, linux-i2c@vger.kernel.org, 
-	Easwar Hariharan <eahariha@linux.microsoft.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240614081239.7128-8-wsa+renesas@sang-engineering.com>
- <20240614081239.7128-13-wsa+renesas@sang-engineering.com>
- <4zxr4rlqnjqbqh3oxmd2ufqi6uk4pxa3tniuya5pgjtqi6tswc@utq4r2zt6z6b>
- <ed75fyc2xcsnwubq42eposf6ayt5aj2jmqz6mthugk6vm2zpi4@qqwlmuwayoo5>
- <y34k2k25xdr5z4v7oejp4da237s4o5qym5npihyydwlbsdh75c@vhmfl7sw3pbm>
+	 Content-Type:Content-Disposition:In-Reply-To; b=cy3Ebwq1XyWGp5UQMtskIrboKcDHQjiqdaYMPzxULZKaRpu5ENFFv0rEsI2DOSWtQwcJ+ZPHi3OD+76D07U4eiGJYzlxhX5vZI2uKLxDNw/l7NKmvI/aiMUjwG6DGQIC7tZ56yauAHl+DMiEUiGHwT1Q3xoUaqIB5mvUyNFGYRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4A45ADA7;
+	Mon, 17 Jun 2024 09:49:20 -0700 (PDT)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8BE663F64C;
+	Mon, 17 Jun 2024 09:48:53 -0700 (PDT)
+Date: Mon, 17 Jun 2024 17:48:51 +0100
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Peng Fan <peng.fan@nxp.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v4 3/6] firmware: arm_scmi: add initial support for i.MX
+ BBM protocol
+Message-ID: <ZnBo84P1Av0pZ324@pluto>
+References: <20240524-imx95-bbm-misc-v2-v4-0-dc456995d590@nxp.com>
+ <20240524-imx95-bbm-misc-v2-v4-3-dc456995d590@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="grmagpcc5ztiysln"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <y34k2k25xdr5z4v7oejp4da237s4o5qym5npihyydwlbsdh75c@vhmfl7sw3pbm>
+In-Reply-To: <20240524-imx95-bbm-misc-v2-v4-3-dc456995d590@nxp.com>
 
+On Fri, May 24, 2024 at 04:56:45PM +0800, Peng Fan (OSS) wrote:
+> From: Peng Fan <peng.fan@nxp.com>
+> 
+> i.MX95 has a battery-backed module(BBM), which has persistent storage (GPR),
+> an RTC, and the ON/OFF button. The System Manager(SM) firmware use SCMI vendor
+> protocol(SCMI BBM) to let agent be able to use GPR, RTC and ON/OFF
+> button.
+> 
+> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> ---
+>  drivers/firmware/arm_scmi/Kconfig          |   2 +
+>  drivers/firmware/arm_scmi/Makefile         |   1 +
+>  drivers/firmware/arm_scmi/imx/Kconfig      |  14 ++
+>  drivers/firmware/arm_scmi/imx/Makefile     |   2 +
+>  drivers/firmware/arm_scmi/imx/imx-sm-bbm.c | 380 +++++++++++++++++++++++++++++
+>  include/linux/scmi_imx_protocol.h          |  42 ++++
+>  6 files changed, 441 insertions(+)
+> 
+> diff --git a/drivers/firmware/arm_scmi/Kconfig b/drivers/firmware/arm_scmi/Kconfig
+> index aa5842be19b2..79846cbaf71b 100644
+> --- a/drivers/firmware/arm_scmi/Kconfig
+> +++ b/drivers/firmware/arm_scmi/Kconfig
+> @@ -180,4 +180,6 @@ config ARM_SCMI_POWER_CONTROL
+>  	  called scmi_power_control. Note this may needed early in boot to catch
+>  	  early shutdown/reboot SCMI requests.
+>  
+> +source "drivers/firmware/arm_scmi/imx/Kconfig"
+> +
 
---grmagpcc5ztiysln
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It could be that we fold all the Vendor drivers under
+drivers/firmware/arm_scmi/vendors once it is merged...but we will take
+care of this reowrk/refctor...still not sure about this details.
 
-Hi Andi
+>  endmenu
+> diff --git a/drivers/firmware/arm_scmi/Makefile b/drivers/firmware/arm_scmi/Makefile
+> index fd59f58ce8a2..fb9407fef60c 100644
+> --- a/drivers/firmware/arm_scmi/Makefile
+> +++ b/drivers/firmware/arm_scmi/Makefile
+> @@ -16,6 +16,7 @@ scmi-module-objs := $(scmi-driver-y) $(scmi-protocols-y) $(scmi-transport-y)
+>  
+>  obj-$(CONFIG_ARM_SCMI_PROTOCOL) += scmi-core.o
+>  obj-$(CONFIG_ARM_SCMI_PROTOCOL) += scmi-module.o
+> +obj-$(CONFIG_ARM_SCMI_PROTOCOL) += imx/
+>  
+>  obj-$(CONFIG_ARM_SCMI_POWER_CONTROL) += scmi_power_control.o
+>  
+> diff --git a/drivers/firmware/arm_scmi/imx/Kconfig b/drivers/firmware/arm_scmi/imx/Kconfig
+> new file mode 100644
+> index 000000000000..4b6ac7febe8f
+> --- /dev/null
+> +++ b/drivers/firmware/arm_scmi/imx/Kconfig
+> @@ -0,0 +1,14 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +menu "ARM SCMI NXP i.MX Vendor Protocols"
+> +
+> +config IMX_SCMI_BBM_EXT
+> +	tristate "i.MX SCMI BBM EXTENSION"
+> +	depends on ARM_SCMI_PROTOCOL || (COMPILE_TEST && OF)
+> +	default y if ARCH_MXC
+> +	help
+> +	  This enables i.MX System BBM control logic which supports RTC
+> +	  and BUTTON.
+> +
+> +	  This driver can also be built as a module.
+> +
+> +endmenu
+> diff --git a/drivers/firmware/arm_scmi/imx/Makefile b/drivers/firmware/arm_scmi/imx/Makefile
+> new file mode 100644
+> index 000000000000..a7dbdd20dbb9
+> --- /dev/null
+> +++ b/drivers/firmware/arm_scmi/imx/Makefile
+> @@ -0,0 +1,2 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +obj-$(CONFIG_IMX_SCMI_BBM_EXT) += imx-sm-bbm.o
+> diff --git a/drivers/firmware/arm_scmi/imx/imx-sm-bbm.c b/drivers/firmware/arm_scmi/imx/imx-sm-bbm.c
+> new file mode 100644
+> index 000000000000..3f8321d247ae
+> --- /dev/null
+> +++ b/drivers/firmware/arm_scmi/imx/imx-sm-bbm.c
+> @@ -0,0 +1,380 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * System Control and Management Interface (SCMI) NXP BBM Protocol
+> + *
+> + * Copyright 2024 NXP
+> + */
+> +
+> +#define pr_fmt(fmt) "SCMI Notifications BBM - " fmt
+> +
+> +#include <linux/bits.h>
+> +#include <linux/io.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/scmi_protocol.h>
+> +#include <linux/scmi_imx_protocol.h>
+> +
+> +#include "../protocols.h"
+> +#include "../notify.h"
+> +
+> +#define SCMI_PROTOCOL_SUPPORTED_VERSION		0x10000
+> +
+> +enum scmi_imx_bbm_protocol_cmd {
+> +	IMX_BBM_GPR_SET = 0x3,
+> +	IMX_BBM_GPR_GET = 0x4,
+> +	IMX_BBM_RTC_ATTRIBUTES = 0x5,
+> +	IMX_BBM_RTC_TIME_SET = 0x6,
+> +	IMX_BBM_RTC_TIME_GET = 0x7,
+> +	IMX_BBM_RTC_ALARM_SET = 0x8,
+> +	IMX_BBM_BUTTON_GET = 0x9,
+> +	IMX_BBM_RTC_NOTIFY = 0xA,
+> +	IMX_BBM_BUTTON_NOTIFY = 0xB,
+> +};
+> +
+> +#define GET_RTCS_NR(x)	le32_get_bits((x), GENMASK(23, 16))
+> +#define GET_GPRS_NR(x)	le32_get_bits((x), GENMASK(15, 0))
+> +
+> +#define SCMI_IMX_BBM_NOTIFY_RTC_UPDATED		BIT(2)
+> +#define SCMI_IMX_BBM_NOTIFY_RTC_ROLLOVER	BIT(1)
+> +#define SCMI_IMX_BBM_NOTIFY_RTC_ALARM		BIT(0)
+> +
+> +#define SCMI_IMX_BBM_RTC_ALARM_ENABLE_FLAG	BIT(0)
+> +
+> +#define SCMI_IMX_BBM_NOTIFY_RTC_FLAG	\
+> +	(SCMI_IMX_BBM_NOTIFY_RTC_UPDATED | SCMI_IMX_BBM_NOTIFY_RTC_ROLLOVER | \
+> +	 SCMI_IMX_BBM_NOTIFY_RTC_ALARM)
+> +
+> +#define SCMI_IMX_BBM_EVENT_RTC_MASK		GENMASK(31, 24)
+> +
+> +struct scmi_imx_bbm_info {
+> +	u32 version;
+> +	int nr_rtc;
+> +	int nr_gpr;
+> +};
+> +
+> +struct scmi_msg_imx_bbm_protocol_attributes {
+> +	__le32 attributes;
+> +};
+> +
+> +struct scmi_imx_bbm_set_time {
+> +	__le32 id;
+> +	__le32 flags;
+> +	__le32 value_low;
+> +	__le32 value_high;
+> +};
+> +
+> +struct scmi_imx_bbm_get_time {
+> +	__le32 id;
+> +	__le32 flags;
+> +};
+> +
+> +struct scmi_imx_bbm_alarm_time {
+> +	__le32 id;
+> +	__le32 flags;
+> +	__le32 value_low;
+> +	__le32 value_high;
+> +};
+> +
+> +struct scmi_msg_imx_bbm_rtc_notify {
+> +	__le32 rtc_id;
+> +	__le32 flags;
+> +};
+> +
+> +struct scmi_msg_imx_bbm_button_notify {
+> +	__le32 flags;
+> +};
+> +
+> +struct scmi_imx_bbm_notify_payld {
+> +	__le32 flags;
+> +};
+> +
+> +static int scmi_imx_bbm_attributes_get(const struct scmi_protocol_handle *ph,
+> +				       struct scmi_imx_bbm_info *pi)
+> +{
+> +	int ret;
+> +	struct scmi_xfer *t;
+> +	struct scmi_msg_imx_bbm_protocol_attributes *attr;
+> +
+> +	ret = ph->xops->xfer_get_init(ph, PROTOCOL_ATTRIBUTES, 0, sizeof(*attr), &t);
+> +	if (ret)
+> +		return ret;
+> +
+> +	attr = t->rx.buf;
+> +
+> +	ret = ph->xops->do_xfer(ph, t);
+> +	if (!ret) {
+> +		pi->nr_rtc = GET_RTCS_NR(attr->attributes);
+> +		pi->nr_gpr = GET_GPRS_NR(attr->attributes);
+> +	}
+> +
+> +	ph->xops->xfer_put(ph, t);
+> +
+> +	return ret;
+> +}
+> +
+> +static int scmi_imx_bbm_notify(const struct scmi_protocol_handle *ph,
+> +			       u32 src_id, int message_id, bool enable)
+> +{
+> +	int ret;
+> +	struct scmi_xfer *t;
+> +
+> +	if (message_id == IMX_BBM_RTC_NOTIFY) {
+> +		struct scmi_msg_imx_bbm_rtc_notify *rtc_notify;
+> +
+> +		ret = ph->xops->xfer_get_init(ph, message_id,
+> +					      sizeof(*rtc_notify), 0, &t);
+> +		if (ret)
+> +			return ret;
+> +
+> +		rtc_notify = t->tx.buf;
+> +		rtc_notify->rtc_id = cpu_to_le32(0);
+> +		rtc_notify->flags =
+> +			cpu_to_le32(enable ? SCMI_IMX_BBM_NOTIFY_RTC_FLAG : 0);
+> +	} else if (message_id == IMX_BBM_BUTTON_NOTIFY) {
+> +		struct scmi_msg_imx_bbm_button_notify *button_notify;
+> +
+> +		ret = ph->xops->xfer_get_init(ph, message_id,
+> +					      sizeof(*button_notify), 0, &t);
+> +		if (ret)
+> +			return ret;
+> +
+> +		button_notify = t->tx.buf;
+> +		button_notify->flags = cpu_to_le32(enable ? 1 : 0);
+> +	} else {
+> +		return -EINVAL;
+> +	}
+> +
+> +	ret = ph->xops->do_xfer(ph, t);
+> +
+> +	ph->xops->xfer_put(ph, t);
+> +	return ret;
+> +}
+> +
+> +static enum scmi_imx_bbm_protocol_cmd evt_2_cmd[] = {
+> +	IMX_BBM_RTC_NOTIFY,
+> +	IMX_BBM_BUTTON_NOTIFY
+> +};
+> +
+> +static int scmi_imx_bbm_set_notify_enabled(const struct scmi_protocol_handle *ph,
+> +					   u8 evt_id, u32 src_id, bool enable)
+> +{
+> +	int ret, cmd_id;
+> +
+> +	if (evt_id >= ARRAY_SIZE(evt_2_cmd))
+> +		return -EINVAL;
+> +
+> +	cmd_id = evt_2_cmd[evt_id];
+> +	ret = scmi_imx_bbm_notify(ph, src_id, cmd_id, enable);
+> +	if (ret)
+> +		pr_debug("FAIL_ENABLED - evt[%X] dom[%d] - ret:%d\n",
+> +			 evt_id, src_id, ret);
+> +
+> +	return ret;
+> +}
+> +
+> +static void *scmi_imx_bbm_fill_custom_report(const struct scmi_protocol_handle *ph,
+> +					     u8 evt_id, ktime_t timestamp,
+> +					     const void *payld, size_t payld_sz,
+> +					     void *report, u32 *src_id)
+> +{
+> +	const struct scmi_imx_bbm_notify_payld *p = payld;
+> +	struct scmi_imx_bbm_notif_report *r = report;
+> +
+> +	if (sizeof(*p) != payld_sz)
+> +		return NULL;
+> +
+> +	if (evt_id == SCMI_EVENT_IMX_BBM_RTC) {
+> +		r->is_rtc = true;
+> +		r->is_button = false;
+> +		r->timestamp = timestamp;
+> +		r->rtc_id = le32_get_bits(p->flags, SCMI_IMX_BBM_EVENT_RTC_MASK);
+> +		r->rtc_evt = le32_get_bits(p->flags, SCMI_IMX_BBM_NOTIFY_RTC_FLAG);
+> +		dev_dbg(ph->dev, "RTC: %d evt: %x\n", r->rtc_id, r->rtc_evt);
+> +		*src_id = r->rtc_evt;
+> +	} else if (evt_id == SCMI_EVENT_IMX_BBM_BUTTON) {
+> +		r->is_rtc = false;
+> +		r->is_button = true;
+> +		r->timestamp = timestamp;
+> +		dev_dbg(ph->dev, "BBM Button\n");
+> +		*src_id = 0;
+> +	} else {
+> +		WARN_ON_ONCE(1);
+> +		return NULL;
+> +	}
+> +
+> +	return r;
+> +}
+> +
+> +static const struct scmi_event scmi_imx_bbm_events[] = {
+> +	{
+> +		.id = SCMI_EVENT_IMX_BBM_RTC,
+> +		.max_payld_sz = sizeof(struct scmi_imx_bbm_notify_payld),
+> +		.max_report_sz = sizeof(struct scmi_imx_bbm_notif_report),
+> +	},
+> +	{
+> +		.id = SCMI_EVENT_IMX_BBM_BUTTON,
+> +		.max_payld_sz = sizeof(struct scmi_imx_bbm_notify_payld),
+> +		.max_report_sz = sizeof(struct scmi_imx_bbm_notif_report),
+> +	},
+> +};
+> +
+> +static const struct scmi_event_ops scmi_imx_bbm_event_ops = {
+> +	.set_notify_enabled = scmi_imx_bbm_set_notify_enabled,
+> +	.fill_custom_report = scmi_imx_bbm_fill_custom_report,
+> +};
+> +
+> +static const struct scmi_protocol_events scmi_imx_bbm_protocol_events = {
+> +	.queue_sz = SCMI_PROTO_QUEUE_SZ,
+> +	.ops = &scmi_imx_bbm_event_ops,
+> +	.evts = scmi_imx_bbm_events,
+> +	.num_events = ARRAY_SIZE(scmi_imx_bbm_events),
+> +	.num_sources = 1,
+> +};
+> +
+> +static int scmi_imx_bbm_protocol_init(const struct scmi_protocol_handle *ph)
+> +{
+> +	u32 version;
+> +	int ret;
+> +	struct scmi_imx_bbm_info *binfo;
+> +
+> +	ret = ph->xops->version_get(ph, &version);
+> +	if (ret)
+> +		return ret;
+> +
+> +	dev_info(ph->dev, "NXP SM BBM Version %d.%d\n",
+> +		 PROTOCOL_REV_MAJOR(version), PROTOCOL_REV_MINOR(version));
+> +
+> +	binfo = devm_kzalloc(ph->dev, sizeof(*binfo), GFP_KERNEL);
+> +	if (!binfo)
+> +		return -ENOMEM;
+> +
+> +	ret = scmi_imx_bbm_attributes_get(ph, binfo);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return ph->set_priv(ph, binfo, version);
+> +}
 
-> > Have you read the paragraph "Synonyms" from patch 6? I don't think we
-> > can obsolete client because:
-> >=20
-> > $ git grep 'struct i2c_client \*client' | wc -l
-> > 6100
->=20
-> yes, I know, but I would be happy if we start changing i2c_client
-> with i2c_target and at least saying that "target" is the
-> preferred name for what was called "client" until now.
+I would move this init down below, right before the scmi_imx_bbm and
+after the proto_ops definition,  for consistency and readability.
 
-This is largely what patch 6 does? Let me quote:
+> +
+> +static int scmi_imx_bbm_rtc_time_set(const struct scmi_protocol_handle *ph,
+> +				     u32 rtc_id, u64 sec)
+> +{
+> +	struct scmi_imx_bbm_info *pi = ph->get_priv(ph);
+> +	struct scmi_imx_bbm_set_time *cfg;
+> +	struct scmi_xfer *t;
+> +	int ret;
+> +
+> +	if (rtc_id >= pi->nr_rtc)
+> +		return -EINVAL;
+> +
+> +	ret = ph->xops->xfer_get_init(ph, IMX_BBM_RTC_TIME_SET, sizeof(*cfg), 0, &t);
+> +	if (ret)
+> +		return ret;
+> +
+> +	cfg = t->tx.buf;
+> +	cfg->id = cpu_to_le32(rtc_id);
+> +	cfg->flags = 0;
+> +	cfg->value_low = cpu_to_le32(lower_32_bits(sec));
+> +	cfg->value_high = cpu_to_le32(upper_32_bits(sec));
+> +
+> +	ret = ph->xops->do_xfer(ph, t);
+> +
+> +	ph->xops->xfer_put(ph, t);
+> +
+> +	return ret;
+> +}
+> +
+> +static int scmi_imx_bbm_rtc_time_get(const struct scmi_protocol_handle *ph,
+> +				     u32 rtc_id, u64 *value)
+> +{
+> +	struct scmi_imx_bbm_info *pi = ph->get_priv(ph);
+> +	struct scmi_imx_bbm_get_time *cfg;
+> +	struct scmi_xfer *t;
+> +	int ret;
+> +
+> +	if (rtc_id >= pi->nr_rtc)
+> +		return -EINVAL;
+> +
+> +	ret = ph->xops->xfer_get_init(ph, IMX_BBM_RTC_TIME_GET, sizeof(*cfg),
+> +				      sizeof(u64), &t);
+> +	if (ret)
+> +		return ret;
+> +
+> +	cfg = t->tx.buf;
+> +	cfg->id = cpu_to_le32(rtc_id);
+> +	cfg->flags = 0;
+> +
+> +	ret = ph->xops->do_xfer(ph, t);
+> +	if (!ret)
+> +		*value = get_unaligned_le64(t->rx.buf);
+> +
+> +	ph->xops->xfer_put(ph, t);
+> +
+> +	return ret;
+> +}
+> +
+> +static int scmi_imx_bbm_rtc_alarm_set(const struct scmi_protocol_handle *ph,
+> +				      u32 rtc_id, u64 sec)
+> +{
+> +	struct scmi_imx_bbm_info *pi = ph->get_priv(ph);
+> +	struct scmi_imx_bbm_alarm_time *cfg;
+> +	struct scmi_xfer *t;
+> +	int ret;
+> +
+> +	if (rtc_id >= pi->nr_rtc)
+> +		return -EINVAL;
+> +
+> +	ret = ph->xops->xfer_get_init(ph, IMX_BBM_RTC_ALARM_SET, sizeof(*cfg), 0, &t);
+> +	if (ret)
+> +		return ret;
+> +
+> +	cfg = t->tx.buf;
+> +	cfg->id = cpu_to_le32(rtc_id);
+> +	cfg->flags = SCMI_IMX_BBM_RTC_ALARM_ENABLE_FLAG;
+> +	cfg->value_low = cpu_to_le32(lower_32_bits(sec));
+> +	cfg->value_high = cpu_to_le32(upper_32_bits(sec));
+> +
+> +	ret = ph->xops->do_xfer(ph, t);
+> +
+> +	ph->xops->xfer_put(ph, t);
+> +
+> +	return ret;
+> +}
+> +
+> +static int scmi_imx_bbm_button_get(const struct scmi_protocol_handle *ph, u32 *state)
+> +{
+> +	struct scmi_xfer *t;
+> +	int ret;
+> +
+> +	ret = ph->xops->xfer_get_init(ph, IMX_BBM_BUTTON_GET, 0, sizeof(u32), &t);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ph->xops->do_xfer(ph, t);
+> +	if (!ret)
+> +		*state = get_unaligned_le32(t->rx.buf);
+> +
+> +	ph->xops->xfer_put(ph, t);
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct scmi_imx_bbm_proto_ops scmi_imx_bbm_proto_ops = {
+> +	.rtc_time_get = scmi_imx_bbm_rtc_time_get,
+> +	.rtc_time_set = scmi_imx_bbm_rtc_time_set,
+> +	.rtc_alarm_set = scmi_imx_bbm_rtc_alarm_set,
+> +	.button_get = scmi_imx_bbm_button_get,
+> +};
+> +
 
-+As mentioned above, the Linux I2C implementation historically uses the ter=
-ms                                                                         =
-                                            =E2=94=82
-+"adapter" for controller and "client" for target. A number of data structu=
-res                                                                        =
-                                            =E2=94=82
-+have these synonyms in their name. So, to discuss implementation details, =
-it                                                                         =
-                                            =E2=94=82
-+might be easier to use these terms. If speaking about I2C in general, the =
-                                                                           =
-                                            =E2=94=82
-+official terminology is preferred.                                        =
-                                                                           =
-                                            =E2=94=82
+...just here the init
 
-> I think we should start somewhere from using the new naming
-> provided by the documentation.
+> +static const struct scmi_protocol scmi_imx_bbm = {
+> +	.id = SCMI_PROTOCOL_IMX_BBM,
+> +	.owner = THIS_MODULE,
+> +	.instance_init = &scmi_imx_bbm_protocol_init,
+> +	.ops = &scmi_imx_bbm_proto_ops,
+> +	.events = &scmi_imx_bbm_protocol_events,
+> +	.supported_version = SCMI_PROTOCOL_SUPPORTED_VERSION,
+> +	.vendor_id = "NXP",
+> +	.sub_vendor_id = "i.MX95 EVK",
+> +};
+> +
 
-I think I can justify replacing "master/slave" and create quite some
-churn because that terminology is unwanted language.
+Beside this, LGTM.
 
-I think I cannot justify replacing "adapter/client" just because it
-doesn't match the spec. Plus, the churn would be a lot bigger.
+Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
 
-If everyone (especially affected subsystem maintainers) is like "Yeah,
-do it!" I can do it. But I have my doubts...
-
-Happy hacking,
-
-   Wolfram
-
-
---grmagpcc5ztiysln
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZwaBgACgkQFA3kzBSg
-KbZXNxAAhjbiM9/e2Nkpvmf/06Db4tpb/+ObSgtj6WOEGfzeTKlaDjimYF9p34x+
-U4jjzfhK9X9FSaDqlYHrxsEAFVhn2bRWewgPXcm+/uge3kIkyhgbjTAmQESV9MeQ
-qZH0c0VKQaySF65tv2YnIFvQIDgjkkLx+tUgqiOixWZ/31Vr4++DS3xr6Q2TxfXq
-ibjgYNqD5v6znN5v0z5Hv1R2ZYf13S1AB3PxxSkQwirV4abRd3Gv0VOB4jO8gwN3
-jVudv/I22XHGNpl485GDS55UmN2V4KUGyF9SK5IrwFxTAjCHiuGAS2TdVwIXmbKf
-h8qnWyOj6FlcnmId7UinSegKKFEF5pvSxAPRd5efYpJM9vdQuvepZyLbOdHXZaBG
-t8XSVIV+lQSkbwEaqFvjXk5HT1+lo9oPso9CgtnNrECfqHIIHZD3sD3RFbxCpTPL
-I6n9pn4RgY0Igq7o+eWuJ1P/s7m5vy3uVFRTY2rhzxQR99vaIb/zEctFkeHzjpwu
-ZHrIiYnKix1/l7p7IWrNSm/tUbnHpk/sM9nOhf5ckyxr8yQW0R4P5uxPDkDDkOzn
-nsCUaTiMJVxvV92Xfl/FK70JVsMrurgYUrumBqhsIDa0xNKwOljHLF878padc23c
-cfh/G5w/OivNSG/PO6rJ9twGlmaRnYVPA8MiYt20FMb2koyrB4U=
-=SDUa
------END PGP SIGNATURE-----
-
---grmagpcc5ztiysln--
+Thanks,
+Cristian
