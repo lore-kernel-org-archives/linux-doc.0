@@ -1,122 +1,111 @@
-Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8D69176ABF;
-	Mon, 17 Jun 2024 02:44:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.79.184
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26E212AEE7
+	for <linux-doc@vger.kernel.org>; Mon, 17 Jun 2024 03:19:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718592261; cv=none; b=GcewwjP4M2ABIG4vwldHvts3X5YJUMyMOPRAArx1NTaB28ALW7Z56Bx3rkRB7ihKbc2rFatWpjYG6H6LfOR0dNk70dGZBYO536EHotNPrjO9n5U1Tx98GDtBcr4gsI4eYKVFZuEOF+Y4++kT8ZQvk9UZIe6kVrA37L9bpGeAgJ0=
+	t=1718594344; cv=none; b=lVS0dTr+a6b/dSGZjumonjMZKlJFtw8kfsZUCAcuKpuBD1lmKlj+3ouHYHp8R7A0BeeaPMjjLHdaeL8ADb420N9uwrBvKqeb6siIVRv7QoVdWebtWCux3du5eDq9/vKVrJ0lxBLKv/b1IggLnIyBzlz07cWqm9XspEgNia6LiyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718592261; c=relaxed/simple;
-	bh=xjkUR6MKG+zNwxf1eNXwNNovNlcpwqV0wmrt5AuuGvg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PErFA9+I3bjklMh3xdirWy57a7MRlMDwEgOM3MQqfBpLC9IVaPpzfXG65fDQTlmDNNTiPkFnl7ip91f/4z4tekKQL2PIQOEM3KNF7CK6mbRidoSKKx9nYnbsSJBZbfG2HKU5VSzh9/tcbHOuiKeMjYwDwBDErTW1hSFs18MtxVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=206.189.79.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app1 (Coremail) with SMTP id HgEQrAA3PCvjom9mr5ECCA--.64462S2;
-	Mon, 17 Jun 2024 10:43:47 +0800 (CST)
-Received: from [172.19.192.113] (unknown [10.12.190.56])
-	by gateway (Coremail) with SMTP id _____wCngUbfom9mVtA2AA--.8204S2;
-	Mon, 17 Jun 2024 10:43:46 +0800 (CST)
-Message-ID: <e9c5fc69-5070-466f-af26-b72565394b46@hust.edu.cn>
-Date: Mon, 17 Jun 2024 10:43:43 +0800
+	s=arc-20240116; t=1718594344; c=relaxed/simple;
+	bh=LIVdduXifgv3JAoanTudcOcNqQVugPjPMGS36yvusW4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KpNy87eELS26i0ciQ0G9PCNeJiOYZq9vuL4GBppJyPplrpE3J7kE2qnaa4m7OVXw6s6QpqFzxRw1oUBjyOsiZxw11gzDn0k3PXa4ek1iBoQgfMuskhYkVga0m4JaQFEXuaXRV0e4U7jzTnzLkA4gZ/wEPd+QIavDYF5AYbJRAzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com; spf=pass smtp.mailfrom=sifive.com; dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b=lTRQLKfR; arc=none smtp.client-ip=209.85.219.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sifive.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sifive.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sifive.com header.i=@sifive.com header.b="lTRQLKfR"
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-dff36345041so915370276.3
+        for <linux-doc@vger.kernel.org>; Sun, 16 Jun 2024 20:19:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sifive.com; s=google; t=1718594342; x=1719199142; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LIVdduXifgv3JAoanTudcOcNqQVugPjPMGS36yvusW4=;
+        b=lTRQLKfR6nY3DFhQfufek6AUIfJ5+5TS3LrSJIXJPyrbX5P74zZZOXf5jXxnaa/OLk
+         is9uZbTvntHRgPoy+ldzdwm0f3Q4r4Z30ySY8Hy19SaVCRi0Z9K5Y8FSdCsWVVwrfpI3
+         /nxbCwIz+dEyn/Ff1AaMT5fLrhcjUS5dCxXdSmtLN25IqKG0CxwZYlEQO6x+kUG72Kbl
+         m5Oli6c2jwgqZaipeJAkPJzOiNBsViCaWRwVUgxrOJ8OoQXn6BeX3slrJ6mL+SvFSOBf
+         yzLjGaIpApWE1Mfkfsfeat9jKnnS1fmykNGmly5B2QiKRtVfMBE6aBZPRvNsvrSHvHlv
+         NB7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718594342; x=1719199142;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LIVdduXifgv3JAoanTudcOcNqQVugPjPMGS36yvusW4=;
+        b=n5QbZPXTQxiNFBY6X7oLLYlrrNgBAh31j/EFzaApcAE9v0gcJXbHw8lrX901Td4tFi
+         W17hnfcu3su9dxFrqazwn30ZQ86rERskj8TwlBreu7cKYp+6ZVoG3gVIqDEv4nmKH6zq
+         VrKyC5oSLCusRyLhHHjh6gbaJDZO/7vt+69YhWQjuKdT2nmyb7NFE8YYTRhfZDlXdXFS
+         Qls8rNVNINtjox3d7R69ZUqBxC3nucMcjSvFWCEl/dbI3KKQyb7RD1+LrjjwWTBzB4Ha
+         dY6UlXcLIZRWccXoubyehHezPNsH/PPb5/kx14FIp0YYDdl+sHrmm7ehcN+F/r7ovhIC
+         tNEA==
+X-Forwarded-Encrypted: i=1; AJvYcCWhCmh44wP3F8+qSQqEdcl2Iq5LcmIbx4HAxC/U184vGtWoYp41dPraxE5LE1w8dJuIqT3hjZV0pmFejkEQXDW6Y5/+/MZlMBng
+X-Gm-Message-State: AOJu0YzoVKMW4FJyOYOskUjmh/3OLCJDdEMmAHOBMW6jSTEV4SxEefXO
+	LTirVhTCw8j2PjFHYA1zTt0x4IFq0iRzeF0cLiX9OP0kw9S3xqHMlvVrnuUckX4eM8+U1q/5Ocy
+	57dTEJrxEfc14GwToV+W6DVEvjNl0vLqa9tgYRg==
+X-Google-Smtp-Source: AGHT+IHQBV4IwupBpori4XbWjSbGIJPFyF5FKlAKUEJsi6jBrWepsvJOB+hZdB1NKM0GIIV+IxEU2bAJZtz5lcsABYo=
+X-Received: by 2002:a25:bc82:0:b0:dfa:527d:d91e with SMTP id
+ 3f1490d57ef6-dff150dce30mr7958870276.0.1718594342086; Sun, 16 Jun 2024
+ 20:19:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] scripts: fix most issues reported by pylint
-To: Yanteng Si <siyanteng@loongson.cn>, Jonathan Corbet <corbet@lwn.net>,
- Cheng Ziqiu <chengziqiu@hust.edu.cn>, Alex Shi <alexs@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <20240615035323.909650-1-dzm91@hust.edu.cn>
- <87ikyakn6l.fsf@trenco.lwn.net>
- <4df7cbfd-5a14-43a4-973b-23fd4f5d78fb@hust.edu.cn>
- <3ae5e014-108e-484e-bbdf-689ab67a85e2@loongson.cn>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <3ae5e014-108e-484e-bbdf-689ab67a85e2@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HgEQrAA3PCvjom9mr5ECCA--.64462S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoW7ur4kKF4Utry8Zw18Cr45KFg_yoW8Xr1kpF
-	W3CanayF45Jr13Aw4Iyw1rJr1Ykas3trWDWr13Jw18urnIvFnagr47KF4ruryDXryfuw12
-	yw4aqasa9F98AFJanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUmYb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
-	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
-	1Y6r17M2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
-	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
-	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
-	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCF04k20xvY0x0EwIxGrwCF04k20x
-	vE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_
-	JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1V
-	AY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAI
-	cVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42
-	IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIev
-	Ja73UjIFyTuYvjxUVoGHUUUUU
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+References: <20240613191616.2101821-1-jesse@rivosinc.com> <20240613191616.2101821-2-jesse@rivosinc.com>
+ <20240614-oyster-ditch-80e8f00fd91b@wendy>
+In-Reply-To: <20240614-oyster-ditch-80e8f00fd91b@wendy>
+From: Andy Chiu <andy.chiu@sifive.com>
+Date: Mon, 17 Jun 2024 11:18:51 +0800
+Message-ID: <CABgGipXKY0JPT8Z+U0g=KkFHFPyL3grd=1_GjQHNLbWehN-seg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] RISC-V: Add Zicclsm to cpufeature and hwprobe
+To: Conor Dooley <conor.dooley@microchip.com>
+Cc: Jesse Taube <jesse@rivosinc.com>, linux-riscv@lists.infradead.org, 
+	Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>, 
+	Evan Green <evan@rivosinc.com>, Andrew Jones <ajones@ventanamicro.com>, 
+	Charlie Jenkins <charlie@rivosinc.com>, Xiao Wang <xiao.w.wang@intel.com>, 
+	Eric Biggers <ebiggers@google.com>, Greentime Hu <greentime.hu@sifive.com>, 
+	=?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>, 
+	Heiko Stuebner <heiko@sntech.de>, Costa Shulyupin <costa.shul@redhat.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Baoquan He <bhe@redhat.com>, 
+	Anup Patel <apatel@ventanamicro.com>, Zong Li <zong.li@sifive.com>, 
+	Sami Tolvanen <samitolvanen@google.com>, Ben Dooks <ben.dooks@codethink.co.uk>, 
+	Alexandre Ghiti <alexghiti@rivosinc.com>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+	Erick Archer <erick.archer@gmx.com>, Joel Granados <j.granados@samsung.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Jun 14, 2024 at 4:09=E2=80=AFPM Conor Dooley <conor.dooley@microchi=
+p.com> wrote:
+>
+> On Thu, Jun 13, 2024 at 03:16:10PM -0400, Jesse Taube wrote:
+> > > Zicclsm Misaligned loads and stores to main memory regions with both
+> > > the cacheability and coherence PMAs must be supported.
+> > > Note:
+> > > This introduces a new extension name for this feature.
+> > > This requires misaligned support for all regular load and store
+> > > instructions (including scalar and vector) but not AMOs or other
+> > > specialized forms of memory access. Even though mandated, misaligned
+> > > loads and stores might execute extremely slowly. Standard software
+> > > distributions should assume their existence only for correctness,
+> > > not for performance.
+> >
+> > Detecing zicclsm allows the kernel to report if the
+> > hardware supports misaligned accesses even if support wasn't probed.
+> >
+> > This is useful for usermode to know if vector misaligned accesses are
+> > supported.
+> >
+> > Signed-off-by: Jesse Taube <jesse@rivosinc.com>
+>
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
-On 2024/6/17 10:29, Yanteng Si wrote:
-> Hi,Dongliang
->
-> 在 2024/6/17 09:05, Dongliang Mu 写道:
->>
->> On 2024/6/16 03:42, Jonathan Corbet wrote:
->>> Dongliang Mu <dzm91@hust.edu.cn> writes:
->>>
->>>> Pylint reports many coding style issues of scripts/checktransupdate.py
->>>>
->>>> This patch fixes most issues with the following contents:
->>>> - add or revise comments for all functions
->>>> - use format string suggested by python
->>>>
->>>> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
->>>> ---
->>>>   scripts/checktransupdate.py | 55 
->>>> ++++++++++++++++---------------------
->>>>   1 file changed, 24 insertions(+), 31 deletions(-)
->>> How does this differ from v1?  Please always give that information so
->>> reviewers know what's going on.
->>
->> Hi Jon,
->>
->> Patch 1/2 in v2 patch has no difference with Patch 1/2 in v1. Randy 
->> put up some change requests about
->>
->> the help documentation, and it is written in the Patch 2/2 in v2.
->>
->> I am not sure how to show this information in Patch 1/2. How about 
->> "v1->v2: no changes"?
->>
->>
-> Let's make a cover letter, just like:
->
-> <https://lore.kernel.org/netdev/cover.1716973237.git.siyanteng@loongson.cn/> 
->
->
->
-> you can run:
->
->
-> $: git format-patch xxxxx   --cover-letter
->
-I see. I will follow this rule when sending a patchset in the future.
-
-Thanks for your helpful message.
-
->
-> BTW,
->
-> It seem that you forget to cc  linux-doc@vger.kernel.org.
->
->
-> Thanks,
->
-> Yanteng
-
+Reviewed-by: Andy Chiu <andy.chiu@sifive.com>
