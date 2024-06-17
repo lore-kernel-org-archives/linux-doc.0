@@ -1,127 +1,189 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA91BBE6C;
-	Mon, 17 Jun 2024 01:06:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9641C23A9;
+	Mon, 17 Jun 2024 01:14:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718586367; cv=none; b=Jg7sQ0HkiNC15VTQQPN/OPXfe5r2WEehaQa55vLoqk4v1RWkhiG5QHlxfPIan/Ei3BDHY0nDQHGyBipfZVuwfUgJr6KZT4aLMjPDpvhrLWCXH3rPlLu3SO8u+PAxn2CibQawHj2y1yjTEYYVhqzhQoMd2RPEcy2DsH2Z9xQspcQ=
+	t=1718586884; cv=none; b=UIoyHbZ6jKN/zCvZfML6dubOgFOxVljdYdNYw2+rwsEx9qVTql6RcAvim2YfTFEmrRMeb0rj/x8LTbpq3d3IH6GWQIkji8h7wGRzyhNiFB1qOiHwo1b75aONUsHBCjdrWDTTkI5vkWTXP0O6PlDdEyiLYUEgf2d+iOBN9j5lTpY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718586367; c=relaxed/simple;
-	bh=kSPVw4dT4J8MrF+bbCP8+FxtODsw4m+RIALku8aOxYY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=stgNQn7CdN6I9cE1fx4fCm0LyYnIkQ9iyu9b56E+EvcRFgEpM8o4rJuLD/pa0JAQj/fJZF0ACsugXe2SYwf89AwjdwkTAQtKUFAa7xbMvD13+obQpvzHg0x8QjKV0vKhYpP6Syz8gRRABlF48kKPGUPYIJTfPeMaYaiEs7AjnyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Su22+yyr; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Su22+yyr"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-1f8507aac31so33354255ad.3;
-        Sun, 16 Jun 2024 18:06:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718586365; x=1719191165; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HFgL/o9mJY8Tf7C2W5BjklY1i7RQ/yhFk9Ylqaj0pKM=;
-        b=Su22+yyr1NvxH5eJYiYsChuag4HvttdcsnemABNGq9ZNFWK1zebwkWjTm5N8KOluGA
-         7zWU22WuwVyXm7E+19pYmjFLLVDS2U4MiPAW9QXdwXBVziuPCgg5RciOSgzc/VcrtdT+
-         53BljbOeNtMTDerZmMmhdE22kuA99fHx0yvAxyICk7KRe44pcWqVXoIdlTBDoq29HN9Z
-         MO4+4N0fg+pSepzihcf6xv+49YptfuhgEsChQi8crwctWJRCQ6lesg3bBe8gv4SIpSHr
-         HfE0Ibcip7VHGXJYsvm0/+sqge6Q1mgVfmybo+DEJDXPHOQ7aXQ7dQvpR0mNlpK6Amdh
-         CUrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718586365; x=1719191165;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HFgL/o9mJY8Tf7C2W5BjklY1i7RQ/yhFk9Ylqaj0pKM=;
-        b=Ltj2uzBZ4xxH6zlQzU6iQYempr1FsDbXRQAmJZg6inDZm+X9HvydCDzYeSp69TCaJl
-         osWZ1JUem2MEod6MP0N/3RGWtVPfa6CLnkHx6Mx8QMBqaT0TpxgFd8xALfZfDnVdNC+E
-         gLZni/22LDPnfKQamLG7nef3mBooY7Mh+pGbLY2QjHtUBzcScjkIMd2ueMX9yJv/l1cz
-         ZiV9K8NFxSOWOara3qVktRsKZINGaowEGs4Fjr64u6oe3DqG8zlBoIiLWI3tKWdVmaOu
-         Gt3IkzqRU9plFG+flczNsCRjzswO+CT/XwIfY0BJ1MAe/NT53uVL+HVFgn59PYK1xxuP
-         3BqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXMTN87XnOnDjqctKUBu8Mk3RYY5uZZvLqXILisc1Q1J7KR3CcAkPlR5ulSkmIIHtDVFWNT4ifvAb0dMM/u0QdxT/ej9PVo53HrlNCAWAF458B05rNGPLsytiN2hSplTtZTtzLG6cmL
-X-Gm-Message-State: AOJu0Ywx+hZnN5RooFjBX350j0A/ZLhMES8Ulq3dHab495jww27XaABc
-	kyRcJ/tAA1YS7SctCs+Wh/MGXXYR3rXi9OvNMeHam8g8sxB+D5IO
-X-Google-Smtp-Source: AGHT+IFbUwBMPGeGJAExix8Yqkga+a/KeW2fDm513vJgbB4Hikah6j54+sOQ7dc6+R46HXgTWTLSFg==
-X-Received: by 2002:a17:902:c945:b0:1f6:efa2:a030 with SMTP id d9443c01a7336-1f8627cf05dmr110468245ad.19.1718586364922;
-        Sun, 16 Jun 2024 18:06:04 -0700 (PDT)
-Received: from [192.168.255.10] ([43.132.141.24])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855f17d5esm69436795ad.225.2024.06.16.18.06.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 16 Jun 2024 18:06:04 -0700 (PDT)
-Message-ID: <bad5950f-0573-493e-868e-fe71d0b60ec4@gmail.com>
-Date: Mon, 17 Jun 2024 09:06:00 +0800
+	s=arc-20240116; t=1718586884; c=relaxed/simple;
+	bh=qIu5rQTukuOoWbQVvyIFGv0UMiz5h00XdlWs48l3Bvw=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=aftXVV09r+LaorX5bqyKryqWCFjDbbbHCezD/SEK6zBwLGQn6ug6PyV2xAikkS60atUeE6l6iEXWyY2gVhBPHacM2vXg6kPoSm3w3sPdU5q0tqOlJaIxAzAlS4QR0PXeXFaaffBETSmo2rOhxrpT2WPJiz1GBVas65IgHHiubtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [10.20.42.24])
+	by gateway (Coremail) with SMTP id _____8DxDev4jW9mwm8HAA--.29658S3;
+	Mon, 17 Jun 2024 09:14:32 +0800 (CST)
+Received: from [10.20.42.24] (unknown [10.20.42.24])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8Bxnsf3jW9mMK0kAA--.23879S3;
+	Mon, 17 Jun 2024 09:14:31 +0800 (CST)
+Subject: Re: [PATCH V1 1/2] docs: Add advanced extended IRQ model description
+To: Huacai Chen <chenhuacai@kernel.org>
+Cc: kernel@xen0n.name, corbet@lwn.net, alexs@kernel.org,
+ siyanteng@loongson.cn, loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20240604125015.18678-1-zhangtianyang@loongson.cn>
+ <CAAhV-H704OFWf87v4TaEzNDRPOXZYPMTgZnuWtvbE4CzPjYH3g@mail.gmail.com>
+From: Tianyang Zhang <zhangtianyang@loongson.cn>
+Message-ID: <89d8cfbb-59ca-520a-b7f8-36bf4bffed09@loongson.cn>
+Date: Mon, 17 Jun 2024 09:14:31 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/zh_CN: add back the missing part in the English
- version
-To: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <siyanteng@loongson.cn>, Jonathan Corbet <corbet@lwn.net>,
- Tiezhu Yang <yangtiezhu@loongson.cn>, Andrey Konovalov
- <andreyknvl@gmail.com>, Qing Zhang <zhangqing@loongson.cn>,
- Huacai Chen <chenhuacai@kernel.org>
-Cc: Marco Elver <elver@google.com>, Andrew Morton
- <akpm@linux-foundation.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20240614140326.3028384-1-dzm91@hust.edu.cn>
-Content-Language: en-US
-From: Alex Shi <seakeel@gmail.com>
-In-Reply-To: <20240614140326.3028384-1-dzm91@hust.edu.cn>
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <CAAhV-H704OFWf87v4TaEzNDRPOXZYPMTgZnuWtvbE4CzPjYH3g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID:AQAAf8Bxnsf3jW9mMK0kAA--.23879S3
+X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBj93XoWxuFWUZw4DKF13JrykAr1UJwc_yoW7GrWrpr
+	9xGF9avF48Wry5Wr17Jr48Wr17Jw1fK3WDtF1xKry8Xr1qyr1Dtr1Utr1kXFW7G348AF12
+	qFy5Kw1DA3WUA3gCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+	Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
+	8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AK
+	xVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzV
+	AYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
+	14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
+	kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
+	wI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r
+	4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8zwZ7UU
+	UUU==
 
+Hi, Huacai
 
+在 2024/6/12 下午3:15, Huacai Chen 写道:
+> Hi, Tianyang,
+>
+> On Tue, Jun 4, 2024 at 8:50 PM Tianyang Zhang <zhangtianyang@loongson.cn> wrote:
+>>  From 3C6000, Loongarch began to support advanced extended
+>> interrupt mode, in which each CPU has an independent interrupt
+>> vector number.This will enhance the architecture's ability
+>> to support modern devices
+>>
+>> Signed-off-by: Tianyang Zhang <zhangtianyang@loongson.cn>
+>> ---
+>>   .../arch/loongarch/irq-chip-model.rst         | 33 +++++++++++++++++
+>>   .../zh_CN/arch/loongarch/irq-chip-model.rst   | 37 +++++++++++++++++--
+>>   2 files changed, 67 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/Documentation/arch/loongarch/irq-chip-model.rst b/Documentation/arch/loongarch/irq-chip-model.rst
+>> index 7988f4192363..4fb24077b23b 100644
+>> --- a/Documentation/arch/loongarch/irq-chip-model.rst
+>> +++ b/Documentation/arch/loongarch/irq-chip-model.rst
+>> @@ -85,6 +85,39 @@ to CPUINTC directly::
+>>       | Devices |
+>>       +---------+
+>>
+>> +Advanced Extended IRQ model
+>> +===========================
+>> +
+>> +In this model, IPI (Inter-Processor Interrupt) and CPU Local Timer interrupt go
+>> +to CPUINTC directly, CPU UARTS interrupts go to LIOINTC, MSI interrupts go to AVEC,
+>> +and then go to CPUINTC, Other devices interrupts go to PCH-PIC/PCH-LPC and gathered
+>> +by EIOINTC, and then go to CPUINTC directly::
+>> +
+>> + +-----+     +--------------------------+     +-------+
+>> + | IPI | --> |           CPUINTC        | <-- | Timer |
+>> + +-----+     +--------------------------+     +-------+
+>> +              ^        ^             ^
+>> +              |        |             |
+>> +      +--------+  +---------+ +---------+     +-------+
+>> +      | AVEC   |  | EIOINTC | | LIOINTC | <-- | UARTs |
+>> +      +--------+  +---------+ +---------+     +-------+
+>> +           ^            ^
+>> +           |            |
+>> +         +---------+  +---------+
+>> +         |   MSI   |  | PCH-PIC |
+>> +         +---------+  +---------+
+> Please change MSI to PCH-MSI, because it is called pch-msi the both
+> the in driver name and in other figures of this document.
+>
+> Huacai
+OK , I will fix this as soon as possible
+>
+>> +            ^          ^       ^
+>> +            |          |       |
+>> +    +---------+ +---------+ +---------+
+>> +    | Devices | | PCH-LPC | | Devices |
+>> +    +---------+ +---------+ +---------+
+>> +                     ^
+>> +                     |
+>> +                +---------+
+>> +                | Devices |
+>> +                +---------+
+>> +
+>> +
+>>   ACPI-related definitions
+>>   ========================
+>>
+>> diff --git a/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst b/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
+>> index f1e9ab18206c..cadf38589059 100644
+>> --- a/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
+>> +++ b/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
+>> @@ -9,9 +9,8 @@
+>>   LoongArch的IRQ芯片模型（层级关系）
+>>   ==================================
+>>
+>> -目前，基于LoongArch的处理器（如龙芯3A5000）只能与LS7A芯片组配合工作。LoongArch计算机
+>> -中的中断控制器（即IRQ芯片）包括CPUINTC（CPU Core Interrupt Controller）、LIOINTC（
+>> -Legacy I/O Interrupt Controller）、EIOINTC（Extended I/O Interrupt Controller）、
+>> +LoongArch计算机中的中断控制器（即IRQ芯片）包括CPUINTC（CPU Core Interrupt Controller）、
+>> +LIOINTC（Legacy I/O Interrupt Controller）、EIOINTC（Extended I/O Interrupt Controller）、
+>>   HTVECINTC（Hyper-Transport Vector Interrupt Controller）、PCH-PIC（LS7A芯片组的主中
+>>   断控制器）、PCH-LPC（LS7A芯片组的LPC中断控制器）和PCH-MSI（MSI中断控制器）。
+>>
+>> @@ -87,6 +86,38 @@ PCH-LPC/PCH-MSI，然后被EIOINTC统一收集，再直接到达CPUINTC::
+>>       | Devices |
+>>       +---------+
+>>
+>> +高级扩展IRQ模型
+>> +=======================
+>> +
+>> +在这种模型里面，IPI（Inter-Processor Interrupt）和CPU本地时钟中断直接发送到CPUINTC，
+>> +CPU串口（UARTs）中断发送到LIOINTC，MSI中断发送到AVEC，而后通过AVEC送达CPUINTC，而
+>> +其他所有设备的中断则分别发送到所连接的PCH-PIC/PCH-LPC，然后由EIOINTC统一收集，再直
+>> +接到达CPUINTC::
+>> +
+>> + +-----+     +--------------------------+     +-------+
+>> + | IPI | --> |           CPUINTC        | <-- | Timer |
+>> + +-----+     +--------------------------+     +-------+
+>> +              ^        ^             ^
+>> +              |        |             |
+>> +      +--------+  +---------+ +---------+     +-------+
+>> +      | AVEC   |  | EIOINTC | | LIOINTC | <-- | UARTs |
+>> +      +--------+  +---------+ +---------+     +-------+
+>> +              ^        ^
+>> +              |        |
+>> +      +---------+  +-------------+
+>> +      |   MSI   |  |   PCH-PIC   |
+>> +      +---------+  +-------------+
+>> +            ^          ^       ^
+>> +            |          |       |
+>> +    +---------+ +---------+ +---------+
+>> +    | Devices | | PCH-LPC | | Devices |
+>> +    +---------+ +---------+ +---------+
+>> +                     ^
+>> +                     |
+>> +                +---------+
+>> +                | Devices |
+>> +                +---------+
+>> +
+>>   ACPI相关的定义
+>>   ==============
+>>
+>> --
+>> 2.20.1
+>>
+thanks
 
-On 6/14/24 10:03 PM, Dongliang Mu wrote:
-> The zh_CN kasan document misses the code change in commit eefe68280c94
-> ("kasan: Add documentation for CONFIG_KASAN_EXTRA_INFO").
-> 
-> Fix this by adding the translation of the missing part.
-> 
-> Note that this missing commit is found by checktransupdate.py
-> 
-> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
-
-Reviewed-by: Alex Shi <alexs@kernel.org>
-
-> ---
->  .../translations/zh_CN/dev-tools/kasan.rst     | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
-> 
-> diff --git a/Documentation/translations/zh_CN/dev-tools/kasan.rst b/Documentation/translations/zh_CN/dev-tools/kasan.rst
-> index 2b1e8f74904b..4491ad2830ed 100644
-> --- a/Documentation/translations/zh_CN/dev-tools/kasan.rst
-> +++ b/Documentation/translations/zh_CN/dev-tools/kasan.rst
-> @@ -235,6 +235,24 @@ slab对象的描述以及关于访问的内存页的信息。
->  通用KASAN还报告两个辅助调用堆栈跟踪。这些堆栈跟踪指向代码中与对象交互但不直接
->  出现在错误访问堆栈跟踪中的位置。目前，这包括 call_rcu() 和排队的工作队列。
->  
-> +CONFIG_KASAN_EXTRA_INFO
-> +~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +启用 CONFIG_KASAN_EXTRA_INFO 选项允许 KASAN 记录和报告更多信息。目前支持的
-> +额外信息包括分配和释放时的 CPU 编号和时间戳。更多的信息可以帮助找到内核错误的原因，
-> +并将错误与其他系统事件关联起来，但代价是用额外的内存来记录更多信息（有关更多
-> +开销的细节，请参见 CONFIG_KASAN_EXTRA_INFO 选项的帮助文本）。
-> +
-> +以下为 CONFIG_KASAN_EXTRA_INFO 开启后的报告（仅显示不同部分）::
-> +
-> +    ==================================================================
-> +    ...
-> +    Allocated by task 134 on cpu 5 at 229.133855s:
-> +    ...
-> +    Freed by task 136 on cpu 3 at 230.199335s:
-> +    ...
-> +    ==================================================================
-> +
->  实施细则
->  --------
->  
