@@ -1,92 +1,160 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489E2184129
-	for <linux-doc@vger.kernel.org>; Mon, 17 Jun 2024 06:09:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC7AD1822C2;
+	Mon, 17 Jun 2024 06:24:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718604546; cv=none; b=g0nMOcGZgEtWTywk3GsQuClcJNzvL+8RRz6EIIPI+rnowQskBmlWESUe0dVjCtKgRG97KukaDGNRnVSZfpfzBCNekLUZuHGaKhaop82hDlq5rYTt67WWfqfr0xw26bA8v+jBbMEpxjpXse0nolPUKKqNZPejOXmojuKQcJ6G+1s=
+	t=1718605464; cv=none; b=g0rk7R+T4jhvjGJgSEehSkowznQJH+A5Nz8kW4CZPSWB8YjS8pa8sb1tVZCMi+5mCTM+vi0ZGLvmeh1Yn/x+MK6B27ZRY54w/VWEJMIdDiQK+IAgEjL/vIV+I3pL3kA2gmZurqkzt/+bbl/ponpk9BYW7Z0xIa/XnN75A7CKiLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718604546; c=relaxed/simple;
-	bh=hDS17+qsNPNNXUV82rej7BO7Xc0Qy2N2DhSjAXLBNYc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FqdaaXRMaW5q9jD83CtJI4VWviwghUaTU+qR9MaTSkDoBjgbYHzVLS7FhKhHB9QOOI96cxD06mGp4iJ9gRiy8GKvQ4q51+V5S5xxAoQuaoNvZ8CUNk7LMU8FZ4CjKwsvNS02mTsf8ZDzqxzZF7UyaoyPIHPUSXdI6KJAXL/QA2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YytoJ1Rg; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1718605464; c=relaxed/simple;
+	bh=5BA/TosT1CrxQE3NyCIfG5vCxzPOaTI0joE23Fx2Gqc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=tms/TgXBIw1OSJx5lvQorZGvQrM/Wx9RUy7+vc2jDR+eatZojMstDT+ZwnkIZw+K6zD1sr1DGWWT+VcZ4rfClTeBncwDwpiAnABZCsJMxn2gFpIiUdlf3IppYvH0HXna4O1kowACmfezJAs6ozecPjm5/kwsfggnkl8+Fz0tgbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nhx7Z4yO; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YytoJ1Rg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1718604542;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=SJWLUmdGlAVRxpPGtNzAhFQ8b0B895zkZS1r5Cdi/us=;
-	b=YytoJ1Rgd9QChZ28vRlsGZ01EuZ/+tn0eMHEqElb6koGnJokRgFbyLXqrJeWH3jwUfbHCI
-	K5yYsdIYYmHTj+NuW29WMcLTBYeYTMykj2xCepXUohTiooJmVkYtcWlaAgXkkR5Z3ILE5N
-	a7XOCjz+4MElsT5AYgEIeipdjqU4ys8=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-113-j0aGtohiNXCPdVwPt9CADA-1; Mon,
- 17 Jun 2024 02:08:58 -0400
-X-MC-Unique: j0aGtohiNXCPdVwPt9CADA-1
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2232419560AA;
-	Mon, 17 Jun 2024 06:08:56 +0000 (UTC)
-Received: from thuth-p1g4.redhat.com (unknown [10.39.192.120])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 7DA9919560B2;
-	Mon, 17 Jun 2024 06:08:50 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: linux-doc@vger.kernel.org,
-	Nathan Lynch <nathanl@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>
-Cc: linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	linuxppc-dev@lists.ozlabs.org,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	"Naveen N . Rao" <naveen.n.rao@linux.ibm.com>
-Subject: [PATCH] Documentation: Remove the unused "topology_updates" from kernel-parameters.txt
-Date: Mon, 17 Jun 2024 08:08:48 +0200
-Message-ID: <20240617060848.38937-1-thuth@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nhx7Z4yO"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a6f85f82ffeso80716866b.0;
+        Sun, 16 Jun 2024 23:24:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718605461; x=1719210261; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=5BA/TosT1CrxQE3NyCIfG5vCxzPOaTI0joE23Fx2Gqc=;
+        b=Nhx7Z4yOw3F3MGDZn5mu0NdH0OPM80B1d1mWj+xqI2VyRyNdGA1j0pwsmm4x/c/Yd7
+         BPZlzsht1k4P0pezqeRp3a16eErUJ4jg9QNAftMtE4iUe6wI51T4ME4OJV1MlOJOCvlF
+         bB160rUY3wwHs0iPDfI5Mi/NT93vDAfYmkh8CgdJDvsveNYEsqHrVSmpjOFird8XLYRC
+         OKBmXW2TJfP+jZZc4J/sfsmRs9cMNbKc3egsv35m0zOoP3uRRXSgp1KUKCHyzeUHxg04
+         +hz8mbHAnqZqR052L/0K1DxR6rau9bq23bcNp41a2ws3vs5kgua5YcsIfQhsyhsHoz2+
+         qMbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718605461; x=1719210261;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5BA/TosT1CrxQE3NyCIfG5vCxzPOaTI0joE23Fx2Gqc=;
+        b=VwcxIpgydbh4zeiqWzpt57lMK9OVy3ubvu8nS5gg34QPavW3ZeWPUhWYumQihSx7Zm
+         sDF52LZk2IOTReiBd4vkEqpoJGMgGrV0Vy8iwin8DYytIoeFXE2teKny/nBjtpLreu0V
+         LEN2gHXGykVVNEx4b3hZtICka+h2zCECUsRZiYKLQdcVr5Phfy/z9AQj7VTLPCvLtbUV
+         +VpdotM7mGEg1x01PEFjGpxCUtzATzfRbpJy1/vDWHItEo9e1Oe/BJH003hT4otfYR4Y
+         2yu9su+EDBb0PyUrcesMXJwIAz8gHuiKBr0LFjnLzBCv+4XMJZqe7wT5tFa0wIdmtBsM
+         z11w==
+X-Forwarded-Encrypted: i=1; AJvYcCVbcqmFb8dv74WH6IhdgGWPpUSGDc7h3j9t1jqtvvC206LRdc0peyarFtJyzr+27K4SCkbKV8S/eCGvOn3q+66Na9wyYg/spIXoXBEMC4QbIT1ZhakrsuShH460yGas0yr4SZGziTAz+ZJ33Z1SGurwusktd/ReMtwTcquThv+mWnKE0FBG0OTPy7A2Y51T0kYg+7A8Is81nEaH3rAlNSN8MkN6/PgEddHXTE1a0lJ36m3Ifzf2v9XcFuU=
+X-Gm-Message-State: AOJu0Ywx1RO0jnCu/JjVqEyzWSrFkglHgO4lEQBHrIPyfzcQE6+kJwFG
+	R3PDn6yyMIRCA7uXQ7JTGhNpv73+HalKHrwv5uvHUBpZF62pDtzy
+X-Google-Smtp-Source: AGHT+IGwPJh8PW95cQ3TUh8Rt+F4WZpn4rbG8t7MJQz99Y0NFynHP5+QpRL00FDtWKBhhin6up50sQ==
+X-Received: by 2002:a17:907:c003:b0:a6f:6b6a:e8d2 with SMTP id a640c23a62f3a-a6f6b6aec48mr560764166b.11.1718605460884;
+        Sun, 16 Jun 2024 23:24:20 -0700 (PDT)
+Received: from nsa.fritz.box ([2001:a61:35f9:9001:40df:88bb:5090:7ab6])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f7c12f7c0sm191184366b.198.2024.06.16.23.24.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Jun 2024 23:24:20 -0700 (PDT)
+Message-ID: <f0c709e3bf3f1ebfac29274b8f7182df9022376e.camel@gmail.com>
+Subject: Re: [PATCH v10 3/6] iio: core: Add new DMABUF interface
+ infrastructure
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Paul Cercueil <paul@crapouillou.net>, Jonathan Cameron <jic23@kernel.org>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Vinod Koul <vkoul@kernel.org>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>,  Jonathan Corbet <corbet@lwn.net>, Nuno Sa
+ <nuno.sa@analog.com>, linux-iio@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ dmaengine@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Date: Mon, 17 Jun 2024 08:24:19 +0200
+In-Reply-To: <0cdcf83a1ab7c199244d4a00157f6fa8979ef819.camel@crapouillou.net>
+References: <20240605110845.86740-1-paul@crapouillou.net>
+	 <20240605110845.86740-4-paul@crapouillou.net>
+	 <20240609105302.07de907a@jic23-huawei>
+	 <0cdcf83a1ab7c199244d4a00157f6fa8979ef819.camel@crapouillou.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.2 (3.52.2-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-The "topology_updates" switch has been removed four years ago in commit
-c30f931e891e ("powerpc/numa: remove ability to enable topology updates"),
-so let's remove this from the documentation, too.
+On Sat, 2024-06-15 at 13:07 +0200, Paul Cercueil wrote:
+> Le dimanche 09 juin 2024 =C3=A0 10:53 +0100, Jonathan Cameron a =C3=A9cri=
+t=C2=A0:
+> > On Wed,=C2=A0 5 Jun 2024 13:08:42 +0200
+> > Paul Cercueil <paul@crapouillou.net> wrote:
+> >=20
+> > > Add the necessary infrastructure to the IIO core to support a new
+> > > optional DMABUF based interface.
+> > >=20
+> > > With this new interface, DMABUF objects (externally created) can be
+> > > attached to a IIO buffer, and subsequently used for data transfer.
+> > >=20
+> > > A userspace application can then use this interface to share DMABUF
+> > > objects between several interfaces, allowing it to transfer data in
+> > > a
+> > > zero-copy fashion, for instance between IIO and the USB stack.
+> > >=20
+> > > The userspace application can also memory-map the DMABUF objects,
+> > > and
+> > > access the sample data directly. The advantage of doing this vs.
+> > > the
+> > > read() interface is that it avoids an extra copy of the data
+> > > between the
+> > > kernel and userspace. This is particularly userful for high-speed
+> > > devices which produce several megabytes or even gigabytes of data
+> > > per
+> > > second.
+> > >=20
+> > > As part of the interface, 3 new IOCTLs have been added:
+> > >=20
+> > > IIO_BUFFER_DMABUF_ATTACH_IOCTL(int fd):
+> > > =C2=A0Attach the DMABUF object identified by the given file descripto=
+r
+> > > to the
+> > > =C2=A0buffer.
+> > >=20
+> > > IIO_BUFFER_DMABUF_DETACH_IOCTL(int fd):
+> > > =C2=A0Detach the DMABUF object identified by the given file descripto=
+r
+> > > from
+> > > =C2=A0the buffer. Note that closing the IIO buffer's file descriptor
+> > > will
+> > > =C2=A0automatically detach all previously attached DMABUF objects.
+> > >=20
+> > > IIO_BUFFER_DMABUF_ENQUEUE_IOCTL(struct iio_dmabuf *):
+> > > =C2=A0Request a data transfer to/from the given DMABUF object. Its fi=
+le
+> > > =C2=A0descriptor, as well as the transfer size and flags are provided=
+ in
+> > > the
+> > > =C2=A0"iio_dmabuf" structure.
+> > >=20
+> > > These three IOCTLs have to be performed on the IIO buffer's file
+> > > descriptor, obtained using the IIO_BUFFER_GET_FD_IOCTL() ioctl.
+> > >=20
+> > > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> > > Signed-off-by: Nuno Sa <nuno.sa@analog.com>
+> >=20
+> > Need a brief note on the sign off chain.
+> > What is Nuno's role in this series as he's not sending the emails and
+> > not
+> > marked with Co-developed-by=20
+>=20
+> That's a good question. I think he sent one revision of the patchset
+> (v7 or something like that) so he added his SoB.
+>=20
+> (Nuno: you confirm?)
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 6 ------
- 1 file changed, 6 deletions(-)
+exactly...
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index f58001338860..b75852f1a789 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -6600,12 +6600,6 @@
- 			e.g. base its process migration decisions on it.
- 			Default is on.
- 
--	topology_updates= [KNL, PPC, NUMA]
--			Format: {off}
--			Specify if the kernel should ignore (off)
--			topology updates sent by the hypervisor to this
--			LPAR.
--
- 	torture.disable_onoff_at_boot= [KNL]
- 			Prevent the CPU-hotplug component of torturing
- 			until after init has spawned.
--- 
-2.45.2
+>=20
+> I'll add his Co-developed-by then.
+
+Not sure if that is really deserved :)... Maybe just remove my tag.
+
+- Nuno S=C3=A1
+
 
