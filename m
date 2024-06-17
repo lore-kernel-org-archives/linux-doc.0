@@ -1,26 +1,59 @@
-Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79A5A198A34;
-	Mon, 17 Jun 2024 13:18:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.160.252.172
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 170A7197A88;
+	Mon, 17 Jun 2024 13:20:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718630300; cv=none; b=hCBxsn5MIX94uVpwtBgMvMCAGwjmJMKTgARnKOQmgq9ic/EIWR07HFKc5w9bf0D+m7eOxW2nrojyD37SBiLaUPCbSxOyeJmeE98nogogw+0XdknzPaQwxcaU6rCQlVU/i56pjxelibGiFbfWGJ7luS/zpAQKgOkqlYTtbr20wlA=
+	t=1718630445; cv=none; b=oTe7oK4bxZ7pHbBAq0+w1ZHRmj2+Jy+a1gUWMr9gcL0Uro3QZEPrVpOID8g0R19+eFTJJ4vswW2DwCA5TDQuCOm+hMw1dCSCI2Q3pc1E6jzL2fHn52EaMreF9dJFS0nNOV0sOq/AeIaGuQ990xu6Z4pdBe+XoPyHc8EZcAHGFr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718630300; c=relaxed/simple;
-	bh=nus8EXCQy5Vw9MTP03RIYqf7FT1L5evjEegx9BPrpLA=;
+	s=arc-20240116; t=1718630445; c=relaxed/simple;
+	bh=1nrAD4KfLSnRE+kqydRysazLWCkP8jJyqBGQ4Hd6vr8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=m0ckLTIPDJDln1A4aB0Ex2k9Jf5mugGulXA2r/+Qr2vbOEljgC9DHdWOgPUJ3Kll07BA3YGta8k+/dk9f2ajxER083x0hvpm0ejvWuGBT6jarZ58xu1pSw2MqhVzK0IAXHFghXnR7q6Fjo1yiBEUL50jr8Cwg/JP08flioFI46k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; arc=none smtp.client-ip=210.160.252.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-X-IronPort-AV: E=Sophos;i="6.08,244,1712588400"; 
-   d="asc'?scan'208";a="212215763"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 17 Jun 2024 22:18:09 +0900
-Received: from [10.226.92.92] (unknown [10.226.92.92])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id 54DF54338F32;
-	Mon, 17 Jun 2024 22:18:07 +0900 (JST)
-Message-ID: <c20a8d7c-a732-4425-ad8c-c5998ed8977e@bp.renesas.com>
-Date: Mon, 17 Jun 2024 14:18:05 +0100
+	 In-Reply-To:Content-Type; b=eL+lleYxG/K/uGosnkev+hauwd374azZyCbeGClCBCl6PvtPJryZFjeXwY3jmV0Prkky5Pc6Go4bO93mRP6/wBfi7TqxMZa+ecII5cFMU+cZ12Jt9PTHT4uYZ0pyZs4ov8CgPLoexsXOmqOb3V5t6NsaaKcXcqakOa2FhJLHpDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AkyQDocK; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AkyQDocK"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a6e43dad8ecso757187366b.1;
+        Mon, 17 Jun 2024 06:20:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718630442; x=1719235242; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FUae8JuWsbpwcHSTs/RVPWcmF5+7RW32qrRGZUORids=;
+        b=AkyQDocKAkm3wA9QKpVyA3+wOLD0HS9GSqpOg028xfcDzF0NXcxR7vcJdrRuk8BCm0
+         8KqsHCGdRdaSb+BG3REBtMo2QJzpAManHpxrDaml23UuYF3xADfRvaAaF4D0/7H6FGNt
+         XRZeA8rGZIZadbca/QlvcGf910sTa6sN4xriq4khh9cBbzeutPi1bOOh0U6S0JxZKOrH
+         uxNW/oKCbgi2MMt+7jV4g2dp+NG/lXZDbFTeaS/U3SXhKsdumymUnwXjrP+b+TXdw/r2
+         Ly4F/kQaRpO8v9/rV2L52II6ETsHg/5NyC3LdK5JpJzdTnGUHWN0CX/n7JM1FBkCb/Gm
+         86+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718630442; x=1719235242;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FUae8JuWsbpwcHSTs/RVPWcmF5+7RW32qrRGZUORids=;
+        b=ZW+V9G2epyh/KysUSiJ3x6oFhva4gSbBZobC2IGmmKvo74OM/IAm/4GoYoRetDYNt8
+         avo0ItGEBpady45+/IMqqJp5jJ7cWNx4lvbRkByEc8ywgw3/64nwnlPXlwkdb+LLaHgP
+         lC+DAepvktzbIdHQY9vjtHgLNMJwFu8NRNXREybx3rL43mUqKzGPMJITQ+dBtcPjBKnh
+         mppseJrch7EgVnBnPyoyXYLct6yeQ1Y21fLAJjHUGAtN5b0afp5r5N6Uv0EmN5qZuvnx
+         ybjjwr5giPJ5/I/ZXlEn9GWXEkNCgXnJSiTZWZigKE8PXrld4U48ZdeM242Q2lQkCpoz
+         u2AA==
+X-Forwarded-Encrypted: i=1; AJvYcCWchIxPUAgYDKe3Rr9kUh/w5051MexNXM1Qtynww3WkOaMBsaGkp/uGYI/gGA4U8fzq5saajeMe8IsEiaRA5YmLXgoV1tzOwgVb7t6fX2QOhze/m7nL0gUzDE3iDCSX+h/Zqs/fg1rQK8nFSfhYT2bAIRuiEBXk0BGqnw8BmLztJUYvE4F7/XZuKHOkikZJbcm75UL6JFBFUzkbbuIbVq2rn5KEcG/j7QAu6tjI3U7C5ZHFRVnfHM7msW3S6v6CGa0u+l/PdnOm9OUdi8xWOfqx70MUJGgEXmU3HQ7t5/ZvqVIaqb0uLK7qEdbzqFFlJ8P4stRe/tFX+WiPXxIgCyTrS+J17I+3PwmZUNj8rRMJ101KlpEppk/2tnHkYDY5rmCjuT+ZRM57NsTdfRFc+BG+xEzLrgxDieBoZ4i4RF03Zej3rFEjnE+TPWQaO90ZnFvOUlvVaSaLZ8wtuaqJF6Zdqezo2i643SBzlfi9SleWIYDRD0TxrwzMZiT2ba151+0xniCJhmXHR09Y19/j6fLZM9CBBx8zNTjk9GxndZS5/vUUFe1kO9+1
+X-Gm-Message-State: AOJu0YxbwIZI1DTTNzRaxcvZNypArwvupsJuQ57jOCJWMQ5vs5nTECdq
+	G0I0m7viSD1k+3bOgVDZXs980Kq2FkNRW/FnrwEr5vb4ub9vtvnSLtqi+S/U
+X-Google-Smtp-Source: AGHT+IHyYrCA4cWOAfaQmJOiDF7VHhRCpPr7ss5P86Xw14pxsXCUj8adUxCN6A9F4atdUbL10vfY8g==
+X-Received: by 2002:a17:906:354e:b0:a6f:c17:1572 with SMTP id a640c23a62f3a-a6f5247429amr788950266b.33.1718630442157;
+        Mon, 17 Jun 2024 06:20:42 -0700 (PDT)
+Received: from [192.168.42.82] ([163.114.131.193])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a6f56f41700sm514847966b.152.2024.06.17.06.20.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Jun 2024 06:20:41 -0700 (PDT)
+Message-ID: <8cd3af33-3a86-478a-a5ac-462c2cca732a@gmail.com>
+Date: Mon, 17 Jun 2024 14:20:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -28,189 +61,195 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] docs: stable-kernel-rules: remind reader about DCO
-To: Shung-Hsi Yu <shung-hsi.yu@suse.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- stable@vger.kernel.org, workflows@vger.kernel.org
-References: <20240615020356.5595-1-shung-hsi.yu@suse.com>
- <20240615020356.5595-2-shung-hsi.yu@suse.com>
-Content-Language: en-GB
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-Organization: Renesas Electronics Corporation
-In-Reply-To: <20240615020356.5595-2-shung-hsi.yu@suse.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------wrt1c4Pp6096Reih5PhcYvrU"
+Subject: Re: [PATCH net-next v12 01/13] netdev: add netdev_rx_queue_restart()
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Donald Hunter <donald.hunter@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ivan Kokshaysky <ink@jurassic.park.msu.ru>, Matt Turner
+ <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ Helge Deller <deller@gmx.de>, Andreas Larsson <andreas@gaisler.com>,
+ Sergey Shtylyov <s.shtylyov@omp.ru>, Jesper Dangaard Brouer
+ <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Arnd Bergmann <arnd@arndb.de>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, Steffen Klassert
+ <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>,
+ Nikolay Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Yunsheng Lin <linyunsheng@huawei.com>,
+ Shailend Chand <shailend@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Jeroen de Borst
+ <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>
+References: <20240613013557.1169171-1-almasrymina@google.com>
+ <20240613013557.1169171-2-almasrymina@google.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20240613013557.1169171-2-almasrymina@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------wrt1c4Pp6096Reih5PhcYvrU
-Content-Type: multipart/mixed; boundary="------------hLlHwquRiT6tFl0rMb6UZ0t7";
- protected-headers="v1"
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-To: Shung-Hsi Yu <shung-hsi.yu@suse.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sasha Levin <sashal@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- stable@vger.kernel.org, workflows@vger.kernel.org
-Message-ID: <c20a8d7c-a732-4425-ad8c-c5998ed8977e@bp.renesas.com>
-Subject: Re: [PATCH v2 2/2] docs: stable-kernel-rules: remind reader about DCO
-References: <20240615020356.5595-1-shung-hsi.yu@suse.com>
- <20240615020356.5595-2-shung-hsi.yu@suse.com>
-In-Reply-To: <20240615020356.5595-2-shung-hsi.yu@suse.com>
+On 6/13/24 02:35, Mina Almasry wrote:
+> Add netdev_rx_queue_restart() function to netdev_rx_queue.h
 
---------------hLlHwquRiT6tFl0rMb6UZ0t7
-Content-Type: multipart/mixed; boundary="------------2RF19yJwrgg8NR7h44Hz0qtc"
+see nit below
 
---------------2RF19yJwrgg8NR7h44Hz0qtc
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
 
-On 15/06/2024 03:03, Shung-Hsi Yu wrote:
-> When sending patch authored by someone else to stable, it is quite easy=
- for the
-> sender to forget adding the Developer's Certification of Origin (DCO, i=
-=2Ee.
-> Signed-off-by). An example of such can be seen in the link below. Menti=
-on DCO
-> explicitly so senders are less likely to forget to do so and cause anot=
-her
-> round-trip.
->=20
-> Add a label in submitting-patches.rst so we can directly link to the DC=
-O
-> section.
->=20
-> Link: https://lore.kernel.org/stable/2024051500-underage-unfixed-5d28@g=
-regkh/
-> Signed-off-by: Shung-Hsi Yu <shung-hsi.yu@suse.com>
+
+> Signed-off-by: David Wei <dw@davidwei.uk>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> 
 > ---
-> Change from v1:
-> - explicitly refer to the link as an example in the 1st paragraph (Paul=
-)
-> - commit message typo fix s/explicilty/explicitly/ (Paul)
+> 
+> v11:
+> - Fix not checking dev->queue_mgmt_ops (Pavel).
+> - Fix ndo_queue_mem_free call that passed the wrong pointer (David).
+> 
+> v9: https://lore.kernel.org/all/20240502045410.3524155-4-dw@davidwei.uk/
+> (submitted by David).
+> - fixed SPDX license identifier (Simon).
+> - Rebased on top of merged queue API definition, and changed
+>    implementation to match that.
+> - Replace rtnl_lock() with rtnl_is_locked() to make it useable from my
+>    netlink code where rtnl is already locked.
+> 
 > ---
->  Documentation/process/stable-kernel-rules.rst | 4 ++++
->  Documentation/process/submitting-patches.rst  | 1 +
->  2 files changed, 5 insertions(+)
->=20
-> diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentat=
-ion/process/stable-kernel-rules.rst
-> index d22aa2280f6e..85a91fd40da9 100644
-> --- a/Documentation/process/stable-kernel-rules.rst
-> +++ b/Documentation/process/stable-kernel-rules.rst
-> @@ -168,6 +168,10 @@ If the submitted patch deviates from the original =
-upstream patch (for example
->  because it had to be adjusted for the older API), this must be very cl=
-early
->  documented and justified in the patch description.
-> =20
-> +Be sure to also include a :ref:`Developer's Certificate of Origin
-> +<sign_your_work>` (i.e. ``Signed-off-by``) when sending patches that y=
-ou did
-> +not author yourself.
+>   include/net/netdev_rx_queue.h |  3 ++
+>   net/core/Makefile             |  1 +
+>   net/core/netdev_rx_queue.c    | 74 +++++++++++++++++++++++++++++++++++
+>   3 files changed, 78 insertions(+)
+>   create mode 100644 net/core/netdev_rx_queue.c
+> 
+> diff --git a/include/net/netdev_rx_queue.h b/include/net/netdev_rx_queue.h
+> index aa1716fb0e53c..e78ca52d67fbf 100644
+> --- a/include/net/netdev_rx_queue.h
+> +++ b/include/net/netdev_rx_queue.h
+> @@ -54,4 +54,7 @@ get_netdev_rx_queue_index(struct netdev_rx_queue *queue)
+>   	return index;
+>   }
+>   #endif
 > +
-> =20
->  Following the submission
->  ------------------------
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentati=
-on/process/submitting-patches.rst
-> index 66029999b587..98f1c8d8b429 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -394,6 +394,7 @@ e-mail discussions.
-> =20
->  ``git send-email`` will do this for you automatically.
-> =20
-> +.. _sign_your_work:
-> =20
->  Sign your work - the Developer's Certificate of Origin
->  ------------------------------------------------------
+> +int netdev_rx_queue_restart(struct net_device *dev, unsigned int rxq);
+> +
+>   #endif
+> diff --git a/net/core/Makefile b/net/core/Makefile
+> index 62be9aef25285..f82232b358a2c 100644
+> --- a/net/core/Makefile
+> +++ b/net/core/Makefile
+> @@ -19,6 +19,7 @@ obj-$(CONFIG_NETDEV_ADDR_LIST_TEST) += dev_addr_lists_test.o
+>   
+>   obj-y += net-sysfs.o
+>   obj-y += hotdata.o
+> +obj-y += netdev_rx_queue.o
+>   obj-$(CONFIG_PAGE_POOL) += page_pool.o page_pool_user.o
+>   obj-$(CONFIG_PROC_FS) += net-procfs.o
+>   obj-$(CONFIG_NET_PKTGEN) += pktgen.o
+> diff --git a/net/core/netdev_rx_queue.c b/net/core/netdev_rx_queue.c
+> new file mode 100644
+> index 0000000000000..de0575cf6df5d
+> --- /dev/null
+> +++ b/net/core/netdev_rx_queue.c
+> @@ -0,0 +1,74 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +#include <linux/netdevice.h>
+> +#include <net/netdev_queues.h>
+> +#include <net/netdev_rx_queue.h>
+> +
+> +int netdev_rx_queue_restart(struct net_device *dev, unsigned int rxq_idx)
+> +{
+> +	void *new_mem, *old_mem;
+> +	int err;
+> +
+> +	if (!dev->queue_mgmt_ops || !dev->queue_mgmt_ops->ndo_queue_stop ||
+> +	    !dev->queue_mgmt_ops->ndo_queue_mem_free ||
+> +	    !dev->queue_mgmt_ops->ndo_queue_mem_alloc ||
+> +	    !dev->queue_mgmt_ops->ndo_queue_start)
+> +		return -EOPNOTSUPP;
+> +
+> +	DEBUG_NET_WARN_ON_ONCE(!rtnl_is_locked());
+> +
+> +	new_mem = kvzalloc(dev->queue_mgmt_ops->ndo_queue_mem_size, GFP_KERNEL);
+> +	if (!new_mem)
+> +		return -ENOMEM;
+> +
+> +	old_mem = kvzalloc(dev->queue_mgmt_ops->ndo_queue_mem_size, GFP_KERNEL);
+> +	if (!old_mem) {
+> +		err = -ENOMEM;
+> +		goto err_free_new_mem;
+> +	}
+> +
+> +	err = dev->queue_mgmt_ops->ndo_queue_mem_alloc(dev, new_mem, rxq_idx);
+> +	if (err)
+> +		goto err_free_old_mem;
+> +
+> +	err = dev->queue_mgmt_ops->ndo_queue_stop(dev, old_mem, rxq_idx);
+> +	if (err)
+> +		goto err_free_new_queue_mem;
+> +
+> +	err = dev->queue_mgmt_ops->ndo_queue_start(dev, new_mem, rxq_idx);
+> +	if (err)
+> +		goto err_start_queue;
+> +
+> +	dev->queue_mgmt_ops->ndo_queue_mem_free(dev, old_mem);
+> +
+> +	kvfree(old_mem);
+> +	kvfree(new_mem);
+> +
+> +	return 0;
+> +
+> +err_start_queue:
+> +	/* Restarting the queue with old_mem should be successful as we haven't
+> +	 * changed any of the queue configuration, and there is not much we can
+> +	 * do to recover from a failure here.
+> +	 *
+> +	 * WARN if the we fail to recover the old rx queue, and at least free
 
-Reviewed-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+nit "if the we"
 
---=20
-Paul Barker
---------------2RF19yJwrgg8NR7h44Hz0qtc
-Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+> +	 * old_mem so we don't also leak that.
+> +	 */
+> +	if (dev->queue_mgmt_ops->ndo_queue_start(dev, old_mem, rxq_idx)) {
+> +		WARN(1,
+> +		     "Failed to restart old queue in error path. RX queue %d may be unhealthy.",
+> +		     rxq_idx);
+> +		dev->queue_mgmt_ops->ndo_queue_mem_free(dev, old_mem);
+> +	}
+> +
+> +err_free_new_queue_mem:
+> +	dev->queue_mgmt_ops->ndo_queue_mem_free(dev, new_mem);
+> +
+> +err_free_old_mem:
+> +	kvfree(old_mem);
+> +
+> +err_free_new_mem:
+> +	kvfree(new_mem);
+> +
+> +	return err;
+> +}
 
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-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3D
-=3DsIIN
------END PGP PUBLIC KEY BLOCK-----
-
---------------2RF19yJwrgg8NR7h44Hz0qtc--
-
---------------hLlHwquRiT6tFl0rMb6UZ0t7--
-
---------------wrt1c4Pp6096Reih5PhcYvrU
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZnA3jQUDAAAAAAAKCRDbaV4Vf/JGvajf
-AP9BjqgSsCcLfEq6gPcMjJUWEMjAyPxdRpSt7FVAxyfBSgD/YvnS80VR5FnJ+FVdZ5sUBEXXiZj5
-4NCO9opfgYanzwQ=
-=JyRj
------END PGP SIGNATURE-----
-
---------------wrt1c4Pp6096Reih5PhcYvrU--
+-- 
+Pavel Begunkov
