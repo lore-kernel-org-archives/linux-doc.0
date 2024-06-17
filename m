@@ -1,410 +1,97 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84B5B161924
-	for <linux-doc@vger.kernel.org>; Mon, 17 Jun 2024 16:51:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71D97161B6A;
+	Mon, 17 Jun 2024 16:57:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718643067; cv=none; b=pkaKmkteKUkv/3y+gbbvhgrIIJaSFItBkTq5ZRxQ3XmbWY5YAdjkSDUphBPnNaY6MUSLaOlO3u0F80HI2Ja1Ne8P7fewmcBXF4KeZ0a164W0ZLhtj79+WiwlYRyCbo6PIaMtwtF2Y4LttaKxvDl7jUXCLDEGs0tp2lhDmHk+6f4=
+	t=1718643433; cv=none; b=OLFex3V/kJBkPEa9xalkTEhWdia07Y+GvS+C6x50w70YgTrPsSscCdVZpdahT2lKNR+aIm59bKpgGwKJFbhrZvHFDzzT1tKXD2tBMIHBsn1voqyG7G+hdUlzKbh1ufWkIROklf0VuaJ7lBPNjKjNBdnFT4JVRH6LaB1XIK0o7Hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718643067; c=relaxed/simple;
-	bh=49SkQcuHIP5rsZXNPEEeMHqjHmxLyEaoEHFajG29aWY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bB/IHRJiYQ0EJPkobFhSuY7gsOkx5+GQyGKknPs5QUWrzr8dVRYTLHfsKPkjIAhpkm/nfUnjKZYGOXtmFHwDj+aKsw7RkwgcVgxJx8f3ZD2HIdYzqpcL333wfezcuYqEaPKoc2+kkl4JLWuKcriVNRUwgya52haI4UFdzL/T2P4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=By4oB/es; arc=none smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1718643433; c=relaxed/simple;
+	bh=n+1y+E9hLwnclKdeZG42L3zqKhdxvs9cOOLpFzB4YqM=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=L+KORXstr29tGdbXfa1cT1eN5LPiHLF02z2S85BAFZmt/Q4rPu4eXoGbAMpgXTS5tRxaPofOUNzpM4bdSbDDnN2jE7lfMuK+bhfPxLtlsFzUwLZ7I+AFTcx4tOeksWkq4skl0zOR1lZu8JIpmV3M7hJrNW1ao9GXTS89G1hwgTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=NP1eyFLy; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="By4oB/es"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-4405dffca81so1741cf.1
-        for <linux-doc@vger.kernel.org>; Mon, 17 Jun 2024 09:51:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718643064; x=1719247864; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=txeYGZbAulYQnRze5h20s5tFWK2wdS382ItpdGZVmi0=;
-        b=By4oB/esToXvdTWKIXZXUTADLYoU2icqPnmyzHtEm8Ey5yt3O7GWymoCKTAvcgaagI
-         ohLEKDgPL0gKq9Wm7QaY+vaQKaz7suywCeW7xfcMqMvLTwFTEX6Se0N+spOmi4iLAqKI
-         uTU8C8SJW4ctDpMDcUx5rmsg3DLccR8gn091PtewkaJnAsxrBSt0ULXV9gbE7GTtUBPk
-         97Wo9BoUH9oy2i0jY1eiZaoD0i7kIk+R7xA+RYQnYiT4LPLtQ35VuqZ9hQZjxWG6lJAE
-         AEwqssrvy+p36vNxLtuM5kTIwPF5ZCj4c6ilGV8BHsRdYzLgmPs7AjcezV+SPFxabGNj
-         DjHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718643064; x=1719247864;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=txeYGZbAulYQnRze5h20s5tFWK2wdS382ItpdGZVmi0=;
-        b=DNh0giEkrv7gDlHXqoZ1CfJ+J4LXljRHN4u9o+ZqzpOM+1d/d9d/qKCNdC9kn4sR2L
-         rXu4QvZCmhNPxb2vq4vWdeH2oMYiMNrMwKsSZc6u8s2pYbqh7oSPaLfCZlViEQnT9FnT
-         OZzGXreCYsVgi1Y0P87b29wzke3jvE9ZufBvTQ0IqyW6m3ri620wBMbGMQ1RzWpEZYtD
-         j/p8jrrHzrUFveEkWEv8Czfb9xNSJkERzEDdmY6GtQssLXnzYWgGp8k9T0WKkSInMx+9
-         EabZ5nmsHwIoGw3aobhXhUrj5LTKFcXpYIt+AW+GefW8ZJYpNUtFpfNP8OgGPO7H2Q6c
-         2IAg==
-X-Forwarded-Encrypted: i=1; AJvYcCXRkVB4AmWq8NBVsJYtQqJVxDr27GBw2XFubrgUfrwG1kkPhlL8mKR29Ws81aeLjSAAHUlWtXYOSXx/xuwsf+K71IZadWEQDhyB
-X-Gm-Message-State: AOJu0Yz4CmEeq7HILwQzfWJVQEy6qxgoGXcSMMlHzO7Il4c86cXpStW6
-	M//WowY7IqvTWZc0Jcbg4XIyroaJDb73URI31v5jlb1LFjAdsC+WlMdiJhljSZBzv6CVuEtXCxo
-	22Qzk93AQhQkqIhgsXaFKXxbehkYfVffrWqbz
-X-Google-Smtp-Source: AGHT+IFZ9WgzL02erlLgT4OACUR5uu/+x7DQfx8/7vgEmwC6CTrUFy/B1nVWq1p2P76roeiS4xwSGANQ9yKvyy4Xp+Q=
-X-Received: by 2002:a05:622a:20c:b0:43e:3833:c5e3 with SMTP id
- d75a77b69052e-44350a5e557mr5052471cf.11.1718643063774; Mon, 17 Jun 2024
- 09:51:03 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="NP1eyFLy"
+Received: from [100.65.192.170] (unknown [20.236.11.69])
+	by linux.microsoft.com (Postfix) with ESMTPSA id CE96820B7004;
+	Mon, 17 Jun 2024 09:57:11 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CE96820B7004
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1718643432;
+	bh=MgHT8Z4HUIE9ezW/auV6wWbDrDM4WPcrEGledglcTCo=;
+	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+	b=NP1eyFLyCc4Y4s2fAcJMhWMHNWs7U2TWcth3d4RkSAzZEKf8KFu//cZOhJ2AM9jZS
+	 0IjukHycG+vWof36cxv90it7Q91ISv0qWWCeqkrA1WjENnRCLymD95hp8hRHSkb86C
+	 vqfqwY35x2OJHzFxLdk1AHvrdduRDxApgR7bc6Eg=
+Message-ID: <7d5f800f-fc65-4fbf-adad-616d51501c62@linux.microsoft.com>
+Date: Mon, 17 Jun 2024 09:57:12 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240611002145.2078921-1-jthoughton@google.com>
- <20240611002145.2078921-5-jthoughton@google.com> <CAOUHufYGqbd45shZkGCpqeTV9wcBDUoo3iw1SKiDeFLmrP0+=w@mail.gmail.com>
- <CADrL8HVHcKSW3hiHzKTit07gzo36jtCZCnM9ZpueyifgNdGggw@mail.gmail.com>
- <ZmioedgEBptNoz91@google.com> <CADrL8HU_FKHTz_6d=xhVLZFDQ_zQo-zdB2rqdpa2CKusa1uo+A@mail.gmail.com>
- <ZmjtEBH42u7NUWRc@google.com> <CADrL8HUW2q79F0FsEjhGW0ujij6+FfCqas5UpQp27Epfjc94Nw@mail.gmail.com>
- <ZmxsCwu4uP1lGsWz@google.com> <CADrL8HVDZ+m_-jUCaXf_DWJ92N30oqS=_9wNZwRvoSp5fo7asg@mail.gmail.com>
- <ZmzPoW7K5GIitQ8B@google.com>
-In-Reply-To: <ZmzPoW7K5GIitQ8B@google.com>
-From: James Houghton <jthoughton@google.com>
-Date: Mon, 17 Jun 2024 09:50:26 -0700
-Message-ID: <CADrL8HW3rZ5xgbyGa+FXk50QQzF4B1=sYL8zhBepj6tg0EiHYA@mail.gmail.com>
-Subject: Re: [PATCH v5 4/9] mm: Add test_clear_young_fast_only MMU notifier
-To: Sean Christopherson <seanjc@google.com>
-Cc: Yu Zhao <yuzhao@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Ankit Agrawal <ankita@nvidia.com>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	David Matlack <dmatlack@google.com>, David Rientjes <rientjes@google.com>, 
-	James Morse <james.morse@arm.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oliver.upton@linux.dev>, Raghavendra Rao Ananta <rananta@google.com>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Shaoqin Huang <shahuang@redhat.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Wei Xu <weixugc@google.com>, 
-	Will Deacon <will@kernel.org>, Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev, 
-	kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Cc: eahariha@linux.microsoft.com
+Subject: Re: [PATCH v3 5/6] docs: i2c: summary: document 'local' and 'remote'
+ targets
+To: Andi Shyti <andi.shyti@kernel.org>,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-i2c@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240614081239.7128-8-wsa+renesas@sang-engineering.com>
+ <20240614081239.7128-13-wsa+renesas@sang-engineering.com>
+ <4zxr4rlqnjqbqh3oxmd2ufqi6uk4pxa3tniuya5pgjtqi6tswc@utq4r2zt6z6b>
+ <ed75fyc2xcsnwubq42eposf6ayt5aj2jmqz6mthugk6vm2zpi4@qqwlmuwayoo5>
+ <y34k2k25xdr5z4v7oejp4da237s4o5qym5npihyydwlbsdh75c@vhmfl7sw3pbm>
+Content-Language: en-US
+From: Easwar Hariharan <eahariha@linux.microsoft.com>
+In-Reply-To: <y34k2k25xdr5z4v7oejp4da237s4o5qym5npihyydwlbsdh75c@vhmfl7sw3pbm>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jun 14, 2024 at 4:17=E2=80=AFPM Sean Christopherson <seanjc@google.=
-com> wrote:
->
-> On Fri, Jun 14, 2024, James Houghton wrote:
-> > On Fri, Jun 14, 2024 at 9:13=E2=80=AFAM Sean Christopherson <seanjc@goo=
-gle.com> wrote:
-> > >
-> > > On Thu, Jun 13, 2024, James Houghton wrote:
-> > > > I wonder if this still makes sense if whether or not an MMU is "fas=
-t"
-> > > > is determined by how contended some lock(s) are at the time.
-> > >
-> > > No.  Just because a lock wasn't contended on the initial aging doesn'=
-t mean it
-> > > won't be contended on the next round.  E.g. when using KVM x86's shad=
-ow MMU, which
-> > > takes mmu_lock for write for all operations, an aging operation could=
- get lucky
-> > > and sneak in while mmu_lock happened to be free, but then get stuck b=
-ehind a large
-> > > queue of operations.
-> > >
-> > > The fast-ness needs to be predictable and all but guaranteed, i.e. lo=
-ckless or in
-> > > an MMU that takes mmu_lock for read in all but the most rare paths.
-> >
-> > Aging and look-around themselves only use the fast-only notifiers, so
-> > they won't ever wait on a lock (well... provided KVM is written like
-> > that, which I think is a given).
->
-> Regarding aging, is that actually the behavior that we want?  I thought t=
-he plan
-> is to have the initial test look at all MMUs, i.e. be potentially slow, b=
-ut only
-> do the lookaround if it can be fast.  IIUC, that was Yu's intent (and pee=
-king back
-> at v2, that is indeed the case, unless I'm misreading the code).
+On 6/17/2024 4:58 AM, Andi Shyti wrote:
+> Hi Wolfram,
+> 
+> On Sun, Jun 16, 2024 at 09:14:40PM GMT, Wolfram Sang wrote:
+>>> I am not a big fan of the use of the word client. It's not used
+>>> anywhere in the documentation and it's too generic as a name for
+>>> giving it a specific meaning.
+>>>
+>>> I've seen already some confusion amongst reviewers and
+>>> maintainers when Easwar sent the patch in drm.
+>>>
+>>> If it depends on me, I would stick to the only controller/target
+>>> and render obsolet the use of the word "client" in the i2c
+>>> context.
+>>
+>> Have you read the paragraph "Synonyms" from patch 6? I don't think we
+>> can obsolete client because:
+>>
+>> $ git grep 'struct i2c_client \*client' | wc -l
+>> 6100
 
-I believe what I said is correct. There are three separate things going on =
-here:
+> at least saying that "target" is the
+> preferred name for what was called "client" until now.
 
-1. Aging (when we hit the low watermark, scan PTEs to find young pages)
-2. Eviction (pick a page to evict; if it is definitely not young, evict it)
-3. Look-around (upon finding a page is young upon attempted eviction,
-check adjacent pages if they are young too)
+I'm in agreement on obsoleting "client" as well. On the pace of change,
+I'll defer to you. I was trying to elicit a recommendation on future use
+of "client" when I asked:
 
-(1) and (3) both use the fast-only notifier, (2) does not. In v2[1],
-this is true, as in the (1) and (3) paths, the notifier being called
-is the test_clear_young() notifier with the bitmap present. If the
-bitmap is present, the shadow MMU is not consulted.
+===
+What's the combined effect of this documentation update in terms of the
+recommendation for switching over the Linux kernel? Are we to use
+controller/client or controller/target?
+===
 
-For (2), there is an mmu_notifier_clear_young() with no bitmap called
-in should_look_around(), just like in this v5. (2) is the only one
-that needs to use the slow notifier; the (1) and (3) are best-effort
-attempts to improve the decision for which pages to evict.
+"Synonyms" from patch 6 does say that controller/target is preferred but
+couched it in the caveat "If speaking about I2C in general" and
+adapter/client when "discuss[ing] implementation details." I was trying
+to give space for an unambiguous recommendation.
 
-[1]: https://lore.kernel.org/linux-mm/20230526234435.662652-11-yuzhao@googl=
-e.com/
+I think we are on the same page here if we just remove the caveats.
 
->
-> If KVM _never_ consults shadow (nested TDP) MMUs, then a VM running an L2=
- will
-> end up with hot pages (used by L2) swapped out.
+Thanks,
+Easwar
 
-The shadow MMU is consulted at eviction time -- only at eviction time.
-So pages used by L2 won't be swapped out unless they're still cold at
-eviction time.
-
-In my (and Yu's) head, not being able to do aging for nested TDP is ok
-because running nested VMs is much more rare than running non-nested
-VMs. And in the non-nested case, being able to do aging is a strict
-improvement over what we have now.
-
-We could look into being able to do aging with the shadow MMU, but I
-don't think that should necessarily block this series.
-
-> Or are you saying that the "test" could be slow, but not "clear"?  That's=
- also
-> suboptimal, because any pages accessed by L2 will always appear hot.
-
-No. I hope what I said above makes sense.
-
-> > should_look_around() will use the slow notifier because it (despite its=
- name)
-> > is responsible for accurately determining if a page is young lest we ev=
-ict a
-> > young page.
-> >
-> > So in this case where "fast" means "lock not contended for now",
->
-> No.  In KVM, "fast" needs to be a property of the MMU, not a reflection o=
-f system
-> state at some random snapshot in time.
-
-Ok, that's fine with me.
-
-> > I don't think it's necessarily wrong for MGLRU to attempt to find young
-> > pages, even if sometimes it will bail out because a lock is contended/h=
-eld
->
-> lru_gen_look_around() skips lookaround if something else is waiting on th=
-e page
-> table lock, but that is a far cry from what KVM would be doing.  (a) the =
-PTL is
-> already held, and (b) it is scoped precisely to the range being processed=
-.  Not
-> looking around makes sense because there's a high probability of the PTEs=
- in
-> question being modified by a different task, i.e. of the look around bein=
-g a
-> waste of time.
->
-> In KVM, mmu_lock is not yet held, so KVM would need to use try-lock to av=
-oid
-> waiting, and would need to bail from the middle of the aging walk if a di=
-fferent
-> task contends mmu_lock.
->
-> I agree that's not "wrong", but in part because mmu_lock is scoped to the=
- entire
-> VM, it risks ending up with semi-random, hard to debug behavior.  E.g. a =
-user
-> could see intermittent "failures" that come and go based on seemingly unr=
-elated
-> behavior in KVM.  And implementing the "bail" behavior in the shadow MMU =
-would
-> require non-trivial changes.
-
-This is a great point, thanks Sean. I won't send any patches that make
-other architectures trylock() for the fast notifier.
-
->
-> In other words, I would very strongly prefer that the shadow MMU be all o=
-r nothing,
-> i.e. is either part of look-around or isn't.  And if nested TDP doesn't f=
-air well
-> with MGLRU, then we (or whoever cares) can spend the time+effort to make =
-it work
-> with fast-aging.
->
-> Ooh!  Actually, after fiddling a bit to see how feasible fast-aging in th=
-e shadow
-> MMU would be, I'm pretty sure we can do straight there for nested TDP.  O=
-r rather,
-> I suspect/hope we can get close enough for an initial merge, which would =
-allow
-> aging_is_fast to be a property of the mmu_notifier, i.e. would simplify t=
-hings
-> because KVM wouldn't need to communicate MMU_NOTIFY_WAS_FAST for each not=
-ification.
->
-> Walking KVM's rmaps requires mmu_lock because adding/removing rmap entrie=
-s is done
-> in such a way that a lockless walk would be painfully complex.  But if th=
-ere is
-> exactly _one_ rmap entry for a gfn, then slot->arch.rmap[...] points dire=
-ctly at
-> that one SPTE.  And with nested TDP, unless L1 is doing something uncommo=
-n, e.g.
-> mapping the same page into multiple L2s, that overwhelming vast majority =
-of rmaps
-> have only one entry.  That's not the case for legacy shadow paging becaus=
-e kernels
-> almost always map a pfn using multiple virtual addresses, e.g. Linux's di=
-rect map
-> along with any userspace mappings.
->
-> E.g. with a QEMU+KVM setup running Linux as L2, in my setup, only one gfn=
- has
-> multiple rmap entries (IIRC, it's from QEMU remapping BIOS into low memor=
-y during
-> boot).
->
-> So, if we bifurcate aging behavior based on whether or not the TDP MMU is=
- enabled,
-> then whether or not aging is fast is constant (after KVM loads).  Rougly,=
- the KVM
-> side of things would be the below, plus a bunch of conversions to WRITE_O=
-NCE() to
-> ensure a stable rmap value (KVM already plays nice with lockless accesses=
- to SPTEs,
-> thanks to the fast page fault path).
->
-> If KVM adds an rmap entry after the READ_ONCE(), then functionally all is=
- still
-> well because the original SPTE pointer is still valid.  If the rmap entry=
- is
-> removed, then KVM just needs to ensure the owning page table isn't freed.=
-  That
-> could be done either with a cmpxchg() (KVM zaps leafs SPTE before freeing=
- page
-> tables, and the rmap stuff doesn't actually walk upper level entries), or=
- by
-> enhancing the shadow MMU's lockless walk logic to allow lockless walks fr=
-om
-> non-vCPU tasks.
->
-> And in the (hopefully) unlikely scenario someone has a use case where L1 =
-maps a
-> gfn into multiple L2s (or aliases in bizarre ways), then we can tackle ma=
-king the
-> nested TDP shadow MMU rmap walks always lockless.
->
-> E.g. again very roughly, if we went with the latter:
->
-> @@ -1629,22 +1629,45 @@ static void rmap_add(struct kvm_vcpu *vcpu, const=
- struct kvm_memory_slot *slot,
->         __rmap_add(vcpu->kvm, cache, slot, spte, gfn, access);
->  }
->
-> +static __always_inline bool kvm_handle_gfn_range_lockless(struct kvm *kv=
-m,
-> +                                                         struct kvm_gfn_=
-range *range,
-> +                                                         typedefme handl=
-er)
-> +{
-> +       gfn_t gfn;
-> +       int level;
-> +       u64 *spte;
-> +       bool ret;
-> +
-> +       walk_shadow_page_lockless_begin(???);
-> +
-> +       for (gfn =3D range->start; gfn < range->end; gfn++) {
-> +               for (level =3D PG_LEVEL_4K; level <=3D KVM_MAX_HUGEPAGE_L=
-EVEL; level++) {
-> +                       spte =3D (void *)READ_ONCE(gfn_to_rmap(gfn, level=
-, range->slot)->val);
-> +
-> +                       /* Skip the gfn if there are multiple SPTEs. */
-> +                       if ((unsigned long)spte & 1)
-> +                               continue;
-> +
-> +                       ret |=3D handler(spte);
-> +               }
-> +       }
-> +
-> +       walk_shadow_page_lockless_end(???);
-> +}
-> +
->  static int __kvm_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range,
->                          bool fast_only)
->  {
->         bool young =3D false;
->
-> -       if (kvm_memslots_have_rmaps(kvm)) {
-> -               if (fast_only)
-> -                       return -1;
-> -
-> -               write_lock(&kvm->mmu_lock);
-> -               young =3D kvm_handle_gfn_range(kvm, range, kvm_age_rmap);
-> -               write_unlock(&kvm->mmu_lock);
-> -       }
-> -
-> -       if (tdp_mmu_enabled)
-> +       if (tdp_mmu_enabled) {
->                 young |=3D kvm_tdp_mmu_age_gfn_range(kvm, range);
-> +               young |=3D kvm_handle_gfn_range_lockless(kvm, range, kvm_=
-age_rmap_fast);
-> +       } else if (!fast_only) {
-> +               write_lock(&kvm->mmu_lock);
-> +               young =3D kvm_handle_gfn_range(kvm, range, kvm_age_rmap);
-> +               write_unlock(&kvm->mmu_lock);
-> +       }
->
->         return (int)young;
->  }
-
-Hmm, interesting. I need to spend a little bit more time digesting this.
-
-Would you like to see this included in v6? (It'd be nice to avoid the
-WAS_FAST stuff....) Should we leave it for a later series? I haven't
-formed my own opinion yet.
-
-> > for a few or even a majority of the pages. Not doing look-around is the=
- same
-> > as doing look-around and finding that no pages are young.
->
-> No, because the former is deterministic and predictable, the latter is no=
-t.
-
-Fair enough. I just meant in terms of the end result.
-
-> > Anyway, I don't think this bit is really all that important unless we
-> > can demonstrate that KVM participating like this actually results in a
-> > measurable win.
->
-> Participating like what?  You've lost me a bit.  Are we talking past each=
- other?
-
-Participating in aging and look-around by trylock()ing instead of
-being lockless.
-
-All I meant was: it's not important to try to figure out how to get
-this non-deterministic trylock()-based "fast" notifier implementation
-to work, because I'm not actually suggesting we actually do this.
-There was some suggestion previously to make arm64 work like this (in
-lieu of a lockless implementation), but I'd need to actually verify
-that this performs/behaves well before actually sending a patch.
-
-> What I am saying is that we do this (note that this is slightly different=
- than
-> an earlier sketch; I botched the ordering of spin_is_contend() in that on=
-e, and
-> didn't account for the page being young in the primary MMU).
->
->         if (pte_young(ptep_get(pte)))
->                 young =3D 1 | MMU_NOTIFY_WAS_FAST;
->
->         young |=3D ptep_clear_young_notify(vma, addr, pte);
->         if (!young)
->                 return false;
->
->         if (!(young & MMU_NOTIFY_WAS_FAST))
->                 return true;
->
->         if (spin_is_contended(pvmw->ptl))
->                 return false;
->
->         /* exclude special VMAs containing anon pages from COW */
->         if (vma->vm_flags & VM_SPECIAL)
->                 return false;
-
-SGTM. I think we're on the same page here.
