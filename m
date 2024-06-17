@@ -1,307 +1,150 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE49157A41;
-	Mon, 17 Jun 2024 17:02:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 265B313AD1E
+	for <linux-doc@vger.kernel.org>; Mon, 17 Jun 2024 17:05:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718643777; cv=none; b=MIUPFBdQ7fE+1JQfB1MALtEqax0iQxe7jfbOvuS4rECPbLRQVDQvQQFDRDdPwUfDVI1cuH+s5v5wGJp55adQ1D84IofN/s+c8tTHxEkbQ9ZfYKW+iYExSgCmIJWgs1mdVTpo0p0JDiBUSOxWSRRm54q3Pj3Xscei1w0tMbriTIs=
+	t=1718643952; cv=none; b=rtFXr28W8BY77JzORnT6jLcXlBi4YuLg8GGaRl2opo9w8PPkKxsLtPveRqhmA7+PJtCgTwNJ5c4nTyKSnEgqhj3XbC0sjsGYwtSE1S6vWFz7mDcQ/6Jrs9h7J61akOw4H2qtKLvPFQ6YLTQtGBd4h7Qowsny08In6PH+MbiisPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718643777; c=relaxed/simple;
-	bh=3JGhG02vtoZ1ijfk8c3Nd/z5OHJyc03LsZJnbgNIDQ8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=C80hqxQcak+e+tT3+i9ruIQB4IaMJO0n25qF5fdPRdE2Shavz9UI4j80idBIj6H/Gv8h2j1bDR7Yv26JInfRlPZrtkt8oq2ppV6+8G+pDP2XnO/nBz1wzzArhQHlmxubR6yZBXGz/jfjbehByfFZfmr3/JIyjiLuakCEK3qldlM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ZQMnO/q2; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1718643952; c=relaxed/simple;
+	bh=nrb8VcEEmqzCZY0AyheJ4dwjXJaxNn/pRIAkPqq0mIc=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=oEOXs4MTXCj43zuWrtNQIw9eR+rZwGJGcYkzKHc+cSOZxfZchrcth3CKGySHsBMhpp0Q2Uo/0HQ0eDu5MUB3fgN2Pbwap5RTzo29UBEjgk3DTrTdiYjJUnvbgH4duDsE9kNKXKQG/nWsDOirgxmWZtfUaS5StS8UY76E5NEJvxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=y5Lmtqz/; arc=none smtp.client-ip=209.85.128.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jiaqiyan.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ZQMnO/q2"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45HE3k1v030595;
-	Mon, 17 Jun 2024 17:02:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	GAb0X9XKILevg0s3K1b3t7RQbb42+rkRZsD2p+B37jg=; b=ZQMnO/q2rII2ut1J
-	sjiucoFbxhEcoBC0oYgZ3OpSJyrdGi+yi2zyKbBWeS0bKhUWe8Mtgc2YxZcfnncl
-	POodabHi8Z/cmIyCGtGFe1TWG2v1YJWQ6HSMTX/Y+C99qsM1ylNl2MX4KhS5bPxr
-	5x7PN0ZFDgquFKgeW2skSgI5WEWGoyu+HW3kxmv7BKPChIeS5jNGSuBh2XBzNSCs
-	ta2hNKHfJeFGjKhXAT3SdIYGGH73uwqeo6BNu1CRwmdA0fB5ILD1yalVwdqDFlTV
-	zWiEY8yjwlPsB9CIZtgFw6235R22FBQj+RZ1hijkFGqD7/YDnTltdlyhHATLIMyD
-	0kEzdA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ytfut1ej8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 17 Jun 2024 17:02:29 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA05.qualcomm.com (8.17.1.19/8.17.1.19) with ESMTPS id 45HH2SH9008951
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 17 Jun 2024 17:02:28 GMT
-Received: from [10.110.93.116] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 17 Jun
- 2024 10:02:27 -0700
-Message-ID: <096d59a0-5e18-092c-c9ae-d98130226f06@quicinc.com>
-Date: Mon, 17 Jun 2024 10:02:26 -0700
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="y5Lmtqz/"
+Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-632588b1bdeso56007167b3.2
+        for <linux-doc@vger.kernel.org>; Mon, 17 Jun 2024 10:05:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1718643949; x=1719248749; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=v7FfUmROvXWPzNqZLzmg1Chpa3PlFFTPBJMZ6K8GE4k=;
+        b=y5Lmtqz/4VmSxMQhjd9pv4F7F9RqAMcRLR5JbhOnN32Yr46WlFr52rDqxfplHzsRWl
+         2r79coUO0Sw9aBZoAIXvWR4QQ1FZyRCmBMJl9GTL/qDOM99TPAjP9YhSkktbxMnNSjk+
+         TRsRz2dW2j01BWTuykv3JshlpCC8qF7Aq270JjR0F7WoRaCwCx99kczhjWX1tbz8anVH
+         CCsr3xfamYlV/l1ynvvRuW7MnUSUoTscHhDhVt9yXxkYJTeYpAfGNepbPkm+XiQkyp10
+         5W5SDF6/ty4T1iAMGz52CC19jKKBcR27k02LqeVIP8mu+KLecSVE0tALoLMr3Ew/EtPd
+         /TdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718643949; x=1719248749;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=v7FfUmROvXWPzNqZLzmg1Chpa3PlFFTPBJMZ6K8GE4k=;
+        b=qJqZ/IYhH1Qyurtmj4bcpVF6+y+LY6RMqbjxSIcd5h0rHmpxZc/NP+EHrdpVTdpqfx
+         Wq6R1/8AOfPxHa/b7MJOjbRps2LYqpMh9AjBVK5ZlCFAqdAkH5Ps3s4052zqzOPwmz7t
+         Mkivic7WEZfzAqTq6J7AYZYGAeJWJd5BrHNbM1WUJram1/fGYSA7l5cDB5ECH8zxCb7b
+         F7ZNSoCkY6u9dfWvuS1XAKumDB386YEikqebVbtfdWnzMghw0/cOTZIvl+xWMvlZAufi
+         BJ02IdjHTNd4wTFmL/lCepXwIByK5bVAfIQx13OsKmbqD82NGHU3Z9sgkr9d0JhEIsCF
+         8p4A==
+X-Forwarded-Encrypted: i=1; AJvYcCXEoGajIslDo7amSvdqMuUyj3jeyx5Pv05tSijBd2f/TPKZAcQI8MKVfxzkkcbcssBqvQn4k/e7DcmDVLJhrARy2WZVlDAdXF0E
+X-Gm-Message-State: AOJu0YyXcy9htNTfgkBuw1wbcjr6zEJto/deo0B9CShPdpF2pAcX+HjE
+	ZpKnJIcyHHrqcTekzcAlEV5UY/FpALd8HME+DRgIYAScY/5PL0xdjl3FsLQyzb70cXtezoEJydP
+	cnQ47yWGZ0w==
+X-Google-Smtp-Source: AGHT+IG6R2axixGQhhzTe7v99HTPI+dX+xPnuaKeod6jwj6XeI/di+Vqf4aBYtfcMff+UqyPSeISN4w3QpoWsQ==
+X-Received: from yjq3.c.googlers.com ([fda3:e722:ac3:cc00:24:72f4:c0a8:272f])
+ (user=jiaqiyan job=sendgmr) by 2002:a05:690c:4805:b0:631:9b3b:525d with SMTP
+ id 00721157ae682-63222b588bdmr27182107b3.4.1718643949130; Mon, 17 Jun 2024
+ 10:05:49 -0700 (PDT)
+Date: Mon, 17 Jun 2024 17:05:42 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v23 32/32] ASoC: doc: Add documentation for SOC USB
-Content-Language: en-US
-To: =?UTF-8?Q?Amadeusz_S=c5=82awi=c5=84ski?=
-	<amadeuszx.slawinski@linux.intel.com>,
-        <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <corbet@lwn.net>,
-        <broonie@kernel.org>, <lgirdwood@gmail.com>, <krzk+dt@kernel.org>,
-        <Thinh.Nguyen@synopsys.com>, <bgoswami@quicinc.com>, <tiwai@suse.com>,
-        <robh@kernel.org>, <gregkh@linuxfoundation.org>
-CC: <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-sound@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <alsa-devel@alsa-project.org>
-References: <20240610235808.22173-1-quic_wcheng@quicinc.com>
- <20240610235808.22173-33-quic_wcheng@quicinc.com>
- <5be51e1f-70c9-4bbc-96fa-1e50e441bd35@linux.intel.com>
- <408d9e8e-0f40-7e66-54be-2f8d2c0783a3@quicinc.com>
- <ca1e1063-e1bd-4e03-a7cd-91985e9954e9@linux.intel.com>
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-In-Reply-To: <ca1e1063-e1bd-4e03-a7cd-91985e9954e9@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 6iEKt_voJesWSGLnIJI_1RjB-WcfLNX5
-X-Proofpoint-GUID: 6iEKt_voJesWSGLnIJI_1RjB-WcfLNX5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-17_14,2024-06-17_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=999
- suspectscore=0 priorityscore=1501 impostorscore=0 phishscore=0 mlxscore=0
- adultscore=0 clxscore=1015 spamscore=0 lowpriorityscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2405170001
- definitions=main-2406170131
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.45.2.627.g7a2c4fd464-goog
+Message-ID: <20240617170545.3820912-1-jiaqiyan@google.com>
+Subject: [PATCH v3 0/3] Userspace controls soft-offline pages
+From: Jiaqi Yan <jiaqiyan@google.com>
+To: nao.horiguchi@gmail.com, linmiaohe@huawei.com, jane.chu@oracle.com, 
+	ioworker0@gmail.com
+Cc: muchun.song@linux.dev, akpm@linux-foundation.org, shuah@kernel.org, 
+	corbet@lwn.net, osalvador@suse.de, rientjes@google.com, duenwen@google.com, 
+	fvdl@google.com, linux-mm@kvack.org, linux-kselftest@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Jiaqi Yan <jiaqiyan@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Amadeusz,
+Correctable memory errors are very common on servers with large
+amount of memory, and are corrected by ECC, but with two
+pain points to users:
+1. Correction usually happens on the fly and adds latency overhead
+2. Not-fully-proved theory states excessive correctable memory
+   errors can develop into uncorrectable memory error.
 
-On 6/13/2024 12:46 AM, Amadeusz Sławiński wrote:
-> On 6/12/2024 9:28 PM, Wesley Cheng wrote:
->> Hi Amadeusz,
->>
->> On 6/12/2024 7:47 AM, Amadeusz Sławiński wrote:
->>> On 6/11/2024 1:58 AM, Wesley Cheng wrote:
->>>
->>> (...)
->>>
->>>> +In the case where the USB offload driver is unbounded, while USB 
->>>> SND is
->>>
->>> unbounded -> unbound
->>>
->>> (...)
->>>
->>>> +SOC USB and USB Sound Kcontrols
->>>> +===============================
->>>> +Details
->>>> +-------
->>>> +SOC USB and USB sound expose a set of SND kcontrols for 
->>>> applications to select
->>>> +and fetch the current offloading status for the ASoC platform sound 
->>>> card. Kcontrols
->>>> +are split between two layers:
->>>> +
->>>> +    - USB sound - Notifies the sound card number for the ASoC 
->>>> platform sound
->>>> +      card that it is registered to for supporting audio offload.
->>>> +
->>>> +    - SOC USB - Maintains the current status of the offload path, 
->>>> and device
->>>> +      (USB sound card and PCM device) information.  This would be 
->>>> the main
->>>> +      card that applications can read to determine offloading 
->>>> capabilities.
->>>> +
->>>> +Implementation
->>>> +--------------
->>>> +
->>>> +**Example:**
->>>> +
->>>> +  **Sound Cards**:
->>>> +
->>>> +    ::
->>>> +
->>>> +      0 [SM8250MTPWCD938]: sm8250 - SM8250-MTP-WCD9380-WSA8810-VA-D
->>>> +                     SM8250-MTP-WCD9380-WSA8810-VA-DMIC
->>>> +      1 [C320M          ]: USB-Audio - Plantronics C320-M
->>>> +                     Plantronics Plantronics C320-M at 
->>>> usb-xhci-hcd.1.auto-1, full speed
->>>> +
->>>> +
->>>> +  **Platform Sound Card** - card#0:
->>>> +
->>>> +    ::
->>>> +
->>>> +      USB Offload Playback Route Card Select  1 (range -1->32)
->>>> +      USB Offload Playback Route PCM Select   0 (range -1->255)
->>>> +      USB Offload Playback Route Card Status  -1 (range -1->32)
->>>> +      USB Offload Playback Route PCM Status   -1 (range -1->255)
->>>> +
->>>> +
->>>> +  **USB Sound Card** - card#1:
->>>> +
->>>> +    ::
->>>> +
->>>> +      USB Offload Playback Capable Card         0 (range -1->32)
->>>> +
->>>> +
->>>> +The platform sound card(card#0) kcontrols are created as part of 
->>>> adding the SOC
->>>> +USB device using **snd_soc_usb_add_port()**.  The following 
->>>> kcontrols are defined
->>>> +as:
->>>> +
->>>> +  - ``USB Offload Playback Route Card Status`` **(R)**: USB sound 
->>>> card device index
->>>> +    that defines which USB SND resources are currently offloaded. 
->>>> If -1 is seen, it
->>>> +    signifies that offload is not active.
->>>> +  - ``USB Offload Playback Route PCM Status`` **(R)**: USB PCM 
->>>> device index
->>>> +    that defines which USB SND resources are currently offloaded. 
->>>> If -1 is seen, it
->>>> +    signifies that offload is not active.
->>>> +  - ``USB Offload Playback Route Card Select`` **(R/W)**: USB sound 
->>>> card index which
->>>> +    selects the USB device to initiate offloading on.  If no value 
->>>> is written to the
->>>> +    kcontrol, then the last USB device discovered card index will 
->>>> be chosen.
->>>
->>> I see only one kcontrol, what if hardware is capable of offloading on 
->>> more cards, is it possible to do offloading on more than one device?
->>>
->>>> +  - ``USB Offload Playback Route PCM Select`` **(R/W)**: USB PCM 
->>>> index which selects
->>>> +    the USB device to initiate offloading on.  If no value is 
->>>> written to the
->>>> +    kcontrol, then the last USB device discovered PCM zero index 
->>>> will be chosen.
->>>> +
->>>> +The USB sound card(card#1) kcontrols are created as USB audio 
->>>> devices are plugged
->>>> +into the physical USB port and enumerated.  The kcontrols are 
->>>> defined as:
->>>> +
->>>> +  - ``USB Offload Playback Capable Card`` **(R)**: Provides the 
->>>> sound card
->>>> +    number/index that supports USB offloading.  Further/follow up 
->>>> queries about
->>>> +    the current offload state can be handled by reading the offload 
->>>> status
->>>> +    kcontrol exposed by the platform card.
->>>> +
->>>
->>>
->>> Why do we need to some magic between cards? I feel like whole 
->>> kcontrol thing is overengineered a bit - I'm not sure I understand 
->>> the need to do linking between cards. It would feel a lot simpler if 
->>> USB card exposed one "USB Offload" kcontrol on USB card if USB 
->>> controller supports offloading and allowed to set it to true/false to 
->>> allow user to choose if they want to do offloading on device.
->>>
->>> (...)
->>
->> Based on feedback from Pierre, what I understood is that for some 
->> applications, there won't be an order on which sound card is 
->> queried/opened first.
->>
-> 
-> Yes if you have multiple cards, they are probed in random order.
-> 
->> So the end use case example given was if an application opened the USB 
->> sound card first, it can see if there is an offload path available.  
->> If there is then it can enable the offload path on the corresponding 
->> card if desired.
->>
-> 
-> This still doesn't explain why you need to link cards using controls. 
-> What would not work with simple "Enable Offload" with true/false values 
-> on USB card that works while you do have above routing controls?
-> 
+Soft offline is kernel's additional solution for memory pages
+having (excessive) corrected memory errors. Impacted page is migrated
+to healthy page if it is in use, then the original page is discarded
+for any future use.
 
-Sorry for the late response.
+The actual policy on whether (and when) to soft offline should be
+maintained by userspace, especially in case of an 1G HugeTLB page.
+Soft-offline dissolves the HugeTLB page, either in-use or free, into
+chunks of 4K pages, reducing HugeTLB pool capacity by 1 hugepage.
+If userspace has not acknowledged such behavior, it may be surprised
+when later mmap hugepages MAP_FAILED due to lack of hugepages.
+In case of a transparent hugepage, it will be split into 4K pages
+as well; userspace will stop enjoying the transparent performance.
 
-I think either way, even with the "Enable Offload" kcontrol in USB SND, 
-we'd need a way to link these cards, because if you have multiple USB 
-audio devices connected, and say... your offload mechanism only supports 
-one stream.  Then I assume we'd still need to way to determine if that 
-stream can be enabled for that USB SND device or not.
+In addition, discarding the entire 1G HugeTLB page only because of
+corrected memory errors sounds very costly and kernel better not
+doing under the hood. But today there are at least 2 such cases:
+1. GHES driver sees both GHES_SEV_CORRECTED and
+   CPER_SEC_ERROR_THRESHOLD_EXCEEDED after parsing CPER.
+2. RAS Correctable Errors Collector counts correctable errors per
+   PFN and when the counter for a PFN reaches threshold
+In both cases, userspace has no control of the soft offline performed
+by kernel's memory failure recovery.
 
-Since the USB SND isn't really the entity maintaining the offload path, 
-I went with the decision to add that route selection to the ASoC 
-platform card. It would have access to all the parameters supported by 
-the audio DSP.
+This patch series give userspace the control of softofflining any page:
+kernel only soft offlines raw page / transparent hugepage / HugeTLB
+hugepage if userspace has agreed to. The interface to userspace is a
+new sysctl called enable_soft_offline under /proc/sys/vm. By default
+enable_soft_line is 1 to preserve existing behavior in kernel.
 
-Thanks
-Wesley Cheng
+Changelog
 
->>>> +Mixer Examples
->>>> +--------------
->>>> +
->>>> +    ::
->>>> +
->>>> +      tinymix -D 0 set 'USB Offload Playback Route Card Select' 2
->>>> +      tinymix -D 0 set 'USB Offload Playback Route PCM Select' 0
->>>> +
->>>> +
->>>> +    ::
->>>> +
->>>> +      tinymix -D 0 get 'USB Offload Playback Route Card Select'
->>>> +      --> 2 (range -1->32)
->>>> +      tinymix -D 0 get 'USB Offload Playback Route PCM Select'
->>>> +      --> 0 (range -1->255)
->>>> +
->>>> +    ::
->>>> +
->>>> +      tinymix -D 0 get 'USB Offload Playback Route Card Status'
->>>> +      --> 2 (range -1->32)   [OFFLD active]
->>>> +      --> -1 (range -1->32) [OFFLD idle]
->>>> +      tinymix -D 0 get 'USB Offload Playback Route PCM Status'
->>>> +      --> 0 (range -1->255)   [OFFLD active]
->>>> +      --> -1 (range -1->255) [OFFLD idle]
->>>> +
->>>> +    ::
->>>> +
->>>> +      tinymix -D 1 get 'USB Offload Playback Capable Card'
->>>> +      --> 0 (range -1->32)
->>>>
->>>
->>> Yes, looking at examples again, I'm still not sure I understand. 
->>> There are two cards and you do linking between them, this feels 
->>> broken by design. From my point of view USB Offload should be 
->>> property of USB card and not involve any other card in a system.
->>>
->>
->> Main benefit to having two cards (keeping one for USB SND and another 
->> for the ASoC platform sound card) is that current applications won't 
->> break.  The behavior is the same, in that if something opens the USB 
->> sound card, it will go through the same non-offloaded path.  During 
->> initial reviews, I think this was a big point where folks wanted the 
->> USB PCM path to still be an option.
->>
-> 
-> I'm not against having two cards, in fact I hope that USB card looks and 
-> behaves the same as before this patch set, with only difference being 
-> controls for enabling offload.
-> 
->> If applications want to add the offload capabilities to its 
->> environment, they can enable it as an additional feature.
-> 
-> That sounds fine to me.
-> 
+v2 => v3:
+* incorporate feedbacks from Miaohe Lin <linmiaohe@huawei.come>,
+  Lance Yang <ioworker0@gmail.com>, Oscar Salvador <osalvador@suse.de>,
+  and David Rientjes <rientjes@google.com>.
+* release potential refcount if enable_soft_offline is 0.
+* soft_offline_page() returns EOPNOTSUPP if enable_soft_offline is 0.
+* refactor hugetlb-soft-offline.c, for example, introduce
+  test_soft_offline_common to reduce repeated code.
+* rewrite enable_soft_offline's documentation, adds more details about
+  the cost of soft-offline for transparent and hugetlb hugepages, and
+  components that are impacted when enable_soft_offline becomes 0.
+* fix typos in commit messages.
+* v3 is still based on commit 83a7eefedc9b ("Linux 6.10-rc3").
+
+v1 => v2:
+* incorporate feedbacks from both Miaohe Lin <linmiaohe@huawei.com> and
+  Jane Chu <jane.chu@oracle.com>.
+* make the switch to control all pages, instead of HugeTLB specific.
+* change the API from
+  /sys/kernel/mm/hugepages/hugepages-${size}kB/softoffline_corrected_errors
+  to /proc/sys/vm/enable_soft_offline.
+* minor update to test code.
+* update documentation of the user control API.
+* v2 is based on commit 83a7eefedc9b ("Linux 6.10-rc3").
+
+Jiaqi Yan (3):
+  mm/memory-failure: userspace controls soft-offlining pages
+  selftest/mm: test enable_soft_offline behaviors
+  docs: mm: add enable_soft_offline sysctl
+
+ Documentation/admin-guide/sysctl/vm.rst       |  33 +++
+ mm/memory-failure.c                           |  22 +-
+ tools/testing/selftests/mm/.gitignore         |   1 +
+ tools/testing/selftests/mm/Makefile           |   1 +
+ .../selftests/mm/hugetlb-soft-offline.c       | 229 ++++++++++++++++++
+ tools/testing/selftests/mm/run_vmtests.sh     |   4 +
+ 6 files changed, 288 insertions(+), 2 deletions(-)
+ create mode 100644 tools/testing/selftests/mm/hugetlb-soft-offline.c
+
+-- 
+2.45.2.627.g7a2c4fd464-goog
+
