@@ -1,83 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 152541953A0;
-	Mon, 17 Jun 2024 11:58:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E94302F32;
+	Mon, 17 Jun 2024 12:51:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718625490; cv=none; b=X2XkOnux1T4mae9NALHmCaHx1TJOTzyYSb8kjxPDWmOog09mWLNhOmVHMKZAx33wD2XnIH9KKSz9TE6a/2ZxTi9CHyxUkGeS6RCXOipa9tSC4L56mKebekZo18gSSkVVVC0/uHoZByIoRTNAmJTtSoBZt7DxHpCxevCqepnkdog=
+	t=1718628676; cv=none; b=lo1EDe9JYcnhKL3k/6w8mGxpOi6r0iFeMK66nePFGcQs3GuxLGDVOcvBM51lbGEduD0FZrN9fSo6GHoY0aFS10w80l1bSl7df1/FX+y0E9vIlIudN/ot6VTDM72J0DSMUe9RtJeyBmXmdYiRV3Zm3L9KH2vsqFq0/J/gH1qgdH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718625490; c=relaxed/simple;
-	bh=UVjuIfIPKEA9G9EFbnMBUpKmPmVR/D3hyqD2TIEVKmo=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h8yTt3roHOSD9/2pNwlwP97Ogbnav571/Pa+XUxUNddy5R33QpRGt4fsarG48XRa8uqKc94J9LAJGmxJpt8uPu9BBkudvrhNEz1sMRxzZvYM4+mJ00+g2a31PgX66ngYu8yZi8bEsgTEBTFEwPSFYEwJjDu0lS2RGFnJMfFnWwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=STvlKhCs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718628676; c=relaxed/simple;
+	bh=GQBIFm5almhIw51sYg0vmZ+BK2iQ71Q6i4phxIiLcTY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=HcIZtuCxSjBf1wglPiSp1hz2h4VVdZIYpkylznYj0G+qORGQo+mJuSpN2NNm2cnJAMIs+CvSzUYfXJ7FVg6a/I26syvlR+PPIg4Ugq867CvuKYjKEgD+igPHinPRLRniQk2d8IsK15G7MDOg+joHWQJfJ2tWgQ/qRHupnqXSP+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b=VsGMHQcZ; arc=none smtp.client-ip=150.107.74.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="STvlKhCs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F0B0C4AF1D;
-	Mon, 17 Jun 2024 11:58:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718625489;
-	bh=UVjuIfIPKEA9G9EFbnMBUpKmPmVR/D3hyqD2TIEVKmo=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=STvlKhCs7HGc815VSOA+wcWFy0E04ZmSRn/A2Jvg9zmmEB6qaV1VOt244LQt6uiM2
-	 t8YaRCOw63ob7XC03nX63kxzdmPquITse6mbUQRHdCIarcGDKBSOHTKDTRXqDSaUZB
-	 mh2xnxnUOG+0rLZQBETEI6C3kR7YSL23QpYfpXeeMfoEI56v6mRMB9+lIJ/jHkZqGO
-	 CZhR1bZIwuDHuXqji8NqU4Bg6WayrfV6x3jDCHm2fCYsuIxyuzKHRvE1HnvWZqmng6
-	 PzAPbwCNp6k6osi6icrDyuO2Xhv+Qp7aRJe8+SSDhR8zzfBPOEU/BQjlzNOTHFyzmf
-	 gpdlS2FWfOiqw==
-Date: Mon, 17 Jun 2024 13:58:05 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	linux-i2c@vger.kernel.org, Easwar Hariharan <eahariha@linux.microsoft.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 5/6] docs: i2c: summary: document 'local' and 'remote'
- targets
-Message-ID: <y34k2k25xdr5z4v7oejp4da237s4o5qym5npihyydwlbsdh75c@vhmfl7sw3pbm>
-References: <20240614081239.7128-8-wsa+renesas@sang-engineering.com>
- <20240614081239.7128-13-wsa+renesas@sang-engineering.com>
- <4zxr4rlqnjqbqh3oxmd2ufqi6uk4pxa3tniuya5pgjtqi6tswc@utq4r2zt6z6b>
- <ed75fyc2xcsnwubq42eposf6ayt5aj2jmqz6mthugk6vm2zpi4@qqwlmuwayoo5>
+	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="VsGMHQcZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+	s=201909; t=1718628667;
+	bh=ksNm0n7vWVSacMAhdyZonglFoGiO3VwbDK5VPpn10LU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=VsGMHQcZmFQlJ8S0Q10/1sZLNumhCV+J+AhUyQfqoEsPdprNmQWnItth2Nda+WiiR
+	 i1OFKN+sqJhTDq9tXep04oZ+fJFDTOO/tsLa3oMW5kRIipl8NWP7oI3Qv0+cZqYufQ
+	 W/apLvq0CNqHdEQ00JQJseK8X7YbRd4qv14AkwulTm7cJpxYeapgwubEectMGrTXdN
+	 HoVpNlksrxkeKiICLhyQbUDfZ/bu41bmKNiggrFr00WQc+RpG768315C6I9/jo4BXa
+	 I3AsBbEsWfZhEkzZtLMfYl7LImgSHt1f6yvKWnBjx2vIB3lYm4jmMdUre4OK/u1c4g
+	 3uJA/PjCa6s0g==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4W2qWD3sKmz4w2K;
+	Mon, 17 Jun 2024 22:51:04 +1000 (AEST)
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Thomas Huth <thuth@redhat.com>, linux-doc@vger.kernel.org, Nathan Lynch
+ <nathanl@linux.ibm.com>
+Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ linuxppc-dev@lists.ozlabs.org, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>, "Naveen N . Rao"
+ <naveen.n.rao@linux.ibm.com>
+Subject: Re: [PATCH] Documentation: Remove the unused "topology_updates"
+ from kernel-parameters.txt
+In-Reply-To: <20240617060848.38937-1-thuth@redhat.com>
+References: <20240617060848.38937-1-thuth@redhat.com>
+Date: Mon, 17 Jun 2024 22:51:03 +1000
+Message-ID: <87frtb68co.fsf@mail.lhotse>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ed75fyc2xcsnwubq42eposf6ayt5aj2jmqz6mthugk6vm2zpi4@qqwlmuwayoo5>
+Content-Type: text/plain
 
-Hi Wolfram,
+Thomas Huth <thuth@redhat.com> writes:
+> The "topology_updates" switch has been removed four years ago in commit
+> c30f931e891e ("powerpc/numa: remove ability to enable topology updates"),
+> so let's remove this from the documentation, too.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 6 ------
+>  1 file changed, 6 deletions(-)
 
-On Sun, Jun 16, 2024 at 09:14:40PM GMT, Wolfram Sang wrote:
-> > I am not a big fan of the use of the word client. It's not used
-> > anywhere in the documentation and it's too generic as a name for
-> > giving it a specific meaning.
-> > 
-> > I've seen already some confusion amongst reviewers and
-> > maintainers when Easwar sent the patch in drm.
-> > 
-> > If it depends on me, I would stick to the only controller/target
-> > and render obsolet the use of the word "client" in the i2c
-> > context.
-> 
-> Have you read the paragraph "Synonyms" from patch 6? I don't think we
-> can obsolete client because:
-> 
-> $ git grep 'struct i2c_client \*client' | wc -l
-> 6100
+Oops, thanks for cleaning it up.
 
-yes, I know, but I would be happy if we start changing i2c_client
-with i2c_target and at least saying that "target" is the
-preferred name for what was called "client" until now.
+Acked-by: Michael Ellerman <mpe@ellerman.id.au> (powerpc)
 
-I think we should start somewhere from using the new naming
-provided by the documentation.
+cheers
 
-Other than that, I'm not blocking the patch, it's a great
-improvement! I'm just trying use this chance to discuss and bring
-up new opinions.
-
-Thanks,
-Andi
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index f58001338860..b75852f1a789 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -6600,12 +6600,6 @@
+>  			e.g. base its process migration decisions on it.
+>  			Default is on.
+>  
+> -	topology_updates= [KNL, PPC, NUMA]
+> -			Format: {off}
+> -			Specify if the kernel should ignore (off)
+> -			topology updates sent by the hypervisor to this
+> -			LPAR.
+> -
+>  	torture.disable_onoff_at_boot= [KNL]
+>  			Prevent the CPU-hotplug component of torturing
+>  			until after init has spawned.
+> -- 
+> 2.45.2
