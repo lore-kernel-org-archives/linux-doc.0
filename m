@@ -1,74 +1,169 @@
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABF957492;
-	Mon, 17 Jun 2024 08:17:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.190
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0B31171B0;
+	Mon, 17 Jun 2024 08:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718612223; cv=none; b=HOplmK59pBELSi2JBllugGvwF0COs5lllMgFAgYIBf1dukzKyWVYquUPALER2FDNQxlXbXhAqGQxtU57CqlLdL/URKG04nqGb/GjtmiPy46FftgbcM94f+vRKK7yctvkVkTd01GlZOu7evY6AdBDh0rAWkMaaHgTs0XdorhiFr4=
+	t=1718614103; cv=none; b=i82A1PEczVzbUT6kYg05Qk0sN0x0hiuyAGo7nJvOshVGS8c7OV0RlqKlZjynXWxdGA5uoS/ZYoCLhsQ8WOYcOKF1FpX1HG86ZU9cRAAPsuok83GtUpFL2mtq999iv3TsB+GoC7WHv1xN155tll+J1XMQndgmAGdWW3WJx+ZZib8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718612223; c=relaxed/simple;
-	bh=0Q57YgTwQK5/cF3o7Oawjt7yKEK15mDDg+PrsDfBLio=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=F9h5y+dREoNzPW3TqGXpnwQvwEJCn6g6lnhn89zxptXtyvgNOjQpIIThe/v0E6O9swxTSS3dVZyq+AsrYJcixyXQP0WaiLHmPuxoMgtESecLSPeGSNpUmmn0tbHvll/03Up0lp3zrc9NzVRukZs/c/creu5R1SQ6yzM+gsajxOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.190
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.163])
-	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4W2jLN5JXsz2Ck7Y;
-	Mon, 17 Jun 2024 16:13:00 +0800 (CST)
-Received: from canpemm500002.china.huawei.com (unknown [7.192.104.244])
-	by mail.maildlp.com (Postfix) with ESMTPS id A8C96180066;
-	Mon, 17 Jun 2024 16:16:52 +0800 (CST)
-Received: from [10.173.127.72] (10.173.127.72) by
- canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 17 Jun 2024 16:16:51 +0800
-Subject: Re: [PATCH v2 1/3] mm/memory-failure: userspace controls
- soft-offlining pages
-To: Oscar Salvador <osalvador@suse.de>, Jiaqi Yan <jiaqiyan@google.com>, Lance
- Yang <ioworker0@gmail.com>
-CC: <nao.horiguchi@gmail.com>, <jane.chu@oracle.com>, <muchun.song@linux.dev>,
-	<akpm@linux-foundation.org>, <shuah@kernel.org>, <corbet@lwn.net>,
-	<rientjes@google.com>, <duenwen@google.com>, <fvdl@google.com>,
-	<linux-mm@kvack.org>, <linux-kselftest@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>
-References: <20240611215544.2105970-1-jiaqiyan@google.com>
- <20240611215544.2105970-2-jiaqiyan@google.com>
- <CABzRoyYGY2EgT5wC9o98Vn_auh59poQ-OOnKceCiWQAJrbZoBw@mail.gmail.com>
- <CACw3F5134NmmLNr4zXHV1h0sLMTGcAJLpApQ7Fv_-DtUieD7zw@mail.gmail.com>
- <786a08ff-aa7e-49d5-f589-0a405c7e1a34@huawei.com>
- <ea8c5e390bd18c532b768dd9eeaa105a@suse.de>
-From: Miaohe Lin <linmiaohe@huawei.com>
-Message-ID: <8faf45d3-0722-2b9e-f641-9d081aad5a82@huawei.com>
-Date: Mon, 17 Jun 2024 16:16:51 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+	s=arc-20240116; t=1718614103; c=relaxed/simple;
+	bh=ahwV9Ju+1SVJkhYWRx0d6aXsj0gx6TEzit8ir2IL5ek=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z/yUdiPAaF5900D74dtLa9tTeTnj/oUrtPusgq+7JQsPpuxY6sX/iqyLSDvllj4n4l88t5ZLw2sXJa5orXrN5ow1uKlq3cJWVPW2z47Ochdr/keKOP0G496PWrkAJ/GBlWQmjon2tWsA+BTml47vbQTMM72gmHtQSlFFTdeLy0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L00F5III; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L00F5III"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89ABFC3277B;
+	Mon, 17 Jun 2024 08:48:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718614102;
+	bh=ahwV9Ju+1SVJkhYWRx0d6aXsj0gx6TEzit8ir2IL5ek=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=L00F5IIIJU/Fb9oPuacRQh6JHjKe9JMFXskYnMjttHXSAgJ8ou7NmS/FIeYizdwmc
+	 NHwqNJFdtXYG4l18e+GzQPvHj074YOzawnPrd0wMw/YrhT4AUarBDd37pcSzQljmyx
+	 /RPuuCXHchprbHKk80lNIYkfA0YqRLX9c1MWLkwFkZAaEn3W9nJGU474yqI/vLzo2Q
+	 La5U7uKtpsAMJ9tlwVXejVZRkUC0zz9fOX/iFpMvvBh1RIxE8Mu9tAvdM9tANRVwMz
+	 7lo8ttXGiZ3Nd2qoiRXa8lt3CeOMGfHiRuSwsnPccpvWn4ZGXU8theqd3tPS/9R428
+	 H8ipiRkNtR0kQ==
+Date: Mon, 17 Jun 2024 10:48:15 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Adrian Ratiu <adrian.ratiu@collabora.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org, 
+	kernel@collabora.com, gbiv@google.com, ryanbeltran@google.com, inglorion@google.com, 
+	ajordanr@google.com, jorgelo@chromium.org, Jann Horn <jannh@google.com>, 
+	Kees Cook <keescook@chromium.org>, Jeff Xu <jeffxu@google.com>, Kees Cook <kees@kernel.org>
+Subject: Re: [PATCH v6 1/2] proc: pass file instead of inode to proc_mem_open
+Message-ID: <20240617-emanzipation-ansiedeln-6fd2ae7659c8@brauner>
+References: <20240613133937.2352724-1-adrian.ratiu@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <ea8c5e390bd18c532b768dd9eeaa105a@suse.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- canpemm500002.china.huawei.com (7.192.104.244)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20240613133937.2352724-1-adrian.ratiu@collabora.com>
 
-On 2024/6/17 15:51, Oscar Salvador wrote:
-> On 2024-06-17 09:31, Miaohe Lin wrote:
+On Thu, Jun 13, 2024 at 04:39:36PM GMT, Adrian Ratiu wrote:
+> The file struct is required in proc_mem_open() so its
+> f_mode can be checked when deciding whether to allow or
+> deny /proc/*/mem open requests via the new read/write
+> and foll_force restriction mechanism.
 > 
->> IMHO, it might not be suitable to use EAGAIN. Because it means
->> "Resource temporarily unavailable" and
->> this can be solved by simply retry later without any further actions
->> taken. But I might be wrong.
+> Thus instead of directly passing the inode to the fun,
+> we pass the file and get the inode inside it.
 > 
-> We usually use 'EOPNOTSUPP' when we fail due to a setting not being set.
-> EPERM is more for a capability matter.
+> Cc: Jann Horn <jannh@google.com>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Christian Brauner <brauner@kernel.org>
+> Cc: Jeff Xu <jeffxu@google.com>
+> Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+> Reviewed-by: Kees Cook <kees@kernel.org>
+> ---
 
-Thanks Oscar. So we should return EOPNOTSUPP here.
+I've tentatively applies this patch to #vfs.procfs.
+One comment, one question:
 
-Thanks.
-.
+> No changes in v6
+> ---
+>  fs/proc/base.c       | 6 +++---
+>  fs/proc/internal.h   | 2 +-
+>  fs/proc/task_mmu.c   | 6 +++---
+>  fs/proc/task_nommu.c | 2 +-
+>  4 files changed, 8 insertions(+), 8 deletions(-)
+> 
+> diff --git a/fs/proc/base.c b/fs/proc/base.c
+> index 72a1acd03675..4c607089f66e 100644
+> --- a/fs/proc/base.c
+> +++ b/fs/proc/base.c
+> @@ -794,9 +794,9 @@ static const struct file_operations proc_single_file_operations = {
+>  };
+>  
+>  
+> -struct mm_struct *proc_mem_open(struct inode *inode, unsigned int mode)
+> +struct mm_struct *proc_mem_open(struct file  *file, unsigned int mode)
+>  {
+> -	struct task_struct *task = get_proc_task(inode);
+> +	struct task_struct *task = get_proc_task(file->f_inode);
+
+Comment: This should use file_inode(file) but I've just fixed that when I
+applied.
+
+Question: Is this an equivalent transformation. So is the inode that was
+passed to proc_mem_open() always the same inode as file_inode(file)?
+
+>  	struct mm_struct *mm = ERR_PTR(-ESRCH);
+>  
+>  	if (task) {
+> @@ -816,7 +816,7 @@ struct mm_struct *proc_mem_open(struct inode *inode, unsigned int mode)
+>  
+>  static int __mem_open(struct inode *inode, struct file *file, unsigned int mode)
+>  {
+> -	struct mm_struct *mm = proc_mem_open(inode, mode);
+> +	struct mm_struct *mm = proc_mem_open(file, mode);
+>  
+>  	if (IS_ERR(mm))
+>  		return PTR_ERR(mm);
+> diff --git a/fs/proc/internal.h b/fs/proc/internal.h
+> index a71ac5379584..d38b2eea40d1 100644
+> --- a/fs/proc/internal.h
+> +++ b/fs/proc/internal.h
+> @@ -295,7 +295,7 @@ struct proc_maps_private {
+>  #endif
+>  } __randomize_layout;
+>  
+> -struct mm_struct *proc_mem_open(struct inode *inode, unsigned int mode);
+> +struct mm_struct *proc_mem_open(struct file *file, unsigned int mode);
+>  
+>  extern const struct file_operations proc_pid_maps_operations;
+>  extern const struct file_operations proc_pid_numa_maps_operations;
+> diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
+> index f8d35f993fe5..fe3b2182b0aa 100644
+> --- a/fs/proc/task_mmu.c
+> +++ b/fs/proc/task_mmu.c
+> @@ -210,7 +210,7 @@ static int proc_maps_open(struct inode *inode, struct file *file,
+>  		return -ENOMEM;
+>  
+>  	priv->inode = inode;
+> -	priv->mm = proc_mem_open(inode, PTRACE_MODE_READ);
+> +	priv->mm = proc_mem_open(file, PTRACE_MODE_READ);
+>  	if (IS_ERR(priv->mm)) {
+>  		int err = PTR_ERR(priv->mm);
+>  
+> @@ -1030,7 +1030,7 @@ static int smaps_rollup_open(struct inode *inode, struct file *file)
+>  		goto out_free;
+>  
+>  	priv->inode = inode;
+> -	priv->mm = proc_mem_open(inode, PTRACE_MODE_READ);
+> +	priv->mm = proc_mem_open(file, PTRACE_MODE_READ);
+>  	if (IS_ERR(priv->mm)) {
+>  		ret = PTR_ERR(priv->mm);
+>  
+> @@ -1754,7 +1754,7 @@ static int pagemap_open(struct inode *inode, struct file *file)
+>  {
+>  	struct mm_struct *mm;
+>  
+> -	mm = proc_mem_open(inode, PTRACE_MODE_READ);
+> +	mm = proc_mem_open(file, PTRACE_MODE_READ);
+>  	if (IS_ERR(mm))
+>  		return PTR_ERR(mm);
+>  	file->private_data = mm;
+> diff --git a/fs/proc/task_nommu.c b/fs/proc/task_nommu.c
+> index bce674533000..a8ab182a4ed1 100644
+> --- a/fs/proc/task_nommu.c
+> +++ b/fs/proc/task_nommu.c
+> @@ -259,7 +259,7 @@ static int maps_open(struct inode *inode, struct file *file,
+>  		return -ENOMEM;
+>  
+>  	priv->inode = inode;
+> -	priv->mm = proc_mem_open(inode, PTRACE_MODE_READ);
+> +	priv->mm = proc_mem_open(file, PTRACE_MODE_READ);
+>  	if (IS_ERR(priv->mm)) {
+>  		int err = PTR_ERR(priv->mm);
+>  
+> -- 
+> 2.44.2
+> 
