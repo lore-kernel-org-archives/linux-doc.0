@@ -1,49 +1,49 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76EBE15F41B;
-	Mon, 17 Jun 2024 22:15:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C03D5225AE;
+	Mon, 17 Jun 2024 22:23:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718662516; cv=none; b=BIRkph4KYCEs9LTE/Wp5XIylv2Z/aPipZ3XXN2m8MYLvOS5K8gJmTWRFWYYlJPlK+AjIjJ8Pzj70HHEvvv9jXoFcAUdRDk6cdeU70QKbDWB0585d4KbCJZwPxYFEuQG9MsuUT24ghbqVTgegQIUq0sTemcwxorgF88RC1/O7AEo=
+	t=1718663027; cv=none; b=p8lcFz6i+EqDcdqEnMJXv1KXBqhG3rd0yvs7wzfc3+95yEaR9/UJv/gZ9IUQjaGYwhsMrQZZ0apnekoUHPh2/Y5vz/+l/nDsnVoe+EXg+kX4eG0Rrb3Irt1Jog5EEJe/XQuOkWu+34oVISpIGjq2+ALXilQrnLmRgzwiPqG/AnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718662516; c=relaxed/simple;
-	bh=QawBxSmaG1rW+JoAn4YURT5IletD2lkYLL7l9l6JIaM=;
+	s=arc-20240116; t=1718663027; c=relaxed/simple;
+	bh=+m1FI4YZWYTG5dHJwdsfDDQP9/BhQmKih3ks71du5w4=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=M3f1zlYR4js8ck2TgFmWOEnIDWn72Lq/XRozwH62RGujdz+72kr93dQ7v4CxhYogWp/rc2xyRVq/rcqdBxc6lbalagxQ0JiIjAchA9NN18Bn3sPkDkuamJAkc3elG/iB3BBNKRGZGtxiZos7I8iL8KIZ6WiDzjEvk3+gDPBC25Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=NHAiLoOM; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=Xu74FbkNmPdxJacuYEfF4x+IltXD2QuuLZ4ceMVcgXKX0cvbEiDVhBgeYlWYkdhI5TZjLb0Rl1cBhcOZb11YboTPAqBVR3xV0rBwqTV5a8wTA1NDbCOlUN9VXPxESSEAQXRrqqOmDeaPpVAJZ3r6YJY+9aMf6DmMll/Let3orKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=LFTH57Tj; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="NHAiLoOM"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7FDDC45E08
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="LFTH57Tj"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BB64645E08
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1718662513; bh=QHqGjvAN4suq+rrm6phkxSHCLhE+gyp1yobzWI4P77E=;
+	t=1718663024; bh=6HZvwV8D7nXzfDf1P32daZRDFpvUQkxvphQYZ93xvVM=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=NHAiLoOMLUrqHtPiZX+ZoFTIAyE6Vx7JdmuAh2bvoKQIoO+0dGMXtzGKY5t9+SIKX
-	 +c8t8yTs0BtHoNKtXtHim3l9EW9sDUXS3sY7l4+iifFasyK0kAOyKdeRBljLU+CdVe
-	 /eRHJKZINTLxU3pfw/Yt5a3bzqklQgzROiz9Z0054lXIbK3QgmyVz3SF6o3bXxYST6
-	 fZrH0ODe9Mr1YA67O4eFpljr1gqGxTtql53GW28iNO+jA/UpZva6ENZ9UkgDFIVBqq
-	 qSPvZLuj7sER0rt6M+By/EX7BXeicFVPUY0nhB6LV9TCuX1Z0gZp7/u8KyGSP+ohP1
-	 hNNNrCjGc4QrA==
+	b=LFTH57TjzW+PjfoGXJczqDrgZV5Z1pxzSXYaclWmTL3lNjz+TL1aUED6B6frxTLq7
+	 k/FZwneGrmrmD5RIJN0Fk2Pcntl/ReEMXXknGQ/p7BSD2dP3oI3ikx307NWhcnhJ9z
+	 PJRFve2fB6GvfAY1QNWAaerYHxve20y74dyjANLmiAX21zgJbXFsnrvX6YWaVOzEaX
+	 nPoiV2DDqcSbe92zZ99xFk1u+xq6oHbwTVHCGRE7p7yaIRTQ2pVSTqdgrdfJjLKVIK
+	 NvMg5mSyQncnqhdoR/8/GVPca2Gv1A04Rn5Z+56z74Xk1FqFxX0TRWdoLtI3gY31Sp
+	 Er3NJTVSq1cCg==
 Received: from localhost (c-24-9-249-71.hsd1.co.comcast.net [24.9.249.71])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 7FDDC45E08;
-	Mon, 17 Jun 2024 22:15:13 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id BB64645E08;
+	Mon, 17 Jun 2024 22:23:44 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Thomas Huth <thuth@redhat.com>, linux-doc@vger.kernel.org,
- netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>
-Cc: linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: Remove "ltpc=" from the
- kernel-parameters.txt
-In-Reply-To: <20240614084633.560069-1-thuth@redhat.com>
-References: <20240614084633.560069-1-thuth@redhat.com>
-Date: Mon, 17 Jun 2024 16:15:12 -0600
-Message-ID: <877ceni5cf.fsf@trenco.lwn.net>
+To: Thomas Huth <thuth@redhat.com>, linux-doc@vger.kernel.org, Thomas
+ Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Dave Hansen
+ <dave.hansen@linux.intel.com>, x86@kernel.org
+Cc: linux-kernel@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>, Arnd
+ Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH] Documentation: Remove "mfgpt_irq=" from the
+ kernel-parameters.txt file
+In-Reply-To: <20240614090306.561464-1-thuth@redhat.com>
+References: <20240614090306.561464-1-thuth@redhat.com>
+Date: Mon, 17 Jun 2024 16:23:43 -0600
+Message-ID: <8734pbi4y8.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,29 +54,34 @@ Content-Type: text/plain
 
 Thomas Huth <thuth@redhat.com> writes:
 
-> The string "ltpc" cannot be found in the source code anymore. This
-> kernel parameter likely belonged to the LocalTalk PC card module
-> which has been removed in commit 03dcb90dbf62 ("net: appletalk:
-> remove Apple/Farallon LocalTalk PC support"), so we should remove
-> it from kernel-parameters.txt now, too.
+> The kernel parameter mfgpt_irq has been removed in 2009 already in the
+> commit c95d1e53ed89 ("cs5535: drop the Geode-specific MFGPT/GPIO code").
+> Time to remove it from the documentation now, too.
 >
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  Documentation/admin-guide/kernel-parameters.txt | 3 ---
->  1 file changed, 3 deletions(-)
+>  Documentation/admin-guide/kernel-parameters.txt | 4 ----
+>  1 file changed, 4 deletions(-)
 >
 > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 423427bf6e49..a9b905bbc8ca 100644
+> index a9b905bbc8ca..756ac1e22813 100644
 > --- a/Documentation/admin-guide/kernel-parameters.txt
 > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -3184,9 +3184,6 @@
->  			unlikely, in the extreme case this might damage your
->  			hardware.
+> @@ -3426,10 +3426,6 @@
+>  			deep    - Suspend-To-RAM or equivalent (if supported)
+>  			See Documentation/admin-guide/pm/sleep-states.rst.
 >  
-> -	ltpc=		[NET]
-> -			Format: <io>,<irq>,<dma>
+> -	mfgpt_irq=	[IA-32] Specify the IRQ to use for the
+> -			Multi-Function General Purpose Timers on AMD Geode
+> -			platforms.
 > -
+>  	mfgptfix	[X86-32] Fix MFGPT timers on AMD Geode platforms when
+>  			the BIOS has incorrectly applied a workaround. TinyBIOS
+>  			version 0.98 is known to be affected, 0.99 fixes the
 
-Applied, thanks.
+So I am unable to get this one to apply; which kernel version did you
+base it on?
+
+Thanks,
 
 jon
