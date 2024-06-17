@@ -1,105 +1,158 @@
-Received: from mout.web.de (mout.web.de [212.227.17.12])
+Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8382819BC6;
-	Mon, 17 Jun 2024 06:57:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893B2E554;
+	Mon, 17 Jun 2024 07:31:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718607474; cv=none; b=InUUqv6VPwpyd+r9KVmTI8ZCfw7MBbHv4DJAqtgDiOQfrDNq+1MbdrpgDzOezyktoiRyXxVM+wYR1InQgpbkXkOym3o4D1OboNgLDTsBZXgqLYHv9uIrRkBU583wjg8uH2ow2C/9ehXTdULsfxadzIETNNZ/weXt6RZ9GxiWK3U=
+	t=1718609501; cv=none; b=hdYcMfVlfk0+GWEay8mlbPfsq3lDL1JvZZZYnOB2lUgEZYBV+QDzVVLo/MOVp+sCUVIsS69JNrpvnigUJitc0fZIa51cgTpFrgWpbjr4U7nOSIgIEDPz3TyaSp5b6Fv0Saq1JKqen/4TFS+ZpErWH6zS0IC/bDeHE8eTZcWJP/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718607474; c=relaxed/simple;
-	bh=cswSiNhzuIX+L0XOTRE4WAI/IsUzciePZm+xz0kFYY4=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=YeGZGS+vkjPko2CFrut0QqIqRETrO1I2XT6zpCvHz2CqKBx4hfeiJIU2onzN0ppipe5GJ8GE1J5G8j+ty/ANQl+mDh2f4wRLLv4oO0opA5/5fd4KoUwiqxKRyrHfDxcedPBYsfTwMc8IVoPvv01qZXWo9SauzRWSGPkM6d+UWIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=GCj5plbZ; arc=none smtp.client-ip=212.227.17.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="GCj5plbZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1718607423; x=1719212223; i=markus.elfring@web.de;
-	bh=xYrgvg9WCy9r9u5H7qn2mdlOD8NoWnHTZFUH9pAD1xQ=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=GCj5plbZrqt60p1OqOM56a4JCCTVsMe2MCHDuSnFcWd8H3SKEjRtvgUhpHPlFxr0
-	 AfNvgrBsAVU5VugDCyQjEqz/GpSYKBrvvNYHzyjM8/XCVMK60t6ckdPrCVZEx4SiP
-	 hID6uSohRtcOm6Iq4vpjEAWDBU7x4Jdr+X0AUchPul/0qrQy3o3ow1lhfeewTJHw1
-	 rdHz6GzEZexLUUEiQVYIqbaJqH+27pgbYSUCtFdX6jlPtdc2h1sUL1znF+GVfwCa4
-	 I8wvZiQLbnL/b3xoFHxRHDuPApPDbYO3891wggaB+v0sy78zV1jbgSSlrTfqgxXHq
-	 oVH5Nnt339gSg7nUoQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MEUS0-1sBxPZ0DKk-000iy7; Mon, 17
- Jun 2024 08:57:03 +0200
-Message-ID: <6a41fd88-5496-462a-86d2-446c2990fcf7@web.de>
-Date: Mon, 17 Jun 2024 08:56:50 +0200
+	s=arc-20240116; t=1718609501; c=relaxed/simple;
+	bh=HH93OH7bC83B/rZnH0xOE52UI0ZgAtyTh5roLNoIgeY=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=YBjzoGyeB+b6NVRZl3j3yKUPe9wZOH6BoWcGLWMs72F9e5cJXqQLAwYVfh9W3VIUzber1wmYFxondCCXpi5av5zqkkc5hM/BKXNQtPW0RvStTudGCq/2CNoro1mclLHs6ZnEQK86waMTPF8I2faYmvkOzceOwsIPKdNzUcNsVCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.174])
+	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4W2hLQ6WLxzPr9c;
+	Mon, 17 Jun 2024 15:27:58 +0800 (CST)
+Received: from canpemm500002.china.huawei.com (unknown [7.192.104.244])
+	by mail.maildlp.com (Postfix) with ESMTPS id 542171402CA;
+	Mon, 17 Jun 2024 15:31:29 +0800 (CST)
+Received: from [10.173.127.72] (10.173.127.72) by
+ canpemm500002.china.huawei.com (7.192.104.244) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Mon, 17 Jun 2024 15:31:28 +0800
+Subject: Re: [PATCH v2 1/3] mm/memory-failure: userspace controls
+ soft-offlining pages
+To: Jiaqi Yan <jiaqiyan@google.com>
+CC: <nao.horiguchi@gmail.com>, <jane.chu@oracle.com>, <muchun.song@linux.dev>,
+	<akpm@linux-foundation.org>, <shuah@kernel.org>, <corbet@lwn.net>,
+	<osalvador@suse.de>, <rientjes@google.com>, <duenwen@google.com>,
+	<fvdl@google.com>, <linux-mm@kvack.org>, <linux-kselftest@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, Lance Yang <ioworker0@gmail.com>
+References: <20240611215544.2105970-1-jiaqiyan@google.com>
+ <20240611215544.2105970-2-jiaqiyan@google.com>
+ <CABzRoyYGY2EgT5wC9o98Vn_auh59poQ-OOnKceCiWQAJrbZoBw@mail.gmail.com>
+ <CACw3F5134NmmLNr4zXHV1h0sLMTGcAJLpApQ7Fv_-DtUieD7zw@mail.gmail.com>
+From: Miaohe Lin <linmiaohe@huawei.com>
+Message-ID: <786a08ff-aa7e-49d5-f589-0a405c7e1a34@huawei.com>
+Date: Mon, 17 Jun 2024 15:31:28 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Paul Cercueil <paul@crapouillou.net>, =?UTF-8?Q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>, linux-iio@vger.kernel.org, dmaengine@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Jonathan Cameron <jic23@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>, Sumit Semwal
- <sumit.semwal@linaro.org>, Vinod Koul <vkoul@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>
-References: <20240605110845.86740-4-paul@crapouillou.net>
-Subject: Re: [PATCH v10 3/6] iio: core: Add new DMABUF interface
- infrastructure
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20240605110845.86740-4-paul@crapouillou.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:mUazHyeVCXYVnz6oK+LWMeQZXEK3hfSQQEB660iCeLwFYnqkjQ+
- Ud585WwQdmOnvKsazfb+JBL625SKwogz20mU04M7cTelcw3J6jvrcay8aCvzIgt5Zo/u0tG
- HA8BNYiVjjRu1Y+4OsPoPx6KQH/SZ/sPPYoYD8KqvEsuerJYNwyB4WIq2T3jsfm4PgHe3GT
- 6DwW9Rzy0tHqw4LOWDrPA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:EpUgWLDuQOE=;TpqYd2BsYAhSrklupWm0bdGxi0w
- k0gP4myeMywXz7z2416cAKfPZc+sozlXCm/dg03s156BdOSpNvAWLhscEVizpeQGJ02tGKcs+
- gPpHtLG9/4DSygIbsZCwwGVPv2tYnhthrp5KD5bNINXFLg8ymCfDhgNDu1QiKmG0LiXN/kYTC
- tyZia5fF2hlrZlk+Mp8kxXJgv9UgtBL/FmNNSPm6N7jOTR4Zcdgt0cJXiJEJ5aNLFfHYF1TED
- sqA3TpJuSMnBqp6+Y27A4GFBqiMckBrfdUi+aB1w9Jo9aVv0/5sHHtuWD7Mufed2c3xZm8bFi
- 6P/eXkYxEGfvYjuTun684PUf8EPFV0MxlSafXkax97B0gf7RMsDhoZ/57lr/LEPbYd5/MMGpo
- 2FZcmWJJfumMFT/IEiEfiR4teoq7q4oHTPBre96PjFDkipfK0DXEysOlrBb+tFcfYbjIwlF3T
- 6Y3XM6LdKz4qEO97XcWy/wPj8GbkMKxKFI1QJs0PRE79Kk587L8rJgWiHZKCZ80uvRyCzXJCI
- /t6zPRNRF6ePoZIKc/44UiTxO/fQ1zMmlaRzVy56MQ8x2G3ANq75aaCd9qVNk4v0wRaTB5Lu0
- uA43DJQ1ptxtQhryfZiI0B3NSnmo4fO95dmi7e1GlRXJk1Udd4JIcfjaeXw6fLTmobKBJAeQe
- s3a1aiZESl6a5AD2Kc1QybZRvr4ec/TYMtpTSxix+F+QAvs4PwefO+Ljy+3Y6lEH5cgLdmGuZ
- 6xuPuGo9iZgV77V+kDtZMkQ+soB22ssbAGAuVuIsUgYD7b72EPWZkPvIfjmmh3OCCEewBvW+R
- CzKOponlPubLU84J17FFUB0n3ggAX9n0xY2QTca53XWm4=
+In-Reply-To: <CACw3F5134NmmLNr4zXHV1h0sLMTGcAJLpApQ7Fv_-DtUieD7zw@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ canpemm500002.china.huawei.com (7.192.104.244)
 
-=E2=80=A6
-> +++ b/drivers/iio/industrialio-buffer.c
-=E2=80=A6
->  static int iio_buffer_chrdev_release(struct inode *inode, struct file *=
-filep)
->  {
-=E2=80=A6
->  	wake_up(&buffer->pollq);
->
-> +	mutex_lock(&buffer->dmabufs_mutex);
-> +
-> +	/* Close all attached DMABUFs */
-=E2=80=A6
-> +	mutex_unlock(&buffer->dmabufs_mutex);
-> +
->  	kfree(ib);
-=E2=80=A6
+On 2024/6/15 0:30, Jiaqi Yan wrote:
+> On Fri, Jun 14, 2024 at 1:35 AM Lance Yang <ioworker0@gmail.com> wrote:
+>>
+>> Hi Jiaqi,
+>>
+>> On Wed, Jun 12, 2024 at 5:56 AM Jiaqi Yan <jiaqiyan@google.com> wrote:
+>>>
+>>> Correctable memory errors are very common on servers with large
+>>> amount of memory, and are corrected by ECC. Soft offline is kernel's
+>>> additional recovery handling for memory pages having (excessive)
+>>> corrected memory errors. Impacted page is migrated to a healthy page
+>>> if inuse; the original page is discarded for any future use.
+>>>
+>>> The actual policy on whether (and when) to soft offline should be
+>>> maintained by userspace, especially in case of an 1G HugeTLB page.
+>>> Soft-offline dissolves the HugeTLB page, either in-use or free, into
+>>> chunks of 4K pages, reducing HugeTLB pool capacity by 1 hugepage.
+>>> If userspace has not acknowledged such behavior, it may be surprised
+>>> when later mmap hugepages MAP_FAILED due to lack of hugepages.
+>>> In case of a transparent hugepage, it will be split into 4K pages
+>>> as well; userspace will stop enjoying the transparent performance.
+>>>
+>>> In addition, discarding the entire 1G HugeTLB page only because of
+>>> corrected memory errors sounds very costly and kernel better not
+>>> doing under the hood. But today there are at least 2 such cases:
+>>> 1. GHES driver sees both GHES_SEV_CORRECTED and
+>>>    CPER_SEC_ERROR_THRESHOLD_EXCEEDED after parsing CPER.
+>>> 2. RAS Correctable Errors Collector counts correctable errors per
+>>>    PFN and when the counter for a PFN reaches threshold
+>>> In both cases, userspace has no control of the soft offline performed
+>>> by kernel's memory failure recovery.
+>>>
+>>> This commit gives userspace the control of softofflining any page:
+>>> kernel only soft offlines raw page / transparent hugepage / HugeTLB
+>>> hugepage if userspace has agreed to. The interface to userspace is a
+>>> new sysctl called enable_soft_offline under /proc/sys/vm. By default
+>>> enable_soft_line is 1 to preserve existing behavior in kernel.
+>>
+>> s/enable_soft_line/enable_soft_offline
+> 
+> Will fix this typo in v3.
+> 
+>>
+>>>
+>>> Signed-off-by: Jiaqi Yan <jiaqiyan@google.com>
+>>> ---
+>>>  mm/memory-failure.c | 16 ++++++++++++++++
+>>>  1 file changed, 16 insertions(+)
+>>>
+>>> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+>>> index d3c830e817e3..23415fe03318 100644
+>>> --- a/mm/memory-failure.c
+>>> +++ b/mm/memory-failure.c
+>>> @@ -68,6 +68,8 @@ static int sysctl_memory_failure_early_kill __read_mostly;
+>>>
+>>>  static int sysctl_memory_failure_recovery __read_mostly = 1;
+>>>
+>>> +static int sysctl_enable_soft_offline __read_mostly = 1;
+>>> +
+>>>  atomic_long_t num_poisoned_pages __read_mostly = ATOMIC_LONG_INIT(0);
+>>>
+>>>  static bool hw_memory_failure __read_mostly = false;
+>>> @@ -141,6 +143,15 @@ static struct ctl_table memory_failure_table[] = {
+>>>                 .extra1         = SYSCTL_ZERO,
+>>>                 .extra2         = SYSCTL_ONE,
+>>>         },
+>>> +       {
+>>> +               .procname       = "enable_soft_offline",
+>>> +               .data           = &sysctl_enable_soft_offline,
+>>> +               .maxlen         = sizeof(sysctl_enable_soft_offline),
+>>> +               .mode           = 0644,
+>>> +               .proc_handler   = proc_dointvec_minmax,
+>>> +               .extra1         = SYSCTL_ZERO,
+>>> +               .extra2         = SYSCTL_ONE,
+>>> +       }
+>>>  };
+>>>
+>>>  /*
+>>> @@ -2771,6 +2782,11 @@ int soft_offline_page(unsigned long pfn, int flags)
+>>>         bool try_again = true;
+>>>         struct page *page;
+>>>
+>>> +       if (!sysctl_enable_soft_offline) {
+>>> +               pr_info("soft offline: %#lx: OS-wide disabled\n", pfn);
+>>> +               return -EINVAL;
+>>
+>> IMO, "-EPERM" might sound better ;)
+>>
+>> Using "-EPERM" indicates that the operation is not permitted due to
+>> the OS-wide configuration.
+> 
+> Miaohe suggested -EOPNOTSUPP. I agree both EOPNOTSUPP and EPERM may be
+> better than EINVAL. But I wonder how about EAGAIN? With EAGAIN plus
+> showing "disabled by /proc/sys/vm/enable_soft_offline" in dmesg, users
+> now should be clear that they can try again with
+> /proc/sys/vm/enable_soft_offline=1.
 
-Would you become interested to apply a statement like =E2=80=9Cguard(mutex=
-)(&buffer->dmabufs_mutex);=E2=80=9D?
-https://elixir.bootlin.com/linux/v6.10-rc3/source/include/linux/mutex.h#L1=
-96
+IMHO, it might not be suitable to use EAGAIN. Because it means "Resource temporarily unavailable" and
+this can be solved by simply retry later without any further actions taken. But I might be wrong.
 
-Regards,
-Markus
+Thanks.
+.
