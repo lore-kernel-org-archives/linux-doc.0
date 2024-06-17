@@ -1,57 +1,55 @@
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C458F510
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB04188CD9
 	for <linux-doc@vger.kernel.org>; Mon, 17 Jun 2024 19:57:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718654226; cv=none; b=kzeRtPmGcxl3hKRzwc3vUSrKheuUrw+bjJtods3ew64Bu3+Cyv+DfFPRmEz1VtMCcejvYOS0qroGeioo/8OzmCOkDRggjJk9db65dmTUrnrC7GfODF1p9d3O7yp2nfnDGSgK8Cg16ULbR+aEXlf31dMWjdBBe2NlZdX0AsC9aBw=
+	t=1718654226; cv=none; b=Gk0qxcMg926YtN1RLvjGA+iJtmnDld5VC70VlCCRpTrnYmzJ5Cp78Y7Hi5SKBNRoH34YIOnRku/oKkcVJL/uhtbKcbD7Lbkrl8ZgyrUJfqrR9RinNR0Mex+BOIQDQ8d3ZoULUnuCezAjxR/hYVmyoGLBSDWpSPbhn9hxM73jW8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1718654226; c=relaxed/simple;
-	bh=ScBjloLOcmR/1nZUDV65s6oEOBC76uEbi9Qmw0FwB4k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YOHSqsgOkPov068M7jVP5tQMXvfJNONwA8fLXwMufVZNhlcRVSWaHmktTp2/jXsAcdAbr5dMNRDl+AsMiKqGJq4OOVuBWi7xR0yTTaZhRSUn+N8gj5GEpuDJ6v33Yj40rAz/+BLlVr19Ksy1tKzOUlzW30kihKo18+72biPD2Vw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=ckQhqkVE; arc=none smtp.client-ip=209.85.167.181
+	bh=s9reazg6TBFKFG2f9Ng//E/D00yIl1rxKSsErYw3Eew=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=eCxAh5oefmSePrw4GT0svW5iObDPAQp9YGoXDLJbd0ifhPnReHNfdKAkYeV4LRnz5o5Pj4SHw0Nk6cvZMWwmvtEDvooKC62rFHsTOQLnOLwyZElcpAAXHbeeKmL6QXF0DXHIJyEh8GoR0ZdlnCEBSCIw4h7wnVZLU0XSDpem1yU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=GxTWFREL; arc=none smtp.client-ip=209.85.167.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="ckQhqkVE"
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3d229826727so2698421b6e.1
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="GxTWFREL"
+Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-3c9c36db8eeso2593431b6e.0
         for <linux-doc@vger.kernel.org>; Mon, 17 Jun 2024 12:57:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1718654223; x=1719259023; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JmeUj+Mt469bmKZm8v2IWEIIRLOnDTCxs7wy1b/+0yY=;
-        b=ckQhqkVEXZ42sPxIFKHQZ2T99mFG7lT9fNht1P+elPQEYY6Yj/nG7poqvNHozkbSjh
-         O2j9dGyN9Yg+m29OmlB3e9LPk3j8MDl4OEmfDEmO3yirx6fInVp7zpPITyg9AQ4sAmms
-         vFMO81myWZEZzoVjPFgOF9ttmTxAnBFEzoBjdf0tdeGMEyPoEGAzpVMcf+MpDA3JpLPC
-         r0WXWAqLqO1tj/2vOU7PvAwX/eYxoqlFuYDdVI1x6nXVKMilsyMSW+zwql6zR2IMJhG9
-         4DIgZx1pl/YRSoBkuujzKwixKK0ltMt0LMQmgNYWed8u8tfKxqSlM6dTKmyeSBGCTWZK
-         TDhA==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1718654224; x=1719259024; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RjDdICWQ2oaGVdfAV4oGUq0PgukKKOkUbuScnyybVlc=;
+        b=GxTWFRELaLLKTzFFr6cZ8EaHu+b2QDierAOHBraqqbQERWnB/IRBNU/vUAHlBXTGHe
+         dqyz8GJIqpxqKk0LtxGt85+uyxnDUNCwcEWP/UXNNORLCtuLoy6PPMMDmOvhVjup1veM
+         JvCwzQ4GCxaz90SPxMyY+GAwPZ9J2H03ymQrFUiDA/HK9oR/SRF9H4nnElHN8AmiJz09
+         iDPOG5O5TQ66YerKfPX/1INMkkwsyhUe3X3VROd+ML+38vKFn7i87wIduxAlvSbxCrBT
+         EDlRfKLew1SsidJ1PP8N7sl3YIAf2aX87dtjuTizSkXZ656Z/8oCb5IanX5CuSGRu5Wg
+         FycQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718654223; x=1719259023;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JmeUj+Mt469bmKZm8v2IWEIIRLOnDTCxs7wy1b/+0yY=;
-        b=Y5pGbZATaYUvZ3gk2MBfkXi7xmEfBdQ4gILawINQwyUx+ClmQH3Y4LnbTkqGpWlZPn
-         y2CLb1j6zgYjAjEJOWBLku1joQ4hkPt9xq4riWljzsCuc5I/AglRksSYeyaEy8kUdRtg
-         a9lQv7tYv7K8x0u2oFBsg3QQHBrg/KOuGtxiHcvOnt4YEjhsimrVatQlyv5IHaFcRgvr
-         O16zbVNT7tYtf3RxZvPMFPQTmzha5CBQ7V+4b7HZzmTOwHGUL2/CZuMj5GSFHYLhknHj
-         ntCmIUVCNT2snnGI+NP+aI/1g0OsIaG7P7g5qYO0JNqWTlFzcN9V9ySZzjvrYPKP7or8
-         6fDg==
-X-Forwarded-Encrypted: i=1; AJvYcCUqIQJU9zOtoro3RKCpp6u+H95JlfC1o8MyGCUgKMvu/h7ym4yvRP/JavnD/4hi+rSMRf1xaXJrZeJ3BxnrdmNP+NLN1tM0U2D8
-X-Gm-Message-State: AOJu0YzkwWRruynavlvvaxW4iLho8dmL9dfmbVJvguY0hqULKTBMHoj3
-	Vq1o9CHwUaoT9gyN/pzktK+/VKJrXYpkPzvjbXfjBeIORLgJ9CafGtdvWsgK+PQ=
-X-Google-Smtp-Source: AGHT+IH9/4+dyYRgEcg2XW0YZsCPFHofUrrtcRaTh4A/vWs1fUnHrGG4bfgHOAJVsjYkvqQ0ZI3+tg==
-X-Received: by 2002:a05:6808:1b29:b0:3d2:2577:89b7 with SMTP id 5614622812f47-3d24e8b9416mr13595425b6e.5.1718654223480;
-        Mon, 17 Jun 2024 12:57:03 -0700 (PDT)
-Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3d2476e2fa4sm1579492b6e.52.2024.06.17.12.57.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        d=1e100.net; s=20230601; t=1718654224; x=1719259024;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RjDdICWQ2oaGVdfAV4oGUq0PgukKKOkUbuScnyybVlc=;
+        b=CndZQv4JhUygYiaqVSc3+ArjUkUqnvZy2QLXVVeoYgV0IUVu/+5fjXl61C9/r52Dub
+         77ieFpOcZNXnFg1wOSuodhKtNIcP1buvL5JoMUvJeHhRM+3i/SYBOpEbtZhJqAbEvJCT
+         qFWGo6sF6A9+oATr8jE24VZnHrlQfdbFeiAl647hFwJeI+uibuxuuNimZeuMstRKzteP
+         TlxHn90j/C5U7BIXO1TA8awoiKVExhDl0x9EDsGp9zaiLDbdpFqcPItnBlwZBVS5e7Tg
+         XpdYbJxHKIBOO17QrbfLDSkbTpMTXgIO7DuJK48eMBPaZswTMqjjlhszpbOve8BTV4cy
+         UDAg==
+X-Forwarded-Encrypted: i=1; AJvYcCXvmj5uzkI/E5CE4FatKRih9E+5wTo6RE7sIKQd4ZGt0RwCIL/agnpFfudOMr5tpMEhRerRhrAmWlavqc1ndDNe8+tQ7iWs8k7d
+X-Gm-Message-State: AOJu0YxNsf7bVjs95NFRkVAf7y/qjl7VwhLV8ooyHhTk85jMn4a7Q3Yq
+	qoa6OsCKF6endogZQ3XXOLyVacKRRVjQnLmuhMyISL8VqTXPgFfWJ4YDI16ZSpM=
+X-Google-Smtp-Source: AGHT+IHhWGIOP5vCe5YhBqVWIz/2hVBesFqWs+uyjC79F4jfNKd28VX0z9aWhmbMQu5bKKCy8t8clw==
+X-Received: by 2002:a05:6808:1910:b0:3d2:20e2:368e with SMTP id 5614622812f47-3d24e987574mr16129788b6e.40.1718654222424;
         Mon, 17 Jun 2024 12:57:02 -0700 (PDT)
+Received: from freyr.lechnology.com (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3d2476e2fa4sm1579492b6e.52.2024.06.17.12.57.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Jun 2024 12:57:01 -0700 (PDT)
 From: David Lechner <dlechner@baylibre.com>
 To: Jonathan Cameron <jic23@kernel.org>,
 	Rob Herring <robh@kernel.org>,
@@ -64,13 +62,12 @@ Cc: David Lechner <dlechner@baylibre.com>,
 	linux-iio@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v2 1/4] dt-bindings: iio: adc: add common-mode-channel dependency
-Date: Mon, 17 Jun 2024 14:53:12 -0500
-Message-ID: <20240617-iio-adc-ad4695-v2-1-63ef6583f25d@baylibre.com>
+	linux-doc@vger.kernel.org,
+	Ramona Gradinariu <ramona.gradinariu@analog.com>
+Subject: [PATCH v2 0/4] iio: adc: ad4695: new driver for AD4695 and similar ADCs
+Date: Mon, 17 Jun 2024 14:53:11 -0500
+Message-ID: <20240617-iio-adc-ad4695-v2-0-63ef6583f25d@baylibre.com>
 X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240617-iio-adc-ad4695-v2-0-63ef6583f25d@baylibre.com>
-References: <20240617-iio-adc-ad4695-v2-0-63ef6583f25d@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,36 +78,63 @@ Content-Type: text/plain; charset="utf-8"
 X-Mailer: b4 0.12.4
 Content-Transfer-Encoding: 8bit
 
-The common-mode-channel property is only used in conjunction with the
-single-channel property. This patch adds a dependency so that we will
-get a validation error if common-mode-channel is used without also
-specifying single-channel.
+This is adding DT bindings and a new driver for the AD4695 and similar
+devices. The plan is to implement quite a few more features, but this
+is a complex chip so we're spreading out the work. To start with, we
+have a reasonably complete DT binding and a very basic driver.
 
-Signed-off-by: David Lechner <dlechner@baylibre.com>
+This work is being done in collaboration with Analog Devices Inc.,
+hence they listed as maintainers rather than me. The code has been
+tested on a Zedboard with an EVAL-AD4696FMCZ using the internal LDO,
+an external reference and a variety of input channel configurations.
+
 ---
+Changes in v2:
 
-v2 changes:
+[PATCH 1/1]
 * New patch
-* Depends on recently applied patch [1]
+* Depends on recently applied patch
+  https://lore.kernel.org/linux-iio/20240607-ad4111-v7-1-97e3855900a0@analog.com/
 
-[1]: https://lore.kernel.org/linux-iio/20240607-ad4111-v7-1-97e3855900a0@analog.com/
+[PATCH 1/2]
+* Drop *-wlcsp compatible strings
+* Don't use fallback compatible strings
+* Reword supply descriptions
+* Use standard channel properties instead of adi,pin-pairing
+* Fix unnecessary | character
+* Fix missing blank line
+* Add header file with common mode channel macros
+
+[PATCH 1/3]
+* rework register definition macros
+* remove code structure comments at top level
+* remove simple wrapper functions around regmap functions
+* rework channel fwnode parsing for DT changes
+* fix missing return value check
+
+[PATCH 1/4]
+* Rework DT examples for DT bindings changes
+* Add file to MAINTAINERS
+
+* Link to v1: https://lore.kernel.org/r/20240612-iio-adc-ad4695-v1-0-6a4ed251fc86@baylibre.com
+
 ---
- Documentation/devicetree/bindings/iio/adc/adc.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+David Lechner (4):
+      dt-bindings: iio: adc: add common-mode-channel dependency
+      dt-bindings: iio: adc: add AD4695 and similar ADCs
+      iio: adc: ad4695: Add driver for AD4695 and similar ADCs
+      Documentation: iio: Document ad4695 driver
 
-diff --git a/Documentation/devicetree/bindings/iio/adc/adc.yaml b/Documentation/devicetree/bindings/iio/adc/adc.yaml
-index 8e7835cf36fd..5baef30104dd 100644
---- a/Documentation/devicetree/bindings/iio/adc/adc.yaml
-+++ b/Documentation/devicetree/bindings/iio/adc/adc.yaml
-@@ -80,4 +80,7 @@ anyOf:
-   - required:
-       - reg
- 
-+dependencies:
-+  common-mode-channel: [single-channel]
-+
- additionalProperties: true
-
--- 
-2.45.2
-
+ Documentation/devicetree/bindings/iio/adc/adc.yaml |   3 +
+ .../devicetree/bindings/iio/adc/adi,ad4695.yaml    | 290 ++++++++
+ Documentation/iio/ad4695.rst                       | 153 +++++
+ Documentation/iio/index.rst                        |   1 +
+ MAINTAINERS                                        |  12 +
+ drivers/iio/adc/Kconfig                            |  11 +
+ drivers/iio/adc/Makefile                           |   1 +
+ drivers/iio/adc/ad4695.c                           | 753 +++++++++++++++++++++
+ include/dt-bindings/iio/adi,ad4695.h               |   9 +
+ 9 files changed, 1233 insertions(+)
+---
+base-commit: 9ab0746278aff96c1a36fcaad22bee9e9d3b3bf6
+change-id: 20240517-iio-adc-ad4695-ef72b2a2cf88
