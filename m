@@ -1,73 +1,90 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD7558480;
-	Mon, 17 Jun 2024 22:46:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8117419A28F;
+	Mon, 17 Jun 2024 23:11:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718664420; cv=none; b=b7Ku2DlhaEp5pL+1DOtil6CpURq5s/W3weJXQ66syOPUmZhxvxoqejWHxoH8TQ8c2gWauq5V4O3IDJ0+p5+HKWLRPXk5ZSWPYn314N0Z0A7AYfjMKXFFDIYMsIdKLgRkUO5Naf46QyyqDUdMmQTxkXaPqO1ji9N41ASNhpzYjCY=
+	t=1718665914; cv=none; b=UQqq9qbopi3xp/B8wdsVlW2p4ywI/I5bvLplIxNLP4Lwz1HvRuTj9l8E6mqLhJsVo2wpZgubn6u81aCGWxr5Fkm2QJn96HnpPTuo4Tju2LdodFg8V4cOdfSWA6VbrRUze9WW+t+b7gRiD2+kTtRU6EUEb6DxB8LtI/124QCVNa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718664420; c=relaxed/simple;
-	bh=BDg20nXsZgzxnllRRS/wM/GeHBhb/lCv+24XuceDeT8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=dZVMjzdYmBcX97LYOM6sFuIKQnMkwSvT0hj8fh9GCH5GeYEUJOrjZBX1MgnVzEszQG9V0AuhiXQMXePy8LLwL2D+o/Tkh2Ol1B/BFtPbv7+RMX/f8KcgXD7WBwQYATj+ZFVmiEA8U8YII+IcdCvILE/L7pyZsdrX4OJ7p/T91cQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ZaRijN4i; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1718665914; c=relaxed/simple;
+	bh=bpeQJSd0BsKdh9O1L/WBzXi7cm11ewlcZk3ruc8dtR0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eiGP+29wbrZVAyKwW4FfO3NYRq78awTgbgzFtHlHzK5zolbCFD2+jzv8nXMIkRqtptIICJAiamq1o+uhH9uEMYDck+PSzTrNRmWDkpR42zRS/soAFTI2bnIxQV7t0I+xYpXwXsgUaZ3Ng1nHKcl2AMTT05pEzRFf46hg4KYmoGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s+vC9QNM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ZaRijN4i"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net F22EE45E1A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1718664418; bh=qfoIGw5lnHrK1nWyh6BxV91vxJtrN+BH1xtk1FojI3Q=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=ZaRijN4ikAhxBr9fgn1C780ueCgKgJRcvPq06m2YWyZqnoneqTZSntNnFDmAHqxWA
-	 JAp/MUzzRZB68Rwx53l+HT9FV1N3PqT3yUoJDQImGRtoAjqRpoViuC0D0WE/lNMrIg
-	 MU1eH3iBO29Bpt4o5WVM+ryvGnVQnT7+Cgbwbl/lK3nRjJDFkHvEfUT8jZro9mFBh9
-	 NLQsBVBb7B/zwLYp6S8vlshXE6Asp0w540Spo24So6ikOi2q1BzcJl6pW+hxlxILD0
-	 kmw9fpkamCQh7wgeAjCC0rfVAUpUESQ8FcD0Gd4pTaeoLBBd3C5W7FT8VqMhPEnjOa
-	 vCCnJW/gki7ng==
-Received: from localhost (c-24-9-249-71.hsd1.co.comcast.net [24.9.249.71])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id F22EE45E1A;
-	Mon, 17 Jun 2024 22:46:57 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>, Yanteng
- Si <siyanteng@loongson.cn>, Tiezhu Yang <yangtiezhu@loongson.cn>, Andrey
- Konovalov <andreyknvl@gmail.com>, Dongliang Mu <dzm91@hust.edu.cn>, Qing
- Zhang <zhangqing@loongson.cn>, Huacai Chen <chenhuacai@kernel.org>
-Cc: Marco Elver <elver@google.com>, Andrew Morton
- <akpm@linux-foundation.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs/zh_CN: add back the missing part in the English
- version
-In-Reply-To: <20240614140326.3028384-1-dzm91@hust.edu.cn>
-References: <20240614140326.3028384-1-dzm91@hust.edu.cn>
-Date: Mon, 17 Jun 2024 16:46:57 -0600
-Message-ID: <87r0cvfaqm.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s+vC9QNM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 632F3C2BD10;
+	Mon, 17 Jun 2024 23:11:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718665914;
+	bh=bpeQJSd0BsKdh9O1L/WBzXi7cm11ewlcZk3ruc8dtR0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=s+vC9QNMgzZdAx9M19zFTyp6wVD9TNrSnmUUiy4HB5kw9cMU8Dfh3L/a/eNyu9GOf
+	 hK7ke+48a6jrsvGi0girlUcCeo11/jxkdhaJsp94/A/FLvNgdYzMW82gC8amLpE/Du
+	 +FrbWG8mEmEAo9TPosKX/KEEgHuWag18qr1FVT70pNCK5DEjUCnTcRw+t1DijrhvSa
+	 5CmyaUcUcQWTpD4e9wNL20UlTRm1gcMBRPhpe+v0w3+SSKfs4f4dMQDLpU2fEQi1EX
+	 oCkLacYhkdAlidIlMbKYJy4HJM1yuXfh8JsjoQ/hMJSJStHazXeBu0PW1fSM9ZeZ/q
+	 +Sagxf85R8Htw==
+From: SeongJae Park <sj@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: SeongJae Park <sj@kernel.org>,
+	yskelg@gmail.com,
+	Jinwoo Park <pmnxis@gmail.com>,
+	Austin Kim <austindh.kim@gmail.com>,
+	shjy180909@gmail.com,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5] Documentation: cve Korean translation
+Date: Mon, 17 Jun 2024 16:11:48 -0700
+Message-Id: <20240617231148.64366-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <87h6drgq7m.fsf@trenco.lwn.net>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Dongliang Mu <dzm91@hust.edu.cn> writes:
+Hi John,
 
-> The zh_CN kasan document misses the code change in commit eefe68280c94
-> ("kasan: Add documentation for CONFIG_KASAN_EXTRA_INFO").
->
-> Fix this by adding the translation of the missing part.
->
-> Note that this missing commit is found by checktransupdate.py
->
-> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
-> ---
->  .../translations/zh_CN/dev-tools/kasan.rst     | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
+On Mon, 17 Jun 2024 16:27:25 -0600 Jonathan Corbet <corbet@lwn.net> wrote:
 
-Applied, thanks.
+> yskelg@gmail.com writes:
+> 
+> > From: Yunseong Kim <yskelg@gmail.com>
+> >
+> > This is a Documentation/process/cve korean version.
+> >
+> > The following changes have been updated based on SeongJae Park’s feedback
+> > from the last v4 patch.
+> >
+> > Signed-off-by: Yunseong Kim <yskelg@gmail.com>
+> > ---
+> >  Documentation/translations/ko_KR/index.rst    |   1 +
+> >  .../translations/ko_KR/process/cve.rst        | 107 ++++++++++++++++++
+> >  2 files changed, 108 insertions(+)
+> >  create mode 100644 Documentation/translations/ko_KR/process/cve.rst
+> 
+> SeongJae, are you happy with this version?
 
-jon
+I have a trivial concern about this patch.  I'm not very confident about it,
+though.  I therefore personally shared the concern with Yunseong.  Yunseong
+thankfully agreed at some of my points, and he told me that he will post a new
+version of this patch.
+
+Please correct me if anything is wrong or missed, Yunseong.
+
+So, I hope this patch to eventually be merged, but I have no strong opinion to
+provide either 'Reviewed-by:' or 'Nacked-by:'.
+
+[...]
+
+
+Thanks,
+SJ
