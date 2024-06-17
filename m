@@ -1,169 +1,90 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C52C418F2EF
-	for <linux-doc@vger.kernel.org>; Mon, 17 Jun 2024 23:17:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B675194C94
+	for <linux-doc@vger.kernel.org>; Mon, 17 Jun 2024 23:21:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718666240; cv=none; b=RDC1hQ14MwLUpM8wSRDVmPNjRoZ8vfbw358zvHU0aYakFIKhf52R7qDBTApIR5p4FyB7ooMXTlBPWaAHqGp5U+IXg60WU179/e9tuDNwAEMqAqfdooqanv/kNdbwSGawgb7yOp0k1wvrvb7w0NeTUSMgVPD77nbYeqGdo9j4jT8=
+	t=1718666515; cv=none; b=lMyRBT05BmV9ZMwPk4booaBxABK0yaLyFBiuz0SGff5t1xvSUTStTOrU5C4RGnlF31ZdIrU4rkKGCLXzFeyqIMTmcjJIaz1vOgIGgdWonreDwQIkMF+p24A+aNrSsR4Q/GQDwxnIjvcRgKsIjyPLBaZcq5V2GzLxfjMhukipEtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718666240; c=relaxed/simple;
-	bh=TIVKLKBbPeyPY3DUp3NhHPp0olJ3tYleN+y+FMgAMUk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MP2b3DPHjH7c0p0n0N+0RmTku+K5244oGpuFgVhZVSLuJV27+bzVbM9SsS1YpBS9XyB1AwYMdZyssvblPyz8niQbmVPfqTdx/ReA5XqmTmHShJXjnyo4NdjhsczbGblfmnu1eZvyUs7mrkaawCXd/OxUsaZZZ2Sm++1T4A8/fyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZWzVSWK6; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1718666515; c=relaxed/simple;
+	bh=e4YsGue7MvX6V+ZHi1zOMgjV1Sdv/0GmYugoXmqIDVY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Nsaf9cTwlEEGVWZ9G9y9aUZHFoxg7nCM34FkyBlM69fJzNyHaFY2WBCHSBYzFryC/AUYg2byG5RjTcvJGALVvIso7eE/R3vBxoGu2IQIhQKj8Iq6TLmo7Nnw+13CtlhECYcH5ZMJEmEK4PJUKN64uX2laRY707sXtdXtwEhKgEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kery6Ndb; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZWzVSWK6"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-35f275c7286so4397385f8f.2
-        for <linux-doc@vger.kernel.org>; Mon, 17 Jun 2024 16:17:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718666237; x=1719271037; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y26m8KMuV8p2bUSqQESXrG+REwA97eviu6gSbQ4tKIc=;
-        b=ZWzVSWK6nd4VBy9m5OLrLwqGaSeKyfvtFmgtzoqwCwgkiujJme7qfP2el7BZDrFyut
-         UttUaqsOB8ZIQEwJ2Ku0By4E35DLp1/zUpG6zjdlT2PPp74bJWCJn9a5mGzDV5hhl86X
-         Pgwdo19QpaZi5SeQLn6aiZvbRDeXHQFXFoUhG1BMqy+iHhXp9fg6vUbjcPk5kt3Sc3d0
-         UqD0Xu0IDrg0p5YankOS88AnTbbxnblTDZqE4sumKShOHx9sZGOSMyIHrepcu/CCcAoE
-         Ig0lG4687sUx1opUutvqSOAcqyhctgVKRKlTp45PXD00pdOYjeK8IPdezKbRAH7KeaPd
-         U1+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718666237; x=1719271037;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=y26m8KMuV8p2bUSqQESXrG+REwA97eviu6gSbQ4tKIc=;
-        b=hzRT5eNf/0AL6RNtl9Fhai9qc1VHYtTAu9+nCzNSGcQrlS25vV3LABAzCJwMisEuMd
-         1PV37U7P0Ktul33d48u+PzqY8mInMqbP/4FVXFJx4JbJ6WV/BdsbcZHiyzdIAGOZ6bOT
-         OnaHGrPz+HMSih1fb9dT3IMPwFx7QtruRrxch4cUHG0/lVEPKdFNIBNQaOF3F1lqflb4
-         bWGJsjmpP1/UIgcctpb+1olfujNnc9SgA6yTStusoLmNMXoq4RXmbyMdXg63xCo3W/Qx
-         cvGEMr1NvhOs1koBvF5XjcH6lE5irw7D5dzIp5qz5tReysnZm1WvK2hqALuM1eBqKM8u
-         CApg==
-X-Forwarded-Encrypted: i=1; AJvYcCXsSarDkCrwCrXuljFhhltULMlaRS7cnDSIHp7RefVI3C3QTkW6tlN+vA5tq/JeUGyCbfhnSoS1oSS+MnVi6Et/g1MX5xv8ITUW
-X-Gm-Message-State: AOJu0YwGV64yL/j8QlCwRH4sPAJAcZypUoozImAAWx6Ikuil/HEUrqJ+
-	fZj5SdYFXzpxvjt1zAZ5CHZv9ngVBYSN1p5bTS2d6pm/nVeJYI8MMYAXjEjSAfhL+zOZdC4TP/K
-	enAVorCTyw4ql1UJXo/UxraMcRk40qVYDlDM9
-X-Google-Smtp-Source: AGHT+IF4HzjtSiEJm/JF7RZmDBSylbGJKMvF570CPPPNOrU07F5yzEv/z3JKNLnewEVpPcf1lCjwtP+ww+rMlM3/Cw4=
-X-Received: by 2002:a5d:468a:0:b0:360:709c:5040 with SMTP id
- ffacd0b85a97d-3607a736520mr8281019f8f.2.1718666236739; Mon, 17 Jun 2024
- 16:17:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kery6Ndb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1718666515; x=1750202515;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=e4YsGue7MvX6V+ZHi1zOMgjV1Sdv/0GmYugoXmqIDVY=;
+  b=Kery6NdbkR6beCA2T42VXEoG3zIV1CUI63W6/cM6DPRBSENlPap6jqJz
+   uWO9T3fEb8cF4zsDx7OzwecNRej890uiuo8cmBJjhTUphoi7uvlyWx7GN
+   GcX8pwnTTo2RA5tOFnslp9dPWLf2BbkdVRXA+/r0AHOyJg91fJDjeJtzq
+   RJxAd2CgUx3yvhaHMk7QjfYgQagRpOmPTYPe3Kt4zUUU0wka4VOUBjP5N
+   VemKGcipL7UdEbrjOyAVv03mQqAgRGzSYF7k6moZNGGV8e8edKr1yJUwB
+   ha9iO+WfMwp3Ae9nwOzLIKesz7KaMgroNF0hNqborTCNd6Yxgw/Mu8jV1
+   A==;
+X-CSE-ConnectionGUID: k7L8PmYASIK/0N35p9UNFA==
+X-CSE-MsgGUID: B2FdN7pYRTWzO2p79O7Bwg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="32986413"
+X-IronPort-AV: E=Sophos;i="6.08,245,1712646000"; 
+   d="scan'208";a="32986413"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 16:21:54 -0700
+X-CSE-ConnectionGUID: fS66fLkSTv6E/qDE9OqgRw==
+X-CSE-MsgGUID: 2yUqfaj7Qha2R1GaNLP3QQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,245,1712646000"; 
+   d="scan'208";a="41450413"
+Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 17 Jun 2024 16:21:52 -0700
+Received: from kbuild by 68891e0c336b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1sJLfa-0004zt-12;
+	Mon, 17 Jun 2024 23:21:50 +0000
+Date: Tue, 18 Jun 2024 07:17:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vinod Govindapillai <vinod.govindapillai@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Mark Brown <broonie@kernel.org>, linux-doc@vger.kernel.org
+Subject: [linux-next:master 6562/6646] htmldocs: Warning:
+ Documentation/filesystems/xfs-online-fsck-design.rst references a file that
+ doesn't exist: Documentation/filesystems/xfs-self-describing-metadata.rst
+Message-ID: <202406180707.m8now1UT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240617170545.3820912-1-jiaqiyan@google.com> <20240617170545.3820912-2-jiaqiyan@google.com>
- <20240617121348.4ee672a1d6bc9202b3ad0e08@linux-foundation.org>
-In-Reply-To: <20240617121348.4ee672a1d6bc9202b3ad0e08@linux-foundation.org>
-From: Jiaqi Yan <jiaqiyan@google.com>
-Date: Mon, 17 Jun 2024 16:17:01 -0700
-Message-ID: <CACw3F51wq4H-Hoxvm7GgCKodAR4Wy28hwBD=VngcF-fbxyRmUg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] mm/memory-failure: userspace controls
- soft-offlining pages
-To: Andrew Morton <akpm@linux-foundation.org>, linmiaohe@huawei.com
-Cc: nao.horiguchi@gmail.com, jane.chu@oracle.com, ioworker0@gmail.com, 
-	muchun.song@linux.dev, shuah@kernel.org, corbet@lwn.net, osalvador@suse.de, 
-	rientjes@google.com, duenwen@google.com, fvdl@google.com, linux-mm@kvack.org, 
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Jun 17, 2024 at 12:13=E2=80=AFPM Andrew Morton
-<akpm@linux-foundation.org> wrote:
->
-> On Mon, 17 Jun 2024 17:05:43 +0000 Jiaqi Yan <jiaqiyan@google.com> wrote:
->
-> > Correctable memory errors are very common on servers with large
-> > amount of memory, and are corrected by ECC. Soft offline is kernel's
-> > additional recovery handling for memory pages having (excessive)
-> > corrected memory errors. Impacted page is migrated to a healthy page
-> > if it is in-use; the original page is discarded for any future use.
-> >
-> > The actual policy on whether (and when) to soft offline should be
-> > maintained by userspace, especially in case of an 1G HugeTLB page.
-> > Soft-offline dissolves the HugeTLB page, either in-use or free, into
-> > chunks of 4K pages, reducing HugeTLB pool capacity by 1 hugepage.
-> > If userspace has not acknowledged such behavior, it may be surprised
-> > when later failed to mmap hugepages due to lack of hugepages.
-> > In case of a transparent hugepage, it will be split into 4K pages
-> > as well; userspace will stop enjoying the transparent performance.
-> >
-> > In addition, discarding the entire 1G HugeTLB page only because of
-> > corrected memory errors sounds very costly and kernel better not
-> > doing under the hood. But today there are at least 2 such cases
-> > doing so:
-> > 1. GHES driver sees both GHES_SEV_CORRECTED and
-> >    CPER_SEC_ERROR_THRESHOLD_EXCEEDED after parsing CPER.
-> > 2. RAS Correctable Errors Collector counts correctable errors per
-> >    PFN and when the counter for a PFN reaches threshold
-> > In both cases, userspace has no control of the soft offline performed
-> > by kernel's memory failure recovery.
-> >
-> > This commit gives userspace the control of softofflining any page:
-> > kernel only soft offlines raw page / transparent hugepage / HugeTLB
-> > hugepage if userspace has agreed to. The interface to userspace is a
-> > new sysctl at /proc/sys/vm/enable_soft_offline. By default its value
-> > is set to 1 to preserve existing behavior in kernel. When set to 0,
-> > soft-offline (e.g. MADV_SOFT_OFFLINE) will fail with EOPNOTSUPP.
-> >
->
-> Seems reasonable.  A very simple patch.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   76db4c64526c5e8ba0f56ad3d890dce8f9b00bbc
+commit: 6a78339fd55f0149a0893dcbdc11fe5326177c07 [6562/6646] Merge branch 'for-linux-next' of https://gitlab.freedesktop.org/drm/i915/kernel
+reproduce: (https://download.01.org/0day-ci/archive/20240618/202406180707.m8now1UT-lkp@intel.com/reproduce)
 
-Thanks for taking a look, Andrew!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202406180707.m8now1UT-lkp@intel.com/
 
->
-> Is there sufficient instrumentation in place for userspace to be able
-> to know that these errors are occurring?  To be able to generally
-> monitor the machine's health?
+All warnings (new ones prefixed by >>):
 
-For corrected memory errors, in general they are available in kernel
-logs. On X86 Machine Check handling will log unparsed MCs (one needs
-to read mci_status to know what exactly the error is). On ARM, GHES
-logs parsed CPER (already containing error type and error severity).
-The shortcoming is logs are rate limited. So in a burst of corrected
-memory errors the user may not be able to figure out exactly how many
-there were.
+   Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+>> Warning: Documentation/filesystems/xfs-online-fsck-design.rst references a file that doesn't exist: Documentation/filesystems/xfs-self-describing-metadata.rst
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/exynos/
+   Using alabaster theme
 
-For uncorrectable memory errors, num_poisoned_pages is a reliable counter.
-
->
-> > @@ -2783,6 +2795,12 @@ int soft_offline_page(unsigned long pfn, int fla=
-gs)
-> >               return -EIO;
-> >       }
-> >
-> > +     if (!sysctl_enable_soft_offline) {
-> > +             pr_info("%#lx: OS-wide disabled\n", pfn);
->
-> This doesn't seem a very good message.  There's no indication that it
-> comes from the memory failure code at all.  If the sysadmin sees this
-> come out in the kernels logs, he/she will have to grep the kernel
-> sources just to figure out where the message came from.  Perhaps we can
-> be more helpful here..
-
-For sure. I took it for granted that any pr_info will have the "Memory
-failure: " prefix, but now realize there is a `#undef pr_fmt` +
-`#define pr_fmt(fmt) "" fmt` just above unpoison_memory.
-
-I propose to do `#define pr_fmt(fmt) "Soft offline: " fmt` above
-mf_isolate_folio, so that any soft-offline related code generates logs
-with the same following format:
-
-  "Soft offline: 0x${pfn}: ${detailed_message}"
-
-If everyone thinks this is reasonable, in v4 I can insert a new commit
-to make the log formats unified.
-
->
-> > +             put_ref_page(pfn, flags);
-> > +             return -EOPNOTSUPP;
-> > +     }
-> > +
-> >       mutex_lock(&mf_mutex);
-> >
->
->
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
