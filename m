@@ -1,76 +1,79 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EF6319922D;
-	Mon, 17 Jun 2024 22:28:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1DD41D953B;
+	Mon, 17 Jun 2024 22:40:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718663303; cv=none; b=UZEs0AAyISh9adHB17aCrwhAJFVrV7NuLWDvJBrENJyc4N+olmuD0BgaE8c1XMYH2/H7Cv6o4yP9QEU1B9m34qVND/NYrPsS79yuUuluarZuBcZPq5AzUH+u916sPXFalUbN/mkq3Cfd7+0yQVrGvO1GEfGi188B3KzLyXyPuO4=
+	t=1718664043; cv=none; b=gwnH3d1IyRyIKBJ+T3OC6SW5KKLh+OcmdmP2FavxevePezaI7xcKfk1cUCMhNkNiXjJzfXX32F8SUtpqbpbkAW27ZwFOj1fdX6qVcWhil7bu/0V5U0ED6jfHXlbdwauBjr+tJU4CMBgfjDEnovUpkJamldgawG5KkUMFqzvDxsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718663303; c=relaxed/simple;
-	bh=M5mPEBHxUXC71s8UbBdBfcz9UQ7Q7t0HN+v9aKiwYi4=;
+	s=arc-20240116; t=1718664043; c=relaxed/simple;
+	bh=Fsm9OuRh6Gn1a1tvsJrwCrl645RcmYLD128vIyx+Zj4=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=LlwkcjekoCIP78sziJIBmmHxQfpf7PYgN3sGDAmVD3w8Q0LOobKilDq0MQNG9MLt6xuWwOqKgoeOmUl5l+DHCWf6lYpmsKBZUdb4nMTTEKWpMgEYxlsefjpV7qTo9DZfU5bZBSrfM9alKY7XdYg0eSp+jn6m7JftfgfTLkxFKr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=nQT6fVqJ; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=BzvJ0aYhxjfy7wtUvNFfldgY7id21PvNVTGAaWzqhRfuRacqQ37mhBJ6DIXydqx6GNoxP2bph7/55if5wGnWq2Ff85vdzrJRt0tYBaRXiiN7X9GOOt6+qXlGBAZepFKgb2ZJrA42NwvRnx4aKR/L+uri6/OgA8kjcsu4PsUkduU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=qkrFsuIB; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="nQT6fVqJ"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9B1E945E2A
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="qkrFsuIB"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B1AC445E08
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1718663301; bh=QNhCQNDYb81sDFgxQHqp+A9Oaw8fxbeY3/n6mh6XpLk=;
+	t=1718664040; bh=Fsm9OuRh6Gn1a1tvsJrwCrl645RcmYLD128vIyx+Zj4=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=nQT6fVqJaYbTs/bT1Gb1G2xm8/OoQb568bJkU4Y1qlIpg1TLErwdR0Xq62/+ztQ/i
-	 Ix5/8N2kx/qiOvKzljO8imT7t/QcrxVqbB5ukvIdJfyPtA09QZZep+cVdseVJavBrP
-	 desjFmtrFCEHHi0vdI8QNV6nuYeg6GU9WyUQslww4I87thE7h/LTdeOPYntXNEeuDs
-	 6TLfEGUWGkcMQSsgcukeNySSqJ4F+Ja12Rk3Zle7/sIPPTYkCgrAFZK02x+lgF0aLO
-	 oHM+Izgtm0ckjDHDHol8D+/RsG16KBqZ5Hwi69LUO4GHBuc4Us/CBVHpAEDUugUI7U
-	 AiNoKdrIlu9WA==
+	b=qkrFsuIB1uN12ulbDXHckHNFe2BrsLYkd7Q+hWBcu4eQYb0/E8OEPtotB0jcOUjRB
+	 iykuX1gAiEbLklMRHmM97zx/jmqTGP6/mLito6eoavOs5YHqeOOz7nLYaVQOeagasC
+	 a3Cmj+KkEOCzmeTVS0lNA+KDjBJ34Kx31GUa9mOpEhSOh5pwrfVPZZ0xXHz4mk+Sur
+	 UMpDYzumNAB0B8Ns53RZ228Arag9apH/BnxoU0Qjt6KblgGCtkW1lnZAZ3pbqL9nqS
+	 TLQA31jzMW+AHk66IkllR9hrYoaISFezEDpynKioLAIr+JcZVicM/F82k8DwCjWqwS
+	 V5wlPClFf9jyw==
 Received: from localhost (c-24-9-249-71.hsd1.co.comcast.net [24.9.249.71])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 9B1E945E2A;
-	Mon, 17 Jun 2024 22:28:21 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id B1AC445E08;
+	Mon, 17 Jun 2024 22:40:40 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Tony Luck <tony.luck@intel.com>
-Cc: x86@kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- patches@lists.linux.dev, Tony Luck <tony.luck@intel.com>
-Subject: Re: [PATCH] Documentation/x86: Switch to new Intel CPU model defines
-In-Reply-To: <20240611204814.353821-1-tony.luck@intel.com>
-References: <20240611204814.353821-1-tony.luck@intel.com>
-Date: Mon, 17 Jun 2024 16:28:20 -0600
-Message-ID: <87cyofgq63.fsf@trenco.lwn.net>
+To: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>, Yanteng
+ Si <siyanteng@loongson.cn>, Dongliang Mu <dzm91@hust.edu.cn>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs/zh_CN: Update the translation of
+ dev-tools/gdb-kernel-debugging
+In-Reply-To: <20240612145048.57829-1-dzm91@hust.edu.cn>
+References: <20240612145048.57829-1-dzm91@hust.edu.cn>
+Date: Mon, 17 Jun 2024 16:40:39 -0600
+Message-ID: <878qz3gplk.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
 
-Tony Luck <tony.luck@intel.com> writes:
-
-> New CPU #defines encode vendor and family as well as model
-> so "_FAM6" is no longer used in the #define names.
->
-> Signed-off-by: Tony Luck <tony.luck@intel.com>
-> ---
->  Documentation/arch/x86/cpuinfo.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/arch/x86/cpuinfo.rst b/Documentation/arch/x86/cpuinfo.rst
-> index 8895784d4784..6ef426a52cdc 100644
-> --- a/Documentation/arch/x86/cpuinfo.rst
-> +++ b/Documentation/arch/x86/cpuinfo.rst
-> @@ -112,7 +112,7 @@ conditions are met, the features are enabled by the set_cpu_cap or
->  setup_force_cpu_cap macros. For example, if bit 5 is set in MSR_IA32_CORE_CAPS,
->  the feature X86_FEATURE_SPLIT_LOCK_DETECT will be enabled and
->  "split_lock_detect" will be displayed. The flag "ring3mwait" will be
-> -displayed only when running on INTEL_FAM6_XEON_PHI_[KNL|KNM] processors.
-> +displayed only when running on INTEL_XEON_PHI_[KNL|KNM] processors.
->  
-
-Applied, thanks.
-
-jon
+RG9uZ2xpYW5nIE11IDxkem05MUBodXN0LmVkdS5jbj4gd3JpdGVzOg0KDQo+IFVwZGF0ZSB0byBj
+b21taXQgNmIyMTk0MzEwMzdiICgiZG9jcy9zY3JpcHRzL2dkYjogYWRkIG5lY2Vzc2FyeQ0KPiBt
+YWtlIHNjcmlwdHNfZ2RiIHN0ZXAiKQ0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBEb25nbGlhbmcgTXUg
+PGR6bTkxQGh1c3QuZWR1LmNuPg0KPiAtLS0NCj4gIC4uLi90cmFuc2xhdGlvbnMvemhfQ04vZGV2
+LXRvb2xzL2dkYi1rZXJuZWwtZGVidWdnaW5nLnJzdCAgICAgfCA0ICsrKysNCj4gIDEgZmlsZSBj
+aGFuZ2VkLCA0IGluc2VydGlvbnMoKykNCj4NCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24v
+dHJhbnNsYXRpb25zL3poX0NOL2Rldi10b29scy9nZGIta2VybmVsLWRlYnVnZ2luZy5yc3QgYi9E
+b2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9kZXYtdG9vbHMvZ2RiLWtlcm5lbC1kZWJ1
+Z2dpbmcucnN0DQo+IGluZGV4IDE3YjVjZTg1YTkwYy4uOTRjMTVjMjU4NzI2IDEwMDY0NA0KPiAt
+LS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9kZXYtdG9vbHMvZ2RiLWtlcm5l
+bC1kZWJ1Z2dpbmcucnN0DQo+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NO
+L2Rldi10b29scy9nZGIta2VybmVsLWRlYnVnZ2luZy5yc3QNCj4gQEAgLTM0LDYgKzM0LDEwIEBA
+IEtnZGLlhoXmoLjosIPor5XlmajjgIFRRU1V562J6Jma5ouf5py6566h55CG56iL5bqP5oiW5Z+6
+5LqOSlRBR+eahOehrOS7tuaOpeWPow0KPiAgICDkvYbov5npgJrluLjku4XlnKjkuI3kvp3otZbl
+hoXmoLjmqKHlnZfml7bmiY3mnInmlYjjgILmnInlhbPmraTmqKHlvI/nmoTmm7TlpJror6bnu4bk
+v6Hmga/vvIzor7flj4LpmIVRRU1V5paH5qGj44CCDQo+ICAgIOWcqOi/meenjeaDheWGteS4i++8
+jOWmguaenOaetuaehOaUr+aMgUtBU0xS77yM5bqU6K+l5Zyo56aB55SoQ09ORklHX1JBTkRPTUla
+RV9CQVNF55qE5oOF5Ya15LiL5p6E5bu65YaF5qC444CCDQo+ICANCj4gKy0g5p6E5bu6Z2Ri6ISa
+5pys77yI6YCC55So5LqO5YaF5qC4djUuMeeJiOacrOWPiuS7peS4iu+8iQ0KPiArDQo+ICsgICAg
+bWFrZSBzY3JpcHRzX2dkYiANCj4gKw0KDQpUaGlzIG9uZSBnYXZlIG1lIHRoZSBmb2xsb3dpbmcg
+ZXJyb3I6DQoNCkFwcGx5aW5nOiBkb2NzL3poX0NOOiBVcGRhdGUgdGhlIHRyYW5zbGF0aW9uIG9m
+IGRldi10b29scy9nZGIta2VybmVsLWRlYnVnZ2luZw0KLmdpdC9yZWJhc2UtYXBwbHkvcGF0Y2g6
+MTU6IHRyYWlsaW5nIHdoaXRlc3BhY2UuDQogICAgbWFrZSBzY3JpcHRzX2dkYiANCndhcm5pbmc6
+IDEgbGluZSBhZGRzIHdoaXRlc3BhY2UgZXJyb3JzLg0KDQpJIGZpeGVkIGl0IHRoaXMgdGltZSwg
+YnV0IHBsZWFzZSB0cnkgdG8gYXZvaWQgYWRkaW5nIHRoaXMga2luZCBvZg0Kd2FybmluZyBpbiB0
+aGUgZnV0dXJlLg0KDQpUaGFua3MsDQoNCmpvbg0K
