@@ -1,300 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-00823401.pphosted.com (mx0b-00823401.pphosted.com [148.163.152.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF7312139AC;
-	Tue, 18 Jun 2024 14:59:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F3A1367;
+	Tue, 18 Jun 2024 15:03:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.152.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718722777; cv=none; b=N7TJP5BFY8x/FZwwRrm3Y2mkjMOp+FjDCkhV2/HZmzxozleWZHr8upm39nXHzZAt/E8XqDi5AAI9xgjGn8qXWH4CT9juQkNDfc2/p9Cbx/eAU/+BoR7PMwtNCQmKsHMq//i/ENRGOsW338Xo5uLktfZALsNeCm7jhxzEbRo0nTM=
+	t=1718723024; cv=none; b=dAPhBinvW61hZJQo4EUBg+MK0hr0i0IQ96A0pQvL9Pgnhqlc3VQeOaXnjeEJ5lSdcAvMobqfT8e/xuszUimKTYLBdbJo+gRmhKsYTus1FEo3/inO/WgtU/myfhFIXFg/s3gp8tp6dl0vNEQtmCCrJDlDdoE/gdGP8Kh/0CmvXxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718722777; c=relaxed/simple;
-	bh=9VFvLJ5D2bcVwMlb/aO0woCroDo49q//nKnY5oo0Vus=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=agn3GatWEjZXBdUPt6MxNNa35H3Bt4F6+Gq0+H8T4JS8corCDTbaXSYtx6FmYalgbGhEjZ2tXdaJnP1xhlRHNnpneO9gwTpp4HeNShXIjnyv2KYUWE9jHEonNxh9TcE1bKVnnYl/YpwNMLUA6O1t/wDoKunEwfYoPdABj/xJwQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Aeg1qpJz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718723024; c=relaxed/simple;
+	bh=bs7iNpgVUW5Chv5+nq8B2RJJ4Ksk5joWXZdYM6a+9II=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WudOH/nwXDKvFrcfJOv0+ewWAd8kRIkYWaXH3inUeXpgBbrOshbI8KqCWAoEjd+6ZIVTCl3e5oE6IqHEWRKGMBxkDhMzNuZnFj373E1c/cFMYT1PeZHcY2QjfL/MZJ2Nb2BRHghN6kC3o1vmR7l+RgUUVMDZVW055K9zFxqSigI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=motorola.com; spf=pass smtp.mailfrom=motorola.com; dkim=pass (2048-bit key) header.d=motorola.com header.i=@motorola.com header.b=2OfyujLT; arc=none smtp.client-ip=148.163.152.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=motorola.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=motorola.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Aeg1qpJz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B634BC4AF55;
-	Tue, 18 Jun 2024 14:59:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718722776;
-	bh=9VFvLJ5D2bcVwMlb/aO0woCroDo49q//nKnY5oo0Vus=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Aeg1qpJzbdiwhk0HyabcDzTXwO9AQCbIcPBHS7QUTNJkXRqIfCgR1bVmJoAwJqIqW
-	 aA/mfHHKLn6NsqkPepHxDC+fxhid4DKHAx7TUdE+3ULPCiG1Dnpj0ZazWAGetk+T06
-	 Fpqb//mvvp6ioyECDSMv5z7hfiSYl75o2wb5jFEWqnnveBNbsHyvSshFRZp3Faw1RS
-	 I1nQT5+/0ON4TQ6ZRIi6vEVB78OXNSL8/Al7ICpwsSi6AGC4axkLIATerU0pHF4KEy
-	 rePk7ffEiv9dxbrVEHw+Brt4hhINevCU3yqR8++MMgH6r7KixVGf+RFAoK0wZFiJ9J
-	 g+yyDQpcEPjaw==
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2ebeefb9a6eso59211541fa.1;
-        Tue, 18 Jun 2024 07:59:36 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWepa+BaUb7KH1NPCSx/EOcQlfS3x0rcBgr1OqfIVuNtzmGnabMy00akWeGXCO9BnuWv0nqsZcTZnMSm4rzjbiGvNOouAaAPP9YSiXmQGR93Tuvn6G/7LMogRnhV/gBFU2L6I9o12a1
-X-Gm-Message-State: AOJu0YxU2/kBHb8PCvLIptU8bCDlU0vdp2rDyzKRSPM9ZM0Q+ARgeD+e
-	ViMNA7MQrYWrP+ZYza8wvQlGklOA4cbso6OEFV57bdq2g88uRGByWCAUnAUv23EaZjGBIoPixhc
-	+C9FaHcK4gAX7W7un9zujgkyYcFU=
-X-Google-Smtp-Source: AGHT+IFmKDr0UJF/vB46P5FDkAXrOS2m32z+9GBnyCDYe1Bfh6hX7g0qK5mLLgIhmZTL1cK7ajhZR9bGd8nlSWfuLOw=
-X-Received: by 2002:a2e:9b93:0:b0:2eb:f5ec:5acc with SMTP id
- 38308e7fff4ca-2ec3cec5416mr669361fa.25.1718722774799; Tue, 18 Jun 2024
- 07:59:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=motorola.com header.i=@motorola.com header.b="2OfyujLT"
+Received: from pps.filterd (m0355090.ppops.net [127.0.0.1])
+	by m0355090.ppops.net (8.18.1.2/8.18.1.2) with ESMTP id 45IEew5e009691;
+	Tue, 18 Jun 2024 15:03:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=motorola.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=DKIM202306; bh=LsDqHofp7K+2f2J0vx8uTn8
+	2tMHjx9v5dUOBs6FATk0=; b=2OfyujLTu3HMNZ/1kzSJ7E1hMLjFWJzgZiOaS3K
+	oRs1TGdAoCy1YW6xeop2sf/8y1LFz8HGoX5igUdv5lCr5PEm7MsN7azev4rIkkTG
+	mO6Vzt+Y5ef1nlT/APQIsXsaI6u9ChRY9JurZ+0SvYKIq8eOFiii6fQFEg68RhgG
+	oYaSMdFpo8C4zTzIIO2CZO3GptHawdoNaUGWva06xhWCmEF3zRJvLCWa+EbrQyiX
+	C4Svw4UQT4bVcuAq71bXyzFYnR1W6+SoyAuzj+B2hLOc9tiau9O+ouvEr7OJBoy0
+	8y21NM+a5F/la2x3fRmN4OPtzoAj89tsUByfesGdwNYrn+g==
+Received: from va32lpfpp03.lenovo.com ([104.232.228.23])
+	by m0355090.ppops.net (PPS) with ESMTPS id 3ysp9ry9k0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 18 Jun 2024 15:03:24 +0000 (GMT)
+Received: from va32lmmrp01.lenovo.com (va32lmmrp01.mot.com [10.62.177.113])
+	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by va32lpfpp03.lenovo.com (Postfix) with ESMTPS id 4W3VPS1FQLz51Q9v;
+	Tue, 18 Jun 2024 15:03:24 +0000 (UTC)
+Received: from ilclasset02 (ilclasset02.mot.com [100.64.49.13])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: mbland)
+	by va32lmmrp01.lenovo.com (Postfix) with ESMTPSA id 4W3VPR6DTRz2VZRs;
+	Tue, 18 Jun 2024 15:03:23 +0000 (UTC)
+Date: Tue, 18 Jun 2024 10:03:22 -0500
+From: Maxwell Bland <mbland@motorola.com>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: linux-mm@kvack.org, Will Deacon <will@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ard Biesheuvel <ardb@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Alexandre Ghiti <alexghiti@rivosinc.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] ptdump: add intermediate directory support
+Message-ID: <z6tpx36aipbbklsjfvllmcjurmsz7gdxoaazv7qgdvy3rdtn4i@cbapiyxw5hpz>
+References: <fik5ys53dbkpkl22o4s7sw7cxi6dqjcpm2f3kno5tyms73jm5y@buo4jsktsnrt>
+ <ZjtgCfhQDJus3dqI@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <aw675dhrbplkitj3szjut2vyidsxokogkjj3vi76wl2x4wybtg@5rhk5ca5zpmv> <san7zg5rohy7q2oep2kx6awf6gltpuv2f4xlfljw5ezxqydfkv@zkd4k4udcezz>
-In-Reply-To: <san7zg5rohy7q2oep2kx6awf6gltpuv2f4xlfljw5ezxqydfkv@zkd4k4udcezz>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Tue, 18 Jun 2024 16:59:22 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXEr579hDqV5OuEbBB-O9meCOcmcTe_SZg97UKSLbKj6pw@mail.gmail.com>
-Message-ID: <CAMj1kXEr579hDqV5OuEbBB-O9meCOcmcTe_SZg97UKSLbKj6pw@mail.gmail.com>
-Subject: Re: [PATCH v4 2/5] arm64: non leaf ptdump support
-To: Maxwell Bland <mbland@motorola.com>
-Cc: linux-mm@kvack.org, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Alexandre Ghiti <alexghiti@rivosinc.com>, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZjtgCfhQDJus3dqI@arm.com>
+X-Proofpoint-GUID: 36Dl4qhOa9MmtRZLkP33Gicrqq9UYwHt
+X-Proofpoint-ORIG-GUID: 36Dl4qhOa9MmtRZLkP33Gicrqq9UYwHt
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
+ definitions=2024-06-18_02,2024-06-17_01,2024-05-17_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 adultscore=0
+ mlxlogscore=999 priorityscore=1501 malwarescore=0 suspectscore=0
+ clxscore=1015 spamscore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406180112
 
-On Tue, 18 Jun 2024 at 16:40, Maxwell Bland <mbland@motorola.com> wrote:
->
-> Separate the pte_bits used in ptdump from pxd_bits used by pmd, p4d,
-> pud, and pgd descriptors, thereby adding support for printing key
-> intermediate directory protection bits, such as PXNTable, and enable the
-> associated support Kconfig option.
->
-> Signed-off-by: Maxwell Bland <mbland@motorola.com>
-> ---
->  arch/arm64/Kconfig     |   1 +
->  arch/arm64/mm/ptdump.c | 140 ++++++++++++++++++++++++++++++++++++-----
->  2 files changed, 125 insertions(+), 16 deletions(-)
->
-> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> index 5d91259ee7b5..f4c3290160db 100644
-> --- a/arch/arm64/Kconfig
-> +++ b/arch/arm64/Kconfig
-> @@ -98,6 +98,7 @@ config ARM64
->         select ARCH_SUPPORTS_NUMA_BALANCING
->         select ARCH_SUPPORTS_PAGE_TABLE_CHECK
->         select ARCH_SUPPORTS_PER_VMA_LOCK
-> +       select ARCH_SUPPORTS_NON_LEAF_PTDUMP
->         select ARCH_WANT_BATCHED_UNMAP_TLB_FLUSH
->         select ARCH_WANT_COMPAT_IPC_PARSE_VERSION if COMPAT
->         select ARCH_WANT_DEFAULT_BPF_JIT
-> diff --git a/arch/arm64/mm/ptdump.c b/arch/arm64/mm/ptdump.c
-> index 6986827e0d64..8f0b459c13ed 100644
-> --- a/arch/arm64/mm/ptdump.c
-> +++ b/arch/arm64/mm/ptdump.c
-> @@ -24,6 +24,7 @@
->  #include <asm/memory.h>
->  #include <asm/pgtable-hwdef.h>
->  #include <asm/ptdump.h>
-> +#include <asm/pgalloc.h>
->
->
->  #define pt_dump_seq_printf(m, fmt, args...)    \
-> @@ -105,11 +106,6 @@ static const struct prot_bits pte_bits[] = {
->                 .val    = PTE_CONT,
->                 .set    = "CON",
->                 .clear  = "   ",
-> -       }, {
-> -               .mask   = PTE_TABLE_BIT,
-> -               .val    = PTE_TABLE_BIT,
-> -               .set    = "   ",
-> -               .clear  = "BLK",
->         }, {
->                 .mask   = PTE_UXN,
->                 .val    = PTE_UXN,
-> @@ -143,34 +139,129 @@ static const struct prot_bits pte_bits[] = {
->         }
->  };
->
-> +static const struct prot_bits pxd_bits[] = {
+On Wed, May 08, 2024 at 12:20:41PM GMT, Catalin Marinas wrote:
+> On Tue, Apr 30, 2024 at 11:05:01AM -0500, Maxwell Bland wrote:
+> > -ptdump is a debugfs interface that provides a detailed dump of the
 
-This table will need to distinguish between table and block entries.
-In your sample output, I see
+Hi Catalin! Apologies for the delayed response to this review, life got
+in the way. A version 4 that addresses your comments is available here:
 
-2M PMD   TBL     RW               x            UXNTbl    MEM/NORMAL
+https://lore.kernel.org/all/aw675dhrbplkitj3szjut2vyidsxokogkjj3vi76wl2x4wybtg@5rhk5ca5zpmv/
 
-for a table entry, which includes a memory type and access permissions
-based on descriptor fields that are not used for table descriptors.
+> > +Assessing these attributes can assist in understanding the memory layout,
+> > +access patterns and security characteristics of the kernel pages.
+> 
+> I presume there's some new text here.
 
-Some other attributes listed below are equally inapplicable to table
-entries, but happen to be 0x0 so they don't appear in the output, but
-they would if the IGNORED bit in the descriptor happened to be set.
+Yes. Though after having a bit of time to think on it, I just reworked
+the presentation altogether for version 4.
 
-So I suspect that the distinction pte_bits <-> pxd_bits is not so
-useful here. It would be better to have tbl_bits[], with pointers to
-it in the pg_level array, where the PTE level one is set to NULL.
+> 
+> >  	}, {
+> >  		.mask	= PTE_UXN,
+> >  		.val	= PTE_UXN,
+> 
+> Since you are adding a separate pmd_bits[] array, I think we could get
+> rid of the PTE_TABLE_BIT entry. It doesn't make sense for ptes anyway.
 
+Done! Sweet.
 
-> +       {
-> +               .mask   = PMD_SECT_VALID,
-> +               .val    = PMD_SECT_VALID,
-> +               .set    = " ",
-> +               .clear  = "F",
-> +       }, {
-> +               .mask   = PMD_TABLE_BIT,
-> +               .val    = PMD_TABLE_BIT,
-> +               .set    = "TBL",
-> +               .clear  = "BLK",
-> +       }, {
-> +               .mask   = PMD_SECT_USER,
-> +               .val    = PMD_SECT_USER,
-> +               .set    = "USR",
-> +               .clear  = "   ",
-> +       }, {
-> +               .mask   = PMD_SECT_RDONLY,
-> +               .val    = PMD_SECT_RDONLY,
-> +               .set    = "ro",
-> +               .clear  = "RW",
-> +       }, {
-> +               .mask   = PMD_SECT_S,
-> +               .val    = PMD_SECT_S,
-> +               .set    = "SHD",
-> +               .clear  = "   ",
-> +       }, {
-> +               .mask   = PMD_SECT_AF,
-> +               .val    = PMD_SECT_AF,
-> +               .set    = "AF",
-> +               .clear  = "  ",
-> +       }, {
-> +               .mask   = PMD_SECT_NG,
-> +               .val    = PMD_SECT_NG,
-> +               .set    = "NG",
-> +               .clear  = "  ",
-> +       }, {
-> +               .mask   = PMD_SECT_CONT,
-> +               .val    = PMD_SECT_CONT,
-> +               .set    = "CON",
-> +               .clear  = "   ",
-> +       }, {
-> +               .mask   = PMD_SECT_PXN,
-> +               .val    = PMD_SECT_PXN,
-> +               .set    = "NX",
-> +               .clear  = "x ",
-> +       }, {
-> +               .mask   = PMD_SECT_UXN,
-> +               .val    = PMD_SECT_UXN,
-> +               .set    = "UXN",
-> +               .clear  = "   ",
-> +       }, {
-> +               .mask   = PMD_TABLE_PXN,
-> +               .val    = PMD_TABLE_PXN,
-> +               .set    = "NXTbl",
-> +               .clear  = "     ",
-> +       }, {
-> +               .mask   = PMD_TABLE_UXN,
-> +               .val    = PMD_TABLE_UXN,
-> +               .set    = "UXNTbl",
-> +               .clear  = "      ",
-> +       }, {
-> +               .mask   = PTE_GP,
-> +               .val    = PTE_GP,
-> +               .set    = "GP",
-> +               .clear  = "  ",
-> +       }, {
-> +               .mask   = PMD_ATTRINDX_MASK,
-> +               .val    = PMD_ATTRINDX(MT_DEVICE_nGnRnE),
-> +               .set    = "DEVICE/nGnRnE",
-> +       }, {
-> +               .mask   = PMD_ATTRINDX_MASK,
-> +               .val    = PMD_ATTRINDX(MT_DEVICE_nGnRE),
-> +               .set    = "DEVICE/nGnRE",
-> +       }, {
-> +               .mask   = PMD_ATTRINDX_MASK,
-> +               .val    = PMD_ATTRINDX(MT_NORMAL_NC),
-> +               .set    = "MEM/NORMAL-NC",
-> +       }, {
-> +               .mask   = PMD_ATTRINDX_MASK,
-> +               .val    = PMD_ATTRINDX(MT_NORMAL),
-> +               .set    = "MEM/NORMAL",
-> +       }, {
-> +               .mask   = PMD_ATTRINDX_MASK,
-> +               .val    = PMD_ATTRINDX(MT_NORMAL_TAGGED),
-> +               .set    = "MEM/NORMAL-TAGGED",
-> +       }
-> +};
-> +
->  struct pg_level {
->         const struct prot_bits *bits;
->         char name[4];
->         int num;
->         u64 mask;
-> +       unsigned long size;
->  };
->
->  static struct pg_level pg_level[] __ro_after_init = {
->         { /* pgd */
->                 .name   = "PGD",
-> -               .bits   = pte_bits,
-> -               .num    = ARRAY_SIZE(pte_bits),
-> +               .bits   = pxd_bits,
-> +               .num    = ARRAY_SIZE(pxd_bits),
-> +               .size   = PGDIR_SIZE,
->         }, { /* p4d */
->                 .name   = "P4D",
-> -               .bits   = pte_bits,
-> -               .num    = ARRAY_SIZE(pte_bits),
-> +               .bits   = pxd_bits,
-> +               .num    = ARRAY_SIZE(pxd_bits),
-> +               .size   = P4D_SIZE,
->         }, { /* pud */
->                 .name   = "PUD",
-> -               .bits   = pte_bits,
-> -               .num    = ARRAY_SIZE(pte_bits),
-> +               .bits   = pxd_bits,
-> +               .num    = ARRAY_SIZE(pxd_bits),
-> +               .size   = PUD_SIZE,
->         }, { /* pmd */
->                 .name   = "PMD",
-> -               .bits   = pte_bits,
-> -               .num    = ARRAY_SIZE(pte_bits),
-> +               .bits   = pxd_bits,
-> +               .num    = ARRAY_SIZE(pxd_bits),
-> +               .size   = PMD_SIZE,
->         }, { /* pte */
->                 .name   = "PTE",
->                 .bits   = pte_bits,
->                 .num    = ARRAY_SIZE(pte_bits),
-> +               .size   = PAGE_SIZE
->         },
->  };
->
-> @@ -251,10 +342,27 @@ static void note_page(struct ptdump_state *pt_st, unsigned long addr, int level,
->                         note_prot_wx(st, addr);
->                 }
->
-> -               pt_dump_seq_printf(st->seq, "0x%016lx-0x%016lx   ",
-> -                                  st->start_address, addr);
-> +               /*
-> +                * Non-leaf entries use a fixed size for their range
-> +                * specification, whereas leaf entries are grouped by
-> +                * attributes and may not have a range larger than the type
-> +                * specifier.
-> +                */
-> +               if (st->start_address == addr) {
-> +                       if (check_add_overflow(addr, pg_level[st->level].size,
-> +                                              &delta))
-> +                               delta = ULONG_MAX - addr + 1;
-> +                       else
-> +                               delta = pg_level[st->level].size;
-> +                       pt_dump_seq_printf(st->seq, "0x%016lx-0x%016lx   ",
-> +                                          addr, addr + delta);
-> +               } else {
-> +                       delta = (addr - st->start_address);
-> +                       pt_dump_seq_printf(st->seq, "0x%016lx-0x%016lx   ",
-> +                                          st->start_address, addr);
-> +               }
->
-> -               delta = (addr - st->start_address) >> 10;
-> +               delta >>= 10;
->                 while (!(delta & 1023) && unit[1]) {
->                         delta >>= 10;
->                         unit++;
-> --
-> 2.39.2
->
->
+> > +static const struct prot_bits pud_bits[] = {
+> [...]
+> > +};
+> 
+> Do we need pud_bits[] as well? Can we not just use pmd_bits[]? Call it
+> pxd_bits if you want, the format is the same for all p*d entries.
+
+Thanks, done!
+
+> 
+> Please separate the alignment changes into a different patch
+
+Done! 
+
+> > +			delta = (addr - st->start_address);
+> 
+> What's this supposed to show? In your example, it's strange that the PGD
+> is shown as 128 bytes:
+
+This was a bug due to my misunderstanding of what we were going for
+here. Thank you for pointing it out, as it made it easy to notice and
+patch.
+
+> >  	if (pgd_leaf(val)) {
+> >  		st->note_page(st, addr, 0, pgd_val(val));
+> >  		walk->action = ACTION_CONTINUE;
+> 
+> Is the difference between leaf and non-leaf calls only the walk->action?
+> We could have a single call to st->note_page() and keep the walk->action
+> setting separately. Do we also need to set ACTION_SUBTREE in case the
+> entry is a table entry? Or is it done in the caller somewhere? I could
+> not figure out.
+
+ACTION_SUBTREE is the default walk action, so it is implicitly set for
+table descriptors.
+
+> 
+> An alternative would be to have an ARCH_WANT_NON_LEAF_PTDUMP Kconfig
+> option instead of a bool note_non_leaf in struct ptdump_state. This
+> option seems to be entirely static, not sure it's worth a struct member
+> for it. You'd use IS_ENABLED() above instead of st->note_non_leaf.
+
+This was an excellent idea, thank you. Incorporated.
+
+BRs and thanks again for your help on this,
+Maxwell Bland
