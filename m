@@ -1,158 +1,161 @@
-Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com [162.62.57.49])
+Received: from out30-99.freemail.mail.aliyun.com (out30-99.freemail.mail.aliyun.com [115.124.30.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A29E6197A7B;
-	Tue, 18 Jun 2024 02:47:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40C2B19ADAF;
+	Tue, 18 Jun 2024 02:56:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.99
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718678877; cv=none; b=AYXRMIWWXRGaPp7zetMG0hBlGUQikRaU50YO43W9kPGdvsf5092zPVLr03gLGejkjO4RgJlrjqjyPMojQnAx/IkykUxVePo9eEKcJfB1xrv5nXQaal+1ixfehKZjlQyuh4lWzC4Id7RlC8NC/ZLYe46DfZpXN/AH8vxahRwxFPY=
+	t=1718679412; cv=none; b=rATU/OuTTmDIcqrWKBzDFzvuyDArCZ1YPoUhkuS25aO5igo5/yvtjqk+5lyLdiS5zer/WlOeNvRGxA3E+3vmg7os3cYv1o2IQgHWKYtuTcg4TiQTv6xY8cEAsYrNSx/DDGmnqRnAi9GDG/Esu5+Bd8k/AekXC0zsp9wguunhnG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718678877; c=relaxed/simple;
-	bh=Of9hd9gJdC44iU0TcP82vIPNrhugyO6E3ElDHzolkOU=;
-	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version:Content-Type; b=g2/P7NzcS1MUDH14WoN5x9v8GhyZ8dhv4JiX0u4qz/UntwYFHw5a+T3lo6dKOx+M09yWDZw07YxMcy3N6Ryc3t+Rhtkgga27UcIGWA1pGbKtbxBGohjS8ROksuzcvC0agf8ZSSfrrYKI03lDTmlTd+UqGcNDbKu8rQA1/UdX5t0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=xJ1GcQZ4; arc=none smtp.client-ip=162.62.57.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
+	s=arc-20240116; t=1718679412; c=relaxed/simple;
+	bh=+MshPmHblm6iM9NgyporGfSjNK0JnormQPLXJUQ0jDI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=O/esZQElZpSMKaqkGxc+amSW91R2v0PPXfX2MAS2WG0mvk07sw0QxooxLGw/PKrzuDwjPWSXtx2xquofekfYqaEwg4l2F44ECRCyPd7gKZOz8K/74btibTEoZo34A4dA4TZWPRdYvYhz9/SGBNDA2l68TVlUUtNomgAlQn40oC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=qlkZVzqI; arc=none smtp.client-ip=115.124.30.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="xJ1GcQZ4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1718678861;
-	bh=+PgtJypd92me9yUpBAxp9FE7WuW9NkxbHeiGjuU9UJA=;
-	h=From:To:Cc:Subject:Date;
-	b=xJ1GcQZ4OvYeoGoT9brQMiF19/Y+VpV8j/o2JrkdQGAyuNlLXwNCVqIK6/i+uUtI6
-	 kZ07yDiSyCEIggg1sT37i7uFTrJUH15X2cfquxxu7C8NoRsDefFkJ2ElIujiZa9xdM
-	 LF+TEF0fKXaYKwLnrAatfihg62ijPL/NswKrFdak=
-Received: from localhost.localdomain ([203.119.160.30])
-	by newxmesmtplogicsvrszb9-1.qq.com (NewEsmtp) with SMTP
-	id BE6A6499; Tue, 18 Jun 2024 10:47:38 +0800
-X-QQ-mid: xmsmtpt1718678858tlzx1vhih
-Message-ID: <tencent_227A20B261EF28E4C37834F2089D5AD91408@qq.com>
-X-QQ-XMAILINFO: MmpliBmRb3iCozKJu14BkAyOGk/AAu8guHS+mU/NbcekN6R7XfkmN4oZlAJee/
-	 35L6pt8eoh9KgfQudDoAVGG0+2rXzSkNxCAFdGlzKbrgHBAqOqb+pC2wS1/JBEZtQ/SYK1VaRC+9
-	 KkUO0+xVGKzFRqJfOuNwqwYYJ5qS+zReaWC6HMugL0J3dY0Tm6XcwUfLbPzzjRVWHAsAhYXv+HXP
-	 yMWNaJYOlJIjIJBu+lSaUwAKSKQ5MyMr5MNROH8fex4S3mAltt8kzkyUrp8cjq6ts+9/qVmhTSZx
-	 UGZTlIeuWWIGOYCF9j+o+Zhm8xvfAAGoHP8bMi+vsEHSxDLkcyxMZAHpnAajs1YqJR3ZvejKdHQQ
-	 O4fAvEfZz36wH+0s1pKtcX1//AHBcPOaTkUQPOoDYxWE0EL3f3r3Dr9TaK6fs1dXJQyfF3c8PM8T
-	 noZ6uF+qeQtrDt4hEeO4k7zEtTwEEn9A3lp6GXobVYLJWm7cfdDBEbU8L3iH5+kqnnRaTF+9jwwv
-	 +dU+CUUOWMUiPU7UsArQejXDp25/VjgkkON0mFDjq3JYWnfh03EkBwDonTHpeCSEQC7q+FboVzvu
-	 To44bomw6TCbagDNjT7/nhzuOk/wxGoPtc1hQzH3PbiI62Hh82I4aYVv6r+V3Xl5mi9GP21ZGy4A
-	 s84JT0XuWcEfpJyO1wFMvY+rAfQKm5Zou8v6meyW3gwLT5jbEISIJeEmWRdqIqUfcwIWZ/ILw3CC
-	 xLh3OzOzwRi2YDoyIiWmKLAuQ/JipTk3UZqzGIa7eh4s2exXlvJHB9zvP0oOxGGzkKO7v2VCpT2t
-	 7ayye7ilvKzBQnpVsk36L//fLci5wQq0CplU6YBXj9jk5z/BR81XAcMIBe5Arl7ryyvIELPjsG/O
-	 SBUm6gw0OrVrdzte4CpsbCrbnCffqiwGYYPEJs792MRtJYIUrJjJWWMr81fssM4wTXBe6hvp0OTh
-	 Xh5g+xZOkJPsSLZCF8i5nzpO2t35Pz6o5MJfoEEBmJi59Bfgl4MQ==
-X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
-From: wodemia@foxmail.com
-To: alexs@kernel.org,
-	siyanteng@loongson.cn,
-	corbet@lwn.net
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Tao Zou <wodemia@linux.alibaba.com>
-Subject: [PATCH V1 RESEND 1/1] zh_CN/admin-guide: Add zh_CN/admin-guide/numastat.rst translation document
-Date: Tue, 18 Jun 2024 10:47:37 +0800
-X-OQ-MSGID: <20240618024737.76204-1-wodemia@foxmail.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="qlkZVzqI"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1718679407; h=From:To:Subject:Date:Message-Id:MIME-Version;
+	bh=OzQUJeu4o6rO0toRIPj3mcwXDT38eU3Roh56NCFZeLE=;
+	b=qlkZVzqIKnpMKsxPs5HOz35BJrPQQtI3g6/wJyXM6xrAUpz4vfElVWq5KsaxNqVr6xTj1yAUOe1Wcqd38EfyekqbhzS1iaq+XE9W4SCjiNSJugcoZ50GjBOKc6GUHlNPzBxW6lQPn9IQKKW2/i4iCxwE5YdAY6SUDUF+mSBW1aM=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R231e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045075189;MF=hengqi@linux.alibaba.com;NM=1;PH=DS;RN=31;SR=0;TI=SMTPD_---0W8iG1a0_1718679404;
+Received: from localhost(mailfrom:hengqi@linux.alibaba.com fp:SMTPD_---0W8iG1a0_1718679404)
+          by smtp.aliyun-inc.com;
+          Tue, 18 Jun 2024 10:56:45 +0800
+From: Heng Qi <hengqi@linux.alibaba.com>
+To: netdev@vger.kernel.org,
+	virtualization@lists.linux.dev
+Cc: Jakub Kicinski <kuba@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jason Wang <jasowang@redhat.com>,
+	"Michael S . Tsirkin" <mst@redhat.com>,
+	Brett Creeley <bcreeley@amd.com>,
+	Ratheesh Kannoth <rkannoth@marvell.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Tal Gilboa <talgi@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Paul Greenwalt <paul.greenwalt@intel.com>,
+	Ahmed Zaki <ahmed.zaki@intel.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	justinstitt@google.com,
+	donald.hunter@gmail.com,
+	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Dragos Tatulea <dtatulea@nvidia.com>,
+	Rahul Rameshbabu <rrameshbabu@nvidia.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	awel Dembicki <paweldembicki@gmail.com>
+Subject: [PATCH RESEND net-next v14 0/5] ethtool: provide the dim profile fine-tuning channel
+Date: Tue, 18 Jun 2024 10:56:39 +0800
+Message-Id: <20240618025644.25754-1-hengqi@linux.alibaba.com>
+X-Mailer: git-send-email 2.32.0.3.g01195cf9f
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Tao Zou <wodemia@linux.alibaba.com>
+The NetDIM library provides excellent acceleration for many modern
+network cards. However, the default profiles of DIM limits its maximum
+capabilities for different NICs, so providing a way which the NIC can
+be custom configured is necessary.
 
-Add translation zh_CN/admin-guide/numastat.rst and link it to
-zh_CN/admin-guide/index.rst while clean its todo entry.
+Currently, the way is based on the commonly used "ethtool -C".
 
-Signed-off-by: Tao Zou <wodemia@linux.alibaba.com>
----
+Please review, thank you very much!
 
-I apologize, the previous PATCH had an incorrect email address for linux-doc when it was sent, so I need to resend it.
- 
- .../translations/zh_CN/admin-guide/index.rst  |  2 +-
- .../zh_CN/admin-guide/numastat.rst            | 50 +++++++++++++++++++
- 2 files changed, 51 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_CN/admin-guide/numastat.rst
+Changelog
+=====
+Jakub feedback: Use RESEND to refresh the review queue.
 
-diff --git a/Documentation/translations/zh_CN/admin-guide/index.rst b/Documentation/translations/zh_CN/admin-guide/index.rst
-index ac2960da33e6..0db80ab830a0 100644
---- a/Documentation/translations/zh_CN/admin-guide/index.rst
-+++ b/Documentation/translations/zh_CN/admin-guide/index.rst
-@@ -68,6 +68,7 @@ Todolist:
-    cpu-load
-    cputopology
-    lockup-watchdogs
-+   numastat
-    unicode
-    sysrq
-    mm/index
-@@ -109,7 +110,6 @@ Todolist:
- *   module-signing
- *   mono
- *   namespaces/index
--*   numastat
- *   parport
- *   perf-security
- *   pm/index
-diff --git a/Documentation/translations/zh_CN/admin-guide/numastat.rst b/Documentation/translations/zh_CN/admin-guide/numastat.rst
-new file mode 100644
-index 000000000000..4f7fee557cb5
---- /dev/null
-+++ b/Documentation/translations/zh_CN/admin-guide/numastat.rst
-@@ -0,0 +1,50 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/admin-guide/numastat.rst
-+:Translator: Tao Zou <wodemia@linux.alibaba.com>
-+
-+.. _cn_numastat:
-+
-+
-+===============================
-+Numa策略命中/未命中统计
-+===============================
-+
-+/sys/devices/system/node/node*/numastat
-+
-+所有数据的单位都是页面。巨页有独立的计数器。
-+
-+numa_hit、numa_miss和numa_foreign计数器反应了进程是否能够在他们偏好的节点上分配内存。
-+如果进程成功在偏好的节点上分配内存则在偏好的节点上增加numa_hit计数，否则在偏好的节点上增
-+加numa_foreign计数同时在实际内存分配的节点上增加numa_miss计数。
-+
-+通常，偏好的节点是进程运行所在的CPU的本地节点，但是一些限制可以改变这一行为，比如内存策略，
-+因此同样有两个基于CPU本地节点的计数器。local_node和numa_hit类似，当在CPU所在的节点上分
-+配内存时增加local_node计数，other_node和numa_miss类似，当在CPU所在节点之外的其他节点
-+上成功分配内存时增加other_node计数。需要注意，没有和numa_foreign对应的计数器。
-+
-+更多细节内容:
-+
-+=============== ============================================================
-+numa_hit        一个进程想要从本节点分配内存并且成功。
-+
-+numa_miss       一个进程想要从其他节点分配内存但是最终在本节点完成内存分配。
-+
-+numa_foreign    一个进程想要在本节点分配内存但是最终在其他节点完成内存分配。
-+
-+local_node      一个进程运行在本节点的CPU上并且从本节点上获得了内存。
-+
-+other_node      一个进程运行在其他节点的CPU上但是在本节点上获得了内存。
-+
-+interleave_hit  内存交叉分配策略下想要从本节点分配内存并且成功。
-+=============== ============================================================
-+
-+你可以使用numactl软件包（http://oss.sgi.com/projects/libnuma/）中的numastat工具
-+来辅助阅读。需要注意，numastat工具目前只在有少量CPU的机器上运行良好。
-+
-+需要注意，在有无内存节点（一个节点有CPUs但是没有内存）的系统中numa_hit，numa_miss和
-+numa_foreign统计数据会被严重曲解。在当前的内核实现中，如果一个进程偏好一个无内存节点（即
-+进程正在该节点的一个本地CPU上运行），实际上会从距离最近的有内存节点中挑选一个作为偏好节点。
-+结果会导致相应的内存分配不会增加无内存节点上的numa_foreign计数器，并且会扭曲最近节点上的
-+numa_hit、numa_miss和numa_foreign统计数据。
+v13->v14:
+  - Make DIMLIB dependent on NET (patch 2/5).
+
+v12->v13:
+  - Rebase net-next to fix the one-line conflict.
+  - Update tiny comments.
+  - Config ETHTOOL_NETLINK to select DIMLIB.
+
+v11->v12:
+  - Remove the use of IS_ENABLED(DIMLIB).
+  - Update Simon's htmldoc hint.
+
+v10->v11:
+  - Fix and clean up some issues from Kuba, thanks.
+  - Rebase net-next/main
+
+v9->v10:
+  - Collect dim related flags/mode/work into one place.
+  - Use rx_profile + tx_profile instead of four profiles.
+  - Add several helps.
+  - Update commit logs.
+
+v8->v9:
+  - Fix the compilation error of conflicting names of rx_profile in
+    dim.h and ice driver: in dim.h, rx_profile is replaced with
+    dim_rx_profile. So does tx_profile.
+
+v7->v8:
+  - Use kmemdup() instead of kzalloc()/memcpy() in dev_dim_profile_init().
+
+v6->v7:
+  - A new wrapper struct pointer is used in struct net_device.
+  - Add IS_ENABLED(CONFIG_DIMLIB) to avoid compiler warnings.
+  - Profile fields changed from u16 to u32.
+
+v5->v6:
+  - Place the profile in netdevice to bypass the driver.
+    The interaction code of ethtool <-> kernel has not changed at all,
+    only the interaction part of kernel <-> driver has changed.
+
+v4->v5:
+  - Update some snippets from Kuba.
+
+v3->v4:
+  - Some tiny updates and patch 1 only add a new comment.
+
+v2->v3:
+  - Break up the attributes to avoid the use of raw c structs.
+  - Use per-device profile instead of global profile in the driver.
+
+v1->v2:
+  - Use ethtool tool instead of net-sysfs.
+
+Heng Qi (5):
+  linux/dim: move useful macros to .h file
+  dim: make DIMLIB dependent on NET
+  ethtool: provide customized dim profile management
+  dim: add new interfaces for initialization and getting results
+  virtio-net: support dim profile fine-tuning
+
+ Documentation/netlink/specs/ethtool.yaml     |  31 +++
+ Documentation/networking/ethtool-netlink.rst |   4 +
+ Documentation/networking/net_dim.rst         |  42 +++
+ drivers/net/virtio_net.c                     |  54 +++-
+ drivers/soc/fsl/Kconfig                      |   2 +-
+ include/linux/dim.h                          | 113 ++++++++
+ include/linux/ethtool.h                      |   4 +-
+ include/linux/netdevice.h                    |   3 +
+ include/uapi/linux/ethtool_netlink.h         |  22 ++
+ lib/Kconfig                                  |   1 +
+ lib/dim/net_dim.c                            | 144 +++++++++-
+ net/Kconfig                                  |   1 +
+ net/ethtool/coalesce.c                       | 263 ++++++++++++++++++-
+ 13 files changed, 667 insertions(+), 17 deletions(-)
+
 -- 
-2.39.3 (Apple Git-146)
+2.32.0.3.g01195cf9f
 
