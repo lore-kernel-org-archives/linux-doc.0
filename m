@@ -1,232 +1,235 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa20.fujitsucc.c3s2.iphmx.com (esa20.fujitsucc.c3s2.iphmx.com [216.71.158.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD0319925A
-	for <linux-doc@vger.kernel.org>; Mon, 17 Jun 2024 23:57:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718668625; cv=none; b=mZATzfF1MWp3toW1Ay6eAMkF3a28dDOP+MkdvMP/9zSGxNXVAAWZBpkusdGEec/UShIUJpSzYGyoJwtFT+RNeQXajL2DoaAnfdwNl8xNtfm2cgat+cKTq+mlXU1qL4WpVbiBF6hpaEZsk0+SNexlP1whbHFozV8wsuJyP4v5zuk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718668625; c=relaxed/simple;
-	bh=nzBwBVqIm92hzymlIVx5EWehH89tPmsDDm0vrypcfxc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ExkgbhqC1UGdF6Ydh55oAFq161skqmnOcbhZmk7rIq/8FnQSmQjRc6ZQ+jsVY/gimCuZ/XrUXXTUxbleCbvYnlcHupTvAj972mRyJaKtlKplMIlYZ4ma0Nc2/bCwGuOp2QtR6mLYSVhDtDvHwyFGVGaEgpF9K+6Qm940jpSIPWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=nnTQ7oYZ; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF68B17E9;
+	Tue, 18 Jun 2024 00:18:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=216.71.158.65
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1718669905; cv=fail; b=MqY3VxmjFYUPVHYwnOgez+83mkdYnBlDygaH7KSsJPy1zixzWqW1pdxDQl3de86aOwznD0CCw7isaLxj9s/YFvqrvdN3wtJdV7spBlvaLUDIqGIsXQy8Xly1KJiFqdZmndEYcRTT2lC5pSHtd4EaXHcIUTUToG4orwcbB0TLy34=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1718669905; c=relaxed/simple;
+	bh=ygFpbdVCY3VPhwjX/R1SfK895SkPa4QLgSw/Aj9+lw0=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=YNfwDqCVA+SmfOGr7G0kvDAtUQej+sdf1mi4K54ucYqzQy4oXET+SDpg77WQO5NMxpMJ1wgxy0/p2O+nq15gbr65BQDzjUPQKroP3A+KO7VRNuPJdMzrs+yUIY0j6Zc5OP2Xq3VlOeV/c+4IWTzTNO3ZcG8AfKfYDXmABPD1F9I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fujitsu.com; spf=pass smtp.mailfrom=fujitsu.com; dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b=uQE5KhaC; arc=fail smtp.client-ip=216.71.158.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fujitsu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="nnTQ7oYZ"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-70601bcfddcso1265818b3a.3
-        for <linux-doc@vger.kernel.org>; Mon, 17 Jun 2024 16:57:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1718668623; x=1719273423; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+Pv6YgUgx26x13lU94kELKKeYzK6q+bXz++7xQqcQ+U=;
-        b=nnTQ7oYZQ/U/AI0IVFxZTylcSgm7y8xmGZTC+WTpHQXXZFcNiM+VtYlMtq0pvRQWHR
-         m1AoTjkHcSpDbMsXpqiBioPkEZhtCeQylafBjaQjuIacWnMv/cU39ohhfBQsFd6ZXkeh
-         MoYU/ghZCuhs3oWKVvbRiqy6JEg8KDmebpd87I/RpAim8tiMSALBvV6ravGmADL0MDax
-         SKEoYgtbolvYWYFn1YLika12O6cZl8dHqzDKcMqFB1/L9NZbZPq1ltelY1t2Eo6V180B
-         PFYHotwRXYGvt2bAA9E3rvpo72aZ00ES9Eu08NrsmZUNUj+cMUf/J4BAykhD5V3s9OIC
-         Lm5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718668623; x=1719273423;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+Pv6YgUgx26x13lU94kELKKeYzK6q+bXz++7xQqcQ+U=;
-        b=H8r2/7pYXNtrILETEja3tGUH7fQSbCMLjuvyNIBYL0Dof+nIm4q3wUrRQaRUgsOv0a
-         95nYJ5kMfPU6GkBudjrIXgX2S0MZ4zBW+mNs1kAlFbYojzRF9xheVWaRY8g5dFFy2s8/
-         tYTLmgBOh+9GvICUe/Vsz9nXJtZM9p3DCFoP3HLzkw5a9Zve4ss4GCDbT2l8vgOA6Xcb
-         vxBgw7xlcP1unsszTZTRpN9S9F3V8M/J1STS8Rr1t85XXof3zdQY7VTqzycNm0dz69p0
-         HEYL0zMrs896g6+lqfchvr/0LldackRhvlkyre9Q3FGMU0OduKF1h1nas+B9lzTbnpEC
-         c9ng==
-X-Forwarded-Encrypted: i=1; AJvYcCVG08nU/AezyU259Y9GCL6bJuHcYSGk7O427EcfWc84eAhsSiN0o4MYdQkU5/ToEWkXTOkJz8oHCr4TeX2E44hB7zG+p/Wh/Vs3
-X-Gm-Message-State: AOJu0YwWliQg4pz1bQxkGHTmI05H/jK6dPxAbFoi8OgJUgfRdnQa+WF0
-	4dXOswZcV0fv64b+8vMXhWbnGxek4uraJiquklEn9TwTBIRe0E5yESuhz4XFjlo=
-X-Google-Smtp-Source: AGHT+IEiXrAB7cuxRppsU6GQJ6vHl6ukNvL8RrXB7zAYcQWc3ujHmluc9BRM9R7AWGZu0MBlcMUoWw==
-X-Received: by 2002:aa7:9f4b:0:b0:705:d805:214c with SMTP id d2e1a72fcca58-705d8052532mr11634053b3a.3.1718668623238;
-        Mon, 17 Jun 2024 16:57:03 -0700 (PDT)
-Received: from ghost ([2601:647:5700:6860:3b3e:f51e:252a:6811])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-6fee3c9ed1fsm5985863a12.83.2024.06.17.16.57.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jun 2024 16:57:02 -0700 (PDT)
-Date: Mon, 17 Jun 2024 16:56:58 -0700
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Conor Dooley <conor.dooley@microchip.com>
-Cc: Jesse Taube <jesse@rivosinc.com>, linux-riscv@lists.infradead.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
-	Evan Green <evan@rivosinc.com>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Xiao Wang <xiao.w.wang@intel.com>, Andy Chiu <andy.chiu@sifive.com>,
-	Eric Biggers <ebiggers@google.com>,
-	Greentime Hu <greentime.hu@sifive.com>,
-	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Costa Shulyupin <costa.shul@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Baoquan He <bhe@redhat.com>, Anup Patel <apatel@ventanamicro.com>,
-	Zong Li <zong.li@sifive.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Ben Dooks <ben.dooks@codethink.co.uk>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Erick Archer <erick.archer@gmx.com>,
-	Joel Granados <j.granados@samsung.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 3/6] RISC-V: Check scalar unaligned access on all CPUs
-Message-ID: <ZnDNSthEVSSXpJnC@ghost>
-References: <20240613191616.2101821-1-jesse@rivosinc.com>
- <20240613191616.2101821-4-jesse@rivosinc.com>
- <20240614-padded-mammal-d956735c1293@wendy>
+	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b="uQE5KhaC"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj1;
+  t=1718669902; x=1750205902;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=ygFpbdVCY3VPhwjX/R1SfK895SkPa4QLgSw/Aj9+lw0=;
+  b=uQE5KhaCRj4vYMgLm7W723+t6P+76EcICBI8MtWL2yRV15S0wnl6w2O3
+   kcFuupb6DOHvifXKySsR1PqpsaSef3HUoAQdn9BFoYQy62NyT/MH4tfL1
+   7DClxHvllg3yqCJzTEyyy94mPBrZMOnsaIokYb4aDE09sNR0D36QU8eKZ
+   amRwDjP9ntU2BzJ8INvo18pQ7C2lZxBC4JmJLdU4V0onammdPzH86j792
+   6EiydCjcEs8lPlaEbSp/ZuKrN9J81rGNReBtsjlSHkFWAU3yxTLnDgkyq
+   /MntcJFAxN7NiKTl2iZZMoj7TWZiqO4WD0y1laxWYDwDXOen4k9NNQndI
+   w==;
+X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="122407806"
+X-IronPort-AV: E=Sophos;i="6.08,246,1712588400"; 
+   d="scan'208";a="122407806"
+Received: from mail-os0jpn01lp2108.outbound.protection.outlook.com (HELO JPN01-OS0-obe.outbound.protection.outlook.com) ([104.47.23.108])
+  by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2024 09:17:09 +0900
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gld9LHNUL5SA6hYFC/qp4cCEagwu1lOn8WZrk1moHR8hlsTMhVLj8Dv0m8qT2RFjFUyHXlS/1KcPxpCE3kGrmS3qjysGffcKPlQqo8UB5JSzxXWul5pst9e6/mYBRtPyOOAGwnszCjcNAbYvx2jKVE5xvGLAla9ZU9ITSt8wcNRcxRqf6mzfWE6mCJh5leyU6TS3FvPxPQUerQYZgADYAObEWOxoIyNBFO0PXAPRMUn59/l/GE/wmDQa7npZETwKC968RxbdyhWrGzhA66qLrf+67rqJQbGisxZtOrjeIqymmTPA/1YmKhWEGhFuD33DzetNAtzOu4klZ2PAvM96fg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ygFpbdVCY3VPhwjX/R1SfK895SkPa4QLgSw/Aj9+lw0=;
+ b=l0/DUlM2ewhRxlSXn11eh5QYjqf4dWFgDc6fyScYhEdbbl47byrqBXX7S2YJ+lNCDMlebz8EiVopAd6TnhoE6kZvLFn9CzamogZfxd6rSZ42rJNRDI0kyKfHOfLx12PS+xsmyAxx8TUYSC7n7/ViVjpzvxzRQayvtvvj/3T6WVQcB+KHaN5GNUCagG4O1r9slinboBs2nf0f6oXAW/Ff1ddK86IUEr23J34oWyI+jbVZlZDUzSmil4wDr8vLGgR+bcsoemCM8GNdjTWGlcF6xxhaUlH1YPRJ85FfMQsI6Vie6ruKd+3K/ijNzNkm0uqCDfSiKAlV6ZCuDexoN/JDYw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
+ dkim=pass header.d=fujitsu.com; arc=none
+Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com (2603:1096:403:6::12)
+ by OS3PR01MB6774.jpnprd01.prod.outlook.com (2603:1096:604:115::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.30; Tue, 18 Jun
+ 2024 00:17:06 +0000
+Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com
+ ([fe80::d9ba:425a:7044:6377]) by TY1PR01MB1562.jpnprd01.prod.outlook.com
+ ([fe80::d9ba:425a:7044:6377%3]) with mapi id 15.20.7677.030; Tue, 18 Jun 2024
+ 00:17:06 +0000
+From: "Zhijian Li (Fujitsu)" <lizhijian@fujitsu.com>
+To: Jonathan Corbet <corbet@lwn.net>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>
+CC: "tglx@linutronix.de" <tglx@linutronix.de>, "mingo@redhat.com"
+	<mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org"
+	<x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] Documentation: exception-tables.rst: Fix the wrong steps
+ referenced
+Thread-Topic: [PATCH] Documentation: exception-tables.rst: Fix the wrong steps
+ referenced
+Thread-Index: AQHavfZEvk8iBJrZk0WK8fRycfgz/rHMk5OAgAAaMQA=
+Date: Tue, 18 Jun 2024 00:17:06 +0000
+Message-ID: <8f4defbb-eee8-4c66-baa4-7c5da792f673@fujitsu.com>
+References: <20240614010028.48262-1-lizhijian@fujitsu.com>
+ <874j9rgph4.fsf@trenco.lwn.net>
+In-Reply-To: <874j9rgph4.fsf@trenco.lwn.net>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Mozilla Thunderbird
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fujitsu.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY1PR01MB1562:EE_|OS3PR01MB6774:EE_
+x-ms-office365-filtering-correlation-id: 0d099ae0-feed-4d83-fe25-08dc8f2bfc72
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230037|376011|1800799021|366013|38070700015|1580799024;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?UE9YdWJvcGhtMi9Vc1JZMHFwNkFndnhEUVo5U1JEOHpncm5COGVRbGRScTVG?=
+ =?utf-8?B?YzhsUnNIQlJVM2IwYkkzbTBPd3pZbFZHR1JEQlVCM2hTeTdxWFFWZkVnODJs?=
+ =?utf-8?B?R0dwMGo4M3VTWTdjajBZT29mbW5CS1Rlek5Ud2Q1dnZCMC9xY05mTUhzWllv?=
+ =?utf-8?B?V1UxYVlDY2FqWTVOa2p0RDlWUHFBZTdrdkNza0xGV0tLOGRzR0k2Nm42aUpM?=
+ =?utf-8?B?Unl6bW9KOHhKN1VsSlhLQXhRK21ncTVLQUU4NU13SEczL1ZzWENWbk5wa0NL?=
+ =?utf-8?B?a2piWjRLaDhDdGRSVU14Z2l0YlNHRjBrbEhleTg2dFF4aktWSjFUVEJRY3d4?=
+ =?utf-8?B?eGROdVlwZE9UYzQvajZUVSs2YnloN1REMHNHdUhPRFVNd1ZyWHZvZkpmNlRV?=
+ =?utf-8?B?RTdYZlNQRFIyRG8wSUJJdVZPZnJBeStPbVoxUjJwN3NSN3QvbGZDUGxXRXh5?=
+ =?utf-8?B?YTh5cW5YWTdiV1o5T2JYYUtldmpsUUdBb0dmeGZJa1ZjZWhwdVc3QTdEQjNL?=
+ =?utf-8?B?VTl4N2tVTndiUThaQTlnWWlEZHE0UEppZHJGbW1kUExYbUg5WlRsd0FybDc4?=
+ =?utf-8?B?bThvMmx5V2VxUC9mb2hVbXphMmw5b0x5Ry90RzUyc05nNFNpQnFkK2psSVBW?=
+ =?utf-8?B?RU11UjhQK3Faam1rbEN5ajJWNWdxRzBJaDlTV0tLMjUzUkpwandVZDNXK1M0?=
+ =?utf-8?B?b3dtcEJPKzdpZEZacld1S2k4YmhHY1VLM2dBWWoyQUJpRDBWWDdYd0trS0dt?=
+ =?utf-8?B?cUFYcG5JTnhYaFczZ3VFUUZnN2ZmUzZSN1hCRnhqUWN1akYwR3VZOXU3djBZ?=
+ =?utf-8?B?SEpPaHNPcG4wZ3diOHRKM0FEMWZEWlpJRzd1M1Ezb3JNNDNzQ3VRWHJEdzVE?=
+ =?utf-8?B?TzFsRGNJR0dKVWJrejZGQ2xrOEtreUhWd3IxT1p4MlloWC9JQVN3dXRhSUty?=
+ =?utf-8?B?NTVKRmt4Q1dHb3FuTFhtd2w3QVZpeWlyQXo1YnVRR3B4Wjh3SkRHSElCL0JN?=
+ =?utf-8?B?aGJLczdNajZ4MFBLSTNsTkVRN3EvQnZTQzd3VHVIbGdnQktOSnlGMk5jNFZM?=
+ =?utf-8?B?cW5maTJBZVFvRXpNTDZQVmk1dTRDMk50M1FLY1hTWGlsamZkQ2IvNHozWWhQ?=
+ =?utf-8?B?eUhzYnhJTFFTY2FWVUdZckhBc3poMUtPNHdDRFNSaG1jYUduOStmd0NGc09x?=
+ =?utf-8?B?ZEtUQ3Jsa0JmZjVmT2ZpZzUvY1VyMWdXTzRYckp4OWg3WDArSXAwOGwrYnJh?=
+ =?utf-8?B?RGtsako5dGNrZVVYM2pCVHN1THp2dE5DRk05SUNVZ0oxZ3NDVnJ5WVVZZWoy?=
+ =?utf-8?B?R2k1dnA2cVZOSDNEa0IzV0FGSnpXcnVXZXZwcmVVN1UxRTJoTkpKSzZrOTVV?=
+ =?utf-8?B?R09UaEUySnYvTzJVcnBoU3EyN2FHbEVJd283YlY1YS9HeTludWZJdkxCaUlE?=
+ =?utf-8?B?dWVlZzQ2ekpJMzhxUmxSbVZUTmZmalFkd3poYnFwdlM2dDQ2aUZYWmp6U2I5?=
+ =?utf-8?B?RkFnMjNzamJOdjNiQW96aGNaR3dUa29jVS9JS0UvV2hROXNvREU1MTB3a0NU?=
+ =?utf-8?B?S05lNWczaGdoTGZ5dmh3ZXN5QTdQMnl3SktwN3gzcnJQa0p4WjduWTBtQ0pj?=
+ =?utf-8?B?MHhzZ3ZGbzJzRlpHMVh4eDYwM1lWUEhNWlh6YzQ3RzRCN2R1SHpYU1M5WXht?=
+ =?utf-8?B?UlJNenI4eWN2Ui82SUxobUQ0VzFFSmtyaXY5Yk01eHJQUWxpcGxrZnFocmps?=
+ =?utf-8?B?Sy9Ec29abXlaQ09sR3lhMjVhOTZBVjBBUkpqY0FQMW96TmtXTGJRdG1td0R2?=
+ =?utf-8?B?YS9wZi9Sbmp5a2tnRGIzNjBGdXZad3oxZFVvK3BEb1hFOGVvVU1tSFQxb3NK?=
+ =?utf-8?B?V2NsVmczcy9nMno0SHJ2bFlBRTVzektrU1FsbVZKeTZ5OFE9PQ==?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY1PR01MB1562.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230037)(376011)(1800799021)(366013)(38070700015)(1580799024);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?NEJnMDdHNWRjTU5QbzNnZ0tkak9OU3JZRnIxaXQ5RnQxOXZLWVVzNUJTN01I?=
+ =?utf-8?B?aWhCSkQxYmlnZDEzdmFsbloyRGtBZExYbnVMMitnbkdjWUR6OUhXUjBvdTBi?=
+ =?utf-8?B?VkZVSXFNc2VwRFJ3Z3BMTStNdTFqbFc5ZWM4OFlzeGhvQ1FpNGMwV1RIaisr?=
+ =?utf-8?B?VTNWMWRKVkQ1TGFpV1Byc1RuZzhqa2JuNmQ4QkJLeWtlbFFVeUFMeWtVa0Zh?=
+ =?utf-8?B?QnpxL3R6KzlvUTg2Ump4c0NKQkhVanpoTzR0RzJXamtwZGFVeEhKTlFpZW9s?=
+ =?utf-8?B?YlZWS2NHdmxwRFdGR3R0UVUwZUd0VWNJK0NJWXFldkNkeXlxZnN2SXh0bDVE?=
+ =?utf-8?B?ZlZUcnpPYm1QeFFEQ3gxZ09CajVvb0RRRUJHQnp0MWtwYjVWL1I5cGh5Z2Nu?=
+ =?utf-8?B?T1hYbkRWTTVCRXlXSkpUS01HYmVpWTc3YVEyNzNOTFg4K1VzSVU0TmtiK1NW?=
+ =?utf-8?B?NFRtT255VDcyY3R1SysyT3Z2YlRSdm40KzBKd3ByRWMwQ3pMTHBsWTRVT1pW?=
+ =?utf-8?B?L2NmdDhyM1l0T0hqUnpmVXJrQ3V5K1BRY2IrSXJZdUpzang2ZWNML0ZQbWlS?=
+ =?utf-8?B?K3NaeTBLTE9qR1UvYS9MQVdhSGxEMTVWWWNqR2FlcTFTOCtydVMrVkRlSnNZ?=
+ =?utf-8?B?bVVMWHM0SWU1Y0NJRE9jNWRHVFVCM25SL3BMbWFNMVlteUdTNTR2Mk1BU0Jn?=
+ =?utf-8?B?cC9BTFNYbXZvYzgwQzV5THZCTDNhb0VzdVZqWjJmV2hWdzZKUUV4UWFvZDFj?=
+ =?utf-8?B?T1JjOFhGMHZVYnlnU0JGSXJ0SlNmdDFCOHBiZnB3Vld5MTNqNWJUWno4aDgz?=
+ =?utf-8?B?ZUZWYURtdlIyZmlFS013c0FWSzc1YTBQUGRhckxZdzJjcGxhdVFDTkM5UUEw?=
+ =?utf-8?B?QVN0YmhpVUJwZ1JlTHd3VVlHSElVNzZ1VWZncmZQL3pNUndzK2t6cjFFckZt?=
+ =?utf-8?B?R1JoNTJVVlJraGNGNUhrZUxEQ2hkcUpYVDRMZTA4TDBwMjBWMDJ3a243RHNo?=
+ =?utf-8?B?TFBFS21JQmxmcHBhYUFzd1JuUE5DWVB2c2RtOW1PQ2o2QURGVGFoem5obHQv?=
+ =?utf-8?B?RjJtbnhPQXkzMldhRjJYOEpvbERrSlpveExnKytCdGFWZ1lTL1FVNVRyK0l1?=
+ =?utf-8?B?cFA0aUk3TWp2VVIwYTZIT0NaZVU5STY1cDk0OHM3REhOM0lhQVZyZXM2a2ZH?=
+ =?utf-8?B?V3p5N3B6bmJzMXc2R053ZjQ4YnRNdlkwYmRER0Y3UE5pQmtSV1hQTi8vV3pq?=
+ =?utf-8?B?b3NGQWZuSW9CMVlYbk5NMzlraGhDcEx4R3FJcTlCSmc3ZEkxMlpDdWI0ZlZU?=
+ =?utf-8?B?czhJYlUzZE9jYlM3bCtSZVFKcGlEZXVtZVZnenpoeW05QjhhWVowVGJUbUVM?=
+ =?utf-8?B?b0x5RHR3clRyRzFSK2s0TVlHQ2tLZ05nSzJRbTNQU3U5Z2ZCdHkrcjdpNVhE?=
+ =?utf-8?B?UU5XZ1lvcHBxQUhxV21VemJ0WitDTGU4bGtibmkxSXNYdFI4U0dLQUI4QmFh?=
+ =?utf-8?B?VzJjZU5Gc2pkUDRVOCs0UWd4NVJTVm1GNXFkd1dLY0xsbmpWQ0NHZU1KeHRG?=
+ =?utf-8?B?NGgwYVpEdVRVMXZlcGFXMGVVVi94VFg5NE82Qzk4WDIranNmd281QUl6RWph?=
+ =?utf-8?B?T0pzaWZsZHgvVWZsVENmcFFPMUJKQ2ZyQnVqZnV3Z2E0ZWVTZ29qaDhkV1BV?=
+ =?utf-8?B?U3ZUZnZXcFI3ZlJCMkRkZmczNUFKMUdtemJlNE1scE1uZUZVMXlNVXB5MjFW?=
+ =?utf-8?B?RHVIa3BaTjFrTU1ZWlpHSi9WaDk3UG0vT1dNS1I1enh6YmZqL2laNW5xQ3Ju?=
+ =?utf-8?B?aWwvcHFqaWpPTEdhZFNOYnQrZVpReUdOVkxINkFMWElzcXZESS9JOE93aHdX?=
+ =?utf-8?B?S0JNRGtYWjgrbno5S3pVVFVack0vS3NtenhmaWZDOGpVYk11WGVxaTNkTjEx?=
+ =?utf-8?B?bmlLdktFZU1JU202SUk5UU5yQmtJQngxNXBVU0hpemJkdG1SSDJ2NFVzY0xo?=
+ =?utf-8?B?OWNyRGhYZ3lPdTk3VVY0OXA2cHRtZzhHSnNrSEErajZNbUp3dlRYUEpWZ3Zj?=
+ =?utf-8?B?ODIyVEtCYTNveStMOXZGdmJFUWd6cVJ1Z0xvK282MlpCT3ZhSFRTeGVrR3g4?=
+ =?utf-8?B?d09TbEdMVWZzSHJzYitIUmhwYU9KUjRzMUJxN29kYThBc09mdDZLSmtiR0V1?=
+ =?utf-8?B?Z0E9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <9DB14FAB8776634C83B3902A7246C621@jpnprd01.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240614-padded-mammal-d956735c1293@wendy>
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	VhacjcVbJLk2K+QjNrkEcWPOwiLNdNzxmlvsunZjKJ/YY0B+s4iNqxRcH8Bw9f326mOFnscZ1B1+t+N9kgnqrj+B/I0BXG70ACDT/yA7oEoS84nwV0pWsKp4e0PILkcKUgzoRmJZU6lR8YurGo1F2BixMQ/NxH4ITrhArBzhNQICmmQ6xScYNTFDHWCtninL5yO6fBkdsIhFBq7Ty3uIsrUbME0L5RLkr+65shrqzIH3EXdpXYAz3QEPibIllQsNSS/vIKZZJlYvd3evNbKVaKFjEtYmrJkcnEOM0PhYgDLbJIpmcOdnsvSP4zFu3rD6KURLNsMu3w5aoSDOPwQpOGN5e+17L67HDtoj8Eu4IGBkcrSr2OuZUijsS4aA8Id0sysoKmzV2ZB3CBJUVDFIC0RIllZwhF8CZNitP1vOqB5hXsLCxIn8Z6nRcyQtIhRA2KLXeI6ASZvMicDLWkF4AnNTSlJJPcmJd9Hc55G959H9SQPmmbxs9I9dytio5sBgIavzeiXu+cfjwXvR5xzhlB1bI/v2WY3G+vnF4Zdb7PNcV5i7I/ED4MuGXRMw8kcNPuaQ92gieH+CEOkayk4U+xqtbJfpKHYGJXGRmJoZa/hCkf2Ihaw89FxYUjCILlCB
+X-OriginatorOrg: fujitsu.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY1PR01MB1562.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0d099ae0-feed-4d83-fe25-08dc8f2bfc72
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jun 2024 00:17:06.1028
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: VD5PVy4/0sQ21Loopto/UnY7yIE5zfb09MsJ8zg8xqlGKgOZsMwbR7lcwieEAlPg+4U0PKKiwkJH6V/6bY+tqg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB6774
 
-On Fri, Jun 14, 2024 at 09:22:47AM +0100, Conor Dooley wrote:
-> On Thu, Jun 13, 2024 at 03:16:12PM -0400, Jesse Taube wrote:
-> > Originally, the check_unaligned_access_emulated_all_cpus function
-> > only checked the boot hart. This fixes the function to check all
-> > harts.
-> 
-> This seems like it should be split out and get a Fixes: tag & a cc:
-> stable.
-
-These changes are great Jesse! I agree with Conor, please split these
-changes into two different patches with a fixes tag for
-71c54b3d169d ("riscv: report misaligned accesses emulation to hwprobe").
-
-
-- Charlie
-
-> 
-> > Check for Zicclsm before checking for unaligned access. This will
-> > greatly reduce the boot up time as finding the access speed is no longer
-> > necessary.
-> > 
-> > Signed-off-by: Jesse Taube <jesse@rivosinc.com>
-> > ---
-> > V1 -> V2:
-> >  - New patch
-> > ---
-> >  arch/riscv/kernel/traps_misaligned.c       | 23 ++++++----------------
-> >  arch/riscv/kernel/unaligned_access_speed.c | 23 +++++++++++++---------
-> >  2 files changed, 20 insertions(+), 26 deletions(-)
-> > 
-> > diff --git a/arch/riscv/kernel/traps_misaligned.c b/arch/riscv/kernel/traps_misaligned.c
-> > index b62d5a2f4541..8fadbe00dd62 100644
-> > --- a/arch/riscv/kernel/traps_misaligned.c
-> > +++ b/arch/riscv/kernel/traps_misaligned.c
-> > @@ -526,31 +526,17 @@ int handle_misaligned_store(struct pt_regs *regs)
-> >  	return 0;
-> >  }
-> >  
-> > -static bool check_unaligned_access_emulated(int cpu)
-> > +static void check_unaligned_access_emulated(struct work_struct *unused)
-> >  {
-> > +	int cpu = smp_processor_id();
-> >  	long *mas_ptr = per_cpu_ptr(&misaligned_access_speed, cpu);
-> >  	unsigned long tmp_var, tmp_val;
-> > -	bool misaligned_emu_detected;
-> >  
-> >  	*mas_ptr = RISCV_HWPROBE_MISALIGNED_UNKNOWN;
-> >  
-> >  	__asm__ __volatile__ (
-> >  		"       "REG_L" %[tmp], 1(%[ptr])\n"
-> >  		: [tmp] "=r" (tmp_val) : [ptr] "r" (&tmp_var) : "memory");
-> > -
-> > -	misaligned_emu_detected = (*mas_ptr == RISCV_HWPROBE_MISALIGNED_EMULATED);
-> > -	/*
-> > -	 * If unaligned_ctl is already set, this means that we detected that all
-> > -	 * CPUS uses emulated misaligned access at boot time. If that changed
-> > -	 * when hotplugging the new cpu, this is something we don't handle.
-> > -	 */
-> > -	if (unlikely(unaligned_ctl && !misaligned_emu_detected)) {
-> > -		pr_crit("CPU misaligned accesses non homogeneous (expected all emulated)\n");
-> > -		while (true)
-> > -			cpu_relax();
-> > -	}
-> > -
-> > -	return misaligned_emu_detected;
-> >  }
-> >  
-> >  bool check_unaligned_access_emulated_all_cpus(void)
-> > @@ -562,8 +548,11 @@ bool check_unaligned_access_emulated_all_cpus(void)
-> >  	 * accesses emulated since tasks requesting such control can run on any
-> >  	 * CPU.
-> >  	 */
-> > +	schedule_on_each_cpu(check_unaligned_access_emulated);
-> > +
-> >  	for_each_online_cpu(cpu)
-> > -		if (!check_unaligned_access_emulated(cpu))
-> > +		if (per_cpu(misaligned_access_speed, cpu)
-> > +		    != RISCV_HWPROBE_MISALIGNED_EMULATED)
-> >  			return false;
-> >  
-> >  	unaligned_ctl = true;
-> > diff --git a/arch/riscv/kernel/unaligned_access_speed.c b/arch/riscv/kernel/unaligned_access_speed.c
-> > index a9a6bcb02acf..70c1588fc353 100644
-> > --- a/arch/riscv/kernel/unaligned_access_speed.c
-> > +++ b/arch/riscv/kernel/unaligned_access_speed.c
-> > @@ -259,23 +259,28 @@ static int check_unaligned_access_speed_all_cpus(void)
-> >  	kfree(bufs);
-> >  	return 0;
-> >  }
-> > +#endif /* CONFIG_RISCV_PROBE_UNALIGNED_ACCESS */
-> >  
-> >  static int check_unaligned_access_all_cpus(void)
-> >  {
-> > -	bool all_cpus_emulated = check_unaligned_access_emulated_all_cpus();
-> > +	bool all_cpus_emulated;
-> > +	int cpu;
-> >  
-> > +	if (riscv_has_extension_unlikely(RISCV_ISA_EXT_ZICCLSM)) {
-> > +		for_each_online_cpu(cpu) {
-> > +			per_cpu(misaligned_access_speed, cpu) = RISCV_HWPROBE_MISALIGNED_FAST;
-> > +		}
-> > +		return 0;
-> > +	}
-> > +
-> > +	all_cpus_emulated = check_unaligned_access_emulated_all_cpus();
-> > +
-> > +#ifdef CONFIG_RISCV_PROBE_UNALIGNED_ACCESS
-> 
-> Can we make this an IS_ENABLED() please?
-> 
-> 
-> Thanks,
-> Conor.
-> 
-> >  	if (!all_cpus_emulated)
-> >  		return check_unaligned_access_speed_all_cpus();
-> > +#endif
-> >  
-> >  	return 0;
-> >  }
-> > -#else /* CONFIG_RISCV_PROBE_UNALIGNED_ACCESS */
-> > -static int check_unaligned_access_all_cpus(void)
-> > -{
-> > -	check_unaligned_access_emulated_all_cpus();
-> > -
-> > -	return 0;
-> > -}
-> > -#endif
-> >  
-> >  arch_initcall(check_unaligned_access_all_cpus);
-> > -- 
-> > 2.43.0
-> > 
-
-
+DQoNCk9uIDE4LzA2LzIwMjQgMDY6NDMsIEpvbmF0aGFuIENvcmJldCB3cm90ZToNCj4gTGkgWmhp
+amlhbiA8bGl6aGlqaWFuQGZ1aml0c3UuY29tPiB3cml0ZXM6DQo+IA0KPj4gV2hlbiBpdCB3YXMg
+aW4gdGV4dCBmb3JtYXQsIGl0IGNvcnJlY3RseSBoYXJkY29kZWQgc3RlcHMgOGEgdG8gOGMuDQo+
+PiBIb3dldmVyLCBhZnRlciBpdCB3YXMgY29udmVydGVkIHRvIFJTVCwgdGhlIHNlcXVlbmNlIG51
+bWJlcnMgd2VyZQ0KPj4gYXV0by1nZW5lcmF0ZWQgZHVyaW5nIHJlbmRlcmluZyBhbmQgYmVjYW1l
+IGluY29ycmVjdCBhZnRlciBzb21lDQo+PiBzdGVwcyB3ZXJlIGluc2VydGVkLg0KPj4NCj4+IENo
+YW5nZSBpdCB0byByZWZlciB0byBzdGVwcyBhIHRvIGMgaW4gYSByZWxhdGl2ZSB3YXkuDQo+Pg0K
+Pj4gU2lnbmVkLW9mZi1ieTogTGkgWmhpamlhbiA8bGl6aGlqaWFuQGZ1aml0c3UuY29tPg0KPj4g
+LS0tDQo+PiAgIERvY3VtZW50YXRpb24vYXJjaC94ODYvZXhjZXB0aW9uLXRhYmxlcy5yc3QgfCAy
+ICstDQo+PiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0K
+Pj4NCj4+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2FyY2gveDg2L2V4Y2VwdGlvbi10YWJs
+ZXMucnN0IGIvRG9jdW1lbnRhdGlvbi9hcmNoL3g4Ni9leGNlcHRpb24tdGFibGVzLnJzdA0KPj4g
+aW5kZXggZWZkZTFmZWY0ZmJkLi41NjJkMWJjNmQ0NDggMTAwNjQ0DQo+PiAtLS0gYS9Eb2N1bWVu
+dGF0aW9uL2FyY2gveDg2L2V4Y2VwdGlvbi10YWJsZXMucnN0DQo+PiArKysgYi9Eb2N1bWVudGF0
+aW9uL2FyY2gveDg2L2V4Y2VwdGlvbi10YWJsZXMucnN0DQo+PiBAQCAtMjk3LDcgKzI5Nyw3IEBA
+IHZtYSBvY2N1cnM/DQo+PiAgICAgIGMpIGV4ZWN1dGlvbiBjb250aW51ZXMgYXQgbG9jYWwgbGFi
+ZWwgMiAoYWRkcmVzcyBvZiB0aGUNCj4+ICAgICAgICAgaW5zdHJ1Y3Rpb24gaW1tZWRpYXRlbHkg
+YWZ0ZXIgdGhlIGZhdWx0aW5nIHVzZXIgYWNjZXNzKS4NCj4+ICAgDQo+PiAtVGhlIHN0ZXBzIDhh
+IHRvIDhjIGluIGEgY2VydGFpbiB3YXkgZW11bGF0ZSB0aGUgZmF1bHRpbmcgaW5zdHJ1Y3Rpb24u
+DQo+PiArVGhlIHN0ZXBzIGEgdG8gYyBhYm92ZSBpbiBhIGNlcnRhaW4gd2F5IGVtdWxhdGUgdGhl
+IGZhdWx0aW5nIGluc3RydWN0aW9uLg0KPj4gICANCj4gDQo+IFRob3NlIHN0ZXBzIHJlbmRlciBh
+cyAxLCAyLCBhbmQgMyAuLi4gd2hlcmUgZGlkICJhIHRvIGMiIGNvbWUgZnJvbT8NCg0KDQo+Pj4g
+ICAgICBjKSBleGVjdXRpb24gY29udGludWVzIGF0IGxvY2FsIGxhYmVsIDIgKGFkZHJlc3Mgb2Yg
+dGhlDQo+Pj4gICAgICAgICBpbnN0cnVjdGlvbiBpbW1lZGlhdGVseSBhZnRlciB0aGUgZmF1bHRp
+bmcgdXNlciBhY2Nlc3MpLg0KDQpJSVVDLCB0aGlzIGlzIHRoZSBfX2NfXywgYW5kIF9fYV9fIGlz
+IGRvY3VtZW50ZWQgYWJvdmUgX19jX18uDQoNCg0KQ2hlY2sgdGhlIG9yaWdpbmFsIGNvbW1pdCwg
+aXQgZGlkIGhhcmRjb2RlIF9fOGFfXyBhbmQgX184Y19fLA0KZm9yIGV4YW1wbGUsDQoNCmNvbW1p
+dCBjMzY4YjQ5MjFiYzZlMzA5YWJhMmZiZWUwZWZjYmJjOTY1MDA4ZDlmDQpBdXRob3I6IEFtZXJp
+Z28gV2FuZyA8YW13YW5nQHJlZGhhdC5jb20+DQpEYXRlOiAgIEZyaSBKdWwgMTAgMTU6MDI6NDQg
+MjAwOSAtMDcwMA0KDQogICAgIERvYzogbW92ZSBEb2N1bWVudGF0aW9uL2V4Y2VwdGlvbi50eHQg
+aW50byB4ODYgc3ViZGlyDQoNCjwuLi5zbmlwLi4uPg0KDQorMS4pIGFjY2VzcyB0byBpbnZhbGlk
+IGFkZHJlc3M6DQorID4gYzAxN2U3YTUgPGRvX2Nvbl93cml0ZStlMT4gbW92YiAgICglZWJ4KSwl
+ZGwNCisyLikgTU1VIGdlbmVyYXRlcyBleGNlcHRpb24NCiszLikgQ1BVIGNhbGxzIGRvX3BhZ2Vf
+ZmF1bHQNCis0LikgZG8gcGFnZSBmYXVsdCBjYWxscyBzZWFyY2hfZXhjZXB0aW9uX3RhYmxlIChy
+ZWdzLT5laXAgPT0gYzAxN2U3YTUpOw0KKzUuKSBzZWFyY2hfZXhjZXB0aW9uX3RhYmxlIGxvb2tz
+IHVwIHRoZSBhZGRyZXNzIGMwMTdlN2E1IGluIHRoZQ0KKyAgICBleGNlcHRpb24gdGFibGUgKGku
+ZS4gdGhlIGNvbnRlbnRzIG9mIHRoZSBFTEYgc2VjdGlvbiBfX2V4X3RhYmxlKQ0KKyAgICBhbmQg
+cmV0dXJucyB0aGUgYWRkcmVzcyBvZiB0aGUgYXNzb2NpYXRlZCBmYXVsdCBoYW5kbGUgY29kZSBj
+MDE5OWZmNS4NCis2LikgZG9fcGFnZV9mYXVsdCBtb2RpZmllcyBpdHMgb3duIHJldHVybiBhZGRy
+ZXNzIHRvIHBvaW50IHRvIHRoZSBmYXVsdA0KKyAgICBoYW5kbGUgY29kZSBhbmQgcmV0dXJucy4N
+Cis3LikgZXhlY3V0aW9uIGNvbnRpbnVlcyBpbiB0aGUgZmF1bHQgaGFuZGxpbmcgY29kZS4NCis4
+LikgOGEpIEVBWCBiZWNvbWVzIC1FRkFVTFQgKD09IC0xNCkNCisgICAgOGIpIERMICBiZWNvbWVz
+IHplcm8gKHRoZSB2YWx1ZSB3ZSAicmVhZCIgZnJvbSB1c2VyIHNwYWNlKQ0KKyAgICA4YykgZXhl
+Y3V0aW9uIGNvbnRpbnVlcyBhdCBsb2NhbCBsYWJlbCAyIChhZGRyZXNzIG9mIHRoZQ0KKyAgICAg
+ICAgaW5zdHJ1Y3Rpb24gaW1tZWRpYXRlbHkgYWZ0ZXIgdGhlIGZhdWx0aW5nIHVzZXIgYWNjZXNz
+KS4NCisNCitUaGUgc3RlcHMgOGEgdG8gOGMgaW4gYSBjZXJ0YWluIHdheSBlbXVsYXRlIHRoZSBm
+YXVsdGluZyBpbnN0cnVjdGlvbi4NCisNCitUaGF0J3MgaXQsIG1vc3RseS4gSWYgeW91IGxvb2sg
+YXQgb3VyIGV4YW1wbGUsIHlvdSBtaWdodCBhc2sgd2h5DQoNCg0KPiANCj4gVGhhbmtzLA0KPiAN
+Cj4gam9u
