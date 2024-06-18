@@ -1,115 +1,105 @@
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646FF185E5F
-	for <linux-doc@vger.kernel.org>; Tue, 18 Jun 2024 23:43:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718754205; cv=none; b=kMEzzvqdKSzFnfJv3de0spZIZ4aYCXt7D72vvtEiEOFQmIKxWT3bcqkBiUqs6WQKbHScwty0jet5i5HjchkyYVTPJSxuMz0JfuZQSR2VqtwkwSklsq9sqanVMeey3V11CSeC4abIjPlbyHHX2vYmyOAd0WLaAXtIZ85lYa0jyss=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718754205; c=relaxed/simple;
-	bh=JT0JNMECrMy4aw7rVvFRZG20IaWqJPqXWXGxA66HJeA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V4EPHkXOo8qJq9p2uMlt06c5tkpQt/vJiC++AihXJXonIuwmLLg4kou/PKucDy3S0FgmVWtizv6I/yGmrQxtdXA603TvkMMHO0Bi0D1AloA0pKg2fkyniv2J6yIsEdS86Lkj6owdsUBr03KgfoY6GmIZ39GlrOkConWF/abqOeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Ol9kNRlN; arc=none smtp.client-ip=209.85.166.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 419B511CA9;
+	Tue, 18 Jun 2024 23:51:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1718754718; cv=pass; b=F8yE4KyRetZlW8hTtLghLvcz7HMWtokui8e1s+LKFl86w9eIHC0GETzW9SkXNH1+WqUsRo3WL4ljKbvqv0HDgM0fuO2UEDneTOMFLzaYnxZB7OlrPXsejBbgt15MGIAposLFkPEsaD3fgG2bfazAoYpk9jMm2TNt2qs5mcP1b6g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1718754718; c=relaxed/simple;
+	bh=RfFl+97EXHWl4m+G7vuwvFRzulFXQEXrJmZAgGUBbHU=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=UOXChtoP3SfniAML5Wg/dft7xh/y8wSxOqeIDCT+2cwz1XT3W65k/VA7S3G9GHLcElCAnvod2chBxxYbAnh4tcaoBkmZwXzoqxWh/0+Rf60/vpmGEIxIWB3e1Ai4DYVLeDIF3zA2aJdU+VXIiOKRzsUA+ZpZ5RQcrRLEFsv1dVE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=YLQxXRMl; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ol9kNRlN"
-Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-7ec08f3c98eso13965639f.0
-        for <linux-doc@vger.kernel.org>; Tue, 18 Jun 2024 16:43:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1718754202; x=1719359002; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=h9rdpOi8JxshyFAFLpU0e93AbZSOreFpEAXGG+8lytk=;
-        b=Ol9kNRlNADQJOtPfcsG4RIDEu+bn9L+7JKSX0SdFlwA0YUIeCBaYg3KWREAaPfoGCP
-         dMD3V+h079qFeBSWzPPO5edNqxLYX72fxwICjP9Q3REOhEt0zqqVTglj4mrF+voi9uz3
-         l6tKkGnS6mfkiIM3eT/2dXcvguqYI8DMgUqQ0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718754202; x=1719359002;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=h9rdpOi8JxshyFAFLpU0e93AbZSOreFpEAXGG+8lytk=;
-        b=MaFeBsYjcNi3uPfvceseD47CmlrI3o6KbqiYaRw8F5QyrTJ/vt21p2gribrSEet3WD
-         gt5KPfTq4WMsFOmekVEBBLxQf4yoxN2fAiy2gENelfNAjmQRWGDT5wkah7qCTwBI3kD+
-         utH0s/s7VIW8lL3mR6ZQCYRDSYS+4HUNCqZ/VIi207aNXynQZ3os8vCnctNhRuuOS/h0
-         vjoZmNP4d3Cp9uKHDQltT2JCmNaIFQzVIChACRB9YlNE3OplrtB2g5XYN8I/9bZfOBcy
-         zAx9oxu+HDf+6Imkt2Txd6yEA4HvqXQ0EYIzhVL8XGV0IgaI7jIDgc5JgUVg93PGpWlp
-         6AUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVJRWsPaSHohirBVXpLwZUUdNufRfYn0ywDHOP9MBNO1hSxolnPHmv61YhwdLKIza39ZFhMP/M4sjh2bzEDH5JfW3Cjai8HkgPu
-X-Gm-Message-State: AOJu0YxO6bDZ4KkOQMfFQRS3QKBl1s6umRAXiQuT3dgRYGkV5DleaYOq
-	3qkfr+0cCK3lcz0713R2QePMnjV7b8V3CKodzLIdNUIs0XE9vas4P92EuwIUpeM=
-X-Google-Smtp-Source: AGHT+IEgfEraUGp1/3xnWYLSv3mJ38I1Ff4QXvB7oYKTwoEfflkOmUybcJqiu3mfAAj807U7pdxcgg==
-X-Received: by 2002:a5e:8e42:0:b0:7e1:8829:51f6 with SMTP id ca18e2360f4ac-7f13ee72e28mr135187939f.1.1718754202422;
-        Tue, 18 Jun 2024 16:43:22 -0700 (PDT)
-Received: from [192.168.1.128] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4b9569ef9d8sm3424643173.95.2024.06.18.16.43.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Jun 2024 16:43:22 -0700 (PDT)
-Message-ID: <f28f4dea-f72b-4266-b415-55fed737d073@linuxfoundation.org>
-Date: Tue, 18 Jun 2024 17:43:21 -0600
+	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="YLQxXRMl"
+ARC-Seal: i=1; a=rsa-sha256; t=1718754682; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=APEcdjFAtRIbhxF/xsgrQoVwfrmx5OOtET1Cn9LfEDyPa0qsMZEvf3xZvYrCbEoGlf++llpjN3GtR7d+u2Iff/eXRj1ss83JiZYXS09tlrfkKVFXYlfdSLqFNXcnSML52vvY6tsJ+vw65Q6J7vv573s9WK2RiVpVETPaXxM/lug=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1718754682; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=RfFl+97EXHWl4m+G7vuwvFRzulFXQEXrJmZAgGUBbHU=; 
+	b=bylbvPZC6WOwYQ8YKBZq0lww14/9rcmPR2Nt0cimM71nHYhQXiTRE5dgzqwn/IkeF9JAK4YH7gYIdPlZ0hypTL5d+xavwWAkZIch8CwTrXeEvmbn2ji/MslE1u7vXyEHxGbvDbM09pEfMispqC3YvZLx/ILYoYHlehlWXulWZ8M=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1718754682;
+	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+	bh=RfFl+97EXHWl4m+G7vuwvFRzulFXQEXrJmZAgGUBbHU=;
+	b=YLQxXRMlT8Z+fs6JVbqrT6vz8sPZlQyZAA58vIxmHVlJixEnc6ycfN/RbJkDl2z8
+	7ZVO7FBV5mHbOIF6tDW3T1cnW8WcBSBacyoK6B2BaVaF8I270KHk+BbZHJRaoZQ2Ezz
+	eUpHXKjsH4xtHWjJgcFvp1tnPbOz9bMYyVVoCt4/n6XnNi1psU3wqDbwli7bmQKigcD
+	u4TJZkwWRGYpsSDaAgXkOasiPLAaVyqRaxqp0vDARzN9p0tp1Zd4LHnhZ4nzBv4B9e9
+	8iKi6spRIaZfDBIkUd5k3f9ldj+e8WkAzljC92ZgLlGBCKkx2QoOCyg5Nwn1ddwclaB
+	Fwbe/eKUDQ==
+Received: by mx.zohomail.com with SMTPS id 1718754680063854.9774986659605;
+	Tue, 18 Jun 2024 16:51:20 -0700 (PDT)
+Message-ID: <3c20c9f15cd7a9fb1f2e88560c1b089ac8032898.camel@icenowy.me>
+Subject: Re: [PATCH] RISC-V: Provide the frequency of mtime via hwprobe
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Jessica Clarke <jrtc27@jrtc27.com>, Yunhui Cui <cuiyunhui@bytedance.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley
+ <paul.walmsley@sifive.com>,  Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
+ <aou@eecs.berkeley.edu>, =?ISO-8859-1?Q?Cl=E9ment_L=E9ger?=
+ <cleger@rivosinc.com>, Evan Green <evan@rivosinc.com>, Conor Dooley
+ <conor.dooley@microchip.com>, costa.shul@redhat.com, Andy Chiu
+ <andy.chiu@sifive.com>, samitolvanen@google.com, linux-doc@vger.kernel.org,
+  linux-riscv <linux-riscv@lists.infradead.org>, LKML
+ <linux-kernel@vger.kernel.org>, Palmer Dabbelt <palmer@rivosinc.com>
+Date: Wed, 19 Jun 2024 07:51:14 +0800
+In-Reply-To: <2BA519C8-D258-4D98-AD49-AC7D30D8B0D2@jrtc27.com>
+References: <20240618114653.12485-1-cuiyunhui@bytedance.com>
+	 <2BA519C8-D258-4D98-AD49-AC7D30D8B0D2@jrtc27.com>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] selftests: Add information about TAP conformance in
- tests
-To: Muhammad Usama Anjum <usama.anjum@collabora.com>,
- Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: kernel@collabora.com, linux-kselftest@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20240612072723.4146613-1-usama.anjum@collabora.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20240612072723.4146613-1-usama.anjum@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 
-On 6/12/24 01:27, Muhammad Usama Anjum wrote:
-> Although "TAP" word is being used already in documentation, but it hasn't
-> been defined in informative way for developers that how to write TAP
-> conformant tests and what are the benefits. Write a short brief about it.
-> 
-> Signed-off-by: Muhammad Usama Anjum <usama.anjum@collabora.com>
-> ---
-> Changes since v1:
-> - Update documentation by modifying and removing sentences
+=E5=9C=A8 2024-06-18=E6=98=9F=E6=9C=9F=E4=BA=8C=E7=9A=84 18:11 +0100=EF=BC=
+=8CJessica Clarke=E5=86=99=E9=81=93=EF=BC=9A
+> On 18 Jun 2024, at 12:46, Yunhui Cui <cuiyunhui@bytedance.com> wrote:
+> >=20
+> > From: Palmer Dabbelt <palmer@rivosinc.com>
+> >=20
+> > A handful of user-visible behavior is based on the frequency of the
+> > machine-mode time.
+> >=20
+> > Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+> > Signed-off-by: Yunhui Cui <cuiyunhui@bytedance.com>
+>=20
+> I would suggest referring to the user-mode CSR instead, i.e. =E2=80=9Ctim=
+e=E2=80=9D
+> rather than =E2=80=9Cmtime=E2=80=9D throughout in names and descriptions,=
+ since
+> that=E2=80=99s
+> the thing that user-mode software is actually reading from.
 
-This described what you did which isn't very useful for reviewers.
-In the future mention why you made these changes instead. Something
-like "addressed review comments by <reviewer's name>"
+Agree. MTIME isn't even a thing defined in RISC-V ISA -- it's part of
+the ACLINT timer spec, but before ACLINT gets widely accepted, it's
+just some SiFive thing that got copied by many other vendors (and
+vendors such as T-Head even provides CLINT w/o MTIME register (well
+because these T-Head cores have reference source code available, this
+is because of their CPU design uses an external counter fed as TIME
+register)).
 
-> ---
->   Documentation/dev-tools/kselftest.rst | 7 +++++++
->   1 file changed, 7 insertions(+)
-> 
-> diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
-> index dcf634e411bd9..f3766e326d1e3 100644
-> --- a/Documentation/dev-tools/kselftest.rst
-> +++ b/Documentation/dev-tools/kselftest.rst
-> @@ -228,6 +228,13 @@ In general, the rules for selftests are
->    * Don't cause the top-level "make run_tests" to fail if your feature is
->      unconfigured.
->   
-> + * The output of tests must conform to the TAP standard to ensure high
-> +   testing quality and to capture failures/errors with specific details.
-> +   The kselftest.h and kselftest_harness.h headers provide wrappers for
-> +   outputting test results. These wrappers should be used for pass,
-> +   fail, exit, and skip messages. CI systems can easily parse TAP output
-> +   messages to detect test results.
-> +
->   Contributing new tests (details)
->   ================================
->   
+>=20
+> Jess
+>=20
+>=20
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
 
-Thank you for this patch. Applied to linux-kselftest next for Linux  6.11-rc1
-
-thanks,
--- Shuah
