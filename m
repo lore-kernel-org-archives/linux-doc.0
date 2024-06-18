@@ -1,105 +1,104 @@
-Received: from mx0a-00823401.pphosted.com (mx0a-00823401.pphosted.com [148.163.148.104])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B031304A3;
-	Tue, 18 Jun 2024 16:55:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.148.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1704F82D6D
+	for <linux-doc@vger.kernel.org>; Tue, 18 Jun 2024 17:11:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718729750; cv=none; b=maGHXKVTGOCa3cy6QhFlONJ6ECVGCfNoT0GppohrcTiJ7v23pLAVx+LhRaI8zv/RkILmW3elaAyTDhw4TWke3wrZp4C2nh4N9wBM+fI85UILP4T1DFB5qbQvjZXp+gG+obJKiKYn10ekfoEGXHLyfU9JVEYmhjudkzz6FS4SmI8=
+	t=1718730679; cv=none; b=QGNdcS5pghWfmBRfrlXoG73FPTetPb0IQvhasqhSKmio4QgQVvdQ0zcGRClNL2vNiDXYIOWv5rmEHywynSqhqzH5YoBK2XWaCN25pHhnM348JcWJVMrW2GQ2qNxSYQTD7qF692LXoGvs7HS5dCHGzEb2eNkUHqIEJCgNSOaHpsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718729750; c=relaxed/simple;
-	bh=pkeYejmVfMmLVTzXH8iwwhryb6AH3j8b4cA211RBA94=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OXmXhcc4+RBlVevEe60M52mSH4vf1UY9OFbsyeSPpyweXhAAVCw4nwceulEG/9vVI7VBZrnnEQ0ZLDTg0zlOh1T7K95VhUDEiivB0ZgW9MppwnkylqELuW7luhI7wDIiOT5QwiblnoBCVslkGrzcRXz69qfA2Gy9Xb9kIQVuHcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=motorola.com; spf=pass smtp.mailfrom=motorola.com; dkim=pass (2048-bit key) header.d=motorola.com header.i=@motorola.com header.b=Y8lPA3U+; arc=none smtp.client-ip=148.163.148.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=motorola.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=motorola.com
+	s=arc-20240116; t=1718730679; c=relaxed/simple;
+	bh=jMnnhcMJpi/gTaTN/vn78bq4LGXwg9q6pMTAn83Y3F8=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=IzvyY+JtUN28B+u2IlyGh7CgcFXS1cKvlE/uKns8AuWyBo8kek6ivwIEJG2eo6Xwi5+eV9+2Sz74yTCZyIMF8qBvJaRnkmxFqgPz3LfXslawj7MloDO5/6EYwiQ52u18I/XGXsPfEgXvYe2AMYi2nOeaq7rjKcsAtfm1SBG9y+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jrtc27.com; spf=pass smtp.mailfrom=jrtc27.com; dkim=pass (2048-bit key) header.d=jrtc27.com header.i=@jrtc27.com header.b=Ymma3rvx; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jrtc27.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jrtc27.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=motorola.com header.i=@motorola.com header.b="Y8lPA3U+"
-Received: from pps.filterd (m0355086.ppops.net [127.0.0.1])
-	by mx0a-00823401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45IFwjKv024465;
-	Tue, 18 Jun 2024 16:55:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=motorola.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=DKIM202306; bh=wtvTXtdoSaVdCRUBoRvF2TH
-	gNkI2kjk/oPJPs15GGeA=; b=Y8lPA3U+V4MNR1ghU8v73W1zfP9ErFSZZSnQiWE
-	PVxEGMY/ej29Aw/SqZESLUErMck+DXelMBLCLOgt3sedkr6lOc6hxSW920llWXFG
-	p9kdZPN4fIrF2cSiwUvfsvHgmNuFI/kEUBmw2xqfqx0tV2vVMJmM1mBzh8ZvPsIs
-	i7Jr43fN46oihxJwAdzdCJPrBki5wkVicyQeBwP5swpnMhc0y3TrlZvHswU4kNah
-	ymTir0UVirFZ7unxUA64g9hyn6/0OPjllUp9V5qvn/CTqE+HGIStn6O37mSt3vAZ
-	jSfQZzzW3AB0853tlLuXzVEWoakcYtEdV1JQln6FgDSsDHQ==
-Received: from va32lpfpp03.lenovo.com ([104.232.228.23])
-	by mx0a-00823401.pphosted.com (PPS) with ESMTPS id 3ysrqk71r7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 18 Jun 2024 16:55:18 +0000 (GMT)
-Received: from ilclmmrp02.lenovo.com (ilclmmrp02.mot.com [100.65.83.26])
-	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by va32lpfpp03.lenovo.com (Postfix) with ESMTPS id 4W3XtY0Hcjz4yxL1;
-	Tue, 18 Jun 2024 16:55:17 +0000 (UTC)
-Received: from ilclasset02 (ilclasset02.mot.com [100.64.49.13])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: mbland)
-	by ilclmmrp02.lenovo.com (Postfix) with ESMTPSA id 4W3XtX610Zz3p6jp;
-	Tue, 18 Jun 2024 16:55:16 +0000 (UTC)
-Date: Tue, 18 Jun 2024 11:55:15 -0500
-From: Maxwell Bland <mbland@motorola.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: linux-mm@kvack.org, Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Alexandre Ghiti <alexghiti@rivosinc.com>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/5] arm64: non leaf ptdump support
-Message-ID: <qzel6rrn6wtbnnfwqtsa2tznh2fx6f3gtrwczphvfutv5c2sev@6ywlboai7cvh>
-References: <aw675dhrbplkitj3szjut2vyidsxokogkjj3vi76wl2x4wybtg@5rhk5ca5zpmv>
- <san7zg5rohy7q2oep2kx6awf6gltpuv2f4xlfljw5ezxqydfkv@zkd4k4udcezz>
- <CAMj1kXEr579hDqV5OuEbBB-O9meCOcmcTe_SZg97UKSLbKj6pw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=jrtc27.com header.i=@jrtc27.com header.b="Ymma3rvx"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3632a6437d7so1699f8f.0
+        for <linux-doc@vger.kernel.org>; Tue, 18 Jun 2024 10:11:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=jrtc27.com; s=gmail.jrtc27.user; t=1718730675; x=1719335475; darn=vger.kernel.org;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jMnnhcMJpi/gTaTN/vn78bq4LGXwg9q6pMTAn83Y3F8=;
+        b=Ymma3rvxjLGLQufPHBJM8weswvlk/cKQ6BK8KP2441o78plB07NSn+woXHAUmqyWgy
+         CsVI88lBCu7M+CDpNLAfnDFoRqipB15jJZXy1rlJCia9k68Imm8rVVfQdo/5dgkfxMmT
+         Cf2AAwTltOERu92Zy4StAvFn5NtRnCg3Tu/4oOvBdlHMTG18+H6UUT5goDhRk6WSwTTK
+         h/+rOUKF9h0UJLNeTWlKZHmATSIULyyVtLE6c/ZERlfVMJoBzVp0oYOTffpKwp1lfMw5
+         QY7HjxBGIbbJVVybYKK2yydVVRkowLhXb+0i36owJ8ZoT0RxHCd2wyd77eNRCXmI40mS
+         d/4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718730675; x=1719335475;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jMnnhcMJpi/gTaTN/vn78bq4LGXwg9q6pMTAn83Y3F8=;
+        b=Lpz+CV/P4xhnWbCnDjv+czpZx3eIz8APLlI90+sX5Ehd7VBz6jAWZTw35ZXvbfdSlm
+         wMcU8ySaIAVYeywvdueyFtwpPNKXY2laBMLRVHOKhTr5SnvRJIZN2nZ8eCE6CliDxDGC
+         qTPrPfW2MU0Sb+J3myua6obrDiZlGq6fhZ5aFQhSSKfRAe4ZVrd6VXHvz405IPEspC0s
+         4ZosFwT7ItYbgafzv3o8cdCqB8prEoNLxwl1OFsaVNKsgLv81jQIYAdlAQCwxyHr9c0P
+         3j8D+VsZrDk7lN+io0YaUunimx4Cs/aoj5CMEL8z321M0nLSjAyxLiw4ZDOIiPJyI6ie
+         paGA==
+X-Forwarded-Encrypted: i=1; AJvYcCVjydp31hZjtyH3K/O+PdTV+cFZIBdjzho9Ao9YxoF65Ps43B3HpdrgVpfjJ1IouZO/s17g9u/Rambe8uZU9OEE6qzH4I6Fhtzu
+X-Gm-Message-State: AOJu0YzdGE14vI5mGkAKycHdV7veWF25rHmrRo7ituIM7BfFxiEqnC8q
+	u5dqoeAtrTPmavyVHpFRojo4p7P5uH+SGbgDqlc2D5J/yGRND5hGVZQZyUNpnx0=
+X-Google-Smtp-Source: AGHT+IE3YLTxrz4a33OZELsomipBlbv34KTAQaWu5RA+5U74pd1KGVHNkLG+dAjkdpUc4qAC/ksT8w==
+X-Received: by 2002:a05:6000:2:b0:362:363a:9594 with SMTP id ffacd0b85a97d-362363a95f1mr2284533f8f.11.1718730675351;
+        Tue, 18 Jun 2024 10:11:15 -0700 (PDT)
+Received: from smtpclient.apple ([131.111.5.201])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42286fe9184sm226912045e9.13.2024.06.18.10.11.14
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 18 Jun 2024 10:11:14 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMj1kXEr579hDqV5OuEbBB-O9meCOcmcTe_SZg97UKSLbKj6pw@mail.gmail.com>
-X-Proofpoint-ORIG-GUID: HQJtwJLbNKvpvj8GmEcPPa98F4oAU1UX
-X-Proofpoint-GUID: HQJtwJLbNKvpvj8GmEcPPa98F4oAU1UX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-18_02,2024-06-17_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- suspectscore=0 lowpriorityscore=0 clxscore=1015 mlxscore=0 malwarescore=0
- spamscore=0 mlxlogscore=590 bulkscore=0 adultscore=0 phishscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406180127
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.600.62\))
+Subject: Re: [PATCH] RISC-V: Provide the frequency of mtime via hwprobe
+From: Jessica Clarke <jrtc27@jrtc27.com>
+In-Reply-To: <20240618114653.12485-1-cuiyunhui@bytedance.com>
+Date: Tue, 18 Jun 2024 18:11:04 +0100
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>,
+ =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>,
+ Evan Green <evan@rivosinc.com>,
+ Conor Dooley <conor.dooley@microchip.com>,
+ costa.shul@redhat.com,
+ Andy Chiu <andy.chiu@sifive.com>,
+ samitolvanen@google.com,
+ linux-doc@vger.kernel.org,
+ linux-riscv <linux-riscv@lists.infradead.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ Palmer Dabbelt <palmer@rivosinc.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <2BA519C8-D258-4D98-AD49-AC7D30D8B0D2@jrtc27.com>
+References: <20240618114653.12485-1-cuiyunhui@bytedance.com>
+To: Yunhui Cui <cuiyunhui@bytedance.com>
+X-Mailer: Apple Mail (2.3774.600.62)
 
-On Tue, Jun 18, 2024 at 04:59:22PM GMT, Ard Biesheuvel wrote:
-> On Tue, 18 Jun 2024 at 16:40, Maxwell Bland <mbland@motorola.com> wrote:
-> > @@ -105,11 +106,6 @@ static const struct prot_bits pte_bits[] = {
-> >                 .val    = PTE_CONT,
-> >                 .set    = "CON",
-> >                 .clear  = "   ",
-> > -       }, {
-> > -               .mask   = PTE_TABLE_BIT,
-> > -               .val    = PTE_TABLE_BIT,
-> > -               .set    = "   ",
-> > -               .clear  = "BLK",
-> >         }, {
-> >                 .mask   = PTE_UXN,
-> >                 .val    = PTE_UXN,
-> This table will need to distinguish between table and block entries.
-> 
-> I suspect that the distinction pte_bits <-> pxd_bits is not so useful
-> here. It would be better to have tbl_bits[], with pointers to it in
-> the pg_level array, where the PTE level one is set to NULL.
+On 18 Jun 2024, at 12:46, Yunhui Cui <cuiyunhui@bytedance.com> wrote:
+>=20
+> From: Palmer Dabbelt <palmer@rivosinc.com>
+>=20
+> A handful of user-visible behavior is based on the frequency of the
+> machine-mode time.
+>=20
+> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+> Signed-off-by: Yunhui Cui <cuiyunhui@bytedance.com>
 
-Nice, thanks! Adding now. I'll slate a v5 release for next monday.
+I would suggest referring to the user-mode CSR instead, i.e. =E2=80=9Ctime=
+=E2=80=9D
+rather than =E2=80=9Cmtime=E2=80=9D throughout in names and =
+descriptions, since that=E2=80=99s
+the thing that user-mode software is actually reading from.
 
-Maxwell
+Jess
+
