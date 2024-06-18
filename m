@@ -1,59 +1,37 @@
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 672971741FC
-	for <linux-doc@vger.kernel.org>; Tue, 18 Jun 2024 19:47:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0C6739AEC;
+	Tue, 18 Jun 2024 20:25:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718740060; cv=none; b=Sm8YcF3quPlFjMG7hi19e8GAD5gzSCbCRmetFA9nWa1HGmuF1Oml+tfihRq+18dn52YzEjtRh85aEvQeL71zXyg0LVTlA82mQ+u/8xhCDL2sxRsBB1ySEJlD9kxVGvmyFF6PVup8E6x1UzxFCHfLwKf0NP+O/2kY0Mh0gGJ/+lA=
+	t=1718742319; cv=none; b=M0Y0GjwDTTU4HocxPvHyf4E8VjopoEArk0NIlcLTgf5GOnxcD0FMtzOETBQI4f1GVlMsoA4CalimWO+5LQ3ldHtgyHLMnI94Wcd/Ply4LqXdK8fLDRA2mKa96rhGzDqwnoMHoF3E4GJoNRgBK9SWoPKC48ctMMnjbaSR9BE8BV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718740060; c=relaxed/simple;
-	bh=80bOpDur7f/VLqFOdk85Pc7ZTNvF+5oggXMjPZy+ow8=;
+	s=arc-20240116; t=1718742319; c=relaxed/simple;
+	bh=IZxDIoZGqUuy/Feqj9OJb9N0fRY1+9HWs5FNiI0ZFx0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hG8YWDz6Ggz7gOqjz8MJ19VN05azJ2E5RSEzkXOytd/cZrYmYy5x92ytBtscCBr9C9FgFBdP/7wOm6hz77TgYmJw9xwZG4YzxTsLuM+ryLf8rk+Il2JN4uXOQh0jdZ1KHq7AIsl/SWEAY1lm2Y3SyjsqhcNGZOPRa1xucKipqtU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=C0hE81uU; arc=none smtp.client-ip=209.85.167.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	 In-Reply-To:Content-Type; b=sjQJcFmq2eWKxWcMeJj3/32rm4IjHY5I+i4xdfVQZaOpBaxM9FPtA7Coo4mB+/vNuFSm4RkkI9eI2Pesm7ikonu+e/mQ+g5BWWarrcwIJxwvGY8XX9k50CIM+G4f0pG7aO0gd/xrx7E9BecH4NlpY1VgdDeR7G/bs19dopy7Dbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=HAhOwNNM; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="C0hE81uU"
-Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3c9cc681ee0so2779562b6e.0
-        for <linux-doc@vger.kernel.org>; Tue, 18 Jun 2024 12:47:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1718740056; x=1719344856; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8HJKNnvc8aggx0Ee52gIMjiePYGprFwsF/CuXFArkqE=;
-        b=C0hE81uUdTeffw5oSge7mNrryhFeGmsy9ITK9gvX+9vrWpbr6St80ancopEYtsRQv9
-         aZ6U9mrc6wRD43Py+NRrto2+0nJXxmuXfeWKU2KOaSTrq3CTLPZs7mKMGES7TB1+K4eh
-         aDqxdZ2hz0U7ohZ5EY1YGBkeE3AT8JUXeV9wUA3ArzRELAGOjibmEb7cxw5Mh5PY6e+Q
-         WfkiBaSa+952KaqPVb7fIieJXa11hMJpSLHNeNoIdddOfnPEHpf9uE4dHaLLxwTEhGqg
-         5Qw59ida3/oHcpLaaqfga0++nC7TwViwUf04aT4D4FKypLmxBaXxKMvKt/X3FDtnq+y2
-         JTHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718740056; x=1719344856;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8HJKNnvc8aggx0Ee52gIMjiePYGprFwsF/CuXFArkqE=;
-        b=KGLYy8ed9b67yWrQEerJamjtv7CliJZ/R2Ly0Q39Q5rtogmAq4aqZIuXqfoeqyz11a
-         8Y4F1M0j17/YDycwVovU5M0/IwUeLdqIQ0SAbRmzQfcsIS+eYB9dqYImRQhBhnF3goNS
-         wbgWyU/QRb3voNQYsfUenGUUaHL2unqwUawK4+nEk5R5U9AGxUTpNV47Q4aG2IK8RPvR
-         kyrTW4ukGNxyG19hZCByPrPdvlfIPzljET09Y29GWrYCGTnilU5UffAshLUhZNZ3wvsJ
-         JqGRxamPa39BQsWPHBQXSS0mrvwDTTxO7+ZNVpSe//Qu5gIU3fBxa6I+DIqGE4EG2dVq
-         qHRw==
-X-Forwarded-Encrypted: i=1; AJvYcCW24aEmMaSNrpb1dJZmbI7p6oWSEwh04fUEeZ95q4kjS0XRAsFCXTvHGbYeItHYzpwrrA+NZu7iHDwDWzYMYV5qh12zdDDwRHlf
-X-Gm-Message-State: AOJu0YwwxRvPp69m7BDC76wMpaTriPQ9V4DvqSRmyNQH5jMzy2jERvsP
-	LMsecFL5q2JLw/0C9yISF+1DPJIm0zg7689E9THOLK1cXgiqxXhc2/ABuYyyEZE=
-X-Google-Smtp-Source: AGHT+IFoPn43lF+j3aRcMTC4F1x8qcmNWprQM/JcNVkz3sSPT6L3Dvzuqi3I5g9gcSivGrFlNsc0kw==
-X-Received: by 2002:a05:6808:1705:b0:3d4:41b6:6c4e with SMTP id 5614622812f47-3d51b9b86a6mr867052b6e.16.1718740056313;
-        Tue, 18 Jun 2024 12:47:36 -0700 (PDT)
-Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3d24762b9a2sm1881135b6e.24.2024.06.18.12.47.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Jun 2024 12:47:35 -0700 (PDT)
-Message-ID: <78dd5a21-911f-445f-95a0-4ece55b0721f@baylibre.com>
-Date: Tue, 18 Jun 2024 14:47:35 -0500
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="HAhOwNNM"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=XVZG62Pc4c/mIAk0SUpARaQrk+PaEMrKlt8enmJ4Xwg=; b=HAhOwNNMonJ4x9qo6InCoNvRLL
+	P2G0SHV71eeBYGIVImcMxb8ekDnPLN+zVwBI9/7lSgW1GiT2mtxUvUoh3a5xBqntX65lznBMRS7Ui
+	5oY+ObH2dsP+n2/cGyb9LBcdSw5DVbs80ybhoLv2UUfuAMctwOv+H9y+M53T3DBKHjRD9TS60Be2/
+	vr6QjOAiEZHl8UiMfA5UizwzrkWjtshd5uNxzbfUp31lQ1enwE9omEH7TatcoJ0uYAED3aexqegpe
+	df4pgPQZfYg3VCbFo6BtNcLWvGd1W/ltLGKmidWBeiKmrZLaItY4jsevoJOARUSyLZEGgdywmDw4L
+	sEQxILiA==;
+Received: from [50.53.4.147] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sJfOE-0000000GUkG-2ATt;
+	Tue, 18 Jun 2024 20:25:14 +0000
+Message-ID: <5202d7c9-69fa-4192-a196-7032a2c9abd2@infradead.org>
+Date: Tue, 18 Jun 2024 13:25:13 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -61,57 +39,101 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] dt-bindings: iio: adc: add common-mode-channel
- dependency
-To: Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: Michael Hennerich <michael.hennerich@analog.com>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+Subject: Re: [PATCH net-next] docs: net: document guidance of implementing the
+ SR-IOV NDOs
+To: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
+Cc: netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
+ netdev-driver-reviewers@vger.kernel.org, corbet@lwn.net,
  linux-doc@vger.kernel.org
-References: <20240617-iio-adc-ad4695-v2-0-63ef6583f25d@baylibre.com>
- <20240617-iio-adc-ad4695-v2-1-63ef6583f25d@baylibre.com>
+References: <20240618192818.554646-1-kuba@kernel.org>
 Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20240617-iio-adc-ad4695-v2-1-63ef6583f25d@baylibre.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240618192818.554646-1-kuba@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 6/17/24 2:53 PM, David Lechner wrote:
-> The common-mode-channel property is only used in conjunction with the
-> single-channel property. This patch adds a dependency so that we will
-> get a validation error if common-mode-channel is used without also
-> specifying single-channel.
+Hi Jakub,
 
-It turns out, this might not be a valid assumption.
+some nit editing below:
 
-See https://lore.kernel.org/linux-iio/20240617-iio-adc-ad4695-v2-1-63ef6583f25d@baylibre.com/T/#m7b921cf9a7deb4a4f02dd2f05668a3dd99232ee9
-
+On 6/18/24 12:28 PM, Jakub Kicinski wrote:
+> New drivers were prevented from adding ndo_set_vf_* callbacks
+> over the last few years. This was expected to result in broader
+> switchdev adoption, but seems to have had little effect.
 > 
-> Signed-off-by: David Lechner <dlechner@baylibre.com>
+> Based on recent netdev meeting there is broad support for allowing
+> adding those ops.
+> 
+> There is a problem with the current API supporting a limited number
+> of VFs (100+, which is less than some modern HW supports).
+> We can try to solve it by adding similar functionality on devlink
+> ports, but that'd be another API variation to maintain.
+> So a netlink attribute reshuffling is a more likely outcome.
+> 
+> Document the guidance, make it clear that the API is frozen.
+> 
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 > ---
-> 
-> v2 changes:
-> * New patch
-> * Depends on recently applied patch [1]
-> 
-> [1]: https://lore.kernel.org/linux-iio/20240607-ad4111-v7-1-97e3855900a0@analog.com/
+> CC: corbet@lwn.net
+> CC: linux-doc@vger.kernel.org
 > ---
->  Documentation/devicetree/bindings/iio/adc/adc.yaml | 3 +++
->  1 file changed, 3 insertions(+)
+>  Documentation/networking/index.rst |  1 +
+>  Documentation/networking/sriov.rst | 25 +++++++++++++++++++++++++
+>  2 files changed, 26 insertions(+)
+>  create mode 100644 Documentation/networking/sriov.rst
 > 
-> diff --git a/Documentation/devicetree/bindings/iio/adc/adc.yaml b/Documentation/devicetree/bindings/iio/adc/adc.yaml
-> index 8e7835cf36fd..5baef30104dd 100644
-> --- a/Documentation/devicetree/bindings/iio/adc/adc.yaml
-> +++ b/Documentation/devicetree/bindings/iio/adc/adc.yaml
-> @@ -80,4 +80,7 @@ anyOf:
->    - required:
->        - reg
->  
-> +dependencies:
-> +  common-mode-channel: [single-channel]
+> diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
+> index a6443851a142..b4b2a002f183 100644
+> --- a/Documentation/networking/index.rst
+> +++ b/Documentation/networking/index.rst
+> @@ -105,6 +105,7 @@ Refer to :ref:`netdev-FAQ` for a guide on netdev development process specifics.
+>     seg6-sysctl
+>     skbuff
+>     smc-sysctl
+> +   sriov
+>     statistics
+>     strparser
+>     switchdev
+> diff --git a/Documentation/networking/sriov.rst b/Documentation/networking/sriov.rst
+> new file mode 100644
+> index 000000000000..652ffb501e6b
+> --- /dev/null
+> +++ b/Documentation/networking/sriov.rst
+> @@ -0,0 +1,25 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 > +
->  additionalProperties: true
-> 
+> +===============
+> +NIC SR-IOV APIs
+> +===============
+> +
+> +Modern NICs are strongly encouraged to focus on implementing the ``switchdev``
+> +model (see :ref:`switchdev`) to configure forwarding and security of SR-IOV
+> +functionality.
+> +
+> +Legacy API
+> +==========
+> +
+> +The old SR-IOV API is implemented in ``rtnetlink`` Netlink family as part of
+> +the ``RTM_GETLINK`` and ``RTM_SETLINK`` commands. On the driver side
+> +it consists of a number of ``ndo_set_vf_*`` and ``ndo_get_vf_*`` callbacks.
+> +
+> +Since the legacy APIs does not integrate well with the rest of the stack
 
+                         do not
+
+> +the API is considered frozen, no new functionality or extensions
+
+                         frozen; no
+
+> +will be accepted. New drivers should not implement the uncommon callbacks,
+
+                                                                   callbacks;
+
+> +namely the following callbacks are off limits:
+> +
+> + - ``ndo_get_vf_port``
+> + - ``ndo_set_vf_port``
+> + - ``ndo_set_vf_rss_query_en``
+
+-- 
+~Randy
