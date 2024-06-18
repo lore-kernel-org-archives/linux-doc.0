@@ -1,193 +1,189 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC58913DDD2;
-	Tue, 18 Jun 2024 21:39:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21BB11741C9
+	for <linux-doc@vger.kernel.org>; Tue, 18 Jun 2024 22:39:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718746757; cv=none; b=eteqkqxQ8KiT4DqyVEZGo337AKwQrJD5OsGzP3f3JR6iNEwO7+mfvnC7czhgB13gbmMpKr2urv7Jv5n6tJLk5pV1pf7WT1u4x1iDM8voWqhCqneij6E6yzwWKbFhJVneVvj/YuZgaAEqEIH/ElWKzgTsEy8gcI72CJTBQZ8Uyzc=
+	t=1718750398; cv=none; b=F5EMpXlT5ZMEJcYng2SHe0NmCzdPA5kA2fCZzKDXw22YtbkM/CPT1FxBILgDFDiM9sSytITVvzYYJ7sAohkqi3AH+727dwpWJ36G52Gy7K4BueOEaDEMBH5wZYadvUSTbI8hwuOWmCgj2JKL0qEceub7tqcmZfmqWs+DgWO9snk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718746757; c=relaxed/simple;
-	bh=U0Eg57Cn4OqXvwMom/OSpj1QqTJKcmBbmsEXCWhvtX8=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=rDWyGXpmTqbIJbQYLS0DYXtkMfdPCGA7Lv+gB0dQQjgGR45eQ9GFf8Qe1jaTpomUDXreqz/AW1yvmI71xTJc/K1qWvyEgeGtaQJHnXpFCIEieuxHqWCynBPO1dAsjFBKMfVMp0SVi7U0JYz22ygIG2+xVyt/HyPNTOYKyuGrasg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=K1wAzfUr; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1718750398; c=relaxed/simple;
+	bh=M7mzEbGbaQjbrcrgflbQy+a72iKuC7EQIbJAodQwhWU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=V2D7ES2SwuNar0R4LKa/KDMTYD+RYBl7grxkg+M9omeOuV2YSsVZkDFcLukH5VP6QmV6yJo9cuy9EXQY6Dfydtd7mU+VoGS9onbCE2nbgyv496YswaZ4C46u8MhHAWfu3brJYmsPrCozJbFHLpwjjzikKJjJtgC8NSOiFV967HQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=M/OSJfwc; arc=none smtp.client-ip=209.85.160.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="K1wAzfUr"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=o8G8ifLXVT/4fr2bGcys3dHGbQ+B9Z7Bqubv+Pu8ANc=; b=K1wAzfUr5mz1ZuifiHsVo1OfEV
-	UF+ZeLA/mo6mnmm+TdvzdWxuMRHF6lsaFGH3V1t2wIUglCRGNS2ZPN9rq09JJaryp5m34Fkdxy3Gm
-	k0DVmDVIQy2h9ZzUaenGCffyX5I4KVY7Zkc2jl61wmLjA5xQorvGI069zJlLs0JwsO6hFWZa+sWWr
-	z7sHgdOzasXTx5/F+sfTjodJZTb5a4t70x5zkJwvAhbJIloDLJMoOJ8TWgBAclCxBI12nvejmnbDK
-	ZB0Edq73rPcM7NzE2VPqiZJF7IdvBOfORRIj4j10gC5WsidS/CxRUA+4+FVxUdlyOrPtJXe+I7yfw
-	0VT5cWHA==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJgXo-0000000GhXx-3pHy;
-	Tue, 18 Jun 2024 21:39:13 +0000
-Message-ID: <c9007e7e-ca1e-4a2e-a80b-4ee3cd873fa8@infradead.org>
-Date: Tue, 18 Jun 2024 14:39:11 -0700
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="M/OSJfwc"
+Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-25957dfd971so1414517fac.0
+        for <linux-doc@vger.kernel.org>; Tue, 18 Jun 2024 15:39:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1718750396; x=1719355196; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SDuIqiO2clIGfsQayJd1PsKODcIpbW8KgtS5TlfWIbc=;
+        b=M/OSJfwcH4Zn/CDNpuzlfsXRQGTdXlZt/fe2onN7PnYVNBWmLQ0oHBgJOrc4Ok6Xo2
+         oIGvBU8EFuFYpkTz9z27gmJe8osddhCC3ab6+M2lD3RBfjf7jg6VQmqPDa6yaDwiyOCx
+         20U30Il2fAmosZoNCJUwJgCFLy/6ikca8fX1M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718750396; x=1719355196;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SDuIqiO2clIGfsQayJd1PsKODcIpbW8KgtS5TlfWIbc=;
+        b=q0VRxdrKGWgI8gaRLg+ErMgvxdt8h4h4Q82kJXmzy66VRSCEfI5QDQolU/iqIW5PKY
+         e9rZWi+4tHbd2wn3rrU3gmjiCXLzdp3Flq7PkjnykBOQLAMDKhy8jqAZjTqEa4cnkQxf
+         ODIvxGg9FclX6AbamfnlcGU088HxZERz1/ndAk7wrMnjf/w9E7KYSO/vIBoQ6Kctrcf6
+         A5z1zuTwHbN2ZHGV1D/6R7BJK9laNhM9H6qefcEsDuyma8Clx881cLsISD87EWQiByuE
+         ATJQICBZFp4SdVEu4lL5QdYoIsfg+SJI78k7f6epANt0KGo1kechhqZQjqzfLAdSfDpT
+         mTKA==
+X-Forwarded-Encrypted: i=1; AJvYcCUZoSRlRxHSF4oLO6XC63eZJdK88s8uw+ralYr4iKIi1XGg1hluYZI6kbz7BLzym71rCOJBtfj3xeKBdELhElZWjdFTCe+F93x6
+X-Gm-Message-State: AOJu0YzVMRSzKuZQT8tFUqu6AB9RohHxpPjLJC3ISB9czyBbLHWm8ZgU
+	zGILUDGYFEiISC7Oo5tCN9V9AnVTjEnwGZi6BcSZrIZfWzZLiBxFmW1zHobssD/9OWHxG2J24QC
+	Q/UgFtdeeL8z27xoA6h5VfA55OaDZ7Ky/cKmX
+X-Google-Smtp-Source: AGHT+IGVKWa3GDRDjvSCD4uk1Oy7nmeKUd5oiv8J/DJjDfpPfF8EqAvDsryZDGFNvYGm2Dh/2EdeImNb0LSeD/IJeuk=
+X-Received: by 2002:a05:6870:c111:b0:254:e924:be62 with SMTP id
+ 586e51a60fabf-25c94a57362mr1438525fac.13.1718750396111; Tue, 18 Jun 2024
+ 15:39:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/5] firmware: imx: adds miscdev
-From: Randy Dunlap <rdunlap@infradead.org>
-To: Pankaj Gupta <pankaj.gupta@nxp.com>, Jonathan Corbet <corbet@lwn.net>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-References: <20240617-imx-se-if-v3-0-a7d28dea5c4a@nxp.com>
- <20240617-imx-se-if-v3-5-a7d28dea5c4a@nxp.com>
- <c2ef0570-0392-4290-a008-df74f980f76d@infradead.org>
-Content-Language: en-US
-In-Reply-To: <c2ef0570-0392-4290-a008-df74f980f76d@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240613133937.2352724-1-adrian.ratiu@collabora.com> <20240613133937.2352724-2-adrian.ratiu@collabora.com>
+In-Reply-To: <20240613133937.2352724-2-adrian.ratiu@collabora.com>
+From: Jeff Xu <jeffxu@chromium.org>
+Date: Tue, 18 Jun 2024 15:39:44 -0700
+Message-ID: <CABi2SkXY20M24fcUgejAMuJpNZqsLxd0g1PZ-8RcvzxO6NO6cA@mail.gmail.com>
+Subject: Re: [PATCH v6 2/2] proc: restrict /proc/pid/mem
+To: Adrian Ratiu <adrian.ratiu@collabora.com>
+Cc: linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
+	linux-doc@vger.kernel.org, kernel@collabora.com, gbiv@google.com, 
+	ryanbeltran@google.com, inglorion@google.com, ajordanr@google.com, 
+	jorgelo@chromium.org, Guenter Roeck <groeck@chromium.org>, 
+	Doug Anderson <dianders@chromium.org>, Kees Cook <keescook@chromium.org>, 
+	Jann Horn <jannh@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Christian Brauner <brauner@kernel.org>, Jeff Xu <jeffxu@google.com>, 
+	Mike Frysinger <vapier@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Sorry, I missed one comment here:
+Hi
+
+Thanks for the patch !
+
+On Thu, Jun 13, 2024 at 6:40=E2=80=AFAM Adrian Ratiu <adrian.ratiu@collabor=
+a.com> wrote:
+>
+> Prior to v2.6.39 write access to /proc/<pid>/mem was restricted,
+> after which it got allowed in commit 198214a7ee50 ("proc: enable
+> writing to /proc/pid/mem"). Famous last words from that patch:
+> "no longer a security hazard". :)
+>
+> Afterwards exploits started causing drama like [1]. The exploits
+> using /proc/*/mem can be rather sophisticated like [2] which
+> installed an arbitrary payload from noexec storage into a running
+> process then exec'd it, which itself could include an ELF loader
+> to run arbitrary code off noexec storage.
+>
+> One of the well-known problems with /proc/*/mem writes is they
+> ignore page permissions via FOLL_FORCE, as opposed to writes via
+> process_vm_writev which respect page permissions. These writes can
+> also be used to bypass mode bits.
+>
+> To harden against these types of attacks, distrbutions might want
+> to restrict /proc/pid/mem accesses, either entirely or partially,
+> for eg. to restrict FOLL_FORCE usage.
+>
+> Known valid use-cases which still need these accesses are:
+>
+> * Debuggers which also have ptrace permissions, so they can access
+> memory anyway via PTRACE_POKEDATA & co. Some debuggers like GDB
+> are designed to write /proc/pid/mem for basic functionality.
+>
+> * Container supervisors using the seccomp notifier to intercept
+> syscalls and rewrite memory of calling processes by passing
+> around /proc/pid/mem file descriptors.
+>
+> There might be more, that's why these params default to disabled.
+>
+> Regarding other mechanisms which can block these accesses:
+>
+> * seccomp filters can be used to block mmap/mprotect calls with W|X
+> perms, but they often can't block open calls as daemons want to
+> read/write their runtime state and seccomp filters cannot check
+> file paths, so plain write calls can't be easily blocked.
+>
+> * Since the mem file is part of the dynamic /proc/<pid>/ space, we
+> can't run chmod once at boot to restrict it (and trying to react
+> to every process and run chmod doesn't scale, and the kernel no
+> longer allows chmod on any of these paths).
+>
+> * SELinux could be used with a rule to cover all /proc/*/mem files,
+> but even then having multiple ways to deny an attack is useful in
+> case one layer fails.
+>
+> Thus we introduce four kernel parameters to restrict /proc/*/mem
+> access: open-read, open-write, write and foll_force. All these can
+> be independently set to the following values:
+>
+> all     =3D> restrict all access unconditionally.
+> ptracer =3D> restrict all access except for ptracer processes.
+>
+> If left unset, the existing behaviour is preserved, i.e. access
+> is governed by basic file permissions.
+>
+> Examples which can be passed by bootloaders:
+>
+> proc_mem.restrict_foll_force=3Dall
+> proc_mem.restrict_open_write=3Dptracer
+> proc_mem.restrict_open_read=3Dptracer
+> proc_mem.restrict_write=3Dall
+>
+> These knobs can also be enabled via Kconfig like for eg:
+>
+> CONFIG_PROC_MEM_RESTRICT_WRITE_PTRACE_DEFAULT=3Dy
+> CONFIG_PROC_MEM_RESTRICT_FOLL_FORCE_PTRACE_DEFAULT=3Dy
+>
+> Each distribution needs to decide what restrictions to apply,
+> depending on its use-cases. Embedded systems might want to do
+> more, while general-purpouse distros might want a more relaxed
+> policy, because for e.g. foll_force=3Dall and write=3Dall both break
+> break GDB, so it might be a bit excessive.
+>
+> Based on an initial patch by Mike Frysinger <vapier@chromium.org>.
+>
+It is noteworthy that ChromeOS has benefited from blocking
+/proc/pid/mem write since 2017 [1], owing to the patch implemented by
+Mike Frysinger.
+
+It is great that upstream can consider this patch, ChromeOS will use
+the solution once it is accepted.
+
+> Link: https://lwn.net/Articles/476947/ [1]
+> Link: https://issues.chromium.org/issues/40089045 [2]
+> Cc: Guenter Roeck <groeck@chromium.org>
+> Cc: Doug Anderson <dianders@chromium.org>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Jann Horn <jannh@google.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Christian Brauner <brauner@kernel.org>
+> Cc: Jeff Xu <jeffxu@google.com>
+> Co-developed-by: Mike Frysinger <vapier@chromium.org>
+> Signed-off-by: Mike Frysinger <vapier@chromium.org>
+> Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+
+Reviewed-by: Jeff Xu <jeffxu@chromium.org>
+Tested-by: Jeff Xu <jeffxu@chromium.org>
+[1] https://chromium-review.googlesource.com/c/chromiumos/third_party/kerne=
+l/+/764773
+
+-Jeff Xu
 
 
-On 6/18/24 2:28 PM, Randy Dunlap wrote:
-> Hi--
-> 
-> On 6/17/24 12:29 AM, Pankaj Gupta wrote:
->> Adds the driver for communication interface to secure-enclave,
->> for exchanging messages with NXP secure enclave HW IP(s) like
->> EdgeLock Enclave from:
->> - User-Space Applications via character driver.
->>
->> ABI documentation for the NXP secure-enclave driver.
->>
->> User-space library using this driver:
->> - i.MX Secure Enclave library:
->>   -- URL: https://github.com/nxp-imx/imx-secure-enclave.git,
->> - i.MX Secure Middle-Ware:
->>   -- URL: https://github.com/nxp-imx/imx-smw.git
->>
->> Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
->> ---
->>  Documentation/ABI/testing/se-cdev |  42 +++
->>  drivers/firmware/imx/ele_common.c | 153 ++++++++-
->>  drivers/firmware/imx/ele_common.h |   4 +
->>  drivers/firmware/imx/se_ctrl.c    | 694 ++++++++++++++++++++++++++++++++++++++
->>  drivers/firmware/imx/se_ctrl.h    |  49 +++
->>  include/uapi/linux/se_ioctl.h     |  94 ++++++
->>  6 files changed, 1034 insertions(+), 2 deletions(-)
->>
->> diff --git a/Documentation/ABI/testing/se-cdev b/Documentation/ABI/testing/se-cdev
->> new file mode 100644
->> index 000000000000..699525af6b86
->> --- /dev/null
->> +++ b/Documentation/ABI/testing/se-cdev
->> @@ -0,0 +1,42 @@
->> +What:		/dev/<se>_mu[0-9]+_ch[0-9]+
->> +Date:		May 2024
->> +KernelVersion:	6.8
->> +Contact:	linux-imx@nxp.com, pankaj.gupta@nxp.com
->> +Description:
->> +		NXP offers multiple hardware IP(s) for  secure-enclaves like EdgeLock-
-> 
-> 		                                   for secure enclaves
-> 
->> +		Enclave(ELE), SECO. The character device file-descriptors
-> 
-> 		                                         file descriptors
-> 
-> and what is SECO?
-> 
->> +		/dev/<se>_mu*_ch* are the interface between user-space NXP's secure-
-> 
-> 		                                            userspace        secure
-> 
->> +		enclave shared-library and the kernel driver.
-> 
-> 		        shared library
-> 
->> +
->> +		The ioctl(2)-based ABI is defined and documented in
->> +		[include]<linux/firmware/imx/ele_mu_ioctl.h>
->> +		 ioctl(s) are used primarily for:
->> +			- shared memory management
->> +			- allocation of I/O buffers
->> +			- get mu info
-> 
-> 			- getting mu info
-> 
->> +			- setting a dev-ctx as receiver that is slave to fw
-
-Documentation/process/coding-style.rst says not to introduce new uses of the
-word "slave":
-
-For symbol names and documentation, avoid introducing new usage of
-'master / slave' (or 'slave' independent of 'master') and 'blacklist /
-whitelist'.
-
-Recommended replacements for 'master / slave' are:
-    '{primary,main} / {secondary,replica,subordinate}'
-    '{initiator,requester} / {target,responder}'
-    '{controller,host} / {device,worker,proxy}'
-    'leader / follower'
-    'director / performer'
-
-
->> +			- get SoC info
-> 
-> 			- getting SoC info
-> 
->> +
->> +		The following file operations are supported:
->> +
->> +		open(2)
->> +		  Currently the only useful flags are O_RDWR.
->> +
->> +		read(2)
->> +		  Every read() from the opened character device context is waiting on
->> +		  wakeup_intruptible, that gets set by the registered mailbox callback
-> 
-> 		  typo in that name?
-> 		or is it something that this patch series introduces?
-> 
->> +		  function; indicating a message received from the firmware on message-
-> 
-> 		  function,
-> 
->> +		  unit.
->> +
->> +		write(2)
->> +		  Every write() to the opened character device context needs to acquire
->> +		  mailbox_lock, before sending message on to the message unit.
-> 
-> 		  mailbox_lock before
-> 
->> +
->> +		close(2)
->> +		  Stops and free up the I/O contexts that was associated
-> 
-> 		            frees up                 that were associated
-> 
->> +		  with the file descriptor.
->> +
->> +Users:		https://github.com/nxp-imx/imx-secure-enclave.git,
->> +		https://github.com/nxp-imx/imx-smw.git
->> +		crypto/skcipher,
->> +		drivers/nvmem/imx-ocotp-ele.c
-> 
-> 
-
--- 
-~Randy
+-Jeff
