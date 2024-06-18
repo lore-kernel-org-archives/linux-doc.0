@@ -1,155 +1,191 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5554213AD25
-	for <linux-doc@vger.kernel.org>; Tue, 18 Jun 2024 11:47:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2A1E13AA44;
+	Tue, 18 Jun 2024 12:36:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718711227; cv=none; b=STTTzEj6oxBD3BpIGi0+OpuM3tzGjVAwKMTbbS0/l7vhpAG9FKCEFT7BMRWq2rRPXcRiq1CPVAd+NdtTjs0pzdYT0g8+n3OeD77uvLcIMUuyp8ovaSldDB8j11bp1RMwul9msAygGbcpnjeHo+jCAkuoM6TcN6FghOyj2kJVL6k=
+	t=1718714177; cv=none; b=s5M/QKYkJsejYaSgi7UMrIjBg7CouKQaC5qCzb8aCadXLfGXHzbX10RZlpg5k/YKbJ+wsIIxZ9Z7fYjriUNG0byyjahsBNqtqbwdLnwaDrGUV55G0RQn0rGSY2Oh89Y3dGW7dx0YKbkv8P5sIF0QSOPi73ZS9S/Noe7hfkb/zvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718711227; c=relaxed/simple;
-	bh=ZHcxqMe2wl7XXw0sTwxebYt93dT7YO9q83kwx2ZKj6U=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XQti1zWwfXWmm5c82FByTiNueSQT5nZS1nVePbZKC4UE+7WA+eLrdSt/naiWRKONZZXhu55RmFVsUERC1zbROItLuci3WNl2Om35Q4DvJxQYXkaeK25gUM+zu4gMWXO7BroY/6+6jf9bx25fqA8gIHCJxPztb+5IkjbcgxsxOeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=eJFSyRuJ; arc=none smtp.client-ip=209.85.215.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1718714177; c=relaxed/simple;
+	bh=ooe+NfCkDLbyZzNacuckmn0L8ElUEGAsDuJ8Pl8gFyk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=epv8OLzZ+m/yhooajqlkOWJgfNkAn7fAsg5GTz+uX2JSZafvcY4SIipyhQWheCvsydJjwfc7q2RIgNYVUbDFx7gskF2uCiEkR6ZvmB6hRmy2IZ76bRqLWg8iWB3u7+0ayr6/lAaFenxci5VDXIKoSe/dN/m0OSsYrf0jbnl04b8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rtwp7Zf7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="eJFSyRuJ"
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-6e7e23b42c3so3472627a12.1
-        for <linux-doc@vger.kernel.org>; Tue, 18 Jun 2024 04:47:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1718711224; x=1719316024; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=N8+RGABEO6lna9EhwFH7VWtP9seFYP+2PecyhqqiBFA=;
-        b=eJFSyRuJUovruTCikD4RZh4+0NZwMqyftAgMYKyrE0XKA03kCRWoiOFOu3N9ays6IT
-         qee6cidxJyWBhxMHEek7ADNpD//59ckgA06kXtAw97Y6cSSoNDod6QvQMCnWvTY4Wncs
-         unLFjv67qA0tikSmgJvWjKTqcxoMquHEG3SRT8hzfB7GGI0E1DyO9L5GiGeR0d6SiJaO
-         KunXzVa+xiJAegH/jT4CCoOVI/S3UYvdEgmi0Z8UQnUw6y56Bh2ZCe8oyVG5yipbufCr
-         PZYZoVkuSGvAdL8ZXRJimaGG71JcZjUb0Ievr5TZ4sg68V8MyIbyUKGxKhGQoM+xDdXd
-         EAaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718711224; x=1719316024;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=N8+RGABEO6lna9EhwFH7VWtP9seFYP+2PecyhqqiBFA=;
-        b=xRL0gDC/DaVKNKq5slOOcFxMnNIrXHeWsVCNcEojMNXHsbFUjoY02E9W9nHOUo7h5F
-         YSAkNzOHESqmeHa7qWVSF/JRDkIc5juw0OE3Y+AQG0uW/4wQ6AA9iHWl4+1PZVVNG7li
-         0OP4rN7F5LUR+PqBa0p0x7XI0/NtbZsijarw2nVwGX72/n59gysfSYOCjlxKQsXZc5vX
-         ccZvb5nyDpqvtL0S5pUDcBBnN2CsusyqFep5vG3teT+Tu33hgjTgWolmId5rGYLQ62Ox
-         uE8ryBTDSOvOaO3Oej3gLl0cWgJZet+hoPNdN628HjSmV6goRBTBGmMexWXZymrO4lq5
-         /O2g==
-X-Forwarded-Encrypted: i=1; AJvYcCX9tbhzq6YJU2s7ZQec6b54XfuULH98uvZfw1Aqsr4/HSyWHWqp5iR5KjUPn9tR3Q/sTClAcIFXdC1BfYw74WKBJjTBst5wKR5q
-X-Gm-Message-State: AOJu0YxLF2SfEJ++ZPjpHPJcBrP3WGFl2xZEC/ZGJ2PmDN8pVOX+db52
-	h84bwkbU5sBcClS6+7wa8UugOhEONMTxQHtHOHUMmBbfhvfpRRphN9rXL0bTe2Q=
-X-Google-Smtp-Source: AGHT+IGFDOB6kB9pshWCoiP1FpV8JeCOOgnEc3F8axKP2a4fh9M2ef6HmKlyehClnbcRTMajNGf0mQ==
-X-Received: by 2002:a05:6a21:81a9:b0:1b5:69cd:87e with SMTP id adf61e73a8af0-1bae7eb46afmr9188496637.21.1718711224523;
-        Tue, 18 Jun 2024 04:47:04 -0700 (PDT)
-Received: from L6YN4KR4K9.bytedance.net ([139.177.225.245])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855eeff53sm95717365ad.181.2024.06.18.04.46.59
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 18 Jun 2024 04:47:04 -0700 (PDT)
-From: Yunhui Cui <cuiyunhui@bytedance.com>
-To: corbet@lwn.net,
-	paul.walmsley@sifive.com,
-	palmer@dabbelt.com,
-	aou@eecs.berkeley.edu,
-	cleger@rivosinc.com,
-	evan@rivosinc.com,
-	conor.dooley@microchip.com,
-	cuiyunhui@bytedance.com,
-	costa.shul@redhat.com,
-	andy.chiu@sifive.com,
-	samitolvanen@google.com,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rtwp7Zf7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66CD1C4AF48;
+	Tue, 18 Jun 2024 12:36:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718714176;
+	bh=ooe+NfCkDLbyZzNacuckmn0L8ElUEGAsDuJ8Pl8gFyk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Rtwp7Zf7eCdZ9V8CzE0YqXQFFeTmfYfw0oSx084KA21eHuyJPodQWNsaBP5TT225a
+	 C82/OOdvg15mqpW/1Bev/OKNP+LRkSqjB26se94YytgmsD5HH0600w2Qwl9qf4i/tY
+	 CZLFN60VKBfj9gVQECXBMnm1BJ4Je4YoOCTCTcpqxuKVYrZfGWj5IHJEKeZb4OjKHB
+	 DHru9nnGSpeFrWg48QTMrUNVTniS4uEcqF9Zu/31Txi8HqBUmW+NBG93567lYdvrCE
+	 VN0WlFAonA3v7HdL3yG7gQ5+t0OTQ0K3kUJtLdZFzaiCQE7/Px4bSNaCBbuPTP+Oor
+	 XHpEh15nOTJAA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Justin Stitt <justinstitt@google.com>,
+	linux-hardening@vger.kernel.org,
+	Kees Cook <keescook@chromium.org>,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	Sasha Levin <sashal@kernel.org>,
+	phil@philpotter.co.uk,
+	corbet@lwn.net,
+	James.Bottomley@HansenPartnership.com,
+	nathan@kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: Palmer Dabbelt <palmer@rivosinc.com>
-Subject: [PATCH] RISC-V: Provide the frequency of mtime via hwprobe
-Date: Tue, 18 Jun 2024 19:46:53 +0800
-Message-Id: <20240618114653.12485-1-cuiyunhui@bytedance.com>
-X-Mailer: git-send-email 2.39.2 (Apple Git-143)
+	linux-scsi@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH AUTOSEL 6.9 02/44] scsi: sr: Fix unintentional arithmetic wraparound
+Date: Tue, 18 Jun 2024 08:34:43 -0400
+Message-ID: <20240618123611.3301370-2-sashal@kernel.org>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20240618123611.3301370-1-sashal@kernel.org>
+References: <20240618123611.3301370-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.9.5
 Content-Transfer-Encoding: 8bit
 
-From: Palmer Dabbelt <palmer@rivosinc.com>
+From: Justin Stitt <justinstitt@google.com>
 
-A handful of user-visible behavior is based on the frequency of the
-machine-mode time.
+[ Upstream commit 9fad9d560af5c654bb38e0b07ee54a4e9acdc5cd ]
 
-Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
-Signed-off-by: Yunhui Cui <cuiyunhui@bytedance.com>
+Running syzkaller with the newly reintroduced signed integer overflow
+sanitizer produces this report:
+
+[   65.194362] ------------[ cut here ]------------
+[   65.197752] UBSAN: signed-integer-overflow in ../drivers/scsi/sr_ioctl.c:436:9
+[   65.203607] -2147483648 * 177 cannot be represented in type 'int'
+[   65.207911] CPU: 2 PID: 10416 Comm: syz-executor.1 Not tainted 6.8.0-rc2-00035-gb3ef86b5a957 #1
+[   65.213585] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+[   65.219923] Call Trace:
+[   65.221556]  <TASK>
+[   65.223029]  dump_stack_lvl+0x93/0xd0
+[   65.225573]  handle_overflow+0x171/0x1b0
+[   65.228219]  sr_select_speed+0xeb/0xf0
+[   65.230786]  ? __pm_runtime_resume+0xe6/0x130
+[   65.233606]  sr_block_ioctl+0x15d/0x1d0
+...
+
+Historically, the signed integer overflow sanitizer did not work in the
+kernel due to its interaction with `-fwrapv` but this has since been
+changed [1] in the newest version of Clang. It was re-enabled in the kernel
+with Commit 557f8c582a9b ("ubsan: Reintroduce signed overflow sanitizer").
+
+Firstly, let's change the type of "speed" to unsigned long as
+sr_select_speed()'s only caller passes in an unsigned long anyways.
+
+$ git grep '\.select_speed'
+|	drivers/scsi/sr.c:      .select_speed           = sr_select_speed,
+...
+|	static int cdrom_ioctl_select_speed(struct cdrom_device_info *cdi,
+|	                unsigned long arg)
+|	{
+|	        ...
+|	        return cdi->ops->select_speed(cdi, arg);
+|	}
+
+Next, let's add an extra check to make sure we don't exceed 0xffff/177
+(350) since 0xffff is the max speed. This has two benefits: 1) we deal
+with integer overflow before it happens and 2) we properly respect the
+max speed of 0xffff. There are some "magic" numbers here but I did not
+want to change more than what was necessary.
+
+Link: https://github.com/llvm/llvm-project/pull/82432 [1]
+Closes: https://github.com/KSPP/linux/issues/357
+Cc: linux-hardening@vger.kernel.org
+Signed-off-by: Justin Stitt <justinstitt@google.com>
+Link: https://lore.kernel.org/r/20240508-b4-b4-sio-sr_select_speed-v2-1-00b68f724290@google.com
+Reviewed-by: Kees Cook <keescook@chromium.org>
+Signed-off-by: Martin K. Petersen <martin.petersen@oracle.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- Documentation/arch/riscv/hwprobe.rst  | 2 ++
- arch/riscv/include/asm/hwprobe.h      | 2 +-
- arch/riscv/include/uapi/asm/hwprobe.h | 1 +
- arch/riscv/kernel/sys_hwprobe.c       | 5 +++++
- 4 files changed, 9 insertions(+), 1 deletion(-)
+ Documentation/cdrom/cdrom-standard.rst | 4 ++--
+ drivers/scsi/sr.h                      | 2 +-
+ drivers/scsi/sr_ioctl.c                | 5 ++++-
+ include/linux/cdrom.h                  | 2 +-
+ 4 files changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
-index fc015b452ebf..0cc3ef5b5541 100644
---- a/Documentation/arch/riscv/hwprobe.rst
-+++ b/Documentation/arch/riscv/hwprobe.rst
-@@ -229,3 +229,5 @@ The following keys are defined:
+diff --git a/Documentation/cdrom/cdrom-standard.rst b/Documentation/cdrom/cdrom-standard.rst
+index 7964fe134277b..6c1303cff159e 100644
+--- a/Documentation/cdrom/cdrom-standard.rst
++++ b/Documentation/cdrom/cdrom-standard.rst
+@@ -217,7 +217,7 @@ current *struct* is::
+ 		int (*media_changed)(struct cdrom_device_info *, int);
+ 		int (*tray_move)(struct cdrom_device_info *, int);
+ 		int (*lock_door)(struct cdrom_device_info *, int);
+-		int (*select_speed)(struct cdrom_device_info *, int);
++		int (*select_speed)(struct cdrom_device_info *, unsigned long);
+ 		int (*get_last_session) (struct cdrom_device_info *,
+ 					 struct cdrom_multisession *);
+ 		int (*get_mcn)(struct cdrom_device_info *, struct cdrom_mcn *);
+@@ -396,7 +396,7 @@ action need be taken, and the return value should be 0.
  
- * :c:macro:`RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE`: An unsigned int which
-   represents the size of the Zicboz block in bytes.
-+
-+* :c:macro:`RISCV_HWPROBE_KEY_MTIME_FREQ`: Frequency (in Hz) of `mtime`.
-diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hwprobe.h
-index 630507dff5ea..150a9877b0af 100644
---- a/arch/riscv/include/asm/hwprobe.h
-+++ b/arch/riscv/include/asm/hwprobe.h
-@@ -8,7 +8,7 @@
+ ::
  
- #include <uapi/asm/hwprobe.h>
+-	int select_speed(struct cdrom_device_info *cdi, int speed)
++	int select_speed(struct cdrom_device_info *cdi, unsigned long speed)
  
--#define RISCV_HWPROBE_MAX_KEY 6
-+#define RISCV_HWPROBE_MAX_KEY 7
+ Some CD-ROM drives are capable of changing their head-speed. There
+ are several reasons for changing the speed of a CD-ROM drive. Badly
+diff --git a/drivers/scsi/sr.h b/drivers/scsi/sr.h
+index 1175f2e213b56..dc899277b3a44 100644
+--- a/drivers/scsi/sr.h
++++ b/drivers/scsi/sr.h
+@@ -65,7 +65,7 @@ int sr_disk_status(struct cdrom_device_info *);
+ int sr_get_last_session(struct cdrom_device_info *, struct cdrom_multisession *);
+ int sr_get_mcn(struct cdrom_device_info *, struct cdrom_mcn *);
+ int sr_reset(struct cdrom_device_info *);
+-int sr_select_speed(struct cdrom_device_info *cdi, int speed);
++int sr_select_speed(struct cdrom_device_info *cdi, unsigned long speed);
+ int sr_audio_ioctl(struct cdrom_device_info *, unsigned int, void *);
  
- static inline bool riscv_hwprobe_key_is_valid(__s64 key)
+ int sr_is_xa(Scsi_CD *);
+diff --git a/drivers/scsi/sr_ioctl.c b/drivers/scsi/sr_ioctl.c
+index 5b0b35e60e61f..a0d2556a27bba 100644
+--- a/drivers/scsi/sr_ioctl.c
++++ b/drivers/scsi/sr_ioctl.c
+@@ -425,11 +425,14 @@ int sr_reset(struct cdrom_device_info *cdi)
+ 	return 0;
+ }
+ 
+-int sr_select_speed(struct cdrom_device_info *cdi, int speed)
++int sr_select_speed(struct cdrom_device_info *cdi, unsigned long speed)
  {
-diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
-index 7b95fadbea2a..f7d9646ff4ba 100644
---- a/arch/riscv/include/uapi/asm/hwprobe.h
-+++ b/arch/riscv/include/uapi/asm/hwprobe.h
-@@ -73,6 +73,7 @@ struct riscv_hwprobe {
- #define		RISCV_HWPROBE_MISALIGNED_UNSUPPORTED	(4 << 0)
- #define		RISCV_HWPROBE_MISALIGNED_MASK		(7 << 0)
- #define RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE	6
-+#define RISCV_HWPROBE_KEY_MTIME_FREQ	7
- /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
+ 	Scsi_CD *cd = cdi->handle;
+ 	struct packet_command cgc;
  
- /* Flags */
-diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
-index 83fcc939df67..3fa519035416 100644
---- a/arch/riscv/kernel/sys_hwprobe.c
-+++ b/arch/riscv/kernel/sys_hwprobe.c
-@@ -8,6 +8,7 @@
- #include <asm/cacheflush.h>
- #include <asm/cpufeature.h>
- #include <asm/hwprobe.h>
-+#include <asm/delay.h>
- #include <asm/sbi.h>
- #include <asm/switch_to.h>
- #include <asm/uaccess.h>
-@@ -226,6 +227,10 @@ static void hwprobe_one_pair(struct riscv_hwprobe *pair,
- 			pair->value = riscv_cboz_block_size;
- 		break;
- 
-+	case RISCV_HWPROBE_KEY_MTIME_FREQ:
-+		pair->value = riscv_timebase;
-+		break;
++	/* avoid exceeding the max speed or overflowing integer bounds */
++	speed = clamp(0, speed, 0xffff / 177);
 +
- 	/*
- 	 * For forward compatibility, unknown keys don't fail the whole
- 	 * call, but get their element key set to -1 and value set to 0
+ 	if (speed == 0)
+ 		speed = 0xffff;	/* set to max */
+ 	else
+diff --git a/include/linux/cdrom.h b/include/linux/cdrom.h
+index 98c6fd0b39b63..fdfb61ccf55ae 100644
+--- a/include/linux/cdrom.h
++++ b/include/linux/cdrom.h
+@@ -77,7 +77,7 @@ struct cdrom_device_ops {
+ 				      unsigned int clearing, int slot);
+ 	int (*tray_move) (struct cdrom_device_info *, int);
+ 	int (*lock_door) (struct cdrom_device_info *, int);
+-	int (*select_speed) (struct cdrom_device_info *, int);
++	int (*select_speed) (struct cdrom_device_info *, unsigned long);
+ 	int (*get_last_session) (struct cdrom_device_info *,
+ 				 struct cdrom_multisession *);
+ 	int (*get_mcn) (struct cdrom_device_info *,
 -- 
-2.20.1
+2.43.0
 
