@@ -1,191 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3391155C92;
-	Tue, 18 Jun 2024 12:40:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D20C215FCFB
+	for <linux-doc@vger.kernel.org>; Tue, 18 Jun 2024 12:51:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718714423; cv=none; b=pH/wDxmnGjxEsyXK7iXWFqwzVs6EpyfpKKn0evOd0X78/0GjaV2CefTMoxA1acZ4wSu4jArSuXO7jny8VZ+vmZKPk3g9N5BE3b170FdO0V6GsLHHBUekkCl++lRv4LsMHJBCETDiNgWtsV5EWWW20cWVsZijTiB7KdlJcs7oMRY=
+	t=1718715070; cv=none; b=rbHqGUFu07wu8mQBVMQRq7CHOmQHE0bdmX4c8vNaVLMwvQXDrI9Gdqz+/PA7WpHAHmaxBuLGrLE2Z8cAOl3mQIh4FUq0+UQYAD/1m6XeQ6Xw5dRYtiqSwtcyldJbhMCxgw83kw+SBFlsYWHuccv0RzBwpEvEfjQ2Nv0RAsfFLcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718714423; c=relaxed/simple;
-	bh=mZS4iEgWmq4UTYPGUb12ZROIU354esBXCi9U25ad9Kw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=P0pYQXREhaUNrYLQnZAENh/r/KMuQPpCL8EmLgahy1iegcyxL7+e8mNLhdNg1zbdqStE3XM4kDwxsjJ9VzsaKHzF7tADLPV1j2qnEJn6wtYaFVgGqM7Do9aIMqQllu6V0BalZNikrj2V/6cl/razvpsxNbGvQSgz3gidBhEgikA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mm9Z1EpI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718715070; c=relaxed/simple;
+	bh=uF5ZFn1MuaQXkgdPUExdYFF3srBleOHLlC/tZBYzGmw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=sBSVGhozaJFppa45mRiXxxCEOFRez5Q524FsojR5IqU5DrCY3cXm5E+cKtHfxId4wRCNM3hf3bkJlFrGld3FAUTbL5fkocZuCXspa77GYZ/7ItfoV/Ev3O175A+We7zeOgkaIq3ojaA3I2NG8V8FVVRubQNL0qjC4nurul9QCD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=sSiIw4OK; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mm9Z1EpI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67062C32786;
-	Tue, 18 Jun 2024 12:40:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718714422;
-	bh=mZS4iEgWmq4UTYPGUb12ZROIU354esBXCi9U25ad9Kw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Mm9Z1EpI4NsGKpuELLabO7UahbqC30TCT4Q1euAcBlqTdQl5K5JLC7oe6qe7SZSml
-	 3PgCJYfcF6P4bUxP1NjqECtnDVljpj12162hCzx2xWvZWtDc+RW1srQV+3fsXdsuT5
-	 fB2viMDvi42Jk1KyVCGj5zUb2bzvenxSMDZ2pxMMM2zzI6MenmetoRJ8tRc+uMPi+1
-	 SqLSKVn9A+WxgUjJwacirDda8FBlJKT023BLoVb7trghdUwu0wZknNMSgvPmO9dNK6
-	 pOLwU1uRmofGWq82KMGmmRp+aBCxdpX7neTJj4VGMQbiI8siIL6mSQDc4/aCwTRPPG
-	 oUz0PlO+zTvNQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Justin Stitt <justinstitt@google.com>,
-	linux-hardening@vger.kernel.org,
-	Kees Cook <keescook@chromium.org>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	Sasha Levin <sashal@kernel.org>,
-	phil@philpotter.co.uk,
-	corbet@lwn.net,
-	James.Bottomley@HansenPartnership.com,
-	nathan@kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	llvm@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.1 02/29] scsi: sr: Fix unintentional arithmetic wraparound
-Date: Tue, 18 Jun 2024 08:39:28 -0400
-Message-ID: <20240618124018.3303162-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240618124018.3303162-1-sashal@kernel.org>
-References: <20240618124018.3303162-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="sSiIw4OK"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-52bc3130ae6so5869633e87.3
+        for <linux-doc@vger.kernel.org>; Tue, 18 Jun 2024 05:51:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1718715067; x=1719319867; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=54+Eo/LVJRF3kfpmwpcFaWiseOLh0OIeZ4ykbGjRcKM=;
+        b=sSiIw4OK6sz7xlKMy+dcz7vHWPSEHFWwee3S2ULKY+239pWD6qstEHEw4CfdwiVPou
+         +J9fbn0fCLYDXSGrUHv3bnGy3jf/jtIkHM5y2B1h7CPblFIVSuzcBVKxp6EKOH7ZIsWj
+         VTLSEjpM2cII18YEfHbbU1V4N0XKLUZ0+dgUUssuBQoXQ7CHFUl0P1wulh0DyPpoV9Bf
+         2te7hvOJHeYM1H30Enw1H6b7lVv4IJ6Yq1582qVkHOWZTHybpP7nQh92xKqygzHDV1DE
+         mhNZ3pSz/16gy2u87QUujsIO1/V6BGVEnkjk3Nk0MqPVQxpm0qJf5QRCX+TIxznGd2xW
+         nxcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718715067; x=1719319867;
+        h=content-transfer-encoding:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=54+Eo/LVJRF3kfpmwpcFaWiseOLh0OIeZ4ykbGjRcKM=;
+        b=TKjCZBbf/PorlekNjp4xdMAabUOon7u7gc0Db1NYHIu4ySryF8TpV5UnJ5WsoeAGOM
+         lVIaf3xCjYu9j14Dxe7rl6WBVXWTX0WNwaE+9m7Y0J0qdzsDVVGbwYdIYKVTjhdnZXyy
+         he7rbVa0A6nUUf0dKEhUqLAL/WzkyDz/FO2scJUsrxTdEpJ4QPwUSgrNc1Zmmk0Vzj5X
+         8iGOiKruqR4fZzP3TOI/XnndCQPvpjYeWmvBblA6XnqV2Bk0C7vaRqs+PDLD93NJ3gMi
+         q5IDKv5Pjbu+X7KDkFrcIQe7R5IZQtz40ENKz2IIYVgoCFPLuQtATYjoq3p0GnTL5wUW
+         t1nw==
+X-Forwarded-Encrypted: i=1; AJvYcCVyD07IbEokZdDz7kPc3T9evm6naxnV4lZod3+YpdMRkGyUdkDNTWRhwbagWtpiz8hUcFNBhqI0yTNELFGVqDpH4s1T5kIbEahY
+X-Gm-Message-State: AOJu0Yz5xf0LZBZmXWq1mRXKo9bLD9MeSscUUnN9EW0LIURFEHNm9o4N
+	x6VadGre97vEpkyKseimnM6mRsNWCMu5fspj7iSjlsjaxKRwJFRvhBnG2WF/8RDgSTfGL+t/dLw
+	dvDbOmq8OyeNGPgAyMZGAbNcdj9MavXTa2cHsGw==
+X-Google-Smtp-Source: AGHT+IGGpskF6WxgH5a2LFZlhA8ClFYD/WRffkI42oeSbQsIHgrks0hi8KL6Kb06PDgQHBC6H90LZisqtHNXYzFlrVQ=
+X-Received: by 2002:a19:5e49:0:b0:52c:83c2:9676 with SMTP id
+ 2adb3069b0e04-52ca6e65414mr6747554e87.20.1718715066987; Tue, 18 Jun 2024
+ 05:51:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.94
-Content-Transfer-Encoding: 8bit
+References: <20240610112700.80819-1-wsa+renesas@sang-engineering.com>
+ <20240610112700.80819-2-wsa+renesas@sang-engineering.com> <CAMRc=MfZ11U+kAh1+K=DxtJ=QL+cY7Q_sBN4sQDF-RNgjpV0QA@mail.gmail.com>
+ <jvnvx7a4pn6evrp5ehfrt4qsiuprq6ogvrue2a3uupwtydmgcm@2rvat7ibvgb4>
+ <CAMRc=Mc4__0zzJZG3BPnmbua88SLuEbX=Wk=EZnKH5HQvB+JPg@mail.gmail.com>
+ <CACRpkda==5S75Bw6F3ZLUmf7kwgi_JkByiizR=m-61nrMDWuvQ@mail.gmail.com>
+ <ce1d8150-c595-44d5-b19a-040920481709@app.fastmail.com> <CAMRc=McpRjQO8mUrOA4bU_YqO8Tc9-Ujytfy1fcjGUEgH9NW0A@mail.gmail.com>
+ <3h63msxchuuxqa5liufoivss4raqtzjlusjn7ufti5nyjkshcb@pqevlpuvrm5q>
+In-Reply-To: <3h63msxchuuxqa5liufoivss4raqtzjlusjn7ufti5nyjkshcb@pqevlpuvrm5q>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Tue, 18 Jun 2024 14:50:55 +0200
+Message-ID: <CAMRc=Mff2L_M=zkxQTqoFjMxbi4ZXBHPxm48UGnYFEnwfDWFHQ@mail.gmail.com>
+Subject: Re: [PATCH v9 1/1] gpio: add sloppy logic analyzer using polling
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>, Bartosz Golaszewski <brgl@bgdev.pl>, 
+	Arnd Bergmann <arnd@arndb.de>, Linus Walleij <linus.walleij@linaro.org>, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Kent Gibson <warthog618@gmail.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Justin Stitt <justinstitt@google.com>
+On Tue, Jun 18, 2024 at 11:23=E2=80=AFAM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+>
+> Hi Bart,
+>
+> > I could see it using configfs instead of DT for configuration and iio
+> > for presenting the output but - from what Wolfram said - insisting on
+> > this will simply result in this development being dropped entirely.
+>
+> How do you assign a GPIO via debugfs? I only found the out-of-tree
+> pwm-gpio driver[1] which uses a GPIO number. But those are deprecated
+> these days, or? Any other driver doing this you can point me to?
+>
 
-[ Upstream commit 9fad9d560af5c654bb38e0b07ee54a4e9acdc5cd ]
+You mean configfs? Please take a look at my proposed gpio-virtuser
+module, it should do what you want:
+https://lore.kernel.org/linux-gpio/20240613092830.15761-1-brgl@bgdev.pl/
 
-Running syzkaller with the newly reintroduced signed integer overflow
-sanitizer produces this report:
+Bart
 
-[   65.194362] ------------[ cut here ]------------
-[   65.197752] UBSAN: signed-integer-overflow in ../drivers/scsi/sr_ioctl.c:436:9
-[   65.203607] -2147483648 * 177 cannot be represented in type 'int'
-[   65.207911] CPU: 2 PID: 10416 Comm: syz-executor.1 Not tainted 6.8.0-rc2-00035-gb3ef86b5a957 #1
-[   65.213585] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-[   65.219923] Call Trace:
-[   65.221556]  <TASK>
-[   65.223029]  dump_stack_lvl+0x93/0xd0
-[   65.225573]  handle_overflow+0x171/0x1b0
-[   65.228219]  sr_select_speed+0xeb/0xf0
-[   65.230786]  ? __pm_runtime_resume+0xe6/0x130
-[   65.233606]  sr_block_ioctl+0x15d/0x1d0
-...
-
-Historically, the signed integer overflow sanitizer did not work in the
-kernel due to its interaction with `-fwrapv` but this has since been
-changed [1] in the newest version of Clang. It was re-enabled in the kernel
-with Commit 557f8c582a9b ("ubsan: Reintroduce signed overflow sanitizer").
-
-Firstly, let's change the type of "speed" to unsigned long as
-sr_select_speed()'s only caller passes in an unsigned long anyways.
-
-$ git grep '\.select_speed'
-|	drivers/scsi/sr.c:      .select_speed           = sr_select_speed,
-...
-|	static int cdrom_ioctl_select_speed(struct cdrom_device_info *cdi,
-|	                unsigned long arg)
-|	{
-|	        ...
-|	        return cdi->ops->select_speed(cdi, arg);
-|	}
-
-Next, let's add an extra check to make sure we don't exceed 0xffff/177
-(350) since 0xffff is the max speed. This has two benefits: 1) we deal
-with integer overflow before it happens and 2) we properly respect the
-max speed of 0xffff. There are some "magic" numbers here but I did not
-want to change more than what was necessary.
-
-Link: https://github.com/llvm/llvm-project/pull/82432 [1]
-Closes: https://github.com/KSPP/linux/issues/357
-Cc: linux-hardening@vger.kernel.org
-Signed-off-by: Justin Stitt <justinstitt@google.com>
-Link: https://lore.kernel.org/r/20240508-b4-b4-sio-sr_select_speed-v2-1-00b68f724290@google.com
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Signed-off-by: Martin K. Petersen <martin.petersen@oracle.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- Documentation/cdrom/cdrom-standard.rst | 4 ++--
- drivers/scsi/sr.h                      | 2 +-
- drivers/scsi/sr_ioctl.c                | 5 ++++-
- include/linux/cdrom.h                  | 2 +-
- 4 files changed, 8 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/cdrom/cdrom-standard.rst b/Documentation/cdrom/cdrom-standard.rst
-index 7964fe134277b..6c1303cff159e 100644
---- a/Documentation/cdrom/cdrom-standard.rst
-+++ b/Documentation/cdrom/cdrom-standard.rst
-@@ -217,7 +217,7 @@ current *struct* is::
- 		int (*media_changed)(struct cdrom_device_info *, int);
- 		int (*tray_move)(struct cdrom_device_info *, int);
- 		int (*lock_door)(struct cdrom_device_info *, int);
--		int (*select_speed)(struct cdrom_device_info *, int);
-+		int (*select_speed)(struct cdrom_device_info *, unsigned long);
- 		int (*get_last_session) (struct cdrom_device_info *,
- 					 struct cdrom_multisession *);
- 		int (*get_mcn)(struct cdrom_device_info *, struct cdrom_mcn *);
-@@ -396,7 +396,7 @@ action need be taken, and the return value should be 0.
- 
- ::
- 
--	int select_speed(struct cdrom_device_info *cdi, int speed)
-+	int select_speed(struct cdrom_device_info *cdi, unsigned long speed)
- 
- Some CD-ROM drives are capable of changing their head-speed. There
- are several reasons for changing the speed of a CD-ROM drive. Badly
-diff --git a/drivers/scsi/sr.h b/drivers/scsi/sr.h
-index 1175f2e213b56..dc899277b3a44 100644
---- a/drivers/scsi/sr.h
-+++ b/drivers/scsi/sr.h
-@@ -65,7 +65,7 @@ int sr_disk_status(struct cdrom_device_info *);
- int sr_get_last_session(struct cdrom_device_info *, struct cdrom_multisession *);
- int sr_get_mcn(struct cdrom_device_info *, struct cdrom_mcn *);
- int sr_reset(struct cdrom_device_info *);
--int sr_select_speed(struct cdrom_device_info *cdi, int speed);
-+int sr_select_speed(struct cdrom_device_info *cdi, unsigned long speed);
- int sr_audio_ioctl(struct cdrom_device_info *, unsigned int, void *);
- 
- int sr_is_xa(Scsi_CD *);
-diff --git a/drivers/scsi/sr_ioctl.c b/drivers/scsi/sr_ioctl.c
-index fbdb5124d7f7d..7034b4126d421 100644
---- a/drivers/scsi/sr_ioctl.c
-+++ b/drivers/scsi/sr_ioctl.c
-@@ -422,11 +422,14 @@ int sr_reset(struct cdrom_device_info *cdi)
- 	return 0;
- }
- 
--int sr_select_speed(struct cdrom_device_info *cdi, int speed)
-+int sr_select_speed(struct cdrom_device_info *cdi, unsigned long speed)
- {
- 	Scsi_CD *cd = cdi->handle;
- 	struct packet_command cgc;
- 
-+	/* avoid exceeding the max speed or overflowing integer bounds */
-+	speed = clamp(0, speed, 0xffff / 177);
-+
- 	if (speed == 0)
- 		speed = 0xffff;	/* set to max */
- 	else
-diff --git a/include/linux/cdrom.h b/include/linux/cdrom.h
-index 67caa909e3e61..24fe410492006 100644
---- a/include/linux/cdrom.h
-+++ b/include/linux/cdrom.h
-@@ -76,7 +76,7 @@ struct cdrom_device_ops {
- 				      unsigned int clearing, int slot);
- 	int (*tray_move) (struct cdrom_device_info *, int);
- 	int (*lock_door) (struct cdrom_device_info *, int);
--	int (*select_speed) (struct cdrom_device_info *, int);
-+	int (*select_speed) (struct cdrom_device_info *, unsigned long);
- 	int (*get_last_session) (struct cdrom_device_info *,
- 				 struct cdrom_multisession *);
- 	int (*get_mcn) (struct cdrom_device_info *,
--- 
-2.43.0
-
+> Thanks and happy hacking,
+>
+>    Wolfram
+>
+> [1] https://lore.kernel.org/lkml/1301630392-20793-3-git-send-email-bgat@b=
+illgatliff.com/raw
