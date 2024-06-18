@@ -1,105 +1,113 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D20C215FCFB
-	for <linux-doc@vger.kernel.org>; Tue, 18 Jun 2024 12:51:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8D9315A857;
+	Tue, 18 Jun 2024 13:20:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718715070; cv=none; b=rbHqGUFu07wu8mQBVMQRq7CHOmQHE0bdmX4c8vNaVLMwvQXDrI9Gdqz+/PA7WpHAHmaxBuLGrLE2Z8cAOl3mQIh4FUq0+UQYAD/1m6XeQ6Xw5dRYtiqSwtcyldJbhMCxgw83kw+SBFlsYWHuccv0RzBwpEvEfjQ2Nv0RAsfFLcA=
+	t=1718716813; cv=none; b=V+goFblHFWzZncsaRqNQrTsPLzfLrEAMjOIhZss7MX2fNKh74a6Lh5YE+p9PxZueCusxpnJHWFqsX/dRpzIpdhBjFmTryJIWT7Grh6P0sDOn9QzvC8dCOzjuKbnB4B2LfK+/BVbCl05azrvGuEzhDmhP6IRWzXAOyfpcGEcF4iM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718715070; c=relaxed/simple;
-	bh=uF5ZFn1MuaQXkgdPUExdYFF3srBleOHLlC/tZBYzGmw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=sBSVGhozaJFppa45mRiXxxCEOFRez5Q524FsojR5IqU5DrCY3cXm5E+cKtHfxId4wRCNM3hf3bkJlFrGld3FAUTbL5fkocZuCXspa77GYZ/7ItfoV/Ev3O175A+We7zeOgkaIq3ojaA3I2NG8V8FVVRubQNL0qjC4nurul9QCD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=sSiIw4OK; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1718716813; c=relaxed/simple;
+	bh=iGI7rBJgHu8DUEHU/uaWXIvRgpjCEyXg+PI+OEEUOBI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Djfd+eVvt/HCGTbycfN8wis4xAq3YZnbNqIvWdO6+eCcbEKimaprnNyYF6rUSpBr3f2HPVzg50pO84/M0crvtZtJmh3MwLwtNcIO1slrNZExa2o4g289VeDPVMABJvxeX9HZaxOVuLKt67fTqoylTrdHcsNh0XdFUDvH+yaKy9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YaQRLVof; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="sSiIw4OK"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-52bc3130ae6so5869633e87.3
-        for <linux-doc@vger.kernel.org>; Tue, 18 Jun 2024 05:51:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1718715067; x=1719319867; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=54+Eo/LVJRF3kfpmwpcFaWiseOLh0OIeZ4ykbGjRcKM=;
-        b=sSiIw4OK6sz7xlKMy+dcz7vHWPSEHFWwee3S2ULKY+239pWD6qstEHEw4CfdwiVPou
-         +J9fbn0fCLYDXSGrUHv3bnGy3jf/jtIkHM5y2B1h7CPblFIVSuzcBVKxp6EKOH7ZIsWj
-         VTLSEjpM2cII18YEfHbbU1V4N0XKLUZ0+dgUUssuBQoXQ7CHFUl0P1wulh0DyPpoV9Bf
-         2te7hvOJHeYM1H30Enw1H6b7lVv4IJ6Yq1582qVkHOWZTHybpP7nQh92xKqygzHDV1DE
-         mhNZ3pSz/16gy2u87QUujsIO1/V6BGVEnkjk3Nk0MqPVQxpm0qJf5QRCX+TIxznGd2xW
-         nxcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718715067; x=1719319867;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=54+Eo/LVJRF3kfpmwpcFaWiseOLh0OIeZ4ykbGjRcKM=;
-        b=TKjCZBbf/PorlekNjp4xdMAabUOon7u7gc0Db1NYHIu4ySryF8TpV5UnJ5WsoeAGOM
-         lVIaf3xCjYu9j14Dxe7rl6WBVXWTX0WNwaE+9m7Y0J0qdzsDVVGbwYdIYKVTjhdnZXyy
-         he7rbVa0A6nUUf0dKEhUqLAL/WzkyDz/FO2scJUsrxTdEpJ4QPwUSgrNc1Zmmk0Vzj5X
-         8iGOiKruqR4fZzP3TOI/XnndCQPvpjYeWmvBblA6XnqV2Bk0C7vaRqs+PDLD93NJ3gMi
-         q5IDKv5Pjbu+X7KDkFrcIQe7R5IZQtz40ENKz2IIYVgoCFPLuQtATYjoq3p0GnTL5wUW
-         t1nw==
-X-Forwarded-Encrypted: i=1; AJvYcCVyD07IbEokZdDz7kPc3T9evm6naxnV4lZod3+YpdMRkGyUdkDNTWRhwbagWtpiz8hUcFNBhqI0yTNELFGVqDpH4s1T5kIbEahY
-X-Gm-Message-State: AOJu0Yz5xf0LZBZmXWq1mRXKo9bLD9MeSscUUnN9EW0LIURFEHNm9o4N
-	x6VadGre97vEpkyKseimnM6mRsNWCMu5fspj7iSjlsjaxKRwJFRvhBnG2WF/8RDgSTfGL+t/dLw
-	dvDbOmq8OyeNGPgAyMZGAbNcdj9MavXTa2cHsGw==
-X-Google-Smtp-Source: AGHT+IGGpskF6WxgH5a2LFZlhA8ClFYD/WRffkI42oeSbQsIHgrks0hi8KL6Kb06PDgQHBC6H90LZisqtHNXYzFlrVQ=
-X-Received: by 2002:a19:5e49:0:b0:52c:83c2:9676 with SMTP id
- 2adb3069b0e04-52ca6e65414mr6747554e87.20.1718715066987; Tue, 18 Jun 2024
- 05:51:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YaQRLVof"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE65BC3277B;
+	Tue, 18 Jun 2024 13:20:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718716812;
+	bh=iGI7rBJgHu8DUEHU/uaWXIvRgpjCEyXg+PI+OEEUOBI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YaQRLVof/ZQnet0TvACOwyCCYrbmTv719c70lp/aFvnFh7gwRByME3Xc6l+v8DKet
+	 R3FPcyFypjIlzmjAMiCp4xMKSIQuosdI+lUd4MeNDgX1df9cc3OLCpvKYnq8gt22m8
+	 m/8wTmCEEQpu/7DPd+RUqxqKxB7jd5MWU8357PDDNJ9rkv99r/c3Pctz5eLjBG6pUh
+	 qBSVkge7YkpreHJ3Ew21CKyXhSMdg5d6xrcv1d/aNrAQX6kOjUZ0+ZjdnVG7wtJr20
+	 z4ttEKpGo2IOBn9N795cHmVNPRbEyhfi5jcXpd7OFNUYT5TZEfxVAhhidqPAXcOL60
+	 Fbn++5te5qWGA==
+Date: Tue, 18 Jun 2024 14:20:01 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: =?utf-8?B?IkFtYWRldXN6IFPFgmF3acWEc2tpIg==?= <amadeuszx.slawinski@linux.intel.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Alper Nebi Yasak <alpernebiyasak@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Banajit Goswami <bgoswami@quicinc.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Brent Lu <brent.lu@intel.com>,
+	Cezary Rojewski <cezary.rojewski@intel.com>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Jerome Brunet <jbrunet@baylibre.com>, Jiawei Wang <me@jwang.link>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Maso Huang <maso.huang@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Takashi Iwai <tiwai@suse.com>, Vinod Koul <vkoul@kernel.org>,
+	Xiubo Li <Xiubo.Lee@gmail.com>, alsa-devel@alsa-project.org,
+	imx@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-sound@vger.kernel.org
+Subject: Re: [PATCH v5 0/4] ASoC: grace time for DPCM cleanup
+Message-ID: <6bf6adc9-9620-4ace-97c9-7de0cedd7d07@sirena.org.uk>
+References: <87bk4oqerx.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240610112700.80819-1-wsa+renesas@sang-engineering.com>
- <20240610112700.80819-2-wsa+renesas@sang-engineering.com> <CAMRc=MfZ11U+kAh1+K=DxtJ=QL+cY7Q_sBN4sQDF-RNgjpV0QA@mail.gmail.com>
- <jvnvx7a4pn6evrp5ehfrt4qsiuprq6ogvrue2a3uupwtydmgcm@2rvat7ibvgb4>
- <CAMRc=Mc4__0zzJZG3BPnmbua88SLuEbX=Wk=EZnKH5HQvB+JPg@mail.gmail.com>
- <CACRpkda==5S75Bw6F3ZLUmf7kwgi_JkByiizR=m-61nrMDWuvQ@mail.gmail.com>
- <ce1d8150-c595-44d5-b19a-040920481709@app.fastmail.com> <CAMRc=McpRjQO8mUrOA4bU_YqO8Tc9-Ujytfy1fcjGUEgH9NW0A@mail.gmail.com>
- <3h63msxchuuxqa5liufoivss4raqtzjlusjn7ufti5nyjkshcb@pqevlpuvrm5q>
-In-Reply-To: <3h63msxchuuxqa5liufoivss4raqtzjlusjn7ufti5nyjkshcb@pqevlpuvrm5q>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Tue, 18 Jun 2024 14:50:55 +0200
-Message-ID: <CAMRc=Mff2L_M=zkxQTqoFjMxbi4ZXBHPxm48UGnYFEnwfDWFHQ@mail.gmail.com>
-Subject: Re: [PATCH v9 1/1] gpio: add sloppy logic analyzer using polling
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Arnd Bergmann <arnd@arndb.de>, Linus Walleij <linus.walleij@linaro.org>, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Kent Gibson <warthog618@gmail.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="e5HrHBf54JKzRBsN"
+Content-Disposition: inline
+In-Reply-To: <87bk4oqerx.wl-kuninori.morimoto.gx@renesas.com>
+X-Cookie: If you can read this, you're too close.
 
-On Tue, Jun 18, 2024 at 11:23=E2=80=AFAM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
->
-> Hi Bart,
->
-> > I could see it using configfs instead of DT for configuration and iio
-> > for presenting the output but - from what Wolfram said - insisting on
-> > this will simply result in this development being dropped entirely.
->
-> How do you assign a GPIO via debugfs? I only found the out-of-tree
-> pwm-gpio driver[1] which uses a GPIO number. But those are deprecated
-> these days, or? Any other driver doing this you can point me to?
->
 
-You mean configfs? Please take a look at my proposed gpio-virtuser
-module, it should do what you want:
-https://lore.kernel.org/linux-gpio/20240613092830.15761-1-brgl@bgdev.pl/
+--e5HrHBf54JKzRBsN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Bart
+On Thu, May 30, 2024 at 01:17:39AM +0000, Kuninori Morimoto wrote:
 
-> Thanks and happy hacking,
->
->    Wolfram
->
-> [1] https://lore.kernel.org/lkml/1301630392-20793-3-git-send-email-bgat@b=
-illgatliff.com/raw
+> As we discussed in [1], we don't need to use dpcm_playback/capture flag,
+> so we remove it. But we have been using it for 10 years, some driver might
+> get damage. The most likely case is that the device/driver can use both
+> playback/capture, but have only one flag, and not using xxx_only flag.
+> [1/3] patch indicates warning in such case.
+
+This doesn't apply against current code, please check and resend (it's
+simple-card and audio-graph-card2 that conflict).
+
+--e5HrHBf54JKzRBsN
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmZxiYEACgkQJNaLcl1U
+h9CT2Af/TIz3sGLRzIL23jSsjCN+Qsm7udl7I62HN0gip2VR9e0+otYDtGfJcXWp
+zrVbznJTkkSt4SsAxfiucjtkhY+1m4IKnMmpSWwlgLqiDJiuFad2qVfWOsY6d+NY
+3DNOj2KtwsvBhMpTTvsoX9H1r0iRcU9saFz0Os14iDcjbf2UAOO31vFaAqz8SMlN
+05CFIk/QPU7k9iZN6iqrFkXlTya/VOJzGKPEqGq7pQ37+h4n2d6vLv2zCd/6l4at
+fCMT2H+VgTGLQOcfA2ifL+q6KRlSm2A0ZIJk98lI2yNWUwEGdSK+Teea1J55K3MC
+3ka6NLcUh4KixXZZgooMqJRn2KtHsA==
+=Jc6T
+-----END PGP SIGNATURE-----
+
+--e5HrHBf54JKzRBsN--
