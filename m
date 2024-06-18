@@ -1,109 +1,193 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7466517BB0E;
-	Tue, 18 Jun 2024 21:36:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC58913DDD2;
+	Tue, 18 Jun 2024 21:39:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718746595; cv=none; b=WrqIT+IFePlv365+lZxwUBsJBPeSyf9HKXywo0usZUBaNeBm7o6wzs4eJ6W5L1bfFbTobPx9Ddi69ZWs8pmg+KXnxc/NMhpnZltuINAp5JaiLnNfFZxofV+z3Z7Pi3JOfzR8rjxUcGGE/V5n9C23IRuHy0eY/fN2TnjEAioxekQ=
+	t=1718746757; cv=none; b=eteqkqxQ8KiT4DqyVEZGo337AKwQrJD5OsGzP3f3JR6iNEwO7+mfvnC7czhgB13gbmMpKr2urv7Jv5n6tJLk5pV1pf7WT1u4x1iDM8voWqhCqneij6E6yzwWKbFhJVneVvj/YuZgaAEqEIH/ElWKzgTsEy8gcI72CJTBQZ8Uyzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718746595; c=relaxed/simple;
-	bh=RoniSjozDPpNLveGjBTMTaM+FpRJleaCmjKB3DAhfkQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Em8hQhIHNmfSz2LukbhGceBq6KiO1z0IOBCjgo1kqULCIJu+XdJBfr+ghjBYlbp2yMPKZ0Ee9mA8QxjpWUijpqjzMhkuwNEhfBuEuGjMlxqrZ28ZIgrBCPBrdJaeCmfqG7lm6d+bbubs5f9t1OXicij7mAApUIGFs1IAv9PeBuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p34/6GwW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718746757; c=relaxed/simple;
+	bh=U0Eg57Cn4OqXvwMom/OSpj1QqTJKcmBbmsEXCWhvtX8=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=rDWyGXpmTqbIJbQYLS0DYXtkMfdPCGA7Lv+gB0dQQjgGR45eQ9GFf8Qe1jaTpomUDXreqz/AW1yvmI71xTJc/K1qWvyEgeGtaQJHnXpFCIEieuxHqWCynBPO1dAsjFBKMfVMp0SVi7U0JYz22ygIG2+xVyt/HyPNTOYKyuGrasg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=K1wAzfUr; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p34/6GwW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6171DC32786;
-	Tue, 18 Jun 2024 21:36:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718746595;
-	bh=RoniSjozDPpNLveGjBTMTaM+FpRJleaCmjKB3DAhfkQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=p34/6GwW02jnbVIkrWglFEBNA9oU35st/HdIpDUnsqKFAXtyVsobAiE3BWWnCTanb
-	 9iwKlSYarqymTcntkYuSH5YzXhvFJZIxj1dzbfyTz8ZbAOXm2w5rdlqgwC76BXa2CS
-	 tR5S2UPM2zHjMqXuslXQPkV7//M7DC1UkOdatIZ92iCVLEaJLaen5WJWkViEdyqo8y
-	 FAqaZYqHyMGmb6BazBvENRcRMEfC9O2oix4j6wKL8LJbQA0j30mdFhP3AU+qogU7i/
-	 pFyjljmz9dx5qbP5Hu3O80EN49resxDpV1j1bIyrUaPMyCAWTdqdTllUmUqlxrcorU
-	 /k7tYkmjWS0TQ==
-From: SeongJae Park <sj@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: SeongJae Park <sj@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Honggyu Kim <honggyu.kim@sk.com>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] Docs/admin-guide/damon/usage: trivial fixups for DAMOS_MIGRATE_{HOT,COLD} documetnation
-Date: Tue, 18 Jun 2024 14:36:29 -0700
-Message-Id: <20240618213630.84846-2-sj@kernel.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240618213630.84846-1-sj@kernel.org>
-References: <20240618213630.84846-1-sj@kernel.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="K1wAzfUr"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=o8G8ifLXVT/4fr2bGcys3dHGbQ+B9Z7Bqubv+Pu8ANc=; b=K1wAzfUr5mz1ZuifiHsVo1OfEV
+	UF+ZeLA/mo6mnmm+TdvzdWxuMRHF6lsaFGH3V1t2wIUglCRGNS2ZPN9rq09JJaryp5m34Fkdxy3Gm
+	k0DVmDVIQy2h9ZzUaenGCffyX5I4KVY7Zkc2jl61wmLjA5xQorvGI069zJlLs0JwsO6hFWZa+sWWr
+	z7sHgdOzasXTx5/F+sfTjodJZTb5a4t70x5zkJwvAhbJIloDLJMoOJ8TWgBAclCxBI12nvejmnbDK
+	ZB0Edq73rPcM7NzE2VPqiZJF7IdvBOfORRIj4j10gC5WsidS/CxRUA+4+FVxUdlyOrPtJXe+I7yfw
+	0VT5cWHA==;
+Received: from [50.53.4.147] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sJgXo-0000000GhXx-3pHy;
+	Tue, 18 Jun 2024 21:39:13 +0000
+Message-ID: <c9007e7e-ca1e-4a2e-a80b-4ee3cd873fa8@infradead.org>
+Date: Tue, 18 Jun 2024 14:39:11 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 5/5] firmware: imx: adds miscdev
+From: Randy Dunlap <rdunlap@infradead.org>
+To: Pankaj Gupta <pankaj.gupta@nxp.com>, Jonathan Corbet <corbet@lwn.net>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+References: <20240617-imx-se-if-v3-0-a7d28dea5c4a@nxp.com>
+ <20240617-imx-se-if-v3-5-a7d28dea5c4a@nxp.com>
+ <c2ef0570-0392-4290-a008-df74f980f76d@infradead.org>
+Content-Language: en-US
+In-Reply-To: <c2ef0570-0392-4290-a008-df74f980f76d@infradead.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Fixup below three trivial issues in DAMOS_MIGRATE_{HOT,COLD} usage
-documentation[1,2].
+Sorry, I missed one comment here:
 
-1. Add target_nid on sysfs files hierarchy
-2. Fix scheme directory section to mention target_nid file
-3. Explain target_nid before apply_interval_us
 
-Fixes: c100fc71858a ("Docs/damon: document damos_migrate_{hot,cold}") # mm-unstable [1]
-Link: https://lore.kernel.org/20240614030010.751-8-honggyu.kim@sk.com # [2]
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/usage.rst | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+On 6/18/24 2:28 PM, Randy Dunlap wrote:
+> Hi--
+> 
+> On 6/17/24 12:29 AM, Pankaj Gupta wrote:
+>> Adds the driver for communication interface to secure-enclave,
+>> for exchanging messages with NXP secure enclave HW IP(s) like
+>> EdgeLock Enclave from:
+>> - User-Space Applications via character driver.
+>>
+>> ABI documentation for the NXP secure-enclave driver.
+>>
+>> User-space library using this driver:
+>> - i.MX Secure Enclave library:
+>>   -- URL: https://github.com/nxp-imx/imx-secure-enclave.git,
+>> - i.MX Secure Middle-Ware:
+>>   -- URL: https://github.com/nxp-imx/imx-smw.git
+>>
+>> Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
+>> ---
+>>  Documentation/ABI/testing/se-cdev |  42 +++
+>>  drivers/firmware/imx/ele_common.c | 153 ++++++++-
+>>  drivers/firmware/imx/ele_common.h |   4 +
+>>  drivers/firmware/imx/se_ctrl.c    | 694 ++++++++++++++++++++++++++++++++++++++
+>>  drivers/firmware/imx/se_ctrl.h    |  49 +++
+>>  include/uapi/linux/se_ioctl.h     |  94 ++++++
+>>  6 files changed, 1034 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/Documentation/ABI/testing/se-cdev b/Documentation/ABI/testing/se-cdev
+>> new file mode 100644
+>> index 000000000000..699525af6b86
+>> --- /dev/null
+>> +++ b/Documentation/ABI/testing/se-cdev
+>> @@ -0,0 +1,42 @@
+>> +What:		/dev/<se>_mu[0-9]+_ch[0-9]+
+>> +Date:		May 2024
+>> +KernelVersion:	6.8
+>> +Contact:	linux-imx@nxp.com, pankaj.gupta@nxp.com
+>> +Description:
+>> +		NXP offers multiple hardware IP(s) for  secure-enclaves like EdgeLock-
+> 
+> 		                                   for secure enclaves
+> 
+>> +		Enclave(ELE), SECO. The character device file-descriptors
+> 
+> 		                                         file descriptors
+> 
+> and what is SECO?
+> 
+>> +		/dev/<se>_mu*_ch* are the interface between user-space NXP's secure-
+> 
+> 		                                            userspace        secure
+> 
+>> +		enclave shared-library and the kernel driver.
+> 
+> 		        shared library
+> 
+>> +
+>> +		The ioctl(2)-based ABI is defined and documented in
+>> +		[include]<linux/firmware/imx/ele_mu_ioctl.h>
+>> +		 ioctl(s) are used primarily for:
+>> +			- shared memory management
+>> +			- allocation of I/O buffers
+>> +			- get mu info
+> 
+> 			- getting mu info
+> 
+>> +			- setting a dev-ctx as receiver that is slave to fw
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index 98804e34448b..26df6cfa4441 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -78,7 +78,7 @@ comma (",").
-     │ │ │ │ │ │ │ │ ...
-     │ │ │ │ │ │ ...
-     │ │ │ │ │ :ref:`schemes <sysfs_schemes>`/nr_schemes
--    │ │ │ │ │ │ :ref:`0 <sysfs_scheme>`/action,apply_interval_us
-+    │ │ │ │ │ │ :ref:`0 <sysfs_scheme>`/action,target_nid,apply_interval_us
-     │ │ │ │ │ │ │ :ref:`access_pattern <sysfs_access_pattern>`/
-     │ │ │ │ │ │ │ │ sz/min,max
-     │ │ │ │ │ │ │ │ nr_accesses/min,max
-@@ -289,21 +289,21 @@ schemes/<N>/
- ------------
- 
- In each scheme directory, five directories (``access_pattern``, ``quotas``,
--``watermarks``, ``filters``, ``stats``, and ``tried_regions``) and two files
--(``action`` and ``apply_interval``) exist.
-+``watermarks``, ``filters``, ``stats``, and ``tried_regions``) and three files
-+(``action``, ``target_nid`` and ``apply_interval``) exist.
- 
- The ``action`` file is for setting and getting the scheme's :ref:`action
- <damon_design_damos_action>`.  The keywords that can be written to and read
- from the file and their meaning are same to those of the list on
- :ref:`design doc <damon_design_damos_action>`.
- 
--The ``apply_interval_us`` file is for setting and getting the scheme's
--:ref:`apply_interval <damon_design_damos>` in microseconds.
--
- The ``target_nid`` file is for setting the migration target node, which is
- only meaningful when the ``action`` is either ``migrate_hot`` or
- ``migrate_cold``.
- 
-+The ``apply_interval_us`` file is for setting and getting the scheme's
-+:ref:`apply_interval <damon_design_damos>` in microseconds.
-+
- .. _sysfs_access_pattern:
- 
- schemes/<N>/access_pattern/
+Documentation/process/coding-style.rst says not to introduce new uses of the
+word "slave":
+
+For symbol names and documentation, avoid introducing new usage of
+'master / slave' (or 'slave' independent of 'master') and 'blacklist /
+whitelist'.
+
+Recommended replacements for 'master / slave' are:
+    '{primary,main} / {secondary,replica,subordinate}'
+    '{initiator,requester} / {target,responder}'
+    '{controller,host} / {device,worker,proxy}'
+    'leader / follower'
+    'director / performer'
+
+
+>> +			- get SoC info
+> 
+> 			- getting SoC info
+> 
+>> +
+>> +		The following file operations are supported:
+>> +
+>> +		open(2)
+>> +		  Currently the only useful flags are O_RDWR.
+>> +
+>> +		read(2)
+>> +		  Every read() from the opened character device context is waiting on
+>> +		  wakeup_intruptible, that gets set by the registered mailbox callback
+> 
+> 		  typo in that name?
+> 		or is it something that this patch series introduces?
+> 
+>> +		  function; indicating a message received from the firmware on message-
+> 
+> 		  function,
+> 
+>> +		  unit.
+>> +
+>> +		write(2)
+>> +		  Every write() to the opened character device context needs to acquire
+>> +		  mailbox_lock, before sending message on to the message unit.
+> 
+> 		  mailbox_lock before
+> 
+>> +
+>> +		close(2)
+>> +		  Stops and free up the I/O contexts that was associated
+> 
+> 		            frees up                 that were associated
+> 
+>> +		  with the file descriptor.
+>> +
+>> +Users:		https://github.com/nxp-imx/imx-secure-enclave.git,
+>> +		https://github.com/nxp-imx/imx-smw.git
+>> +		crypto/skcipher,
+>> +		drivers/nvmem/imx-ocotp-ele.c
+> 
+> 
+
 -- 
-2.39.2
-
+~Randy
