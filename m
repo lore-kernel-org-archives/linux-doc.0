@@ -1,136 +1,103 @@
-Received: from out203-205-221-173.mail.qq.com (out203-205-221-173.mail.qq.com [203.205.221.173])
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89AA314EC7A;
-	Tue, 18 Jun 2024 08:44:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A88A13A401;
+	Tue, 18 Jun 2024 09:06:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718700272; cv=none; b=Z8G8/J+LzltSqlJa0+ju6DTODCBgaUvoBYVMqz8IJMvcxhQuCYSdReo/H051OVrfJ3FzFb+s5pqjg8MJB3RnBCOvsE9JG5mwEmeDGdvfK5N1DFS5Cb6C36MYY5RW4NbLD9xFdPB9vJW2hgrdFPpbwNHJ0PDfoH+lnpZyb4lFMAI=
+	t=1718701594; cv=none; b=F89o/nxjS303Y1RCaO1+tVkHQoimOyErRrBg5JGu1v1tZUisyawAM+qMhfcJ9eVAx+qAslwrfmhXE2SujVNqnJUMNBIsjZnkvg3Yzq1DLybVMALsLUFphs/LOgrFBm6rPbKajGgiPA9D8VQ7LGslKq8yURTSKRFLn2UwdUpz8k8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718700272; c=relaxed/simple;
-	bh=jMR0gFv9hBm3u/vA/bGzR+PkXpS7rjMgSQgoCQ0LJbM=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=c4Ak7GtdAuEG0tf3027PD2dA9zqmHVHP+qOR8vBI0Ypcj1PxieW1aVprF6dFOIQJasplk6rNbvLLSOq55cLC16olLVi3p1zKplKGnR/260pg0vN1oYtY7IFFCJyUCoVphyyUe5L4H9w7lfIjUWJvaTP+GgPYzM0h3LefFa98LPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=vktNN5k5; arc=none smtp.client-ip=203.205.221.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
+	s=arc-20240116; t=1718701594; c=relaxed/simple;
+	bh=1xvnTLcwUC/wXSbK0hHWiovGjdpeba1dJ2R9GFpGru0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ERvK3TloFw0mjH7IbyT+RLi2iC2hKqvl3nqTwmxJONGQu2k4j2TDQbr9WId626N3MqilumQM7QJQe4Qfq7tZfm7Ph+x4/0Y8MEBfBjr8kcRggL7IwdI4MCN/u/pm8XBK7NfZmZxvqZjfJHRXwScmAdKdYERVKe6SgrSzCdTazSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=eKYT/zhq; arc=none smtp.client-ip=46.255.230.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="vktNN5k5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1718700259;
-	bh=/Y5G1BXz2YebgSdUldA8kxYpuyKsbcP7FFNglutT/SY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=vktNN5k5JA5A3yXlM2LxgM2YWFRpnlxW+X1VShQAr4ZF0Xa8dTaoBMjnROdrNMHzC
-	 m+8ZT3m6Af9rL4aLCf2zXs6mIFa9tIizG1i7PEgVrcvMeMHpxNFE+hj++v/SBlylC8
-	 2DUWK+w1laRPshApkWwHjL02azvFbKrRF/20U3u4=
-Received: from localhost.localdomain ([203.119.160.30])
-	by newxmesmtplogicsvrszb9-0.qq.com (NewEsmtp) with SMTP
-	id B113928D; Tue, 18 Jun 2024 16:44:17 +0800
-X-QQ-mid: xmsmtpt1718700257tn1efp5vg
-Message-ID: <tencent_262FCAE8F01C8D0582A45600851988585806@qq.com>
-X-QQ-XMAILINFO: MMwjR1C73eIsR+PAilWFYH7hJbQDs/WJHnebf9M/mVdVaQZhW/Gnh+yWa00w1T
-	 pV2lUxkvS5iK+8I+eEKtoR9kcX3fNXyYUoLKmBltXkyA1G6E6muezr9KYkyUKzL9O58w6z9Dhtxp
-	 c1jcyiCkSgNX4LYOdblqzEzRs7AL6PndvEkYQpOqFu+JqoVaga3Bj67jI1DK9T5VCP4l42C4mPTF
-	 lf9A+jQeBOUtM3vWR5EeZJbC9IYOmKvgqFnAWAZZj7m52KquNxJTutfnkHRv0KKsmO/CDaVXTKLM
-	 etMEA2CZzVp93lBlpy/hNgfwT9CG0WXeD0kfpLNoqvUxwPjvsLnlYMSZo6k6t7GG33W08xxAuvOb
-	 KdwrNKqAz+K99oAl1PX7FbFc/iM98ClJvbriBBU13QTUxYH/He87KUqyeUbPG08NT7xH7x/KeCKs
-	 1i4T5Dvk/dRJe8uh+vmOMbr8kNcSt10RWX+Rg8vETKjpra/VWuUE+7smrgKGJKZblCkhJTLJdrqR
-	 Ms/7IkhgE6ijchRehWfdCUE8P1fDUSoOezGS9NgERA/jnKGaNakRhETJIU4FcYdmIOUW7KPhJjm9
-	 QZOk/munHlHOOI/8A8McQVxzE51isNyDFTsOUGBHh7AvJb86oX4F9wsPb2yBx0CxvSkMNAez6mWX
-	 YvSekEjfEcrCsYl1KwWw3qkR35rvbaWrDYFavf98pxt5hpaZ+UXI6IrqK3Uub3VT9H5qbACMHVdr
-	 bMq75c5eJEx+lF4I5QEtf8HZeuaEZP/lo0x43yoJF0MthcFOoGYl9ZBZ8SyfNPlF1mwj6wRC1z7/
-	 qLAB8F5saD/vMoHHpKkOK670vm6i3/hzH6V1PAMEYAW8BLg2gAlWFQfCOSDBKBVE3hiUu1IUkZJp
-	 yCIrwxxyBnU0G08LLBbJgYkiRnxxFXnQ8XYisa3sNWHjaDhG49G/6EQDDjuA3gYVXFW6X3NQiaa4
-	 xECtoDUK1WmrOU4hq4r+eWkHv49qs2F7n0ORSFQJ2vNSLwZLBXK2p+6XPva3gX0+h/bYEsIuQUMC
-	 1MdHr+dRRKzVQGwM5hU2R/kzXl1/89/+7fZcNGhOGpcukT6GbB4JtGX78hsftSqaThbDFwIuU9ho
-	 D6RvB/YvNwubmGVB6Skcx0VtEyrPpclLPmampB
-X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
-From: Tao Zou <wodemia@foxmail.com>
-To: siyanteng@loongson.cn
-Cc: alexs@kernel.org,
-	corbet@lwn.net,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	wodemia@foxmail.com,
-	wodemia@linux.alibaba.com
-Subject: Re: [PATCH V1 RESEND 1/1] zh_CN/admin-guide: Add zh_CN/admin-guide/numastat.rst translation document
-Date: Tue, 18 Jun 2024 16:44:16 +0800
-X-OQ-MSGID: <20240618084416.5077-1-wodemia@foxmail.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
-In-Reply-To: <d9ee8cc2-8fd9-4a99-9673-b3a56187df95@loongson.cn>
-References: <d9ee8cc2-8fd9-4a99-9673-b3a56187df95@loongson.cn>
+	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="eKYT/zhq"
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id 6499A1C0082; Tue, 18 Jun 2024 11:06:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+	t=1718701588;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xtv9e/zean9YtwVbvYLt9HowqzS0Av+9M4FJjz/aoWY=;
+	b=eKYT/zhqu3DOr0M3GNkrbWzbrhYnGE/w0ZNoD0esRMh4xs7MUkkMRHJU4mshDx+jVxGa2+
+	2+E/k2oxlwylVe5v0+X2v/zl+zOkorCPrGyJsD8RClnTEEf/6nER+7qmK4/RaftY/1cSb3
+	y93jcBKfIDQOxvqXgFm3yjIhCQ8xT80=
+Date: Tue, 18 Jun 2024 11:06:27 +0200
+From: Pavel Machek <pavel@ucw.cz>
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Hans de Goede <hdegoede@redhat.com>,
+	Gregor Riepl <onitake@gmail.com>, corbet@lwn.net,
+	ilpo.jarvinen@linux.intel.com, paulmck@kernel.org,
+	jpoimboe@kernel.org, tglx@linutronix.de, bp@alien8.de,
+	xiongwei.song@windriver.com, linux-doc@vger.kernel.org,
+	linux-input@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 5.10 4/8] platform/x86: touchscreen_dmi: Add
+ support for setting touchscreen properties from cmdline
+Message-ID: <ZnFOE5LcN2R9/zXc@duo.ucw.cz>
+References: <20240605120554.2968012-1-sashal@kernel.org>
+ <20240605120554.2968012-4-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="S/N03PCznFK76NlG"
+Content-Disposition: inline
+In-Reply-To: <20240605120554.2968012-4-sashal@kernel.org>
 
-Hi, Yanteng Si. Thanks for your suggestion.
 
-On Tue, 18 Jun 2024 12:01:33 +0800 Yanteng Si wrote:
->在 2024/6/18 10:47, wodemia@foxmail.com 写道:
->> From: Tao Zou <wodemia@linux.alibaba.com>
->>
->> Add translation zh_CN/admin-guide/numastat.rst and link it to
->> zh_CN/admin-guide/index.rst while clean its todo entry.
->>
->> Signed-off-by: Tao Zou <wodemia@linux.alibaba.com>
->> ---
->>
->> I apologize, the previous PATCH had an incorrect email address for linux-doc when it was sent, so I need to resend it.
->>   
->>   .../translations/zh_CN/admin-guide/index.rst  |  2 +-
->>   .../zh_CN/admin-guide/numastat.rst            | 50 +++++++++++++++++++
->>   2 files changed, 51 insertions(+), 1 deletion(-)
->>   create mode 100644 Documentation/translations/zh_CN/admin-guide/numastat.rst
->>
->> diff --git a/Documentation/translations/zh_CN/admin-guide/index.rst b/Documentation/translations/zh_CN/admin-guide/index.rst
->> index ac2960da33e6..0db80ab830a0 100644
->> --- a/Documentation/translations/zh_CN/admin-guide/index.rst
->> +++ b/Documentation/translations/zh_CN/admin-guide/index.rst
->> @@ -68,6 +68,7 @@ Todolist:
->>      cpu-load
->>      cputopology
->>      lockup-watchdogs
->> +   numastat
->>      unicode
->>      sysrq
->>      mm/index
->> @@ -109,7 +110,6 @@ Todolist:
->>   *   module-signing
->>   *   mono
->>   *   namespaces/index
->> -*   numastat
->>   *   parport
->>   *   perf-security
->>   *   pm/index
->> diff --git a/Documentation/translations/zh_CN/admin-guide/numastat.rst b/Documentation/translations/zh_CN/admin-guide/numastat.rst
->> new file mode 100644
->> index 000000000000..4f7fee557cb5
->> --- /dev/null
->> +++ b/Documentation/translations/zh_CN/admin-guide/numastat.rst
->> @@ -0,0 +1,50 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +.. include:: ../disclaimer-zh_CN.rst
->> +
->> +:Original: Documentation/admin-guide/numastat.rst
->> +:Translator: Tao Zou <wodemia@linux.alibaba.com>
->> +
->> +.. _cn_numastat:
->Drop it, because it introduces a warning.
-I'm not quite sure which lines should be dropped, as you've mentioned several. Could you give me more details of the warning?
->> +
->> +
->> +===============================
->> +Numa策略命中/未命中统计
->> +===============================
->  Drop unnecessary "=".
->
->one English char,  one "="
->
->one Chinese char, two "="
-Get it. I will fix it in PATCH v2.
+--S/N03PCznFK76NlG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+Hi!
+
+> [ Upstream commit 0b178b02673998f5acca5a0365a8858ca45beedb ]
+>=20
+> On x86/ACPI platforms touchscreens mostly just work without needing any
+> device/model specific configuration. But in some cases (mostly with Silead
+> and Goodix touchscreens) it is still necessary to manually specify various
+> touchscreen-properties on a per model basis.
+>=20
+> touchscreen_dmi is a special place for DMI quirks for this, but it can be
+> challenging for users to figure out the right property values, especially
+> for Silead touchscreens where non of these can be read back from
+> the touchscreen-controller.
+>=20
+> ATM users can only test touchscreen properties by editing touchscreen_dmi=
+=2Ec
+> and then building a completely new kernel which makes it unnecessary
+> difficult for users to test and submit properties when necessary for their
+> laptop / tablet model.
+>=20
+> Add support for specifying properties on the kernel commandline to allow
+> users to easily figure out the right settings. See the added documentation
+> in kernel-parameters.txt for the commandline syntax.
+
+I don't believe this is suitable for stable.
+
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--S/N03PCznFK76NlG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZnFOEwAKCRAw5/Bqldv6
+8uj9AKCsdtNtMZUOkf6ks4neub3NXKRZfACfcuiNamMXquKiK+ws/iD2l1txxRM=
+=HPHn
+-----END PGP SIGNATURE-----
+
+--S/N03PCznFK76NlG--
