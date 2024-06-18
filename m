@@ -1,105 +1,119 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4E446426;
-	Tue, 18 Jun 2024 18:58:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8514415747F;
+	Tue, 18 Jun 2024 19:28:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718737107; cv=none; b=hoM3XCs8h02VWOQzYFZauD0kcdtxpvtf5ylzeQHjeMWT2/9wZ2YIlTZXfuCLUT/uZLPwMJIP5O2dowo5kpkL1kItjTtjBODzQ1mUvk3r5+arAcDMmKcT52oKvI3J3ndOwM0XDrZwYctGrEJxaBoXg84hb9KepXm0+CQ6/6nSCmA=
+	t=1718738905; cv=none; b=SmBIgHnA5qYxuLabGZX5t05G3PiwRWra5iIa2VmyEExE6Yh7kK+B0sA9J87DXZDz9Bh/vYF1Zm0dJoCGqUc76Qh2vVuTrH+31gFl1HGGuvySnNeyhdUJnu81Hc/px3tLcQtl/W4eZRi4xCw1bymNQXRh52/6gsRqP1pqQzdqu+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718737107; c=relaxed/simple;
-	bh=k8EFMG5DMLKsNyQeGALNuSJ/BSvmDb2THX39JB2v2jc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=OaAqV8kDyOCzmPpUnBxwzC5NQcnA55IL1SVARazIdaj9FFqXDAatkLRL8ACr3OYDwbaxkd1ICVeuKqfRH+hMTj9aDxSm6NIfHvAZwdgI3cA3stpl1x6zHNlAe5xqFEjPFPZtDttAvLiBGIimcvSI3Ua9Q/tdaDQPQ/PdEViln5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-632597a42b4so1266897b3.0;
-        Tue, 18 Jun 2024 11:58:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718737103; x=1719341903;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+X8wf+uC0OjwHBa17rdEnSvQT0n3Fv2/cB2AKsMkZxY=;
-        b=fpmbNHGZeFcGLNlw4tGMA5EfxucpfFdRIMI+4++Gy61zKopvQ+swLmOQ8vGLq0+btE
-         TymZCMj9FZ/iOvuM8WlxfWOpOWqyAVz2W+8vocCppM1h0tpmeaJqI8a1lJPODukD92lz
-         Gym/KSpilX6KGlIT8nlM+gKDSbqBHB+mZlu9mPnZ4HfTNXm7EavH4CVm6avylRPN1rk8
-         J6d2PvHx5s8NhnD+gZRNugmkdkfBrc0ORgDBV8xKfwpvNrVWNfLoUhasHbP7I0RikRuA
-         BOwyu2LRPFJ/yxNj0etQ2R1d9Jwl9eV8Z1pQpSvxF0AujRP87eJd4HVhUfN1TlSl6KK8
-         0oQw==
-X-Forwarded-Encrypted: i=1; AJvYcCWyZCE1WlZZDlo1zXEZprBKX56Dr6svgwWgYvmuZ7mWy+8KKS7v0veiIDmtRAWiO56LmBG60G/H+FpDgb6CcBeM1kcRkPGfHscWJHmvHt4Ci/HeWUJ6wPicZ+Vc6W8hvuSTJFK5CEJAuHmseMtim1rVhUB4Korj/rh9EfgmESMSW6LB42MYtfqNRRrKtgSYH6lSh8MtwIb05BbDr89KbSvhO3Bb+N2k
-X-Gm-Message-State: AOJu0YyU0CATIAC2kBYaSwpgjHxwk7sJfecV1mp7+HOwYOQGhGnQhBNu
-	/vjGI987UH6nOWfGTF3BV3SyxHKWSWzvwCxbUVg2DfxMCEazFArvBko8qhGe
-X-Google-Smtp-Source: AGHT+IGHr/VtxA5A0u985IA92CRiSiD7/zYATm8ehyr5rsBrae5vS9IeJXXbkZJEKyDda5lX26nHew==
-X-Received: by 2002:a81:8982:0:b0:62c:f782:ee1e with SMTP id 00721157ae682-63a87ed7484mr6665947b3.11.1718737103362;
-        Tue, 18 Jun 2024 11:58:23 -0700 (PDT)
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com. [209.85.128.178])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-631183d7d6dsm18585297b3.17.2024.06.18.11.58.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Jun 2024 11:58:23 -0700 (PDT)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-63036fa87dbso1073557b3.1;
-        Tue, 18 Jun 2024 11:58:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWWccjhGJBDUH61T8+buQqEEx0WAHNu0/e2JIfXLnA/H1lYu/DP3dxVa+eNgZ2tFICmEItifLG7U6IeN4X5V9lyPprkwNbCd6c6RrfJQG23pipFnaHsCB8hvEQb/jGK9rnXcMYYpTBnladsvQO9JFtqCqnCSNKH5ODfoM2zv3sVX5RbW1FvBizSJ6NggFQOTRb2ErxQPV9HkH62zdfo4cM1exxcPqcr
-X-Received: by 2002:a81:e245:0:b0:61b:e506:b0f with SMTP id
- 00721157ae682-63947fc3d6amr27090767b3.4.1718737102803; Tue, 18 Jun 2024
- 11:58:22 -0700 (PDT)
+	s=arc-20240116; t=1718738905; c=relaxed/simple;
+	bh=O8y8OYQOXKLabxuSeZKjIefJkNb84l+ZbPGZWtoJcG8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LXFu27gjziNey5+2xs4pXtzk0G24qEVwcit/ghCIqCDF4AWhGuEw4a0s+Y/jqzX5igibLhUAmWORY5oM0dEklt38WuGqS9L0yV1UkCRDxerobGXr97xuydzi+soRFSTPMSzurED6PW2xk35y5HvaW84mYXB2Z3faodk5yrbaWik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kjVe0YRf; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kjVe0YRf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8C8DC3277B;
+	Tue, 18 Jun 2024 19:28:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718738905;
+	bh=O8y8OYQOXKLabxuSeZKjIefJkNb84l+ZbPGZWtoJcG8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=kjVe0YRffRanXyIDonCjBL8X+0N85uDm/O78DX7tSDHIx5ALzS0fmB1bNIaYF8dir
+	 Qh6qy6MdQtXSiWxFN4ynAFEymR+pOggaf7RN9mvQdmXZVQtWuMbvNbppCUfY2rXCkB
+	 Wo5xfp0jxNF8e+1vQYvOwGdDqLAImBjHwBev8SB8gWg20Nc9Ln8Cllv2lJxmHalCPQ
+	 /USKu5QcxIgchqb8WNhuNJb516iJ3DNJLIl0XyqwjE7rPNvlbw4bEil2QfGRKVL/8L
+	 pPSzOy1rJVEQLze02vAWaGNnqbHs3cVovrMmaX89p/nROaw5SrNxb12vTPfa7mMmAx
+	 R8rF1VcpRCdPw==
+From: Jakub Kicinski <kuba@kernel.org>
+To: davem@davemloft.net
+Cc: netdev@vger.kernel.org,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	netdev-driver-reviewers@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org
+Subject: [PATCH net-next] docs: net: document guidance of implementing the SR-IOV NDOs
+Date: Tue, 18 Jun 2024 12:28:18 -0700
+Message-ID: <20240618192818.554646-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240610112700.80819-1-wsa+renesas@sang-engineering.com>
- <20240610112700.80819-2-wsa+renesas@sang-engineering.com> <CAMRc=MfZ11U+kAh1+K=DxtJ=QL+cY7Q_sBN4sQDF-RNgjpV0QA@mail.gmail.com>
- <jvnvx7a4pn6evrp5ehfrt4qsiuprq6ogvrue2a3uupwtydmgcm@2rvat7ibvgb4>
- <CAMRc=Mc4__0zzJZG3BPnmbua88SLuEbX=Wk=EZnKH5HQvB+JPg@mail.gmail.com>
- <CACRpkda==5S75Bw6F3ZLUmf7kwgi_JkByiizR=m-61nrMDWuvQ@mail.gmail.com>
- <ce1d8150-c595-44d5-b19a-040920481709@app.fastmail.com> <CAMRc=McpRjQO8mUrOA4bU_YqO8Tc9-Ujytfy1fcjGUEgH9NW0A@mail.gmail.com>
- <3h63msxchuuxqa5liufoivss4raqtzjlusjn7ufti5nyjkshcb@pqevlpuvrm5q>
-In-Reply-To: <3h63msxchuuxqa5liufoivss4raqtzjlusjn7ufti5nyjkshcb@pqevlpuvrm5q>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 18 Jun 2024 20:58:11 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdW5oiD93ng0fVotMKoGMavs0G3DV93GW6qEQVhGxLCK5Q@mail.gmail.com>
-Message-ID: <CAMuHMdW5oiD93ng0fVotMKoGMavs0G3DV93GW6qEQVhGxLCK5Q@mail.gmail.com>
-Subject: Re: [PATCH v9 1/1] gpio: add sloppy logic analyzer using polling
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Arnd Bergmann <arnd@arndb.de>, Linus Walleij <linus.walleij@linaro.org>, 
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Kent Gibson <warthog618@gmail.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Wolfram,
+New drivers were prevented from adding ndo_set_vf_* callbacks
+over the last few years. This was expected to result in broader
+switchdev adoption, but seems to have had little effect.
 
-On Tue, Jun 18, 2024 at 12:54=E2=80=AFPM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
-> > I could see it using configfs instead of DT for configuration and iio
-> > for presenting the output but - from what Wolfram said - insisting on
-> > this will simply result in this development being dropped entirely.
->
-> How do you assign a GPIO via debugfs? I only found the out-of-tree
-> pwm-gpio driver[1] which uses a GPIO number. But those are deprecated
-> these days, or? Any other driver doing this you can point me to?
+Based on recent netdev meeting there is broad support for allowing
+adding those ops.
 
-Do you really need debugfs (or configfs)?
-I guess you can just write GPIO line names or GPIO chip
-labels + offsets to the new_device file, like gpio-aggregator does?
+There is a problem with the current API supporting a limited number
+of VFs (100+, which is less than some modern HW supports).
+We can try to solve it by adding similar functionality on devlink
+ports, but that'd be another API variation to maintain.
+So a netlink attribute reshuffling is a more likely outcome.
 
-Documentation/admin-guide/gpio/gpio-aggregator.rst
+Document the guidance, make it clear that the API is frozen.
 
-Gr{oetje,eeting}s,
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+CC: corbet@lwn.net
+CC: linux-doc@vger.kernel.org
+---
+ Documentation/networking/index.rst |  1 +
+ Documentation/networking/sriov.rst | 25 +++++++++++++++++++++++++
+ 2 files changed, 26 insertions(+)
+ create mode 100644 Documentation/networking/sriov.rst
 
-                        Geert
+diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
+index a6443851a142..b4b2a002f183 100644
+--- a/Documentation/networking/index.rst
++++ b/Documentation/networking/index.rst
+@@ -105,6 +105,7 @@ Refer to :ref:`netdev-FAQ` for a guide on netdev development process specifics.
+    seg6-sysctl
+    skbuff
+    smc-sysctl
++   sriov
+    statistics
+    strparser
+    switchdev
+diff --git a/Documentation/networking/sriov.rst b/Documentation/networking/sriov.rst
+new file mode 100644
+index 000000000000..652ffb501e6b
+--- /dev/null
++++ b/Documentation/networking/sriov.rst
+@@ -0,0 +1,25 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++===============
++NIC SR-IOV APIs
++===============
++
++Modern NICs are strongly encouraged to focus on implementing the ``switchdev``
++model (see :ref:`switchdev`) to configure forwarding and security of SR-IOV
++functionality.
++
++Legacy API
++==========
++
++The old SR-IOV API is implemented in ``rtnetlink`` Netlink family as part of
++the ``RTM_GETLINK`` and ``RTM_SETLINK`` commands. On the driver side
++it consists of a number of ``ndo_set_vf_*`` and ``ndo_get_vf_*`` callbacks.
++
++Since the legacy APIs does not integrate well with the rest of the stack
++the API is considered frozen, no new functionality or extensions
++will be accepted. New drivers should not implement the uncommon callbacks,
++namely the following callbacks are off limits:
++
++ - ``ndo_get_vf_port``
++ - ``ndo_set_vf_port``
++ - ``ndo_set_vf_rss_query_en``
+-- 
+2.45.2
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
