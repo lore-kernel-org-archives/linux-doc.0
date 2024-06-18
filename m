@@ -1,105 +1,97 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BF414D599
-	for <linux-doc@vger.kernel.org>; Tue, 18 Jun 2024 16:09:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A3D74070;
+	Tue, 18 Jun 2024 16:42:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718726995; cv=none; b=UxF62ecEA/tYs3admctNnXDVvW53yQYq0KqvSHdYZBCTRCVNz42amucxes/7jJRiQt8w5aOUkoU6znVQVKV27WSx/h8JfdzQQNO2Hz9COSlxs7gKuppIuJUt+DFr4Mf0GC4VvXKoklFwFvR2ifQZUPaVweS8Ru+EYhMgtPUEYBM=
+	t=1718728964; cv=none; b=UTXMRAWjBw1/vKFeSepa/gBt1UD5T/MmmYcTT1mil2UTlXLAevkWEdGl6uUKYRdO+qVWvik5SafQ90zoQ57dzJyzF1qM2IrKkH2KyjouUeMWKI2V/AFG5mt71rGLTIIrzo9IkNvXHzGylcAYzK84vwW8qOqQ/JaZOTOFTSeNzzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718726995; c=relaxed/simple;
-	bh=b9bXeRoJpbw3v2jWIi5RGRiSok5QY8bOI/A5YxVa18M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W4T6V8NxVoBuSqAJ1xpX07C7NofAbnaWjp1Ye2FyKmULrbwfJ8BE52p/MNtjtotm0Br+fY9Mf/fcuIJYhJLpVTA3LTcGDQO+HA9ck0qk5f84d8kpz7f9SQeeC+ToRjtbeIlC/VWDAmNixsUt9SxkFXa88lDaW7qwhG8nh3nV0Os=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=i8MEH4C+; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1718728964; c=relaxed/simple;
+	bh=vb9LUO9mKPOH1DjeuwESq/a3JXWFnuLS8evFmyQO3vI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Z3tIRuCwun+rul/pMvfGyWDdLZgAUd7h8Jf1pXA24AalD3gc8zcJE+dKWRmMRdFR1ctX+qeytaSW8+ryvunWPMg8TEMFIW5gr13/ExqoprbwvhQ11IZmBi9T9N1+m5t6R9Exdt+kNkxMU7r2siWF/klrFDNutzbl9ZX2Lz5hKTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=2ifN/ebc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="i8MEH4C+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=b9bX
-	eRoJpbw3v2jWIi5RGRiSok5QY8bOI/A5YxVa18M=; b=i8MEH4C+KhQrmah/GsWt
-	YohMHFdrtjifBFIvfyEkECENzHCGiFqJkQ1UGAAv+RduAH4TGmBxw+WAFApjGHGr
-	yax9HqsewdTs4Qz/IxPEipUh8cbSfWcaFwx1QGQTXPYft7H7jpkhie2+14oAnsaJ
-	uvpHd+BRwbqFnWQGqmzQW0jd51U8qn+AfXsYDwoCPH2bGadKM+N7CHred1BQUg5X
-	4aCowllIPE6uQwFYV7jFDaFqzRUq19dVdU4cnOICGiIMIKtBClAFlSMbQBv3q+3M
-	Tq8pIdNj/DHfq6oj3hfaRCAAR9mqwmCGpdkb6R9F6Q9YFGYj046IMRFuoaQ0+mGg
-	kg==
-Received: (qmail 283759 invoked from network); 18 Jun 2024 18:09:47 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Jun 2024 18:09:47 +0200
-X-UD-Smtp-Session: l3s3148p1@hlyRTywbJohehh9j
-Date: Tue, 18 Jun 2024 18:09:47 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Arnd Bergmann <arnd@arndb.de>, 
-	Linus Walleij <linus.walleij@linaro.org>, Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Kent Gibson <warthog618@gmail.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Subject: Re: [PATCH v9 1/1] gpio: add sloppy logic analyzer using polling
-Message-ID: <ekuchwcgvggsriqodasx6pneybqbwe3cc2j3huisb7mnacnj3z@mhx4snzwbbqj>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, Arnd Bergmann <arnd@arndb.de>, 
-	Linus Walleij <linus.walleij@linaro.org>, Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Kent Gibson <warthog618@gmail.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-References: <20240610112700.80819-1-wsa+renesas@sang-engineering.com>
- <20240610112700.80819-2-wsa+renesas@sang-engineering.com>
- <CAMRc=MfZ11U+kAh1+K=DxtJ=QL+cY7Q_sBN4sQDF-RNgjpV0QA@mail.gmail.com>
- <jvnvx7a4pn6evrp5ehfrt4qsiuprq6ogvrue2a3uupwtydmgcm@2rvat7ibvgb4>
- <CAMRc=Mc4__0zzJZG3BPnmbua88SLuEbX=Wk=EZnKH5HQvB+JPg@mail.gmail.com>
- <CACRpkda==5S75Bw6F3ZLUmf7kwgi_JkByiizR=m-61nrMDWuvQ@mail.gmail.com>
- <ce1d8150-c595-44d5-b19a-040920481709@app.fastmail.com>
- <CAMRc=McpRjQO8mUrOA4bU_YqO8Tc9-Ujytfy1fcjGUEgH9NW0A@mail.gmail.com>
- <3h63msxchuuxqa5liufoivss4raqtzjlusjn7ufti5nyjkshcb@pqevlpuvrm5q>
- <CAMRc=Mff2L_M=zkxQTqoFjMxbi4ZXBHPxm48UGnYFEnwfDWFHQ@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="2ifN/ebc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DB0AC3277B;
+	Tue, 18 Jun 2024 16:42:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1718728963;
+	bh=vb9LUO9mKPOH1DjeuwESq/a3JXWFnuLS8evFmyQO3vI=;
+	h=From:Subject:Date:To:Cc:From;
+	b=2ifN/ebcXIc4lsWkct1D9/TQA87+8izEMYl5EQv2g2upfFU7FuS4chnQSDqZU5gF5
+	 AKLMcpM696hqInNrKdGtY+cleBOk2/K0B0oddg+5kEO/fZM9dkE7THLhxAhlFRtyZL
+	 j8BGJpX1OZp0G9oNlGXdTgucFul5NdnLAbnls0hs=
+From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Subject: [PATCH 0/2] Documentation: update information for mailing lists
+Date: Tue, 18 Jun 2024 12:42:09 -0400
+Message-Id: <20240618-docs-patch-msgid-link-v1-0-30555f3f5ad4@linuxfoundation.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="t6vvdwno3oriajiw"
-Content-Disposition: inline
-In-Reply-To: <CAMRc=Mff2L_M=zkxQTqoFjMxbi4ZXBHPxm48UGnYFEnwfDWFHQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOG4cWYC/x3MQQqAIBBA0avErBvQKKmuEi1CJxsqCycikO6et
+ HyL/xMIRSaBvkgQ6WbhI2TosgC7TMETssuGSlW1MrpFd1jBc7rsgrt4drhxWNF0Rqu6abQhBbk
+ 9I838/N9hfN8Pb1CcMGcAAAA=
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Carlos Bilbao <carlos.bilbao.osdev@gmail.com>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+ Konstantin Ryabitsev <konstantin@linuxfoundation.org>, 
+ ksummit@lists.linux.dev
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1656;
+ i=konstantin@linuxfoundation.org; h=from:subject:message-id;
+ bh=vb9LUO9mKPOH1DjeuwESq/a3JXWFnuLS8evFmyQO3vI=;
+ b=owGbwMvMwCW27YjM47CUmTmMp9WSGNIKdzIETlnisaWn5cHZtA+Wt4+eLsqc/nvv//yDB3zeH
+ 5mZr9fv1lHKwiDGxSArpshSti92U1DhQw+59B5TmDmsTCBDGLg4BWAityMZ/tfcin5+rfHS1eeW
+ cs6i66/5m4ZVTFpdf2lpa/H/T3d7tuoy/E9OuaDm4t7NylF/invbrJXF2auL886uKJ05ZV9USpb
+ xA04A
+X-Developer-Key: i=konstantin@linuxfoundation.org; a=openpgp;
+ fpr=DE0E66E32F1FDD0902666B96E63EDCA9329DD07E
 
+There have been some important changes to the mailing lists hosted at
+kernel.org, most importantly that vger.kernel.org was migrated from
+majordomo+zmailer to mlmmj and is now being served from the unified
+mailing list platform called "subspace" [1].
 
---t6vvdwno3oriajiw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This series updates many links pointing at obsolete locations, but also
+makes the following changes:
 
+- drops the recommendation to use /r/ subpaths in lore.kernel.org links
+(it has been unnecessary for a number of years)
+- adds some detail on how to reference specific Link trailers from
+inside the commit message
 
-> You mean configfs? Please take a look at my proposed gpio-virtuser
+Some of these changes are the result of discussions on the ksummit
+mailing list [2].
 
-Oops, yes, configfs.
+Link: https://subspace.kernel.org # [1]
+Link: https://lore.kernel.org/20240617-arboreal-industrious-hedgehog-5b84ae@meerkat/ # [2]
+Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+---
+Konstantin Ryabitsev (2):
+      Documentation: fix links to mailing list services
+      Documentation: best practices for using Link trailers
 
-> module, it should do what you want:
-> https://lore.kernel.org/linux-gpio/20240613092830.15761-1-brgl@bgdev.pl/
+ Documentation/process/2.Process.rst          |  8 ++++----
+ Documentation/process/howto.rst              | 10 +++++-----
+ Documentation/process/kernel-docs.rst        |  5 ++---
+ Documentation/process/maintainer-netdev.rst  |  5 ++---
+ Documentation/process/maintainer-tip.rst     | 24 ++++++++++++++++++------
+ Documentation/process/submitting-patches.rst | 15 +++++----------
+ 6 files changed, 36 insertions(+), 31 deletions(-)
+---
+base-commit: 6ba59ff4227927d3a8530fc2973b80e94b54d58f
+change-id: 20240618-docs-patch-msgid-link-6961045516e0
 
-Thank you! Exactly what I was looking for. What I like is the symmetry
-of instantiating GPIOs in either DT or configfs. Very elegant for the
-user. But boy, this is a lot of non-trivial code for it.
+Best regards,
+-- 
+Konstantin Ryabitsev <konstantin@linuxfoundation.org>
 
-
---t6vvdwno3oriajiw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZxsUsACgkQFA3kzBSg
-KbYV8RAAmlV7dakmx/ZeWbYLcZ7onJJ62V7CTKNFPwN28NQpGyBK9yTWVMRhBwF/
-vQS2johY+4ah2/f8h8/6NnShb8EBZ+Zco6nfb2bAAC4+RfHZ3S7PXYJSDn+VE+Pu
-wt3Y1toC6yWKhPA6n0bQXwC5YlbSIc2fp9X/R+FjTw1nUV9sHkNiOOmPeThdm6E6
-j7lgSe8Z2/F9wvigbormsMyfqxEvl2f9mTi3MWKNiWivwYUu7+NmMtARHu8lDaIW
-s5K/Xf+/SLoM/UFGkeCI6guz5nkSBFvWDruxQZDCiLFE/hFaTTLo3XDMf84nUg9y
-QEelfrCeBtUztvPy/THkbTOzOEapJ1tk299NzQwUF2ppa0hgQ/Eudq3pAHMO49QA
-FZ63984Ge7TQGLD1yNmsnGcCa1b1Jblv8kW3Ksv9K88rOmmr8VqCUbctWd3PmQmT
-GLqKCL6/oVxN6RX5gko5D7oQJ2phvte4HRphQ1VD9kqSh+R/FruWyURr92jT6pF+
-Qwr9js0ksCd/6d5wITPnYp7vZZe1YjedZYbGVNR8w3wHnUEzt9JniHXdmJN4qyDs
-CFBFv5fkCnuEjOWcRSxtOS61w9b9kd+H+lsFFCtt5RmJg30DFVmnHJITJ2jw9zm0
-IKGGIRfr01M7YYU67OqxdK/2pc1pP9COtbVpvvjAa2lPNHbwA/g=
-=zQ52
------END PGP SIGNATURE-----
-
---t6vvdwno3oriajiw--
