@@ -1,225 +1,118 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549EA14D44D;
-	Tue, 18 Jun 2024 23:07:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 215DF153BF8
+	for <linux-doc@vger.kernel.org>; Tue, 18 Jun 2024 23:21:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718752028; cv=none; b=DwFBtqzdzUrvySX2wTWBKMEEPiPoOghu4VsadHFHSsSQ3y5CudKIXhhULPP1ksJZQh8wQ0HSUuLqq/hpL4A55Uye4FfdL3GnC9kB96dfeUFOhu5uFMtAyj0FfU8EnfVAmU16+Z3EU1eVVPMOeQdTswM00nLpL51aHocGS6pXuQM=
+	t=1718752867; cv=none; b=APoxWcTAqqGFrHny6rMQcEY1lT6bLXXAS4wFMHbeu2fkdAU3muBrTY34/tMRY/VG/VYsg3LiNrmTOcIA/onX++9CiLBonDTsiEuKWTL8lQBGx61/KkeUUUJFlMZgHeVlHnpqFGqGXcwk0o9Tn5ayC1t+C8r4vqYMN2g0NEdro2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718752028; c=relaxed/simple;
-	bh=rLHj80WUE2+fqZKOctbyThli+33cV0baGHwwVi3cLXk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=imEn61cMVXnLcudivqB06Q2RGmMY2fEmWAMBnJ2lUrNlvIARE3EPFffsodXzaGbJd6kFSYi6P0e99Ih/VptBThjKMzLNo/OG8B4OaugAQ4sbI51fCH6NL0CM8GFd/mg3fzyBvYlCCnebxaBnygN4mtSMKtRS+70Of/i02+PJHjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=LCBVJ+bh; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1718752867; c=relaxed/simple;
+	bh=+wBaHcSHdnhQBl8EAcG7ho1hpPuCnLLSfcZ0pIqfHgI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pz14bpd+2dZmzdimqW8rjKVR0WzW7hQA5y/l3qoQ7Pmx6RLcF0UPFpFPAaj01zwgTxfarD+WtrnPns4fxm0c2aZuyL8gYLomYyGGb4qB4lbIjKnO4uu4zVk6m6ruaY5TWkf7lNA3gDkA9rzUeD+gN/JLGF1PFF3hjNfCnTv8I+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=VHXKe04i; arc=none smtp.client-ip=209.85.219.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="LCBVJ+bh"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=4IXDZGrTHOCcVijFhNelt76fRUU2bbr5+gSV3CvtiIo=; b=LCBVJ+bh4tBuAHjdDGmmou7SM3
-	MwksOS2BUYQykQcSDDFaUswwdG7U4uwIyKefauUnHRNUXIs60h4QofxhGlZeAil62MJSM+q3f/wc3
-	MFmJYYBS445uM9UAyZ2lshOWqBJmQcwtoTV/+yddy7HIzNTKKD5PrmptCaRh5N3m+kH0+23Sn0pf1
-	VkHRktbb1t/X0rCb6UYuYCcUTibHvfAkIxl2Oi1NMbnigNKC8XMA8T/sqUINFcRYZS3hD0pyDIRGb
-	GxeKoBnHcjpIjE2V90sTSwhx1/7VzIXAGxzDAtAAtgzR+y4788uJqZZSJ/sUGcRNCIuhh7dVdPPMU
-	hK7bO3Uw==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sJhul-0000000Gqb4-0Ly7;
-	Tue, 18 Jun 2024 23:06:59 +0000
-Message-ID: <b5c1536b-1d8e-4d57-aeda-c5d06a2793bd@infradead.org>
-Date: Tue, 18 Jun 2024 16:06:57 -0700
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="VHXKe04i"
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-dfef5980a69so6499361276.3
+        for <linux-doc@vger.kernel.org>; Tue, 18 Jun 2024 16:21:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1718752865; x=1719357665; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eiWmKBBXMD92k+n8gcYpFFSycdOAu2SpOI6WWatC5Kk=;
+        b=VHXKe04iraEG7NjRob04gdnjbBXlnFM5zTplppcLsKu1UTT8C8oov8s/ITVDrOmffK
+         4PhUZ8F6CzR3GV0dd39sieKEvd9pKWXqQAwL0h0PdfO9Yp/6U4jXm6eDtPfAyCHn5CQs
+         6hHEPx//jTvajGqYsj4g4FjDg+LFTx3OGb4p2hn70i2wUz1ukM8XBgYsgFJM0Sdy2Z3n
+         zL+ApmJdpfnJFfsRaxT9mC5r8zeMLoTmz3DMgGVctQsqy4FCid2vXVaIqgV1+MfEb9ll
+         8hr3UkuA9pfpUuyqHwOFFE9oD9LD1ScTdd6BXXI5cGJOxqCcu30PxIjlGW9WCz4c1UDT
+         MsAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718752865; x=1719357665;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eiWmKBBXMD92k+n8gcYpFFSycdOAu2SpOI6WWatC5Kk=;
+        b=ZIsgei1EXyZViRcTEjhrjFg9pFWQeoNLOevIoPaWwFI4Yrfw7odd+7dl8pnimpDEo4
+         gMx3LUSYqNNTXCwuPBI68dP9tdQ6Xr8rpvQQucRrpxfXq5jF8a0Guz/nHdcluimG2xPZ
+         YaDKA6oe2IgSg42nsHnecB9hXBtPhQDtD1lkS9Fh6DgwbzKIKF/ZSavyL9dUavdh3SQq
+         NRVv/kYmD4F+j4Z2bRJwbOmxnT51ixw6idzM1zwUDHgGueAgn/sFk197OPwiYqxCWOZB
+         IrvfJaf+DA6YuihMIXdnG9l9L7kf5HqWRn4W5pRtHOL3AzdxyRAmlMUhRZnBOU7bugZ9
+         VrLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWYAq+bIqX4YqOGc1N38DzAoGTKQjj/nSlK0AWAtKwpqGm/ULncOSeRM9hkgmgjUIvZzpntFjwE9+cFQ1iSj9+5vZwJyAzIClX3
+X-Gm-Message-State: AOJu0YzA+lpsxcApJTLBqcGgRFoT85doaDIBrSyZInDttUKc8Jzg9EP8
+	iFqruY05xJvn9iyxnouBSRcYMeqcPe1+UDnzo7gI17/eKvKfSIRb3u3Yjn5Jrqv+S89FrLDq/nu
+	1vMcr+4+N276/pjgXiAImYqxa8V3CLES+EKeZ
+X-Google-Smtp-Source: AGHT+IHus0+Dwy7C3mYoVy1EnKy9AYfd3/lzpGvqA1GMz///IqTnVQHpm2tTpoqlitUnmFxuHZFCy9rO5c7Ub6gvyco=
+X-Received: by 2002:a25:bfc9:0:b0:df7:7096:88f2 with SMTP id
+ 3f1490d57ef6-e02be226ff7mr1293526276.55.1718752865063; Tue, 18 Jun 2024
+ 16:21:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 5/5] arm64: add attrs and format to ptdump document
-To: Maxwell Bland <mbland@motorola.com>, linux-mm@kvack.org
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
- Ard Biesheuvel <ardb@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Alexandre Ghiti <alexghiti@rivosinc.com>,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <aw675dhrbplkitj3szjut2vyidsxokogkjj3vi76wl2x4wybtg@5rhk5ca5zpmv>
- <2hhihkaeeyyy3xj22mjdx44zlied2sp4mfewj7y6ffrnakw7cy@3fuds6n7f4ew>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <2hhihkaeeyyy3xj22mjdx44zlied2sp4mfewj7y6ffrnakw7cy@3fuds6n7f4ew>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20240415142436.2545003-1-roberto.sassu@huaweicloud.com>
+In-Reply-To: <20240415142436.2545003-1-roberto.sassu@huaweicloud.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Tue, 18 Jun 2024 19:20:54 -0400
+Message-ID: <CAHC9VhTs8p1nTUXXea2JmF0FCEU6w39gwQRMtwACqM=+EBj1jw@mail.gmail.com>
+Subject: Re: [PATCH v4 00/14] security: digest_cache LSM
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>
+Cc: corbet@lwn.net, jmorris@namei.org, serge@hallyn.com, 
+	akpm@linux-foundation.org, shuah@kernel.org, mcoquelin.stm32@gmail.com, 
+	alexandre.torgue@foss.st.com, mic@digikod.net, 
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	bpf@vger.kernel.org, zohar@linux.ibm.com, dmitry.kasatkin@gmail.com, 
+	linux-integrity@vger.kernel.org, wufan@linux.microsoft.com, 
+	pbrobinson@gmail.com, zbyszek@in.waw.pl, hch@lst.de, mjg59@srcf.ucam.org, 
+	pmatilai@redhat.com, jannh@google.com, dhowells@redhat.com, jikos@kernel.org, 
+	mkoutny@suse.com, ppavlu@suse.com, petr.vorel@gmail.com, mzerqung@0pointer.de, 
+	kgold@linux.ibm.com, Roberto Sassu <roberto.sassu@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,-
+On Mon, Apr 15, 2024 at 10:25=E2=80=AFAM Roberto Sassu
+<roberto.sassu@huaweicloud.com> wrote:
+>
+> From: Roberto Sassu <roberto.sassu@huawei.com>
+>
+> Integrity detection and protection has long been a desirable feature, to
+> reach a large user base and mitigate the risk of flaws in the software
+> and attacks.
+>
+> However, while solutions exist, they struggle to reach the large user
+> base, due to requiring higher than desired constraints on performance,
+> flexibility and configurability, that only security conscious people are
+> willing to accept.
+>
+> This is where the new digest_cache LSM comes into play, it offers
+> additional support for new and existing integrity solutions, to make
+> them faster and easier to deploy.
+>
+> The full documentation with the motivation and the solution details can b=
+e
+> found in patch 14.
+>
+> The IMA integration patch set will be introduced separately. Also a PoC
+> based on the current version of IPE can be provided.
 
-On 6/18/24 7:43 AM, Maxwell Bland wrote:
-> Update the ptdump content with a precise explanation of the attribute
-> symbols and the identical-entry coalescing implicit in the code.
-> 
-> Remove unnecessary layout example given the existing cat example,
-> and opt instead for a precise, clear explantination of address markers,
+I'm not sure we want to implement a cache as a LSM.  I'm sure it would
+work, but historically LSMs have provided some form of access control,
+measurement, or other traditional security service.  A digest cache,
+while potentially useful for a variety of security related
+applications, is not a security service by itself, it is simply a file
+digest storage mechanism.
 
-                                       explanation
+I think it's fine if an individual LSM wants to implement a file
+digest cache as part of its own functionality, but a generalized file
+digest cache seems like something that should be part of the general
+kernel, and not implemented as a LSM.
 
-> format, attributes.
-> 
-> Update example to match the new cosmetic and intermediate-directory
-> printing changes.
-> 
-> Signed-off-by: Maxwell Bland <mbland@motorola.com>
-> ---
->  Documentation/arch/arm64/ptdump.rst | 126 ++++++++++++++--------------
->  1 file changed, 61 insertions(+), 65 deletions(-)
-> 
-> diff --git a/Documentation/arch/arm64/ptdump.rst b/Documentation/arch/arm64/ptdump.rst
-> index 5dcfc5d7cddf..fee7600dd4d1 100644
-> --- a/Documentation/arch/arm64/ptdump.rst
-> +++ b/Documentation/arch/arm64/ptdump.rst
-> @@ -29,68 +29,64 @@ configurations and mount debugfs::
->   mount -t debugfs nodev /sys/kernel/debug
->   cat /sys/kernel/debug/kernel_page_tables
->  
-> -On analysing the output of ``cat /sys/kernel/debug/kernel_page_tables``
-> -one can derive information about the virtual address range of the entry,
-> -followed by size of the memory region covered by this entry, the
-> -hierarchical structure of the page tables and finally the attributes
-> -associated with each page. The page attributes provide information about
-> -access permissions, execution capability, type of mapping such as leaf
-> -level PTE or block level PGD, PMD and PUD, and access status of a page
-> -within the kernel memory. Assessing these attributes can assist in
-> -understanding the memory layout, access patterns and security
-> -characteristics of the kernel pages.
-> -
-> -Kernel virtual memory layout example::
-> -
-> - start address        end address         size             attributes
-> - +---------------------------------------------------------------------------------------+
-> - | ---[ Linear Mapping start ]---------------------------------------------------------- |
-> - | ..................                                                                    |
-> - | 0xfff0000000000000-0xfff0000000210000  2112K PTE RW NX SHD AF  UXN  MEM/NORMAL-TAGGED |
-> - | 0xfff0000000210000-0xfff0000001c00000 26560K PTE ro NX SHD AF  UXN  MEM/NORMAL        |
-> - | ..................                                                                    |
-> - | ---[ Linear Mapping end ]------------------------------------------------------------ |
-> - +---------------------------------------------------------------------------------------+
-> - | ---[ Modules start ]----------------------------------------------------------------- |
-> - | ..................                                                                    |
-> - | 0xffff800000000000-0xffff800008000000   128M PTE                                      |
-> - | ..................                                                                    |
-> - | ---[ Modules end ]------------------------------------------------------------------- |
-> - +---------------------------------------------------------------------------------------+
-> - | ---[ vmalloc() area ]---------------------------------------------------------------- |
-> - | ..................                                                                    |
-> - | 0xffff800008010000-0xffff800008200000  1984K PTE ro x  SHD AF       UXN  MEM/NORMAL   |
-> - | 0xffff800008200000-0xffff800008e00000    12M PTE ro x  SHD AF  CON  UXN  MEM/NORMAL   |
-> - | ..................                                                                    |
-> - | ---[ vmalloc() end ]----------------------------------------------------------------- |
-> - +---------------------------------------------------------------------------------------+
-> - | ---[ Fixmap start ]------------------------------------------------------------------ |
-> - | ..................                                                                    |
-> - | 0xfffffbfffdb80000-0xfffffbfffdb90000    64K PTE ro x  SHD AF  UXN  MEM/NORMAL        |
-> - | 0xfffffbfffdb90000-0xfffffbfffdba0000    64K PTE ro NX SHD AF  UXN  MEM/NORMAL        |
-> - | ..................                                                                    |
-> - | ---[ Fixmap end ]-------------------------------------------------------------------- |
-> - +---------------------------------------------------------------------------------------+
-> - | ---[ PCI I/O start ]----------------------------------------------------------------- |
-> - | ..................                                                                    |
-> - | 0xfffffbfffe800000-0xfffffbffff800000    16M PTE                                      |
-> - | ..................                                                                    |
-> - | ---[ PCI I/O end ]------------------------------------------------------------------- |
-> - +---------------------------------------------------------------------------------------+
-> - | ---[ vmemmap start ]----------------------------------------------------------------- |
-> - | ..................                                                                    |
-> - | 0xfffffc0002000000-0xfffffc0002200000     2M PTE RW NX SHD AF  UXN  MEM/NORMAL        |
-> - | 0xfffffc0002200000-0xfffffc0020000000   478M PTE                                      |
-> - | ..................                                                                    |
-> - | ---[ vmemmap end ]------------------------------------------------------------------- |
-> - +---------------------------------------------------------------------------------------+
-> -
-> -``cat /sys/kernel/debug/kernel_page_tables`` output::
-> -
-> - 0xfff0000001c00000-0xfff0000080000000     2020M PTE  RW NX SHD AF   UXN    MEM/NORMAL-TAGGED
-> - 0xfff0000080000000-0xfff0000800000000       30G PMD
-> - 0xfff0000800000000-0xfff0000800700000        7M PTE  RW NX SHD AF   UXN    MEM/NORMAL-TAGGED
-> - 0xfff0000800700000-0xfff0000800710000       64K PTE  ro NX SHD AF   UXN    MEM/NORMAL-TAGGED
-> - 0xfff0000800710000-0xfff0000880000000  2089920K PTE  RW NX SHD AF   UXN    MEM/NORMAL-TAGGED
-> - 0xfff0000880000000-0xfff0040000000000     4062G PMD
-> - 0xfff0040000000000-0xffff800000000000     3964T PGD
-> +``/sys/kernel/debug/kernel_page_tables`` provides a line of information
-> +for each group of page table entries sharing the same attributes and
-> +type of mapping, i.e. leaf level PTE or block level PGD, PMD, and PUD.
-> +Assessing these attributes can assist in determining memory layout,
-> +access patterns and security characteristics of the kernel pages.
-> +
-> +Lines are formatted as follows::
-> +
-> + <start_vaddr>-<end_vaddr> <size> <type> <attributes>
-> +
-> +Note that the set of attributes, and therefore formatting, is not
-> +equivalent between leaf and non-leaf entries. For example, PMD entries
-> +can support the PXNTable permission bit and do not share that same set
-> +of attributes as leaf level PTE entries.
-> +
-> +The following attributes are presently supported::
-> +
-> +F		Entry is invalid
-> +USER		Memory is user mapped
-> +ro		Memory is read-only
-> +RW		Memory is read-write
-> +NX		Memory is privileged execute never
-> +x               Memory is privileged executable
-
-Please use tabs above for indentation, like the other lines.
-
-Why lower case x and ro but upper case for the others?
-
-> +SHD		Memory is shared
-> +AF		Entry accessed flag is set
-> +NG		Entry Not-Global flag is set
-> +CON		Entry contiguous bit is set
-> +UXN		Memory is unprivileged execute never
-> +GP		Memory supports BTI
-
-Most of the abbreviations make some sense, but not that one (IMHO). ;)
-
-> +TBL		Entry is a table descriptor
-> +BLK		Entry is a block descriptor
-> +NXTbl		Entry's referenced table is PXN
-> +UXNTbl		Entry's referenced table is unprivileged execute never
-> +DEVICE/*	Entry is device memory, see ARM reference for types
-> +MEM/*		Entry is non-device memory, see ARM reference for types
-> +
-> +The beginning and end of each region is also delineated by a single line
-> +tag in the following format::
-> +
-> + ---[ <marker_name> ]---
-> +
-> +With supported address markers including the kernel's linear mapping,
-> +kasan shadow memory, kernel modules memory, vmalloc memory, PCI I/O
-> +memory, and the kernel's fixmap region.
-> +
-> +Example ``cat /sys/kernel/debug/kernel_page_tables`` output::
-> +
-> +---[ Linear Mapping start ]---
-> +0xffff000000000000-0xffff31ffffffffff                  50T PGD
-> +0xffff320000000000-0xffffffffffffffff                 206T PGD   TBL     RW               x      NXTbl UXNTbl    MEM/NORMAL
-> +    0xffff320000000000-0xffff3251ffffffff             328G PUD
-> +    0xffff325200000000-0xffff32523fffffff               1G PUD   TBL     RW               x      NXTbl UXNTbl    MEM/NORMAL
-> +      0xffff325200000000-0xffff3252001fffff             2M PMD   TBL     RW               x      NXTbl UXNTbl    MEM/NORMAL
-> +        0xffff325200000000-0xffff3252001fffff           2M PTE       RW NX SHD AF NG     UXN    MEM/NORMAL-TAGGED
-> +      0xffff325200200000-0xffff3252003fffff             2M PMD   TBL     RW               x      NXTbl UXNTbl    MEM/NORMAL
-> +        0xffff325200200000-0xffff32520020ffff          64K PTE       RW NX SHD AF NG     UXN    MEM/NORMAL-TAGGED
-> +        0xffff325200210000-0xffff3252003fffff        1984K PTE       ro NX SHD AF NG     UXN    MEM/NORMAL
-> +      0xffff325200400000-0xffff325201dfffff            26M PMD   BLK     ro SHD AF NG     NX UXN                 MEM/NORMAL
-> +      0xffff325201e00000-0xffff325201ffffff             2M PMD   TBL     RW               x      NXTbl UXNTbl    MEM/NORMAL
-> +        0xffff325201e00000-0xffff325201e0ffff          64K PTE       ro NX SHD AF NG     UXN    MEM/NORMAL
-> +        0xffff325201e10000-0xffff325201ffffff        1984K PTE       RW NX SHD AF NG     UXN    MEM/NORMAL-TAGGED
-
--- 
-thanks.
-~Randy
+--=20
+paul-moore.com
