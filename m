@@ -1,98 +1,107 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC0CC20974C;
-	Tue, 18 Jun 2024 09:55:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from aposti.net (aposti.net [89.234.176.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF87155CB9;
+	Tue, 18 Jun 2024 10:03:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718704529; cv=none; b=tDz+vMIcqkn61ttVdnIOA2l+HEnOuzw/8z5+yPyy7++kWmLxxL/9B65RVxxH44rhF+Kvpd86p0QUXNN8CULZrcf0i8GFYHd3Gw6Q8jaBAPP8RT/uKWJMdHN9OZc2rNF4g5HfENHSv2OvWLMtqW6gvU+xXfJbcELE/1+PT35WmFo=
+	t=1718704993; cv=none; b=bJ+skRC/apLO4/UBdlQ4iQtlJ2E3Lc63lZ+qAEQ83z25bLx2P6youd+KA/Ry7Z+gWq42HZOyjhhwE8tCzB0omIozaWdLwCPD3i+4oPOOQ8cr+/OXKvtDrrVDcubVwoxMgZXlUFUb0uZuZEu9DhMJf78sq7hXNJdg8fR/5MdWtcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718704529; c=relaxed/simple;
-	bh=CUFBO/w85ZfNhHyUDj48ojyn4AZ07NGXPwsFh+G/1nA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e5I91X1KrPOisUWonHzeCnNZjDPLeJT/sK6JHA72J0akgQCMUKkdqBrxCkMbUfmhpnbsB49OxDmCZykA/RlZshk3SkKgg5tw5aPT/O3y9fCT5KLIqBZ2am6FvLkZAjj8qOWa2XM3Xl3FW6AtF8KvPZb3YuB5ZBJdEhQLAhqDz9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F3FFBDA7;
-	Tue, 18 Jun 2024 02:55:50 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3EB8B3F6A8;
-	Tue, 18 Jun 2024 02:55:24 -0700 (PDT)
-Date: Tue, 18 Jun 2024 10:55:21 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Peng Fan <peng.fan@nxp.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 6/6] firmware: imx: add i.MX95 MISC driver
-Message-ID: <ZnFZiV9JzU_7agjW@pluto>
-References: <20240524-imx95-bbm-misc-v2-v4-0-dc456995d590@nxp.com>
- <20240524-imx95-bbm-misc-v2-v4-6-dc456995d590@nxp.com>
+	s=arc-20240116; t=1718704993; c=relaxed/simple;
+	bh=386FCeqt+cn7DvWw7dkFBzGG8Ln9RJz10ej5VMspYfw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mN7IhOPqDKiOzVedrrOClSZhPwRe7A8XGUsqHlt12H+kk5gIzl9jXyOWQekyJC4gkTKQbp/SM6fib0gDvwYvrQo6EfCBeHQbDr6ZtSOLTovnxwdJarrj2ZPuuYbHxYDcjdRC4eb+MGnYhtsUi+994VDeKeZMd8y2YvgTMX43u1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=AlD+nGDp; arc=none smtp.client-ip=89.234.176.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="AlD+nGDp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+	s=mail; t=1718704989;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=NxqtKVmPuUzwzAnL9yG1og2+bE3kuPHhJ1Yqq2XKxc0=;
+	b=AlD+nGDpK6gCIMbHauLWNfqyJinEDblVKdWZGHz8xE48iFVFAme6uVJkQxDFPoZt+uEFes
+	/Rc3cYsphNB5UaWeiWtzJDipNZxbF8aDK7Rh46l3rVOyiHVVMQSgTLZITWCQUM9hQNvgAB
+	9RsRg4uhiVPvSW2xh8ZZGUqFGS4FvjI=
+From: Paul Cercueil <paul@crapouillou.net>
+To: Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Vinod Koul <vkoul@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Nuno Sa <nuno.sa@analog.com>,
+	linux-iio@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dmaengine@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	Paul Cercueil <paul@crapouillou.net>
+Subject: [PATCH v11 0/7] iio: new DMABUF based API v11
+Date: Tue, 18 Jun 2024 12:02:55 +0200
+Message-ID: <20240618100302.72886-1-paul@crapouillou.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240524-imx95-bbm-misc-v2-v4-6-dc456995d590@nxp.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, May 24, 2024 at 04:56:48PM +0800, Peng Fan (OSS) wrote:
-> From: Peng Fan <peng.fan@nxp.com>
-> 
-> The i.MX95 System manager exports SCMI MISC protocol for linux to do
-> various settings, such as set board gpio expander as wakeup source.
-> 
-> The driver is to add the support.
-> 
-> Signed-off-by: Peng Fan <peng.fan@nxp.com>
-> ---
->  drivers/firmware/imx/Makefile   |   1 +
->  drivers/firmware/imx/sm-misc.c  | 108 ++++++++++++++++++++++++++++++++++++++++
->  include/linux/firmware/imx/sm.h |  33 ++++++++++++
->  3 files changed, 142 insertions(+)
-> 
-> diff --git a/drivers/firmware/imx/Makefile b/drivers/firmware/imx/Makefile
-> index fb20e22074e1..cb9c361d9b81 100644
-> --- a/drivers/firmware/imx/Makefile
-> +++ b/drivers/firmware/imx/Makefile
-> @@ -2,3 +2,4 @@
->  obj-$(CONFIG_IMX_DSP)		+= imx-dsp.o
->  obj-$(CONFIG_IMX_SCU)		+= imx-scu.o misc.o imx-scu-irq.o rm.o imx-scu-soc.o
->  obj-${CONFIG_IMX_SCMI_BBM_EXT}	+= sm-bbm.o
-> +obj-${CONFIG_IMX_SCMI_MISC_EXT}	+= sm-misc.o
-> diff --git a/drivers/firmware/imx/sm-misc.c b/drivers/firmware/imx/sm-misc.c
-> new file mode 100644
-> index 000000000000..22c1a5819425
-> --- /dev/null
-> +++ b/drivers/firmware/imx/sm-misc.c
-> @@ -0,0 +1,108 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Copyright 2024 NXP.
-> + */
-> +
-> +#include <linux/firmware/imx/sm.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/scmi_protocol.h>
-> +#include <linux/scmi_imx_protocol.h>
-> +
-> +static const struct scmi_imx_misc_proto_ops *imx_misc_ctrl_ops;
-> +static struct scmi_protocol_handle *ph;
+Hi Jonathan,
 
-Same comments as n V1 ... please have a look :P
+Here's the v11 of my patchset that introduces DMABUF support to IIO.
 
-Thanks,
-Cristian
+It addresses the few points that were raised in the review of the v10.
+It also adds Nuno as a co-developer.
+
+Changelog:
+- [3/7]:
+    - Document .lock_queue / .unlock_queue buffer callbacks
+    - Add small comment to explain what the spinlock protects
+    - Use guard(mutex)
+
+- [4/7]:
+    - Remove useless field "attach" in struct iio_dma_buffer_block
+    - Document "sg_table" and "fence" fields in struct iio_block_state
+
+- [6/7]:
+    - "a IIO buffer" -> "an IIO buffer"
+    - Add variable name in IOCTL calls
+
+- [7/7]: New patch, to document the DMA changes
+
+Cheers,
+-Paul
+
+Paul Cercueil (7):
+  dmaengine: Add API function dmaengine_prep_peripheral_dma_vec()
+  dmaengine: dma-axi-dmac: Implement device_prep_peripheral_dma_vec
+  iio: core: Add new DMABUF interface infrastructure
+  iio: buffer-dma: Enable support for DMABUFs
+  iio: buffer-dmaengine: Support new DMABUF based userspace API
+  Documentation: iio: Document high-speed DMABUF based API
+  Documentation: dmaengine: Document new dma_vec API
+
+ Documentation/driver-api/dmaengine/client.rst |   9 +
+ .../driver-api/dmaengine/provider.rst         |  10 +
+ Documentation/iio/iio_dmabuf_api.rst          |  54 +++
+ Documentation/iio/index.rst                   |   1 +
+ drivers/dma/dma-axi-dmac.c                    |  40 ++
+ drivers/iio/Kconfig                           |   1 +
+ drivers/iio/buffer/industrialio-buffer-dma.c  | 178 ++++++-
+ .../buffer/industrialio-buffer-dmaengine.c    |  62 ++-
+ drivers/iio/industrialio-buffer.c             | 457 ++++++++++++++++++
+ include/linux/dmaengine.h                     |  33 ++
+ include/linux/iio/buffer-dma.h                |  31 ++
+ include/linux/iio/buffer_impl.h               |  33 ++
+ include/uapi/linux/iio/buffer.h               |  22 +
+ 13 files changed, 911 insertions(+), 20 deletions(-)
+ create mode 100644 Documentation/iio/iio_dmabuf_api.rst
+
+-- 
+2.43.0
+
