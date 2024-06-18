@@ -1,64 +1,64 @@
 Received: from mx0b-00823401.pphosted.com (mx0b-00823401.pphosted.com [148.163.152.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB2C1386A7;
-	Tue, 18 Jun 2024 14:43:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06CF2139AC;
+	Tue, 18 Jun 2024 14:54:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.152.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718721835; cv=none; b=Xt6v7PmG0WH/7rkfPPQU/XT9pYqSwvE8kNJmI97WbtuisbWyyuPrqFfjaujDZjkiZjAfrOEaQZv3ShHD8d/Dif1dKyunarJ0luJp8eIK72Nc9BqYxzeH1r0vgracm9t+R7luZGtoWVVeGthAPyvfE1BFBxsi+ZguH05KcKJm9VI=
+	t=1718722461; cv=none; b=qGJ3C3BxOm/5I0F3cU10ftziucDx+T5Fq3oCuVTB/Ot0zjKAmUaXWQcTVW0Vlg5ooUinwe2Rl2N1VI8FdgeeXYVv6AZ9ywVpkMCeTBBbsm7KccROZDaboRpWf6Nrkh3xdqykV6HLWhXbGP6Dw20niqvlZExq4Bpq4sqZg+XESnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718721835; c=relaxed/simple;
-	bh=ic/sICyrXBTxrq5NFmDCJcshOhfVAFtQx2NlbzmFRag=;
+	s=arc-20240116; t=1718722461; c=relaxed/simple;
+	bh=SVxWgSsTLkbbevP+rZOoUCtaJN1R+tI6oN2N3FUQRbE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mU7FbPBaT8O8c27WuCzZe2yvMYHQBdi2QQMcrwQbXhNkqcKkQ7bauls5lHDtL8/xC9e0fg8urN6OXl07zDKFz5D4RRlG5/F15JAVuwWRWesrHDuJGcD9aRnR+s7glDqGeXNSihbvBO6sF8eAzhhlaW8TA7Jcl/qD73V3IfSHhGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=motorola.com; spf=pass smtp.mailfrom=motorola.com; dkim=pass (2048-bit key) header.d=motorola.com header.i=@motorola.com header.b=USndzeMs; arc=none smtp.client-ip=148.163.152.46
+	 Content-Type:Content-Disposition:In-Reply-To; b=rQFHxaXiKnAYPThybMHz1AQNVBi+W8xIpXkMNXI5Y8wKEGcsvwj8vWjiPMo34jVO5YiSJdTxZ84rcXLDmq3eTO/7OMdeTIlbtE0EttPgQIMUzi5FzwUzTgVf6FILqDEZ5koEg1Pu+dpZQTy7yG37D8zmnxYN9E/LDH5xJs/Tnkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=motorola.com; spf=pass smtp.mailfrom=motorola.com; dkim=pass (2048-bit key) header.d=motorola.com header.i=@motorola.com header.b=L9eH6FHN; arc=none smtp.client-ip=148.163.152.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=motorola.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=motorola.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=motorola.com header.i=@motorola.com header.b="USndzeMs"
-Received: from pps.filterd (m0355089.ppops.net [127.0.0.1])
-	by mx0b-00823401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45IC8mw9023649;
-	Tue, 18 Jun 2024 14:43:39 GMT
+	dkim=pass (2048-bit key) header.d=motorola.com header.i=@motorola.com header.b="L9eH6FHN"
+Received: from pps.filterd (m0355091.ppops.net [127.0.0.1])
+	by mx0b-00823401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45IEbjmV005872;
+	Tue, 18 Jun 2024 14:54:07 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=motorola.com; h=
 	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=DKIM202306; bh=BryO1H2z7osolHTe2vGSsXk
-	THPwleLKRIftQnHBqaKE=; b=USndzeMsEq25+QaX3Ooi6L+1b7/go4FVx7lbgMS
-	UKBFXnzuPWEIx/BQOjd3pSfkFuOJLWXcruEjy1Hqetz4w7maYBVvAHKPK044KrcB
-	Z2/KXQHngSRsSVWtJXwqajBs0G4GHzN3nPRv4Rhuy/CEPX5aLR5nykkDq+R8ep0M
-	M14Kslpe03MAEbXj9jq0q0VzS55MskQHc6vL/s7X4WD2ZppRYUoK+HquaK7kaAMt
-	YCbjoywNsVP9H7d5R6InN3SjZyagRWmTWq1aBFLOERh5uBDCQ/x2Vi5VlxWhH7yk
-	+Qztss8cRQKAew5QqFKmdDILZTQIb4UOkIOAVdT0XAD7DOg==
-Received: from va32lpfpp02.lenovo.com ([104.232.228.22])
-	by mx0b-00823401.pphosted.com (PPS) with ESMTPS id 3ysqgmxqcf-1
+	:references:subject:to; s=DKIM202306; bh=ValpeSbsANs/RV7jg6nw2kz
+	E3zQw4ipJknXEqT3///o=; b=L9eH6FHNhOlkc551BtGBPLwXjkoH4m6slzXhe8G
+	YYg4FRRFcBu1S8SusWROaMnwQDg/2cBUJwG2DVuw8/SyhD6mew79KUZGJ1rXteda
+	NVHcUGB21Irka0JDU1UxRIW5a6TVZ1w0A61DLqbOdbC/KURsAnfBDTE1nnIiXKV6
+	sQHTi/MZgPErAsfQbwUMd5EAQCNhykrHSU02PSvTnaRGVq7Pa77SyNrQ/CtNFALK
+	EZIc9Od+qsSE6KI3+Qh39HT8rsi5nDbC+BHsSp4+MvZB2Y6Z2qNuhDmt2+x7tWVh
+	kEb64g5dzNBuqHZy+j4nlKGZzQOHvZQF1qlIP3tBPgONJIg==
+Received: from va32lpfpp04.lenovo.com ([104.232.228.24])
+	by mx0b-00823401.pphosted.com (PPS) with ESMTPS id 3ysr2gpnqd-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 18 Jun 2024 14:43:39 +0000 (GMT)
-Received: from va32lmmrp01.lenovo.com (va32lmmrp01.mot.com [10.62.177.113])
+	Tue, 18 Jun 2024 14:54:07 +0000 (GMT)
+Received: from va32lmmrp02.lenovo.com (va32lmmrp02.mot.com [10.62.176.191])
 	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by va32lpfpp02.lenovo.com (Postfix) with ESMTPS id 4W3Tyg0Cs0z50TkV;
-	Tue, 18 Jun 2024 14:43:39 +0000 (UTC)
+	by va32lpfpp04.lenovo.com (Postfix) with ESMTPS id 4W3VBk3yk6zfBb1;
+	Tue, 18 Jun 2024 14:54:06 +0000 (UTC)
 Received: from ilclasset02 (ilclasset02.mot.com [100.64.49.13])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: mbland)
-	by va32lmmrp01.lenovo.com (Postfix) with ESMTPSA id 4W3Tyf59PGz2VZRs;
-	Tue, 18 Jun 2024 14:43:38 +0000 (UTC)
-Date: Tue, 18 Jun 2024 09:43:37 -0500
+	by va32lmmrp02.lenovo.com (Postfix) with ESMTPSA id 4W3VBk1RB4z2VbbF;
+	Tue, 18 Jun 2024 14:54:06 +0000 (UTC)
+Date: Tue, 18 Jun 2024 09:54:04 -0500
 From: Maxwell Bland <mbland@motorola.com>
-To: linux-mm@kvack.org
+To: Jesse Taube <mr.bossman075@gmail.com>
 Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Andrew Morton <akpm@linux-foundation.org>,
         Ard Biesheuvel <ardb@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
         Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Maxwell Bland <mbland@motorola.com>,
         Alexandre Ghiti <alexghiti@rivosinc.com>,
         linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v4 5/5] arm64: add attrs and format to ptdump document
-Message-ID: <2hhihkaeeyyy3xj22mjdx44zlied2sp4mfewj7y6ffrnakw7cy@3fuds6n7f4ew>
-References: <aw675dhrbplkitj3szjut2vyidsxokogkjj3vi76wl2x4wybtg@5rhk5ca5zpmv>
+Subject: Re: [PATCH v3] ptdump: add intermediate directory support
+Message-ID: <i7zss6v6tb4gc6ul75idpiqludwfca3xpwdioznffnoo5ctslk@nhe4vb5hhwx2>
+References: <fik5ys53dbkpkl22o4s7sw7cxi6dqjcpm2f3kno5tyms73jm5y@buo4jsktsnrt>
+ <2b8cea32-b460-4152-8c7e-964031eed990@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,168 +67,62 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aw675dhrbplkitj3szjut2vyidsxokogkjj3vi76wl2x4wybtg@5rhk5ca5zpmv>
-X-Proofpoint-GUID: 361aNQGQXUBOEgw_wet2N1UkzcVudRSG
-X-Proofpoint-ORIG-GUID: 361aNQGQXUBOEgw_wet2N1UkzcVudRSG
+In-Reply-To: <2b8cea32-b460-4152-8c7e-964031eed990@gmail.com>
+X-Proofpoint-GUID: 9Z_tDitlrU8QrIpVRinrQH3uU8V2JmgT
+X-Proofpoint-ORIG-GUID: 9Z_tDitlrU8QrIpVRinrQH3uU8V2JmgT
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-06-18_02,2024-06-17_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
- lowpriorityscore=0 bulkscore=0 impostorscore=0 spamscore=0
- priorityscore=1501 clxscore=1015 suspectscore=0 mlxlogscore=989
- phishscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2405170001 definitions=main-2406180110
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
+ bulkscore=0 phishscore=0 mlxlogscore=999 adultscore=0 clxscore=1011
+ priorityscore=1501 malwarescore=0 lowpriorityscore=0 spamscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2405170001 definitions=main-2406180112
 
-Update the ptdump content with a precise explanation of the attribute
-symbols and the identical-entry coalescing implicit in the code.
+On Tue, May 21, 2024 at 12:54:34PM GMT, Jesse Taube wrote:
+> On 4/30/24 12:05, Maxwell Bland wrote:
+> > Add an optional note_non_leaf parameter to ptdump, causing note_page to
+> > be called on non-leaf descriptors. Implement this functionality on arm64
+> > by printing table descriptors along with table-specific permission sets.
 
-Remove unnecessary layout example given the existing cat example,
-and opt instead for a precise, clear explantination of address markers,
-format, attributes.
+Hi Jesse, sorry for the delay on this, I have been putting out fires
+at motorola, and have just gotten time to sit down and rework these
+patches. I have submitted a new set here:
 
-Update example to match the new cosmetic and intermediate-directory
-printing changes.
+https://lore.kernel.org/all/aw675dhrbplkitj3szjut2vyidsxokogkjj3vi76wl2x4wybtg@5rhk5ca5zpmv/
 
-Signed-off-by: Maxwell Bland <mbland@motorola.com>
----
- Documentation/arch/arm64/ptdump.rst | 126 ++++++++++++++--------------
- 1 file changed, 61 insertions(+), 65 deletions(-)
+And thank you for your comments. This new version should address them.
 
-diff --git a/Documentation/arch/arm64/ptdump.rst b/Documentation/arch/arm64/ptdump.rst
-index 5dcfc5d7cddf..fee7600dd4d1 100644
---- a/Documentation/arch/arm64/ptdump.rst
-+++ b/Documentation/arch/arm64/ptdump.rst
-@@ -29,68 +29,64 @@ configurations and mount debugfs::
-  mount -t debugfs nodev /sys/kernel/debug
-  cat /sys/kernel/debug/kernel_page_tables
- 
--On analysing the output of ``cat /sys/kernel/debug/kernel_page_tables``
--one can derive information about the virtual address range of the entry,
--followed by size of the memory region covered by this entry, the
--hierarchical structure of the page tables and finally the attributes
--associated with each page. The page attributes provide information about
--access permissions, execution capability, type of mapping such as leaf
--level PTE or block level PGD, PMD and PUD, and access status of a page
--within the kernel memory. Assessing these attributes can assist in
--understanding the memory layout, access patterns and security
--characteristics of the kernel pages.
--
--Kernel virtual memory layout example::
--
-- start address        end address         size             attributes
-- +---------------------------------------------------------------------------------------+
-- | ---[ Linear Mapping start ]---------------------------------------------------------- |
-- | ..................                                                                    |
-- | 0xfff0000000000000-0xfff0000000210000  2112K PTE RW NX SHD AF  UXN  MEM/NORMAL-TAGGED |
-- | 0xfff0000000210000-0xfff0000001c00000 26560K PTE ro NX SHD AF  UXN  MEM/NORMAL        |
-- | ..................                                                                    |
-- | ---[ Linear Mapping end ]------------------------------------------------------------ |
-- +---------------------------------------------------------------------------------------+
-- | ---[ Modules start ]----------------------------------------------------------------- |
-- | ..................                                                                    |
-- | 0xffff800000000000-0xffff800008000000   128M PTE                                      |
-- | ..................                                                                    |
-- | ---[ Modules end ]------------------------------------------------------------------- |
-- +---------------------------------------------------------------------------------------+
-- | ---[ vmalloc() area ]---------------------------------------------------------------- |
-- | ..................                                                                    |
-- | 0xffff800008010000-0xffff800008200000  1984K PTE ro x  SHD AF       UXN  MEM/NORMAL   |
-- | 0xffff800008200000-0xffff800008e00000    12M PTE ro x  SHD AF  CON  UXN  MEM/NORMAL   |
-- | ..................                                                                    |
-- | ---[ vmalloc() end ]----------------------------------------------------------------- |
-- +---------------------------------------------------------------------------------------+
-- | ---[ Fixmap start ]------------------------------------------------------------------ |
-- | ..................                                                                    |
-- | 0xfffffbfffdb80000-0xfffffbfffdb90000    64K PTE ro x  SHD AF  UXN  MEM/NORMAL        |
-- | 0xfffffbfffdb90000-0xfffffbfffdba0000    64K PTE ro NX SHD AF  UXN  MEM/NORMAL        |
-- | ..................                                                                    |
-- | ---[ Fixmap end ]-------------------------------------------------------------------- |
-- +---------------------------------------------------------------------------------------+
-- | ---[ PCI I/O start ]----------------------------------------------------------------- |
-- | ..................                                                                    |
-- | 0xfffffbfffe800000-0xfffffbffff800000    16M PTE                                      |
-- | ..................                                                                    |
-- | ---[ PCI I/O end ]------------------------------------------------------------------- |
-- +---------------------------------------------------------------------------------------+
-- | ---[ vmemmap start ]----------------------------------------------------------------- |
-- | ..................                                                                    |
-- | 0xfffffc0002000000-0xfffffc0002200000     2M PTE RW NX SHD AF  UXN  MEM/NORMAL        |
-- | 0xfffffc0002200000-0xfffffc0020000000   478M PTE                                      |
-- | ..................                                                                    |
-- | ---[ vmemmap end ]------------------------------------------------------------------- |
-- +---------------------------------------------------------------------------------------+
--
--``cat /sys/kernel/debug/kernel_page_tables`` output::
--
-- 0xfff0000001c00000-0xfff0000080000000     2020M PTE  RW NX SHD AF   UXN    MEM/NORMAL-TAGGED
-- 0xfff0000080000000-0xfff0000800000000       30G PMD
-- 0xfff0000800000000-0xfff0000800700000        7M PTE  RW NX SHD AF   UXN    MEM/NORMAL-TAGGED
-- 0xfff0000800700000-0xfff0000800710000       64K PTE  ro NX SHD AF   UXN    MEM/NORMAL-TAGGED
-- 0xfff0000800710000-0xfff0000880000000  2089920K PTE  RW NX SHD AF   UXN    MEM/NORMAL-TAGGED
-- 0xfff0000880000000-0xfff0040000000000     4062G PMD
-- 0xfff0040000000000-0xffff800000000000     3964T PGD
-+``/sys/kernel/debug/kernel_page_tables`` provides a line of information
-+for each group of page table entries sharing the same attributes and
-+type of mapping, i.e. leaf level PTE or block level PGD, PMD, and PUD.
-+Assessing these attributes can assist in determining memory layout,
-+access patterns and security characteristics of the kernel pages.
-+
-+Lines are formatted as follows::
-+
-+ <start_vaddr>-<end_vaddr> <size> <type> <attributes>
-+
-+Note that the set of attributes, and therefore formatting, is not
-+equivalent between leaf and non-leaf entries. For example, PMD entries
-+can support the PXNTable permission bit and do not share that same set
-+of attributes as leaf level PTE entries.
-+
-+The following attributes are presently supported::
-+
-+F		Entry is invalid
-+USER		Memory is user mapped
-+ro		Memory is read-only
-+RW		Memory is read-write
-+NX		Memory is privileged execute never
-+x               Memory is privileged executable
-+SHD		Memory is shared
-+AF		Entry accessed flag is set
-+NG		Entry Not-Global flag is set
-+CON		Entry contiguous bit is set
-+UXN		Memory is unprivileged execute never
-+GP		Memory supports BTI
-+TBL		Entry is a table descriptor
-+BLK		Entry is a block descriptor
-+NXTbl		Entry's referenced table is PXN
-+UXNTbl		Entry's referenced table is unprivileged execute never
-+DEVICE/*	Entry is device memory, see ARM reference for types
-+MEM/*		Entry is non-device memory, see ARM reference for types
-+
-+The beginning and end of each region is also delineated by a single line
-+tag in the following format::
-+
-+ ---[ <marker_name> ]---
-+
-+With supported address markers including the kernel's linear mapping,
-+kasan shadow memory, kernel modules memory, vmalloc memory, PCI I/O
-+memory, and the kernel's fixmap region.
-+
-+Example ``cat /sys/kernel/debug/kernel_page_tables`` output::
-+
-+---[ Linear Mapping start ]---
-+0xffff000000000000-0xffff31ffffffffff                  50T PGD
-+0xffff320000000000-0xffffffffffffffff                 206T PGD   TBL     RW               x      NXTbl UXNTbl    MEM/NORMAL
-+    0xffff320000000000-0xffff3251ffffffff             328G PUD
-+    0xffff325200000000-0xffff32523fffffff               1G PUD   TBL     RW               x      NXTbl UXNTbl    MEM/NORMAL
-+      0xffff325200000000-0xffff3252001fffff             2M PMD   TBL     RW               x      NXTbl UXNTbl    MEM/NORMAL
-+        0xffff325200000000-0xffff3252001fffff           2M PTE       RW NX SHD AF NG     UXN    MEM/NORMAL-TAGGED
-+      0xffff325200200000-0xffff3252003fffff             2M PMD   TBL     RW               x      NXTbl UXNTbl    MEM/NORMAL
-+        0xffff325200200000-0xffff32520020ffff          64K PTE       RW NX SHD AF NG     UXN    MEM/NORMAL-TAGGED
-+        0xffff325200210000-0xffff3252003fffff        1984K PTE       ro NX SHD AF NG     UXN    MEM/NORMAL
-+      0xffff325200400000-0xffff325201dfffff            26M PMD   BLK     ro SHD AF NG     NX UXN                 MEM/NORMAL
-+      0xffff325201e00000-0xffff325201ffffff             2M PMD   TBL     RW               x      NXTbl UXNTbl    MEM/NORMAL
-+        0xffff325201e00000-0xffff325201e0ffff          64K PTE       ro NX SHD AF NG     UXN    MEM/NORMAL
-+        0xffff325201e10000-0xffff325201ffffff        1984K PTE       RW NX SHD AF NG     UXN    MEM/NORMAL-TAGGED
--- 
-2.39.2
+> When you reply the email client(and git send-email???) seems to send it
+> twice?
 
+Was missing set record = /dev/null in my .muttrc, apologies!
 
+> Typicaly docs are seperated into a seperate commit and sent as a set.
+
+Done!
+
+> As said by Catalin anything that can be seperated into smaller patches
+> should be.
+
+Done!
+
+> > + | 0xffff800000000000-0xffff800080000000   2G PUD F BLK     RW               x               MEM/NORMAL            |
+> It's probably good to add another space between F and BLK to show that F is
+> related to the type? Also maybe add docs as to what it means, but I may just
+> be dumb and its obvious to others.
+
+Yes, the "F" for "this entry is invalid" is unintuitive. I decided to
+rework this section of the docs altogether and just provide an exact
+list of attributes for version 4.
+
+> > +	static const char units[] = "BKMGTPE";
+> This doesnt seem to be related to your changes is it?
+
+Yes, I was a bit confused at this time, thinking the range specifications 
+for tables should be the size of the table, rather than the size of the
+region governed by the table. This is corrected in version 4 and the 
+byte-sized specifier is no longer necessary.
+
+Regards,
+Maxwell Bland
