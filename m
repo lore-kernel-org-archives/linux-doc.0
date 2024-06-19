@@ -1,142 +1,111 @@
-Received: from frasgout11.his.huawei.com (frasgout11.his.huawei.com [14.137.139.23])
+Received: from fout2-smtp.messagingengine.com (fout2-smtp.messagingengine.com [103.168.172.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ADC615CD7A;
-	Wed, 19 Jun 2024 15:55:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A1E01E4A1;
+	Wed, 19 Jun 2024 16:01:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718812559; cv=none; b=gG1pwavna5PUsq8thuMnQlV7Pyy72BsH8zKjwPWowXqSwBsiIDAmDsZb4WPzbYdUw7ajd4gEjXDvt+3TWds8DUEQaRfDru0qecw2HBii6yK/GM/HUIo91lGuGs4ZZtJkkePRiTXaocVHGgJqL4B/cnrX0QkRHGbGm6lGsdmnMAY=
+	t=1718812915; cv=none; b=br6Phy46T4/4pSSN7N8RSYgIUjfMl6t8XrroiYbhMp3T5IO670kdBaCpn/g3wDUPEFYh+NBO6RJxJ7ZJ9f70fjQqY028tBbvNMHp1pqXHBzVkurobZa1GfoV/rCTXai5j8Iesi6QaOgkP0lsbKtJYOqlr8FOLQYa+nX3/juW950=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718812559; c=relaxed/simple;
-	bh=dHNsGU6xkEyAuCQvetJnCdniuDr5wXId58AapfKXg40=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=cO3xijj+Yr6DqxgE6GsxNzo/YZIubC1Egd65LZQyoCEz/P6f+QHNl8dSvXVVE5jHnHnrTx0KAruDc6hGUcDlDgidT+ZNTOrpYUIL9ItBt62R95kIZsb695y6V4/9QooogWAV05krElNEh9Cr2m+qac4V0yQJz/2le1Ir85GItGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.186.51])
-	by frasgout11.his.huawei.com (SkyGuard) with ESMTP id 4W476w62NGz9v7Hm;
-	Wed, 19 Jun 2024 23:38:00 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.27])
-	by mail.maildlp.com (Postfix) with ESMTP id A962A140A12;
-	Wed, 19 Jun 2024 23:55:40 +0800 (CST)
-Received: from [127.0.0.1] (unknown [10.204.63.22])
-	by APP2 (Coremail) with SMTP id GxC2BwCHDjlo_3Jm_e28AA--.55865S2;
-	Wed, 19 Jun 2024 16:55:39 +0100 (CET)
-Message-ID: <520d2dc2ff0091335a280a877fa9eb004af14309.camel@huaweicloud.com>
-Subject: Re: [PATCH v4 00/14] security: digest_cache LSM
-From: Roberto Sassu <roberto.sassu@huaweicloud.com>
-To: Paul Moore <paul@paul-moore.com>
-Cc: corbet@lwn.net, jmorris@namei.org, serge@hallyn.com, 
- akpm@linux-foundation.org, shuah@kernel.org, mcoquelin.stm32@gmail.com, 
- alexandre.torgue@foss.st.com, mic@digikod.net, 
- linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- bpf@vger.kernel.org, zohar@linux.ibm.com, dmitry.kasatkin@gmail.com, 
- linux-integrity@vger.kernel.org, wufan@linux.microsoft.com,
- pbrobinson@gmail.com,  zbyszek@in.waw.pl, hch@lst.de, mjg59@srcf.ucam.org,
- pmatilai@redhat.com,  jannh@google.com, dhowells@redhat.com,
- jikos@kernel.org, mkoutny@suse.com,  ppavlu@suse.com, petr.vorel@gmail.com,
- mzerqung@0pointer.de, kgold@linux.ibm.com,  Roberto Sassu
- <roberto.sassu@huawei.com>
-Date: Wed, 19 Jun 2024 17:55:16 +0200
-In-Reply-To: <CAHC9VhSCw6RweTs6whAu4v6t4n7gxUWJtjmzY-UXrdzW0H+YJA@mail.gmail.com>
-References: <20240415142436.2545003-1-roberto.sassu@huaweicloud.com>
-	 <CAHC9VhTs8p1nTUXXea2JmF0FCEU6w39gwQRMtwACqM=+EBj1jw@mail.gmail.com>
-	 <7cf03a6ba8dbf212623aab2dea3dac39482e8695.camel@huaweicloud.com>
-	 <CAHC9VhSCw6RweTs6whAu4v6t4n7gxUWJtjmzY-UXrdzW0H+YJA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
+	s=arc-20240116; t=1718812915; c=relaxed/simple;
+	bh=Mij4GDlwmf/zjJLZs7Y54kKBvNBE8pC+bh6aFVDxKgs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HjzjKI2jAuUKNzPP/32kcyovW1C1I1luxccy00syr7Gf3ZrZczHFm3VX/dLNLWyihqbTgLb3SghGJHdVzjPmZBwQO+fLtgPnZniX6iB2b40WX+6NC2QCV91YYlU+uv01DVPXWR+iyyokkRG2yJXGESb3+aY7ujB+NYEzqJInP1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=taiker.tw; spf=pass smtp.mailfrom=taiker.tw; dkim=pass (2048-bit key) header.d=taiker.tw header.i=@taiker.tw header.b=bzyleWju; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=vS17iE0a; arc=none smtp.client-ip=103.168.172.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=taiker.tw
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=taiker.tw
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=taiker.tw header.i=@taiker.tw header.b="bzyleWju";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="vS17iE0a"
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfout.nyi.internal (Postfix) with ESMTP id 1E18E138010A;
+	Wed, 19 Jun 2024 12:01:49 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Wed, 19 Jun 2024 12:01:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=taiker.tw; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm2; t=1718812909; x=1718899309; bh=seAcRE5FgwfJOMehoHbcE
+	2BwXk+68SlQLDfZa7kbu0U=; b=bzyleWjuOu/9ignMYhGuGNvFDwiVX/UfBT0op
+	To48x6dSEA7G4NE/mQE+wXmIiTpku167bevFiaqXIsR27I5oznd3xYwHFJeWuipt
+	ZaEHlgDuAsr4PvsPuJbokL1FgLvKe3Kkz51sMPuxmG4UspNM8g9ik4Gyxtpu0V+2
+	dhsoEah9e1xijdYKoL/rfVhPjQ3C4+yv3GkxnjD8VXE+PIfVfz7zNRC2tWGPs0q4
+	GWGJf91VW8LDWKv9tqklVg+8b84LrIQDQ6Il7gHerQNO6lC4mYyqeI0oHI168bcO
+	39nH00icP4tW24V6yZv4y/gsAc7gpW8d8/wrPpEjdlIqobmUA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1718812909; x=1718899309; bh=seAcRE5FgwfJOMehoHbcE2BwXk+6
+	8SlQLDfZa7kbu0U=; b=vS17iE0ak/RBVolKnxGpIT4gRzpSK72O/in+1VjcIp6b
+	pm1kZG+YA7h3mp5QyCWPGArkiW/VGz0tzQXknTl7ltHolDA/dlmKX0YiBT/U5V0T
+	5OZdsXT7wmQQb6mlJzFASZ6vjzOpkWkgWN8ZTgeNNt0V8D3JnM+ddiY7uBIRnoTc
+	zgIj99BA1wj2QpfJhRcziZsE+3ZzQELCrFqbgsPJc0QUPSauc8sX+u9g2Ax62TTG
+	NcMSPXTwce6jaonpX7y/FKZenw5YwnFa1iRihk5txhvIjbWhjp+gVPz/qK5BtTzs
+	QbTxQVpaItHMA9qSKPeD+xNL4FSfpHWOIvaXmxdx8A==
+X-ME-Sender: <xms:7ABzZoUuyFmrYSnpTSmqRrapBtDaeQ3sBpudR0B3zrnj_CkB9IJOVw>
+    <xme:7ABzZslomZRUernjG4AFGGAvFQz0kRzHVEU3MfjGOPmElklbsKhlYnO9Ql3mkhbTM
+    ZVOe22SKt0o2fcYMsg>
+X-ME-Received: <xmr:7ABzZsaLIvjpTVbeqrHltYFRZ-Efw1MXrBemxNa-6qv2bGHPmoor6gyOuqjLwzCAujEfg4UFyWOSxLAnOipBOUR4zcQJHmb0b4CxVqK4gPDr6XM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvledrfeeftddgleehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+    ertddtnecuhfhrohhmpeevhhhihhdqhggvihcuvehhihgvnhcuoehiugholhgvrghtseht
+    rghikhgvrhdrthifqeenucggtffrrghtthgvrhhnpeeihffgvefhjeekkeetffdtteevge
+    ekhfejudfhtefguefgjeehjedvheeiveeuleenucevlhhushhtvghrufhiiigvpedtnecu
+    rfgrrhgrmhepmhgrihhlfhhrohhmpehiugholhgvrghtsehtrghikhgvrhdrthif
+X-ME-Proxy: <xmx:7ABzZnXTtIOcu5U0woLAVTVVWqtAY4hYp0ypHKhi6u8-WUGmnnNhxg>
+    <xmx:7ABzZinrGCxN03dylpnSvcXKbSn0DPFxss0GKH_wkEi1pr8bUPPpQw>
+    <xmx:7ABzZseSlQIB8SRTnj7QFI2TaelYI1j8HQ0OUv-5ntH_eGOhzkxOqQ>
+    <xmx:7ABzZkHan8--pnYFoBr9UeHZhC9B7ODFUdU59Mn-LCgckgDCmhFytw>
+    <xmx:7QBzZpv6mvSkv049iVjd9LsVZMVXiI3ZdsGG-r7JITM-VlE4uW0Gh0Q8>
+Feedback-ID: i43e14637:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 19 Jun 2024 12:01:46 -0400 (EDT)
+From: Chih-Wei Chien <idoleat@taiker.tw>
+To: corbet@lwn.net
+Cc: pstanner@redhat.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chih-Wei Chien <idoleat@taiker.tw>
+Subject: [PATCH] docs: genericirq.rst: remove extra parenthesis in function definition
+Date: Thu, 20 Jun 2024 00:00:57 +0800
+Message-ID: <20240619160057.128208-1-idoleat@taiker.tw>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-CM-TRANSID:GxC2BwCHDjlo_3Jm_e28AA--.55865S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7AFy7Aw13Kr1xJr1fGr4kWFg_yoW5JFW8pF
-	W7K3WUKr4qvFW3Cr1Iv3WxZ3yrKryYqF47Xws8Xw1Yvwn0vr9Fkr4rKF45uFWkWrsIy3W2
-	vFW7KFyfuw1DAaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUk0b4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
-	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij
-	64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
-	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26rWY6r4UJwCIc40Y0x0EwIxGrwCI42IY
-	6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6x
-	AIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv
-	6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUFYFCUUUUU
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQATBF1jj59oNQAAsl
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2024-06-19 at 11:49 -0400, Paul Moore wrote:
-> On Wed, Jun 19, 2024 at 3:59=E2=80=AFAM Roberto Sassu
-> <roberto.sassu@huaweicloud.com> wrote:
-> > On Tue, 2024-06-18 at 19:20 -0400, Paul Moore wrote:
-> > > On Mon, Apr 15, 2024 at 10:25=E2=80=AFAM Roberto Sassu
-> > > <roberto.sassu@huaweicloud.com> wrote:
-> > > >=20
-> > > > From: Roberto Sassu <roberto.sassu@huawei.com>
-> > > >=20
-> > > > Integrity detection and protection has long been a desirable featur=
-e, to
-> > > > reach a large user base and mitigate the risk of flaws in the softw=
-are
-> > > > and attacks.
-> > > >=20
-> > > > However, while solutions exist, they struggle to reach the large us=
-er
-> > > > base, due to requiring higher than desired constraints on performan=
-ce,
-> > > > flexibility and configurability, that only security conscious peopl=
-e are
-> > > > willing to accept.
-> > > >=20
-> > > > This is where the new digest_cache LSM comes into play, it offers
-> > > > additional support for new and existing integrity solutions, to mak=
-e
-> > > > them faster and easier to deploy.
-> > > >=20
-> > > > The full documentation with the motivation and the solution details=
- can be
-> > > > found in patch 14.
-> > > >=20
-> > > > The IMA integration patch set will be introduced separately. Also a=
- PoC
-> > > > based on the current version of IPE can be provided.
-> > >=20
-> > > I'm not sure we want to implement a cache as a LSM.  I'm sure it woul=
-d
-> > > work, but historically LSMs have provided some form of access control=
-,
-> > > measurement, or other traditional security service.  A digest cache,
-> > > while potentially useful for a variety of security related
-> > > applications, is not a security service by itself, it is simply a fil=
-e
-> > > digest storage mechanism.
-> >=20
-> > Uhm, currently the digest_cache LSM is heavily based on the LSM
-> > infrastructure:
->=20
-> I understand that, but as I said previously, I don't believe that we
-> want to support a LSM which exists solely to provide a file digest
-> cache.  LSMs should be based around the idea of some type of access
-> control, security monitoring, etc.
->=20
-> Including a file digest cache in IMA, or implementing it as a
-> standalone piece of kernel functionality, are still options.  If you
-> want to pursue this, I would suggest that including the digest cache
-> as part of IMA would be the easier of the two options; if it proves to
-> be generally useful outside of IMA, it can always be abstracted out to
-> a general kernel module/subsystem.
+In the paragraph titled "Default flow implementations", the helper
+function definition (simplified excerpt) for
 
-Ok. I thought about IPE and eBPF as potential users. But if you think
-that adding as part of IMA would be easier, I could try to pursue that.
+  noop(struct irq_data *data)
 
-Thanks
+had an extraneous closing parenthesis. This commit removes the
+unnecessary parenthesis, correcting the function definition.
 
-Roberto
+Signed-off-by: Chih-Wei Chien <idoleat@taiker.tw>
+---
+ Documentation/core-api/genericirq.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/core-api/genericirq.rst b/Documentation/core-api/genericirq.rst
+index 4a460639ab1c..582bde9bf5a9 100644
+--- a/Documentation/core-api/genericirq.rst
++++ b/Documentation/core-api/genericirq.rst
+@@ -210,7 +210,7 @@ implemented (simplified excerpt)::
+         }
+     }
+ 
+-    noop(struct irq_data *data))
++    noop(struct irq_data *data)
+     {
+     }
+ 
+-- 
+2.45.2
 
