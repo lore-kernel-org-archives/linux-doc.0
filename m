@@ -1,101 +1,146 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72368548E1
-	for <linux-doc@vger.kernel.org>; Wed, 19 Jun 2024 05:27:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 585871E495;
+	Wed, 19 Jun 2024 05:57:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718774835; cv=none; b=oz/a/65Gz0bZKUZRLAfjFVp5XW5rLtPe6K5J4JQ/fZH0wVdW6NFTQqKOX19sWx0nDWC7k2WjHJzZiS7sWdaVwJeW8/BDDdhY+YUE0ek5D9Gecg7ex5/Q3iG2dTUTNi5l8ChwaR8Pw126I3Sg8TbCmn1Z5IpfqY97gal15LkJYPU=
+	t=1718776672; cv=none; b=ROFe/KctN1julPNc2C5PcuQaNaYP75ReeN5jCOTHpUQqbvxmwOtH1ItG9ql0hfWREMaeb0DldiEgoOaBrirsYv9Qfafqk0inaepq0GC5r+a3ivBKpQeVY/QL5VZIhp9DZVPhSDc5gudO3pgDcTFc1Ph5c4x+kqoHOVQpJSv6+xQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718774835; c=relaxed/simple;
-	bh=TaldpaFdVU9VKO80EHQfPadmZ9ehSii7vDuV8VjyxKI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OdBHOO/d5ued9Z+FJ1/HnI//y9QBAnhR0hWyiLuJk/jYYyx5vWzjosvk0CM/jqO8Tnqz7sV7x/gsTtHbIKeGsrvlFxQ13u4/FG4zZ8M6XA1/o2VSN8sNrPMgmLkOjM7GFhmtE1ce40BhHVnMd0i3iLsv7jatc43FGbLwNsxpUnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=3xvDjMUi; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1718776672; c=relaxed/simple;
+	bh=scEJE+FtrAipbWWuCOlW7sNdiWYp1YNxGU1Wofz9Sk0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ZscjgEWsjofrkBsZmnEqG1Dsij2J2fvT6NmGepWp/gaqQ1uiOdGwyDMKQFhETyGGLnL6yiTVcJtxG7AUJS3JpM76u9zRzmibSJdW93ffUyHjCPssYX5iHi2Rk6Or48losKKZL8Aswq1E0k2pFx57ptr3WeGOfLTJ8iJmUXuxNmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f+ujiu8f; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="3xvDjMUi"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3626c29d3f0so868858f8f.1
-        for <linux-doc@vger.kernel.org>; Tue, 18 Jun 2024 22:27:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f+ujiu8f"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4217c7eb6b4so54867485e9.2;
+        Tue, 18 Jun 2024 22:57:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718774832; x=1719379632; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UMKzlr4YMJj/i6AQp9On5aFVd7CtHU1kUwtqMK4CQp0=;
-        b=3xvDjMUigsR4c/Z4Ic5yt2d4G2yQYON2CtOE6OC2V6pEj5JfZdXq3RKbcUIUh/xuig
-         2H5jRq8/9irM1fJzA/VUpt32Q7YJALsKtYrngOEgQ33zKgk4x1LqbgjsInehC5RGvgV6
-         H3JJE+JtZqjxCm+vapN+9AKCnwj7neGxcudTxHZSNfLyuL1IiNpaoKWSYnohXfqtOOmd
-         0eSSk6h8G0bW2c0KVKggkSgaGj4QxKB7Xas+7OONcAdITCwy5gVDANI/8U3y6P7+rf/Z
-         ODsY4o+IEqWxL0Zvd++RG6HrTEInx2cPx8TeVBWkjX3PbyZTAzNOBpUK4xTBnX6Kthq9
-         DpdA==
+        d=gmail.com; s=20230601; t=1718776669; x=1719381469; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=scEJE+FtrAipbWWuCOlW7sNdiWYp1YNxGU1Wofz9Sk0=;
+        b=f+ujiu8fOOKznk2SHWixWkj3ahcz8Dlk/4DLLt0GiIRSHfz41r9i6CZ7OsvxEdvdC5
+         /I8iLtiO9efgqrIZTP5IpgPZFl/GijyTHyZFZI0dnJnNx3kYoPk9634NhDjQbibxoWHs
+         y1vlisjbffCeir1+gz6tguajuIbgrS09iyeo34dFTDaK+T4YdME3C7wTlkirMCHJHN9b
+         gELBOotfoyQp0L3RO50e3Nlc2Hfo+GSRVqbg9fdbly4tgHWeujJedb7t97jGq8qkUq7R
+         WRd1QzaMvO2bAAddj6SXldYnmd7B7qIxPt59i+N5ffrRIKydaJk9Wp7xlqfeD/D2LH3c
+         hQ3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718774832; x=1719379632;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UMKzlr4YMJj/i6AQp9On5aFVd7CtHU1kUwtqMK4CQp0=;
-        b=RgeZv+kWAb6kdfBIdBgz2y/APap9LsP0maDdTf/r6SAGNTdVcAcukPWD7kBvrKuDXP
-         nip4figaAv2ZqJzcEmHeXPz7W/q58pzJ6BuFIaakvNLhja8g3L2XSvQCjKF76JwHad1e
-         Nqgw7cRAQDh7TjxX+od7Ey+DQySdQyNYTNC2TSAidHD+yMlLe3j/K5/XxRIUxo6LAJl2
-         I3BXab1MGM/2GK+KUzho3+DmcKnWVeIdHIkMtYrnZwKWsFTdvZKcD8XGWpaKXT/Otxhu
-         cF9rBc7Mbvx612BIpzvuX22CN4gnLuafcW7JyQ6w4lCh2+8FW9TEU7Th45a+rkYwenp6
-         eniw==
-X-Forwarded-Encrypted: i=1; AJvYcCX9Owt+6y4fGKBs1lcvAo2qNtEllwQNqCvby5FJRLMcAKwomHazm3gNRSI6kcZyDWCF+lAyzf//rOfaKD7ND+lc/OG1RDKRc+46
-X-Gm-Message-State: AOJu0Yw9MdAe/79vrZdLlfKIEo8aPOtN0kL0bh1leqw1jescIv0NroWZ
-	l+s+uezkHW7BtObqG5+VpBEflGwvM9tJqvZhcgKH3czdkshCNhiIkOn4eDcEr3bo66iiUjRtb1b
-	6u/Fu0zEfTpWl5TtAg/q9tv6lgVciKceaQG61
-X-Google-Smtp-Source: AGHT+IFJQWZ+KHiN/+sHKwZP16by1QOEq1WGoR1DxEL2A3UFRInhIe7af0qptcWZ7wTRqX0VaIgipvW1b8Mme6mmrZQ=
-X-Received: by 2002:a5d:69c8:0:b0:35f:2635:5b61 with SMTP id
- ffacd0b85a97d-3631989352fmr1085996f8f.51.1718774831425; Tue, 18 Jun 2024
- 22:27:11 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1718776669; x=1719381469;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=scEJE+FtrAipbWWuCOlW7sNdiWYp1YNxGU1Wofz9Sk0=;
+        b=F1rQ0ap4fUoXnmU1urJLQWAo4L4E5Pd3PzKSSQMuRwISsGotCTbpgbJP52Hgc2J6Em
+         NcHH2ZIQwRNQM3hSaIkNleSuKXAdZ4Q/D5V6dYaSqJC/OjSl7cnC6s7VZdb0AwZ9hAy+
+         eoACQJE//D/7BkjMoWv76wXl7b8ELWtJHFgVKxQBM7327VI20nVc7w+i7ZlacojtvMUl
+         WSizW5j3wbkEwWZFMPbm9GqfrQqlUXMy0rnxVg/kCKzBlPiOZygngOSfhOeH9ZHQ0dzW
+         /x0O8gOY0RdyXIuavrOIZzxoyGrq5yaWA7mQo9HYq0Mv36BI9vosqx1Kh7fQwD5yPgCF
+         JIWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWSl199T5IJTscJhDohdDn1wdhuiDzgB2cUjacLfdObuT0SkHfwInjO9X3eXSvVO1B0+YTDlnukPrxuq4lgSI9DH5OZ+YBoUZ5h0Sct8MiHMUtb07hxncI/+YZpZmHg4rJL+ABo0EbaV39OIAQA0BqhyUc8yjRqE2GU312SqRK0kmqyP/+EL7OeA57KKi+WIOOjgtbbYqAMBgn6P1SA6Bk4x28kKJxRQ75TnSCZUD33JqBABXwPeOfgIWs=
+X-Gm-Message-State: AOJu0Yxs45Oz5AaH31dHpBCH/9sYY8XHZp/vBZaaAt/sPrUAg+T4fsfz
+	mq8jHssTxUasLfjQBar81T9V2WqlhPRd1bMLnxWhn9J4bRwMrRlyYtLZobpj334IUg==
+X-Google-Smtp-Source: AGHT+IGUWmG2ozlLnkr7/lTelYMt1DNSd/pixvzBkdl27mVAYbqX6fLVIuUMu0W+3eqBG/aY2Mqy9w==
+X-Received: by 2002:a05:600c:1c98:b0:423:791:f446 with SMTP id 5b1f17b1804b1-4247507a087mr9346335e9.7.1718776668365;
+        Tue, 18 Jun 2024 22:57:48 -0700 (PDT)
+Received: from nsa.fritz.box ([2001:a61:35f9:9001:40df:88bb:5090:7ab6])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422874de68asm254670625e9.29.2024.06.18.22.57.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Jun 2024 22:57:48 -0700 (PDT)
+Message-ID: <7b20ed6c17fc7e7a023eb2d305ee699a81a2a2ce.camel@gmail.com>
+Subject: Re: [PATCH v11 3/7] iio: core: Add new DMABUF interface
+ infrastructure
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: kernel test robot <lkp@intel.com>, Paul Cercueil <paul@crapouillou.net>,
+  Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Vinod Koul <vkoul@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>, Nuno Sa
+ <nuno.sa@analog.com>, linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
+  linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org
+Date: Wed, 19 Jun 2024 07:57:47 +0200
+In-Reply-To: <202406191014.9JAzwRV6-lkp@intel.com>
+References: <20240618100302.72886-4-paul@crapouillou.net>
+	 <202406191014.9JAzwRV6-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.2 (3.52.2-1.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240617170545.3820912-1-jiaqiyan@google.com> <20240617170545.3820912-2-jiaqiyan@google.com>
- <ZnJmsqvJz63imq3O@localhost.localdomain> <ZnJo73kZk5EDxq0D@localhost.localdomain>
-In-Reply-To: <ZnJo73kZk5EDxq0D@localhost.localdomain>
-From: Jiaqi Yan <jiaqiyan@google.com>
-Date: Tue, 18 Jun 2024 22:26:59 -0700
-Message-ID: <CACw3F52X3BUCeB7OUhbEzEHy7y2vdNO60pybz2x9OdhyZOoStw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] mm/memory-failure: userspace controls
- soft-offlining pages
-To: Oscar Salvador <osalvador@suse.de>
-Cc: nao.horiguchi@gmail.com, linmiaohe@huawei.com, jane.chu@oracle.com, 
-	ioworker0@gmail.com, muchun.song@linux.dev, akpm@linux-foundation.org, 
-	shuah@kernel.org, corbet@lwn.net, rientjes@google.com, duenwen@google.com, 
-	fvdl@google.com, linux-mm@kvack.org, linux-kselftest@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 18, 2024 at 10:13=E2=80=AFPM Oscar Salvador <osalvador@suse.de>=
- wrote:
->
-> On Wed, Jun 19, 2024 at 07:03:46AM +0200, Oscar Salvador wrote:
-> > On Mon, Jun 17, 2024 at 05:05:43PM +0000, Jiaqi Yan wrote:
-> > > +   if (!sysctl_enable_soft_offline) {
-> > > +           pr_info("%#lx: OS-wide disabled\n", pfn);
-> > > +           put_ref_page(pfn, flags);
-> > > +           return -EOPNOTSUPP;
-> > > +   }
-> >
-> > We should not be doing anything if soft_offline is disabled, so this ch=
-eck should
-> > be placed upfront, at the very beginning of the function.
-> > Then you can remove the 'put_ref_page' call.
->
-> Also, I would go for a pr_info_once here, as otherwise we can spam the lo=
-g quite
-> easy.
+On Wed, 2024-06-19 at 11:15 +0800, kernel test robot wrote:
+> Hi Paul,
+>=20
+> kernel test robot noticed the following build errors:
+>=20
+> [auto build test ERROR on jic23-iio/togreg]
+> [also build test ERROR on vkoul-dmaengine/next linus/master v6.10-rc4 nex=
+t-
+> 20240618]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>=20
+> url:=C2=A0=C2=A0=C2=A0
+> https://github.com/intel-lab-lkp/linux/commits/Paul-Cercueil/dmaengine-Ad=
+d-API-function-dmaengine_prep_peripheral_dma_vec/20240618-180602
+> base:=C2=A0=C2=A0 https://git.kernel.org/pub/scm/linux/kernel/git/jic23/i=
+io.git=C2=A0togreg
+> patch link:=C2=A0=C2=A0=C2=A0
+> https://lore.kernel.org/r/20240618100302.72886-4-paul%40crapouillou.net
+> patch subject: [PATCH v11 3/7] iio: core: Add new DMABUF interface infras=
+tructure
+> config: x86_64-randconfig-161-20240619
+> (https://download.01.org/0day-ci/archive/20240619/202406191014.9JAzwRV6-l=
+kp@intel.c
+> om/config)
+> compiler: clang version 18.1.5
+> (https://github.com/llvm/llvm-project=C2=A0617a15a9eac96088ae5e9134248d82=
+36e34b91b1)
+> reproduce (this is a W=3D1 build):
+> (https://download.01.org/0day-ci/archive/20240619/202406191014.9JAzwRV6-l=
+kp@intel.c
+> om/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes:
+> > https://lore.kernel.org/oe-kbuild-all/202406191014.9JAzwRV6-lkp@intel.c=
+om/
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+> > > drivers/iio/industrialio-buffer.c:1715:3: error: cannot jump from thi=
+s goto
+> > > statement to its label
+> =C2=A0=C2=A0=C2=A0 1715 |=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto err_dmabuf_unmap_atta=
+chment;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ ^
+> =C2=A0=C2=A0 drivers/iio/industrialio-buffer.c:1720:2: note: jump bypasse=
+s initialization of
 
-Nice catch. I will do pr_info_once in v4.
+I guess the compiler produces code that will run the cleanup function on an
+uninitialized variable. I would then go back to plain mutex() instead of mo=
+ving
+guard() to a place where it does not make sense only to shut up the warning=
+s.
 
->
-> --
-> Oscar Salvador
-> SUSE Labs
+- Nuno S=C3=A1
+
+
