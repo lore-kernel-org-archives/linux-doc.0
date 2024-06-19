@@ -1,57 +1,57 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65A0B152DEB
-	for <linux-doc@vger.kernel.org>; Wed, 19 Jun 2024 11:35:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 113BC153BDB
+	for <linux-doc@vger.kernel.org>; Wed, 19 Jun 2024 11:35:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718796959; cv=none; b=YfsuhqsJ36rGCGg/81fFYcN6euH2h5j03ev81AL/S5vlhAEBlOdxcDSkys5afb6aKFE9dUkdRox7XYNWPv6ggE5aBwQNnlIfIlie3dlTf8hE1w/qT9Z6xRUeAONdYdJVUCDYpbZo48UcZ6DR8TSx7aPL3xI7WRb+u3EXVfEJr1U=
+	t=1718796960; cv=none; b=cjzdK0l4Ok6Y1G5nPGT6YwBMtIbxCCapmpeD3UCRPXRzpsTsf0yAOrEJFkK4QVEZoqwG8aDN5gT2xbpQjqx8wsZk+0l/h1msBRmL+c/NCjYsIMRbI5RryEX1iK8dP11dTeJy+iRT5fymEQeWiLwqdV7PgmX6HKesFQo2Udihrnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718796959; c=relaxed/simple;
-	bh=bq8xuYEPfESVQzVjw8P7O5vmRTT1hfi5KF6LtFr+gvE=;
+	s=arc-20240116; t=1718796960; c=relaxed/simple;
+	bh=LZHBNXdz6Lwh0lOeQXM/tAC46qcX/zMftVdcEX8HWMg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SOA1NHDhzjXygrJBWJThkWCktHkMUbqDplfuchg4BkkA8Pfnq+uj1nKe9RXa6Ux75A+CH4BHUungaKmWbzNuQrgDl0l/xd40TUyHJomQCoMtiqKFcDe2+fO/vw2JM6PkAAyy7jtDOLmUwkbyAbRHJ1nsufa+p9iolusU3z2Kq7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=AsvP4cm8; arc=none smtp.client-ip=209.85.128.42
+	 MIME-Version:Content-Type; b=aOQpajb/D/fmFWx1u4Um4YpTJ8DdSasGV8odq+A+WQoFBJJczSI87x3USw/xY2T+QISigrVO2tMPY2lsB8lxsO8HJJm7Wol4Zmd19ibeZ+z8RlExlJ/0WNNB1UxkONFHAgTSPLsEDFqaK/sHAJZBRc9Sj9ReuYkpMGGbR8+mpeo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=pcidmBEs; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="AsvP4cm8"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-42110872bf9so6493255e9.3
-        for <linux-doc@vger.kernel.org>; Wed, 19 Jun 2024 04:35:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="pcidmBEs"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-36353a5d2ceso23899f8f.2
+        for <linux-doc@vger.kernel.org>; Wed, 19 Jun 2024 04:35:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1718796956; x=1719401756; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1718796957; x=1719401757; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hSqXY8NQ+r1tvQyzaHIZAo9j3jx7qiAIRPgNfgAmyNo=;
-        b=AsvP4cm8R8FzXRjnc7jc0uX+ED1cmxkw3dTqUnqYhgsiEmt81aLDiCX1D20HS2NvxJ
-         DHh7vbx8HtzrLBsk/XbW6zcSXDydVEe/8T2N+dPdVU/YO1upoflxHSF4t+sscs4wyomU
-         lQQXdvQ7qSGfhjeVy10tIzYvTAVo8DCPmxCkvH9EmAJaDijNyYy8M17PccTBSLgezWOd
-         rHF5IK8zhgdIxh5fAIUEZlPESOgnQWLSfQjvofAO2Fzf9KdQq02DN6VxYBD5aS+13VC7
-         HNlfdnHfZJg09XqXEn0FuVoFpblpfDjUFRFPfJpM9KbI51IQMRLUhMN1onPyycTfBJUC
-         bWww==
+        bh=QNTR87ViStRTLjbLTFramo32AnhtfCIqG+mY5nzsVhg=;
+        b=pcidmBEsYbbqZfYDl1+IfVc4oBzbD1RL/224j4FJPDxdqoJwlE3S7w909rba0PDDqB
+         O5ZBpiZ/BX+bYs+lppG+W25Hds41m/MLwR6DA/u5RDEMHYi48Ui4YgpfbyOOEMxl4Qee
+         cndtJFGbYxNWMRkrs9MzgVcrtGpT9Uhi5hSMKz+4DQxte+eQkmqQAA/SY/4m4MBSFMXT
+         Fq0vKuaEq9DpW57Ik3JXMKm4Rf4gd/CMnBRKsc5A1eXlemjQfJ9s+jhw7ZPpmriI5dFn
+         NH2cFjZ8xsV0UiFL/BKAGhrHzTXsRwlqxMsiKVksfjZK7ibSnDYlwS5mlnTAWIaEPh0s
+         29uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718796956; x=1719401756;
+        d=1e100.net; s=20230601; t=1718796957; x=1719401757;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hSqXY8NQ+r1tvQyzaHIZAo9j3jx7qiAIRPgNfgAmyNo=;
-        b=BJmTCjS55owi0qDRTbziBIDzHb740h2VrqppzMh7GpNi7RQ7X2K29U3m1tsG/GgDHY
-         b6QS8536VMGQX3uekYL27OGSYWbLu07aSrC9tH2gW6ME/f4fbyP3e7U/l6fCrfgwgnwe
-         yvfK0ClzWOVkdxK2auGLDhQYAKoYvuyjss/4K2lrTK2hBPmFmAIW75O+JP4TghhaxfbF
-         t6l0/UjPWQjJotyy1A990M9SYMIbANKaj6JeH7bxLu4WUIlJYgjDGYshI5vNZGf5CjPi
-         rA1B9lJfDRKRivNb+I5cPfakW7FbE7cPhjYYKM3j3bmwXbl2hTzb0M4RS0Y8Mfhp9hSj
-         RvlQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWJoXNYV0T3GBQqxrUxUFF9JH6S6EbPASqBVVmuJaWBAQIg+UpHZl/l54XYlsXHBiNhpj0s6kUXPe/67O4ehYdyYmb4W5x7bcII
-X-Gm-Message-State: AOJu0YxrKnaFNwUo+4pyJTMOkaDGW/7vb0rkz9bYnPuxQdU08f9opC/v
-	FRDSVF4cELCVRkYH+C+4CgXzfmfrrwXHy5QKRJiPw5EEl6l0qhom0H1CrXhsFO0=
-X-Google-Smtp-Source: AGHT+IFlfP3NiyvXQKFOTNdljGuXnZt3spfJFUH69VuncHuc4xx9gjHsoS5MasjNknxMee/w3CiUxQ==
-X-Received: by 2002:a05:600c:4fc9:b0:421:bb51:d630 with SMTP id 5b1f17b1804b1-424752981b8mr15706485e9.2.1718796955960;
-        Wed, 19 Jun 2024 04:35:55 -0700 (PDT)
+        bh=QNTR87ViStRTLjbLTFramo32AnhtfCIqG+mY5nzsVhg=;
+        b=ny6oSm/ZV1mlQiQpYN7c3NMCiwHSmgHKgVLB8MVM4e3qfOo4Gu/+1bygRKlWiP5NzG
+         n+Z6imOsfnm4DEVKAYq2rTRT4TabqVwwWNkKfxA8g4akL1mYM1lTbcY5UdP5d5RaJ2FF
+         Ydm+y22Uv5T2QBqjY6+nWSssV6WX/J8dXFtCOq7NVx5qQ+ByKwQk0qNSS63kTswRHHxT
+         3yqwDJHcskEFEoYSumnVanXqS/mYR+R4mcQUA/sdB5Pzy0EykEl+gEo916XcJ1RzJo0s
+         UhaKDZmbtt9csO/hTMDlwE4dyO6eUw6dC02POsUXFmZcs4KoiWGO03YlwwZrCgzVJXIM
+         ET7A==
+X-Forwarded-Encrypted: i=1; AJvYcCXTQwbZ7YTR9IABhYpSKHAxjWgt9BksCMFLTZesWhwpcn/+00Tn6oinjlHf+CjJlT258CQgeUCn7JCkcQUgM3IEB1Mq6qycdk3N
+X-Gm-Message-State: AOJu0YwNCTWuDeO4C1XrdUuozlUbMvR8zkASRkFcfScMqUc47CXLGauM
+	jrlCh4CJo4T2lRLKrcwtRR+H3rL+I8Zk76dy5QDFdGiEJf0GPjGOKaQbJSR2VFg=
+X-Google-Smtp-Source: AGHT+IGn/LpwHNx73QtNZmX0LVZG43iWR+YwELGXaE1GpTfJ5aoWVLtbw2nzaPBzkFgiYXBhTTJV0Q==
+X-Received: by 2002:a05:600c:511d:b0:423:445:4aad with SMTP id 5b1f17b1804b1-42475016e88mr16022565e9.0.1718796957512;
+        Wed, 19 Jun 2024 04:35:57 -0700 (PDT)
 Received: from carbon-x1.. ([2a01:e0a:999:a3a0:e67b:7ea9:5658:701a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422870e9681sm266192075e9.28.2024.06.19.04.35.54
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422870e9681sm266192075e9.28.2024.06.19.04.35.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jun 2024 04:35:54 -0700 (PDT)
+        Wed, 19 Jun 2024 04:35:56 -0700 (PDT)
 From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Paul Walmsley <paul.walmsley@sifive.com>,
@@ -70,12 +70,10 @@ Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
 	devicetree@vger.kernel.org,
 	kvm@vger.kernel.org,
 	kvm-riscv@lists.infradead.org,
-	linux-kselftest@vger.kernel.org,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Charlie Jenkins <charlie@rivosinc.com>
-Subject: [PATCH v7 13/16] riscv: add ISA extension parsing for Zcmop
-Date: Wed, 19 Jun 2024 13:35:23 +0200
-Message-ID: <20240619113529.676940-14-cleger@rivosinc.com>
+	linux-kselftest@vger.kernel.org
+Subject: [PATCH v7 14/16] riscv: hwprobe: export Zcmop ISA extension
+Date: Wed, 19 Jun 2024 13:35:24 +0200
+Message-ID: <20240619113529.676940-15-cleger@rivosinc.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20240619113529.676940-1-cleger@rivosinc.com>
 References: <20240619113529.676940-1-cleger@rivosinc.com>
@@ -88,41 +86,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add parsing for Zcmop ISA extension which was ratified in commit
-c732a4f39a4c ("Zcmop is ratified/1.0") of the riscv-isa-manual.
+Export Zcmop ISA extension through hwprobe.
 
 Signed-off-by: Clément Léger <cleger@rivosinc.com>
-Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
-Reviewed-by: Charlie Jenkins <charlie@rivosinc.com>
 ---
- arch/riscv/include/asm/hwcap.h | 1 +
- arch/riscv/kernel/cpufeature.c | 1 +
- 2 files changed, 2 insertions(+)
+ Documentation/arch/riscv/hwprobe.rst  | 4 ++++
+ arch/riscv/include/uapi/asm/hwprobe.h | 1 +
+ arch/riscv/kernel/sys_hwprobe.c       | 1 +
+ 3 files changed, 6 insertions(+)
 
-diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
-index b12ae3f2141c..4880324a1b29 100644
---- a/arch/riscv/include/asm/hwcap.h
-+++ b/arch/riscv/include/asm/hwcap.h
-@@ -91,6 +91,7 @@
- #define RISCV_ISA_EXT_ZCB		82
- #define RISCV_ISA_EXT_ZCD		83
- #define RISCV_ISA_EXT_ZCF		84
-+#define RISCV_ISA_EXT_ZCMOP		85
+diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
+index 4d9b4ed34c96..25d783be2878 100644
+--- a/Documentation/arch/riscv/hwprobe.rst
++++ b/Documentation/arch/riscv/hwprobe.rst
+@@ -231,6 +231,10 @@ The following keys are defined:
+        ("Zcf doesn't exist on RV64 as it contains no instructions") of
+        riscv-code-size-reduction.
  
- #define RISCV_ISA_EXT_XLINUXENVCFG	127
++  * :c:macro:`RISCV_HWPROBE_EXT_ZCMOP`: The Zcmop May-Be-Operations extension is
++       supported as defined in the RISC-V ISA manual starting from commit
++       c732a4f39a4 ("Zcmop is ratified/1.0").
++
+ * :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: A bitmask that contains performance
+   information about the selected set of processors.
  
-diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-index aa631fe49b7c..ec4bff7a827c 100644
---- a/arch/riscv/kernel/cpufeature.c
-+++ b/arch/riscv/kernel/cpufeature.c
-@@ -354,6 +354,7 @@ const struct riscv_isa_ext_data riscv_isa_ext[] = {
- 	__RISCV_ISA_EXT_DATA_VALIDATE(zcb, RISCV_ISA_EXT_ZCB, riscv_ext_zca_depends),
- 	__RISCV_ISA_EXT_DATA_VALIDATE(zcd, RISCV_ISA_EXT_ZCD, riscv_ext_zcd_validate),
- 	__RISCV_ISA_EXT_DATA_VALIDATE(zcf, RISCV_ISA_EXT_ZCF, riscv_ext_zcf_validate),
-+	__RISCV_ISA_EXT_DATA_VALIDATE(zcmop, RISCV_ISA_EXT_ZCMOP, riscv_ext_zca_depends),
- 	__RISCV_ISA_EXT_DATA(zba, RISCV_ISA_EXT_ZBA),
- 	__RISCV_ISA_EXT_DATA(zbb, RISCV_ISA_EXT_ZBB),
- 	__RISCV_ISA_EXT_DATA(zbc, RISCV_ISA_EXT_ZBC),
+diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
+index c38f3f2b8382..920fc6a586c9 100644
+--- a/arch/riscv/include/uapi/asm/hwprobe.h
++++ b/arch/riscv/include/uapi/asm/hwprobe.h
+@@ -70,6 +70,7 @@ struct riscv_hwprobe {
+ #define		RISCV_HWPROBE_EXT_ZCB		(1ULL << 44)
+ #define		RISCV_HWPROBE_EXT_ZCD		(1ULL << 45)
+ #define		RISCV_HWPROBE_EXT_ZCF		(1ULL << 46)
++#define		RISCV_HWPROBE_EXT_ZCMOP		(1ULL << 47)
+ #define RISCV_HWPROBE_KEY_CPUPERF_0	5
+ #define		RISCV_HWPROBE_MISALIGNED_UNKNOWN	(0 << 0)
+ #define		RISCV_HWPROBE_MISALIGNED_EMULATED	(1 << 0)
+diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
+index 89e03cdf38b7..3d1aa13a0bb2 100644
+--- a/arch/riscv/kernel/sys_hwprobe.c
++++ b/arch/riscv/kernel/sys_hwprobe.c
+@@ -115,6 +115,7 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
+ 		EXT_KEY(ZIMOP);
+ 		EXT_KEY(ZCA);
+ 		EXT_KEY(ZCB);
++		EXT_KEY(ZCMOP);
+ 
+ 		/*
+ 		 * All the following extensions must depend on the kernel
 -- 
 2.45.2
 
