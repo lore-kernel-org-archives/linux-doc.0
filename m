@@ -1,164 +1,215 @@
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2062.outbound.protection.outlook.com [40.107.114.62])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 827F5139CE5;
-	Wed, 19 Jun 2024 23:55:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.114.62
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718841310; cv=fail; b=hUGuRFzxoMdHguejP9Y2CnO8iMuuI0O9DTi4NXOwfvfRyMSTzfmXS5IIG56+oBYDHPmoULHEV3VpBn5DiUsQSyRX8REhgoQ9TZdSSKTxxIRMsmJl5a5el4Z1Kwn5dIwT0ovIAtC2EgfM45YX2e8vVZJvOrKZdR+F+9FCIRO1ng0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718841310; c=relaxed/simple;
-	bh=eSSIrUdVhHzV4EszI7vuCiXk4qXtV3I1+l8147KA6nw=;
-	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=qv2rl+GE8wzqfkTgVimKH3E8rJc2p95WzDnqd/XNIBNP18D+Nzd+qCAuDNDbmPK+h1iQhuvHTkTypx4axIhgjAF/iJ6kfzPgoFMSMAZTQ2cPEcffyGwpHajrZ5CDMGasMx0+CCek6hAQVcx0XbCgeqGc4vrqbQ4WHRKvEDHTkJ8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=hyGeumgs; arc=fail smtp.client-ip=40.107.114.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21FF015696E
+	for <linux-doc@vger.kernel.org>; Wed, 19 Jun 2024 23:57:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1718841450; cv=none; b=rUJmSF+lEu6T5QQGnMMcPnBT+cu6Zhh2zpGuWsuJmQ55mtqDwR9GbdFrAIQiqd+grEtgxOq4XlJRmfu4M6l8TPENyjlNgcLylrLDBNZrSwausQQHNWiMGRXcUAyc/s5LcnSnAD1mHLHLBWBfxkFk5WzRypHjMD1cd0dqwmRE9M8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1718841450; c=relaxed/simple;
+	bh=SQ74wkUYiydiV4kKCgWwaFdmfmpGnTrvzoti3qC9ofs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=awZg1q+Eh+nUDOlWQoI4pRmTrmHcMg9NPwW0MldZZ7AKSvXqdUm+bJpnh2P62aiaBzoVhH95a5yv4l0foTPxSre52u3qSjNW4N3fl7Ywfw84gYo3aFTcsq1mjnG09cI60meDoo6PRB4n74EelV7bww0OspBNYZbW3UuLEwJT8Zc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=oYSLOI/7; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="hyGeumgs"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NDzDbqhTOeZ+DG3iXGZyRSePHSgcB16nF95uDIkRt5ec0w3+05V/+xJpVTcPPAdd+x5cTDpIA2dKreo1OvK0jbQYW3peyDAeW1y2dV++sIh2Wz3XqsDgFRy7nxmrUIwdE9c1HIg47jFzW7jg99fMEujDra3umjJIHIuec0+TDh6ekf+edSR7LeqMGtVfGZ3wTIi9TOSZqLEE/y+WNbhXGAyYQphRn52cqC2yiCWt82+bWPsf18ncy0k6LZYqdsYcNNi/3WW7C5yIcM5IR3+Tvv9W86Q6BmozVxTYk1irYpBAo6Yq6aa3CgK+fx5b4r3w5WaQYlolnI/Lup/jcNbp6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8pJqKHT0noCUcUFgqmK5KfDxeaXAYxHuyvwIja3Mwvk=;
- b=ICxJhAqY+AQKroYb+YRkLQlxNlatqfjJHpE7RN1+YHk2GLRbrYnA8ljuSGv3etNZRKiDz6MmjsohbmFUY/XQTepj2yFE+8uMEqKtycmsxF/mlYWMVMtRbfhKlBT3QV02PbDuDFLFUKGmHqB3HbOaVfEUylHHujPU0AYQ6d7fkiqMWIZzUP0rY403jXDBPndAk0xaUEmNQVDPtHA9VzcYgYps+JjKSd+7qz5N4erDyPP0BkMG/UwAWFNWEJC3MqVfAD+seFbqYcKiiJ0RKoFFnkQPgtj1FxQco1HelwzpsHOEACE9+e258XJJxvqmcB7o9z8mB1cEawEPPPemsj3qzg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8pJqKHT0noCUcUFgqmK5KfDxeaXAYxHuyvwIja3Mwvk=;
- b=hyGeumgs3PiG3h4XEJi/dlzJOmAgIWbpSOifhjSwQcp06cnXAAxufZhl+saC6yCwYe29yk/FuFCj+hNmIj0qvsVU2CKx3q3ODOZD7H+GfRt6sFnnM3mb4hh0HYXfPbf/1YqfdqE3fCWA7JML56y5p3gFp9T1Bj198TJl/wvemFE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11) by OS3PR01MB5909.jpnprd01.prod.outlook.com
- (2603:1096:604:c5::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.31; Wed, 19 Jun
- 2024 23:55:04 +0000
-Received: from TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11]) by TYCPR01MB10914.jpnprd01.prod.outlook.com
- ([fe80::c568:1028:2fd1:6e11%4]) with mapi id 15.20.7698.020; Wed, 19 Jun 2024
- 23:55:04 +0000
-Message-ID: <87y170pjxk.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: alsa-devel@alsa-project.org, imx@lists.linux.dev,linux-doc@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH v5 0/4] ASoC: grace time for DPCM cleanup
-In-Reply-To: <71a31778-5709-4342-b813-75899ed4e90f@sirena.org.uk>
-References: <87bk4oqerx.wl-kuninori.morimoto.gx@renesas.com>
-	<6bf6adc9-9620-4ace-97c9-7de0cedd7d07@sirena.org.uk>
-	<877celwmvh.wl-kuninori.morimoto.gx@renesas.com>
-	<71a31778-5709-4342-b813-75899ed4e90f@sirena.org.uk>
-User-Agent: Wanderlust/2.15.9 Emacs/29.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Wed, 19 Jun 2024 23:55:03 +0000
-X-ClientProxiedBy: TYCPR01CA0153.jpnprd01.prod.outlook.com
- (2603:1096:400:2b1::12) To TYCPR01MB10914.jpnprd01.prod.outlook.com
- (2603:1096:400:3a9::11)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="oYSLOI/7"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7041ed475acso364047b3a.2
+        for <linux-doc@vger.kernel.org>; Wed, 19 Jun 2024 16:57:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1718841446; x=1719446246; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MY9gNtYxIY7P55WK3l92dSyii7grPULlgAdQCTwrkwM=;
+        b=oYSLOI/7+QIrImlbWmNS8xD8+NM9ip2qxfyVvj4CslT92VQtnFRgkyKIjfEvITkqoL
+         ju3uGcCyLz0YxM0Mo5wFzDVFSRhPYjEtuBmNPhyBovQ0GIEobQfNdWhsa/dutjzJBwSP
+         XLQTPYbF8EhSzMKSSg4e3a3C/OzlCBfeT3tKlF+8GRhO4SacSfbgFHXSX/jgDM2DlA7L
+         JagRdTVRzxXE6ydqPHAXaPww9m9gZk8Dw7D55uJyMYT7SuDTwXD8/oB02iN1qib8vbz5
+         YkN/exP9q0vdSgQIzQygS6H8Og7xo1llB8mfsdkOxB0KRXCmNN2AAH4RQ0XF5H+CruIe
+         igKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718841446; x=1719446246;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MY9gNtYxIY7P55WK3l92dSyii7grPULlgAdQCTwrkwM=;
+        b=WMNKSM0SofSIlAR9EoJUjEs1dshU9nbCnKWlweDuECTpKZTEbVGSj5FhE0cjcsiiNQ
+         Q1tjgFqJIgsOMCnQtrXkaffhjN4lmD7qJHu7AICDpMiGxS6AL7pwbgdiy0DAHtE8Fv/5
+         0v9joIsINwDFsU4Df65oP9MFbmiKaCSkcBt7SFmkduB03jaf+vZyYUZAd6jm2F+I0P52
+         +xi02/XAtbUjn9BKfJHA6KAv4k0G7pxQdIUavSgxXVL10wmTVJrxEIpt84mpDK6Ak4wp
+         ArskzappTQgE39b3PhdIOOF1M2ta/j5Y4hcUpMTz6Y+Q8yln53zUBzAIXZjT9d4772pT
+         W5Ow==
+X-Forwarded-Encrypted: i=1; AJvYcCUOh2+4sPHdikbZhBCDhaqbt50fKC+y2CTSsIn1vzrmjtTQHzP/K1p7lQe97na/BMFmLbTrwWJS6UnZA3MckWA4hqHF20m9MJWr
+X-Gm-Message-State: AOJu0YwnznAG7BoiqQwS3soZ65vjq0LKiavlkOCwH/FUA+NYK/nB1aoD
+	HGcJX7M/lWwtGrQ3Y2yiMjGsDK+f2MVmJsgZR66D1XF69qvgvgL6zNpWX75aMHE=
+X-Google-Smtp-Source: AGHT+IGbUoAHmp9L8GOOQzzT1+2vkfoDoVr/n3oI76ok2wfPdsYHdImgZafKQcKFXAxghbhbD+3Plg==
+X-Received: by 2002:a05:6a20:a992:b0:1b2:3998:404 with SMTP id adf61e73a8af0-1bcbb421d05mr3401223637.4.1718841446346;
+        Wed, 19 Jun 2024 16:57:26 -0700 (PDT)
+Received: from charlie.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855e70ae6sm123620745ad.71.2024.06.19.16.57.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Jun 2024 16:57:25 -0700 (PDT)
+From: Charlie Jenkins <charlie@rivosinc.com>
+Subject: [PATCH v3 00/13] riscv: Add support for xtheadvector
+Date: Wed, 19 Jun 2024 16:57:13 -0700
+Message-Id: <20240619-xtheadvector-v3-0-bff39eb9668e@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYCPR01MB10914:EE_|OS3PR01MB5909:EE_
-X-MS-Office365-Filtering-Correlation-Id: b41565bc-844d-487e-c52e-08dc90bb3d33
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230037|376011|366013|52116011|1800799021|38350700011;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?IZmKS3XlziqAYna2Ih4y4fbaUijRKFQ5h30JcEnNgpQAy9CzaJAv+j8/mOFQ?=
- =?us-ascii?Q?AhNe5563Q5kXDTZ3C9YN7G4wh2cMaN18+InWlHpWzysbXRs+DwE3Nj7hoVNy?=
- =?us-ascii?Q?zCerEtnKM/If1dkgcXxMzGGsAFTO7pcufSO9qltgbrcYvmWAPZpj3h3lPyuB?=
- =?us-ascii?Q?pJPhW0BdFR8/RFoJpl16Qs64+37WMESaebZvf3YkhUGiLEJB+xWLkv1oJhwr?=
- =?us-ascii?Q?vlVf9KnodYKFZ9t4LjHvXlrWgKo4XiVgfh1KN30xkimYBiE1gTLpJEoQH4Ns?=
- =?us-ascii?Q?WYDWTtd93/BEd5jAfI5sdSlmGQ2+9+ATOjI6haMBFUcJJRHRWVtAywDTWSYU?=
- =?us-ascii?Q?WGmEdW5xulklfU9DnKLhPQpZjvdDUYpLJlPPa6fONI9mGZ5tCIJmQ7yv3oj6?=
- =?us-ascii?Q?/Yk9pp/afilxSG8QJ/KCXdN/5fqvTy2lcZjF8hN2RuwnKqIh/yT48/oM3jiK?=
- =?us-ascii?Q?Pab77vGVxUPDnIBboPqpiH7ukOHRrLKr8L2rhNLELPNUBogb2/7s/f+KV3gr?=
- =?us-ascii?Q?BCY94so47BWxQwLIx1EA2OmFELdDKDNwSvrzSxeGFNbMBhJAVlifdw/piU2P?=
- =?us-ascii?Q?VSK+DbfJJtqhTatlGv3mMKl4J88VXVMOD1KBFaF0UmxKNZEhmwSjjFDjzbIG?=
- =?us-ascii?Q?dzpM/8KOyyd/jyW72NhocJPCdlPlOz8GvILD59SB7v76alTtYHBKBv2hpfom?=
- =?us-ascii?Q?PUUA7WiL3DQdx6KsM5moLnzUWGCzFYGgofEleCG5GExlSYm4ivyq+b6jNmTt?=
- =?us-ascii?Q?UDEL2/J71zmVg2WVeFt2HRpACNhXO+X4H7lM1pAT5pp2sWeeCIe+ppLbQzSS?=
- =?us-ascii?Q?x9kizxtvw+NyRXpCHXjT2yW9aRLaQk5EVmEXqBAChsxD+FZr1kKMYanGQv7p?=
- =?us-ascii?Q?6/+Gs8AeUQHejBj/0DqLYMCnaGE+eFiH/29H0J9gjFHl14FMF51irgA5WXnX?=
- =?us-ascii?Q?4KhHRL26mfi/j9TXLdZ2UgkbU3qonLWuST6yukycalcRkbQLfG4ETo1HFD0b?=
- =?us-ascii?Q?gHZjAM08GV5uE6HnxbOP7Q7n/gJ19dITYe+VDXqWpaGmDEyFXHWfKELA46bH?=
- =?us-ascii?Q?LdR7LOokJTRB5hPuOFDwEa+jmpbJpza1u81OJXeJ4HxhqIU2xyducgzARXhs?=
- =?us-ascii?Q?mmwq4O+7Dz4bsSRCmUKkAhg3xYaVOj/IKzFpk4VTkN8UyZTqNjPT9UzJoolH?=
- =?us-ascii?Q?UxIAR9AINk+5PDxCGcm37J2pDcKTbZpDPwgPhRHocU7ggNowxXOnw6OhAgQ0?=
- =?us-ascii?Q?3pbbjLOtqsAc8mzaGlhsZLJ5ZjTvL1+1JWdr3HgCJmvT+lmzMkebWSqjGSjY?=
- =?us-ascii?Q?v1enGtSWgsGxZDuwiCUnHaibCdaGidWyrFPi2INScZ/WXOmX+XEdI3FIdW8k?=
- =?us-ascii?Q?NCLQibY=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB10914.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230037)(376011)(366013)(52116011)(1800799021)(38350700011);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?36AFCmJ+zAvw8ZdHMS73OjQOHXM/v9fchbD9M9FF62RHYUDmeHisbxvxj+Wd?=
- =?us-ascii?Q?RQgfzsppuLFn0rqxAsLqbDEnoo1HXjFPeUaTsTZdokoOKmuAqusNPQeueTOp?=
- =?us-ascii?Q?hjZAeQyBi4ZI/u7p+9HDDk+aHW3qnZZlFfZUqRoRkaGHa6IgoDfJWKFRqkZ2?=
- =?us-ascii?Q?x+Stv/y2QxgkobSA0zhfZEf5SP62td/NpTkFcG6ay23oiKqevuQV/lWMWijM?=
- =?us-ascii?Q?hf+980ClkyBg9h5sACPB9k/GJrIUfp0i+3Yv3qqj41a4ZmlPUWkhvTWE58ui?=
- =?us-ascii?Q?rzKNyXpRrbSXtzVrrunwTYecwX5uuICtxmbGSoZuXPzRks9QgXuiAO6Bz9oK?=
- =?us-ascii?Q?KIJaYhx4HAtnIkfgRp7qrUxtWQ+T1RackPrJhRK6Oz08yF9b32Mqyq6RZXTc?=
- =?us-ascii?Q?o2Mg1F2Obus/iOq13RvJFRhDz14ZqJxYrrSvaGpWfwNNK7ultoZTR+pXSJf4?=
- =?us-ascii?Q?pqBm0mc+95mv5JfVJLe6ZkDXTWG56jPIgE7WNYw7TM+EX0x3UaOG6hOKVzpn?=
- =?us-ascii?Q?fZwYP8/um3cKQJDPIen2hEqpl4RuOu+iDRXaAMMEtQpiPWHKC63Dd63GHv1V?=
- =?us-ascii?Q?7yMpI/8aykzS2lwCcpsZZfOy2jhbJgcOl8wMmWXmWTZmFCCTrGaY9EU7YNIP?=
- =?us-ascii?Q?iSxF+T4+LdnPW17xTaCeLH9KcGRsvRdAT7pl8U0SA0ArY4lxdr2HucmKAhaW?=
- =?us-ascii?Q?09T0r8paHhWVorG+yYCyingzUGZmWPqpJfJaLwz+i3MjRgc6q86RV/Fc6q7i?=
- =?us-ascii?Q?0V2Pk2vACy8GQoLaYU3zsKcZphzbJQ3mUiWssr2+C0v+K3DQBn49pnAb/hwl?=
- =?us-ascii?Q?2ECsF6NMoKe5ybD9eWnQIXVkDbxC2JC80QerBnfONeTjUF43mpT60S2ELsnA?=
- =?us-ascii?Q?HGU4wIsorZEh2EgoXE1mbkQZu1GorK4CfQDZguROYz+GtnDT+z4o0osvrurG?=
- =?us-ascii?Q?gzHGMlwLFGQGB5d+MlnjpyQoV+wNbPFn5Nw9DuhOMICGG2swtXSjRmVEqunc?=
- =?us-ascii?Q?itKZCV2Oh7sg2TM+J1t+gyqPDI9allu2xudAi5LxTI/qkkE9XFZmECd1gdnn?=
- =?us-ascii?Q?sFj5Hk5zVBRmetrIEUrqgurJF7Pp5q6SWaNQAjMiMlhLbrR0QyR9Gszmhkhz?=
- =?us-ascii?Q?hRnjIHynY+PlcSRm+2dzq+Gl5Xoo4kJ/KW5ZIeZpfE/hrEBTPuRAGU9LIOT0?=
- =?us-ascii?Q?snAKaRHrDBY764bG28/4qNWXbfxF6tKE2qFGYGZCPp1oqhlwl+SBsfJBvkD2?=
- =?us-ascii?Q?sUzvuOhQGHz9sQ0keXM2CIJ04kzjn/wHGhwo2np0ahvO0ZTPjD/BFWSwZ4xJ?=
- =?us-ascii?Q?llIgztVJKgWFBqI53E0MTaN5DuWafjyYTd+i1MQZYlThR7NNZ0wCO4iy4PXy?=
- =?us-ascii?Q?nIGTT9UkEVIHo33cbqjfCCGYddDJYNYybZISUXAeFrBsXiDb1AKXhxR7GyYa?=
- =?us-ascii?Q?vBslQsV8p0psxMoqnImABQ9/D1+Z1ERlqFgOQ+T8ZGMkpcuorusEruPvNpdC?=
- =?us-ascii?Q?SQSppSORigTjWsbf80XcPCw6qsa9gc137bl9dRJ7/Sdk6Eqm8oOq0ImUhu8I?=
- =?us-ascii?Q?eLxs70Fhe1aSoa8YFBe3lu9ckFCAk8ley0b5jIDgiKmCsfPXKTb2rd9cjAq5?=
- =?us-ascii?Q?TYeHe4gbpPAZlX2C5//fzvc=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b41565bc-844d-487e-c52e-08dc90bb3d33
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10914.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2024 23:55:04.1467
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EqAjbFVmcAg6wfyoBXelqdNUVlgnqIhZopy1j6kX8GKkoT+ZI7Br6h8E9LPXE6XaylRubUNzKxJZAuOH5sT1xzAKqePfmPMI7okD01zlgqmoon1RBY1MkdZtTuiooACC
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB5909
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFlwc2YC/12OzQ7CIBAGX8VwFgMs/cGT72E8IGztHiwGGlLT9
+ N2l9aI9zpedyc4sYSRM7HyYWcRMicJQAI4H5no7PJCTL8yUUFpUIPg09mh9RjeGyFsAD142d62
+ AFeUVsaNpy11vhXtK5ey91bNc12+oFuY/lCUXHDqsjPRNJ4W5RMoh0eBOLjzZ2srqx5e7R7Iqv
+ mmsbmsJ1td65y/L8gFE8XcF6wAAAA==
+To: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <shuah@kernel.org>, Guo Ren <guoren@kernel.org>, 
+ Evan Green <evan@rivosinc.com>, Andy Chiu <andy.chiu@sifive.com>, 
+ Jessica Clarke <jrtc27@jrtc27.com>
+Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ Charlie Jenkins <charlie@rivosinc.com>, 
+ Conor Dooley <conor.dooley@microchip.com>, Heiko Stuebner <heiko@sntech.de>, 
+ Heiko Stuebner <heiko@sntech.de>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1718841444; l=6325;
+ i=charlie@rivosinc.com; s=20231120; h=from:subject:message-id;
+ bh=SQ74wkUYiydiV4kKCgWwaFdmfmpGnTrvzoti3qC9ofs=;
+ b=KgHCREa5GKguJPmSCNpSuG7+xp+IBGDhrMjH0sTJkp2zmQxlPYGDADJvJkEkfs7A1i5IVDj3W
+ g3b93uhuYWWD7oMxWTko3IuKLdNMeTsCokouiED8IGOXGzhG3ggMuPZ
+X-Developer-Key: i=charlie@rivosinc.com; a=ed25519;
+ pk=t4RSWpMV1q5lf/NWIeR9z58bcje60/dbtxxmoSfBEcs=
 
+xtheadvector is a custom extension that is based upon riscv vector
+version 0.7.1 [1]. All of the vector routines have been modified to
+support this alternative vector version based upon whether xtheadvector
+was determined to be supported at boot.
 
-Hi Mark
+vlenb is not supported on the existing xtheadvector hardware, so a
+devicetree property thead,vlenb is added to provide the vlenb to Linux.
 
-> > > This doesn't apply against current code, please check and resend (it's
-> > > simple-card and audio-graph-card2 that conflict).
-> 
-> > Ah, I guess you used "v5 original" patch-set.
-> > "v5 resend" patch-set or today's "v6" patch-set should be OK.
-> 
-> Oh, if you mark something as a resend then it sounds like it should be
-> exactly the same as it was before, if you've rebased you should increase
-> the version number.
+There is a new hwprobe key RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0 that is
+used to request which thead vendor extensions are supported on the
+current platform. This allows future vendors to allocate hwprobe keys
+for their vendor.
 
-Thanks, I learned it this time. Will do since next time.
-And now I could understand the reason that sometime maintainer get strange
-conflict which I don't have :)
+Support for xtheadvector is also added to the vector kselftests.
 
+Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
 
-Thank you for your help !!
-Best regards
+[1] https://github.com/T-head-Semi/thead-extension-spec/blob/95358cb2cca9489361c61d335e03d3134b14133f/xtheadvector.adoc
+
 ---
-Kuninori Morimoto
+This series is a continuation of a different series that was fragmented
+into two other series in an attempt to get part of it merged in the 6.10
+merge window. The split-off series did not get merged due to a NAK on
+the series that added the generic riscv,vlenb devicetree entry. This
+series has converted riscv,vlenb to thead,vlenb to remedy this issue.
+
+The original series is titled "riscv: Support vendor extensions and
+xtheadvector" [3].
+
+The series titled "riscv: Extend cpufeature.c to detect vendor
+extensions" is still under development and this series is based on that
+series! [4]
+
+I have tested this with an Allwinner Nezha board. I ran into issues
+booting the board after 6.9-rc1 so I applied these patches to 6.8. There
+are a couple of minor merge conflicts that do arrise when doing that, so
+please let me know if you have been able to boot this board with a 6.9
+kernel. I used SkiffOS [1] to manage building the image, but upgraded
+the U-Boot version to Samuel Holland's more up-to-date version [2] and
+changed out the device tree used by U-Boot with the device trees that
+are present in upstream linux and this series. Thank you Samuel for all
+of the work you did to make this task possible.
+
+[1] https://github.com/skiffos/SkiffOS/tree/master/configs/allwinner/nezha
+[2] https://github.com/smaeul/u-boot/commit/2e89b706f5c956a70c989cd31665f1429e9a0b48
+[3] https://lore.kernel.org/all/20240503-dev-charlie-support_thead_vector_6_9-v6-0-cb7624e65d82@rivosinc.com/
+[4] https://lore.kernel.org/linux-riscv/20240609-support_vendor_extensions-v2-0-9a43f1fdcbb9@rivosinc.com/
+
+---
+Changes in v3:
+- Add back Heiko's signed-off-by (Conor)
+- Mark RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0 as a bitmask
+- Link to v2: https://lore.kernel.org/r/20240610-xtheadvector-v2-0-97a48613ad64@rivosinc.com
+
+Changes in v2:
+- Removed extraneous references to "riscv,vlenb" (Jess)
+- Moved declaration of "thead,vlenb" into cpus.yaml and added
+  restriction that it's only applicable to thead cores (Conor)
+- Check CONFIG_RISCV_ISA_XTHEADVECTOR instead of CONFIG_RISCV_ISA_V for
+  thead,vlenb (Jess)
+- Fix naming of hwprobe variables (Evan)
+- Link to v1: https://lore.kernel.org/r/20240609-xtheadvector-v1-0-3fe591d7f109@rivosinc.com
+
+---
+Charlie Jenkins (12):
+      dt-bindings: riscv: Add xtheadvector ISA extension description
+      dt-bindings: cpus: add a thead vlen register length property
+      riscv: dts: allwinner: Add xtheadvector to the D1/D1s devicetree
+      riscv: Add thead and xtheadvector as a vendor extension
+      riscv: vector: Use vlenb from DT for thead
+      riscv: csr: Add CSR encodings for VCSR_VXRM/VCSR_VXSAT
+      riscv: Add xtheadvector instruction definitions
+      riscv: vector: Support xtheadvector save/restore
+      riscv: hwprobe: Add thead vendor extension probing
+      riscv: hwprobe: Document thead vendor extensions and xtheadvector extension
+      selftests: riscv: Fix vector tests
+      selftests: riscv: Support xtheadvector in vector tests
+
+Heiko Stuebner (1):
+      RISC-V: define the elements of the VCSR vector CSR
+
+ Documentation/arch/riscv/hwprobe.rst               |  10 +
+ Documentation/devicetree/bindings/riscv/cpus.yaml  |  19 ++
+ .../devicetree/bindings/riscv/extensions.yaml      |  10 +
+ arch/riscv/Kconfig.vendor                          |  26 ++
+ arch/riscv/boot/dts/allwinner/sun20i-d1s.dtsi      |   3 +-
+ arch/riscv/include/asm/cpufeature.h                |   2 +
+ arch/riscv/include/asm/csr.h                       |  13 +
+ arch/riscv/include/asm/hwprobe.h                   |   5 +-
+ arch/riscv/include/asm/switch_to.h                 |   2 +-
+ arch/riscv/include/asm/vector.h                    | 249 +++++++++++++----
+ arch/riscv/include/asm/vendor_extensions/thead.h   |  42 +++
+ .../include/asm/vendor_extensions/thead_hwprobe.h  |  18 ++
+ .../include/asm/vendor_extensions/vendor_hwprobe.h |  37 +++
+ arch/riscv/include/uapi/asm/hwprobe.h              |   3 +-
+ arch/riscv/include/uapi/asm/vendor/thead.h         |   3 +
+ arch/riscv/kernel/cpufeature.c                     |  51 +++-
+ arch/riscv/kernel/kernel_mode_vector.c             |   8 +-
+ arch/riscv/kernel/process.c                        |   4 +-
+ arch/riscv/kernel/signal.c                         |   6 +-
+ arch/riscv/kernel/sys_hwprobe.c                    |   5 +
+ arch/riscv/kernel/vector.c                         |  25 +-
+ arch/riscv/kernel/vendor_extensions.c              |  10 +
+ arch/riscv/kernel/vendor_extensions/Makefile       |   2 +
+ arch/riscv/kernel/vendor_extensions/thead.c        |  18 ++
+ .../riscv/kernel/vendor_extensions/thead_hwprobe.c |  19 ++
+ tools/testing/selftests/riscv/vector/.gitignore    |   3 +-
+ tools/testing/selftests/riscv/vector/Makefile      |  17 +-
+ .../selftests/riscv/vector/v_exec_initval_nolibc.c |  93 +++++++
+ tools/testing/selftests/riscv/vector/v_helpers.c   |  67 +++++
+ tools/testing/selftests/riscv/vector/v_helpers.h   |   7 +
+ tools/testing/selftests/riscv/vector/v_initval.c   |  22 ++
+ .../selftests/riscv/vector/v_initval_nolibc.c      |  68 -----
+ .../selftests/riscv/vector/vstate_exec_nolibc.c    |  20 +-
+ .../testing/selftests/riscv/vector/vstate_prctl.c  | 295 ++++++++++++---------
+ 34 files changed, 911 insertions(+), 271 deletions(-)
+---
+base-commit: 11cc01d4d2af304b7288251aad7e03315db8dffc
+change-id: 20240530-xtheadvector-833d3d17b423
+-- 
+- Charlie
+
