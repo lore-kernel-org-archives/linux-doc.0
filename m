@@ -1,110 +1,165 @@
-Received: from aposti.net (aposti.net [89.234.176.197])
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76987763FD;
-	Wed, 19 Jun 2024 11:30:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.234.176.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCDB013D532
+	for <linux-doc@vger.kernel.org>; Wed, 19 Jun 2024 11:35:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718796633; cv=none; b=Whp66OlmBL1KsoKhe86CVRwGmOE1/Yy8pxC3u9c1w+dHCJrh0z+r0muYvjecGPMCbYfq/aqomJw+loB2WyBnCvtZf1p4qhJosecS/P0nlvnbNS0Rqhrdgmu7Tvu5qDhndrbNBdjkJf9ZeLtjTOC+NIXM7hR9yPNqAHRFxecE6Dw=
+	t=1718796939; cv=none; b=jry28ZhK2wRE1mo0lHu0R5oXdiQjheOUkCD5v5ZhGCz9Pv5UBkuEVSiSE5fauJroEjNehMG5EdQ1ajY7i3ZxeuQu+GSf//1IyhYmMZurrPtaQ+XdHrMcbXZYxd3gAJ3lmM8y1zrvtsASM5Dx95kv+iD9CjigrjfnZ8woZwIwTU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718796633; c=relaxed/simple;
-	bh=Yyxl889DHkRMW58vYSwPNQbN8gbiIvWycmZudebEJWY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=IDV2ZJAdcXL2Euw+ZIYiMW/6VeXYix5/TSnep65HpsgojR7rwDC1Rk0vo86tRfGfbldeXpMmi2Hcs0n57AJt4ezOSmEdyjgX6eHRcIUr+W4uzbo7SHe9kk+tpzbjXoH3P25E7ATodVu0W6ghGmysNEQ5dHze3/TJXkv3EMV8WvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net; spf=pass smtp.mailfrom=crapouillou.net; dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b=BAebpz7I; arc=none smtp.client-ip=89.234.176.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=crapouillou.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crapouillou.net
+	s=arc-20240116; t=1718796939; c=relaxed/simple;
+	bh=ogJzMFOU2z8MIyBsPO4WNFI+wnMHGOiUEXtKmmzBSjY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=SVR8L9DXU1mEewfyq8ZGb3gvyWyiFnvNoirYL3Rt9CC+JmAWNN0BTSQ5r1WzssCrLBcerhpIQ2MoLTuTUHDKOAfLJ3NLd8WhF6cEAWgm5IhdSaX03h08XLcNuYS2tuuqvAiNVweLy/mSrm7LH1PUF8yItlbznbcUGxD/1Lk6UbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=lSbd6Ypf; arc=none smtp.client-ip=209.85.208.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="BAebpz7I"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-	s=mail; t=1718796629;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Yyxl889DHkRMW58vYSwPNQbN8gbiIvWycmZudebEJWY=;
-	b=BAebpz7IWphQzRh5q88qdbEOCnohwwD99HUuv6uLmCuPIcVCtRh7d7KKEOGYXbOF+yA0zg
-	fkvTnyzraP9wFmsCl/N4rlkKn5iX2/kz1KYd29knS3JTELw0E+FEe1HVIYKrcawcZNBBOz
-	E/oe8zwf+Hu5i0TxdXG7lnB6il26ZSc=
-Message-ID: <e948cd137da8e4f97bfbf7ef68a5450476aeee0c.camel@crapouillou.net>
-Subject: Re: [v11 3/7] iio: core: Add new DMABUF interface infrastructure
-From: Paul Cercueil <paul@crapouillou.net>
-To: Markus Elfring <Markus.Elfring@web.de>, lkp@intel.com, Nuno
- =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>, linux-iio@vger.kernel.org,
- dmaengine@vger.kernel.org,  linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org,  linaro-mm-sig@lists.linaro.org, Christian
- =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Jonathan Cameron
- <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Sumit Semwal
- <sumit.semwal@linaro.org>, Vinod Koul <vkoul@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>, 
-	linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Randy Dunlap
-	 <rdunlap@infradead.org>
-Date: Wed, 19 Jun 2024 13:30:27 +0200
-In-Reply-To: <cbcfb64a-e5c2-41a7-8847-227d4f6872de@web.de>
-References: <202406191014.9JAzwRV6-lkp@intel.com>
-	 <a4dd1d73-5af3-4d3d-8c0f-92dc439fa119@web.de>
-	 <d452ecc4fc703a1f98aa4f243c6ded7fbfe54b0e.camel@crapouillou.net>
-	 <cbcfb64a-e5c2-41a7-8847-227d4f6872de@web.de>
-Autocrypt: addr=paul@crapouillou.net; prefer-encrypt=mutual;
- keydata=mQENBF0KhcEBCADkfmrzdTOp/gFOMQX0QwKE2WgeCJiHPWkpEuPH81/HB2dpjPZNW03ZM
- LQfECbbaEkdbN4YnPfXgcc1uBe5mwOAPV1MBlaZcEt4M67iYQwSNrP7maPS3IaQJ18ES8JJ5Uf5Uz
- FZaUawgH+oipYGW+v31cX6L3k+dGsPRM0Pyo0sQt52fsopNPZ9iag0iY7dGNuKenaEqkYNjwEgTtN
- z8dt6s3hMpHIKZFL3OhAGi88wF/21isv0zkF4J0wlf9gYUTEEY3Eulx80PTVqGIcHZzfavlWIdzhe
- +rxHTDGVwseR2Y1WjgFGQ2F+vXetAB8NEeygXee+i9nY5qt9c07m8mzjABEBAAG0JFBhdWwgQ2VyY
- 3VlaWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PokBTgQTAQoAOBYhBNdHYd8OeCBwpMuVxnPua9InSr
- 1BBQJdCoXBAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHPua9InSr1BgvIH/0kLyrI3V0f
- 33a6D3BJwc1grbygPVYGuC5l5eMnAI+rDmLR19E2yvibRpgUc87NmPEQPpbbtAZt8On/2WZoE5OIP
- dlId/AHNpdgAtGXo0ZX4LGeVPjxjdkbrKVHxbcdcnY+zzaFglpbVSvp76pxqgVg8PgxkAAeeJV+ET
- 4t0823Gz2HzCL/6JZhvKAEtHVulOWoBh368SYdolp1TSfORWmHzvQiCCCA+j0cMkYVGzIQzEQhX7U
- rf9N/nhU5/SGLFEi9DcBfXoGzhyQyLXflhJtKm3XGB1K/pPulbKaPcKAl6rIDWPuFpHkSbmZ9r4KF
- lBwgAhlGy6nqP7O3u7q23hRW5AQ0EXQqFwQEIAMo+MgvYHsyjX3Ja4Oolg1Txzm8woj30ch2nACFC
- qaO0R/1kLj2VVeLrDyQUOlXx9PD6IQI4M8wy8m0sR4wV2p/g/paw7k65cjzYYLh+FdLNyO7IWYXnd
- JO+wDPi3aK/YKUYepqlP+QsmaHNYNdXEQDRKqNfJg8t0f5rfzp9ryxd1tCnbV+tG8VHQWiZXNqN70
- 62DygSNXFUfQ0vZ3J2D4oAcIAEXTymRQ2+hr3Hf7I61KMHWeSkCvCG2decTYsHlw5Erix/jYWqVOt
- X0roOOLqWkqpQQJWtU+biWrAksmFmCp5fXIg1Nlg39v21xCXBGxJkxyTYuhdWyu1yDQ+LSIUAEQEA
- AYkBNgQYAQoAIBYhBNdHYd8OeCBwpMuVxnPua9InSr1BBQJdCoXBAhsMAAoJEHPua9InSr1B4wsH/
- Az767YCT0FSsMNt1jkkdLCBi7nY0GTW+PLP1a4zvVqFMo/vD6uz1ZflVTUAEvcTi3VHYZrlgjcxmc
- Gu239oruqUS8Qy/xgZBp9KF0NTWQSl1iBfVbIU5VV1vHS6r77W5x0qXgfvAUWOH4gmN3MnF01SH2z
- McLiaUGF+mcwl15rHbjnT3Nu2399aSE6cep86igfCAyFUOXjYEGlJy+c6UyT+DUylpjQg0nl8MlZ/
- 7Whg2fAU9+FALIbQYQzGlT4c71SibR9T741jnegHhlmV4WXXUD6roFt54t0MSAFSVxzG8mLcSjR2c
- LUJ3NIPXixYUSEn3tQhfZj07xIIjWxAYZo=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="lSbd6Ypf"
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2ec18643661so5915391fa.0
+        for <linux-doc@vger.kernel.org>; Wed, 19 Jun 2024 04:35:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1718796935; x=1719401735; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=R68cnnEZYSz82BBlgeePthLtn1GpI/DDwCMXiGYDPIE=;
+        b=lSbd6YpfkSDjIg2OsoeY0h4+xpO9ZjXOZvYt5my574rNML/8ISWsCAHkL4YFBmYLGT
+         4fj4QXtLV16fWxdRHFJZFaPb4zjBXzLXv5H4HTH9qqVbpbQZhueWfE34C9KT0iUa8ZIN
+         reF3MPFMzkThJ7D5iJfXyx/Tf1ZHjd9Us8novL3vFTiFbOV/Th7X3urCh+SySLRjH5L6
+         HTAtHQWVVJoZ15OMqVswNBC9+EMAyzcDOxtVkPxRYzIbw73ANpDmJWV3N497AHjQ2Yc9
+         tMTh8YuWhHylHgw9qVn8GYopn5JrSA4ifTvb7yMfF6rFvr5d8sjp+x5r4NUZ+SXmD9wF
+         Fpng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718796935; x=1719401735;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=R68cnnEZYSz82BBlgeePthLtn1GpI/DDwCMXiGYDPIE=;
+        b=sQ2dvS9S/BoeuaQ8f+6HfLmNjxOC2ROZwCkQwVQOOVrgrW2wWweWNYxOxv6uzCpSOz
+         uozRluPwpNYWo3A6PmuQRAKMPcBVztnUBstvngaTcYoVCOwxqeNiUmWZFzqfF0TOyvyO
+         HNXuedig4SxpRD7P6hQToLa9C0mRU6bDJ16GQQvmbDTt4bq9oY66tlgIz1A5wzQqimA8
+         dONw/GStzfh19ttjbJ2qMkzYGZr3Ak6zp2asJsY9tiRkwdOcwE8kp1z5N5fflU1lqxKh
+         gKWvRNceZr9q3ZM9pZw/1WZMpgeThYvO+Tr2Vq7IHmiZuVI8O/uVs04AhbFoiLs2xfwK
+         b2PQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXOn2mkBVjYhUccYrGi6Hez+zo+ZrBqe3l96+LYqlQ6CS2KZIqixWKOl0FhzHPmOjZ+F/F+61TK+TO2JFFoGksFZehL9sgCQmx5
+X-Gm-Message-State: AOJu0YwiSxb83x0+mTkG6g/zbtV/5H3NulM/oPKFEomKKudgBUIUpsRC
+	/GbXFE7HTF/QeuFgppcRh/3Cx74XtPjmKyT5K1Tu/gZjIgrRAzhp5kYB+ndUNLI=
+X-Google-Smtp-Source: AGHT+IFsCC87W4xVADXKP6E1LRVpjwgMonVuzzedwVb0Jp+JNzVJhthcLxSn+Xc6UH4SRMqEmwjj+g==
+X-Received: by 2002:a2e:a548:0:b0:2ec:3e14:fa1c with SMTP id 38308e7fff4ca-2ec3e14faf7mr12339341fa.5.1718796934705;
+        Wed, 19 Jun 2024 04:35:34 -0700 (PDT)
+Received: from carbon-x1.. ([2a01:e0a:999:a3a0:e67b:7ea9:5658:701a])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422870e9681sm266192075e9.28.2024.06.19.04.35.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Jun 2024 04:35:34 -0700 (PDT)
+From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Anup Patel <anup@brainfault.org>,
+	Shuah Khan <shuah@kernel.org>
+Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
+	Atish Patra <atishp@atishpatra.org>,
+	linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	kvm@vger.kernel.org,
+	kvm-riscv@lists.infradead.org,
+	linux-kselftest@vger.kernel.org
+Subject: [PATCH v7 00/16] Add support for a few Zc* extensions, Zcmop and Zimop
+Date: Wed, 19 Jun 2024 13:35:10 +0200
+Message-ID: <20240619113529.676940-1-cleger@rivosinc.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Le mercredi 19 juin 2024 =C3=A0 13:13 +0200, Markus Elfring a =C3=A9crit=C2=
-=A0:
-> > > Would you dare to transform the remaining goto chain into further
-> > > applications
-> > > of scope-based resource management?
-> >=20
-> > We discussed this after v6 or v7, DRM/DMABUF maintainers were not
-> > keen
-> > on doing that *just yet*.
->=20
-> * Would you like to add any links for corresponding development
-> discussions?
+Add support for (yet again) more RVA23U64 missing extensions. Add
+support for Zimop, Zcmop, Zca, Zcf, Zcd and Zcb extensions ISA string
+parsing, hwprobe and kvm support. Zce, Zcmt and Zcmp extensions have
+been left out since they target microcontrollers/embedded CPUs and are
+not needed by RVA23U64.
 
-https://lore.kernel.org/linux-iio/219abc43b4fdd4a13b307ed2efaa0e6869e68e3f.=
-camel@gmail.com/T/#eefd360069c4261aec9621fafde30924706571c94
+Since Zc* extensions states that C implies Zca, Zcf (if F and RV32), Zcd
+(if D), this series modifies the way ISA string is parsed and now does
+it in two phases. First one parses the string and the second one
+validates it for the final ISA description.
 
-(and responses below)
+Link: https://lore.kernel.org/linux-riscv/20240404103254.1752834-1-cleger@rivosinc.com/ [1]
+Link: https://lore.kernel.org/all/20240409143839.558784-1-cleger@rivosinc.com/ [2]
 
-It's more nuanced than I remembered. Christian was OK to add cleanup.h
-support to the DMABUF code as long as the examples were updated as
-well, but those aren't good candidates as they don't free up the
-resources in all code paths.
+---
 
->=20
-> * Will the desire grow for further collateral evolution according to
-> =C2=A0 affected software components?
+v7:
+ - Rebased on riscv/for-next to fix conflicts
 
-Not sure what you mean by that.
+v6:
+ - Rebased on riscv/for-next
+ - Remove ternary operator to use 'if()' instead in extension checks
+ - v5: https://lore.kernel.org/all/20240517145302.971019-1-cleger@rivosinc.com/
 
-Cheers,
--Paul
+v5:
+ - Merged in Zimop to avoid any uneeded series dependencies
+ - Rework dependency resolution loop to loop on source isa first rather
+   than on all extension.
+ - Disabled extensions in source isa once set in resolved isa
+ - Rename riscv_resolve_isa() parameters
+ - v4: https://lore.kernel.org/all/20240429150553.625165-1-cleger@rivosinc.com/
+
+v4:
+ - Modify validate() callbacks to return 0, -EPROBEDEFER or another
+   error.
+ - v3: https://lore.kernel.org/all/20240423124326.2532796-1-cleger@rivosinc.com/
+
+v3:
+ - Fix typo "exists" -> "exist"
+ - Remove C implies Zca, Zcd, Zcf, dt-bindings rules
+ - Rework ISA string resolver to handle dependencies
+ - v2: https://lore.kernel.org/all/20240418124300.1387978-1-cleger@rivosinc.com/
+
+v2:
+ - Add Zc* dependencies validation in dt-bindings
+ - v1: https://lore.kernel.org/lkml/20240410091106.749233-1-cleger@rivosinc.com/
+
+Clément Léger (16):
+  dt-bindings: riscv: add Zimop ISA extension description
+  riscv: add ISA extension parsing for Zimop
+  riscv: hwprobe: export Zimop ISA extension
+  RISC-V: KVM: Allow Zimop extension for Guest/VM
+  KVM: riscv: selftests: Add Zimop extension to get-reg-list test
+  dt-bindings: riscv: add Zca, Zcf, Zcd and Zcb ISA extension
+    description
+  riscv: add ISA extensions validation callback
+  riscv: add ISA parsing for Zca, Zcf, Zcd and Zcb
+  riscv: hwprobe: export Zca, Zcf, Zcd and Zcb ISA extensions
+  RISC-V: KVM: Allow Zca, Zcf, Zcd and Zcb extensions for Guest/VM
+  KVM: riscv: selftests: Add some Zc* extensions to get-reg-list test
+  dt-bindings: riscv: add Zcmop ISA extension description
+  riscv: add ISA extension parsing for Zcmop
+  riscv: hwprobe: export Zcmop ISA extension
+  RISC-V: KVM: Allow Zcmop extension for Guest/VM
+  KVM: riscv: selftests: Add Zcmop extension to get-reg-list test
+
+ Documentation/arch/riscv/hwprobe.rst          |  28 ++
+ .../devicetree/bindings/riscv/extensions.yaml |  95 ++++++
+ arch/riscv/include/asm/cpufeature.h           |   1 +
+ arch/riscv/include/asm/hwcap.h                |   6 +
+ arch/riscv/include/uapi/asm/hwprobe.h         |   6 +
+ arch/riscv/include/uapi/asm/kvm.h             |   6 +
+ arch/riscv/kernel/cpufeature.c                | 277 ++++++++++++------
+ arch/riscv/kernel/sys_hwprobe.c               |   6 +
+ arch/riscv/kvm/vcpu_onereg.c                  |  12 +
+ .../selftests/kvm/riscv/get-reg-list.c        |  24 ++
+ 10 files changed, 375 insertions(+), 86 deletions(-)
+
+-- 
+2.45.2
+
