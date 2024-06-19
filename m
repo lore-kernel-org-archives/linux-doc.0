@@ -1,69 +1,48 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from lichtman.org (lichtman.org [149.28.33.109])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016CE7E58C;
-	Wed, 19 Jun 2024 21:33:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129CD55884;
+	Wed, 19 Jun 2024 21:41:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.33.109
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718832837; cv=none; b=gGLV1uAz5DcOZp0pLB/quD1Oseq1e8PvAqIedORWFyaWT25Au8dNSkUzi0aIlCqQnhHE3IEwWzCDyNQiWqZ/fiIhCjNwY392eC6UW98akMIluTnkc+vk703P+tDdLmipfj30kkrK74hl24jt5UG4nka/WkIWePT+VOYAVYAqGNM=
+	t=1718833298; cv=none; b=WQwElWzly/J/61Fc3IBzDwgjwUVF27dHQFe5JEPX/7E8HGPvEwgdbEYwWcOJQYGRZB79rLO4ndwH6saTfIZa+KipsFKhMs4Z0/tIinAC4m4OBOPwHX84XH8r2L2Uoke3YurnGBK+1sIhKLMz/HWOYu3QbJMvS0yDxH/b2a3psro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718832837; c=relaxed/simple;
-	bh=ZFETDwDmv6LvvLfjCkKzNorKWaz/5zHLwn3nwmYMaGs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=GR7JOGIga0y+4fQ9LVlBAkxvwv0pdjoEaqYHH7afCtuaZ/imkKg4wddOGVFqNNn3d6JM9Ex3+/5J35k/YIBJwa2Z4Bj1HGoM0QDgTdLE/dJNTWkzDfikFW7AIW4ZxjoNsn1UjlT4zH3yzl+R78F+p7/LAxNzXeyMbmNbcao8o/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=3u38TBi5; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1718833298; c=relaxed/simple;
+	bh=eVtt0YdjLg0IGVqWIKIohR6GBsnh6CM5kt432fy1FxY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bBRZqYwS2X/3ZIeiWoRr1xrb2qsIEboUtcvPGuLMI3S3EjkRoUyYAL30L5X/TYhcnM59AHu/b8st49uvJmxtI0UIkRMJ7zViVcVwJLKcGCKZVzrAD/2qi3yiCrOXm0TREt3a3N8ybfNfaeS4lcz7wHHtgQQB1FxGi5ApCkArG8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lichtman.org; spf=pass smtp.mailfrom=lichtman.org; dkim=pass (2048-bit key) header.d=lichtman.org header.i=@lichtman.org header.b=vZD4wRtj; arc=none smtp.client-ip=149.28.33.109
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lichtman.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lichtman.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="3u38TBi5"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-	bh=yKwLG1tKrqHjcwlau90E4nwOFiF9kAg1uiumFhC1VnM=; b=3u38TBi5+aHvgvG4RRhluQAFXl
-	ZUGNoAxgIvVFISze1OFQf3HPtG8ga9tiCZfBwoQ+vrd5FD9lFq+QL+hwGKFCM7Tq5F+eH4vNpNRJV
-	N10EKvdRqeFKmHoDp6U8o0yCuIQeRMlkH9r61Hjtco26xfTu/aD0l4FbSDlzjB6WORh6sz/BNZTeO
-	Xdt6RJidibpnU+2DvPmFuErK3BWh47NqAXCnJ0BjK8zhEVGJJwshjlw24I74RBuhONub2rszdW5nK
-	oM8QVovIH3xpptnwS6644JsEVIf4e1j3huI25liizyTkMzEuMgAZfyNY6FAMtzWMzAFAvFq7wVOjJ
-	VEs1t5aQ==;
-Received: from [50.53.4.147] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sK2wF-00000002mnp-29IT;
-	Wed, 19 Jun 2024 21:33:55 +0000
-Message-ID: <b6dd319f-4de7-42e8-a06e-a54633590b29@infradead.org>
-Date: Wed, 19 Jun 2024 14:33:53 -0700
+	dkim=pass (2048-bit key) header.d=lichtman.org header.i=@lichtman.org header.b="vZD4wRtj"
+Received: by lichtman.org (Postfix, from userid 1000)
+	id 193861770B1; Wed, 19 Jun 2024 21:41:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=lichtman.org; s=mail;
+	t=1718833296; bh=eVtt0YdjLg0IGVqWIKIohR6GBsnh6CM5kt432fy1FxY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vZD4wRtjKYaBcHF/I7yEXDZdTMa756AYjyOCdHD/T3LHtHvhkEDTX26o8xYQUdlYl
+	 0s672KUu4ErW4Iavnw0zM0PpGyRvRTtdtYYlL5K1NDCdP94MczIzVkZpOF1VHaokfl
+	 vBsBKuaT5LlalGjsZFUCBxqp2QflO98l9VQYC5ZHvZM3cjxu9RlK035owWZo3cPiL2
+	 Civxx0lOdD2b2TiEqvLUItAeNZarMxb/sPES4cY5+MsenU+9OMb54T74jc9M02ykHm
+	 NTrvXxD5v84h1xBsSG9fcBR3WwBIMOg9KWbySV575C51Culu746o8zPof7nHdIJ5Sk
+	 tu3Em/vHuquxA==
+Date: Wed, 19 Jun 2024 21:41:36 +0000
+From: Nir Lichtman <nir@lichtman.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] English fixes in vmalloced kernel stacks documentation
+Message-ID: <20240619214136.GA3571068@lichtman.org>
+References: <20240619210707.GA3570474@lichtman.org>
+ <b6dd319f-4de7-42e8-a06e-a54633590b29@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] English fixes in vmalloced kernel stacks documentation
-To: Nir Lichtman <nir@lichtman.org>, corbet@lwn.net,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240619210707.GA3570474@lichtman.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20240619210707.GA3570474@lichtman.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b6dd319f-4de7-42e8-a06e-a54633590b29@infradead.org>
 
-Hi,
-
-On 6/19/24 2:07 PM, Nir Lichtman wrote:
-> @@ -104,7 +104,7 @@ with PAGE_KERNEL protections.
->  
->  Thread stack allocation is initiated from clone(), fork(), vfork(),
->  kernel_thread() via kernel_clone(). Leaving a few hints for searching
-> -the code base to understand when and how thread stack is allocated.
-> +the code base to understand when and how a thread stack is allocated.
-
-That last part is still not a sentence AFAICT. How about something like:
-
->  Thread stack allocation is initiated from clone(), fork(), vfork(),
->  kernel_thread() via kernel_clone(). These are a few hints for searching
->  the code base to understand when and how a thread stack is allocated.
-
--- 
-~Randy
+Thanks! I will include this fix as well in a new patch I will make considering Jonathan's comments as well
