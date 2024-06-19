@@ -1,137 +1,97 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.17.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BEC9155747
-	for <linux-doc@vger.kernel.org>; Wed, 19 Jun 2024 11:36:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2A88173C;
+	Wed, 19 Jun 2024 11:44:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718796962; cv=none; b=pBu7KXrM/+BUA5HIERRUGdSZqgtBDCegAGvpeabTNQWLpecpinwACQbLGCf+0PRD+08F7OSjJK9cyUZjGljXzq4015k8kTpLJCwKhbPxvJTDnQG7NqquiJql8oP6dYgTZtQGBFBhuT8VFqyrhvqLPSfL/VXsAg+hpBJqTdmWjXU=
+	t=1718797456; cv=none; b=TnxmUOatbXsZcWchSF/k/gDHiidPkZlbway1SHS5lyCTr6a42x+NX573mg2sMHu6QDXZNjMu000zMzW30fZe7Ac98/L19Xw5o/T8YpzvXX5vzh6zv7qTm6ez7TBE0aPlXYQOEm5O5ZFoJWq2CmNULq1znG2UX4VY0dryn5tY+IQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718796962; c=relaxed/simple;
-	bh=X4qBKgV4JJYgoyWLE1WwBRgEHa7E96dNUupuHsGIhok=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CC1Tuc8JNitbIeIv7iSEVCk8qntc1WLVKo5QZqyZ/Qdk4YJOlZncqD95SmEpo8BoprS6Z4WaMlGcmdhubhNw1jvv7cyzT8VGL3sLN6iDKugnuJ6K8wY4AkOHI298KDii/m+HaykkNR/nTF/krEN2GYqTub+rSfJyi2LYSK3rq2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=EUjD1yC5; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1718797456; c=relaxed/simple;
+	bh=1w3e2oYWGIqXsEaywy5K0UM/APtQXpvyD45et56SETc=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=hTAxgWXJj2XzsfEC/SZSMFX1TtcehkCLpjoltu9tKc7unvv7HF0omGnlzFwG7ovzHGQ49NpLVfilTGqQiG6sW1I3+GvEtzcqp8YrV3MHrKvX6AfeydP/meiQmqPv3eqAFtMR7YQ6wgNQUM5ru3A1fByWsLedKVNKxd3sXkum9iY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=pO8J+jiC; arc=none smtp.client-ip=212.227.17.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="EUjD1yC5"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-52c9e2d13d4so595563e87.0
-        for <linux-doc@vger.kernel.org>; Wed, 19 Jun 2024 04:36:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1718796959; x=1719401759; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TPgjZRcqRRqmI3UFgS+Cn+Zr3OcI7PEtvkIvlPP0qT0=;
-        b=EUjD1yC5qNCrn3Muaiif1DjGmCkVQmRI5g9Gf50hxBi2z1mp50kR1ZD0GeWKPjuckV
-         2dkMJroFxRajztiG7ljqzZGLmM1BkVbnBuHuiZ8RJow+TbyreGjEXiJ8CXyDPYhTQfxN
-         fhqj+OND0javAV2cftdLhleFt1dZ66roXJFkhDQ0/9Er1E/1FmE24GCOs7iOaO7YL9fu
-         iJLH3k6xbpUDVFBYPvqTYvh8zRZrPc+niIo6RVm0N+JVLTEQ8kUvgGxlD/S/xZTNL2tb
-         C2tG8YlMv0CsO4n7lFePrluCULPnLirvOXyW7vfnNcbEf9uDVJHTX7ZpmFj2mec/ljyo
-         70Sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718796959; x=1719401759;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TPgjZRcqRRqmI3UFgS+Cn+Zr3OcI7PEtvkIvlPP0qT0=;
-        b=vq0Ec8GznWE8OnMgRCg2yZsImisXj688E2SaEDzurzvE5Lb/5fmgoYCAqAR8J3XrDe
-         0PmUKoNjD5KB/KnIY9ohDAlpuROk3zbyfuMcrpvmjcv0PwZvoz6LFOe1CkTZHweWowWM
-         XNjT9vZAIOxPgEqrm/UcxIF3oy8XPOnJ26EZ/GobUlbdkPx8dIPBBBn8LKG148In55QI
-         63hWP8z6nDhpbgEmE60H993Uf/7Cl/GHt62rP5Seksly0HiRtjUHjqOCCElJ8k3fU4c5
-         1Xwk14bZOlK+30G4OX5nOyaef/vRHZPLf1xTtzXd/cPxZ4xq+Zb59FFKllXTZSY8hyz9
-         ghMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX8n4PGTJQMmNtoI81yvEbmtmDaDnbGlI5ofVsQBsmakDLbrlugeika0qu7Z2y1ma4kIffR3ekTOScgSRy9qf6DEctdGHsh2THo
-X-Gm-Message-State: AOJu0Yx0bq5pGdoNPw2EsW6giazHG0aagO/3tL2g1Tf3UJjzIcDq9Tna
-	PxbfUwUsNwtgUPazkAKGDZG7rjkPt2s8PJzH5a3mpuGa+ycFc8St/FahX0RlSDs=
-X-Google-Smtp-Source: AGHT+IEEUCVgW+BCowVYPjYKYwNlCLmKSZ/5HGn2eR9JA6+OxkNbZ4kw3whUx8mTA5ZRd8MgB6kmxQ==
-X-Received: by 2002:a05:6512:398f:b0:52c:a7b6:bb11 with SMTP id 2adb3069b0e04-52ccaa59e2dmr1406908e87.1.1718796959602;
-        Wed, 19 Jun 2024 04:35:59 -0700 (PDT)
-Received: from carbon-x1.. ([2a01:e0a:999:a3a0:e67b:7ea9:5658:701a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-422870e9681sm266192075e9.28.2024.06.19.04.35.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jun 2024 04:35:59 -0700 (PDT)
-From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Anup Patel <anup@brainfault.org>,
-	Shuah Khan <shuah@kernel.org>
-Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
-	Atish Patra <atishp@atishpatra.org>,
-	linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org,
-	linux-kselftest@vger.kernel.org
-Subject: [PATCH v7 16/16] KVM: riscv: selftests: Add Zcmop extension to get-reg-list test
-Date: Wed, 19 Jun 2024 13:35:26 +0200
-Message-ID: <20240619113529.676940-17-cleger@rivosinc.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240619113529.676940-1-cleger@rivosinc.com>
-References: <20240619113529.676940-1-cleger@rivosinc.com>
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="pO8J+jiC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1718797414; x=1719402214; i=markus.elfring@web.de;
+	bh=W11j9754uQINKz/cvRsmwsZTifDgTcbludks+HYDFlg=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=pO8J+jiCXwN+5H4vNiREjjvXpyPdZ8/7MQT6ekY/ML1coCAKdQ5C3PKp4l/inzkh
+	 sDpJ1k9BCUMD59DpnE9XRTQ3x7th8/fGfK1axZGRBcjUjTVTf76rq2kf1H01ggId+
+	 PDiPCxVhzD6inumFLZxfYTh49fI0Rvl2mTSEXUFemqzvT++SqtXOorHYfsNB5pHDh
+	 QOmXA+El8NcJFWKwyxbWedV7lXsibZDD3j/ly6mPT6mRDaj/atgw2jD6aBNxLta2M
+	 l2s0KZIduo08S39btfpS6RYbbt7MPTFDGsG//a80se429nWeZGlUJGBCad8vskP0m
+	 OvHOy9iewAMaan1kXg==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MBB80-1sDtAe3ISs-0024N5; Wed, 19
+ Jun 2024 13:43:34 +0200
+Message-ID: <fc3045c5-d542-4a6c-906d-84f72e776e9c@web.de>
+Date: Wed, 19 Jun 2024 13:43:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+To: Paul Cercueil <paul@crapouillou.net>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, linux-iio@vger.kernel.org, dmaengine@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Jonathan Cameron <jic23@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Vinod Koul <vkoul@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>
+References: <20240618100302.72886-4-paul@crapouillou.net>
+Subject: Re: [PATCH v11 3/7] iio: core: Add new DMABUF interface
+ infrastructure
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240618100302.72886-4-paul@crapouillou.net>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:s/ePRc1AsDn5MbvhxB041oEonOdKZIbmxXBL6PQCyC+dACVDoLP
+ VJHdbSN/Zg3VQNXnRwO9W6VRtbQ1aTeST+rO0ofPVv51Y8FxJ2M14FGXadcALDKOguJ6bGg
+ 8FPja/Ra9tp3qe1rhAftXdBeIZhQT5/j38O2mVfYGEg56wlULJFQtMGPXKAIGHUtJvKma+y
+ nvdtZC4jpxgZj4GDXvxLQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:i7lnAXEpwn8=;/6wHovhhjAf8pHKa+TH+pZCmDYn
+ NwpRNFSWg6I6UWBIN9oXcXPNN+0TQpTdTaoxKL6lzcXekoTV337eOBnwL8p5DB7dCXCRN/ucD
+ JaspBk4OgvM80DshT4yRB1n1CfDntQFMWpEg7lDQQ3OZy16gcWh2xy0rJYi8nD/4be0eyp9pd
+ HS/l4SafQaAUhh3ax0fJg7PfArxXxFxzn9mYapAzL7qNFrk6w9S+2HKA6UMN1mR7Erh5+tBRH
+ MqGWdC7URlXxfsoYVZVwOTgZVap6ROFwS4RLTIifxQg3mar3FLLfq+RhtvbWHrXusvlIjtI6C
+ /roGVf5+bIcorP8XW456QHvDftKm4oDzFaOvpPv/JzQvU44aipe3LUGpfjeQRctzGdzGeeytp
+ EL8I5nMKRKBLvLjlqZfROhpVzIjmJSulE8skQsIYaxOh+SyP2hdhEKaz1BhF/Hc999AqkpeEe
+ bGl7/hJvX7mNJxardrIb6+l36ns+EyoKdFq7eySfdkK5YopdzFzLk9G4y4NGxRiR+wXNMek0J
+ ikYn/2qaC411MG2LZKoFPp7YUjiemvCzwHR5Z9mjVd9fcFXEMMIxkckaPuivaDXtj6xrjaTML
+ Wqjn9nDLdwN6Sq3ffQNnznDyvJdJ8caWa/YjAohNYhV41qB8+QrR9qT0TlIA2kmDf95nPwui+
+ q5s5A7QTT1hm+bd4DgydzDIxlHaVkzaIwrilFGReAUK7Y96l+yWsXbotc0El7MvhoaETns26u
+ W5HnAReuDs9KJ3zHuRwkBpW0z0JTHoo6iiOBqIzX42ezgtcSLc4yi79ZdveYZgwE1k9OF96Iz
+ go5dqUBvvQgmHHJK9Pp9f2IDPGGEgKg5kF6qqHYax9SZEc9be0jRsuPwI8SzLGmv+C
 
-The KVM RISC-V allows Zcmop extension for Guest/VM so add this
-extension to get-reg-list test.
+=E2=80=A6
+> +++ b/drivers/iio/industrialio-buffer.c
+=E2=80=A6
+> +static void iio_buffer_dmabuf_release(struct kref *ref)
+> +{
+=E2=80=A6
+> +	dma_resv_lock(dmabuf->resv, NULL);
+> +	dma_buf_unmap_attachment(attach, priv->sgt, priv->dir);
+> +	dma_resv_unlock(dmabuf->resv);
+=E2=80=A6
 
-Signed-off-by: Clément Léger <cleger@rivosinc.com>
-Reviewed-by: Anup Patel <anup@brainfault.org>
-Acked-by: Anup Patel <anup@brainfault.org>
----
- tools/testing/selftests/kvm/riscv/get-reg-list.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Under which circumstances will another lock guard become applicable?
+https://elixir.bootlin.com/linux/v6.10-rc4/source/include/linux/cleanup.h#=
+L179
 
-diff --git a/tools/testing/selftests/kvm/riscv/get-reg-list.c b/tools/testing/selftests/kvm/riscv/get-reg-list.c
-index 864a701ef6c3..1a5637a6ea1e 100644
---- a/tools/testing/selftests/kvm/riscv/get-reg-list.c
-+++ b/tools/testing/selftests/kvm/riscv/get-reg-list.c
-@@ -60,6 +60,7 @@ bool filter_reg(__u64 reg)
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZCB:
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZCD:
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZCF:
-+	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZCMOP:
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZFA:
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZFH:
- 	case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV_ISA_EXT_ZFHMIN:
-@@ -431,6 +432,7 @@ static const char *isa_ext_single_id_to_str(__u64 reg_off)
- 		KVM_ISA_EXT_ARR(ZCB),
- 		KVM_ISA_EXT_ARR(ZCD),
- 		KVM_ISA_EXT_ARR(ZCF),
-+		KVM_ISA_EXT_ARR(ZCMOP),
- 		KVM_ISA_EXT_ARR(ZFA),
- 		KVM_ISA_EXT_ARR(ZFH),
- 		KVM_ISA_EXT_ARR(ZFHMIN),
-@@ -960,6 +962,7 @@ KVM_ISA_EXT_SIMPLE_CONFIG(zca, ZCA),
- KVM_ISA_EXT_SIMPLE_CONFIG(zcb, ZCB),
- KVM_ISA_EXT_SIMPLE_CONFIG(zcd, ZCD),
- KVM_ISA_EXT_SIMPLE_CONFIG(zcf, ZCF),
-+KVM_ISA_EXT_SIMPLE_CONFIG(zcmop, ZCMOP);
- KVM_ISA_EXT_SIMPLE_CONFIG(zfa, ZFA);
- KVM_ISA_EXT_SIMPLE_CONFIG(zfh, ZFH);
- KVM_ISA_EXT_SIMPLE_CONFIG(zfhmin, ZFHMIN);
-@@ -1021,6 +1024,7 @@ struct vcpu_reg_list *vcpu_configs[] = {
- 	&config_zcb,
- 	&config_zcd,
- 	&config_zcf,
-+	&config_zcmop,
- 	&config_zfa,
- 	&config_zfh,
- 	&config_zfhmin,
--- 
-2.45.2
-
+Regards,
+Markus
