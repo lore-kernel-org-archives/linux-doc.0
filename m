@@ -1,100 +1,206 @@
-Received: from lichtman.org (lichtman.org [149.28.33.109])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7DDA15B0F4;
-	Wed, 19 Jun 2024 21:14:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.33.109
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A08914277;
+	Wed, 19 Jun 2024 21:31:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.227.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718831698; cv=none; b=Dxm45yNS0VLP9eFmyxUKDCJZqE3X9B+1BHohufe8Ts/kFsjT1aB9k4MHOwnrXl4vot3/0qMribvBUeoKcTJYmfMtHf1IbIFhyngBbo171Inn84dobFYMxXMaiCj0n6b98VbmvBKdAjjlcHMpbbO8scP1NBUylPncDAIfeIHyWSo=
+	t=1718832714; cv=none; b=f9ME3kFLehw7LjsJ8Xdds4dLO4OvKKmo7LZk1LioU3b1cPN/TTbwaBPwFFjGmBg5YFJBDJhJqXleXPnP0tqsaqsNxeiKuPsEIZpXMoNLKHDlw1kKjElJun0674GpyfvBz1zQzi8EdZFDFgUfyzfLFm1Y8un5hWMAxY/RFKppFuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718831698; c=relaxed/simple;
-	bh=e9njVn5tHhWvauUvsgZfyqi32LDEaxaVi/NqWvh/EN4=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hUi6N1JHH2SUClWvG3MdePZVg4tOBIKpO0XC/FGgt/j3lhOSarsGALf5AyUAmupKHpjtd8Tmr0nbgOfcAIVZZLmQ6TZ7jK4Cp5jQA+9D4AoqD/N2v0urslvt3uUorzwH93qksisqnxkITYeXsefmfJHEsgQN9tJ7ClDUEebqh6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lichtman.org; spf=pass smtp.mailfrom=lichtman.org; dkim=pass (2048-bit key) header.d=lichtman.org header.i=@lichtman.org header.b=hXVgzZZQ; arc=none smtp.client-ip=149.28.33.109
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lichtman.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lichtman.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lichtman.org header.i=@lichtman.org header.b="hXVgzZZQ"
-Received: by lichtman.org (Postfix, from userid 1000)
-	id 6DF64177029; Wed, 19 Jun 2024 21:07:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=lichtman.org; s=mail;
-	t=1718831227; bh=e9njVn5tHhWvauUvsgZfyqi32LDEaxaVi/NqWvh/EN4=;
-	h=Date:From:To:Subject:From;
-	b=hXVgzZZQM6+S9QAP3H0nKqDPwWHZcB1BqIJNpJyKzlzXtDlmb0RzF1GND+41lvtSW
-	 VOhfakPzz+iPH19IHBy+gbwmTYzpVmOSoMszMnW/RbBiv9i9x5lk9fRBS4C8qFh28K
-	 Jrbt0280646IUQzeEAPkawoIuKy5eTi8PVc/5yW8EMJtgJ/ac/7KI8renykVx7aY+M
-	 AhlIZ1L/12h6tjIKd0kS5rw49ewfJYhJnnXZvDAKfTlsflZadBoiw6OhacsbFWnGkS
-	 A7MpHRc+VFHzSKCG3qnH1Tk4/qqKQ5iIi/+gCqXJjBAf0x4nVIJGP7wHqEoq63ws4N
-	 o53FIjbQARjUA==
-Date: Wed, 19 Jun 2024 21:07:07 +0000
-From: Nir Lichtman <nir@lichtman.org>
-To: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] English fixes in vmalloced kernel stacks documentation
-Message-ID: <20240619210707.GA3570474@lichtman.org>
+	s=arc-20240116; t=1718832714; c=relaxed/simple;
+	bh=xNw6YyCAfigbFukmre3FSwB3waVjHWXIn4Bkmgrj2as=;
+	h=From:In-Reply-To:Content-Type:References:Date:Cc:To:MIME-Version:
+	 Message-ID:Subject; b=VGH8a22GkTzfK9ADxRxHBpLCMbOR9zXXLElAJ7BspOabY7sUhUs1QqqJpo4wpFDVnPp8XH2UKGunxCCu7hHPlcCnH40aJItp++JK5uV+IRuxNxWyNxXLZQGe5KlBLAyVENC1SJWDQ9bEWrg8SEh4XV2XC4Ml6vVWtaYk8Gs0rgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; arc=none smtp.client-ip=46.235.227.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Received: from harlem.collaboradmins.com (harlem.collaboradmins.com [IPv6:2a01:4f8:1c0c:5936::1])
+	by madrid.collaboradmins.com (Postfix) with ESMTP id 4BCA33782173;
+	Wed, 19 Jun 2024 21:31:49 +0000 (UTC)
+From: "Adrian Ratiu" <adrian.ratiu@collabora.com>
+In-Reply-To: <202406191336.AC7F803123@keescook>
+Content-Type: text/plain; charset="utf-8"
+X-Forward: 127.0.0.1
+References: <20240613133937.2352724-1-adrian.ratiu@collabora.com>
+ <20240613133937.2352724-2-adrian.ratiu@collabora.com>
+ <CABi2SkXY20M24fcUgejAMuJpNZqsLxd0g1PZ-8RcvzxO6NO6cA@mail.gmail.com> <202406191336.AC7F803123@keescook>
+Date: Wed, 19 Jun 2024 22:31:49 +0100
+Cc: "Jeff Xu" <jeffxu@chromium.org>, linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org, kernel@collabora.com, gbiv@google.com, ryanbeltran@google.com, inglorion@google.com, ajordanr@google.com, jorgelo@chromium.org, "Guenter Roeck" <groeck@chromium.org>, "Doug Anderson" <dianders@chromium.org>, "Jann Horn" <jannh@google.com>, "Andrew Morton" <akpm@linux-foundation.org>, "Randy Dunlap" <rdunlap@infradead.org>, "Christian Brauner" <brauner@kernel.org>, "Jeff Xu" <jeffxu@google.com>, "Mike Frysinger" <vapier@chromium.org>
+To: "Kees Cook" <kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Message-ID: <3304e0-66734e80-1857-33d83680@76729138>
+Subject: =?utf-8?q?Re=3A?= [PATCH v6 2/2] =?utf-8?q?proc=3A?= restrict /proc/pid/mem
+User-Agent: SOGoMail 5.10.0
+Content-Transfer-Encoding: quoted-printable
 
-From cdc9d82bad7111ab1f132d1264fa6ffa323c26b0 Mon Sep 17 00:00:00 2001
-From: Nir Lichtman <nir@lichtman.org>
-Date: Wed, 19 Jun 2024 23:57:11 +0300
-Subject: [PATCH] English fixes in vmalloced kernel stacks documentation
+On Wednesday, June 19, 2024 23:41 EEST, Kees Cook <kees@kernel.org> wro=
+te:
 
----
- Documentation/mm/vmalloced-kernel-stacks.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+> On Tue, Jun 18, 2024 at 03:39:44PM -0700, Jeff Xu wrote:
+> > Hi
+> >=20
+> > Thanks for the patch !
+> >=20
+> > On Thu, Jun 13, 2024 at 6:40=E2=80=AFAM Adrian Ratiu <adrian.ratiu@=
+collabora.com> wrote:
+> > >
+> > > Prior to v2.6.39 write access to /proc/<pid>/mem was restricted,
+> > > after which it got allowed in commit 198214a7ee50 ("proc: enable
+> > > writing to /proc/pid/mem"). Famous last words from that patch:
+> > > "no longer a security hazard". :)
+> > >
+> > > Afterwards exploits started causing drama like [1]. The exploits
+> > > using /proc/*/mem can be rather sophisticated like [2] which
+> > > installed an arbitrary payload from noexec storage into a running
+> > > process then exec'd it, which itself could include an ELF loader
+> > > to run arbitrary code off noexec storage.
+> > >
+> > > One of the well-known problems with /proc/*/mem writes is they
+> > > ignore page permissions via FOLL=5FFORCE, as opposed to writes vi=
+a
+> > > process=5Fvm=5Fwritev which respect page permissions. These write=
+s can
+> > > also be used to bypass mode bits.
+> > >
+> > > To harden against these types of attacks, distrbutions might want
+> > > to restrict /proc/pid/mem accesses, either entirely or partially,
+> > > for eg. to restrict FOLL=5FFORCE usage.
+> > >
+> > > Known valid use-cases which still need these accesses are:
+> > >
+> > > * Debuggers which also have ptrace permissions, so they can acces=
+s
+> > > memory anyway via PTRACE=5FPOKEDATA & co. Some debuggers like GDB
+> > > are designed to write /proc/pid/mem for basic functionality.
+> > >
+> > > * Container supervisors using the seccomp notifier to intercept
+> > > syscalls and rewrite memory of calling processes by passing
+> > > around /proc/pid/mem file descriptors.
+> > >
+> > > There might be more, that's why these params default to disabled.
+> > >
+> > > Regarding other mechanisms which can block these accesses:
+> > >
+> > > * seccomp filters can be used to block mmap/mprotect calls with W=
+|X
+> > > perms, but they often can't block open calls as daemons want to
+> > > read/write their runtime state and seccomp filters cannot check
+> > > file paths, so plain write calls can't be easily blocked.
+> > >
+> > > * Since the mem file is part of the dynamic /proc/<pid>/ space, w=
+e
+> > > can't run chmod once at boot to restrict it (and trying to react
+> > > to every process and run chmod doesn't scale, and the kernel no
+> > > longer allows chmod on any of these paths).
+> > >
+> > > * SELinux could be used with a rule to cover all /proc/*/mem file=
+s,
+> > > but even then having multiple ways to deny an attack is useful in
+> > > case one layer fails.
+> > >
+> > > Thus we introduce four kernel parameters to restrict /proc/*/mem
+> > > access: open-read, open-write, write and foll=5Fforce. All these =
+can
+> > > be independently set to the following values:
+> > >
+> > > all     =3D> restrict all access unconditionally.
+> > > ptracer =3D> restrict all access except for ptracer processes.
+> > >
+> > > If left unset, the existing behaviour is preserved, i.e. access
+> > > is governed by basic file permissions.
+> > >
+> > > Examples which can be passed by bootloaders:
+> > >
+> > > proc=5Fmem.restrict=5Ffoll=5Fforce=3Dall
+> > > proc=5Fmem.restrict=5Fopen=5Fwrite=3Dptracer
+> > > proc=5Fmem.restrict=5Fopen=5Fread=3Dptracer
+> > > proc=5Fmem.restrict=5Fwrite=3Dall
+> > >
+> > > These knobs can also be enabled via Kconfig like for eg:
+> > >
+> > > CONFIG=5FPROC=5FMEM=5FRESTRICT=5FWRITE=5FPTRACE=5FDEFAULT=3Dy
+> > > CONFIG=5FPROC=5FMEM=5FRESTRICT=5FFOLL=5FFORCE=5FPTRACE=5FDEFAULT=3D=
+y
+> > >
+> > > Each distribution needs to decide what restrictions to apply,
+> > > depending on its use-cases. Embedded systems might want to do
+> > > more, while general-purpouse distros might want a more relaxed
+> > > policy, because for e.g. foll=5Fforce=3Dall and write=3Dall both =
+break
+> > > break GDB, so it might be a bit excessive.
+> > >
+> > > Based on an initial patch by Mike Frysinger <vapier@chromium.org>=
+.
+> > >
+> > It is noteworthy that ChromeOS has benefited from blocking
+> > /proc/pid/mem write since 2017 [1], owing to the patch implemented =
+by
+> > Mike Frysinger.
+> >=20
+> > It is great that upstream can consider this patch, ChromeOS will us=
+e
+> > the solution once it is accepted.
+> >=20
+> > > Link: https://lwn.net/Articles/476947/ [1]
+> > > Link: https://issues.chromium.org/issues/40089045 [2]
+> > > Cc: Guenter Roeck <groeck@chromium.org>
+> > > Cc: Doug Anderson <dianders@chromium.org>
+> > > Cc: Kees Cook <keescook@chromium.org>
+> > > Cc: Jann Horn <jannh@google.com>
+> > > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > > Cc: Randy Dunlap <rdunlap@infradead.org>
+> > > Cc: Christian Brauner <brauner@kernel.org>
+> > > Cc: Jeff Xu <jeffxu@google.com>
+> > > Co-developed-by: Mike Frysinger <vapier@chromium.org>
+> > > Signed-off-by: Mike Frysinger <vapier@chromium.org>
+> > > Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+> >=20
+> > Reviewed-by: Jeff Xu <jeffxu@chromium.org>
+> > Tested-by: Jeff Xu <jeffxu@chromium.org>
+> > [1] https://chromium-review.googlesource.com/c/chromiumos/third=5Fp=
+arty/kernel/+/764773
+>=20
+> Thanks for the testing! What settings did you use? I think Chrome OS =
+was
+> effectively doing this?
+>=20
+> PROC=5FMEM=5FRESTRICT=5FOPEN=5FREAD=5FOFF=3Dy
+> CONFIG=5FPROC=5FMEM=5FRESTRICT=5FOPEN=5FWRITE=5FALL=3Dy
+> CONFIG=5FPROC=5FMEM=5FRESTRICT=5FWRITE=5FALL=3Dy
+> CONFIG=5FPROC=5FMEM=5FRESTRICT=5FFOLL=5FFORCE=5FALL=3Dy
 
-diff --git a/Documentation/mm/vmalloced-kernel-stacks.rst b/Documentation/mm/vmalloced-kernel-stacks.rst
-index fc8c67833..b4ca3176e 100644
---- a/Documentation/mm/vmalloced-kernel-stacks.rst
-+++ b/Documentation/mm/vmalloced-kernel-stacks.rst
-@@ -20,9 +20,9 @@ Introduction
- 
- Kernel stack overflows are often hard to debug and make the kernel
- susceptible to exploits. Problems could show up at a later time making
--it difficult to isolate and root-cause.
-+it difficult to pinpoint their root cause.
- 
--Virtually-mapped kernel stacks with guard pages causes kernel stack
-+Virtually mapped kernel stacks with guard pages cause kernel stack
- overflows to be caught immediately rather than causing difficult to
- diagnose corruptions.
- 
-@@ -57,7 +57,7 @@ enable this bool configuration option. The requirements are:
- VMAP_STACK
- ----------
- 
--VMAP_STACK bool configuration option when enabled allocates virtually
-+When enabled, the VMAP_STACK bool configuration option allocates virtually
- mapped task stacks. This option depends on HAVE_ARCH_VMAP_STACK.
- 
- - Enable this if you want the use virtually-mapped kernel stacks
-@@ -83,7 +83,7 @@ the latest code base:
- Allocation
- -----------
- 
--When a new kernel thread is created, thread stack is allocated from
-+When a new kernel thread is created, a thread stack is allocated from
- virtually contiguous memory pages from the page level allocator. These
- pages are mapped into contiguous kernel virtual space with PAGE_KERNEL
- protections.
-@@ -104,7 +104,7 @@ with PAGE_KERNEL protections.
- 
- Thread stack allocation is initiated from clone(), fork(), vfork(),
- kernel_thread() via kernel_clone(). Leaving a few hints for searching
--the code base to understand when and how thread stack is allocated.
-+the code base to understand when and how a thread stack is allocated.
- 
- Bulk of the code is in:
- `kernel/fork.c <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/kernel/fork.c>`.
+Correct except for CONFIG=5FPROC=5FMEM=5FRESTRICT=5FOPEN=5FWRITE=5FALL=3D=
+y
+which will make ChromeOS boot loop because upstart/systemd-tmpfiles
+will fail and trigger a recovery + reboot, then the kernel will again b=
+lock
+opening the file and so on. :)
 
-base-commit: e5b3efbe1ab1793bb49ae07d56d0973267e65112
--- 
-2.39.2
+ChromeOS effectively only blocks all writes which also blocks all foll=5F=
+force.
+
+>=20
+> Though I don't see the FOLL=5FFORCE changes in the linked Chrome OS p=
+atch,
+> but I suspect it's unreachable with
+> CONFIG=5FPROC=5FMEM=5FRESTRICT=5FOPEN=5FWRITE=5FALL=3Dy.
+=20
+That is correct, CONFIG=5FPROC=5FMEM=5FRESTRICT=5FOPEN=5FWRITE=5FALL=3D=
+y also
+blocks FOLL=5FFORCE.
+
+The idea there is to restrict writes entirely in production images via
+Kconfig and then relax the restriction in dev/test images via boot para=
+ms
+proc=5Fmem.restrict=5Fwrite=3Dptracer proc=5Fmem.restrict=5Ffoll=5Fforc=
+e=3Dptracer
+
+See this CL:
+https://chromium-review.googlesource.com/c/chromiumos/platform/vboot=5F=
+reference/+/5631026
 
