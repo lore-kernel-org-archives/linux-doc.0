@@ -1,137 +1,137 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53BE6158D88
-	for <linux-doc@vger.kernel.org>; Wed, 19 Jun 2024 15:41:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA27158214
+	for <linux-doc@vger.kernel.org>; Wed, 19 Jun 2024 15:49:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718811679; cv=none; b=pXRMBoTjKwZB28iRKtniwRJ5wU4HYDc1U+ZzsO7iQiENK/FL6JiV9INXDckQSPgWXqpFpaKXdecf6xqXdJS5uJDKL81O415AvSAVfMRggcpyD9t7LnFIXn1bml0DEoa0Jm6F3+CWX6kXr1vs/uW1T/p5GPNwNQ5TvqzktZdL184=
+	t=1718812160; cv=none; b=udO17/KF3/+AYyQaIsXgpjYs8cgsFxcMsNaMiIq4eXdYpGM+CKzLjahGAZAPzP+DsH16br3HB3Rp2eT0qsdNHQoPIc5oVZ3k2NEoAZL0n5oJ9UwjfUOp97uC2Traq4YA/6TMWdHXFFibB3B5IqsjSRbQVs23n8Zw7Um0QgiCXh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718811679; c=relaxed/simple;
-	bh=PUHPKWr8I/6+131J+8evnCxuO40u+RR6EnTMsNxyuZM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=T8uNPIWATYIi+c2VxX/2ZeXhV742n0Xa7PcnMbZJko61OK6YooV6rdbFS4Q9nlGJ8BaNuBz8oub+FnFqItU6RY6DjKrxvJyZOV89vLrx/CuWqMivwkBIPPuUVzTpnO+CSL8GM1ucwv4+fFXpE8HVqfdQwzI/CC0D5sxZLalexjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=ITXwbOxC; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1718812160; c=relaxed/simple;
+	bh=cSH93zHXkK5myzncS0R9U3Eonp7whM/bFDFKKdLoqKk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=b259tJLhzN3VbbMzrffVAvtylkd7VyQhP08dVRDV35ExKQJWDMQGMbgnyvrCLRz1UTI10frhfNuKj42X7cwNEW0kwS42BJSdtU1vFQfpVbsGqGZfzewdwsTm/Kz3Ll2auVnVhI+At+1Oe7KVhXlb9mSpb3tMGO65MT+MfxSmaCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=Deuzf+T7; arc=none smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="ITXwbOxC"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-35f23f3da48so570135f8f.3
-        for <linux-doc@vger.kernel.org>; Wed, 19 Jun 2024 08:41:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="Deuzf+T7"
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-63267c30eaaso50098447b3.1
+        for <linux-doc@vger.kernel.org>; Wed, 19 Jun 2024 08:49:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1718811675; x=1719416475; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=paul-moore.com; s=google; t=1718812157; x=1719416957; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6obIhMCgJtCMV7DNAB1Eq7WrI+7/yuJDuJixMHQfyjs=;
-        b=ITXwbOxC+NnuK/p5lBEBaSn/UosRKsEm3+R2jXM9GJ1bJ4AqGns/m45DaqUSNXWA7n
-         vbe34os2CKzyPgUGr6iD1t60wgygSVaZEZZKGFbUhLSu1j6lVdBp9SY2u+3xkh8n0fKe
-         FIMl5Y8+KK4bBpseWKXTD9b1+QvJAZ4XWpWsl7coDtFbBdl541ttJY5Gsrpce9yfGQee
-         boLIbeUOsPqQfeBdfgt/1CkW3Cp4O1um4uB1pPRgzSPhJbutQLp7Hem203R/Ks4trG7Z
-         sa4cZ7LHro2Z5yvUpZIsXOnwjHZvyZIRVXSHVKp6q7HTucXh70mCoKgK59T/0DJ9DrtM
-         aYaw==
+        bh=3A3V41ThbwHIAGZpAhL1w9y7K8p24jvNIlupY7BQNOY=;
+        b=Deuzf+T7eIoBmSjD0usGJ8i1x1VH9BioooixvPYb5R5hoaZaXI0MekCU7r/i0D31Sa
+         ZjAc8jE/T4Em5onVaGSWln4Ds5DiMatRYi7HpFN+oFqyDgbaISxht2YO8VtPfr85MeEB
+         oTs8ew+/Sf5VZsFdGKZe8GLudEPvrxrOFEUG3IuaRK/zFpiMhoF44PMocckPFcbB/rBL
+         t7dFYaoLU3Gt29BgTW0SLHOzBPgp1ga7J3wzPZiOO9KqhSRgpwvwD63KQ8k+L09P9UOY
+         4bNKDTs0r2yZgP4g3XnOae5yXnHYjfMKGDpMpqUn8rooCPqPM1p2O31BENaO19Q8RNKt
+         m4qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718811675; x=1719416475;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1718812157; x=1719416957;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6obIhMCgJtCMV7DNAB1Eq7WrI+7/yuJDuJixMHQfyjs=;
-        b=g4DhDeqbAQq/R9T/hGn0TfcR6HlePZ6Wepgu4Z4g9xUWUod4V+r8Mk0/7idET7PEMQ
-         JTZdigu/OW5FuY+e7bxhBo7aSFYk8GLYWLtQUbzarOo9s4OQV/Te097YzJShiV2j2RD3
-         C95+L5uumfLH7j3iFhpnbG6ODqa/uoUtdVu7plaF7OrpTGCcXg/U8zmHzImG/M/wjQSs
-         5rvwcnoFJbQeA63jRbhP1owOmNpGoYKrts7LcRh3wOlhptbPo2k1T9CMIbjSotG1vM7W
-         gUPBlRkbdiFxndINNCDZM0g4mBqEpGQ9G9YXlkSrEVxqv4e2EOcom/RRpmiaOP/xnuKs
-         5KCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWKCkKxke4R5zk7wFZKuwVTPv7EH+UfBuq2soOILnqkmM7gQsBZJA2jWLJhKKEpvpXlx0j2wAVYTOM+f82oDifkgyvVAmVjeYD8
-X-Gm-Message-State: AOJu0Yx+Bw1UhWoviy8AlRCBCBzobhLycKDPBKTzssNS7KTHqcGHQ5Ku
-	PGgKiPVmQM+anBrCOTiOOAjrI02LKjg2HyXfo4jy5Pr19SQ+tTLFbP8eWG6CB3U=
-X-Google-Smtp-Source: AGHT+IEsiGCR06DYSznwuNGZ/RtWasKc+Sn+mfD0wbhYFJwAh2e2fAjrUA7ukaEqVJFeFkb/5sRZzQ==
-X-Received: by 2002:a05:6000:18a2:b0:360:872b:7e03 with SMTP id ffacd0b85a97d-36313fd733dmr2801721f8f.0.1718811674851;
-        Wed, 19 Jun 2024 08:41:14 -0700 (PDT)
-Received: from carbon-x1.. ([2a01:e0a:999:a3a0:819d:b9d2:9c2:3b7a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3607509c785sm17392292f8f.34.2024.06.19.08.41.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jun 2024 08:41:14 -0700 (PDT)
-From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Anup Patel <anup@brainfault.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Atish Patra <atishp@atishpatra.org>
-Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
-	linux-doc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org,
-	linux-kselftest@vger.kernel.org
-Subject: [PATCH 4/5] RISC-V: KVM: Allow Zaamo/Zalrsc extensions for Guest/VM
-Date: Wed, 19 Jun 2024 17:39:11 +0200
-Message-ID: <20240619153913.867263-5-cleger@rivosinc.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20240619153913.867263-1-cleger@rivosinc.com>
-References: <20240619153913.867263-1-cleger@rivosinc.com>
+        bh=3A3V41ThbwHIAGZpAhL1w9y7K8p24jvNIlupY7BQNOY=;
+        b=DeCy/ES2Wcv71d/983Sf22OIGC+MrxOx2YlOt4GCdSf5TLLrse0kKyavqt3GccPn5N
+         MLPx48cxvcQtJB6X7tg+QNoGIy40WjYTs33BUtL/k8XQWeNWFGvz14IoOydsLMBuw6gc
+         Pe501iibP+64HmyDYZvB+g7kYrQBsBobNPtc0ILZjF3RWLg1z5I6vFASOSEMsahwY7P1
+         6WJ2JE4GDF6S1m3au7sYBInAfwL9WVkVxDYde0IWYRTFIRQFlLD1LsZSTjq1HzARut0v
+         RLDrycw5OAKP3H39cHmZ6ZxdoqdOHya9hvdwhEQiHImr6vEQJ4P4YbK1/Ufd+T0QPBFO
+         uYqA==
+X-Forwarded-Encrypted: i=1; AJvYcCVncdFhInQJFP72+Y0hrJen23ge0enMzCXlJqP/ujofeR/9fI2MgVISv0XrHTmYKT3jdu/J38zRqMNoIxZeyCgQS2IOi3DpeGNc
+X-Gm-Message-State: AOJu0Yx9qsI1UWIFXRviRF6X1Y0SC3MrpjgKhNJgvyepytSeSh9Pf4v4
+	cdr/c+pkQFf+ubtWBjwJrCtVJ02RVbSCJFUkkWcJId4kymf4slwzaUCNFPddk7AF53i+iFh2yEo
+	y1f1qgpuM/d1zdNW2bKREo6y4E9I2PqCuyvAs
+X-Google-Smtp-Source: AGHT+IEkDQP5qZ6Yrjj3uYAUPWx122jAV/ve6smoTK2csXSUiZ3XrnUftHl2q2TGjzjXyIgjKZD8k1vF8LzOBOY22t0=
+X-Received: by 2002:a81:84c5:0:b0:62c:e6c0:e887 with SMTP id
+ 00721157ae682-63a8d72f60bmr34069987b3.9.1718812157336; Wed, 19 Jun 2024
+ 08:49:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20240415142436.2545003-1-roberto.sassu@huaweicloud.com>
+ <CAHC9VhTs8p1nTUXXea2JmF0FCEU6w39gwQRMtwACqM=+EBj1jw@mail.gmail.com> <7cf03a6ba8dbf212623aab2dea3dac39482e8695.camel@huaweicloud.com>
+In-Reply-To: <7cf03a6ba8dbf212623aab2dea3dac39482e8695.camel@huaweicloud.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Wed, 19 Jun 2024 11:49:06 -0400
+Message-ID: <CAHC9VhSCw6RweTs6whAu4v6t4n7gxUWJtjmzY-UXrdzW0H+YJA@mail.gmail.com>
+Subject: Re: [PATCH v4 00/14] security: digest_cache LSM
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>
+Cc: corbet@lwn.net, jmorris@namei.org, serge@hallyn.com, 
+	akpm@linux-foundation.org, shuah@kernel.org, mcoquelin.stm32@gmail.com, 
+	alexandre.torgue@foss.st.com, mic@digikod.net, 
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	bpf@vger.kernel.org, zohar@linux.ibm.com, dmitry.kasatkin@gmail.com, 
+	linux-integrity@vger.kernel.org, wufan@linux.microsoft.com, 
+	pbrobinson@gmail.com, zbyszek@in.waw.pl, hch@lst.de, mjg59@srcf.ucam.org, 
+	pmatilai@redhat.com, jannh@google.com, dhowells@redhat.com, jikos@kernel.org, 
+	mkoutny@suse.com, ppavlu@suse.com, petr.vorel@gmail.com, mzerqung@0pointer.de, 
+	kgold@linux.ibm.com, Roberto Sassu <roberto.sassu@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Extend the KVM ISA extension ONE_REG interface to allow KVM user space
-to detect and enable Zaamo/Zalrsc extensions for Guest/VM.
+On Wed, Jun 19, 2024 at 3:59=E2=80=AFAM Roberto Sassu
+<roberto.sassu@huaweicloud.com> wrote:
+> On Tue, 2024-06-18 at 19:20 -0400, Paul Moore wrote:
+> > On Mon, Apr 15, 2024 at 10:25=E2=80=AFAM Roberto Sassu
+> > <roberto.sassu@huaweicloud.com> wrote:
+> > >
+> > > From: Roberto Sassu <roberto.sassu@huawei.com>
+> > >
+> > > Integrity detection and protection has long been a desirable feature,=
+ to
+> > > reach a large user base and mitigate the risk of flaws in the softwar=
+e
+> > > and attacks.
+> > >
+> > > However, while solutions exist, they struggle to reach the large user
+> > > base, due to requiring higher than desired constraints on performance=
+,
+> > > flexibility and configurability, that only security conscious people =
+are
+> > > willing to accept.
+> > >
+> > > This is where the new digest_cache LSM comes into play, it offers
+> > > additional support for new and existing integrity solutions, to make
+> > > them faster and easier to deploy.
+> > >
+> > > The full documentation with the motivation and the solution details c=
+an be
+> > > found in patch 14.
+> > >
+> > > The IMA integration patch set will be introduced separately. Also a P=
+oC
+> > > based on the current version of IPE can be provided.
+> >
+> > I'm not sure we want to implement a cache as a LSM.  I'm sure it would
+> > work, but historically LSMs have provided some form of access control,
+> > measurement, or other traditional security service.  A digest cache,
+> > while potentially useful for a variety of security related
+> > applications, is not a security service by itself, it is simply a file
+> > digest storage mechanism.
+>
+> Uhm, currently the digest_cache LSM is heavily based on the LSM
+> infrastructure:
 
-Signed-off-by: Clément Léger <cleger@rivosinc.com>
----
- arch/riscv/include/uapi/asm/kvm.h | 2 ++
- arch/riscv/kvm/vcpu_onereg.c      | 4 ++++
- 2 files changed, 6 insertions(+)
+I understand that, but as I said previously, I don't believe that we
+want to support a LSM which exists solely to provide a file digest
+cache.  LSMs should be based around the idea of some type of access
+control, security monitoring, etc.
 
-diff --git a/arch/riscv/include/uapi/asm/kvm.h b/arch/riscv/include/uapi/asm/kvm.h
-index a6215634df7c..f10c6e133d4d 100644
---- a/arch/riscv/include/uapi/asm/kvm.h
-+++ b/arch/riscv/include/uapi/asm/kvm.h
-@@ -174,6 +174,8 @@ enum KVM_RISCV_ISA_EXT_ID {
- 	KVM_RISCV_ISA_EXT_ZCD,
- 	KVM_RISCV_ISA_EXT_ZCF,
- 	KVM_RISCV_ISA_EXT_ZCMOP,
-+	KVM_RISCV_ISA_EXT_ZAAMO,
-+	KVM_RISCV_ISA_EXT_ZALRSC,
- 	KVM_RISCV_ISA_EXT_MAX,
- };
- 
-diff --git a/arch/riscv/kvm/vcpu_onereg.c b/arch/riscv/kvm/vcpu_onereg.c
-index fa5ee544bc69..0972a997beca 100644
---- a/arch/riscv/kvm/vcpu_onereg.c
-+++ b/arch/riscv/kvm/vcpu_onereg.c
-@@ -41,7 +41,9 @@ static const unsigned long kvm_isa_ext_arr[] = {
- 	KVM_ISA_EXT_ARR(SVINVAL),
- 	KVM_ISA_EXT_ARR(SVNAPOT),
- 	KVM_ISA_EXT_ARR(SVPBMT),
-+	KVM_ISA_EXT_ARR(ZAAMO),
- 	KVM_ISA_EXT_ARR(ZACAS),
-+	KVM_ISA_EXT_ARR(ZALRSC),
- 	KVM_ISA_EXT_ARR(ZBA),
- 	KVM_ISA_EXT_ARR(ZBB),
- 	KVM_ISA_EXT_ARR(ZBC),
-@@ -131,7 +133,9 @@ static bool kvm_riscv_vcpu_isa_disable_allowed(unsigned long ext)
- 	case KVM_RISCV_ISA_EXT_SSTC:
- 	case KVM_RISCV_ISA_EXT_SVINVAL:
- 	case KVM_RISCV_ISA_EXT_SVNAPOT:
-+	case KVM_RISCV_ISA_EXT_ZAAMO:
- 	case KVM_RISCV_ISA_EXT_ZACAS:
-+	case KVM_RISCV_ISA_EXT_ZALRSC:
- 	case KVM_RISCV_ISA_EXT_ZBA:
- 	case KVM_RISCV_ISA_EXT_ZBB:
- 	case KVM_RISCV_ISA_EXT_ZBC:
--- 
-2.45.2
+Including a file digest cache in IMA, or implementing it as a
+standalone piece of kernel functionality, are still options.  If you
+want to pursue this, I would suggest that including the digest cache
+as part of IMA would be the easier of the two options; if it proves to
+be generally useful outside of IMA, it can always be abstracted out to
+a general kernel module/subsystem.
 
+--=20
+paul-moore.com
