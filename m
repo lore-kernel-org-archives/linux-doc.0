@@ -1,350 +1,167 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from frasgout13.his.huawei.com (frasgout13.his.huawei.com [14.137.139.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16DCF73441;
-	Wed, 19 Jun 2024 07:52:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6EA3770FC;
+	Wed, 19 Jun 2024 07:59:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718783562; cv=none; b=h76RGtDKumNUQPaEB3FJdkkKjE2UI8zNhzmRt23oOiJPm4hZXVNgudTubEes33984VaGgITgBFglYxSuVjjljDaMXWuVHDBfLDAqnrOZI20VFxkbmlqI+gDLGjEddE9dQi8WM344eiFV0efm11teSEsXxVnRXSKK7gjx13+Dj9g=
+	t=1718783986; cv=none; b=uV34e3M1w8ZzdjWhglVoRGW76qWiGZqv0LTuAkra5iNWE9G/ZpqJjSTNPLCdfYXlsedB7E/+rbbNt4W27rmCTOjPe472V+otY5l7HRopOMEvDOpwOQeEmV2p21GJwFshx09ljvKyEEtDMH0zFQew2n+mnSi6JpubOTpnnNSm+Z4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718783562; c=relaxed/simple;
-	bh=H10wBpKPsvDcsTb0TDOwAb2cn0L0fhqGpU7vrHSA07g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Fc9rUimu9gMZcNqq4NyPFob8czzWuOPfF7qDZxzdZLFNZcRvrMXSgJFIKABzpg6dm/GP4lfgK4fcoVBjBHWFts1PLX4Rs1axeyCsXBElSrowVd8ffuyPJFuQXVfMpGIcD+sqfV33uymjQRVAR2P5scq2ng4lEW4NBmXG3ro8X+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nvf0QXle; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nvf0QXle"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718783561; x=1750319561;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=H10wBpKPsvDcsTb0TDOwAb2cn0L0fhqGpU7vrHSA07g=;
-  b=nvf0QXleOq0MgplrysU5SFBRmaUg6WToqIXH15Q8CzlLVfqg8zAbISfC
-   EreCNnhqgizGx/33myrz2LdY0rKdd/wPMIwzJXrt2iBsKA5VAxc+Bt8G+
-   WcYMjv0JV5rDVkJSjHUPd915QHBZtlQ5m3eBjl+GUDNXHdbOkT/BEN/pP
-   BzCqYKnTJ6RGJx+InlAOzgykTmTeAkdYiKlMlpplVCjVfEYms/92H4CuY
-   xoKdiPSOQPRZJY5dfOG9adPiie0q1OvOdh01NYSb266MWydRu/VDg5gfA
-   7U3OJrZpYlLL8LxhTHM8R1OooA21KdQx6JkI2/kIUBhJGlsWlQqBjEbDY
-   A==;
-X-CSE-ConnectionGUID: OWSZsjAITaeTqqDnsNU2Tg==
-X-CSE-MsgGUID: KKKrBe1YT3WF2V5kAC8FDA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11107"; a="15467290"
-X-IronPort-AV: E=Sophos;i="6.08,249,1712646000"; 
-   d="scan'208";a="15467290"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 00:52:39 -0700
-X-CSE-ConnectionGUID: L1xmlWBIRdeoOtiVtpbpug==
-X-CSE-MsgGUID: zFr38q7+Twaj/W7YB8LB2w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,249,1712646000"; 
-   d="scan'208";a="73040390"
-Received: from aslawinx-mobl.ger.corp.intel.com (HELO [10.94.0.53]) ([10.94.0.53])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2024 00:52:34 -0700
-Message-ID: <510468c7-b181-48d0-bf2d-3e478b2f2aca@linux.intel.com>
-Date: Wed, 19 Jun 2024 09:52:32 +0200
+	s=arc-20240116; t=1718783986; c=relaxed/simple;
+	bh=1682kPZ0rCkDXK9rlE7DjUnagikwOiSEMJpPmPx4ENo=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=j8A3zRp6ZgX6Wo+HbCcwba4mf+Zi/kv4kbLsg2WUGcrj7Hw/DpdwDwrLbQDU2QFFPDHOPifCVoFPp+bISaz/rdKUpWxpy67v/VdDOzrn2GV9oestFcxpotG2A02bTmdqbiR7Ikf+8UciEskfZTnswRslBbMB+2YVRPaq5YlDd1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.186.51])
+	by frasgout13.his.huawei.com (SkyGuard) with ESMTP id 4W3wYT5SYjz9v7Hk;
+	Wed, 19 Jun 2024 15:41:49 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.27])
+	by mail.maildlp.com (Postfix) with ESMTP id 6107E1409C9;
+	Wed, 19 Jun 2024 15:59:24 +0800 (CST)
+Received: from [127.0.0.1] (unknown [10.204.63.22])
+	by APP2 (Coremail) with SMTP id GxC2BwBXLDfJj3JmG1u3AA--.19750S2;
+	Wed, 19 Jun 2024 08:59:23 +0100 (CET)
+Message-ID: <7cf03a6ba8dbf212623aab2dea3dac39482e8695.camel@huaweicloud.com>
+Subject: Re: [PATCH v4 00/14] security: digest_cache LSM
+From: Roberto Sassu <roberto.sassu@huaweicloud.com>
+To: Paul Moore <paul@paul-moore.com>
+Cc: corbet@lwn.net, jmorris@namei.org, serge@hallyn.com, 
+ akpm@linux-foundation.org, shuah@kernel.org, mcoquelin.stm32@gmail.com, 
+ alexandre.torgue@foss.st.com, mic@digikod.net, 
+ linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ bpf@vger.kernel.org, zohar@linux.ibm.com, dmitry.kasatkin@gmail.com, 
+ linux-integrity@vger.kernel.org, wufan@linux.microsoft.com,
+ pbrobinson@gmail.com,  zbyszek@in.waw.pl, hch@lst.de, mjg59@srcf.ucam.org,
+ pmatilai@redhat.com,  jannh@google.com, dhowells@redhat.com,
+ jikos@kernel.org, mkoutny@suse.com,  ppavlu@suse.com, petr.vorel@gmail.com,
+ mzerqung@0pointer.de, kgold@linux.ibm.com,  Roberto Sassu
+ <roberto.sassu@huawei.com>
+Date: Wed, 19 Jun 2024 09:59:02 +0200
+In-Reply-To: <CAHC9VhTs8p1nTUXXea2JmF0FCEU6w39gwQRMtwACqM=+EBj1jw@mail.gmail.com>
+References: <20240415142436.2545003-1-roberto.sassu@huaweicloud.com>
+	 <CAHC9VhTs8p1nTUXXea2JmF0FCEU6w39gwQRMtwACqM=+EBj1jw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v23 32/32] ASoC: doc: Add documentation for SOC USB
-Content-Language: en-US
-To: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
- Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
- robh@kernel.org, gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <20240610235808.22173-1-quic_wcheng@quicinc.com>
- <20240610235808.22173-33-quic_wcheng@quicinc.com>
- <5be51e1f-70c9-4bbc-96fa-1e50e441bd35@linux.intel.com>
- <408d9e8e-0f40-7e66-54be-2f8d2c0783a3@quicinc.com>
- <ca1e1063-e1bd-4e03-a7cd-91985e9954e9@linux.intel.com>
- <096d59a0-5e18-092c-c9ae-d98130226f06@quicinc.com>
- <368d9019-2c96-468e-b472-7e1127f76213@linux.intel.com>
- <eb6370ea-47a0-3659-3c10-cb7f95e3e520@quicinc.com>
-From: =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>
-In-Reply-To: <eb6370ea-47a0-3659-3c10-cb7f95e3e520@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:GxC2BwBXLDfJj3JmG1u3AA--.19750S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxAF18WF1kCryUury8Cw15Jwb_yoWrWF47pa
+	9xK3W7tr4kAFy7Cw1Iya1xua4FvasYgF43GwsYqryfAan8Aryjva10kw15ZFyUJrs0qay2
+	vF4jkr1UZ3WDZaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUk0b4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxV
+	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij
+	64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
+	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26rWY6r4UJwCIc40Y0x0EwIxGrwCI42IY
+	6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6x
+	AIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv
+	6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUFYFCUUUUU
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgATBF1jj5tewQACsi
 
-On 6/18/2024 10:52 PM, Wesley Cheng wrote:
-> Hi Amadeusz,
-> 
-> On 6/18/2024 4:42 AM, Amadeusz Sławiński wrote:
->> On 6/17/2024 7:02 PM, Wesley Cheng wrote:
->>> Hi Amadeusz,
->>>
->>> On 6/13/2024 12:46 AM, Amadeusz Sławiński wrote:
->>>> On 6/12/2024 9:28 PM, Wesley Cheng wrote:
->>>>> Hi Amadeusz,
->>>>>
->>>>> On 6/12/2024 7:47 AM, Amadeusz Sławiński wrote:
->>>>>> On 6/11/2024 1:58 AM, Wesley Cheng wrote:
->>>>>>
->>>>>> (...)
->>>>>>
->>>>>>> +In the case where the USB offload driver is unbounded, while USB 
->>>>>>> SND is
->>>>>>
->>>>>> unbounded -> unbound
->>>>>>
->>>>>> (...)
->>>>>>
->>>>>>> +SOC USB and USB Sound Kcontrols
->>>>>>> +===============================
->>>>>>> +Details
->>>>>>> +-------
->>>>>>> +SOC USB and USB sound expose a set of SND kcontrols for 
->>>>>>> applications to select
->>>>>>> +and fetch the current offloading status for the ASoC platform 
->>>>>>> sound card. Kcontrols
->>>>>>> +are split between two layers:
->>>>>>> +
->>>>>>> +    - USB sound - Notifies the sound card number for the ASoC 
->>>>>>> platform sound
->>>>>>> +      card that it is registered to for supporting audio offload.
->>>>>>> +
->>>>>>> +    - SOC USB - Maintains the current status of the offload 
->>>>>>> path, and device
->>>>>>> +      (USB sound card and PCM device) information.  This would 
->>>>>>> be the main
->>>>>>> +      card that applications can read to determine offloading 
->>>>>>> capabilities.
->>>>>>> +
->>>>>>> +Implementation
->>>>>>> +--------------
->>>>>>> +
->>>>>>> +**Example:**
->>>>>>> +
->>>>>>> +  **Sound Cards**:
->>>>>>> +
->>>>>>> +    ::
->>>>>>> +
->>>>>>> +      0 [SM8250MTPWCD938]: sm8250 - SM8250-MTP-WCD9380-WSA8810-VA-D
->>>>>>> +                     SM8250-MTP-WCD9380-WSA8810-VA-DMIC
->>>>>>> +      1 [C320M          ]: USB-Audio - Plantronics C320-M
->>>>>>> +                     Plantronics Plantronics C320-M at 
->>>>>>> usb-xhci-hcd.1.auto-1, full speed
->>>>>>> +
->>>>>>> +
->>>>>>> +  **Platform Sound Card** - card#0:
->>>>>>> +
->>>>>>> +    ::
->>>>>>> +
->>>>>>> +      USB Offload Playback Route Card Select  1 (range -1->32)
->>>>>>> +      USB Offload Playback Route PCM Select   0 (range -1->255)
->>>>>>> +      USB Offload Playback Route Card Status  -1 (range -1->32)
->>>>>>> +      USB Offload Playback Route PCM Status   -1 (range -1->255)
->>>>>>> +
->>>>>>> +
->>>>>>> +  **USB Sound Card** - card#1:
->>>>>>> +
->>>>>>> +    ::
->>>>>>> +
->>>>>>> +      USB Offload Playback Capable Card         0 (range -1->32)
->>>>>>> +
->>>>>>> +
->>>>>>> +The platform sound card(card#0) kcontrols are created as part of 
->>>>>>> adding the SOC
->>>>>>> +USB device using **snd_soc_usb_add_port()**.  The following 
->>>>>>> kcontrols are defined
->>>>>>> +as:
->>>>>>> +
->>>>>>> +  - ``USB Offload Playback Route Card Status`` **(R)**: USB 
->>>>>>> sound card device index
->>>>>>> +    that defines which USB SND resources are currently 
->>>>>>> offloaded. If -1 is seen, it
->>>>>>> +    signifies that offload is not active.
->>>>>>> +  - ``USB Offload Playback Route PCM Status`` **(R)**: USB PCM 
->>>>>>> device index
->>>>>>> +    that defines which USB SND resources are currently 
->>>>>>> offloaded. If -1 is seen, it
->>>>>>> +    signifies that offload is not active.
->>>>>>> +  - ``USB Offload Playback Route Card Select`` **(R/W)**: USB 
->>>>>>> sound card index which
->>>>>>> +    selects the USB device to initiate offloading on.  If no 
->>>>>>> value is written to the
->>>>>>> +    kcontrol, then the last USB device discovered card index 
->>>>>>> will be chosen.
->>>>>>
->>>>>> I see only one kcontrol, what if hardware is capable of offloading 
->>>>>> on more cards, is it possible to do offloading on more than one 
->>>>>> device?
->>>>>>
->>>>>>> +  - ``USB Offload Playback Route PCM Select`` **(R/W)**: USB PCM 
->>>>>>> index which selects
->>>>>>> +    the USB device to initiate offloading on.  If no value is 
->>>>>>> written to the
->>>>>>> +    kcontrol, then the last USB device discovered PCM zero index 
->>>>>>> will be chosen.
->>>>>>> +
->>>>>>> +The USB sound card(card#1) kcontrols are created as USB audio 
->>>>>>> devices are plugged
->>>>>>> +into the physical USB port and enumerated.  The kcontrols are 
->>>>>>> defined as:
->>>>>>> +
->>>>>>> +  - ``USB Offload Playback Capable Card`` **(R)**: Provides the 
->>>>>>> sound card
->>>>>>> +    number/index that supports USB offloading.  Further/follow 
->>>>>>> up queries about
->>>>>>> +    the current offload state can be handled by reading the 
->>>>>>> offload status
->>>>>>> +    kcontrol exposed by the platform card.
->>>>>>> +
->>>>>>
->>>>>>
->>>>>> Why do we need to some magic between cards? I feel like whole 
->>>>>> kcontrol thing is overengineered a bit - I'm not sure I understand 
->>>>>> the need to do linking between cards. It would feel a lot simpler 
->>>>>> if USB card exposed one "USB Offload" kcontrol on USB card if USB 
->>>>>> controller supports offloading and allowed to set it to true/false 
->>>>>> to allow user to choose if they want to do offloading on device.
->>>>>>
->>>>>> (...)
->>>>>
->>>>> Based on feedback from Pierre, what I understood is that for some 
->>>>> applications, there won't be an order on which sound card is 
->>>>> queried/opened first.
->>>>>
->>>>
->>>> Yes if you have multiple cards, they are probed in random order.
->>>>
->>>>> So the end use case example given was if an application opened the 
->>>>> USB sound card first, it can see if there is an offload path 
->>>>> available. If there is then it can enable the offload path on the 
->>>>> corresponding card if desired.
->>>>>
->>>>
->>>> This still doesn't explain why you need to link cards using 
->>>> controls. What would not work with simple "Enable Offload" with 
->>>> true/false values on USB card that works while you do have above 
->>>> routing controls?
->>>>
->>>
->>> Sorry for the late response.
->>>
->>> I think either way, even with the "Enable Offload" kcontrol in USB 
->>> SND, we'd need a way to link these cards, because if you have 
->>> multiple USB audio devices connected, and say... your offload 
->>> mechanism only supports one stream.  Then I assume we'd still need to 
->>> way to determine if that stream can be enabled for that USB SND 
->>> device or not.
->>>
->>> Since the USB SND isn't really the entity maintaining the offload 
->>> path, I went with the decision to add that route selection to the 
->>> ASoC platform card. It would have access to all the parameters 
->>> supported by the audio DSP.
->>>
->>
->> Problem with card selection is that it will most likely work in pretty 
->> random way during reboots and similar scenarios.
->>
->> Taking from your example:
->>      USB Offload Playback Route Card Select  1 (range -1->32)
->>      USB Offload Playback Route PCM Select   0 (range -1->255)
->>      USB Offload Playback Route Card Status  -1 (range -1->32)
->>      USB Offload Playback Route PCM Status   -1 (range -1->255)
->>
->> This tells that hw:1,0 will be offloaded USB card. What happens if 
->> after reboot the USB card and offload card change places, the control 
->> will be pointing at its owner... Another scenario to consider is that 
->> user attaches two USB cards and only first one does offload. Now what 
->> happens when they enumerate in different order after reboot (swapping 
->> places)? Taking into the account that most systems restore previous 
->> values of controls in some way - this will point at wrong card.
-> 
-> That sounds like a problem that would exist with current USB SND 
-> implementation too?  Removing the offloading perspective, how does the 
-> system ensure that the previous setting stays persistent?  For example, 
-> as you mentioned, depending on which USB device enumerates first, the 
-> sound card may be different so cards will be switched.
-> 
+On Tue, 2024-06-18 at 19:20 -0400, Paul Moore wrote:
+> On Mon, Apr 15, 2024 at 10:25=E2=80=AFAM Roberto Sassu
+> <roberto.sassu@huaweicloud.com> wrote:
+> >=20
+> > From: Roberto Sassu <roberto.sassu@huawei.com>
+> >=20
+> > Integrity detection and protection has long been a desirable feature, t=
+o
+> > reach a large user base and mitigate the risk of flaws in the software
+> > and attacks.
+> >=20
+> > However, while solutions exist, they struggle to reach the large user
+> > base, due to requiring higher than desired constraints on performance,
+> > flexibility and configurability, that only security conscious people ar=
+e
+> > willing to accept.
+> >=20
+> > This is where the new digest_cache LSM comes into play, it offers
+> > additional support for new and existing integrity solutions, to make
+> > them faster and easier to deploy.
+> >=20
+> > The full documentation with the motivation and the solution details can=
+ be
+> > found in patch 14.
+> >=20
+> > The IMA integration patch set will be introduced separately. Also a PoC
+> > based on the current version of IPE can be provided.
+>=20
+> I'm not sure we want to implement a cache as a LSM.  I'm sure it would
+> work, but historically LSMs have provided some form of access control,
+> measurement, or other traditional security service.  A digest cache,
+> while potentially useful for a variety of security related
+> applications, is not a security service by itself, it is simply a file
+> digest storage mechanism.
 
-It works because there is no control pointing at other card. My main 
-problem is with controls which have card and pcm id of other card in it.
+Uhm, currently the digest_cache LSM is heavily based on the LSM
+infrastructure:
 
-> I think I mentioned this previously in another discussion, but I think 
-> the idea was that with the
-> USB Offload Playback Capable Card
-> 
-> kcontrol, would allow the system to at least know there is an offload 
-> capable path pointing to the ASoC platform card, and fetch more detailed 
-> information about which device is selected for offloading, etc...
-> 
+static struct security_hook_list digest_cache_hooks[] __ro_after_init =3D {
+	LSM_HOOK_INIT(inode_alloc_security, digest_cache_inode_alloc_security),
+	LSM_HOOK_INIT(inode_free_security, digest_cache_inode_free_security),
+	LSM_HOOK_INIT(path_truncate, digest_cache_path_truncate),
+	LSM_HOOK_INIT(file_release, digest_cache_file_release),
+	LSM_HOOK_INIT(inode_unlink, digest_cache_inode_unlink),
+	LSM_HOOK_INIT(inode_rename, digest_cache_inode_rename),
+	LSM_HOOK_INIT(inode_post_setxattr, digest_cache_inode_post_setxattr),
+	LSM_HOOK_INIT(inode_post_removexattr,
+		      digest_cache_inode_post_removexattr),
+};
 
-This works only in your design, where USB Offload is backed by card, 
-what happens if it is backed by something else?
+struct lsm_blob_sizes digest_cache_blob_sizes __ro_after_init =3D {
+	.lbs_inode =3D sizeof(struct digest_cache_security),
+	.lbs_file =3D sizeof(struct digest_cache *),
+};
 
->>
->> In my opinion Offload capability should be the capability of the 
->> endpoint - in this case USB card (even if in the background it needs 
->> to talk to some other device) and it should be exposed as such. 
->> Currently you are mixing capabilities of your audio card with 
->> capabilities of USB card.
->>
->> And adding more controls will not make it easy to use from end user 
->> perspective. Most users will most likely want for the devices to 
->> perform offload automatically if possible to save power and just have 
->> control to disable it in case they want to test if it works better 
->> without it in case of some problems.
-> 
-> I agree with you that we need to keep the controls at a minimum, but I 
-> think what I have in place is fairly reasonable.  If we switch to having 
-> the USB SND controlling things, we'd save maybe one control?  I think 
-> keeping the offload status controls are still fairly valuable in both 
-> scenarios, as userspace may need to verify which USB SND card is being 
-> offloaded.
-> 
+Sure, there could be a different indexing mechanism, although using the
+inode security blob seems quite efficient, since resolving the path is
+sufficient to find a digest cache.
 
-It should be able to tell which one is being offloaded by examining 
-which USB card has Offload control set to true.
+Also, registering to inode_alloc/free_security allows the digest_cache
+LSM to dynamically deallocate data when it is not necessary. In
+addition to that, there are a number of hooks to determine whether a
+digest cache should be refreshed or not.
 
-I would assume that USB cards that cannot perform Offload have no 
-control at all, as it is unneeded. And ones that can do, have Offload 
-control. And ones actively being Offloaded have it set to true, 
-otherwise to false.
+In the past, it was part of IMA and known as IMA Digest Lists, and as a
+separate module, called DIGLIM.
 
-End user has no need to know where it is offloaded. I'm not HW person, 
-but I would assume that it is even unlikely that someone will design HW, 
-where it is possible to Offload one endpoint to two different places, as 
-this complicates things a lot, but if it were possible, from design 
-perspective it would make a lot more sense to set it in Offloaded USB 
-card settings, instead of some seemingly unrelated controller card 
-device. And that is assuming that all solutions use some other card 
-device to perform Offload.
+Both required explicit loading of the file digests are extract from to
+the kernel through securityfs. Loading was done by an rpm plugin,
+invoked when software is installd/removed.
 
->>
->> Additional question what happens if you want to offload two usb cards, 
->> currently the above set of controls allows you to only point at one 
->> card, will you be adding additional set of above controls dynamically 
->> for each USB card attached?
->>
-> 
-> It would depend on the number of offload streams that folks may be 
-> supporting on their platform.  In our case we only have one available 
-> stream, so applications would need to switch between the two devices 
-> using the card/pcm selector.
-> 
-> In this case, there will be only one set of controls to select the 
-> card/pcm device.  As of now (I think I'll change to to add another 
-> separate set of controls per stream) if you did support multiple 
-> streams, then the current card/PCM device selector would take in 
-> multiple arugments. (ie for two streams the kcontrol can take in two 
-> values)
-> 
+That didn't look a good idea. DIGLIM does not know when the system is
+under memory pressure and when digests can be evicted from memory. All
+digests needed to be loaded, leading to having a big database.
 
-Then it is implementation detail of your device, and it should be 
-implemented as controls in your device instead of as part of generic API.
+I think this shortcoming has now been effectively solved by attaching
+the digests to the filesystem. Digests are always there, loadable on
+demand, unloadable by the system under memory pressure.
 
-Thanks,
-Amadeusz
+> I think it's fine if an individual LSM wants to implement a file
+> digest cache as part of its own functionality, but a generalized file
+> digest cache seems like something that should be part of the general
+> kernel, and not implemented as a LSM.
+
+If we keep the same design as now, it would be anyway connected to the
+filesystem, but reusing the LSM infrastructure makes it very easy as I
+don't require any change anywhere else.
+
+Sure, it is not doing access control, but I haven't find another good
+way to achieve the same. Do you have anything more specific in mind?
+
+Thanks
+
+Roberto
+
