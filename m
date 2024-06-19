@@ -1,65 +1,158 @@
-Received: from out203-205-221-245.mail.qq.com (out203-205-221-245.mail.qq.com [203.205.221.245])
+Received: from out203-205-221-236.mail.qq.com (out203-205-221-236.mail.qq.com [203.205.221.236])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D3ABCA40;
-	Wed, 19 Jun 2024 01:43:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1440A80C;
+	Wed, 19 Jun 2024 03:01:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.236
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718761398; cv=none; b=GBEHN85cXxOhOypam4iu5kGAZJWnW+rEkNdxSpajRCtU1EDQJ6fX+Di+NELiJU4YeWlt8alVcKUzYGIJVSS9IGI2CY0H90ppqiH9PKyfgqcLcMXimdo6F0lzFF1G7wfUP83FDWQ9unw+K3VPdQZTEsGNZajrC2iTsCPEZVCIycc=
+	t=1718766096; cv=none; b=ZLtLDj1AKQr0uUYMozImr77UPm02781iL/lZ6ntaXGjw1lGZ/ciXi0eua0U8BVGNFAl8LPc/tRV0b/tXq6TdN5htsNduXVFgkUrk9scDcFe6uxyXo2zM4EiKmwfwDxdg4RTMminTiIl6iSf33qX+ayUdx/gxd/Mz9BnP6ywLsTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718761398; c=relaxed/simple;
-	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	h=Message-ID:From:Content-Type:Mime-Version:Subject:Date:Cc:To; b=fjmb1Sj/9cFud3FhIPf6EfCO8rO1OZozxxe/xrvsxkvgwnW2U+qG0NFiVy+tN+GRfLq4aW7nuIxg1loXKq0VXHOqKmdUGxzVl3uzbxiSm7oGqA89sKXjaasa9k9lF19viVCbyrtgswwqF2ZaVv8BTHLS8rxBoVVMpVcHgKFmYvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=xsCcz3WG; arc=none smtp.client-ip=203.205.221.245
+	s=arc-20240116; t=1718766096; c=relaxed/simple;
+	bh=vZvt+Q/LzP1eRGX/oERlVvO2kvVkxg1YNUil1WnrQXw=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version:Content-Type; b=EdP3xU1v67qsKEuxOLwiEi4OJZBr+iTO3pKQzTaEDF63dTXzA2ZsTnulI+rt2YnHy7TZMdyD8ApWpgIDv61XAp2mn5+hspOrRajR+AJVvM3P9rfrlNsHh1Zl678hw5aYk7f8znrxchJdFsE4Rac1bXtuGHYFMg525EtAL9MBH1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=jlmokgAw; arc=none smtp.client-ip=203.205.221.236
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="xsCcz3WG"
+	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="jlmokgAw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1718761086;
-	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	h=From:Subject:Date:Cc:To;
-	b=xsCcz3WGEC0jUtG/OFZH/2SrmfktfMqk5UZGZ8Ju2HUKQfZXszAf6CWELwu0VuYHI
-	 KABoQxrguE+mjo5HG3nRL819gv+Gt7z/W2NzWwuqYOzNJGtbErdpHd7n73ilx4RHQn
-	 aZlu/4eizveWZABH3TZL7Mh1GXnFU0dC2ja+tXMo=
-Received: from smtpclient.apple ([2401:b180:9000:0:1051:934d:1051:934d])
-	by newxmesmtplogicsvrszc5-2.qq.com (NewEsmtp) with SMTP
-	id 983B581C; Wed, 19 Jun 2024 09:38:03 +0800
-X-QQ-mid: xmsmtpt1718761083tq8lqe0wo
-Message-ID: <tencent_33256C08A57BF8870600614ECB9602004405@qq.com>
-X-QQ-XMAILINFO: MVKy59SpMLfUV+b8Y0xW1uUo8WDMtRWsdFPbHcJ4FQkUYMHE4Pz+nsCp2U6G4o
-	 EtSbApYCfO7AKa6H+hQrPINoIaL6DaD4l3oedMvCXzRN7WgGqDU5af8d7s/tjrvmjDlHXFw35O6T
-	 Zv6eRN0RalLM6CS++3IGCEE/weCjXGGiX3xUEKvEnWRgzTEkSH2C1UzlT43A7HJZfwhwLVgdbJOS
-	 9gmNS5+i4Pqbd9k5EHhFDREbaOxXGJddvVNy/+jBfzvsMv+fLDhtMgEXR6bucoRgWYtSrsB0wTjw
-	 ia8EzpqqybDeF1z7BWiFBc2QTG74v4g0o1VoIeney7l4tT7xLc7zyB85kK+ZgTL6oPLXChp+FNXG
-	 LBzIEdvI220fTtA8bUYFijxrMnKaGL1N2j2c5/VDxgoZRlPp+MdZmNWNgeMK2Zl16VM7I8pzZjU0
-	 tsBXTfRlLtt4UJjPGIAiIwh6aR0Qg1K97pKJ6hgPt4FPIjlulTuc1Vw+FfJK43ecJQpWprHpGZCE
-	 13UnGg6ESum2oJyH5J9GW0XWdiCPS+/vaz8MWRLuvEVjBKNpYGDwb4QcgAjsjVuVdC7/NbnOGKME
-	 YE+ScgHNiHbpZVARcCp30ZjkfGUzp5+OjNDdIoaajW911B7jjyiEPsglPEsWsUPf7wUqC84NaPYV
-	 yDAPzCmdgGOdVGiZpNwBYhc02YAYQtQLXebk3ZIpafUOZn4u44YOhtRH5ft9WuS0upg0hePfVsIt
-	 fHQYzwtI9v99oFIzDxe9LGlHvLhEDKC5Fgzu/ykoBMzW2p/VHb5sJ9gIN20p1nUMk0XRsqPxD/1P
-	 4TiRj16pGxXIUkVK3ET30Dq4DwLdmbSRbN1//wxzLmA7HyTCX4vr7bgzda8QNtLBz8ErKwCbkNvn
-	 Q9N0znxTqE5tZjZNx6yHYP2oM+KzVhuLrS/R+Tyw4t
-X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
-From: =?utf-8?B?6YK55rab?= <wodemia@foxmail.com>
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+	s=s201512; t=1718766090;
+	bh=0hRYs10zniVh/Kbu/d3Ip8FfbIfjenzhLGf7tpfWBTQ=;
+	h=From:To:Cc:Subject:Date;
+	b=jlmokgAwNvm6ELi/DVliMXdd4BZPVnr+/36zWfmR6lUcImnu3E8fldx534Qm3sXm+
+	 Z6VqkgAylQhsasKlkupnOJMJjebZ68InT/uv30wjG9pXxIcSCO7+hlzDqLTlIclRtu
+	 LCJ5ud8BUbGSTKK1d29RcBhpSvEW5BjIVReGiWJk=
+Received: from localhost.localdomain ([203.119.160.17])
+	by newxmesmtplogicsvrsza29-0.qq.com (NewEsmtp) with SMTP
+	id 5AB561B; Wed, 19 Jun 2024 11:01:26 +0800
+X-QQ-mid: xmsmtpt1718766086tdnz6c130
+Message-ID: <tencent_83C854981B8ACA301E4D0282AA961AC50406@qq.com>
+X-QQ-XMAILINFO: NkHKfw09D6j8tP9BJAzFHdz/bdbMa8zMAoYEa/BexjDyovkbn/YVumePIzk29d
+	 EfkwUiR5gJbHWt63KbFDQr/lIw3yNoedxroGnvXa8riBv3kyhXcpUQddxX1jiuilZeDaD/om8yY/
+	 iN37iWZr/c9EdnYD22OS5kyWvUklniIyqopW1m3hsVGQMh9LvPlUJYlm/TkdkrWHLRP4lI01fyU2
+	 VK4S0/AQXBUdsxVFqOx3czZh6yjC5GSdvkDXqoui05fI+JabUm+bQOripuZJ/wcVEfxC7/YtJO8P
+	 m3SgQz/FrVetpWcqUteJKRjR0J+cBayX6tUONZ+2WX+ymbSzAetrPg+IKHmHjJrUPtwWTXKGQWYT
+	 yEi56ZI9uYG/Colwl6w43ASylNFUgHzX0u7OxDv82p/Ela+dRZv6uPc++8mrnmmjNBzh7R0RDV68
+	 OVeBGb1hHwsHZHrgLo0pF3ImZhzZGjVR6aHR5W5Plr78tSJznyfzhJsD1pAjRRwVMWeUzxCYfWJl
+	 4n8/wl7ed8K0YqChu6pxxRgJf6Lu+eUWiOGIvao92E2lV/oaUZXKXXaIhtggSy3u+onhLQOmGpIF
+	 M+XY/ejf+wh1nQbViZXjAt0dbNG8Ox5NjN9r6v95O+gLMJ2Y7437u2cnzPrGV1TDOzMvXr7Em9i1
+	 /WGujtO4yRu13eaHggyhOZTu/40y8YiH6BJk4B3kxNrX0SxYzAgaJ1eDGVPsYcVfXV9ykyv0BAsX
+	 ZaDtsa87wY7K4obWczkfz2bb2GMeZ2ilSKK1nBqJAARULhsyoidV0b3lz9RdR7k8shP+dEDkWcJK
+	 sv1yzDgblhKhNwmiG2aK0+rVSBgXKxTH8rg1iOQtzVpuy2hvZaOTUJTvftIJaRoHzffB8xXBHK/R
+	 vmTzRXCBI64kYXIDQ+vzUxo9qg5QbDx6poC2+jpTM/OMChPxXI2n1WtLcbw8lzVNyr6JP1Dplrw9
+	 f9gKvOS0GlpL+iJbi+p6q4QQ9GhSPnIvuo6pmjil2LUwee1ZdcBQ==
+X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
+From: Tao Zou <wodemia@foxmail.com>
+To: Alex Shi <alexs@kernel.org>,
+	Yanteng Si <siyanteng@loongson.cn>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Tao Zou <wodemia@linux.alibaba.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] zh_CN/admin-guide: Add zh_CN/admin-guide/numastat.rst translation document
+Date: Wed, 19 Jun 2024 11:01:07 +0800
+X-OQ-MSGID: <20240619030107.47012-1-wodemia@foxmail.com>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3774.600.62\))
-Subject: Re: [PATCH V1 RESEND 1/1] zh_CN/admin-guide: Add
- zh_CN/admin-guide/numastat.rst translation document
-X-OQ-MSGID: <F7159148-EA2E-4BDB-B689-C6DD75C1D3CC@foxmail.com>
-Date: Wed, 19 Jun 2024 09:37:53 +0800
-Cc: alexs@kernel.org,
- corbet@lwn.net,
- linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- wodemia@foxmail.com,
- wodemia@linux.alibaba.com
-To: Yanteng Si <siyanteng@loongson.cn>
-X-Mailer: Apple Mail (2.3774.600.62)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+From: Tao Zou <wodemia@linux.alibaba.com>
+
+Add translation zh_CN/admin-guide/numastat.rst and link it to
+zh_CN/admin-guide/index.rst while clean its todo entry.
+
+commit 77691ee92d4a("Documentation: update numastat explanation")
+
+Signed-off-by: Tao Zou <wodemia@linux.alibaba.com>
+--- 
+v1->v2: drop the useless label "+.. _cn_numastat:" and unnecessary "=", 
+	add a commit tag of origin document in commit description
+
+ .../translations/zh_CN/admin-guide/index.rst  |  2 +-
+ .../zh_CN/admin-guide/numastat.rst            | 48 +++++++++++++++++++
+ 2 files changed, 49 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/admin-guide/numastat.rst
+
+diff --git a/Documentation/translations/zh_CN/admin-guide/index.rst b/Documentation/translations/zh_CN/admin-guide/index.rst
+index ac2960da33e6..0db80ab830a0 100644
+--- a/Documentation/translations/zh_CN/admin-guide/index.rst
++++ b/Documentation/translations/zh_CN/admin-guide/index.rst
+@@ -68,6 +68,7 @@ Todolist:
+    cpu-load
+    cputopology
+    lockup-watchdogs
++   numastat
+    unicode
+    sysrq
+    mm/index
+@@ -109,7 +110,6 @@ Todolist:
+ *   module-signing
+ *   mono
+ *   namespaces/index
+-*   numastat
+ *   parport
+ *   perf-security
+ *   pm/index
+diff --git a/Documentation/translations/zh_CN/admin-guide/numastat.rst b/Documentation/translations/zh_CN/admin-guide/numastat.rst
+new file mode 100644
+index 000000000000..817043676c90
+--- /dev/null
++++ b/Documentation/translations/zh_CN/admin-guide/numastat.rst
+@@ -0,0 +1,48 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/admin-guide/numastat.rst
++:Translator: Tao Zou <wodemia@linux.alibaba.com>
++
++
++=======================
++Numa策略命中/未命中统计
++=======================
++
++/sys/devices/system/node/node*/numastat
++
++所有数据的单位都是页面。巨页有独立的计数器。
++
++numa_hit、numa_miss和numa_foreign计数器反应了进程是否能够在他们偏好的节点上分配内存。
++如果进程成功在偏好的节点上分配内存则在偏好的节点上增加numa_hit计数，否则在偏好的节点上增
++加numa_foreign计数同时在实际内存分配的节点上增加numa_miss计数。
++
++通常，偏好的节点是进程运行所在的CPU的本地节点，但是一些限制可以改变这一行为，比如内存策略，
++因此同样有两个基于CPU本地节点的计数器。local_node和numa_hit类似，当在CPU所在的节点上分
++配内存时增加local_node计数，other_node和numa_miss类似，当在CPU所在节点之外的其他节点
++上成功分配内存时增加other_node计数。需要注意，没有和numa_foreign对应的计数器。
++
++更多细节内容:
++
++=============== ============================================================
++numa_hit        一个进程想要从本节点分配内存并且成功。
++
++numa_miss       一个进程想要从其他节点分配内存但是最终在本节点完成内存分配。
++
++numa_foreign    一个进程想要在本节点分配内存但是最终在其他节点完成内存分配。
++
++local_node      一个进程运行在本节点的CPU上并且从本节点上获得了内存。
++
++other_node      一个进程运行在其他节点的CPU上但是在本节点上获得了内存。
++
++interleave_hit  内存交叉分配策略下想要从本节点分配内存并且成功。
++=============== ============================================================
++
++你可以使用numactl软件包（http://oss.sgi.com/projects/libnuma/）中的numastat工具
++来辅助阅读。需要注意，numastat工具目前只在有少量CPU的机器上运行良好。
++
++需要注意，在有无内存节点（一个节点有CPUs但是没有内存）的系统中numa_hit，numa_miss和
++numa_foreign统计数据会被严重曲解。在当前的内核实现中，如果一个进程偏好一个无内存节点（即
++进程正在该节点的一个本地CPU上运行），实际上会从距离最近的有内存节点中挑选一个作为偏好节点。
++结果会导致相应的内存分配不会增加无内存节点上的numa_foreign计数器，并且会扭曲最近节点上的
++numa_hit、numa_miss和numa_foreign统计数据。
+-- 
+2.39.3 (Apple Git-146)
 
