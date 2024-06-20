@@ -1,64 +1,222 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C02E1AD486;
-	Thu, 20 Jun 2024 16:20:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A321AED3E
+	for <linux-doc@vger.kernel.org>; Thu, 20 Jun 2024 16:24:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718900445; cv=none; b=I0roc0AsvK4Gcb98YAkimsxEPPRhDTM7xWmFiFxp5zNzAVpAm0UJCZ54QCXj0sRRzl0VXZgdYxvORAR1HJX5vyqIMcgKy98sZydjzuEFkQwYL6X2ACCljr/r/qoXcy7x9vwH4C/mcXSE1fAEN9Mt76wYd1rVFbFm1mgFAlLKW/o=
+	t=1718900663; cv=none; b=HFfYfZo4gP4Vt37YNf5S2doGs4cgkjM+lCbGjdYNHq6toMK1r7zF0qJ77C00QnCsjjmJpNUQxM+QhSzdyLiT9RCHFuDrxVlrzzMXcXRI5BjIFjjma1B192402aL5tVdNAKxTAEZXu3t57B43JgCPZNq58q8sqUNh341JK5Anes8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718900445; c=relaxed/simple;
-	bh=Ei2mXhkMdIXa7FVDgJeUlvKaLLb4XZD4GhWPWTEbGqs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TPvWNeIBBlcTJZlnS5kqmpTP/fmBml74q+SQQE1V+yn07o0nr621BZsxw2PefO471L8kV371hadAFZQDWqBFjX9iRkkge06IcPp1hgSDbLddr6w5VTpLZd9GJcMuWSlC7bVVFG7l4XEy5mMtd5JetnTNqaWCBtRckbI8W7LG07A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nu2Yr48S; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718900663; c=relaxed/simple;
+	bh=G9HKFUhajGasiqamL48YDxw+DEmI8YzmL0Uiykg5fY4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=C0YNEZtVwX9/Ar99+QXwcsmo0oIJpIL55auxIRn1l6olFhuYk5yaHmKbG3stfHAtd67jskfh7lgQkBFd1PSvDZwMgXJvPH91u64fX+2ifXF7rQxgH4WB590CVdHzAOs5LP5GI3D8jFG1YzmSWiIQEnriyKqpW9N+fouAZow90zo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=YMS+NiOH; arc=none smtp.client-ip=209.85.210.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nu2Yr48S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 412CEC2BD10;
-	Thu, 20 Jun 2024 16:20:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718900445;
-	bh=Ei2mXhkMdIXa7FVDgJeUlvKaLLb4XZD4GhWPWTEbGqs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Nu2Yr48SMT1dEChkQZ4vicJt/c6nYv2Fw6IWSIcipsJAWbcMdGVKjF05YMka0KIq3
-	 cQDU4SVfXPJx7LUIewT3F/xj9S9fMLKu7L18ycjslIuHn+0wmfiYmmo5jnusXD5h1O
-	 dYgcJwPXw+fYdUIEhzuXZNoYOlj7XCgUMlRRfNxn3ZprHWDKCC5DuZX+SN5yRTWK4J
-	 fjedakvvr6In6GUx7mW6m2s/kaWMeGf6SkNUA5lAafrSIuPws0f8+cidLkm18FWTBY
-	 cvlElmnH/l6zdndlkAzl/4WZNPK4Lit46hXHzM9/IgkfrCm4sZJVdKw6GgKdjlgQYQ
-	 rSLyTWdke1/Vw==
-Date: Thu, 20 Jun 2024 21:50:41 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Paul Cercueil <paul@crapouillou.net>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jonathan Corbet <corbet@lwn.net>, Nuno Sa <nuno.sa@analog.com>,
-	linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v12 0/7] iio: new DMABUF based API v12
-Message-ID: <ZnRW2axOg7gtKzz0@matsya>
-References: <20240620122726.41232-1-paul@crapouillou.net>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="YMS+NiOH"
+Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-6f978caf8bbso765752a34.0
+        for <linux-doc@vger.kernel.org>; Thu, 20 Jun 2024 09:24:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1718900661; x=1719505461; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Nt4TaLRiigym5jbcwq/kMWuY93Qd7TBOqg1NFwNoq6E=;
+        b=YMS+NiOHPFLEdu4YzN1VwDcS8pERi2TrlGLwDogh55nknPwdYDZDWK5pSdVBPEyYhw
+         +yCCZriIRvEWVLCfJJjSR5/C+jqMDrxJWNRc+4J/KRPMp4xJR2PeuMmdHrjuH0nb3TcI
+         p0Aj801PeKi0IbIKmfJeXFTAHW8O/muMrcDGk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718900661; x=1719505461;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Nt4TaLRiigym5jbcwq/kMWuY93Qd7TBOqg1NFwNoq6E=;
+        b=pruNr+glrsQ8+XypheI+XxtTLUNvlAax+JJ3Wj+DBH2iWCyoEr/lsXUvEoMLohqdaJ
+         Tr2weKPF9Z431q01w24wIzqLqwa+8cSNkgie95Fx+Tvugq9mKGSbeNaZkcW36uSZHg7F
+         Nqe4IPZsb2wYR6pYSZZKcI16nZcwXbiIiZOAQB4Pe8B/riXVs8mD6YdpI71X9HdcfHhY
+         6/6dzMBFwcFyMd/HS9BWuM3Rlm6WA/ZbeN4V+Ktovk+kCOfsIqPan8H9x4C8uKVLTE2R
+         L3jZzytjfunVcjZgHIPChdfnlpEFGD/1vc/iKV92xvUn2K9PSJwaFPSV0Il70A2xuk21
+         J5RA==
+X-Forwarded-Encrypted: i=1; AJvYcCUEAvNIL3cxrsemS1vO4ASvVWDd9NGpt7i2NKeQw2HqrfA44pD9fuAlrN6xGPhWdQNWQ2deXu5NEJ5ewX04WSHv7LcobYHqF2V0
+X-Gm-Message-State: AOJu0YzV1aohf89tgRPdmI1iuzp8cBBnejQYM+mljdi8zWJ5dd9w6zqz
+	HcC4XZGnx9uJiHlF2oFPwnKp7TI/wPRezgl1/rlNFe4CwhsbX+Rqp3Z63XGKLcQHtlehwu5GOne
+	X4Axty+irZWfVjYHCdibQSXb+LFSz0je4MCed
+X-Google-Smtp-Source: AGHT+IFBpvlmEuvbahBVElIajKUVoumeP4+3qEjJukkg86pbSwvP4+dt7eZAeaxRiL+fF3GyBU2EqugxSpNNxR2hW2s=
+X-Received: by 2002:a05:6870:248a:b0:254:b781:2f5e with SMTP id
+ 586e51a60fabf-25972de7257mr3753010fac.17.1718900660925; Thu, 20 Jun 2024
+ 09:24:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240620122726.41232-1-paul@crapouillou.net>
+References: <20240613133937.2352724-1-adrian.ratiu@collabora.com>
+ <20240613133937.2352724-2-adrian.ratiu@collabora.com> <CABi2SkXY20M24fcUgejAMuJpNZqsLxd0g1PZ-8RcvzxO6NO6cA@mail.gmail.com>
+ <202406191336.AC7F803123@keescook>
+In-Reply-To: <202406191336.AC7F803123@keescook>
+From: Jeff Xu <jeffxu@chromium.org>
+Date: Thu, 20 Jun 2024 09:24:09 -0700
+Message-ID: <CABi2SkWDwAU2ARyMVTeCqFeOXyQZn3hbkdWv-1OzzgG=MNoU8Q@mail.gmail.com>
+Subject: Re: [PATCH v6 2/2] proc: restrict /proc/pid/mem
+To: Kees Cook <kees@kernel.org>
+Cc: Adrian Ratiu <adrian.ratiu@collabora.com>, linux-fsdevel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org, 
+	kernel@collabora.com, gbiv@google.com, ryanbeltran@google.com, 
+	inglorion@google.com, ajordanr@google.com, jorgelo@chromium.org, 
+	Guenter Roeck <groeck@chromium.org>, Doug Anderson <dianders@chromium.org>, 
+	Jann Horn <jannh@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Christian Brauner <brauner@kernel.org>, Jeff Xu <jeffxu@google.com>, 
+	Mike Frysinger <vapier@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 20-06-24, 14:27, Paul Cercueil wrote:
-> Hi Jonathan,
+On Wed, Jun 19, 2024 at 1:41=E2=80=AFPM Kees Cook <kees@kernel.org> wrote:
+>
+> On Tue, Jun 18, 2024 at 03:39:44PM -0700, Jeff Xu wrote:
+> > Hi
+> >
+> > Thanks for the patch !
+> >
+> > On Thu, Jun 13, 2024 at 6:40=E2=80=AFAM Adrian Ratiu <adrian.ratiu@coll=
+abora.com> wrote:
+> > >
+> > > Prior to v2.6.39 write access to /proc/<pid>/mem was restricted,
+> > > after which it got allowed in commit 198214a7ee50 ("proc: enable
+> > > writing to /proc/pid/mem"). Famous last words from that patch:
+> > > "no longer a security hazard". :)
+> > >
+> > > Afterwards exploits started causing drama like [1]. The exploits
+> > > using /proc/*/mem can be rather sophisticated like [2] which
+> > > installed an arbitrary payload from noexec storage into a running
+> > > process then exec'd it, which itself could include an ELF loader
+> > > to run arbitrary code off noexec storage.
+> > >
+> > > One of the well-known problems with /proc/*/mem writes is they
+> > > ignore page permissions via FOLL_FORCE, as opposed to writes via
+> > > process_vm_writev which respect page permissions. These writes can
+> > > also be used to bypass mode bits.
+> > >
+> > > To harden against these types of attacks, distrbutions might want
+> > > to restrict /proc/pid/mem accesses, either entirely or partially,
+> > > for eg. to restrict FOLL_FORCE usage.
+> > >
+> > > Known valid use-cases which still need these accesses are:
+> > >
+> > > * Debuggers which also have ptrace permissions, so they can access
+> > > memory anyway via PTRACE_POKEDATA & co. Some debuggers like GDB
+> > > are designed to write /proc/pid/mem for basic functionality.
+> > >
+> > > * Container supervisors using the seccomp notifier to intercept
+> > > syscalls and rewrite memory of calling processes by passing
+> > > around /proc/pid/mem file descriptors.
+> > >
+> > > There might be more, that's why these params default to disabled.
+> > >
+> > > Regarding other mechanisms which can block these accesses:
+> > >
+> > > * seccomp filters can be used to block mmap/mprotect calls with W|X
+> > > perms, but they often can't block open calls as daemons want to
+> > > read/write their runtime state and seccomp filters cannot check
+> > > file paths, so plain write calls can't be easily blocked.
+> > >
+> > > * Since the mem file is part of the dynamic /proc/<pid>/ space, we
+> > > can't run chmod once at boot to restrict it (and trying to react
+> > > to every process and run chmod doesn't scale, and the kernel no
+> > > longer allows chmod on any of these paths).
+> > >
+> > > * SELinux could be used with a rule to cover all /proc/*/mem files,
+> > > but even then having multiple ways to deny an attack is useful in
+> > > case one layer fails.
+> > >
+> > > Thus we introduce four kernel parameters to restrict /proc/*/mem
+> > > access: open-read, open-write, write and foll_force. All these can
+> > > be independently set to the following values:
+> > >
+> > > all     =3D> restrict all access unconditionally.
+> > > ptracer =3D> restrict all access except for ptracer processes.
+> > >
+> > > If left unset, the existing behaviour is preserved, i.e. access
+> > > is governed by basic file permissions.
+> > >
+> > > Examples which can be passed by bootloaders:
+> > >
+> > > proc_mem.restrict_foll_force=3Dall
+> > > proc_mem.restrict_open_write=3Dptracer
+> > > proc_mem.restrict_open_read=3Dptracer
+> > > proc_mem.restrict_write=3Dall
+> > >
+> > > These knobs can also be enabled via Kconfig like for eg:
+> > >
+> > > CONFIG_PROC_MEM_RESTRICT_WRITE_PTRACE_DEFAULT=3Dy
+> > > CONFIG_PROC_MEM_RESTRICT_FOLL_FORCE_PTRACE_DEFAULT=3Dy
+> > >
+> > > Each distribution needs to decide what restrictions to apply,
+> > > depending on its use-cases. Embedded systems might want to do
+> > > more, while general-purpouse distros might want a more relaxed
+> > > policy, because for e.g. foll_force=3Dall and write=3Dall both break
+> > > break GDB, so it might be a bit excessive.
+> > >
+> > > Based on an initial patch by Mike Frysinger <vapier@chromium.org>.
+> > >
+> > It is noteworthy that ChromeOS has benefited from blocking
+> > /proc/pid/mem write since 2017 [1], owing to the patch implemented by
+> > Mike Frysinger.
+> >
+> > It is great that upstream can consider this patch, ChromeOS will use
+> > the solution once it is accepted.
+> >
+> > > Link: https://lwn.net/Articles/476947/ [1]
+> > > Link: https://issues.chromium.org/issues/40089045 [2]
+> > > Cc: Guenter Roeck <groeck@chromium.org>
+> > > Cc: Doug Anderson <dianders@chromium.org>
+> > > Cc: Kees Cook <keescook@chromium.org>
+> > > Cc: Jann Horn <jannh@google.com>
+> > > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > > Cc: Randy Dunlap <rdunlap@infradead.org>
+> > > Cc: Christian Brauner <brauner@kernel.org>
+> > > Cc: Jeff Xu <jeffxu@google.com>
+> > > Co-developed-by: Mike Frysinger <vapier@chromium.org>
+> > > Signed-off-by: Mike Frysinger <vapier@chromium.org>
+> > > Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+> >
+> > Reviewed-by: Jeff Xu <jeffxu@chromium.org>
+> > Tested-by: Jeff Xu <jeffxu@chromium.org>
+> > [1] https://chromium-review.googlesource.com/c/chromiumos/third_party/k=
+ernel/+/764773
+>
+> Thanks for the testing! What settings did you use? I think Chrome OS was
+> effectively doing this?
+>
+> PROC_MEM_RESTRICT_OPEN_READ_OFF=3Dy
+> CONFIG_PROC_MEM_RESTRICT_OPEN_WRITE_ALL=3Dy
+> CONFIG_PROC_MEM_RESTRICT_WRITE_ALL=3Dy
+> CONFIG_PROC_MEM_RESTRICT_FOLL_FORCE_ALL=3Dy
+>
+> Though I don't see the FOLL_FORCE changes in the linked Chrome OS patch,
+> but I suspect it's unreachable with
+> CONFIG_PROC_MEM_RESTRICT_OPEN_WRITE_ALL=3Dy.
+>
+I use CONFIG_PROC_MEM_RESTRICT_WRITE_ALL=3Dy and
+did manual test writing to /proc/pid/mem using code similar to [1]
 
-Hey Jonathan,
+The __mem_rw_block_writes check is placed ahead of
+__mem_rw_get_foll_force_flag, so it doesn't need
+CONFIG_PROC_MEM_RESTRICT_FOLL_FORCE_DEFAULT. It might be nice to call
+this out in kernel-parameters.txt.
 
-Assuming we are fine with this series, how would you like to proceed.
-Would you be fine with me picking the dmaengine bits and providing a
-signed tag for you to pull?
+I didn't restrict_open_read and restrict_open_write, ChromeOS doesn't
+use those two.
 
--- 
-~Vinod
+-Jeff
+
+[1] https://offlinemark.com/an-obscure-quirk-of-proc/
+
+> -Kees
+
+>
+> --
+> Kees Cook
