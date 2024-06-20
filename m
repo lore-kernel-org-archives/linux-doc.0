@@ -1,117 +1,175 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB2D51862A;
-	Thu, 20 Jun 2024 19:30:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6990B1B47B0;
+	Thu, 20 Jun 2024 19:42:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718911832; cv=none; b=SqdOcvks/lPlBAikglFEsTYWME8SDjXCuRU9zRsaBrjKIW25lFpz1hbRP5TYeH5PFyfPA4bFH8ver8ovGJGl+W8XAA6iUsKM+WuJFej8NEf/jlisStneLHeEmSICiQa8yNE498I9C5HXJKTgeN5Zrbzb9mkMxRuEs9UYNZOOStI=
+	t=1718912555; cv=none; b=jzw3lcV0+/TBp1iv/yqgkZPD74jHWGSXoj8TzdOivniugCIsRLPRiD8DSlWDtWSvPkt6gKqlwDSsrri0zF4iBW5qnSNjEJgJ2164D6jR9G7MEuK6d/uP5Fwte5517Vsk8liR4VG2CL4HkUx34cJn3byntPn5g4EJc8ehPC6O2ZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718911832; c=relaxed/simple;
-	bh=29nTEiif20CFUV9FBLNA/wCmJTCDRc6J9B7DziK6rUI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UCc0G90RHiS9GoZnaYO+4wJerNKrTZLGrElf8ij8OAuiNZrMWWW4lpNPYDpgGM0nkuNnFQkF+lJjiXkL0BpyzjE/KyIk7aoufe9cIv4B/yEtN46ZP3jMx5umVBf82zzfUTp2C8RyTddgUuqb0NczsSSTpBho+pU2ZhbTfN4v1kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sgdp9V3g; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718912555; c=relaxed/simple;
+	bh=mYmnt4GK2dGIOCIs5anX3G58REvbWfiaZ0srsiFxdnA=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=S4UjgsU2gadLgXYObVvEIPwsIxfvpF9sgoqGL4lUJhD0vYJMUh2uojkjUjgiYUFh+z462ithITGIuNRbeBK8v/PRnDEtA/khHpZnPMbVefA59FNvYap+nw+yXlsgiKXeZa1LvAjQ3FhGJdgxk9gwGq+ZbKIn7RAkkrA8pYai41A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=NkZOgw6t; arc=none smtp.client-ip=212.227.15.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sgdp9V3g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1889FC2BD10;
-	Thu, 20 Jun 2024 19:30:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718911830;
-	bh=29nTEiif20CFUV9FBLNA/wCmJTCDRc6J9B7DziK6rUI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sgdp9V3gASTmkotfe2knDUlY5iJLpdRqn9R2XMzOkkMSWzRg8JwEUxbTbGtvJxW9h
-	 Y5BUI8/1ekn7sM9Iha4NxGqJvt5c0nG4suDzbSqO02P9HSGO9RxcPJJmd7e0zubHz9
-	 cMiQderXjZ77F9SDuPQDHiAMZW7yh4LrYedKvr2Mzu70havA5hQaEpt+6iWabTjT1C
-	 OT4yCuTePD8iVNpjkSgPna/qd/uCurVBrjLW/td7G6mTnsQoJ3ZcYGQNqp/YaA5xWb
-	 Hbj2qTeD2SftoUg4qCGpwI/KwMMSkrUL+mE+Aj19e1xJpBrFG2IXwDG0Bdd2Xa+I5C
-	 KrcNfcMN7iR+w==
-Date: Thu, 20 Jun 2024 20:30:23 +0100
-From: Simon Horman <horms@kernel.org>
-To: Danielle Ratson <danieller@nvidia.com>
-Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
-	linux@armlinux.org.uk, sdf@google.com, kory.maincent@bootlin.com,
-	maxime.chevallier@bootlin.com, vladimir.oltean@nxp.com,
-	przemyslaw.kitszel@intel.com, ahmed.zaki@intel.com,
-	richardcochran@gmail.com, shayagr@amazon.com,
-	paul.greenwalt@intel.com, jiri@resnulli.us,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	mlxsw@nvidia.com, idosch@nvidia.com, petrm@nvidia.com
-Subject: Re: [PATCH net-next v6 4/9] ethtool: Add flashing transceiver
- modules' firmware notifications ability
-Message-ID: <20240620193023.GS959333@kernel.org>
-References: <20240619121727.3643161-1-danieller@nvidia.com>
- <20240619121727.3643161-5-danieller@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="NkZOgw6t"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1718912544; x=1719517344; i=w_armin@gmx.de;
+	bh=PYp2lv5xv22R9q1sDIOv7IbibTAKBTU+eiSHljr5q0c=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
+	 References:MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=NkZOgw6tF+AkUT4jtkoWL/LIbofS0AZAqX8mbEXBXblsByhzrwp26DZ1Df063+T0
+	 tNvBXqX63TyQ6/yUukg0RRzu7Sh5/xa6w1+JZ8mlxBLVQ9dMs06jYkglP/70bsbcX
+	 KlUdkTzK+dEm5tHoasbKTU4LTB13INsMgr5LBNhRpMSXVdJv4EssvJXGvghhWzLY1
+	 mSfjivNUseq+oRDo4JfAUue3U2wKlKLpC7DmM1X3TivMcvhHb1dT6/+DXPxgFWcbz
+	 OOY29APTOyD2Q8i+myb83yPUjwz5L34mfGUXSvqLj+EqyWuWUWTFBMxO1ZOvB+K4z
+	 CMuKEDkhSyX+qDvKSA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from mx-amd-b650.users.agdsn.de ([141.30.226.129]) by mail.gmx.net
+ (mrgmx005 [212.227.17.190]) with ESMTPSA (Nemesis) id
+ 1MiJZE-1soVDt3XXi-00lUcl; Thu, 20 Jun 2024 21:42:23 +0200
+From: Armin Wolf <W_Armin@gmx.de>
+To: hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com
+Cc: corbet@lwn.net,
+	platform-driver-x86@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] platform/x86: wmi: Add driver_override support
+Date: Thu, 20 Jun 2024 21:42:13 +0200
+Message-Id: <20240620194214.3071-2-W_Armin@gmx.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240620194214.3071-1-W_Armin@gmx.de>
+References: <20240620194214.3071-1-W_Armin@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240619121727.3643161-5-danieller@nvidia.com>
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:nDT5ve5bn/1zdhwo1EqKkZGy8kV47xYEIMkcetYfJy8IkM8oynS
+ oBk51ViQKdsyuiqrZH5sBzN5HBciQWJcDvtrv6XBIgUjATSF/CvCdkTJUE6G5X8m0Gt0VS3
+ 02U9aglRbC5Tc4qN8hKcCNzgBz5lJ/iK0PmFlycKUrESsytsgSJleTkFhRG4CVNCflvnBxM
+ f2s7TKVAS+1Mo2EQPDCVQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:qaWDuPhjJdM=;kAoxaNUUSO8vx5KKcsFvMaM9OCk
+ Fb8db+URy3LhuxhoHPqlyDUChbfLXV9bnG0ERehbH+Z/tQB/feNroLWHPzU2vFszJd0+ZB1xu
+ Hfo/9SxGmJtkvWjSg0Xq9XlraoyQUHs55GlxcBu9ihVRR/WIptLei+EJGsBXaJ2K/MRFePsFz
+ pd41ygVntfagvdfc5HBk8+NhNe0ODu/6+VcJ5oSgxFql/tqndbFyTk+ulHWKhcptu0vGBrS/r
+ 6KtZDUlT2PNL+HSqDHAsTidJi4nnkAhr33qB/GdHJ1BhkwepoPda+cySOZwx+WYLovRQeDLsG
+ jrXE8uI+r6PX+t1DxUh4L/ApYExSgtnX+TtckN8a3pdxG4iRfjbN3zfN4/YXc+epqcuykI4Mm
+ nWCD41i4yfIwBkdi82aQ6un6KTyMvQIH7z2u4Vnk/Sb+hGDbGCNtvuL4eB/fG9QewnwQAS8nP
+ U7sfkVazKTyoWvMyT0f9JMfK/X0GFj0szp/USiTx2NGZRkXljIt4CtgM8ns4GEyKo5FRl1L3O
+ R7Jxk2WcUZJbCC1XTD3zBcCsfECTHpl7K2R+xwHz9H+0vksxQo2uAwds6he5DImpHjZaMFO+1
+ vYUjyJJx33zWJNoNn12Q45j42QWbHUT9PFrNwMvPadCoHfft+64Fk7FoJmajcUw6BXPQSiA2x
+ Dd3y29g8kGKxVIhrzQlPM50UKB27VItW1HabEYM9pcRSTwLyzuwDwVGY6BHZfPNEgH43RyhPP
+ DgfAmbChCSD76ulqgXMclCKe2piVXv+fQBoNf6zv3YB9iMp50qDOzyLxThkTtMQM5f8vDBCx6
+ QrWMWjPJPdkMqbtgEj26P0+x6K3kkFGgxNssZjiQUZXFM=
 
-On Wed, Jun 19, 2024 at 03:17:22PM +0300, Danielle Ratson wrote:
-> Add progress notifications ability to user space while flashing modules'
-> firmware by implementing the interface between the user space and the
-> kernel.
-> 
-> Signed-off-by: Danielle Ratson <danieller@nvidia.com>
-> Reviewed-by: Petr Machata <petrm@nvidia.com>
+Add support for forcing the WMI driver core to bind
+a certain WMI driver to a WMI device. This will be
+necessary to support generic WMI drivers without an
+ID table
 
-...
+Signed-off-by: Armin Wolf <W_Armin@gmx.de>
+=2D--
+ drivers/platform/x86/wmi.c | 33 +++++++++++++++++++++++++++++++++
+ include/linux/wmi.h        |  4 ++++
+ 2 files changed, 37 insertions(+)
 
-> diff --git a/net/ethtool/module.c b/net/ethtool/module.c
+diff --git a/drivers/platform/x86/wmi.c b/drivers/platform/x86/wmi.c
+index d21f3fa25823..6bfae28b962a 100644
+=2D-- a/drivers/platform/x86/wmi.c
++++ b/drivers/platform/x86/wmi.c
+@@ -772,11 +772,39 @@ static ssize_t expensive_show(struct device *dev,
+ }
+ static DEVICE_ATTR_RO(expensive);
 
-...
++static ssize_t driver_override_show(struct device *dev, struct device_att=
+ribute *attr,
++				    char *buf)
++{
++	struct wmi_device *wdev =3D to_wmi_device(dev);
++	ssize_t ret;
++
++	device_lock(dev);
++	ret =3D sysfs_emit(buf, "%s\n", wdev->driver_override);
++	device_unlock(dev);
++
++	return ret;
++}
++
++static ssize_t driver_override_store(struct device *dev, struct device_at=
+tribute *attr,
++				     const char *buf, size_t count)
++{
++	struct wmi_device *wdev =3D to_wmi_device(dev);
++	int ret;
++
++	ret =3D driver_set_override(dev, &wdev->driver_override, buf, count);
++	if (ret < 0)
++		return ret;
++
++	return count;
++}
++static DEVICE_ATTR_RW(driver_override);
++
+ static struct attribute *wmi_attrs[] =3D {
+ 	&dev_attr_modalias.attr,
+ 	&dev_attr_guid.attr,
+ 	&dev_attr_instance_count.attr,
+ 	&dev_attr_expensive.attr,
++	&dev_attr_driver_override.attr,
+ 	NULL
+ };
+ ATTRIBUTE_GROUPS(wmi);
+@@ -845,6 +873,7 @@ static void wmi_dev_release(struct device *dev)
+ {
+ 	struct wmi_block *wblock =3D dev_to_wblock(dev);
 
-> @@ -158,3 +159,119 @@ const struct ethnl_request_ops ethnl_module_request_ops = {
->  	.set			= ethnl_set_module,
->  	.set_ntf_cmd		= ETHTOOL_MSG_MODULE_NTF,
->  };
-> +
-> +/* MODULE_FW_FLASH_NTF */
-> +
-> +static int
-> +ethnl_module_fw_flash_ntf_put_err(struct sk_buff *skb, char *err_msg,
-> +				  char *sub_err_msg)
-> +{
-> +	int err_msg_len, sub_err_msg_len, total_len;
-> +	struct nlattr *attr;
-> +
-> +	if (!err_msg)
-> +		return 0;
-> +
-> +	err_msg_len = strlen(err_msg);
-> +	total_len = err_msg_len + 2; /* For period and NUL. */
-> +
-> +	if (sub_err_msg) {
-> +		sub_err_msg_len = strlen(sub_err_msg);
-> +		total_len += sub_err_msg_len + 2; /* For ", ". */
-> +	}
-> +
-> +	attr = nla_reserve(skb, ETHTOOL_A_MODULE_FW_FLASH_STATUS_MSG,
-> +			   total_len);
-> +	if (!attr)
-> +		return PTR_ERR(attr);
++	kfree(wblock->dev.driver_override);
+ 	kfree(wblock);
+ }
 
-Hi Danielle,
+@@ -854,6 +883,10 @@ static int wmi_dev_match(struct device *dev, struct d=
+evice_driver *driver)
+ 	struct wmi_block *wblock =3D dev_to_wblock(dev);
+ 	const struct wmi_device_id *id =3D wmi_driver->id_table;
 
-attr is NULL here, so I think this will return 0.
-Perhaps it should return an negative error value,
-say -ENOMEM, instead?
++	/* When driver_override is set, only bind to the matching driver */
++	if (wblock->dev.driver_override)
++		return !strcmp(wblock->dev.driver_override, driver->name);
++
+ 	if (id =3D=3D NULL)
+ 		return 0;
 
-Flagged by Smatch
+diff --git a/include/linux/wmi.h b/include/linux/wmi.h
+index 63cca3b58d6d..3275470b5531 100644
+=2D-- a/include/linux/wmi.h
++++ b/include/linux/wmi.h
+@@ -16,12 +16,16 @@
+  * struct wmi_device - WMI device structure
+  * @dev: Device associated with this WMI device
+  * @setable: True for devices implementing the Set Control Method
++ * @driver_override: Driver name to force a match; do not set directly,
++ *		     because core frees it; use driver_set_override() to
++ *		     set or clear it.
+  *
+  * This represents WMI devices discovered by the WMI driver core.
+  */
+ struct wmi_device {
+ 	struct device dev;
+ 	bool setable;
++	const char *driver_override;
+ };
 
-> +
-> +	if (sub_err_msg)
-> +		sprintf(nla_data(attr), "%s, %s.", err_msg, sub_err_msg);
-> +	else
-> +		sprintf(nla_data(attr), "%s.", err_msg);
-> +
-> +	return 0;
-> +}
+ /**
+=2D-
+2.39.2
 
-...
