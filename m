@@ -1,95 +1,81 @@
-Received: from mout.web.de (mout.web.de [212.227.17.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D991AD484;
-	Thu, 20 Jun 2024 10:46:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E54D1FC0C;
+	Thu, 20 Jun 2024 12:11:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718880378; cv=none; b=ZPX5/93XgFRLoffQm+CuYB4zUUnriPXDbiJQqPh8Cfu4Xk+34lLvMycqa1TIHWIzuhvxTLKchkBT5iAH6s1w3KWeizK92nVOUf/kgDAAW18HYsssvqr5tpLuF+HYLiTo0Epg/F/uby0MDV6QCiMj1QKZI703YSBPIAxzlj0TFLM=
+	t=1718885512; cv=none; b=EOS5Zl7IhiDQRtfwS9sheDMNYy+Yh5XOee6/Z6JoQZrwjUYeaFndVaFzqVq/r37LISrKGZPSwegsFK6L5N+EWhat+Ea2auejxviFnUtqvWyl0wda/bFhnUSGCXNZ0kq7vb51Da4UdCCIvMdhWdaVPCrBQ8sixwpcdG+nKplsvMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718880378; c=relaxed/simple;
-	bh=8awIg/wBCB7FIoVC+vPhOB+vEvEyHOGDIN/RcnR+5Ds=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=s2BiQVccm6qFhzodqL70v8kXIaAZOUm3GcPl2vnUA9xkI2I2ZGMnlv62+EpRaxJLD98eMMTMcWZVUI8nie65SIw32vG+ehSWcKnq87ZBTLycnKMqMOE+d1op0T2kUHcLoMnmBnLf5/me+CxA/VJsgqMR9aZ21etrNjjhoGY8JpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=ELOL7gKQ; arc=none smtp.client-ip=212.227.17.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1718885512; c=relaxed/simple;
+	bh=+xYBr2Rr5YSVaIHplFN3wqSJxfH77GiL3F9P2UWtFh8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nqOh8wjr8c9AFmWEAu2AB7qSKfTBObBvPTdQBA5KUggPKQpMWYow8PVHl77PRJle1mkxMFxewJZmSFapag2SltvVfjzDxP0zjEgJDqx69l2zBJm9Chr7aL4lpBVy6aQ25mR0/zas839p1gyZ8Bi9sUXIiiosNJuy/sG6bHUjZBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aBMFUmBx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="ELOL7gKQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1718880331; x=1719485131; i=markus.elfring@web.de;
-	bh=Li8eiNsap0bizfOQ9HPDPrawZQbmEHLbqYMyIF+i22w=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=ELOL7gKQIory3FK6VEcJNutrH5YQatKgd7IOgi4QjpkjDHPWbcvc8mTZxbyuitLV
-	 VRi6VIbr1f5UFmvi+RVRuW+ASXMM0uDkM7KnfBNKZMNVS+1dS8aPaC4Ib1Xn68zn6
-	 rHGn+ISLojVl/UkCSLlDGgT8HDmZwAiAfW1SNXXNRFG/nrrumlUTHCHIUDTKKQeG3
-	 piyzDRs1t6hx+x7K0Ef2zgjVUYi0lykbOHnRX1aDC8HUeFuNHSLL1ET7KfvqZPdcS
-	 AUynwekgohExYbMLi1a+R7zBNmQC1whsMtj9k2uGvTvLLS9ml0eoLo3Sm7/cPC1Jp
-	 ctnWvyyXTIuIUVfJkw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.83.95]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MeUc2-1ssUBS3U8q-00lcXl; Thu, 20
- Jun 2024 12:45:30 +0200
-Message-ID: <c25aab0d-48f6-4754-b514-d6caf8d51fd1@web.de>
-Date: Thu, 20 Jun 2024 12:45:14 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aBMFUmBx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5D0BC2BD10;
+	Thu, 20 Jun 2024 12:11:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718885511;
+	bh=+xYBr2Rr5YSVaIHplFN3wqSJxfH77GiL3F9P2UWtFh8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aBMFUmBx+gFpFj5YHgkh26jqBZvKOK6I/BJlg5vx3P3ur2Q304GUcQ2OIuGt/Ru38
+	 9afPSDvXXuVWOc1p13Bc4MNZ9xfRbzq2s7OjRlto0z2WeijEt4E6bRZqwusc8p0fxp
+	 o2vvkoAYAecckotoiCnGGGRuHbxIkE+rnjbJvasya7ueV1wPCdb9aJsoeQQt6VYApn
+	 DiGSC50dUYMIJILBcfKJhCgyRqwiwrSHKcVnJBpZGWSj5/s57HEel18SQoJcRR6nai
+	 +6gcrU24DtbPlZu65rzGsjF7O/z0T1Ck/GxYRFiEEvath/XMCvPgwLPqSKcOzzybqE
+	 IUoibJe1cjkDg==
+Date: Thu, 20 Jun 2024 13:11:43 +0100
+From: Simon Horman <horms@kernel.org>
+To: Heng Qi <hengqi@linux.alibaba.com>
+Cc: netdev@vger.kernel.org, virtualization@lists.linux.dev,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
+	Jason Wang <jasowang@redhat.com>,
+	"Michael S . Tsirkin" <mst@redhat.com>,
+	Brett Creeley <bcreeley@amd.com>,
+	Ratheesh Kannoth <rkannoth@marvell.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Tal Gilboa <talgi@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Paul Greenwalt <paul.greenwalt@intel.com>,
+	Ahmed Zaki <ahmed.zaki@intel.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	Andrew Lunn <andrew@lunn.ch>, justinstitt@google.com,
+	donald.hunter@gmail.com,
+	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Dragos Tatulea <dtatulea@nvidia.com>,
+	Rahul Rameshbabu <rrameshbabu@nvidia.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	awel Dembicki <paweldembicki@gmail.com>
+Subject: Re: [PATCH RESEND net-next v14 1/5] linux/dim: move useful macros to
+ .h file
+Message-ID: <20240620121143.GA959333@kernel.org>
+References: <20240618025644.25754-1-hengqi@linux.alibaba.com>
+ <20240618025644.25754-2-hengqi@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: lkp@intel.com, Paul Cercueil <paul@crapouillou.net>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, linux-iio@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Sumit Semwal <sumit.semwal@linaro.org>, Vinod Koul <vkoul@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
- linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Julia Lawall <julia.lawall@inria.fr>, Lee Jones <lee@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>
-References: <202406191014.9JAzwRV6-lkp@intel.com>
-Subject: Re: [v11 3/7] iio: core: Add new DMABUF interface infrastructure
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <202406191014.9JAzwRV6-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:NTRxLCtqL0ApiDn3i1UPRK0ESzMnPEcNQTBlesEZBU9CEYqPi1f
- AGUE0Iqpc83BxVHUG3k89Q5F/8z3etbqR3DfEvcjeL6Lx3pae77qYOIXUgtST37Ab8Do7k/
- wU+c7CnLhk3+TYr1zOspLJGta6mikzAbopzkKmb71FDA4NI3466ErYGosxNpmnHTc9l4MJl
- +CGi0hB0G1QMCNRUrV1Uw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:CgG6g3IuUkA=;GjeLuLN4k0zR5HkEhPPDnj3RINq
- /CkwuYA+LrI5aUWTIamlyDVGI2+yh3QArzyJ1np2UYSYrgxICqa8foIibHUj53F84/MrMcLgN
- GFrlIyXRWVkXW9fbV75qNQJodpMS9f6kv/bJ1NGIei4S3ewSiKcHU1jPpTzxbjNQjGBBEumPe
- qAfjWGQherZuLeRpGpQjN/Kgpk+Cr00WMTLsBj7wWqRRR86NsVtzsuvgHSl5brUDWNVp3qGkW
- 79/2lncKNGLQ/RXgQTGya5dwEulbNeslrEdSt6qMQMb+Nv9rIR4FWhp0ZGSVNytzEF3wam0sB
- 3dVQZsO6RihZ04m5LerPVT+np3V6RDup5Kvm4wcP4Ti6xvI0dtVafefyZELYAcfYD9mdVE8fN
- iqI8Ujalah+CZN5KCorrwfn01U/QdcOsZjQKG5mNVHRJTo6WhLHPap6R1OtSuCQxr7SiHQCHO
- dSoY1BmUgMPnfnglAhaA0xtqFIG1eWrzf0k4Po2ej4e5fTe2J7E3JUVkoUYDNSkfyr2cZAlMk
- LfrwOZ7p3YCbmeCJDEdYAWCwS8Uzd2uasIh+RKhUKsyjiKpt7uAibE4HFl2zl34J71qplTItr
- zw9C2y2fYmdsJShro/sGE4I1fXYUvHpLm2N9g1FUvaxLvECa96Z3wlbFhlDOPcWLUSMYMO1CP
- gngHha2pIf1xmH7Gt3mu1eickL+qEJ3tHc/ZL96Dpm7U4MuTo9Hm5oVgSi8h3ewr3hy1VNBI3
- HJUY4BmHs48k0qNMZ4H8hT34jR1O7Al23WHZaxCNv7QjCPVS/TJY+qfpNBUITcG4Zft10nQJo
- M/UF/zY1FmHRWGS8h3/KE5FpFUG8vYIGB57PgcfYuB3pLVgAGs7J9TIa/s1dsmlMUS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240618025644.25754-2-hengqi@linux.alibaba.com>
 
-=E2=80=A6
-> All errors (new ones prefixed by >>):
->
->>> drivers/iio/industrialio-buffer.c:1715:3: error: cannot jump from this=
- goto statement to its label
->     1715 |                 goto err_dmabuf_unmap_attachment;
-=E2=80=A6
+On Tue, Jun 18, 2024 at 10:56:40AM +0800, Heng Qi wrote:
+> Useful macros will be used effectively elsewhere.
+> These will be utilized in subsequent patches.
+> 
+> Signed-off-by: Heng Qi <hengqi@linux.alibaba.com>
 
-Which software design options would you like to try out next
-so that such a questionable compilation error message will be avoided fina=
-lly?
+Reviewed-by: Simon Horman <horms@kernel.org>
 
-Regards,
-Markus
