@@ -1,89 +1,124 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 076B864C;
-	Thu, 20 Jun 2024 00:18:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB294EBE;
+	Thu, 20 Jun 2024 00:27:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718842702; cv=none; b=S9p2/dGyD53x+ZlC8EQR9rpT8Je0s9pxNaOcRUEnxKUf7CzmJdw3rGj6tHU8zqM6nZxPI9xgGTa/7HHqp/MqU3akcS7ZDFRm24O4EJINpsWeJft6vf7Hgdl8w9tIgbKBorklSnUnoa3JsIuvnStqkbq4o5vFx8oEU2zs+eRDU2Y=
+	t=1718843263; cv=none; b=K0A/srimSnIBhemcyg6om0ywerRYit2v88Qpx3gx1ZMBLfG2/Kolu+GmCxBqDh/Fdl8OXgNQU2lgNMIF1+tuQzt6U3IMe5/OMOUzBAwDZJqCS3LYLCwlvNcjzLucGQjIryscmwt+7evIFWCXqz83sIi8U0Bq/j92PUTkMD3i+BM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718842702; c=relaxed/simple;
-	bh=AjGTuPtk95NLEx+Fq4Qq+oorb0yiuLhFVoBTD7HosbQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=eqfDJZqwmfoDguIfImZIFmZAmC4iz84+6VaoU8/hIHRY3h62tTeO/3ShNeBuisrUk4ugAuoVwLQqz44WCMeqzvEGykPS0EhADS1Pg2vEOGuV6P7+ruOfxlbGYtGDELliUOdUMcy+sQH0jkpRS/dZHpm4/to/tHwlxEs+qO1FQJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UogrS+kY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718843263; c=relaxed/simple;
+	bh=baEzJuDcjgC+4UCMQ1X+Q3cE1chMcFBCEvEZni2XdoM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nSekyL4JIw2vEkKThcRoeKPjGLYqnLfSU0MwQ42TU5K7qs5614RqNAhwNZKJzvoF36IlTQ51Xb0lDtTkhr5hfkbTLhe1m6ZojkBz0NojdDd3yGsGIR1TH+w1PmsWZm8u240qqAqw/JofaTWMz0ebjf3IvufIYcVkLSMyqS3IJHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r+4d+srK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UogrS+kY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9158FC2BBFC;
-	Thu, 20 Jun 2024 00:18:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r+4d+srK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00354C2BBFC;
+	Thu, 20 Jun 2024 00:27:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718842701;
-	bh=AjGTuPtk95NLEx+Fq4Qq+oorb0yiuLhFVoBTD7HosbQ=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
-	b=UogrS+kY7AH+DCLQ2wu6155VpA9xgKIzKNs1kx36Stt7xUroWQHkFKlsg7gLvh04C
-	 WmHYDyOFcZMT+C7jB9qW/cwh6GvuDZ0CHnWikBphf5WzbbjTEYvgIcezIVstgcxpGz
-	 g55DDyXE8tISgnVjX6fsOhEDASTPuRJOJLd/1CLuINQscuxncHUPHapZQF/2x1ogPy
-	 pP+eK0/dLHoE1IOgvxEWxJx1cr3ErS5E+oQU9/qTm7EScqv8rHl1eD7wfppOXyvl4Z
-	 PiIDDwqP3Q+qbBZoPySZ8JhqIZ0jj+ObaVp+Y/iZSIA5WPh1I3R0HG/CB6VsVEfJho
-	 jXU8QWoU/wyLA==
+	s=k20201202; t=1718843263;
+	bh=baEzJuDcjgC+4UCMQ1X+Q3cE1chMcFBCEvEZni2XdoM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=r+4d+srKdyI+J5I5QCD4wwP56bk6b6Sdo1qWDHpxZ2s44xoxXDd5DKuEdHJkoMso3
+	 cnRVKFH6hs5Gxb1Izbqfqrie6MCg4d9jFuih7BOFEwd13uNNFv95ClzgEGjGRhvIyI
+	 QuFVqtp7K0cJ2ey1EdBAh3voMrrpgS4xQDaNGn5F4T/G+Oi+iZjQMjW1LiSSW9J+D9
+	 7yIWiCN4zBpPerFDkRwWQV/R/CLm0IDPNPHNZIiBJkiXbgzZauU+9THfp8ZpJmOwlK
+	 qEfLiKLpr6h4KlldZ2D2Lfvv85oZkBLYx2wp++PZJaY9AWErIlhsCE7Cde6qcUjKLY
+	 46nyeh6p/XWEw==
+From: Jakub Kicinski <kuba@kernel.org>
+To: davem@davemloft.net
+Cc: netdev@vger.kernel.org,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	Jakub Kicinski <kuba@kernel.org>,
+	corbet@lwn.net,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH net-next v2] docs: net: document guidance of implementing the SR-IOV NDOs
+Date: Wed, 19 Jun 2024 17:27:41 -0700
+Message-ID: <20240620002741.1029936-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 20 Jun 2024 03:18:13 +0300
-Message-Id: <D24EVSK6GUPH.1P44T5NNBWORU@kernel.org>
-Cc: <dpsmith@apertussolutions.com>, <tglx@linutronix.de>,
- <mingo@redhat.com>, <bp@alien8.de>, <hpa@zytor.com>,
- <dave.hansen@linux.intel.com>, <ardb@kernel.org>, <mjg59@srcf.ucam.org>,
- <James.Bottomley@hansenpartnership.com>, <peterhuewe@gmx.de>,
- <jgg@ziepe.ca>, <luto@amacapital.net>, <nivedita@alum.mit.edu>,
- <herbert@gondor.apana.org.au>, <davem@davemloft.net>, <corbet@lwn.net>,
- <ebiederm@xmission.com>, <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>,
- <kanth.ghatraju@oracle.com>, <andrew.cooper3@citrix.com>,
- <trenchboot-devel@googlegroups.com>
-Subject: Re: [PATCH v9 04/19] x86: Secure Launch Resource Table header file
-From: "Jarkko Sakkinen" <jarkko@kernel.org>
-To: <ross.philipson@oracle.com>, <linux-kernel@vger.kernel.org>,
- <x86@kernel.org>, <linux-integrity@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
- <kexec@lists.infradead.org>, <linux-efi@vger.kernel.org>,
- <iommu@lists.linux-foundation.org>
-X-Mailer: aerc 0.17.0
-References: <20240531010331.134441-1-ross.philipson@oracle.com>
- <20240531010331.134441-5-ross.philipson@oracle.com>
- <D1RFWFIJEYWL.2FC7V79321264@kernel.org>
- <1eca8cb1-4b3b-402b-993b-53de7c810016@oracle.com>
- <D1RLBMTUKRFN.34KQXEFZTBA08@kernel.org>
- <249a9b27-c18d-4377-8b51-9bc610b53a8b@oracle.com>
- <D1RNKV4JIE5L.1LNG82UAC916M@kernel.org>
- <f66de08f-4905-48d6-8bcf-5b1ab847492f@oracle.com>
- <D1RSB1PB5XGS.2X032M0E1VMJW@kernel.org>
- <a865a25c-336e-47de-9718-de4cb957e6c2@oracle.com>
- <D1SPFVXS6FOG.IQQB3INFYEF2@kernel.org>
- <23961b5b-a52a-483c-876e-e5e39d9e6c01@oracle.com>
-In-Reply-To: <23961b5b-a52a-483c-876e-e5e39d9e6c01@oracle.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu Jun 6, 2024 at 7:49 PM EEST,  wrote:
-> > For any architectures dig a similar fact:
-> >=20
-> > 1. Is not dead.
-> > 2. Will be there also in future.
-> >=20
-> > Make any architecture existentially relevant for and not too much
-> > coloring in the text that is easy to check.
-> >=20
-> > It is nearing 5k lines so you should be really good with measured
-> > facts too (not just launch) :-)
->
-> ... but overall I get your meaning. We will spend time on this sort of=20
-> documentation for the v10 release.
+New drivers were prevented from adding ndo_set_vf_* callbacks
+over the last few years. This was expected to result in broader
+switchdev adoption, but seems to have had little effect.
 
-Yeah, I mean we live in the universe of 3 letter acronyms so
-it is better to summarize the existential part, especially
-in a ~5 KSLOC patch set ;-)
+Based on recent netdev meeting there is broad support for allowing
+adding those ops.
 
-BR, Jarkko
+There is a problem with the current API supporting a limited number
+of VFs (100+, which is less than some modern HW supports).
+We can try to solve it by adding similar functionality on devlink
+ports, but that'd be another API variation to maintain.
+So a netlink attribute reshuffling is a more likely outcome.
+
+Document the guidance, make it clear that the API is frozen.
+
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+v2:
+ - edits from Randy
+v1: https://lore.kernel.org/all/20240618192818.554646-1-kuba@kernel.org/
+
+CC: corbet@lwn.net
+CC: rdunlap@infradead.org
+CC: linux-doc@vger.kernel.org
+---
+ Documentation/networking/index.rst |  1 +
+ Documentation/networking/sriov.rst | 25 +++++++++++++++++++++++++
+ 2 files changed, 26 insertions(+)
+ create mode 100644 Documentation/networking/sriov.rst
+
+diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
+index a6443851a142..b4b2a002f183 100644
+--- a/Documentation/networking/index.rst
++++ b/Documentation/networking/index.rst
+@@ -105,6 +105,7 @@ Refer to :ref:`netdev-FAQ` for a guide on netdev development process specifics.
+    seg6-sysctl
+    skbuff
+    smc-sysctl
++   sriov
+    statistics
+    strparser
+    switchdev
+diff --git a/Documentation/networking/sriov.rst b/Documentation/networking/sriov.rst
+new file mode 100644
+index 000000000000..5deb4ff3154f
+--- /dev/null
++++ b/Documentation/networking/sriov.rst
+@@ -0,0 +1,25 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++===============
++NIC SR-IOV APIs
++===============
++
++Modern NICs are strongly encouraged to focus on implementing the ``switchdev``
++model (see :ref:`switchdev`) to configure forwarding and security of SR-IOV
++functionality.
++
++Legacy API
++==========
++
++The old SR-IOV API is implemented in ``rtnetlink`` Netlink family as part of
++the ``RTM_GETLINK`` and ``RTM_SETLINK`` commands. On the driver side
++it consists of a number of ``ndo_set_vf_*`` and ``ndo_get_vf_*`` callbacks.
++
++Since the legacy APIs do not integrate well with the rest of the stack
++the API is considered frozen; no new functionality or extensions
++will be accepted. New drivers should not implement the uncommon callbacks;
++namely the following callbacks are off limits:
++
++ - ``ndo_get_vf_port``
++ - ``ndo_set_vf_port``
++ - ``ndo_set_vf_rss_query_en``
+-- 
+2.45.2
+
