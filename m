@@ -1,504 +1,89 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E742716B390
-	for <linux-doc@vger.kernel.org>; Wed, 19 Jun 2024 23:57:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 076B864C;
+	Thu, 20 Jun 2024 00:18:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718841477; cv=none; b=FCsJxc/ALiQ/8f82m/rkdoMVKM3sBl4Mr5wJc1qo4QG52/nVt2B8ribipEGc6cYMOyrpR6PtCh2MV/wpimnMslxv8Vdc7mkHxQWT4Ng0ThwDpyMoe5pFXy7vZvoAwMpBo/L2NnNp+SS/Ws4ZKVEdlEAn00ICvOOiMzK26FRQvvM=
+	t=1718842702; cv=none; b=S9p2/dGyD53x+ZlC8EQR9rpT8Je0s9pxNaOcRUEnxKUf7CzmJdw3rGj6tHU8zqM6nZxPI9xgGTa/7HHqp/MqU3akcS7ZDFRm24O4EJINpsWeJft6vf7Hgdl8w9tIgbKBorklSnUnoa3JsIuvnStqkbq4o5vFx8oEU2zs+eRDU2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718841477; c=relaxed/simple;
-	bh=mO5Vx3a3tP9JKH9O97TDP1ppyqRSYt1DkDnks3+k4I8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=QIQJcfH3azAh0Ipk+gsx6HbHwIhK+NdGbC7EhYFEijR84FK/RHurU4VTpy8GqVwsS0kExiaTdovfHo5IiHZJ6SGyqMqHyXzkXIb6fxgcnDx3W/b1eI9bv9bzMTZkqcx/p/RVuAJMv0A6mlvwhWApztmW9XAvGnjyPWhYf6QrEmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=VLG3UqeW; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1718842702; c=relaxed/simple;
+	bh=AjGTuPtk95NLEx+Fq4Qq+oorb0yiuLhFVoBTD7HosbQ=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=eqfDJZqwmfoDguIfImZIFmZAmC4iz84+6VaoU8/hIHRY3h62tTeO/3ShNeBuisrUk4ugAuoVwLQqz44WCMeqzvEGykPS0EhADS1Pg2vEOGuV6P7+ruOfxlbGYtGDELliUOdUMcy+sQH0jkpRS/dZHpm4/to/tHwlxEs+qO1FQJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UogrS+kY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="VLG3UqeW"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1f700e4cb92so2828045ad.2
-        for <linux-doc@vger.kernel.org>; Wed, 19 Jun 2024 16:57:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1718841474; x=1719446274; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JbUZTTqFoBINHHGxKB4jXLn1QXoatUPsAPQzfdSxpiU=;
-        b=VLG3UqeWAUilIw7f6MmkVeJ2JJMUR3yKoK8mVqHz+SKEe84qn4GNYRO7G4N3vWe7Y2
-         HnwMrOk8V3yG7amBtvsBsxBn0su00lslbz0j0OVBd7lW49BBMeX35mo92TVSCYxfHjRe
-         jRNTMx2CsS9VduPTLw3gpORNIz+0s2o3ev7kiJ6WSvYf5sTtc/1medur2CTV4AZJ+2+n
-         zFs+McDfDdE7k6Xb2aEo0Oz01dYZBJNsFa0JCgAUqr8TTOZEWnODW4cYWrOMcwQes2wH
-         Z1ruMvo3mfLWpZqYkKfhZRjvp0jpUvAPPDU5BFZg9aj1BzQH7hcz6+RRe7f5xsPCKdKQ
-         ceOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718841474; x=1719446274;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JbUZTTqFoBINHHGxKB4jXLn1QXoatUPsAPQzfdSxpiU=;
-        b=tiET3IhoBt/cubFodXr31uHmE66N7en17h3Gk/a2CuNq4wRIAHiyWEg7v2uhxeamix
-         t8BjKJcY3ZZcYi0o8SCq6P7mAS1YYmgKfIeZWnF4LsJH/V1N5IMV/P+oz96vsxqft0kU
-         TWtIFEhJjtzKOhY70EiLN+MR4wDNlm/UKrvIa5nAp+4FqPMbqvt9mUbV5a4nf6iSC+QT
-         hDn1xZIkm6x3O8/vjb6mAuiRN4gh376vL6dSsGO6nmh8V6hVc0V6wkgsDj79zueQhq7s
-         Ta0re/xqHImrvkq3bmm3qUHObjMKDEeWel9xGcQJi12B0kUBUrsyDMI+Y9MO2dxD/P2p
-         xJhw==
-X-Forwarded-Encrypted: i=1; AJvYcCULfNYrLr7cXB0uZNok+cDoSDV7DNdcqW9gIk1mTpyPVWV5Xbm6+p0EVDuOGZub3a4eXgjacrSOg2jSRSopNBXdTYAaWB6YKo1o
-X-Gm-Message-State: AOJu0YyW4LfBScPV8Dd1a95kcHo4QP6JTnvgtebtVGKDDT38HoBdun3g
-	lDdT/J0wXC3279gQ21AdbN2k0Cxjibse4BGV1YKCD8ZKeAS8WlhtEEVuxpHjgz0=
-X-Google-Smtp-Source: AGHT+IHgnBZGWNBMI+Q8JsQ/TrNL/9Bsw2BqPXvOV04fJjSWkR97mGLvtnMzhgvUctdIufXgI8XD2w==
-X-Received: by 2002:a17:902:b695:b0:1f2:fd49:9fcc with SMTP id d9443c01a7336-1f9aa400e65mr32637575ad.34.1718841473995;
-        Wed, 19 Jun 2024 16:57:53 -0700 (PDT)
-Received: from charlie.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f855e70ae6sm123620745ad.71.2024.06.19.16.57.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jun 2024 16:57:53 -0700 (PDT)
-From: Charlie Jenkins <charlie@rivosinc.com>
-Date: Wed, 19 Jun 2024 16:57:26 -0700
-Subject: [PATCH v3 13/13] selftests: riscv: Support xtheadvector in vector
- tests
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UogrS+kY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9158FC2BBFC;
+	Thu, 20 Jun 2024 00:18:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718842701;
+	bh=AjGTuPtk95NLEx+Fq4Qq+oorb0yiuLhFVoBTD7HosbQ=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+	b=UogrS+kY7AH+DCLQ2wu6155VpA9xgKIzKNs1kx36Stt7xUroWQHkFKlsg7gLvh04C
+	 WmHYDyOFcZMT+C7jB9qW/cwh6GvuDZ0CHnWikBphf5WzbbjTEYvgIcezIVstgcxpGz
+	 g55DDyXE8tISgnVjX6fsOhEDASTPuRJOJLd/1CLuINQscuxncHUPHapZQF/2x1ogPy
+	 pP+eK0/dLHoE1IOgvxEWxJx1cr3ErS5E+oQU9/qTm7EScqv8rHl1eD7wfppOXyvl4Z
+	 PiIDDwqP3Q+qbBZoPySZ8JhqIZ0jj+ObaVp+Y/iZSIA5WPh1I3R0HG/CB6VsVEfJho
+	 jXU8QWoU/wyLA==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240619-xtheadvector-v3-13-bff39eb9668e@rivosinc.com>
-References: <20240619-xtheadvector-v3-0-bff39eb9668e@rivosinc.com>
-In-Reply-To: <20240619-xtheadvector-v3-0-bff39eb9668e@rivosinc.com>
-To: Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Paul Walmsley <paul.walmsley@sifive.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
- Jisheng Zhang <jszhang@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <shuah@kernel.org>, Guo Ren <guoren@kernel.org>, 
- Evan Green <evan@rivosinc.com>, Andy Chiu <andy.chiu@sifive.com>, 
- Jessica Clarke <jrtc27@jrtc27.com>
-Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- Charlie Jenkins <charlie@rivosinc.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1718841444; l=13221;
- i=charlie@rivosinc.com; s=20231120; h=from:subject:message-id;
- bh=mO5Vx3a3tP9JKH9O97TDP1ppyqRSYt1DkDnks3+k4I8=;
- b=/RhJ0118sKUUvkwne/XTAg/mKzTRqKQIjN6+/n5LVaNIPoKuALWLFNZdErVaf+/A37sMf7U7H
- yXTzO7JM7KSAplFAPBGOT+KnkjVE89//OEKRBGqxr1P3797XlwODMD6
-X-Developer-Key: i=charlie@rivosinc.com; a=ed25519;
- pk=t4RSWpMV1q5lf/NWIeR9z58bcje60/dbtxxmoSfBEcs=
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 20 Jun 2024 03:18:13 +0300
+Message-Id: <D24EVSK6GUPH.1P44T5NNBWORU@kernel.org>
+Cc: <dpsmith@apertussolutions.com>, <tglx@linutronix.de>,
+ <mingo@redhat.com>, <bp@alien8.de>, <hpa@zytor.com>,
+ <dave.hansen@linux.intel.com>, <ardb@kernel.org>, <mjg59@srcf.ucam.org>,
+ <James.Bottomley@hansenpartnership.com>, <peterhuewe@gmx.de>,
+ <jgg@ziepe.ca>, <luto@amacapital.net>, <nivedita@alum.mit.edu>,
+ <herbert@gondor.apana.org.au>, <davem@davemloft.net>, <corbet@lwn.net>,
+ <ebiederm@xmission.com>, <dwmw2@infradead.org>, <baolu.lu@linux.intel.com>,
+ <kanth.ghatraju@oracle.com>, <andrew.cooper3@citrix.com>,
+ <trenchboot-devel@googlegroups.com>
+Subject: Re: [PATCH v9 04/19] x86: Secure Launch Resource Table header file
+From: "Jarkko Sakkinen" <jarkko@kernel.org>
+To: <ross.philipson@oracle.com>, <linux-kernel@vger.kernel.org>,
+ <x86@kernel.org>, <linux-integrity@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
+ <kexec@lists.infradead.org>, <linux-efi@vger.kernel.org>,
+ <iommu@lists.linux-foundation.org>
+X-Mailer: aerc 0.17.0
+References: <20240531010331.134441-1-ross.philipson@oracle.com>
+ <20240531010331.134441-5-ross.philipson@oracle.com>
+ <D1RFWFIJEYWL.2FC7V79321264@kernel.org>
+ <1eca8cb1-4b3b-402b-993b-53de7c810016@oracle.com>
+ <D1RLBMTUKRFN.34KQXEFZTBA08@kernel.org>
+ <249a9b27-c18d-4377-8b51-9bc610b53a8b@oracle.com>
+ <D1RNKV4JIE5L.1LNG82UAC916M@kernel.org>
+ <f66de08f-4905-48d6-8bcf-5b1ab847492f@oracle.com>
+ <D1RSB1PB5XGS.2X032M0E1VMJW@kernel.org>
+ <a865a25c-336e-47de-9718-de4cb957e6c2@oracle.com>
+ <D1SPFVXS6FOG.IQQB3INFYEF2@kernel.org>
+ <23961b5b-a52a-483c-876e-e5e39d9e6c01@oracle.com>
+In-Reply-To: <23961b5b-a52a-483c-876e-e5e39d9e6c01@oracle.com>
 
-Extend existing vector tests to be compatible with the xtheadvector
-instructions.
+On Thu Jun 6, 2024 at 7:49 PM EEST,  wrote:
+> > For any architectures dig a similar fact:
+> >=20
+> > 1. Is not dead.
+> > 2. Will be there also in future.
+> >=20
+> > Make any architecture existentially relevant for and not too much
+> > coloring in the text that is easy to check.
+> >=20
+> > It is nearing 5k lines so you should be really good with measured
+> > facts too (not just launch) :-)
+>
+> ... but overall I get your meaning. We will spend time on this sort of=20
+> documentation for the v10 release.
 
-Signed-off-by: Charlie Jenkins <charlie@rivosinc.com>
----
- .../selftests/riscv/vector/v_exec_initval_nolibc.c | 23 ++++--
- tools/testing/selftests/riscv/vector/v_helpers.c   | 17 +++-
- tools/testing/selftests/riscv/vector/v_helpers.h   |  4 +-
- tools/testing/selftests/riscv/vector/v_initval.c   | 12 ++-
- .../selftests/riscv/vector/vstate_exec_nolibc.c    | 20 +++--
- .../testing/selftests/riscv/vector/vstate_prctl.c  | 91 ++++++++++++++--------
- 6 files changed, 115 insertions(+), 52 deletions(-)
+Yeah, I mean we live in the universe of 3 letter acronyms so
+it is better to summarize the existential part, especially
+in a ~5 KSLOC patch set ;-)
 
-diff --git a/tools/testing/selftests/riscv/vector/v_exec_initval_nolibc.c b/tools/testing/selftests/riscv/vector/v_exec_initval_nolibc.c
-index 74b13806baf0..58c29ea91b80 100644
---- a/tools/testing/selftests/riscv/vector/v_exec_initval_nolibc.c
-+++ b/tools/testing/selftests/riscv/vector/v_exec_initval_nolibc.c
-@@ -18,13 +18,22 @@ int main(int argc, char **argv)
- 	unsigned long vl;
- 	int first = 1;
- 
--	asm volatile (
--		".option push\n\t"
--		".option arch, +v\n\t"
--		"vsetvli	%[vl], x0, e8, m1, ta, ma\n\t"
--		".option pop\n\t"
--		: [vl] "=r" (vl)
--	);
-+	if (argc > 2 && strcmp(argv[2], "x"))
-+		asm volatile (
-+			// 0 | zimm[10:0] | rs1 | 1 1 1 | rd |1010111| vsetvli
-+			// vsetvli	t4, x0, e8, m1, d1
-+			".insn		0b00000000000000000111111011010111\n\t"
-+			"mv		%[vl], t4\n\t"
-+			: [vl] "=r" (vl) : : "t4"
-+		);
-+	else
-+		asm volatile (
-+			".option push\n\t"
-+			".option arch, +v\n\t"
-+			"vsetvli	%[vl], x0, e8, m1, ta, ma\n\t"
-+			".option pop\n\t"
-+			: [vl] "=r" (vl)
-+		);
- 
- #define CHECK_VECTOR_REGISTER(register) ({					\
- 	for (int i = 0; i < vl; i++) {						\
-diff --git a/tools/testing/selftests/riscv/vector/v_helpers.c b/tools/testing/selftests/riscv/vector/v_helpers.c
-index 15c22318db72..2c4df76eefe9 100644
---- a/tools/testing/selftests/riscv/vector/v_helpers.c
-+++ b/tools/testing/selftests/riscv/vector/v_helpers.c
-@@ -1,11 +1,21 @@
- // SPDX-License-Identifier: GPL-2.0-only
- 
- #include "../hwprobe/hwprobe.h"
-+#include <asm/vendor/thead.h>
- #include <stdlib.h>
- #include <stdio.h>
- #include <unistd.h>
- #include <sys/wait.h>
- 
-+int is_xtheadvector_supported(void)
-+{
-+	struct riscv_hwprobe pair;
-+
-+	pair.key = RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0;
-+	riscv_hwprobe(&pair, 1, 0, NULL, 0);
-+	return pair.value & RISCV_HWPROBE_VENDOR_EXT_XTHEADVECTOR;
-+}
-+
- int is_vector_supported(void)
- {
- 	struct riscv_hwprobe pair;
-@@ -15,9 +25,9 @@ int is_vector_supported(void)
- 	return pair.value & RISCV_HWPROBE_IMA_V;
- }
- 
--int launch_test(char *next_program, int test_inherit)
-+int launch_test(char *next_program, int test_inherit, int xtheadvector)
- {
--	char *exec_argv[3], *exec_envp[1];
-+	char *exec_argv[4], *exec_envp[1];
- 	int rc, pid, status;
- 
- 	pid = fork();
-@@ -29,7 +39,8 @@ int launch_test(char *next_program, int test_inherit)
- 	if (!pid) {
- 		exec_argv[0] = next_program;
- 		exec_argv[1] = test_inherit != 0 ? "x" : NULL;
--		exec_argv[2] = NULL;
-+		exec_argv[2] = xtheadvector != 0 ? "x" : NULL;
-+		exec_argv[3] = NULL;
- 		exec_envp[0] = NULL;
- 		/* launch the program again to check inherit */
- 		rc = execve(next_program, exec_argv, exec_envp);
-diff --git a/tools/testing/selftests/riscv/vector/v_helpers.h b/tools/testing/selftests/riscv/vector/v_helpers.h
-index 88719c4be496..67d41cb6f871 100644
---- a/tools/testing/selftests/riscv/vector/v_helpers.h
-+++ b/tools/testing/selftests/riscv/vector/v_helpers.h
-@@ -1,5 +1,7 @@
- /* SPDX-License-Identifier: GPL-2.0-only */
- 
-+int is_xtheadvector_supported(void);
-+
- int is_vector_supported(void);
- 
--int launch_test(char *next_program, int test_inherit);
-+int launch_test(char *next_program, int test_inherit, int xtheadvector);
-diff --git a/tools/testing/selftests/riscv/vector/v_initval.c b/tools/testing/selftests/riscv/vector/v_initval.c
-index f38b5797fa31..be9e1d18ad29 100644
---- a/tools/testing/selftests/riscv/vector/v_initval.c
-+++ b/tools/testing/selftests/riscv/vector/v_initval.c
-@@ -7,10 +7,16 @@
- 
- TEST(v_initval)
- {
--	if (!is_vector_supported())
--		SKIP(return, "Vector not supported");
-+	int xtheadvector = 0;
- 
--	ASSERT_EQ(0, launch_test(NEXT_PROGRAM, 0));
-+	if (!is_vector_supported()) {
-+		if (is_xtheadvector_supported())
-+			xtheadvector = 1;
-+		else
-+			SKIP(return, "Vector not supported");
-+	}
-+
-+	ASSERT_EQ(0, launch_test(NEXT_PROGRAM, 0, xtheadvector));
- }
- 
- TEST_HARNESS_MAIN
-diff --git a/tools/testing/selftests/riscv/vector/vstate_exec_nolibc.c b/tools/testing/selftests/riscv/vector/vstate_exec_nolibc.c
-index 1f9969bed235..12d30d3b90fa 100644
---- a/tools/testing/selftests/riscv/vector/vstate_exec_nolibc.c
-+++ b/tools/testing/selftests/riscv/vector/vstate_exec_nolibc.c
-@@ -6,13 +6,16 @@
- 
- int main(int argc, char **argv)
- {
--	int rc, pid, status, test_inherit = 0;
-+	int rc, pid, status, test_inherit = 0, xtheadvector = 0;
- 	long ctrl, ctrl_c;
- 	char *exec_argv[2], *exec_envp[2];
- 
--	if (argc > 1)
-+	if (argc > 1 && strcmp(argv[1], "x"))
- 		test_inherit = 1;
- 
-+	if (argc > 2 && strcmp(argv[2], "x"))
-+		xtheadvector = 1;
-+
- 	ctrl = my_syscall1(__NR_prctl, PR_RISCV_V_GET_CONTROL);
- 	if (ctrl < 0) {
- 		puts("PR_RISCV_V_GET_CONTROL is not supported\n");
-@@ -53,11 +56,14 @@ int main(int argc, char **argv)
- 				puts("child's vstate_ctrl not equal to parent's\n");
- 				exit(-1);
- 			}
--			asm volatile (".option push\n\t"
--				      ".option arch, +v\n\t"
--				      "vsetvli x0, x0, e32, m8, ta, ma\n\t"
--				      ".option pop\n\t"
--				      );
-+			if (xtheadvector)
-+				asm volatile (".insn	0x00007ed7");
-+			else
-+				asm volatile (".option push\n\t"
-+					".option arch, +v\n\t"
-+					"vsetvli x0, x0, e32, m8, ta, ma\n\t"
-+					".option pop\n\t"
-+					);
- 			exit(ctrl);
- 		}
- 	}
-diff --git a/tools/testing/selftests/riscv/vector/vstate_prctl.c b/tools/testing/selftests/riscv/vector/vstate_prctl.c
-index 528e8c544db0..375af40e88e6 100644
---- a/tools/testing/selftests/riscv/vector/vstate_prctl.c
-+++ b/tools/testing/selftests/riscv/vector/vstate_prctl.c
-@@ -11,7 +11,7 @@
- 
- #define NEXT_PROGRAM "./vstate_exec_nolibc"
- 
--int test_and_compare_child(long provided, long expected, int inherit)
-+int test_and_compare_child(long provided, long expected, int inherit, int xtheadvector)
- {
- 	int rc;
- 
-@@ -21,7 +21,7 @@ int test_and_compare_child(long provided, long expected, int inherit)
- 		       provided, rc);
- 		return -1;
- 	}
--	rc = launch_test(NEXT_PROGRAM, inherit);
-+	rc = launch_test(NEXT_PROGRAM, inherit, xtheadvector);
- 	if (rc != expected) {
- 		printf("Test failed, check %d != %ld\n", rc,  expected);
- 		return -2;
-@@ -36,7 +36,7 @@ TEST(get_control_no_v)
- {
- 	long rc;
- 
--	if (is_vector_supported())
-+	if (is_vector_supported() || is_xtheadvector_supported())
- 		SKIP(return, "Test expects vector to be not supported");
- 
- 	rc = prctl(PR_RISCV_V_GET_CONTROL);
-@@ -48,7 +48,7 @@ TEST(set_control_no_v)
- {
- 	long rc;
- 
--	if (is_vector_supported())
-+	if (is_vector_supported() || is_xtheadvector_supported())
- 		SKIP(return, "Test expects vector to be not supported");
- 
- 	rc = prctl(PR_RISCV_V_SET_CONTROL, PR_RISCV_V_VSTATE_CTRL_ON);
-@@ -61,12 +61,12 @@ TEST(vstate_on_current)
- 	long flag;
- 	long rc;
- 
--	if (!is_vector_supported())
-+	if (!is_vector_supported() && !is_xtheadvector_supported())
- 		SKIP(return, "Vector not supported");
- 
- 	flag = PR_RISCV_V_VSTATE_CTRL_ON;
- 	rc = prctl(PR_RISCV_V_SET_CONTROL, flag);
--	EXPECT_EQ(0, rc) TH_LOG("Enabling V for current should always success");
-+	EXPECT_EQ(0, rc) TH_LOG("Enabling V for current should always succeed");
- }
- 
- TEST(vstate_off_eperm)
-@@ -74,99 +74,128 @@ TEST(vstate_off_eperm)
- 	long flag;
- 	long rc;
- 
--	if (!is_vector_supported())
-+	if (!is_vector_supported() && !is_xtheadvector_supported())
- 		SKIP(return, "Vector not supported");
- 
- 	flag = PR_RISCV_V_VSTATE_CTRL_OFF;
- 	rc = prctl(PR_RISCV_V_SET_CONTROL, flag);
--	EXPECT_EQ(EPERM, errno) TH_LOG("Disabling current's V alive must fail with EPERM(%d)", errno);
--	EXPECT_EQ(-1, rc) TH_LOG("Disabling current's V alive must fail with EPERM(%d)", errno);
-+	EXPECT_EQ(EPERM, errno) TH_LOG("Disabling V in current thread with V enabled must fail with EPERM(%d)", errno);
-+	EXPECT_EQ(-1, rc) TH_LOG("Disabling V in current thread with V enabled must fail with EPERM(%d)", errno);
- }
- 
- TEST(vstate_on_no_nesting)
- {
- 	long flag;
-+	int xtheadvector = 0;
- 
--	if (!is_vector_supported())
--		SKIP(return, "Vector not supported");
-+	if (!is_vector_supported()) {
-+		if (is_xtheadvector_supported())
-+			xtheadvector = 1;
-+		else
-+			SKIP(return, "Vector not supported");
-+	}
- 
- 	/* Turn on next's vector explicitly and test */
- 	flag = PR_RISCV_V_VSTATE_CTRL_ON << PR_RISCV_V_VSTATE_CTRL_NEXT_SHIFT;
- 
--	EXPECT_EQ(0, test_and_compare_child(flag, PR_RISCV_V_VSTATE_CTRL_ON, 0));
-+	EXPECT_EQ(0, test_and_compare_child(flag, PR_RISCV_V_VSTATE_CTRL_ON, 0, xtheadvector));
- }
- 
- TEST(vstate_off_nesting)
- {
- 	long flag;
-+	int xtheadvector = 0;
- 
--	if (!is_vector_supported())
--		SKIP(return, "Vector not supported");
-+	if (!is_vector_supported()) {
-+		if (is_xtheadvector_supported())
-+			xtheadvector = 1;
-+		else
-+			SKIP(return, "Vector not supported");
-+	}
- 
- 	/* Turn off next's vector explicitly and test */
- 	flag = PR_RISCV_V_VSTATE_CTRL_OFF << PR_RISCV_V_VSTATE_CTRL_NEXT_SHIFT;
- 
--	EXPECT_EQ(0, test_and_compare_child(flag, PR_RISCV_V_VSTATE_CTRL_OFF, 1));
-+	EXPECT_EQ(0, test_and_compare_child(flag, PR_RISCV_V_VSTATE_CTRL_OFF, 1, xtheadvector));
- }
- 
- TEST(vstate_on_inherit_no_nesting)
- {
- 	long flag, expected;
-+	int xtheadvector = 0;
- 
--	if (!is_vector_supported())
--		SKIP(return, "Vector not supported");
-+	if (!is_vector_supported()) {
-+		if (is_xtheadvector_supported())
-+			xtheadvector = 1;
-+		else
-+			SKIP(return, "Vector not supported");
-+	}
- 
- 	/* Turn on next's vector explicitly and test no inherit */
- 	flag = PR_RISCV_V_VSTATE_CTRL_ON << PR_RISCV_V_VSTATE_CTRL_NEXT_SHIFT;
- 	flag |= PR_RISCV_V_VSTATE_CTRL_INHERIT;
- 	expected = flag | PR_RISCV_V_VSTATE_CTRL_ON;
- 
--	EXPECT_EQ(0, test_and_compare_child(flag, expected, 0));
-+	EXPECT_EQ(0, test_and_compare_child(flag, expected, 0, xtheadvector));
- }
- 
- TEST(vstate_on_inherit)
- {
- 	long flag, expected;
-+	int xtheadvector = 0;
- 
--	if (!is_vector_supported())
--		SKIP(return, "Vector not supported");
-+	if (!is_vector_supported()) {
-+		if (is_xtheadvector_supported())
-+			xtheadvector = 1;
-+		else
-+			SKIP(return, "Vector not supported");
-+	}
- 
- 	/* Turn on next's vector explicitly and test inherit */
- 	flag = PR_RISCV_V_VSTATE_CTRL_ON << PR_RISCV_V_VSTATE_CTRL_NEXT_SHIFT;
- 	flag |= PR_RISCV_V_VSTATE_CTRL_INHERIT;
- 	expected = flag | PR_RISCV_V_VSTATE_CTRL_ON;
- 
--	EXPECT_EQ(0, test_and_compare_child(flag, expected, 1));
-+	EXPECT_EQ(0, test_and_compare_child(flag, expected, 1, xtheadvector));
- }
- 
- TEST(vstate_off_inherit_no_nesting)
- {
- 	long flag, expected;
-+	int xtheadvector = 0;
- 
--	if (!is_vector_supported())
--		SKIP(return, "Vector not supported");
--
-+	if (!is_vector_supported()) {
-+		if (is_xtheadvector_supported())
-+			xtheadvector = 1;
-+		else
-+			SKIP(return, "Vector not supported");
-+	}
- 	/* Turn off next's vector explicitly and test no inherit */
- 	flag = PR_RISCV_V_VSTATE_CTRL_OFF << PR_RISCV_V_VSTATE_CTRL_NEXT_SHIFT;
- 	flag |= PR_RISCV_V_VSTATE_CTRL_INHERIT;
- 	expected = flag | PR_RISCV_V_VSTATE_CTRL_OFF;
- 
--	EXPECT_EQ(0, test_and_compare_child(flag, expected, 0));
-+	EXPECT_EQ(0, test_and_compare_child(flag, expected, 0, xtheadvector));
- }
- 
- TEST(vstate_off_inherit)
- {
- 	long flag, expected;
-+	int xtheadvector = 0;
- 
--	if (!is_vector_supported())
--		SKIP(return, "Vector not supported");
-+	if (!is_vector_supported()) {
-+		if (is_xtheadvector_supported())
-+			xtheadvector = 1;
-+		else
-+			SKIP(return, "Vector not supported");
-+	}
- 
- 	/* Turn off next's vector explicitly and test inherit */
- 	flag = PR_RISCV_V_VSTATE_CTRL_OFF << PR_RISCV_V_VSTATE_CTRL_NEXT_SHIFT;
- 	flag |= PR_RISCV_V_VSTATE_CTRL_INHERIT;
- 	expected = flag | PR_RISCV_V_VSTATE_CTRL_OFF;
- 
--	EXPECT_EQ(0, test_and_compare_child(flag, expected, 1));
-+	EXPECT_EQ(0, test_and_compare_child(flag, expected, 1, xtheadvector));
- }
- 
- /* arguments should fail with EINVAL */
-@@ -174,7 +203,7 @@ TEST(inval_set_control_1)
- {
- 	int rc;
- 
--	if (!is_vector_supported())
-+	if (!is_vector_supported() && !is_xtheadvector_supported())
- 		SKIP(return, "Vector not supported");
- 
- 	rc = prctl(PR_RISCV_V_SET_CONTROL, 0xff0);
-@@ -187,7 +216,7 @@ TEST(inval_set_control_2)
- {
- 	int rc;
- 
--	if (!is_vector_supported())
-+	if (!is_vector_supported() && !is_xtheadvector_supported())
- 		SKIP(return, "Vector not supported");
- 
- 	rc = prctl(PR_RISCV_V_SET_CONTROL, 0x3);
-@@ -200,7 +229,7 @@ TEST(inval_set_control_3)
- {
- 	int rc;
- 
--	if (!is_vector_supported())
-+	if (!is_vector_supported() && !is_xtheadvector_supported())
- 		SKIP(return, "Vector not supported");
- 
- 	rc = prctl(PR_RISCV_V_SET_CONTROL, 0xc);
-
--- 
-2.34.1
-
+BR, Jarkko
