@@ -1,313 +1,160 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2047.outbound.protection.outlook.com [40.107.93.47])
+Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 539791AE87C;
-	Thu, 20 Jun 2024 14:53:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718895214; cv=fail; b=tfC0mNOxgBO7gysb0oEWYpnVqMTizxNuKqdfoyxFaXdn9p6cIkZG+8ynneTp6yqcmB1W5P30yytFQpy4pi8TnTlOacbSaVi/RfQyh78w2tUK+FuhYiq1E/vqRwZp3kh65rc7VsNYWjRLh1D25rHssGHLu1LClrqAnxuIXQy4aek=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718895214; c=relaxed/simple;
-	bh=CCwUDzCz88MdI1B/HQCU7xeoPVCef8FnUc+/x9dyJcE=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=SfasL6iOe0jT68XgSTk3erK0LCFwq8Bfxmqy3CP7uuXnYijwzZEbA9dXVQ3sYnMTCVhdPpopBHwGDTQNh32ircWU1NGyiKv/dOwB9sKKcj0401nIpcjGJMbBTNjZWrZaO/YrX++5Yu2AJLucFqSslSUH6Jid5msgA4tauFgHmAc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=X5h+trBr; arc=fail smtp.client-ip=40.107.93.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="X5h+trBr"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AQU5VOmh3IcnhbpnaEC79s8BzBs4l1rcG/2G3hy9uTC4IzbjKmdqAqpm3Ac/DHxc6NPM7cYjbxuq1tsPmEbIp8PICVC0AfYFehnP04LP0c1n+waMs5cH2oljmoGJKDnw9J7dN1xMod6EcNEFoWsANRWok6H3jqeURTWNeKoFvWn1cdrHCqPuG43kKqsGN8UpZdSyhBZMsJgVIPWgb/ndRmCC1NqwKeQYNoY3sapLr8k6xrb7Jca1GI/+p5UppXi+OXQzCXUfw/jnIst5Su4I9cqtZUAL3IQEm3ctivAPp2lpsNcMto4TQwLJFzSxdQCs7n2mNbb4rdq3L/TJ9i1ttA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EsRttjABYdiYc5+vE1UFX/9IJYzpCJnr54EeWGpCNGk=;
- b=SFyY+OirfJoGgX6JbUm3MJgHjIS69rOZM/QAGN+CmvAh6ivBCsV71SR1sNJjYk6x0aJozVI6/AufsGO6to7Tt4ooa70dHT9cXLcDnJSlr0mwoF8wbNLnzB9BtSXEpeRaBqHh0UVCqmnu7MUTMLXYOvobskLV40XyY3++dmE8JO2zVWeB2r8/ImCTHnjJPraO+Zas2GlqrPRujYr6wBKsUa+YqV95ZEJqMqLWSpMhTY/wKbfSEpuibP/Stl4zGLgQntSQIF7yFj3dN1diDg2G8/yiFD40YyZO6nRicgJf7CCii5dldMSWSduKvIRMC+gMzqnK/MOt36Akgh9NFbDwqw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EsRttjABYdiYc5+vE1UFX/9IJYzpCJnr54EeWGpCNGk=;
- b=X5h+trBr+h9f4F32b4w+o64JF5KlJ6tNx+JvAq2R2aaLtv0YR0Q+m3EkhZBYyt1SCP+j56AHkinjBXE1BPY+66G8k8M5q0COsOAgSBH9a2663libU2BmH53HFpwrwyks8CUPkBlF6XFol7tqqJq7QS9EA1YDIDj47Ntep4pSpeU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by DM6PR12MB4235.namprd12.prod.outlook.com (2603:10b6:5:220::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7677.24; Thu, 20 Jun
- 2024 14:53:30 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.7698.017; Thu, 20 Jun 2024
- 14:53:30 +0000
-Message-ID: <48c20213-ad25-4717-a7e3-6e5ebd6a2713@amd.com>
-Date: Thu, 20 Jun 2024 09:53:26 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v4 17/19] x86/resctrl: Introduce the interface switch
- between ABMC and mbm_legacy
-To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
- fenghua.yu@intel.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com
-Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
- tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
- kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
- jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
- rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
- jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
- daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
- ilpo.jarvinen@linux.intel.com, peternewman@google.com,
- maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
-References: <cover.1716552602.git.babu.moger@amd.com>
- <0148e3317b0de3b5d1eaa58af37a2910783a69c9.1716552602.git.babu.moger@amd.com>
- <9141ea08-5109-4c61-880b-a5136405878e@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <9141ea08-5109-4c61-880b-a5136405878e@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SA0PR13CA0016.namprd13.prod.outlook.com
- (2603:10b6:806:130::21) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE481AF6AA;
+	Thu, 20 Jun 2024 15:15:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.154
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1718896505; cv=none; b=dv+OjOInUdc2s1dznZPkkZn9BrQmjF4cKULMSxIdAz47EbwsGSb0Z5EDPvJift1GlsV7pFjbfHNXIX8bw2rNzjXxm7x6FFyRPoVEyTDD+OtB96NuC/V6103L4wLrrO87mpLn26++Q4DWXQhI+1SC5JfKeZsgnN7CcK+UutpJemA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1718896505; c=relaxed/simple;
+	bh=B+ANxAr5I5iCOeavRB0jI50wfQL2dL1ZXhcF7hJaeXA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=npfehlmsGrSKtXBVAyspnxjuKnUYLuiqsFwjgyFPu7GiR+ijnG8/8A1yGAeb1J2OpFEiBoukgyYurSstsygVHxwhjv6MCpq9MORamzZzmqZD9Z7gqGxUs1JgyHdEcFBdoPWyNO0bZtxasMNDjrj1sCHc48W28mDuYRSvMKTcBkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.186.51])
+	by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4W4k3T5t3mz9v7Jj;
+	Thu, 20 Jun 2024 22:52:05 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.27])
+	by mail.maildlp.com (Postfix) with ESMTP id 50AA214010C;
+	Thu, 20 Jun 2024 23:14:53 +0800 (CST)
+Received: from [127.0.0.1] (unknown [10.204.63.22])
+	by APP2 (Coremail) with SMTP id GxC2BwB3_zlXR3RmAzTNAA--.2719S2;
+	Thu, 20 Jun 2024 16:14:52 +0100 (CET)
+Message-ID: <c96db3ab0aec6586b6d55c3055e7eb9fea6bf4e3.camel@huaweicloud.com>
+Subject: Re: [PATCH v4 00/14] security: digest_cache LSM
+From: Roberto Sassu <roberto.sassu@huaweicloud.com>
+To: Paul Moore <paul@paul-moore.com>
+Cc: corbet@lwn.net, jmorris@namei.org, serge@hallyn.com, 
+ akpm@linux-foundation.org, shuah@kernel.org, mcoquelin.stm32@gmail.com, 
+ alexandre.torgue@foss.st.com, mic@digikod.net, 
+ linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ bpf@vger.kernel.org, zohar@linux.ibm.com, dmitry.kasatkin@gmail.com, 
+ linux-integrity@vger.kernel.org, wufan@linux.microsoft.com,
+ pbrobinson@gmail.com,  zbyszek@in.waw.pl, hch@lst.de, mjg59@srcf.ucam.org,
+ pmatilai@redhat.com,  jannh@google.com, dhowells@redhat.com,
+ jikos@kernel.org, mkoutny@suse.com,  ppavlu@suse.com, petr.vorel@gmail.com,
+ mzerqung@0pointer.de, kgold@linux.ibm.com,  Roberto Sassu
+ <roberto.sassu@huawei.com>
+Date: Thu, 20 Jun 2024 17:14:28 +0200
+In-Reply-To: <CAHC9VhQp1wsm+2d6Dhj1gQNSD0z_Hgj0cFrVf1=Zs94LmgfK0A@mail.gmail.com>
+References: <20240415142436.2545003-1-roberto.sassu@huaweicloud.com>
+	 <CAHC9VhTs8p1nTUXXea2JmF0FCEU6w39gwQRMtwACqM=+EBj1jw@mail.gmail.com>
+	 <7cf03a6ba8dbf212623aab2dea3dac39482e8695.camel@huaweicloud.com>
+	 <CAHC9VhSCw6RweTs6whAu4v6t4n7gxUWJtjmzY-UXrdzW0H+YJA@mail.gmail.com>
+	 <520d2dc2ff0091335a280a877fa9eb004af14309.camel@huaweicloud.com>
+	 <CAHC9VhRD1kBwqtkF+_cxCUCeNPp+0PAiNP-rG06me6gRQyYcyg@mail.gmail.com>
+	 <2b335bdd5c20878e0366dcf6b62d14f73c2251de.camel@huaweicloud.com>
+	 <CAHC9VhSOMLH69+q_wt2W+N9SK92KGp5n4YgzpsXMcO2u7YyaTg@mail.gmail.com>
+	 <e9114733eedff99233b1711b2b05ab85b7c19ca9.camel@huaweicloud.com>
+	 <CAHC9VhQp1wsm+2d6Dhj1gQNSD0z_Hgj0cFrVf1=Zs94LmgfK0A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DM6PR12MB4235:EE_
-X-MS-Office365-Filtering-Correlation-Id: f41d5eaf-a68e-4604-2890-08dc9138bfe0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230037|7416011|376011|366013|1800799021;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?YnEzSDNnb1phRWZCQTd2UmxsNHQ2cEN2aW5ORHUrcy9iVnFFWlJCYXhTWWIz?=
- =?utf-8?B?a1JRaUgwcjBPZ3EwUGVoUEU3MmdlZGVzUGQwQ2NydWZaRE9oanVTVFpLYURr?=
- =?utf-8?B?K1lwSUpjME01cGVlSWZPTFlnekRtMkMyRmduWFdoeTJWMmlrVUQwZkw5R0ln?=
- =?utf-8?B?aWNVUTBCbDFLbWpRbE9NZDEyWGJjZnlPcjl6ZmR0VTk1T05EY2ZyMEdwOThW?=
- =?utf-8?B?WTV6dFdacE5ka2trRUMzaURWOWNxWlhIMWJjWE5GcS9kT3UvZmNLd1dIQllF?=
- =?utf-8?B?K3VTT3dOOFgxMDhmdkh5T2RObmVRZm04ZkVXSDYvcnVaalhPR0NQWkRyb0NF?=
- =?utf-8?B?Ynd6TE1kcEtoSFNaTFVNSzl5a3J4aHhyWFdFZmFsUEhYb1FTYzJ6ckFoVzJR?=
- =?utf-8?B?RFBVejdnSGowU1FPeDBnenpLS3dxQmdTcHloMTBNcW1OV0FFcHBQeHVvajNi?=
- =?utf-8?B?ZkRma3I2QmhiSkQ1M29wb3NweEl3cjdZMnluUjJwS3hVN0NoWTg1R0RlenBZ?=
- =?utf-8?B?V1oyWEFKQytBRmc1cUJFRUh1ZUtrRmdVamxVWFFVQ2dQUEpSeDFvV2RvbDVi?=
- =?utf-8?B?M3M0QjduQXV2VG85VEcwekM0czlnZGR1QTh0SWlpUnBKSS9tL2pnNlFDTGR6?=
- =?utf-8?B?aDA3ZFpCd0hKRUtmTFVHMEl6TTBsa0c2WXZPa3dHL004WGNiNmNLQkpha2VR?=
- =?utf-8?B?a3VnV0pHNFRBTm5qZXhZam9XbCtBdUpucGpSMXE5OHMzVWVQcDFYQkRNZS9T?=
- =?utf-8?B?dkVyZ0FydVhuaUZQNmh1cUYyWktkSUVZbnRRdEUrSWE4TzhlWk1CeUNISG5R?=
- =?utf-8?B?OHF5Yk96Qlc4MWxVblNodkFoTzFjbG4wNHkwMFhoRUZuK1JTOGdzeWF5ZDdn?=
- =?utf-8?B?UFZEeGo2UzJkVXJaS0F3Z0tYZHk1ZkxJRnJGaUtJVlVVSFFmUEx4ajAxSk5n?=
- =?utf-8?B?WkpKenptLzh4M0tmWC9mMlNIQUJvQW5acjlhc3ZyVXdZWmZ5UFFGYWdyK0Z5?=
- =?utf-8?B?K2pFQ2RnemFZeVBqZXc1ZUh3RlkyeW0vcDRxZ1J5VmpPODBPOHA1WTAva09G?=
- =?utf-8?B?cG9ZVElBeFJqZGJDQmhmWGJwQ045MElZVjRxcjduUjhTSko3RlcwVWVZb3lS?=
- =?utf-8?B?NHRxeko0TGdCN1VGU1FkZExXcjhkamNLWUxjMlVZbTBEUkFWUkpFMldnd29i?=
- =?utf-8?B?OHZLczBRSGtoYlc4UmszczA4aElWY3FGaWVRZzhBaDgrQW9zREFkSkd5Vlpj?=
- =?utf-8?B?UlFqd3JDL3IrR3hXdFpud2hMNjJHZUxzVHIwM09XWFRmRmRzUGNNSWQzQ2Jw?=
- =?utf-8?B?cWZWbU1UZjRHQ0N6QmFqVG1xS1kva1hCa0swS292RGRwcVdtRjlxTnlOdi9K?=
- =?utf-8?B?SWZFcWpiOVF2cWtsMjJ2Y2R5U1NlQ1ArMUd1N25pODhzaFEzeDUxa25ic2J2?=
- =?utf-8?B?US9McUlZZTRUZVRhTms0QlhhOGV4SUozL1NZaEYwWHg0TlFIblE1bzVMbk0y?=
- =?utf-8?B?Z2NSVm5BSHlsT01rbHZsRUpFNC9tc0pmd2tTcTRVYjlsa0xHNU1kakx0VEZX?=
- =?utf-8?B?Z2ZNT0grY2szNS9qM3o1a0ZQQTZDVEhMMnBEWTFZcHMvOUJ1eVplcGRVdkNm?=
- =?utf-8?B?ZjlOTmZLcXliL3lDRTBJazhnb01wc0toMGVIVHJHazVzbzVyOE1WUktDZWl3?=
- =?utf-8?B?L1VUemJkRG92N2lOa3V4WkExUS9VdWFpTjk2NUswREd6RmlTeW1NdHdOUWR6?=
- =?utf-8?Q?iYxjzjUZHIvvTZJqrrNdyTnPT2qFpQY3JmxHVeU?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230037)(7416011)(376011)(366013)(1800799021);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NENpZTFBUmlZdW8vWTJKZ1BUbHZmUVc2ODB5QisxWkdhckNWZ2piaGlWZTFo?=
- =?utf-8?B?UDJaUGQ4NEV2QlRlZUYxSjNCNkpML0FJdkdISTFVYjVJMGp0cHFzZGVBam1n?=
- =?utf-8?B?RjJjL25uLzBlTGtVamUvWmlLdnMvTmxmVUFNSFlvVlc5MFFTVngrdlpnNzVO?=
- =?utf-8?B?MmI0enNkV3lQRGRUMmh3VnFUZmFhZHR2UURqWjVSREt6ZWhzSXB5Zm54N0xB?=
- =?utf-8?B?WDR1dVA0cDdVeFF2aWJxbmx6RWlCYVB1bFc0RnlNQlNNTVU3bWJieUxwMWFm?=
- =?utf-8?B?a2s3ZmJhNWhZUVpqSG9iRHgyR1Z1RFhTUzNLd2J1Vjh0N3MyRm1UaEFveTlp?=
- =?utf-8?B?THF4elpiMTl3UmhrNENNSXBRbVBFcVZ1TmtkM040MFk2ZDBsTUVwYWpVb0gz?=
- =?utf-8?B?V25Vc2R2dWRlT0lYTG1yVmcwNXNPcXNJKzdBN3F6TnpQclVnZHIwci9BSnhj?=
- =?utf-8?B?YVI4VzFhV2t6c3lKTGpZTVYxNUxCWXJ2eDhmZHdKcGtYbmEvbHkraS8veFpZ?=
- =?utf-8?B?RmtmcC9uN0ljRi8rbmtMakVRMmRrcWFrUnBYaWVMaVZSVDBZK0l2a0ZGSE0z?=
- =?utf-8?B?UU0yTnhWMjlhYzBOUVNtblhWRVNrN05EUWJCZmpuQS8xd0JKSWl1WERqcThZ?=
- =?utf-8?B?RyswcGJlaHdidW5DTUppN2FZMFRaZnllVnRBVENXMjZ5QmJxdjNpdjdkNGox?=
- =?utf-8?B?b0hIbWkzMEs4VXJXNVBaeGRIazhhQjFOdXdtZWV0b09SUzZqaE43eFZ1ZFN0?=
- =?utf-8?B?dytFSERtZW5hWkV3NENCM0xGeTRsQWRJTUdGaGxTT0ZaSUVudG1wSXAxbGJG?=
- =?utf-8?B?dzAzM3MzTml6TU5vRlhZaUNkbTVlRjd2aWFHSjluelRhajJsSVl5Tm1PQWJS?=
- =?utf-8?B?dTlaaHZaOVpwSWFVWWsrUGtBbEZ2YnVJRThxbWtpcllMd3lYMjhCQmJOUW44?=
- =?utf-8?B?NDFxdFZQODZ5dytBcUlDVTdVOE5zc1Z6KytVelNwdHlwTUorcDZjU3dFU1Fi?=
- =?utf-8?B?TzRMcnVMZXp3RzROWURIWWhXMmJCanRrR2MvaWxGVGpKNzlrb0FGemYzbjZy?=
- =?utf-8?B?MHd1V2IwY2JkOXlmT3haUkdpOGV5MTVWRzRBTVVrQ05HdXZrQVRjSnk0NXVz?=
- =?utf-8?B?Y1l2dHAzVUlNWEo3TGhZbHR5dEF1ZWVlSFpzYndpaWhmSnozL3NsTmNMdzhD?=
- =?utf-8?B?djhoZUtUMUdQTzBZNWJkMEY5RFlDa1BWMjJHY21SeTlvb0p2aFNOOWxZLzdz?=
- =?utf-8?B?eGxoNkFuQjBBYmVSMUxSTjBZUkVnMklROVBCNTR1UXlrNlkza1l4anF6a0lI?=
- =?utf-8?B?SmZuMzMvREthcDI2eFR1ZTZoUFhLUjIzeXI0K2tvSk9LbFpuRkF0SWlYUTFL?=
- =?utf-8?B?RWR4aXNhYzN2VHVyQ0g4emRNOHBGMkVlVXdQSENuODBUd3pXWVB6Y2lOOXUw?=
- =?utf-8?B?cXlaMk9JVkxCQnlUSCtDY1ZuY0ZpMUJwZzhnTXh1SEJNSFhGcFI1VW12dXBa?=
- =?utf-8?B?K3VDalkrT2FzS3Qyek0raldvT3pMaVBkd3JZUzRWR2lLdFdGM3dnbTJzQ09M?=
- =?utf-8?B?azU1eklIV281SFhWQWtlOXhuazVjYWJnRnRYUXZBZHFybDhpcEl4RjJtVUhj?=
- =?utf-8?B?N2duSDZQeXR5SHMzRlVUQTBTNlB6U3ZURFBCOGs2VC9NN3NkbHdRb2Q5WkF1?=
- =?utf-8?B?bkVIam92R2lCVE1NR2ZKc2VKMWtJK2w1T3dxNEFESjNYOVJ5NGNIZ0ZyWm84?=
- =?utf-8?B?OXNBWWZDck5mSDFXakpvdkQ5blhnSmI5QmZaTWhqMkpMV3M1SVhZZFhaSDNh?=
- =?utf-8?B?QlJjbUc3UW44SWdYV2R5Y3J0R2J0WjkwOUszRUhyMnRMQXFhb0F4aEdsRGJO?=
- =?utf-8?B?MXZEN1p4UllVNkRXWFBOeWdSclh4ejhDN1NON0xzRE9ndlZicUVDTGlhOVdp?=
- =?utf-8?B?TTFvMnVmNVpjdGdEMkpBTlZtVjhGR0dQNGFFdzlmUW9obXhzQTJHQUhHNWJt?=
- =?utf-8?B?Rng0UVhCWGxwMG1ib3NOSTFHTmxQaTZDZFNjYnIwamxpMlQrWDkzKzYrQU5Y?=
- =?utf-8?B?ekxtaE5ZTHR4ZDJFQWpndlQ2UitHd1grRWhSU1VzT1VvWHVoZGhDUXl0MmhZ?=
- =?utf-8?Q?GVfw=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f41d5eaf-a68e-4604-2890-08dc9138bfe0
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jun 2024 14:53:30.5348
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XKVL/SPGAotvssGkQzVsmVDDWPpZzURnKRjbwlpY8/ltZM56ER77NqKSjkgwnc7S
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4235
+X-CM-TRANSID:GxC2BwB3_zlXR3RmAzTNAA--.2719S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxAF18uFyDJF15AF1xZw1UZFb_yoW5Xw17pa
+	9rCF1Ykr4vqryfCwn2v3W7Z3WFvrZ8tF17Wwn8Xry5Cryq9r1Ikw1I9F4UuFWDXrn5u3Wa
+	yF42vFya9rn8uaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUkYb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxV
+	AFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxAIw28IcxkI
+	7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxV
+	Cjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWrXVW8Jr1lIxkGc2Ij64vIr41lIxAI
+	cVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcV
+	CF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280
+	aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU1c4S7UUUUU==
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAQAABF1jj595mQACsJ
 
-Hi Reinette,
+On Thu, 2024-06-20 at 10:48 -0400, Paul Moore wrote:
+> On Thu, Jun 20, 2024 at 5:12=E2=80=AFAM Roberto Sassu
+> <roberto.sassu@huaweicloud.com> wrote:
+> > On Wed, 2024-06-19 at 14:43 -0400, Paul Moore wrote:
+> > > On Wed, Jun 19, 2024 at 12:38=E2=80=AFPM Roberto Sassu
+> > > <roberto.sassu@huaweicloud.com> wrote:
+> > > >=20
+> > > > Making it a kernel subsystem would likely mean replicating what the=
+ LSM
+> > > > infrastructure is doing, inode (security) blob and being notified a=
+bout
+> > > > file/directory changes.
+> > >=20
+> > > Just because the LSM framework can be used for something, perhaps it
+> > > even makes the implementation easier, it doesn't mean the framework
+> > > should be used for everything.
+> >=20
+> > It is supporting 3 LSMs: IMA, IPE and BPF LSM.
+> >=20
+> > That makes it a clear target for the security subsystem, and as you
+> > suggested to start for IMA, if other kernel subsystems require them, we
+> > can make it as an independent subsystem.
+>=20
+> Have you discussed the file digest cache functionality with either the
+> IPE or BPF LSM maintainers?  While digest_cache may support these
 
-On 6/13/24 20:51, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 5/24/24 5:23 AM, Babu Moger wrote:
->> Introduce interface to switch between ABMC and legacy_mbm modes.
-> 
-> shortlog and first sentence of changelog do not match: mbm_legacy vs
-> legacy_mbm?
+Well, yes. I was in a discussion since long time ago with Deven and
+Fan. The digest_cache LSM is listed in the Use Case section of the IPE
+cover letter:
 
-Will correct it.
+https://lore.kernel.org/linux-integrity/1716583609-21790-1-git-send-email-w=
+ufan@linux.microsoft.com/
 
-> 
->>
->> By default ABMC is enabled on resctrl mount if the feature is available.
->> However, user will have the option to go back to legacy_mbm if required.
->>
->> $ cat /sys/fs/resctrl/info/L3_MON/mbm_assign
->> [abmc]
->> mbm_legacy
->>
->> To enable the legacy monitoring feature:
->> $ echo  "mbm_legacy" > /sys/fs/resctrl/info/L3_MON/mbm_assign
-> 
-> Missing information about user visible impact to counters/events
-> and any mitigations needed in implementation.
+I also developed an IPE module back in the DIGLIM days:
 
-Sure. Will add the details.
+https://lore.kernel.org/linux-integrity/a16a628b9e21433198c490500a987121@hu=
+awei.com/
 
-> 
->>
->> Signed-off-by: Babu Moger <babu.moger@amd.com>
->> ---
->> v4: Minor commit text changes. Keep the default to ABMC when supported.
->>
->> v3: New patch to address the review comments from upstream.
->> ---
->>   Documentation/arch/x86/resctrl.rst     | 10 +++++++
->>   arch/x86/kernel/cpu/resctrl/rdtgroup.c | 40 +++++++++++++++++++++++++-
->>   2 files changed, 49 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/arch/x86/resctrl.rst
->> b/Documentation/arch/x86/resctrl.rst
->> index ab3cde61a124..fd050d4d22cd 100644
->> --- a/Documentation/arch/x86/resctrl.rst
->> +++ b/Documentation/arch/x86/resctrl.rst
->> @@ -271,6 +271,16 @@ with the following files:
->>         [abmc]
->>         mbm_legacy
->>   +    * To enable ABMC feature:
->> +      ::
->> +
->> +        # echo  "abmc" > /sys/fs/resctrl/info/L3_MON/mbm_assign
->> +
->> +    * To enable the legacy monitoring feature:
->> +      ::
->> +
->> +        # echo  "mbm_legacy" > /sys/fs/resctrl/info/L3_MON/mbm_assign
->> +
-> 
-> No information about what the features are or what will happen on such a
-> switch.
+As for eBPF, I just need to make the digest_cache LSM API callable by
+eBPF programs, very likely not requiring any change on the eBPF
+infrastructure itself. As an example of the modification needed, you
+could have a look at:
 
-Ok. Sure.  Will add more documentation.
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/ker=
+nel/trace/bpf_trace.c?h=3Dv6.10-rc4#n1381
 
-> 
->>   "max_threshold_occupancy":
->>           Read/write file provides the largest value (in
->>           bytes) at which a previously used LLC_occupancy
->> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> index f452b6d9bb99..d77ff059269a 100644
->> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
->> @@ -908,6 +908,43 @@ static int rdtgroup_mbm_assign_show(struct
->> kernfs_open_file *of,
->>       return 0;
->>   }
->>   +/*
->> + * rdtgroup_mode_write - Modify the resource group's mode
-> 
-> Comment does not match function name. Seems like "mode" is the generic term
-> to use instead of "assign".
 
-Sure. Will fix.
+Once the digest_cache LSM API is exposed in eBPF, you could write a
+simple file integrity check (taken from my DIGLIM eBPF), not tested:
 
-> 
->> + */
->> +static ssize_t rdtgroup_mbm_assign_write(struct kernfs_open_file *of,
->> +                     char *buf, size_t nbytes,
->> +                     loff_t off)
->> +{
->> +    struct rdt_resource *r = of->kn->parent->priv;
->> +    int ret = 0;
->> +
->> +    if (!r->abmc_capable)
->> +        return -EINVAL;
->> +
->> +    /* Valid input requires a trailing newline */
->> +    if (nbytes == 0 || buf[nbytes - 1] != '\n')
->> +        return -EINVAL;
->> +
->> +    buf[nbytes - 1] = '\0';
->> +
->> +    cpus_read_lock();
->> +    mutex_lock(&rdtgroup_mutex);
->> +
->> +    rdt_last_cmd_clear();
->> +
->> +    if (!strcmp(buf, "mbm_legacy"))
->> +        resctrl_abmc_disable(RDT_RESOURCE_L3);
->> +    else if (!strcmp(buf, "abmc"))
->> +        ret = resctrl_abmc_enable(RDT_RESOURCE_L3);
->> +    else
->> +        ret = -EINVAL;
->> +
->> +    mutex_unlock(&rdtgroup_mutex);
->> +    cpus_read_unlock();
->> +
->> +    return ret ?: nbytes;
->> +}
->> +
->>   #ifdef CONFIG_PROC_CPU_RESCTRL
->>     /*
->> @@ -2087,9 +2124,10 @@ static struct rftype res_common_files[] = {
->>       },
->>       {
->>           .name        = "mbm_assign",
->> -        .mode        = 0444,
->> +        .mode        = 0644,
->>           .kf_ops        = &rdtgroup_kf_single_ops,
->>           .seq_show    = rdtgroup_mbm_assign_show,
->> +        .write        = rdtgroup_mbm_assign_write,
->>       },
->>       {
->>           .name        = "cpus",
-> 
-> 
-> Reinette
-> 
+SEC("lsm.s/bprm_creds_for_exec")
+int BPF_PROG(exec, struct linux_binprm *bprm)
+{
+	u8 digest[MAX_DIGEST_SIZE] =3D { 0 };
+	digest_cache_found_t found;
+	struct digest_cache;
+	int algo;
 
--- 
-Thanks
-Babu Moger
+	algo =3D bpf_ima_file_hash(bprm->file, digest, sizeof(digest));
+	if (algo < 0)
+		return -EPERM;
+
+	digest_cache =3D bpf_digest_cache_get(bprm->file->f_path.dentry);
+	if (!digest_cache)
+		return -EPERM;
+
+	found =3D bpf_digest_cache_lookup(bprm->file->f_path.dentry,
+					digest_cache, digest, algo);
+
+	bpf_digest_cache_put(digest_cache);
+	return found ? 0 : -EPERM;
+}
+
+Roberto
+
+> LSMs, I don't recall seeing any comments from the other LSM
+> developers; if you are going to advocate for this as something outside
+> of IMA, it would be good to see a show of support for the other LSMs.
+>=20
+
