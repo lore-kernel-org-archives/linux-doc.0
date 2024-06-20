@@ -1,253 +1,173 @@
-Received: from EUR01-HE1-obe.outbound.protection.outlook.com (mail-he1eur01on2050.outbound.protection.outlook.com [40.107.13.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEDDC1D52C;
-	Thu, 20 Jun 2024 03:13:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.13.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718853217; cv=fail; b=QVKWd+soXOmJgE0jPx7/q0K+BFo4hhPTR492LZUAqgUIjEN7hapL/l8afzQIlYTlRgFzCsp+WOemRFmScE59Nm203KmHhr0PbiQJq/Ey4KaFQ9DCgbvMuTLopYjSmUU1saB+2I6fdIbl7wK9gfRG0T9XXuxgI+Og9TpIdQy3DCY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718853217; c=relaxed/simple;
-	bh=4B6Hlm1MamZLZvFfP/V0GlcoDRxmuo8AhB6cUfLZslE=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=ECE7+SHCFpw+v14a4hLies///6nm7VuluZRgQLmXgtBfXyTkLm2OMwzI9kkHgY9QrLydM5gw3LD/JvWkP4Lz8Twb3PnMGoLMX0yvyz1Mq4RGj6OpELM9WAget5sfVcD+xy3iwOvhHCiVwjWGR28HeNRApKC5bfPjvt/a5mApCGA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b=joC4J50Q; arc=fail smtp.client-ip=40.107.13.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AD3B2139C7;
+	Thu, 20 Jun 2024 03:18:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1718853531; cv=none; b=X5381CTE/BeUio0D0OPiTK+QtGOTviXnsBgsQWVveeBqhyYFdt9mrTmzKcQhbBLDYdkOz3ODZNqFzOsyAAbAsrCEnLzKuJfRhHQCM0gdu6LHA40BeOxl9MuKP+IJ43N2rP3qsAtqetpHDimIyu4tTmQZqjgw3QOUvfnIwlCEH0E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1718853531; c=relaxed/simple;
+	bh=Ku4WBWGLxv96+zeTa8DS1MjRgA6aKIiac+KSQePtfA8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NjcgYrRRq3kmEVAUulmBptMloGkyOBJ3oBAV+QFSzkoCl7ybs3HIrFBnm7Qv5x67+mFnwlicvIUM9K3Yv0HHGd/O1hJPr6BpoQB6QKbXrrwOu5481MEBq/NLzlsmNIvKhO/gF2uKdDKnS4iMJbiSkgUTduLfVJwL2EpvbAPEZak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HnXlEZsf; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="joC4J50Q"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YBFkt5hLwvet/vLpP3Hvw1x55/Q9KCS8Y6MYGokLUrGTbkHU4HbxL+nGi5xCu/iR14V3Hhihwq5GQ9YYnIAnYaGLjBHZ3eOJnQ/Wcj0C7QkrunQoeLor2+UMLmwziQapuzmLpFATi+cUdCPGauAgosxLeRg4mVbjs9wnlUfLb5VH6vx5PDXZ8Af3EDCclO//BlSTrfFGfexMIHHx7NYfkxtS4ALMN+herOAIXTGmREU9eOFcD7M+Flma00i2s4KbPi3elxIxvdfB+kpav77syMrL7gPxRNbK/WZW9jHZnHAxkDz65kGMsjWPcPG90IRfnLklowPU7n71+cLNnNY1cw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+fPG+vCG5k/Bbnen6txM+atTIjoMXy+yHS390e0g8JA=;
- b=l2xV2Kq2vUooecy05KalQKyaX48VNXvp2LeGSy6r/fnM2h9LfjbaM8bMpNRvctNuoiZ9uxt2MZ7DJoo9aP4YPufzkUFJpSlgt8o+7laqQaBMfv1EklkCSY53ko1O023zPtQAPPsQMHtw76imD0i0uOIGFb9IknKzP4GPKZPvnTDu0ZCPvSvy9OrhzCy4q/U+H2GshkrLi2XXZvvHsL0bKTMsFgYa0o8EsyyWCPUUOa7yFqnRfvhbvm2mmmY3nMWJqCWDL9eRQOYvhUXjF+txzuW6TaHndf00OwLIjr2nhL3dt8a6Xjf4fTsfGh0A6GfrazmAZylg/wHUv1fVTw84Ng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+fPG+vCG5k/Bbnen6txM+atTIjoMXy+yHS390e0g8JA=;
- b=joC4J50Q//YMkiwU1v94ObPNNHkZeoBbSQfqV1ReYlEEANqmBXZezauNu0UiHD5vV1sCLZ8zh/GmSbXn0myXikB3gtvgdHMOCa0g/i8M3J4A3sptjgHZwdwF3Kiq8gKCMPT12bX5QQWa3644ql+WziCpvBr7pf5Q3eCfqWDjllc=
-Received: from AM6PR04MB5941.eurprd04.prod.outlook.com (2603:10a6:20b:9e::16)
- by VI2PR04MB10115.eurprd04.prod.outlook.com (2603:10a6:800:21d::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.19; Thu, 20 Jun
- 2024 03:13:30 +0000
-Received: from AM6PR04MB5941.eurprd04.prod.outlook.com
- ([fe80::9f4e:b695:f5f0:5256]) by AM6PR04MB5941.eurprd04.prod.outlook.com
- ([fe80::9f4e:b695:f5f0:5256%4]) with mapi id 15.20.7698.017; Thu, 20 Jun 2024
- 03:13:30 +0000
-From: Peng Fan <peng.fan@nxp.com>
-To: Cristian Marussi <cristian.marussi@arm.com>, "Peng Fan (OSS)"
-	<peng.fan@oss.nxp.com>
-CC: Jonathan Corbet <corbet@lwn.net>, Shawn Guo <shawnguo@kernel.org>, Sascha
- Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
-	<kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Sudeep Holla
-	<sudeep.holla@arm.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
-	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>
-Subject: RE: [PATCH v4 3/6] firmware: arm_scmi: add initial support for i.MX
- BBM protocol
-Thread-Topic: [PATCH v4 3/6] firmware: arm_scmi: add initial support for i.MX
- BBM protocol
-Thread-Index: AQHarbccidDC6+VloU2+tTCstejtpLHMUQiAgAPSZBA=
-Date: Thu, 20 Jun 2024 03:13:30 +0000
-Message-ID:
- <AM6PR04MB59419D538B85A3FF0C79821088C82@AM6PR04MB5941.eurprd04.prod.outlook.com>
-References: <20240524-imx95-bbm-misc-v2-v4-0-dc456995d590@nxp.com>
- <20240524-imx95-bbm-misc-v2-v4-3-dc456995d590@nxp.com>
- <ZnBo84P1Av0pZ324@pluto>
-In-Reply-To: <ZnBo84P1Av0pZ324@pluto>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AM6PR04MB5941:EE_|VI2PR04MB10115:EE_
-x-ms-office365-filtering-correlation-id: 144592c0-4f22-43c3-77c4-08dc90d6f610
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230037|366013|7416011|1800799021|376011|38070700015;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?hGpPU4txDgrR0X18CKEsCO9GA+4CP2tdKJ+oLPV2X61xetlhkyBwsjUIvzGm?=
- =?us-ascii?Q?k13XBnh+HRDn7/4S4OOBfdbXpEqIxS1+Y/R0LqtBHZ8Vkh8CvYo1C/1amnB0?=
- =?us-ascii?Q?/6w6q9XbV183Nncn6UTx/9zzjRxumVbXLhJaUYQpuFuT/fZ8e3RYRsz7AULZ?=
- =?us-ascii?Q?IRsOUXcrmMHDEqdC7Vx0HH8sPCqfICw3TFBHRxwqokcgIqqmSWuHtSaNkDs4?=
- =?us-ascii?Q?NRHx2L768/kYSVfSw8hQlLOWpoPfMChsWRXO9P6L8Z/6h5neSXi8W2rXUSMI?=
- =?us-ascii?Q?DwjTFHWnYoQ8l0MvhFOfkh8Rwyqqj2N6+cC/JNfDnOZkpl7nu/YrTgQ24kuj?=
- =?us-ascii?Q?LtJ+LUnHd8pMjWH+09lyATh9nPn7nI6P2ARPCMiFApaLaotsg4RMVTYGSQ7Q?=
- =?us-ascii?Q?GSFREe0Nl9cLmYn0b1XhxbGKXZuqoXK2tr4f6tWHZFvxOAyKddQlq0HP8R+m?=
- =?us-ascii?Q?bpE+ctCnfVr4dnVIhjmAaOYBM3JGUeOpGlvCtwlKXFn8hTzAPy4ezYcdNc3s?=
- =?us-ascii?Q?AtCO90Ql+qfNyQ/IxlpoPQ6Zn6XSUkYZ8K2+myZ0h7VpNR3E+rubjlwxRUWT?=
- =?us-ascii?Q?C44ul0sF8struKZDcN3uzZQEymte4XWudoW6A00qzM+d7SowlfO6Kr7S0Z1p?=
- =?us-ascii?Q?RwIxOlj/IS5Kp2vXfbjMK8DwjXj9dLp4Qg2NlpCgMJ5zprCPNiZZfz3YNCCp?=
- =?us-ascii?Q?+y4mFWI1iARgELj+70XlAxKEbT+HYcJKA2Uw/FGnHwCsb20QfGMRKLIL2i5Y?=
- =?us-ascii?Q?HY2qMVlofsxlgxFQOhpKUz0iNRPF+EJr2jjpLJldUD0UJIO24yu3syawhPnX?=
- =?us-ascii?Q?pvBglmR3GMBcczouijK1HCjHGcXtUG3C4fv7CjA41eOC/vAYIOejNmv7TuDI?=
- =?us-ascii?Q?Yp4lWFdV19lK8Xu3jmZSDj/49NP8jYVp+FU3jlEC1lhqEifZAXqA3ehNyjpU?=
- =?us-ascii?Q?1CxAD0oFnKrJrBEUalxOO1gOC5jnJCN1foQOUdsLmYKBfgY6+erK4ttN7ogD?=
- =?us-ascii?Q?+KUiZgRCqivZ9f1peiu6CT6Q+TbobyCkH3u3XmFy+bIoD5uuJI0JaWc1VGAJ?=
- =?us-ascii?Q?4jUp7H+PbSzy7gNEr3vB8VzCyJXBKT0NfosfNHlKKoxI3PGyYb5MGNOp+cPs?=
- =?us-ascii?Q?5S/G3PCW6cvpKYuK4ILJ2F5bLzJYD74EZVRPH2gy2Ap/py0xzCdZtbmSicOu?=
- =?us-ascii?Q?2V8HqgTAQAQBD1S/RwhXvFZ8M1U6Z+6QY+YJl5C+hOowZHfiOViVcakco4Ej?=
- =?us-ascii?Q?qiVg2sALZAbKzXZeKjji6upbBEAaoEJrlp8dJVH6aGl41m9gBFd/5W3AwZ+Y?=
- =?us-ascii?Q?nF2P18ki4OTJ5lKmtsAHvkrfarMldSlvgmwbBpnuQ34taTbZH1tsv8uV7DMZ?=
- =?us-ascii?Q?XZggNw0=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB5941.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230037)(366013)(7416011)(1800799021)(376011)(38070700015);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?WYHV+AVBL0RmPuQqGCv4Rqti51k/5zkbSj1/U/ShW0eqCzTWp5Oh8vdggerS?=
- =?us-ascii?Q?7H/ZwANuG20AXpIwYDlhkNirpBhcRxTnXoR3/ZTFPGnTmPB/dNdymnt6Rw/J?=
- =?us-ascii?Q?RXdokia+CHdHZ2eKKyJfwzgRDAxGg2FXA/BkFlJoNL5OiIiKQOnZZZULUzSm?=
- =?us-ascii?Q?uSWIVmsLZaOIcpy7XztjebqFPd8bSdyDF+00tHVJa6/yE4jH45ldchyCUBkE?=
- =?us-ascii?Q?/VdbIXSazokeoQSDgkQKSVCV/gSLxNVJcvZX9AkUT5xCRxqv6uMnFZ2YEM88?=
- =?us-ascii?Q?zB3pqo/rmdmaq6pIuZusHd45mYVvlTPJQEZZaXrzs0/6ShT+uHFwnoRKBgey?=
- =?us-ascii?Q?0VLXx3qWL2CDJjIqlgtBjpHAr5Kwz/TB+PT2tVTgQjEWjc0NjSOZCmy5Px2F?=
- =?us-ascii?Q?lBpvsvb8XEtw4WkfF2Qr4JDQMRRrk0JYhN+TW0VJwAakREX0xDxnIRCulQIy?=
- =?us-ascii?Q?qHexHDlQlseJhAJGFoi8ZM59z6qOhlTWznIxhZtTFjYEFxWBp4OtxhgFdJj2?=
- =?us-ascii?Q?w5/sfgjHssnSqvVNdx2U6Ako4gU7Gxpci4qXGW1wVGXsWoowI9HCU7FnM/+U?=
- =?us-ascii?Q?bXmqADeI3xKOt06ht0LZcWUiRgPay9fTwlRomiHmLk1fqECQmvVWHq3asw8J?=
- =?us-ascii?Q?YChM5n6oYHCL8wryT9Y1DfUZbTc+vr4gD2j+mrIkkczKhJw9Yu8os0Xs+8hs?=
- =?us-ascii?Q?XNh6S+ZE/QDdz37Mmcip88cVkFBe/D6VHPmwNw10y3VI820Pg002QnPq22+5?=
- =?us-ascii?Q?XHNhByw4iTMoaHbws88u2OL2RRfLIoSid0DUfvzrhdC7688bDGTaAlucvkaO?=
- =?us-ascii?Q?5uXVLSDr4ouHlcR9JrRL5kIWUmA7zywS9suPo0kksyX/7KdfHTDdQ7nAKE0M?=
- =?us-ascii?Q?0g1zA43/uiVVIEJN0QRIx6tg8K+yU4e2oYzsH/e2nuZS7+8xOCi9LumwxG4w?=
- =?us-ascii?Q?TII3gbwzCbYh0+tsAGlKhwnSRTAn6iNuIfcn4xzCMCYwo0q+ROV2SO5XLGRk?=
- =?us-ascii?Q?bG/RDhtZT9HoSZaM9kSZAO4FEvRx9bjxK2MvM3p341Hi/dBFfh8bgmVoIp+n?=
- =?us-ascii?Q?2IEx11YBVWLMILcgyY1yRo7In635bE0WEJc1I3STAiuJvhPUlV5s1YZyMjIy?=
- =?us-ascii?Q?tApvbF2TRKM65Kuqr18PI4EdM3fynfK45c1dQXhh1XUZUuU6TDqBhjJeOt32?=
- =?us-ascii?Q?REBr7xJMnkkO5dTzOsjDBZ8voU1r9oJ5avm+Jaw489TqER3xHfLV8sVK9Qgh?=
- =?us-ascii?Q?7YFC6Xk2jRsSR9+V7Nj6MCjUNu3Z3C0kOMzMJkYuRf0TPYFp9gFUsMhr9z1B?=
- =?us-ascii?Q?UdJWcBw89BpWAB940KRst1dJ9v59QEUWYkjRRcA8NmUuRdMVf4PZ+1LkriCa?=
- =?us-ascii?Q?Vf7KMF3FPa6HaeDb82GHcCbnmAMXVv5OLxjco1fdajgpRGgDdNheVL0g4AOK?=
- =?us-ascii?Q?LoW+/KUCfJNl+ru2gfPuCW66fBlxNwohwJ/B0A5zX8gqvSmVcfKJ/Okjk0aZ?=
- =?us-ascii?Q?4VDMHZ4uUV6epCzHeklWFXmn1B1y7Pweva+g0f3vh9ffWW2BzTZaLrqGRSmV?=
- =?us-ascii?Q?9LId3fak3oIduVu4DJk=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HnXlEZsf"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2c72becd4fdso417248a91.0;
+        Wed, 19 Jun 2024 20:18:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718853530; x=1719458330; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bxzWE9lbTzRfMB3sOdCyzovZxPNcU5DkIKhPdXbvn8I=;
+        b=HnXlEZsfZN+Za1OuPMF1I9L6cEHgCX1a6hKgeT/KbP2V79qjFgEOs+6pVrV6Qv5Wjo
+         5NJXrCumleGnDWkba0sI7YuycOEsMiynNylMi7MUvWg8qIOu6HwK9Wcz2Kpc+L6yEIK4
+         VVUZF/T1ilFoyAKc60CGuqug3tbWtfqGEXUAralefg3C2akamu49En3174a6jMI0Iiu/
+         yzoYR5oGhEPuN2Xn5BmvG6TLFvV6x8Y8UBMbv8W1Vtr6On6LOL4MdM2ib5ReYrWYlKu3
+         SWj7vGjblrFOIYhRuA1Xc17fFl1QkCwnuK8NOOkPGwIpLpuJ2u0tDSR1UnhmaJkNJ3JA
+         96lA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718853530; x=1719458330;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bxzWE9lbTzRfMB3sOdCyzovZxPNcU5DkIKhPdXbvn8I=;
+        b=vLIQ/vHPYMgtWTJKzytk8F9Xs5jbBe3vOYnSWEnrcF9+bvz5S0zkfUOhP/7yk1It2C
+         TNIR/J/63UVr2g2p9FLXN1N9RcEyekmVroXGZcZPPlOuvAMDm+cOUt8Fxjx5wuLNfzg3
+         BtJAZazxmCLkANFx5VAwgidNkU/ilblA+Gktptt3YpMm1LUqJLashrSMjciR9QE0Rlh2
+         irEE8Y8NU5UBWJE+Rq1+oL8KulnvR+BJW4+Kwaz/96QF0JekNGMbHJs3BtwZG1NYcpJ2
+         sludBSUkrk5U9YAO7E0C+SNENWmyRaezHhuNiWY2wKy85xp+3cbNOQwj+Ewz+1v1ACNE
+         T9Nw==
+X-Forwarded-Encrypted: i=1; AJvYcCUwcozNQR6DxRNuPB5wbnADZv/BqCkFMXPgU5PmKmtCeU+4Pknq+9irkzCGcJPqAlDR60kfITMsHgqRyUYEM4rGIOiDgPIi7b/NN6FpoAYGWQwH+sQ+FkY83EJlc7q+aO3ocSqFEZDu
+X-Gm-Message-State: AOJu0YzRsjfn8wdshBltDXcNAfDMfzfkFK4r1KduVERIK9i9keXBbSpd
+	ROBNjlsUwC5kcs+lo4dmBIkdWYDyLWT+5sF571KmKFClkiTMfUr0NzZf4Q==
+X-Google-Smtp-Source: AGHT+IEVUyMtZdJrpNx5r5URae5gSqGLqjWpA5GtSjKjJmfpbYmeA8V/5FvfMfs6pMkWBsE5u5GzWw==
+X-Received: by 2002:a17:90a:2f43:b0:2c7:bade:25be with SMTP id 98e67ed59e1d1-2c7bade2676mr3614370a91.14.1718853529711;
+        Wed, 19 Jun 2024 20:18:49 -0700 (PDT)
+Received: from [192.168.255.10] ([43.132.141.24])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2c738c1d57asm3232673a91.1.2024.06.19.20.18.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 19 Jun 2024 20:18:49 -0700 (PDT)
+Message-ID: <5f6bd005-81b4-4e26-ae43-803448a0dbbf@gmail.com>
+Date: Thu, 20 Jun 2024 11:18:45 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB5941.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 144592c0-4f22-43c3-77c4-08dc90d6f610
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jun 2024 03:13:30.5033
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JD+C16K8v1mCLsm+4GGPjrd4WoPflgUNo7dPmHUascHPlX/XJ50vXdLg4gldHCK5FsDIqJk8yoBcRqhXKyJc8w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI2PR04MB10115
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] zh_CN/admin-guide: Add zh_CN/admin-guide/numastat.rst
+ translation document
+To: Tao Zou <wodemia@foxmail.com>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <siyanteng@loongson.cn>, Jonathan Corbet <corbet@lwn.net>
+Cc: Tao Zou <wodemia@linux.alibaba.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <tencent_6C54200469B1518482F88605A0980FBFD20A@qq.com>
+Content-Language: en-US
+From: Alex Shi <seakeel@gmail.com>
+In-Reply-To: <tencent_6C54200469B1518482F88605A0980FBFD20A@qq.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-> Subject: Re: [PATCH v4 3/6] firmware: arm_scmi: add initial support for
-> i.MX BBM protocol
->=20
-> On Fri, May 24, 2024 at 04:56:45PM +0800, Peng Fan (OSS) wrote:
-> > From: Peng Fan <peng.fan@nxp.com>
-> >
-> > i.MX95 has a battery-backed module(BBM), which has persistent
-> storage
-> > (GPR), an RTC, and the ON/OFF button. The System Manager(SM)
-> firmware
-> > use SCMI vendor protocol(SCMI BBM) to let agent be able to use GPR,
-> > RTC and ON/OFF button.
-> >
-> > Signed-off-by: Peng Fan <peng.fan@nxp.com>
-> > ---
-> >  drivers/firmware/arm_scmi/Kconfig          |   2 +
-> >  drivers/firmware/arm_scmi/Makefile         |   1 +
-> >  drivers/firmware/arm_scmi/imx/Kconfig      |  14 ++
-> >  drivers/firmware/arm_scmi/imx/Makefile     |   2 +
-> >  drivers/firmware/arm_scmi/imx/imx-sm-bbm.c | 380
-> +++++++++++++++++++++++++++++
-> >  include/linux/scmi_imx_protocol.h          |  42 ++++
-> >  6 files changed, 441 insertions(+)
-> >
-> > diff --git a/drivers/firmware/arm_scmi/Kconfig
-> > b/drivers/firmware/arm_scmi/Kconfig
-> > index aa5842be19b2..79846cbaf71b 100644
-> > --- a/drivers/firmware/arm_scmi/Kconfig
-> > +++ b/drivers/firmware/arm_scmi/Kconfig
-> > @@ -180,4 +180,6 @@ config ARM_SCMI_POWER_CONTROL
-> >  	  called scmi_power_control. Note this may needed early in
-> boot to catch
-> >  	  early shutdown/reboot SCMI requests.
-> >
-> > +source "drivers/firmware/arm_scmi/imx/Kconfig"
-> > +
->=20
-> It could be that we fold all the Vendor drivers under
-> drivers/firmware/arm_scmi/vendors once it is merged...but we will
-> take care of this reowrk/refctor...still not sure about this details.
 
-ok. Sudeep may comment more on this.
 
->=20
-> >  endmenu
-> > diff --git a/drivers/firmware/arm_scmi/Makefile
-> > b/drivers/firmware/arm_scmi/Makefile
-> > index fd59f58ce8a2..fb9407fef60c 100644
-> > --- a/drivers/firmware/arm_scmi/Makefile
-> > +++ b/drivers/firmware/arm_scmi/Makefile
+On 6/20/24 11:14 AM, Tao Zou wrote:
+> From: Tao Zou <wodemia@linux.alibaba.com>
+> 
+> Add translation zh_CN/admin-guide/numastat.rst and link it to
+> zh_CN/admin-guide/index.rst while clean its todo entry.
+> 
+> commit 77691ee92d4a ("Documentation: update numastat explanation")
+> 
+> Signed-off-by: Tao Zou <wodemia@linux.alibaba.com>
+> Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
+> ---
+>  .../translations/zh_CN/admin-guide/index.rst  |  2 +-
+>  .../zh_CN/admin-guide/numastat.rst            | 48 +++++++++++++++++++
+>  2 files changed, 49 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/admin-guide/numastat.rst
+> 
+> diff --git a/Documentation/translations/zh_CN/admin-guide/index.rst b/Documentation/translations/zh_CN/admin-guide/index.rst
+> index ac2960da33e6..0db80ab830a0 100644
+> --- a/Documentation/translations/zh_CN/admin-guide/index.rst
+> +++ b/Documentation/translations/zh_CN/admin-guide/index.rst
+> @@ -68,6 +68,7 @@ Todolist:
+>     cpu-load
+>     cputopology
+>     lockup-watchdogs
+> +   numastat
+>     unicode
+>     sysrq
+>     mm/index
+> @@ -109,7 +110,6 @@ Todolist:
+>  *   module-signing
+>  *   mono
+>  *   namespaces/index
+> -*   numastat
+>  *   parport
+>  *   perf-security
+>  *   pm/index
+> diff --git a/Documentation/translations/zh_CN/admin-guide/numastat.rst b/Documentation/translations/zh_CN/admin-guide/numastat.rst
+> new file mode 100644
+> index 000000000000..817043676c90
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/admin-guide/numastat.rst
+> @@ -0,0 +1,48 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: Documentation/admin-guide/numastat.rst
+> +:Translator: Tao Zou <wodemia@linux.alibaba.com>
+> +
+> +
+> +=======================
+> +Numa策略命中/未命中统计
+> +=======================
+> +
+> +/sys/devices/system/node/node*/numastat
+> +
+> +所有数据的单位都是页面。巨页有独立的计数器。
+> +
+> +numa_hit、numa_miss和numa_foreign计数器反应了进程是否能够在他们偏好的节点上分配内存。
+> +如果进程成功在偏好的节点上分配内存则在偏好的节点上增加numa_hit计数，否则在偏好的节点上增
+> +加numa_foreign计数同时在实际内存分配的节点上增加numa_miss计数。
+> +
+> +通常，偏好的节点是进程运行所在的CPU的本地节点，但是一些限制可以改变这一行为，比如内存策略，
+> +因此同样有两个基于CPU本地节点的计数器。local_node和numa_hit类似，当在CPU所在的节点上分
+> +配内存时增加local_node计数，other_node和numa_miss类似，当在CPU所在节点之外的其他节点
+> +上成功分配内存时增加other_node计数。需要注意，没有和numa_foreign对应的计数器。
+> +
+> +更多细节内容:
+> +
+> +=============== ============================================================
+> +numa_hit        一个进程想要从本节点分配内存并且成功。
+> +
+> +numa_miss       一个进程想要从其他节点分配内存但是最终在本节点完成内存分配。
+> +
+> +numa_foreign    一个进程想要在本节点分配内存但是最终在其他节点完成内存分配。
+> +
+> +local_node      一个进程运行在本节点的CPU上并且从本节点上获得了内存。
+> +
+> +other_node      一个进程运行在其他节点的CPU上但是在本节点上获得了内存。
+> +
+> +interleave_hit  内存交叉分配策略下想要从本节点分配内存并且成功。
+> +=============== ============================================================
+> +
+> +你可以使用numactl软件包（http://oss.sgi.com/projects/libnuma/）中的numastat工具
+> +来辅助阅读。需要注意，numastat工具目前只在有少量CPU的机器上运行良好。
+> +
+> +需要注意，在有无内存节点（一个节点有CPUs但是没有内存）的系统中numa_hit，numa_miss和
 
-.....
-> > +
-> > +	ret =3D scmi_imx_bbm_attributes_get(ph, binfo);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	return ph->set_priv(ph, binfo, version); }
->=20
-> I would move this init down below, right before the scmi_imx_bbm and
-> after the proto_ops definition,  for consistency and readability.
+s/在有无内存节点/存在无内存节点/ ？
 
-Yeah. Fix in v5.
-
->=20
-> > +
-
-....
-> > +	.button_get =3D scmi_imx_bbm_button_get, };
-> > +
->=20
-> ...just here the init
->=20
-> > +static const struct scmi_protocol scmi_imx_bbm =3D {
-> > +	.id =3D SCMI_PROTOCOL_IMX_BBM,
-> > +	.owner =3D THIS_MODULE,
-> > +	.instance_init =3D &scmi_imx_bbm_protocol_init,
-> > +	.ops =3D &scmi_imx_bbm_proto_ops,
-> > +	.events =3D &scmi_imx_bbm_protocol_events,
-> > +	.supported_version =3D SCMI_PROTOCOL_SUPPORTED_VERSION,
-> > +	.vendor_id =3D "NXP",
-> > +	.sub_vendor_id =3D "i.MX95 EVK",
-> > +};
-> > +
->=20
-> Beside this, LGTM.
->=20
-> Reviewed-by: Cristian Marussi <cristian.marussi@arm.com>
-
-Thanks for help reviewing the patches.
-
-Thanks,
-Peng.
-
->=20
-> Thanks,
-> Cristian
+Thanks
+Alex
+> +numa_foreign统计数据会被严重曲解。在当前的内核实现中，如果一个进程偏好一个无内存节点（即
+> +进程正在该节点的一个本地CPU上运行），实际上会从距离最近的有内存节点中挑选一个作为偏好节点。
+> +结果会导致相应的内存分配不会增加无内存节点上的numa_foreign计数器，并且会扭曲最近节点上的
+> +numa_hit、numa_miss和numa_foreign统计数据。
