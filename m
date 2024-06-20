@@ -1,37 +1,37 @@
 Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [80.237.130.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9F79157A7C;
-	Thu, 20 Jun 2024 08:45:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C4E46426;
+	Thu, 20 Jun 2024 09:00:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.237.130.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718873122; cv=none; b=uXGtd60wLMJJBvIl5hNp7OszrhK52YFIgTfVH4p+pVQMSm+KPt/N7z4iRoVw4X0okREKmWnBOHAPF15S8Wb/HrzTPue7xjK6U++60D1CFqJbEd0K7siw0NeleF9FUjZuTiqGcVYg2sCabV1sbrYXgGobzL6Y4+U7wsSQcty2WxM=
+	t=1718874033; cv=none; b=lb4ny+eCn81vHTMbd8xZCV13hLIg6h1XBBs/PWNZNiG1/Omq5Xyji/XgYSsV4nlgUSlvzccUcPgJ+KC22n0ohWWnBXzHmQW4S9o3aPQREjOK+50v+alw4CIJ2igL2423Vb+/POKKlCgQuw3BNIlS6K2lkD8odTVGmBc90MY5NOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718873122; c=relaxed/simple;
-	bh=PxBnoJGW4Rs6vDxQykJcoC7D5CHDpHoYUPQTU1o3cyY=;
+	s=arc-20240116; t=1718874033; c=relaxed/simple;
+	bh=WUzxI6t79r6gnwI4tifBVLKDeA34ObvBVLljTtoAA/c=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mz8SgVIrSRXh0D5q3+sEx1545WpDBzuE7heinZ001wEdFQNLaI9XZWfthG+AtHTuh4bMomtsBlSHb9hUbxMqBfSsLHLELngW47Aikh2KJ2eSX2lHT8UF2j4YNhrEw3OhBShmxTVNW8tzoBLfL5QBthvQwOpw6dqNApdCjgIHmUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=t4RkBj6R; arc=none smtp.client-ip=80.237.130.52
+	 In-Reply-To:Content-Type; b=tb2jX0sSA208qgAL8zA7vTKQ/LKqmoHSyihrjSJKO/45RAJ4iqYl3hWc8lIYvefJWvFPoed49NN5Ca5wxGJtC0SOR99PdMkwMTq/V6e6U86h3Jx1gkz1Py7YSNbQ000kY03MLPbyll4vYmkW6yRpXZfq5/a3ARtg4OstURU79s8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=RXdVMOvU; arc=none smtp.client-ip=80.237.130.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="t4RkBj6R"
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="RXdVMOvU"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=leemhuis.info; s=he214686; h=Content-Transfer-Encoding:Content-Type:
 	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:From:
 	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
 	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=zCGKty/L5MGdwQS5K/QcY24vFCLiM8wHxaRMk4azd9w=; t=1718873120;
-	x=1719305120; b=t4RkBj6Rkb78LSbnz+MfrKHG52WQUSIkGn7WgBiPgyLEHkNdZ/LdUDB++2NKF
-	tQ/Z5OS9RtxewlBLqeS9u448vKbas0ms8G3ldeDmG7ytkKzxj7/+HOAUKNx7KxaDvKYf9eSJEFK1d
-	rTTwex6h4rO4FmcQ1p1JEWB0w3/nNLdLbUUtEjFsPyMLgzOoOTFQvsjrZPEGZ52E13RTzVWYpEGo4
-	cofhtiJrUoAV8ahkgZXu8VmD9H0+cGUoIPuy0UpSezT2/QM8WeUFQ9SXDA/Mo/8og1Pgh7illwymg
-	ZTs+/5JGVHw5qBBOL8WzK7+lAHqiDRBEz/j8cQnPYhGshtvvbw==;
+	References; bh=p8Vz3ZIFAxJUslr3jeGWvyTGoo/lwPYvqRqFu8M667M=; t=1718874032;
+	x=1719306032; b=RXdVMOvUnogl1XlzQhXs8C4xB9Jyy9R8ax5vAVMf/jH9Mgcj/jypoczbXG0Y/
+	zvspr51rfNj5wIh1cbmPuhdFfNhWPlTybdG4cxAGZPJgqw3WWuNhCkh8SfPMGeGWLT9S7SruwkPli
+	vpI+m13aIdKNWxYDThPhL8OQUYiQFBi7C/FwHFH/VSLFSQbhKdJHrNF0m401OzkjGCw+hF/BAqLi5
+	RMkeJl+HmBImMBB7R2TWPQF71AfJh8i5dldqYvq6vX4SfBjEvkGYV88cghss+ZTvBtmVeSlNGFxg8
+	QpRSMqhax4+I/ej0Szl4XyUTSDyEyCAYF/av+iwzLYD0+OKJVw==;
 Received: from [2a02:8108:8980:2478:8cde:aa2c:f324:937e]; authenticated
 	by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	id 1sKDPj-0003QU-2M; Thu, 20 Jun 2024 10:45:03 +0200
-Message-ID: <02493a25-30c4-4e32-835c-6fdfe0f2abbb@leemhuis.info>
-Date: Thu, 20 Jun 2024 10:45:02 +0200
+	id 1sKDef-0007yq-CM; Thu, 20 Jun 2024 11:00:29 +0200
+Message-ID: <eeade9cf-d30d-4c7a-ab42-97b9459268d0@leemhuis.info>
+Date: Thu, 20 Jun 2024 11:00:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,16 +39,10 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] Documentation: best practices for using Link trailers
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Carlos Bilbao <carlos.bilbao.osdev@gmail.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, ksummit@lists.linux.dev
-References: <20240618-docs-patch-msgid-link-v1-0-30555f3f5ad4@linuxfoundation.org>
- <20240618-docs-patch-msgid-link-v1-2-30555f3f5ad4@linuxfoundation.org>
+Subject: Re: [PATCH] docs: verify/bisect: Fix rendered version URL
+To: Diederik de Haas <didi.debian@cknow.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240620081355.11549-1-didi.debian@cknow.org>
 From: Thorsten Leemhuis <linux@leemhuis.info>
 Content-Language: en-US, de-DE
 Autocrypt: addr=linux@leemhuis.info; keydata=
@@ -94,53 +88,18 @@ Autocrypt: addr=linux@leemhuis.info; keydata=
  ysaCIZqWxrlhHWWmJMvowVMkB92uPVkxs5IMhSxHS4c2PfZ6D5kvrs3URvIc6zyOrgIaHNzR
  8AF4PXWPAuZu1oaG/XKwzMqN/Y/AoxWrCFZNHE27E1RrMhDgmyzIzWQTffJsVPDMQqDfLBhV
  ic3b8Yec+Kn+ExIF5IuLfHkUgIUs83kDGGbV+wM8NtlGmCXmatyavUwNCXMsuI24HPl7gV2h n7RI
-In-Reply-To: <20240618-docs-patch-msgid-link-v1-2-30555f3f5ad4@linuxfoundation.org>
+In-Reply-To: <20240620081355.11549-1-didi.debian@cknow.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1718873120;606b96ce;
-X-HE-SMSGID: 1sKDPj-0003QU-2M
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1718874032;4585ba94;
+X-HE-SMSGID: 1sKDef-0007yq-CM
 
-On 18.06.24 18:42, Konstantin Ryabitsev wrote:
-> Based on multiple conversations, most recently on the ksummit mailing
-> list [1], add some best practices for using the Link trailer, such as:
-> 
-> - how to use markdown-like bracketed numbers in the commit message to
-> indicate the corresponding link
-> - when to use lore.kernel.org vs patch.msgid.link domains
+On 20.06.24 10:13, Diederik de Haas wrote:
+> -   https://docs.kernel.org/admin-guide/verify-bugs-and-bisect-regressions.rst.html
+> +   https://docs.kernel.org/admin-guide/verify-bugs-and-bisect-regressions.html
 
-[...]
+Many thx.
 
-> +   When using the ``Link:`` trailer to indicate the provenance of the
-> +   patch, you should use the dedicated ``patch.msgid.link`` domain. This
-> +   makes it possible for automated tooling to establish which link leads
-> +   to the original patch submission. For example::
-> +
-> +     Link: https://patch.msgid.link/patch-source-msgid@here
-
-I wonder how long it will take until someone starts using
-patch.msgid.link/ for things that are not the submission of the change,
-for example by misunderstanding what "provenance of the patch" is meant
-to mean here.
-
-How about something this:
-
-"""
-In case you want to record the public review submission of a patch while
-committing it, use a ``Link:`` trailer with the dedicated
-``patch.msgid.link`` domain::
-
-   Link: https://patch.msgid.link/patch-source-msgid@here
-
-This makes it possible to reliably look the submission up, hence don't
-use that domain for any other patches you might want to link to.
-"""
-
-But I suspect some people will never see this and start assuming that
-this domain should be meant for all patches -- and not all of these
-cases will be found during review (or by checkpatch, in case we add a
-check and people actually run it). Writing that made me think a
-dedicated tag like "Lore-Submission" or "Public-Review-Link" could avoid
-this while keeping some of the aspects that Linus likes about "Link" --
-but I doubt that will convince him.
+Reviewed-by: Thorsten Leemhuis <linux@leemhuis.info>
 
 Ciao, Thorsten
