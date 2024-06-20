@@ -1,87 +1,117 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D87671B47C1;
-	Thu, 20 Jun 2024 19:14:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB2D51862A;
+	Thu, 20 Jun 2024 19:30:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718910873; cv=none; b=q9/VaZ3zxJUjeAg4wdSkB6Y/kI6iQzgIqobOxnsQeppOK/hwmgj077GXBxgXOLMokF+/buCxbsQPj1MjS/hjy107UmZe31gSYJMgDVB9H2fIUatmh5rwzwU0CVbacNPC6wM0aGF5S1gbqPTgBE78PqKKoy5cxaUm/BOhw0MKj6w=
+	t=1718911832; cv=none; b=SqdOcvks/lPlBAikglFEsTYWME8SDjXCuRU9zRsaBrjKIW25lFpz1hbRP5TYeH5PFyfPA4bFH8ver8ovGJGl+W8XAA6iUsKM+WuJFej8NEf/jlisStneLHeEmSICiQa8yNE498I9C5HXJKTgeN5Zrbzb9mkMxRuEs9UYNZOOStI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718910873; c=relaxed/simple;
-	bh=bjhFvNWi5TsvQnfmtqUqpLdLlMq0YUpUWHuLtvckbn4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fJuQXp7a6CheLuWZ7EWo3nOkaWRfszfDOx7O3RFnL6Bzr8INsozQEXQn6lETpsJZHzW2kXIiwB7d9usz2H4640Lfdz/1VDyJ1RirnPQ92SEyiZS7XX7ScFj1oeFM0CgV9Vs8puVhxRD+tloSmyaQFvf+E9re5xDgm6pur+PRMTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZYUPkiBR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718911832; c=relaxed/simple;
+	bh=29nTEiif20CFUV9FBLNA/wCmJTCDRc6J9B7DziK6rUI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UCc0G90RHiS9GoZnaYO+4wJerNKrTZLGrElf8ij8OAuiNZrMWWW4lpNPYDpgGM0nkuNnFQkF+lJjiXkL0BpyzjE/KyIk7aoufe9cIv4B/yEtN46ZP3jMx5umVBf82zzfUTp2C8RyTddgUuqb0NczsSSTpBho+pU2ZhbTfN4v1kg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sgdp9V3g; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZYUPkiBR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9539AC4AF10;
-	Thu, 20 Jun 2024 19:14:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sgdp9V3g"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1889FC2BD10;
+	Thu, 20 Jun 2024 19:30:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718910872;
-	bh=bjhFvNWi5TsvQnfmtqUqpLdLlMq0YUpUWHuLtvckbn4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ZYUPkiBRn0UHJaSaMjoznC1HWpr24AlPSJPIZygqUCrs1sksNt6azm8wGush54FXl
-	 MmlS8JJP2e+UmdBUqrKYrQdaL05dTbjCcDloZ6h7gK08fEnVCVbLuzVabF8Nw5Zcyl
-	 tWJGZde5J5KZkIEEPIHKOdpNkfvz2Vz4ncziWv4FfWDVrzfuwiSfd3MR3RprjWR7VI
-	 iMhGn/vljPQvtF0zSl+s5aV+hXn1DMFKvP2PO+DyAL19sI0UUXMLq68be52bo8FKWI
-	 ms0zxNnhUxdAhcyv8XD3lNzT8tgZzWG3R2RfF+EfzuyuYoUyW02Fj5XD0z2JHWuNeI
-	 I2OEpzrkVVe7Q==
-Date: Thu, 20 Jun 2024 20:14:25 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Vinod Koul <vkoul@kernel.org>
-Cc: Paul Cercueil <paul@crapouillou.net>, Lars-Peter Clausen
- <lars@metafoo.de>, Sumit Semwal <sumit.semwal@linaro.org>, Christian
- =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Jonathan Corbet
- <corbet@lwn.net>, Nuno Sa <nuno.sa@analog.com>, linux-iio@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v12 0/7] iio: new DMABUF based API v12
-Message-ID: <20240620201425.1cbcb5f1@jic23-huawei>
-In-Reply-To: <20240620201150.72c11599@jic23-huawei>
-References: <20240620122726.41232-1-paul@crapouillou.net>
-	<ZnRW2axOg7gtKzz0@matsya>
-	<20240620201150.72c11599@jic23-huawei>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-pc-linux-gnu)
+	s=k20201202; t=1718911830;
+	bh=29nTEiif20CFUV9FBLNA/wCmJTCDRc6J9B7DziK6rUI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sgdp9V3gASTmkotfe2knDUlY5iJLpdRqn9R2XMzOkkMSWzRg8JwEUxbTbGtvJxW9h
+	 Y5BUI8/1ekn7sM9Iha4NxGqJvt5c0nG4suDzbSqO02P9HSGO9RxcPJJmd7e0zubHz9
+	 cMiQderXjZ77F9SDuPQDHiAMZW7yh4LrYedKvr2Mzu70havA5hQaEpt+6iWabTjT1C
+	 OT4yCuTePD8iVNpjkSgPna/qd/uCurVBrjLW/td7G6mTnsQoJ3ZcYGQNqp/YaA5xWb
+	 Hbj2qTeD2SftoUg4qCGpwI/KwMMSkrUL+mE+Aj19e1xJpBrFG2IXwDG0Bdd2Xa+I5C
+	 KrcNfcMN7iR+w==
+Date: Thu, 20 Jun 2024 20:30:23 +0100
+From: Simon Horman <horms@kernel.org>
+To: Danielle Ratson <danieller@nvidia.com>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
+	linux@armlinux.org.uk, sdf@google.com, kory.maincent@bootlin.com,
+	maxime.chevallier@bootlin.com, vladimir.oltean@nxp.com,
+	przemyslaw.kitszel@intel.com, ahmed.zaki@intel.com,
+	richardcochran@gmail.com, shayagr@amazon.com,
+	paul.greenwalt@intel.com, jiri@resnulli.us,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	mlxsw@nvidia.com, idosch@nvidia.com, petrm@nvidia.com
+Subject: Re: [PATCH net-next v6 4/9] ethtool: Add flashing transceiver
+ modules' firmware notifications ability
+Message-ID: <20240620193023.GS959333@kernel.org>
+References: <20240619121727.3643161-1-danieller@nvidia.com>
+ <20240619121727.3643161-5-danieller@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240619121727.3643161-5-danieller@nvidia.com>
 
-On Thu, 20 Jun 2024 20:11:50 +0100
-Jonathan Cameron <jic23@kernel.org> wrote:
+On Wed, Jun 19, 2024 at 03:17:22PM +0300, Danielle Ratson wrote:
+> Add progress notifications ability to user space while flashing modules'
+> firmware by implementing the interface between the user space and the
+> kernel.
+> 
+> Signed-off-by: Danielle Ratson <danieller@nvidia.com>
+> Reviewed-by: Petr Machata <petrm@nvidia.com>
 
-> On Thu, 20 Jun 2024 21:50:41 +0530
-> Vinod Koul <vkoul@kernel.org> wrote:
-> 
-> > On 20-06-24, 14:27, Paul Cercueil wrote:  
-> > > Hi Jonathan,    
-> > 
-> > Hey Jonathan,
-> > 
-> > Assuming we are fine with this series, how would you like to proceed.
-> > Would you be fine with me picking the dmaengine bits and providing a
-> > signed tag for you to pull?
-> >   
-> 
-> Hi Vinod,
-> 
-> Yes. That will work nicely.
-> From my side it all looks good.
+...
 
-Just to make sure we are on the same page, based on a clean rc1
-so I just get the parts of this series (hopefully there aren't
-an necessary precursors!) 
+> diff --git a/net/ethtool/module.c b/net/ethtool/module.c
 
-J
-> 
-> Thanks,
-> 
-> Jonathan
-> 
-> 
+...
 
+> @@ -158,3 +159,119 @@ const struct ethnl_request_ops ethnl_module_request_ops = {
+>  	.set			= ethnl_set_module,
+>  	.set_ntf_cmd		= ETHTOOL_MSG_MODULE_NTF,
+>  };
+> +
+> +/* MODULE_FW_FLASH_NTF */
+> +
+> +static int
+> +ethnl_module_fw_flash_ntf_put_err(struct sk_buff *skb, char *err_msg,
+> +				  char *sub_err_msg)
+> +{
+> +	int err_msg_len, sub_err_msg_len, total_len;
+> +	struct nlattr *attr;
+> +
+> +	if (!err_msg)
+> +		return 0;
+> +
+> +	err_msg_len = strlen(err_msg);
+> +	total_len = err_msg_len + 2; /* For period and NUL. */
+> +
+> +	if (sub_err_msg) {
+> +		sub_err_msg_len = strlen(sub_err_msg);
+> +		total_len += sub_err_msg_len + 2; /* For ", ". */
+> +	}
+> +
+> +	attr = nla_reserve(skb, ETHTOOL_A_MODULE_FW_FLASH_STATUS_MSG,
+> +			   total_len);
+> +	if (!attr)
+> +		return PTR_ERR(attr);
+
+Hi Danielle,
+
+attr is NULL here, so I think this will return 0.
+Perhaps it should return an negative error value,
+say -ENOMEM, instead?
+
+Flagged by Smatch
+
+> +
+> +	if (sub_err_msg)
+> +		sprintf(nla_data(attr), "%s, %s.", err_msg, sub_err_msg);
+> +	else
+> +		sprintf(nla_data(attr), "%s.", err_msg);
+> +
+> +	return 0;
+> +}
+
+...
