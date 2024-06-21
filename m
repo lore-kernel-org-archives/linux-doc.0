@@ -1,77 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFBE616C698;
-	Fri, 21 Jun 2024 09:20:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C581A172BD9;
+	Fri, 21 Jun 2024 10:06:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718961631; cv=none; b=LCKj8v2vq/RDQ38Gnxil5DlAOHhfPXCJtBoL0BqkuF5dlDOkqqv2+aNfuIqzsdWyjsalqo3ov/BtH93NNM7gwI76kIIr2rKya9ZxgTM/e1G/Pe9H3oz0buJH86DfUj2vkFPr8S1M6WyfLtfwUhnPjbjEASnZVIJ8DKoD6+dc9dE=
+	t=1718964389; cv=none; b=pC5mONmRDeJsqqapm8o6i0C3qQt86pghiv2Vz9UUbyrphVjoi4KvrXVIVQY3NJ0hEsFY81H6QgfHmVgK+5NokH0891+DtNiV72QlGkHVJVkzzFZwF8jvz5O2FOIYPPt0H012DUAM9YOHD4Uet8mBB4b0HL4Lc8SKuNl/VJUwiZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718961631; c=relaxed/simple;
-	bh=vBQWRT2wP4bg9M6s6w4e8SNp2T0cQMPyhytWfXzHk/8=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=LrItC59RkTW98GCCX551SpMKEma3xLbiWcgIcqwNIUMLLXxFyc5yuhZQSF1Qn76JfzM4pfPR7Cjy6CuB1CcDYXPax7bOEc1CCOvPqVvYDVr3ShffsN62+E9KYw0tkg0ZS2P7XaOHIBwrJcyPQdyk6OC86ZLorf/jRKCMJOFnvuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nPgnqq6c; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718964389; c=relaxed/simple;
+	bh=1GKLKGeRzQY51YWSHCRfEazQ3RSI3b+fO3L2sCeLnXA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=GEI6eV3U4x8ogwEcueEUhtbhjzr1gpJd1R8pckcgGD8gwSx9+bk5pbkTz8UC/sgf8A1poYIg7KOhw9dgwev2PiKLCQ+VPtCUtHy5Sm+vVe5/4ycGp71V1RjTMbBMcN+KePRMW/2R1E8kLJJ16L1V7luahSioepH9aJ+gk9BkO6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JhW7pzto; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nPgnqq6c"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 842BCC4AF0D;
-	Fri, 21 Jun 2024 09:20:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JhW7pzto"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39C0BC32781;
+	Fri, 21 Jun 2024 10:06:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718961631;
-	bh=vBQWRT2wP4bg9M6s6w4e8SNp2T0cQMPyhytWfXzHk/8=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=nPgnqq6cuj4rY4NguE/TA/z6QEwSpkq3eGqspgFzqF6FAzglrXytAKnb6vU2hD1kH
-	 Vz59G23gQcwkLw/dyCaj6BQWXmyE8DpyJ/kXNH5lSZhiy4gCtDRmsaIge+D7oL11Dz
-	 iagNFCS5SE0dcXF+QN52aF17rP/BhMTzp4PYAKsKzmBLi1s8DUVpiC2eU31tlD8VW+
-	 bXyiti1JNwS8cU91qSysIBZCbSioCTnaI4pibqdI7Cb2SuOh87wcn+okane0fdpaUQ
-	 sw2Ifad1zkBW0BldRDYDGHntmrt7fdr+swHf54svDKZefJdjgxjf3ZAzWFGLsRR5LU
-	 2EIlvvra4yNRA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6FA0FCF3B99;
-	Fri, 21 Jun 2024 09:20:31 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1718964389;
+	bh=1GKLKGeRzQY51YWSHCRfEazQ3RSI3b+fO3L2sCeLnXA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=JhW7pztoxJCkRjT1yLv7ThPWJWQqRkYgeFtNV8D6Vdr6R+6/OsZQDo4FBdUype8Sh
+	 d318Thsws/swtFoXoebuAHdHMkwwdtZSYGGuZG+ihlFwVWLMbg/l8UsIL/rKKjrNpt
+	 cLzKuxr9b6bPx1Z8lvJhPdGXgA3aACBsG82RZ+hIe1YR0TuVxRFELRYv+7QWnNzBag
+	 RgVdmEQ7cOA4bzMw7jw9eFjm210ABRKiCqEayJ+0zjHURsdUbTsYSIQzWa0YaWdr5w
+	 f2P9Av5rlyYQxEdk8NM/NN3GBJUI1PLV3X+sGnN4acoHbJQvpAoQHk10kHGtmO6Adr
+	 qlkHePqiX3OZg==
+From: Vinod Koul <vkoul@kernel.org>
+To: Jonathan Cameron <jic23@kernel.org>, 
+ Lars-Peter Clausen <lars@metafoo.de>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Paul Cercueil <paul@crapouillou.net>
+Cc: Jonathan Corbet <corbet@lwn.net>, Nuno Sa <nuno.sa@analog.com>, 
+ linux-iio@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org
+In-Reply-To: <20240620122726.41232-1-paul@crapouillou.net>
+References: <20240620122726.41232-1-paul@crapouillou.net>
+Subject: Re: (subset) [PATCH v12 0/7] iio: new DMABUF based API v12
+Message-Id: <171896438479.273533.11227587889239181030.b4-ty@kernel.org>
+Date: Fri, 21 Jun 2024 15:36:24 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v2] docs: net: document guidance of implementing the
- SR-IOV NDOs
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <171896163145.20195.12684798696627871748.git-patchwork-notify@kernel.org>
-Date: Fri, 21 Jun 2024 09:20:31 +0000
-References: <20240620002741.1029936-1-kuba@kernel.org>
-In-Reply-To: <20240620002741.1029936-1-kuba@kernel.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
- pabeni@redhat.com, corbet@lwn.net, rdunlap@infradead.org,
- linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-Hello:
 
-This patch was applied to netdev/net-next.git (main)
-by David S. Miller <davem@davemloft.net>:
-
-On Wed, 19 Jun 2024 17:27:41 -0700 you wrote:
-> New drivers were prevented from adding ndo_set_vf_* callbacks
-> over the last few years. This was expected to result in broader
-> switchdev adoption, but seems to have had little effect.
+On Thu, 20 Jun 2024 14:27:19 +0200, Paul Cercueil wrote:
+> Here's the v12 of my patchset that introduces DMABUF support to IIO.
 > 
-> Based on recent netdev meeting there is broad support for allowing
-> adding those ops.
+> Apart from a small documentation fix, it reverts to using
+> mutex_lock/mutex_unlock in one particular place, which used cleanup
+> GOTOs (which don't play well with scope-managed cleanups).
+> 
+> Changelog:
+> - [3/7]:
+>     - Revert to mutex_lock/mutex_unlock in iio_buffer_attach_dmabuf(),
+>       as it uses cleanup GOTOs
+> - [6/7]:
+>     - "obtained using..." -> "which can be obtained using..."
 > 
 > [...]
 
-Here is the summary with links:
-  - [net-next,v2] docs: net: document guidance of implementing the SR-IOV NDOs
-    https://git.kernel.org/netdev/net-next/c/4558645d139c
+Applied, thanks!
 
-You are awesome, thank you!
+[1/7] dmaengine: Add API function dmaengine_prep_peripheral_dma_vec()
+      commit: 5878853fc9389e7d0988d4b465a415cf96fd14fa
+[2/7] dmaengine: dma-axi-dmac: Implement device_prep_peripheral_dma_vec
+      commit: 74609e5686701ed8e8adc3082d15f009e327286d
+[7/7] Documentation: dmaengine: Document new dma_vec API
+      commit: 380afccc2a55e8015adae4266e8beff96ab620be
+
+Best regards,
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+Vinod Koul <vkoul@kernel.org>
 
