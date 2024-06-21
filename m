@@ -1,167 +1,77 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF35171095;
-	Fri, 21 Jun 2024 08:56:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFBE616C698;
+	Fri, 21 Jun 2024 09:20:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718960209; cv=none; b=rUHODeVzLLvEF1Gm6OB9JGSgONAr+Id4cn97RAghnhz5MYpAY/oRGR/O7YCaN4SEbqeMqPSpJXqJvmIM0iksLbY0IaVcrxSVjb+T8HhW71js6iFR9yE658H0BtFBToAnElOJEXVtNRuHiG6kTtMTDWIyrW0e66XNxuNNXhG0hxM=
+	t=1718961631; cv=none; b=LCKj8v2vq/RDQ38Gnxil5DlAOHhfPXCJtBoL0BqkuF5dlDOkqqv2+aNfuIqzsdWyjsalqo3ov/BtH93NNM7gwI76kIIr2rKya9ZxgTM/e1G/Pe9H3oz0buJH86DfUj2vkFPr8S1M6WyfLtfwUhnPjbjEASnZVIJ8DKoD6+dc9dE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718960209; c=relaxed/simple;
-	bh=WPwwooXuS0nED9cpstCdU7FofrWc0SoDAgoa3tF7+20=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Mq3zy3+caYpMh6yTzMOo3iEpx0adGbA6gwlqvN4gHTCSTxM3sQJJr6+nrcRpwc2qLk+qI/UzndOuldP8rFRHc+EcbTgz6sVD/K9WLhkdV297HtElCSQgXh9V8DGukmHhT6HZ3ucX6yT8+GzHhjwV4hupc2W4Jlxp/JIoKXVEhJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ey8y0Uab; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718961631; c=relaxed/simple;
+	bh=vBQWRT2wP4bg9M6s6w4e8SNp2T0cQMPyhytWfXzHk/8=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=LrItC59RkTW98GCCX551SpMKEma3xLbiWcgIcqwNIUMLLXxFyc5yuhZQSF1Qn76JfzM4pfPR7Cjy6CuB1CcDYXPax7bOEc1CCOvPqVvYDVr3ShffsN62+E9KYw0tkg0ZS2P7XaOHIBwrJcyPQdyk6OC86ZLorf/jRKCMJOFnvuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nPgnqq6c; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ey8y0Uab"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB5AEC2BBFC;
-	Fri, 21 Jun 2024 08:56:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nPgnqq6c"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 842BCC4AF0D;
+	Fri, 21 Jun 2024 09:20:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718960208;
-	bh=WPwwooXuS0nED9cpstCdU7FofrWc0SoDAgoa3tF7+20=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Ey8y0UabeBMU1e33nxDCEliEpC8rrOPQgBGpFsGLxANChlv+eEFGh+jin2Ndil9dL
-	 PyDOez+cp6agxasrgSQuuFtMaWlYcmJrol6SmaGvE3bkFpiWI9P214tlD87oL+ZiVV
-	 IrYS96oSq/PLfxsJXh6Dkiq52vBq5yuxll02ehegSwd340pq9T6/DBqnhwofq/L8t7
-	 OH/vixx0NyjTfDu8rCP6kD9dgJPWTDysefpevzDGInm53uGww73gcE83qF88ZccfsQ
-	 PqTyCCQFSrO6q0B9v1N3OjFOT9zzL9Ic0Ljr7CFrE4qq7Qkhq8iupzOzNQ/7fiMX/4
-	 eQBZDl+wERBYA==
-From: Benjamin Tissoires <bentiss@kernel.org>
-Date: Fri, 21 Jun 2024 10:55:57 +0200
-Subject: [PATCH HID 12/12] selftests/hid: add an infinite loop test for
- hid_bpf_try_input_report
+	s=k20201202; t=1718961631;
+	bh=vBQWRT2wP4bg9M6s6w4e8SNp2T0cQMPyhytWfXzHk/8=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=nPgnqq6cuj4rY4NguE/TA/z6QEwSpkq3eGqspgFzqF6FAzglrXytAKnb6vU2hD1kH
+	 Vz59G23gQcwkLw/dyCaj6BQWXmyE8DpyJ/kXNH5lSZhiy4gCtDRmsaIge+D7oL11Dz
+	 iagNFCS5SE0dcXF+QN52aF17rP/BhMTzp4PYAKsKzmBLi1s8DUVpiC2eU31tlD8VW+
+	 bXyiti1JNwS8cU91qSysIBZCbSioCTnaI4pibqdI7Cb2SuOh87wcn+okane0fdpaUQ
+	 sw2Ifad1zkBW0BldRDYDGHntmrt7fdr+swHf54svDKZefJdjgxjf3ZAzWFGLsRR5LU
+	 2EIlvvra4yNRA==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 6FA0FCF3B99;
+	Fri, 21 Jun 2024 09:20:31 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240621-hid_hw_req_bpf-v1-12-d7ab8b885a0b@kernel.org>
-References: <20240621-hid_hw_req_bpf-v1-0-d7ab8b885a0b@kernel.org>
-In-Reply-To: <20240621-hid_hw_req_bpf-v1-0-d7ab8b885a0b@kernel.org>
-To: Jiri Kosina <jikos@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
- Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- linux-doc@vger.kernel.org, Benjamin Tissoires <bentiss@kernel.org>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1718960178; l=3494;
- i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
- bh=WPwwooXuS0nED9cpstCdU7FofrWc0SoDAgoa3tF7+20=;
- b=JO0XVVeFfVMpLeLZiaGS6NFxHyeNtErIO5sz7tAcfM4yo8HsZG6i6XbwzHI0HOsDA/dzv9I50
- l2GmNJU714XAGEkgs2h8lO5x7DEcZJd5ilC27YDPsZGHAKYVpjSoBpi
-X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
- pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v2] docs: net: document guidance of implementing the
+ SR-IOV NDOs
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <171896163145.20195.12684798696627871748.git-patchwork-notify@kernel.org>
+Date: Fri, 21 Jun 2024 09:20:31 +0000
+References: <20240620002741.1029936-1-kuba@kernel.org>
+In-Reply-To: <20240620002741.1029936-1-kuba@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+ pabeni@redhat.com, corbet@lwn.net, rdunlap@infradead.org,
+ linux-doc@vger.kernel.org
 
-We don't want this call to allow an infinite loop in HID-BPF, so let's
-have some tests.
+Hello:
 
-Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
----
- tools/testing/selftests/hid/hid_bpf.c   | 41 +++++++++++++++++++++++++++++++++
- tools/testing/selftests/hid/progs/hid.c | 37 +++++++++++++++++++++++++++++
- 2 files changed, 78 insertions(+)
+This patch was applied to netdev/net-next.git (main)
+by David S. Miller <davem@davemloft.net>:
 
-diff --git a/tools/testing/selftests/hid/hid_bpf.c b/tools/testing/selftests/hid/hid_bpf.c
-index 36bbad8e0f9f..dc0408a831d0 100644
---- a/tools/testing/selftests/hid/hid_bpf.c
-+++ b/tools/testing/selftests/hid/hid_bpf.c
-@@ -1204,6 +1204,47 @@ TEST_F(hid_bpf, test_multiply_events)
- 	ASSERT_EQ(buf[1], 52);
- }
- 
-+/*
-+ * Call hid_bpf_input_report against the given uhid device,
-+ * check that the program is not making infinite loops.
-+ */
-+TEST_F(hid_bpf, test_hid_infinite_loop_input_report_call)
-+{
-+	const struct test_program progs[] = {
-+		{ .name = "hid_test_infinite_loop_input_report" },
-+	};
-+	__u8 buf[10] = {0};
-+	int err;
-+
-+	LOAD_PROGRAMS(progs);
-+
-+	/* emit hid_hw_output_report from hidraw */
-+	buf[0] = 1; /* report ID */
-+	buf[1] = 2;
-+	buf[2] = 42;
-+
-+	uhid_send_event(_metadata, self->uhid_fd, buf, 6);
-+
-+	/* read the data from hidraw */
-+	memset(buf, 0, sizeof(buf));
-+	err = read(self->hidraw_fd, buf, sizeof(buf));
-+	ASSERT_EQ(err, 6) TH_LOG("read_hidraw");
-+	ASSERT_EQ(buf[0], 1);
-+	ASSERT_EQ(buf[1], 3);
-+
-+	/* read the data from hidraw: hid_bpf_try_input_report should work exactly one time */
-+	memset(buf, 0, sizeof(buf));
-+	err = read(self->hidraw_fd, buf, sizeof(buf));
-+	ASSERT_EQ(err, 6) TH_LOG("read_hidraw");
-+	ASSERT_EQ(buf[0], 1);
-+	ASSERT_EQ(buf[1], 4);
-+
-+	/* read the data from hidraw: there should be none */
-+	memset(buf, 0, sizeof(buf));
-+	err = read(self->hidraw_fd, buf, sizeof(buf));
-+	ASSERT_EQ(err, -1) TH_LOG("read_hidraw");
-+}
-+
- /*
-  * Attach hid_insert{0,1,2} to the given uhid device,
-  * retrieve and open the matching hidraw node,
-diff --git a/tools/testing/selftests/hid/progs/hid.c b/tools/testing/selftests/hid/progs/hid.c
-index 46feeb91d1d5..ee9bbbcf751b 100644
---- a/tools/testing/selftests/hid/progs/hid.c
-+++ b/tools/testing/selftests/hid/progs/hid.c
-@@ -561,3 +561,40 @@ SEC(".struct_ops.link")
- struct hid_bpf_ops test_multiply_events = {
- 	.hid_device_event = (void *)hid_test_multiply_events,
- };
-+
-+SEC("?struct_ops/hid_device_event")
-+int BPF_PROG(hid_test_infinite_loop_input_report, struct hid_bpf_ctx *hctx,
-+	     enum hid_report_type report_type, __u64 source)
-+{
-+	__u8 *data = hid_bpf_get_data(hctx, 0 /* offset */, 6 /* size */);
-+	__u8 buf[6];
-+
-+	if (!data)
-+		return 0; /* EPERM check */
-+
-+	/*
-+	 * we have to use an intermediate buffer as hid_bpf_input_report
-+	 * will memset data to \0
-+	 */
-+	__builtin_memcpy(buf, data, sizeof(buf));
-+
-+	/* always forward the request as-is to the device, hid-bpf should prevent
-+	 * infinite loops.
-+	 * the return value is ignored so the event is passing to userspace.
-+	 */
-+
-+	hid_bpf_try_input_report(hctx, report_type, buf, sizeof(buf));
-+
-+	/* each time we process the event, we increment by one data[1]:
-+	 * after each successful call to hid_bpf_try_input_report, buf
-+	 * has been memcopied into data by the kernel.
-+	 */
-+	data[1] += 1;
-+
-+	return 0;
-+}
-+
-+SEC(".struct_ops.link")
-+struct hid_bpf_ops test_infinite_loop_input_report = {
-+	.hid_device_event = (void *)hid_test_infinite_loop_input_report,
-+};
+On Wed, 19 Jun 2024 17:27:41 -0700 you wrote:
+> New drivers were prevented from adding ndo_set_vf_* callbacks
+> over the last few years. This was expected to result in broader
+> switchdev adoption, but seems to have had little effect.
+> 
+> Based on recent netdev meeting there is broad support for allowing
+> adding those ops.
+> 
+> [...]
 
+Here is the summary with links:
+  - [net-next,v2] docs: net: document guidance of implementing the SR-IOV NDOs
+    https://git.kernel.org/netdev/net-next/c/4558645d139c
+
+You are awesome, thank you!
 -- 
-2.44.0
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
