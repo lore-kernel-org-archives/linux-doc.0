@@ -1,82 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A60529A5;
-	Fri, 21 Jun 2024 03:44:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 435691D52C;
+	Fri, 21 Jun 2024 05:00:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718941488; cv=none; b=fXTRi5KeVeOb6yl1pktpCL2LuGeTsBKs3VfYBt+ZoJcZ1dKY1RdInO+1z7cCVuIynYGfSMbGTNK0T6TZryQ+m2kUGTZUKh4ITiTkHTpyrZAYTH+HxSC0W2D5cEgc9jRaksBlL2PN5vIwPj5VxvgJ72Z8nsXthKq54LWo8cgwvS8=
+	t=1718946012; cv=none; b=phYy5RW5sw9x6ghFHczNFdDVBLtAN9VjOhJ4DUpnEoxXQDilhWzT6G0RUb9SHyArNqDr21J3Q54+R9tgeduifoTwMQBxwe+cToZrOF/+HyBrk/LV+B/NSCQtb2TWJGN6mzh+khbUEXZG9gONyWzPLJZluBu+jbB0N46vXfxBWNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718941488; c=relaxed/simple;
-	bh=DnX9uAy1auF1e2vF25hratSY9Nq7L8HgluP7wty3M5o=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MLdzIMNDzsGSFC2onitFIUJVg9eIK8Hbr4/5vIJBOQcXzHN8vrm8yPIbly1KlvaZK614Vq38homQQJ7Lm/D8WMbXnYycnEZ2/ONa4780xjNIJzubicbabTScupfqqtARNaNdf6UYADnXRJjIHy37IPFVuWAj8bsV9YPC1QUpwVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NA3E6GXy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718946012; c=relaxed/simple;
+	bh=N+HOeYMxJ4Oynd9qnidNqx76FjL3Ch8ZDXU/hRcyDvU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nRiWbMSCTCVctkrl6wB6sDyoOSgAgrTkR/GnqNkR5r9S/LSa6sByMResLx5lfoZezSIf0FChaj9P2/g6biHC0bSE9exNVNB3nzPggNKE/CMHnxgbkmk0Xlw+SQw9eCQ7XYk3BbJdRf8aN0wXPNZi6XBgB9N5cLGbGCeCyZn76SU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=P40Yn1tM; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NA3E6GXy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD5AEC2BBFC;
-	Fri, 21 Jun 2024 03:44:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718941488;
-	bh=DnX9uAy1auF1e2vF25hratSY9Nq7L8HgluP7wty3M5o=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=NA3E6GXyKzjY0Ubt91vp2aqjumFjhWuBdEzL9nbCOLoHYq5p1bsaWOGIIWPTZUHCZ
-	 /+9vVhnFRdH/urD0PATrP/QBEi/Y6ZSnp+hByBIwc+S0VXTddin5lkh7RH3XEtQjvb
-	 gyDWp0IOhB2nY06biaIpjQHuygfgd9BZRkPHS1bI9b1xvk8oGPBp79/O3lkeArgBD2
-	 XfuQtA/853cnD2wp6GudrXOP1ooQc+wywsBEv57aDCHz+QOjPmjJmDQrLveqALmWiH
-	 YW53w6M7WrOLESQKsIpKpbYTFF/T8CEoWhb1LvJVOTs9kk8PqFiO0f07wBnItge4YA
-	 YYat1Z9/thJtQ==
-Date: Thu, 20 Jun 2024 20:44:45 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Heng Qi <hengqi@linux.alibaba.com>
-Cc: netdev@vger.kernel.org, virtualization@lists.linux.dev, "David S .
- Miller" <davem@davemloft.net>, Paolo Abeni <pabeni@redhat.com>, Eric
- Dumazet <edumazet@google.com>, Jason Wang <jasowang@redhat.com>, "Michael S
- . Tsirkin" <mst@redhat.com>, Brett Creeley <bcreeley@amd.com>, Ratheesh
- Kannoth <rkannoth@marvell.com>, Alexander Lobakin
- <aleksander.lobakin@intel.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, Tal
- Gilboa <talgi@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, Jiri Pirko <jiri@resnulli.us>, Paul
- Greenwalt <paul.greenwalt@intel.com>, Ahmed Zaki <ahmed.zaki@intel.com>,
- Vladimir Oltean <vladimir.oltean@nxp.com>, Kory Maincent
- <kory.maincent@bootlin.com>, Andrew Lunn <andrew@lunn.ch>,
- justinstitt@google.com, donald.hunter@gmail.com, Eugenio =?UTF-8?B?UMOp?=
- =?UTF-8?B?cmV6?= <eperezma@redhat.com>, Andrew Morton
- <akpm@linux-foundation.org>, Dragos Tatulea <dtatulea@nvidia.com>, Rahul
- Rameshbabu <rrameshbabu@nvidia.com>, Heiner Kallweit
- <hkallweit1@gmail.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- awel Dembicki <paweldembicki@gmail.com>
-Subject: Re: [PATCH RESEND net-next v14 3/5] ethtool: provide customized dim
- profile management
-Message-ID: <20240620204445.2d589788@kernel.org>
-In-Reply-To: <20240618025644.25754-4-hengqi@linux.alibaba.com>
-References: <20240618025644.25754-1-hengqi@linux.alibaba.com>
-	<20240618025644.25754-4-hengqi@linux.alibaba.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="P40Yn1tM"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=ejaN9jzv23+csQVIqr6qNGmq0JDrOqzMj21IY9AmYOM=; b=P40Yn1tMca0expYGXzDATjHlnk
+	y1eI27fIjIfQBHzHhOziu85/B1g8RJiOFXcxAVXE0vL/ATyMOB3Vzi6ppztI76vA4TfitcLbY5RU0
+	KpvYDP3yzNCayhcSWDQezWplLu/Ndxm/FQ2qOR+0ZQdw/bxW0YvmfC2u/r+If2jny+nm2kL5vIYPs
+	92wD2yAF0IjEJEJ2jzSs9TgDVmvu20NUY9MBgeyzjytQPhHnWEBhUl0igcALuBYs/jK81ba/KhShl
+	BVyUszHiI66kFspaGIECgSRWoGhgtNDBLjjCtKjCQa9lMmA0SUi0yDAix2lrsXJqMh8ka6MqXw/bG
+	8WfsPskQ==;
+Received: from [50.53.4.147] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sKWNc-00000007hlo-08MF;
+	Fri, 21 Jun 2024 05:00:08 +0000
+Message-ID: <5286745e-0100-40f3-b0e9-afc204c348f2@infradead.org>
+Date: Thu, 20 Jun 2024 22:00:05 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] Docs/mm/damon/maintainer-profile: introduce
+ HacKerMaiL
+To: SeongJae Park <sj@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, damon@lists.linux.dev,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20240620220337.76942-1-sj@kernel.org>
+ <20240620220337.76942-2-sj@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20240620220337.76942-2-sj@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Tue, 18 Jun 2024 10:56:42 +0800 Heng Qi wrote:
-> --- a/Documentation/networking/ethtool-netlink.rst
-> +++ b/Documentation/networking/ethtool-netlink.rst
-> @@ -1033,6 +1033,8 @@ Kernel response contents:
->    ``ETHTOOL_A_COALESCE_TX_AGGR_MAX_BYTES``     u32     max aggr size, Tx
->    ``ETHTOOL_A_COALESCE_TX_AGGR_MAX_FRAMES``    u32     max aggr packets, Tx
->    ``ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS``    u32     time (us), aggr, Tx
-> +  ``ETHTOOL_A_COALESCE_RX_PROFILE``            nested  profile of DIM, Rx
-> +  ``ETHTOOL_A_COALESCE_TX_PROFILE``            nested  profile of DIM, Tx
->    ===========================================  ======  =======================
+Hi,
+
+On 6/20/24 3:03 PM, SeongJae Park wrote:
+> Since DAMON has merged into the mainline, I periodically received some
+> questions around DAMON's mailing lists based workflow.  The workflow is
+> not different from the normal ones that well documented, but it is also
+> true that it is not always easy and familiar for everyone.
+> 
+> I personally overcame it by developing and using a simple tool, named
+> HacKerMaiL (hkml)[1].  Based on my experience, I believe it is matured
+> enough to be used for simple workflows like that of DAMON.  Actually
+> some DAMON contributors and Linux kernel developers other than myself
+> told me they are using the tool.
+> 
+> As DAMON maintainer, I also believe helping new DAMON community members
+> onboarding to the worklow is one of the most important parts of my
+> responsibilities.  For the reason, the tool is announced[2] to support
+> DAMON community.  To further increasing the visibility of the fact,
+> document the tool and the support plan on DAMON maintainer's profile.
+> 
+> [1] https://github.com/damonitor/hackermail
+> [2] https://github.com/damonitor/hackermail/commit/3909dad91301
+> 
+> Signed-off-by: SeongJae Park <sj@kernel.org>
+> ---
+>  Documentation/mm/damon/maintainer-profile.rst | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+> 
+> diff --git a/Documentation/mm/damon/maintainer-profile.rst b/Documentation/mm/damon/maintainer-profile.rst
+> index 8213cf61d38a..aede61f2d6a8 100644
+> --- a/Documentation/mm/damon/maintainer-profile.rst
+> +++ b/Documentation/mm/damon/maintainer-profile.rst
+> @@ -53,6 +53,22 @@ Mon-Fri) in PT (Pacific Time).  The response to patches will occasionally be
+>  slow.  Do not hesitate to send a ping if you have not heard back within a week
+>  of sending a patch.
 >  
->  Attributes are only included in reply if their value is not zero or the
+> +Mailing tool
+> +------------
+> +
+> +Like many other Linux kernel subsystems, DAMON uses the mailing lists
+> +(damon@lists.linux.dev and linux-mm@kvack.org) as the major communication
+> +channel.  There is a simple tool called HacKerMaiL (``hkml``) [8]_ , which is
+> +for people who are not very faimiliar with the mailing lists based
 
-Maybe add a short line in the section for COALESCE_GET linking to dim?
-Something like:
+                               familiar
 
-``ETHTOOL_A_COALESCE_RX_PROFILE`` and ``ETHTOOL_A_COALESCE_TX_PROFILE``
-refer to DIM parameters, see ... <- add ReST link to net_dim.rst here.
+> +communication.  The tool could particularly helpful for DAMON community members
+
+                   The tool could be particularly helpful
+
+> +since it is developed and maintained by DAMON maintainer.  The tool is also
+> +officially announced to support DAMON and general Linux kernel developement
+
+                                                                  development
+
+> +workflow.
+> +
+> +In other words, ``hkml`` [8]_ is a mailing tool for DAMON community, which
+> +DAMON maintainer is committed to support.  Please feel free to try and report
+> +issues or feature requests for the tool to the maintainer.
+> +
+>  
+>  .. [1] https://git.kernel.org/akpm/mm/h/mm-unstable
+>  .. [2] https://git.kernel.org/sj/h/damon/next
+> @@ -61,3 +77,4 @@ of sending a patch.
+>  .. [5] https://github.com/awslabs/damon-tests/blob/master/corr/tests/kunit.sh
+>  .. [6] https://github.com/awslabs/damon-tests/tree/master/corr
+>  .. [7] https://github.com/awslabs/damon-tests/tree/master/perf
+> +.. [8] https://github.com/damonitor/hackermail
+
+-- 
+~Randy
