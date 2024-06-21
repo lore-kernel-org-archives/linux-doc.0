@@ -1,187 +1,126 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.web.de (mout.web.de [212.227.15.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A56323769
-	for <linux-doc@vger.kernel.org>; Fri, 21 Jun 2024 14:43:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0C661C6BD;
+	Fri, 21 Jun 2024 14:44:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718981017; cv=none; b=S2EWS8UydgYAG1DViuoaHrKAxgL104Pm0aeZDcOl9H1Du22vpu/X4tA9U57icsI58t4FzDSqw161O45bIajuOqDzEY6WmdVuaTo8wvkK2R+rsEo6Nx/GE4c2xiRVTNsRs752gTqTNvLL0FhEgG5Y35TEJoqR2VhJx5y8KKh8xIY=
+	t=1718981098; cv=none; b=YtnhOekIq3x95E6TTgcpn7Vi5XBjBj/ZY5filgzsz2a5QMLMmd3exuDZ05czvIN66jzNWY2JgxNzi6rptnuJnF4EaxngKihOesLBNAy0nMjIQdk6hh3t68MnKkW6TepfU7f6DwOaKmZAhiysZqH6EQfSE8l60kX5TCZd+bzyEBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718981017; c=relaxed/simple;
-	bh=fwxVt1xCUdJ4J3/7hu1rhG4muqfZxWwWAwEu5AGYL04=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZOC+f4nektbnMa0W3z695zoeyhFYGkkpRqquP6CbwioKsqvxGu5Q30R4ZvS16/Too4TJcF96WXZnOON+z7YAB3sa/1/i6amS8nAndIZepjJO+r5cMFhvPH95EOKxSObXuqyFlub4YSdImsAGc1Vaps82pcrv0Q9JM2KqYazrBNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YSnL/+bD; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1718981098; c=relaxed/simple;
+	bh=UPZ+pMVVIZt6Rgz1oxI221a1QLWLiy8Gw1463avvxI0=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=NPK4dfZhAk51l74LILRjUGmgkanoBMTJHp2gLN21TJqEJTsyBEyLPF6S8jBofhTatOFZvfIMzRZqc9J96nrJreviiM5grulDXxMLZgIpom0rU4SbJU7GlYL1BoaaXynYYqvv0Z0ZRNgGIgQ24YzkbAk5CVyMpCHYSBYQ/OZHoyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=lRVwGJme; arc=none smtp.client-ip=212.227.15.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YSnL/+bD"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-52cdb0d8107so617334e87.1
-        for <linux-doc@vger.kernel.org>; Fri, 21 Jun 2024 07:43:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1718981013; x=1719585813; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=R5g6cVCLX6JMDoyy8Jad2HKl/F+iJNHQJt1nOcWgC3Y=;
-        b=YSnL/+bDHF0zkNIcN40JPbwf1G9RfzKpUaaPQjcQxteRCR7cZxTug3CLbv33NW5IG6
-         xzfu4+exYgyKu2w5smiaHIV4Tko0jZpaWhSBzaXRi248sD2CR8nrQBCKy+lh0dilC0nF
-         /7THtkpgkABJlSxvi8uhO0MvQQcC9AHT1u6nzFsOHI6HLrr/5Cx4k6p0WDCI/MSvfZNd
-         eKCVkgBsZV812I/YwNWtZAyz+ee81iwruER9KbRWDGoHZM05Io4B/LRkRjxQxV9X8W8V
-         cWA5mJlTOzyPu4aujSTIkRQr9NdE/UuF0Um4tHTE64wbdNAj5SZlNJtAdZe3ItXA31/c
-         l+uQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718981013; x=1719585813;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=R5g6cVCLX6JMDoyy8Jad2HKl/F+iJNHQJt1nOcWgC3Y=;
-        b=XpCwVbTgS611rmNTJbuc2PU1fWMJpOvpE+Pv/zoAR2Sg7/EPydlaNGcjcWcpAa94JR
-         gCL5b54uB9+5ID8GJms0uzHgm+7aXRDBzxz+1dAWLTZMWv4qXJhhFibF+cjdlTs4FyZ7
-         FSKoy4xd3mVanBM+b/CXQWqfVb3ihPaDjZIEPpux7VMY5lyTn1/3af7or+aKNqrZjUvr
-         lDU+1sOa1usPg4ic8oxcCh9rvvPuJ7bB0c2Xk5++KbRSmwyArVakx3n80RTf+vDU7R0F
-         s8sBND8CwiqaiTxL7vLV0m0wtsajjepc2Fp0sgTTjO8tmN6dw4UdPxknxdv+9GXwEi0n
-         4egQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV9P3mFGVDESJYu/q9PZ1ruuIb4JTEkokQU7MTjwhqo798roizOW1GfTo0dr3wLCB2dG+1xvRODOJwBU6CR+krDL00uWUOA3M6s
-X-Gm-Message-State: AOJu0YyR1Fu5ew3BZt73EI7IZ/rd8YELPqQCwimjagvDU9BqWe5rgCi+
-	UjU+IFNZvsPKSIHiXsOvwEHFF/ZDus/FwIEDqXIRH8+BmIAhRmlmp6hgLK3NM2VR7xygXtXqZNO
-	4ZCCNQPkdGmBt4ZxKcv8nHol6w54eKS9KoP37
-X-Google-Smtp-Source: AGHT+IGuSyGxky4loefW/M/7lSHf8dCMC14rFygG6Wo59hUV8p+ArOn+9K5FhkHmJFIES0QpoJxsfg1eWpdP+1EpdKI=
-X-Received: by 2002:a19:5e4e:0:b0:52c:db50:c026 with SMTP id
- 2adb3069b0e04-52cdb50c14bmr575208e87.39.1718981013077; Fri, 21 Jun 2024
- 07:43:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="lRVwGJme"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1718981023; x=1719585823; i=markus.elfring@web.de;
+	bh=SN7RlCBIZ8lBMty9UKSUkIU0BTJtq+6R+JLHTgaFfAM=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=lRVwGJmeZRzMJV7WZ7bhrXq7ofkQ9jwqWb+//R8p/A8eMX5aFENhPNDtTBcJjanC
+	 aF+ODxRvb/CRMtYV1nf1doefZGI4s0h9YbqYBuQ0ryCgRWZoJ3Zi4NNq3Arngs5n+
+	 FTV9QF8QQa1FgFY0k8GPoKxs+yB+4X8qOGrjSWFTWsLwvns9OWLcSCas2qYzGw5r8
+	 hDo70FWvbz9z60k9RB+dm8F3GEtjPD2WVHZM33a+DB0i042YNykMQ7lrCt+QoYEpP
+	 eb60bZ1DHdMszdFe+77w47E0dkR5SjnP+ZXBhjLKJkRr4aDcirUz59ivfy8jQ9LuI
+	 WghZRVt2MgpWgMAMdw==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1Myf3x-1sYcMc0AmL-015ng8; Fri, 21
+ Jun 2024 16:43:43 +0200
+Message-ID: <038fdd79-b465-4fa7-aac1-1526dcb2d87f@web.de>
+Date: Fri, 21 Jun 2024 16:43:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240620184856.600717-1-jiaqiyan@google.com> <20240620184856.600717-4-jiaqiyan@google.com>
- <1591a354-d999-45b4-aff2-357fa7612634@collabora.com>
-In-Reply-To: <1591a354-d999-45b4-aff2-357fa7612634@collabora.com>
-From: Jiaqi Yan <jiaqiyan@google.com>
-Date: Fri, 21 Jun 2024 07:43:19 -0700
-Message-ID: <CACw3F5229yVkVTjwYCTDF73evvbvEO0=K9wTvFQN+xbNqp0zSQ@mail.gmail.com>
-Subject: Re: [PATCH v4 3/4] selftest/mm: test enable_soft_offline behaviors
-To: Muhammad Usama Anjum <usama.anjum@collabora.com>
-Cc: nao.horiguchi@gmail.com, linmiaohe@huawei.com, jane.chu@oracle.com, 
-	osalvador@suse.de, muchun.song@linux.dev, akpm@linux-foundation.org, 
-	shuah@kernel.org, corbet@lwn.net, rientjes@google.com, duenwen@google.com, 
-	fvdl@google.com, linux-mm@kvack.org, linux-kselftest@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+To: Babu Moger <babu.moger@amd.com>, x86@kernel.org,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ Fenghua Yu <fenghua.yu@intel.com>, Ingo Molnar <mingo@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Reinette Chatre
+ <reinette.chatre@intel.com>, Thomas Gleixner <tglx@linutronix.de>
+Cc: LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+ Breno Leitao <leitao@debian.org>,
+ Daniel Sneddon <daniel.sneddon@linux.intel.com>,
+ "H. Peter Anvin" <hpa@zytor.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ James Morse <james.morse@arm.com>, Jim Mattson <jmattson@google.com>,
+ Jithu Joseph <jithu.joseph@intel.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
+ Julia Lawall <julia.lawall@inria.fr>, Kai Huang <kai.huang@intel.com>,
+ Kan Liang <kan.liang@linux.intel.com>, Kim Phillips <kim.phillips@amd.com>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+ Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Paul E. McKenney"
+ <paulmck@kernel.org>, Peter Newman <peternewman@google.com>,
+ Peter Zijlstra <peterz@infradead.org>, Randy Dunlap <rdunlap@infradead.org>,
+ Rick Edgecombe <rick.p.edgecombe@intel.com>,
+ Sandipan Das <sandipan.das@amd.com>, Sean Christopherson
+ <seanjc@google.com>, Stephane Eranian <eranian@google.com>,
+ Tejun Heo <tj@kernel.org>, Yan-Jie Wang <yanjiewtw@gmail.com>
+References: <0148e3317b0de3b5d1eaa58af37a2910783a69c9.1716552602.git.babu.moger@amd.com>
+Subject: Re: [PATCH v4 17/19] x86/resctrl: Introduce the interface switch
+ between ABMC and mbm_legacy
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <0148e3317b0de3b5d1eaa58af37a2910783a69c9.1716552602.git.babu.moger@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:MNnmo/IyHwKqbRCyoIgDHyeZEjlR0nEzdzSPleYk0UD+8BXXGDY
+ FmRjHDJxKGTwjoqH3iwFKGuTZrfyZBsZcAr5ziCVILX9XUi+zdzBnX1oODVzKdT0hEZgPM9
+ 0xVp9/736STKpYtKMLYtVHHoTc1i4n/z2mTmuAkojH39STMU+K/OvodrbHSGqPZQdUYj1/4
+ zyiiUtH+Wuly79wMYzorg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:OnHt1u3JZdQ=;gd070flUBWNk+k7P8Kx6U+zvKuC
+ pvB1NsP2QsZTxqoncBTsd25maX2Mhqq5BVw0xSjduzbGp3vQSz7OAIzeT+uCrKY6cXFd3yk8E
+ JGBAreD4BEVsoBhkdpuyDrlIH81+J+llZ2pWIKGy2PkijNFi9PHY/wTzvsnkB0Zl0E+ortN+8
+ iuUBQkDaiil/YC6TqUYNvOQdC+Qt12eJ3wPPvdIFFbo8vG51COOVeXHz4Rp00716ZdZ0ropLC
+ nKBpG3skMUlSb7of2/K2mQMmUNX2tBFfrzgl7Wtnzdj9pQa/L63sddmboqCDqltcNOBDcav6O
+ slCL+uJ0DYHdatDvfTc5Acws1+ZudxlipIpwVA2dVS5vroGYAPJ46n2BOrh8VrxJjJlNI6GlS
+ VZwZMgcy5KHKUTV5lT9X17IjhvQliIj+dYoGb2mypmxEsPiENL1riweTJSgrl/8JefDxPrZWR
+ haGd9WwKx28iSERQ98kEXEkVMnV85wGRCELcX9/nnn3Jg016ztM+7U73D4DtXNW4KGlx//er2
+ wXBy1g+3fS/hzT7m/l76LIui27AVd4KBFgFrRDLn/klU2KILZav34tv7y1yZXP+qkaxnogjbr
+ FEuTZiX5PIgmM8O0cBWAzmJgLip+lrZNLzO+RXXOFi71NoHAI/s8+k/FZzFeteK8IJvJLLvE7
+ pXv6bhLhKz2HDPdt3C5VF0i2CyMZE3233XRm9zCQtXp1nHKwKcxU75wikhSigQSYNTpX8lXBT
+ XpIXg9JZHZEGGfbHFyvlR3NGPPdfuyr8zgCu1ze0Hf2fR914MQ0uvppbDxxqAYjB71N9nJhCm
+ Q2BxUYYx1QxQSTj/YXeyYcBOv95jgRQSUPET3yI/Qtduo=
 
-On Thu, Jun 20, 2024 at 10:08=E2=80=AFPM Muhammad Usama Anjum
-<usama.anjum@collabora.com> wrote:
->
-> On 6/20/24 11:48 PM, Jiaqi Yan wrote:
-> > Add regression and new tests when hugepage has correctable memory
-> > errors, and how userspace wants to deal with it:
-> > * if enable_soft_offline=3D1, mapped hugepage is soft offlined
-> > * if enable_soft_offline=3D0, mapped hugepage is intact
-> >
-> > Free hugepages case is not explicitly covered by the tests.
-> >
-> > Hugepage having corrected memory errors is emulated with
-> > MADV_SOFT_OFFLINE.
-> >
-> > Signed-off-by: Jiaqi Yan <jiaqiyan@google.com>
-> > ---
-> >  tools/testing/selftests/mm/.gitignore         |   1 +
-> >  tools/testing/selftests/mm/Makefile           |   1 +
-> >  .../selftests/mm/hugetlb-soft-offline.c       | 229 ++++++++++++++++++
-> >  tools/testing/selftests/mm/run_vmtests.sh     |   4 +
-> >  4 files changed, 235 insertions(+)
-> >  create mode 100644 tools/testing/selftests/mm/hugetlb-soft-offline.c
-> >
-> > diff --git a/tools/testing/selftests/mm/.gitignore b/tools/testing/self=
-tests/mm/.gitignore
-> > index 0b9ab987601c..064e7b125643 100644
-> > --- a/tools/testing/selftests/mm/.gitignore
-> > +++ b/tools/testing/selftests/mm/.gitignore
-> > @@ -6,6 +6,7 @@ hugepage-shm
-> >  hugepage-vmemmap
-> >  hugetlb-madvise
-> >  hugetlb-read-hwpoison
-> > +hugetlb-soft-offline
-> >  khugepaged
-> >  map_hugetlb
-> >  map_populate
-> > diff --git a/tools/testing/selftests/mm/Makefile b/tools/testing/selfte=
-sts/mm/Makefile
-> > index 3b49bc3d0a3b..d166067d75ef 100644
-> > --- a/tools/testing/selftests/mm/Makefile
-> > +++ b/tools/testing/selftests/mm/Makefile
-> > @@ -42,6 +42,7 @@ TEST_GEN_FILES +=3D gup_test
-> >  TEST_GEN_FILES +=3D hmm-tests
-> >  TEST_GEN_FILES +=3D hugetlb-madvise
-> >  TEST_GEN_FILES +=3D hugetlb-read-hwpoison
-> > +TEST_GEN_FILES +=3D hugetlb-soft-offline
-> >  TEST_GEN_FILES +=3D hugepage-mmap
-> >  TEST_GEN_FILES +=3D hugepage-mremap
-> >  TEST_GEN_FILES +=3D hugepage-shm
-> > diff --git a/tools/testing/selftests/mm/hugetlb-soft-offline.c b/tools/=
-testing/selftests/mm/hugetlb-soft-offline.c
-> > new file mode 100644
-> > index 000000000000..5701eea4ee48
-> > --- /dev/null
-> > +++ b/tools/testing/selftests/mm/hugetlb-soft-offline.c
-> > @@ -0,0 +1,229 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Test soft offline behavior for HugeTLB pages:
-> > + * - if enable_soft_offline =3D 0, hugepages should stay intact and so=
-ft
-> > + *   offlining failed with EINVAL.
-> > + * - if enable_soft_offline =3D 1, a hugepage should be dissolved and
-> > + *   nr_hugepages/free_hugepages should be reduced by 1.
-> > + *
-> > + * Before running, make sure more than 2 hugepages of default_hugepage=
-sz
-> > + * are allocated. For example, if /proc/meminfo/Hugepagesize is 2048kB=
-:
-> > + *   echo 8 > /sys/kernel/mm/hugepages/hugepages-2048kB/nr_hugepages
-> > + */
-> > +
-> > +#define _GNU_SOURCE
-> > +#include <errno.h>
-> > +#include <stdlib.h>
-> > +#include <stdio.h>
-> > +#include <string.h>
-> > +#include <unistd.h>
-> > +
-> > +#include <linux/magic.h>
-> > +#include <linux/memfd.h>
-> > +#include <sys/mman.h>
-> > +#include <sys/statfs.h>
-> > +#include <sys/types.h>
-> > +
-> > +#ifndef MADV_SOFT_OFFLINE
-> > +#define MADV_SOFT_OFFLINE 101
-> > +#endif
-> > +
-> > +#define PREFIX " ... "
-> > +#define EPREFIX " !!! "
-> > +
-> > +enum test_status {
-> > +     TEST_PASS =3D 0,
-> > +     TEST_FAILED =3D 1,
-> > +     // From ${ksft_skip} in run_vmtests.sh.
-> > +     TEST_SKIPPED =3D 4,
-> > +};
-> Include ../kselftest.h and use macros from there instead of redifining.
-> Also try to use helper functions from same header file to mark the test
-> pass/fail or exit the test entirely. You can look at soft-dirty.c how tha=
-t
-> is written.
+=E2=80=A6
+> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
+=E2=80=A6
+> +static ssize_t rdtgroup_mbm_assign_write(struct kernfs_open_file *of,
+> +					 char *buf, size_t nbytes,
+> +					 loff_t off)
+> +{
+=E2=80=A6
+> +	cpus_read_lock();
+> +	mutex_lock(&rdtgroup_mutex);
+> +
+> +	rdt_last_cmd_clear();
+=E2=80=A6
+> +	mutex_unlock(&rdtgroup_mutex);
+> +	cpus_read_unlock();
+> +
+> +	return ret ?: nbytes;
+> +}
+=E2=80=A6
 
-Thanks Muhammad.
+Would you become interested to apply statements like the following?
 
-For sure, I will wait a couple of days to see if there is more
-feedback on v4, then refactor with kselftest.h in v5.
+* guard(cpus_read_lock)();
+  https://elixir.bootlin.com/linux/v6.10-rc4/source/include/linux/cleanup.=
+h#L133
 
->
-> --
-> BR,
-> Muhammad Usama Anjum
+* guard(mutex)(&rdtgroup_mutex);
+  https://elixir.bootlin.com/linux/v6.10-rc4/source/include/linux/mutex.h#=
+L196
+
+Regards,
+Markus
