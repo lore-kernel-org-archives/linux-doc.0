@@ -1,167 +1,187 @@
-Received: from mail-il1-f181.google.com (mail-il1-f181.google.com [209.85.166.181])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 020AE495E5
-	for <linux-doc@vger.kernel.org>; Fri, 21 Jun 2024 12:10:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A56323769
+	for <linux-doc@vger.kernel.org>; Fri, 21 Jun 2024 14:43:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718971847; cv=none; b=knK3U6mJFYTW7w3HhU1KCMEwjQoqUQVoD2uK1EnL2j7w6PqfewLRFC0oduyDxieRq75RXLPewLUNQdCrdmDq67S7i3QM5IDApOB7V3NvEPJgmMFSQjEMdG9vmLdYCaiAAXrXgF+4JjjBDE4V6m4GCyOFwE34A1AcGrBSuY6yL+k=
+	t=1718981017; cv=none; b=S2EWS8UydgYAG1DViuoaHrKAxgL104Pm0aeZDcOl9H1Du22vpu/X4tA9U57icsI58t4FzDSqw161O45bIajuOqDzEY6WmdVuaTo8wvkK2R+rsEo6Nx/GE4c2xiRVTNsRs752gTqTNvLL0FhEgG5Y35TEJoqR2VhJx5y8KKh8xIY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718971847; c=relaxed/simple;
-	bh=hYfb0a3eCGf8ykplVBIG1npqvx5J/IHFUDDQGZ2qm0c=;
+	s=arc-20240116; t=1718981017; c=relaxed/simple;
+	bh=fwxVt1xCUdJ4J3/7hu1rhG4muqfZxWwWAwEu5AGYL04=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=E93phv7LISBsxMvMgaMCM4gtPasYtzVr3oVP+0b5HhdzkRlgDVgjtreguGNzYeV26yfKKy4K2akpMRiE/N/6L3UTkQv1NSPn7f9uspQlaplCzqQYOBTliIV5be51xoXJ8DHRjVKIiytdwIxj22DnCf5KSq4jYireugjaTYGQs08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org; spf=none smtp.mailfrom=brainfault.org; dkim=pass (2048-bit key) header.d=brainfault-org.20230601.gappssmtp.com header.i=@brainfault-org.20230601.gappssmtp.com header.b=cT3azjG5; arc=none smtp.client-ip=209.85.166.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=brainfault.org
+	 To:Cc:Content-Type; b=ZOC+f4nektbnMa0W3z695zoeyhFYGkkpRqquP6CbwioKsqvxGu5Q30R4ZvS16/Too4TJcF96WXZnOON+z7YAB3sa/1/i6amS8nAndIZepjJO+r5cMFhvPH95EOKxSObXuqyFlub4YSdImsAGc1Vaps82pcrv0Q9JM2KqYazrBNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YSnL/+bD; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brainfault-org.20230601.gappssmtp.com header.i=@brainfault-org.20230601.gappssmtp.com header.b="cT3azjG5"
-Received: by mail-il1-f181.google.com with SMTP id e9e14a558f8ab-3748ebe7e53so7472365ab.1
-        for <linux-doc@vger.kernel.org>; Fri, 21 Jun 2024 05:10:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YSnL/+bD"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-52cdb0d8107so617334e87.1
+        for <linux-doc@vger.kernel.org>; Fri, 21 Jun 2024 07:43:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brainfault-org.20230601.gappssmtp.com; s=20230601; t=1718971845; x=1719576645; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1718981013; x=1719585813; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tXUId7BgiOrJKlvj4EXPaiwGxRE3QDT7xYFFY6+6a4g=;
-        b=cT3azjG5elplraJ1w5TkxKPn9Og1JS4tB7eQlziMFNSjltVT5P7D53Jl4uKyDTGZWS
-         rKrNJLCKpSuVCvwle5G/aGFtoLujR9LX9q5dPn2Nh8A3qZiIev1+JugjqvnoN3Osj1hu
-         ZTeZa8EFkiBhJsV6qBb+GxGoXNaOGyRxFh1c4Kzlyu+4M/G4SqsaMGKpbnZdQ+S442GK
-         ukBrDb/FPJpJ3FItm9FAw9IVNgPA7vsQAVsazFipFBL1Fm57sdmZiTE/QXG0xGsLS6tF
-         dlkBWLRr8A0WRiOQXSuwxtqZCa9MMqIQLEf6I1WYFfObEMzXfV7tysdjIR2QIISDqgFH
-         ocyg==
+        bh=R5g6cVCLX6JMDoyy8Jad2HKl/F+iJNHQJt1nOcWgC3Y=;
+        b=YSnL/+bDHF0zkNIcN40JPbwf1G9RfzKpUaaPQjcQxteRCR7cZxTug3CLbv33NW5IG6
+         xzfu4+exYgyKu2w5smiaHIV4Tko0jZpaWhSBzaXRi248sD2CR8nrQBCKy+lh0dilC0nF
+         /7THtkpgkABJlSxvi8uhO0MvQQcC9AHT1u6nzFsOHI6HLrr/5Cx4k6p0WDCI/MSvfZNd
+         eKCVkgBsZV812I/YwNWtZAyz+ee81iwruER9KbRWDGoHZM05Io4B/LRkRjxQxV9X8W8V
+         cWA5mJlTOzyPu4aujSTIkRQr9NdE/UuF0Um4tHTE64wbdNAj5SZlNJtAdZe3ItXA31/c
+         l+uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718971845; x=1719576645;
+        d=1e100.net; s=20230601; t=1718981013; x=1719585813;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tXUId7BgiOrJKlvj4EXPaiwGxRE3QDT7xYFFY6+6a4g=;
-        b=LEbYizIUVs5xsM8FYfDHY4ZPfqQLfFDqNrt/qdhTyiUURfPTGP6iP48CVKQrzWKeGm
-         Avv1W4KMLxQ/hWuiyQ8mSQlaAMuXaCav1l9h3kKe5dto/jjxNSQrG+8ME8ZCGkWbt25N
-         xZhF3zyI2t/7T4m92NZAFygMdsok1ZKHufS0ka6DFVgzUm5pZUw7mL7QkrUXZUoYadNo
-         TAbs84ujGjg3vnWg/nu+GY+HhDOUb+SBDwpWFETmoyrKJQcHFOJlbvwTDLxRfPvKOLOQ
-         kxjyVIgHupzrXahA/4c/CgIHrzDcal9Mf6ngg+/fuImhZEZheNFxkFxgVGz2V38c28PR
-         6nIw==
-X-Forwarded-Encrypted: i=1; AJvYcCW3NAyIpf6zUEZZXrJ+2IJAA5hiPPuX56ixVJROxb1jqpEv69iS1UnrIbgAWPC74+LV8IkXEVkiFw8pMIc735WIM2E0mRfTbuHn
-X-Gm-Message-State: AOJu0YwHdTTGireOKjPaiRQQdBJV8dLtGMC3nwTLJc04DfgbsgkaAb72
-	Y+gPPZSN4JVltzSP762azC90XBDA8VCzxsOH6Cpn3pSUGi9WWXVCAOgBL/zc0pcAistPFls36SM
-	TXKbFnv1OWVNvGdbnMGE9mQT4V3/lkD6uRfh2NA==
-X-Google-Smtp-Source: AGHT+IE+Q+KOOE0S07ldQyv/lyyHoya7PZRDhlWazWZX8wdUbyDfKI4hFTF8xA69bxE3aHWLPp9UAq+n4zkSLmp8Cqc=
-X-Received: by 2002:a05:6e02:1fc9:b0:375:c240:e7a6 with SMTP id
- e9e14a558f8ab-3761d70b3f1mr87707435ab.24.1718971845149; Fri, 21 Jun 2024
- 05:10:45 -0700 (PDT)
+        bh=R5g6cVCLX6JMDoyy8Jad2HKl/F+iJNHQJt1nOcWgC3Y=;
+        b=XpCwVbTgS611rmNTJbuc2PU1fWMJpOvpE+Pv/zoAR2Sg7/EPydlaNGcjcWcpAa94JR
+         gCL5b54uB9+5ID8GJms0uzHgm+7aXRDBzxz+1dAWLTZMWv4qXJhhFibF+cjdlTs4FyZ7
+         FSKoy4xd3mVanBM+b/CXQWqfVb3ihPaDjZIEPpux7VMY5lyTn1/3af7or+aKNqrZjUvr
+         lDU+1sOa1usPg4ic8oxcCh9rvvPuJ7bB0c2Xk5++KbRSmwyArVakx3n80RTf+vDU7R0F
+         s8sBND8CwiqaiTxL7vLV0m0wtsajjepc2Fp0sgTTjO8tmN6dw4UdPxknxdv+9GXwEi0n
+         4egQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV9P3mFGVDESJYu/q9PZ1ruuIb4JTEkokQU7MTjwhqo798roizOW1GfTo0dr3wLCB2dG+1xvRODOJwBU6CR+krDL00uWUOA3M6s
+X-Gm-Message-State: AOJu0YyR1Fu5ew3BZt73EI7IZ/rd8YELPqQCwimjagvDU9BqWe5rgCi+
+	UjU+IFNZvsPKSIHiXsOvwEHFF/ZDus/FwIEDqXIRH8+BmIAhRmlmp6hgLK3NM2VR7xygXtXqZNO
+	4ZCCNQPkdGmBt4ZxKcv8nHol6w54eKS9KoP37
+X-Google-Smtp-Source: AGHT+IGuSyGxky4loefW/M/7lSHf8dCMC14rFygG6Wo59hUV8p+ArOn+9K5FhkHmJFIES0QpoJxsfg1eWpdP+1EpdKI=
+X-Received: by 2002:a19:5e4e:0:b0:52c:db50:c026 with SMTP id
+ 2adb3069b0e04-52cdb50c14bmr575208e87.39.1718981013077; Fri, 21 Jun 2024
+ 07:43:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240621113143.35827-1-cuiyunhui@bytedance.com>
-In-Reply-To: <20240621113143.35827-1-cuiyunhui@bytedance.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Fri, 21 Jun 2024 17:40:34 +0530
-Message-ID: <CAAhSdy2wU2NCXAJ_muYTkxxx4YECis2HWwRf55u3nuAtNBDVfA@mail.gmail.com>
-Subject: Re: [PATCH v2] RISC-V: Provide the frequency of time CSR via hwprobe
-To: Yunhui Cui <cuiyunhui@bytedance.com>
-Cc: corbet@lwn.net, paul.walmsley@sifive.com, palmer@dabbelt.com, 
-	aou@eecs.berkeley.edu, cleger@rivosinc.com, evan@rivosinc.com, 
-	conor.dooley@microchip.com, costa.shul@redhat.com, andy.chiu@sifive.com, 
-	samitolvanen@google.com, linux-doc@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	Palmer Dabbelt <palmer@rivosinc.com>
+References: <20240620184856.600717-1-jiaqiyan@google.com> <20240620184856.600717-4-jiaqiyan@google.com>
+ <1591a354-d999-45b4-aff2-357fa7612634@collabora.com>
+In-Reply-To: <1591a354-d999-45b4-aff2-357fa7612634@collabora.com>
+From: Jiaqi Yan <jiaqiyan@google.com>
+Date: Fri, 21 Jun 2024 07:43:19 -0700
+Message-ID: <CACw3F5229yVkVTjwYCTDF73evvbvEO0=K9wTvFQN+xbNqp0zSQ@mail.gmail.com>
+Subject: Re: [PATCH v4 3/4] selftest/mm: test enable_soft_offline behaviors
+To: Muhammad Usama Anjum <usama.anjum@collabora.com>
+Cc: nao.horiguchi@gmail.com, linmiaohe@huawei.com, jane.chu@oracle.com, 
+	osalvador@suse.de, muchun.song@linux.dev, akpm@linux-foundation.org, 
+	shuah@kernel.org, corbet@lwn.net, rientjes@google.com, duenwen@google.com, 
+	fvdl@google.com, linux-mm@kvack.org, linux-kselftest@vger.kernel.org, 
+	linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 21, 2024 at 5:03=E2=80=AFPM Yunhui Cui <cuiyunhui@bytedance.com=
-> wrote:
+On Thu, Jun 20, 2024 at 10:08=E2=80=AFPM Muhammad Usama Anjum
+<usama.anjum@collabora.com> wrote:
 >
-> From: Palmer Dabbelt <palmer@rivosinc.com>
->
-> A handful of user-visible behavior is based on the frequency of the
-> time CSR.
->
-> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
-> Signed-off-by: Yunhui Cui <cuiyunhui@bytedance.com>
+> On 6/20/24 11:48 PM, Jiaqi Yan wrote:
+> > Add regression and new tests when hugepage has correctable memory
+> > errors, and how userspace wants to deal with it:
+> > * if enable_soft_offline=3D1, mapped hugepage is soft offlined
+> > * if enable_soft_offline=3D0, mapped hugepage is intact
+> >
+> > Free hugepages case is not explicitly covered by the tests.
+> >
+> > Hugepage having corrected memory errors is emulated with
+> > MADV_SOFT_OFFLINE.
+> >
+> > Signed-off-by: Jiaqi Yan <jiaqiyan@google.com>
+> > ---
+> >  tools/testing/selftests/mm/.gitignore         |   1 +
+> >  tools/testing/selftests/mm/Makefile           |   1 +
+> >  .../selftests/mm/hugetlb-soft-offline.c       | 229 ++++++++++++++++++
+> >  tools/testing/selftests/mm/run_vmtests.sh     |   4 +
+> >  4 files changed, 235 insertions(+)
+> >  create mode 100644 tools/testing/selftests/mm/hugetlb-soft-offline.c
+> >
+> > diff --git a/tools/testing/selftests/mm/.gitignore b/tools/testing/self=
+tests/mm/.gitignore
+> > index 0b9ab987601c..064e7b125643 100644
+> > --- a/tools/testing/selftests/mm/.gitignore
+> > +++ b/tools/testing/selftests/mm/.gitignore
+> > @@ -6,6 +6,7 @@ hugepage-shm
+> >  hugepage-vmemmap
+> >  hugetlb-madvise
+> >  hugetlb-read-hwpoison
+> > +hugetlb-soft-offline
+> >  khugepaged
+> >  map_hugetlb
+> >  map_populate
+> > diff --git a/tools/testing/selftests/mm/Makefile b/tools/testing/selfte=
+sts/mm/Makefile
+> > index 3b49bc3d0a3b..d166067d75ef 100644
+> > --- a/tools/testing/selftests/mm/Makefile
+> > +++ b/tools/testing/selftests/mm/Makefile
+> > @@ -42,6 +42,7 @@ TEST_GEN_FILES +=3D gup_test
+> >  TEST_GEN_FILES +=3D hmm-tests
+> >  TEST_GEN_FILES +=3D hugetlb-madvise
+> >  TEST_GEN_FILES +=3D hugetlb-read-hwpoison
+> > +TEST_GEN_FILES +=3D hugetlb-soft-offline
+> >  TEST_GEN_FILES +=3D hugepage-mmap
+> >  TEST_GEN_FILES +=3D hugepage-mremap
+> >  TEST_GEN_FILES +=3D hugepage-shm
+> > diff --git a/tools/testing/selftests/mm/hugetlb-soft-offline.c b/tools/=
+testing/selftests/mm/hugetlb-soft-offline.c
+> > new file mode 100644
+> > index 000000000000..5701eea4ee48
+> > --- /dev/null
+> > +++ b/tools/testing/selftests/mm/hugetlb-soft-offline.c
+> > @@ -0,0 +1,229 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Test soft offline behavior for HugeTLB pages:
+> > + * - if enable_soft_offline =3D 0, hugepages should stay intact and so=
+ft
+> > + *   offlining failed with EINVAL.
+> > + * - if enable_soft_offline =3D 1, a hugepage should be dissolved and
+> > + *   nr_hugepages/free_hugepages should be reduced by 1.
+> > + *
+> > + * Before running, make sure more than 2 hugepages of default_hugepage=
+sz
+> > + * are allocated. For example, if /proc/meminfo/Hugepagesize is 2048kB=
+:
+> > + *   echo 8 > /sys/kernel/mm/hugepages/hugepages-2048kB/nr_hugepages
+> > + */
+> > +
+> > +#define _GNU_SOURCE
+> > +#include <errno.h>
+> > +#include <stdlib.h>
+> > +#include <stdio.h>
+> > +#include <string.h>
+> > +#include <unistd.h>
+> > +
+> > +#include <linux/magic.h>
+> > +#include <linux/memfd.h>
+> > +#include <sys/mman.h>
+> > +#include <sys/statfs.h>
+> > +#include <sys/types.h>
+> > +
+> > +#ifndef MADV_SOFT_OFFLINE
+> > +#define MADV_SOFT_OFFLINE 101
+> > +#endif
+> > +
+> > +#define PREFIX " ... "
+> > +#define EPREFIX " !!! "
+> > +
+> > +enum test_status {
+> > +     TEST_PASS =3D 0,
+> > +     TEST_FAILED =3D 1,
+> > +     // From ${ksft_skip} in run_vmtests.sh.
+> > +     TEST_SKIPPED =3D 4,
+> > +};
+> Include ../kselftest.h and use macros from there instead of redifining.
+> Also try to use helper functions from same header file to mark the test
+> pass/fail or exit the test entirely. You can look at soft-dirty.c how tha=
+t
+> is written.
 
-LGTM.
+Thanks Muhammad.
 
-Reviewed-by: Anup Patel <anup@brainfault.org>
+For sure, I will wait a couple of days to see if there is more
+feedback on v4, then refactor with kselftest.h in v5.
 
-Regards,
-Anup
-
-> ---
->  Documentation/arch/riscv/hwprobe.rst  | 2 ++
->  arch/riscv/include/asm/hwprobe.h      | 2 +-
->  arch/riscv/include/uapi/asm/hwprobe.h | 1 +
->  arch/riscv/kernel/sys_hwprobe.c       | 5 +++++
->  4 files changed, 9 insertions(+), 1 deletion(-)
 >
-> diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/ri=
-scv/hwprobe.rst
-> index fc015b452ebf..c07f159d8906 100644
-> --- a/Documentation/arch/riscv/hwprobe.rst
-> +++ b/Documentation/arch/riscv/hwprobe.rst
-> @@ -229,3 +229,5 @@ The following keys are defined:
->
->  * :c:macro:`RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE`: An unsigned int which
->    represents the size of the Zicboz block in bytes.
-> +
-> +* :c:macro:`RISCV_HWPROBE_KEY_TIME_CSR_FREQ`: Frequency (in Hz) of `mtim=
-e`.
-> diff --git a/arch/riscv/include/asm/hwprobe.h b/arch/riscv/include/asm/hw=
-probe.h
-> index 630507dff5ea..150a9877b0af 100644
-> --- a/arch/riscv/include/asm/hwprobe.h
-> +++ b/arch/riscv/include/asm/hwprobe.h
-> @@ -8,7 +8,7 @@
->
->  #include <uapi/asm/hwprobe.h>
->
-> -#define RISCV_HWPROBE_MAX_KEY 6
-> +#define RISCV_HWPROBE_MAX_KEY 7
->
->  static inline bool riscv_hwprobe_key_is_valid(__s64 key)
->  {
-> diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/u=
-api/asm/hwprobe.h
-> index 7b95fadbea2a..18754341ff14 100644
-> --- a/arch/riscv/include/uapi/asm/hwprobe.h
-> +++ b/arch/riscv/include/uapi/asm/hwprobe.h
-> @@ -73,6 +73,7 @@ struct riscv_hwprobe {
->  #define                RISCV_HWPROBE_MISALIGNED_UNSUPPORTED    (4 << 0)
->  #define                RISCV_HWPROBE_MISALIGNED_MASK           (7 << 0)
->  #define RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE    6
-> +#define RISCV_HWPROBE_KEY_TIME_CSR_FREQ        7
->  /* Increase RISCV_HWPROBE_MAX_KEY when adding items. */
->
->  /* Flags */
-> diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwpr=
-obe.c
-> index 83fcc939df67..fc3b40fb9def 100644
-> --- a/arch/riscv/kernel/sys_hwprobe.c
-> +++ b/arch/riscv/kernel/sys_hwprobe.c
-> @@ -8,6 +8,7 @@
->  #include <asm/cacheflush.h>
->  #include <asm/cpufeature.h>
->  #include <asm/hwprobe.h>
-> +#include <asm/delay.h>
->  #include <asm/sbi.h>
->  #include <asm/switch_to.h>
->  #include <asm/uaccess.h>
-> @@ -226,6 +227,10 @@ static void hwprobe_one_pair(struct riscv_hwprobe *p=
-air,
->                         pair->value =3D riscv_cboz_block_size;
->                 break;
->
-> +       case RISCV_HWPROBE_KEY_TIME_CSR_FREQ:
-> +               pair->value =3D riscv_timebase;
-> +               break;
-> +
->         /*
->          * For forward compatibility, unknown keys don't fail the whole
->          * call, but get their element key set to -1 and value set to 0
 > --
-> 2.20.1
->
->
+> BR,
+> Muhammad Usama Anjum
