@@ -1,140 +1,80 @@
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4809C12D74F;
-	Fri, 21 Jun 2024 05:19:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718947143; cv=pass; b=fDlvRa72nVdIUg1SjohcptFY7umZJUoT1//eE3DohNuVUZlzEKAjV0eqlSuTpkeq/gyewD/mo4O/+69HtgyMozW3vvRjGESxI9EF+M8wmWJOpbd8hcrJM6VTxonM1R3/th+oyc87+0v2IfbuWxFyV9IDrc1eEzie3bIGro2tnd8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718947143; c=relaxed/simple;
-	bh=x7lQvMt4ex5lL65NuvtYppd4hlL7l7zTLlB6KxolOZs=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ZhiX0VFkmY3woEBrPdR8JfPF0ec/iXz8sirw9dM3KESoyQIC5eQB951qfyaZNgYK3dMiXRaEjg9jnoPHSb7cKo88pIc4AZXVfQReKgQr1yylG/tO7ZJJKiJRDqdJHGrEtgUA1dHsaUGulpj5PCh0QaGCIxJXHcFexox/uUxxu+U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=YX0jP+1E; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 679C512F37F;
+	Fri, 21 Jun 2024 05:24:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1718947445; cv=none; b=YeMP8vSUNyPPxq5aMo6YdnfHsEiEfI3R477ij5P9p1RfVGp2srMQaN9hq8ixzOaG/aq3M+ip0L5klk+1h1W/gYdOOUEWrZw0n6QrbiMxCKmnopnImOPM8on47f9c67/BtpO5Flcn+n/TtYDGpN/DgB2wGjaXFWOko8YyGAiyogw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1718947445; c=relaxed/simple;
+	bh=g0WAakIaFQpC+OLdKh1VM6cb4KXr2Y9sLumDaAY9VKc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To; b=fYHo+DYYamCEFM/4EV6HiHZUUItAfT7zCyDBGlXRmQG4m7HyAZTVHxo6mSoyMm1ZFe22H0XhmSOA5N78tWjurcC6wKhIxEiVj+9kNt9u10OctoAbyyV8PdTMmiQ8oSkOIhfndQLPpL84n4DXERvrNip1sKcuswuPthGzRBGNdrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=chds0vtN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="YX0jP+1E"
-ARC-Seal: i=1; a=rsa-sha256; t=1718947110; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=c6AgMWpCL8iULRscSMXdhBHx4hgxfgjJ24VxE/Q2HPq5GATNxkF77w8vNl9xQ8fjmpiKk+3/+DXwWBPWPr0HHt76+EyMMU1UnladPKhxzW51Eir0rbpVHGhOSfOkyv9l9Fty4PiyMny1BQF/3n2C+wMox78sHcp7ZORKqJL3gLU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1718947110; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=x7lQvMt4ex5lL65NuvtYppd4hlL7l7zTLlB6KxolOZs=; 
-	b=VbFUh/AKg1umViHEU2X0BQ89gHYyVRnoBkzOdkD/rtyxikPGWjjBLooLxQW1XzgUUmS78De5N1vIv/vAsopBEbwev0G6sbWZzzAo7IRhVX3JM3d6C0FrU9d+8cnfY2LJroVg4EBfwwyky7PhHYn1L/pf3mrNGdU58j7/q2J9yJI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=icenowy.me;
-	spf=pass  smtp.mailfrom=uwu@icenowy.me;
-	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1718947110;
-	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
-	bh=x7lQvMt4ex5lL65NuvtYppd4hlL7l7zTLlB6KxolOZs=;
-	b=YX0jP+1E/1s43ENznX+gHHToSYxwi54xOe+Y205R53HC6oOpDmKLnNh7OAWIUsDx
-	gycX4A0SGnKXFnMPkdu3tIlHge9mOU/KraRveogR5qYYGeCxWjb6VGCVFoN4viVoTX9
-	SM6MhSsb2PKDiLEmsMvXGp2zYfi1r1ZLBvvMzdtaokcixEHY2fB0a5oOT9E3/5HwfGv
-	ioSgTWxlkgfkjOvYaZkd8tG9R6etYtBIcx9tS16ibCjmc/cOEjDJCOj5g24GVOae8ui
-	hwI2mDQ+A1mJFXy3ef0QZMMvtlN6PMyOghMoYksgCXm+jL0j6RRxdTQwkmamdoVQjdW
-	lGtGT22VIg==
-Received: by mx.zohomail.com with SMTPS id 1718947108447520.378193907363;
-	Thu, 20 Jun 2024 22:18:28 -0700 (PDT)
-Message-ID: <8fac6e0f11ab5f5fc28be6e73f196b38e99f8c39.camel@icenowy.me>
-Subject: Re: [External] Re: [PATCH] RISC-V: Provide the frequency of mtime
- via hwprobe
-From: Icenowy Zheng <uwu@icenowy.me>
-To: yunhui cui <cuiyunhui@bytedance.com>
-Cc: Jessica Clarke <jrtc27@jrtc27.com>, Jonathan Corbet <corbet@lwn.net>, 
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
- =?ISO-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>, Evan Green
- <evan@rivosinc.com>, Conor Dooley <conor.dooley@microchip.com>,
- costa.shul@redhat.com, Andy Chiu <andy.chiu@sifive.com>,
- samitolvanen@google.com, linux-doc@vger.kernel.org,  linux-riscv
- <linux-riscv@lists.infradead.org>, LKML <linux-kernel@vger.kernel.org>,
- Palmer Dabbelt <palmer@rivosinc.com>
-Date: Fri, 21 Jun 2024 13:18:22 +0800
-In-Reply-To: <CAEEQ3w=HZptMOgXp2Rtuz-VtzPabN=h5N3=3wS4AMk3Lo7E7FQ@mail.gmail.com>
-References: <20240618114653.12485-1-cuiyunhui@bytedance.com>
-	 <2BA519C8-D258-4D98-AD49-AC7D30D8B0D2@jrtc27.com>
-	 <3c20c9f15cd7a9fb1f2e88560c1b089ac8032898.camel@icenowy.me>
-	 <CAEEQ3w=HZptMOgXp2Rtuz-VtzPabN=h5N3=3wS4AMk3Lo7E7FQ@mail.gmail.com>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="chds0vtN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDF78C2BBFC;
+	Fri, 21 Jun 2024 05:24:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718947445;
+	bh=g0WAakIaFQpC+OLdKh1VM6cb4KXr2Y9sLumDaAY9VKc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:From;
+	b=chds0vtNyx7l8rW1mg8R4F4u25gqjfmC1GtYhwFHbtabLlaYaO7mKVQyPIbhlpwne
+	 LImeDyhLpM6dofesRy1L1Iu1wq2eAuxtLb0oAmyWTz5J2Oqb/elSUx4UQC6M0oYSdy
+	 mnAXgPsv3g504cCOaZH1AKiz2djCeQmSmIwTLFFIl5P+JdVvK4uNo9xOl9G1sqNRv5
+	 lYLRpmMTxywwP+0wA6D1JqV3y83IwHCuPY1AiIxxHLnmJiRNCFrtdJbUsbNl49zPsU
+	 +H0bbZRA9KXHqmhD+QZBSH+Kxz7YUANLVjnEWQ678xN0SGNJHP02vS2XAmke8I/Jq6
+	 JPqFvZFV25cbg==
+From: SeongJae Park <sj@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: SeongJae Park <sj@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] Docs/mm/damon/maintainer-profile: introduce HacKerMaiL
+Date: Thu, 20 Jun 2024 22:23:45 -0700
+Message-Id: <20240621052345.10279-1-sj@kernel.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <5286745e-0100-40f3-b0e9-afc204c348f2@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-ZohoMailClient: External
 
-=E5=9C=A8 2024-06-21=E6=98=9F=E6=9C=9F=E4=BA=94=E7=9A=84 11:01 +0800=EF=BC=
-=8Cyunhui cui=E5=86=99=E9=81=93=EF=BC=9A
-> Hi Icenowy,
->=20
-> On Wed, Jun 19, 2024 at 7:51=E2=80=AFAM Icenowy Zheng <uwu@icenowy.me> wr=
-ote:
-> >=20
-> > =E5=9C=A8 2024-06-18=E6=98=9F=E6=9C=9F=E4=BA=8C=E7=9A=84 18:11 +0100=EF=
-=BC=8CJessica Clarke=E5=86=99=E9=81=93=EF=BC=9A
-> > > On 18 Jun 2024, at 12:46, Yunhui Cui <cuiyunhui@bytedance.com>
-> > > wrote:
-> > > >=20
-> > > > From: Palmer Dabbelt <palmer@rivosinc.com>
-> > > >=20
-> > > > A handful of user-visible behavior is based on the frequency of
-> > > > the
-> > > > machine-mode time.
-> > > >=20
-> > > > Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
-> > > > Signed-off-by: Yunhui Cui <cuiyunhui@bytedance.com>
-> > >=20
-> > > I would suggest referring to the user-mode CSR instead, i.e.
-> > > =E2=80=9Ctime=E2=80=9D
-> > > rather than =E2=80=9Cmtime=E2=80=9D throughout in names and descripti=
-ons, since
-> > > that=E2=80=99s
-> > > the thing that user-mode software is actually reading from.
-> >=20
-> > Agree. MTIME isn't even a thing defined in RISC-V ISA -- it's part
-> > of
-> > the ACLINT timer spec, but before ACLINT gets widely accepted, it's
-> > just some SiFive thing that got copied by many other vendors (and
-> > vendors such as T-Head even provides CLINT w/o MTIME register (well
-> > because these T-Head cores have reference source code available,
-> > this
-> > is because of their CPU design uses an external counter fed as TIME
-> > register)).
->=20
-> Okay, Thanks for your suggestions,=C2=A0 I think this modification is mor=
-e
-> appropriate:
->=20
-> RISC-V: Provide the frequency of time counter via hwprobe
+Hi Randy,
 
-Sure, or you could just say time CSR, which is a defined CSR in the
-user ISA document, and allow to be read from userspace.
+On Thu, 20 Jun 2024 22:00:05 -0700 Randy Dunlap <rdunlap@infradead.org> wrote:
 
->=20
-> A handful of user-visible behavior is based on the frequency of the
-> time counter.
->=20
-> What do you think ?
->=20
-> >=20
-> > >=20
-> > > Jess
-> > >=20
-> > >=20
-> > > _______________________________________________
-> > > linux-riscv mailing list
-> > > linux-riscv@lists.infradead.org
-> > > http://lists.infradead.org/mailman/listinfo/linux-riscv
-> >=20
->=20
-> Thanks,
-> Yunhui
+> Hi,
+> 
+> On 6/20/24 3:03 PM, SeongJae Park wrote:
+[...]
+> > +channel.  There is a simple tool called HacKerMaiL (``hkml``) [8]_ , which is
+> > +for people who are not very faimiliar with the mailing lists based
+> 
+>                                familiar
+> 
+> > +communication.  The tool could particularly helpful for DAMON community members
+> 
+>                    The tool could be particularly helpful
+> 
+> > +since it is developed and maintained by DAMON maintainer.  The tool is also
+> > +officially announced to support DAMON and general Linux kernel developement
+> 
+>                                                                   development
+> 
+> > +workflow.
 
+Thank you so much.  I will send a new version tomorrow with fixes for these.
+
+[...]
+> -- 
+> ~Randy
+
+
+Thanks,
+SJ
