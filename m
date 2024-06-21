@@ -1,172 +1,131 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 197DF84A32;
-	Fri, 21 Jun 2024 02:43:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACBDA8287D
+	for <linux-doc@vger.kernel.org>; Fri, 21 Jun 2024 03:01:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718937803; cv=none; b=RVVhk3ZwnbyyxgZaYM/gr0fsQ6JFKiQzxRH0x+K+lBSuL5fH1+gJHwH4axmzWliGtJwI3BtVYD/I5nwaATOu0TSAZodQL6QaAEvgMKiNEBTWqyv5C7ctF/rsPJRvUZg3WkiITXOSCRxNHm5kS7/1lngcz2RjMsThyx/qk2x2Gyw=
+	t=1718938874; cv=none; b=isiBuhSKikQ0yItSkcIVDajIpoHxmF+KGHGFO1lxwd7mzjSeGPZu0rJ1fyHDdB+THEW5AFKucquANB2EeXwXOuJqAKyoOX6Vs3miAYAsKNWWi6uySUtkN94D8+NDcsp3MJ5rI/4qioPoE5TzmIwNzvPLNMp1+Ac36Qxg34QGSqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718937803; c=relaxed/simple;
-	bh=R89nx9GPsZw3sS3/Gf6Reyi/X9jJl5d4U1rPtlvh8yY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iJH3qhVH6rNP2XAiTObTMlk7eJpKeVOJ5I6VOihJ66ONrucZfyb52zpOTCbtbVYMWlFeym+hJFP2aoTyR9eSoLKvt3dqUMdF8qx+xHKjAg4sDxS+jPpw99BWcy7FJbmEqEwVnaG6QmL8aN9dxY9epdXs6FvxCN8LUkEn4Sdhe20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jgH8WeJs; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1718938874; c=relaxed/simple;
+	bh=T42/A0l4/jfAh5+q9xr8uYc+BrdXsp8hh0BbKZRn4dk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PAWOkBUcBuZT3ybBWx2TirA87NamALl25yQNqgQPqdY/1qwLkNLtqueHdZ3Popx9U18GyfcaPhMVHYlKy4VRx8Vd3V5EuZdTbODHDqFnkwWv54R6oIxWQIOek4dO5mlCFtJw8XQOtbky1JpYURPRJekA8jSefRQx88tcj1wYPn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=X9cMNfo+; arc=none smtp.client-ip=209.85.160.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jgH8WeJs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718937801; x=1750473801;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=R89nx9GPsZw3sS3/Gf6Reyi/X9jJl5d4U1rPtlvh8yY=;
-  b=jgH8WeJsxg/M1N8yJEZJG7cSxOH9zxFXxrVFLzhO5qsOfU+kdaTC7sUY
-   vcUOVi54ZyxVJq6ZxPFajGxtcvdjrA10Nko4SFL//RzzRXXDBsyY6eLhy
-   dK5XmKziegOwNHnp9hSnslzvsTAg/Vlt2VF/IhNBznDb52dmal+S6mcuI
-   Ffbglj0gEWfMNPGCqozt/QGkLp8eefT4mpJXvUDJh7s5X22RQ2dKaQmkb
-   Lxl0t7gDSCt4rBkGHGdcsOMrpkm5HlBZE5skPslbcDx/j95U54dMG0c4+
-   G/YziZYznKaDahFKxsEi5yhIhsK3QFg7kmOk/zx93e5yBFhQLsIKf5Sp+
-   Q==;
-X-CSE-ConnectionGUID: TO6mZGDvTyezWMdLOavgtQ==
-X-CSE-MsgGUID: KhFHBPrRSQ+ERbC/jy+Cyw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11109"; a="33413349"
-X-IronPort-AV: E=Sophos;i="6.08,253,1712646000"; 
-   d="scan'208";a="33413349"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2024 19:43:20 -0700
-X-CSE-ConnectionGUID: eFhGsVG3RZOaHxSCwbdPzA==
-X-CSE-MsgGUID: AWVMIsbCSqy0MWaoPHI4ow==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,253,1712646000"; 
-   d="scan'208";a="42308319"
-Received: from lkp-server01.sh.intel.com (HELO 68891e0c336b) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 20 Jun 2024 19:43:16 -0700
-Received: from kbuild by 68891e0c336b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sKUF7-00088I-2M;
-	Fri, 21 Jun 2024 02:43:13 +0000
-Date: Fri, 21 Jun 2024 10:43:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Antoniu Miclaus <antoniu.miclaus@analog.com>,
-	Ramona Gradinariu <ramona.gradinariu@analog.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jun Yan <jerrysteve1101@gmail.com>,
-	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	Mehdi Djait <mehdi.djait.k@gmail.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/3] iio: accel: add ADXL380 driver
-Message-ID: <202406210921.VoM5ac1P-lkp@intel.com>
-References: <20240618105150.38141-2-antoniu.miclaus@analog.com>
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="X9cMNfo+"
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-25c95299166so837753fac.3
+        for <linux-doc@vger.kernel.org>; Thu, 20 Jun 2024 20:01:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1718938872; x=1719543672; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AhH4UzFO6eCWAfNDZXl4qF39oiAH3m5hA5swtcyFl4o=;
+        b=X9cMNfo+Uz3lxUZOGKyWLUaeYBfdXbLDq4s7dRRYpodzkeid88BoF9x2FZ2ioHa1t3
+         +g/Gmk9v48rhd4/135rIS+hY4pK9eEQydPSNCBoV3ldm4cy+ARfTsyk+jjuaEYZPmYg6
+         IrkOAAAIBBfTooyhGbFuPSMM2Z/JM99L32F7URGd7+twTkkvkDzvHw3p8FDsjPpC77vO
+         ra/iy9otbFH9PEcNZSKRN/e269pcXRrUQQmBB9/Duy3ofzIULxisQ8rvx4/rqd+qlWg9
+         kLPIdfy425CV9dw9lRAEFW3gYuVSaf5WqI66TbMGQctXDW8N4Zq6mm8C7wQvUQ7vyVTO
+         gTSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718938872; x=1719543672;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=AhH4UzFO6eCWAfNDZXl4qF39oiAH3m5hA5swtcyFl4o=;
+        b=UZs4aEmYHrtsRIIUv2eEiMN7ue2lgi8wtpOTq2lp3348G3sb4fvSMhrSZNm8xeIPtm
+         nelYCTIrAupmz0ycCaNf3qzZicE4wm/GdBmQTrDYL0Iz/ou1gaD+Yq3RcGL7qcrco0OA
+         4Tb8+gZvVtXEuvNC/TNoMJD1w3u1MnskxOGwYrA0/9RX8pspXoDCzrXqWmlotc7IpLUc
+         XuCWbJQT2Tz57TlOXshkplOwXwnHwQuGgRmCukmAUEr6J3bILvEn69DBlOKhHQRTWYIc
+         bxMzy+H+YTTm8wddb93qtoBFjCcXBLLxtBpxr9xbXmqxusHfEDida8rsAiCqW2t8datT
+         omtA==
+X-Forwarded-Encrypted: i=1; AJvYcCWZ0YbXcOWkVMVoe4LFaHCjVuBdU403CDRuPEpFJr86CV+pdj+oumwh+IeLpj0KEtC4wPz+KUqJ+75spJxSYf0/RVoI/rlnurC0
+X-Gm-Message-State: AOJu0Yy4n66ilM8wRemu2X8JdTca/nuaOB+ly/zwrv7aqsFdDOuV8wW5
+	bv2wYbSXzMlUqerMAokfIHG8t8h0xeqaoJFUOjc92dHxLer2wX3MPYGR++4VK7zZe4oKaulJbiB
+	mfPQT6lF+J57ZM63gK6FpFdWnkKpRllZ0B1UXGA==
+X-Google-Smtp-Source: AGHT+IGyFusLAIbhi8rnMuNWECpZj7QZvd3djKvKk4GFt8o8t2VKFxpjQUmUU64qgidV9DbQZc3wAs4aLywxdskKhs8=
+X-Received: by 2002:a05:6870:970e:b0:24c:b80e:ee1b with SMTP id
+ 586e51a60fabf-25c94d70a03mr8284877fac.50.1718938871743; Thu, 20 Jun 2024
+ 20:01:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240618105150.38141-2-antoniu.miclaus@analog.com>
+References: <20240618114653.12485-1-cuiyunhui@bytedance.com>
+ <2BA519C8-D258-4D98-AD49-AC7D30D8B0D2@jrtc27.com> <3c20c9f15cd7a9fb1f2e88560c1b089ac8032898.camel@icenowy.me>
+In-Reply-To: <3c20c9f15cd7a9fb1f2e88560c1b089ac8032898.camel@icenowy.me>
+From: yunhui cui <cuiyunhui@bytedance.com>
+Date: Fri, 21 Jun 2024 11:01:00 +0800
+Message-ID: <CAEEQ3w=HZptMOgXp2Rtuz-VtzPabN=h5N3=3wS4AMk3Lo7E7FQ@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH] RISC-V: Provide the frequency of mtime via hwprobe
+To: Icenowy Zheng <uwu@icenowy.me>
+Cc: Jessica Clarke <jrtc27@jrtc27.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>, 
+	Evan Green <evan@rivosinc.com>, Conor Dooley <conor.dooley@microchip.com>, costa.shul@redhat.com, 
+	Andy Chiu <andy.chiu@sifive.com>, samitolvanen@google.com, linux-doc@vger.kernel.org, 
+	linux-riscv <linux-riscv@lists.infradead.org>, LKML <linux-kernel@vger.kernel.org>, 
+	Palmer Dabbelt <palmer@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Antoniu,
+Hi Icenowy,
 
-kernel test robot noticed the following build errors:
+On Wed, Jun 19, 2024 at 7:51=E2=80=AFAM Icenowy Zheng <uwu@icenowy.me> wrot=
+e:
+>
+> =E5=9C=A8 2024-06-18=E6=98=9F=E6=9C=9F=E4=BA=8C=E7=9A=84 18:11 +0100=EF=
+=BC=8CJessica Clarke=E5=86=99=E9=81=93=EF=BC=9A
+> > On 18 Jun 2024, at 12:46, Yunhui Cui <cuiyunhui@bytedance.com> wrote:
+> > >
+> > > From: Palmer Dabbelt <palmer@rivosinc.com>
+> > >
+> > > A handful of user-visible behavior is based on the frequency of the
+> > > machine-mode time.
+> > >
+> > > Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+> > > Signed-off-by: Yunhui Cui <cuiyunhui@bytedance.com>
+> >
+> > I would suggest referring to the user-mode CSR instead, i.e. =E2=80=9Ct=
+ime=E2=80=9D
+> > rather than =E2=80=9Cmtime=E2=80=9D throughout in names and description=
+s, since
+> > that=E2=80=99s
+> > the thing that user-mode software is actually reading from.
+>
+> Agree. MTIME isn't even a thing defined in RISC-V ISA -- it's part of
+> the ACLINT timer spec, but before ACLINT gets widely accepted, it's
+> just some SiFive thing that got copied by many other vendors (and
+> vendors such as T-Head even provides CLINT w/o MTIME register (well
+> because these T-Head cores have reference source code available, this
+> is because of their CPU design uses an external counter fed as TIME
+> register)).
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.10-rc4 next-20240620]
-[cannot apply to jic23-iio/togreg]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Okay, Thanks for your suggestions,  I think this modification is more
+appropriate:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Antoniu-Miclaus/iio-accel-add-ADXL380-driver/20240618-194141
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20240618105150.38141-2-antoniu.miclaus%40analog.com
-patch subject: [PATCH 2/3] iio: accel: add ADXL380 driver
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20240621/202406210921.VoM5ac1P-lkp@intel.com/config)
-compiler: clang version 18.1.5 (https://github.com/llvm/llvm-project 617a15a9eac96088ae5e9134248d8236e34b91b1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240621/202406210921.VoM5ac1P-lkp@intel.com/reproduce)
+RISC-V: Provide the frequency of time counter via hwprobe
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202406210921.VoM5ac1P-lkp@intel.com/
+A handful of user-visible behavior is based on the frequency of the
+time counter.
 
-All errors (new ones prefixed by >>):
+What do you think ?
 
->> drivers/iio/accel/adxl380.c:1764:9: error: call to undeclared function 'irq_get_irq_data'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1764 |         desc = irq_get_irq_data(st->irq);
-         |                ^
-   drivers/iio/accel/adxl380.c:1764:9: note: did you mean 'irq_set_irq_wake'?
-   include/linux/interrupt.h:485:12: note: 'irq_set_irq_wake' declared here
-     485 | extern int irq_set_irq_wake(unsigned int irq, unsigned int on);
-         |            ^
->> drivers/iio/accel/adxl380.c:1764:7: error: incompatible integer to pointer conversion assigning to 'struct irq_data *' from 'int' [-Wint-conversion]
-    1764 |         desc = irq_get_irq_data(st->irq);
-         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/iio/accel/adxl380.c:1768:13: error: call to undeclared function 'irqd_get_trigger_type'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1768 |         irq_type = irqd_get_trigger_type(desc);
-         |                    ^
->> drivers/iio/accel/adxl380.c:1769:18: error: use of undeclared identifier 'IRQ_TYPE_LEVEL_HIGH'
-    1769 |         if (irq_type == IRQ_TYPE_LEVEL_HIGH) {
-         |                         ^
->> drivers/iio/accel/adxl380.c:1772:25: error: use of undeclared identifier 'IRQ_TYPE_LEVEL_LOW'
-    1772 |         } else if (irq_type == IRQ_TYPE_LEVEL_LOW) {
-         |                                ^
-   5 errors generated.
+>
+> >
+> > Jess
+> >
+> >
+> > _______________________________________________
+> > linux-riscv mailing list
+> > linux-riscv@lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/linux-riscv
+>
 
-
-vim +/irq_get_irq_data +1764 drivers/iio/accel/adxl380.c
-
-  1754	
-  1755	static int _adxl380_config_irq(struct iio_dev *indio_dev)
-  1756	{
-  1757		int ret;
-  1758		struct irq_data *desc;
-  1759		unsigned long irq_flag;
-  1760		u32 irq_type;
-  1761		u8 polarity;
-  1762		struct adxl380_state *st = iio_priv(indio_dev);
-  1763	
-> 1764		desc = irq_get_irq_data(st->irq);
-  1765		if (!desc)
-  1766			return dev_err_probe(st->dev, -EINVAL, "Could not find IRQ %d\n", st->irq);
-  1767	
-> 1768		irq_type = irqd_get_trigger_type(desc);
-> 1769		if (irq_type == IRQ_TYPE_LEVEL_HIGH) {
-  1770			polarity = 0;
-  1771			irq_flag = IRQF_TRIGGER_HIGH;
-> 1772		} else if (irq_type == IRQ_TYPE_LEVEL_LOW) {
-  1773			polarity = 1;
-  1774			irq_flag = IRQF_TRIGGER_LOW;
-  1775		} else {
-  1776			return dev_err_probe(st->dev, -EINVAL, "Invalid interrupt type 0x%x specified\n",
-  1777				irq_type);
-  1778		}
-  1779	
-  1780		ret = regmap_update_bits(st->regmap, ADXL380_INT0,
-  1781					 ADXL380_INT0_POL_MSK,
-  1782					 FIELD_PREP(ADXL380_INT0_POL_MSK, polarity));
-  1783		if (ret)
-  1784			return ret;
-  1785	
-  1786		return devm_request_threaded_irq(st->dev, st->irq, NULL,
-  1787						 adxl380_irq_handler,
-  1788						 IRQF_ONESHOT | irq_flag,
-  1789						 indio_dev->name, indio_dev);
-  1790	}
-  1791	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Yunhui
