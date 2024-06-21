@@ -1,126 +1,142 @@
-Received: from mout.web.de (mout.web.de [212.227.15.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0C661C6BD;
-	Fri, 21 Jun 2024 14:44:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABFD9C122;
+	Fri, 21 Jun 2024 15:35:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718981098; cv=none; b=YtnhOekIq3x95E6TTgcpn7Vi5XBjBj/ZY5filgzsz2a5QMLMmd3exuDZ05czvIN66jzNWY2JgxNzi6rptnuJnF4EaxngKihOesLBNAy0nMjIQdk6hh3t68MnKkW6TepfU7f6DwOaKmZAhiysZqH6EQfSE8l60kX5TCZd+bzyEBw=
+	t=1718984135; cv=none; b=l+iKWPuXk62hmyyqoM9c3qHAg5p0LXCxwhYcu3omw0Amu3ACnoIeo/Y4eLUBf/UuYp51lCGQZNdWLjDpoIyTbyypP1HCug4gGnzmdH9KZzHYF52o+ljItDnTqmmnmCXsNhPJdI5Ry3XHH26sIy0Qx7TybHcAEVJwFCAxmAlajMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718981098; c=relaxed/simple;
-	bh=UPZ+pMVVIZt6Rgz1oxI221a1QLWLiy8Gw1463avvxI0=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=NPK4dfZhAk51l74LILRjUGmgkanoBMTJHp2gLN21TJqEJTsyBEyLPF6S8jBofhTatOFZvfIMzRZqc9J96nrJreviiM5grulDXxMLZgIpom0rU4SbJU7GlYL1BoaaXynYYqvv0Z0ZRNgGIgQ24YzkbAk5CVyMpCHYSBYQ/OZHoyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=lRVwGJme; arc=none smtp.client-ip=212.227.15.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1718984135; c=relaxed/simple;
+	bh=xL004FPcIDymhrO3CLW72TG5nnHRR+dk6NIipF17mhg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Y7oSvHvKur0XvgVUAVpfcRtynOfDWVzQbS73vcst5ZiHDseW8SNAVs3DEHHep6FTDSV7oqctZWRPWvColsbpPOGO8zkeQEH6M/hy1azpjbF7Z915ZBk0U9iEXw1EdOHOCPFgiju+B67P6WFGXpW7co8VDocTc70QuuPIAh3nNFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LCbjIHYn; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="lRVwGJme"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1718981023; x=1719585823; i=markus.elfring@web.de;
-	bh=SN7RlCBIZ8lBMty9UKSUkIU0BTJtq+6R+JLHTgaFfAM=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=lRVwGJmeZRzMJV7WZ7bhrXq7ofkQ9jwqWb+//R8p/A8eMX5aFENhPNDtTBcJjanC
-	 aF+ODxRvb/CRMtYV1nf1doefZGI4s0h9YbqYBuQ0ryCgRWZoJ3Zi4NNq3Arngs5n+
-	 FTV9QF8QQa1FgFY0k8GPoKxs+yB+4X8qOGrjSWFTWsLwvns9OWLcSCas2qYzGw5r8
-	 hDo70FWvbz9z60k9RB+dm8F3GEtjPD2WVHZM33a+DB0i042YNykMQ7lrCt+QoYEpP
-	 eb60bZ1DHdMszdFe+77w47E0dkR5SjnP+ZXBhjLKJkRr4aDcirUz59ivfy8jQ9LuI
-	 WghZRVt2MgpWgMAMdw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1Myf3x-1sYcMc0AmL-015ng8; Fri, 21
- Jun 2024 16:43:43 +0200
-Message-ID: <038fdd79-b465-4fa7-aac1-1526dcb2d87f@web.de>
-Date: Fri, 21 Jun 2024 16:43:15 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LCbjIHYn"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-52cc14815c3so2273550e87.0;
+        Fri, 21 Jun 2024 08:35:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718984132; x=1719588932; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KdhmVdccPuxwXrDDM4FgPvImngyAwKoznDiroJAAKZ8=;
+        b=LCbjIHYnqMJcCad53EEaqSHWiFSbylo71XSEJMii1+BdLTaYV9Rs8zSgmMioN+KJjU
+         BCNbn2OX3Y0hWMKwOCETXJEtUWrRcSGPWCLMnh8z2b/7332MUqIbjSk4wLAXBB48jNi8
+         zrNy/c+Yu17qoiFRO/bYRxjqfAy9e9tGFeQcib3tVp4IuphgJ3nsMXpcHcsfPYo2lbOg
+         45yba3lN2apRspCZDE7hfGXJskMRY0x6rF5nWfIoUbGyNyNuYCZc20wOI+I5AbLimaiX
+         naHakk770Bp5IBnlpg3VnTfZe3dWcwJVo4PdO8KFZvxxyEh8gr4kZILFq9GhiQLOsqUp
+         WsUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718984132; x=1719588932;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KdhmVdccPuxwXrDDM4FgPvImngyAwKoznDiroJAAKZ8=;
+        b=TfxEXXNNpxFpVR2Ue36+TdsoxaWblMIHmlnNK+/DZYdyTGBlj8G8pBDCPrPpCJwG63
+         wXEllgPn4Y+Njaf1V6hvyc2W9wv8+UuIfRb+qVW6JugtId5lQNitljeI23gKMrBxvnZ4
+         4UgKpjhI7RuIS0B61rK9IH8PWeCSPBvbjsEAKLT5qbGL8L+qKzcWZ3QVu2oe+E6TEBVV
+         EMKBhygcUFIL9zsLk1+Mjv0Nr6q5IRe4kF9ElmEpAWZsQbBPdS/0cbEcoOt2vaotoufi
+         PgNUGbqwrZdpzUToaNPpA526Os9eqw3oexeAuyvl5G1R8oSGzmDEueh/QHirLzsDx6pp
+         KDRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW7rvBnR5PA+xP2Dgd1SUNPZj54SijXSE2oixi/XXt2rlTpyKswxyvl9LVdXxMe8SgTbChNaOagDaY5afyvcB50coGmlvGCa3fKVxVtRaniHce2H9MDW0bcWj3ADVgEmd+9qG9D3ZkU8laR+eGvp78NFTTnl7p09exXOaCw5xlM53cpl26MPOMoXAtbUvIV9QO9kuQkyPBzBueE2D/JWNEdF2n+xsD96h2e0MaPm/C/q6ECaLjwgrfKurY=
+X-Gm-Message-State: AOJu0YzrRJDaVkhbupccU6jAa/8nLpWQivtRK/cIETZ+U2DBag64mAFe
+	cbtY/o1MYw901GTEhYMnawF2RUOeCwMg6bzmbs7ZuYwxb27JOBWSf7GFKVP6cncNeBla3GUsXfL
+	kQ6YC7/xChHaii91PNHnx6AyGRz1QaQ==
+X-Google-Smtp-Source: AGHT+IH4nr2s0/s8AZGehFPKwGznBhVoJXWjyAfGfU6ODxiz0sMvrik5MmHzGxpzTgjC2Sr0MSoTBe/4R8GE5V1YOyE=
+X-Received: by 2002:ac2:5b4c:0:b0:52c:9d61:271f with SMTP id
+ 2adb3069b0e04-52ccaa33e61mr4705513e87.27.1718984131452; Fri, 21 Jun 2024
+ 08:35:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Babu Moger <babu.moger@amd.com>, x86@kernel.org,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- Fenghua Yu <fenghua.yu@intel.com>, Ingo Molnar <mingo@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Reinette Chatre
- <reinette.chatre@intel.com>, Thomas Gleixner <tglx@linutronix.de>
-Cc: LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
- Breno Leitao <leitao@debian.org>,
- Daniel Sneddon <daniel.sneddon@linux.intel.com>,
- "H. Peter Anvin" <hpa@zytor.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- James Morse <james.morse@arm.com>, Jim Mattson <jmattson@google.com>,
- Jithu Joseph <jithu.joseph@intel.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
- Julia Lawall <julia.lawall@inria.fr>, Kai Huang <kai.huang@intel.com>,
- Kan Liang <kan.liang@linux.intel.com>, Kim Phillips <kim.phillips@amd.com>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>, "Paul E. McKenney"
- <paulmck@kernel.org>, Peter Newman <peternewman@google.com>,
- Peter Zijlstra <peterz@infradead.org>, Randy Dunlap <rdunlap@infradead.org>,
- Rick Edgecombe <rick.p.edgecombe@intel.com>,
- Sandipan Das <sandipan.das@amd.com>, Sean Christopherson
- <seanjc@google.com>, Stephane Eranian <eranian@google.com>,
- Tejun Heo <tj@kernel.org>, Yan-Jie Wang <yanjiewtw@gmail.com>
-References: <0148e3317b0de3b5d1eaa58af37a2910783a69c9.1716552602.git.babu.moger@amd.com>
-Subject: Re: [PATCH v4 17/19] x86/resctrl: Introduce the interface switch
- between ABMC and mbm_legacy
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <0148e3317b0de3b5d1eaa58af37a2910783a69c9.1716552602.git.babu.moger@amd.com>
-Content-Type: text/plain; charset=UTF-8
+References: <20240621-hid_hw_req_bpf-v1-0-d7ab8b885a0b@kernel.org> <20240621-hid_hw_req_bpf-v1-3-d7ab8b885a0b@kernel.org>
+In-Reply-To: <20240621-hid_hw_req_bpf-v1-3-d7ab8b885a0b@kernel.org>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Fri, 21 Jun 2024 08:35:19 -0700
+Message-ID: <CAADnVQ+0YdjNxv0dFDPbFxT7F4_TBKTFjntfvLqAPwVadZUm5Q@mail.gmail.com>
+Subject: Re: [PATCH HID 03/12] HID: bpf: add HID-BPF hooks for hid_hw_raw_requests
+To: Benjamin Tissoires <bentiss@kernel.org>
+Cc: Jiri Kosina <jikos@kernel.org>, Alexei Starovoitov <ast@kernel.org>, Shuah Khan <shuah@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, "open list:HID CORE LAYER" <linux-input@vger.kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:MNnmo/IyHwKqbRCyoIgDHyeZEjlR0nEzdzSPleYk0UD+8BXXGDY
- FmRjHDJxKGTwjoqH3iwFKGuTZrfyZBsZcAr5ziCVILX9XUi+zdzBnX1oODVzKdT0hEZgPM9
- 0xVp9/736STKpYtKMLYtVHHoTc1i4n/z2mTmuAkojH39STMU+K/OvodrbHSGqPZQdUYj1/4
- zyiiUtH+Wuly79wMYzorg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:OnHt1u3JZdQ=;gd070flUBWNk+k7P8Kx6U+zvKuC
- pvB1NsP2QsZTxqoncBTsd25maX2Mhqq5BVw0xSjduzbGp3vQSz7OAIzeT+uCrKY6cXFd3yk8E
- JGBAreD4BEVsoBhkdpuyDrlIH81+J+llZ2pWIKGy2PkijNFi9PHY/wTzvsnkB0Zl0E+ortN+8
- iuUBQkDaiil/YC6TqUYNvOQdC+Qt12eJ3wPPvdIFFbo8vG51COOVeXHz4Rp00716ZdZ0ropLC
- nKBpG3skMUlSb7of2/K2mQMmUNX2tBFfrzgl7Wtnzdj9pQa/L63sddmboqCDqltcNOBDcav6O
- slCL+uJ0DYHdatDvfTc5Acws1+ZudxlipIpwVA2dVS5vroGYAPJ46n2BOrh8VrxJjJlNI6GlS
- VZwZMgcy5KHKUTV5lT9X17IjhvQliIj+dYoGb2mypmxEsPiENL1riweTJSgrl/8JefDxPrZWR
- haGd9WwKx28iSERQ98kEXEkVMnV85wGRCELcX9/nnn3Jg016ztM+7U73D4DtXNW4KGlx//er2
- wXBy1g+3fS/hzT7m/l76LIui27AVd4KBFgFrRDLn/klU2KILZav34tv7y1yZXP+qkaxnogjbr
- FEuTZiX5PIgmM8O0cBWAzmJgLip+lrZNLzO+RXXOFi71NoHAI/s8+k/FZzFeteK8IJvJLLvE7
- pXv6bhLhKz2HDPdt3C5VF0i2CyMZE3233XRm9zCQtXp1nHKwKcxU75wikhSigQSYNTpX8lXBT
- XpIXg9JZHZEGGfbHFyvlR3NGPPdfuyr8zgCu1ze0Hf2fR914MQ0uvppbDxxqAYjB71N9nJhCm
- Q2BxUYYx1QxQSTj/YXeyYcBOv95jgRQSUPET3yI/Qtduo=
 
-=E2=80=A6
-> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-=E2=80=A6
-> +static ssize_t rdtgroup_mbm_assign_write(struct kernfs_open_file *of,
-> +					 char *buf, size_t nbytes,
-> +					 loff_t off)
+On Fri, Jun 21, 2024 at 1:56=E2=80=AFAM Benjamin Tissoires <bentiss@kernel.=
+org> wrote:
+>
+> This allows to intercept and prevent or change the behavior of
+> hid_hw_raw_request() from a bpf program.
+>
+> The intent is to solve a couple of use case:
+> - firewalling a HID device: a firewall can monitor who opens the hidraw
+>   nodes and then prevent or allow access to write operations on that
+>   hidraw node.
+> - change the behavior of a device and emulate a new HID feature request
+>
+> The hook is allowed to be run as sleepable so it can itself call
+> hid_bpf_hw_request(), which allows to "convert" one feature request into
+> another or even call the feature request on a different HID device on the
+> same physical device.
+>
+> Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+>
+> ---
+>
+> Here checkpatch complains about:
+> WARNING: use of RCU tasks trace is incorrect outside BPF or core RCU code
+>
+> However, we are jumping in BPF code, so I think this is correct, but I'd
+> like to have the opinion on the BPF folks.
+> ---
+>  drivers/hid/bpf/hid_bpf_dispatch.c   | 36 ++++++++++++++++++++++++++++++=
+++++++
+>  drivers/hid/bpf/hid_bpf_struct_ops.c |  1 +
+>  drivers/hid/hid-core.c               |  6 ++++++
+>  include/linux/hid_bpf.h              | 35 ++++++++++++++++++++++++++++++=
++++++
+>  4 files changed, 78 insertions(+)
+>
+> diff --git a/drivers/hid/bpf/hid_bpf_dispatch.c b/drivers/hid/bpf/hid_bpf=
+_dispatch.c
+> index 2df31decaac3..813b53119b85 100644
+> --- a/drivers/hid/bpf/hid_bpf_dispatch.c
+> +++ b/drivers/hid/bpf/hid_bpf_dispatch.c
+> @@ -74,6 +74,42 @@ dispatch_hid_bpf_device_event(struct hid_device *hdev,=
+ enum hid_report_type type
+>  }
+>  EXPORT_SYMBOL_GPL(dispatch_hid_bpf_device_event);
+>
+> +int dispatch_hid_bpf_raw_requests(struct hid_device *hdev,
+> +                                 unsigned char reportnum, u8 *buf,
+> +                                 u32 size, enum hid_report_type rtype,
+> +                                 enum hid_class_request reqtype,
+> +                                 u64 source)
 > +{
-=E2=80=A6
-> +	cpus_read_lock();
-> +	mutex_lock(&rdtgroup_mutex);
+> +       struct hid_bpf_ctx_kern ctx_kern =3D {
+> +               .ctx =3D {
+> +                       .hid =3D hdev,
+> +                       .allocated_size =3D size,
+> +                       .size =3D size,
+> +               },
+> +               .data =3D buf,
+> +       };
+> +       struct hid_bpf_ops *e;
+> +       int ret;
 > +
-> +	rdt_last_cmd_clear();
-=E2=80=A6
-> +	mutex_unlock(&rdtgroup_mutex);
-> +	cpus_read_unlock();
+> +       if (rtype >=3D HID_REPORT_TYPES)
+> +               return -EINVAL;
 > +
-> +	return ret ?: nbytes;
-> +}
-=E2=80=A6
+> +       rcu_read_lock_trace();
 
-Would you become interested to apply statements like the following?
-
-* guard(cpus_read_lock)();
-  https://elixir.bootlin.com/linux/v6.10-rc4/source/include/linux/cleanup.=
-h#L133
-
-* guard(mutex)(&rdtgroup_mutex);
-  https://elixir.bootlin.com/linux/v6.10-rc4/source/include/linux/mutex.h#=
-L196
-
-Regards,
-Markus
+checkpatch is correct.
+What is this for?
