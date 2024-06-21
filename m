@@ -1,154 +1,251 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AB32B65F
-	for <linux-doc@vger.kernel.org>; Fri, 21 Jun 2024 18:30:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D60D015FCEA
+	for <linux-doc@vger.kernel.org>; Fri, 21 Jun 2024 18:48:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718994656; cv=none; b=hJgNhWQouLs/JrISSI6gCJBfzuNbLDASh56xmuAcjaxmarasTlArjLf7Li0Q6H2nORBhpNiJ8fDlBGfFRDgH5ZX9KkwOkXmAakerLPJq5lOUtFSzVpaz16ygP9ZQrnpACLRCglKN3PzTVMROyU43ym1XuK7sw5FX14cFtBAnqVw=
+	t=1718995727; cv=none; b=ACPdD5HzbASGUqjJ1JiG44eImgpDI9fOW4MrFU8Oj/uhNk29JF6vymliiE4iSgGyRxq/f7woRaYBt1UGzG6+Xvv3jUPr/d090Oat/Cmqj68x/gVqv7HmlGCkXM1YK1J7yhs9GO7nJmrp+xCifXQvU3bXzcVVx22D31EIEWd6WF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718994656; c=relaxed/simple;
-	bh=oqjIz3PeQBH2hn2o/YZ1k+AKyjnZX4YosabOZqJGSF8=;
+	s=arc-20240116; t=1718995727; c=relaxed/simple;
+	bh=OSlxMUbH1cjP63rf/i9A5OnYZ1MoT2re527p17lrMmg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nnbN2ilw3Y8jbnuh+u4nh9l/r6UiVnbs/6u4pEJThQQl1ET/+t4HZCI0TVDC5tsSG0CSLaKzl2/27P5V0Uuow9WXQsGaXkM9YvBfIyoLoMPD0jNfcf8VfhPCV5wHRlaBLUCOjl4AA7RYE9ie+Et9H9s1Rlqn6QO0ZQo0XpZROjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=EmLLbzhg; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	 To:Cc:Content-Type; b=eFgr1QdV9UWgWeiokUxcJEx1VwKIHjVAF/YtAzv8UYYlhV/wVTJ3BUFkJphbWrkdgDrQ+bUEGdSQc/GwPJFRg7Jo5Rb8PhsdZROhmFshph++Qag1ws2hZ2xVbzHs5ZqtBiIYRM4Vs9wWksB52UGlZZ1jAP9GjwzsqLFRpZuMwlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ep4qjsFk; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="EmLLbzhg"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-42278f3aea4so21214475e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 21 Jun 2024 11:30:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ep4qjsFk"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a6ef64b092cso278142666b.1
+        for <linux-doc@vger.kernel.org>; Fri, 21 Jun 2024 11:48:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1718994651; x=1719599451; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1718995724; x=1719600524; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GDBJP06DmRWkDW63XRl13F0vqR5/B3xF+ky6e3VTjKM=;
-        b=EmLLbzhg4phvj9S9l3ZM+y0HoffEOi9d2CrQxdAJFwlS0GEPE3ngDnKt+AmFQ1NM1w
-         ETomRgCdUbhxY/10xLVYstOjQSOW1wdG+M1xeLaMx1JSQ54CI08EPqOYVVClxGwqeFMl
-         HpkLC8A2BfWryD+VWc335YXs6sqSlyVICDFj19OeF+Bs4LormM7/jahXHjOp7iuHxgCc
-         3PgeWcSvW3O8OK0x6fpH8UXSvCnWU1fTF3u3JqkoI/GWNqd2aOKoU9gQU2B94Y1+qC2o
-         vPu/Gs4fkJgkgCtMOvSjkoAyNpjKdlllWi9RM3WfMmDHCFtNqkPJqsao9Ec32/KaIFH5
-         kVug==
+        bh=zlvzkk98R2AMG0Z6R+7nntNyc9a9ODPBi8r4EwCvbRQ=;
+        b=ep4qjsFklEFqpVJUKWocum5m/Io13lGRq4EdyZT2oV2jz2VRFNLFt8t0MBi0IBPJnr
+         jTAkMIfj2nMJb/FnGlSYVFbFSKkwzFxEsH401JxThJZJ4Q1OqDVTYTun8UGcgBg4BXLD
+         pDtpH/J7194OprEHFUy1tgWVSqfPoP9Qcw2wzPPgoS6znpxnWW2RYg3Ik481uFXByHur
+         8t1R8AucQu05yVQZxgfYqKr31+T+yw8tdIwe74GztkEsz3utwTPtu9muIve8NgwRtL9l
+         Wd4wCdN9Kn3pLEt0YBYb1lBp5zl9qLpVPm1rqI4Zhjhc4VMoBaxUKeleB9XZx9PLURO9
+         2QOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718994651; x=1719599451;
+        d=1e100.net; s=20230601; t=1718995724; x=1719600524;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GDBJP06DmRWkDW63XRl13F0vqR5/B3xF+ky6e3VTjKM=;
-        b=jg6u2P9Gb2BM/2QK2msE1aupxC6ZoFA6IiHADagZxEcnB/HTsvuxXrwXQuWeCkK7W5
-         vEG3jk7oAJXJMmQRhfzlI2LuCpZxl/dxatYCWLfdZUryq4iAb0ID48s6BCxovkGHyS7G
-         dPnwWjobmyvJ2Tv3wby0oOOpkIQDCfqjbiksVVcKN44hzLXMgcGveDjUO7Kuo5eO1/Uo
-         zs0FFkSDjrF75dXOb7KgFaRTpTTgUUyyZa487XabDnrzmTJ4vmdqSfPrs+FE9Tkmzhl0
-         g+vg25jCqij1WWzGb6+AR8HcCAwA5+KAZGCFv7HyAvF4izAykNERIZizOg04w9zMm6h/
-         6vww==
-X-Forwarded-Encrypted: i=1; AJvYcCX4VI+oTCsRH2ppbuCtz8zBhSwZpC+MpNUsF22dRXha541a0VdyVamna/2NZl3tvgU5PjyScVixtphxJ0Ljxt8zxgD2WvUGXrDc
-X-Gm-Message-State: AOJu0Yztuk5mMcThZtf5pWY4IK83s/89gBMjiQOjknidR5H1T2LST3nx
-	1VmfaXtUE4QVWNo+7UC7u2KfiNa78W+GMQRsiXr4k8G2E6xHBKPr+21hUah1AWY7DfxxjvZlz9X
-	8n90uNWp0Gg69qlKcQURcJPwnriGNLZPn1+bVbA==
-X-Google-Smtp-Source: AGHT+IHeBc37pbRnvfEykUpBvFqq4/wFdfQ/OI9yo+wiCiO9O7Ii/6NMT9RkrVuB3eccZMg8VBewVzuX8+kx9wTxJnk=
-X-Received: by 2002:a05:6000:1107:b0:364:e290:c60b with SMTP id
- ffacd0b85a97d-364e290cbf5mr4499397f8f.38.1718994651598; Fri, 21 Jun 2024
- 11:30:51 -0700 (PDT)
+        bh=zlvzkk98R2AMG0Z6R+7nntNyc9a9ODPBi8r4EwCvbRQ=;
+        b=rW9iwNjGVBCOrHyaQOjH0XK3DvtH0MsnSrgV4KjIedDjraRNGVRFsw2KcCvBwPm4fF
+         aoC25gocd/D8a2nHmB4tGx+50be2Bu4zWaKjSuI4BSbkvPaMxI8AmTOi4YVkeEQjzOui
+         KgCIScxgoVkn5ormGfW44oyeIjhC4RQJ7+Xdwq1FHa8OBAY7SFw3EZy7YMClm8J4DTNq
+         vWXgU5mBc4Tw4hdWhMLE9MpmMWUkNho7WGTm7XAWLLOULoxmhlDK8a3xB632r4aSR9Mf
+         8EntellOxgb3hRM35BIiVxxintjch73CFs8wGqCGbOEmsFt396JDLFM8Lmz4w4jeKME0
+         +l7A==
+X-Forwarded-Encrypted: i=1; AJvYcCVMGNFTkaJGs5CkGBkzyaDCa0kJrCoRIjlKONDjfOAldAXyEYvie/4GXMtJP5gbNFemdi/7JEXPeV63+N9GyyjLoBlaD7F/0sGE
+X-Gm-Message-State: AOJu0YwwMJRQRL0wSk/2eQ+7FNxF8paXXrHgfTWxReoy99eLM1x8tTUR
+	lsF83gCyykzcuT3L5SJLncec+ENpVB3NKErdTtce6xLDNvSfW8twHvg/cuDgeZQYnBaBmYMm6J9
+	M37kYluIlYTjBFc4LmIvt3nWIMnh0nJkoh7sE
+X-Google-Smtp-Source: AGHT+IFB0A55nMGApv5jFWmOQotPDfRzqqPIQ74RIyN5NL9KIVshccHHA4pJlBegEvYv4fDuzVclwWQ3R4BpwgBCJ4w=
+X-Received: by 2002:a17:907:a644:b0:a6f:b60c:2c08 with SMTP id
+ a640c23a62f3a-a6fb60c2f79mr565339266b.24.1718995723769; Fri, 21 Jun 2024
+ 11:48:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240613191616.2101821-1-jesse@rivosinc.com> <20240613191616.2101821-7-jesse@rivosinc.com>
- <CALs-HssqVkEX0=x+jhQDjwjRQb9TjbskLvrpvzFG_g-2iDXy3w@mail.gmail.com>
-In-Reply-To: <CALs-HssqVkEX0=x+jhQDjwjRQb9TjbskLvrpvzFG_g-2iDXy3w@mail.gmail.com>
-From: Jesse Taube <jesse@rivosinc.com>
-Date: Fri, 21 Jun 2024 14:30:39 -0400
-Message-ID: <CALSpo=ae6Z75SJ7uWj7H_D2GZZaU1genFv+shNCT01DhGYQCTw@mail.gmail.com>
-Subject: Re: [PATCH v2 6/6] RISC-V: hwprobe: Document unaligned vector perf key
-To: Evan Green <evan@rivosinc.com>
-Cc: linux-riscv@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>, 
-	Andrew Jones <ajones@ventanamicro.com>, Charlie Jenkins <charlie@rivosinc.com>, 
-	Xiao Wang <xiao.w.wang@intel.com>, Andy Chiu <andy.chiu@sifive.com>, 
-	Eric Biggers <ebiggers@google.com>, Greentime Hu <greentime.hu@sifive.com>, 
-	=?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>, 
-	Heiko Stuebner <heiko@sntech.de>, Costa Shulyupin <costa.shul@redhat.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Baoquan He <bhe@redhat.com>, 
-	Anup Patel <apatel@ventanamicro.com>, Zong Li <zong.li@sifive.com>, 
-	Sami Tolvanen <samitolvanen@google.com>, Ben Dooks <ben.dooks@codethink.co.uk>, 
-	Alexandre Ghiti <alexghiti@rivosinc.com>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
-	Erick Archer <erick.archer@gmx.com>, Joel Granados <j.granados@samsung.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20240613013557.1169171-1-almasrymina@google.com>
+ <20240613013557.1169171-7-almasrymina@google.com> <439590d4-0f05-4f5e-80ec-e7fdf214e307@gmail.com>
+In-Reply-To: <439590d4-0f05-4f5e-80ec-e7fdf214e307@gmail.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Fri, 21 Jun 2024 11:48:30 -0700
+Message-ID: <CAHS8izNr4x6SW0oY_VJDPZOsrBQEAyJO1qVJQbu8VNJQMtX9Sg@mail.gmail.com>
+Subject: Re: [PATCH net-next v12 06/13] page_pool: devmem support
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-alpha@vger.kernel.org, 
+	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	sparclinux@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Richard Henderson <richard.henderson@linaro.org>, Ivan Kokshaysky <ink@jurassic.park.msu.ru>, 
+	Matt Turner <mattst88@gmail.com>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
+	Andreas Larsson <andreas@gaisler.com>, Sergey Shtylyov <s.shtylyov@omp.ru>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>, Hao Luo <haoluo@google.com>, 
+	Jiri Olsa <jolsa@kernel.org>, Steffen Klassert <steffen.klassert@secunet.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Christoph Hellwig <hch@infradead.org>, 
+	Nikolay Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Yunsheng Lin <linyunsheng@huawei.com>, Shailend Chand <shailend@google.com>, 
+	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Jeroen de Borst <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, linux-mm@kvack.org, 
+	Matthew Wilcox <willy@infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 20, 2024 at 2:52=E2=80=AFPM Evan Green <evan@rivosinc.com> wrot=
-e:
+On Mon, Jun 17, 2024 at 7:17=E2=80=AFAM Pavel Begunkov <asml.silence@gmail.=
+com> wrote:
 >
-> On Thu, Jun 13, 2024 at 12:18=E2=80=AFPM Jesse Taube <jesse@rivosinc.com>=
- wrote:
+> On 6/13/24 02:35, Mina Almasry wrote:
+> > Convert netmem to be a union of struct page and struct netmem. Overload
+> > the LSB of struct netmem* to indicate that it's a net_iov, otherwise
+> > it's a page.
 > >
-> > Document key for reporting the speed of unaligned vector accesses.
-> > The descriptions are the same as the scalar equivalent values.
+> > Currently these entries in struct page are rented by the page_pool and
+> > used exclusively by the net stack:
 > >
-> > Signed-off-by: Jesse Taube <jesse@rivosinc.com>
-> > ---
-> > V1 -> V2:
-> >   - New patch
-> > ---
-> >  Documentation/arch/riscv/hwprobe.rst | 16 ++++++++++++++++
-> >  1 file changed, 16 insertions(+)
+> > struct {
+> >       unsigned long pp_magic;
+> >       struct page_pool *pp;
+> >       unsigned long _pp_mapping_pad;
+> >       unsigned long dma_addr;
+> >       atomic_long_t pp_ref_count;
+> > };
 > >
-> > diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/=
-riscv/hwprobe.rst
-> > index 7085a694b801..344bea1e21bd 100644
-> > --- a/Documentation/arch/riscv/hwprobe.rst
-> > +++ b/Documentation/arch/riscv/hwprobe.rst
-> > @@ -236,3 +236,19 @@ The following keys are defined:
+> > Mirror these (and only these) entries into struct net_iov and implement
+> > netmem helpers that can access these common fields regardless of
+> > whether the underlying type is page or net_iov.
 > >
-> >  * :c:macro:`RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE`: An unsigned int whic=
-h
-> >    represents the size of the Zicboz block in bytes.
-> > +
-> > +* :c:macro:`RISCV_HWPROBE_KEY_VEC_MISALIGNED_PERF`: An enum value desc=
-ribing the
-> > +  performance of misaligned vector accesses on the selected set of pro=
-cessors.
-> > +
-> > +  * :c:macro:`RISCV_HWPROBE_VEC_MISALIGNED_UNKNOWN`: The performance o=
-f misaligned
-> > +    accesses is unknown.
-> > +
-> > +  * :c:macro:`RISCV_HWPROBE_VEC_MISALIGNED_SLOW`: Misaligned accesses =
-are slower
+> > Implement checks for net_iov in netmem helpers which delegate to mm
+> > APIs, to ensure net_iov are never passed to the mm stack.
+> >
+> > Signed-off-by: Mina Almasry <almasrymina@google.com>
 >
-> Should we specify what size of vector access we're comparing against?
-> In other words, crispen up what "misaligned access" exactly means. I
-> realize you copied this from my text. I really should have said
-> "misaligned native word size accesses".
+> Apart from small comments below
+>
+> Reviewed-by: Pavel Begunkov <asml.silence@gmail.com>
+>
+>
+> > ---
+> >   include/net/netmem.h            | 137 ++++++++++++++++++++++++++++++-=
+-
+> >   include/net/page_pool/helpers.h |  25 +++---
+> >   net/core/devmem.c               |   3 +
+> >   net/core/page_pool.c            |  26 +++---
+> >   net/core/skbuff.c               |  22 +++--
+> >   5 files changed, 168 insertions(+), 45 deletions(-)
+> >
+> > diff --git a/include/net/netmem.h b/include/net/netmem.h
+> > index 664df8325ece5..35ad237fdf29e 100644
+> > --- a/include/net/netmem.h
+> > +++ b/include/net/netmem.h
+> ...
+> > -/* Converting from page to netmem is always safe, because a page can a=
+lways be
+> > - * a netmem.
+> > - */
+> >   static inline netmem_ref page_to_netmem(struct page *page)
+> >   {
+> >       return (__force netmem_ref)page;
+> > @@ -68,17 +107,103 @@ static inline netmem_ref page_to_netmem(struct pa=
+ge *page)
+> >
+> >   static inline int netmem_ref_count(netmem_ref netmem)
+> >   {
+> > +     /* The non-pp refcount of net_iov is always 1. On net_iov, we onl=
+y
+> > +      * support pp refcounting which uses the pp_ref_count field.
+> > +      */
+> > +     if (netmem_is_net_iov(netmem))
+> > +             return 1;
+> > +
+> >       return page_ref_count(netmem_to_page(netmem));
+> >   }
+> >
+> >   static inline unsigned long netmem_to_pfn(netmem_ref netmem)
+> >   {
+> > +     if (netmem_is_net_iov(netmem))
+> > +             return 0;
+>
+> IIRC 0 is a valid pfn. Not much of a concern since it's
+> used only for tracing, but might make sense to pass some
+> invalid pfn if there is one
+>
 
-In arch/riscv/kernel/vec-copy-unaligned.S I set WORD_EEW to 32bits.
-The rationale for using 32bits is
-("riscv: vector: adjust minimum Vector requirement to ZVE32X") in this set.
-https://lore.kernel.org/all/20240412-zve-detection-v4-0-e0c45bb6b253@sifive=
-.com/
+AFAIU all non-negative pfns are technically valid pfns if the machine
+is big enough.
 
-I'll change faste and slow to start with "32bit misaligned accesses are"
+I could have this function return long long instead of unsigned long
+so I can return a negative number for errors, and then cast to
+unsigned long when I figure out it's actually a pfn. Seemed like such
+a hassle especially since the call site is just tracing that I figured
+it's not that worth it.
 
+> > +
+> >       return page_to_pfn(netmem_to_page(netmem));
+> >   }
+> >
+> ...
+> >   static inline netmem_ref netmem_compound_head(netmem_ref netmem)
+> >   {
+> > +     /* niov are never compounded */
+> > +     if (netmem_is_net_iov(netmem))
+> > +             return netmem;
+> > +
+> >       return page_to_netmem(compound_head(netmem_to_page(netmem)));
+> >   }
+> >
+> > +static inline void *netmem_address(netmem_ref netmem)
+>
+> I don't think it's used anywhere, do I miss it?
+>
+
+Ah, It's used by the GVE devmem implementation:
+https://github.com/mina/linux/commit/da89baa81873d457cbf7b49ee6b4f0d66855b2=
+05
+
+I could leave it out of this patch, then add it with the follow up GVE
+devmem implementation, but I figured almost for sure drivers are going
+to need this eventually, and it's small, so just put it here.
+
+> > +{
+> > +     if (netmem_is_net_iov(netmem))
+> > +             return NULL;
+> > +
+> > +     return page_address(netmem_to_page(netmem));
+> > +}
+> > +
+> ...
+> > diff --git a/net/core/page_pool.c b/net/core/page_pool.c
+> > index a5957d3359762..1152e3547795a 100644
+> > --- a/net/core/page_pool.c
+> > +++ b/net/core/page_pool.c
+> > @@ -26,6 +26,8 @@
+> ...
+> >
+> >   /* If the page refcnt =3D=3D 1, this will try to recycle the page.
+> > @@ -714,7 +713,7 @@ __page_pool_put_page(struct page_pool *pool, netmem=
+_ref netmem,
+> >        * refcnt =3D=3D 1 means page_pool owns page, and can recycle it.
+> >        *
+> >        * page is NOT reusable when allocated when system is under
+> > -      * some pressure. (page_is_pfmemalloc)
+> > +      * some pressure. (page_pool_page_is_pfmemalloc)
+>
+> There is no page_pool_page_is_pfmemalloc()
+>
+
+Thanks done. I implemented most of your other comments on all the
+patches btw. I'm only responding to the ones I didn't apply for
+various reasons. Thanks for the review!
+
+
+--=20
 Thanks,
-Jesse
->
-> > +    than equivalent byte accesses.  Misaligned accesses may be support=
-ed
-> > +    directly in hardware, or trapped and emulated by software.
-> > +
-> > +  * :c:macro:`RISCV_HWPROBE_VEC_MISALIGNED_FAST`: Misaligned accesses =
-are faster
-> > +    than equivalent byte accesses.
-> > +
-> > +  * :c:macro:`RISCV_HWPROBE_VEC_MISALIGNED_UNSUPPORTED`: Misaligned ac=
-cesses are
-> > +    not supported at all and will generate a misaligned address fault.
-> > --
-> > 2.43.0
-> >
+Mina
