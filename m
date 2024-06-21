@@ -1,85 +1,132 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C21C15F40B
-	for <linux-doc@vger.kernel.org>; Fri, 21 Jun 2024 16:16:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01F8A15FA7F;
+	Fri, 21 Jun 2024 16:25:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718986579; cv=none; b=U61H/Tyq8Wqy5S23nNpKX0BBuNHDJtMQJM4wV2mg/k+cmviW0k6JbWBp2eymlRgxwQHNCxuV/nDutU4UFifcCPzEf++S2paktDZukLZvtNVvwss3FmUZ6ODpki+eyf+HFFLTimFzZlw40Ik4q6lnxUPdT4WtRV6j7gqIuAR9fjo=
+	t=1718987128; cv=none; b=SSnxY3oU9otJ2CqgKUi4sJV4Rrw4/Xln8e8xFcVW8lg/G0VhZeg46D7wRRnrD/8wIxh7hVpXGkgnqvP9/6+I36rtWDJSZs9yQHfwUcj3L6yG44NTGtjmp2FL4teoVJuKJMawCQ8acYZpG4mH0BuXI3BHv4CsSxZeqIgdRu8hNZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718986579; c=relaxed/simple;
-	bh=18fpC2mmrMKTv3oRpms3UjeHVx+1bFxG7wEgjdV3K9c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Gqn2RjvN6NM1gm3g8e9CmCQuhMjmK2T7bM8CAPtxxPEgoXWAiq0n1JzZEY9fjO9ylRk09+mwztQO3WQmwnWcfrmKKct05b4Ea9JFpqr7fnDcmjY8oKWd/LT72yorLOcNw+B4YwsCK0A95KFgCM9/CJRXVqjgLWsuPHFfP+n8jZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=mlwL1WeG; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1718987128; c=relaxed/simple;
+	bh=RsBI3FTC5NF4E2+nPg2P0qSDMe0OTQD52zffffD4VW4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lyk9S1t0IzVZgC7N33l6gw4Y/MiNcKZyMeO+zfgG4x8iazGSYSK6UmAz7lVuu5IJ9GYXKW6uPnnuvV2jLF2sFFleIdk81pdaL7LlGlIr9uVlIj22nT+we6AMquj7C/CpqxDO064iK4rFQMgOUj7nv00HRI59U8HG4ICFYEOWiL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=fstB0gTb; arc=none smtp.client-ip=217.70.183.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="mlwL1WeG"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a689ad8d1f6so272144866b.2
-        for <linux-doc@vger.kernel.org>; Fri, 21 Jun 2024 09:16:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1718986576; x=1719591376; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=18fpC2mmrMKTv3oRpms3UjeHVx+1bFxG7wEgjdV3K9c=;
-        b=mlwL1WeGBKGvtLCs+CNbMDsYwbwpdloSAAW20Hz3PJ9nCh1coLf6rleBSDbqo9EsSZ
-         cqENGNajoz656tqdba5ZeAn6TK3b44uyplB87Qs2G1Kc0y8z8GmZf5llq2jUtInK/+Nc
-         VQbKCRbIoV1I4UhEIpo7f2wL+3Yic355BFs6Boibb0t80fp2o7VPyfK0Y36g70x2MQ9m
-         /bDohb0GVs0lw5y74WNrByP+z24xDt/7Cil4MukJ/iWeh0m4gxWHsV7ibwkkR5TFR0Ge
-         xxFN1fjOLfOEOAZUhxfux10+PbOV5OA2/xN078Pu32EiTVxuOiHiuKyhZ8T5B/W2V7GD
-         YZgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718986576; x=1719591376;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=18fpC2mmrMKTv3oRpms3UjeHVx+1bFxG7wEgjdV3K9c=;
-        b=m/+e3/yjazSsdIZT+/riHxTMdMAz/NGK4mZKcMMU6SvvJ2dcwBna4TFvW0sY957IRB
-         KpO2LUxqIO/jzvCP02EGI4Iuxp8ALKb8ImkShG5nGqFTmXL0mWYdNcVooStf0jF1r1hB
-         M7xw9L/tJP646PZxx2v2sdg+jwgLMfEeE4dTrFwgYJ8NZKPHuG7XWpIXutuGQgAZSbPY
-         q1tP202+lIAhSvvy23WTUaxI38wYmhCdddPyPCHq7vMUWx5WfFJ/1WHO7nasz/h9qhAN
-         kOVu7SRg5WWML/IvW5uE/UakjpXuG4cyj8ULaB1Ldze3anSjJHk8Nv7RUgm5oTsHNk9d
-         PymA==
-X-Forwarded-Encrypted: i=1; AJvYcCVyDASyJ6qPNmnbej2nvXFyCOZ9HfSSTAIfDco7/lVwg9+1HDAFUAICkqJAwTnVpRcQyx1JeQqMz/hdk8y7KA2+FweHKHyz9Syi
-X-Gm-Message-State: AOJu0YyKVvfrDF7e+O9puNpLU6km+U5LWwj4QTcMfQ15cxRZaI4RkbUG
-	T+cqwHfFOmlXwJ4XUDkpNQXipyHID2gdOuZVmz+DorLliIj3zKm8X7AlbZCYoTIL7iV772hYLOf
-	wNSDkupfqaRWY+DBq7JGVtQXuFaaj7uLuCGiARw==
-X-Google-Smtp-Source: AGHT+IHUgpELxXazT/rgMogScDnz0wJSG9MkwGNjNTPk3PQKUHC2IJ5DGZyMy+SWWoBd56/L9PJpn18HsbcbTyMo0Nw=
-X-Received: by 2002:a17:907:c70d:b0:a6f:1045:d5e2 with SMTP id
- a640c23a62f3a-a6fab60b27amr565324066b.4.1718986575632; Fri, 21 Jun 2024
- 09:16:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="fstB0gTb"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3A97760005;
+	Fri, 21 Jun 2024 16:25:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1718987123;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xUsl04IPFEuQ2R6be8vZ3IpQhl5WFGdoLZzSAo7Lu5k=;
+	b=fstB0gTbaNiIuPZzE2NEFqwlHqgcbkUurqcSf0TUzcL3lTYizlP3iOZxT61dif7AoqM4ci
+	ikOjvSVmtQVDbOzHTfeue0q8N0SJKfYHJVhK/D3EHFE8jG5FtcJSk+uXF6XnpS3QVNsoqv
+	u2yqC8/p81vk/mCLW9XD3zEusD6lxqeDDJ+/QxLWSIA6r4GVBYqzmMKhXiQZ490akcCAzL
+	LoclipYLEakArdxmKb9pwC1Jmmhw/+tRY4YYsoAwTN8+lM23A53YFG9CtvG74+UZZ2r2MO
+	uStXy9epWok46w7xv4zG8TRRM7Swpz5lFYXLmxS2ig0RimcCIwPVGo8Cs8d3UQ==
+Date: Fri, 21 Jun 2024 18:25:20 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
+ kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
+ <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Richard
+ Cochran <richardcochran@gmail.com>, Radu Pirea
+ <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
+ Gospodarek <andy@greyhouse.net>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
+ UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
+ Oltean <vladimir.oltean@nxp.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>
+Subject: Re: [PATCH net-next v15 13/14] net: ethtool: tsinfo: Add support
+ for hwtstamp provider and get/set hwtstamp config
+Message-ID: <20240621182520.6f28d751@kmaincent-XPS-13-7390>
+In-Reply-To: <20240621085600.5b7aa934@kernel.org>
+References: <20240612-feature_ptp_netnext-v15-0-b2a086257b63@bootlin.com>
+	<20240612-feature_ptp_netnext-v15-13-b2a086257b63@bootlin.com>
+	<20240617184331.0ddfd08e@kernel.org>
+	<20240621105408.6dda7a0e@kmaincent-XPS-13-7390>
+	<20240621085600.5b7aa934@kernel.org>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240621113143.35827-1-cuiyunhui@bytedance.com>
-In-Reply-To: <20240621113143.35827-1-cuiyunhui@bytedance.com>
-From: Evan Green <evan@rivosinc.com>
-Date: Fri, 21 Jun 2024 09:15:39 -0700
-Message-ID: <CALs-HsuhtoBk2x-u5mqiEFsFTGO-_U1K0UC+Te5tZrH=gjY6Vw@mail.gmail.com>
-Subject: Re: [PATCH v2] RISC-V: Provide the frequency of time CSR via hwprobe
-To: Yunhui Cui <cuiyunhui@bytedance.com>
-Cc: corbet@lwn.net, paul.walmsley@sifive.com, palmer@dabbelt.com, 
-	aou@eecs.berkeley.edu, cleger@rivosinc.com, conor.dooley@microchip.com, 
-	costa.shul@redhat.com, andy.chiu@sifive.com, samitolvanen@google.com, 
-	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On Fri, Jun 21, 2024 at 4:31=E2=80=AFAM Yunhui Cui <cuiyunhui@bytedance.com=
-> wrote:
->
-> From: Palmer Dabbelt <palmer@rivosinc.com>
->
-> A handful of user-visible behavior is based on the frequency of the
-> time CSR.
->
-> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
-> Signed-off-by: Yunhui Cui <cuiyunhui@bytedance.com>
+On Fri, 21 Jun 2024 08:56:00 -0700
+Jakub Kicinski <kuba@kernel.org> wrote:
 
-Reviewed-by: Evan Green <evan@rivosinc.com>
+> On Fri, 21 Jun 2024 10:54:08 +0200 Kory Maincent wrote: =20
+>  [...] =20
+> >=20
+> > As I described it in the documentation it replaces SIOCGHWTSTAMP:
+> > "Any process can read the actual configuration by requesting tsinfo net=
+link
+> > socket ETHTOOL_MSG_TSINFO_GET with ETHTOOL_MSG_TSINFO_GHWTSTAMP netlink
+> > attribute set.
+> >=20
+> > The legacy usage is to pass this structure to ioctl(SIOCGHWTSTAMP) in t=
+he
+> > same way as the ioctl(SIOCSHWTSTAMP).  However, this has not been
+> > implemented in all drivers." =20
+>=20
+> I did see the words, just didn't get the meaning :> Couple of years
+> from now hopefully newcomers won't even know ioctls exited, and
+> therefore what they did. From the user perspective the gist AFAIU is
+> that instead of *supported* we'll return what's currently *configured*.
+>=20
+> This feels a little bit too much like a muxed operation for me :(
+> Can we create a separate commands for TSCONFIG_GET / _SET ?
+> Granted it will be higher LOC, but hopefully cleaner ?
+> Or we can add the configured as completely new attrs, but changing
+> meaning of existing attrs based on a request flag.. =F0=9F=99=82=E2=80=8D=
+=E2=86=94=EF=B8=8F=EF=B8=8F
+
+Ok so, you prefer to use a separate command to manage the hwtstamp
+configurations. Keeping TSINFO for reading the hwtstamp capabilities.
+I will bring back the TS_GET and TS_SET I have used from an older version of
+this patch series but renaming it to TSCONFIG ;)
+
+>  [...] =20
+> >=20
+> > I am not a naming expert but "hwtstamp_provider" is the struct name I h=
+ave
+> > used to describe hwtstamp index + qualifier and the prefix of the netli=
+nk
+> > nested attribute, so IMHO it fits well.
+> > Have you another proposition to clarify what you would expect? =20
+>=20
+> Oh, I just meant that it's way to long. I know y'all youngsters use
+> IDEs but I have it on good authority that there's still people in
+> this community who use text editors they wrote themselves, and those
+> lack auto-completion.. It's good to be more concise.
+
+Don't have too high expectations of me, I am still using vim. Maybe I belong
+also to the "old" people. ;)
+Now that we can reach 100 characters by line we can write variable names as=
+ long
+as we want! ^^
+I will look for a shorter name then.
+
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
