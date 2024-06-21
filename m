@@ -1,105 +1,87 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ABC683A14
-	for <linux-doc@vger.kernel.org>; Fri, 21 Jun 2024 07:03:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE34B14038F;
+	Fri, 21 Jun 2024 07:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718953412; cv=none; b=eDCY5a6Dg1ejoH0T3cHeqDgIFAFgbxMuIpwka/7X1JU3fch0Sjp4zZjWPVBjXkKfLlwgqxo2kd2eNJX0zZh0K2Hs5HKCUqSdi0EH/xYrIrJFGw9bxF97//std0gz1p9H0mVFaQbLEH7yEPExJP/gF5qAzlBsfPGj485V0NTcZrs=
+	t=1718953755; cv=none; b=kNz81AyO+ZN1y08ONMVG3znUJ7udcceOEQr/VDWKYhn8wBbugRnzKCIHyKM+wD/S+gBnKP7WAeSrb9cEtQXpFqZ6Ep+7sjQRHvbQN+SYVmBMohWxgP7Kh1IqNDAb2cZz6NPT1qUfeaSotODsoAgVSMT4KfX9tG4NKi/f13i6cVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718953412; c=relaxed/simple;
-	bh=9YpIG0vywBEXYfiYSjXWZS4SaYwJoaD6O61rlDfXZsM=;
+	s=arc-20240116; t=1718953755; c=relaxed/simple;
+	bh=u0vhe0zqMs5Sy8rTYox/NGGE8oBJtjiHtJOPAUxZARU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fWK7RnPTBfyIPQB+NRGaiCECfpwlRJQCvWyF7DFtntu3JakpGHpHiYs297QFijMfDUuVAdHrl2gRgEXemU3IjgmTP2r6BxxuxkHHo/x9j6bs1ebfSEdv0wk9wJt84YijWDm54m/GEepjUXPb8I0S/+JIuRC7AfjaF4SKYuTZMeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=UYmWNYpL; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=iOp1h026NeLFiCw/jfUWq3+6SJV4W7fABoN9cicoHTSjFc09K4QcwdJa3hyWQQeDmNgzp/G3ZJIL8kUo4UBVvwDcPqmRf1jfz7tqgc1+fRmCJUFjufOVf9+Gwlkk5T92Mb6SawAHctMxA6D8o005CwEo1QnyXYBo2501Tmn/nw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lNq1eGwh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="UYmWNYpL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=9YpI
-	G0vywBEXYfiYSjXWZS4SaYwJoaD6O61rlDfXZsM=; b=UYmWNYpLsZ/h0ty/oCAx
-	o/NDwZnqSRD58/nLMBxymgT9cutC7ytVfIb5EqWhTaTO6IxkclIIvuz3PscTm9yN
-	modIlTDV0sTggUrKuzFI1tdYWBFQX6zR8IswIYzVt9iPHlXwdE7SE/soJbgsZs/5
-	1gIDQ+zny8w2/kMRguBwikKsv1VPgj2Yy8C7wJEasGr/qP0RpUVQdcWsZFqT0qjv
-	tturjHksnliHbJXdqtObeSEcKo1PvNf23mQwKlSJFp0+c/f9r0qt+YDrTmGKO8W4
-	qhFxkHkqe1oKUQaV80rlpUQTXH4zw6bhpO+ef8ktxrI5u8ynJ74Da7D2e5Q8taAv
-	pg==
-Received: (qmail 1271058 invoked from network); 21 Jun 2024 09:03:27 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 21 Jun 2024 09:03:27 +0200
-X-UD-Smtp-Session: l3s3148p1@Uvc6B2Eb7tUgAwDPXzjQABqqX1QYyOSW
-Date: Fri, 21 Jun 2024 09:03:27 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Andi Shyti <andi.shyti@kernel.org>
-Cc: Easwar Hariharan <eahariha@linux.microsoft.com>, 
-	linux-i2c@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 5/6] docs: i2c: summary: document 'local' and 'remote'
- targets
-Message-ID: <o5sbb2yqwzm3p2elxgoq6atgbw62e7jwzim6trjswbbozkptc2@4yzoaqanmrfn>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
-	Andi Shyti <andi.shyti@kernel.org>, Easwar Hariharan <eahariha@linux.microsoft.com>, 
-	linux-i2c@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20240614081239.7128-8-wsa+renesas@sang-engineering.com>
- <20240614081239.7128-13-wsa+renesas@sang-engineering.com>
- <4zxr4rlqnjqbqh3oxmd2ufqi6uk4pxa3tniuya5pgjtqi6tswc@utq4r2zt6z6b>
- <ed75fyc2xcsnwubq42eposf6ayt5aj2jmqz6mthugk6vm2zpi4@qqwlmuwayoo5>
- <y34k2k25xdr5z4v7oejp4da237s4o5qym5npihyydwlbsdh75c@vhmfl7sw3pbm>
- <7d5f800f-fc65-4fbf-adad-616d51501c62@linux.microsoft.com>
- <boehtgry7j7ulhrw7tenkmzxujahmxfn25imvb7zw2ibtmebbk@u3jryw4v2y7h>
- <cu2mkl42byhce6eytcnw7yseogbnypgtrkoirlezakwg35egdg@vjjye4ca7yey>
- <cbwamjer2rupkmyze6atgpkrszajcbhw2udb23ldl73ne3m6qr@jjs7q3codtx5>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lNq1eGwh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93D8AC2BBFC;
+	Fri, 21 Jun 2024 07:09:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1718953754;
+	bh=u0vhe0zqMs5Sy8rTYox/NGGE8oBJtjiHtJOPAUxZARU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lNq1eGwhTNeOpkK9YsjekhMnPYqCfAedSVRmRHNMbdf4aeB/9D+zs1CrdzzASh6C4
+	 Maf7DhWqeLVEpF4KQEehVBKMm1cJoVh9EPYfS+yepq3tAEjsydKxiI4rtjYFzFLCuR
+	 K4G7MpuUTZdEm6yo6puU+n7u/0RTXerFzKxf55Nsf5kairPX2eyXlOQi8bBhCAYjqc
+	 X/twLc6wl8sQTLvX/olSZYVRPkvixcmITIyfJDSYgj16lS797Ip960DrepCfU7mH7Q
+	 6MKx+CIt1g2fhTe1olIQIEbjsh0QvACjeCVEG6doqO9oc6g6olhnMMeO5Qjbw2BTHF
+	 Qcz/Pt9DgHS/w==
+Date: Fri, 21 Jun 2024 12:39:09 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Lee Jones <lee@kernel.org>
+Cc: Markus Elfring <Markus.Elfring@web.de>, lkp@intel.com,
+	Paul Cercueil <paul@crapouillou.net>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	linux-iio@vger.kernel.org, dmaengine@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+	linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Julia Lawall <julia.lawall@inria.fr>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [v11 3/7] iio: core: Add new DMABUF interface infrastructure
+Message-ID: <ZnUnFeum1Z2ahm9M@matsya>
+References: <202406191014.9JAzwRV6-lkp@intel.com>
+ <c25aab0d-48f6-4754-b514-d6caf8d51fd1@web.de>
+ <ZnRUSaHJhz7XLcKa@matsya>
+ <20240620170522.GU3029315@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5mhnob3uxzg2llob"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <cbwamjer2rupkmyze6atgpkrszajcbhw2udb23ldl73ne3m6qr@jjs7q3codtx5>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20240620170522.GU3029315@google.com>
 
+On 20-06-24, 18:05, Lee Jones wrote:
+> On Thu, 20 Jun 2024, Vinod Koul wrote:
+> 
+> > On 20-06-24, 12:45, Markus Elfring wrote:
+> > > …
+> > > > All errors (new ones prefixed by >>):
+> > > >
+> > > >>> drivers/iio/industrialio-buffer.c:1715:3: error: cannot jump from this goto statement to its label
+> > > >     1715 |                 goto err_dmabuf_unmap_attachment;
+> > > …
+> > > 
+> > > Which software design options would you like to try out next
+> > > so that such a questionable compilation error message will be avoided finally?
+> > 
+> > The one where all emails from Markus go to dev/null
+> 
+> Play nice please.
 
---5mhnob3uxzg2llob
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Would love to... but Markus has been repeat offender
 
+Sadly, I am yet to see a constructive approach or even better a helpful
+patch which improve something, rather than vague suggestions on the list
 
-> > The refactoring only affects "master/slave" not "adapter/client". We are
-> >=20
-> > aligned here, aren't we?
->=20
-> Yes, of course. And I'm not really asking for the totality of the
-> "client"'s to be replaced, rather than, when replacing slave, to
-> choose "target" over "client" whenever possible(*).
-
-Okay, phew, seems we got it now :) I'll send out v4 today and probably
-send it to Linus this week. I want this base work to be upstream ASAP,
-so we can base further work on it.
-
-Thanks for your input and cooperation, Easwar and Andi!
-
-
---5mhnob3uxzg2llob
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmZ1Jb8ACgkQFA3kzBSg
-KbaPXg//QldHT5fYSnWzc0KZgm0U6+CGlWXYHzQgIvHzGmo4NjKL0OnEsD2hTNly
-j9eainm2OTjb1+3YrKclLIlx+paQJxVpU6TVBRa9b/CJX+j1Ub/JZu+AcO2lW6xg
-dx1Iq9LQlKxFzfyzyqRy7r2UorQwvnDWWdw0DaKdhUDufJxK5jIiR0s/BMlrgsyr
-K6EoIxHgJDESmRd3xzKo5rgC0vcD83Iwts1RAihuUrh6c8Wjz+xPgyhECtbH09rZ
-kkvRuzwYuWas+0CX/WQNpK2S49HZTmpI5PcTmn3WAIrStfW0jmFfofkpVBvOj0Wz
-T+ZKTZegE/GrUP5UBEHHkim8fjeLYj4lT8JCR8R1fOp6GVrvVlzj5VBmuAMOcPmG
-OOV9gUpfOmZpSbVdr8amMcbwpZ+epwZiRZnernj9klT0EgUfFZt5tb6oLWZSb0LF
-rAGL3V7txa+396EzIiLLseBJv6AxVBVqHj/yCpy+D7vRCe00QcPi2bkzEe/wLEvE
-jaoZuGhNrXTGKVifwMNY8/JG2Fwrq+OYzy2f+WBNzGE5qCC0a6K3/U0vqQ2tUB7i
-hg50MqNQ3ha7+F5TCA2aSHsIsVDb/mzliLw+4WBv8+1CPue92jep0FXlw05gOGDx
-EEgb3Rl7Gf4ywPwvsDnnUVmvG/q12F3kqHn/nYjD21ePaN5n0Ag=
-=x9EZ
------END PGP SIGNATURE-----
-
---5mhnob3uxzg2llob--
+-- 
+~Vinod
