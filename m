@@ -1,179 +1,210 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2064.outbound.protection.outlook.com [40.107.220.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C5410A39;
-	Fri, 21 Jun 2024 16:26:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718987175; cv=none; b=TlWBFeEbw/Lyj1Rd7n9GniNrefJ9OQdYxS1/CoCj0eVMCcX22u3WWi+s5qTYcSzbl28tJnFEQof0GEmq0Z/5pQtpR3G3itStU7RhK9y52DlW8HGSp0S+G253hY0erjuAkWRmWAvufy7y0++SbMHu69ZfA1v8WpiC8BbmWP5t/TY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718987175; c=relaxed/simple;
-	bh=syaw2j1CKNhKileFRhZaU0gaJjIh+YpnaVjx+YB5jbA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JIRWPwqAfi6HQMumrgbeciWomlY3V8l+7gDOV2/56lm36B2XZFwe/efsdRiTb472cZxfd1eGJw9jqtclKgX0DlPOnaH+LRkGJxzLIoRQx0+sxVWufhDAqRa2fAiIneM8jZG/1HMrv6RkSLYVVR/cgfK0DLtmEtRrMjQ7aFeqqbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Aid5b4T7; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A299515FCF6;
+	Fri, 21 Jun 2024 16:29:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.64
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1718987378; cv=fail; b=K1immql5Pc6DkohkG7Ed5RL7PUn5JL3Hl16/jJLscuc+PR7cOsxig98LMbly7I1rUyMhXIpF9f+j2whZ76WQvGMhi/zCSzSEvsRgfEL1sElvrqrn/MSwVs9SQ2N0TFomL/i+Ho657++eA5DRninslpRYJTcmqdEopQ5RL02AXXo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1718987378; c=relaxed/simple;
+	bh=PXe7fGYSrDkg9mOZlyiHP5KN/z+SURyGJ2hr5XKlXi0=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=L/vagAoGIf16jytK11FUkQ4NRmLLF+9svPSfSBwyQAdbZsyMsn9UUvSfeoOzXJwZ1b4czU/k1F4ZQsCBCYgV8aewM7qWktICFRW29cyf4iOytvFYohMDDG9nWzKLKXILXpO1rnGR4+/W7ccdIfmCi4ceIPaJHDdA3tssFipw/aw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ByymExJo; arc=fail smtp.client-ip=40.107.220.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Aid5b4T7"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-42189d3c7efso24593105e9.2;
-        Fri, 21 Jun 2024 09:26:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718987172; x=1719591972; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2G5sctyY5+akJotF0NYZBVeqJ4gLFW6IE6iMuGoc2hc=;
-        b=Aid5b4T7HqsUpD2CeIijka/5BYSfZX2u67OiQNvQEMNtbd3mUYD+8ti1CwIMJONcnY
-         kby1LW1FC2CG1t9dsLKOgNjCDbGS344LPkYTwHQSBgr9BjMLx84I4G3dxOfJVP1P/1aF
-         Iyh0/C4VzxTLyRgC3k5GHbNphkCAiGrh1J4TKQSGJWbYDNt9KuinjiVWiDD42srsdwvp
-         qSyBrPpkQP3JxMoJ8KkPA3pCULL8lHXERqAB2UlXBlo+eL0C0VJj3sM0HxptRnnMLpa5
-         Am+4r6hWt1ZOx2yX2KVxktSdu4YVcwqKAFkfsMoArHdRzH/E8zbKt4TcQ5+GP8xTzrJ0
-         IwSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718987172; x=1719591972;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2G5sctyY5+akJotF0NYZBVeqJ4gLFW6IE6iMuGoc2hc=;
-        b=sX4PTazIsenMU6EtxHDYvpP8qEtn+JhnPP7NKXk5Zq3fiOE+JEqabVvVsjeERmLYew
-         twiqpVI5G6qtLJyhA45oF8EFomevQ92LqxuOyc1y7UhoDS6AchgBQzaD00iUr9+kM2hc
-         zCbq/ZjGXRBgsj5c5Or54gE/TdbujMDinQl6hqau/v4WrJbo59hu+MQoz7r8WmXHcIIK
-         aQNcL5JTldUX7xPivhwrpFNPis0ZH34uGYJuz6VWVqGFcD7aGuxKVso2pO6KO1ZRz1T8
-         41cwyB9hri7EzGzzG7BYaZGq8dFvS3aPuw04vCYYnLri+X+NB4nW+f/zn2jDzypLdC/b
-         lrbQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVomdJeHiYxc9eDA+NiLSOP3uIFuMTvj7uALfkYWYHqXi6R61CCwaKLhPcy7Hmk//fOHlbWy+eoI0F5qux9buWopOO+oH9iS0NWYfT60W6bxOtfCR9BGATglA1gnTPfUAw1cDAIO+yIm8GkJBEpsDn4s9On/cpyBV7vrsrBilYrWI+UjJOJhA1LiWNWFYzBaRCJqs/t/LG4q7kYc1C1PVWUglfj78wMxldx64fepnmqkMx6z/qwJJGGDLY=
-X-Gm-Message-State: AOJu0Yz/2Tmu4PXP2rmdEKkd4ZX+fA8KUvrykZvw2vhQaseKUsjxv62q
-	mem9RbbprAiso/vH1xsISFq+ktm0Te5Wxz1howDd6Ct0mJt51E1tfieHHx6Hx4ZsCSh1PZqBp1s
-	2p3SGlRq2MhLTNrPjCyH0zo35rbc=
-X-Google-Smtp-Source: AGHT+IFSihQV0lS2A8sdrIWW8qjAtXJa85Cfo+eO9dbfvheawX77yi34eO4/SQ3D/TDwMdwQ6G6tYXsv4r3cj5RyB98=
-X-Received: by 2002:a05:600c:181c:b0:422:1a82:3ed2 with SMTP id
- 5b1f17b1804b1-424752969b0mr86309965e9.27.1718987172113; Fri, 21 Jun 2024
- 09:26:12 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ByymExJo"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NObiTRynJZOtDgRmLHF7Tmu+GD9YOG6O77Q2ly8ndimRPbhoR2I2Z7F7jZY3OnpY0AATvb15DI/gzAjUioC863TWEvBmW87xgzOwehLZ2cwoDDWj6+kZlmhO11FeRQ/RmkBkklxR9jnhD1vO4wSfF+x6fwCCxxmq1IMCMO30YxbNcrj0x8zxNzaRFBtEi6/y47iHjLS20EjCsBP8V8Et0+4m0J80S4S5jlnzgVX2+/sXQrCmr+xTlUqMZ0Kfyw+lOwhWTVmB9STEakBr+AuN6WHKUlD+VGxrjvz0z/6N5ZnGzTKFH9vp46XsIYaQaBCYw3JH9Q8IEnNrcQVVAgCIgg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DpzVSe1dF5214YTc91zlf+v2g3IB3C3YiVazb6x6FRQ=;
+ b=eEAXgT6/YbxZvnruG6GwihRDaSpjpg3yZo2cwgx4LiQYEFmHcl4f3Sl/u4qSCsXjFvX+HZ2shOgsAtf5a+5pbN2t2YYry2LYTX0vF8wEHgymr1zZIkMNOGMQW72Tn8v56O3kCWfnsB1fpICUb/VXQWiFHRUMCHmoBN86dwaN2ZVvQZdJhfvCe/HTN0OFx5PicbJyegpkpwmwwW0FDDR6Ojy2HclEyYH2iphex9iXD6v2nQMQK3WTV9xIhaIK/Sff5USD0CagoKlKq8kVA7E+XjyiX3P6A7JQKdikFwV1OWk1o6wnn8ps9aOZ/ORRki/kVbTd3up6ow5UtNSJWQUsug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DpzVSe1dF5214YTc91zlf+v2g3IB3C3YiVazb6x6FRQ=;
+ b=ByymExJoXTiSd0zFsaeM+OoVSB4s4DhR5hWULqqUE52wXNYBViE9MKsiGkHW0mZADieILuuk3BkWPdBl01jXhRGkXsfVvDJzD++xo/RTLlMMNeht9T4vqRamjm5D7o6cX/fBgMcas4649ERUyrYJHcwcnBzJuk306J79NGd5xj8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by PH7PR12MB6906.namprd12.prod.outlook.com (2603:10b6:510:1b8::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.25; Fri, 21 Jun
+ 2024 16:29:34 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.7698.017; Fri, 21 Jun 2024
+ 16:29:34 +0000
+Message-ID: <3197b4fd-c998-c332-3dbd-4c0afd949f4b@amd.com>
+Date: Fri, 21 Jun 2024 11:29:29 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v4 16/19] x86/resctrl: Enable ABMC by default on resctrl
+ mount
+Content-Language: en-US
+To: Reinette Chatre <reinette.chatre@intel.com>, babu.moger@amd.com,
+ corbet@lwn.net, fenghua.yu@intel.com, tglx@linutronix.de, mingo@redhat.com,
+ bp@alien8.de, dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
+ tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
+ kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
+ jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
+ rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
+ jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
+ daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
+ ilpo.jarvinen@linux.intel.com, peternewman@google.com,
+ maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
+References: <cover.1716552602.git.babu.moger@amd.com>
+ <74f014062885d707701873527c1b12268603a525.1716552602.git.babu.moger@amd.com>
+ <b722c5da-812c-4ccb-ae7b-e7bc9c9de50f@intel.com>
+ <343960a8-b364-44b1-aebf-ebb7fe0a1466@amd.com>
+ <5789ec24-3633-4e9b-8b1d-595d27e1eb8e@intel.com>
+From: "Moger, Babu" <bmoger@amd.com>
+In-Reply-To: <5789ec24-3633-4e9b-8b1d-595d27e1eb8e@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA9PR13CA0012.namprd13.prod.outlook.com
+ (2603:10b6:806:21::17) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240621-hid_hw_req_bpf-v1-0-d7ab8b885a0b@kernel.org>
- <20240621-hid_hw_req_bpf-v1-6-d7ab8b885a0b@kernel.org> <CAADnVQ+us6cQepSGWbOB4K1bb_0Wh43Cpo4zXJxB2d+SVpYinQ@mail.gmail.com>
- <dcbgoe7gija3fn5zsooulnq3jey4twwqvsxjv4yjijacnrlt2h@q6obu65ifctt>
-In-Reply-To: <dcbgoe7gija3fn5zsooulnq3jey4twwqvsxjv4yjijacnrlt2h@q6obu65ifctt>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Fri, 21 Jun 2024 09:26:00 -0700
-Message-ID: <CAADnVQKE6RyGUhQbTiOfa15=D9B_vtAg=VMDv8cfYrUKOv5UFQ@mail.gmail.com>
-Subject: Re: [PATCH HID 06/12] HID: bpf: add HID-BPF hooks for hid_hw_output_report
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Jiri Kosina <jikos@kernel.org>, Alexei Starovoitov <ast@kernel.org>, Shuah Khan <shuah@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, "open list:HID CORE LAYER" <linux-input@vger.kernel.org>, 
-	LKML <linux-kernel@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|PH7PR12MB6906:EE_
+X-MS-Office365-Filtering-Correlation-Id: b0b45d1c-3e21-4daa-40e0-08dc920f55f7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230037|366013|1800799021|7416011|376011;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?UEowWlA2a0J6RllUY280aWc4VXRSWlpxNmdESFNqN091L0YrS0liTHI2M3VD?=
+ =?utf-8?B?QkFSVlBjUnF1ckZCK0FSNmwvRGdENkR5MGF3RmVjV0JUZXhHZjFuSmxEZys2?=
+ =?utf-8?B?MXUzTE1pc2NqZFdCZkZmL0pzb0lscFp0T0grSEF3RVZVb3pjQnBZbHdzSVV3?=
+ =?utf-8?B?Y2xvRXRoTVB4ZkRBSlo3VC9EMmJLQnNqcy9KY2E0VmgzdUdIR3QxZ2s0TnhT?=
+ =?utf-8?B?eHBWSGw0R3FySHFOcnJaTWF6YThudVBBY0ttZ1F5T213Y004RkM1QVYvZStI?=
+ =?utf-8?B?dVZVZDhYZG8wSWlCeDhSYzVyNCs1dURlVXRVdUhLektndmJuQk9EZ0FVemVs?=
+ =?utf-8?B?ZDZPUHM4RGJLM2dOeHFNQXc5SGxhRjk4NDFnRDBmMXRJSlVHQ3UwOEVqS1VD?=
+ =?utf-8?B?eXJJeGdscVlSK1U1amxkK1RzYkgxekRicmd4d2xEQ21yaGROWC9DVHJjMlJN?=
+ =?utf-8?B?eERxQnNkU0dKZldJOFUrU3NUZjNqREtVTEZpSDh0TXZ3cmtJOTdPRWMxUW1G?=
+ =?utf-8?B?a3NQNndUTzRwTlpCSi9zV2ZzdW82aDRxQnZqdCtaNkZJMHVINm80OGZxZG1O?=
+ =?utf-8?B?MkcyM0dLbkJiaEl0M1V2N0FRcWFMNDIrVUgrcFlZeHpjR0ZPRWg4M1NKcDlF?=
+ =?utf-8?B?N0dXbGVqeDc3UGN3cTVmMmxySGd4YkdaUDNxN04veXVGNndFaGtRWXUxaG91?=
+ =?utf-8?B?TnhSRnFxUzBPeDR1eXU2VGRFYW9PR0pMYi9tMW5EWGJjY2VHVDFZSnJORXRk?=
+ =?utf-8?B?ME5NSmozays0NFBBVkQ3VnEvamw3dS9rZzVEVGI2ODBJQzFwR2R3Nm9NVG9w?=
+ =?utf-8?B?VE91L3h1KzUzWTM3VkxONFljdHgwZHFqMkJlTmxkYWVUcms0K2ZwUXlLMHNR?=
+ =?utf-8?B?bFFFc3FTNitQSEFxSDdoV0dHMnNVaU44b3M5NE1UTnR5dGJXTVRvMHQwUUFv?=
+ =?utf-8?B?RlJoTWtocUlmTitPc2pCbk5VdEQ4dytkcnQ3YXVaU2VnZTJkdTF1ZWhUdHVn?=
+ =?utf-8?B?ZlVTYzRla1J0b2VkZmRqeVhUZEFFSXFEc3BkQXVOSDVLMG9jUkZtUFRhNjVU?=
+ =?utf-8?B?T1hEcWVNMlpJMFhCVDkyWUZwckp2dXRQT2MzNG54R3MwOXh4Z0Rnb0NqVVdC?=
+ =?utf-8?B?YitEbzNicEVtRm16SUR2b25uSUR6WkxsT2ZXMDhSeEJNT0cxYmQwalN0bmla?=
+ =?utf-8?B?RG1LZUYwY1ZqNVd4KzV3eFNXVFRWN1J5Y3NZTUNiZ2NETGo2TmgrMUk0dGFI?=
+ =?utf-8?B?TjRjQmRsSXhyd2ZySVI1dmIyQlQzMjZBQ005NkY3bTh1ZEFrZVFuR3lyMGV4?=
+ =?utf-8?B?MFBESWVUY2pWR3ZUREh0ZDdQazhqUTBrRE9IdjlGRU1jcGR5QjdJYUVkRi82?=
+ =?utf-8?B?SUxDeWh6QlE3RDMxN3d6TDNmSjBLdnNITUc3MTVxZ0hvdm1qbFAzbndjc1FF?=
+ =?utf-8?B?Q0VYcHVEQTZ0VjNBZlVZbkdodGRMZXIzb00zUE1ZOG05akdhbUdTZm1aS3Fm?=
+ =?utf-8?B?dmlaMVdiKzl4ZVprVnlCTDdYV2NTWTE1a1BoNkxVVnhSUHgzRDYzdVFSNkN3?=
+ =?utf-8?B?ci80b1U2YmxEYVFuL1BtSkpuVW5XR1NjT21GLzUrL1d3ZDZjYklqSzFpVXBW?=
+ =?utf-8?B?N3dIcmJ6bktGZk5veGUxNHhsZHZKVmxwNDBnL1pha1E1U2dDMThXVVdLQitT?=
+ =?utf-8?B?MDJpVE9ra3pDQ2RZWk1BcEhOd1pabDIyT1dXaFdlaCtmQjVMbm0zSDFUNnRn?=
+ =?utf-8?Q?WLiMC7d+jOtCIpjgIEpXwsLDeCOVLZj0Hbnt76f?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230037)(366013)(1800799021)(7416011)(376011);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?OFNOcGpOTTdCUDBaLzhUTytqWmFvZlRRZEE1S2dEYm02cXJSa2lDeU1vVTZj?=
+ =?utf-8?B?YVpPOVM2Y2l6WFZNempCWEhFUHJqeTE5OWlVdEhkS1M3dWVBT2RodzYzVFFU?=
+ =?utf-8?B?NC9vamlWV3o4Sy9pRjVTRHF6TEZORGJqL0cwS2JtRXdxeHRaOTc5cFhiQnVC?=
+ =?utf-8?B?eVRNYWdRUDlWVWFKOE9Bd1FUYkFjM0R5TFp0WTdoOFpZQVREdFlCY3pPSmo3?=
+ =?utf-8?B?VXdFRG1vVEZoUVBCRnFoK0NvTDNaU0Myd0xSWEFKbm93WENzRHRDQ2gzekFG?=
+ =?utf-8?B?SE9XYmxOL01GQldGVnArbkVhZFBCZVlsaW1JS3JNSlpXNXgwVGRBbG1MeU5X?=
+ =?utf-8?B?dHFLSzUzYWoxa01MRlUyak9YRm0yaC9BUkZNblc1TTRma29xS3VVT3ozVkNy?=
+ =?utf-8?B?Z1B4Z0k5cXR6YTVHNDZ0MnY3dXFPZktBSjMvcTlkeVRBaTNRSmt3UXhDdld1?=
+ =?utf-8?B?ek9zelBNZHZkWlQzY0JFU1FXT3lITFoycU5OcytDM3N2ZEZoN2NkY1BmNE8v?=
+ =?utf-8?B?aHlOWEM0S2dBL0Y2RzMrLzk5cEJtK0tURGRMZ2VvRlZrYkhKdm1TTXM2WnUy?=
+ =?utf-8?B?VnVaMlFJcHNqVFEzaXE2OGo1NE93cWthY3diS0Q5YjZBK05CalJLajlUQktW?=
+ =?utf-8?B?QU1sSzdUbGV2WlI1UzgvbXBOSTFVREdxVmZ0YWdHeUlyTUhnVU1OWE92N3JS?=
+ =?utf-8?B?andRZUNkL1BBRXBHNVd2eStwTm5RVW1JV2ZQQ1FzTUFGZ3l4emlvMklsYzd6?=
+ =?utf-8?B?OFNBa05zUFdIWWhLMWV2Q1Q2dWJFTHk4djJ5QVBrZGhaYzdROU5HK0dxQVlh?=
+ =?utf-8?B?WCtZb0pVY1BGZ1lQbStiZVVhRE84bXJ3WFZodUpyZXhBWVgwYkY4OGZnVm1Z?=
+ =?utf-8?B?MkgvRE9sejFoQW1LdGNRRk5uak5FeXEwQnp2TjlJbHAvSytrdE1oOXFIOW1y?=
+ =?utf-8?B?cFE5QmVaRDhaMk1iak9qVUIrUnhVNUhna0FwMDB4VmNQdzAzWDQxVFRncDVP?=
+ =?utf-8?B?K2ZoMEZaSHQrVTdkUlJkRC9ianJoL0tBVUFOcXQxcGdkMDI3VUN3WXk0b1Z3?=
+ =?utf-8?B?NTcvRmhKOFJrcGlhUml2T3hVVnJNWjNsZitjaFVTcVdPRGFiMmYzeFhtVDV4?=
+ =?utf-8?B?RE5JMkpEbUVWVC9pMlYxY0RuaEw2SkZnaUxFbnhNNnBGMkljQml3TkVnWktw?=
+ =?utf-8?B?SFU1ZkxMR0xGN2p3eWhTN0JzOU1hV2I2dlRBK3FaeFV3dktYUENUTzJRM0xK?=
+ =?utf-8?B?dUpZbDNZUW1PZ3JOUjZSdDFBMnNxS2J4bVdZOWIxVjRYNmhTdzRaVTB2NXQv?=
+ =?utf-8?B?QVU2MC9uQmlndmdWdHNud0crNnQ0SEtPQU5JVlRPZXNDc1Jyb2xyOGh6WFlG?=
+ =?utf-8?B?WHpRanVLaWpqYVZ6WXQ4ckxhNXRTcVV2YkwzSFczYmRjeXVPbFNvTWZNVHUv?=
+ =?utf-8?B?YkFnL3VNbkR3UGVYVXV0YkhlUTJjbHBRR1VnUEM0Q2FUZUwyZk85VSs1OFh4?=
+ =?utf-8?B?M1RjbHZwOW1CNldWUWVEaXlRdjJKNjhJdXhURUhOZitUVVlOZm94a1pTN0p4?=
+ =?utf-8?B?aEJMcFZrVWVFbWp3MkFOdnkzNWtQVlZEcG9SUHBIZW91czlQRFhtWVB6WFl5?=
+ =?utf-8?B?R1FIblcvMU0zZjJHRFU3NEtrUjdKZ09adlQvYUJMTzFMYlJWWGdYS0ZBei9D?=
+ =?utf-8?B?VENQRTQ0Y1h6VnZDSzV3TEdLOUkzMjhlbnY3bFJldXpMNXBnSjRTR1pNdllx?=
+ =?utf-8?B?eXRxQno5RGJSWHl2ak5hL3E0Um5PN1FGWXh0RWttMzc0OWpQd0d2bXpTMVNG?=
+ =?utf-8?B?OHFibUpONGZyODJNRnNiT0gwaGs3eG8wbllUZXdtTXZJM3FYa2VPeEtHTWIz?=
+ =?utf-8?B?QnhpQi8xYXB5eVR5ZlVUTS9uMVR2VUtoK1ZFc0ZhODZSaFZ1Nk1VaXNsWWJw?=
+ =?utf-8?B?aTUrTGdxaXVVOWJBQTZDQTNKeFFKQzVOUnc2UkxXajl6ejFHQlBWak4waURV?=
+ =?utf-8?B?dFFudEcxR1lmUW9YQXBCZGFUZG01WDYyNWtpd2J3d2N4YWxrOTlUeWpKUDRJ?=
+ =?utf-8?B?TE5BSkNzMWNObWFGRnlEVS9La3dJNkhFcWtuOERPcTd2S0ZUWnQ3aU5xZ2RI?=
+ =?utf-8?Q?QKZg=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b0b45d1c-3e21-4daa-40e0-08dc920f55f7
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jun 2024 16:29:34.5736
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: s/TiaCTB37t/c8IDCCCychqXlry6AJyE4UoaxeARJi23HvwedTepxAExI+s5sz2G
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6906
 
-On Fri, Jun 21, 2024 at 9:08=E2=80=AFAM Benjamin Tissoires <bentiss@kernel.=
-org> wrote:
->
-> On Jun 21 2024, Alexei Starovoitov wrote:
-> > On Fri, Jun 21, 2024 at 1:56=E2=80=AFAM Benjamin Tissoires <bentiss@ker=
-nel.org> wrote:
-> > >
-> > > Same story than hid_hw_raw_requests:
-> > >
-> > > This allows to intercept and prevent or change the behavior of
-> > > hid_hw_output_report() from a bpf program.
-> > >
-> > > The intent is to solve a couple of use case:
-> > >   - firewalling a HID device: a firewall can monitor who opens the hi=
-draw
-> > >     nodes and then prevent or allow access to write operations on tha=
-t
-> > >     hidraw node.
-> > >   - change the behavior of a device and emulate a new HID feature req=
-uest
-> > >
-> > > The hook is allowed to be run as sleepable so it can itself call
-> > > hid_hw_output_report(), which allows to "convert" one feature request=
- into
-> > > another or even call the feature request on a different HID device on=
- the
-> > > same physical device.
-> > >
-> > > Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
-> > >
-> > > ---
-> > >
-> > > Here checkpatch complains about:
-> > > WARNING: use of RCU tasks trace is incorrect outside BPF or core RCU =
-code
-> > >
-> > > However, we are jumping in BPF code, so I think this is correct, but =
-I'd
-> > > like to have the opinion on the BPF folks.
-> > > ---
-> > >  drivers/hid/bpf/hid_bpf_dispatch.c   | 37 ++++++++++++++++++++++++++=
-++++++----
-> > >  drivers/hid/bpf/hid_bpf_struct_ops.c |  1 +
-> > >  drivers/hid/hid-core.c               | 10 ++++++++--
-> > >  drivers/hid/hidraw.c                 |  2 +-
-> > >  include/linux/hid.h                  |  3 ++-
-> > >  include/linux/hid_bpf.h              | 24 ++++++++++++++++++++++-
-> > >  6 files changed, 68 insertions(+), 9 deletions(-)
-> > >
-> > > diff --git a/drivers/hid/bpf/hid_bpf_dispatch.c b/drivers/hid/bpf/hid=
-_bpf_dispatch.c
-> > > index 8d6e08b7c42f..2a29a0625a3b 100644
-> > > --- a/drivers/hid/bpf/hid_bpf_dispatch.c
-> > > +++ b/drivers/hid/bpf/hid_bpf_dispatch.c
-> > > @@ -111,6 +111,38 @@ int dispatch_hid_bpf_raw_requests(struct hid_dev=
-ice *hdev,
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(dispatch_hid_bpf_raw_requests);
-> > >
-> > > +int dispatch_hid_bpf_output_report(struct hid_device *hdev,
-> > > +                                  __u8 *buf, u32 size, __u64 source,
-> > > +                                  bool from_bpf)
-> > > +{
-> > > +       struct hid_bpf_ctx_kern ctx_kern =3D {
-> > > +               .ctx =3D {
-> > > +                       .hid =3D hdev,
-> > > +                       .allocated_size =3D size,
-> > > +                       .size =3D size,
-> > > +               },
-> > > +               .data =3D buf,
-> > > +               .from_bpf =3D from_bpf,
-> > > +       };
-> > > +       struct hid_bpf_ops *e;
-> > > +       int ret;
-> > > +
-> > > +       rcu_read_lock_trace();
-> > > +       list_for_each_entry_rcu(e, &hdev->bpf.prog_list, list) {
-> > > +               if (e->hid_hw_output_report) {
-> > > +                       ret =3D e->hid_hw_output_report(&ctx_kern.ctx=
-, source);
-> > > +                       if (ret)
-> > > +                               goto out;
-> > > +               }
-> > > +       }
-> > > +       ret =3D 0;
-> > > +
-> > > +out:
-> > > +       rcu_read_unlock_trace();
-> >
-> > same question.
->
-> re What is this for?:
->
-> e->hid_hw_output_report might sleep, so using a plain rcu_read_lock()
-> introduces warnings.
+Hi Reinette,
 
-Ok, but just replacing rcu_read_lock() with rcu_read_lock_trace()
-doesn't fix it.
-rcu and rcu_tasks_trace are different.
-If you're using call_rcu to wait for GP to free an element in that
-list the thing will go wrong.
+On 6/20/2024 5:49 PM, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 6/20/24 7:46 AM, Moger, Babu wrote:
+>> On 6/13/24 20:50, Reinette Chatre wrote:
+>>> On 5/24/24 5:23 AM, Babu Moger wrote:
+> 
+> 
+>>>> +        if (resctrl_assign_events(&rdtgroup_default) < 0)
+>>>> +            rdt_last_cmd_puts("Monitor assignment failed\n");
+>>>
+>>> How will user know that there is a warning? This does not return an 
+>>> error
+>>> so nothing will prompt user to check the status file. Perhaps add a 
+>>> comment
+>>> in the docs to help users at least know that this exists. Another 
+>>> helpful
+>>
+>> Sure. Will add text about this in the documentation.
+>>
+>>> thing will be to have the counter return "Unassigned" if it has not been
+>>> assigned
+>>> since users familiar with old interface may see "Unavailable" without
+>>> knowing that user action is required to get a working event.
+>>
+>> Not so sure about interpreting hardware reported error.
+>>
+> 
+> I only see "Unavailable" as a hardware error and that is already
+> supported. "Unassigned" is not a hardware error but instead indicates
+> to user space that no hardware counter is backing the queried event.
+> 
 
-If you really need rcu life times here use srcu. It's a much better fit.
-There will be srcu_read_lock() here, paired with call_srcu().
+That is fine. Will change to report "Unassinged" when it queried when 
+event is not assigned. thanks
+-- 
+- Babu Moger
