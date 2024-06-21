@@ -1,33 +1,41 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.web.de (mout.web.de [212.227.15.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8683484A3B;
-	Fri, 21 Jun 2024 08:01:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39E5A84A3B;
+	Fri, 21 Jun 2024 08:11:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718956862; cv=none; b=MF3xSjdjG7cqYli0u+jqu6rh9fZfqgiMvJa+kIU7A6NP+Kc5AKKLnKCo8MidXeyqafooo+izDZIjNWS4uA0q8+Eq5gq6PUi7sUD8x0x3tReq17NH+POJLYrjDoHC26/mwXZUe4C3AjVRglVopiu2FaG8Vy87xR88Th7sNlwGNys=
+	t=1718957478; cv=none; b=E5PZJXymh7b+urVQv3ikkk7ZciP6LWPFy/d5prgcg8Id8JSI5NV8weNmYeh16mNjAcPisqKTmvCEqyR6qny0nEYuN+lenTynO1IvJzn6vAOBOYUHOu+CT8SIdGw5S0i37sWOadXzxzgZSXTWwwpY1KZC+L/+FjLONnIW/sXkuyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718956862; c=relaxed/simple;
-	bh=79uHlnttJepyz6wjLqBHqDBH9rnuTEAmit5+JYFFtgI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
-	 In-Reply-To:Content-Type; b=Pa6MEtDf5Ecijh+NHB4yDrUPD0am2bwGJDzFOs5vcf6iw454hDOm6rVHGAp97NewFDWeNeYPon1FiQq1f1hjub0uvhg/YnhDMVqFneIAJR8JcixUpINKo2kljwiArdvEh+GXNzM2j2fvrC8rZLPYZIBs2hZmUDE3l47JT4WDGvw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u7l2ga2O; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718957478; c=relaxed/simple;
+	bh=tw9Hq07gA2b1Rquog4nhGifnXcTRzaS5xtVu7HsdB4A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iZ3SJyk/jv4lgA7eb3eZo4HAg63SIQn8MlI7z65g5VReWRoeSu70v+XjMkeX/AV1LYv1L+CsaJ9pJkQ+NmyLYgCGFh6DM1xtrkaaanAn60+EnEHorNypFZVufGPLZO/kgjA9ENNL91agVLNND5DkYEptN5rHumOg2A9n7lclq6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=Q7o1YAFJ; arc=none smtp.client-ip=212.227.15.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u7l2ga2O"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27D97C4AF07;
-	Fri, 21 Jun 2024 08:00:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718956862;
-	bh=79uHlnttJepyz6wjLqBHqDBH9rnuTEAmit5+JYFFtgI=;
-	h=Date:Subject:To:References:Cc:From:In-Reply-To:From;
-	b=u7l2ga2OpM+1ELNAwlwCWVUVHmHa47s8I/9/KEB4vCZAvhSwWHWUqzdIFI6JGwYjP
-	 j7W3fDOkdkiet4895wDHQf00kYB1BO9UgW8gw4t0PhlQ6biGCpxqcU/PBHY9kXvT9t
-	 acoqyfgdhwxaAzMj3vITW9yOBUhdpjJaUx2FIe82tDnKWng7qU3Nq6bvi/9WrFISxD
-	 UTwd3Zv2Ntq/7020K+hVyLEgSNgoxmb8FLQeW8hp2eoce2WInO/pvFqbfafwhChGG4
-	 RUk9ply8M+T3hossQa9SSizJO4SPdIRrWCg+NktimMut0QrZrW38TLjsQ0imt2B8CG
-	 RTN6I8Zd7DmEA==
-Message-ID: <101b0854-7b39-486d-af63-4fe72566e8e1@kernel.org>
-Date: Fri, 21 Jun 2024 10:00:52 +0200
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="Q7o1YAFJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1718957433; x=1719562233; i=markus.elfring@web.de;
+	bh=tw9Hq07gA2b1Rquog4nhGifnXcTRzaS5xtVu7HsdB4A=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=Q7o1YAFJNcGyxjEQn1AFW1H6JlsKS1YZxYyeUV3di1tL3d1IIQSN7SYr7X5QuVXM
+	 1+F5Ezg3aJSRCEFVmtdNwUAXoVADWRKWqqxhy7r8w+RZrb7//u79RYiqzIsfTCNcZ
+	 2/mAG8moFCw0BOCafcZOnMuquC/6rGwZUcU37eChyZQMg32Naxp3VEcBEKS7eaLIY
+	 wbsFYQf4J93BMFSIcfFfXzn8N9DeDZk4z4kCvByOntN4IQZnY8XiKZCBbl4jZWpLA
+	 J1KyHFrkuQWNlFa94f+RoA6dxunh92bO7T5fn2iFF55RLsf5D7xIsSYZE36I7aDNq
+	 4LMmTvhdX9qLFA6C+Q==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.21] ([94.31.85.95]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MzTLI-1sXxQv0YLo-017BdG; Fri, 21
+ Jun 2024 10:10:33 +0200
+Message-ID: <302ce128-a0ef-41b4-9808-210a83bc6a48@web.de>
+Date: Fri, 21 Jun 2024 10:10:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,76 +43,76 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] rtla/osnoise: set the default threshold to 1us
-To: "Luis Claudio R. Goncalves" <lgoncalv@redhat.com>,
- Steven Rostedt <rostedt@goodmis.org>
-References: <Zmb-QhiiiI6jM9To@uudg.org>
-Content-Language: en-US, pt-BR, it-IT
-Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Masami Hiramatsu <mhiramat@kernel.org>
-From: Daniel Bristot de Oliveira <bristot@kernel.org>
-In-Reply-To: <Zmb-QhiiiI6jM9To@uudg.org>
+Subject: Re: [RFC] Patch review challenges
+To: Lee Jones <lee@kernel.org>, lkp@intel.com, linux-iio@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Cc: Vinod Koul <vkoul@kernel.org>, Paul Cercueil <paul@crapouillou.net>,
+ =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>, oe-kbuild-all@lists.linux.dev,
+ LKML <linux-kernel@vger.kernel.org>, linux-doc@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Julia Lawall <julia.lawall@inria.fr>,
+ Randy Dunlap <rdunlap@infradead.org>
+References: <202406191014.9JAzwRV6-lkp@intel.com>
+ <c25aab0d-48f6-4754-b514-d6caf8d51fd1@web.de> <ZnRUSaHJhz7XLcKa@matsya>
+ <20240620170522.GU3029315@google.com> <ZnUnFeum1Z2ahm9M@matsya>
+ <ebddd644-b9b1-4a87-a2e7-dcf255f4184d@web.de>
+ <20240621075123.GG1318296@google.com>
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20240621075123.GG1318296@google.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:nVOg+KeLl2N2fq/s0Ntj00wEVMmsfslYtciYpHyTe1/l2inQk/m
+ WhJy/k0th8SnjtkGT3mY/stpMLVVX5brl4hVD6aV6JfozNCx+Edw9BY4QKhB751Buia3WeY
+ WnELOdc2qE2T/SLclfYbdLxkWppv47XuhajfIUhpsbTRjFIWSqkorXBLupOF6bLWoZLH/yK
+ TEiDwPBXPJjDX82KuPAyA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:wqB3HsVqvPU=;8MOxyZOZkIMm6tGRBtxnuI4cxWM
+ C2MH9F78tjLMgO6do7scFkqbR4KU6Jok6Ci5kNtCab5kNp2GKptQW07ctOCsAUccyCDBXjLeF
+ gpDax1qUTepmbIEP4VjLz1LHGgYKvSC/jtZ0DCBKVS5Oexx0QvLjAwde48cXYcTObya/yEEH7
+ eAkyrC55rXP5s+IDasphuWOpyT9isIS/Z0LFL4b+iQXpz/xEZjUqraiLqTZ8itaLXufVSt1hz
+ V06L8WgXSerY5SZeXVjuNiEJdIIfcbFlFEih0VokjSRU3JjRc5VVfnsiE/H/X34RMwf3uuNvE
+ J3BbQN7NnXbNa5TlO4Y1tyl6rCnEqxW5Etu8Cph7dPrQaez2J9m4n6YLZ/UOwk8rHsofdVxj5
+ Ln2z9dJs83Qm5Co7um6reNtDHG103cnGOBoFacb+JpXYjxwvSPUg+NbsEFUqcVvMa3H0CMARJ
+ sD99oPWaok/1HHSxxivsizHgiAn7wdlwREFe/O1UaLxv6CQnqSSnamsM821PzSgABOX6/5Iwh
+ QCou1JsC/dKFXE7pj/BP6Ntf9Idn4u+A5dG9sYHZiZUO3CGGmlUTsy7pOeZqGsmOkRE7NoLaw
+ /4nd2tmNSLnP5Cn//Bc26WwTGsVQtOPRzs/j3kfBtApe+yhSsKUvZ6QdJBE7A/N5lxyq7ExTQ
+ ycRAjQUyFIwpeXpYbeNoDCLLMjVpPtcg8AZDxIx2FRYdviSUM6Wfzbz7nsIn8DFrKeR++mhBs
+ GokAydPsde3/+knQ8w2J8nkUA2b72Hgy4EfUtL8Vs7nncRGMDivv4iwpK4erFGcM0zbhppa9f
+ JMmNtgz/O8TPPKhKVXZb4hQWKwWCwg2cylRlwaysmztkg=
 
-Hi Luis,
+> The issue is one of communication and the way reviews are conducted.
+>
+> Reviewing other people's work is challenging and requires a certain
+> skill-set, of which _excellent_ communication skills are non-negotiable.
 
-This is not rtla/osnoise but tracing/osnoise, so the Subject would be:
+Patch feedback and change tolerance can vary also according to involved co=
+mmunities.
 
-[PATCH] tracing/osnoise: Set the default threshold to 1 us
 
-On 6/10/24 15:23, Luis Claudio R. Goncalves wrote:
-> Change the default threshold for osnoise to 1us, so that any noise
-> equal or above this value is recorded. Let the user set a higher
-> threshold if necessary.
+> Why not concentrate on more complex submissions for a while and grow
+> your repertoire of common review points,
 
-The reason why I place fear instead of one was "fear" of having the loop
-taking more then one us, creating false noise notifications because of
-execution time.
+Further collateral evolution can be considered there depending on
+corresponding development resources.
 
-But it actually never happened, even on low speed arm boxes... Also,
-all users I know are setting it to 1 on rtla... so I think it is safe to
-move the value to 1.
 
-Acked-by: Daniel Bristot de Oliveira <bristot@kernel.org>
+> rather than repeating the same few over and over?
 
-> Suggested-by: Daniel Bristot de Oliveira <bristot@kernel.org>
-> Reviewed-by: Clark Williams <williams@redhat.com>
-> Signed-off-by: Luis Claudio R. Goncalves <lgoncalv@redhat.com>
-> ---
->  Documentation/trace/osnoise-tracer.rst | 2 +-
->  kernel/trace/trace_osnoise.c           | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/trace/osnoise-tracer.rst b/Documentation/trace/osnoise-tracer.rst
-> index 140ef2533d26a..a520adbd34765 100644
-> --- a/Documentation/trace/osnoise-tracer.rst
-> +++ b/Documentation/trace/osnoise-tracer.rst
-> @@ -108,7 +108,7 @@ The tracer has a set of options inside the osnoise directory, they are:
->     option.
->   - tracing_threshold: the minimum delta between two time() reads to be
->     considered as noise, in us. When set to 0, the default value will
-> -   be used, which is currently 5 us.
-> +   be used, which is currently 1 us.
->   - osnoise/options: a set of on/off options that can be enabled by
->     writing the option name to the file or disabled by writing the option
->     name preceded with the 'NO\_' prefix. For example, writing
-> diff --git a/kernel/trace/trace_osnoise.c b/kernel/trace/trace_osnoise.c
-> index a8e28f9b9271c..66a871553d4a1 100644
-> --- a/kernel/trace/trace_osnoise.c
-> +++ b/kernel/trace/trace_osnoise.c
-> @@ -1444,9 +1444,9 @@ static int run_osnoise(void)
->  	save_osn_sample_stats(osn_var, &s);
->  
->  	/*
-> -	 * if threshold is 0, use the default value of 5 us.
-> +	 * if threshold is 0, use the default value of 1 us.
->  	 */
-> -	threshold = tracing_thresh ? : 5000;
-> +	threshold = tracing_thresh ? : 1000;
->  
->  	/*
->  	 * Apply PREEMPT and IRQ disabled options.
+Some factors are probably known also according to corresponding statistics=
+.
+Several contributors are stumbling on recurring improvement possibilities
+in published information.
 
+
+> Reading other, more experienced maintainer's reviews would also be a goo=
+d use
+> of your time.
+
+I am trying to influence adjustments in desirable directions for a while.
+
+Regards,
+Markus
