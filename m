@@ -1,336 +1,154 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 088B71607A4
-	for <linux-doc@vger.kernel.org>; Fri, 21 Jun 2024 18:08:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AB32B65F
+	for <linux-doc@vger.kernel.org>; Fri, 21 Jun 2024 18:30:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718993299; cv=none; b=gHlGHgWlDudS3rywx68XuXrA/jcTYtcUQ4S8CBuntpEvsl1N762tpKo/ALcOZqOyIAHKNNu4fymrw/qsgEhCZoSTaF1orbq7IayxCEzu6VQvgnsfJmVtKbUw7rNw50ewYgtEH9vYsKhxDuAVEshMBWsT1uCZycckEXaAs/hYFeU=
+	t=1718994656; cv=none; b=hJgNhWQouLs/JrISSI6gCJBfzuNbLDASh56xmuAcjaxmarasTlArjLf7Li0Q6H2nORBhpNiJ8fDlBGfFRDgH5ZX9KkwOkXmAakerLPJq5lOUtFSzVpaz16ygP9ZQrnpACLRCglKN3PzTVMROyU43ym1XuK7sw5FX14cFtBAnqVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718993299; c=relaxed/simple;
-	bh=z4A9knjStunODits2zDpLK5kq5FcerGywbWwLm10rAc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JSEZsXSaJlkbmLyBl7JzuXBO5SoA9zPhVK+HHXM2AGpEH1RR3DQMPNQd3+TI75yd97V+78xejexSjtpscISEA7kaaHPYvBTCW2eJfxSJiW6CkF12DBF0h6GkNbGyA+HYLflzbbbzml0/Mbj9bcDVlTIqLUD6wObb2facxkpfn+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=ChL3Ml3U; arc=none smtp.client-ip=209.85.214.173
+	s=arc-20240116; t=1718994656; c=relaxed/simple;
+	bh=oqjIz3PeQBH2hn2o/YZ1k+AKyjnZX4YosabOZqJGSF8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nnbN2ilw3Y8jbnuh+u4nh9l/r6UiVnbs/6u4pEJThQQl1ET/+t4HZCI0TVDC5tsSG0CSLaKzl2/27P5V0Uuow9WXQsGaXkM9YvBfIyoLoMPD0jNfcf8VfhPCV5wHRlaBLUCOjl4AA7RYE9ie+Et9H9s1Rlqn6QO0ZQo0XpZROjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=EmLLbzhg; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="ChL3Ml3U"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1f6da06ba24so17191465ad.2
-        for <linux-doc@vger.kernel.org>; Fri, 21 Jun 2024 11:08:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="EmLLbzhg"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-42278f3aea4so21214475e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 21 Jun 2024 11:30:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1718993296; x=1719598096; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=LZxed23lWK3xyToPkvhbyN/DYUsl81Hk6n86URYaIK8=;
-        b=ChL3Ml3U4RuYr7Q3NUYhZvFyO062Lg4KwouBVV9IQpjOcW9Dfy6CHWuE5PIsZ/H2Ia
-         pgLGv7alnBsJcUB3qy8NDTgbRAOWvbJaZ4x04vlDzHFrV6U+/LUi1S4g1wMMrx/8HFLu
-         ZoKzEEfr8qpp2Yk+z0NGUE3xWW+KgUn/Zyxkm0UzgPQrySoUnlMq9QPX+RfDbL0Kt6kT
-         vcSvOd9QQZqATlTJBOk1Ta2KvV6xsUiYpdA/aEbwekb24g6YaIzV4HmP7hqhxUBVapZU
-         kLydZ0REDBuD8YFWMZQ15QP9WbjwKmIHUI1QpvKKDVIqpv9j/b8zrlRmDVgms1Mw1RD4
-         wwhQ==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1718994651; x=1719599451; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GDBJP06DmRWkDW63XRl13F0vqR5/B3xF+ky6e3VTjKM=;
+        b=EmLLbzhg4phvj9S9l3ZM+y0HoffEOi9d2CrQxdAJFwlS0GEPE3ngDnKt+AmFQ1NM1w
+         ETomRgCdUbhxY/10xLVYstOjQSOW1wdG+M1xeLaMx1JSQ54CI08EPqOYVVClxGwqeFMl
+         HpkLC8A2BfWryD+VWc335YXs6sqSlyVICDFj19OeF+Bs4LormM7/jahXHjOp7iuHxgCc
+         3PgeWcSvW3O8OK0x6fpH8UXSvCnWU1fTF3u3JqkoI/GWNqd2aOKoU9gQU2B94Y1+qC2o
+         vPu/Gs4fkJgkgCtMOvSjkoAyNpjKdlllWi9RM3WfMmDHCFtNqkPJqsao9Ec32/KaIFH5
+         kVug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718993296; x=1719598096;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LZxed23lWK3xyToPkvhbyN/DYUsl81Hk6n86URYaIK8=;
-        b=H2GvrhEbPcHUb9e2SU7QfDwwug288m1M519hGI0ulvkYEQMKqDtBQuf5Kp9t4k2rJJ
-         A6dyGbW90HeJkizYPfuZ2+fIDyG2z6fXySm5aFSmJqefvHoIB6dWeEgcWG0z7JUJdQsr
-         inVaw+rmoYZXg4fd+uOSmTBQZCSHLQLEdIo7TFtLGQFrI9kxXvKeWqvZsuOt4q1G+NvU
-         VNKQMYrpE3lY1/Ky6V9VP6MQH8g86Ps2QgG6cZI1DTFkL17C4pvScmHlBC1B/tlTeWQ8
-         OH84V4v3WAuAa1sk/lzbn0g3dmSV+p8FmlMbvI1t9/sm/VoU0rR8q5vQx5jkCvBIiTZT
-         v1pQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV/gWXXZES9oLLcWK/nZpjFmK46z1U3rpiKvRF1odKbWp8XO5s4KisbsaPl4gTcyrYNAP+cryEc/iZS1i5MAaj1d3ZqJ2LVJKOE
-X-Gm-Message-State: AOJu0YyaQNGDaqoMv2cbsLafAnXEUDlN5DNb3T2nl9xGxoHt70DGT85N
-	F+RzCD8eFzWvNHSzO2uaWN+eE1qDlaj18OqChudwmCRszr5+MWYVRocTMVMoWWs=
-X-Google-Smtp-Source: AGHT+IHIPg92rOqSXjhse5eDTBW8G59SbiAeZwSOHAEyGQrxlr0R0G7NdOB6xGx014mSNb9HFErLyQ==
-X-Received: by 2002:a17:902:dacb:b0:1fa:2d1:105c with SMTP id d9443c01a7336-1fa02d11251mr11269355ad.65.1718993296107;
-        Fri, 21 Jun 2024 11:08:16 -0700 (PDT)
-Received: from [10.4.10.38] (pool-108-26-179-17.bstnma.fios.verizon.net. [108.26.179.17])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f9eb3d5fa9sm16878825ad.206.2024.06.21.11.08.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Jun 2024 11:08:15 -0700 (PDT)
-Message-ID: <8c1167fb-9580-45bd-a798-f7d32477f1bd@rivosinc.com>
-Date: Fri, 21 Jun 2024 14:07:58 -0400
+        d=1e100.net; s=20230601; t=1718994651; x=1719599451;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GDBJP06DmRWkDW63XRl13F0vqR5/B3xF+ky6e3VTjKM=;
+        b=jg6u2P9Gb2BM/2QK2msE1aupxC6ZoFA6IiHADagZxEcnB/HTsvuxXrwXQuWeCkK7W5
+         vEG3jk7oAJXJMmQRhfzlI2LuCpZxl/dxatYCWLfdZUryq4iAb0ID48s6BCxovkGHyS7G
+         dPnwWjobmyvJ2Tv3wby0oOOpkIQDCfqjbiksVVcKN44hzLXMgcGveDjUO7Kuo5eO1/Uo
+         zs0FFkSDjrF75dXOb7KgFaRTpTTgUUyyZa487XabDnrzmTJ4vmdqSfPrs+FE9Tkmzhl0
+         g+vg25jCqij1WWzGb6+AR8HcCAwA5+KAZGCFv7HyAvF4izAykNERIZizOg04w9zMm6h/
+         6vww==
+X-Forwarded-Encrypted: i=1; AJvYcCX4VI+oTCsRH2ppbuCtz8zBhSwZpC+MpNUsF22dRXha541a0VdyVamna/2NZl3tvgU5PjyScVixtphxJ0Ljxt8zxgD2WvUGXrDc
+X-Gm-Message-State: AOJu0Yztuk5mMcThZtf5pWY4IK83s/89gBMjiQOjknidR5H1T2LST3nx
+	1VmfaXtUE4QVWNo+7UC7u2KfiNa78W+GMQRsiXr4k8G2E6xHBKPr+21hUah1AWY7DfxxjvZlz9X
+	8n90uNWp0Gg69qlKcQURcJPwnriGNLZPn1+bVbA==
+X-Google-Smtp-Source: AGHT+IHeBc37pbRnvfEykUpBvFqq4/wFdfQ/OI9yo+wiCiO9O7Ii/6NMT9RkrVuB3eccZMg8VBewVzuX8+kx9wTxJnk=
+X-Received: by 2002:a05:6000:1107:b0:364:e290:c60b with SMTP id
+ ffacd0b85a97d-364e290cbf5mr4499397f8f.38.1718994651598; Fri, 21 Jun 2024
+ 11:30:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/6] RISC-V: Detect unaligned vector accesses
- supported.
-To: Charlie Jenkins <charlie@rivosinc.com>,
- Conor Dooley <conor.dooley@microchip.com>
-Cc: linux-riscv@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?=
- <cleger@rivosinc.com>, Evan Green <evan@rivosinc.com>,
- Andrew Jones <ajones@ventanamicro.com>, Xiao Wang <xiao.w.wang@intel.com>,
- Andy Chiu <andy.chiu@sifive.com>, Eric Biggers <ebiggers@google.com>,
- Greentime Hu <greentime.hu@sifive.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?=
- <bjorn@rivosinc.com>, Heiko Stuebner <heiko@sntech.de>,
- Costa Shulyupin <costa.shul@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>, Baoquan He <bhe@redhat.com>,
- Anup Patel <apatel@ventanamicro.com>, Zong Li <zong.li@sifive.com>,
- Sami Tolvanen <samitolvanen@google.com>,
- Ben Dooks <ben.dooks@codethink.co.uk>,
- Alexandre Ghiti <alexghiti@rivosinc.com>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Erick Archer <erick.archer@gmx.com>, Joel Granados <j.granados@samsung.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20240613191616.2101821-1-jesse@rivosinc.com>
- <20240613191616.2101821-5-jesse@rivosinc.com> <ZnDmRK0ZtKzmWN5S@ghost>
- <ZnDsdzv4o/Xz9kWm@ghost> <e6f7a061-50f0-4a6a-a09b-468502703c20@rivosinc.com>
- <ZnSptpobfqjik3RM@ghost> <20240621-reveler-underfed-37600a9f16d5@wendy>
- <ZnW130PqW56CnZT8@ghost>
-Content-Language: en-US
+References: <20240613191616.2101821-1-jesse@rivosinc.com> <20240613191616.2101821-7-jesse@rivosinc.com>
+ <CALs-HssqVkEX0=x+jhQDjwjRQb9TjbskLvrpvzFG_g-2iDXy3w@mail.gmail.com>
+In-Reply-To: <CALs-HssqVkEX0=x+jhQDjwjRQb9TjbskLvrpvzFG_g-2iDXy3w@mail.gmail.com>
 From: Jesse Taube <jesse@rivosinc.com>
-In-Reply-To: <ZnW130PqW56CnZT8@ghost>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Date: Fri, 21 Jun 2024 14:30:39 -0400
+Message-ID: <CALSpo=ae6Z75SJ7uWj7H_D2GZZaU1genFv+shNCT01DhGYQCTw@mail.gmail.com>
+Subject: Re: [PATCH v2 6/6] RISC-V: hwprobe: Document unaligned vector perf key
+To: Evan Green <evan@rivosinc.com>
+Cc: linux-riscv@lists.infradead.org, Jonathan Corbet <corbet@lwn.net>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>, 
+	Andrew Jones <ajones@ventanamicro.com>, Charlie Jenkins <charlie@rivosinc.com>, 
+	Xiao Wang <xiao.w.wang@intel.com>, Andy Chiu <andy.chiu@sifive.com>, 
+	Eric Biggers <ebiggers@google.com>, Greentime Hu <greentime.hu@sifive.com>, 
+	=?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>, 
+	Heiko Stuebner <heiko@sntech.de>, Costa Shulyupin <costa.shul@redhat.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Baoquan He <bhe@redhat.com>, 
+	Anup Patel <apatel@ventanamicro.com>, Zong Li <zong.li@sifive.com>, 
+	Sami Tolvanen <samitolvanen@google.com>, Ben Dooks <ben.dooks@codethink.co.uk>, 
+	Alexandre Ghiti <alexghiti@rivosinc.com>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+	Erick Archer <erick.archer@gmx.com>, Joel Granados <j.granados@samsung.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Jun 20, 2024 at 2:52=E2=80=AFPM Evan Green <evan@rivosinc.com> wrot=
+e:
+>
+> On Thu, Jun 13, 2024 at 12:18=E2=80=AFPM Jesse Taube <jesse@rivosinc.com>=
+ wrote:
+> >
+> > Document key for reporting the speed of unaligned vector accesses.
+> > The descriptions are the same as the scalar equivalent values.
+> >
+> > Signed-off-by: Jesse Taube <jesse@rivosinc.com>
+> > ---
+> > V1 -> V2:
+> >   - New patch
+> > ---
+> >  Documentation/arch/riscv/hwprobe.rst | 16 ++++++++++++++++
+> >  1 file changed, 16 insertions(+)
+> >
+> > diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/=
+riscv/hwprobe.rst
+> > index 7085a694b801..344bea1e21bd 100644
+> > --- a/Documentation/arch/riscv/hwprobe.rst
+> > +++ b/Documentation/arch/riscv/hwprobe.rst
+> > @@ -236,3 +236,19 @@ The following keys are defined:
+> >
+> >  * :c:macro:`RISCV_HWPROBE_KEY_ZICBOZ_BLOCK_SIZE`: An unsigned int whic=
+h
+> >    represents the size of the Zicboz block in bytes.
+> > +
+> > +* :c:macro:`RISCV_HWPROBE_KEY_VEC_MISALIGNED_PERF`: An enum value desc=
+ribing the
+> > +  performance of misaligned vector accesses on the selected set of pro=
+cessors.
+> > +
+> > +  * :c:macro:`RISCV_HWPROBE_VEC_MISALIGNED_UNKNOWN`: The performance o=
+f misaligned
+> > +    accesses is unknown.
+> > +
+> > +  * :c:macro:`RISCV_HWPROBE_VEC_MISALIGNED_SLOW`: Misaligned accesses =
+are slower
+>
+> Should we specify what size of vector access we're comparing against?
+> In other words, crispen up what "misaligned access" exactly means. I
+> realize you copied this from my text. I really should have said
+> "misaligned native word size accesses".
 
+In arch/riscv/kernel/vec-copy-unaligned.S I set WORD_EEW to 32bits.
+The rationale for using 32bits is
+("riscv: vector: adjust minimum Vector requirement to ZVE32X") in this set.
+https://lore.kernel.org/all/20240412-zve-detection-v4-0-e0c45bb6b253@sifive=
+.com/
 
-On 6/21/24 13:18, Charlie Jenkins wrote:
-> On Fri, Jun 21, 2024 at 11:06:31AM +0100, Conor Dooley wrote:
->> On Thu, Jun 20, 2024 at 03:14:14PM -0700, Charlie Jenkins wrote:
->>> On Thu, Jun 20, 2024 at 05:31:28PM -0400, Jesse Taube wrote:
->>>>
->>>>
->>>> On 6/17/24 22:09, Charlie Jenkins wrote:
->>>>> On Mon, Jun 17, 2024 at 06:43:32PM -0700, Charlie Jenkins wrote:
->>>>>> On Thu, Jun 13, 2024 at 03:16:13PM -0400, Jesse Taube wrote:
->>>>>>> Run a unaligned vector access to test if the system supports
->>>>>>> vector unaligned access. Add the result to a new key in hwprobe.
->>>>>>> This is useful for usermode to know if vector misaligned accesses are
->>>>>>> supported and if they are faster or slower than equivalent byte accesses.
->>>>>>>
->>>>>>> Signed-off-by: Jesse Taube <jesse@rivosinc.com>
->>>>>>> ---
->>>>>>> V1 -> V2:
->>>>>>>    - Add Kconfig options
->>>>>>>    - Add insn_is_vector
->>>>>>>    - Add handle_vector_misaligned_load
->>>>>>>    - Fix build
->>>>>>>    - Seperate vector from scalar misaligned access
->>>>>>>    - This patch was almost completely rewritten
->>>>>>> ---
->>>>>>>    arch/riscv/Kconfig                         |  41 +++++++
->>>>>>>    arch/riscv/include/asm/cpufeature.h        |   7 +-
->>>>>>>    arch/riscv/include/asm/entry-common.h      |  11 --
->>>>>>>    arch/riscv/include/asm/hwprobe.h           |   2 +-
->>>>>>>    arch/riscv/include/asm/vector.h            |   1 +
->>>>>>>    arch/riscv/include/uapi/asm/hwprobe.h      |   5 +
->>>>>>>    arch/riscv/kernel/Makefile                 |   4 +-
->>>>>>>    arch/riscv/kernel/sys_hwprobe.c            |  41 +++++++
->>>>>>>    arch/riscv/kernel/traps_misaligned.c       | 119 ++++++++++++++++++++-
->>>>>>>    arch/riscv/kernel/unaligned_access_speed.c |   9 +-
->>>>>>>    arch/riscv/kernel/vector.c                 |   2 +-
->>>>>>>    11 files changed, 221 insertions(+), 21 deletions(-)
->>>>>>>
->>>>>>> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
->>>>>>> index b94176e25be1..f12df0ca6c18 100644
->>>>>>> --- a/arch/riscv/Kconfig
->>>>>>> +++ b/arch/riscv/Kconfig
->>>>>>> @@ -723,6 +723,12 @@ config RISCV_MISALIGNED
->>>>>>>    	help
->>>>>>>    	  Embed support for emulating misaligned loads and stores.
->>>>>>> +config RISCV_VECTOR_MISALIGNED
->>>>>>> +	bool
->>>>>>> +	depends on RISCV_ISA_V
->>>>>>> +	help
->>>>>>> +	  Enable detecting support for vector misaligned loads and stores.
->>>>>>> +
->>>>>>>    choice
->>>>>>>    	prompt "Unaligned Accesses Support"
->>>>>>>    	default RISCV_PROBE_UNALIGNED_ACCESS
->>>>>>> @@ -774,6 +780,41 @@ config RISCV_EFFICIENT_UNALIGNED_ACCESS
->>>>>>>    endchoice
->>>>>>> +choice
->>>>>>> +	prompt "Vector unaligned Accesses Support"
->>>>>>> +	depends on RISCV_ISA_V
->>>>>>> +	default RISCV_PROBE_VECTOR_UNALIGNED_ACCESS
->>>>>>> +	help
->>>>>>> +	  This determines the level of support for vector unaligned accesses. This
->>>>>>> +	  information is used by the kernel to perform optimizations.
->>
->> I haven't actually checked the patchset, but is it actually used by the
->> kernel to perform optimisations?
-> 
-> No ;)
-> 
-> Right now this patch is just providing the information to userspace
-> through hwprobe and doesn't optimize anything in the kernel.
-> 
->>
->>>>>>> It is also
->>>>>>> +	  exposed to user space via the hwprobe syscall. The hardware will be
->>>>>>> +	  probed at boot by default.
->>>>>>> +
->>>>>>> +config RISCV_DETECT_VECTOR_UNALIGNED_ACCESS
->>>>>>
->>>>>> This is not used anywhere, what is the reason for including it?
->>>>
->>>> This is so that we can check if they are supported or not, but not check the
->>>> speed of them. Similar to RISCV_EMULATED_UNALIGNED_ACCESS.
->>>
->>> What do you mean? It isn't used anywhere so this "check if they are
->>> supported or not" is not guarded by this config.
->>>
->>>>
->>>>>>
->>>>>>> +	bool "Detect support for vector unaligned accesses"
->>>>>>> +	select RISCV_VECTOR_MISALIGNED
->>>>>>> +	help
->>>>>>> +	  During boot, the kernel will detect if the system supports vector
->>>>>>> +	  unaligned accesses.
->>>>>>> +
->>>>>>> +config RISCV_PROBE_VECTOR_UNALIGNED_ACCESS
->>>>>>> +	bool "Probe speed of vector unaligned accesses"
->>>>>>> +	select RISCV_VECTOR_MISALIGNED
->>>>>>> +	help
->>>>>>> +	  During boot, the kernel will run a series of tests to determine the
->>>>>>> +	  speed of vector unaligned accesses if they are supported. This probing
->>>>>>> +	  will dynamically determine the speed of vector unaligned accesses on
->>>>>>> +	  the underlying system if they are supported.
->>>>>>> +
->>>>>>> +config CONFIG_RISCV_UNALIGNED_ACCESS_UNSUPPORTED
->>>>>>
->>>>>> This should not be prefixed with CONFIG and does not include VECTOR in
->>>>>> the name.
->>>>
->>>> Huh thought it would warn fixed though
->>>
->>> What do you mean by "warn fixed"?
->>>
->>>>
->>>>> I assume you meant to put
->>>>>> "RISCV_VEC_UNALIGNED_ACCESS_UNSUPPORTED" here?
->>>>
->>>> This is to leave a faster path like SLOW or FAST to say that unaligned
->>>> access arent suported.
->>>
->>> I am not sure what you are responding to. This comment seems to be
->>> responding to my correction of
->>> CONFIG_RISCV_UNALIGNED_ACCESS_UNSUPPORTED->RISCV_VEC_UNALIGNED_ACCESS_UNSUPPORTED
->>> so I don't see how that ties into SLOW/FAST.
->>>
->>>>
->>>>>>
->>>>>> This was also intentionally left out on the scalar side [1]. The
->>>>>> implication here is that having this config will cause people to compile
->>>>>> kernels without unaligned access support which really shouldn't be
->>>>>> something we are explicitly supporting.
->>>>>>
->>>>>> If somebody does want to support hardware that does not handle vector
->>>>>> unaligned accesses, the solution should be to add emulation support to
->>>>>> the kernel.
->>>>
->>>> Yes but we dont have emulation support yet so I do think its a good idea.
->>>
->>> I am hesitant because it is very likely that somebody will add support
->>> for unaligned vector emulation. When there is emulation support, this
->>> config option should not exist to be consistent with scalar. However if
->>> we add this option in now, we must expect a user to enable this config,
->>> and then
->>
->> I dunno, I think there could be value in having the option here. For
->> scalar, we couldn't have an option that would break the uABI, so the
->> unsupported option wasn't okay. That's not a constraint that we have for
->> vector.
->>
->> For vector, if you have a system that doesn't support misaligned access,
->> you probably don't want to emulate the accesses either, since that's
->> likely remove any performance gains you get from using vector in the
->> first place, so I can see benefit in the option.
-> 
-> We have the RISCV_MISALIGNED option that disables the scalar emulation,
-> but doesn't break the UABI because it's not saying that misaligned
-> scalar is not supported, but just that the kernel doesn't emulate.
-> Having an UNSUPPORTED option explicitly breaks the UABI which doesn't
-> seem like something that the kernel should support. If we are okay with
-> having options that break the UABI then this is fine, but I was under
-> the impression that we did our best to avoid that.
-> 
-> There definitely is value in having an option like this for hardware
-> that never wants to run misaligned code, but since we decided with the
-> scalar accesses that we should not break the UABI I think vector should
-> do the same.
-
-The rational for scalar accesses was slightly different as
-The base ISA spec said/says: ". The base ISA supports misaligned 
-accesses, but these might run extremely slowly depending on the 
-implementation."
-
-Section: 2.6 Load and Store Instructions. Available: 
-https://riscv.org/wp-content/uploads/2017/05/riscv-spec-v2.2.pdf
-
-> 
->> Enabling the probing is going to end up with same outcome for userspace
->> as having this option on such a system, so it comes down to whether you
->> want to allow people to skip the probing if they know their system has
->> this problem.
->>
->>> we will have to get rid of it later. Users are not always happy
->>> when config options are removed.
->>
->> I dunno, I don't think that adding emulation requires that we remove
->> this unsupported option.
-> 
-> I am probably being too paranoid about this but I am hesistant to cause
-> vector and scalar misaligned access implemenations to diverge. It is
-> inconsistent to allow an unsupported option for vector but not for
-> scalar when both support emulation. The probing is very fast as it just
-> checks if a misaligned access causes a trap and then sets the access
-> speed to unsupported if it does trap.
-
-Charlie is right about probing for support being fast. There is
-RISCV_DETECT_VECTOR_UNALIGNED_ACCESS to only detect support not the 
-speed. I thought it might be a good idea to add this config option, but
-I'll just drop it to shorten this thread.
-
-> 
->>
->> Additionally, what are we doing in the kernel if we detect that
->> misaligned stuff isn't supported? Are we going to mandate that kernel
->> code is aligned only
-
-As of now yes.
-
->> disable in-kernel vector or some other mechanism
->> to make sure that things like crypto code don't have/introduce code
->> that'll not run on these systems?
-
-I'm not too familiar with the uses of unaligned vector accesses, but if
-it significantly improves performance then I think there should be a 
-faster unaligned access pathway, and a aligned access pathway, so both 
-are supported. This also ties into your first question.
+I'll change faste and slow to start with "32bit misaligned accesses are"
 
 Thanks,
-Jesse Taube
-
-> UNSUPPORTED will still be set by the quick probe so it would be possible
-> for the kernel/userspace to avoid running misaligned vector when it's
-> unsupported. Any kernel methods would probably want to always run
-> aligned vector unless misaligned support was determined to be FAST
-> anyway, I am doubtful that code will have different optimizations for
-> FAST, SLOW, and UNSUPPORTED but it is possible.
-> 
-> I would prefer consistency between scalar and vector misaligned support,
-> but this is not a deal breaker for this patch. I am not convinced it is
-> the best choice, but I am okay with leaving this option in the kernel.
-> 
-> - Charlie
-> 
->>
->> Cheers,
->> Conor.
-> 
-> 
+Jesse
+>
+> > +    than equivalent byte accesses.  Misaligned accesses may be support=
+ed
+> > +    directly in hardware, or trapped and emulated by software.
+> > +
+> > +  * :c:macro:`RISCV_HWPROBE_VEC_MISALIGNED_FAST`: Misaligned accesses =
+are faster
+> > +    than equivalent byte accesses.
+> > +
+> > +  * :c:macro:`RISCV_HWPROBE_VEC_MISALIGNED_UNSUPPORTED`: Misaligned ac=
+cesses are
+> > +    not supported at all and will generate a misaligned address fault.
+> > --
+> > 2.43.0
+> >
