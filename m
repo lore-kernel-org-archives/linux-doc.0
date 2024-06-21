@@ -1,128 +1,235 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F48616B3B9;
-	Fri, 21 Jun 2024 08:27:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EBC716D9C7;
+	Fri, 21 Jun 2024 08:54:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718958460; cv=none; b=O7LZTeg9hZ8UwLeUi+nf0APQVmoCBDxNCikcntnnSPFd6zceZJKGKjYhWizMD4WYnY7idG5EGBYtmj9DV7Eu6VWwx0H7oL+4CLLwhgKZFN/s+2+YGcO+f3FLgThNdkY1FKWKGSAm1MGIBAGwiEe5ILQNzGqIrx2qeXR3yIJ0OlA=
+	t=1718960057; cv=none; b=e6JoJtS26uPh47Ve2qmn5rcfqKKA0EI9YquXb/FkuszeteKwf6Vb3ZQTL4ubr3zqeLE0d2vy+o+S/Vh+9AMp9Ip9P425boPtuxRYuFZ70VzRqndzm5Rb2Heqpop2KEcdqpvDQ/DGKpXy4/6Zz4wCLFYCPuFklb8igpVScRxCujI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718958460; c=relaxed/simple;
-	bh=wuZBbOonZAFOS0sB1XJO28DAm8t6RfuaFgesGkuVgmA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BUP0bxOjnJIm//43Xi8AHE1px/KSriZqtvgfs9/1SF5S2R2kPSdxdgAkzNgoJcrs64fFzo6AlFpP+lZdZyi8N5a9RANS0xCdLgxIdOqGQWQuav3ftiJRTckul4mUnAkRyPCOIJ8mH8/xaP5sy/jw4PLzdVP8gkp8Z7JYLhInGZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K/+F0EfU; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1718960057; c=relaxed/simple;
+	bh=I+i+aOzkOGompNR/7ELLGU0rPfoK8zPNywwKcT91Ckc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=h6So1nyjjPhjc9GGiLDLUAPTVfKFJG567EbRyhYutJijLqiSwJuNkELpyV6oEiQKAElgHaO2nH+oNbBvYySVqBub+RKoVLtrpDMEFhynM3ahmA1dd+ufnaJTL5uveG541yTMdXxLADhB7vdiFgc6HdO9eeLrV/Lka6hQigH94PY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=FHAqc9G9; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K/+F0EfU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718958459; x=1750494459;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=wuZBbOonZAFOS0sB1XJO28DAm8t6RfuaFgesGkuVgmA=;
-  b=K/+F0EfUyMc/mjYwXznhW5pimJVD33jNdWIL4G9Qn6tMhTRn+YUyere4
-   AsD423Yy30WbD93SvKN7pM4qrAcwxnotCY0A7j1b7RTkWl2pc9d8iMKsC
-   OURIDPVtPPZ2fqs1WdrSzuJBcLLNv0Lt9HKjGkUYiv1OpXolQ4ZW2mxHX
-   7oNrzIYc9DY7N4XTXZeTLNodLE5N4knv8tZeQys+UmXnP0m3rtTsLamyJ
-   c0bAuo5OypSUpqKNRZB712Be3xOPOf1YttvjoX0bh8bm/GcPN40pXjoS9
-   Og31rpqRL2LPwhv3RUXnpmDh1iUBjeWIWTqgebr/InSHeLXgocWMvevBV
-   Q==;
-X-CSE-ConnectionGUID: mK8Vwa3sQ0WD3Dp7TfoKFA==
-X-CSE-MsgGUID: k3kIITlfQha56Vt1fJC7Tg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11109"; a="33438310"
-X-IronPort-AV: E=Sophos;i="6.08,254,1712646000"; 
-   d="scan'208";a="33438310"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2024 01:27:38 -0700
-X-CSE-ConnectionGUID: 83RXG4JlThiu0gr95hxjnw==
-X-CSE-MsgGUID: bZhtUY6HTEaIIglKI2p5DA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,254,1712646000"; 
-   d="scan'208";a="42628778"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO [10.245.246.142]) ([10.245.246.142])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2024 01:27:33 -0700
-Message-ID: <90463a4e-c2e7-4b59-9a79-23533b4acd1e@linux.intel.com>
-Date: Fri, 21 Jun 2024 10:27:29 +0200
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="FHAqc9G9"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5EDDD1BF208;
+	Fri, 21 Jun 2024 08:54:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1718960052;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JD45edoD5rUpwPloN7d/OFffiaD3jVvluuyCPi42kDU=;
+	b=FHAqc9G97UNoty+XvEzr3zA16vh3jQ8NP3ceQTaHkPwv8XCt2Fp0/0rkcIgCgvZc1hzAf0
+	yUa59H/4KIc1Re3sTHiRSiLSDx+MpHdvlEvtT3EjH41JHCaT+WYmTCdstDzY79roPtBJed
+	DkDkrj+oHz5wQtPXWXi8yLI0UPTHcKh/eOllmLOL19gHQWTDvk930XC3gGxUcRXxsRUODx
+	VtmihXBkmCLAkppGaHHr5ueO+ST+S45IBakzSb/AqNQPBkk9wE3IKtM521s5CQNUmmHXHA
+	Tt5DXhFp2+Gb2SWkbZ68ctf/rTg+Bj4hqziqBUAkjgDXANOIHfF8UL3abVU+6w==
+Date: Fri, 21 Jun 2024 10:54:08 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>, Broadcom internal
+ kernel review list <bcm-kernel-feedback-list@broadcom.com>, Andrew Lunn
+ <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Richard
+ Cochran <richardcochran@gmail.com>, Radu Pirea
+ <radu-nicolae.pirea@oss.nxp.com>, Jay Vosburgh <j.vosburgh@gmail.com>, Andy
+ Gospodarek <andy@greyhouse.net>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Jonathan Corbet
+ <corbet@lwn.net>, Horatiu Vultur <horatiu.vultur@microchip.com>,
+ UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>, Vladimir
+ Oltean <vladimir.oltean@nxp.com>, Thomas Petazzoni
+ <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Maxime Chevallier
+ <maxime.chevallier@bootlin.com>, Rahul Rameshbabu <rrameshbabu@nvidia.com>
+Subject: Re: [PATCH net-next v15 13/14] net: ethtool: tsinfo: Add support
+ for hwtstamp provider and get/set hwtstamp config
+Message-ID: <20240621105408.6dda7a0e@kmaincent-XPS-13-7390>
+In-Reply-To: <20240617184331.0ddfd08e@kernel.org>
+References: <20240612-feature_ptp_netnext-v15-0-b2a086257b63@bootlin.com>
+	<20240612-feature_ptp_netnext-v15-13-b2a086257b63@bootlin.com>
+	<20240617184331.0ddfd08e@kernel.org>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v23 32/32] ASoC: doc: Add documentation for SOC USB
-To: Wesley Cheng <quic_wcheng@quicinc.com>,
- =?UTF-8?Q?Amadeusz_S=C5=82awi=C5=84ski?=
- <amadeuszx.slawinski@linux.intel.com>, srinivas.kandagatla@linaro.org,
- mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
- corbet@lwn.net, broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
- Thinh.Nguyen@synopsys.com, bgoswami@quicinc.com, tiwai@suse.com,
- robh@kernel.org, gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <20240610235808.22173-1-quic_wcheng@quicinc.com>
- <20240610235808.22173-33-quic_wcheng@quicinc.com>
- <5be51e1f-70c9-4bbc-96fa-1e50e441bd35@linux.intel.com>
- <408d9e8e-0f40-7e66-54be-2f8d2c0783a3@quicinc.com>
- <ca1e1063-e1bd-4e03-a7cd-91985e9954e9@linux.intel.com>
- <096d59a0-5e18-092c-c9ae-d98130226f06@quicinc.com>
- <368d9019-2c96-468e-b472-7e1127f76213@linux.intel.com>
- <eb6370ea-47a0-3659-3c10-cb7f95e3e520@quicinc.com>
- <510468c7-b181-48d0-bf2d-3e478b2f2aca@linux.intel.com>
- <c7a95157-1b71-1489-3657-8fe67f9acb4e@quicinc.com>
-Content-Language: en-US
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <c7a95157-1b71-1489-3657-8fe67f9acb4e@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-GND-Sasl: kory.maincent@bootlin.com
 
+On Mon, 17 Jun 2024 18:43:31 -0700
+Jakub Kicinski <kuba@kernel.org> wrote:
 
+Thanks for your review!
 
+> On Wed, 12 Jun 2024 17:04:13 +0200 Kory Maincent wrote:
+> > Enhance 'get' command to retrieve tsinfo of hwtstamp providers within a
+> > network topology and read current hwtstamp configuration.
+> >=20
+> > Introduce support for ETHTOOL_MSG_TSINFO_SET ethtool netlink socket to
+> > configure hwtstamp of a PHC provider. Note that simultaneous hwtstamp
+> > isn't supported; configuring a new one disables the previous setting.
+> >=20
+> > Also, add support for a specific dump command to retrieve all hwtstamp
+> > providers within the network topology, with added functionality for
+> > filtered dump to target a single interface. =20
+>=20
+> Could you split this up, a little bit? It's rather large for a core
+> change.
 
-> I'll spend some time to evaluate your suggestion about moving the logic
-> to control the offloading from USB SND versus ASoC, since there are
-> valid points.  However, before I do that, I just want to make sure folks
-> are also inline with that thinking.  I've had to put a lot of effort
-> moving things around such as the previous example, and now you've
-> suggested to move it back to the vendor specific drivers.
-> 
-> @Pierre, since you've helped with providing a lot of valuable input in
-> the previous revisions on the kcontrol uses, what do you think about the
-> proposal from Amadeusz?  Basically shifting the offload device selection
-> into USB SND from the ASoC USB BE driver, and having this per USB SND
-> device.
-> 
-> [1]
-> https://lore.kernel.org/linux-usb/20231017200109.11407-30-quic_wcheng@quicinc.com/
+Ok I will do so.
+=20
+> >  Desired behavior is passed into the kernel and to a specific device by
+> > -calling ioctl(SIOCSHWTSTAMP) with a pointer to a struct ifreq whose
+> > -ifr_data points to a struct hwtstamp_config. The tx_type and
+> > -rx_filter are hints to the driver what it is expected to do. If
+> > -the requested fine-grained filtering for incoming packets is not
+> > +calling the tsinfo netlink socket ETHTOOL_MSG_TSINFO_SET.
+> > +The ETHTOOL_A_TSINFO_TX_TYPES, ETHTOOL_A_TSINFO_RX_FILTERS and
+> > +ETHTOOL_A_TSINFO_HWTSTAMP_FLAGS netlink attributes are then used to se=
+t the
+> > +struct hwtstamp_config accordingly. =20
+>=20
+> nit: EHTOOL_A* defines in `` `` quotes?
 
-This thread is very hard to follow, I am not sure I fully understood the
-initial proposal, and I am not sure I follow Amadeusz' either.
+Ack.
 
-There are really multiple layers to deal with
+>=20
+> > +		if (hwtstamp && ptp_clock_phydev(hwtstamp->ptp) =3D=3D phydev)
+> > {
+> > +			rcu_assign_pointer(dev->hwtstamp, NULL);
+> > +			synchronize_rcu();
+> >  			kfree(hwtstamp); =20
+>=20
+> Could you add an rcu_head to this struct and use kfree_rcu()
+> similarly later use an rcu call to do the dismantle?
+> synchronize_rcu() can be slow.
 
-a) is the controller able to support the offload path? IIRC this is
-embedded in an obscure XHCI property, it would make sense to expose it
-as a control, or component string, of the USB card.
+Ack. I might need to use call_rcu() as I have to call ptp_clock_put also be=
+fore
+the kfree.
+=20
+> > +const struct nla_policy ethnl_tsinfo_get_policy[ETHTOOL_A_TSINFO_MAX +=
+ 1]
+> > =3D { [ETHTOOL_A_TSINFO_HEADER]		=3D
+> >  		NLA_POLICY_NESTED(ethnl_header_policy_stats),
+> > +	[ETHTOOL_A_TSINFO_GHWTSTAMP] =3D
+> > +		NLA_POLICY_MAX(NLA_U8, 1), =20
+>=20
+> I think this can be an NLA_FLAG, but TBH I'm also confused about=20
+> the semantics. Can you explain what it does from user perspective?
 
-b) is there a companion card capable of dealing with the offload path?
-Since the presence of this card may depend on driver probe, there should
-be a control on the USB card. userspace could detect changes to this
-control and detect if that path is or is no longer enabled.
+As I described it in the documentation it replaces SIOCGHWTSTAMP:
+"Any process can read the actual configuration by requesting tsinfo netlink
+socket ETHTOOL_MSG_TSINFO_GET with ETHTOOL_MSG_TSINFO_GHWTSTAMP netlink
+attribute set.
 
-c) which PCM device is actually offloaded? This could be plural for some
-implementations. The mapping between PCM devices exposed by the USB
-card, and those exposed by the companion card, should be known to
-userspace. I am not sure how this would be done though, a variable
-number of controls is a sure way to confuse userspace.
+The legacy usage is to pass this structure to ioctl(SIOCGHWTSTAMP) in the  =
+    =20
+same way as the ioctl(SIOCSHWTSTAMP).  However, this has not been implement=
+ed  =20
+in all drivers."
 
-At any rate, I would put all the controls under the USB generic card,
-because it's always present no matter what the controller or DSP
-configurations are.
+The aim is to get rid of ioctls.
 
+Indeed NLA_FLAG is the right type I should use.
+=20
+> > +	[ETHTOOL_A_TSINFO_HWTSTAMP_PROVIDER] =3D
+> > +		NLA_POLICY_NESTED(ethnl_tsinfo_hwtstamp_provider_policy),
+> >  };
+> > =20
+> > +static int tsinfo_parse_hwtstamp_provider(const struct nlattr *nest,
+> > +					  struct hwtst_provider *hwtst,
+> > +					  struct netlink_ext_ack *extack,
+> > +					  bool *mod)
+> > +{
+> > +	struct nlattr
+> > *tb[ARRAY_SIZE(ethnl_tsinfo_hwtstamp_provider_policy)]; =20
+>=20
+> Could you find a more sensible name for this policy?
 
+I am not a naming expert but "hwtstamp_provider" is the struct name I have =
+used
+to describe hwtstamp index + qualifier and the prefix of the netlink nested
+attribute, so IMHO it fits well.
+Have you another proposition to clarify what you would expect?
+=20
+> > +	int ret;
+> > +
+> > +	ret =3D nla_parse_nested(tb,
+> > +
+> > ARRAY_SIZE(ethnl_tsinfo_hwtstamp_provider_policy) - 1,
+> > +			       nest,
+> > +			       ethnl_tsinfo_hwtstamp_provider_policy,
+> > extack);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	if (NL_REQ_ATTR_CHECK(extack, nest, tb,
+> > ETHTOOL_A_TSINFO_HWTSTAMP_PROVIDER_INDEX) ||
+> > +	    NL_REQ_ATTR_CHECK(extack, nest, tb,
+> > ETHTOOL_A_TSINFO_HWTSTAMP_PROVIDER_QUALIFIER)) =20
+>=20
+> nit: wrap at 80 chars, if you can, please
 
+Yes indeed, thanks!
 
+> >  	struct tsinfo_reply_data *data =3D TSINFO_REPDATA(reply_base);
+> > +	struct tsinfo_req_info *req =3D TSINFO_REQINFO(req_base);
+> >  	struct net_device *dev =3D reply_base->dev;
+> >  	int ret;
+> > =20
+> >  	ret =3D ethnl_ops_begin(dev);
+> >  	if (ret < 0)
+> >  		return ret;
+> > +
+> > +	if (req->get_hwtstamp) {
+> > +		struct kernel_hwtstamp_config cfg =3D {};
+> > +
+> > +		if (!dev->netdev_ops->ndo_hwtstamp_get) {
+> > +			ret =3D -EOPNOTSUPP;
+> > +			goto out;
+> > +		}
+> > +
+> > +		ret =3D dev_get_hwtstamp_phylib(dev, &cfg);
+> > +		data->hwtst_config.tx_type =3D BIT(cfg.tx_type);
+> > +		data->hwtst_config.rx_filter =3D BIT(cfg.rx_filter);
+> > +		data->hwtst_config.flags =3D BIT(cfg.flags);
+> > +		goto out; =20
+>=20
+> This is wrong AFAICT, everything up to this point was a nit pick ;)
+> Please take a look at 89e281ebff72e6, I think you're reintroducing a
+> form of the same bug. If ETHTOOL_FLAG_STATS was set, you gotta run stats
+> init.
+>=20
+> Perhaps you can move the stats getting up, and turn this code into if
+> / else if / else, without the goto.
+
+Indeed thanks for spotting the issue.
+
+> > +
+> > +	if (ret =3D=3D -EMSGSIZE && skb->len)
+> > +		return skb->len;
+> > +	return ret; =20
+>=20
+> You can just return ret without the if converting to skb->len
+> af_netlink will handle the EMSGSIZE errors in the same way.
+
+Alright, thanks.
+
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
