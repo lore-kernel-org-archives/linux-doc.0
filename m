@@ -1,115 +1,225 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out30-131.freemail.mail.aliyun.com (out30-131.freemail.mail.aliyun.com [115.124.30.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D8A16E892;
-	Fri, 21 Jun 2024 10:10:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55FEF171671;
+	Fri, 21 Jun 2024 10:14:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718964639; cv=none; b=YRo/+TFyFTyrmqc8CYtNzZ0wtleE+K6rv/1bPfpKEn4VbYKnoo6oh5wtSStnQZsGK8zSpzy1wKLKlRquNW/yOzTXj2aKpMGxY5jRTY+CTQ3Li3IoyJNMSTYPw4W7ktQbn/Rtg56bkPSSMdD8YIArCjWPlb3bybJHMF8TqcIxbQU=
+	t=1718964845; cv=none; b=AsrXkPOPFJ6G0IgOCd7o9mx1VYF+Imwa8STR2F1Zs7TzgJZlVD/NomshSiMdKh9Pv/6lEHDvwHmvojcpzFiuzgE6Am5jf2Lyy25Ub72jQMkTu7onj0nEx5AA4ODDQKKyw5TkoQHQZJTkMQIThLA841gUs2DtQq8xu26deqrmXhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718964639; c=relaxed/simple;
-	bh=2Yi3+MeiUnusqowgqbAbrIq7kxVvPD51ALy39yD86vo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RbYJr8T3+acIeVYEpeuPhqUhEyBXtYM6Ysba/Ety+vmj6iNZsI8+pjpLDtbCOspBD9arjlZGkXqbCmOVBwGPcfa/epR8xPC0R7rrMSqGE5Bt9j26OYD5prTSzc+dpQcD3IFlYM9858OKFe3XuBBMfjvh/74gAwOoux9cdVqxFG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rzIJDagQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1718964845; c=relaxed/simple;
+	bh=lqwq5MKjhn5BSJoCvANc4Qnv3+K1tK0AUnYclRBmWJw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=QOCUXBFhXVBcslh0lSU8TO4nafSLNz5WKmYMZGyW2q1B7ij82nmSFFoFJpKRud+f29x1Z7G4Nf8pt3nDosH0qH456o3uAIXxLFdN47cRcd6jOISJcKrNatPiHob+RoKU7kI2f+0X8z5Cj/4TiMjr7z/TJnxzqu8APZBZaiH9uG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=gjqXb4zE; arc=none smtp.client-ip=115.124.30.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rzIJDagQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5C6EC2BBFC;
-	Fri, 21 Jun 2024 10:10:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718964638;
-	bh=2Yi3+MeiUnusqowgqbAbrIq7kxVvPD51ALy39yD86vo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rzIJDagQIE3R0pU/M5rskebUl+aHYaBSrmr01jiLJIdPDlgvbckNiO3dFm6IhwojN
-	 uMYXnAKl9oYrkuIGmRpw0ZFU+FV0iySCwweJFML6f3bixkiRYQpPyjju8F9tiTV7u/
-	 pAyJM2ygE3B6wFb3jX+tX34lLsCQIz6ReZ7BiTnbnYm0RDMYx2WgTNy8B4/sX5jR/o
-	 QMqbhmXRKn1bA/7juRNzlrGWHRf8fehuu5CMAO2syECbcLSsB+act95iLPDJIIV8qr
-	 vqp5zf5A0Pawcg5ctPVk7qVJdwnZxHHviCiFxQhzSVXMdKlqyfyL98vn+RE7A96gjH
-	 cBMT08hOiNM6w==
-Date: Fri, 21 Jun 2024 15:40:34 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Paul Cercueil <paul@crapouillou.net>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jonathan Corbet <corbet@lwn.net>, Nuno Sa <nuno.sa@analog.com>,
-	linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v12 0/7] iio: new DMABUF based API v12
-Message-ID: <ZnVRmsziiGxOVq-4@matsya>
-References: <20240620122726.41232-1-paul@crapouillou.net>
- <ZnRW2axOg7gtKzz0@matsya>
- <20240620201150.72c11599@jic23-huawei>
- <ZnVRCY3PGPag0fSj@matsya>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="gjqXb4zE"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1718964841; h=From:To:Subject:Date:Message-Id:MIME-Version;
+	bh=cJZeR3Vg4FHsPtKPm6+t5ByKOyxmuqpQm7IsXDaWVrw=;
+	b=gjqXb4zEMrX3t2DYIY6rVouOGLl665080RNk64FfjXWYRS7lyQpY4udmgq0bkwVEFfk0O2/0JnvgbfHYPc/jgmVhabrRkuRnIcSUh3Q/6mEN+OW2eQErecP8PXfhjDjY0fffZaKeKrQPXFHeAwE+tf44hpb9gKzB4m+MunFbVp4=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033068164191;MF=hengqi@linux.alibaba.com;NM=1;PH=DS;RN=32;SR=0;TI=SMTPD_---0W8w4Tf6_1718964838;
+Received: from localhost(mailfrom:hengqi@linux.alibaba.com fp:SMTPD_---0W8w4Tf6_1718964838)
+          by smtp.aliyun-inc.com;
+          Fri, 21 Jun 2024 18:13:59 +0800
+From: Heng Qi <hengqi@linux.alibaba.com>
+To: netdev@vger.kernel.org,
+	virtualization@lists.linux.dev
+Cc: Jakub Kicinski <kuba@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jason Wang <jasowang@redhat.com>,
+	"Michael S . Tsirkin" <mst@redhat.com>,
+	Brett Creeley <bcreeley@amd.com>,
+	Ratheesh Kannoth <rkannoth@marvell.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Tal Gilboa <talgi@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Paul Greenwalt <paul.greenwalt@intel.com>,
+	Ahmed Zaki <ahmed.zaki@intel.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	justinstitt@google.com,
+	donald.hunter@gmail.com,
+	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Dragos Tatulea <dtatulea@nvidia.com>,
+	Rahul Rameshbabu <rrameshbabu@nvidia.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	awel Dembicki <paweldembicki@gmail.com>,
+	Simon Horman <horms@kernel.org>
+Subject: [PATCH net-next v15 4/5] dim: add new interfaces for initialization and getting results
+Date: Fri, 21 Jun 2024 18:13:52 +0800
+Message-Id: <20240621101353.107425-5-hengqi@linux.alibaba.com>
+X-Mailer: git-send-email 2.32.0.3.g01195cf9f
+In-Reply-To: <20240621101353.107425-1-hengqi@linux.alibaba.com>
+References: <20240621101353.107425-1-hengqi@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZnVRCY3PGPag0fSj@matsya>
+Content-Transfer-Encoding: 8bit
 
-On 21-06-24, 15:38, Vinod Koul wrote:
-> On 20-06-24, 20:11, Jonathan Cameron wrote:
-> > On Thu, 20 Jun 2024 21:50:41 +0530
-> > Vinod Koul <vkoul@kernel.org> wrote:
-> > 
-> > > On 20-06-24, 14:27, Paul Cercueil wrote:
-> > > > Hi Jonathan,  
-> > > 
-> > > Hey Jonathan,
-> > > 
-> > > Assuming we are fine with this series, how would you like to proceed.
-> > > Would you be fine with me picking the dmaengine bits and providing a
-> > > signed tag for you to pull?
-> > > 
-> > 
-> > Hi Vinod,
-> > 
-> > Yes. That will work nicely.
-> > From my side it all looks good.
-> 
-> Great, here it is:
-> 
-> The following changes since commit 1613e604df0cd359cf2a7fbd9be7a0bcfacfabd0:
-> 
->   Linux 6.10-rc1 (2024-05-26 15:20:12 -0700)
-> 
-> are available in the Git repository at:
-> 
->   git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git topic/dma_vec_api
+DIM-related mode and work have been collected in one same place,
+so new interfaces are added to provide convenience.
 
-Sorry, sent branch instead of signed tag: here is the signed tag
+Signed-off-by: Heng Qi <hengqi@linux.alibaba.com>
+Reviewed-by: Simon Horman <horms@kernel.org>
+---
+ include/linux/dim.h | 48 ++++++++++++++++++++++++++++++++
+ lib/dim/net_dim.c   | 68 +++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 116 insertions(+)
 
-    git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git dmaengine_topic_dma_vec
-
-> for you to fetch changes up to 380afccc2a55e8015adae4266e8beff96ab620be:
-> 
->   Documentation: dmaengine: Document new dma_vec API (2024-06-21 15:31:57 +0530)
-> 
-> ----------------------------------------------------------------
-> Paul Cercueil (3):
->       dmaengine: Add API function dmaengine_prep_peripheral_dma_vec()
->       dmaengine: dma-axi-dmac: Implement device_prep_peripheral_dma_vec
->       Documentation: dmaengine: Document new dma_vec API
-> 
->  Documentation/driver-api/dmaengine/client.rst   |  9 ++++++
->  Documentation/driver-api/dmaengine/provider.rst | 10 +++++++
->  drivers/dma/dma-axi-dmac.c                      | 40 +++++++++++++++++++++++++
->  include/linux/dmaengine.h                       | 33 ++++++++++++++++++++
->  4 files changed, 92 insertions(+)
-> 
-> 
-> Thanks
-> -- 
-> ~Vinod
-
-
-
+diff --git a/include/linux/dim.h b/include/linux/dim.h
+index e0f39bd85432..1b581ff25a15 100644
+--- a/include/linux/dim.h
++++ b/include/linux/dim.h
+@@ -256,6 +256,54 @@ int net_dim_init_irq_moder(struct net_device *dev, u8 profile_flags,
+  */
+ void net_dim_free_irq_moder(struct net_device *dev);
+ 
++/**
++ * net_dim_setting - initialize DIM's cq mode and schedule worker
++ * @dev: target network device
++ * @dim: DIM context
++ * @is_tx: true indicates the tx direction, false indicates the rx direction
++ */
++void net_dim_setting(struct net_device *dev, struct dim *dim, bool is_tx);
++
++/**
++ * net_dim_work_cancel - synchronously cancel dim's worker
++ * @dim: DIM context
++ */
++void net_dim_work_cancel(struct dim *dim);
++
++/**
++ * net_dim_get_rx_irq_moder - get DIM rx results based on profile_ix
++ * @dev: target network device
++ * @dim: DIM context
++ *
++ * Return: DIM irq moderation
++ */
++struct dim_cq_moder
++net_dim_get_rx_irq_moder(struct net_device *dev, struct dim *dim);
++
++/**
++ * net_dim_get_tx_irq_moder - get DIM tx results based on profile_ix
++ * @dev: target network device
++ * @dim: DIM context
++ *
++ * Return: DIM irq moderation
++ */
++struct dim_cq_moder
++net_dim_get_tx_irq_moder(struct net_device *dev, struct dim *dim);
++
++/**
++ * net_dim_set_rx_mode - set DIM rx cq mode
++ * @dev: target network device
++ * @rx_mode: target rx cq mode
++ */
++void net_dim_set_rx_mode(struct net_device *dev, u8 rx_mode);
++
++/**
++ * net_dim_set_tx_mode - set DIM tx cq mode
++ * @dev: target network device
++ * @tx_mode: target tx cq mode
++ */
++void net_dim_set_tx_mode(struct net_device *dev, u8 tx_mode);
++
+ /**
+  *	dim_on_top - check if current state is a good place to stop (top location)
+  *	@dim: DIM context
+diff --git a/lib/dim/net_dim.c b/lib/dim/net_dim.c
+index 0cd41277c7a3..d7e7028e9b19 100644
+--- a/lib/dim/net_dim.c
++++ b/lib/dim/net_dim.c
+@@ -165,6 +165,74 @@ void net_dim_free_irq_moder(struct net_device *dev)
+ }
+ EXPORT_SYMBOL(net_dim_free_irq_moder);
+ 
++void net_dim_setting(struct net_device *dev, struct dim *dim, bool is_tx)
++{
++	struct dim_irq_moder *irq_moder = dev->irq_moder;
++
++	if (!irq_moder)
++		return;
++
++	if (is_tx) {
++		INIT_WORK(&dim->work, irq_moder->tx_dim_work);
++		dim->mode = READ_ONCE(irq_moder->dim_tx_mode);
++		return;
++	}
++
++	INIT_WORK(&dim->work, irq_moder->rx_dim_work);
++	dim->mode = READ_ONCE(irq_moder->dim_rx_mode);
++}
++EXPORT_SYMBOL(net_dim_setting);
++
++void net_dim_work_cancel(struct dim *dim)
++{
++	cancel_work_sync(&dim->work);
++}
++EXPORT_SYMBOL(net_dim_work_cancel);
++
++struct dim_cq_moder net_dim_get_rx_irq_moder(struct net_device *dev,
++					     struct dim *dim)
++{
++	struct dim_cq_moder res, *profile;
++
++	rcu_read_lock();
++	profile = rcu_dereference(dev->irq_moder->rx_profile);
++	res = profile[dim->profile_ix];
++	rcu_read_unlock();
++
++	res.cq_period_mode = dim->mode;
++
++	return res;
++}
++EXPORT_SYMBOL(net_dim_get_rx_irq_moder);
++
++struct dim_cq_moder net_dim_get_tx_irq_moder(struct net_device *dev,
++					     struct dim *dim)
++{
++	struct dim_cq_moder res, *profile;
++
++	rcu_read_lock();
++	profile = rcu_dereference(dev->irq_moder->tx_profile);
++	res = profile[dim->profile_ix];
++	rcu_read_unlock();
++
++	res.cq_period_mode = dim->mode;
++
++	return res;
++}
++EXPORT_SYMBOL(net_dim_get_tx_irq_moder);
++
++void net_dim_set_rx_mode(struct net_device *dev, u8 rx_mode)
++{
++	WRITE_ONCE(dev->irq_moder->dim_rx_mode, rx_mode);
++}
++EXPORT_SYMBOL(net_dim_set_rx_mode);
++
++void net_dim_set_tx_mode(struct net_device *dev, u8 tx_mode)
++{
++	WRITE_ONCE(dev->irq_moder->dim_tx_mode, tx_mode);
++}
++EXPORT_SYMBOL(net_dim_set_tx_mode);
++
+ static int net_dim_step(struct dim *dim)
+ {
+ 	if (dim->tired == (NET_DIM_PARAMS_NUM_PROFILES * 2))
 -- 
-~Vinod
+2.32.0.3.g01195cf9f
+
