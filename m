@@ -1,157 +1,201 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2065.outbound.protection.outlook.com [40.107.237.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E536FBED;
-	Fri, 21 Jun 2024 15:37:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718984250; cv=none; b=oG5PrY56bWrFmlKfWyhKrZ+c3k3AcaUFQLgDvWOJncvvy5sxPnZRMULsF/BIVov4yauVW0nhvCrEYEUFT8NWCHz3ONHmgZMuAsGv4CmoSJ6GvmzsEDllRwaCe36UrAtI/KjzKYPCk2D5X/LAW6sxI+3clENcXqYceMOm18xedMA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718984250; c=relaxed/simple;
-	bh=Y2saANydyVcnYI9e5RxEPCFuU2P+k+wVTvRnss0jXX0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oGJt9qKkGgOSJHI52WW9gk907XNseOYx2WgXHSalMtepzx4mPblAhOLY9Jxo15Ocbhmqk0y7M12n/KyEwAcYwZN+jG2ldNtcQzp7JeOYgUbgf3nDgK83lLC06i0O4U3OychTXtIY+vXwui6Lg2Tp8ZcqM83rimCPeqvYNZ1kYzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JqKpB09a; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C89CE5FB9C;
+	Fri, 21 Jun 2024 15:45:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.65
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1718984711; cv=fail; b=TWvDFYQopXtiO+oZu7h/4lYzB4vKja0heWqmK1rv4C5LRJvvDuyYHakUMYMzoxvXuiNWq35Y44x6VN0qGMIODRlxbua5zCa3peWYwymt7jjjpabSWa+ATb+/O4OLSudqmHQT0IRnWSJCcLdZ1GdbYnbM/j7/dAC25B6SNQeEOtc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1718984711; c=relaxed/simple;
+	bh=0og8+9MIOL4KlMyjmNZHVk2Q+bv+GDMRcCRCzdOp4Lc=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=GORluggoYncLjFC6JmSRaohuZAf1Eo0uiGiFR2CQR14WMYsiU57T/xR4O7BLXr5fJfHEKXq8082nnANE22WmtsJxwkhoQQ5xAVxICp8k1ckxoAqfaIXgVYSKtDzKNqsClWSpPYpA0YmQkW5h6mNaHRLDBzb/0E+APZ7CedQrMr4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=QE/3YagV; arc=fail smtp.client-ip=40.107.237.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JqKpB09a"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4217990f8baso20237525e9.2;
-        Fri, 21 Jun 2024 08:37:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1718984247; x=1719589047; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZEzPUxJosE4Dv4tMtApiYXkD+OE7D7/mwDL1O48YzwQ=;
-        b=JqKpB09amApmCgb/sxRsuehauoQBW90e7pwoXl9SArnlUGoErNvIydBfiEcHfXppt2
-         h7Tlqcxn+ShP6I2v73ZZCnFAJubAWyahmVfwdIQ5uBeTL+LnMfyyJb7G95PDVe6OUwce
-         B4omms4ndTHluTfSl/+zAlMbOeQitrYVwVlCU7mTDnp7ZZunbQmD0rniVsXmCuvnmRNg
-         8+CBoPLE+Bd6AL+pUbhBMGR1xSor2cqfONoEboim1OfC/3U13oj1osshryR/LzcBrpqf
-         wko1Iv/fIIJAYhQoguhAjtK6HX5YyClz3OIbVVKfEZwe5IE3sReHTCyb26Xo7gKCHHUW
-         CHIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718984247; x=1719589047;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZEzPUxJosE4Dv4tMtApiYXkD+OE7D7/mwDL1O48YzwQ=;
-        b=IuptSIQPAtp6FcVK64eHI84rzpkuqWEYL4CJEWqpEf0dmDESD0BBOiZIwetnqoGKSL
-         3831MWnAxgJJNvjNwCPKujKCYnceixYbvEeJuwO80VS0mI86inzmnp37xENKVRiYpUJf
-         h050pXt/h21FlevPgflTtN3WDsRnJThT/Fhitzb9Ni6ct9/Bek5ENU3y6ivxgF6HfcGH
-         hZwgAzet61TBF+iwgqJfz9sjruGGctJiLKnags3HKudQKH8neidFNiwaHSTxP/x/zpSy
-         J0ELPFhk4QRswUpoJhdSy3Y7Z2qt0Qjg8cmtnMuRzPcl8LO17VV/9961c8zdYiJRlhUK
-         UeyA==
-X-Forwarded-Encrypted: i=1; AJvYcCVf0pl1JzC1PsMmaiEwx3p2UsZ6P2Gi/5L5IzBr1HhsQcCfFCRXeZKSJMHAayo6ZOLSHQI2YlWHVcBP51YjrK5sZper1cVFDjo5irjj0O8MPldz26ryiOJbt+zek3yRbVjoKJu2oqY1IVtn2TaJXdJOf23ywpRIfqDHIlwd3My4/utouYoiEEvKBAmsujFQvu8/kL9V19L8tx8udTqm73ZWsj5bKoD87ZkN4uR4IaS/Wep7vb6PuJPKzHE=
-X-Gm-Message-State: AOJu0YwY491NX1vAqCodTjabYJlnrMKyTFIE4UYzj26AIvvwZXm7ZWSN
-	9IWhlHF0EGoLbC5WliTUvTqszlu2z9pID4C9azfQTTbpYR1knHw3wCwGVsGBSxlMoWGVGn24v7Q
-	Iz5KBvhJPspn55+cqg1PambHxKX8=
-X-Google-Smtp-Source: AGHT+IFKLBM5mFnVwBQaLpG8mi4nu03QYb8IeKwotTRo4us7hJs+0DIW7+segniYBbyuCbW83a3oehpQCy2SXGOBBI4=
-X-Received: by 2002:a05:600c:41c9:b0:422:7391:1be1 with SMTP id
- 5b1f17b1804b1-4247529e1a3mr66980315e9.35.1718984246497; Fri, 21 Jun 2024
- 08:37:26 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="QE/3YagV"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=blwKfnRVwvItXBzj77EJOI1nFi200iKa4j7qSurtKe2Ot5J9kzn8oU5KvJ4pkXXZ6+8MGrzOXiTA9mAWaW/tdYc06NBWYKTUYM3SXAQ2NmztBNav85NDLNBrDeSeImbzOLA5exBWiWX+mSzn7ZAXUP+I6U4Po6ziISO661hMOAr1s1qvdb6EzFBd3icqsC3kVZMq0ozI0NrqCX+miKltAsSqGCykgoP8lk/z7d2zSbCAoSODTx50ufBeROF+cTZg1VOJ8NL8GGcbqF1nY7UV4KApJjkxgHWh1rQhMGEIfTIe2/xuovKzJSQ4q6ELVmDwcptBdyKlgf6u5SbtNRThEw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XTYW570/n1ycGJBPDFyhjp5rUSjia796EqBWi+9uBUk=;
+ b=GoelMztesI59UVs53S38a5yNdYOZXP8uL+8Jzayjv6H5M1/BeppZDVK5kfROEJW/2bazLJ0bs5PToPC9gCkjsk+FYIMlcJ+0I8RG5T6nhPa2pS6XuvxlT/VEukUr298nYCoc8eL0Tipx8F3zE/I04pB/tGCk7258JaYn5qb+6QWngNjZZnPuawxq5fNUbJ7JR3tTypl7/zEj7eKAdVGa5te6iAHuLMy8HZ4YqPvugeVbOciCvJtBqnRJh9PxnrjWiVBE9iZBrMPuVSk5leHuMX4uK3NwvQN/gczubZtbJIVay8PbAY2K3nABBFQJwCzU5Z+imnxx7uRjJDuJ0/7hqg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XTYW570/n1ycGJBPDFyhjp5rUSjia796EqBWi+9uBUk=;
+ b=QE/3YagV5IScL2hJ9TGc9e/EwavGtGW4KOyQzcpNwsb2IoaZaQ6+/z2ruFZZeqKZlSAPh4Y0Mr1bkzVPBBgkl48wzYEFM5nSErh+VSXViDfcZL6z3kgNbS0vD9s53N8u3aOWwsYOclrylghY+DzBgm7khvEZH78NA9ZBLsFBwDw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by LV2PR12MB5893.namprd12.prod.outlook.com (2603:10b6:408:175::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7698.19; Fri, 21 Jun
+ 2024 15:45:05 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%5]) with mapi id 15.20.7698.017; Fri, 21 Jun 2024
+ 15:45:05 +0000
+Message-ID: <147af3f0-ca05-6abc-fe2e-c7922bda06b1@amd.com>
+Date: Fri, 21 Jun 2024 10:44:59 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v4 07/19] x86/resctrl: Add support to enable/disable ABMC
+ feature
+Content-Language: en-US
+To: Reinette Chatre <reinette.chatre@intel.com>, babu.moger@amd.com,
+ corbet@lwn.net, fenghua.yu@intel.com, tglx@linutronix.de, mingo@redhat.com,
+ bp@alien8.de, dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, rdunlap@infradead.org,
+ tj@kernel.org, peterz@infradead.org, yanjiewtw@gmail.com,
+ kim.phillips@amd.com, lukas.bulwahn@gmail.com, seanjc@google.com,
+ jmattson@google.com, leitao@debian.org, jpoimboe@kernel.org,
+ rick.p.edgecombe@intel.com, kirill.shutemov@linux.intel.com,
+ jithu.joseph@intel.com, kai.huang@intel.com, kan.liang@linux.intel.com,
+ daniel.sneddon@linux.intel.com, pbonzini@redhat.com, sandipan.das@amd.com,
+ ilpo.jarvinen@linux.intel.com, peternewman@google.com,
+ maciej.wieczor-retman@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, eranian@google.com, james.morse@arm.com
+References: <cover.1716552602.git.babu.moger@amd.com>
+ <e4edf1794852cff132b17c8f061f24799d9e79ad.1716552602.git.babu.moger@amd.com>
+ <28cd2683-2ab5-4772-8597-6aaf0aec1f0e@intel.com>
+ <a08d4234-651c-4ac5-9cf8-96a4461c71ce@amd.com>
+ <4a072745-11d1-4903-896b-c1544ceb692d@intel.com>
+From: "Moger, Babu" <bmoger@amd.com>
+In-Reply-To: <4a072745-11d1-4903-896b-c1544ceb692d@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA0PR11CA0080.namprd11.prod.outlook.com
+ (2603:10b6:806:d2::25) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20240621-hid_hw_req_bpf-v1-0-d7ab8b885a0b@kernel.org> <20240621-hid_hw_req_bpf-v1-6-d7ab8b885a0b@kernel.org>
-In-Reply-To: <20240621-hid_hw_req_bpf-v1-6-d7ab8b885a0b@kernel.org>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Fri, 21 Jun 2024 08:37:15 -0700
-Message-ID: <CAADnVQ+us6cQepSGWbOB4K1bb_0Wh43Cpo4zXJxB2d+SVpYinQ@mail.gmail.com>
-Subject: Re: [PATCH HID 06/12] HID: bpf: add HID-BPF hooks for hid_hw_output_report
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Jiri Kosina <jikos@kernel.org>, Alexei Starovoitov <ast@kernel.org>, Shuah Khan <shuah@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, "open list:HID CORE LAYER" <linux-input@vger.kernel.org>, 
-	LKML <linux-kernel@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|LV2PR12MB5893:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9c4b8ed8-cacc-4797-f2f9-08dc92091ecb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230037|376011|1800799021|7416011|366013;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?cjZWKzhUNnIwUDJsKzd6dVF6RmVicE5hK21DZmQxSCtKbjIrekxPclZsbnVu?=
+ =?utf-8?B?OXZ1eEZGK29VbnZreFlzZ3V6TDFRRnBLRzBVWHltZ2FlL3R0SFJXTzhvNEdF?=
+ =?utf-8?B?R3UvQ0phQ2czalpSMjRnSmV3QUIrNnZ1RlZjaUtBdWFEck9uclpmblVyVjBq?=
+ =?utf-8?B?U1BBSjVxb1EvUXlDMGwzZXY2Z0dFVGUwamdLZndOWTdHa252dmo0UC9FQlcv?=
+ =?utf-8?B?SitRMHV0c0xqNXFjUmhvMjNMa3JmaUpvU1ZFUXd1Y3hRUWV5T3NGb25tZExw?=
+ =?utf-8?B?K2RnRzlIRENxU1J2dzlObE12aFNyRW9MTTROeko4Z1FtSmdUNG1uNWdvOXlx?=
+ =?utf-8?B?QzhCcUR0R1dMakVFcmhQK2JOQnhzNGZIS00yeFc2ZUM0MnlQTnNyZ2JMRTVF?=
+ =?utf-8?B?OC8zc1U0dnBaeEJjZkNGTWRMTEd6QnBFS2ZVTUxQOUh4YUwyVlVTc3UwZWdp?=
+ =?utf-8?B?d2hOekk0WmZ0WFlieU1CK2JCbTZqWjBVQXMzWm1RMllISWZvTUNkS1hxb0pL?=
+ =?utf-8?B?NjJnOFMwdEZaZFVqWkdoUFZuNGZIcmtQRy9yY2V4MWNmWFNtQXh1M252cTI0?=
+ =?utf-8?B?M3NBWWRCSno4NFBYVHgrQ0hFTUx1Qk05ck1Kb0V1Mnd0T3JZZkhxcEFrSkg1?=
+ =?utf-8?B?UmRub0ZmZHgrN1J2bDJyUkF0eWF5ZzJGM1c1aTJHSGhVYkdqNDkyVzNlRmVv?=
+ =?utf-8?B?blFOb2EveXRldXBTSDBTZk94TTBDVTBLbklCK2NleEhGbXV6dDlac09LMWxo?=
+ =?utf-8?B?U2JYMTZxaUFENExLUmNvcUtTUmtNOW4yQitvYnZrZ1U5bEFkN1RjMnY3YXc5?=
+ =?utf-8?B?NmU5eUJURHFNZHlEK21FR21IUDBTOHNFSXdGcUFiV0Z4cWtmSEhrSHU2L3M2?=
+ =?utf-8?B?QXpSYmJGV2JrTGI2aEpTMHNUcFRuckl4d0pnY2ZBbUxPNkZDTlpqVXBGdkVX?=
+ =?utf-8?B?NDNYMyszRldadDlWUC80d0ZqdWhETXBZeXNQT1o5MkVhTHFxZERBU2laVWZx?=
+ =?utf-8?B?MzJWR2M5R2ZaUGdYSXRVdjJya0VYTGlCK2RCNWJZcDhUSE41OTV5TTVENGZY?=
+ =?utf-8?B?UVk3enRhUzhwUmJJRkFmTVgycEc2NC9MM2dlYzdIelFwYlhWN3paUnk1U1Vp?=
+ =?utf-8?B?VG5Nem5nTW5UbElYbGFCeHp5QlZDT0VYRUR1UFkvSWRSNEI4eERjQ0hhKy9I?=
+ =?utf-8?B?S1QwVEVYdjdmemZEZFNYUloyazFFdDBpelpubzNRYUtEdklIb0l0bFRjOHJS?=
+ =?utf-8?B?dGVmNlZvOFN1QVVRRWx2S3JVVERtQW1CdVQzTHBqenZ0dXZhTjlxc3VHc0RF?=
+ =?utf-8?B?YmRRT2ZRK01ISzVJeGZqWjZsNGg5VFNKYmhUWnI1M2RIL0U0U1RNN1FqbjJE?=
+ =?utf-8?B?VDRNZ3dOcmxnZS9sVUwvUnF3RzNGdDVsU0E3SzhMTHJVWDgrZW1TbDE3TGgy?=
+ =?utf-8?B?NjR0V00wcnJCZVFBbXEwWFlwaE1tVzFCRHk4WTRrczJZQjZKK21yUHJMcEQ0?=
+ =?utf-8?B?WFc3a21FQXprRCt3ZitUQzRMbFFIeUI1SUxlR3czb08vOGFwOFpQdlFCdTd0?=
+ =?utf-8?B?U0JWRTVod09mWTNYSkc5Y1RzSnlrMHRQdGJPcnBOdWJwbTlmaHpJclYrQy9O?=
+ =?utf-8?B?KzY2emtXSDVpdEtzd0VrZ1FydjYvMWgzNk54akdYQklBV21kNGNYT3JMT01j?=
+ =?utf-8?B?TmN4WnBhcEVycysybDFIS0dzbTUzaEROUy82WTBWcWhJTkxIM2xPbENDTDlt?=
+ =?utf-8?Q?7COsZh8wGlV5Dg2Du3KmuhHSnSsvFda92e2XG1N?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230037)(376011)(1800799021)(7416011)(366013);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NnNaMjJwNm45d2NzbEpjaGc5YUFEYWd2VDRRZ2diZWZ1RTRWb2tDcU9XbGdY?=
+ =?utf-8?B?VlFSb1VRZlhhcm5kaW5xaUxwd3RRQjJ0ZS9sUi8ySGRQOU1wT0VyaDJ3dmMz?=
+ =?utf-8?B?aWE3MklCdnVBWlBZZTZFQW10VEpmSTUyOG4reTM2c2ZZemZkSXk5ZEpjNUp6?=
+ =?utf-8?B?cTJEdFUwWXh3Yi8xazVkdEEyc2pQOFRPUElJVkc5M3Q3dE9ORXdkei9CMUNs?=
+ =?utf-8?B?cHhkTVYvZlZlV2d1T2p2OCt2a0k5MXgxQ3FxQ2hNZ0lmQnJyNXQ0d1p6UjZz?=
+ =?utf-8?B?K1dlTFNpa1hsU0VKbkorZHhPM2lxZEFJb0lOeUpOM2JvUWRIZWM3aUdYT3VE?=
+ =?utf-8?B?R0hkOVEwV3E3RjV1Y1BNQnZXT0REdGcra0sreE85RWNQQ1Fnc2dacXFnVkFP?=
+ =?utf-8?B?dWJQTW54K3MzZUZwVm1LRFNRV0M0ZThtRGRKLzFWR1k3cGtucXlCU3Q3S1B1?=
+ =?utf-8?B?dmtXRG5wWVZOL1B2VEdLV1kyYndkZEtBYUIvNDA2a2t5K2xLY0IrMFd5SkFm?=
+ =?utf-8?B?dHJJZzJzeE82aithTmNnRTRhWk5oQUF2V2ExT3ZVdmJoOGw1NmdMWXZ4bzdH?=
+ =?utf-8?B?SXZhaC9hb3pZc0txcWJXZFljVnh6ckNXYllMaTVEQWZNay83UzdxaSs4OXE0?=
+ =?utf-8?B?K2pJS2tLSU44MjhNTXZreUw5UGNoN1A2S25LWGZucUpqS2c2TE5WZzdxYmNw?=
+ =?utf-8?B?QUpxQXV6Um51VTF3RjZqblJwL1pOaThqRHJnc2NubkFqUTNGZ0RZRUZMN1Rq?=
+ =?utf-8?B?TEVTb0pnNEdTOUQ1bkhSbmZ4QUNDM2NkVkFTdjJQTXpIUHBQbTJpcW5hb3Vn?=
+ =?utf-8?B?OExjOG5vc1B5aElXVDY4WWxXSldKcVpvcVp1b3l3UEk3UU4rYVJOUnZueHpP?=
+ =?utf-8?B?OVlSbEpabEovODkxakcvRm9jN1JPaTdGTTJYVVlPdWs3REhFRGJXYm0rYlhH?=
+ =?utf-8?B?RG5xN2hpMWdSME5FVmVPL1NHZFczT2VrWVUyb0JST0N5NnRBQldLcnBoZ3M5?=
+ =?utf-8?B?MldBREV2cktEZGZTeTF2NE9rQkVoZjFGL2VYVy9DRUxKb2E4czkxM3JuMVFC?=
+ =?utf-8?B?RDdVQ1UyQUY2cGNJdi9lWUZOeFo3UzA5QWVoWGRmcXJJTHROZjM2b0ZscjZF?=
+ =?utf-8?B?NC9yUFJpckhJSjhOcWJ1YmNtdEFKckN4a0FOakFSa2VmYmRMaUhBaUpQOHlV?=
+ =?utf-8?B?Q1ZHcDVieFBGSjdVUHd2NCtjcEMwSHlGR0M3ODFmUUUxeHpTb1RTc2thUnk4?=
+ =?utf-8?B?elZFbXFtSFpkRnJBcmJ6SFcxL3lLOE51OW1nUy82UDJJT1JOc3RwNUxZNFQ0?=
+ =?utf-8?B?ZjFvTXdNOXdFL0RXSVBsZVd5SHA3QThzKzY0NG16NFZiY245cWNpVzU5VFUw?=
+ =?utf-8?B?ZWRPNHAyVWl0bE1tQnVMRTFPK1lDNytmaXIvc2xIMWdEUXR4TzZuU1ozNHlw?=
+ =?utf-8?B?dEZhbmp5Q0MzNm9HUUN6V2pQSDQ5andFejBna2NybUJTODZiZyt2ZGVJZjFR?=
+ =?utf-8?B?b3lMVXRSVmFvMGpVc211cmtLRlkvUFVuSHI2RDJ6Wmg2WEpxZHRnb0QvMlUv?=
+ =?utf-8?B?MEt6S3pmZHNlNnozTWdheVowNXpkaklrclJmR1BqbVJXYlJlNlozdnBWTmI4?=
+ =?utf-8?B?ZzdWMEl2cUMrWXQ1Mlo5bzRIYmY2MEtTKzlKS3dxME53ZHJNeFUvNkt5Y1BE?=
+ =?utf-8?B?WitKL1pHSldiczc1T0tMQmxiemp6SE5VcU5OK2RYaVcrd1RHQTRPd1VRWWds?=
+ =?utf-8?B?OVIvcVNwbGN5T1ZDOUtpUVRWWmV1aGxvNGdHbmJ6SGFkenBabkY4RnpaV3p4?=
+ =?utf-8?B?eFhTdG1rczZQRzhIQ3VaejJTTk5NV0w2YmdpOE91NEsyOGhoQm5FM2xVNUdF?=
+ =?utf-8?B?eloyY0xnMjV4dzBVOGV1bUk5WCtuV1hKcVVuTG5hdi9RZmorMVNTYU94K0tV?=
+ =?utf-8?B?TG5uMzM0Vlh5SzlxVDlhc1U0Rm1uMFFwejNERlJOb0wyWVlSenV0NHVWaWZE?=
+ =?utf-8?B?eXVtT1k3V3hxVFhnaGdWUitCTjdaekR5MEJzY0NkMGZlUGdPK2pvckZURFhN?=
+ =?utf-8?B?MkRBMC9WaUZEcHR1M29PR1pKM25DRlZuSUsrR1VaUEdjU2F1cWE4R3p3azla?=
+ =?utf-8?Q?vYUUNgz+tprgyvG1Xf7MoK/lI?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9c4b8ed8-cacc-4797-f2f9-08dc92091ecb
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jun 2024 15:45:05.0862
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +V8t6NjkGtVK6Ip2Jm8hpltkQZnfjsOgcZuRNCBm0j5g1OtLiyXmXHaI9Quv0ePA
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5893
 
-On Fri, Jun 21, 2024 at 1:56=E2=80=AFAM Benjamin Tissoires <bentiss@kernel.=
-org> wrote:
->
-> Same story than hid_hw_raw_requests:
->
-> This allows to intercept and prevent or change the behavior of
-> hid_hw_output_report() from a bpf program.
->
-> The intent is to solve a couple of use case:
->   - firewalling a HID device: a firewall can monitor who opens the hidraw
->     nodes and then prevent or allow access to write operations on that
->     hidraw node.
->   - change the behavior of a device and emulate a new HID feature request
->
-> The hook is allowed to be run as sleepable so it can itself call
-> hid_hw_output_report(), which allows to "convert" one feature request int=
-o
-> another or even call the feature request on a different HID device on the
-> same physical device.
->
-> Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
->
-> ---
->
-> Here checkpatch complains about:
-> WARNING: use of RCU tasks trace is incorrect outside BPF or core RCU code
->
-> However, we are jumping in BPF code, so I think this is correct, but I'd
-> like to have the opinion on the BPF folks.
-> ---
->  drivers/hid/bpf/hid_bpf_dispatch.c   | 37 ++++++++++++++++++++++++++++++=
-++----
->  drivers/hid/bpf/hid_bpf_struct_ops.c |  1 +
->  drivers/hid/hid-core.c               | 10 ++++++++--
->  drivers/hid/hidraw.c                 |  2 +-
->  include/linux/hid.h                  |  3 ++-
->  include/linux/hid_bpf.h              | 24 ++++++++++++++++++++++-
->  6 files changed, 68 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/hid/bpf/hid_bpf_dispatch.c b/drivers/hid/bpf/hid_bpf=
-_dispatch.c
-> index 8d6e08b7c42f..2a29a0625a3b 100644
-> --- a/drivers/hid/bpf/hid_bpf_dispatch.c
-> +++ b/drivers/hid/bpf/hid_bpf_dispatch.c
-> @@ -111,6 +111,38 @@ int dispatch_hid_bpf_raw_requests(struct hid_device =
-*hdev,
->  }
->  EXPORT_SYMBOL_GPL(dispatch_hid_bpf_raw_requests);
->
-> +int dispatch_hid_bpf_output_report(struct hid_device *hdev,
-> +                                  __u8 *buf, u32 size, __u64 source,
-> +                                  bool from_bpf)
-> +{
-> +       struct hid_bpf_ctx_kern ctx_kern =3D {
-> +               .ctx =3D {
-> +                       .hid =3D hdev,
-> +                       .allocated_size =3D size,
-> +                       .size =3D size,
-> +               },
-> +               .data =3D buf,
-> +               .from_bpf =3D from_bpf,
-> +       };
-> +       struct hid_bpf_ops *e;
-> +       int ret;
-> +
-> +       rcu_read_lock_trace();
-> +       list_for_each_entry_rcu(e, &hdev->bpf.prog_list, list) {
-> +               if (e->hid_hw_output_report) {
-> +                       ret =3D e->hid_hw_output_report(&ctx_kern.ctx, so=
-urce);
-> +                       if (ret)
-> +                               goto out;
-> +               }
-> +       }
-> +       ret =3D 0;
-> +
-> +out:
-> +       rcu_read_unlock_trace();
+Hi Reinette,
 
-same question.
-What protects prog_list ?
-list_for_each_entry_rcu() should be used within RCU CS
-if elements of that list are freed via call_rcu().
-rcu_read_lock_trace() looks wrong here.
+On 6/20/2024 5:02 PM, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 6/19/24 8:37 AM, Moger, Babu wrote:
+>> On 6/13/24 19:59, Reinette Chatre wrote:
+>>> On 5/24/24 5:23 AM, Babu Moger wrote:
+> 
+>>>> +     * Reset the internal counters so that it is not considered as
+>>>> +     * an overflow in next update.
+>>>
+>>> For the first time the term "internal counters" is introduced. What 
+>>> does it
+>>> mean?
+>>
+>> How about "mbm counters"?
+> 
+> I think it refers to the state resctrl maintains to be able to catch 
+> overflows,
+> so how about just "architectural state" with matching change of 
+> something like:
+> 
+>      Reset the architectural state so that reading of hardware counter
+>      is not considered as an overflow in next update.
+
+Sure. Looks good. thanks
+
+-- 
+- Babu Moger
