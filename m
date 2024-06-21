@@ -1,87 +1,209 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE34B14038F;
-	Fri, 21 Jun 2024 07:09:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4649812D742;
+	Fri, 21 Jun 2024 07:10:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718953755; cv=none; b=kNz81AyO+ZN1y08ONMVG3znUJ7udcceOEQr/VDWKYhn8wBbugRnzKCIHyKM+wD/S+gBnKP7WAeSrb9cEtQXpFqZ6Ep+7sjQRHvbQN+SYVmBMohWxgP7Kh1IqNDAb2cZz6NPT1qUfeaSotODsoAgVSMT4KfX9tG4NKi/f13i6cVg=
+	t=1718953847; cv=none; b=fIkL68iOGM7rMPVtZP+qQqYG05/qBnSiGQxVftYXyMPC1wSISSLCvNTwcpE6KXIQHwfxh2+FinLBhNtHRI5AN45CiAJRuUlZ+jMFm+7mA5hJe2DiRDejXrN+5eHunhjP/1W9T/IujEojXHcFoa0DMNnVEjHZoCgZ8NuOdR5LW7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718953755; c=relaxed/simple;
-	bh=u0vhe0zqMs5Sy8rTYox/NGGE8oBJtjiHtJOPAUxZARU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iOp1h026NeLFiCw/jfUWq3+6SJV4W7fABoN9cicoHTSjFc09K4QcwdJa3hyWQQeDmNgzp/G3ZJIL8kUo4UBVvwDcPqmRf1jfz7tqgc1+fRmCJUFjufOVf9+Gwlkk5T92Mb6SawAHctMxA6D8o005CwEo1QnyXYBo2501Tmn/nw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lNq1eGwh; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lNq1eGwh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93D8AC2BBFC;
-	Fri, 21 Jun 2024 07:09:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1718953754;
-	bh=u0vhe0zqMs5Sy8rTYox/NGGE8oBJtjiHtJOPAUxZARU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lNq1eGwhTNeOpkK9YsjekhMnPYqCfAedSVRmRHNMbdf4aeB/9D+zs1CrdzzASh6C4
-	 Maf7DhWqeLVEpF4KQEehVBKMm1cJoVh9EPYfS+yepq3tAEjsydKxiI4rtjYFzFLCuR
-	 K4G7MpuUTZdEm6yo6puU+n7u/0RTXerFzKxf55Nsf5kairPX2eyXlOQi8bBhCAYjqc
-	 X/twLc6wl8sQTLvX/olSZYVRPkvixcmITIyfJDSYgj16lS797Ip960DrepCfU7mH7Q
-	 6MKx+CIt1g2fhTe1olIQIEbjsh0QvACjeCVEG6doqO9oc6g6olhnMMeO5Qjbw2BTHF
-	 Qcz/Pt9DgHS/w==
-Date: Fri, 21 Jun 2024 12:39:09 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Lee Jones <lee@kernel.org>
-Cc: Markus Elfring <Markus.Elfring@web.de>, lkp@intel.com,
-	Paul Cercueil <paul@crapouillou.net>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	linux-iio@vger.kernel.org, dmaengine@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
-	linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	Julia Lawall <julia.lawall@inria.fr>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [v11 3/7] iio: core: Add new DMABUF interface infrastructure
-Message-ID: <ZnUnFeum1Z2ahm9M@matsya>
-References: <202406191014.9JAzwRV6-lkp@intel.com>
- <c25aab0d-48f6-4754-b514-d6caf8d51fd1@web.de>
- <ZnRUSaHJhz7XLcKa@matsya>
- <20240620170522.GU3029315@google.com>
+	s=arc-20240116; t=1718953847; c=relaxed/simple;
+	bh=tTzUneXN/ZTgqfDOl9eH/BR2ek8SLVcP4nl2X6fxqTg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=NH9j5cQVas4zh+jZTx1WZQqzEuVHKbxGVJSERUaLyZkY40TZynheOy+CFIocsyffkZNN1Z4ucmudxT+Lgohdu9nNA+WMjhFvwoJLIr3TDQpiA7H4fMQFoCeics62WlOTDhhR7aXBv6pecHFv6rMlCY2OehUJB7njpQdHyfv7LpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.186.51])
+	by frasgout12.his.huawei.com (SkyGuard) with ESMTP id 4W57GJ3ZLdz9v7JT;
+	Fri, 21 Jun 2024 14:47:52 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.27])
+	by mail.maildlp.com (Postfix) with ESMTP id 19C85140B34;
+	Fri, 21 Jun 2024 15:10:35 +0800 (CST)
+Received: from [127.0.0.1] (unknown [10.204.63.22])
+	by APP2 (Coremail) with SMTP id GxC2BwBXLDdVJ3Vm6UXYAA--.42974S2;
+	Fri, 21 Jun 2024 08:10:33 +0100 (CET)
+Message-ID: <63a3fc7e2ffa79fdddd3ab8ec920412d6357d07f.camel@huaweicloud.com>
+Subject: Re: [PATCH v4 00/14] security: digest_cache LSM
+From: Roberto Sassu <roberto.sassu@huaweicloud.com>
+To: Paul Moore <paul@paul-moore.com>
+Cc: corbet@lwn.net, jmorris@namei.org, serge@hallyn.com, 
+ akpm@linux-foundation.org, shuah@kernel.org, mcoquelin.stm32@gmail.com, 
+ alexandre.torgue@foss.st.com, mic@digikod.net, 
+ linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ bpf@vger.kernel.org, zohar@linux.ibm.com, dmitry.kasatkin@gmail.com, 
+ linux-integrity@vger.kernel.org, wufan@linux.microsoft.com,
+ pbrobinson@gmail.com,  zbyszek@in.waw.pl, hch@lst.de, mjg59@srcf.ucam.org,
+ pmatilai@redhat.com,  jannh@google.com, dhowells@redhat.com,
+ jikos@kernel.org, mkoutny@suse.com,  ppavlu@suse.com, petr.vorel@gmail.com,
+ mzerqung@0pointer.de, kgold@linux.ibm.com,  Roberto Sassu
+ <roberto.sassu@huawei.com>
+Date: Fri, 21 Jun 2024 09:10:09 +0200
+In-Reply-To: <CAHC9VhSqtdwO_C1r_uduPLdZp3o+75ojSY+B7JG6H2noEmv7VA@mail.gmail.com>
+References: <20240415142436.2545003-1-roberto.sassu@huaweicloud.com>
+	 <CAHC9VhTs8p1nTUXXea2JmF0FCEU6w39gwQRMtwACqM=+EBj1jw@mail.gmail.com>
+	 <7cf03a6ba8dbf212623aab2dea3dac39482e8695.camel@huaweicloud.com>
+	 <CAHC9VhSCw6RweTs6whAu4v6t4n7gxUWJtjmzY-UXrdzW0H+YJA@mail.gmail.com>
+	 <520d2dc2ff0091335a280a877fa9eb004af14309.camel@huaweicloud.com>
+	 <CAHC9VhRD1kBwqtkF+_cxCUCeNPp+0PAiNP-rG06me6gRQyYcyg@mail.gmail.com>
+	 <2b335bdd5c20878e0366dcf6b62d14f73c2251de.camel@huaweicloud.com>
+	 <CAHC9VhSOMLH69+q_wt2W+N9SK92KGp5n4YgzpsXMcO2u7YyaTg@mail.gmail.com>
+	 <e9114733eedff99233b1711b2b05ab85b7c19ca9.camel@huaweicloud.com>
+	 <CAHC9VhQp1wsm+2d6Dhj1gQNSD0z_Hgj0cFrVf1=Zs94LmgfK0A@mail.gmail.com>
+	 <c96db3ab0aec6586b6d55c3055e7eb9fea6bf4e3.camel@huaweicloud.com>
+	 <CAHC9VhSQOiC9t0qk10Lg3o6eAFdrR2QFLvCn1h2EP+P+AgdSbw@mail.gmail.com>
+	 <c732b1eb15141f909e99247192539b7f76e9952c.camel@huaweicloud.com>
+	 <CAHC9VhSA0dSQ1jaRO_J1S5xEc14XoCnYaVG3AWF=uYaDb-AjoQ@mail.gmail.com>
+	 <7ad255dce0b85e018b693d302689e0e970b8cc00.camel@huaweicloud.com>
+	 <CAHC9VhSqtdwO_C1r_uduPLdZp3o+75ojSY+B7JG6H2noEmv7VA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20240620170522.GU3029315@google.com>
+X-CM-TRANSID:GxC2BwBXLDdVJ3Vm6UXYAA--.42974S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxuw4rKF48Xw1DXrW5GryDJrb_yoW7GFyUpa
+	y7K3WUKr4kJF17Cr1Iy3W3Za4Fyry3tF47X3s8Jw1rAFyq9r1Ikr1Ikr45uFyDWr4kCr1j
+	ya12gry7Z3s8Aa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUk0b4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxV
+	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1l42xK82IYc2Ij
+	64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
+	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26rWY6r4UJwCIc40Y0x0EwIxGrwCI42IY
+	6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6x
+	AIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv
+	6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUFYFCUUUUU
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgABBF1jj5uBegAAsW
 
-On 20-06-24, 18:05, Lee Jones wrote:
-> On Thu, 20 Jun 2024, Vinod Koul wrote:
-> 
-> > On 20-06-24, 12:45, Markus Elfring wrote:
-> > > …
-> > > > All errors (new ones prefixed by >>):
-> > > >
-> > > >>> drivers/iio/industrialio-buffer.c:1715:3: error: cannot jump from this goto statement to its label
-> > > >     1715 |                 goto err_dmabuf_unmap_attachment;
-> > > …
-> > > 
-> > > Which software design options would you like to try out next
-> > > so that such a questionable compilation error message will be avoided finally?
-> > 
-> > The one where all emails from Markus go to dev/null
-> 
-> Play nice please.
+On Thu, 2024-06-20 at 13:13 -0400, Paul Moore wrote:
+> On Thu, Jun 20, 2024 at 1:06=E2=80=AFPM Roberto Sassu
+> <roberto.sassu@huaweicloud.com> wrote:
+> > On Thu, 2024-06-20 at 12:51 -0400, Paul Moore wrote:
+> > > On Thu, Jun 20, 2024 at 12:31=E2=80=AFPM Roberto Sassu
+> > > <roberto.sassu@huaweicloud.com> wrote:
+> > > > On Thu, 2024-06-20 at 12:08 -0400, Paul Moore wrote:
+> > > > > On Thu, Jun 20, 2024 at 11:14=E2=80=AFAM Roberto Sassu
+> > > > > <roberto.sassu@huaweicloud.com> wrote:
+> > > > > > On Thu, 2024-06-20 at 10:48 -0400, Paul Moore wrote:
+> > > > > > > On Thu, Jun 20, 2024 at 5:12=E2=80=AFAM Roberto Sassu
+> > > > > > > <roberto.sassu@huaweicloud.com> wrote:
+> > > > > > > > On Wed, 2024-06-19 at 14:43 -0400, Paul Moore wrote:
+> > > > > > > > > On Wed, Jun 19, 2024 at 12:38=E2=80=AFPM Roberto Sassu
+> > > > > > > > > <roberto.sassu@huaweicloud.com> wrote:
+> > > > > > > > > >=20
+> > > > > > > > > > Making it a kernel subsystem would likely mean replicat=
+ing what the LSM
+> > > > > > > > > > infrastructure is doing, inode (security) blob and bein=
+g notified about
+> > > > > > > > > > file/directory changes.
+> > > > > > > > >=20
+> > > > > > > > > Just because the LSM framework can be used for something,=
+ perhaps it
+> > > > > > > > > even makes the implementation easier, it doesn't mean the=
+ framework
+> > > > > > > > > should be used for everything.
+> > > > > > > >=20
+> > > > > > > > It is supporting 3 LSMs: IMA, IPE and BPF LSM.
+> > > > > > > >=20
+> > > > > > > > That makes it a clear target for the security subsystem, an=
+d as you
+> > > > > > > > suggested to start for IMA, if other kernel subsystems requ=
+ire them, we
+> > > > > > > > can make it as an independent subsystem.
+> > > > > > >=20
+> > > > > > > Have you discussed the file digest cache functionality with e=
+ither the
+> > > > > > > IPE or BPF LSM maintainers?  While digest_cache may support t=
+hese
+> > > > > >=20
+> > > > > > Well, yes. I was in a discussion since long time ago with Deven=
+ and
+> > > > > > Fan. The digest_cache LSM is listed in the Use Case section of =
+the IPE
+> > > > > > cover letter:
+> > > > > >=20
+> > > > > > https://lore.kernel.org/linux-integrity/1716583609-21790-1-git-=
+send-email-wufan@linux.microsoft.com/
+> > > > >=20
+> > > > > I would hope to see more than one sentence casually mentioning th=
+at
+> > > > > there might be some integration in the future.
+> > > >=20
+> > > > Sure, I can work more with Fan to do a proper integration.
+> > >=20
+> > > That seems like a good pre-requisite for turning digest_cache into a
+> > > general purpose subsystem.
+> > >=20
+> > > > > > I also developed an IPE module back in the DIGLIM days:
+> > > > > >=20
+> > > > > > https://lore.kernel.org/linux-integrity/a16a628b9e21433198c4905=
+00a987121@huawei.com/
+> > > > >=20
+> > > > > That looks like more of an fs-verity integration to me.  Yes, of
+> > > > > course there would be IPE changes to accept a signature/digest fr=
+om a
+> > > > > digest cache, but that should be minor.
+> > > >=20
+> > > > True, but IPE will also benefit from not needing to specify every
+> > > > digest in the policy.
+> > >=20
+> > > Sure, but that isn't really that important from a code integration
+> > > perspective, that's an admin policy issue.  I expect there would be
+> > > much more integration work with fs-verity than with IPE, and I think
+> > > the fs-verity related work might be a challenge.
+> >=20
+> > Uhm, not sure what you mean, but I don't plan to touch fsverity. There
+> > was already work to get the fsverity digest. All I would need to do
+> > from my side is to request a digest cache for the inode being verified
+> > by IPE and to query the fsverity digest.
+>=20
+> So your proposed file digest cache wouldn't be used as a replacement
+> for the fs-verity digest?  Hmm.  I'll leave this up to you and Fan
+> (current IPE maintainer), but I'm not sure how much value this would
+> have for IPE, especially since I believe IPE's fs-verity support is
+> mostly around fs-verity signatures.
 
-Would love to... but Markus has been repeat offender
+The digest_cache (LSM) would store fsverity digests in the hash table.
+At the moment, there is no available source for those, but they could
+be included in RPM headers like regular digests.
 
-Sadly, I am yet to see a constructive approach or even better a helpful
-patch which improve something, rather than vague suggestions on the list
+IPE will compare the digest from fsverity with the digest queried on
+the digest cache.
 
--- 
-~Vinod
+Roberto
+
+> > Of course IPE should also capture kernel reads and verify the file
+> > containing the reference digests, used to build the digest cache.
+> >=20
+> > > > Also, the design choice of attaching the digest cache to the inode
+> > > > helps LSMs like IPE that don't have a per inode cache on their own.
+> > > > Sure, IPE would have to do a digest lookup every time, but at least=
+ on
+> > > > an already populated hash table.
+> > >=20
+> > > Just because you need to attach some state to an inode does not mean =
+a
+> > > file digest cache must be a LSM.  It could be integrated into the VFS
+> > > or it could be a separate subsystem; either way it could provide an
+> > > API (either through well defined data structures or functions) that
+> > > could be used by various LSMs and filesystems that provide integrity
+> > > protection.
+> >=20
+> > Given that IMA solved the same problem after 15 years, when it became
+> > an LSM, I'm not super optimistic on that. But if VFS people or other
+> > subsystem maintainers would be open for such alternative, I can give it
+> > a try.
+>=20
+> I think you should, because I'm not currently supportive of
+> digest_cache as a standalone LSM.
+>=20
+
