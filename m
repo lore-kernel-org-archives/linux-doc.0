@@ -1,207 +1,310 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A82A160865;
-	Fri, 21 Jun 2024 16:44:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905EC128812
+	for <linux-doc@vger.kernel.org>; Fri, 21 Jun 2024 17:18:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718988268; cv=none; b=tLmL61a0/ucwYtioza0Bfy+P1qKv/14qiJjsaifkbc82DW1CifZ2VrurfyPoOnmC30MNYx783iBRNNDoyH1TXVjm1iKs+a4/pWwTUeHGKpuL1vaAgD6bukxBs4KTRzjlkbPe8L/pCE08LYu2i+UW0azBrdWizJjrO/AWBKmmePo=
+	t=1718990309; cv=none; b=cHk8aD7QYb3IFSRmmImilTWKuEMC6g1jC2cUR9O9/EkU8b+hkdLZu8qUCrN2sZYvaa3tj4UhXKOBxlaUJTKbUTkfG0MHJpSoymm/r7tLqejhfp0Yok9FGE/kOXEIx2POxZaW/OwQjMas8KKiqR9WAZV1Gzb0zhofMHAJNCTPjM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718988268; c=relaxed/simple;
-	bh=vQhv6zBl+J5Tnsr+ly6iaE4iRU0OCteyzIdlEzGRYuI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uxaT7CIGyw/2AWbgC+LWVFhCperlikG3+00kF61EDpRuPmftIlRAtFCNkYWwJ1uhhZk4tXlWQjh6WV6c2cCD5BpR7fMpAU4doaEiM7+SU1Hbd0lpNLqqZCct2l2xFy1lT+phIw444O/LYWc2n3tvqJLSn7baJYQZw2aEItbqbJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.helo=mgamail.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lCuy782g; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.helo=mgamail.intel.com
+	s=arc-20240116; t=1718990309; c=relaxed/simple;
+	bh=6nWh3MZDnYJYK0sDZPjj8GECm9EGdc5ASbqZtcmF2Tg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lQ60QZ/vciQoNEjqRRXa8w9N8/FYpcFFc2YXb88hMYdPp7W7NHqq/j5vg4DCD+05R4LllJOGZ6QsHL7AoGOqnaDmE3AB+ccgLJqKSN4kjXCFyQCbuAnj6dB55JsnGT7YlAE7xzGXXJhggtY38GT0XIX40lsUvWukixHMeeuHuFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=zOwzQRZS; arc=none smtp.client-ip=209.85.215.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lCuy782g"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1718988267; x=1750524267;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=vQhv6zBl+J5Tnsr+ly6iaE4iRU0OCteyzIdlEzGRYuI=;
-  b=lCuy782gOhNJ889ttFhuYVq20H7XkMAT6IlUGLm+zGnm+JQeef6mRrsT
-   86sCalfdqswI65wc1U36uvu5TMKsyZwrt4rjafTAgO/TRKpOgedgUn7vl
-   VeG0pL+dueNeJqDM2csS/8O53lIhOeBy7+jvQzW+V7Enu6FSK60BzIy7d
-   R3RF0Rf1bxBfAjInWhY3vapu/nbUWM1Rz+dREX3132siPMPaCPm8jP3m3
-   zrYxJ+ZyB1s42HF6cRQuYZjLQa0px9Aoxg2xTUz9trmisfmdEJ6vqRkxd
-   JD0v7I7GC2xp1uksPuOeI+40lOXhgd2Iktem5VQ6q4jVrtGRnF60RyA8d
-   A==;
-X-CSE-ConnectionGUID: Z3C/CHeARVOYpQXFBIuzbQ==
-X-CSE-MsgGUID: h36VyECMSpGQ5c3puvEqkQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11110"; a="15727182"
-X-IronPort-AV: E=Sophos;i="6.08,255,1712646000"; 
-   d="scan'208";a="15727182"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2024 09:44:24 -0700
-X-CSE-ConnectionGUID: irTw7mS5TLWlF9ye/qQdGg==
-X-CSE-MsgGUID: s2D0gDk6ReGQKZ1Ozj6i6A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,255,1712646000"; 
-   d="scan'208";a="42745631"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa010.fm.intel.com with ESMTP; 21 Jun 2024 09:44:18 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1000)
-	id 42799122; Fri, 21 Jun 2024 19:44:17 +0300 (EEST)
-From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Andy Lutomirski <luto@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Jan Kiszka <jan.kiszka@siemens.com>,
-	Kieran Bingham <kbingham@kernel.org>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Michael Roth <michael.roth@amd.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Brijesh Singh <brijesh.singh@amd.com>,
-	Sandipan Das <sandipan.das@amd.com>,
-	Juergen Gross <jgross@suse.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-efi@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH 1/3] x86/64/mm: Always use dynamic memory layout
-Date: Fri, 21 Jun 2024 19:44:04 +0300
-Message-ID: <20240621164406.256314-2-kirill.shutemov@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240621164406.256314-1-kirill.shutemov@linux.intel.com>
-References: <20240621164406.256314-1-kirill.shutemov@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="zOwzQRZS"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-6c4926bf9baso1813317a12.2
+        for <linux-doc@vger.kernel.org>; Fri, 21 Jun 2024 10:18:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1718990307; x=1719595107; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ORDV7dLJMiQHWovI48Ita0Rbr1EnXe1nxm2vxdqS/sw=;
+        b=zOwzQRZS6pyCoDLLFbtTDzucwrpeBiVA/Nv8L6v6q1sDQrM2h1LB3X5yfKhAT5/e3r
+         Hz1KbxZRepdj300XcDF8/I4hyAgqDkZ5RiCHZlPzwIwQJGrAeRTIE1DCWL+d/DZvE/Pm
+         RT+8bPsDMp9xRvVjDhNZxJ1/xhLgM4S0DcNPJlJWE9AbXHtX890ukWdHcPe2dfO+0hXp
+         /t+oVLEx+zFuxmXCSWF9q6Mnmhu41KdAX0P6M+46rUBZkcHEeOBEiuqC5yzV+j9wE4YE
+         3BK6dOaTxVlYire1wGnxt+przDD73robIXPB7oLG9uR30Iodb4MJwWGsO8b4QUiREAxU
+         eO5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718990307; x=1719595107;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ORDV7dLJMiQHWovI48Ita0Rbr1EnXe1nxm2vxdqS/sw=;
+        b=FzFSuAsv69BdD+kZbm5NHftOvKj/eb5cWi7K0IA93uX6iXRZDFF8gHhzYKpa8AEA9/
+         Xe3lb2uOE1Q/hXqXEF72NwuIMOLrkIjqRpFZUsJqpKn+cYcNxADKPHZTh5hiNiFU06Ua
+         poUYGtxV4dSsib1OzDgw3O6pf5qpoMlzd3CtsnrDcP+5hCBz++ss5fDyFuI3FH6TtK9L
+         7Vuqq3IcH0I5TMXomnfE8AQo0itBuMwJ4LNXsb+uioB5eJL/luOmS8R7qNE+Uv4rqn43
+         dX1sq1g0wmWfS5NQ+eWkVya3jU+gbDQCrNnimFsf2n0JEJ/sKQYVDq0eJ5GCdxI1ij8l
+         DMxA==
+X-Forwarded-Encrypted: i=1; AJvYcCU0ZJqwltCrk7gKOCy2bC3ywqt2DIbM7H3ocPfR+XfFMY58lDNGykdyZE8zztOasQawiVooWxuLz6fFfWm/IC1roTURWDEQX9tF
+X-Gm-Message-State: AOJu0Yxxd3mxmqA6SHlXAZNIMUSYbc6a891EQSkKqrrzyJ5jXF7G7dW7
+	YXO9v4ntBLXZSH0x20V2VV0yHSbU9pbg5inewNS1Q51oqPegLIjEQOUCd6yPags=
+X-Google-Smtp-Source: AGHT+IFhpdokOh+kKKtcr73LycfVRrBTht6rCs4M+ZRhBueKvK8qrFKcWT/wmy1ujZUYffpa8NRyaw==
+X-Received: by 2002:a17:903:18d:b0:1f8:3b7b:d0e5 with SMTP id d9443c01a7336-1f9aa3a64a3mr103208695ad.7.1718990306643;
+        Fri, 21 Jun 2024 10:18:26 -0700 (PDT)
+Received: from ghost ([2601:647:5700:6860:e8dd:a296:71d5:2490])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f9eb5e3d77sm16460675ad.222.2024.06.21.10.18.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Jun 2024 10:18:25 -0700 (PDT)
+Date: Fri, 21 Jun 2024 10:18:23 -0700
+From: Charlie Jenkins <charlie@rivosinc.com>
+To: Conor Dooley <conor.dooley@microchip.com>
+Cc: Jesse Taube <jesse@rivosinc.com>, linux-riscv@lists.infradead.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>,
+	Evan Green <evan@rivosinc.com>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Xiao Wang <xiao.w.wang@intel.com>, Andy Chiu <andy.chiu@sifive.com>,
+	Eric Biggers <ebiggers@google.com>,
+	Greentime Hu <greentime.hu@sifive.com>,
+	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Costa Shulyupin <costa.shul@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Baoquan He <bhe@redhat.com>, Anup Patel <apatel@ventanamicro.com>,
+	Zong Li <zong.li@sifive.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Ben Dooks <ben.dooks@codethink.co.uk>,
+	Alexandre Ghiti <alexghiti@rivosinc.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Erick Archer <erick.archer@gmx.com>,
+	Joel Granados <j.granados@samsung.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 4/6] RISC-V: Detect unaligned vector accesses
+ supported.
+Message-ID: <ZnW130PqW56CnZT8@ghost>
+References: <20240613191616.2101821-1-jesse@rivosinc.com>
+ <20240613191616.2101821-5-jesse@rivosinc.com>
+ <ZnDmRK0ZtKzmWN5S@ghost>
+ <ZnDsdzv4o/Xz9kWm@ghost>
+ <e6f7a061-50f0-4a6a-a09b-468502703c20@rivosinc.com>
+ <ZnSptpobfqjik3RM@ghost>
+ <20240621-reveler-underfed-37600a9f16d5@wendy>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20240621-reveler-underfed-37600a9f16d5@wendy>
 
-Dynamic memory layout is used by KASLR and 5-level paging.
+On Fri, Jun 21, 2024 at 11:06:31AM +0100, Conor Dooley wrote:
+> On Thu, Jun 20, 2024 at 03:14:14PM -0700, Charlie Jenkins wrote:
+> > On Thu, Jun 20, 2024 at 05:31:28PM -0400, Jesse Taube wrote:
+> > > 
+> > > 
+> > > On 6/17/24 22:09, Charlie Jenkins wrote:
+> > > > On Mon, Jun 17, 2024 at 06:43:32PM -0700, Charlie Jenkins wrote:
+> > > > > On Thu, Jun 13, 2024 at 03:16:13PM -0400, Jesse Taube wrote:
+> > > > > > Run a unaligned vector access to test if the system supports
+> > > > > > vector unaligned access. Add the result to a new key in hwprobe.
+> > > > > > This is useful for usermode to know if vector misaligned accesses are
+> > > > > > supported and if they are faster or slower than equivalent byte accesses.
+> > > > > > 
+> > > > > > Signed-off-by: Jesse Taube <jesse@rivosinc.com>
+> > > > > > ---
+> > > > > > V1 -> V2:
+> > > > > >   - Add Kconfig options
+> > > > > >   - Add insn_is_vector
+> > > > > >   - Add handle_vector_misaligned_load
+> > > > > >   - Fix build
+> > > > > >   - Seperate vector from scalar misaligned access
+> > > > > >   - This patch was almost completely rewritten
+> > > > > > ---
+> > > > > >   arch/riscv/Kconfig                         |  41 +++++++
+> > > > > >   arch/riscv/include/asm/cpufeature.h        |   7 +-
+> > > > > >   arch/riscv/include/asm/entry-common.h      |  11 --
+> > > > > >   arch/riscv/include/asm/hwprobe.h           |   2 +-
+> > > > > >   arch/riscv/include/asm/vector.h            |   1 +
+> > > > > >   arch/riscv/include/uapi/asm/hwprobe.h      |   5 +
+> > > > > >   arch/riscv/kernel/Makefile                 |   4 +-
+> > > > > >   arch/riscv/kernel/sys_hwprobe.c            |  41 +++++++
+> > > > > >   arch/riscv/kernel/traps_misaligned.c       | 119 ++++++++++++++++++++-
+> > > > > >   arch/riscv/kernel/unaligned_access_speed.c |   9 +-
+> > > > > >   arch/riscv/kernel/vector.c                 |   2 +-
+> > > > > >   11 files changed, 221 insertions(+), 21 deletions(-)
+> > > > > > 
+> > > > > > diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> > > > > > index b94176e25be1..f12df0ca6c18 100644
+> > > > > > --- a/arch/riscv/Kconfig
+> > > > > > +++ b/arch/riscv/Kconfig
+> > > > > > @@ -723,6 +723,12 @@ config RISCV_MISALIGNED
+> > > > > >   	help
+> > > > > >   	  Embed support for emulating misaligned loads and stores.
+> > > > > > +config RISCV_VECTOR_MISALIGNED
+> > > > > > +	bool
+> > > > > > +	depends on RISCV_ISA_V
+> > > > > > +	help
+> > > > > > +	  Enable detecting support for vector misaligned loads and stores.
+> > > > > > +
+> > > > > >   choice
+> > > > > >   	prompt "Unaligned Accesses Support"
+> > > > > >   	default RISCV_PROBE_UNALIGNED_ACCESS
+> > > > > > @@ -774,6 +780,41 @@ config RISCV_EFFICIENT_UNALIGNED_ACCESS
+> > > > > >   endchoice
+> > > > > > +choice
+> > > > > > +	prompt "Vector unaligned Accesses Support"
+> > > > > > +	depends on RISCV_ISA_V
+> > > > > > +	default RISCV_PROBE_VECTOR_UNALIGNED_ACCESS
+> > > > > > +	help
+> > > > > > +	  This determines the level of support for vector unaligned accesses. This
+> > > > > > +	  information is used by the kernel to perform optimizations.
+> 
+> I haven't actually checked the patchset, but is it actually used by the
+> kernel to perform optimisations?
 
-CONFIG_X86_5LEVEL is going to be removed, making 5-level paging support
-unconditional which requires unconditional support of dynamic memory
-layout.
+No ;)
 
-Remove CONFIG_DYNAMIC_MEMORY_LAYOUT.
+Right now this patch is just providing the information to userspace
+through hwprobe and doesn't optimize anything in the kernel.
 
-Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
----
- arch/x86/Kconfig                        | 8 --------
- arch/x86/include/asm/page_64_types.h    | 4 ----
- arch/x86/include/asm/pgtable_64_types.h | 6 ------
- arch/x86/kernel/head64.c                | 2 --
- scripts/gdb/linux/pgtable.py            | 4 +---
- 5 files changed, 1 insertion(+), 23 deletions(-)
+> 
+> > > > > > It is also
+> > > > > > +	  exposed to user space via the hwprobe syscall. The hardware will be
+> > > > > > +	  probed at boot by default.
+> > > > > > +
+> > > > > > +config RISCV_DETECT_VECTOR_UNALIGNED_ACCESS
+> > > > > 
+> > > > > This is not used anywhere, what is the reason for including it?
+> > > 
+> > > This is so that we can check if they are supported or not, but not check the
+> > > speed of them. Similar to RISCV_EMULATED_UNALIGNED_ACCESS.
+> > 
+> > What do you mean? It isn't used anywhere so this "check if they are
+> > supported or not" is not guarded by this config.
+> > 
+> > > 
+> > > > > 
+> > > > > > +	bool "Detect support for vector unaligned accesses"
+> > > > > > +	select RISCV_VECTOR_MISALIGNED
+> > > > > > +	help
+> > > > > > +	  During boot, the kernel will detect if the system supports vector
+> > > > > > +	  unaligned accesses.
+> > > > > > +
+> > > > > > +config RISCV_PROBE_VECTOR_UNALIGNED_ACCESS
+> > > > > > +	bool "Probe speed of vector unaligned accesses"
+> > > > > > +	select RISCV_VECTOR_MISALIGNED
+> > > > > > +	help
+> > > > > > +	  During boot, the kernel will run a series of tests to determine the
+> > > > > > +	  speed of vector unaligned accesses if they are supported. This probing
+> > > > > > +	  will dynamically determine the speed of vector unaligned accesses on
+> > > > > > +	  the underlying system if they are supported.
+> > > > > > +
+> > > > > > +config CONFIG_RISCV_UNALIGNED_ACCESS_UNSUPPORTED
+> > > > > 
+> > > > > This should not be prefixed with CONFIG and does not include VECTOR in
+> > > > > the name.
+> > > 
+> > > Huh thought it would warn fixed though
+> > 
+> > What do you mean by "warn fixed"?
+> > 
+> > > 
+> > > > I assume you meant to put
+> > > > > "RISCV_VEC_UNALIGNED_ACCESS_UNSUPPORTED" here?
+> > > 
+> > > This is to leave a faster path like SLOW or FAST to say that unaligned
+> > > access arent suported.
+> > 
+> > I am not sure what you are responding to. This comment seems to be
+> > responding to my correction of
+> > CONFIG_RISCV_UNALIGNED_ACCESS_UNSUPPORTED->RISCV_VEC_UNALIGNED_ACCESS_UNSUPPORTED
+> > so I don't see how that ties into SLOW/FAST.
+> > 
+> > > 
+> > > > > 
+> > > > > This was also intentionally left out on the scalar side [1]. The
+> > > > > implication here is that having this config will cause people to compile
+> > > > > kernels without unaligned access support which really shouldn't be
+> > > > > something we are explicitly supporting.
+> > > > > 
+> > > > > If somebody does want to support hardware that does not handle vector
+> > > > > unaligned accesses, the solution should be to add emulation support to
+> > > > > the kernel.
+> > > 
+> > > Yes but we dont have emulation support yet so I do think its a good idea.
+> > 
+> > I am hesitant because it is very likely that somebody will add support
+> > for unaligned vector emulation. When there is emulation support, this
+> > config option should not exist to be consistent with scalar. However if
+> > we add this option in now, we must expect a user to enable this config,
+> > and then 
+> 
+> I dunno, I think there could be value in having the option here. For
+> scalar, we couldn't have an option that would break the uABI, so the
+> unsupported option wasn't okay. That's not a constraint that we have for
+> vector.
+> 
+> For vector, if you have a system that doesn't support misaligned access,
+> you probably don't want to emulate the accesses either, since that's
+> likely remove any performance gains you get from using vector in the
+> first place, so I can see benefit in the option.
 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index e30ea4129d2c..827928680ed6 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -1501,7 +1501,6 @@ config X86_PAE
- config X86_5LEVEL
- 	bool "Enable 5-level page tables support"
- 	default y
--	select DYNAMIC_MEMORY_LAYOUT
- 	select SPARSEMEM_VMEMMAP
- 	depends on X86_64
- 	help
-@@ -2237,17 +2236,10 @@ config PHYSICAL_ALIGN
- 
- 	  Don't change this unless you know what you are doing.
- 
--config DYNAMIC_MEMORY_LAYOUT
--	bool
--	help
--	  This option makes base addresses of vmalloc and vmemmap as well as
--	  __PAGE_OFFSET movable during boot.
--
- config RANDOMIZE_MEMORY
- 	bool "Randomize the kernel memory sections"
- 	depends on X86_64
- 	depends on RANDOMIZE_BASE
--	select DYNAMIC_MEMORY_LAYOUT
- 	default RANDOMIZE_BASE
- 	help
- 	  Randomizes the base virtual address of kernel memory sections
-diff --git a/arch/x86/include/asm/page_64_types.h b/arch/x86/include/asm/page_64_types.h
-index 06ef25411d62..c2f3c50a2787 100644
---- a/arch/x86/include/asm/page_64_types.h
-+++ b/arch/x86/include/asm/page_64_types.h
-@@ -41,11 +41,7 @@
- #define __PAGE_OFFSET_BASE_L5	_AC(0xff11000000000000, UL)
- #define __PAGE_OFFSET_BASE_L4	_AC(0xffff888000000000, UL)
- 
--#ifdef CONFIG_DYNAMIC_MEMORY_LAYOUT
- #define __PAGE_OFFSET           page_offset_base
--#else
--#define __PAGE_OFFSET           __PAGE_OFFSET_BASE_L4
--#endif /* CONFIG_DYNAMIC_MEMORY_LAYOUT */
- 
- #define __START_KERNEL_map	_AC(0xffffffff80000000, UL)
- 
-diff --git a/arch/x86/include/asm/pgtable_64_types.h b/arch/x86/include/asm/pgtable_64_types.h
-index 9053dfe9fa03..09df8939b997 100644
---- a/arch/x86/include/asm/pgtable_64_types.h
-+++ b/arch/x86/include/asm/pgtable_64_types.h
-@@ -130,15 +130,9 @@ extern unsigned int ptrs_per_p4d;
- #define __VMEMMAP_BASE_L4	0xffffea0000000000UL
- #define __VMEMMAP_BASE_L5	0xffd4000000000000UL
- 
--#ifdef CONFIG_DYNAMIC_MEMORY_LAYOUT
- # define VMALLOC_START		vmalloc_base
- # define VMALLOC_SIZE_TB	(pgtable_l5_enabled() ? VMALLOC_SIZE_TB_L5 : VMALLOC_SIZE_TB_L4)
- # define VMEMMAP_START		vmemmap_base
--#else
--# define VMALLOC_START		__VMALLOC_BASE_L4
--# define VMALLOC_SIZE_TB	VMALLOC_SIZE_TB_L4
--# define VMEMMAP_START		__VMEMMAP_BASE_L4
--#endif /* CONFIG_DYNAMIC_MEMORY_LAYOUT */
- 
- /*
-  * End of the region for which vmalloc page tables are pre-allocated.
-diff --git a/arch/x86/kernel/head64.c b/arch/x86/kernel/head64.c
-index a817ed0724d1..ec36ad7117ae 100644
---- a/arch/x86/kernel/head64.c
-+++ b/arch/x86/kernel/head64.c
-@@ -60,14 +60,12 @@ unsigned int ptrs_per_p4d __ro_after_init = 1;
- EXPORT_SYMBOL(ptrs_per_p4d);
- #endif
- 
--#ifdef CONFIG_DYNAMIC_MEMORY_LAYOUT
- unsigned long page_offset_base __ro_after_init = __PAGE_OFFSET_BASE_L4;
- EXPORT_SYMBOL(page_offset_base);
- unsigned long vmalloc_base __ro_after_init = __VMALLOC_BASE_L4;
- EXPORT_SYMBOL(vmalloc_base);
- unsigned long vmemmap_base __ro_after_init = __VMEMMAP_BASE_L4;
- EXPORT_SYMBOL(vmemmap_base);
--#endif
- 
- static inline bool check_la57_support(void)
- {
-diff --git a/scripts/gdb/linux/pgtable.py b/scripts/gdb/linux/pgtable.py
-index 30d837f3dfae..09aac2421fb8 100644
---- a/scripts/gdb/linux/pgtable.py
-+++ b/scripts/gdb/linux/pgtable.py
-@@ -29,11 +29,9 @@ def page_mask(level=1):
-         raise Exception(f'Unknown page level: {level}')
- 
- 
--#page_offset_base in case CONFIG_DYNAMIC_MEMORY_LAYOUT is disabled
--POB_NO_DYNAMIC_MEM_LAYOUT = '0xffff888000000000'
- def _page_offset_base():
-     pob_symbol = gdb.lookup_global_symbol('page_offset_base')
--    pob = pob_symbol.name if pob_symbol else POB_NO_DYNAMIC_MEM_LAYOUT
-+    pob = pob_symbol.name
-     return gdb.parse_and_eval(pob)
- 
- 
--- 
-2.43.0
+We have the RISCV_MISALIGNED option that disables the scalar emulation,
+but doesn't break the UABI because it's not saying that misaligned
+scalar is not supported, but just that the kernel doesn't emulate.
+Having an UNSUPPORTED option explicitly breaks the UABI which doesn't
+seem like something that the kernel should support. If we are okay with
+having options that break the UABI then this is fine, but I was under
+the impression that we did our best to avoid that.
+
+There definitely is value in having an option like this for hardware
+that never wants to run misaligned code, but since we decided with the
+scalar accesses that we should not break the UABI I think vector should
+do the same.
+
+> Enabling the probing is going to end up with same outcome for userspace
+> as having this option on such a system, so it comes down to whether you
+> want to allow people to skip the probing if they know their system has
+> this problem.
+> 
+> > we will have to get rid of it later. Users are not always happy
+> > when config options are removed.
+> 
+> I dunno, I don't think that adding emulation requires that we remove
+> this unsupported option.
+
+I am probably being too paranoid about this but I am hesistant to cause
+vector and scalar misaligned access implemenations to diverge. It is
+inconsistent to allow an unsupported option for vector but not for
+scalar when both support emulation. The probing is very fast as it just
+checks if a misaligned access causes a trap and then sets the access
+speed to unsupported if it does trap.
+
+> 
+> Additionally, what are we doing in the kernel if we detect that
+> misaligned stuff isn't supported? Are we going to mandate that kernel
+> code is aligned only, disable in-kernel vector or some other mechanism
+> to make sure that things like crypto code don't have/introduce code
+> that'll not run on these systems?
+
+UNSUPPORTED will still be set by the quick probe so it would be possible
+for the kernel/userspace to avoid running misaligned vector when it's
+unsupported. Any kernel methods would probably want to always run
+aligned vector unless misaligned support was determined to be FAST
+anyway, I am doubtful that code will have different optimizations for
+FAST, SLOW, and UNSUPPORTED but it is possible. 
+
+I would prefer consistency between scalar and vector misaligned support,
+but this is not a deal breaker for this patch. I am not convinced it is
+the best choice, but I am okay with leaving this option in the kernel.
+
+- Charlie
+
+> 
+> Cheers,
+> Conor.
+
 
